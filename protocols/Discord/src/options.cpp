@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CDiscardAccountOptions : public CProtoDlgBase<CDiscordProto>
 {
-	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups;
+	CCtrlCheck chkUseChats, chkHideChats, chkUseGroups, chkDeleteMsgs;
 	CCtrlEdit m_edGroup, m_edUserName, m_edPassword;
 	ptrW m_wszOldGroup;
 
@@ -34,6 +34,7 @@ public:
 		chkUseChats(this, IDC_USECHANNELS),
 		chkHideChats(this, IDC_HIDECHATS),
 		chkUseGroups(this, IDC_USEGROUPS),
+		chkDeleteMsgs(this, IDC_DELETE_MSGS),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(m_edGroup, ppro->m_wszDefaultGroup);
@@ -42,6 +43,7 @@ public:
 			CreateLink(chkUseChats, ppro->m_bUseGroupchats);
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkUseGroups, ppro->m_bUseGuildGroups);
+			CreateLink(chkDeleteMsgs, ppro->m_bSyncDeleteMsgs);
 
 			chkUseChats.OnChange = Callback(this, &CDiscardAccountOptions::onChange_GroupChats);
 		}

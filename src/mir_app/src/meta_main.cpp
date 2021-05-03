@@ -57,13 +57,6 @@ void UnloadMetacontacts(void)
 // Initializes the services provided and the link to those needed
 // Called when the plugin is loaded into Miranda
 
-static int RegisterMeta(WPARAM, LPARAM)
-{
-	Proto_RegisterModule(PROTOTYPE_FILTER, META_FILTER);
-	Proto_RegisterModule(PROTOTYPE_VIRTUAL, META_PROTO);
-	return 0;
-}
-
 int LoadMetacontacts(void)
 {
 	g_plugin.registerIcon(LPGEN("MetaContacts"), iconList, "mc");
@@ -79,8 +72,6 @@ int LoadMetacontacts(void)
 	}	
 
 	Meta_ReadOptions();
-
-	HookEvent(ME_SYSTEM_MODULESLOADED, RegisterMeta);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
 	Meta_InitServices();

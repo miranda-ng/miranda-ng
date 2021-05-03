@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -28,10 +28,6 @@
 Налады запуску
 [Hide notes at startup]
 Хаваць нататкі на старце
-[Add Contact list menu items]
-Пункт у галоўным меню
-[(Requires Miranda restart)]
-(Патрабуе перазапуск Miranda NG)
 [Reminder options]
 Налады напамінкаў
 [Add Reminder closes dialog]
@@ -261,14 +257,14 @@
 [Plugins]
 Плагіны
 ;file \plugins\NotesAndReminders\src\reminders.cpp
+[The specified time is invalid.]
+Паказаны час несапраўдна
 [Minutes]
 Хвілін
 [Hours]
 Гадзін
 [The specified time is invalid due to begin of daylight saving (summer time).]
 Паказаны час несапраўдна з-за пераходу на «летні час»
-[The specified time is invalid.]
-Паказаны час несапраўдна
 [Hour]
 Гадзіна
 [Day]

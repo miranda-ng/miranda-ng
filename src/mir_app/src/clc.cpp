@@ -29,8 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void InitCustomMenus(void);
 void UninitCustomMenus(void);
 
-void MTG_OnmodulesLoad(void);
-
 static bool bModuleInitialized = false;
 static HANDLE hShowInfoTipEvent;
 HANDLE hHideInfoTipEvent;
@@ -124,12 +122,6 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static int ClcModulesLoaded(WPARAM, LPARAM)
-{
-	MTG_OnmodulesLoad();
-	return 0;
-}
-
 static int ClcProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
@@ -205,7 +197,6 @@ int LoadCLCModule(void)
 	CreateServiceFunction(MS_CLC_SETINFOTIPHOVERTIME, SetInfoTipHoverTime);
 	CreateServiceFunction(MS_CLC_GETINFOTIPHOVERTIME, GetInfoTipHoverTime);
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, ClcModulesLoaded);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_DB_CONTACT_ADDED, ClcContactAdded);
 	HookEvent(ME_SKIN_ICONSCHANGED, ClcIconsChanged);

@@ -31,9 +31,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 128                     ICON         "PCLOUDY.ico"
 129                     ICON         "RSHOWER.ico"
 130                     ICON         "LIGHT.ico"
-131                     ICON         "RAIN.ico"
+131                     ICON         "CLOUD.ico"
 158                     ICON         "SNOW.ico"
-159                     ICON         "CLOUD.ico"
+159                     ICON         "RAIN.ico"
 1002                    ICON         "SSHOWER.ico"
 1003                    ICON         "FOG.ico"
 

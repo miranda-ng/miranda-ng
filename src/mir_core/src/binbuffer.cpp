@@ -28,7 +28,7 @@ MBinBuffer::~MBinBuffer()
 	mir_free(m_buf);
 }
 
-void MBinBuffer::append(void *pBuf, size_t bufLen)
+void MBinBuffer::append(const void *pBuf, size_t bufLen)
 {
 	if (pBuf == nullptr || bufLen == 0)
 		return;
@@ -41,7 +41,7 @@ void MBinBuffer::append(void *pBuf, size_t bufLen)
 	else m_len = 0;
 }
 
-void MBinBuffer::appendBefore(void *pBuf, size_t bufLen)
+void MBinBuffer::appendBefore(const void *pBuf, size_t bufLen)
 {
 	if (pBuf == nullptr || bufLen == 0)
 		return;
@@ -55,7 +55,7 @@ void MBinBuffer::appendBefore(void *pBuf, size_t bufLen)
 	else m_len = 0;
 }
 
-void MBinBuffer::assign(void *pBuf, size_t bufLen)
+void MBinBuffer::assign(const void *pBuf, size_t bufLen)
 {
 	if (pBuf == nullptr || bufLen == 0)
 		return;

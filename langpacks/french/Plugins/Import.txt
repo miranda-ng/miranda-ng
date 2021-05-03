@@ -113,6 +113,8 @@ Nouveau compte
 
 [Skipping duplicate %S contact %s]
 
+[Failed to create contact %s (%s)]
+
 [Failed to add %S contact %s]
 
 [Added %S contact %s, '%s']

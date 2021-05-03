@@ -1816,9 +1816,6 @@ Contacto
 
 [Advanced with avatars, vertical orientation]
 
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 

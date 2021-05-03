@@ -61,7 +61,7 @@ static INT_PTR CALLBACK AddModDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 	return 0;
 }
 
-void addModuleDlg(MCONTACT hContact)
+void CMainDlg::addModuleDlg(MCONTACT hContact)
 {
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_MODULE), hwnd2mainWindow, AddModDlgProc, hContact);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_MODULE), m_hwnd, AddModDlgProc, hContact);
 }

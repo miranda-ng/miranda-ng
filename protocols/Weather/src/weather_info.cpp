@@ -35,12 +35,11 @@ static void INIInfo(HWND hwndDlg)
 	wchar_t str[16];
 	size_t memused = 0;
 
-
 	HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
 
 	ListView_DeleteAllItems(hIniList);
 
-	LVITEM lvi = { 0 };
+	LVITEM lvi = {};
 	lvi.mask = LVIF_TEXT;
 	lvi.iItem = 0;
 	for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
@@ -55,16 +54,7 @@ static void INIInfo(HWND hwndDlg)
 		lvi.pszText = Item->Data.Version;
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 3;
-		switch (Item->Data.InternalVer) {
-		case 1:  lvi.pszText = L"1.0";  break;
-		case 2:  lvi.pszText = L"1.1";  break;
-		case 3:  lvi.pszText = L"1.1a"; break;
-		case 4:  lvi.pszText = L"1.2";  break;
-		case 5:  lvi.pszText = L"1.3";  break;
-		case 6:  lvi.pszText = L"1.4";  break;
-		case 7:  lvi.pszText = L"1.5";  break;
-		default: lvi.pszText = L"";     break;
-		}
+		lvi.pszText = GetINIVersionNum(Item->Data.InternalVer);
 		ListView_SetItem(hIniList, &lvi);
 		lvi.iSubItem = 4;
 		lvi.pszText = _ltow(Item->Data.UpdateDataCount, str, 10);
@@ -108,7 +98,7 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 		TranslateDialogDefault(hwndDlg);
 		{
 			HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
-			LVCOLUMN lvc = { 0 };
+			LVCOLUMN lvc = {};
 
 			lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
 			lvc.fmt = LVCFMT_LEFT;
@@ -141,64 +131,45 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
 
 // get the info of individual ini file
 // pszSvc = the internal name of the service to get the data
+
+wchar_t* GetINIVersionNum(int iVersion)
+{
+	switch (iVersion) {
+	case 1: return L"1.0";
+	case 2: return L"1.1";
+	case 3: return L"1.1a";
+	case 4: return L"1.2";
+	case 5: return L"1.3";
+	case 6: return L"1.4";
+	case 7: return L"1.5";
+	}
+	return L"";
+}
+
 void GetINIInfo(wchar_t *pszSvc)
 {
-	wchar_t str2[2048];
+	CMStringW str;
 	WIDATA *sData = GetWIData(pszSvc);
 	// if the service does not exist among the loaded INI's
 	if (sData == nullptr) {
-		mir_snwprintf(str2, TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
-		MessageBox(nullptr, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
+		str.Format(TranslateT("The corresponding INI file for \"%s\" is not found."), pszSvc);
 	}
 	// if exist, get the information
 	else {
-		mir_snwprintf(str2, TranslateT("Weather INI information for \"%s\":"), pszSvc);
-		mir_wstrncat(str2, L"\n\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Name:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->DisplayName, _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Internal Name:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->InternalName, _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Author:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->Author, _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Version:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t\t", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->Version, _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("INI Version:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
-		switch (sData->InternalVer) {
-		case 1: mir_wstrncat(str2, L"1.0", _countof(str2) - mir_wstrlen(str2)); break;
-		case 2: mir_wstrncat(str2, L"1.1", _countof(str2) - mir_wstrlen(str2)); break;
-		case 3: mir_wstrncat(str2, L"1.1a", _countof(str2) - mir_wstrlen(str2)); break;
-		case 4: mir_wstrncat(str2, L"1.2", _countof(str2) - mir_wstrlen(str2)); break;
-		case 5: mir_wstrncat(str2, L"1.3", _countof(str2) - mir_wstrlen(str2)); break;
-		case 6: mir_wstrncat(str2, L"1.4", _countof(str2) - mir_wstrlen(str2)); break;
-		case 7: mir_wstrncat(str2, L"1.5", _countof(str2) - mir_wstrlen(str2)); break;
-		}
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("File Name:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\t", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->ShortFileName, _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Item Count:"), _countof(str2) - mir_wstrlen(str2));
-		mir_snwprintf(str2, L"%s\t%i\n", str2, sData->UpdateDataCount);
-		mir_wstrncat(str2, TranslateT("Memory Used:"), _countof(str2) - mir_wstrlen(str2));
-		mir_snwprintf(str2, L"%s\t%i ", str2, sData->MemUsed);
-		mir_wstrncat(str2, TranslateT("bytes"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, TranslateT("Description:"), _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, L"\n", _countof(str2) - mir_wstrlen(str2));
-		mir_wstrncat(str2, sData->Description, _countof(str2) - mir_wstrlen(str2));
-
-		// display the message box and quit
-		MessageBox(nullptr, str2, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
+		str.AppendFormat(TranslateT("Weather INI information for \"%s\":"), pszSvc);
+		str += L"\n\n";
+		str.AppendFormat(L"%s\t%s\n", TranslateT("Name:"), sData->DisplayName);
+		str.AppendFormat(L"%s\t%s\n", TranslateT("Internal Name:"), sData->InternalName);
+		str.AppendFormat(L"%s\t%s\n", TranslateT("Author:"), sData->Author);
+		str.AppendFormat(L"%s\t%s\n", TranslateT("Version:"), sData->Version);
+		str.AppendFormat(L"%s\t%s\n", TranslateT("INI Version:"), GetINIVersionNum(sData->InternalVer));
+		str.AppendFormat(L"%s\t%s\n", TranslateT("File Name:"), sData->ShortFileName);
+		str.AppendFormat(L"%s\t%i\n", TranslateT("Item Count:"), sData->UpdateDataCount);
+		str.AppendFormat(L"%s\t%i %s\n\n", TranslateT("Memory Used:"), (int)sData->MemUsed, TranslateT("bytes"));
+		str.AppendFormat(L"%s\n%s", TranslateT("Description:"), sData->Description);
 	}
+
+	MessageBox(nullptr, str, TranslateT("Weather INI information"), MB_OK | MB_ICONINFORMATION);
 }
 
 //============  DISPLAY A LIST FOR CUSTOM VARIABLES  ============
@@ -207,34 +178,33 @@ void GetINIInfo(wchar_t *pszSvc)
 // can be found when click on "More" in text option dialog
 void MoreVarList(void)
 {
-	wchar_t str[10240], tempstr[1024];
-
 	// heading
-	wcsncpy(str, VARS_LIST, _countof(str) - 1);
-	mir_wstrncat(str, L"\n\n", _countof(str) - mir_wstrlen(str));
+	CMStringW str(TranslateT("Here is a list of custom variables that are currently available"));
+	str += L"\n\n";
+
 	// loop through all weather services to find custom variables
+	bool bFirst = true;
 	for (WIDATALIST *Item = WIHead; Item != nullptr; Item = Item->next) {
 		// loop through all update items in a service
 		for (WIDATAITEMLIST *WItem = Item->Data.UpdateData; WItem != nullptr; WItem = WItem->Next) {
 			// the custom variable is defined as "%[<variable name>]"
 			// ignore the "hi" item and hidden items
 			if (mir_wstrcmp(WItem->Item.Name, L"Ignore") && WItem->Item.Name[0] != '#') {
+				wchar_t tempstr[1024];
 				mir_snwprintf(tempstr, L"%c[%s]", '%', WItem->Item.Name);
-				wchar_t *find = wcsstr(str, tempstr);
+				auto *find = wcsstr(str, tempstr);
 				// if the custom variable does not exist in the list, add it to the list
 				if (find == nullptr) {
-					mir_wstrncat(str, tempstr, _countof(str) - mir_wstrlen(str));
-					mir_wstrncat(str, L", ", _countof(str) - mir_wstrlen(str));
+					if (bFirst)
+						bFirst = false;
+					else
+						str += L", ";
+					str += tempstr;
 				}
 			}
 		}
 	}
-	// remove the last comma in the list
-	wchar_t* find = wcsrchr(str, ',');
-	if (find != nullptr)
-		*find = '\0';
 
 	// display the list in a message box
 	MessageBox(nullptr, str, TranslateT("More Variables"), MB_OK | MB_ICONINFORMATION | MB_TOPMOST);
 }
-

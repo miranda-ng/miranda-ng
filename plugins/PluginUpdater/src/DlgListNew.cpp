@@ -42,37 +42,9 @@ static void __stdcall OpenPluginOptions(void *)
 	g_plugin.openOptions(nullptr, L"Plugins");
 }
 
-static LRESULT CALLBACK PluginListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
 {
-	if (msg == WM_LBUTTONDOWN) {
-		LVHITTESTINFO hi;
-		hi.pt.x = LOWORD(lParam); hi.pt.y = HIWORD(lParam);
-		ListView_SubItemHitTest(hwnd, &hi);
-		if ((hi.iSubItem == 0) && (hi.flags & LVHT_ONITEMICON)) {
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_GROUPID;
-			lvi.stateMask = -1;
-			lvi.iItem = hi.iItem;
-			if (ListView_GetItem(hwnd, &lvi) && lvi.iGroupId == 1) {
-				FILEINFO *info = (FILEINFO *)lvi.lParam;
-
-				TFileName wszFileName;
-				wcscpy(wszFileName, wcsrchr(info->wszNewName, L'\\') + 1);
-				wchar_t *p = wcschr(wszFileName, L'.'); *p = 0;
-
-				TFileName link;
-				mir_snwprintf(link, PLUGIN_INFO_URL, wszFileName);
-				Utils_OpenUrlW(link);
-			}
-		}
-	}
-
-	return mir_callNextSubclass(hwnd, PluginListWndProc, msg, wParam, lParam);
-}
-
-int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
-{
-	HICON icon = IcoLib_GetIconByHandle(iconList[i].hIcolib);
+	HICON icon = g_plugin.getIcon(i);
 	int res = ImageList_AddIcon(hIml, icon);
 	IcoLib_ReleaseIcon(icon);
 	return res;
@@ -143,18 +115,18 @@ public:
 		btnNone.OnClick = Callback(this, &CMissingPLuginsDlg::onClick_None);
 
 		m_filter.OnChange = Callback(this, &CMissingPLuginsDlg::onChange_Filter);
-		m_list.OnItemChanged = Callback(this, &CMissingPLuginsDlg::onItemChanged);
+		m_list.OnItemChanged = Callback(this, &CMissingPLuginsDlg::onItemChanged_List);
+		m_list.OnClick = Callback(this, &CMissingPLuginsDlg::onClick_List);
 	}
 
 	bool OnInitDialog() override
 	{
 		hwndDialog = m_hwnd;
-		mir_subclassWindow(m_list.GetHwnd(), PluginListWndProc);
 
-		Window_SetIcon_IcoLib(m_hwnd, iconList[2].hIcolib);
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_PLGLIST));
 
 		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
-		ImageList_AddIconFromIconLib(hIml, 1);
+		ImageList_AddIconFromIconLib(hIml, IDI_INFO);
 		m_list.SetImageList(hIml, LVSIL_SMALL);
 
 		if (IsWinVer7Plus()) {
@@ -250,7 +222,31 @@ public:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
 	}
 
-	void onItemChanged(CCtrlListView::TEventInfo *ev)
+	void onClick_List(CCtrlListView::TEventInfo *ev)
+	{
+		LVHITTESTINFO hi;
+		hi.pt = ev->nmlv->ptAction;
+		m_list.SubItemHitTest(&hi);
+		if ((hi.iSubItem == 0) && (hi.flags & LVHT_ONITEMICON)) {
+			LVITEM lvi = { 0 };
+			lvi.mask = LVIF_IMAGE | LVIF_PARAM | LVIF_GROUPID;
+			lvi.stateMask = -1;
+			lvi.iItem = hi.iItem;
+			if (m_list.GetItem(&lvi) && lvi.iGroupId == 1) {
+				FILEINFO *info = (FILEINFO *)lvi.lParam;
+
+				TFileName wszFileName;
+				wcscpy(wszFileName, wcsrchr(info->wszNewName, L'\\') + 1);
+				wchar_t *p = wcschr(wszFileName, L'.'); *p = 0;
+
+				TFileName link;
+				mir_snwprintf(link, PLUGIN_INFO_URL, wszFileName);
+				Utils_OpenUrlW(link);
+			}
+		}
+	}
+
+	void onItemChanged_List(CCtrlListView::TEventInfo *ev)
 	{
 		if (m_bFillingList)
 			return;
@@ -315,7 +311,7 @@ public:
 				// download update
 				m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
-				if (DownloadFile(&p->File, nlc)) {
+				if (DownloadFile(&p->File, nlc) == ERROR_SUCCESS) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
 					if (!unzip(p->File.wszDiskPath, wszMirandaPath, wszBackupFolder, false))
 						PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
@@ -384,7 +380,7 @@ static FILEINFO* ServerEntryToFileInfo(const ServListEntry &hash, const wchar_t*
 	FileInfo->File.CRCsum = hash.m_crc;
 	
 	// Load list of checked Plugins from database
-	Netlib_LogfW(hNetlibUser, L"File %s found", FileInfo->wszOldName);
+	Netlib_LogfW(g_hNetlibUser, L"File %s found", FileInfo->wszOldName);
 	FileInfo->bEnabled = db_get_b(0, DB_MODULE_NEW_FILES, _T2A(FileInfo->wszOldName)) != 0;
 	return FileInfo;
 }
@@ -431,7 +427,10 @@ static void GetList(void *)
 	hListThread = nullptr;
 }
 
-static void DoGetList()
+/////////////////////////////////////////////////////////////////////////////////////////
+// Services
+
+static INT_PTR ShowListCommand(WPARAM, LPARAM)
 {
 	if (hListThread)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("List loading already started!"), POPUP_TYPE_INFO);
@@ -441,17 +440,7 @@ static void DoGetList()
 		SetFocus(hwndDialog);
 	}
 	else hListThread = mir_forkthread(GetList);
-}
 
-void UninitListNew()
-{
-	if (hwndDialog != nullptr)
-		DestroyWindow(hwndDialog);
-}
-
-static INT_PTR ShowListCommand(WPARAM, LPARAM)
-{
-	DoGetList();
 	return 0;
 }
 
@@ -508,4 +497,10 @@ void InitListNew()
 {
 	CreateServiceFunction(MODULENAME "/ParseUri", ParseUriService);
 	CreateServiceFunction(MS_PU_SHOWLIST, ShowListCommand);
+}
+
+void UninitListNew()
+{
+	if (hwndDialog != nullptr)
+		DestroyWindow(hwndDialog);
 }

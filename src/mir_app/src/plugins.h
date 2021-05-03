@@ -10,7 +10,7 @@ typedef int(__cdecl *Miranda_Plugin_Unload) (void);
 
 struct pluginEntry
 {
-	wchar_t pluginname[64];
+	char pluginname[64];
 	struct
 	{
 		bool bFailed : 1;      // not a valid plugin, or API is invalid, pluginname is valid
@@ -57,9 +57,6 @@ extern LIST<pluginEntry> pluginList, servicePlugins, clistPlugins;
 extern MUUID miid_last;
 
 int PluginOptionsInit(WPARAM, LPARAM);
-
-int isPluginOnWhiteList(const wchar_t *pluginname);
-void SetPluginOnWhiteList(const wchar_t *pluginname, int allow);
 
 int  getDefaultPluginIdx(const MUUID &muuid);
 bool hasMuuid(const MUUID *pFirst, const MUUID&);

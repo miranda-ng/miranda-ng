@@ -68,53 +68,12 @@ static int grokHeader(const wchar_t *profile)
 	return db->CheckDbHeaders(false);
 }
 
-// returns 0 if all the APIs are injected otherwise, 1
-#define CONVERT_MSG LPGEN("This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back")
-#define MISSING_DB_MSG LPGEN("To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back")
-#define MISSING_PLUG_MSG LPGEN("To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back")
-
+// returns a pointer to a database instance if all the APIs are injected, otherwise NULL
 static MDatabaseCommon* LoadDatabase(const wchar_t *profile, BOOL bReadOnly)
 {
-	////////////////////////////////////////////////////////////////////////////////////////
 	// if not read only, convert the old profile to libmdbx
-	if (!bReadOnly) {
-		DATABASELINK *pLink = GetDatabasePlugin("dbx_mdbx");
-		if (pLink == nullptr) {
-			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_DB_MSG), L"Miranda NG", MB_YESNO))
-				Utils_OpenUrl("https://miranda-ng.org/p/Dbx_mdbx");
-			return nullptr;
-		}
-
-		if (!Profile_GetSettingInt(L"Database/SilentUpgrade"))
-			if (IDYES != MessageBoxW(nullptr, TranslateT(CONVERT_MSG), L"Miranda NG", MB_YESNO))
-				return nullptr;
-
-		int errorCode;
-		CMStringW wszBackupName(profile);
-		wszBackupName.Append(L".bak");
-		if (!MoveFileW(profile, wszBackupName)) {
-			DWORD dwError = GetLastError();
-			CMStringW wszError(FORMAT, TranslateT("Cannot move old profile '%s' to '%s': error %d"), profile, wszBackupName.c_str(), dwError);
-			MessageBoxW(nullptr, wszError, L"Miranda NG", MB_ICONERROR | MB_OK);
-			return nullptr;
-		}
-
-		if ((errorCode = pLink->makeDatabase(profile)) != 0) {
-			MessageBoxW(nullptr, CMStringW(FORMAT, TranslateT("Attempt to create database '%s' failed with error code %d"), profile, errorCode), L"Miranda NG", MB_ICONERROR | MB_OK);
-LBL_Error:
-			DeleteFileW(profile);
-			MoveFileW(wszBackupName, profile);
-			return nullptr;
-		}
-
-		if (SetServiceModePlugin(L"import", 1) != ERROR_SUCCESS) {
-			if (IDYES == MessageBoxW(nullptr, TranslateT(MISSING_PLUG_MSG), L"Miranda NG", MB_YESNO))
-				Utils_OpenUrl("https://miranda-ng.org/p/Import");
-			goto LBL_Error;
-		}
-
-		return pLink->Load(profile, false);
-	}
+	if (!bReadOnly)
+		return DB::Upgrade(profile);
 
 	std::unique_ptr<CDb3Mmap> db(new CDb3Mmap(profile, DBMODE_READONLY));
 	if (db->Load(false) != ERROR_SUCCESS)

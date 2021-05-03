@@ -237,7 +237,7 @@ int IDSearchProc(wchar_t *sID, const int searchId, WIIDSEARCH *sData, wchar_t *s
 		mir_snprintf(loc, sData->SearchURL, sID);
 		BOOL bFound = (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0);
 		if (bFound) {
-			wchar_t* szInfo = szData;
+			wchar_t *szInfo = szData;
 
 			// not found
 			if (wcsstr(szInfo, sData->NotFoundStr) == nullptr)
@@ -312,7 +312,7 @@ int NameSearchProc(wchar_t *name, const int searchId, WINAMESEARCH *sData, wchar
 	T2Utf szSearchName(name);
 	mir_snprintf(loc, sData->SearchURL, mir_urlEncode(szSearchName).c_str());
 	if (InternetDownloadFile(loc, nullptr, nullptr, &szData) == 0) {
-		wchar_t* szInfo = szData;
+		wchar_t *szInfo = szData;
 		search = wcsstr(szInfo, sData->NotFoundStr);	// determine if data is available
 		if (search == nullptr) { // if data is found
 			// test if it is single result

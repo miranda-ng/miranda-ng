@@ -236,8 +236,8 @@ Smazat
 Přidat tlačítko do horní lišty
 [Show confirm dialog when loading]
 Po spuštění potvrzovat stav
-[Create a main menu item]
-Přidat položku do hlavní nabídky
+[Create a status menu item]
+Vytvořit položku v hlavní nabídce
 [Status profiles]
 Stavové profily
 [Hotkey]
@@ -354,8 +354,6 @@ Vpravo
 velikost: %d x %d
 [loc: %d x %d]
 pozice: %d x %d
-[Create a status menu item]
-Vytvořit položku v hlavní nabídce
 [unknown]
 neznámý
 [At least one profile must exist]

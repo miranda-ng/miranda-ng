@@ -93,47 +93,34 @@ public:
 	void SetStatusMsg(int aStatus, const wchar_t *message);
 };
 
-
-
-class ProtocolArray
+struct ProtocolArray : public OBJLIST<Protocol>
 {
-protected:
-	// Attributes ////////////
-	Protocol **buffer;
-	int buffer_len;
-
-public:
 	wchar_t default_nick[256];
 	wchar_t default_avatar_file[256];
 	wchar_t default_status_message[256];
 
 	// Methods ///////////////
 
-	ProtocolArray(int max_size);
-	virtual ~ProtocolArray();
+	ProtocolArray();
 
-	int GetSize();
-
-	void Add(Protocol *p);
-	Protocol *Get(int i);
-	Protocol *Get(const char *name);
+	Protocol* GetByName(const char *name);
 
 	void GetAvatars();
-	bool CanSetAvatars();
-	void SetAvatars(const wchar_t *file);
 
 	void SetNicks(const wchar_t *nick);
 
-	void SetStatus(int aStatus);
+	void GetStatusMsgs();
+	void GetStatuses();
 
+	static bool CanSetAvatars();
+	static void SetAvatars(const wchar_t *file);
+
+	static bool CanSetStatusMsgPerProtocol();
+	static void SetStatus(int aStatus);
 	void SetStatusMsgs(const wchar_t *message);
 	void SetStatusMsgs(int status, const wchar_t *message);
 
-	void GetStatusMsgs();
-	void GetStatuses();
-	int  GetGlobalStatus();
-
-	bool CanSetStatusMsgPerProtocol();
+	static int GetGlobalStatus();
 
 	void GetDefaultNick();	// Copy to cache
 	void GetDefaultAvatar();	// Copy to cache
@@ -144,16 +131,9 @@ public:
 	bool ListeningToEnabled();
 };
 
-extern ProtocolArray *protocols;
-
-
+extern ProtocolArray protocols;
 
 void InitProtocolData();
 void DeInitProtocolData();
-
-
-
-
-
 
 #endif // __DATA_H__

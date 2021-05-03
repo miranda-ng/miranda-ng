@@ -717,7 +717,6 @@ UnregisterHppLogger @786
 RegisterSrmmLog @805 NONAME
 UnregisterSrmmLog @806 NONAME
 ?GetType@CRtfLogWindow@@UEAAHXZ @807 NONAME
-WebSocket_Send @808 NONAME
 WebSocket_InitHeader @809 NONAME
 WebSocket_Connect @810 NONAME
 ?log@CSrmmBaseDialog@@QEBAPEAVCSrmmLogWindow@@XZ @811 NONAME
@@ -774,3 +773,10 @@ Netlib_GetTlsUnique @831 NONAME
 ?Flush@MDatabaseCommon@@UEAAHXZ @862 NONAME
 ?getIcon@CHAT_MANAGER@@QEBAPEAUHICON__@@H@Z @863 NONAME
 ?getSoundName@GCSessionInfoBase@@QEBAPEBDH@Z @864 NONAME
+?Upgrade@DB@@YAPEAVMDatabaseCommon@@PEB_W@Z @865 NONAME
+?IsPluginOnWhiteList@@YA_NPEBD@Z @866 NONAME
+?SetPluginOnWhiteList@@YAXPEBD_N@Z @867 NONAME
+Chat_Mute @868
+WebSocket_SendBinary @869 NONAME
+WebSocket_SendText @870 NONAME
+?OnContactAdded@PROTO_INTERFACE@@UEAAXI@Z @871 NONAME

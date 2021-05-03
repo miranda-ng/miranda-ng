@@ -60,84 +60,80 @@ CMPlugin::CMPlugin() :
 	// other settings
 	iPeriod(MODULENAME, "Period", 1),
 	iPeriodMeasure(MODULENAME, "PeriodMeasure", 1),
-	iNumberBackups(MODULENAME, "NumberOfBackups", 3)
+	iNumberBackups(MODULENAME, "NumberOfBackups", 3),
+	dwLastUpdate(MODULENAME, "LastUpdate", 0)
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Check for updates"),"check_update", IDI_MENU },
+	{ LPGEN("Plugin info"), "info", IDI_INFO },
+	{ LPGEN("Component list"),"plg_list", IDI_PLGLIST }
+};
+
+static INT_PTR MenuCommand(WPARAM, LPARAM)
+{
+	Netlib_LogfW(g_hNetlibUser, L"Update started manually!");
+	DoCheck(false);
+	return 0;
+}
+
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(MODULEA, iconList);
+
+	m_impl.m_timer.Start(60 * 1000);
+	InitTimer(0);
+
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
 
 	DWORD dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
 	if (g_wszTempPath[dwLen-1] == '\\')
 		g_wszTempPath[dwLen-1] = 0;
 
+	// Netlib initialization
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
+	nlu.szSettingsModule = MODULENAME;
+	g_hNetlibUser = Netlib_RegisterUser(&nlu);
+
 	InitPopupList();
-	InitNetlib();
-	InitIcoLib();
-
-	// Add cheking update menu item
-	InitCheck();
-
-	CMenuItem mi(&g_plugin);
-
-	SET_UID(mi, 0xfa2cbe01, 0x3b37, 0x4a4c, 0xa6, 0x97, 0xe4, 0x6f, 0x31, 0xa9, 0xfc, 0x33);
-	mi.name.a = LPGEN("Check for updates");
-	mi.hIcolibItem = iconList[0].hIcolib;
-	mi.position = 400010000;
-	mi.pszService = MS_PU_CHECKUPDATES;
-	Menu_AddMainMenuItem(&mi);
-
+	InitEvents();
 	InitListNew();
-
-	SET_UID(mi, 0xafe94fad, 0xea83, 0x41aa, 0xa4, 0x26, 0xcb, 0x4a, 0x1c, 0x37, 0xc1, 0xd3);
-	mi.position++;
-	mi.hIcolibItem = iconList[2].hIcolib;
-	mi.name.a = LPGEN("Available components list");
-	mi.pszService = MS_PU_SHOWLIST;
-	Menu_AddMainMenuItem(&mi);
-
-	// initialize options
-	HookEvent(ME_OPT_INITIALISE, OptInit);
 
 	// Add hotkey
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "Check for updates";
 	hkd.szDescription.a = "Check for updates";
 	hkd.szSection.a = "Plugin Updater";
-	hkd.pszService = MS_PU_CHECKUPDATES;
+	hkd.pszService = MS_PU_CHECK;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_F10) | HKF_MIRANDA_LOCAL;
-	hkd.lParam = FALSE;
 	g_plugin.addHotkey(&hkd);
 
-	InitEvents();
+	// Add cheking update menu item
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0xfa2cbe01, 0x3b37, 0x4a4c, 0xa6, 0x97, 0xe4, 0x6f, 0x31, 0xa9, 0xfc, 0x33);
+	mi.name.a = LPGEN("Check for updates");
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_MENU);
+	mi.position = 400010000;
+	mi.pszService = MS_PU_CHECK;
+	Menu_AddMainMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, MenuCommand);
+
+	SET_UID(mi, 0xafe94fad, 0xea83, 0x41aa, 0xa4, 0x26, 0xcb, 0x4a, 0x1c, 0x37, 0xc1, 0xd3);
+	mi.position++;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_PLGLIST);
+	mi.name.a = LPGEN("Available components list");
+	mi.pszService = MS_PU_SHOWLIST;
+	Menu_AddMainMenuItem(&mi);
 
 	// add sounds
+	g_plugin.addSound("updatefailed", LPGENW("Plugin Updater"), LPGENW("Update failed"));
 	g_plugin.addSound("updatecompleted", LPGENW("Plugin Updater"), LPGENW("Update completed"));
-	g_plugin.addSound("updatefailed",    LPGENW("Plugin Updater"), LPGENW("Update failed"));
-
-	// Upgrade old settings
-	if (-1 == g_plugin.getByte(DB_SETTING_UPDATE_MODE, -1)) {
-		ptrW dbvUpdateURL(g_plugin.getWStringA(DB_SETTING_UPDATE_URL));
-		if (dbvUpdateURL) {
-			if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_OLD))) {
-				g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-				g_plugin.delSetting(DB_SETTING_UPDATE_URL);
-			}
-			else if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_TRUNK_OLD))) {
-				g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
-				g_plugin.delSetting(DB_SETTING_UPDATE_URL);
-			}
-			else if (!wcscmp(dbvUpdateURL, _A2W(DEFAULT_UPDATE_URL_TRUNK_SYMBOLS_OLD) L"/")) {
-				g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK_SYMBOLS);
-				g_plugin.delSetting(DB_SETTING_UPDATE_URL);
-			}
-			else g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_CUSTOM);
-		}
-	}
-
 	return 0;
 }
 
@@ -145,7 +141,10 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	m_impl.m_timer.Stop();
+
+	Netlib_CloseHandle(g_hNetlibUser); g_hNetlibUser = nullptr;
+
 	UnloadListNew();
-	UnloadNetlib();
 	return 0;
 }

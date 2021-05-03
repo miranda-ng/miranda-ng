@@ -159,14 +159,6 @@ BOOL Exists(LPCTSTR strName)
 	return GetFileAttributes(strName) != INVALID_FILE_ATTRIBUTES;
 }
 
-BOOL IsPluginDisabled(wchar_t* filename)
-{
-	char* fname = mir_u2a(filename);
-	int res = db_get_b(0, "PluginDisable", fname, 0);
-	mir_free(fname);
-	return res;
-}
-
 size_t getVer(const wchar_t* verStr)
 {
 	int v1 = 0, v2 = 0, v3 = 0, v4 = 0;
@@ -267,7 +259,7 @@ static void CheckUpdates(void *)
 				mir_snwprintf(tszBuff, L"Plugins\\%s\\%s", Files[CurrentFile].tszAdvFolder, Files[CurrentFile].File.tszDiskPath);
 			wchar_t pluginFolderName[MAX_PATH];
 			PathToAbsoluteW(tszBuff, pluginFolderName);
-			if (!Files[CurrentFile].Force && (IsPluginDisabled(Files[CurrentFile].File.tszDiskPath) || !Exists(pluginFolderName))) //check if plugin disabled or not exists
+			if (!Files[CurrentFile].Force && (IsPluginOnWhiteList(_T2A(Files[CurrentFile].File.tszDiskPath)) || !Exists(pluginFolderName))) //check if plugin disabled or not exists
 				continue;
 		}
 		// Compare versions

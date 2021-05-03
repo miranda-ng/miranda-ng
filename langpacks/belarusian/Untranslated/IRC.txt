@@ -1,3 +1,4 @@
+[Host]
 [%u second]
 [%u seconds]
 [Op]
@@ -7,6 +8,7 @@
 [%um, %us]
 [%us]
 [online since %s, idle %s]
+[Event: Connect]
 [Event: Available]
 [Event: Away]
 [Event: Not available]

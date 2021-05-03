@@ -6,8 +6,3 @@
 [Database Panic]
 [This profile is too old to be updated with PluginUpdater, your database must be converted first.\n\nWould you like to read how to fix this?]
 [Obsolete database format]
-[This database is in old format that isn't supported anymore. Press Yes to convert it to the new format or No to return back]
-[To open this database you need to install the dbx_mdbx plugin. Click Yes to download it from Miranda NG's site or No to return back]
-[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return back]
-[Cannot move old profile '%s' to '%s': error %d]
-[Attempt to create database '%s' failed with error code %d]

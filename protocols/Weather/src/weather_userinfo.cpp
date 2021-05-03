@@ -61,10 +61,10 @@ static void LoadBriefInfoText(HWND hwndDlg, MCONTACT hContact)
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
 	if (!g_plugin.getByte(hContact, "IsUpdated"))
-		wcsncpy(str, WEATHER_NO_INFO, _countof(str) - 1);
+		wcsncpy(str, TranslateT("No information available.\r\nPlease update weather condition first."), _countof(str) - 1);
 	else
 		// set the display text and show the message box
-		GetDisplay(&winfo, opt.bText, str);
+		GetDisplay(&winfo, GetTextValue('B'), str);
 	SetDlgItemText(hwndDlg, IDC_MTEXT, str);
 
 	GetDisplay(&winfo, L"%c, %t", str);
@@ -92,9 +92,9 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		// get the list to display
 		{
-			LV_COLUMN lvc = { 0 };
+			LV_COLUMN lvc = {};
 			HWND hList = GetDlgItem(hwndDlg, IDC_DATALIST);
-			RECT aRect = { 0 };
+			RECT aRect = {};
 			GetClientRect(hList, &aRect);
 
 			// managing styles
@@ -174,7 +174,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SetDlgItemText(hwndDlg, IDC_MTEXT, TranslateT("Retrieving new data, please wait..."));
 				ListView_DeleteAllItems(hList);
 
-				LV_ITEM lvi = { 0 };
+				LV_ITEM lvi = {};
 				lvi.mask = LVIF_TEXT | LVIF_PARAM;
 				lvi.lParam = 1;
 				lvi.pszText = L"";

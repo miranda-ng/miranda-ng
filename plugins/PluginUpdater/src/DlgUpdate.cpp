@@ -67,7 +67,7 @@ class CUpdateDLg : public CDlgBase
 					pDlg->m_list.SetItemText(i, 1, TranslateT("Downloading..."));
 
 					FILEURL *pFileUrl = &todo[i].File;
-					if (!DownloadFile(pFileUrl, nlc)) {
+					if (DownloadFile(pFileUrl, nlc) != ERROR_SUCCESS) {
 						pDlg->m_list.SetItemText(i, 1, TranslateT("Failed!"));
 
 						// interrupt update as we require all components to be updated
@@ -201,7 +201,7 @@ public:
 		hwndDialog = m_hwnd;
 		m_list.SendMsg(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-		Window_SetIcon_IcoLib(m_hwnd, iconList[0].hIcolib);
+		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_MENU));
 
 		if (IsWinVerVistaPlus()) {
 			TFileName wszPath;
@@ -413,7 +413,7 @@ static void DlgUpdateSilent(void *param)
 			count++;
 		else if (it->bEnabled) {
 			// download update
-			if (!DownloadFile(&it->File, nlc)) {
+			if (DownloadFile(&it->File, nlc) != ERROR_SUCCESS) {
 				// interrupt update as we require all components to be updated
 				Netlib_CloseHandle(nlc);
 				Skin_PlaySound("updatefailed");
@@ -521,6 +521,11 @@ static renameTable[] =
 	{ L"dbtool.exe",                     nullptr },
 	{ L"dbtool_sa.exe",                  nullptr },
 	{ L"dbchecker.bat",                  nullptr },
+	{ L"fixme.cmd",                      nullptr },
+	{ L"libmdbx.mir",                    nullptr },
+	{ L"mdbx_chk.exe",                   nullptr },
+	{ L"mdbx_dump.exe",                  nullptr },
+	{ L"mdbx_load.exe",                  nullptr },
 	{ L"clist_mw.dll",                   L"Plugins\\clist_nicer.dll" },
 	{ L"bclist.dll",                     L"Plugins\\clist_blind.dll" },
 	{ L"otr.dll",                        L"Plugins\\mirotr.dll" },
@@ -624,8 +629,10 @@ static bool CheckFileRename(const wchar_t *pwszOldName, wchar_t *pNewName)
 static bool isValidExtension(const wchar_t *pwszFileName)
 {
 	const wchar_t *pExt = wcsrchr(pwszFileName, '.');
+	if (pExt == nullptr)
+		return false;
 
-	return (pExt != nullptr) && (!_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat"));
+	return !_wcsicmp(pExt, L".dll") || !_wcsicmp(pExt, L".exe") || !_wcsicmp(pExt, L".txt") || !_wcsicmp(pExt, L".bat") || !_wcsicmp(pExt, L".cmd");
 }
 
 // We only scan subfolders "Plugins", "Icons", "Languages", "Libs", "Core"
@@ -647,7 +654,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 	if (hFind == INVALID_HANDLE_VALUE)
 		return 0;
 
-	Netlib_LogfW(hNetlibUser, L"Scanning folder %s", pwszFolder);
+	Netlib_LogfW(g_hNetlibUser, L"Scanning folder %s", pwszFolder);
 
 	int count = 0;
 	do {
@@ -669,9 +676,9 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			// calculate the current file's relative name and store it into wszNewName
 			if (CheckFileRename(ffd.cFileName, wszNewName)) {
 				if (wszNewName[0])
-					Netlib_LogfW(hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf, wszNewName);
+					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf, wszNewName);
 				else
-					Netlib_LogfW(hNetlibUser, L"File <%s> will be deleted", wszBuf);
+					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be deleted", wszBuf);
 			}
 			else {
 				if (level == 0) {
@@ -683,7 +690,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			}
 		}
 		else {
-			if (level == 1 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
+			if (level < 2 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
 				wszNewName[0] = 0;
 			else if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
 				wszNewName[0] = 0;
@@ -703,7 +710,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			if (item == nullptr) {
 				wchar_t *p = wcsrchr(wszNewName, '.');
 				if (p[-1] != 'w' && p[-1] != 'W') {
-					Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 					continue;
 				}
 
@@ -711,7 +718,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 				int iPos = int(p - wszNewName) - 1;
 				strdelw(p - 1, 1);
 				if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
-					Netlib_LogfW(hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
 					continue;
 				}
 
@@ -726,24 +733,24 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 					CalculateModuleHash(wszBuf, szMyHash);
 					// hashes are the same, skipping
 					if (strcmp(szMyHash, item->m_szHash) == 0) {
-						Netlib_LogfW(hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
+						Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
 						continue;
 					}
-					else Netlib_LogfW(hNetlibUser, L"File %s: Update available", ffd.cFileName);
+					else Netlib_LogfW(g_hNetlibUser, L"File %s: Update available", ffd.cFileName);
 				}
 				__except (EXCEPTION_EXECUTE_HANDLER)
 				{
 					// smth went wrong, reload a file from scratch
 				}
 			}
-			else Netlib_LogfW(hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
+			else Netlib_LogfW(g_hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
 
 			pwszUrl = item->m_name;
 			MyCRC = item->m_crc;
 		}
 		else {
 			// file was marked for deletion, add it to the list anyway
-			Netlib_LogfW(hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
+			Netlib_LogfW(g_hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
 			pwszUrl = L"";
 			MyCRC = 0;
 		}
@@ -794,7 +801,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 // Thread checks for updates
 static void CheckUpdates(void *)
 {
-	Netlib_LogfW(hNetlibUser, L"Checking for updates");
+	Netlib_LogfW(g_hNetlibUser, L"Checking for updates");
 	Thread_SetName("PluginUpdater: CheckUpdates");
 	ThreadWatch threadId(dwCheckThreadId);
 
@@ -825,14 +832,17 @@ static void CheckUpdates(void *)
 			else
 				CallFunctionAsync(LaunchDialog, UpdateFiles);
 		}
-	}
 
-	CallFunctionAsync(InitTimer, (success ? nullptr : (void*)2));
+		// reset timer to next update
+		g_plugin.dwLastUpdate = time(0);
+		g_plugin.InitTimer(0);
+	}
+	else g_plugin.InitTimer(1); // update failed, postpone the timer
 
 	hashes.destroy();
 }
 
-static void DoCheck(bool bSilent = true)
+void DoCheck(bool bSilent)
 {
 	if (dwCheckThreadId)
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("Update checking already started!"), POPUP_TYPE_INFO);
@@ -843,8 +853,6 @@ static void DoCheck(bool bSilent = true)
 	}
 	else {
 		g_plugin.bSilent = bSilent;
-		g_plugin.setDword(DB_SETTING_LAST_UPDATE, time(0));
-
 		mir_forkthread(CheckUpdates);
 	}
 }
@@ -857,99 +865,42 @@ void UninitCheck()
 		DestroyWindow(hwndDialog);
 }
 
-// menu item command
-static INT_PTR MenuCommand(WPARAM, LPARAM)
-{
-	Netlib_LogfW(hNetlibUser, L"Update started manually!");
-	DoCheck(false);
-	return 0;
-}
-
-void InitCheck()
-{
-	CreateServiceFunction(MS_PU_CHECKUPDATES, MenuCommand);
-}
-
 void CALLBACK CheckUpdateOnStartup()
 {
 	if (g_plugin.bUpdateOnStartup) {
-		if (g_plugin.bOnlyOnceADay) {
-			time_t now = time(0),
-				was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
-
-			if ((now - was) < 86400)
+		if (g_plugin.bOnlyOnceADay)
+			if (time(0) - g_plugin.dwLastUpdate < 86400)
 				return;
-		}
-		Netlib_LogfW(hNetlibUser, L"Update on startup started!");
+
+		Netlib_LogfW(g_hNetlibUser, L"Update on startup started!");
 		DoCheck();
 	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void CALLBACK TimerAPCProc(void *, DWORD, DWORD)
+void CMPlugin::Impl::onTimer(CTimer*)
 {
-	DoCheck();
+	if (g_plugin.iNextCheck)
+		if (time(0) >= g_plugin.iNextCheck)
+			DoCheck();
 }
 
-static LONGLONG PeriodToMilliseconds(const int period, CMOption<int> &periodMeasure)
+void CMPlugin::InitTimer(int type)
 {
-	LONGLONG result = period * 1000LL;
-	switch (periodMeasure) {
-	case 1:
-		// day
-		result *= 60 * 60 * 24;
-		break;
-
-	default:
-		// hour
-		if (periodMeasure != 0)
-			periodMeasure = 0;
-		result *= 60 * 60;
-	}
-	return result;
-}
-
-void __stdcall InitTimer(void *type)
-{
-	if (!g_plugin.bUpdateOnPeriod)
+	if (!bUpdateOnPeriod) {
+		iNextCheck = 0;
 		return;
-
-	LONGLONG interval;
-
-	switch ((INT_PTR)type) {
-	case 0: // default, plan next check relative to last check
-		{
-			time_t now = time(0);
-			time_t was = g_plugin.getDword(DB_SETTING_LAST_UPDATE, 0);
-
-			interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
-			interval -= (now - was) * 1000;
-			if (interval <= 0)
-				interval = 1000; // no last update or too far in the past -> do it now
-		}
-		break;
-
-	case 2: // failed last check, check again in two hours
-		interval = 1000 * 60 * 60 * 2;
-		break;
-
-	default: // options changed, use set interval from now
-		interval = PeriodToMilliseconds(g_plugin.iPeriod, g_plugin.iPeriodMeasure);
 	}
 
-	FILETIME ft;
-	GetSystemTimeAsFileTime(&ft);
-
-	LARGE_INTEGER li;
-	li.LowPart = ft.dwLowDateTime;
-	li.HighPart = ft.dwHighDateTime;
-	li.QuadPart += interval * 10000LL;
-	SetWaitableTimer(hTimer, &li, 0, TimerAPCProc, nullptr, 0);
-}
-
-void CreateTimer()
-{
-	hTimer = CreateWaitableTimer(nullptr, FALSE, nullptr);
-	InitTimer(0);
+	// normal timer reset;
+	if (type == 0) {
+		iNextCheck = dwLastUpdate;
+		if (iPeriodMeasure == 1)
+			iNextCheck += g_plugin.iPeriod * 86400; // day
+		else
+			iNextCheck += g_plugin.iPeriod * 3600; // hour
+	}
+	else // failed last check, check again in two hours
+		iNextCheck += 60 * 60 * 2;
 }

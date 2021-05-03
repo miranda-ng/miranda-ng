@@ -394,4 +394,12 @@ EXTERN_C MIR_APP_DLL(DATABASELINK*) GetDatabasePlugin(const char *pszDriverName)
 // returns DATABASELINK* of the required plugin or nullptr on error
 EXTERN_C MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// database upgrader
+
+namespace DB
+{
+	MIR_APP_DLL(MDatabaseCommon *) Upgrade(const wchar_t *profile);
+}
+
 #endif // M_DB_INT_H__

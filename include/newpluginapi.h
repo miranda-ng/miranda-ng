@@ -58,9 +58,13 @@ __forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
 	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
 }
 
-MIR_APP_DLL(int) GetPluginLangId(const MUUID &uuid, int langId);
-MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid);
-MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName, WPARAM = 0, LPARAM = 0);
+MIR_APP_DLL(int)  GetPluginLangId(const MUUID &uuid, int langId);
+MIR_APP_DLL(int)  IsPluginLoaded(const MUUID &uuid);
+MIR_APP_DLL(int)  SetServiceModePlugin(const char *szPluginName, WPARAM = 0, LPARAM = 0);
+
+// manually get/set flag specified at Options - Plugins - Enabled
+MIR_APP_DLL(bool) IsPluginOnWhiteList(const char *szPluginName);
+MIR_APP_DLL(void) SetPluginOnWhiteList(const char *szPluginName, bool bAllow);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Used to define the end of the MirandaPluginInterface list

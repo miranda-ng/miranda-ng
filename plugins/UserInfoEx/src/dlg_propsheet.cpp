@@ -494,11 +494,12 @@ void DlgContactInfoInitTreeIcons()
 			// enumerate all protocols
 			for (auto &pa : Accounts()) {
 				// enumerate all contacts
-				for (psh._hContact = db_find_first(); psh._hContact != NULL; psh._hContact = db_find_next(psh._hContact)) {
+				for (auto &cc: Contacts(pa->szModuleName)) {
 					// compare contact's protocol to the current one, to add
-					LPCSTR pszContactProto = Proto_GetBaseAccountName(psh._hContact);
+					LPCSTR pszContactProto = Proto_GetBaseAccountName(cc);
 					if ((INT_PTR)pszContactProto != CALLSERVICE_NOTFOUND && !mir_strcmp(pa->szModuleName, pszContactProto)) {
 						// call a notification for the contact to retrieve all protocol specific tree items
+						psh._hContact = cc;
 						NotifyEventHooks(g_hDetailsInitEvent, (WPARAM)&psh, (LPARAM)psh._hContact);
 						if (psh._pPages) {
 							psh.Free_pPages();

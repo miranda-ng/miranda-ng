@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,9 +1208,9 @@ Changer le mot de passe
 
 [Total]
 
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
 
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 
 [Set password]
 Mot de passe du profil
@@ -2106,6 +2106,10 @@ Ce groupe
 Connexion...
 [Connecting (attempt %d)]
 
+[&Accounts...]
+&Comptes...
+[&Options...]
+&Paramètres...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Commun
@@ -2195,6 +2199,17 @@ Ce changement est connu pour être potentiellement dangereux.
 [This change is not known to be safe.]
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[Cannot move old profile '%s' to '%s': error %d]
+
+[Attempt to create database '%s' failed with error code %d]
 
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
@@ -2409,8 +2424,6 @@ Menus
 
 [&Hide/show]
 &Afficher/Cacher
-[&Options...]
-&Paramètres...
 [&About]
 
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ Réseau
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' est inactif, le réactiver ?
+['%S' is disabled, re-enable?]
+'%S' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ Mise à jour du compte
 
 [Account name has to be unique. Please enter unique name.]
 Le nom du compte doit être unique. S'il vous plaît entrer un nom unique.
-[&Accounts...]
-&Comptes...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

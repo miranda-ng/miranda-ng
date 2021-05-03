@@ -322,15 +322,6 @@
 /* Define to 1 if you have the `inet_addr' function. */
 #cmakedefine HAVE_INET_ADDR 1
 
-/* Define to 1 if you have the inet_ntoa_r function. */
-#cmakedefine HAVE_INET_NTOA_R 1
-
-/* inet_ntoa_r() takes 2 args */
-#cmakedefine HAVE_INET_NTOA_R_2 1
-
-/* inet_ntoa_r() takes 3 args */
-#cmakedefine HAVE_INET_NTOA_R_3 1
-
 /* Define to 1 if you have a IPv6 capable working inet_ntop function. */
 #cmakedefine HAVE_INET_NTOP 1
 
@@ -875,9 +866,6 @@
 
 /* Define to the function return type for recv. */
 #cmakedefine RECV_TYPE_RETV ${RECV_TYPE_RETV}
-
-/* Define as the return type of signal handlers (`int' or `void'). */
-#cmakedefine RETSIGTYPE ${RETSIGTYPE}
 
 /* Define to the type qualifier of arg 5 for select. */
 #cmakedefine SELECT_QUAL_ARG5 ${SELECT_QUAL_ARG5}

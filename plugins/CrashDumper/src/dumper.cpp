@@ -169,7 +169,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 		}
 
 		if (hModule == nullptr) {
-			if ((flags & VI_FLAG_PRNVAR) && IsPluginEnabled(FindFileData.cFileName)) {
+			if ((flags & VI_FLAG_PRNVAR) && IsPluginOnWhiteList(_T2A(FindFileData.cFileName))) {
 				wchar_t timebuf[30] = L"";
 				GetLastWriteTime(&FindFileData.ftLastWriteTime, timebuf, 30);
 

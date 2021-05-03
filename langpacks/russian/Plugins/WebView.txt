@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -20,8 +20,6 @@
 секунд
 [Hide icon on status bar]
 Скрыть значок в панели статусов
-[Disable main menu items]
-Откл. пункты главного меню
 [Load page on window open]
 Загр. страницу при открытии окна
 [Update data on startup]
@@ -210,10 +208,6 @@ URL:
 ;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 
-[Network]
-Сеть
-[Popups]
-Всплывающие окна
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Невозможно записать в файл
@@ -306,6 +300,24 @@ URL:
 [Alert test conditions not met; press the refresh button to view content.]
 
 ;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+Это всплывающее окно предпросмотра.
+[Network]
+Сеть
+[Popups]
+Всплывающие окна
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+Недопустимый символ в имени контакта.
+[Cache folder does not exist.]
+Папка кэша не существует.
+[Missing "psite.bat" file.]
+Отсутствует файл "psite.bat".
+[Site URL]
+Адрес веб-страницы
+[Please select site in Find/Add contacts...]
+Пожалуйста, выберите страницу в Добавить контакты...
+;file \protocols\WebView\src\webview_ui.cpp
 [No whitespace removal]
 Не удалять пробелы
 [Minimal level of whitespace removal]
@@ -326,8 +338,6 @@ URL:
 
 [A specific part of web page changes]
 
-[This is a preview popup.]
-Это всплывающее окно предпросмотра.
 [You need to supply a search string.]
 необходимо указать строку для поиска.
 [You need to supply a start string.]
@@ -340,14 +350,3 @@ URL:
 необходимо указать URL.
 [You need to supply a name for the contact.]
 необходимо указать имя контакта.
-[Invalid symbol present in contact name.]
-Недопустимый символ в имени контакта.
-;file \protocols\WebView\src\webview_services.cpp
-[Cache folder does not exist.]
-Папка кэша не существует.
-[Missing "psite.bat" file.]
-Отсутствует файл "psite.bat".
-[Site URL]
-Адрес веб-страницы
-[Please select site in Find/Add contacts...]
-Пожалуйста, выберите страницу в Добавить контакты...

@@ -19,9 +19,11 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HANDLE hPluginUpdaterFolder;
+int OptInit(WPARAM, LPARAM);
 
-int OnFoldersChanged(WPARAM, LPARAM)
+static HANDLE hPluginUpdaterFolder;
+
+static int OnFoldersChanged(WPARAM, LPARAM)
 {
 	FoldersGetCustomPathW(hPluginUpdaterFolder, g_wszRoot, MAX_PATH, L"");
 	size_t len = wcslen(g_wszRoot);
@@ -30,7 +32,7 @@ int OnFoldersChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-int ModulesLoaded(WPARAM, LPARAM)
+static int ModulesLoaded(WPARAM, LPARAM)
 {
 	if (hPluginUpdaterFolder = FoldersRegisterCustomPathW(MODULEA, LPGEN("Plugin Updater"), MIRANDA_PATHW L"\\" DEFAULT_UPDATES_FOLDER)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
@@ -46,12 +48,10 @@ int ModulesLoaded(WPARAM, LPARAM)
 		db_set_b(0, "Compatibility", MODULENAME, 1);
 		DeleteDirectoryTreeW(CMStringW(g_wszRoot) + L"\\Backups");
 	}
-
-	CreateTimer();
 	return 0;
 }
 
-int OnPreShutdown(WPARAM, LPARAM)
+static int OnPreShutdown(WPARAM, LPARAM)
 {
 	UninitCheck();
 	UninitListNew();
@@ -62,6 +62,7 @@ void InitEvents()
 {
 	Miranda_WaitOnHandle(CheckUpdateOnStartup);
 
+	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 }

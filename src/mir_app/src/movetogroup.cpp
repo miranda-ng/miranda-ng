@@ -128,7 +128,7 @@ static INT_PTR MTG_DOMOVE(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void MTG_OnmodulesLoad()
+void InitMoveToGroup()
 {
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnContactMenuBuild);
 	CreateServiceFunction(MTG_MOVE, MTG_DOMOVE);

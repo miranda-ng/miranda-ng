@@ -236,8 +236,8 @@ Effacer
 
 [Show confirm dialog when loading]
 
-[Create a main menu item]
-Créer un élément de menu principal
+[Create a status menu item]
+Ajouter dans le menu
 [Status profiles]
 
 [Hotkey]
@@ -354,8 +354,6 @@ Aucun
 
 [loc: %d x %d]
 
-[Create a status menu item]
-Ajouter dans le menu
 [unknown]
 Inconnu
 [At least one profile must exist]

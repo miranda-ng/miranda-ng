@@ -17,6 +17,7 @@
 [Added metacontact '%s']
 [Added metacontact]
 [Skipping contact, account %S cannot be mapped.]
+[Failed to create contact %s (%s)]
 [Error mapping accounts, exiting.]
 [You cannot import your current profile into itself]
 [Importing whole directory]

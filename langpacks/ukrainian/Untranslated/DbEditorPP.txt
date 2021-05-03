@@ -1,4 +1,5 @@
 [BL&OB]
+[Are you sure you want to delete %d contact(s)?]
 [*** buggy resident ***]
 [[UNLOADED]]
 [*** resident ***]

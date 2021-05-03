@@ -399,7 +399,6 @@
 [Compact layout, horizontal buttons]
 [Advanced layout with avatars]
 [Advanced with avatars, vertical orientation]
-[This version of TabSRMM requires Windows 2000 or later.]
 [Previews not available when using History++ plugin for message log display.]
 [%d unread]
 [Chat room %s]

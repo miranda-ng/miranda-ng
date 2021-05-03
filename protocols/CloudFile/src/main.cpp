@@ -36,7 +36,7 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	InitializeIcons();
+	InitializeMenus();
 	InitializeServices();
-
 	return 0;
 }

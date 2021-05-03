@@ -176,6 +176,9 @@ MIR_APP_DLL(int) Proto_AddToContact(MCONTACT hContact, const char *szProto)
 		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
 		if (pa) {
 			db_set_s(hContact, "Protocol", "p", szProto);
+
+			if (pa->ppro)
+				pa->ppro->OnContactAdded(hContact);
 			return 0;
 		}
 		return 1;

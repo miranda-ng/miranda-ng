@@ -153,7 +153,7 @@ void exportDB(MCONTACT hContact, const char *module)
 	if (Openfile(fileName, (hContact == INVALID_CONTACT_ID) ? nullptr : module, MAX_PATH)) {
 		FILE *file = _wfopen(fileName, L"wt");
 		if (!file) {
-			msg(TranslateT("Couldn't open file for writing"));
+			g_pMainWindow->msg(TranslateT("Couldn't open file for writing"));
 			return;
 		}
 
@@ -161,17 +161,15 @@ void exportDB(MCONTACT hContact, const char *module)
 
 		// exporting entire db
 		if (hContact == INVALID_CONTACT_ID) {
-			hContact = NULL;
-
 			if (module == nullptr) {
 				fprintf(file, "SETTINGS:\n");
 				mod = modlist.first;
 				while (mod) {
-					if (IsModuleEmpty(hContact, mod->name)) {
+					if (IsModuleEmpty(NULL, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
-					exportModule(hContact, mod->name, file);
+					exportModule(NULL, mod->name, file);
 					mod = (ModSetLinkLinkItem *)mod->next;
 					if (mod)
 						fprintf(file, "\n");
@@ -182,27 +180,23 @@ void exportDB(MCONTACT hContact, const char *module)
 					module = nullptr; // reset module for all contacts export
 			}
 
-			hContact = db_find_first();
-			if (hContact)
-				fprintf(file, "\n\n");
+			fprintf(file, "\n\n");
 
-			while (hContact) {
-				if (ApplyProtoFilter(hContact)) {
-					hContact = db_find_next(hContact);
+			for (auto &cc : Contacts()) {
+				if (ApplyProtoFilter(cc))
 					continue;
-				}
 
-				fprintf(file, "CONTACT: %s\n", NickFromHContact(hContact));
+				fprintf(file, "CONTACT: %s\n", NickFromHContact(cc));
 
 				if (module == nullptr) // export all modules
 				{
 					mod = modlist.first;
 					while (mod) {
-						if (IsModuleEmpty(hContact, mod->name)) {
+						if (IsModuleEmpty(cc, mod->name)) {
 							mod = (ModSetLinkLinkItem *)mod->next;
 							continue;
 						}
-						exportModule(hContact, mod->name, file);
+						exportModule(cc, mod->name, file);
 						mod = (ModSetLinkLinkItem *)mod->next;
 						if (mod)
 							fprintf(file, "\n");
@@ -210,9 +204,8 @@ void exportDB(MCONTACT hContact, const char *module)
 				}
 				else // export module
 				{
-					exportModule(hContact, module, file);
+					exportModule(cc, module, file);
 				}
-				hContact = db_find_next(hContact);
 			}
 		}
 		// exporting a contact
@@ -338,7 +331,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 			if (end = strpbrk(&importstring[i + 2], "]")) {
 				*end = '\0';
 				mir_strcpy(module, &importstring[i + 2]);
-				deleteModule(hContact, module, 0);
+				deleteModule(0, hContact, module, 0);
 			}
 		}
 		else if (strchr(&importstring[i], '=') && module[0]) { // get the setting
@@ -452,9 +445,9 @@ INT_PTR CALLBACK ImportDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-void ImportSettingsMenuItem(MCONTACT hContact)
+void CMainDlg::ImportSettingsMenuItem(MCONTACT hContact)
 {
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_IMPORT), hwnd2mainWindow, ImportDlgProc, hContact);
+	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_IMPORT), m_hwnd, ImportDlgProc, hContact);
 }
 
 int Openfile2Import(wchar_t *outputFiles, int maxlen)

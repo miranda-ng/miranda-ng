@@ -44,6 +44,7 @@
 
 #define MODULENAME   "DBEditorpp"
 #define modFullname  "Database Editor++"
+#define modFullnameW L"Database Editor++"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
@@ -57,14 +58,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-#define msg(a)		MessageBox(hwnd2mainWindow,a,_A2T(modFullname),MB_OK)
-#define dlg(a,b)	MessageBox(hwnd2mainWindow,a,_A2T(modFullname),b)
-
 #define FLD_SIZE	256
 #define MSG_SIZE	256
 #define NAME_SIZE	128
-
-#define WM_FINDITEM (WM_USER + 1) // onyl for the main window, wparam is ItemIfno* lparam is 0
 
 /***********************
 	ModuleTreeInfoStruct
@@ -107,19 +103,6 @@ struct ModuleAndContact
 {
 	char module[FLD_SIZE];
 	MCONTACT hContact;
-};
-
-// find window
-#define FW_MODULE 0
-#define FW_SETTINGNAME 1
-#define FW_SETTINGVALUE 2
-
-struct ItemInfo
-{
-	int type; // above types
-	MCONTACT hContact;
-	char module[FLD_SIZE];
-	char setting[FLD_SIZE];
 };
 
 // watchwindow
@@ -179,7 +162,6 @@ enum ICONS
 //=======================================================
 //  Variables
 //=======================================================
-extern HWND hwnd2mainWindow;
 
 extern int g_Mode;
 extern int g_Hex;
@@ -212,59 +194,125 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 int IsRealUnicode(wchar_t *value);
 int setTextValue(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type);
 int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length);
-int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length);
+int GetValueW(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int length);
 int GetContactName(MCONTACT hContact, const char *proto, wchar_t *value, int maxlen);
 int ApplyProtoFilter(MCONTACT hContact);
 void loadListSettings(HWND hwnd, ColumnsSettings *cs);
 void saveListSettings(HWND hwnd, ColumnsSettings *cs);
-INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam);
+int CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam);
 
 // main_window
-void openMainWindow();
+
+class CMainDlg : public CDlgBase
+{
+	int splitterPos;
+	int lastColumn = -1;
+
+	CSplitter m_splitter;
+	CCtrlTreeView m_modules;
+	CCtrlListView m_settings;
+
+	void addModuleDlg(MCONTACT hContact);
+	void deleteModuleDlg();
+
+	int doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONTACT hSelectedContact, const char *selectedModule, const char *selectedSetting);
+	void doItems(ModuleSettingLL *modlist, int count);
+
+	void ImportSettingsMenuItem(MCONTACT hContact);
+
+	UI_MESSAGE_MAP(CMainDlg, CDlgBase);
+		UI_MESSAGE(WM_COMMAND, OnCommand);
+	UI_MESSAGE_MAP_END();
+
+public:
+	CMainDlg();
+
+	__forceinline void msg(const wchar_t *pwszMessage) {
+		MessageBoxW((this != nullptr) ? m_hwnd : 0, pwszMessage, modFullnameW, MB_OK);
+	}
+
+	__forceinline int dlg(const wchar_t *pwszMessage, int code) {
+		return MessageBoxW((this != nullptr) ? m_hwnd : 0, pwszMessage, modFullnameW, code);
+	}
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+	int Resizer(UTILRESIZECONTROL *urc) override;
+
+	LRESULT OnCommand(UINT, WPARAM, LPARAM);
+
+	void onChange_Splitter(CSplitter*);
+
+	// find window
+	#define FW_MODULE 0
+	#define FW_SETTINGNAME 1
+	#define FW_SETTINGVALUE 2
+	void FindItem(int type, MCONTACT, const char *szModule, const char *szSetting);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// module tree
+
+	HTREEITEM findItemInTree(MCONTACT hContact, const char *module);
+	BOOL findAndRemoveDuplicates(MCONTACT hContact, const char *module);
+	void freeTree(MCONTACT hContact);
+	void insertItem(MCONTACT hContact, const char *module, HTREEITEM hParent);
+	void replaceTreeItem(MCONTACT hContact, const char *module, const char *newModule);
+
+	void onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onBeginLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onEndLabelEdit_Modules(CCtrlTreeView::TEventInfo *ev);
+	void onContextMenu_Modules(CContextMenuPos *pos);
+
+	static void __cdecl PopulateModuleTreeThreadFunc(void *param);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	// settings list
+
+	void ClearListView();
+	void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *setting);
+	void EditLabel(int item, int subitem);
+	void PopulateSettings(MCONTACT hContact, const char *module);
+	void SelectSetting(const char *setting);
+
+	void addListHandle(MCONTACT hContact);
+	void addListItem(const char *setting, int resident);
+	void deleteListItem(const char *setting);
+	int  findListItem(const char *setting);
+	void updateListItem(int index, const char *setting, DBVARIANT *dbv, int resident);
+
+	void editSetting(MCONTACT hContact, const char *module, const char *setting);
+	void copySetting(MCONTACT hContact, const char *module, const char *setting);
+	void newSetting(MCONTACT hContact, const char *module, int type);
+
+	void onSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING *cws);
+	void onClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onDblClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onColumnClick_Settings(CCtrlListView::TEventInfo *ev);
+	void onContextMenu_Settings(CContextMenuPos *pos);
+};
+
+extern CMainDlg *g_pMainWindow;
 
 // deletemodules
-int deleteModule(MCONTACT hContact, const char *module, int confirm);
-void deleteModuleDlg();
+int deleteModule(HWND hwndParent, MCONTACT hContact, const char *module, int confirm);
 
 // renamemodule
 int renameModule(MCONTACT hContact, const char *oldName, const char *newName);
-void renameModuleDlg();
-void addModuleDlg(MCONTACT hContact);
 
 // moduletree
-void insertItem(MCONTACT hContact, const char *module, HTREEITEM hParent);
-HTREEITEM findItemInTree(MCONTACT hContact, const char *module);
-void replaceTreeItem(MCONTACT hContact, const char *module, const char *newModule);
 void refreshTree(BOOL restore);
-void freeTree(MCONTACT hContact);
-
-// settinglist
-int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax);
-int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText);
-void ClearListView();
-void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *setting);
-void addListHandle(MCONTACT hContact);
-void PopulateSettings(MCONTACT hContact, const char *module);
-void SelectSetting(const char *setting);
-void settingChanged(MCONTACT hContact, const char *module, const char *setting, DBVARIANT *dbv);
-
-// settingsdlg
-void editSetting(MCONTACT hContact, const char *module, const char *setting);
-void copySetting(MCONTACT hContact, const char *module, const char *setting);
-void newSetting(MCONTACT hContact, const char *module, int type);
 
 // exportimport
 void exportDB(MCONTACT hContact, const char *module); // hContact == -1 export entire db. module == NULL export entire contact
-void ImportSettingsMenuItem(MCONTACT hContact);
 void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *filePath); // ansi!
 
 // find window
 void newFindWindow();
 
 // copymodule
-void copyModuleMenuItem(MCONTACT hContact, const char *module);
+void copyModuleMenuItem(HWND hwndParent, MCONTACT hContact, const char *module);
 void copyModule(const char *module, MCONTACT hContactFrom, MCONTACT hContactTo);
-int CloneContact(MCONTACT hContact);
 
 // options
 int OptInit(WPARAM wParam, LPARAM lParam);
@@ -294,5 +342,8 @@ void IcoLibRegister();
 HICON LoadSkinnedDBEIcon(int icon);
 HIMAGELIST LoadIcons();
 int GetProtoIconIndex(const char *proto);
+
+int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax);
+int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText);
 
 #endif //_COMMONHEADERS_H

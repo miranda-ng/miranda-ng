@@ -147,7 +147,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 	it.lParam = (LPARAM)dat;
 	pCtrl->InsertItem(&it);
 
-	if (!bNoCheckbox && isPluginOnWhiteList(fd->cFileName))
+	if (!bNoCheckbox && IsPluginOnWhiteList(_T2A(fd->cFileName)))
 		dat->bWasChecked = true;
 
 	if (dat->iRow != -1) {
@@ -245,7 +245,10 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 static bool UnloadPluginDynamically(PluginListItemData *dat)
 {
-	pluginEntry *p = pluginList.find((pluginEntry*)dat->fileName);
+	pluginEntry tmp;
+	strncpy_s(tmp.pluginname, _T2A(dat->fileName), _TRUNCATE);
+
+	pluginEntry *p = pluginList.find(&tmp);
 	if (p) {
 		if (!Plugin_UnloadDyn(p))
 			return false;
@@ -328,7 +331,7 @@ public:
 
 		// set checkboxes for all loaded plugins
 		for (auto &it : arPluginList) {
-			if (!isPluginOnWhiteList(it->fileName))
+			if (!IsPluginOnWhiteList(_T2A(it->fileName)))
 				continue;
 
 			if (it->flags & STATIC_PLUGIN)
@@ -362,7 +365,7 @@ public:
 			wchar_t buf[1024];
 			m_plugList.GetItemText(iRow, 0, buf, _countof(buf));
 			int iState = m_plugList.GetItemState(iRow, LVIS_STATEIMAGEMASK);
-			SetPluginOnWhiteList(buf, (iState & 0x2000) ? 1 : 0);
+			SetPluginOnWhiteList(_T2A(buf), (iState & 0x2000) != 0);
 
 			if (iState != 0x3000) {
 				LVITEM lvi = { 0 };

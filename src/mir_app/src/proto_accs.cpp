@@ -164,7 +164,7 @@ static int OnEventEdited(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-static int InitializeStaticAccounts(WPARAM, LPARAM)
+void InitStaticAccounts()
 {
 	int count = 0;
 
@@ -190,7 +190,6 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 		db_unset(0, "FirstRun", "ForceShowAccManager");
 	}
-	return 0;
 }
 
 static int UninitializeStaticAccounts(WPARAM, LPARAM)
@@ -225,7 +224,6 @@ int LoadAccountsModule(void)
 			pa->bDynDisabled = true;
 	}
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, InitializeStaticAccounts);
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
 	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	hHooks[3] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
@@ -250,22 +248,26 @@ bool ActivateAccount(PROTOACCOUNT *pa, bool bIsDynamic)
 	if (ppd->fnInit == nullptr)
 		return false;
 
-	PROTO_INTERFACE *ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
-	if (ppi == nullptr)
-		return false;
+	PROTO_INTERFACE *ppi = pa->ppro;
+	if (ppi == nullptr) {
+		ppi = ppd->fnInit(pa->szModuleName, pa->tszAccountName);
+		if (ppi == nullptr)
+			return false;
 
-	pa->ppro = ppi;
+		pa->ppro = ppi;
+
+		if (bIsDynamic) {
+			if (g_bModulesLoadedFired)
+				pa->ppro->OnModulesLoaded();
+			if (!db_get_b(0, "CList", "MoveProtoMenus", true))
+				pa->ppro->OnBuildProtoMenu();
+			pa->bDynDisabled = false;
+		}
+	}
+
 	if (ppi->m_hProtoIcon == nullptr)
 		ppi->m_hProtoIcon = IcoLib_IsManaged(Skin_LoadProtoIcon(pa->szModuleName, ID_STATUS_ONLINE));
 	ppi->m_iDesiredStatus = ppi->m_iStatus = ID_STATUS_OFFLINE;
-
-	if (bIsDynamic) {
-		if (g_bModulesLoadedFired)
-			pa->ppro->OnModulesLoaded();
-		if (!db_get_b(0, "CList", "MoveProtoMenus", true))
-			pa->ppro->OnBuildProtoMenu();
-		pa->bDynDisabled = false;
-	}
 	return true;
 }
 

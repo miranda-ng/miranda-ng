@@ -30,6 +30,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include "langpack.h"
 #include "netlib.h"
 
+#define PLUGINDISABLELIST "PluginDisable"
+
 bool g_bReadyToInitClist = false;
 
 void LoadExtraIconsModule();
@@ -37,7 +39,7 @@ void freePluginInstance(HINSTANCE hInst);
 
 static int sttComparePluginsByName(const pluginEntry *p1, const pluginEntry *p2)
 {
-	return mir_wstrcmpi(p1->pluginname, p2->pluginname);
+	return mir_strcmpi(p1->pluginname, p2->pluginname);
 }
 
 LIST<pluginEntry>
@@ -51,8 +53,6 @@ MUUID miid_last = MIID_LAST;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-#define MAX_MIR_VER ULONG_MAX
-
 static bool bModuleInitialized = FALSE;
 HANDLE hevLoadModule, hevUnloadModule;
 
@@ -61,7 +61,18 @@ static int askAboutIgnoredPlugins;
 
 pluginEntry *plugin_checker, *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
 
-#define PLUGINDISABLELIST "PluginDisable"
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct CPluginName : public CMStringA
+{
+	CPluginName(const char *szName) :
+		CMStringA(szName)
+	{
+		MakeLower();
+		if (Find(".dll") == -1)
+			Append(".dll");
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // basic functions
@@ -349,7 +360,7 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 		return nullptr;
 
 	pluginEntry *p = (pluginEntry*)mir_calloc(sizeof(pluginEntry));
-	wcsncpy_s(p->pluginname, tszFileName, _TRUNCATE);
+	strncpy_s(p->pluginname, _T2A(tszFileName), _TRUNCATE);
 
 	// add it to the list anyway
 	pluginList.insert(p);
@@ -408,20 +419,31 @@ pluginEntry* OpenPlugin(wchar_t *tszFileName, wchar_t *dir, wchar_t *path)
 	return p;
 }
 
-void SetPluginOnWhiteList(const wchar_t* pluginname, int allow)
+MIR_APP_DLL(void) SetPluginOnWhiteList(const char* szPluginName, bool bAllow)
 {
-	db_set_b(0, PLUGINDISABLELIST, _strlwr(_T2A(pluginname)), allow == 0);
+	if (szPluginName == nullptr)
+		return;
+
+	CPluginName tmp(szPluginName);
+	if (bAllow)
+		db_unset(0, PLUGINDISABLELIST, tmp);
+	else
+		db_set_b(0, PLUGINDISABLELIST, tmp, 1);
 }
 
 // returns 1 if the plugin should be enabled within this profile, filename is always lower case
-int isPluginOnWhiteList(const wchar_t* pluginname)
+MIR_APP_DLL(bool) IsPluginOnWhiteList(const char *szPluginName)
 {
-	int rc = db_get_b(0, PLUGINDISABLELIST, _strlwr(_T2A(pluginname)), 0);
+	if (szPluginName == nullptr)
+		return false;
+
+	CPluginName tmp(szPluginName);
+	int rc = db_get_b(0, PLUGINDISABLELIST, tmp, 0);
 	if (rc != 0 && askAboutIgnoredPlugins) {
 		wchar_t buf[256];
-		mir_snwprintf(buf, TranslateT("'%s' is disabled, re-enable?"), pluginname);
-		if (MessageBox(nullptr, buf, TranslateT("Re-enable Miranda plugin?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-			SetPluginOnWhiteList(pluginname, 1);
+		mir_snwprintf(buf, TranslateT("'%S' is disabled, re-enable?"), tmp.c_str());
+		if (MessageBoxW(nullptr, buf, TranslateT("Re-enable Miranda plugin?"), MB_YESNO | MB_ICONQUESTION) == IDYES) {
+			SetPluginOnWhiteList(szPluginName, true);
 			rc = 0;
 		}
 	}
@@ -431,7 +453,7 @@ int isPluginOnWhiteList(const wchar_t* pluginname)
 
 bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 {
-	if (!bDynamic && !isPluginOnWhiteList(p->pluginname))
+	if (!bDynamic && !IsPluginOnWhiteList(p->pluginname))
 		return false;
 
 	if (p->m_pPlugin == nullptr) {
@@ -442,7 +464,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 			if (slice)
 				*slice = 0;
 
-			mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
+			mir_snwprintf(tszFullPath, L"%s\\%s\\%S", exe, (p->bIsCore) ? L"Core" : L"Plugins", p->pluginname);
 			if (!p->checkAPI(tszFullPath))
 				return false;
 		}
@@ -453,7 +475,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 				int idx = getDefaultPluginIdx(piface[i]);
 				if (idx != -1 && pluginDefault[idx].pImpl) {
 					if (!bDynamic) { // this place is already occupied, skip & disable
-						SetPluginOnWhiteList(p->pluginname, 0);
+						SetPluginOnWhiteList(p->pluginname, false);
 						return false;
 					}
 
@@ -561,10 +583,10 @@ static pluginEntry* getCListModule(wchar_t *exe)
 	wchar_t tszFullPath[MAX_PATH];
 
 	for (auto &p : clistPlugins) {
-		if (!isPluginOnWhiteList(p->pluginname))
+		if (!IsPluginOnWhiteList(p->pluginname))
 			continue;
 
-		mir_snwprintf(tszFullPath, L"%s\\Plugins\\%s", exe, p->pluginname);
+		mir_snwprintf(tszFullPath, L"%s\\Plugins\\%S", exe, p->pluginname);
 		if (loadClistModule(tszFullPath, p))
 			return p;
 	}
@@ -581,8 +603,9 @@ static pluginEntry* getCListModule(wchar_t *exe)
 
 int UnloadPlugin(wchar_t* buf, int bufLen)
 {
+	ptrA szShortName(mir_u2a(buf));
 	for (auto &it : pluginList.rev_iter()) {
-		if (!mir_wstrcmpi(it->pluginname, buf)) {
+		if (!mir_strcmpi(it->pluginname, szShortName)) {
 			GetModuleFileName(it->m_pPlugin->getInst(), buf, bufLen);
 			Plugin_Uninit(it);
 			return TRUE;
@@ -612,19 +635,17 @@ int LaunchServicePlugin(pluginEntry *p)
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
-	MessageBox(nullptr, TranslateT("Unable to load plugin in service mode!"), p->pluginname, MB_ICONSTOP);
+	MessageBox(nullptr, TranslateT("Unable to load plugin in service mode!"), _A2T(p->pluginname), MB_ICONSTOP);
 	Plugin_Uninit(p);
 	return SERVICE_FAILED;
 }
 
-MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName, WPARAM wParam, LPARAM lParam)
+MIR_APP_DLL(int) SetServiceModePlugin(const char *szPluginName, WPARAM wParam, LPARAM lParam)
 {
-	size_t cbLen = mir_wstrlen(wszPluginName);
-	if (cbLen == 0)
-		return 1;
+	CPluginName tmp(szPluginName);
 
 	for (auto &p : servicePlugins) {
-		if (!wcsnicmp(p->pluginname, wszPluginName, cbLen)) {
+		if (!stricmp(tmp, p->pluginname)) {
 			plugin_service = p;
 			g_srvWParam = wParam;
 			g_srvLParam = lParam;
@@ -632,7 +653,7 @@ MIR_APP_DLL(int) SetServiceModePlugin(const wchar_t *wszPluginName, WPARAM wPara
 		}
 	}
 
-	return 2;
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -684,7 +705,7 @@ int LoadProtocolPlugins(void)
 			continue;
 
 		wchar_t tszFullPath[MAX_PATH];
-		mir_snwprintf(tszFullPath, L"%s\\%s\\%s", exe, L"Plugins", p->pluginname);
+		mir_snwprintf(tszFullPath, L"%s\\%s\\%S", exe, L"Plugins", p->pluginname);
 		p->checkAPI(tszFullPath);
 	}
 
@@ -707,7 +728,7 @@ int LoadNewPluginsModule(void)
 	askAboutIgnoredPlugins = (UINT)GetPrivateProfileInt(L"PluginLoader", L"AskAboutIgnoredPlugins", 0, mirandabootini);
 
 	// if Crash Dumper is present, load it to provide Crash Reports
-	if (plugin_crshdmp != nullptr && isPluginOnWhiteList(plugin_crshdmp->pluginname))
+	if (plugin_crshdmp != nullptr && IsPluginOnWhiteList(plugin_crshdmp->pluginname))
 		if (!TryLoadPlugin(plugin_crshdmp, false))
 			Plugin_Uninit(plugin_crshdmp);
 
@@ -724,11 +745,11 @@ int LoadNewPluginsModule(void)
 		return 1;
 	}
 
-	/* enable and disable as needed  */
+	// enable and disable as needed
 	for (auto &p : clistPlugins)
-		SetPluginOnWhiteList(p->pluginname, plugin_clist != p ? 0 : 1);
+		SetPluginOnWhiteList(p->pluginname, plugin_clist == p);
 
-	/* now loop thru and load all the other plugins, do this in one pass */
+	// now loop thru and load all the other plugins, do this in one pass
 	for (int i = 0; i < pluginList.getCount(); i++) {
 		pluginEntry *p = pluginList[i];
 		if (!TryLoadPlugin(p, false)) {
@@ -738,7 +759,7 @@ int LoadNewPluginsModule(void)
 	}
 
 	for (auto &it : servicePlugins.rev_iter())
-		if (!isPluginOnWhiteList(it->pluginname))
+		if (!IsPluginOnWhiteList(it->pluginname))
 			Plugin_Uninit(it);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
@@ -773,7 +794,7 @@ int LoadNewPluginsModuleInfos(void)
 	if (!LoadCorePlugin(stdCrypt))
 		return 1;
 
-	SetServiceModePlugin(CmdLine_GetOption(L"svc"));
+	SetServiceModePlugin(_T2A(CmdLine_GetOption(L"svc")));
 	return 0;
 }
 

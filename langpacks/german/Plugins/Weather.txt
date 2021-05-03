@@ -380,7 +380,7 @@ Alle Dateien
 [mb]
 mb
 [in]
-Element von
+in
 [mm]
 mm
 [<unknown time>]

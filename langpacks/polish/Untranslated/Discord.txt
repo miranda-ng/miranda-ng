@@ -1,3 +1,4 @@
+[Delete messages in Miranda when they are deleted from server]
 [Enter channel name]
 [Enter invitation code you received]
 [Do you really want to leave the guild?]

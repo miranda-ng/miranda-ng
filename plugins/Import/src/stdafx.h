@@ -222,6 +222,8 @@ public:
 
 class CFinishedPageDlg : public CWizardPageDlg
 {
+	typedef CWizardPageDlg CSuper;
+
 public:
 	CFinishedPageDlg();
 	int Resizer(UTILRESIZECONTROL *urc) override;

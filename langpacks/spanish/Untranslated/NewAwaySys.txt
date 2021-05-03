@@ -36,7 +36,6 @@
 [Store protocol autoreply settings for each status separately]
 [Remember last message used for a contact...]
 [Store contact autoreply/ignore settings for each status separately]
-[Enable contact menu items]
 [Use protocol specific nick for %nas_mynick%]
 [Update status messages for non-ICQ protocols every]
 [Don't show the message dialog for]

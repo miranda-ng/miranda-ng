@@ -25,16 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../../../libs/zlib/src/zlib.h"
 
-struct ExternalKey
+CStdCrypt::CStdCrypt()
 {
-	BYTE  m_key[KEY_LENGTH];
-	DWORD m_crc32;
-	BYTE  slack[BLOCK_SIZE - sizeof(DWORD)];
-};
-
-CStdCrypt::CStdCrypt() :
-	m_password("Miranda")
-{}
+}
 
 void CStdCrypt::destroy()
 {
@@ -46,42 +39,59 @@ size_t CStdCrypt::getKeyLength()
 	return sizeof(ExternalKey);
 }
 
-bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
+void CStdCrypt::key2ext(const char *pszPassword, ExternalKey &key)
 {
-	if (!m_valid || cbKeyLen < sizeof(ExternalKey))
-		return false;
+	if (mir_strlen(pszPassword) == 0)
+		pszPassword = "Miranda";
 
-	ExternalKey tmp = { 0 };
+	ExternalKey tmp = {};
 	memcpy(&tmp.m_key, m_key, KEY_LENGTH);
-	tmp.m_crc32 = crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength());
+	tmp.m_crc32 = crc32(0xAbbaDead, (LPCBYTE)pszPassword, (int)strlen(pszPassword));
 	getRandomBytes(tmp.slack, sizeof(tmp.slack));
 
 	BYTE tmpHash[32];
-	slow_hash(m_password, m_password.GetLength(), tmpHash);
+	slow_hash(pszPassword, strlen(pszPassword), tmpHash);
 
 	CRijndael tmpAes;
 	tmpAes.MakeKey(tmpHash, tmpAes.sm_chain0, KEY_LENGTH, BLOCK_SIZE);
-	tmpAes.Encrypt(&tmp, pKey, sizeof(tmp));
+	tmpAes.Encrypt(&tmp, &key, sizeof(ExternalKey));
+}
+
+bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
+{
+	if (!m_valid || cbKeyLen < sizeof(m_extKey))
+		return false;
+
+	memcpy(pKey, &m_extKey, sizeof(m_extKey));
 	return true;
 }
 
-bool CStdCrypt::setKey(const BYTE *pKey, size_t cbKeyLen)
+bool CStdCrypt::checkKey(const char *pszPassword, const ExternalKey *pPublic, ExternalKey &tmp)
 {
-	// full external key. decode & check password
-	if (cbKeyLen != sizeof(ExternalKey))
-		return false;
-		
+	if (mir_strlen(pszPassword) == 0)
+		pszPassword = "Miranda";
+
 	BYTE tmpHash[32];
-	slow_hash(m_password, m_password.GetLength(), tmpHash);
+	slow_hash(pszPassword, strlen(pszPassword), tmpHash);
 
 	CRijndael tmpAes;
 	tmpAes.MakeKey(tmpHash, tmpAes.sm_chain0, KEY_LENGTH, BLOCK_SIZE);
 
-	ExternalKey tmp = { 0 };
-	tmpAes.Decrypt(pKey, &tmp, sizeof(tmp));
-	if (tmp.m_crc32 != crc32(0xAbbaDead, (LPCBYTE)m_password.GetString(), m_password.GetLength()))
+	tmpAes.Decrypt(pPublic, &tmp, sizeof(tmp));
+	return (tmp.m_crc32 == crc32(0xAbbaDead, (LPCBYTE)pszPassword, (int)strlen(pszPassword)));
+}
+
+bool CStdCrypt::setKey(const char *pszPassword, const BYTE *pPublic, size_t cbKeyLen)
+{
+	// full external key. decode & check password
+	if (cbKeyLen != sizeof(m_extKey))
 		return false;
 
+	ExternalKey tmp = {};
+	if (!checkKey(pszPassword, (const ExternalKey*)pPublic, tmp))
+		return false;
+
+	memcpy(&m_extKey, pPublic, sizeof(m_extKey));
 	memcpy(m_key, &tmp.m_key, KEY_LENGTH);
 	m_aes.MakeKey(m_key, "Miranda", KEY_LENGTH, BLOCK_SIZE);
 	return m_valid = true;
@@ -95,6 +105,7 @@ bool CStdCrypt::generateKey(void)
 
 	memcpy(m_key, tmp, KEY_LENGTH);
 	m_aes.MakeKey(m_key, "Miranda", KEY_LENGTH, BLOCK_SIZE);
+	key2ext(nullptr, m_extKey);
 	return m_valid = true;
 }
 
@@ -107,13 +118,13 @@ void CStdCrypt::purgeKey(void)
 // checks the master password (in utf-8)
 bool CStdCrypt::checkPassword(const char *pszPassword)
 {
-	return m_password == pszPassword;
+	ExternalKey tmp;
+	return checkKey(pszPassword, &m_extKey, tmp);
 }
 
-// sets the master password (in utf-8)
 void CStdCrypt::setPassword(const char *pszPassword)
 {
-	m_password = (pszPassword == NULL) ? "Miranda" : pszPassword;
+	key2ext(pszPassword, m_extKey);
 }
 
 // result must be freed using mir_free or assigned to mir_ptr<BYTE>

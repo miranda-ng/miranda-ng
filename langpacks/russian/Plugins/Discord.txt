@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.8
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -24,6 +24,8 @@
 Не открывать окна комнат чата при создании
 [Use subgroups for server channels (requires restart)]
 Создавать подгруппы для каждого сервера (требуется перезапуск)
+[Delete messages in Miranda when they are deleted from server]
+Удалять сообщения из истории Миранды, если они удалены с сервера
 [Nick:]
 Ник:
 ;file \protocols\Discord\src\dispatch.cpp

@@ -140,13 +140,41 @@ void CCtrlListView::SetItem(int iItem, int iSubItem, const wchar_t *text, int iI
 	SetItem(&lvi);
 }
 
-LPARAM CCtrlListView::GetItemData(int iItem)
+LPARAM CCtrlListView::GetItemData(int iItem) const
 {
 	LVITEM lvi = { 0 };
 	lvi.mask = LVIF_PARAM;
 	lvi.iItem = iItem;
-	GetItem(&lvi);
-	return lvi.lParam;
+	return GetItem(&lvi) ? lvi.lParam : -1;
+}
+
+void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
+{
+	pos.pCtrl = this;
+
+	// position is empty, let's fill it using selection
+	if (pos.pt.x == 0 && pos.pt.y == 0) {
+		pos.iCurr = GetSelectionMark();
+		if (pos.iCurr != -1) {
+			RECT rc;
+			GetItemRect(pos.iCurr, &rc, TRUE);
+			pos.pt.x = rc.left + 8;
+			pos.pt.y = rc.top + 8;
+			ClientToScreen(m_hwnd, &pos.pt);
+			return;
+		}
+	}
+	// position is present, let's calculate current item
+	else {
+		LVHITTESTINFO hti;
+		hti.pt = pos.pt;
+		ScreenToClient(m_hwnd, &hti.pt);
+		if (SubItemHitTest(&hti) != -1) {
+			pos.iCurr = hti.iItem;
+			return;
+		}
+	}
+	CSuper::GetCaretPos(pos);
 }
 
 // classic api
@@ -183,148 +211,148 @@ BOOL CCtrlListView::EnsureVisible(int i, BOOL fPartialOK)
 int CCtrlListView::FindItem(int iStart, const LVFINDINFO *plvfi)
 {	return ListView_FindItem(m_hwnd, iStart, plvfi);
 }
-COLORREF CCtrlListView::GetBkColor()
+COLORREF CCtrlListView::GetBkColor() const
 {	return ListView_GetBkColor(m_hwnd);
 }
-void CCtrlListView::GetBkImage(LPLVBKIMAGE plvbki)
+void CCtrlListView::GetBkImage(LPLVBKIMAGE plvbki) const
 {	ListView_GetBkImage(m_hwnd, plvbki);
 }
-UINT CCtrlListView::GetCallbackMask()
+UINT CCtrlListView::GetCallbackMask() const
 {	return ListView_GetCallbackMask(m_hwnd);
 }
-BOOL CCtrlListView::GetCheckState(UINT iIndex)
+BOOL CCtrlListView::GetCheckState(UINT iIndex) const
 {	return ListView_GetCheckState(m_hwnd, iIndex);
 }
-void CCtrlListView::GetColumn(int iCol, LPLVCOLUMN pcol)
+void CCtrlListView::GetColumn(int iCol, LPLVCOLUMN pcol) const
 {	ListView_GetColumn(m_hwnd, iCol, pcol);
 }
-void CCtrlListView::GetColumnOrderArray(int iCount, int *lpiArray)
+void CCtrlListView::GetColumnOrderArray(int iCount, int *lpiArray) const
 {	ListView_GetColumnOrderArray(m_hwnd, iCount, lpiArray);
 }
-int CCtrlListView::GetColumnWidth(int iCol)
+int CCtrlListView::GetColumnWidth(int iCol) const
 {	return ListView_GetColumnWidth(m_hwnd, iCol);
 }
-int CCtrlListView::GetCountPerPage()
+int CCtrlListView::GetCountPerPage() const
 {	return ListView_GetCountPerPage(m_hwnd);
 }
-HWND CCtrlListView::GetEditControl()
+HWND CCtrlListView::GetEditControl() const
 {	return ListView_GetEditControl(m_hwnd);
 }
-DWORD CCtrlListView::GetExtendedListViewStyle()
+DWORD CCtrlListView::GetExtendedListViewStyle() const
 {	return ListView_GetExtendedListViewStyle(m_hwnd);
 }
-void CCtrlListView::GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics)
+void CCtrlListView::GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics) const
 {	ListView_GetGroupMetrics(m_hwnd, pGroupMetrics);
 }
-HWND CCtrlListView::GetHeader()
+HWND CCtrlListView::GetHeader() const
 {	return ListView_GetHeader(m_hwnd);
 }
-HCURSOR CCtrlListView::GetHotCursor()
+HCURSOR CCtrlListView::GetHotCursor() const
 {	return ListView_GetHotCursor(m_hwnd);
 }
-INT CCtrlListView::GetHotItem()
+INT CCtrlListView::GetHotItem() const
 {	return ListView_GetHotItem(m_hwnd);
 }
-DWORD CCtrlListView::GetHoverTime()
+DWORD CCtrlListView::GetHoverTime() const
 {	return ListView_GetHoverTime(m_hwnd);
 }
-HIMAGELIST CCtrlListView::GetImageList(int iImageList)
+HIMAGELIST CCtrlListView::GetImageList(int iImageList) const
 {	return ListView_GetImageList(m_hwnd, iImageList);
 }
-BOOL CCtrlListView::GetInsertMark(LVINSERTMARK *plvim)
+BOOL CCtrlListView::GetInsertMark(LVINSERTMARK *plvim) const
 {	return ListView_GetInsertMark(m_hwnd, plvim);
 }
-COLORREF CCtrlListView::GetInsertMarkColor()
+COLORREF CCtrlListView::GetInsertMarkColor() const
 {	return ListView_GetInsertMarkColor(m_hwnd);
 }
-int CCtrlListView::GetInsertMarkRect(LPRECT prc)
+int CCtrlListView::GetInsertMarkRect(LPRECT prc) const
 {	return ListView_GetInsertMarkRect(m_hwnd, prc);
 }
-BOOL CCtrlListView::GetISearchString(LPSTR lpsz)
+BOOL CCtrlListView::GetISearchString(LPSTR lpsz) const
 {	return ListView_GetISearchString(m_hwnd, lpsz);
 }
-bool CCtrlListView::GetItem(LPLVITEM pitem)
+bool CCtrlListView::GetItem(LPLVITEM pitem) const
 {	return ListView_GetItem(m_hwnd, pitem) == TRUE;
 }
-int CCtrlListView::GetItemCount()
+int CCtrlListView::GetItemCount() const
 {	return ListView_GetItemCount(m_hwnd);
 }
-void CCtrlListView::GetItemPosition(int i, POINT *ppt)
+void CCtrlListView::GetItemPosition(int i, POINT *ppt) const
 {	ListView_GetItemPosition(m_hwnd, i, ppt);
 }
-void CCtrlListView::GetItemRect(int i, RECT *prc, int code)
+void CCtrlListView::GetItemRect(int i, RECT *prc, int code) const
 {	ListView_GetItemRect(m_hwnd, i, prc, code);
 }
-DWORD CCtrlListView::GetItemSpacing(BOOL fSmall)
+DWORD CCtrlListView::GetItemSpacing(BOOL fSmall) const
 {	return ListView_GetItemSpacing(m_hwnd, fSmall);
 }
-UINT CCtrlListView::GetItemState(int i, UINT mask)
+UINT CCtrlListView::GetItemState(int i, UINT mask) const
 {	return ListView_GetItemState(m_hwnd, i, mask);
 }
-void CCtrlListView::GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax)
+void CCtrlListView::GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax) const
 {	ListView_GetItemText(m_hwnd, iItem, iSubItem, pszText, cchTextMax);
 }
-int CCtrlListView::GetNextItem(int iStart, UINT flags)
+int CCtrlListView::GetNextItem(int iStart, UINT flags) const
 {	return ListView_GetNextItem(m_hwnd, iStart, flags);
 }
-BOOL CCtrlListView::GetNumberOfWorkAreas(LPUINT lpuWorkAreas)
+BOOL CCtrlListView::GetNumberOfWorkAreas(LPUINT lpuWorkAreas) const
 {	return  ListView_GetNumberOfWorkAreas(m_hwnd, lpuWorkAreas);
 }
-BOOL CCtrlListView::GetOrigin(LPPOINT lpptOrg)
+BOOL CCtrlListView::GetOrigin(LPPOINT lpptOrg) const
 {	return ListView_GetOrigin(m_hwnd, lpptOrg);
 }
-COLORREF CCtrlListView::GetOutlineColor()
+COLORREF CCtrlListView::GetOutlineColor() const
 {	return ListView_GetOutlineColor(m_hwnd);
 }
-UINT CCtrlListView::GetSelectedColumn()
+UINT CCtrlListView::GetSelectedColumn() const
 {	return ListView_GetSelectedColumn(m_hwnd);
 }
-UINT CCtrlListView::GetSelectedCount()
+UINT CCtrlListView::GetSelectedCount() const
 {	return ListView_GetSelectedCount(m_hwnd);
 }
-INT CCtrlListView::GetSelectionMark()
+INT CCtrlListView::GetSelectionMark() const
 {	return ListView_GetSelectionMark(m_hwnd);
 }
-int CCtrlListView::GetStringWidth(LPCSTR psz)
+int CCtrlListView::GetStringWidth(LPCSTR psz) const
 {	return ListView_GetStringWidth(m_hwnd, psz);
 }
-BOOL CCtrlListView::GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect)
+BOOL CCtrlListView::GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect) const
 {	return ListView_GetSubItemRect(m_hwnd, iItem, iSubItem, code, lpRect);
 }
-COLORREF CCtrlListView::GetTextBkColor()
+COLORREF CCtrlListView::GetTextBkColor() const
 {	return ListView_GetTextBkColor(m_hwnd);
 }
-COLORREF CCtrlListView::GetTextColor()
+COLORREF CCtrlListView::GetTextColor() const
 {	return ListView_GetTextColor(m_hwnd);
 }
-void CCtrlListView::GetTileInfo(PLVTILEINFO plvtinfo)
+void CCtrlListView::GetTileInfo(PLVTILEINFO plvtinfo) const
 {	ListView_GetTileInfo(m_hwnd, plvtinfo);
 }
-void CCtrlListView::GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo)
+void CCtrlListView::GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo) const
 {	ListView_GetTileViewInfo(m_hwnd, plvtvinfo);
 }
-HWND CCtrlListView::GetToolTips()
+HWND CCtrlListView::GetToolTips() const
 {	return ListView_GetToolTips(m_hwnd);
 }
-int CCtrlListView::GetTopIndex()
+int CCtrlListView::GetTopIndex() const
 {	return ListView_GetTopIndex(m_hwnd);
 }
-BOOL CCtrlListView::GetUnicodeFormat()
+BOOL CCtrlListView::GetUnicodeFormat() const
 {	return ListView_GetUnicodeFormat(m_hwnd);
 }
-DWORD CCtrlListView::GetView()
+DWORD CCtrlListView::GetView() const
 {	return ListView_GetView(m_hwnd);
 }
-BOOL CCtrlListView::GetViewRect(RECT *prc)
+BOOL CCtrlListView::GetViewRect(RECT *prc) const
 {	return ListView_GetViewRect(m_hwnd, prc);
 }
-void CCtrlListView::GetWorkAreas(INT nWorkAreas, LPRECT lprc)
+void CCtrlListView::GetWorkAreas(INT nWorkAreas, LPRECT lprc) const
 {	ListView_GetWorkAreas(m_hwnd, nWorkAreas, lprc);
 }
 BOOL CCtrlListView::HasGroup(int dwGroupId)
 {	return ListView_HasGroup(m_hwnd, dwGroupId);
 }
-int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo)
+int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo) const
 {	return ListView_HitTest(m_hwnd, pinfo);
 }
 int CCtrlListView::InsertColumn(int iCol, const LPLVCOLUMN pcol)
@@ -483,7 +511,7 @@ BOOL CCtrlListView::SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort)
 BOOL CCtrlListView::SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort)
 {	return ListView_SortItemsEx(m_hwnd, pfnCompare, lParamSort);
 }
-INT CCtrlListView::SubItemHitTest(LPLVHITTESTINFO pInfo)
+INT CCtrlListView::SubItemHitTest(LPLVHITTESTINFO pInfo) const
 {	return ListView_SubItemHitTest(m_hwnd, pInfo);
 }
 BOOL CCtrlListView::Update(int iItem)

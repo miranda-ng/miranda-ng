@@ -68,7 +68,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_MOUSEMOVE:
 		{
-			TRACKMOUSEEVENT tme = { 0 };
+			TRACKMOUSEEVENT tme = {};
 			tme.cbSize = sizeof(TRACKMOUSEEVENT);
 			tme.hwndTrack = hwnd;
 			tme.dwFlags = TME_QUERY;
@@ -86,7 +86,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	case WM_MOUSEHOVER:
 		{
 			POINT pt;
-			CLCINFOTIP ti = { 0 };
+			CLCINFOTIP ti = {};
 
 			GetCursorPos(&pt);
 			GetWindowRect(hwnd, &ti.rcItem);
@@ -239,7 +239,7 @@ static void addWindow(MCONTACT hContact)
 		0, 0, 10, 10, g_clistApi.hwndContactList, nullptr, g_plugin.getInst(), (void*)hContact);
 	WindowList_Add(hMwinWindowList, hWnd, hContact);
 
-	CLISTFrame Frame = { 0 };
+	CLISTFrame Frame = {};
 	Frame.szName.w = winname;
 	Frame.hIcon = g_plugin.getIcon(IDI_ICON);
 	Frame.cbSize = sizeof(Frame);

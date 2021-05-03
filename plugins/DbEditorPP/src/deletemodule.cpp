@@ -3,15 +3,15 @@
 volatile BOOL working;
 static HWND hwnd2Delete = nullptr;
 
-int deleteModule(MCONTACT hContact, const char *module, int confirm)
+int deleteModule(HWND hwndParent, MCONTACT hContact, const char *module, int confirm)
 {
 	if (!module || IsModuleEmpty(hContact, module))
 		return 0;
 
-	if (confirm && g_plugin.bWarnOnDelete) {
+	 if (confirm && g_plugin.bWarnOnDelete) {
 		wchar_t text[MSG_SIZE];
-		mir_snwprintf(text, TranslateT("Are you sure you want to delete module \"%s\"?"), _A2T(module).get());
-		if (dlg(text, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
+		mir_snwprintf(text, TranslateT("Are you sure you want to delete module \"%S\"?"), module);
+		if (MessageBoxW(hwndParent, text, modFullnameW, MB_YESNO | MB_ICONEXCLAMATION) == IDNO)
 			return 0;
 	}
 
@@ -94,10 +94,10 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 			GetDlgItemTextA(hwnd, IDC_CONTACTS, module, _countof(module));
 			SetCursor(LoadCursor(nullptr, IDC_WAIT));
 			for (auto &hContact : Contacts())
-				deleteModule(hContact, module, 0);
+				deleteModule(0, hContact, module, 0);
 
 			// do the null
-			deleteModule(NULL, module, 0);
+			deleteModule(0, NULL, module, 0);
 			SetCursor(LoadCursor(nullptr, IDC_ARROW));
 			refreshTree(1);
 			__fallthrough;
@@ -118,10 +118,10 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void deleteModuleDlg()
+void CMainDlg::deleteModuleDlg()
 {
 	if (!hwnd2Delete)
-		hwnd2Delete = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc);
+		hwnd2Delete = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_COPY_MOD), m_hwnd, DeleteModuleDlgProc);
 	else
-		SetForegroundWindow(hwnd2Delete);
+		::SetForegroundWindow(hwnd2Delete);
 }

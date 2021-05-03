@@ -236,8 +236,8 @@
 Створити кнопку в Панелі кнопок
 [Show confirm dialog when loading]
 Підтверджувати при завантаженні
-[Create a main menu item]
-Пункт у головному меню
+[Create a status menu item]
+Створити пункт у меню
 [Status profiles]
 Профілі статусів
 [Hotkey]
@@ -354,8 +354,6 @@
 розмір: %d x %d
 [loc: %d x %d]
 поз.: %d x %d
-[Create a status menu item]
-Створити пункт у меню
 [unknown]
 невідомо
 [At least one profile must exist]

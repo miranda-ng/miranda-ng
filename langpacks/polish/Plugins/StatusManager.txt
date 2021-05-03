@@ -236,8 +236,8 @@ Usuń
 Utwórz przycisk paska narzędzi
 [Show confirm dialog when loading]
 Okno potwierdzania przy uruchamianiu
-[Create a main menu item]
-Utwórz wpis w menu głównym
+[Create a status menu item]
+Utwórz wpis w menu
 [Status profiles]
 Profile statusów
 [Hotkey]
@@ -354,8 +354,6 @@ Brak
 rozmiar: %d x %d
 [loc: %d x %d]
 poł: %d x %d
-[Create a status menu item]
-Utwórz wpis w menu
 [unknown]
 nieznany
 [At least one profile must exist]

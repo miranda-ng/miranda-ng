@@ -30,7 +30,7 @@ saving individual weather data for a weather contact.
 // hContact = the current contact handle
 // return value = the string for station ID
 //
-void GetStationID(MCONTACT hContact, wchar_t* id, int idlen)
+void GetStationID(MCONTACT hContact, wchar_t *id, int idlen)
 {
 	// accessing the database
 	if (db_get_wstatic(hContact, MODULENAME, "ID", id, idlen))
@@ -65,11 +65,11 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 		wcsncpy(winfo.sunset, NODATA, _countof(winfo.sunset) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Sunrise", winfo.sunrise, _countof(winfo.sunrise)))
 		wcsncpy(winfo.sunrise, NODATA, _countof(winfo.sunrise) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind Speed", winfo.wind, _countof(winfo.wind)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind speed", winfo.wind, _countof(winfo.wind)))
 		wcsncpy(winfo.wind, NODATA, _countof(winfo.wind) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind Direction", winfo.winddir, _countof(winfo.winddir)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Wind direction", winfo.winddir, _countof(winfo.winddir)))
 		wcsncpy(winfo.winddir, NODATA, _countof(winfo.winddir) - 1);
-	if (db_get_wstatic(hContact, WEATHERCONDITION, "Dewpoint", winfo.dewpoint, _countof(winfo.dewpoint)))
+	if (db_get_wstatic(hContact, WEATHERCONDITION, "Dew point", winfo.dewpoint, _countof(winfo.dewpoint)))
 		wcsncpy(winfo.dewpoint, NODATA, _countof(winfo.dewpoint) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Pressure", winfo.pressure, _countof(winfo.pressure)))
 		wcsncpy(winfo.pressure, NODATA, _countof(winfo.pressure) - 1);
@@ -187,7 +187,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 		// temperature
 		if (!mir_wstrcmp(UpdateData->Name, L"Temperature") || !mir_wstrcmp(UpdateData->Name, L"High") ||
 			!mir_wstrcmp(UpdateData->Name, L"Low") || !mir_wstrcmp(UpdateData->Name, L"Feel") ||
-			!mir_wstrcmp(UpdateData->Name, L"Dewpoint") ||
+			!mir_wstrcmp(UpdateData->Name, L"Dew point") ||
 			!mir_wstrcmpi(UpdateData->Unit, L"C") || !mir_wstrcmpi(UpdateData->Unit, L"F") ||
 			!mir_wstrcmpi(UpdateData->Unit, L"K")) {
 			GetTemp(Data, UpdateData->Unit, str);
@@ -245,7 +245,7 @@ void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data)
 // Data = the string containing weather data obtained from UpdateData
 // global var. used: szInfo = the downloaded string
 //
-void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szData)
+void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
 {
 	wchar_t last = 0, current, *start, *end;
 	unsigned startloc = 0, endloc = 0, respos = 0;
@@ -424,11 +424,12 @@ void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM)
 			if (!mir_strcmp(str, "WeatherInfo") || !mir_strcmp(str, "Ignore") || str[0] == '#')
 				continue;
 
+			_A2T strW(str);
 			HWND hList = GetDlgItem((HWND)wParam, IDC_DATALIST);
-			LV_ITEM lvi = { 0 };
+			LV_ITEM lvi = {};
 			lvi.mask = LVIF_TEXT | LVIF_PARAM;
 			lvi.lParam = T.indexOf(&str);
-			lvi.pszText = TranslateW(_A2T(str));
+			lvi.pszText = TranslateW(strW);
 			lvi.iItem = ListView_InsertItem(hList, &lvi);
 			lvi.pszText = wszText;
 			ListView_SetItemText(hList, lvi.iItem, 1, wszText);

@@ -3,7 +3,7 @@ Language: Čeština
 Locale: 0405
 Authors: Robert Pösel (Robyer) (viz http://www.robyer.cz)
 Author-email: robyer@seznam.cz
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ; Based on translation for Miranda IM (viz http://miranda.kvalitne.cz):
 ; Authors: Vít Šindlář, sir-qwerty, Martin Koníček, Aleš Studený, madmojo, Dave-Dave, Tur McDonnel, waclaw, Lev, Pavel Svátek, Mareman, Richard Nižnik, Laslo Gogolak, Petr Hanuš, churchyard, tapin, Soustruh, Libor Polčák, Jiří Kocman, MiSHAK, Robyer, Fille, Jake
@@ -12,7 +12,7 @@ Last-Modified-Using: Miranda NG 0.95.13
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -1192,8 +1192,8 @@ Režim šifrování databáze
 Standardní
 [Total]
 Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná.
 [Set password]
 Nastavit heslo
 [&Hide/Show]
@@ -2034,6 +2034,10 @@ Tato skupina
 Připojování
 [Connecting (attempt %d)]
 Připojování (pokus č.%d)
+[&Accounts...]
+Účt&y...
+[&Options...]
+M&ožnosti...
 [Common]
 Obecné
 [(Unknown contact)]
@@ -2300,8 +2304,6 @@ Nabídky
 Nabídka ikony
 [&Hide/show]
 Skrýt/Zo&brazit
-[&Options...]
-M&ožnosti...
 [&About]
 O progr&amu
 [Menu icons]
@@ -2426,8 +2428,8 @@ Vyberte požadovaný program
 Sítě
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' není aktivní. Chcete ho aktivovat?
+['%S' is disabled, re-enable?]
+'%S' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2554,8 +2556,6 @@ Je potřeba zadat název účtu.
 Chyba účtu
 [Account name has to be unique. Please enter unique name.]
 Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
-[&Accounts...]
-Účt&y...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 [Could not search on any of the protocols, are you online?]
@@ -3873,21 +3873,19 @@ Varování registrů
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Tento doplněk zobrazí ikonu vedle jména kontaktu s informací o stavu jeho autorizace.
+[Plugin settings]
+Nastavení doplňku
+[Show icons only for recently added contacts]
+Zobrazit ikony jen pro nedávno přidané kontakty
 [Show Request icon]
 Zobrazit ikony požadavků
 [Show Grant icon]
 Zobrazit ikony schválení
-[Plugin settings]
-Nastavení doplňku
-[Enable menu item]
-Zobrazit položku v nabídce
-[Show icons only for recently added contacts]
-Zobrazit ikony jen pro nedávno přidané kontakty
 [Request]
 Požadavek
 [Grant]
@@ -4937,7 +4935,7 @@ Nastavení rozhraní
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -4986,8 +4984,6 @@ minut
 Spuštění Mirandy
 [Others]
 Ostatní
-[Create a main menu item]
-Přidat položku do hlavní nabídky
 [Restore hiding on startup after failure]
 Obnovit skrývání při startu po chybě
 [Password is not correct!\nPlease, enter correct password.]
@@ -7891,7 +7887,7 @@ Všechny úlohy byly úspěšně dokončeny
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8200,7 +8196,7 @@ Typ
 Velikost
 [Unable to store value in this data type!]
 Nelze uložit hodnotu do tohoto datového typu!
-[Are you sure you want to delete setting(s): %d?]
+[Are you sure you want to delete %d setting(s)?]
 Opravdu si přejete smazat %d nastavení?
 [*** encrypted ***]
 *** zašifrováno ***
@@ -8258,24 +8254,16 @@ Zastaralý formát databáze
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Umožňuje čtení a zápis dat do uživatelského profilu: globální nastavení, kontakty, historii a další položky.
-[Database encryption mode]
-Režim šifrování databáze
-[Standard]
-Standardní
-[Total]
-Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -8322,6 +8310,10 @@ Chyba
 Databáze zálohována
 [Database back up in process...]
 Probíhá záloha databáze...
+[Backup profile]
+Zazálohovat profil
+[Save profile as...]
+Uložit profil jako...
 [Miranda NG databases]
 Databáze Mirandy NG
 [Compressed Miranda NG databases]
@@ -8330,10 +8322,6 @@ Komprimované databáze Mirandy NG
 Všechny soubory
 [Database]
 Databáze
-[Backup profile]
-Zazálohovat profil
-[Save profile as...]
-Uložit profil jako...
 [Popups]
 Oznámení
 [Database backups]
@@ -8376,7 +8364,7 @@ Miranda NG [%s] záloha databáze
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -11011,7 +10999,7 @@ Historie
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [Address]
@@ -11020,8 +11008,6 @@ Adresa
 Maska
 [Set to default]
 Nastavit jako výchozí
-[Enable HTTP server]
-Aktivovat HTTP server
 [Show popups]
 Zobrazovat oznámení
 [Test]
@@ -11042,6 +11028,8 @@ DOKONČENO
 Sítě
 [Disable HTTP server]
 Deaktivovat HTTP server
+[Enable HTTP server]
+Aktivovat HTTP server
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -11563,29 +11551,21 @@ Dokončit
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Internet Relay Chat (IRC) protokol pro Mirandu NG.
-[Default network]
-Výchozí síť
-[Enable]
-Aktivovat
-[Server name]
-Název serveru
-[Internet address]
-Adresa
+[Server]
+Server
+[Host address]
+Adresa hostitele
 [Port range]
 Rozsah portů
+[Enable SASL]
+Zapnout SASL
 [Password]
 Heslo
-[&Add]
-Přid&at
-[&Edit]
-Up&ravit
-[&Del]
-&Smaz
 [User info - Required]
 Osobní informace (povinné)
 [Nick]
@@ -11598,6 +11578,8 @@ Celé jméno (e-mail)
 Identifikátor
 [Ident]
 Ident
+[Enable]
+Aktivovat
 [System]
 Systém
 [Port]
@@ -11658,8 +11640,6 @@ Adresa
 Přehled kanálů
 [Auth]
 Ověření
-[Server]
-Server
 [User]
 Uživatel
 [Away Info]
@@ -11676,6 +11656,8 @@ Otázka
 Akce
 [&Set]
 Na&stavit
+[&Del]
+&Smaz
 [Alias]
 Alias
 [Perform on event:]
@@ -11688,28 +11670,12 @@ Při ukončení:
 Kódování serveru:
 [Enable UTF-8 autodetection]
 Zapnout detekci UTF-8
-[Add server]
-Přidat server
-[Auto]
-Auto
-[On]
-Zap
-[Off]
-Vyp
-[Host address]
-Adresa hostitele
-[Server description]
-Popis serveru
-[Network]
-Sítě
 [Channels on server]
 Seznam kanálů na serveru
 [&Join]
 Při&jít
 [Filter by]
 Filtrovat dle
-[C&onnect]
-Přip&ojit
 [&Save]
 &Uložit
 [Hostmask]
@@ -11730,6 +11696,10 @@ Zákazy
 Pozvání
 [Excepts]
 Výjimky
+[&Add]
+Přid&at
+[&Edit]
+Up&ravit
 [Only Ops set topic]
 Téma určuje op
 [No external messages]
@@ -11758,12 +11728,24 @@ Skrytý
 Přehled možností nastavení módů kanálu. Obvykle jsou k dispozici pouze operátorům.
 [Strip colors]
 Odstranit barvy
+[Client-to-Client File Transfers]
+Přenos souborů (DCC Send/Receive)
+[Send mode:]
+Metoda odesílání:
 [Normal]
 Normální
 [Send-ahead]
 Předem (send-ahead)
+[Packet size (bytes):]
+Velikost paketu (byty):
+[Send notice]
+Poslat oznámení
 [Attempt reverse DCC (good if firewalled)]
 Zkusit reverzní DCC (za firewallem)
+[Client-to-Client Chats]
+Privátní diskuse (DCC Chat)
+[Auto-accept from:]
+Automaticky přijímat od:
 [none]
 ---
 [everyone on the contact list]
@@ -11772,24 +11754,12 @@ všech ze seznamu kontaktů
 každého
 [Disconnect DCC chats when disconnecting from server]
 Ukončit privátní diskusi při odpojení od serveru
-[Manually set external IP:]
-Ručně nastavit externí IP:
-[Client-to-Client File Transfers]
-Přenos souborů (DCC Send/Receive)
 [Client-to-Client Protocol]
 Ostatní možnosti CTCP
-[Client-to-Client Chats]
-Privátní diskuse (DCC Chat)
-[Send mode:]
-Metoda odesílání:
-[Packet size (bytes):]
-Velikost paketu (byty):
+[Manually set external IP:]
+Ručně nastavit externí IP:
 [Get IP address from server]
 Zjistit IP adresu ze serveru
-[Auto-accept from:]
-Automaticky přijímat od:
-[Send notice]
-Poslat oznámení
 [CTCP Chat Request]
 Žádost CTCP Chat
 [&Accept]
@@ -11810,24 +11780,16 @@ Ignorovat žádosti o privátní diskusi od neznámých
 Ignorování účastníků
 [(*) Queries from users on your contact list are never ignored]
 (*) Žádosti od uživatelů ze seznamu kontaktů ignorovány nejsou
+[Ignore mask (nick!user@host)]
+Maska (přezdívka!uživ_jméno@hostitel)
+[Ignore events]
+Události
 [Queries]
 Soukr. zprávy
 [Messages]
 Zprávy
 [Notices]
 Poznámky
-[Ignore mask (nick!user@host)]
-Maska (přezdívka!uživ_jméno@hostitel)
-[Network (*)]
-Síť (*)
-[Ignore events]
-Události
-[(*) blank to set this mask for all networks]
-(*) ponecháte-li prázdné, platí pro všechny sítě
-[Server:]
-Server:
-[Password:]
-Heslo:
 [CTCP chat request from %s]
 Žádost CTCP Chat od %s
 [%s sets mode %s]
@@ -11916,8 +11878,8 @@ Upozornění na uživatele online vypnuto
 Systém ignorování aktivován
 [Ignore system is disabled]
 Systém ignorování deaktivován
-[%s on %s is now ignored (+%s)]
-%s (na %s), aktivováno ignorování (+%s)
+[%s is now ignored (+%s)]
+%s, aktivováno ignorování (+%s)
 [%s is not ignored now]
 %s, zrušeno ignorování
 [%s was not ignored]
@@ -11966,8 +11928,6 @@ Chyba DCC: Nelze navázat spojení na požadovaném lokálním portu
 Privátní diskuse není aktivní
 [The protocol is not online]
 Protokol není ve stavu online
-[Please choose an IRC-network to go online. This network will be the default.]
-Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nastavena jako výchozí.
 [Main]
 Hlavní
 [Add]
@@ -11982,8 +11942,6 @@ Upravit
 Zrušit
 [Channel list]
 Seznam kanálů
-[Quick connect]
-Připojit rychle
 [Server window]
 Okno serveru
 [Show channel]
@@ -12026,28 +11984,18 @@ pobaltský
 vietnamština
 [Korean (Johab)]
 korejština (Johab)
-[Please complete all fields]
-Vyplňte všechna pole prosím
-[Add a new network]
-Přidá nový server
-[Edit this network]
-Upraví možnosti vybraného serveru
-[Delete this network]
-Odebere vybranýo server
-[Do you want to delete\r\n%s]
-Opravdu chcete smazat %s?
-[Delete server]
-Smazat server
-[Edit server]
-Upravit server
+[Off]
+Vyp
+[Auto]
+Auto
+[On]
+Zap
 [<Resolved IP: ]
 <zjištěná IP:\s
 [<Automatic>]
 <automaticky>
 [<Local IP: ]
 <lokální IP:\s
-[ALL NETWORKS]
-Všechny sítě
 [Click to set commands that will be performed for this event]
 Přidá příkazy k vybrané události
 [Click to delete the commands for this event]
@@ -12068,6 +12016,8 @@ Příznaky
 Přidat mezi ignorované
 [Edit ignore]
 Upravit ignorované
+[Network]
+Sítě
 [Account]
 Účet
 [DCC and CTCP]
@@ -12088,8 +12038,6 @@ Odpověď na žádost CTCP odeslána -> %s
 Odpověď na žádost CTCP odeslána -> %s: %s
 [Notice to %s: ]
 Poznámka -> %s:\s
-[&Quick connect]
-&Připojit rychle
 [&Join channel]
 Při&jít na kanál
 [&Change your nickname]
@@ -12112,8 +12060,6 @@ Přid&at mezi ignorované
 Přijít na kanál
 [Please enter a channel to join]
 Zadejte požadovaný kanál
-[Please select IRC network and enter the password if needed]
-Vyberte síť serverů IRC a pokud je to nutné, zadejte heslo.
 [Please enter a unique nickname]
 Vyberte jinou přezdívku
 [Please enter your new password]
@@ -12166,8 +12112,6 @@ Přidat mezi &ignorované
 Přid&at mezi kontakty
 [Connecting to]
 Připojování k
-[Offline]
-Offline
 [Please wait...]
 Počkejte prosím...
 [Channel]
@@ -15511,7 +15455,7 @@ Zadat stavovou zprávu pro %s
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
@@ -15610,8 +15554,6 @@ Ukládat nastavení autom. odpovědi protokolu pro každý stav zvlášť
 Pamatovat poslední zprávu pro každý kontakt zvlášť
 [Store contact autoreply/ignore settings for each status separately]
 Ukládat nastavení autom. odpovědi či ignorování pro každý kontakt zvlášť
-[Enable contact menu items]
-Povolit položky v menu kontaktu
 [Use protocol specific nick for %nas_mynick%]
 Pro %nas_mynick% použít přezdívku nastavenou pro protokol
 [Update status messages for non-ICQ protocols every]
@@ -16803,7 +16745,7 @@ Záznam
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Default Note Size]
@@ -16818,8 +16760,6 @@ Zobrazit posuvníky
 Zobrazit tlačítka
 [Startup options]
 Možnosti při spuštění
-[Add Contact list menu items]
-Přidat položky menu do seznamu kontaktů
 [Send Reminders through E-mail/SMS:]
 Odeslat přípomínky e-mailem nebo sms:
 [Reset to defaults]
@@ -17582,7 +17522,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -17755,16 +17695,16 @@ Ověřit
 Služby
 [Check for updates]
 Zjistit aktualizace
-[Available components list]
-Komponenty ke stažení...
-[Update completed]
-Aktualizace dokončena
-[Update failed]
-Aktualizace selhala
 [Plugin info]
 Informace
 [Plugin Updater HTTP connections]
 Plugin Updater - spojení pomocí protokolu HTTP
+[Available components list]
+Komponenty ke stažení...
+[Update failed]
+Aktualizace selhala
+[Update completed]
+Aktualizace dokončena
 [An error occurred while checking for new updates.]
 Nastala chyba při zjišťování aktualizací.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -20144,7 +20084,7 @@ Odeslat obrázek?
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Sessions Manager for Miranda NG.]
@@ -20217,20 +20157,6 @@ Správce relací
 Zrušit
 [Save your current session?]
 Uložit vaši aktuální relaci?
-[Sessions]
-Relace
-[Favorite Session]
-Oblíbená relace
-[Not favorite Session]
-Běžná relace
-[Load Session]
-Načíst relaci
-[Load last Session]
-Načíst poslední relaci
-[Current session is empty!]
-Aktuální relace je prázdná!
-[Session name is empty, enter the name and try again]
-Nezadali jste název relace, zadejte jej a zkuste to znovu
 [No sessions to open]
 Neexistuje žádná relace k otevření
 [Last Sessions is empty]
@@ -20245,6 +20171,8 @@ Tato relace je již otevřena (ale nejspíše skryta)\nPřejete si zobrazit skry
 Otevřít správce relací
 [Show Favorite Sessions Menu]
 Zobrazit nabídku oblíbených relací
+[Sessions]
+Relace
 [Restore last Session]
 Obnovit poslední relaci
 [Close Session]
@@ -20257,10 +20185,22 @@ Načíst relaci...
 Zavřít rozhovor
 [Load last session]
 Načíst poslední relaci
+[Favorite Session]
+Oblíbená relace
+[Not favorite Session]
+Běžná relace
+[Load Session]
+Načíst relaci
+[Load last Session]
+Načíst poslední relaci
 [View]
 Zobrazit
 [Message sessions]
 Komunikace
+[Session name is empty, enter the name and try again]
+Nezadali jste název relace, zadejte jej a zkuste to znovu
+[Current session is empty!]
+Aktuální relace je prázdná!
 [Session Before Last Crash]
 Relace před posledním pádem
 #muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
@@ -20327,7 +20267,7 @@ Komunikace
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Provides a simple way to set status and away messages.]
@@ -20414,8 +20354,6 @@ Automaticky zavřít okno se zprávou po
 Zapamatovat poslední pozici dialogu
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 Odstranit ze stavových zpráv znaky CR (CR = '\\r' = #0D)
-[Show 'Status message...' item in status menu]
-Zobrazit v menu stavů 'Zpráva stavu...'
 [Clear History]
 Smazat historii
 [Clear Predefined]
@@ -21211,11 +21149,13 @@ Startovní pozice
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [for]
 po dobu
+[Reset to default]
+Obnovit výchozí
 [Enable sounds]
 Povolit zvuky
 [Events]
@@ -21478,8 +21418,8 @@ Smazat
 Přidat tlačítko do horní lišty
 [Show confirm dialog when loading]
 Po spuštění potvrzovat stav
-[Create a main menu item]
-Přidat položku do hlavní nabídky
+[Create a status menu item]
+Vytvořit položku v hlavní nabídce
 [Status profiles]
 Stavové profily
 [Hotkey]
@@ -21586,8 +21526,6 @@ Vpravo
 velikost: %d x %d
 [loc: %d x %d]
 pozice: %d x %d
-[Create a status menu item]
-Vytvořit položku v hlavní nabídce
 [unknown]
 neznámý
 [At least one profile must exist]
@@ -23574,8 +23512,6 @@ Kompaktní rozvržení, horizontální orientace
 Rozšířené rozvržení s avatary, horizontální orientace
 [Advanced with avatars, vertical orientation]
 Rozšířené rozvržení s avatary, vertikální orientace
-[This version of TabSRMM requires Windows 2000 or later.]
-Tato verze TabSRMM vyžaduje Windows 2000 nebo novější.
 [Previews not available when using History++ plugin for message log display.]
 Náhled není dostupný při použití pluginu History++ pro zobrazení záznamu zpráv.
 [%d unread]
@@ -28509,15 +28445,13 @@ Rychlost větru
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [minutes]
 min.
 [seconds]
 sek.
-[Disable main menu items]
-Vypnout položky v hlavním menu
 [Update data on startup]
 Při spuštění zaktualizovat data
 [Background color:]
@@ -28596,14 +28530,14 @@ Aktivovat automatickou aktualizaci
 Deaktivovat automatickou aktualizaci
 [Contact options]
 Možnosti
-[Network]
-Sítě
-[Popups]
-Oznámení
 [Cannot write to file]
 Nelze zapsat do souboru
 [Online]
 Online
+[Network]
+Sítě
+[Popups]
+Oznámení
 [Popup plugin]
 Dopl. PopUp
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}

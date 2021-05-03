@@ -81,7 +81,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-int WPShowMessage(wchar_t* lpzText, WORD kind)
+int WPShowMessage(const wchar_t* lpzText, WORD kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
 	return 0;
@@ -132,8 +132,8 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
 		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, winfo.status);
-		GetDisplay(&winfo, opt.pTitle, ppd.lpwzContactName);
-		GetDisplay(&winfo, opt.pText, ppd.lpwzText);
+		GetDisplay(&winfo, GetTextValue('P'), ppd.lpwzContactName);
+		GetDisplay(&winfo, GetTextValue('p'), ppd.lpwzText);
 		ppd.PluginWindowProc = PopupDlgProc;
 		ppd.colorBack = (opt.UseWinColors) ? GetSysColor(COLOR_BTNFACE) : opt.BGColour;
 		ppd.colorText = (opt.UseWinColors) ? GetSysColor(COLOR_WINDOWTEXT) : opt.TextColour;
@@ -199,6 +199,18 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 //============  POPUP OPTIONS  ============
 
+struct
+{
+	wchar_t c;
+	int  id;
+	char *setting;
+}
+static controls[] =
+{
+	{ 'p', IDC_PText, "PopupText" },
+	{ 'P', IDC_PTitle, "PopupTitle" },
+};
+
 // used to select the menu item for popup action menu
 static void SelectMenuItem(HMENU hMenu, int Check)
 {
@@ -210,7 +222,6 @@ static void SelectMenuItem(HMENU hMenu, int Check)
 // but does not write to the database
 void ReadPopupOpt(HWND hdlg)
 {
-	wchar_t text[MAX_TEXT_SIZE];
 	wchar_t str[512];
 
 	// popup colour
@@ -229,21 +240,12 @@ void ReadPopupOpt(HWND hdlg)
 	opt.AlertPopup = (BYTE)IsDlgButtonChecked(hdlg, IDC_POP2);
 	opt.PopupOnChange = (BYTE)IsDlgButtonChecked(hdlg, IDC_CH);
 	opt.ShowWarnings = (BYTE)IsDlgButtonChecked(hdlg, IDC_W);
-
-	// popup texts
-	wfree(&opt.pText);
-	wfree(&opt.pTitle);
-	GetDlgItemText(hdlg, IDC_PText, text, _countof(text));
-	wSetData(&opt.pText, text);
-	GetDlgItemText(hdlg, IDC_PTitle, text, _countof(text));
-	wSetData(&opt.pTitle, text);
 }
 
 // copied and modified from NewStatusNotify
 INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int ID;
-	wchar_t str[512];
 	HMENU hMenu, hMenu1;
 	RECT pos;
 	HWND button;
@@ -257,6 +259,8 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		// click actions
 		hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_PMENU));
 		hMenu1 = GetSubMenu(hMenu, 0);
+
+		wchar_t str[512];
 		GetMenuString(hMenu1, opt.LeftClickAction, str, _countof(str), MF_BYCOMMAND);
 		SetDlgItemText(hdlg, IDC_LeftClick, TranslateW(str));
 		GetMenuString(hMenu1, opt.RightClickAction, str, _countof(str), MF_BYCOMMAND);
@@ -269,8 +273,10 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_W, opt.ShowWarnings ? BST_CHECKED : BST_UNCHECKED);
-		SetDlgItemText(hdlg, IDC_PText, opt.pText);
-		SetDlgItemText(hdlg, IDC_PTitle, opt.pTitle);
+
+		for (auto &it : controls)
+			SetDlgItemText(hdlg, it.id, GetTextValue(it.c));
+
 		// setting popup delay option
 		_ltow(opt.pDelay, str, 10);
 		SetDlgItemText(hdlg, IDC_DELAY, str);
@@ -280,10 +286,12 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD1);
 		else
 			CheckRadioButton(hdlg, IDC_PD1, IDC_PD3, IDC_PD3);
-		//Colours. First step is configuring the colours.
+
+		// Colours. First step is configuring the colours.
 		SendDlgItemMessage(hdlg, IDC_BGCOLOUR, CPM_SETCOLOUR, 0, opt.BGColour);
 		SendDlgItemMessage(hdlg, IDC_TEXTCOLOUR, CPM_SETCOLOUR, 0, opt.TextColour);
-		//Second step is disabling them if we want to use default Windows ones.
+
+		// Second step is disabling them if we want to use default Windows ones.
 		CheckDlgButton(hdlg, IDC_USEWINCOLORS, opt.UseWinColors ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOUR), !opt.UseWinColors);
 		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOUR), !opt.UseWinColors);
@@ -384,20 +392,20 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		case IDC_PDEF:
 			// set the default value for popup texts
-			SetTextDefault("Pp");
-			SetDlgItemText(hdlg, IDC_PText, opt.pText);
-			SetDlgItemText(hdlg, IDC_PTitle, opt.pTitle);
-			wfree(&opt.pText);
-			wfree(&opt.pTitle);
+			for (auto &it : controls)
+				SetDlgItemText(hdlg, it.id, GetDefaultText(it.c));
 			break;
 
 		case IDC_VAR3:
 			// display variable list
-			wcsncpy(str, L"                                                            \n", _countof(str) - 1);		// to make the message box wider
-			mir_wstrncat(str, VAR_LIST_POPUP, _countof(str) - mir_wstrlen(str));
-			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
-			mir_wstrncat(str, CUSTOM_VARS, _countof(str) - mir_wstrlen(str));
-			MessageBox(nullptr, str, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
+			{
+				CMStringW wszText;
+				wszText += L"                                                            \n"; // to make the message box wider
+				wszText += TranslateT("%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set");
+				wszText += L"\n";
+				wszText += TranslateT("%[..]\tcustom variables");
+				MessageBox(nullptr, wszText, TranslateT("Variable List"), MB_OK | MB_ICONASTERISK | MB_TOPMOST);
+			}
 			break;
 
 		case IDC_PREVIEW:
@@ -405,7 +413,6 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			hContact = opt.DefStn;
 			ReadPopupOpt(hdlg);	// read new options to memory
 			WeatherPopup((WPARAM)opt.DefStn, (BOOL)TRUE);	// display popup using new opt
-			DestroyOptions();
 			LoadOptions();		// restore old option in memory
 			opt.DefStn = hContact;
 			break;
@@ -416,6 +423,15 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			ReadPopupOpt(hdlg);
+
+			wchar_t textstr[MAX_TEXT_SIZE];
+			for (auto &it : controls) {
+				GetDlgItemText(hdlg, it.id, textstr, _countof(textstr));
+				if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
+					g_plugin.delSetting(it.setting);
+				else
+					g_plugin.setWString(it.setting, textstr);
+			}
 
 			// save the options, and update main menu
 			SaveOptions();

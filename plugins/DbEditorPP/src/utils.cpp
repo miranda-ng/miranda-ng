@@ -21,6 +21,25 @@ extern BYTE nameOrder[NAMEORDERCOUNT];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+int ListView_GetItemTextA(HWND hwndLV, int i, int iSubItem, char *pszText, int cchTextMax)
+{
+	LV_ITEMA lvi;
+	lvi.iSubItem = iSubItem;
+	lvi.cchTextMax = cchTextMax;
+	lvi.pszText = pszText;
+	return SendMessageA(hwndLV, LVM_GETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
+}
+
+int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText)
+{
+	LV_ITEMA lvi;
+	lvi.iSubItem = iSubItem;
+	lvi.pszText = (char*)pszText;
+	return SendMessageA(hwndLV, LVM_SETITEMTEXTA, (WPARAM)(i), (LPARAM)(LV_ITEMA *)&lvi);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 char* StringFromBlob(BYTE *blob, WORD len)
 {
 	int j;
@@ -175,7 +194,7 @@ int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *
 	return 0;
 }
 
-int GetValueW(MCONTACT hContact, const char *module, const char *setting, WCHAR *value, int length)
+int GetValueW(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int length)
 {
 	DBVARIANT dbv = {};
 
@@ -353,7 +372,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	}
 }
 
-INT_PTR CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
+int CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam)
 {
 	ColumnsSortParams params = *(ColumnsSortParams *)myParam;
 	const int maxSize = 1024;

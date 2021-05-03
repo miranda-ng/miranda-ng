@@ -236,8 +236,8 @@ Dial-up (эксперыментальна)
 Стварыць кнопку Панэлі кнопак
 [Show confirm dialog when loading]
 Пацвярджаць пры загрузцы
-[Create a main menu item]
-Пункт у галоўным меню
+[Create a status menu item]
+Стварыць пункт у меню
 [Status profiles]
 Профілі статусаў
 [Hotkey]
@@ -354,8 +354,6 @@ Dial-up (эксперыментальна)
 
 [loc: %d x %d]
 
-[Create a status menu item]
-Стварыць пункт у меню
 [unknown]
 невядома
 [At least one profile must exist]

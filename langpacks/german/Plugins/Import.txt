@@ -113,6 +113,8 @@ Metakontakt hinzugefügt
 Überspringe Nicht-IM-Kontakt (%S)
 [Skipping duplicate %S contact %s]
 Überspringe doppelten %S-Kontakt %s
+[Failed to create contact %s (%s)]
+Konnte Kontakt %s (%s) nicht löschen
 [Failed to add %S contact %s]
 Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s, '%s']

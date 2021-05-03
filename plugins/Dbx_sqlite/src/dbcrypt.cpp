@@ -26,7 +26,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::ReadCryptoKey(MBinBuffer &buf)
 		return FALSE;
 	}
 
-	buf.append((BYTE*)sqlite3_column_blob(stmt, 0), sqlite3_column_bytes(stmt, 0));
+	buf.append(sqlite3_column_blob(stmt, 0), sqlite3_column_bytes(stmt, 0));
 	sqlite3_reset(stmt);
 	return TRUE;
 }

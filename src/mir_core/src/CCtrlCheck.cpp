@@ -52,7 +52,7 @@ void CCtrlCheck::OnReset()
 		SetState(LoadInt());
 }
 
-int CCtrlCheck::GetState()
+int CCtrlCheck::GetState() const
 {
 	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
 }

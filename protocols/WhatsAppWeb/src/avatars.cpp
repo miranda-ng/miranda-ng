@@ -7,6 +7,39 @@ Copyright © 2019-21 George Hazan
 
 #include "stdafx.h"
 
+void WhatsAppProto::OnGetAvatarInfo(const JSONNode &root, void *pUserInfo)
+{
+	if (!root) return;
+
+	MCONTACT hContact = (UINT_PTR)pUserInfo;
+
+	PROTO_AVATAR_INFORMATION ai = {};
+	ai.hContact = hContact;
+	ai.format = PA_FORMAT_JPEG;
+	wcsncpy_s(ai.filename, GetAvatarFileName(hContact), _TRUNCATE);
+
+	DWORD dwLastChangeTime = _wtoi(root["tag"].as_mstring());
+
+	CMStringA szUrl(root["eurl"].as_mstring());
+	if (szUrl.IsEmpty()) {
+		setDword(hContact, DBKEY_AVATAR_TAG, 0); // avatar doesn't exist, don't check it later
+
+LBL_Error:
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai));
+		return;
+	}
+
+	// if avatar was changed or not present at all, download it
+	if (dwLastChangeTime > getDword(hContact, DBKEY_AVATAR_TAG)) {
+		if (!g_plugin.SaveFile(szUrl, ai))
+			goto LBL_Error;
+
+		// set timestamp of avatar being saved
+		setDword(hContact, DBKEY_AVATAR_TAG, dwLastChangeTime);
+	}
+	ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai));
+}
+
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
@@ -19,16 +52,18 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	wcsncpy_s(pai->filename, tszFileName.c_str(), _TRUNCATE);
 	pai->format = PA_FORMAT_JPEG;
 
-	ptrA szAvatarId(getStringA(pai->hContact, DBKEY_AVATAR_ID));
-	if (szAvatarId == NULL || (wParam & GAIF_FORCE) != 0)
+	DWORD dwTag = getDword(pai->hContact, DBKEY_AVATAR_TAG, -1);
+	if (dwTag == -1 || (wParam & GAIF_FORCE) != 0)
 		if (pai->hContact != NULL && isOnline()) {
-			// m_pConnection->sendGetPicture(id, "image");
+			WSSend(CMStringA(FORMAT, "[\"query\",\"ProfilePicThumb\",\"%s\"]", id.get()), &WhatsAppProto::OnGetAvatarInfo, (void*)pai->hContact);
 			return GAIR_WAITFOR;
 		}
 
 	debugLogA("No avatar");
 	return GAIR_NOAVATAR;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR WhatsAppProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
@@ -75,7 +110,49 @@ INT_PTR WhatsAppProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM lParam)
+INT_PTR WhatsAppProto::SetMyAvatar(WPARAM, LPARAM)
 {
 	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool CMPlugin::SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai)
+{
+	NETLIBHTTPREQUEST req = {};
+	req.cbSize = sizeof(req);
+	req.flags = NLHRF_NODUMP | NLHRF_PERSISTENT | NLHRF_SSL | NLHRF_HTTP11 | NLHRF_REDIRECT;
+	req.requestType = REQUEST_GET;
+	req.szUrl = (char*)pszUrl;
+	req.nlc = hAvatarConn;
+
+	NETLIBHTTPREQUEST *pReply = Netlib_HttpTransaction(hAvatarUser, &req);
+	if (pReply == nullptr) {
+		hAvatarConn = nullptr;
+		debugLogA("Failed to retrieve avatar from url: %s", pszUrl);
+		return false;
+	}
+
+	hAvatarConn = pReply->nlc;
+
+	bool bSuccess = false;
+	if (pReply->resultCode == 200 && pReply->pData && pReply->dataLength) {
+		if (auto *pszHdr = Netlib_GetHeader(pReply, "Content-Type"))
+			ai.format = ProtoGetAvatarFormatByMimeType(pszHdr);
+
+		if (ai.format != PA_FORMAT_UNKNOWN) {
+			FILE *fout = _wfopen(ai.filename, L"wb");
+			if (fout) {
+				fwrite(pReply->pData, 1, pReply->dataLength, fout);
+				fclose(fout);
+				bSuccess = true;
+			}
+			else debugLogA("Error saving avatar to file %S", ai.filename);
+		}
+		else debugLogA("unknown avatar mime type");
+	}
+	else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, pszUrl);
+
+	Netlib_FreeHttpRequest(pReply);
+	return bSuccess;
 }

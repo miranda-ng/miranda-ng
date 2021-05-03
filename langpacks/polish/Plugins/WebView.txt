@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -20,8 +20,6 @@ Opóźniaj przy starcie
 s
 [Hide icon on status bar]
 Ukryj ikonę w pasku stanu
-[Disable main menu items]
-Wyłącz elementy menu głównego
 [Load page on window open]
 Ładuj stronę po otwarciu okna
 [Update data on startup]
@@ -210,10 +208,6 @@ Zakończ przetwarzanie danych
 ;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Wszystkie strony w Webview zostały zaktualizowane.
-[Network]
-Protokoły
-[Popups]
-Powiadomienia
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Nie można zapisać w pliku
@@ -306,6 +300,24 @@ bajtów pobranych
 [Alert test conditions not met; press the refresh button to view content.]
 Nie spełniono warunków testowych powiadomienia; naciśnij przycisk odśwież, by przejrzeć zawartość.
 ;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+To jest podgląd powiadomienia.
+[Network]
+Protokoły
+[Popups]
+Powiadomienia
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+Nieprawidłowy symbol znajduje się w nazwie kontaktu.
+[Cache folder does not exist.]
+Folder Cache nie istnieje.
+[Missing "psite.bat" file.]
+Brak pliku "psite.bat".
+[Site URL]
+Adres strony
+[Please select site in Find/Add contacts...]
+Proszę wybrać stronę w Szukaj/dodaj kontakty...
+;file \protocols\WebView\src\webview_ui.cpp
 [No whitespace removal]
 Brak usuwania białych spacji
 [Minimal level of whitespace removal]
@@ -326,8 +338,6 @@ Ciąg jest dostępny
 Strona zmienia się
 [A specific part of web page changes]
 Określona część strony zmienia się
-[This is a preview popup.]
-To jest podgląd powiadomienia.
 [You need to supply a search string.]
 Musisz podać ciąg wyszukiwania.
 [You need to supply a start string.]
@@ -340,14 +350,3 @@ Musisz podać nazwę oraz ścieżkę pliku.
 Musisz podać adres.
 [You need to supply a name for the contact.]
 Musisz podać nazwę kontaktu.
-[Invalid symbol present in contact name.]
-Nieprawidłowy symbol znajduje się w nazwie kontaktu.
-;file \protocols\WebView\src\webview_services.cpp
-[Cache folder does not exist.]
-Folder Cache nie istnieje.
-[Missing "psite.bat" file.]
-Brak pliku "psite.bat".
-[Site URL]
-Adres strony
-[Please select site in Find/Add contacts...]
-Proszę wybrać stronę w Szukaj/dodaj kontakty...

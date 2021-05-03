@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
@@ -102,8 +102,6 @@ Zachowuj ustawienia autoodpowiedzi protokołów osobno dla każdego statusu
 Pamiętaj ostatnią wiadomość użytą dla kontaktu
 [Store contact autoreply/ignore settings for each status separately]
 Zachowuj ustawienia ignorowania kontaktów przy wysyłce autoodpowiedzi osobno dla każdego statusu.
-[Enable contact menu items]
-Włącz elementy menu kontaktu
 [Use protocol specific nick for %nas_mynick%]
 Używaj nicka specyficznego dla protokołu w zmiennej %nas_mynick%
 [Update status messages for non-ICQ protocols every]

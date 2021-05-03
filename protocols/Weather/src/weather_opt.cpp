@@ -28,70 +28,54 @@ static BOOL opt_startup;
 int RedrawFrame(WPARAM wParam, LPARAM lParam);
 
 //============  LOADING AND SAVING OPTIONS  ===========
-//
-// set a string to default
-// in = string to determine which field to set default "CBNEHXPp"
-void SetTextDefault(const char* in)
-{
-	wchar_t str[MAX_TEXT_SIZE];
 
-	if (strchr(in, 'C') != nullptr) {
-		wcsncpy(str, C_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.cText, str);
+const wchar_t* GetDefaultText(int c)
+{
+	switch (c) {
+	case 'C':
+		return L"%n  [%t, %c]";
+	case 'b':
+		return TranslateT("Weather Condition for %n as of %u");
+	case 'B':
+		return TranslateT("Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]");
+	case 'X': case 'N':
+		return TranslateT("%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]");
+	case 'E':
+		return TranslateT("%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m");
+	case 'H':
+		return TranslateT("%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m");
+	case 'S':
+		return TranslateT("Temperature: %[Temperature]");
+	case 'P':
+		return TranslateT("%n   (%u)");
+	case 'p':
+		return TranslateT("%c, %t\\nToday:  High %h, Low %l");
 	}
-	if (strchr(in, 'b') != nullptr) {
-		wcsncpy(str, b_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.bTitle, str);
-	}
-	if (strchr(in, 'B') != nullptr) {
-		wcsncpy(str, B_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.bText, str);
-	}
-	if (strchr(in, 'N') != nullptr) {
-		wcsncpy(str, N_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.nText, str);
-	}
-	if (strchr(in, 'E') != nullptr) {
-		wcsncpy(str, E_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.eText, str);
-	}
-	if (strchr(in, 'H') != nullptr) {
-		wcsncpy(str, H_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.hText, str);
-	}
-	if (strchr(in, 'X') != nullptr) {
-		wcsncpy(str, X_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.xText, str);
-	}
-	if (strchr(in, 'P') != nullptr) {
-		wcsncpy(str, P_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.pTitle, str);
-	}
-	if (strchr(in, 'p') != nullptr) {
-		wcsncpy(str, p_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.pText, str);
-	}
-	if (strchr(in, 'S') != nullptr) {
-		wcsncpy(str, s_DEFAULT, MAX_TEXT_SIZE - 1);
-		wSetData(&opt.sText, str);
-	}
+	return L"";
 }
 
-void DestroyOptions(void)
+CMStringW GetTextValue(int c)
 {
-	wfree(&opt.cText);
-	wfree(&opt.bTitle);
-	wfree(&opt.bText);
-	wfree(&opt.nText);
-	wfree(&opt.eText);
-	wfree(&opt.hText);
-	wfree(&opt.xText);
-	wfree(&opt.pTitle);
-	wfree(&opt.pText);
-	wfree(&opt.sText);
+	CMStringW ret;
+
+	switch (c) {
+	case 'C': ret = g_plugin.getMStringW("DisplayText"); break;
+	case 'b': ret = g_plugin.getMStringW("BriefTextTitle"); break;
+	case 'B': ret = g_plugin.getMStringW("BriefText"); break;
+	case 'N': ret = g_plugin.getMStringW("NoteText"); break;
+	case 'E': ret = g_plugin.getMStringW("ExtText"); break;
+	case 'H': ret = g_plugin.getMStringW("HistoryText"); break;
+	case 'X': ret = g_plugin.getMStringW("ExtraText"); break;
+	case 'S': ret = g_plugin.getMStringW("StatusText"); break;
+	case 'P': ret = g_plugin.getMStringW("PopupTitle"); break;
+	case 'p': ret = g_plugin.getMStringW("PopupText"); break;
+	}
+
+	return (ret.IsEmpty()) ? GetDefaultText(c) : ret;
 }
 
 // load options from database + set default if the setting does not exist
+
 void LoadOptions(void)
 {
 	memset(&opt, 0, sizeof(opt));
@@ -120,74 +104,27 @@ void LoadOptions(void)
 	opt.DoNotAppendUnit = g_plugin.getByte("DoNotAppendUnit", 0);
 	opt.NoFrac = g_plugin.getByte("NoFractions", 0);
 
-	// texts
-	if (szValue = g_plugin.getWStringA("DisplayText"))
-		wSetData(&opt.cText, TranslateW(szValue));
-	else
-		SetTextDefault("C");
-
-	if (szValue = g_plugin.getWStringA("BriefTextTitle"))
-		wSetData(&opt.bTitle, TranslateW(szValue));
-	else
-		SetTextDefault("b");
-
-	if (szValue = g_plugin.getWStringA("BriefText"))
-		wSetData(&opt.bText, TranslateW(szValue));
-	else
-		SetTextDefault("B");
-
-	if (szValue = g_plugin.getWStringA("NoteText"))
-		wSetData(&opt.nText, TranslateW(szValue));
-	else
-		SetTextDefault("N");
-
-	if (szValue = g_plugin.getWStringA("ExtText"))
-		wSetData(&opt.eText, TranslateW(szValue));
-	else
-		SetTextDefault("E");
-
-	if (szValue = g_plugin.getWStringA("HistoryText"))
-		wSetData(&opt.hText, TranslateW(szValue));
-	else
-		SetTextDefault("H");
-
-	if (szValue = g_plugin.getWStringA("ExtraText"))
-		wSetData(&opt.xText, TranslateW(szValue));
-	else
-		SetTextDefault("X");
-
-	if (szValue = g_plugin.getWStringA("StatusText"))
-		wSetData(&opt.sText, TranslateW(szValue));
-	else
-		SetTextDefault("S");
-
 	// advanced
 	opt.DisCondIcon = g_plugin.getByte("DisableConditionIcon", false);
+
 	// popup options
 	opt.UsePopup = g_plugin.getByte("UsePopUp", true);
 	opt.UpdatePopup = g_plugin.getByte("UpdatePopup", true);
 	opt.AlertPopup = g_plugin.getByte("AlertPopup", true);
 	opt.PopupOnChange = g_plugin.getByte("PopUpOnChange", true);
 	opt.ShowWarnings = g_plugin.getByte("ShowWarnings", true);
+
 	// popup colors
 	opt.BGColour = g_plugin.getDword("BackgroundColour", GetSysColor(COLOR_BTNFACE));
 	opt.TextColour = g_plugin.getDword("TextColour", GetSysColor(COLOR_WINDOWTEXT));
 	opt.UseWinColors = g_plugin.getByte("UseWinColors", false);
+
 	// popup actions
 	opt.LeftClickAction = g_plugin.getDword("LeftClickAction", IDM_M2);
 	opt.RightClickAction = g_plugin.getDword("RightClickAction", IDM_M1);
+
 	// popup delay
 	opt.pDelay = g_plugin.getDword("PopupDelay", 0);
-	// popup texts
-	if (szValue = g_plugin.getWStringA("PopupTitle"))
-		wSetData(&opt.pTitle, szValue);
-	else
-		SetTextDefault("P");
-
-	if (szValue = g_plugin.getWStringA("PopupText"))
-		wSetData(&opt.pText, szValue);
-	else
-		SetTextDefault("p");
 
 	// misc
 	if (szValue = g_plugin.getWStringA("Default"))
@@ -208,6 +145,7 @@ void SaveOptions(void)
 	g_plugin.setByte("RemoveOld", (BYTE)opt.RemoveOldData);
 	g_plugin.setByte("MakeItalic", (BYTE)opt.MakeItalic);
 	g_plugin.setByte("AvatarSize", (BYTE)opt.AvatarSize);
+	
 	// units
 	g_plugin.setWord("tUnit", opt.tUnit);
 	g_plugin.setWord("wUnit", opt.wUnit);
@@ -218,41 +156,36 @@ void SaveOptions(void)
 	g_plugin.setWString("DegreeSign", opt.DegreeSign);
 	g_plugin.setByte("DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
 	g_plugin.setByte("NoFractions", (BYTE)opt.NoFrac);
-	// texts
-	g_plugin.setWString("DisplayText", opt.cText);
-	g_plugin.setWString("BriefTextTitle", opt.bTitle);
-	g_plugin.setWString("BriefText", opt.bText);
-	g_plugin.setWString("NoteText", opt.nText);
-	g_plugin.setWString("ExtText", opt.eText);
-	g_plugin.setWString("HistoryText", opt.hText);
-	g_plugin.setWString("ExtraText", opt.xText);
-	g_plugin.setWString("StatusText", opt.sText);
+	
 	// advanced
 	g_plugin.setByte("DisableConditionIcon", (BYTE)opt.DisCondIcon);
+	
 	// popup options
 	g_plugin.setByte("UsePopUp", (BYTE)opt.UsePopup);
 	g_plugin.setByte("UpdatePopup", (BYTE)opt.UpdatePopup);
 	g_plugin.setByte("AlertPopup", (BYTE)opt.AlertPopup);
 	g_plugin.setByte("PopUpOnChange", (BYTE)opt.PopupOnChange);
 	g_plugin.setByte("ShowWarnings", (BYTE)opt.ShowWarnings);
+	
 	// popup colors
 	g_plugin.setDword("BackgroundColour", opt.BGColour);
 	g_plugin.setDword("TextColour", opt.TextColour);
 	g_plugin.setByte("UseWinColors", (BYTE)opt.UseWinColors);
+	
 	// popup actions
 	g_plugin.setDword("LeftClickAction", opt.LeftClickAction);
 	g_plugin.setDword("RightClickAction", opt.RightClickAction);
+	
 	// popup delay
 	g_plugin.setDword("PopupDelay", opt.pDelay);
-	// popup texts
-	g_plugin.setWString("PopupTitle", opt.pTitle);
-	g_plugin.setWString("PopupText", opt.pText);
+	
 	// misc stuff
 	g_plugin.setWString("Default", opt.Default);
 }
-//============  MAIN OPTIONS  ============
 
+//============  MAIN OPTIONS  ============
 // weather options
+
 static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	wchar_t str[512];
@@ -387,44 +320,31 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 //============  TEXT OPTION DIALOG  ============
 
-static void LoadTextSettings(HWND hdlg)
-{
-	// load text option settings from memory
-	SetDlgItemText(hdlg, IDC_CTEXT, opt.cText);
-	SetDlgItemText(hdlg, IDC_BTITLE, opt.bTitle);
-	SetDlgItemText(hdlg, IDC_BTEXT, opt.bText);
-	SetDlgItemText(hdlg, IDC_ETEXT, opt.eText);
-	SetDlgItemText(hdlg, IDC_NTEXT, opt.nText);
-	SetDlgItemText(hdlg, IDC_HTEXT, opt.hText);
-	SetDlgItemText(hdlg, IDC_XTEXT, opt.xText);
-	SetDlgItemText(hdlg, IDC_BTITLE2, opt.sText);
-}
-
-// free the display text settings from memory
-static void FreeTextVar(void)
-{
-	wfree(&opt.cText);
-	wfree(&opt.bText);
-	wfree(&opt.bTitle);
-	wfree(&opt.eText);
-	wfree(&opt.nText);
-	wfree(&opt.hText);
-	wfree(&opt.xText);
-	wfree(&opt.sText);
-}
-
 // text option dialog
 
-static const char *varname[8] = { "C", "b", "B", "N", "X", "E", "H", "S" };
-static const int cname[8] = { IDC_CTEXT, IDC_BTITLE, IDC_BTEXT, IDC_NTEXT, IDC_XTEXT, IDC_ETEXT, IDC_HTEXT, IDC_BTITLE2 };
-static wchar_t* const *var[8] = { &opt.cText, &opt.bTitle, &opt.bText, &opt.nText, &opt.xText, &opt.eText, &opt.hText, &opt.sText };
+struct
+{
+	wchar_t c;
+	int  id;
+	char *setting;
+}
+static controls[] = 
+{
+	{ 'C', IDC_CTEXT,   "DisplayText"    },
+	{ 'b', IDC_BTITLE,  "BriefTextTitle" },
+	{ 'B', IDC_BTEXT,   "BriefText"      },
+	{ 'N', IDC_NTEXT,   "NoteText"       },
+	{ 'X', IDC_XTEXT,   "ExtText"        },
+	{ 'E', IDC_ETEXT,   "HistoryText"    },
+	{ 'H', IDC_HTEXT,   "ExtraText"      },
+	{ 'S', IDC_BTITLE2, "StatusText"     },
+};
 
 static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	RECT rc, pos;
 	HWND button;
 	HMENU hMenu, hMenu1;
-	wchar_t str[4096];
 	switch (msg) {
 	case WM_INITDIALOG:
 		opt_startup = TRUE;
@@ -432,9 +352,12 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		GetWindowRect(hdlg, &rc);
 		SetWindowPos(hdlg, HWND_TOPMOST, rc.left, rc.top, 0, 0, SWP_NOSIZE);
 		TranslateDialogDefault(hdlg);
+
 		// generate the display text for variable list
-		wcsncpy(str, VAR_LIST_OPT, _countof(str) - 1);
-		SetDlgItemText(hdlg, IDC_VARLIST, str);
+		SetDlgItemText(hdlg, IDC_VARLIST, VAR_LIST_OPT);
+
+		for (auto &it : controls)
+			SetDlgItemText(hdlg, it.id, GetTextValue(it.c));
 
 		// make the more variable and other buttons flat
 		SendDlgItemMessage(hdlg, IDC_MORE, BUTTONSETASFLATBTN, TRUE, 0);
@@ -447,8 +370,8 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		SendDlgItemMessage(hdlg, IDC_TM7, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(hdlg, IDC_TM8, BUTTONSETASFLATBTN, TRUE, 0);
 		SendDlgItemMessage(hdlg, IDC_RESET, BUTTONSETASFLATBTN, TRUE, 0);
+
 		// load the settings
-		LoadTextSettings(hdlg);
 		opt_startup = FALSE;
 		return TRUE;
 
@@ -486,25 +409,26 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_TMMENU));
 			hMenu1 = GetSubMenu(hMenu, 0);
 			TranslateMenu(hMenu1);
-			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
-			case ID_MPREVIEW:
-				{
-					// show the preview in a message box, using the weather data from the default station
-					WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
-					GetDisplay(&winfo, *var[LOWORD(wParam) - IDC_TM1], str);
-					MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
+			{
+				auto &var = controls[int(LOWORD(wParam)) - IDC_TM1];
+
+				switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
+				case ID_MPREVIEW:
+					{
+						// show the preview in a message box, using the weather data from the default station
+						WEATHERINFO winfo = LoadWeatherInfo(opt.DefStn);
+						wchar_t buf[2] = { var.c, 0 }, str[4096];
+						GetDisplay(&winfo, buf, str);
+						MessageBox(nullptr, str, TranslateT("Weather Protocol Text Preview"), MB_OK | MB_TOPMOST);
+					}
+					break;
+
+				case ID_MRESET:
+					SetDlgItemText(hdlg, var.id, GetDefaultText(var.c));
 					break;
 				}
-			case ID_MRESET:
-				unsigned varo = LOWORD(wParam) - IDC_TM1;
-				// remove the old setting from db and free memory
-				wchar_t* vartmp = *var[varo];
-				wfree(&vartmp);
-				SetTextDefault(varname[varo]);
-				SetDlgItemText(hdlg, cname[varo], *var[varo]);
-				break;
+				DestroyMenu(hMenu);
 			}
-			DestroyMenu(hMenu);
 			break;
 
 		case IDC_RESET:
@@ -517,14 +441,14 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 			switch (TrackPopupMenu(hMenu1, TPM_LEFTBUTTON | TPM_RETURNCMD, pos.left, pos.bottom, 0, hdlg, nullptr)) {
 			case ID_T1:
 				// reset to the strings in memory, discard all changes
-				LoadTextSettings(hdlg);
+				for (auto &it : controls)
+					SetDlgItemText(hdlg, it.id, GetTextValue(it.c));
 				break;
 
 			case ID_T2:
 				// reset to the default setting
-				FreeTextVar();
-				SetTextDefault("CbBENHX");
-				LoadTextSettings(hdlg);
+				for (auto &it : controls)
+					SetDlgItemText(hdlg, it.id, GetDefaultText(it.c));
 				break;
 			}
 			DestroyMenu(hMenu);
@@ -536,25 +460,14 @@ static INT_PTR CALLBACK DlgProcText(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 		case PSN_APPLY:
 			// save the option
 			wchar_t textstr[MAX_TEXT_SIZE];
-			// free memory for old settings
-			FreeTextVar();
-			// save new settings to memory
-			GetDlgItemText(hdlg, IDC_CTEXT, textstr, _countof(textstr));
-			wSetData(&opt.cText, textstr);
-			GetDlgItemText(hdlg, IDC_BTEXT, textstr, _countof(textstr));
-			wSetData(&opt.bText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE, textstr, _countof(textstr));
-			wSetData(&opt.bTitle, textstr);
-			GetDlgItemText(hdlg, IDC_ETEXT, textstr, _countof(textstr));
-			wSetData(&opt.eText, textstr);
-			GetDlgItemText(hdlg, IDC_NTEXT, textstr, _countof(textstr));
-			wSetData(&opt.nText, textstr);
-			GetDlgItemText(hdlg, IDC_HTEXT, textstr, _countof(textstr));
-			wSetData(&opt.hText, textstr);
-			GetDlgItemText(hdlg, IDC_XTEXT, textstr, _countof(textstr));
-			wSetData(&opt.xText, textstr);
-			GetDlgItemText(hdlg, IDC_BTITLE2, textstr, _countof(textstr));
-			wSetData(&opt.sText, textstr);
+			for (auto &it : controls) {
+				GetDlgItemText(hdlg, it.id, textstr, _countof(textstr));
+				if (!mir_wstrcmpi(textstr, GetDefaultText(it.c)))
+					g_plugin.delSetting(it.setting);
+				else
+					g_plugin.setWString(it.setting, textstr);
+			}
+
 			SaveOptions();
 			UpdateAllInfo(0, 0);
 			break;

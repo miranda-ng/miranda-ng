@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -52,8 +52,6 @@ Miranda NG е заключена.\nВъведете паролата за отк
 Miranda бъде включена
 [Others]
 Други
-[Create a main menu item]
-Елемент в главното меню
 [Restore hiding on startup after failure]
 
 ;file \plugins\BossKeyPlus\src\BossKey.cpp

@@ -43,7 +43,7 @@ HANDLE hUpdateMutex;
 unsigned status;
 unsigned old_status;
 
-UINT_PTR timerId;
+UINT_PTR timerId = 0;
 
 CMPlugin	g_plugin;
 
@@ -53,7 +53,7 @@ MYOPTIONS opt;
 BOOL ThreadRunning;
 
 // variable to determine if module loaded
-BOOL ModuleLoaded;
+BOOL ModuleLoaded = FALSE;
 
 HANDLE hTBButton = nullptr;
 
@@ -139,24 +139,8 @@ int WeatherInit(WPARAM, LPARAM)
 
 //============  MISC FUNCTIONS  ============
 
-// initialize the global variables at startup
-void InitVar()
-{
-	// setup the linklist for weather update list
-	UpdateListTail = nullptr;
-	UpdateListHead = nullptr;
-
-	// other settings
-	timerId = 0;
-	opt.DefStn = NULL;
-	ModuleLoaded = FALSE;
-}
-
 int CMPlugin::Load()
 {
-	// initialize global variables
-	InitVar();
-
 	// load options and set defaults
 	LoadOptions();
 
@@ -220,7 +204,6 @@ int CMPlugin::Unload()
 	Netlib_CloseHandle(hNetlibUser);
 
 	DestroyUpdateList();
-	DestroyOptions();
 	DestroyWIList();				// unload all ini data from memory
 
 	WindowList_Destroy(hDataWindowList);

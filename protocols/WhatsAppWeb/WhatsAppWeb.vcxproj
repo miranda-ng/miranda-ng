@@ -33,6 +33,14 @@
     <ProjectGuid>{13E796AD-BEA4-4213-A1B8-E18E2397E544}</ProjectGuid>
     <ProjectName>WhatsAppWeb</ProjectName>
   </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Platform)'=='x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x64-windows-static-md</VcpkgTriplet>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Platform)'=='Win32'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+    <VcpkgTriplet>x86-windows-static-md</VcpkgTriplet>
+  </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
@@ -43,18 +51,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\avatars.cpp" />
+    <ClCompile Include="src\chats.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\pmsg.pb.cc">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\qrcode.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>

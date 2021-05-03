@@ -4,6 +4,7 @@
 [Check duplicates]
 [Choose file type:]
 [Enter file name for import:]
+[Failed to create contact %s (%s)]
 [You cannot import your current profile into itself]
 [Importing whole directory]
 [Invalid file header]

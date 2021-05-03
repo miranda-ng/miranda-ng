@@ -11,6 +11,7 @@
 #include <m_crypto.h>
 #include <m_database.h>
 #include <m_gui.h>
+#include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_protocols.h>
 #include <m_metacontacts.h>

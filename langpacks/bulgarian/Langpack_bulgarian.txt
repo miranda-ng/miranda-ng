@@ -3,12 +3,12 @@ Language: Български
 Locale: 0402
 Authors: NEOhidra, Castel
 Author-email: neohidra@gmail.com
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Become idle if the following is left unattended:]
 Бездействащ при липса на активност в:
@@ -1144,9 +1144,9 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Стандартен
 [Total]
 Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 [Set password]
 Задаване на парола
@@ -1974,6 +1974,10 @@ Popups са изключени
 Свързване
 [Connecting (attempt %d)]
 Свързване (опит %d)
+[&Accounts...]
+Акаунти...
+[&Options...]
+Настройки...
 [Common]
 Общи
 [(Unknown contact)]
@@ -2216,8 +2220,6 @@ Win +\s
 Трей меню
 [&Hide/show]
 Показване/Скриване
-[&Options...]
-Настройки...
 [&About]
 Относно
 [Menu icons]
@@ -2312,8 +2314,8 @@ Win +\s
 Мрежа
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
-['%s' is disabled, re-enable?]
-"%s" е изключена, желаете да бъде включена?
+['%S' is disabled, re-enable?]
+"%S" е изключена, желаете да бъде включена?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
 [Fatal error]
@@ -2436,8 +2438,6 @@ ID на акаунта
 Грешка в акаунт
 [Account name has to be unique. Please enter unique name.]
 Името на акаунта трябва да бъде уникално.
-[&Accounts...]
-Акаунти...
 [Could not start a search on '%s', there was a problem - is %s connected?]
 Търсенето в "%s" не може да бъде започнато. Свързан ли сте към %s?
 [Could not search on any of the protocols, are you online?]
@@ -3879,19 +3879,17 @@ Miranda NG не може да отвори "%S".\n\nURL адресът е нев
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
 Ако даден контакт не Ви е упълномощил, да го добавите в списъка си с контакти ,приставката ще добави специфична икона, пред името му.
-[Show Grant icon]
-Показване на икона "Разрешено"
 [Plugin settings]
 Настройване на приставката
-[Enable menu item]
-Елемент в менюто
 [Show icons only for recently added contacts]
 Показване на икони само за скоро добавените контакти
+[Show Grant icon]
+Показване на икона "Разрешено"
 [Grant]
 Разрешаване
 [Disable AuthState icons]
@@ -4777,7 +4775,7 @@ BASS интерфейс
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Anti-Boss plugin. Makes your Miranda NG hidden or password-protected.]
@@ -4826,8 +4824,6 @@ Miranda NG е заключена.\nВъведете паролата за отк
 Miranda бъде включена
 [Others]
 Други
-[Create a main menu item]
-Елемент в главното меню
 [Password is not correct!\nPlease, enter correct password.]
 Грешна парола!\nВъведете правилната парола.
 [Hide Miranda NG]
@@ -7461,7 +7457,7 @@ XML файлове (*.xml)
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7770,26 +7766,16 @@ INI файлове
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Осигурява поддръжка на бази от данни за Miranda: общи настройки, контакти, история, настройки за отделните контакти.
-[Database encryption mode]
-Режим за криптиране на базата от данни
-[Standard]
-Стандартен
-[Total]
-Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани. Бързо и ефективно криптиране - удачен избор за повечето поребители
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Automatic backups]
@@ -7830,6 +7816,10 @@ INI файлове
 Създадено е резервно копие на базата данни
 [Database back up in process...]
 Създава се резервно копие...
+[Backup profile]
+Създаване резервно копие на профила
+[Save profile as...]
+Запис на профила като...
 [Miranda NG databases]
 База данни на Miranda NG
 [Compressed Miranda NG databases]
@@ -7838,10 +7828,6 @@ INI файлове
 Всички файлове
 [Database]
 База данни
-[Backup profile]
-Създаване резервно копие на профила
-[Save profile as...]
-Запис на профила като...
 [Popups]
 Рopups
 [days]
@@ -7874,7 +7860,7 @@ INI файлове
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [User details]
@@ -10683,7 +10669,7 @@ History Sweeper Light
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 [HTTP Web Server plugin for Miranda.]
@@ -10702,18 +10688,12 @@ IP адрес 2
 Разрешени IP адреси
 [HTTP Server statistics view]
 Преглед на статистиката за HTTP сървъра
-[Show HTTP server statistics]
-Статистика на HTTP сървъра
 [Set to default]
 Задаване
 [External server name]
 Външно име на сървъра
 [This is the link pasted to the message window]
 Следната връзка ще бъде поставяна с прозореца за съобщения
-[Enable HTTP server]
-Включване на HTTP сървъра
-[Main menu items]
-Елементи в главното меню
 [Open log]
 Дневник
 [Show popups]
@@ -10780,16 +10760,18 @@ IP адрес:\s
 Преглеждате от
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
 Вашето външно IP е %d.%d.%d.%d\r\nзасечено от: %s
-[You need to restart Miranda to change the main menu]
-За променянето на главното меню е необходимо рестартиране на Miranda
 [HTTP Server]
 HTTP сървър
 [Network]
 Мрежа
 [HTTP Share new file]
 HTTP споделяне на нов файл
+[Show HTTP server statistics]
+Статистика на HTTP сървъра
 [Disable HTTP server]
 Изключване на HTTP сървъра
+[Enable HTTP server]
+Включване на HTTP сървъра
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
 ;============================================================
 ;  File: HwHotKeys.dll
@@ -11185,29 +11167,19 @@ Miranda внос
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 Осигурява комуникация чрез протокола Internet Relay Chat (IRC) в Miranda NG.
-[Default network]
-Стандартна мрежа
-[Enable]
-Включване
-[Server name]
-Име на сървъра
-[Internet address]
-Интернет адрес
+[Server]
+Сървър
+[Host address]
+Адрес на хоста
 [Port range]
 Портов обхват
 [Password]
 Парола
-[&Add]
-Добавяне
-[&Edit]
-Редактиране
-[&Del]
-Изтриване
 [User info - Required]
 Необходима информация
 [Nick]
@@ -11216,6 +11188,8 @@ Miranda внос
 Заместващ прякор
 [Full name (e-mail)]
 Име (имейл)
+[Enable]
+Включване
 [System]
 Система
 [Port]
@@ -11270,8 +11244,6 @@ Miranda внос
 Канали
 [Auth]
 Упълномощаване
-[Server]
-Сървър
 [User]
 Потребител
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
@@ -11286,6 +11258,8 @@ CTCP информация
 Изпълнение на
 [&Set]
 Задаване
+[&Del]
+Изтриване
 [Perform on event:]
 Изпълнение при събитие:
 [Scripting support]
@@ -11296,28 +11270,12 @@ CTCP информация
 Кодова таблица за сървъра:
 [Enable UTF-8 autodetection]
 Автоматично засичане на UTF-8
-[Add server]
-Добавяне на сървър
-[Auto]
-Авто
-[On]
-Включено
-[Off]
-Изкл.
-[Host address]
-Адрес на хоста
-[Server description]
-Описание на сървъра
-[Network]
-Мрежа
 [Channels on server]
 Канали на сървъра
 [&Join]
 Влизане
 [Filter by]
 Филтриране по
-[C&onnect]
-Свързване
 [&Save]
 Запис
 [&Clear all]
@@ -11332,6 +11290,10 @@ CTCP информация
 Покани
 [Excepts]
 Изключения
+[&Add]
+Добавяне
+[&Edit]
+Редактиране
 [Only Ops set topic]
 Смяна на темата само от оператор
 [No external messages]
@@ -11358,10 +11320,22 @@ CTCP информация
 Ползвайте настройките, за да зададете режими за канала. Изисква да сте поне оператор (обикновено).
 [Strip colors]
 Премахване на цветовете
+[Client-to-Client File Transfers]
+Обмен на файлове клиент-с-клиент
+[Send mode:]
+Режим на изпращане:
 [Normal]
 Нормално
+[Packet size (bytes):]
+Размер на пакета (байта):
+[Send notice]
+Изпращане на известие
 [Attempt reverse DCC (good if firewalled)]
 Опитай обратна директна възка клиен-склиент (DCC), полезно ако ползвате защитна стена
+[Client-to-Client Chats]
+Чатове клиент-с-клиент
+[Auto-accept from:]
+Автоприемане от:
 [none]
 няма
 [everyone on the contact list]
@@ -11370,24 +11344,12 @@ CTCP информация
 всеки
 [Disconnect DCC chats when disconnecting from server]
 Прекрати DCC чатовете при изключване от сървъра
-[Manually set external IP:]
-Ръчно задаване на външно IP:
-[Client-to-Client File Transfers]
-Обмен на файлове клиент-с-клиент
 [Client-to-Client Protocol]
 Протокол клиент-с-клиент
-[Client-to-Client Chats]
-Чатове клиент-с-клиент
-[Send mode:]
-Режим на изпращане:
-[Packet size (bytes):]
-Размер на пакета (байта):
+[Manually set external IP:]
+Ръчно задаване на външно IP:
 [Get IP address from server]
 Назначаване на IP от сървъра
-[Auto-accept from:]
-Автоприемане от:
-[Send notice]
-Изпращане на известие
 [CTCP Chat Request]
 CTCP чат заявка
 [&Accept]
@@ -11408,20 +11370,14 @@ CTCP чат заявка
 Игнориране на потребители
 [(*) Queries from users on your contact list are never ignored]
 (*) Запитванията от контакти в списъка ви няма да бъдат игнорирани
+[Ignore events]
+Игнорирани събития
 [Queries]
 Запитвания
 [Messages]
 Съобщения
 [Notices]
 Известия
-[Network (*)]
-Мрежа*
-[Ignore events]
-Игнорирани събития
-[Server:]
-Сървър:
-[Password:]
-Парола:
 [CTCP chat request from %s]
 CTCP заявка от %s
 [%s sets mode %s]
@@ -11482,8 +11438,8 @@ IRC грешка
 Системата за игнориране е включена
 [Ignore system is disabled]
 Системата за игнориране е изключена
-[%s on %s is now ignored (+%s)]
-%s от %s ще бъде игнориран (+%s)
+[%s is now ignored (+%s)]
+%s ще бъде игнориран (+%s)
 [%s is not ignored now]
 %s няма да бъде игнориран
 [Outgoing commands are shown]
@@ -11510,8 +11466,8 @@ IRC предупреждение
 Изпратена е DCC заявка за прехвърляне на файл до %s [%s]
 [The protocol is not online]
 Протоколът не е на линия
-[Please choose an IRC-network to go online. This network will be the default.]
-Изберете, към коя IRC мрежа да се включите. Тя ще бъде стандартна.
+[Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
+Връзката не може да бъде осъществена. Не са попълнени всички необходими полета (Прякор, User ID и име).
 [Main]
 Основна
 [Add]
@@ -11526,8 +11482,6 @@ IRC предупреждение
 Отказ
 [Channel list]
 Списък с канали
-[Quick connect]
-Бързо свързване
 [Server window]
 Прозорец на сървъра
 [Show channel]
@@ -11570,20 +11524,12 @@ Latin I
 виетнамски
 [Korean (Johab)]
 корейски (Johab)
-[Please complete all fields]
-Моля, попълнете всички полета
-[Add a new network]
-Добавяне на нова мрежа
-[Edit this network]
-Редактиране на мрежата
-[Delete this network]
-Изтриване на мрежата
-[Do you want to delete\r\n%s]
-Желаете ли да изтриете\r\n%s
-[Delete server]
-Изтриване на сървъра
-[Edit server]
-Редактиране на сървъра
+[Off]
+Изкл.
+[Auto]
+Авто
+[On]
+Включено
 [<Automatic>]
 <Автоматично>
 [<Local IP: ]
@@ -11602,8 +11548,6 @@ Latin I
 Събитие: Готов за чат
 [Event: Disconnect]
 Събитие: Изключване от мрежата
-[ALL NETWORKS]
-Всички мрежи
 [Click to set commands that will be performed for this event]
 Натиснете тук, за да зададете команди за изпълнение за събитието
 [Click to delete the commands for this event]
@@ -11622,6 +11566,8 @@ Latin I
 Добавяне на игнориране
 [Edit ignore]
 Редактиране на игнориране
+[Network]
+Мрежа
 [Account]
 Акаунт
 [DCC and CTCP]
@@ -11636,8 +11582,6 @@ DCC и CTCP
 Потребители на линия:\s
 [Notice to %s: ]
 Известие до %s:\s
-[&Quick connect]
-Бързо свързване
 [&Join channel]
 Влизане в канал
 [&Change your nickname]
@@ -11658,8 +11602,6 @@ DCC и CTCP
 Влизане в канала
 [Please enter a channel to join]
 Въведете име на канал, в който да влезете
-[Please select IRC network and enter the password if needed]
-Моля, изберете IRC мрежа и въведете парола, ако е необходимо.
 [Please enter a unique nickname]
 Моля, въведете уникален прякор
 [Please enter your authentication code]
@@ -11802,8 +11744,6 @@ Voice (имащ право да говори)
 Добавяне в списъка
 [Connecting to]
 Свързване към
-[Offline]
-Извън линия
 [Please wait...]
 Моля, изчакайте...
 [Channel]
@@ -11812,10 +11752,6 @@ Voice (имащ право да говори)
 Режим
 [%s - Filtered - %d items]
 %s - Филтриране - %d елемента
-[Not listed server]
-Няма въведен сървър
-[Type new server address here]
-Впишете адреса на новия сървър тук
 [Add ban/invite/exception]
 Добавяне на бан/покана/изключение
 [Edit selected ban/invite/exception]
@@ -15041,7 +14977,7 @@ UIN        :
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [On&line]
@@ -15945,7 +15881,7 @@ URL
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Reset to defaults]
@@ -16518,7 +16454,7 @@ HTTP връзки на Paste It
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -16675,16 +16611,16 @@ Plugin Updater
 Услуги
 [Check for updates]
 Проверява за актуализации
-[Available components list]
-Пълният списък с приставки
-[Update completed]
-Приключено актуализиране
-[Update failed]
-Провалено актуализиране
 [Plugin info]
 Инф. за приставката
 [Plugin Updater HTTP connections]
 HTTP връзки на Plugin Updater
+[Available components list]
+Пълният списък с приставки
+[Update failed]
+Провалено актуализиране
+[Update completed]
+Приключено актуализиране
 [An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -18614,7 +18550,7 @@ FTP File
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
 [Do nothing]
@@ -18701,7 +18637,7 @@ ms
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [%s message for %s]
@@ -19327,7 +19263,7 @@ ms
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 [Suppresses popups and mutes sounds for 10-300 sec at Miranda NG startup, then sets them back to predefined state (Automatically per computer settings).]
@@ -19346,16 +19282,10 @@ ms
 Показване на Popup прозорци
 [Popup time 1-30 seconds (Default 5)]
 Popup 1-30 секунди (стандартно 5)
-[Main Menu Item (plugin reload or Miranda restart required)]
-Елемент в главното меню (изисква се рестартиране на приставката или Miranda)
 [TopToolBar button (Miranda restart required)]
 TopToolBar бутон (изисква се рестарт на Miranda)
-[Reset to default\r\n(for this computer)]
-Анулиране на настройките\r\n(за този компютър)
-[You need to configure it once for each computer, where you run your Miranda NG.]
-Необходимо е да направите настройката веднъж на всеки компютър на който работите с Miranda NG.
-[No Apply button required.]
-Не изисква бутона "Прилагане"
+[Reset to default]
+Стандарт
 [After startup set:]
 След стартиране:
 [Filtered popups only (leave uncheck for no popups)]
@@ -19634,8 +19564,8 @@ Dial-up (експериментално)
 Бутон в лентата с инструменти
 [Show confirm dialog when loading]
 Диалог за потвърждение при стартиране
-[Create a main menu item]
-Елемент в главното меню
+[Create a status menu item]
+Елемент за състояние в менюто
 [Status profiles]
 Профили на състоянията
 [Hotkey]
@@ -19718,8 +19648,6 @@ Dial-up (експериментално)
 размер: %d x %d
 [loc: %d x %d]
 положение: %d x %d
-[Create a status menu item]
-Елемент за състояние в менюто
 [unknown]
 неизвестен
 [At least one profile must exist]
@@ -21646,8 +21574,6 @@ Latin I
 Хоризонтални бутони с аватари
 [Advanced with avatars, vertical orientation]
 Вертикални бутони с аватари
-[This version of TabSRMM requires Windows 2000 or later.]
-TabSRMM изисква Windows версия 2000 или по-нова.
 [Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника
 [%d unread]
@@ -26137,7 +26063,7 @@ Weather
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [minutes]
@@ -26204,12 +26130,12 @@ Popup времетраене
 Автообновяването е изключено
 [Auto update enabled]
 Автообновяването е включено
+[Online]
+На линия
 [Network]
 Мрежа
 [Popups]
 Рopups
-[Online]
-На линия
 [Popup plugin]
 Popup приставка
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}

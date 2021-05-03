@@ -26,7 +26,6 @@
 [IP Address: ]
 [You are browsing from]
 [Your external IP was detected as %d.%d.%d.%d\r\nby: %s]
-[You need to restart Miranda to change the main menu]
 [HTTP Share new file]
 [Share removed]
 [Failed to bind to port %s\r\nThis is most likely because another program or service is using this port]

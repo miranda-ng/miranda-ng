@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,9 +1208,9 @@ Režim šifrování databáze
 Standardní
 [Total]
 Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná. Rychlé a efektivní, vhodné pro většinu případů.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 
 [Set password]
 Nastavit heslo
@@ -2106,6 +2106,10 @@ Tato skupina
 Připojování
 [Connecting (attempt %d)]
 Připojování (pokus č.%d)
+[&Accounts...]
+Účt&y...
+[&Options...]
+M&ožnosti...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Obecné
@@ -2196,6 +2200,17 @@ Tato úprava se považuje za potenciálně nebezpečnou.
 Neznámý druh úpravy; nelze považovat za bezpečné.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+
+[Cannot move old profile '%s' to '%s': error %d]
+
+[Attempt to create database '%s' failed with error code %d]
+
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Dom. stránka
@@ -2409,8 +2424,6 @@ Nabídky
 Nabídka ikony
 [&Hide/show]
 Skrýt/Zo&brazit
-[&Options...]
-M&ožnosti...
 [&About]
 O progr&amu
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ Sítě
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
-['%s' is disabled, re-enable?]
-'%s' není aktivní. Chcete ho aktivovat?
+['%S' is disabled, re-enable?]
+'%S' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ Je potřeba zadat název účtu.
 Chyba účtu
 [Account name has to be unique. Please enter unique name.]
 Interní název účtu musí být unikátní. Zadejte prosím unikátní název.
-[&Accounts...]
-Účt&y...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

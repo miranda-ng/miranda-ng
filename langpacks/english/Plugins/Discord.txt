@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.8
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -15,6 +15,7 @@
 [Enable group chats]
 [Do not open chat windows on creation]
 [Use subgroups for server channels (requires restart)]
+[Delete messages in Miranda when they are deleted from server]
 [Nick:]
 ;file \protocols\Discord\src\dispatch.cpp
 [edited at]

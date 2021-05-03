@@ -28,11 +28,8 @@
 #define IDC_ADDNEWREMINDER              1002
 #define IDC_REMINDAGAININ               1003
 #define IDC_AFTER                       1004
-#define IDC_REMINDER                    1004
 #define IDC_ONDATE                      1005
-#define IDC_DATEAGAIN                   1006
 #define IDC_BUTTON_RESET                1007
-#define IDC_TIMEAGAIN                   1007
 #define IDC_VIEWREMINDERS               1007
 #define IDC_NONE                        1008
 #define IDC_DAILY                       1009
@@ -42,13 +39,14 @@
 #define IDC_EDIT_WIDTH                  1012
 #define IDC_EDIT_HEIGHT                 1013
 #define IDC_SLIDER_TRANSPARENCY         1014
+#define IDC_TIMECOMBO                   1015
+#define IDC_REMINDER                    1016
 #define IDC_EDIT_EMAILSMS               1017
 #define IDC_CHECK_SCROLLBARS            1018
 #define IDC_CHECK_BUTTONS               1019
 #define IDC_CHECK_CLOSE                 1020
 #define IDC_COMBODATE                   1021
 #define IDC_COMBOTIME                   1022
-#define IDC_COMBOREMINDERTIME           1023
 #define IDC_CHECK_MSI                   1023
 #define IDC_STATIC_DATE                 1025
 #define IDC_STATIC_TIME                 1026

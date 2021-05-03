@@ -100,3 +100,18 @@ int CDbxMDBX::CheckEvents3(void)
 
 	return 0;
 }
+
+
+///////////////////////////////////////////////////////////////////////////////
+// MIDatabaseChecker
+
+int CDbxMDBX::CheckDb(int phase)
+{
+	switch (phase) {
+	case 0: return CheckEvents1();
+	case 1: return CheckEvents2();
+	case 2: return CheckEvents3();
+	}
+
+	return ERROR_OUT_OF_PAPER;
+}

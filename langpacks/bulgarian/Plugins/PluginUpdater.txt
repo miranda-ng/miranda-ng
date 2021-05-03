@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -188,17 +188,19 @@ Plugin Updater
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 Проверява за актуализации
-[Available components list]
-Пълният списък с приставки
-[Update completed]
-Приключено актуализиране
-[Update failed]
-Провалено актуализиране
-;file \plugins\PluginUpdater\src\Utils.cpp
 [Plugin info]
 Инф. за приставката
 [Plugin Updater HTTP connections]
 HTTP връзки на Plugin Updater
+[Available components list]
+Пълният списък с приставки
+[Update failed]
+Провалено актуализиране
+[Update completed]
+Приключено актуализиране
+;file \plugins\PluginUpdater\src\Utils.cpp
+[Updates are temporarily disabled, try again later.]
+
 [An error occurred while checking for new updates.]
 Възникна грешка при проверката за актуализации.
 ;file \plugins\PluginUpdater\src\Compat\compat.h

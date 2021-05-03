@@ -57,22 +57,6 @@ void fnLoadCluiGlobalOpts()
 	cluiopt.alpha = db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT);
 }
 
-static int CluiModulesLoaded(WPARAM, LPARAM)
-{
-	if (g_clistApi.hMenuMain) {
-		MENUITEMINFO mii = { 0 };
-		mii.cbSize = sizeof(mii);
-		mii.fMask = MIIM_SUBMENU;
-
-		mii.hSubMenu = Menu_GetMainMenu();
-		SetMenuItemInfo(g_clistApi.hMenuMain, 0, TRUE, &mii);
-
-		mii.hSubMenu = Menu_GetStatusMenu();
-		SetMenuItemInfo(g_clistApi.hMenuMain, 1, TRUE, &mii);
-	}
-	return 0;
-}
-
 // Disconnect all protocols.
 // Happens on shutdown and standby.
 static void DisconnectAll()
@@ -268,7 +252,6 @@ int LoadCLUIModule(void)
 	uMsgProcessProfile = RegisterWindowMessage(L"Miranda::ProcessProfile");
 	g_clistApi.pfnLoadCluiGlobalOpts();
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, CluiModulesLoaded);
 	HookEvent(ME_SKIN_ICONSCHANGED, CluiIconsChanged);
 
 	hContactDraggingEvent = CreateHookableEvent(ME_CLUI_CONTACTDRAGGING);

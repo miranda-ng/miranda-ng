@@ -30,11 +30,20 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CMPlugin::CMPlugin() :
+	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
+{
+	SetUniqueId(DBKEY_ID);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Load
+
 static int hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t key_len, void *)
 {
 	HMAC_CTX *ctx = HMAC_CTX_new();
 	*hmac_context = ctx;
-	HMAC_Init(ctx, key, key_len, EVP_sha256());
+	HMAC_Init(ctx, key, (int)key_len, EVP_sha256());
 	return 0;
 }
 
@@ -43,7 +52,7 @@ int hmac_sha256_update(void *hmac_context, const uint8_t *data, size_t data_len,
 	return HMAC_Update((HMAC_CTX *)hmac_context, data, data_len);
 }
 
-int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *user_data)
+int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *)
 {
 	BYTE data[200];
 	unsigned len = 0;
@@ -65,19 +74,16 @@ static int random_func(uint8_t *pData, size_t size, void *)
 	return 0;
 }
 
-CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
-{
-	SetUniqueId(DBKEY_ID);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// Load
-
 int CMPlugin::Load()
 {
 	// InitIcons();
 	// InitContactMenus();
+
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szSettingsModule = "WhatsApp";
+	nlu.szDescriptiveName.w = TranslateT("WhatsApp HTTP connection");
+	hAvatarUser = Netlib_RegisterUser(&nlu);
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	signal_context_create(&pCtx, nullptr);
@@ -99,6 +105,9 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	Netlib_CloseHandle(hAvatarConn);
+	Netlib_CloseHandle(hAvatarUser);
+
 	signal_context_destroy(pCtx);
 	return 0;
 }

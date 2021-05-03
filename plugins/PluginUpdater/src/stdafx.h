@@ -55,8 +55,8 @@ extern "C"
 
 #include <m_autobackups.h>
 
+#define MS_PU_CHECK    "PluginUpdater/CheckUpdates"
 #define MS_PU_SHOWLIST "PluginUpdater/ShowList"
-#define MS_PU_CHECKUPDATES "PluginUpdater/CheckUpdates"
 
 #include "Notifications.h"
 
@@ -135,7 +135,6 @@ enum
 #define DB_SETTING_UPDATE_MODE           "UpdateMode"
 #define DB_SETTING_UPDATE_URL            "UpdateURL"
 #define DB_SETTING_NEED_RESTART          "NeedRestart"
-#define DB_SETTING_LAST_UPDATE           "LastUpdate"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE "DontSwitchToStable"
 #define DB_SETTING_CHANGEPLATFORM        "ChangePlatform"
 
@@ -152,32 +151,47 @@ using namespace std;
 
 extern DWORD g_mirandaVersion;
 extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
-extern HNETLIBUSER hNetlibUser;
-
-extern IconItem iconList[];
+extern HNETLIBUSER g_hNetlibUser;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	struct Impl
+	{
+		Impl() :
+			m_timer(Miranda_GetSystemWindow(), LPARAM(this))
+		{
+			m_timer.OnEvent = Callback(this, &Impl::onTimer);
+		}
+
+		CTimer m_timer;
+		void onTimer(CTimer *);
+	}
+	m_impl;
+
 	CMPlugin();
 
 	int Load() override;
 	int Unload() override;
 
+	void InitTimer(int mode);
+
+	// variables
+	time_t iNextCheck = 0;
 	bool bForceRedownload = false, bSilent; // not a db options
 
 	// common options
 	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bUseHttps, bAutoRestart;
 	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
+	CMOption<DWORD> dwLastUpdate;
 
 	// popup options
 	CMOption<BYTE> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
 	CMOption<DWORD> PopupTimeout;
 };
 
+void DoCheck(bool bSilent = true);
 void UninitCheck(void);
 void UninitListNew(void);
-
-int OptInit(WPARAM, LPARAM);
 
 class ThreadWatch
 {
@@ -222,15 +236,10 @@ typedef OBJLIST<ServListEntry> SERVLIST;
 ///////////////////////////////////////////////////////////////////////////////
 
 void  InitPopupList();
-void  InitNetlib();
-void  InitIcoLib();
 void  InitEvents();
-void  InitListNew();
-void  InitCheck();
-void  CreateTimer();
 
+void  InitListNew();
 void  UnloadListNew();
-void  UnloadNetlib();
 
 void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
@@ -241,12 +250,11 @@ bool  ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes);
 int   CompareHashes(const ServListEntry *p1, const ServListEntry *p2);
 
 wchar_t* GetDefaultUrl();
-bool   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
+int   DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc);
 
 void  ShowPopup(LPCTSTR Title, LPCTSTR Text, int Number);
-void  __stdcall InitTimer(void *type);
 
-int  unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch);
+int   unzip(const wchar_t *pwszZipFile, wchar_t *pwszDestPath, wchar_t *pwszBackPath, bool ch);
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1208,10 +1208,10 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted. Fast and effective, suitable for the most cases]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane. Szybki i efektywny sposób. Powinien wystarczyć w większości przypadków.
-[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password. Recommended only for paranoid users]
-Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła. Zalecane tylko obsesyjnym użytkownikom.
+[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane.
+[All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
+Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
 Ustaw/zmień hasło
 [&Hide/Show]
@@ -2106,6 +2106,10 @@ Ta grupa
 Łączenie
 [Connecting (attempt %d)]
 Łączenie (próba %d)
+[&Accounts...]
+&Konta...
+[&Options...]
+&Opcje...
 ;file \src\mir_app\src\clistopts.cpp
 [Common]
 Wspólne
@@ -2196,6 +2200,17 @@ Ta zmiana wydaje się być potencjalnie ryzykowna.
 Ta zmiana wydaje się być niebezpieczna.
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
+;file \src\mir_app\src\db_upgrade.cpp
+[This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
+Ten profil jest w starym niewspieranym już formacie. Wciśnij Tak aby przekonwertować go do nowego formatu lub Nie aby powrócić.
+[To open this database you need to install the Dbx_sqlite plugin. Click Yes to download it from Miranda NG's site or No to return]
+Aby otworzyć ten profil musisz zainstalować wtyczkę Dbx_sqlite. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
+[To open this database you need to install the Import plugin. Click Yes to download it from Miranda NG's site or No to return]
+Aby otworzyć ten profil musisz zainstalować wtyczkę Import. Wciśnij Tak aby pobrać ją ze strony Mirandy NG lub Nie aby powrócić.
+[Cannot move old profile '%s' to '%s': error %d]
+Nie można przenieść starego profilu '%s' do '%s' : błąd %d
+[Attempt to create database '%s' failed with error code %d]
+Błąd tworzenia bazy danych '%s' : kod błędu %d
 ;file \src\mir_app\src\ei_defaulticons.cpp
 [Homepage]
 Strona WWW
@@ -2409,8 +2424,6 @@ Menu
 Menu zasobnika
 [&Hide/show]
 &Ukryj/pokaż
-[&Options...]
-&Opcje...
 [&About]
 &Informacje
 ;file \src\mir_app\src\menu_utils.cpp
@@ -2548,8 +2561,8 @@ Protokoły
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
-['%s' is disabled, re-enable?]
-"%s" jest wyłączony, włączyć?
+['%S' is disabled, re-enable?]
+"%S" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
@@ -2686,8 +2699,6 @@ Nazwa konta musi zostać podana.
 Błąd konta
 [Account name has to be unique. Please enter unique name.]
 Nazwa konta musi być unikalna. Wprowadź unikalną nazwę.
-[&Accounts...]
-&Konta...
 ;file \src\mir_app\src\proto_order.cpp
 ;file \src\mir_app\src\searchresults.cpp
 [Could not start a search on '%s', there was a problem - is %s connected?]

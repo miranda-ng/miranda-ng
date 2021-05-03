@@ -2,30 +2,22 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
 
 ;file \protocols\IRCG\res\IRC.rc
-[Default network]
+[Server]
 
-[Enable]
-Habilitar
-[Server name]
-
-[Internet address]
+[Host address]
 
 [Port range]
 
+[Enable SASL]
+
 [Password]
 Contraseña
-[&Add]
-&Añadir
-[&Edit]
-&Editar
-[&Del]
-
 [User info - Required]
 
 [Nick]
@@ -38,6 +30,8 @@ Apodo
 
 [Ident]
 
+[Enable]
+Habilitar
 [System]
 Sistema
 [Port]
@@ -98,8 +92,6 @@ Nombre
 
 [Auth]
 Autenticación
-[Server]
-
 [User]
 
 [Away Info]
@@ -116,6 +108,8 @@ Autenticación
 
 [&Set]
 
+[&Del]
+
 [Alias]
 Alias
 [Perform on event:]
@@ -128,27 +122,11 @@ Alias
 
 [Enable UTF-8 autodetection]
 
-[Add server]
-
-[Auto]
-
-[On]
-Encendido
-[Off]
-Apagado
-[Host address]
-
-[Server description]
-
-[Network]
-Red
 [Channels on server]
 
 [&Join]
 &Entrar
 [Filter by]
-
-[C&onnect]
 
 [&Save]
 
@@ -170,6 +148,10 @@ Red
 
 [Excepts]
 
+[&Add]
+&Añadir
+[&Edit]
+&Editar
 [Only Ops set topic]
 
 [No external messages]
@@ -198,11 +180,23 @@ Oculto
 
 [Strip colors]
 
+[Client-to-Client File Transfers]
+
+[Send mode:]
+
 [Normal]
 Normal
 [Send-ahead]
 
+[Packet size (bytes):]
+
+[Send notice]
+
 [Attempt reverse DCC (good if firewalled)]
+
+[Client-to-Client Chats]
+
+[Auto-accept from:]
 
 [none]
 ninguno
@@ -212,23 +206,11 @@ ninguno
 
 [Disconnect DCC chats when disconnecting from server]
 
-[Manually set external IP:]
-
-[Client-to-Client File Transfers]
-
 [Client-to-Client Protocol]
 
-[Client-to-Client Chats]
-
-[Send mode:]
-
-[Packet size (bytes):]
+[Manually set external IP:]
 
 [Get IP address from server]
-
-[Auto-accept from:]
-
-[Send notice]
 
 [CTCP Chat Request]
 
@@ -250,24 +232,18 @@ ninguno
 
 [(*) Queries from users on your contact list are never ignored]
 
+[Ignore mask (nick!user@host)]
+
+[Ignore events]
+
 [Queries]
 
 [Messages]
 Mensajes
 [Notices]
 Avisos
-[Ignore mask (nick!user@host)]
+[Host]
 
-[Network (*)]
-
-[Ignore events]
-
-[(*) blank to set this mask for all networks]
-
-[Server:]
-Servidor:
-[Password:]
-Contraseña:
 ;file \protocols\IRCG\src\clist.cpp
 [CTCP chat request from %s]
 
@@ -369,7 +345,7 @@ Ignorar
 
 [Ignore system is disabled]
 
-[%s on %s is now ignored (+%s)]
+[%s is now ignored (+%s)]
 
 [%s is not ignored now]
 
@@ -425,8 +401,6 @@ Apodo
 
 [The protocol is not online]
 
-[Please choose an IRC-network to go online. This network will be the default.]
-
 [Connection cannot be established! You have not completed all necessary fields (Nickname, User ID and Full name).]
 
 ;file \protocols\IRCG\src\options.cpp
@@ -443,8 +417,6 @@ Editar
 [Cancel]
 Cancelar
 [Channel list]
-
-[Quick connect]
 
 [Server window]
 
@@ -488,25 +460,19 @@ Cancelar
 
 [Korean (Johab)]
 
-[Please complete all fields]
+[Off]
+Apagado
+[Auto]
 
-[Add a new network]
-
-[Edit this network]
-
-[Delete this network]
-
-[Do you want to delete\r\n%s]
-
-[Delete server]
-
-[Edit server]
-
+[On]
+Encendido
 [<Resolved IP: ]
 
 [<Automatic>]
 
 [<Local IP: ]
+
+[Event: Connect]
 
 [Event: Available]
 
@@ -522,8 +488,6 @@ Cancelar
 
 [Event: Disconnect]
 
-[ALL NETWORKS]
-Todas las redes
 [Click to set commands that will be performed for this event]
 
 [Click to delete the commands for this event]
@@ -544,6 +508,8 @@ Todas las redes
 
 [Edit ignore]
 
+[Network]
+Red
 [Account]
 Cuenta
 [DCC and CTCP]
@@ -566,8 +532,6 @@ Avanzado
 [Notice to %s: ]
 
 ;file \protocols\IRCG\src\services.cpp
-[&Quick connect]
-
 [&Join channel]
 
 [&Change your nickname]
@@ -589,8 +553,6 @@ Avanzado
 [Join channel]
 
 [Please enter a channel to join]
-
-[Please select IRC network and enter the password if needed]
 
 [Please enter a unique nickname]
 
@@ -745,8 +707,6 @@ Avanzado
 [Connecting to]
 
 ;file \protocols\IRCG\src\tools.cpp
-[Offline]
-Fuera de línea
 ;file \protocols\IRCG\src\userinfo.cpp
 [Faster! Searches the network for an exact match of the nickname only. The hostmask is optional and provides further security if used. Wildcards (? and *) are allowed.]
 
@@ -764,10 +724,6 @@ Fuera de línea
 [Mode]
 
 [%s - Filtered - %d items]
-
-[Not listed server]
-
-[Type new server address here]
 
 [Add ban/invite/exception]
 

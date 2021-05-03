@@ -1816,9 +1816,6 @@ Latin I
 Хоризонтални бутони с аватари
 [Advanced with avatars, vertical orientation]
 Вертикални бутони с аватари
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-TabSRMM изисква Windows версия 2000 или по-нова.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника

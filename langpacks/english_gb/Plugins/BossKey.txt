@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Go to Options -> Customize -> Hotkeys to change the hotkey]

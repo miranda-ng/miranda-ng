@@ -1816,9 +1816,6 @@ Kompaktes Layout, horizontale Schaltflächen
 Erweitertes Layout mit Avataren
 [Advanced with avatars, vertical orientation]
 Erweitert mit Avataren, vertikale Ausrichtung
-;file \plugins\TabSRMM\src\srmm.cpp
-[This version of TabSRMM requires Windows 2000 or later.]
-Diese Version von TabSRMM erfordert Windows 2000 oder neuer.
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Vorschau nicht verfügbar, wenn History++ benutzt wird.

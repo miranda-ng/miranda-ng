@@ -158,7 +158,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 			ExportContact(NULL, &Modules, file);
 			fprintf(file, "\n\n");
 			// Contacts
-			for (MCONTACT hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact)) {
+			for (auto &hContact: Contacts()) {
 				ExportContact(hContact, &Modules, file);
 				fprintf(file, "\n\n");
 			}

@@ -792,17 +792,17 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 		return 0;
 	}
 
-	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
-		db_delete_contact(hDst);
-		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);
-		return INVALID_CONTACT_ID;
-	}
-
 	if (dbv.type == 0)
 		srcDb->GetContactSetting(hSrc, cc->szProto, "ID", &dbv);
 
 	if (dbv.type != 0)
 		db_set(hDst, szDstModuleName, pszUniqueSetting, &dbv);
+
+	if (Proto_AddToContact(hDst, szDstModuleName) != 0) {
+		db_delete_contact(hDst);
+		AddMessage(LPGENW("Failed to add %S contact %s"), szDstModuleName, pszUniqueID);
+		return INVALID_CONTACT_ID;
+	}
 
 	CreateGroup(tszGroup, hDst);
 

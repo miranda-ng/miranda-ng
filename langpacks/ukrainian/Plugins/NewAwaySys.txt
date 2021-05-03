@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [Allows you to handle your status messages in a convenient way.]
@@ -102,8 +102,6 @@
 Пам'ятати останнє повідомлення для контакту
 [Store contact autoreply/ignore settings for each status separately]
 Зберігати налаштування автовідповідача/ігнорування контакту окремо для кожного статусу
-[Enable contact menu items]
-Увімкнути меню контакту
 [Use protocol specific nick for %nas_mynick%]
 Використовувати нік протоколу для %nas_mynick%
 [Update status messages for non-ICQ protocols every]

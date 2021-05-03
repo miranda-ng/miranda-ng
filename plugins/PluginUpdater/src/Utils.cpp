@@ -19,36 +19,10 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-HNETLIBUSER hNetlibUser = nullptr;
+HNETLIBUSER g_hNetlibUser = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////
-
-IconItem iconList[] =
-{
-	{ LPGEN("Check for updates"),"check_update", IDI_MENU },
-	{ LPGEN("Plugin info"), "info", IDI_INFO },
-	{ LPGEN("Component list"),"plg_list", IDI_PLGLIST }
-};
-
-void InitIcoLib()
-{
-	g_plugin.registerIcon(MODULEA, iconList);
-}
-
-void InitNetlib()
-{
-	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = TranslateT("Plugin Updater HTTP connections");
-	nlu.szSettingsModule = MODULENAME;
-	hNetlibUser = Netlib_RegisterUser(&nlu);
-}
-
-void UnloadNetlib()
-{
-	Netlib_CloseHandle(hNetlibUser);
-	hNetlibUser = nullptr;
-}
+// Hashes processing
 
 int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
@@ -75,18 +49,21 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	pFileUrl.CRCsum = 0;
 
 	HNETLIBCONN nlc = nullptr;
-	bool ret = DownloadFile(&pFileUrl, nlc);
+	int ret = DownloadFile(&pFileUrl, nlc);
 	Netlib_CloseHandle(nlc);
 
-	if (!ret) {
-		Netlib_LogfW(hNetlibUser, L"Downloading list of available updates from %s failed", baseUrl.get());
-		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
+	if (ret != ERROR_SUCCESS) {
+		Netlib_LogfW(g_hNetlibUser, L"Downloading list of available updates from %s failed with error %d", baseUrl.get(), ret);
+		if (ret == 404)
+			ShowPopup(TranslateT("Plugin Updater"), TranslateT("Updates are temporarily disabled, try again later."), POPUP_TYPE_INFO);
+		else
+			ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
 	}
 
 	if (unzip(pFileUrl.wszDiskPath, g_wszTempPath, nullptr, true)) {
-		Netlib_LogfW(hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
+		Netlib_LogfW(g_hNetlibUser, L"Unzipping list of available updates from %s failed", baseUrl.get());
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		Skin_PlaySound("updatefailed");
 		return false;
@@ -98,7 +75,7 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	mir_snwprintf(wszTmpIni, L"%s\\hashes.txt", g_wszTempPath);
 	FILE *fp = _wfopen(wszTmpIni, L"r");
 	if (!fp) {
-		Netlib_LogfW(hNetlibUser, L"Opening %s failed", g_wszTempPath);
+		Netlib_LogfW(g_hNetlibUser, L"Opening %s failed", g_wszTempPath);
 		ShowPopup(TranslateT("Plugin Updater"), TranslateT("An error occurred while checking for new updates."), POPUP_TYPE_ERROR);
 		return false;
 	}
@@ -112,7 +89,7 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 			bDoNotSwitchToStable = true;
 		}
 		else if (str[0] != ';') { // ';' marks a comment
-			Netlib_Logf(hNetlibUser, "Update: %s", str);
+			Netlib_Logf(g_hNetlibUser, "Update: %s", str);
 			char *p = strchr(str, ' ');
 			if (p != nullptr) {
 				*p++ = 0;
@@ -148,7 +125,7 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Single file HTTP transaction
 
-bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
+int DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 {
 	char szMirVer[100];
 	Miranda_GetVersionText(szMirVer, _countof(szMirVer));
@@ -186,51 +163,55 @@ bool DownloadFile(FILEURL *pFileURL, HNETLIBCONN &nlc)
 	nlhr.headers = headers;
 
 	for (int i = 0; i < MAX_RETRIES; i++) {
-		Netlib_LogfW(hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->wszDownloadURL, pFileURL->wszDiskPath, i + 1);
-		NLHR_PTR pReply(Netlib_HttpTransaction(hNetlibUser, &nlhr));
-		if (pReply) {
-			nlc = pReply->nlc;
-			if ((200 == pReply->resultCode) && (pReply->dataLength > 0)) {
-				// Check CRC sum
-				if (pFileURL->CRCsum) {
-					int crc = crc32(0, (unsigned char *)pReply->pData, pReply->dataLength);
-					if (crc != pFileURL->CRCsum) {
-						// crc check failed, try again
-						Netlib_LogfW(hNetlibUser, L"crc check failed for file %s", pFileURL->wszDiskPath);
-						continue;
-					}
-				}
+		Netlib_LogfW(g_hNetlibUser, L"Downloading file %s to %s (attempt %d)", pFileURL->wszDownloadURL, pFileURL->wszDiskPath, i + 1);
+		NLHR_PTR pReply(Netlib_HttpTransaction(g_hNetlibUser, &nlhr));
+		if (pReply == nullptr) {
+			Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed, host is propably temporary down.", pFileURL->wszDownloadURL);
+			nlc = nullptr;
+			continue;
+		}
 
-				DWORD dwBytes;
-				HANDLE hFile = CreateFile(pFileURL->wszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-				if (hFile != INVALID_HANDLE_VALUE) {
-					// write the downloaded file directly
-					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
-					CloseHandle(hFile);
-				}
-				else {
-					// try to write it via PU stub
-					TFileName wszTempFile;
-					mir_snwprintf(wszTempFile, L"%s\\pulocal.tmp", g_wszTempPath);
-					hFile = CreateFile(wszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-					if (hFile != INVALID_HANDLE_VALUE) {
-						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
-						CloseHandle(hFile);
-						PU::SafeMoveFile(wszTempFile, pFileURL->wszDiskPath);
-					}
-				}
-				return true;
+		nlc = pReply->nlc;
+		if (pReply->resultCode != 200 || pReply->dataLength <= 0) {
+			Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->wszDownloadURL, pReply->resultCode);
+			return pReply->resultCode;
+		}
+
+		// Check CRC sum
+		if (pFileURL->CRCsum) {
+			int crc = crc32(0, (unsigned char *)pReply->pData, pReply->dataLength);
+			if (crc != pFileURL->CRCsum) {
+				// crc check failed, try again
+				Netlib_LogfW(g_hNetlibUser, L"crc check failed for file %s", pFileURL->wszDiskPath);
+				continue;
 			}
-			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed with error %d", pFileURL->wszDownloadURL, pReply->resultCode);
+		}
+
+		// everything is ok, write file down
+		DWORD dwBytes;
+		HANDLE hFile = CreateFile(pFileURL->wszDiskPath, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (hFile != INVALID_HANDLE_VALUE) {
+			// write the downloaded file directly
+			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+			CloseHandle(hFile);
 		}
 		else {
-			Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, host is propably temporary down.", pFileURL->wszDownloadURL);
-			nlc = nullptr;
+			// try to write it via PU stub
+			TFileName wszTempFile;
+			mir_snwprintf(wszTempFile, L"%s\\pulocal.tmp", g_wszTempPath);
+			hFile = CreateFile(wszTempFile, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+			if (hFile != INVALID_HANDLE_VALUE) {
+				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+				CloseHandle(hFile);
+				PU::SafeMoveFile(wszTempFile, pFileURL->wszDiskPath);
+			}
 		}
+		return ERROR_SUCCESS;
 	}
 
-	Netlib_LogfW(hNetlibUser, L"Downloading file %s failed, giving up", pFileURL->wszDownloadURL);
-	return false;
+	// no more retries, return previous error code
+	Netlib_LogfW(g_hNetlibUser, L"Downloading file %s failed, giving up", pFileURL->wszDownloadURL);
+	return 500;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -245,7 +226,7 @@ void CreateWorkFolders(TFileName &wszTempFolder, TFileName &wszBackupFolder)
 {
 	SYSTEMTIME st;
 	GetLocalTime(&st);
-	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d-%03d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond, st.wMilliseconds);
+	mir_snwprintf(wszBackupFolder, L"%s\\Backups\\BKP%04d-%02d-%02d %02d-%02d-%02d", g_wszRoot, st.wYear, st.wMonth, st.wDay, st.wHour, st.wMinute, st.wSecond);
 	PU::SafeCreateDirectory(wszBackupFolder);
 
 	mir_snwprintf(wszTempFolder, L"%s\\Temp", g_wszRoot);

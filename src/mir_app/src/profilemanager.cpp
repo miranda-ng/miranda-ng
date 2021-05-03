@@ -636,7 +636,7 @@ public:
 		else {
 			for (int i = 0; i < servicePlugins.getCount(); i++) {
 				pluginEntry *p = servicePlugins[i];
-				m_servicePlugs.AddString(TranslateW(p->pluginname), i);
+				m_servicePlugs.AddStringA(p->pluginname, i);
 			}
 
 			m_servicePlugs.Disable();

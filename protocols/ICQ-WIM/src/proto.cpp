@@ -142,6 +142,15 @@ void CIcqProto::OnShutdown()
 	m_bTerminated = true;
 }
 
+void CIcqProto::OnContactAdded(MCONTACT hContact)
+{
+	CMStringW wszId(getMStringW(hContact, DB_KEY_ID));
+	if (!wszId.IsEmpty() && !FindContactByUIN(wszId)) {
+		mir_cslock l(m_csCache);
+		m_arCache.insert(new IcqCacheItem(wszId, hContact));
+	}
+}
+
 void CIcqProto::OnContactDeleted(MCONTACT hContact)
 {
 	CMStringW szId(GetUserId(hContact));

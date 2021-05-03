@@ -713,15 +713,15 @@ USERINFO* UM_AddUser(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *psz
 		return nullptr;
 
 	auto *pUser = UM_FindUser(si, pszUID);
-	if (pUser)
-		return pUser;
-
-	pUser = new USERINFO();
-	pUser->pszUID = mir_wstrdup(pszUID);
-	pUser->pszNick = mir_wstrdup(pszNick);
+	if (pUser == nullptr) {
+		pUser = new USERINFO();
+		replaceStrW(pUser->pszUID, pszUID);
+		si->getKeyList().insert(pUser);
+		si->getUserList().insert(pUser);
+	}
+	
+	replaceStrW(pUser->pszNick, pszNick);
 	pUser->Status = wStatus;
-	si->getKeyList().insert(pUser);
-	si->getUserList().insert(pUser);
 	return pUser;
 }
 

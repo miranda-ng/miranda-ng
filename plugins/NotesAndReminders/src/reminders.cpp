@@ -441,18 +441,6 @@ static LRESULT CALLBACK DatePickerWndProc(HWND hWnd, UINT message, WPARAM wParam
 	return mir_callNextSubclass(hWnd, DatePickerWndProc, message, wParam, lParam);
 }
 
-static void InitDatePicker(CCtrlDate &pDate)
-{
-	// tweak style of picker
-	if (IsWinVerVistaPlus()) {
-		DWORD dw = pDate.SendMsg(DTM_GETMCSTYLE, 0, 0);
-		dw |= MCS_WEEKNUMBERS | MCS_NOSELCHANGEONNAV;
-		pDate.SendMsg(DTM_SETMCSTYLE, 0, dw);
-	}
-
-	mir_subclassWindow(pDate.GetHwnd(), DatePickerWndProc);
-}
-
 static BOOL ParseTime(const wchar_t *s, int *hout, int *mout, BOOL bTimeOffset, BOOL bAllowOffsetOverride)
 {
 	// validate format: <WS><digit>[<digit>]<WS>[':'<WS><digit>[<digit>]]<WS>[p | P].*
@@ -591,382 +579,459 @@ static BOOL ParseTime(const wchar_t *s, int *hout, int *mout, BOOL bTimeOffset, 
 	return TRUE;
 }
 
-// returns TRUE if combo box list displays time offsets ("23:34 (5 Minutes)" etc.)
-__inline static bool IsRelativeCombo(CCtrlCombo &pCombo)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Basic reminder dialog class
+
+class CReminderBaseDlg : public CDlgBase
 {
-	return pCombo.GetItemData(0) < 0x80000000;
-}
+	typedef CDlgBase CSuper;
 
-static void PopulateTimeCombo(CCtrlCombo &pCombo, const SYSTEMTIME *tmUtc)
-{
-	// NOTE: may seem like a bit excessive time converstion and handling, but this is done in order
-	//       to gracefully handle crossing daylight saving boundaries
+protected:
+	CCtrlDate m_date;
+	CCtrlCombo cmbTime;
 
-	pCombo.ResetContent();
+	bool m_bManualTime = false, m_bRelativeCombo = false;
+	__int64 m_savedLi = 0;
 
-	ULONGLONG li;
-	wchar_t s[64];
+	CReminderBaseDlg(int iDlgId) :
+		CSuper(g_plugin, iDlgId),
+		m_date(this, IDC_DATE),
+		cmbTime(this, IDC_TIMECOMBO)
+	{
+		m_date.OnChange = Callback(this, &CReminderBaseDlg::onChange_Date);
 
-	// generate absolute time table for date different than today
-	SYSTEMTIME tm2;
-	GetSystemTime(&tm2);
-	if (tmUtc->wDay != tm2.wDay || tmUtc->wMonth != tm2.wMonth || tmUtc->wYear != tm2.wYear) {
-		// ensure that we start on midnight local time
-		SystemTimeToTzSpecificLocalTime(nullptr, tmUtc, &tm2);
-		tm2.wHour = 0;
-		tm2.wMinute = 0;
-		tm2.wSecond = 0;
-		tm2.wMilliseconds = 0;
-		TzSpecificLocalTimeToSystemTime(nullptr, &tm2, &tm2);
-		SystemTimeToFileTime(&tm2, (FILETIME*)&li);
+		cmbTime.OnChange = Callback(this, &CReminderBaseDlg::onChange_Time);
+		cmbTime.OnSelChanged = Callback(this, &CReminderBaseDlg::onSelChange_Time);
+		cmbTime.OnKillFocus = Callback(this, &CReminderBaseDlg::onKillFocus_Time);
+	}
 
-		// from 00:00 to 23:30 in 30 minute steps
-		for (int i = 0; i < 50; i++) {
-			const int h = i >> 1;
-			const int m = (i & 1) ? 30 : 0;
+	void onChange_Time(CCtrlCombo *)
+	{
+		m_bManualTime = true;
+	}
 
-			FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-			mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+	void onSelChange_Time(CCtrlCombo *)
+	{
+		m_bManualTime = false;
+	}
 
-			// item data contains time offset from midnight in seconds (bit 31 is set to flag that
-			// combo box items are absolute times and not relative times like below
-			pCombo.AddString(s, ((h * 60 + m) * 60) | 0x80000000);
+	void onKillFocus_Time(CCtrlCombo*)
+	{
+		if (cmbTime.GetCurSel() != -1)
+			return;
 
-			li += 30ll * MinutesToFileTime;
+		wchar_t buf[64];
+		cmbTime.GetText(buf, _countof(buf));
 
-			if (tm2.wHour == 23 && tm2.wMinute >= 30)
-				break;
+		int h, m;
+		if (ParseTime(buf, &h, &m, FALSE, m_bRelativeCombo)) {
+			SYSTEMTIME Date;
+			m_date.GetTime(&Date);
+			ReformatTimeInput(m_savedLi, h, m, &Date);
 		}
-		return;
+		else cmbTime.SetCurSel(0);
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
+	// repopulate time combo list with regular times (not offsets like "23:32 (5 minutes)" etc.)
 
-	SystemTimeToFileTime(tmUtc, (FILETIME*)&li);
-	ULONGLONG ref = li;
+	void onChange_Date(CCtrlDate*)
+	{
+		wchar_t s[32];
+		cmbTime.GetText(s, _countof(s));
 
-	// NOTE: item data contains offset from reference time (tmUtc) in seconds
+		int h = -1, m;
+		ParseTime(s, &h, &m, FALSE, FALSE);
 
-	// cur time
-	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	WORD wCurHour = tm2.wHour;
-	WORD wCurMinute = tm2.wMinute;
-	mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
-	pCombo.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+		SYSTEMTIME Date, DateUtc;
+		m_date.GetTime(&Date);
 
-	// 5 minutes
-	li += (ULONGLONG)5 * MinutesToFileTime;
-	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snwprintf(s, L"%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-	pCombo.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+		TzSpecificLocalTimeToSystemTime(nullptr, &Date, &DateUtc);
+		PopulateTimeCombo(&DateUtc);
 
-	// 10 minutes
-	li += (ULONGLONG)5 * MinutesToFileTime;
-	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snwprintf(s, L"%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-	pCombo.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
-
-	// 15 minutes
-	li += (ULONGLONG)5 * MinutesToFileTime;
-	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snwprintf(s, L"%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-	pCombo.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
-
-	// 30 minutes
-	li += (ULONGLONG)15 * MinutesToFileTime;
-	FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-	mir_snwprintf(s, L"%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-	pCombo.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
-
-	// round +1h time to nearest even or half hour
-	li += (ULONGLONG)30 * MinutesToFileTime;
-	li = (li / (30 * MinutesToFileTime)) * (30 * MinutesToFileTime);
-
-	// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
-	for (int i = 0; i < 50; i++) {
-		UINT dt;
-
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-
-		if (i > 40) {
-			UINT nLastEntry = ((UINT)wCurHour * 60 + (UINT)wCurMinute) / 30;
-			if (nLastEntry)
-				nLastEntry *= 30;
-			else
-				nLastEntry = 23 * 60 + 30;
-
-			if (((UINT)tm2.wHour * 60 + (UINT)tm2.wMinute) == nLastEntry)
-				break;
+		if (h < 0) {
+			// parsing failed, default to current time
+			SYSTEMTIME tm;
+			GetLocalTime(&tm);
+			h = (UINT)tm.wHour;
+			m = (UINT)tm.wMinute;
 		}
 
-		// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
-		//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
-		// display delta time more accurately to match reformatting (that icq doesn't do)
-		dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-		if (dt < 60)
-			mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
-		else
-			mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
-		pCombo.AddString(s, dt * 60);
-
-		li += 30ll * MinutesToFileTime;
+		ReformatTimeInput(m_savedLi, h, m, &Date);
 	}
-}
 
-// returns non-zero if specified time was inside "missing" hour of daylight saving
-// IMPORTANT: triggerRelUtcOut is only initialized if IsRelativeCombo() is TRUE and return value is 0
-static int ReformatTimeInput(CCtrlCombo &pCombo, ULONGLONG savedLi, int h, int m, const SYSTEMTIME *pDateLocal, ULONGLONG *triggerRelUtcOut = nullptr)
-{
-	if (h < 0) {
-		// time value is an offset ('m' holds the offset in minutes)
-		if (IsRelativeCombo(pCombo)) {
-			ULONGLONG ref, li;
-			li = ref = savedLi;
+	////////////////////////////////////////////////////////////////////////////////////////
+	// in:  pDate contains the desired trigger date in LOCAL time
+	// out: pDate contains the resulting trigger time and date in UTC
 
-			// clamp delta time to 23.5 hours (coule be issues otherwise as relative combo only handles <24)
-			if (m > (23 * 60 + 30))
-				m = 23 * 60 + 30;
+	bool GetTriggerTime(ULONGLONG savedLi, SYSTEMTIME &pDate)
+	{
+		// absolute time specified in combobox item data
+		if (!m_bManualTime) {
+			// use preset value
+			UINT nDeltaSeconds = cmbTime.GetItemData(cmbTime.GetCurSel());
+			if (m_bRelativeCombo) {
+				// combine date from pDate (local) and time from savedLi (utc)
+				SYSTEMTIME st, st2;
+				FileTimeToSystemTime((FILETIME *)&savedLi, &st);
+				SystemTimeToTzSpecificLocalTime(nullptr, &st, &st2);
+				st2.wYear = pDate.wYear; st2.wMonth = pDate.wMonth; st2.wDay = pDate.wDay; st2.wDayOfWeek = pDate.wDayOfWeek;
+				SystemTimeToFileTime(&st2, (FILETIME*)&savedLi);
 
-			li += (ULONGLONG)(m * 60) * FILETIME_TICKS_PER_SEC;
+				// time offset from ref time ("24:43 (5 Minutes)" etc.)
+				savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
 
-			SYSTEMTIME tm;
-			FileTimeToTzLocalST((FILETIME*)&li, &tm);
-			h = (int)tm.wHour;
-			m = (int)tm.wMinute;
+				FileTimeToSystemTime((FILETIME*)&savedLi, &st);
+				TzSpecificLocalTimeToSystemTime(nullptr, &st, &pDate);
 
+				// if specified time is a small offset (< 10 Minutes) then retain current second count for better accuracy
+				// otherwise try to match specified time (which never contains seconds only even minutes) as close as possible
+				if (nDeltaSeconds >= 10 * 60) {
+					pDate.wSecond = 0;
+					pDate.wMilliseconds = 0;
+				}
+			}
+			else {
+				// absolute time (offset from midnight on pDate)
+				pDate.wHour = pDate.wMinute = pDate.wSecond = pDate.wMilliseconds = 0;
+				TzLocalSTToFileTime(&pDate, (FILETIME*)&savedLi);
+				savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
+
+				FileTimeToSystemTime((FILETIME*)&savedLi, &pDate);
+			}
+			return true;
+		}
+
+		// user entered a custom value
+		wchar_t buf[32];
+		cmbTime.GetText(buf, _countof(buf));
+
+		int h, m;
+		if (!ParseTime(buf, &h, &m, FALSE, m_bRelativeCombo)) {
+			MessageBox(cmbTime.GetParent()->GetHwnd(), TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+			return false;
+		}
+
+		// absolute time (on pDate)
+		if (ReformatTimeInput(savedLi, h, m, &pDate, nullptr))
+			return false;
+
+		pDate.wHour = h;
+		pDate.wMinute = m;
+		pDate.wSecond = 0;
+		pDate.wMilliseconds = 0;
+
+		ULONGLONG li;
+		TzLocalSTToFileTime(&pDate, (FILETIME*)&li);
+		FileTimeToSystemTime((FILETIME*)&li, &pDate);
+		return true;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	// Initialize date control
+
+	void InitDatePicker(LONGLONG li)
+	{
+		SYSTEMTIME tm;
+		FileTimeToTzLocalST((FILETIME*)&li, &tm);
+		m_date.SetTime(&tm);
+
+		// tweak style of picker
+		if (IsWinVerVistaPlus()) {
+			DWORD dw = m_date.SendMsg(DTM_GETMCSTYLE, 0, 0);
+			dw |= MCS_WEEKNUMBERS | MCS_NOSELCHANGEONNAV;
+			m_date.SendMsg(DTM_SETMCSTYLE, 0, dw);
+		}
+
+		mir_subclassWindow(m_date.GetHwnd(), DatePickerWndProc);
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	// NOTE: may seem like a bit excessive time converstion and handling, but this is 
+	// done in order to gracefully handle crossing daylight saving boundaries
+
+	void PopulateTimeCombo(const SYSTEMTIME *tmUtc)
+	{
+		cmbTime.ResetContent();
+
+		ULONGLONG li;
+		wchar_t s[64];
+
+		// generate absolute time table for date different than today
+		SYSTEMTIME tm2;
+		GetSystemTime(&tm2);
+		if (tmUtc->wDay != tm2.wDay || tmUtc->wMonth != tm2.wMonth || tmUtc->wYear != tm2.wYear) {
+			// ensure that we start on midnight local time
+			SystemTimeToTzSpecificLocalTime(nullptr, tmUtc, &tm2);
+			tm2.wHour = 0;
+			tm2.wMinute = 0;
+			tm2.wSecond = 0;
+			tm2.wMilliseconds = 0;
+			TzSpecificLocalTimeToSystemTime(nullptr, &tm2, &tm2);
+			SystemTimeToFileTime(&tm2, (FILETIME*)&li);
+
+			// from 00:00 to 23:30 in 30 minute steps
+			for (int i = 0; i < 50; i++) {
+				const int h = i >> 1;
+				const int m = (i & 1) ? 30 : 0;
+
+				FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+				mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+
+				// item data contains time offset from midnight in seconds (bit 31 is set to flag that
+				// combo box items are absolute times and not relative times like below
+				cmbTime.AddString(s, ((h * 60 + m) * 60));
+
+				li += 30ll * MinutesToFileTime;
+
+				if (tm2.wHour == 23 && tm2.wMinute >= 30)
+					break;
+			}
+
+			m_bRelativeCombo = true; // time is relative to the current time
+			return;
+		}
+
+		///////////////////////////////////////////////////////////////////////////////////////
+
+		SystemTimeToFileTime(tmUtc, (FILETIME*)&li);
+		ULONGLONG ref = li;
+		m_bRelativeCombo = false; // absolute time
+
+		// NOTE: item data contains offset from reference time (tmUtc) in seconds
+
+		// cur time
+		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+		WORD wCurHour = tm2.wHour;
+		WORD wCurMinute = tm2.wMinute;
+		mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+
+		// 5 minutes
+		li += (ULONGLONG)5 * MinutesToFileTime;
+		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+		mir_snwprintf(s, L"%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+
+		// 10 minutes
+		li += (ULONGLONG)5 * MinutesToFileTime;
+		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+		mir_snwprintf(s, L"%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+
+		// 15 minutes
+		li += (ULONGLONG)5 * MinutesToFileTime;
+		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+		mir_snwprintf(s, L"%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+
+		// 30 minutes
+		li += (ULONGLONG)15 * MinutesToFileTime;
+		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+		mir_snwprintf(s, L"%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+
+		// round +1h time to nearest even or half hour
+		li += (ULONGLONG)30 * MinutesToFileTime;
+		li = (li / (30 * MinutesToFileTime)) * (30 * MinutesToFileTime);
+
+		// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
+		for (int i = 0; i < 50; i++) {
+			UINT dt;
+
+			FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+
+			if (i > 40) {
+				UINT nLastEntry = ((UINT)wCurHour * 60 + (UINT)wCurMinute) / 30;
+				if (nLastEntry)
+					nLastEntry *= 30;
+				else
+					nLastEntry = 23 * 60 + 30;
+
+				if (((UINT)tm2.wHour * 60 + (UINT)tm2.wMinute) == nLastEntry)
+					break;
+			}
+
+			// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
+			//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
+			// display delta time more accurately to match reformatting (that icq doesn't do)
+			dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
+			if (dt < 60)
+				mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
+			else
+				mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+			cmbTime.AddString(s, dt * 60);
+
+			li += 30ll * MinutesToFileTime;
+		}
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////
+	// returns non-zero if specified time was inside "missing" hour of daylight saving
+	// IMPORTANT: triggerRelUtcOut is only initialized if IsRelativeCombo() is TRUE and return value is 0
+
+	int ReformatTimeInput(ULONGLONG savedLi, int h, int m, const SYSTEMTIME *pDateLocal, ULONGLONG *triggerRelUtcOut = nullptr)
+	{
+		if (h < 0) {
+			// time value is an offset ('m' holds the offset in minutes)
+			if (m_bRelativeCombo) {
+				ULONGLONG ref, li;
+				li = ref = savedLi;
+
+				// clamp delta time to 23.5 hours (coule be issues otherwise as relative combo only handles <24)
+				if (m > (23 * 60 + 30))
+					m = 23 * 60 + 30;
+
+				li += (ULONGLONG)(m * 60) * FILETIME_TICKS_PER_SEC;
+
+				SYSTEMTIME tm;
+				FileTimeToTzLocalST((FILETIME*)&li, &tm);
+				h = (int)tm.wHour;
+				m = (int)tm.wMinute;
+
+				if (triggerRelUtcOut)
+					*triggerRelUtcOut = li;
+
+				wchar_t buf[64];
+				UINT dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
+				if (dt < 60)
+					mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
+				else
+					mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+
+				// search for preset
+				int n = cmbTime.FindString(buf);
+				if (n != -1) {
+					cmbTime.SetCurSel(n);
+					return 0;
+				}
+
+				cmbTime.SetText(buf);
+			}
+			else // should never happen
+				cmbTime.SetCurSel(0);
+
+			return 0;
+		}
+
+		// search for preset first
+		wchar_t buf[64];
+		mir_snwprintf(buf, L"%02d:%02d", h, m);
+		int n = cmbTime.FindString(buf);
+		if (n != -1) {
+			cmbTime.SetCurSel(n);
+			return 0;
+		}
+
+		// date format is a time offset ("24:43 (5 Minutes)" etc.)
+		if (m_bRelativeCombo) {
+			// get reference time (UTC) from hidden control
+			ULONGLONG ref = savedLi;
+
+			SYSTEMTIME tmRefLocal;
+			FileTimeToTzLocalST((FILETIME*)&ref, &tmRefLocal);
+
+			ULONGLONG li;
+			const UINT nRefT = (UINT)tmRefLocal.wHour * 60 + (UINT)tmRefLocal.wMinute;
+			const UINT nT = h * 60 + m;
+
+			SYSTEMTIME tmTriggerLocal, tmTriggerLocal2;
+			tmTriggerLocal = tmRefLocal;
+			tmTriggerLocal.wHour = (WORD)h;
+			tmTriggerLocal.wMinute = (WORD)m;
+			tmTriggerLocal.wSecond = 0;
+			tmTriggerLocal.wMilliseconds = 0;
+
+			if (nT < nRefT) {
+				// (this special case only works correctly if time can be returned in triggerRelUtcOut)
+				if (tmRefLocal.wHour == tmTriggerLocal.wHour && triggerRelUtcOut) {
+					// check for special case if daylight saving ends in this hour, then interpret as within the next hour
+					TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+					li += (ULONGLONG)3600 * FILETIME_TICKS_PER_SEC;
+					FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
+					if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) == (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute))
+						// special case detected
+						goto output_result;
+				}
+
+				// tomorrow (add 24h to local time)
+				SystemTimeToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+				li += (ULONGLONG)(24 * 3600)*FILETIME_TICKS_PER_SEC;
+				FileTimeToSystemTime((FILETIME*)&li, &tmTriggerLocal);
+			}
+
+			// clean up value for potential daylight saving boundary
+			TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
+			FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
+
+			// NOTE: win32 time functions will round hour downward if supplied hour does not exist due to daylight saving
+			//       for example if supplied time is 02:30 on the night the clock is turned forward at 02:00 to 03:00, thus
+			//       there never is a 02:30, the time functions will convert it to 01:30 (and not 03:30 as one might think)
+			//       (02:00 would return 01:00)
+
+			// check for special case when the current time and requested time is inside the "missing" hour
+			// standard->daylight switch, so that the cleaned up time ends up being earlier than the current
+			// time even though it originally wasn't (see note above)
+			if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) < (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute)) {
+				// special case detected, fall back to current time so at least the reminder won't be missed
+				// due to ending up at an undesired time (this way the user immediately notices something was wrong)
+				cmbTime.SetCurSel(0);
+invalid_dst:
+				MessageBox(cmbTime.GetParent()->GetHwnd(),
+					TranslateT("The specified time is invalid due to begin of daylight saving (summer time)."),
+					_A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
+				return 1;
+			}
+
+output_result:
 			if (triggerRelUtcOut)
 				*triggerRelUtcOut = li;
 
-			wchar_t buf[64];
 			UINT dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
 			if (dt < 60)
 				mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
 			else
 				mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
-
-			// search for preset
-			int n = pCombo.FindString(buf);
-			if (n != -1) {
-				pCombo.SetCurSel(n);
-				return 0;
-			}
-
-			pCombo.SetText(buf);
-		}
-		else // should never happen
-			pCombo.SetCurSel(0);
-
-		return 0;
-	}
-
-	// search for preset first
-	wchar_t buf[64];
-	mir_snwprintf(buf, L"%02d:%02d", h, m);
-	int n = pCombo.FindString(buf);
-	if (n != -1) {
-		pCombo.SetCurSel(n);
-		return 0;
-	}
-
-	// date format is a time offset ("24:43 (5 Minutes)" etc.)
-	if (IsRelativeCombo(pCombo)) {
-		// get reference time (UTC) from hidden control
-		ULONGLONG ref = savedLi;
-
-		SYSTEMTIME tmRefLocal;
-		FileTimeToTzLocalST((FILETIME*)&ref, &tmRefLocal);
-
-		ULONGLONG li;
-		const UINT nRefT = (UINT)tmRefLocal.wHour * 60 + (UINT)tmRefLocal.wMinute;
-		const UINT nT = h * 60 + m;
-
-		SYSTEMTIME tmTriggerLocal, tmTriggerLocal2;
-		tmTriggerLocal = tmRefLocal;
-		tmTriggerLocal.wHour = (WORD)h;
-		tmTriggerLocal.wMinute = (WORD)m;
-		tmTriggerLocal.wSecond = 0;
-		tmTriggerLocal.wMilliseconds = 0;
-
-		if (nT < nRefT) {
-			// (this special case only works correctly if time can be returned in triggerRelUtcOut)
-			if (tmRefLocal.wHour == tmTriggerLocal.wHour && triggerRelUtcOut) {
-				// check for special case if daylight saving ends in this hour, then interpret as within the next hour
-				TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
-				li += (ULONGLONG)3600 * FILETIME_TICKS_PER_SEC;
-				FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
-				if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) == (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute))
-					// special case detected
-					goto output_result;
-			}
-
-			// tomorrow (add 24h to local time)
-			SystemTimeToFileTime(&tmTriggerLocal, (FILETIME*)&li);
-			li += (ULONGLONG)(24 * 3600)*FILETIME_TICKS_PER_SEC;
-			FileTimeToSystemTime((FILETIME*)&li, &tmTriggerLocal);
-		}
-
-		// clean up value for potential daylight saving boundary
-		TzLocalSTToFileTime(&tmTriggerLocal, (FILETIME*)&li);
-		FileTimeToTzLocalST((FILETIME*)&li, &tmTriggerLocal2);
-
-		// NOTE: win32 time functions will round hour downward if supplied hour does not exist due to daylight saving
-		//       for example if supplied time is 02:30 on the night the clock is turned forward at 02:00 to 03:00, thus
-		//       there never is a 02:30, the time functions will convert it to 01:30 (and not 03:30 as one might think)
-		//       (02:00 would return 01:00)
-
-		// check for special case when the current time and requested time is inside the "missing" hour
-		// standard->daylight switch, so that the cleaned up time ends up being earlier than the current
-		// time even though it originally wasn't (see note above)
-		if ((tmTriggerLocal2.wHour * 60 + tmTriggerLocal2.wMinute) < (tmTriggerLocal.wHour * 60 + tmTriggerLocal.wMinute)) {
-			// special case detected, fall back to current time so at least the reminder won't be missed
-			// due to ending up at an undesired time (this way the user immediately notices something was wrong)
-			pCombo.SetCurSel(0);
-invalid_dst:
-			MessageBox(pCombo.GetParent()->GetHwnd(),
-				TranslateT("The specified time is invalid due to begin of daylight saving (summer time)."),
-				_A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
-			return 1;
-		}
-
-output_result:
-		if (triggerRelUtcOut)
-			*triggerRelUtcOut = li;
-
-		UINT dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-		if (dt < 60)
-			mir_snwprintf(buf, L"%02d:%02d (%d %s)", h, m, dt, TranslateT("Minutes"));
-		else
-			mir_snwprintf(buf, L"%02d:%02d (%d.%d %s)", h, m, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
-	}
-	else {
-		// absolute time (00:00 to 23:59), clean up time to make sure it's not inside "missing" hour (will be rounded downward)
-		SYSTEMTIME Date = *pDateLocal;
-		Date.wHour = h;
-		Date.wMinute = m;
-		Date.wSecond = 0;
-		Date.wMilliseconds = 0;
-
-		FILETIME ft;
-		TzLocalSTToFileTime(&Date, &ft);
-		FileTimeToTzLocalST(&ft, &Date);
-
-		if ((int)Date.wHour != h || (int)Date.wMinute != m) {
-			mir_snwprintf(buf, L"%02d:%02d", Date.wHour, Date.wMinute);
-
-			// search for preset again
-			n = pCombo.FindString(buf);
-			if (n != -1) {
-				pCombo.SetCurSel(n);
-				goto invalid_dst;
-			}
-
-			goto invalid_dst;
-		}
-	}
-
-	pCombo.SetText(buf);
-	return 0;
-}
-
-// in:  pDate contains the desired trigger date in LOCAL time
-// out: pDate contains the resulting trigger time and date in UTC
-static bool GetTriggerTime(CCtrlCombo &pCombo, ULONGLONG savedLi, SYSTEMTIME &pDate)
-{
-	int n = pCombo.GetCurSel();
-	if (n != -1) {
-		// use preset value
-		if (IsRelativeCombo(pCombo)) {
-			// combine date from pDate (local) and time from savedLi (utc)
-			SYSTEMTIME st, st2;
-			FileTimeToSystemTime((FILETIME *)&savedLi, &st);
-			SystemTimeToTzSpecificLocalTime(nullptr, &st, &st2);
-			st2.wYear = pDate.wYear; st2.wMonth = pDate.wMonth; st2.wDay = pDate.wDay; st2.wDayOfWeek = pDate.wDayOfWeek;
-			SystemTimeToFileTime(&st2, (FILETIME*)&savedLi);
-
-			// time offset from ref time ("24:43 (5 Minutes)" etc.)
-			UINT nDeltaSeconds = pCombo.GetItemData(n);
-			savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
-
-			FileTimeToSystemTime((FILETIME*)&savedLi, &st);
-			TzSpecificLocalTimeToSystemTime(nullptr, &st, &pDate);
-
-			// if specified time is a small offset (< 10 Minutes) then retain current second count for better accuracy
-			// otherwise try to match specified time (which never contains seconds only even minutes) as close as possible
-			if (nDeltaSeconds >= 10 * 60) {
-				pDate.wSecond = 0;
-				pDate.wMilliseconds = 0;
-			}
 		}
 		else {
-			// absolute time (offset from midnight on pDate)
-			UINT nDeltaSeconds = pCombo.GetItemData(n) & ~0x80000000;
-			pDate.wHour = pDate.wMinute = pDate.wSecond = pDate.wMilliseconds = 0;
-			TzLocalSTToFileTime(&pDate, (FILETIME*)&savedLi);
-			savedLi += (ULONGLONG)nDeltaSeconds * FILETIME_TICKS_PER_SEC;
+			// absolute time (00:00 to 23:59), clean up time to make sure it's not inside "missing" hour (will be rounded downward)
+			SYSTEMTIME Date = *pDateLocal;
+			Date.wHour = h;
+			Date.wMinute = m;
+			Date.wSecond = 0;
+			Date.wMilliseconds = 0;
 
-			FileTimeToSystemTime((FILETIME*)&savedLi, &pDate);
+			FILETIME ft;
+			TzLocalSTToFileTime(&Date, &ft);
+			FileTimeToTzLocalST(&ft, &Date);
+
+			if ((int)Date.wHour != h || (int)Date.wMinute != m) {
+				mir_snwprintf(buf, L"%02d:%02d", Date.wHour, Date.wMinute);
+
+				// search for preset again
+				n = cmbTime.FindString(buf);
+				if (n != -1) {
+					cmbTime.SetCurSel(n);
+					goto invalid_dst;
+				}
+
+				goto invalid_dst;
+			}
 		}
-		return true;
+
+		cmbTime.SetText(buf);
+		return 0;
 	}
-
-	// user entered a custom value
-	wchar_t buf[32];
-	pCombo.GetText(buf, _countof(buf));
-
-	int h, m;
-	if (!ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(pCombo))) {
-		MessageBox(pCombo.GetParent()->GetHwnd(), TranslateT("The specified time is invalid."), _A2W(SECTIONNAME), MB_OK | MB_ICONWARNING);
-		return false;
-	}
-
-	// absolute time (on pDate)
-	if (ReformatTimeInput(pCombo, savedLi, h, m, &pDate, nullptr))
-		return false;
-
-	pDate.wHour = h;
-	pDate.wMinute = m;
-	pDate.wSecond = 0;
-	pDate.wMilliseconds = 0;
-
-	ULONGLONG li;
-	TzLocalSTToFileTime(&pDate, (FILETIME*)&li);
-	FileTimeToSystemTime((FILETIME*)&li, &pDate);
-	return true;
-}
-
-static void OnDateChanged(CCtrlDate &pDate, CCtrlCombo &pTime, ULONGLONG &savedLi)
-{
-	// repopulate time combo list with regular times (not offsets like "23:32 (5 minutes)" etc.)
-	wchar_t s[32];
-	pTime.GetText(s, _countof(s));
-
-	int h = -1, m;
-	ParseTime(s, &h, &m, FALSE, FALSE);
-
-	SYSTEMTIME Date, DateUtc;
-	pDate.GetTime(&Date);
-
-	TzSpecificLocalTimeToSystemTime(nullptr, &Date, &DateUtc);
-	PopulateTimeCombo(pTime, &DateUtc);
-
-	if (h < 0) {
-		// parsing failed, default to current time
-		SYSTEMTIME tm;
-		GetLocalTime(&tm);
-		h = (UINT)tm.wHour;
-		m = (UINT)tm.wMinute;
-	}
-
-	ReformatTimeInput(pTime, savedLi, h, m, &Date);
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// szText notification dialog
+// Reminder notification dialog
 
-class CReminderNotifyDlg : public CDlgBase
+class CReminderNotifyDlg : public CReminderBaseDlg
 {
+	typedef CReminderBaseDlg CSuper;
+
 	REMINDERDATA *m_pReminder;
-	ULONGLONG m_savedLi;
 
 	void PopulateTimeOffsetCombo()
 	{
@@ -1004,32 +1069,28 @@ class CReminderNotifyDlg : public CDlgBase
 		cmbRemindAgainIn.AddString(s, 7 * 24 * 60);
 	}
 
-	CCtrlDate dateAgain;
 	CCtrlEdit edtText;
 	CCtrlCheck chkAfter, chkOnDate;
-	CCtrlCombo cmbTimeAgain, cmbRemindAgainIn;
+	CCtrlCombo cmbRemindAgainIn;
 	CCtrlButton btnDismiss, btnNone, btnRemindAgain;
 
 public:
 	CReminderNotifyDlg(REMINDERDATA *pReminder) :
-		CDlgBase(g_plugin, IDD_NOTIFYREMINDER),
+		CSuper(IDD_NOTIFYREMINDER),
 		m_pReminder(pReminder),
-		m_savedLi(pReminder->When),
 		btnNone(this, IDC_NONE),
 		btnDismiss(this, IDC_DISMISS),
 		btnRemindAgain(this, IDC_REMINDAGAIN),
 		edtText(this, IDC_REMDATA),
 		chkAfter(this, IDC_AFTER),
 		chkOnDate(this, IDC_ONDATE),
-		dateAgain(this, IDC_DATEAGAIN),
-		cmbTimeAgain(this, IDC_TIMEAGAIN),
 		cmbRemindAgainIn(this, IDC_REMINDAGAININ)
 	{
+		m_savedLi = pReminder->When;
+
 		chkAfter.OnChange = Callback(this, &CReminderNotifyDlg::onChange_After);
 		chkOnDate.OnChange = Callback(this, &CReminderNotifyDlg::onChange_OnDate);
-		dateAgain.OnChange = Callback(this, &CReminderNotifyDlg::onChange_Date);
 
-		cmbTimeAgain.OnKillFocus = Callback(this, &CReminderNotifyDlg::onKillFocus_TimeAgain);
 		cmbRemindAgainIn.OnKillFocus = Callback(this, &CReminderNotifyDlg::onKillFocus_RemindAgain);
 
 		btnNone.OnClick = Callback(this, &CReminderNotifyDlg::onClick_None);
@@ -1063,14 +1124,10 @@ public:
 
 		edtText.SendMsg(EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
 
-		PopulateTimeCombo(cmbTimeAgain, &tm);
+		PopulateTimeCombo(&tm);
+		InitDatePicker(li);
 
-		// make sure date picker uses reference time
-		FileTimeToTzLocalST((FILETIME*)&li, &tm);
-		dateAgain.SetTime(&tm);
-		InitDatePicker(dateAgain);
-
-		cmbTimeAgain.SetCurSel(0);
+		cmbTime.SetCurSel(0);
 
 		wchar_t S1[128], S2[MAX_PATH];
 		GetTriggerTimeString(&m_pReminder->When, S1, sizeof(S1), TRUE);
@@ -1093,8 +1150,8 @@ public:
 	void onChange_After(CCtrlCheck*)
 	{
 		cmbRemindAgainIn.Show();
-		dateAgain.Hide();
-		cmbTimeAgain.Hide();
+		m_date.Hide();
+		cmbTime.Hide();
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_DATE), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_TIME), SW_HIDE);
 	}
@@ -1104,33 +1161,11 @@ public:
 		if (!m_bInitialized)
 			return;
 
-		dateAgain.Show();
-		cmbTimeAgain.Show();
+		m_date.Show();
+		cmbTime.Show();
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_DATE), SW_SHOW);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_STATIC_TIME), SW_SHOW);
 		cmbRemindAgainIn.Hide();
-	}
-
-	void onChange_Date(CCtrlDate*)
-	{
-		OnDateChanged(dateAgain, cmbTimeAgain, m_savedLi);
-	}
-
-	void onKillFocus_TimeAgain(CCtrlCombo*)
-	{
-		// reformat displayed value
-		if (cmbTimeAgain.GetCurSel() == -1) {
-			wchar_t buf[64];
-			cmbTimeAgain.GetText(buf, _countof(buf));
-
-			int h, m;
-			if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(cmbTimeAgain))) {
-				SYSTEMTIME Date;
-				dateAgain.GetTime(&Date);
-				ReformatTimeInput(cmbTimeAgain, m_savedLi, h, m, &Date);
-			}
-			else cmbTimeAgain.SetCurSel(0);
-		}
 	}
 
 	void onKillFocus_RemindAgain(CCtrlCombo*)
@@ -1199,8 +1234,8 @@ public:
 		}
 		else if (chkOnDate.GetState()) {
 			SYSTEMTIME Date;
-			dateAgain.GetTime(&Date);
-			if (!GetTriggerTime(cmbTimeAgain, m_savedLi, Date))
+			m_date.GetTime(&Date);
+			if (!GetTriggerTime(m_savedLi, Date))
 				return;
 
 			SystemTimeToFileTime(&Date, (FILETIME*)&m_pReminder->When);
@@ -1245,28 +1280,26 @@ INT_PTR OpenTriggeredReminder(WPARAM, LPARAM l)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CReminderFormDlg : public CDlgBase
+class CReminderFormDlg : public CReminderBaseDlg
 {
-	REMINDERDATA *m_pReminder;
-	ULONGLONG m_savedLi;
+	typedef CReminderBaseDlg CSuper;
 
-	CCtrlDate date;
+	REMINDERDATA *m_pReminder;
+
 	CCtrlEdit edtText;
 	CCtrlCheck chkRepeat;
-	CCtrlCombo cmbSound, cmbRepeat, cmbTime;
+	CCtrlCombo cmbSound, cmbRepeat;
 	CCtrlButton btnAdd, btnView, btnPlaySound;
 
 public:
 	CReminderFormDlg(REMINDERDATA *pReminder = nullptr) :
-		CDlgBase(g_plugin, IDD_ADDREMINDER),
+		CSuper(IDD_ADDREMINDER),
 		m_pReminder(pReminder),
-		date(this, IDC_DATE),
 		btnAdd(this, IDC_ADDREMINDER),
 		btnView(this, IDC_VIEWREMINDERS),
 		btnPlaySound(this, IDC_BTN_PLAYSOUND),
 		edtText(this, IDC_REMINDER),
 		chkRepeat(this, IDC_CHECK_REPEAT),
-		cmbTime(this, IDC_COMBOREMINDERTIME),
 		cmbSound(this, IDC_COMBO_SOUND),
 		cmbRepeat(this, IDC_COMBO_REPEATSND)
 	{
@@ -1274,10 +1307,7 @@ public:
 		btnView.OnClick = Callback(this, &CReminderFormDlg::onClick_View);
 		btnPlaySound.OnClick = Callback(this, &CReminderFormDlg::onClick_PlaySound);
 
-		date.OnChange = Callback(this, &CReminderFormDlg::onChange_Date);
 		cmbSound.OnChange = Callback(this, &CReminderFormDlg::onChange_Sound);
-
-		cmbTime.OnKillFocus = Callback(this, &CReminderFormDlg::onChange_Time);
 	}
 
 	bool OnInitDialog() override
@@ -1298,12 +1328,8 @@ public:
 			SystemTimeToFileTime(&tm, (FILETIME*)&m_savedLi);
 		}
 
-		PopulateTimeCombo(cmbTime, &tm);
-
-		// make sure date picker uses reference time
-		FileTimeToTzLocalST((FILETIME*)&m_savedLi, &tm);
-		date.SetTime(&tm);
-		InitDatePicker(date);
+		PopulateTimeCombo(&tm);
+		InitDatePicker(m_savedLi);
 
 		edtText.SendMsg(EM_LIMITTEXT, MAX_REMINDER_LEN, 0);
 
@@ -1391,8 +1417,8 @@ public:
 	void onClick_Add(CCtrlButton*)
 	{
 		SYSTEMTIME Date;
-		date.GetTime(&Date);
-		if (!GetTriggerTime(cmbTime, m_savedLi, Date))
+		m_date.GetTime(&Date);
+		if (!GetTriggerTime(m_savedLi, Date))
 			return;
 
 		int RepeatSound = cmbRepeat.GetCurSel();
@@ -1458,28 +1484,6 @@ public:
 		}
 	}
 
-	void onChange_Date(CCtrlDate*)
-	{
-		OnDateChanged(date, cmbTime, m_savedLi);
-	}
-
-	void onChange_Time(CCtrlCombo*)
-	{
-		if (cmbTime.GetCurSel() != -1)
-			return;
-
-		wchar_t buf[64];
-		cmbTime.GetText(buf, _countof(buf));
-
-		int h, m;
-		if (ParseTime(buf, &h, &m, FALSE, IsRelativeCombo(cmbTime))) {
-			SYSTEMTIME Date;
-			date.GetTime(&Date);
-			ReformatTimeInput(cmbTime, m_savedLi, h, m, &Date);
-		}
-		else cmbTime.SetCurSel(0);
-	}
-
 	void onChange_Sound(CCtrlCombo*)
 	{
 		int n = cmbSound.GetItemData(cmbSound.GetCurSel());
@@ -1506,6 +1510,8 @@ static void EditReminder(REMINDERDATA *p)
 
 class CReminderListDlg : public CDlgBase
 {
+	typedef CDlgBase CSuper;
+
 	CMStringW m_wszFilter;
 
 	REMINDERDATA* getData(int idx)
@@ -1557,7 +1563,7 @@ class CReminderListDlg : public CDlgBase
 
 public:
 	CReminderListDlg() :
-		CDlgBase(g_plugin, IDD_LISTREMINDERS),
+		CSuper(g_plugin, IDD_LISTREMINDERS),
 		m_list(this, IDC_LISTREMINDERS),
 		btnNew(this, IDC_ADDNEWREMINDER),
 		edtFilter(this, IDC_FILTER)
@@ -1740,7 +1746,7 @@ public:
 			break;
 
 		case WM_SIZE:
-			CDlgBase::DlgProc(msg, wParam, lParam);
+			CSuper::DlgProc(msg, wParam, lParam);
 
 			GetWindowRect(m_list.GetHwnd(), &rc);
 			int nWidth = rc.right - rc.left - m_list.GetColumnWidth(0) - 4;
@@ -1750,7 +1756,7 @@ public:
 			return 0;
 		}
 
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		return CSuper::DlgProc(msg, wParam, lParam);
 	}
 };
 

@@ -2,6 +2,6 @@ Miranda Language Pack Version 1
 Language: Українська
 Locale: 0422
 Authors: apollo2k4, RMN
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ; Based on translation for Miranda IM by Vitaliy Stopchans'kyy, SLV, Ivan Blazhko

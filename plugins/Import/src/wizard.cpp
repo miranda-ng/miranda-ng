@@ -53,7 +53,7 @@ void CIntroPageDlg::OnNext()
 // Final wizard page
 
 CFinishedPageDlg::CFinishedPageDlg() :
-	CWizardPageDlg(IDD_FINISHED)
+	CSuper(IDD_FINISHED)
 {}
 
 bool CFinishedPageDlg::OnInitDialog()
@@ -77,9 +77,9 @@ void CFinishedPageDlg::OnNext()
 void CFinishedPageDlg::OnCancel()
 {
 	if (IsDlgButtonChecked(m_hwnd, IDC_DONTLOADPLUGIN))
-		db_set_b(0, "PluginDisable", "import", 1);
+		SetPluginOnWhiteList("import", false);
 
-	CWizardPageDlg::OnCancel();
+	CSuper::OnCancel();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -181,6 +181,7 @@ public:
 			SetWindowPos(hwndPage, nullptr, 0, 0, m_splitterX, m_splitterY, SWP_NOZORDER);
 			if (bFirstLaunch)
 				ShowWindow(m_hwnd, SW_SHOW);
+			SetFocus(hwndPage);
 			break;
 
 		case WIZM_DISABLEBUTTON:

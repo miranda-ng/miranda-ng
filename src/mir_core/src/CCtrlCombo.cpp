@@ -104,30 +104,30 @@ int CCtrlCombo::FindStringA(const char *str, int index, bool exact)
 {	return SendMessageA(m_hwnd, exact?CB_FINDSTRINGEXACT:CB_FINDSTRING, index, (LPARAM)str);
 }
 
-int CCtrlCombo::GetCount()
+int CCtrlCombo::GetCount() const
 {	return SendMessage(m_hwnd, CB_GETCOUNT, 0, 0);
 }
 
-int CCtrlCombo::GetCurSel()
+int CCtrlCombo::GetCurSel() const
 {	return SendMessage(m_hwnd, CB_GETCURSEL, 0, 0);
 }
 
-bool CCtrlCombo::GetDroppedState()
+bool CCtrlCombo::GetDroppedState() const
 {	return SendMessage(m_hwnd, CB_GETDROPPEDSTATE, 0, 0) ? true : false;
 }
 
-LPARAM CCtrlCombo::GetItemData(int index)
+LPARAM CCtrlCombo::GetItemData(int index) const
 {	return SendMessage(m_hwnd, CB_GETITEMDATA, index, 0);
 }
 
-wchar_t* CCtrlCombo::GetItemText(int index)
+wchar_t* CCtrlCombo::GetItemText(int index) const
 {
 	wchar_t *result = (wchar_t *)mir_alloc(sizeof(wchar_t) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);
 	return result;
 }
 
-wchar_t* CCtrlCombo::GetItemText(int index, wchar_t *buf, int size)
+wchar_t* CCtrlCombo::GetItemText(int index, wchar_t *buf, int size) const
 {
 	wchar_t *result = (wchar_t *)_alloca(sizeof(wchar_t) * (SendMessage(m_hwnd, CB_GETLBTEXTLEN, index, 0) + 1));
 	SendMessage(m_hwnd, CB_GETLBTEXT, index, (LPARAM)result);

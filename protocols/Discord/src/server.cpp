@@ -84,12 +84,12 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	}
 
 	for (auto &it : arNodes) {
-		auto &p = *it;
-		CMStringW wszText = PrepareMessageText(p);
-		CMStringW wszUserId = p["author"]["id"].as_mstring();
-		SnowFlake msgid = ::getId(p["id"]);
+		auto &pNode = *it;
+		CMStringW wszText = PrepareMessageText(pNode);
+		CMStringW wszUserId = pNode["author"]["id"].as_mstring();
+		SnowFlake msgid = ::getId(pNode["id"]);
 		SnowFlake authorid = _wtoi64(wszUserId);
-		DWORD dwTimeStamp = StringToDate(p["timestamp"].as_mstring());
+		DWORD dwTimeStamp = StringToDate(pNode["timestamp"].as_mstring());
 
 		if (pUser->bIsPrivate) {
 			DBEVENTINFO dbei = {};
@@ -125,6 +125,8 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			}
 		}
 		else {
+			ProcessChatUser(pUser, wszUserId, pNode);
+
 			ParseSpecialChars(si, wszText);
 
 			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };

@@ -114,7 +114,12 @@ struct CDiscordGuild : public MZeroedObject
 
 	__forceinline CDiscordGuildMember* FindUser(SnowFlake userId)
 	{
-		return arChatUsers.find((CDiscordGuildMember*)&userId);
+		return arChatUsers.find((CDiscordGuildMember *)&userId);
+	}
+
+	__inline CMStringW GetCacheFile() const
+	{
+		return CMStringW(FORMAT, L"%s\\DiscordCache\\%lld.json", VARSW(L"%miranda_userdata%").get(), id);
 	}
 
 	SnowFlake id, ownerId;
@@ -127,6 +132,9 @@ struct CDiscordGuild : public MZeroedObject
 	SESSION_INFO *pParentSi;
 	OBJLIST<CDiscordGuildMember> arChatUsers;
 	OBJLIST<CDiscordRole> arRoles; // guild roles
+
+	void LoadFromFile();
+	void SaveToFile();
 };
 
 struct CDiscordVoiceCall
@@ -255,6 +263,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	CMOption<BYTE>     m_bUseGroupchats;  // Shall we connect Guilds at all?
 	CMOption<BYTE>     m_bHideGroupchats; // Do not open chat windows on creation
 	CMOption<BYTE>     m_bUseGuildGroups; // use special subgroups for guilds
+	CMOption<BYTE>     m_bSyncDeleteMsgs; // delete messages from Miranda if they are deleted at the server
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// common data
@@ -320,6 +329,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 	void Chat_ProcessLogMenu(GCHOOK *gch);
 
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
+	void ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUserId, const JSONNode &pRoot);
 	void ParseSpecialChars(SESSION_INFO *si, CMStringW &str);
 
 	//////////////////////////////////////////////////////////////////////////////////////

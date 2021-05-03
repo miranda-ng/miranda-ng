@@ -6,17 +6,20 @@ Copyright © 2019-21 George Hazan
 */
 
 #pragma once
+#pragma warning(disable:4996 4290 4200)
 
-#pragma warning(disable:4996)
-#pragma warning(disable:4290)
-
+#include <malloc.h>
 #include <time.h>
 #include <windows.h>
 
+#include <list>
+#include <string>
+
 #include <newpluginapi.h>
 #include <m_avatars.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_history.h>
 #include <m_imgsrvc.h>
@@ -51,6 +54,17 @@ Copyright © 2019-21 George Hazan
 #include "../../libs/libsignal/src/hkdf.h"
 #include "../../libs/libsignal/src/signal_protocol.h"
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// to obtain protobuf library do the following
+// - install vcpkg (https://github.com/microsoft/vcpkg);
+// - install static libraries of protobuf:
+// >vcpkg.exe install protobuf:x86-windows-static-md
+// >vcpkg.exe install protobuf:x64-windows-static-md
+
+#include "google/protobuf/message.h"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct signal_buffer
 {
 	size_t len;
@@ -74,7 +88,9 @@ struct ec_private_key : public signal_type_base
 };
 
 #include "db.h"
+#include "utils.h"
 #include "proto.h"
 #include "resource.h"
+#include "pmsg.pb.h"
 
 #pragma comment(lib, "libcrypto.lib")

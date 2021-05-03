@@ -87,7 +87,7 @@ static int MainInit(WPARAM, LPARAM)
 	mi.root = hMenuRoot;
 	mi.hIcolibItem = nullptr;
 
-	if (protocols->CanSetAvatars()) {
+	if (protocols.CanSetAvatars()) {
 		SET_UID(mi, 0xe5b2d79e, 0xd25a, 0x4f72, 0xa4, 0x1a, 0x21, 0xfd, 0x48, 0x6b, 0xb5, 0x6);
 		mi.position = 100001;
 		mi.name.w = LPGENW("Set my avatar...");

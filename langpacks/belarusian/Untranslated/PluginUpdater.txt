@@ -17,5 +17,6 @@
 [Backup database before update]
 [Stable version (incompatible with current development version)]
 [Change platform to 64-bit]
-[Update completed]
 [Update failed]
+[Update completed]
+[Updates are temporarily disabled, try again later.]

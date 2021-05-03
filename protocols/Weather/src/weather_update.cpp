@@ -26,7 +26,7 @@ menu items).
 
 #include "stdafx.h"
 
-UPDATELIST *UpdateListHead, *UpdateListTail;
+UPDATELIST *UpdateListHead = nullptr, *UpdateListTail = nullptr;
 
 //============  RETRIEVE NEW WEATHER  ============
 //
@@ -34,7 +34,7 @@ UPDATELIST *UpdateListHead, *UpdateListTail;
 // hContact = current contact
 int UpdateWeather(MCONTACT hContact)
 {
-	wchar_t str[256], str2[MAX_TEXT_SIZE];
+	wchar_t str2[MAX_TEXT_SIZE];
 	DBVARIANT dbv;
 	BOOL Ch = FALSE;
 
@@ -56,13 +56,10 @@ int UpdateWeather(MCONTACT hContact)
 		// error occurs if the return value is not equals to 0
 		if (opt.ShowWarnings) {
 			// show warnings by popup
-			mir_snwprintf(str, _countof(str) - 105,
-				TranslateT("Unable to retrieve weather information for %s"), dbv.pwszVal);
-			mir_wstrncat(str, L"\n", _countof(str) - mir_wstrlen(str));
-			wchar_t *tszError = GetError(code);
-			mir_wstrncat(str, tszError, _countof(str) - mir_wstrlen(str));
+			CMStringW str(FORMAT, TranslateT("Unable to retrieve weather information for %s"), dbv.pwszVal);
+			str.AppendChar('\n');
+			str.Append(ptrW(GetError(code)));
 			WPShowMessage(str, SM_WARNING);
-			mir_free(tszError);
 		}
 		// log to netlib
 		Netlib_LogfW(hNetlibUser, L"Error! Update cannot continue... Start to free memory");
@@ -104,7 +101,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!dbres && dbv.pwszVal[0] != 0) {
 		if (opt.AlertPopup && !g_plugin.getByte(hContact, "DPopUp") && Ch) {
 			// display alert popup
-			mir_snwprintf(str, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
+			CMStringW str(FORMAT, L"Alert for %s%c%s", winfo.city, 255, dbv.pwszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
@@ -129,10 +126,10 @@ int UpdateWeather(MCONTACT hContact)
 		g_plugin.setWord(hContact, "Status", winfo.status);
 	AvatarDownloaded(hContact);
 
-	GetDisplay(&winfo, opt.cText, str2);
+	GetDisplay(&winfo, GetTextValue('C'), str2);
 	db_set_ws(hContact, "CList", "MyHandle", str2);
 
-	GetDisplay(&winfo, opt.sText, str2);
+	GetDisplay(&winfo, GetTextValue('S'), str2);
 	if (str2[0])
 		db_set_ws(hContact, "CList", "StatusMsg", str2);
 	else
@@ -141,9 +138,9 @@ int UpdateWeather(MCONTACT hContact)
 	ProtoBroadcastAck(MODULENAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, nullptr, (LPARAM)(str2[0] ? str2 : nullptr));
 
 	// save descriptions in MyNotes
-	GetDisplay(&winfo, opt.nText, str2);
+	GetDisplay(&winfo, GetTextValue('N'), str2);
 	db_set_ws(hContact, "UserInfo", "MyNotes", str2);
-	GetDisplay(&winfo, opt.xText, str2);
+	GetDisplay(&winfo, GetTextValue('X'), str2);
 	db_set_ws(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
@@ -176,7 +173,7 @@ int UpdateWeather(MCONTACT hContact)
 				db_free(&dbv);
 				if (file != nullptr) {
 					// write data to the file and close
-					GetDisplay(&winfo, opt.eText, str2);
+					GetDisplay(&winfo, GetTextValue('E'), str2);
 					fputws(str2, file);
 					fclose(file);
 				}
@@ -185,7 +182,7 @@ int UpdateWeather(MCONTACT hContact)
 
 		if (g_plugin.getByte(hContact, "History")) {
 			// internal log using history
-			GetDisplay(&winfo, opt.hText, str2);
+			GetDisplay(&winfo, GetTextValue('H'), str2);
 
 			T2Utf szMessage(str2);
 
@@ -245,7 +242,7 @@ MCONTACT UpdateGetFirst()
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
 	if (UpdateListHead != nullptr) {
-		UPDATELIST* Item = UpdateListHead;
+		UPDATELIST *Item = UpdateListHead;
 
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
@@ -381,7 +378,7 @@ int GetWeatherData(MCONTACT hContact)
 	GetStationID(hContact, id, _countof(id));
 
 	// test ID format
-	wchar_t* szInfo = wcschr(id, '/');
+	wchar_t *szInfo = wcschr(id, '/');
 	if (szInfo == nullptr)
 		return INVALID_ID_FORMAT;
 
@@ -429,7 +426,7 @@ int GetWeatherData(MCONTACT hContact)
 			continue;
 
 		// download the html file from the internet
-		wchar_t* szData = nullptr;
+		wchar_t *szData = nullptr;
 		int retval = InternetDownloadFile(loc, Data->Cookie, Data->UserAgent, &szData);
 		if (retval != 0) {
 			mir_free(szData);
@@ -520,7 +517,7 @@ int GetWeatherData(MCONTACT hContact)
 					}
 
 					// generate the strings
-					wchar_t* end = wcsstr(DataValue, Item->Item.Break);
+					wchar_t *end = wcsstr(DataValue, Item->Item.Break);
 					if (end == nullptr) {
 						DataValue[0] = 0;
 						break;	// exit if break string is not found

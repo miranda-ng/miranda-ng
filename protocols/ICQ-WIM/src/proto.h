@@ -441,6 +441,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	int       UserIsTyping(MCONTACT hContact, int type) override;
 			    
 	void      OnBuildProtoMenu(void) override;
+	void      OnContactAdded(MCONTACT) override;
 	void      OnContactDeleted(MCONTACT) override;
 	void      OnEventEdited(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;

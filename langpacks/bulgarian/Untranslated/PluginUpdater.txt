@@ -9,3 +9,4 @@
 [Plugin updater URI scheme]
 [Backup database before update]
 [Change platform to 64-bit]
+[Updates are temporarily disabled, try again later.]

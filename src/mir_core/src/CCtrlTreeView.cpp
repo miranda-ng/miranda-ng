@@ -423,7 +423,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const wchar_t *name)
 	return nullptr;
 }
 
-void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
+void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi) const
 {
 	memset(tvi, 0, sizeof(*tvi));
 	tvi->mask = TVIF_CHILDREN | TVIF_HANDLE | TVIF_IMAGE | TVIF_INTEGRAL | TVIF_PARAM | TVIF_SELECTEDIMAGE | TVIF_STATE;
@@ -431,7 +431,7 @@ void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi)
 	GetItem(tvi);
 }
 
-void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength)
+void CCtrlTreeView::GetItem(HTREEITEM hItem, TVITEMEX *tvi, wchar_t *szText, int iTextLength) const
 {
 	memset(tvi, 0, sizeof(*tvi));
 	tvi->mask = TVIF_CHILDREN | TVIF_HANDLE | TVIF_IMAGE | TVIF_INTEGRAL | TVIF_PARAM | TVIF_SELECTEDIMAGE | TVIF_STATE | TVIF_TEXT;
@@ -548,6 +548,39 @@ void CCtrlTreeView::Select(LIST<_TREEITEM> &selected)
 			Select(it);
 }
 
+void CCtrlTreeView::GetCaretPos(CContextMenuPos &pos) const
+{
+	pos.pCtrl = this;
+
+	// position is empty, let's fill it using selection
+	if (pos.pt.x == 0 && pos.pt.y == 0) {
+		HTREEITEM hItem = GetSelection();
+		if (hItem != nullptr) {
+			pos.pCtrl = this;
+			pos.hItem = hItem;
+
+			RECT rc;
+			GetItemRect(hItem, &rc, TRUE);
+			pos.pt.x = rc.left + 8;
+			pos.pt.y = rc.top + 8;
+			ClientToScreen(m_hwnd, &pos.pt);
+			return;
+		}
+	}
+	// position is present, let's calculate current item
+	else {
+		TVHITTESTINFO hti;
+		hti.pt = pos.pt;
+		ScreenToClient(m_hwnd, &hti.pt);
+		if (HitTest(&hti) && (hti.flags & TVHT_ONITEM)) {
+			pos.hItem = hti.hItem;
+			return;
+		}
+	}
+
+	CSuper::GetCaretPos(pos);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 HIMAGELIST CCtrlTreeView::CreateDragImage(HTREEITEM hItem)
@@ -578,123 +611,123 @@ void CCtrlTreeView::Expand(HTREEITEM hItem, DWORD flag)
 {	TreeView_Expand(m_hwnd, hItem, flag);
 }
 
-COLORREF CCtrlTreeView::GetBkColor()
+COLORREF CCtrlTreeView::GetBkColor() const
 {	return TreeView_GetBkColor(m_hwnd);
 }
 
-DWORD CCtrlTreeView::GetCheckState(HTREEITEM hItem)
+DWORD CCtrlTreeView::GetCheckState(HTREEITEM hItem) const
 {	return TreeView_GetCheckState(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetChild(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetChild(HTREEITEM hItem) const
 {	return TreeView_GetChild(m_hwnd, hItem);
 }
 
-int CCtrlTreeView::GetCount()
+int CCtrlTreeView::GetCount() const
 {	return TreeView_GetCount(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::GetDropHilight()
+HTREEITEM CCtrlTreeView::GetDropHilight() const
 {	return TreeView_GetDropHilight(m_hwnd);
 }
 
-HWND CCtrlTreeView::GetEditControl()
+HWND CCtrlTreeView::GetEditControl() const
 {	return TreeView_GetEditControl(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::GetFirstVisible()
+HTREEITEM CCtrlTreeView::GetFirstVisible() const
 {	return TreeView_GetFirstVisible(m_hwnd);
 }
 
-HIMAGELIST CCtrlTreeView::GetImageList(int iImage)
+HIMAGELIST CCtrlTreeView::GetImageList(int iImage) const
 {	return TreeView_GetImageList(m_hwnd, iImage);
 }
 
-int CCtrlTreeView::GetIndent()
+int CCtrlTreeView::GetIndent() const
 {	return TreeView_GetIndent(m_hwnd);
 }
 
-COLORREF CCtrlTreeView::GetInsertMarkColor()
+COLORREF CCtrlTreeView::GetInsertMarkColor() const
 {	return TreeView_GetInsertMarkColor(m_hwnd);
 }
 
-bool CCtrlTreeView::GetItem(TVITEMEX *tvi)
+bool CCtrlTreeView::GetItem(TVITEMEX *tvi) const
 {	return TreeView_GetItem(m_hwnd, tvi) == TRUE;
 }
 
-int CCtrlTreeView::GetItemHeight()
+int CCtrlTreeView::GetItemHeight() const
 {	return TreeView_GetItemHeight(m_hwnd);
 }
 
-void CCtrlTreeView::GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect)
+void CCtrlTreeView::GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect) const
 {	TreeView_GetItemRect(m_hwnd, hItem, rcItem, fItemRect);
 }
 
-DWORD CCtrlTreeView::GetItemState(HTREEITEM hItem, DWORD stateMask)
+DWORD CCtrlTreeView::GetItemState(HTREEITEM hItem, DWORD stateMask) const
 {	return TreeView_GetItemState(m_hwnd, hItem, stateMask);
 }
 
-HTREEITEM CCtrlTreeView::GetLastVisible()
+HTREEITEM CCtrlTreeView::GetLastVisible() const
 {	return TreeView_GetLastVisible(m_hwnd);
 }
 
-COLORREF CCtrlTreeView::GetLineColor()
+COLORREF CCtrlTreeView::GetLineColor() const
 {	return TreeView_GetLineColor(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::GetNextItem(HTREEITEM hItem, DWORD flag)
+HTREEITEM CCtrlTreeView::GetNextItem(HTREEITEM hItem, DWORD flag) const
 {	return TreeView_GetNextItem(m_hwnd, hItem, flag);
 }
 
-HTREEITEM CCtrlTreeView::GetNextSibling(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetNextSibling(HTREEITEM hItem) const
 {	return TreeView_GetNextSibling(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetNextVisible(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetNextVisible(HTREEITEM hItem) const
 {	return TreeView_GetNextVisible(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetParent(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetParent(HTREEITEM hItem) const
 {	return TreeView_GetParent(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetPrevSibling(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetPrevSibling(HTREEITEM hItem) const
 {	return TreeView_GetPrevSibling(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetPrevVisible(HTREEITEM hItem)
+HTREEITEM CCtrlTreeView::GetPrevVisible(HTREEITEM hItem) const
 {	return TreeView_GetPrevVisible(m_hwnd, hItem);
 }
 
-HTREEITEM CCtrlTreeView::GetRoot()
+HTREEITEM CCtrlTreeView::GetRoot() const
 {	return TreeView_GetRoot(m_hwnd);
 }
 
-DWORD CCtrlTreeView::GetScrollTime()
+DWORD CCtrlTreeView::GetScrollTime() const
 {	return TreeView_GetScrollTime(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::GetSelection()
+HTREEITEM CCtrlTreeView::GetSelection() const
 {	return TreeView_GetSelection(m_hwnd);
 }
 
-COLORREF CCtrlTreeView::GetTextColor()
+COLORREF CCtrlTreeView::GetTextColor() const
 {	return TreeView_GetTextColor(m_hwnd);
 }
 
-HWND CCtrlTreeView::GetToolTips()
+HWND CCtrlTreeView::GetToolTips() const
 {	return TreeView_GetToolTips(m_hwnd);
 }
 
-BOOL CCtrlTreeView::GetUnicodeFormat()
+BOOL CCtrlTreeView::GetUnicodeFormat() const
 {	return TreeView_GetUnicodeFormat(m_hwnd);
 }
 
-unsigned CCtrlTreeView::GetVisibleCount()
+unsigned CCtrlTreeView::GetVisibleCount() const
 {	return TreeView_GetVisibleCount(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::HitTest(TVHITTESTINFO *hti)
+HTREEITEM CCtrlTreeView::HitTest(TVHITTESTINFO *hti) const
 {	return TreeView_HitTest(m_hwnd, hti);
 }
 

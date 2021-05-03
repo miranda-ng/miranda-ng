@@ -102,7 +102,7 @@ void ShowPopup(LPCTSTR pwszTitle, LPCTSTR pwszText, int Number)
 		if (g_plugin.getByte(setting, DEFAULT_POPUP_ENABLED)) {
 			POPUPDATAW ppd;
 			ppd.lchContact = NULL;
-			ppd.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+			ppd.lchIcon = g_plugin.getIcon(IDI_MENU);
 
 			if (Number == POPUP_TYPE_MSG) {
 				ppd.PluginWindowProc = PopupDlgProcRestart;

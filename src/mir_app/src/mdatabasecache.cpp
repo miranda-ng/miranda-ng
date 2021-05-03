@@ -143,6 +143,7 @@ char* MDatabaseCache::GetCachedSetting(const char *szModuleName, const char *szS
 	if (m_lastSetting && !mir_strcmp(szKey, m_lastSetting))
 		return m_lastSetting;
 
+	mir_cslock lck(m_csVal);
 	int index = m_lSettings.getIndex((char*)szKey);
 	if (index != -1)
 		m_lastSetting = m_lSettings[index];

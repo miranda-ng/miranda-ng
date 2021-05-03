@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Adds web pages as contacts to your contact list and can display text and/or issue change alerts from those pages in a window.]
@@ -20,8 +20,6 @@ Verzög. Update beim Start
 Sekunden
 [Hide icon on status bar]
 Icon auf der Statusleiste verbergen
-[Disable main menu items]
-Hauptmenüelemente deaktivieren
 [Load page on window open]
 Seite beim Öffnen des Fensters laden
 [Update data on startup]
@@ -210,10 +208,6 @@ Datenverarbeitung stoppen
 ;file \protocols\WebView\src\webview.cpp
 [All Webview sites have been updated.]
 Alle Webview-Seiten wurden aktualisiert.
-[Network]
-Netzwerk
-[Popups]
-Popups
 ;file \protocols\WebView\src\webview_alerts.cpp
 [Cannot write to file]
 Kann nicht in Datei schreiben.
@@ -306,6 +300,24 @@ Byte heruntergeladen
 [Alert test conditions not met; press the refresh button to view content.]
 Benachrichtigungs-Test-Bedingung wurden nicht erfüllt, drücken Sie die Aktualisierungsschaltfläche, um den Inhalt sehen zu können.
 ;file \protocols\WebView\src\webview_opts.cpp
+[This is a preview popup.]
+Dies ist ein Vorschau-Popup.
+[Network]
+Netzwerk
+[Popups]
+Popups
+;file \protocols\WebView\src\webview_services.cpp
+[Invalid symbol present in contact name.]
+Ungültige Zeichen im Namen des Kontakts.
+[Cache folder does not exist.]
+Zwischenspeicherordner existiert nicht.
+[Missing "psite.bat" file.]
+Fehlende Datei "psite.bat".
+[Site URL]
+Site-URL
+[Please select site in Find/Add contacts...]
+Bitte wählen Sie eine Site in "Kontakte finden/hinzufügen" aus.
+;file \protocols\WebView\src\webview_ui.cpp
 [No whitespace removal]
 Keine Leerzeichen entfernen
 [Minimal level of whitespace removal]
@@ -326,8 +338,6 @@ Ein neuer String vorhanden ist
 Die Webseite sich verändert
 [A specific part of web page changes]
 Ein bestimmter Teil der Webseite sich verändert
-[This is a preview popup.]
-Dies ist ein Vorschau-Popup.
 [You need to supply a search string.]
 Sie müssen ein Such-String festlegen.
 [You need to supply a start string.]
@@ -340,14 +350,3 @@ Sie müssen einen Dateinamen und Pfad angeben.
 Sie müssen einen URL festlegen.
 [You need to supply a name for the contact.]
 Sie müssen einen Namen für den Kontakt festlegen.
-[Invalid symbol present in contact name.]
-Ungültige Zeichen im Namen des Kontakts.
-;file \protocols\WebView\src\webview_services.cpp
-[Cache folder does not exist.]
-Zwischenspeicherordner existiert nicht.
-[Missing "psite.bat" file.]
-Fehlende Datei "psite.bat".
-[Site URL]
-Site-URL
-[Please select site in Find/Add contacts...]
-Bitte wählen Sie eine Site in "Kontakte finden/hinzufügen" aus.

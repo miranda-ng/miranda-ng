@@ -156,7 +156,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 
 void AvatarDownloaded(MCONTACT hContact)
 {
-	PROTO_AVATAR_INFORMATION ai = { 0 };
+	PROTO_AVATAR_INFORMATION ai = {};
 	ai.hContact = hContact;
 
 	if (WeatherGetAvatarInfo(GAIF_FORCE, (LPARAM)&ai) == GAIR_SUCCESS)

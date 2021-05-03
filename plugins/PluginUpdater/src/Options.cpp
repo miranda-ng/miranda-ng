@@ -223,13 +223,13 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.iPeriodMeasure = cmbPeriod.GetCurSel();
+		g_plugin.iPeriodMeasure = cmbPeriod.GetItemData(cmbPeriod.GetCurSel());
 
 		wchar_t buffer[3] = { 0 };
 		Edit_GetText(GetDlgItem(m_hwnd, IDC_PERIOD), buffer, _countof(buffer));
 		g_plugin.iPeriod = _wtoi(buffer);
 
-		InitTimer((void *)1);
+		g_plugin.InitTimer(0);
 
 		int iNewMode;
 		bool bNoSymbols = false;
@@ -289,8 +289,10 @@ public:
 			RemoveBackupFolders();
 
 		// if user tried to change the channel, run the update dialog immediately
-		if (bStartUpdate)
-			CallService(MS_PU_CHECKUPDATES, 0, 0);
+		if (bStartUpdate) {
+			Netlib_Log(g_hNetlibUser, "Platform changed, let's check for updates");
+			DoCheck(false);
+		}
 
 		return true;
 	}

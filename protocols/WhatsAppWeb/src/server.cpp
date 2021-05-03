@@ -7,21 +7,10 @@ Copyright © 2019-21 George Hazan
 
 #include "stdafx.h"
 
-bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
-{
-	DBVARIANT dbv = { DBVT_BLOB };
-	if (db_get(0, m_szModuleName, szSetting, &dbv))
-		return false;
-
-	buf.assign(dbv.pbVal, dbv.cpbVal);
-	db_free(&dbv);
-	return true;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler, void *pUserInfo)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
@@ -29,40 +18,122 @@ int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler)
 	int pktId = ++m_iPktNumber;
 
 	CMStringA buf;
-	buf.Format("%d.--%d,", (int)m_iLoginTime, pktId);
-	if (!str.IsEmpty()) {
-		buf.AppendChar(',');
-		buf += str;
-	}
+	buf.Format("%d.--%d", (int)m_iLoginTime, pktId);
 
 	if (pHandler != nullptr) {
 		auto *pReq = new WARequest;
-		pReq->issued = time(0);
 		pReq->pHandler = pHandler;
-		pReq->pktId = pktId;
+		pReq->szPrefix = buf;
+		pReq->pUserInfo = pUserInfo;
 
 		mir_cslock lck(m_csPacketQueue);
 		m_arPacketQueue.insert(pReq);
 	}
 
+	buf.AppendChar(',');
+	if (!str.IsEmpty()) {
+		buf.AppendChar(',');
+		buf += str;
+	}
+
+
 	debugLogA("Sending packet #%d: %s", pktId, buf.c_str());
-	WebSocket_Send(m_hServerConn, buf.c_str(), buf.GetLength());
+	WebSocket_SendText(m_hServerConn, buf.c_str());
 	return pktId;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char zeroData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
+int WhatsAppProto::WSSendNode(const char *pszPrefix, WAMetric metric, int flags, WANode &node, WA_PKT_HANDLER pHandler)
+{
+	if (m_hServerConn == nullptr)
+		return 0;
+
+	{
+		char str[100];
+		_i64toa(_time64(0), str, 10);
+		node.addAttr("epoch", str);
+
+		CMStringA szText;
+		node.print(szText);
+		debugLogA("Sending binary node: %s", szText.c_str());
+	}
+
+	WAWriter writer;
+	writer.writeNode(&node);
+
+	// AES block size = 16 bytes, let's expand data to block size boundary
+	size_t rest = writer.body.length() % 16;
+	if (rest != 0)
+		writer.body.append(zeroData, 16 - rest);
+
+	BYTE iv[16];
+	Utils_GetRandom(iv, sizeof(iv));
+
+	// allocate the buffer of the same size + 32 bytes for temporary operations
+	MBinBuffer enc;
+	enc.assign(writer.body.data(), writer.body.length()); 
+	enc.append(mac_key.data(), mac_key.length()); 
+
+	int enc_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, (BYTE*)enc_key.data(), iv);
+	EVP_EncryptUpdate(ctx, (BYTE*)enc.data(), &enc_len, (BYTE*)writer.body.data(), (int)writer.body.length());
+	EVP_EncryptFinal_ex(ctx, (BYTE*)enc.data() + enc_len, &final_len);
+	EVP_CIPHER_CTX_free(ctx);
+
+	// build the resulting buffer of the following structure:
+	// - packet prefix
+	// - 32 bytes of HMAC
+	// - 16 bytes of iv
+	// - rest of encoded data
+	
+	BYTE hmac[32];
+	unsigned int hmac_len = 32;
+	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)enc.data(), enc_len, hmac, &hmac_len);
+
+	int pktId = ++m_iPktNumber;
+
+	if (pHandler != nullptr) {
+		auto *pReq = new WARequest;
+		pReq->pHandler = pHandler;
+		pReq->szPrefix = pszPrefix;
+
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(pReq);
+	}
+
+	char postPrefix[3] = { ',', (char)metric, (char)flags };
+
+	MBinBuffer ret;
+	ret.append(pszPrefix, strlen(pszPrefix));
+	ret.append(postPrefix, sizeof(postPrefix));
+	ret.append(hmac, sizeof(hmac));
+	ret.append(iv, sizeof(iv));
+	ret.append(enc.data(), enc_len);
+	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
+
+	return pktId;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("CDiscordProto::OnLoggedIn");
-	m_bOnline = true;
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	SendKeepAlive();
+	m_impl.m_keepAlive.Start(60000);
 }
 
 void WhatsAppProto::OnLoggedOut(void)
 {
 	debugLogA("CDiscordProto::OnLoggedOut");
-	m_bOnline = false;
 	m_bTerminated = true;
 	m_iPktNumber = 0;
 
@@ -70,6 +141,25 @@ void WhatsAppProto::OnLoggedOut(void)
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
+}
+
+void WhatsAppProto::SendKeepAlive()
+{
+	WebSocket_SendText(m_hServerConn, "?,,");
+
+	time_t now = time(0);
+
+	for (auto &it : m_arUsers) {
+		if (it->m_time1 && now - it->m_time1 >= 1200) { // 20 minutes
+			setWord(it->hContact, "Status", ID_STATUS_NA);
+			it->m_time1 = 0;
+			it->m_time2 = now;
+		}
+		else if (it->m_time2 && now - it->m_time2 >= 1200) { // 20 minutes
+			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
+			it->m_time2 = 0;
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -149,7 +239,7 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 	{
 		BYTE enc[80], dec[112], key[32], iv[16];
 		memcpy(key, pSharedExpanded, sizeof(key));
-		memcpy(key, pSharedExpanded+64, sizeof(iv));
+		memcpy(iv, pSharedExpanded+64, sizeof(iv));
 		memcpy(enc, pSecret.get() + 64, sizeof(enc));
 
 		int dec_len = 0, final_len = 0;
@@ -172,7 +262,7 @@ bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::RestoreSession()
+void WhatsAppProto::OnRestoreSession1(const JSONNode&, void*)
 {
 	ptrA szClient(getStringA(DBKEY_CLIENT_TOKEN)), szServer(getStringA(DBKEY_SERVER_TOKEN));
 	if (szClient == nullptr || szServer == nullptr) {
@@ -181,14 +271,24 @@ void WhatsAppProto::RestoreSession()
 	}
 
 	CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
-	WSSend(payload, &WhatsAppProto::OnRestoreSession);
+	WSSend(payload, &WhatsAppProto::OnRestoreSession2);
 }
 
-void WhatsAppProto::OnRestoreSession(const JSONNode &root)
+void WhatsAppProto::OnRestoreSession2(const JSONNode &root, void*)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
 		debugLogA("Attempt to restore session failed with error %d", status);
+
+		if (status == 401 || status == 419) {
+			POPUPDATAW Popup = {};
+			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
+			wcsncpy_s(Popup.lpwzText, TranslateT("You need to launch WhatsApp on your phone"), _TRUNCATE);
+			wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
+			Popup.iSeconds = 10;
+			PUAddPopupW(&Popup);
+		}
+
 		ShutdownSession();
 		return;
 	}
@@ -212,13 +312,7 @@ void WhatsAppProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::StartSession()
-{
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
-	WSSend(payload, &WhatsAppProto::OnStartSession);
-}
-
-void WhatsAppProto::OnStartSession(const JSONNode &root)
+void WhatsAppProto::OnStartSession(const JSONNode &root, void*)
 {
 	int status = root["status"].as_int();
 	if (status != 200) {
@@ -234,8 +328,32 @@ void WhatsAppProto::OnStartSession(const JSONNode &root)
 /////////////////////////////////////////////////////////////////////////////////////////
 // gateway worker thread
 
+bool WhatsAppProto::WSReadPacket(const WSHeader &hdr, MBinBuffer &res)
+{
+	size_t currPacketSize = res.length() - hdr.headerSize;
+
+	char buf[1024];
+	while (currPacketSize < hdr.payloadSize) {
+		int result = Netlib_Recv(m_hServerConn, buf, _countof(buf), MSG_NODUMP);
+		if (result == 0) {
+			debugLogA("Gateway connection gracefully closed");
+			return false;
+		}
+		if (result < 0) {
+			debugLogA("Gateway connection error, exiting");
+			return false;
+		}
+		
+		currPacketSize += result;
+		res.append(buf, result);
+	}
+	return true;
+}
+
 void WhatsAppProto::ServerThread(void *)
 {
+	m_bTerminated = false;
+
 	while (ServerThreadWorker())
 		;
 	ShutdownSession();
@@ -265,24 +383,23 @@ bool WhatsAppProto::ServerThreadWorker()
 	getBlob(DBKEY_ENC_KEY, enc_key);
 	getBlob(DBKEY_MAC_KEY, mac_key);
 
+	MFileVersion v;
+	Miranda_GetFileVersion(&v);
+
+	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
 	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
-		StartSession();
+		WSSend(payload, &WhatsAppProto::OnStartSession);
 	else
-		RestoreSession();
+		WSSend(payload, &WhatsAppProto::OnRestoreSession1);
 
 	bool bExit = false;
-	int offset = 0;
 	MBinBuffer netbuf;
 
-	while (!bExit) {
-		if (m_bTerminated)
-			break;
-
+	while (!bExit && !m_bTerminated) {
 		unsigned char buf[2048];
-		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf + offset, _countof(buf) - offset, MSG_NODUMP);
+		int bufSize = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
 		if (bufSize == 0) {
 			debugLogA("Gateway connection gracefully closed");
-			bExit = !m_bTerminated;
 			break;
 		}
 		if (bufSize < 0) {
@@ -290,58 +407,56 @@ bool WhatsAppProto::ServerThreadWorker()
 			break;
 		}
 
+		netbuf.append(buf, bufSize);
+
 		WSHeader hdr;
-		if (!WebSocket_InitHeader(hdr, buf, bufSize)) {
-			offset += bufSize;
+		if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
 			continue;
-		}
-		offset = 0;
+		
+		// we lack some data, let's read them
+		if (netbuf.length() < hdr.headerSize + hdr.payloadSize)
+			if (!WSReadPacket(hdr, netbuf))
+				break;
 
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, final = %d, masked = %d", bufSize, hdr.opCode, hdr.headerSize, hdr.bIsFinal, hdr.bIsMasked);
-
-		// we have some additional data, not only opcode
-		if ((size_t)bufSize > hdr.headerSize) {
-			size_t currPacketSize = bufSize - hdr.headerSize;
-			netbuf.append(buf, bufSize);
-			while (currPacketSize < hdr.payloadSize) {
-				int result = Netlib_Recv(m_hServerConn, (char *)buf, _countof(buf), MSG_NODUMP);
-				if (result == 0) {
-					debugLogA("Gateway connection gracefully closed");
-					bExit = !m_bTerminated;
-					break;
-				}
-				if (result < 0) {
-					debugLogA("Gateway connection error, exiting");
-					break;
-				}
-				currPacketSize += result;
-				netbuf.append(buf, result);
-			}
-		}
+		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
 
 		// read all payloads from the current buffer, one by one
-		size_t prevSize = 0;
 		while (true) {
+			MBinBuffer currPacket;
+			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
+			currPacket.append("", 1); // add 0 to use strchr safely
+			
+			const char *start = currPacket.data();
+
 			switch (hdr.opCode) {
 			case 1: // json packet
-				if (hdr.bIsFinal) {
-					// process a packet here
-					CMStringA szJson(netbuf.data() + hdr.headerSize, (int)hdr.payloadSize);
-					debugLogA("JSON received:\n%s", szJson.c_str());
+			case 2: // binary packet
+				// process a packet here
+				{
+					const char *pos = strchr(start, ',');
+					if (pos != nullptr)
+						pos++;
+					else
+						pos = start;
+					size_t dataSize = hdr.payloadSize - size_t(pos - start);
 
-					int pos = szJson.Find(',');
-					if (pos != -1) {
-						CMStringA szPrefix = szJson.Left(pos);
-						szJson.Delete(0, pos+1);
+					// try to decode
+					if (hdr.opCode == 2 && hdr.payloadSize > 32)
+						ProcessBinaryPacket(pos, dataSize);
+					else {
+						CMStringA szJson(pos, (int)dataSize);
 
 						JSONNode root = JSONNode::parse(szJson);
 						if (root) {
-							int sessId, pktId;
-							if (sscanf(szPrefix, "%d.--%d,", &sessId, &pktId) == 2) {
-								auto *pReq = m_arPacketQueue.find((WARequest *)&pktId);
-								if (pReq != nullptr) {
-									(this->*pReq->pHandler)(root);
-								}
+							debugLogA("JSON received:\n%s", start);
+
+							CMStringA szPrefix(start, int(pos - start - 1));
+							auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
+							if (pReq != nullptr) {
+								root << CHAR_PARAM("$id$", szPrefix);
+								(this->*pReq->pHandler)(root, pReq->pUserInfo);
 							}
 							else ProcessPacket(root);
 						}
@@ -349,49 +464,209 @@ bool WhatsAppProto::ServerThreadWorker()
 				}
 				break;
 
-			case 2: // binary packet
-				break;
-
 			case 8: // close
 				debugLogA("server required to exit");
 				bExit = true; // simply reconnect, don't exit
 				break;
 
-			case 9: // ping
-				debugLogA("ping received");
-				Netlib_Send(m_hServerConn, (char *)buf + hdr.headerSize, bufSize - int(hdr.headerSize), 0);
-				break;
+			default:
+				Netlib_Dump(m_hServerConn, start, hdr.payloadSize, false, 0);
 			}
 
-			if (hdr.bIsFinal)
-				netbuf.remove(hdr.headerSize + hdr.payloadSize);
-
+			netbuf.remove(hdr.headerSize + hdr.payloadSize);
+			debugLogA("%d bytes removed from network buffer, %d bytes remain", hdr.headerSize + hdr.payloadSize, netbuf.length());
 			if (netbuf.length() == 0)
 				break;
 
 			// if we have not enough data for header, continue reading
-			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length()))
-				break;
-
-			// if we have not enough data for data, continue reading
-			if (hdr.headerSize + hdr.payloadSize > netbuf.length())
-				break;
-
-			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-			if (prevSize == netbuf.length()) {
-				netbuf.remove(prevSize);
-				debugLogA("dropping current packet, exiting");
+			if (!WebSocket_InitHeader(hdr, netbuf.data(), netbuf.length())) {
+				debugLogA("not enough data for header, continue reading");
 				break;
 			}
 
-			prevSize = netbuf.length();
+			// if we have not enough data for data, continue reading
+			if (hdr.headerSize + hdr.payloadSize > netbuf.length()) {
+				debugLogA("not enough place for data (%d+%d > %d), continue reading", hdr.headerSize, hdr.payloadSize, netbuf.length());
+				break;
+			}
+
+			debugLogA("Got inner packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+				netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		}
 	}
 
+	debugLogA("Server connection dropped");
 	Netlib_CloseHandle(m_hServerConn);
 	m_hServerConn = nullptr;
-	return bExit;
+	return false;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Binary data processing
+
+void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
+{
+	MBinBuffer dest;
+	if (!decryptBinaryMessage(cbDataLen, pData, dest)) {
+		debugLogA("cannot decrypt incoming message");
+		Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
+		return;
+	}
+
+	WAReader reader(dest.data(), dest.length());
+	WANode *pRoot = reader.readNode();
+	if (pRoot == nullptr) { // smth went wrong
+		debugLogA("cannot read binary message");
+		Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
+		return;
+	}
+
+	CMStringA szText;
+	pRoot->print(szText);
+	debugLogA("packed content: %s", szText.c_str());
+	
+	CMStringA szType = pRoot->getAttr("type");
+	if (szType == "contacts")
+		ProcessContacts(pRoot);
+	else if (szType == "chat")
+		ProcessChats(pRoot);
+	else {
+		CMStringA szAdd = pRoot->getAttr("add");
+		if (!szAdd.IsEmpty())
+			ProcessAdd(szAdd, pRoot);
+	}
+
+	delete pRoot;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::ProcessAdd(const CMStringA &type, const WANode *root)
+{
+	for (auto &p: root->children) {
+		proto::WebMessageInfo payLoad;
+		if (!payLoad.ParseFromArray(p->content.data(), (int)p->content.length())) {
+			debugLogA("Error: message failed to decode by protobuf!");
+			Netlib_Dump(m_hServerConn, p->content.data(), p->content.length(), false, 0);
+			continue;
+		}
+
+		// this part is common for all types of messages
+		auto &key= payLoad.key();
+
+		// if this event already exists in the database - skip it
+		if (db_event_getById(m_szModuleName, key.id().c_str()))
+			continue;
+
+		CMStringA jid(key.remotejid().c_str());
+		if (!jid.Replace("@s.whatsapp.net", "@c.us"))
+			jid.Replace("@g.whatsapp.net", "@g.us");
+
+		auto *pUser = AddUser(jid, false);
+		DWORD dwTimestamp = DWORD(payLoad.messagetimestamp());
+		CMStringA szMsgText;
+
+		// regular messages
+		if (payLoad.has_message()) {
+			auto &msg = payLoad.message();
+			szMsgText = msg.conversation().c_str();
+		}
+
+		if (!szMsgText.IsEmpty()) {
+			if (pUser->si) {
+				CMStringA szText(szMsgText);
+				szText.Replace("%", "%%");
+
+				CMStringA szUserJid(payLoad.participant().c_str());
+				if (!szUserJid.Replace("@s.whatsapp.net", "@c.us"))
+					szUserJid.Replace("@g.whatsapp.net", "@g.us");
+
+				if (pUser->bInited) {
+					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+					gce.pszID.a = jid;
+					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+					gce.pszUID.a = szUserJid;
+					gce.pszText.a = szText;
+					gce.time = dwTimestamp;
+					gce.bIsMe = (jid == m_szJid);
+					Chat_Event(&gce);
+				}
+				else {
+					auto *pMsg = new WAHistoryMessage;
+					pMsg->jid = jid;
+					pMsg->text = szText;
+					pMsg->timestamp = dwTimestamp;
+					pUser->arHistory.insert(pMsg);
+				}
+			}
+			else {
+				PROTORECVEVENT pre = { 0 };
+				pre.timestamp = dwTimestamp;
+				pre.szMessage = szMsgText.GetBuffer();
+				pre.flags = (type == "relay" ? 0 : PREF_CREATEREAD);
+				pre.szMsgId = key.id().c_str();
+				if (key.fromme())
+					pre.flags |= PREF_SENT;
+				ProtoChainRecvMsg(pUser->hContact, &pre);
+			}
+		}
+	}
+}
+
+void WhatsAppProto::ProcessChats(const WANode *root)
+{
+	for (auto &p: root->children) {
+		CMStringA jid = p->getAttr("jid");
+		auto *pUser = AddUser(jid, false);
+
+		DWORD dwLastId = atoi(p->getAttr("t"));
+		setDword(pUser->hContact, "LastWriteTime", dwLastId);
+
+		pUser->dwModifyTag = atoi(p->getAttr("modify_tag"));
+
+		if (pUser->si) {
+			DWORD dwMute = atoi(p->getAttr("mute"));
+			Chat_Mute(pUser->si, dwMute ? CHATMODE_MUTE : CHATMODE_NORMAL);
+		}
+	}
+}
+
+void WhatsAppProto::ProcessContacts(const WANode *root)
+{
+	for (auto &p: root->children) {
+		CMStringA jid(p->getAttr("jid"));
+		auto *pUser = AddUser(jid, false);
+
+		if (strstr(pUser->szId, "@g.us")) {
+			InitChat(pUser, p);
+			continue;
+		}
+		
+		CMStringA wszNick(p->getAttr("notify"));
+		if (wszNick.IsEmpty()) {
+			int idx = jid.Find('@');
+			wszNick = (idx == -1) ? jid : jid.Left(idx);
+		}
+		setUString(pUser->hContact, "Nick", wszNick);
+
+		CMStringA wszFullName(p->getAttr("name"));
+		wszFullName.TrimRight();
+		if (!wszFullName.IsEmpty()) {
+			setUString(pUser->hContact, "FullName", wszFullName);
+
+			CMStringA wszShort(p->getAttr("short"));
+			wszShort.TrimRight();
+			if (!wszShort.IsEmpty()) {
+				setUString(pUser->hContact, "FirstName", wszShort);
+				if (wszShort.GetLength()+1 < wszFullName.GetLength())
+					setUString(pUser->hContact, "LastName", wszFullName.c_str() + 1 + wszShort.GetLength());
+			}
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Json data processing
 
 void WhatsAppProto::ProcessPacket(const JSONNode &root)
 {
@@ -402,6 +677,19 @@ void WhatsAppProto::ProcessPacket(const JSONNode &root)
 		ProcessConn(content);
 	else if (szType == "Cmd")
 		ProcessCmd(content);
+	else if (szType == "Presence")
+		ProcessPresence(content);
+	else if (szType == "Blocklist")
+		ProcessBlocked(content);
+}
+
+void WhatsAppProto::ProcessBlocked(const JSONNode &node)
+{
+	for (auto &it : node["blocklist"]) {
+		auto *pUser = AddUser(it.as_string().c_str(), false);
+		Ignore_Ignore(pUser->hContact, IGNOREEVENT_ALL);
+		Contact_Hide(pUser->hContact);
+	}
 }
 
 void WhatsAppProto::ProcessCmd(const JSONNode &root)
@@ -424,10 +712,11 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 	setString(DBKEY_ID, m_szJid);
 
 	CMStringA szSecret(root["secret"].as_mstring());
-	if (!ProcessSecret(szSecret)) {
-		ShutdownSession();
-		return;
-	}
+	if (!szSecret.IsEmpty())
+		if (!ProcessSecret(szSecret)) {
+			ShutdownSession();
+			return;
+		}
 
 	setWString(DBKEY_NICK, root["pushname"].as_mstring());
 	setWString(DBKEY_CLIENT_TOKEN, root["clientToken"].as_mstring());
@@ -435,4 +724,21 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 	setWString(DBKEY_BROWSER_TOKEN, root["browserToken"].as_mstring());
 
 	OnLoggedIn();
+}
+
+void WhatsAppProto::ProcessPresence(const JSONNode &root)
+{
+	CMStringA jid = root["id"].as_mstring();
+	if (auto *pUser = FindUser(jid)) {
+		CMStringA state(root["type"].as_mstring());
+		DWORD timestamp(_wtoi(root["t"].as_mstring()));
+		if (state == "available") {
+			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
+		}
+		else if (state == "unavailable") {
+			setWord(pUser->hContact, "Status", ID_STATUS_AWAY);
+			pUser->m_time1 = timestamp;
+		}
+	}
+	else debugLogA("Presence from unknown contact %s ignored", jid.c_str());
 }

@@ -123,7 +123,7 @@ void CCtrlBase::SetInt(int value)
 	SetWindowText(m_hwnd, buf);
 }
 
-wchar_t* CCtrlBase::GetText()
+wchar_t* CCtrlBase::GetText() const
 {
 	int length = GetWindowTextLengthW(m_hwnd);
 	wchar_t *result = (wchar_t *)mir_alloc((length+1) * sizeof(wchar_t));
@@ -133,7 +133,7 @@ wchar_t* CCtrlBase::GetText()
 	return result;
 }
 
-char* CCtrlBase::GetTextA()
+char* CCtrlBase::GetTextA() const
 {
 	int length = GetWindowTextLengthA(m_hwnd);
 	char *result = (char *)mir_alloc((length+1) * sizeof(char));
@@ -143,38 +143,47 @@ char* CCtrlBase::GetTextA()
 	return result;
 }
 
-char* CCtrlBase::GetTextU()
+char* CCtrlBase::GetTextU() const
 {
 	return mir_utf8encodeW(ptrW(GetText()));
 }
 
-wchar_t* CCtrlBase::GetText(wchar_t *buf, size_t size)
+wchar_t* CCtrlBase::GetText(wchar_t *buf, size_t size) const
 {
 	GetWindowTextW(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
 
-char* CCtrlBase::GetTextA(char *buf, size_t size)
+char* CCtrlBase::GetTextA(char *buf, size_t size) const
 {
 	GetWindowTextA(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
 
-char* CCtrlBase::GetTextU(char *buf, size_t size)
+char* CCtrlBase::GetTextU(char *buf, size_t size) const
 {
 	ptrW wszText(GetText());
 	strncpy_s(buf, size, T2Utf(wszText), _TRUNCATE);
 	return buf;
 }
 
-int CCtrlBase::GetInt()
+int CCtrlBase::GetInt() const
 {
 	int length = GetWindowTextLengthW(m_hwnd) + 1;
 	wchar_t *result = (wchar_t *)_alloca(length * sizeof(wchar_t));
 	GetWindowTextW(m_hwnd, result, length);
 	return _wtoi(result);
+}
+
+void CCtrlBase::GetCaretPos(CContextMenuPos &pos) const
+{
+	pos.pCtrl = this;
+	pos.iCurr = -1;
+
+	if (pos.pt.x == 0 && pos.pt.y == 0)
+		GetCursorPos(&pos.pt);
 }
 
 LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)

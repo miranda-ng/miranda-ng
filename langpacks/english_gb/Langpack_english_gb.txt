@@ -3,12 +3,12 @@ Language: English (British)
 Locale: 0809
 Authors: Boris Kotov
 Author-email: doctor.z01db3rg@gmail.com
-Last-Modified-Using: Miranda NG 0.95.13
+Last-Modified-Using: Miranda NG 0.96.1
 
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.95.13
+;  Version: 0.96.1
 ;============================================================
 [Minimize to tray]
 Minimise to tray
@@ -147,7 +147,7 @@ Customise
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
-;  Version: 0.0.2.1
+;  Version: 0.0.2.2
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
 [If a contact didn't authorize you, this plugin puts an icon in front of the contact's name.]
@@ -227,7 +227,7 @@ Authorisation request
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
-;  Version: 0.5.0.3
+;  Version: 0.5.0.4
 ;  Authors: Goblineye Entertainment, Billy_Bons
 ;============================================================
 [Go to Options -> Customize -> Hotkeys to change the hotkey]
@@ -455,7 +455,7 @@ Text colour
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.1
+;  Version: 4.0.2.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Background color]
@@ -480,14 +480,14 @@ Text colour
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.95.13.4
+;  Version: 0.96.1.2
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.4
+;  Version: 0.1.0.5
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Go to the "Options -> Customize -> Folders" to change settings]
@@ -496,7 +496,7 @@ Go to the "Options -> Customise -> Folders" to change settings
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.7
+;  Version: 0.6.2.10
 ;  Authors: George Hazan
 ;============================================================
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
@@ -713,7 +713,7 @@ Initialising
 ;============================================================
 ;  File: HTTPServer.dll
 ;  Plugin: HTTPServer
-;  Version: 0.1.2.3
+;  Version: 0.1.2.4
 ;  Authors: Kennet Nielsen, modified by Vampik, Houdini
 ;============================================================
 #muuid {315b3800-8258-44c4-b60e-58c50b9303b6}
@@ -777,7 +777,7 @@ Imports only contacts and history, and a few settings. Ideal for synchronising.
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.95.10.1
+;  Version: 0.96.1.1
 ;  Authors: Miranda team
 ;============================================================
 [Strip colors]
@@ -993,7 +993,7 @@ The following user made an authorisation request:
 ;============================================================
 ;  File: NewAwaySys.dll
 ;  Plugin: New Away System Mod
-;  Version: 0.4.0.4
+;  Version: 0.4.0.5
 ;  Authors: NightFox, Deathdemon, XF007, Goblineye Entertainment
 ;============================================================
 [You can put your frequently used and favorite messages in this category.]
@@ -1069,7 +1069,7 @@ Use default colours
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.1.0
+;  Version: 0.2.2.1
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Background Color]
@@ -1154,7 +1154,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.11
+;  Version: 0.2.0.12
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Colors]
@@ -1366,15 +1366,15 @@ The user cancelled one of the dialog boxes
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
-;  Version: 0.1.4.0
+;  Version: 0.2.0.1
 ;  Authors: MaD_CLuSTeR
 ;============================================================
+[Show Favorite Sessions Menu]
+Show Favourite Sessions Menu
 [Favorite Session]
 Favourite Session
 [Not favorite Session]
 Not favourite Session
-[Show Favorite Sessions Menu]
-Show Favourite Sessions Menu
 #muuid {7993ab24-1fda-428c-a89b-be377a10be3a}
 ;============================================================
 ;  File: ShlExt.dll
@@ -1393,7 +1393,7 @@ Show Favourite Sessions Menu
 ;============================================================
 ;  File: SimpleStatusMsg.dll
 ;  Plugin: Simple status message
-;  Version: 1.9.0.8
+;  Version: 1.9.0.9
 ;  Authors: Bartosz 'Dezeath' Białek, Harven
 ;============================================================
 [Behavior on status change]
@@ -1479,7 +1479,7 @@ Minimised to System Tray
 ;============================================================
 ;  File: StartupSilence.dll
 ;  Plugin: StartupSilence
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Vladimir Lyubimov
 ;============================================================
 #muuid {1acb2ed1-c1ed-43ee-89bd-086686f6ebb5}
@@ -1845,7 +1845,7 @@ HTTP Error: Unauthorised (401)
 ;============================================================
 ;  File: Webview.dll
 ;  Plugin: Webview
-;  Version: 0.1.3.2
+;  Version: 0.1.3.3
 ;  Authors: Vincent Joyce
 ;============================================================
 [Background color:]
