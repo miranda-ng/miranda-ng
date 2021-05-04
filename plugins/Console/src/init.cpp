@@ -74,5 +74,9 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	ShutdownConsole();
+
+	if (hConsoleThread)
+		WaitForSingleObject(hConsoleThread, INFINITE);
+
 	return 0;
 }

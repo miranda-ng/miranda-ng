@@ -49,6 +49,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	HANDLE hConsoleThread;
+
 	int Load() override;
 	int Unload() override;
 };
