@@ -571,6 +571,7 @@ public:
 void __cdecl CJabberProto::ConsoleThread(void*)
 {
 	Thread_SetName("Jabber: ConsoleThread");
+	MThreadHandle threadLock(m_hThreadConsole);
 
 	MSG msg;
 	while (GetMessage(&msg, nullptr, 0, 0)) {
@@ -588,7 +589,7 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 
 void CJabberProto::ConsoleInit()
 {
-	m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, nullptr, &m_dwConsoleThreadId);
+	ForkThreadEx(&CJabberProto::ConsoleThread, nullptr, &m_dwConsoleThreadId);
 }
 
 void CJabberProto::ConsoleUninit()

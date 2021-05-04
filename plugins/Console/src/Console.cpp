@@ -894,6 +894,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 void __cdecl ConsoleThread(void*)
 {
+	MThreadHandle threadLock(hConsoleThread);
 	CoInitialize(nullptr);
 
 	HWND hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
@@ -1211,7 +1212,7 @@ void InitConsole()
 
 	LoadSettings();
 
-	hConsoleThread = mir_forkthread(ConsoleThread);
+	mir_forkthread(ConsoleThread);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
@@ -1225,15 +1226,17 @@ void ShutdownConsole(void)
 
 	List_Destroy(&lModules);
 
-	if (gImg) ImageList_Destroy(gImg);
+	if (gImg)
+		ImageList_Destroy(gImg);
 
-	for (i = 0; i < _countof(hIcons); i++) {
-		if (hIcons[i]) DestroyIcon(hIcons[i]);
-	}
+	for (i = 0; i < _countof(hIcons); i++)
+		if (hIcons[i])
+			DestroyIcon(hIcons[i]);
 
 	if (hwndConsole)
 		EndDialog(hwndConsole, TRUE);
-	WaitForSingleObject(hConsoleThread, INFINITE);
+	if (hConsoleThread)
+		WaitForSingleObject(hConsoleThread, INFINITE);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

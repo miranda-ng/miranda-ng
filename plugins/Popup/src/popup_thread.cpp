@@ -210,6 +210,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 static unsigned __stdcall PopupThread(void *)
 {
 	Thread_SetName("Popup: PopupThread");
+	MThreadHandle threadLock(hThread);
 
 	//  Create manager window
 	WNDCLASSEX wcl;
@@ -265,9 +266,11 @@ void StopPopupThread()
 
 void UnloadPopupThread()
 {
-	//  We won't waint for thread to exit, Miranda's thread unsind mechanism will do that for us.
-	WaitForSingleObject(hThread, INFINITE);
-	CloseHandle(hThread);
+	//  We won't waint for thread to exit, Miranda's thread unwind mechanism will do that for us.
+	if (hThread) {
+		WaitForSingleObject(hThread, INFINITE);
+		CloseHandle(hThread);
+	}
 
 	for (auto &it : popupList)
 		delete it;

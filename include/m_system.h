@@ -495,6 +495,26 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+// thread handle controller
+
+class MThreadHandle
+{
+	HANDLE &m_pHandle;
+
+public:
+	MThreadHandle(HANDLE &pHandle) :
+		m_pHandle(pHandle)
+	{
+		pHandle = ::GetCurrentThread();
+	}
+	
+	~MThreadHandle()
+	{
+		m_pHandle = nullptr;
+	}
+};
+
+///////////////////////////////////////////////////////////////////////////////
 // parameter classes for XML, JSON & HTTP requests
 
 struct PARAM

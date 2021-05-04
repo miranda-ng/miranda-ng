@@ -266,8 +266,9 @@ static void __cdecl FlashThreadFunction(void*)
 	BYTE data, unchangedLeds;
 	
 	Thread_SetName("KeyboardNotify: FlashThreadFunction");
+	MThreadHandle threadLock(hThread);
 
-	while (TRUE) {
+	while (true) {
 		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));
 		GetAsyncKeyState(VK_PAUSE); // empty Pause/Break's keystroke buffer
 
@@ -902,7 +903,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(eventName, L"%s/ExitEvent", eventPrefix);
 	hExitEvent = CreateEvent(nullptr, FALSE, FALSE, eventName);
 
-	hThread = mir_forkthread(FlashThreadFunction);
+	mir_forkthread(FlashThreadFunction);
 
 	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
 	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);
@@ -934,7 +935,8 @@ int CMPlugin::Unload()
 	UnhookWindowsHooks();
 
 	// Wait for thread to exit
-	WaitForSingleObject(hThread, INFINITE);
+	if (hThread)
+		WaitForSingleObject(hThread, INFINITE);
 
 	if (hExitEvent)
 		CloseHandle(hExitEvent);

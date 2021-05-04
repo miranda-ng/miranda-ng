@@ -837,6 +837,8 @@ void initWinsock()
 
 void __cdecl udptcpThreadFunc(void *useUdp)
 {
+	MThreadHandle threadLock(useUdp ? g_udp_thread : g_tcp_thread);
+
 	try
 	{
 		initWinsock();
@@ -946,8 +948,8 @@ void __cdecl udptcpThreadFunc(void *useUdp)
 void start_threads()
 {
 	g_exit_threads = false;
-	g_udp_thread = mir_forkthread(udptcpThreadFunc, (void *)1);
-	g_tcp_thread = mir_forkthread(udptcpThreadFunc);
+	mir_forkthread(udptcpThreadFunc, (void *)1);
+	mir_forkthread(udptcpThreadFunc);
 }
 
 void stop_threads()
@@ -957,8 +959,10 @@ void stop_threads()
 	shutdown(g_tcp_socket, 2);
 	closesocket(g_udp_socket);
 	closesocket(g_tcp_socket);
-	WaitForSingleObject(g_udp_thread, INFINITE);
-	WaitForSingleObject(g_tcp_thread, INFINITE);
+	if (g_udp_thread)
+		WaitForSingleObject(g_udp_thread, INFINITE);
+	if (g_tcp_thread)
+		WaitForSingleObject(g_tcp_thread, INFINITE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

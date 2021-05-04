@@ -74,6 +74,8 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 
 void __cdecl sttCheckStatusThreadProc(void*)
 {
+	MThreadHandle threadLock(status_update_thread);
+
 	clock_t start_t = clock(), end_t;
 	while (!get_thread_finished()) {
 		end_t = clock();
@@ -220,24 +222,6 @@ void __cdecl sttCheckStatusThreadProc(void*)
 		}
 		else total = 0;
 	}
-}
-
-void start_ping_thread()
-{
-	if (status_update_thread)
-		CloseHandle(status_update_thread);
-	status_update_thread = mir_forkthread(sttCheckStatusThreadProc);
-}
-
-void stop_ping_thread()
-{
-	set_thread_finished(true);
-	SetEvent(hWakeEvent);
-	//ICMP::get_instance()->stop();
-	WaitForSingleObject(status_update_thread, 2000);
-	TerminateThread(status_update_thread, 0);
-	CloseHandle(status_update_thread);
-	status_update_thread = nullptr;
 }
 
 bool FrameIsFloating()
@@ -921,12 +905,19 @@ void InitList()
 
 	ReloadFont(0, 0);
 
-	start_ping_thread();
+	mir_forkthread(sttCheckStatusThreadProc);
 }
 
 void DeinitList()
 {
 	DestroyWindow(hpwnd);
-	stop_ping_thread();
-	if (hFont) DeleteObject(hFont);
+
+	SetEvent(hWakeEvent);
+	if (status_update_thread) {
+		WaitForSingleObject(status_update_thread, INFINITE);
+		status_update_thread = nullptr;
+	}
+
+	if (hFont)
+		DeleteObject(hFont);
 }
