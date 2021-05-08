@@ -75,6 +75,37 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static int CALLBACK LVMoveSortProc(LPARAM l1, LPARAM l2, LPARAM param)
+{
+	int result = l1 - l2;
+	int newItem = HIWORD(param);
+	int oldItem = LOWORD(param);
+	if (newItem > oldItem)
+		return (l1 == oldItem && l2 <= newItem) ? 1 : result;
+
+	return (l2 == oldItem && l1 >= newItem) ? 1 : result;
+}
+
+int CCtrlListView::MoveItem(int idx, int direction)
+{
+	if ((direction > 0 && idx >= GetItemCount() - 1) || (direction < 0 && idx <= 0))
+		return idx;
+
+	if (idx < 0)
+		idx = GetNextItem(-1, LVNI_FOCUSED);
+	SortItemsEx(&LVMoveSortProc, MAKELONG(idx, idx + direction));
+	return idx + direction;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void CCtrlListView::SetCurSel(int idx)
+{
+	SetItemState(idx, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+}
+
 // additional api
 HIMAGELIST CCtrlListView::CreateImageList(int iImageList)
 {

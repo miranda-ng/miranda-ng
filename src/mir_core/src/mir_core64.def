@@ -1501,3 +1501,6 @@ TimeZone_GetSystemTime @1692
 ?GetCaretPos@CCtrlListBox@@MEBAXAEAUCContextMenuPos@@@Z @1724 NONAME
 ?GetCaretPos@CCtrlListView@@MEBAXAEAUCContextMenuPos@@@Z @1725 NONAME
 ?GetCaretPos@CCtrlTreeView@@MEBAXAEAUCContextMenuPos@@@Z @1726 NONAME
+?MoveItem@CCtrlListView@@QEAAHHH@Z @1727 NONAME
+?SelectData@CCtrlCombo@@QEAAH_J@Z @1728 NONAME
+?SetCurSel@CCtrlListView@@QEAAXH@Z @1729 NONAME

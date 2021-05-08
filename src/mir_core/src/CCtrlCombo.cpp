@@ -76,6 +76,23 @@ void CCtrlCombo::OnReset()
 		SetInt(LoadInt());
 }
 
+// selects line with userdata passed
+int CCtrlCombo::SelectData(LPARAM data)
+{
+	int ret = -1, nCount = GetCount();
+
+	for (int i = 0; i < nCount; i++)
+		if (GetItemData(i) == data) {
+			ret = i;
+			break;
+		}
+
+	return SetCurSel(ret);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Windows API
+
 int CCtrlCombo::AddString(const wchar_t *text, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_ADDSTRING, 0, (LPARAM)text);

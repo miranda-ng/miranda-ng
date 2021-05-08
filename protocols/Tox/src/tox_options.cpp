@@ -330,7 +330,7 @@ public:
 
 		if (m_iItem == -1) {
 			m_iItem = m_list->AddItem(ipv4, -1, NULL, 1);
-			m_list->SetItemState(m_iItem, LVIS_FOCUSED | LVIS_SELECTED, 0x000F);
+			m_list->SetCurSel(m_iItem);
 			m_list->EnsureVisible(m_iItem, TRUE);
 		}
 		else

@@ -949,6 +949,9 @@ public:
 	bool OnApply() override;
 	void OnReset() override;
 
+	// selects line with userdata passed. returns index of this line or -1
+	int  SelectData(LPARAM data); 
+
 	// Control interface
 	int      AddString(const wchar_t *text, LPARAM data = 0);
 	int      AddStringA(const char *text, LPARAM data = 0);
@@ -984,6 +987,11 @@ class MIR_CORE_EXPORT CCtrlListView : public CCtrlBase
 
 public:
 	CCtrlListView(CDlgBase *dlg, int ctrlId);
+
+	// direction = -1 or 1. returns new item index
+	int MoveItem(int idx, int direction);
+
+	void SetCurSel(int idx);
 
 	// Classic LV interface
 	DWORD      ApproximateViewRect(int cx, int cy, int iCount);
