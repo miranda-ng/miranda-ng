@@ -344,7 +344,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText(WPARAM wParam, LPARAM lPara
 	// Role:		Moderator
 	// Affiliation:  Affiliation
 
-	bool bIsTipper = ServiceExists("mToolTip/HideTip");
+	bool bIsTipper = ServiceExists(MS_TIPPER_HIDETIP);
 
 	//JID:
 	CMStringW outBuf;

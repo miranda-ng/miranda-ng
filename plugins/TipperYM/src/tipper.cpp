@@ -303,9 +303,9 @@ int CMPlugin::Load()
 	InitMessagePump();
 
 	// for compatibility with mToolTip status tooltips
-	CreateServiceFunction("mToolTip/ShowTip", ShowTip);
-	CreateServiceFunction("mToolTip/ShowTipW", ShowTipW);
-	CreateServiceFunction("mToolTip/HideTip", HideTip);
+	CreateServiceFunction(MS_TIPPER_SHOWTIP, ShowTip);
+	CreateServiceFunction(MS_TIPPER_SHOWTIPW, ShowTipW);
+	CreateServiceFunction(MS_TIPPER_HIDETIP, HideTip);
 	CreateServiceFunction("mToolTip/ReloadSkin", ReloadSkin);
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, SettingChanged);

@@ -1098,7 +1098,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		ptMouseT = pt;
 		if (tabdat->bTipActive) {
 			KillTimer(hwnd, TIMERID_HOVER_T);
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 			tabdat->bTipActive = false;
 		}
 		KillTimer(hwnd, TIMERID_HOVER_T);
@@ -1147,13 +1147,13 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_RBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER_T);
-		CallService("mToolTip/HideTip", 0, 0);
+		Tipper_Hide();
 		tabdat->bTipActive = false;
 		break;
 
 	case WM_LBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER_T);
-		CallService("mToolTip/HideTip", 0, 0);
+		Tipper_Hide();
 		tabdat->bTipActive = false;
 
 		if (GetKeyState(VK_CONTROL) & 0x8000)
@@ -1258,7 +1258,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 			GetCursorPos(&pt);
 			if (abs(pt.x - ptMouseT.x) < 5 && abs(pt.y - ptMouseT.y) < 5) {
-				CLCINFOTIP ti = { 0 };
+				CLCINFOTIP ti = {};
 				ti.cbSize = sizeof(ti);
 				ti.ptCursor = pt;
 
@@ -1274,7 +1274,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 						ti.isGroup = 0;
 						ti.hItem = (HANDLE)dat->m_hContact;
 						ti.isTreeFocused = 0;
-						CallService("mToolTip/ShowTip", 0, (LPARAM)&ti);
+						Tipper_ShowTip(0, &ti);
 					}
 				}
 			}
@@ -1295,7 +1295,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 	case WM_USER + 100:
 		if (tabdat->bTipActive) {
 			tabdat->bTipActive = false;
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 		}
 		break;
 	}

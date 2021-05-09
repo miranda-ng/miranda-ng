@@ -408,7 +408,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 		Configure();
 
 		// tab tooltips...
-		if (!::ServiceExists("mToolTip/ShowTip") || M.GetByte("d_tooltips", 0) == 0) {
+		if (!::ServiceExists(MS_TIPPER_SHOWTIPW) || M.GetByte("d_tooltips", 0) == 0) {
 			m_hwndTip = ::CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
 				CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, nullptr, g_plugin.getInst(), (LPVOID)nullptr);
 

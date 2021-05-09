@@ -49,7 +49,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		if (tooltip_active) {
 			KillTimer(hwnd, TIMERID_HOVER);
 			if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
-				CallService("mToolTip/HideTip", 0, 0);
+				Tipper_Hide();
 			tooltip_active = FALSE;
 		}
 		KillTimer(hwnd, TIMERID_HOVER);
@@ -74,7 +74,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_RBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER);
 		if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 		tooltip_active = FALSE;
 		break;
 
@@ -164,7 +164,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 							CLCINFOTIP ti = { sizeof(ti) };
 							ti.isTreeFocused = (GetFocus() == g_clistApi.hwndContactList);
-							CallService("mToolTip/ShowTipW", (WPARAM)szTipText, (LPARAM)&ti);
+							Tipper_ShowTip(szTipText, &ti);
 						}
 						break;
 					}

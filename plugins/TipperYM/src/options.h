@@ -31,8 +31,6 @@ Boston, MA 02111-1307, USA.
 
 #define IDPRESETITEM		1000
 
-#define MS_TOOLTIP_SHOWTIP	"mToolTip/ShowTip"
-
 struct OPTBUTTON
 {
 	UINT id, uintCoreIconId, uintResIconId;

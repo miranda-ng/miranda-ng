@@ -903,7 +903,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 		ptMouse = pt;
 		if (tooltip_active) {
 			KillTimer(hWnd, TIMERID_HOVER);
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 			tooltip_active = FALSE;
 		}
 		KillTimer(hWnd, TIMERID_HOVER);
@@ -913,7 +913,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		KillTimer(hWnd, TIMERID_HOVER);
-		CallService("mToolTip/HideTip", 0, 0);
+		Tipper_Hide();
 		tooltip_active = FALSE;
 		GetCursorPos(&pt);
 		rcLastStatusBarClick.left = pt.x - 2;
@@ -970,7 +970,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 					wcsncpy_s(wBuf, sid->szTooltip.w, _TRUNCATE);
 
 				if (wBuf[0]) {
-					CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
+					Tipper_ShowTip(wBuf, &ti);
 					tooltip_active = TRUE;
 				}
 			}
@@ -982,7 +982,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 				mir_snwprintf(wBuf, 
 					TranslateT("There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery"),
 					dat->m_iOpenJobs, dat->m_message.GetRichTextLength(CP_UTF8), dat->m_cache->getMaxMessageLength(), iQueued);
-				CallService("mToolTip/ShowTipW", (WPARAM)wBuf, (LPARAM)&ti);
+				Tipper_ShowTip(wBuf, &ti);
 			}
 
 			if (SendMessage(dat->m_pContainer->m_hwndStatus, SB_GETTEXT, 0, (LPARAM)wBuf)) {
@@ -997,7 +997,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 						ptrW tszTopic(db_get_wsa(dat->m_hContact, dat->m_szProto, "Topic"));
 						if (tszTopic != nullptr) {
 							tooltip_active = TRUE;
-							CallService("mToolTip/ShowTipW", tszTopic, (LPARAM)&ti);
+							Tipper_ShowTip(tszTopic, &ti);
 						}
 					}
 				}

@@ -36,7 +36,7 @@ mir_cs trayLockCS;
 
 static bool hasTips()
 {
-	return ServiceExists("mToolTip/ShowTip") && db_get_b(0, "Tipper", "TrayTip", 1);
+	return ServiceExists(MS_TIPPER_SHOWTIPW) && db_get_b(0, "Tipper", "TrayTip", 1);
 }
 
 #define initcheck if (!fTrayInited) return
@@ -602,7 +602,7 @@ static void CALLBACK TrayHideToolTipTimerProc(HWND hwnd, UINT, UINT_PTR, DWORD)
 		POINT pt;
 		GetCursorPos(&pt);
 		if (abs(pt.x - tray_hover_pos.x) > TOOLTIP_TOLERANCE || abs(pt.y - tray_hover_pos.y) > TOOLTIP_TOLERANCE) {
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 			g_trayTooltipActive = false;
 			KillTimer(hwnd, TIMERID_TRAYHOVER_2);
 		}
@@ -628,8 +628,7 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 			ti.rcItem.top = pt.y - 10;
 			ti.rcItem.bottom = pt.y + 10;
 			ti.isTreeFocused = GetFocus() == g_clistApi.hwndContactList ? 1 : 0;
-			if (CallService("mToolTip/ShowTipW", (WPARAM)szTipCur, (LPARAM)&ti) == CALLSERVICE_NOTFOUND)
-				CallService("mToolTip/ShowTip", (WPARAM)(char*)_T2A(szTipCur), (LPARAM)&ti);
+			Tipper_ShowTip(szTipCur, &ti);
 
 			GetCursorPos(&tray_hover_pos);
 			SetTimer(g_clistApi.hwndContactList, TIMERID_TRAYHOVER_2, 600, TrayHideToolTipTimerProc);
@@ -670,7 +669,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 
 	case TIM_CALLBACK:
 		if (msg->lParam == WM_RBUTTONDOWN || msg->lParam == WM_LBUTTONDOWN || msg->lParam == WM_RBUTTONDOWN && g_trayTooltipActive) {
-			CallService("mToolTip/HideTip", 0, 0);
+			Tipper_Hide();
 			g_trayTooltipActive = false;
 		}
 
@@ -730,7 +729,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				GetCursorPos(&pt);
 				if (abs(pt.x - tray_hover_pos.x) > TOOLTIP_TOLERANCE || abs(pt.y - tray_hover_pos.y) > TOOLTIP_TOLERANCE) {
-					CallService("mToolTip/HideTip", 0, 0);
+					Tipper_Hide();
 					g_trayTooltipActive = false;
 					ReleaseCapture();
 				}

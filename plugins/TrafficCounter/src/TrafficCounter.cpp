@@ -780,16 +780,13 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 				if (PtInRect(&rt, TooltipPosition)) {
 					GetCursorPos(&ptMouse);
 
-					CLCINFOTIP ti = { 0 };
+					CLCINFOTIP ti = {};
 					ti.rcItem.left = TooltipPosition.x - 10;
 					ti.rcItem.right = TooltipPosition.x + 10;
 					ti.rcItem.top = TooltipPosition.y - 10;
 					ti.rcItem.bottom = TooltipPosition.y + 10;
 					ti.cbSize = sizeof(ti);
-
-					wchar_t *TooltipText = variables_parsedup(Traffic_TooltipFormat, nullptr, NULL);
-					CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
-					mir_free(TooltipText);
+					Tipper_ShowTip(ptrW(variables_parsedup(Traffic_TooltipFormat, nullptr, NULL)), &ti);
 
 					TooltipShowing = TRUE;
 				}

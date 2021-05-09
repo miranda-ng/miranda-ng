@@ -18,27 +18,46 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-
 // Tipper API
 # pragma once
+
+#include <m_clc.h>
 
 // translation function type
 // use hContact, module and setting to read your db value(s) and put the resulting string into buff
 // return buff if the translation was successful, or return 0 for failure
-typedef TCHAR *(TranslateFunc)(MCONTACT hContact, const char *module, const char *setting_or_prefix, TCHAR *buff, int bufflen);
+typedef wchar_t* (TranslateFunc)(MCONTACT hContact, const char *module, const char *setting_or_prefix, wchar_t *buff, int bufflen);
 
 typedef struct {
 	TranslateFunc *transFunc;	// address of your translation function (see typedef above)
-	const TCHAR *swzName;		// make sure this is unique, and DO NOT translate it
+	const wchar_t *swzName;		// make sure this is unique, and DO NOT translate it
 	DWORD id;				// will be overwritten by Tipper - do not use
 } DBVTranslation;
 
 // add a translation to tipper
 // wParam not used
 // lParam = (DBVTranslation *)translation
-#define MS_TIPPER_ADDTRANSLATION	 "Tipper/AddTranslation"
+#define MS_TIPPER_ADDTRANSLATION "Tipper/AddTranslation"
+
+// ansi version of tipper
+// wParam - optional (wchar_t *)text for text-only tips
+// lParam - (CLCINFOTIP *)infoTip
+#define MS_TIPPER_SHOWTIP  "mToolTip/ShowTip"
 
 // unicode extension to the basic functionality
 // wParam - optional (wchar_t *)text for text-only tips
 // lParam - (CLCINFOTIP *)infoTip
-#define MS_TIPPER_SHOWTIPW				"mToolTip/ShowTipW"
+#define MS_TIPPER_SHOWTIPW "mToolTip/ShowTipW"
+
+__forceinline void Tipper_ShowTip(const wchar_t *pwsztext, CLCINFOTIP *ti)
+{	CallService(MS_TIPPER_SHOWTIPW, WPARAM(pwsztext), LPARAM(ti));
+}
+
+// hides a tooltip
+// wParam - 0
+// lParam - 0
+#define MS_TIPPER_HIDETIP "mToolTip/HideTip"
+
+__forceinline void Tipper_Hide()
+{	CallService(MS_TIPPER_HIDETIP, 0, 0);
+}

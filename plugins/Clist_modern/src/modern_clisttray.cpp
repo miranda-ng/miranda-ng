@@ -409,7 +409,7 @@ int cliTrayCalcChanged(const char *szChangedProto, int, int)
 	nid.uFlags = NIF_ICON | NIF_TIP;
 
 	// if Tipper is missing or turned off for tray, use system tooltips
-	if (!ServiceExists("mToolTip/ShowTip") || !db_get_b(0, "Tipper", "TrayTip", 1))
+	if (!ServiceExists(MS_TIPPER_SHOWTIPW) || !db_get_b(0, "Tipper", "TrayTip", 1))
 		wcsncpy_s(nid.szTip, g_clistApi.szTip, _TRUNCATE);
 
 	Shell_NotifyIcon(NIM_MODIFY, &nid);

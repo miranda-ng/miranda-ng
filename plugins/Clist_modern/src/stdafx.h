@@ -95,6 +95,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_cluiframes.h>
 #include <m_protoint.h>
 #include <m_netlib.h>
+#include <m_tipper.h>
 #include <m_toptoolbar.h>
 #include <m_metacontacts.h>
 #include <m_variables.h>

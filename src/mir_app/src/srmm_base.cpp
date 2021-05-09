@@ -324,8 +324,8 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 				TranslateT("Status"), g_chatApi.TM_WordToString(si->pStatuses, ui1->Status));
 
 		CLCINFOTIP ti = { sizeof(ti) };
-		if (CallService("mToolTip/ShowTipW", (WPARAM)wszBuf.c_str(), (LPARAM)&ti))
-			si->bHasToolTip = true;
+		Tipper_ShowTip(wszBuf, &ti);
+		si->bHasToolTip = true;
 	}
 	KillTimer(hwnd, idEvent);
 }
@@ -363,7 +363,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 	case WM_MOUSEMOVE:
 		RECT clientRect;
 		{
-			bool bTooltipExists = ServiceExists("mToolTip/HideTip");
+			bool bTooltipExists = ServiceExists(MS_TIPPER_HIDETIP);
 
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
 			GetClientRect(m_nickList.GetHwnd(), &clientRect);
@@ -383,7 +383,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 					KillTimer(m_nickList.GetHwnd(), 1);
 
 					if (m_si->bHasToolTip) {
-						CallService("mToolTip/HideTip", 0, 0);
+						Tipper_Hide();
 						m_si->bHasToolTip = false;
 					}
 
@@ -396,7 +396,7 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 				if (bTooltipExists) {
 					KillTimer(m_nickList.GetHwnd(), 1);
 					if (m_si->bHasToolTip) {
-						CallService("mToolTip/HideTip", 0, 0);
+						Tipper_Hide();
 						m_si->bHasToolTip = false;
 					}
 				}

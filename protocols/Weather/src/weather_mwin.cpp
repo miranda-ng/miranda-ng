@@ -20,9 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#define MS_TOOLTIP_SHOWTIP		"mToolTip/ShowTip"
-#define MS_TOOLTIP_HIDETIP		"mToolTip/HideTip"
-
 static MWindowList hMwinWindowList;
 static HANDLE hFontHook;
 
@@ -95,7 +92,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			ti.hItem = (HANDLE)data->hContact;
 			ti.ptCursor = pt;
 			ti.isTreeFocused = 1;
-			CallService(MS_TOOLTIP_SHOWTIP, 0, (LPARAM)&ti);
+			CallService(MS_TIPPER_SHOWTIP, 0, (LPARAM)&ti);
 		}
 		break;
 
