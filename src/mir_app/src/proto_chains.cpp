@@ -171,23 +171,22 @@ MIR_APP_DLL(int) Proto_IsProtoOnContact(MCONTACT hContact, const char *szProto)
 
 MIR_APP_DLL(int) Proto_AddToContact(MCONTACT hContact, const char *szProto)
 {
-	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(szProto);
-	if (pd == nullptr) {
-		PROTOACCOUNT *pa = Proto_GetAccount(szProto);
-		if (pa) {
-			db_set_s(hContact, "Protocol", "p", szProto);
-
-			if (pa->ppro)
-				pa->ppro->OnContactAdded(hContact);
-			return 0;
-		}
-		return 1;
-	}
-
-	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL || pd->type == PROTOTYPE_PROTOWITHACCS)
+	if (auto *pa = Proto_GetAccount(szProto)) {
 		db_set_s(hContact, "Protocol", "p", szProto);
 
-	return 0;
+		if (pa->ppro)
+			pa->ppro->OnContactAdded(hContact);
+		return 0;
+	}
+
+	if (auto *pd = Proto_IsProtocolLoaded(szProto)) {
+		if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL || pd->type == PROTOTYPE_PROTOWITHACCS)
+			db_set_s(hContact, "Protocol", "p", szProto);
+
+		return 0;
+	}
+	
+	return 1;
 }
 
 MIR_APP_DLL(int) Proto_RemoveFromContact(MCONTACT hContact, const char *szProto)
