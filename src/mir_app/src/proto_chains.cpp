@@ -134,7 +134,7 @@ MIR_APP_DLL(INT_PTR) Proto_ChainRecv(int iOrder, CCSDATA *ccs)
 	return ret;
 }
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
+MIR_APP_DLL(PROTOACCOUNT*) Proto_GetContactAccount(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return nullptr;
@@ -148,7 +148,7 @@ PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact)
 
 MIR_APP_DLL(char*) Proto_GetBaseAccountName(MCONTACT hContact)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
+	PROTOACCOUNT *pa = Proto_GetContactAccount(hContact);
 	return pa->IsEnabled() ? pa->szModuleName : nullptr;
 }
 

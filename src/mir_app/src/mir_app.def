@@ -121,6 +121,7 @@ GetPluginLangId @129
 Proto_GetAccount @130
 Proto_EnumProtocols @131
 Proto_EnumAccounts @132
+Proto_GetContactAccount @133
 Proto_GetBaseAccountName @135
 Proto_AddToContact @137
 Proto_ChainRecv @138

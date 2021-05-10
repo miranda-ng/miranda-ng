@@ -54,7 +54,7 @@ MIR_APP_DLL(PROTOCOLDESCRIPTOR*) Proto_IsProtocolLoaded(const char *szProtoName)
 
 MIR_APP_DLL(PROTO_INTERFACE *) Proto_GetInstance(MCONTACT hContact)
 {
-	PROTOACCOUNT *pa = Proto_GetAccount(hContact);
+	PROTOACCOUNT *pa = Proto_GetContactAccount(hContact);
 	if (pa == nullptr || pa->bOldProto)
 		return nullptr;
 

@@ -164,8 +164,6 @@ extern LIST<MBaseProto> g_arFilters;
 
 INT_PTR ProtoCallService(const char *szModule, const char *szService, WPARAM wParam, LPARAM lParam);
 
-PROTOACCOUNT* __fastcall Proto_GetAccount(MCONTACT hContact);
-
 PROTO_INTERFACE* AddDefaultAccount(const char *szProtoName);
 int  FreeDefaultAccount(PROTO_INTERFACE* ppi);
 
