@@ -293,7 +293,11 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		return si->hContact;
 	}
 
-	if (hContact == -1) {
+	if (hContact == INVALID_CONTACT_ID) {
+		if (wszId.IsEmpty()) {
+			debugLogA("no aimId in packet? so strange...");
+			return INVALID_CONTACT_ID;
+		}
 		hContact = CreateContact(wszId, false);
 		FindContactByUIN(wszId)->m_bInList = true;
 	}

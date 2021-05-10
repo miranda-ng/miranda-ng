@@ -270,7 +270,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         CheckLastId(MCONTACT hContact, const JSONNode&);
 	void         Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
-	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = -1);
+	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID);
 	void         ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 				    
 	void         OnLoggedIn(void);
