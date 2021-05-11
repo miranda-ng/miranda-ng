@@ -32,9 +32,9 @@ class COptionsDlg : public CDlgBase
 
 	XSN_Data* ObtainData()
 	{
-		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		LPARAM hContact = comboUser.GetCurData();
 		if (hContact == -1) {
-			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetCurData();
 			XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
 			if (p == nullptr)
 				XSN_Users.insert(p = new XSN_Data(pa->szModuleName, chkIgnore.GetState()));
@@ -114,8 +114,7 @@ public:
 		chkIgnore.SetState(false);
 		label.SetText(TranslateT("Not set"));
 
-		int cursel = comboAcc.GetCurSel();
-		PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(cursel);
+		PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetCurData();
 		comboUser.AddString(TranslateT("All contacts"), -1);
 
 		for (auto &hContact : Contacts(pa->szModuleName)) {
@@ -130,9 +129,9 @@ public:
 		btnChoose.Enable();
 		chkIgnore.Enable();
 
-		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		LPARAM hContact = comboUser.GetCurData();
 		if (hContact == -1) {
-			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetCurData();
 			ptrW wszText(g_plugin.getWStringA(pa->szModuleName));
 			if (wszText) {
 				btnTest.Enable();
@@ -226,9 +225,9 @@ public:
 		chkIgnore.SetState(false);
 		label.SetText(TranslateT("Not set"));
 
-		LPARAM hContact = comboUser.GetItemData(comboUser.GetCurSel());
+		LPARAM hContact = comboUser.GetCurData();
 		if (hContact == -1) {
-			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetItemData(comboAcc.GetCurSel());
+			PROTOACCOUNT *pa = (PROTOACCOUNT *)comboAcc.GetCurData();
 			XSN_Data *p = XSN_Users.find((XSN_Data *)&pa->szModuleName);
 			if (p != nullptr) {
 				XSN_Users.remove(p);

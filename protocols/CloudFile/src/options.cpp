@@ -55,8 +55,7 @@ bool COptionsMainDlg::OnInitDialog()
 
 bool COptionsMainDlg::OnApply()
 {
-	int iItem = m_defaultService.GetCurSel();
-	CCloudService *service = (CCloudService*)m_defaultService.GetItemData(iItem);
+	CCloudService *service = (CCloudService*)m_defaultService.GetCurData();
 	if (service)
 		g_plugin.setString("DefaultService", service->GetAccountName());
 	else

@@ -162,7 +162,7 @@ bool CVkInviteChatForm::OnInitDialog()
 
 bool CVkInviteChatForm::OnApply()
 {
-	m_hContact = m_cbxCombo.GetItemData(m_cbxCombo.GetCurSel());
+	m_hContact = m_cbxCombo.GetCurData();
 	return true;
 }
 

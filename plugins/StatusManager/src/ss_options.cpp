@@ -364,7 +364,7 @@ public:
 			SSPlugin.setDword(SETTING_SETPROFILEDELAY, GetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, nullptr, FALSE));
 
 		if (bChecked || chkShowDialog.GetState())
-			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (WORD)profiles.GetItemData(profiles.GetCurSel()));
+			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (WORD)profiles.GetCurData());
 
 		SSPlugin.setByte(SETTING_OVERRIDE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
 		SSPlugin.setByte(SETTING_SHOWDIALOG, bChecked = chkShowDialog.GetState());
@@ -411,7 +411,7 @@ public:
 
 	void onClick_Show(CCtrlButton*)
 	{
-		CCmdlDlg *pDlg = new CCmdlDlg(profiles.GetItemData(profiles.GetCurSel()));
+		CCmdlDlg *pDlg = new CCmdlDlg(profiles.GetCurData());
 		pDlg->Show();
 	}
 
@@ -541,7 +541,7 @@ class CSSAdvancedOptDlg : public CDlgBase
 
 	void SetProfile()
 	{
-		int sel = cmbProfile.GetItemData(cmbProfile.GetCurSel());
+		int sel = cmbProfile.GetCurData();
 		chkCreateTTB.SetState(arProfiles[sel].createTtb);
 		chkShowDialog.SetState(arProfiles[sel].showDialog);
 		chkCreateMMI.SetState(arProfiles[sel].createMmi);
@@ -756,7 +756,7 @@ public:
 	void onClick_Delete(CCtrlButton*)
 	{
 		// wparam == profile no
-		int sel = cmbProfile.GetItemData(cmbProfile.GetCurSel());
+		int sel = cmbProfile.GetCurData();
 		if (arProfiles.getCount() == 1) {
 			MessageBox(nullptr, TranslateT("At least one profile must exist"), TranslateT("Status manager"), MB_OK);
 			return;
@@ -817,7 +817,7 @@ public:
 
 	void onChange_Hotkey(CCtrlEdit*)
 	{
-		int sel = cmbProfile.GetItemData(cmbProfile.GetCurSel());
+		int sel = cmbProfile.GetCurData();
 		arProfiles[sel].hotKey = edtHotkey.SendMsg(HKM_GETHOTKEY, 0, 0);
 	}
 
@@ -850,7 +850,7 @@ public:
 
 	void onChange_Option(CCtrlCheck*)
 	{
-		int sel = cmbProfile.GetItemData(cmbProfile.GetCurSel());
+		int sel = cmbProfile.GetCurData();
 		PROFILEOPTIONS &po = arProfiles[sel];
 		po.createMmi = chkCreateMMI.GetState();
 		po.inSubMenu = chkInSubmenu.GetState();

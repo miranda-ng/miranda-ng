@@ -527,9 +527,8 @@ class COptionsDlg : public CDlgBase
 			wcsncpy_s(m_szFilterString, pos, _TRUNCATE);
 		}
 		else {
-			int sel = m_keywordFilter.GetCurSel();
-			if (sel != -1) {
-				HINSTANCE hinst = (HINSTANCE)m_keywordFilter.GetItemData(sel);
+			HINSTANCE hinst = (HINSTANCE)m_keywordFilter.GetCurData();
+			if (hinst != INVALID_HANDLE_VALUE) {
 				wchar_t szFileName[300];
 				GetModuleFileName(hinst, szFileName, _countof(szFileName));
 				wchar_t *pos = wcsrchr(szFileName, '\\');

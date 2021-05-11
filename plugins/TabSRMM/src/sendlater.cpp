@@ -361,11 +361,8 @@ public:
 
 	void onSelChange_filter(CCtrlCombo*)
 	{
-		LRESULT lr = m_filter.GetCurSel();
-		if (lr != CB_ERR) {
-			m_hFilter = m_filter.GetItemData(lr);
-			FillList();
-		}
+		m_hFilter = m_filter.GetCurData();
+		FillList();
 	}
 
 	void onMenu_list(CCtrlListView::TEventInfo*)

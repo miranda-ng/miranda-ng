@@ -488,13 +488,10 @@ protected:
 		else
 			m_proto->delSetting("Password");
 
-		int index = m_cbLocale.GetCurSel();
-		if (index >= 0) {
-			char *szLanguageCode = (char*)m_cbLocale.GetItemData(index);
-			if (szLanguageCode) {
-				m_proto->setString("XmlLang", szLanguageCode);
-				replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
-			}
+		char *szLanguageCode = (char*)m_cbLocale.GetCurData();
+		if (szLanguageCode && szLanguageCode != INVALID_HANDLE_VALUE) {
+			m_proto->setString("XmlLang", szLanguageCode);
+			replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
 		}
 
 		if (m_cbMam.Enabled() && m_cbMam.GetCurSel() != m_proto->m_iMamMode)
@@ -1272,7 +1269,7 @@ private:
 	void cbType_OnChange(CCtrlData *sender)
 	{
 		CCtrlCombo *chk = (CCtrlCombo *)sender;
-		setupConnection(chk->GetItemData(chk->GetCurSel()));
+		setupConnection(chk->GetCurData());
 		CheckRegistration();
 	}
 

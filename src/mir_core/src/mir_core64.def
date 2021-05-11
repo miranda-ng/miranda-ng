@@ -1504,3 +1504,4 @@ TimeZone_GetSystemTime @1692
 ?MoveItem@CCtrlListView@@QEAAHHH@Z @1727 NONAME
 ?SelectData@CCtrlCombo@@QEAAH_J@Z @1728 NONAME
 ?SetCurSel@CCtrlListView@@QEAAXH@Z @1729 NONAME
+?GetCurData@CCtrlCombo@@QEBA_JXZ @1730 NONAME

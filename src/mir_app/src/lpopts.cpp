@@ -197,8 +197,7 @@ void CLangpackDlg::DisplayPackInfo(const LANGPACK_INFO *pack)
 
 void CLangpackDlg::Languages_OnChange(CCtrlBase*)
 {
-	int idx = m_languages.GetCurSel();
-	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(idx);
+	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetCurData();
 	DisplayPackInfo(pack);
 	if (!(pack->flags & LPF_ENABLED))
 		SendMessage(GetParent(GetHwnd()), PSM_CHANGED, 0, 0);
@@ -208,8 +207,7 @@ void CLangpackDlg::Languages_OnChange(CCtrlBase*)
 void CLangpackDlg::Reload_OnClick(CCtrlBase*)
 {
 	m_reload.Enable(FALSE);
-	int idx = m_languages.GetCurSel();
-	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetItemData(idx);
+	LANGPACK_INFO *pack = (LANGPACK_INFO*)m_languages.GetCurData();
 	ReloadLangpack(pack->tszFullPath);
 	DisplayPackInfo(pack);
 	m_reload.Enable(TRUE);

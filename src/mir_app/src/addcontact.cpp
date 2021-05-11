@@ -119,9 +119,9 @@ public:
 		if (mir_wstrlen(szHandle))
 			db_set_ws(hContact, "CList", "MyHandle", szHandle);
 
-		int item = m_group.GetCurSel();
-		if (item > 0)
-			Clist_ContactChangeGroup(hContact, m_group.GetItemData(item));
+		MGROUP iGroup = m_group.GetCurData();
+		if (iGroup >= 0)
+			Clist_ContactChangeGroup(hContact, iGroup);
 
 		Contact_PutOnList(hContact);
 

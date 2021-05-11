@@ -96,7 +96,7 @@ public:
 		g_plugin.setWord("IconFlashTime", blink.GetPosition());
 		g_plugin.setByte("DisableTrayFlash", IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
 
-		PROTOACCOUNT *pa = (PROTOACCOUNT *)status.GetItemData(status.GetCurSel());
+		PROTOACCOUNT *pa = (PROTOACCOUNT *)status.GetCurData();
 		if (pa == nullptr)
 			g_plugin.delSetting("PrimaryStatus");
 		else

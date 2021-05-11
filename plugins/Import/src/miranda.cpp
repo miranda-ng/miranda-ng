@@ -181,13 +181,8 @@ void CMirandaPageDlg::onClick_Path(CCtrlButton*)
 
 void CMirandaPageDlg::onChange_Pattern(CCtrlCombo*)
 {
-	m_iFileType = -1;
-	int iCur = m_cmbFileType.GetCurSel();
-	if (iCur == -1)
-		return;
-
 	// standard import for Miranda
-	m_iFileType = m_cmbFileType.GetItemData(iCur);
+	m_iFileType = m_cmbFileType.GetCurData();
 	if (m_iFileType == -1) {
 		g_pBatch->m_pPattern = nullptr;
 		btnPath.Hide();

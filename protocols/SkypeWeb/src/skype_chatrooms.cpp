@@ -99,7 +99,7 @@ public:
 
 	bool OnApply() override
 	{
-		m_hContact = m_combo.GetItemData(m_combo.GetCurSel());
+		m_hContact = m_combo.GetCurData();
 		return true;
 	}
 };

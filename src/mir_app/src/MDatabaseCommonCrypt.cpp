@@ -36,7 +36,7 @@ class CSelectCryptoDialog : public CDlgBase
 
 	CRYPTO_PROVIDER *getCurrent()
 	{
-		return (CRYPTO_PROVIDER*)m_combo.GetItemData(m_combo.GetCurSel());
+		return (CRYPTO_PROVIDER*)m_combo.GetCurData();
 	}
 
 	bool OnInitDialog() override

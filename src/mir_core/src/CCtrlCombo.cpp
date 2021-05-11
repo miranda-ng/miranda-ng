@@ -76,6 +76,11 @@ void CCtrlCombo::OnReset()
 		SetInt(LoadInt());
 }
 
+LPARAM CCtrlCombo::GetCurData() const
+{
+	return GetItemData(GetCurSel());
+}
+
 // selects line with userdata passed
 int CCtrlCombo::SelectData(LPARAM data)
 {

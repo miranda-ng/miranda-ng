@@ -209,9 +209,9 @@ bool CVkOptionAccountForm::OnInitDialog()
 
 bool CVkOptionAccountForm::OnApply()
 {
-	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetItemData(m_cbxSyncHistory.GetCurSel());
-	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetItemData(m_cbxMarkAsRead.GetCurSel());
-	m_proto->m_vkOptions.pwszVKLang = (wchar_t *)m_cbxVKLang.GetItemData(m_cbxVKLang.GetCurSel());
+	m_proto->m_vkOptions.iSyncHistoryMetod = m_cbxSyncHistory.GetCurData();
+	m_proto->m_vkOptions.iMarkMessageReadOn = m_cbxMarkAsRead.GetCurData();
+	m_proto->m_vkOptions.pwszVKLang = (wchar_t *)m_cbxVKLang.GetCurData();
 
 	ptrW pwszGroupName(m_edtGroupName.GetText());
 	if (mir_wstrcmp(m_pwszOldGroup, pwszGroupName)) {

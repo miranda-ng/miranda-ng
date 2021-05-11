@@ -648,12 +648,9 @@ public:
 	void OnDestroy()
 	{
 		if (m_chkSmEnabled.GetState()) {
-			LRESULT curSel = m_servicePlugs.GetCurSel();
-			if (curSel != -1) {
-				int idx = m_servicePlugs.GetItemData(curSel);
-				if (idx != -1)
-					plugin_service = servicePlugins[idx];
-			}
+			int idx = m_servicePlugs.GetCurData();
+			if (idx != -1)
+				plugin_service = servicePlugins[idx];
 		}
 
 		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));

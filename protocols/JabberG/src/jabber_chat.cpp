@@ -865,13 +865,13 @@ public:
 
 	void onSelChange_Affiliation(CCtrlCombo*)
 	{
-		int value = cmbAffiliation.GetItemData(cmbAffiliation.GetCurSel());
+		int value = cmbAffiliation.GetCurData();
 		btnAffiliation.Enable(m_him->m_affiliation != value);
 	}
 
 	void onClick_Affiliation(CCtrlButton *)
 	{
-		int value = cmbAffiliation.GetItemData(cmbAffiliation.GetCurSel());
+		int value = cmbAffiliation.GetCurData();
 		if (m_him->m_affiliation == value)
 			return;
 
@@ -907,13 +907,13 @@ public:
 
 	void onSelChange_Role(CCtrlCombo *)
 	{
-		int value = cmbRole.GetItemData(cmbRole.GetCurSel());
+		int value = cmbRole.GetCurData();
 		btnRole.Enable(m_him->m_role != value);
 	}
 
 	void onClick_Role(CCtrlButton*)
 	{
-		int value = cmbRole.GetItemData(cmbRole.GetCurSel());
+		int value = cmbRole.GetCurData();
 		if (m_him->m_role == value)
 			return;
 

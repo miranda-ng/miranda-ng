@@ -789,7 +789,7 @@ public:
 		CMStringW keyinfo = TranslateT("key ID");
 		keyinfo += ": ";
 
-		m_szCurrAcc = (const char *)pCombo->GetItemData(pCombo->GetCurSel());
+		m_szCurrAcc = (const char *)pCombo->GetCurData();
 		if (m_szCurrAcc == nullptr) {
 			keyinfo += g_plugin.getMStringW("KeyID", TranslateT("not set"));
 		}

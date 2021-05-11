@@ -336,8 +336,8 @@ public:
 	bool OnApply() override
 	{
 		if (cmbStatus1.GetHwnd()) {
-			m_proto->m_iStatus1 = cmbStatus1.GetItemData(cmbStatus1.GetCurSel());
-			m_proto->m_iStatus2 = cmbStatus2.GetItemData(cmbStatus2.GetCurSel());
+			m_proto->m_iStatus1 = cmbStatus1.GetCurData();
+			m_proto->m_iStatus2 = cmbStatus2.GetCurData();
 		}
 
 		return true;

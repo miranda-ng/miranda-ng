@@ -169,7 +169,7 @@ public:
 
 	void onSelChanged_Combo(CCtrlCombo*)
 	{
-		int iScanner = cmbScanCmdLine.GetItemData(cmbScanCmdLine.GetCurSel());
+		int iScanner = cmbScanCmdLine.GetCurData();
 		if (iScanner >= _countof(virusScanners) || iScanner < 0)
 			return;
 

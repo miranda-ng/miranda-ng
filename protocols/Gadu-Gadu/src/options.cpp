@@ -56,14 +56,9 @@ bool GaduOptionsDlgConference::OnInitDialog()
 
 bool GaduOptionsDlgConference::OnApply()
 {
-	int selectionIndex = cmbPolicyForAllChatParticipants.GetCurSel();
-	m_proto->setWord(GG_KEY_GC_POLICY_TOTAL, cmbPolicyForAllChatParticipants.GetItemData(selectionIndex));
-
-	selectionIndex = cmbPolicyForUnknownChatParticipants.GetCurSel();
-	m_proto->setWord(GG_KEY_GC_POLICY_UNKNOWN, cmbPolicyForUnknownChatParticipants.GetItemData(selectionIndex));
-
-	selectionIndex = cmbDefaultChatPolicy.GetCurSel();
-	m_proto->setWord(GG_KEY_GC_POLICY_DEFAULT, cmbDefaultChatPolicy.GetItemData(selectionIndex));
+	m_proto->setWord(GG_KEY_GC_POLICY_TOTAL, cmbPolicyForAllChatParticipants.GetCurData());
+	m_proto->setWord(GG_KEY_GC_POLICY_UNKNOWN, cmbPolicyForUnknownChatParticipants.GetCurData());
+	m_proto->setWord(GG_KEY_GC_POLICY_DEFAULT, cmbDefaultChatPolicy.GetCurData());
 	return true;
 }
 

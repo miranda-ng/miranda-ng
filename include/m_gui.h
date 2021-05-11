@@ -949,8 +949,11 @@ public:
 	bool OnApply() override;
 	void OnReset() override;
 
+	// returns item data associated with the selected item or -1
+	LPARAM   GetCurData() const;
+
 	// selects line with userdata passed. returns index of this line or -1
-	int  SelectData(LPARAM data); 
+	int      SelectData(LPARAM data); 
 
 	// Control interface
 	int      AddString(const wchar_t *text, LPARAM data = 0);

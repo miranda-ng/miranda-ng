@@ -704,8 +704,7 @@ public:
 		m_proto->m_alias = m_alias.GetText();
 		m_quitMessage.GetText(m_proto->m_quitMessage, _countof(m_proto->m_quitMessage));
 
-		int curSel = m_codepage.GetCurSel();
-		m_proto->m_codepage = m_codepage.GetItemData(curSel);
+		m_proto->m_codepage = m_codepage.GetCurData();
 		if (m_proto->IsConnected())
 			m_proto->setCodepage(m_proto->m_codepage);
 
@@ -746,11 +745,10 @@ public:
 
 	void OnPerformCombo(CCtrlData *)
 	{
-		int i = m_performCombo.GetCurSel();
-		if (i == CB_ERR)
+		PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
+		if (pPerf == INVALID_HANDLE_VALUE)
 			return;
 
-		PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetItemData(i);
 		if (pPerf == nullptr)
 			m_pertormEdit.SetTextA("");
 		else
@@ -764,8 +762,7 @@ public:
 
 	void OnCodePage(CCtrlData *)
 	{
-		int curSel = m_codepage.GetCurSel();
-		m_autodetect.Enable(m_codepage.GetItemData(curSel) != CP_UTF8);
+		m_autodetect.Enable(m_codepage.GetCurData() != CP_UTF8);
 	}
 
 	void OnPerformEdit(CCtrlData *)
@@ -788,38 +785,37 @@ public:
 
 	void OnAdd(CCtrlButton *)
 	{
-		wchar_t *temp = m_pertormEdit.GetText();
+		ptrW temp(m_pertormEdit.GetText());
 
 		if (my_strstri(temp, L"/away"))
 			MessageBox(nullptr, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 		else {
-			int i = m_performCombo.GetCurSel();
-			if (i != CB_ERR) {
-				PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetItemData(i);
-				if (pPerf != nullptr)
-					pPerf->mText = temp;
+			PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
+			if (pPerf == INVALID_HANDLE_VALUE)
+				return;
 
-				m_add.Disable();
-				m_performlistModified = true;
-			}
+			if (pPerf != nullptr)
+				pPerf->mText = temp;
+
+			m_add.Disable();
+			m_performlistModified = true;
 		}
-		mir_free(temp);
 	}
 
 	void OnDelete(CCtrlButton *)
 	{
-		int i = m_performCombo.GetCurSel();
-		if (i != CB_ERR) {
-			PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetItemData(i);
-			if (pPerf != nullptr) {
-				pPerf->mText = L"";
-				m_pertormEdit.SetTextA("");
-				m_delete.Disable();
-				m_add.Disable();
-			}
+		PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
+		if (pPerf == INVALID_HANDLE_VALUE)
+			return;
 
-			m_performlistModified = true;
+		if (pPerf != nullptr) {
+			pPerf->mText = L"";
+			m_pertormEdit.SetTextA("");
+			m_delete.Disable();
+			m_add.Disable();
 		}
+
+		m_performlistModified = true;
 	}
 };
 

@@ -669,7 +669,7 @@ protected:
 		// absolute time specified in combobox item data
 		if (!m_bManualTime) {
 			// use preset value
-			UINT nDeltaSeconds = cmbTime.GetItemData(cmbTime.GetCurSel());
+			UINT nDeltaSeconds = cmbTime.GetCurData();
 			if (m_bRelativeCombo) {
 				// combine date from pDate (local) and time from savedLi (utc)
 				SYSTEMTIME st, st2;
@@ -1204,7 +1204,7 @@ public:
 			ULONGLONG li;
 			SystemTimeToFileTime(&tm, (FILETIME*)&li);
 
-			int TT = cmbRemindAgainIn.GetItemData(cmbRemindAgainIn.GetCurSel()) * 60;
+			int TT = cmbRemindAgainIn.GetCurData() * 60;
 			if (TT >= 24 * 3600) {
 				// selection is 1 day or more, take daylight saving boundaries into consideration
 				// (ie. 24 hour might actually be 23 or 25, in order for reminder to pop up at the
@@ -1421,10 +1421,8 @@ public:
 		if (!GetTriggerTime(m_savedLi, Date))
 			return;
 
-		int RepeatSound = cmbRepeat.GetCurSel();
-		if (RepeatSound != -1)
-			RepeatSound = cmbRepeat.GetItemData(RepeatSound);
-		else
+		int RepeatSound = cmbRepeat.GetCurData();
+		if (RepeatSound == -1)
 			RepeatSound = 0;
 
 		bool bClose = g_plugin.bCloseAfterAddReminder || m_pReminder;
@@ -1435,7 +1433,7 @@ public:
 			SystemTimeToFileTime(&Date, (FILETIME*)&TempRem->When);
 			TempRem->wszText = ptrW(edtText.GetText());
 			TempRem->bRepeat = chkRepeat.GetState();
-			TempRem->SoundSel = cmbSound.GetItemData(cmbSound.GetCurSel());
+			TempRem->SoundSel = cmbSound.GetCurData();
 			TempRem->RepeatSound = TempRem->SoundSel < 0 ? 0 : (UINT)RepeatSound;
 			InsertReminder(TempRem);
 		}
@@ -1446,7 +1444,7 @@ public:
 
 			m_pReminder->wszText = ptrW(edtText.GetText());
 			m_pReminder->bRepeat = chkRepeat.GetState();
-			m_pReminder->SoundSel = cmbSound.GetItemData(cmbSound.GetCurSel());
+			m_pReminder->SoundSel = cmbSound.GetCurData();
 			m_pReminder->RepeatSound = m_pReminder->SoundSel < 0 ? 0 : (UINT)RepeatSound;
 
 			// re-insert tree item sorted
@@ -1470,7 +1468,7 @@ public:
 
 	void onClick_PlaySound(CCtrlButton*)
 	{
-		int n = cmbSound.GetItemData(cmbSound.GetCurSel());
+		int n = cmbSound.GetCurData();
 		switch (n) {
 		case 0: 
 			Skin_PlaySound("AlertReminder"); 
@@ -1486,7 +1484,7 @@ public:
 
 	void onChange_Sound(CCtrlCombo*)
 	{
-		int n = cmbSound.GetItemData(cmbSound.GetCurSel());
+		int n = cmbSound.GetCurData();
 		btnPlaySound.Enable(n >= 0);
 		cmbRepeat.Enable(n >= 0);
 	}

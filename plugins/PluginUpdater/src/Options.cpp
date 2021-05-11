@@ -223,7 +223,7 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.iPeriodMeasure = cmbPeriod.GetItemData(cmbPeriod.GetCurSel());
+		g_plugin.iPeriodMeasure = cmbPeriod.GetCurData();
 
 		wchar_t buffer[3] = { 0 };
 		Edit_GetText(GetDlgItem(m_hwnd, IDC_PERIOD), buffer, _countof(buffer));

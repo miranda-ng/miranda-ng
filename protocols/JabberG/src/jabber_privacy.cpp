@@ -364,7 +364,7 @@ public:
 
 	bool OnApply() override
 	{
-		int nCurSel, nItemData = m_cbType.GetItemData(m_cbType.GetCurSel());
+		int nCurSel, nItemData = m_cbType.GetCurData();
 
 		switch (nItemData) {
 		case Jid:
@@ -419,7 +419,7 @@ public:
 	{
 		if (!m_pRule) return;
 
-		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
+		switch (m_cbType.GetCurData()) {
 		case Jid:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
