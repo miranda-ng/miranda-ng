@@ -112,9 +112,9 @@ static void CALLBACK VKUnsetTimer(void*)
 
 void CVkProto::OnTimerTic()
 {
-	SetServerStatus(m_iDesiredStatus);
 	RetrieveUsersInfo(true);
 	RetrieveUnreadEvents();
+	SetServerStatus(m_iDesiredStatus);
 }
 
 void CVkProto::OnLoggedIn()
