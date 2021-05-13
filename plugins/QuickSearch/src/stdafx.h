@@ -389,6 +389,7 @@ public:
 
 	void ChangeCellValue(MCONTACT hContact, int col);
 	bool PrepareToFill();
+	void ToggleColumn(int col);
 
 	INT_PTR OnSysCommand(UINT, WPARAM, LPARAM);
 	INT_PTR OnMouseMove(UINT, WPARAM, LPARAM);

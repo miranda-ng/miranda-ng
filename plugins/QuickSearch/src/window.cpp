@@ -111,7 +111,68 @@ INT_PTR QSMainDlg::NewEditProc(UINT msg, WPARAM wParam, LPARAM)
 // list header window procedure
 
 static void MakeColumnMenu()
-{}
+{
+	HMENU hMenu = CreatePopupMenu();
+
+	for (auto &it : g_plugin.m_columns) {
+		int flag = MF_STRING + (it->bEnabled) ? MF_CHECKED : MF_UNCHECKED;
+		AppendMenuW(hMenu, flag, 100 + g_plugin.m_columns.indexOf(&it), TranslateW(it->title));
+	}
+
+	POINT pt;
+	GetCursorPos(&pt);
+
+	int id = TrackPopupMenu(hMenu, TPM_RETURNCMD + TPM_NONOTIFY, pt.x, pt.y, 0, g_pDlg->GetHwnd(), 0);
+	if (id >= 100)
+		g_pDlg->ToggleColumn(id - 100);
+
+	DestroyMenu(hMenu);
+}
+
+void QSMainDlg::ToggleColumn(int col)
+{
+	auto &pCol = g_plugin.m_columns[col];
+
+	if (!pCol.bEnabled) { // show column
+		pCol.bEnabled = true;
+
+		if (!pCol.bInit) {
+			for (auto &it : m_rows)
+				it->pValues[col].LoadOneItem(it->hContact, pCol, this);
+			pCol.bInit = true;
+		}
+
+		// screen
+		int lvcol = ColumnToListView(col);
+		AddColumn(lvcol, &pCol);
+		
+		int nCount = m_grid.GetItemCount();
+		for (int i = 0; i < nCount; i++) {
+			auto *pRow = GetRow(i);
+
+			LV_ITEMW li;
+			li.iItem = i;
+			li.iSubItem = lvcol;
+			li.mask = LVIF_TEXT;
+			li.pszText = pRow->pValues[col].text;
+			if ((pCol.isClient && (g_plugin.m_flags & QSO_CLIENTICONS) && li.pszText) || pCol.isGender || pCol.isXstatus)
+				li.mask |= LVIF_IMAGE;
+			m_grid.SetItem(&li);
+		}
+	}
+	else { // hide column
+		int cnt = 0;
+		for (auto &it : g_plugin.m_columns)
+			if (it->bEnabled)
+				cnt++;
+
+		// keep at least one visible column (1 + this)
+		if (cnt > 2) {
+			m_grid.DeleteColumn(col);
+			pCol.bEnabled = false;
+		}
+	}
+}
 
 static LRESULT CALLBACK sttNewLVHProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
