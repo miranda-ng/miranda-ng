@@ -430,10 +430,9 @@ public:
 		wchar_t *pcw;
 		int dx, rside;
 
-		HWND wSeparator = GetDlgItem(m_hwnd,IDC_B_RESIZE);
 		RECT rc, rc1;
 		GetClientRect(m_hwnd, &rc);
-		GetWindowRect(wSeparator, &rc1);
+		GetWindowRect(btnResize.GetHwnd(), &rc1);
 
 		POINT pt = { rc1.left, 0 };
 		ScreenToClient(m_hwnd, &pt);
@@ -453,10 +452,10 @@ public:
 			pcw = L">";
 		}
 		
-		SendMessageW(wSeparator, WM_SETTEXT, 0, LPARAM(pcw));
+		btnResize.SetText(pcw);
 
 		// move separator button
-		SetWindowPos(wSeparator,0,dx+2,2,0,0,SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
+		SetWindowPos(btnResize.GetHwnd(), 0, dx + 2, 2, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW);
 
 		// resize left side controls
 		ResizeControl(IDC_LIST, dx);
