@@ -447,6 +447,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NewStory", "..\plugins\NewS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickSearch", "..\plugins\QuickSearch\quicksearch.vcxproj", "{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2013,6 +2015,14 @@ Global
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|Win32.Build.0 = Release|Win32
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.ActiveCfg = Release|x64
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.Build.0 = Release|x64
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Debug|Win32.Build.0 = Debug|Win32
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Debug|x64.ActiveCfg = Debug|x64
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Debug|x64.Build.0 = Debug|x64
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|Win32.ActiveCfg = Release|Win32
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|Win32.Build.0 = Release|Win32
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|x64.ActiveCfg = Release|x64
+		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

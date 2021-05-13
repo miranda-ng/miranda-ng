@@ -1,0 +1,182 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_FRAME DIALOGEX 0, 0, 114, 16
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    PUSHBUTTON      "*",IDC_FRAME_OPEN,2,2,12,12,BS_ICON
+    EDITTEXT        IDC_FRAME_EDIT,16,2,96,12
+END
+
+IDD_OPTIONS DIALOGEX 0, 0, 314, 250
+STYLE DS_SETFONT | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "Ms Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Reload",IDC_RELOAD,"MButtonClass",WS_TABSTOP,2,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "New",IDC_NEW,"MButtonClass",WS_TABSTOP,32,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Up",IDC_UP,"MButtonClass",WS_TABSTOP,62,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Down",IDC_DN,"MButtonClass",WS_TABSTOP,80,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Delete",IDC_DELETE,"MButtonClass",WS_TABSTOP,112,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "Default",IDC_DEFAULT,"MButtonClass",WS_TABSTOP,142,148,16,16,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,0,2,158,144
+    PUSHBUTTON      ">>",IDC_B_RESIZE,160,2,10,246,BS_FLAT
+    CTEXT           "Settings",IDC_S_COLSETTING,172,2,139,12,SS_CENTERIMAGE
+    CONTROL         "",IDC_S_LINE,"Static",SS_ETCHEDHORZ,172,14,139,2
+    LTEXT           "Title:",IDC_S_TITLE,174,16,137,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_E_TITLE,172,28,139,14,ES_AUTOHSCROLL
+    LTEXT           "Type:",IDC_S_VARTYPE,174,44,137,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_C_VARTYPE,172,56,139,80,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Data type:",IDC_S_DATATYPE,174,72,137,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_C_DATATYPE,172,84,139,80,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Module:",IDC_S_MODULE,174,104,137,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_E_MODULE,172,116,139,14,ES_AUTOHSCROLL
+    LTEXT           "Setting:",IDC_S_SETTING,174,132,137,12,SS_CENTERIMAGE
+    EDITTEXT        IDC_E_SETTING,172,144,139,14,ES_AUTOHSCROLL
+    LTEXT           "InfoType:",IDC_S_CNFTYPE,174,72,137,12,SS_CENTERIMAGE
+    COMBOBOX        IDC_C_CNFTYPE,172,84,139,80,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_E_SCRIPT,172,72,139,14,ES_AUTOHSCROLL
+    COMBOBOX        IDC_C_OTHER,172,72,139,150,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Save",IDC_SETITEM,259,234,52,14
+    CONTROL         "Tool Window Style",IDC_CH_USETOOLSTYLE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,176,152,12
+    CONTROL         "Draw Grid",IDC_CH_DRAWGRID,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,188,152,12
+    CONTROL         "Save search pattern",IDC_CH_SAVEPATTERN,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,200,152,12
+    CONTROL         "Auto Close mode",IDC_CH_AUTOCLOSE,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,212,152,12
+    CONTROL         "Sort by Status",IDC_CH_SORTSTATUS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,224,152,12
+    CONTROL         "Show Client Icons",IDC_CH_CLIENTICONS,"Button",BS_AUTOCHECKBOX | BS_FLAT | WS_TABSTOP,3,236,152,12
+    GROUPBOX        "Additional Options",IDC_CH_GROUP,0,168,158,82
+END
+
+IDD_MAIN DIALOGEX 40, 40, 520, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "Ms Shell Dlg", 0, 0, 0x1
+BEGIN
+    EDITTEXT        IDC_E_SEARCHTEXT,180,8,276,14
+    PUSHBUTTON      "Close",IDCANCEL,462,0,52,14
+    PUSHBUTTON      "Refresh",IDC_REFRESH,462,16,52,14
+    CONTROL         "Show Offline contacts",IDC_CH_SHOWOFFLINE,"Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | BS_FLAT | WS_TABSTOP,2,0,96,20
+    CONTROL         "Colorize",IDC_CH_COLORIZE,"Button",BS_AUTOCHECKBOX | BS_VCENTER | BS_MULTILINE | BS_FLAT | WS_TABSTOP,2,20,96,10
+    COMBOBOX        IDC_CB_PROTOCOLS,100,8,76,80,CBS_DROPDOWNLIST | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_NOLABELWRAP | WS_BORDER | WS_TABSTOP,2,32,516,194
+    CONTROL         "",IDC_STATUSBAR,"msctls_statusbar32",0x903,0,226,520,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_DEFAULT             ICON                    "default.ico"
+
+IDI_DELETE              ICON                    "delete.ico"
+
+IDI_DOWN                ICON                    "down.ico"
+
+IDI_FEMALE              ICON                    "female.ico"
+
+IDI_MALE                ICON                    "male.ico"
+
+IDI_NEW                 ICON                    "new.ico"
+
+IDI_QS                  ICON                    "qs.ico"
+
+IDI_RELOAD              ICON                    "reload.ico"
+
+IDI_UP                  ICON                    "up.ico"
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "..\\src\\resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
