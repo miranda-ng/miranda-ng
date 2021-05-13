@@ -143,7 +143,7 @@ static sttColors[color_max] = {
 static int OnColorReload(WPARAM, LPARAM)
 {
 	for (int i = 0; i < color_max; i++)
-		g_plugin.m_colors[i] = Colour_Get(MODULENAME, sttColors[i].szSetting);
+		g_plugin.m_colors[i] = Colour_Get(MODULENAME, sttColors[i].szDescr);
 	return 0;
 }
 

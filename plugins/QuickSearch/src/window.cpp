@@ -417,13 +417,13 @@ bool QSMainDlg::OnInitDialog()
 		SetWindowPos(m_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	}
 
-	CheckDlgButton(m_hwnd, IDC_CH_SHOWOFFLINE, (g_plugin.m_flags & QSO_SHOWOFFLINE) != 0);
+	chkShowOffline.SetState((g_plugin.m_flags & QSO_SHOWOFFLINE) != 0);
 
 	szFilterProto = nullptr; // display all protocols
 	if (g_plugin.m_flags & QSO_SHOWOFFLINE)
 		bShowOffline = true;
 
-	CheckDlgButton(m_hwnd, IDC_CH_COLORIZE, (g_plugin.m_flags & QSO_COLORIZE) != 0);
+	chkColorize.SetState((g_plugin.m_flags & QSO_COLORIZE) != 0);
 
 	// Window
 	INT_PTR tmp = GetWindowLongPtrW(m_hwnd, GWL_EXSTYLE);
@@ -640,10 +640,10 @@ void QSMainDlg::onChange_ShowOffline(CCtrlCheck *)
 
 void QSMainDlg::onChange_Colorize(CCtrlCheck *)
 {
-	if (IsDlgButtonChecked(m_hwnd, IDC_CH_COLORIZE))
-		g_plugin.m_flags &= ~QSO_COLORIZE;
-	else
+	if (chkColorize.IsChecked())
 		g_plugin.m_flags |= QSO_COLORIZE;
+	else
+		g_plugin.m_flags &= ~QSO_COLORIZE;
 	RedrawWindow(m_grid.GetHwnd(), nullptr, 0, RDW_INVALIDATE);
 }
 
