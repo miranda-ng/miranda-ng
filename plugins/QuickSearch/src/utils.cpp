@@ -258,7 +258,7 @@ void CMPlugin::LoadOptWnd()
 	m_rect.left = getDword(so_mleft);
 	m_rect.top = getDword(so_mtop);
 
-	m_flags = getDword(so_flags);
+	m_flags = getDword(so_flags, QSO_SORTBYSTATUS + QSO_DRAWGRID + QSO_CLIENTICONS + QSO_COLORIZE + QSO_SORTASC);
 	m_sortOrder = getDword(so_columnsort);
 }
 
@@ -276,7 +276,7 @@ void CMPlugin::SaveOptWnd()
 /////////////////////////////////////////////////////////////////////////////////////////
 // load options
 
-void CMPlugin::LoadColumns(OBJLIST<ColumnItem> &dst)
+int CMPlugin::LoadColumns(OBJLIST<ColumnItem> &dst)
 {
 	m_flags = getDword(so_flags);
 	int numCols = getWord(so_numcolumns);
@@ -286,6 +286,8 @@ void CMPlugin::LoadColumns(OBJLIST<ColumnItem> &dst)
 		LoadColumn(i, *pNew);
 		dst.insert(pNew);
 	}
+
+	return numCols;
 }
 
 void CMPlugin::LoadColumn(int n, ColumnItem &col)

@@ -200,7 +200,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	void LoadOptWnd();
 	void SaveOptWnd();
 
-	void LoadColumns(OBJLIST<ColumnItem>&);
+	int  LoadColumns(OBJLIST<ColumnItem>&);
 	void LoadColumn(int n, ColumnItem &col);
 	void LoadParamValue(char *buf, DWORD &flags, LPARAM &value);
 

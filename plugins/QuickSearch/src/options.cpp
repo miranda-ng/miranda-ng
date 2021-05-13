@@ -235,9 +235,9 @@ public:
 
 		m_list.SetExtendedListViewStyle(m_list.GetExtendedListViewStyle() | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		m_list.AddColumn(0, L"#", 20);
-		m_list.AddColumn(1, TranslateT("Title"), g_plugin.getWord("col1"));
-		m_list.AddColumn(2, TranslateT("Module/InfoType"), g_plugin.getWord("col2"));
-		m_list.AddColumn(3, TranslateT("Setting"), g_plugin.getWord("col3"));
+		m_list.AddColumn(1, TranslateT("Title"), g_plugin.getWord("col1", 95));
+		m_list.AddColumn(2, TranslateT("Module/InfoType"), g_plugin.getWord("col2", 105));
+		m_list.AddColumn(3, TranslateT("Setting"), g_plugin.getWord("col3", 85));
 
 		cmbVarType.AddString(TranslateT("DB setting"), QST_SETTING);
 		cmbVarType.AddString(TranslateT("Script"), QST_SCRIPT);

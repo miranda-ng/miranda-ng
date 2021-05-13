@@ -171,7 +171,8 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULELOAD, OnCheckPlugins);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnCheckPlugins);
 
-	LoadColumns(m_columns);
+	if (!LoadColumns(m_columns))
+		LoadDefaultColumns(m_columns);
 	return 0;
 }
 
