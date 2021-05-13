@@ -340,7 +340,7 @@ int LoadCLUIModule(void)
 	mi.position = 2000070000;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
 	mi.name.a = LPGEN("De&lete");
-	mi.pszService = "CList/DeleteContactCommand";
+	mi.pszService = MS_CLIST_DELETECONTACT;
 	Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, MenuItem_DeleteContact);
 

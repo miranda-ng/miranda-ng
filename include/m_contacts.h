@@ -63,6 +63,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CNF_COCOUNTRY   37 // returns company country (string)
 #define CNF_COHOMEPAGE  38 // returns company homepage (string)
 #define CNF_DISPLAYUID  39 // returns uniqueid to display in interface (must check type for type of return)
+#define CNF_MAX         40 // maximum number
 
 // Special types
 // Return the custom name using the name order setting

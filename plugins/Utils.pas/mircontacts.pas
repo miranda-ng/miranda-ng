@@ -16,11 +16,6 @@ function GetContactStatus(hContact:TMCONTACT):integer;
 function IsChat(hContact:TMCONTACT):bool;
 function IsMirandaUser(hContact:TMCONTACT):integer; // >0=Miranda; 0=Not miranda; -1=unknown
 
-// -2 - deleted account, -1 - disabled account, 0 - hidden
-// 1 - metacontact, 2 - submetacontact, positive - active
-// proto - ASSIGNED buffer
-function IsContactActive(hContact:TMCONTACT;Proto:PAnsiChar=nil):integer;
-
 //----- Save / Load contact -----
 
 function LoadContact(group,setting:PAnsiChar):TMCONTACT;
@@ -81,41 +76,6 @@ begin
   end
   else
     result:=-1;
-end;
-
-function IsContactActive(hContact:TMCONTACT;Proto:PAnsiChar=nil):integer;
-var
-  p:PPROTOACCOUNT;
-  name: array [0..31] of AnsiChar;
-begin
-
-  if db_get_static(hContact,'Protocol','p',@name,SizeOf(name))=0 then
-  begin
-    result:=0;
-
-    p:=Proto_GetAccount(@name);
-    if p=nil then
-      result:=-2 // deleted
-    else if (not p^.bIsEnabled) or p^.bDynDisabled then
-      result:=-1; // disabled
-
-    if (result=0) and (DBReadByte(hContact,strCList,'Hidden',0)=0) then
-    begin
-      result:=255;
-      if db_mc_getMeta(hContact)<>0 then
-        result:=2;
-      if StrCmp(Proto_GetBaseAccountName(hContact),META_PROTO)=0 then
-        result:=1;
-    end;
-    if Proto<>nil then
-      StrCopy(Proto,@name);
-  end
-  else
-  begin
-    result:=-2;
-    if Proto<>nil then
-      Proto^:=#0;
-  end;
 end;
 
 //----- Save / Load contact -----

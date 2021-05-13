@@ -36,6 +36,7 @@ BOOL CCtrlListView::OnNotify(int, NMHDR *pnmh)
 	switch (pnmh->code) {
 	case NM_CLICK:              OnClick(&evt);             return TRUE;
 	case NM_DBLCLK:             OnDoubleClick(&evt);       return TRUE;
+	case NM_CUSTOMDRAW:         OnCustomDraw(&evt);        return TRUE;
 	case LVN_BEGINDRAG:         OnBeginDrag(&evt);         return TRUE;
 	case LVN_BEGINLABELEDIT:    OnBeginLabelEdit(&evt);    return TRUE;
 	case LVN_BEGINRDRAG:        OnBeginRDrag(&evt);        return TRUE;

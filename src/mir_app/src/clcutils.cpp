@@ -445,7 +445,7 @@ MIR_APP_DLL(void) Clist_DeleteFromContactList(HWND hwnd, ClcData *dat)
 		Clist_GroupDelete(contact->groupId);
 		break;
 	case CLCIT_CONTACT:
-		CallService("CList/DeleteContactCommand", (WPARAM)contact->hContact, (LPARAM)hwnd);
+		CallService(MS_CLIST_DELETECONTACT, (WPARAM)contact->hContact, (LPARAM)hwnd);
 		break;
 	}
 }

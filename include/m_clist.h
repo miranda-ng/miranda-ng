@@ -344,6 +344,13 @@ EXTERN_C MIR_APP_DLL(BOOL) Clist_IsDocked(void);
 #define MS_CLIST_SHOWHIDE "CList/ShowHide"
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// deletes a contact from contact list
+// wParam = MCONTACT - contact to be deleted
+// lParam = 0
+
+#define MS_CLIST_DELETECONTACT "CList/DeleteContactCommand"
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // sent when the group get modified (created, renamed or deleted)
 // or contact is moving from group to group
 // wParam = hContact - NULL if operation on group
@@ -435,9 +442,8 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefo
 // The return value must be DestroyMenu()ed when you're done with it.
 // NULL will be returned if the user doesn't have any groups
 // The dwItemData of every menu item is the handle to that group.
-// Menu item IDs are assigned starting at 100, in no particular order.
 
-EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(void);
+EXTERN_C MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int iStartMenuId = 100);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets group name for a contact

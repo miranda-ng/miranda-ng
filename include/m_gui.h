@@ -1140,6 +1140,7 @@ public:
 			NMLVFINDITEM   *nmlvfi;
 			NMITEMACTIVATE *nmlvia;
 			NMLVKEYDOWN    *nmlvkey;
+			NMLVCUSTOMDRAW *nmcd;
 		};
 	};
 
@@ -1148,6 +1149,7 @@ public:
 	CCallback<TEventInfo> OnBeginRDrag;
 	CCallback<TEventInfo> OnBeginScroll;
 	CCallback<TEventInfo> OnColumnClick;
+	CCallback<TEventInfo> OnCustomDraw;
 	CCallback<TEventInfo> OnDeleteAllItems;
 	CCallback<TEventInfo> OnDeleteItem;
 	CCallback<TEventInfo> OnClick;
@@ -1284,6 +1286,7 @@ public:
 			NMTVKEYDOWN *nmtvkey;
 			NMTVDISPINFO *nmtvdi;
 			NMTVGETINFOTIP *nmtvit;
+			NMTVCUSTOMDRAW *nmcd;
 			HTREEITEM hItem; // for OnItemChanged
 		};
 	};
@@ -1291,6 +1294,7 @@ public:
 	CCallback<TEventInfo> OnBeginDrag;
 	CCallback<TEventInfo> OnBeginLabelEdit;
 	CCallback<TEventInfo> OnBeginRDrag;
+	CCallback<TEventInfo> OnCustomDraw;
 	CCallback<TEventInfo> OnDeleteItem;
 	CCallback<TEventInfo> OnEndLabelEdit;
 	CCallback<TEventInfo> OnGetDispInfo;

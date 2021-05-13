@@ -448,12 +448,10 @@ MIR_APP_DLL(void) Clist_SetGroup(MCONTACT hContact, const wchar_t *pwszName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HMENU) Clist_GroupBuildMenu()
+MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int nextMenuId)
 {
 	if (arByIds.getCount() == 0)
 		return nullptr;
-
-	int nextMenuId = 100;
 
 	HMENU hRootMenu = CreateMenu();
 	for (int i = 0; i < arByIds.getCount(); i++) {

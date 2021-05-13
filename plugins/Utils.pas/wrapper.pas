@@ -9,10 +9,6 @@ function CreateHiddenWindow(proc:pointer=nil):HWND;
 
 function DoInitCommonControls(dwICC:dword):boolean;
 
-function GetScreenRect:TRect;
-procedure SnapToScreen(var rc:TRect;dx:integer=0;dy:integer=0{;
-          minw:integer=240;minh:integer=100});
-
 function GetDlgText(Dialog:HWND;idc:integer;getAnsi:boolean=false):pointer; overload;
 function GetDlgText(wnd:HWND;getAnsi:boolean=false):pointer; overload;
 
@@ -131,26 +127,6 @@ begin
   ICC.dwSize:= Sizeof(ICC);
   ICC.dwICC := dwICC;
   result:=InitCommonControlsEx(ICC);
-end;
-
-function GetScreenRect:TRect;
-begin
-  result.left  := GetSystemMetrics( SM_XVIRTUALSCREEN  );
-  result.top   := GetSystemMetrics( SM_YVIRTUALSCREEN  );
-  result.right := GetSystemMetrics( SM_CXVIRTUALSCREEN ) + result.left;
-  result.bottom:= GetSystemMetrics( SM_CYVIRTUALSCREEN ) + result.top;
-end;
-
-procedure SnapToScreen(var rc:TRect;dx:integer=0;dy:integer=0{;
-          minw:integer=240;minh:integer=100});
-var
-  rect:TRect;
-begin
-  rect:=GetScreenRect;
-  if rc.right >rect.right  then rc.right :=rect.right -dx;
-  if rc.bottom>rect.bottom then rc.bottom:=rect.bottom-dy;
-  if rc.left  <rect.left   then rc.left  :=rect.left;
-  if rc.top   <rect.top    then rc.top   :=rect.top;
 end;
 
 function GetDlgText(wnd:HWND;getAnsi:boolean=false):pointer;

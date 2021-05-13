@@ -245,7 +245,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MEASUREITEM:
-		{
+		if (!Menu_MeasureItem(lParam)) {
 			MEASUREITEMSTRUCT *param = (MEASUREITEMSTRUCT *)lParam;
 			if (param && param->CtlID)
 				if (CCtrlBase *ctrl = FindControl(param->CtlID))
@@ -254,7 +254,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		return FALSE;
 
 	case WM_DRAWITEM:
-		{
+		if (!Menu_DrawItem(lParam)) {
 			DRAWITEMSTRUCT *param = (DRAWITEMSTRUCT *)lParam;
 			if (param && param->CtlID)
 				if (CCtrlBase *ctrl = FindControl(param->CtlID))
