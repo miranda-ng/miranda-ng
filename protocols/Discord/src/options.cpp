@@ -31,7 +31,7 @@ public:
 		m_edGroup(this, IDC_GROUP),
 		m_edUserName(this, IDC_USERNAME),
 		m_edPassword(this, IDC_PASSWORD),
-		chkUseChats(this, IDC_USECHANNELS),
+		chkUseChats(this, IDC_USEGUILDS),
 		chkHideChats(this, IDC_HIDECHATS),
 		chkUseGroups(this, IDC_USEGROUPS),
 		chkDeleteMsgs(this, IDC_DELETE_MSGS),

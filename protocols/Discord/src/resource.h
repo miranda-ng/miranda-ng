@@ -15,7 +15,7 @@
 #define IDC_NICK                        1004
 #define IDC_HIDECHATS                   1005
 #define IDC_USEGROUPS                   1006
-#define IDC_USECHANNELS                 1007
+#define IDC_USEGUILDS                   1007
 #define IDC_DELETE_MSGS                 1009
 
 // Next default values for new objects

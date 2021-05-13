@@ -79,7 +79,7 @@ BEGIN
     GROUPBOX        "Contacts",IDC_STATIC,7,54,291,86
     LTEXT           "Default group:",IDC_STATIC,17,73,61,8,0,WS_EX_RIGHT
     EDITTEXT        IDC_GROUP,84,71,123,13,ES_AUTOHSCROLL
-    CONTROL         "Enable group chats",IDC_USECHANNELS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,275,10
+    CONTROL         "Enable guilds (servers)",IDC_USEGUILDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,90,275,10
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,102,248,10
     CONTROL         "Use subgroups for server channels (requires restart)",IDC_USEGROUPS,
@@ -122,6 +122,10 @@ END
 GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS_ACCOUNT, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS_ACCMGR, DIALOG
     BEGIN
     END
 END
