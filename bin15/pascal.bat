@@ -14,11 +14,6 @@ call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
 popd
 
-pushd QuickSearch
-call make.bat fpc%fpcpl% 15
-if errorlevel 1 goto :Error
-popd
-
 pushd Watrack
 call make.bat fpc%fpcpl% 15
 if errorlevel 1 goto :Error
