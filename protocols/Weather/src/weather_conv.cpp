@@ -327,7 +327,7 @@ WORD GetIcon(const wchar_t *cond, WIDATA *Data)
 			return statusValue[i];
 
 	// internal detection
-	if (wcsstr(cond, L"mainy sunny") || wcsstr(cond, L"mainy clear") || wcsstr(cond, L"partly cloudy") || wcsstr(cond, L"mostly") || wcsstr(cond, L"clouds"))
+	if (wcsstr(cond, L"mainy sunny") || wcsstr(cond, L"mainy clear") || wcsstr(cond, L"partly sunny") || wcsstr(cond, L"partly cloudy") || wcsstr(cond, L"mostly") || wcsstr(cond, L"clouds"))
 		return PCLOUDY;
 
 	if (wcsstr(cond, L"sunny") || wcsstr(cond, L"clear") || wcsstr(cond, L"fair"))
