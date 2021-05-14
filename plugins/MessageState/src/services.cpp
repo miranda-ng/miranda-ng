@@ -13,7 +13,7 @@ static INT_PTR UpdateService(WPARAM hContact, LPARAM lParam)
 {
 	auto *p = FindContact(hContact);
 	
-	__time64_t currTime = GetPreciousTime();
+	time_t currTime = time(0);
 	if (currTime > p->dwLastReadTime) {
 		p->dwLastReadTime = currTime;
 		p->type = lParam;

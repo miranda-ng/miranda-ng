@@ -34,10 +34,10 @@ __forceinline bool CheckProtoSupport(const char *szProto)
 
 void InitServices();
 
-void IconsUpdate(MCONTACT);
-void SetSRMMIcon(MCONTACT hContact, int type, time_t time = 0);
-__int64 GetPreciousTime(void);
-int OnModulesLoaded(WPARAM, LPARAM);
 bool HasUnread(MCONTACT hContact);
+void IconsUpdate(MCONTACT hContact);
+void SetSRMMIcon(MCONTACT hContact, int type, time_t time = 0);
+
+int  OnModulesLoaded(WPARAM, LPARAM);
 
 #endif //_GLOBAL_H_

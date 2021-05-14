@@ -26,10 +26,3 @@ bool HasUnread(MCONTACT hContact)
 	
 	return p->dwLastReadTime != 0;
 }
-
-__int64 GetPreciousTime()
-{
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	return li.QuadPart;
-}
