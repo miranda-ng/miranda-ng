@@ -761,8 +761,8 @@ protected:
 		SYSTEMTIME tm2;
 		GetSystemTime(&tm2);
 		if (tmUtc->wDay != tm2.wDay || tmUtc->wMonth != tm2.wMonth || tmUtc->wYear != tm2.wYear) {
-			// time is relative to the current time
-			m_bRelativeCombo = true;
+			// absolute time
+			m_bRelativeCombo = false;
 
 			// ensure that we start on midnight local time
 			SystemTimeToTzSpecificLocalTime(nullptr, tmUtc, &tm2);
@@ -794,7 +794,7 @@ protected:
 		else {
 			SystemTimeToFileTime(tmUtc, (FILETIME *)&li);
 			ULONGLONG ref = li;
-			m_bRelativeCombo = false; // absolute time
+			m_bRelativeCombo = true;  // time is relative to the current time
 
 			// NOTE: item data contains offset from reference time (tmUtc) in seconds
 
@@ -1336,6 +1336,7 @@ public:
 
 		wchar_t s[64];
 		if (m_pReminder) {
+			FileTimeToTzLocalST((FILETIME*)&m_savedLi, &tm);
 			mir_snwprintf(s, L"%02d:%02d", tm.wHour, tm.wMinute);
 
 			// search for preset first
@@ -1348,6 +1349,7 @@ public:
 			edtText.SetText(m_pReminder->wszText);
 		}
 		else cmbTime.SetCurSel(0);
+		m_bManualTime = cmbTime.GetCurSel() == -1;
 
 		// populate sound repeat combo
 		wchar_t *lpszEvery = TranslateT("Every");
