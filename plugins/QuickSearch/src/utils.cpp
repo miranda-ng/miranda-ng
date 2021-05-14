@@ -278,7 +278,7 @@ void CMPlugin::SaveOptWnd()
 
 int CMPlugin::LoadColumns(OBJLIST<ColumnItem> &dst)
 {
-	m_flags = getDword(so_flags);
+	m_flags = getDword(so_flags, QSO_SORTBYSTATUS + QSO_DRAWGRID + QSO_CLIENTICONS + QSO_COLORIZE + QSO_SORTASC);
 	int numCols = getWord(so_numcolumns);
 
 	for (int i = 0; i < numCols; i++) {
