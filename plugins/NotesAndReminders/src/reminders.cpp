@@ -761,6 +761,9 @@ protected:
 		SYSTEMTIME tm2;
 		GetSystemTime(&tm2);
 		if (tmUtc->wDay != tm2.wDay || tmUtc->wMonth != tm2.wMonth || tmUtc->wYear != tm2.wYear) {
+			// time is relative to the current time
+			m_bRelativeCombo = true;
+
 			// ensure that we start on midnight local time
 			SystemTimeToTzSpecificLocalTime(nullptr, tmUtc, &tm2);
 			tm2.wHour = 0;
@@ -787,83 +790,81 @@ protected:
 				if (tm2.wHour == 23 && tm2.wMinute >= 30)
 					break;
 			}
-
-			m_bRelativeCombo = true; // time is relative to the current time
-			return;
 		}
+		else {
+			SystemTimeToFileTime(tmUtc, (FILETIME *)&li);
+			ULONGLONG ref = li;
+			m_bRelativeCombo = false; // absolute time
 
-		///////////////////////////////////////////////////////////////////////////////////////
+			// NOTE: item data contains offset from reference time (tmUtc) in seconds
 
-		SystemTimeToFileTime(tmUtc, (FILETIME*)&li);
-		ULONGLONG ref = li;
-		m_bRelativeCombo = false; // absolute time
+			// cur time
+			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
+			WORD wCurHour = tm2.wHour;
+			WORD wCurMinute = tm2.wMinute;
+			mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
+			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
-		// NOTE: item data contains offset from reference time (tmUtc) in seconds
+			// 5 minutes
+			li += (ULONGLONG)5 * MinutesToFileTime;
+			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
+			mir_snwprintf(s, L"%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
-		// cur time
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-		WORD wCurHour = tm2.wHour;
-		WORD wCurMinute = tm2.wMinute;
-		mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
-		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+			// 10 minutes
+			li += (ULONGLONG)5 * MinutesToFileTime;
+			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
+			mir_snwprintf(s, L"%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
-		// 5 minutes
-		li += (ULONGLONG)5 * MinutesToFileTime;
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-		mir_snwprintf(s, L"%02d:%02d (5 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+			// 15 minutes
+			li += (ULONGLONG)5 * MinutesToFileTime;
+			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
+			mir_snwprintf(s, L"%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
-		// 10 minutes
-		li += (ULONGLONG)5 * MinutesToFileTime;
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-		mir_snwprintf(s, L"%02d:%02d (10 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+			// 30 minutes
+			li += (ULONGLONG)15 * MinutesToFileTime;
+			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
+			mir_snwprintf(s, L"%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
+			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
-		// 15 minutes
-		li += (ULONGLONG)5 * MinutesToFileTime;
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-		mir_snwprintf(s, L"%02d:%02d (15 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+			// round +1h time to nearest even or half hour
+			li += (ULONGLONG)30 * MinutesToFileTime;
+			li = (li / (30 * MinutesToFileTime)) * (30 * MinutesToFileTime);
 
-		// 30 minutes
-		li += (ULONGLONG)15 * MinutesToFileTime;
-		FileTimeToTzLocalST((FILETIME*)&li, &tm2);
-		mir_snwprintf(s, L"%02d:%02d (30 %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, TranslateT("Minutes"));
-		cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
+			// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
+			for (int i = 0; i < 50; i++) {
+				UINT dt;
 
-		// round +1h time to nearest even or half hour
-		li += (ULONGLONG)30 * MinutesToFileTime;
-		li = (li / (30 * MinutesToFileTime)) * (30 * MinutesToFileTime);
+				FileTimeToTzLocalST((FILETIME *)&li, &tm2);
 
-		// add from +1 to +23.5 (in half hour steps) if crossing daylight saving boundary it may be 22.5 or 24.5 hours
-		for (int i = 0; i < 50; i++) {
-			UINT dt;
+				if (i > 40) {
+					UINT nLastEntry = ((UINT)wCurHour * 60 + (UINT)wCurMinute) / 30;
+					if (nLastEntry)
+						nLastEntry *= 30;
+					else
+						nLastEntry = 23 * 60 + 30;
 
-			FileTimeToTzLocalST((FILETIME*)&li, &tm2);
+					if (((UINT)tm2.wHour * 60 + (UINT)tm2.wMinute) == nLastEntry)
+						break;
+				}
 
-			if (i > 40) {
-				UINT nLastEntry = ((UINT)wCurHour * 60 + (UINT)wCurMinute) / 30;
-				if (nLastEntry)
-					nLastEntry *= 30;
+				// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
+				//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
+				// display delta time more accurately to match reformatting (that icq doesn't do)
+				dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
+				if (dt < 60)
+					mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
 				else
-					nLastEntry = 23 * 60 + 30;
+					mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
+				cmbTime.AddString(s, dt * 60);
 
-				if (((UINT)tm2.wHour * 60 + (UINT)tm2.wMinute) == nLastEntry)
-					break;
+				li += 30ll * MinutesToFileTime;
 			}
-
-			// icq-style display 1.0, 1.5 etc. hours even though that isn't accurate due to rounding
-			//mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, 1+(i>>1), (i&1) ? 5 : 0, lpszHours);
-			// display delta time more accurately to match reformatting (that icq doesn't do)
-			dt = (UINT)((li / MinutesToFileTime) - (ref / MinutesToFileTime));
-			if (dt < 60)
-				mir_snwprintf(s, L"%02d:%02d (%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt, TranslateT("Minutes"));
-			else
-				mir_snwprintf(s, L"%02d:%02d (%d.%d %s)", (UINT)tm2.wHour, (UINT)tm2.wMinute, dt / 60, ((dt % 60) * 10) / 60, TranslateT("Hours"));
-			cmbTime.AddString(s, dt * 60);
-
-			li += 30ll * MinutesToFileTime;
 		}
+
+		m_bManualTime = cmbTime.GetCurSel() == -1;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////
