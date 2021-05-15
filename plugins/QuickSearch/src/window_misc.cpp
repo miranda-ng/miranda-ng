@@ -109,9 +109,12 @@ void QSMainDlg::CopyMultiLines()
 
 	int i = 0;
 	for (auto &it : g_plugin.m_columns) {
-		it->width = m_grid.GetColumnWidth(i++);
-		if (it->width >= 10)
-			buf.AppendFormat(L"%s\t", it->title);
+		if (it->bEnabled) {
+			it->width = m_grid.GetColumnWidth(i);
+			if (it->width >= 10)
+				buf.AppendFormat(L"%s\t", it->title);
+		}
+		i++;
 	}
 	buf.Append(L"\r\n");
 
@@ -121,7 +124,7 @@ void QSMainDlg::CopyMultiLines()
 		
 		i = 0;
 		for (auto &it : g_plugin.m_columns) {
-			if (it->width >= 10)
+			if (it->bEnabled && it->width >= 10)
 				buf.AppendFormat(L"%s\t", pRow->pValues[i].text);
 			i++;
 		}
