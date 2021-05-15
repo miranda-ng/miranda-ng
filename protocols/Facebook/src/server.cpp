@@ -137,8 +137,6 @@ int FacebookProto::RefreshContacts()
 		JSONNode root; root << CHAR_PARAM("0", "user");
 
 		AsyncHttpRequest *pReq;
-		pReq->flags |= NLHRF_NODUMPSEND;
-
 		if (szCursor.IsEmpty()) {
 			pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
 			root << INT_PARAM("1", FB_API_CONTACTS_COUNT);
@@ -148,6 +146,7 @@ int FacebookProto::RefreshContacts()
 			root << CHAR_PARAM("1", szCursor) << INT_PARAM("2", FB_API_CONTACTS_COUNT);
 		}
 		pReq << CHAR_PARAM("query_params", root.write().c_str());
+		pReq->flags |= NLHRF_NODUMPSEND;
 		pReq->CalcSig();
 
 		JsonReply reply(ExecuteRequest(pReq));
