@@ -252,12 +252,12 @@ class CGenMenuOptionsPage : public CDlgBase
 		if (bReread) // no need to reread database on reset
 			MO_RecursiveWalkMenu(pmo->m_items.first, Menu_LoadFromDatabase, szModule);
 
-		m_menuItems.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_menuItems.SetDraw(false);
 		m_menuItems.DeleteAllItems();
 
 		BuildTreeInternal(szModule, bReread, pmo->m_items.first, nullptr);
 
-		m_menuItems.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_menuItems.SetDraw(true);
 
 		m_warning.Show(!pmo->m_bUseUserDefinedItems);
 		m_menuItems.Enable(pmo->m_bUseUserDefinedItems);

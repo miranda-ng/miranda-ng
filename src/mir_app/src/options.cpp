@@ -540,7 +540,7 @@ class COptionsDlg : public CDlgBase
 
 		_tcslwr_locale(m_szFilterString); //all strings are stored as lowercase ... make sure filter string is lowercase too
 
-		m_pageTree.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_pageTree.SetDraw(false);
 
 		HWND oldWnd = nullptr;
 		HWND oldTab = nullptr;
@@ -651,7 +651,7 @@ class COptionsDlg : public CDlgBase
 
 		m_keywordFilter.SendMsg(CB_SETEDITSEL, 0, oldSel); //but don't select any of the text
 
-		m_pageTree.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_pageTree.SetDraw(true);
 		m_pageTree.EnsureVisible(m_hCurrentPage);
 	}
 

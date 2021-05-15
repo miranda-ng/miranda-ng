@@ -877,9 +877,9 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			if (wParam == VK_TAB && !isCtrl && !isShift) { // tab-autocomplete
-				m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
+				m_message.SetDraw(false);
 				TabAutoComplete();
-				m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
+				m_message.SetDraw(true);
 				RedrawWindow(m_nickList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				return 0;
 			}

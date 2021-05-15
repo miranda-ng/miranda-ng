@@ -740,7 +740,7 @@ void CLogWindow::Attach()
 void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 {
 	CHARRANGE oldSel, sel;
-	m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_rtf.SetDraw(false);
 	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
@@ -779,7 +779,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 	}
 	else {
-		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SetDraw(false);
 		m_rtf.SetTextA("");
 		sel.cpMin = 0;
 		sel.cpMax = m_rtf.GetRichTextLength();
@@ -819,7 +819,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_rtf.SetDraw(true);
 	if (bottomScroll) {
 		ScrollToBottom();
 		RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
@@ -861,7 +861,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	CHARRANGE oldsel, sel, newsel;
 	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
-		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SetDraw(false);
 
 	// set the insertion point at the bottom
 	sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
@@ -878,7 +878,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	// get the number of pixels per logical inch
 	bool bFlag = false;
 	if (bRedraw) {
-		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SetDraw(false);
 		bFlag = true;
 	}
 
@@ -913,7 +913,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
-		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_rtf.SetDraw(true);
 		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 
@@ -921,7 +921,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	if (bFlag) {
 		sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_rtf.SetDraw(true);
 		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 }

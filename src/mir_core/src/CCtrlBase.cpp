@@ -116,6 +116,11 @@ void CCtrlBase::SetTextA(const char *text)
 	::SetWindowTextA(m_hwnd, text);
 }
 
+void CCtrlBase::SetDraw(bool bEnable)
+{
+	::SendMessage(m_hwnd, WM_SETREDRAW, bEnable, 0);
+}
+
 void CCtrlBase::SetInt(int value)
 {
 	wchar_t buf[32] = { 0 };

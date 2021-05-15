@@ -77,7 +77,7 @@ void QSMainDlg::AddContactToList(MCONTACT hContact, CRowItem *pRow)
 
 void QSMainDlg::AdvancedFilter()
 {
-	m_grid.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_grid.SetDraw(false);
 
 	for (auto &it : m_rows) {
 		bool bShow = (szFilterProto == nullptr) || !mir_strcmp(szFilterProto, it->szProto);
@@ -96,7 +96,7 @@ void QSMainDlg::AdvancedFilter()
 		}
 	}
 
-	m_grid.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_grid.SetDraw(true);
 	InvalidateRect(m_grid.GetHwnd(), 0, false);
 
 	Sort();
@@ -152,7 +152,7 @@ void QSMainDlg::DeleteByList()
 	if (IDOK != MessageBoxW(0, TranslateT("Do you really want to delete selected contacts"), TranslateT("Warning"), MB_OKCANCEL + MB_ICONWARNING))
 		return;
 
-	m_grid.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_grid.SetDraw(false);
 
 	for (int i = m_grid.GetItemCount() - 1; i >= 0; i--)
 		if (m_grid.GetItemState(i, LVIS_SELECTED)) {
@@ -160,7 +160,7 @@ void QSMainDlg::DeleteByList()
 			m_grid.DeleteItem(i);
 		}
 
-	m_grid.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_grid.SetDraw(true);
 }
 
 void QSMainDlg::DeleteOneContact(MCONTACT hContact)
@@ -260,14 +260,14 @@ void QSMainDlg::DrawSB()
 
 void QSMainDlg::FillGrid()
 {
-	m_grid.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_grid.SetDraw(false);
 
 	MakePattern();
 
 	for (auto &it: m_rows)
 		ProcessLine(it);
 
-	m_grid.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_grid.SetDraw(true);
 	InvalidateRect(m_grid.GetHwnd(), 0, FALSE);
 
 	Sort();

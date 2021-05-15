@@ -234,7 +234,6 @@ bool FrameIsFloating()
 
 int FillList(WPARAM, LPARAM)
 {
-
 	if (options.logging)
 		CallService(MODULENAME "/Log", (WPARAM)L"ping address list reload", 0);
 

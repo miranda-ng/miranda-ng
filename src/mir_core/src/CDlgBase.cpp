@@ -137,6 +137,11 @@ void CDlgBase::SetCaption(const wchar_t *ptszCaption)
 		SetWindowText(m_hwnd, ptszCaption);
 }
 
+void CDlgBase::SetDraw(bool bEnable)
+{
+	::SendMessage(m_hwnd, WM_SETREDRAW, bEnable, 0);
+}
+
 void CDlgBase::Show(int nCmdShow)
 {
 	if (m_hwnd == nullptr)

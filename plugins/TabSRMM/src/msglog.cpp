@@ -1281,7 +1281,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 	}
 
 	// begin to draw
-	m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_rtf.SetDraw(false);
 	m_rtf.SendMsg(EM_STREAMIN, fAppend ? SFF_SELECTION | SF_RTF : SFF_SELECTION | SF_RTF, (LPARAM)&stream);
 
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
@@ -1311,7 +1311,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	m_rtf.SendMsg(EM_HIDESELECTION, FALSE, 0);
 
-	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_rtf.SetDraw(true);
 	InvalidateRect(m_rtf.GetHwnd(), nullptr, FALSE);
 	EnableWindow(GetDlgItem(m_pDlg.m_hwnd, IDC_QUOTE), m_pDlg.m_hDbEventLast != 0);
 	mir_free(streamData.buffer);
@@ -1347,7 +1347,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	CHARRANGE oldsel, sel, newsel;
 	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldsel);
 	if (oldsel.cpMax != oldsel.cpMin)
-		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SetDraw(false);
 
 	// set the insertion point at the bottom
 	sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
@@ -1368,7 +1368,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 		g_chatApi.logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		g_chatApi.logPixelSX = GetDeviceCaps(hdc, LOGPIXELSX);
 		ReleaseDC(nullptr, hdc);
-		m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_rtf.SetDraw(false);
 		bFlag = true;
 	}
 
@@ -1460,7 +1460,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	// do we need to restore the selection
 	if (oldsel.cpMax != oldsel.cpMin) {
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&oldsel);
-		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_rtf.SetDraw(true);
 		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 
@@ -1468,7 +1468,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	if (bFlag) {
 		sel.cpMin = sel.cpMax = m_rtf.GetRichTextLength();
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-		m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_rtf.SetDraw(true);
 		InvalidateRect(m_rtf.GetHwnd(), nullptr, TRUE);
 	}
 }

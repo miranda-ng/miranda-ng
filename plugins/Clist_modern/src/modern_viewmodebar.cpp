@@ -420,29 +420,29 @@ class CViewModeSetupDlg : public CDlgBase
 			pageChange = 1;
 
 		if (pageChange)
-			SendMessage(m_hwnd, WM_SETREDRAW, FALSE, 0);
+			SetDraw(false);
 
 		switch (page) {
 		case 0:
 			for (auto &ctrlId : _page1Controls)
-				ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_SHOW);
+				::ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_SHOW);
 
 			for (auto &ctrlId : _page2Controls)
-				ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_HIDE);
+				::ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_HIDE);
 			break;
 
 		case 1:
 			for (auto &ctrlId : _page1Controls)
-				ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_HIDE);
+				::ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_HIDE);
 
 			for (auto &ctrlId : _page2Controls)
-				ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_SHOW);
+				::ShowWindow(GetDlgItem(m_hwnd, ctrlId), SW_SHOW);
 			break;
 		}
 
 		if (pageChange) {
-			SendMessage(m_hwnd, WM_SETREDRAW, TRUE, 0);
-			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
+			SetDraw(true);
+			::RedrawWindow(m_hwnd, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
 		}
 	}
 

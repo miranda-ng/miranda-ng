@@ -339,6 +339,7 @@ public:
 	CCtrlBase* FindControl(HWND hwnd);
 
 	void SetCaption(const wchar_t *ptszCaption);
+	void SetDraw(bool bEnable);
 	void NotifyChange(void); // sends a notification to a parent window
 
 	__forceinline HINSTANCE GetInst() const { return m_pPlugin.getInst(); }
@@ -491,12 +492,13 @@ public:
 	bool Enabled(void) const;
 
 	void NotifyChange();
+	void SetDraw(bool bEnable);
 
-	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
+	LRESULT  SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
 
-	void SetText(const wchar_t *text);
-	void SetTextA(const char *text);
-	void SetInt(int value);
+	void     SetText(const wchar_t *text);
+	void     SetTextA(const char *text);
+	void     SetInt(int value);
 
 	wchar_t* GetText() const;
 	char*    GetTextA() const;
@@ -508,18 +510,18 @@ public:
 
 	int      GetInt() const;
 
-	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
-	virtual BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
-
-	virtual BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
-	virtual BOOL OnDrawItem(DRAWITEMSTRUCT*) { return FALSE; }
-	virtual BOOL OnDeleteItem(DELETEITEMSTRUCT*) { return FALSE; }
-
-	virtual void OnInit();
-	virtual void OnDestroy();
-
-	virtual bool OnApply();
-	virtual void OnReset();
+	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
+	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
+			   
+	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDrawItem(DRAWITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDeleteItem(DELETEITEMSTRUCT*) { return FALSE; }
+			   
+	virtual  void OnInit();
+	virtual  void OnDestroy();
+			   
+	virtual  bool OnApply();
+	virtual  void OnReset();
 
 protected:
 	HWND m_hwnd = nullptr;  // must be the first data item

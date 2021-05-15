@@ -431,7 +431,7 @@ void CMsgDialog::UpdateIcon()
 
 void CMsgDialog::UpdateNickList()
 {
-	m_nickList.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_nickList.SetDraw(false);
 	m_nickList.ResetContent();
 	for (auto &ui : m_si->getUserList()) {
 		char szIndicator = SM_GetStatusIndicator(m_si, ui);
@@ -442,7 +442,7 @@ void CMsgDialog::UpdateNickList()
 		}
 		else m_nickList.AddString(ui->pszNick);
 	}
-	m_nickList.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_nickList.SetDraw(true);
 	InvalidateRect(m_nickList.GetHwnd(), nullptr, FALSE);
 	UpdateWindow(m_nickList.GetHwnd());
 	UpdateTitle();

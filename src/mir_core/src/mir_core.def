@@ -1505,3 +1505,5 @@ TimeZone_GetSystemTime @1692
 ?SelectData@CCtrlCombo@@QAEHJ@Z @1728 NONAME
 ?SetCurSel@CCtrlListView@@QAEXH@Z @1729 NONAME
 ?GetCurData@CCtrlCombo@@QBEJXZ @1730 NONAME
+?SetDraw@CCtrlBase@@QAEX_N@Z @1731 NONAME
+?SetDraw@CDlgBase@@QAEX_N@Z @1732 NONAME

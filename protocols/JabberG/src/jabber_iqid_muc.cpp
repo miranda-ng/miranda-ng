@@ -95,7 +95,7 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 			return;
 
 		ptrW filter(bFilter ? edtFilter.GetText() : nullptr);
-		m_list.SendMsg(WM_SETREDRAW, FALSE, 0);
+		m_list.SetDraw(false);
 
 		FreeList();
 
@@ -151,7 +151,7 @@ class CJabberMucJidListDlg : public CJabberDlgBase
 		lvi.iImage = 1;
 		m_list.InsertItem(&lvi);
 
-		m_list.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_list.SetDraw(true);
 		RedrawWindow(m_list.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
 

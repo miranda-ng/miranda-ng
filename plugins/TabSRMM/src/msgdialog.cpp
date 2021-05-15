@@ -1842,9 +1842,9 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				if (PluginConfig.m_bAllowTab)
 					break;
 
-				m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
+				m_message.SetDraw(false);
 				bool fCompleted = TabAutoComplete();
-				m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
+				m_message.SetDraw(true);
 				RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 				if (!fCompleted) {
 					if ((GetSendButtonState() != PBS_DISABLED))

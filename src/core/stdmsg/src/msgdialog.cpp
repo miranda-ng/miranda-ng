@@ -1250,7 +1250,7 @@ void CMsgDialog::TabAutoComplete()
 {
 	LRESULT lResult = (LRESULT)m_message.SendMsg(EM_GETSEL, 0, 0);
 
-	m_message.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_message.SetDraw(false);
 	m_iTabStart = LOWORD(lResult);
 	int end = HIWORD(lResult);
 	m_message.SendMsg(EM_SETSEL, end, end);
@@ -1296,7 +1296,7 @@ void CMsgDialog::TabAutoComplete()
 		mir_free(pszSelName);
 	}
 
-	m_message.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_message.SetDraw(true);
 	RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 }
 

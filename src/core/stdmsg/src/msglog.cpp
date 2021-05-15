@@ -465,7 +465,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 	BOOL bottomScroll = TRUE;
 	POINT scrollPos;
 
-	m_rtf.SendMsg(WM_SETREDRAW, FALSE, 0);
+	m_rtf.SetDraw(false);
 	m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&oldSel);
 
 	LogStreamData streamData = {};
@@ -542,7 +542,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 		CallService(MS_SMILEYADD_REPLACESMILEYS, 0, (LPARAM)&smre);
 	}
 
-	m_rtf.SendMsg(WM_SETREDRAW, TRUE, 0);
+	m_rtf.SetDraw(true);
 	if (bottomScroll) {
 		ScrollToBottom();
 		RedrawWindow(m_rtf.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
