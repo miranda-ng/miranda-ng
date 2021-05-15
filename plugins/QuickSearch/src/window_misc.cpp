@@ -155,8 +155,10 @@ void QSMainDlg::DeleteByList()
 	m_grid.SendMsg(WM_SETREDRAW, FALSE, 0);
 
 	for (int i = m_grid.GetItemCount() - 1; i >= 0; i--)
-		if (m_grid.GetItemState(i, LVIS_SELECTED))
+		if (m_grid.GetItemState(i, LVIS_SELECTED)) {
 			db_delete_contact(GetRow(i)->hContact);
+			m_grid.DeleteItem(i);
+		}
 
 	m_grid.SendMsg(WM_SETREDRAW, TRUE, 0);
 }
