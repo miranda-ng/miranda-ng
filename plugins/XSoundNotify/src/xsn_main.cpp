@@ -11,7 +11,7 @@ There is no warranty.
 
 CMPlugin g_plugin;
 
-LIST<XSN_Data> XSN_Users(10, PtrKeySortT);
+LIST<XSN_Data> XSN_Users(10, HandleKeySortT);
 HGENMENU hChangeSound = nullptr;
 MWindowList hChangeSoundDlgList = nullptr;
 BYTE isIgnoreSound = 0, isOwnSound = 0, isIgnoreAccSound = 0, isAccSound = 0;

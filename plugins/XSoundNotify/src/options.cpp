@@ -178,9 +178,11 @@ public:
 
 	void onChange_Ignore(CCtrlCheck *)
 	{
+		if (!m_bInitialized)
+			return;
+
 		auto *p = ObtainData();
 		p->bIgnore = chkIgnore.GetState();
-		NotifyChange();
 	}
 
 	void onClick_Choose(CCtrlButton *)
