@@ -119,13 +119,18 @@ void QSMainDlg::CopyMultiLines()
 	buf.Append(L"\r\n");
 
 	int nRows = m_grid.GetItemCount();
+	int nSelected = m_grid.GetSelectedCount();
+
 	for (int j = 0; j < nRows; j++) {
+		if (nSelected > 1 && !m_grid.GetItemState(j, LVIS_SELECTED))
+			continue;
+
 		auto *pRow = GetRow(j);
 		
 		i = 0;
 		for (auto &it : g_plugin.m_columns) {
 			if (it->bEnabled && it->width >= 10)
-				buf.AppendFormat(L"%s\t", pRow->pValues[i].text);
+				buf.AppendFormat(L"%s\t", pRow->pValues[i].getText());
 			i++;
 		}
 		buf.Append(L"\r\n");

@@ -274,6 +274,7 @@ struct CRowItem : public QSFlags
 		wchar_t *text = nullptr;
 		UINT_PTR data = UINT_PTR(-1);
 
+		wchar_t* getText() const { return (text) ? text : L""; }
 		void LoadOneItem(MCONTACT hContact, const ColumnItem &pCol, class QSMainDlg *pDlg);
 	}
 	*pValues;
