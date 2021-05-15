@@ -130,69 +130,93 @@ FacebookUser* FacebookProto::UserFromJson(const JSONNode &root, CMStringW &wszUs
 
 int FacebookProto::RefreshContacts()
 {
-	auto *pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
-	pReq->flags |= NLHRF_NODUMPSEND;
-	pReq << CHAR_PARAM("query_params", "{\"0\":[\"user\"],\"1\":\"" FB_API_CONTACTS_COUNT "\"}");
-	pReq->CalcSig();
-
-	JsonReply reply(ExecuteRequest(pReq));
-	if (int iErrorCode = reply.error())
-		return iErrorCode;  // unknown error
-
+	CMStringA szCursor;
 	bool bNeedUpdate = false;
-	bool bLoadAll = m_bLoadAll;
 
-	for (auto &it : reply.data()["viewer"]["messenger_contacts"]["nodes"]) {
-		auto &n = it["represented_profile"];
-		CMStringW wszId(n["id"].as_mstring());
-		__int64 id = _wtoi64(wszId);
+	while (true) {
+		JSONNode root; root << CHAR_PARAM("0", "user");
 
-		MCONTACT hContact;
-		if (id != m_uid) {
-			bool bIsFriend = bLoadAll || n["friendship_status"].as_mstring() == L"ARE_FRIENDS";
+		AsyncHttpRequest *pReq;
+		pReq->flags |= NLHRF_NODUMPSEND;
 
-			auto *pUser = FindUser(id);
-			if (pUser == nullptr) {
-				if (!bIsFriend)
-					continue;
-				pUser = AddContact(wszId, false);
+		if (szCursor.IsEmpty()) {
+			pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS);
+			root << INT_PARAM("1", FB_API_CONTACTS_COUNT);
+		}
+		else {
+			pReq = CreateRequestGQL(FB_API_QUERY_CONTACTS_AFTER);
+			root << CHAR_PARAM("1", szCursor) << INT_PARAM("2", FB_API_CONTACTS_COUNT);
+		}
+		pReq << CHAR_PARAM("query_params", root.write().c_str());
+		pReq->CalcSig();
+
+		JsonReply reply(ExecuteRequest(pReq));
+		if (int iErrorCode = reply.error())
+			return iErrorCode;  // unknown error
+
+		bool bLoadAll = m_bLoadAll;
+		auto &data = reply.data()["viewer"]["messenger_contacts"];
+
+		for (auto &it : data["nodes"]) {
+			auto &n = it["represented_profile"];
+			CMStringW wszId(n["id"].as_mstring());
+			__int64 id = _wtoi64(wszId);
+
+			MCONTACT hContact;
+			if (id != m_uid) {
+				bool bIsFriend = bLoadAll || n["friendship_status"].as_mstring() == L"ARE_FRIENDS";
+
+				auto *pUser = FindUser(id);
+				if (pUser == nullptr) {
+					if (!bIsFriend)
+						continue;
+					pUser = AddContact(wszId, false);
+				}
+				else if (!bIsFriend)
+					Contact_RemoveFromList(pUser->hContact); // adios!
+
+				hContact = pUser->hContact;
 			}
-			else if (!bIsFriend)
-				Contact_RemoveFromList(pUser->hContact); // adios!
+			else hContact = 0;
 
-			hContact = pUser->hContact;
-		}
-		else hContact = 0;
+			if (auto &nName = it["structured_name"]) {
+				CMStringW wszName(nName["text"].as_mstring());
+				setWString(hContact, DBKEY_NICK, wszName);
+				for (auto &nn : nName["parts"]) {
+					CMStringW wszPart(nn["part"].as_mstring());
+					int offset = nn["offset"].as_int(), length = nn["length"].as_int();
+					if (wszPart == L"first")
+						setWString(hContact, "FirstName", wszName.Mid(offset, length));
+					else if (wszPart == L"last")
+						setWString(hContact, "LastName", wszName.Mid(offset, length));
+				}
+			}
 
-		if (auto &nName = it["structured_name"]) {
-			CMStringW wszName(nName["text"].as_mstring());
-			setWString(hContact, DBKEY_NICK, wszName);
-			for (auto &nn : nName["parts"]) {
-				CMStringW wszPart(nn["part"].as_mstring());
-				int offset = nn["offset"].as_int(), length = nn["length"].as_int();
-				if (wszPart == L"first")
-					setWString(hContact, "FirstName", wszName.Mid(offset, length));
-				else if (wszPart == L"last")
-					setWString(hContact, "LastName", wszName.Mid(offset, length));
+			if (auto &nBirth = n["birthdate"]) {
+				setDword(hContact, "BirthDay", nBirth["day"].as_int());
+				setDword(hContact, "BirthMonth", nBirth["month"].as_int());
+			}
+
+			if (auto &nCity = n["current_city"])
+				setWString(hContact, "City", nCity["name"].as_mstring());
+
+			if (auto &nAva = it[(m_bUseBigAvatars) ? "hugePictureUrl" : "bigPictureUrl"]) {
+				CMStringW wszOldUrl(getMStringW(hContact, DBKEY_AVATAR)), wszNewUrl(nAva["uri"].as_mstring());
+				if (wszOldUrl != wszNewUrl) {
+					bNeedUpdate = true;
+					setByte(hContact, "UpdateNeeded", 1);
+					setWString(hContact, DBKEY_AVATAR, wszNewUrl);
+				}
 			}
 		}
 
-		if (auto &nBirth = n["birthdate"]) {
-			setDword(hContact, "BirthDay", nBirth["day"].as_int());
-			setDword(hContact, "BirthMonth", nBirth["month"].as_int());
+		if (!data["page_info"]["has_next_page"].as_bool()) {
+			debugLogA("Got no next page, exiting", szCursor.c_str());
+			break;
 		}
-
-		if (auto &nCity = n["current_city"])
-			setWString(hContact, "City", nCity["name"].as_mstring());
-
-		if (auto &nAva = it[(m_bUseBigAvatars) ? "hugePictureUrl" : "bigPictureUrl"]) {
-			CMStringW wszOldUrl(getMStringW(hContact, DBKEY_AVATAR)), wszNewUrl(nAva["uri"].as_mstring());
-			if (wszOldUrl != wszNewUrl) {
-				bNeedUpdate = true;
-				setByte(hContact, "UpdateNeeded", 1);
-				setWString(hContact, DBKEY_AVATAR, wszNewUrl);
-			}
-		}
+		
+		szCursor = data["page_info"]["end_cursor"].as_mstring();
+		debugLogA("Got cursor: %s", szCursor.c_str());
 	}
 
 	if (bNeedUpdate)
@@ -203,7 +227,8 @@ int FacebookProto::RefreshContacts()
 bool FacebookProto::RefreshSid()
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_SEQ_ID);
-	pReq << CHAR_PARAM("query_params", "{\"1\":\"0\"}");
+	JSONNode root; root << CHAR_PARAM("1", "0");
+	pReq << CHAR_PARAM("query_params", root.write().c_str());
 	pReq->CalcSig();
 
 	JsonReply reply(ExecuteRequest(pReq));
@@ -286,7 +311,6 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 FacebookUser* FacebookProto::RefreshThread(CMStringW &wszId)
 {
 	auto *pReq = CreateRequestGQL(FB_API_QUERY_THREAD);
-
 	pReq << WCHAR_PARAM("query_params", CMStringW(FORMAT, L"{\"0\":[\"%s\"], \"12\":0, \"13\":\"false\"}", wszId.c_str()));
 	pReq->CalcSig();
 
