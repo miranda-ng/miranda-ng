@@ -665,15 +665,8 @@ void QSMainDlg::ShowMultiPopup(int cnt)
 
 		MoveToContainer(buf);
 	}
-	else if (iRes >= 400 && iRes <= 499) {
-		wchar_t buf[100];
-		if (iRes == 400) // default container, just delete setting
-			buf[0] = 0;
-		else
-			GetMenuStringW(cntmenu, iRes, buf, _countof(buf), MF_BYCOMMAND);
-
-		MoveToGroup(buf);
-	}
+	else if (iRes >= 400 && iRes <= 499)
+		MoveToGroup(Clist_GroupGetName(iRes - 400));
 }
 
 void QSMainDlg::ConvertToMeta()
