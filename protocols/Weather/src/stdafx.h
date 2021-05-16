@@ -499,8 +499,6 @@ INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 int BriefInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
 
-void InitIcons(void);
-
 //============  Plugin Class ============
 
 struct CMPlugin : public PLUGIN<CMPlugin>

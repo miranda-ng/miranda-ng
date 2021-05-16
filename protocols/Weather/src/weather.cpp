@@ -139,12 +139,27 @@ int WeatherInit(WPARAM, LPARAM)
 
 //============  MISC FUNCTIONS  ============
 
+static IconItem iconList[] =
+{
+	{	LPGEN("Protocol icon"),      "main",      IDI_ICON       },
+	{	LPGEN("Update Disabled"),    "disabled",  IDI_DISABLED   },
+	{	LPGEN("View Log"),           "log",       IDI_LOG        },
+	{	LPGEN("Update with Clear"),  "update2",   IDI_UPDATE2    },
+	{	LPGEN("View Brief"),         "brief",     IDI_S          },
+	{	LPGEN("View Complete"),      "read",      IDI_READ       },
+	{	LPGEN("Weather Update"),     "update",    IDI_UPDATE     },
+	{	LPGEN("Weather Map"),        "map",       IDI_MAP        },
+	{	LPGEN("Popup"),              "popup",     IDI_POPUP      },
+	{	LPGEN("No Popup"),           "nopopup",   IDI_NOPOPUP    },
+	{	LPGEN("Edit Settings"),      "edit",      IDI_EDIT       },
+};
+
 int CMPlugin::Load()
 {
+	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
+
 	// load options and set defaults
 	LoadOptions();
-
-	InitIcons();
 
 	// reset the weather data at startup for individual contacts
 	EraseAllInfo();
