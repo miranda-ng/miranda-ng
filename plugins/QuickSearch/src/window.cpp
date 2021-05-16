@@ -223,21 +223,12 @@ INT_PTR QSMainDlg::NewLVProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case 8: // backspace
-			if (pattern != nullptr) {
-				size_t len = mir_wstrlen(pattern);
-				pattern[len - 1] = 0;
-				edtFilter.SetText(pattern);
-			}
+			edtFilter.SendMsg(msg, wParam, lParam);
 			break;
 		}
 
-		if (wParam >= 32 && wParam <= 127) { // letters
-			CMStringW buf;
-			if (pattern)
-				buf = pattern;
-			buf.AppendChar(wParam);
-			edtFilter.SetText(buf);
-		}
+		if (wParam >= 32 && wParam <= 127) // letters
+			edtFilter.SendMsg(msg, wParam, lParam);
 		break;
 
 	case WM_MOUSEMOVE:
@@ -364,6 +355,7 @@ static int CompareSb(const CStatusBarItem *p1, const CStatusBarItem *p2)
 QSMainDlg::QSMainDlg(const wchar_t *pwszPattern) :
 	CDlgBase(g_plugin, IDD_MAIN),
 	m_rows(50),
+	m_patterns(1),
 	m_sbdata(10, CompareSb),
 	m_grid(this, IDC_LIST),
 	m_hover(this, 10),
@@ -375,14 +367,10 @@ QSMainDlg::QSMainDlg(const wchar_t *pwszPattern) :
 {
 	SetMinSize(300, 160);
 
-	if (pwszPattern) {
-		pattern = mir_wstrdup(pwszPattern);
-		CharLowerW(pattern);
-	}
+	if (pwszPattern)
+		m_wszPatternBuf = mir_wstrdup(pwszPattern);
 	else if (g_plugin.m_flags & QSO_SAVEPATTERN)
-		pattern = g_plugin.getWStringA("pattern");
-	else
-		pattern = nullptr;
+		m_wszPatternBuf = g_plugin.getWStringA("pattern");
 
 	m_hover.OnEvent = Callback(this, &QSMainDlg::onTimer_Hover);
 
@@ -460,12 +448,11 @@ bool QSMainDlg::OnInitDialog()
 
 	PrepareTable();
 
-	if (pattern != nullptr)
-		SetDlgItemTextW(m_hwnd, IDC_E_SEARCHTEXT, pattern);
-	else {
-		SetDlgItemTextW(m_hwnd, IDC_E_SEARCHTEXT, L"");
-		FillGrid();
+	if (m_wszPatternBuf) {
+		edtFilter.SetText(m_wszPatternBuf);
+		MakePattern(m_wszPatternBuf);
 	}
+	FillGrid();
 
 	// Show sorting column
 	HDITEM hdi = {};
@@ -519,12 +506,10 @@ void QSMainDlg::OnDestroy()
 	m_grid.SetImageList(0, LVSIL_SMALL);
 
 	if (g_plugin.m_flags & QSO_SAVEPATTERN)
-		g_plugin.setWString("pattern", pattern);
-
-	mir_free(patstr);
-	mir_free(pattern);
+		g_plugin.setWString("pattern", ptrW(edtFilter.GetText()));
 
 	m_rows.destroy();
+	m_patterns.destroy();
 }
 
 int QSMainDlg::Resizer(UTILRESIZECONTROL *urc)
@@ -617,10 +602,7 @@ void QSMainDlg::onChange_Filter(CCtrlEdit *)
 	if (!m_bInitialized)
 		return;
 
-	wchar_t buf[256];
-	GetDlgItemTextW(m_hwnd, IDC_E_SEARCHTEXT, buf, _countof(buf));
-	CharLowerW(buf);
-	replaceStrW(pattern, (buf[0]) ? buf : nullptr);
+	MakePattern(ptrW(edtFilter.GetText()));
 	FillGrid();
 }
 

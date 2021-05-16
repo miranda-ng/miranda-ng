@@ -355,23 +355,23 @@ class QSMainDlg : public CDlgBase
 	HGENMENU mnuhandle = 0;
 
 	// patterns
-	wchar_t *pattern = nullptr; // edit field text
-	wchar_t *patstr = nullptr; // edit field text
+	struct Pattern {
+		Pattern(const wchar_t *pwszText) :
+			str(pwszText)
+		{}
 
-	struct
-	{
-		wchar_t *str;
-		bool res;
-	}
-	static patterns[8];
+		const wchar_t *str;
+		bool res = false;
+	};
 
-	int numpattern = 0;
+	OBJLIST<Pattern> m_patterns;
+	ptrW m_wszPatternBuf;
 
 	bool bShowOffline;
 	char *szFilterProto = nullptr;
 
-	bool CheckPattern(CRowItem *);
-	void MakePattern();
+	bool CheckPattern(CRowItem *pRow);
+	void MakePattern(const wchar_t *pwszPattern);
 
 	// controls
 	CTimer m_hover;

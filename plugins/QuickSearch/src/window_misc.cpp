@@ -20,13 +20,75 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // patterns
 
-bool QSMainDlg::CheckPattern(CRowItem *)
+bool QSMainDlg::CheckPattern(CRowItem *pRow)
 {
-	return true;
+	if (m_patterns.getCount() == 0)
+		return true;
+	
+	for (auto &p : m_patterns)
+		p->res = 0;
+
+	int i = 0;
+	for (auto &it : g_plugin.m_columns) {
+		if (it->bEnabled && it->bFilter && pRow->pValues[i].text != nullptr) {
+			CMStringW buf(pRow->pValues[i].text);
+			buf.MakeLower();
+
+			for (auto &p : m_patterns)
+				if (!p->res && buf.Find(p->str) != -1)
+					p->res = true;
+		}
+		i++;
+	}
+
+	bool result = true;
+	for (auto &p : m_patterns)
+		result = result && p->res;
+	return result;
 }
 
-void QSMainDlg::MakePattern()
+void QSMainDlg::MakePattern(const wchar_t *pwszPattern)
 {
+	m_patterns.destroy();
+	if (mir_wstrlen(pwszPattern) == 0)
+		return;
+
+	// m_wszPatternBuf works as a storage for patterns, we store pointers to it in m_patterns
+	m_wszPatternBuf = mir_wstrdup(pwszPattern);
+	CharLowerW(m_wszPatternBuf);
+	
+	for (wchar_t *p = m_wszPatternBuf; *p; ) {
+		auto *pWord = wcspbrk(p, L" \"");
+		if (pWord == nullptr) {
+			m_patterns.insert(new Pattern(p));
+			return;
+		}
+
+		bool isSpace = pWord[0] == ' ';
+
+		// there's some valuable info between p and pWord
+		if (pWord != p) {
+			*pWord = 0;
+			m_patterns.insert(new Pattern(p));
+		}
+
+		if (isSpace) {
+			p = ltrimpw(pWord + 1); // skip all spaces
+		}
+		else {
+			auto *pEnd = wcschr(++pWord, '\"');
+			
+			// treat the rest of line as one pattern
+			if (pEnd == nullptr) {
+				m_patterns.insert(new Pattern(pWord));
+				return;
+			}
+
+			*pEnd = 0;
+			m_patterns.insert(new Pattern(pWord));
+			p = ltrimpw(pEnd + 1);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -261,8 +323,6 @@ void QSMainDlg::DrawSB()
 void QSMainDlg::FillGrid()
 {
 	m_grid.SetDraw(false);
-
-	MakePattern();
 
 	for (auto &it: m_rows)
 		ProcessLine(it);
