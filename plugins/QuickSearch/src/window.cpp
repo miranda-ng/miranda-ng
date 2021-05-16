@@ -332,6 +332,7 @@ INT_PTR QSMainDlg::NewLVProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 				SendMessage(pdhr->hdr.hwndFrom, HDM_SETITEM, pdhr->iItem, LPARAM(pdhr->pitem));
 				FillGrid();
+				return TRUE;
 			}
 		}
 	}
