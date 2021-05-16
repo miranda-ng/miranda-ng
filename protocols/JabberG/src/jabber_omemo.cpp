@@ -1284,7 +1284,7 @@ complete:
 		signal_protocol_address *address = (signal_protocol_address*)mir_alloc(sizeof(signal_protocol_address));
 
 		// rotten compillers support
-		address->name = jid; // will libsignal free arrav for us on exit ?
+		address->name = mir_strdup(jid); // will libsignal free arrav for us on exit ?
 		address->name_len = mir_strlen(jid);
 		address->device_id = dev_id_int;
 
