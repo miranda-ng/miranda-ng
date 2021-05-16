@@ -594,6 +594,16 @@ complete:
 		CJabberProto *proto;
 	};
 
+	static CMStringA getSessionSetting(const signal_protocol_address *address)
+	{
+		ptrA id_buf((char*)mir_alloc(address->name_len + sizeof(int32_t)));
+		memcpy(id_buf, address->name, address->name_len);
+		memcpy(id_buf.get() + address->name_len, &address->device_id, sizeof(int32_t));
+		
+		ptrA id_str(mir_base64_encode(id_buf, address->name_len + sizeof(int32_t)));
+		return CMStringA("OmemoSignalSession_") + id_str;
+	}
+
 	int load_session_func(signal_buffer **record, signal_buffer ** /*user_data_storage*/, const signal_protocol_address *address, void *user_data)
 	{
 		/**
@@ -619,20 +629,9 @@ complete:
 			return -1;
 		}
 
-		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
-		memcpy(id_buf, address->name, address->name_len);
-		char *id_buf_ptr = id_buf;
-		id_buf_ptr += address->name_len;
-		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
-		mir_free(id_buf);
-		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
-		mir_free(id_str);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
-		mir_free(setting_name);
+		db_get(data->hContact, data->proto->m_szModuleName, getSessionSetting(address), &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load session (session does not exist)");
@@ -716,20 +715,9 @@ complete:
 		* @param record_len length of the serialized session record
 		* @return 0 on success, negative on failure
 		*/
-		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
 
-		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
-		memcpy(id_buf, address->name, address->name_len);
-		char *id_buf_ptr = id_buf;
-		id_buf_ptr += address->name_len;
-		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
-		mir_free(id_buf);
-		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
-		mir_free(id_str);
-		db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
-		mir_free(setting_name);
+		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
+		db_set_blob(data->hContact, data->proto->m_szModuleName, getSessionSetting(address), record, (unsigned int)record_len); //TODO: check return value
 		return 0;
 	}
 
@@ -744,20 +732,9 @@ complete:
 		*/
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
 
-		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
-		memcpy(id_buf, address->name, address->name_len);
-		char *id_buf_ptr = id_buf;
-		id_buf_ptr += address->name_len;
-		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
-		mir_free(id_buf);
-		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
-		mir_free(id_str);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(data->hContact, data->proto->m_szModuleName, setting_name, &dbv);
-		mir_free(setting_name);
+		db_get(data->hContact, data->proto->m_szModuleName, getSessionSetting(address), &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			return 0;
@@ -777,19 +754,8 @@ complete:
 		*/
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
-
-		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
-		memcpy(id_buf, address->name, address->name_len);
-		char *id_buf_ptr = id_buf;
-		id_buf_ptr += address->name_len;
-		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
-		mir_free(id_buf);
-		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalSession_", id_str);
-		mir_free(id_str);
-		db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
-		mir_free(setting_name);
+		db_unset(data->hContact, data->proto->m_szModuleName, getSessionSetting(address));
+		mir_free(data);
 		return 1;
 	}
 
@@ -1269,7 +1235,7 @@ complete:
 		sip.user_data = (void*)data[3];
 		signal_protocol_store_context_set_identity_key_store(store_context, &sip);
 
-		sessions[hContact][device_id_int].store_context = store_context; //oh shit ....
+		sessions[hContact][device_id_int].store_context = store_context;
 		return true; //success
 	}
 
