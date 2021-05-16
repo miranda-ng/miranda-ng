@@ -165,6 +165,19 @@ void QSMainDlg::AdvancedFilter()
 	UpdateSB();
 }
 
+void QSMainDlg::ChangeStatusPicture(CRowItem *pRow, MCONTACT hContact, LPARAM lParam)
+{
+	int idx = FindItem(pRow);
+	if (idx == -1)
+		return;
+
+	LV_ITEMW li = {};
+	li.iItem = idx;
+	li.mask = LVIF_IMAGE;
+	li.iImage = lParam; //CallService(MS_CLIST_GETCONTACTICON,hContact,0);
+	m_grid.SetItem(&li);
+}
+
 void QSMainDlg::CopyMultiLines()
 {
 	CMStringW buf;

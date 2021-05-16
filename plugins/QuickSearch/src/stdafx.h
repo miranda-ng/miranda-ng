@@ -297,6 +297,10 @@ struct CStatusBarItem : public QSFlags
 	int liston = 0;
 };
 
+#define WM_CONTACT_ADDED   (WM_USER+2)
+#define WM_CONTACT_DELETED (WM_USER+3)
+#define WM_STATUS_CHANGED  (WM_USER+4)
+
 class QSMainDlg : public CDlgBase
 {
 	friend struct CRowItem;
@@ -308,12 +312,16 @@ class QSMainDlg : public CDlgBase
 		UI_MESSAGE(WM_SYSCOMMAND, OnSysCommand);
 		UI_MESSAGE(WM_MOUSEMOVE, OnMouseMove);
 		UI_MESSAGE(WM_KEYDOWN, OnKeydown);
+		UI_MESSAGE(WM_CONTACT_ADDED, OnContactAdded);
+		UI_MESSAGE(WM_CONTACT_DELETED, OnContactDeleted);
+		UI_MESSAGE(WM_STATUS_CHANGED, OnStatusChanged);
 	UI_MESSAGE_MAP_END();
 
 	// internal methods
 	void      AddColumn(int idx, ColumnItem *pCol);
 	void      AddContactToList(MCONTACT hContact, CRowItem *pRow);
 	void      AdvancedFilter();
+	void      ChangeStatusPicture(CRowItem *pRow, MCONTACT hContact, LPARAM lParam);
 	void      ConvertToMeta();
 	void      CopyMultiLines();
 	void      DeleteByList();
@@ -395,6 +403,9 @@ public:
 	INT_PTR OnSysCommand(UINT, WPARAM, LPARAM);
 	INT_PTR OnMouseMove(UINT, WPARAM, LPARAM);
 	INT_PTR OnKeydown(UINT, WPARAM, LPARAM);
+	INT_PTR OnContactAdded(UINT, WPARAM, LPARAM);
+	INT_PTR OnContactDeleted(UINT, WPARAM, LPARAM);
+	INT_PTR OnStatusChanged(UINT, WPARAM, LPARAM);
 
 	INT_PTR NewEditProc(UINT, WPARAM, LPARAM);
 	INT_PTR NewLVProc(UINT, WPARAM, LPARAM);

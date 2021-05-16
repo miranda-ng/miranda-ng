@@ -17,26 +17,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#define IDM_STAYONTOP (WM_USER+1)
+#define IDM_STAYONTOP      (WM_USER+1)
 
 static QSMainDlg *g_pDlg = 0;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static int OnContactAdded(WPARAM, LPARAM)
-{
-	return 0;
-}
-
-static int OnContactDeleted(WPARAM, LPARAM)
-{
-	return 0;
-}
-
-static int OnStatusChanged(WPARAM, LPARAM)
-{
-	return 0;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // edit control window procedure
@@ -478,9 +461,9 @@ bool QSMainDlg::OnInitDialog()
 	ti.uId = UINT_PTR(m_grid.GetHwnd());
 	SendMessageW(HintWnd, TTM_ADDTOOLW, 0, LPARAM(&ti));
 
-	hAdd = HookEvent(ME_DB_CONTACT_ADDED, &OnContactAdded);
-	hDelete = HookEvent(ME_DB_CONTACT_DELETED, &OnContactDeleted);
-	hChange = HookEvent(ME_CLIST_CONTACTICONCHANGED, &OnStatusChanged);
+	hAdd = HookEventMessage(ME_DB_CONTACT_ADDED, m_hwnd, WM_CONTACT_ADDED);
+	hDelete = HookEventMessage(ME_DB_CONTACT_DELETED, m_hwnd, WM_CONTACT_DELETED);
+	hChange = HookEventMessage(ME_CLIST_CONTACTICONCHANGED, m_hwnd, WM_STATUS_CHANGED);
 	return true;
 }
 
@@ -529,6 +512,78 @@ int QSMainDlg::Resizer(UTILRESIZECONTROL *urc)
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_BOTTOM;
 	}
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// event handlers
+
+INT_PTR QSMainDlg::OnContactAdded(UINT, WPARAM hContact, LPARAM)
+{
+	auto *pRow = new CRowItem(hContact, this);
+	m_rows.insert(pRow);
+	AddContactToList(hContact, pRow);
+	ProcessLine(pRow);
+	Sort();
+	UpdateSB();
+	return 0;
+}
+
+INT_PTR QSMainDlg::OnContactDeleted(UINT, WPARAM hContact, LPARAM)
+{
+	int idx = -1;
+	CRowItem *pRow = 0;
+
+	for (auto &it : m_rows)
+		if (it->hContact == hContact) {
+			pRow = it;
+			idx = m_rows.indexOf(&it);
+			break;
+		}
+
+	if (idx == -1)
+		return 0;
+
+	int iItem = FindItem(pRow);
+	if (iItem != -1)
+		m_grid.DeleteItem(iItem);
+
+	m_rows.remove(idx);
+	UpdateSB();
+	return 0;
+}
+
+INT_PTR QSMainDlg::OnStatusChanged(UINT, WPARAM hContact, LPARAM lParam)
+{
+	auto *pRow = FindRow(hContact);
+	if (pRow == nullptr)
+		return 0;
+
+	int oldStatus = pRow->status;
+	int newStatus = Contact_GetStatus(hContact);
+	pRow->status = newStatus;
+
+	if (oldStatus != ID_STATUS_OFFLINE && newStatus != ID_STATUS_OFFLINE)
+		ChangeStatusPicture(pRow, hContact, lParam);
+	else if (oldStatus != ID_STATUS_OFFLINE) {
+		if (g_plugin.m_flags & QSO_SHOWOFFLINE)
+			ChangeStatusPicture(pRow, hContact, lParam);
+		else
+			ProcessLine(pRow, true);
+	}
+	else if (newStatus != ID_STATUS_OFFLINE) {
+		if (g_plugin.m_flags & QSO_SHOWOFFLINE)
+			ChangeStatusPicture(pRow, hContact, lParam);
+		else {
+			pRow->bActive = false;
+			m_grid.DeleteItem(FindItem(pRow));
+		}
+	}
+
+	if (g_plugin.m_flags & QSO_SORTBYSTATUS)
+		Sort();
+	
+	UpdateSB();
+	return 0;
 }
 
 INT_PTR QSMainDlg::OnSysCommand(UINT, WPARAM wParam, LPARAM)
