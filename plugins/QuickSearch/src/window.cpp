@@ -56,7 +56,7 @@ INT_PTR QSMainDlg::NewEditProc(UINT msg, WPARAM wParam, LPARAM)
 	switch (msg) {
 	case WM_CHAR:
 		if (wParam == 27) // Escape
-			PostMessage(m_hwnd, WM_COMMAND, IDCANCEL, 0);
+			Close();
 		break;
 
 	case WM_KEYUP:
@@ -515,7 +515,6 @@ void QSMainDlg::OnDestroy()
 int QSMainDlg::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
-	case IDCANCEL:
 	case IDC_REFRESH:
 		return RD_ANCHORX_RIGHT | RD_ANCHORY_TOP;
 
