@@ -321,7 +321,7 @@ typedef struct {
 	WIDATAITEMLIST *UpdateDataTail;
 	WIIDSEARCH IDSearch;
 	WINAMESEARCH NameSearch;
-	WICONDLIST CondList[10];
+	WICONDLIST CondList[8];
 } WIDATA;
 
 //============  DATA LIST (LINKED LIST)  ============

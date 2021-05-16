@@ -132,11 +132,11 @@ INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 	else szSearchPath[0] = 0;
 
 	int iStatus = g_plugin.getWord(pai->hContact, "StatusIcon");
-	for (i = 0; i < 10; i++)
+	for (i = 0; i < _countof(statusValue); i++)
 		if (statusValue[i] == iStatus)
 			break;
 
-	if (i >= 10)
+	if (i >= _countof(statusValue))
 		return GAIR_NOAVATAR;
 
 	pai->format = PA_FORMAT_PNG;

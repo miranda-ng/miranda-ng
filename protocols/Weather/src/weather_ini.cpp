@@ -113,7 +113,7 @@ void WICondListAdd(char *str, WICONDLIST *List)
 {
 	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
 	wSetData(&newItem->Item, str);
-	CharLowerBuff(newItem->Item, (DWORD)mir_wstrlen(newItem->Item));
+	CharLowerW(newItem->Item);
 	newItem->Next = nullptr;
 	if (List->Tail == nullptr)	List->Head = newItem;
 	else List->Tail->Next = newItem;
@@ -224,13 +224,11 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 // pszShortFile = the file name of the ini file, but not including the path
 // Data = the struct to load the ini content to, and return to previous function
 
-static const char *statusStr[10] =
+static const char *statusStr[] =
 {
 	"LIGHTNING",
 	"FOG",
-	"SNOW SHOWER",
 	"SNOW",
-	"RAIN SHOWER",
 	"RAIN",
 	"PARTLY CLOUDY",
 	"CLOUDY",
@@ -328,8 +326,8 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 	Data->UpdateDataTail = nullptr;
 
 	// initialize the icon assignment list
-	for (int i = 0; i < 10; i++)
-		WICondListInit(&Data->CondList[i]);
+	for (auto &it : Data->CondList)
+		WICondListInit(&it);
 
 	while (!feof(pfile)) {
 		// determine current tag
@@ -432,7 +430,7 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 			else if (!_stricmp(ValName, "MULT ID END")) 	wSetData(&Data->NameSearch.Multiple.ID.End, Value);
 		}
 		else if (!_stricmp(Group, "ICONS")) {
-			for (int i = 0; i < 10; i++) {
+			for (int i = 0; i < _countof(statusStr); i++) {
 				if (!_stricmp(ValName, statusStr[i])) {
 					WICondListAdd(Value, &Data->CondList[i]);
 					break;
@@ -567,8 +565,8 @@ static void FreeWIData(WIDATA *Data)
 	FreeDataItem(&Data->NameSearch.Multiple.ID);
 	wfree(&Data->ShortFileName);
 	wfree(&Data->FileName);
-	for (int i = 0; i < 10; i++)
-		DestroyCondList(&Data->CondList[i]);
+	for (auto &it : Data->CondList)
+		DestroyCondList(&it);
 }
 
 // remove all service data from memory

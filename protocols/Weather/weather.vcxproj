@@ -35,7 +35,6 @@
     <ClCompile Include="src\weather_conv.cpp" />
     <ClCompile Include="src\weather_data.cpp" />
     <ClCompile Include="src\weather_http.cpp" />
-    <ClCompile Include="src\weather_icons.cpp" />
     <ClCompile Include="src\weather_info.cpp" />
     <ClCompile Include="src\weather_ini.cpp" />
     <ClCompile Include="src\weather_mwin.cpp" />

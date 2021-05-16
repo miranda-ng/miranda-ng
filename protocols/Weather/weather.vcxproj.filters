@@ -23,9 +23,6 @@
     <ClCompile Include="src\weather_http.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\weather_icons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\weather_info.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

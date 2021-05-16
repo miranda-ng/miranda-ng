@@ -316,13 +316,13 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // cond = the string for weather condition
 // return value = status for the icon (ONLINE, OFFLINE, etc)
 
-static const wchar_t *statusStr[10] = { L"Lightning", L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
-static const WORD statusValue[10] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
+static const wchar_t *statusStr[] = { L"Lightning", L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A" };
+static const WORD statusValue[] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
 WORD GetIcon(const wchar_t *cond, WIDATA *Data)
 {
 	// set the icon using ini
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < _countof(statusValue); i++)
 		if (IsContainedInCondList(cond, &Data->CondList[i]))
 			return statusValue[i];
 
@@ -349,7 +349,7 @@ WORD GetIcon(const wchar_t *cond, WIDATA *Data)
 		return RAIN;
 
 	// set the icon using langpack
-	for (int i = 0; i < 9; i++) {
+	for (int i = 0; i < _countof(statusStr)-1; i++) {
 		wchar_t LangPackStr[64], LangPackStr1[128];
 		int j = 0;
 		do {
