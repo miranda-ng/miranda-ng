@@ -12,8 +12,6 @@ CMainDlg *g_pMainWindow = nullptr;
 extern volatile BOOL populating, skipEnter;
 extern volatile int Select;
 
-extern SettingListInfo info;
-
 void EditFinish(int selected);
 void EditLabel(int item, int subitem);
 
@@ -88,6 +86,15 @@ static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	if (g_pMainWindow)
+		if (g_pMainWindow->ListWndProc(msg, wParam))
+			return 0;
+
+	return mir_callNextSubclass(hwnd, SettingListSubclassProc, msg, wParam, lParam);
+}
+
+bool CMainDlg::ListWndProc(UINT msg, WPARAM wParam)
+{
 	switch (msg) {
 	case WM_CHAR:
 		if (GetKeyState(VK_CONTROL) & 0x8000 && wParam == 6)
@@ -96,25 +103,26 @@ static LRESULT CALLBACK SettingListSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 	case WM_KEYDOWN:
 		if (wParam == VK_F5)
-			g_pMainWindow->PopulateSettings(info.hContact, info.module);
+			g_pMainWindow->PopulateSettings(m_hContact, m_module);
 		else if (wParam == VK_F3)
 			newFindWindow();
-		else if (wParam == VK_DELETE || (wParam == VK_F2 && ListView_GetSelectedCount(hwnd) == 1)) {
+		else if (wParam == VK_DELETE || (wParam == VK_F2 && m_settings.GetSelectedCount() == 1)) {
 			char setting[FLD_SIZE];
-			int idx = ListView_GetSelectionMark(hwnd);
-			if (idx == -1) return 0;
-			ListView_GetItemTextA(hwnd, idx, 0, setting, _countof(setting));
+			int idx = m_settings.GetSelectionMark();
+			if (idx == -1)
+				return true;
+			ListView_GetItemTextA(m_settings.GetHwnd(), idx, 0, setting, _countof(setting));
 
 			if (wParam == VK_F2)
-				g_pMainWindow->editSetting(info.hContact, info.module, setting);
+				g_pMainWindow->editSetting(m_hContact, m_module, setting);
 			else if (wParam == VK_DELETE)
-				g_pMainWindow->DeleteSettingsFromList(info.hContact, info.module, setting);
+				g_pMainWindow->DeleteSettingsFromList(m_hContact, m_module, setting);
 
-			return 0;
+			return true;
 		}
 		break;
 	}
-	return mir_callNextSubclass(hwnd, SettingListSubclassProc, msg, wParam, lParam);
+	return false;
 }
 
 static LRESULT CALLBACK ModuleTreeLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -145,7 +153,7 @@ CMainDlg::CMainDlg() :
 	m_modules(this, IDC_MODULES),
 	m_settings(this, IDC_SETTINGS),
 	m_splitter(this, IDC_SPLITTER),
-	splitterPos(g_plugin.getWord("Splitter", 200))
+	m_splitterPos(g_plugin.getWord("Splitter", 200))
 {
 	SetMinSize(450, 300);
 
@@ -316,7 +324,7 @@ int CMainDlg::Resizer(UTILRESIZECONTROL *urc)
 {
 	switch (urc->wId) {
 	case IDC_MODULES:
-		urc->rcItem.right = splitterPos - 3;
+		urc->rcItem.right = m_splitterPos - 3;
 		urc->rcItem.top = 0;
 		urc->rcItem.left = 0;
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
@@ -325,14 +333,14 @@ int CMainDlg::Resizer(UTILRESIZECONTROL *urc)
 	case IDC_SPLITTER:
 		urc->rcItem.top = 0;
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		urc->rcItem.right = splitterPos;
-		urc->rcItem.left = splitterPos - 3;
+		urc->rcItem.right = m_splitterPos;
+		urc->rcItem.left = m_splitterPos - 3;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SETTINGS:
 		urc->rcItem.top = 0;
 		urc->rcItem.bottom = urc->dlgNewSize.cy;
-		urc->rcItem.left = splitterPos;
+		urc->rcItem.left = m_splitterPos;
 		urc->rcItem.right = urc->dlgNewSize.cx;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
@@ -356,13 +364,13 @@ void CMainDlg::onChange_Splitter(CSplitter *)
 	POINT pt = { m_splitter.GetPos(), 0 };
 	ScreenToClient(m_hwnd, &pt);
 
-	splitterPos = rc.left + pt.x + 1;
-	if (splitterPos < 150)
-		splitterPos = 150;
-	if (splitterPos > rc2.right - rc2.left - 150)
-		splitterPos = rc2.right - rc2.left - 150;
-	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWLP_USERDATA, splitterPos);
-	g_plugin.setWord("Splitter", (WORD)splitterPos);
+	m_splitterPos = rc.left + pt.x + 1;
+	if (m_splitterPos < 150)
+		m_splitterPos = 150;
+	if (m_splitterPos > rc2.right - rc2.left - 150)
+		m_splitterPos = rc2.right - rc2.left - 150;
+	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWLP_USERDATA, m_splitterPos);
+	g_plugin.setWord("Splitter", (WORD)m_splitterPos);
 
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }
@@ -633,7 +641,7 @@ void CMainDlg::onClick_Settings(CCtrlListView::TEventInfo *ev)
 	LVHITTESTINFO hti;
 	hti.pt = ev->nmlv->ptAction;
 	if (m_settings.SubItemHitTest(&hti) > -1) {
-		if (g_Inline && hti.iSubItem <= 1 && hti.flags != LVHT_ONITEMICON && info.selectedItem == hti.iItem)
+		if (g_Inline && hti.iSubItem <= 1 && hti.flags != LVHT_ONITEMICON && m_selectedItem == hti.iItem)
 			EditLabel(hti.iItem, hti.iSubItem);
 		else
 			EditFinish(hti.iItem);
@@ -648,7 +656,7 @@ void CMainDlg::onDblClick_Settings(CCtrlListView::TEventInfo *ev)
 	if (m_settings.SubItemHitTest(&hti) == -1)
 		return;
 
-	if (!info.module[0]) { // contact
+	if (!m_module[0]) { // contact
 		LVITEM lvi = {};
 		lvi.mask = LVIF_PARAM;
 		lvi.iItem = hti.iItem;
@@ -661,7 +669,7 @@ void CMainDlg::onDblClick_Settings(CCtrlListView::TEventInfo *ev)
 		char setting[FLD_SIZE];
 		EditFinish(hti.iItem);
 		if (ListView_GetItemTextA(m_settings.GetHwnd(), hti.iItem, 0, setting, _countof(setting)))
-			editSetting(info.hContact, info.module, setting);
+			editSetting(m_hContact, m_module, setting);
 	}
 	else EditLabel(hti.iItem, hti.iSubItem);
 }
@@ -671,7 +679,7 @@ void CMainDlg::onColumnClick_Settings(CCtrlListView::TEventInfo *ev)
 	ColumnsSortParams params = {};
 	params.hList = m_settings.GetHwnd();
 	params.column = ev->nmlv->iSubItem;
-	params.last = lastColumn;
+	params.last = m_lastColumn;
 	m_settings.SortItemsEx(ColumnsCompare, (LPARAM)&params);
-	lastColumn = (params.column == lastColumn) ? -1 : params.column;
+	m_lastColumn = (params.column == m_lastColumn) ? -1 : params.column;
 }

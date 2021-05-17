@@ -80,17 +80,6 @@ struct ModuleTreeInfoStruct
 	MCONTACT hContact;
 };
 
-struct SettingListInfo
-{
-	MCONTACT hContact;
-	int selectedItem; // item that is currently selected
-	char module[FLD_SIZE];
-	// for edit
-	HWND hwnd2Edit;
-	char setting[FLD_SIZE];
-	int subitem;
-};
-
 struct DBsetting
 {
 	MCONTACT hContact;
@@ -205,8 +194,17 @@ int CALLBACK ColumnsCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam);
 
 class CMainDlg : public CDlgBase
 {
-	int splitterPos;
-	int lastColumn = -1;
+	int m_splitterPos;
+	int m_lastColumn = -1;
+
+	MCONTACT m_hContact = 0;
+	int m_selectedItem = -1; // item that is currently selected
+	char m_module[FLD_SIZE];
+
+	// for edit
+	HWND m_hwnd2Edit = nullptr;
+	char m_setting[FLD_SIZE];
+	int m_subitem = 0;
 
 	CSplitter m_splitter;
 	CCtrlTreeView m_modules;
@@ -271,7 +269,10 @@ public:
 
 	void ClearListView();
 	void DeleteSettingsFromList(MCONTACT hContact, const char *module, const char *setting);
+	void EditFinish(int selected);
 	void EditLabel(int item, int subitem);
+	bool EditLabelWndProc(HWND hwnd, UINT, WPARAM);
+	bool ListWndProc(UINT, WPARAM wParam);
 	void PopulateSettings(MCONTACT hContact, const char *module);
 	void SelectSetting(const char *setting);
 

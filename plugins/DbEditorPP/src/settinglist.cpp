@@ -1,12 +1,11 @@
 #include "stdafx.h"
 
-SettingListInfo info = {};
-
 int convertSetting(MCONTACT hContact, const char *module, const char *setting, int toType)
 {
 	DBVARIANT dbv = {};
 
-	if (db_get_s(hContact, module, setting, &dbv, 0)) return 0;
+	if (db_get_s(hContact, module, setting, &dbv, 0))
+		return 0;
 
 	if (dbv.type == toType) {
 		db_free(&dbv);
@@ -69,21 +68,21 @@ int convertSetting(MCONTACT hContact, const char *module, const char *setting, i
 	return res;
 }
 
-void EditFinish(int selected)
+void CMainDlg::EditFinish(int selected)
 {
-	if (info.hwnd2Edit) {
-		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-		info.hwnd2Edit = nullptr;
+	if (m_hwnd2Edit) {
+		SendMessage(m_hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
+		m_hwnd2Edit = nullptr;
 	}
-	info.selectedItem = selected;
+	m_selectedItem = selected;
 }
 
 void CMainDlg::ClearListView()
 {
 	EditFinish(0);
-	info.module[0] = 0;
-	info.setting[0] = 0;
-	info.hContact = 0;
+	m_module[0] = 0;
+	m_setting[0] = 0;
+	m_hContact = 0;
 
 	m_settings.DeleteAllItems();
 }
@@ -182,7 +181,7 @@ void CMainDlg::updateListItem(int index, const char *setting, DBVARIANT *dbv, in
 
 	m_settings.SetItemText(index, 4, resident ? L"[R]" : L"");
 
-	if (g_db && g_db->IsSettingEncrypted(info.module, setting)) {
+	if (g_db && g_db->IsSettingEncrypted(m_module, setting)) {
 		lvi.iImage = IMAGE_UNICODE;
 		m_settings.SetItem(&lvi);
 		m_settings.SetItemText(index, 0, _A2T(setting));
@@ -306,7 +305,7 @@ void CMainDlg::addListHandle(MCONTACT hContact)
 void CMainDlg::addListItem(const char *setting, int resident)
 {
 	DBVARIANT dbv;
-	if (!db_get_s(info.hContact, info.module, setting, &dbv, 0)) {
+	if (!db_get_s(m_hContact, m_module, setting, &dbv, 0)) {
 		LVITEMA lvi = {};
 		lvi.mask = LVIF_TEXT;
 		lvi.pszText = (char *)setting;
@@ -332,11 +331,11 @@ void CMainDlg::PopulateSettings(MCONTACT hContact, const char *module)
 	// clear any settings that may be there...
 	ClearListView();
 
-	info.hContact = hContact;
-	mir_strncpy(info.module, tmp, _countof(info.module));
+	m_hContact = hContact;
+	mir_strncpy(m_module, tmp, _countof(m_module));
 
 	ModuleSettingLL setlist;
-	if (IsModuleEmpty(info.hContact, info.module) || !EnumSettings(info.hContact, info.module, &setlist))
+	if (IsModuleEmpty(m_hContact, m_module) || !EnumSettings(m_hContact, m_module, &setlist))
 		return;
 
 	for (ModSetLinkLinkItem *setting = setlist.first; setting; setting = setting->next)
@@ -389,7 +388,7 @@ void CMainDlg::onSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING *cws)
 	}
 
 	// settings list
-	if (hContact != info.hContact || mir_strcmp(info.module, cws->szModule))
+	if (hContact != m_hContact || mir_strcmp(m_module, cws->szModule))
 		return;
 
 	if (cws->value.type != DBVT_DELETED) {
@@ -402,26 +401,41 @@ void CMainDlg::onSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING *cws)
 	else deleteListItem(cws->szSetting);
 }
 
-static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) {
+	if (g_pMainWindow)
+		if (g_pMainWindow->EditLabelWndProc(hwnd, uMsg, wParam))
+			return 0;
+
+	if (uMsg == WM_GETDLGCODE)
+		return DLGC_WANTALLKEYS;
+
+	return mir_callNextSubclass(hwnd, SettingLabelEditSubClassProc, uMsg, wParam, lParam);
+}
+
+bool CMainDlg::EditLabelWndProc(HWND hwnd, UINT uMsg, WPARAM wParam)
+{
+	switch (uMsg) {
 	case WM_KEYDOWN:
 		switch (wParam) {
 		case VK_RETURN:
 			if (GetKeyState(VK_CONTROL) & 0x8000) // ctrl is pressed
 				break;
 			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDOK, 0), 0);
-			return 0;
+			return true;
+		
 		case VK_ESCAPE:
 			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-			return 0;
+			return true;
 		}
 		break;
 
 	case WM_USER:
 		SetFocus(hwnd);
 		SendMessage(hwnd, WM_SETFONT, SendMessage(GetParent(hwnd), WM_GETFONT, 0, 0), 1);
-		if (info.subitem)
+		if (m_subitem)
 			SendMessage(hwnd, EM_LIMITTEXT, (WPARAM)65535, 0);
 		else
 			SendMessage(hwnd, EM_LIMITTEXT, (WPARAM)255, 0);
@@ -438,9 +452,9 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 				DBVARIANT dbv = {};
 				int len = GetWindowTextLength(hwnd) + 1;
 
-				if ((!info.subitem && len <= 1) || db_get_s(info.hContact, info.module, info.setting, &dbv, 0)) {
+				if ((!m_subitem && len <= 1) || db_get_s(m_hContact, m_module, m_setting, &dbv, 0)) {
 					SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-					return 0;
+					return true;
 				}
 
 				wchar_t *value = (wchar_t *)mir_alloc(len * sizeof(wchar_t));
@@ -451,19 +465,19 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 
 				int res = 0;
 
-				switch (info.subitem) {
+				switch (m_subitem) {
 				case 0: // setting name
-					if (!mir_strcmp(info.setting, szValue) || mir_strlen(szValue) > 0xFE) {
+					if (!mir_strcmp(m_setting, szValue) || mir_strlen(szValue) > 0xFE) {
 						db_free(&dbv);
 						mir_free(value);
 						SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0);
-						return 0;
+						return true;
 					}
-					if (db_set(info.hContact, info.module, szValue, &dbv))
+					if (db_set(m_hContact, m_module, szValue, &dbv))
 						break;
 					res = 1;
-					db_unset(info.hContact, info.module, info.setting);
-					g_pMainWindow->deleteListItem(info.setting);
+					db_unset(m_hContact, m_module, m_setting);
+					g_pMainWindow->deleteListItem(m_setting);
 					break;
 
 				case 1: // value
@@ -471,7 +485,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					int i = 0;
 
 					if (dbv.type == DBVT_BLOB) {
-						res = WriteBlobFromString(info.hContact, info.module, info.setting, szValue, (int)mir_strlen(szValue));
+						res = WriteBlobFromString(m_hContact, m_module, m_setting, szValue, (int)mir_strlen(szValue));
 						break;
 					}
 
@@ -480,26 +494,26 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 					case 'B':
 						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0') {
-							res = !db_set_b(info.hContact, info.module, info.setting, (BYTE)val);
+							res = !db_set_b(m_hContact, m_module, m_setting, (BYTE)val);
 						}
 						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+							res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 						break;
 					case 'w':
 					case 'W':
 						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0')
-							res = !db_set_w(info.hContact, info.module, info.setting, (WORD)val);
+							res = !db_set_w(m_hContact, m_module, m_setting, (WORD)val);
 						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+							res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 						break;
 					case 'd':
 					case 'D':
 						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0')
-							res = !db_set_dw(info.hContact, info.module, info.setting, val);
+							res = !db_set_dw(m_hContact, m_module, m_setting, val);
 						else
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+							res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 						break;
 
 					case '0':
@@ -527,12 +541,12 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 						case DBVT_BYTE:
 						case DBVT_WORD:
 						case DBVT_DWORD:
-							res = setNumericValue(info.hContact, info.module, info.setting, val, dbv.type);
+							res = setNumericValue(m_hContact, m_module, m_setting, val, dbv.type);
 							break;
 						case DBVT_ASCIIZ:
 						case DBVT_WCHAR:
 						case DBVT_UTF8:
-							res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+							res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 							break;
 						}
 						break;
@@ -547,12 +561,12 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 									sh = 1;
 								}
 							}
-							res = setTextValue(info.hContact, info.module, info.setting, &value[sh], dbv.type);
+							res = setTextValue(m_hContact, m_module, m_setting, &value[sh], dbv.type);
 						}
 						break;
 
 					default:
-						res = setTextValue(info.hContact, info.module, info.setting, value, dbv.type);
+						res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 						break;
 					}
 					break;
@@ -562,7 +576,7 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 				db_free(&dbv);
 
 				if (!res) {
-					g_pMainWindow->msg(TranslateT("Unable to store value in this data type!"));
+					msg(TranslateT("Unable to store value in this data type!"));
 					break;
 				}
 			}
@@ -570,24 +584,25 @@ static LRESULT CALLBACK SettingLabelEditSubClassProc(HWND hwnd, UINT msg, WPARAM
 
 		case IDCANCEL:
 			DestroyWindow(hwnd);
-			return 0;
+			return true;
 		}
-
-	case WM_GETDLGCODE:
-		return DLGC_WANTALLKEYS;
+		break;
 
 	case WM_DESTROY:
-		info.hwnd2Edit = nullptr;
+		m_hwnd2Edit = nullptr;
 		break;
 	}
-	return mir_callNextSubclass(hwnd, SettingLabelEditSubClassProc, msg, wParam, lParam);
+
+	return false;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMainDlg::EditLabel(int item, int subitem)
 {
-	if (info.hwnd2Edit) {
-		SendMessage(info.hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0); // ignore the new value of the last edit
-		info.hwnd2Edit = nullptr;
+	if (m_hwnd2Edit) {
+		SendMessage(m_hwnd2Edit, WM_COMMAND, MAKEWPARAM(IDCANCEL, 0), 0); // ignore the new value of the last edit
+		m_hwnd2Edit = nullptr;
 	}
 
 	char setting[FLD_SIZE];
@@ -599,14 +614,14 @@ void CMainDlg::EditLabel(int item, int subitem)
 		return;
 
 	DBVARIANT dbv;
-	if (db_get_s(info.hContact, info.module, setting, &dbv, 0))
+	if (db_get_s(m_hContact, m_module, setting, &dbv, 0))
 		return;
 
-	mir_strcpy(info.setting, setting);
-	info.subitem = subitem;
+	mir_strcpy(m_setting, setting);
+	m_subitem = subitem;
 
 	if (!subitem)
-		info.hwnd2Edit = CreateWindowW(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
+		m_hwnd2Edit = CreateWindowW(L"EDIT", _A2T(setting), WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
 	else {
 		wchar_t *str = nullptr, value[16] = {};
 
@@ -640,17 +655,17 @@ void CMainDlg::EditLabel(int item, int subitem)
 			GetClientRect(m_settings.GetHwnd(), &rclist);
 			if (rc.top + height > rclist.bottom &&rclist.bottom - rclist.top > height)
 				rc.top = rc.bottom - height;
-			info.hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
+			m_hwnd2Edit = CreateWindow(L"EDIT", str, WS_BORDER | WS_VISIBLE | WS_CHILD | WS_VSCROLL | ES_MULTILINE | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, height, m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
 			mir_free(str);
 		}
 		else if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD)
-			info.hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
+			m_hwnd2Edit = CreateWindow(L"EDIT", value, WS_BORDER | WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), m_settings.GetHwnd(), nullptr, g_plugin.getInst(), nullptr);
 	}
 
 	db_free(&dbv);
 
-	mir_subclassWindow(info.hwnd2Edit, SettingLabelEditSubClassProc);
-	SendMessage(info.hwnd2Edit, WM_USER, 0, 0);
+	mir_subclassWindow(m_hwnd2Edit, SettingLabelEditSubClassProc);
+	SendMessage(m_hwnd2Edit, WM_USER, 0, 0);
 }
 
 // hwnd here is to the main window, NOT the listview
@@ -662,38 +677,38 @@ void CMainDlg::onContextMenu_Settings(CContextMenuPos *pos)
 		HMENU hSubMenu = GetSubMenu(hMenu, 6);
 		TranslateMenu(hSubMenu);
 
-		if (!info.module[0]) {
+		if (!m_module[0]) {
 			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // new
 			RemoveMenu(hSubMenu, 0, MF_BYPOSITION); // separator
 		}
 
 		switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 		case MENU_ADD_BYTE:
-			newSetting(info.hContact, info.module, DBVT_BYTE);
+			newSetting(m_hContact, m_module, DBVT_BYTE);
 			break;
 
 		case MENU_ADD_WORD:
-			newSetting(info.hContact, info.module, DBVT_WORD);
+			newSetting(m_hContact, m_module, DBVT_WORD);
 			break;
 
 		case MENU_ADD_DWORD:
-			newSetting(info.hContact, info.module, DBVT_DWORD);
+			newSetting(m_hContact, m_module, DBVT_DWORD);
 			break;
 
 		case MENU_ADD_STRING:
-			newSetting(info.hContact, info.module, DBVT_ASCIIZ);
+			newSetting(m_hContact, m_module, DBVT_ASCIIZ);
 			break;
 
 		case MENU_ADD_UNICODE:
-			newSetting(info.hContact, info.module, DBVT_WCHAR);
+			newSetting(m_hContact, m_module, DBVT_WCHAR);
 			break;
 
 		case MENU_ADD_BLOB:
-			newSetting(info.hContact, info.module, DBVT_BLOB);
+			newSetting(m_hContact, m_module, DBVT_BLOB);
 			break;
 
 		case MENU_REFRESH:
-			PopulateSettings(info.hContact, info.module);
+			PopulateSettings(m_hContact, m_module);
 			break;
 		}
 		return;
@@ -763,77 +778,77 @@ void CMainDlg::onContextMenu_Settings(CContextMenuPos *pos)
 		return;
 
 	// check if the setting is being watched and if it is then check the menu item
-	int watchIdx = WatchedArrayIndex(info.hContact, info.module, setting, 1);
+	int watchIdx = WatchedArrayIndex(m_hContact, m_module, setting, 1);
 	if (watchIdx >= 0)
 		CheckMenuItem(hSubMenu, MENU_WATCH_ITEM, MF_CHECKED | MF_BYCOMMAND);
 
 	switch (TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 	case MENU_EDIT_SET:
-		editSetting(info.hContact, info.module, setting);
+		editSetting(m_hContact, m_module, setting);
 		break;
 
 	case MENU_COPY_SET:
-		copySetting(info.hContact, info.module, setting);
+		copySetting(m_hContact, m_module, setting);
 		break;
 
 	case MENU_ADD_BYTE:
-		newSetting(info.hContact, info.module, DBVT_BYTE);
+		newSetting(m_hContact, m_module, DBVT_BYTE);
 		return;
 
 	case MENU_ADD_WORD:
-		newSetting(info.hContact, info.module, DBVT_WORD);
+		newSetting(m_hContact, m_module, DBVT_WORD);
 		return;
 
 	case MENU_ADD_DWORD:
-		newSetting(info.hContact, info.module, DBVT_DWORD);
+		newSetting(m_hContact, m_module, DBVT_DWORD);
 		return;
 
 	case MENU_ADD_STRING:
-		newSetting(info.hContact, info.module, DBVT_ASCIIZ);
+		newSetting(m_hContact, m_module, DBVT_ASCIIZ);
 		return;
 
 	case MENU_ADD_UNICODE:
-		newSetting(info.hContact, info.module, DBVT_WCHAR);
+		newSetting(m_hContact, m_module, DBVT_WCHAR);
 		return;
 
 	case MENU_ADD_BLOB:
-		newSetting(info.hContact, info.module, DBVT_BLOB);
+		newSetting(m_hContact, m_module, DBVT_BLOB);
 		return;
 
 	case MENU_CHANGE2BYTE:
-		convertSetting(info.hContact, info.module, setting, DBVT_BYTE);
+		convertSetting(m_hContact, m_module, setting, DBVT_BYTE);
 		break;
 
 	case MENU_CHANGE2WORD:
-		convertSetting(info.hContact, info.module, setting, DBVT_WORD);
+		convertSetting(m_hContact, m_module, setting, DBVT_WORD);
 		break;
 
 	case MENU_CHANGE2DWORD:
-		convertSetting(info.hContact, info.module, setting, DBVT_DWORD);
+		convertSetting(m_hContact, m_module, setting, DBVT_DWORD);
 		break;
 
 	case MENU_CHANGE2STRING:
-		convertSetting(info.hContact, info.module, setting, DBVT_ASCIIZ);
+		convertSetting(m_hContact, m_module, setting, DBVT_ASCIIZ);
 		break;
 
 	case MENU_CHANGE2UNICODE:
-		convertSetting(info.hContact, info.module, setting, DBVT_UTF8);
+		convertSetting(m_hContact, m_module, setting, DBVT_UTF8);
 		break;
 
 	case MENU_WATCH_ITEM:
 		if (watchIdx < 0)
-			addSettingToWatchList(info.hContact, info.module, setting);
+			addSettingToWatchList(m_hContact, m_module, setting);
 		else
 			freeWatchListItem(watchIdx);
 		PopulateWatchedWindow();
 		break;
 
 	case MENU_DELETE_SET:
-		DeleteSettingsFromList(info.hContact, info.module, setting);
+		DeleteSettingsFromList(m_hContact, m_module, setting);
 		break;
 
 	case MENU_REFRESH:
-		PopulateSettings(info.hContact, info.module);
+		PopulateSettings(m_hContact, m_module);
 		break;
 	}
 }
