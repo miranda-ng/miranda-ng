@@ -269,14 +269,12 @@ void CMainDlg::OnDestroy()
 			}
 
 			int pos = m_settings.GetSelectionMark();
-
 			if (pos != -1) {
 				char data[FLD_SIZE];
 				ListView_GetItemTextA(m_settings.GetHwnd(), pos, 0, data, _countof(data));
 				g_plugin.setString("LastSetting", data);
 			}
-			else
-				g_plugin.delSetting("LastSetting");
+			else g_plugin.delSetting("LastSetting");
 		}
 	}
 

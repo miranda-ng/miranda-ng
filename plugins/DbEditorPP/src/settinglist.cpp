@@ -94,9 +94,11 @@ void CMainDlg::DeleteSettingsFromList(MCONTACT hContact, const char *module, con
 	if (!count)
 		return;
 
+	bool isContacts = (hContact == 0 && mir_strlen(module) == 0);
+
 	if (g_plugin.bWarnOnDelete) {
 		wchar_t text[MSG_SIZE];
-		if (info.hContact == 0)
+		if (isContacts)
 			mir_snwprintf(text, TranslateT("Are you sure you want to delete %d contact(s)?"), count);
 		else
 			mir_snwprintf(text, TranslateT("Are you sure you want to delete %d setting(s)?"), count);
@@ -104,7 +106,7 @@ void CMainDlg::DeleteSettingsFromList(MCONTACT hContact, const char *module, con
 			return;
 	}
 
-	if (hContact == 0) {
+	if (isContacts) {
 		int items = m_settings.GetItemCount();
 		for (int i = 0; i < items;) {
 			if (m_settings.GetItemState(i, LVIS_SELECTED)) {
