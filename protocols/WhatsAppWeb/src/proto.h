@@ -227,6 +227,13 @@ public:
 	{	return m_hServerConn != 0;
 	}
 
+	__forceinline void writeStr(const char *pszSetting, const JSONNode &node)
+	{
+		CMStringW str(node.as_mstring());
+		if (!str.IsEmpty())
+			setWString(pszSetting, str);
+	}
+
 	class CWhatsAppQRDlg *m_pQRDlg;
 
 	// PROTO_INTERFACE /////////////////////////////////////////////////////////////////////

@@ -122,7 +122,7 @@ int WhatsAppProto::WSSendNode(const char *pszPrefix, WAMetric metric, int flags,
 
 void WhatsAppProto::OnLoggedIn()
 {
-	debugLogA("CDiscordProto::OnLoggedIn");
+	debugLogA("WhatsAppProto::OnLoggedIn");
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
@@ -133,7 +133,7 @@ void WhatsAppProto::OnLoggedIn()
 
 void WhatsAppProto::OnLoggedOut(void)
 {
-	debugLogA("CDiscordProto::OnLoggedOut");
+	debugLogA("WhatsAppProto::OnLoggedOut");
 	m_bTerminated = true;
 	m_iPktNumber = 0;
 
@@ -708,8 +708,8 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 {
 	CloseQrDialog();
 
-	m_szJid = root["wid"].as_mstring();
-	setString(DBKEY_ID, m_szJid);
+	writeStr(DBKEY_ID, root["wid"]);
+	m_szJid = getMStringA(DBKEY_ID);
 
 	CMStringA szSecret(root["secret"].as_mstring());
 	if (!szSecret.IsEmpty())
@@ -718,10 +718,10 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 			return;
 		}
 
-	setWString(DBKEY_NICK, root["pushname"].as_mstring());
-	setWString(DBKEY_CLIENT_TOKEN, root["clientToken"].as_mstring());
-	setWString(DBKEY_SERVER_TOKEN, root["serverToken"].as_mstring());
-	setWString(DBKEY_BROWSER_TOKEN, root["browserToken"].as_mstring());
+	writeStr(DBKEY_NICK, root["pushname"]);
+	writeStr(DBKEY_CLIENT_TOKEN, root["clientToken"]);
+	writeStr(DBKEY_SERVER_TOKEN, root["serverToken"]);
+	writeStr(DBKEY_BROWSER_TOKEN, root["browserToken"]);
 
 	OnLoggedIn();
 }
