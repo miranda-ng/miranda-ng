@@ -428,12 +428,12 @@ void CPepGuiService::RebuildMenu()
 	m_hMenuItem = Menu_AddProtoMenuItem(&mi, m_proto->m_szModuleName);
 }
 
-bool CPepGuiService::LaunchSetGui(BYTE bQuiet)
+bool CPepGuiService::LaunchSetGui()
 {
 	if (m_bGuiOpen) return false;
 
 	m_bGuiOpen = true;
-	ShowSetDialog(bQuiet);
+	ShowSetDialog();
 	m_bGuiOpen = false;
 
 	return true;
@@ -450,7 +450,7 @@ void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, wchar_t *text)
 
 int CPepGuiService::OnMenuItemClick(WPARAM, LPARAM)
 {
-	LaunchSetGui(0);
+	LaunchSetGui();
 	return 0;
 }
 
@@ -669,20 +669,24 @@ void CPepMood::SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *
 	NotifyEventHooks(m_proto->m_hEventXStatusChanged, hContact, 0);
 }
 
-void CPepMood::ShowSetDialog(BYTE bQuiet)
+void CPepMood::ShowSetDialog()
 {
-	if (!bQuiet) {
-		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
-		for (int i = 1; i < _countof(g_arrMoods); i++)
-			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateW(g_arrMoods[i].szName));
+	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
+	for (int i = 1; i < _countof(g_arrMoods); i++)
+		dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateW(g_arrMoods[i].szName));
 
-		dlg.SetActiveStatus(m_mode, m_text);
-		if (!dlg.DoModal())
-			return;
+	dlg.SetActiveStatus(m_mode, m_text);
+	if (!dlg.DoModal())
+		return;
 
-		m_mode = dlg.GetStatusMode();
+	m_mode = dlg.GetStatusMode();
+	replaceStrW(m_text, dlg.GetStatusText());
+
+	if (m_mode >= 0) {
 		replaceStrW(m_text, dlg.GetStatusText());
+		Publish();
 	}
+	else Retract();
 
 	UpdateMenuView();
 }
@@ -1027,7 +1031,7 @@ void CPepActivity::SetActivity(MCONTACT hContact, const char *szFirst, const cha
 	else m_proto->ResetAdvStatus(hContact, ADVSTATUS_ACTIVITY);
 }
 
-void CPepActivity::ShowSetDialog(BYTE)
+void CPepActivity::ShowSetDialog()
 {
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i = 0; i < _countof(g_arrActivities); i++)
@@ -1241,12 +1245,12 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 
 void CJabberProto::InfoFrame_OnUserMood(CJabberInfoFrame_Event*)
 {
-	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->LaunchSetGui(0);
+	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->LaunchSetGui();
 }
 
 void CJabberProto::InfoFrame_OnUserActivity(CJabberInfoFrame_Event*)
 {
-	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_ACTIVITY))->LaunchSetGui(0);
+	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_ACTIVITY))->LaunchSetGui();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1357,7 +1361,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM, LPARAM lParam)
 	if (status >= 0 && status < _countof(g_arrMoods)) {
 		pepMood->m_mode = status;
 		pepMood->m_text = (pData->flags & CSSF_MASK_MESSAGE) ? JabberStrFixLines(pData->ptszMessage) : nullptr;
-		pepMood->LaunchSetGui(1);
+		pepMood->UpdateMenuView();
 		return 0;
 	}
 

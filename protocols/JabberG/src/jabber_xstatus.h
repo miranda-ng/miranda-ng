@@ -122,70 +122,72 @@ public:
 class CPepGuiService: public CPepService
 {
 	typedef CPepService CSuper;
-public:
-	CPepGuiService(CJabberProto *proto, char *name, char *node);
-	~CPepGuiService();
-	void InitGui();
-	void RebuildMenu();
-	bool LaunchSetGui(BYTE bQuiet);
+	friend struct CJabberProto;
 
-protected:
-	void UpdateMenuItem(HANDLE hIcolibIcon, wchar_t *text);
-	virtual void ShowSetDialog(BYTE bQuiet) = 0;
-
-private:
 	HANDLE m_hMenuService;
 	HANDLE m_hIcolibItem;
 	wchar_t *m_szText;
 
 	bool m_bGuiOpen;
-
 	int __cdecl OnMenuItemClick(WPARAM, LPARAM);
+
+public:
+	CPepGuiService(CJabberProto *proto, char *name, char *node);
+	~CPepGuiService();
+	void InitGui();
+	void RebuildMenu();
+	bool LaunchSetGui();
+
+protected:
+	void UpdateMenuItem(HANDLE hIcolibIcon, wchar_t *text);
+	virtual void ShowSetDialog() = 0;
 };
 
 class CPepMood: public CPepGuiService
 {
 	typedef CPepGuiService CSuper;
-public:
-	CPepMood(CJabberProto *proto);
-	~CPepMood();
-	void ProcessItems(const char *from, const TiXmlElement *items);
-	void ResetExtraIcon(MCONTACT hContact);
+	friend struct CJabberProto;
 
-public:
 	wchar_t *m_text;
 	int m_mode;
-
-protected:
-	void ShowSetDialog(BYTE bQuiet) override;
-	void UpdateMenuView(void) override;
 
 	void SetExtraIcon(MCONTACT hContact, char *szMood);
 	void CreateData(TiXmlElement*);
 
 	void SetMood(MCONTACT hContact, const wchar_t *szMood, const wchar_t *szText);
+
+public:
+	CPepMood(CJabberProto *proto);
+	~CPepMood();
+
+	void ShowSetDialog() override;
+	void UpdateMenuView(void) override;
+
+	void ProcessItems(const char *from, const TiXmlElement *items);
+	void ResetExtraIcon(MCONTACT hContact);
 };
 
 class CPepActivity: public CPepGuiService
 {
 	typedef CPepGuiService CSuper;
-public:
-	CPepActivity(CJabberProto *proto);
-	~CPepActivity();
-	void ProcessItems(const char *from, const TiXmlElement *items);
-	void ResetExtraIcon(MCONTACT hContact);
 
-protected:
 	wchar_t *m_text;
 	int m_mode;
-
-	void ShowSetDialog(BYTE bQuiet) override;
-	void UpdateMenuView(void) override;
 
 	void CreateData(TiXmlElement*);
 	void SetExtraIcon(MCONTACT hContact, char *szActivity);
 
 	void SetActivity(MCONTACT hContact, const char *szFirst, const char *szSecond, const wchar_t *szText);
+
+public:
+	CPepActivity(CJabberProto *proto);
+	~CPepActivity();
+
+	void ShowSetDialog() override;
+	void UpdateMenuView(void) override;
+
+	void ProcessItems(const char *from, const TiXmlElement *items);
+	void ResetExtraIcon(MCONTACT hContact);
 };
 
 #endif // _JABBER_XSTATUS_H_
