@@ -247,8 +247,32 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	if (reply->resultCode != 200 || !reply->pData || !strstr(reply->pData, "form method=\"post\"")) { // something went wrong
+	if (reply->resultCode != 200 || !reply->pData || (!strstr(reply->pData, "form method=\"post\"") && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
+		return;
+	}
+
+	LPCSTR pBlankUrl = strstr(reply->pData, szBlankUrl);
+	if (pBlankUrl) {
+		debugLogA("CVkProto::OnOAuthAuthorize blank ulr found");
+		m_szAccessToken = nullptr;
+		LPCSTR p = strstr(pBlankUrl, VK_TOKEN_BEG);
+		if (p) {
+			p += sizeof(VK_TOKEN_BEG) - 1;
+			for (LPCSTR q = p + 1; *q; q++) {
+				if (*q == '&' || *q == '=' || *q == '\"') {
+					m_szAccessToken = mir_strndup(p, q - p);
+					break;
+				}
+			}
+			setString("AccessToken", m_szAccessToken);
+			RetrieveMyInfo();
+		}
+		else {
+			debugLogA("CVkProto::OnOAuthAuthorize blank ulr found, access_token not found");
+			delSetting("AccessToken");
+			ConnectionFailed(LOGINERR_NOSERVER);
+		}
 		return;
 	}
 
