@@ -244,11 +244,11 @@ public:
 		cmbDefaultFile.AddString(L"%UIN%.txt");
 		cmbDefaultFile.AddString(L"%group%.txt");
 		cmbDefaultFile.AddString(L"%e-mail%.txt");
-		cmbDefaultFile.AddString(L"%identifier%.txt");
+		cmbDefaultFile.AddString(L"%id%.txt");
 		cmbDefaultFile.AddString(L"%year%-%month%-%day%.txt");
 		cmbDefaultFile.AddString(L"%group%\\%nick%.txt");
 		cmbDefaultFile.AddString(L"%group%\\%UIN%.txt");
-		cmbDefaultFile.AddString(L"%group%\\%identifier%.txt");
+		cmbDefaultFile.AddString(L"%group%\\%id%.txt");
 		cmbDefaultFile.AddString(L"%protocol%\\%nick%.txt");
 		cmbDefaultFile.AddString(L"History.txt");
 
