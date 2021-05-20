@@ -19,14 +19,13 @@ static int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
 	return -1;
 }
 
-bool CHTTPSession::OpenURL(const std::wstring &rsURL)
+bool CHTTPSession::OpenURL(const CMStringW &rsURL)
 {
-	std::string s = currencyrates_t2a(rsURL.c_str());
-	m_szUrl = s.c_str();
+	m_szUrl = rsURL;
 	return true;
 }
 
-bool CHTTPSession::ReadResponce(std::wstring &rsResponce)
+bool CHTTPSession::ReadResponce(CMStringW &rsResponce)
 {
 	if (m_szUrl.IsEmpty())
 		return false;
@@ -61,7 +60,7 @@ bool CHTTPSession::ReadResponce(std::wstring &rsResponce)
 			if ((-1 != nIndex) && (nullptr != strstr(_strlwr(pReply->headers[nIndex].szValue), "utf-8")))
 				rsResponce = ptrW(mir_utf8decodeW(buf));
 			else
-				rsResponce = currencyrates_a2t(buf);
+				rsResponce = _A2T(buf);
 
 			bResult = true;
 		}

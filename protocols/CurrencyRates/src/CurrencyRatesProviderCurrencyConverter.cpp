@@ -1,45 +1,30 @@
 #include "stdafx.h"
 #include "CurrencyRatesProviderCurrencyConverter.h"
-#include <boost\property_tree\ptree.hpp>
-#include <boost\property_tree\json_parser.hpp>
 
-std::wstring build_url(const std::wstring &rsURL, const std::wstring &from, const std::wstring &to)
+CMStringW build_url(const CMStringW &rsURL, const CMStringW &from, const CMStringW &to)
 {
-	std::wostringstream o;
-	o << rsURL << L"?q=" << from << L"_" << to << "&compact=ultra";
+	CMStringW res = rsURL + L"?q=" + from + L"_" + to + L"&compact=ultra";
 	ptrA szApiKey(g_plugin.getStringA(DB_KEY_ApiKey));
 	if (szApiKey != nullptr)
-		o << "&apiKey=" << szApiKey.get();
-	return o.str();
+		res.AppendFormat(L"&apiKey=%S", szApiKey.get());
+	return res;
 }
 
-std::wstring build_url(MCONTACT hContact, const std::wstring &rsURL)
+CMStringW build_url(MCONTACT hContact, const CMStringW &rsURL)
 {
-	std::wstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
-	std::wstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
+	CMStringW sFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+	CMStringW sTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
 	return build_url(rsURL, sFrom, sTo);
 }
 
-bool parse_responce(const std::wstring &rsJSON, double &dRate)
+bool parse_response(const CMStringW &rsJSON, double &dRate)
 {
-	try {
-		boost::property_tree::ptree pt;
-		std::istringstream i_stream(currencyrates_t2a(rsJSON.c_str()));
+	setlocale(LC_NUMERIC, "en_US");
+	JSONNode root = JSONNode::parse(_T2A(rsJSON));
+	if (!root)
+		return false;
 
-		boost::property_tree::read_json(i_stream, pt);
-		if (!pt.empty()) {
-			auto pt_nested = pt.begin()->second;
-			dRate = pt_nested.get_value<double>();
-		}
-		else {
-			dRate = pt.get_value<double>();
-		}
-
-		return true;
-	}
-	catch (boost::property_tree::ptree_error&) {
-	}
-	return false;
+	return 1 == swscanf(root.at(json_index_t(0)).as_mstring(), L"%lf", &dRate);
 }
 
 using TWatchedRates = std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;
@@ -57,23 +42,21 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 		return nullptr;
 	};
 
-	auto make_currencyrate_name = [](const CCurrencyRate &rCurrencyRate)->std::wstring
+	auto make_currencyrate_name = [](const CCurrencyRate &rCurrencyRate)->CMStringW
 	{
-		const std::wstring& rsDesc = rCurrencyRate.GetName();
-		return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
+		auto &rsDesc = rCurrencyRate.GetName();
+		return((false == rsDesc.IsEmpty()) ? rsDesc : rCurrencyRate.GetSymbol());
 	};
 
-	auto make_contact_name = [](const std::wstring &rsSymbolFrom, const std::wstring &rsSymbolTo)->std::wstring
+	auto make_contact_name = [](const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)->CMStringW 
 	{
-		std::wostringstream o;
-		o << rsSymbolFrom << L"/" << rsSymbolTo;
-		return o.str();
+		return rsSymbolFrom + L"/" + rsSymbolTo;
 	};
 
 
-	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)->std::wstring
+	auto make_rate_name = [make_contact_name](const CCurrencyRatesProviderCurrencyConverter::TRateInfo &ri)->CMStringW 
 	{
-		if ((false == ri.first.GetName().empty()) && (false == ri.second.GetName().empty()))
+		if ((false == ri.first.GetName().IsEmpty()) && (false == ri.second.GetName().IsEmpty()))
 			return make_contact_name(ri.first.GetName(), ri.second.GetName());
 
 		return make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
@@ -140,10 +123,9 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 			auto cCurrencyRates = rSection.GetCurrencyRateCount();
 			for (auto i = 0u; i < cCurrencyRates; ++i) {
 				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
-				std::wstring sName = make_currencyrate_name(rCurrencyRate);
-				LPCTSTR pszName = sName.c_str();
-				::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
-				::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
+				CMStringW sName = make_currencyrate_name(rCurrencyRate);
+				::SendMessage(hcbxFrom, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
+				::SendMessage(hcbxTo, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
 			}
 
 			auto cWatchedRates = pProvider->GetWatchedRateCount();
@@ -151,9 +133,8 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 				CCurrencyRatesProviderCurrencyConverter::TRateInfo ri;
 				if (true == pProvider->GetWatchedRateInfo(i, ri)) {
 					g_aWatchedRates.push_back(ri);
-					std::wstring sRate = make_rate_name(ri);
-					LPCTSTR pszRateName = sRate.c_str();
-					::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
+					CMStringW sRate = make_rate_name(ri);
+					::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, LPARAM(sRate.c_str()));
 				}
 			}
 
@@ -207,9 +188,8 @@ INT_PTR CALLBACK OptDlgProc(HWND hdlg, UINT message, WPARAM wParam, LPARAM lPara
 
 							g_aWatchedRates.push_back(ri);
 
-							std::wstring sRate = make_rate_name(ri);
-							LPCTSTR pszRateName = sRate.c_str();
-							::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRateName));
+							CMStringW sRate = make_rate_name(ri);
+							::SendDlgItemMessage(hdlg, IDC_LIST_RATES, LB_ADDSTRING, 0, LPARAM(sRate.c_str()));
 							PropSheet_Changed(::GetParent(hdlg), hdlg);
 						}
 					}
@@ -261,17 +241,17 @@ void CCurrencyRatesProviderCurrencyConverter::ShowPropertyPage(WPARAM wp, OPTION
 void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContacts &anContacts)
 {
 	CHTTPSession http;
-	std::wstring sURL = GetURL();
+	CMStringW sURL = GetURL();
 
 	for (TContacts::const_iterator i = anContacts.begin(); i != anContacts.end() && IsOnline(); ++i) {
 		MCONTACT hContact = *i;
 
-		std::wstring sFullURL = build_url(hContact, sURL);
+		CMStringW sFullURL = build_url(hContact, sURL);
 		if ((true == http.OpenURL(sFullURL)) && (true == IsOnline())) {
-			std::wstring sHTML;
+			CMStringW sHTML;
 			if ((true == http.ReadResponce(sHTML)) && (true == IsOnline())) {
 				double dRate = 0.0;
-				if ((true == parse_responce(sHTML, dRate)) && (true == IsOnline())) {
+				if ((true == parse_response(sHTML, dRate)) && (true == IsOnline())) {
 					WriteContactRate(hContact, dRate);
 					continue;
 				}
@@ -284,14 +264,14 @@ void CCurrencyRatesProviderCurrencyConverter::RefreshCurrencyRates(TContacts &an
 
 double CCurrencyRatesProviderCurrencyConverter::Convert(double dAmount, const CCurrencyRate &from, const CCurrencyRate &to) const
 {
-	std::wstring sFullURL = build_url(GetURL(), from.GetID(), to.GetID());
+	CMStringW sFullURL = build_url(GetURL(), from.GetID(), to.GetID());
 
 	CHTTPSession http;
 	if ((true == http.OpenURL(sFullURL))) {
-		std::wstring sHTML;
+		CMStringW sHTML;
 		if ((true == http.ReadResponce(sHTML))) {
 			double dResult = 0.0;
-			if ((true == parse_responce(sHTML, dResult)))
+			if ((true == parse_response(sHTML, dResult)))
 				return dResult * dAmount;
 
 			throw std::runtime_error(Translate("Error occurred during HTML parsing."));
@@ -314,10 +294,10 @@ bool CCurrencyRatesProviderCurrencyConverter::GetWatchedRateInfo(size_t nIndex, 
 		return false;
 
 	MCONTACT hContact = m_aContacts[nIndex];
-	std::wstring sSymbolFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
-	std::wstring sSymbolTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
-	std::wstring sDescFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_DESCRIPTION);
-	std::wstring sDescTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_DESCRIPTION);
+	CMStringW sSymbolFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+	CMStringW sSymbolTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
+	CMStringW sDescFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_DESCRIPTION);
+	CMStringW sDescTo = g_plugin.getMStringW(hContact, DB_STR_TO_DESCRIPTION);
 
 	rRateInfo.first = CCurrencyRate(sSymbolFrom, sSymbolFrom, sDescFrom);
 	rRateInfo.second = CCurrencyRate(sSymbolTo, sSymbolTo, sDescTo);
@@ -328,30 +308,26 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 {
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [&ri](auto hContact)->bool
 	{
-		std::wstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
-		std::wstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
-		return ((0 == mir_wstrcmpi(ri.first.GetID().c_str(), sFrom.c_str()))
-			&& (0 == mir_wstrcmpi(ri.second.GetID().c_str(), sTo.c_str())));
+		CMStringW sFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+		CMStringW sTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
+		return !mir_wstrcmpi(ri.first.GetID().c_str(), sFrom.c_str()) && !mir_wstrcmpi(ri.second.GetID().c_str(), sTo.c_str());
 	});
 
-	auto make_contact_name = [](const std::wstring &rsSymbolFrom, const std::wstring &rsSymbolTo)->std::wstring
+	auto make_contact_name = [](const CMStringW &rsSymbolFrom, const CMStringW &rsSymbolTo)->CMStringW
 	{
-		std::wostringstream o;
-		o << rsSymbolFrom << L"/" << rsSymbolTo;
-		return o.str();
+		return rsSymbolFrom + L"/" + rsSymbolTo;
 	};
 
-
 	if ((true == bWatch) && (i == m_aContacts.end())) {
-		std::wstring sName = make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
+		CMStringW sName = make_contact_name(ri.first.GetSymbol(), ri.second.GetSymbol());
 		MCONTACT hContact = CreateNewContact(sName);
 		if (hContact) {
 			g_plugin.setWString(hContact, DB_STR_FROM_ID, ri.first.GetID().c_str());
 			g_plugin.setWString(hContact, DB_STR_TO_ID, ri.second.GetID().c_str());
-			if (false == ri.first.GetName().empty()) {
+			if (false == ri.first.GetName().IsEmpty()) {
 				g_plugin.setWString(hContact, DB_STR_FROM_DESCRIPTION, ri.first.GetName().c_str());
 			}
-			if (false == ri.second.GetName().empty()) {
+			if (false == ri.second.GetName().IsEmpty()) {
 				g_plugin.setWString(hContact, DB_STR_TO_DESCRIPTION, ri.second.GetName().c_str());
 			}
 
@@ -372,15 +348,15 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 	return false;
 }
 
-MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const std::wstring& rsFromID, const std::wstring& rsToID) const
+MCONTACT CCurrencyRatesProviderCurrencyConverter::GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const
 {
 	mir_cslock lck(m_cs);
 
 	auto i = std::find_if(m_aContacts.begin(), m_aContacts.end(), [rsFromID, rsToID](MCONTACT hContact)->bool
 	{
-		std::wstring sFrom = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
-		std::wstring sTo = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
-		return ((0 == mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str())) && (0 == mir_wstrcmpi(rsToID.c_str(), sTo.c_str())));
+		CMStringW sFrom = g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
+		CMStringW sTo = g_plugin.getMStringW(hContact, DB_STR_TO_ID);
+		return !mir_wstrcmpi(rsFromID.c_str(), sFrom.c_str()) && !mir_wstrcmpi(rsToID.c_str(), sTo.c_str());
 	});
 
 	if (i != m_aContacts.end())
@@ -393,27 +369,27 @@ void CCurrencyRatesProviderCurrencyConverter::FillFormat(TFormatSpecificators &a
 {
 	CSuper::FillFormat(array);
 
-	array.push_back(CFormatSpecificator(L"%F", TranslateT("From Currency Full Name")));
-	array.push_back(CFormatSpecificator(L"%f", TranslateT("From Currency Short Name")));
-	array.push_back(CFormatSpecificator(L"%I", TranslateT("Into Currency Full Name")));
-	array.push_back(CFormatSpecificator(L"%i", TranslateT("Into Currency Short Name")));
-	array.push_back(CFormatSpecificator(L"%s", TranslateT("Short notation for \"%f/%i\"")));
+	array.push_back(CFormatSpecificator(L"%F", LPGENW("From Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%f", LPGENW("From Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%I", LPGENW("Into Currency Full Name")));
+	array.push_back(CFormatSpecificator(L"%i", LPGENW("Into Currency Short Name")));
+	array.push_back(CFormatSpecificator(L"%s", LPGENW("Short notation for \"%f/%i\"")));
 }
 
-std::wstring CCurrencyRatesProviderCurrencyConverter::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
+CMStringW CCurrencyRatesProviderCurrencyConverter::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
 {
 	switch (c) {
 	case 'F':
-		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_DESCRIPTION);
+		return g_plugin.getMStringW(hContact, DB_STR_FROM_DESCRIPTION);
 
 	case 'f':
-		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_FROM_ID);
+		return g_plugin.getMStringW(hContact, DB_STR_FROM_ID);
 
 	case 'I':
-		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_DESCRIPTION);
+		return g_plugin.getMStringW(hContact, DB_STR_TO_DESCRIPTION);
 
 	case 'i':
-		return CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_TO_ID);
+		return g_plugin.getMStringW(hContact, DB_STR_TO_ID);
 	}
 
 	return CSuper::FormatSymbol(hContact, c, nWidth);

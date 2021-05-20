@@ -3,7 +3,7 @@
 
 class ICurrencyRatesProvider;
 
-inline std::wstring get_window_text(HWND hWnd)
+inline CMStringW get_window_text(HWND hWnd)
 {
 	int cBytes = ::GetWindowTextLength(hWnd);
 
@@ -11,7 +11,7 @@ inline std::wstring get_window_text(HWND hWnd)
 	LPTSTR pBuffer = &*(aBuf.begin());
 	::GetWindowText(hWnd, pBuffer, cBytes + 1);
 
-	return std::wstring(pBuffer);
+	return CMStringW(pBuffer);
 }
 
 inline void prepare_edit_ctrl_for_error(HWND hwndEdit)
@@ -25,7 +25,7 @@ void show_variable_list(HWND hwndParent, const ICurrencyRatesProvider *pProvider
 
 inline int CurrencyRates_MessageBox(HWND hWnd, LPCTSTR pszText, UINT nType = MB_OK)
 {
-	return ::MessageBox(hWnd, pszText, currencyrates_a2t(MIRANDANAME).c_str(), nType);
+	return ::MessageBox(hWnd, pszText, _A2T(MIRANDANAME), nType);
 }
 
 inline void spin_set_range(HWND hwndSpin, short nLower, short nUpper)

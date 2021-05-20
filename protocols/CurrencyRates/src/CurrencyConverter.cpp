@@ -31,10 +31,10 @@ CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConve
 	return CCurrencyRateSection();
 }
 
-inline std::wstring make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
+inline CMStringW make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
 {
-	const std::wstring &rsDesc = rCurrencyRate.GetName();
-	return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
+	const CMStringW &rsDesc = rCurrencyRate.GetName();
+	return((false == rsDesc.IsEmpty()) ? rsDesc : rCurrencyRate.GetSymbol());
 }
 
 inline void update_convert_button(HWND hDlg)
@@ -58,22 +58,6 @@ inline void update_swap_button(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_SWAP), bEnableButton);
 }
 
-inline std::wstring double2str(double dValue)
-{
-	wchar_t str[40];
-	swprintf_s(str, L"%.2lf", dValue);
-	return str;
-}
-
-inline bool str2double(const std::wstring& s, double& d)
-{
-	std::wistringstream input(s);
-	input.imbue(GetSystemLocale());
-	input >> d;
-	return ((false == input.bad()) && (false == input.fail()));
-}
-
-
 INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM lp)
 {
 	switch (msg) {
@@ -89,18 +73,17 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
 
-			std::wstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
-			std::wstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_TO_ID);
+			CMStringW sFromCurrencyRateID = g_plugin.getMStringW(DB_STR_CC_CURRENCYRATE_FROM_ID);
+			CMStringW sToCurrencyRateID = g_plugin.getMStringW(DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
 			const auto& rSection = get_currencyrates(pProvider);
 			auto cCurrencyRates = rSection.GetCurrencyRateCount();
 			for (auto i = 0u; i < cCurrencyRates; ++i) {
 				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
-				std::wstring sName = make_currencyrate_name(rCurrencyRate);
-				LPCTSTR pszName = sName.c_str();
-				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
-				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
+				CMStringW sName = make_currencyrate_name(rCurrencyRate);
+				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
+				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, LPARAM(sName.c_str()));
 
 				if (0 == mir_wstrcmpi(rCurrencyRate.GetID().c_str(), sFromCurrencyRateID.c_str())) {
 					::SendMessage(hcbxFrom, CB_SETCURSEL, nFrom, 0);
@@ -111,15 +94,15 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 				}
 			}
 
+			wchar_t str[40];
 			double dAmount = 1.0;
 			CurrencyRates_DBReadDouble(NULL, MODULENAME, DB_STR_CC_AMOUNT, dAmount);
-			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, double2str(dAmount).c_str());
+			swprintf_s(str, L"%.2lf", dAmount);
+			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, str);
 
-			const ICurrencyRatesProvider::CProviderInfo& pi = pProvider->GetInfo();
-			std::wostringstream o;
-			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
-
-			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
+			auto &pi = pProvider->GetInfo();
+			CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
+			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, provInfo);
 
 			::SendDlgItemMessage(hDlg, IDC_BUTTON_SWAP, BM_SETIMAGE, IMAGE_ICON, LPARAM(g_plugin.getIcon(IDI_ICON_SWAP)));
 
@@ -179,10 +162,8 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 		case IDC_BUTTON_CONVERT:
 			{
 				HWND hwndAmount = GetDlgItem(hDlg, IDC_EDIT_VALUE);
-				std::wstring sText = get_window_text(hwndAmount);
-
 				double dAmount = 1.0;
-				if ((true == str2double(sText, dAmount)) && (dAmount > 0.0)) {
+				if (swscanf(get_window_text(hwndAmount), L"%lf", &dAmount) == 1 && dAmount > 0.0) {
 					CurrencyRates_DBWriteDouble(NULL, MODULENAME, DB_STR_CC_AMOUNT, dAmount);
 
 					size_t nFrom = static_cast<size_t>(::SendDlgItemMessage(hDlg, IDC_COMBO_CONVERT_FROM, CB_GETCURSEL, 0, 0));

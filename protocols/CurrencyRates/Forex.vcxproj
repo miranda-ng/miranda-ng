@@ -38,10 +38,8 @@
     <ClCompile Include="src\ExtraImages.cpp" />
     <ClCompile Include="src\Forex.cpp" />
     <ClCompile Include="src\HTTPSession.cpp" />
-    <ClCompile Include="src\IconLib.cpp" />
     <ClCompile Include="src\ImportExport.cpp" />
     <ClCompile Include="src\Locale.cpp" />
-    <ClCompile Include="src\Log.cpp" />
     <ClCompile Include="src\ModuleInfo.cpp" />
     <ClCompile Include="src\SettingsDlg.cpp" />
     <ClCompile Include="src\stdafx.cxx">
@@ -50,7 +48,6 @@
     <ClCompile Include="src\WinCtrlHelper.cpp" />
     <ClInclude Include="src\Chart.h" />
     <ClInclude Include="src\CommonOptionDlg.h" />
-    <ClInclude Include="src\CreateFilePath.h" />
     <ClInclude Include="src\CurrencyConverter.h" />
     <ClInclude Include="src\CurrencyRateChart.h" />
     <ClInclude Include="src\CurrencyRateInfoDlg.h" />
@@ -64,7 +61,6 @@
     <ClInclude Include="src\ImportExport.h" />
     <ClInclude Include="src\IsWithinAccuracy.h" />
     <ClInclude Include="src\Locale.h" />
-    <ClInclude Include="src\Log.h" />
     <ClInclude Include="src\ModuleInfo.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\SettingsDlg.h" />

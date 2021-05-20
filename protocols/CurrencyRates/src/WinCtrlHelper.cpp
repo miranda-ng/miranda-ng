@@ -17,10 +17,10 @@ public:
 		TFormatSpecificators aSpecificators;
 		m_pProvider->FillFormat(aSpecificators);
 
-		std::wostringstream o;
+		CMStringW str;
 		for (auto &spec : aSpecificators)
-			o << spec.first << '\t' << spec.second << L"\r\n";
-		::SetDlgItemText(m_hwnd, IDC_EDIT_VARIABLE, o.str().c_str());
+			str.AppendFormat(L"%s\t%s\r\n", spec.first, TranslateW(spec.second));
+		::SetDlgItemTextW(m_hwnd, IDC_EDIT_VARIABLE, str);
 		return true;
 	}
 };

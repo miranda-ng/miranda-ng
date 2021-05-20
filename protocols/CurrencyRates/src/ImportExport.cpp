@@ -42,44 +42,43 @@ static int enum_contact_settings(const char *szSetting, void *lp)
 	if (0 == db_get(ctx->m_hContact, ctx->m_pszModule, szSetting, &dbv)) {
 		mir_safety_dbvar sdbvar(&dbv);
 
-		std::string sType;
-		std::wostringstream sValue;
-		sValue.imbue(GetSystemLocale());
+		CMStringA sType;
+		CMStringW wszValue;
 
 		switch (dbv.type) {
 		case DBVT_BYTE:
-			sValue << dbv.bVal;
+			wszValue.Format(L"%d", dbv.bVal);
 			sType = g_szXmlTypeByte;
 			break;
 		case DBVT_WORD:
-			sValue << dbv.wVal;
+			wszValue.Format(L"%d", dbv.wVal);
 			sType = g_szXmlTypeWord;
 			break;
 		case DBVT_DWORD:
-			sValue << dbv.dVal;
+			wszValue.Format(L"%d", dbv.dVal);
 			sType = g_szXmlTypeDword;
 			break;
 		case DBVT_ASCIIZ:
 			sType = g_szXmlTypeAsciiz;
 			if (dbv.pszVal)
-				sValue << dbv.pszVal;
+				wszValue = dbv.pszVal;
 			break;
 		case DBVT_WCHAR:
 			sType = g_szXmlTypeWchar;
 			if (dbv.pwszVal)
-				sValue << dbv.pwszVal;
+				wszValue = dbv.pwszVal;
 			break;
 		case DBVT_UTF8:
 			sType = g_szXmlTypeUtf8;
 			if (dbv.pszVal)
-				sValue << dbv.pszVal;
+				wszValue = dbv.pszVal;
 			break;
 		case DBVT_BLOB:
 			sType = g_szXmlTypeBlob;
 			if (dbv.pbVal) {
 				ptrA buf(mir_base64_encode(dbv.pbVal, dbv.cpbVal));
 				if (buf)
-					sValue << buf;
+					wszValue = buf;
 			}
 			break;
 		}
@@ -88,8 +87,8 @@ static int enum_contact_settings(const char *szSetting, void *lp)
 		pXmlName->SetText(szSetting);
 
 		auto *pXmlValue = ctx->m_xmlDoc.NewElement(g_szXmlValue);
-		pXmlValue->SetText(T2Utf(sValue.str().c_str()).get());
-		pXmlValue->SetAttribute(g_szXmlType, sType.c_str());
+		pXmlValue->SetText(T2Utf(wszValue.c_str()).get());
+		pXmlValue->SetAttribute(g_szXmlType, sType);
 
 		auto *pXmlSet = ctx->m_xmlDoc.NewElement(g_szXmlSetting);
 		pXmlSet->InsertEndChild(pXmlName);
@@ -161,7 +160,7 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 	return pszBuffer;
 }
 
-bool show_open_file_dialog(bool bOpen, std::wstring& rsFile)
+bool show_open_file_dialog(bool bOpen, CMStringW &rsFile)
 {
 	wchar_t szBuffer[MAX_PATH];
 	wchar_t szFilter[MAX_PATH];
@@ -198,13 +197,13 @@ bool show_open_file_dialog(bool bOpen, std::wstring& rsFile)
 
 INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 {
-	std::wstring sFileName;
+	CMStringW sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
 	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(false, sFileName))
 			return -1;
 	}
-	else sFileName = currencyrates_a2t(pszFile);
+	else sFileName = _A2T(pszFile);
 
 	TiXmlDocument doc;
 	auto *pRoot = doc.NewElement(g_szXmlContacts);
@@ -485,13 +484,13 @@ bool do_import(const TiXmlNode *pXmlRoot, UINT nFlags)
 
 INT_PTR CurrencyRates_Import(WPARAM wp, LPARAM lp)
 {
-	std::wstring sFileName;
+	CMStringW sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
 	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(true, sFileName))
 			return -1;
 	}
-	else sFileName = currencyrates_a2t(pszFile);
+	else sFileName = _A2T(pszFile);
 
 	FILE *in = _wfopen(sFileName.c_str(), L"rb");
 	if (in == nullptr)

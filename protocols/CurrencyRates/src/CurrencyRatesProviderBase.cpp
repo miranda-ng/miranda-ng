@@ -8,23 +8,18 @@ struct CXMLFileInfo
 	CXMLFileInfo() : m_qs(L"Unknown") {}
 	ICurrencyRatesProvider::CProviderInfo m_pi;
 	CCurrencyRateSection m_qs;
-	std::wstring m_sURL;
+	CMStringW m_sURL;
 };
-
-inline std::wstring get_ini_file_name(LPCTSTR pszFileName)
-{
-	return CreateFilePath(pszFileName);
-}
 
 bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRate &q)
 {
-	std::wstring sSymbol, sDescription, sID;
+	CMStringW sSymbol, sDescription, sID;
 
 	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
 		if (!mir_strcmpi(sName, "symbol")) {
 			sSymbol = GetNodeText(pNode);
-			if (sSymbol.empty())
+			if (sSymbol.IsEmpty())
 				return false;
 		}
 		else if (!mir_strcmpi(sName, "description")) {
@@ -32,7 +27,7 @@ bool parse_currencyrate(const TiXmlNode *pTop, CCurrencyRate &q)
 		}
 		else if (!mir_strcmpi(sName, "id")) {
 			sID = GetNodeText(pNode);
-			if (sID.empty())
+			if (sID.IsEmpty())
 				return false;
 		}
 	}
@@ -45,7 +40,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 {
 	CCurrencyRateSection::TSections aSections;
 	CCurrencyRateSection::TCurrencyRates aCurrencyRates;
-	std::wstring sSectionName;
+	CMStringW sSectionName;
 
 	for (auto *pNode : TiXmlEnum(pTop)) {
 		const char *sName = pNode->Value();
@@ -61,7 +56,7 @@ bool parse_section(const TiXmlNode *pTop, CCurrencyRateSection &qs)
 		}
 		else if (!mir_strcmpi(sName, "name")) {
 			sSectionName = GetNodeText(pNode);
-			if (sSectionName.empty())
+			if (sSectionName.IsEmpty())
 				return false;
 		}
 	}
@@ -84,7 +79,7 @@ const TiXmlNode* find_provider(const TiXmlNode *pRoot)
 	return nullptr;
 }
 
-CXMLFileInfo parse_ini_file(const std::wstring &rsXMLFile, bool &rbSucceded)
+CXMLFileInfo parse_ini_file(const CMStringW &rsXMLFile, bool &rbSucceded)
 {
 	CXMLFileInfo res;
 	CCurrencyRateSection::TSections aSections;
@@ -118,7 +113,7 @@ CXMLFileInfo parse_ini_file(const std::wstring &rsXMLFile, bool &rbSucceded)
 CXMLFileInfo init_xml_info(LPCTSTR pszFileName, bool& rbSucceded)
 {
 	rbSucceded = false;
-	std::wstring sIniFile = get_ini_file_name(pszFileName);
+	CMStringW sIniFile = CreateFilePath(pszFileName);
 	return parse_ini_file(sIniFile, rbSucceded);
 }
 
@@ -156,7 +151,7 @@ const CCurrencyRateSection& CCurrencyRatesProviderBase::GetCurrencyRates() const
 	return m_pXMLInfo->m_qs;
 }
 
-const std::wstring& CCurrencyRatesProviderBase::GetURL() const
+const CMStringW& CCurrencyRatesProviderBase::GetURL() const
 {
 	return m_pXMLInfo->m_sURL;
 }
@@ -224,15 +219,15 @@ public:
 public:
 	CTendency() : m_nComparison(NonValid) {}
 
-	bool Parse(CCurrencyRatesProviderBase *pProvider, const std::wstring& rsFrmt, MCONTACT hContact)
+	bool Parse(CCurrencyRatesProviderBase *pProvider, const CMStringW &rsFrmt, MCONTACT hContact)
 	{
 		m_abValueFlags[0] = false;
 		m_abValueFlags[1] = false;
 		m_nComparison = NonValid;
 		bool bValid = true;
 		int nCurValue = 0;
-		for (std::wstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end() && bValid && nCurValue < NumValues;) {
-			wchar_t chr = *i;
+		for (int i = 0; i < rsFrmt.GetLength() && bValid && nCurValue < NumValues;) {
+			wchar_t chr = rsFrmt[i];
 			switch (chr) {
 			default:
 				if (false == std::isspace(chr))
@@ -243,8 +238,8 @@ public:
 
 			case '%':
 				++i;
-				if (i != rsFrmt.end()) {
-					wchar_t t = *i;
+				if (i != rsFrmt.GetLength()) {
+					wchar_t t = rsFrmt[i];
 					++i;
 
 					double d;
@@ -333,12 +328,12 @@ private:
 	EComparison m_nComparison;
 };
 
-std::wstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const std::wstring &rsFrmt)
+CMStringW format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const CMStringW &rsFrmt)
 {
-	std::wstring sResult;
+	CMStringW sResult;
 
-	for (std::wstring::const_iterator i = rsFrmt.begin(); i != rsFrmt.end();) {
-		wchar_t chr = *i;
+	for (int i = 0; i < rsFrmt.GetLength(); ) {
+		wchar_t chr = rsFrmt[i];
 		switch (chr) {
 		default:
 			sResult += chr;
@@ -347,8 +342,8 @@ std::wstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hCont
 
 		case '\\':
 			++i;
-			if (i != rsFrmt.end()) {
-				wchar_t t = *i;
+			if (i != rsFrmt.GetLength()) {
+				wchar_t t = rsFrmt[i];
 				switch (t) {
 				case '%':  sResult += L"%"; break;
 				case 't':  sResult += L"\t"; break;
@@ -363,18 +358,18 @@ std::wstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hCont
 
 		case '%':
 			++i;
-			if (i != rsFrmt.end()) {
-				chr = *i;
+			if (i != rsFrmt.GetLength()) {
+				chr = rsFrmt[i];
 
 				byte nWidth = 0;
 				if (::isdigit(chr)) {
 					nWidth = chr - 0x30;
 					++i;
-					if (i == rsFrmt.end()) {
+					if (i == rsFrmt.GetLength()) {
 						sResult += chr;
 						break;
 					}
-					else chr = *i;
+					else chr = rsFrmt[i];
 				}
 
 				sResult += pProvider->FormatSymbol(hContact, chr, nWidth);
@@ -388,27 +383,21 @@ std::wstring format_rate(const ICurrencyRatesProvider *pProvider, MCONTACT hCont
 	return sResult;
 }
 
-void log_to_file(const ICurrencyRatesProvider *pProvider,
-	MCONTACT hContact,
-	const std::wstring& rsLogFileName,
-	const std::wstring& rsFormat)
+void log_to_file(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const CMStringW &rsLogFileName, const CMStringW &rsFormat)
 {
-	CreatePathToFileW(rsLogFileName.c_str());
+	CreatePathToFileW(rsLogFileName);
 
-	std::wofstream file(rsLogFileName.c_str(), std::ios::app | std::ios::out);
+	std::wofstream file(rsLogFileName, std::ios::app | std::ios::out);
 	file.imbue(GetSystemLocale());
 	if (file.good()) {
-		std::wstring s = format_rate(pProvider, hContact, rsFormat);
+		CMStringW s = format_rate(pProvider, hContact, rsFormat);
 		file << s;
 	}
 }
 
-void log_to_history(const ICurrencyRatesProvider *pProvider,
-	MCONTACT hContact,
-	time_t nTime,
-	const std::wstring& rsFormat)
+void log_to_history(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, time_t nTime, const CMStringW &rsFormat)
 {
-	std::wstring s = format_rate(pProvider, hContact, rsFormat);
+	CMStringW s = format_rate(pProvider, hContact, rsFormat);
 	T2Utf psz(s.c_str());
 
 	DBEVENTINFO dbei = {};
@@ -437,11 +426,7 @@ bool do_set_contact_extra_icon(MCONTACT hContact, const CTendency& tendency)
 	return false;
 }
 
-bool show_popup(const ICurrencyRatesProvider *pProvider,
-	MCONTACT hContact,
-	const CTendency& tendency,
-	const std::wstring& rsFormat,
-	const CPopupSettings& ps)
+bool show_popup(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, const CTendency &tendency, const CMStringW &rsFormat, const CPopupSettings &ps)
 {
 	POPUPDATAW ppd;
 	memset(&ppd, 0, sizeof(ppd));
@@ -460,8 +445,7 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	mir_wstrncpy(ppd.lpwzContactName, pProvider->FormatSymbol(hContact, 's').c_str(), MAX_CONTACTNAME);
 	{
 		ptrW ss(variables_parsedup((wchar_t*)rsFormat.c_str(), nullptr, hContact));
-		std::wstring sText = format_rate(pProvider, hContact, std::wstring(ss));
-		mir_wstrncpy(ppd.lpwzText, sText.c_str(), MAX_SECONDLINE);
+		mir_wstrncpy(ppd.lpwzText, format_rate(pProvider, hContact, ss.get()), MAX_SECONDLINE);
 	}
 
 	if (CPopupSettings::colourDefault == ps.GetColourMode()) {
@@ -494,11 +478,11 @@ bool show_popup(const ICurrencyRatesProvider *pProvider,
 	return (0 == PUAddPopupW(&ppd, lp));
 }
 
-void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const std::wstring& rsSymbol/* = ""*/)
+void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRate, const CMStringW &rsSymbol/* = ""*/)
 {
 	time_t nTime = ::time(0);
 
-	if (false == rsSymbol.empty())
+	if (false == rsSymbol.IsEmpty())
 		g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsSymbol.c_str());
 
 	double dPrev = 0.0;
@@ -509,30 +493,28 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	CurrencyRates_DBWriteDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate);
 	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_FETCH_TIME, nTime);
 
-	std::wstring sSymbol = rsSymbol;
+	CMStringW sSymbol = rsSymbol;
 
-	std::wostringstream oNick;
-	oNick.imbue(GetSystemLocale());
-	if (false == m_sContactListFormat.empty()) {
-		std::wstring s = format_rate(this, hContact, m_sContactListFormat);
-		oNick << s;
+	CMStringW wszNick;
+	if (false == m_sContactListFormat.IsEmpty()) {
+		wszNick = format_rate(this, hContact, m_sContactListFormat);
 	}
 	else {
-		if (true == sSymbol.empty())
-			sSymbol = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
+		if (sSymbol.IsEmpty())
+			sSymbol = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
 
-		oNick << std::setfill(L' ') << std::setw(10) << std::left << sSymbol << std::setw(6) << std::right << dRate;
+		wszNick.Format(L"%-10s %.6lf", sSymbol.c_str(), dRate);
 	}
-	CTendency tendency;
 
+	CTendency tendency;
 	if (true == tendency.Parse(this, m_sTendencyFormat, hContact))
 		do_set_contact_extra_icon(hContact, tendency);
 
-	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, oNick.str().c_str());
+	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, wszNick);
 
-	std::wstring sStatusMsg = format_rate(this, hContact, m_sStatusMsgFormat);
-	if (false == sStatusMsg.empty())
-		db_set_ws(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME, sStatusMsg.c_str());
+	CMStringW sStatusMsg = format_rate(this, hContact, m_sStatusMsgFormat);
+	if (!sStatusMsg.IsEmpty())
+		db_set_ws(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME, sStatusMsg);
 	else
 		db_unset(hContact, LIST_MODULE_NAME, STATUS_MSG_NAME);
 
@@ -552,19 +534,19 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
-			std::wstring sLogFileName = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
+			CMStringW sLogFileName = (bUseContactSpecific)
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_LOG_FILE, global_settings.GetLogFileName().c_str())
 				: global_settings.GetLogFileName();
 
-			if (true == sSymbol.empty()) {
-				sSymbol = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
+			if (true == sSymbol.IsEmpty()) {
+				sSymbol = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
 			}
 
 			sLogFileName = GenerateLogFileName(sLogFileName, sSymbol);
 
-			std::wstring sFormat = global_settings.GetLogFormat();
+			CMStringW sFormat = global_settings.GetLogFormat();
 			if (bUseContactSpecific)
-				sFormat = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
+				sFormat = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, DB_DEF_LogFormat);
 
 			log_to_file(this, hContact, sLogFileName, sFormat);
 		}
@@ -579,8 +561,8 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 			bAdd = ((false == bValidPrev) || (false == IsWithinAccuracy(dRate, dPrev)));
 		}
 		if (true == bAdd) {
-			std::wstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
+			CMStringW sFormat = (bUseContactSpecific)
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_HISTORY, global_settings.GetHistoryFormat().c_str())
 				: global_settings.GetHistoryFormat();
 
 			log_to_history(this, hContact, nTime, sFormat);
@@ -591,10 +573,9 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 		bool bOnlyIfChanged = (bUseContactSpecific)
 			? (1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, 1) > 0)
 			: global_settings.GetShowPopupIfValueChangedFlag();
-		if ((false == bOnlyIfChanged)
-			|| ((true == bOnlyIfChanged) && (true == bValidPrev) && (false == IsWithinAccuracy(dRate, dPrev)))) {
-			std::wstring sFormat = (bUseContactSpecific)
-				? CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
+		if (!bOnlyIfChanged || (bOnlyIfChanged && bValidPrev && !IsWithinAccuracy(dRate, dPrev))) {
+			CMStringW sFormat = (bUseContactSpecific)
+				? g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_POPUP, global_settings.GetPopupFormat().c_str())
 				: global_settings.GetPopupFormat();
 
 			CPopupSettings ps = *(global_settings.GetPopupSettingsPtr());
@@ -606,15 +587,14 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 	SetContactStatus(hContact, ID_STATUS_ONLINE);
 }
 
-MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const std::wstring& rsName)
+MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const CMStringW &rsName)
 {
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, MODULENAME);
 
-	std::wstring sProvName = GetInfo().m_sName;
-	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_PROVIDER, sProvName.c_str());
-	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsName.c_str());
-	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName.c_str());
+	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_PROVIDER, GetInfo().m_sName);
+	g_plugin.setWString(hContact, DB_STR_CURRENCYRATE_SYMBOL, rsName);
+	db_set_ws(hContact, LIST_MODULE_NAME, CONTACT_LIST_NAME, rsName);
 
 	mir_cslock lck(m_cs);
 	m_aContacts.push_back(hContact);
@@ -669,9 +649,9 @@ private:
 void CCurrencyRatesProviderBase::Run()
 {
 	DWORD nTimeout = get_refresh_timeout_miliseconds();
-	m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-	m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-	m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+	m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+	m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+	m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 
 	enum
 	{
@@ -721,9 +701,9 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + SETTINGS_CHANGED:
 			nTimeout = get_refresh_timeout_miliseconds();
-			m_sContactListFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
-			m_sStatusMsgFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
-			m_sTendencyFormat = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
+			m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
+			m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
+			m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
 			{
 				mir_cslock lck(m_cs);
 				anContacts = m_aContacts;
@@ -808,18 +788,19 @@ void CCurrencyRatesProviderBase::RefreshContact(MCONTACT hContact)
 
 void CCurrencyRatesProviderBase::FillFormat(TFormatSpecificators &array) const
 {
-	array.push_back(CFormatSpecificator(L"%S", TranslateT("Source of Information")));
-	array.push_back(CFormatSpecificator(L"%r", TranslateT("Rate Value")));
-	array.push_back(CFormatSpecificator(L"%p", TranslateT("Previous Rate Value")));
-	array.push_back(CFormatSpecificator(L"%X", TranslateT("Fetch Time")));
-	array.push_back(CFormatSpecificator(L"%x", TranslateT("Fetch Date")));
-	array.push_back(CFormatSpecificator(L"%t", TranslateT("Fetch Time and Date")));
-	array.push_back(CFormatSpecificator(L"\\%", TranslateT("Percentage Character (%)")));
-	array.push_back(CFormatSpecificator(L"\\t", TranslateT("Tabulation")));
-	array.push_back(CFormatSpecificator(L"\\\\", TranslateT("Left slash (\\)")));
+	array.push_back(CFormatSpecificator(L"%S", LPGENW("Source of information")));
+	array.push_back(CFormatSpecificator(L"%r", LPGENW("Rate value")));
+	array.push_back(CFormatSpecificator(L"%d", LPGENW("Rate delta")));
+	array.push_back(CFormatSpecificator(L"%p", LPGENW("Previous rate value")));
+	array.push_back(CFormatSpecificator(L"%X", LPGENW("Fetch time")));
+	array.push_back(CFormatSpecificator(L"%x", LPGENW("Fetch date")));
+	array.push_back(CFormatSpecificator(L"%t", LPGENW("Fetch time and date")));
+	array.push_back(CFormatSpecificator(L"\\%", LPGENW("Percent character (%)")));
+	array.push_back(CFormatSpecificator(L"\\t", LPGENW("Tabulation")));
+	array.push_back(CFormatSpecificator(L"\\\\", LPGENW("Left slash (\\)")));
 }
 
-bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, double &d)
+bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, double &d) const
 {
 	switch (c) {
 	case 'r':
@@ -829,6 +810,14 @@ bool CCurrencyRatesProviderBase::ParseSymbol(MCONTACT hContact, wchar_t c, doubl
 	case 'p':
 	case 'P':
 		return CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, d);
+
+	case 'd':
+	case 'D':
+		double v1, v2;
+		if (CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, v1) && CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, v2)) {
+			d = v1 - v2;
+			return true;
+		}
 	}
 
 	return false;
@@ -846,32 +835,29 @@ static bool get_fetch_time(MCONTACT hContact, time_t &rTime)
 	return true;
 }
 
-static std::wstring format_fetch_time(MCONTACT hContact, const std::wstring &rsFormat)
+static CMStringW format_fetch_time(MCONTACT hContact, const wchar_t *rsFormat)
 {
 	time_t nTime;
 	if (true == get_fetch_time(hContact, nTime)) {
-		boost::posix_time::ptime time = boost::date_time::c_local_adjustor<boost::posix_time::ptime>::utc_to_local(boost::posix_time::from_time_t(nTime));
-		std::wostringstream k;
-		k.imbue(std::locale(GetSystemLocale(), new ttime_facet(rsFormat.c_str())));
-		k << time;
-		return k.str();
+		wchar_t buf[200];
+		wcsftime(buf, _countof(buf), rsFormat, localtime(&nTime));
+		return buf;
 	}
 
-	return std::wstring();
+	return CMStringW();
 }
 
-static std::wstring format_double(double dValue, int nWidth)
+static CMStringW format_double(double dValue, int nWidth)
 {
-	wchar_t str[100], format[] = L"%.6lf";
+	wchar_t format[] = L"%.6lf";
 	if (nWidth > 0 && nWidth <= 9)
 		format[2] = '0' + nWidth;
-	swprintf_s(str, format, dValue);
-	return str;
+	return CMStringW(FORMAT, format, dValue);
 }
 
-std::wstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
+CMStringW CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const
 {
-	std::wstring ret;
+	CMStringW ret;
 	double d = 0.0;
 
 	switch (c) {
@@ -881,10 +867,10 @@ std::wstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t
 		ret = c;
 		break;
 	case 'S':
-		ret = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_PROVIDER);
+		ret = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_PROVIDER);
 		break;
 	case 's':
-		ret = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
+		ret = g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_SYMBOL);
 		break;
 	case 'X':
 		ret = format_fetch_time(hContact, CurrencyRates_GetTimeFormat(true));
@@ -894,23 +880,15 @@ std::wstring CCurrencyRatesProviderBase::FormatSymbol(MCONTACT hContact, wchar_t
 		break;
 	case 't':
 		{
-			std::wstring sFrmt = CurrencyRates_GetDateFormat(true);
+			CMStringW sFrmt = CurrencyRates_GetDateFormat(true);
 			sFrmt += L" ";
 			sFrmt += CurrencyRates_GetTimeFormat(true);
 			ret = format_fetch_time(hContact, sFrmt);
 		}
 		break;
-	case 'r':
-	case 'R':
-		if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, d))
-			ret = format_double(d, nWidth);
-		else
-			ret = L"-";
-		break;
-
-	case 'p':
-	case 'P':
-		if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, d))
+	
+	default:
+		if (ParseSymbol(hContact, c, d))
 			ret = format_double(d, nWidth);
 		else
 			ret = L"-";

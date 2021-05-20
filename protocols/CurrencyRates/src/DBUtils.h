@@ -41,11 +41,9 @@
 #define DB_KEY_TendencyFormat      "CC_TendencyFormat"
 #define DB_DEF_TendencyFormat      L"%r>%p"
 
-void FixInvalidChars(std::wstring &s);
+void FixInvalidChars(CMStringW &s);
 
-std::wstring GetNodeText(const TiXmlElement*);
-
-std::wstring CurrencyRates_DBGetStringW(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t* pszDefValue = nullptr);
+CMStringW GetNodeText(const TiXmlElement*);
 
 bool CurrencyRates_DBWriteDouble(MCONTACT hContact, const char *szModule, const char *szSetting, double dValue);
 bool CurrencyRates_DBReadDouble(MCONTACT hContact, const char *szModule, const char *szSetting, double& rdValue);

@@ -50,7 +50,7 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 			HWND hwndCombo = ::GetDlgItem(hWnd, IDC_COMBO_REFRESH_RATE);
 			LPCTSTR pszRefreshRateTypes[] = { TranslateT("Seconds"), TranslateT("Minutes"), TranslateT("Hours") };
 			for (int i = 0; i < _countof(pszRefreshRateTypes); ++i)
-				::SendMessage(hwndCombo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszRefreshRateTypes[i]));
+				::SendMessage(hwndCombo, CB_ADDSTRING, 0, LPARAM(pszRefreshRateTypes[i]));
 
 			int nRefreshRateType = g_plugin.getWord(DB_KEY_RefreshRateType, RRT_MINUTES);
 			if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
@@ -166,8 +166,8 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 						HWND hEdit = ::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT);
 						assert(IsWindow(hEdit));
 
-						std::wstring s = get_window_text(hEdit);
-						if (true == s.empty()) {
+						CMStringW s = get_window_text(hEdit);
+						if (s.IsEmpty()) {
 							prepare_edit_ctrl_for_error(hEdit);
 							CurrencyRates_MessageBox(hWnd, TranslateT("Enter text to display in contact list."), MB_OK | MB_ICONERROR);
 							bOk = FALSE;
@@ -190,17 +190,10 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 				g_plugin.setWord(DB_KEY_RefreshRateType, nType);
 				g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
 
-				std::wstring s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT));
-				g_plugin.setWString(DB_KEY_DisplayNameFormat, s.c_str());
-
-				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT));
-				g_plugin.setWString(DB_KEY_StatusMsgFormat, s.c_str());
-
-				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_TENDENCY_FORMAT));
-				g_plugin.setWString(DB_KEY_TendencyFormat, s.c_str());
-
-				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_PERSONAL_KEY));
-				g_plugin.setWString(DB_KEY_ApiKey, s.c_str());
+				g_plugin.setWString(DB_KEY_DisplayNameFormat, get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT)));
+				g_plugin.setWString(DB_KEY_StatusMsgFormat, get_window_text(::GetDlgItem(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT)));
+				g_plugin.setWString(DB_KEY_TendencyFormat, get_window_text(::GetDlgItem(hWnd, IDC_EDIT_TENDENCY_FORMAT)));
+				g_plugin.setWString(DB_KEY_ApiKey, get_window_text(::GetDlgItem(hWnd, IDC_EDIT_PERSONAL_KEY)));
 
 				CAdvProviderSettings* pAdvSet = get_adv_settings(rData.m_pCurrencyRatesProvider, false);
 				if (pAdvSet)

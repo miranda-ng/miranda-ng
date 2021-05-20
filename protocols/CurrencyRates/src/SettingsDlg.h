@@ -56,47 +56,49 @@ private:
 
 class CAdvProviderSettings
 {
+	const ICurrencyRatesProvider *m_pCurrencyRatesProvider;
+	WORD m_wLogMode;
+	bool m_bIsOnlyChangedHistory;
+	bool m_bIsOnlyChangedLogFile;
+	bool m_bShowPopupIfValueChanged;
+	CMStringW m_sFormatHistory;
+	CMStringW m_sLogFileName;
+	CMStringW m_sFormatLogFile;
+	CMStringW m_sPopupFormat;
+	mutable CPopupSettings* m_pPopupSettings;
+
 public:
 	CAdvProviderSettings(const ICurrencyRatesProvider *pCurrencyRatesProvider);
 	~CAdvProviderSettings();
 
 	void SaveToDb() const;
 
+	__forceinline WORD GetLogMode() const { return m_wLogMode; }
+	__forceinline void SetLogMode(WORD wMode) { m_wLogMode = wMode; }
+
+	__forceinline const CMStringW& GetHistoryFormat() const { return m_sFormatHistory; }
+	__forceinline void SetHistoryFormat(const CMStringW &rsFormat) { m_sFormatHistory = rsFormat; }
+
+	__forceinline bool GetHistoryOnlyChangedFlag() const { return m_bIsOnlyChangedHistory; }
+	__forceinline void SetHistoryOnlyChangedFlag(bool bMode) { m_bIsOnlyChangedHistory = bMode; }
+
+	__forceinline const CMStringW& GetLogFileName() const { return m_sLogFileName; }
+	__forceinline void SetLogFileName(const CMStringW &rsFile) { m_sLogFileName = rsFile; }
+
+	__forceinline const CMStringW& GetLogFormat() const { return m_sFormatLogFile; }
+	__forceinline void SetLogFormat(const CMStringW &rsFormat) { m_sFormatLogFile = rsFormat; }
+
+	__forceinline bool GetLogOnlyChangedFlag() const { return m_bIsOnlyChangedLogFile; }
+	__forceinline void SetLogOnlyChangedFlag(bool bMode) { m_bIsOnlyChangedLogFile = bMode; }
+
+	__forceinline const CMStringW& GetPopupFormat() const { return m_sPopupFormat; }
+	__forceinline void SetPopupFormat(const CMStringW &val) { m_sPopupFormat = val; }
+
+	__forceinline bool GetShowPopupIfValueChangedFlag() const { return m_bShowPopupIfValueChanged; }
+	__forceinline void SetShowPopupIfValueChangedFlag(bool val) { m_bShowPopupIfValueChanged = val; }
+
 	const ICurrencyRatesProvider* GetProviderPtr() const;
-
-	WORD GetLogMode() const;
-	void SetLogMode(WORD wMode);
-	std::wstring GetHistoryFormat() const;
-	void SetHistoryFormat(const std::wstring& rsFormat);
-	bool GetHistoryOnlyChangedFlag() const;
-	void SetHistoryOnlyChangedFlag(bool bMode);
-
-	std::wstring GetLogFileName() const;
-	void SetLogFileName(const std::wstring& rsFile);
-	std::wstring GetLogFormat() const;
-	void SetLogFormat(const std::wstring& rsFormat);
-	bool GetLogOnlyChangedFlag() const;
-	void SetLogOnlyChangedFlag(bool bMode);
-
-	const std::wstring& GetPopupFormat() const;
-	void SetPopupFormat(const std::wstring& val);
-
-	bool GetShowPopupIfValueChangedFlag() const;
-	void SetShowPopupIfValueChangedFlag(bool val);
-
 	CPopupSettings* GetPopupSettingsPtr() const;
-
-private:
-	const ICurrencyRatesProvider *m_pCurrencyRatesProvider;
-	WORD m_wLogMode;
-	std::wstring m_sFormatHistory;
-	bool m_bIsOnlyChangedHistory;
-	std::wstring m_sLogFileName;
-	std::wstring m_sFormatLogFile;
-	bool m_bIsOnlyChangedLogFile;
-	std::wstring m_sPopupFormat;
-	bool m_bShowPopupIfValueChanged;
-	mutable CPopupSettings* m_pPopupSettings;
 };
 
 void ShowSettingsDlg(MCONTACT hContact);
@@ -108,9 +110,10 @@ enum
 	glfnResolveUserProfile = 0x0002,
 	glfnResolveAll = glfnResolveCurrencyRateName | glfnResolveUserProfile,
 };
-std::wstring GenerateLogFileName(const std::wstring& rsLogFilePattern, const std::wstring& rsCurrencyRateSymbol, int nFlags = glfnResolveAll);
-std::wstring GetContactLogFileName(MCONTACT hContact);
-std::wstring GetContactName(MCONTACT hContact);
+
+CMStringW GenerateLogFileName(const CMStringW &rsLogFilePattern, const CMStringW &rsCurrencyRateSymbol, int nFlags = glfnResolveAll);
+CMStringW GetContactLogFileName(MCONTACT hContact);
+CMStringW GetContactName(MCONTACT hContact);
 
 #endif //__E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 

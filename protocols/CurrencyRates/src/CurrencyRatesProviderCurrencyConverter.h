@@ -20,7 +20,7 @@ public:
 	size_t GetWatchedRateCount() const;
 	bool GetWatchedRateInfo(size_t nIndex, TRateInfo &rRateInfo);
 	bool WatchForRate(const TRateInfo &ri, bool bWatch);
-	MCONTACT GetContactByID(const std::wstring &rsFromID, const std::wstring &rsToID) const;
+	MCONTACT GetContactByID(const CMStringW &rsFromID, const CMStringW &rsToID) const;
 
 private:
 	void FillFormat(TFormatSpecificators &) const override;
@@ -28,5 +28,5 @@ private:
 	void ShowPropertyPage(WPARAM wp, OPTIONSDIALOGPAGE &odp) override;
 
 	MCONTACT ImportContact(const TiXmlNode*) override;
-	std::wstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const override;
+	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth) const override;
 };

@@ -38,16 +38,10 @@
     <ClCompile Include="src\HTTPSession.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\IconLib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ImportExport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Locale.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ModuleInfo.cpp">
@@ -68,9 +62,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CommonOptionDlg.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\CreateFilePath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\CurrencyConverter.h">
@@ -110,9 +101,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Locale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Log.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ModuleInfo.h">

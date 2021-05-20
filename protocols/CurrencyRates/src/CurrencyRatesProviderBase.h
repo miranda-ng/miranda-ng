@@ -6,18 +6,16 @@
 
 class CCurrencyRate
 {
+	CMStringW m_sSymbol, m_sName, m_sID;
+
 public:
-	CCurrencyRate(const std::wstring& rsID = L"", const std::wstring& rsSymbol = L"", const std::wstring& rsName = L"")
-		: m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID){}
+	CCurrencyRate(const CMStringW &rsID = L"", const CMStringW &rsSymbol = L"", const CMStringW &rsName = L"") :
+		m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID)
+	{}
 
-	const std::wstring& GetSymbol() const{ return m_sSymbol; }
-	const std::wstring& GetName() const{ return m_sName; }
-	const std::wstring& GetID() const{ return m_sID; }
-
-private:
-	std::wstring m_sSymbol;
-	std::wstring m_sName;
-	std::wstring m_sID;
+	const CMStringW& GetSymbol() const{ return m_sSymbol; }
+	const CMStringW& GetName() const{ return m_sName; }
+	const CMStringW& GetID() const{ return m_sID; }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -29,11 +27,17 @@ public:
 	typedef std::vector<CCurrencyRateSection> TSections;
 	typedef std::vector<CCurrencyRate> TCurrencyRates;
 
-public:
-	CCurrencyRateSection(const std::wstring& rsName = L"", const TSections& raSections = TSections(), const TCurrencyRates& raCurrencyRates = TCurrencyRates())
-		: m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates){}
+private:
+	CMStringW m_sName;
+	TSections m_aSections;
+	TCurrencyRates m_aCurrencyRates;
 
-	const std::wstring& GetName() const
+public:
+	CCurrencyRateSection(const CMStringW &rsName = L"", const TSections &raSections = TSections(), const TCurrencyRates &raCurrencyRates = TCurrencyRates()) :
+		m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates)
+	{}
+
+	const CMStringW& GetName() const
 	{
 		return m_sName;
 	}
@@ -57,11 +61,6 @@ public:
 	{
 		return ((nIndex < m_aCurrencyRates.size()) ? m_aCurrencyRates[nIndex] : CCurrencyRate());
 	}
-
-private:
-	std::wstring m_sName;
-	TSections m_aSections;
-	TCurrencyRates m_aCurrencyRates;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -77,9 +76,9 @@ class CCurrencyRatesProviderBase : public ICurrencyRatesProvider
 
 	HANDLE m_hEventSettingsChanged;
 	HANDLE m_hEventRefreshContact;
-	std::wstring m_sContactListFormat;
-	std::wstring m_sStatusMsgFormat;
-	std::wstring m_sTendencyFormat;
+	CMStringW m_sContactListFormat;
+	CMStringW m_sStatusMsgFormat;
+	CMStringW m_sTendencyFormat;
 	TContacts m_aRefreshingContacts;
 	bool m_bRefreshInProgress;
 
@@ -102,15 +101,15 @@ public:
 	void RefreshContact(MCONTACT hContact) override;
 	
 	void FillFormat(TFormatSpecificators&) const override;
-	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) override;
-	std::wstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
+	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) const override;
+	CMStringW FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
 
 protected:
-	const std::wstring& GetURL() const;
-	MCONTACT CreateNewContact(const std::wstring& rsName);
+	const CMStringW& GetURL() const;
+	MCONTACT CreateNewContact(const CMStringW &rsName);
 	static bool IsOnline();
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
-	void WriteContactRate(MCONTACT hContact, double dRate, const std::wstring& rsSymbol = L"");
+	void WriteContactRate(MCONTACT hContact, double dRate, const CMStringW &rsSymbol = L"");
 
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 

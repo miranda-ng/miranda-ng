@@ -13,8 +13,8 @@ public:
 
 	static bool Init();
 
-	bool OpenURL(const std::wstring &rsURL);
-	bool ReadResponce(std::wstring &rsResponce);
+	bool OpenURL(const CMStringW &rsURL);
+	bool ReadResponce(CMStringW &rsResponce);
 };
 
 #endif //__8C9706FF_6B05_4d0d_85B8_5724E5DC0BA4_HTTPSession_h__

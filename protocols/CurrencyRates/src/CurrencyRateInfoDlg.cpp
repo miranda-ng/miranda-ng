@@ -36,8 +36,7 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 
 		TranslateDialogDefault(hdlg);
 		{
-			std::wstring sDescription = GetContactName(hContact);
-			::SetDlgItemTextW(hdlg, IDC_STATIC_CURRENCYRATE_NAME, sDescription.c_str());
+			::SetDlgItemTextW(hdlg, IDC_STATIC_CURRENCYRATE_NAME, GetContactName(hContact));
 
 			double dRate = 0.0;
 			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
@@ -62,10 +61,8 @@ INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT 
 			}
 
 			const ICurrencyRatesProvider::CProviderInfo& pi = GetContactProviderPtr(hContact)->GetInfo();
-			std::wostringstream o;
-			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
-
-			::SetDlgItemTextW(hdlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
+			CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
+			::SetDlgItemTextW(hdlg, IDC_SYSLINK_PROVIDER, provInfo);
 		}
 		return TRUE;
 
@@ -119,10 +116,10 @@ INT_PTR CurrencyRatesMenu_EditSettings(WPARAM wp, LPARAM)
 
 namespace
 {
-	bool get_log_file(MCONTACT hContact, std::wstring& rsLogfile)
+	bool get_log_file(MCONTACT hContact, CMStringW &rsLogfile)
 	{
 		rsLogfile = GetContactLogFileName(hContact);
-		return ((rsLogfile.empty()) ? false : true);
+		return !rsLogfile.IsEmpty();
 	}
 }
 
@@ -132,8 +129,8 @@ INT_PTR CurrencyRatesMenu_OpenLogFile(WPARAM wp, LPARAM)
 	if (NULL == hContact)
 		return 0;
 
-	std::wstring sLogFileName;
-	if ((true == get_log_file(hContact, sLogFileName)) && (false == sLogFileName.empty()))
+	CMStringW sLogFileName;
+	if ((true == get_log_file(hContact, sLogFileName)) && (false == sLogFileName.IsEmpty()))
 		::ShellExecute(nullptr, L"open", sLogFileName.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 
 	return 0;
@@ -239,10 +236,8 @@ int CurrencyRates_PrebuildContactMenu(WPARAM wp, LPARAM)
 
 	Menu_EnableItem(g_hMenuRefresh, true);
 
-	std::wstring sLogFileName;
-	bool bThereIsLogFile = (true == get_log_file(hContact, sLogFileName))
-		&& (false == sLogFileName.empty()) && (0 == _waccess(sLogFileName.c_str(), 04));
-	if (true == bThereIsLogFile) {
+	CMStringW sLogFileName;
+	if (get_log_file(hContact, sLogFileName) && !sLogFileName.IsEmpty() && !_waccess(sLogFileName, 04)) {
 		#ifdef CHART_IMPLEMENT
 		Menu_EnableItem(g_hMenuChart, true);
 		#endif
