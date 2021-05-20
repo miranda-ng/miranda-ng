@@ -2384,7 +2384,7 @@ int CIrcProto::DoPerform(const char* event)
 	if (pwszPerform == nullptr)
 		return 0;
 
-	if (my_strstri(pwszPerform, L"/away")) {
+	if (mir_wstrstri(pwszPerform, L"/away")) {
 		mir_free(pwszPerform);
 		mir_forkthread(AwayWarningThread);
 	}

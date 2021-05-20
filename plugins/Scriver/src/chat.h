@@ -73,9 +73,6 @@ void FreeMsgLogBitmaps(void);
 SESSION_INFO* SM_FindSessionAutoComplete(const char *pszModule, SESSION_INFO *currSession, SESSION_INFO *prevSession, const wchar_t *pszOriginal, const wchar_t *pszCurrent);
 char          SM_GetStatusIndicator(SESSION_INFO *si, USERINFO *ui);
 
-// tools.c
-const wchar_t* my_strstri(const wchar_t *s1, const wchar_t *s2);
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define DEFLOGFILENAME L"%miranda_logpath%\\%proto%\\%userid%.log"

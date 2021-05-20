@@ -220,17 +220,6 @@ bool CIrcProto::IsChannel(const char* sName)
 	return (sChannelPrefixes.Find(sName[0]) != -1);
 }
 
-wchar_t* __stdcall my_strstri(const wchar_t* s1, const wchar_t* s2)
-{
-	int i, j, k;
-	for (i = 0; s1[i]; i++)
-	for (j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
-	if (!s2[k + 1])
-		return (wchar_t*)(s1 + i);
-
-	return nullptr;
-}
-
 static int mapIrc2srmm[] = { 15, 0, 1, 4, 14, 6, 3, 5, 13, 12, 2, 10, 9, 11, 7, 8 };
 
 static const wchar_t* DoEnterNumber(const wchar_t *text, int &res)

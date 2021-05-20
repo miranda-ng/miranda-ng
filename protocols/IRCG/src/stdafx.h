@@ -212,7 +212,6 @@ char*          __stdcall IrcLoadFile(wchar_t * szPath);
 CMStringW      __stdcall GetWord(const wchar_t* text, int index);
 const wchar_t* __stdcall GetWordAddress(const wchar_t* text, int index);
 void           __stdcall RemoveLinebreaks(CMStringW& Message);
-wchar_t*       __stdcall my_strstri(const wchar_t *s1, const wchar_t *s2);
 wchar_t*       __stdcall DoColorCodes(const wchar_t* text, bool bStrip, bool bReplacePercent);
 
 CMStringA      __stdcall GetWord(const char* text, int index);

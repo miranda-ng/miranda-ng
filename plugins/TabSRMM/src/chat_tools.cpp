@@ -147,10 +147,8 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 	if (nen_options.iMUCDisable)                          // no popups at all. Period
 		return 0;
-	/*
-	* check the status mode against the status mask
-	*/
 
+	// check the status mode against the status mask
 	char *szProto = dat ? dat->m_szProto : si->pszModule;
 	if (nen_options.dwStatusMask != -1) {
 		if (szProto != nullptr) {
@@ -362,22 +360,10 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 	return true;
 }
 
-wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
-{
-	int i, j, k;
+/////////////////////////////////////////////////////////////////////////////////////////
+// set all filters and notification config for a session
+// uses per channel mask + filterbits, default config as backup
 
-	for (i = 0; s1[i]; i++)
-		for (j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
-			if (!s2[k + 1])
-				return (wchar_t*)(s1 + i);
-
-	return nullptr;
-}
-
-/*
- * set all filters and notification config for a session
- * uses per channel mask + filterbits, default config as backup
- */
 void Chat_SetFilters(SESSION_INFO *si)
 {
 	DWORD dwFlags_default = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);

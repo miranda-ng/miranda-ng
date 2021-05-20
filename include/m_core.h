@@ -301,6 +301,8 @@ MIR_CORE_DLL(wchar_t*) mir_wstrdup(const wchar_t* str);
 MIR_CORE_DLL(char*)    mir_strndup(const char* str, size_t len);
 MIR_CORE_DLL(wchar_t*) mir_wstrndup(const wchar_t *str, size_t len);
 
+MIR_CORE_DLL(const wchar_t*) mir_wstrstri(const wchar_t *s1, const wchar_t *s2);
+
 ///////////////////////////////////////////////////////////////////////////////
 // print functions
 

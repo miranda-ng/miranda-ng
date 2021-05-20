@@ -29,7 +29,6 @@
     <ClCompile Include="src\chat_main.cpp" />
     <ClCompile Include="src\chat_manager.cpp" />
     <ClCompile Include="src\chat_options.cpp" />
-    <ClCompile Include="src\chat_tools.cpp" />
     <ClCompile Include="src\cmdlist.cpp" />
     <ClCompile Include="src\globals.cpp" />
     <ClCompile Include="src\infobar.cpp" />

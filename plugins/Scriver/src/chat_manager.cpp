@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 SESSION_INFO* SM_FindSessionAutoComplete(const char *pszModule, SESSION_INFO *currSession, SESSION_INFO *prevSession, const wchar_t *pszOriginal, const wchar_t *pszCurrent)
 {
 	SESSION_INFO *pResult = nullptr;
-	if (prevSession == nullptr && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
+	if (prevSession == nullptr && mir_wstrstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		pResult = currSession;
 	else {
 		wchar_t *pszName = nullptr;
@@ -33,7 +33,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char *pszModule, SESSION_INFO *cu
 
 		for (auto &si : g_chatApi.arSessions) {
 			if (si != currSession && !mir_strcmpi(pszModule, si->pszModule)) {
-				if (my_strstri(si->ptszName, pszOriginal) == si->ptszName) {
+				if (mir_wstrstri(si->ptszName, pszOriginal) == si->ptszName) {
 					if (prevSession != si && mir_wstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(si->ptszName, pszName) < 0)) {
 						pResult = si;
 						pszName = si->ptszName;

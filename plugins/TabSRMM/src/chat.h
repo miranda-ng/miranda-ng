@@ -113,7 +113,6 @@ int UM_CompareItem(const USERINFO *u1, const USERINFO *u2);
 
 // tools.c
 BOOL     DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight, int bManyFix);
-wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2);
 bool     IsHighlighted(SESSION_INFO *si, GCEVENT *pszText);
 char     GetIndicator(SESSION_INFO *si, LPCTSTR ptszNick, int *iNickIndex);
 void     Chat_SetFilters(SESSION_INFO *si);

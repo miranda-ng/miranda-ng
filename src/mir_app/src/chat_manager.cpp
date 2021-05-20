@@ -827,7 +827,7 @@ static wchar_t* UM_FindUserAutoComplete(SESSION_INFO *si, const wchar_t* pszOrig
 
 	wchar_t *pszName = nullptr;
 	for (auto &ui : si->getUserList())
-		if (ui->pszNick && my_strstri(ui->pszNick, pszOriginal) == ui->pszNick)
+		if (ui->pszNick && mir_wstrstri(ui->pszNick, pszOriginal) == ui->pszNick)
 			if (mir_wstrcmpi(ui->pszNick, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(ui->pszNick, pszName) < 0))
 				pszName = ui->pszNick;
 

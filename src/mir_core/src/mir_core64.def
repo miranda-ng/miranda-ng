@@ -188,6 +188,7 @@ mir_closeLog                  @259
 LoadLangPackDescr             @262
 PathIsAbsolute                @263
 PathIsAbsoluteW               @264
+mir_wstrstri                  @265
 mir_strlen                    @267
 mir_wstrlen                   @268
 mir_strcpy                    @269

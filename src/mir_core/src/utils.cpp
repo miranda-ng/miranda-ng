@@ -518,6 +518,16 @@ MIR_CORE_DLL(int) mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n)
 	return wcsnicmp(p1, p2, n);
 }
 
+MIR_CORE_DLL(const wchar_t*) mir_wstrstri(const wchar_t *s1, const wchar_t *s2)
+{
+	for (int i = 0; s1[i]; i++)
+		for (int j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
+			if (!s2[k + 1])
+				return s1 + i;
+
+	return nullptr;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PGENRANDOM pfnRtlGenRandom;

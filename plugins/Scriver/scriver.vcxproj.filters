@@ -11,9 +11,6 @@
     <ClCompile Include="src\chat_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat_tools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\cmdlist.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

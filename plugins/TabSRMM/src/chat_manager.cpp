@@ -100,7 +100,7 @@ SESSION_INFO* SM_FindSessionByHCONTACT(MCONTACT h)
 
 SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* currSession, SESSION_INFO* prevSession, const wchar_t* pszOriginal, const wchar_t* pszCurrent)
 {
-	if (prevSession == nullptr && my_strstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
+	if (prevSession == nullptr && mir_wstrstri(currSession->ptszName, pszOriginal) == currSession->ptszName)
 		return currSession;
 
 	wchar_t *pszName = nullptr;
@@ -110,7 +110,7 @@ SESSION_INFO* SM_FindSessionAutoComplete(const char* pszModule, SESSION_INFO* cu
 	SESSION_INFO *pResult = nullptr;
 	for (auto &si : g_chatApi.arSessions)
 		if (si != currSession && !mir_strcmpi(pszModule, si->pszModule))
-			if (my_strstri(si->ptszName, pszOriginal) == si->ptszName)
+			if (mir_wstrstri(si->ptszName, pszOriginal) == si->ptszName)
 				if (prevSession != si && mir_wstrcmpi(si->ptszName, pszCurrent) > 0 && (!pszName || mir_wstrcmpi(si->ptszName, pszName) < 0)) {
 					pResult = si;
 					pszName = si->ptszName;

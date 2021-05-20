@@ -787,7 +787,7 @@ public:
 	{
 		ptrW temp(m_pertormEdit.GetText());
 
-		if (my_strstri(temp, L"/away"))
+		if (mir_wstrstri(temp, L"/away"))
 			MessageBox(nullptr, TranslateT("The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically."), TranslateT("IRC Error"), MB_OK);
 		else {
 			PERFORM_INFO *pPerf = (PERFORM_INFO *)m_performCombo.GetCurData();
