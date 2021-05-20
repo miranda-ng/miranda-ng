@@ -523,7 +523,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int        GetTransportStatusIconIndex(int iID, int Status);
 	bool       DBCheckIsTransportedContact(const char *jid, MCONTACT hContact);
 	void       CheckAllContactsAreTransported(void);
-	INT_PTR    __cdecl JGetAdvancedStatusIcon(WPARAM wParam, LPARAM lParam);
+	
+	INT_PTR    __cdecl OnGetAdvancedStatusIcon(WPARAM wParam, LPARAM lParam);
 
 	//---- jabber_iq.c -------------------------------------------------------------------
 

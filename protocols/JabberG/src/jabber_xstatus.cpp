@@ -459,12 +459,13 @@ int CPepGuiService::OnMenuItemClick(WPARAM, LPARAM)
 
 struct
 {
-	wchar_t	*szName;
-	char* szTag;
+	wchar_t *szName;
+	char *szTag;
+	int clistIconId;
 }
 static g_arrMoods[] =
 {
-	{ LPGENW("None"),         nullptr            },
+	{ LPGENW("None"),         nullptr         },
 	{ LPGENW("Afraid"),       "afraid"        },
 	{ LPGENW("Amazed"),       "amazed"        },
 	{ LPGENW("Amorous"),      "amorous"       },
@@ -708,6 +709,24 @@ void CPepMood::UpdateMenuView()
 
 	if (m_proto->m_pInfoFrame)
 		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
+}
+
+void ClearMoodIcons()
+{
+	for (auto &it : g_arrMoods)
+		it.clistIconId = 0;
+}
+
+int GetMoodIconIdx(int xStatusId)
+{
+	if (xStatusId <= 0 || xStatusId >= _countof(g_arrMoods))
+		return -1;
+
+	auto &pIcon = g_arrMoods[xStatusId];
+	if (pIcon.clistIconId == 0)
+		pIcon.clistIconId = ImageList_AddIcon(Clist_GetImageList(), g_MoodIcons.GetIcon(pIcon.szTag));
+
+	return pIcon.clistIconId;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1449,6 +1468,7 @@ void g_XstatusIconsInit()
 	wchar_t szSection[100];
 	mir_wstrcpy(szSection, L"Protocols/Jabber/" LPGENW("Moods"));
 
+	ClearMoodIcons();
 	for (int i = 1; i < _countof(g_arrMoods); i++)
 		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(1200 + i), szSection, TranslateW(g_arrMoods[i].szName));
 

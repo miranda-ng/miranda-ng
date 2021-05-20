@@ -317,6 +317,7 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 		if (m_transportProtoTableStartIndex[i] != -1)
 			LoadAdvancedIcons(i);
 
+	ClearMoodIcons();
 	return 0;
 }
 
@@ -329,24 +330,31 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 // if imagelist require advanced painting status overlay(like xStatus)
 // index should be shifted to HIWORD, LOWORD should be 0
 
-INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
+INT_PTR __cdecl CJabberProto::OnGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 {
 	if (!hContact)
 		return -1;
 
-	if (!getByte(hContact, "IsTransported", 0))
-		return -1;
+	if (getByte(hContact, "IsTransported", 0)) {
+		int iID = GetTransportProtoID(ptrA(getUStringA(hContact, "Transport")));
+		if (iID < 0)
+			return -1;
 
-	int iID = GetTransportProtoID(ptrA(getUStringA(hContact, "Transport")));
-	if (iID < 0)
-		return -1;
+		WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+		if (Status < ID_STATUS_OFFLINE)
+			Status = ID_STATUS_OFFLINE;
+		else if (Status > ID_STATUS_INVISIBLE)
+			Status = ID_STATUS_ONLINE;
+		return GetTransportStatusIconIndex(iID, Status);
+	}
 
-	WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
-	if (Status < ID_STATUS_OFFLINE)
-		Status = ID_STATUS_OFFLINE;
-	else if (Status > ID_STATUS_INVISIBLE)
-		Status = ID_STATUS_ONLINE;
-	return GetTransportStatusIconIndex(iID, Status);
+	if (int xStatus = getByte(hContact, DBSETTING_XSTATUSID)) {
+		int idx = GetMoodIconIdx(xStatus);
+		if (idx != -1)
+			return MAKELONG(0, idx); // shift icon id to the upper word
+	}
+
+	return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
