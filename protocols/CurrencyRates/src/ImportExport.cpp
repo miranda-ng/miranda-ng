@@ -161,7 +161,7 @@ LPCTSTR prepare_filter(LPTSTR pszBuffer, size_t cBuffer)
 	return pszBuffer;
 }
 
-bool show_open_file_dialog(bool bOpen, tstring& rsFile)
+bool show_open_file_dialog(bool bOpen, std::wstring& rsFile)
 {
 	wchar_t szBuffer[MAX_PATH];
 	wchar_t szFilter[MAX_PATH];
@@ -198,7 +198,7 @@ bool show_open_file_dialog(bool bOpen, tstring& rsFile)
 
 INT_PTR CurrencyRates_Export(WPARAM wp, LPARAM lp)
 {
-	tstring sFileName;
+	std::wstring sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
 	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(false, sFileName))
@@ -485,7 +485,7 @@ bool do_import(const TiXmlNode *pXmlRoot, UINT nFlags)
 
 INT_PTR CurrencyRates_Import(WPARAM wp, LPARAM lp)
 {
-	tstring sFileName;
+	std::wstring sFileName;
 	const char* pszFile = reinterpret_cast<const char*>(lp);
 	if (nullptr == pszFile) {
 		if (false == show_open_file_dialog(true, sFileName))

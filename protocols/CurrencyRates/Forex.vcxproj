@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\ComHelper.cpp" />
     <ClCompile Include="src\CommonOptionDlg.cpp" />
     <ClCompile Include="src\CreateFilePath.cpp" />
     <ClCompile Include="src\CurrencyConverter.cpp" />
@@ -38,7 +37,6 @@
     <ClCompile Include="src\DBUtils.cpp" />
     <ClCompile Include="src\ExtraImages.cpp" />
     <ClCompile Include="src\Forex.cpp" />
-    <ClCompile Include="src\HTMLParserMS.cpp" />
     <ClCompile Include="src\HTTPSession.cpp" />
     <ClCompile Include="src\IconLib.cpp" />
     <ClCompile Include="src\ImportExport.cpp" />
@@ -51,7 +49,6 @@
     </ClCompile>
     <ClCompile Include="src\WinCtrlHelper.cpp" />
     <ClInclude Include="src\Chart.h" />
-    <ClInclude Include="src\ComHelper.h" />
     <ClInclude Include="src\CommonOptionDlg.h" />
     <ClInclude Include="src\CreateFilePath.h" />
     <ClInclude Include="src\CurrencyConverter.h" />
@@ -62,11 +59,8 @@
     <ClInclude Include="src\DBUtils.h" />
     <ClInclude Include="src\EconomicRateInfo.h" />
     <ClInclude Include="src\ExtraImages.h" />
-    <ClInclude Include="src\HTMLParserMS.h" />
     <ClInclude Include="src\HTTPSession.h" />
     <ClInclude Include="src\ICurrencyRatesProvider.h" />
-    <ClInclude Include="src\IHTMLEngine.h" />
-    <ClInclude Include="src\IHTMLParser.h" />
     <ClInclude Include="src\ImportExport.h" />
     <ClInclude Include="src\IsWithinAccuracy.h" />
     <ClInclude Include="src\Locale.h" />

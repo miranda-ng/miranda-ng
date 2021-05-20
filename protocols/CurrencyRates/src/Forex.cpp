@@ -293,9 +293,6 @@ void CurrencyRates_IconsInit();
 
 int CMPlugin::Load(void)
 {
-	if (!CModuleInfo::Verify())
-		return 1;
-
 	CurrencyRates_IconsInit();
 	CurrencyRates_InitExtraIcons();
 

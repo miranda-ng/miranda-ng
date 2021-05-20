@@ -8,7 +8,7 @@ class CCurrencyRatesProviderVisitor;
 /////////////////////////////////////////////////////////////////////////////////////////
 // CFormatSpecificator - array of variables to replace
 
-using CFormatSpecificator = std::pair<tstring, tstring>;
+using CFormatSpecificator = std::pair<std::wstring, std::wstring>;
 typedef std::vector<CFormatSpecificator> TFormatSpecificators;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -19,8 +19,8 @@ class ICurrencyRatesProvider : private boost::noncopyable
 public:
 	struct CProviderInfo
 	{
-		tstring m_sName;
-		tstring m_sURL;
+		std::wstring m_sName;
+		std::wstring m_sURL;
 	};
 
 public:
@@ -42,7 +42,7 @@ public:
 
 	virtual void FillFormat(TFormatSpecificators&) const = 0;
 	virtual bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) = 0;
-	virtual tstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const = 0;
+	virtual std::wstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const = 0;
 
 	virtual void Run() = 0;
 };
@@ -52,7 +52,7 @@ public:
 typedef std::vector<ICurrencyRatesProvider*> TCurrencyRatesProviders;
 extern TCurrencyRatesProviders g_apProviders;
 
-ICurrencyRatesProvider* FindProvider(const tstring& rsName);
+ICurrencyRatesProvider* FindProvider(const std::wstring& rsName);
 ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact);
 
 void InitProviders();

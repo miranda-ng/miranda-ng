@@ -35,7 +35,7 @@ bool CurrencyRates_DBReadDouble(MCONTACT hContact, const char *szModule, const c
 	return bResult;
 }
 
-void FixInvalidChars(tstring &s)
+void FixInvalidChars(std::wstring &s)
 {
 	for (auto &c : s)
 		if (wcschr(L"\\/:*?\"<>|", c))

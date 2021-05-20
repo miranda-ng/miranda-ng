@@ -31,9 +31,9 @@ CCurrencyRateSection get_currencyrates(const CCurrencyRatesProviderCurrencyConve
 	return CCurrencyRateSection();
 }
 
-inline tstring make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
+inline std::wstring make_currencyrate_name(const CCurrencyRate &rCurrencyRate)
 {
-	const tstring &rsDesc = rCurrencyRate.GetName();
+	const std::wstring &rsDesc = rCurrencyRate.GetName();
 	return((false == rsDesc.empty()) ? rsDesc : rCurrencyRate.GetSymbol());
 }
 
@@ -58,16 +58,16 @@ inline void update_swap_button(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_SWAP), bEnableButton);
 }
 
-inline tstring double2str(double dValue)
+inline std::wstring double2str(double dValue)
 {
 	wchar_t str[40];
 	swprintf_s(str, L"%.2lf", dValue);
 	return str;
 }
 
-inline bool str2double(const tstring& s, double& d)
+inline bool str2double(const std::wstring& s, double& d)
 {
-	tistringstream input(s);
+	std::wistringstream input(s);
 	input.imbue(GetSystemLocale());
 	input >> d;
 	return ((false == input.bad()) && (false == input.fail()));
@@ -89,15 +89,15 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			HWND hcbxFrom = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_FROM);
 			HWND hcbxTo = ::GetDlgItem(hDlg, IDC_COMBO_CONVERT_INTO);
 
-			tstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
-			tstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_TO_ID);
+			std::wstring sFromCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_FROM_ID);
+			std::wstring sToCurrencyRateID = CurrencyRates_DBGetStringW(NULL, MODULENAME, DB_STR_CC_CURRENCYRATE_TO_ID);
 
 			const auto pProvider = get_currency_converter_provider();
 			const auto& rSection = get_currencyrates(pProvider);
 			auto cCurrencyRates = rSection.GetCurrencyRateCount();
 			for (auto i = 0u; i < cCurrencyRates; ++i) {
 				const auto& rCurrencyRate = rSection.GetCurrencyRate(i);
-				tstring sName = make_currencyrate_name(rCurrencyRate);
+				std::wstring sName = make_currencyrate_name(rCurrencyRate);
 				LPCTSTR pszName = sName.c_str();
 				LRESULT nFrom = ::SendMessage(hcbxFrom, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
 				LRESULT nTo = ::SendMessage(hcbxTo, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(pszName));
@@ -116,7 +116,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 			::SetDlgItemText(hDlg, IDC_EDIT_VALUE, double2str(dAmount).c_str());
 
 			const ICurrencyRatesProvider::CProviderInfo& pi = pProvider->GetInfo();
-			tostringstream o;
+			std::wostringstream o;
 			o << TranslateT("Info provided by") << L" <a href=\"" << pi.m_sURL << L"\">" << pi.m_sName << L"</a>";
 
 			::SetDlgItemText(hDlg, IDC_SYSLINK_PROVIDER, o.str().c_str());
@@ -179,7 +179,7 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 		case IDC_BUTTON_CONVERT:
 			{
 				HWND hwndAmount = GetDlgItem(hDlg, IDC_EDIT_VALUE);
-				tstring sText = get_window_text(hwndAmount);
+				std::wstring sText = get_window_text(hwndAmount);
 
 				double dAmount = 1.0;
 				if ((true == str2double(sText, dAmount)) && (dAmount > 0.0)) {

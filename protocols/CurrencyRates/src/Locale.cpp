@@ -5,9 +5,9 @@ const std::locale GetSystemLocale()
 	return std::locale("");
 }
 
-tstring get_int_registry_value(LPCTSTR pszValueName)
+std::wstring get_int_registry_value(LPCTSTR pszValueName)
 {
-	tstring sResult;
+	std::wstring sResult;
 	HKEY hKey = nullptr;
 	LONG lResult = ::RegOpenKeyEx(HKEY_CURRENT_USER,
 		L"Control Panel\\International", 0, KEY_QUERY_VALUE, &hKey);
@@ -31,7 +31,7 @@ tstring get_int_registry_value(LPCTSTR pszValueName)
 	return sResult;
 }
 
-LPCTSTR date_win_2_boost(const tstring& sFrmt)
+LPCTSTR date_win_2_boost(const std::wstring& sFrmt)
 {
 	if (sFrmt == L"dd/MM/yy")
 		return L"%d/%m/%y";
@@ -40,7 +40,7 @@ LPCTSTR date_win_2_boost(const tstring& sFrmt)
 	return L"%d.%m.%y";
 }
 
-LPCTSTR time_win_2_boost(const tstring& sFrmt)
+LPCTSTR time_win_2_boost(const std::wstring& sFrmt)
 {
 	if (sFrmt == L"H:mm" || sFrmt == L"HH:mm")
 		return L"%H:%M";

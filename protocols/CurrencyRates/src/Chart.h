@@ -7,14 +7,14 @@ namespace detail
 {
 	template<class T> struct CConverter
 	{
-		static double Convert(const T& v)
+		static double Convert(const T &v)
 		{
 			return boost::numeric_cast<double>(v);
 		}
 
-		static tstring ToString(const T& v)
+		static std::wstring ToString(const T &v)
 		{
-			return boost::lexical_cast<tstring>(v);
+			return boost::lexical_cast<std::wstring>(v);
 		}
 	};
 
@@ -25,7 +25,7 @@ namespace detail
 			return v;
 		}
 
-		static tstring ToString(double v)
+		static std::wstring ToString(double v)
 		{
 			wchar_t str[40];
 			swprintf_s(str, L"%.6lf", v);
@@ -121,7 +121,7 @@ private:
 		int nXIndent = 0;
 		for (int y = rc.bottom - step; y > rc.top; y -= step, y_val += ((m_MaxY - m_MinY) / number_of_lines))
 		{
-			tstring sY = TYConverter::ToString(y_val);
+			std::wstring sY = TYConverter::ToString(y_val);
 			SIZE sizeText = { 0, 0 };
 			BOOL bResult = ::GetTextExtentPoint32(hdc, sY.c_str(), (int)sY.size(), &sizeText);
 			assert(TRUE == bResult);
@@ -133,7 +133,7 @@ private:
 		rc.left += nXIndent;
 		for (int y = rc.bottom - step; y > rc.top; y -= step, y_val += ((m_MaxY - m_MinY) / number_of_lines))
 		{
-			tstring sY = TYConverter::ToString(y_val);
+			std::wstring sY = TYConverter::ToString(y_val);
 			SIZE sizeText = { 0, 0 };
 			BOOL bResult = ::GetTextExtentPoint32(hdc, sY.c_str(), (int)sY.size(), &sizeText);
 			assert(TRUE == bResult);
@@ -157,7 +157,7 @@ private:
 		TXValue x_val = m_aValues[0].first + ((m_aValues[m_aValues.size() - 1].first - m_aValues[0].first) / number_of_lines);
 		for (int x = rc.left + step; x < rc.right; x += step, x_val += ((m_aValues[m_aValues.size() - 1].first - m_aValues[0].first) / number_of_lines))
 		{
-			tstring sX = TXConverter::ToString(x_val);
+			std::wstring sX = TXConverter::ToString(x_val);
 			SIZE sizeText = { 0, 0 };
 			BOOL bResult = ::GetTextExtentPoint32(hdc, sX.c_str(), (int)sX.size(), &sizeText);
 			assert(TRUE == bResult);

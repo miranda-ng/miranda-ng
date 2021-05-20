@@ -41,7 +41,7 @@
 #define DB_KEY_TendencyFormat      "CC_TendencyFormat"
 #define DB_DEF_TendencyFormat      L"%r>%p"
 
-void FixInvalidChars(tstring &s);
+void FixInvalidChars(std::wstring &s);
 
 std::wstring GetNodeText(const TiXmlElement*);
 

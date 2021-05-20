@@ -3,7 +3,7 @@
 
 class ICurrencyRatesProvider;
 
-inline tstring get_window_text(HWND hWnd)
+inline std::wstring get_window_text(HWND hWnd)
 {
 	int cBytes = ::GetWindowTextLength(hWnd);
 
@@ -11,7 +11,7 @@ inline tstring get_window_text(HWND hWnd)
 	LPTSTR pBuffer = &*(aBuf.begin());
 	::GetWindowText(hWnd, pBuffer, cBytes + 1);
 
-	return tstring(pBuffer);
+	return std::wstring(pBuffer);
 }
 
 inline void prepare_edit_ctrl_for_error(HWND hwndEdit)

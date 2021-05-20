@@ -17,7 +17,7 @@ public:
 		TFormatSpecificators aSpecificators;
 		m_pProvider->FillFormat(aSpecificators);
 
-		tostringstream o;
+		std::wostringstream o;
 		for (auto &spec : aSpecificators)
 			o << spec.first << '\t' << spec.second << L"\r\n";
 		::SetDlgItemText(m_hwnd, IDC_EDIT_VARIABLE, o.str().c_str());

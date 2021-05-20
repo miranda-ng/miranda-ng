@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
   <ItemGroup>
-    <ClCompile Include="src\ComHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CommonOptionDlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,9 +33,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Forex.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\HTMLParserMS.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\HTTPSession.cpp">
@@ -73,9 +67,6 @@
     <ClInclude Include="src\Chart.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ComHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\CommonOptionDlg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -106,19 +97,10 @@
     <ClInclude Include="src\ExtraImages.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\HTMLParserMS.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\HTTPSession.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ICurrencyRatesProvider.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IHTMLEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\IHTMLParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ImportExport.h">

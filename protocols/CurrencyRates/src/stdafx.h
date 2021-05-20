@@ -40,13 +40,6 @@
 #include <boost\date_time\posix_time\posix_time.hpp>
 #include <boost\date_time\c_local_time_adjustor.hpp>
 
-typedef std::wstring tstring;
-typedef std::wostringstream tostringstream;
-typedef std::wistringstream tistringstream;
-typedef std::wofstream tofstream;
-typedef std::wifstream tifstream;
-typedef std::wostream tostream;
-typedef std::wistream tistream;
 typedef boost::posix_time::wtime_input_facet ttime_input_facet;
 typedef boost::posix_time::wtime_facet ttime_facet;
 
@@ -61,9 +54,9 @@ inline std::string currencyrates_t2a(const wchar_t* t)
 	return s;
 }
 
-inline tstring currencyrates_a2t(const char* s)
+inline std::wstring currencyrates_a2t(const char* s)
 {
-	tstring t;
+	std::wstring t;
 	wchar_t* p = mir_a2u(s);
 	if (p) {
 		t = p;
@@ -81,7 +74,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "CurrencyConverter.h"
 #include "WinCtrlHelper.h"
 #include "ImportExport.h"
-#include "ComHelper.h"
 #include "Log.h"
 #include "CommonOptionDlg.h"
 #include "EconomicRateInfo.h"
@@ -98,9 +90,6 @@ inline tstring currencyrates_a2t(const char* s)
 #include "CurrencyRateChart.h"
 #include "Chart.h"
 #endif
-#include "IHTMLParser.h"
-#include "IHTMLEngine.h"
-#include "HTMLParserMS.h"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

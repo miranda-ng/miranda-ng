@@ -7,17 +7,17 @@
 class CCurrencyRate
 {
 public:
-	CCurrencyRate(const tstring& rsID = L"", const tstring& rsSymbol = L"", const tstring& rsName = L"")
+	CCurrencyRate(const std::wstring& rsID = L"", const std::wstring& rsSymbol = L"", const std::wstring& rsName = L"")
 		: m_sSymbol(rsSymbol), m_sName(rsName), m_sID(rsID){}
 
-	const tstring& GetSymbol() const{ return m_sSymbol; }
-	const tstring& GetName() const{ return m_sName; }
-	const tstring& GetID() const{ return m_sID; }
+	const std::wstring& GetSymbol() const{ return m_sSymbol; }
+	const std::wstring& GetName() const{ return m_sName; }
+	const std::wstring& GetID() const{ return m_sID; }
 
 private:
-	tstring m_sSymbol;
-	tstring m_sName;
-	tstring m_sID;
+	std::wstring m_sSymbol;
+	std::wstring m_sName;
+	std::wstring m_sID;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -30,10 +30,10 @@ public:
 	typedef std::vector<CCurrencyRate> TCurrencyRates;
 
 public:
-	CCurrencyRateSection(const tstring& rsName = L"", const TSections& raSections = TSections(), const TCurrencyRates& raCurrencyRates = TCurrencyRates())
+	CCurrencyRateSection(const std::wstring& rsName = L"", const TSections& raSections = TSections(), const TCurrencyRates& raCurrencyRates = TCurrencyRates())
 		: m_sName(rsName), m_aSections(raSections), m_aCurrencyRates(raCurrencyRates){}
 
-	const tstring& GetName() const
+	const std::wstring& GetName() const
 	{
 		return m_sName;
 	}
@@ -59,7 +59,7 @@ public:
 	}
 
 private:
-	tstring m_sName;
+	std::wstring m_sName;
 	TSections m_aSections;
 	TCurrencyRates m_aCurrencyRates;
 };
@@ -77,9 +77,9 @@ class CCurrencyRatesProviderBase : public ICurrencyRatesProvider
 
 	HANDLE m_hEventSettingsChanged;
 	HANDLE m_hEventRefreshContact;
-	tstring m_sContactListFormat;
-	tstring m_sStatusMsgFormat;
-	tstring m_sTendencyFormat;
+	std::wstring m_sContactListFormat;
+	std::wstring m_sStatusMsgFormat;
+	std::wstring m_sTendencyFormat;
 	TContacts m_aRefreshingContacts;
 	bool m_bRefreshInProgress;
 
@@ -103,14 +103,14 @@ public:
 	
 	void FillFormat(TFormatSpecificators&) const override;
 	bool ParseSymbol(MCONTACT hContact, wchar_t c, double &d) override;
-	tstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
+	std::wstring FormatSymbol(MCONTACT hContact, wchar_t c, int nWidth = 0) const override;
 
 protected:
-	const tstring& GetURL() const;
-	MCONTACT CreateNewContact(const tstring& rsName);
+	const std::wstring& GetURL() const;
+	MCONTACT CreateNewContact(const std::wstring& rsName);
 	static bool IsOnline();
 	static void SetContactStatus(MCONTACT hContact, int nNewStatus);
-	void WriteContactRate(MCONTACT hContact, double dRate, const tstring& rsSymbol = L"");
+	void WriteContactRate(MCONTACT hContact, double dRate, const std::wstring& rsSymbol = L"");
 
 	virtual void RefreshCurrencyRates(TContacts &anContacts) = 0;
 

@@ -62,7 +62,7 @@ ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
 	if (nullptr == szProto || 0 != ::_stricmp(szProto, MODULENAME))
 		return nullptr;
 
-	tstring sProvider = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_PROVIDER);
+	std::wstring sProvider = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_PROVIDER);
 	if (true == sProvider.empty())
 		return nullptr;
 
@@ -71,7 +71,7 @@ ICurrencyRatesProvider* GetContactProviderPtr(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-ICurrencyRatesProvider* FindProvider(const tstring& rsName)
+ICurrencyRatesProvider* FindProvider(const std::wstring& rsName)
 {
 	for (auto &pProvider : g_apProviders) {
 		const ICurrencyRatesProvider::CProviderInfo& rInfo = pProvider->GetInfo();

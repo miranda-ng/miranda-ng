@@ -19,14 +19,14 @@ static int find_header(const NETLIBHTTPREQUEST* pRequest, const char* hdr)
 	return -1;
 }
 
-bool CHTTPSession::OpenURL(const tstring &rsURL)
+bool CHTTPSession::OpenURL(const std::wstring &rsURL)
 {
 	std::string s = currencyrates_t2a(rsURL.c_str());
 	m_szUrl = s.c_str();
 	return true;
 }
 
-bool CHTTPSession::ReadResponce(tstring &rsResponce)
+bool CHTTPSession::ReadResponce(std::wstring &rsResponce)
 {
 	if (m_szUrl.IsEmpty())
 		return false;

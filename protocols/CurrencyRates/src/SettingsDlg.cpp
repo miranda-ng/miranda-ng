@@ -73,7 +73,7 @@ std::vector<wchar_t> get_filter()
 	std::vector<wchar_t> aFilter;
 	LPCTSTR pszFilterParts[] = { LPGENW("Log Files (*.txt,*.log)"), L"*.txt;*.log", LPGENW("All files (*.*)"), L"*.*" };
 	for (int i = 0; i < sizeof(pszFilterParts) / sizeof(pszFilterParts[0]); ++i) {
-		tstring sPart = TranslateW(pszFilterParts[i]);
+		std::wstring sPart = TranslateW(pszFilterParts[i]);
 		std::copy(sPart.begin(), sPart.end(), std::back_inserter(aFilter));
 		aFilter.push_back('\0');
 
@@ -242,7 +242,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			assert(hWL);
 			WindowList_Add(hWL, hWnd, hContact);
 
-			tstring sName = GetContactName(hContact);
+			std::wstring sName = GetContactName(hContact);
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, sName.c_str());
 
 			BYTE bUseContactSpecific = g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0);
@@ -255,7 +255,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sHistoryFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
+			std::wstring sHistoryFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, sHistoryFrmt.c_str());
 
 			WORD wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
@@ -265,13 +265,13 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			nCheck = (dwLogMode & lmExternalFile) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_EXTERNAL_FILE, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
-			tstring sLogFileName = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE);
+			std::wstring sLogFileName = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE);
 			if (true == sLogFileName.empty()) {
 				sLogFileName = GenerateLogFileName(setGlobal.GetLogFileName(), CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL), glfnResolveCurrencyRateName);
 			}
 			::SetDlgItemText(hWnd, IDC_EDIT_FILE_NAME, sLogFileName.c_str());
 
-			tstring sLogFileFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
+			std::wstring sLogFileFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_LOG_FILE, setGlobal.GetLogFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_LOG_FILE_FORMAT, sLogFileFrmt.c_str());
 
 			wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG_FILE_CONDITION, setGlobal.GetLogOnlyChangedFlag());
@@ -280,7 +280,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			// popup
 			nCheck = (dwLogMode & lmPopup) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP, nCheck ? BST_CHECKED : BST_UNCHECKED);
-			tstring sPopupFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
+			std::wstring sPopupFrmt = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_FORMAT_POPUP, setGlobal.GetPopupFormat().c_str());
 			::SetDlgItemText(hWnd, IDC_EDIT_POPUP_FORMAT, sPopupFrmt.c_str());
 			bool bOnlyIfChanged = 1 == g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_CONDITION, setGlobal.GetShowPopupIfValueChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_SHOW_POPUP_ONLY_VALUE_CHANGED, (bOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
@@ -363,9 +363,9 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 				HWND hwndLogFile = ::GetDlgItem(hWnd, IDC_EDIT_FILE_NAME);
 				HWND hwndLogFileFrmt = ::GetDlgItem(hWnd, IDC_EDIT_LOG_FILE_FORMAT);
 				HWND hwndHistoryFrmt = ::GetDlgItem(hWnd, IDC_EDIT_HISTORY_FORMAT);
-				tstring sLogFile = get_window_text(hwndLogFile);
-				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
-				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
+				std::wstring sLogFile = get_window_text(hwndLogFile);
+				std::wstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
+				std::wstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
 				if ((nLogMode & lmExternalFile)) {
 					if (true == sLogFile.empty()) {
 						prepare_edit_ctrl_for_error(hwndLogFile);
@@ -386,7 +386,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 				}
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
-				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
+				std::wstring sPopupFormat = get_window_text(hwndPopupFrmt);
 				if ((true == bOk) && (nLogMode & lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
@@ -519,8 +519,8 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				HWND hwndLogFile = ::GetDlgItem(hWnd, IDC_EDIT_FILE_NAME);
 				HWND hwndLogFileFrmt = ::GetDlgItem(hWnd, IDC_EDIT_LOG_FILE_FORMAT);
 
-				tstring sLogFile = get_window_text(hwndLogFile);
-				tstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
+				std::wstring sLogFile = get_window_text(hwndLogFile);
+				std::wstring sLogFileFormat = get_window_text(hwndLogFileFrmt);
 
 				if ((nLogMode & lmExternalFile)) {
 					if (true == sLogFile.empty()) {
@@ -536,7 +536,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				}
 
 				HWND hwndHistoryFrmt = ::GetDlgItem(hWnd, IDC_EDIT_HISTORY_FORMAT);
-				tstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
+				std::wstring sHistoryFormat = get_window_text(hwndHistoryFrmt);
 				if ((true == bOk) && (nLogMode & lmInternalHistory) && (true == sHistoryFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndHistoryFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter history format."), MB_OK | MB_ICONERROR);
@@ -544,7 +544,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 				}
 
 				HWND hwndPopupFrmt = ::GetDlgItem(hWnd, IDC_EDIT_POPUP_FORMAT);
-				tstring sPopupFormat = get_window_text(hwndPopupFrmt);
+				std::wstring sPopupFormat = get_window_text(hwndPopupFrmt);
 				if ((true == bOk) && (nLogMode & lmPopup) && (true == sPopupFormat.empty())) {
 					prepare_edit_ctrl_for_error(hwndPopupFrmt);
 					CurrencyRates_MessageBox(hWnd, TranslateT("Enter popup window format."), MB_OK | MB_ICONERROR);
@@ -684,12 +684,12 @@ void CAdvProviderSettings::SetLogMode(WORD wMode)
 	m_wLogMode = wMode;
 }
 
-tstring CAdvProviderSettings::GetHistoryFormat() const
+std::wstring CAdvProviderSettings::GetHistoryFormat() const
 {
 	return m_sFormatHistory;
 }
 
-void CAdvProviderSettings::SetHistoryFormat(const tstring &rsFormat)
+void CAdvProviderSettings::SetHistoryFormat(const std::wstring &rsFormat)
 {
 	m_sFormatHistory = rsFormat;
 }
@@ -704,22 +704,22 @@ void CAdvProviderSettings::SetHistoryOnlyChangedFlag(bool bMode)
 	m_bIsOnlyChangedHistory = bMode;
 }
 
-tstring CAdvProviderSettings::GetLogFileName() const
+std::wstring CAdvProviderSettings::GetLogFileName() const
 {
 	return m_sLogFileName;
 }
 
-void CAdvProviderSettings::SetLogFileName(const tstring &rsFile)
+void CAdvProviderSettings::SetLogFileName(const std::wstring &rsFile)
 {
 	m_sLogFileName = rsFile;
 }
 
-tstring CAdvProviderSettings::GetLogFormat() const
+std::wstring CAdvProviderSettings::GetLogFormat() const
 {
 	return m_sFormatLogFile;
 }
 
-void CAdvProviderSettings::SetLogFormat(const tstring &rsFormat)
+void CAdvProviderSettings::SetLogFormat(const std::wstring &rsFormat)
 {
 	m_sFormatLogFile = rsFormat;
 }
@@ -734,12 +734,12 @@ void CAdvProviderSettings::SetLogOnlyChangedFlag(bool bMode)
 	m_bIsOnlyChangedLogFile = bMode;
 }
 
-const tstring &CAdvProviderSettings::GetPopupFormat() const
+const std::wstring &CAdvProviderSettings::GetPopupFormat() const
 {
 	return m_sPopupFormat;
 }
 
-void CAdvProviderSettings::SetPopupFormat(const tstring &val)
+void CAdvProviderSettings::SetPopupFormat(const std::wstring &val)
 {
 	m_sPopupFormat = val;
 }
@@ -900,15 +900,15 @@ bool ShowSettingsDlg(HWND hWndParent, CAdvProviderSettings *pAdvSettings)
 		reinterpret_cast<LPARAM>(pAdvSettings)));
 }
 
-tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCurrencyRateSymbol, int nFlags)
+std::wstring GenerateLogFileName(const std::wstring &rsLogFilePattern, const std::wstring &rsCurrencyRateSymbol, int nFlags)
 {
-	tstring sPath = rsLogFilePattern;
+	std::wstring sPath = rsLogFilePattern;
 	if (nFlags & glfnResolveCurrencyRateName) {
 		assert(false == rsCurrencyRateSymbol.empty());
 
-		tstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
-		if (tstring::npos != n) {
-			tstring s = rsCurrencyRateSymbol;
+		std::wstring::size_type n = sPath.find(g_pszVariableCurrencyRateName);
+		if (std::wstring::npos != n) {
+			std::wstring s = rsCurrencyRateSymbol;
 			FixInvalidChars(s);
 			sPath.replace(n, _countof(g_pszVariableCurrencyRateName) - 1, s.c_str());
 		}
@@ -925,13 +925,13 @@ tstring GenerateLogFileName(const tstring &rsLogFilePattern, const tstring &rsCu
 	return sPath;
 }
 
-tstring GetContactLogFileName(MCONTACT hContact)
+std::wstring GetContactLogFileName(MCONTACT hContact)
 {
-	tstring result;
+	std::wstring result;
 
 	auto pProvider = GetContactProviderPtr(hContact);
 	if (pProvider) {
-		tstring sPattern;
+		std::wstring sPattern;
 		bool bUseContactSpecific = (g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0) > 0);
 		if (bUseContactSpecific)
 			sPattern = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_LOG_FILE);
@@ -946,9 +946,9 @@ tstring GetContactLogFileName(MCONTACT hContact)
 	return result;
 }
 
-tstring GetContactName(MCONTACT hContact)
+std::wstring GetContactName(MCONTACT hContact)
 {
-	tstring sDescription = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_DESCRIPTION);
+	std::wstring sDescription = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_DESCRIPTION);
 	if (sDescription.empty())
 		sDescription = CurrencyRates_DBGetStringW(hContact, MODULENAME, DB_STR_CURRENCYRATE_SYMBOL);
 

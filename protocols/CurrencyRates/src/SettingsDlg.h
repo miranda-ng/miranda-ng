@@ -66,20 +66,20 @@ public:
 
 	WORD GetLogMode() const;
 	void SetLogMode(WORD wMode);
-	tstring GetHistoryFormat() const;
-	void SetHistoryFormat(const tstring& rsFormat);
+	std::wstring GetHistoryFormat() const;
+	void SetHistoryFormat(const std::wstring& rsFormat);
 	bool GetHistoryOnlyChangedFlag() const;
 	void SetHistoryOnlyChangedFlag(bool bMode);
 
-	tstring GetLogFileName() const;
-	void SetLogFileName(const tstring& rsFile);
-	tstring GetLogFormat() const;
-	void SetLogFormat(const tstring& rsFormat);
+	std::wstring GetLogFileName() const;
+	void SetLogFileName(const std::wstring& rsFile);
+	std::wstring GetLogFormat() const;
+	void SetLogFormat(const std::wstring& rsFormat);
 	bool GetLogOnlyChangedFlag() const;
 	void SetLogOnlyChangedFlag(bool bMode);
 
-	const tstring& GetPopupFormat() const;
-	void SetPopupFormat(const tstring& val);
+	const std::wstring& GetPopupFormat() const;
+	void SetPopupFormat(const std::wstring& val);
 
 	bool GetShowPopupIfValueChangedFlag() const;
 	void SetShowPopupIfValueChangedFlag(bool val);
@@ -89,12 +89,12 @@ public:
 private:
 	const ICurrencyRatesProvider *m_pCurrencyRatesProvider;
 	WORD m_wLogMode;
-	tstring m_sFormatHistory;
+	std::wstring m_sFormatHistory;
 	bool m_bIsOnlyChangedHistory;
-	tstring m_sLogFileName;
-	tstring m_sFormatLogFile;
+	std::wstring m_sLogFileName;
+	std::wstring m_sFormatLogFile;
 	bool m_bIsOnlyChangedLogFile;
-	tstring m_sPopupFormat;
+	std::wstring m_sPopupFormat;
 	bool m_bShowPopupIfValueChanged;
 	mutable CPopupSettings* m_pPopupSettings;
 };
@@ -108,9 +108,9 @@ enum
 	glfnResolveUserProfile = 0x0002,
 	glfnResolveAll = glfnResolveCurrencyRateName | glfnResolveUserProfile,
 };
-tstring GenerateLogFileName(const tstring& rsLogFilePattern, const tstring& rsCurrencyRateSymbol, int nFlags = glfnResolveAll);
-tstring GetContactLogFileName(MCONTACT hContact);
-tstring GetContactName(MCONTACT hContact);
+std::wstring GenerateLogFileName(const std::wstring& rsLogFilePattern, const std::wstring& rsCurrencyRateSymbol, int nFlags = glfnResolveAll);
+std::wstring GetContactLogFileName(MCONTACT hContact);
+std::wstring GetContactName(MCONTACT hContact);
 
 #endif //__E211E4D9_383C_43BE_A787_7EF1D585B90D_SettingsDlg_h__
 

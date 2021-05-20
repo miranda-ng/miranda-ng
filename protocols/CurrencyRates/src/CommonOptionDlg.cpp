@@ -166,7 +166,7 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 						HWND hEdit = ::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT);
 						assert(IsWindow(hEdit));
 
-						tstring s = get_window_text(hEdit);
+						std::wstring s = get_window_text(hEdit);
 						if (true == s.empty()) {
 							prepare_edit_ctrl_for_error(hEdit);
 							CurrencyRates_MessageBox(hWnd, TranslateT("Enter text to display in contact list."), MB_OK | MB_ICONERROR);
@@ -190,7 +190,7 @@ void CommonOptionDlgProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp, CCommonDlgPr
 				g_plugin.setWord(DB_KEY_RefreshRateType, nType);
 				g_plugin.setWord(DB_KEY_RefreshRateValue, nRefreshRate);
 
-				tstring s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT));
+				std::wstring s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_CONTACT_LIST_FORMAT));
 				g_plugin.setWString(DB_KEY_DisplayNameFormat, s.c_str());
 
 				s = get_window_text(::GetDlgItem(hWnd, IDC_EDIT_STATUS_MESSAGE_FORMAT));
