@@ -19,9 +19,7 @@ static int mlua_print(lua_State *L)
 			data.AppendFormat("%s", lua_toboolean(L, i) ? "true" : "false");
 			break;
 		case LUA_TNUMBER:
-			setlocale(LC_NUMERIC, "C");
 			data.Append(lua_tostring(L, i));
-			setlocale(LC_NUMERIC, "");
 			break;
 		case LUA_TSTRING:
 			data.AppendFormat("'%s'", lua_tostring(L, i));

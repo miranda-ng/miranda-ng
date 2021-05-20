@@ -142,8 +142,6 @@ static int json__pairsIterator(lua_State *L)
 	JSONNode *node = *(JSONNode**)luaL_checkudata(L, 1, MT_JSON);
 	int i = lua_tointeger(L, lua_upvalueindex(1));
 
-	setlocale(LC_NUMERIC, "C");
-
 	if (i < node->size()) {
 		JSONNode *child = json_at(node, i);
 		if (json_type(node) == JSON_ARRAY)
@@ -152,17 +150,13 @@ static int json__pairsIterator(lua_State *L)
 			lua_pushstring(L, child->name());
 
 		json2lua(L, *child);
-		setlocale(LC_NUMERIC, "");
 
 		lua_pushinteger(L, (i + 1));
 		lua_replace(L, lua_upvalueindex(1));
-
 		return 2;
 	}
 
-	setlocale(LC_NUMERIC, "");
 	lua_pushnil(L);
-
 	return 1;
 }
 
