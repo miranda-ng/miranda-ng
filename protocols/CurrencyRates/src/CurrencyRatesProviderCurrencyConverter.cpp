@@ -19,12 +19,12 @@ CMStringW build_url(MCONTACT hContact, const CMStringW &rsURL)
 
 bool parse_response(const CMStringW &rsJSON, double &dRate)
 {
-	setlocale(LC_NUMERIC, "en_US");
 	JSONNode root = JSONNode::parse(_T2A(rsJSON));
 	if (!root)
 		return false;
 
-	return 1 == swscanf(root.at(json_index_t(0)).as_mstring(), L"%lf", &dRate);
+	dRate = root.at(json_index_t(0)).as_float();
+	return true;
 }
 
 using TWatchedRates = std::vector<CCurrencyRatesProviderCurrencyConverter::TRateInfo>;

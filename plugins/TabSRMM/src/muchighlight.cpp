@@ -51,7 +51,6 @@ void CMUCHighlight::init()
 
 	if (0 == db_get_ws(0, CHAT_MODULE, "HighlightWords", &dbv)) {
 		m_TextPatternString = dbv.pwszVal;
-		_wsetlocale(LC_ALL, L"");
 		wcslwr(m_TextPatternString);
 	}
 

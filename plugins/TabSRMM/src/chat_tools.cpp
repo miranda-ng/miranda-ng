@@ -366,7 +366,6 @@ wchar_t* my_strstri(const wchar_t* s1, const wchar_t* s2)
 {
 	int i, j, k;
 
-	_wsetlocale(LC_ALL, L"");
 	for (i = 0; s1[i]; i++)
 		for (j = i, k = 0; towlower(s1[j]) == towlower(s2[k]); j++, k++)
 			if (!s2[k + 1])

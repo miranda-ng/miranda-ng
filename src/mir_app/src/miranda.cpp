@@ -304,6 +304,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");
+	setlocale(LC_NUMERIC, "C");
 
 #ifdef _DEBUG
 	if (CmdLine_GetOption(L"memdebug"))
