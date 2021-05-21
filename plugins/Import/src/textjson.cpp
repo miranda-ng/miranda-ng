@@ -173,9 +173,10 @@ public:
 			}
 
 			dbei->flags |= DBEF_UTF;
-			dbei->cbBlob = (DWORD)szBody.size() + offset + 2;
-			dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
-			strcpy((char*)dbei->pBlob + offset, szBody.c_str());
+			dbei->cbBlob = (DWORD)szBody.size() + offset;
+			dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob+1);
+			memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
+			dbei->pBlob[dbei->cbBlob] = 0;
 		}
 
 		return 0;
