@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -73,13 +73,14 @@
 ;file \protocols\CurrencyRates\src\CurrencyRateInfoDlg.cpp
 [Currency Rate]
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
-[Source of Information]
-[Rate Value]
-[Previous Rate Value]
-[Fetch Time]
-[Fetch Date]
-[Fetch Time and Date]
-[Percentage Character (%)]
+[Source of information]
+[Rate value]
+[Rate delta]
+[Previous rate value]
+[Fetch time]
+[Fetch date]
+[Fetch time and date]
+[Percent character (%)]
 [Tabulation]
 [Left slash (\\)]
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderCurrencyConverter.cpp
@@ -108,10 +109,6 @@
 [Currency Rates Auto Update Disabled]
 [Currency Symbol]
 [Network]
-;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-[CurrencyRates HTTP connections]
-;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 [Currency Rate up]
 [Currency Rate down]
@@ -120,11 +117,12 @@
 [Export]
 [Swap button]
 [Import]
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+[CurrencyRates HTTP connections]
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 [All files (*.*)]
-;file \protocols\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
 ;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 [Enter integer value]

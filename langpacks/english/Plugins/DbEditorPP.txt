@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -94,7 +94,6 @@
 [Copy to contact]
 [Export module]
 [&Add module]
-[&Clone]
 [Export contact]
 [Import settings]
 [From a file]
@@ -108,7 +107,7 @@
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Copy module "%s"]
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 [Delete module from database]
 [Delete module from database... Loading]
 [Delete from all contacts (including Settings)]
@@ -124,13 +123,13 @@
 [Contact]
 [Module]
 [Setting]
-[Enter a string to search the database for]
-[Stop]
+[Searching...]
+[Finished. Items found: %d / replaced: %d / deleted: %d]
 [Replaced]
 [Deleted]
 [Found]
-[Searching...]
-[Finished. Items found: %d / replaced: %d / deleted: %d]
+[Enter a string to search the database for]
+[Stop]
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 [Closed module]
@@ -154,6 +153,8 @@
 [Open user tree in DBE++]
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
+[Type]
+[Size]
 [Delete resident settings from database?]
 [%d items deleted.]
 ;file \plugins\DbEditorPP\src\modsettingenum.cpp
@@ -168,8 +169,6 @@
 ;file \plugins\DbEditorPP\src\renamemodule.cpp
 [Add module to "%s"]
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-[Size]
 [Unable to store value in this data type!]
 [Are you sure you want to delete %d contact(s)?]
 [Are you sure you want to delete %d setting(s)?]

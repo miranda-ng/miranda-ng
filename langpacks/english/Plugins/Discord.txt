@@ -12,7 +12,7 @@
 [Password:]
 [Contacts]
 [Default group:]
-[Enable group chats]
+[Enable guilds (servers)]
 [Do not open chat windows on creation]
 [Use subgroups for server channels (requires restart)]
 [Delete messages in Miranda when they are deleted from server]
