@@ -236,10 +236,10 @@ public:
 		m_list.SetExtendedListViewStyle(m_list.GetExtendedListViewStyle() | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 		m_list.AddColumn(0, L"#", 20);
 		m_list.AddColumn(1, TranslateT("Title"), g_plugin.getWord("col1", 95));
-		m_list.AddColumn(2, TranslateT("Module/InfoType"), g_plugin.getWord("col2", 105));
+		m_list.AddColumn(2, TranslateT("Module/Info type"), g_plugin.getWord("col2", 105));
 		m_list.AddColumn(3, TranslateT("Setting"), g_plugin.getWord("col3", 85));
 
-		cmbVarType.AddString(TranslateT("DB setting"), QST_SETTING);
+		cmbVarType.AddString(TranslateT("Database setting"), QST_SETTING);
 		cmbVarType.AddString(TranslateT("Script"), QST_SCRIPT);
 		cmbVarType.AddString(TranslateT("Contact info"), QST_CONTACTINFO);
 		cmbVarType.AddString(TranslateT("Other"), QST_OTHER);
@@ -249,9 +249,9 @@ public:
 		cmbDataType.AddString(TranslateT("Word"), QSTS_WORD);
 		cmbDataType.AddString(TranslateT("Dword"), QSTS_DWORD);
 		cmbDataType.AddString(TranslateT("Signed"), QSTS_SIGNED);
-		cmbDataType.AddString(TranslateT("As hex"), QSTS_HEXNUM);
+		cmbDataType.AddString(TranslateT("Hexadecimal"), QSTS_HEXNUM);
 		cmbDataType.AddString(TranslateT("String"), QSTS_STRING);
-		cmbDataType.AddString(TranslateT("TimeStamp"), QSTS_TIMESTAMP);
+		cmbDataType.AddString(TranslateT("Timestamp"), QSTS_TIMESTAMP);
 		cmbDataType.SetCurSel(0);
 
 		cmbOther.AddString(TranslateT("Last seen"), QSTO_LASTSEEN);

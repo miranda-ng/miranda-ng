@@ -93,7 +93,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// register hotkey
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "QS_Global";
-	hkd.szDescription.a = LPGEN("Quick Search window hotkey");
+	hkd.szDescription.a = LPGEN("Open Quick Search window");
 	hkd.szSection.a = LPGEN("Quick Search");
 	hkd.pszService = QS_SHOWSERVICE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_F3);
