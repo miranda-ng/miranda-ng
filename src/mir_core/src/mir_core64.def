@@ -1224,7 +1224,7 @@ db_event_edit @1268
 ?PreviousSiblingElement@XMLNode@tinyxml2@@QEAAPEAVXMLElement@2@PEBD@Z @1444 NONAME
 ?PreviousSiblingElement@XMLNode@tinyxml2@@QEBAPEBVXMLElement@2@PEBD@Z @1445 NONAME
 ?Print@XMLDocument@tinyxml2@@QEBAXPEAVXMLPrinter@2@@Z @1446 NONAME
-?Print@XMLPrinter@tinyxml2@@IEAAXPEBDZZ @1447 NONAME
+?Print@XMLPrinter@tinyxml2@@MEAAXPEBDZZ @1447 NONAME
 ?PrintError@XMLDocument@tinyxml2@@QEBAXXZ @1448 NONAME
 ?PrintSpace@XMLPrinter@tinyxml2@@MEAAXH@Z @1449 NONAME
 ?PrintString@XMLPrinter@tinyxml2@@AEAAXPEBD_N@Z @1450 NONAME
@@ -1247,7 +1247,7 @@ db_event_edit @1268
 ?PushText@XMLPrinter@tinyxml2@@QEAAX_J@Z @1467 NONAME
 ?PushText@XMLPrinter@tinyxml2@@QEAAX_N@Z @1468 NONAME
 ?PushUnknown@XMLPrinter@tinyxml2@@QEAAXPEBD@Z @1469 NONAME
-?Putc@XMLPrinter@tinyxml2@@IEAAXD@Z @1470 NONAME
+?Putc@XMLPrinter@tinyxml2@@MEAAXD@Z @1470 NONAME
 ?QueryAttribute@XMLElement@tinyxml2@@QEBA?AW4XMLError@2@PEBDPEAH@Z @1471 NONAME
 ?QueryAttribute@XMLElement@tinyxml2@@QEBA?AW4XMLError@2@PEBDPEAI@Z @1472 NONAME
 ?QueryAttribute@XMLElement@tinyxml2@@QEBA?AW4XMLError@2@PEBDPEAM@Z @1473 NONAME
@@ -1399,7 +1399,7 @@ db_event_edit @1268
 ?VisitExit@XMLVisitor@tinyxml2@@UEAA_NAEBVXMLElement@2@@Z @1619 NONAME
 ?WhitespaceMode@XMLDocument@tinyxml2@@QEBA?AW4Whitespace@2@XZ @1620 NONAME
 ?Write@XMLPrinter@tinyxml2@@IEAAXPEBD@Z @1621 NONAME
-?Write@XMLPrinter@tinyxml2@@IEAAXPEBD_K@Z @1622 NONAME
+?Write@XMLPrinter@tinyxml2@@MEAAXPEBD_K@Z @1622 NONAME
 ?_errorNames@XMLDocument@tinyxml2@@0PAPEBDA @1623 NONAME
 ?writeBoolFalse@XMLUtil@tinyxml2@@0PEBDEB @1624 NONAME
 ?writeBoolTrue@XMLUtil@tinyxml2@@0PEBDEB @1625 NONAME
@@ -1508,3 +1508,6 @@ TimeZone_GetSystemTime @1692
 ?GetCurData@CCtrlCombo@@QEBA_JXZ @1730 NONAME
 ?SetDraw@CCtrlBase@@QEAAX_N@Z @1731 NONAME
 ?SetDraw@CDlgBase@@QEAAX_N@Z @1732 NONAME
+?IsPrefixHex@XMLUtil@tinyxml2@@SA_NPEBD@Z @1733 NONAME
+?PrepareForNewNode@XMLPrinter@tinyxml2@@AEAAX_N@Z @1734 NONAME
+?QueryAttribute@XMLElement@tinyxml2@@QEBA?AW4XMLError@2@PEBDPEAPEBD@Z @1735 NONAME
