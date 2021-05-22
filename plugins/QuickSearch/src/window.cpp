@@ -263,7 +263,7 @@ INT_PTR QSMainDlg::NewLVProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					ics.status = &iStatus;
 					ics.flags = CSSF_DEFAULT_NAME | CSSF_MASK_NAME | CSSF_UNICODE;
 					ics.pwszName = buf;
-					CallProtoService(pRow->szProto, PS_GETCUSTOMSTATUSEX);
+					CallProtoService(pRow->szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&ics);
 					ti.lpszText = TranslateW(buf);
 				}
 			}
