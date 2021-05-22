@@ -84,7 +84,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// add menu item
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x98C2A92A, 0xD93D, 0x43E8, 0x91, 0xC3, 0x3B, 0xB6, 0xBE, 0x43, 0x44, 0xF0);
-	mi.name.a = "Quick Search";
+	mi.name.a = LPGEN("Quick Search");
 	mi.position = 500050000;
 	mi.pszService = QS_SHOWSERVICE;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_QS);
@@ -93,8 +93,8 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	// register hotkey
 	HOTKEYDESC hkd = {};
 	hkd.pszName = "QS_Global";
-	hkd.szDescription.a = "QuickSearch window hotkey";
-	hkd.szSection.a = "QuickSearch";
+	hkd.szDescription.a = LPGEN("Quick Search window hotkey");
+	hkd.szSection.a = LPGEN("Quick Search");
 	hkd.pszService = QS_SHOWSERVICE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_F3);
 	g_plugin.addHotkey(&hkd);
@@ -107,15 +107,15 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
-	{ "Quick Search",  "QS",      IDI_QS     },
-	{ "New Column",    "New",     IDI_NEW    },
-	{ "Column Up",     "Up",      IDI_UP     },
-	{ "Column Down",   "Down",    IDI_DOWN   },
-	{ "Delete Column", "Delete",  IDI_DELETE },
-	{ "Default",       "Default", IDI_DEFAULT},
-	{ "Reload",        "Reload",  IDI_RELOAD },
-	{ "Male",          "Male",    IDI_MALE   },
-	{ "Female",        "Female",  IDI_FEMALE },
+	{ LPGEN("Quick Search"),  "QS",      IDI_QS     },
+	{ LPGEN("New Column"),    "New",     IDI_NEW    },
+	{ LPGEN("Column Up"),     "Up",      IDI_UP     },
+	{ LPGEN("Column Down"),   "Down",    IDI_DOWN   },
+	{ LPGEN("Delete Column"), "Delete",  IDI_DELETE },
+	{ LPGEN("Default"),       "Default", IDI_DEFAULT},
+	{ LPGEN("Reload"),        "Reload",  IDI_RELOAD },
+	{ LPGEN("Male"),          "Male",    IDI_MALE   },
+	{ LPGEN("Female"),        "Female",  IDI_FEMALE },
 };
 
 struct
