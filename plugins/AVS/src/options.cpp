@@ -346,7 +346,7 @@ static INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wPar
 				AVATARDRAWREQUEST avdrq = { 0 };
 				avdrq.hTargetDC = dis->hDC;
 				avdrq.dwFlags |= AVDRQ_PROTOPICT;
-				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname.get() : nullptr;
+				avdrq.szProto = (g_selectedProto) ? g_selectedProto->szProtoname : nullptr;
 				GetClientRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), &avdrq.rcDraw);
 				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&avdrq);
 			}

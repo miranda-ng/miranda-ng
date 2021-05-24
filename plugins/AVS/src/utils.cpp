@@ -266,8 +266,16 @@ int GetFileHash(wchar_t *filename)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+protoPicCacheEntry::protoPicCacheEntry(int _type, const char *_szName) :
+	cacheType(_type),
+	szProtoname(mir_strdup(_szName))
+{
+}
+
 protoPicCacheEntry::~protoPicCacheEntry()
 {
+	mir_free(szProtoname);
+
 	if (hbmPic != nullptr)
 		DeleteObject(hbmPic);
 }

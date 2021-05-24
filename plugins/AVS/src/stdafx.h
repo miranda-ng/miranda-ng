@@ -94,15 +94,12 @@ struct CacheNode : public AVATARCACHEENTRY, public MZeroedObject
 
 struct protoPicCacheEntry : public AVATARCACHEENTRY, public MZeroedObject
 {
-	protoPicCacheEntry(int _type, const char *_szName) :
-		cacheType(_type),
-		szProtoname(mir_strdup(_szName))
-	{}
+	protoPicCacheEntry(int _type, const char *_szName);
 	~protoPicCacheEntry();
 
 	void clear();
 
-	ptrA szProtoname;
+	char *szProtoname;
 	int cacheType;
 	union {
 		PROTOCOLDESCRIPTOR *pd = 0;
