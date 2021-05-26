@@ -112,21 +112,6 @@
 /* Define if you want to enable IPv6 support */
 #cmakedefine ENABLE_IPV6 1
 
-/* Define to the type qualifier of arg 1 for getnameinfo. */
-#cmakedefine GETNAMEINFO_QUAL_ARG1 ${GETNAMEINFO_QUAL_ARG1}
-
-/* Define to the type of arg 1 for getnameinfo. */
-#cmakedefine GETNAMEINFO_TYPE_ARG1 ${GETNAMEINFO_TYPE_ARG1}
-
-/* Define to the type of arg 2 for getnameinfo. */
-#cmakedefine GETNAMEINFO_TYPE_ARG2 ${GETNAMEINFO_TYPE_ARG2}
-
-/* Define to the type of args 4 and 6 for getnameinfo. */
-#cmakedefine GETNAMEINFO_TYPE_ARG46 ${GETNAMEINFO_TYPE_ARG46}
-
-/* Define to the type of arg 7 for getnameinfo. */
-#cmakedefine GETNAMEINFO_TYPE_ARG7 ${GETNAMEINFO_TYPE_ARG7}
-
 /* Specifies the number of arguments to getservbyport_r */
 #cmakedefine GETSERVBYPORT_R_ARGS ${GETSERVBYPORT_R_ARGS}
 
@@ -208,6 +193,9 @@
 /* Define to 1 if you have the `geteuid' function. */
 #cmakedefine HAVE_GETEUID 1
 
+/* Define to 1 if you have the `getppid' function. */
+#cmakedefine HAVE_GETPPID 1
+
 /* Define to 1 if you have the gethostbyaddr function. */
 #cmakedefine HAVE_GETHOSTBYADDR 1
 
@@ -243,9 +231,6 @@
 
 /* Define to 1 if you have a working getifaddrs function. */
 #cmakedefine HAVE_GETIFADDRS 1
-
-/* Define to 1 if you have the getnameinfo function. */
-#cmakedefine HAVE_GETNAMEINFO 1
 
 /* Define to 1 if you have the `getpass_r' function. */
 #cmakedefine HAVE_GETPASS_R 1
@@ -327,6 +312,12 @@
 
 /* Define to 1 if you have a IPv6 capable working inet_pton function. */
 #cmakedefine HAVE_INET_PTON 1
+
+/* Define to 1 if symbol `sa_family_t' exists */
+#cmakedefine HAVE_SA_FAMILY_T 1
+
+/* Define to 1 if symbol `ADDRESS_FAMILY' exists */
+#cmakedefine HAVE_ADDRESS_FAMILY 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #cmakedefine HAVE_INTTYPES_H 1
@@ -500,9 +491,6 @@
 /* Define to 1 if you have the <pem.h> header file. */
 #cmakedefine HAVE_PEM_H 1
 
-/* Define to 1 if you have the `perror' function. */
-#cmakedefine HAVE_PERROR 1
-
 /* Define to 1 if you have the `pipe' function. */
 #cmakedefine HAVE_PIPE 1
 
@@ -644,12 +632,6 @@
 /* Define to 1 if you have the <string.h> header file. */
 #cmakedefine HAVE_STRING_H 1
 
-/* Define to 1 if you have the strlcat function. */
-#cmakedefine HAVE_STRLCAT 1
-
-/* Define to 1 if you have the `strlcpy' function. */
-#cmakedefine HAVE_STRLCPY 1
-
 /* Define to 1 if you have the strncmpi function. */
 #cmakedefine HAVE_STRNCMPI 1
 
@@ -739,6 +721,9 @@
 
 /* Define to 1 if you have the `utime' function. */
 #cmakedefine HAVE_UTIME 1
+
+/* Define to 1 if you have the `utimes' function. */
+#cmakedefine HAVE_UTIMES 1
 
 /* Define to 1 if you have the <utime.h> header file. */
 #cmakedefine HAVE_UTIME_H 1

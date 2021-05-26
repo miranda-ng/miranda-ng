@@ -17,6 +17,9 @@
     <ClCompile Include="src\base64.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\bufref.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\c-hyper.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -461,6 +464,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\asyn.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bufref.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\c-hyper.h">

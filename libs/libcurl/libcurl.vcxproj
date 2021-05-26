@@ -41,6 +41,9 @@
     <ClCompile Include="src\base64.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\bufref.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\c-hyper.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -444,6 +447,7 @@
     <ClInclude Include="src\amigaos.h" />
     <ClInclude Include="src\arpa_telnet.h" />
     <ClInclude Include="src\asyn.h" />
+	<ClInclude Include="src\bufref.h" />
     <ClInclude Include="src\c-hyper.h" />
     <ClInclude Include="src\config-amigaos.h" />
     <ClInclude Include="src\config-dos.h" />
