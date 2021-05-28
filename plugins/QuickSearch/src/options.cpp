@@ -263,7 +263,8 @@ public:
 		cmbOther.SetCurSel(0);
 
 		for (int i = CNF_FIRSTNAME; i < CNF_MAX; i++)
-			cmbCnfType.AddString(cnf2str(i), i);
+			if (auto *pwszText = cnf2str(i))
+				cmbCnfType.AddString(pwszText, i);
 		cmbCnfType.SetCurSel(0);
 
 		chkDrawGrid.SetState((g_plugin.m_flags & QSO_DRAWGRID) != 0);

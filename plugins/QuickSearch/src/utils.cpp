@@ -494,7 +494,7 @@ const wchar_t* cnf2str(int cnf)
 	case CNF_COHOMEPAGE: return TranslateT("Company homepage");
 	case CNF_DISPLAYUID: return TranslateT("Display ID");
 	}
-	return L"";
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
