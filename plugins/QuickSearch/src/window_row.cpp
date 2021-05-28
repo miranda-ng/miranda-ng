@@ -132,6 +132,8 @@ void CRowItem::Val::LoadOneItem(MCONTACT hContact, const ColumnItem &pCol, QSMai
 
 	case QST_CONTACTINFO:
 		text = Contact_GetInfo(pCol.cnftype, hContact);
+		if (text)
+			data = _wtoi(text);
 		break;
 
 	case QST_OTHER:
