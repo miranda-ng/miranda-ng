@@ -13,9 +13,6 @@
 #define IDI_UP                          109
 #define IDD_MAIN                        110
 #define IDD_OPTIONS                     111
-#define IDD_FRAME                       112
-#define IDC_FRAME_OPEN                  1001
-#define IDC_FRAME_EDIT                  1002
 #define IDC_RELOAD                      1003
 #define IDC_NEW                         1004
 #define IDC_UP                          1005

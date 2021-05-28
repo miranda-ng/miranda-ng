@@ -165,7 +165,7 @@ void QSMainDlg::AdvancedFilter()
 	UpdateSB();
 }
 
-void QSMainDlg::ChangeStatusPicture(CRowItem *pRow, MCONTACT hContact, LPARAM lParam)
+void QSMainDlg::ChangeStatusPicture(CRowItem *pRow, MCONTACT, LPARAM lParam)
 {
 	int idx = FindItem(pRow);
 	if (idx == -1)

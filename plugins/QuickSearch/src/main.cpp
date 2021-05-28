@@ -98,8 +98,6 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	hkd.pszService = QS_SHOWSERVICE;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_ALT, VK_F3);
 	g_plugin.addHotkey(&hkd);
-
-	CreateFrame(0);
 	return 0;
 }
 
@@ -185,7 +183,6 @@ int CMPlugin::Unload()
 		hTTBButton = 0;
 	}
 
-	DestroyFrame();
 	CloseSrWindow();
 	return 0;
 }
