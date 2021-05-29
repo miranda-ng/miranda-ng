@@ -161,7 +161,7 @@ static int HistoryDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-static LRESULT HotkeyProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK HotkeyProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_CHAR)
 		if (wParam == 0x06) // Ctrl+F
