@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //============  WEATHER CONDITION STRUCT  ============
 
 // weather conditions  (added in v0.1.2.0)
-typedef struct
+struct WEATHERINFO
 {
 	MCONTACT hContact;
 	TCHAR id[128];
@@ -42,11 +42,7 @@ typedef struct
 	TCHAR vis[16];
 	TCHAR sunrise[32];
 	TCHAR sunset[32];
-// are the other ones that important!?
-	WORD status;
-} WEATHERINFO;
-
-
+};
 
 // ===============  WEATHER SERVICES  ================
 

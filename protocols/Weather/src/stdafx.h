@@ -34,26 +34,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <malloc.h>
 
 #include <newpluginapi.h>
-#include <m_contacts.h>
-#include <m_icolib.h>
-#include <m_options.h>
-#include <m_langpack.h>
-#include <m_skin.h>
-#include <m_database.h>
-#include <m_history.h>
-#include <m_protosvc.h>
-#include <m_userinfo.h>
-#include <m_netlib.h>
-#include <m_ignore.h>
-#include <m_findadd.h>
-#include <m_button.h>
-#include <m_avatars.h>
-#include <m_clc.h>
-#include <m_fontservice.h>
-#include <m_skin_eng.h>
-#include <m_cluiframes.h>
-#include <m_popup.h>
 #include <m_acc.h>
+#include <m_avatars.h>
+#include <m_button.h>
+#include <m_clc.h>
+#include <m_cluiframes.h>
+#include <m_contacts.h>
+#include <m_database.h>
+#include <m_findadd.h>
+#include <m_fontservice.h>
+#include <m_history.h>
+#include <m_icolib.h>
+#include <m_ignore.h>
+#include <m_langpack.h>
+#include <m_netlib.h>
+#include <m_options.h>
+#include <m_popup.h>
+#include <m_protosvc.h>
+#include <m_skin.h>
+#include <m_skin_eng.h>
+#include <m_userinfo.h>
+#include <m_xstatus.h>
 
 #include <m_tipper.h>
 #include <m_weather.h>
@@ -71,16 +72,20 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define WEATHERCONDITION   "Current"
 
 // weather conditions
-#define SUNNY     ID_STATUS_ONLINE
-#define NA        ID_STATUS_OFFLINE
-#define PCLOUDY   ID_STATUS_AWAY
-#define CLOUDY    ID_STATUS_NA
-#define RAIN      ID_STATUS_OCCUPIED
-#define FOG       ID_STATUS_DND
-#define SNOW      ID_STATUS_FREECHAT
-#define LIGHT     ID_STATUS_INVISIBLE
-#define THUNDER   ID_STATUS_INVISIBLE
-#define UNAVAIL   40081
+enum EWeatherCondition
+{
+	SUNNY,
+	NA,
+	PCLOUDY,
+	CLOUDY,
+	RAIN,
+	RSHOWER,
+	FOG,
+	SNOW,
+	SSHOWER,
+	LIGHT,
+	MAX_COND
+};
 
 // status
 #define NOSTATUSDATA	1
@@ -386,6 +391,10 @@ void GetPressure(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
 void GetDist(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
 void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
 
+void ClearStatusIcons();
+int MapCondToStatus(MCONTACT hContact);
+HICON GetStatusIcon(MCONTACT hContact);
+
 WORD GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);
 void TrimString(char *str);
@@ -504,6 +513,8 @@ INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	HINSTANCE hIconsDll;
 
 	int Load() override;
 	int Unload() override;

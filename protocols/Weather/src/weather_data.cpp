@@ -79,8 +79,6 @@ WEATHERINFO LoadWeatherInfo(MCONTACT hContact)
 		wcsncpy(winfo.humid, NODATA, _countof(winfo.humid) - 1);
 	if (db_get_wstatic(hContact, WEATHERCONDITION, "Feel", winfo.feel, _countof(winfo.feel)))
 		wcsncpy(winfo.feel, NODATA, _countof(winfo.feel) - 1);
-
-	winfo.status = g_plugin.getWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
 	return winfo;
 }
 
@@ -114,7 +112,7 @@ void EraseAllInfo()
 	// loop through all contacts
 	for (auto &hContact : Contacts(MODULENAME)) {
 		g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
-		g_plugin.setWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
+		g_plugin.setWord(hContact, "StatusIcon", -1);
 		db_unset(hContact, "CList", "MyHandle");
 		// clear all data
 		if (g_plugin.getWString(hContact, "Nick", &dbv)) {

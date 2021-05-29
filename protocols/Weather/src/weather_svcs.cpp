@@ -115,37 +115,52 @@ INT_PTR WeatherGetInfo(WPARAM, LPARAM lParam)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 // avatars
-static const wchar_t *statusStr[] = { L"Light", L"Fog", L"Snow", L"Rain", L"PCloudy", L"Cloudy", L"Sunny", L"NA" };
-static const WORD statusValue[] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
+
+// these data shall go in the same order as EWeatherCondition members
+struct
+{
+	const wchar_t *pwszName;
+	int iconIdx, status, clistIconId;
+}
+static statusIcons[MAX_COND] = 
+{
+	{ L"Sunny",   104,  ID_STATUS_ONLINE },
+	{ L"NA",      105,  ID_STATUS_OFFLINE }, 
+	{ L"PCloudy", 128,  ID_STATUS_AWAY },
+	{ L"Cloudy",  131,  ID_STATUS_NA }, 
+	{ L"Rain",    159,  ID_STATUS_OCCUPIED }, 
+	{ L"RShower", 129,  ID_STATUS_OCCUPIED }, 
+	{ L"Fog",     1003, ID_STATUS_DND }, 
+	{ L"Snow",    158,  ID_STATUS_FREECHAT }, 
+	{ L"SShower", 1002, ID_STATUS_FREECHAT }, 
+	{ L"Light",   130,  ID_STATUS_INVISIBLE },
+};
 
 INT_PTR WeatherGetAvatarInfo(WPARAM, LPARAM lParam)
 {
-	wchar_t szSearchPath[MAX_PATH], *chop;
-	unsigned  i;
-	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
-
+	wchar_t szSearchPath[MAX_PATH];
 	GetModuleFileName(GetModuleHandle(nullptr), szSearchPath, _countof(szSearchPath));
-	chop = wcsrchr(szSearchPath, '\\');
 
-	if (chop) *chop = '\0';
-	else szSearchPath[0] = 0;
+	wchar_t *chop = wcsrchr(szSearchPath, '\\');
+	if (chop)
+		*chop = '\0';
+	else
+		szSearchPath[0] = 0;
 
-	int iStatus = g_plugin.getWord(pai->hContact, "StatusIcon");
-	for (i = 0; i < _countof(statusValue); i++)
-		if (statusValue[i] == iStatus)
-			break;
-
-	if (i >= _countof(statusValue))
+	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
+	int iCond = g_plugin.getWord(pai->hContact, "StatusIcon", -1);
+	if (iCond < 0 || iCond >= MAX_COND)
 		return GAIR_NOAVATAR;
 
 	pai->format = PA_FORMAT_PNG;
-	mir_snwprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.png", szSearchPath, statusStr[i]);
+	mir_snwprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.png", szSearchPath, statusIcons[iCond].pwszName);
 	if (_waccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
 	pai->format = PA_FORMAT_GIF;
-	mir_snwprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.gif", szSearchPath, statusStr[i]);
+	mir_snwprintf(pai->filename, L"%s\\Plugins\\Weather\\%s.gif", szSearchPath, statusIcons[iCond].pwszName);
 	if (_waccess(pai->filename, 4) == 0)
 		return GAIR_SUCCESS;
 
@@ -184,6 +199,53 @@ static INT_PTR WeatherGetAwayMsg(WPARAM, LPARAM lParam)
 	return 1;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// advanced status icons
+
+void ClearStatusIcons()
+{
+	for (auto &it : statusIcons)
+		it.clistIconId = 0;
+}
+
+int MapCondToStatus(MCONTACT hContact)
+{
+	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	if (iCond < 0 || iCond >= MAX_COND)
+		return ID_STATUS_OFFLINE;
+
+	return statusIcons[iCond].status;
+}
+
+HICON GetStatusIcon(MCONTACT hContact)
+{
+	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	if (iCond < 0 || iCond >= MAX_COND)
+		return nullptr;
+
+	auto &pIcon = statusIcons[iCond];
+	if (pIcon.clistIconId == 0)
+		pIcon.clistIconId = ImageList_AddIcon(Clist_GetImageList(), LoadIconA(g_plugin.hIconsDll, MAKEINTRESOURCEA(pIcon.iconIdx)));
+
+	return ImageList_GetIcon(Clist_GetImageList(), pIcon.clistIconId, ILD_NORMAL);
+}
+
+static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
+{
+	if (!hContact || !g_plugin.hIconsDll)
+		return -1;
+
+	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	if (iCond < 0 || iCond >= MAX_COND)
+		return -1;
+
+	auto &pIcon = statusIcons[iCond];
+	if (pIcon.clistIconId == 0)
+		pIcon.clistIconId = ImageList_AddIcon(Clist_GetImageList(), LoadIconA(g_plugin.hIconsDll, MAKEINTRESOURCEA(pIcon.iconIdx)));
+
+	return MAKELONG(0, pIcon.clistIconId);
+}
+
 //============  PROTOCOL INITIALIZATION  ============
 // protocol services
 void InitServices(void)
@@ -201,6 +263,7 @@ void InitServices(void)
 	CreateProtoServiceFunction(MODULENAME, PSS_GETAWAYMSG, WeatherGetAwayMsg);
 	CreateProtoServiceFunction(MODULENAME, PS_CREATEADVSEARCHUI, WeatherCreateAdvancedSearchUI);
 	CreateProtoServiceFunction(MODULENAME, PS_SEARCHBYADVANCED, WeatherAdvancedSearch);
+	CreateProtoServiceFunction(MODULENAME, PS_GETADVANCEDSTATUSICON, WeatherAdvancedStatusIcon);
 
 	CreateProtoServiceFunction(MODULENAME, MS_WEATHER_GETDISPLAY, GetDisplaySvcFunc);
 }

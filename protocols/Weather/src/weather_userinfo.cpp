@@ -131,7 +131,7 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		// set icons
 		Window_FreeIcon_IcoLib(hwndDlg);
-		Window_SetProtoIcon_IcoLib(hwndDlg, MODULENAME, g_plugin.getWord(hContact, "StatusIcon", 0));
+		Window_SetProtoIcon_IcoLib(hwndDlg, MODULENAME, MapCondToStatus(hContact));
 
 		RedrawWindow(GetDlgItem(hwndDlg, IDC_HEADERBAR), nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 		break;
@@ -253,7 +253,7 @@ static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		w = LoadWeatherInfo(lParam);
 		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
-		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(MODULENAME, g_plugin.getWord(hContact, "StatusIcon")), 0);
+		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, (WPARAM)Skin_LoadProtoIcon(MODULENAME, MapCondToStatus(hContact)), 0);
 		{
 			// bold and enlarge the current condition
 			LOGFONT lf;

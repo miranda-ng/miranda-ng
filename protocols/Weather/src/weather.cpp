@@ -158,6 +158,9 @@ int CMPlugin::Load()
 {
 	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 
+	// load dll with icons
+	hIconsDll = LoadLibraryW(VARSW(L"%miranda_path%\\Icons\\proto_Weather.dll"));
+
 	// load options and set defaults
 	LoadOptions();
 
@@ -210,6 +213,9 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	if (hIconsDll)
+		FreeModule(hIconsDll);
+
 	DestroyMwin();
 	DestroyWindow(hPopupWindow);
 

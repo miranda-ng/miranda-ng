@@ -120,10 +120,11 @@ int UpdateWeather(MCONTACT hContact)
 	g_plugin.setWString(hContact, "LastUpdate", winfo.update);
 
 	// display condition on contact list
-	if (opt.DisCondIcon && winfo.status != ID_STATUS_OFFLINE)
+	int iStatus = MapCondToStatus(winfo.hContact);
+	if (opt.DisCondIcon && iStatus != ID_STATUS_OFFLINE)
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	else
-		g_plugin.setWord(hContact, "Status", winfo.status);
+		g_plugin.setWord(hContact, "Status", iStatus);
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, GetTextValue('C'), str2);
@@ -150,7 +151,7 @@ int UpdateWeather(MCONTACT hContact)
 	if (!mir_wstrcmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
 		// save current condition for default station to be displayed after the update
 		old_status = status;
-		status = winfo.status;
+		status = iStatus;
 		// a workaround for a default station that currently have an n/a icon assigned
 		if (status == ID_STATUS_OFFLINE)	status = NOSTATUSDATA;
 		ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);

@@ -262,7 +262,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			// change the status for weather protocol
 			if (IsDlgButtonChecked(hdlg, IDC_PROTOCOND) && opt.DefStn != NULL) {
 				old_status = status;
-				status = g_plugin.getWord(opt.DefStn, "StatusIcon", NOSTATUSDATA);
+				status = MapCondToStatus(opt.DefStn);
 				ProtoBroadcastAck(MODULENAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
 			}
 

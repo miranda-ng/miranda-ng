@@ -112,7 +112,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		return TRUE;
 
 	case UM_FREEPLUGINDATA:
-		IcoLib_ReleaseIcon((HICON)PUGetPluginData(hWnd));
+		DestroyIcon((HICON)PUGetPluginData(hWnd));
 		return FALSE;
 	}
 
@@ -131,7 +131,7 @@ int WeatherPopup(WPARAM hContact, LPARAM lParam)
 		// setup the popup
 		POPUPDATAW ppd;
 		ppd.lchContact = hContact;
-		ppd.PluginData = ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, winfo.status);
+		ppd.PluginData = ppd.lchIcon = GetStatusIcon(winfo.hContact);
 		GetDisplay(&winfo, GetTextValue('P'), ppd.lpwzContactName);
 		GetDisplay(&winfo, GetTextValue('p'), ppd.lpwzText);
 		ppd.PluginWindowProc = PopupDlgProc;

@@ -353,7 +353,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			GetDlgItemText(hwndDlg, IDC_MURL, str, _countof(str));
 			g_plugin.setWString(hContact, "MapURL", str);
 			g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
-			g_plugin.setWord(hContact, "StatusIcon", ID_STATUS_OFFLINE);
+			g_plugin.setWord(hContact, "StatusIcon", -1);
 			AvatarDownloaded(hContact);
 			g_plugin.setWString(hContact, "About", str2);
 			g_plugin.setByte(hContact, "History", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Internal));
