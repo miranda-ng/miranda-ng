@@ -51,11 +51,11 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 		CMStringW wszId(it.as_mstring());
 		auto *p = FindContactByUIN(wszId);
 		if (p == nullptr) {
-			auto hContact = CreateContact(wszId, false);
-			Contact_Hide(hContact);
+			CreateContact(wszId, false);
 			p = FindContactByUIN(wszId);
 		}
 		p->m_iApparentMode = ID_STATUS_OFFLINE;
+		Contact_Hide(p->m_hContact);
 		m_bIgnoreListEmpty = false;
 	}
 

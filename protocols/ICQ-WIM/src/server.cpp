@@ -282,7 +282,11 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		CMStringW wszChatId(buddy["aimId"].as_mstring());
 		CMStringW wszChatName(buddy["friendly"].as_mstring());
 
-		SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
+		auto *pContact = FindContactByUIN(wszId);
+		if (pContact && pContact->m_iApparentMode == ID_STATUS_OFFLINE)
+			return INVALID_CONTACT_ID;
+
+		auto *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszChatId, wszChatName);
 		if (si == nullptr)
 			return INVALID_CONTACT_ID;
 
