@@ -271,6 +271,18 @@ void CDiscordProto::OnReceiveToken(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 					}
 				}
 			}
+			
+			for (auto &err: root["errors"]["email"]["_errors"]) {
+				CMStringW code(err["code"].as_mstring());
+				CMStringW message(err["message"].as_mstring());
+				if (!code.IsEmpty() || !message.IsEmpty()) {
+					POPUPDATAW popup;
+					popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
+					wcscpy_s(popup.lpwzContactName, m_tszUserName);
+					mir_snwprintf(popup.lpwzText, TranslateT("Connection failed.\n%s (%s)."), message.c_str(), code.c_str());
+					PUAddPopupW(&popup);
+				}
+			}
 		}
 		ConnectionFailed(LOGINERR_WRONGPASSWORD);
 		return;
