@@ -35,6 +35,8 @@ static HGENMENU hContactMenu = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Find dialog window procedure
 
+static CMStringW g_savedSearch;
+
 class CHistoryFindDlg : public CDlgBase
 {
 public:
@@ -44,10 +46,18 @@ public:
 		SetParent(hwndParent);
 	}
 
+	bool OnInitDialog() override
+	{
+		SetDlgItemText(m_hwnd, IDC_FINDWHAT, g_savedSearch);
+		return true;
+	}
+
 	bool OnApply() override
 	{
 		wchar_t str[128];
 		GetDlgItemText(m_hwnd, IDC_FINDWHAT, str, _countof(str));
+		g_savedSearch = str;
+
 		CharUpperW(str);
 		SendMessage(m_hwndParent, DM_FINDNEXT, 0, (LPARAM)str);
 		return true;
@@ -163,9 +173,24 @@ static int HistoryDlgResizer(HWND, LPARAM, UTILRESIZECONTROL *urc)
 
 static LRESULT CALLBACK HotkeyProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_CHAR)
+	switch (msg) {
+	case WM_CHAR:
 		if (wParam == 0x06) // Ctrl+F
 			PostMessage(GetParent(hwndDlg), WM_COMMAND, IDC_FIND, 0);
+		break;
+
+	case WM_KEYDOWN:
+		if (wParam == VK_F3) {
+			wchar_t buf[200];
+			wcsncpy_s(buf, g_savedSearch, _countof(buf)-1);
+			CharUpperW(buf);
+			SendMessage(GetParent(hwndDlg), DM_FINDNEXT, 0, LPARAM(buf));
+		}
+		else if (wParam == VK_DELETE) {
+			PostMessage(GetParent(hwndDlg), WM_COMMAND, IDC_DELETEHISTORY, 0);
+		}
+		break;
+	}
 
 	return mir_callNextSubclass(hwndDlg, HotkeyProc, msg, wParam, lParam);
 }
@@ -300,7 +325,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
 			if (wszDescr) {
-				CharUpperBuff(wszDescr, (int)mir_wstrlen(wszDescr));
+				CharUpperW(wszDescr);
 				if (wcsstr(wszDescr, (const wchar_t *)lParam) != nullptr) {
 					SendDlgItemMessage(hwndDlg, IDC_LIST, LB_SETCURSEL, index, 0);
 					SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
