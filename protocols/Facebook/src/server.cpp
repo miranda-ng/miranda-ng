@@ -20,8 +20,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void FacebookProto::ConnectionFailed()
+void FacebookProto::ConnectionFailed(int iErrorCode)
 {
+	if (iErrorCode) {
+		POPUPDATAW popup;
+		popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR), true);
+		wcscpy_s(popup.lpwzContactName, m_tszUserName);
+		mir_snwprintf(popup.lpwzText, TranslateT("Connection failed with error code %d"), iErrorCode);
+		PUAddPopupW(&popup);
+	}
+
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)m_iStatus, m_iDesiredStatus);
 
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -346,7 +354,7 @@ void FacebookProto::RefreshThreads()
 	}
 }
 
-bool FacebookProto::RefreshToken()
+int FacebookProto::RefreshToken()
 {
 	auto *pReq = CreateRequest(FB_API_URL_AUTH, "authenticate", "auth.login");
 	pReq->flags |= NLHRF_NODUMP;
@@ -356,7 +364,7 @@ bool FacebookProto::RefreshToken()
 
 	JsonReply reply(ExecuteRequest(pReq));
 	if (reply.error())
-		return false;
+		return reply.error();
 
 	m_szAuthToken = reply.data()["access_token"].as_mstring();
 	setString(DBKEY_TOKEN, m_szAuthToken);
@@ -364,7 +372,7 @@ bool FacebookProto::RefreshToken()
 	CMStringA m_szUid = reply.data()["uid"].as_mstring();
 	setString(DBKEY_ID, m_szUid);
 	m_uid = _atoi64(m_szUid);
-	return true;
+	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -376,8 +384,8 @@ void FacebookProto::ServerThread(void *)
 LBL_Begin:
 	m_szAuthToken = getMStringA(DBKEY_TOKEN);
 	if (m_szAuthToken.IsEmpty()) {
-		if (!RefreshToken()) {
-			ConnectionFailed();
+		if (int iErrorCode = RefreshToken()) {
+			ConnectionFailed(iErrorCode);
 			return;
 		}
 	}
@@ -389,7 +397,7 @@ LBL_Begin:
 			goto LBL_Begin;
 		}
 
-		ConnectionFailed();
+		ConnectionFailed(iErrorCode);
 		return;
 	}
 

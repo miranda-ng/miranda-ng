@@ -407,7 +407,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	uint8_t *doZip(size_t cbData, const void *pData, size_t &cbRes);
 	uint8_t *doUnzip(size_t cbData, const void *pData, size_t &cbRes);
 
-	void ConnectionFailed();
+	void ConnectionFailed(int iErrorCode = 0);
 
 	AsyncHttpRequest *CreateRequest(const char *szUrl, const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
@@ -482,7 +482,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	FacebookUser* RefreshThread(JSONNode &n);
 	FacebookUser* RefreshThread(CMStringW &wszId);
 	bool RefreshSid();
-	bool RefreshToken();
+	int  RefreshToken();
 	void RefreshThreads();
 	int  RefreshContacts();
 
