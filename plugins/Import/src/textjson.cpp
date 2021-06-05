@@ -155,28 +155,49 @@ public:
 			}
 		}
 
-		std::string szBody = (*node)["body"].as_string();
-		if (!szBody.empty()) {
-			int offset;
-			switch (dbei->eventType) {
-			case EVENTTYPE_ADDED:
-			case EVENTTYPE_FILE:
-				offset = sizeof(DWORD);
-				break;
-			
-			case EVENTTYPE_AUTHREQUEST:
-				offset = sizeof(DWORD)*2;
-				break;
-
-			default:
-				offset = 0;
-			}
+		if (dbei->eventType == EVENTTYPE_FILE) {
+			std::string szFile = (*node)["file"].as_string();
+			std::string szDescr = (*node)["descr"].as_string();
 
 			dbei->flags |= DBEF_UTF;
-			dbei->cbBlob = (DWORD)szBody.size() + offset;
-			dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob+1);
-			memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
-			dbei->pBlob[dbei->cbBlob] = 0;
+			MBinBuffer buf;
+			DWORD tmp = 0;
+			buf.append(&tmp, sizeof(tmp));
+			buf.append(szFile.c_str(), szFile.size());
+			if (!szDescr.empty()) {
+				buf.append(&tmp, 1);
+				buf.append(szDescr.c_str(), szDescr.size());
+			}
+			buf.append(&tmp, 1);
+
+			dbei->cbBlob = (int)buf.length();
+			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob);
+			memcpy(dbei->pBlob, buf.data(), buf.length());
+		}
+		else {
+			std::string szBody = (*node)["body"].as_string();
+			if (!szBody.empty()) {
+				int offset;
+				switch (dbei->eventType) {
+				case EVENTTYPE_ADDED:
+				case EVENTTYPE_FILE:
+					offset = sizeof(DWORD);
+					break;
+
+				case EVENTTYPE_AUTHREQUEST:
+					offset = sizeof(DWORD) * 2;
+					break;
+
+				default:
+					offset = 0;
+				}
+
+				dbei->flags |= DBEF_UTF;
+				dbei->cbBlob = (DWORD)szBody.size() + offset;
+				dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob + 1);
+				memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
+				dbei->pBlob[dbei->cbBlob] = 0;
+			}
 		}
 
 		return 0;
