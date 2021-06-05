@@ -391,6 +391,7 @@ begin
   else
     BlobSize := 0;
 
+  Result.cbBlob := BlobSize;
   if db_event_get(hDBEvent, @Result) = 0 then
   begin
     Result.cbBlob := BlobSize;
