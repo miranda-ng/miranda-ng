@@ -961,18 +961,10 @@ int nExportEvent(WPARAM hContact, LPARAM hDbEvent)
 
 bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstring &sFilePath, bool bAppendOnly)
 {
-	DBEVENTINFO dbei = {};
-	int nSize = db_event_getBlobSize(hDbEvent);
-	if (nSize > 0) {
-		dbei.cbBlob = nSize;
-		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob + 2);
-		dbei.pBlob[dbei.cbBlob] = 0;
-		dbei.pBlob[dbei.cbBlob + 1] = 0;
-		// Double null terminate, this should prevent most errors 
-		// where the blob received has an invalid format
-	}
-
 	bool result = true;
+
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (!db_event_get(hDbEvent, &dbei)) {
 		if (db_mc_isMeta(hContact))
 			hContact = db_event_getContact(hDbEvent);
@@ -980,8 +972,7 @@ bool bExportEvent(MCONTACT hContact, MEVENT hDbEvent, HANDLE hFile, const wstrin
 		// Write the event
 		result = ExportDBEventInfo(hContact, hFile, sFilePath, dbei, bAppendOnly);
 	}
-	if (dbei.pBlob)
-		free(dbei.pBlob);
+
 	return result;
 }
 

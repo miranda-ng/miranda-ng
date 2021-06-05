@@ -292,7 +292,14 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
-	int bytesToCopy = (dbei->cbBlob < dbe->cbBlob) ? dbei->cbBlob : dbe->cbBlob;
+
+	DWORD cbBlob = dbe->cbBlob;
+	size_t bytesToCopy = cbBlob;
+	if (dbei->cbBlob == -1)
+		dbei->pBlob = (PBYTE)mir_calloc(cbBlob + 2);
+	else if (dbei->cbBlob < cbBlob)
+		bytesToCopy = dbei->cbBlob;
+
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *pSrc;

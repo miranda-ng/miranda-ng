@@ -195,26 +195,16 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 	if (!BoltunAutoChat(hContact))
 		return 0;
 
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (dbei.cbBlob == -1)
-		return 0;
-
-	dbei.pBlob = (PBYTE)malloc(dbei.cbBlob);
-	if (dbei.pBlob == nullptr)
-		return 0;
-
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	db_event_get(hDbEvent, &dbei);
 	if (dbei.flags & DBEF_SENT || dbei.flags & DBEF_READ || dbei.eventType != EVENTTYPE_MESSAGE)
 		return 0;
 
-	wchar_t *s = DbEvent_GetTextW(&dbei, CP_ACP);
-	free(dbei.pBlob);
 	if (Config.MarkAsRead)
 		db_event_markRead(hContact, hDbEvent);
 
-	AnswerToContact(hContact, s);
-	mir_free(s);
+	AnswerToContact(hContact, ptrW(DbEvent_GetTextW(&dbei, CP_ACP)));
 	return 0;
 }
 

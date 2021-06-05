@@ -56,33 +56,30 @@ CMPlugin::CMPlugin() :
 
 static int HookDBEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	//process the event
+	// process the event
 	DBEVENTINFO dbe = {};
 	db_event_get(hDbEvent, &dbe);
-	//check if we should process the event
-	if (dbe.flags & (DBEF_SENT | DBEF_READ) || dbe.eventType != EVENTTYPE_CONTACTS) return 0;
-	//get event contents
-	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (dbe.cbBlob != -1)
-		dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
-	db_event_get(hDbEvent, &dbe);
-	//play received sound
+	
+	// check if we should process the event
+	if (dbe.flags & (DBEF_SENT | DBEF_READ) || dbe.eventType != EVENTTYPE_CONTACTS)
+		return 0;
+	
+	// play received sound
 	Skin_PlaySound("RecvContacts");
-	{
-		//add event to the contact list
-		wchar_t caToolTip[128];
-		mir_snwprintf(caToolTip, L"%s %s", TranslateT("Contacts received from"), Clist_GetContactDisplayName(hContact));
 
-		CLISTEVENT cle = {};
-		cle.hContact = hContact;
-		cle.hDbEvent = hDbEvent;
-		cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS));
-		cle.pszService = MS_CONTACTS_RECEIVE;
-		cle.szTooltip.w = caToolTip;
-		cle.flags |= CLEF_UNICODE;
-		g_clistApi.pfnAddEvent(&cle);
-	}
-	return 0; //continue processing by other hooks
+	// add event to the contact list
+	wchar_t caToolTip[128];
+	mir_snwprintf(caToolTip, L"%s %s", TranslateT("Contacts received from"), Clist_GetContactDisplayName(hContact));
+
+	CLISTEVENT cle = {};
+	cle.hContact = hContact;
+	cle.hDbEvent = hDbEvent;
+	cle.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_CONTACTS));
+	cle.pszService = MS_CONTACTS_RECEIVE;
+	cle.szTooltip.w = caToolTip;
+	cle.flags |= CLEF_UNICODE;
+	g_clistApi.pfnAddEvent(&cle);
+	return 0;
 }
 
 static void ProcessUnreadEvents(void)

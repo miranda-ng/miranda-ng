@@ -390,9 +390,8 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (!bIsNew) {
 			MEVENT hOldEvent = db_event_getById(m_szModuleName, szMsgId);
 			if (hOldEvent) {
-				DBEVENTINFO dbei = {};
-				dbei.cbBlob = db_event_getBlobSize(hOldEvent);
-				dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob);
+				DB::EventInfo dbei;
+				dbei.cbBlob = -1;
 				if (!db_event_get(hOldEvent, &dbei)) {
 					ptrW wszOldText(DbEvent_GetTextW(&dbei, CP_UTF8));
 					if (wszOldText)
@@ -400,7 +399,6 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 					if (dbei.flags & DBEF_SENT)
 						bOurMessage = true;
 				}
-				mir_free(dbei.pBlob);
 			}
 		}
 

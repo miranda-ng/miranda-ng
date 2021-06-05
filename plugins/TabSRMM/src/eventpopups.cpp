@@ -313,11 +313,9 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 	else
 		szHeader[0] = 0;
 
-	DBEVENTINFO dbe = {};
-	if (pdata->pluginOptions->bPreview && hContact) {
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
-	}
+	DB::EventInfo dbe;
+	if (pdata->pluginOptions->bPreview && hContact)
+		dbe.cbBlob = -1;
 	db_event_get(hEvent, &dbe);
 
 	wchar_t timestamp[MAX_DATASIZE];
@@ -360,8 +358,6 @@ static int PopupUpdateT(MCONTACT hContact, MEVENT hEvent)
 		pdata->nrEventsAlloced += 5;
 		pdata->eventData = (EVENT_DATAT *)mir_realloc(pdata->eventData, pdata->nrEventsAlloced * sizeof(EVENT_DATAT));
 	}
-	if (dbe.pBlob)
-		mir_free(dbe.pBlob);
 
 	PUChangeTextW(pdata->hWnd, lpzText);
 	return 0;
@@ -373,12 +369,10 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	if (arPopupList.getCount() >= MAX_POPUPS)
 		return 2;
 
-	DBEVENTINFO dbe = {};
+	DB::EventInfo dbe;
 	// fix for a crash
-	if (hEvent && (pluginOptions->bPreview || hContact == 0)) {
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
-	}
+	if (hEvent && (pluginOptions->bPreview || hContact == 0))
+		dbe.cbBlob = -1;
 	db_event_get(hEvent, &dbe);
 
 	if (hEvent == 0 && hContact == 0)
@@ -437,10 +431,6 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	pdata->nrMerged = 1;
 	PUAddPopupW(&pud);
 	arPopupList.insert(pdata);
-
-	if (dbe.pBlob)
-		mir_free(dbe.pBlob);
-
 	return 0;
 }
 

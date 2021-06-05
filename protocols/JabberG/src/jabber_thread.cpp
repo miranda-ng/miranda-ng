@@ -980,18 +980,11 @@ DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
 	if (!hDbEvent)
 		return 0;
 
-	DWORD dwTime = 0;
+	DB::EventInfo dbei;
+	if (!db_event_get(hDbEvent, &dbei))
+		return dbei.timestamp;
 
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (dbei.cbBlob != -1) {
-		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
-		int nGetTextResult = db_event_get(hDbEvent, &dbei);
-		if (!nGetTextResult)
-			dwTime = dbei.timestamp;
-		mir_free(dbei.pBlob);
-	}
-	return dwTime;
+	return 0;
 }
 
 MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM* chatItem)

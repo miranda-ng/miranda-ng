@@ -296,7 +296,6 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		return 1;
 	}
 
-	size_t cbBlob;
 	const DBEvent *dbe;
 	{
 		MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
@@ -304,15 +303,21 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 			return 1;
 
 		dbe = (const DBEvent*)data.iov_base;
-		cbBlob = data.iov_len - sizeof(DBEvent);
 	}
 
 	dbei->szModule = GetModuleName(dbe->iModuleId);
 	dbei->timestamp = dbe->timestamp;
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
-	size_t bytesToCopy = min(dbei->cbBlob, cbBlob);
-	dbei->cbBlob = dbe->cbBlob;
+
+	DWORD cbBlob = dbe->cbBlob;
+	size_t bytesToCopy = cbBlob;
+	if (dbei->cbBlob == -1)
+		dbei->pBlob = (PBYTE)mir_calloc(cbBlob + 2);
+	else if (dbei->cbBlob < cbBlob)
+		bytesToCopy = dbei->cbBlob;
+
+	dbei->cbBlob = (DWORD)cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *pSrc = (BYTE*)dbe + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) {

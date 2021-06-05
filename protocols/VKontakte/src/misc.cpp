@@ -1739,10 +1739,8 @@ MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStri
 	if (!hDbEvent)
 		return 0;
 
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-	dbei.pBlob = blob;
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	db_event_get(hDbEvent, &dbei);
 
 	msg = ptrW(mir_utf8decodeW((char*)dbei.pBlob));

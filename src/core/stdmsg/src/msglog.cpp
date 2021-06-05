@@ -201,17 +201,13 @@ int DbEventIsShown(DBEVENTINFO *dbei)
 //mir_free() the return value
 static bool CreateRTFFromDbEvent(LogStreamData *dat)
 {
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
-	if (dbei.cbBlob == -1)
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(dat->hDbEvent, &dbei))
 		return false;
 
-	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-	db_event_get(dat->hDbEvent, &dbei);
-	if (!DbEventIsShown(&dbei)) {
-		mir_free(dbei.pBlob);
+	if (!DbEventIsShown(&dbei))
 		return false;
-	}
 	
 	if (!(dbei.flags & DBEF_SENT) && (dbei.eventType == EVENTTYPE_MESSAGE || DbEventIsForMsgWindow(&dbei))) {
 		db_event_markRead(dat->hContact, dat->hDbEvent);
@@ -338,7 +334,6 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 	if (bIsRtl)
 		buf.Append("\\par");
 
-	mir_free(dbei.pBlob);
 	return true;
 }
 

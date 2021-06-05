@@ -437,11 +437,7 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 	if (streamData->dbei != nullptr)
 		dbei = *(streamData->dbei);
 	else {
-		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-		if (dbei.cbBlob == -1)
-			return nullptr;
-
-		dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+		dbei.cbBlob = -1;
 		db_event_get(hDbEvent, &dbei);
 		if (!DbEventIsShown(&dbei)) {
 			mir_free(dbei.pBlob);

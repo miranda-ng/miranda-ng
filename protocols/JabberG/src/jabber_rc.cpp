@@ -449,21 +449,15 @@ int CJabberProto::RcGetUnreadEventsCount()
 		if (jid == nullptr) continue;
 
 		for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-			DBEVENTINFO dbei = {};
-			dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-			if (dbei.cbBlob == -1)
-				continue;
+			DB::EventInfo dbei;
+			dbei.cbBlob = -1;
 
-			dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 1);
 			int nGetTextResult = db_event_get(hDbEvent, &dbei);
 			if (!nGetTextResult && dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT)) {
-				wchar_t *szEventText = DbEvent_GetTextW(&dbei, CP_ACP);
-				if (szEventText) {
+				ptrW szEventText(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (szEventText)
 					nEventsSent++;
-					mir_free(szEventText);
-				}
 			}
-			mir_free(dbei.pBlob);
 		}
 	}
 	return nEventsSent;
@@ -531,13 +525,8 @@ int CJabberProto::AdhocForwardHandler(const TiXmlElement*, CJabberIqInfo *pInfo,
 				continue;
 
 			for (MEVENT hDbEvent = db_event_firstUnread(hContact); hDbEvent; hDbEvent = db_event_next(hContact, hDbEvent)) {
-				DBEVENTINFO dbei = {};
-				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-				if (dbei.cbBlob == -1)
-					continue;
-
-				mir_ptr<BYTE> pEventBuf((PBYTE)mir_alloc(dbei.cbBlob + 1));
-				dbei.pBlob = pEventBuf;
+				DB::EventInfo dbei;
+				dbei.cbBlob = -1;
 				if (db_event_get(hDbEvent, &dbei))
 					continue;
 

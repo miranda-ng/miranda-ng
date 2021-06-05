@@ -113,12 +113,8 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		return 0;
 
 	// receive message from DB
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDBEvent);
-	if (dbei.cbBlob == -1)
-		return 0;
-
-	dbei.pBlob = (unsigned char*)alloca(dbei.cbBlob);
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	db_event_get(hDBEvent, &dbei);
 	if (dbei.flags & DBEF_SENT || dbei.flags & DBEF_READ || (dbei.eventType != EVENTTYPE_MESSAGE))
 		return 0;

@@ -4,14 +4,10 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (-1 == dbei.cbBlob)
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(hDbEvent, &dbei))
 		return 0;
-
-	mir_ptr<BYTE> blob((LPBYTE)mir_alloc(dbei.cbBlob));
-	dbei.pBlob = blob;
-	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
 	if (g_sets.ProtoDisabled(dbei.szModule))

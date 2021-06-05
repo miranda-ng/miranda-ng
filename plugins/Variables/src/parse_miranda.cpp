@@ -564,17 +564,12 @@ static wchar_t* parseDbEvent(ARGUMENTSINFO *ai)
 	if (hDbEvent == NULL)
 		return nullptr;
 
-	DBEVENTINFO dbe = {};
-	dbe.cbBlob = db_event_getBlobSize(hDbEvent);
-	dbe.pBlob = (PBYTE)mir_calloc(dbe.cbBlob);
-	if (db_event_get(hDbEvent, &dbe)) {
-		mir_free(dbe.pBlob);
+	DB::EventInfo dbe;
+	dbe.cbBlob = -1;
+	if (db_event_get(hDbEvent, &dbe))
 		return nullptr;
-	}
 
-	wchar_t *res = DbEvent_GetTextW(&dbe, CP_ACP);
-	mir_free(dbe.pBlob);
-	return res;
+	return DbEvent_GetTextW(&dbe, CP_ACP);
 }
 
 static wchar_t* parseTranslate(ARGUMENTSINFO *ai)

@@ -380,17 +380,13 @@ void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searc
 					// Perform deep scan
 					if (actualElement->hEvent != NULL)
 					{
-						DBEVENTINFO dbe = {};
-						dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-						dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
+						DB::EventInfo dbe;
+						dbe.cbBlob = -1;
 						db_event_get(actualElement->hEvent, &dbe);
-						dbe.pBlob[dbe.cbBlob] = 0;
-						LPTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
+
+						ptrW msg(DbEvent_GetTextW(&dbe, CP_ACP));
 						if (wcsstr(msg, searchString))
 							filter3 = 1;
-
-						mir_free(dbe.pBlob);
-						mir_free(msg);
 					}
 					else filter3 = 0;
 				}
@@ -614,16 +610,12 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 		if (actualElement->linePos == actLinePos) {
 			MEVENT hEvent = actualElement->hEvent;
 			if (hEvent != NULL) {
-				DBEVENTINFO dbe = {};
-				dbe.cbBlob = db_event_getBlobSize(hEvent);
-				dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
+				DB::EventInfo dbe;
+				dbe.cbBlob = -1;
 				db_event_get(hEvent, &dbe);
-				dbe.pBlob[dbe.cbBlob] = 0;
-				LPCTSTR msg = DbEvent_GetTextW(&dbe, CP_ACP);
-				SetDlgItemText(hDlg, IDC_MESSAGE, nullptr);
-				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, (LPARAM)msg);
-				mir_free((void*)msg);
-				mir_free(dbe.pBlob);
+
+				SetDlgItemTextW(hDlg, IDC_MESSAGE, L"");
+				SendDlgItemMessage(hDlg, IDC_MESSAGE, EM_REPLACESEL, FALSE, ptrW(DbEvent_GetTextW(&dbe, CP_ACP)));
 			}
 			break;
 		}
@@ -771,18 +763,14 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, size
 				// Perform deep scan
 				if (actualElement->hEvent != NULL)
 				{
-					DBEVENTINFO dbe = {};
-					dbe.cbBlob = db_event_getBlobSize(actualElement->hEvent);
-					dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
+					DB::EventInfo dbe;
+					dbe.cbBlob = -1;
 					db_event_get(actualElement->hEvent, &dbe);
-					dbe.pBlob[dbe.cbBlob] = 0;
+
 					if (wcsstr((LPTSTR)dbe.pBlob, searchString))
 						filter3 = 1;
-
-					mir_free(dbe.pBlob);
 				}
-				else
-					filter3 = 0;
+				else filter3 = 0;
 			}
 			else
 			{
@@ -790,8 +778,7 @@ void GetListInfo(BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, size
 					filter3 = 1;
 			}
 		}
-		else
-			filter3 = 1;
+		else filter3 = 1;
 
 		if ((filter1 == 1) && (filter2 == 1) && (filter3 == 1))
 		{
@@ -1171,27 +1158,24 @@ This function is derived from his Wordlookup Plugin
 int DBUpdate(WPARAM wParam, LPARAM hEvent)
 {
 	HWND hDlg = WindowList_Find(hWindowList, wParam);
-	DIALOGPARAM *DlgParam;
 	HMENU listMenu = GetMenu(hDlg);
-	int linkNum = 0;
-
-	DlgParam = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+	DIALOGPARAM *DlgParam = (DIALOGPARAM *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 	if (GetUpdateSetting() != 1)
 		return 0;
 
 	if (hDlg) {
-		DBEVENTINFO dbe = {};
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc((size_t)dbe.cbBlob + 1);
-		db_event_get(hEvent, &dbe);
+		DB::EventInfo dbe;
+		dbe.cbBlob = -1;
+		if (db_event_get(hEvent, &dbe))
+			return 0;
+
 		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
-			linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
+			int linkNum = ExtractURI(&dbe, hEvent, DlgParam->listStart);
 			if (linkNum > 0)
 				WriteLinkList(hDlg, GetFlags(listMenu), DlgParam->listStart, nullptr, linkNum);
 		}
-		mir_free(dbe.pBlob);
 	}
 	return 0;
 }

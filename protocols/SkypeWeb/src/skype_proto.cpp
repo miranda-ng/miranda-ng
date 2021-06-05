@@ -192,11 +192,9 @@ MCONTACT CSkypeProto::AddToList(int, PROTOSEARCHRESULT *psr)
 MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
 	debugLogA(__FUNCTION__);
-	DBEVENTINFO dbei = {};
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return NULL;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
-		return NULL;
+	
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (db_event_get(hDbEvent, &dbei))
 		return NULL;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
@@ -205,9 +203,7 @@ MCONTACT CSkypeProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 		return NULL;
 
 	DB::AUTH_BLOB blob(dbei.pBlob);
-
-	MCONTACT hContact = AddContact(blob.get_email(), blob.get_nick());
-	return hContact;
+	return AddContact(blob.get_email(), blob.get_nick());
 }
 
 int CSkypeProto::Authorize(MEVENT hDbEvent)

@@ -383,11 +383,8 @@ MCONTACT CJabberProto::AddToListByEvent(int flags, int /*iContact*/, MEVENT hDbE
 {
 	debugLogA("AddToListByEvent");
 
-	DBEVENTINFO dbei = {};
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return 0;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
-		return 0;
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (db_event_get(hDbEvent, &dbei))
 		return 0;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
@@ -407,11 +404,8 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 	if (!m_bJabberOnline)
 		return 1;
 
-	DBEVENTINFO dbei = {};
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return 1;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
-		return 1;
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (db_event_get(hDbEvent, &dbei))
 		return 1;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -450,14 +444,8 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 
 	debugLogA("Entering AuthDeny");
 
-	DBEVENTINFO dbei = {};
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return 1;
-
-	mir_ptr<BYTE> pBlob((PBYTE)mir_alloc(dbei.cbBlob));
-	if ((dbei.pBlob = pBlob) == nullptr)
-		return 1;
-
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (db_event_get(hDbEvent, &dbei))
 		return 1;
 

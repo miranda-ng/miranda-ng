@@ -91,23 +91,21 @@ static wchar_t* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
 static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	if (currentWatcherType & SDWTF_MESSAGE) {
-		DBEVENTINFO dbe = {};
-		dbe.cbBlob = db_event_getBlobSize(hDbEvent);
-		dbe.pBlob = (BYTE*)mir_alloc(dbe.cbBlob + 2); /* ensure term zero */
-		if (dbe.pBlob == nullptr)
+		DB::EventInfo dbei;
+		dbei.cbBlob = -1;
+		if (db_event_get(hDbEvent, &dbei))
 			return 0;
-		if (!db_event_get(hDbEvent, &dbe))
-			if (dbe.eventType == EVENTTYPE_MESSAGE && !(dbe.flags & DBEF_SENT)) {
-				DBVARIANT dbv;
-				if (!g_plugin.getWString("Message", &dbv)) {
-					TrimString(dbv.pwszVal);
-					wchar_t *pszMsg = GetMessageText(&dbe.pBlob, &dbe.cbBlob);
-					if (pszMsg != nullptr && wcsstr(pszMsg, dbv.pwszVal) != nullptr)
-						ShutdownAndStopWatcher(); /* msg with specified text recvd */
-					mir_free(dbv.pwszVal); /* does NULL check */
-				}
+
+		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
+			DBVARIANT dbv;
+			if (!g_plugin.getWString("Message", &dbv)) {
+				TrimString(dbv.pwszVal);
+				wchar_t *pszMsg = GetMessageText(&dbei.pBlob, &dbei.cbBlob);
+				if (pszMsg != nullptr && wcsstr(pszMsg, dbv.pwszVal) != nullptr)
+					ShutdownAndStopWatcher(); /* msg with specified text recvd */
+				mir_free(dbv.pwszVal); /* does NULL check */
 			}
-		mir_free(dbe.pBlob);
+		}
 	}
 	return 0;
 }

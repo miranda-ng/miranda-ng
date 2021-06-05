@@ -122,19 +122,12 @@ static void FillHistoryThread(THistoryThread *hInfo)
 	int i = db_event_count(hInfo->hContact);
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_INITSTORAGE, i, i * 40);
 
-	DBEVENTINFO dbei = {};
-	int oldBlobSize = 0;
-	MEVENT hDbEvent = db_event_last(hInfo->hContact);
-
-	while (hDbEvent != NULL) {
+	DB::ECPTR pCursor(DB::EventsRev(hInfo->hContact));
+	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		if (!IsWindow(hInfo->hwnd))
 			break;
-		int newBlobSize = db_event_getBlobSize(hDbEvent);
-		if (newBlobSize > oldBlobSize) {
-			dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
-			oldBlobSize = newBlobSize;
-		}
-		dbei.cbBlob = oldBlobSize;
+
+		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 
 		wchar_t str[200], eventText[256], strdatetime[64];
@@ -145,9 +138,7 @@ static void FillHistoryThread(THistoryThread *hInfo)
 			i = SendMessage(hwndList, LB_ADDSTRING, 0, (LPARAM)eventText);
 			SendMessage(hwndList, LB_SETITEMDATA, i, (LPARAM)hDbEvent);
 		}
-		hDbEvent = db_event_prev(hInfo->hContact, hDbEvent);
 	}
-	mir_free(dbei.pBlob);
 
 	SendDlgItemMessage(hInfo->hwnd, IDC_LIST, LB_SETCURSEL, 0, 0);
 	SendMessage(hInfo->hwnd, WM_COMMAND, MAKEWPARAM(IDC_LIST, LBN_SELCHANGE), 0);
@@ -281,16 +272,12 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETEHISTORY), TRUE);
 				MEVENT hDbEvent = SendDlgItemMessage(hwndDlg, IDC_LIST, LB_GETITEMDATA, sel, 0);
 
-				DBEVENTINFO dbei = {};
-				dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-				if ((int)dbei.cbBlob != -1) {
-					dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-					if (db_event_get(hDbEvent, &dbei) == 0) {
-						ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
-						if (wszDescr)
-							SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);
-					}
-					mir_free(dbei.pBlob);
+				DB::EventInfo dbei;
+				dbei.cbBlob = -1;
+				if (!db_event_get(hDbEvent, &dbei)) {
+					ptrW wszDescr(DbEvent_GetTextW(&dbei, CP_ACP));
+					if (wszDescr)
+						SetDlgItemText(hwndDlg, IDC_EDIT, wszDescr);
 				}
 			}
 			return TRUE;

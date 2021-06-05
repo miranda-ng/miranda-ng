@@ -358,12 +358,10 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	}
 
 	// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-	DBEVENTINFO dbe = {};
+	DB::EventInfo dbe;
 	if (hEvent) {
-		if ((g_plugin.bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST)) {
-			dbe.cbBlob = db_event_getBlobSize(hEvent);
-			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
-		}
+		if ((g_plugin.bPreview || eventType == EVENTTYPE_ADDED || eventType == EVENTTYPE_AUTHREQUEST))
+			dbe.cbBlob = -1;
 		db_event_get(hEvent, &dbe);
 	}
 
@@ -412,8 +410,6 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		mir_free(pdata);
 	}
 
-	if (dbe.pBlob)
-		mir_free(dbe.pBlob);
 	return 0;
 }
 
@@ -458,16 +454,12 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		iEvent++;
 
 		// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
-		DBEVENTINFO dbe = {};
-		dbe.pBlob = nullptr;
-		dbe.cbBlob = 0;
-		if (g_plugin.bPreview && eventData->hEvent) {
-			dbe.cbBlob = db_event_getBlobSize(eventData->hEvent);
-			dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob);
-		}
-
-		if (eventData->hEvent)
+		DB::EventInfo dbe;
+		if (eventData->hEvent) {
+			if (g_plugin.bPreview)
+				dbe.cbBlob = -1;
 			db_event_get(eventData->hEvent, &dbe);
+		}
 
 		if (g_plugin.bShowDate || g_plugin.bShowTime) {
 			wchar_t timestamp[MAX_DATASIZE];
@@ -486,8 +478,6 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		mir_snwprintf(lpzText, L"%s%s", lpzText, szEventPreview);
 		mir_free(szEventPreview);
 
-		if (dbe.pBlob)
-			mir_free(dbe.pBlob);
 		if (doReverse) {
 			if ((iEvent >= g_plugin.iNumberMsg && g_plugin.iNumberMsg) || !eventData->next)
 				break;

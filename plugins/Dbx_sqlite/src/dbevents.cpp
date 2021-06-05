@@ -307,7 +307,12 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->flags = sqlite3_column_int64(stmt, 3);
 
 	DWORD cbBlob = sqlite3_column_int64(stmt, 4);
-	int bytesToCopy = (dbei->cbBlob < cbBlob) ? dbei->cbBlob : cbBlob;
+	size_t bytesToCopy = cbBlob;
+	if (dbei->cbBlob == -1)
+		dbei->pBlob = (PBYTE)mir_calloc(cbBlob + 2);
+	else if (dbei->cbBlob < cbBlob)
+		bytesToCopy = dbei->cbBlob;
+
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		BYTE *data = (BYTE *)sqlite3_column_blob(stmt, 5);

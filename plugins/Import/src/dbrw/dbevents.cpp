@@ -78,17 +78,23 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	sqlite3_stmt *stmt = evt_stmts_prep[SQL_EVT_STMT_GET];
 	sqlite3_bind_int(stmt, 1, hDbEvent);
 	if (sql_step(stmt) == SQLITE_ROW) {
-		unsigned copySize;
 		const void *blob = sqlite3_column_blob(stmt, 4);
-		const unsigned size = sqlite3_column_int(stmt, 5);
 
 		dbei->timestamp = (DWORD)sqlite3_column_int(stmt, 1);
 		dbei->flags = (DWORD)sqlite3_column_int(stmt, 2);
 		dbei->eventType = (WORD)sqlite3_column_int(stmt, 3);
 		dbei->szModule = mir_strdup((char*)sqlite3_column_text(stmt, 7));
-		copySize = size<dbei->cbBlob ? size : dbei->cbBlob;
-		memcpy(dbei->pBlob, blob, copySize);
-		dbei->cbBlob = copySize;
+
+		DWORD cbBlob = sqlite3_column_int(stmt, 5);
+		size_t bytesToCopy = cbBlob;
+		if (dbei->cbBlob == -1)
+			dbei->pBlob = (PBYTE)mir_calloc(cbBlob + 2);
+		else if (dbei->cbBlob < cbBlob)
+			bytesToCopy = dbei->cbBlob;
+
+		dbei->cbBlob = cbBlob;
+		if (bytesToCopy && dbei->pBlob)
+			memcpy(dbei->pBlob, blob, bytesToCopy);
 		res = 0;
 	}
 	sql_reset(stmt);

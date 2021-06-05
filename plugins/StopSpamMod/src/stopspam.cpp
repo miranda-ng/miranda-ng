@@ -19,13 +19,10 @@
 
 int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 {
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (dbei.cbBlob == -1)
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(hDbEvent, &dbei))
 		return 0;
-
-	dbei.pBlob = (BYTE*)alloca(dbei.cbBlob);
-	db_event_get(hDbEvent, &dbei);
 
 	// if event is in protocol that is not despammed
 	if (!ProtoInList(dbei.szModule))

@@ -793,16 +793,10 @@ void CAppletManager::MarkMessageAsRead(MCONTACT hContact, MEVENT hEvent)
 bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hdbevent)
 {
 	// Create struct for dbevent
-	DBEVENTINFO dbevent = {};
-	dbevent.cbBlob = db_event_getBlobSize(hdbevent);
-	if (dbevent.cbBlob == -1)		// hdbevent is invalid
+	DB::EventInfo dbevent;
+	dbevent.cbBlob = -1;
+	if (db_event_get(hdbevent, &dbevent) != 0)
 		return false;
-
-	dbevent.pBlob = (PBYTE)malloc(dbevent.cbBlob);
-	if (db_event_get(hdbevent, &dbevent) != 0) {
-		free(dbevent.pBlob);
-		return false;
-	}
 
 	pEvent->dwFlags = dbevent.flags;
 	pEvent->hContact = hContact;
@@ -811,17 +805,10 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 	time_t timestamp = (time_t)dbevent.timestamp;
 	localtime_s(&pEvent->Time, &timestamp);
 	pEvent->bTime = true;
-	/*
-	if(dbevent.eventType == EVENTTYPE_MESSAGE && dbevent.flags & DBEF_READ) {
-		free(dbevent.pBlob);
-		return false;
-	}
-	*/
+
 	// Skip events from the user except for messages
-	if (dbevent.eventType != EVENTTYPE_MESSAGE && (dbevent.flags & DBEF_SENT)) {
-		free(dbevent.pBlob);
+	if (dbevent.eventType != EVENTTYPE_MESSAGE && (dbevent.flags & DBEF_SENT))
 		return false;
-	}
 
 	int msglen = 0;
 
@@ -877,9 +864,9 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 		pEvent->strDescription = TranslateString(L"Incoming file from %s", strName.c_str());
 		pEvent->eType = EVENT_FILE;
 		break;
+
 	default:
 		return false;
-		break;
 	}
 
 	if (CConfig::GetBoolSetting(NOTIFY_SHOWPROTO)) {
@@ -887,8 +874,6 @@ bool CAppletManager::TranslateDBEvent(CEvent *pEvent, WPARAM hContact, LPARAM hd
 		pEvent->strDescription = L"(" + toTstring(szProto) + L") " + pEvent->strDescription;
 	}
 
-	// Clean up
-	free(dbevent.pBlob);
 	return true;
 }
 

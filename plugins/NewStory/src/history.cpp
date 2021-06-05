@@ -709,17 +709,8 @@ public:
 		bool bAppendOnly = false;
 		DB::ECPTR pCursor(DB::Events(m_hContact));
 		while (MEVENT hDbEvent = pCursor.FetchNext()) {
-			DBEVENTINFO dbei = {};
-			int nSize = db_event_getBlobSize(hDbEvent);
-			if (nSize > 0) {
-				dbei.cbBlob = nSize;
-				dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob + 2);
-				dbei.pBlob[dbei.cbBlob] = 0;
-				dbei.pBlob[dbei.cbBlob + 1] = 0;
-				// Double null terminate, this should prevent most errors 
-				// where the blob received has an invalid format
-			}
-
+			DB::EventInfo dbei;
+			dbei.cbBlob = -1;
 			if (!db_event_get(hDbEvent, &dbei)) {
 				if (bAppendOnly) {
 					SetFilePointer(hFile, -3, nullptr, FILE_END);
@@ -753,8 +744,6 @@ public:
 				output += "\n]}";
 
 				WriteFile(hFile, output.c_str(), (int)output.size(), &dwBytesWritten, nullptr);
-				if (dbei.pBlob)
-					mir_free(dbei.pBlob);
 			}
 
 			bAppendOnly = true;

@@ -53,14 +53,9 @@ public:
 		Button_SetSkin_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
 		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
-		int iBlobSize = db_event_getBlobSize(m_hDbEvent);
-		if (iBlobSize == -1)
-			return false;
-
 		// blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 		DBEVENTINFO dbei = {};
-		dbei.cbBlob = iBlobSize;
-		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+		dbei.cbBlob = -1;
 		if (db_event_get(m_hDbEvent, &dbei))
 			return false;
 
@@ -200,9 +195,8 @@ public:
 		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
 		// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-		DBEVENTINFO dbei = {};
-		dbei.cbBlob = db_event_getBlobSize(m_hDbEvent);
-		dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+		DB::EventInfo dbei;
+		dbei.cbBlob = -1;
 		db_event_get(m_hDbEvent, &dbei);
 
 		m_hContact = DbGetAuthEventContact(&dbei);
@@ -298,13 +292,12 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	wchar_t szTooltip[256];
 	MEVENT hDbEvent = (MEVENT)lParam;
 
-	DBEVENTINFO dbei = {};
+	DB::EventInfo dbei;
 	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || (dbei.eventType != EVENTTYPE_AUTHREQUEST && dbei.eventType != EVENTTYPE_ADDED))
 		return 0;
 
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	dbei.pBlob = (PBYTE)alloca(dbei.cbBlob);
+	dbei.cbBlob = -1;
 	db_event_get(hDbEvent, &dbei);
 
 	MCONTACT hContact = DbGetAuthEventContact(&dbei);

@@ -58,11 +58,11 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 void CSkypeProto::EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &szContent, time_t edit_time)
 {
 	mir_cslock lck(m_AppendMessageLock);
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hEvent);
-	mir_ptr<BYTE> blob((PBYTE)mir_alloc(dbei.cbBlob));
-	dbei.pBlob = blob;
-	db_event_get(hEvent, &dbei);
+	
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(hEvent, &dbei))
+		return;
 
 	JSONNode jMsg = JSONNode::parse((char*)dbei.pBlob);
 	if (jMsg) {

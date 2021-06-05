@@ -222,12 +222,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			db_event_markRead(dat->hContact, dat->hDbEvent);
 
-			DBEVENTINFO dbei = {};
-			dbei.cbBlob = db_event_getBlobSize(dat->hDbEvent);
-			if (dbei.cbBlob > 4 && dbei.cbBlob <= 8196) {
-				dbei.pBlob = (PBYTE)alloca(dbei.cbBlob + 1);
-				db_event_get(dat->hDbEvent, &dbei);
-				dbei.pBlob[dbei.cbBlob] = 0;
+			DB::EventInfo dbei;
+			dbei.cbBlob = -1;
+			if (!db_event_get(dat->hDbEvent, &dbei)) {
 				dat->fs = cle->lParam ? (HANDLE)cle->lParam : (HANDLE)*(PDWORD)dbei.pBlob;
 
 				char *str = (char*)dbei.pBlob + 4;

@@ -90,11 +90,9 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 	memset(listStart, 0, sizeof(LISTELEMENT));
 
 	do {
-		DBEVENTINFO dbe = {};
-		dbe.cbBlob = db_event_getBlobSize(hEvent);
-		dbe.pBlob = (PBYTE)mir_alloc(dbe.cbBlob + 1);
+		DB::EventInfo dbe;
+		dbe.cbBlob = -1;
 		db_event_get(hEvent, &dbe);
-		dbe.pBlob[dbe.cbBlob] = 0;
 
 		if (dbe.eventType == EVENTTYPE_MESSAGE) {
 			// Call function to find URIs
@@ -109,7 +107,6 @@ static INT_PTR LinkList_Main(WPARAM hContact, LPARAM)
 		actCount++;
 		if (((int)(((float)actCount / histCount) * 100.00)) % 10 == 0)
 			SendMessage(hWndProgress, WM_COMMAND, 100, ((int)(((float)actCount / histCount) * 100.00)));
-		mir_free(dbe.pBlob);
 	}
 		while (hEvent = pCursor.FetchNext());
 

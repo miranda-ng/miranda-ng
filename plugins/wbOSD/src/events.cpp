@@ -129,12 +129,8 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 {
 	logmsg("HookedNewEvent1");
-	DBEVENTINFO dbe;
-	dbe.cbBlob = db_event_getBlobSize(hDBEvent);
-	if (dbe.cbBlob == -1)
-		return 0;
-
-	dbe.pBlob = (PBYTE)malloc(dbe.cbBlob);
+	DB::EventInfo dbe;
+	dbe.cbBlob = -1;
 	if (db_event_get(hDBEvent, &dbe))
 		return 0;
 
@@ -182,7 +178,7 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 		pbuf++;
 	}
 
-	wchar_t *c1 = nullptr, *c2 = nullptr;
+	ptrW c1, c2;
 	if (i1 == 1)
 		c1 = mir_wstrdup(Clist_GetContactDisplayName(wParam));
 	else if (i1 == 2)
@@ -196,8 +192,5 @@ int HookedNewEvent(WPARAM wParam, LPARAM hDBEvent)
 	wchar_t buffer[512];
 	mir_snwprintf(buffer, buf, c1, c2);
 	ShowOSD(buffer, 0, g_plugin.getDword("clr_msg", DEFAULT_CLRMSG), wParam);
-
-	mir_free(c1);
-	mir_free(c2);
 	return 0;
 }

@@ -78,17 +78,13 @@ int DbEventIsShown(DBEVENTINFO &dbei)
 
 EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = {};
-	dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-	if (dbei.cbBlob == -1)
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(hDbEvent, &dbei))
 		return nullptr;
 
-	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
-	db_event_get(hDbEvent, &dbei);
-	if (!DbEventIsShown(dbei)) {
-		mir_free(dbei.pBlob);
+	if (!DbEventIsShown(dbei))
 		return nullptr;
-	}
 
 	EventData *evt = (EventData*)mir_calloc(sizeof(EventData));
 	evt->custom = DbEventIsCustomForMsgWindow(&dbei);
@@ -125,7 +121,6 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 	if (!m_bUseRtl && Utils_IsRtl(evt->szText.w))
 		evt->dwFlags |= IEEDF_RTL;
 
-	mir_free(dbei.pBlob);
 	return evt;
 }
 

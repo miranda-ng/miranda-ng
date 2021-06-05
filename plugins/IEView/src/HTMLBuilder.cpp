@@ -198,21 +198,19 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	newEvent.hwnd = event->hwnd;
 
 	for (int eventIdx = 0; hDbEvent != NULL && (eventIdx < event->count || event->count == -1); eventIdx++) {
-		DBEVENTINFO dbei = {};
-		dbei.cbBlob = db_event_getBlobSize(hDbEvent);
-		if (dbei.cbBlob == 0xFFFFFFFF) {
+		DB::EventInfo dbei;
+		dbei.cbBlob = -1;
+		if (db_event_get(hDbEvent, &dbei)) {
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
-		dbei.pBlob = (PBYTE)malloc(dbei.cbBlob);
-		db_event_get(hDbEvent, &dbei);
+
 		if (!(dbei.flags & DBEF_SENT) && dbei.eventType == EVENTTYPE_MESSAGE) {
 			db_event_markRead(event->hContact, hDbEvent);
 			g_clistApi.pfnRemoveEvent(event->hContact, hDbEvent);
 		}
 
 		if (!isDbEventShown(&dbei)) {
-			free(dbei.pBlob);
 			hDbEvent = db_event_next(event->hContact, hDbEvent);
 			continue;
 		}
@@ -265,7 +263,7 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->szText.w = DbEvent_GetTextW(&dbei, newEvent.codepage);
 			eventData->iType = IEED_EVENT_MESSAGE;
 		}
-		free(dbei.pBlob);
+
 		eventData->next = nullptr;
 		if (prevEventData != nullptr)
 			prevEventData->next = eventData;

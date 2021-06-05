@@ -178,7 +178,7 @@ struct DBEVENTINFO
 									    // signed and can only do until 2038. In GMT.
 	DWORD flags;                // combination of DBEF_* flags
 	WORD  eventType;            // module-defined event type field
-	DWORD cbBlob;               // size of pBlob in bytes
+	int   cbBlob;               // size of pBlob in bytes
 	PBYTE pBlob;                // pointer to buffer containing module-defined event data
 	const char *szId;           // server id
 
@@ -670,109 +670,124 @@ __inline DWORD DBGetContactSettingRangedDword(MCONTACT hContact, const char *szM
 namespace DB
 {
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Helper to process the auth req body
-// blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8)
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// Helper to free event contents automatically
 
-#pragma warning(disable : 4251)
+	struct EventInfo : public DBEVENTINFO
+	{
+		__forceinline explicit EventInfo()
+		{
+			memset(this, 0, sizeof(*this));
+		}
 
-class MIR_APP_EXPORT AUTH_BLOB
-{
-	MCONTACT m_hContact;
-	DWORD m_dwUin;
-	ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
-	DWORD m_size;
+		__forceinline ~EventInfo()
+		{
+			mir_free(pBlob);
+		}
+	};
 
-	PBYTE makeBlob();
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// Helper to process the auth req body
+	// blob is: 0(DWORD), hContact(DWORD), nick(UTF8), firstName(UTF8), lastName(UTF8), email(UTF8), reason(UTF8)
 
-public:
-	explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
-	explicit AUTH_BLOB(PBYTE blob);
-	~AUTH_BLOB();
+	#pragma warning(disable : 4251)
 
-	__forceinline operator char*() { return (char*)makeBlob(); }
-	__forceinline operator BYTE*() { return makeBlob(); }
+	class MIR_APP_EXPORT AUTH_BLOB
+	{
+		MCONTACT m_hContact;
+		DWORD m_dwUin;
+		ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
+		DWORD m_size;
 
-	__forceinline DWORD size() const  { return m_size; }
+		PBYTE makeBlob();
 
-	__forceinline MCONTACT    get_contact()   const { return m_hContact;    }
-	__forceinline const char* get_nick()      const { return m_szNick;      }
-	__forceinline const char* get_firstName() const { return m_szFirstName; }
-	__forceinline const char* get_lastName()  const { return m_szLastName;  }
-	__forceinline const char* get_email()     const { return m_szEmail;     }
-	__forceinline const char* get_reason()    const { return m_szReason;    }
+	public:
+		explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
+		explicit AUTH_BLOB(PBYTE blob);
+		~AUTH_BLOB();
+
+		__forceinline operator char*() { return (char*)makeBlob(); }
+		__forceinline operator BYTE*() { return makeBlob(); }
+
+		__forceinline DWORD size() const  { return m_size; }
+
+		__forceinline MCONTACT    get_contact()   const { return m_hContact;    }
+		__forceinline const char* get_nick()      const { return m_szNick;      }
+		__forceinline const char* get_firstName() const { return m_szFirstName; }
+		__forceinline const char* get_lastName()  const { return m_szLastName;  }
+		__forceinline const char* get_email()     const { return m_szEmail;     }
+		__forceinline const char* get_reason()    const { return m_szReason;    }
 	
-	__forceinline DWORD get_uin() const { return m_dwUin; }
-	__forceinline void set_uin(DWORD dwValue) { m_dwUin = dwValue; }
-};
+		__forceinline DWORD get_uin() const { return m_dwUin; }
+		__forceinline void set_uin(DWORD dwValue) { m_dwUin = dwValue; }
+	};
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Event cursors
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// Event cursors
 
-class MIR_CORE_EXPORT EventCursor : public MZeroedObject
-{
-	friend class EventIterator;
+	class MIR_CORE_EXPORT EventCursor : public MZeroedObject
+	{
+		friend class EventIterator;
 
-protected:
-	MCONTACT hContact;
+	protected:
+		MCONTACT hContact;
 
-public:
-	EventCursor(MCONTACT _1) :
-		hContact(_1)
-	{ }
+	public:
+		EventCursor(MCONTACT _1) :
+			hContact(_1)
+		{ }
 
-	virtual ~EventCursor();
-	virtual MEVENT FetchNext() = 0;
+		virtual ~EventCursor();
+		virtual MEVENT FetchNext() = 0;
 
-	__forceinline MEVENT begin() {
-		return FetchNext();
-	}
+		__forceinline MEVENT begin() {
+			return FetchNext();
+		}
 
-	__forceinline MEVENT end() {
-		return 0;
-	}
-};
+		__forceinline MEVENT end() {
+			return 0;
+		}
+	};
 
-class MIR_CORE_EXPORT ECPTR : public MNonCopyable
-{
-	EventCursor *m_cursor;
-	MEVENT m_prevFetched, m_currEvent;
+	class MIR_CORE_EXPORT ECPTR : public MNonCopyable
+	{
+		EventCursor *m_cursor;
+		MEVENT m_prevFetched, m_currEvent;
 
-public:
-	ECPTR(EventCursor *_1);
-	~ECPTR();
+	public:
+		ECPTR(EventCursor *_1);
+		~ECPTR();
 
-	void   DeleteEvent();
-	MEVENT FetchNext();
-};
+		void   DeleteEvent();
+		MEVENT FetchNext();
+	};
 
-class EventIterator
-{
-	EventCursor *cursor;
-	MEVENT hCurr = 0;
+	class EventIterator
+	{
+		EventCursor *cursor;
+		MEVENT hCurr = 0;
 
-public:
-	EventIterator(EventCursor *_1) :
-		cursor(_1)
-	{}
+	public:
+		EventIterator(EventCursor *_1) :
+			cursor(_1)
+		{}
 
-	EventIterator operator++() { 
-		hCurr = cursor->FetchNext();
-		return *this;
-	}
+		EventIterator operator++() { 
+			hCurr = cursor->FetchNext();
+			return *this;
+		}
 
-	bool operator!=(const EventIterator &p) { 
-		return hCurr != p.hCurr;
-	}
+		bool operator!=(const EventIterator &p) { 
+			return hCurr != p.hCurr;
+		}
 
-	operator MEVENT() const {
-		return hCurr;
-	}
-};
+		operator MEVENT() const {
+			return hCurr;
+		}
+	};
 
-MIR_CORE_DLL(EventCursor*) Events(MCONTACT, MEVENT iStartEvent = 0);
-MIR_CORE_DLL(EventCursor*) EventsRev(MCONTACT, MEVENT iStartEvent = 0);
-
+	MIR_CORE_DLL(EventCursor*) Events(MCONTACT, MEVENT iStartEvent = 0);
+	MIR_CORE_DLL(EventCursor*) EventsRev(MCONTACT, MEVENT iStartEvent = 0);
 };
 
 #endif // M_DATABASE_H__

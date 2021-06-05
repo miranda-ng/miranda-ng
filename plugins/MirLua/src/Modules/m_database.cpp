@@ -636,11 +636,9 @@ DBEVENTINFO* MT<DBEVENTINFO>::Init(lua_State *L)
 {
 	MEVENT hDbEvent = luaL_checkinteger(L, 1);
 
-	DBEVENTINFO* dbei = (DBEVENTINFO*)mir_calloc(sizeof(DBEVENTINFO));
-	dbei->cbBlob = db_event_getBlobSize((MEVENT)hDbEvent);
-	dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob);
+	DBEVENTINFO *dbei = (DBEVENTINFO *)mir_calloc(sizeof(DBEVENTINFO));
+	dbei->cbBlob = -1;
 	db_event_get((MEVENT)hDbEvent, dbei);
-
 	return dbei;
 }
 

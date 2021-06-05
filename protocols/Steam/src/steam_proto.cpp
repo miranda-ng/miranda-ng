@@ -109,17 +109,14 @@ MCONTACT CSteamProto::AddToList(int, PROTOSEARCHRESULT *psr)
 
 MCONTACT CSteamProto::AddToListByEvent(int, int, MEVENT hDbEvent)
 {
-	DBEVENTINFO dbei = {};
-	if ((dbei.cbBlob = db_event_getBlobSize(hDbEvent)) == (DWORD)(-1))
-		return NULL;
-	if ((dbei.pBlob = (PBYTE)alloca(dbei.cbBlob)) == nullptr)
-		return NULL;
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
 	if (db_event_get(hDbEvent, &dbei))
-		return NULL;
+		return 0;
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
-		return NULL;
+		return 0;
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
-		return NULL;
+		return 0;
 
 	DB::AUTH_BLOB blob(dbei.pBlob);
 	return AddContact(blob.get_email(), Utf2T(blob.get_nick()));

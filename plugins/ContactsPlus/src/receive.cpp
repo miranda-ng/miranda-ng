@@ -195,11 +195,9 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hwndDlg, IDC_ENABLEGROUPS, BST_UNCHECKED);
 			RebuildGroupCombo(hwndDlg);
 
-			{ // fill listview with received contacts
-				DBEVENTINFO dbe = {};
-				dbe.cbBlob = db_event_getBlobSize(wndData->mhDbEvent);
-				if (dbe.cbBlob != -1)  // this marks an invalid hDbEvent - all smashed anyway...
-					dbe.pBlob = (PBYTE)_alloca(dbe.cbBlob);
+			{	// fill listview with received contacts
+				DB::EventInfo dbe;
+				dbe.cbBlob = -1;
 				db_event_get(wndData->mhDbEvent, &dbe);
 				char* pcBlob = (char*)dbe.pBlob;
 				char* pcEnd = (char*)dbe.pBlob + dbe.cbBlob;
@@ -212,8 +210,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				lvi.iImage = 0;
 				lvi.mask = LVIF_TEXT | LVIF_IMAGE;
 
-				for (int nItem = 0; ; nItem++)
-				{ // Nick
+				for (int nItem = 0; ; nItem++) { // Nick
 					int strsize = (int)strlennull(pcBlob);
 					TReceivedItem* pItem = wndData->AddReceivedItem();
 
