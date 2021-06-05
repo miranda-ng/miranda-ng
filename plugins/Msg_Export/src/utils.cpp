@@ -622,6 +622,13 @@ const char *pSettings[] =
 	LPGEN("About")
 };
 
+static wchar_t* getEventString(DBEVENTINFO &dbei, char *&buf)
+{
+	char *in = buf;
+	buf += mir_strlen(buf) + 1;
+	return (dbei.flags & DBEF_UTF) ? mir_utf8decodeW(in) : mir_a2u(in);
+}
+
 static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sFilePath, DBEVENTINFO &dbei, bool bAppendOnly)
 {
 	wstring sLocalUser;
@@ -771,9 +778,20 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 			flags += "r";
 		pRoot.push_back(JSONNode("flags", flags));
 
-		ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
-		if (msg)
-			pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
+		if (dbei.eventType == EVENTTYPE_FILE) {
+			char *p = (char*)dbei.pBlob + sizeof(DWORD);
+			ptrW wszFileName(getEventString(dbei, p));
+			ptrW wszDescr(getEventString(dbei, p));
+
+			pRoot << WCHAR_PARAM("file", wszFileName);
+			if (mir_wstrlen(wszDescr))
+				pRoot << WCHAR_PARAM("descr", wszFileName);
+		}
+		else {
+			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
+			if (msg)
+				pRoot.push_back(JSONNode("body", T2Utf(msg).get()));
+		}
 
 		std::string output = pRoot.write_formatted();
 		output += "\n]}";
@@ -806,24 +824,18 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		case EVENTTYPE_FILE:
 			{
-				const wchar_t *pszType = LPGENW("File: ");
-				const char *pszData = (char *)(dbei.pBlob + sizeof(DWORD));
+				char *p = (char*)dbei.pBlob + sizeof(DWORD);
+				ptrW wszFileName(getEventString(dbei, p));
+				ptrW wszDescr(getEventString(dbei, p));
 
-				int nLen = (int)mir_strlen(pszData);
-				if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
-					if (bWriteTextToFile(hFile, pszType, bWriteUTF8Format) &&
-						bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
-						pszData += nLen + 1;
-						if ((pszData - (char *)dbei.pBlob) < (int)dbei.cbBlob) {
-							nLen = (int)mir_strlen(pszData);
-							if ((pszData - (char *)dbei.pBlob) + nLen < (int)dbei.cbBlob) {
-								if (bWriteNewLine(hFile, nIndent) &&
-									bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format) &&
-									bWriteIndentedToFile(hFile, nIndent, _A2T(pszData), bWriteUTF8Format)) {
-								}
-							}
-						}
-					}
+				const wchar_t *pszType = LPGENW("File: ");
+				bWriteTextToFile(hFile, pszType, bWriteUTF8Format);
+				bWriteIndentedToFile(hFile, nIndent, wszFileName, bWriteUTF8Format);
+
+				if (mir_wstrlen(wszDescr)) {
+					bWriteNewLine(hFile, nIndent);
+					bWriteTextToFile(hFile, LPGENW("Description: "), bWriteUTF8Format);
+					bWriteIndentedToFile(hFile, nIndent, wszDescr, bWriteUTF8Format);
 				}
 			}
 			break;
