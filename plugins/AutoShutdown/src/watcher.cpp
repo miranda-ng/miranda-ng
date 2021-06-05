@@ -61,33 +61,6 @@ static void __inline ShutdownAndStopWatcher(void)
 
 /************************* Msg Shutdown *******************************/
 
-// ppBlob might get reallocated, must have been allocated using mir_alloc()
-static wchar_t* GetMessageText(BYTE **ppBlob, DWORD *pcbBlob)
-{
-	(*ppBlob)[*pcbBlob] = 0;
-	size_t cb = mir_strlen((char*)*ppBlob);
-	/* use Unicode data if present */
-	if (*pcbBlob > (cb + 3)) {
-		(*ppBlob)[*pcbBlob - 1] = 0;
-		return (WCHAR*)&(*ppBlob)[cb];
-	}
-	/* no Unicode data present, convert from ANSI */
-	int len = MultiByteToWideChar(CP_ACP, 0, (char*)*ppBlob, -1, nullptr, 0);
-	if (!len)
-		return nullptr;
-
-	BYTE *buf = (BYTE*)mir_realloc(*ppBlob, (*pcbBlob) + (len*sizeof(WCHAR)));
-	if (buf == nullptr)
-		return nullptr;
-
-	*pcbBlob += len*sizeof(WCHAR);
-	*ppBlob = buf;
-	buf = &(*ppBlob)[cb];
-	MultiByteToWideChar(CP_ACP, 0, (char*)*ppBlob, -1, (WCHAR*)buf, len);
-	((WCHAR*)buf)[len - 1] = 0;
-	return (WCHAR*)buf;
-}
-
 static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 {
 	if (currentWatcherType & SDWTF_MESSAGE) {
@@ -99,9 +72,9 @@ static int MsgEventAdded(WPARAM, LPARAM hDbEvent)
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
 			DBVARIANT dbv;
 			if (!g_plugin.getWString("Message", &dbv)) {
-				TrimString(dbv.pwszVal);
-				wchar_t *pszMsg = GetMessageText(&dbei.pBlob, &dbei.cbBlob);
-				if (pszMsg != nullptr && wcsstr(pszMsg, dbv.pwszVal) != nullptr)
+				ltrimw(rtrimw(dbv.pwszVal));
+				ptrW wszMsg(DbEvent_GetTextW(&dbei, CP_ACP));
+				if (wszMsg != nullptr && wcsstr(wszMsg, dbv.pwszVal) != nullptr)
 					ShutdownAndStopWatcher(); /* msg with specified text recvd */
 				mir_free(dbv.pwszVal); /* does NULL check */
 			}

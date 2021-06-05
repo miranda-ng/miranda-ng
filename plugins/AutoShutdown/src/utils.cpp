@@ -21,49 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-/************************* String *********************************/
-
-// mir_free() the return value
-char* u2a(const WCHAR *pszUnicode)
-{
-	if (pszUnicode == nullptr)
-		return nullptr;
-	
-	int codepage = Langpack_GetDefaultCodePage();
-
-	/* without WC_COMPOSITECHECK some characters might get out strange (see MS blog) */
-	DWORD flags;
-	int cch = WideCharToMultiByte(codepage, flags = WC_COMPOSITECHECK, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
-	if (!cch)
-		cch = WideCharToMultiByte(codepage, flags = 0, pszUnicode, -1, nullptr, 0, nullptr, nullptr);
-	if (!cch)
-		return nullptr;
-
-	char *psz = (char*)mir_alloc(cch);
-	if (psz != nullptr && !WideCharToMultiByte(codepage, flags, pszUnicode, -1, psz, cch, nullptr, nullptr)) {
-		mir_free(psz);
-		return nullptr;
-	}
-	return psz;
-}
-
-void TrimString(wchar_t *pszStr)
-{
-	wchar_t *psz, szChars[] = L" \r\n\t";
-	for (int i = 0; i < _countof(szChars); ++i) {
-		/* trim end */
-		psz = &pszStr[mir_wstrlen(pszStr) - 1];
-		while (pszStr[0] && *psz == szChars[i]) {
-			*psz = 0;
-			psz = CharPrev(pszStr, psz);
-		}
-		/* trim beginning */
-		for (psz = pszStr; (*psz && *psz == szChars[i]); psz = CharNext(psz))
-			;
-		memmove(pszStr, psz, (mir_wstrlen(psz) + 1)*sizeof(wchar_t));
-	}
-}
-
 /************************* Error Output ***************************/
 
 static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)

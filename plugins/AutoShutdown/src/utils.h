@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-/* String */
-WCHAR *a2u(const char *pszAnsi);
-char *u2a(const WCHAR *pszUnicode);
-void TrimString(wchar_t *pszStr);
-
 /* Error Output */
 void ShowInfoMessage(BYTE flags,const char *pszTitle,const char *pszTextFmt,...);
 char* GetWinErrorDescription(DWORD dwLastError);

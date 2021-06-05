@@ -339,7 +339,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				int len = GetWindowTextLength(hwndEdit) + 1;
 				wchar_t *pszText = (wchar_t*)mir_alloc(len*sizeof(wchar_t));
 				if (pszText != nullptr && GetWindowText(hwndEdit, pszText, len + 1)) {
-					TrimString(pszText);
+					ltrimw(rtrimw(pszText));
 					g_plugin.setWString("Message", pszText);
 				}
 				mir_free(pszText); /* does NULL check */

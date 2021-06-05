@@ -475,18 +475,17 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam, LPARAM lParam)
 	/* shutdownType range check */
 	if (!wParam || (BYTE)wParam > SDSDT_MAX) return 0;
 	/* select description */
-	wchar_t *pszDesc = (wchar_t*)((lParam&GSTDF_LONGDESC) ? apszLong : apszShort)[wParam - 1];
-	if (!(lParam&GSTDF_UNTRANSLATED)) pszDesc = TranslateW(pszDesc);
+	wchar_t *pszDesc = (wchar_t*)((lParam & GSTDF_LONGDESC) ? apszLong : apszShort)[wParam - 1];
+	if (!(lParam & GSTDF_UNTRANSLATED))
+		pszDesc = TranslateW(pszDesc);
+
 	/* convert as needed */
-	if (!(lParam&GSTDF_UNICODE)) {
-		static char szConvBuf[128];
-		char *buf = u2a(pszDesc);
-		if (buf == nullptr) return 0;
-		mir_strncpy(szConvBuf, buf, sizeof(szConvBuf));
-		mir_free(buf);
-		return (INT_PTR)szConvBuf;
-	}
-	return (INT_PTR)pszDesc;
+	if (lParam & GSTDF_UNICODE)
+		return (INT_PTR)pszDesc;
+		
+	static char szConvBuf[128];
+	mir_strncpy(szConvBuf, _T2A(pszDesc), sizeof(szConvBuf));
+	return (INT_PTR)szConvBuf;
 }
 
 /************************* Misc ***************************************/
