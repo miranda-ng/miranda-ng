@@ -385,14 +385,21 @@ begin
   BlobSize := db_event_getBlobSize(hDBEvent);
   if BlobSize > 0 then
   begin
-    EventBuffer.Allocate(BlobSize);
+    EventBuffer.Allocate(BlobSize+2); // cheat, for possible crash avoid
     Result.pBlob := EventBuffer.Buffer;
   end
   else
     BlobSize := 0;
-  Result.cbBlob := BlobSize;
+
   if db_event_get(hDBEvent, @Result) = 0 then
-    Result.cbBlob := BlobSize
+  begin
+    Result.cbBlob := BlobSize;
+    if BlobSize > 0 then
+    begin
+      PAnsiChar(Result.pBlob)[BlobSize  ]:=#0;
+      PAnsiChar(Result.pBlob)[BlobSize+1]:=#0;
+    end;
+  end
   else
     Result.cbBlob := 0;
 end;
