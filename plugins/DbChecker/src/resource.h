@@ -21,6 +21,7 @@
 #define IDC_MARKREAD                    1013
 #define IDC_FILENAME                    1014
 #define IDC_OPENFILE                    1015
+#define IDC_FIX_UTF8                    1016
 
 // Next default values for new objects
 // 

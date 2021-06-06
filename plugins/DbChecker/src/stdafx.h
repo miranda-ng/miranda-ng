@@ -64,7 +64,7 @@ struct DbToolOptions : public MZeroedObject
 	MIDatabaseChecker *dbChecker;
 	DWORD error;
 	HANDLE hEventRun, hEventAbort;
-	bool bFinished, bAutoExit, bOwnsDb, bMarkRead;
+	bool bFinished, bAutoExit, bOwnsDb, bMarkRead, bCheckUtf;
 	wchar_t filename[MAX_PATH];
 };
 
@@ -113,7 +113,7 @@ class COptionsPageDlg : public CWizardPageDlg
 
 	CCtrlEdit edtFile;
 	CCtrlButton btnFile;
-	CCtrlCheck chkMarkRead;
+	CCtrlCheck chkMarkRead, chkFixUtf;
 
 public:
 	COptionsPageDlg();

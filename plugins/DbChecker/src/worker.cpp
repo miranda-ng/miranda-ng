@@ -21,6 +21,40 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void ProcessingDone(void);
 
+static bool ConvertOldEvent(DBEVENTINFO &dbei)
+{
+	if (dbei.flags & DBEF_UTF)
+		return false;
+
+	int msglen = (int)mir_strlen((char *)dbei.pBlob) + 1, msglenW = 0;
+	if (msglen != (int)dbei.cbBlob) {
+		int count = ((dbei.cbBlob - msglen) / sizeof(WCHAR));
+		WCHAR *p = (WCHAR *)&dbei.pBlob[msglen];
+		for (int i = 0; i < count; i++) {
+			if (p[i] == 0) {
+				msglenW = i;
+				break;
+			}
+		}
+	}
+
+	char *utf8str;
+	if (msglenW > 0 && msglenW <= msglen)
+		utf8str = mir_utf8encodeW((WCHAR *)&dbei.pBlob[msglen]);
+	else
+		utf8str = mir_utf8encode((char *)dbei.pBlob);
+
+	if (utf8str == nullptr)
+		return false;
+
+	mir_free(dbei.pBlob);
+
+	dbei.flags |= DBEF_UTF;
+	dbei.cbBlob = (DWORD)mir_strlen(utf8str);
+	dbei.pBlob = (PBYTE)utf8str;
+	return true;
+}
+
 void __cdecl WorkerThread(DbToolOptions *opts)
 {
 	time_t ts = time(nullptr);
@@ -29,25 +63,37 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	DWORD sp = 0;
 
-	if (opts->bMarkRead) {
-		int nCount = 0;
+	if (opts->bMarkRead || opts->bCheckUtf) {
+		int nCount = 0, nUtfCount = 0;
 
 		for (auto &cc : Contacts()) {
 			DB::ECPTR pCursor(DB::Events(cc));
 			while (MEVENT hEvent = pCursor.FetchNext()) {
-				DBEVENTINFO dbei = {};
+				DB::EventInfo dbei;
+				if (opts->bCheckUtf) // read also event's body
+					dbei.cbBlob = -1;
 				if (db_event_get(hEvent, &dbei))
 					continue;
 
-				if (!dbei.markedRead()) {
+				if (opts->bMarkRead && !dbei.markedRead()) {
 					db_event_markRead(cc, hEvent);
 					nCount++;
+				}
+
+				if (opts->bCheckUtf && dbei.eventType == EVENTTYPE_MESSAGE) {
+					if (ConvertOldEvent(dbei)) {
+						db_event_edit(cc, hEvent, &dbei);
+						nUtfCount++;
+					}
 				}
 			}
 		}
 
 		if (nCount)
 			AddToStatus(STATUS_MESSAGE, TranslateT("%d events marked as read"), nCount);
+
+		if (nUtfCount)
+			AddToStatus(STATUS_MESSAGE, TranslateT("Utf-8 encoding fixed in %d events"), nUtfCount);
 	}
 
 	DBCHeckCallback callback;

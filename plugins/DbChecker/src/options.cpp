@@ -21,6 +21,7 @@ COptionsPageDlg::COptionsPageDlg() :
 	CSuper(IDD_OPTPAGE),
 	edtFile(this, IDC_FILENAME),
 	btnFile(this, IDC_OPENFILE),
+	chkFixUtf(this, IDC_FIX_UTF8),
 	chkMarkRead(this, IDC_MARKREAD)
 {
 }
@@ -32,6 +33,7 @@ bool COptionsPageDlg::OnInitDialog()
 	auto *opts = getOpts();
 	edtFile.SetText(opts->filename);
 
+	chkFixUtf.SetState(opts->bCheckUtf);
 	chkMarkRead.SetState(opts->bMarkRead);
 
 	if (opts->dbChecker != nullptr) {
@@ -87,6 +89,7 @@ LBL_Error:
 		opts->db = pDb;
 	}
 
+	opts->bCheckUtf = chkFixUtf.GetState();
 	opts->bMarkRead = chkMarkRead.GetState();
 	changePage(new CProgressPageDlg());
 }
