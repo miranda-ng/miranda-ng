@@ -785,7 +785,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 			pRoot << WCHAR_PARAM("file", wszFileName);
 			if (mir_wstrlen(wszDescr))
-				pRoot << WCHAR_PARAM("descr", wszFileName);
+				pRoot << WCHAR_PARAM("descr", wszDescr);
 		}
 		else {
 			ptrW msg(DbEvent_GetTextW(&dbei, CP_ACP));
