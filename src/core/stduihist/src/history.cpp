@@ -244,7 +244,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 
 		case IDC_FIND:
-			(new CHistoryFindDlg(hwndDlg))->Show();
+			CHistoryFindDlg(hwndDlg).DoModal();
 			return TRUE;
 
 		case IDC_DELETEHISTORY:
