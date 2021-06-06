@@ -361,6 +361,7 @@ QSMainDlg::QSMainDlg(const wchar_t *pwszPattern) :
 	m_grid.OnBuildMenu = Callback(this, &QSMainDlg::onBuildMenu_Grid);
 	m_grid.OnColumnClick = Callback(this, &QSMainDlg::onColumnClick_Grid);
 	m_grid.OnCustomDraw = Callback(this, &QSMainDlg::onCustomDraw_Grid);
+	m_grid.OnDoubleClick = Callback(this, &QSMainDlg::onDblClick_Grid);
 
 	btnRefresh.OnClick = Callback(this, &QSMainDlg::onClick_Refresh);
 
