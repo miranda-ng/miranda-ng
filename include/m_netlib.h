@@ -404,12 +404,6 @@ struct NETLIBCONNINFO
 EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Gets TLS channel binging data for a socket
-// Returns true if successful
-
-EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Gets connection Information
 //
 // Returns (INT_PTR)(NETLIBIPLIST*) numeric IP address address array
@@ -744,13 +738,6 @@ EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRE
 EXTERN_C MIR_APP_DLL(int) Netlib_SetPollingTimeout(HNETLIBCONN hConnection, int iTimeout);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Makes connection SSL
-//
-// Returns 0 on failure 1 on success
-
-EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *host);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // netlib log funcitons
 
 EXTERN_C MIR_APP_DLL(int) Netlib_Log(HNETLIBUSER hUser, const char *pszStr);
@@ -764,19 +751,46 @@ EXTERN_C MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *buf, size_t 
 // Inits a required security provider. Right now only NTLM is supported
 // Returns HANDLE = NULL on error or non-null value on success
 // Known providers: Basic, NTLM, Negotiate, Kerberos, GSSAPI - (Kerberos SASL)
-
 EXTERN_C MIR_APP_DLL(HANDLE) Netlib_InitSecurityProvider(const wchar_t *szProviderName, const wchar_t *szPrincipal = nullptr);
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // Destroys a security provider's handle, provided by Netlib_InitSecurityProvider.
 // Right now only NTLM is supported
-
 EXTERN_C MIR_APP_DLL(void) Netlib_DestroySecurityProvider(HANDLE hProvider);
 
-/////////////////////////////////////////////////////////////////////////////////////////
 // Returns the NTLM response string. The result value should be freed using mir_free
-
 EXTERN_C MIR_APP_DLL(char*) Netlib_NtlmCreateResponse(HANDLE hProvider, const char *szChallenge, wchar_t *szLogin, wchar_t *szPass, unsigned &complete);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// SSL/TLS support
+
+#if !defined(HSSL_DEFINED)
+DECLARE_HANDLE(HSSL);
+#endif
+
+// Makes connection SSL
+// Returns 0 on failure 1 on success
+EXTERN_C MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *host);
+
+// negotiates SSL session, verifies cert, returns NULL if failed
+EXTERN_C MIR_APP_DLL(HSSL) Netlib_SslConnect(SOCKET s, const char* host, int verify);
+
+// return true if there is either unsend or buffered received data (ie. after peek)
+EXTERN_C MIR_APP_DLL(BOOL) Netlib_SslPending(HSSL ssl);
+
+// reads number of bytes, keeps in buffer if peek != 0
+EXTERN_C MIR_APP_DLL(int)  Netlib_SslRead(HSSL ssl, char *buf, int num, int peek);
+
+// writes data to the SSL socket
+EXTERN_C MIR_APP_DLL(int)  Netlib_SslWrite(HSSL ssl, const char *buf, int num);
+
+// closes SSL session, but keeps socket open
+EXTERN_C MIR_APP_DLL(void) Netlib_SslShutdown(HSSL ssl);
+
+// frees all data associated with the SSL socket
+EXTERN_C MIR_APP_DLL(void) Netlib_SslFree(HSSL ssl);
+
+// gets TLS channel binging data for a socket
+EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // WebSocket support

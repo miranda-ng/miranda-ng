@@ -83,7 +83,7 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, unsigned dwTimeoutTime, ch
 {
 	DWORD dwTimeNow;
 
-	if (nlc->foreBuf.isEmpty() && !sslApi.pending(nlc->hSsl)) {
+	if (nlc->foreBuf.isEmpty() && !Netlib_SslPending(nlc->hSsl)) {
 		while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
 			unsigned dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
 			int res = WaitUntilReadable(nlc->s, dwDeltaTime);

@@ -23,9 +23,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
-#include <m_popup.h>
+#include "netlib.h"
 
-static HANDLE g_hSslMutex;
+#include <openssl/ssl.h>
+#include <openssl/rand.h>
+
 static bool bSslInitDone;
 
 enum SocketState
@@ -57,10 +59,7 @@ static void SSL_library_unload(void)
 	if (!bSslInitDone)
 		return;
 
-	WaitForSingleObject(g_hSslMutex, INFINITE);
-
 	bSslInitDone = false;
-	ReleaseMutex(g_hSslMutex);
 }
 
 static bool SSL_library_load(void)
@@ -68,8 +67,6 @@ static bool SSL_library_load(void)
 	/* Load Library Pointers */
 	if (bSslInitDone)
 		return true;
-
-	WaitForSingleObject(g_hSslMutex, INFINITE);
 
 	if (!bSslInitDone) { // init OpenSSL
 		SSL_library_init();
@@ -118,17 +115,6 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 
 	SetLastError(scRet);
 	PUShowMessageW(tszMsg.GetBuffer(), SM_WARNING);
-}
-
-void NetlibSslFree(SslHandle *ssl)
-{
-	delete ssl;
-}
-
-BOOL NetlibSslPending(HSSL ssl)
-{
-	/* return true if there is either unsend or buffered received data (ie. after peek) */
-	return ssl && ssl->session && (SSL_pending(ssl->session) > 0);
 }
 
 static bool ClientConnect(SslHandle *ssl, const char*)
@@ -189,8 +175,8 @@ static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
 static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 {
 	/* convert the active certificate chain provided in the handshake of 'session' into
-		the format used by CryptAPI.
-		*/
+	the format used by CryptAPI.
+	*/
 	PCCERT_CONTEXT anchor = nullptr;
 	// create cert store
 	HCERTSTORE store = CertOpenStore(CERT_STORE_PROV_MEMORY, 0, NULL, CERT_STORE_DEFER_CLOSE_UNTIL_LAST_FREE_FLAG, nullptr);
@@ -228,27 +214,26 @@ static PCCERT_CONTEXT SSL_CertChainToCryptAnchor(SSL* session)
 	return anchor;
 }
 
+static LPSTR rgszUsages[] =
+{
+	szOID_PKIX_KP_SERVER_AUTH,
+	szOID_SERVER_GATED_CRYPTO,
+	szOID_SGC_NETSCAPE
+};
+
 static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertFlags)
 {
-	static LPSTR rgszUsages[] =
-	{
-		szOID_PKIX_KP_SERVER_AUTH,
-		szOID_SERVER_GATED_CRYPTO,
-		szOID_SGC_NETSCAPE
-	};
-
-	CERT_CHAIN_PARA          ChainPara = { 0 };
-	HTTPSPolicyCallbackData  polHttps = { 0 };
-	CERT_CHAIN_POLICY_PARA   PolicyPara = { 0 };
-	CERT_CHAIN_POLICY_STATUS PolicyStatus = { 0 };
-	PCCERT_CHAIN_CONTEXT     pChainContext = nullptr;
-	PCCERT_CONTEXT           pServerCert = nullptr;
 	DWORD scRet;
 
-	PWSTR pwszServerName = mir_a2u(pszServerName);
+	ptrW pwszServerName(mir_a2u(pszServerName));
 
-	pServerCert = SSL_CertChainToCryptAnchor(ssl->session);
+	HTTPSPolicyCallbackData polHttps = {};
+	CERT_CHAIN_POLICY_PARA PolicyPara = {};
+	CERT_CHAIN_POLICY_STATUS PolicyStatus = {};
+	CERT_CHAIN_PARA ChainPara = {};
 
+	PCCERT_CHAIN_CONTEXT pChainContext = nullptr;
+	PCCERT_CONTEXT pServerCert = SSL_CertChainToCryptAnchor(ssl->session);
 	if (pServerCert == nullptr) {
 		scRet = SEC_E_WRONG_PRINCIPAL;
 		goto cleanup;
@@ -258,8 +243,8 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 	ChainPara.RequestedUsage.dwType = USAGE_MATCH_TYPE_OR;
 	ChainPara.RequestedUsage.Usage.cUsageIdentifier = _countof(rgszUsages);
 	ChainPara.RequestedUsage.Usage.rgpszUsageIdentifier = rgszUsages;
-	if (!CertGetCertificateChain(nullptr, pServerCert, nullptr, pServerCert->hCertStore,
-		&ChainPara, 0, nullptr, &pChainContext)) {
+	
+	if (!CertGetCertificateChain(nullptr, pServerCert, nullptr, pServerCert->hCertStore, &ChainPara, 0, nullptr, &pChainContext)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
@@ -274,8 +259,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 
 	PolicyStatus.cbSize = sizeof(PolicyStatus);
 
-	if (!CertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext,
-		&PolicyPara, &PolicyStatus)) {
+	if (!CertVerifyCertificateChainPolicy(CERT_CHAIN_POLICY_SSL, pChainContext, &PolicyPara, &PolicyStatus)) {
 		scRet = GetLastError();
 		goto cleanup;
 	}
@@ -292,16 +276,16 @@ cleanup:
 		CertFreeCertificateChain(pChainContext);
 	if (pServerCert)
 		CertFreeCertificateContext(pServerCert);
-	mir_free(pwszServerName);
 
 	ReportSslError(scRet, __LINE__, true);
 	return scRet == SEC_E_OK;
 }
 
-SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
-{
-	/* negotiate SSL session, verify cert, return NULL if failed */
+/////////////////////////////////////////////////////////////////////////////////////////
+// negotiate SSL session, verify cert, return NULL if failed
 
+MIR_APP_DLL(HSSL) Netlib_SslConnect(SOCKET s, const char* host, int verify)
+{
 	SslHandle *ssl = new SslHandle();
 	ssl->s = s;
 	bool res = ClientConnect(ssl, host);
@@ -320,18 +304,19 @@ SslHandle* NetlibSslConnect(SOCKET s, const char* host, int verify)
 	return nullptr;
 }
 
-void NetlibSslShutdown(SslHandle *ssl)
-{
-	/* Close SSL session, but keep socket open */
-	if (ssl == nullptr || ssl->session == nullptr)
-		return;
+/////////////////////////////////////////////////////////////////////////////////////////
+// return true if there is either unsend or buffered received data (ie. after peek)
 
-	SSL_shutdown(ssl->session);
+MIR_APP_DLL(BOOL) Netlib_SslPending(HSSL ssl)
+{
+	return ssl && ssl->session && (SSL_pending(ssl->session) > 0);
 }
 
-int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
+/////////////////////////////////////////////////////////////////////////////////////////
+// reads number of bytes, keeps in buffer if peek != 0
+
+MIR_APP_DLL(int) Netlib_SslRead(HSSL ssl, char *buf, int num, int peek)
 {
-	/* read number of bytes, keep in buffer if peek!=0 */
 	if (!ssl || !ssl->session) return SOCKET_ERROR;
 	if (num <= 0) return 0;
 
@@ -357,11 +342,15 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 	return err;
 }
 
-int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
+/////////////////////////////////////////////////////////////////////////////////////////
+// writes data to the SSL socket
+
+MIR_APP_DLL(int) Netlib_SslWrite(HSSL ssl, const char *buf, int num)
 {
-	/* write number of bytes */
-	if (!ssl || !ssl->session) return SOCKET_ERROR;
-	if (num <= 0) return 0;
+	if (!ssl || !ssl->session)
+		return SOCKET_ERROR;
+	if (num <= 0)
+		return 0;
 
 	int err = SSL_write(ssl->session, buf, num);
 	if (err > 0)
@@ -373,6 +362,7 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 		Netlib_Logf(nullptr, "SSL connection gracefully closed");
 		ssl->state = sockClosed;
 		break;
+
 	default:
 		Netlib_Logf(nullptr, "SSL failure sending data (%d, %d, %d)", err, err2, WSAGetLastError());
 		ssl->state = sockError;
@@ -381,37 +371,64 @@ int NetlibSslWrite(SslHandle *ssl, const char *buf, int num)
 	return 0;
 }
 
-static INT_PTR GetSslApi(WPARAM, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// closes SSL session, but keeps socket open
+
+MIR_APP_DLL(void) Netlib_SslShutdown(HSSL ssl)
 {
-	SSL_API *pSsl = (SSL_API*)lParam;
-	if (pSsl == nullptr)
-		return FALSE;
-
-	if (pSsl->cbSize != sizeof(SSL_API))
-		return FALSE;
-
-	pSsl->connect = NetlibSslConnect;
-	pSsl->pending = NetlibSslPending;
-	pSsl->read = NetlibSslRead;
-	pSsl->write = NetlibSslWrite;
-	pSsl->shutdown = NetlibSslShutdown;
-	pSsl->sfree = NetlibSslFree;
-	return TRUE;
+	if (ssl && ssl->session)
+		SSL_shutdown(ssl->session);
 }
 
-int LoadSslModule(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+// frees all data associated with the SSL socket
+
+MIR_APP_DLL(void) Netlib_SslFree(HSSL ssl)
 {
-	if (!SSL_library_load()) {
-		MessageBoxW(nullptr, TranslateW_LP(L"OpenSSL library loading failed"), TranslateW_LP(L"OpenSSL error"), MB_ICONERROR | MB_OK);
-		return 1;
-	}
-	CreateServiceFunction(MS_SYSTEM_GET_SI, GetSslApi);
-	g_hSslMutex = CreateMutex(nullptr, FALSE, nullptr);
-	return 0;
+	delete ssl;
 }
 
-void UnloadSslModule(void)
+/////////////////////////////////////////////////////////////////////////////////////////
+// makes connection SSL
+// returns 0 on failure / 1 on success
+
+MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 {
-	SSL_library_unload();
-	CloseHandle(g_hSslMutex);
+	NetlibConnection *nlc = (NetlibConnection*)hConnection;
+	if (nlc == nullptr)
+		return 0;
+
+	NetlibUser *nlu = nlc->nlu;
+	if (szHost == nullptr)
+		szHost = nlc->nloc.szHost;
+	szHost = NEWSTR_ALLOCA(szHost);
+
+	Netlib_Logf(nlu, "(%d %s) Starting SSL negotiation", int(nlc->s), szHost);
+
+	nlc->hSsl = Netlib_SslConnect(nlc->s, szHost, nlu->settings.validateSSL);
+	if (nlc->hSsl == nullptr)
+		Netlib_Logf(nlu, "(%d %s) Failure to negotiate SSL connection", int(nlc->s), szHost);
+	else
+		Netlib_Logf(nlu, "(%d %s) SSL negotiation successful", int(nlc->s), szHost);
+
+	return nlc->hSsl != nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// gets TLS channel binging data for a socket
+
+MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen)
+{
+	if (nlc == nullptr || nlc->hSsl == nullptr)
+		return nullptr;
+
+	char buf[1000];
+	size_t len = SSL_get_finished(nlc->hSsl->session, buf, sizeof(buf));
+	if (len == 0)
+		return nullptr;
+
+	cbLen = (int)len;
+	void *pBuf = mir_alloc(len);
+	memcpy(pBuf, buf, len);
+	return pBuf;
 }

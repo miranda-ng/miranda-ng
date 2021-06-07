@@ -34,7 +34,6 @@ int  LoadNewPluginsModuleInfos(void); // core: preloading plugins
 int  LoadSendRecvAuthModule(void); // core: auth dialogs
 int  LoadNewPluginsModule(void);	// core: N.O. plugins
 int  LoadNetlibModule(void);		// core: network
-int  LoadSslModule(void);
 int  LoadProtocolsModule(void);	// core: protocol manager
 int  LoadAccountsModule(void);    // core: account manager
 int  LoadIgnoreModule(void);		// protocol filter: ignore
@@ -101,7 +100,6 @@ int LoadDefaultModules(void)
 	// the database will select which db plugin to use, or fail if no profile is selected
 	if (LoadDatabaseModule()) return 1;
 	if (LoadNetlibModule()) return 1;
-	if (LoadSslModule()) return 1;
 
 	// database is available here
 	InitIni();

@@ -78,8 +78,6 @@
 #endif
 #endif
 
-extern SSL_API sslApi;
-
 /**
  * Port gniazda nasłuchującego dla połączeń bezpośrednich.
  * 
@@ -297,7 +295,7 @@ int gg_read(struct gg_session *sess, char *buf, int length)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		return sslApi.read(sess->ssl, buf, length, 0);
+		return Netlib_SslRead(sess->ssl, buf, length, 0);
 #elif GG_CONFIG_HAVE_GNUTLS
 	if (sess->ssl != NULL) {
 		for (;;) {
@@ -376,7 +374,7 @@ static int gg_write_common(struct gg_session *sess, const char *buf, int length)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		return sslApi.write(sess->ssl, buf, length);
+		return Netlib_SslWrite(sess->ssl, buf, length);
 #elif GG_CONFIG_HAVE_GNUTLS
 	if (sess->ssl != NULL) {
 		for (;;) {
@@ -1135,7 +1133,7 @@ void gg_logoff(struct gg_session *sess)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		sslApi.shutdown(sess->ssl);
+		Netlib_SslShutdown(sess->ssl);
 #elif GG_CONFIG_HAVE_GNUTLS
 	if (sess->ssl != NULL)
 		gnutls_bye(GG_SESSION_GNUTLS(sess), GNUTLS_SHUT_RDWR);
@@ -1185,7 +1183,7 @@ void gg_free_session(struct gg_session *sess)
 
 #ifdef GG_CONFIG_MIRANDA
 	if (sess->ssl != NULL)
-		sslApi.sfree(sess->ssl);
+		Netlib_SslFree(sess->ssl);
 #elif GG_CONFIG_HAVE_GNUTLS
 	if (sess->ssl != NULL) {
 		gg_session_gnutls_t *tmp;

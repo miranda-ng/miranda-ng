@@ -493,7 +493,7 @@ MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *pBuf, size_t len, boo
 		isText = false;
 	else if (!(flags & MSG_DUMPASTEXT)) {
 		if (logOptions.autoDetectText) {
-			for (int i = 0; i < len; i++) {
+			for (size_t i = 0; i < len; i++) {
 				if ((buf[i] < ' ' && buf[i] != '\t' && buf[i] != '\r' && buf[i] != '\n') || buf[i] >= 0x80) {
 					isText = false;
 					break;

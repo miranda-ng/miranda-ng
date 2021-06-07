@@ -24,7 +24,6 @@
 #include <errno.h>
 
 // Other variables
-SSL_API sslApi;
 CMPlugin g_plugin;
 
 static unsigned long crc_table[256];
@@ -203,9 +202,6 @@ void GaduProto::cleanuplastplugin(DWORD version)
 //
 static int gg_modulesloaded(WPARAM, LPARAM)
 {
-	// Get SSL API
-	mir_getSI(&sslApi);
-
 	// File Association Manager support
 	gg_links_init();
 

@@ -262,7 +262,6 @@ struct GaduProto;
 
 extern PLUGININFOEX pluginInfoEx;
 extern IconItem iconList[];
-extern SSL_API sslApi;
 
 /////////////////////////////////////////////////
 // Methods

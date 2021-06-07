@@ -67,7 +67,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "miranda.h"
 
-#include <m_ssl.h>
 #include <m_xml.h>
 
 #include <m_string.inl>

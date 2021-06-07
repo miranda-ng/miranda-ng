@@ -37,7 +37,7 @@
 #define GG_CONFIG_MIRANDA
 
 #ifdef GG_CONFIG_MIRANDA
-#include <m_ssl.h>
+
 #include <m_netlib.h>
 #endif
 

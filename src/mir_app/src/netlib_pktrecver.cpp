@@ -66,7 +66,7 @@ MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlp
 	}
 	
 	if (nlprParam->dwTimeout != INFINITE) {
-		if (!sslApi.pending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
+		if (!Netlib_SslPending(nlpr->nlc->hSsl) && WaitUntilReadable(nlpr->nlc->s, nlprParam->dwTimeout) <= 0) {
 			*nlprParam = nlpr->packetRecver;
 			return SOCKET_ERROR;
 		}

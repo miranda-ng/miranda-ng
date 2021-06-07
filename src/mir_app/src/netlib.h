@@ -33,8 +33,6 @@ int GetNetlibHandleType(void*);
 
 #define NLHRF_SMARTREMOVEHOST	0x00000004	 // for internal purposes only
 
-extern struct SSL_API sslApi;
-
 struct NetlibUser
 {
 	int handleType;

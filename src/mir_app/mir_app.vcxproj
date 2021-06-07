@@ -124,6 +124,7 @@
     <ClCompile Include="src\netlib_pktrecver.cpp" />
     <ClCompile Include="src\netlib_security.cpp" />
     <ClCompile Include="src\netlib_sock.cpp" />
+    <ClCompile Include="src\netlib_ssl.cpp" />
     <ClCompile Include="src\netlib_upnp.cpp" />
     <ClCompile Include="src\netlib_websocket.cpp" />
     <ClCompile Include="src\newplugins.cpp" />
@@ -191,7 +192,7 @@
       <ModuleDefinitionFile Condition="'$(Platform)'=='x64'">src/mir_app64.def</ModuleDefinitionFile>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalManifestDependencies>type=%27win32%27 name=%27Microsoft.Windows.Common-Controls%27 version=%276.0.0.0%27 processorArchitecture=%27*%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;type=%27win32%27 name=%27Microsoft.Windows.Gdiplus%27 version=%271.0.0.0%27 processorArchitecture=%27amd64%27 publicKeyToken=%276595b64144ccf1df%27 language=%27*%27;%(AdditionalManifestDependencies)</AdditionalManifestDependencies>
-      <AdditionalDependencies>libcrypto.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libcrypto.lib;libssl.lib;crypt32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>res/miranda32.exe.manifest</AdditionalManifestFiles>

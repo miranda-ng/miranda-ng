@@ -99,7 +99,6 @@ Plugins\notifyanything.dll
 Plugins\nudge.dll
 Plugins\omegle.dll
 Plugins\openfolder.dll
-Plugins\openssl.dll
 Plugins\packupdater.dll
 Plugins\pasteit.dll
 Plugins\ping.dll
@@ -173,7 +172,6 @@ Core\stdemail.dll
 Core\stdfile.dll
 Core\stdmsg.dll
 Core\stdpopup.dll
-Core\stdssl.dll
 Core\stduihist.dll
 Core\stduserinfo.dll
 Core\stduseronline.dll

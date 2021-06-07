@@ -781,3 +781,9 @@ Chat_Mute @868
 _WebSocket_SendBinary@12 @869 NONAME
 _WebSocket_SendText@8 @870 NONAME
 ?OnContactAdded@PROTO_INTERFACE@@UAEXI@Z @871 NONAME
+_Netlib_SslConnect@12 @872 NONAME
+_Netlib_SslFree@4 @873 NONAME
+_Netlib_SslPending@4 @874 NONAME
+_Netlib_SslRead@16 @875 NONAME
+_Netlib_SslShutdown@4 @876 NONAME
+_Netlib_SslWrite@12 @877 NONAME

@@ -37,7 +37,7 @@ MIR_APP_DLL(int) Netlib_Send(HNETLIBCONN nlc, const char *buf, int len, int flag
 	int result;
 	Netlib_Dump(nlc, (PBYTE)buf, len, true, flags);
 	if (nlc->hSsl)
-		result = sslApi.write(nlc->hSsl, buf, len);
+		result = Netlib_SslWrite(nlc->hSsl, buf, len);
 	else
 		result = send(nlc->s, buf, len, flags & 0xFFFF);
 
@@ -63,7 +63,7 @@ MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN nlc, char *buf, int len, int flags)
 		nlc->foreBuf.remove(recvResult);
 	}
 	else if (nlc->hSsl)
-		recvResult = sslApi.read(nlc->hSsl, buf, len, (flags & MSG_PEEK) != 0);
+		recvResult = Netlib_SslRead(nlc->hSsl, buf, len, (flags & MSG_PEEK) != 0);
 	else
 		recvResult = recv(nlc->s, buf, len, flags & 0xFFFF);
 
@@ -92,7 +92,7 @@ static int ConnectionListToSocketList(const HNETLIBCONN *hConns, fd_set *fd, int
 			return 0;
 		}
 		FD_SET(nlcCheck->s, fd);
-		if (!nlcCheck->foreBuf.isEmpty() || sslApi.pending(nlcCheck->hSsl))
+		if (!nlcCheck->foreBuf.isEmpty() || Netlib_SslPending(nlcCheck->hSsl))
 			pending++;
 	}
 	return 1;
@@ -160,7 +160,7 @@ MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 		conn = (NetlibConnection*)nls->hReadConns[j];
 		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 
-		if (sslApi.pending(conn->hSsl))
+		if (Netlib_SslPending(conn->hSsl))
 			nls->hReadStatus[j] = TRUE;
 		nls->hReadStatus[j] = FD_ISSET(conn->s, &readfd);
 	}
@@ -223,20 +223,6 @@ MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN nlc, NETLIBCONNINFO *connI
 		strncpy_s(connInfo->szIpPort, ptrA(Netlib_AddressToString(&sin)), _TRUNCATE);
 	}
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen)
-{
-	if (nlc == nullptr || nlc->hSsl == nullptr || sslApi.unique == nullptr)
-		return nullptr;
-
-	void *pBuf = sslApi.unique(nlc->hSsl, &cbLen);
-	if (pBuf == nullptr || !cbLen)
-		return nullptr;
-
-	return pBuf;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

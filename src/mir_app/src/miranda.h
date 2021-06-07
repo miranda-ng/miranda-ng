@@ -69,7 +69,7 @@ extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
 extern HANDLE hAccListChanged;
 extern wchar_t mirandabootini[MAX_PATH];
-extern struct pluginEntry *plugin_checker, *plugin_crshdmp, *plugin_service, *plugin_ssl, *plugin_clist;
+extern struct pluginEntry *plugin_checker, *plugin_crshdmp, *plugin_service, *plugin_clist;
 extern bool g_bModulesLoadedFired, g_bMirandaTerminated;
 
 /**** newplugins.cpp *******************************************************************/

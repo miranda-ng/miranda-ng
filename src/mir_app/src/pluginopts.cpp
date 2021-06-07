@@ -135,7 +135,7 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 
 	CCtrlListView *pCtrl = (CCtrlListView*)lParam;
 	bool bNoCheckbox = (dat->flags & STATIC_PLUGIN) != 0;
-	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST) || hasMuuid(pIds, MIID_SSL))
+	if (bNoCheckbox || hasMuuid(pIds, MIID_CLIST))
 		dat->bRequiresRestart = true;
 
 	LVITEM it = { 0 };

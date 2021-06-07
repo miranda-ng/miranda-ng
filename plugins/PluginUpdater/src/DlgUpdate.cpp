@@ -572,6 +572,7 @@ static renameTable[] =
 	{ L"stdidle.dll",                    nullptr },
 	{ L"stdhelp.dll",                    nullptr },
 	{ L"stdauth.dll",                    nullptr },
+	{ L"stdssl.dll",                     nullptr },
 
 	{ L"advaimg.dll",                    nullptr },
 	{ L"aim.dll",                        nullptr },
@@ -591,6 +592,7 @@ static renameTable[] =
 	{ L"msvcp100.dll",                   nullptr },
 	{ L"msvcr100.dll",                   nullptr },
 	{ L"mtextcontrol.dll",               nullptr },
+	{ L"openssl.dll",                    nullptr },
 	{ L"sms.dll",                        nullptr },
 	{ L"tlen.dll",                       nullptr },
 	{ L"whatsapp.dll",                   nullptr },
