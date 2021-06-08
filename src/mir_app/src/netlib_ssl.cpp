@@ -152,9 +152,6 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 		return false;
 	}
 
-	const char *suite = SSL_GetCipherName(ssl);
-	if (suite != nullptr)
-		Netlib_Logf(nullptr, "SSL established with %s", suite);
 	return true;
 }
 
