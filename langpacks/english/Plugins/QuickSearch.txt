@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.5.0.2
+;  Version: 1.5.0.3
 ;  Authors: Bethoven, Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
@@ -19,7 +19,7 @@
 [Data type:]
 [Module:]
 [Setting:]
-[InfoType:]
+[Info type:]
 [Save]
 [Tool Window Style]
 [Draw Grid]
@@ -31,12 +31,9 @@
 [Refresh]
 [Show Offline contacts]
 [Colorize]
-;file \plugins\QuickSearch\src\frame.cpp
-[Open QS window]
-[Quick search]
 ;file \plugins\QuickSearch\src\main.cpp
 [Quick Search]
-[Quick Search window hotkey]
+[Open Quick Search window]
 [New Column]
 [Column Up]
 [Column Down]
@@ -64,16 +61,16 @@
 [Other]
 [Metacontact]
 [Title]
-[Module/InfoType]
+[Module/Info type]
 [Setting]
-[DB setting]
+[Database setting]
 [Byte]
 [Word]
 [Dword]
 [Signed]
-[As hex]
+[Hexadecimal]
 [String]
-[TimeStamp]
+[Timestamp]
 [Last seen]
 [Last event]
 [Event count]
