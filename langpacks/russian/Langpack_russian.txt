@@ -1802,10 +1802,6 @@ Miranda не смогла загрузить встроенную систему
 Копировать сообщение в буфер обмена
 [Copy timestamp to clipboard]
 Копировать время в буфер обмена
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
-[Host we are connecting to is not the one certificate was issued for]
-Выданный сертификат не соответствует имени сервера, к которому производится подключение
 [Outgoing message]
 Исходящее сообщение
 [Incoming message]
@@ -2480,6 +2476,10 @@ xСтатус
 <Все подключения>
 [Network]
 Сеть
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
+[Host we are connecting to is not the one certificate was issued for]
+Выданный сертификат не соответствует имени сервера, к которому производится подключение
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна сообщений. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
 ['%S' is disabled, re-enable?]
@@ -2718,6 +2718,10 @@ ANSI плагин
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
+[Are you sure to remove all events from history?]
+Уверены, что хотите удалить все события из истории?
+[Empty history]
+Очистить историю
 [<Separator>]
 <Разделитель>
 [Toolbar]
@@ -4807,7 +4811,7 @@ Miranda NG автоматически закроется через %u секу�
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5077,8 +5081,6 @@ XML файлы
 Открыть историю
 [View &history]
 &История
-[Delete all user history]
-Удалить всю историю пользователя
 [Execute history task]
 Выполнить задачу
 [Incoming message]
@@ -5123,12 +5125,6 @@ XML файлы
 Выбранный контакт в файле отсутствует.
 [File is corrupted]
 Файл повреждён
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Эта операция полностью удалит историю этого контакта.\nВы уверены?
-[Are you sure?]
-Вы уверены?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Хотите удалить все импортированные сообщения для этого контакта?\nУчтите, что следующее задание планировщика снова импортирует эти сообщения.
 [Open in &new window]
 &Открыть в новом окне
 [&Open in existing window]
@@ -5145,6 +5141,8 @@ XML файлы
 Ответить с &цитатой
 [Delete group]
 Удаление группы
+[Delete all user history]
+Удалить всю историю пользователя
 [Options]
 Настройки
 [Filters]
@@ -5177,6 +5175,10 @@ Dat (плагин mContacts)
 Ошибка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Количество удаляемых пунктов истории: %d.\nВы действительно этого хотите?
+[Are you sure?]
+Вы уверены?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Хотите удалить все импортированные сообщения для этого контакта?\nУчтите, что следующее задание планировщика снова импортирует эти сообщения.
 [Message]
 Сообщение
 [File transfer]
@@ -8544,7 +8546,7 @@ ID пользователя
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -8671,20 +8673,22 @@ ID пользователя
 Введите положительное число.
 [Currency Rate]
 Курс валюты
-[Source of Information]
+[Source of information]
 Источник информации
-[Rate Value]
+[Rate value]
 Текущее значение котировки/курса
-[Previous Rate Value]
+[Rate delta]
+Изменение курса
+[Previous rate value]
 Предыдущее значение котировки/курса
-[Fetch Time]
+[Fetch time]
 Время обновления
-[Fetch Date]
+[Fetch date]
 Дата обновления
-[Fetch Time and Date]
+[Fetch time and date]
 Дата и время обновления
-[Percentage Character (%)]
-Символ %
+[Percent character (%)]
+Символ процента (%)
 [Tabulation]
 Табуляция
 [Left slash (\\)]
@@ -8737,10 +8741,6 @@ ID пользователя
 Символ валюты
 [Network]
 Сеть
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ. Нажмите "Да", чтобы запросить его через веб-сайт, и введите ключ в настройках плагина.
-[CurrencyRates HTTP connections]
-HTTP-подключения CurrencyRates
 [Protocol icon]
 Значок протокола
 [Currency Rate up]
@@ -8757,12 +8757,14 @@ HTTP-подключения CurrencyRates
 Поменять местами
 [Import]
 Импорт
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+Для использования онлайн-сервиса конвертации валют требуется получить персональный ключ. Нажмите "Да", чтобы запросить его через веб-сайт, и введите ключ в настройках плагина.
+[CurrencyRates HTTP connections]
+HTTP-подключения CurrencyRates
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Все файлы (*.*)
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Не удалось загрузить плагин CurrencyRates. Отсутствует парсер Microsoft HTML.
 [Log Files (*.txt,*.log)]
 Журналы (*.txt,*.log)
 [Enter integer value]
@@ -8853,7 +8855,7 @@ HTTP-подключения CurrencyRates
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9030,8 +9032,6 @@ HTTP-подключения CurrencyRates
 Экспортировать модуль
 [&Add module]
 &Добавить модуль
-[&Clone]
-&Клонировать
 [Export contact]
 Экспортировать контакт
 [Import settings]
@@ -9054,8 +9054,8 @@ HTTP-подключения CurrencyRates
 Обновить список наблюдений
 [Copy module "%s"]
 Копировать модуль "%s"
-[Are you sure you want to delete module "%s"?]
-Удалить модуль "%s"?
+[Are you sure you want to delete module "%S"?]
+Удалить модуль "%S"?
 [Delete module from database]
 Удалить модуль из базы
 [Delete module from database... Loading]
@@ -9082,20 +9082,20 @@ INI файлы
 Модуль
 [Setting]
 Параметр
-[Enter a string to search the database for]
-Введите строку поиска
-[Stop]
-Стоп
+[Searching...]
+Поиск...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Поиск завершён, найдено %d / заменено %d / удалено %d элемент(ов)
 [Replaced]
 Заменено
 [Deleted]
 Удалено
 [Found]
 Найдено
-[Searching...]
-Поиск...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Поиск завершён, найдено %d / заменено %d / удалено %d элемент(ов)
+[Enter a string to search the database for]
+Введите строку поиска
+[Stop]
+Стоп
 [Main icon]
 Основной значок
 [Closed module]
@@ -9136,6 +9136,10 @@ ID пользователя
 Открыть в редакторе базы
 [Are you sure you want to delete contact "%s"?]
 Удалить контакт "%s"?
+[Type]
+Тип
+[Size]
+Размер
 [Delete resident settings from database?]
 Удалить резидентные настройки из базы?
 [%d items deleted.]
@@ -9154,10 +9158,6 @@ ID пользователя
 Всплывающие окна
 [Add module to "%s"]
 Добавить модуль в "%s"
-[Type]
-Тип
-[Size]
-Размер
 [Unable to store value in this data type!]
 Невозможно сохранить значение, используя этот тип данных!
 [Are you sure you want to delete %d contact(s)?]
@@ -9373,8 +9373,8 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 Контакты
 [Default group:]
 Группа:
-[Enable group chats]
-Включить поддержку групповых чатов
+[Enable guilds (servers)]
+Включить поддержку гильдий (серверов)
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
 [Use subgroups for server channels (requires restart)]
@@ -9628,7 +9628,7 @@ ID записи
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -11307,12 +11307,6 @@ WATrack: запрос запрещён
 %0.n событий (%s)
 [Enable &Processing]
 Включить &обработку
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Удалить ВСЕ записи (%.0f) для этого контакта?
-[Note: It can take several minutes for large history.]
-Внимание: это может занять несколько минут для большой истории
-[Empty History]
-Очистить историю
 [Search Up (Ctrl+Up)]
 Поиск вверх (Ctrl+вверх)
 [Search Down (Ctrl+Down)]
@@ -11507,16 +11501,6 @@ HTML файл
 У вас старый набор значков:\\r\\n%s\\r\\nВозможны проблемы со значками, обновите набор.
 [Next message]
 Следующее
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Невозможно загрузить History++, отсутствует riched20.dll.\\nНажмите "ОК" для продолжения.
-[&Empty System History]
-&Очистить системную историю
-[&Empty History]
-&Очистить историю
-[Do you really want to delete ALL items for this contact?]
-Вы действительно хотите удалить все записи для этого контакта?
-[Note: It can take several minutes for large histories]
-Примечание: это может занять несколько минут для большой истории
 [Previous message]
 Предыдущее сообщение
 [Running version of AniSmiley is not supported]
@@ -12897,7 +12881,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.1
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -12990,10 +12974,6 @@ UIN/почта:
 UIN/почта/телефон
 [SmileyAdd plugin required to support stickers]
 Для поддержки стикеров требуется плагин SmileyAdd
-[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
-Вы не ввели номер ICQ либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Ошибка подключения.\nВаш номер или пароль не приняты сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
@@ -18057,7 +18037,7 @@ bass.dll не найден! Укажите путь к нему
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18254,7 +18234,7 @@ ID пользователя
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -19163,12 +19143,8 @@ HTTP-подключения каналов новостей
 Экспорт истории
 [Are you sure to remove selected event(s)?]
 Уверены, что хотите удалить выбранные события?
-[Are you sure to remove all events from history?]
-Уверены, что хотите удалить все события из истории?
 [User history]
 История пользователя
-[Empty history]
-Очистить историю
 [Main icon]
 Основной значок
 [Search]
@@ -22185,25 +22161,15 @@ ProxySwitch
 Кнопка
 [Message sessions]
 Беседы
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.3
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Позволяет быстро найти контакты по нику, имени, email, UIN и прочим данным в вашем списке контактов. Также может отображать некоторую информацию о контакте, такую как версию клиента, группу или город.
-[Quick Search]
-Поиск по списку
-[Quick search]
-Поиск по списку
-[Title]
-Заголовок
-[Module/InfoType]
-Модуль/Тип пер.
-[Setting]
-Параметр
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
+Позволяет быстро найти контакты по нику, имени, email, UIN и прочим данным в вашем списке контактов.
 [Reload]
 Перегрузить
 [New]
@@ -22216,8 +22182,20 @@ ProxySwitch
 Удалить
 [Default]
 По умолчанию
-[Additional Options]
-Дополнительные параметры
+[Settings]
+Настройки
+[Title:]
+Заголовок:
+[Type:]
+Тип:
+[Data type:]
+Тип данных:
+[Module:]
+Модуль:
+[Setting:]
+Параметр:
+[Save]
+Сохранить
 [Tool Window Style]
 Окно в стиле панели
 [Draw Grid]
@@ -22230,116 +22208,16 @@ ProxySwitch
 Сортировать по статусу
 [Show Client Icons]
 Значки клиентов
-[Settings]
-Настройки
-[Title:]
-Заголовок:
-[Account]
-Учётная запись
-[Gender]
-Пол
-[UserID]
-ID пользователя
-[Nickname]
-Ник:
-[First name]
-Имя
-[Last name]
-Фамилия
-[Group]
-Группа
-[Container]
-Контейнер
-[E-mail]
-Почта
-[Client ID]
-ID клиента
-[Ext IP]
-Внешний IP
-[LastSeen]
-Последнее появление
-[Last Event]
-Последнее событие
-[Online since]
-В сети с
-[Metacontact]
-Метаконтакт
-[Event count]
-Количество событий
-[Contact add time]
-Контакт добавлен
-[Type:]
-Тип:
-[DB setting]
-Настройка базы
-[Script]
-Скрипт
-[Service]
-Вызов службы
-[Contact info]
-Данные контакта
-[Other]
-Другое
-[Data type:]
-Тип данных:
-[Byte]
-Байт
-[Word]
-Слово
-[DWord]
-Дв.слово
-[Signed]
-Со знаком
-[As hex]
-Шестнадцатерич.
-[String]
-Строка
-[TimeStamp]
-Время
-[Module:]
-Модуль:
-[Setting:]
-Параметр:
-[Service:]
-Служба:
-[Param]
-Параметр
-[number value]
-число
-[ANSI string]
-строка ANSI
-[Unicode string]
-строка Unicode
-[current contact]
-текущий контакт
-[last result]
-последний результат
-[parameter]
-параметр
-[Result]
-Результат
-[Result type]
-Тип
-[Free memory]
-Очищать память
-[Save]
-Сохранить
-[All]
-Все
-[Close]
-Закрыть
+[Additional Options]
+Дополнительные параметры
 [Refresh]
 Обновить
-[QuickSearch]
-Поиск по списку
 [Show Offline contacts]
 Показывать отключённых
-[New column]
-Новый
-[Save Item]
-Сохранить значение
-[InfoType:]
-Тип переменной:
+[Colorize]
+Добавить цвет
+[Quick Search]
+Поиск по списку
 [New Column]
 Добавить колонку
 [Column Up]
@@ -22352,16 +22230,6 @@ ID клиента
 Мужской
 [Female]
 Женский
-[Contacts]
-Контакты
-[ContactInfo]
-Данные контакта
-[LastEvent]
-Последнее событие
-[EventCount]
-Счётчик событий
-[Script Editor]
-Редактор скриптов
 [Normal background]
 Обычный фон
 [Normal foreground]
@@ -22390,6 +22258,126 @@ ID клиента
 Фон субконтактов
 [Subcontact foreground]
 Текст субконтактов
+[Script]
+Скрипт
+[Service]
+Вызов службы
+[Contact info]
+Данные контакта
+[Other]
+Другое
+[Metacontact]
+Метаконтакт
+[Title]
+Заголовок
+[Setting]
+Параметр
+[Byte]
+Байт
+[Word]
+Слово
+[Dword]
+Двойное слово
+[Signed]
+Со знаком
+[Hexadecimal]
+Шестнадц.
+[String]
+Строка
+[Timestamp]
+Время
+[Last seen]
+Был(а)
+[Last event]
+Последнее событие
+[Event count]
+Количество событий
+[Display name]
+Имя
+[Account name]
+Имя учётной записи
+[New column]
+Новый столбец
+[Contacts]
+Контакты
+[Account]
+Учётная запись
+[Gender]
+Пол
+[UserID]
+ID пользователя
+[Nickname]
+Ник
+[First name]
+Имя
+[Last name]
+Фамилия
+[Group]
+Группа
+[Container]
+Контейнер
+[Email]
+Почта
+[Client ID]
+ID клиента
+[Online since]
+В сети с
+[Contact add time]
+Время добавления контакта
+[Nick]
+Ник
+[City]
+Город
+[State]
+Штат
+[Country]
+Страна
+[Phone]
+Телефон
+[Homepage]
+Сайт
+[About]
+Информация
+[Age]
+Возраст
+[Unique ID]
+Уникальный ID
+[Fax]
+Факс
+[Cellular]
+Мобильный
+[Time zone]
+Часовой пояс
+[Birth day]
+День рождения
+[Birth month]
+Месяц рождения
+[Birth year]
+Год рождения
+[Street]
+Улица
+[Unknown]
+Неизвестный
+[Stay on Top]
+Поверх всех окон
+[Warning]
+Предупреждение
+[%i users found (%i) Online: %i]
+%i пользователей найдено (из %i) В сети: %i
+[deleted]
+удалено
+[disabled]
+выключено
+[active]
+активно
+[Online]
+В сети
+[All]
+Все
+[Change setting through QS]
+Изменить с помощью QuickSearch
+[Selected %d contacts]
+Выбрано контактов: %d
 [&Delete]
 &Удалить
 [&Copy]
@@ -22402,65 +22390,6 @@ ID клиента
 &Переместить в группу
 [Some of selected contacts in different metacontacts already]
 Некоторые из выделенных контактов уже находятся в других метаконтактах
-[Do you really want to delete selected contacts?]
-Вы хотите удалить выделенные контакты?
-[Warning]
-Предупреждение
-[One or more contacts in same Meta already. Try to convert anyway?]
-Один или несколько контактов в похожем метаконтакте. Всё равно преобразовать?
-[Editing of column ]
-Изменение колонки\s
-[%i users found (%i) Online: %i]
-%i пользователей найдено (из %i) В сети: %i
-[ users found (]
- пользователей найдено (
-[) Online: ]
-) В сети:\s
-[Online]
-В сети
-[deleted]
-удалено
-[off]
-выкл.
-[active]
-активн.
-[Colorize]
-Добавить цвет
-[QuickSearch window hotkey]
-Открыть окно быстрого поиска
-[Column content is simple database setting.]
-Колонка содержит настройку из базы.
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-Колонка содержит результат выполнения скрипта.\r\nДля получения подробной информации нажмите "Помощь" в диалоге скрипта.
-[Column content is contact property (see list). Can be empty.]
-Колонка содержит свойство контакта (см. список). Может быть пустой.
-[Content is last online time.]
-Содержит время последнего появления в сети.
-[Content is time of last contact event.]
-Содержит время последнего события контакта.
-[Content is metacontact info.]
-Содержит информацию метаконтакта.
-[Content is count of ALL contact events (not messages only)]
-Содержит количество ВСЕХ событий контакта (не только сообщений)
-[Other info]
-Прочие сведения
-[Change setting through QS]
-Изменить с помощью QuickSearch
-[default]
-по умолчанию
-[Selected]
-Выбрано
-[contacts]
-контактов
-[Unknown]
-Неизвестный
-[Stay on Top]
-Поверх всех окон
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Текстовый редактор
-[Wrap Text]
-Перенос строк
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -30810,7 +30739,7 @@ INI файл "%s"\nдля чтения контакта не может быть
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
@@ -31169,7 +31098,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -32556,7 +32485,7 @@ Miranda NG прекрасна, а это - пример длинного соо�
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.6
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -32857,42 +32786,34 @@ INI файл погоды для этой станции не найден (20)
 Ошибка HTTP: Сервис недоступен (503)
 [HTTP Error: Gateway timeout (504)]
 Ошибка HTTP: Таймаут шлюза (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nТемпература: %t\\nОщущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ощущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Состояние погоды для %n на %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nСегодня:  макс. %h, мин. %l
-[Temperature: %[Temperature]]
-Температура: %[Temperature]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c   прогноз на сегодня\n%d   текущая дата\n%e   роса\n%f   ощущение\n%h   максимум\n%i   направление ветра\n%l   минимум\n%m   влажность\n%n   город\n%p   давление\n%r   восход\n%s   ID города\n%t   температура\n%u   обновление\n%v   видимость\n%w   скорость ветра\n%y   закат\n----------\n\\n   новая строка
-[No information available.\r\nPlease update weather condition first.]
-Информация недоступна.\r\nПредварительно обновите данные о погоде.
-[%[..]\tcustom variables]
-%[..]\tсвои переменные
-[Here is a list of custom variables that are currently available]
-Список дополнительных переменных, доступных на данный момент
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для полного прогноза погоды. Укажите его в настройках.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Enable/disable auto update]
 Вкл/Выкл автообновление
 [Auto Update Enabled]
 Автообновление включено
 [Auto Update Disabled]
 Автообновление выключено
+[Protocol icon]
+Значок протокола
+[Update Disabled]
+Обновления выкл
+[View Log]
+Журнал
+[Update with Clear]
+Удалить и обновить
+[View Brief]
+Краткий прогноз
+[View Complete]
+Полный прогноз
+[Weather Update]
+Обновление прогноза
+[Popup]
+Всплывающее окно
+[No Popup]
+Без окон
+[Edit Settings]
+Изменить настройки
 [Condition Changed]
 Погода изменилась
 [Alert Issued]
@@ -32911,6 +32832,10 @@ INI файл погоды для этой станции не найден (20)
 <Введите ID города>
 [Weather condition was not logged.]
 Журнал погоды не ведётся.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для полного прогноза погоды. Укажите его в настройках.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не указан URL для карты погоды. Вы можете указать его в меню Настройки.
 [Get city name from ID]
 Получить название города по ID
 [Weather INI information]
@@ -32943,26 +32868,6 @@ INI файл погоды для этой станции не найден (20)
 Ошибка при получении данных: %s
 [Weather HTTP connections]
 HTTP-подключения Weather
-[Protocol icon]
-Значок протокола
-[Update Disabled]
-Обновления выкл
-[View Log]
-Журнал
-[Update with Clear]
-Удалить и обновить
-[View Brief]
-Краткий прогноз
-[View Complete]
-Полный прогноз
-[Weather Update]
-Обновление прогноза
-[Popup]
-Всплывающее окно
-[No Popup]
-Без окон
-[Edit Settings]
-Изменить настройки
 [Name]
 Имя
 [Author]
@@ -33001,6 +32906,8 @@ HTTP-подключения Weather
 байт
 [Description:]
 Описание:
+[Here is a list of custom variables that are currently available]
+Список дополнительных переменных, доступных на данный момент
 [All update data has been reloaded.]
 Все обновлённые данные перезагружены.
 [Invalid ini format for: %s]
@@ -33013,6 +32920,22 @@ HTTP-подключения Weather
 Шрифт заголовка фрейма
 [Frame Background]
 Фон фрейма
+[Weather Condition for %n as of %u]
+Состояние погоды для %n на %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Ощущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nТемпература: %t\\nОщущение: %f\\nДавление: %p\\nВетер: %i  %w\\nВлажность: %m\\nРоса: %e\\nВидимость: %v\\n\\nВосход: %r\\nЗакат: %y\\n\\nПрогноз на 5 дней:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n в %u:	%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (ощущается %f)	Ветер: %i %w	Влажность: %m
+[Temperature: %[Temperature]]
+Температура: %[Temperature]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nСегодня:  макс. %h, мин. %l
 [Weather Protocol Text Preview]
 Просмотр протокола погоды
 [Network]
@@ -33023,6 +32946,10 @@ HTTP-подключения Weather
 Показывать
 [Popups]
 Всплывающие окна
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tпрогноз на сегодня\n%d\tтекущая дата\n%e\tроса\n%f\tощущение\n%h\tмаксимум\n%i\tнаправление ветра\n%l\tминимум\n%m\tвлажность\n%n\tгород\n%p\tдавление\n%r\tвосход\n%s\tID города\n%t\tтемпература\n%u\tобновление\n%v\tвидимость\n%w\tскорость ветра\n%y\tзакат
+[%[..]\tcustom variables]
+%[..]\tсвои переменные
 [Station ID]
 ID города
 [Disable &weather notification]
@@ -33051,6 +32978,8 @@ ID города
 Показывать во фрейме
 [Unable to retrieve weather information for %s]
 Невозможно найти информацию о погоде для %s
+[No information available.\r\nPlease update weather condition first.]
+Информация недоступна.\r\nПредварительно обновите данные о погоде.
 [Variable]
 Переменная
 [Information]
@@ -33209,6 +33138,58 @@ ID города
 Юго-запад
 [Southeast]
 Юго-восток
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Условия
+[Feel]
+Ощущение
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5]
+Прогноз: День 5
+[Forecast Day 6]
+Прогноз: День 6
+[Forecast Day 7]
+Прогноз: День 7
+[Forecast Day 8]
+Прогноз: День 8
+[Forecast Day 9]
+Прогноз: День 9
+[Heat Index]
+Индекс жары
+[High]
+Высокий
+[Light Rain And Snow]
+Слабый дождь и снег
+[Low]
+Низкий
+[Moon phase]
+Фаза луны
+[Moonrise]
+Луна: восход
+[Moonset]
+Луна: заход
+[Precipitation]
+Осадки
+[Rain Showers]
+Дожди
+[Temperature]
+Температура
+[UV Index]
+Индекс УФ
+[Wind direction]
+Ветер: направление
+[Wind speed]
+Ветер: скорость
 ;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
@@ -34202,6 +34183,586 @@ ID города
 [shorter]
 короче
 ;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Alert]
+Предупреждения
+[Blowing Snow]
+Метель
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Возможна гроза, 20% вероятность осадков
+[Chance Of Rain 20% Chance Of Precipitation]
+Возможен дождь, 20% вероятность осадков
+[Chance Of Rain 30% Chance Of Precipitation]
+Возможен дождь, 30% вероятность осадков
+[Chance Of Rain 40% Chance Of Precipitation]
+Возможен дождь, 40% вероятность осадков
+[Chance Of Rain 50% Chance Of Precipitation]
+Возможен дождь, 50% вероятность осадков
+[Chance Of Rain 60% Chance Of Precipitation]
+Возможен дождь, 60% вероятность осадков
+[Chance Of Rain 70% Chance Of Precipitation]
+Возможен дождь, 70% вероятность осадков
+[Chance Of Rain 80% Chance Of Precipitation]
+Возможен дождь, 80% вероятность осадков
+[Chance Of Rain]
+Возможен дождь
+[Chance Of Snow 20% Chance Of Precipitation]
+Возможен снег, 20% вероятность осадков
+[Chance Of Snow 30% Chance Of Precipitation]
+Возможен снег, 30% вероятность осадков
+[Chance Of Snow 40% Chance Of Precipitation]
+Возможен снег, 40% вероятность осадков
+[Chance Of Snow 50% Chance Of Precipitation]
+Возможен снег, 50% вероятность осадков
+[Chance Of Snow 60% Chance Of Precipitation]
+Возможен снег, 60% вероятность осадков
+[Chance Of Snow 70% Chance Of Precipitation]
+Возможен снег, 70% вероятность осадков
+[Chance Of Snow 80% Chance Of Precipitation]
+Возможен снег, 80% вероятность осадков
+[Chance Of Snow]
+Возможен снег
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Возможны грозы, 20% вероятность осадков
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Возможны грозы, 30% вероятность осадков
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Возможны грозы, 40% вероятность осадков
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Возможны грозы, 50% вероятность осадков
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Возможны грозы, 60% вероятность осадков
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Возможны грозы, 70% вероятность осадков
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Возможны грозы, 80% вероятность осадков
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Возможны грозы, 90% вероятность осадков
+[Chance Rain 40% Chance Of Precipitation]
+Возможен дождь, 40% вероятность осадков
+[Chance Rain 50% Chance Of Precipitation]
+Возможен дождь, 50% вероятность осадков
+[Chance Rain 80% Chance Of Precipitation]
+Возможен дождь, 80% вероятность осадков
+[Chance Rain 90% Chance Of Precipitation]
+Возможен дождь, 90% вероятность осадков
+[Clear]
+Ясно
+[Cloudy]
+Облачно
+[Day Length Diff]
+Изменение продолжительности дня
+[Day Length]
+Продолжительность дня
+[Drizzle Fog]
+Морось, туман
+[Drizzle Mist]
+Морось, дымка
+[Drizzle]
+Морось
+[ENE]
+ВСВ
+[ESE]
+ВЮВ
+[E]
+В
+[East]
+Восток
+[Elevation]
+Высота над уровнем моря
+[Falling]
+Падает
+[Feel]
+Температура с учётом ветра
+[First Quarter]
+Первая четверть Луны
+[Fog]
+Туман
+[Forecast Day 1 Condition]
+Прогноз: День 1 Условия
+[Forecast Day 1 Day]
+Прогноз: День 1 день
+[Forecast Day 1 High]
+Прогноз: День 1 Макс
+[Forecast Day 1 Low]
+Прогноз: День 1 Мин
+[Forecast Day 1 Night Text]
+Прогноз: День 1 ночью
+[Forecast Day 1 Text]
+Прогноз: День 1 текст
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2 Condition]
+Прогноз: День 2 Условия
+[Forecast Day 2 Day]
+Прогноз: День 2 день
+[Forecast Day 2 High]
+Прогноз: День 2 Макс
+[Forecast Day 2 Low]
+Прогноз: День 2 Мин
+[Forecast Day 2 Night Text]
+Прогноз: День 2 ночью
+[Forecast Day 2 Text]
+Прогноз: День 2 текст
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3 Condition]
+Прогноз: День 3 Условия
+[Forecast Day 3 Day]
+Прогноз: День 3 день
+[Forecast Day 3 High]
+Прогноз: День 3 Макс
+[Forecast Day 3 Low]
+Прогноз: День 3 Мин
+[Forecast Day 3 Night Text]
+Прогноз: День 3 ночью
+[Forecast Day 3 Text]
+Прогноз: День 3 текст
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4 Condition]
+Прогноз: День 4 Условия
+[Forecast Day 4 Day]
+Прогноз: День 4 день
+[Forecast Day 4 High]
+Прогноз: День 4 Макс
+[Forecast Day 4 Low]
+Прогноз: День 4 Мин
+[Forecast Day 4 Night Text]
+Прогноз: День 4 ночью
+[Forecast Day 4 Text]
+Прогноз: День 4 текст
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5 Condition]
+Прогноз: День 5 Условия
+[Forecast Day 5 Day]
+Прогноз: День 5 день
+[Forecast Day 5 High]
+Прогноз: День 5 Макс
+[Forecast Day 5 Low]
+Прогноз: День 5 Мин
+[Forecast Day 5 Night Text]
+Прогноз: День 5 ночью
+[Forecast Day 5 Text]
+Прогноз: День 5 текст
+[Forecast Day 5]
+Прогноз: День 5
+[Freezing Drizzle Mist]
+Изморось, дымка
+[Freezing Drizzle]
+Изморось
+[Freezing Fog]
+Изморось, туман
+[Freezing Rain Mist]
+Дождь с образованием наледи, дымка
+[Freezing Rain]
+Дождь с образованием гололёда
+[Friday]
+Пятница
+[Full Moon]
+Полнолуние
+[Haze]
+Мгла
+[Heat Index]
+Индекс жары
+[Heavy Blowing Snow]
+Метель
+[Heavy Fog]
+Густой туман
+[Heavy Rain Showers]
+Проливной дождь
+[Heavy Showers Snow Blowing Snow]
+Сильный дождь со снегом, метель
+[Heavy Showers Snow Heavy Blowing Snow]
+Сильный снегопад, метель
+[Heavy Showers Snow Mist]
+Сильный снег, дымка
+[Heavy Showers Snow]
+Сильный дождь со снегом
+[Heavy Snow Showers]
+Сильный снегопад
+[Heavy Snow]
+Сильный снегопад
+[Heavy Thunderstorm Rain]
+Сильные грозы, дождь
+[Ice Crystals Mist]
+Иней, дымка
+[Ice Pellets 30% Chance Of Precipitation]
+Ледяная крупа, 30% вероятность осадков
+[Ice Pellets 40% Chance Of Precipitation]
+Ледяная крупа, 40% вероятность осадков
+[Ice Pellets 50% Chance Of Precipitation]
+Ледяная крупа, 50% вероятность осадков
+[Ice Pellets 60% Chance Of Precipitation]
+Ледяная крупа, 60% вероятность осадков
+[Ice Pellets 70% Chance Of Precipitation]
+Ледяная крупа, 70% вероятность осадков
+[Ice Pellets 80% Chance Of Precipitation]
+Ледяная крупа, 80% вероятность осадков
+[Ice Pellets 90% Chance Of Precipitation]
+Ледяная крупа, 90% вероятность осадков
+[Ice Pellets]
+Снег с образованием льда
+[Last Quarter]
+последняя четверть Луны
+[Latitude]
+Широта
+[Light Blowing Snow]
+Метель
+[Light Drizzle Fog]
+Слабая морось, туман
+[Light Drizzle Mist Patches Fog]
+Лёгкая морось, дымка, туман клочьями
+[Light Drizzle Mist]
+Лёгкая морось, дымка
+[Light Drizzle]
+Лёгкая морось
+[Light Fog]
+Слабый туман
+[Light Freezing Drizzle Light Snow Grains Mist]
+Слабая измороcь, небольшой снег, дымка
+[Light Freezing Drizzle Light Snow]
+Слабая изморось, слабый снег
+[Light Freezing Drizzle Mist]
+Слабая изморось, дымка
+[Light Freezing Drizzle Snow]
+Изморось, слабый снег
+[Light Freezing Drizzle]
+Слабая изморось
+[Light Freezing Rain Light Showers Snow Mist]
+Слабый ледяной дождь, снег, дымка
+[Light Freezing Rain Light Showers Snow]
+Слабый ледяной дождь, слабый снег
+[Light Freezing Rain Light Snow]
+Слабый ледяной дождь, снег
+[Light Freezing Rain Mist]
+Слабый ледяной дождь, дымка
+[Light Freezing Rain]
+Слабый ледяной дождь
+[Light Ice Pellets Mist]
+Снег с образованием льда, дымка
+[Light Ice Pellets]
+Небольшой ледяной дождь
+[Light Low Drifting Snow]
+Слабый снег, позёмка
+[Light Rain Fog]
+Слабый дождь, туман
+[Light Rain Mist]
+Слабые дожди, дымка
+[Light Rain Showers]
+Идёт слабый дождь
+[Light Rain Snow Mist]
+Слабый дождь со снегом, дымка
+[Light Rain Snow]
+Слабый дождь со снегом
+[Light Rain]
+Слабый дождь
+[Light Showers Rain Mist]
+Слабые дожди, дымка
+[Light Showers Rain Snow Mist]
+Дождь со снегом, дымка
+[Light Showers Rain Snow]
+Дождь со снегом
+[Light Showers Rain]
+Слабые дожди
+[Light Showers Showers Rain]
+Сильный дождь
+[Light Showers Snow Blowing Snow]
+Снег, метель
+[Light Showers Snow Light Blowing Snow]
+Сильный снег с дождём
+[Light Showers Snow Low Drifting Snow]
+Слабый снег, позёмка
+[Light Showers Snow Mist]
+Слабый снег с дождём, дымка
+[Light Showers Snow Rain Mist]
+Снег с дождём, дымка
+[Light Showers Snow Rain]
+Дождь со снегом
+[Light Showers Snow]
+Лёгкий снегопад
+[Light Snow 30% Chance Of Precipitation]
+Слабый снег, 30% вероятность осадков
+[Light Snow Blowing Snow]
+Метель
+[Light Snow Freezing Fog]
+Слабый снег, изморось, туман
+[Light Snow Grains Mist]
+Слабый снег хлопьями, дымка
+[Light Snow Grains]
+Небольшой снег
+[Light Snow Light Blowing Snow]
+Слабый снег, метель
+[Light Snow Low Drifting Snow Mist]
+Слабый снег, позёмка, дымка
+[Light Snow Low Drifting Snow]
+Небольшой снег, позёмка
+[Light Snow Mist]
+Слабый снег с дымкой
+[Light Snow Rain]
+Небольшой снег с дождём
+[Light Snow Shallow Fog]
+Слабый снег, низкий туман
+[Light Snow Showers]
+Дождь со снегом
+[Light Snow]
+Слабый снег
+[Light Thunderstorm Rain]
+Небольшая гроза с дождём
+[Light Thunderstorm]
+Небольшая гроза
+[Local Time]
+Местное время
+[longer]
+длиннее
+[Longitude]
+Долгота
+[Low Drifting Snow Mist]
+Слабая метель, дымка
+[Low Drifting Snow]
+Снежная позёмка
+[Max]
+День
+[Min]
+Ночь
+[Mist]
+Дымка
+[Monday]
+Понедельник
+[Moon]
+Луна
+[Moonrise]
+Луна: восход
+[Moonset]
+Луна: заход
+[Mostly Clear]
+Преимущественно ясно
+[Mostly Cloudy]
+Преимущественно облачно
+[Mostly Sunny]
+Преимущественно солнечно
+[N/a]
+Н/д
+[NE]
+СВ
+[NNE]
+ССВ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[New Moon]
+Новолуние
+[North]
+Север
+[Northeast]
+Северо-восток
+[Northwest]
+Северо-запад
+[of the Moon is Illuminated]
+освещено
+[Overcast]
+Сплошная облачность
+[Partial Fog]
+Местами туман
+[Partly Cloudy]
+Местами облачно
+[Partly Sunny]
+Местами солнечно
+[Patches Fog Mist]
+Местами туман, дымка
+[Patches Fog]
+Туман клочьями
+[Pressure Change]
+Давление: изменение
+[Rain 100% Chance Of Precipitation]
+Дождь, 100% вероятность осадков
+[Rain 20% Chance Of Precipitation]
+Дождь, 20% вероятность осадков
+[Rain 40% Chance Of Precipitation]
+Дождь, 40% вероятность осадков
+[Rain 50% Chance Of Precipitation]
+Дождь, 50% вероятность осадков
+[Rain 60% Chance Of Precipitation]
+Дождь, 60% вероятность осадков
+[Rain 70% Chance Of Precipitation]
+Дождь, 70% вероятность осадков
+[Rain 80% Chance Of Precipitation]
+Дождь, 80% вероятность осадков
+[Rain 90% Chance Of Precipitation]
+Дождь, 90% вероятность осадков
+[Rain Fog]
+Дождь, туман
+[Rain Mist]
+Дождь, дымка
+[Rain]
+Дождь
+[Rising]
+Растёт
+[SE]
+ЮВ
+[SSE]
+ЮЮВ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
+[Saturday]
+Суббота
+[Scattered Clouds]
+Переменная облачность
+[Shallow Fog]
+Низкий туман
+[shorter]
+короче
+[Showers Rain Snow]
+Сильный дождь, снег
+[Showers Rain]
+Ливневые дожди
+[Showers Showers Rain]
+Сильный дождь
+[Showers Snow Blowing Snow]
+Сильный снег, метель
+[Showers Snow Heavy Blowing Snow]
+Метель с дождём
+[Showers Snow Low Drifting Snow]
+Сильный снегопад, позёмка
+[Showers Snow Mist]
+Снегопад, дымка
+[Showers Snow Rain]
+Снег с дождём
+[Showers Snow]
+Дождь со снегом
+[Smoke]
+Дым
+[Snow 100% Chance Of Precipitation]
+Снег, 100% вероятность осадков
+[Snow 20% Chance Of Precipitation]
+Снег, 20% вероятность осадков
+[Snow 30% Chance Of Precipitation]
+Снег, 30% вероятность осадков
+[Snow 40% Chance Of Precipitation]
+Снег, 40% вероятность осадков
+[Snow 50% Chance Of Precipitation]
+Снег, 50% вероятность осадков
+[Snow 60% Chance Of Precipitation]
+Снег, 60% вероятность осадков
+[Snow 70% Chance Of Precipitation]
+Снег, 70% вероятность осадков
+[Snow 80% Chance Of Precipitation]
+Снег, 80% вероятность осадков
+[Snow 90% Chance Of Precipitation]
+Снег, 90% вероятность осадков
+[Snow Blowing Snow]
+Снег, метель
+[Snow Freezing Rain Mist]
+Снег с дождём, дымка
+[Snow Freezing Rain]
+Снег с дождём
+[Snow Grains]
+Снег
+[Snow Heavy Blowing Snow]
+Сильный снег, метель
+[Snow Mist]
+Снег с дымкой
+[Snow Rain Mist]
+Снег с дождём, дымка
+[Snow Rain]
+Снег с дождём
+[Snow Showers 30% Chance Of Precipitation]
+Снег, 30% вероятность осадков
+[Snow Showers 40% Chance Of Precipitation]
+Снег, 40% вероятность осадков
+[Snow Showers 50% Chance Of Precipitation]
+Снег, 50% вероятность осадков
+[Snow Showers 60% Chance Of Precipitation]
+Снег, 60% вероятность осадков
+[Snow Showers 70% Chance Of Precipitation]
+Снег, 70% вероятность осадков
+[Snow Showers 80% Chance Of Precipitation]
+Снег, 80% вероятность осадков
+[Snow Showers]
+Снег
+[Snow]
+Снег
+[South]
+Юг
+[Southeast]
+Юго-восток
+[Southwest]
+Юго-запад
+[Stable]
+Не изм.
+[Steady]
+Не изм.
+[Sunday]
+Воскресенье
+[T-Storms 100% Chance Of Precipitation]
+Гроза, 100% вероятность осадков
+[T-Storms 30% Chance Of Precipitation]
+Гроза, 30% вероятность осадков
+[T-Storms 40% Chance Of Precipitation]
+Гроза, 40% вероятность осадков
+[T-Storms 50% Chance Of Precipitation]
+Гроза, 50% вероятность осадков
+[T-Storms 60% Chance Of Precipitation]
+Гроза, 60% вероятность осадков
+[T-Storms 70% Chance Of Precipitation]
+Гроза, 70% вероятность осадков
+[T-Storms 80% Chance Of Precipitation]
+Гроза, 80% вероятность осадков
+[T-Storms 90% Chance Of Precipitation]
+Гроза, 90% вероятность осадков
+[Thunderstorm Rain]
+Дождь с грозой
+[Thunderstorm]
+Гроза
+[Thunderstorms And Rain]
+Дождь с грозой
+[Thursday]
+Четверг
+[Tuesday]
+Вторник
+[UV Index]
+Индекс УФ
+[Var]
+Переменный
+[Visible Light Length]
+Длительность светлого времени
+[WNW]
+ЗСЗ
+[WSW]
+ЗЮЗ
+[W]
+З
+[Waning Crescent]
+Убывающая Луна
+[Waning Gibbous]
+Убывающая Луна
+[Waxing Crescent]
+Растущая Луна
+[Waxing Gibbous]
+Растущая Луна
+[Wednesday]
+Среда
+[West]
+Запад
+[Wind Direction DEG]
+Ветер: направление (град)
+[Wind Direction]
+Ветер: направление
+[Wind Gust]
+Ветер: порывы
+[Wind Speed]
+Ветер: скорость
+;============================================================
 ;  File: yweather.ini
 ;  Plugin: Weather
 ;============================================================
@@ -35009,7 +35570,7 @@ WUMF: Показать подключения
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]

@@ -1,8 +1,52 @@
 ;============================================================
-;  File: wundergrnd_intl.ini
+;  File: msn.ini
 ;  Plugin: Weather
 ;============================================================
+[Condition]
+Условия
+[Feel]
+Ощущение
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5]
+Прогноз: День 5
+[Forecast Day 6]
+Прогноз: День 6
+[Forecast Day 7]
+Прогноз: День 7
+[Forecast Day 8]
+Прогноз: День 8
+[Forecast Day 9]
+Прогноз: День 9
+[Heat Index]
+Индекс жары
+[High]
+Высокий
 [Light Rain And Snow]
 Слабый дождь и снег
+[Low]
+Низкий
+[Moon phase]
+Фаза луны
+[Moonrise]
+Луна: восход
+[Moonset]
+Луна: заход
+[Precipitation]
+Осадки
 [Rain Showers]
 Дожди
+[Temperature]
+Температура
+[UV Index]
+Индекс УФ
+[Wind direction]
+Ветер: направление
+[Wind speed]
+Ветер: скорость

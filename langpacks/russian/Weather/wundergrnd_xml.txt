@@ -22,6 +22,8 @@
 Возможен дождь, 70% вероятность осадков
 [Chance Of Rain 80% Chance Of Precipitation]
 Возможен дождь, 80% вероятность осадков
+[Chance Of Rain]
+Возможен дождь
 [Chance Of Snow 20% Chance Of Precipitation]
 Возможен снег, 20% вероятность осадков
 [Chance Of Snow 30% Chance Of Precipitation]
@@ -36,6 +38,8 @@
 Возможен снег, 70% вероятность осадков
 [Chance Of Snow 80% Chance Of Precipitation]
 Возможен снег, 80% вероятность осадков
+[Chance Of Snow]
+Возможен снег
 [Chance Of T-Storms 20% Chance Of Precipitation]
 Возможны грозы, 20% вероятность осадков
 [Chance Of T-Storms 30% Chance Of Precipitation]
@@ -328,6 +332,8 @@
 Небольшая гроза
 [Local Time]
 Местное время
+[longer]
+длиннее
 [Longitude]
 Долгота
 [Low Drifting Snow Mist]
@@ -374,6 +380,8 @@
 Северо-восток
 [Northwest]
 Северо-запад
+[of the Moon is Illuminated]
+освещено
 [Overcast]
 Сплошная облачность
 [Partial Fog]
@@ -428,6 +436,8 @@
 Переменная облачность
 [Shallow Fog]
 Низкий туман
+[shorter]
+короче
 [Showers Rain Snow]
 Сильный дождь, снег
 [Showers Rain]
@@ -568,13 +578,3 @@
 Ветер: порывы
 [Wind Speed]
 Ветер: скорость
-[longer]
-длиннее
-[of the Moon is Illuminated]
-освещено
-[shorter]
-короче
-[Chance Of Rain]
-Возможен дождь
-[Chance Of Snow]
-Возможен снег

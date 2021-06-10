@@ -22,6 +22,8 @@
 Имя файла:
 [Mark all events as read]
 Пометить все события прочитанными
+[Fix UTF-8 encoding in old events]
+Исправить кодировку UTF-8 в старых событиях
 [Error Opening Database]
 Ошибка открытия базы
 [There was an error opening the profile database given.]
@@ -59,6 +61,8 @@
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
+[UTF-8 encoding fixed in %d events]
+Событий с исправленной кодировкой UTF-8: %d
 [Processing aborted by user]
 Обработка отменена пользователем
 [Elapsed time: %d sec]

@@ -18,8 +18,8 @@
 Контакты
 [Default group:]
 Группа:
-[Enable group chats]
-Включить поддержку групповых чатов
+[Enable guilds (servers)]
+Включить поддержку гильдий (серверов)
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
 [Use subgroups for server channels (requires restart)]
@@ -105,6 +105,8 @@ ID пользователя
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
 Сервер требует ввести капчу. Сейчас Миранда перенаправит вас в браузер
+[Connection failed.\n%s (%s).]
+Ошибка подключения.\n%s (%s).
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Владельцы

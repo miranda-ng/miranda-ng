@@ -170,12 +170,8 @@
 [Are you sure to remove selected event(s)?]
 Уверены, что хотите удалить выбранные события?
 ;file \plugins\NewStory\src\history_menus.cpp
-[Are you sure to remove all events from history?]
-Уверены, что хотите удалить все события из истории?
 [User history]
 История пользователя
-[Empty history]
-Очистить историю
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Основной значок

@@ -1826,11 +1826,6 @@ Miranda не смогла загрузить встроенную систему
 Копировать сообщение в буфер обмена
 [Copy timestamp to clipboard]
 Копировать время в буфер обмена
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
-[Host we are connecting to is not the one certificate was issued for]
-Выданный сертификат не соответствует имени сервера, к которому производится подключение
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Исходящее сообщение
@@ -2558,6 +2553,11 @@ xСтатус
 <Все подключения>
 [Network]
 Сеть
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Клиент не может расшифровать сообщение сервера. Возможные причины: сервер не поддерживает SSL, либо требует не существующий пакет безопасности
+[Host we are connecting to is not the one certificate was issued for]
+Выданный сертификат не соответствует имени сервера, к которому производится подключение
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Не найден плагин окна сообщений. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
@@ -2811,6 +2811,11 @@ ANSI плагин
 Искать '%s':
 [No word to look up]
 Нет слов для просмотра
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+Уверены, что хотите удалить все события из истории?
+[Empty history]
+Очистить историю
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделитель>

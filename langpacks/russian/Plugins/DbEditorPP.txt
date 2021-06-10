@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@
 Экспортировать модуль
 [&Add module]
 &Добавить модуль
-[&Clone]
-&Клонировать
 [Export contact]
 Экспортировать контакт
 [Import settings]
@@ -208,8 +206,8 @@
 [Copy module "%s"]
 Копировать модуль "%s"
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Удалить модуль "%s"?
+[Are you sure you want to delete module "%S"?]
+Удалить модуль "%S"?
 [Delete module from database]
 Удалить модуль из базы
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ INI файлы
 Модуль
 [Setting]
 Параметр
-[Enter a string to search the database for]
-Введите строку поиска
-[Stop]
-Стоп
+[Searching...]
+Поиск...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Поиск завершён, найдено %d / заменено %d / удалено %d элемент(ов)
 [Replaced]
 Заменено
 [Deleted]
 Удалено
 [Found]
 Найдено
-[Searching...]
-Поиск...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Поиск завершён, найдено %d / заменено %d / удалено %d элемент(ов)
+[Enter a string to search the database for]
+Введите строку поиска
+[Stop]
+Стоп
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Основной значок
@@ -295,6 +293,10 @@ ID пользователя
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Удалить контакт "%s"?
+[Type]
+Тип
+[Size]
+Размер
 [Delete resident settings from database?]
 Удалить резидентные настройки из базы?
 [%d items deleted.]
@@ -318,10 +320,6 @@ ID пользователя
 [Add module to "%s"]
 Добавить модуль в "%s"
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Тип
-[Size]
-Размер
 [Unable to store value in this data type!]
 Невозможно сохранить значение, используя этот тип данных!
 [Are you sure you want to delete %d contact(s)?]
