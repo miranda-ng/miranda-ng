@@ -55,6 +55,8 @@ BOOL ThreadRunning;
 // variable to determine if module loaded
 BOOL ModuleLoaded = FALSE;
 
+VARSW g_pwszIconsName(L"%miranda_path%\\Icons\\proto_Weather.dll");
+
 HANDLE hTBButton = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +161,7 @@ int CMPlugin::Load()
 	g_plugin.registerIcon(MODULENAME, iconList, MODULENAME);
 
 	// load dll with icons
-	hIconsDll = LoadLibraryW(VARSW(L"%miranda_path%\\Icons\\proto_Weather.dll"));
+	hIconsDll = LoadLibraryW(g_pwszIconsName);
 
 	// load options and set defaults
 	LoadOptions();

@@ -394,6 +394,7 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str);
 void ClearStatusIcons();
 int MapCondToStatus(MCONTACT hContact);
 HICON GetStatusIcon(MCONTACT hContact);
+HICON GetStatusIconBig(MCONTACT hContact);
 
 WORD GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);

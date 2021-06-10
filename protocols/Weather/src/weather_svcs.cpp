@@ -29,6 +29,8 @@ building/changing the weather menu items.
 static HGENMENU hEnableDisablePopupMenu;
 static HGENMENU hEnableDisableMenu;
 
+extern VARSW g_pwszIconsName;
+
 //============  MIRANDA PROTOCOL SERVICES  ============
 
 // protocol service function for setting weather protocol status
@@ -228,6 +230,18 @@ HICON GetStatusIcon(MCONTACT hContact)
 		pIcon.clistIconId = ImageList_AddIcon(Clist_GetImageList(), LoadIconA(g_plugin.hIconsDll, MAKEINTRESOURCEA(pIcon.iconIdx)));
 
 	return ImageList_GetIcon(Clist_GetImageList(), pIcon.clistIconId, ILD_NORMAL);
+}
+
+HICON GetStatusIconBig(MCONTACT hContact)
+{
+	int iCond = g_plugin.getWord(hContact, "StatusIcon", -1);
+	if (iCond < 0 || iCond >= MAX_COND)
+		return nullptr;
+
+	HICON hIcon;
+	auto &pIcon = statusIcons[iCond];
+	ExtractIconExW(g_pwszIconsName, -pIcon.iconIdx, &hIcon, 0, 1);
+	return hIcon;
 }
 
 static INT_PTR WeatherAdvancedStatusIcon(WPARAM hContact, LPARAM)
