@@ -93,7 +93,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 			AddToStatus(STATUS_MESSAGE, TranslateT("%d events marked as read"), nCount);
 
 		if (nUtfCount)
-			AddToStatus(STATUS_MESSAGE, TranslateT("Utf-8 encoding fixed in %d events"), nUtfCount);
+			AddToStatus(STATUS_MESSAGE, TranslateT("UTF-8 encoding fixed in %d events"), nUtfCount);
 	}
 
 	DBCHeckCallback callback;
