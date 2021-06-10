@@ -380,54 +380,45 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 
 		// store the value for each string
 		if (!_stricmp(Group, "HEADER")) {
-			if (!_stricmp(ValName, "NAME"))						wSetData(&Data->DisplayName, Value);
-			else if (!_stricmp(ValName, "INTERNAL NAME"))	wSetData(&Data->InternalName, Value);
-			else if (!_stricmp(ValName, "DESCRIPTION"))		wSetData(&Data->Description, Value);
-			else if (!_stricmp(ValName, "AUTHOR")) 			wSetData(&Data->Author, Value);
-			else if (!_stricmp(ValName, "VERSION")) 			wSetData(&Data->Version, Value);
-		}
-		else if (!_stricmp(Group, "DEFAULT")) {
-			if (!_stricmp(ValName, "DEFAULT URL"))				wSetData(&Data->DefaultURL, Value);
-			else if (!_stricmp(ValName, "DEFAULT MAP"))		wSetData(&Data->DefaultMap, Value);
-			else if (!_stricmp(ValName, "UPDATE URL"))		wSetData(&Data->UpdateURL, Value);
-			else if (!_stricmp(ValName, "UPDATE URL2"))		wSetData(&Data->UpdateURL2, Value);
-			else if (!_stricmp(ValName, "UPDATE URL3"))		wSetData(&Data->UpdateURL3, Value);
-			else if (!_stricmp(ValName, "UPDATE URL4"))		wSetData(&Data->UpdateURL4, Value);
-			else if (!_stricmp(ValName, "COOKIE"))				wSetData(&Data->Cookie, Value);
-			else if (!_stricmp(ValName, "USERAGENT"))			wSetData(&Data->UserAgent, Value);
-		}
-		else if (!_stricmp(Group, "ID SEARCH")) {
-			if (!_stricmp(ValName, "AVAILABLE")) {
-				if (!_stricmp(Value, "TRUE"))				Data->IDSearch.Available = TRUE;
-				else										Data->IDSearch.Available = FALSE;
-			}
-			else if (!_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->IDSearch.SearchURL, Value);
-			else if (!_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->IDSearch.NotFoundStr, Value);
-			else if (!_stricmp(ValName, "NAME START")) 		wSetData(&Data->IDSearch.Name.Start, Value);
-			else if (!_stricmp(ValName, "NAME END")) 		wSetData(&Data->IDSearch.Name.End, Value);
-		}
-		else if (!_stricmp(Group, "NAME SEARCH")) {
-			if (!_stricmp(ValName, "SINGLE RESULT")) {
-				if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Single.Available = TRUE;
-				else										Data->NameSearch.Single.Available = FALSE;
-			}
-			else if (!_stricmp(ValName, "MULTIPLE RESULT")) {
-				if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Multiple.Available = TRUE;
-				else										Data->NameSearch.Multiple.Available = FALSE;
-			}
-			else if (!_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->NameSearch.SearchURL, Value);
-			else if (!_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->NameSearch.NotFoundStr, Value);
+			if (!_stricmp(ValName, "NAME"))                   wSetData(&Data->DisplayName, Value);
+			else if (!_stricmp(ValName, "INTERNAL NAME"))     wSetData(&Data->InternalName, Value);
+			else if (!_stricmp(ValName, "DESCRIPTION"))       wSetData(&Data->Description, Value);
+			else if (!_stricmp(ValName, "AUTHOR"))            wSetData(&Data->Author, Value);
+			else if (!_stricmp(ValName, "VERSION"))           wSetData(&Data->Version, Value);
+		}																     
+		else if (!_stricmp(Group, "DEFAULT")) {			     
+			if (!_stricmp(ValName, "DEFAULT URL"))            wSetData(&Data->DefaultURL, Value);
+			else if (!_stricmp(ValName, "DEFAULT MAP"))       wSetData(&Data->DefaultMap, Value);
+			else if (!_stricmp(ValName, "UPDATE URL"))        wSetData(&Data->UpdateURL, Value);
+			else if (!_stricmp(ValName, "UPDATE URL2"))       wSetData(&Data->UpdateURL2, Value);
+			else if (!_stricmp(ValName, "UPDATE URL3"))       wSetData(&Data->UpdateURL3, Value);
+			else if (!_stricmp(ValName, "UPDATE URL4"))       wSetData(&Data->UpdateURL4, Value);
+			else if (!_stricmp(ValName, "COOKIE"))            wSetData(&Data->Cookie, Value);
+			else if (!_stricmp(ValName, "USERAGENT"))         wSetData(&Data->UserAgent, Value);
+		}																     
+		else if (!_stricmp(Group, "ID SEARCH")) {			     
+			if (!_stricmp(ValName, "AVAILABLE"))              Data->IDSearch.Available = (0 == _stricmp(Value, "true"));
+			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(&Data->IDSearch.SearchURL, Value);
+			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(&Data->IDSearch.NotFoundStr, Value);
+			else if (!_stricmp(ValName, "NAME START"))        wSetData(&Data->IDSearch.Name.Start, Value);
+			else if (!_stricmp(ValName, "NAME END"))          wSetData(&Data->IDSearch.Name.End, Value);
+		}																     
+		else if (!_stricmp(Group, "NAME SEARCH")) {		     
+			if (!_stricmp(ValName, "SINGLE RESULT"))          Data->NameSearch.Single.Available = (0 == _stricmp(Value, "true"));
+			else if (!_stricmp(ValName, "MULTIPLE RESULT"))   Data->NameSearch.Multiple.Available = (0 == _stricmp(Value, "true"));
+			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(&Data->NameSearch.SearchURL, Value);
+			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(&Data->NameSearch.NotFoundStr, Value);
 			else if (!_stricmp(ValName, "SINGLE RESULT STR")) wSetData(&Data->NameSearch.SingleStr, Value);
-			else if (!_stricmp(ValName, "SINGLE FIRST"))	wSetData(&Data->NameSearch.Single.First, Value);
-			else if (!_stricmp(ValName, "SINGLE NAME START"))wSetData(&Data->NameSearch.Single.Name.Start, Value);
-			else if (!_stricmp(ValName, "SINGLE NAME END")) wSetData(&Data->NameSearch.Single.Name.End, Value);
-			else if (!_stricmp(ValName, "SINGLE ID START"))	wSetData(&Data->NameSearch.Single.ID.Start, Value);
-			else if (!_stricmp(ValName, "SINGLE ID END")) 	wSetData(&Data->NameSearch.Single.ID.End, Value);
-			else if (!_stricmp(ValName, "MULT FIRST"))		wSetData(&Data->NameSearch.Multiple.First, Value);
-			else if (!_stricmp(ValName, "MULT NAME START"))	wSetData(&Data->NameSearch.Multiple.Name.Start, Value);
-			else if (!_stricmp(ValName, "MULT NAME END")) 	wSetData(&Data->NameSearch.Multiple.Name.End, Value);
-			else if (!_stricmp(ValName, "MULT ID START"))	wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
-			else if (!_stricmp(ValName, "MULT ID END")) 	wSetData(&Data->NameSearch.Multiple.ID.End, Value);
+			else if (!_stricmp(ValName, "SINGLE FIRST"))      wSetData(&Data->NameSearch.Single.First, Value);
+			else if (!_stricmp(ValName, "SINGLE NAME START")) wSetData(&Data->NameSearch.Single.Name.Start, Value);
+			else if (!_stricmp(ValName, "SINGLE NAME END"))   wSetData(&Data->NameSearch.Single.Name.End, Value);
+			else if (!_stricmp(ValName, "SINGLE ID START"))   wSetData(&Data->NameSearch.Single.ID.Start, Value);
+			else if (!_stricmp(ValName, "SINGLE ID END"))     wSetData(&Data->NameSearch.Single.ID.End, Value);
+			else if (!_stricmp(ValName, "MULT FIRST"))        wSetData(&Data->NameSearch.Multiple.First, Value);
+			else if (!_stricmp(ValName, "MULT NAME START"))   wSetData(&Data->NameSearch.Multiple.Name.Start, Value);
+			else if (!_stricmp(ValName, "MULT NAME END"))     wSetData(&Data->NameSearch.Multiple.Name.End, Value);
+			else if (!_stricmp(ValName, "MULT ID START"))     wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
+			else if (!_stricmp(ValName, "MULT ID END"))       wSetData(&Data->NameSearch.Multiple.ID.End, Value);
 		}
 		else if (!_stricmp(Group, "ICONS")) {
 			for (int i = 0; i < _countof(statusStr); i++) {

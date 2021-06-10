@@ -484,7 +484,7 @@ int GetWeatherData(MCONTACT hContact)
 						case '[':  // variable, add the value to the result string
 							hasvar = TRUE;
 							if (!DBGetData(hContact, _T2A(str2), &dbv)) {
-								mir_wstrncat(DataValue, dbv.pwszVal, _countof(DataValue) - mir_wstrlen(DataValue));
+								mir_wstrncat(DataValue, TranslateW(dbv.pwszVal), _countof(DataValue) - mir_wstrlen(DataValue));
 								DataValue[_countof(DataValue) - 1] = 0;
 								db_free(&dbv);
 							}

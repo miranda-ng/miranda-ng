@@ -335,26 +335,25 @@ int UserInfoInit(WPARAM wParam, LPARAM hContact)
 	return 0;
 }
 
-
 // show brief information dialog
 // wParam = current contact
 int BriefInfo(WPARAM wParam, LPARAM)
 {
 	// make sure that the contact is actually a weather one
-	if (IsMyContact(wParam)) {
-		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
-		if (hMoreDataDlg != nullptr) {
-			SetForegroundWindow(hMoreDataDlg);
-			SetFocus(hMoreDataDlg);
-		}
-		else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
+	if (!IsMyContact(wParam))
+		return 0;
 
-		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
-		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
-		SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
-		return 1;
+	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
+	if (hMoreDataDlg != nullptr) {
+		SetForegroundWindow(hMoreDataDlg);
+		SetFocus(hMoreDataDlg);
 	}
-	return 0;
+	else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
+
+	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
+	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
+	SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
+	return 1;
 }
 
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam)
