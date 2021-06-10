@@ -1461,6 +1461,9 @@
 ;file \src\mir_app\src\srmm_log_rtf.cpp
 [Look up '%s':]
 [No word to look up]
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+[Empty history]
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 [Toolbar]

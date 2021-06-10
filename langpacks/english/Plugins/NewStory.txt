@@ -90,9 +90,7 @@
 ;file \plugins\NewStory\src\history_control.cpp
 [Are you sure to remove selected event(s)?]
 ;file \plugins\NewStory\src\history_menus.cpp
-[Are you sure to remove all events from history?]
 [User history]
-[Empty history]
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 [Search]
