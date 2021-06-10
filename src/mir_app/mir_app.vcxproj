@@ -91,7 +91,7 @@
     <ClCompile Include="src\imgconv.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
     <ClCompile Include="src\lpopts.cpp" />
-    <ClCompile Include="src\mdatabasecache.cpp" />
+    <ClCompile Include="src\MDatabaseCache.cpp" />
     <ClCompile Include="src\MDatabaseCommon.cpp" />
     <ClCompile Include="src\MDatabaseCommonCrypt.cpp" />
     <ClCompile Include="src\MDatabaseReadonly.cpp" />
@@ -174,7 +174,6 @@
     <ClInclude Include="src\metacontacts.h" />
     <ClInclude Include="src\miranda.h" />
     <ClInclude Include="src\netlib.h" />
-    <ClInclude Include="src\openssl.h" />
     <ClInclude Include="src\plugins.h" />
     <ClInclude Include="src\profilemanager.h" />
     <ClInclude Include="src\resource.h" />

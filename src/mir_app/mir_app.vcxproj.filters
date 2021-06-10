@@ -11,76 +11,7 @@
     <ClCompile Include="src\button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\chat_clist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_opts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_rtf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_svc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_tools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clcfiledrop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clcidents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clcitems.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clcmsgs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clcutils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistcore.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistevents.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistgroups.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistmod.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistopts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clistsettings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clisttray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\clui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\cluiservices.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\CMPluginBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\colorchooser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\contact.cpp">
@@ -89,52 +20,10 @@
     <ClCompile Include="src\contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\database.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db_events.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db_ini.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db_intf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\db_util.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\descbutton.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\dll_sniffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Docking.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_baseIcon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_callbackIcon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_defaulticons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_extraIcon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_groupIcon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_icolibIcon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ei_services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\encrypt.cpp">
@@ -191,106 +80,10 @@
     <ClCompile Include="src\lpopts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\mdatabasecache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MDatabaseCommon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MDatabaseReadonly.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_clist.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_frames.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_groups.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_tray.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\menu_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_addto.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_edit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_services.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meta_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\MHttpRequest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\miranda.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\modules.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\movetogroup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_autoproxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_bind.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_http.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_httpproxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_openconn.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_opts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_pktrecver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_security.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_sock.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_upnp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\netlib_websocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\newplugins.cpp">
@@ -308,33 +101,6 @@
     <ClCompile Include="src\popups.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\profilemanager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\protocols.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_accs.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_chains.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_internal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_opts.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_order.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_ui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\proto_utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\searchresults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -345,27 +111,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\sounds.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_base.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_log.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_log_hpp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_log_rtf.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_statusicon.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_toolbar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\srmm_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\stdafx.cxx">
@@ -380,38 +125,281 @@
     <ClCompile Include="src\visibility.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\proto_interface.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\chat_ui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\pu_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\MDatabaseCommonCrypt.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\srmm_util.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_base.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_log.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_log_hpp.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_log_rtf.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_statusicon.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\srmm_toolbar.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_clist.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_log.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_manager.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_opts.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_rtf.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_svc.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_tools.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\chat_ui.cpp">
+      <Filter>Source Files\Chats</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clc.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clcfiledrop.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clcidents.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clcitems.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clcmsgs.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clcutils.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistcore.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistevents.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistgroups.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistmod.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistopts.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clistsettings.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clisttray.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clui.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cluiservices.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\colorchooser.cpp">
+      <Filter>Source Files\SRMM</Filter>
+    </ClCompile>
+    <ClCompile Include="src\database.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db_events.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db_ini.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db_intf.cpp">
+      <Filter>Source Files\Database</Filter>
     </ClCompile>
     <ClCompile Include="src\db_upgrade.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\db_util.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MDatabaseCommon.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MDatabaseCommonCrypt.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MDatabaseReadonly.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MDatabaseCache.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\profilemanager.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_baseIcon.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_callbackIcon.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_defaulticons.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_extraIcon.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_groupIcon.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_icolibIcon.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_options.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ei_services.cpp">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_clist.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_frames.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_groups.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_options.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_tray.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\menu_utils.cpp">
+      <Filter>Source Files\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_addto.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_api.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_edit.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_main.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_menu.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_options.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_services.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meta_utils.cpp">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_autoproxy.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_bind.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_http.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_httpproxy.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_log.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_openconn.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_opts.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_pktrecver.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_security.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_sock.cpp">
+      <Filter>Source Files\Netlib</Filter>
     </ClCompile>
     <ClCompile Include="src\netlib_ssl.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_upnp.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\netlib_websocket.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MHttpRequest.cpp">
+      <Filter>Source Files\Netlib</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_accs.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_chains.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_interface.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_internal.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_opts.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_order.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_ui.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\proto_utils.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\protocols.cpp">
+      <Filter>Source Files\Protocols</Filter>
+    </ClCompile>
+    <ClCompile Include="src\movetogroup.cpp">
+      <Filter>Source Files\Contact list</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Docking.cpp">
+      <Filter>Source Files\Contact list</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\chat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\clc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\database.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\extraicons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\filter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -421,31 +409,16 @@
     <ClInclude Include="src\FontService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\genmenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\IcoLib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\langpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\metacontacts.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\miranda.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\netlib.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\openssl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\plugins.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\profilemanager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\resource.h">
@@ -463,6 +436,30 @@
     <ClInclude Include="src\encrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\chat.h">
+      <Filter>Source Files\Chats</Filter>
+    </ClInclude>
+    <ClInclude Include="src\clc.h">
+      <Filter>Source Files\Contact list</Filter>
+    </ClInclude>
+    <ClInclude Include="src\database.h">
+      <Filter>Source Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="src\metacontacts.h">
+      <Filter>Source Files\MetaContacts</Filter>
+    </ClInclude>
+    <ClInclude Include="src\genmenu.h">
+      <Filter>Source Files\Menus</Filter>
+    </ClInclude>
+    <ClInclude Include="src\netlib.h">
+      <Filter>Source Files\Netlib</Filter>
+    </ClInclude>
+    <ClInclude Include="src\extraicons.h">
+      <Filter>Source Files\Extra icons</Filter>
+    </ClInclude>
+    <ClInclude Include="src\profilemanager.h">
+      <Filter>Source Files\Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc">
@@ -478,5 +475,34 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\docs\contributors.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files\SRMM">
+      <UniqueIdentifier>{339b7ed8-22d5-442a-87f5-53cf330dfde9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Chats">
+      <UniqueIdentifier>{e0cff326-29c9-4498-82d1-474e6bde2f83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Contact list">
+      <UniqueIdentifier>{a0905bd6-1e86-4530-ae38-73ca210ebd7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Database">
+      <UniqueIdentifier>{4d6e8468-1587-4c4b-b312-9d23c2b1d06c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Extra icons">
+      <UniqueIdentifier>{03636a7e-5f60-4ddb-bdaa-4cb350fb91b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Menus">
+      <UniqueIdentifier>{38dd0487-627c-4a63-aaec-5e78f54900e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MetaContacts">
+      <UniqueIdentifier>{29aee38c-531b-4f1a-89b1-eac866c6efd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Netlib">
+      <UniqueIdentifier>{26698e9e-1969-4b4f-b4fb-250283bce57f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Protocols">
+      <UniqueIdentifier>{7e7992e9-1b69-4f98-84ff-f0be4653866c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
