@@ -180,12 +180,4 @@ const
   // Return - current version, via PLUGIN_MAKE_VERSION macro
   MS_HPP_GETVERSION = 'History++/GetVersion';
 
-  // MS_HPP_EMPTYHISTORY
-  // (supported from 1.5.0.118)
-  // Erases contact's history
-  // wParam - hContact
-  // lParam - zero
-  // Notes  - hContact can be NULL(0) to empty system history
-  MS_HPP_EMPTYHISTORY = 'History++/EmptyHistory';
-
 {$ENDIF}

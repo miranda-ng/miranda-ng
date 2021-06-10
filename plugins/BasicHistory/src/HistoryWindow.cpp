@@ -355,57 +355,6 @@ void HistoryWindow::OptionsSearchingChanged()
 	}
 }
 
-INT_PTR HistoryWindow::DeleteAllUserHistory(WPARAM hContact, LPARAM)
-{
-	HWND hWnd = nullptr;
-	int count = HistoryEventList::GetContactMessageNumber(hContact);
-	if (!count)
-		return FALSE;
-
-	for (auto it = windows.begin(); it != windows.end(); ++it) {
-		if (!it->second->isDestroyed) {
-			if (it->second->m_hContact == hContact) {
-				if (hWnd == nullptr) {
-					hWnd = it->second->m_hWnd;
-				}
-				else if (GetForegroundWindow() == it->second->m_hWnd) {
-					hWnd = it->second->m_hWnd;
-				}
-			}
-		}
-	}
-
-	for (auto it = freeWindows.begin(); it != freeWindows.end(); ++it) {
-		if (!(*it)->isDestroyed) {
-			if ((*it)->m_hContact == hContact) {
-				if (hWnd == nullptr)
-					hWnd = (*it)->m_hWnd;
-				else if (GetForegroundWindow() == (*it)->m_hWnd)
-					hWnd = (*it)->m_hWnd;
-			}
-		}
-	}
-
-	wchar_t *message = TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?");
-	if (MessageBox(hWnd, message, TranslateT("Are you sure?"), MB_OKCANCEL | MB_ICONERROR) != IDOK)
-		return FALSE;
-
-	db_set_safety_mode(FALSE);
-	DB::ECPTR cursor(DB::Events(hContact));
-	while (cursor.FetchNext())
-		cursor.DeleteEvent();
-	db_set_safety_mode(TRUE);
-
-	if (HistoryEventList::IsImportedHistory(hContact)) {
-		message = TranslateT("Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.");
-		if (MessageBox(hWnd, message, TranslateT("Are you sure?"), MB_YESNO | MB_ICONERROR) == IDYES)
-			HistoryEventList::DeleteImporter(hContact);
-	}
-
-	RebuildEvents(hContact);
-	return TRUE;
-}
-
 bool HistoryWindow::IsInList(HWND hWnd)
 {
 	for (auto it = windows.begin(); it != windows.end(); ++it)
@@ -1917,7 +1866,7 @@ void HistoryWindow::Delete(int what)
 		toDelete = (int)end;
 	}
 	else {
-		DeleteAllUserHistory(m_hContact, 0);
+		CallService(MS_HISTORY_EMPTY, m_hContact, 0);
 		return;
 	}
 

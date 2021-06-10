@@ -202,27 +202,11 @@ begin
   Result := 0;
 end;
 
-// MS_HPP_EMPTYHISTORY service
-// See m_historypp.inc for details
-function HppEmptyHistory(wParam { hContact } : WPARAM; lParam { 0 } : LPARAM): uint_ptr; cdecl;
-var
-  wHistory: THistoryFrm;
-begin
-  wHistory := FindContactWindow(wParam);
-  with TEmptyHistoryFrm.Create(wHistory) do
-  begin
-    Contact := wParam;
-    Result := int_ptr(ShowModal = mrYes);
-    Free;
-  end;
-end;
-
 procedure hppRegisterServices;
 begin
   HstWindowList := TList.Create;
 
   CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY,@HppShowHistory);
-  CreateServiceFunction(MS_HPP_EMPTYHISTORY, @HppEmptyHistory);
   CreateServiceFunction(MS_HPP_GETVERSION, @HppGetVersion);
   CreateServiceFunction(MS_HPP_SHOWGLOBALSEARCH,@HppShowGlobalSearch);
   CreateServiceFunction(MS_HPP_OPENHISTORYEVENT,@HppOpenHistoryEvent);

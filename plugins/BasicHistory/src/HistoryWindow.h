@@ -80,7 +80,6 @@ public:
 	static void RebuildEvents(MCONTACT hContact);
 	static bool IsInList(HWND hWnd);
 	static int FontsChanged(WPARAM wParam, LPARAM lParam);
-	static INT_PTR DeleteAllUserHistory(WPARAM wParam, LPARAM lParam);
 	static void OptionsMainChanged();
 	static void OptionsGroupChanged();
 	static void OptionsSearchingChanged();

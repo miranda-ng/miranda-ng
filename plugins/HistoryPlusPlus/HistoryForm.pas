@@ -3232,7 +3232,7 @@ end;
 
 procedure THistoryFrm.EmptyHistory1Click(Sender: TObject);
 begin
-  CallService(MS_HPP_EMPTYHISTORY, hContact, 0);
+  CallService(MS_HISTORY_EMPTY, hContact, 0);
 end;
 
 procedure THistoryFrm.EndHotFilterTimer(DoClearFilter: Boolean = False);

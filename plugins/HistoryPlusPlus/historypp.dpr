@@ -70,7 +70,7 @@ uses
 var
   MenuCount: Integer = -1;
   PrevShowHistoryCount: Boolean = False;
-  hmiEmpty, hmiContact: THandle;
+  hmiContact: THandle;
 
 const
   hLangpack:THANDLE = 0;
@@ -222,28 +222,12 @@ begin
   menuItem.hIcon := hppIcons[HPP_ICON_CONTACTHISTORY].handle;
   hmiContact := Menu_AddContactMenuItem(@menuItem);
 
-  // create empty item in contact menu
-  SET_UID(@menuItem, 'BA23B260-0AF7-4336-9703-D47C9AD7B1B0');
-  menuItem.Position := 1000090001;
-  menuItem.szName.w := '&Empty History';
-  menuItem.pszService := MS_HPP_EMPTYHISTORY;
-  menuItem.hIcon := hppIcons[HPP_ICON_TOOL_DELETEALL].handle;
-  hmiEmpty := Menu_AddContactMenuItem(@menuItem);
-
   // create menu item in main menu for history search
   SET_UID(@menuItem, 'A5FE6AE6-7674-4DC0-9F22-9F56AE71E2D7');
   menuItem.Position := 500060001;
   menuItem.szName.w := 'His&tory Search';
   menuItem.pszService := MS_HPP_SHOWGLOBALSEARCH;
   menuItem.hIcon := hppIcons[HPP_ICON_GLOBALSEARCH].handle;
-  Menu_AddMainMenuItem(@menuItem);
-
-  // create menu item in main menu for empty system history
-  SET_UID(@menuItem, '633AD23C-24B5-4914-B240-AD9FACB564ED');
-  menuItem.Position := 500060002;
-  menuItem.szName.w := '&Empty System History';
-  menuItem.pszService := MS_HPP_EMPTYHISTORY;
-  menuItem.hIcon := hppIcons[HPP_ICON_TOOL_DELETEALL].handle;
   Menu_AddMainMenuItem(@menuItem);
 
   LoadGridOptions;
@@ -422,7 +406,6 @@ begin
   hLast := db_event_last(hContact);
   if (PrevShowHistoryCount xor ShowHistoryCount) or (count <> MenuCount) then
   begin
-    Menu_ShowItem(hmiEmpty, byte(hLast <> 0));
     Menu_ShowItem(hmiContact, byte(hLast <> 0));
 
     if ShowHistoryCount then

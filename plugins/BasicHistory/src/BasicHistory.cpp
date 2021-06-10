@@ -18,7 +18,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-#define MS_HISTORY_DELETEALLCONTACTHISTORY       "BasicHistory/DeleteAllContactHistory"
 #define MS_HISTORY_EXECUTE_TASK       "BasicHistory/ExecuteTask"
 
 HCURSOR hCurSplitNS, hCurSplitWE;
@@ -26,7 +25,7 @@ HCURSOR hCurSplitNS, hCurSplitWE;
 HANDLE *hEventIcons = nullptr;
 int iconsNum = 3;
 HANDLE hToolbarButton;
-HGENMENU hContactMenu, hDeleteContactMenu;
+HGENMENU hContactMenu;
 HGENMENU hTaskMainMenu;
 std::vector<HGENMENU> taskMenus;
 bool g_SmileyAddAvail = false;
@@ -67,11 +66,7 @@ INT_PTR ExecuteTaskService(WPARAM wParam, LPARAM lParam);
 
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
-	bool bHasHistory = db_event_last(hContact) != NULL;
-	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
-
-	Menu_ShowItem(hContactMenu, bHasHistory);
-	Menu_ShowItem(hDeleteContactMenu, bHasHistory && isInList);
+	Menu_ShowItem(hContactMenu, db_event_last(hContact) != NULL);
 	return 0;
 }
 
@@ -100,13 +95,6 @@ void InitMenuItems()
 	mi.position = 500060000;
 	mi.pszService = MS_HISTORY_SHOWCONTACTHISTORY;
 	Menu_AddMainMenuItem(&mi);
-
-	SET_UID(mi, 0x63929694, 0x2d3d, 0x4c5d, 0xa5, 0x2b, 0x64, 0x59, 0x72, 0x23, 0xe, 0x66);
-	mi.position = 1000090001;
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_DELETE);
-	mi.name.a = LPGEN("Delete all user history");
-	mi.pszService = MS_HISTORY_DELETEALLCONTACTHISTORY;
-	hDeleteContactMenu = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
 }
@@ -241,7 +229,6 @@ int CMPlugin::Load()
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
 	CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
-	CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
 	CreateServiceFunction(MS_HISTORY_EXECUTE_TASK, ExecuteTaskService);
 
 	Options::instance = new Options();

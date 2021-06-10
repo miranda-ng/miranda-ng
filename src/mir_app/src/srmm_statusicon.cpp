@@ -266,11 +266,50 @@ void KillModuleSrmmIcons(HPLUGIN pPlugin)
 			arIcons.removeItem(&it);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static HGENMENU hmiEmpty;
+
+static INT_PTR svcEmptyHistory(WPARAM hContact, LPARAM)
+{
+	if (IDYES != MessageBoxW(nullptr, TranslateT("Are you sure to remove all events from history?"), L"Miranda", MB_YESNOCANCEL | MB_ICONQUESTION))
+		return 1;
+
+	DB::ECPTR pCursor(DB::Events(hContact));
+	while (pCursor.FetchNext())
+		pCursor.DeleteEvent();
+	return 0;
+}
+
+static int OnPrebuildContactMenu(WPARAM hContact, LPARAM)
+{
+	Menu_ShowItem(hmiEmpty, db_event_first(hContact) != 0);
+	return 0;
+}
+
+void SrmmModulesLoaded()
+{
+	// menu item
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0x0d4306aa, 0xe31e, 0x46ee, 0x89, 0x88, 0x3a, 0x2e, 0x05, 0xa6, 0xf3, 0xbc);
+	mi.pszService = MS_HISTORY_EMPTY;
+	mi.name.a = LPGEN("Empty history");
+	mi.position = 1000090001;
+	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
+	hmiEmpty = Menu_AddContactMenuItem(&mi);
+
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 int LoadSrmmModule()
 {
 	g_hCurHyperlinkHand = LoadCursor(nullptr, IDC_HAND);
 
 	LoadSrmmToolbarModule();
+
+	CreateServiceFunction(MS_HISTORY_EMPTY, svcEmptyHistory);
 
 	hHookSrmmEvent = CreateHookableEvent(ME_MSG_WINDOWEVENT);
 	hHookIconsChanged = CreateHookableEvent(ME_MSG_ICONSCHANGED);

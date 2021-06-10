@@ -25,10 +25,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_HISTORY_H__
 #define M_HISTORY_H__ 1
 
-//show the History dialog box for a contact
-//  wParam = (MCONTACT)hContact
-//  lParam = 0
-//hContact can be NULL to show system messages
-#define MS_HISTORY_SHOWCONTACTHISTORY       "History/ShowContactHistory"
+/////////////////////////////////////////////////////////////////////////////////////////
+// Shows the History dialog box for a contact
+// wParam = (MCONTACT)hContact
+// lParam = 0 (unused)
+// hContact can be NULL to show system messages
+
+#define MS_HISTORY_SHOWCONTACTHISTORY "History/ShowContactHistory"
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Empties contact's history
+// wParam = (MCONTACT)hContact
+// lParam = 0 (unused)
+// hContact can be NULL to wipe system history
+
+#define MS_HISTORY_EMPTY "History/EmptyHistory"
 
 #endif // M_HISTORY_H__

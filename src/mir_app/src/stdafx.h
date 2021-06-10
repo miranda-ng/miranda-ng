@@ -75,6 +75,7 @@ typedef struct SslHandle *HSSL;
 #include <m_file.h>
 #include <m_findadd.h>
 #include <m_gui.h>
+#include <m_history.h>
 #include <m_hpp.h>
 #include <m_icolib.h>
 #include <m_idle.h>

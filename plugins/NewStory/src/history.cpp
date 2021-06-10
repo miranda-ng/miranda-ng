@@ -602,7 +602,7 @@ public:
 
 	void onClick_Delete(CCtrlButton *)
 	{
-		svcEmptyHistory(m_hContact, 0);
+		CallService(MS_HISTORY_EMPTY, m_hContact, 0);
 		m_histControl.SendMsg(NSM_CLEAR, 0, 0);
 
 		UpdateTitle();

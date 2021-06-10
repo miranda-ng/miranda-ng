@@ -42,7 +42,9 @@ static HANDLE
    hEventDoubleclicked = nullptr,
    hEventJoinChat = nullptr,
    hEventLeaveChat = nullptr,
-   hHookEvent = nullptr;
+	hHookEvent = nullptr;
+
+void SrmmModulesLoaded();
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Post-load event hooks
@@ -808,6 +810,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 
 static int ModulesLoaded(WPARAM, LPARAM)
 {
+	SrmmModulesLoaded();
 	LoadChatIcons();
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);

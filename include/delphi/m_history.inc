@@ -32,4 +32,10 @@ const
   }
   MS_HISTORY_SHOWCONTACTHISTORY:PAnsiChar = 'History/ShowContactHistory';
 
+  {
+    wParam : TMCONTACT
+    lParam : 0
+  }
+  MS_HISTORY_EMPTY:PAnsiChar = 'History/Empty';
+
 {$ENDIF}
