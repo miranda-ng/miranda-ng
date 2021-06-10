@@ -45,7 +45,6 @@ uses
   VertSB in 'VertSB.pas',
   HistoryForm in 'HistoryForm.pas' {HistoryFrm},
   EventDetailForm in 'EventDetailForm.pas' {EventDetailsFrm},
-  EmptyHistoryForm in 'EmptyHistoryForm.pas' {EmptyHistoryFrm},
   GlobalSearch in 'GlobalSearch.pas' {fmGlobalSearch},
   hpp_searchthread in 'hpp_searchthread.pas',
   hpp_bookmarks in 'hpp_bookmarks.pas',

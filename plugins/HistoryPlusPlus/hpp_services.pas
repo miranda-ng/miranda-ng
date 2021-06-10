@@ -70,9 +70,8 @@ function AllHistoryRichEditProcess(wParam: WPARAM; lParam: LPARAM): Int; cdecl;
 implementation
 
 uses
-  SysUtils, GlobalSearch, EmptyHistoryForm,
-  hpp_global, {hpp_database,} hpp_itemprocess, hpp_forms,
-  hpp_options{, hpp_mescatcher, hpp_bookmarks};
+  SysUtils, GlobalSearch,
+  hpp_global, hpp_itemprocess, hpp_forms, hpp_options;
 
 // our own processing of RichEdit for all history windows
 function AllHistoryRichEditProcess(wParam { hRichEdit } : WPARAM; lParam { PItemRenderDetails } : LPARAM): Int; cdecl;

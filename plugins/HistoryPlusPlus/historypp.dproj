@@ -167,9 +167,6 @@
 			<DCCReference Include="EventDetailForm.pas">
 				<Form>EventDetailsFrm</Form>
 			</DCCReference>
-			<DCCReference Include="EmptyHistoryForm.pas">
-				<Form>EmptyHistoryFrm</Form>
-			</DCCReference>
 			<DCCReference Include="GlobalSearch.pas">
 				<Form>fmGlobalSearch</Form>
 			</DCCReference>
