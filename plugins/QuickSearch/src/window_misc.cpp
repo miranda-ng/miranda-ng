@@ -224,7 +224,7 @@ void QSMainDlg::CopyMultiLines()
 
 void QSMainDlg::DeleteByList()
 {
-	if (IDOK != MessageBoxW(0, TranslateT("Do you really want to delete selected contacts"), TranslateT("Warning"), MB_OKCANCEL + MB_ICONWARNING))
+	if (IDOK != MessageBoxW(0, TranslateT("Do you really want to delete selected contacts?"), TranslateT("Warning"), MB_OKCANCEL + MB_ICONWARNING))
 		return;
 
 	m_grid.SetDraw(false);
