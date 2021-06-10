@@ -298,6 +298,14 @@ void SrmmModulesLoaded()
 	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
 	hmiEmpty = Menu_AddContactMenuItem(&mi);
 
+	// create menu item in main menu for empty system history
+	SET_UID(mi, 0x633AD23C, 0x24B5, 0x4914, 0xB2, 0x40, 0xAD, 0x9F, 0xAC, 0xB5, 0x64, 0xED);
+	mi.position = 500060002;
+	mi.name.a = "Empty system history";
+	mi.pszService = MS_HISTORY_EMPTY;
+	mi.hIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
+	Menu_AddMainMenuItem(&mi);
+
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
 }
 
