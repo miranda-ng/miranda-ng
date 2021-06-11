@@ -339,7 +339,7 @@ PROTOACCOUNT::~PROTOACCOUNT()
 
 bool PROTOACCOUNT::IsEnabled() const
 {
-	return (this != nullptr) && (bIsEnabled && !bDynDisabled);
+	return (this != nullptr) && ((bIsEnabled && !bDynDisabled) || bOldProto);
 }
 
 bool PROTOACCOUNT::IsLocked() const
