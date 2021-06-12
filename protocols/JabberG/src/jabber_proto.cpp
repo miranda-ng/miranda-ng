@@ -283,8 +283,6 @@ void CJabberProto::OnModulesLoaded()
 	XStatusInit();
 	m_pepServices.InitGui();
 
-	m_iqManager.Start();
-
 	InitInfoFrame();
 
 	StatusIconData sid = {};
@@ -350,7 +348,6 @@ void CJabberProto::OnShutdown()
 	MucShutdown();
 
 	m_iqManager.ExpireAll();
-	m_iqManager.Shutdown();
 	ConsoleUninit();
 
 	Srmm_RemoveIcon(m_szModuleName, 0);

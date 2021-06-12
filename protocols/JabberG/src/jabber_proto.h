@@ -539,8 +539,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		return m_iqManager.AddHandler(pHandler, nIqType, szReceiver, pUserData, iPriority);
 	}
 
-	void       __cdecl ExpirerThread(void*);
-			     
 	void       OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultDiscoBookmarks(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultEntityTime(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);

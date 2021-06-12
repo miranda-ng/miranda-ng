@@ -44,42 +44,15 @@ static int ComparePermanent(const CJabberIqPermanentInfo *p1, const CJabberIqPer
 // CJabberIqManager class
 
 CJabberIqManager::CJabberIqManager(CJabberProto *proto) :
+	ppro(proto),
 	m_arIqs(10, CompareIqs),
-	m_arHandlers(10, ComparePermanent),
-	m_bExpirerThreadShutdownRequest(false)
+	m_arHandlers(10, ComparePermanent)
 {
-	m_dwLastUsedHandle = 0;
-	m_hExpirerThread = nullptr;
-	ppro = proto;
 }
 
 CJabberIqManager::~CJabberIqManager()
 {
 	ExpireAll();
-}
-
-bool CJabberIqManager::Start()
-{
-	if (m_hExpirerThread || m_bExpirerThreadShutdownRequest)
-		return false;
-
-	m_hExpirerThread = ppro->ForkThreadEx(&CJabberProto::ExpirerThread, this, nullptr);
-	if (!m_hExpirerThread)
-		return false;
-
-	return true;
-}
-
-void CJabberIqManager::Shutdown()
-{
-	if (m_bExpirerThreadShutdownRequest || !m_hExpirerThread)
-		return;
-
-	m_bExpirerThreadShutdownRequest = true;
-
-	WaitForSingleObject(m_hExpirerThread, INFINITE);
-	CloseHandle(m_hExpirerThread);
-	m_hExpirerThread = nullptr;
 }
 
 void CJabberIqManager::FillPermanentHandlers()
@@ -133,34 +106,6 @@ void CJabberIqManager::FillPermanentHandlers()
 	AddPermanentHandler(&CJabberProto::FtHandleCidRequest, JABBER_IQ_TYPE_GET, JABBER_IQ_PARSE_FROM | JABBER_IQ_PARSE_TO | JABBER_IQ_PARSE_ID_STR | JABBER_IQ_PARSE_CHILD_TAG_NODE, JABBER_FEAT_BITS, FALSE, "data");
 }
 
-void __cdecl CJabberProto::ExpirerThread(void* pParam)
-{
-	Thread_SetName("Jabber: ExpirerThread");
-	CJabberIqManager *pManager = (CJabberIqManager *)pParam;
-	pManager->ExpirerThread();
-}
-
-void CJabberIqManager::ExpirerThread()
-{
-	while (!m_bExpirerThreadShutdownRequest) {
-		CJabberIqInfo *pInfo = DetachExpired();
-		if (!pInfo) {
-			for (int i = 0; !m_bExpirerThreadShutdownRequest && (i < 10); i++)
-				Sleep(50);
-
-			// -1 thread :)
-			ppro->m_adhocManager.ExpireSessions();
-			continue;
-		}
-		ExpireInfo(pInfo);
-	}
-
-	if (!m_bExpirerThreadShutdownRequest) {
-		CloseHandle(m_hExpirerThread);
-		m_hExpirerThread = nullptr;
-	}
-}
-
 void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 {
 	if (!pInfo)
@@ -177,6 +122,12 @@ void CJabberIqManager::ExpireInfo(CJabberIqInfo *pInfo)
 	(ppro->*(pInfo->m_pHandler))(nullptr, pInfo);
 
 	delete pInfo;
+}
+
+void CJabberIqManager::CheckExpired()
+{
+	while (auto *pInfo = DetachExpired())
+		ExpireInfo(pInfo);
 }
 
 void CJabberIqManager::ExpireIq(int nIqId)

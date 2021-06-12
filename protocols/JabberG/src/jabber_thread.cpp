@@ -155,6 +155,12 @@ void CJabberProto::CheckKeepAlive()
 
 	if (m_bEnableStreamMgmt)
 		m_StrmMgmt.RequestAck();
+
+	// check expired iq requests
+	m_iqManager.CheckExpired();
+
+	// check expired ad-hoc requests
+	m_adhocManager.ExpireSessions();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

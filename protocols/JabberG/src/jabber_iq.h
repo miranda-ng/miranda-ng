@@ -141,10 +141,7 @@ protected:
 	CJabberProto *ppro;
 
 	mir_cs m_cs;
-	DWORD  m_dwLastUsedHandle;
-
-	HANDLE m_hExpirerThread;
-	BOOL   m_bExpirerThreadShutdownRequest;
+	DWORD  m_dwLastUsedHandle = 0;
 
 	LIST<CJabberIqInfo> m_arIqs;
 	OBJLIST<CJabberIqPermanentInfo> m_arHandlers;
@@ -160,9 +157,6 @@ public:
 	CJabberIqManager(CJabberProto *proto);
 	~CJabberIqManager();
 
-	bool Start();
-	void Shutdown();
-
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
 	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, void *pUserData, int iPriority);
 	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
@@ -174,8 +168,8 @@ public:
 	bool HandleIq(int nIqId, const TiXmlElement *pNode);
 	bool HandleIqPermanent(const TiXmlElement *pNode);
 
+	void CheckExpired(void);
 	void ExpireIq(int nIqId);
-	void ExpirerThread(void);
 	bool ExpireByUserData(void *pUserData);
 	void ExpireAll();
 	void FillPermanentHandlers();
