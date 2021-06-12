@@ -285,7 +285,6 @@ void CJabberProto::OnModulesLoaded()
 
 	m_iqManager.Start();
 
-	ConsoleInit();
 	InitInfoFrame();
 
 	StatusIconData sid = {};

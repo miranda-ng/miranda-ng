@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define WM_CREATECONSOLE  WM_USER+1000
-
 #ifndef SES_EXTENDBACKCOLOR
 #define	SES_EXTENDBACKCOLOR 4
 #endif
@@ -399,6 +397,8 @@ public:
 
 		m_proto->m_pDlgConsole = nullptr;
 		CSuper::OnDestroy();
+
+		PostThreadMessage(m_proto->m_dwConsoleThreadId, WM_QUIT, 0, 0);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
@@ -572,35 +572,30 @@ void __cdecl CJabberProto::ConsoleThread(void*)
 {
 	Thread_SetName("Jabber: ConsoleThread");
 	MThreadHandle threadLock(m_hThreadConsole);
+	m_dwConsoleThreadId = ::GetCurrentThreadId();
+
+	m_pDlgConsole = new CJabberDlgConsole(this);
+	m_pDlgConsole->Show();
 
 	MSG msg;
 	while (GetMessage(&msg, nullptr, 0, 0)) {
-		if (msg.message == WM_CREATECONSOLE) {
-			m_pDlgConsole = new CJabberDlgConsole(this);
-			m_pDlgConsole->Show();
-			continue;
-		}
-
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 	m_dwConsoleThreadId = 0;
 }
 
-void CJabberProto::ConsoleInit()
-{
-	ForkThreadEx(&CJabberProto::ConsoleThread, nullptr, &m_dwConsoleThreadId);
-}
-
 void CJabberProto::ConsoleUninit()
 {
 	if (m_hThreadConsole) {
 		PostThreadMessage(m_dwConsoleThreadId, WM_QUIT, 0, 0);
-		if (WaitForSingleObject(m_hThreadConsole, 5000) == WAIT_TIMEOUT) {
+		if (MsgWaitForMultipleObjects(1, &m_hThreadConsole, FALSE, 5000, TRUE) == WAIT_TIMEOUT)
 			TerminateThread(m_hThreadConsole, 0);
+
+		if (m_hThreadConsole) {
+			CloseHandle(m_hThreadConsole);
+			m_hThreadConsole = nullptr;
 		}
-		CloseHandle(m_hThreadConsole);
-		m_hThreadConsole = nullptr;
 	}
 
 	m_filterInfo.iq = m_filterInfo.msg = m_filterInfo.presence = false;
@@ -611,7 +606,8 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
 {
 	if (m_pDlgConsole)
 		SetForegroundWindow(m_pDlgConsole->GetHwnd());
-	else if (m_hThreadConsole)
-		PostThreadMessage(m_dwConsoleThreadId, WM_CREATECONSOLE, 0, 0);
+	else
+		ForkThread(&CJabberProto::ConsoleThread);
+
 	return 0;
 }

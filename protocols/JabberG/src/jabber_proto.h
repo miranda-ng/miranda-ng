@@ -451,7 +451,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR    __cdecl OnMenuHandleConsole(WPARAM wParam, LPARAM lParam);
 	void       __cdecl ConsoleThread(void*);
 			     
-	void       ConsoleInit(void);
 	void       ConsoleUninit(void);
 			     
 	bool       FilterXml(const TiXmlElement *node, DWORD flags);
