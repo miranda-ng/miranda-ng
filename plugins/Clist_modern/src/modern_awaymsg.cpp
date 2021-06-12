@@ -157,7 +157,7 @@ void InitAwayMsgModule()
 
 void UninitAwayMsgModule()
 {
-	SetEvent(hamProcessEvent);
+	amWakeThread();
 
 	while (g_hAwayMsgThread)
 		SleepEx(50, TRUE);

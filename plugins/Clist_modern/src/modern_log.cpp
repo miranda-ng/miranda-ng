@@ -32,15 +32,7 @@ void Log(const char *file, int line, const char *fmt, ...)
 		}
 	}
 	mir_snprintf(buf, "clist_modern:[%u - %u]: %s \t\t(%s Ln %d)\n", GetCurrentThreadId(), GetTickCount(), str, file_tmp, line);
-#ifdef _FILELOG_
-	{
-		FILE *fp;
-		fp = fopen(_FILELOG_,"at");	
-		fprintf(fp,buf);
-		fclose(fp);
-	}
-#else
+	Netlib_Log(nullptr, buf);
 	OutputDebugStringA(buf);
-#endif
 }
 
