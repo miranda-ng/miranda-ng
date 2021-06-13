@@ -271,7 +271,7 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 			if (SzT) { // TODO: change to support unicode and rtf, use EM_STREAMOUT
 				if (SzT > MAX_NOTE_LEN)
 					SzT = MAX_NOTE_LEN; // we want to be far below the 64k limit
-				pNote->wszText.Preallocate(SzT + 1);
+				pNote->wszText.Truncate(SzT + 1);
 				GetWindowTextW(pNote->REHwnd, pNote->wszText.GetBuffer(), SzT + 1);
 			}
 			else pNote->wszText.Empty();
@@ -1236,7 +1236,7 @@ static void LoadNote(char *Value, bool bIsStartup)
 		case DATATAG_TEXT:
 			if (auto *pwszTmp = mir_utf8decodeW(TVal)) {
 				wszText = pwszTmp;
-				delete pwszTmp;
+				mir_free(pwszTmp);
 			}
 			else wszText = _A2T(TVal);
 			break;
