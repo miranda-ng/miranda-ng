@@ -176,7 +176,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypt)
 	}
 
 	// Finally update flag
-	stmt = InitQuery("REPLACE INTO crypto VALUES (1, ?);", qCryptSetKey);
+	stmt = InitQuery("REPLACE INTO crypto VALUES (1, ?);", qCryptSetMode);
 	sqlite3_bind_int(stmt, 1, bEncrypt);
 	rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
