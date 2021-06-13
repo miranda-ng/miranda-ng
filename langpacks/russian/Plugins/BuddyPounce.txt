@@ -106,15 +106,15 @@
 [The Message    (0 Characters)]
 Сообщение    (0 символов)
 [Reuse this message? (0 to use it once)]
-Повторить сообщение? (0, чтобы не повторять)
+Повторить сообщение? (0 - не повторять)
 [Times]
 раз
 [Give up after... (0 to not give up)]
-Отказаться после... (0, чтобы не отказываться)
+Отказаться после... (0 - не отказываться)
 [Days]
 дней
 [Show confirmation window? (0 to not Show)]
-Показать окно подтверждения? (0, чтобы не показывать)
+Показать окно подтверждения? (0 - не показывать)
 [Seconds to wait before sending]
 секунд подождать перед отправкой
 [Pounce being sent to %s in %d seconds]
