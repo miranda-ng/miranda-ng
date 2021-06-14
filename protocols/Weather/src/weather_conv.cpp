@@ -342,8 +342,14 @@ WORD GetIcon(const wchar_t *cond, WIDATA *Data)
 	if (wcsstr(cond, L"fog") || wcsstr(cond, L"mist") || wcsstr(cond, L"smoke") || wcsstr(cond, L"sand") || wcsstr(cond, L"dust") || wcsstr(cond, L"haze"))
 		return FOG;
 
+	if (wcsstr(cond, L"snow shower"))
+		return SSHOWER;
+
 	if (wcsstr(cond, L"snow") || wcsstr(cond, L"ice") || wcsstr(cond, L"freezing") || wcsstr(cond, L"wintry"))
 		return SNOW;
+
+	if (wcsstr(cond, L"rain shower"))
+		return RSHOWER;
 
 	if (wcsstr(cond, L"drizzle") || wcsstr(cond, L"rain"))
 		return RAIN;

@@ -25,12 +25,12 @@ static HANDLE hFontHook;
 
 HGENMENU hMwinMenu;
 
-typedef struct
+struct MWinDataType
 {
 	MCONTACT hContact;
 	HWND hAvt;
 	BOOL haveAvatar;
-} MWinDataType;
+};
 
 #define WM_REDRAWWIN (WM_USER + 17369)
 
@@ -44,9 +44,9 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
 
 		data->hContact = (DWORD_PTR)((LPCREATESTRUCT)lParam)->lpCreateParams;
-		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD,
-			0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, nullptr, g_plugin.getInst(), nullptr);
-		if (data->hAvt) SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
+		data->hAvt = CreateWindow(AVATAR_CONTROL_CLASS, TEXT(""), WS_CHILD, 0, 0, opt.AvatarSize, opt.AvatarSize, hwnd, 0, g_plugin.getInst(), 0);
+		if (data->hAvt)
+			SendMessage(data->hAvt, AVATAR_SETCONTACT, 0, (LPARAM)data->hContact);
 		break;
 
 	case WM_DESTROY:
@@ -137,14 +137,8 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				HICON hIcon = nullptr;
 
 				if (!data->haveAvatar) {
-					int statusIcon = g_plugin.getWord(data->hContact, "Status");
-
 					picSize = GetSystemMetrics(SM_CXICON);
-					hIcon = Skin_LoadProtoIcon(MODULENAME, statusIcon, true);
-					if ((INT_PTR)hIcon == CALLSERVICE_NOTFOUND) {
-						picSize = GetSystemMetrics(SM_CXSMICON);
-						hIcon = Skin_LoadProtoIcon(MODULENAME, statusIcon);
-					}
+					hIcon = GetStatusIconBig(data->hContact);
 				}
 
 				LOGFONT lfnt, lfnt1;
@@ -211,7 +205,9 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					DeleteObject(hFont);
 				}
 				EndPaint(hwnd, &ps);
-				IcoLib_ReleaseIcon(hIcon);
+
+				if (hIcon)
+					DestroyIcon(hIcon);
 			}
 			break;
 		}
