@@ -43,15 +43,15 @@
 [Status]
 Статус
 [Use Advanced Dialog]
-Исп. расш. диалог
+Использовать расширенный диалог
 [The Message (characters: )]
 Сообщение (символов: )
 [Default Settings]
 Стандартные настройки
 [Show Delivery Messages]
-Показ. доставл. сообщения
+Показывать уведомления о доставке
 [These settings are also used when sending a "Simple" pounce]
-Эти настройки также используются для "простых" отлож. сообщений
+Эти настройки также используются для "простых" отложенных сообщений
 ;file \plugins\BuddyPounce\src\dialog.cpp
 [Send If My Status Is...]
 Отправлять, если мой статус...
