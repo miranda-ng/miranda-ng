@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "netlib.h"
 
 #include <openssl/ssl.h>
+#include <openssl/err.h>
 #include <openssl/rand.h>
 
 static bool bSslInitDone;
@@ -77,6 +78,15 @@ static bool SSL_library_load(void)
 	}
 
 	return bSslInitDone;
+}
+
+static void dump_error(SSL *session, int err)
+{
+	err = SSL_get_error(session, err);
+
+	char buf[100];
+	ERR_error_string_n(err, buf, sizeof(buf));
+	Netlib_Logf(nullptr, "SSL negotiation failure: %s (%d)", buf, err);
 }
 
 const char* SSL_GetCipherName(SslHandle *ssl)
@@ -145,10 +155,8 @@ static bool ClientConnect(SslHandle *ssl, const char*)
 	SSL_set_fd(ssl->session, ssl->s);
 
 	int err = SSL_connect(ssl->session);
-
 	if (err != 1) {
-		err = SSL_get_error(ssl->session, err);
-		Netlib_Logf(nullptr, "SSL negotiation failure (%d)", err);
+		dump_error(ssl->session, err);
 		return false;
 	}
 
