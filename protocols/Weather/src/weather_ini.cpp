@@ -224,7 +224,7 @@ static INT_PTR CALLBACK DlgProcSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 // pszShortFile = the file name of the ini file, but not including the path
 // Data = the struct to load the ini content to, and return to previous function
 
-static const char *statusStr[] =
+static const char *statusStr[MAX_COND] =
 {
 	"LIGHTNING",
 	"FOG",
@@ -233,7 +233,9 @@ static const char *statusStr[] =
 	"PARTLY CLOUDY",
 	"CLOUDY",
 	"SUNNY",
-	"N/A"
+	"N/A",
+	"RAIN SHOWER",
+	"SNOW SHOWER",
 };
 
 static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDATA *Data)

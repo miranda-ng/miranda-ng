@@ -246,58 +246,66 @@ void DestroyUpdateList(void);
 #define WID_SET		1
 #define WID_BREAK	2
 
-typedef struct {
+struct WIDATAITEM
+{
 	wchar_t *Name;
 	wchar_t *Start;
 	wchar_t *End;
 	wchar_t *Unit;
-	char  *Url;
+	char    *Url;
 	wchar_t *Break;
-	int Type;
-} WIDATAITEM;
+	int      Type;
+};
 
-struct WITEMLIST {
+struct WITEMLIST
+{
 	WIDATAITEM Item;
 	struct WITEMLIST *Next;
 };
 
 typedef struct WITEMLIST WIDATAITEMLIST;
 
-typedef struct {
+struct WIIDSEARCH
+{
 	BOOL Available;
 	char *SearchURL;
 	wchar_t *NotFoundStr;
 	WIDATAITEM Name;
-} WIIDSEARCH;
+};
 
-typedef struct {
+struct WINAMESEARCHTYPE
+{
 	BOOL Available;
 	wchar_t *First;
 	WIDATAITEM Name;
 	WIDATAITEM ID;
-} WINAMESEARCHTYPE;
+};
 
-typedef struct {
+struct WINAMESEARCH
+{
 	char *SearchURL;
 	wchar_t *NotFoundStr;
 	wchar_t *SingleStr;
 	WINAMESEARCHTYPE Single;
 	WINAMESEARCHTYPE Multiple;
-} WINAMESEARCH;
+};
 
-struct STRLIST {
+struct STRLIST
+{
 	wchar_t *Item;
 	struct STRLIST *Next;
 };
 
 typedef struct STRLIST WICONDITEM;
 
-typedef struct {
+struct WICONDLIST
+{
 	WICONDITEM *Head;
 	WICONDITEM *Tail;
-} WICONDLIST;
+};
 
-typedef struct {
+struct WIDATA
+{
 	wchar_t *FileName;
 	wchar_t *ShortFileName;
 	BOOL Enabled;
@@ -320,18 +328,20 @@ typedef struct {
 	char  *UpdateURL4;
 	char  *Cookie;
 	char  *UserAgent;
-// items
+
+	// items
 	int UpdateDataCount;
 	WIDATAITEMLIST *UpdateData;
 	WIDATAITEMLIST *UpdateDataTail;
 	WIIDSEARCH IDSearch;
 	WINAMESEARCH NameSearch;
-	WICONDLIST CondList[8];
-} WIDATA;
+	WICONDLIST CondList[MAX_COND];
+};
 
 //============  DATA LIST (LINKED LIST)  ============
 
-struct DATALIST {
+struct DATALIST
+{
 	WIDATA Data;
 	struct DATALIST *next;
 };
