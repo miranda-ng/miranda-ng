@@ -98,7 +98,7 @@ const
   DEFFORMAT_SELECTION       = '%selmes%\n';
   DEFFORMAT_DATETIME        = 'c'; // ShortDateFormat + LongTimeFormat
 
-  hppIconsDefs : array[0..31] of ThppIconsRec = (
+  hppIconsDefs : array[0..32] of ThppIconsRec = (
     (name:'historypp_01'; desc:'Contact history';           group: nil; i:HPP_ICON_CONTACTHISTORY),
     (name:'historypp_02'; desc:'History search';            group: nil; i:HPP_ICON_GLOBALSEARCH),
     (name:'historypp_03'; desc:'Conversation divider';      group: 'Conversations'; i:HPP_ICON_SESS_DIVIDER),
@@ -115,6 +115,7 @@ const
     (name:'historypp_14'; desc:'Search';                    group: 'Toolbar'; i:HPP_ICON_HOTSEARCH),
     (name:'historypp_15'; desc:'Search Up';                 group: 'Search panel'; i:HPP_ICON_SEARCHUP),
     (name:'historypp_16'; desc:'Search Down';               group: 'Search panel'; i:HPP_ICON_SEARCHDOWN),
+    (name:'historypp_17'; desc:'Delete All';                group: 'Toolbar'; i:HPP_ICON_TOOL_DELETEALL),
     (name:'historypp_18'; desc:'Delete';                    group: 'Toolbar'; i:HPP_ICON_TOOL_DELETE),
     (name:'historypp_19'; desc:'Conversations';             group: 'Toolbar'; i:HPP_ICON_TOOL_SESSIONS),
     (name:'historypp_20'; desc:'Save';                      group: 'Toolbar'; i:HPP_ICON_TOOL_SAVE),
