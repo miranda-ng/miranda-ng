@@ -22,6 +22,7 @@ mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
 char sz2FA[] = "https://m.vk.com/login?act=authcheck";
+char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
@@ -73,6 +74,7 @@ void CVkProto::ShutdownSession()
 void CVkProto::ConnectionFailed(int iReason)
 {
 	delSetting("AccessToken");
+	delSetting("Err404Return");
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	debugLogA("CVkProto::ConnectionFailed ShutdownSession");
@@ -198,6 +200,24 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
 	GrabCookies(reply);
 
+	if (reply->resultCode == 404 && getBool("Err404Return") == false) {
+		setByte("Err404Return", 1);
+		setString("AccessScore", Score);
+		AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
+		pReq
+			<< INT_PARAM("client_id", VK_APP_ID)
+			<< CHAR_PARAM("scope", Score)
+			<< CHAR_PARAM("redirect_uri", szBlankUrl)
+			<< CHAR_PARAM("display", "mobile")
+			<< CHAR_PARAM("response_type", "token")
+			<< VER_API;
+		pReq->m_bApiReq = false;
+		pReq->bIsMainConn = true;
+		ApplyCookies(pReq);
+		Push(pReq);
+		return;
+	}
+
 	if (reply->resultCode == 302) { // manual redirect
 		LPCSTR pszLocation = Netlib_GetHeader(reply, "Location");
 		if (pszLocation) {
@@ -217,10 +237,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 					setString("AccessToken", m_szAccessToken);
 					RetrieveMyInfo();
 				}
-				else {
-					delSetting("AccessToken");
+				else
 					ConnectionFailed(LOGINERR_NOSERVER);
-				}
 			}
 			else {
 				AsyncHttpRequest *pRedirectReq = new AsyncHttpRequest();
@@ -270,7 +288,6 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		}
 		else {
 			debugLogA("CVkProto::OnOAuthAuthorize blank ulr found, access_token not found");
-			delSetting("AccessToken");
 			ConnectionFailed(LOGINERR_NOSERVER);
 		}
 		return;
@@ -327,6 +344,7 @@ void CVkProto::TrackVisitor()
 void CVkProto::RetrieveMyInfo()
 {
 	debugLogA("CVkProto::RetrieveMyInfo");
+	delSetting("Err404Return");
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo, AsyncHttpRequest::rpHigh));
 }
 

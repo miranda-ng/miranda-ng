@@ -136,7 +136,7 @@ void CVkProto::WorkerThread(void*)
 	m_bTerminated = m_prevError = false;
 	m_szAccessToken = getStringA("AccessToken");
 
-	char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
+	extern char Score[];
 
 	CMStringA szAccessScore(ptrA(getStringA("AccessScore")));
 	if (szAccessScore != Score) {
