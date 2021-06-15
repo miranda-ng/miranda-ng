@@ -21,8 +21,11 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("BuddyPounce", pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>("BuddyPounce", pluginInfoEx),
+	bUseAdvanced(m_szModuleName, "UseAdvanced", false),
+	bShowDelivery(m_szModuleName, "ShowDeliveryMessages", true)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,8 +35,9 @@ int MsgAck(WPARAM, LPARAM lParam)
 
 	if (ack && ack->type == ACKTYPE_MESSAGE) {
 		if (ack->hProcess == (HANDLE)WindowList_Find(hWindowList, ack->hContact)) {
-			if (g_plugin.getByte("ShowDeliveryMessages", 1))
+			if (g_plugin.bShowDelivery)
 				CreateMessageAcknowlegedWindow(ack->hContact, ack->result == ACKRESULT_SUCCESS);
+			
 			if (ack->result == ACKRESULT_SUCCESS) {
 				// wrtie it to the DB
 				DBVARIANT dbv;
@@ -64,20 +68,19 @@ int MsgAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-int PrebuildContactMenu(WPARAM hContact, LPARAM)
+static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	Menu_ShowItem(g_hMenuItem, (CallProtoService(Proto_GetBaseAccountName(hContact), PS_GETCAPS, PFLAGNUM_1) & PF1_IM) != 0);
 	return 0;
 }
 
-int BuddyPounceOptInit(WPARAM wParam, LPARAM)
+static int BuddyPounceOptInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.szGroup.w = LPGENW("Message sessions");
-	odp.szTitle.w = LPGENW("Buddy Pounce");
-	odp.pfnDlgProc = BuddyPounceOptionsDlgProc;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.szGroup.a = LPGEN("Message sessions");
+	odp.szTitle.a = LPGEN("Buddy Pounce");
+	odp.pDialog = new COptionsDlg(IDD_OPTIONS);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
@@ -121,7 +124,56 @@ void SendPounce(wchar_t *text, MCONTACT hContact)
 		WindowList_Add(hWindowList, (HWND)hSendId, hContact);
 }
 
-int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class CSendConfirmDlg : public CDlgBase
+{
+	int timeout;
+	MCONTACT hContact;
+	ptrW wszMessage;
+
+	CTimer timer;
+
+public:
+	CSendConfirmDlg(MCONTACT _1, wchar_t *_2) :
+		CDlgBase(g_plugin, IDD_CONFIRMSEND),
+		hContact(_1),
+		wszMessage(_2),
+		timer(this, 1)
+	{
+		timeout = g_plugin.getWord(hContact, "ConfirmTimeout");
+	}
+
+	bool OnInitDialog() override
+	{
+		SetDlgItemText(m_hwnd, IDC_MESSAGE, wszMessage);
+		timer.Start(1000);
+		OnTimer(0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		SendPounce(wszMessage, hContact);
+		return true;
+	}
+
+	void onTimer(CTimer *)
+	{
+		wchar_t message[1024];
+		mir_snwprintf(message, TranslateT("Pounce being sent to %s in %d seconds"), Clist_GetContactDisplayName(hContact), timeout);
+		SetDlgItemText(m_hwnd, LBL_CONTACT, message);
+
+		timeout--;
+		if (timeout < 0) {
+			timer.Stop();
+			SendPounce(message, hContact);
+			Close();
+		}
+	}
+};
+
+static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 
@@ -132,39 +184,34 @@ int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 		int oldStatus = db_get_w(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 
 		if (newStatus != oldStatus && newStatus != ID_STATUS_OFFLINE) {
-			DBVARIANT dbv;
-			if (!g_plugin.getWString(hContact, "PounceMsg", &dbv) && (dbv.pwszVal[0] != '\0')) {
+			ptrW wszMessage(g_plugin.getWStringA(hContact, "PounceMsg"));
+			if (mir_wstrlen(wszMessage)) {
 				// check my status
 				if (statusCheck(g_plugin.getWord(hContact, "SendIfMyStatusIsFLAG", 0), Proto_GetStatus(szProto))
 					// check the contacts status
 					&& statusCheck(g_plugin.getWord(hContact, "SendIfTheirStatusIsFLAG", 0), newStatus)) {
 					// check if we r giving up after x days
 					if (CheckDate(hContact)) {
-						if (g_plugin.getWord(hContact, "ConfirmTimeout", 0)) {
-							SendPounceDlgProcStruct *spdps = (SendPounceDlgProcStruct *)mir_alloc(sizeof(SendPounceDlgProcStruct));
-							wchar_t *message = mir_wstrdup(dbv.pwszVal); // will get free()ed in the send confirm window proc
-							spdps->hContact = hContact;
-							spdps->message = message;
-							CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONFIRMSEND), nullptr, SendPounceDlgProc, (LPARAM)spdps);
-							// set the confirmation window to send the msg when the timeout is done
-							mir_free(message);
-						}
-						else SendPounce(dbv.pwszVal, hContact);
+						if (g_plugin.getWord(hContact, "ConfirmTimeout"))
+							(new CSendConfirmDlg(hContact, wszMessage.detach()))->Create();
+						else
+							SendPounce(wszMessage, hContact);
 					}
 				}
-				db_free(&dbv);
 			}
 		}
 	}
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 INT_PTR BuddyPounceMenuCommand(WPARAM hContact, LPARAM)
 {
-	if (g_plugin.getByte("UseAdvanced", 0) || g_plugin.getByte(hContact, "UseAdvanced", 0))
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE), nullptr, BuddyPounceDlgProc, hContact);
+	if (g_plugin.bUseAdvanced || g_plugin.getByte(hContact, "UseAdvanced"))
+		(new CBuddyPounceDlg(hContact))->Create();
 	else
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_POUNCE_SIMPLE), nullptr, BuddyPounceSimpleDlgProc, hContact);
+		(new CBuddyPounceSimpleDlg(hContact))->Create();
 	return 0;
 }
 

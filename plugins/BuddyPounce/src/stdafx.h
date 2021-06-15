@@ -10,10 +10,11 @@
 
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_langpack.h>
 #include <m_database.h>
-#include <m_protocols.h>
+#include <m_gui.h>
+#include <m_langpack.h>
 #include <m_options.h>
+#include <m_protocols.h>
 #include <m_protosvc.h>
 
 #include "resource.h"
@@ -22,12 +23,15 @@
 //=======================================================
 //	Definitions
 //=======================================================
+
 #define modFullname  "Buddy Pounce"
 #define msg(a,b)     MessageBox(0,a,b,MB_OK)
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> bUseAdvanced, bShowDelivery;
 
 	int Load() override;
 	int Unload() override;
@@ -46,24 +50,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define INVISIBLE 128
 
 //=======================================================
-//  Variables
-//=======================================================
-
-struct windowInfo
-{
-	MCONTACT hContact;
-	HWND SendIfMy;
-	HWND SendWhenThey;
-};
-
-struct SendPounceDlgProcStruct
-{
-	MCONTACT hContact;
-	int timer;
-	wchar_t *message;
-};
-
-//=======================================================
 //  Functions
 //=======================================================
 
@@ -71,10 +57,86 @@ struct SendPounceDlgProcStruct
 void SendPounce(wchar_t* text, MCONTACT hContact);
 
 //dialog.c
-INT_PTR CALLBACK BuddyPounceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK BuddyPounceSimpleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK BuddyPounceOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK SendPounceDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void CreateMessageAcknowlegedWindow(MCONTACT hContact, int SentSuccess);
+
+void getDefaultMessage(HWND hwnd, UINT control, MCONTACT hContact);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// dialogs
+
+class CBuddyPounceBasicDlg : public CDlgBase
+{
+
+protected:
+	CCtrlEdit edtMessage;
+	MCONTACT hContact = 0;
+
+public:
+	CBuddyPounceBasicDlg(int dlgId);
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
+
+	void onChanged_Message(CCtrlEdit *);
+};
+
+class COptionsDlg : public CBuddyPounceBasicDlg
+{
+	friend class CStatusModesDlg;
+	typedef CBuddyPounceBasicDlg CSuper;
+
+	CCtrlSpin spin;
+	CCtrlEdit edtNumber;
+	CCtrlBase msg1, msg2;
+	CCtrlCheck chkAdvanced, chkShowDelivery;
+	CCtrlListBox m_settings;
+
+	void saveLastSetting();
+	void showAll(bool bShow);
+	void statusModes(bool isMe);
+
+protected:
+	HWND SendIfMy = 0;
+	HWND SendWhenThey = 0;
+
+public:
+	COptionsDlg(int dlgId);
+
+	bool OnInitDialog() override;
+	bool OnApply() override;
+	void OnDestroy() override;
+
+	void onSelChange_Settings(CCtrlListBox *);
+};
+
+class CBuddyPounceDlg : public COptionsDlg
+{
+	typedef COptionsDlg CSuper;
+
+	CCtrlCombo m_contacts;
+	CCtrlCheck chkSimple;
+	CCtrlButton btnDelete, btnDefault;
+
+public:
+	CBuddyPounceDlg(MCONTACT);
+
+	bool OnInitDialog() override;
+
+	void onClick_Delete(CCtrlButton *);
+	void onClick_Default(CCtrlButton *);
+
+	void onChange_Simple(CCtrlCheck *);
+};
+
+class CBuddyPounceSimpleDlg : public CBuddyPounceBasicDlg
+{
+	CCtrlButton btnAdvanced;
+	typedef CBuddyPounceBasicDlg CSuper;
+
+public:
+	CBuddyPounceSimpleDlg(MCONTACT);
+
+	void onClick_Advanced(CCtrlButton *);
+};
 
 #endif //_COMMONHEADERS_H

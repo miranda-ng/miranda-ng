@@ -56,21 +56,18 @@ BEGIN
     COMBOBOX        IDC_CONTACTS,183,15,119,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "<< Simple",IDC_SIMPLE,8,129,50,14
     LTEXT           "",IDC_SETTINGMSG2,65,106,104,8,NOT WS_VISIBLE
-//    EDITTEXT        IDC_SETTINGTEXT,16,106,153,12,ES_AUTOHSCROLL | NOT WS_VISIBLE
-//    PUSHBUTTON      "...",IDC_BUTTON,155,90,14,12,NOT WS_VISIBLE
-
 END
 
-IDD_POUNCE_SIMPLE DIALOG 0, 0, 186, 90
+IDD_POUNCE_SIMPLE DIALOGEX 0, 0, 273, 163
 STYLE DS_SETFONT | DS_MODALFRAME | DS_SETFOREGROUND | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Buddy Pounce"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    EDITTEXT        IDC_MESSAGE,13,17,158,43,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
-    DEFPUSHBUTTON   "OK",IDOK,7,69,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,68,69,50,14
-    PUSHBUTTON      "Advanced >>",IDC_ADVANCED,129,69,50,14
-    GROUPBOX        "The Message",GRP_MSG,7,7,172,59
+    EDITTEXT        IDC_MESSAGE,13,17,247,114,ES_MULTILINE | ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,7,142,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,68,142,50,14
+    PUSHBUTTON      "Advanced >>",IDC_ADVANCED,216,142,50,14
+    GROUPBOX        "The Message",GRP_MSG,7,7,260,131
 END
 
 IDD_STATUSMODES DIALOG 0, 0, 186, 103
@@ -88,7 +85,7 @@ BEGIN
     CONTROL         "Check1",IDC_CHECK5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,66,74,10
     CONTROL         "Check1",IDC_CHECK6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,93,17,81,10
     CONTROL         "Check1",IDC_CHECK7,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,93,30,81,10
-	CONTROL         "Check1",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,93,42,81,10
+    CONTROL         "Check1",IDC_CHECK8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,93,42,81,10
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 314, 249
@@ -109,9 +106,8 @@ BEGIN
     LTEXT           "These settings are also used when sending a ""Simple"" pounce",IDC_STATIC,13,25,283,8
     GROUPBOX        "Settings",IDC_STATIC,13,108,118,70
     LISTBOX         IDC_SETTINGS,17,118,109,55,LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_HSCROLL | WS_TABSTOP
-//    EDITTEXT        IDC_SETTINGTEXT,20,172,152,12,ES_AUTOHSCROLL | NOT WS_VISIBLE	//for send file
-//    PUSHBUTTON      "...",IDC_BUTTON,159,156,14,12,NOT WS_VISIBLE	//for send file
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -151,9 +147,9 @@ BEGIN
     IDD_POUNCE_SIMPLE, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 179
+        RIGHTMARGIN, 266
         TOPMARGIN, 7
-        BOTTOMMARGIN, 83
+        BOTTOMMARGIN, 156
     END
 
     IDD_STATUSMODES, DIALOG
@@ -227,6 +223,18 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_POUNCE              ICON                    "icon1.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_POUNCE_SIMPLE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

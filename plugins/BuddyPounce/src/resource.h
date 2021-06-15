@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by ..\res\resource.rc
+// Used by W:\miranda-ng\plugins\BuddyPounce\res\resource.rc
 //
 #define IDC_DELETE                      5
 #define IDC_DEFAULT                     6
@@ -45,8 +45,6 @@
 #define IDC_SETTINGMSG                  1061
 #define IDC_SETTINGNUMBER               1066
 #define IDC_SPIN                        1067
-//#define IDC_SETTINGTEXT                 1068
-//#define IDC_BUTTON                      1069
 #define IDC_SETTINGS                    1075
 #define IDC_CONTACTS                    1076
 #define IDC_ADVANCED                    1078
@@ -67,7 +65,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        112
+#define _APS_NEXT_RESOURCE_VALUE        113
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1098
 #define _APS_NEXT_SYMED_VALUE           101
