@@ -181,7 +181,8 @@ private:
 		m_bSetBroadcast,
 		m_bNotifyForEndLoadingHistory,
 		m_bNotifyForEndLoadingHistoryAllContact,
-		m_bTerminated;
+		m_bTerminated,
+		m_bErr404Return;
 
 	LONG m_myUserId;
 

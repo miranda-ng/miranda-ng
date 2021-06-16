@@ -74,7 +74,7 @@ void CVkProto::ShutdownSession()
 void CVkProto::ConnectionFailed(int iReason)
 {
 	delSetting("AccessToken");
-	delSetting("Err404Return");
+	m_bErr404Return = false;
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
 	debugLogA("CVkProto::ConnectionFailed ShutdownSession");
@@ -200,8 +200,8 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
 	GrabCookies(reply);
 
-	if (reply->resultCode == 404 && getBool("Err404Return") == false) {
-		setByte("Err404Return", 1);
+	if (reply->resultCode == 404 && !m_bErr404Return) {
+		m_bErr404Return = true;
 		setString("AccessScore", Score);
 		AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
 		pReq
@@ -344,7 +344,8 @@ void CVkProto::TrackVisitor()
 void CVkProto::RetrieveMyInfo()
 {
 	debugLogA("CVkProto::RetrieveMyInfo");
-	delSetting("Err404Return");
+	m_bErr404Return = false;
+
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/users.get.json", true, &CVkProto::OnReceiveMyInfo, AsyncHttpRequest::rpHigh));
 }
 

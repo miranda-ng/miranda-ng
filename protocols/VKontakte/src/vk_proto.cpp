@@ -40,6 +40,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_pollingConn(nullptr),
 	m_bSetBroadcast(false),
 	m_bNeedSendOnline(false),
+	m_bErr404Return(false),
 	m_vkOptions(this)
 {
 	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);
