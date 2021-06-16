@@ -145,43 +145,47 @@ extern LIST<NetlibUser> netlibUser;
 extern HANDLE hEventConnected;
 extern HANDLE hEventDisconnected;
 
-// netlibautoproxy.c
+// netlibautoproxy.cpp
 void NetlibLoadIeProxy(void);
 void NetlibUnloadIeProxy(void);
 char* NetlibGetIeProxy(char *szUrl);
 bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps);
 
-// netlibbind.c
+// netlibbind.cpp
 int NetlibFreeBoundPort(NetlibBoundPort *nlbp);
 bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
-// netlibhttp.c
+// netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
-// netliblog.c
+// netliblog.cpp
 void NetlibLogShowOptions(void);
 void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 
-// netlibopenconn.c
+// netlibopenconn.cpp
 DWORD DnsLookup(NetlibUser *nlu, const char *szHost);
 int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
 int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
 bool NetlibDoConnect(NetlibConnection *nlc);
 bool NetlibReconnect(NetlibConnection *nlc);
 
-// netlibopts.c
+// netlibopts.cpp
 int NetlibOptInitialise(WPARAM wParam, LPARAM lParam);
 void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSERSETTINGS *settings);
 
-// netlibsock.c
+// netlibsock.cpp
 #define NL_SELECT_READ  0x0001
 #define NL_SELECT_WRITE 0x0002
 #define NL_SELECT_ALL   (NL_SELECT_READ+NL_SELECT_WRITE)
 
-// netlibupnp.c
+// netlibssl.cpp
+bool OpenSsl_Init();
+void OpenSsl_Unload();
+
+// netlibupnp.cpp
 bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *extip, bool search);
 void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
 void NetlibUPnPCleanup(void*);

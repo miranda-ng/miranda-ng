@@ -439,6 +439,7 @@ void UnloadNetlibModule(void)
 	if (hConnectionOpenMutex)
 		CloseHandle(hConnectionOpenMutex);
 	WSACleanup();
+	OpenSsl_Unload();
 }
 
 int LoadNetlibModule(void)
@@ -447,6 +448,9 @@ int LoadNetlibModule(void)
 
 	WSADATA wsadata;
 	WSAStartup(MAKEWORD(2, 2), &wsadata);
+
+	if (!OpenSsl_Init())
+		return 1;
 
 	hConnectionHeaderMutex = CreateMutex(nullptr, FALSE, nullptr);
 	NetlibLogInit();
