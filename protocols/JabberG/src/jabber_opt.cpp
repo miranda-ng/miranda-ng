@@ -793,6 +793,7 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Disable frame"), m_proto->m_bDisableFrame);
+		m_options.AddOption(LPGENW("Other"), LPGENW("Display popups with errors"), m_proto->m_bUsePopups);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);

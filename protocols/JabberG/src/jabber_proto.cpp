@@ -131,6 +131,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bUseDomainLogin(this, "UseDomainLogin", false),
 	m_bUseHttpUpload(this, "UseHttpUpload", false),
 	m_bUseOMEMO(this, "UseOMEMO", false),
+	m_bUsePopups(this, "UsePopups", true),
 	m_bUseSSL(this, "UseSSL", false),
 	m_bUseTLS(this, "UseTLS", true),
 

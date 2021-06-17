@@ -423,6 +423,9 @@ void CJabberProto::InitPopups(void)
 
 void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
 {
+	if (!m_bUsePopups)
+		return;
+
 	char name[256];
 	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
