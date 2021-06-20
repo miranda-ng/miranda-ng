@@ -60,6 +60,8 @@ typedef struct SslHandle *HSSL;
 #include <locale.h>
 #include <direct.h>
 
+#include <memory>
+
 #define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>
 #include <m_avatars.h>

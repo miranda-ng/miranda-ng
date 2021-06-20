@@ -101,28 +101,6 @@ static void ReportSslError(SECURITY_STATUS scRet, int line, bool = false)
 	PUShowMessageW(tszMsg.GetBuffer(), SM_WARNING);
 }
 
-static bool ClientConnect(SslHandle *ssl, const char*)
-{
-	{
-		mir_cslock lck(csSsl);
-		ssl->session = SSL_new(g_ctx);
-	}
-
-	if (!ssl->session) {
-		Netlib_Logf(nullptr, "SSL setup failure: session");
-		return false;
-	}
-	SSL_set_fd(ssl->session, ssl->s);
-
-	int err = SSL_connect(ssl->session);
-	if (err != 1) {
-		dump_error(ssl->session, err);
-		return false;
-	}
-
-	return true;
-}
-
 static PCCERT_CONTEXT SSL_X509ToCryptCert(X509 * x509)
 {
 	unsigned char *buf = nullptr;
@@ -251,22 +229,36 @@ cleanup:
 
 MIR_APP_DLL(HSSL) Netlib_SslConnect(SOCKET s, const char* host, int verify)
 {
-	SslHandle *ssl = new SslHandle();
+	std::unique_ptr<SslHandle> ssl(new SslHandle());
 	ssl->s = s;
-	bool res = ClientConnect(ssl, host);
+	{
+		mir_cslock lck(csSsl);
+		ssl->session = SSL_new(g_ctx);
+	}
 
-	if (res && verify) {
+	if (!ssl->session) {
+		Netlib_Logf(nullptr, "SSL setup failure: session");
+		return false;
+	}
+	SSL_set_fd(ssl->session, ssl->s);
+
+	SSL_set_tlsext_host_name(ssl->session, host);
+
+	int err = SSL_connect(ssl->session);
+	if (err != 1) {
+		dump_error(ssl->session, err);
+		return nullptr;
+	}
+
+	if (verify) {
 		DWORD dwFlags = 0;
 		if (!host || inet_addr(host) != INADDR_NONE)
 			dwFlags |= 0x00001000;
-		res = VerifyCertificate(ssl, host, dwFlags);
+		if (!VerifyCertificate(ssl.get(), host, dwFlags))
+			return nullptr;
 	}
 
-	if (res)
-		return ssl;
-
-	delete ssl;
-	return nullptr;
+	return ssl.release();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
