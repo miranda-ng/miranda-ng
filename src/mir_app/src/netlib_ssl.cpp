@@ -360,13 +360,13 @@ MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 		szHost = nlc->nloc.szHost;
 	szHost = NEWSTR_ALLOCA(szHost);
 
-	Netlib_Logf(nlu, "(%d %s) Starting SSL negotiation", int(nlc->s), szHost);
+	Netlib_Logf(nlu, "(%d %s) Starting SSL/TLS negotiation", int(nlc->s), szHost);
 
 	nlc->hSsl = Netlib_SslConnect(nlc->s, szHost, nlu->settings.validateSSL);
 	if (nlc->hSsl == nullptr)
-		Netlib_Logf(nlu, "(%d %s) Failure to negotiate SSL connection", int(nlc->s), szHost);
+		Netlib_Logf(nlu, "(%d %s) Failure to negotiate SSL/TLS connection", int(nlc->s), szHost);
 	else
-		Netlib_Logf(nlu, "(%d %s) SSL negotiation successful", int(nlc->s), szHost);
+		Netlib_Logf(nlu, "(%d %s) SSL/TLS negotiation successful", int(nlc->s), szHost);
 
 	return nlc->hSsl != nullptr;
 }
