@@ -181,8 +181,15 @@ INT_PTR CALLBACK CurrencyConverterDlgProc(HWND hDlg, UINT msg, WPARAM wp, LPARAM
 							const auto pProvider = get_currency_converter_provider();
 							assert(pProvider);
 							if (pProvider) {
-								double dResult = pProvider->Convert(dAmount, from, to);
-								CMStringW sResult(FORMAT, L"%.2lf %s = %.2lf %s", dAmount, from.GetName().c_str(), dResult, to.GetName().c_str());
+								CMStringW sResult;
+
+								try {
+									double dResult = pProvider->Convert(dAmount, from, to);
+									sResult.Format(L"%.2lf %s = %.2lf %s", dAmount, from.GetName().c_str(), dResult, to.GetName().c_str());
+								}
+								catch (std::exception& e) {
+									sResult = e.what();
+								}
 								SetDlgItemText(hDlg, IDC_EDIT_RESULT, sResult);
 							}
 						}
