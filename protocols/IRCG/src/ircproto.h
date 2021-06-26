@@ -123,7 +123,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	int      m_quickComboSelection;
 	int      m_onlineNotificationTime;
 	int      m_onlineNotificationLimit;
-	BYTE     m_scriptingEnabled;
 	BYTE     m_IPFromServer;
 	BYTE     m_showAddresses;
 	BYTE     m_disconnectDCCChats;
@@ -255,13 +254,6 @@ struct CIrcProto : public PROTO<CIrcProto>
 	// output
 	BOOL   ShowMessage(const CIrcMessage *pmsg);
 
-	// scripting.cpp
-	INT_PTR  __cdecl Scripting_InsertRawIn(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl Scripting_InsertRawOut(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl Scripting_InsertGuiIn(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl Scripting_InsertGuiOut(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl Scripting_GetIrcData(WPARAM wparam, LPARAM lparam);
-
 	// services.cpp
 	void   ConnectToServer(void);
 	void   DisconnectFromServer(void);
@@ -336,7 +328,6 @@ protected:
 private:
 	mir_cs m_dcc; // protect the dcc objects
 
-	void createMessageFromPchar(const char* p);
 	void Notify(const CIrcMessage *pmsg);
 	void __cdecl ThreadProc(void *pparam);
 

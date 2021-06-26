@@ -26,9 +26,6 @@
     <ClCompile Include="src\output.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\scripting.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\services.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

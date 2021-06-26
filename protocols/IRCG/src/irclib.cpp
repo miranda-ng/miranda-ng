@@ -280,8 +280,10 @@ int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
 {
 	if (!con || !buf)
 		return 0;
-	if (m_scriptingEnabled && cbBuf == 0)
+	
+	if (cbBuf == 0)
 		cbBuf = (int)mir_strlen((const char *)buf);
+	
 	return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
 }
 
@@ -340,19 +342,6 @@ void CIrcProto::InsertIncomingEvent(wchar_t* pszRaw)
 	Notify(&msg);
 }
 
-void CIrcProto::createMessageFromPchar(const char* p)
-{
-	wchar_t *ptszMsg;
-	if (codepage != CP_UTF8 && m_utfAutodetect) {
-		if (mir_utf8decodecp(NEWSTR_ALLOCA(p), codepage, &ptszMsg) == nullptr)
-			ptszMsg = mir_a2u_cp(p, codepage);
-	}
-	else ptszMsg = mir_a2u_cp(p, codepage);
-	CIrcMessage msg(this, ptszMsg, codepage, true);
-	Notify(&msg);
-	mir_free(ptszMsg);
-}
-
 void CIrcProto::DoReceive()
 {
 	char chBuf[1024 * 4 + 1];
@@ -399,24 +388,14 @@ void CIrcProto::DoReceive()
 
 			// process single message by monitor objects
 			if (*pStart) {
-				if (m_scriptingEnabled) {
-					char* pszTemp = mir_strdup(pStart);
+				ptrW ptszMsg;
+				if (codepage != CP_UTF8 && m_utfAutodetect && Utf8CheckString(pStart))
+					ptszMsg = mir_utf8decodeW(pStart);
+				else
+					ptszMsg = mir_a2u_cp(pStart, codepage);
 
-					if (pszTemp) {
-						char* p1 = pszTemp;
-						// replace end-of-line with NULLs
-						while (*p1 != 0) {
-							if (*p1 == '\r' || *p1 == '\n')
-								*p1 = 0;
-							p1++;
-						}
-
-						createMessageFromPchar(pszTemp);
-					}
-
-					mir_free(pszTemp);
-				}
-				else createMessageFromPchar(pStart);
+				CIrcMessage msg(this, ptszMsg, codepage, true);
+				Notify(&msg);
 			}
 
 			cbInBuf -= pEnd - pStart;

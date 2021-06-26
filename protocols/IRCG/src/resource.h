@@ -135,7 +135,6 @@
 #define IDC_COMBO                       1196
 #define IDC_DISC                        1197
 #define IDC_FROMSERVER                  1201
-#define IDC_SCRIPT                      1202
 #define IDC_MASK                        1204
 #define IDC_Q                           1205
 #define IDC_M                           1206

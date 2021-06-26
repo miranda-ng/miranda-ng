@@ -583,7 +583,6 @@ static TDbSetting OtherSettings[] =
 	{ FIELD_OFFSET(CIrcProto, m_codepage), "Codepage", DBVT_DWORD, 0, CP_ACP },
 	{ FIELD_OFFSET(CIrcProto, m_utfAutodetect), "UtfAutodetect", DBVT_BYTE },
 	{ FIELD_OFFSET(CIrcProto, m_perform), "Perform", DBVT_BYTE },
-	{ FIELD_OFFSET(CIrcProto, m_scriptingEnabled), "ScriptingEnabled", DBVT_BYTE }
 };
 
 static char* sttPerformEvents[] = {
@@ -628,7 +627,7 @@ class COtherPrefsDlg : public CIrcBaseDlg
 	CCtrlMButton m_add, m_delete;
 	CCtrlCombo   m_performCombo, m_codepage;
 	CCtrlEdit    m_pertormEdit, m_quitMessage, m_alias;
-	CCtrlCheck   m_perform, m_scripting, m_autodetect;
+	CCtrlCheck   m_perform, m_autodetect;
 
 public:
 	COtherPrefsDlg(CIrcProto *_pro) :
@@ -638,7 +637,6 @@ public:
 		m_codepage(this, IDC_CODEPAGE),
 		m_pertormEdit(this, IDC_PERFORMEDIT),
 		m_perform(this, IDC_PERFORM),
-		m_scripting(this, IDC_SCRIPT),
 		m_autodetect(this, IDC_UTF_AUTODETECT),
 		m_quitMessage(this, IDC_QUITMESSAGE),
 		m_alias(this, IDC_ALIASEDIT),
@@ -663,7 +661,6 @@ public:
 		m_alias.SetText(m_proto->m_alias);
 		m_quitMessage.SetText(m_proto->m_quitMessage);
 		m_perform.SetState(m_proto->m_perform);
-		m_scripting.SetState(m_proto->m_scriptingEnabled);
 		m_performCombo.Enable(m_proto->m_perform);
 		m_pertormEdit.Enable(m_proto->m_perform);
 		m_add.Enable(m_proto->m_perform);
@@ -710,7 +707,6 @@ public:
 
 		m_proto->m_utfAutodetect = m_autodetect.GetState();
 		m_proto->m_perform = m_perform.GetState();
-		m_proto->m_scriptingEnabled = m_scripting.GetState();
 		if (m_add.Enabled())
 			OnAdd(nullptr);
 

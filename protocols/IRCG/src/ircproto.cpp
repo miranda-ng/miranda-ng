@@ -55,11 +55,6 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	CreateProtoService(IRC_UM_IGNORE, &CIrcProto::OnMenuIgnore);
 
 	CreateProtoService("/DblClickEvent", &CIrcProto::OnDoubleclicked);
-	CreateProtoService("/InsertRawIn", &CIrcProto::Scripting_InsertRawIn);
-	CreateProtoService("/InsertRawOut", &CIrcProto::Scripting_InsertRawOut);
-	CreateProtoService("/InsertGuiIn", &CIrcProto::Scripting_InsertGuiIn);
-	CreateProtoService("/InsertGuiOut", &CIrcProto::Scripting_InsertGuiOut);
-	CreateProtoService("/GetIrcData", &CIrcProto::Scripting_GetIrcData);
 
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CIrcProto::OnDbSettingChanged);
 	HookProtoEvent(ME_OPT_INITIALISE, &CIrcProto::OnInitOptionsPages);

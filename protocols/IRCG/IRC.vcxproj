@@ -34,7 +34,6 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\output.cpp" />
-    <ClCompile Include="src\scripting.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
