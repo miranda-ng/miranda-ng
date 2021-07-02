@@ -206,8 +206,8 @@ static IconItem _logicons[] =
 // add icons to the skinning module
 void Chat_AddIcons(HINSTANCE hIconDll)
 {
-	Icon_Register(hIconDll, LPGEN("Message Sessions") "/" LPGEN("Group chat windows"), _icons, _countof(_icons), 0, &g_plugin);
-	Icon_Register(hIconDll, LPGEN("Message Sessions") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons), 0, &g_plugin);
+	Icon_Register(hIconDll, LPGEN("Messaging") "/" LPGEN("Group chat windows"), _icons, _countof(_icons), 0, &g_plugin);
+	Icon_Register(hIconDll, LPGEN("Messaging") "/" LPGEN("Group chat log"), _logicons, _countof(_logicons), 0, &g_plugin);
 	g_chatApi.MM_IconsChanged();
 }
 
