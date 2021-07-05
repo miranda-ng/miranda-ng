@@ -33,6 +33,9 @@ void CDbxSQLite::UninitEvents()
 LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
 	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
+	if (cc == nullptr)
+		return 0;
+
 	if (cc->HasCount())
 		return cc->m_count;
 
