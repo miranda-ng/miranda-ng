@@ -66,7 +66,6 @@ Libs\libcrypto-1_1.mir
 Libs\libssl-1_1.mir
 Plugins\Db_autobackups.dll
 Plugins\DbChecker.dll
-Plugins\Dbx_mdbx.dll
 Plugins\Dbx_sqlite.dll
 Plugins\Dummy.dll
 Plugins\Import.dll

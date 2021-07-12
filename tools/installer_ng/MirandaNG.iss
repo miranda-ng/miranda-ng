@@ -152,7 +152,6 @@ Name: "messagewin"; Description: "{cm:MessageWin}"; Types: extended regular mini
 Name: "messagewin\stdmsg"; Description: "{cm:StdMsg}"; Types: minimal; Flags: exclusive 
 Name: "messagewin\scriver"; Description: "{cm:Scriver}"; Types: custom; Flags: exclusive 
 Name: "messagewin\tabsrmm"; Description: "{cm:Tabsrmm}"; Types: extended regular; Flags: exclusive 
-Name: "dbx_mdbx"; Description: "{cm:Dbx_Mdbx}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "dbx_sqlite"; Description: "{cm:Dbx_Sqlite}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang"; Description: "{cm:Lang}"; Types: extended regular custom minimal; Flags: fixed 
 Name: "lang\russian"; Description: "{cm:LangRussian}"; Flags: exclusive 
@@ -221,7 +220,6 @@ en.MessageWin=Message session
 en.StdMsg=StdMsg plugin
 en.Scriver=Scriver message plugin
 en.Tabsrmm=TabSRMM message plugin
-en.Dbx_Mdbx=Dbx_mdbx database driver
 en.Dbx_Sqlite=Dbx_sqlite database driver
 en.Lang=Localization files
 en.LangRussian=Russian langpack
@@ -249,7 +247,6 @@ en.MessageWinDescription=Message session plugins.
 en.StdMsgDescription=Basic messaging and group chats core modules.
 en.ScriverDescription=Easy and lightweight messaging plugin.
 en.TabsrmmDescription=Advanced IM and group chat module for Miranda NG. Supports skins.
-en.MDBXDescription=Provides Miranda database support: global settings, contacts, history, settings per contact.
 en.SQLiteDescription=Provides Miranda database support: global settings, contacts, history, settings per contact.
 en.LangDescription=Localization files for Miranda NG.
 en.LangRussianDescription=Translation of Miranda NG user interface to Russian.
@@ -295,7 +292,6 @@ ru.MessageWin=Диалоговые окна
 ru.StdMsg=Плагин StdMsg
 ru.Scriver=Диалоговое окно Scriver
 ru.Tabsrmm=Диалоговое окно TabSRMM
-ru.Dbx_Mdbx=Драйвер Dbx_mdbx
 ru.Dbx_Sqlite=Драйвер Dbx_sqlite
 ru.Lang=Языковые пакеты
 ru.LangRussian=Русский
@@ -323,7 +319,6 @@ ru.MessageWinDescription=Плагины диалоговых окон.
 ru.StdMsgDescription=Модули ядра, обеспечивающие базовый функционал переписки и чатов.
 ru.ScriverDescription=Простой плагин диалоговых окон с поддержкой вкладок. Не поддерживает скины.
 ru.TabsrmmDescription=Продвинутый плагин диалоговых окон с поддержкой вкладок и скинов.
-ru.MDBXDescription=Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т. п.
 ru.SQLiteDescription=Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т. п.
 ru.LangDescription=Файлы перевода для Miranda NG.
 ru.LangRussianDescription=Перевод интерфейса Miranda NG на русский язык.
@@ -369,7 +364,6 @@ cz.MessageWin=Komunikační okna
 cz.StdMsg=StdMsg
 cz.Scriver=Scriver
 cz.Tabsrmm=TabSRMM
-cz.Dbx_Mdbx=Dbx_mdbx
 cz.Dbx_Sqlite=Dbx_sqlite
 cz.Lang=Jazykové rozhraní
 cz.LangRussian=Ruština
@@ -397,7 +391,6 @@ cz.MessageWinDescription=Doplňky pro komunikační okna.
 cz.StdMsgDescription=Základní integrovaný modul pro komunikaci a skupinové chaty.
 cz.ScriverDescription=Jednoduchý a rychlý modul pro komunikaci a skupinové chaty. S podporou více záložek v jednom okně.
 cz.TabsrmmDescription=Pokročilý modul pro komunikaci a skupinové chaty. Podporuje skiny a více záložek v jednom okně.
-cz.MDBXDescription=Podpora pro databáze Mirandy: globální nastavení, kontakty, historie, nastavení pro jednotlivé kontakty.
 cz.SQLiteDescription=Podpora pro databáze Mirandy: globální nastavení, kontakty, historie, nastavení pro jednotlivé kontakty.
 cz.LangDescription=Jazykové balíčky pro Mirandu NG.
 cz.LangRussianDescription=Překlad rozhraní Mirandy NG do ruštiny.
@@ -443,7 +436,6 @@ de.MessageWin=Nachrichtensitzungen
 de.StdMsg=Standard-Nachrichtenplugin
 de.Scriver=Scriver-Nachrichtenplugin
 de.Tabsrmm=TabSRMM-Nachrichtenplugin
-de.Dbx_Mdbx=Dbx_mdbx-Datenbanktreiber
 de.Dbx_Sqlite=Dbx_sqlite-Datenbanktreiber
 de.Lang=Sprachdateien
 de.LangRussian=Russische Sprachdatei
@@ -471,7 +463,6 @@ de.MessageWinDescription=Nachrichtensitzungsplugins.
 de.StdMsgDescription=Grundlegende Nachrichten- und Gruppenchat-Kernmodule.
 de.ScriverDescription=Einfaches und leichtgewichtiges Nachrichtenplugin.
 de.TabsrmmDescription=Erweitertes Nachrichten- und Gruppenchatmodul für Miranda NG. Unterstützt Skins.
-de.MDBXDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.
 de.SQLiteDescription=Stellt Miranda-Datenbankunterstützung bereit: globale Einstellungen, Kontakte, Verlauf, Per-Kontakt-Einstellungen.
 de.LangDescription=Sprachdateien für Miranda NG.
 de.LangRussianDescription=Übersetzung der Miranda-NG-Benutzeroberfläche ins Russische.
@@ -517,7 +508,6 @@ pl.MessageWin=Okno wiadomości
 pl.StdMsg=StdMsg
 pl.Scriver=Scriver
 pl.Tabsrmm=TabSRMM
-pl.Dbx_Mdbx=Dbx_mdbx
 pl.Dbx_Sqlite=Dbx_sqlite
 pl.Lang=Język interfejsu
 pl.LangRussian=rosyjski
@@ -545,7 +535,6 @@ pl.MessageWinDescription=Wtyczki okna wiadomości.
 pl.StdMsgDescription=Podstawowe moduły rdzenia do wiadomości i czatu.
 pl.ScriverDescription=Łatwa i lekka wtyczka rozmów.
 pl.TabsrmmDescription=Zaawansowana wtyczka rozmów z modułem czatu. Wspiera skórki.
-pl.MDBXDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
 pl.SQLiteDescription=Zapewnia wsparcie profilu Mirandy: ustawień globalnych, kontaktów, historii, ustawień dla każdego kontaktu z osobna.
 pl.LangDescription=Pakiety językowe dla Mirandy NG.
 pl.LangRussianDescription=Tłumaczy interfejs Mirandy na język rosyjski.
@@ -605,7 +594,7 @@ const
   DRIVE_RAMDISK = 6;     // The drive is a RAM disk.
 
   // don't forget to increment it after adding new components!
-  COMPONENTS_COUNT = 20; // Index of the first language
+  COMPONENTS_COUNT = 19; // Index of the first language
 
 // Default installation check
 function IsDefault: Boolean;
@@ -827,7 +816,6 @@ begin
     ComponentList.Add('messagewin\stdmsg');
     ComponentList.Add('messagewin\scriver');
     ComponentList.Add('messagewin\tabsrmm');
-    ComponentList.Add('dbx_mdbx');
 	ComponentList.Add('dbx_sqlite');
     ComponentList.Add('lang');
     ComponentList.Add('lang\russian');
@@ -915,7 +903,6 @@ begin
     ExpandConstant('{cm:StdMsgDescription}') + ';' +
     ExpandConstant('{cm:ScriverDescription}') + ';' +
     ExpandConstant('{cm:TabsrmmDescription}') + ';' +
-	ExpandConstant('{cm:MDBXDescription}') + ';' +
 	ExpandConstant('{cm:SQLiteDescription}') + ';' +
     ExpandConstant('{cm:LangDescription}') + ';' +
     ExpandConstant('{cm:LangRussianDescription}') + ';' +
