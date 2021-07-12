@@ -123,7 +123,6 @@ Source: "Files\Plugins\TabSRMM.dll"; DestDir: "{app}\Plugins"; Components: messa
 Source: "Files\Plugins\Scriver.dll"; DestDir: "{app}\Plugins"; Components: messagewin\scriver; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; DB drivers
-Source: "Files\Plugins\Dbx_mdbx.dll"; DestDir: "{app}\Plugins"; Components: dbx_mdbx; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Dbx_sqlite.dll"; DestDir: "{app}\Plugins"; Components: dbx_sqlite; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
 ; Config files
