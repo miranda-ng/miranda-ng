@@ -34,7 +34,7 @@
 #include "m_protoint.h"
 
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
-#define ICQ_API_SERVER "https://u.icq.net/wim"
+#define ICQ_API_SERVER "https://u.icq.net/api/v17/wim"
 #define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
 #define ICQ_FAKE_EVENT_ID 0xBABAEB
 #define ICQ_ROBUST_SERVER "https://u.icq.net/rapi"
