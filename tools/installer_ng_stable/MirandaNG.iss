@@ -903,7 +903,7 @@ begin
     ExpandConstant('{cm:StdMsgDescription}') + ';' +
     ExpandConstant('{cm:ScriverDescription}') + ';' +
     ExpandConstant('{cm:TabsrmmDescription}') + ';' +
-	ExpandConstant('{cm:SQLiteDescription}') + ';' +
+    ExpandConstant('{cm:SQLiteDescription}') + ';' +
     ExpandConstant('{cm:LangDescription}') + ';' +
     ExpandConstant('{cm:LangRussianDescription}') + ';' +
     ExpandConstant('{cm:LangCzechDescription}') + ';' +

@@ -816,7 +816,7 @@ begin
     ComponentList.Add('messagewin\stdmsg');
     ComponentList.Add('messagewin\scriver');
     ComponentList.Add('messagewin\tabsrmm');
-	ComponentList.Add('dbx_sqlite');
+    ComponentList.Add('dbx_sqlite');
     ComponentList.Add('lang');
     ComponentList.Add('lang\russian');
     ComponentList.Add('lang\czech');
@@ -903,7 +903,7 @@ begin
     ExpandConstant('{cm:StdMsgDescription}') + ';' +
     ExpandConstant('{cm:ScriverDescription}') + ';' +
     ExpandConstant('{cm:TabsrmmDescription}') + ';' +
-	ExpandConstant('{cm:SQLiteDescription}') + ';' +
+    ExpandConstant('{cm:SQLiteDescription}') + ';' +
     ExpandConstant('{cm:LangDescription}') + ';' +
     ExpandConstant('{cm:LangRussianDescription}') + ';' +
     ExpandConstant('{cm:LangCzechDescription}') + ';' +
