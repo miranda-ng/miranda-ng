@@ -995,6 +995,8 @@ skip:
 	if (dat->m_hHistoryEvents)
 		str.AppendFormat(dat->m_szMicroLf, MSGDLGFONTCOUNT + 1 + ((isSent) ? 1 : 0), hDbEvent);
 
+	str.Append("\\par");
+
 	if (streamData->dbei == nullptr)
 		mir_free(dbei.pBlob);
 
