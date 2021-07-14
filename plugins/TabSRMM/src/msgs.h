@@ -315,7 +315,6 @@ public:
 	}
 
 	void Attach() override;
-	void Clear() override;
 	void LogEvents(MEVENT hDbEventFirst, int count, bool bAppend) override;
 	void LogEvents(struct LOGINFO *, bool) override;
 	void ScrollToBottom() override;
@@ -482,7 +481,7 @@ public:
 	bool    m_bDividerWanted, m_bDividerSet;
 	bool    m_bSplitterOverride;
 	bool    m_bRtlText;
-	bool    m_bLogEmpty;
+	bool    m_bLastParaDeleted;
 
 	int     m_sendMode;
 	HKL     m_hkl;                                    // keyboard layout identifier

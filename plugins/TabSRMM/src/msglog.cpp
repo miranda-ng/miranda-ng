@@ -466,10 +466,10 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 	CMStringA str;
 
 	// means: last \\par was deleted to avoid new line at end of log
-	if (dat->m_bLogEmpty)
-		dat->m_bLogEmpty = false;
-	else
+	if (dat->m_bLastParaDeleted) {
 		str.Append("\\par");
+		dat->m_bLastParaDeleted = false;
+	}
 
 	if (dat->m_dwFlags & MWF_LOG_RTL)
 		dbei.flags |= DBEF_RTL;
@@ -1200,13 +1200,6 @@ void CLogWindow::Attach()
 	m_rtf.SendMsg(EM_SETMARGINS, EC_LEFTMARGIN | EC_RIGHTMARGIN, MAKELONG(3, 3));
 }
 
-void CLogWindow::Clear()
-{
-	CSuper::Clear();
-
-	m_pDlg.m_bLogEmpty = true;
-}
-
 void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend)
 {
 	LogEvents(hDbEventFirst, count, fAppend, nullptr);
@@ -1227,9 +1220,6 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	// separator strings used for grid lines, message separation and so on...
 	m_pDlg.m_bClrAdded = false;
-
-	if (!fAppend)
-		m_pDlg.m_bLogEmpty = true;
 
 	if (m_pDlg.m_szMicroLf[0] == 0) {
 		if (m_pDlg.m_hHistoryEvents)
@@ -1273,7 +1263,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		sel.cpMax = GetWindowTextLength(m_rtf.GetHwnd());
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		startAt = 0;
-		m_pDlg.m_bRtlText = false;
+		m_pDlg.m_bLastParaDeleted = m_pDlg.m_bRtlText = false;
 	}
 
 	// begin to draw
@@ -1286,6 +1276,20 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_pDlg.m_iLastEventType) & DBEF_SENT)
 			? (fAppend ? m_pDlg.m_pContainer->m_theme.outbg : m_pDlg.m_pContainer->m_theme.oldoutbg)
 			: (fAppend ? m_pDlg.m_pContainer->m_theme.inbg : m_pDlg.m_pContainer->m_theme.oldinbg));
+
+	if (!m_pDlg.m_bRtlText) {
+		GETTEXTLENGTHEX gtxl = { 0 };
+		gtxl.codepage = 1200;
+		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
+
+		sel.cpMax = m_rtf.SendMsg(EM_GETTEXTLENGTHEX, (WPARAM)&gtxl, 0);
+		sel.cpMin = sel.cpMax - 1;
+		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		m_rtf.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
+		
+		if (!dbei_s)
+			m_pDlg.m_bLastParaDeleted = true;
+	}
 
 	BOOL isSent;
 	if (streamData.dbei != nullptr)
@@ -1350,10 +1354,8 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 
 	// fix for the indent... must be a M$ bug
-	if (sel.cpMax == 0) {
+	if (sel.cpMax == 0)
 		bRedraw = TRUE;
-		m_pDlg.m_bLogEmpty = true;
-	}
 
 	// should the event(s) be appended to the current log
 	WPARAM wp = bRedraw ? SF_RTF : SFF_SELECTION | SF_RTF;
