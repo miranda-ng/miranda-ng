@@ -744,8 +744,12 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 		if (it["buddy"].as_mstring() != wszId)
 			continue;
 
-		int iResultCode = it["resultCode"].as_int();
-		if (iResultCode != 0) {
+		switch (int iResultCode = it["resultCode"].as_int()) {
+		case 0: // success
+		case 3: // already in contact list
+			break;
+
+		default:
 			debugLogA("Contact %d failed to add: error %d", pReq->hContact, iResultCode);
 
 			POPUPDATAW Popup = {};
