@@ -89,7 +89,16 @@ void CIcqProto::CheckPassword()
 	m_szAToken = getMStringA(DB_KEY_ATOKEN);
 	m_iRClientId = getDword(DB_KEY_RCLIENTID);
 	m_szSessionKey = getMStringA(DB_KEY_SESSIONKEY);
-	if (m_szAToken.IsEmpty() || m_szSessionKey.IsEmpty()) {
+	if (!m_szAToken.IsEmpty() && !m_szSessionKey.IsEmpty()) {
+		StartSession();
+		return;
+	}
+
+	if (m_isMra) {
+		m_bError462 = false;
+		SendMrimLogin(nullptr);
+	}
+	else {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
 		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
 			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << CHAR_PARAM("pwd", m_szPassword);
@@ -98,7 +107,6 @@ void CIcqProto::CheckPassword()
 		#endif
 		Push(pReq);
 	}
-	else StartSession();
 }
 
 IcqFileInfo* CIcqProto::CheckFile(MCONTACT hContact, CMStringW &wszText, bool &bIsFile)

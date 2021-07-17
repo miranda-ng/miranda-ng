@@ -929,6 +929,8 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 	do {
 		output_data = (char*)mir_realloc(output_data, gzip_len+1);
+		if (output_data == nullptr)
+			break;
 
 		zstr.next_in = (Bytef*)gzip_data;
 		zstr.avail_in = *len_ptr;
@@ -944,6 +946,8 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 
 		inflateEnd(&zstr);
 		gzip_len *= 2;
+		if (gzip_len > 10000000)
+			break;
 	} while (gzip_err == Z_BUF_ERROR);
 
 	gzip_len = gzip_err == Z_STREAM_END ? zstr.total_out : -1;

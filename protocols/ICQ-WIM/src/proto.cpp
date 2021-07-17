@@ -60,6 +60,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	db_set_resident(m_szModuleName, "IdleTS");
 	db_set_resident(m_szModuleName, "OnlineTS");
 
+	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");
+
 	// services
 	CreateProtoService(PS_CREATEACCMGRUI, &CIcqProto::CreateAccMgrUI);
 

@@ -33,6 +33,7 @@
 #include "m_system.h"
 #include "m_protoint.h"
 
+#define MRA_APP_ID "ic1pzYNtEU6dDnEQ"
 #define ICQ_APP_ID "ic1nmMjqg7Yu-0hL"
 #define ICQ_API_SERVER "https://u.icq.net/api/v17/wim"
 #define ICQ_FILE_SERVER "https://u.icq.net/files/api/v1.1"
@@ -247,7 +248,7 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
 
-	bool         m_bOnline, m_bTerminated, m_bFirstBos;
+	bool         m_bOnline, m_bTerminated, m_bFirstBos, m_isMra, m_bError462;
 	int          m_iTimeShift;
 				    
 	MCONTACT     CheckOwnMessage(const CMStringA &reqId, const CMStringA &msgId, bool bRemove);
@@ -261,6 +262,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	bool         RetrievePassword();
 	void         RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
 	void         RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
+	void         SendMrimLogin(NETLIBHTTPREQUEST *pReply);
 	void         SetServerStatus(int iNewStatus);
 	void         ShutdownSession(void);
 	void         StartSession(void);
@@ -287,6 +289,9 @@ class CIcqProto : public PROTO<CIcqProto>
 
 	void      OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnAddClient(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnCheckMraAuth(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnCheckMraAuthFinal(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
+	void      OnCheckMrimLogin(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
 	void      OnFetchEvents(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq);
@@ -329,6 +334,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	CMStringA m_szRToken;
 	CMStringA m_fetchBaseURL;
 	CMStringA m_aimsid;
+	CMStringA m_szMraCookie;
 	LONG      m_msgId = 1;
 	int       m_iRClientId;
 	HGENMENU  m_hUploadGroups;

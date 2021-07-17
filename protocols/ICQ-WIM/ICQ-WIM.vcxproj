@@ -30,6 +30,7 @@
     <ClCompile Include="src\http.cpp" />
     <ClCompile Include="src\ignore.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mra.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\poll.cpp" />
     <ClCompile Include="src\proto.cpp" />
