@@ -22,12 +22,6 @@
 
 bool g_bSecureIM, g_bMessageState;
 
-IconItem iconList[] =
-{
-	{ LPGEN("E-mail"), "icq_email", IDI_INBOX },
-	{ LPGEN("E-mail notification"), "icq_email_notif", IDI_MAIL_NOTIFY }
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static PLUGININFOEX pluginInfoEx = {
@@ -87,6 +81,12 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	ModuleLoad(0, 0);
 	return 0;
 }
+
+static IconItem iconList[] =
+{
+	{ LPGEN("E-mail"), "icq_email", IDI_INBOX },
+	{ LPGEN("E-mail notification"), "icq_email_notif", IDI_MAIL_NOTIFY }
+};
 
 int CMPlugin::Load()
 {

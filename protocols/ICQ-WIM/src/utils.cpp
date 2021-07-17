@@ -347,7 +347,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 void CIcqProto::EmailNotification(const wchar_t *pwszText)
 {
 	POPUPDATAW Popup = {};
-	Popup.lchIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+	Popup.lchIcon = g_plugin.getIcon(IDI_INBOX);
 	wcsncpy_s(Popup.lpwzText, pwszText, _TRUNCATE);
 	wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
 	Popup.iSeconds = 20;
@@ -370,7 +370,7 @@ void CIcqProto::EmailNotification(const wchar_t *pwszText)
 		CLISTEVENT cle = {};
 		cle.hDbEvent = ICQ_FAKE_EVENT_ID;
 		cle.moduleName = m_szModuleName;
-		cle.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
+		cle.hIcon = g_plugin.getIcon(IDI_INBOX);
 		cle.flags = CLEF_UNICODE | CLEF_PROTOCOLGLOBAL;
 		cle.pszService = szServiceFunction;
 		cle.szTooltip.w = pwszText;
