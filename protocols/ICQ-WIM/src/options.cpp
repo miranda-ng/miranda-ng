@@ -246,6 +246,9 @@ public:
 
 	bool OnInitDialog() override
 	{
+		if (m_proto->m_isMra)
+			btnCreate.Hide();
+
 		wszOldPass = m_proto->getMStringW("Password");
 		edtPassword.SetText(wszOldPass);
 		return true;
