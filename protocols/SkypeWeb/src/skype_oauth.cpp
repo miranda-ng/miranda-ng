@@ -36,7 +36,7 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	std::string PPTF = match[1];
+	PPFT = match[1];
 
 	std::map<std::string, std::string> scookies;
 	for (int i = 0; i < response->headersCount; i++) {
@@ -55,7 +55,7 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 	cookies["MSPRequ"] = scookies["MSPRequ"];
 
-	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPTF.c_str()));
+	PushRequest(new OAuthRequest(login, password, mscookies.c_str(), PPFT.c_str()));
 }
 
 bool CSkypeProto::CheckOauth(const char *szResponse)
@@ -86,13 +86,15 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	std::smatch match;
 	std::string content = response->pData;
 
-	regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";;
-	if (!std::regex_search(content, match, regex)) {
-		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-		SetStatus(ID_STATUS_OFFLINE);
-		return;
+	if (PPFT.empty()) {
+		regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";;
+		if (!std::regex_search(content, match, regex)) {
+			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
+			SetStatus(ID_STATUS_OFFLINE);
+			return;
+		}
+		PPFT = match[1];
 	}
-	std::string PPTF = match[1];
 
 	regex = "[&?]opid=(.+?)[&']";
 	if (!std::regex_search(content, match, regex)) {
@@ -114,7 +116,7 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	}
 
 	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;PPAuth=%s;OParams=%s;", cookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), scookies["PPAuth"].c_str(), scookies["OParams"].c_str());
-	PushRequest(new OAuthRequest(mscookies.c_str(), PPTF.c_str(), opid.c_str()));
+	PushRequest(new OAuthRequest(mscookies.c_str(), PPFT.c_str(), opid.c_str()));
 }
 
 void CSkypeProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)

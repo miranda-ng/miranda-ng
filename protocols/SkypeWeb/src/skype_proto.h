@@ -166,6 +166,7 @@ public:
 private:
 	bool m_bHistorySynced;
 
+	std::string PPFT;
 	std::map<std::string, std::string> cookies;
 	static std::map<std::wstring, std::wstring> languages;
 
