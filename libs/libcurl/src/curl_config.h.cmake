@@ -112,12 +112,6 @@
 /* Define if you want to enable IPv6 support */
 #cmakedefine ENABLE_IPV6 1
 
-/* Specifies the number of arguments to getservbyport_r */
-#cmakedefine GETSERVBYPORT_R_ARGS ${GETSERVBYPORT_R_ARGS}
-
-/* Specifies the size of the buffer to pass to getservbyport_r */
-#cmakedefine GETSERVBYPORT_R_BUFSIZE ${GETSERVBYPORT_R_BUFSIZE}
-
 /* Define to 1 if you have the alarm function. */
 #cmakedefine HAVE_ALARM 1
 
@@ -151,17 +145,11 @@
 /* Define to 1 if you have the `CRYPTO_cleanup_all_ex_data' function. */
 #cmakedefine HAVE_CRYPTO_CLEANUP_ALL_EX_DATA 1
 
-/* Define to 1 if you have the <crypto.h> header file. */
-#cmakedefine HAVE_CRYPTO_H 1
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #cmakedefine HAVE_DLFCN_H 1
 
 /* Define to 1 if you have the <errno.h> header file. */
 #cmakedefine HAVE_ERRNO_H 1
-
-/* Define to 1 if you have the <err.h> header file. */
-#cmakedefine HAVE_ERR_H 1
 
 /* Define to 1 if you have the fcntl function. */
 #cmakedefine HAVE_FCNTL 1
@@ -172,17 +160,8 @@
 /* Define to 1 if you have a working fcntl O_NONBLOCK function. */
 #cmakedefine HAVE_FCNTL_O_NONBLOCK 1
 
-/* Define to 1 if you have the fdopen function. */
-#cmakedefine HAVE_FDOPEN 1
-
-/* Define to 1 if you have the `fork' function. */
-#cmakedefine HAVE_FORK 1
-
 /* Define to 1 if you have the freeaddrinfo function. */
 #cmakedefine HAVE_FREEADDRINFO 1
-
-/* Define to 1 if you have the freeifaddrs function. */
-#cmakedefine HAVE_FREEIFADDRS 1
 
 /* Define to 1 if you have the ftruncate function. */
 #cmakedefine HAVE_FTRUNCATE 1
@@ -195,21 +174,6 @@
 
 /* Define to 1 if you have the `getppid' function. */
 #cmakedefine HAVE_GETPPID 1
-
-/* Define to 1 if you have the gethostbyaddr function. */
-#cmakedefine HAVE_GETHOSTBYADDR 1
-
-/* Define to 1 if you have the gethostbyaddr_r function. */
-#cmakedefine HAVE_GETHOSTBYADDR_R 1
-
-/* gethostbyaddr_r() takes 5 args */
-#cmakedefine HAVE_GETHOSTBYADDR_R_5 1
-
-/* gethostbyaddr_r() takes 7 args */
-#cmakedefine HAVE_GETHOSTBYADDR_R_7 1
-
-/* gethostbyaddr_r() takes 8 args */
-#cmakedefine HAVE_GETHOSTBYADDR_R_8 1
 
 /* Define to 1 if you have the gethostbyname function. */
 #cmakedefine HAVE_GETHOSTBYNAME 1
@@ -258,9 +222,6 @@
 
 /* Define to 1 if you have the `getrlimit' function. */
 #cmakedefine HAVE_GETRLIMIT 1
-
-/* Define to 1 if you have the getservbyport_r function. */
-#cmakedefine HAVE_GETSERVBYPORT_R 1
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #cmakedefine HAVE_GETTIMEOFDAY 1
@@ -395,21 +356,6 @@
 /* Define to 1 if you have the `ssh2' library (-lssh2). */
 #cmakedefine HAVE_LIBSSH2 1
 
-/* Define to 1 if libssh2 provides `libssh2_version'. */
-#cmakedefine HAVE_LIBSSH2_VERSION 1
-
-/* Define to 1 if libssh2 provides `libssh2_init'. */
-#cmakedefine HAVE_LIBSSH2_INIT 1
-
-/* Define to 1 if libssh2 provides `libssh2_exit'. */
-#cmakedefine HAVE_LIBSSH2_EXIT 1
-
-/* Define to 1 if libssh2 provides `libssh2_scp_send64'. */
-#cmakedefine HAVE_LIBSSH2_SCP_SEND64 1
-
-/* Define to 1 if libssh2 provides `libssh2_session_handshake'. */
-#cmakedefine HAVE_LIBSSH2_SESSION_HANDSHAKE 1
-
 /* Define to 1 if you have the <libssh2.h> header file. */
 #cmakedefine HAVE_LIBSSH2_H 1
 
@@ -527,9 +473,6 @@
 /* Define to 1 if you have the recvfrom function. */
 #cmakedefine HAVE_RECVFROM 1
 
-/* Define to 1 if you have the <rsa.h> header file. */
-#cmakedefine HAVE_RSA_H 1
-
 /* Define to 1 if you have the select function. */
 #cmakedefine HAVE_SELECT 1
 
@@ -562,9 +505,6 @@
 
 /* Define to 1 if you have a working setsockopt SO_NONBLOCK function. */
 #cmakedefine HAVE_SETSOCKOPT_SO_NONBLOCK 1
-
-/* Define to 1 if you have the <sgtty.h> header file. */
-#cmakedefine HAVE_SGTTY_H 1
 
 /* Define to 1 if you have the sigaction function. */
 #cmakedefine HAVE_SIGACTION 1
