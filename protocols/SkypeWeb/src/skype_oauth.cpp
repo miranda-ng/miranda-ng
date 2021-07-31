@@ -17,6 +17,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+static std::string sub(const std::string &str, const char *start, const char *end)
+{
+	size_t i1 = str.find(start);
+	if (i1 == -1)
+		return "";
+
+	i1 += strlen(start);
+	size_t i2 = str.find(end, i1);
+	return (i2 == -1) ? "" : str.substr(i1, i2 - i1);
+}
+
 void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 {
 	if (response == nullptr || response->pData == nullptr) {
@@ -36,7 +47,7 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	PPFT = match[1];
+	std::string PPFT = match[1];
 
 	std::map<std::string, std::string> scookies;
 	for (int i = 0; i < response->headersCount; i++) {
@@ -82,35 +93,23 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 	if (CheckOauth(response->pData))
 		return;
 
-	std::regex regex;
-	std::smatch match;
 	std::string content = response->pData;
-
-	if (PPFT.empty()) {
-		regex = "<input.+?type=\"hidden\".+?name=\"PPFT\".+?id=\"i0327\".+?value=\"(.+?)\".*?/>";;
-		if (!std::regex_search(content, match, regex)) {
-			ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
-			SetStatus(ID_STATUS_OFFLINE);
-			return;
-		}
-		PPFT = match[1];
-	}
-
-	regex = "[&?]opid=(.+?)[&']";
-	if (!std::regex_search(content, match, regex)) {
+	std::string PPFT = sub(content, "sFT:'", "'");
+	std::string opid = sub(content, "opid=", "&");
+	if (PPFT.empty() || opid.empty()) {
 		ProtoBroadcastAck(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGIN_ERROR_UNKNOWN);
 		SetStatus(ID_STATUS_OFFLINE);
 		return;
 	}
-	std::string opid = match[1];
 
+	std::regex regex("^(.+?)=(.+?);");
+	std::smatch match;
 	std::map<std::string, std::string> scookies;
 	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
 
 		content = response->headers[i].szValue;
-		regex = "^(.+?)=(.+?);";
 		if (std::regex_search(content, match, regex))
 			scookies[match[1]] = match[2];
 	}
