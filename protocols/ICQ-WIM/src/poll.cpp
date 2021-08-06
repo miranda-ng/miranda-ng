@@ -321,26 +321,31 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	CMStringW aimId = ev["aimId"].as_mstring();
 
 	IcqCacheItem *pCache = FindContactByUIN(aimId);
-	if (pCache) {
-		int iNewStatus = StatusFromString(ev["state"].as_mstring());
+	if (pCache == nullptr)
+		return;
 
-		// major crutch dedicated to the official client behaviour to go offline
-		// when its window gets closed. we change the status of a contact to the
-		// first chosen one from options and initialize a timer
-		if (iNewStatus == ID_STATUS_OFFLINE) {
-			if (m_iTimeDiff1) {
-				iNewStatus = m_iStatus1;
-				pCache->m_timer1 = time(0);
-			}
+	int iNewStatus = StatusFromString(ev["state"].as_mstring());
+
+	int iLastSeen = ev["lastseen"].as_int();
+	if (iLastSeen == 0)
+		iNewStatus = ID_STATUS_ONLINE;
+
+	// major crutch dedicated to the official client behaviour to go offline
+	// when its window gets closed. we change the status of a contact to the
+	// first chosen one from options and initialize a timer
+	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if (m_iTimeDiff1) {
+			iNewStatus = m_iStatus1;
+			pCache->m_timer1 = time(0);
 		}
-		// if a client returns back online, we clear timers not to play with statuses anymore
-		else pCache->m_timer1 = pCache->m_timer2 = 0;
-
-		setWord(pCache->m_hContact, "Status", iNewStatus);
-
-		Json2string(pCache->m_hContact, ev, "friendly", "Nick");
-		CheckAvatarChange(pCache->m_hContact, ev);
 	}
+	// if a client returns back online, we clear timers not to play with statuses anymore
+	else pCache->m_timer1 = pCache->m_timer2 = 0;
+
+	setWord(pCache->m_hContact, "Status", iNewStatus);
+
+	Json2string(pCache->m_hContact, ev, "friendly", "Nick");
+	CheckAvatarChange(pCache->m_hContact, ev);
 }
 
 void CIcqProto::ProcessSessionEnd(const JSONNode &/*ev*/)
