@@ -336,7 +336,7 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 		// if a client returns back online, we clear timers not to play with statuses anymore
 		else pCache->m_timer1 = pCache->m_timer2 = 0;
 
-		setDword(pCache->m_hContact, "Status", iNewStatus);
+		setWord(pCache->m_hContact, "Status", iNewStatus);
 
 		Json2string(pCache->m_hContact, ev, "friendly", "Nick");
 		CheckAvatarChange(pCache->m_hContact, ev);

@@ -171,18 +171,18 @@ void CIcqProto::CheckStatus()
 
 			// if the second timer is set up, activate it
 			if (m_iTimeDiff2) {
-				setDword(it->m_hContact, "Status", m_iStatus2);
+				setWord(it->m_hContact, "Status", m_iStatus2);
 				it->m_timer2 = now;
 			}
 			// if the second timer is not set, simply mark a contact as offline
-			else setDword(it->m_hContact, "Status", ID_STATUS_OFFLINE);
+			else setWord(it->m_hContact, "Status", ID_STATUS_OFFLINE);
 			continue;
 		}
 
 		// if the second timer is expired, set status to offline
 		if (diff2 && it->m_timer2 && now - it->m_timer2 > m_iTimeDiff2) {
 			it->m_timer2 = 0;
-			setDword(it->m_hContact, "Status", ID_STATUS_OFFLINE);
+			setWord(it->m_hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
 }
@@ -349,7 +349,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	else delSetting(hContact, "MirVer");
 
 	CMStringW str(buddy["state"].as_mstring());
-	setDword(hContact, "Status", StatusFromString(str));
+	WORD wStatus = StatusFromString(str);
 
 	const JSONNode &var = buddy["friendly"];
 	if (var)
@@ -368,6 +368,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	// zero here means that a contact is currently online
 	int lastSeen = buddy["lastseen"].as_int();
 	setDword(hContact, DB_KEY_LASTSEEN, lastSeen ? lastSeen : time(0));
+	if (lastSeen == 0)
+		wStatus = ID_STATUS_ONLINE;
+	setDword(hContact, "Status", wStatus);
 
 	Json2int(hContact, buddy, "official", "Official");
 	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS);
