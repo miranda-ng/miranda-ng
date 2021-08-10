@@ -99,7 +99,7 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 	bool OnApply() override
 	{
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/loginWithPhoneNumber.php", &CIcqProto::OnLoginViaPhone);
-		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("trans_id", szTrans) << CHAR_PARAM("k", ICQ_APP_ID)
+		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("trans_id", szTrans) << CHAR_PARAM("k", m_proto->appId())
 			<< CHAR_PARAM("r", pReq->m_reqId) << CHAR_PARAM("f", "json") << WCHAR_PARAM("sms_code", ptrW(edtCode.GetText())) << INT_PARAM("create_account", 1);
 		pReq->pUserInfo = this;
 		
@@ -127,7 +127,7 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 	{
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/requestPhoneValidation.php", &CIcqProto::OnValidateSms);
 		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("r", pReq->m_reqId)
-			<< CHAR_PARAM("smsFormatType", "human") << CHAR_PARAM("k", ICQ_APP_ID);
+			<< CHAR_PARAM("smsFormatType", "human") << CHAR_PARAM("k", m_proto->appId());
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
 	}
@@ -154,7 +154,7 @@ void CIcqProto::OnCheckPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 
 	auto *pNew = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/normalizePhoneNumber.php", &CIcqProto::OnNormalizePhone);
 	pNew << CHAR_PARAM("countryCode", szPrefix) << CHAR_PARAM("phoneNumber", szPhoneNumber.c_str() + szPrefix.GetLength())
-		<< CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("r", pReq->m_reqId);
+		<< CHAR_PARAM("k", appId()) << CHAR_PARAM("r", pReq->m_reqId);
 	pNew->pUserInfo = pDlg;
 	Push(pNew);
 }

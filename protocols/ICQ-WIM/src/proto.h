@@ -274,6 +274,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
 	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID);
 	void         ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
+	int          StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 				    
 	void         OnLoggedIn(void);
 	void         OnLoggedOut(void);
@@ -376,7 +377,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	bool      ExecuteRequest(AsyncHttpRequest*);
 	bool      IsQueueEmpty();
 	void      Push(MHttpRequest*);
-	bool      RefreshRobustToken();
+	bool      RefreshRobustToken(AsyncHttpRequest *pReq);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// cache
@@ -472,6 +473,10 @@ public:
 
 	__forceinline int TS() const
 	{	return time(0) - m_iTimeShift;
+	}
+
+	__forceinline const char *appId() const
+	{	return (m_isMra) ? MRA_APP_ID : ICQ_APP_ID;
 	}
 
 	void SetPermitDeny(const CMStringW &userId, bool bAllow);

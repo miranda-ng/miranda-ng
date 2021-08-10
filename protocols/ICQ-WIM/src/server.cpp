@@ -100,7 +100,7 @@ void CIcqProto::CheckPassword()
 	}
 	else {
 		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, "https://api.login.icq.net/auth/clientLogin", &CIcqProto::OnCheckPassword);
-		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", ICQ_APP_ID)
+		pReq << CHAR_PARAM("clientName", "Miranda NG") << CHAR_PARAM("clientVersion", mirVer) << CHAR_PARAM("devId", appId())
 			<< CHAR_PARAM("f", "json") << CHAR_PARAM("tokenType", "longTerm") << WCHAR_PARAM("s", m_szOwnId) << CHAR_PARAM("pwd", m_szPassword);
 		#ifndef _DEBUG
 			pReq->flags |= NLHRF_NODUMPSEND;
@@ -348,9 +348,6 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	}
 	else delSetting(hContact, "MirVer");
 
-	CMStringW str(buddy["state"].as_mstring());
-	WORD wStatus = StatusFromString(str);
-
 	const JSONNode &var = buddy["friendly"];
 	if (var)
 		setWString(hContact, "Nick", var.as_mstring());
@@ -365,12 +362,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	Json2string(hContact, buddy, "phoneNumber", "Phone");
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone");
 
-	// zero here means that a contact is currently online
-	int lastSeen = buddy["lastseen"].as_int();
-	setDword(hContact, DB_KEY_LASTSEEN, lastSeen ? lastSeen : time(0));
-	if (lastSeen == 0)
-		wStatus = ID_STATUS_ONLINE;
-	setDword(hContact, "Status", wStatus);
+	setDword(hContact, "Status", StatusFromPresence(buddy, hContact));
 
 	Json2int(hContact, buddy, "official", "Official");
 	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS);
@@ -401,7 +393,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 			}
 		}
 
-		str = profile["gender"].as_mstring();
+		CMStringW str = profile["gender"].as_mstring();
 		if (!str.IsEmpty()) {
 			if (str == "male")
 				setByte(hContact, "Gender", 'M');
@@ -416,7 +408,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		}
 	}
 
-	str = buddy["statusMsg"].as_mstring();
+	CMStringW str = buddy["statusMsg"].as_mstring();
 	if (str.IsEmpty())
 		db_unset(hContact, "CList", "StatusMsg");
 	else
@@ -558,7 +550,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	ProtoChainRecvMsg(hContact, &pre);
 }
 
-bool CIcqProto::RefreshRobustToken()
+bool CIcqProto::RefreshRobustToken(AsyncHttpRequest *pOrigReq)
 {
 	if (!m_szRToken.IsEmpty())
 		return true;
@@ -569,13 +561,18 @@ bool CIcqProto::RefreshRobustToken()
 	#endif
 
 	int ts = TS();
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("nonce", CMStringA(FORMAT, "%d-%d", ts, rand() % 10)) << INT_PARAM("ts", ts);
 	CalcHash(pReq);
 
 	CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 	pReq->AddHeader("User-Agent", szAgent);
-	if (!ExecuteRequest(pReq))
+	if (!ExecuteRequest(pReq)) {
+LBL_Error:
+		(this->*(pOrigReq->m_pFunc))(nullptr, pOrigReq);
 		return false;
+	}
+	if (m_szRToken.IsEmpty())
+		goto LBL_Error;
 
 	// now add this token
 	bool bRet = false;
@@ -583,11 +580,11 @@ bool CIcqProto::RefreshRobustToken()
 	#ifndef _DEBUG
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", ts)
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("f", "json") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", ts)
 		<< CHAR_PARAM("client", "icq") << CHAR_PARAM("reqId", pReq->m_reqId) << CHAR_PARAM("authToken", m_szRToken);
 	pReq->pUserInfo = &bRet;
 	if (!ExecuteRequest(pReq))
-		return false;
+		goto LBL_Error;
 
 	return bRet;
 }
@@ -735,7 +732,7 @@ void CIcqProto::StartSession()
 		<< INT_PARAM("buildNumber", __BUILD_NUM) << CHAR_PARAM("deviceId", szDeviceId) << CHAR_PARAM("events", EVENTS)
 		<< CHAR_PARAM("f", "json") << CHAR_PARAM("imf", "plain") << CHAR_PARAM("inactiveView", "offline")
 		<< CHAR_PARAM("includePresenceFields", FIELDS) << CHAR_PARAM("invisible", "false")
-		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId)
+		<< CHAR_PARAM("k", appId()) << INT_PARAM("mobile", 0) << CHAR_PARAM("nonce", nonce) << CHAR_PARAM("r", pReq->m_reqId)
 		<< INT_PARAM("rawMsg", 0) << INT_PARAM("sessionTimeout", 7776000) << INT_PARAM("ts", ts) << CHAR_PARAM("view", "online");
 
 	CalcHash(pReq);
@@ -877,7 +874,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 				m_arOwnIds.insert(pOwn);
 			}
 
-			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
+			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
 				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
 			Push(pReq);
 
@@ -889,7 +886,7 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 
 	// else send the next portion
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", TS());
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();
@@ -920,7 +917,7 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 	pTransfer->m_szHost = L"https://" + wszHost + wszUrl;
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_POST, pTransfer->m_szHost, &CIcqProto::OnFileContinue);
-	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("ts", TS());
+	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("k", appId()) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->m_szUrl.AppendChar('?');
 	pReq->m_szUrl += pReq->m_szParam; pReq->m_szParam.Empty();

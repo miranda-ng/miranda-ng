@@ -57,8 +57,8 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bErrorPopups(this, "ShowErrorPopups", true),
 	m_bLaunchMailbox(this, "LaunchMailbox", true)
 {
-	db_set_resident(m_szModuleName, "IdleTS");
-	db_set_resident(m_szModuleName, "OnlineTS");
+	db_set_resident(m_szModuleName, DB_KEY_IDLE);
+	db_set_resident(m_szModuleName, DB_KEY_ONLINETS);
 
 	m_isMra = !stricmp(Proto_GetAccount(m_szModuleName)->szProtoName, "MRA");
 
@@ -562,7 +562,7 @@ HANDLE CIcqProto::SendFile(MCONTACT hContact, const wchar_t *szDescription, wcha
 
 	auto *pReq = new AsyncHttpRequest(CONN_NONE, REQUEST_GET, "https://files.icq.com/files/init", &CIcqProto::OnFileInit);
 	pReq << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("client", "icq") << CHAR_PARAM("f", "json") << WCHAR_PARAM("filename", pTransfer->m_wszShortName) 
-		<< CHAR_PARAM("k", ICQ_APP_ID) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", TS());
+		<< CHAR_PARAM("k", appId()) << INT_PARAM("size", statbuf.st_size) << INT_PARAM("ts", TS());
 	CalcHash(pReq);
 	pReq->pUserInfo = pTransfer;
 	Push(pReq);
@@ -589,7 +589,7 @@ int CIcqProto::SendMsg(MCONTACT hContact, int, const char *pszSrc)
 		m_arOwnIds.insert(pOwn);
 	}
 
-	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", ICQ_APP_ID) << CHAR_PARAM("mentions", "") 
+	pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") 
 		<< CHAR_PARAM("message", pszSrc) << CHAR_PARAM("offlineIM", "true") << CHAR_PARAM("t", szUserid) << INT_PARAM("ts", TS());
 	Push(pReq);
 	return id;

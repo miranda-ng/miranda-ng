@@ -324,11 +324,7 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 	if (pCache == nullptr)
 		return;
 
-	int iNewStatus = StatusFromString(ev["state"].as_mstring());
-
-	int iLastSeen = ev["lastseen"].as_int();
-	if (iLastSeen == 0)
-		iNewStatus = ID_STATUS_ONLINE;
+	int iNewStatus = StatusFromPresence(ev, pCache->m_hContact);
 
 	// major crutch dedicated to the official client behaviour to go offline
 	// when its window gets closed. we change the status of a contact to the

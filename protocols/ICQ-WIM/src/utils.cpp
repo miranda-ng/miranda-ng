@@ -286,6 +286,19 @@ int StatusFromString(const CMStringW &wszStatus)
 	return ID_STATUS_OFFLINE;
 }
 
+int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
+{
+	int iStatus = StatusFromString(presence["state"].as_mstring());
+
+	int iLastSeen = presence["lastseen"].as_int();
+	if (iLastSeen != 0)
+		setDword(hContact, DB_KEY_LASTSEEN, iLastSeen);
+	else if (getDword(hContact, DB_KEY_ONLINETS))
+		iStatus = ID_STATUS_ONLINE;
+
+	return iStatus;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 __int64 CIcqProto::getId(MCONTACT hContact, const char *szSetting)

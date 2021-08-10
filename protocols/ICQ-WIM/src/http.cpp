@@ -162,7 +162,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 		pReq->AddHeader("Content-Type", "application/json");
 
 		if (m_szRToken.IsEmpty()) {
-			if (!RefreshRobustToken()) {
+			if (!RefreshRobustToken(pReq)) {
 				delete pReq;
 				return false;
 			}
@@ -203,7 +203,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 				m_szRToken.Empty();
 				
 				// if token refresh succeeded, replace it in the query and push request back
-				if (!RefreshRobustToken()) {
+				if (!RefreshRobustToken(pReq)) {
 					delete pReq;
 					return false;
 				}
