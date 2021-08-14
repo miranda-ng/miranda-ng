@@ -116,10 +116,6 @@ MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 	if (mis == nullptr)
 		return FALSE;
 
-	// prevent win9x from ugly menus displaying when there is no icon
-	mis->itemWidth = 0;
-	mis->itemHeight = 0;
-
 	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)mis->itemData);
 	if (pimi == nullptr)
 		return FALSE;
