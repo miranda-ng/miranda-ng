@@ -214,7 +214,7 @@ std::string Omegle_client::choose_action(int request_type, std::string* get_data
 	{
 	case OMEGLE_REQUEST_START:
 	{
-		std::string action = "/start?rcs=1&spid=&lang=";
+		std::string action = "/start?caps=recaptcha2,t&firstevents=1&rcs=1&spid=&lang=";
 		action += get_language();
 		if (get_data != nullptr)
 			action += (*get_data);
