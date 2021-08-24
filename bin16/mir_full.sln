@@ -442,6 +442,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "QuickSearch", "..\plugins\QuickSearch\quicksearch.vcxproj", "{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libmdbx", "..\libs\libmdbx\libmdbx.vcxproj", "{6D19209B-ECE7-4B9C-941C-0AA2B484F199}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2000,6 +2002,14 @@ Global
 		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|Win32.Build.0 = Release|Win32
 		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|x64.ActiveCfg = Release|x64
 		{3C3EAFC2-01FB-4BA8-8E47-42E0969C0D75}.Release|x64.Build.0 = Release|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|Win32.Build.0 = Debug|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|x64.ActiveCfg = Debug|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Debug|x64.Build.0 = Debug|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|Win32.ActiveCfg = Release|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|Win32.Build.0 = Release|Win32
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|x64.ActiveCfg = Release|x64
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2127,6 +2137,7 @@ Global
 		{86033E58-A1E3-43AD-AE8E-305E15E72A91} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 		{A7FAD273-8C71-4D72-A84F-2D160F2DC589} = {D8EA3AE1-64AA-42ED-9F13-83F6C7B5AA55}
 		{A2E9DA24-95E4-4414-94AF-488A382E276A} = {F13387B0-1C74-48EC-9AEC-65E3B9DE29E4}
+		{6D19209B-ECE7-4B9C-941C-0AA2B484F199} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}
