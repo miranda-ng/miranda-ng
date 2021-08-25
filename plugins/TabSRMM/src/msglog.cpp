@@ -1274,12 +1274,12 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 
 	m_pDlg.m_hDbEventLast = streamData.hDbEventLast;
 
-	if (dbei_s || m_pDlg.m_bRtlText)
+	if (m_pDlg.m_bRtlText)
 		m_rtf.SendMsg(EM_SETBKGNDCOLOR, 0, (LOWORD(m_pDlg.m_iLastEventType) & DBEF_SENT)
 			? (fAppend ? m_pDlg.m_pContainer->m_theme.outbg : m_pDlg.m_pContainer->m_theme.oldoutbg)
 			: (fAppend ? m_pDlg.m_pContainer->m_theme.inbg : m_pDlg.m_pContainer->m_theme.oldinbg));
 
-	if (!m_pDlg.m_bRtlText) {
+	if (!dbei_s && !m_pDlg.m_bRtlText) {
 		GETTEXTLENGTHEX gtxl = { 0 };
 		gtxl.codepage = 1200;
 		gtxl.flags = GTL_DEFAULT | GTL_PRECISE | GTL_NUMCHARS;
@@ -1288,9 +1288,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool fAppend, DBEVEN
 		sel.cpMin = sel.cpMax - 1;
 		m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
 		m_rtf.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)L"");
-		
-		if (!dbei_s)
-			m_pDlg.m_bLastParaDeleted = true;
+		m_pDlg.m_bLastParaDeleted = true;
 	}
 
 	BOOL isSent;
