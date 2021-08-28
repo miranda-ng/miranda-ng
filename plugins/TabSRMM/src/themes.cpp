@@ -184,6 +184,21 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		DWORD(-1),
 		DWORD(-1),
 		AeroEffectCallback_Solid
+	},
+	{
+		LPGENW("Custom 2 (use own gradient colors)"),	
+		0xF0F0F0,											/* base color */
+		0xF0F0F0,											/* gradient color */
+		255,											/* base alpha */
+		0,												/* final alpha */
+		0,												/* corner type */
+		GRADIENT_TB + 1,								/* gradient type */
+		0,												/* corner radius */
+		0,												/* glow size (0 means no glowing text, colors can be used) */
+		0x0,											/* background color (black = transparency) */
+		0xffffff,										/* toolbar first color (if 0, use custom gradient color) */
+		0xffffff,										/* toolbar 2nd gradient color (0 = use aero theme color, -1 = use custom gradient color  */
+		AeroEffectCallback_Solid						/* callback function to render the effect */
 	}
 };
 
