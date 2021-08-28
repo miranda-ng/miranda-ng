@@ -52,14 +52,16 @@ struct OAuthRequest : public AsyncHttpRequest
 	{
 		this << CHAR_PARAM("wa", "wsignin1.0") << CHAR_PARAM("wp", "MBI_SSL")
 			<< CHAR_PARAM("wreply", "https://lw.skype.com/login/oauth/proxy?site_name=lw.skype.com")
-			<< CHAR_PARAM("cobrandid", "90010");
+			<< CHAR_PARAM("cobrandid", "90010")
+			<< CHAR_PARAM("id", "293290")
+			<< CHAR_PARAM("opid", opid);
+
 		m_szUrl.AppendFormat("?%s", m_szParam.c_str());
 		m_szParam.Empty();
 
 		AddHeader("Cookie", cookies);
 
-		this << CHAR_PARAM("type", "28") << CHAR_PARAM("PPFT", ppft) << CHAR_PARAM("opid", opid) << CHAR_PARAM("site_name", "lw.skype.com&")
-			<< INT_PARAM("oauthPartner", 999) << INT_PARAM("client_id", 578134) << CHAR_PARAM("redirect_uri", "https://web.skype.com");
+		this << CHAR_PARAM("type", "28") << CHAR_PARAM("PPFT", ppft);
 	}
 
 	OAuthRequest(const char *t) :

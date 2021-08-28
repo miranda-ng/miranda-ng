@@ -50,11 +50,12 @@ void CSkypeProto::OnOAuthStart(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 	std::string PPFT = match[1];
 
 	std::map<std::string, std::string> scookies;
+	regex = "^(.+?)=(.*?);";
+
 	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
 
-		regex = "^(.+?)=(.+?);";
 		content = response->headers[i].szValue;
 		if (std::regex_search(content, match, regex))
 			scookies[match[1]] = match[2];
@@ -102,19 +103,19 @@ void CSkypeProto::OnOAuthConfirm(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 		return;
 	}
 
-	std::regex regex("^(.+?)=(.+?);");
+	std::regex regex("^(.+?=.*?;)");
 	std::smatch match;
-	std::map<std::string, std::string> scookies;
+	CMStringA mscookies;
+
 	for (int i = 0; i < response->headersCount; i++) {
 		if (mir_strcmpi(response->headers[i].szName, "Set-Cookie"))
 			continue;
 
 		content = response->headers[i].szValue;
 		if (std::regex_search(content, match, regex))
-			scookies[match[1]] = match[2];
+			mscookies.Append(match[1].str().c_str());
 	}
 
-	CMStringA mscookies(FORMAT, "MSPRequ=%s;MSPOK=%s;PPAuth=%s;OParams=%s;", cookies["MSPRequ"].c_str(), scookies["MSPOK"].c_str(), scookies["PPAuth"].c_str(), scookies["OParams"].c_str());
 	PushRequest(new OAuthRequest(mscookies.c_str(), PPFT.c_str(), opid.c_str()));
 }
 
