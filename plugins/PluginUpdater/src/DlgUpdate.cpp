@@ -522,7 +522,6 @@ static renameTable[] =
 	{ L"dbtool_sa.exe",                  nullptr },
 	{ L"dbchecker.bat",                  nullptr },
 	{ L"fixme.cmd",                      nullptr },
-	{ L"libmdbx.mir",                    nullptr },
 	{ L"mdbx_chk.exe",                   nullptr },
 	{ L"mdbx_dump.exe",                  nullptr },
 	{ L"mdbx_load.exe",                  nullptr },
@@ -692,9 +691,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			}
 		}
 		else {
-			if (level < 2 && !wcsicmp(ffd.cFileName, L"libmdbx.mir")) // move Libs\\libmdbx.mir to the root folder
-				wszNewName[0] = 0;
-			else if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
+			if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
 				wszNewName[0] = 0;
 			else
 				continue; // skip all another files
