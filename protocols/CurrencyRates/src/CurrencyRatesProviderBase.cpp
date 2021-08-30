@@ -128,6 +128,9 @@ CCurrencyRatesProviderBase::~CCurrencyRatesProviderBase()
 {
 	delete m_pXMLInfo;
 
+	for (auto &it : m_aContacts)
+		SetContactStatus(it, ID_STATUS_OFFLINE);
+
 	::CloseHandle(m_hEventSettingsChanged);
 	::CloseHandle(m_hEventRefreshContact);
 }
@@ -744,21 +747,8 @@ void CCurrencyRatesProviderBase::Run()
 		}
 	}
 
-	OnEndRun();
-}
-
-void CCurrencyRatesProviderBase::OnEndRun()
-{
-	TContacts anContacts;
-	{
-		mir_cslock lck(m_cs);
-		anContacts = m_aContacts;
-		m_aRefreshingContacts.clear();
-	}
-
-	CBoolGuard bg(m_bRefreshInProgress);
-	for (auto &it : anContacts)
-		SetContactStatus(it, ID_STATUS_OFFLINE);
+	mir_cslock lck(m_cs);
+	m_aRefreshingContacts.clear();
 }
 
 void CCurrencyRatesProviderBase::RefreshSettings()

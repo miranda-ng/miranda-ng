@@ -49,7 +49,21 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef std::vector<ICurrencyRatesProvider*> TCurrencyRatesProviders;
+struct TCurrencyRatesProviders : public OBJLIST<ICurrencyRatesProvider>
+{
+	TCurrencyRatesProviders() : 
+		OBJLIST<ICurrencyRatesProvider>(1)
+	{}
+
+	void push(ICurrencyRatesProvider *pNew)
+	{
+		if (pNew->Init())
+			insert(pNew);
+		else
+			delete pNew;
+	}
+};
+
 extern TCurrencyRatesProviders g_apProviders;
 
 ICurrencyRatesProvider* FindProvider(const CMStringW &rsName);

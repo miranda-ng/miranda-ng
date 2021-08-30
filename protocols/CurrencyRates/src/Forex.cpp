@@ -3,10 +3,15 @@
 
 #include "stdafx.h"
 
+#define MS_FOREX_ENABLE "CurrencyRates/Enable-Disable Auto Update"
+#define MS_FOREX_CONVERTER "CurrencyRates/CurrencyConverter"
+
+#define DB_STR_AUTO_UPDATE "AutoUpdate"
+
 CMPlugin	g_plugin;
 
 HANDLE g_hEventWorkThreadStop;
-//int g_nStatus = ID_STATUS_OFFLINE;
+
 bool g_bAutoUpdate = true;
 HGENMENU g_hMenuEditSettings = nullptr;
 HGENMENU g_hMenuOpenLogFile = nullptr;
@@ -15,17 +20,13 @@ HGENMENU g_hMenuChart = nullptr;
 #endif
 HGENMENU g_hMenuRefresh = nullptr, g_hMenuRoot = nullptr;
 
-#define DB_STR_AUTO_UPDATE "AutoUpdate"
-
 typedef std::vector<HANDLE> THandles;
-THandles g_ahThreads;
-HGENMENU g_hEnableDisableMenu;
-HANDLE g_hTBButton;
+static THandles g_ahThreads;
 
-LPSTR g_pszAutoUpdateCmd = "CurrencyRates/Enable-Disable Auto Update";
-LPSTR g_pszCurrencyConverter = "CurrencyRates/CurrencyConverter";
+static HGENMENU g_hEnableDisableMenu;
+static HANDLE g_hTBButton;
 
-void UpdateMenu(bool bAutoUpdate)
+static void UpdateMenu(bool bAutoUpdate)
 {
 	if (bAutoUpdate) // to enable auto-update
 		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON_MAIN));
@@ -35,14 +36,14 @@ void UpdateMenu(bool bAutoUpdate)
 	CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : 0);
 }
 
-INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
+static INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 {
 	for (auto &pProvider : g_apProviders)
 		pProvider->RefreshAllContacts();
 	return 0;
 }
 
-INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
+static INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 {
 	g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
 	g_plugin.setByte(DB_STR_AUTO_UPDATE, g_bAutoUpdate);
@@ -68,7 +69,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Enable/Disable Auto Update");
 	mi.position = 10100001;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_MAIN);
-	mi.pszService = g_pszAutoUpdateCmd;
+	mi.pszService = MS_FOREX_ENABLE;
 	g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_EnableDisable);
 	UpdateMenu(g_bAutoUpdate);
@@ -85,7 +86,7 @@ void InitMenu()
 	mi.name.w = LPGENW("Currency Converter...");
 	mi.position = 20100002;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER);
-	mi.pszService = g_pszCurrencyConverter;
+	mi.pszService = MS_FOREX_CONVERTER;
 	Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_CurrencyConverter);
 
@@ -150,7 +151,7 @@ int CurrencyRates_OnToolbarLoaded(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
 	ttb.name = LPGEN("Enable/Disable Currency Rates Auto Update");
-	ttb.pszService = g_pszAutoUpdateCmd;
+	ttb.pszService = MS_FOREX_ENABLE;
 	ttb.pszTooltipUp = LPGEN("Currency Rates Auto Update Enabled");
 	ttb.pszTooltipDn = LPGEN("Currency Rates Auto Update Disabled");
 	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON_MAIN);
@@ -159,7 +160,7 @@ int CurrencyRates_OnToolbarLoaded(WPARAM, LPARAM)
 	g_hTBButton = g_plugin.addTTB(&ttb);
 
 	ttb.name = LPGEN("Currency Converter");
-	ttb.pszService = g_pszCurrencyConverter;
+	ttb.pszService = MS_FOREX_CONVERTER;
 	ttb.pszTooltipUp = LPGEN("Currency Converter");
 	ttb.pszTooltipDn = LPGEN("Currency Converter");
 	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_ICON_CURRENCY_CONVERTER);
@@ -232,7 +233,6 @@ void WaitForWorkingThreads()
 		::WaitForMultipleObjects((DWORD)cThreads, paHandles, TRUE, INFINITE);
 	}
 }
-
 
 int CurrencyRatesEventFunc_PreShutdown(WPARAM, LPARAM)
 {

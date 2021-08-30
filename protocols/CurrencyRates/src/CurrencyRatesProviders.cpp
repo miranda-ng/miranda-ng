@@ -7,23 +7,16 @@ TCurrencyRatesProviders g_apProviders;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-template<class T>void create_provider(TCurrencyRatesProviders& g_apProviders)
-{
-	ICurrencyRatesProvider *pProvider = new T;
-	if (pProvider->Init())
-		g_apProviders.push_back(pProvider);
-};
-
 void CreateProviders()
 {
-	create_provider<CCurrencyRatesProviderCurrencyConverter>(g_apProviders);
+	g_apProviders.push(new CCurrencyRatesProviderCurrencyConverter());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void ClearProviders()
 {
-	g_apProviders.clear();
+	g_apProviders.destroy();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

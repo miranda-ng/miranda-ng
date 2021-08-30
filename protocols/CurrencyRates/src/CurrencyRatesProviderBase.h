@@ -70,8 +70,6 @@ typedef std::vector<MCONTACT> TContacts;
 
 class CCurrencyRatesProviderBase : public ICurrencyRatesProvider
 {
-	void OnEndRun();
-
 	struct CXMLFileInfo *m_pXMLInfo = nullptr;
 
 	HANDLE m_hEventSettingsChanged;
