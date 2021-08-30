@@ -34,10 +34,8 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
+	DWORD lastMsgTime = 0;
 	time_t iLocalTime = time(0);
-
-	if (totalCount >= 99 || conversations.size() >= 99)
-		PushRequest(new GetHistoryRequest(syncState.c_str(), pRequest->pUserInfo));
 
 	for (int i = (int)conversations.size(); i >= 0; i--) {
 		const JSONNode &message = conversations.at(i);
@@ -49,16 +47,20 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 		CMStringW wszContent = message["content"].as_mstring();
 		CMStringW wszFrom = UrlToSkypeId(message["from"].as_mstring());
 
+		MCONTACT hContact = FindContact(wszChatId);
 		std::string messageType = message["messagetype"].as_string();
 		int emoteOffset = message["skypeemoteoffset"].as_int();
+
 		time_t timestamp = IsoToUnixTime(message["composetime"].as_string());
+		if (timestamp > getDword(hContact, "LastMsgTime", 0))
+			setDword(hContact, "LastMsgTime", timestamp);
 
 		bool isEdited = message["skypeeditedid"];
 
-		MCONTACT hContact = FindContact(wszChatId);
+		DWORD id = message["id"].as_int();
+		if (id > lastMsgTime)
+			lastMsgTime = id;
 
-		if (timestamp > getDword(hContact, "LastMsgTime", 0))
-			setDword(hContact, "LastMsgTime", timestamp);
 		if (bUseLocalTime)
 			timestamp = iLocalTime;
 
@@ -107,6 +109,22 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 				AddMessageToChat(si, wszFrom, messageType == "RichText" ? RemoveHtml(wszContent) : wszContent, emoteOffset != NULL, emoteOffset, timestamp, true);
 		}
 	}
+
+	if (totalCount >= 99 || conversations.size() >= 99) {
+		CMStringA szUrl(pRequest->m_szUrl);
+		int i1 = szUrl.Find("startTime=");
+		int i2 = szUrl.Find("&", i1);
+		if (i1 != -1 && i2 != -1) {
+			i1 += 10;
+			szUrl.Delete(i1, i2 - i1);
+
+			char buf[100];
+			itoa(lastMsgTime, buf, sizeof(buf));
+			szUrl.Insert(i1, buf);
+
+			PushRequest(new GetHistoryRequest(szUrl, pRequest->pUserInfo));
+		}
+	}
 }
 
 void CSkypeProto::ReadHistoryRest(const char *szUrl)
@@ -150,9 +168,11 @@ void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 			time_t composeTime(IsoToUnixTime(lastMessage["composetime"].as_string()));
 
 			MCONTACT hContact = FindContact(szSkypename);
-			if (hContact != NULL)
-				if (getDword(hContact, "LastMsgTime", 0) < composeTime)
-					PushRequest(new GetHistoryRequest(szSkypename, 100, 0, true));
+			if (hContact != NULL) {
+				DWORD lastMsgTime = getDword(hContact, "LastMsgTime", 0);
+				if (lastMsgTime && lastMsgTime < composeTime)
+					PushRequest(new GetHistoryRequest(szSkypename, 100, lastMsgTime, true));
+			}
 		}
 	}
 

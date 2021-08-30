@@ -35,7 +35,7 @@ struct SyncHistoryFirstRequest : public AsyncHttpRequest
 
 struct GetHistoryRequest : public AsyncHttpRequest
 {
-	GetHistoryRequest(const char *username, int pageSize, LONGLONG timestamp, bool bOperative) :
+	GetHistoryRequest(const char *username, int pageSize, DWORD timestamp, bool bOperative) :
 		AsyncHttpRequest(REQUEST_GET, HOST_DEFAULT, 0, &CSkypeProto::OnGetServerHistory)
 	{
 		m_szUrl.AppendFormat("/users/ME/conversations/%s/messages", mir_urlEncode(username).c_str());
