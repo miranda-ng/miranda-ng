@@ -291,9 +291,12 @@ MIR_APP_DLL(int) Netlib_SslRead(HSSL ssl, char *buf, int num, int peek)
 			return 0;
 		}
 
-		Netlib_Logf(nullptr, "SSL failure recieving data (%d, %d, %d)", err, err2, WSAGetLastError());
-		ssl->state = sockError;
-		return SOCKET_ERROR;
+		int err3 = ERR_get_error();
+		if (err3) {
+			Netlib_Logf(nullptr, "SSL failure recieving data (%d, %d, %d, %d)", err, err2, err3, WSAGetLastError());
+			ssl->state = sockError;
+			return SOCKET_ERROR;
+		}
 	}
 
 	return err;
