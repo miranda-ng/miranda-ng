@@ -497,18 +497,17 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // thread handle controller
 
-class MThreadHandle
+class MThreadLock
 {
 	HANDLE &m_pHandle;
 
 public:
-	MThreadHandle(HANDLE &pHandle) :
+	__forceinline MThreadLock(HANDLE &pHandle) :
 		m_pHandle(pHandle)
 	{
-		pHandle = ::GetCurrentThread();
 	}
 	
-	~MThreadHandle()
+	__forceinline ~MThreadLock()
 	{
 		m_pHandle = nullptr;
 	}

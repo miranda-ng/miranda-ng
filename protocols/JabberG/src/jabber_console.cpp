@@ -571,7 +571,7 @@ public:
 void __cdecl CJabberProto::ConsoleThread(void*)
 {
 	Thread_SetName("Jabber: ConsoleThread");
-	MThreadHandle threadLock(m_hThreadConsole);
+	MThreadLock threadLock(m_hThreadConsole);
 	m_dwConsoleThreadId = ::GetCurrentThreadId();
 
 	m_pDlgConsole = new CJabberDlgConsole(this);
@@ -607,7 +607,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
 	if (m_pDlgConsole)
 		SetForegroundWindow(m_pDlgConsole->GetHwnd());
 	else
-		ForkThread(&CJabberProto::ConsoleThread);
+		m_hThreadConsole = ForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 
 	return 0;
 }

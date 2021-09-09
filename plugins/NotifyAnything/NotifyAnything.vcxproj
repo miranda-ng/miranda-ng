@@ -39,4 +39,9 @@
     <ResourceCompile Include="res\NotifyAnything.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <ExceptionHandling>Sync</ExceptionHandling>
+    </ClCompile>
+  </ItemDefinitionGroup>
 </Project>

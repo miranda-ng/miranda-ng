@@ -266,7 +266,7 @@ static void __cdecl FlashThreadFunction(void*)
 	BYTE data, unchangedLeds;
 	
 	Thread_SetName("KeyboardNotify: FlashThreadFunction");
-	MThreadHandle threadLock(hThread);
+	MThreadLock threadLock(hThread);
 
 	while (true) {
 		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));
@@ -903,7 +903,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mir_snwprintf(eventName, L"%s/ExitEvent", eventPrefix);
 	hExitEvent = CreateEvent(nullptr, FALSE, FALSE, eventName);
 
-	mir_forkthread(FlashThreadFunction);
+	hThread = mir_forkthread(FlashThreadFunction);
 
 	CreateServiceFunction(MS_KBDNOTIFY_ENABLE, EnableService);
 	CreateServiceFunction(MS_KBDNOTIFY_DISABLE, DisableService);

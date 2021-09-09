@@ -210,7 +210,7 @@ static LRESULT CALLBACK PopupThreadManagerWndProc(HWND hwnd, UINT message, WPARA
 static unsigned __stdcall PopupThread(void *)
 {
 	Thread_SetName("Popup: PopupThread");
-	MThreadHandle threadLock(hThread);
+	MThreadLock threadLock(hThread);
 
 	//  Create manager window
 	WNDCLASSEX wcl;

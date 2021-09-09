@@ -74,7 +74,7 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 
 void __cdecl sttCheckStatusThreadProc(void*)
 {
-	MThreadHandle threadLock(status_update_thread);
+	MThreadLock threadLock(status_update_thread);
 
 	clock_t start_t = clock(), end_t;
 	while (!get_thread_finished()) {
@@ -904,7 +904,7 @@ void InitList()
 
 	ReloadFont(0, 0);
 
-	mir_forkthread(sttCheckStatusThreadProc);
+	status_update_thread = mir_forkthread(sttCheckStatusThreadProc);
 }
 
 void DeinitList()

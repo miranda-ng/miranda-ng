@@ -891,10 +891,9 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 
 ////////////////////////////////////////////////////////////////////////////////
 
-
-void __cdecl ConsoleThread(void*)
+static void __cdecl ConsoleThread(void*)
 {
-	MThreadHandle threadLock(g_plugin.hConsoleThread);
+	MThreadLock threadLock(g_plugin.hConsoleThread);
 	CoInitialize(nullptr);
 
 	HWND hwnd = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CONSOLE), nullptr, ConsoleDlgProc);
@@ -1210,7 +1209,7 @@ void InitConsole()
 
 	LoadSettings();
 
-	mir_forkthread(ConsoleThread);
+	g_plugin.hConsoleThread = mir_forkthread(ConsoleThread);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreshutdownConsole);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);

@@ -146,7 +146,7 @@ void CLan::StartListen()
 			return;
 		}
 
-		mir_forkthread(ListenProc, this);
+		m_hListenThread = mir_forkthread(ListenProc, this);
 		m_hAcceptTCPThread = mir_forkthread(AcceptTCPProc, this);
 		if (m_hListenThread == nullptr || m_hAcceptTCPThread == nullptr) {
 			m_mode = LM_ON;
@@ -179,7 +179,7 @@ void CLan::Listen()
 	if (m_mode != LM_LISTEN)
 		return;
 
-	MThreadHandle threadLock(m_hListenThread);
+	MThreadLock threadLock(m_hListenThread);
 	mir_ptr<char> buf((char*)mir_alloc(65536));
 
 	while (true) {
