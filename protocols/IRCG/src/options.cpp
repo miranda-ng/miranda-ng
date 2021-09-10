@@ -298,7 +298,7 @@ public:
 		m_ssl.AddString(TranslateT("Off"), 0);
 		m_ssl.AddString(TranslateT("Auto"), 1);
 		m_ssl.AddString(TranslateT("On"), 2);
-		m_ssl.SetCurSel(m_proto->m_iSSL);
+		m_ssl.SelectData(m_proto->m_iSSL);
 
 		m_spin1.SetPosition(m_proto->m_onlineNotificationTime);
 		m_spin2.SetPosition(m_proto->m_onlineNotificationLimit);
@@ -334,7 +334,7 @@ public:
 		m_port.GetTextA(m_proto->m_portStart, _countof(m_proto->m_portStart));
 		m_port2.GetTextA(m_proto->m_portEnd, _countof(m_proto->m_portEnd));
 		m_pass.GetTextA(m_proto->m_password, _countof(m_proto->m_password));
-		m_proto->m_iSSL = m_ssl.GetCurSel();
+		m_proto->m_iSSL = m_ssl.GetCurData();
 		m_proto->m_bUseSASL = m_useSasl.GetState();
 
 		m_proto->m_onlineNotificationTime = SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
