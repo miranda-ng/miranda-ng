@@ -5785,15 +5785,15 @@ Windows не активен
 [Status]
 Статус
 [Use Advanced Dialog]
-Исп. расш. диалог
+Использовать расширенный диалог
 [The Message (characters: )]
 Сообщение (символов: )
 [Default Settings]
 Стандартные настройки
 [Show Delivery Messages]
-Показ. доставл. сообщения
+Показывать уведомления о доставке
 [These settings are also used when sending a "Simple" pounce]
-Эти настройки также используются для "простых" отлож. сообщений
+Эти настройки также используются для "простых" отложенных сообщений
 [Send If My Status Is...]
 Отправлять, если мой статус...
 [Send If They Change Status to...]
@@ -5847,15 +5847,15 @@ Windows не активен
 [The Message    (0 Characters)]
 Сообщение    (0 символов)
 [Reuse this message? (0 to use it once)]
-Повторить сообщение? (0, чтобы не повторять)
+Повторить сообщение? (0 - не повторять)
 [Times]
 раз
 [Give up after... (0 to not give up)]
-Отказаться после... (0, чтобы не отказываться)
+Отказаться после... (0 - не отказываться)
 [Days]
 дней
 [Show confirmation window? (0 to not Show)]
-Показать окно подтверждения? (0, чтобы не показывать)
+Показать окно подтверждения? (0 - не показывать)
 [Seconds to wait before sending]
 секунд подождать перед отправкой
 [Pounce being sent to %s in %d seconds]
@@ -8811,6 +8811,8 @@ HTTP-подключения CurrencyRates
 Имя файла:
 [Mark all events as read]
 Пометить все события прочитанными
+[Fix UTF-8 encoding in old events]
+Исправить кодировку UTF-8 в старых событиях
 [Error Opening Database]
 Ошибка открытия базы
 [There was an error opening the profile database given.]
@@ -8843,6 +8845,8 @@ HTTP-подключения CurrencyRates
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
+[Utf-8 encoding fixed in %d events]
+Событий с исправленной кодировкой UTF-8: %d
 [Processing aborted by user]
 Обработка отменена пользователем
 [Elapsed time: %d sec]
@@ -9453,6 +9457,8 @@ ID пользователя
 Протокол не в сети или пользователь ещё не авторизовался
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
 Сервер требует ввести капчу. Сейчас Миранда перенаправит вас в браузер
+[Connection failed.\n%s (%s).]
+Ошибка подключения.\n%s (%s).
 [Owners]
 Владельцы
 [Participants]
@@ -9677,6 +9683,8 @@ ID записи
 Подключение к серверу %s
 [Protocol is offline or user isn't authorized yet]
 Протокол не в сети или пользователь ещё не авторизовался
+[Connection failed with error code %d]
+Ошибка подключения, код ошибки - %d
 [Participant]
 Участник
 [Sticker received]
@@ -12974,6 +12982,10 @@ UIN/почта:
 UIN/почта/телефон
 [SmileyAdd plugin required to support stickers]
 Для поддержки стикеров требуется плагин SmileyAdd
+[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+Вы не ввели логин либо пароль.\nУкажите его в разделе "Настройки -> Сеть -> ICQ" и попробуйте снова.
+[Connection failed.\nYour login or password was rejected (%d).]
+Ошибка подключения.\nВаш логин или пароль не приняты сервером (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Ошибка подключения.\nСервер временно недоступен (%d).
 [Connection failed.\nUnknown error during sign on: %d]
@@ -22194,6 +22206,8 @@ ProxySwitch
 Модуль:
 [Setting:]
 Параметр:
+[Info type:]
+Тип данных:
 [Save]
 Сохранить
 [Tool Window Style]
@@ -22218,6 +22232,8 @@ ProxySwitch
 Добавить цвет
 [Quick Search]
 Поиск по списку
+[Open Quick Search window]
+Открыть окно Quick Search
 [New Column]
 Добавить колонку
 [Column Up]
@@ -22270,8 +22286,12 @@ ProxySwitch
 Метаконтакт
 [Title]
 Заголовок
+[Module/Info type]
+Модуль/Тип данных
 [Setting]
 Параметр
+[Database setting]
+Параметр базы
 [Byte]
 Байт
 [Word]
@@ -22340,6 +22360,8 @@ ID клиента
 Информация
 [Age]
 Возраст
+[First name/Last name]
+Имя/Фамилия
 [Unique ID]
 Уникальный ID
 [Fax]
@@ -22348,6 +22370,8 @@ ID клиента
 Мобильный
 [Time zone]
 Часовой пояс
+[My notes]
+Заметки
 [Birth day]
 День рождения
 [Birth month]
@@ -22356,6 +22380,34 @@ ID клиента
 Год рождения
 [Street]
 Улица
+[ZIP code]
+Индекс
+[Language #1]
+Язык #1
+[Language #2]
+Язык #2
+[Language #3]
+Язык #3
+[Company name]
+Название компании
+[Company department]
+Отдел компании
+[Company position]
+Должность в компании
+[Company street]
+Улица компании
+[Company city]
+Город компании
+[Company state]
+Штат компании
+[Company ZIP]
+Индекс компании
+[Company country]
+Страна компании
+[Company homepage]
+Сайт компании
+[Display ID]
+Отображаемый ID
 [Unknown]
 Неизвестный
 [Stay on Top]
@@ -22374,6 +22426,10 @@ ID клиента
 В сети
 [All]
 Все
+[Editing of column %s]
+Изменение колонки %s
+[Enter new cell value]
+Введите новое значение
 [Change setting through QS]
 Изменить с помощью QuickSearch
 [Selected %d contacts]
@@ -22390,6 +22446,8 @@ ID клиента
 &Переместить в группу
 [Some of selected contacts in different metacontacts already]
 Некоторые из выделенных контактов уже находятся в других метаконтактах
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
+Один или несколько контактов уже объединены в метаконтакт. Всё равно преобразовать?
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll

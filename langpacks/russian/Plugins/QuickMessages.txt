@@ -71,9 +71,3 @@
 ;file \plugins\QuickMessages\src\Utils.cpp
 [Quick Messages Button %u]
 Кнопка быстрых сообщений %u
-[Additional menu]
-Дополнительное меню
-[Send file (Right Click - Received files)]
-Отправить файл (Правый клик — Принятые файлы)
-[Font size]
-Размер
