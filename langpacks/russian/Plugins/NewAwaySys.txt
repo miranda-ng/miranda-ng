@@ -345,3 +345,43 @@ NewAwaySys: входящий запрос статусного сообщени�
 Всплывающие окна
 [Variables plugin is not installed]
 Плагин Variables не установлен
+[Available.]
+Свободен(а).
+[I've been on the phone since]
+Разговариваю по телефону с
+[give me a sec!]
+подождите немного!
+[Gone]
+Ушел(а)
+[eating supper]
+ужинать
+[eating dinner]
+обедать
+[eating breakfast]
+завтракать
+[eating]
+кушать
+[ since]
+ в
+[Been fragging since]
+Копычу фраги с
+[I'll message you later when the adrenaline ends up.]
+Отвечу позже, когда адреналин закончится.
+[My master]
+Мой хозяин
+[has been]
+был
+[ &since]
+ с
+[When he gets back, I'll tell him you've been here...]
+Когда он вернется, я ему передам, чтобы он с вами связался...
+[Been gone since]
+Отошел(а) в
+[will be back later.]
+буду позже.
+[is reading your message]
+читает ваше сообщение
+[teller machine]
+это автоответчик
+[asked me to tell you]
+просил(а) вам передать

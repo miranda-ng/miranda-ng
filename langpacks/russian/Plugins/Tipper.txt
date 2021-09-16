@@ -718,3 +718,43 @@ xСтатус: пустое имя в имя по умолчанию
 Слово - в название месяца (1..12, 1 - январь)
 [BYTE to language (ICQ)]
 Байт - в язык (ICQ)
+[Tomorrow]
+Завтра
+[Day after tomorrow]
+Послезавтра
+[days to birthday]
+дней до праздника
+[UIN registered]
+Зарегистрирован
+[ago]
+назад
+[Into the network]
+Вошел в сеть
+[Not active]
+Не активен
+[was]
+был
+[in the]
+в
+[Current activity]
+Текущая активность
+[Messaging activity]
+Сообщение активности
+[listening]
+Слушает
+[Website]
+Сайт
+[Expected]
+Ожидается
+[Water temperature]
+Температура воды
+[Moon phase]
+Фаза луны
+[Azimuth]
+Азимут
+[Sign]
+Примета
+[Total messages]
+Всего сообщений
+[Last message received]
+Последнее сообщение принято

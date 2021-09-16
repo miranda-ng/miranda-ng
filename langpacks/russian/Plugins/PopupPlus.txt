@@ -405,3 +405,21 @@ History++ для истории окон
 Режим всплывающих окон: игнорировать полноэкранные приложения
 [Popup Mode: Block contact]
 Режим всплывающих окон: блокировать
+[Color frame]
+Цветная рамка
+[Color text background]
+Цветной текст заголовка
+[Color logo & clocks]
+Цветные лого и часы
+[Color text]
+Цветной текст
+[Light title text]
+Светлый текст заголовка
+[Dark title text]
+Темный текст заголовка
+[Standard digital clocks]
+Стандартные часы
+[Avatar to right]
+Аватар справа
+[Logo]
+Лого
