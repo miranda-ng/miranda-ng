@@ -24,7 +24,7 @@ fast.
 
 ## Supported operating systems ##
 
-Windows 2003 / XP / Vista / 7 / 8 / 10
+Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
 
 
 ## License ##
