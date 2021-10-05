@@ -344,7 +344,7 @@ private:
 	bool AutoFillForm(char*, CMStringA&, CMStringA&);
 	CMStringW RunConfirmationCode(LPCWSTR pwszTitle);
 	CMStringW RunRenameNick(LPCWSTR pwszOldName);
-	void GrabCookies(NETLIBHTTPREQUEST *nhr);
+	void GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain = "");
 	void ApplyCookies(AsyncHttpRequest*);
 	bool IsAuthContactLater(MCONTACT hContact);
 	bool AddAuthContactLater(MCONTACT hContact);

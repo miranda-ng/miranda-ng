@@ -475,7 +475,7 @@ CMStringW CVkProto::RunRenameNick(LPCWSTR pwszOldName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
+void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain)
 {
 	debugLogA("CVkProto::GrabCookies");
 	for (int i = 0; i < nhr->headersCount; i++) {
@@ -498,6 +498,9 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr)
 			else if (!strncmp(szToken, "domain=", 7))
 				szDomain = szToken.Mid(7);
 		}
+
+		if (szDomain.IsEmpty() && !szDefDomain.IsEmpty())
+			szDomain = szDefDomain;
 
 		if (!szCookieName.IsEmpty() && !szDomain.IsEmpty()) {
 			bool bFound = false;

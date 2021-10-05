@@ -21,10 +21,10 @@ UINT_PTR CVkProto::m_timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
-char sz2FA[] = "https://m.vk.com/login?act=authcheck";
 char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
 static char VK_TOKEN_BEG[] = "access_token=";
 static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
+static char VK_COOKIE_DOMAIN[] = ".vk.com";
 static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
 	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
 	"music, movies, tv, books, games, quotes, about,  domain";
@@ -198,7 +198,7 @@ void CVkProto::OnLoggedOut()
 void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 {
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
-	GrabCookies(reply);
+	GrabCookies(reply, VK_COOKIE_DOMAIN);
 
 	if (reply->resultCode == 404 && !m_bErr404Return) {
 		m_bErr404Return = true;
@@ -253,8 +253,6 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 					ApplyCookies(pRedirectReq);
 					m_prevUrl = pRedirectReq->m_szUrl;
 				}
-				if (!_strnicmp(pszLocation, sz2FA, sizeof(sz2FA) - 1))
-					pRedirectReq->m_szUrl = sz2FA;
 				pRedirectReq->m_bApiReq = false;
 				pRedirectReq->bIsMainConn = true;
 				Push(pRedirectReq);
