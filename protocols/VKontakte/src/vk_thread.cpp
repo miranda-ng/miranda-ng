@@ -263,7 +263,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	if (reply->resultCode != 200 || !reply->pData || (!strstr(reply->pData, "form method=\"post\"") && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
+	if (reply->resultCode != 200 || !reply->pData || (!strstr(reply->pData, "method=\"post\"") && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
