@@ -417,6 +417,9 @@ bool CVkProto::AutoFillForm(char *pBody, CMStringA &szAction, CMStringA& szResul
 				value = (char*)T2Utf(ptrW(GetUserStoredPassword()));
 			else if (name == "captcha_key") {
 				char *pCaptchaBeg = strstr(pFormBeg, "<img id=\"captcha\"");
+				if (!pCaptchaBeg)
+					pCaptchaBeg = strstr(pFormBeg, "<img src=\"/captcha.php");
+
 				if (pCaptchaBeg)
 					if (!RunCaptchaForm(getAttr(pCaptchaBeg, "src"), value))
 						return false;
