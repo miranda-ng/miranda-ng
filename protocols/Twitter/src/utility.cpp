@@ -92,7 +92,8 @@ bool save_url(HNETLIBUSER hNetlib, const CMStringA &url, const CMStringW &filena
 
 	// Write to file
 	FILE *f = _wfopen(filename, L"wb");
-	fwrite(resp->pData, 1, resp->dataLength, f);
+	if (resp->pData && !IsBadReadPtr(resp->pData, resp->dataLength))
+		fwrite(resp->pData, 1, resp->dataLength, f);
 	fclose(f);
 	
 	return true;
