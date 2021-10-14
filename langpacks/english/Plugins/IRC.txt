@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -10,6 +10,7 @@
 [Server]
 [Host address]
 [Port range]
+[SSL/TLS]
 [Enable SASL]
 [Password]
 [User info - Required]
@@ -60,7 +61,6 @@
 [&Del]
 [Alias]
 [Perform on event:]
-[Scripting support]
 [Quit message:]
 [Server code page:]
 [Enable UTF-8 autodetection]

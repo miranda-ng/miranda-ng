@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -16,7 +16,6 @@
 [Delete Pounce]
 [Load default Settings]
 [Setting Value]
-[Setting text...........]
 [Settings]
 [Contact To Send Pounce To]
 [<< Simple]
@@ -30,11 +29,26 @@
 [Show Delivery Messages]
 [These settings are also used when sending a "Simple" pounce]
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+[Message successfully sent to %s]
+[Message failed to send to %s]
+[Retry]
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+[Pounce being sent to %s in %d seconds]
+[&Buddy Pounce]
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 [Send If They Change Status to...]
 [Reuse Pounce]
 [Give Up delay]
 [Confirmation Window]
+[Reuse this message? (0 to use it once)]
+[Times]
+[Give up after... (0 to not give up)]
+[Days]
+[Show confirmation window? (0 to not Show)]
+[Seconds to wait before sending]
 [Send If My Status Is]
 [Any]
 [Online]
@@ -53,19 +67,3 @@
 [To Do not disturb]
 [To Free for chat]
 [To Invisible]
-[The Message    (%d Characters)]
-[Couldn't allocate enough memory]
-[The Message    (0 Characters)]
-[Reuse this message? (0 to use it once)]
-[Times]
-[Give up after... (0 to not give up)]
-[Days]
-[Show confirmation window? (0 to not Show)]
-[Seconds to wait before sending]
-[Pounce being sent to %s in %d seconds]
-[Retry]
-[Message successfully sent to %s]
-[Message failed to send to %s]
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-[&Buddy Pounce]

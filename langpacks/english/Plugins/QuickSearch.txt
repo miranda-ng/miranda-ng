@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.5.0.3
+;  Version: 1.5.0.4
 ;  Authors: Bethoven, Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
@@ -128,7 +128,7 @@
 [Unknown]
 [Stay on Top]
 ;file \plugins\QuickSearch\src\window_misc.cpp
-[Do you really want to delete selected contacts]
+[Do you really want to delete selected contacts?]
 [Warning]
 [%i users found (%i) Online: %i]
 [deleted]

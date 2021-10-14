@@ -456,7 +456,7 @@
 [Topic (10x10)]
 [Highlight (10x10)]
 [Information (10x10)]
-[Message Sessions]
+[Messaging]
 [Group chat windows]
 [Group chat log]
 [Voiced]
@@ -947,6 +947,7 @@
 [Semi transparent, custom colors]
 [Silver shadow]
 [Custom (use own gradient colors)]
+[Custom 2 (use own gradient colors)]
 [All message containers need to close before the skin can be changed\nProceed?]
 [Change skin]
 ;file \plugins\TabSRMM\src\typingnotify.cpp

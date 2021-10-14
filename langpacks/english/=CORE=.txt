@@ -1464,6 +1464,7 @@
 ;file \src\mir_app\src\srmm_statusicon.cpp
 [Are you sure to remove all events from history?]
 [Empty history]
+[Empty system history]
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 [Toolbar]

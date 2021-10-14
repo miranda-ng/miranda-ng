@@ -36,7 +36,6 @@
 ;file \plugins\DbChecker\src\worker.cpp
 [Database worker thread activated]
 [%d events marked as read]
-[Utf-8 encoding fixed in %d events]
 [Processing aborted by user]
 [Elapsed time: %d sec]
 [All tasks completed but with errors (%d)]
