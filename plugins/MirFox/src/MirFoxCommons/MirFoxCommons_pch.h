@@ -39,7 +39,7 @@
 #endif  // WIN64 ]
 #include <windows.h>												//for	NULL
 #include <string>													//for	std::string, std::wstring, TEXT and _T macros, operator<<
-
+#include <sstream>
 
 //used in:	MirFoxCommons_messageQueueBySM.h and MirFoxCommons_sharedMemory.h
 #define BOOST_DATE_TIME_NO_LIB
