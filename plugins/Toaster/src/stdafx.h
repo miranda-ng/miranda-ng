@@ -11,6 +11,7 @@
 #include <memory>
 #include <map>
 #include <string>
+#include <sstream>
 
 #include <newpluginapi.h>
 #include <m_system.h>
