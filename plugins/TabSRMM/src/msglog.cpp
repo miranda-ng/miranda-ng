@@ -373,13 +373,12 @@ static char* CreateRTFHeader(CMsgDialog *dat)
 
 static void AppendTimeStamp(wchar_t *szFinalTimestamp, int isSent, CMStringA &str, int skipFont, CMsgDialog *dat, int iFontIDOffset)
 {
-	if (skipFont)
-		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->m_bIsHistory));
-	else {
-		str.Append(GetRTFFont(isSent ? MSGFONTID_MYTIME + iFontIDOffset : MSGFONTID_YOURTIME + iFontIDOffset));
+	if (!skipFont) {
+		str.Append(GetRTFFont(iFontIDOffset + (isSent ? MSGFONTID_MYTIME : MSGFONTID_YOURTIME)));
 		str.AppendChar(' ');
-		AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->m_bIsHistory));
 	}
+
+	AppendUnicodeToBuffer(str, szFinalTimestamp, MAKELONG(isSent, dat->m_bIsHistory));
 }
 
 static wchar_t* Template_MakeRelativeDate(HANDLE hTimeZone, time_t check, wchar_t code)
