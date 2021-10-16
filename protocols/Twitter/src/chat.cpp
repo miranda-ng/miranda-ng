@@ -34,8 +34,8 @@ void CTwitterProto::UpdateChat(const twitter_user &update)
 	gce.time = (DWORD)update.status.time;
 
 	MCONTACT hContact = UsernameToHContact(update.username.c_str());
-	CMStringA szNick = db_get_sm(hContact, "CList", "MyHandle");
-	if (hContact && !szNick.IsEmpty())
+	ptrA szNick(db_get_utfa(hContact, "CList", "MyHandle"));
+	if (hContact && szNick)
 		gce.pszNick.a = szNick;
 	else
 		gce.pszNick.a = update.username.c_str();
