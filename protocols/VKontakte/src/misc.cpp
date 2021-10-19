@@ -1717,8 +1717,9 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = time(0);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
-	dbei.cbBlob = (DWORD)mir_strlen(vkDeactivateEvent[iDEIdx].szDescription) + 1;
-	dbei.pBlob = (PBYTE)mir_strdup(vkDeactivateEvent[iDEIdx].szDescription);
+	ptrA pszDescription(mir_utf8encode(vkDeactivateEvent[iDEIdx].szDescription));
+	dbei.cbBlob = (DWORD)mir_strlen(pszDescription) + 1;
+	dbei.pBlob = (PBYTE)mir_strdup(pszDescription);
 	dbei.flags = DBEF_UTF | (
 		(
 			m_vkOptions.bShowVkDeactivateEvents
