@@ -451,7 +451,7 @@ void CJabberProto::UpdateFeatHash()
 	feat_buf.Append(szCoreVersion); feat_buf.AppendChar('<');
 
 	char os[256];
-	if (!OS_GetDisplayString(os, _countof(os))) {
+	if (OS_GetDisplayString(os, _countof(os))) {
 		feat_buf.Append("x-miranda-os-version"); feat_buf.AppendChar('<');
 		feat_buf.Append(os); feat_buf.AppendChar('<');
 	}
