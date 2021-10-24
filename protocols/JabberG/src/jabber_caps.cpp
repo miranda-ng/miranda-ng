@@ -450,6 +450,12 @@ void CJabberProto::UpdateFeatHash()
 	feat_buf.Append("x-miranda-core-version"); feat_buf.AppendChar('<');
 	feat_buf.Append(szCoreVersion); feat_buf.AppendChar('<');
 
+	char os[256];
+	if (!OS_GetDisplayString(os, _countof(os))) {
+		feat_buf.Append("x-miranda-os-version"); feat_buf.AppendChar('<');
+		feat_buf.Append(os); feat_buf.AppendChar('<');
+	}
+
 	BYTE hash[MIR_SHA1_HASH_SIZE];
 	mir_sha1_hash((BYTE *)feat_buf.c_str(), feat_buf.GetLength(), hash);
 	ptrA szHash(mir_base64_encode(&hash, sizeof(hash)));
