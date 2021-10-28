@@ -645,9 +645,9 @@ Ustawienia &pokoju
 [Control this room (Ctrl+O)]
 Kontroluj ten pokój (Ctrl + O)
 [&Show/hide nick list]
-&Pokaż/ukryj listę nicków
+&Pokaż/ukryj listę użytkowników
 [Show/hide the nick list (Ctrl+N)]
-Pokaż/ukryj listę nazw (Ctrl+N)
+Pokaż/ukryj listę użytkowników (Ctrl+N)
 [&Filter]
 &Filtr
 [Enable/disable the event filter (Ctrl+F)]

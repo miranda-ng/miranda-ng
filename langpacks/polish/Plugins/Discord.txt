@@ -25,7 +25,7 @@ Nie otwieraj okien czatów po ich utworzeniu
 [Use subgroups for server channels (requires restart)]
 Używaj podgrup dla kanałów serwera (wymagane ponowne uruchomienie)
 [Delete messages in Miranda when they are deleted from server]
-
+Usuń wiadomości z Mirandy, gdy zostaną usunięte z serwera
 [Nick:]
 Nick:
 ;file \protocols\Discord\src\dispatch.cpp
@@ -61,27 +61,27 @@ Zadzwoń
 Rozmowa zakończona
 ;file \protocols\Discord\src\menus.cpp
 [Enter channel name]
-
+Wpisz nazwę kanału
 [Enter invitation code you received]
-
+Wpisz kod zaproszenia
 [Do you really want to leave the guild?]
-
+Czy na pewno chcesz opuścić server?
 [Disable sync]
-
+Wyłącz synchronizację
 [Enable sync]
-
+Włącz synchronizację
 [Join guild]
-
+Dołącz do serwera
 [Copy my Discord ID]
-
+Kopiuj mój Discord ID
 [Leave guild]
-
+Opuść serwer
 [Create new channel]
-
+Utwórz nowy kanał
 [Copy Discord ID]
 Kopiuj Discord ID
 [Enable guild sync]
-
+Włącz synchronizację serwera
 ;file \protocols\Discord\src\options.cpp
 [Network]
 Protokoły
@@ -95,27 +95,27 @@ Połączenie %s
 [%s gateway connection]
 
 [Discord voice call]
-
+Rozmowa głosowa Discord
 [User ID]
 ID użytkownika
 [Message send failed]
-
+Błąd wysyłania wiadomości
 [Protocol is offline or user isn't authorized yet]
 Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
-
+Serwer wymaga wprowadzenia captcha. Miranda przekieruje cię teraz do przeglądarki
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Właściciel
 [Participants]
 Uczestnicy
 [Attachment]
-
+Załącznik
 [Embed]
 
 [Preview]
 Podgląd
 ;file \protocols\Discord\src\voice.cpp
 [Call ended, %d seconds long]
-
+Połączenie zakończone, trwające %d sekund

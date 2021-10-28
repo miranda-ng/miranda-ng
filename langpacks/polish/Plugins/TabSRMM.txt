@@ -748,7 +748,7 @@ Wybierz kolor dla tekstu (Ctrl+K)
 [Select a background color for the text (Ctrl+L)]
 Wybierz kolor tła dla tekstu (Ctrl+L)
 [Show/hide the nick list (Ctrl+N)]
-Pokaż/ukryj listę nazw (Ctrl+N)
+Pokaż/ukryj listę użytkowników (Ctrl+N)
 [Enable/disable the event filter (Ctrl+F)]
 Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 [Control this room (Ctrl+O)]
@@ -1276,7 +1276,7 @@ Zarządzanie kanałem
 [Toggle filter]
 Pokaż filtr
 [Toggle nick list]
-Pokaż/ukryj listę nicków
+Pokaż/ukryj listę użytkowników
 [Show server window]
 Pokaż okno serwera
 ;file \plugins\TabSRMM\src\infopanel.cpp
@@ -1427,9 +1427,9 @@ minut
 [%s on %s%s]
 %s (%s)%s
 [%s: chat room (%u user%s)]
-Pokój czatowy: %s (jest %u%s użytkownik(ów))
+Pokój czatowy: %s (jest %u użytkownik(ów)%s)
 [%s: chat room (%u users%s)]
-Pokój czatowy: %s (jest %u%s użytkownik(ów))
+Pokój czatowy: %s (jest %u użytkownik(ów)%s)
 [, event filter active]
 , filtr zdarzeń włączony
 [%s: message session]
