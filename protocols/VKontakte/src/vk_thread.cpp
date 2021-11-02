@@ -21,11 +21,14 @@ UINT_PTR CVkProto::m_timer;
 mir_cs CVkProto::m_csTimer;
 
 char szBlankUrl[] = "https://oauth.vk.com/blank.html";
-char Score[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
-static char VK_TOKEN_BEG[] = "access_token=";
-static char VK_LOGIN_DOMAIN[] = "https://m.vk.com";
-static char VK_COOKIE_DOMAIN[] = ".vk.com";
-static char fieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
+char szScore[] = "friends,photos,audio,docs,video,wall,messages,offline,status,notifications,groups";
+char szVKUserAgent[] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36 Edg/95.0.1020.30";
+char szVKUserAgentCH[] = "\"Microsoft Edge\";v =\"95\", \"Chromium\";v =\"95\", \";Not A Brand\";v = \"99\"";
+
+static char szVKTokenBeg[] = "access_token=";
+static char szVKLoginDomain[] = "https://m.vk.com";
+static char szVKCookieDomain[] = ".vk.com";
+static char szFieldsName[] = "id, first_name, last_name, photo_100, bdate, sex, timezone, "
 	"contacts, last_seen, online, status, country, city, relation, interests, activities, "
 	"music, movies, tv, books, games, quotes, about,  domain";
 
@@ -198,15 +201,15 @@ void CVkProto::OnLoggedOut()
 void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 {
 	debugLogA("CVkProto::OnOAuthAuthorize %d", reply->resultCode);
-	GrabCookies(reply, VK_COOKIE_DOMAIN);
+	GrabCookies(reply, szVKCookieDomain);
 
 	if (reply->resultCode == 404 && !m_bErr404Return) {
 		m_bErr404Return = true;
-		setString("AccessScore", Score);
+		setString("AccessScore", szScore);
 		AsyncHttpRequest* pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
 		pReq
 			<< INT_PARAM("client_id", VK_APP_ID)
-			<< CHAR_PARAM("scope", Score)
+			<< CHAR_PARAM("scope", szScore)
 			<< CHAR_PARAM("redirect_uri", szBlankUrl)
 			<< CHAR_PARAM("display", "mobile")
 			<< CHAR_PARAM("response_type", "token")
@@ -214,6 +217,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		pReq->m_bApiReq = false;
 		pReq->bIsMainConn = true;
 		ApplyCookies(pReq);
+		pReq->AddHeader("User-agent", szVKUserAgent);
 		Push(pReq);
 		return;
 	}
@@ -223,9 +227,9 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		if (pszLocation) {
 			if (!_strnicmp(pszLocation, szBlankUrl, sizeof(szBlankUrl) - 1)) {
 				m_szAccessToken = nullptr;
-				LPCSTR p = strstr(pszLocation, VK_TOKEN_BEG);
+				LPCSTR p = strstr(pszLocation, szVKTokenBeg);
 				if (p) {
-					p += sizeof(VK_TOKEN_BEG) - 1;
+					p += sizeof(szVKTokenBeg) - 1;
 					for (LPCSTR q = p + 1; *q; q++) {
 						if (*q == '&' || *q == '=' || *q == '\"') {
 							m_szAccessToken = mir_strndup(p, q - p);
@@ -249,12 +253,26 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 				pRedirectReq->Redirect(reply);
 				if (!pRedirectReq->m_szUrl.IsEmpty()) {
 					if (pRedirectReq->m_szUrl[0] == '/')
-						pRedirectReq->m_szUrl = VK_LOGIN_DOMAIN + pRedirectReq->m_szUrl;
+						pRedirectReq->m_szUrl = szVKLoginDomain + pRedirectReq->m_szUrl;
 					ApplyCookies(pRedirectReq);
 					m_prevUrl = pRedirectReq->m_szUrl;
 				}
+
 				pRedirectReq->m_bApiReq = false;
 				pRedirectReq->bIsMainConn = true;
+				// Headers
+				pRedirectReq->AddHeader("User-agent", szVKUserAgent);
+				pRedirectReq->AddHeader("dht", "1");
+				pRedirectReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
+				pRedirectReq->AddHeader("sec-ch-ua-mobile", "?0");
+				pRedirectReq->AddHeader("sec-ch-ua-platform", "Windows");
+				pRedirectReq->AddHeader("sec-fetch-dest", "document");
+				pRedirectReq->AddHeader("sec-fetch-mode", "navigate");
+				pRedirectReq->AddHeader("sec-fetch-site", "same-site");
+				pRedirectReq->AddHeader("sec-fetch-user", "?1");
+				pRedirectReq->AddHeader("upgrade-insecure-requests", "1");
+				//Headers
+
 				Push(pRedirectReq);
 			}
 		}
@@ -263,7 +281,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	if (reply->resultCode != 200 || !reply->pData || (!strstr(reply->pData, "method=\"post\"") && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
+	if (reply->resultCode != 200 || !reply->pData || (!(strstr(reply->pData, "method=\"post\"") || strstr(reply->pData, "method=\"POST\"")) && !strstr(reply->pData, "meta http-equiv=\"refresh\""))) { // something went wrong
 		ConnectionFailed(LOGINERR_NOSERVER);
 		return;
 	}
@@ -272,9 +290,9 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	if (pBlankUrl) {
 		debugLogA("CVkProto::OnOAuthAuthorize blank ulr found");
 		m_szAccessToken = nullptr;
-		LPCSTR p = strstr(pBlankUrl, VK_TOKEN_BEG);
+		LPCSTR p = strstr(pBlankUrl, szVKTokenBeg);
 		if (p) {
-			p += sizeof(VK_TOKEN_BEG) - 1;
+			p += sizeof(szVKTokenBeg) - 1;
 			for (LPCSTR q = p + 1; *q; q++) {
 				if (*q == '&' || *q == '=' || *q == '\"') {
 					m_szAccessToken = mir_strndup(p, q - p);
@@ -291,7 +309,7 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 		return;
 	}
 
-	char *pMsgWarning = strstr(reply->pData, "service_msg_warning");
+	char* pMsgWarning = strstr(reply->pData, "service_msg_warning");
 	if (pMsgWarning) {
 		char *p1 = strchr(pMsgWarning, '>');
 		char *p2 = strchr(pMsgWarning, '<');
@@ -320,12 +338,26 @@ void CVkProto::OnOAuthAuthorize(NETLIBHTTPREQUEST *reply, AsyncHttpRequest*)
 	pReq->m_szParam = szBody;
 	pReq->m_szUrl = szAction;
 	if (!pReq->m_szUrl.IsEmpty() && pReq->m_szUrl[0] == '/')
-		pReq->m_szUrl = VK_LOGIN_DOMAIN + pReq->m_szUrl;
+		pReq->m_szUrl = szVKLoginDomain + pReq->m_szUrl;
 	m_prevUrl = pReq->m_szUrl;
 	pReq->m_pFunc = &CVkProto::OnOAuthAuthorize;
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded");
 	pReq->Redirect(reply);
 	ApplyCookies(pReq);
+	// Headers
+	pReq->AddHeader("User-agent", szVKUserAgent);
+	pReq->AddHeader("dht", "1");
+	pReq->AddHeader("origin", "https://oauth.vk.com");
+	pReq->AddHeader("referer", "https://oauth.vk.com/");
+	pReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
+	pReq->AddHeader("sec-ch-ua-mobile", "?0");
+	pReq->AddHeader("sec-ch-ua-platform", "Windows");
+	pReq->AddHeader("sec-fetch-dest", "document");
+	pReq->AddHeader("sec-fetch-mode", "navigate");
+	pReq->AddHeader("sec-fetch-site", "same-site");
+	pReq->AddHeader("sec-fetch-user", "?1");
+	pReq->AddHeader("upgrade-insecure-requests", "1");
+	//Headers
 	pReq->m_bApiReq = false;
 	pReq->bIsMainConn = true;
 	Push(pReq);
@@ -615,7 +647,7 @@ void CVkProto::RetrieveUserInfo(LONG userID)
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUserInfo", true, &CVkProto::OnReceiveUserInfo)
 		<< INT_PARAM("userid", userID)
-		<< CHAR_PARAM("fields", fieldsName)
+		<< CHAR_PARAM("fields", szFieldsName)
 	);
 
 }
@@ -670,7 +702,7 @@ void CVkProto::RetrieveUsersInfo(bool bFreeOffline, bool bRepeat)
 
 	Push(new AsyncHttpRequest(this, REQUEST_POST, "/method/execute.RetrieveUsersInfo", true, &CVkProto::OnReceiveUserInfo)
 		<< CHAR_PARAM("userids", userIDs)
-		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status" : fieldsName))
+		<< CHAR_PARAM("fields", (bFreeOffline ? "online,status" : szFieldsName))
 		<< INT_PARAM("norepeat", (int)bRepeat)
 		<< INT_PARAM("setonline", (int)m_bNeedSendOnline)
 		<< INT_PARAM("func_v", (bFreeOffline && !m_vkOptions.bLoadFullCList) ? 1 : 2)
@@ -835,7 +867,7 @@ void CVkProto::RetrieveFriends(bool bCleanNonFriendContacts)
 		return;
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/friends.get.json", true, &CVkProto::OnReceiveFriends)
 		<< INT_PARAM("count", m_vkOptions.iMaxFriendsCount > 5000 ? 1000 : m_vkOptions.iMaxFriendsCount)
-		<< CHAR_PARAM("fields", fieldsName))->pUserInfo = new CVkSendMsgParam(0, bCleanNonFriendContacts ? 1 : 0);
+		<< CHAR_PARAM("fields", szFieldsName))->pUserInfo = new CVkSendMsgParam(0, bCleanNonFriendContacts ? 1 : 0);
 }
 
 void CVkProto::OnReceiveFriends(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pReq)

@@ -136,11 +136,11 @@ void CVkProto::WorkerThread(void*)
 	m_bTerminated = m_prevError = false;
 	m_szAccessToken = getStringA("AccessToken");
 
-	extern char Score[];
+	extern char szScore[];
 
 	CMStringA szAccessScore(ptrA(getStringA("AccessScore")));
-	if (szAccessScore != Score) {
-		setString("AccessScore", Score);
+	if (szAccessScore != szScore) {
+		setString("AccessScore", szScore);
 		delSetting("AccessToken");
 		m_szAccessToken = nullptr;
 	}
@@ -151,14 +151,33 @@ void CVkProto::WorkerThread(void*)
 	else {
 		// Initialize new OAuth session
 		extern char szBlankUrl[];
+		extern char szVKUserAgent[];
+		extern char szVKUserAgentCH[];
+
 		AsyncHttpRequest *pReq = new AsyncHttpRequest(this, REQUEST_GET, "https://oauth.vk.com/authorize", false, &CVkProto::OnOAuthAuthorize);
 		pReq
 			<< INT_PARAM("client_id", VK_APP_ID)
-			<< CHAR_PARAM("scope", Score)
+			<< CHAR_PARAM("scope", szScore)
 			<< CHAR_PARAM("redirect_uri", szBlankUrl)
 			<< CHAR_PARAM("display", "mobile")
 			<< CHAR_PARAM("response_type", "token")
 			<< VER_API;
+
+		// Headers
+		pReq->AddHeader("User-agent", szVKUserAgent);
+		pReq->AddHeader("dht", "1");
+		pReq->AddHeader("origin", "https://oauth.vk.com");
+		pReq->AddHeader("referer", "https://oauth.vk.com/");
+		pReq->AddHeader("sec-ch-ua", szVKUserAgentCH);
+		pReq->AddHeader("sec-ch-ua-mobile", "?0");
+		pReq->AddHeader("sec-ch-ua-platform", "Windows");
+		pReq->AddHeader("sec-fetch-dest", "document");
+		pReq->AddHeader("sec-fetch-mode", "navigate");
+		pReq->AddHeader("sec-fetch-site", "same-site");
+		pReq->AddHeader("sec-fetch-user", "?1");
+		pReq->AddHeader("upgrade-insecure-requests", "1");
+		//Headers
+
 		pReq->m_bApiReq = false;
 		pReq->bIsMainConn = true;
 		Push(pReq);

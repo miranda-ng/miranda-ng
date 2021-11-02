@@ -510,11 +510,14 @@ void CVkProto::GrabCookies(NETLIBHTTPREQUEST *nhr, CMStringA szDefDomain)
 			for (auto &it : m_cookies)
 				if (it->m_name == szCookieName) {
 					bFound = true;
-					it->m_value = szCookieVal;
+					if (szCookieVal == "DELETED")
+						m_cookies.remove(it);
+					else
+						it->m_value = szCookieVal;
 					break;
 				}
 
-			if (!bFound)
+			if (!bFound && szCookieVal != "DELETED")
 				m_cookies.insert(new CVkCookie(szCookieName, szCookieVal, szDomain));
 		}
 	}
