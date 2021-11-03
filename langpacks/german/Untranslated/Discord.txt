@@ -1,2 +1,0 @@
-[Enable guilds (servers)]
-[Connection failed.\n%s (%s).]

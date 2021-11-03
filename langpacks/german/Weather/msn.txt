@@ -33,13 +33,13 @@ Leichter Regen und Schauer
 [Low]
 Gering
 [Moon phase]
-
+Mondphase
 [Moonrise]
 Mondaufgang
 [Moonset]
 Monduntergang
 [Precipitation]
-
+Niederschlag
 [Rain Showers]
 Regenschauer
 [Temperature]

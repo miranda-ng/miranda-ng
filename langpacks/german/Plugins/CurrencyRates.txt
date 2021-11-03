@@ -140,7 +140,7 @@ Quelle der Information
 [Rate value]
 Ratenwerte
 [Rate delta]
-
+Ratendelta
 [Previous rate value]
 Vorheriger Ratenwert
 [Fetch time]

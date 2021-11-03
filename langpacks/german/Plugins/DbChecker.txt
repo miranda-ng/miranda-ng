@@ -23,7 +23,7 @@ Dateiname:
 [Mark all events as read]
 Alle Ereignisse als gelesen markieren
 [Fix UTF-8 encoding in old events]
-
+UTF-8-Kodierung in alten Ereignissen korrigieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]

@@ -1437,7 +1437,7 @@ Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
 [Display popups with errors]
-
+Fehler mit Popups anzeigen
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]

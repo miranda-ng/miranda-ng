@@ -60,13 +60,13 @@ Einfärben
 [Quick Search]
 Schnellsuche
 [Open Quick Search window]
-
+Schnellsuche-Fenster öffnen
 [New Column]
 Neue Spalte
 [Column Up]
-Spalte auf bewegen
+Spalte hoch
 [Column Down]
-Spalte ab bewegen
+Spalte runter
 [Delete Column]
 Spalte löschen
 [Male]
@@ -127,7 +127,7 @@ Word
 [Dword]
 DWord
 [Signed]
-Mit Vorzeichen
+Vorzeichenbehaftet
 [Hexadecimal]
 Hexadezimal
 [String]
@@ -176,7 +176,7 @@ Kontakt hinzugefügt am
 [Nick]
 Nick
 [Custom nick]
-
+Eigener Nick
 [City]
 Stadt
 [State]
@@ -200,45 +200,45 @@ Fax
 [Cellular]
 Mobiltelefon
 [Time zone]
-
+Zeitzone
 [My notes]
-
+Meine Notizen
 [Birth day]
-
+Geburtstag
 [Birth month]
-
+Geburtsmonat
 [Birth year]
-
+Geburtsjahr
 [Street]
 Straße
 [ZIP code]
-
+PLZ
 [Language #1]
-
+Sprache #1
 [Language #2]
-
+Sprache #2
 [Language #3]
-
+Sprache #3
 [Company name]
-Firmenname
+Firma Name
 [Company department]
-Abteilung
+Firma Abteilung
 [Company position]
-Position
+Firma Position
 [Company street]
-Straße
+Firma Straße
 [Company city]
-Stadt
+Firma Stadt
 [Company state]
-Region
+Firma Region
 [Company ZIP]
-
+Firma PLZ
 [Company country]
-Land
+Firma Land
 [Company homepage]
-Firmenhomepage
+Firma Homepage
 [Display ID]
-
+Angezeigte ID
 ;file \plugins\QuickSearch\src\window.cpp
 [Unknown]
 Unbekannt
@@ -262,13 +262,13 @@ Online
 [All]
 Alle
 [Editing of column %s]
-
+Spalte %s bearbeiten
 [Enter new cell value]
-
+Neuen Wert in Zelle eingeben
 [Change setting through QS]
 Einstellung durch QS ändern
 [Selected %d contacts]
-
+%d Kontakte ausgewählt
 [&Delete]
 &Löschen
 [&Copy]

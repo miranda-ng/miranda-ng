@@ -2813,11 +2813,11 @@ Suche nach '%s'
 Kein Wort zum Nachschlagen
 ;file \src\mir_app\src\srmm_statusicon.cpp
 [Are you sure to remove all events from history?]
-
+Möchten Sie wirklich alle Ereignisse aus dem Verlauf entfernen?
 [Empty history]
-Leere Verlauf
+Verlauf leeren
 [Empty system history]
-
+Systemverlauf leeren
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>
