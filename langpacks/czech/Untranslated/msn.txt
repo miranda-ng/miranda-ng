@@ -1,0 +1,6 @@
+[Light Rain And Snow]
+[Moon phase]
+[Moonrise]
+[Moonset]
+[Precipitation]
+[Rain Showers]

@@ -12,7 +12,6 @@
 [History++ module could not be loaded, riched20.dll is missing. Press Yes to continue loading Miranda.]
 [Cannot load icon pack (%s) from:\\r\\n%s\\r\\nThis can cause no icons will be shown.]
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
 [%s Header]
 [&Additional]
 [Change nick and date font for %s.]

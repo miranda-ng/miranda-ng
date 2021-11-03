@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -26,8 +26,6 @@ Usuń Pounce
 Załaduj ustawienia domyślne
 [Setting Value]
 Wartość ustawienia
-[Setting text...........]
-Ustawianie tekstu.........
 [Settings]
 Ustawienia
 [Contact To Send Pounce To]
@@ -53,6 +51,22 @@ Pokaż raporty doręczenia
 [These settings are also used when sending a "Simple" pounce]
 Te ustawienia są używane także przy wysyłaniu "Prostego" Pounce
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+Wiadomość (%d znaków)
+[Message successfully sent to %s]
+Wiadomość wysłano pomyślnie do %s
+[Message failed to send to %s]
+Nie udało się wysłać wiadomości do %s
+[Retry]
+Gotowy
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Okno rozmowy
+[Pounce being sent to %s in %d seconds]
+Pounce zostanie wysłane do %s za %d sekund
+[&Buddy Pounce]
+&Buddy Pounce
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 Wysyłaj, gdy mój status to...
 [Send If They Change Status to...]
@@ -63,6 +77,18 @@ Użyj Pounce ponownie
 Opóźnienie poddania się
 [Confirmation Window]
 Okno potwierdzenia
+[Reuse this message? (0 to use it once)]
+Użyj wiadomości ponownie (0 - tylko raz)
+[Times]
+razy
+[Give up after... (0 to not give up)]
+Zrezygnuj po... (0 - nie rezygnuj)
+[Days]
+dniach
+[Show confirmation window? (0 to not Show)]
+Pokaż okno potwierdzające (0 - nie pokazuj)
+[Seconds to wait before sending]
+sekund przed wysłaniem
 [Send If My Status Is]
 Wysyłaj, gdy mój status to
 [Any]
@@ -99,34 +125,3 @@ Na Nie przeszkadzać
 Na Porozmawiajmy
 [To Invisible]
 Na Niewidoczny
-[The Message    (%d Characters)]
-Wiadomość (%d znaków)
-[Couldn't allocate enough memory]
-Nie udało się przydzielić wystarczającej ilości pamięci
-[The Message    (0 Characters)]
-Wiadomość (0 znaków)
-[Reuse this message? (0 to use it once)]
-Użyj wiadomości ponownie (0 - tylko raz)
-[Times]
-razy
-[Give up after... (0 to not give up)]
-Zrezygnuj po... (0 - nie rezygnuj)
-[Days]
-dniach
-[Show confirmation window? (0 to not Show)]
-Pokaż okno potwierdzające (0 - nie pokazuj)
-[Seconds to wait before sending]
-sekund przed wysłaniem
-[Pounce being sent to %s in %d seconds]
-Pounce zostanie wysłane do %s za %d sekund
-[Retry]
-Gotowy
-[Message successfully sent to %s]
-Wiadomość wysłano pomyślnie do %s
-[Message failed to send to %s]
-Nie udało się wysłać wiadomości do %s
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-Okno rozmowy
-[&Buddy Pounce]
-&Buddy Pounce

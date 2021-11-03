@@ -1436,6 +1436,8 @@ Automaticky přijímat žádosti o autorizaci
 Opravovat neplatné datum příchozích zpráv
 [Disable frame]
 Vypnout zobrazení rámečku
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 [Embrace picture URLs with [img]]

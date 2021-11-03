@@ -143,8 +143,6 @@ Abbrechen
 Verlauf öffnen
 [View &history]
 Verlauf anzeigen
-[Delete all user history]
-Kompletten Benutzerverlauf löschen
 [Execute history task]
 Verlaufs-Aktion ausführen
 [Incoming message]
@@ -192,12 +190,6 @@ Datei beinhaltet den ausgewählten Kontakt nicht
 [File is corrupted]
 Datei ist beschädigt.
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
-[Are you sure?]
-Sind Sie sich sicher?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -214,6 +206,8 @@ Nachricht senden
 Mit Zitat antworten
 [Delete group]
 Gruppe löschen
+[Delete all user history]
+Kompletten Benutzerverlauf löschen
 [Options]
 Einstellungen
 [Filters]
@@ -246,6 +240,10 @@ Datei beinhaltet Verlauf für einen anderen Kontakt. Wollen Sie den Kontakt änd
 Fehler
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Anzahl der zu löschenden Verlaufseinträge: %d.\nSind Sie sich sicher, dass Sie dies machen wollen?
+[Are you sure?]
+Sind Sie sich sicher?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Nachricht

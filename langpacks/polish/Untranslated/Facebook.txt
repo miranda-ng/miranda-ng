@@ -1,0 +1,1 @@
+[Connection failed with error code %d]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -102,9 +102,9 @@ Eliminar
 ;file \protocols\ICQ-WIM\src\server.cpp
 [SmileyAdd plugin required to support stickers]
 
-[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
 
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
+[Connection failed.\nYour login or password was rejected (%d).]
 
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 

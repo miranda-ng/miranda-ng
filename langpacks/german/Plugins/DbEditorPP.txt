@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ Zu Kontakt kopieren
 Modul exportieren
 [&Add module]
 Modul &hinzufügen
-[&Clone]
-&Kopie erstellen
 [Export contact]
 Kontakt exportieren
 [Import settings]
@@ -208,8 +206,8 @@ Beobachtungsliste aktualisieren
 [Copy module "%s"]
 Modul "%s" kopieren
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Soll Modul "%s" wirklich gelöscht werden?
+[Are you sure you want to delete module "%S"?]
+Soll Modul "%S" wirklich gelöscht werden?
 [Delete module from database]
 Modul aus der Datenbank löschen
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ Kontakt
 Modul
 [Setting]
 Einstellung
-[Enter a string to search the database for]
-Geben Sie einen Suchstring für die Datenbank ein
-[Stop]
-Stopp
+[Searching...]
+Suche...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Beendet. Gefundene Einträge: %d / ersetzt: %d / gelöscht: %d
 [Replaced]
 Ersetzt
 [Deleted]
 Gelöscht
 [Found]
 Gefunden
-[Searching...]
-Suche...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Beendet. Gefundene Einträge: %d / ersetzt: %d / gelöscht: %d
+[Enter a string to search the database for]
+Geben Sie einen Suchstring für die Datenbank ein
+[Stop]
+Stopp
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Haupticon
@@ -295,6 +293,10 @@ Benutzerzweig in DBE++ öffnen
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
+[Type]
+Typ
+[Size]
+Größe
 [Delete resident settings from database?]
 Vorrübergehende Einstellungen aus Datenbank löschen?
 [%d items deleted.]
@@ -318,10 +320,6 @@ Popups
 [Add module to "%s"]
 Modul zu "%s" hinzufügen
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Typ
-[Size]
-Größe
 [Unable to store value in this data type!]
 Kann diesen Wert nicht in diesem Datentyp speichern!
 [Are you sure you want to delete %d contact(s)?]

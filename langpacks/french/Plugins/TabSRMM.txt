@@ -901,7 +901,7 @@ Sujet (10x10)
 Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
-[Message Sessions]
+[Messaging]
 Sessions de message
 [Group chat windows]
 
@@ -1857,6 +1857,8 @@ Fenêtre du serveur
 [Silver shadow]
 
 [Custom (use own gradient colors)]
+
+[Custom 2 (use own gradient colors)]
 
 [All message containers need to close before the skin can be changed\nProceed?]
 Tous les conteneurs doivent être fermés avant de changer le skin\nVoulez-vous les fermer ?

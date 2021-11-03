@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -305,36 +305,8 @@ HTTP грешка: Лош шлюз
 HTTP грешка: Услугата не е налична (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP грешка: Gateway timeout (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nТемпература: %t\\nУсеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Усеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Атмосферни условия за %n от %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nДнес:	Максимална %h, Минимална %l
-[Temperature: %[Temperature]]
-Температура: %[Temperature]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
-[No information available.\r\nPlease update weather condition first.]
-Няма налична информация.\r\nМоля, първо обновете атмосферните условия.
-[%[..]\tcustom variables]
-%[..]\tпроизволна променлива
-[Here is a list of custom variables that are currently available]
-Списък на наличните променливи
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 ;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
@@ -342,6 +314,26 @@ HTTP грешка: Gateway timeout (504)
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
+[Protocol icon]
+Икона на протокола
+[Update Disabled]
+Обновяването е изключено
+[View Log]
+Преглед на дневника
+[Update with Clear]
+
+[View Brief]
+Кратка инф.
+[View Complete]
+Пълна прогноза
+[Weather Update]
+
+[Popup]
+Рopup
+[No Popup]
+Без Popup
+[Edit Settings]
+Редактиране на настройките
 [Condition Changed]
 Промяна на метеорологичните условия
 [Alert Issued]
@@ -362,6 +354,10 @@ Weather Protocol
 ;file \protocols\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Get city name from ID]
 Извличане името на града от ID
 [Weather INI information]
@@ -397,27 +393,6 @@ HTTP грешка: %i
 ;file \protocols\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 HTTP връзки на метео протокола
-;file \protocols\Weather\src\weather_icons.cpp
-[Protocol icon]
-Икона на протокола
-[Update Disabled]
-Обновяването е изключено
-[View Log]
-Преглед на дневника
-[Update with Clear]
-
-[View Brief]
-Кратка инф.
-[View Complete]
-Пълна прогноза
-[Weather Update]
-
-[Popup]
-Рopup
-[No Popup]
-Без Popup
-[Edit Settings]
-Редактиране на настройките
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Име
@@ -457,6 +432,8 @@ INI версия
 байта
 [Description:]
 Описание:
+[Here is a list of custom variables that are currently available]
+Списък на наличните променливи
 ;file \protocols\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 Всички обновени данни са заредени.
@@ -472,6 +449,22 @@ INI версия
 [Frame Background]
 Фон на рамката
 ;file \protocols\Weather\src\weather_opt.cpp
+[Weather Condition for %n as of %u]
+Атмосферни условия за %n от %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Усеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nТемпература: %t\\nУсеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[Temperature: %[Temperature]]
+Температура: %[Temperature]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nДнес:	Максимална %h, Минимална %l
 [Weather Protocol Text Preview]
 Преглед на текст от протокола Weather
 [Network]
@@ -483,6 +476,10 @@ INI версия
 [Popups]
 Рopups
 ;file \protocols\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
+[%[..]\tcustom variables]
+%[..]\tпроизволна променлива
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID на станцията
@@ -514,6 +511,8 @@ Weather
 [Unable to retrieve weather information for %s]
 Извличането на атмосферни данни за %s е невъзможно
 ;file \protocols\Weather\src\weather_userinfo.cpp
+[No information available.\r\nPlease update weather condition first.]
+Няма налична информация.\r\nМоля, първо обновете атмосферните условия.
 [Variable]
 Променливо
 [Information]

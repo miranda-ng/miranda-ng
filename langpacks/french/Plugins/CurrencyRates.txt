@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -135,19 +135,21 @@ Heures
 [Currency Rate]
 
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
-[Source of Information]
+[Source of information]
 
-[Rate Value]
+[Rate value]
 
-[Previous Rate Value]
+[Rate delta]
 
-[Fetch Time]
+[Previous rate value]
 
-[Fetch Date]
+[Fetch time]
 
-[Fetch Time and Date]
+[Fetch date]
 
-[Percentage Character (%)]
+[Fetch time and date]
+
+[Percent character (%)]
 
 [Tabulation]
 
@@ -203,12 +205,6 @@ Actualiser
 
 [Network]
 Réseau
-;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-
-[CurrencyRates HTTP connections]
-Connexions HTTP de CurrencyRates
-;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 
 [Currency Rate up]
@@ -225,14 +221,16 @@ Connexions HTTP de CurrencyRates
 
 [Import]
 
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
+[CurrencyRates HTTP connections]
+Connexions HTTP de CurrencyRates
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 
 [All files (*.*)]
 Tous les fichiers (*.*)
-;file \protocols\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-
 ;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 

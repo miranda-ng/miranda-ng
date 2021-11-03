@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -26,8 +26,6 @@ Effacer Pounce
 Paramètres par défaut
 [Setting Value]
 
-[Setting text...........]
-Paramétrages du texte.....
 [Settings]
 Paramètres
 [Contact To Send Pounce To]
@@ -53,6 +51,22 @@ Afficher les msg. envoyés
 [These settings are also used when sending a "Simple" pounce]
 
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+Message :    (%d caractères)
+[Message successfully sent to %s]
+Envoi réussi du message à %s
+[Message failed to send to %s]
+Erreur d'envoi du message à %s
+[Retry]
+
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Sessions de message
+[Pounce being sent to %s in %d seconds]
+Message envoyé à %s dans %d secondes
+[&Buddy Pounce]
+
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 Envoi si mon état est...
 [Send If They Change Status to...]
@@ -63,6 +77,18 @@ Réutiliser un message
 Délai pour réitérer
 [Confirmation Window]
 Fenêtre de confirmation
+[Reuse this message? (0 to use it once)]
+Réutiliser ce message ?  (0 = une seule fois)
+[Times]
+Heures
+[Give up after... (0 to not give up)]
+Réitérer après (0=désactivé) :
+[Days]
+Jours
+[Show confirmation window? (0 to not Show)]
+Voir la confirmation ? (0 pour ne pas voir)
+[Seconds to wait before sending]
+Secondes avant d'envoyer
 [Send If My Status Is]
 Envoi si mon état est
 [Any]
@@ -99,34 +125,3 @@ Ne pas déranger
 OK pour un chat
 [To Invisible]
 Invisible
-[The Message    (%d Characters)]
-Message :    (%d caractères)
-[Couldn't allocate enough memory]
-
-[The Message    (0 Characters)]
-Message :    (0 caractère)
-[Reuse this message? (0 to use it once)]
-Réutiliser ce message ?  (0 = une seule fois)
-[Times]
-Heures
-[Give up after... (0 to not give up)]
-Réitérer après (0=désactivé) :
-[Days]
-Jours
-[Show confirmation window? (0 to not Show)]
-Voir la confirmation ? (0 pour ne pas voir)
-[Seconds to wait before sending]
-Secondes avant d'envoyer
-[Pounce being sent to %s in %d seconds]
-Message envoyé à %s dans %d secondes
-[Retry]
-
-[Message successfully sent to %s]
-Envoi réussi du message à %s
-[Message failed to send to %s]
-Erreur d'envoi du message à %s
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-Sessions de message
-[&Buddy Pounce]
-

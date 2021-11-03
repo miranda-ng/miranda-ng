@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -14,6 +14,8 @@
 Адреса хоста
 [Port range]
 Діапазон портів
+[SSL/TLS]
+SSL/TLS
 [Enable SASL]
 Увімкнути SASL
 [Password]
@@ -114,8 +116,6 @@ ID користувача
 Аліас
 [Perform on event:]
 Виконати при події:
-[Scripting support]
-Підтримка скриптів
 [Quit message:]
 Повідомлення виходу:
 [Server code page:]

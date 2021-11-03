@@ -281,12 +281,6 @@ ANSI кодиране
 %0.n събития (%s)
 [Enable &Processing]
 
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Наистина ли желаете всички (%.0f) елементи от историята да бъдат изтрити?
-[Note: It can take several minutes for large history.]
-Бележка: Може да отнеме няколко минути при голяма история.
-[Empty History]
-Изтриване на историята
 [Search Up (Ctrl+Up)]
 Търсене нагоре (Ctrl+Up)
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ HTML файл
 Ползвате стар пакет с икони:\\r\\n%s\\r\\nВероятно е да липсват икони. Актуализирайте пакета.
 [Next message]
 Следващо съобщение
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Модулът History++ не може да бъде зареден - липсва модулът richedit 2.0+.\\nИзберете "Добре" за да продължите към Mirada.
-[&Empty System History]
-Изтриване на системната история
-[&Empty History]
-Изтриване на историята
-[Do you really want to delete ALL items for this contact?]
-Наистина ли желаете ВСИЧКИТЕ елементи за абоната да бъдат изтрити?
-[Note: It can take several minutes for large histories]
-Бележка: При голяма история може да отнеме няколко минути
 [Previous message]
 Предишно съобщение
 [Running version of AniSmiley is not supported]

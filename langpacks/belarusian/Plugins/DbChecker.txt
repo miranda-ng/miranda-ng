@@ -22,6 +22,8 @@
 Імя файла:
 [Mark all events as read]
 
+[Fix UTF-8 encoding in old events]
+
 [Error Opening Database]
 Памылка адкрыцця базы
 [There was an error opening the profile database given.]

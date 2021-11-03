@@ -281,12 +281,6 @@ Suchen: %s (F3 - weitersuchen)
 %0.n Ereignisse (%s)
 [Enable &Processing]
 Verarbeitung a&ktivieren
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Alle Einträge des Kontakts wirklich löschen (%.0f)?
-[Note: It can take several minutes for large history.]
-Hinweis: Es kann bei einem langen Verlauf einige Minuten dauern.
-[Empty History]
-Leere Verlauf
 [Search Up (Ctrl+Up)]
 Aufwärts suchen (Strg+Pfeil nach oben)
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ Kann Iconpack (%s) nicht laden von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons f�
 Sie verwenden ein altes Iconpack von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons führen, also aktualisieren Sie das Iconpack.
 [Next message]
 Nächste Nachricht
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-History++ Modul konnte nicht geladen werden, richedit 2.0+ Modul fehlt. Klicken Sie auf OK um Miranda zu laden
-[&Empty System History]
-Syst&emverlauf leeren
-[&Empty History]
-V&erlauf leeren
-[Do you really want to delete ALL items for this contact?]
-Wollen Sie wirklich ALLE Einträge für diesen Kontakt löschen?
-[Note: It can take several minutes for large histories]
-Dies kann bei einem großen Verlauf mehrere Minuten lang dauern.
 [Previous message]
 Vorherige Nachricht
 [Running version of AniSmiley is not supported]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ Nuevo
 
 [&Add module]
 
-[&Clone]
-
 [Export contact]
 
 [Import settings]
@@ -208,7 +206,7 @@ Nuevo
 [Copy module "%s"]
 
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 
 [Delete module from database]
 
@@ -238,9 +236,9 @@ Contacto
 
 [Setting]
 
-[Enter a string to search the database for]
+[Searching...]
 
-[Stop]
+[Finished. Items found: %d / replaced: %d / deleted: %d]
 
 [Replaced]
 
@@ -248,9 +246,9 @@ Contacto
 
 [Found]
 
-[Searching...]
+[Enter a string to search the database for]
 
-[Finished. Items found: %d / replaced: %d / deleted: %d]
+[Stop]
 
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
@@ -295,6 +293,10 @@ Base de datos
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 
+[Type]
+Tipo
+[Size]
+Tamaño
 [Delete resident settings from database?]
 
 [%d items deleted.]
@@ -318,10 +320,6 @@ Ventanas emergentes
 [Add module to "%s"]
 
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Tipo
-[Size]
-Tamaño
 [Unable to store value in this data type!]
 
 [Are you sure you want to delete %d contact(s)?]

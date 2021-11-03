@@ -143,8 +143,6 @@
 Відкрити історію
 [View &history]
 &Історія
-[Delete all user history]
-Видалити всю історію користувача
 [Execute history task]
 Виконати задачу
 [Incoming message]
@@ -192,12 +190,6 @@
 [File is corrupted]
 Файл пошкоджений
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Ця операція повністю видалить історію цього контакту.\nВи впевнені?
-[Are you sure?]
-Ви впевнені?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка: наступне завдання планувача імпортує ці повідомлення знову.
 [Open in &new window]
 &Відкрити в новому вікні
 [&Open in existing window]
@@ -214,6 +206,8 @@
 Відповісти з &цитатою
 [Delete group]
 Видалення групи
+[Delete all user history]
+Видалити всю історію користувача
 [Options]
 Налаштування
 [Filters]
@@ -246,6 +240,10 @@ dat (плагін mContacts)
 Помилка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Кількість записів історії, які буде видалено: %d.\nВи дійсно цього хочете?
+[Are you sure?]
+Ви впевнені?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Ви дійсно хочете видалити всі імпортовані повідомлення для цього контакту?\nПримітка: наступне завдання планувача імпортує ці повідомлення знову.
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Повідомлення

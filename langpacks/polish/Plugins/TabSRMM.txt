@@ -901,7 +901,7 @@ Temat (10x10)
 Podświetlenie (10x10)
 [Information (10x10)]
 Informacja (10x10)
-[Message Sessions]
+[Messaging]
 Okno rozmowy
 [Group chat windows]
 Okno czatu
@@ -1858,6 +1858,8 @@ Przezroczystość, niestandardowe kolory
 Srebrny cień
 [Custom (use own gradient colors)]
 Niestandardowy (użyj własnego koloru gradientu)
+[Custom 2 (use own gradient colors)]
+Niestandardowy 2 (użyj własnego koloru gradientu)
 [All message containers need to close before the skin can be changed\nProceed?]
 Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuować?
 [Change skin]

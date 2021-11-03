@@ -1826,11 +1826,6 @@ Popups са изключени
 Копиране на съобщението в клипборда
 [Copy timestamp to clipboard]
 Копиране на времевата марка в клипборда
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-
-[Host we are connecting to is not the one certificate was issued for]
-Хоста към който се свързвате не е този, за който е издаден сертификата
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Изходящо съобщение
@@ -2558,6 +2553,11 @@ Win +\s
 <Всички връзки>
 [Network]
 Мрежа
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+
+[Host we are connecting to is not the one certificate was issued for]
+Хоста към който се свързвате не е този, за който е издаден сертификата
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
@@ -2811,6 +2811,13 @@ WAV файлове
 Търсене за "%s":
 [No word to look up]
 Няма дума за търсене
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+
+[Empty history]
+Изтриване на историята
+[Empty system history]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделител>

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -26,8 +26,6 @@
 Загрузить по умолчанию
 [Setting Value]
 Значение
-[Setting text...........]
-Настройка текста.........
 [Settings]
 Настройки
 [Contact To Send Pounce To]
@@ -53,6 +51,22 @@
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отложенных сообщений
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+Сообщение      (%d символов)
+[Message successfully sent to %s]
+Сообщение успешно послано %s
+[Message failed to send to %s]
+Ошибка отправки сообщения для %s
+[Retry]
+Ещё раз
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Беседы
+[Pounce being sent to %s in %d seconds]
+Сообщение будет отправлено %s через %d секунд
+[&Buddy Pounce]
+&Отложенное сообщение
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 Отправлять, если мой статус...
 [Send If They Change Status to...]
@@ -63,6 +77,18 @@
 Задержка отмены
 [Confirmation Window]
 Окно подтверждения
+[Reuse this message? (0 to use it once)]
+Повторить сообщение? (0 - не повторять)
+[Times]
+раз
+[Give up after... (0 to not give up)]
+Отказаться после... (0 - не отказываться)
+[Days]
+дней
+[Show confirmation window? (0 to not Show)]
+Показать окно подтверждения? (0 - не показывать)
+[Seconds to wait before sending]
+секунд подождать перед отправкой
 [Send If My Status Is]
 Отправлять, если мой статус
 [Any]
@@ -99,34 +125,3 @@
 -> Готов болтать
 [To Invisible]
 -> Невидимый
-[The Message    (%d Characters)]
-Сообщение      (%d символов)
-[Couldn't allocate enough memory]
-Не удалось выделить достаточное количество памяти
-[The Message    (0 Characters)]
-Сообщение    (0 символов)
-[Reuse this message? (0 to use it once)]
-Повторить сообщение? (0 - не повторять)
-[Times]
-раз
-[Give up after... (0 to not give up)]
-Отказаться после... (0 - не отказываться)
-[Days]
-дней
-[Show confirmation window? (0 to not Show)]
-Показать окно подтверждения? (0 - не показывать)
-[Seconds to wait before sending]
-секунд подождать перед отправкой
-[Pounce being sent to %s in %d seconds]
-Сообщение будет отправлено %s через %d секунд
-[Retry]
-Ещё раз
-[Message successfully sent to %s]
-Сообщение успешно послано %s
-[Message failed to send to %s]
-Ошибка отправки сообщения для %s
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-Беседы
-[&Buddy Pounce]
-&Отложенное сообщение

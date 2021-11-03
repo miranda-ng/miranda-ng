@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -305,36 +305,8 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 Памылка HTTP: Сэрвіс недасяжны (503)
 [HTTP Error: Gateway timeout (504)]
 Памылка HTTP: Затрымка шлюза (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\n Тэмпература: %t\\n Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Стан надвор'я для %n на %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n у %u:	%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
-[%n   (%u)]
-
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\n Сёння:  макс. %h, мін. %l
-[Temperature: %[Temperature]]
-Тэмпература: %[Temperature]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\t прагноз на сёння\n%d\t бягучая дата\n%e\t раса\n%f\t адчуванне\n%h\t максімум\n%i\t кірунак ветра\n%l\t мінімум\n%m\t вільготнасць\n%n\t горад\n%p\t ціск\n%r\t узыход\n%s\tID гарады\n%t\t тэмпература\n%u\t абнаўленне\n%v\t бачнасць\n%w\t хуткасць ветра\n%y\t заход
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c   прагноз на сёння\n%d   бягучая дата\n%e   раса\n%f   адчуванне\n%h   максімум\n%i   кірунак ветра\n%l   мінімум\n%m   вільготнасць\n%n   горад\n%p   ціск\n%r   узыход\n%s   ID гарады\n%t   тэмпература\n%u   абнаўленне\n%v   бачнасць\n%w   хуткасць ветра\n%y   заход\n----------\n\\n   новы радок
-[No information available.\r\nPlease update weather condition first.]
-Інфармацыя недаступная \nПапярэдне абновіце дадзеныя пра надвор'е
-[%[..]\tcustom variables]
-%[..]\t свае зменныя
-[Here is a list of custom variables that are currently available]
-Спіс дадатковых зменных, даступных на дадзены момант
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
 ;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
 Уключыць/выключыць аўтаабнаўленне
@@ -342,6 +314,26 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 Аўтаабнаўленне ўключана
 [Auto Update Disabled]
 Аўтаабнаўленне выключана
+[Protocol icon]
+Абразок конту
+[Update Disabled]
+Абнаўленні выкл
+[View Log]
+Лог
+[Update with Clear]
+Выдаліць і абнавіць
+[View Brief]
+Кароткі прагноз
+[View Complete]
+Поўны прагноз
+[Weather Update]
+Абнаўленне прагнозу
+[Popup]
+Вакно
+[No Popup]
+Без вокнаў
+[Edit Settings]
+Змяніць налады
 [Condition Changed]
 Надвор'е змянілася
 [Alert Issued]
@@ -362,6 +354,10 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 ;file \protocols\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Лог надвор'я не вядзецца.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+URL поўнага прагнозу надвор'я не ўсталяваны. Вы можаце ўсталяваць яго ў наладах.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не паказаны URL для карты надвор'я. Вы можаце паказаць яго ў меню Налады.
 [Get city name from ID]
 Атрымаць назву горада па ID
 [Weather INI information]
@@ -397,27 +393,6 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 ;file \protocols\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 HTTP далучэнне Weather
-;file \protocols\Weather\src\weather_icons.cpp
-[Protocol icon]
-Абразок конту
-[Update Disabled]
-Абнаўленні выкл
-[View Log]
-Лог
-[Update with Clear]
-Выдаліць і абнавіць
-[View Brief]
-Кароткі прагноз
-[View Complete]
-Поўны прагноз
-[Weather Update]
-Абнаўленне прагнозу
-[Popup]
-Вакно
-[No Popup]
-Без вокнаў
-[Edit Settings]
-Змяніць налады
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Імя
@@ -457,6 +432,8 @@ HTTP далучэнне Weather
 байт
 [Description:]
 Апісанне:
+[Here is a list of custom variables that are currently available]
+Спіс дадатковых зменных, даступных на дадзены момант
 ;file \protocols\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 Усе абноўленыя дадзеныя перазагружаны.
@@ -472,6 +449,22 @@ HTTP далучэнне Weather
 [Frame Background]
 Фон фрэйма
 ;file \protocols\Weather\src\weather_opt.cpp
+[Weather Condition for %n as of %u]
+Стан надвор'я для %n на %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\n Тэмпература: %t\\n Адчуванне: %f\\n Ціск: %p\\n Вецер: %i  %w\\n Вільготнасць: %m\\n Раса: %e\\n Бачнасць: %v\\n\\n Узыход: %r\\n Заход: %y\\n\\n Прагноз на 5 дзён:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n у %u:	%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (адчуваецца %f)	Вецер: %i %w	Вільготнасць: %m
+[Temperature: %[Temperature]]
+Тэмпература: %[Temperature]
+[%n   (%u)]
+
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\n Сёння:  макс. %h, мін. %l
 [Weather Protocol Text Preview]
 Прагляд конту надвор'я
 [Network]
@@ -483,6 +476,10 @@ HTTP далучэнне Weather
 [Popups]
 Усплывальныя вокны
 ;file \protocols\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\t прагноз на сёння\n%d\t бягучая дата\n%e\t раса\n%f\t адчуванне\n%h\t максімум\n%i\t кірунак ветра\n%l\t мінімум\n%m\t вільготнасць\n%n\t горад\n%p\t ціск\n%r\t узыход\n%s\tID гарады\n%t\t тэмпература\n%u\t абнаўленне\n%v\t бачнасць\n%w\t хуткасць ветра\n%y\t заход
+[%[..]\tcustom variables]
+%[..]\t свае зменныя
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID гарады
@@ -514,6 +511,8 @@ ID гарады
 [Unable to retrieve weather information for %s]
 Немагчыма знайсці інфармацыю пра надвор'е для %s
 ;file \protocols\Weather\src\weather_userinfo.cpp
+[No information available.\r\nPlease update weather condition first.]
+Інфармацыя недаступная \nПапярэдне абновіце дадзеныя пра надвор'е
 [Variable]
 Зменная
 [Information]

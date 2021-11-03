@@ -365,6 +365,7 @@
 [Automatically accept authorization requests]
 [Fix incorrect timestamps in incoming messages]
 [Disable frame]
+[Display popups with errors]
 [Enable XMPP link processing (requires AssocMgr)]
 [Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]

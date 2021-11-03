@@ -18,8 +18,8 @@ Hasło:
 Kontakty
 [Default group:]
 Domyślna grupa:
-[Enable group chats]
-Włącz czaty
+[Enable guilds (servers)]
+
 [Do not open chat windows on creation]
 Nie otwieraj okien czatów po ich utworzeniu
 [Use subgroups for server channels (requires restart)]
@@ -105,6 +105,8 @@ Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
 Serwer wymaga wprowadzenia captcha. Miranda przekieruje cię teraz do przeglądarki
+[Connection failed.\n%s (%s).]
+
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Właściciel

@@ -1724,8 +1724,6 @@ Popups са изключени
 Копиране на съобщението в клипборда
 [Copy timestamp to clipboard]
 Копиране на времевата марка в клипборда
-[Host we are connecting to is not the one certificate was issued for]
-Хоста към който се свързвате не е този, за който е издаден сертификата
 [Outgoing message]
 Изходящо съобщение
 [Incoming message]
@@ -2312,6 +2310,8 @@ Win +\s
 <Всички връзки>
 [Network]
 Мрежа
+[Host we are connecting to is not the one certificate was issued for]
+Хоста към който се свързвате не е този, за който е издаден сертификата
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
 ['%S' is disabled, re-enable?]
@@ -2534,6 +2534,8 @@ WAV файлове
 Търсене за "%s":
 [No word to look up]
 Няма дума за търсене
+[Empty history]
+Изтриване на историята
 [<Separator>]
 <Разделител>
 [Toolbar]
@@ -4247,7 +4249,7 @@ Avatar History: Създаването на препратка се провал
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -4477,8 +4479,6 @@ XML файлове
 Отваря историята
 [View &history]
 Преглед на историята
-[Delete all user history]
-Изтриване на историята на всички потребители
 [Incoming message]
 Входящо съобщение
 [Outgoing message]
@@ -4511,8 +4511,6 @@ XML файлове
 Износ
 [File is corrupted]
 Файлът е повреден
-[Are you sure?]
-Сигурни ли сте?
 [Open in &new window]
 Отваряне в нов прозорец
 [&Open in existing window]
@@ -4529,6 +4527,8 @@ XML файлове
 Цитиране
 [Delete group]
 Изтриване на групата
+[Delete all user history]
+Изтриване на историята на всички потребители
 [Options]
 Настройки
 [Filters]
@@ -4557,6 +4557,8 @@ Dat (mContacts)
 Грешка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Брой събития за изтриване:%d.\nСигурни ли сте?
+[Are you sure?]
+Сигурни ли сте?
 [Message]
 Съобщение
 [File transfer]
@@ -4899,7 +4901,7 @@ BossKey
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Send]
@@ -4916,6 +4918,14 @@ BossKey
 Прозорец
 [Status]
 Състояние
+[Retry]
+Нов опит
+[Message sessions]
+Разговори
+[Times]
+пъти
+[Days]
+Дни
 [Online]
 На линия
 [Away]
@@ -4932,14 +4942,6 @@ BossKey
 Невидим
 [From Offline]
 От "Извън линия"
-[Times]
-пъти
-[Days]
-Дни
-[Retry]
-Нов опит
-[Message sessions]
-Разговори
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -7194,7 +7196,7 @@ HTTP връзки на Crash Dumper
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -7313,20 +7315,18 @@ Popup настройки...
 Източник
 [Enter positive number.]
 Въведете положително число.
-[Source of Information]
+[Source of information]
 Източник на информация
-[Rate Value]
+[Rate value]
 Стойност на курса
-[Previous Rate Value]
+[Previous rate value]
 Предишен курс
-[Fetch Time]
+[Fetch time]
 Час на получаване
-[Fetch Date]
+[Fetch date]
 Дата на получаване
-[Fetch Time and Date]
+[Fetch time and date]
 Часа и дата на получаване
-[Percentage Character (%)]
-Знак за проценти (%)
 [Left slash (\\)]
 Черта наклонена наляво
 [From Currency Full Name]
@@ -7365,8 +7365,6 @@ Popup настройки...
 Редактиране на настройките...
 [Network]
 Мрежа
-[CurrencyRates HTTP connections]
-HTTP връзки на CurrencyRates
 [Protocol icon]
 Икона на протокола
 [Currency Rate up]
@@ -7381,12 +7379,12 @@ HTTP връзки на CurrencyRates
 Бутон за размяна
 [Import]
 Внос
+[CurrencyRates HTTP connections]
+HTTP връзки на CurrencyRates
 [XML File (*.xml)]
 XML файлове (*.xml)
 [All files (*.*)]
 Всички файлове (*.*)
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Зареждането на приставката CurrencyRates е невъзможно. Липсва Microsoft HTML parser.
 [Enter log file name.]
 Въведете име на дневника.
 [Enter log file format.]
@@ -7457,7 +7455,7 @@ XML файлове (*.xml)
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -7622,8 +7620,6 @@ BLOB
 Износ на модула
 [&Add module]
 Добавяне на модул
-[&Clone]
-Клониране
 [Export contact]
 Износ на контакта
 [Import settings]
@@ -7644,7 +7640,7 @@ BLOB
 Прозорец на наблюдаваните стойности
 [Reload watch list]
 Обновяване списъка за наблюдение
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 Желаете ли модулът "%s" да бъде изтрит?
 [Delete module from database]
 Изтриване на модул от базата от данни
@@ -7670,20 +7666,20 @@ INI файлове
 Модул
 [Setting]
 Настройка
-[Enter a string to search the database for]
-Въведете низ за търсене в базата от данни
-[Stop]
-Стоп
+[Searching...]
+Търсене...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
 [Replaced]
 Замяна
 [Deleted]
 Изтрито
 [Found]
 Открито:
-[Searching...]
-Търсене...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
+[Enter a string to search the database for]
+Въведете низ за търсене в базата от данни
+[Stop]
+Стоп
 [Main icon]
 Главна икона
 [Closed module]
@@ -7706,6 +7702,10 @@ INI файлове
 Отваряне на контакта в DBE++
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[Type]
+Тип
+[Size]
+Размер
 [Error loading module list]
 Грешка при зареждане на списъка с модули
 [Error loading setting list]
@@ -7720,10 +7720,6 @@ INI файлове
 Рopups
 [Add module to "%s"]
 Добавяне на модул към "%s"
-[Type]
-Тип
-[Size]
-Размер
 [<UNKNOWN>]
 <НЕИЗВЕСТНО>
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -7998,7 +7994,7 @@ E-mage LAN протокол
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -9341,12 +9337,6 @@ ANSI кодиране
 %d събитие
 [%0.n events (%s)]
 %0.n събития (%s)
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Наистина ли желаете всички (%.0f) елементи от историята да бъдат изтрити?
-[Note: It can take several minutes for large history.]
-Бележка: Може да отнеме няколко минути при голяма история.
-[Empty History]
-Изтриване на историята
 [Search Up (Ctrl+Up)]
 Търсене нагоре (Ctrl+Up)
 [Search Down (Ctrl+Down)]
@@ -9521,16 +9511,6 @@ HTML файл
 Ползвате стар пакет с икони:\\r\\n%s\\r\\nВероятно е да липсват икони. Актуализирайте пакета.
 [Next message]
 Следващо съобщение
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Модулът History++ не може да бъде зареден - липсва модулът richedit 2.0+.\\nИзберете "Добре" за да продължите към Mirada.
-[&Empty System History]
-Изтриване на системната история
-[&Empty History]
-Изтриване на историята
-[Do you really want to delete ALL items for this contact?]
-Наистина ли желаете ВСИЧКИТЕ елементи за абоната да бъдат изтрити?
-[Note: It can take several minutes for large histories]
-Бележка: При голяма история може да отнеме няколко минути
 [Previous message]
 Предишно съобщение
 [Running version of AniSmiley is not supported]
@@ -10793,7 +10773,7 @@ HTTP споделяне на нов файл
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11167,7 +11147,7 @@ Miranda внос
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -11262,8 +11242,6 @@ CTCP информация
 Изтриване
 [Perform on event:]
 Изпълнение при събитие:
-[Scripting support]
-Поддръжка на скриптове
 [Quit message:]
 Съобщение при изход:
 [Server code page:]
@@ -14659,7 +14637,7 @@ mRadio вкл.
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -14830,7 +14808,7 @@ UIN        :
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Set my nickname]
@@ -15393,8 +15371,6 @@ HTTP връзки на NewsAggregator
 Разговори
 [Complete]
 Завършен
-[Empty history]
-Изтриване на историята
 [Main icon]
 Главна икона
 [Search]
@@ -15881,7 +15857,7 @@ URL
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Reset to defaults]
@@ -17173,23 +17149,13 @@ Quick Replies
 Бутон
 [Message sessions]
 Разговори
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
-[Quick Search]
-Quick Search
-[Quick search]
-Quick Search
-[Title]
-Заглавие
-[Setting]
-Настройка
 [Reload]
 Обновяване
 [New]
@@ -17202,100 +17168,34 @@ Quick Search
 Изтриване
 [Default]
 Стандарт
-[Additional Options]
-Допълнителни настройки
+[Settings]
+Настройки
+[Title:]
+Заглавие:
+[Type:]
+Тип:
+[Module:]
+Модул:
+[Setting:]
+Настройка:
+[Save]
+Запис
 [Auto Close mode]
 Режим автозатваряне
 [Sort by Status]
 Сортиране по състояние
 [Show Client Icons]
 Показване икона на клиента
-[Settings]
-Настройки
-[Title:]
-Заглавие:
-[Account]
-Акаунт
-[Gender]
-Пол
-[Nickname]
-Прякор
-[First name]
-Име
-[Last name]
-Фамилия
-[Group]
-Група
-[Container]
-Контейнер
-[E-mail]
-Имейл
-[Client ID]
-ID на клиента
-[Last Event]
-Последно събитие
-[Online since]
-"На линия" от
-[Metacontact]
-Метаконтакт
-[Event count]
-Брой събития
-[Type:]
-Тип:
-[Script]
-Скрипт
-[Service]
-Услуга
-[Other]
-Друго
-[Byte]
-BYTE
-[Word]
-WORD
-[DWord]
-DWORD
-[String]
-STRING
-[TimeStamp]
-Времева марка
-[Module:]
-Модул:
-[Setting:]
-Настройка:
-[Service:]
-Услуга:
-[number value]
-числова стойност
-[ANSI string]
-ANSI низ
-[Unicode string]
-Unicode низ
-[current contact]
-текущ контакт
-[last result]
-последен резултат
-[parameter]
-параметър
-[Result]
-Резултат
-[Free memory]
-Свободна памет
-[Save]
-Запис
-[All]
-Всички
-[Close]
-Затваряне
+[Additional Options]
+Допълнителни настройки
 [Refresh]
 Обновяване
-[QuickSearch]
-Quick Search
 [Show Offline contacts]
 Показвай контактите "Извън линия"
-[New column]
-Нова колона
-[Save Item]
-Запис на елемента
+[Colorize]
+Оцветяване
+[Quick Search]
+Quick Search
 [New Column]
 Нова колона
 [Column Up]
@@ -17308,10 +17208,6 @@ Quick Search
 Мъж
 [Female]
 Жена
-[Contacts]
-Контакти
-[Script Editor]
-Редактор на скриптове
 [Normal background]
 Фон на табовете
 [Normal foreground]
@@ -17340,6 +17236,102 @@ Quick Search
 Фон на редовете с подконтакт
 [Subcontact foreground]
 Цвят на текста за подконтакт
+[Script]
+Скрипт
+[Service]
+Услуга
+[Other]
+Друго
+[Metacontact]
+Метаконтакт
+[Title]
+Заглавие
+[Setting]
+Настройка
+[Byte]
+BYTE
+[Word]
+WORD
+[Dword]
+DWORD
+[Hexadecimal]
+Шестнадесетичнa
+[String]
+STRING
+[Timestamp]
+Времева марка
+[Last seen]
+Последно видян
+[Last event]
+Последно събитие
+[Event count]
+Брой събития
+[Account name]
+Име на акаунта
+[New column]
+Нова колона
+[Contacts]
+Контакти
+[Account]
+Акаунт
+[Gender]
+Пол
+[Nickname]
+Прякор
+[First name]
+Име
+[Last name]
+Фамилия
+[Group]
+Група
+[Container]
+Контейнер
+[Email]
+Имейл
+[Client ID]
+ID на клиента
+[Online since]
+"На линия" от
+[Nick]
+Прякор
+[City]
+Град
+[State]
+Област
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[Age]
+Възраст
+[Unique ID]
+Уникален ID
+[Fax]
+Факс
+[Cellular]
+Мобилен тел.
+[Unknown]
+Неизвестно
+[Stay on Top]
+Винаги отгоре
+[Do you really want to delete selected contacts?]
+Желаете ли избраните контакти да бъдат изтрити?
+[Warning]
+Предупреждение
+[%i users found (%i) Online: %i]
+Открити са %i потребителя. На линия: %i
+[deleted]
+Изтрито
+[disabled]
+изключено
+[active]
+активен
+[Online]
+На линия
+[All]
+Всички
 [&Delete]
 Изтриване
 [&Copy]
@@ -17350,39 +17342,6 @@ Quick Search
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
 Някои от избраните контакти са част от различни метаконтакти.
-[Do you really want to delete selected contacts?]
-Желаете ли избраните контакти да бъдат изтрити?
-[Warning]
-Предупреждение
-[%i users found (%i) Online: %i]
-Открити са %i потребителя. На линия: %i
-[ users found (]
- Открити потребители (
-[) Online: ]
-) На линия:\s
-[Online]
-На линия
-[deleted]
-Изтрито
-[off]
-изключен
-[active]
-активен
-[Colorize]
-Оцветяване
-[default]
-стандарт
-[Selected]
-Маркирано
-[contacts]
-контакти
-[Unknown]
-Неизвестно
-[Stay on Top]
-Винаги отгоре
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Текстови редактор
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -20734,8 +20693,8 @@ UIN
 Отличаване (10x10)
 [Information (10x10)]
 Информация (10х10)
-[Message Sessions]
-Разговори
+[Messaging]
+Съобщения
 [Group chat windows]
 Прозорци за групов чат
 [Group chat log]
@@ -23910,7 +23869,7 @@ Web дизайн
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
@@ -24005,7 +23964,7 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -24720,7 +24679,7 @@ WATrack състояние
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -25019,42 +24978,30 @@ HTTP грешка: Лош шлюз
 HTTP грешка: Услугата не е налична (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP грешка: Gateway timeout (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nТемпература: %t\\nУсеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Усеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Атмосферни условия за %n от %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nДнес:	Максимална %h, Минимална %l
-[Temperature: %[Temperature]]
-Температура: %[Temperature]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\tтекущи условия\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tвятър (посока)\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tвятър (скорост)\n%y\tзалез
-[No information available.\r\nPlease update weather condition first.]
-Няма налична информация.\r\nМоля, първо обновете атмосферните условия.
-[%[..]\tcustom variables]
-%[..]\tпроизволна променлива
-[Here is a list of custom variables that are currently available]
-Списък на наличните променливи
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
 [Auto Update Enabled]
 Автообновяването е включено
 [Auto Update Disabled]
 Автообновяването е изключено
+[Protocol icon]
+Икона на протокола
+[Update Disabled]
+Обновяването е изключено
+[View Log]
+Преглед на дневника
+[View Brief]
+Кратка инф.
+[View Complete]
+Пълна прогноза
+[Popup]
+Рopup
+[No Popup]
+Без Popup
+[Edit Settings]
+Редактиране на настройките
 [Condition Changed]
 Промяна на метеорологичните условия
 [Current weather information for %s.]
@@ -25069,6 +25016,10 @@ Weather Protocol
 <Въведете име на станцията>
 [<Enter station ID here>]
 <Въведете ID на станцията тук>
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен адрес за пълната прогноза. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Не е зададен URL адрес за метеокартата. Можете да го зададете от менюто на контактите>"Редактиране на настройките".
 [Get city name from ID]
 Извличане името на града от ID
 [Weather INI information]
@@ -25099,22 +25050,6 @@ HTTP грешка: %i
 Грешка при добиването на информация: %s
 [Weather HTTP connections]
 HTTP връзки на метео протокола
-[Protocol icon]
-Икона на протокола
-[Update Disabled]
-Обновяването е изключено
-[View Log]
-Преглед на дневника
-[View Brief]
-Кратка инф.
-[View Complete]
-Пълна прогноза
-[Popup]
-Рopup
-[No Popup]
-Без Popup
-[Edit Settings]
-Редактиране на настройките
 [Name]
 Име
 [Author]
@@ -25151,6 +25086,8 @@ INI версия
 байта
 [Description:]
 Описание:
+[Here is a list of custom variables that are currently available]
+Списък на наличните променливи
 [All update data has been reloaded.]
 Всички обновени данни са заредени.
 [Invalid ini format for: %s]
@@ -25163,6 +25100,22 @@ INI версия
 Шрифт за заглавие на рамките
 [Frame Background]
 Фон на рамката
+[Weather Condition for %n as of %u]
+Атмосферни условия за %n от %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Усеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nТемпература: %t\\nУсеща се като: %f\\nАтм. налягане: %p\\nВятър: %i  %w\\nВлажност: %m\\nТочка на оросяване: %e\\nВидимост: %v\\n\\nИзгрев: %r\\nЗалез: %y\\n\\n5-дневна прогноза:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u:	%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (усеща се като %f)	Вятър: %i %w	Влажност: %m
+[Temperature: %[Temperature]]
+Температура: %[Temperature]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nДнес:	Максимална %h, Минимална %l
 [Weather Protocol Text Preview]
 Преглед на текст от протокола Weather
 [Network]
@@ -25173,6 +25126,10 @@ INI версия
 Изобразяване
 [Popups]
 Рopups
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tусловия в момента\n%d\tтекуща дата\n%e\tточка на оросяване\n%f\tусеща се като\n%h\tмаксимална\n%i\tскорост на вятъра\n%l\tминимална\n%m\tвлажност\n%n\tиме на станцията\n%p\tатм. налягане\n%r\tизгрев\n%s\tstation ID\n%t\tтемпература\n%u\tобновено на\n%v\tвидимост\n%w\tскорост на вятъра\n%y\tзалез
+[%[..]\tcustom variables]
+%[..]\tпроизволна променлива
 [Station ID]
 ID на станцията
 [Disable &weather notification]
@@ -25201,6 +25158,8 @@ Weather
 Изобразяване в рамка
 [Unable to retrieve weather information for %s]
 Извличането на атмосферни данни за %s е невъзможно
+[No information available.\r\nPlease update weather condition first.]
+Няма налична информация.\r\nМоля, първо обновете атмосферните условия.
 [Variable]
 Променливо
 [Information]
@@ -25341,6 +25300,46 @@ Weather
 югозапад
 [Southeast]
 югоизток
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Условия
+[Feel]
+Усеща се като
+[Forecast Day 1]
+Днес: _Прогноза
+[Forecast Day 2]
+Ден 2: _Прогноза
+[Forecast Day 3]
+Ден 3: _Прогноза
+[Forecast Day 4]
+Ден 4: _Прогноза
+[Forecast Day 5]
+Ден 5: _Прогноза
+[Forecast Day 6]
+Ден 6: _Прогноза
+[Forecast Day 7]
+Ден 7: _Прогноза
+[Forecast Day 8]
+Ден 8: _Прогноза
+[Forecast Day 9]
+Ден 9: _Прогноза
+[High]
+Висока
+[Low]
+Ниска
+[Moonrise]
+Луна (изгрев)
+[Moonset]
+Луна (залез)
+[Temperature]
+Температура
+[Wind direction]
+Вятър (посока)
+[Wind speed]
+Вятър (скорост)
 ;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
@@ -25960,6 +25959,344 @@ Weather
 [of the Moon is Illuminated]
 от луната е осветена
 ;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Chance Of Rain 20% Chance Of Precipitation]
+Вероятен дъжд, 20% вероятност за преваляване
+[Chance Of Rain 30% Chance Of Precipitation]
+Вероятен дъжд, 30% вероятност за преваляване
+[Chance Of Rain 40% Chance Of Precipitation]
+Вероятен дъжд, 40% вероятност за преваляване
+[Chance Of Rain 50% Chance Of Precipitation]
+Вероятен дъжд, 50% вероятност за преваляване
+[Chance Of Rain 60% Chance Of Precipitation]
+Вероятен дъжд, 60% вероятност за преваляване
+[Chance Of Rain 70% Chance Of Precipitation]
+Вероятен дъжд, 70% вероятност за преваляване
+[Chance Of Rain 80% Chance Of Precipitation]
+Вероятен дъжд, 80% вероятност за преваляване
+[Chance Of Snow 20% Chance Of Precipitation]
+Вероятен снеговалеж, 20% вероятност за преваляване
+[Chance Of Snow 30% Chance Of Precipitation]
+Вероятен снеговалеж, 30% вероятност за преваляване
+[Chance Of Snow 40% Chance Of Precipitation]
+Вероятен снеговалеж, 40% вероятност за преваляване
+[Chance Of Snow 50% Chance Of Precipitation]
+Вероятен снеговалеж, 50% вероятност за преваляване
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Вероятна гръмотевична буря, 20% вероятност за преваляване
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Вероятна гръмотевична буря, 30% вероятност за преваляване
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Вероятна гръмотевична буря, 40% вероятност за преваляване
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Вероятна гръмотевична буря, 50% вероятност за преваляване
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Вероятна гръмотевична буря, 60% вероятност за преваляване
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Вероятна гръмотевична буря, 70% вероятност за преваляване
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Вероятна гръмотевична буря, 80% вероятност за преваляване
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Вероятна гръмотевична буря, 90% вероятност за преваляване
+[Clear]
+Изчистване
+[Cloudy]
+Облачно
+[Day Length]
+Продължителност на деня
+[ENE]
+ИСИ
+[ESE]
+ИЮИ
+[E]
+И
+[East]
+изток
+[Elevation]
+Височина
+[Falling]
+Понижаване
+[Feel]
+Усеща се като
+[First Quarter]
+Първа четвърт
+[Fog]
+Мъгла
+[Forecast Day 1 Condition]
+Днес: условия
+[Forecast Day 1 Day]
+Днес: денем
+[Forecast Day 1 High]
+Днес: максимална
+[Forecast Day 1 Low]
+Днес: минимална
+[Forecast Day 1 Night Text]
+Днес: през нощта
+[Forecast Day 1 Text]
+Днес: през деня
+[Forecast Day 1]
+Днес: _Прогноза
+[Forecast Day 2 Condition]
+Ден 2: Условия
+[Forecast Day 2 Day]
+Ден 2: денем
+[Forecast Day 2 High]
+Ден 2: максимална
+[Forecast Day 2 Low]
+Ден 2: минимална
+[Forecast Day 2 Night Text]
+Ден 2: през нощта
+[Forecast Day 2 Text]
+Ден 2: през деня
+[Forecast Day 2]
+Ден 2: _Прогноза
+[Forecast Day 3 Condition]
+Ден 3: условия
+[Forecast Day 3 Day]
+Ден 3: денем
+[Forecast Day 3 High]
+Ден 3: максимална
+[Forecast Day 3 Low]
+Ден 3: минимална
+[Forecast Day 3 Night Text]
+Ден 3: през нощта
+[Forecast Day 3 Text]
+Ден 3: през деня
+[Forecast Day 3]
+Ден 3: _Прогноза
+[Forecast Day 4 Condition]
+Ден 4: условия
+[Forecast Day 4 Day]
+Ден 4: денем
+[Forecast Day 4 High]
+Ден 4: максимална
+[Forecast Day 4 Low]
+Ден 4: минимална
+[Forecast Day 4 Night Text]
+Ден 4: през нощта
+[Forecast Day 4 Text]
+Ден 4: през деня
+[Forecast Day 4]
+Ден 4: _Прогноза
+[Forecast Day 5 Condition]
+Ден 5: условия
+[Forecast Day 5 Day]
+Ден 5: денем
+[Forecast Day 5 High]
+Ден 5: максимална
+[Forecast Day 5 Low]
+Ден 5: минимална
+[Forecast Day 5 Night Text]
+Ден 5: през нощта
+[Forecast Day 5 Text]
+Ден 5: през деня
+[Forecast Day 5]
+Ден 5: _Прогноза
+[Freezing Rain]
+Леден дъжд
+[Friday]
+петък
+[Full Moon]
+Пълнолуние
+[Haze]
+Мараня
+[Heavy Rain Showers]
+Силен краткотраен дъжд
+[Heavy Snow]
+Обилен снеговалеж
+[Ice Pellets]
+Ледена суграшица
+[Last Quarter]
+Последна четвърт
+[Latitude]
+Геогр. ширина
+[Light Drizzle Fog]
+Слаб ръмеж и мъгла
+[Light Drizzle]
+Слаб ръмеж
+[Light Freezing Rain]
+Слаб леден дъжд
+[Light Ice Pellets]
+Преваляване от ледена суграшица
+[Light Rain Showers]
+Слаб краткотраен дъжд
+[Light Rain]
+Слаб дъжд
+[Light Showers Rain]
+Слаб и краткотраен дъжд
+[Light Showers Snow]
+Слаби превалявания от сняг
+[Light Snow Grains]
+Преваляване от ледени кристалчета
+[Light Snow Showers]
+Слаби снежни превалявания
+[Light Snow]
+Слаб снеговалеж
+[Light Thunderstorm Rain]
+Лек дъжд с гръмотевична буря
+[Local Time]
+Местно време
+[Longitude]
+Геогр. дължина
+[Max]
+макс.
+[Min]
+мин.
+[Mist]
+Лека мъгла
+[Monday]
+понеделник
+[Moon]
+Лунна фаза
+[Moonrise]
+Луна (изгрев)
+[Moonset]
+Луна (залез)
+[Mostly Clear]
+Предимно ясно
+[Mostly Cloudy]
+Значителна облачност
+[Mostly Sunny]
+Предимно слънчево
+[N/a]
+НД
+[NE]
+СИ
+[NNE]
+ССИ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[New Moon]
+Новолуние
+[North]
+север
+[Northeast]
+североизток
+[Northwest]
+северозапад
+[of the Moon is Illuminated]
+от луната е осветена
+[Overcast]
+Плътна облачност
+[Partly Cloudy]
+Незначителна облачност
+[Partly Sunny]
+Частично слънчево
+[Patches Fog]
+Разпокъсана мъгла
+[Pressure Change]
+Налягане (промяна)
+[Rain 100% Chance Of Precipitation]
+Дъжд, 100% вероятност за преваляване
+[Rain 50% Chance Of Precipitation]
+Дъжд, 50% вероятност за преваляване
+[Rain 60% Chance Of Precipitation]
+Дъжд, 60% вероятност за преваляване
+[Rain 70% Chance Of Precipitation]
+Дъжд, 70% вероятност за преваляване
+[Rain 80% Chance Of Precipitation]
+Дъжд, 80% вероятност за преваляване
+[Rain 90% Chance Of Precipitation]
+Дъжд, 90% вероятност за преваляване
+[Rain]
+Дъжд
+[Rising]
+Покачване
+[SE]
+ЮИ
+[SSE]
+ЮЮИ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
+[Saturday]
+събота
+[Scattered Clouds]
+Променлива облачност
+[Shallow Fog]
+Слаба мъгла
+[Showers Rain]
+Краткотраен дъжд
+[Showers Snow]
+Превалявания от сняг
+[Snow Grains]
+Ледени кристалчета
+[Snow]
+Снеговалеж
+[South]
+юг
+[Southeast]
+югоизток
+[Southwest]
+югозапад
+[Stable]
+Стабилно
+[Steady]
+Без промяна
+[Sunday]
+неделя
+[T-Storms 100% Chance Of Precipitation]
+Гръмотевична буря, 100% вероятност за преваляване
+[T-Storms 30% Chance Of Precipitation]
+Гръмотевична буря, 30% вероятност за преваляване
+[T-Storms 40% Chance Of Precipitation]
+Гръмотевична буря, 40% вероятност за преваляване
+[T-Storms 50% Chance Of Precipitation]
+Гръмотевична буря, 50% вероятност за преваляване
+[T-Storms 60% Chance Of Precipitation]
+Гръмотевична буря, 60% вероятност за преваляване
+[T-Storms 70% Chance Of Precipitation]
+Гръмотевична буря, 70% вероятност за преваляване
+[T-Storms 80% Chance Of Precipitation]
+Гръмотевична буря, 80% вероятност за преваляване
+[T-Storms 90% Chance Of Precipitation]
+Гръмотевична буря, 90% вероятност за преваляване
+[Thunderstorm Rain]
+Дъжд с гръмотевична буря
+[Thunderstorm]
+Гръмотевична буря
+[Thunderstorms And Rain]
+Дъжд с гръмотевична буря и дъжд
+[Thursday]
+четвъртък
+[Tuesday]
+вторник
+[Visible Light Length]
+Видимост
+[WNW]
+ЗНЗ
+[WSW]
+ЗЮЗ
+[W]
+З
+[Waning Crescent]
+Намаляващ полумесец
+[Waning Gibbous]
+Намаляваща полупълна
+[Waxing Crescent]
+Нарастващ полумесец
+[Waxing Gibbous]
+Нарастваща полупълна
+[Wednesday]
+сряда
+[West]
+запад
+[Wind Direction DEG]
+Вятър (посока в градуси)
+[Wind Direction]
+Вятър (посока)
+[Wind Speed]
+Вятър (скорост)
+;============================================================
 ;  File: yweather.ini
 ;  Plugin: Weather
 ;============================================================
@@ -26335,7 +26672,7 @@ Popup приставка
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Account:]

@@ -170,12 +170,8 @@ Verlaufsexport
 [Are you sure to remove selected event(s)?]
 Möchten Sie die ausgewählten Ereignisse wirklich löschen?
 ;file \plugins\NewStory\src\history_menus.cpp
-[Are you sure to remove all events from history?]
-Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
 [User history]
 Benutzerverlauf
-[Empty history]
-Leere Verlauf
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Haupticon

@@ -901,7 +901,7 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
-[Message Sessions]
+[Messaging]
 Komunikace
 [Group chat windows]
 Okna skupinových rozhovorů
@@ -1858,6 +1858,8 @@ Poloprůhledný s vlastními barvami
 Stříbrný stín
 [Custom (use own gradient colors)]
 Uživatelský (vlastní barvy gradientu)
+[Custom 2 (use own gradient colors)]
+Uživatelský 2 (vlastní barvy gradientu)
 [All message containers need to close before the skin can be changed\nProceed?]
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]

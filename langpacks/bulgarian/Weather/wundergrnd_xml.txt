@@ -1,0 +1,580 @@
+;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Alert]
+
+[Blowing Snow]
+
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+
+[Chance Of Rain 20% Chance Of Precipitation]
+Вероятен дъжд, 20% вероятност за преваляване
+[Chance Of Rain 30% Chance Of Precipitation]
+Вероятен дъжд, 30% вероятност за преваляване
+[Chance Of Rain 40% Chance Of Precipitation]
+Вероятен дъжд, 40% вероятност за преваляване
+[Chance Of Rain 50% Chance Of Precipitation]
+Вероятен дъжд, 50% вероятност за преваляване
+[Chance Of Rain 60% Chance Of Precipitation]
+Вероятен дъжд, 60% вероятност за преваляване
+[Chance Of Rain 70% Chance Of Precipitation]
+Вероятен дъжд, 70% вероятност за преваляване
+[Chance Of Rain 80% Chance Of Precipitation]
+Вероятен дъжд, 80% вероятност за преваляване
+[Chance Of Rain]
+
+[Chance Of Snow 20% Chance Of Precipitation]
+Вероятен снеговалеж, 20% вероятност за преваляване
+[Chance Of Snow 30% Chance Of Precipitation]
+Вероятен снеговалеж, 30% вероятност за преваляване
+[Chance Of Snow 40% Chance Of Precipitation]
+Вероятен снеговалеж, 40% вероятност за преваляване
+[Chance Of Snow 50% Chance Of Precipitation]
+Вероятен снеговалеж, 50% вероятност за преваляване
+[Chance Of Snow 60% Chance Of Precipitation]
+
+[Chance Of Snow 70% Chance Of Precipitation]
+
+[Chance Of Snow 80% Chance Of Precipitation]
+
+[Chance Of Snow]
+
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Вероятна гръмотевична буря, 20% вероятност за преваляване
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Вероятна гръмотевична буря, 30% вероятност за преваляване
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Вероятна гръмотевична буря, 40% вероятност за преваляване
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Вероятна гръмотевична буря, 50% вероятност за преваляване
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Вероятна гръмотевична буря, 60% вероятност за преваляване
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Вероятна гръмотевична буря, 70% вероятност за преваляване
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Вероятна гръмотевична буря, 80% вероятност за преваляване
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Вероятна гръмотевична буря, 90% вероятност за преваляване
+[Chance Rain 40% Chance Of Precipitation]
+
+[Chance Rain 50% Chance Of Precipitation]
+
+[Chance Rain 80% Chance Of Precipitation]
+
+[Chance Rain 90% Chance Of Precipitation]
+
+[Clear]
+Изчистване
+[Cloudy]
+Облачно
+[Day Length Diff]
+
+[Day Length]
+Продължителност на деня
+[Drizzle Fog]
+
+[Drizzle Mist]
+
+[Drizzle]
+
+[ENE]
+ИСИ
+[ESE]
+ИЮИ
+[E]
+И
+[East]
+изток
+[Elevation]
+Височина
+[Falling]
+Понижаване
+[Feel]
+Усеща се като
+[First Quarter]
+Първа четвърт
+[Fog]
+Мъгла
+[Forecast Day 1 Condition]
+Днес: условия
+[Forecast Day 1 Day]
+Днес: денем
+[Forecast Day 1 High]
+Днес: максимална
+[Forecast Day 1 Low]
+Днес: минимална
+[Forecast Day 1 Night Text]
+Днес: през нощта
+[Forecast Day 1 Text]
+Днес: през деня
+[Forecast Day 1]
+Днес: _Прогноза
+[Forecast Day 2 Condition]
+Ден 2: Условия
+[Forecast Day 2 Day]
+Ден 2: денем
+[Forecast Day 2 High]
+Ден 2: максимална
+[Forecast Day 2 Low]
+Ден 2: минимална
+[Forecast Day 2 Night Text]
+Ден 2: през нощта
+[Forecast Day 2 Text]
+Ден 2: през деня
+[Forecast Day 2]
+Ден 2: _Прогноза
+[Forecast Day 3 Condition]
+Ден 3: условия
+[Forecast Day 3 Day]
+Ден 3: денем
+[Forecast Day 3 High]
+Ден 3: максимална
+[Forecast Day 3 Low]
+Ден 3: минимална
+[Forecast Day 3 Night Text]
+Ден 3: през нощта
+[Forecast Day 3 Text]
+Ден 3: през деня
+[Forecast Day 3]
+Ден 3: _Прогноза
+[Forecast Day 4 Condition]
+Ден 4: условия
+[Forecast Day 4 Day]
+Ден 4: денем
+[Forecast Day 4 High]
+Ден 4: максимална
+[Forecast Day 4 Low]
+Ден 4: минимална
+[Forecast Day 4 Night Text]
+Ден 4: през нощта
+[Forecast Day 4 Text]
+Ден 4: през деня
+[Forecast Day 4]
+Ден 4: _Прогноза
+[Forecast Day 5 Condition]
+Ден 5: условия
+[Forecast Day 5 Day]
+Ден 5: денем
+[Forecast Day 5 High]
+Ден 5: максимална
+[Forecast Day 5 Low]
+Ден 5: минимална
+[Forecast Day 5 Night Text]
+Ден 5: през нощта
+[Forecast Day 5 Text]
+Ден 5: през деня
+[Forecast Day 5]
+Ден 5: _Прогноза
+[Freezing Drizzle Mist]
+
+[Freezing Drizzle]
+
+[Freezing Fog]
+
+[Freezing Rain Mist]
+
+[Freezing Rain]
+Леден дъжд
+[Friday]
+петък
+[Full Moon]
+Пълнолуние
+[Haze]
+Мараня
+[Heat Index]
+
+[Heavy Blowing Snow]
+
+[Heavy Fog]
+
+[Heavy Rain Showers]
+Силен краткотраен дъжд
+[Heavy Showers Snow Blowing Snow]
+
+[Heavy Showers Snow Heavy Blowing Snow]
+
+[Heavy Showers Snow Mist]
+
+[Heavy Showers Snow]
+
+[Heavy Snow Showers]
+
+[Heavy Snow]
+Обилен снеговалеж
+[Heavy Thunderstorm Rain]
+
+[Ice Crystals Mist]
+
+[Ice Pellets 30% Chance Of Precipitation]
+
+[Ice Pellets 40% Chance Of Precipitation]
+
+[Ice Pellets 50% Chance Of Precipitation]
+
+[Ice Pellets 60% Chance Of Precipitation]
+
+[Ice Pellets 70% Chance Of Precipitation]
+
+[Ice Pellets 80% Chance Of Precipitation]
+
+[Ice Pellets 90% Chance Of Precipitation]
+
+[Ice Pellets]
+Ледена суграшица
+[Last Quarter]
+Последна четвърт
+[Latitude]
+Геогр. ширина
+[Light Blowing Snow]
+
+[Light Drizzle Fog]
+Слаб ръмеж и мъгла
+[Light Drizzle Mist Patches Fog]
+
+[Light Drizzle Mist]
+
+[Light Drizzle]
+Слаб ръмеж
+[Light Fog]
+
+[Light Freezing Drizzle Light Snow Grains Mist]
+
+[Light Freezing Drizzle Light Snow]
+
+[Light Freezing Drizzle Mist]
+
+[Light Freezing Drizzle Snow]
+
+[Light Freezing Drizzle]
+
+[Light Freezing Rain Light Showers Snow Mist]
+
+[Light Freezing Rain Light Showers Snow]
+
+[Light Freezing Rain Light Snow]
+
+[Light Freezing Rain Mist]
+
+[Light Freezing Rain]
+Слаб леден дъжд
+[Light Ice Pellets Mist]
+
+[Light Ice Pellets]
+Преваляване от ледена суграшица
+[Light Low Drifting Snow]
+
+[Light Rain Fog]
+
+[Light Rain Mist]
+
+[Light Rain Showers]
+Слаб краткотраен дъжд
+[Light Rain Snow Mist]
+
+[Light Rain Snow]
+
+[Light Rain]
+Слаб дъжд
+[Light Showers Rain Mist]
+
+[Light Showers Rain Snow Mist]
+
+[Light Showers Rain Snow]
+
+[Light Showers Rain]
+Слаб и краткотраен дъжд
+[Light Showers Showers Rain]
+
+[Light Showers Snow Blowing Snow]
+
+[Light Showers Snow Light Blowing Snow]
+
+[Light Showers Snow Low Drifting Snow]
+
+[Light Showers Snow Mist]
+
+[Light Showers Snow Rain Mist]
+
+[Light Showers Snow Rain]
+
+[Light Showers Snow]
+Слаби превалявания от сняг
+[Light Snow 30% Chance Of Precipitation]
+
+[Light Snow Blowing Snow]
+
+[Light Snow Freezing Fog]
+
+[Light Snow Grains Mist]
+
+[Light Snow Grains]
+Преваляване от ледени кристалчета
+[Light Snow Light Blowing Snow]
+
+[Light Snow Low Drifting Snow Mist]
+
+[Light Snow Low Drifting Snow]
+
+[Light Snow Mist]
+
+[Light Snow Rain]
+
+[Light Snow Shallow Fog]
+
+[Light Snow Showers]
+Слаби снежни превалявания
+[Light Snow]
+Слаб снеговалеж
+[Light Thunderstorm Rain]
+Лек дъжд с гръмотевична буря
+[Light Thunderstorm]
+
+[Local Time]
+Местно време
+[longer]
+
+[Longitude]
+Геогр. дължина
+[Low Drifting Snow Mist]
+
+[Low Drifting Snow]
+
+[Max]
+макс.
+[Min]
+мин.
+[Mist]
+Лека мъгла
+[Monday]
+понеделник
+[Moon]
+Лунна фаза
+[Moonrise]
+Луна (изгрев)
+[Moonset]
+Луна (залез)
+[Mostly Clear]
+Предимно ясно
+[Mostly Cloudy]
+Значителна облачност
+[Mostly Sunny]
+Предимно слънчево
+[N/a]
+НД
+[NE]
+СИ
+[NNE]
+ССИ
+[NNW]
+ССЗ
+[NW]
+СЗ
+[N]
+С
+[New Moon]
+Новолуние
+[North]
+север
+[Northeast]
+североизток
+[Northwest]
+северозапад
+[of the Moon is Illuminated]
+от луната е осветена
+[Overcast]
+Плътна облачност
+[Partial Fog]
+
+[Partly Cloudy]
+Незначителна облачност
+[Partly Sunny]
+Частично слънчево
+[Patches Fog Mist]
+
+[Patches Fog]
+Разпокъсана мъгла
+[Pressure Change]
+Налягане (промяна)
+[Rain 100% Chance Of Precipitation]
+Дъжд, 100% вероятност за преваляване
+[Rain 20% Chance Of Precipitation]
+
+[Rain 40% Chance Of Precipitation]
+
+[Rain 50% Chance Of Precipitation]
+Дъжд, 50% вероятност за преваляване
+[Rain 60% Chance Of Precipitation]
+Дъжд, 60% вероятност за преваляване
+[Rain 70% Chance Of Precipitation]
+Дъжд, 70% вероятност за преваляване
+[Rain 80% Chance Of Precipitation]
+Дъжд, 80% вероятност за преваляване
+[Rain 90% Chance Of Precipitation]
+Дъжд, 90% вероятност за преваляване
+[Rain Fog]
+
+[Rain Mist]
+
+[Rain]
+Дъжд
+[Rising]
+Покачване
+[SE]
+ЮИ
+[SSE]
+ЮЮИ
+[SSW]
+ЮЮЗ
+[SW]
+ЮЗ
+[S]
+Ю
+[Saturday]
+събота
+[Scattered Clouds]
+Променлива облачност
+[Shallow Fog]
+Слаба мъгла
+[shorter]
+
+[Showers Rain Snow]
+
+[Showers Rain]
+Краткотраен дъжд
+[Showers Showers Rain]
+
+[Showers Snow Blowing Snow]
+
+[Showers Snow Heavy Blowing Snow]
+
+[Showers Snow Low Drifting Snow]
+
+[Showers Snow Mist]
+
+[Showers Snow Rain]
+
+[Showers Snow]
+Превалявания от сняг
+[Smoke]
+
+[Snow 100% Chance Of Precipitation]
+
+[Snow 20% Chance Of Precipitation]
+
+[Snow 30% Chance Of Precipitation]
+
+[Snow 40% Chance Of Precipitation]
+
+[Snow 50% Chance Of Precipitation]
+
+[Snow 60% Chance Of Precipitation]
+
+[Snow 70% Chance Of Precipitation]
+
+[Snow 80% Chance Of Precipitation]
+
+[Snow 90% Chance Of Precipitation]
+
+[Snow Blowing Snow]
+
+[Snow Freezing Rain Mist]
+
+[Snow Freezing Rain]
+
+[Snow Grains]
+Ледени кристалчета
+[Snow Heavy Blowing Snow]
+
+[Snow Mist]
+
+[Snow Rain Mist]
+
+[Snow Rain]
+
+[Snow Showers 30% Chance Of Precipitation]
+
+[Snow Showers 40% Chance Of Precipitation]
+
+[Snow Showers 50% Chance Of Precipitation]
+
+[Snow Showers 60% Chance Of Precipitation]
+
+[Snow Showers 70% Chance Of Precipitation]
+
+[Snow Showers 80% Chance Of Precipitation]
+
+[Snow Showers]
+
+[Snow]
+Снеговалеж
+[South]
+юг
+[Southeast]
+югоизток
+[Southwest]
+югозапад
+[Stable]
+Стабилно
+[Steady]
+Без промяна
+[Sunday]
+неделя
+[T-Storms 100% Chance Of Precipitation]
+Гръмотевична буря, 100% вероятност за преваляване
+[T-Storms 30% Chance Of Precipitation]
+Гръмотевична буря, 30% вероятност за преваляване
+[T-Storms 40% Chance Of Precipitation]
+Гръмотевична буря, 40% вероятност за преваляване
+[T-Storms 50% Chance Of Precipitation]
+Гръмотевична буря, 50% вероятност за преваляване
+[T-Storms 60% Chance Of Precipitation]
+Гръмотевична буря, 60% вероятност за преваляване
+[T-Storms 70% Chance Of Precipitation]
+Гръмотевична буря, 70% вероятност за преваляване
+[T-Storms 80% Chance Of Precipitation]
+Гръмотевична буря, 80% вероятност за преваляване
+[T-Storms 90% Chance Of Precipitation]
+Гръмотевична буря, 90% вероятност за преваляване
+[Thunderstorm Rain]
+Дъжд с гръмотевична буря
+[Thunderstorm]
+Гръмотевична буря
+[Thunderstorms And Rain]
+Дъжд с гръмотевична буря и дъжд
+[Thursday]
+четвъртък
+[Tuesday]
+вторник
+[UV Index]
+
+[Var]
+
+[Visible Light Length]
+Видимост
+[WNW]
+ЗНЗ
+[WSW]
+ЗЮЗ
+[W]
+З
+[Waning Crescent]
+Намаляващ полумесец
+[Waning Gibbous]
+Намаляваща полупълна
+[Waxing Crescent]
+Нарастващ полумесец
+[Waxing Gibbous]
+Нарастваща полупълна
+[Wednesday]
+сряда
+[West]
+запад
+[Wind Direction DEG]
+Вятър (посока в градуси)
+[Wind Direction]
+Вятър (посока)
+[Wind Gust]
+
+[Wind Speed]
+Вятър (скорост)

@@ -2722,6 +2722,8 @@ ANSI плагин
 Уверены, что хотите удалить все события из истории?
 [Empty history]
 Очистить историю
+[Empty system history]
+Очистить системную историю
 [<Separator>]
 <Разделитель>
 [Toolbar]
@@ -5745,7 +5747,7 @@ Windows не активен
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -5768,8 +5770,6 @@ Windows не активен
 Загрузить по умолчанию
 [Setting Value]
 Значение
-[Setting text...........]
-Настройка текста.........
 [Settings]
 Настройки
 [Contact To Send Pounce To]
@@ -5794,6 +5794,20 @@ Windows не активен
 Показывать уведомления о доставке
 [These settings are also used when sending a "Simple" pounce]
 Эти настройки также используются для "простых" отложенных сообщений
+[The Message    (%d Characters)]
+Сообщение      (%d символов)
+[Message successfully sent to %s]
+Сообщение успешно послано %s
+[Message failed to send to %s]
+Ошибка отправки сообщения для %s
+[Retry]
+Ещё раз
+[Message sessions]
+Беседы
+[Pounce being sent to %s in %d seconds]
+Сообщение будет отправлено %s через %d секунд
+[&Buddy Pounce]
+&Отложенное сообщение
 [Send If My Status Is...]
 Отправлять, если мой статус...
 [Send If They Change Status to...]
@@ -5804,6 +5818,18 @@ Windows не активен
 Задержка отмены
 [Confirmation Window]
 Окно подтверждения
+[Reuse this message? (0 to use it once)]
+Повторить сообщение? (0 - не повторять)
+[Times]
+раз
+[Give up after... (0 to not give up)]
+Отказаться после... (0 - не отказываться)
+[Days]
+дней
+[Show confirmation window? (0 to not Show)]
+Показать окно подтверждения? (0 - не показывать)
+[Seconds to wait before sending]
+секунд подождать перед отправкой
 [Send If My Status Is]
 Отправлять, если мой статус
 [Any]
@@ -5840,36 +5866,6 @@ Windows не активен
 -> Готов болтать
 [To Invisible]
 -> Невидимый
-[The Message    (%d Characters)]
-Сообщение      (%d символов)
-[Couldn't allocate enough memory]
-Не удалось выделить достаточное количество памяти
-[The Message    (0 Characters)]
-Сообщение    (0 символов)
-[Reuse this message? (0 to use it once)]
-Повторить сообщение? (0 - не повторять)
-[Times]
-раз
-[Give up after... (0 to not give up)]
-Отказаться после... (0 - не отказываться)
-[Days]
-дней
-[Show confirmation window? (0 to not Show)]
-Показать окно подтверждения? (0 - не показывать)
-[Seconds to wait before sending]
-секунд подождать перед отправкой
-[Pounce being sent to %s in %d seconds]
-Сообщение будет отправлено %s через %d секунд
-[Retry]
-Ещё раз
-[Message successfully sent to %s]
-Сообщение успешно послано %s
-[Message failed to send to %s]
-Ошибка отправки сообщения для %s
-[Message sessions]
-Беседы
-[&Buddy Pounce]
-&Отложенное сообщение
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -8845,8 +8841,6 @@ HTTP-подключения CurrencyRates
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
-[Utf-8 encoding fixed in %d events]
-Событий с исправленной кодировкой UTF-8: %d
 [Processing aborted by user]
 Обработка отменена пользователем
 [Elapsed time: %d sec]
@@ -12889,7 +12883,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -13485,7 +13479,7 @@ UIN/почта/телефон
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -13496,6 +13490,8 @@ UIN/почта/телефон
 Адрес сервера
 [Port range]
 Диапазон портов
+[SSL/TLS]
+SSL/TLS
 [Enable SASL]
 Включить SASL
 [Password]
@@ -13596,8 +13592,6 @@ ID пользователя
 Алиас
 [Perform on event:]
 Выполнить при событии:
-[Scripting support]
-Поддержка скриптов
 [Quit message:]
 Сообщение выхода:
 [Server code page:]
@@ -20283,7 +20277,7 @@ GPG не удалось расшифровать входящее сообщен
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -21524,7 +21518,7 @@ TCP соединение
 [Plugin Updater HTTP connections]
 HTTP-подключения Plugin Updater
 [Available components list]
-Компоненты для установки
+Установка компонентов...
 [Update failed]
 Сбой обновления
 [Update completed]
@@ -22177,7 +22171,7 @@ ProxySwitch
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.5.0.3
+;  Version: 1.5.0.4
 ;  Authors: Bethoven, Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
@@ -22412,6 +22406,8 @@ ID клиента
 Неизвестный
 [Stay on Top]
 Поверх всех окон
+[Do you really want to delete selected contacts?]
+Действительно удалить выбранные контакты?
 [Warning]
 Предупреждение
 [%i users found (%i) Online: %i]
@@ -27235,7 +27231,7 @@ BBCode ([b][i][u])
 Выделить (10х10)
 [Information (10x10)]
 Информация (10х10)
-[Message Sessions]
+[Messaging]
 Беседы
 [Group chat windows]
 Окна чата
@@ -28167,6 +28163,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Серебряная тень
 [Custom (use own gradient colors)]
 Пользовательский (собственные цветовые градиенты)
+[Custom 2 (use own gradient colors)]
+Пользовательский 2 (собственные цветовые градиенты)
 [All message containers need to close before the skin can be changed\nProceed?]
 Перед сменой скина нужно закрыть все контейнеры\nПродолжить?
 [Change skin]
@@ -31156,7 +31154,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.0
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -32543,7 +32541,7 @@ Miranda NG прекрасна, а это - пример длинного соо�
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.6
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

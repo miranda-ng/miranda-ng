@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ BLOB
 Износ на модула
 [&Add module]
 Добавяне на модул
-[&Clone]
-Клониране
 [Export contact]
 Износ на контакта
 [Import settings]
@@ -208,8 +206,8 @@ BLOB
 [Copy module "%s"]
 
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Желаете ли модулът "%s" да бъде изтрит?
+[Are you sure you want to delete module "%S"?]
+Желаете ли модулът "%S" да бъде изтрит?
 [Delete module from database]
 Изтриване на модул от базата от данни
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ INI файлове
 Модул
 [Setting]
 Настройка
-[Enter a string to search the database for]
-Въведете низ за търсене в базата от данни
-[Stop]
-Стоп
+[Searching...]
+Търсене...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
 [Replaced]
 Замяна
 [Deleted]
 Изтрито
 [Found]
 Открито:
-[Searching...]
-Търсене...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Готово. Бяха намерени %d елемента. %d елемента бяха заменени. %d елемента бяха изтрити.
+[Enter a string to search the database for]
+Въведете низ за търсене в базата от данни
+[Stop]
+Стоп
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Главна икона
@@ -295,6 +293,10 @@ INI файлове
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Сигурни ли сте, че желаете контактът "%s" да бъде изтрит?
+[Type]
+Тип
+[Size]
+Размер
 [Delete resident settings from database?]
 
 [%d items deleted.]
@@ -318,10 +320,6 @@ INI файлове
 [Add module to "%s"]
 Добавяне на модул към "%s"
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Тип
-[Size]
-Размер
 [Unable to store value in this data type!]
 
 [Are you sure you want to delete %d contact(s)?]

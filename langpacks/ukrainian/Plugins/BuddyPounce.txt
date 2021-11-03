@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -26,8 +26,6 @@
 Скинути на стандартні
 [Setting Value]
 Налаштування значення
-[Setting text...........]
-Налаштування тексту.........
 [Settings]
 Налаштування
 [Contact To Send Pounce To]
@@ -53,6 +51,22 @@
 [These settings are also used when sending a "Simple" pounce]
 Ці параметри також використовуються для "простих" відкл. повідомлень
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+Повідомлення (%d символів)
+[Message successfully sent to %s]
+Повідомлення успішно надіслано %s
+[Message failed to send to %s]
+Помилка надсилання повідомлення для %s
+[Retry]
+Повторити
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Бесіди
+[Pounce being sent to %s in %d seconds]
+Повідомлення буде надіслано %s через %d секунд
+[&Buddy Pounce]
+&Відкладене повідомлення
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 Надсилати, якщо мій статус...
 [Send If They Change Status to...]
@@ -63,6 +77,18 @@
 Затримка скасування
 [Confirmation Window]
 Вікно підтвердження
+[Reuse this message? (0 to use it once)]
+Повторити повідомлення? (0 - не повторювати)
+[Times]
+разів
+[Give up after... (0 to not give up)]
+Скасувати після... (0 - не скасовувати)
+[Days]
+днів
+[Show confirmation window? (0 to not Show)]
+Показати вікно підтвердження? (0 - не показувати)
+[Seconds to wait before sending]
+секунд очікування перед відправкою
 [Send If My Status Is]
 Надсилати, якщо мій статус
 [Any]
@@ -99,34 +125,3 @@
 -> Готовий до чату
 [To Invisible]
 -> Невидимий
-[The Message    (%d Characters)]
-Повідомлення (%d символів)
-[Couldn't allocate enough memory]
-Не вдалося виділити достатньо пам'яті
-[The Message    (0 Characters)]
-Повідомлення (0 символів)
-[Reuse this message? (0 to use it once)]
-Повторити повідомлення? (0 - не повторювати)
-[Times]
-разів
-[Give up after... (0 to not give up)]
-Скасувати після... (0 - не скасовувати)
-[Days]
-днів
-[Show confirmation window? (0 to not Show)]
-Показати вікно підтвердження? (0 - не показувати)
-[Seconds to wait before sending]
-секунд очікування перед відправкою
-[Pounce being sent to %s in %d seconds]
-Повідомлення буде надіслано %s через %d секунд
-[Retry]
-Повторити
-[Message successfully sent to %s]
-Повідомлення успішно надіслано %s
-[Message failed to send to %s]
-Помилка надсилання повідомлення для %s
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-Бесіди
-[&Buddy Pounce]
-&Відкладене повідомлення

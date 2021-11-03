@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -56,6 +56,8 @@ Cuenta
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Facebook\src\server.cpp
+[Connection failed with error code %d]
+
 [Participant]
 
 [Sticker received]

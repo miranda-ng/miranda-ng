@@ -1,0 +1,6 @@
+[Heat Index]
+[Light Rain And Snow]
+[Moon phase]
+[Precipitation]
+[Rain Showers]
+[UV Index]

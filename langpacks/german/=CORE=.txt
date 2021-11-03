@@ -1826,11 +1826,6 @@ Titel in Zwischenablage kopieren
 Nachricht in Zwischenablage kopieren
 [Copy timestamp to clipboard]
 Zeitstempel in Zwischenablage kopieren
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
-[Host we are connecting to is not the one certificate was issued for]
-Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Ausgehende Nachricht
@@ -2558,6 +2553,11 @@ Programmauswahl für den Start
 <Alle Verbindungen>
 [Network]
 Netzwerk
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
+[Host we are connecting to is not the one certificate was issued for]
+Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. StdMsg.dll.
@@ -2811,6 +2811,13 @@ Verlaufsbetrachter
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+
+[Empty history]
+Leere Verlauf
+[Empty system history]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Trennlinie>

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ Př&ejmenovat
 &Exportovat modul...
 [&Add module]
 Přid&at modul...
-[&Clone]
-Dup&likovat
 [Export contact]
 &Exportovat kontakt
 [Import settings]
@@ -208,8 +206,8 @@ Aktualizovat seznam sledovaných
 [Copy module "%s"]
 Zkopírovat modul "%s"
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Opravdu chcete smazat modul '%s'?
+[Are you sure you want to delete module "%S"?]
+Opravdu chcete smazat modul '%S'?
 [Delete module from database]
 Smazat modul z databáze
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ Kontakt
 Modul
 [Setting]
 Nastavení
-[Enter a string to search the database for]
-Zadejte prosím požadovaný řetězec pro vyhledávání
-[Stop]
-Zastavit
+[Searching...]
+Hledání...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Dokončeno. Nalezeno: %d / nahrazeno: %d / odstraněno: %d
 [Replaced]
 Nahrazeno
 [Deleted]
 Smazáno
 [Found]
 Nalezeno
-[Searching...]
-Hledání...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Dokončeno. Nalezeno: %d / nahrazeno: %d / odstraněno: %d
+[Enter a string to search the database for]
+Zadejte prosím požadovaný řetězec pro vyhledávání
+[Stop]
+Zastavit
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Hlavní ikona
@@ -295,6 +293,10 @@ Upravit položky v DBE++
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
+[Type]
+Typ
+[Size]
+Velikost
 [Delete resident settings from database?]
 Odstranit rezidentní nastavení z databáze?
 [%d items deleted.]
@@ -318,10 +320,6 @@ Oznámení
 [Add module to "%s"]
 Přidat modul do "%s"
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Typ
-[Size]
-Velikost
 [Unable to store value in this data type!]
 Nelze uložit hodnotu do tohoto datového typu!
 [Are you sure you want to delete %d contact(s)?]

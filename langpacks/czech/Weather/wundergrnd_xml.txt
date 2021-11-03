@@ -1,0 +1,580 @@
+;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Alert]
+Upozornění
+[Blowing Snow]
+poletující sníh
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+
+[Chance Of Rain 20% Chance Of Precipitation]
+
+[Chance Of Rain 30% Chance Of Precipitation]
+
+[Chance Of Rain 40% Chance Of Precipitation]
+
+[Chance Of Rain 50% Chance Of Precipitation]
+
+[Chance Of Rain 60% Chance Of Precipitation]
+
+[Chance Of Rain 70% Chance Of Precipitation]
+
+[Chance Of Rain 80% Chance Of Precipitation]
+
+[Chance Of Rain]
+příležitostně déšť
+[Chance Of Snow 20% Chance Of Precipitation]
+
+[Chance Of Snow 30% Chance Of Precipitation]
+
+[Chance Of Snow 40% Chance Of Precipitation]
+
+[Chance Of Snow 50% Chance Of Precipitation]
+
+[Chance Of Snow 60% Chance Of Precipitation]
+
+[Chance Of Snow 70% Chance Of Precipitation]
+
+[Chance Of Snow 80% Chance Of Precipitation]
+
+[Chance Of Snow]
+
+[Chance Of T-Storms 20% Chance Of Precipitation]
+
+[Chance Of T-Storms 30% Chance Of Precipitation]
+
+[Chance Of T-Storms 40% Chance Of Precipitation]
+
+[Chance Of T-Storms 50% Chance Of Precipitation]
+
+[Chance Of T-Storms 60% Chance Of Precipitation]
+
+[Chance Of T-Storms 70% Chance Of Precipitation]
+
+[Chance Of T-Storms 80% Chance Of Precipitation]
+
+[Chance Of T-Storms 90% Chance Of Precipitation]
+
+[Chance Rain 40% Chance Of Precipitation]
+
+[Chance Rain 50% Chance Of Precipitation]
+
+[Chance Rain 80% Chance Of Precipitation]
+
+[Chance Rain 90% Chance Of Precipitation]
+
+[Clear]
+Vymazat
+[Cloudy]
+oblačno
+[Day Length Diff]
+
+[Day Length]
+Délka dne
+[Drizzle Fog]
+
+[Drizzle Mist]
+
+[Drizzle]
+mrholení
+[ENE]
+VSV
+[ESE]
+VJV
+[E]
+V
+[East]
+Východní
+[Elevation]
+Výška
+[Falling]
+Klesá
+[Feel]
+Subj.
+[First Quarter]
+první čtvrť
+[Fog]
+hustá mlha
+[Forecast Day 1 Condition]
+Předpověď na 1. den - počasí
+[Forecast Day 1 Day]
+Předpověď na 1. den - denní
+[Forecast Day 1 High]
+Předpověď na 1. den - nejvyšší
+[Forecast Day 1 Low]
+Předpověď na 1. den - nejnižší
+[Forecast Day 1 Night Text]
+Předpověď na 1. den - noční informace
+[Forecast Day 1 Text]
+Předpověď na 1. den - informace
+[Forecast Day 1]
+Předpověď na 1. den
+[Forecast Day 2 Condition]
+Předpověď na 2. den - počasí
+[Forecast Day 2 Day]
+Předpověď na 2. den - denní
+[Forecast Day 2 High]
+Předpověď na 2. den - nejvyšší
+[Forecast Day 2 Low]
+Předpověď na 2. den - nejnižší
+[Forecast Day 2 Night Text]
+Předpověď na 2. den - noční informace
+[Forecast Day 2 Text]
+Předpověď na 2. den - informace
+[Forecast Day 2]
+Předpověď na 2. den
+[Forecast Day 3 Condition]
+Předpověď na 3. den - počasí
+[Forecast Day 3 Day]
+Předpověď na 3. den - denní
+[Forecast Day 3 High]
+Předpověď na 3. den - nejvyšší
+[Forecast Day 3 Low]
+Předpověď na 3. den - nejnižší
+[Forecast Day 3 Night Text]
+Předpověď na 3. den - noční informace
+[Forecast Day 3 Text]
+Předpověď na 3. den - informace
+[Forecast Day 3]
+Předpověď na 3. den
+[Forecast Day 4 Condition]
+Předpověď na 4. den - počasí
+[Forecast Day 4 Day]
+Předpověď na 4. den - denní
+[Forecast Day 4 High]
+Předpověď na 4. den - nejvyšší
+[Forecast Day 4 Low]
+Předpověď na 4. den - nejnižší
+[Forecast Day 4 Night Text]
+Předpověď na 4. den - noční informace
+[Forecast Day 4 Text]
+Předpověď na 4. den - informace
+[Forecast Day 4]
+Předpověď na 4. den
+[Forecast Day 5 Condition]
+Předpověď na 5. den - počasí
+[Forecast Day 5 Day]
+Předpověď na 5. den - denní
+[Forecast Day 5 High]
+Předpověď na 5. den - nejvyšší
+[Forecast Day 5 Low]
+Předpověď na 5. den - nejnižší
+[Forecast Day 5 Night Text]
+Předpověď na 5. den - noční informace
+[Forecast Day 5 Text]
+Předpověď na 5. den - informace
+[Forecast Day 5]
+Předpověď na 5. den
+[Freezing Drizzle Mist]
+
+[Freezing Drizzle]
+mrznoucí mrholení
+[Freezing Fog]
+mrznoucí mlha
+[Freezing Rain Mist]
+
+[Freezing Rain]
+mrznoucí déšť
+[Friday]
+pátek
+[Full Moon]
+úplněk
+[Haze]
+slabé mrholení
+[Heat Index]
+Teplotní index
+[Heavy Blowing Snow]
+
+[Heavy Fog]
+velmi hustá mlha
+[Heavy Rain Showers]
+silné dešťové přeháňky
+[Heavy Showers Snow Blowing Snow]
+
+[Heavy Showers Snow Heavy Blowing Snow]
+
+[Heavy Showers Snow Mist]
+
+[Heavy Showers Snow]
+
+[Heavy Snow Showers]
+silné sněhové přeháňky
+[Heavy Snow]
+silné sněžení
+[Heavy Thunderstorm Rain]
+
+[Ice Crystals Mist]
+
+[Ice Pellets 30% Chance Of Precipitation]
+
+[Ice Pellets 40% Chance Of Precipitation]
+
+[Ice Pellets 50% Chance Of Precipitation]
+
+[Ice Pellets 60% Chance Of Precipitation]
+
+[Ice Pellets 70% Chance Of Precipitation]
+
+[Ice Pellets 80% Chance Of Precipitation]
+
+[Ice Pellets 90% Chance Of Precipitation]
+
+[Ice Pellets]
+ledové kuličky
+[Last Quarter]
+poslední čtvrť
+[Latitude]
+
+[Light Blowing Snow]
+
+[Light Drizzle Fog]
+
+[Light Drizzle Mist Patches Fog]
+
+[Light Drizzle Mist]
+slabé mrholení a mlha
+[Light Drizzle]
+slabé mrholení
+[Light Fog]
+slabá mlha
+[Light Freezing Drizzle Light Snow Grains Mist]
+
+[Light Freezing Drizzle Light Snow]
+
+[Light Freezing Drizzle Mist]
+slabé mrznoucí mrholení
+[Light Freezing Drizzle Snow]
+
+[Light Freezing Drizzle]
+slabé mrznoucí mrholení
+[Light Freezing Rain Light Showers Snow Mist]
+
+[Light Freezing Rain Light Showers Snow]
+
+[Light Freezing Rain Light Snow]
+
+[Light Freezing Rain Mist]
+slabý mrznoucí déšť / mrholení
+[Light Freezing Rain]
+slabý mrznoucí déšť
+[Light Ice Pellets Mist]
+
+[Light Ice Pellets]
+slabé ledové kuličky
+[Light Low Drifting Snow]
+
+[Light Rain Fog]
+
+[Light Rain Mist]
+mrholení / slabý déšť
+[Light Rain Showers]
+slabé dešťové přeháňky
+[Light Rain Snow Mist]
+
+[Light Rain Snow]
+
+[Light Rain]
+slabý déšť
+[Light Showers Rain Mist]
+
+[Light Showers Rain Snow Mist]
+
+[Light Showers Rain Snow]
+
+[Light Showers Rain]
+slabé přeháňky a déšť
+[Light Showers Showers Rain]
+
+[Light Showers Snow Blowing Snow]
+
+[Light Showers Snow Light Blowing Snow]
+
+[Light Showers Snow Low Drifting Snow]
+
+[Light Showers Snow Mist]
+
+[Light Showers Snow Rain Mist]
+
+[Light Showers Snow Rain]
+
+[Light Showers Snow]
+
+[Light Snow 30% Chance Of Precipitation]
+
+[Light Snow Blowing Snow]
+
+[Light Snow Freezing Fog]
+
+[Light Snow Grains Mist]
+
+[Light Snow Grains]
+slabé sněhové vločky
+[Light Snow Light Blowing Snow]
+
+[Light Snow Low Drifting Snow Mist]
+
+[Light Snow Low Drifting Snow]
+
+[Light Snow Mist]
+slabé sněhové mrholení
+[Light Snow Rain]
+
+[Light Snow Shallow Fog]
+
+[Light Snow Showers]
+slabé sněhové přeháňky
+[Light Snow]
+slabé sněžení
+[Light Thunderstorm Rain]
+slabá bouřka / déšť
+[Light Thunderstorm]
+slabá bouřka
+[Local Time]
+Místní čas
+[longer]
+delší
+[Longitude]
+
+[Low Drifting Snow Mist]
+
+[Low Drifting Snow]
+nízko poletující sníh
+[Max]
+Max
+[Min]
+Min
+[Mist]
+mrholení
+[Monday]
+pondělí
+[Moon]
+Měsíc
+[Moonrise]
+
+[Moonset]
+
+[Mostly Clear]
+převážně jasno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Sunny]
+převážně slunečno
+[N/a]
+<neuvedeno>
+[NE]
+SV
+[NNE]
+SSV
+[NNW]
+SSZ
+[NW]
+SZ
+[N]
+S
+[New Moon]
+nov
+[North]
+Severní
+[Northeast]
+Severovýchodní
+[Northwest]
+Severozápadní
+[of the Moon is Illuminated]
+
+[Overcast]
+zataženo
+[Partial Fog]
+místy hustá mlha
+[Partly Cloudy]
+částečně oblačno
+[Partly Sunny]
+částečně slunečno
+[Patches Fog Mist]
+
+[Patches Fog]
+
+[Pressure Change]
+Změna tlaku
+[Rain 100% Chance Of Precipitation]
+
+[Rain 20% Chance Of Precipitation]
+
+[Rain 40% Chance Of Precipitation]
+
+[Rain 50% Chance Of Precipitation]
+
+[Rain 60% Chance Of Precipitation]
+
+[Rain 70% Chance Of Precipitation]
+
+[Rain 80% Chance Of Precipitation]
+
+[Rain 90% Chance Of Precipitation]
+
+[Rain Fog]
+
+[Rain Mist]
+déšť a mlha
+[Rain]
+déšť
+[Rising]
+Stoupá
+[SE]
+JV
+[SSE]
+JJV
+[SSW]
+JJZ
+[SW]
+JZ
+[S]
+J
+[Saturday]
+sobota
+[Scattered Clouds]
+střídavě oblačno
+[Shallow Fog]
+slabá mlha
+[shorter]
+kratší
+[Showers Rain Snow]
+
+[Showers Rain]
+dešťová přeháňka
+[Showers Showers Rain]
+
+[Showers Snow Blowing Snow]
+
+[Showers Snow Heavy Blowing Snow]
+
+[Showers Snow Low Drifting Snow]
+
+[Showers Snow Mist]
+
+[Showers Snow Rain]
+
+[Showers Snow]
+
+[Smoke]
+kouř
+[Snow 100% Chance Of Precipitation]
+
+[Snow 20% Chance Of Precipitation]
+
+[Snow 30% Chance Of Precipitation]
+
+[Snow 40% Chance Of Precipitation]
+
+[Snow 50% Chance Of Precipitation]
+
+[Snow 60% Chance Of Precipitation]
+
+[Snow 70% Chance Of Precipitation]
+
+[Snow 80% Chance Of Precipitation]
+
+[Snow 90% Chance Of Precipitation]
+
+[Snow Blowing Snow]
+
+[Snow Freezing Rain Mist]
+
+[Snow Freezing Rain]
+
+[Snow Grains]
+sněhové vločky
+[Snow Heavy Blowing Snow]
+
+[Snow Mist]
+
+[Snow Rain Mist]
+
+[Snow Rain]
+
+[Snow Showers 30% Chance Of Precipitation]
+
+[Snow Showers 40% Chance Of Precipitation]
+
+[Snow Showers 50% Chance Of Precipitation]
+
+[Snow Showers 60% Chance Of Precipitation]
+
+[Snow Showers 70% Chance Of Precipitation]
+
+[Snow Showers 80% Chance Of Precipitation]
+
+[Snow Showers]
+sněhové přeháňky
+[Snow]
+sněžení
+[South]
+Jižní
+[Southeast]
+Jihovýchodní
+[Southwest]
+Jihozápadní
+[Stable]
+Stabilní
+[Steady]
+Ustálený
+[Sunday]
+neděle
+[T-Storms 100% Chance Of Precipitation]
+
+[T-Storms 30% Chance Of Precipitation]
+
+[T-Storms 40% Chance Of Precipitation]
+
+[T-Storms 50% Chance Of Precipitation]
+
+[T-Storms 60% Chance Of Precipitation]
+
+[T-Storms 70% Chance Of Precipitation]
+
+[T-Storms 80% Chance Of Precipitation]
+
+[T-Storms 90% Chance Of Precipitation]
+
+[Thunderstorm Rain]
+bouřka a déšť
+[Thunderstorm]
+bouřka
+[Thunderstorms And Rain]
+bouřky / déšť
+[Thursday]
+čtvrtek
+[Tuesday]
+úterý
+[UV Index]
+UV index
+[Var]
+proměnlivý
+[Visible Light Length]
+
+[WNW]
+ZSZ
+[WSW]
+ZJZ
+[W]
+Z
+[Waning Crescent]
+couvá (srpek)
+[Waning Gibbous]
+couvá
+[Waxing Crescent]
+dorůstá (srpek)
+[Waxing Gibbous]
+dorůstá
+[Wednesday]
+středa
+[West]
+Západní
+[Wind Direction DEG]
+Směr větru (stupně)
+[Wind Direction]
+Směr větru
+[Wind Gust]
+
+[Wind Speed]
+Rychlost větru

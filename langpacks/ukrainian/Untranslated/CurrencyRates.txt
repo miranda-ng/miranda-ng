@@ -1,5 +1,7 @@
 [&Personal key:]
 [Enter text to display in contact list.]
+[Rate delta]
+[Percent character (%)]
 [This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
 [Enter integer value]
 [Enter log file name.]

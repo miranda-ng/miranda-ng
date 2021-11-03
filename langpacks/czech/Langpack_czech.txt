@@ -1776,10 +1776,6 @@ Zkopírovat záhlaví
 Zkopírovat zprávu
 [Copy timestamp to clipboard]
 Zkopírovat časový údaj
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
-[Host we are connecting to is not the one certificate was issued for]
-Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 [Outgoing message]
 Odchozí zpráva
 [Incoming message]
@@ -2426,6 +2422,10 @@ Vyberte požadovaný program
 <všechna spojení>
 [Network]
 Sítě
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
+[Host we are connecting to is not the one certificate was issued for]
+Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
 ['%S' is disabled, re-enable?]
@@ -2656,6 +2656,8 @@ Identifikátor
 Vyhledat '%s':
 [No word to look up]
 Není co vyhledat
+[Empty history]
+Vymazání historie
 [<Separator>]
 <oddělovač>
 [Toolbar]
@@ -4257,7 +4259,7 @@ Historie avatarů: Nelze vytvořit zástupce
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -4527,8 +4529,6 @@ Zrušit
 Otevřít historii
 [View &history]
 Zobrazit &historii
-[Delete all user history]
-Smazat celou historii uživatele
 [Execute history task]
 Vykonat úlohu historie
 [Incoming message]
@@ -4573,12 +4573,6 @@ Exportovat
 Soubor neobsahuje vybraný kontakt
 [File is corrupted]
 Soubor je poškozen
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -4595,6 +4589,8 @@ Poslat zprávu
 Odpovědět s &citací
 [Delete group]
 Odstranit skupinu
+[Delete all user history]
+Smazat celou historii uživatele
 [Options]
 Možnosti
 [Filters]
@@ -4627,6 +4623,10 @@ Soubor obsahuje historii jiného kontaktu. Přejete si změnit kontakt a naimpor
 Chyba
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Počet položek historie ke smazání: %d.\nJste si jistí, že chcete pokračovat?
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
 [Message]
 Zpráva
 [File transfer]
@@ -5143,7 +5143,7 @@ Tento kontakt byl pryč po velmi dlouhou dobu.
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -5166,8 +5166,6 @@ Smazat zprávu
 Výchozí nastavení
 [Setting Value]
 Hodnota
-[Setting text...........]
-Nastavení textu...
 [Settings]
 Nastavení
 [Contact To Send Pounce To]
@@ -5192,6 +5190,20 @@ Výchozí nastavení
 Informovat o doručení
 [These settings are also used when sending a "Simple" pounce]
 Tyto nastavení jsou použity také při odeslání jediné zprávy
+[The Message    (%d Characters)]
+Zpráva (počet znaků: %d)
+[Message successfully sent to %s]
+Zpráva úspěšně odeslána (komu: %s)
+[Message failed to send to %s]
+Chyba při odesílání zprávy (komu: %s)
+[Retry]
+Znovu
+[Message sessions]
+Komunikace
+[Pounce being sent to %s in %d seconds]
+Zpráva (adresát: %s, bude odesláno za %d sek.)
+[&Buddy Pounce]
+Zpráva o&ffline
 [Send If My Status Is...]
 Odesílání ve stavu...
 [Send If They Change Status to...]
@@ -5202,6 +5214,18 @@ Použití napsané zprávy
 Zrušení odesílání po určité době
 [Confirmation Window]
 Potvrzení akce
+[Reuse this message? (0 to use it once)]
+Použít tuto zprávu znovu? (0 pro použití pouze jednou)
+[Times]
+Čas ve světě
+[Give up after... (0 to not give up)]
+Vzdát po... (0 pro nevzdávat)
+[Days]
+Dnů
+[Show confirmation window? (0 to not Show)]
+Zobrazit potvrzovací okno? (0 pro nezobrazovat)
+[Seconds to wait before sending]
+Počet sekund pro čekání před odesláním
 [Send If My Status Is]
 Odeslat ve stavu
 [Any]
@@ -5238,36 +5262,6 @@ Do 'Nerušit'
 Do 'Mám volno'
 [To Invisible]
 Do 'Neviditelný'
-[The Message    (%d Characters)]
-Zpráva (počet znaků: %d)
-[Couldn't allocate enough memory]
-Nelze alokovat dostatek paměti
-[The Message    (0 Characters)]
-Zpráva (počet znaků: 0)
-[Reuse this message? (0 to use it once)]
-Použít tuto zprávu znovu? (0 pro použití pouze jednou)
-[Times]
-Čas ve světě
-[Give up after... (0 to not give up)]
-Vzdát po... (0 pro nevzdávat)
-[Days]
-Dnů
-[Show confirmation window? (0 to not Show)]
-Zobrazit potvrzovací okno? (0 pro nezobrazovat)
-[Seconds to wait before sending]
-Počet sekund pro čekání před odesláním
-[Pounce being sent to %s in %d seconds]
-Zpráva (adresát: %s, bude odesláno za %d sek.)
-[Retry]
-Znovu
-[Message successfully sent to %s]
-Zpráva úspěšně odeslána (komu: %s)
-[Message failed to send to %s]
-Chyba při odesílání zprávy (komu: %s)
-[Message sessions]
-Komunikace
-[&Buddy Pounce]
-Zpráva o&ffline
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -7674,7 +7668,7 @@ Nastavit
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -7795,20 +7789,18 @@ Graf...
 Upravit nastavení...
 [Network]
 Sítě
-[CurrencyRates HTTP connections]
-CurrencyRates - spojení pomocí protokolu HTTP
 [Protocol icon]
 Ikona protokolu
 [Export]
 Exportovat
 [Import]
 Importovat
+[CurrencyRates HTTP connections]
+CurrencyRates - spojení pomocí protokolu HTTP
 [XML File (*.xml)]
 XML soubory (*.xml)
 [All files (*.*)]
 Všechny soubory (*.*)
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Miranda nemůže načíst doplněk CurrencyRates. Microsoft HTML parser nebyl nalezen.
 [Log Files (*.txt,*.log)]
 Záznamové soubory (*.txt,*.log)
 [Enter integer value]
@@ -7887,7 +7879,7 @@ Všechny úlohy byly úspěšně dokončeny
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -8066,8 +8058,6 @@ Př&ejmenovat
 &Exportovat modul...
 [&Add module]
 Přid&at modul...
-[&Clone]
-Dup&likovat
 [Export contact]
 &Exportovat kontakt
 [Import settings]
@@ -8090,7 +8080,7 @@ Sledování
 Aktualizovat seznam sledovaných
 [Copy module "%s"]
 Zkopírovat modul "%s"
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 Opravdu chcete smazat modul '%s'?
 [Delete module from database]
 Smazat modul z databáze
@@ -8118,20 +8108,20 @@ Kontakt
 Modul
 [Setting]
 Nastavení
-[Enter a string to search the database for]
-Zadejte prosím požadovaný řetězec pro vyhledávání
-[Stop]
-Zastavit
+[Searching...]
+Hledání...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Dokončeno. Nalezeno: %d / nahrazeno: %d / odstraněno: %d
 [Replaced]
 Nahrazeno
 [Deleted]
 Smazáno
 [Found]
 Nalezeno
-[Searching...]
-Hledání...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Dokončeno. Nalezeno: %d / nahrazeno: %d / odstraněno: %d
+[Enter a string to search the database for]
+Zadejte prosím požadovaný řetězec pro vyhledávání
+[Stop]
+Zastavit
 [Main icon]
 Hlavní ikona
 [Closed module]
@@ -8172,6 +8162,10 @@ Databáze
 Upravit položky v DBE++
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
+[Type]
+Typ
+[Size]
+Velikost
 [Delete resident settings from database?]
 Odstranit rezidentní nastavení z databáze?
 [%d items deleted.]
@@ -8190,10 +8184,6 @@ Kontakty
 Oznámení
 [Add module to "%s"]
 Přidat modul do "%s"
-[Type]
-Typ
-[Size]
-Velikost
 [Unable to store value in this data type!]
 Nelze uložit hodnotu do tohoto datového typu!
 [Are you sure you want to delete %d setting(s)?]
@@ -8570,7 +8560,7 @@ Připojování k Exchange...
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -9947,12 +9937,6 @@ Hledat: %s (F3 najde další)
 %d událost
 [%0.n events (%s)]
 %0.n událostí (%s)
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Opravdu si přejete smazat VŠECHNY položky (%.0f) tohoto kontaktu?
-[Note: It can take several minutes for large history.]
-Pozn.: Může to trvat i několik minut u dlouhé historie.
-[Empty History]
-Vymazání historie
 [Search Up (Ctrl+Up)]
 Hledat nahoru (Ctrl+šipka nahoru)
 [Search Down (Ctrl+Down)]
@@ -10135,14 +10119,6 @@ Umělec: %s\\r\\nNázev: %s\\r\\nAlbum: %s
 Žádné položky "%s"
 [Next message]
 Další zpráva
-[&Empty System History]
-Odstranit historii systému...
-[&Empty History]
-Odstranit historii...
-[Do you really want to delete ALL items for this contact?]
-Opravdu chcete vymazat VŠECHNY položky u tohoto kontaktu?
-[Note: It can take several minutes for large histories]
-Upozornění: Tato akce může trvat u dlouhé historie i několik minut.
 [Previous message]
 Předchozí zpráva
 [Running version of AniSmiley is not supported]
@@ -11065,7 +11041,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11120,8 +11096,6 @@ Jméno
 Přejmenovat
 [Delete]
 Smazat
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Chyba připojení.\nZadané UIN a heslo bylo odmítnuto serverem (%d).
 [admin]
 admin
 [member]
@@ -11551,7 +11525,7 @@ Dokončit
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -11662,8 +11636,6 @@ Na&stavit
 Alias
 [Perform on event:]
 Spustit při:
-[Scripting support]
-Skripty
 [Quit message:]
 Při ukončení:
 [Server code page:]
@@ -15149,7 +15121,7 @@ Zpráva s hvězdičkou
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -15306,7 +15278,7 @@ Chyba při mazání souboru
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -16083,8 +16055,6 @@ Najít předchozí
 Konverzace
 [Complete]
 Dokončeno
-[Empty history]
-Vymazání historie
 [Main icon]
 Hlavní ikona
 [Search]
@@ -16745,7 +16715,7 @@ Záznam
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Default Note Size]
@@ -18243,23 +18213,13 @@ Rady:
 Tlačítko
 [Message sessions]
 Komunikace
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[Quick Search]
-Rychlé hledání
-[Quick search]
-Rychlé hledání
-[Title]
-Název
-[Module/InfoType]
-Modul/Typ inf.
-[Setting]
-Nastavení
 [Reload]
 Načíst znovu
 [New]
@@ -18272,8 +18232,20 @@ Dolů
 Smazat
 [Default]
 Výchozí
-[Additional Options]
-Ostatní možnosti
+[Settings]
+Nastavení
+[Title:]
+Název:
+[Type:]
+Typ:
+[Data type:]
+Typ dat:
+[Module:]
+Modul:
+[Setting:]
+Nastavení:
+[Save]
+Uložit
 [Tool Window Style]
 Zjednodušené záhlaví okna
 [Draw Grid]
@@ -18286,110 +18258,16 @@ Automaticky zavírat
 Seřadit podle stavu
 [Show Client Icons]
 Zobrazit ikony klientů
-[Settings]
-Nastavení
-[Title:]
-Název:
-[Account]
-Účet
-[Gender]
-Pohlaví
-[Nickname]
-Přezdívka
-[First name]
-Jméno
-[Last name]
-Příjmení
-[Group]
-Skupina
-[Container]
-Kontejner
-[E-mail]
-E-mail
-[Client ID]
-Identifikace klienta
-[Ext IP]
-Externí IP
-[LastSeen]
-Naposledy spatřen
-[Last Event]
-Poslední událost
-[Online since]
-Online od
-[Metacontact]
-Metakontakt
-[Event count]
-Počet událostí
-[Contact add time]
-Kontakt přidán
-[Type:]
-Typ:
-[DB setting]
-DB nastavení
-[Script]
-Skript
-[Service]
-Služba
-[Contact info]
-Info o kontaktu
-[Other]
-Ostatní
-[Data type:]
-Typ dat:
-[Byte]
-Byte
-[Word]
-Word
-[DWord]
-Dword
-[Signed]
-Znaménkové
-[As hex]
-Hexadecimální
-[String]
-String
-[TimeStamp]
-Časový údaj
-[Module:]
-Modul:
-[Setting:]
-Nastavení:
-[Service:]
-Služba:
-[Param]
-Parametr
-[number value]
-číselná hodnota
-[ANSI string]
-ANSI řetězec
-[Unicode string]
-Unicode řetězec
-[current contact]
-současný kontakt
-[last result]
-poslední výsledek
-[parameter]
-parametr
-[Result]
-VÝSLEDEK
-[Save]
-Uložit
-[All]
-všechno
-[Close]
-Zavřít
+[Additional Options]
+Ostatní možnosti
 [Refresh]
 Aktualizovat
-[QuickSearch]
-Rychlé hledání
 [Show Offline contacts]
 Zobrazit offline kontakty
-[New column]
-Nový sloupec
-[Save Item]
-Uložit položku
-[InfoType:]
-Typ inf.:
+[Colorize]
+Obarvit
+[Quick Search]
+Rychlé hledání
 [New Column]
 Nový sloupec
 [Column Up]
@@ -18402,16 +18280,6 @@ Smazat sloupec
 muž
 [Female]
 žena
-[Contacts]
-Kontakty
-[ContactInfo]
-Informace o kontaktu
-[LastEvent]
-Poslední událost
-[EventCount]
-Počet událostí
-[Script Editor]
-Úprava skriptu
 [Normal background]
 Pozadí běžného textu
 [Normal foreground]
@@ -18440,6 +18308,130 @@ Popředí metakontaktů
 Pozadí podkontaktů
 [Subcontact foreground]
 Popředí podkontaktů
+[Script]
+Skript
+[Service]
+Služba
+[Contact info]
+Info o kontaktu
+[Other]
+Ostatní
+[Metacontact]
+Metakontakt
+[Title]
+Název
+[Setting]
+Nastavení
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+Dword
+[Signed]
+Znaménkové
+[Hexadecimal]
+Hexadecimální
+[String]
+String
+[Timestamp]
+Časový údaj
+[Last seen]
+Naposledy spatřen
+[Last event]
+Poslední událost
+[Event count]
+Počet událostí
+[Display name]
+Název
+[Account name]
+Název účtu
+[New column]
+Nový sloupec
+[Contacts]
+Kontakty
+[Account]
+Účet
+[Gender]
+Pohlaví
+[Nickname]
+Přezdívka
+[First name]
+Jméno
+[Last name]
+Příjmení
+[Group]
+Skupina
+[Container]
+Kontejner
+[Email]
+E-MAIL
+[Client ID]
+Identifikace klienta
+[Online since]
+Online od
+[Contact add time]
+Kontakt přidán
+[Nick]
+Přezdívka
+[City]
+Město
+[State]
+Stát
+[Country]
+Země
+[Phone]
+Telefon
+[Homepage]
+Dom. stránka
+[About]
+Informace
+[Age]
+Věk
+[Unique ID]
+Identifikátor
+[Fax]
+Fax
+[Cellular]
+Mobil
+[Street]
+Ulice
+[Company name]
+Název firmy
+[Company department]
+Oddělení
+[Company position]
+Postavení
+[Company street]
+Ulice
+[Company city]
+Město
+[Company state]
+Stát
+[Company country]
+Země
+[Company homepage]
+Domovská stránka
+[Unknown]
+neznámý
+[Stay on Top]
+Vždy navrchu
+[Do you really want to delete selected contacts?]
+Opravdu si přejete smazat zvolené kontakty?
+[Warning]
+Upozornění
+[%i users found (%i) Online: %i]
+%i uživatelů nalezeno (%i) Online: %i
+[deleted]
+smazáno
+[disabled]
+deaktivován
+[active]
+Aktivní
+[Online]
+Online
+[All]
+všechno
 [&Delete]
 &Smazat
 [&Copy]
@@ -18448,43 +18440,6 @@ Z&kopírovat
 &Převést na metakontakt
 [&Move to Group]
 Přesunout do s&kupiny
-[Do you really want to delete selected contacts?]
-Opravdu si přejete smazat zvolené kontakty?
-[Warning]
-Upozornění
-[Editing of column ]
-Úprava sloupce\s
-[%i users found (%i) Online: %i]
-%i uživatelů nalezeno (%i) Online: %i
-[ users found (]
- uživatelů nalezeno (
-[) Online: ]
-) Online:\s
-[Online]
-Online
-[deleted]
-smazáno
-[off]
-vyp
-[active]
-Aktivní
-[Colorize]
-Obarvit
-[default]
-výchozí
-[Selected]
-Vybráno
-[contacts]
-kontakty
-[Unknown]
-neznámý
-[Stay on Top]
-Vždy navrchu
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Úprava textu
-[Wrap Text]
-Zalamovat text
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -22638,8 +22593,8 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
-[Message Sessions]
-Komunikace
+[Messaging]
+Rozhovor
 [Group chat windows]
 Okna skupinových rozhovorů
 [Group chat log]
@@ -26014,7 +25969,7 @@ Uživatelská příručka
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 [Parse options]
@@ -26253,7 +26208,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -26982,7 +26937,7 @@ Doplňky
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -27283,42 +27238,34 @@ HTTP Chyba: Špatná brána (502)
 HTTP Chyba: Služba není dostupná (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP Chyba: Doba průchodu vypršela (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Aktuální situace: %n, %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nDnes:  Max. %h, min. %l
-[Temperature: %[Temperature]]
-Teplota: %[Temperature]]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
-[No information available.\r\nPlease update weather condition first.]
-Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
-[%[..]\tcustom variables]
-%[..]\tspeciální proměnné
-[Here is a list of custom variables that are currently available]
-Seznam ostatních proměnných, které jsou k dispozici:
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [Enable/disable auto update]
 Povolit/zakázat automatickou aktualizaci
 [Auto Update Enabled]
 Zakázat automatickou aktualizaci
 [Auto Update Disabled]
 Povolit automatickou aktualizaci
+[Protocol icon]
+Ikona protokolu
+[Update Disabled]
+Aktualizace vypnuta
+[View Log]
+Zobrazit záznam
+[Update with Clear]
+Úplná aktualizace
+[View Brief]
+Stručná předpověď
+[View Complete]
+Úplná předpověď
+[Weather Update]
+Aktualizace předpovědi
+[Popup]
+Oznámení
+[No Popup]
+Oznámení vypnuto
+[Edit Settings]
+Upravit nastavení...
 [Condition Changed]
 Změna počasí
 [Alert Issued]
@@ -27337,6 +27284,10 @@ Prosím zkuste znovu po aktualizaci předpovědi počasí.
 <zde zadejte identifikátor stanice>
 [Weather condition was not logged.]
 Předpověď počasí nebyla zaznamenána.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [Get city name from ID]
 Zjistit jméno města dle ID
 [Weather INI information]
@@ -27369,26 +27320,6 @@ HTTP chyba %i
 Chyba při stahování dat: %s
 [Weather HTTP connections]
 Weather - spojení pomocí protokolu HTTP
-[Protocol icon]
-Ikona protokolu
-[Update Disabled]
-Aktualizace vypnuta
-[View Log]
-Zobrazit záznam
-[Update with Clear]
-Úplná aktualizace
-[View Brief]
-Stručná předpověď
-[View Complete]
-Úplná předpověď
-[Weather Update]
-Aktualizace předpovědi
-[Popup]
-Oznámení
-[No Popup]
-Oznámení vypnuto
-[Edit Settings]
-Upravit nastavení...
 [Name]
 Jméno
 [Author]
@@ -27427,6 +27358,8 @@ Alokováno paměti:
 bajtů
 [Description:]
 Popis:
+[Here is a list of custom variables that are currently available]
+Seznam ostatních proměnných, které jsou k dispozici:
 [All update data has been reloaded.]
 Aktualizovaná data byla znovu načtena.
 [Invalid ini format for: %s]
@@ -27439,6 +27372,22 @@ Písmo v rámečku
 Písmo v záhlaví rámečku
 [Frame Background]
 Barva pozadí rámečku
+[Weather Condition for %n as of %u]
+Aktuální situace: %n, %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[Temperature: %[Temperature]]
+Teplota: %[Temperature]]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nDnes:  Max. %h, min. %l
 [Weather Protocol Text Preview]
 Počasí - náhled
 [Network]
@@ -27449,6 +27398,10 @@ Obecné
 Zobrazení
 [Popups]
 Oznámení
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
+[%[..]\tcustom variables]
+%[..]\tspeciální proměnné
 [Station ID]
 Identifikátor
 [Disable &weather notification]
@@ -27477,6 +27430,8 @@ Předpověď počasí
 Zobrazit v rámečku
 [Unable to retrieve weather information for %s]
 Nelze stáhnout předpověď počasí pro %s
+[No information available.\r\nPlease update weather condition first.]
+Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
 [Variable]
 Proměnná
 [Information]
@@ -27621,6 +27576,46 @@ Severovýchodní
 Jihozápadní
 [Southeast]
 Jihovýchodní
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Situace
+[Feel]
+Subj.
+[Forecast Day 1]
+Předpověď na 1. den
+[Forecast Day 2]
+Předpověď na 2. den
+[Forecast Day 3]
+Předpověď na 3. den
+[Forecast Day 4]
+Předpověď na 4. den
+[Forecast Day 5]
+Předpověď na 5. den
+[Forecast Day 6]
+Předpověď na 6. den
+[Forecast Day 7]
+Předpověď na 7. den
+[Forecast Day 8]
+Předpověď na 8. den
+[Forecast Day 9]
+Předpověď na 9. den
+[Heat Index]
+Teplotní index
+[High]
+Vysoká
+[Low]
+Nízká
+[Temperature]
+Teplota
+[UV Index]
+UV index
+[Wind direction]
+Směr větru
+[Wind speed]
+Rychlost větru
 ;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
@@ -28340,6 +28335,310 @@ delší
 [shorter]
 kratší
 ;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Alert]
+Upozornění
+[Blowing Snow]
+poletující sníh
+[Chance Of Rain]
+příležitostně déšť
+[Clear]
+Vymazat
+[Cloudy]
+oblačno
+[Day Length]
+Délka dne
+[Drizzle]
+mrholení
+[ENE]
+VSV
+[ESE]
+VJV
+[E]
+V
+[East]
+Východní
+[Elevation]
+Výška
+[Falling]
+Klesá
+[Feel]
+Subj.
+[First Quarter]
+první čtvrť
+[Fog]
+hustá mlha
+[Forecast Day 1 Condition]
+Předpověď na 1. den - počasí
+[Forecast Day 1 Day]
+Předpověď na 1. den - denní
+[Forecast Day 1 High]
+Předpověď na 1. den - nejvyšší
+[Forecast Day 1 Low]
+Předpověď na 1. den - nejnižší
+[Forecast Day 1 Night Text]
+Předpověď na 1. den - noční informace
+[Forecast Day 1 Text]
+Předpověď na 1. den - informace
+[Forecast Day 1]
+Předpověď na 1. den
+[Forecast Day 2 Condition]
+Předpověď na 2. den - počasí
+[Forecast Day 2 Day]
+Předpověď na 2. den - denní
+[Forecast Day 2 High]
+Předpověď na 2. den - nejvyšší
+[Forecast Day 2 Low]
+Předpověď na 2. den - nejnižší
+[Forecast Day 2 Night Text]
+Předpověď na 2. den - noční informace
+[Forecast Day 2 Text]
+Předpověď na 2. den - informace
+[Forecast Day 2]
+Předpověď na 2. den
+[Forecast Day 3 Condition]
+Předpověď na 3. den - počasí
+[Forecast Day 3 Day]
+Předpověď na 3. den - denní
+[Forecast Day 3 High]
+Předpověď na 3. den - nejvyšší
+[Forecast Day 3 Low]
+Předpověď na 3. den - nejnižší
+[Forecast Day 3 Night Text]
+Předpověď na 3. den - noční informace
+[Forecast Day 3 Text]
+Předpověď na 3. den - informace
+[Forecast Day 3]
+Předpověď na 3. den
+[Forecast Day 4 Condition]
+Předpověď na 4. den - počasí
+[Forecast Day 4 Day]
+Předpověď na 4. den - denní
+[Forecast Day 4 High]
+Předpověď na 4. den - nejvyšší
+[Forecast Day 4 Low]
+Předpověď na 4. den - nejnižší
+[Forecast Day 4 Night Text]
+Předpověď na 4. den - noční informace
+[Forecast Day 4 Text]
+Předpověď na 4. den - informace
+[Forecast Day 4]
+Předpověď na 4. den
+[Forecast Day 5 Condition]
+Předpověď na 5. den - počasí
+[Forecast Day 5 Day]
+Předpověď na 5. den - denní
+[Forecast Day 5 High]
+Předpověď na 5. den - nejvyšší
+[Forecast Day 5 Low]
+Předpověď na 5. den - nejnižší
+[Forecast Day 5 Night Text]
+Předpověď na 5. den - noční informace
+[Forecast Day 5 Text]
+Předpověď na 5. den - informace
+[Forecast Day 5]
+Předpověď na 5. den
+[Freezing Drizzle]
+mrznoucí mrholení
+[Freezing Fog]
+mrznoucí mlha
+[Freezing Rain]
+mrznoucí déšť
+[Friday]
+pátek
+[Full Moon]
+úplněk
+[Haze]
+slabé mrholení
+[Heat Index]
+Teplotní index
+[Heavy Fog]
+velmi hustá mlha
+[Heavy Rain Showers]
+silné dešťové přeháňky
+[Heavy Snow Showers]
+silné sněhové přeháňky
+[Heavy Snow]
+silné sněžení
+[Ice Pellets]
+ledové kuličky
+[Last Quarter]
+poslední čtvrť
+[Light Drizzle Mist]
+slabé mrholení a mlha
+[Light Drizzle]
+slabé mrholení
+[Light Fog]
+slabá mlha
+[Light Freezing Drizzle Mist]
+slabé mrznoucí mrholení
+[Light Freezing Drizzle]
+slabé mrznoucí mrholení
+[Light Freezing Rain Mist]
+slabý mrznoucí déšť / mrholení
+[Light Freezing Rain]
+slabý mrznoucí déšť
+[Light Ice Pellets]
+slabé ledové kuličky
+[Light Rain Mist]
+mrholení / slabý déšť
+[Light Rain Showers]
+slabé dešťové přeháňky
+[Light Rain]
+slabý déšť
+[Light Showers Rain]
+slabé přeháňky a déšť
+[Light Snow Grains]
+slabé sněhové vločky
+[Light Snow Mist]
+slabé sněhové mrholení
+[Light Snow Showers]
+slabé sněhové přeháňky
+[Light Snow]
+slabé sněžení
+[Light Thunderstorm Rain]
+slabá bouřka / déšť
+[Light Thunderstorm]
+slabá bouřka
+[Local Time]
+Místní čas
+[longer]
+delší
+[Low Drifting Snow]
+nízko poletující sníh
+[Max]
+Max
+[Min]
+Min
+[Mist]
+mrholení
+[Monday]
+pondělí
+[Moon]
+Měsíc
+[Mostly Clear]
+převážně jasno
+[Mostly Cloudy]
+převážně oblačno
+[Mostly Sunny]
+převážně slunečno
+[N/a]
+<neuvedeno>
+[NE]
+SV
+[NNE]
+SSV
+[NNW]
+SSZ
+[NW]
+SZ
+[N]
+S
+[New Moon]
+nov
+[North]
+Severní
+[Northeast]
+Severovýchodní
+[Northwest]
+Severozápadní
+[Overcast]
+zataženo
+[Partial Fog]
+místy hustá mlha
+[Partly Cloudy]
+částečně oblačno
+[Partly Sunny]
+částečně slunečno
+[Pressure Change]
+Změna tlaku
+[Rain Mist]
+déšť a mlha
+[Rain]
+déšť
+[Rising]
+Stoupá
+[SE]
+JV
+[SSE]
+JJV
+[SSW]
+JJZ
+[SW]
+JZ
+[S]
+J
+[Saturday]
+sobota
+[Scattered Clouds]
+střídavě oblačno
+[Shallow Fog]
+slabá mlha
+[shorter]
+kratší
+[Showers Rain]
+dešťová přeháňka
+[Smoke]
+kouř
+[Snow Grains]
+sněhové vločky
+[Snow Showers]
+sněhové přeháňky
+[Snow]
+sněžení
+[South]
+Jižní
+[Southeast]
+Jihovýchodní
+[Southwest]
+Jihozápadní
+[Stable]
+Stabilní
+[Steady]
+Ustálený
+[Sunday]
+neděle
+[Thunderstorm Rain]
+bouřka a déšť
+[Thunderstorm]
+bouřka
+[Thunderstorms And Rain]
+bouřky / déšť
+[Thursday]
+čtvrtek
+[Tuesday]
+úterý
+[UV Index]
+UV index
+[Var]
+proměnlivý
+[WNW]
+ZSZ
+[WSW]
+ZJZ
+[W]
+Z
+[Waning Crescent]
+couvá (srpek)
+[Waning Gibbous]
+couvá
+[Waxing Crescent]
+dorůstá (srpek)
+[Waxing Gibbous]
+dorůstá
+[Wednesday]
+středa
+[West]
+Západní
+[Wind Direction DEG]
+Směr větru (stupně)
+[Wind Direction]
+Směr větru
+[Wind Speed]
+Rychlost větru
+;============================================================
 ;  File: yweather.ini
 ;  Plugin: Weather
 ;============================================================
@@ -28907,7 +29206,7 @@ Oznámení
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]

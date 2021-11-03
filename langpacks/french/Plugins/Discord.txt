@@ -18,7 +18,7 @@ Passe :
 Contacts
 [Default group:]
 Groupes :
-[Enable group chats]
+[Enable guilds (servers)]
 
 [Do not open chat windows on creation]
 
@@ -104,6 +104,8 @@ Compte
 
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
+
+[Connection failed.\n%s (%s).]
 
 ;file \protocols\Discord\src\utils.cpp
 [Owners]

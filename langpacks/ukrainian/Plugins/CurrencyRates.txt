@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -135,19 +135,21 @@
 [Currency Rate]
 Курс валюти
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
-[Source of Information]
+[Source of information]
 Джерело інформації
-[Rate Value]
+[Rate value]
 Поточне значення котування/курсу
-[Previous Rate Value]
+[Rate delta]
+
+[Previous rate value]
 Попереднє значення котування/курсу
-[Fetch Time]
+[Fetch time]
 Час оновлення
-[Fetch Date]
+[Fetch date]
 Дата поновлення
-[Fetch Time and Date]
+[Fetch time and date]
 Дата і час оновлення
-[Percentage Character (%)]
+[Percent character (%)]
 Символ %
 [Tabulation]
 Табуляція
@@ -203,12 +205,6 @@
 Символ валюти
 [Network]
 Мережа
-;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-
-[CurrencyRates HTTP connections]
-HTTP-з'єднання CurrencyRates
-;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Значок протоколу
 [Currency Rate up]
@@ -225,14 +221,16 @@ HTTP-з'єднання CurrencyRates
 Поміняти місцями
 [Import]
 Імпорт
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+
+[CurrencyRates HTTP connections]
+HTTP-з'єднання CurrencyRates
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 Файл XML (*.xml)
 [All files (*.*)]
 Усі файли (*.*)
-;file \protocols\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Не вдалося завантажити плагін CurrencyRates. Відсутній парсер Microsoft HTML.
 ;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Журнали (*.txt,*.log)

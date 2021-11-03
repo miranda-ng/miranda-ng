@@ -1436,6 +1436,8 @@ Jabber източник
 Поправяне на грешните времеви марки във входящите съобщения
 [Disable frame]
 Без рамка
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 Асоцииране с XMPP връзки (изисква приставка AssocMgr)
 [Embrace picture URLs with [img]]

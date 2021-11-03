@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ Kopiuj do kontaktu
 Eksportuj moduł
 [&Add module]
 &Dodaj moduł
-[&Clone]
-&Klon
 [Export contact]
 Eksportuj kontakt
 [Import settings]
@@ -208,8 +206,8 @@ Przeładuj listę obserwowanych
 [Copy module "%s"]
 Kopiuj moduł "%s"
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Na pewno chcesz usunąć moduł "%s"?
+[Are you sure you want to delete module "%S"?]
+Na pewno chcesz usunąć moduł "%S"?
 [Delete module from database]
 Usuń moduł z bazy danych
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ Kontakt
 Moduł
 [Setting]
 Ustawienia
-[Enter a string to search the database for]
-Wprowadź tekst do znalezienia w bazie
-[Stop]
-Stop
+[Searching...]
+Wyszukiwanie...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Zakończono. Znaleziono %d rzeczy, %d zastąpiono, %d usunięto.
 [Replaced]
 Zamieniono
 [Deleted]
 Usunięte
 [Found]
 Znaleziono
-[Searching...]
-Wyszukiwanie...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Zakończono. Znaleziono %d rzeczy, %d zastąpiono, %d usunięto.
+[Enter a string to search the database for]
+Wprowadź tekst do znalezienia w bazie
+[Stop]
+Stop
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Główna ikona
@@ -295,6 +293,10 @@ Otwórz w edytorze profilu
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Na pewno chcesz usunąć kontakt "%s"?
+[Type]
+Typ
+[Size]
+Rozmiar
 [Delete resident settings from database?]
 Usunąć ustawienia rezydentne z bazy danych?
 [%d items deleted.]
@@ -318,10 +320,6 @@ Powiadomienia
 [Add module to "%s"]
 Dodaj moduł do "%s"
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Typ
-[Size]
-Rozmiar
 [Unable to store value in this data type!]
 Nie można zapisać wartości w tym typie danych!
 [Are you sure you want to delete %d contact(s)?]

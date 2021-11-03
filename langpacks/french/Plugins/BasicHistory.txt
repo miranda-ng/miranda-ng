@@ -143,8 +143,6 @@ Annuler
 Ouvrir historique
 [View &history]
 Voir l'&historique
-[Delete all user history]
-
 [Execute history task]
 
 [Incoming message]
@@ -192,12 +190,6 @@ Message invalide
 [File is corrupted]
 
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-
-[Are you sure?]
-Etes-vous sûr?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-
 [Open in &new window]
 Ouvrir dans une nouvelle fenêtre
 [&Open in existing window]
@@ -214,6 +206,8 @@ Effacer
 Répondre en citant
 [Delete group]
 Effacer un groupe
+[Delete all user history]
+
 [Options]
 Paramètres
 [Filters]
@@ -245,6 +239,10 @@ Raccourcis clavier
 [Error]
 Erreur
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
+
+[Are you sure?]
+Etes-vous sûr?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]

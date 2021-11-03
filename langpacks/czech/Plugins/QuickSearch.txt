@@ -1,22 +1,13 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
 
-[Quick Search]
-Rychlé hledání
-[Quick search]
-Rychlé hledání
-[Title]
-Název
-[Module/InfoType]
-Modul/Typ inf.
-[Setting]
-Nastavení
+;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 Načíst znovu
 [New]
@@ -29,8 +20,23 @@ Dolů
 Smazat
 [Default]
 Výchozí
-[Additional Options]
-Ostatní možnosti
+[Settings]
+Nastavení
+[Title:]
+Název:
+[Type:]
+Typ:
+[Data type:]
+Typ dat:
+[Module:]
+Modul:
+[Setting:]
+Nastavení:
+[Info type:]
+Typ inf.:
+
+[Save]
+Uložit
 [Tool Window Style]
 Zjednodušené záhlaví okna
 [Draw Grid]
@@ -43,116 +49,19 @@ Automaticky zavírat
 Seřadit podle stavu
 [Show Client Icons]
 Zobrazit ikony klientů
-[Settings]
-Nastavení
-[Title:]
-Název:
-[Account]
-Účet
-[Gender]
-Pohlaví
-[UserID]
-
-[Nickname]
-Přezdívka
-[First name]
-Jméno
-[Last name]
-Příjmení
-[Group]
-Skupina
-[Container]
-Kontejner
-[E-mail]
-E-mail
-[Client ID]
-Identifikace klienta
-[Ext IP]
-Externí IP
-[LastSeen]
-Naposledy spatřen
-[Last Event]
-Poslední událost
-[Online since]
-Online od
-[Metacontact]
-Metakontakt
-[Event count]
-Počet událostí
-[Contact add time]
-Kontakt přidán
-[Type:]
-Typ:
-[DB setting]
-DB nastavení
-[Script]
-Skript
-[Service]
-Služba
-[Contact info]
-Info o kontaktu
-[Other]
-Ostatní
-[Data type:]
-Typ dat:
-[Byte]
-Byte
-[Word]
-Word
-[DWord]
-Dword
-[Signed]
-Znaménkové
-[As hex]
-Hexadecimální
-[String]
-String
-[TimeStamp]
-Časový údaj
-[Module:]
-Modul:
-[Setting:]
-Nastavení:
-[Service:]
-Služba:
-[Param]
-Parametr
-[number value]
-číselná hodnota
-[ANSI string]
-ANSI řetězec
-[Unicode string]
-Unicode řetězec
-[current contact]
-současný kontakt
-[last result]
-poslední výsledek
-[parameter]
-parametr
-[Result]
-VÝSLEDEK
-[Result type]
-
-[Free memory]
-
-[Save]
-Uložit
-[All]
-všechno
-[Close]
-Zavřít
+[Additional Options]
+Ostatní možnosti
 [Refresh]
 Aktualizovat
-[QuickSearch]
-Rychlé hledání
 [Show Offline contacts]
 Zobrazit offline kontakty
-[New column]
-Nový sloupec
-[Save Item]
-Uložit položku
-[InfoType:]
-Typ inf.:
+[Colorize]
+Obarvit
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
+Rychlé hledání
+[Open Quick Search window]
+
 [New Column]
 Nový sloupec
 [Column Up]
@@ -165,16 +74,6 @@ Smazat sloupec
 muž
 [Female]
 žena
-[Contacts]
-Kontakty
-[ContactInfo]
-Informace o kontaktu
-[LastEvent]
-Poslední událost
-[EventCount]
-Počet událostí
-[Script Editor]
-Úprava skriptu
 [Normal background]
 Pozadí běžného textu
 [Normal foreground]
@@ -203,6 +102,174 @@ Popředí metakontaktů
 Pozadí podkontaktů
 [Subcontact foreground]
 Popředí podkontaktů
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+Skript
+[Service]
+Služba
+[Contact info]
+Info o kontaktu
+[Other]
+Ostatní
+[Metacontact]
+Metakontakt
+[Title]
+Název
+[Module/Info type]
+Modul/Typ inf
+[Setting]
+Nastavení
+[Database setting]
+DB nastavení
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+Dword
+[Signed]
+Znaménkové
+[Hexadecimal]
+Hexadecimální
+[String]
+String
+[Timestamp]
+Časový údaj
+[Last seen]
+Naposledy spatřen
+[Last event]
+Poslední událost
+[Event count]
+Počet událostí
+[Display name]
+Název
+[Account name]
+Název účtu
+[New column]
+Nový sloupec
+[Contacts]
+Kontakty
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Účet
+[Gender]
+Pohlaví
+[UserID]
+
+[Nickname]
+Přezdívka
+[First name]
+Jméno
+[Last name]
+Příjmení
+[Group]
+Skupina
+[Container]
+Kontejner
+[Email]
+E-MAIL
+[Client ID]
+Identifikace klienta
+[Online since]
+Online od
+[Contact add time]
+Kontakt přidán
+[Nick]
+Přezdívka
+[Custom nick]
+
+[City]
+Město
+[State]
+Stát
+[Country]
+Země
+[Phone]
+Telefon
+[Homepage]
+Dom. stránka
+[About]
+Informace
+[Age]
+Věk
+[First name/Last name]
+Jméno/Příjmení
+[Unique ID]
+Identifikátor
+[Fax]
+Fax
+[Cellular]
+Mobil
+[Time zone]
+
+[My notes]
+
+[Birth day]
+
+[Birth month]
+
+[Birth year]
+
+[Street]
+Ulice
+[ZIP code]
+
+[Language #1]
+
+[Language #2]
+
+[Language #3]
+
+[Company name]
+Název firmy
+[Company department]
+Oddělení
+[Company position]
+Postavení
+[Company street]
+Ulice
+[Company city]
+Město
+[Company state]
+Stát
+[Company ZIP]
+
+[Company country]
+Země
+[Company homepage]
+Domovská stránka
+[Display ID]
+
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Neznámý
+[Stay on Top]
+Vždy navrchu
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+Opravdu si přejete smazat zvolené kontakty?
+[Warning]
+Upozornění
+[%i users found (%i) Online: %i]
+%i uživatelů nalezeno (%i) Online: %i
+[deleted]
+smazáno
+[disabled]
+deaktivován
+[active]
+Aktivní
+[Online]
+Online
+[All]
+Všechno
+[Editing of column %s]
+
+[Enter new cell value]
+
+[Change setting through QS]
+
+[Selected %d contacts]
+
 [&Delete]
 &Smazat
 [&Copy]
@@ -215,62 +282,5 @@ Z&kopírovat
 Přesunout do s&kupiny
 [Some of selected contacts in different metacontacts already]
 
-[Do you really want to delete selected contacts?]
-Opravdu si přejete smazat zvolené kontakty?
-[Warning]
-Upozornění
-[One or more contacts in same Meta already. Try to convert anyway?]
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
 
-[Editing of column ]
-Úprava sloupce\s
-[%i users found (%i) Online: %i]
-%i uživatelů nalezeno (%i) Online: %i
-[ users found (]
- uživatelů nalezeno (
-[) Online: ]
-) Online:\s
-[Online]
-Online
-[deleted]
-smazáno
-[off]
-vyp
-[active]
-Aktivní
-[Colorize]
-Obarvit
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
-[default]
-výchozí
-[Selected]
-Vybráno
-[contacts]
-kontakty
-[Unknown]
-neznámý
-[Stay on Top]
-Vždy navrchu
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Úprava textu
-[Wrap Text]
-Zalamovat text

@@ -1826,11 +1826,6 @@ Ajustes
 
 [Copy timestamp to clipboard]
 
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
-[Host we are connecting to is not the one certificate was issued for]
-El servidor al que nos estamos conectando no es el del certificado emitido
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Mensaje saliente
@@ -2558,6 +2553,11 @@ Seleccione el programa a ser ejecutado
 <Todas las conexiones>
 [Network]
 Red
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
+[Host we are connecting to is not the one certificate was issued for]
+El servidor al que nos estamos conectando no es el del certificado emitido
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
@@ -2811,6 +2811,13 @@ ID único
 Buscar '%s':
 [No word to look up]
 Ni una palabra para buscar
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+
+[Empty history]
+
+[Empty system history]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separador>

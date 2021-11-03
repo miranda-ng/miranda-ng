@@ -5,6 +5,7 @@
 [Items request error]
 [<no nick>]
 [has set the subject to:]
+[Display popups with errors]
 [Set New Password for %s@%s]
 [Extended away (Not available)]
 [Error %s %s\r\nTry to specify more detailed]

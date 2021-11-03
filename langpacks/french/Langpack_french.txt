@@ -2275,6 +2275,8 @@ Pseudo
 ID unique
 [No word to look up]
 Aucun mot à chercher
+[Empty history]
+Effacer l'historique
 [<Separator>]
 <Séparateur>
 [Toolbar]
@@ -3562,7 +3564,7 @@ UIN inconnu
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Set default picture]
@@ -3726,8 +3728,6 @@ Historique de %s
 Système
 [Invalid message]
 Message invalide
-[Are you sure?]
-Etes-vous sûr?
 [Open in &new window]
 Ouvrir dans une nouvelle fenêtre
 [&Open in existing window]
@@ -3752,6 +3752,8 @@ Icônes
 Raccourcis clavier
 [Error]
 Erreur
+[Are you sure?]
+Etes-vous sûr?
 [Message]
 Message
 [File transfer]
@@ -3956,7 +3958,7 @@ Non trouvé
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Confirm Pounce send]
@@ -3971,8 +3973,6 @@ Le message :
 Effacer Pounce
 [Load default Settings]
 Paramètres par défaut
-[Setting text...........]
-Paramétrages du texte.....
 [Settings]
 Paramètres
 [Contact To Send Pounce To]
@@ -3991,6 +3991,16 @@ Fonctions avancées
 Message (caractères : )
 [Show Delivery Messages]
 Afficher les msg. envoyés
+[The Message    (%d Characters)]
+Message :    (%d caractères)
+[Message successfully sent to %s]
+Envoi réussi du message à %s
+[Message failed to send to %s]
+Erreur d'envoi du message à %s
+[Message sessions]
+Sessions de message
+[Pounce being sent to %s in %d seconds]
+Message envoyé à %s dans %d secondes
 [Send If My Status Is...]
 Envoi si mon état est...
 [Send If They Change Status to...]
@@ -4001,6 +4011,18 @@ Réutiliser un message
 Délai pour réitérer
 [Confirmation Window]
 Fenêtre de confirmation
+[Reuse this message? (0 to use it once)]
+Réutiliser ce message ?  (0 = une seule fois)
+[Times]
+Heures
+[Give up after... (0 to not give up)]
+Réitérer après (0=désactivé) :
+[Days]
+Jours
+[Show confirmation window? (0 to not Show)]
+Voir la confirmation ? (0 pour ne pas voir)
+[Seconds to wait before sending]
+Secondes avant d'envoyer
 [Send If My Status Is]
 Envoi si mon état est
 [Any]
@@ -4037,30 +4059,6 @@ Ne pas déranger
 OK pour un chat
 [To Invisible]
 Invisible
-[The Message    (%d Characters)]
-Message :    (%d caractères)
-[The Message    (0 Characters)]
-Message :    (0 caractère)
-[Reuse this message? (0 to use it once)]
-Réutiliser ce message ?  (0 = une seule fois)
-[Times]
-Heures
-[Give up after... (0 to not give up)]
-Réitérer après (0=désactivé) :
-[Days]
-Jours
-[Show confirmation window? (0 to not Show)]
-Voir la confirmation ? (0 pour ne pas voir)
-[Seconds to wait before sending]
-Secondes avant d'envoyer
-[Pounce being sent to %s in %d seconds]
-Message envoyé à %s dans %d secondes
-[Message successfully sent to %s]
-Envoi réussi du message à %s
-[Message failed to send to %s]
-Erreur d'envoi du message à %s
-[Message sessions]
-Sessions de message
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -5949,7 +5947,7 @@ OK
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Variable List]
@@ -6022,7 +6020,7 @@ Erreur
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Search and replace]
@@ -6155,8 +6153,6 @@ Copier vers le contact
 Exporter le module
 [&Add module]
 &Ajouter un module
-[&Clone]
-&Dupliquer
 [Export contact]
 Exporter le contact
 [Import settings]
@@ -6177,7 +6173,7 @@ Exporter les modules de tous les contacts
 Fenêtre de surveillance
 [Reload watch list]
 Actualiser la liste
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 Voulez-vous vraiment supprimer le module "%s" ?
 [Delete module from database]
 Supprime le module de la base de données
@@ -6193,16 +6189,16 @@ N'a pu ouvrir le fichier à écrire
 Importer
 [Contact]
 Contact
-[Enter a string to search the database for]
-Tapez les mots que vous recherchez dans la base de données
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Terminé. %d éléments ont été trouvé, %d éléments ont été remplacé, %d éléments ont été effacé.
 [Replaced]
 Remplacé
 [Deleted]
 Effacé
 [Found]
 Trouvé
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Terminé. %d éléments ont été trouvé, %d éléments ont été remplacé, %d éléments ont été effacé.
+[Enter a string to search the database for]
+Tapez les mots que vous recherchez dans la base de données
 [Closed module]
 Fermer les modules
 [Open module]
@@ -6219,6 +6215,8 @@ Pseudo
 Ouvrir dans DataBase Editor
 [Are you sure you want to delete contact "%s"?]
 Voulez-vous vraiment supprimer le contact "%s" ?
+[Size]
+Taille
 [Error loading module list]
 Erreur de chargement liste de modules
 [Error loading setting list]
@@ -6231,8 +6229,6 @@ Chargement des modules...
 Contacts
 [Popups]
 Popups
-[Size]
-Taille
 [<UNKNOWN>]
 <INCONNU>
 [Database Setting Changed: \nModule: "%s", Setting: "%s"\nNew Value (%s): "%s"]
@@ -6417,7 +6413,7 @@ Plugins
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -7486,8 +7482,6 @@ Résultat : %s (F3 = suivant)
 %d évènement
 [%0.n events (%s)]
 %0.n évènement (%s)
-[Empty History]
-Effacer l'historique
 [Remove bookmark]
 Effacer ce favori
 [Remove Bookmark]
@@ -7576,14 +7570,6 @@ Demande d'état ignoré par %s (%d) : %s
 "%s" non trouvé
 [Next message]
 Mess. suivant
-[&Empty System History]
-&Vider l'historique système
-[&Empty History]
-&Vider l'historique
-[Do you really want to delete ALL items for this contact?]
-Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
-[Note: It can take several minutes for large histories]
-Note : Ceci peut prendre du temps sur de longs historiques
 [Previous message]
 Mess. précédent
 [Running version of AniSmiley is not supported]
@@ -7832,7 +7818,7 @@ Apparence
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -7879,8 +7865,6 @@ Nom
 Renommer
 [Delete]
 Effacer
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Connexion échouée.\nVotre numéro ICQ ou mot de passe ont été rejeté (%d).
 [member]
 membre
 ;#muuid for ICQCorp not found, please specify manually!
@@ -8132,7 +8116,7 @@ Profil Miranda-NG/mContacts
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -8237,8 +8221,6 @@ Action
 &Effacer
 [Perform on event:]
 Action sur l'évènement :
-[Scripting support]
-Support des scripts
 [Quit message:]
 Message de départ :
 [Server code page:]
@@ -10398,7 +10380,7 @@ Popups
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -10547,7 +10529,7 @@ Le contact suivant vous a ajouté à sa liste :
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Set my nickname]
@@ -10990,8 +10972,6 @@ Menu Contact
 Précédent
 [Complete]
 Terminé
-[Empty history]
-Effacer l'historique
 [Search]
 Recherche
 [Incoming message]
@@ -11384,7 +11364,7 @@ Historique
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Default Note Size]
@@ -12418,17 +12398,13 @@ Sessions de message
 Bouton
 [Message sessions]
 Sessions de message
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[Quick Search]
-Recherche rapide
-[Quick search]
-Recherche rapide
 [Reload]
 Recharger
 [New]
@@ -12441,68 +12417,32 @@ Bas
 Effacer
 [Default]
 Défaut
-[Additional Options]
-Options supplémentaires
+[Settings]
+Paramètres
+[Title:]
+Titre :
+[Type:]
+Type :
+[Module:]
+Module :
+[Setting:]
+Paramètre :
+[Save]
+Sauver
 [Draw Grid]
 Afficher la grille
 [Sort by Status]
 Trier par état
 [Show Client Icons]
 Voir l'icône du client
-[Settings]
-Paramètres
-[Title:]
-Titre :
-[Account]
-Compte
-[Gender]
-Sexe
-[Nickname]
-Pseudo
-[First name]
-Prénom
-[Last name]
-Nom
-[Group]
-Groupe
-[E-mail]
-e-mail
-[Type:]
-Type :
-[Other]
-Autre
-[TimeStamp]
-Horodateur
-[Module:]
-Module :
-[Setting:]
-Paramètre :
-[Service:]
-Service :
-[number value]
-Valeur numérique
-[ANSI string]
-Chaine ANSI
-[Unicode string]
-Chaine unicode
-[current contact]
-contact actuel
-[Save]
-Sauver
-[Close]
-Fermer
+[Additional Options]
+Options supplémentaires
 [Refresh]
 Actualiser
-[QuickSearch]
-Recherche rapide
 [Show Offline contacts]
 Montrer les contacts hors ligne
-[New column]
-Nouvelle colonne
-[Save Item]
-Sauver
-[InfoType:]
-InfoType :
+[Quick Search]
+Recherche rapide
 [New Column]
 Nouvelle colonne
 [Column Up]
@@ -12515,31 +12455,86 @@ Effacer la colonne
 Homme
 [Female]
 Femme
+[Other]
+Autre
+[Timestamp]
+Heure
+[Account name]
+Nom de compte
+[New column]
+Nouvelle colonne
 [Contacts]
 Contacts
+[Account]
+Compte
+[Gender]
+Sexe
+[Nickname]
+Pseudo
+[First name]
+Prénom
+[Last name]
+Nom
+[Group]
+Groupe
+[Nick]
+Pseudo
+[City]
+Ville
+[State]
+État
+[Country]
+Pays
+[Phone]
+Téléphone
+[Homepage]
+Page web
+[About]
+À propos
+[Unique ID]
+ID unique
+[Fax]
+Fax
+[Cellular]
+Portable
+[Street]
+Rue
+[Company name]
+Entreprise
+[Company department]
+Département
+[Company position]
+Position
+[Company street]
+Rue
+[Company city]
+Ville
+[Company state]
+État
+[Company country]
+Pays
+[Company homepage]
+Page Web
+[Unknown]
+Inconnu
+[Stay on Top]
+Toujours visible
+[Warning]
+Avertissement
+[deleted]
+Effacé
+[disabled]
+désactivé
+[active]
+active
+[Online]
+En ligne
 [&Delete]
 &Effacer
 [&Copy]
 &Copier
 [&Move to Group]
 &Déplacer vers le groupe
-[Warning]
-Avertissement
-[Online]
-En ligne
-[deleted]
-Effacé
-[active]
-active
-[default]
-Défaut
-[contacts]
-Contacts
-[Unknown]
-Inconnu
-[Stay on Top]
-Toujours visible
-; these lines are not present in the sources, but they are present in compiled plugin
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -14675,8 +14670,8 @@ Sujet (10x10)
 Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
-[Message Sessions]
-Sessions de message
+[Messaging]
+Envoi de message
 [Half operators]
 demi OP
 [Channel operators]
@@ -16317,7 +16312,7 @@ Terminé
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 [Close]
@@ -16344,7 +16339,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16817,7 +16812,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Update]
@@ -17044,30 +17039,6 @@ Erreur HTTP : mauvaise passerelle (502)
 Erreur HTTP : service indisponible (503)
 [HTTP Error: Gateway timeout (504)]
 Erreur HTTP : délai d'attente de la passerelle dépassé (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTempérature : %t\\nRessenti : %f\\nPression : %p\Vent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Conditions Météo de %n à %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nAujourd'hui :  maxi %h, mini %l
-[Temperature: %[Temperature]]
-Température : %[Temperature]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
-[%[..]\tcustom variables]
-%[..]\tvariables personnalisées
-[Here is a list of custom variables that are currently available]
-Voici la liste des variables actuellement disponibles :
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
 [Condition Changed]
 Conditions météo changées
 [Alert Issued]
@@ -17086,6 +17057,10 @@ Veuillez recommencer après la MAJ terminée.
 <Entrez l'ID de la Station>
 [Weather condition was not logged.]
 Les conditions météo n'ont pas été enregistrées.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+L'adresse pour le forcast complet n'a pas été réglé. Vous pouvez le régler dans 'Modifier les réglages'.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+L'adresse pour la carte météo n'a pas été renseignées. Vous pouvez y remédier dans le menu d'édition des paramètres.
 [Get city name from ID]
 Prendre le nom de la ville d'après l'identifiant
 [Weather INI information]
@@ -17138,12 +17113,28 @@ Mémoire utilisée :
 octets
 [Description:]
 Description :
+[Here is a list of custom variables that are currently available]
+Voici la liste des variables actuellement disponibles :
 [All update data has been reloaded.]
 Toutes les données ont bien été mise à jour.
 [Invalid ini format for: %s]
 Format ini invalide de : %s
 [No update data file is found. Please check your Plugins\\Weather directory.]
 Aucun fichier de mise à jour trouvé. Vérifiez le dossier Plugins\\Weather.
+[Weather Condition for %n as of %u]
+Conditions Météo de %n à %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Ressenti : %f\\nPression : %p\\nVent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTempérature : %t\\nRessenti : %f\\nPression : %p\Vent : %i  %w\\nHumidité : %m\\nPoint de rosée : %e\\nVisibilité : %v\\n\\nLever de Soleil : %r\\nCoucher de Soleil : %y\\n\\nPrévisions sur 5 Jours :\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n at %u :	%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (Ressenti %f)	Vent : %i %w	Humidité : %m
+[Temperature: %[Temperature]]
+Température : %[Temperature]
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nAujourd'hui :  maxi %h, mini %l
 [Weather Protocol Text Preview]
 Prévisualisation de Weather Protocole
 [Network]
@@ -17152,6 +17143,10 @@ Réseau
 Général
 [Popups]
 Popups
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tconditions courantes\n%d\tdate en cours\n%e\tpoint de condensation\n%f\ttempérature ressentie\n%h\tmaximales\n%i\tdirection du vent\n%l\tminimales\n%m\thumidité\n%n\tnom de la station\n%p\tpression\n%r\tlever du soleil\n%s\tidentifiant de la station\n%t\ttempérature\n%u\theure mise à jour\n%v\tvisibilité\n%w\tvitesse du vent\n%y\tcoucher du soleil
+[%[..]\tcustom variables]
+%[..]\tvariables personnalisées
 [Station ID]
 Identifiant de la station
 [Disable &weather notification]
@@ -17189,12 +17184,32 @@ Dernière mise à jour : %u
 ;  Plugin: Weather
 ;============================================================
 ;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[High]
+Haut
+[Low]
+Bas
+[Temperature]
+Température
+;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
 ;============================================================
 ;============================================================
 ;  File: wundergrnd_intl.ini
 ;  Plugin: Weather
+;============================================================
+[Alert]
+Alerte
+[Clear]
+Effacer
+[Min]
+min
+;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
 ;============================================================
 [Alert]
 Alerte
@@ -17464,7 +17479,7 @@ Parle
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Account:]

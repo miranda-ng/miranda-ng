@@ -901,7 +901,7 @@ Thema (10x10)
 Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
-[Message Sessions]
+[Messaging]
 Nachrichtensitzungen
 [Group chat windows]
 Gruppenchat-Fenster
@@ -1858,6 +1858,8 @@ Halbtransparent, benutzerdefinierte Farben
 Silberner Schatten
 [Custom (use own gradient colors)]
 Benutzerdefiniert (benutze eigenen Farbverl.)
+[Custom 2 (use own gradient colors)]
+Benutzerdefiniert 2 (benutze eigenen Farbverl.)
 [All message containers need to close before the skin can be changed\nProceed?]
 Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert werden kann.\nFortsetzen?
 [Change skin]

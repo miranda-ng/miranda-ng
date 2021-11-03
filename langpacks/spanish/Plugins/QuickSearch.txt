@@ -1,22 +1,13 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
 
-[Quick Search]
-
-[Quick search]
-
-[Title]
-
-[Module/InfoType]
-
-[Setting]
-
+;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 
 [New]
@@ -29,8 +20,22 @@ Nuevo
 Eliminar
 [Default]
 Por defecto
-[Additional Options]
+[Settings]
+Ajustes
+[Title:]
+Título:
+[Type:]
+Tipo:
+[Data type:]
 
+[Module:]
+
+[Setting:]
+
+[Info type:]
+
+[Save]
+Guardar
 [Tool Window Style]
 
 [Draw Grid]
@@ -43,115 +48,18 @@ Por defecto
 
 [Show Client Icons]
 
-[Settings]
-Ajustes
-[Title:]
-Título:
-[Account]
-Cuenta
-[Gender]
-Genero
-[UserID]
+[Additional Options]
 
-[Nickname]
-Apodo
-[First name]
-
-[Last name]
-
-[Group]
-Grupo
-[Container]
-
-[E-mail]
-E-mail
-[Client ID]
-
-[Ext IP]
-
-[LastSeen]
-
-[Last Event]
-
-[Online since]
-
-[Metacontact]
-
-[Event count]
-
-[Contact add time]
-
-[Type:]
-Tipo:
-[DB setting]
-
-[Script]
-
-[Service]
-
-[Contact info]
-
-[Other]
-Otro
-[Data type:]
-
-[Byte]
-
-[Word]
-
-[DWord]
-DWord
-[Signed]
-
-[As hex]
-
-[String]
-
-[TimeStamp]
-Marca de tiempo
-[Module:]
-
-[Setting:]
-
-[Service:]
-Servicio:
-[Param]
-
-[number value]
-valor numérico
-[ANSI string]
-Cadena ANSI
-[Unicode string]
-Cadena Unicode
-[current contact]
-contacto actual
-[last result]
-último resultado
-[parameter]
-parámetro
-[Result]
-
-[Result type]
-
-[Free memory]
-Memoria libre
-[Save]
-Guardar
-[All]
-Todo
-[Close]
-Cerrar
 [Refresh]
 Refrescar
-[QuickSearch]
-
 [Show Offline contacts]
 Mostrar contactos sin conexión
-[New column]
+[Colorize]
 
-[Save Item]
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
 
-[InfoType:]
+[Open Quick Search window]
 
 [New Column]
 
@@ -165,16 +73,6 @@ Mostrar contactos sin conexión
 Masculino
 [Female]
 Femenino
-[Contacts]
-Contactos
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
-[Script Editor]
-
 [Normal background]
 
 [Normal foreground]
@@ -203,6 +101,174 @@ Contactos
 
 [Subcontact foreground]
 
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+
+[Service]
+
+[Contact info]
+
+[Other]
+Otro
+[Metacontact]
+
+[Title]
+
+[Module/Info type]
+
+[Setting]
+
+[Database setting]
+
+[Byte]
+
+[Word]
+
+[Dword]
+Dword
+[Signed]
+
+[Hexadecimal]
+
+[String]
+
+[Timestamp]
+Marca de tiempo
+[Last seen]
+
+[Last event]
+
+[Event count]
+
+[Display name]
+
+[Account name]
+
+[New column]
+
+[Contacts]
+Contactos
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Cuenta
+[Gender]
+Genero
+[UserID]
+
+[Nickname]
+Apodo
+[First name]
+
+[Last name]
+
+[Group]
+Grupo
+[Container]
+
+[Email]
+
+[Client ID]
+
+[Online since]
+
+[Contact add time]
+
+[Nick]
+Apodo
+[Custom nick]
+
+[City]
+Ciudad
+[State]
+Estado
+[Country]
+
+[Phone]
+Telefono
+[Homepage]
+Sitio web
+[About]
+Acerca de...
+[Age]
+Edad
+[First name/Last name]
+
+[Unique ID]
+ID único
+[Fax]
+Fax
+[Cellular]
+Celular
+[Time zone]
+
+[My notes]
+
+[Birth day]
+
+[Birth month]
+
+[Birth year]
+
+[Street]
+
+[ZIP code]
+
+[Language #1]
+
+[Language #2]
+
+[Language #3]
+
+[Company name]
+
+[Company department]
+
+[Company position]
+
+[Company street]
+
+[Company city]
+
+[Company state]
+
+[Company ZIP]
+
+[Company country]
+
+[Company homepage]
+
+[Display ID]
+
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Desconocido
+[Stay on Top]
+
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+
+[Warning]
+Advertencia
+[%i users found (%i) Online: %i]
+
+[deleted]
+
+[disabled]
+desabilitado
+[active]
+
+[Online]
+En línea
+[All]
+Todo
+[Editing of column %s]
+
+[Enter new cell value]
+
+[Change setting through QS]
+
+[Selected %d contacts]
+
 [&Delete]
 &Borrar
 [&Copy]
@@ -215,62 +281,5 @@ Contactos
 &Mover a grupo
 [Some of selected contacts in different metacontacts already]
 
-[Do you really want to delete selected contacts?]
-
-[Warning]
-Advertencia
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
-[%i users found (%i) Online: %i]
-
-[ users found (]
-
-[) Online: ]
-
-[Online]
-En línea
-[deleted]
-
-[off]
-apagado
-[active]
-
-[Colorize]
-
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
-[default]
-por defecto
-[Selected]
-
-[contacts]
-contactos
-[Unknown]
-Desconocido
-[Stay on Top]
-
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-
-[Wrap Text]
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
 

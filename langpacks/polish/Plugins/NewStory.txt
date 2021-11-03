@@ -170,12 +170,8 @@ Eksport historii
 [Are you sure to remove selected event(s)?]
 Czy na pewno chcesz usunąć wybrane wydarzenia?
 ;file \plugins\NewStory\src\history_menus.cpp
-[Are you sure to remove all events from history?]
-Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
 [User history]
 Historia użytkownika
-[Empty history]
-Usuń historię
 ;file \plugins\NewStory\src\main.cpp
 [Main icon]
 Główna ikona

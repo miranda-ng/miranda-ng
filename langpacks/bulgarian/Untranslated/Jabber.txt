@@ -102,6 +102,7 @@
 [Enable Message Archive Management (XEP-0313)]
 [Enable carbon copies (XEP-0280)]
 [Use Stream Management (XEP-0198) if possible (Testing)]
+[Display popups with errors]
 [Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]
 [Accept only in band incoming filetransfers (don't disclose own IP)]

@@ -18,8 +18,8 @@ Passwort:
 Kontakte
 [Default group:]
 Standardgruppe:
-[Enable group chats]
-Gruppenchats aktivieren
+[Enable guilds (servers)]
+
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for server channels (requires restart)]
@@ -105,6 +105,8 @@ Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
 ;file \protocols\Discord\src\server.cpp
 [The server requires you to enter the captcha. Miranda will redirect you to a browser now]
 Der Server erfordert, dass Sie ein Captcha eingeben. Miranda wird Sie nun an einen Browser weiterleiten.
+[Connection failed.\n%s (%s).]
+
 ;file \protocols\Discord\src\utils.cpp
 [Owners]
 Besitzer

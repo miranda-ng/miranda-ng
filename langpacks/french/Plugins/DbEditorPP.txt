@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@ Copier vers le contact
 Exporter le module
 [&Add module]
 &Ajouter un module
-[&Clone]
-&Dupliquer
 [Export contact]
 Exporter le contact
 [Import settings]
@@ -208,8 +206,8 @@ Actualiser la liste
 [Copy module "%s"]
 
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Voulez-vous vraiment supprimer le module "%s" ?
+[Are you sure you want to delete module "%S"?]
+Voulez-vous vraiment supprimer le module "%S" ?
 [Delete module from database]
 Supprime le module de la base de données
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ Contact
 
 [Setting]
 
-[Enter a string to search the database for]
-Tapez les mots que vous recherchez dans la base de données
-[Stop]
+[Searching...]
 
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Terminé. %d éléments ont été trouvé, %d éléments ont été remplacé, %d éléments ont été effacé.
 [Replaced]
 Remplacé
 [Deleted]
 Effacé
 [Found]
 Trouvé
-[Searching...]
+[Enter a string to search the database for]
+Tapez les mots que vous recherchez dans la base de données
+[Stop]
 
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Terminé. %d éléments ont été trouvé, %d éléments ont été remplacé, %d éléments ont été effacé.
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 
@@ -295,6 +293,10 @@ Ouvrir dans DataBase Editor
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Voulez-vous vraiment supprimer le contact "%s" ?
+[Type]
+
+[Size]
+Taille
 [Delete resident settings from database?]
 
 [%d items deleted.]
@@ -318,10 +320,6 @@ Popups
 [Add module to "%s"]
 
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-
-[Size]
-Taille
 [Unable to store value in this data type!]
 
 [Are you sure you want to delete %d contact(s)?]

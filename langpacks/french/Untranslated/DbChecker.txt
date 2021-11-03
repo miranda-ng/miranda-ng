@@ -4,6 +4,7 @@
 [Checker's options]
 [Customize settings and proceed to the checking.]
 [Mark all events as read]
+[Fix UTF-8 encoding in old events]
 [Error Opening Database]
 [There was an error opening the profile database given.]
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]

@@ -33,7 +33,6 @@
 [Export %s history]
 [History export]
 [Are you sure to remove selected event(s)?]
-[Are you sure to remove all events from history?]
 [User history]
 [User signed in]
 [Template group]

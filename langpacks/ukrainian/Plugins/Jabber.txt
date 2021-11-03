@@ -1436,6 +1436,8 @@ xHTML-формат повідомлень чату
 Виправляти час у вхідних повідомленнях
 [Disable frame]
 Вимкнути фрейм
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 Обробляти XMPP-посилання (потрібен плагін AssocMgr)
 [Embrace picture URLs with [img]]

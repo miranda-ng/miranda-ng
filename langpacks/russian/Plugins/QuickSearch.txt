@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.5.0.3
+;  Version: 1.5.0.4
 ;  Authors: Bethoven, Awkward
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]

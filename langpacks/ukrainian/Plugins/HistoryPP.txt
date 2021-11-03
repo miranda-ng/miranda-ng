@@ -281,12 +281,6 @@ WATrack: запит заборонений
 %0.n подій (%s)
 [Enable &Processing]
 Увімкнути обробку
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Видалити ВСІ записи (%.0f) для цього контакту?
-[Note: It can take several minutes for large history.]
-Примітка. Це може забрати декілька хвилин для великої історії
-[Empty History]
-Очистити історію
 [Search Up (Ctrl+Up)]
 Пошук вгору (Ctrl+Вгору)
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ Enter для подробиць події
 У вас старий набір значків:\\r\\n%s\\r\\nМожливі проблеми зі значками, поновіть набір.
 [Next message]
 Наступне
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Неможливо завантажити History++, відсутній riched20.dll.\\nНатисніть "ОК" для продовження.
-[&Empty System History]
-&Очистити системну історію
-[&Empty History]
-&Очистити історію
-[Do you really want to delete ALL items for this contact?]
-Ви дійсно хочете видалити всі записи для цього контакту?
-[Note: It can take several minutes for large histories]
-Примітка. Це може забрати декілька хвилин для великої історії
 [Previous message]
 Попереднє повідомлення
 [Running version of AniSmiley is not supported]

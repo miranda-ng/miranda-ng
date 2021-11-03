@@ -143,8 +143,6 @@ Zrušit
 Otevřít historii
 [View &history]
 Zobrazit &historii
-[Delete all user history]
-Smazat celou historii uživatele
 [Execute history task]
 Vykonat úlohu historie
 [Incoming message]
@@ -192,12 +190,6 @@ Soubor neobsahuje vybraný kontakt
 [File is corrupted]
 Soubor je poškozen
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Tato operace ODSTRANÍ NATRVALO všechnu historii tohoto kontaktu.\nJste si jistí, že chcete pokračovat?
-[Are you sure?]
-Opravdu chcete pokračovat?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -214,6 +206,8 @@ Poslat zprávu
 Odpovědět s &citací
 [Delete group]
 Odstranit skupinu
+[Delete all user history]
+Smazat celou historii uživatele
 [Options]
 Možnosti
 [Filters]
@@ -246,6 +240,10 @@ Soubor obsahuje historii jiného kontaktu. Přejete si změnit kontakt a naimpor
 Chyba
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Počet položek historie ke smazání: %d.\nJste si jistí, že chcete pokračovat?
+[Are you sure?]
+Opravdu chcete pokračovat?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Přejete si smazat všechny importované zprávy tohoto kontaktu?\nUvědomte si, že další naplánovaná úloha naimportuje tyto zprávy znovu.
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Zpráva

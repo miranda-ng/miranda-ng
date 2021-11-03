@@ -1800,10 +1800,6 @@ Titel in Zwischenablage kopieren
 Nachricht in Zwischenablage kopieren
 [Copy timestamp to clipboard]
 Zeitstempel in Zwischenablage kopieren
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
-[Host we are connecting to is not the one certificate was issued for]
-Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 [Outgoing message]
 Ausgehende Nachricht
 [Incoming message]
@@ -2478,6 +2474,10 @@ Programmauswahl für den Start
 <Alle Verbindungen>
 [Network]
 Netzwerk
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unterstützt SSL nicht oder erfordert ein nicht existierendes Sicherheitspaket.
+[Host we are connecting to is not the one certificate was issued for]
+Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. StdMsg.dll.
 ['%S' is disabled, re-enable?]
@@ -2716,6 +2716,8 @@ Verlaufsbetrachter
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
+[Empty history]
+Leere Verlauf
 [<Separator>]
 <Trennlinie>
 [Toolbar]
@@ -4823,7 +4825,7 @@ Avatarverlauf: Konnte Verknüpfung nicht erzeugen
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5093,8 +5095,6 @@ Abbrechen
 Verlauf öffnen
 [View &history]
 Verlauf anzeigen
-[Delete all user history]
-Kompletten Benutzerverlauf löschen
 [Execute history task]
 Verlaufs-Aktion ausführen
 [Incoming message]
@@ -5139,12 +5139,6 @@ Exportieren
 Datei beinhaltet den ausgewählten Kontakt nicht
 [File is corrupted]
 Datei ist beschädigt.
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Diese Operation wird alle Verlaufseinträge für diesen Kontakt DAUERHAFT LÖSCHEN.\nSind Sie sich sicher, dass Sie dies machen wollen?
-[Are you sure?]
-Sind Sie sich sicher?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 [Open in &new window]
 In &neuem Fenster öffnen
 [&Open in existing window]
@@ -5161,6 +5155,8 @@ Nachricht senden
 Mit Zitat antworten
 [Delete group]
 Gruppe löschen
+[Delete all user history]
+Kompletten Benutzerverlauf löschen
 [Options]
 Einstellungen
 [Filters]
@@ -5193,6 +5189,10 @@ Datei beinhaltet Verlauf für einen anderen Kontakt. Wollen Sie den Kontakt änd
 Fehler
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Anzahl der zu löschenden Verlaufseinträge: %d.\nSind Sie sich sicher, dass Sie dies machen wollen?
+[Are you sure?]
+Sind Sie sich sicher?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Wollen Sie alle importierten Nachrichten für diesen Kontakt löschen?\nBeachten Sie, dass der nächste Sheduler-Task diese Nachrichten wieder importiert.
 [Message]
 Nachricht
 [File transfer]
@@ -5745,7 +5745,7 @@ Dieser Kontakt war für eine sehr, sehr lange Zeit abwesend.
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -5768,8 +5768,6 @@ Pounce löschen
 Standardeinstellung laden
 [Setting Value]
 Einstell. Werte
-[Setting text...........]
-Setze Text....
 [Settings]
 Einstellungen
 [Contact To Send Pounce To]
@@ -5794,6 +5792,20 @@ Standardeinstellung
 Zustellbenachrichtigungen anzeigen
 [These settings are also used when sending a "Simple" pounce]
 Diese Einstellungen werden auch für das Senden von "einfachen" Pounces verwendet
+[The Message    (%d Characters)]
+Die Nachricht   (%d Zeichen)
+[Message successfully sent to %s]
+Nachricht erfolgreich an %s gesenden
+[Message failed to send to %s]
+Nachricht an %s senden fehlgeschlagen
+[Retry]
+Wiederholen
+[Message sessions]
+Nachrichtensitzungen
+[Pounce being sent to %s in %d seconds]
+Pounce wird an %s in %d Sekunden gesendet
+[&Buddy Pounce]
+&Buddy Pounce
 [Send If My Status Is...]
 Senden, wenn mein Status ist...
 [Send If They Change Status to...]
@@ -5804,6 +5816,18 @@ Pounce wiederverwenden
 Gebe auf nach
 [Confirmation Window]
 Bestätigungsfenster
+[Reuse this message? (0 to use it once)]
+Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
+[Times]
+Mal
+[Give up after... (0 to not give up)]
+Aufgeben nach.. (0 meint nicht aufgeben)
+[Days]
+Tage
+[Show confirmation window? (0 to not Show)]
+Bestätigungsfenster anzeigen? (0 meint nicht anzeigen)
+[Seconds to wait before sending]
+Sekunden warten vor dem Senden
 [Send If My Status Is]
 Senden wenn mein Status ist
 [Any]
@@ -5840,36 +5864,6 @@ Zu Bitte nicht Stören
 Zu Zum Chat Bereit
 [To Invisible]
 Zu Unsichtbar
-[The Message    (%d Characters)]
-Die Nachricht   (%d Zeichen)
-[Couldn't allocate enough memory]
-Konnte nicht genig Speicher allokieren.
-[The Message    (0 Characters)]
-Die Nachricht   (0 Zeichen)
-[Reuse this message? (0 to use it once)]
-Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
-[Times]
-Mal
-[Give up after... (0 to not give up)]
-Aufgeben nach.. (0 meint nicht aufgeben)
-[Days]
-Tage
-[Show confirmation window? (0 to not Show)]
-Bestätigungsfenster anzeigen? (0 meint nicht anzeigen)
-[Seconds to wait before sending]
-Sekunden warten vor dem Senden
-[Pounce being sent to %s in %d seconds]
-Pounce wird an %s in %d Sekunden gesendet
-[Retry]
-Wiederholen
-[Message successfully sent to %s]
-Nachricht erfolgreich an %s gesenden
-[Message failed to send to %s]
-Nachricht an %s senden fehlgeschlagen
-[Message sessions]
-Nachrichtensitzungen
-[&Buddy Pounce]
-&Buddy Pounce
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
@@ -8550,7 +8544,7 @@ Setzen
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -8677,20 +8671,18 @@ Informationen bereitgestellt von
 Geben Sie eine positive Zahl ein.
 [Currency Rate]
 Währungskurs
-[Source of Information]
+[Source of information]
 Quelle der Information
-[Rate Value]
+[Rate value]
 Ratenwerte
-[Previous Rate Value]
+[Previous rate value]
 Vorheriger Ratenwert
-[Fetch Time]
+[Fetch time]
 Abrufszeit
-[Fetch Date]
+[Fetch date]
 Abrufsdatum
-[Fetch Time and Date]
+[Fetch time and date]
 Abrufszeit und -datum
-[Percentage Character (%)]
-Prozentzeichen (%)
 [Tabulation]
 Tabulator
 [Left slash (\\)]
@@ -8743,10 +8735,6 @@ Autom. Aktualisierung Währungskurs deaktiviert
 Währungssymbol
 [Network]
 Netzwerk
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Dieses Plugin benötigt einen persönlichen Schlüssel. Klicken Sie Ja, um ihn auf der Seite zu erhalten, und tragen Sie ihn dann im Einstellungsdialog ein, sonst wird dieses Plugin nicht funktionieren.
-[CurrencyRates HTTP connections]
-Currency-Rates-HTTP-Verbindungen
 [Protocol icon]
 Protokollicon
 [Currency Rate up]
@@ -8763,12 +8751,14 @@ Exportieren
 Buttons vertauschen
 [Import]
 Importieren
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+Dieses Plugin benötigt einen persönlichen Schlüssel. Klicken Sie Ja, um ihn auf der Seite zu erhalten, und tragen Sie ihn dann im Einstellungsdialog ein, sonst wird dieses Plugin nicht funktionieren.
+[CurrencyRates HTTP connections]
+Currency-Rates-HTTP-Verbindungen
 [XML File (*.xml)]
 XML-Datei (*.xml)
 [All files (*.*)]
 Alle Dateien (*.*)
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt.
 [Log Files (*.txt,*.log)]
 Logdateien (*.txt,*.log)
 [Enter integer value]
@@ -8859,7 +8849,7 @@ Alle Arbeitsschritte erfolgreich beendet
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -9038,8 +9028,6 @@ Zu Kontakt kopieren
 Modul exportieren
 [&Add module]
 Modul &hinzufügen
-[&Clone]
-&Kopie erstellen
 [Export contact]
 Kontakt exportieren
 [Import settings]
@@ -9062,7 +9050,7 @@ Beobachtungsliste
 Beobachtungsliste aktualisieren
 [Copy module "%s"]
 Modul "%s" kopieren
-[Are you sure you want to delete module "%s"?]
+[Are you sure you want to delete module "%S"?]
 Soll Modul "%s" wirklich gelöscht werden?
 [Delete module from database]
 Modul aus der Datenbank löschen
@@ -9090,20 +9078,20 @@ Kontakt
 Modul
 [Setting]
 Einstellung
-[Enter a string to search the database for]
-Geben Sie einen Suchstring für die Datenbank ein
-[Stop]
-Stopp
+[Searching...]
+Suche...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Beendet. Gefundene Einträge: %d / ersetzt: %d / gelöscht: %d
 [Replaced]
 Ersetzt
 [Deleted]
 Gelöscht
 [Found]
 Gefunden
-[Searching...]
-Suche...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Beendet. Gefundene Einträge: %d / ersetzt: %d / gelöscht: %d
+[Enter a string to search the database for]
+Geben Sie einen Suchstring für die Datenbank ein
+[Stop]
+Stopp
 [Main icon]
 Haupticon
 [Closed module]
@@ -9144,6 +9132,10 @@ Datenbank
 Benutzerzweig in DBE++ öffnen
 [Are you sure you want to delete contact "%s"?]
 Soll Kontakt "%s" wirklich gelöscht werden?
+[Type]
+Typ
+[Size]
+Größe
 [Delete resident settings from database?]
 Vorrübergehende Einstellungen aus Datenbank löschen?
 [%d items deleted.]
@@ -9162,12 +9154,10 @@ Kontakte
 Popups
 [Add module to "%s"]
 Modul zu "%s" hinzufügen
-[Type]
-Typ
-[Size]
-Größe
 [Unable to store value in this data type!]
 Kann diesen Wert nicht in diesem Datentyp speichern!
+[Are you sure you want to delete %d contact(s)?]
+Sind Sie sich sicher, dass Sie diese %d Kontakt(e) löschen wollen?
 [Are you sure you want to delete %d setting(s)?]
 Sind Sie sich sicher, dass Sie diese %d Einstellung(en) löschen wollen?
 [*** encrypted ***]
@@ -9241,8 +9231,14 @@ Veraltetes Datenbankformat
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Unterstützung für Miranda-Datenbank: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt
+[Orphaned event with wrong contact ID %d, deleting]
+Verwaistes Ereignis mit falscher Kontakt-ID %d, löschen
 [Orphaned sorting event with wrong event ID %d:%08X, deleting]
-Verwaistes Sortierungsereignis mit falscher Ereignis-ID %d:%08X löschen
+Verwaistes Sortierungsereignis mit falscher Ereignis-ID %d:%08X, löschen
+[Orphaned event with wrong event ID %d:%08X, deleting]
+Verwaistes Ereignis mit falscher Ereignis-ID %d:%08X, löschen
+[Orphaned setting [%S:%S] with wrong contact ID %d, deleting]
+Verwaiste Einstellung [%S:%S] mit falscher Kontakt-ID %d, löschen
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
@@ -9348,6 +9344,8 @@ Irgendeine Umgebungsvariable definiert die aktuelle Windows-Sitzung (z.B. %syste
 Variablen
 [Error creating backup folder]
 Fehler beim Erstellen des Backup-Verzeichnisses.
+[Next backup is scheduled to]
+Nächste Sicherung geplant am
 [Select backup folder]
 Backup-Verzeichnis auswählen
 [Miranda NG [%s] database backup]
@@ -9371,12 +9369,12 @@ Passwort:
 Kontakte
 [Default group:]
 Standardgruppe:
-[Enable group chats]
-Gruppenchats aktivieren
 [Do not open chat windows on creation]
 Chatfenster bei der Erzeugung nicht öffnen
 [Use subgroups for server channels (requires restart)]
 Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
+[Delete messages in Miranda when they are deleted from server]
+Nachrichten in Miranda löschen, wenn sie vom Server gelöscht werden
 [Nick:]
 Nick:
 [edited at]
@@ -9624,7 +9622,7 @@ Mit Exchange verbinden...
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 [Facebook protocol support for Miranda NG.]
@@ -11319,12 +11317,6 @@ Suchen: %s (F3 - weitersuchen)
 %0.n Ereignisse (%s)
 [Enable &Processing]
 Verarbeitung a&ktivieren
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Alle Einträge des Kontakts wirklich löschen (%.0f)?
-[Note: It can take several minutes for large history.]
-Hinweis: Es kann bei einem langen Verlauf einige Minuten dauern.
-[Empty History]
-Leere Verlauf
 [Search Up (Ctrl+Up)]
 Aufwärts suchen (Strg+Pfeil nach oben)
 [Search Down (Ctrl+Down)]
@@ -11519,16 +11511,6 @@ Kann Iconpack (%s) nicht laden von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons f�
 Sie verwenden ein altes Iconpack von:\\r\\n%s\\r\\nDies kann zu fehlenden Icons führen, also aktualisieren Sie das Iconpack.
 [Next message]
 Nächste Nachricht
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-History++ Modul konnte nicht geladen werden, richedit 2.0+ Modul fehlt. Klicken Sie auf OK um Miranda zu laden
-[&Empty System History]
-Syst&emverlauf leeren
-[&Empty History]
-V&erlauf leeren
-[Do you really want to delete ALL items for this contact?]
-Wollen Sie wirklich ALLE Einträge für diesen Kontakt löschen?
-[Note: It can take several minutes for large histories]
-Dies kann bei einem großen Verlauf mehrere Minuten lang dauern.
 [Previous message]
 Vorherige Nachricht
 [Running version of AniSmiley is not supported]
@@ -12939,7 +12921,7 @@ Hardware-Hotkeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -13032,10 +13014,6 @@ Neuen Gruppennamen eingeben
 UIN/E-Mail/Telefon
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
-[You have not entered an ICQ number or password.\nConfigure this in Options -> Network -> ICQ and try again.]
-Sie haben keine ICQ-Nummer oder -Passwort eingegeben.\nGeben Sie dies unter Einstellungen > Netzwerk > ICQ ein und versuchen Sie es nochmal.
-[Connection failed.\nYour ICQ number or password was rejected (%d).]
-Verbindung fehlgeschlagen.\nICQ-Nummer oder Passwort wurden abgelehnt (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
 [Connection failed.\nUnknown error during sign on: %d]
@@ -13447,6 +13425,8 @@ Metakontakt hinzugefügt
 Überspringe Nicht-IM-Kontakt (%S)
 [Skipping duplicate %S contact %s]
 Überspringe doppelten %S-Kontakt %s
+[Failed to create contact %s (%s)]
+Konnte Kontakt %s (%s) nicht löschen
 [Failed to add %S contact %s]
 Hinzufügen des %S-Kontakts %s fehlgeschlagen
 [Added %S contact %s, '%s']
@@ -13533,7 +13513,7 @@ Ende
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -13544,6 +13524,8 @@ Server
 Host-Adresse
 [Port range]
 Portbereich
+[Enable SASL]
+SASL aktivieren
 [Password]
 Passwort
 [User info - Required]
@@ -13642,8 +13624,6 @@ Löschen
 Alias
 [Perform on event:]
 Aktionen bei Ereignis:
-[Scripting support]
-Scriptunterstützung
 [Quit message:]
 Quit-Nachricht:
 [Server code page:]
@@ -13770,6 +13750,8 @@ Querys
 Nachrichten
 [Notices]
 Notizen
+[Host]
+Host
 [CTCP chat request from %s]
 CTCP-Chatanfrage von %s
 [%s sets mode %s]
@@ -13987,11 +13969,13 @@ Auto
 [On]
 Ein
 [<Resolved IP: ]
-<Aufgeloste IP:\s
+<Aufgelöste IP:\s
 [<Automatic>]
 <Automatisch>
 [<Local IP: ]
-<lokale IP:\s
+<Lokale IP:\s
+[Event: Connect]
+Ereignis: Verbinden
 [Event: Available]
 Ereignis: Verfügbar
 [Event: Away]
@@ -18153,7 +18137,7 @@ Nachricht mit Information
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -18358,7 +18342,7 @@ Kein_Nickname
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Shows and allows you to edit your details for all accounts.]
@@ -19273,12 +19257,8 @@ Fertig
 Verlaufsexport
 [Are you sure to remove selected event(s)?]
 Möchten Sie die ausgewählten Ereignisse wirklich löschen?
-[Are you sure to remove all events from history?]
-Sind Sie sicher, dass Sie alle Ereignisse aus dem Verlauf löschen möchten?
 [User history]
 Benutzerverlauf
-[Empty history]
-Leere Verlauf
 [Main icon]
 Haupticon
 [Search]
@@ -20445,7 +20425,7 @@ Speichern
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Sticky Notes & Reminders Implementation for Miranda NG.]
@@ -21695,6 +21675,8 @@ Liste verfügbarer Komponenten
 Aktualisierung fehlgeschlagen
 [Update completed]
 Aktualisierung erfolgreich
+[Updates are temporarily disabled, try again later.]
+Updates sind vorrübergehend deaktiviert, versuchen Sie es später nochmal.
 [An error occurred while checking for new updates.]
 Ein Fehler trat bei der Prüfung auf Aktualisierungen auf.
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
@@ -22337,25 +22319,13 @@ Bemerkungen:
 Schaltfläche
 [Message sessions]
 Nachrichtensitzungen
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
-[Quick Search]
-Schnellsuche
-[Quick search]
-Schnellsuche
-[Title]
-Titel
-[Module/InfoType]
-Modul/Infotyp
-[Setting]
-Einstellung
 [Reload]
 Neu laden
 [New]
@@ -22368,8 +22338,20 @@ Ab
 Löschen
 [Default]
 Standard
-[Additional Options]
-Zusätzliche Einstellungen
+[Settings]
+Einstellungen
+[Title:]
+Titel:
+[Type:]
+Typ:
+[Data type:]
+Datentyp:
+[Module:]
+Modul:
+[Setting:]
+Einstellung:
+[Save]
+Speichern
 [Tool Window Style]
 Werkzeugfensterstil nutzen
 [Draw Grid]
@@ -22382,116 +22364,16 @@ Automatisch schließen
 Nach Status sortieren
 [Show Client Icons]
 Clienticons anzeigen
-[Settings]
-Einstellungen
-[Title:]
-Titel:
-[Account]
-Konto
-[Gender]
-Geschlecht
-[UserID]
-Benutzer-ID
-[Nickname]
-Nickname
-[First name]
-Vorname
-[Last name]
-Nachname
-[Group]
-Gruppe
-[Container]
-Container
-[E-mail]
-E-Mail
-[Client ID]
-Client-ID
-[Ext IP]
-Externe IP
-[LastSeen]
-Zuletzt gesehen
-[Last Event]
-Letztes Ereignis
-[Online since]
-Online seit
-[Metacontact]
-Metakontakt
-[Event count]
-Ereigniszähler
-[Contact add time]
-Kontakt hinzugefügt am
-[Type:]
-Typ:
-[DB setting]
-Datenbank-Einstellung
-[Script]
-Skript
-[Service]
-Dienst
-[Contact info]
-Kontaktinfo
-[Other]
-Sonstige
-[Data type:]
-Datentyp:
-[Byte]
-Byte
-[Word]
-Word
-[DWord]
-DWord
-[Signed]
-Mit Vorzeichen
-[As hex]
-Als Hex
-[String]
-String
-[TimeStamp]
-Zeitstempel
-[Module:]
-Modul:
-[Setting:]
-Einstellung:
-[Service:]
-Dienst:
-[Param]
-Param
-[number value]
-Nummernwert
-[ANSI string]
-ANSI-String
-[Unicode string]
-Unicodestring
-[current contact]
-Aktueller Kontakt
-[last result]
-Letzes Ergebnis
-[parameter]
-Parameter
-[Result]
-Ergebnis
-[Result type]
-Ergebnistyp
-[Free memory]
-Speicher freigeben
-[Save]
-Speichern
-[All]
-Alle
-[Close]
-Schließen
+[Additional Options]
+Zusätzliche Einstellungen
 [Refresh]
 Aktualisieren
-[QuickSearch]
-Schnellsuche
 [Show Offline contacts]
 Offlinekontakte anzeigen
-[New column]
-Neue Spalte
-[Save Item]
-Eintrag speichern
-[InfoType:]
-Infotyp:
+[Colorize]
+Einfärben
+[Quick Search]
+Schnellsuche
 [New Column]
 Neue Spalte
 [Column Up]
@@ -22504,16 +22386,6 @@ Spalte löschen
 männlich
 [Female]
 weiblich
-[Contacts]
-Kontakte
-[ContactInfo]
-Kontaktinfo
-[LastEvent]
-Letztes Ereignis
-[EventCount]
-Ereigniszähler
-[Script Editor]
-Skripteditor
 [Normal background]
 Normaler Hintergrund
 [Normal foreground]
@@ -22542,6 +22414,134 @@ Metakontakt-Vordergrund
 Subkontakt-Hintergrund
 [Subcontact foreground]
 Subkontakt-Vordergrund
+[Script]
+Skript
+[Service]
+Dienst
+[Contact info]
+Kontaktinfo
+[Other]
+Sonstige
+[Metacontact]
+Metakontakt
+[Title]
+Titel
+[Setting]
+Einstellung
+[Byte]
+Byte
+[Word]
+Word
+[Dword]
+DWord
+[Signed]
+Mit Vorzeichen
+[Hexadecimal]
+Hexadezimal
+[String]
+String
+[Timestamp]
+Zeitstempel
+[Last seen]
+Zuletzt gesehen
+[Last event]
+Letztes Ereignis
+[Event count]
+Ereigniszähler
+[Display name]
+Angezeigter Name
+[Account name]
+Kontoname
+[New column]
+Neue Spalte
+[Contacts]
+Kontakte
+[Account]
+Konto
+[Gender]
+Geschlecht
+[UserID]
+Benutzer-ID
+[Nickname]
+Nickname
+[First name]
+Vorname
+[Last name]
+Nachname
+[Group]
+Gruppe
+[Container]
+Container
+[Email]
+E-Mail
+[Client ID]
+Client-ID
+[Online since]
+Online seit
+[Contact add time]
+Kontakt hinzugefügt am
+[Nick]
+Nick
+[City]
+Stadt
+[State]
+Region
+[Country]
+Land
+[Phone]
+Telefon
+[Homepage]
+Homepage
+[About]
+Über
+[Age]
+Alter
+[Unique ID]
+Unique ID
+[Fax]
+Fax
+[Cellular]
+Mobiltelefon
+[Street]
+Straße
+[Company name]
+Firmenname
+[Company department]
+Abteilung
+[Company position]
+Position
+[Company street]
+Straße
+[Company city]
+Stadt
+[Company state]
+Region
+[Company country]
+Land
+[Company homepage]
+Firmenhomepage
+[Unknown]
+Unbekannt
+[Stay on Top]
+Immer im Vordergrund
+[Do you really want to delete selected contacts?]
+Möchten Sie die ausgewählten Kontakte wirklich löschen?
+[Warning]
+Warnung
+[%i users found (%i) Online: %i]
+%i Benutzer gefunden (%i) Online: %i
+[deleted]
+Gelöscht
+[disabled]
+deaktiviert
+[active]
+aktiv
+[Online]
+Online
+[All]
+Alle
+[Change setting through QS]
+Einstellung durch QS ändern
 [&Delete]
 &Löschen
 [&Copy]
@@ -22554,65 +22554,6 @@ Zu &Tab-Container anheften
 In Gruppe verschieben
 [Some of selected contacts in different metacontacts already]
 Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
-[Do you really want to delete selected contacts?]
-Möchten Sie die ausgewählten Kontakte wirklich löschen?
-[Warning]
-Warnung
-[One or more contacts in same Meta already. Try to convert anyway?]
-Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
-[Editing of column ]
-Bearbeite Spalte\s
-[%i users found (%i) Online: %i]
-%i Benutzer gefunden (%i) Online: %i
-[ users found (]
- Benutzer gefunden (
-[) Online: ]
-) online:\s
-[Online]
-Online
-[deleted]
-Gelöscht
-[off]
-aus
-[active]
-aktiv
-[Colorize]
-Einfärben
-[QuickSearch window hotkey]
-Schnellsuchfensterhotkey
-[Column content is simple database setting.]
-Diese Spalte ist eine einfache Datenbankeinstellung.
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-Inhalt der Spalte ist das Ergebnis des Skriptes.\r\nWeitere Hilfe über den "Hilfe"-Button im Skriptdialog.
-[Column content is contact property (see list). Can be empty.]
-Inhalt der Spalte ist die Eigenschaft des Kontaktes (siehe Liste). Kann leer sein.
-[Content is last online time.]
-Inhalt ist die letzte Onlinezeit.
-[Content is time of last contact event.]
-Inhalt ist die Zeit des letzten Ereignisses dieses Kontaktes.
-[Content is metacontact info.]
-Inhalt ist die Info des Metakontaktes.
-[Content is count of ALL contact events (not messages only)]
-Inhalt ist die Anzahl ALLER Eregnisse (nicht nur Nachrichten) dieses Kontaktes.
-[Other info]
-Andere Info
-[Change setting through QS]
-Einstellung durch QS ändern
-[default]
-Standard
-[Selected]
-Aktiv
-[contacts]
-Kontakte
-[Unknown]
-Unbekannt
-[Stay on Top]
-Immer im Vordergrund
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Texteditor
-[Wrap Text]
-Text umbrechen
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -27454,8 +27395,8 @@ Thema (10x10)
 Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
-[Message Sessions]
-Nachrichtensitzungen
+[Messaging]
+Nachrichten
 [Group chat windows]
 Gruppenchat-Fenster
 [Group chat log]
@@ -31018,7 +30959,7 @@ Benutzerhandbuch
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 [Adds support for dynamic variables in strings for plugins.]
@@ -31377,7 +31318,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -32764,7 +32705,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -33065,92 +33006,14 @@ HTTP-Fehler: Falsches Gateway (502)
 HTTP-Fehler: Dienst nicht verfügbar (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP-Fehler: Gateway-Zeitüberschreitung (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTemperatur: %t\\ngefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Gefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Wetterlage für %n von %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n um %u:	%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nHeute:  max. %h, min. %l
-[Temperature: %[Temperature]]
-Temperatur: %[Temperatur]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temperatur\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualisierungs-Zeit\n%v\tSicht\n%w\tWind-Geschwindigkeit\n%y\tSonnenuntergang
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temp.\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temp.\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualis.-Zeit\n%v\tSicht\n%w\tWind-Geschwind.\n%y\tSonnenuntergang\n----------\n\\n\tneue Zeile
-[No information available.\r\nPlease update weather condition first.]
-Keine Informationen verfügbar.\r\nBitte aktualisieren Sie zunächst die Wetterbedingungen.
-[%[..]\tcustom variables]
-%[..]\tBenutzerdefinierte Variablen
-[Here is a list of custom variables that are currently available]
-Hier ist eine Liste von Variablen, die momentan verfügbar sind
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
 [Enable/disable auto update]
 Automatische Aktualisierung (de-)aktivieren
 [Auto Update Enabled]
 Autom. Aktualisierung aktiviert
 [Auto Update Disabled]
 Autom. Aktualisierung deaktiviert
-[Condition Changed]
-Wetterlage hat sich geändert
-[Alert Issued]
-Wetteralarm ausgelöst
-[Current weather information for %s.]
-Momentane Wetter-Informationen für %s.
-[%s is now the default weather station]
-%s ist jetzt die Standard-Wetterstation
-[Weather Protocol]
-Wetter-Protokoll
-[Please try again after weather update is completed.]
-Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
-[<Enter station name here>]
-<Stations-Name hier eintragen>
-[<Enter station ID here>]
-<Stations-ID hier eintragen>
-[Weather condition was not logged.]
-Wetterlage wurde nicht aufgezeichnet.
-[Get city name from ID]
-Stadt-Namen aus ID beziehen
-[Weather INI information]
-Wetter-INI-Informationen
-[Browse]
-Durchsuchen
-[View webpage]
-Webseite anzeigen
-[Reset to default]
-Zurücksetzen auf Standard
-[Text Files]
-Textdateien
-[All Files]
-Alle Dateien
-[mb]
-mb
-[in]
-Element von
-[mm]
-mm
-[<unknown time>]
-<unbekannte Zeit>
-[<Error>]
-<Fehler>
-[HTTP Error %i]
-HTTP-Fehler %i
-[<Enter city name here>]
-<Stadt-Name hier eingeben>
-[Error when obtaining data: %s]
-Fehler beim Datenerhalt: %s
-[Weather HTTP connections]
-Weather-HTTP-Verbindungen
 [Protocol icon]
 Protokollicon
 [Update Disabled]
@@ -33171,6 +33034,60 @@ Popup
 Kein Popup
 [Edit Settings]
 Einstellungen bearbeiten
+[Condition Changed]
+Wetterlage hat sich geändert
+[Alert Issued]
+Wetteralarm ausgelöst
+[Current weather information for %s.]
+Momentane Wetter-Informationen für %s.
+[%s is now the default weather station]
+%s ist jetzt die Standard-Wetterstation
+[Weather Protocol]
+Wetter-Protokoll
+[Please try again after weather update is completed.]
+Bitte versuchen Sie es erneut nachdem die Aktualisierung beendet ist.
+[<Enter station name here>]
+<Stations-Name hier eintragen>
+[<Enter station ID here>]
+<Stations-ID hier eintragen>
+[Weather condition was not logged.]
+Wetterlage wurde nicht aufgezeichnet.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Für die komplette Vorhersage ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Für die Wetterkarte ist keine URL angegeben. Sie können unter "Einstellungen bearbeiten" eine URL setzen.
+[Get city name from ID]
+Stadt-Namen aus ID beziehen
+[Weather INI information]
+Wetter-INI-Informationen
+[Browse]
+Durchsuchen
+[View webpage]
+Webseite anzeigen
+[Reset to default]
+Zurücksetzen auf Standard
+[Text Files]
+Textdateien
+[All Files]
+Alle Dateien
+[mb]
+mb
+[in]
+in
+[mm]
+mm
+[<unknown time>]
+<unbekannte Zeit>
+[<Error>]
+<Fehler>
+[HTTP Error %i]
+HTTP-Fehler %i
+[<Enter city name here>]
+<Stadt-Name hier eingeben>
+[Error when obtaining data: %s]
+Fehler beim Datenerhalt: %s
+[Weather HTTP connections]
+Weather-HTTP-Verbindungen
 [Name]
 Name
 [Author]
@@ -33209,6 +33126,8 @@ Genutzter Speicher:
 Bytes
 [Description:]
 Beschreibung:
+[Here is a list of custom variables that are currently available]
+Hier ist eine Liste von Variablen, die momentan verfügbar sind
 [All update data has been reloaded.]
 Alle aktualisierten Daten wurden geladen.
 [Invalid ini format for: %s]
@@ -33221,6 +33140,22 @@ Frame-Schrift
 Frame-Titel-Schrift
 [Frame Background]
 Frame-Hintergrund
+[Weather Condition for %n as of %u]
+Wetterlage für %n von %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Gefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTemperatur: %t\\ngefühlt wie: %f\\nLuftdruck: %p\\nWind: %i  %w\\nLuftfeuchtigkeit: %m\\nTaupunkt: %e\\nSichtweite: %v\\n\\nSonnenaufgang: %r\\nSonnenuntergang: %y\\n\\n5 Tage-Vorhersage:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n um %u:	%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (gefühlt %f)	Wind: %i %w	Feuchtigkeit: %m
+[Temperature: %[Temperature]]
+Temperatur: %[Temperatur]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nHeute:  max. %h, min. %l
 [Weather Protocol Text Preview]
 Wetter-Protokoll Textvorschau
 [Network]
@@ -33231,6 +33166,10 @@ Allgemein
 Anzeige
 [Popups]
 Popups
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tmomentane Lage\n%d\taktuelles Datum\n%e\tTaupunkt\n%f\tgefühlte Temperatur\n%h\tHöchsttemperatur\n%i\tWindrichtung\n%l\tgeringste Temperatur\n%m\tLuftfeuchtigkeit\n%n\tStations-Name\n%p\tDruck\n%r\tSonnenaufgang\n%s\tStations-ID\n%t\tTemperatur\n%u\tAktualisierungs-Zeit\n%v\tSicht\n%w\tWind-Geschwindigkeit\n%y\tSonnenuntergang
+[%[..]\tcustom variables]
+%[..]\tBenutzerdefinierte Variablen
 [Station ID]
 Stations-ID
 [Disable &weather notification]
@@ -33259,6 +33198,8 @@ Wetter-Hinweis
 Als Frame anzeigen
 [Unable to retrieve weather information for %s]
 Wetter-Informationen können für %s nicht empfangen werden.
+[No information available.\r\nPlease update weather condition first.]
+Keine Informationen verfügbar.\r\nBitte aktualisieren Sie zunächst die Wetterbedingungen.
 [Variable]
 Variable
 [Information]
@@ -33417,6 +33358,54 @@ Nordost
 Südwest
 [Southeast]
 Südost
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Bedingung
+[Feel]
+gefühlt
+[Forecast Day 1]
+Vorhersage Tag 1
+[Forecast Day 2]
+Vorhersage Tag 2
+[Forecast Day 3]
+Vorhersage Tag 3
+[Forecast Day 4]
+Vorhersage Tag 4
+[Forecast Day 5]
+Vorhersage Tag 5
+[Forecast Day 6]
+Vorhersage Tag 6
+[Forecast Day 7]
+Vorhersage Tag 7
+[Forecast Day 8]
+Vorhersage Tag 8
+[Forecast Day 9]
+Vorhersage Tag 9
+[Heat Index]
+gefühlte Temperatur
+[High]
+Hoch
+[Light Rain And Snow]
+Leichter Regen und Schauer
+[Low]
+Gering
+[Moonrise]
+Mondaufgang
+[Moonset]
+Monduntergang
+[Rain Showers]
+Regenschauer
+[Temperature]
+Temperatur
+[UV Index]
+UV-Index
+[Wind direction]
+Windrichtung
+[Wind speed]
+Windgeschwindigkeit
 ;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
@@ -34338,6 +34327,530 @@ des Mondes ist beleuchtet
 [shorter]
 kürzer
 ;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
+;============================================================
+[Alert]
+Alarm
+[Blowing Snow]
+Schneesturm
+[Chance Of A Thunderstorm 20% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewitter, 20% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 20% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 20% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 30% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 30% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 40% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 50% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 60% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 60% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 70% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
+[Chance Of Rain 80% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 20% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 20% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 30% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 30% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 40% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 40% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 50% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 50% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 60% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 60% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 70% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
+[Chance Of Snow 80% Chance Of Precipitation]
+Wahrscheinlichkeit von Schnee, 80% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 20% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 20% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 30% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 30% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 40% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 40% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 50% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 50% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 60% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 60% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 70% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 70% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 80% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 80% Niederschlagswahrscheinlichkeit
+[Chance Of T-Storms 90% Chance Of Precipitation]
+Wahrscheinlichkeit von Gewittern, 90% Niederschlagswahrscheinlichkeit
+[Chance Rain 40% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 40% Niederschlagswahrscheinlichkeit
+[Chance Rain 50% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 50% Niederschlagswahrscheinlichkeit
+[Chance Rain 80% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
+[Chance Rain 90% Chance Of Precipitation]
+Wahrscheinlichkeit von Regen, 90% Niederschlagswahrscheinlichkeit
+[Clear]
+Löschen
+[Cloudy]
+Wolkig
+[Day Length Diff]
+Tageslängenunterschied
+[Day Length]
+Tagesdauer
+[Drizzle Fog]
+Nieselregen Nebel
+[Drizzle Mist]
+Sprühregen Nebel
+[ENE]
+ONO
+[ESE]
+OSO
+[E]
+O
+[East]
+Ost
+[Elevation]
+Elevation
+[Falling]
+Fallend
+[Feel]
+gefühlt
+[First Quarter]
+Erstes Viertel
+[Fog]
+Nebel
+[Forecast Day 1 Condition]
+Vorhersage Tag 1 Bedingungen
+[Forecast Day 1 Day]
+Vorhersage Tag 1 Tag
+[Forecast Day 1 High]
+Vorhersage Tag 1 Höchstwerte
+[Forecast Day 1 Low]
+Vorhersage Tag 1 Tiefstwerte
+[Forecast Day 1 Night Text]
+Vorhersage Tag 1 Nacht
+[Forecast Day 1 Text]
+Vorhersage Tag 1 Text
+[Forecast Day 1]
+Vorhersage Tag 1
+[Forecast Day 2 Condition]
+Vorhersage Tag 2 Bedingungen
+[Forecast Day 2 Day]
+Vorhersage Tag 2 Tag
+[Forecast Day 2 High]
+Vorhersage Tag 2 Höchstwerte
+[Forecast Day 2 Low]
+Vorhersage Tag 2 Tiefstwerte
+[Forecast Day 2 Night Text]
+Vorhersage Tag 2 Nacht
+[Forecast Day 2 Text]
+Vorhersage Tag 2 Text
+[Forecast Day 2]
+Vorhersage Tag 2
+[Forecast Day 3 Condition]
+Vorhersage Tag 3 Bedingungen
+[Forecast Day 3 Day]
+Vorhersage Tag 3 Tag
+[Forecast Day 3 High]
+Vorhersage Tag 3 Höchstwerte
+[Forecast Day 3 Low]
+Vorhersage Tag 3 Tiefstwerte
+[Forecast Day 3 Night Text]
+Vorhersage Tag 3 Nacht
+[Forecast Day 3 Text]
+Vorhersage Tag 3 Text
+[Forecast Day 3]
+Vorhersage Tag 3
+[Forecast Day 4 Condition]
+Vorhersage Tag 4 Bedingungen
+[Forecast Day 4 Day]
+Vorhersage Tag 4 Tag
+[Forecast Day 4 High]
+Vorhersage Tag 4 Höchstwerte
+[Forecast Day 4 Low]
+Vorhersage Tag 4 Tiefstwerte
+[Forecast Day 4 Night Text]
+Vorhersage Tag 4 Nacht
+[Forecast Day 4 Text]
+Vorhersage Tag 4 Text
+[Forecast Day 4]
+Vorhersage Tag 4
+[Forecast Day 5 Condition]
+Vorhersage Tag 5 Bedingungen
+[Forecast Day 5 Day]
+Vorhersage Tag 5 Tag
+[Forecast Day 5 High]
+Vorhersage Tag 5 Höchstwerte
+[Forecast Day 5 Low]
+Vorhersage Tag 5 Tiefstwerte
+[Forecast Day 5 Night Text]
+Vorhersage Tag 5 Nacht
+[Forecast Day 5 Text]
+Vorhersage Tag 5 Text
+[Forecast Day 5]
+Vorhersage Tag 5
+[Freezing Drizzle]
+Gefrierender Niesel
+[Freezing Fog]
+Gefrierender Nebel
+[Freezing Rain Mist]
+Gefrierender Regendunst
+[Freezing Rain]
+gefrierender Regen
+[Friday]
+Freitag
+[Full Moon]
+Vollmond
+[Haze]
+Dunst
+[Heat Index]
+gefühlte Temperatur
+[Heavy Blowing Snow]
+Schweres Schneesturm
+[Heavy Fog]
+Dichter Nebel
+[Heavy Rain Showers]
+Starke Regenschauer
+[Heavy Showers Snow Blowing Snow]
+Schwere Schauer, Schnee, Schneesturm
+[Heavy Showers Snow Heavy Blowing Snow]
+Schwere Schneeschauer,Schwerer Schneesturm
+[Heavy Showers Snow Mist]
+Schwere Schauer, Schneedunst
+[Heavy Showers Snow]
+schwere Schneeschauer
+[Heavy Snow Showers]
+Starke Schneestürme
+[Heavy Snow]
+starker Schneefall
+[Heavy Thunderstorm Rain]
+Schweres Gewitterregen
+[Ice Crystals Mist]
+Eiskristall Nebel
+[Ice Pellets 30% Chance Of Precipitation]
+Eisgraupel, 30% Niederschlagswahrscheinlichkeit
+[Ice Pellets 40% Chance Of Precipitation]
+Eisgraupel, 40% Niederschlagswahrscheinlichkeit
+[Ice Pellets 50% Chance Of Precipitation]
+Eisgraupel, 50% Niederschlagswahrscheinlichkeit
+[Ice Pellets 60% Chance Of Precipitation]
+Eisgraupel, 60% Niederschlagswahrscheinlichkeit
+[Ice Pellets 70% Chance Of Precipitation]
+Eisgraupel, 70% Niederschlagswahrscheinlichkeit
+[Ice Pellets 80% Chance Of Precipitation]
+Eisgraupel, 80% Niederschlagswahrscheinlichkeit
+[Ice Pellets 90% Chance Of Precipitation]
+Eisgraupel, 90% Niederschlagswahrscheinlichkeit
+[Ice Pellets]
+Eisgraupel
+[Last Quarter]
+Letztes Viertel
+[Latitude]
+Breitengrad
+[Light Blowing Snow]
+Leichtes Schneesturm
+[Light Drizzle Mist]
+Leichter Graupel/Nebel
+[Light Drizzle]
+leichter Niesel
+[Light Fog]
+Leichter Nebel
+[Light Freezing Drizzle Mist]
+Leichter gefrierender Graupel/Nebel
+[Light Freezing Drizzle Snow]
+Leicht gefrierender Nieselschnee
+[Light Freezing Drizzle]
+Leichter, überfrierender Niesel
+[Light Freezing Rain Mist]
+Leichter Frostregen,Dunst
+[Light Freezing Rain]
+Leichter Frostregen
+[Light Ice Pellets]
+leichte Eisgraupel
+[Light Rain Fog]
+Leichter Regennebel
+[Light Rain Mist]
+leichter Regennebel
+[Light Rain Showers]
+Leichte Regenschauer
+[Light Rain Snow Mist]
+Leichter Regenschneedunst
+[Light Rain Snow]
+leichter Schneeregen
+[Light Rain]
+Leichter Regen
+[Light Showers Rain Mist]
+Leichter Regenschauer/Nebel
+[Light Showers Rain]
+Leichte Regenschauer
+[Light Showers Showers Rain]
+Leichte Schauer, Regenschauer
+[Light Showers Snow Blowing Snow]
+Leichte Schauer, Schnee, Schneesturm
+[Light Showers Snow Light Blowing Snow]
+Leichte Schneeschauer, leichtes Schneesturm
+[Light Showers Snow Mist]
+Leichte Schauer, Schneenebel
+[Light Showers Snow Rain Mist]
+Leichte Schauer, Regenschneedunst
+[Light Showers Snow Rain]
+leichte Schneeregenschauer
+[Light Showers Snow]
+Leichte Schneeschauer
+[Light Snow 30% Chance Of Precipitation]
+Leichter Schnee, 30% Niederschlagswahrscheinlichkeit
+[Light Snow Blowing Snow]
+Leichter Schnee, Schneesturm
+[Light Snow Grains]
+leichte Schneekörner
+[Light Snow Light Blowing Snow]
+Leichter Schnee, Leichter Schneesturm
+[Light Snow Mist]
+leichter Schneenebel
+[Light Snow Rain]
+Leichter Schneeregen
+[Light Snow Shallow Fog]
+Leichter Schnee,dünner Nebel
+[Light Snow Showers]
+leichte Schneeschauer
+[Light Snow]
+leichter Schneefall
+[Light Thunderstorm Rain]
+Leichte Gewitterregen
+[Light Thunderstorm]
+Leichtes Unwetter
+[Local Time]
+Lokale Zeit
+[longer]
+länger
+[Longitude]
+Längengrad
+[Max]
+Max
+[Min]
+Min
+[Mist]
+Nebelschleier
+[Monday]
+Montag
+[Moon]
+Mondphase
+[Moonrise]
+Mondaufgang
+[Moonset]
+Monduntergang
+[Mostly Clear]
+Meist klar
+[Mostly Cloudy]
+Meist wolkig
+[Mostly Sunny]
+Meist sonnig
+[N/a]
+n.v.
+[NE]
+NE
+[NNE]
+NNO
+[NNW]
+NNW
+[NW]
+NW
+[N]
+N
+[New Moon]
+Neumond
+[North]
+Nord
+[Northeast]
+Nordost
+[Northwest]
+Nordwest
+[of the Moon is Illuminated]
+des Mondes ist beleuchtet
+[Overcast]
+trüb
+[Partly Cloudy]
+Teils wolkig
+[Partly Sunny]
+Teils sonnig
+[Patches Fog]
+Leichter Nebel
+[Pressure Change]
+Druckänderung
+[Rain 100% Chance Of Precipitation]
+Regen, 100% Niederschlagswahrscheinlichkeit
+[Rain 20% Chance Of Precipitation]
+Regen, 20% Niederschlagswahrscheinlichkeit
+[Rain 40% Chance Of Precipitation]
+Regen, 40% Niederschlagswahrscheinlichkeit
+[Rain 50% Chance Of Precipitation]
+Regen, 50% Niederschlagswahrscheinlichkeit
+[Rain 60% Chance Of Precipitation]
+Regen, 60% Niederschlagswahrscheinlichkeit
+[Rain 70% Chance Of Precipitation]
+Regen, 70% Niederschlagswahrscheinlichkeit
+[Rain 80% Chance Of Precipitation]
+Regen, 80% Niederschlagswahrscheinlichkeit
+[Rain 90% Chance Of Precipitation]
+Regen, 90% Niederschlagswahrscheinlichkeit
+[Rain Fog]
+Regendunst
+[Rain]
+Regen
+[Rising]
+Steigend
+[SE]
+SO
+[SSE]
+SSO
+[SSW]
+SSW
+[SW]
+SW
+[S]
+S
+[Saturday]
+Samstag
+[Scattered Clouds]
+Vereinzelte Wolken
+[Shallow Fog]
+Seichter Nebel
+[shorter]
+kürzer
+[Showers Rain Snow]
+Schauer Regen Schnee
+[Showers Rain]
+Regenschauer
+[Showers Showers Rain]
+Schwere Regenschauer
+[Showers Snow Blowing Snow]
+Schauer,Schnee,Schneesturm
+[Showers Snow Heavy Blowing Snow]
+Schneeschauer, schweres Schneesturm
+[Showers Snow Rain]
+Schauer, Schneeregen
+[Showers Snow]
+Schneeschauer
+[Smoke]
+Smog
+[Snow 100% Chance Of Precipitation]
+Schnee, 100% Niederschlagswahrscheinlichkeit
+[Snow 20% Chance Of Precipitation]
+Schnee, 20% Niederschlagswahrscheinlichkeit
+[Snow 30% Chance Of Precipitation]
+Schnee, 30% Niederschlagswahrscheinlichkeit
+[Snow 40% Chance Of Precipitation]
+Schnee, 40% Niederschlagswahrscheinlichkeit
+[Snow 50% Chance Of Precipitation]
+Schnee, 50% Niederschlagswahrscheinlichkeit
+[Snow 60% Chance Of Precipitation]
+Schnee, 60% Niederschlagswahrscheinlichkeit
+[Snow 70% Chance Of Precipitation]
+Schnee, 70% Niederschlagswahrscheinlichkeit
+[Snow 80% Chance Of Precipitation]
+Schnee, 80% Niederschlagswahrscheinlichkeit
+[Snow 90% Chance Of Precipitation]
+Schnee, 60% Niederschlagswahrscheinlichkeit
+[Snow Blowing Snow]
+Schnee,Schneesturm
+[Snow Freezing Rain]
+Schnee, gefrierender Regen
+[Snow Grains]
+Schneekörner
+[Snow Heavy Blowing Snow]
+Schnee, Schweres Schneesturm
+[Snow Mist]
+Schneedunst
+[Snow Rain Mist]
+Schneeregendunst
+[Snow Rain]
+Schneeregen
+[Snow Showers 30% Chance Of Precipitation]
+Schneeschauer, 30% Niederschlagswahrscheinlichkeit
+[Snow Showers 40% Chance Of Precipitation]
+Schneeschauer, 40% Niederschlagswahrscheinlichkeit
+[Snow Showers 50% Chance Of Precipitation]
+Schneeschauer, 50% Niederschlagswahrscheinlichkeit
+[Snow Showers 60% Chance Of Precipitation]
+Schneeschauer, 60% Niederschlagswahrscheinlichkeit
+[Snow Showers 70% Chance Of Precipitation]
+Schneeschauer, 70% Niederschlagswahrscheinlichkeit
+[Snow Showers 80% Chance Of Precipitation]
+Schneeschauer, 80% Niederschlagswahrscheinlichkeit
+[Snow Showers]
+Schneeschauer
+[Snow]
+Schnee
+[South]
+Süd
+[Southeast]
+Südost
+[Southwest]
+Südwest
+[Stable]
+Stabil
+[Steady]
+Ruhig
+[Sunday]
+Sonntag
+[T-Storms 100% Chance Of Precipitation]
+Gewitter, 100% Niederschlagswahrscheinlichkeit
+[T-Storms 30% Chance Of Precipitation]
+Gewitter, 30% Niederschlagswahrscheinlichkeit
+[T-Storms 40% Chance Of Precipitation]
+Gewitter, 40% Niederschlagswahrscheinlichkeit
+[T-Storms 50% Chance Of Precipitation]
+Gewitter, 50% Niederschlagswahrscheinlichkeit
+[T-Storms 60% Chance Of Precipitation]
+Gewitter, 60% Niederschlagswahrscheinlichkeit
+[T-Storms 70% Chance Of Precipitation]
+Gewitter, 70% Niederschlagswahrscheinlichkeit
+[T-Storms 80% Chance Of Precipitation]
+Gewitter, 80% Niederschlagswahrscheinlichkeit
+[T-Storms 90% Chance Of Precipitation]
+Gewitter, 90% Niederschlagswahrscheinlichkeit
+[Thunderstorm Rain]
+Gewitterregen
+[Thunderstorm]
+Gewitter
+[Thunderstorms And Rain]
+Unwetter und Regen
+[Thursday]
+Donnerstag
+[Tuesday]
+Dienstag
+[UV Index]
+UV-Index
+[Var]
+Var
+[Visible Light Length]
+Sichtbare Lichtlänge
+[WNW]
+WNW
+[WSW]
+WSW
+[W]
+W
+[Waning Crescent]
+Abnehmender Halbmond
+[Waning Gibbous]
+Abnehmender Mond
+[Waxing Crescent]
+Zunehmender Halbmond
+[Waxing Gibbous]
+Zunehmender Mond
+[Wednesday]
+Mittwoch
+[West]
+West
+[Wind Direction DEG]
+Windrichtung (Grad)
+[Wind Direction]
+Windrichtung
+[Wind Gust]
+Windböe
+[Wind Speed]
+Windgeschwindigkeit
+;============================================================
 ;  File: yweather.ini
 ;  Plugin: Weather
 ;============================================================
@@ -35223,7 +35736,7 @@ Ansagen
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 [Provides extended options for sound notifications.]

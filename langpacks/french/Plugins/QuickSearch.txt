@@ -1,22 +1,13 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
 
-[Quick Search]
-Recherche rapide
-[Quick search]
-Recherche rapide
-[Title]
-
-[Module/InfoType]
-
-[Setting]
-
+;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 Recharger
 [New]
@@ -29,8 +20,22 @@ Bas
 Effacer
 [Default]
 Défaut
-[Additional Options]
-Options supplémentaires
+[Settings]
+Paramètres
+[Title:]
+Titre :
+[Type:]
+Type :
+[Data type:]
+
+[Module:]
+Module :
+[Setting:]
+Paramètre :
+[Info type:]
+
+[Save]
+Sauver
 [Tool Window Style]
 
 [Draw Grid]
@@ -43,116 +48,19 @@ Afficher la grille
 Trier par état
 [Show Client Icons]
 Voir l'icône du client
-[Settings]
-Paramètres
-[Title:]
-Titre :
-[Account]
-Compte
-[Gender]
-Sexe
-[UserID]
-
-[Nickname]
-Pseudo
-[First name]
-Prénom
-[Last name]
-Nom
-[Group]
-Groupe
-[Container]
-
-[E-mail]
-e-mail
-[Client ID]
-
-[Ext IP]
-
-[LastSeen]
-
-[Last Event]
-
-[Online since]
-
-[Metacontact]
-
-[Event count]
-
-[Contact add time]
-
-[Type:]
-Type :
-[DB setting]
-
-[Script]
-
-[Service]
-
-[Contact info]
-
-[Other]
-Autre
-[Data type:]
-
-[Byte]
-
-[Word]
-
-[DWord]
-
-[Signed]
-
-[As hex]
-
-[String]
-
-[TimeStamp]
-Horodateur
-[Module:]
-Module :
-[Setting:]
-Paramètre :
-[Service:]
-Service :
-[Param]
-
-[number value]
-Valeur numérique
-[ANSI string]
-Chaine ANSI
-[Unicode string]
-Chaine unicode
-[current contact]
-contact actuel
-[last result]
-
-[parameter]
-
-[Result]
-
-[Result type]
-
-[Free memory]
-
-[Save]
-Sauver
-[All]
-
-[Close]
-Fermer
+[Additional Options]
+Options supplémentaires
 [Refresh]
 Actualiser
-[QuickSearch]
-Recherche rapide
 [Show Offline contacts]
 Montrer les contacts hors ligne
-[New column]
-Nouvelle colonne
-[Save Item]
-Sauver
-[InfoType:]
-InfoType :
+[Colorize]
+
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
+Recherche rapide
+[Open Quick Search window]
+
 [New Column]
 Nouvelle colonne
 [Column Up]
@@ -165,16 +73,6 @@ Effacer la colonne
 Homme
 [Female]
 Femme
-[Contacts]
-Contacts
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
-[Script Editor]
-
 [Normal background]
 
 [Normal foreground]
@@ -203,6 +101,174 @@ Contacts
 
 [Subcontact foreground]
 
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+
+[Service]
+
+[Contact info]
+
+[Other]
+Autre
+[Metacontact]
+
+[Title]
+
+[Module/Info type]
+
+[Setting]
+
+[Database setting]
+
+[Byte]
+
+[Word]
+
+[Dword]
+
+[Signed]
+
+[Hexadecimal]
+
+[String]
+
+[Timestamp]
+Heure
+[Last seen]
+
+[Last event]
+
+[Event count]
+
+[Display name]
+
+[Account name]
+Nom de compte
+[New column]
+Nouvelle colonne
+[Contacts]
+Contacts
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Compte
+[Gender]
+Sexe
+[UserID]
+
+[Nickname]
+Pseudo
+[First name]
+Prénom
+[Last name]
+Nom
+[Group]
+Groupe
+[Container]
+
+[Email]
+
+[Client ID]
+
+[Online since]
+
+[Contact add time]
+
+[Nick]
+Pseudo
+[Custom nick]
+
+[City]
+Ville
+[State]
+État
+[Country]
+Pays
+[Phone]
+Téléphone
+[Homepage]
+Page web
+[About]
+À propos
+[Age]
+
+[First name/Last name]
+Prénom/Nom
+[Unique ID]
+ID unique
+[Fax]
+Fax
+[Cellular]
+Portable
+[Time zone]
+
+[My notes]
+
+[Birth day]
+
+[Birth month]
+
+[Birth year]
+
+[Street]
+Rue
+[ZIP code]
+
+[Language #1]
+
+[Language #2]
+
+[Language #3]
+
+[Company name]
+Entreprise
+[Company department]
+Département
+[Company position]
+Position
+[Company street]
+Rue
+[Company city]
+Ville
+[Company state]
+État
+[Company ZIP]
+
+[Company country]
+Pays
+[Company homepage]
+Page Web
+[Display ID]
+
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Inconnu
+[Stay on Top]
+Toujours visible
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+
+[Warning]
+Avertissement
+[%i users found (%i) Online: %i]
+
+[deleted]
+Effacé
+[disabled]
+désactivé
+[active]
+active
+[Online]
+En ligne
+[All]
+
+[Editing of column %s]
+
+[Enter new cell value]
+
+[Change setting through QS]
+
+[Selected %d contacts]
+
 [&Delete]
 &Effacer
 [&Copy]
@@ -215,62 +281,5 @@ Contacts
 &Déplacer vers le groupe
 [Some of selected contacts in different metacontacts already]
 
-[Do you really want to delete selected contacts?]
-
-[Warning]
-Avertissement
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
-[%i users found (%i) Online: %i]
-
-[ users found (]
-
-[) Online: ]
-
-[Online]
-En ligne
-[deleted]
-Effacé
-[off]
-
-[active]
-active
-[Colorize]
-
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
-[default]
-Défaut
-[Selected]
-
-[contacts]
-Contacts
-[Unknown]
-Inconnu
-[Stay on Top]
-Toujours visible
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-
-[Wrap Text]
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
 

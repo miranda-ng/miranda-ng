@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Shows currency rates.]
@@ -135,19 +135,21 @@ Geben Sie eine positive Zahl ein.
 [Currency Rate]
 Währungskurs
 ;file \protocols\CurrencyRates\src\CurrencyRatesProviderBase.cpp
-[Source of Information]
+[Source of information]
 Quelle der Information
-[Rate Value]
+[Rate value]
 Ratenwerte
-[Previous Rate Value]
+[Rate delta]
+
+[Previous rate value]
 Vorheriger Ratenwert
-[Fetch Time]
+[Fetch time]
 Abrufszeit
-[Fetch Date]
+[Fetch date]
 Abrufsdatum
-[Fetch Time and Date]
+[Fetch time and date]
 Abrufszeit und -datum
-[Percentage Character (%)]
+[Percent character (%)]
 Prozentzeichen (%)
 [Tabulation]
 Tabulator
@@ -203,12 +205,6 @@ Autom. Aktualisierung Währungskurs deaktiviert
 Währungssymbol
 [Network]
 Netzwerk
-;file \protocols\CurrencyRates\src\HTTPSession.cpp
-[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
-Dieses Plugin benötigt einen persönlichen Schlüssel. Klicken Sie Ja, um ihn auf der Seite zu erhalten, und tragen Sie ihn dann im Einstellungsdialog ein, sonst wird dieses Plugin nicht funktionieren.
-[CurrencyRates HTTP connections]
-Currency-Rates-HTTP-Verbindungen
-;file \protocols\CurrencyRates\src\IconLib.cpp
 [Protocol icon]
 Protokollicon
 [Currency Rate up]
@@ -225,14 +221,16 @@ Exportieren
 Buttons vertauschen
 [Import]
 Importieren
+;file \protocols\CurrencyRates\src\HTTPSession.cpp
+[This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
+Dieses Plugin benötigt einen persönlichen Schlüssel. Klicken Sie Ja, um ihn auf der Seite zu erhalten, und tragen Sie ihn dann im Einstellungsdialog ein, sonst wird dieses Plugin nicht funktionieren.
+[CurrencyRates HTTP connections]
+Currency-Rates-HTTP-Verbindungen
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML-Datei (*.xml)
 [All files (*.*)]
 Alle Dateien (*.*)
-;file \protocols\CurrencyRates\src\ModuleInfo.cpp
-[Miranda could not load CurrencyRates plugin. Microsoft HTML parser is missing.]
-Miranda NG konnte das CurrencyRates-Plugin nicht laden. Der Microsoft-HTML-Parser fehlt.
 ;file \protocols\CurrencyRates\src\SettingsDlg.cpp
 [Log Files (*.txt,*.log)]
 Logdateien (*.txt,*.log)

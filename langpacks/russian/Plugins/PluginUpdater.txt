@@ -193,7 +193,7 @@
 [Plugin Updater HTTP connections]
 HTTP-подключения Plugin Updater
 [Available components list]
-Компоненты для установки
+Установка компонентов...
 [Update failed]
 Сбой обновления
 [Update completed]

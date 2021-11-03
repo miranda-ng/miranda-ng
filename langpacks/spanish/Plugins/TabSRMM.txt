@@ -901,7 +901,7 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[Message Sessions]
+[Messaging]
 Sesiones de mensaje
 [Group chat windows]
 
@@ -1857,6 +1857,8 @@ Contacto
 [Silver shadow]
 
 [Custom (use own gradient colors)]
+
+[Custom 2 (use own gradient colors)]
 
 [All message containers need to close before the skin can be changed\nProceed?]
 

@@ -1,0 +1,2 @@
+[Are you sure to remove all events from history?]
+[Empty system history]

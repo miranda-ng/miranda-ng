@@ -1436,6 +1436,8 @@ Autorisierungsanfragen automatisch akzeptieren
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]

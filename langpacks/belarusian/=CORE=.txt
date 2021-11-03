@@ -1826,11 +1826,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Капіраваць паведамленне ў буфер
 [Copy timestamp to clipboard]
 Капіраваць час у буфер
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
-[Host we are connecting to is not the one certificate was issued for]
-Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Выходнае паведамленне
@@ -2558,6 +2553,11 @@ xСтатус
 <Усе далучэнні>
 [Network]
 Сеціва
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Кліент не можа дэкадаваць паведамлення хаста. Магчымыя прычыны: вузел не падтрымлівае SSL ці патрабуе неіснуючы пакет бяспекі
+[Host we are connecting to is not the one certificate was issued for]
+Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
@@ -2811,6 +2811,13 @@ ANSI плагін
 Шукаць '%s':
 [No word to look up]
 Няма слоў для пошуку
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+
+[Empty history]
+Сцерці гісторыю
+[Empty system history]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Падзельнік>

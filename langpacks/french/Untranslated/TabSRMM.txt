@@ -417,6 +417,7 @@
 [Semi transparent, custom colors]
 [Silver shadow]
 [Custom (use own gradient colors)]
+[Custom 2 (use own gradient colors)]
 [Contact started typing]
 [Contact stopped typing]
 [Set messaging options for %s]

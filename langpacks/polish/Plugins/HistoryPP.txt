@@ -281,12 +281,6 @@ Szukaj: %s (F3, aby znaleźć następne)
 %0.n zdarzenia (%s)
 [Enable &Processing]
 Włącz &przetwarzanie
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Czy na pewno chcesz usunąć wszystkie elementy (%.0f) tego kontaktu?
-[Note: It can take several minutes for large history.]
-Uwaga: Może to zająć do kilku minut w przypadku dużej historii.
-[Empty History]
-Pusta Historia
 [Search Up (Ctrl+Up)]
 Szukaj wyżej (Ctrl+w górę)
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ Nie można załadować paczki ikon (%s) z\\r\\n%s\\r\\nMoże to spowodować, że
 Używasz starej paczki ikon z\\r\\n%s\\r\\nMoże to spowodować brak pewnych ikon, zalecana jest więc aktualizacja ikon.
 [Next message]
 Następna wiadomość
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-Moduł History++ nie został załadowany, brak pliku richedit 2.0+.\\nPrzyciśnij OK aby kontynuować uruchamianie Mirandy.
-[&Empty System History]
-&Usuń historię systemową
-[&Empty History]
-U&suń historię
-[Do you really want to delete ALL items for this contact?]
-Czy na pewno chcesz usunąć WSZYSTKIE wpisy dla tego kontaktu?
-[Note: It can take several minutes for large histories]
-Info: To może potrwać kilka minut w przypadku obszernej historii
 [Previous message]
 Poprzednia wiadomość
 [Running version of AniSmiley is not supported]

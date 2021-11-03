@@ -281,12 +281,6 @@ Otros eventos
 
 [Enable &Processing]
 
-[Do you really want to delete ALL items (%.0f) for this contact?]
-
-[Note: It can take several minutes for large history.]
-
-[Empty History]
-
 [Search Up (Ctrl+Up)]
 
 [Search Down (Ctrl+Down)]
@@ -480,16 +474,6 @@ Barra de herramientas
 [You are using old icon pack from:\\r\\n%s\\r\\nThis can cause missing icons, so update the icon pack.]
 
 [Next message]
-
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-
-[&Empty System History]
-
-[&Empty History]
-
-[Do you really want to delete ALL items for this contact?]
-
-[Note: It can take several minutes for large histories]
 
 [Previous message]
 

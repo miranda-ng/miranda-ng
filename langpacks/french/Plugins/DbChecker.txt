@@ -22,6 +22,8 @@ Annuler
 Nom de fichier :
 [Mark all events as read]
 
+[Fix UTF-8 encoding in old events]
+
 [Error Opening Database]
 
 [There was an error opening the profile database given.]

@@ -22,6 +22,8 @@ Dostosuj ustawienia i przejdź do sprawdzania.
 Nazwa pliku:
 [Mark all events as read]
 Oznacz wszystkie zdarzenia jako przeczytane
+[Fix UTF-8 encoding in old events]
+
 [Error Opening Database]
 Błąd podczas otwierania profilu
 [There was an error opening the profile database given.]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 [Allows you to send a message to contacts if they change status.]
@@ -26,8 +26,6 @@ Pounce löschen
 Standardeinstellung laden
 [Setting Value]
 Einstell. Werte
-[Setting text...........]
-Setze Text....
 [Settings]
 Einstellungen
 [Contact To Send Pounce To]
@@ -53,6 +51,22 @@ Zustellbenachrichtigungen anzeigen
 [These settings are also used when sending a "Simple" pounce]
 Diese Einstellungen werden auch für das Senden von "einfachen" Pounces verwendet
 ;file \plugins\BuddyPounce\src\dialog.cpp
+[The Message    (%d Characters)]
+Die Nachricht   (%d Zeichen)
+[Message successfully sent to %s]
+Nachricht erfolgreich an %s gesenden
+[Message failed to send to %s]
+Nachricht an %s senden fehlgeschlagen
+[Retry]
+Wiederholen
+;file \plugins\BuddyPounce\src\main.cpp
+[Message sessions]
+Nachrichtensitzungen
+[Pounce being sent to %s in %d seconds]
+Pounce wird an %s in %d Sekunden gesendet
+[&Buddy Pounce]
+&Buddy Pounce
+;file \plugins\BuddyPounce\src\options.cpp
 [Send If My Status Is...]
 Senden, wenn mein Status ist...
 [Send If They Change Status to...]
@@ -63,6 +77,18 @@ Pounce wiederverwenden
 Gebe auf nach
 [Confirmation Window]
 Bestätigungsfenster
+[Reuse this message? (0 to use it once)]
+Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
+[Times]
+Mal
+[Give up after... (0 to not give up)]
+Aufgeben nach.. (0 meint nicht aufgeben)
+[Days]
+Tage
+[Show confirmation window? (0 to not Show)]
+Bestätigungsfenster anzeigen? (0 meint nicht anzeigen)
+[Seconds to wait before sending]
+Sekunden warten vor dem Senden
 [Send If My Status Is]
 Senden wenn mein Status ist
 [Any]
@@ -99,34 +125,3 @@ Zu Bitte nicht Stören
 Zu Zum Chat Bereit
 [To Invisible]
 Zu Unsichtbar
-[The Message    (%d Characters)]
-Die Nachricht   (%d Zeichen)
-[Couldn't allocate enough memory]
-Konnte nicht genig Speicher allokieren.
-[The Message    (0 Characters)]
-Die Nachricht   (0 Zeichen)
-[Reuse this message? (0 to use it once)]
-Diese Nachricht wiederverwenden? (0 meint nicht wiederverwenden)
-[Times]
-Mal
-[Give up after... (0 to not give up)]
-Aufgeben nach.. (0 meint nicht aufgeben)
-[Days]
-Tage
-[Show confirmation window? (0 to not Show)]
-Bestätigungsfenster anzeigen? (0 meint nicht anzeigen)
-[Seconds to wait before sending]
-Sekunden warten vor dem Senden
-[Pounce being sent to %s in %d seconds]
-Pounce wird an %s in %d Sekunden gesendet
-[Retry]
-Wiederholen
-[Message successfully sent to %s]
-Nachricht erfolgreich an %s gesenden
-[Message failed to send to %s]
-Nachricht an %s senden fehlgeschlagen
-;file \plugins\BuddyPounce\src\main.cpp
-[Message sessions]
-Nachrichtensitzungen
-[&Buddy Pounce]
-&Buddy Pounce

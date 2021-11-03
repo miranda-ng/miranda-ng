@@ -25,6 +25,7 @@
 [Enable Message Archive Management (XEP-0313)]
 [Enable carbon copies (XEP-0280)]
 [Use Stream Management (XEP-0198) if possible (Testing)]
+[Display popups with errors]
 [Embrace picture URLs with [img]]
 [Ignore server roster (groups and nick names)]
 [Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]

@@ -143,8 +143,6 @@
 Отваря историята
 [View &history]
 Преглед на историята
-[Delete all user history]
-Изтриване на историята на всички потребители
 [Execute history task]
 
 [Incoming message]
@@ -192,12 +190,6 @@
 [File is corrupted]
 Файлът е повреден
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-
-[Are you sure?]
-Сигурни ли сте?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-
 [Open in &new window]
 Отваряне в нов прозорец
 [&Open in existing window]
@@ -214,6 +206,8 @@
 Цитиране
 [Delete group]
 Изтриване на групата
+[Delete all user history]
+Изтриване на историята на всички потребители
 [Options]
 Настройки
 [Filters]
@@ -246,6 +240,10 @@ Dat (mContacts)
 Грешка
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Брой събития за изтриване:%d.\nСигурни ли сте?
+[Are you sure?]
+Сигурни ли сте?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Съобщение

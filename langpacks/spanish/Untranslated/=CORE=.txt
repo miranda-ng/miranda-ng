@@ -242,5 +242,8 @@
 [Add group]
 [Unselect all]
 [Log viewer]
+[Are you sure to remove all events from history?]
+[Empty history]
+[Empty system history]
 [Message window toolbar]
 [Dismiss popup]

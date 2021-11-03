@@ -143,8 +143,6 @@ Anuluj
 Otwórz historię
 [View &history]
 Zobacz &historię
-[Delete all user history]
-Usuń całą historię
 [Execute history task]
 Wykonaj zadanie historii
 [Incoming message]
@@ -192,12 +190,6 @@ Plik nie zawiera zaznaczonych kontaktów
 [File is corrupted]
 Plik jest nieprawidłowy
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
-[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
-Ta operacja TRWALE USUNIE całą historię tego kontaktu.\nCzy na pewno chcesz to zrobić?
-[Are you sure?]
-Czy na pewno?
-[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
-Czy chcesz usunąć wszystkie zaimportowane wiadomości dla tego kontaktu?\nZauważ, że następne zadanie harmonogramu zaimportuje tą wiadomość ponownie.
 [Open in &new window]
 Otwórz w &nowym oknie
 [&Open in existing window]
@@ -214,6 +206,8 @@ Wyślij wiadomość
 Odpowiedz &cytując
 [Delete group]
 Usuń grupę
+[Delete all user history]
+Usuń całą historię
 [Options]
 Opcje
 [Filters]
@@ -246,6 +240,10 @@ Plik zawiera historię innego kontaktu. Czy chcesz zmienić kontakt i importowa�
 Błąd
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Ilość wpisów historii do usunięcia: %d. \nCzy na pewno chcesz to zrobić?
+[Are you sure?]
+Czy na pewno?
+[Do you want to delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+Czy chcesz usunąć wszystkie zaimportowane wiadomości dla tego kontaktu?\nZauważ, że następne zadanie harmonogramu zaimportuje tą wiadomość ponownie.
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 Wiadomość

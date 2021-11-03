@@ -1,22 +1,14 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти. Може да бъде добавена, която и да е стойност от списъка, напр. версия на Miranda, група или град.
-[Quick Search]
-Quick Search
-[Quick search]
-Quick Search
-[Title]
-Заглавие
-[Module/InfoType]
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
+Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти.
 
-[Setting]
-Настройка
+;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 Обновяване
 [New]
@@ -29,8 +21,22 @@ Quick Search
 Изтриване
 [Default]
 Стандарт
-[Additional Options]
-Допълнителни настройки
+[Settings]
+Настройки
+[Title:]
+Заглавие:
+[Type:]
+Тип:
+[Data type:]
+
+[Module:]
+Модул:
+[Setting:]
+Настройка:
+[Info type:]
+
+[Save]
+Запис
 [Tool Window Style]
 
 [Draw Grid]
@@ -43,115 +49,18 @@ Quick Search
 Сортиране по състояние
 [Show Client Icons]
 Показване икона на клиента
-[Settings]
-Настройки
-[Title:]
-Заглавие:
-[Account]
-Акаунт
-[Gender]
-Пол
-[UserID]
-
-[Nickname]
-Прякор
-[First name]
-Име
-[Last name]
-Фамилия
-[Group]
-Група
-[Container]
-Контейнер
-[E-mail]
-Имейл
-[Client ID]
-ID на клиента
-[Ext IP]
-
-[LastSeen]
-
-[Last Event]
-Последно събитие
-[Online since]
-"На линия" от
-[Metacontact]
-Метаконтакт
-[Event count]
-Брой събития
-[Contact add time]
-
-[Type:]
-Тип:
-[DB setting]
-
-[Script]
-Скрипт
-[Service]
-Услуга
-[Contact info]
-
-[Other]
-Друго
-[Data type:]
-
-[Byte]
-BYTE
-[Word]
-WORD
-[DWord]
-DWORD
-[Signed]
-
-[As hex]
-
-[String]
-STRING
-[TimeStamp]
-Времева марка
-[Module:]
-Модул:
-[Setting:]
-Настройка:
-[Service:]
-Услуга:
-[Param]
-
-[number value]
-числова стойност
-[ANSI string]
-ANSI низ
-[Unicode string]
-Unicode низ
-[current contact]
-текущ контакт
-[last result]
-последен резултат
-[parameter]
-параметър
-[Result]
-Резултат
-[Result type]
-
-[Free memory]
-Свободна памет
-[Save]
-Запис
-[All]
-Всички
-[Close]
-Затваряне
+[Additional Options]
+Допълнителни настройки
 [Refresh]
 Обновяване
-[QuickSearch]
-Quick Search
 [Show Offline contacts]
 Показвай контактите "Извън линия"
-[New column]
-Нова колона
-[Save Item]
-Запис на елемента
-[InfoType:]
+[Colorize]
+Оцветяване
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
+Quick Search
+[Open Quick Search window]
 
 [New Column]
 Нова колона
@@ -165,16 +74,6 @@ Quick Search
 Мъж
 [Female]
 Жена
-[Contacts]
-Контакти
-[ContactInfo]
-
-[LastEvent]
-
-[EventCount]
-
-[Script Editor]
-Редактор на скриптове
 [Normal background]
 Фон на табовете
 [Normal foreground]
@@ -203,6 +102,174 @@ Quick Search
 Фон на редовете с подконтакт
 [Subcontact foreground]
 Цвят на текста за подконтакт
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+Скрипт
+[Service]
+Услуга
+[Contact info]
+
+[Other]
+Друго
+[Metacontact]
+Метаконтакт
+[Title]
+Заглавие
+[Module/Info type]
+
+[Setting]
+Настройка
+[Database setting]
+
+[Byte]
+BYTE
+[Word]
+WORD
+[Dword]
+DWORD
+[Signed]
+
+[Hexadecimal]
+Шестнадесетичнa
+[String]
+STRING
+[Timestamp]
+Времева марка
+[Last seen]
+Последно видян
+[Last event]
+Последно събитие
+[Event count]
+Брой събития
+[Display name]
+
+[Account name]
+Име на акаунта
+[New column]
+Нова колона
+[Contacts]
+Контакти
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Акаунт
+[Gender]
+Пол
+[UserID]
+
+[Nickname]
+Прякор
+[First name]
+Име
+[Last name]
+Фамилия
+[Group]
+Група
+[Container]
+Контейнер
+[Email]
+Имейл
+[Client ID]
+ID на клиента
+[Online since]
+"На линия" от
+[Contact add time]
+
+[Nick]
+Прякор
+[Custom nick]
+
+[City]
+Град
+[State]
+Област
+[Country]
+
+[Phone]
+Телефон
+[Homepage]
+Домашна страница
+[About]
+Относно
+[Age]
+Възраст
+[First name/Last name]
+Име/Фамилия
+[Unique ID]
+Уникален ID
+[Fax]
+Факс
+[Cellular]
+Мобилен тел.
+[Time zone]
+
+[My notes]
+
+[Birth day]
+
+[Birth month]
+
+[Birth year]
+
+[Street]
+
+[ZIP code]
+
+[Language #1]
+
+[Language #2]
+
+[Language #3]
+
+[Company name]
+
+[Company department]
+
+[Company position]
+
+[Company street]
+
+[Company city]
+
+[Company state]
+
+[Company ZIP]
+
+[Company country]
+
+[Company homepage]
+
+[Display ID]
+
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Неизвестно
+[Stay on Top]
+Винаги отгоре
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+Желаете ли избраните контакти да бъдат изтрити?
+[Warning]
+Предупреждение
+[%i users found (%i) Online: %i]
+Открити са %i потребителя. На линия: %i
+[deleted]
+Изтрито
+[disabled]
+изключено
+[active]
+активен
+[Online]
+На линия
+[All]
+Всички
+[Editing of column %s]
+
+[Enter new cell value]
+
+[Change setting through QS]
+
+[Selected %d contacts]
+
 [&Delete]
 Изтриване
 [&Copy]
@@ -215,62 +282,5 @@ Quick Search
 Преместване в друга група
 [Some of selected contacts in different metacontacts already]
 Някои от избраните контакти са част от различни метаконтакти.
-[Do you really want to delete selected contacts?]
-Желаете ли избраните контакти да бъдат изтрити?
-[Warning]
-Предупреждение
-[One or more contacts in same Meta already. Try to convert anyway?]
-
-[Editing of column ]
-
-[%i users found (%i) Online: %i]
-Открити са %i потребителя. На линия: %i
-[ users found (]
- Открити потребители (
-[) Online: ]
-) На линия:\s
-[Online]
-На линия
-[deleted]
-Изтрито
-[off]
-изключен
-[active]
-активен
-[Colorize]
-Оцветяване
-[QuickSearch window hotkey]
-
-[Column content is simple database setting.]
-
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-
-[Change setting through QS]
-
-[default]
-стандарт
-[Selected]
-Маркирано
-[contacts]
-контакти
-[Unknown]
-Неизвестно
-[Stay on Top]
-Винаги отгоре
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Текстови редактор
-[Wrap Text]
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
 

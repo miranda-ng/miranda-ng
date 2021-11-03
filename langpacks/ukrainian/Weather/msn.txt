@@ -1,0 +1,52 @@
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Умови
+[Feel]
+Відчуття
+[Forecast Day 1]
+Прогноз: День 1
+[Forecast Day 2]
+Прогноз: День 2
+[Forecast Day 3]
+Прогноз: День 3
+[Forecast Day 4]
+Прогноз: День 4
+[Forecast Day 5]
+Прогноз: День 5
+[Forecast Day 6]
+Прогноз: День 6
+[Forecast Day 7]
+Прогноз: День 7
+[Forecast Day 8]
+Прогноз: День 8
+[Forecast Day 9]
+Прогноз: День 9
+[Heat Index]
+Індекс спеки
+[High]
+Високий
+[Light Rain And Snow]
+
+[Low]
+Низький
+[Moon phase]
+
+[Moonrise]
+Місяць: схід
+[Moonset]
+Місяць: захід
+[Precipitation]
+
+[Rain Showers]
+
+[Temperature]
+Температура
+[UV Index]
+Індекс УФ
+[Wind direction]
+Вітер: напрям
+[Wind speed]
+Вітер: швидкість

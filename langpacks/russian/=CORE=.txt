@@ -2816,6 +2816,8 @@ ANSI плагин
 Уверены, что хотите удалить все события из истории?
 [Empty history]
 Очистить историю
+[Empty system history]
+Очистить системную историю
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Разделитель>

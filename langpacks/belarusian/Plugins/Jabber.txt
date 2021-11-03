@@ -1436,6 +1436,8 @@ Jabber Рэсурс
 Выпраўляць час ва ўваходных паведамленнях
 [Disable frame]
 Выключыць фрэйм
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
 [Embrace picture URLs with [img]]

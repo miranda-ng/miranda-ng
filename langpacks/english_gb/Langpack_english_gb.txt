@@ -187,7 +187,7 @@ Use default colours
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.2
+;  Version: 0.98.1.3
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Color difference allowed:]
@@ -249,7 +249,7 @@ Use Windows colours
 ;============================================================
 ;  File: BuddyPounce.dll
 ;  Plugin: Buddy pounce
-;  Version: 0.3.2.3
+;  Version: 0.3.3.0
 ;  Authors: Jonathan Gordon
 ;============================================================
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
@@ -424,7 +424,7 @@ Favourite
 ;============================================================
 ;  File: CurrencyRates.dll
 ;  Plugin: Currency Rates
-;  Version: 0.2.1.1
+;  Version: 0.2.1.2
 ;  Authors: Dioksin
 ;============================================================
 [Colors]
@@ -455,7 +455,7 @@ Text colour
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Background color]
@@ -524,7 +524,7 @@ Go to the "Options -> Customise -> Folders" to change settings
 ;============================================================
 ;  File: Facebook.dll
 ;  Plugin: Facebook
-;  Version: 0.1.0.10
+;  Version: 0.1.0.11
 ;  Authors: Miranda NG Team
 ;============================================================
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
@@ -729,7 +729,7 @@ Customise
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.95.12.1
+;  Version: 0.96.1.4
 ;  Authors: George Hazan
 ;============================================================
 ;#muuid for ICQCorp not found, please specify manually!
@@ -777,7 +777,7 @@ Imports only contacts and history, and a few settings. Ideal for synchronising.
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.1
+;  Version: 0.96.1.3
 ;  Authors: Miranda team
 ;============================================================
 [Strip colors]
@@ -975,7 +975,7 @@ Text colour
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.6
+;  Version: 3.1.2.7
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Color...]
@@ -986,7 +986,7 @@ The following user made an authorisation request:
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.0.1.12
+;  Version: 0.1.0.1
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 #muuid {b2dd9270-ce5e-11df-bd3d-0800200c9a66}
@@ -1069,7 +1069,7 @@ Use default colours
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Plugin: Sticky Notes & Reminders
-;  Version: 0.2.2.1
+;  Version: 0.2.2.2
 ;  Authors: Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer
 ;============================================================
 [Background Color]
@@ -1231,16 +1231,15 @@ recognise messages sent with hotkey only
 ;  Version: 0.9.1.2
 ;  Authors: Unsane
 ;============================================================
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
 [Colorize]
 Colourise
-; these lines are not present in the sources, but they are present in compiled plugin
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -1752,14 +1751,14 @@ Mail order catalogue
 ;============================================================
 ;  File: Variables.dll
 ;  Plugin: Variables
-;  Version: 0.2.3.11
+;  Version: 0.2.3.12
 ;  Authors: P Boon
 ;============================================================
 #muuid {32579908-724b-467f-adad-22b6359a749a}
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.11.8
+;  Version: 0.1.12.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Please authorize me to add you to my friend list.]
@@ -1812,7 +1811,7 @@ Text colour
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Colors]
@@ -1830,12 +1829,20 @@ HTTP Error: Unauthorised (401)
 ;  Plugin: Weather
 ;============================================================
 ;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+;============================================================
 ;  File: weatherxml.ini
 ;  Plugin: Weather
 ;============================================================
 ;============================================================
 ;  File: wundergrnd_intl.ini
 ;  Plugin: Weather
+;============================================================
+;============================================================
+;  File: wundergrnd_xml.ini
+;  Module: weather
 ;============================================================
 ;============================================================
 ;  File: yweather.ini
@@ -1901,7 +1908,7 @@ Authorisation request
 ;============================================================
 ;  File: XSoundNotify.dll
 ;  Plugin: XSoundNotify
-;  Version: 1.1.0.4
+;  Version: 1.2.0.1
 ;  Authors: Roman Torsten
 ;============================================================
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}

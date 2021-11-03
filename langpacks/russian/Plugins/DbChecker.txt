@@ -61,8 +61,6 @@
 Активировано восстановление работоспособности базы
 [%d events marked as read]
 Событий помечено прочитанными: %d
-[Utf-8 encoding fixed in %d events]
-Событий с исправленной кодировкой UTF-8: %d
 [Processing aborted by user]
 Обработка отменена пользователем
 [Elapsed time: %d sec]

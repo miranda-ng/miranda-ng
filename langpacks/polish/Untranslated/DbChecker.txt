@@ -1,0 +1,1 @@
+[Fix UTF-8 encoding in old events]

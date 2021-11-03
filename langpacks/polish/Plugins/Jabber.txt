@@ -1436,6 +1436,8 @@ Automatycznie akceptuj prośby o autoryzację
 Naprawiaj błędne czasy przychodzących wiadomości
 [Disable frame]
 Wyłącz ramkę
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagana wtyczka AssocMgr.dll)
 [Embrace picture URLs with [img]]

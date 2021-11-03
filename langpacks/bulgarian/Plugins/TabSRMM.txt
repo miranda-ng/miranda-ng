@@ -901,7 +901,7 @@ UIN
 Отличаване (10x10)
 [Information (10x10)]
 Информация (10х10)
-[Message Sessions]
+[Messaging]
 Разговори
 [Group chat windows]
 Прозорци за групов чат
@@ -1858,6 +1858,8 @@ Latin I
 Сребърна сянка
 [Custom (use own gradient colors)]
 Избор на цветове за градиент
+[Custom 2 (use own gradient colors)]
+Избор на цветове за градиент 2
 [All message containers need to close before the skin can be changed\nProceed?]
 Всички контейнери трябва да се затворят, преди да бъде сменен обликът\nЖелаете ли да бъдат затворени сега?
 [Change skin]

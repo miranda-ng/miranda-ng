@@ -1436,6 +1436,8 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Disable frame]
 
+[Display popups with errors]
+
 [Enable XMPP link processing (requires AssocMgr)]
 
 [Embrace picture URLs with [img]]

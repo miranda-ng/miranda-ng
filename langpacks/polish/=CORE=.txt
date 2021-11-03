@@ -1826,11 +1826,6 @@ Kopiuj tytuł do schowka
 Kopiuj wiadomość do schowka
 [Copy timestamp to clipboard]
 Kopiuj czas do schowka
-;file \src\core\stdssl\src\netlibssl.cpp
-[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
-Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
-[Host we are connecting to is not the one certificate was issued for]
-Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\core\stduihist\src\history.cpp
 [Outgoing message]
 Wychodząca wiadomość
@@ -2558,6 +2553,11 @@ Wybierz program do uruchomienia
 <Wszystkie połączenia>
 [Network]
 Protokoły
+;file \src\mir_app\src\netlib_ssl.cpp
+[Client cannot decode host message. Possible causes: host does not support SSL or requires not existing security package]
+Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
+[Host we are connecting to is not the one certificate was issued for]
+Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\mir_app\src\newplugins.cpp
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
 Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
@@ -2811,6 +2811,13 @@ Dziennik wiadomości
 Zobacz "%s":
 [No word to look up]
 Nie podano słowa do wyszukania
+;file \src\mir_app\src\srmm_statusicon.cpp
+[Are you sure to remove all events from history?]
+Czy na pewno chcesz usunąć wszystkie wydarzenia z historii?
+[Empty history]
+Usuń historię
+[Empty system history]
+
 ;file \src\mir_app\src\srmm_toolbar.cpp
 [<Separator>]
 <Separator>

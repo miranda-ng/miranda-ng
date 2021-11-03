@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.0.2.2
+;  Version: 4.1.0.2
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Advanced Database Editor.]
@@ -182,8 +182,6 @@
 Экспартаваць плагін...
 [&Add module]
 Дадаць плагін...
-[&Clone]
-Кланаваць
 [Export contact]
 Экспартаваць кантакт...
 [Import settings]
@@ -208,8 +206,8 @@
 [Copy module "%s"]
 
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
-[Are you sure you want to delete module "%s"?]
-Выдаліць плагін "%s"?
+[Are you sure you want to delete module "%S"?]
+Выдаліць плагін "%S"?
 [Delete module from database]
 Выдаліць плагін з базы
 [Delete module from database... Loading]
@@ -238,20 +236,20 @@ INI файлы
 Плагін
 [Setting]
 Налада
-[Enter a string to search the database for]
-Увядзіце радок пошуку
-[Stop]
-Спыніць
+[Searching...]
+Пошук...
+[Finished. Items found: %d / replaced: %d / deleted: %d]
+Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
 [Replaced]
 Заменена
 [Deleted]
 Выдалена
 [Found]
 Знойдзена
-[Searching...]
-Пошук...
-[Finished. Items found: %d / replaced: %d / deleted: %d]
-Пошук завершаны, знойдзена %d / заменена %d / выдалена %d элемент(аў)
+[Enter a string to search the database for]
+Увядзіце радок пошуку
+[Stop]
+Спыніць
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Main icon]
 Галоўны абразок
@@ -295,6 +293,10 @@ INI файлы
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Вы ўпэўнены, што жадаеце выдаліць кантакт "%s"?
+[Type]
+Тып
+[Size]
+Памер
 [Delete resident settings from database?]
 
 [%d items deleted.]
@@ -318,10 +320,6 @@ INI файлы
 [Add module to "%s"]
 
 ;file \plugins\DbEditorPP\src\settinglist.cpp
-[Type]
-Тып
-[Size]
-Памер
 [Unable to store value in this data type!]
 
 [Are you sure you want to delete %d contact(s)?]

@@ -1,0 +1,52 @@
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Forma
+[Feel]
+Odczuwalna
+[Forecast Day 1]
+Prognoza dzień 1
+[Forecast Day 2]
+Prognoza dzień 2
+[Forecast Day 3]
+Prognoza dzień 3
+[Forecast Day 4]
+Prognoza dzień 4
+[Forecast Day 5]
+Prognoza dzień 5
+[Forecast Day 6]
+Prognoza dzień 6
+[Forecast Day 7]
+Prognoza dzień 7
+[Forecast Day 8]
+Prognoza dzień 8
+[Forecast Day 9]
+Prognoza dzień 9
+[Heat Index]
+Wskaźnik upałów
+[High]
+Wysoka
+[Light Rain And Snow]
+
+[Low]
+Niska
+[Moon phase]
+
+[Moonrise]
+Księżyc - wschód
+[Moonset]
+Księżyc - zachód
+[Precipitation]
+
+[Rain Showers]
+
+[Temperature]
+Temperatura
+[UV Index]
+Index UV
+[Wind direction]
+Kierunek wiatru
+[Wind speed]
+Prędkość wiatru

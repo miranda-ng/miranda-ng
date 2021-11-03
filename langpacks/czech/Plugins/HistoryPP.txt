@@ -281,12 +281,6 @@ Hledat: %s (F3 najde další)
 %0.n událostí (%s)
 [Enable &Processing]
 
-[Do you really want to delete ALL items (%.0f) for this contact?]
-Opravdu si přejete smazat VŠECHNY položky (%.0f) tohoto kontaktu?
-[Note: It can take several minutes for large history.]
-Pozn.: Může to trvat i několik minut u dlouhé historie.
-[Empty History]
-Vymazání historie
 [Search Up (Ctrl+Up)]
 Hledat nahoru (Ctrl+šipka nahoru)
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ Umělec: %s\\r\\nNázev: %s\\r\\nAlbum: %s
 
 [Next message]
 Další zpráva
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-
-[&Empty System History]
-Odstranit historii systému...
-[&Empty History]
-Odstranit historii...
-[Do you really want to delete ALL items for this contact?]
-Opravdu chcete vymazat VŠECHNY položky u tohoto kontaktu?
-[Note: It can take several minutes for large histories]
-Upozornění: Tato akce může trvat u dlouhé historie i několik minut.
 [Previous message]
 Předchozí zpráva
 [Running version of AniSmiley is not supported]

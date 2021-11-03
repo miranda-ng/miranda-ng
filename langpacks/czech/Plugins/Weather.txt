@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.5
+;  Version: 0.4.0.7
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
@@ -305,36 +305,8 @@ HTTP Chyba: Špatná brána (502)
 HTTP Chyba: Služba není dostupná (503)
 [HTTP Error: Gateway timeout (504)]
 HTTP Chyba: Doba průchodu vypršela (504)
-[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
-Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
-[Weather Condition for %n as of %u]
-Aktuální situace: %n, %u
-[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
-[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
-[%n   (%u)]
-%n   (%u)
-[%c, %t\\nToday:  High %h, Low %l]
-%c, %t\\nDnes:  Max. %h, min. %l
-[Temperature: %[Temperature]]
-Teplota: %[Temperature]]
-[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set\n----------\n\\n\tnew line]
 %c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce\n----------\n\\n\tnový řádek
-[No information available.\r\nPlease update weather condition first.]
-Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
-[%[..]\tcustom variables]
-%[..]\tspeciální proměnné
-[Here is a list of custom variables that are currently available]
-Seznam ostatních proměnných, které jsou k dispozici:
-[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
-[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 ;file \protocols\Weather\src\weather.cpp
 [Enable/disable auto update]
 Povolit/zakázat automatickou aktualizaci
@@ -342,6 +314,26 @@ Povolit/zakázat automatickou aktualizaci
 Zakázat automatickou aktualizaci
 [Auto Update Disabled]
 Povolit automatickou aktualizaci
+[Protocol icon]
+Ikona protokolu
+[Update Disabled]
+Aktualizace vypnuta
+[View Log]
+Zobrazit záznam
+[Update with Clear]
+Úplná aktualizace
+[View Brief]
+Stručná předpověď
+[View Complete]
+Úplná předpověď
+[Weather Update]
+Aktualizace předpovědi
+[Popup]
+Oznámení
+[No Popup]
+Oznámení vypnuto
+[Edit Settings]
+Upravit nastavení...
 [Condition Changed]
 Změna počasí
 [Alert Issued]
@@ -362,6 +354,10 @@ Prosím zkuste znovu po aktualizaci předpovědi počasí.
 ;file \protocols\Weather\src\weather_contacts.cpp
 [Weather condition was not logged.]
 Předpověď počasí nebyla zaznamenána.
+[The URL for complete forecast has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro kompletní předpověď počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
+[The URL for weather map has not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro mapu počasí. Z menu vyberte položku 'Upravit nastavení' a v sekci Odkazy doplňte příslušný údaj.
 [Get city name from ID]
 Zjistit jméno města dle ID
 [Weather INI information]
@@ -397,27 +393,6 @@ Chyba při stahování dat: %s
 ;file \protocols\Weather\src\weather_http.cpp
 [Weather HTTP connections]
 Weather - spojení pomocí protokolu HTTP
-;file \protocols\Weather\src\weather_icons.cpp
-[Protocol icon]
-Ikona protokolu
-[Update Disabled]
-Aktualizace vypnuta
-[View Log]
-Zobrazit záznam
-[Update with Clear]
-Úplná aktualizace
-[View Brief]
-Stručná předpověď
-[View Complete]
-Úplná předpověď
-[Weather Update]
-Aktualizace předpovědi
-[Popup]
-Oznámení
-[No Popup]
-Oznámení vypnuto
-[Edit Settings]
-Upravit nastavení...
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Jméno
@@ -457,6 +432,8 @@ Alokováno paměti:
 bajtů
 [Description:]
 Popis:
+[Here is a list of custom variables that are currently available]
+Seznam ostatních proměnných, které jsou k dispozici:
 ;file \protocols\Weather\src\weather_ini.cpp
 [All update data has been reloaded.]
 Aktualizovaná data byla znovu načtena.
@@ -472,6 +449,22 @@ Písmo v záhlaví rámečku
 [Frame Background]
 Barva pozadí rámečku
 ;file \protocols\Weather\src\weather_opt.cpp
+[Weather Condition for %n as of %u]
+Aktuální situace: %n, %u
+[Feel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+Subj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%c\\nTemperature: %t\\nFeel-Like: %f\\nPressure: %p\\nWind: %i  %w\\nHumidity: %m\\nDew Point: %e\\nVisibility: %v\\n\\nSun Rise: %r\\nSun Set: %y\\n\\n5 Days Forecast:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]]
+%c\\nTeplota: %t\\nSubj. teplota: %f\\nTlak: %p\\nVítr: %i  %w\\nVlhkost: %m\\nRosný bod: %e\\nViditelnost: %v\\n\\nVýchod slunce: %r\\nZápad slunce: %y\\n\\nPředpověď na 5 dnů:\\n%[Forecast Day 1]\\n%[Forecast Day 2]\\n%[Forecast Day 3]\\n%[Forecast Day 4]\\n%[Forecast Day 5]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[Temperature: %[Temperature]]
+Teplota: %[Temperature]]
+[%n   (%u)]
+%n   (%u)
+[%c, %t\\nToday:  High %h, Low %l]
+%c, %t\\nDnes:  Max. %h, min. %l
 [Weather Protocol Text Preview]
 Počasí - náhled
 [Network]
@@ -483,6 +476,10 @@ Zobrazení
 [Popups]
 Oznámení
 ;file \protocols\Weather\src\weather_popup.cpp
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
+[%[..]\tcustom variables]
+%[..]\tspeciální proměnné
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifikátor
@@ -514,6 +511,8 @@ Zobrazit v rámečku
 [Unable to retrieve weather information for %s]
 Nelze stáhnout předpověď počasí pro %s
 ;file \protocols\Weather\src\weather_userinfo.cpp
+[No information available.\r\nPlease update weather condition first.]
+Nejsou dostupné žádné informace.\r\nZkuste nejdříve aktualizovat informace o počasí.
 [Variable]
 Proměnná
 [Information]

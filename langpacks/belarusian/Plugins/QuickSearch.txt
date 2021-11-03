@@ -1,22 +1,13 @@
-#muuid {e4058506-6494-4d60-9cf4-40bf545f78bd}
+#muuid {49bd9f2a-3111-4eb9-87e3-71e69cd97f7c}
 ;============================================================
 ;  File: QuickSearch.dll
 ;  Plugin: Quick Search
-;  Version: 1.4.2.0
-;  Authors: Awkward
+;  Version: 1.5.0.4
+;  Authors: Bethoven, Awkward
 ;============================================================
-[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list. And now you may add any setting to display - for example user's version of Miranda, group or city.]
-Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, гурты ці гарады.
-[Quick Search]
-Пошук па спісе
-[Quick search]
-Пошук па спісе
-[Title]
-Загаловак
-[Module/InfoType]
-Плагін/Тып
-[Setting]
-Параметр
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
+Плагін дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў.
+;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 Абнавіць
 [New]
@@ -29,8 +20,22 @@
 Выдаліць
 [Default]
 Змаўчанне
-[Additional Options]
-Дадатковыя параметры
+[Settings]
+Налады
+[Title:]
+Загаловак:
+[Type:]
+Тып:
+[Data type:]
+Тып дадзеных:
+[Module:]
+Модуль:
+[Setting:]
+Парам.:
+[Info type:]
+Тып пёр.:
+[Save]
+Захаваць
 [Tool Window Style]
 Акно ў стылі панэлі
 [Draw Grid]
@@ -43,116 +48,19 @@
 Сартаваць па статусу
 [Show Client Icons]
 Значкі кліентаў
-[Settings]
-Налады
-[Title:]
-Загаловак:
-[Account]
-Конт
-[Gender]
-Род
-[UserID]
-Нумар кантакта
-[Nickname]
-Мянушка
-[First name]
-Імя
-[Last name]
-Фамілія
-[Group]
-Гурт
-[Container]
-Кантэйнер
-[E-mail]
-Пошта
-[Client ID]
-Кліент
-[Ext IP]
-Вонкавы IP
-[LastSeen]
-Быў далучаны
-[Last Event]
-З'яўленні
-[Online since]
-Далучаны
-[Metacontact]
-Метакантакт
-[Event count]
-Колькасць з'яў
-[Contact add time]
-Дададзены
-[Type:]
-Тып:
-[DB setting]
-Налада базы
-[Script]
-Скрыпт
-[Service]
-Выклік службы
-[Contact info]
-Пра кантакт
-[Other]
-Іншае
-[Data type:]
-Тып дадзеных:
-[Byte]
-Байт
-[Word]
-Слова
-[DWord]
-Дв.слова
-[Signed]
-З абразком
-[As hex]
-Шаснадцаткавы
-[String]
-Радок
-[TimeStamp]
-Час
-[Module:]
-Модуль:
-[Setting:]
-Парам.:
-[Service:]
-Служба:
-[Param]
-Параметр
-[number value]
-колькасць
-[ANSI string]
-ANSI радок
-[Unicode string]
-Unicode радок
-[current contact]
-гэты кантакт
-[last result]
-апошні вынік
-[parameter]
-параметр
-[Result]
-Вынік
-[Result type]
-Вынік вызаву службы
-[Free memory]
-чысціць памяць
-[Save]
-Захаваць
-[All]
-Усе
-[Close]
-Зачыніць
+[Additional Options]
+Дадатковыя параметры
 [Refresh]
 Аднавіць
-[QuickSearch]
-Пошук па спісе
 [Show Offline contacts]
 Паказваць адключаных
-[New column]
-Новы
-[Save Item]
-Захаваць значэнне
-[InfoType:]
-Тып пёр.:
+[Colorize]
+Дадаць колер
+;file \plugins\QuickSearch\src\main.cpp
+[Quick Search]
+Пошук па спісе
+[Open Quick Search window]
+
 [New Column]
 Дадаць калонку
 [Column Up]
@@ -165,16 +73,6 @@ Unicode радок
 Мужчынскі
 [Female]
 Жаночы
-[Contacts]
-Кантакты
-[ContactInfo]
-Дадзеныя кантакту
-[LastEvent]
-Апошняя падзея
-[EventCount]
-Лічыльнік падзей
-[Script Editor]
-Рэдактар скрыптоў
 [Normal background]
 Звычайны фон
 [Normal foreground]
@@ -203,6 +101,174 @@ Unicode радок
 Фон субкантактаў
 [Subcontact foreground]
 Тэкст субкантактаў
+;file \plugins\QuickSearch\src\options.cpp
+[Script]
+Скрыпт
+[Service]
+Выклік службы
+[Contact info]
+Пра кантакт
+[Other]
+Іншае
+[Metacontact]
+Метакантакт
+[Title]
+Загаловак
+[Module/Info type]
+Плагін/Тып
+[Setting]
+Параметр
+[Database setting]
+Налада базы
+[Byte]
+Байт
+[Word]
+Слова
+[Dword]
+дв. слова
+[Signed]
+З абразком
+[Hexadecimal]
+Шаснадцаткавы
+[String]
+Радок
+[Timestamp]
+Час
+[Last seen]
+Апошняе з'яўленне
+[Last event]
+З'яўленні
+[Event count]
+Колькасць з'яў
+[Display name]
+Імя
+[Account name]
+Імя ўліковага запісу
+[New column]
+Новы
+[Contacts]
+Кантакты
+;file \plugins\QuickSearch\src\utils.cpp
+[Account]
+Конт
+[Gender]
+Род
+[UserID]
+Нумар кантакта
+[Nickname]
+Мянушка
+[First name]
+Імя
+[Last name]
+Фамілія
+[Group]
+Гурт
+[Container]
+Кантэйнер
+[Email]
+Пошта
+[Client ID]
+Кліент
+[Online since]
+Далучаны
+[Contact add time]
+Дададзены
+[Nick]
+Мянушка
+[Custom nick]
+
+[City]
+Горад 
+[State]
+Штат
+[Country]
+
+[Phone]
+Тэлефон
+[Homepage]
+Сайт
+[About]
+Інфармацыя
+[Age]
+Узрост
+[First name/Last name]
+Імя/Фамілія
+[Unique ID]
+Асабісты конт
+[Fax]
+Факс
+[Cellular]
+Мабільны
+[Time zone]
+
+[My notes]
+
+[Birth day]
+
+[Birth month]
+
+[Birth year]
+
+[Street]
+
+[ZIP code]
+
+[Language #1]
+
+[Language #2]
+
+[Language #3]
+
+[Company name]
+
+[Company department]
+
+[Company position]
+
+[Company street]
+
+[Company city]
+
+[Company state]
+
+[Company ZIP]
+
+[Company country]
+
+[Company homepage]
+
+[Display ID]
+
+;file \plugins\QuickSearch\src\window.cpp
+[Unknown]
+Невядомы
+[Stay on Top]
+Паверх усіх вакон
+;file \plugins\QuickSearch\src\window_misc.cpp
+[Do you really want to delete selected contacts?]
+Вы жадаеце выдаліць вылучаныя кантакты?
+[Warning]
+Заўвага
+[%i users found (%i) Online: %i]
+%i кантактаў знойдзена (з %i) Далучаны: %i
+[deleted]
+выдалена
+[disabled]
+выключаны
+[active]
+актыўн.
+[Online]
+Далучаны
+[All]
+Усе
+[Editing of column %s]
+
+[Enter new cell value]
+
+[Change setting through QS]
+Змяніць з дапамогай QuickSearch
+[Selected %d contacts]
+
 [&Delete]
 Выдаліць
 [&Copy]
@@ -215,62 +281,5 @@ Unicode радок
 У гурт
 [Some of selected contacts in different metacontacts already]
 Некаторыя з вылучаных кантактаў ужо знаходзяцца ў іншых метакантактах
-[Do you really want to delete selected contacts?]
-Вы жадаеце выдаліць вылучаныя кантакты?
-[Warning]
-Заўвага
-[One or more contacts in same Meta already. Try to convert anyway?]
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
 Адзін ці некалькі кантактаў у падобным метакантакце. Усё адно пераўтварыць?
-[Editing of column ]
-Змена слупка\s
-[%i users found (%i) Online: %i]
-%i кантактаў знойдзена (з %i) Далучаны: %i
-[ users found (]
-кантактаў знойдзена (
-[) Online: ]
-) далучаны:\s
-[Online]
-Далучаны
-[deleted]
-выдалена
-[off]
-выкл.
-[active]
-актыўн.
-[Colorize]
-Дадаць колер
-[QuickSearch window hotkey]
-Адчыніць хуткі пошук
-[Column content is simple database setting.]
-Утрымлівае наладу базы
-[Column content is script result.\r\nMore help from "Help" button in script dialog.]
-Утрымлівае вынік скрыпта.\r\nНацісніце "Даведка" у дыялозе скрыпта для дакладнай інфармацыі.
-[Column content is contact property (see list). Can be empty.]
-
-[Content is last online time.]
-
-[Content is time of last contact event.]
-
-[Content is metacontact info.]
-
-[Content is count of ALL contact events (not messages only)]
-
-[Other info]
-Іншае
-[Change setting through QS]
-Змяніць з дапамогай QuickSearch
-[default]
-змўчанні
-[Selected]
-Вылучана
-[contacts]
-кантакты
-[Unknown]
-Невядомы
-[Stay on Top]
-Паверх усіх вакон
-; these lines are not present in the sources, but they are present in compiled plugin
-[Text Editor]
-Тэкставы рэдактар
-[Wrap Text]
-Перанос радка

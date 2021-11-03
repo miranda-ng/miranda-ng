@@ -281,12 +281,6 @@ Résultat : %s (F3 = suivant)
 %0.n évènement (%s)
 [Enable &Processing]
 
-[Do you really want to delete ALL items (%.0f) for this contact?]
-
-[Note: It can take several minutes for large history.]
-
-[Empty History]
-Effacer l'historique
 [Search Up (Ctrl+Up)]
 
 [Search Down (Ctrl+Down)]
@@ -481,16 +475,6 @@ Demande d'état ignoré par %s (%d) : %s
 
 [Next message]
 Mess. suivant
-[History++ module could not be loaded, richedit 2.0+ module is missing.\\nPress OK to continue loading Miranda.]
-
-[&Empty System History]
-&Vider l'historique système
-[&Empty History]
-&Vider l'historique
-[Do you really want to delete ALL items for this contact?]
-Voulez-vous vraiment effacer TOUS l'historique de ce contact ?
-[Note: It can take several minutes for large histories]
-Note : Ceci peut prendre du temps sur de longs historiques
 [Previous message]
 Mess. précédent
 [Running version of AniSmiley is not supported]

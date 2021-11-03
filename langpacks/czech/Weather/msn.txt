@@ -1,0 +1,52 @@
+;============================================================
+;  File: msn.ini
+;  Plugin: Weather
+;============================================================
+[Condition]
+Situace
+[Feel]
+Subj.
+[Forecast Day 1]
+Předpověď na 1. den
+[Forecast Day 2]
+Předpověď na 2. den
+[Forecast Day 3]
+Předpověď na 3. den
+[Forecast Day 4]
+Předpověď na 4. den
+[Forecast Day 5]
+Předpověď na 5. den
+[Forecast Day 6]
+Předpověď na 6. den
+[Forecast Day 7]
+Předpověď na 7. den
+[Forecast Day 8]
+Předpověď na 8. den
+[Forecast Day 9]
+Předpověď na 9. den
+[Heat Index]
+Teplotní index
+[High]
+Vysoká
+[Light Rain And Snow]
+
+[Low]
+Nízká
+[Moon phase]
+
+[Moonrise]
+
+[Moonset]
+
+[Precipitation]
+
+[Rain Showers]
+
+[Temperature]
+Teplota
+[UV Index]
+UV index
+[Wind direction]
+Směr větru
+[Wind speed]
+Rychlost větru
