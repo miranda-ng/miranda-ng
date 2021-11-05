@@ -1261,7 +1261,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// parsing extensions
 	for (auto *xNode : TiXmlEnum(node)) {
-		if (m_bUseOMEMO && !getByte(hContact, "bDisableOmemo")) {
+		if (m_bUseOMEMO && !getByte(hContact, "bDisableOmemo", 0)) {
 			if (!mir_strcmp(xNode->Name(), "encrypted") && xNode->Attribute("xmlns", JABBER_FEAT_OMEMO)) {
 				if (!OmemoHandleMessage(xNode, from, msgTime))
 					OmemoPutMessageToIncommingQueue(xNode, from, msgTime);
