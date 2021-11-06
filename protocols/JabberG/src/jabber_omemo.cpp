@@ -2138,8 +2138,7 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	return session_count;
 }
 
-bool CJabberProto::OmemoIsEnabled(MCONTACT /*hContact*/)
+bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
 {
-	//TODO:
-	return true;
+	return !getByte(hContact, "bDisableOmemo", 0);
 }

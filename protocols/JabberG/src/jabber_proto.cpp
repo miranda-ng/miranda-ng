@@ -887,7 +887,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 		return 1;
 	}
 
-	if (m_bUseOMEMO && !getByte(hContact, "bDisableOmemo", 0)) {
+	if (m_bUseOMEMO && OmemoIsEnabled(hContact)) {
 		if (!OmemoCheckSession(hContact)) {
 			OmemoPutMessageToOutgoingQueue(hContact, unused_unknown, pszSrc);
 			int id = SerialNext();
