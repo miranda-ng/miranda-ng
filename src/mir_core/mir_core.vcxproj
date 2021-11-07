@@ -42,67 +42,150 @@
   <ItemGroup>
     <ClCompile Include="src\binbuffer.cpp" />
     <ClCompile Include="src\bitmaps.cpp" />
-    <ClCompile Include="src\CCtrlBase.cpp" />
-    <ClCompile Include="src\CCtrlButton.cpp" />
-    <ClCompile Include="src\CCtrlCheck.cpp" />
-    <ClCompile Include="src\CCtrlClc.cpp" />
-    <ClCompile Include="src\CCtrlColor.cpp" />
-    <ClCompile Include="src\CCtrlCombo.cpp" />
-    <ClCompile Include="src\CCtrlData.cpp" />
-    <ClCompile Include="src\cctrldate.cpp" />
-    <ClCompile Include="src\CCtrlEdit.cpp" />
-    <ClCompile Include="src\CCtrlHyperlink.cpp" />
-    <ClCompile Include="src\CCtrlLabel.cpp" />
-    <ClCompile Include="src\CCtrlListBox.cpp" />
-    <ClCompile Include="src\CCtrlListView.cpp" />
-    <ClCompile Include="src\CCtrlMButton.cpp" />
-    <ClCompile Include="src\CCtrlPages.cpp" />
-    <ClCompile Include="src\CCtrlRichEdit.cpp" />
-    <ClCompile Include="src\CCtrlSlider.cpp" />
-    <ClCompile Include="src\CCtrlSpin.cpp" />
-    <ClCompile Include="src\CCtrlTreeOpts.cpp" />
-    <ClCompile Include="src\CCtrlTreeView.cpp" />
-    <ClCompile Include="src\CDbLink.cpp" />
-    <ClCompile Include="src\CDlgBase.cpp" />
-    <ClCompile Include="src\cmdline.cpp" />
-    <ClCompile Include="src\colourpicker.cpp" />
-    <ClCompile Include="src\CProgress.cpp" />
-    <ClCompile Include="src\CSplitter.cpp" />
-    <ClCompile Include="src\CTimer.cpp" />
     <ClCompile Include="src\db.cpp" />
     <ClCompile Include="src\http.cpp" />
-    <ClCompile Include="src\hyperlink.cpp" />
-    <ClCompile Include="src\icons.cpp" />
-    <ClCompile Include="src\langpack.cpp" />
     <ClCompile Include="src\lists.cpp" />
-    <ClCompile Include="src\locks.cpp" />
     <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\md5.cpp" />
     <ClCompile Include="src\memory.cpp" />
-    <ClCompile Include="src\miranda.cpp" />
     <ClCompile Include="src\modules.cpp" />
     <ClCompile Include="src\mstring.cpp" />
-    <ClCompile Include="src\openurl.cpp" />
-    <ClCompile Include="src\path.cpp" />
-    <ClCompile Include="src\resizer.cpp" />
     <ClCompile Include="src\sha1.cpp" />
     <ClCompile Include="src\sha256.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\subclass.cpp" />
-    <ClCompile Include="src\threads.cpp" />
-    <ClCompile Include="src\timezones.cpp" />
     <ClCompile Include="src\tinyxml2.cpp" />
     <ClCompile Include="src\tinyxml2_utils.cpp" />
     <ClCompile Include="src\utf.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\windowlist.cpp" />
-    <ClCompile Include="src\winutil.cpp" />
-    <ClCompile Include="src\winver.cpp" />
+    <ClCompile Include="src\Windows\CCtrlBase.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlButton.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlCheck.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlClc.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlColor.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlCombo.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlData.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\cctrldate.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlEdit.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlHyperlink.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlLabel.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlListBox.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlListView.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlMButton.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlPages.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlRichEdit.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlSlider.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlSpin.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlTreeOpts.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CCtrlTreeView.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CDbLink.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CDlgBase.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\cmdline.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\colourpicker.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CProgress.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CSplitter.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\CTimer.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\hyperlink.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\icons.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\langpack.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\locks.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\miranda.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\openurl.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\path.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\resizer.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\subclass.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\threads.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\timezones.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\windowlist.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\winutil.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
+    <ClCompile Include="src\Windows\winver.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClInclude Include="src\miranda.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\tinyxml2.h" />
+    <ClInclude Include="src\Windows\miranda.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />
