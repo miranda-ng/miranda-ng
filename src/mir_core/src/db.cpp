@@ -63,7 +63,7 @@ MIR_CORE_DLL(MCONTACT) db_add_contact(void)
 MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact)
 {
 	ptrW wszPhoto(db_get_wsa(hContact, "ContactPhoto", "File"));
-	if (wszPhoto != NULL) {
+	if (wszPhoto != nullptr) {
       #ifdef _MSC_VER
          DeleteFileW(wszPhoto);
       #else
@@ -505,12 +505,12 @@ MIR_CORE_DLL(DBCachedContact*) db_get_contact(MCONTACT hContact)
 
 MIR_CORE_DLL(MCONTACT) db_find_first(const char *szProto)
 {
-	return (g_pCurrDb == nullptr) ? NULL : g_pCurrDb->FindFirstContact(szProto);
+	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->FindFirstContact(szProto);
 }
 
 MIR_CORE_DLL(MCONTACT) db_find_next(MCONTACT hContact, const char *szProto)
 {
-	return (g_pCurrDb == nullptr) ? NULL : g_pCurrDb->FindNextContact(hContact, szProto);
+	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->FindNextContact(hContact, szProto);
 }
 
 MIR_CORE_DLL(void) db_setCurrent(MDatabaseCommon *_db)

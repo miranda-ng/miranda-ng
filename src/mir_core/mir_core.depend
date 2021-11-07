@@ -47,15 +47,16 @@
 	<m_core.h>
 	<m_string.h>
 
-1636291943 /var/www/miranda-ng/include/m_core.h
+1636305794 /var/www/miranda-ng/include/m_core.h
 	<sal.h>
 	<stdint.h>
 	<stdlib.h>
 	<m_types.h>
 
-1636292217 /var/www/miranda-ng/include/m_types.h
+1636305872 /var/www/miranda-ng/include/m_types.h
 	<wchar.h>
 	<netinet/in.h>
+	<tchar.h>
 
 1636282895 /var/www/miranda-ng/include/m_string.h
 	<stdio.h>
@@ -115,13 +116,13 @@
 
 1634479262 /var/www/miranda-ng/include/m_button.h
 
-1636286799 /var/www/miranda-ng/include/m_gui.h
+1636305794 /var/www/miranda-ng/include/m_gui.h
 	<CommCtrl.h>
 	<m_system.h>
 	<m_protoint.h>
 	<m_clc.h>
 
-1636284756 /var/www/miranda-ng/include/m_protoint.h
+1636306687 /var/www/miranda-ng/include/m_protoint.h
 	<m_system.h>
 	<m_protosvc.h>
 	<m_database.h>
@@ -190,16 +191,16 @@
 1634479263 source:/var/www/miranda-ng/src/mir_core/src/http.cpp
 	"stdafx.h"
 
-1636289767 source:/var/www/miranda-ng/src/mir_core/src/logger.cpp
+1636305794 source:/var/www/miranda-ng/src/mir_core/src/logger.cpp
 	"stdafx.h"
 
 1636290658 source:/var/www/miranda-ng/src/mir_core/src/md5.cpp
 	"stdafx.h"
 
-1636290256 source:/var/www/miranda-ng/src/mir_core/src/db.cpp
+1636306776 source:/var/www/miranda-ng/src/mir_core/src/db.cpp
 	"stdafx.h"
 
-1636290951 source:/var/www/miranda-ng/src/mir_core/src/mstring.cpp
+1636307265 source:/var/www/miranda-ng/src/mir_core/src/mstring.cpp
 	"stdafx.h"
 
 1636290966 source:/var/www/miranda-ng/src/mir_core/src/sha256.cpp

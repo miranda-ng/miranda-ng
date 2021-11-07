@@ -55,7 +55,7 @@ typedef uint8_t        BYTE;
 typedef uint16_t       WORD;
 typedef uint32_t       DWORD, UINT, COLORREF;
 typedef intptr_t       WPARAM, LPARAM, INT_PTR;
-typedef uintptr_t      UINT_PTR;
+typedef uintptr_t      UINT_PTR, LRESULT;
 typedef char          *LPSTR;
 typedef const char    *LPCSTR;
 typedef wchar_t       *LPWSTR, *LPTSTR;

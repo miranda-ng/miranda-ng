@@ -15,12 +15,8 @@
 				<Option createDefFile="1" />
 				<Option createStaticLib="1" />
 				<Compiler>
-					<Add option="-m64" />
 					<Add option="-g" />
 				</Compiler>
-				<Linker>
-					<Add option="-m64" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="../../codeblocks/bin/Release/mir_core" prefix_auto="1" extension_auto="1" />
@@ -33,7 +29,6 @@
 					<Add option="-fomit-frame-pointer" />
 					<Add option="-flto" />
 					<Add option="-Os" />
-					<Add option="-std=c++11" />
 					<Add option="-m64" />
 				</Compiler>
 				<Linker>
@@ -46,10 +41,17 @@
 		<Compiler>
 			<Add option="-Wfatal-errors" />
 			<Add option="-Wall" />
+			<Add option="-std=gnu++17" />
+			<Add option="-m64" />
 			<Add option="-fexceptions" />
+			<Add option="-fpermissive" />
 			<Add option="-DMIR_CORE_EXPORTS" />
 			<Add directory="../../include" />
 		</Compiler>
+		<Linker>
+			<Add option="-m64" />
+		</Linker>
+		<Unit filename="src/Linux/fileutil.cpp" />
 		<Unit filename="src/binbuffer.cpp" />
 		<Unit filename="src/bitmaps.cpp" />
 		<Unit filename="src/db.cpp" />
@@ -59,7 +61,6 @@
 		<Unit filename="src/md5.cpp" />
 		<Unit filename="src/memory.cpp" />
 		<Unit filename="src/miranda.h" />
-		<Unit filename="src/modules.cpp" />
 		<Unit filename="src/mstring.cpp" />
 		<Unit filename="src/sha1.cpp" />
 		<Unit filename="src/sha256.cpp" />
