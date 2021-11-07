@@ -23,18 +23,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-STDMETHODIMP_(LONG) CDb3Mmap::GetContactCount(void)
+STDMETHODIMP_(int) CDb3Mmap::GetContactCount(void)
 {
 	mir_cslock lck(m_csDbAccess);
 	return m_dbHeader.contactCount;
 }
 
-STDMETHODIMP_(LONG) CDb3Mmap::GetContactSize(void)
+STDMETHODIMP_(int) CDb3Mmap::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
 
-STDMETHODIMP_(LONG) CDb3Mmap::DeleteContact(MCONTACT contactID)
+STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 {
 	if (contactID == 0) // global contact cannot be removed
 		return 1;

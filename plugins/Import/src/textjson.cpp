@@ -88,12 +88,12 @@ public:
 	}
 
 	// mcontacts format always store history for one contact only
-	STDMETHODIMP_(LONG) GetContactCount(void) override
+	STDMETHODIMP_(int) GetContactCount(void) override
 	{
 		return 1;
 	}
 
-	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	STDMETHODIMP_(int) GetEventCount(MCONTACT) override
 	{
 		return m_events.getCount();
 	}

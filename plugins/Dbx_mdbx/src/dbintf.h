@@ -240,17 +240,17 @@ public:
 	STDMETHODIMP_(BOOL)     IsRelational(void) override { return TRUE; }
 	STDMETHODIMP_(void)     SetCacheSafetyMode(BOOL) override;
 
-	STDMETHODIMP_(LONG)     GetContactCount(void) override;
-	STDMETHODIMP_(LONG)     DeleteContact(MCONTACT contactID) override;
+	STDMETHODIMP_(int)      GetContactCount(void) override;
+	STDMETHODIMP_(int)      DeleteContact(MCONTACT contactID) override;
 	STDMETHODIMP_(MCONTACT) AddContact(void) override;
 	STDMETHODIMP_(BOOL)     IsDbContact(MCONTACT contactID) override;
-	STDMETHODIMP_(LONG)     GetContactSize(void) override;
+	STDMETHODIMP_(int)      GetContactSize(void) override;
 
-	STDMETHODIMP_(LONG)     GetEventCount(MCONTACT contactID) override;
+	STDMETHODIMP_(int)      GetEventCount(MCONTACT contactID) override;
 	STDMETHODIMP_(MEVENT)   AddEvent(MCONTACT contactID, const DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     DeleteEvent(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
-	STDMETHODIMP_(LONG)     GetBlobSize(MEVENT hDbEvent) override;
+	STDMETHODIMP_(int)      GetBlobSize(MEVENT hDbEvent) override;
 	STDMETHODIMP_(BOOL)     GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbe) override;
 	STDMETHODIMP_(BOOL)     MarkEventRead(MCONTACT contactID, MEVENT hDbEvent) override;
 	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT hDbEvent) override;

@@ -387,7 +387,7 @@ BOOL CCtrlListView::HasGroup(int dwGroupId)
 int CCtrlListView::HitTest(LPLVHITTESTINFO pinfo) const
 {	return ListView_HitTest(m_hwnd, pinfo);
 }
-int CCtrlListView::InsertColumn(int iCol, const LPLVCOLUMN pcol)
+int CCtrlListView::InsertColumn(int iCol, const LVCOLUMN *pcol)
 {	return ListView_InsertColumn(m_hwnd, iCol, pcol);
 }
 int CCtrlListView::InsertGroup(int index, PLVGROUP pgrp)
@@ -396,7 +396,7 @@ int CCtrlListView::InsertGroup(int index, PLVGROUP pgrp)
 void CCtrlListView::InsertGroupSorted(PLVINSERTGROUPSORTED structInsert)
 {	ListView_InsertGroupSorted(m_hwnd, structInsert);
 }
-int CCtrlListView::InsertItem(const LPLVITEM pitem)
+int CCtrlListView::InsertItem(const LVITEM *pitem)
 {	return ListView_InsertItem(m_hwnd, pitem);
 }
 BOOL CCtrlListView::InsertMarkHitTest(LPPOINT point, LVINSERTMARK *plvim)
@@ -480,7 +480,7 @@ BOOL CCtrlListView::SetInsertMark(LVINSERTMARK *plvim)
 COLORREF CCtrlListView::SetInsertMarkColor(COLORREF color)
 {	return ListView_SetInsertMarkColor(m_hwnd, color);
 }
-BOOL CCtrlListView::SetItem(const LPLVITEM pitem)
+BOOL CCtrlListView::SetItem(const LVITEM *pitem)
 {	return ListView_SetItem(m_hwnd, pitem);
 }
 void CCtrlListView::SetItemCount(int cItems)

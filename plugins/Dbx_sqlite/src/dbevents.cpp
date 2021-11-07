@@ -30,7 +30,7 @@ void CDbxSQLite::UninitEvents()
 	m_modules.destroy();
 }
 
-LONG CDbxSQLite::GetEventCount(MCONTACT hContact)
+int CDbxSQLite::GetEventCount(MCONTACT hContact)
 {
 	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
@@ -257,7 +257,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	return 0;
 }
 
-LONG CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
+int CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
 	if (hDbEvent == 0)
 		return -1;

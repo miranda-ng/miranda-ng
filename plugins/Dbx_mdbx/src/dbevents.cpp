@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LONG CDbxMDBX::GetEventCount(MCONTACT contactID)
+int CDbxMDBX::GetEventCount(MCONTACT contactID)
 {
 	if (!contactID)
 		return m_ccDummy.dbc.dwEventCount;
@@ -278,7 +278,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-LONG CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
+int CDbxMDBX::GetBlobSize(MEVENT hDbEvent)
 {
 	MDBX_val key = { &hDbEvent, sizeof(MEVENT) }, data;
 	if (mdbx_get(StartTran(), m_dbEvents, &key, &data) != MDBX_SUCCESS)

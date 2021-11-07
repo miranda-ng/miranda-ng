@@ -701,10 +701,10 @@ mir_wstrcmpi                  @280
 ?HitTest@CCtrlClc@@QBEPAXHHPAK@Z @888 NONAME
 ?HitTest@CCtrlListView@@QBEHPAUtagLVHITTESTINFO@@@Z @889 NONAME
 ?HitTest@CCtrlTreeView@@QBEPAU_TREEITEM@@PAUtagTVHITTESTINFO@@@Z @890 NONAME
-?InsertColumn@CCtrlListView@@QAEHHQAUtagLVCOLUMNW@@@Z @891 NONAME
+?InsertColumn@CCtrlListView@@QAEHHPBUtagLVCOLUMNW@@@Z @891 NONAME
 ?InsertGroup@CCtrlListView@@QAEHHPAUtagLVGROUP@@@Z @892 NONAME
 ?InsertGroupSorted@CCtrlListView@@QAEXPAUtagLVINSERTGROUPSORTED@@@Z @893 NONAME
-?InsertItem@CCtrlListView@@QAEHQAUtagLVITEMW@@@Z @894 NONAME
+?InsertItem@CCtrlListView@@QAEHPBUtagLVITEMW@@@Z @894 NONAME
 ?InsertItem@CCtrlTreeView@@QAEPAU_TREEITEM@@PAUtagTVINSERTSTRUCTW@@@Z @895 NONAME
 ?InsertMarkHitTest@CCtrlListView@@QAEHPAUtagPOINT@@PAULVINSERTMARK@@@Z @896 NONAME
 ?InsertString@CCtrlCombo@@QAEHPB_WHJ@Z @897 NONAME
@@ -814,7 +814,7 @@ mir_wstrcmpi                  @280
 ?SetInsertMarkColor@CCtrlListView@@QAEKK@Z @1009 NONAME
 ?SetInsertMarkColor@CCtrlTreeView@@QAEKK@Z @1010 NONAME
 ?SetInt@CCtrlBase@@QAEXH@Z @1011 NONAME
-?SetItem@CCtrlListView@@QAEHQAUtagLVITEMW@@@Z @1012 NONAME
+?SetItem@CCtrlListView@@QAEHPBUtagLVITEMW@@@Z @1012 NONAME
 ?SetItem@CCtrlListView@@QAEXHHPB_WH@Z @1013 NONAME
 ?SetItem@CCtrlTreeView@@QAEXPAUtagTVITEMEXW@@@Z @1014 NONAME
 ?SetItemCount@CCtrlListView@@QAEXH@Z @1015 NONAME

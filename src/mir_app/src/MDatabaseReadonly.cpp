@@ -81,7 +81,7 @@ MCONTACT MDatabaseReadonly::AddContact(void)
 	return 0;
 }
 
-LONG MDatabaseReadonly::DeleteContact(MCONTACT)
+int MDatabaseReadonly::DeleteContact(MCONTACT)
 {
 	return 1;
 }
@@ -91,7 +91,7 @@ BOOL MDatabaseReadonly::IsDbContact(MCONTACT contactID)
 	return contactID == 1;
 }
 
-LONG MDatabaseReadonly::GetContactSize(void)
+int MDatabaseReadonly::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
@@ -113,7 +113,7 @@ BOOL MDatabaseReadonly::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 	return 1;
 }
 
-LONG MDatabaseReadonly::GetBlobSize(MEVENT)
+int MDatabaseReadonly::GetBlobSize(MEVENT)
 {
 	return 0;
 }

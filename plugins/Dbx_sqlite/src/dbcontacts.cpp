@@ -14,7 +14,7 @@ void CDbxSQLite::InitContacts()
 	sqlite3_finalize(stmt);
 }
 
-LONG CDbxSQLite::GetContactCount()
+int CDbxSQLite::GetContactCount()
 {
 	mir_cslock lock(m_csDbAccess);
 	sqlite3_stmt *stmt = InitQuery("SELECT COUNT(1) FROM contacts LIMIT 1;", qCntCount);
@@ -48,7 +48,7 @@ MCONTACT CDbxSQLite::AddContact()
 	return hContact;
 }
 
-LONG CDbxSQLite::DeleteContact(MCONTACT hContact)
+int CDbxSQLite::DeleteContact(MCONTACT hContact)
 {
 	// global contact cannot be removed
 	if (hContact == 0)
@@ -107,7 +107,7 @@ BOOL CDbxSQLite::IsDbContact(MCONTACT hContact)
 	return (cc != nullptr);
 }
 
-LONG CDbxSQLite::GetContactSize(void)
+int CDbxSQLite::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }

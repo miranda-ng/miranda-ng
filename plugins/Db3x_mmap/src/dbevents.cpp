@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LONG CDb3Mmap::GetEventCount(MCONTACT contactID)
+int CDb3Mmap::GetEventCount(MCONTACT contactID)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(GetContactOffset(contactID), nullptr);
@@ -268,7 +268,7 @@ BOOL CDb3Mmap::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 	return 1;
 }
 
-LONG CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
+int CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
 	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, 0);

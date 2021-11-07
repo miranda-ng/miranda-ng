@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../stdafx.h"
 
-STDMETHODIMP_(LONG) CDbxSQLite::GetEventCount(MCONTACT contactID)
+STDMETHODIMP_(int) CDbxSQLite::GetEventCount(MCONTACT contactID)
 {
 	mir_cslock lock(m_csDbAccess);
 
@@ -49,7 +49,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 	return 1;
 }
 
-STDMETHODIMP_(LONG) CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
+STDMETHODIMP_(int) CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lock(m_csDbAccess);
 

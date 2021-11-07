@@ -151,7 +151,7 @@ public:
 	}
 
 	// mcontacts format always store history for one contact only
-	STDMETHODIMP_(LONG) GetBlobSize(MEVENT dwOffset) override
+	STDMETHODIMP_(int) GetBlobSize(MEVENT dwOffset) override
 	{
 		if (INVALID_SET_FILE_POINTER == SetFilePointer(m_hFile, dwOffset, 0, FILE_BEGIN))
 			return 0;
@@ -180,14 +180,14 @@ public:
 		return 0;
 	}
 
-	STDMETHODIMP_(LONG) GetContactCount(void) override
+	STDMETHODIMP_(int) GetContactCount(void) override
 	{
 		return 1;
 	}
 
-	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	STDMETHODIMP_(int) GetEventCount(MCONTACT) override
 	{
-		return (LONG)m_events.size();
+		return (int)m_events.size();
 	}
 
 	STDMETHODIMP_(BOOL) GetEvent(MEVENT dwOffset, DBEVENTINFO *dbei) override

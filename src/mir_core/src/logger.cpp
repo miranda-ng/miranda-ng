@@ -45,13 +45,13 @@ struct Logger
 			fclose(m_out);
 	}
 
-	int        m_signature;
-	ptrA       m_name;
-	ptrW       m_fileName, m_descr;
-	FILE      *m_out;
-	__int64_t  m_lastwrite;
-	unsigned   m_options;
-	mir_cs     m_cs;
+	int      m_signature;
+	ptrA     m_name;
+	ptrW     m_fileName, m_descr;
+	FILE    *m_out;
+	time_t   m_lastwrite;
+	unsigned m_options;
+	mir_cs   m_cs;
 };
 
 static int CompareLoggers(const Logger *p1, const Logger *p2)

@@ -422,7 +422,7 @@ public:
 	}
 	
 	// patterns file always stores history for the single contact only
-	STDMETHODIMP_(LONG) GetBlobSize(MEVENT idx) override
+	STDMETHODIMP_(int) GetBlobSize(MEVENT idx) override
 	{
 		if (m_events.size() == 0 || idx < 1 || idx > m_events.size())
 			return 0;
@@ -440,9 +440,9 @@ public:
 		return RLWord(&pMsg[m_iMsgHeaderSize - 2]) + 1;
 	}
 	
-	STDMETHODIMP_(LONG) GetContactCount(void) override
+	STDMETHODIMP_(int) GetContactCount(void) override
 	{
-		return (LONG)m_files.size();
+		return (int)m_files.size();
 	}
 
 	STDMETHODIMP_(MCONTACT) FindFirstContact(const char *szProto) override
@@ -463,9 +463,9 @@ public:
 		return ret;
 	}
 
-	STDMETHODIMP_(LONG) GetEventCount(MCONTACT) override
+	STDMETHODIMP_(int) GetEventCount(MCONTACT) override
 	{
-		return (LONG)m_events.size();
+		return (int)m_events.size();
 	}
 
 	STDMETHODIMP_(BOOL) GetContactSettingWorker(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, DBVARIANT* dbv, int isStatic)
@@ -570,7 +570,7 @@ public:
 		dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob + 1);
 		memcpy(dbei->pBlob, pMsg + m_iMsgHeaderSize, dbei->cbBlob);
 		if (m_iFileVersion != 1)
-			for (unsigned i = 0; i < dbei->cbBlob; i++) {
+			for (int i = 0; i < dbei->cbBlob; i++) {
 				dbei->pBlob[i] += i+1;
 				dbei->pBlob[i] = 255 - dbei->pBlob[i];
 			}

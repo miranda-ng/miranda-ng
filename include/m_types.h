@@ -27,10 +27,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////////////
 // Linux
 
+#ifndef _MSC_VER
+
 #include <wchar.h>
 #include <netinet/in.h>
-
-#ifndef _MSC_VER
 
 #define CALLBACK
 #define EXTERN_C extern "C"
@@ -110,10 +110,51 @@ DECLARE_HANDLE(HINSTANCE);
 
 struct EXCEPTION_POINTERS { int unused; };
 struct LOGFONT { int unused; };
+struct SYSTEMTIME;
+struct MEASUREITEMSTRUCT;
+struct DRAWITEMSTRUCT;
+struct DELETEITEMSTRUCT;
+
+struct NMHDR;
+struct NMLISTVIEW;
+struct NMLVDISPINFO;
+struct NMLVSCROLL;
+struct NMLVGETINFOTIP;
+struct NMLVFINDITEM;
+struct NMITEMACTIVATE;
+struct NMLVKEYDOWN;
+struct NMLVCUSTOMDRAW;
+struct NMCLISTCONTROL;
+struct NMTREEVIEW;
+struct NMTVKEYDOWN;
+struct NMTVDISPINFO;
+struct NMTVGETINFOTIP;
+struct NMTVCUSTOMDRAW;
+
+struct LVFINDINFO;
+struct LVBKIMAGE;
+struct LVCOLUMN;
+struct LVGROUP;
+struct LVGROUPMETRICS;
+struct LVINSERTMARK;
+struct LVTILEINFO;
+struct LVTILEVIEWINFO;
+struct LVITEM;
+struct LVHITTESTINFO;
+struct LVINSERTGROUPSORTED;
+struct LVSETINFOTIP;
+
+struct TVITEMEX;
+struct TVHITTESTINFO;
+struct TVINSERTSTRUCT;
+struct TVSORTCB;
+struct _TREEITEM;
 
 #else
 ///////////////////////////////////////////////////////////////////////////////
 // Windows
+
+#include <tchar.h>
 
 #define MIR_EXPORT __declspec(dllexport)
 #define MIR_IMPORT __declspec(dllimport)

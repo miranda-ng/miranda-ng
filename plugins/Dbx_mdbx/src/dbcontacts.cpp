@@ -23,19 +23,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LONG CDbxMDBX::GetContactCount(void)
+int CDbxMDBX::GetContactCount(void)
 {
 	MDBX_stat st;
 	mdbx_dbi_stat(StartTran(), m_dbContacts, &st, sizeof(st));
 	return st.ms_entries;
 }
 
-LONG CDbxMDBX::GetContactSize(void)
+int CDbxMDBX::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
 
-LONG CDbxMDBX::DeleteContact(MCONTACT contactID)
+int CDbxMDBX::DeleteContact(MCONTACT contactID)
 {
 	if (contactID == 0) // global contact cannot be removed
 		return 1;

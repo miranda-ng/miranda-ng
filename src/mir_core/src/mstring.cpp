@@ -123,6 +123,7 @@ MIR_CORE_DLL(void) mirstr_unlock(CMStringData* pThis)
 // don't remove it
 // this code just instantiates templates for CMStringW[A/W]
 
+template MIR_CORE_EXPORT CMStringW;
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, const CMStringW& str2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, const wchar_t *psz2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const wchar_t *psz1, const CMStringW& str2);
@@ -131,6 +132,7 @@ template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, cha
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(wchar_t ch1, const CMStringW& str2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(char ch1, const CMStringW& str2);
 
+template MIR_CORE_EXPORT CMStringA;
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const CMStringA& str1, const CMStringA& str2);
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const CMStringA& str1, const char *psz2);
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const char *psz1, const CMStringA& str2);

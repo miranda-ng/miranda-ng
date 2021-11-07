@@ -43,7 +43,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::IsDbContact(MCONTACT contactID)
 	return (cc != nullptr);
 }
 
-STDMETHODIMP_(LONG) CDbxSQLite::GetContactCount(void)
+STDMETHODIMP_(int) CDbxSQLite::GetContactCount(void)
 {
 	int res = 0;
 	if (sql_step(ctc_stmts_prep[SQL_CTC_STMT_COUNT]) == SQLITE_ROW)
@@ -52,7 +52,7 @@ STDMETHODIMP_(LONG) CDbxSQLite::GetContactCount(void)
 	return res;
 }
 
-STDMETHODIMP_(LONG) CDbxSQLite::GetContactSize(void)
+STDMETHODIMP_(int) CDbxSQLite::GetContactSize(void)
 {
 	return sizeof(DBCachedContact);
 }
@@ -62,7 +62,7 @@ STDMETHODIMP_(MCONTACT) CDbxSQLite::AddContact(void)
 	return INVALID_CONTACT_ID;
 }
 
-STDMETHODIMP_(LONG) CDbxSQLite::DeleteContact(MCONTACT)
+STDMETHODIMP_(int) CDbxSQLite::DeleteContact(MCONTACT)
 {
 	return 1;
 }

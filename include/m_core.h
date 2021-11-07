@@ -513,26 +513,6 @@ __forceinline char* mir_utf8decodeA(const char* src)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-// The UUID structure below is used to for plugin UUID's and module type definitions
-
-struct MUUID
-{
-	unsigned long a;
-	unsigned short b;
-	unsigned short c;
-	unsigned char d[8];
-};
-
-__forceinline bool operator==(const MUUID &p1, const MUUID &p2)
-{
-	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
-}
-__forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
-{
-	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
-}
-
-///////////////////////////////////////////////////////////////////////////////
 // Window subclassing
 
 #ifdef _MSC_VER
@@ -572,6 +552,29 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 
 #if defined(__cplusplus)
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// The UUID structure below is used to for plugin UUID's and module type definitions
+
+struct MUUID
+{
+	unsigned long a;
+	unsigned short b;
+	unsigned short c;
+	unsigned char d[8];
+};
+
+__forceinline bool operator==(const MUUID& p1, const MUUID& p2)
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
+}
+__forceinline bool operator!=(const MUUID& p1, const MUUID& p2)
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// C++ templates
 
 template <typename T>
 HANDLE mir_forkThread(void(MIR_CDECL *pFunc)(T* param), T *arg)
