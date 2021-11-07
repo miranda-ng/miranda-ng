@@ -74,8 +74,8 @@ MIR_CORE_DLL(void) mirstr_free(CMStringData *pData)
 MIR_CORE_DLL(CMStringData*) mirstr_realloc(CMStringData* pData, int nChars, int nCharSize)
 {
 	nChars++; // nil char
-	ULONG nDataBytes = nCharSize * nChars;
-	ULONG nTotalSize = nDataBytes + sizeof(CMStringData);
+	uint32_t nDataBytes = nCharSize * nChars;
+	uint32_t nTotalSize = nDataBytes + sizeof(CMStringData);
 
 	CMStringData *pNewData = static_cast<CMStringData*>(realloc(pData, nTotalSize));
 	if (pNewData == nullptr)
@@ -123,8 +123,7 @@ MIR_CORE_DLL(void) mirstr_unlock(CMStringData* pThis)
 // don't remove it
 // this code just instantiates templates for CMStringW[A/W]
 
-template CMStringW;
-template MIR_CORE_EXPORT CMStringW CALLBACK operator + (const CMStringW& str1, const CMStringW& str2);
+template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, const CMStringW& str2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, const wchar_t *psz2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const wchar_t *psz1, const CMStringW& str2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, wchar_t ch2);
@@ -132,7 +131,6 @@ template MIR_CORE_EXPORT CMStringW CALLBACK operator+(const CMStringW& str1, cha
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(wchar_t ch1, const CMStringW& str2);
 template MIR_CORE_EXPORT CMStringW CALLBACK operator+(char ch1, const CMStringW& str2);
 
-template CMStringA;
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const CMStringA& str1, const CMStringA& str2);
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const CMStringA& str1, const char *psz2);
 template MIR_CORE_EXPORT CMStringA CALLBACK operator+(const char *psz1, const CMStringA& str2);

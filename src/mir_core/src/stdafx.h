@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define INCL_WINSOCK_API_TYPEDEFS 1
 
+#ifdef _MSC_VER
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <windows.h>
@@ -38,16 +39,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <Richedit.h>
 #include <Wtsapi32.h>
 
+#include <process.h>
+#include <io.h>
+#include <direct.h>
+#endif // _WINDOWS
+
 #include <malloc.h>
 #include <stdio.h>
 #include <time.h>
+#include <stdarg.h>
 #include <stddef.h>
-#include <process.h>
-#include <io.h>
 #include <limits.h>
 #include <string.h>
 #include <locale.h>
-#include <direct.h>
 
 #define __NO_CMPLUGIN_NEEDED
 #include <m_system.h>

@@ -31,32 +31,13 @@ typedef struct _IMAGELIST* HIMAGELIST;
 
 #include <m_core.h>
 #include <m_database.h>
+#include <m_protocols.h>
 
 #define PLUGIN_MAKE_VERSION(a, b, c, d)   (((((DWORD)(a))&0xFF)<<24)|((((DWORD)(b))&0xFF)<<16)|((((DWORD)(c))&0xFF)<<8)|(((DWORD)(d))&0xFF))
 #define MAXMODULELABELLENGTH 64
 
 #define UNICODE_AWARE 0x0001
 #define STATIC_PLUGIN 0x0002
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// The UUID structure below is used to for plugin UUID's and module type definitions
-
-struct MUUID
-{
-	unsigned long a;
-	unsigned short b;
-	unsigned short c;
-	unsigned char d[8];
-};
-
-__forceinline bool operator==(const MUUID &p1, const MUUID &p2)
-{
-	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
-}
-__forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
-{
-	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
-}
 
 MIR_APP_DLL(int)  GetPluginLangId(const MUUID &uuid, int langId);
 MIR_APP_DLL(int)  IsPluginLoaded(const MUUID &uuid);
@@ -316,7 +297,7 @@ public:
 	{
 		return db_get_sm(hContact, m_szModuleName, name, szValue);
 	}
-	
+
 	__forceinline char* getStringA(const char *name, const char *szValue = nullptr)
 	{
 		return db_get_sa(0, m_szModuleName, name, szValue);
@@ -415,7 +396,7 @@ extern struct CMPlugin g_plugin;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for plugins (not protocols) written in C++
 
-typedef BOOL(WINAPI * const _pfnCrtInit)(HINSTANCE, DWORD, LPVOID);
+typedef BOOL(MIR_SYSCALL* const _pfnCrtInit)(HINSTANCE, DWORD, void*);
 
 template<class T> class PLUGIN : public CMPluginBase
 {
@@ -432,20 +413,20 @@ protected:
 		return CreateHookableEvent(str);
 	}
 
-	typedef int(__cdecl T::*MyEventFunc)(WPARAM, LPARAM);
+	typedef int(MIR_CDECL T::*MyEventFunc)(WPARAM, LPARAM);
 	__forceinline void HookPluginEvent(const char *name, MyEventFunc pFunc)
 	{
 		HookEventObj(name, (MIRANDAHOOKOBJ)*(void**)&pFunc, this);
 	}
 
-	typedef INT_PTR(__cdecl T::*MyServiceFunc)(WPARAM, LPARAM);
+	typedef INT_PTR(MIR_CDECL T::*MyServiceFunc)(WPARAM, LPARAM);
 	__forceinline void CreatePluginService(const char *name, MyServiceFunc pFunc)
 	{
 		CMStringA str(FORMAT, "%s\\%s", m_szModuleName, name);
 		CreateServiceFunctionObj(str, (MIRANDASERVICEOBJ)*(void**)&pFunc, this);
 	}
 
-	typedef INT_PTR(__cdecl T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
+	typedef INT_PTR(MIR_CDECL T::*MyServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 	__forceinline void CreatePluginServiceParam(const char *name, MyServiceFuncParam pFunc, LPARAM param)
 	{
 		CMStringA str(FORMAT, "%s\\%s", m_szModuleName, name);

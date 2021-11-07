@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="TabSRMM_icons" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug x64">
+				<Option output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug64/Icons/TabSRMM_icons" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug64/Obj/TabSRMM_icons/" />
+				<Option deps_output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug64/Icons/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D_DEBUG" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../../../include/msapi/" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../../../../../../../home/ghazan/miranda-ng/bin16/lib/" />
+				</Linker>
+			</Target>
+			<Target title="Release x64">
+				<Option output="../../../../../../../home/ghazan/miranda-ng/bin16/Release64/Icons/TabSRMM_icons" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../../../../home/ghazan/miranda-ng/bin16/Release64/Obj/TabSRMM_icons/" />
+				<Option deps_output="../../../../../../../home/ghazan/miranda-ng/bin16/Release64/Icons/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../../../include/msapi/" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../../../../../../../home/ghazan/miranda-ng/bin16/lib/" />
+				</Linker>
+			</Target>
+			<Target title="Release Win32">
+				<Option output="../../../../../../../home/ghazan/miranda-ng/bin16/Release/Icons/TabSRMM_icons" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../../../../home/ghazan/miranda-ng/bin16/Release/Obj/TabSRMM_icons/" />
+				<Option deps_output="../../../../../../../home/ghazan/miranda-ng/bin16/Release/Icons/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-DNDEBUG" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../../../include/msapi/" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../../../../../../../home/ghazan/miranda-ng/bin16/lib/" />
+				</Linker>
+			</Target>
+			<Target title="Debug Win32">
+				<Option output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug/Icons/TabSRMM_icons" prefix_auto="1" extension_auto="1" />
+				<Option object_output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug/Obj/TabSRMM_icons/" />
+				<Option deps_output="../../../../../../../home/ghazan/miranda-ng/bin16/Debug/Icons/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-D_DEBUG" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../../../../include/msapi/" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="winmm.lib" />
+					<Add library="comctl32.lib" />
+					<Add library="kernel32.lib" />
+					<Add library="user32.lib" />
+					<Add library="gdi32.lib" />
+					<Add library="winspool.lib" />
+					<Add library="comdlg32.lib" />
+					<Add library="advapi32.lib" />
+					<Add library="shell32.lib" />
+					<Add library="ole32.lib" />
+					<Add library="oleaut32.lib" />
+					<Add library="uuid.lib" />
+					<Add library="odbc32.lib" />
+					<Add library="odbccp32.lib" />
+					<Add directory="../../../../../../../home/ghazan/miranda-ng/bin16/lib/" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../Version.h" />
+		<Unit filename="../resource.h" />
+		<Unit filename="res/ICONS_NOVA.rc" />
+		<Unit filename="res/Version.rc" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

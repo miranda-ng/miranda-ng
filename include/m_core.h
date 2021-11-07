@@ -37,21 +37,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #endif
 
 #ifdef MIR_CORE_EXPORTS
-	#define MIR_CORE_EXPORT __declspec(dllexport)
+    #define MIR_CORE_EXPORT MIR_EXPORT
 #else
-	#define MIR_CORE_EXPORT __declspec(dllimport)
+    #define MIR_CORE_EXPORT MIR_IMPORT
 #endif
 
-#define MIR_CORE_DLL(T) MIR_CORE_EXPORT T __stdcall
-#define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T __cdecl
+#define MIR_CORE_DLL(T) MIR_CORE_EXPORT T MIR_SYSCALL
+#define MIR_C_CORE_DLL(T) MIR_CORE_EXPORT T MIR_CDECL
 
 #ifdef MIR_APP_EXPORTS
-	#define MIR_APP_EXPORT __declspec(dllexport)
+	#define MIR_APP_EXPORT MIR_EXPORT
 	typedef struct NetlibUser* HNETLIBUSER;
 	typedef struct NetlibConnection* HNETLIBCONN;
 	typedef struct NetlibBoundPort* HNETLIBBIND;
 #else
-	#define MIR_APP_EXPORT __declspec(dllimport)
+	#define MIR_APP_EXPORT MIR_IMPORT
 	DECLARE_HANDLE(HNETLIBUSER);
 	DECLARE_HANDLE(HNETLIBCONN);
 	DECLARE_HANDLE(HNETLIBBIND);
@@ -62,7 +62,7 @@ typedef struct TMO_IntMenuItem* HGENMENU;
 class CMPluginBase;
 typedef const CMPluginBase* HPLUGIN;
 
-#define MIR_APP_DLL(T) MIR_APP_EXPORT T __stdcall
+#define MIR_APP_DLL(T) MIR_APP_EXPORT T MIR_SYSCALL
 
 #pragma warning(disable:4201 4127 4312 4706)
 
@@ -138,8 +138,8 @@ MIR_CORE_DLL(bool)    ServiceExists(const char *name);
 MIR_CORE_DLL(INT_PTR) CallService(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(INT_PTR) CallServiceSync(const char *name, WPARAM wParam = 0, LPARAM lParam = 0);
 
-MIR_CORE_DLL(INT_PTR) CallFunctionSync(INT_PTR(__stdcall *func)(void *), void *arg);
-MIR_CORE_DLL(int)     CallFunctionAsync(void (__stdcall *func)(void *), void *arg);
+MIR_CORE_DLL(INT_PTR) CallFunctionSync(INT_PTR(MIR_SYSCALL *func)(void *), void *arg);
+MIR_CORE_DLL(int)     CallFunctionAsync(void (MIR_SYSCALL *func)(void *), void *arg);
 MIR_CORE_DLL(void)    KillModuleServices(HINSTANCE hInst);
 MIR_CORE_DLL(void)    KillObjectServices(void* pObject);
 
@@ -149,7 +149,7 @@ MIR_APP_DLL(INT_PTR)  CallProtoService(const char *szModule, const char *szServi
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
 
-typedef DWORD (__cdecl *pfnExceptionFilter)(DWORD code, EXCEPTION_POINTERS* info);
+typedef DWORD (MIR_CDECL *pfnExceptionFilter)(DWORD code, EXCEPTION_POINTERS *info);
 
 MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter(void);
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter);
@@ -252,9 +252,9 @@ MIR_CORE_DLL(int)    mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_li
 // md5 functions
 
 typedef struct mir_md5_state_s {
-	UINT32 count[2];  /* message length in bits, lsw first */
-	UINT32 abcd[4];    /* digest buffer */
-	BYTE   buf[64];    /* accumulate block */
+	uint32_t count[2]; /* message length in bits, lsw first */
+	uint32_t abcd[4];  /* digest buffer */
+	uint8_t  buf[64];  /* accumulate block */
 } mir_md5_state_t;
 
 MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms);
@@ -352,10 +352,10 @@ MIR_APP_DLL(int) ProtoGetAvatarFormatByMimeType(const char *pwszMimeType);
 
 struct mir_sha1_ctx
 {
-  ULONG H[5];
-  ULONG W[80];
-  int lenW;
-  ULONG sizeHi, sizeLo;
+    uint32_t H[5];
+    uint32_t W[80];
+    int lenW;
+    uint32_t sizeHi, sizeLo;
 };
 
 MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx);
@@ -370,8 +370,8 @@ MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, size_t len, BYTE hashout[MIR_SHA1
 
 struct SHA256_CONTEXT
 {
-	UINT32  h0, h1, h2, h3, h4, h5, h6, h7;
-	UINT32  nblocks;
+	uint32_t  h0, h1, h2, h3, h4, h5, h6, h7;
+	uint32_t  nblocks;
 	BYTE buf[MIR_SHA_BLOCKSIZE];
 	int  count;
 };
@@ -463,9 +463,9 @@ MIR_CORE_DLL(char*)  mir_u2a(const wchar_t* src);
 ///////////////////////////////////////////////////////////////////////////////
 // threads
 
-typedef void (__cdecl *pThreadFunc)(void *param);
-typedef unsigned (__stdcall *pThreadFuncEx)(void *param);
-typedef unsigned (__cdecl *pThreadFuncOwner)(void *owner, void *param);
+typedef void (MIR_CDECL *pThreadFunc)(void *param);
+typedef unsigned (MIR_SYSCALL *pThreadFuncEx)(void *param);
+typedef unsigned (MIR_CDECL *pThreadFuncOwner)(void *owner, void *param);
 
 #if defined( __cplusplus )
 	MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner = nullptr);
@@ -513,7 +513,29 @@ __forceinline char* mir_utf8decodeA(const char* src)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
+// The UUID structure below is used to for plugin UUID's and module type definitions
+
+struct MUUID
+{
+	unsigned long a;
+	unsigned short b;
+	unsigned short c;
+	unsigned char d[8];
+};
+
+__forceinline bool operator==(const MUUID &p1, const MUUID &p2)
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) == 0;
+}
+__forceinline bool operator!=(const MUUID &p1, const MUUID &p2)
+{
+	return memcmp(&p1, &p2, sizeof(MUUID)) != 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
 // Window subclassing
+
+#ifdef _MSC_VER
 
 MIR_CORE_DLL(void)    mir_subclassWindow(HWND hWnd, WNDPROC wndProc);
 MIR_CORE_DLL(void)    mir_subclassWindowFull(HWND hWnd, WNDPROC wndProc, WNDPROC oldWndProc);
@@ -536,6 +558,8 @@ MIR_CORE_DLL(BOOL) IsWorkstationLocked();
 MIR_CORE_DLL(BOOL) IsScreenSaverRunning();
 MIR_CORE_DLL(BOOL) IsTerminalDisconnected();
 
+#endif // _MSC_VER
+
 // returns OS version in version of Windows NT xx.xx
 MIR_CORE_DLL(BOOL) OS_GetShortString(char *buf, size_t bufSize);
 
@@ -550,7 +574,7 @@ MIR_CORE_DLL(void) UnloadCoreModule(void);
 }
 
 template <typename T>
-HANDLE mir_forkThread(void(__cdecl *pFunc)(T* param), T *arg)
+HANDLE mir_forkThread(void(MIR_CDECL *pFunc)(T* param), T *arg)
 {
 	return mir_forkthread((pThreadFunc)pFunc, arg);
 }
@@ -589,12 +613,48 @@ inline int mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Siz
 
 #endif
 
-#ifndef MIR_CORE_EXPORTS
-	#pragma comment(lib, "mir_core.lib")
-#endif
+#ifdef _MSC_VER
+	#ifndef MIR_CORE_EXPORTS
+		#pragma comment(lib, "mir_core.lib")
+	#endif
 
-#ifndef MIR_APP_EXPORTS
-	#pragma comment(lib, "mir_app.lib")
+	#ifndef MIR_APP_EXPORTS
+		#pragma comment(lib, "mir_app.lib")
+	#endif
+#else
+	MIR_CORE_DLL(FILE*) _wfopen(const wchar_t *pwszFileName, const wchar_t *pwszMode);
+
+	template <size_t _Size>
+	inline wchar_t* wcsncpy_s(wchar_t(&buffer)[_Size], const wchar_t *src, size_t len)
+	{
+		return wcsncpy(buffer, src, (len == _TRUNCATE) ? _Size : len);
+	}
+
+	inline wchar_t* wcsncpy_s(wchar_t *dst, size_t dstLen, const wchar_t *src, size_t len)
+	{
+		return wcsncpy(dst, src, (len == _TRUNCATE) ? dstLen : len);
+	}
+
+	inline wchar_t* wcsncat_s(wchar_t *dst, size_t dstLen, const wchar_t *src, size_t len)
+	{
+		return wcsncat(dst, src, (len == _TRUNCATE) ? dstLen : len);
+	}
+
+	template <size_t _Size>
+	inline char* strncpy_s(char(&buffer)[_Size], const char *src, size_t len)
+	{
+		return strncpy(buffer, src, (len == _TRUNCATE) ? _Size : len);
+	}
+
+	inline char* strncpy_s(char *dst, size_t dstLen, const char *src, size_t len)
+	{
+		return strncpy(dst, src, (len == _TRUNCATE) ? dstLen : len);
+	}
+
+	inline char* strncat_s(char *dst, size_t dstLen, const char *src, size_t len)
+	{
+		return strncat(dst, src, (len == _TRUNCATE) ? dstLen : len);
+	}
 #endif
 
 #endif // M_CORE_H

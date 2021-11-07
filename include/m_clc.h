@@ -193,6 +193,7 @@ typedef struct {
 //notifications  (most are omitted because the control processes everything)
 #define CLNF_ISGROUP   1
 #define CLNF_ISINFO    2
+#ifdef _MSC_VER
 typedef struct {
 	NMHDR hdr;
 	HANDLE hItem;
@@ -201,6 +202,7 @@ typedef struct {
 	DWORD flags;
 	POINT pt;
 } NMCLISTCONTROL;
+#endif
 #define CLN_FIRST        (0U-100U)
 #define CLN_EXPANDED     (CLN_FIRST-0)      //hItem = hGroup, action = CLE_*
 #define CLN_LISTREBUILT  (CLN_FIRST-1)

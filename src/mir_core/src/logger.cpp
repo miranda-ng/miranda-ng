@@ -45,13 +45,13 @@ struct Logger
 			fclose(m_out);
 	}
 
-	int      m_signature;
-	ptrA     m_name;
-	ptrW     m_fileName, m_descr;
-	FILE    *m_out;
-	__int64  m_lastwrite;
-	unsigned m_options;
-	mir_cs   m_cs;
+	int        m_signature;
+	ptrA       m_name;
+	ptrW       m_fileName, m_descr;
+	FILE      *m_out;
+	__int64_t  m_lastwrite;
+	unsigned   m_options;
+	mir_cs     m_cs;
 };
 
 static int CompareLoggers(const Logger *p1, const Logger *p2)
@@ -60,13 +60,8 @@ static int CompareLoggers(const Logger *p1, const Logger *p2)
 
 static OBJLIST<Logger> arLoggers(1, CompareLoggers);
 
-static __int64 llIdlePeriod;
-
 void InitLogs()
 {
-	LARGE_INTEGER li;
-	QueryPerformanceFrequency(&li);
-	llIdlePeriod = li.QuadPart;
 }
 
 void UninitLogs()
@@ -76,12 +71,11 @@ void UninitLogs()
 
 void CheckLogs()
 {
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
+   time_t tm = time(0);
 
 	for (auto &p : arLoggers) {
 		mir_cslock lck(p->m_cs);
-		if (p->m_out && li.QuadPart - p->m_lastwrite > llIdlePeriod) {
+		if (p->m_out && tm - p->m_lastwrite > 5) {
 			fclose(p->m_out);
 			p->m_out = nullptr;
 		}
@@ -106,13 +100,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 		return &arLoggers[idx];
 	}
 
-	FILE *fp = _wfopen(ptszFile, L"ab");
-	if (fp == nullptr)
-		CreatePathToFileW(ptszFile);
-	else
-		fclose(fp);
-
-	DeleteFile(ptszFile);
+	CreatePathToFileW(ptszFile);
 	arLoggers.insert(result);
 	return result;
 }
@@ -153,9 +141,7 @@ MIR_C_CORE_DLL(int) mir_writeLogA(HANDLE hLogger, const char *format, ...)
 	vfprintf(p->m_out, format, args);
 	va_end(args);
 
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	p->m_lastwrite = li.QuadPart;
+	p->m_lastwrite = time(0);
 	return 0;
 }
 
@@ -175,9 +161,7 @@ MIR_C_CORE_DLL(int) mir_writeLogW(HANDLE hLogger, const wchar_t *format, ...)
 	vfwprintf(p->m_out, format, args);
 	va_end(args);
 
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	p->m_lastwrite = li.QuadPart;
+	p->m_lastwrite = time(0);
 	return 0;
 }
 
@@ -196,9 +180,7 @@ MIR_CORE_DLL(int) mir_writeLogVA(HANDLE hLogger, const char *format, va_list arg
 
 	vfprintf(p->m_out, format, args);
 
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	p->m_lastwrite = li.QuadPart;
+	p->m_lastwrite = time(0);
 	return 0;
 }
 
@@ -215,8 +197,6 @@ MIR_CORE_DLL(int) mir_writeLogVW(HANDLE hLogger, const wchar_t *format, va_list 
 
 	vfwprintf(p->m_out, format, args);
 
-	LARGE_INTEGER li;
-	QueryPerformanceCounter(&li);
-	p->m_lastwrite = li.QuadPart;
+	p->m_lastwrite = time(0);
 	return 0;
 }

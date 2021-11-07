@@ -17,7 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
+aint with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
@@ -50,7 +50,7 @@ interface MIDatabaseChecker
 {
 	STDMETHOD_(BOOL, Start)(DBCHeckCallback *callback) PURE;
 	STDMETHOD_(BOOL, CheckDb)(int phase) PURE;
-	STDMETHOD_(VOID, Destroy)() PURE;
+	STDMETHOD_(void, Destroy)() PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -110,20 +110,20 @@ interface MIR_APP_EXPORT MIDatabase
 	STDMETHOD_(BOOL, IsRelational)(void) PURE;
 	STDMETHOD_(void, SetCacheSafetyMode)(BOOL) PURE;
 
-	STDMETHOD_(LONG, GetContactCount)(void) PURE;
+	STDMETHOD_(int, GetContactCount)(void) PURE;
 	STDMETHOD_(MCONTACT, FindFirstContact)(const char *szProto = nullptr) PURE;
 	STDMETHOD_(MCONTACT, FindNextContact)(MCONTACT contactID, const char *szProto = nullptr) PURE;
 
-	STDMETHOD_(LONG, DeleteContact)(MCONTACT contactID) PURE;
+	STDMETHOD_(int, DeleteContact)(MCONTACT contactID) PURE;
 	STDMETHOD_(MCONTACT, AddContact)(void) PURE;
 	STDMETHOD_(BOOL, IsDbContact)(MCONTACT contactID) PURE;
-	STDMETHOD_(LONG, GetContactSize)(void) PURE;
+	STDMETHOD_(int, GetContactSize)(void) PURE;
 
-	STDMETHOD_(LONG, GetEventCount)(MCONTACT contactID) PURE;
+	STDMETHOD_(int, GetEventCount)(MCONTACT contactID) PURE;
 	STDMETHOD_(MEVENT, AddEvent)(MCONTACT contactID, const DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(BOOL, DeleteEvent)(MEVENT hDbEvent) PURE;
 	STDMETHOD_(BOOL, EditEvent)(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) PURE;
-	STDMETHOD_(LONG, GetBlobSize)(MEVENT hDbEvent) PURE;
+	STDMETHOD_(int, GetBlobSize)(MEVENT hDbEvent) PURE;
 	STDMETHOD_(BOOL, GetEvent)(MEVENT hDbEvent, DBEVENTINFO *dbe) PURE;
 	STDMETHOD_(BOOL, MarkEventRead)(MCONTACT contactID, MEVENT hDbEvent) PURE;
 	STDMETHOD_(MCONTACT, GetEventContact)(MEVENT hDbEvent) PURE;
@@ -181,7 +181,7 @@ class MIR_APP_EXPORT MDatabaseCommon : public MIDatabase, public MNonCopyable
 protected:
 	bool m_bEncrypted = false, m_bUsesPassword = false;
 	int m_codePage;
-	
+
 	mir_cs m_csDbAccess;
 	LIST<char> m_lResidentSettings;
 	MIDatabaseCache* m_cache;
@@ -225,7 +225,7 @@ public:
 
 	STDMETHODIMP_(BOOL) EnumResidentSettings(DBMODULEENUMPROC pFunc, void *pParam) override;
 	STDMETHODIMP_(BOOL) SetSettingResident(BOOL bIsResident, const char *pszSettingName) override;
-	
+
 	STDMETHODIMP_(BOOL) Compact(void) override;
 	STDMETHODIMP_(BOOL) Backup(LPCWSTR) override;
 	STDMETHODIMP_(BOOL) Flush(void) override;
@@ -248,7 +248,7 @@ public:
 	STDMETHOD_(BOOL, StoreCryptoKey)() PURE;
 
 	STDMETHOD_(BOOL, EnableEncryption)(BOOL) PURE;
-	STDMETHOD_(BOOL, ReadEncryption)() PURE;	
+	STDMETHOD_(BOOL, ReadEncryption)() PURE;
 };
 
 #pragma warning(pop)
@@ -262,7 +262,7 @@ public:
 	MDatabaseReadonly();
 
 	STDMETHODIMP_(BOOL) IsRelational(void) override;
-	
+
 	STDMETHODIMP_(void) SetCacheSafetyMode(BOOL) override;
 
 	STDMETHODIMP_(BOOL) EnumModuleNames(DBMODULEENUMPROC, void*) override;
@@ -276,15 +276,15 @@ public:
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(MCONTACT) AddContact(void) override;
-	STDMETHODIMP_(LONG) DeleteContact(MCONTACT) override;
+	STDMETHODIMP_(int) DeleteContact(MCONTACT) override;
 	STDMETHODIMP_(BOOL) IsDbContact(MCONTACT contactID) override;
-	STDMETHODIMP_(LONG) GetContactSize(void) override;
+	STDMETHODIMP_(int) GetContactSize(void) override;
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	STDMETHODIMP_(MEVENT) AddEvent(MCONTACT, const DBEVENTINFO*) override;
 	STDMETHODIMP_(BOOL) DeleteEvent(MEVENT) override;
 	STDMETHODIMP_(BOOL) EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO *dbe) override;
-	STDMETHODIMP_(LONG) GetBlobSize(MEVENT) override;
+	STDMETHODIMP_(int) GetBlobSize(MEVENT) override;
 	STDMETHODIMP_(BOOL) MarkEventRead(MCONTACT, MEVENT) override;
 	STDMETHODIMP_(MCONTACT) GetEventContact(MEVENT) override;
 	STDMETHODIMP_(MEVENT) FindFirstUnreadEvent(MCONTACT) override;
@@ -362,7 +362,7 @@ struct DATABASELINK
 /////////////////////////////////////////////////////////////////////////////////////////
 // global database event handles
 
-EXTERN_C MIR_APP_EXPORT HANDLE 
+EXTERN_C MIR_APP_EXPORT HANDLE
 	g_hevContactDeleted,   // ME_DB_CONTACT_DELETED
 	g_hevContactAdded, 	  // ME_DB_CONTACT_ADDED
 	g_hevSettingChanged,   // ME_DB_CONTACT_SETTINGCHANGED

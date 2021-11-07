@@ -29,7 +29,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __M_GUI_H
 #define __M_GUI_H
 
+#ifdef _MSC_VER
 #include <CommCtrl.h>
+#endif // _WINDOWS
 
 #include <m_system.h>
 #include <m_protoint.h>
@@ -147,10 +149,14 @@ public:
 	{
 		return (Type)CMDBTraits<sizeof(Type)>::Get(m_szModuleName, m_szSetting, m_default);
 	}
-	
+
 	__forceinline Type operator= (Type value)
 	{
+      #ifdef _MSC_VER
 		CMDBTraits<sizeof(Type)>::Set(m_szModuleName, m_szSetting, (CMDBTraits<sizeof(Type)>::DBType)value);
+		#else
+		CMDBTraits<sizeof(Type)>::Set(m_szModuleName, m_szSetting, value);
+		#endif
 		return value;
 	}
 
@@ -162,7 +168,7 @@ template<>
 class CMOption<char*> : public CMOptionBase
 {
 public:
-	
+
 	typedef char Type;
 
 	__forceinline CMOption(PROTO_INTERFACE *proto, const char *szSetting, const Type *defValue = nullptr) :
@@ -335,8 +341,8 @@ public:
 	int  DoModal();
 	void EndModal(INT_PTR nResult);
 
-	CCtrlBase* FindControl(int idCtrl);
-	CCtrlBase* FindControl(HWND hwnd);
+	class CCtrlBase* FindControl(int idCtrl);
+	class CCtrlBase* FindControl(HWND hwnd);
 
 	void SetCaption(const wchar_t *ptszCaption);
 	void SetDraw(bool bEnable);
@@ -376,7 +382,7 @@ protected:
 	virtual bool OnClose();
 	virtual void OnDestroy();
 
-	virtual void OnTimer(CTimer*);
+	virtual void OnTimer(class CTimer*);
 
 	// miranda-related stuff
 	virtual int Resizer(UTILRESIZECONTROL *urc);
@@ -397,8 +403,8 @@ protected:
 	void RemoveTimer(UINT_PTR idEvent);
 
 	// options support
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
-	void CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
+	void CreateLink(class CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(class CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>
 	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
@@ -494,7 +500,7 @@ public:
 	void NotifyChange();
 	void SetDraw(bool bEnable);
 
-	LRESULT  SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
+	INT_PTR  SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
 
 	void     SetText(const wchar_t *text);
 	void     SetTextA(const char *text);
@@ -511,15 +517,15 @@ public:
 	int      GetInt() const;
 
 	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
-	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
-			   
-	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
-	virtual  BOOL OnDrawItem(DRAWITEMSTRUCT*) { return FALSE; }
-	virtual  BOOL OnDeleteItem(DELETEITEMSTRUCT*) { return FALSE; }
-			   
+	virtual  BOOL OnNotify(int /*idCtrl*/, struct NMHDR* /*pnmh*/) { return FALSE; }
+
+	virtual  BOOL OnMeasureItem(struct MEASUREITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDrawItem(struct DRAWITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDeleteItem(struct DELETEITEMSTRUCT*) { return FALSE; }
+
 	virtual  void OnInit();
 	virtual  void OnDestroy();
-			   
+
 	virtual  bool OnApply();
 	virtual  void OnReset();
 
@@ -535,13 +541,13 @@ public:
 
 protected:
 	virtual void GetCaretPos(CContextMenuPos&) const;
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+	virtual INT_PTR CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void Subclass();
 	void Unsubclass();
 
 private:
-	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -609,7 +615,7 @@ public:
 	__forceinline int GetPos() const { return m_iPosition; }
 
 protected:
-	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 	void OnInit() override;
 
 	int m_iPosition;
@@ -705,11 +711,11 @@ public:
 	void       SetHideOfflineRoot(bool state);
 	void       SetOfflineModes(DWORD modes);
 	void       SetUseGroups(bool state);
-	
+
 	struct TEventInfo
 	{
 		CCtrlClc *ctrl;
-		NMCLISTCONTROL *info;
+		struct NMCLISTCONTROL *info;
 	};
 
 	CCallback<TEventInfo>	OnExpanded;
@@ -806,8 +812,8 @@ class MIR_CORE_EXPORT CCtrlDate : public CCtrlData
 public:
 	CCtrlDate(CDlgBase *dlg, int ctrlId);
 
-	void GetTime(SYSTEMTIME*);
-	void SetTime(SYSTEMTIME*);
+	void GetTime(struct SYSTEMTIME*);
+	void SetTime(struct SYSTEMTIME*);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -955,7 +961,7 @@ public:
 	LPARAM   GetCurData() const;
 
 	// selects line with userdata passed. returns index of this line or -1
-	int      SelectData(LPARAM data); 
+	int      SelectData(LPARAM data);
 
 	// Control interface
 	int      AddString(const wchar_t *text, LPARAM data = 0);
@@ -1002,40 +1008,40 @@ public:
 	DWORD      ApproximateViewRect(int cx, int cy, int iCount);
 	void       Arrange(UINT code);
 	void       CancelEditLabel();
-	HIMAGELIST CreateDragImage(int iItem, LPPOINT lpptUpLeft);
+	HIMAGELIST CreateDragImage(int iItem, POINT *lpptUpLeft);
 	void       DeleteAllItems();
 	void       DeleteColumn(int iCol);
 	void       DeleteItem(int iItem);
 	HWND       EditLabel(int iItem);
 	int        EnableGroupView(BOOL fEnable);
 	BOOL       EnsureVisible(int i, BOOL fPartialOK);
-	int        FindItem(int iStart, const LVFINDINFO *plvfi);
+	int        FindItem(int iStart, const struct LVFINDINFO *plvfi);
 	COLORREF   GetBkColor() const;
-	void       GetBkImage(LPLVBKIMAGE plvbki) const;
+	void       GetBkImage(struct LVBKIMAGE *plvbki) const;
 	UINT       GetCallbackMask() const;
 	BOOL       GetCheckState(UINT iIndex) const;
-	void       GetColumn(int iCol, LPLVCOLUMN pcol) const;
+	void       GetColumn(int iCol, struct LVCOLUMN *pcol) const;
 	void       GetColumnOrderArray(int iCount, int *lpiArray) const;
 	int        GetColumnWidth(int iCol) const;
 	int        GetCountPerPage() const;
 	HWND       GetEditControl() const;
 	DWORD      GetExtendedListViewStyle() const;
-	INT        GetFocusedGroup() const;
+	int        GetFocusedGroup() const;
 	int        GetGroupCount() const;
-	void       GetGroupInfo(int iGroupId, PLVGROUP pgrp) const;
-	void       GetGroupInfoByIndex(int iIndex, PLVGROUP pgrp) const;
-	void       GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics) const;
+	void       GetGroupInfo(int iGroupId, struct LVGROUP *pgrp) const;
+	void       GetGroupInfoByIndex(int iIndex, struct LVGROUP *pgrp) const;
+	void       GetGroupMetrics(struct LVGROUPMETRICS *pGroupMetrics) const;
 	UINT       GetGroupState(UINT dwGroupId, UINT dwMask) const;
 	HWND       GetHeader() const;
 	HCURSOR    GetHotCursor() const;
-	INT        GetHotItem() const;
+	int        GetHotItem() const;
 	DWORD      GetHoverTime() const;
 	HIMAGELIST GetImageList(int iImageList) const;
-	BOOL       GetInsertMark(LVINSERTMARK *plvim) const;
+	BOOL       GetInsertMark(struct LVINSERTMARK *plvim) const;
 	COLORREF   GetInsertMarkColor() const;
-	int        GetInsertMarkRect(LPRECT prc) const;
+	int        GetInsertMarkRect(RECT *prc) const;
 	BOOL       GetISearchString(LPSTR lpsz) const;
-	bool       GetItem(LPLVITEM pitem) const;
+	bool       GetItem(struct LVITEM *pitem) const;
 	int        GetItemCount() const;
 	void       GetItemPosition(int i, POINT *ppt) const;
 	void       GetItemRect(int i, RECT *prc, int code) const;
@@ -1043,32 +1049,32 @@ public:
 	UINT       GetItemState(int i, UINT mask) const;
 	void       GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax) const;
 	int        GetNextItem(int iStart, UINT flags) const;
-	BOOL       GetNumberOfWorkAreas(LPUINT lpuWorkAreas) const;
-	BOOL       GetOrigin(LPPOINT lpptOrg) const;
+	BOOL       GetNumberOfWorkAreas(UINT *lpuWorkAreas) const;
+	BOOL       GetOrigin(POINT *lpptOrg) const;
 	COLORREF   GetOutlineColor() const;
 	UINT       GetSelectedColumn() const;
 	UINT       GetSelectedCount() const;
-	INT        GetSelectionMark() const;
+	int        GetSelectionMark() const;
 	int        GetStringWidth(LPCSTR psz) const;
-	BOOL       GetSubItemRect(int iItem, int iSubItem, int code, LPRECT lpRect) const;
+	BOOL       GetSubItemRect(int iItem, int iSubItem, int code, RECT *lpRect) const;
 	COLORREF   GetTextBkColor() const;
 	COLORREF   GetTextColor() const;
-	void       GetTileInfo(PLVTILEINFO plvtinfo) const;
-	void       GetTileViewInfo(PLVTILEVIEWINFO plvtvinfo) const;
+	void       GetTileInfo(struct LVTILEINFO *plvtinfo) const;
+	void       GetTileViewInfo(struct LVTILEVIEWINFO *plvtvinfo) const;
 	HWND       GetToolTips() const;
 	int        GetTopIndex() const;
 	BOOL       GetUnicodeFormat() const;
 	DWORD      GetView() const;
 	BOOL       GetViewRect(RECT *prc) const;
-	void       GetWorkAreas(INT nWorkAreas, LPRECT lprc) const;
+	void       GetWorkAreas(int nWorkAreas, RECT *lprc) const;
 	BOOL       HasGroup(int dwGroupId);
-	int        HitTest(LPLVHITTESTINFO pinfo) const;
-	int        HitTestEx(LPLVHITTESTINFO pinfo);
-	int        InsertColumn(int iCol, const LPLVCOLUMN pcol);
-	int        InsertGroup(int index, PLVGROUP pgrp);
-	void       InsertGroupSorted(PLVINSERTGROUPSORTED structInsert);
-	int        InsertItem(const LPLVITEM pitem);
-	BOOL       InsertMarkHitTest(LPPOINT point, LVINSERTMARK *plvim);
+	int        HitTest(struct LVHITTESTINFO *pinfo) const;
+	int        HitTestEx(struct LVHITTESTINFO *pinfo);
+	int        InsertColumn(int iCol, const struct LVCOLUMN *pcol);
+	int        InsertGroup(int index, struct LVGROUP *pgrp);
+	void       InsertGroupSorted(struct LVINSERTGROUPSORTED *structInsert);
+	int        InsertItem(const struct LVITEM *pitem);
+	BOOL       InsertMarkHitTest(POINT *point, LVINSERTMARK *plvim);
 	BOOL       IsGroupViewEnabled();
 	UINT       IsItemVisible(UINT index);
 	UINT       MapIDToIndex(UINT id);
@@ -1078,26 +1084,26 @@ public:
 	int        RemoveGroup(int iGroupId);
 	BOOL       Scroll(int dx, int dy);
 	BOOL       SetBkColor(COLORREF clrBk);
-	BOOL       SetBkImage(LPLVBKIMAGE plvbki);
+	BOOL       SetBkImage(struct LVBKIMAGE *plvbki);
 	BOOL       SetCallbackMask(UINT mask);
 	void       SetCheckState(UINT iIndex, BOOL fCheck);
-	BOOL       SetColumn(int iCol, LPLVCOLUMN pcol);
+	BOOL       SetColumn(int iCol, struct LVCOLUMN *pcol);
 	BOOL       SetColumnOrderArray(int iCount, int *lpiArray);
 	BOOL       SetColumnWidth(int iCol, int cx);
 	void       SetExtendedListViewStyle(DWORD dwExStyle);
 	void       SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle);
-	int        SetGroupInfo(int iGroupId, PLVGROUP pgrp);
-	void       SetGroupMetrics(PLVGROUPMETRICS pGroupMetrics);
+	int        SetGroupInfo(int iGroupId, struct LVGROUP *pgrp);
+	void       SetGroupMetrics(struct LVGROUPMETRICS *pGroupMetrics);
 	void       SetGroupState(UINT dwGroupId, UINT dwMask, UINT dwState);
 	HCURSOR    SetHotCursor(HCURSOR hCursor);
-	INT        SetHotItem(INT iIndex);
+	int        SetHotItem(int iIndex);
 	void       SetHoverTime(DWORD dwHoverTime);
 	DWORD      SetIconSpacing(int cx, int cy);
 	HIMAGELIST SetImageList(HIMAGELIST himl, int iImageList);
-	BOOL       SetInfoTip(PLVSETINFOTIP plvSetInfoTip);
-	BOOL       SetInsertMark(LVINSERTMARK *plvim);
+	BOOL       SetInfoTip(struct LVSETINFOTIP *plvSetInfoTip);
+	BOOL       SetInsertMark(struct LVINSERTMARK *plvim);
 	COLORREF   SetInsertMarkColor(COLORREF color);
-	BOOL       SetItem(const LPLVITEM pitem);
+	BOOL       SetItem(const struct LVITEM *pitem);
 	void       SetItemCount(int cItems);
 	void       SetItemCountEx(int cItems, DWORD dwFlags);
 	BOOL       SetItemPosition(int i, int x, int y);
@@ -1106,21 +1112,24 @@ public:
 	void       SetItemText(int i, int iSubItem, const wchar_t *pszText);
 	COLORREF   SetOutlineColor(COLORREF color);
 	void       SetSelectedColumn(int iCol);
-	INT        SetSelectionMark(INT iIndex);
+	int        SetSelectionMark(int iIndex);
 	BOOL       SetTextBkColor(COLORREF clrText);
 	BOOL       SetTextColor(COLORREF clrText);
-	BOOL       SetTileInfo(PLVTILEINFO plvtinfo);
-	BOOL       SetTileViewInfo(PLVTILEVIEWINFO plvtvinfo);
+	BOOL       SetTileInfo(struct LVTILEINFO *plvtinfo);
+	BOOL       SetTileViewInfo(struct LVTILEVIEWINFO *plvtvinfo);
 	HWND       SetToolTips(HWND ToolTip);
 	BOOL       SetUnicodeFormat(BOOL fUnicode);
 	int        SetView(DWORD iView);
-	void       SetWorkAreas(INT nWorkAreas, LPRECT lprc);
+	void       SetWorkAreas(int nWorkAreas, RECT *lprc);
+	int        SubItemHitTest(struct LVHITTESTINFO *pInfo) const;
+	int        SubItemHitTestEx(struct LVHITTESTINFO *plvhti);
+	BOOL       Update(int iItem);
+
+	#ifdef _MSC_VER
 	int        SortGroups(PFNLVGROUPCOMPARE pfnGroupCompare, LPVOID plv);
 	BOOL       SortItems(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
 	BOOL       SortItemsEx(PFNLVCOMPARE pfnCompare, LPARAM lParamSort);
-	INT        SubItemHitTest(LPLVHITTESTINFO pInfo) const;
-	INT        SubItemHitTestEx(LPLVHITTESTINFO plvhti);
-	BOOL       Update(int iItem);
+	#endif // _MSC_VER
 
 	// Additional APIs
 	HIMAGELIST CreateImageList(int iImageList);
@@ -1134,15 +1143,15 @@ public:
 	struct TEventInfo {
 		CCtrlListView *treeviewctrl;
 		union {
-			NMHDR          *nmhdr;
-			NMLISTVIEW     *nmlv;
-			NMLVDISPINFO   *nmlvdi;
-			NMLVSCROLL     *nmlvscr;
-			NMLVGETINFOTIP *nmlvit;
-			NMLVFINDITEM   *nmlvfi;
-			NMITEMACTIVATE *nmlvia;
-			NMLVKEYDOWN    *nmlvkey;
-			NMLVCUSTOMDRAW *nmcd;
+			struct NMHDR          *nmhdr;
+			struct NMLISTVIEW     *nmlv;
+			struct NMLVDISPINFO   *nmlvdi;
+			struct NMLVSCROLL     *nmlvscr;
+			struct NMLVGETINFOTIP *nmlvit;
+			struct NMLVFINDITEM   *nmlvfi;
+			struct NMITEMACTIVATE *nmlvia;
+			struct NMLVKEYDOWN    *nmlvkey;
+			struct NMLVCUSTOMDRAW *nmcd;
 		};
 	};
 
@@ -1214,7 +1223,7 @@ public:
 	HIMAGELIST GetImageList(int iImage) const;
 	int        GetIndent() const;
 	COLORREF   GetInsertMarkColor() const;
-	bool       GetItem(TVITEMEX *tvi) const;
+	bool       GetItem(struct TVITEMEX *tvi) const;
 	int        GetItemHeight() const;
 	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect) const;
 	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask) const;
@@ -1233,8 +1242,8 @@ public:
 	HWND       GetToolTips() const;
 	BOOL       GetUnicodeFormat() const;
 	unsigned   GetVisibleCount() const;
-	HTREEITEM  HitTest(TVHITTESTINFO *hti) const;
-	HTREEITEM  InsertItem(TVINSERTSTRUCT *tvis);
+	HTREEITEM  HitTest(struct TVHITTESTINFO *hti) const;
+	HTREEITEM  InsertItem(struct TVINSERTSTRUCT *tvis);
 	void       Select(HTREEITEM hItem, DWORD flag);
 	void       SelectDropTarget(HTREEITEM hItem);
 	void       SelectItem(HTREEITEM hItem);
@@ -1254,7 +1263,7 @@ public:
 	HWND       SetToolTips(HWND hwndToolTips);
 	BOOL       SetUnicodeFormat(BOOL fUnicode);
 	void       SortChildren(HTREEITEM hItem, BOOL fRecurse);
-	void       SortChildrenCB(TVSORTCB *cb, BOOL fRecurse);
+	void       SortChildrenCB(struct TVSORTCB *cb, BOOL fRecurse);
 
 	// Additional stuff
 	void       TranslateItem(HTREEITEM hItem);
@@ -1266,7 +1275,7 @@ public:
 
 	bool       IsSelected(HTREEITEM hItem);
 	int        GetNumSelected();
-	void       GetSelected(LIST<_TREEITEM> &selected);
+	void       GetSelected(LIST<struct _TREEITEM> &selected);
 
 	void       Select(HTREEITEM hItem);
 	void       Select(LIST<_TREEITEM> &selected);
@@ -1283,12 +1292,12 @@ public:
 	struct TEventInfo {
 		CCtrlTreeView *treeviewctrl;
 		union {
-			NMHDR *nmhdr;
-			NMTREEVIEW *nmtv;
-			NMTVKEYDOWN *nmtvkey;
-			NMTVDISPINFO *nmtvdi;
-			NMTVGETINFOTIP *nmtvit;
-			NMTVCUSTOMDRAW *nmcd;
+			struct NMHDR *nmhdr;
+			struct NMTREEVIEW *nmtv;
+			struct NMTVKEYDOWN *nmtvkey;
+			struct NMTVDISPINFO *nmtvdi;
+			struct NMTVGETINFOTIP *nmtvit;
+			struct NMTVCUSTOMDRAW *nmcd;
 			HTREEITEM hItem; // for OnItemChanged
 		};
 	};
@@ -1315,9 +1324,9 @@ protected:
 	void OnInit() override;
 	void OnDestroy() override;
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
-	
+
 	void GetCaretPos(CContextMenuPos&) const override;
-	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
 	union {
 		uint32_t m_dwFlags;
@@ -1415,14 +1424,14 @@ public:
 
 protected:
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
-	
+
 	void OnInit() override;
 	void OnDestroy() override;
 
 	bool OnApply() override;
 	void OnReset() override;
 
-	LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
+	INT_PTR CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

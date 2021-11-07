@@ -82,7 +82,7 @@ EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetVersion(void);
 // gets the version number of Miranda encoded as four WORDs   v0.92.2+
 // returns the version number, encoded as one version per word, therefore
 // version 1.2.3.3210 is 0x0001, 0x0002, 0x0003, 0x0C8a
-typedef WORD MFileVersion[4];
+typedef uint16_t MFileVersion[4];
 EXTERN_C MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion*);
 
 // gets the version of Miranda encoded as text
@@ -123,7 +123,7 @@ EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
 
 // Sets up a function pointer to be called after main loop iterations, suitable for idle processing
-EXTERN_C MIR_APP_DLL(void) Miranda_SetIdleCallback(void(__cdecl *pfnCallback)(void));
+EXTERN_C MIR_APP_DLL(void) Miranda_SetIdleCallback(void(MIR_CDECL *pfnCallback)(void));
 
 // returns the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
 EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetIdle(void);
@@ -175,7 +175,9 @@ typedef mir_ptr<wchar_t> ptrW;
 
 class MIR_CORE_EXPORT mir_cs : public MNonCopyable
 {
+    #ifdef _MSC_VER
 	CRITICAL_SECTION m_cs;
+	#endif
 
 public:
 	mir_cs();
@@ -347,7 +349,7 @@ template<class T> struct LIST
 	__inline int  remove(T *p) { return List_RemovePtr((SortedList *)this, p); }
 
 	__inline int  indexOf(T **p) const { return int(p - items); }
-	
+
 	__inline T* removeItem(T **p)
 	{
 		T *savePtr = *p;
@@ -506,7 +508,7 @@ public:
 		m_pHandle(pHandle)
 	{
 	}
-	
+
 	__forceinline ~MThreadLock()
 	{
 		m_pHandle = nullptr;

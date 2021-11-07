@@ -217,7 +217,7 @@ MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_
 			continue;
 		}
 
-		if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0xffff) 
+		if ((res = decodeUtf8Char(ch, &src, srcend)) <= 0xffff)
 			*dst++ = res;
 		else if (res <= 0x10ffff) { /* we need surrogates */
 			if (dst == dstend - 1)
@@ -231,13 +231,14 @@ MIR_CORE_DLL(int) Utf8toUcs2(const char *src, size_t srclen, wchar_t *dst, size_
 
 	if (src < srcend)
 		return -1;  /* overflow */
-	
+
 	return (int)(dstlen - (dstend - dst));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // mir_utf8decode - converts UTF8-encoded string to the UCS2/MBCS format
 
+#ifdef _MSC_VER
 MIR_CORE_DLL(char*) mir_utf8decodecp(char *str, int codepage, wchar_t **ucs2)
 {
 	bool needs_free = false;
@@ -295,6 +296,7 @@ MIR_CORE_DLL(char*) mir_utf8decode(char *str, wchar_t **ucs2)
 {
 	return mir_utf8decodecp(str, Langpack_GetDefaultCodePage(), ucs2);
 }
+#endif
 
 MIR_CORE_DLL(wchar_t*) mir_utf8decodeW(const char *str)
 {
@@ -324,6 +326,7 @@ MIR_CORE_DLL(wchar_t*) mir_utf8decodeW(const char *str)
 /////////////////////////////////////////////////////////////////////////////////////////
 // mir_utf8encode - converts MBCS string to the UTF8-encoded format
 
+#ifdef _MSC_VER
 MIR_CORE_DLL(char*) mir_utf8encodecp(const char* src, int codepage)
 {
 	int len;
@@ -367,6 +370,7 @@ MIR_CORE_DLL(char*) mir_utf8encode(const char* src)
 {
 	return mir_utf8encodecp(src, Langpack_GetDefaultCodePage());
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // mir_utf8encode - converts UCS2 string to the UTF8-encoded format

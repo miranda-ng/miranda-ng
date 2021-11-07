@@ -89,5 +89,5 @@ extern DWORD mir_tls;
 /////////////////////////////////////////////////////////////////////////////////////////
 // utils.cpp
 
-typedef BOOL(APIENTRY *PGENRANDOM)(PVOID, ULONG);
+typedef BOOL(MIR_SYSCALL *PGENRANDOM)(void*, DWORD);
 extern PGENRANDOM pfnRtlGenRandom;

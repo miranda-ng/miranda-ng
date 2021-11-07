@@ -37,28 +37,28 @@ Transform the message X which consists of 16 32-bit-words. See FIPS
 } while (0)
 
 /* (4.2) same as SHA-1's F1.  */
-static inline UINT32
-Cho(UINT32 x, UINT32 y, UINT32 z)
+static inline uint32_t
+Cho(uint32_t x, uint32_t y, uint32_t z)
 {
 	return (z ^ (x & (y ^ z)));
 }
 
 /* (4.3) same as SHA-1's F3 */
-static inline UINT32
-Maj(UINT32 x, UINT32 y, UINT32 z)
+static inline uint32_t
+Maj(uint32_t x, uint32_t y, uint32_t z)
 {
 	return ((x & y) | (z & (x | y)));
 }
 
 /* (4.4) */
-static inline UINT32 Sum0(UINT32 x)
+static inline uint32_t Sum0(uint32_t x)
 {
 	return (ror(x, 2) ^ ror(x, 13) ^ ror(x, 22));
 }
 
 /* (4.5) */
-static inline UINT32
-Sum1(UINT32 x)
+static inline uint32_t
+Sum1(uint32_t x)
 {
 	return (ror(x, 6) ^ ror(x, 11) ^ ror(x, 25));
 }
@@ -66,7 +66,7 @@ Sum1(UINT32 x)
 
 static void transform(SHA256_CONTEXT *hd, const unsigned char *data)
 {
-	static const UINT32 K[64] = {
+	static const uint32_t K[64] = {
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5,
 		0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
 		0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3,
@@ -85,9 +85,9 @@ static void transform(SHA256_CONTEXT *hd, const unsigned char *data)
 		0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
 	};
 
-	UINT32 a, b, c, d, e, f, g, h, t1, t2;
-	UINT32 x[16];
-	UINT32 w[64];
+	uint32_t a, b, c, d, e, f, g, h, t1, t2;
+	uint32_t x[16];
+	uint32_t w[64];
 	int i;
 
 	a = hd->h0;
@@ -221,7 +221,7 @@ bytes with the message the digest.  */
 
 MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_HASH_SIZE])
 {
-	UINT32 t, msb, lsb;
+	uint32_t t, msb, lsb;
 
 	mir_sha256_write(hd, nullptr, 0); /* flush */;
 
@@ -264,7 +264,7 @@ MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_
 
 	BYTE *p = hashout;
 #ifdef WORDS_BIGENDIAN
-#define X(a) do { *(UINT32*)p = hd->h##a ; p += 4; } while(0)
+#define X(a) do { *(uint32_t*)p = hd->h##a ; p += 4; } while(0)
 #else /* little endian */
 #define X(a) do { *p++ = hd->h##a >> 24; *p++ = hd->h##a >> 16;	 \
 	*p++ = hd->h##a >> 8; *p++ = hd->h##a; } while (0)

@@ -41,22 +41,26 @@ static int CheckBlock(void* blk)
 
 		if (*b != BLOCK_ALLOCED || *e != BLOCK_ALLOCED)
 		{
-			if (*b == BLOCK_FREED && *e == BLOCK_FREED)
-				OutputDebugStringA("memory block is already deleted\n");
-			else
-				OutputDebugStringA("memory block is corrupted\n");
-			#if defined(_DEBUG)
-				DebugBreak();
+         #ifdef _MSC_VER
+            if (*b == BLOCK_FREED && *e == BLOCK_FREED)
+               OutputDebugStringA("memory block is already deleted\n");
+            else
+               OutputDebugStringA("memory block is corrupted\n");
+            #if defined(_DEBUG)
+               DebugBreak();
+            #endif
 			#endif
 		}
  		else result = TRUE;
 	}
 	__except(EXCEPTION_EXECUTE_HANDLER)
 	{
-		OutputDebugStringA("access violation during checking memory block\n");
-		#if defined(_DEBUG)
-			DebugBreak();
-		#endif
+      #ifdef _MSC_VER
+         OutputDebugStringA("access violation during checking memory block\n");
+         #if defined(_DEBUG)
+            DebugBreak();
+         #endif
+      #endif
 	}
 
 	return result;
@@ -71,10 +75,12 @@ MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 
 	char *p = (char*)malloc(size + sizeof(DWORD)* 3);
 	if (p == nullptr) {
-		OutputDebugStringA("memory overflow\n");
-		#if defined(_DEBUG)
-			DebugBreak();
-		#endif
+      #ifdef _MSC_VER
+         OutputDebugStringA("memory overflow\n");
+         #if defined(_DEBUG)
+            DebugBreak();
+         #endif
+      #endif
 		return nullptr;
 	}
 
@@ -109,10 +115,12 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 
 	p = (char*)realloc(p, size + sizeof(DWORD)*3);
 	if (p == nullptr) {
-		OutputDebugStringA("memory overflow\n");
-		#if defined(_DEBUG)
-			DebugBreak();
-		#endif
+      #ifdef _MSC_VER
+         OutputDebugStringA("memory overflow\n");
+         #if defined(_DEBUG)
+            DebugBreak();
+         #endif
+      #endif
 		return nullptr;
 	}
 
@@ -238,6 +246,7 @@ MIR_CORE_DLL(int) mir_vsnwprintf(wchar_t *buffer, size_t count, const wchar_t* f
 
 /******************************************************************************/
 
+#ifdef _MSC_VER
 MIR_CORE_DLL(wchar_t*) mir_a2u_cp(const char* src, int codepage)
 {
 	if (src == nullptr)
@@ -283,3 +292,4 @@ MIR_CORE_DLL(char*) mir_u2a(const wchar_t* src)
 {
 	return mir_u2a_cp(src, Langpack_GetDefaultCodePage());
 }
+#endif

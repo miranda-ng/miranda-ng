@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_XML_H__
 #define M_XML_H__
 
-#include <tchar.h>
 #include <m_core.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -80,29 +79,29 @@ public:
 	{
 	}
 
-	TiXmlIterator& operator=(const TiXmlElement *pNode) 
-	{ 
-		m_pCurr = pNode; 
-		return *this; 
-	} 
+	TiXmlIterator& operator=(const TiXmlElement *pNode)
+	{
+		m_pCurr = pNode;
+		return *this;
+	}
 
-	// Prefix ++ overload 
-	TiXmlIterator& operator++() 
-	{ 
-		if (m_pCurr) 
+	// Prefix ++ overload
+	TiXmlIterator& operator++()
+	{
+		if (m_pCurr)
 			m_pCurr = m_pCurr->NextSiblingElement();
-		return *this; 
-	} 
+		return *this;
+	}
 
 	const TiXmlElement* operator*()
 	{
 		return m_pCurr;
 	}
 
-	bool operator!=(const TiXmlIterator &iterator) 
-	{ 
-		return m_pCurr != iterator.m_pCurr; 
-	} 
+	bool operator!=(const TiXmlIterator &iterator)
+	{
+		return m_pCurr != iterator.m_pCurr;
+	}
 };
 
 class TiXmlEnum
@@ -144,29 +143,29 @@ public:
 	{
 	}
 
-	TiXmlFilterIterator& operator=(const TiXmlElement *pNode) 
-	{ 
-		m_pCurr = pNode; 
-		return *this; 
-	} 
+	TiXmlFilterIterator& operator=(const TiXmlElement *pNode)
+	{
+		m_pCurr = pNode;
+		return *this;
+	}
 
-	// Prefix ++ overload 
-	TiXmlFilterIterator& operator++() 
-	{ 
-		if (m_pCurr) 
+	// Prefix ++ overload
+	TiXmlFilterIterator& operator++()
+	{
+		if (m_pCurr)
 			m_pCurr = m_pCurr->NextSiblingElement(m_pszFilter);
-		return *this; 
-	} 
+		return *this;
+	}
 
 	const TiXmlElement* operator*()
 	{
 		return m_pCurr;
 	}
 
-	bool operator!=(const TiXmlFilterIterator &iterator) 
-	{ 
-		return m_pCurr != iterator.m_pCurr; 
-	} 
+	bool operator!=(const TiXmlFilterIterator &iterator)
+	{
+		return m_pCurr != iterator.m_pCurr;
+	}
 };
 
 class TiXmlFilter

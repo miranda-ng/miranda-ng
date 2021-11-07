@@ -63,8 +63,13 @@ MIR_CORE_DLL(MCONTACT) db_add_contact(void)
 MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact)
 {
 	ptrW wszPhoto(db_get_wsa(hContact, "ContactPhoto", "File"));
-	if (wszPhoto != NULL)
-		DeleteFile(wszPhoto);
+	if (wszPhoto != NULL) {
+      #ifdef _MSC_VER
+         DeleteFileW(wszPhoto);
+      #else
+         remove(T2Utf(wszPhoto));
+      #endif
+   }
 
 	Netlib_Logf(nullptr, "Contact deleted: %d", hContact);
 	return (g_pCurrDb) ? g_pCurrDb->DeleteContact(hContact) : 0;
@@ -205,7 +210,7 @@ MIR_CORE_DLL(CMStringA) db_get_sm(MCONTACT hContact, LPCSTR szModule, LPCSTR szS
 	if (g_pCurrDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
 		return (szValue == nullptr) ? CMStringA() : CMStringA(szValue);
 
-	return CMStringA(ptrA(dbv.pszVal));
+	return CMStringA(ptrA(dbv.pszVal).get());
 }
 
 MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR szSetting, const wchar_t *szValue)
@@ -217,7 +222,7 @@ MIR_CORE_DLL(CMStringW) db_get_wsm(MCONTACT hContact, LPCSTR szModule, LPCSTR sz
 	if (g_pCurrDb->GetContactSettingStr(hContact, szModule, szSetting, &dbv))
 		return (szValue == nullptr) ? CMStringW() : CMStringW(szValue);
 
-	return CMStringW(ptrW(dbv.pwszVal));
+	return CMStringW(ptrW(dbv.pwszVal).get());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

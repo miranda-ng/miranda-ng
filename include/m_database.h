@@ -1,21 +1,21 @@
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda NG: the free IM client for Microsoft* Windows*
-// 
+//
 // Copyright (C) 2012-21 Miranda NG team (https://miranda-ng.org)
 // Copyright (c) 2000-08 Miranda ICQ/IM project,
 // all portions of this codebase are copyrighted to the people
 // listed in contributors.txt.
-// 
+//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
 // of the License, or (at your option) any later version.
-// 
+//
 // This program is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -168,18 +168,18 @@ struct DBVARIANT
 #define DBEF_RTL       0x0008  // event contains the right-to-left aligned text
 #define DBEF_UTF       0x0010  // event contains a text in utf-8
 #define DBEF_ENCRYPTED 0x0020  // event is encrypted (never reported outside a driver)
-#define DBEF_HAS_ID    0x0040  // event has unique server id 
+#define DBEF_HAS_ID    0x0040  // event has unique server id
 
 struct DBEVENTINFO
 {
 	const char *szModule;       // pointer to name of the module that 'owns' this event
-	DWORD timestamp;            // seconds since 00:00, 01/01/1970. Gives us times until 2106 
+	DWORD timestamp;            // seconds since 00:00, 01/01/1970. Gives us times until 2106
 									    // unless you use the standard C library which is
 									    // signed and can only do until 2038. In GMT.
 	DWORD flags;                // combination of DBEF_* flags
 	WORD  eventType;            // module-defined event type field
 	int   cbBlob;               // size of pBlob in bytes
-	PBYTE pBlob;                // pointer to buffer containing module-defined event data
+	uint8_t *pBlob;             // pointer to buffer containing module-defined event data
 	const char *szId;           // server id
 
 	bool __forceinline markedRead() const {
@@ -235,7 +235,7 @@ public:
 			hContact(_h),
 			m_szModule(_m)
 		{}
-		
+
 		__inline iterator operator++() { hContact = ::db_find_next(hContact, m_szModule); return *this; }
 		__inline bool operator!=(const iterator &p) { return hContact != p.hContact; }
 		__inline operator const MCONTACT*() const { return &hContact; }
@@ -300,7 +300,7 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
 // necessarily mean that all events after the first unread are unread too. They
 // should be checked individually with db_event_next() and db_event_get()
 // This service is designed for startup, reloading all the events that remained
-// unread from last time 
+// unread from last time
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 
@@ -314,7 +314,7 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 // If dbe.cbBlob is too small, dbe.pBlob is filled up to the size of dbe.cbBlob
 // and then dbe.cbBlob is set to the required size of data to go in dbe.pBlob
 // On return, dbe.szModule is a pointer to the database module's own internal list
-// of modules. Look but don't touch. 
+// of modules. Look but don't touch.
 
 EXTERN_C MIR_CORE_DLL(int) db_event_get(MEVENT hDbEvent, DBEVENTINFO *dbei);
 
@@ -401,7 +401,7 @@ EXTERN_C MIR_CORE_DLL(INT_PTR)  db_get_s(MCONTACT hContact, const char *szModule
 /////////////////////////////////////////////////////////////////////////////////////////
 // Profile services
 
-// Gets the name of the profile currently being used by the database module. 
+// Gets the name of the profile currently being used by the database module.
 // This is the same as the filename of the database
 // Returns 0 on success or nonzero otherwise
 
@@ -519,7 +519,7 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
 // dbei should be a valid database event read via db_event_get()
 //
 // Function returns HICON (use DestroyIcon to release resources if not LR_SHARED)
-// 
+//
 // A plugin can register the standard event icon in IcoLib named
 // 'eventicon_'+Module+EvtID, like eventicon_ICQ2001. Otherwise, to declare an icon
 // with the non-standard name, you can declare the special service, Module/GetEventIcon<id>,
@@ -538,7 +538,7 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database events
 
-///////////////////////////////////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////////////////
 // DB/Event/Added event
 // Called when a new event has been added to the event chain for a contact
 //   wParam = (MCONTACT)hContact
@@ -550,7 +550,7 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 
 #define ME_DB_EVENT_ADDED  "DB/Event/Added"
 
-///////////////////////////////////////////////////////////////////////////////////////// 
+/////////////////////////////////////////////////////////////////////////////////////////
 // DB/Event/Edited event
 // Called when the existing event was changed
 //   wParam = (MCONTACT)hContact
@@ -571,7 +571,7 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 // an event being added, return 1, to allow the event to pass through return 0.
 //   wParam = (MCONTACT)hContact
 //   lParam = (LPARAM)&DBEVENTINFO
-// 
+//
 // Any changed made to the said DBEVENTINFO are also passed along to the database,
 // therefore it is possible to shape the data, however DO NOT DO THIS.
 
@@ -699,11 +699,11 @@ namespace DB
 		ptrA m_szNick, m_szFirstName, m_szLastName, m_szEmail, m_szReason;
 		DWORD m_size;
 
-		PBYTE makeBlob();
+		uint8_t* makeBlob();
 
 	public:
 		explicit AUTH_BLOB(MCONTACT hContact, const char *nick, const char *fname, const char *lname, const char *id, const char *reason);
-		explicit AUTH_BLOB(PBYTE blob);
+		explicit AUTH_BLOB(uint8_t *blob);
 		~AUTH_BLOB();
 
 		__forceinline operator char*() { return (char*)makeBlob(); }
@@ -717,7 +717,7 @@ namespace DB
 		__forceinline const char* get_lastName()  const { return m_szLastName;  }
 		__forceinline const char* get_email()     const { return m_szEmail;     }
 		__forceinline const char* get_reason()    const { return m_szReason;    }
-	
+
 		__forceinline DWORD get_uin() const { return m_dwUin; }
 		__forceinline void set_uin(DWORD dwValue) { m_dwUin = dwValue; }
 	};
@@ -772,12 +772,12 @@ namespace DB
 			cursor(_1)
 		{}
 
-		EventIterator operator++() { 
+		EventIterator operator++() {
 			hCurr = cursor->FetchNext();
 			return *this;
 		}
 
-		bool operator!=(const EventIterator &p) { 
+		bool operator!=(const EventIterator &p) {
 			return hCurr != p.hCurr;
 		}
 

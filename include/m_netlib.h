@@ -75,21 +75,21 @@ EXTERN_C MIR_APP_DLL(HNETLIBUSER) Netlib_RegisterUser(const NETLIBUSER *pDescr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Assign a Netlib user handle a set of dynamic HTTP headers to be used with all
-// 
+//
 // HTTP connections that enable the HTTP-use-sticky headers flag.
 // The headers persist until cleared with lParam = NULL.
-// 
+//
 // All memory should be allocated by the caller using malloc() from MS_SYSTEM_GET_MMI
 // Once it has passed to Netlib, Netlib is the owner of it, the caller should not refer to the memory
 // In any way after this point.
-// 
+//
 // NOTE: The szHeaders parameter should be a NULL terminated string following the HTTP header syntax.
 // This string will be injected verbatim, thus the user should be aware of setting strings that are not
 // headers. This service is NOT THREAD SAFE, only a single thread is expected to set the headers and a single
 // thread reading the pointer internally, stopping race conditions and mutual exclusion don't happen.
-// 
+//
 // Version 0.3.2a+ (2003/10/27)
-// 
+//
 
 EXTERN_C MIR_APP_DLL(int) Netlib_SetStickyHeaders(HNETLIBUSER nlu, const char *szHeaders);
 
@@ -244,21 +244,21 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 // Close the returned handle to end the thread and close the open port.
 // Errors: ERROR_INVALID_PARAMETER, any returned by socket() or bind() or
 //   listen() or getsockname()
-// 
+//
 // Notes:
-// 
+//
 // During development of 0.3.1a+ (2003/07/04) passing wPort != 0
 // will result in an attempt to bind on the port given in wPort
 // if this port is taken then you will get an error, so be sure to check
 // for such conditions.
-// 
+//
 // passing wPort != 0 is for people who need to open a set port for
 // daemon activities, usually passing wPort == 0 is what you want and
 // will result in a free port given by the TCP/IP socket layer and/or
 // seeded from the user selected port ranges.
-// 
+//
 // also note that wPort if != 0, will have be converted to network byte order
-// 
+//
 /* pExtra was added during 0.3.4+, prior its just two args, since we use the cdecl convention
 it shouldnt matter */
 
@@ -524,7 +524,7 @@ protected:
 
 public:
 	__forceinline explicit NLHR_PTR(NETLIBHTTPREQUEST *p) : _p(p) {}
-	
+
 	__forceinline NETLIBHTTPREQUEST* operator=(INT_PTR i_p)
 	{
 		return operator=((NETLIBHTTPREQUEST*)i_p);
@@ -556,7 +556,7 @@ struct MIR_APP_EXPORT MHttpRequest : public NETLIBHTTPREQUEST, public MZeroedObj
 	void AddHeader(const char *szName, const char *szValue);
 };
 
-template <class T> 
+template <class T>
 class MTHttpRequest : public MHttpRequest
 {
 public:
@@ -823,7 +823,7 @@ EXTERN_C MIR_APP_DLL(void) WebSocket_SendBinary(HNETLIBCONN nlc, const void *pDa
 // WARNING: these hooks are being called in the context of the calling thread, without switching
 // to the first thread, like all another events do. The hook procedure should be ready for the
 // multithreaded mode
-// 
+//
 // Parameters:
 //    wParam: NETLIBNOTIFY* - points to the data being sent/received
 //    lParam: NETLIBUSER*   - points to the protocol definition

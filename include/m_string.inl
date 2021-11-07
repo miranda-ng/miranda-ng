@@ -270,17 +270,17 @@ void CMSimpleStringT<BaseType>::SetString(PCXSTR pszSrc, int nLength)
 }
 
 template<typename BaseType>
-typename CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType>& str1, const CMSimpleStringT<BaseType>& str2)
+class CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType>& str1, const CMSimpleStringT<BaseType>& str2)
 {
-	CMSimpleStringT s;
+	CMSimpleStringT<BaseType> s;
 	Concatenate(s, str1, str1.GetLength(), str2, str2.GetLength());
 	return s;
 }
 
 template<typename BaseType>
-typename CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType>& str1, typename CMSimpleStringT<BaseType>::PCXSTR psz2)
+class CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType>& str1, typename CMSimpleStringT<BaseType>::PCXSTR psz2)
 {
-	CMSimpleStringT s;
+	CMSimpleStringT<BaseType> s;
 	Concatenate(s, str1, str1.GetLength(), psz2, StringLength(psz2));
 	return s;
 }
@@ -288,13 +288,13 @@ typename CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType>& st
 template<typename BaseType>
 CMSimpleStringT<BaseType> operator+(typename CMSimpleStringT<BaseType>::PCXSTR psz1, const CMSimpleStringT<BaseType>& str2)
 {
-	CMSimpleStringT s;
+	CMSimpleStringT<BaseType> s;
 	Concatenate(s, psz1, StringLength(psz1), str2, str2.GetLength());
 	return s;
 }
 
 template<typename BaseType>
-void __stdcall CMSimpleStringT<BaseType>::CopyChars(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
+void MIR_SYSCALL CMSimpleStringT<BaseType>::CopyChars(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
 {
 	#pragma warning (push)
 	#pragma warning(disable : 4996)
@@ -303,13 +303,13 @@ void __stdcall CMSimpleStringT<BaseType>::CopyChars(XCHAR* pchDest, const XCHAR*
 }
 
 template<typename BaseType>
-void __stdcall CMSimpleStringT<BaseType>::CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
+void MIR_SYSCALL CMSimpleStringT<BaseType>::CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
 {
 	memcpy_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
 }
 
 template<typename BaseType>
-void __stdcall CMSimpleStringT<BaseType>::CopyCharsOverlapped(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
+void MIR_SYSCALL CMSimpleStringT<BaseType>::CopyCharsOverlapped(XCHAR* pchDest, const XCHAR* pchSrc, int nChars)
 {
 	#pragma warning (push)
 	#pragma warning(disable : 4996)
@@ -318,13 +318,13 @@ void __stdcall CMSimpleStringT<BaseType>::CopyCharsOverlapped(XCHAR* pchDest, co
 }
 
 template<typename BaseType>
-void __stdcall CMSimpleStringT<BaseType>::CopyCharsOverlapped(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
+void MIR_SYSCALL CMSimpleStringT<BaseType>::CopyCharsOverlapped(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars)
 {
 	memmove_s(pchDest, nDestLen * sizeof(XCHAR), pchSrc, nChars * sizeof(XCHAR));
 }
 
 template<typename BaseType>
-int __stdcall CMSimpleStringT<BaseType>::StringLength(const char* psz)
+int MIR_SYSCALL CMSimpleStringT<BaseType>::StringLength(const char* psz)
 {
 	if (psz == nullptr)
 		return(0);
@@ -333,7 +333,7 @@ int __stdcall CMSimpleStringT<BaseType>::StringLength(const char* psz)
 }
 
 template<typename BaseType>
-int __stdcall CMSimpleStringT<BaseType>::StringLength(const wchar_t* psz)
+int MIR_SYSCALL CMSimpleStringT<BaseType>::StringLength(const wchar_t* psz)
 {
 	if (psz == nullptr)
 		return 0;
@@ -342,7 +342,7 @@ int __stdcall CMSimpleStringT<BaseType>::StringLength(const wchar_t* psz)
 }
 
 template<typename BaseType>
-int __stdcall CMSimpleStringT<BaseType>::StringLengthN(const char* psz, size_t sizeInXChar)
+int MIR_SYSCALL CMSimpleStringT<BaseType>::StringLengthN(const char* psz, size_t sizeInXChar)
 {
 	if (psz == nullptr)
 		return 0;
@@ -351,7 +351,7 @@ int __stdcall CMSimpleStringT<BaseType>::StringLengthN(const char* psz, size_t s
 }
 
 template<typename BaseType>
-int __stdcall CMSimpleStringT<BaseType>::StringLengthN(const wchar_t* psz, size_t sizeInXChar)
+int MIR_SYSCALL CMSimpleStringT<BaseType>::StringLengthN(const wchar_t* psz, size_t sizeInXChar)
 {
 	if (psz == nullptr)
 		return 0;
@@ -360,7 +360,7 @@ int __stdcall CMSimpleStringT<BaseType>::StringLengthN(const wchar_t* psz, size_
 }
 
 template<typename BaseType>
-void __stdcall CMSimpleStringT<BaseType>::Concatenate(CMSimpleStringT<BaseType>& strResult, PCXSTR psz1, int nLength1, PCXSTR psz2, int nLength2)
+void MIR_SYSCALL CMSimpleStringT<BaseType>::Concatenate(CMSimpleStringT<BaseType>& strResult, PCXSTR psz1, int nLength1, PCXSTR psz2, int nLength2)
 {
 	int nNewLength = nLength1 + nLength2;
 	PXSTR pszBuffer = strResult.GetBuffer(nNewLength);
@@ -447,7 +447,7 @@ void CMSimpleStringT<BaseType>::SetLength(int nLength)
 }
 
 template<typename BaseType>
-CMStringData* __stdcall CMSimpleStringT<BaseType>::CloneData(CMStringData* pData)
+CMStringData* MIR_SYSCALL CMSimpleStringT<BaseType>::CloneData(CMStringData* pData)
 {
 	CMStringData* pNewData = nullptr;
 
@@ -460,7 +460,7 @@ CMStringData* __stdcall CMSimpleStringT<BaseType>::CloneData(CMStringData* pData
 }
 
 template< typename BaseType, class StringTraits >
-CMStringT<BaseType, StringTraits>::CMStringT() : 
+CMStringT<BaseType, StringTraits>::CMStringT() :
 	CThisSimpleString()
 {
 }
@@ -1379,7 +1379,7 @@ typename CMStringT<BaseType, StringTraits>::PCXSTR CMStringT<BaseType, StringTra
 template< typename BaseType, class StringTraits >
 BOOL CMStringT<BaseType, StringTraits>::GetEnvironmentVariable(PCXSTR pszVar)
 {
-	ULONG nLength = StringTraits::GetEnvironmentVariable(pszVar, nullptr, 0);
+	int nLength = StringTraits::GetEnvironmentVariable(pszVar, nullptr, 0);
 	BOOL bRetVal = FALSE;
 
 	if (nLength == 0)

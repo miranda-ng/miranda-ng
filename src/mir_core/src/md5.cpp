@@ -5,7 +5,7 @@
   warranty.  In no event will the authors be held liable for any damages
   arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose, 
+  Permission is granted to anyone to use this software for any purpose,
   including commercial applications, and to alter it and redistribute it
   freely, subject to the following restrictions:
 
@@ -55,7 +55,7 @@
 
 #include "stdafx.h"
 
-#define T_MASK ((UINT32)~0)
+#define T_MASK ((uint32_t)~0)
 #define T1 /* 0xd76aa478 */ (T_MASK ^ 0x28955b87)
 #define T2 /* 0xe8c7b756 */ (T_MASK ^ 0x173848a9)
 #define T3    0x242070db
@@ -124,13 +124,13 @@
 //gfd*
 static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
 {
-	UINT32
-		a = pms->abcd[0], b = pms->abcd[1], 
+	uint32_t
+		a = pms->abcd[0], b = pms->abcd[1],
 		c = pms->abcd[2], d = pms->abcd[3];
-	UINT32 t;
+	uint32_t t;
 	/* Define storage for little-endian or both types of CPUs. */
-	UINT32 xbuf[16];
-	const UINT32 *X;
+	uint32_t xbuf[16];
+	const uint32_t *X;
 
 	{
 		/*
@@ -148,7 +148,7 @@ static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
 			*/
 			if ( !((data - (const BYTE *)nullptr) & 3)) {
 				/* data are properly aligned */
-				X = (const UINT32 *)data;
+				X = (const uint32_t *)data;
 			} else {
 				/* not aligned */
 				memcpy(xbuf, data, 64);
@@ -295,13 +295,13 @@ MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t
 	const BYTE *p = data;
 	size_t left = nBytes;
 	size_t offset = (pms->count[0] >> 3) & 63;
-	UINT32 nbits = (UINT32)(nBytes << 3);
+	uint32_t nbits = (uint32_t)(nBytes << 3);
 
 	if (nBytes == 0)
 		return;
 
 	/* Update the message length. */
-	pms->count[1] += (UINT32)nBytes >> 29;
+	pms->count[1] += (uint32_t)nBytes >> 29;
 	pms->count[0] += nbits;
 	if (pms->count[0] < nbits)
 		pms->count[1]++;
@@ -330,9 +330,9 @@ MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t
 MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16])
 {
 	static const BYTE pad[64] = {
-		0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
 	BYTE data[8];

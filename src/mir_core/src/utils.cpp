@@ -518,6 +518,7 @@ MIR_CORE_DLL(int) mir_wstrncmpi(const wchar_t *p1, const wchar_t *p2, size_t n)
 	return wcsnicmp(p1, p2, n);
 }
 
+#ifdef _MSC_VER
 MIR_CORE_DLL(const wchar_t*) mir_wstrstri(const wchar_t *s1, const wchar_t *s2)
 {
 	for (int i = 0; s1[i]; i++)
@@ -527,6 +528,7 @@ MIR_CORE_DLL(const wchar_t*) mir_wstrstri(const wchar_t *s1, const wchar_t *s2)
 
 	return nullptr;
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -538,7 +540,7 @@ MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 		return;
 
 	if (pfnRtlGenRandom != nullptr)
-		pfnRtlGenRandom(pszDest, (ULONG)cbLen);
+		pfnRtlGenRandom(pszDest, (uint32_t)cbLen);
 	else {
 		srand(time(0));
 		BYTE *p = (BYTE*)pszDest;
@@ -549,13 +551,15 @@ MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 
 MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText)
 {
-	size_t iLen = mir_wstrlen(pszwText);
-	mir_ptr<WORD> infoTypeC2((WORD*)mir_calloc(sizeof(WORD) * (iLen + 2)));
-	GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
+   #ifdef _MSC_VER
+      size_t iLen = mir_wstrlen(pszwText);
+      mir_ptr<WORD> infoTypeC2((WORD*)mir_calloc(sizeof(WORD) * (iLen + 2)));
+      GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
 
-	for (size_t i = 0; i < iLen; i++)
-		if (infoTypeC2[i] == C2_RIGHTTOLEFT)
-			return true;
+      for (size_t i = 0; i < iLen; i++)
+         if (infoTypeC2[i] == C2_RIGHTTOLEFT)
+            return true;
+   #endif
 
 	return false;
 }

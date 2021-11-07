@@ -53,16 +53,19 @@ EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCT
 EXTERN_C MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
 EXTERN_C MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
 
+#ifdef _MSC_VER
 EXTERN_C MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st);
 EXTERN_C MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time src, SYSTEMTIME *dest, DWORD dwFlags);
-EXTERN_C MIR_CORE_DLL(mir_time) TimeZone_UtcToLocal(HANDLE hTZ, mir_time ts);
 
 EXTERN_C MIR_CORE_DLL(LPTIME_ZONE_INFORMATION) TimeZone_GetInfo(HANDLE hTZ);
+#endif
+EXTERN_C MIR_CORE_DLL(mir_time) TimeZone_UtcToLocal(HANDLE hTZ, mir_time ts);
+
 EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetName(HANDLE hTZ);
 EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname);
 
 #ifdef __cplusplus
-	
+
 __forceinline int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
 {
 	return TimeZone_PrintDateTime(TimeZone_CreateByContact(hContact, nullptr, dwFlags), szFormat, szDest, cbDest, dwFlags);
@@ -73,6 +76,7 @@ __forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTST
 	return TimeZone_PrintTimeStamp(TimeZone_CreateByContact(hContact, nullptr, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
 }
 
+#ifdef _MSC_VER
 __forceinline LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
 {
 	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, nullptr, 0));
@@ -82,6 +86,7 @@ __forceinline int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
 {
 	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, nullptr, 0), st);
 }
+#endif
 
 __forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
 {
@@ -112,7 +117,7 @@ EXTERN_C MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Converts a GMT timestamp into a customisable local time string
 // Returns the destination buffer
-// 
+//
 // Uses db/time/timestamptolocal for the conversion so read that description to
 // see what's going on.
 // The string is formatted according to the current user's locale, language and
