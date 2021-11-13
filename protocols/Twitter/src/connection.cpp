@@ -502,7 +502,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 		if (!pre_read && in_chat_)
 			UpdateChat(*u);
 
-		if (u->username.c_str() == m_szUserName)
+		if (u->username == m_szUserName.c_str())
 			continue;
 
 		MCONTACT hContact = AddToClientList(u->username.c_str(), "");
@@ -560,8 +560,8 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		std::string sender = msgCreate["sender_id"].as_string();
 		MCONTACT hContact = FindContactById(sender.c_str());
 		if (hContact == INVALID_CONTACT_ID) {
-			debugLogA("Message from unknown sender %s, ignored", sender.c_str());
-			continue;
+			hContact = AddToClientList(sender.c_str(), "");
+			Contact_RemoveFromList(hContact);
 		}
 
 		std::string text = msgCreate["message_data"]["text"].as_string();
