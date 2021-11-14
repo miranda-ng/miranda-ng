@@ -428,6 +428,12 @@ __forceinline char* lrtrimp(char *str) { return ltrimp(rtrim(str)); };
 	MIR_CORE_DLL(wchar_t*) replaceStrW(wchar_t **dest, const wchar_t *src);
 #endif
 
+#ifndef _MSC_VER
+	MIR_CORE_DLL(char*) strlwr(char *str);
+	MIR_CORE_DLL(char*) strupr(char *str);
+	MIR_CORE_DLL(char*) strrev(char *str);
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 // text conversion functions
 

@@ -532,21 +532,26 @@ MIR_CORE_DLL(const wchar_t*) mir_wstrstri(const wchar_t *s1, const wchar_t *s2)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-PGENRANDOM pfnRtlGenRandom;
+#ifdef _MSC_VER
+	PGENRANDOM pfnRtlGenRandom;
+#endif
 
 MIR_CORE_DLL(void) Utils_GetRandom(void *pszDest, size_t cbLen)
 {
 	if (pszDest == nullptr || cbLen == 0)
 		return;
 
-	if (pfnRtlGenRandom != nullptr)
-		pfnRtlGenRandom(pszDest, (uint32_t)cbLen);
-	else {
-		srand(time(0));
-		BYTE *p = (BYTE*)pszDest;
-		for (size_t i = 0; i < cbLen; i++)
-			p[i] = rand() & 0xFF;
-	}
+	#ifdef _MSC_VER
+		if (pfnRtlGenRandom != nullptr) {
+			pfnRtlGenRandom(pszDest, (uint32_t)cbLen);
+			return;
+		}
+	#endif
+		
+	srand(time(0));
+	uint8_t *p = (uint8_t*)pszDest;
+	for (size_t i = 0; i < cbLen; i++)
+		p[i] = rand() & 0xFF;
 }
 
 MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText)

@@ -29,8 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 #include <string.h>
 
-#ifdef _WINDOWS
-#include <mbstring.h>
+#ifdef _MSC_VER
+	#include <mbstring.h>
+#else
+	#include <ctype.h>
 #endif // _WINDOWS
 #include <wchar.h>
 
@@ -278,192 +280,268 @@ template< typename _CharType = char >
 class ChTraitsCRT : public ChTraitsBase < _CharType >
 {
 public:
-	static char* MIR_SYSCALL CharNext(const char* p)
+	static char* MIR_SYSCALL CharNext(const char *p)
 	{
-		return reinterpret_cast<char*>(_mbsinc(reinterpret_cast<const unsigned char*>(p)));
+		#ifdef _MSC_VER
+			return reinterpret_cast<char*>(_mbsinc(reinterpret_cast<const unsigned char*>(p)));
+		#else
+			return reinterpret_cast<char*>(p+1);
+		#endif
 	}
 
 	static int MIR_SYSCALL IsDigit(char ch)
 	{
-		return _ismbcdigit(ch);
+		#ifdef _MSC_VER
+			return _ismbcdigit(ch);
+		#else
+			return isdigit(ch);
+		#endif
 	}
 
 	static int MIR_SYSCALL IsSpace(char ch)
 	{
-		return _ismbcspace(ch);
+		#ifdef _MSC_VER
+			return _ismbcspace(ch);
+		#else
+			return isspace(ch);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringCompare(LPCSTR pszA, LPCSTR pszB)
+	static int MIR_SYSCALL StringCompare(const char *pszA, const char *pszB)
 	{
-		return _mbscmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#ifdef _MSC_VER
+			return _mbscmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#else
+			return strcmp(pszA, pszB);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringCompareIgnore(LPCSTR pszA, LPCSTR pszB)
+	static int MIR_SYSCALL StringCompareIgnore(const char *pszA, const char *pszB)
 	{
-		return _mbsicmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#ifdef _MSC_VER
+			return _mbsicmp(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#else
+			return strcasecmp(pszA, pszB);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringCollate(LPCSTR pszA, LPCSTR pszB)
+	static int MIR_SYSCALL StringCollate(const char *pszA, const char *pszB)
 	{
-		return _mbscoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#ifdef _MSC_VER
+			return _mbscoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#else
+			return strcoll(pszA, pszB);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringCollateIgnore(LPCSTR pszA, LPCSTR pszB)
+	static int MIR_SYSCALL StringCollateIgnore(const char *pszA, const char *pszB)
 	{
-		return _mbsicoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#ifdef _MSC_VER
+			return _mbsicoll(reinterpret_cast<const unsigned char*>(pszA), reinterpret_cast<const unsigned char*>(pszB));
+		#else
+			return strcoll(pszA, pszB);
+		#endif
 	}
 
-	static LPCSTR MIR_SYSCALL StringFindString(LPCSTR pszBlock, LPCSTR pszMatch)
+	static const char* MIR_SYSCALL StringFindString(const char *pszBlock, const char *pszMatch)
 	{
-		return reinterpret_cast<LPCSTR>(_mbsstr(reinterpret_cast<const unsigned char*>(pszBlock),
-			reinterpret_cast<const unsigned char*>(pszMatch)));
+		#ifdef _MSC_VER
+			return reinterpret_cast<const char*>(_mbsstr(reinterpret_cast<const unsigned char*>(pszBlock),
+				reinterpret_cast<const unsigned char*>(pszMatch)));
+		#else
+			return strstr(pszBlock, pszMatch);
+		#endif
 	}
 
-	static LPSTR MIR_SYSCALL StringFindString(LPSTR pszBlock, LPCSTR pszMatch)
+	static char* MIR_SYSCALL StringFindString(char *pszBlock, const char *pszMatch)
 	{
-		return const_cast<LPSTR>(StringFindString(const_cast<LPCSTR>(pszBlock), pszMatch));
+		return const_cast<char*>(StringFindString(const_cast<const char*>(pszBlock), pszMatch));
 	}
 
-	static LPCSTR MIR_SYSCALL StringFindChar(LPCSTR pszBlock, char chMatch)
+	static const char* MIR_SYSCALL StringFindChar(const char *pszBlock, char chMatch)
 	{
-		return reinterpret_cast<LPCSTR>(_mbschr(reinterpret_cast<const unsigned char*>(pszBlock), (unsigned char)chMatch));
+		#ifdef _MSC_VER
+			return reinterpret_cast<const char*>(_mbschr(reinterpret_cast<const unsigned char*>(pszBlock), (unsigned char)chMatch));
+		#else
+			return strchr(pszBlock, chMatch);
+		#endif
 	}
 
-	static LPCSTR MIR_SYSCALL StringFindCharRev(LPCSTR psz, char ch)
+	static const char* MIR_SYSCALL StringFindCharRev(const char *psz, char ch)
 	{
-		return reinterpret_cast<LPCSTR>(_mbsrchr(reinterpret_cast<const unsigned char*>(psz), (unsigned char)ch));
+		#ifdef _MSC_VER
+			return reinterpret_cast<const char*>(_mbsrchr(reinterpret_cast<const unsigned char*>(psz), (unsigned char)ch));
+		#else
+			return strrchr(psz, ch);
+		#endif
 	}
 
-	static LPCSTR MIR_SYSCALL StringScanSet(LPCSTR pszBlock, LPCSTR pszMatch)
+	static const char* MIR_SYSCALL StringScanSet(const char *pszBlock, const char *pszMatch)
 	{
-		return reinterpret_cast<LPCSTR>(_mbspbrk(reinterpret_cast<const unsigned char*>(pszBlock),
-			reinterpret_cast<const unsigned char*>(pszMatch)));
+		#ifdef _MSC_VER
+			return reinterpret_cast<const char*>(_mbspbrk(reinterpret_cast<const unsigned char*>(pszBlock),
+				reinterpret_cast<const unsigned char*>(pszMatch)));
+		#else
+			return strpbrk(pszBlock, pszMatch);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringSpanIncluding(LPCSTR pszBlock, LPCSTR pszSet)
+	static int MIR_SYSCALL StringSpanIncluding(const char *pszBlock, const char *pszSet)
 	{
-		return (int)_mbsspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
+		#ifdef _MSC_VER
+			return (int)_mbsspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
+		#else
+			return (int)strspn(pszBlock, pszSet);
+		#endif
 	}
 
-	static int MIR_SYSCALL StringSpanExcluding(LPCSTR pszBlock, LPCSTR pszSet)
+	static int MIR_SYSCALL StringSpanExcluding(const char *pszBlock, const char *pszSet)
 	{
-		return (int)_mbscspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
+		#ifdef _MSC_VER
+			return (int)_mbscspn(reinterpret_cast<const unsigned char*>(pszBlock), reinterpret_cast<const unsigned char*>(pszSet));
+		#else
+			return (int)strcspn(pszBlock, pszSet);
+		#endif
 	}
 
-	static LPSTR MIR_SYSCALL StringUppercase(LPSTR psz)
+	static char* MIR_SYSCALL StringUppercase(char *psz)
 	{
-		CharUpperBuffA(psz, (DWORD)strlen(psz));
+		#ifdef _MSC_VER
+			CharUpperBuffA(psz, (uint32_t)strlen(psz));
+		#else
+			strupr(psz);
+		#endif
 		return psz;
 	}
 
-	static LPSTR MIR_SYSCALL StringLowercase(LPSTR psz)
+	static char* MIR_SYSCALL StringLowercase(char *psz)
 	{
-		CharLowerBuffA(psz, (DWORD)strlen(psz));
+		#ifdef _MSC_VER
+			CharLowerBuffA(psz, (uint32_t)strlen(psz));
+		#else
+			strlwr(psz);
+		#endif
 		return psz;
 	}
 
-	static LPSTR MIR_SYSCALL StringUppercase(LPSTR psz, size_t size)
+	static char* MIR_SYSCALL StringUppercase(char *psz, size_t size)
 	{
-		CharUpperBuffA(psz, (DWORD)size);
+		#ifdef _MSC_VER
+			CharUpperBuffA(psz, (uint32_t)size);
+		#else
+			
+		#endif
 		return psz;
 	}
 
-	static LPSTR MIR_SYSCALL StringLowercase(LPSTR psz, size_t size)
+	static char* MIR_SYSCALL StringLowercase(char *psz, size_t size)
 	{
-		CharLowerBuffA(psz, (DWORD)size);
+		#ifdef _MSC_VER
+			CharLowerBuffA(psz, (uint32_t)size);
+		#endif
 		return psz;
 	}
 
-	static LPSTR MIR_SYSCALL StringReverse(LPSTR psz)
+	static char* MIR_SYSCALL StringReverse(char *psz)
 	{
-		return reinterpret_cast<LPSTR>(_mbsrev(reinterpret_cast<unsigned char*>(psz)));
+		#ifdef _MSC_VER
+			return reinterpret_cast<LPSTR>(_mbsrev(reinterpret_cast<unsigned char*>(psz)));
+		#else
+			return strrev(psz);
+		#endif
 	}
 
-	static int MIR_SYSCALL GetFormattedLength(_Printf_format_string_ LPCSTR pszFormat, va_list args)
+	static int MIR_SYSCALL GetFormattedLength(_Printf_format_string_ const char *pszFormat, va_list args)
 	{
-		return _vscprintf(pszFormat, args);
+		#ifdef _MSC_VER
+			return _vscprintf(pszFormat, args);
+		#else
+		#endif
 	}
 
-	static int MIR_SYSCALL Format(LPSTR pszBuffer, size_t nlength, _Printf_format_string_ LPCSTR pszFormat, va_list args)
+	static int MIR_SYSCALL Format(char *pszBuffer, size_t nlength, _Printf_format_string_ const char *pszFormat, va_list args)
 	{
-		return vsprintf_s(pszBuffer, nlength, pszFormat, args);
+		#ifdef _MSC_VER
+			return vsprintf_s(pszBuffer, nlength, pszFormat, args);
+		#else
+		#endif
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCSTR pszSrc)
+	static int MIR_SYSCALL GetBaseTypeLength(const char *pszSrc)
 	{
 		// Returns required buffer length in XCHARs
 		return int(strlen(pszSrc));
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCSTR pszSrc, int nLength)
+	static int MIR_SYSCALL GetBaseTypeLength(const char *pszSrc, int nLength)
 	{
 		(void)pszSrc;
 		// Returns required buffer length in XCHARs
 		return nLength;
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCWSTR pszSource)
+	static int MIR_SYSCALL GetBaseTypeLength(const wchar_t *pszSource)
 	{
 		// Returns required buffer length in XCHARs
 		#ifdef _MSC_VER
-		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, -1, NULL, 0, NULL, NULL) - 1;
+			return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, -1, NULL, 0, NULL, NULL) - 1;
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCWSTR pszSource, int nLength)
+	static int MIR_SYSCALL GetBaseTypeLength(const wchar_t *pszSource, int nLength)
 	{
 		// Returns required buffer length in XCHARs
 		#ifdef _MSC_VER
-		return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, nLength, NULL, 0, NULL, NULL);
+			return ::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSource, nLength, NULL, 0, NULL, NULL);
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static void MIR_SYSCALL ConvertToBaseType(LPSTR pszDest, int nDestLength, LPCSTR pszSrc, int nSrcLength = -1)
+	static void MIR_SYSCALL ConvertToBaseType(char*pszDest, int nDestLength, const char *pszSrc, int nSrcLength = -1)
 	{
 		if (nSrcLength == -1) { nSrcLength = 1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in XCHARs
 		memcpy_s(pszDest, nDestLength*sizeof(char), pszSrc, nSrcLength*sizeof(char));
 	}
 
-	static void MIR_SYSCALL ConvertToBaseType(LPSTR pszDest, int nDestLength, LPCWSTR pszSrc, int nSrcLength = -1)
+	static void MIR_SYSCALL ConvertToBaseType(char*pszDest, int nDestLength, const wchar_t *pszSrc, int nSrcLength = -1)
 	{
 		// nLen is in XCHARs
 		#ifdef _MSC_VER
-		::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSrc, nSrcLength, pszDest, nDestLength, NULL, NULL);
+			::WideCharToMultiByte(Langpack_GetDefaultCodePage(), 0, pszSrc, nSrcLength, pszDest, nDestLength, NULL, NULL);
 		#endif
 	}
 
 	static void ConvertToOem(_CharType* pstrString)
 	{
 		#ifdef _MSC_VER
-		BOOL fSuccess = ::CharToOemA(pstrString, pstrString);
+			bool fSuccess = ::CharToOemA(pstrString, pstrString);
 		#endif // _MSC_VER
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString)
 	{
         #ifdef _MSC_VER
-		BOOL fSuccess = ::OemToCharA(pstrString, pstrString);
+			bool fSuccess = ::OemToCharA(pstrString, pstrString);
 		#endif
 	}
 
 	static void ConvertToOem(_CharType* pstrString, size_t size)
 	{
 		#ifdef _MSC_VER
-		DWORD dwSize = static_cast<DWORD>(size);
-		::CharToOemBuffA(pstrString, pstrString, dwSize);
+			uint32_t dwSize = static_cast<uint32_t>(size);
+			::CharToOemBuffA(pstrString, pstrString, dwSize);
 		#endif
 	}
 
 	static void ConvertToAnsi(_CharType* pstrString, size_t size)
 	{
 		#ifdef _MSC_VER
-		DWORD dwSize = static_cast<DWORD>(size);
-		::OemToCharBuffA(pstrString, pstrString, dwSize);
+			uint32_t dwSize = static_cast<uint32_t>(size);
+			::OemToCharBuffA(pstrString, pstrString, dwSize);
 		#endif
 	}
 
@@ -473,34 +551,38 @@ public:
 		memset(pch, ch, nLength);
 	}
 
-	static int MIR_SYSCALL SafeStringLen(LPCSTR psz)
+	static int MIR_SYSCALL SafeStringLen(const char *psz)
 	{
 		// returns length in bytes
 		return (psz != NULL) ? int(strlen(psz)) : 0;
 	}
 
-	static int MIR_SYSCALL SafeStringLen(LPCWSTR psz)
+	static int MIR_SYSCALL SafeStringLen(const wchar_t *psz)
 	{
 		// returns length in wchar_ts
 		return (psz != NULL) ? int(wcslen(psz)) : 0;
 	}
 
-	static int MIR_SYSCALL GetCharLen(const wchar_t* pch)
+	static int MIR_SYSCALL GetCharLen(const wchar_t *pch)
 	{
 		// returns char length
 		return 1;
 	}
 
-	static int MIR_SYSCALL GetCharLen(const char* pch)
+	static int MIR_SYSCALL GetCharLen(const char *pch)
 	{
 		// returns char length
-		return int(_mbclen(reinterpret_cast<const unsigned char*>(pch)));
+		#ifdef _MSC_VER
+			return int(_mbclen(reinterpret_cast<const unsigned char*>(pch)));
+		#else
+			return mblen(pch, strlen(pch));
+		#endif
 	}
 
-	static DWORD MIR_SYSCALL GetEnvironmentVariable(LPCSTR pszVar, LPSTR pszBuffer, DWORD dwSize)
+	static uint32_t MIR_SYSCALL GetEnvironmentVariable(const char *pszVar, char*pszBuffer, uint32_t dwSize)
 	{
 		#ifdef _MSC_VER
-		return ::GetEnvironmentVariableA(pszVar, pszBuffer, dwSize);
+			return ::GetEnvironmentVariableA(pszVar, pszBuffer, dwSize);
 		#endif // _MSC_VER
 	}
 
@@ -514,219 +596,219 @@ public:
 template<>
 class ChTraitsCRT< wchar_t > : public ChTraitsBase< wchar_t >
 {
-	static DWORD MIR_SYSCALL _GetEnvironmentVariableW(LPCWSTR pszName, LPWSTR pszBuffer, DWORD nSize)
+	static uint32_t MIR_SYSCALL _GetEnvironmentVariableW(const wchar_t *pszName, wchar_t *pszBuffer, uint32_t nSize)
 	{
 		#ifdef _MSC_VER
-		return ::GetEnvironmentVariableW(pszName, pszBuffer, nSize);
+			return ::GetEnvironmentVariableW(pszName, pszBuffer, nSize);
 		#endif // _MSC_VER
 	}
 
 public:
-	static LPWSTR MIR_SYSCALL CharNext(LPCWSTR psz)
+	static wchar_t* MIR_SYSCALL CharNext(const wchar_t *psz)
 	{
-		return const_cast< LPWSTR >(psz+1);
+		return const_cast<wchar_t*>(psz+1);
 	}
 
 	static int MIR_SYSCALL IsDigit(wchar_t ch)
 	{
 		#ifdef _MSC_VER
-		return iswdigit(static_cast<unsigned short>(ch));
+			return iswdigit(static_cast<unsigned short>(ch));
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
 	static int MIR_SYSCALL IsSpace(wchar_t ch)
 	{
 		#ifdef _MSC_VER
-		return iswspace(static_cast<unsigned short>(ch));
+			return iswspace(static_cast<unsigned short>(ch));
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL StringCompare(LPCWSTR pszA, LPCWSTR pszB)
+	static int MIR_SYSCALL StringCompare(const wchar_t *pszA, const wchar_t *pszB)
 	{
 		return wcscmp(pszA, pszB);
 	}
 
-	static int MIR_SYSCALL StringCompareIgnore(LPCWSTR pszA, LPCWSTR pszB)
+	static int MIR_SYSCALL StringCompareIgnore(const wchar_t *pszA, const wchar_t *pszB)
 	{
 		#ifdef _MSC_VER
-		return _wcsicmp(pszA, pszB);
+			return _wcsicmp(pszA, pszB);
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL StringCollate(LPCWSTR pszA, LPCWSTR pszB)
+	static int MIR_SYSCALL StringCollate(const wchar_t *pszA, const wchar_t *pszB)
 	{
 		return wcscoll(pszA, pszB);
 	}
 
-	static int MIR_SYSCALL StringCollateIgnore(LPCWSTR pszA, LPCWSTR pszB)
+	static int MIR_SYSCALL StringCollateIgnore(const wchar_t *pszA, const wchar_t *pszB)
 	{
 		#ifdef _MSC_VER
-		return _wcsicoll(pszA, pszB);
+			return _wcsicoll(pszA, pszB);
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static LPCWSTR MIR_SYSCALL StringFindString(LPCWSTR pszBlock, LPCWSTR pszMatch)
+	static const wchar_t* MIR_SYSCALL StringFindString(const wchar_t *pszBlock, const wchar_t *pszMatch)
 	{
 		return wcsstr(pszBlock, pszMatch);
 	}
 
-	static LPWSTR MIR_SYSCALL StringFindString(LPWSTR pszBlock, LPCWSTR pszMatch)
+	static wchar_t* MIR_SYSCALL StringFindString(wchar_t *pszBlock, const wchar_t *pszMatch)
 	{
-		return const_cast< LPWSTR >(StringFindString(const_cast< LPCWSTR >(pszBlock), pszMatch));
+		return const_cast<wchar_t*>(StringFindString(const_cast<wchar_t*>(pszBlock), pszMatch));
 	}
 
-	static LPCWSTR MIR_SYSCALL StringFindChar(LPCWSTR pszBlock, wchar_t chMatch)
+	static const wchar_t* MIR_SYSCALL StringFindChar(const wchar_t *pszBlock, wchar_t chMatch)
 	{
 		return wcschr(pszBlock, chMatch);
 	}
 
-	static LPCWSTR MIR_SYSCALL StringFindCharRev(LPCWSTR psz, wchar_t ch)
+	static const wchar_t* MIR_SYSCALL StringFindCharRev(const wchar_t *psz, wchar_t ch)
 	{
 		return wcsrchr(psz, ch);
 	}
 
-	static LPCWSTR MIR_SYSCALL StringScanSet(LPCWSTR pszBlock, LPCWSTR pszMatch)
+	static const wchar_t* MIR_SYSCALL StringScanSet(const wchar_t *pszBlock, const wchar_t *pszMatch)
 	{
 		return wcspbrk(pszBlock, pszMatch);
 	}
 
-	static int MIR_SYSCALL StringSpanIncluding(LPCWSTR pszBlock, LPCWSTR pszSet)
+	static int MIR_SYSCALL StringSpanIncluding(const wchar_t *pszBlock, const wchar_t *pszSet)
 	{
 		return (int)wcsspn(pszBlock, pszSet);
 	}
 
-	static int MIR_SYSCALL StringSpanExcluding(LPCWSTR pszBlock, LPCWSTR pszSet)
+	static int MIR_SYSCALL StringSpanExcluding(const wchar_t *pszBlock, const wchar_t *pszSet)
 	{
 		return (int)wcscspn(pszBlock, pszSet);
 	}
 
-	static LPWSTR MIR_SYSCALL StringUppercase(LPWSTR psz)
+	static wchar_t* MIR_SYSCALL StringUppercase(wchar_t *psz)
 	{
 		#ifdef _MSC_VER
-		CharUpperBuffW(psz, (DWORD)wcslen(psz));
+			CharUpperBuffW(psz, (uint32_t)wcslen(psz));
 		#endif
 		return psz;
 	}
 
-	static LPWSTR MIR_SYSCALL StringLowercase(LPWSTR psz)
+	static wchar_t* MIR_SYSCALL StringLowercase(wchar_t *psz)
 	{
 		#ifdef _MSC_VER
-		CharLowerBuffW(psz, (DWORD)wcslen(psz));
+			CharLowerBuffW(psz, (uint32_t)wcslen(psz));
 		#endif
 		return psz;
 	}
 
-	static LPWSTR MIR_SYSCALL StringUppercase(LPWSTR psz, size_t len)
+	static wchar_t* MIR_SYSCALL StringUppercase(wchar_t *psz, size_t len)
 	{
 		#ifdef _MSC_VER
-		CharUpperBuffW(psz, (DWORD)len);
+			CharUpperBuffW(psz, (uint32_t)len);
 		#endif
 		return psz;
 	}
 
-	static LPWSTR MIR_SYSCALL StringLowercase(LPWSTR psz, size_t len)
+	static wchar_t* MIR_SYSCALL StringLowercase(wchar_t *psz, size_t len)
 	{
 		#ifdef _MSC_VER
-		CharLowerBuffW(psz, (DWORD)len);
+			CharLowerBuffW(psz, (uint32_t)len);
 		#endif
 		return psz;
 	}
 
-	static LPWSTR MIR_SYSCALL StringReverse(LPWSTR psz)
+	static wchar_t* MIR_SYSCALL StringReverse(wchar_t *psz)
 	{
 		#ifdef _MSC_VER
-		return _wcsrev(psz);
+			return _wcsrev(psz);
 		#else
-		return psz;
+			return psz;
 		#endif
 	}
 
-	static int MIR_SYSCALL GetFormattedLength(_Printf_format_string_ LPCWSTR pszFormat, va_list args)
+	static int MIR_SYSCALL GetFormattedLength(_Printf_format_string_ const wchar_t *pszFormat, va_list args)
 	{
 		#ifdef _MSC_VER
-		return _vscwprintf(pszFormat, args);
+			return _vscwprintf(pszFormat, args);
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL Format(LPWSTR pszBuffer, _Printf_format_string_ LPCWSTR pszFormat, va_list args)
+	static int MIR_SYSCALL Format(wchar_t *pszBuffer, _Printf_format_string_ const wchar_t *pszFormat, va_list args)
 	{
 		#pragma warning(push)
 		#pragma warning(disable : 4996)
 
 		#ifdef _MSC_VER
-		return vswprintf(pszBuffer, pszFormat, args);
+			return vswprintf(pszBuffer, pszFormat, args);
 		#else
-		return 0;
+			return 0;
 		#endif
 		#pragma warning(pop)
 	}
 
-	static int MIR_SYSCALL Format(LPWSTR pszBuffer, size_t nLength, _Printf_format_string_ LPCWSTR pszFormat, va_list args)
+	static int MIR_SYSCALL Format(wchar_t *pszBuffer, size_t nLength, _Printf_format_string_ const wchar_t *pszFormat, va_list args)
 	{
 		#pragma warning(push)
 		#pragma warning(disable : 4996)
 
 		#ifdef _MSC_VER
-		return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
+			return _vsnwprintf(pszBuffer, nLength, pszFormat, args);
 		#else
-		return 0;
+			return 0;
 		#endif
 
 		#pragma warning(pop)
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCSTR pszSrc)
+	static int MIR_SYSCALL GetBaseTypeLength(const char *pszSrc)
 	{
 		// Returns required buffer size in wchar_ts
 		#ifdef _MSC_VER
-		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, -1, nullptr, 0)-1;
+			return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, -1, nullptr, 0)-1;
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCSTR pszSrc, int nLength)
+	static int MIR_SYSCALL GetBaseTypeLength(const char *pszSrc, int nLength)
 	{
 		// Returns required buffer size in wchar_ts
 		#ifdef _MSC_VER
-		return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, nLength, nullptr, 0);
+			return ::MultiByteToWideChar(CP_ACP, 0, pszSrc, nLength, nullptr, 0);
 		#else
-		return 0;
+			return 0;
 		#endif
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCWSTR pszSrc)
+	static int MIR_SYSCALL GetBaseTypeLength(const wchar_t *pszSrc)
 	{
 		// Returns required buffer size in wchar_ts
 		return (int)wcslen(pszSrc);
 	}
 
-	static int MIR_SYSCALL GetBaseTypeLength(LPCWSTR pszSrc, int nLength)
+	static int MIR_SYSCALL GetBaseTypeLength(const wchar_t *pszSrc, int nLength)
 	{
 		(void)pszSrc;
 		// Returns required buffer size in wchar_ts
 		return nLength;
 	}
 
-	static void MIR_SYSCALL ConvertToBaseType(LPWSTR pszDest, int nDestLength, LPCSTR pszSrc, int nSrcLength = -1)
+	static void MIR_SYSCALL ConvertToBaseType(wchar_t *pszDest, int nDestLength, const char *pszSrc, int nSrcLength = -1)
 	{
 		// nLen is in wchar_ts
 		#ifdef _MSC_VER
-		::MultiByteToWideChar(CP_ACP, 0, pszSrc, nSrcLength, pszDest, nDestLength);
+			::MultiByteToWideChar(CP_ACP, 0, pszSrc, nSrcLength, pszDest, nDestLength);
 		#endif
 	}
 
-	static void MIR_SYSCALL ConvertToBaseType(LPWSTR pszDest, int nDestLength, LPCWSTR pszSrc, int nSrcLength = -1)
+	static void MIR_SYSCALL ConvertToBaseType(wchar_t *pszDest, int nDestLength, const wchar_t *pszSrc, int nSrcLength = -1)
 	{
 		if (nSrcLength == -1) { nSrcLength=1 + GetBaseTypeLength(pszSrc); }
 		// nLen is in wchar_ts
@@ -737,7 +819,7 @@ public:
 		#endif
 	}
 
-	static void MIR_SYSCALL FloodCharacters(wchar_t ch, int nLength, LPWSTR psz)
+	static void MIR_SYSCALL FloodCharacters(wchar_t ch, int nLength, wchar_t *psz)
 	{
 		// nLength is in XCHARs
 		for (int i = 0; i < nLength; i++)
@@ -746,13 +828,13 @@ public:
 		}
 	}
 
-	static int MIR_SYSCALL SafeStringLen(LPCSTR psz)
+	static int MIR_SYSCALL SafeStringLen(const char *psz)
 	{
 		// returns length in bytes
 		return (psz != nullptr) ? (int)strlen(psz) : 0;
 	}
 
-	static int MIR_SYSCALL SafeStringLen(LPCWSTR psz)
+	static int MIR_SYSCALL SafeStringLen(const wchar_t *psz)
 	{
 		// returns length in wchar_ts
 		return (psz != nullptr) ? (int)wcslen(psz) : 0;
@@ -769,34 +851,34 @@ public:
 	{
 		// returns char length
 		#ifdef _MSC_VER
-		return (int)(_mbclen(reinterpret_cast< const unsigned char* >(pch)));
+			return (int)(_mbclen(reinterpret_cast< const unsigned char* >(pch)));
 		#else
-		return mblen(pch, strlen(pch));
+			return mblen(pch, strlen(pch));
 		#endif
 	}
 
-	static DWORD MIR_SYSCALL GetEnvironmentVariable(LPCWSTR pszVar, LPWSTR pszBuffer, DWORD dwSize)
+	static uint32_t MIR_SYSCALL GetEnvironmentVariable(const wchar_t *pszVar, wchar_t *pszBuffer, uint32_t dwSize)
 	{
 		return _GetEnvironmentVariableW(pszVar, pszBuffer, dwSize);
 	}
 
-	static void MIR_SYSCALL ConvertToOem(LPWSTR /*psz*/)
+	static void MIR_SYSCALL ConvertToOem(wchar_t* /*psz*/)
 	{
 	}
 
-	static void MIR_SYSCALL ConvertToAnsi(LPWSTR /*psz*/)
+	static void MIR_SYSCALL ConvertToAnsi(wchar_t* /*psz*/)
 	{
 	}
 
-	static void MIR_SYSCALL ConvertToOem(LPWSTR /*psz*/, size_t)
+	static void MIR_SYSCALL ConvertToOem(wchar_t* /*psz*/, size_t)
 	{
 	}
 
-	static void MIR_SYSCALL ConvertToAnsi(LPWSTR /*psz*/, size_t)
+	static void MIR_SYSCALL ConvertToAnsi(wchar_t* /*psz*/, size_t)
 	{
 	}
 
-	static LPWSTR MirCopy(LPCWSTR pstrString, size_t size)
+	static wchar_t* MirCopy(const wchar_t *pstrString, size_t size)
 	{
 		return mir_wstrndup(pstrString, size);
 	}

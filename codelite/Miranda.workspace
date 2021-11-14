@@ -2,7 +2,7 @@
 <CodeLite_Workspace Name="Miranda" Database="" Version="10000">
   <Project Name="mir_core" Path="../../../../var/www/miranda-ng/src/mir_core/mir_core.project" Active="Yes"/>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Environment/>
       <Project Name="mir_core" ConfigName="Debug"/>
     </WorkspaceConfiguration>
