@@ -25,7 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #ifndef M_STRING_INL__
 
-#include <algorithm>
+#ifndef _MSC_VER
+	#include <algorithm>
+	#define __max std::max
+#endif
 
 template<typename BaseType>
 CMSimpleStringT<BaseType>::CMSimpleStringT()
@@ -853,7 +856,7 @@ int CMStringT<BaseType, StringTraits>::Replace(PCXSTR pszOld, PCXSTR pszNew)
 		int nOldLength = this->GetLength();
 		int nNewLength = nOldLength + (nReplacementLen - nSourceLen)*nCount;
 
-		PXSTR pszBuffer = this->GetBuffer(std::max(nNewLength, nOldLength));
+		PXSTR pszBuffer = this->GetBuffer(__max(nNewLength, nOldLength));
 
 		PXSTR pszStart = pszBuffer;
 		PXSTR pszEnd = pszStart + nOldLength;
