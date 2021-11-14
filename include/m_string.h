@@ -662,7 +662,7 @@ public:
 
 	static wchar_t* MIR_SYSCALL StringFindString(wchar_t *pszBlock, const wchar_t *pszMatch)
 	{
-		return const_cast<wchar_t*>(StringFindString(const_cast<wchar_t*>(pszBlock), pszMatch));
+		return const_cast<wchar_t*>(wcsstr(pszBlock, pszMatch));
 	}
 
 	static const wchar_t* MIR_SYSCALL StringFindChar(const wchar_t *pszBlock, wchar_t chMatch)
