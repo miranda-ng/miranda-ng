@@ -192,9 +192,11 @@ bool CTwitterProto::NegotiateConnection()
 	}
 
 	auto *req = new AsyncHttpRequest(REQUEST_GET, "/account/verify_credentials.json");
-	if (Execute(req).code != 200) {
+	auto resp(Execute(req));
+	if (resp.code != 200) {
 		debugLogA("**NegotiateConnection - Verifying credentials failed!  No internet maybe?");
 
+LBL_Error:
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_FAILED, (HANDLE)old_status, m_iStatus);
 
 		// Set to offline
@@ -205,6 +207,13 @@ bool CTwitterProto::NegotiateConnection()
 		return false;
 	}
 
+	JSONNode root = JSONNode::parse(resp.data.c_str());
+	if (!root) {
+		debugLogA("unable to parse response");
+		goto LBL_Error;
+	}
+
+	m_szMyId = root["id_str"].as_mstring();
 	m_iStatus = m_iDesiredStatus;
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 	return true;
@@ -556,8 +565,14 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		if (type != "message_create")
 			continue;
 
+		bool bIsMe = false;
 		auto &msgCreate = one["message_create"];
 		std::string sender = msgCreate["sender_id"].as_string();
+		if (m_szMyId == sender.c_str()) {
+			bIsMe = true;
+			sender = msgCreate["target"]["recipient_id"].as_string();
+		}
+
 		MCONTACT hContact = FindContactById(sender.c_str());
 		if (hContact == INVALID_CONTACT_ID) {
 			hContact = AddToClientList(sender.c_str(), "");
@@ -578,6 +593,8 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		PROTORECVEVENT recv = { 0 };
 		if (pre_read)
 			recv.flags |= PREF_CREATEREAD;
+		if (bIsMe)
+			recv.flags |= PREF_SENT;
 		recv.szMessage = const_cast<char*>(text.c_str());
 		recv.timestamp = static_cast<DWORD>(time);
 		recv.szMsgId = msgid.c_str();

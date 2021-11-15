@@ -77,6 +77,7 @@ class CTwitterProto : public PROTO<CTwitterProto>
 	http::response Execute(AsyncHttpRequest *req);
 
 	CMStringA m_szUserName;
+	CMStringA m_szMyId;
 	CMStringA m_szPassword;
 	CMStringA m_szConsumerKey;
 	CMStringA m_szConsumerSecret;
