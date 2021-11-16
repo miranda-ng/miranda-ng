@@ -323,7 +323,7 @@ static CURLcode http_output_basic(struct Curl_easy *data, bool proxy)
     pwd = data->state.aptr.passwd;
   }
 
-  out = aprintf("%s:%s", user, pwd ? pwd : "");
+  out = aprintf("%s:%s", user ? user : "", pwd ? pwd : "");
   if(!out)
     return CURLE_OUT_OF_MEMORY;
 
@@ -1669,8 +1669,8 @@ CURLcode Curl_http_done(struct Curl_easy *data,
  * - if any server previously contacted to handle this request only supports
  * 1.0.
  */
-static bool use_http_1_1plus(const struct Curl_easy *data,
-                             const struct connectdata *conn)
+bool Curl_use_http_1_1plus(const struct Curl_easy *data,
+                           const struct connectdata *conn)
 {
   if((data->state.httpversion == 10) || (conn->httpversion == 10))
     return FALSE;
@@ -1696,7 +1696,7 @@ static const char *get_http_string(const struct Curl_easy *data,
     return "2";
 #endif
 
-  if(use_http_1_1plus(data, conn))
+  if(Curl_use_http_1_1plus(data, conn))
     return "1.1";
 
   return "1.0";
@@ -1711,7 +1711,7 @@ static CURLcode expect100(struct Curl_easy *data,
   CURLcode result = CURLE_OK;
   data->state.expect100header = FALSE; /* default to false unless it is set
                                           to TRUE below */
-  if(!data->state.disableexpect && use_http_1_1plus(data, conn) &&
+  if(!data->state.disableexpect && Curl_use_http_1_1plus(data, conn) &&
      (conn->httpversion < 20)) {
     /* if not doing HTTP 1.0 or version 2, or disabled explicitly, we add an
        Expect: 100-continue to the headers which actually speeds up post
@@ -2348,7 +2348,7 @@ CURLcode Curl_http_body(struct Curl_easy *data, struct connectdata *conn,
       if(conn->bits.authneg)
         /* don't enable chunked during auth neg */
         ;
-      else if(use_http_1_1plus(data, conn)) {
+      else if(Curl_use_http_1_1plus(data, conn)) {
         if(conn->httpversion < 20)
           /* HTTP, upload, unknown file size and not HTTP 1.0 */
           data->req.upload_chunky = TRUE;
@@ -2711,14 +2711,16 @@ CURLcode Curl_http_cookies(struct Curl_easy *data,
     int count = 0;
 
     if(data->cookies && data->state.cookie_engine) {
+      const char *host = data->state.aptr.cookiehost ?
+        data->state.aptr.cookiehost : conn->host.name;
+      const bool secure_context =
+        conn->handler->protocol&CURLPROTO_HTTPS ||
+        strcasecompare("localhost", host) ||
+        !strcmp(host, "127.0.0.1") ||
+        !strcmp(host, "[::1]") ? TRUE : FALSE;
       Curl_share_lock(data, CURL_LOCK_DATA_COOKIE, CURL_LOCK_ACCESS_SINGLE);
-      co = Curl_cookie_getlist(data->cookies,
-                               data->state.aptr.cookiehost?
-                               data->state.aptr.cookiehost:
-                               conn->host.name,
-                               data->state.up.path,
-                               (conn->handler->protocol&CURLPROTO_HTTPS)?
-                               TRUE:FALSE);
+      co = Curl_cookie_getlist(data->cookies, host, data->state.up.path,
+                               secure_context);
       Curl_share_unlock(data, CURL_LOCK_DATA_COOKIE);
     }
     if(co) {
@@ -2900,7 +2902,7 @@ CURLcode Curl_http_firstwrite(struct Curl_easy *data,
                               bool *done)
 {
   struct SingleRequest *k = &data->req;
-  DEBUGASSERT(conn->handler->protocol&(PROTO_FAMILY_HTTP|CURLPROTO_RTSP));
+
   if(data->req.newurl) {
     if(conn->bits.close) {
       /* Abort after the headers if "follow Location" is set
@@ -3401,17 +3403,8 @@ CURLcode Curl_http_header(struct Curl_easy *data, struct connectdata *conn,
                                     NULL, 10, &contentlength);
 
     if(offt == CURL_OFFT_OK) {
-      if(data->set.max_filesize &&
-         contentlength > data->set.max_filesize) {
-        failf(data, "Maximum file size exceeded");
-        return CURLE_FILESIZE_EXCEEDED;
-      }
       k->size = contentlength;
       k->maxdownload = k->size;
-      /* we set the progress download size already at this point
-         just to make it easier for apps/callbacks to extract this
-         info as soon as possible */
-      Curl_pgrsSetDownloadSize(data, k->size);
     }
     else if(offt == CURL_OFFT_FLOW) {
       /* out of range */
@@ -3502,6 +3495,12 @@ CURLcode Curl_http_header(struct Curl_easy *data, struct connectdata *conn,
                                          TRUE);
     if(result)
       return result;
+    if(!k->chunk) {
+      /* if this isn't chunked, only close can signal the end of this transfer
+         as Content-Length is said not to be trusted for transfer-encoding! */
+      connclose(conn, "HTTP/1.1 transfer-encoding without chunks");
+      k->ignore_cl = TRUE;
+    }
   }
   else if(!k->http_bodyless && checkprefix("Content-Encoding:", headp) &&
           data->set.str[STRING_ENCODING]) {
@@ -3564,18 +3563,21 @@ CURLcode Curl_http_header(struct Curl_easy *data, struct connectdata *conn,
 #if !defined(CURL_DISABLE_COOKIES)
   else if(data->cookies && data->state.cookie_engine &&
           checkprefix("Set-Cookie:", headp)) {
+    /* If there is a custom-set Host: name, use it here, or else use real peer
+       host name. */
+    const char *host = data->state.aptr.cookiehost?
+      data->state.aptr.cookiehost:conn->host.name;
+    const bool secure_context =
+      conn->handler->protocol&CURLPROTO_HTTPS ||
+      strcasecompare("localhost", host) ||
+      !strcmp(host, "127.0.0.1") ||
+      !strcmp(host, "[::1]") ? TRUE : FALSE;
+
     Curl_share_lock(data, CURL_LOCK_DATA_COOKIE,
                     CURL_LOCK_ACCESS_SINGLE);
-    Curl_cookie_add(data,
-                    data->cookies, TRUE, FALSE,
-                    headp + strlen("Set-Cookie:"),
-                    /* If there is a custom-set Host: name, use it
-                       here, or else use real peer host name. */
-                    data->state.aptr.cookiehost?
-                    data->state.aptr.cookiehost:conn->host.name,
-                    data->state.up.path,
-                    (conn->handler->protocol&CURLPROTO_HTTPS)?
-                    TRUE:FALSE);
+    Curl_cookie_add(data, data->cookies, TRUE, FALSE,
+                    headp + strlen("Set-Cookie:"), host,
+                    data->state.up.path, secure_context);
     Curl_share_unlock(data, CURL_LOCK_DATA_COOKIE);
   }
 #endif
@@ -3767,6 +3769,29 @@ CURLcode Curl_http_statusline(struct Curl_easy *data,
     break;
   default:
     break;
+  }
+  return CURLE_OK;
+}
+
+/* Content-Length must be ignored if any Transfer-Encoding is present in the
+   response. Refer to RFC 7230 section 3.3.3 and RFC2616 section 4.4.  This is
+   figured out here after all headers have been received but before the final
+   call to the user's header callback, so that a valid content length can be
+   retrieved by the user in the final call. */
+CURLcode Curl_http_size(struct Curl_easy *data)
+{
+  struct SingleRequest *k = &data->req;
+  if(data->req.ignore_cl || k->chunk) {
+    k->size = k->maxdownload = -1;
+  }
+  else if(k->size != -1) {
+    if(data->set.max_filesize &&
+       k->size > data->set.max_filesize) {
+      failf(data, "Maximum file size exceeded");
+      return CURLE_FILESIZE_EXCEEDED;
+    }
+    Curl_pgrsSetDownloadSize(data, k->size);
+    k->maxdownload = k->size;
   }
   return CURLE_OK;
 }
@@ -3965,6 +3990,12 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
         }
       }
 
+      if(!k->header) {
+        result = Curl_http_size(data);
+        if(result)
+          return result;
+      }
+
       /* At this point we have some idea about the fate of the connection.
          If we are closing the connection it may result auth failure. */
 #if defined(USE_NTLM)
@@ -4121,31 +4152,6 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
              reason */
           *stop_reading = TRUE;
 #endif
-        else {
-          /* If we know the expected size of this document, we set the
-             maximum download size to the size of the expected
-             document or else, we won't know when to stop reading!
-
-             Note that we set the download maximum even if we read a
-             "Connection: close" header, to make sure that
-             "Content-Length: 0" still prevents us from attempting to
-             read the (missing) response-body.
-          */
-          /* According to RFC2616 section 4.4, we MUST ignore
-             Content-Length: headers if we are now receiving data
-             using chunked Transfer-Encoding.
-          */
-          if(k->chunk)
-            k->maxdownload = k->size = -1;
-        }
-        if(-1 != k->size) {
-          /* We do this operation even if no_body is true, since this
-             data might be retrieved later with curl_easy_getinfo()
-             and its CURLINFO_CONTENT_LENGTH_DOWNLOAD option. */
-
-          Curl_pgrsSetDownloadSize(data, k->size);
-          k->maxdownload = k->size;
-        }
 
         /* If max download size is *zero* (nothing) we already have
            nothing and can safely return ok now!  But for HTTP/2, we'd
@@ -4210,18 +4216,20 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
          * https://tools.ietf.org/html/rfc7230#section-3.1.2
          *
          * The response code is always a three-digit number in HTTP as the spec
-         * says. We try to allow any number here, but we cannot make
+         * says. We allow any three-digit number here, but we cannot make
          * guarantees on future behaviors since it isn't within the protocol.
          */
         char separator;
         char twoorthree[2];
         int httpversion = 0;
+        char digit4 = 0;
         nc = sscanf(HEADER1,
-                    " HTTP/%1d.%1d%c%3d",
+                    " HTTP/%1d.%1d%c%3d%c",
                     &httpversion_major,
                     &httpversion,
                     &separator,
-                    &k->httpcode);
+                    &k->httpcode,
+                    &digit4);
 
         if(nc == 1 && httpversion_major >= 2 &&
            2 == sscanf(HEADER1, " HTTP/%1[23] %d", twoorthree, &k->httpcode)) {
@@ -4230,7 +4238,19 @@ CURLcode Curl_http_readwrite_headers(struct Curl_easy *data,
           separator = ' ';
         }
 
-        if((nc == 4) && (' ' == separator)) {
+        /* There can only be a 4th response code digit stored in 'digit4' if
+           all the other fields were parsed and stored first, so nc is 5 when
+           digit4 a digit.
+
+           The sscanf() line above will also allow zero-prefixed and negative
+           numbers, so we check for that too here.
+        */
+        else if(ISDIGIT(digit4) || (k->httpcode < 100)) {
+          failf(data, "Unsupported response code in HTTP response");
+          return CURLE_UNSUPPORTED_PROTOCOL;
+        }
+
+        if((nc >= 4) && (' ' == separator)) {
           httpversion += 10 * httpversion_major;
           switch(httpversion) {
           case 10:

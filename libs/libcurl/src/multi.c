@@ -1052,11 +1052,17 @@ CURLMcode curl_multi_fdset(struct Curl_multi *multi,
     for(i = 0; i< MAX_SOCKSPEREASYHANDLE; i++) {
       curl_socket_t s = CURL_SOCKET_BAD;
 
-      if((bitmap & GETSOCK_READSOCK(i)) && VALID_SOCK((sockbunch[i]))) {
+      if((bitmap & GETSOCK_READSOCK(i)) && VALID_SOCK(sockbunch[i])) {
+        if(!FDSET_SOCK(sockbunch[i]))
+          /* pretend it doesn't exist */
+          continue;
         FD_SET(sockbunch[i], read_fd_set);
         s = sockbunch[i];
       }
-      if((bitmap & GETSOCK_WRITESOCK(i)) && VALID_SOCK((sockbunch[i]))) {
+      if((bitmap & GETSOCK_WRITESOCK(i)) && VALID_SOCK(sockbunch[i])) {
+        if(!FDSET_SOCK(sockbunch[i]))
+          /* pretend it doesn't exist */
+          continue;
         FD_SET(sockbunch[i], write_fd_set);
         s = sockbunch[i];
       }
@@ -1099,6 +1105,9 @@ static CURLMcode multi_wait(struct Curl_multi *multi,
 #ifdef USE_WINSOCK
   WSANETWORKEVENTS wsa_events;
   DEBUGASSERT(multi->wsa_event != WSA_INVALID_EVENT);
+#endif
+#ifndef ENABLE_WAKEUP
+  (void)use_wakeup;
 #endif
 
   if(!GOOD_MULTI_HANDLE(multi))
@@ -2019,6 +2028,28 @@ static CURLMcode multi_runsingle(struct Curl_multi *multi,
       break;
 
     case MSTATE_DO:
+      if(data->set.fprereq) {
+        int prereq_rc;
+
+        /* call the prerequest callback function */
+        Curl_set_in_callback(data, true);
+        prereq_rc = data->set.fprereq(data->set.prereq_userp,
+                                      data->info.conn_primary_ip,
+                                      data->info.conn_local_ip,
+                                      data->info.conn_primary_port,
+                                      data->info.conn_local_port);
+        Curl_set_in_callback(data, false);
+        if(prereq_rc != CURL_PREREQFUNC_OK) {
+          failf(data, "operation aborted by pre-request callback");
+          /* failure in pre-request callback - don't do any other processing */
+          result = CURLE_ABORTED_BY_CALLBACK;
+          Curl_posttransfer(data);
+          multi_done(data, result, FALSE);
+          stream_error = TRUE;
+          break;
+        }
+      }
+
       if(data->set.connect_only) {
         /* keep connection open for application to use the socket */
         connkeep(data->conn, "CONNECT_ONLY");
@@ -2602,7 +2633,7 @@ CURLMcode curl_multi_cleanup(struct Curl_multi *multi)
 
     multi->magic = 0; /* not good anymore */
 
-    /* Firsrt remove all remaining easy handles */
+    /* First remove all remaining easy handles */
     data = multi->easyp;
     while(data) {
       nextdata = data->next;
@@ -3171,7 +3202,7 @@ CURLMcode curl_multi_socket_all(struct Curl_multi *multi, int *running_handles)
 static CURLMcode multi_timeout(struct Curl_multi *multi,
                                long *timeout_ms)
 {
-  static struct curltime tv_zero = {0, 0};
+  static const struct curltime tv_zero = {0, 0};
 
   if(multi->timetree) {
     /* we have a tree of expire times */
