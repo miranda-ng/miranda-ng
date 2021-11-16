@@ -362,12 +362,12 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	Json2string(hContact, buddy, "phoneNumber", "Phone");
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone");
 
-	setDword(hContact, "Status", StatusFromPresence(buddy, hContact));
-
 	Json2int(hContact, buddy, "official", "Official");
 	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS);
 	Json2int(hContact, buddy, "idleTime", "IdleTS");
 	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE);
+
+	setWord(hContact, "Status", StatusFromPresence(buddy, hContact));
 
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
