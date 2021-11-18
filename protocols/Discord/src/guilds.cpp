@@ -278,10 +278,12 @@ CDiscordUser* CDiscordProto::ProcessGuildChannel(CDiscordGuild *pGuild, const JS
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, const JSONNode &pUser, bool *pbNew)
+CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, const JSONNode &pRoot, bool *pbNew)
 {
+	auto& pUser = pRoot["user"];
+
 	bool bNew = false;
-	CMStringW wszUserId = pUser["user"]["id"].as_mstring();
+	CMStringW wszUserId = pUser["id"].as_mstring();
 	SnowFlake userId = _wtoi64(wszUserId);
 	CDiscordGuildMember *pm = pGuild->FindUser(userId);
 	if (pm == nullptr) {
@@ -290,13 +292,17 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 		bNew = true;
 	}
 
-	pm->wszNick = pUser["user"]["username"].as_mstring() + L"#" + pUser["user"]["discriminator"].as_mstring();
+	pm->wszNick = pRoot["nick"].as_mstring();
+	if (pm->wszNick.IsEmpty())
+		pm->wszNick = pUser["username"].as_mstring() + L"#" + pUser["discriminator"].as_mstring();
+	else
+		bNew = true;
 
 	if (userId == pGuild->ownerId)
 		pm->wszRole = L"@owner";
 	else {
 		CDiscordRole *pRole = nullptr;
-		for (auto &itr : pUser["roles"]) {
+		for (auto &itr : pRoot["roles"]) {
 			SnowFlake roleId = ::getId(itr);
 			if (pRole = pGuild->arRoles.find((CDiscordRole *)&roleId))
 				break;
