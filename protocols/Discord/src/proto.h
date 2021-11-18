@@ -103,7 +103,7 @@ struct CDiscordGuildMember : public MZeroedObject
 	{}
 
 	SnowFlake userId;
-	CMStringW wszNick, wszRole;
+	CMStringW wszDiscordId, wszNick, wszRole;
 	int iStatus;
 };
 
@@ -327,6 +327,7 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	void Chat_SendPrivateMessage(GCHOOK *gch);
 	void Chat_ProcessLogMenu(GCHOOK *gch);
+	void Chat_ProcessNickMenu(GCHOOK* gch);
 
 	void CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser);
 	void ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUserId, const JSONNode &pRoot);

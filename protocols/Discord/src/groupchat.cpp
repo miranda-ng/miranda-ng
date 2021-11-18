@@ -19,6 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 enum {
 	IDM_CANCEL,
+	IDM_COPY_ID,
 
 	IDM_CHANGENICK, IDM_CHANGETOPIC, IDM_RENAME, IDM_DESTROY
 };
@@ -45,6 +46,11 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Destroy channel"), IDM_DESTROY, MENU_POPUPITEM },
 };
 
+static gc_item sttNicklistItems[] =
+{
+	{ LPGENW("Copy ID"), IDM_COPY_ID, MENU_ITEM },
+};
+
 int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
@@ -60,6 +66,8 @@ int CDiscordProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 
 	if (gcmi->Type == MENU_ON_LOG)
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
+	else if (gcmi->Type == MENU_ON_NICKLIST)
+		Chat_AddMenuItems(gcmi->hMenu, _countof(sttNicklistItems), sttNicklistItems, &g_plugin);
 
 	return 0;
 }
@@ -146,6 +154,23 @@ void CDiscordProto::Chat_ProcessLogMenu(GCHOOK *gch)
 	}
 }
 
+void CDiscordProto::Chat_ProcessNickMenu(GCHOOK* gch)
+{
+	auto *pChannel = FindUserByChannel(_wtoi64(gch->si->ptszID));
+	if (pChannel == nullptr || pChannel->pGuild == nullptr)
+		return;
+
+	auto* pUser = pChannel->pGuild->FindUser(_wtoi64(gch->ptszUID));
+	if (pUser == nullptr)
+		return;
+
+	switch (gch->dwData) {
+	case IDM_COPY_ID:
+		CopyId(pUser->wszDiscordId);
+		break;
+	}
+}
+
 int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 {
 	GCHOOK *gch = (GCHOOK*)lParam;
@@ -198,6 +223,7 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 		break;
 
 	case GC_USER_NICKLISTMENU:
+		Chat_ProcessNickMenu(gch);
 		break;
 	}
 

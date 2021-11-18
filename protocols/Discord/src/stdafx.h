@@ -72,6 +72,7 @@ extern IconItem g_iconList[];
 
 void BuildStatusList(const CDiscordGuild *pGuild, SESSION_INFO *si);
 
+void CopyId(const CMStringW &nick);
 SnowFlake getId(const JSONNode &pNode);
 CMStringW PrepareMessageText(const JSONNode &pRoot);
 int StrToStatus(const CMStringW &str);

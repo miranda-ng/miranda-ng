@@ -292,9 +292,10 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 		bNew = true;
 	}
 
+	pm->wszDiscordId = pUser["username"].as_mstring() + L"#" + pUser["discriminator"].as_mstring();
 	pm->wszNick = pRoot["nick"].as_mstring();
 	if (pm->wszNick.IsEmpty())
-		pm->wszNick = pUser["username"].as_mstring() + L"#" + pUser["discriminator"].as_mstring();
+		pm->wszNick = pm->wszDiscordId;
 	else
 		bNew = true;
 
@@ -332,9 +333,10 @@ void CDiscordProto::ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUse
 
 	// otherwise let's create a user and insert him into all guild's chats
 	pm = new CDiscordGuildMember(userId);
+	pm->wszDiscordId = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
 	pm->wszNick = pRoot["nick"].as_mstring();
 	if (pm->wszNick.IsEmpty())
-		pm->wszNick = pRoot["author"]["username"].as_mstring() + L"#" + pRoot["author"]["discriminator"].as_mstring();
+		pm->wszNick = pm->wszDiscordId;
 	pGuild->arChatUsers.insert(pm);
 
 	debugLogA("add missing user to chat: id=%lld, nick=%S", userId, pm->wszNick.c_str());
@@ -365,7 +367,7 @@ void CDiscordProto::AddGuildUser(CDiscordGuild *pGuild, const CDiscordGuildMembe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordGuild ::LoadFromFile()
+void CDiscordGuild::LoadFromFile()
 {
 	int fileNo = _wopen(GetCacheFile(), O_TEXT | O_RDONLY);
 	if (fileNo == -1)

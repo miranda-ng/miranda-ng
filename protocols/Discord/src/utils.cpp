@@ -104,6 +104,24 @@ void CDiscordProto::setId(MCONTACT hContact, const char *szSetting, SnowFlake iV
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CopyId(const CMStringW &nick)
+{
+	if (!OpenClipboard(nullptr))
+		return;
+
+	EmptyClipboard();
+
+	int length = nick.GetLength() + 1;
+	if (HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length * sizeof(wchar_t))) {
+		mir_wstrncpy((wchar_t*)GlobalLock(hMemory), nick, length);
+		GlobalUnlock(hMemory);
+		SetClipboardData(CF_UNICODETEXT, hMemory);
+	}
+	CloseClipboard();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static CDiscordUser *g_myUser = new CDiscordUser(0);
 
 CDiscordUser* CDiscordProto::FindUser(SnowFlake id)
