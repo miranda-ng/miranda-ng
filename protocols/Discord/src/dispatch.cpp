@@ -277,9 +277,10 @@ void CDiscordProto::OnCommandGuildMemberUpdated(const JSONNode &pRoot)
 	if (gm == nullptr)
 		return;
 
+	gm->wszDiscordId = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
 	gm->wszNick = pRoot["nick"].as_mstring();
 	if (gm->wszNick.IsEmpty())
-		gm->wszNick = pRoot["user"]["username"].as_mstring() + L"#" + pRoot["user"]["discriminator"].as_mstring();
+		gm->wszNick = pRoot["user"]["username"].as_mstring();
 
 	for (auto &it : arUsers) {
 		if (it->pGuild != pGuild)
