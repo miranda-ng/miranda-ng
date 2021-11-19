@@ -356,6 +356,7 @@ public:
 
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
+	MCONTACT AddToListByEvent(int flags, int, MEVENT hDbEvent) override;
 	
 	int      AuthRecv(MCONTACT, PROTORECVEVENT *pre) override;
 	int      Authorize(MEVENT hDbEvent) override;

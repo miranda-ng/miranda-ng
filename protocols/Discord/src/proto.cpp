@@ -436,6 +436,25 @@ MCONTACT CDiscordProto::AddToList(int flags, PROTOSEARCHRESULT *psr)
 	return hContact;
 }
 
+MCONTACT CDiscordProto::AddToListByEvent(int flags, int, MEVENT hDbEvent)
+{
+	DB::EventInfo dbei;
+	dbei.cbBlob = -1;
+	if (db_event_get(hDbEvent, &dbei))
+		return 0;
+	if (mir_strcmp(dbei.szModule, m_szModuleName))
+		return 0;
+	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
+		return 0;
+
+	DB::AUTH_BLOB blob(dbei.pBlob);
+	if (flags & PALF_TEMPORARY)
+		Contact_RemoveFromList(blob.get_contact());
+	else
+		Contact_PutOnList(blob.get_contact());
+	return blob.get_contact();
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////
 // SendMsg
 
