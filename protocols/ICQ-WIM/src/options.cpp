@@ -98,7 +98,7 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 
 	bool OnApply() override
 	{
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/loginWithPhoneNumber.php", &CIcqProto::OnLoginViaPhone);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://u.icq.net/api/v60/smsreg/loginWithPhoneNumber.php", &CIcqProto::OnLoginViaPhone);
 		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("trans_id", szTrans) << CHAR_PARAM("k", m_proto->appId())
 			<< CHAR_PARAM("r", pReq->m_reqId) << CHAR_PARAM("f", "json") << WCHAR_PARAM("sms_code", ptrW(edtCode.GetText())) << INT_PARAM("create_account", 1);
 		pReq->pUserInfo = this;
@@ -116,8 +116,8 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 
 	void onChange_Phone(CCtrlEdit*)
 	{
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://clientapi.icq.net/fcgi-bin/smsphoneinfo", &CIcqProto::OnCheckPhone);
-		pReq << CHAR_PARAM("service", "icq_registration") << CHAR_PARAM("info", "typing_check,score,iso_country_code")
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://u.icq.net/api/v60/smsapi/fcgi-bin/smsphoneinfo", &CIcqProto::OnCheckPhone);
+		pReq << CHAR_PARAM("service", "icq_registration") << CHAR_PARAM("info", "typing_check,score,iso_country_code") << CHAR_PARAM("lang", "ru")
 			<< WCHAR_PARAM("phone", ptrW(edtPhone.GetText())) << CHAR_PARAM("id", pReq->m_reqId);
 		pReq->pUserInfo = this;
 		m_proto->Push(pReq);
@@ -125,7 +125,7 @@ struct CIcqRegistrationDlg : public CIcqDlgBase
 
 	void onClick_SendSms(CCtrlButton*)
 	{
-		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://www.icq.com/smsreg/requestPhoneValidation.php", &CIcqProto::OnValidateSms);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, "https://u.icq.net/api/v60/smsreg/requestPhoneValidation.php", &CIcqProto::OnValidateSms);
 		pReq << CHAR_PARAM("locale", "en") << CHAR_PARAM("msisdn", szMsisdn) << CHAR_PARAM("r", pReq->m_reqId)
 			<< CHAR_PARAM("smsFormatType", "human") << CHAR_PARAM("k", m_proto->appId());
 		pReq->pUserInfo = this;
