@@ -456,6 +456,14 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 
 	wszValue = jnItem["deactivated"].as_mstring();
 	CMStringW wszOldDeactivated(ptrW(db_get_wsa(hContact, m_szModuleName, "Deactivated")));
+
+	if (wszValue == L"deleted" && wszOldDeactivated != L"?deleted")
+		wszValue = L"?deleted";
+	else if (wszValue.IsEmpty() && wszOldDeactivated == L"?deleted") {
+		db_unset(hContact, m_szModuleName, "Deactivated");
+		wszOldDeactivated.Empty();
+	}
+
 	if (wszValue != wszOldDeactivated) {
 		AddVkDeactivateEvent(hContact, wszValue);
 		if (wszValue.IsEmpty())
