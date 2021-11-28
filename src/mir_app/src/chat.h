@@ -73,6 +73,7 @@ BOOL          SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, c
 BOOL          SM_SetOffline(const char *pszModule, SESSION_INFO *si);
 BOOL          SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus);
 BOOL          SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus);
+BOOL          SM_UserTyping(GCEVENT* gce);
 
 SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);

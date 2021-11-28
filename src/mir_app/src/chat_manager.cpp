@@ -424,6 +424,20 @@ BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 	return TRUE;
 }
 
+BOOL SM_UserTyping(GCEVENT *gce)
+{
+	SESSION_INFO *si = SM_FindSession(gce->pszID.w, gce->pszModule);
+	if (si == nullptr || si->pDlg == nullptr)
+		return FALSE;
+
+	USERINFO* ui = UM_FindUser(si, gce->pszUID.w);
+	if (ui == nullptr)
+		return FALSE;
+
+	si->pDlg->setTyping(10, ui);
+	return TRUE;
+}
+
 BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
 {
 	if (!pszModule)

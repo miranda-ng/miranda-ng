@@ -1322,7 +1322,7 @@ void CLogWindow::LogEvents(LOGINFO *lin, bool bRedraw)
 	if (m_rtf.GetHwnd() == nullptr || lin == nullptr || si == nullptr)
 		return;
 
-	if (!bRedraw && (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) && m_pDlg.m_bFilterEnabled && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
+	if (!bRedraw && m_pDlg.AllowTyping() && m_pDlg.m_bFilterEnabled && (m_pDlg.m_iLogFilterFlags & lin->iType) == 0)
 		return;
 
 	bool bFlag = false, bDoReplace, bAtBottom = AtBottom();

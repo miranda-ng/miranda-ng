@@ -637,6 +637,7 @@ BOOL IsEventSupported(int eventType)
 	case GC_EVENT_NOTICE:
 	case GC_EVENT_MESSAGE:
 	case GC_EVENT_TOPIC:
+	case GC_EVENT_TYPING:
 	case GC_EVENT_INFORMATION:
 	case GC_EVENT_ACTION:
 	case GC_EVENT_ADDSTATUS:

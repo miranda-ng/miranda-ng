@@ -58,6 +58,74 @@
 #define MWF_LOG_INOUTICONS  0x10000000
 #define MWF_LOG_GROUPMODE   0x80000000
 
+ /*
+  * custom dialog window messages
+  */
+
+#define TM_USER                  (WM_USER+300)
+
+#define EM_SEARCHSCROLLER        (TM_USER+0x103)
+#define EM_VALIDATEBOTTOM        (TM_USER+0x104)
+#define EM_THEMECHANGED          (TM_USER+0x105)
+#define EM_REFRESHWITHOUTCLIP    (TM_USER+0x106)
+
+#define HM_EVENTSENT             (TM_USER+10)
+#define HM_DBEVENTADDED          (TM_USER+12)
+#define DM_SETINFOPANEL          (TM_USER+13)
+#define DM_OPTIONSAPPLIED        (TM_USER+14)
+#define DM_SPLITSENDACK          (TM_USER+19)
+#define DM_UPDATEWINICON         (TM_USER+21)
+#define DM_UPDATELASTMESSAGE     (TM_USER+22)
+
+#define DM_STATUSICONCHANGE      (TM_USER+25)
+#define DM_CREATECONTAINER       (TM_USER+26)
+#define DM_QUERYLASTUNREAD       (TM_USER+28)
+#define DM_UPDATEPICLAYOUT       (TM_USER+30)
+#define DM_APPENDMCEVENT         (TM_USER+34)
+#define DM_CHECKINFOTIP          (TM_USER+35)
+#define DM_SAVESIZE              (TM_USER+36)
+#define DM_CHECKSIZE             (TM_USER+37)
+#define DM_FORCEREDRAW           (TM_USER+38)
+#define DM_QUERYHCONTACT         (TM_USER+41)
+#define DM_STATUSMASKSET         (TM_USER+51)
+#define DM_UPDATESTATUSMSG       (TM_USER+53)
+#define DM_OWNNICKCHANGED        (TM_USER+55)
+#define DM_CONFIGURETOOLBAR      (TM_USER+56)
+#define DM_FORCEDREMAKELOG       (TM_USER+62)
+#define DM_STATUSBARCHANGED      (TM_USER+64)
+#define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
+#define DM_CHECKAUTOHIDE         (TM_USER+71)
+#define DM_HANDLECLISTEVENT      (TM_USER+73)
+#define DM_REMOVECLISTEVENT      (TM_USER+75)
+#define DM_DOCREATETAB           (TM_USER+77)
+#define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
+#define DM_MYAVATARCHANGED	      (TM_USER+86)
+#define DM_IEVIEWOPTIONSCHANGED  (TM_USER+88)
+#define DM_SPLITTERGLOBALEVENT   (TM_USER+89)
+#define DM_CLIENTCHANGED         (TM_USER+91)
+#define DM_SENDMESSAGECOMMANDW   (TM_USER+93)
+#define DM_LOGSTATUSCHANGE	      (TM_USER+98)
+#define DM_SC_BUILDLIST          (TM_USER+100)
+#define DM_SC_INITDIALOG         (TM_USER+101)
+#define DM_SC_CONFIG             (TM_USER+104)
+#define DM_UPDATEUIN             (TM_USER+103)
+
+#define MINSPLITTERX         60
+#define MINSPLITTERY         42
+#define MINLOGHEIGHT         30
+#define ERRORPANEL_HEIGHT    51
+
+// wParam values for DM_SELECTTAB
+
+#define DM_SELECT_NEXT		   1
+#define DM_SELECT_PREV		   2
+
+#define DM_SELECT_BY_HWND	   3 // lParam specifies hwnd
+#define DM_SELECT_BY_INDEX    4 // lParam specifies tab index
+
+#define DM_QUERY_NEXT         1
+#define DM_QUERY_MOSTRECENT   2
+
 #define SMODE_DEFAULT 0
 #define SMODE_MULTIPLE 1
 #define SMODE_CONTAINER 2
@@ -420,8 +488,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	RECT    m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
 	int     m_originalSplitterY;
 	SIZE    m_minEditBoxSize;
-	int     m_nTypeMode;
-	DWORD   m_nLastTyping;
 	DWORD   m_lastMessage;
 	DWORD   m_dwTickLastEvent;
 	HBITMAP m_hOwnPic;
@@ -468,7 +534,7 @@ public:
 	char   *m_szProto;
 	int     m_iTabID;
 	int     m_iLogMode;
-	BYTE    m_bShowTyping;
+
 	bool    m_bIsHistory, m_bNotOnList, m_bIsIdle;
 	bool    m_bActualHistory;
 	bool    m_bIsAutosizingInput;
@@ -495,7 +561,6 @@ public:
 	MEVENT *m_hHistoryEvents;
 	time_t  m_lastEventTime;
 	int     m_iLastEventType;
-	int     m_nTypeSecs;
 	int     m_iOpenJobs;
 	int     m_iInputAreaHeight = -1;
 	int     m_maxHistory, m_curHistory;
@@ -587,6 +652,13 @@ public:
 
 	__forceinline void ActivateTab() {
 		m_pContainer->ActivateExistingTab(this);
+	}
+
+	__forceinline void ClearTyping() {
+		m_nTypeSecs = 0;
+		m_bShowTyping = 0;
+		m_wszStatusBar[0] = 0;
+		PostMessage(m_hwnd, DM_UPDATELASTMESSAGE, 0, 0);
 	}
 
 	__forceinline CLogWindow* LOG() {
@@ -703,74 +775,6 @@ struct TIconDescW
 		MWF_LOG_NEWLINE|MWF_LOG_UNDERLINE|MWF_LOG_SWAPNICK /*_MAD*/)
 
 #define MWF_LOG_DEFAULT (MWF_LOG_GROUPMODE | MWF_LOG_SHOWTIME | MWF_LOG_NORMALTEMPLATES | MWF_LOG_SHOWDATES | MWF_LOG_SYMBOLS | MWF_LOG_GRID | MWF_LOG_INOUTICONS)
-
-/*
- * custom dialog window messages
- */
-
-#define TM_USER                  (WM_USER+300)
-
-#define EM_SEARCHSCROLLER        (TM_USER+0x103)
-#define EM_VALIDATEBOTTOM        (TM_USER+0x104)
-#define EM_THEMECHANGED          (TM_USER+0x105)
-#define EM_REFRESHWITHOUTCLIP    (TM_USER+0x106)
-
-#define HM_EVENTSENT             (TM_USER+10)
-#define HM_DBEVENTADDED          (TM_USER+12)
-#define DM_SETINFOPANEL          (TM_USER+13)
-#define DM_OPTIONSAPPLIED        (TM_USER+14)
-#define DM_SPLITSENDACK          (TM_USER+19)
-#define DM_UPDATEWINICON         (TM_USER+21)
-#define DM_UPDATELASTMESSAGE     (TM_USER+22)
-
-#define DM_STATUSICONCHANGE      (TM_USER+25)
-#define DM_CREATECONTAINER       (TM_USER+26)
-#define DM_QUERYLASTUNREAD       (TM_USER+28)
-#define DM_UPDATEPICLAYOUT       (TM_USER+30)
-#define DM_APPENDMCEVENT         (TM_USER+34)
-#define DM_CHECKINFOTIP          (TM_USER+35)
-#define DM_SAVESIZE              (TM_USER+36)
-#define DM_CHECKSIZE             (TM_USER+37)
-#define DM_FORCEREDRAW           (TM_USER+38)
-#define DM_QUERYHCONTACT         (TM_USER+41)
-#define DM_STATUSMASKSET         (TM_USER+51)
-#define DM_UPDATESTATUSMSG       (TM_USER+53)
-#define DM_OWNNICKCHANGED        (TM_USER+55)
-#define DM_CONFIGURETOOLBAR      (TM_USER+56)
-#define DM_FORCEDREMAKELOG       (TM_USER+62)
-#define DM_STATUSBARCHANGED      (TM_USER+64)
-#define DM_CHECKQUEUEFORCLOSE    (TM_USER+70)
-#define DM_CHECKAUTOHIDE         (TM_USER+71)
-#define DM_HANDLECLISTEVENT      (TM_USER+73)
-#define DM_REMOVECLISTEVENT      (TM_USER+75)
-#define DM_DOCREATETAB           (TM_USER+77)
-#define DM_SMILEYOPTIONSCHANGED  (TM_USER+85)
-#define DM_MYAVATARCHANGED	      (TM_USER+86)
-#define DM_IEVIEWOPTIONSCHANGED  (TM_USER+88)
-#define DM_SPLITTERGLOBALEVENT   (TM_USER+89)
-#define DM_CLIENTCHANGED         (TM_USER+91)
-#define DM_SENDMESSAGECOMMANDW   (TM_USER+93)
-#define DM_LOGSTATUSCHANGE	      (TM_USER+98)
-#define DM_SC_BUILDLIST          (TM_USER+100)
-#define DM_SC_INITDIALOG         (TM_USER+101)
-#define DM_SC_CONFIG             (TM_USER+104)
-#define DM_UPDATEUIN             (TM_USER+103)
-
-#define MINSPLITTERX         60
-#define MINSPLITTERY         42
-#define MINLOGHEIGHT         30
-#define ERRORPANEL_HEIGHT    51
-
-// wParam values for DM_SELECTTAB
-
-#define DM_SELECT_NEXT		   1
-#define DM_SELECT_PREV		   2
-									   
-#define DM_SELECT_BY_HWND	   3 // lParam specifies hwnd
-#define DM_SELECT_BY_INDEX    4 // lParam specifies tab index
-									   
-#define DM_QUERY_NEXT         1
-#define DM_QUERY_MOSTRECENT   2
 
 // implement a callback for the rich edit. Without it, no bitmaps
 // can be added to the richedit control.

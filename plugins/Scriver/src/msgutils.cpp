@@ -154,7 +154,10 @@ void CMsgDialog::NotifyTyping(int mode)
 
 	// End user check
 	m_nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
+	if (isChat())
+		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
+	else
+		CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
 }
 
 void CMsgDialog::Reattach(HWND hwndContainer)
@@ -525,7 +528,8 @@ void CMsgDialog::UpdateStatusBar()
 		else if (m_nTypeSecs) {
 			sbd.hIcon = g_plugin.getIcon(IDI_TYPING);
 			sbd.pszText = szText;
-			mir_snwprintf(szText, TranslateT("%s is typing a message..."), Clist_GetContactDisplayName(m_hContact));
+			mir_snwprintf(szText, TranslateT("%s is typing a message..."), 
+				(m_pUserTyping) ? m_pUserTyping->pszNick : Clist_GetContactDisplayName(m_hContact));
 			m_nTypeSecs--;
 		}
 		else if (m_lastMessage) {
@@ -577,7 +581,7 @@ void CMsgDialog::UpdateTabControl()
 
 void CMsgDialog::UserIsTyping(int iState)
 {
-	m_nTypeSecs = (iState > 0) ? iState : 0;
+	setTyping((iState > 0) ? iState : 0);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

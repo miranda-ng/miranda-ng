@@ -787,3 +787,4 @@ Netlib_SslPending @874 NONAME
 Netlib_SslRead @875 NONAME
 Netlib_SslShutdown @876 NONAME
 Netlib_SslWrite @877 NONAME
+?AllowTyping@CSrmmBaseDialog@@IEBA_NXZ @878 NONAME

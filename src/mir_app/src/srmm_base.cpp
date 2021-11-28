@@ -555,6 +555,11 @@ void CSrmmBaseDialog::AddLog()
 		m_pLog->Clear();
 }
 
+bool CSrmmBaseDialog::AllowTyping() const
+{
+	return isChat() ? m_si->iType != GCW_SERVER : true;
+}
+
 void CSrmmBaseDialog::ClearLog()
 {
 	m_pLog->Clear();

@@ -109,11 +109,10 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	bool   m_bIncoming, m_bShowTyping, m_bWindowCascaded;
+	bool   m_bIncoming, m_bWindowCascaded;
 
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
 	int    m_minLogBoxHeight, m_minEditBoxHeight;
-	int    m_nTypeSecs, m_nTypeMode, m_nLastTyping;
 	int    m_iShowUnread;
 	WORD   m_wStatus;
 	DWORD  m_lastMessage;

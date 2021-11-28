@@ -956,11 +956,11 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 					break;
 
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
-					if (sid->dwId == MSG_ICON_SOUND)
+					if (sid->dwId == MSG_ICON_SOUND) {
 						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers"),
 							pContainer->m_flags.m_bNoSound ? TranslateT("disabled") : TranslateT("enabled"));
-
-					else if (sid->dwId == MSG_ICON_UTN && (!dat->isChat() || dat->m_si->iType == GCW_PRIVMESS)) {
+					}
+					else if (sid->dwId == MSG_ICON_UTN && dat->AllowTyping()) {
 						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 						mir_snwprintf(wBuf, TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));

@@ -532,22 +532,32 @@ void CDiscordProto::OnCommandReady(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandTyping(const JSONNode &pRoot)
 {
-	SnowFlake userId = ::getId(pRoot["user_id"]);
 	SnowFlake channelId = ::getId(pRoot["channel_id"]);
-	debugLogA("user typing notification: userid=%lld, channelid=%lld", userId, channelId);
+	debugLogA("user typing notification: channelid=%lld", channelId);
 
-	CDiscordUser *pUser = FindUser(userId);
-	if (pUser == nullptr) {
-		debugLogA("user with id=%lld is not found", userId);
+	CDiscordUser *pChannel = FindUserByChannel(channelId);
+	if (pChannel == nullptr) {
+		debugLogA("channel with id=%lld is not found", channelId);
 		return;
 	}
 
-	if (pUser->channelId == channelId) {
-		debugLogA("user is typing in his private channel");
-		CallService(MS_PROTO_CONTACTISTYPING, pUser->hContact, 20);
+	// both private groupchats & guild channels are chat rooms for Miranda
+	if (pChannel->pGuild) {
+		debugLogA("user is typing in a group channel");
+
+		CMStringW wszUerId = pRoot["user_id"].as_mstring();
+		ProcessGuildUser(pChannel->pGuild, pRoot); // never returns null
+
+		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TYPING };
+		gce.pszID.w = pChannel->wszUsername;
+		gce.pszUID.w = wszUerId;
+		gce.dwItemData = 1;
+		gce.time = time(0);
+		Chat_Event(&gce);
 	}
 	else {
-		debugLogA("user is typing in a group channel, skipped");
+		debugLogA("user is typing in his private channel");
+		CallService(MS_PROTO_CONTACTISTYPING, pChannel->hContact, 20);
 	}
 }
 

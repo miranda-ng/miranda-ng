@@ -474,7 +474,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		break;
 
 	case IDC_SELFTYPING:
-		if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
+		if (AllowTyping()) {
 			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
@@ -822,27 +822,33 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
-	DWORD protoStatus = Proto_GetStatus(szProto);
-	if (protoStatus < ID_STATUS_ONLINE)
-		return;
+	if (isChat()) {
+		m_nTypeMode = mode;
+		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
+	}
+	else {
+		DWORD protoStatus = Proto_GetStatus(szProto);
+		if (protoStatus < ID_STATUS_ONLINE)
+			return;
 
-	// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
-	// should not see them (privacy issue)
-	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-		return;
+		// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
+		// should not see them (privacy issue)
+		DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+			return;
 
-	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-		return;
+		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
+			return;
 
-	// don't send to contacts which are not permanently added to the contact list,
-	// unless the option to ignore added status is set.
-	if (!Contact_OnList(m_hContact) && !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
-		return;
+		// don't send to contacts which are not permanently added to the contact list,
+		// unless the option to ignore added status is set.
+		if (!Contact_OnList(m_hContact) && !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+			return;
 
-	// End user check
-	m_nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, hContact, m_nTypeMode);
+		// End user check
+		m_nTypeMode = mode;
+		CallService(MS_PROTO_SELFISTYPING, hContact, m_nTypeMode);
+	}
 }
 
 void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
@@ -905,7 +911,9 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 				m_bShowTyping = 2;
 				m_nTypeSecs = 86400;
 
-				mir_snwprintf(m_wszStatusBar, TranslateT("%s has entered text."), m_cache->getNick());
+				if (!isChat())
+					mir_snwprintf(m_wszStatusBar, TranslateT("%s has entered text."), m_cache->getNick());
+
 				if (hwndStatus && m_pContainer->m_hwndActive == m_hwnd)
 					SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)m_wszStatusBar);
 			}
@@ -930,7 +938,8 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 		tabUpdateStatusBar();
 	}
 	else if (m_nTypeSecs > 0) {
-		mir_snwprintf(m_wszStatusBar, TranslateT("%s is typing a message"), m_cache->getNick());
+		mir_snwprintf(m_wszStatusBar, TranslateT("%s is typing a message"), 
+			(m_pUserTyping) ? m_pUserTyping->pszNick : m_cache->getNick());
 
 		m_nTypeSecs--;
 		if (hwndStatus && m_pContainer->m_hwndActive == m_hwnd) {
@@ -1221,7 +1230,7 @@ void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 			}
 			else if (sid->dwId == MSG_ICON_UTN) {
-				if (!isChat() || m_si->iType == GCW_PRIVMESS) {
+				if (AllowTyping()) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
 					DrawIconEx(hDC, x, y, g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
@@ -1275,7 +1284,7 @@ void CMsgDialog::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int cod
 				InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 			}
 		}
-		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && (!isChat() || m_si->iType == GCW_PRIVMESS)) {
+		else if (sid->dwId == MSG_ICON_UTN && code != NM_RCLICK && AllowTyping()) {
 			SendMessage(m_pContainer->m_hwndActive, WM_COMMAND, IDC_SELFTYPING, 0);
 			InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 		}

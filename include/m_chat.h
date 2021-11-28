@@ -330,6 +330,11 @@ EXTERN_C MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 //					registered with GC_EVENT_ADDGROUP. Ex "Voice" in IRC
 #define GC_EVENT_REMOVESTATUS	0x0800
 
+//	GC_EVENT_TYPING - sets typing status for contact
+//	pszUID		- Unique identifier of the one who's typing
+//	dwItemData	- ON/OFF
+#define GC_EVENT_TYPING       0x1001
+
 //	GC_EVENT_SETCONTACTSTATUS - sets status icon for contact
 //	pszUID		- Unique identifier of the one who receives a new status
 //	dwItemData	- (DWORD)ID_STATUS_* or zero to remove status icon
@@ -469,7 +474,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_GetInfo(GC_INFO*);
 #define GC_USER_CHANMGR          2 // user clicked the settings button in a chat room
 #define GC_USER_LOGMENU          3 // user has selected a message log menu item, dwData is valid. See ME_GC_BUILDMENU
 #define GC_USER_NICKLISTMENU     4 // user has selected a userlist menu item, valid members: dwData. See ME_GC_BUILDMENU
-#define GC_USER_TYPNOTIFY        5 // NOT IMPLEMENTED YET! user is typing
+#define GC_USER_TYPNOTIFY        5 // user is typing
 #define GC_USER_PRIVMESS         6 // user requests to send a private message to a user. pszUID is valid
 #define GC_SESSION_TERMINATE     7 // the session is about to be terminated, the "user defined data" is passed in dwData, which can be good free'ing any allocated memory.
 

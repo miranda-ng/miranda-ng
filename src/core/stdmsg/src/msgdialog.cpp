@@ -442,11 +442,11 @@ void CMsgDialog::OnType(CTimer*)
 	}
 	else {
 		if (m_nTypeSecs) {
-			wchar_t szBuf[256];
-			wchar_t *szContactName = Clist_GetContactDisplayName(m_hContact);
 			HICON hTyping = Skin_LoadIcon(SKINICON_OTHER_TYPING);
 
-			mir_snwprintf(szBuf, TranslateT("%s is typing a message..."), szContactName);
+			wchar_t szBuf[256];
+			mir_snwprintf(szBuf, TranslateT("%s is typing a message..."),
+				(m_pUserTyping) ? m_pUserTyping->pszNick : Clist_GetContactDisplayName(m_hContact));
 			m_nTypeSecs--;
 
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
@@ -1427,28 +1427,33 @@ void CMsgDialog::NotifyTyping(int mode)
 	if (!m_szProto)
 		return;
 
-	int protoStatus = Proto_GetStatus(m_szProto);
-	DWORD protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	DWORD typeCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
-
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
+	int protoStatus = Proto_GetStatus(m_szProto);
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 
-	if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
-		return;
+	if (isChat()) {
+		m_nTypeMode = mode;
+		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
+	}
+	else {
+		DWORD protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+		if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
+			return;
 
-	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
-		return;
+		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
+			return;
 
-	if (!g_dat.bTypingUnknown && !Contact_OnList(m_hContact))
-		return;
+		if (!g_dat.bTypingUnknown && !Contact_OnList(m_hContact))
+			return;
 
-	// End user check
-	m_nTypeMode = mode;
-	CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
+		// End user check
+		m_nTypeMode = mode;
+		CallService(MS_PROTO_SELFISTYPING, m_hContact, m_nTypeMode);
+	}
 }
 
 void CMsgDialog::RemakeLog()
@@ -1679,5 +1684,5 @@ void CMsgDialog::UpdateTitle()
 
 void CMsgDialog::UserTyping(int nSecs)
 {
-	m_nTypeSecs = (nSecs > 0) ? nSecs : 0;
+	setTyping((nSecs > 0) ? nSecs : 0);
 }

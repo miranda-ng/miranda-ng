@@ -195,6 +195,7 @@ protected:
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 
+	bool AllowTyping() const;
 	int  NotifyEvent(int code);
 	bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
 	bool PasteFilesAsURL(HDROP hDrop);
@@ -208,6 +209,12 @@ protected:
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
 	time_t m_iLastEnterTime;
+
+	// user typing support;
+	DWORD m_nLastTyping = 0;
+	BYTE m_bShowTyping = 0;
+	int m_nTypeSecs = 0, m_nTypeMode = 0;
+	const USERINFO* m_pUserTyping = nullptr;
 
 	CCtrlListBox m_nickList;
 	CCtrlButton m_btnColor, m_btnBkColor;
@@ -253,6 +260,11 @@ public:
 	__forceinline bool isChat() const { return m_si != nullptr; }
 	__forceinline SESSION_INFO *getChat() const { return m_si; }
 	__forceinline CSrmmLogWindow *log() const { return m_pLog; }
+	
+	__forceinline void setTyping(int nSecs, const USERINFO* pUser = nullptr) {
+		m_pUserTyping = pUser;
+		m_nTypeSecs = nSecs;
+	}
 
 	__inline void* operator new(size_t size) { return calloc(1, size); }
 	__inline void operator delete(void *p) { free(p); }

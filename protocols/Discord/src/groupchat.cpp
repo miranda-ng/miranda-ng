@@ -225,6 +225,10 @@ int CDiscordProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_NICKLISTMENU:
 		Chat_ProcessNickMenu(gch);
 		break;
+
+	case GC_USER_TYPNOTIFY:
+		UserIsTyping(gch->si->hContact, (int)gch->dwData);
+		break;
 	}
 
 	return 1;

@@ -94,14 +94,12 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	HFONT m_hFont = nullptr;
 
-	int m_nTypeSecs = 0, m_nTypeMode = 0;
 	int m_limitAvatarH = 0;
-	DWORD m_nLastTyping = 0;
 	DWORD m_lastMessage = 0;
 	HANDLE m_hTimeZone = 0;
 	WORD m_wStatus = ID_STATUS_OFFLINE, m_wOldStatus = ID_STATUS_OFFLINE;
 	WORD m_wMinute = 0;
-	bool m_bIsMeta = false, m_bShowTyping = false, m_bWindowCascaded = false, m_bNoActivate = false;
+	bool m_bIsMeta = false, m_bWindowCascaded = false, m_bNoActivate = false;
 
 public:
 	CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact);

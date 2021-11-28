@@ -493,6 +493,9 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);
 		break;
 
+	case GC_EVENT_TYPING:
+		return SM_UserTyping(&gce);
+
 	case GC_EVENT_JOIN:
 		AddUser(&gce);
 		bIsHighlighted = g_chatApi.IsHighlighted(nullptr, &gce);

@@ -478,7 +478,7 @@ bool CMsgDialog::OnInitDialog()
 	GetMyNick();
 
 	m_iMultiSplit = g_plugin.getDword("multisplit", 150);
-	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
+	if (AllowTyping()) {
 		m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 		timerType.Start(1000);
 	}
@@ -718,7 +718,7 @@ void CMsgDialog::OnDestroy()
 		else SendMessage(m_hwnd, WM_COMMAND, IDC_PIC, 0);
 	}
 
-	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS)
+	if (AllowTyping())
 		if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
@@ -817,7 +817,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		Utils::enableDlgControl(m_hwnd, IDOK, false);
 
 		// Typing support for GCW_PRIVMESS sessions
-		if (m_si->iType == GCW_PRIVMESS)
+		if (AllowTyping())
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
@@ -1069,7 +1069,7 @@ void CMsgDialog::onChange_Message(CCtrlEdit*)
 	m_btnOk.Enable(m_message.GetRichTextLength() != 0);
 
 	// Typing support for GCW_PRIVMESS sessions
-	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS) {
+	if (AllowTyping()) {
 		if (!(GetKeyState(VK_CONTROL) & 0x8000)) {
 			m_nLastTyping = GetTickCount();
 			if (GetWindowTextLength(m_message.GetHwnd())) {
@@ -1086,7 +1086,7 @@ void CMsgDialog::onChange_Message(CCtrlEdit*)
 
 void CMsgDialog::onType(CTimer *)
 {
-	if (m_si == nullptr || m_si->iType == GCW_PRIVMESS)
+	if (AllowTyping())
 		DM_Typing(false);
 }
 

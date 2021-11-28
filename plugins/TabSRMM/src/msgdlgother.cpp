@@ -2009,12 +2009,12 @@ void CMsgDialog::tabUpdateStatusBar() const
 
 int CMsgDialog::Typing(int secs)
 {
-	if (m_si != nullptr && m_si->iType != GCW_PRIVMESS)
+	if (!AllowTyping())
 		return 0;
 
 	int preTyping = m_nTypeSecs != 0;
 
-	m_nTypeSecs = (secs > 0) ? secs : 0;
+	setTyping(m_nTypeSecs = (secs > 0) ? secs : 0);
 	if (m_nTypeSecs)
 		m_bShowTyping = 0;
 

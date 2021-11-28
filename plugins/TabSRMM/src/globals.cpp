@@ -365,12 +365,9 @@ int CGlobals::DBSettingChanged(WPARAM hContact, LPARAM lParam)
 			PostMessage(hwnd, DM_UPDATESTATUSMSG, 0, 0);
 
 		if (fChanged) {
-			if (dat && c->getStatus() == ID_STATUS_OFFLINE) {			// clear typing notification in the status bar when contact goes offline
-				dat->m_nTypeSecs = 0;
-				dat->m_bShowTyping = 0;
-				dat->m_wszStatusBar[0] = 0;
-				PostMessage(dat->GetHwnd(), DM_UPDATELASTMESSAGE, 0, 0);
-			}
+			if (dat && c->getStatus() == ID_STATUS_OFFLINE) // clear typing notification in the status bar when contact goes offline
+				dat->ClearTyping();
+
 			PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_LOGSTATUSCHANGE, MAKELONG(c->getStatus(), c->getOldStatus()), (LPARAM)c);
 		}
 	}
