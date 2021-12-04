@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef MIM_REGEXP_H
 #define MIM_REGEXP_H
 
-#include "../libs/pcre16/src/pcre.h"
+#include <pcre.h>
 
 class MRegexp16
 {

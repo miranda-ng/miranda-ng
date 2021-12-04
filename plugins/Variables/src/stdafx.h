@@ -44,12 +44,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #include <m_netlib.h>
 #include <m_metacontacts.h>
 #include <m_timezones.h>
-
 #include <m_variables.h>
+#include <pcre.h>
 
 #include "../helpers/gen_helpers.h"
-
-#include "../../libs/pcre16/src/pcre.h"
 
 #include "resource.h"
 #include "version.h"

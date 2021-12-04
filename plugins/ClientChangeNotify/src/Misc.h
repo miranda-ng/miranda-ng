@@ -44,6 +44,10 @@ __inline void ShowLog(TCString &LogFilePath)
 	}
 }
 
+int PcreCheck(TCString Str, int StartingID = -1);
+void FreePcreCompileData();
+TCString CompileRegexp(TCString Regexp, int bAddAsUsualSubstring = 0, int ID = 0);
+
 __inline void RecompileRegexps(TCString IgnoreSubstrings)
 {
 	FreePcreCompileData();

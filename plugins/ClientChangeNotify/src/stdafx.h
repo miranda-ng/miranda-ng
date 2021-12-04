@@ -52,6 +52,8 @@
 
 #include "m_fingerprint.h"
 
+#include <pcre.h>
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
@@ -62,7 +64,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #include "TMyArray.h"
 #include "Options.h"
 #include "CString.h"
-#include "pcre.h"
 
 #include "resource.h"
 #include "Misc.h"

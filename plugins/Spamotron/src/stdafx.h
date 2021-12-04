@@ -17,10 +17,8 @@
 #include <m_popup.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>
-
-#include "m_folders.h"
-
-#include "../../libs/pcre16/src/pcre.h"
+#include <m_folders.h>
+#include <pcre.h>
 
 #include "resource.h"
 #include "version.h"

@@ -791,7 +791,7 @@
 #define USE_LIBICONV_NATIVE 1
 
 /* using the system-supplied PCRE library */
-/* #undef USE_SYSTEM_PCRE */
+#define USE_SYSTEM_PCRE 1
 
 /* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
    significant byte first (like Motorola and SPARC, unlike Intel). */

@@ -18,14 +18,6 @@
 */
 
 #include "stdafx.h"
-#include <windows.h>
-#include <stdio.h>
-#include <crtdbg.h>
-#include "newpluginapi.h"
-#include "m_utils.h"
-#include "TMyArray.h"
-#include "CString.h"
-#include "pcre.h"
 
 typedef struct
 {
