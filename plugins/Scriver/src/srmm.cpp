@@ -124,7 +124,7 @@ int CMPlugin::Load()
 	if (IsWinVer7Plus())
 		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
 
-	hLogger = RegisterSrmmLog("built-in", L"Scriver internal log", &logBuilder);
+	hLogger = RegisterSrmmLog("built-in", LPGENW("Scriver internal log"), &logBuilder);
 
 	switch (getByte("UseIEView", -1)) {
 	case 1:

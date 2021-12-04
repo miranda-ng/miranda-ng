@@ -52,7 +52,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRMM, 
 
 int CMPlugin::Load()
 {
-	hLogger = RegisterSrmmLog("built-in", L"StdMsg internal log", &logBuilder);
+	hLogger = RegisterSrmmLog("built-in", LPGENW("StdMsg internal log"), &logBuilder);
 
 	Load_ChatModule();
 	return LoadSendRecvMessageModule();
