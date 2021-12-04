@@ -924,6 +924,8 @@
 [Compact layout, horizontal buttons]
 [Advanced layout with avatars]
 [Advanced with avatars, vertical orientation]
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 [%d unread]

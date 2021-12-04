@@ -354,5 +354,7 @@
 [%s: message session (%u users)]
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]

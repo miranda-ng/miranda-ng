@@ -892,6 +892,8 @@
 [Contact stopped typing]
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 [The quick brown fox jumped over the lazy dog.]
@@ -1725,7 +1727,7 @@
 [JPEG bitmaps]
 [GIF bitmaps]
 [PNG bitmaps]
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 ;file \include\m_message.h
 [Message window toolbar]

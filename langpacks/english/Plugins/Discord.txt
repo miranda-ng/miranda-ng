@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.10
+;  Version: 0.6.2.11
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -25,6 +25,7 @@
 [Change &topic]
 [&Rename channel]
 [&Destroy channel]
+[Copy ID]
 [Do you really want to destroy this channel? This action is non-revertable.]
 [Enter new channel name:]
 [Enter new topic:]
