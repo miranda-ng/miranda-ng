@@ -57,6 +57,7 @@ using namespace std;
 #define MODULENAME "Msg_Export"
 #define MSG_BOX_TITEL TranslateT("Miranda NG (Message Export Plugin)")
 #define MS_SHOW_EXPORT_HISTORY "History/ShowExportHistory"
+#define MS_EXPORT_HISTORY "History/ExportHistory"
 #define szFileViewDB "FileV_"
 #define WM_RELOAD_FILE (WM_USER+10)
 
@@ -71,5 +72,26 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern MWindowList hInternalWindowList;
 extern wstring g_sDBPath, g_sMirandaPath;
 extern IconItem iconList[];
+
+///////////////////////////////////////////////////////////////////////////////
+
+void __cdecl exportContactsMessages(struct ExportDialogData *data);
+INT_PTR CALLBACK __stdcall DialogProc(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lParam);
+
+struct ExportDialogData
+{
+	list<MCONTACT> contacts;
+	HWND hDialog;
+
+	void Run()
+	{
+		// Create progress dialog
+		hDialog = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), nullptr, DialogProc);
+		ShowWindow(hDialog, SW_SHOWNORMAL);
+
+		// Process the export in other thread
+		mir_forkThread<ExportDialogData>(&exportContactsMessages, this);
+	}
+};
 
 #endif

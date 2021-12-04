@@ -120,12 +120,7 @@ INT_PTR CALLBACK __stdcall DialogProc(HWND hwndDlg, UINT uMsg, WPARAM, LPARAM lP
 	return FALSE;
 }
 
-struct ExportDialogData {
-	list<MCONTACT> contacts;
-	HWND hDialog;
-};
-
-void __cdecl exportContactsMessages(ExportDialogData *data)
+void __cdecl exportContactsMessages(struct ExportDialogData *data)
 {
 	HWND hDlg = data->hDialog;
 	HWND hProg = GetDlgItem(hDlg, IDC_EXPORT_PROGRESS);
@@ -559,12 +554,7 @@ public:
 			data->contacts.push_back(hContact);
 		}
 
-		// Create progress dialog
-		HWND hDlg = data->hDialog = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_ALL_DLG), nullptr, DialogProc);
-		ShowWindow(hDlg, SW_SHOWNORMAL);
-
-		// Process the export in other thread
-		mir_forkThread<ExportDialogData>(&exportContactsMessages, data);
+		data->Run();
 	}
 
 	void Details()

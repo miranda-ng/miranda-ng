@@ -62,12 +62,20 @@ CMPlugin::CMPlugin() :
 // Developer       : KN   
 /////////////////////////////////////////////////////////////////////
 
-static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM /*lParam*/)
+static INT_PTR ShowExportHistory(WPARAM wParam, LPARAM)
 {
 	if (g_bUseIntViewer)
 		bShowFileViewer(wParam);
 	else
 		bOpenExternaly(wParam);
+	return 0;
+}
+
+static INT_PTR ExportContactHistory(WPARAM hContact, LPARAM)
+{
+	ExportDialogData* data = new ExportDialogData();
+	data->contacts.push_back(hContact);
+	data->Run();
 	return 0;
 }
 
@@ -110,8 +118,15 @@ int MainInit(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	bReadMirandaDirAndPath();
 	UpdateFileToColWidth();
 
+	CMenuItem mi(&g_plugin);
+	SET_UID(mi, 0x4e889089, 0x2304, 0x425f, 0x8f, 0xaa, 0x4f, 0x8a, 0x7b, 0x26, 0x4d, 0x4d); // {4E889089-2304-425F-8FAA-4F8A7B264D4D}
+	mi.hIcolibItem = iconList[0].hIcolib;
+	mi.position = 1000090101;
+	mi.name.a = LPGEN("Export history");
+	mi.pszService = MS_EXPORT_HISTORY;
+	Menu_AddContactMenuItem(&mi);
+
 	if (!g_bReplaceHistory) {
-		CMenuItem mi(&g_plugin);
 		SET_UID(mi, 0x701c543, 0xd078, 0x41dd, 0x95, 0xe3, 0x96, 0x49, 0x8a, 0x72, 0xc7, 0x50);
 		mi.hIcolibItem = iconList[0].hIcolib;
 		mi.position = 1000090100;
@@ -174,6 +189,8 @@ int CMPlugin::Load()
 
 	if (!hServiceFunc)
 		hServiceFunc = CreateServiceFunction(MS_SHOW_EXPORT_HISTORY, ShowExportHistory);
+
+	CreateServiceFunction(MS_EXPORT_HISTORY, ExportContactHistory);
 
 	hInternalWindowList = WindowList_Create();
 	return 0;
