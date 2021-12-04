@@ -51,9 +51,4 @@
     <ResourceCompile Include="res\dbx_sqlite.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
-  <ItemDefinitionGroup>
-    <ClCompile>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\..\libs\sqlite3\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ClCompile>
-  </ItemDefinitionGroup>
 </Project>
