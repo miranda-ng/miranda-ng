@@ -368,6 +368,7 @@ extern HGENMENU hMwinMenu;
 
 // check if weather is currently updating
 extern BOOL ThreadRunning;
+extern bool g_bIsUtf;
 
 //============  FUNCTION PRIMITIVES  ============
 
@@ -430,11 +431,11 @@ void EraseAllInfo(void);
 
 void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szInfo);
 void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data);
-void wSetData(char **Data, const char *Value);
-void wSetData(WCHAR **Data, const char *Value);
-void wSetData(WCHAR **Data, const WCHAR *Value);
-void wfree(char **Data);
-void wfree(WCHAR **Data);
+void wSetData(char *&Data, const char *Value);
+void wSetData(WCHAR *&Data, const char *Value);
+void wSetData(WCHAR *&Data, const WCHAR *Value);
+void wfree(char *&Data);
+void wfree(WCHAR *&Data);
 
 void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 

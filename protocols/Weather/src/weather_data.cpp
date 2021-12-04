@@ -345,44 +345,47 @@ void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t **szData)
 // copy a string into a new memory location
 // Data = the field the data is copied to
 // Value = the original string, the string where data is copied from
-void wSetData(char **Data, const char *Value)
+
+bool g_bIsUtf = false;
+
+void wSetData(char *&Data, const char *Value)
 {
 	if (Value[0] != 0)
-		*Data = mir_strdup(Value);
+		Data = mir_strdup(Value);
 	else
-		*Data = "";
+		Data = "";
 }
 
-void wSetData(WCHAR **Data, const char *Value)
+void wSetData(WCHAR *&Data, const char *Value)
 {
 	if (Value[0] != 0)
-		*Data = mir_a2u(Value);
+		Data = (g_bIsUtf) ? mir_utf8decodeW(Value) : mir_a2u(Value);
 	else
-		*Data = L"";
+		Data = L"";
 }
 
-void wSetData(WCHAR **Data, const WCHAR *Value)
+void wSetData(WCHAR *&Data, const WCHAR *Value)
 {
 	if (Value[0] != 0)
-		*Data = mir_wstrdup(Value);
+		Data = mir_wstrdup(Value);
 	else
-		*Data = L"";
+		Data = L"";
 }
 
 // A safer free function that free memory for a string
 // Data = the string occuping the data to be freed
-void wfree(char **Data)
+void wfree(char *&Data)
 {
-	if (*Data && mir_strlen(*Data) > 0)
-		mir_free(*Data);
-	*Data = nullptr;
+	if (Data && mir_strlen(Data) > 0)
+		mir_free(Data);
+	Data = nullptr;
 }
 
-void wfree(WCHAR **Data)
+void wfree(WCHAR *&Data)
 {
-	if (*Data && mir_wstrlen(*Data) > 0)
-		mir_free(*Data);
-	*Data = nullptr;
+	if (Data && mir_wstrlen(Data) > 0)
+		mir_free(Data);
+	Data = nullptr;
 }
 
 //============ MANAGE THE ITEMS STORED IN DB ============

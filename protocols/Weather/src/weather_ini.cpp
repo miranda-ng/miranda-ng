@@ -91,12 +91,12 @@ void ResetDataItem(WIDATAITEM *Item, const wchar_t *name)
 // Item = the item to free
 void FreeDataItem(WIDATAITEM *Item)
 {
-	wfree(&Item->Name);
-	wfree(&Item->Start);
-	wfree(&Item->End);
-	wfree(&Item->Unit);
-	wfree(&Item->Url);
-	wfree(&Item->Break);
+	wfree(Item->Name);
+	wfree(Item->Start);
+	wfree(Item->End);
+	wfree(Item->Unit);
+	wfree(Item->Url);
+	wfree(Item->Break);
 }
 
 //============  Condition Icon List  ============
@@ -112,7 +112,7 @@ void WICondListInit(WICONDLIST *List)
 void WICondListAdd(char *str, WICONDLIST *List)
 {
 	WICONDITEM *newItem = (WICONDITEM*)mir_alloc(sizeof(WICONDITEM));
-	wSetData(&newItem->Item, str);
+	wSetData(newItem->Item, str);
 	CharLowerW(newItem->Item);
 	newItem->Next = nullptr;
 	if (List->Tail == nullptr)	List->Head = newItem;
@@ -140,7 +140,7 @@ void DestroyCondList(WICONDLIST *List)
 	// free the list one by one
 	for (WICONDITEM *temp = List->Head; temp != nullptr; temp = List->Head) {
 		List->Head = temp->Next;
-		wfree(&temp->Item);	// free the data struct
+		wfree(temp->Item);	// free the data struct
 		mir_free(temp);
 	}
 	// make sure the entire list is clear
@@ -304,8 +304,8 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 	Data->IDSearch.Available = FALSE;
 	Data->NameSearch.Single.Available = FALSE;
 	Data->NameSearch.Multiple.Available = FALSE;
-	wSetData(&Data->FileName, pszFile);
-	wSetData(&Data->ShortFileName, pszShortFile);
+	wSetData(Data->FileName, pszFile);
+	wSetData(Data->ShortFileName, pszShortFile);
 
 	ResetDataItem(&Data->IDSearch.Name, L"ID Search - Station Name");
 	ResetDataItem(&Data->NameSearch.Single.Name, L"Name Search Single Result - Station Name");
@@ -331,6 +331,8 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 	for (auto &it : Data->CondList)
 		WICondListInit(&it);
 
+	g_bIsUtf = false;
+
 	while (!feof(pfile)) {
 		// determine current tag
 		if (fgets(Line, _countof(Line), pfile) == nullptr)
@@ -349,13 +351,13 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 				char *Temp = (char *)mir_alloc(mir_strlen(Line) + 10);
 				strncpy(Temp, Line + 1, chop - Line - 1);
 				Temp[chop - Line - 1] = 0;
-				wfree(&Group);
-				wSetData(&Group, Temp);
+				wfree(Group);
+				wSetData(Group, Temp);
 
 				// see if it is a update item, if it is, add a new item to the linked list
 				if (_stricmp(Group, "HEADER") && _stricmp(Group, "DEFAULT") && _stricmp(Group, "ID SEARCH") &&
 					_stricmp(Group, "NAME SEARCH") && _stricmp(Group, "ICONS")) {
-					wSetData(&DataItem.Name, Temp);
+					wSetData(DataItem.Name, Temp);
 					DataItem.Type = WID_NORMAL;
 					WIItemListAdd(&DataItem, Data);
 					Data->UpdateDataCount++;
@@ -363,8 +365,8 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 				mir_free(Temp);
 			}
 			else {
-				wfree(&Group);
-				wSetData(&Group, "");
+				wfree(Group);
+				wSetData(Group, "");
 			}
 		}
 
@@ -382,45 +384,46 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 
 		// store the value for each string
 		if (!_stricmp(Group, "HEADER")) {
-			if (!_stricmp(ValName, "NAME"))                   wSetData(&Data->DisplayName, Value);
-			else if (!_stricmp(ValName, "INTERNAL NAME"))     wSetData(&Data->InternalName, Value);
-			else if (!_stricmp(ValName, "DESCRIPTION"))       wSetData(&Data->Description, Value);
-			else if (!_stricmp(ValName, "AUTHOR"))            wSetData(&Data->Author, Value);
-			else if (!_stricmp(ValName, "VERSION"))           wSetData(&Data->Version, Value);
-		}																     
+			if (!_stricmp(ValName, "NAME"))                   wSetData(Data->DisplayName, Value);
+			else if (!_stricmp(ValName, "INTERNAL NAME"))     wSetData(Data->InternalName, Value);
+			else if (!_stricmp(ValName, "DESCRIPTION"))       wSetData(Data->Description, Value);
+			else if (!_stricmp(ValName, "AUTHOR"))            wSetData(Data->Author, Value);
+			else if (!_stricmp(ValName, "VERSION"))           wSetData(Data->Version, Value);
+			else if (!_stricmp(ValName, "UTF8"))              g_bIsUtf = (0 == _stricmp(Value, "true"));
+		}
 		else if (!_stricmp(Group, "DEFAULT")) {			     
-			if (!_stricmp(ValName, "DEFAULT URL"))            wSetData(&Data->DefaultURL, Value);
-			else if (!_stricmp(ValName, "DEFAULT MAP"))       wSetData(&Data->DefaultMap, Value);
-			else if (!_stricmp(ValName, "UPDATE URL"))        wSetData(&Data->UpdateURL, Value);
-			else if (!_stricmp(ValName, "UPDATE URL2"))       wSetData(&Data->UpdateURL2, Value);
-			else if (!_stricmp(ValName, "UPDATE URL3"))       wSetData(&Data->UpdateURL3, Value);
-			else if (!_stricmp(ValName, "UPDATE URL4"))       wSetData(&Data->UpdateURL4, Value);
-			else if (!_stricmp(ValName, "COOKIE"))            wSetData(&Data->Cookie, Value);
-			else if (!_stricmp(ValName, "USERAGENT"))         wSetData(&Data->UserAgent, Value);
+			if (!_stricmp(ValName, "DEFAULT URL"))            wSetData(Data->DefaultURL, Value);
+			else if (!_stricmp(ValName, "DEFAULT MAP"))       wSetData(Data->DefaultMap, Value);
+			else if (!_stricmp(ValName, "UPDATE URL"))        wSetData(Data->UpdateURL, Value);
+			else if (!_stricmp(ValName, "UPDATE URL2"))       wSetData(Data->UpdateURL2, Value);
+			else if (!_stricmp(ValName, "UPDATE URL3"))       wSetData(Data->UpdateURL3, Value);
+			else if (!_stricmp(ValName, "UPDATE URL4"))       wSetData(Data->UpdateURL4, Value);
+			else if (!_stricmp(ValName, "COOKIE"))            wSetData(Data->Cookie, Value);
+			else if (!_stricmp(ValName, "USERAGENT"))         wSetData(Data->UserAgent, Value);
 		}																     
 		else if (!_stricmp(Group, "ID SEARCH")) {			     
 			if (!_stricmp(ValName, "AVAILABLE"))              Data->IDSearch.Available = (0 == _stricmp(Value, "true"));
-			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(&Data->IDSearch.SearchURL, Value);
-			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(&Data->IDSearch.NotFoundStr, Value);
-			else if (!_stricmp(ValName, "NAME START"))        wSetData(&Data->IDSearch.Name.Start, Value);
-			else if (!_stricmp(ValName, "NAME END"))          wSetData(&Data->IDSearch.Name.End, Value);
+			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(Data->IDSearch.SearchURL, Value);
+			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(Data->IDSearch.NotFoundStr, Value);
+			else if (!_stricmp(ValName, "NAME START"))        wSetData(Data->IDSearch.Name.Start, Value);
+			else if (!_stricmp(ValName, "NAME END"))          wSetData(Data->IDSearch.Name.End, Value);
 		}																     
 		else if (!_stricmp(Group, "NAME SEARCH")) {		     
 			if (!_stricmp(ValName, "SINGLE RESULT"))          Data->NameSearch.Single.Available = (0 == _stricmp(Value, "true"));
 			else if (!_stricmp(ValName, "MULTIPLE RESULT"))   Data->NameSearch.Multiple.Available = (0 == _stricmp(Value, "true"));
-			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(&Data->NameSearch.SearchURL, Value);
-			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(&Data->NameSearch.NotFoundStr, Value);
-			else if (!_stricmp(ValName, "SINGLE RESULT STR")) wSetData(&Data->NameSearch.SingleStr, Value);
-			else if (!_stricmp(ValName, "SINGLE FIRST"))      wSetData(&Data->NameSearch.Single.First, Value);
-			else if (!_stricmp(ValName, "SINGLE NAME START")) wSetData(&Data->NameSearch.Single.Name.Start, Value);
-			else if (!_stricmp(ValName, "SINGLE NAME END"))   wSetData(&Data->NameSearch.Single.Name.End, Value);
-			else if (!_stricmp(ValName, "SINGLE ID START"))   wSetData(&Data->NameSearch.Single.ID.Start, Value);
-			else if (!_stricmp(ValName, "SINGLE ID END"))     wSetData(&Data->NameSearch.Single.ID.End, Value);
-			else if (!_stricmp(ValName, "MULT FIRST"))        wSetData(&Data->NameSearch.Multiple.First, Value);
-			else if (!_stricmp(ValName, "MULT NAME START"))   wSetData(&Data->NameSearch.Multiple.Name.Start, Value);
-			else if (!_stricmp(ValName, "MULT NAME END"))     wSetData(&Data->NameSearch.Multiple.Name.End, Value);
-			else if (!_stricmp(ValName, "MULT ID START"))     wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
-			else if (!_stricmp(ValName, "MULT ID END"))       wSetData(&Data->NameSearch.Multiple.ID.End, Value);
+			else if (!_stricmp(ValName, "SEARCH URL"))        wSetData(Data->NameSearch.SearchURL, Value);
+			else if (!_stricmp(ValName, "NOT FOUND STR"))     wSetData(Data->NameSearch.NotFoundStr, Value);
+			else if (!_stricmp(ValName, "SINGLE RESULT STR")) wSetData(Data->NameSearch.SingleStr, Value);
+			else if (!_stricmp(ValName, "SINGLE FIRST"))      wSetData(Data->NameSearch.Single.First, Value);
+			else if (!_stricmp(ValName, "SINGLE NAME START")) wSetData(Data->NameSearch.Single.Name.Start, Value);
+			else if (!_stricmp(ValName, "SINGLE NAME END"))   wSetData(Data->NameSearch.Single.Name.End, Value);
+			else if (!_stricmp(ValName, "SINGLE ID START"))   wSetData(Data->NameSearch.Single.ID.Start, Value);
+			else if (!_stricmp(ValName, "SINGLE ID END"))     wSetData(Data->NameSearch.Single.ID.End, Value);
+			else if (!_stricmp(ValName, "MULT FIRST"))        wSetData(Data->NameSearch.Multiple.First, Value);
+			else if (!_stricmp(ValName, "MULT NAME START"))   wSetData(Data->NameSearch.Multiple.Name.Start, Value);
+			else if (!_stricmp(ValName, "MULT NAME END"))     wSetData(Data->NameSearch.Multiple.Name.End, Value);
+			else if (!_stricmp(ValName, "MULT ID START"))     wSetData(Data->NameSearch.Multiple.ID.Start, Value);
+			else if (!_stricmp(ValName, "MULT ID END"))       wSetData(Data->NameSearch.Multiple.ID.End, Value);
 		}
 		else if (!_stricmp(Group, "ICONS")) {
 			for (int i = 0; i < _countof(statusStr); i++) {
@@ -431,11 +434,11 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 			}
 		}
 		else if (Data->UpdateDataCount != 0) {
-			if (!_stricmp(ValName, "START")) 			wSetData(&Data->UpdateDataTail->Item.Start, Value);
-			else if (!_stricmp(ValName, "SOURCE"))		wSetData(&Data->UpdateDataTail->Item.Start, Value);
-			else if (!_stricmp(ValName, "END")) 		wSetData(&Data->UpdateDataTail->Item.End, Value);
-			else if (!_stricmp(ValName, "UNIT")) 		wSetData(&Data->UpdateDataTail->Item.Unit, Value);
-			else if (!_stricmp(ValName, "URL")) 		wSetData(&Data->UpdateDataTail->Item.Url, Value);
+			if (!_stricmp(ValName, "START")) 			wSetData(Data->UpdateDataTail->Item.Start, Value);
+			else if (!_stricmp(ValName, "SOURCE"))		wSetData(Data->UpdateDataTail->Item.Start, Value);
+			else if (!_stricmp(ValName, "END")) 		wSetData(Data->UpdateDataTail->Item.End, Value);
+			else if (!_stricmp(ValName, "UNIT")) 		wSetData(Data->UpdateDataTail->Item.Unit, Value);
+			else if (!_stricmp(ValName, "URL")) 		wSetData(Data->UpdateDataTail->Item.Url, Value);
 			else if (!_stricmp(ValName, "HIDDEN")) {
 				if (!_stricmp(Value, "TRUE")) {
 					wchar_t *nm = Data->UpdateDataTail->Item.Name;
@@ -448,23 +451,23 @@ static void LoadStationData(const wchar_t *pszFile, wchar_t *pszShortFile, WIDAT
 			}
 			else if (!_stricmp(ValName, "SET DATA")) {
 				Data->UpdateDataTail->Item.Type = WID_SET;
-				wSetData(&Data->UpdateDataTail->Item.End, Value);
+				wSetData(Data->UpdateDataTail->Item.End, Value);
 			}
 			else if (!_stricmp(ValName, "BREAK DATA")) {
 				Data->UpdateDataTail->Item.Type = WID_BREAK;
-				wSetData(&Data->UpdateDataTail->Item.Break, Value);
+				wSetData(Data->UpdateDataTail->Item.Break, Value);
 			}
 		}
 		// recalculate memory used
 		Data->MemUsed += (mir_strlen(Value) + 10);
-		wfree(&ValName);
+		wfree(ValName);
 	}
 
 	// calcualate memory used for the ini and close the file
 	Data->MemUsed += sizeof(WIDATAITEMLIST)*Data->UpdateDataCount;
 	Data->Enabled = TRUE;	// enable the service
 	fclose(pfile);
-	wfree(&Group);
+	wfree(Group);
 }
 
 //============  LOADING INI FILES  ============
@@ -531,33 +534,33 @@ static void FreeWIData(WIDATA *Data)
 	}
 
 	// free the strings in the rest of the struct
-	wfree(&Data->DisplayName);
-	wfree(&Data->InternalName);
-	wfree(&Data->Description);
-	wfree(&Data->Author);
-	wfree(&Data->Version);
-	wfree(&Data->DefaultURL);
-	wfree(&Data->DefaultMap);
-	wfree(&Data->UpdateURL);
-	wfree(&Data->UpdateURL2);
-	wfree(&Data->UpdateURL3);
-	wfree(&Data->UpdateURL4);
-	wfree(&Data->Cookie);
-	wfree(&Data->UserAgent);
-	wfree(&Data->IDSearch.SearchURL);
-	wfree(&Data->IDSearch.NotFoundStr);
+	wfree(Data->DisplayName);
+	wfree(Data->InternalName);
+	wfree(Data->Description);
+	wfree(Data->Author);
+	wfree(Data->Version);
+	wfree(Data->DefaultURL);
+	wfree(Data->DefaultMap);
+	wfree(Data->UpdateURL);
+	wfree(Data->UpdateURL2);
+	wfree(Data->UpdateURL3);
+	wfree(Data->UpdateURL4);
+	wfree(Data->Cookie);
+	wfree(Data->UserAgent);
+	wfree(Data->IDSearch.SearchURL);
+	wfree(Data->IDSearch.NotFoundStr);
 	FreeDataItem(&Data->IDSearch.Name);
-	wfree(&Data->NameSearch.SearchURL);
-	wfree(&Data->NameSearch.NotFoundStr);
-	wfree(&Data->NameSearch.SingleStr);
-	wfree(&Data->NameSearch.Single.First);
+	wfree(Data->NameSearch.SearchURL);
+	wfree(Data->NameSearch.NotFoundStr);
+	wfree(Data->NameSearch.SingleStr);
+	wfree(Data->NameSearch.Single.First);
 	FreeDataItem(&Data->NameSearch.Single.Name);
 	FreeDataItem(&Data->NameSearch.Single.ID);
-	wfree(&Data->NameSearch.Multiple.First);
+	wfree(Data->NameSearch.Multiple.First);
 	FreeDataItem(&Data->NameSearch.Multiple.Name);
 	FreeDataItem(&Data->NameSearch.Multiple.ID);
-	wfree(&Data->ShortFileName);
-	wfree(&Data->FileName);
+	wfree(Data->ShortFileName);
+	wfree(Data->FileName);
 	for (auto &it : Data->CondList)
 		DestroyCondList(&it);
 }
