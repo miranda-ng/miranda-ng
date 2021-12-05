@@ -156,7 +156,7 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	}
 
 	// replace credentials inside JSON body for pure RAPI requests
-	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->szUrl, ICQ_ROBUST_SERVER)) {
+	if (pReq->m_conn == CONN_RAPI && !mir_strcmp(pReq->szUrl, ICQ_ROBUST_SERVER) && !getByte(DB_KEY_PHONEREG)) {
 		CMStringA szAgent(FORMAT, "%S Mail.ru Windows ICQ (version 10.0.1999)", (wchar_t*)m_szOwnId);
 		pReq->AddHeader("User-Agent", szAgent);
 		pReq->AddHeader("Content-Type", "application/json");
