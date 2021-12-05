@@ -526,7 +526,7 @@ public:
 
 	MCONTACT AddToList(int flags, PROTOSEARCHRESULT *psr) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact) override;
-	int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc);
+	int      SendMsg(MCONTACT hContact, int flags, const char *pszSrc) override;
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
