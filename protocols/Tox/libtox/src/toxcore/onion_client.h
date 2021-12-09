@@ -26,7 +26,7 @@
 #define NUMBER_ONION_PATHS 6
 
 /* The timeout the first time the path is added and
-   then for all the next consecutive times */
+ * then for all the next consecutive times */
 #define ONION_PATH_FIRST_TIMEOUT 4
 #define ONION_PATH_TIMEOUT 10
 #define ONION_PATH_MAX_LIFETIME 1200
@@ -171,7 +171,7 @@ void oniondata_registerhandler(Onion_Client *onion_c, uint8_t byte, oniondata_ha
 
 void do_onion_client(Onion_Client *onion_c);
 
-Onion_Client *new_onion_client(Mono_Time *mono_time, Net_Crypto *c);
+Onion_Client *new_onion_client(const Logger *logger, Mono_Time *mono_time, Net_Crypto *c);
 
 void kill_onion_client(Onion_Client *onion_c);
 

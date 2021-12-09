@@ -34,7 +34,7 @@
 #define FRIEND_MAX_STORED_TCP_RELAYS (MAX_FRIEND_TCP_CONNECTIONS * 4)
 
 /* Max number of tcp relays sent to friends */
-#define MAX_SHARED_RELAYS (RECOMMENDED_FRIEND_TCP_CONNECTIONS)
+#define MAX_SHARED_RELAYS RECOMMENDED_FRIEND_TCP_CONNECTIONS
 
 /* Interval between the sending of tcp relay information */
 #define SHARE_RELAYS_INTERVAL (5 * 60)
@@ -148,7 +148,7 @@ typedef int fr_request_cb(void *object, const uint8_t *source_pubkey, const uint
 void set_friend_request_callback(Friend_Connections *fr_c, fr_request_cb *fr_request_callback, void *object);
 
 /* Create new friend_connections instance. */
-Friend_Connections *new_friend_connections(const Mono_Time *mono_time, Onion_Client *onion_c,
+Friend_Connections *new_friend_connections(const Logger *logger, const Mono_Time *mono_time, Onion_Client *onion_c,
         bool local_discovery_enabled);
 
 /* main friend_connections loop. */

@@ -27,10 +27,10 @@
 #define MAX_FRIEND_TCP_CONNECTIONS 6
 
 /* Time until connection to friend gets killed (if it doesn't get locked within that time) */
-#define TCP_CONNECTION_ANNOUNCE_TIMEOUT (TCP_CONNECTION_TIMEOUT)
+#define TCP_CONNECTION_ANNOUNCE_TIMEOUT TCP_CONNECTION_TIMEOUT
 
 /* The amount of recommended connections for each friend
-   NOTE: Must be at most (MAX_FRIEND_TCP_CONNECTIONS / 2) */
+ * NOTE: Must be at most (MAX_FRIEND_TCP_CONNECTIONS / 2) */
 #define RECOMMENDED_FRIEND_TCP_CONNECTIONS (MAX_FRIEND_TCP_CONNECTIONS / 2)
 
 /* Number of TCP connections used for onion purposes. */
@@ -206,7 +206,8 @@ uint32_t tcp_copy_connected_relays(TCP_Connections *tcp_c, Node_format *tcp_rela
  */
 TCP_Connections *new_tcp_connections(Mono_Time *mono_time, const uint8_t *secret_key, TCP_Proxy_Info *proxy_info);
 
-void do_tcp_connections(TCP_Connections *tcp_c, void *userdata);
+void do_tcp_connections(const Logger *logger, TCP_Connections *tcp_c, void *userdata);
+
 void kill_tcp_connections(TCP_Connections *tcp_c);
 
 #endif

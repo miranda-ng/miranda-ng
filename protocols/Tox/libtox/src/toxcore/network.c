@@ -310,7 +310,7 @@ IP6 get_ip6_loopback(void)
 }
 
 #ifndef OS_WIN32
-#define INVALID_SOCKET -1
+#define INVALID_SOCKET (-1)
 #endif
 
 const Socket net_invalid_socket = { (int)INVALID_SOCKET };
@@ -1532,7 +1532,8 @@ size_t net_unpack_u16(const uint8_t *bytes, uint16_t *v)
 size_t net_unpack_u32(const uint8_t *bytes, uint32_t *v)
 {
     const uint8_t *p = bytes;
-    uint16_t lo, hi;
+    uint16_t hi;
+    uint16_t lo;
     p += net_unpack_u16(p, &hi);
     p += net_unpack_u16(p, &lo);
     *v = ((uint32_t)hi << 16) | lo;
@@ -1542,7 +1543,8 @@ size_t net_unpack_u32(const uint8_t *bytes, uint32_t *v)
 size_t net_unpack_u64(const uint8_t *bytes, uint64_t *v)
 {
     const uint8_t *p = bytes;
-    uint32_t lo, hi;
+    uint32_t hi;
+    uint32_t lo;
     p += net_unpack_u32(p, &hi);
     p += net_unpack_u32(p, &lo);
     *v = ((uint64_t)hi << 32) | lo;

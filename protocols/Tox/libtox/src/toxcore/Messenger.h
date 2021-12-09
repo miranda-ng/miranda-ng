@@ -109,7 +109,6 @@ typedef enum Connection_Status {
     CONNECTION_NONE,
     CONNECTION_TCP,
     CONNECTION_UDP,
-    CONNECTION_UNKNOWN,
 } Connection_Status;
 
 /* USERSTATUS -
@@ -132,7 +131,6 @@ struct File_Transfers {
     uint8_t paused; /* 0: not paused, 1 = paused by us, 2 = paused by other, 3 = paused by both. */
     uint32_t last_packet_number; /* number of the last packet sent. */
     uint64_t requested; /* total data requested by the request chunk callback */
-    unsigned int slots_allocated; /* number of slots allocated to this transfer. */
     uint8_t id[FILE_ID_LENGTH];
 };
 typedef enum Filestatus {
@@ -225,7 +223,7 @@ typedef struct Friend {
     uint32_t message_id; // a semi-unique id used in read receipts.
     uint32_t friendrequest_nospam; // The nospam number used in the friend request.
     uint64_t last_seen_time;
-    uint8_t last_connection_udp_tcp;
+    Connection_Status last_connection_udp_tcp;
     struct File_Transfers file_sending[MAX_CONCURRENT_FILE_PIPES];
     uint32_t num_sending_files;
     struct File_Transfers file_receiving[MAX_CONCURRENT_FILE_PIPES];
@@ -360,7 +358,7 @@ int getfriendcon_id(const Messenger *m, int32_t friendnumber);
  */
 int m_delfriend(Messenger *m, int32_t friendnumber);
 
-/* Checks friend's connecting status.
+/* Checks friend's connection status.
  *
  *  return CONNECTION_UDP (2) if friend is directly connected to us (Online UDP).
  *  return CONNECTION_TCP (1) if friend is connected to us (Online TCP).

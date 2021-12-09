@@ -17,10 +17,14 @@
 
 #include <stdbool.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Maximum number of clients stored per friend. */
 #define MAX_FRIEND_CLIENTS 8
 
-#define LCLIENT_NODES (MAX_FRIEND_CLIENTS)
+#define LCLIENT_NODES MAX_FRIEND_CLIENTS
 #define LCLIENT_LENGTH 128
 
 /* A list of the clients mathematically closest to ours. */
@@ -69,9 +73,9 @@ int create_request(const uint8_t *send_public_key, const uint8_t *send_secret_ke
                    const uint8_t *recv_public_key, const uint8_t *data, uint32_t length, uint8_t request_id);
 
 /* puts the senders public key in the request in public_key, the data from the request
-   in data if a friend or ping request was sent to us and returns the length of the data.
-   packet is the request packet and length is its length
-   return -1 if not valid request. */
+ * in data if a friend or ping request was sent to us and returns the length of the data.
+ * packet is the request packet and length is its length
+ * return -1 if not valid request. */
 int handle_request(const uint8_t *self_public_key, const uint8_t *self_secret_key, uint8_t *public_key, uint8_t *data,
                    uint8_t *request_id, const uint8_t *packet, uint16_t length);
 
@@ -404,5 +408,9 @@ bool dht_non_lan_connected(const DHT *dht);
 
 
 uint32_t addto_lists(DHT *dht, IP_Port ip_port, const uint8_t *public_key);
+
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
 #endif
