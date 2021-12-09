@@ -819,9 +819,13 @@ static char* Template_CreateRTFFromDbEvent(CMsgDialog *dat, MCONTACT hContact, M
 				AppendUnicodeToBuffer(str, LPCTSTR(dbei.szModule), MAKELONG(isSent, dat->m_bIsHistory));
 				break;
 			case 'M': // message
+				if (bIsStatusChangeEvent)
+					dbei.eventType = EVENTTYPE_STATUSCHANGE;
+
 				switch (dbei.eventType) {
 				case EVENTTYPE_MESSAGE:
 				case EVENTTYPE_ERRMSG:
+				case EVENTTYPE_STATUSCHANGE:
 					if (bIsStatusChangeEvent || dbei.eventType == EVENTTYPE_ERRMSG) {
 						if (dbei.eventType == EVENTTYPE_ERRMSG && dbei.cbBlob == 0)
 							break;
