@@ -953,13 +953,15 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 		}
 
 		ClcContact *contSour, *contDest;
+		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
+		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 
+		if (contDest->type != CLCIT_INFO && contSour->type != CLCIT_INFO)
 		switch (target) {
 		case DROPTARGET_ONSELF:
 			break;
 
 		case DROPTARGET_ONCONTACT:
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
@@ -971,8 +973,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-			cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
@@ -986,8 +986,6 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			break;
 
 		case DROPTARGET_ONSUBCONTACT:
-			cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT && mir_strcmp(contSour->pce->szProto, META_PROTO)) {
@@ -1075,23 +1073,29 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	}
 	else if (hitcontact == nullptr)
 		ReleaseCapture();
+	
 	KillTimer(hwnd, TIMERID_DRAGAUTOSCROLL);
 	if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), nullptr);
 	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 		wchar_t Wording[500];
-		ClcContact *contDest, *contSour;
+
 		POINT pt = UNPACK_POINT(lParam);
 		int target = GetDropTargetInformation(hwnd, dat, pt);
+
+		ClcContact *contDest, *contSour;
+		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
+		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
+
+		if (contDest->type != CLCIT_INFO && contSour->type != CLCIT_INFO)
 		switch (target) {
 		case DROPTARGET_ONSELF:
 			break;
 
 		case DROPTARGET_ONCONTACT:
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
-			cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
+
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->pce->szProto, META_PROTO)) {
@@ -1126,8 +1130,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
-			cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
@@ -1168,8 +1170,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			break;
 
 		case DROPTARGET_ONSUBCONTACT:
-			cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
-			cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 			if (contSour->isChat() || contDest->isChat())
 				break;
 			if (contSour->type == CLCIT_CONTACT) {
@@ -1201,10 +1201,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 					}
 				}
 			}
-			break;
-
-		case DROPTARGET_ONGROUP:
-			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 			break;
 
 		case DROPTARGET_INSERTION:
@@ -1243,10 +1239,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 				if (NeedRename)
 					Clist_GroupRename(newIndex, newName);
 			}
-			break;
-
-		case DROPTARGET_OUTSIDE:
-			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 			break;
 
 		default:
