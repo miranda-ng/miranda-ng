@@ -367,7 +367,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 	Json2int(hContact, buddy, "idleTime", "IdleTS");
 	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE);
 
-	setWord(hContact, "Status", StatusFromPresence(buddy, hContact));
+	int iStatus = StatusFromPresence(buddy, hContact);
+	if (iStatus > 0)
+		setWord(hContact, "Status", iStatus);
 
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {

@@ -270,25 +270,24 @@ bool IsChat(const CMStringW &aimid)
 	return aimid.Right(11) == "@chat.agent";
 }
 
-int StatusFromString(const CMStringW &wszStatus)
-{
-	if (wszStatus == L"online")
-		return ID_STATUS_ONLINE;
-	if (wszStatus == L"n/a")
-		return ID_STATUS_NA;
-	if (wszStatus == L"away")
-		return ID_STATUS_AWAY;
-	if (wszStatus == L"occupied")
-		return ID_STATUS_OCCUPIED;
-	if (wszStatus == L"dnd")
-		return ID_STATUS_DND;
-
-	return ID_STATUS_OFFLINE;
-}
-
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 {
-	int iStatus = StatusFromString(presence["state"].as_mstring());
+	CMStringW wszStatus = presence["state"].as_mstring();
+	int iStatus;
+	if (wszStatus == L"online")
+		iStatus = ID_STATUS_ONLINE;
+	if (wszStatus == L"offline")
+		iStatus = ID_STATUS_OFFLINE;
+	else if (wszStatus == L"n/a")
+		iStatus = ID_STATUS_NA;
+	else if (wszStatus == L"away")
+		iStatus = ID_STATUS_AWAY;
+	else if (wszStatus == L"occupied")
+		iStatus = ID_STATUS_OCCUPIED;
+	else if (wszStatus == L"dnd")
+		iStatus = ID_STATUS_DND;
+	else
+		iStatus = -1;
 
 	int iLastSeen = presence["lastseen"].as_int();
 	if (iLastSeen != 0)
