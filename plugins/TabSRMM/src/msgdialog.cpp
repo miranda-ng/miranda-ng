@@ -927,7 +927,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		return;
 
 	bool bUseSelection = false;
-	if (m_iLogMode == 0) {
+	if (m_iLogMode == WANT_BUILTIN_LOG) {
 		CHARRANGE sel;
 		LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&sel);
 		if (sel.cpMin != sel.cpMax) {

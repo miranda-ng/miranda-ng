@@ -129,7 +129,7 @@ void OnCreateNick(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &wszNick
 		else wszNick.Append(lin->ptszNick);
 
 		int logMode = (si->pDlg) ? si->pDlg->m_iLogMode : 1;
-		if (g_Settings.bClickableNicks && !logMode && !lin->bSimple) {
+		if (g_Settings.bClickableNicks && logMode == WANT_BUILTIN_LOG && !lin->bSimple) {
 			wszNick.Insert(0, CLICKNICK_BEGIN);
 			wszNick.Append(CLICKNICK_END);
 		}

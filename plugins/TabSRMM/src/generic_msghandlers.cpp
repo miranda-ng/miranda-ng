@@ -632,7 +632,7 @@ void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 	if (IsIconic(m_pContainer->m_hwnd))
 		m_bDeferredScroll = true;
 
-	if (m_iLogMode == 0)
+	if (m_iLogMode == WANT_BUILTIN_LOG)
 		((CLogWindow *)m_pLog)->ScrollToBottom(wParam != 0, lParam != 0);
 	else
 		m_pLog->ScrollToBottom();
@@ -781,7 +781,7 @@ void CMsgDialog::DM_ThemeChanged()
 	m_hTheme = OpenThemeData(m_hwnd, L"EDIT");
 
 	if (m_hTheme != nullptr || (CSkin::m_skinEnabled && !item_log->IGNORED)) {
-		if (m_iLogMode == 0)
+		if (m_iLogMode == WANT_BUILTIN_LOG)
 			LOG()->DisableStaticEdge();
 
 		if (isChat())

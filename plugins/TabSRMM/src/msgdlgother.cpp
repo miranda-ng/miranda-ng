@@ -864,7 +864,7 @@ void CMsgDialog::LoadSplitter()
 
 void CMsgDialog::LogEvent(DBEVENTINFO &dbei)
 {
-	if (m_iLogMode != 0) {
+	if (m_iLogMode != WANT_BUILTIN_LOG) {
 		dbei.flags |= DBEF_TEMPORARY;
 
 		MEVENT hDbEvent = db_event_add(m_hContact, &dbei);

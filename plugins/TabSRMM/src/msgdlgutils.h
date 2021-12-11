@@ -27,6 +27,7 @@
 #ifndef _MSGDLGUTILS_H
 #define _MSGDLGUTILS_H
 
+#define WANT_BUILTIN_LOG 0
 #define WANT_IEVIEW_LOG 1
 #define WANT_HPP_LOG 2
 

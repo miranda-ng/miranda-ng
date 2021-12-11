@@ -498,7 +498,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	CMsgDialog *dat = c->getDat();
-	if (dat == nullptr || !c->isValid())
+	if (dat == nullptr || !c->isValid() || dat->m_iLogMode != WANT_BUILTIN_LOG)
 		return;
 
 	MCONTACT hContact = c->getContact();

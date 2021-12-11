@@ -486,7 +486,6 @@ static TOptionListItem lvItemsMsg[] =
 	{ 0, LPGENW("Enable \"Paste and send\" feature"), 0, LOI_TYPE_SETTING, (UINT_PTR)"pasteandsend", 1 },
 	{ 0, LPGENW("Allow BBCode formatting in outgoing messages"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendformat", 1 },
 	{ 0, LPGENW("Automatically split long messages (experimental, use with care)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"autosplit", 2 },
-	{ 0, LPGENW("Log status changes"), 0, LOI_TYPE_SETTING, (UINT_PTR)"logstatuschanges", 2 },
 	{ 0, LPGENW("Use the same splitter height for all sessions"), 1, LOI_TYPE_SETTING, (UINT_PTR)"usesamesplitsize", 2 },
 	{ 0, LPGENW("Automatically copy selected text"), 1, LOI_TYPE_SETTING, (UINT_PTR)"autocopy", 2 },
 	{ 0, nullptr, 0, 0, 0, 0 }
@@ -847,6 +846,7 @@ static TOptionListItem lvItemsLog[] =
 	{ 0, LPGENW("Show seconds in timestamps"), 1, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_SHOWSECONDS, 2 },
 	{ 0, LPGENW("Use contacts local time (if timezone info available)"), 0, LOI_TYPE_FLAG, (UINT_PTR)MWF_LOG_LOCALTIME, 2 },
 	{ 0, LPGENW("Draw grid lines"), 1, LOI_TYPE_FLAG, MWF_LOG_GRID, 0 },
+	{ 0, LPGENW("Log status changes"), 0, LOI_TYPE_SETTING, (UINT_PTR)"logstatuschanges", 0 },
 	{ 0, LPGENW("Event type icons in the message log"), 1, LOI_TYPE_FLAG, MWF_LOG_SHOWICONS, 3 },
 	{ 0, LPGENW("Text symbols as event markers"), 0, LOI_TYPE_FLAG, MWF_LOG_SYMBOLS, 3 },
 	{ 0, LPGENW("Use incoming/outgoing icons"), 1, LOI_TYPE_FLAG, MWF_LOG_INOUTICONS, 3 },
