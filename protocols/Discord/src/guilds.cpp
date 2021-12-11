@@ -212,7 +212,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	for (auto &it : pGuild->arChatUsers)
 		AddGuildUser(pGuild, *it);
 
-	ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
+	if (!m_bTerminated)
+		ForkThread(&CDiscordProto::BatchChatCreate, pGuild);
 
 	pGuild->bSynced = true;
 }
