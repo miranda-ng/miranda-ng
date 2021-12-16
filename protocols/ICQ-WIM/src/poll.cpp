@@ -108,7 +108,7 @@ void CIcqProto::ProcessDiff(const JSONNode &ev)
 				if (bDeleted)
 					continue;
 
-				MCONTACT hContact = ParseBuddyInfo(buddy);
+				MCONTACT hContact = ParseBuddyInfo(buddy, true);
 				if (hContact == INVALID_CONTACT_ID)
 					continue;
 
@@ -325,23 +325,24 @@ void CIcqProto::ProcessPresence(const JSONNode &ev)
 		return;
 
 	int iNewStatus = StatusFromPresence(ev, pCache->m_hContact);
-	if (iNewStatus > 0) {
-		// major crutch dedicated to the official client behaviour to go offline
-		// when its window gets closed. we change the status of a contact to the
-		// first chosen one from options and initialize a timer
-		if (iNewStatus == ID_STATUS_OFFLINE) {
-			if (m_iTimeDiff1) {
-				iNewStatus = m_iStatus1;
-				pCache->m_timer1 = time(0);
-			}
+	if (iNewStatus == -1)
+		iNewStatus = ID_STATUS_OFFLINE;
+
+	// major crutch dedicated to the official client behaviour to go offline
+	// when its window gets closed. we change the status of a contact to the
+	// first chosen one from options and initialize a timer
+	if (iNewStatus == ID_STATUS_OFFLINE) {
+		if (m_iTimeDiff1) {
+			iNewStatus = m_iStatus1;
+			pCache->m_timer1 = time(0);
 		}
-		// if a client returns back online, we clear timers not to play with statuses anymore
-		else pCache->m_timer1 = pCache->m_timer2 = 0;
-
-		setWord(pCache->m_hContact, "Status", iNewStatus);
 	}
+	// if a client returns back online, we clear timers not to play with statuses anymore
+	else pCache->m_timer1 = pCache->m_timer2 = 0;
 
-	Json2string(pCache->m_hContact, ev, "friendly", "Nick");
+	setWord(pCache->m_hContact, "Status", iNewStatus);
+
+	Json2string(pCache->m_hContact, ev, "friendly", "Nick", true);
 	CheckAvatarChange(pCache->m_hContact, ev);
 }
 

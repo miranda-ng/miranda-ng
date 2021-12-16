@@ -270,9 +270,9 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         CheckAvatarChange(MCONTACT hContact, const JSONNode&);
 	IcqFileInfo* CheckFile(MCONTACT hContact, CMStringW &wszFileName, bool &bIsFile);
 	void         CheckLastId(MCONTACT hContact, const JSONNode&);
-	void         Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
-	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting);
-	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID);
+	void         Json2int(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
+	void         Json2string(MCONTACT, const JSONNode&, const char *szJson, const char *szSetting, bool bIsPartial);
+	MCONTACT     ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact = INVALID_CONTACT_ID, bool bIsPartial = false);
 	void         ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNode &msg, bool bCreateRead, bool bLocalTime);
 	int          StatusFromPresence(const JSONNode &presence, MCONTACT hContact);
 				    

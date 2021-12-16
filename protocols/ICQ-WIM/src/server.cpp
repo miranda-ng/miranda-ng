@@ -282,7 +282,7 @@ void CIcqProto::MarkAsRead(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
+MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, bool bIsPartial)
 {
 	// user chat?
 	CMStringW wszId(buddy["aimId"].as_mstring());
@@ -357,15 +357,15 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		Contact_PutOnList(hContact);
 	}
 
-	Json2string(hContact, buddy, "emailId", "Email");
-	Json2string(hContact, buddy, "cellNumber", "Cellular");
-	Json2string(hContact, buddy, "phoneNumber", "Phone");
-	Json2string(hContact, buddy, "workNumber", "CompanyPhone");
+	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
+	Json2string(hContact, buddy, "cellNumber", "Cellular", bIsPartial);
+	Json2string(hContact, buddy, "phoneNumber", "Phone", bIsPartial);
+	Json2string(hContact, buddy, "workNumber", "CompanyPhone", bIsPartial);
 
-	Json2int(hContact, buddy, "official", "Official");
-	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS);
-	Json2int(hContact, buddy, "idleTime", "IdleTS");
-	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE);
+	Json2int(hContact, buddy, "official", "Official", bIsPartial);
+	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS, bIsPartial);
+	Json2int(hContact, buddy, "idleTime", "IdleTS", bIsPartial);
+	Json2int(hContact, buddy, "memberSince", DB_KEY_MEMBERSINCE, bIsPartial);
 
 	int iStatus = StatusFromPresence(buddy, hContact);
 	if (iStatus > 0)
@@ -373,10 +373,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 
 	const JSONNode &profile = buddy["profile"];
 	if (profile) {
-		Json2string(hContact, profile, "friendlyName", DB_KEY_ICQNICK);
-		Json2string(hContact, profile, "firstName", "FirstName");
-		Json2string(hContact, profile, "lastName", "LastName");
-		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT);
+		Json2string(hContact, profile, "friendlyName", DB_KEY_ICQNICK, bIsPartial);
+		Json2string(hContact, profile, "firstName", "FirstName", bIsPartial);
+		Json2string(hContact, profile, "lastName", "LastName", bIsPartial);
+		Json2string(hContact, profile, "aboutMe", DB_KEY_ABOUT, bIsPartial);
 
 		ptrW wszNick(getWStringA(hContact, "Nick"));
 		if (!wszNick) {
@@ -404,9 +404,9 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact)
 		}
 
 		for (auto &it : profile["homeAddress"]) {
-			Json2string(hContact, it, "city", "City");
-			Json2string(hContact, it, "state", "State");
-			Json2string(hContact, it, "country", "Country");
+			Json2string(hContact, it, "city", "City", bIsPartial);
+			Json2string(hContact, it, "state", "State", bIsPartial);
+			Json2string(hContact, it, "country", "Country", bIsPartial);
 		}
 	}
 
