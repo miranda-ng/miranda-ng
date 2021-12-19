@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_CLISTINT_H__
 #define M_CLISTINT_H__ 1
 
-#include <CommCtrl.h>
-
 #ifndef M_CLIST_H__
 #include <m_clist.h>
 #endif 
@@ -307,7 +305,7 @@ struct CLIST_INTERFACE
 {
 	HWND hwndContactList, hwndContactTree, hwndStatus;
 	HMENU hMenuMain;
-	HMODULE hInst;
+	HINSTANCE hInst;
 
 	// clc.h
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -377,7 +375,7 @@ struct CLIST_INTERFACE
 				      
 	void           (*pfnCluiProtocolStatusChanged)(int status, const char *szProto);
 	void           (*pfnLoadCluiGlobalOpts)(void);
-	BOOL           (*pfnInvalidateRect)(HWND hwnd, CONST RECT* lpRect, BOOL bErase);
+	BOOL           (*pfnInvalidateRect)(HWND hwnd, const RECT* lpRect, BOOL bErase);
 	void           (*pfnOnCreateClc)(void);
 
 	/* contact.c */

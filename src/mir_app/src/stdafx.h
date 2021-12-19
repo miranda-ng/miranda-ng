@@ -27,15 +27,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HSSL_DEFINED 1
 typedef struct SslHandle *HSSL;
 
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <windows.h>
-#include <windowsx.h>
-#include <ShlObj.h>
-#include <uxtheme.h>
-#include <vssym32.h>
-#include <Shlwapi.h>
-#include <Richedit.h>
+#ifdef _WINDOWS
+	#include <winsock2.h>
+	#include <ws2tcpip.h>
+	#include <windows.h>
+	#include <windowsx.h>
+	#include <ShlObj.h>
+	#include <uxtheme.h>
+	#include <vssym32.h>
+	#include <Shlwapi.h>
+	#include <Richedit.h>
+	
+	#include <io.h>
+	#include <direct.h>
+	#include <process.h>
+#endif
 
 #ifdef _DEBUG
 #include <crtdbg.h>
@@ -47,12 +53,9 @@ typedef struct SslHandle *HSSL;
 #include <math.h>
 #include <time.h>
 #include <stddef.h>
-#include <process.h>
-#include <io.h>
 #include <limits.h>
 #include <string.h>
 #include <locale.h>
-#include <direct.h>
 
 #include <memory>
 
@@ -90,13 +93,12 @@ typedef struct SslHandle *HSSL;
 #include <m_protocols.h>
 #include <m_protoint.h>
 #include <m_skin.h>
-#include <m_skin_eng.h>
 #include <m_srmm_int.h>
 #include <m_timezones.h>
 #include <m_tipper.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
-#include <m_version.h>
+//#include <m_version.h>
 #include <m_xstatus.h>
 
 #include "miranda.h"

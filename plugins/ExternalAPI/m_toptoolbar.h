@@ -21,7 +21,7 @@ struct TTBButton
 {
 	union {
 		char *pszService;
-		TCHAR *program;
+		wchar_t *program;
 	};
 	DWORD dwFlags;
 	LPARAM lParamUp;
@@ -130,7 +130,7 @@ returns: always returns 0.
 // hwndBtn   = button window handle
 // userInfo  = lParam passed into TopToolbar_SetCustomProc
 
-typedef void (__cdecl *pfnCustomProc)(HANDLE hTTButton, HWND hwndBtn, LPARAM userInfo);
+typedef void (MIR_CDECL *pfnCustomProc)(HANDLE hTTButton, HWND hwndBtn, LPARAM userInfo);
 
 __forceinline void TopToolbar_SetCustomProc(pfnCustomProc pFunc, LPARAM lParam)
 {	CallService("TopToolBar/SetCustomProc", (WPARAM)pFunc, lParam);
@@ -139,7 +139,7 @@ __forceinline void TopToolbar_SetCustomProc(pfnCustomProc pFunc, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 // Toolbar internal structures
 
-typedef void (__cdecl *pfnTTBPainterFunc)(struct TTBCtrl*, HDC);
+typedef void (MIR_CDECL *pfnTTBPainterFunc)(struct TTBCtrl*, HDC);
 
 struct TTBCtrlButton
 {

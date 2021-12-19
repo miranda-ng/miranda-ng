@@ -136,7 +136,7 @@ public:
 	virtual INT_PTR Notify(WPARAM, LPARAM) { return 0; }
 };
 
-typedef CSrmmLogWindow *(__cdecl *pfnSrmmLogCreator)(CMsgDialog &pDlg);
+typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 
 EXTERN_C MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
 EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
@@ -197,8 +197,10 @@ protected:
 
 	bool AllowTyping() const;
 	int  NotifyEvent(int code);
+	#ifdef _WINDOWS
 	bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
 	bool PasteFilesAsURL(HDROP hDrop);
+	#endif
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
 	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
@@ -277,7 +279,7 @@ class CMsgDialog : public CSrmmBaseDialog {};
 /////////////////////////////////////////////////////////////////////////////////////////
 // receives LOGSTREAMDATA* as the first parameter
 
-EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb);
+EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(UINT_PTR dwCookie, BYTE *pbBuff, LONG cb, LONG *pcb);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows

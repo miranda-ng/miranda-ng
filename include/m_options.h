@@ -63,10 +63,13 @@ struct OPTIONSDIALOGPAGE
 {
 	int position; // a position number, lower numbers are topmost
 	MAllStrings szTitle, szGroup, szTab; // [TRANSLATED-BY-CORE]
-	DLGPROC pfnDlgProc;
 	char *pszTemplate;
-	HPLUGIN pPlugin;
 	DWORD flags;
+
+	#ifdef _WINDOWS
+		DLGPROC pfnDlgProc;
+		HPLUGIN pPlugin;
+	#endif
 
 	union {
 		LPARAM dwInitParam; // a value to pass to lParam of WM_INITDIALOG message

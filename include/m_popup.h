@@ -90,9 +90,11 @@ struct POPUPDATA2
 	int iSeconds;
 	DWORD dwTimestamp;
 
-	// plugin bindings
-	WNDPROC PluginWindowProc;
-	void *PluginData;
+	#ifdef _WINDOWS
+		// plugin bindings
+		WNDPROC PluginWindowProc;
+		void *PluginData;
+	#endif
 
 	// popup actions
 	int actionCount;
@@ -125,8 +127,10 @@ struct POPUPDATA
 	char lpzText[MAX_SECONDLINE];
 	COLORREF colorBack;
 	COLORREF colorText;
-	WNDPROC PluginWindowProc;
-	void *PluginData;
+	#ifdef _WINDOWS
+		WNDPROC PluginWindowProc;
+		void *PluginData;
+	#endif
 	int iSeconds;       // Custom delay time in seconds. -1 means "forever", 0 means "default time".
 };
 
@@ -142,8 +146,10 @@ struct POPUPDATAW
 	wchar_t lpwzText[MAX_SECONDLINE];
 	COLORREF colorBack;
 	COLORREF colorText;
-	WNDPROC PluginWindowProc;
-	void *PluginData;
+	#ifdef _WINDOWS
+		WNDPROC PluginWindowProc;
+		void *PluginData;
+	#endif
 	int iSeconds;      // Custom delay time in seconds. -1 means "forever", 0 means "default time".
 	HANDLE hNotification;
 	int actionCount;
@@ -218,12 +224,14 @@ struct POPUPACTIONID
 	LPARAM lParam;
 };
 
+#ifdef _WINDOWS
 #define UM_POPUPMODIFYACTIONICON  (WM_USER + 0x0205)
 __forceinline int PUModifyActionIcon(HWND hWndPopup, WPARAM wParam, LPARAM lParam, HICON hIcon)
 {
 	POPUPACTIONID actionId = { wParam, lParam };
 	return (int)SendMessage(hWndPopup, UM_POPUPMODIFYACTIONICON, (WPARAM)&actionId, (LPARAM)hIcon);
 }
+#endif
 
 // UM_POPUPSHOW
 // Show popup at position
@@ -286,7 +294,9 @@ typedef struct
 	char *lpzLAction;
 	char *lpzRAction;
 	char *pszReserved1;		// reserved for future use
-	DLGPROC pfnReserved2;	// reserved for future use
+	#ifdef _WINDOWS
+		DLGPROC pfnReserved2;	// reserved for future use
+	#endif
 } POPUPNOTIFICATION, *LPPOPUPNOTIFICATION;
 
 EXTERN_C MIR_APP_DLL(HANDLE) PURegisterNotification(LPPOPUPNOTIFICATION notification);
@@ -320,6 +330,8 @@ Modify Popup Action Icon
 wParam = 0
 lParam = (LPARAM)(HANDLE)hEventUnhooked
 */
+
+#ifdef _WINDOWS
 #define UM_POPUPUNHOOKCOMPLETE           (WM_USER + 0x0206)
 
 __forceinline int PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent)
@@ -332,6 +344,7 @@ __forceinline int PUUnhookEventAsync(HWND hwndPopup, HANDLE hEvent)
 	PostMessage(hwndPopup, UM_POPUPUNHOOKCOMPLETE, 0, (LPARAM)hEvent);
 	return 0;
 }
+#endif
 
 #ifdef __cplusplus
 /* Popup/RegisterVfx
@@ -404,7 +417,9 @@ struct POPUPCLASS
 	char *pszName;
 	MAllStrings pszDescription;
 	HICON hIcon;
-	WNDPROC PluginWindowProc;
+	#ifdef _WINDOWS
+		WNDPROC PluginWindowProc;
+	#endif
 	LPARAM lParam; //APF_RETURN_HWND, APF_CUSTOM_POPUP  ... as above
 };
 

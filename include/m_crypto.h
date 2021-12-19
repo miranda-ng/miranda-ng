@@ -61,7 +61,7 @@ struct MICryptoEngine
 // lParam = (CRYPTO_PROVIDER*)
 // returns HANDLE on success or NULL on failure
 
-typedef MICryptoEngine* (__cdecl *pfnCryptoProviderFactory)(void);
+typedef MICryptoEngine* (MIR_CDECL *pfnCryptoProviderFactory)(void);
 
 #define CPF_UNICODE 1
 

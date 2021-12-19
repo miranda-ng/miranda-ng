@@ -46,6 +46,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SW_HIDE 0
 #define SW_SHOW 5
 #define MAX_PATH 260
+#define LF_FACESIZE 32
 #define _TRUNCATE size_t(-1)
 #define INVALID_HANDLE_VALUE HANDLE(-1)
 
@@ -97,7 +98,10 @@ struct SIZE { int width, height; };
 #define _vsnprintf vsnprintf
 #define _vsnwprintf vswprintf
 
+#define __forceinline inline
+
 #define DECLARE_HANDLE(name) struct _##name { int unused; }; typedef struct _##name *name
+DECLARE_HANDLE(HDC);
 DECLARE_HANDLE(HWND);
 DECLARE_HANDLE(HFONT);
 DECLARE_HANDLE(HICON);

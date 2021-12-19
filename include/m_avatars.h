@@ -72,15 +72,15 @@ unless AF_FETCHIFPROTONOTVISIBLE is set.
 
 struct AVATARCACHEENTRY
 {
-	MCONTACT hContact;               // contacts handle, 0, if it is a protocol avatar
-	HBITMAP hbmPic;                  // bitmap handle of the picutre itself
-	DWORD dwFlags;                   // see above for flag values
-	LONG bmHeight, bmWidth;          // bitmap dimensions
-	DWORD t_lastAccess;              // last access time (currently unused, but plugins should still
+	MCONTACT hContact;              // contacts handle, 0, if it is a protocol avatar
+	HBITMAP hbmPic;                 // bitmap handle of the picutre itself
+	uint32_t dwFlags;               // see above for flag values
+	int bmHeight, bmWidth;          // bitmap dimensions
+	uint32_t t_lastAccess;          // last access time (currently unused, but plugins should still
                                     // use it whenever they access the avatar. may be used in the future
-	                                 // to implement cache expiration
-	LPVOID lpDIBSection;             // unused field
-	wchar_t szFilename[MAX_PATH];    // filename of the avatar (absolute path)
+	                                // to implement cache expiration
+	void *lpDIBSection;             // unused field
+	wchar_t szFilename[MAX_PATH];   // filename of the avatar (absolute path)
 };
 
 #define AVDRQ_FALLBACKPROTO            0x0001        // use the protocol picture as fallback (currently not used)
@@ -103,12 +103,12 @@ struct AVATARDRAWREQUEST
 	MCONTACT hContact;               // the contact for which the avatar should be drawn. set it to 0 to draw a protocol picture
 	HDC      hTargetDC;              // target device context
 	RECT     rcDraw;                 // target rectangle. The avatar will be centered within the rectangle and scaled to fit.
-	DWORD    dwFlags;                // flags (see above for valid bitflags)
-	DWORD    dwReserved;             // for future use
-	DWORD    dwInternal;             // don't use it
+	uint32_t dwFlags;                // flags (see above for valid bitflags)
+	uint32_t dwReserved;             // for future use
+	uint32_t dwInternal;             // don't use it
 	COLORREF clrBorder;              // color for the border  (used with AVDRQ_DRAWBORDER)
-	UCHAR    radius;                 // radius (used with AVDRQ_ROUNDEDCORNER)
-	UCHAR    alpha;                  // alpha value for semi-transparent avatars (valid values form 1 to 255, if it is set to 0
+	uint8_t  radius;                 // radius (used with AVDRQ_ROUNDEDCORNER)
+	uint8_t  alpha;                  // alpha value for semi-transparent avatars (valid values form 1 to 255, if it is set to 0
 	                                 // the avatar won't be transparent.
 	char    *szProto;                // only used when AVDRQ_PROTOPICT or AVDRQ_OWNPIC is set
 };
