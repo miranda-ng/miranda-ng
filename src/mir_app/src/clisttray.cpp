@@ -27,9 +27,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define TOOLTIP_TOLERANCE 5
 
+static ITaskbarList3* pTaskbarInterface;
+
 static UINT WM_TASKBARCREATED;
 static UINT WM_TASKBARBUTTONCREATED;
-static UINT_PTR RefreshTimerId = 0;   /////by FYR
+static UINT_PTR RefreshTimerId = 0;
 static UINT_PTR CycleTimerId;
 
 mir_cs trayLockCS;
@@ -831,4 +833,13 @@ MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTi
 void InitTray(void)
 {
 	fTrayInited = true;
+
+	if (IsWinVer7Plus())
+		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
+}
+
+void UninitTray(void)
+{
+	if (pTaskbarInterface)
+		pTaskbarInterface->Release();
 }

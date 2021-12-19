@@ -24,11 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-#define _ALPHA_BASE_ 1	// defined for CVS builds
-#define _ALPHA_FUSE_ 1	// defined for fuse powered core
-
-#define INCL_WINSOCK_API_TYPEDEFS 1
-
 #define HSSL_DEFINED 1
 typedef struct SslHandle *HSSL;
 
@@ -36,9 +31,8 @@ typedef struct SslHandle *HSSL;
 #include <ws2tcpip.h>
 #include <windows.h>
 #include <windowsx.h>
-#include <shlobj.h>
+#include <ShlObj.h>
 #include <uxtheme.h>
-#include <commctrl.h>
 #include <vssym32.h>
 #include <Shlwapi.h>
 #include <Richedit.h>

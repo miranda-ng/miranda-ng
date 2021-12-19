@@ -42,8 +42,6 @@ extern pfnBeginBufferedPaint beginBufferedPaint;
 extern pfnEndBufferedPaint endBufferedPaint;
 extern pfnGetBufferedPaintBits getBufferedPaintBits;
 
-extern ITaskbarList3 * pTaskbarInterface;
-
 typedef HRESULT (STDAPICALLTYPE *pfnDwmExtendFrameIntoClientArea)(HWND hwnd, const MARGINS *margins);
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 

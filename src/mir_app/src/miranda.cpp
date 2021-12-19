@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "stdafx.h"
+#include "clc.h"
 
 #if defined(VLD_ENABLED)
 #include "msapi\vld.h"
@@ -45,8 +46,6 @@ pfnGetBufferedPaintBits getBufferedPaintBits;
 
 pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
 pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-
-ITaskbarList3 *pTaskbarInterface;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
@@ -336,9 +335,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 	OleInitialize(nullptr);
 
-	if (IsWinVer7Plus())
-		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
-
 	g_pSystemWindow = new MSystemWindow();
 	g_pSystemWindow->Create();
 
@@ -421,8 +417,7 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	if (hThemeAPI)
 		FreeLibrary(hThemeAPI);
 
-	if (pTaskbarInterface)
-		pTaskbarInterface->Release();
+	UninitTray();
 
 	delete g_pSystemWindow;
 

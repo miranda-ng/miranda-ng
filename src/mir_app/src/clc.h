@@ -150,6 +150,8 @@ INT_PTR fnTrayIconProcessMessage(WPARAM, LPARAM);
 int     fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoCount);
 
 void    InitTray(void);
+void    UninitTray(void);
+
 void    TrayIconSetToBase(char *szPreferredProto);
 void    TrayIconTaskbarCreated(HWND hwnd);
 int     TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPreferredProto, int isBase);
