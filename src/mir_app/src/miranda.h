@@ -174,7 +174,10 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 
 BOOL IsAeroMode();
 
+#ifdef _WINDOWS
 bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
+#endif
+
 void RegisterModule(CMPluginBase*);
 
 void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);

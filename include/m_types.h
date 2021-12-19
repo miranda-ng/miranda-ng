@@ -56,7 +56,7 @@ typedef uint8_t        BYTE;
 typedef uint16_t       WORD;
 typedef uint32_t       DWORD, UINT, COLORREF;
 typedef intptr_t       WPARAM, LPARAM, INT_PTR;
-typedef uintptr_t      UINT_PTR, LRESULT;
+typedef uintptr_t      UINT_PTR, DWORD_PTR, LRESULT;
 typedef char          *LPSTR;
 typedef const char    *LPCSTR;
 typedef wchar_t       *LPWSTR, *LPTSTR;
@@ -66,6 +66,9 @@ typedef sockaddr_in    SOCKADDR_IN;
 struct RECT { int left, top, right, bottom; };
 struct POINT { int x, y; };
 struct SIZE { int width, height; };
+struct MSG;
+struct LOGFONTA;
+struct LOGFONTW;
 
 #define MIR_EXPORT __attribute__((__visibility__("default")))
 #define MIR_IMPORT
