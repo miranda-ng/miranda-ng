@@ -26,28 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_OPTIONS_OPEN "Options/OptionsCommand"
 
-typedef HRESULT (STDAPICALLTYPE *pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, DWORD, LPRECT, const struct _DTTOPTS *);
-typedef HRESULT (STDAPICALLTYPE *pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, DWORD);
-typedef HRESULT (STDAPICALLTYPE *pfnBufferedPaintInit)(void);
-typedef HRESULT (STDAPICALLTYPE *pfnBufferedPaintUninit)(void);
-typedef HANDLE  (STDAPICALLTYPE *pfnBeginBufferedPaint)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
-typedef HRESULT (STDAPICALLTYPE *pfnEndBufferedPaint)(HANDLE, BOOL);
-typedef HRESULT (STDAPICALLTYPE *pfnGetBufferedPaintBits)(HANDLE, RGBQUAD **, int *);
-
-extern pfnDrawThemeTextEx drawThemeTextEx;
-extern pfnSetWindowThemeAttribute setWindowThemeAttribute;
-extern pfnBufferedPaintInit bufferedPaintInit;
-extern pfnBufferedPaintUninit bufferedPaintUninit;
-extern pfnBeginBufferedPaint beginBufferedPaint;
-extern pfnEndBufferedPaint endBufferedPaint;
-extern pfnGetBufferedPaintBits getBufferedPaintBits;
-
-typedef HRESULT (STDAPICALLTYPE *pfnDwmExtendFrameIntoClientArea)(HWND hwnd, const MARGINS *margins);
-typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
-
-extern pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
-extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-
 /**** database.cpp *********************************************************************/
 
 extern MIR_CORE_EXPORT MDatabaseCommon *g_pCurrDb;
@@ -193,6 +171,8 @@ INT_PTR stubChainRecv(WPARAM, LPARAM);
 #define MS_PROTO_HIDDENSTUB "Proto/stubChainRecv"
 
 /**** utils.cpp ************************************************************************/
+
+BOOL IsAeroMode();
 
 bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
 void RegisterModule(CMPluginBase*);

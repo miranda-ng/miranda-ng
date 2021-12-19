@@ -36,16 +36,17 @@ int LoadDefaultModules(void);
 void UnloadNewPluginsModule(void);
 void UnloadDefaultModules(void);
 
-pfnDrawThemeTextEx drawThemeTextEx;
-pfnSetWindowThemeAttribute setWindowThemeAttribute;
+typedef HRESULT(STDAPICALLTYPE* pfnBufferedPaintInit)(void);
 pfnBufferedPaintInit bufferedPaintInit;
-pfnBufferedPaintUninit bufferedPaintUninit;
-pfnBeginBufferedPaint beginBufferedPaint;
-pfnEndBufferedPaint endBufferedPaint;
-pfnGetBufferedPaintBits getBufferedPaintBits;
 
-pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
-pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
+typedef HRESULT(STDAPICALLTYPE* pfnBufferedPaintUninit)(void);
+pfnBufferedPaintUninit bufferedPaintUninit;
+
+typedef HANDLE(STDAPICALLTYPE* pfnBeginBufferedPaint)(HDC, RECT*, BP_BUFFERFORMAT, BP_PAINTPARAMS*, HDC*);
+pfnBeginBufferedPaint beginBufferedPaint;
+
+typedef HRESULT(STDAPICALLTYPE* pfnEndBufferedPaint)(HANDLE, BOOL);
+pfnEndBufferedPaint endBufferedPaint;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
@@ -54,6 +55,42 @@ bool g_bModulesLoadedFired = false, g_bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 CMPlugin g_plugin;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
+{
+	BITMAPINFO bmi = { 0 };
+	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	bmi.bmiHeader.biPlanes = 1;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biBitCount = 32;
+	bmi.bmiHeader.biWidth = g_iIconSX;
+	bmi.bmiHeader.biHeight = g_iIconSY;
+
+	HDC hdc = CreateCompatibleDC(nullptr);
+	HBITMAP hbmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
+	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
+
+	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+	BP_PAINTPARAMS paintParams = { 0 };
+	paintParams.cbSize = sizeof(paintParams);
+	paintParams.dwFlags = BPPF_ERASE;
+	paintParams.pBlendFunction = &bfAlpha;
+
+	HDC hdcBuffer;
+	RECT rcIcon = { 0, 0, g_iIconSX, g_iIconSY };
+	HANDLE hPaintBuffer = beginBufferedPaint(hdc, &rcIcon, BPBF_DIB, &paintParams, &hdcBuffer);
+	if (hPaintBuffer) {
+		ImageList_Draw(hIml, iconId, hdc, 0, 0, ILD_TRANSPARENT);
+		endBufferedPaint(hPaintBuffer, TRUE);
+	}
+
+	SelectObject(hdc, hbmpOld);
+	DeleteDC(hdc);
+
+	return hbmp;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -310,25 +347,17 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif
 
-	HMODULE hDwmApi, hThemeAPI;
+	HMODULE hThemeAPI;
 	if (IsWinVerVistaPlus()) {
-		hDwmApi = LoadLibrary(L"dwmapi.dll");
-		if (hDwmApi) {
-			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
-			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
-		}
 		hThemeAPI = LoadLibrary(L"uxtheme.dll");
 		if (hThemeAPI) {
-			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
-			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
 			bufferedPaintInit = (pfnBufferedPaintInit)GetProcAddress(hThemeAPI, "BufferedPaintInit");
 			bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
 			beginBufferedPaint = (pfnBeginBufferedPaint)GetProcAddress(hThemeAPI, "BeginBufferedPaint");
 			endBufferedPaint = (pfnEndBufferedPaint)GetProcAddress(hThemeAPI, "EndBufferedPaint");
-			getBufferedPaintBits = (pfnGetBufferedPaintBits)GetProcAddress(hThemeAPI, "GetBufferedPaintBits");
 		}
 	}
-	else hDwmApi = hThemeAPI = nullptr;
+	else hThemeAPI = nullptr;
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();
@@ -412,8 +441,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
 
-	if (hDwmApi)
-		FreeLibrary(hDwmApi);
 	if (hThemeAPI)
 		FreeLibrary(hThemeAPI);
 

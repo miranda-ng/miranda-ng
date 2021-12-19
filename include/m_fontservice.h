@@ -112,8 +112,8 @@ EXTERN_C MIR_APP_DLL(int) Font_RegisterW(FontIDW *pFont, HPLUGIN);
 // global default font is gotten using SPI_GETICONTITLELOGFONT, color COLOR_WINDOWTEXT, size 8.
 // returns the font's colour
 
-EXTERN_C MIR_APP_DLL(COLORREF) Font_Get(const char *szGroup, const char *szName, struct LOGFONTA *pFont);
-EXTERN_C MIR_APP_DLL(COLORREF) Font_GetW(const wchar_t *wszGroup, const wchar_t *wszName, struct LOGFONTW *pFont);
+EXTERN_C MIR_APP_DLL(COLORREF) Font_Get(const char *szGroup, const char *szName, LOGFONTA *pFont);
+EXTERN_C MIR_APP_DLL(COLORREF) Font_GetW(const wchar_t *wszGroup, const wchar_t *wszName, LOGFONTW *pFont);
 
 __forceinline COLORREF Font_Get(FontID &p, LOGFONTA *pFont)
 {	return Font_Get(p.group, p.name, pFont);

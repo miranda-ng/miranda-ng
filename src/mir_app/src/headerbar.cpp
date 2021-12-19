@@ -25,7 +25,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static BOOL IsAeroMode()
+typedef HRESULT(STDAPICALLTYPE* pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, DWORD, LPRECT, const struct _DTTOPTS*);
+static pfnDrawThemeTextEx drawThemeTextEx;
+
+typedef HRESULT(STDAPICALLTYPE* pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, DWORD);
+static pfnSetWindowThemeAttribute setWindowThemeAttribute;
+
+typedef HRESULT(STDAPICALLTYPE* pfnDwmExtendFrameIntoClientArea)(HWND hwnd, const MARGINS* margins);
+static pfnDwmExtendFrameIntoClientArea dwmExtendFrameIntoClientArea;
+
+typedef HRESULT(STDAPICALLTYPE* pfnDwmIsCompositionEnabled)(BOOL*);
+static pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
+
+BOOL IsAeroMode()
 {
 	BOOL result;
 	return dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;
@@ -327,6 +339,20 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 
 int LoadHeaderbarModule()
 {
+	if (IsWinVerVistaPlus()) {
+		HINSTANCE hThemeAPI = LoadLibraryA("uxtheme.dll");
+		if (hThemeAPI) {
+			drawThemeTextEx = (pfnDrawThemeTextEx)GetProcAddress(hThemeAPI, "DrawThemeTextEx");
+			setWindowThemeAttribute = (pfnSetWindowThemeAttribute)GetProcAddress(hThemeAPI, "SetWindowThemeAttribute");
+		}
+
+		HINSTANCE hDwmApi = LoadLibrary(L"dwmapi.dll");
+		if (hDwmApi) {
+			dwmExtendFrameIntoClientArea = (pfnDwmExtendFrameIntoClientArea)GetProcAddress(hDwmApi, "DwmExtendFrameIntoClientArea");
+			dwmIsCompositionEnabled = (pfnDwmIsCompositionEnabled)GetProcAddress(hDwmApi, "DwmIsCompositionEnabled");
+		}
+	}
+
 	WNDCLASSEX wc = { 0 };
 	wc.cbSize = sizeof(wc);
 	wc.lpszClassName = L"MHeaderbarCtrl";

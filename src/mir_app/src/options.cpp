@@ -87,12 +87,6 @@ static wchar_t* GetPluginName(HINSTANCE hInstance, wchar_t *buffer, int size)
 	return buffer;
 }
 
-static BOOL IsAeroMode()
-{
-	BOOL result;
-	return dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;
-}
-
 static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 static void AeroPaintControl(HWND hwnd, HDC hdc, UINT msg, LPARAM lpFlags)

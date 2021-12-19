@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 #include "FontService.h"
+#include <m_skin_eng.h>
 
 // *_w2 is working copy of list
 // *_w3 is stores initial configuration

@@ -88,7 +88,6 @@
     <ClCompile Include="src\idle.cpp" />
     <ClCompile Include="src\ignore.cpp" />
     <ClCompile Include="src\image_utils.cpp" />
-    <ClCompile Include="src\imgconv.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
     <ClCompile Include="src\lpopts.cpp" />
     <ClCompile Include="src\MDatabaseCache.cpp" />

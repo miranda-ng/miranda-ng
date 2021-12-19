@@ -64,7 +64,7 @@ EXTERN_C MIR_APP_DLL(int) Hotkey_Unregister(const char *pszName);
 // Checks if "manual" hotkey was activated and returns its id.
 // Returns lParam associated with activated hotkey
 
-EXTERN_C MIR_APP_DLL(int) Hotkey_Check(struct MSG *pEvent, const char *pszSection);
+EXTERN_C MIR_APP_DLL(int) Hotkey_Check(MSG *pEvent, const char *pszSection);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Subclasss/unsubclass edit box to act as hotkey control
@@ -84,7 +84,7 @@ EXTERN_C MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwndEdit);
 // This event is fired when hotkeys were changed
 // wParam = lParam = 0
 
-#define ME_HOTKEYS_CHANGED       "CoreHotkeys/Changed"
+#define ME_HOTKEYS_CHANGED "CoreHotkeys/Changed"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

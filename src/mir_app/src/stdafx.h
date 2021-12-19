@@ -98,7 +98,7 @@ typedef struct SslHandle *HSSL;
 #include <m_tipper.h>
 #include <m_toptoolbar.h>
 #include <m_userinfo.h>
-//#include <m_version.h>
+#include <m_version.h>
 #include <m_xstatus.h>
 
 #include "miranda.h"

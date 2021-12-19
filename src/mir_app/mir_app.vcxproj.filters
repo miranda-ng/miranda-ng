@@ -71,9 +71,6 @@
     <ClCompile Include="src\image_utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\imgconv.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\keyboard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
