@@ -66,7 +66,7 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	case DBVT_DWORD:
 		return mir_wstrdup(_itow(dbv.dVal, buf, 10));
 	case DBVT_BLOB:
-		return mir_wstrdup(bin2hexW(dbv.pbVal, min(dbv.cpbVal, 19), buf));
+		return mir_wstrdup(bin2hexW(dbv.pbVal, std::min(int(dbv.cpbVal), 19), buf));
 	}
 
 	db_free(&dbv);
@@ -147,7 +147,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 			DBVARIANT dbv2;
 			if (!db_get_ws(hContact, szProto, "LastName", &dbv2)) {
 				size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
-				WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
+				wchar_t *buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 				if (buf != nullptr)
 					mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 				db_free(&dbv);
@@ -215,7 +215,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 					if (!db_get_ws(hContact, szProto, uid, &dbv)) {
 						if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 							long value = (dbv.type == DBVT_BYTE) ? dbv.bVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);
-							WCHAR buf[40];
+							wchar_t buf[40];
 							_ltow(value, buf, 10);
 							return mir_wstrdup(buf);
 						}
@@ -230,7 +230,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 					DBVARIANT dbv2;
 					if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
-						WCHAR* buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
+						wchar_t *buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
 						if (buf != nullptr)
 							mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 

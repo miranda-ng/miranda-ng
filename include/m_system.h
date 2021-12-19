@@ -39,9 +39,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	#define MIRANDA_VER    0x0A00
 #endif
 
-#ifndef _MSC_VER
-	#define __forceinline inline __attribute__ ((always_inline))
-#else
+#ifdef _MSC_VER
 	#pragma warning(disable:4244 4245)
 #endif
 

@@ -107,7 +107,7 @@ struct IcolibItem : public MZeroedObject
 
 UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HICON *phicon, UINT flags);
 
-void __fastcall SafeDestroyIcon(HICON &icon);
+void SafeDestroyIcon(HICON &icon);
 
 IconSourceItem* GetIconSourceItem(const wchar_t* file, int indx, int cxIcon, int cyIcon);
 

@@ -61,7 +61,7 @@ public:
 
 		m_szProto = dbei.szModule;
 
-		DWORD uin = *(PDWORD)dbei.pBlob;
+		DWORD uin = *(DWORD*)dbei.pBlob;
 		m_hContact = DbGetAuthEventContact(&dbei);
 		char *nick = (char*)dbei.pBlob + sizeof(DWORD) * 2;
 		char *first = nick + mir_strlen(nick) + 1;

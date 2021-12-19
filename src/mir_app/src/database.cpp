@@ -93,12 +93,14 @@ int isValidProfileName(const wchar_t *name)
 // returns 1 if the profile manager should be shown
 static bool showProfileManager(void)
 {
-	wchar_t Mgr[32];
 	// is control pressed?
+	#ifdef _WINDOWS
 	if (GetAsyncKeyState(VK_CONTROL) & 0x8000)
 		return 1;
+	#endif
 
 	// wanna show it?
+	wchar_t Mgr[32];
 	Profile_GetSetting(L"Database/ShowProfileMgr", Mgr, L"never");
 	return (mir_wstrcmpi(Mgr, L"yes") == 0);
 }

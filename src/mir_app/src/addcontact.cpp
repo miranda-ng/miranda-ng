@@ -193,7 +193,7 @@ MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent)
 			DWORD dwData[2];
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = sizeof(dwData);
-			dbei.pBlob = (PBYTE)&dwData;
+			dbei.pBlob = (BYTE*)&dwData;
 			db_event_get(hEvent, &dbei);
 			if (dwData[0] != 0)
 				m_szName.Format(L"%d", dwData[0]);

@@ -5,12 +5,12 @@
     <Project Name="mir_app" Path="../../../../var/www/miranda-ng/src/mir_app/mir_app.project" Active="Yes"/>
   </VirtualDirectory>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="no">
+    <WorkspaceConfiguration Name="Debug" Selected="yes">
       <Environment/>
       <Project Name="mir_core" ConfigName="Debug"/>
       <Project Name="mir_app" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="yes">
+    <WorkspaceConfiguration Name="Release" Selected="no">
       <Environment/>
       <Project Name="mir_core" ConfigName="Release"/>
       <Project Name="mir_app" ConfigName="Release"/>

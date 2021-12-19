@@ -84,6 +84,7 @@ struct LOGFONTW;
 #define _Pre_notnull_
 #define _Always_(x)
 #define _Printf_format_string_
+#define __forceinline inline __attribute__ ((always_inline))
 
 #define InterlockedIncrement(x) __sync_fetch_and_add(x, 1)
 #define InterlockedDecrement(x) __sync_fetch_and_add(x, -1)
@@ -100,8 +101,6 @@ struct LOGFONTW;
 
 #define _vsnprintf vsnprintf
 #define _vsnwprintf vswprintf
-
-#define __forceinline inline
 
 #define DECLARE_HANDLE(name) struct _##name { int unused; }; typedef struct _##name *name
 DECLARE_HANDLE(HDC);

@@ -63,12 +63,12 @@ struct OPTIONSDIALOGPAGE
 {
 	int position; // a position number, lower numbers are topmost
 	MAllStrings szTitle, szGroup, szTab; // [TRANSLATED-BY-CORE]
-	char *pszTemplate;
+	HPLUGIN pPlugin;
 	DWORD flags;
 
 	#ifdef _WINDOWS
 		DLGPROC pfnDlgProc;
-		HPLUGIN pPlugin;
+		char *pszTemplate;
 	#endif
 
 	union {

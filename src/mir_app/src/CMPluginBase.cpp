@@ -288,6 +288,7 @@ void CMPluginBase::debugLogW(LPCWSTR wszFormat, ...)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WINDOWS
 int CMPluginBase::addImgListIcon(HIMAGELIST himl, int iconId)
 {
 	HICON hIcon = getIcon(iconId);
@@ -295,6 +296,7 @@ int CMPluginBase::addImgListIcon(HIMAGELIST himl, int iconId)
 	IcoLib_ReleaseIcon(hIcon);
 	return ret;
 }
+#endif
 
 HICON CMPluginBase::getIcon(int iconId, bool big)
 {
