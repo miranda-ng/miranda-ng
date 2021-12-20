@@ -123,7 +123,7 @@ MIR_APP_DLL(BOOL) Menu_MeasureItem(LPARAM lParam)
 	if (pimi->iconId == -1)
 		return FALSE;
 
-	mis->itemWidth = std::max(0, g_iIconSX - GetSystemMetrics(SM_CXMENUCHECK) + 4);
+	mis->itemWidth = max(0, g_iIconSX - GetSystemMetrics(SM_CXMENUCHECK) + 4);
 	mis->itemHeight = g_iIconSY + 2;
 	return TRUE;
 }

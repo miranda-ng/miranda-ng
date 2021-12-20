@@ -67,23 +67,23 @@ MIR_APP_DLL(HBITMAP) Image_Resize(HBITMAP hBmp, int fit /* RESIZEBITMAP_*/, int 
 	case RESIZEBITMAP_KEEP_PROPORTIONS:
 		if (height * widthOrig / heightOrig <= width) {
 			if (fit & RESIZEBITMAP_FLAG_DONT_GROW)
-				height = std::min(height, (int)bminfo.bmHeight);
+				height = min(height, (int)bminfo.bmHeight);
 			width = height * widthOrig / heightOrig;
 		}
 		else {
 			if (fit & RESIZEBITMAP_FLAG_DONT_GROW)
-				width = std::min(width, (int)bminfo.bmWidth);
+				width = min(width, (int)bminfo.bmWidth);
 			height = width * heightOrig / widthOrig;
 		}
 		break;
 
 	case RESIZEBITMAP_MAKE_SQUARE:
 		if (fit & RESIZEBITMAP_FLAG_DONT_GROW) {
-			width = std::min(width, (int)bminfo.bmWidth);
-			height = std::min(height, (int)bminfo.bmHeight);
+			width = min(width, (int)bminfo.bmWidth);
+			height = min(height, (int)bminfo.bmHeight);
 		}
 
-		width = height = std::min(width, height);
+		width = height = min(width, height);
 		// Do not break. Use crop calcs to make size
 
 	case RESIZEBITMAP_CROP:

@@ -38,7 +38,7 @@ MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pb
 		}
 
 		// give the RTF to the RE control
-		*pcb = std::min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
+		*pcb = min(cb, LONG(lstrdat->bufferLen - lstrdat->bufferOffset));
 		memcpy(pbBuff, lstrdat->buffer + lstrdat->bufferOffset, *pcb);
 		lstrdat->bufferOffset += *pcb;
 

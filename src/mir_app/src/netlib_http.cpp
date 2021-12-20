@@ -85,7 +85,7 @@ static int RecvWithTimeoutTime(NetlibConnection *nlc, int dwTimeoutTime, char *b
 
 	if (nlc->foreBuf.isEmpty() && !Netlib_SslPending(nlc->hSsl)) {
 		while ((dwTimeNow = GetTickCount()) < dwTimeoutTime) {
-			int dwDeltaTime = std::min(dwTimeoutTime - dwTimeNow, 1000);
+			int dwDeltaTime = min(dwTimeoutTime - dwTimeNow, 1000);
 			int res = WaitUntilReadable(nlc->s, dwDeltaTime);
 
 			switch (res) {
@@ -732,7 +732,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 	}
 
 	char *buffer = (char*)_alloca(NHRV_BUF_SIZE + 1);
-	int bytesPeeked = Netlib_Recv(nlc, buffer, std::min(firstLineLength, NHRV_BUF_SIZE), flags | MSG_DUMPASTEXT);
+	int bytesPeeked = Netlib_Recv(nlc, buffer, min(firstLineLength, NHRV_BUF_SIZE), flags | MSG_DUMPASTEXT);
 	if (bytesPeeked != firstLineLength) {
 		NetlibLeaveNestedCS(&nlc->ncsRecv);
 		Netlib_FreeHttpRequest(nlhr);

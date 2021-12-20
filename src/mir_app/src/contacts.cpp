@@ -66,7 +66,7 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	case DBVT_DWORD:
 		return mir_wstrdup(_itow(dbv.dVal, buf, 10));
 	case DBVT_BLOB:
-		return mir_wstrdup(bin2hexW(dbv.pbVal, std::min(int(dbv.cpbVal), 19), buf));
+		return mir_wstrdup(bin2hexW(dbv.pbVal, min(int(dbv.cpbVal), 19), buf));
 	}
 
 	db_free(&dbv);

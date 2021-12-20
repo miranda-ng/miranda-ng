@@ -84,7 +84,7 @@ INT_PTR Meta_GetCaps(WPARAM wParam, LPARAM)
 INT_PTR Meta_GetName(WPARAM wParam, LPARAM lParam)
 {
 	char *name = (char *)Translate(META_PROTO);
-	size_t size = std::min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
+	size_t size = min(mir_strlen(name), wParam - 1);	// copy only the first size bytes.
 	if (strncpy((char *)lParam, name, size) == nullptr)
 		return 1;
 	((char *)lParam)[size] = '\0';

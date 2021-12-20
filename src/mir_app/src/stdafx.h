@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct SslHandle *HSSL;
 
 #ifdef _WINDOWS
-	#define NOMINMAX
-	
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
 	#include <windows.h>
@@ -60,7 +58,6 @@ typedef struct SslHandle *HSSL;
 #include <locale.h>
 
 #include <memory>
-#include <utility>
 
 #define __NO_CMPLUGIN_NEEDED
 #include <newpluginapi.h>

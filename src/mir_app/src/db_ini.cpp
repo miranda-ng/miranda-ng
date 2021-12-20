@@ -322,7 +322,7 @@ LBL_NewLine:
 			if (szLine[1] == '!')
 				szSection[0] = '\0';
 			else {
-				mir_strncpy(szSection, szLine + 1, std::min(sizeof(szSection), (size_t)(szEnd - szLine)));
+				mir_strncpy(szSection, szLine + 1, min(sizeof(szSection), (size_t)(szEnd - szLine)));
 				switch (secur) {
 				case 0:
 					warnThisSection = false;
@@ -343,7 +343,7 @@ LBL_NewLine:
 				if (secFN) warnThisSection = 0;
 			}
 			if (szLine[1] == '?' || szLine[1] == '-') {
-				mir_strncpy(szSection, szLine + 2, std::min(sizeof(szSection), (size_t)(szEnd - szLine - 1)));
+				mir_strncpy(szSection, szLine + 2, min(sizeof(szSection), (size_t)(szEnd - szLine - 1)));
 				db_enum_settings(0, SettingsEnumProc, szSection);
 				while (setting_items) {
 					SettingsList *next = setting_items->next;
@@ -366,7 +366,7 @@ LBL_NewLine:
 			continue;
 
 		char szName[128];
-		mir_strncpy(szName, szLine, std::min(sizeof(szName), (size_t)(szValue - szLine + 1)));
+		mir_strncpy(szName, szLine, min(sizeof(szName), (size_t)(szValue - szLine + 1)));
 		szValue++;
 		{
 			warnSettingChangeInfo_t warnInfo;

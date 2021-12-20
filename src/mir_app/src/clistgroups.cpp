@@ -471,7 +471,7 @@ MIR_APP_DLL(HMENU) Clist_GroupBuildMenu(int startId)
 				pNextField = nullptr;
 			}
 			else {
-				mir_wstrncpy(szThisField, pNextField, std::min(_countof(szThisField), size_t(pBackslash - pNextField + 1)));
+				mir_wstrncpy(szThisField, pNextField, min(_countof(szThisField), size_t(pBackslash - pNextField + 1)));
 				pNextField = pBackslash + 1;
 			}
 			int compareResult = 1;
