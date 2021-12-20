@@ -299,7 +299,7 @@ public:
 		::SelectObject(hdc, hfnt);
 		::ReleaseDC(m_hwnd, hdc);
 
-		m_normalHeight = 4 + max(m_titleHeight, g_iIconSY);
+		m_normalHeight = 4 + std::max(m_titleHeight, g_iIconSY);
 		m_selectedHeight = m_normalHeight + 4 + 2 * m_textHeight;
 
 		m_name.SendMsg(WM_SETFONT, (WPARAM)m_hfntTitle, 0);
@@ -684,11 +684,11 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 
 		SelectObject(lps->hDC, PARENT()->m_hfntTitle);
 		tmp = lps->rcItem.bottom;
-		lps->rcItem.bottom = lps->rcItem.top + max(cyIcon, PARENT()->m_titleHeight);
+		lps->rcItem.bottom = lps->rcItem.top + std::max(cyIcon, PARENT()->m_titleHeight);
 		DrawText(lps->hDC, text, -1, &lps->rcItem, DT_LEFT | DT_NOPREFIX | DT_SINGLELINE | DT_END_ELLIPSIS | DT_VCENTER);
 		lps->rcItem.bottom = tmp;
 		GetTextExtentPoint32(lps->hDC, text, (int)length, &sz);
-		lps->rcItem.top += max(cxIcon, sz.cy) + 2;
+		lps->rcItem.top += std::max(cxIcon, (int)sz.cy) + 2;
 	}
 
 	if (lps->itemID == (unsigned)PARENT()->m_iSelected) {
@@ -951,7 +951,7 @@ void CAccountListCtrl::InitRename()
 	RECT rc;
 	GetItemRect(GetCurSel(), &rc);
 	rc.left += 2 * g_iIconSX + 4;
-	rc.bottom = rc.top + max(g_iIconSX, PARENT()->m_titleHeight) + 4 - 1;
+	rc.bottom = rc.top + std::max(g_iIconSX, PARENT()->m_titleHeight) + 4 - 1;
 	++rc.top; --rc.right;
 
 	m_hwndEdit = ::CreateWindow(L"EDIT", pa->tszAccountName, WS_CHILD | WS_BORDER | ES_AUTOHSCROLL, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, m_hwnd, nullptr, g_plugin.getInst(), nullptr);

@@ -808,7 +808,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					if (GetMonitorInfo(hMon, &mi))
 						rcWorkArea = mi.rcWork;
 
-					newHeight = max(nmc->pt.y, 9) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
+					newHeight = std::max(nmc->pt.y, LONG(9)) + 1 + (rcWindow.bottom - rcWindow.top) - (rcTree.bottom - rcTree.top);
 					if (newHeight > (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100)
 						newHeight = (rcWorkArea.bottom - rcWorkArea.top) * maxHeight / 100;
 					if (db_get_b(0, "CLUI", "AutoSizeUpward", 0)) {

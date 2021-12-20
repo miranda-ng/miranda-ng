@@ -368,7 +368,7 @@ int TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPrefer
 		if (db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
 			DWORD time1 = db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
 			DWORD time2 = db_get_w(0, "CList", "IconFlashTime", 550) + 1000;
-			DWORD time = max(max(2000, time1), time2);
+			DWORD time = std::max(std::max(DWORD(2000), time1), time2);
 			if (RefreshTimerId)
 				KillTimer(nullptr, RefreshTimerId);
 

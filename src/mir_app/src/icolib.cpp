@@ -62,7 +62,7 @@ LIST<IcolibItem> iconList(20, sttCompareIcons);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
 
-void __fastcall SafeDestroyIcon(HICON &hIcon)
+void SafeDestroyIcon(HICON &hIcon)
 {
 	if (hIcon != nullptr) {
 		DestroyIcon(hIcon);

@@ -279,9 +279,9 @@ public:
 				oldSlots[i] = registeredExtraIcons[i]->getSlot();
 			else // Remove old slot for groups to re-set images
 				oldSlots[i] = -1;
-			lastUsedSlot = max(lastUsedSlot, registeredExtraIcons[i]->getSlot());
+			lastUsedSlot = std::max(lastUsedSlot, registeredExtraIcons[i]->getSlot());
 		}
-		lastUsedSlot = min(lastUsedSlot, EXTRA_ICON_COUNT);
+		lastUsedSlot = std::min(lastUsedSlot, EXTRA_ICON_COUNT);
 
 		// Get user data and create new groups
 		LIST<ExtraIconGroup> groups(1);

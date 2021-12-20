@@ -146,7 +146,7 @@ static bool txtParseParam(char* szData, char* presearch,
 	if (cp1 == nullptr) return false;
 	while (*(cp1-1) == ' ' && cp1 > cp) --cp1;
 
-	len = min((size_t)(cp1 - cp), size-1);
+	len = std::min((size_t)(cp1 - cp), size-1);
 	strncpy(param, cp, len);
 	param[len] = 0;
 
