@@ -69,6 +69,7 @@ public:
 		IEVIEWEVENT event = {};
 		event.iType = IEE_CLEAR_LOG;
 		event.hwnd = m_hwnd;
+		event.hContact = m_pDlg.m_hContact;
 		HandleIEEvent(0, LPARAM(&event));
 	}
 
