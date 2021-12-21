@@ -155,7 +155,7 @@ void CDiscordProto::InitMenus()
 
 	SET_UID(mi, 0x6EF11AD6, 0x6111, 0x4E29, 0xBA, 0x8B, 0xA7, 0xB2, 0xE0, 0x22, 0xE1, 0x8E);
 	mi.pszService = "/CopyId";
-	mi.name.a = LPGEN("Copy Discord ID");
+	mi.name.a = LPGEN("Copy ID");
 	mi.position = -200001002;
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_USERONLINE);
 	Menu_AddContactMenuItem(&mi, m_szModuleName);
