@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -787,7 +787,6 @@
 [Enable "Paste and send" feature]
 [Allow BBCode formatting in outgoing messages]
 [Automatically split long messages (experimental, use with care)]
-[Log status changes]
 [Use the same splitter height for all sessions]
 [Automatically copy selected text]
 [Test contact]
@@ -802,6 +801,7 @@
 [Show seconds in timestamps]
 [Use contacts local time (if timezone info available)]
 [Draw grid lines]
+[Log status changes]
 [Use incoming/outgoing icons]
 [Use message grouping]
 [Simple text formatting (*bold*, etc.)]
