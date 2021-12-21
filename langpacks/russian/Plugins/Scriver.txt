@@ -691,6 +691,9 @@ Miranda не смогла загрузить встроенную систему
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
+Встроенный журнал Scriver
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Поверх всех окон

@@ -1746,6 +1746,9 @@ Miranda не смогла загрузить встроенную систему
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Неизвестная ошибка.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+Встроенный журнал StdMsg
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -3334,7 +3337,7 @@ ANSI плагин
 Изображения GIF
 [PNG bitmaps]
 Изображения PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <не указано>
 ;file \include\m_message.h

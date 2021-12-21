@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.1.6
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]

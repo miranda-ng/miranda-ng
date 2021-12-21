@@ -10,112 +10,6 @@
 Свернуть
 [On/Off On Top]
 Вкл/Выкл "Поверх всех окон"
-;==============================================================================
-;  Popup
-;==============================================================================
-[Flat borders]
-Плоские границы
-[Draw gradient background]
-Фон с градиентом
-[Show icon]
-Показывать значок
-[Show avatars]
-Показывать аватары
-[Error (colors only)]
-Ошибка (только цвета)
-[Notification (colors only)]
-Уведомление (только цвета)
-[Warning (colors only)]
-Предупреждение (только цвета)
-[Color frame]
-Цветная рамка
-[Color text background]
-Цветной текст заголовка
-[Color logo & clocks]
-Цветные логотип и часы
-[Color text]
-Цветной текст
-[Light title text]
-Светлый текст заголовка
-[Dark title text]
-Тёмный текст заголовка
-[Standard digital clocks]
-Стандартные часы
-[Avatar to right]
-Аватар справа
-[Logo]
-Логотип
-;==============================================================================
-;  Various actions and Tipper items not included in source code.
-;==============================================================================
-[Last seen:]
-Последнее появление:
-[Online since:]
-В сети с:
-[Away since:]
-Отсутствует с:
-[NA since:]
-Недоступен с:
-[Registered:]
-Зарегистрирован:
-[Idle ago:]
-Неактивен с:
-[Messages received]
-Принято сообщений
-[Messages sent]
-Отправлено сообщений
-[Total messages: %sys:msg_count_all%]
-Всего сообщений: %sys:msg_count_all%
-[Last message: (%sys:last_msg_reltime% along)]
-Последнее сообщение: (%sys:last_msg_reltime% назад)
-[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
-(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
-[Coordinates]
-Координаты
-[Import from database]
-Импорт из базы данных
-[Current = %r\\nPrevious = %p]
-Текущий = %r\\nПредыдущий = %p
-[Langpack reload]
-Перезагрузка языкового пакета
-[Tomorrow]
-Завтра
-[Day after tomorrow]
-Послезавтра
-[days to birthday]
-дней до праздника
-[UIN registered]
-Зарегистрирован
-[ago]
-назад
-[Into the network]
-Вошёл в сеть
-[Not active]
-Не активен
-[was]
-был
-[in the]
-в
-[Current activity]
-Текущая активность
-[Messaging activity]
-Сообщение активности
-[listening]
-слушает
-[Website]
-Сайт
-[Expected]
-Ожидается
-[Water temperature]
-Температура воды
-[Azimuth]
-Азимут
-[Sign]
-Примета
-[Total messages]
-Всего сообщений
-[Last message received]
-Последнее сообщение принято
 ;=======================================================================
 ;  MirLua
 ;=======================================================================
@@ -291,3 +185,109 @@
 Отправить файл (Правый клик — Принятые файлы)
 [Font size]
 Размер
+;==============================================================================
+;  Popup
+;==============================================================================
+[Flat borders]
+Плоские границы
+[Draw gradient background]
+Фон с градиентом
+[Show icon]
+Показывать значок
+[Show avatars]
+Показывать аватары
+[Error (colors only)]
+Ошибка (только цвета)
+[Notification (colors only)]
+Уведомление (только цвета)
+[Warning (colors only)]
+Предупреждение (только цвета)
+[Color frame]
+Цветная рамка
+[Color text background]
+Цветной текст заголовка
+[Color logo & clocks]
+Цветные логотип и часы
+[Color text]
+Цветной текст
+[Light title text]
+Светлый текст заголовка
+[Dark title text]
+Тёмный текст заголовка
+[Standard digital clocks]
+Стандартные часы
+[Avatar to right]
+Аватар справа
+[Logo]
+Логотип
+;==============================================================================
+;  Various actions and Tipper items not included in source code.
+;==============================================================================
+[Last seen:]
+Последнее появление:
+[Online since:]
+В сети с:
+[Away since:]
+Отсутствует с:
+[NA since:]
+Недоступен с:
+[Registered:]
+Зарегистрирован:
+[Idle ago:]
+Неактивен с:
+[Messages received]
+Принято сообщений
+[Messages sent]
+Отправлено сообщений
+[Total messages: %sys:msg_count_all%]
+Всего сообщений: %sys:msg_count_all%
+[Last message: (%sys:last_msg_reltime% along)]
+Последнее сообщение: (%sys:last_msg_reltime% назад)
+[(received: %sys:msg_count_in%,sent: %sys:msg_count_out%)]
+(принято: %sys:msg_count_in%, послано: %sys:msg_count_out%)
+[Coordinates]
+Координаты
+[Import from database]
+Импорт из базы данных
+[Current = %r\\nPrevious = %p]
+Текущий = %r\\nПредыдущий = %p
+[Langpack reload]
+Перезагрузка языкового пакета
+[Tomorrow]
+Завтра
+[Day after tomorrow]
+Послезавтра
+[days to birthday]
+дней до праздника
+[UIN registered]
+Зарегистрирован
+[ago]
+назад
+[Into the network]
+Вошёл в сеть
+[Not active]
+Не активен
+[was]
+был
+[in the]
+в
+[Current activity]
+Текущая активность
+[Messaging activity]
+Сообщение активности
+[listening]
+слушает
+[Website]
+Сайт
+[Expected]
+Ожидается
+[Water temperature]
+Температура воды
+[Azimuth]
+Азимут
+[Sign]
+Примета
+[Total messages]
+Всего сообщений
+[Last message received]
+Последнее сообщение принято

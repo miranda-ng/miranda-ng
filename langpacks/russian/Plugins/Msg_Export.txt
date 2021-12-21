@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.7
+;  Version: 3.1.2.8
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -96,6 +96,8 @@ UTF-8 в новых файлах
 [History was saved successfully in file\r\n]
 История успешно сохранена в файл\r\n
 ;file \plugins\Msg_Export\src\main.cpp
+[Export history]
+Экспортировать историю
 [Open E&xported History]
 Эк&спортированная история
 ;file \plugins\Msg_Export\src\options.cpp

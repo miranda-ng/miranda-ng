@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Discord.dll
 ;  Plugin: Discord protocol
-;  Version: 0.6.2.10
+;  Version: 0.6.2.11
 ;  Authors: George Hazan
 ;============================================================
 [Discord support for Miranda NG.]
@@ -42,6 +42,8 @@
 &Переименовать комнату чата
 [&Destroy channel]
 &Удалить комнату чата
+[Copy ID]
+Копировать ID
 [Do you really want to destroy this channel? This action is non-revertable.]
 Удалить этот канал? Удаление невозможно будет отменить.
 [Enter new channel name:]
