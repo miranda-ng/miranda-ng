@@ -64,9 +64,9 @@ type
     szTitle               :TChar;   // [TRANSLATED-BY-CORE]
     szGroup               :TChar;   // [TRANSLATED-BY-CORE]
     szTab                 :TChar;   // [TRANSLATED-BY-CORE]
+    pPlugin               :Pointer;
     pfnDlgProc            :pointer;
     pszTemplate           :PAnsiChar;
-    pPlugin               :Pointer;
     flags                 :dword;   // 
     dwInitParam           :LPARAM;  // a value to pass to lParam of WM_INITDIALOG message
   end;
