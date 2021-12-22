@@ -99,6 +99,8 @@ struct ClcFontInfo
 
 struct ClcContactBase
 {
+	__forceinline BYTE getType() const { return (this == nullptr) ? 0 : type; }
+
 	BYTE type;
 	BYTE flags;
 	union {

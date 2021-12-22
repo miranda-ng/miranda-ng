@@ -956,7 +956,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 
-		if (contDest->type != CLCIT_INFO && contSour->type != CLCIT_INFO)
+		if (contDest->getType() != CLCIT_INFO && contSour->getType() != CLCIT_INFO)
 		switch (target) {
 		case DROPTARGET_ONSELF:
 			break;
@@ -1078,8 +1078,6 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), nullptr);
 	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
-		wchar_t Wording[500];
-
 		POINT pt = UNPACK_POINT(lParam);
 		int target = GetDropTargetInformation(hwnd, dat, pt);
 
@@ -1087,7 +1085,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 
-		if (contDest->type != CLCIT_INFO && contSour->type != CLCIT_INFO)
+		if (contDest->getType() != CLCIT_INFO && contSour->getType() != CLCIT_INFO)
 		switch (target) {
 		case DROPTARGET_ONSELF:
 			break;
@@ -1099,6 +1097,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->pce->szProto, META_PROTO)) {
+					wchar_t Wording[500];
 					if (!contSour->iSubNumber) {
 						MCONTACT hDest = contDest->hContact;
 						mir_snwprintf(Wording, TranslateT("Do you want contact '%s' to be converted to metacontact and '%s' be added to it?"), contDest->szText, contSour->szText);
@@ -1135,6 +1134,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->pce->szProto, META_PROTO))
 					break;
+
+				wchar_t Wording[500];
 				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->hContact;
@@ -1175,6 +1176,8 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->type == CLCIT_CONTACT) {
 				if (!mir_strcmp(contSour->pce->szProto, META_PROTO))
 					break;
+
+				wchar_t Wording[500];
 				if (!contSour->iSubNumber) {
 					MCONTACT hcontact = contSour->hContact;
 					MCONTACT handle = contDest->subcontacts->hContact;
