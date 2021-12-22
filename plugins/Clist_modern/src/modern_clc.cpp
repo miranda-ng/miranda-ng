@@ -952,7 +952,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 			dat->dragStage &= ~DRAGSTAGEF_OUTSIDE;
 		}
 
-		ClcContact *contSour, *contDest;
+		ClcContact *contSour = nullptr, *contDest = nullptr;
 		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 
@@ -1081,7 +1081,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 		POINT pt = UNPACK_POINT(lParam);
 		int target = GetDropTargetInformation(hwnd, dat, pt);
 
-		ClcContact *contDest, *contSour;
+		ClcContact *contDest = nullptr, *contSour = nullptr;
 		cliGetRowByIndex(dat, dat->iDragItem, &contSour, nullptr);
 		cliGetRowByIndex(dat, dat->selection, &contDest, nullptr);
 
