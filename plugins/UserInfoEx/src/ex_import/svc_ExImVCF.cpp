@@ -163,7 +163,7 @@ size_t CLineBuffer::operator + (const CHAR *szVal)
  * return:	length of the string, added
  **/
 
-size_t CLineBuffer::operator + (const WCHAR *wszVal)
+size_t CLineBuffer::operator + (const wchar_t *wszVal)
 {
 	if (wszVal) {
 		CHAR *szVal = mir_u2a(wszVal);

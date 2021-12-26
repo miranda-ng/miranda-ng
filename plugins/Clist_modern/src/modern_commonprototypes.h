@@ -157,7 +157,7 @@ void    DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkC
 HRESULT BackgroundsLoadModule();
 int     BackgroundsUnloadModule();
 char*   GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);  //mod_skin_selector.c
-WCHAR*  GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces);
+wchar_t*  GetParamN(wchar_t *string, wchar_t *buf, int buflen, BYTE paramN, wchar_t Delim, BOOL SkipSpaces);
 DWORD   CompareContacts2_getLMTime(MCONTACT u);                                    //contact.c
 DWORD   mod_CalcHash(const char *a);                                          //mod_skin_selector.c
 HICON   cliGetIconFromStatusMode(MCONTACT hContact, const char *szProto, int status);            //clistmod.c

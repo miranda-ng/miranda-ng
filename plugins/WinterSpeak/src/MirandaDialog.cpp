@@ -16,14 +16,14 @@ void MirandaDialog::changed(HWND window)
 	SendMessage(GetParent(window), PSM_CHANGED, 0, 0);
 }
 
-WCHAR *MirandaDialog::Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
+wchar_t *MirandaDialog::Hlp_GetDlgItemText(HWND hwndDlg, int nIDDlgItem) {
 
 	int len = SendDlgItemMessage(hwndDlg, nIDDlgItem, WM_GETTEXTLENGTH, 0, 0);
 	if (len < 0)
 		return nullptr;
 
-	WCHAR *res = (WCHAR*)mir_alloc((len+1)*sizeof(WCHAR));
-	memset(res, 0, ((len + 1) * sizeof(WCHAR)));
+	wchar_t *res = (wchar_t*)mir_alloc((len+1)*sizeof(wchar_t));
+	memset(res, 0, ((len + 1) * sizeof(wchar_t)));
 	GetDlgItemText(hwndDlg, nIDDlgItem, res, len+1);
 
 	return res;

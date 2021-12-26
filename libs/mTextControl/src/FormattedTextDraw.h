@@ -17,7 +17,7 @@ struct COOKIE
 	union
 	{
 		char *ansi;
-		WCHAR *unicode;
+		wchar_t *unicode;
 	};
 	size_t cbSize, cbCount;
 };
@@ -32,9 +32,9 @@ public:
 	virtual HRESULT Create() = 0;
 	virtual HRESULT Draw(void *hdcDraw, RECT *prc) = 0;
 	virtual HRESULT putRTFTextA(char *newVal) = 0;
-	virtual HRESULT putRTFTextW(WCHAR *newVal) = 0;
+	virtual HRESULT putRTFTextW(wchar_t *newVal) = 0;
 	virtual HRESULT putTextA(char *newVal) = 0;
-	virtual HRESULT putTextW(WCHAR *newVal) = 0;
+	virtual HRESULT putTextW(wchar_t *newVal) = 0;
 
 	virtual ITextServices *getTextService() = 0;
 	virtual ITextDocument *getTextDocument() = 0;
@@ -111,9 +111,9 @@ public:
 	HRESULT Create();
 	HRESULT Draw(void *hdcDraw, RECT *prc);
 	HRESULT putRTFTextA(char *newVal);
-	HRESULT putRTFTextW(WCHAR *newVal);
+	HRESULT putRTFTextW(wchar_t *newVal);
 	HRESULT putTextA(char *newVal);
-	HRESULT putTextW(WCHAR *newVal);
+	HRESULT putTextW(wchar_t *newVal);
 
 	ITextServices *getTextService() { return m_spTextServices; };
 	ITextDocument *getTextDocument() { return m_spTextDocument; };

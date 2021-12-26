@@ -631,7 +631,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 				lvi.iSubItem = 0;
 				lvi.iItem = lvi.lParam = accs.indexOf(&pa);
 
-				WCHAR wszProto[128];
+				wchar_t wszProto[128];
 				long lLen = MultiByteToWideChar(CP_ACP, 0, pa->szModuleName, (int)mir_strlen(pa->szModuleName), wszProto, _countof(wszProto));
 				wszProto[lLen] = L'\0';
 
@@ -814,7 +814,7 @@ wchar_t* CTooltipNotify::MakeTooltipString(MCONTACT hContact, int iStatus, wchar
 	memset(szString, 0, iBufSize*sizeof(wchar_t));
 
 
-	WCHAR wszProto[32];
+	wchar_t wszProto[32];
 	long lLen = MultiByteToWideChar(CP_ACP, 0, szProto, (int)mir_strlen(szProto), wszProto, _countof(wszProto));
 	wszProto[lLen] = '\0';
 

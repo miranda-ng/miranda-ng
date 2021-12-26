@@ -49,7 +49,7 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 				return FALSE;
 
 			if (singleton != nullptr)
-				singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
+				singleton->NewData((wchar_t *)pData->lpData, pData->cbData / 2);
 
 			return TRUE;
 		}
@@ -99,14 +99,14 @@ void GenericPlayer::ProcessReceived()
 	// Do the processing
 	// L"<Status 0-stoped 1-playing>\\0<Player>\\0<Type>\\0<Title>\\0<Artist>\\0<Album>\\0<Track>\\0<Year>\\0<Genre>\\0<Length (secs)>\\0\\0"
 
-	WCHAR *p1 = wcsstr(received, L"\\0");
+	wchar_t *p1 = wcsstr(received, L"\\0");
 	if (IsEmpty(received) || p1 == nullptr)
 		return;
 
 	// Process string
-	WCHAR *parts[11] = {};
+	wchar_t *parts[11] = {};
 	int pCount = 0;
-	WCHAR *p = received;
+	wchar_t *p = received;
 	do {
 		*p1 = '\0';
 		parts[pCount] = p;
@@ -125,7 +125,7 @@ void GenericPlayer::ProcessReceived()
 	Player *player = this;
 	for (int i = FIRST_PLAYER; i < NUM_PLAYERS; i++) {
 
-		WCHAR *player_name = players[i]->name;
+		wchar_t *player_name = players[i]->name;
 
 		if (_wcsicmp(parts[1], player_name) == 0) {
 			player = players[i];
@@ -200,7 +200,7 @@ static VOID CALLBACK SendTimerProc(HWND, UINT, UINT_PTR, DWORD)
 }
 
 
-void GenericPlayer::NewData(const WCHAR *data, size_t len)
+void GenericPlayer::NewData(const wchar_t *data, size_t len)
 {
 	if (data[0] == '\0')
 		return;

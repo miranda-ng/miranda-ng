@@ -509,7 +509,7 @@ class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, p
 	STDMETHOD(GetZoneMappings)(DWORD dwZone, IEnumString **ppenumString, DWORD dwFlags);
 
 	IHTMLDocument2 *getDocument();
-	WCHAR*  getSelection();
+	wchar_t*  getSelection();
 	wchar_t* getHrefFromAnchor(CComPtr<IHTMLElement> element);
 	void     setBorder();
 protected:

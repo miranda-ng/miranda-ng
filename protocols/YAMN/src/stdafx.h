@@ -94,7 +94,7 @@ DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, wchar_t *End);
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam);
 
 DWORD WriteStringToFile(HANDLE File, char *Source);
-DWORD WriteStringToFileW(HANDLE File, WCHAR *Source);
+DWORD WriteStringToFileW(HANDLE File, wchar_t *Source);
 
 
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
@@ -203,7 +203,7 @@ void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head);
 void DeleteHeaderContent(struct CHeader *head);
 void DeleteShortHeaderContent(struct CShortHeader *head);
 char *ExtractFromContentType(char *ContentType, char *value);
-WCHAR *ParseMultipartBody(char *src, char *bond);
+wchar_t *ParseMultipartBody(char *src, char *bond);
 
 //From account.cpp
 void WINAPI GetStatusFcn(CAccount *Which, wchar_t *Value);
@@ -246,7 +246,7 @@ extern struct WndHandles *MessageWnd;
 
 extern int GetCharsetFromString(char *input, size_t size);
 extern void SendMsgToRecepients(struct WndHandles *FirstWin, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void ConvertCodedStringToUnicode(char *stream, WCHAR **storeto, DWORD cp, int mode);
+extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, DWORD cp, int mode);
 extern void __cdecl MailBrowser(void *Param);
 extern DWORD WINAPI NoNewMailProc(LPVOID Param);
 extern void __cdecl BadConnection(void *Param);

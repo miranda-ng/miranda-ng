@@ -31,7 +31,7 @@ int POP3OptInit(WPARAM wParam,LPARAM lParam);
 
 //Sets dialog item text
 BOOL DlgSetItemText(HWND hDlg,WPARAM wParam,const char*);
-BOOL DlgSetItemTextW(HWND hDlg,WPARAM wParam,const WCHAR*);
+BOOL DlgSetItemTextW(HWND hDlg,WPARAM wParam,const wchar_t*);
 
 
 #define DlgSetItemTextT DlgSetItemTextW

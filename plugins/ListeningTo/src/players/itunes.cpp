@@ -134,7 +134,7 @@ BOOL ITunes::FillCache()
 
 	if (listening_info.ptszTitle == nullptr) {
 		// Get from filename
-		WCHAR *p = wcsrchr(filename, '\\');
+		wchar_t *p = wcsrchr(filename, '\\');
 		if (p != nullptr)
 			p++;
 		else

@@ -423,7 +423,7 @@ protected:
 	wchar_t* fromHunspell(const char *hunspellWord)
 	{
 		int len = MultiByteToWideChar(codePage, 0, hunspellWord, -1, nullptr, 0);
-		WCHAR *ret = (WCHAR *)malloc((len + 1) * sizeof(WCHAR));
+		wchar_t *ret = (wchar_t *)malloc((len + 1) * sizeof(wchar_t));
 		MultiByteToWideChar(codePage, 0, hunspellWord, -1, ret, len + 1);
 		return ret;
 	}

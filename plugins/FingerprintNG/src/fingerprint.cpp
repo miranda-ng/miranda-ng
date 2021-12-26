@@ -209,7 +209,7 @@ BOOL __fastcall WildCompare(LPWSTR wszName, LPWSTR wszMask)
 		return wildcmpw(wszName, wszMask);
 
 	size_t s = 1, e = 1;
-	LPWSTR wszTemp = (LPWSTR)_alloca(mir_wstrlen(wszMask) * sizeof(WCHAR) + sizeof(WCHAR));
+	LPWSTR wszTemp = (LPWSTR)_alloca(mir_wstrlen(wszMask) * sizeof(wchar_t) + sizeof(wchar_t));
 	BOOL bExcept;
 
 	while (wszMask[e] != L'\0')
@@ -221,7 +221,7 @@ BOOL __fastcall WildCompare(LPWSTR wszName, LPWSTR wszMask)
 		bExcept = (*(wszMask + s) == L'^');
 		if (bExcept) s++;
 
-		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(WCHAR));
+		memcpy(wszTemp, wszMask + s, (e - s) * sizeof(wchar_t));
 		wszTemp[e - s] = L'\0';
 
 		if (wildcmpw(wszName, wszTemp))

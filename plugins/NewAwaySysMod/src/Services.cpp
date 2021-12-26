@@ -28,7 +28,7 @@ struct NAS_PROTOINFOv1
 	char *szProto;
 	union {
 		char *szMsg;
-		WCHAR *wszMsg;
+		wchar_t *wszMsg;
 		wchar_t *tszMsg;
 	};
 	WORD status;
@@ -53,7 +53,7 @@ __inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode 
 INT_PTR GetStatusMsgW(WPARAM wParam, LPARAM)
 {
 	LogMessage("MS_AWAYMSG_GETSTATUSMSGW called. status=%d", wParam);
-	WCHAR *szMsg = mir_wstrdup(GetDynamicStatMsg(INVALID_CONTACT_ID, nullptr, 0, wParam));
+	wchar_t *szMsg = mir_wstrdup(GetDynamicStatMsg(INVALID_CONTACT_ID, nullptr, 0, wParam));
 	LogMessage("returned szMsgW:\n%S", szMsg ? szMsg : L"NULL");
 	return (INT_PTR)szMsg;
 }

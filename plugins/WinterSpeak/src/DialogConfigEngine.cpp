@@ -136,7 +136,7 @@ void DialogConfigEngine::save(HWND window)
 	m_db.setVoiceDesc(desc);
 
 	// store the welcome message
-	WCHAR *text = Hlp_GetDlgItemText(window, IDC_WELCOME_MSG);
+	wchar_t *text = Hlp_GetDlgItemText(window, IDC_WELCOME_MSG);
 	m_db.setWelcomeMessage(text);
 }
 
@@ -180,11 +180,11 @@ void DialogConfigEngine::updateVoices(HWND window)
 void DialogConfigEngine::getVoiceDesc(HWND window, VoiceDesc &desc)
 {
 	// get the engine
-	WCHAR *text = Hlp_GetDlgItemText(window, IDC_SELECT_ENGINE);
+	wchar_t *text = Hlp_GetDlgItemText(window, IDC_SELECT_ENGINE);
 	desc.engine = text;
 	
 	// get the voice
-	WCHAR *voice = Hlp_GetDlgItemText(window, IDC_SELECT_VOICE);
+	wchar_t *voice = Hlp_GetDlgItemText(window, IDC_SELECT_VOICE);
 	desc.voice = voice;
 	/*std::auto_ptr<char> voice(new char[50]);
 	SendDlgItemMessage(window, IDC_SELECT_VOICE, CB_GETLBTEXT, 
@@ -201,7 +201,7 @@ void DialogConfigEngine::getVoiceDesc(HWND window, VoiceDesc &desc)
 //------------------------------------------------------------------------------
 std::wstring DialogConfigEngine::getEngine(HWND window)
 {
-	WCHAR *text = Hlp_GetDlgItemText(window, IDC_SELECT_ENGINE);
+	wchar_t *text = Hlp_GetDlgItemText(window, IDC_SELECT_ENGINE);
 	/*char text[100];
 	GetDlgItemText(window, IDC_SELECT_ENGINE, mir_a2u(text), _countof(text));*/
 

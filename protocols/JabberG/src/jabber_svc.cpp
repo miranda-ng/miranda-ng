@@ -288,7 +288,7 @@ INT_PTR __cdecl CJabberProto::JabberSetAvatar(WPARAM, LPARAM lParam)
 
 INT_PTR __cdecl CJabberProto::JabberSetNickname(WPARAM wParam, LPARAM lParam)
 {
-	wchar_t *nickname = (wParam & SMNN_UNICODE) ? mir_wstrdup((WCHAR*)lParam) : mir_a2u((char*)lParam);
+	wchar_t *nickname = (wParam & SMNN_UNICODE) ? mir_wstrdup((wchar_t*)lParam) : mir_a2u((char*)lParam);
 
 	setWString("Nick", nickname);
 	SetServerVcard(FALSE, L"");

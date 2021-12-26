@@ -29,8 +29,8 @@ public:
 	GenericPlayer();
 	virtual ~GenericPlayer();
 
-	WCHAR received[1024];
-	WCHAR last_received[1024];
+	wchar_t received[1024];
+	wchar_t last_received[1024];
 	void ProcessReceived();
-	void NewData(const WCHAR *data, size_t len);
+	void NewData(const wchar_t *data, size_t len);
 };

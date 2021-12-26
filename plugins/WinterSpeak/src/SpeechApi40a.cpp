@@ -92,8 +92,8 @@ bool SpeechApi40a::say(const std::wstring &sentence)
 	}
 	else {
 		SDATA data;
-		data.dwSize = (DWORD)(sentence.size() * sizeof(WCHAR));
-		data.pData = (WCHAR *)sentence.c_str();
+		data.dwSize = (DWORD)(sentence.size() * sizeof(wchar_t));
+		data.pData = (wchar_t *)sentence.c_str();
 		m_tts_central->TextData(CHARSET_TEXT, 0, data, nullptr, IID_ITTSBufNotifySinkA);
 	}
 

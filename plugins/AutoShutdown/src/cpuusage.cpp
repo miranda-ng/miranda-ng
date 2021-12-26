@@ -83,7 +83,7 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 	PERF_INSTANCE_DEFINITION *pPerfInstance;
 	PERF_COUNTER_BLOCK *pPerfCounterBlock;
 	DWORD dwObjectId, dwCounterId;
-	WCHAR wszValueName[11], *pwszInstanceName;
+	wchar_t wszValueName[11], *pwszInstanceName;
 	BYTE nCpuUsage;
 	BOOL fSwitched, fFound, fIsFirst = FALSE;
 	LARGE_INTEGER liPrevCounterValue = { 0 }, liCurrentCounterValue = { 0 }, liPrevPerfTime100nSec = { 0 };
@@ -129,7 +129,7 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 							pPerfInstance = (PERF_INSTANCE_DEFINITION*)((BYTE*)pPerfObj + pPerfObj->DefinitionLength);
 							for (lCount = 0; lCount < (pPerfObj->NumInstances); ++lCount) {
 								pPerfCounterBlock = (PERF_COUNTER_BLOCK*)((BYTE*)pPerfInstance + pPerfInstance->ByteLength);
-								if (!mir_wstrcmpi(pwszInstanceName, (WCHAR*)((BYTE*)pPerfInstance + pPerfInstance->NameOffset))) {
+								if (!mir_wstrcmpi(pwszInstanceName, (wchar_t*)((BYTE*)pPerfInstance + pPerfInstance->NameOffset))) {
 									liCurrentCounterValue = *(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock + pPerfCounter->CounterOffset);
 									fFound = TRUE;
 									break;

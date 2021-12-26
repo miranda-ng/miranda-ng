@@ -481,7 +481,7 @@ struct APartDataType
 	BYTE TransEncType; //TE_something
 	char *body;
 	int bodyLen;
-	WCHAR *wBody;
+	wchar_t *wBody;
 };
 
 
@@ -567,16 +567,16 @@ void ParseAPart(APartDataType *data)
 //from decode.cpp
 int DecodeQuotedPrintable(char *Src, char *Dst, int DstLen, BOOL isQ);
 int DecodeBase64(char *Src, char *Dst, int DstLen);
-int ConvertStringToUnicode(char *stream, unsigned int cp, WCHAR **out);
+int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
 
-WCHAR *ParseMultipartBody(char *src, char *bond)
+wchar_t *ParseMultipartBody(char *src, char *bond)
 {
 	char *srcback = _strdup(src);
 	size_t sizebond = mir_strlen(bond);
 	int numparts = 1;
 	int i;
 	char *courbond = srcback;
-	WCHAR *dest;
+	wchar_t *dest;
 	for (; (courbond = strstr(courbond, bond)); numparts++, courbond += sizebond);
 	APartDataType *partData = new APartDataType[numparts];
 	memset(partData, 0, sizeof(APartDataType)*numparts);
@@ -637,7 +637,7 @@ FailBackRaw:
 		}// if (partData[i].body)
 		resultSize += 100 + 4 + 3; //cr+nl+100+ 3*bullet
 	}
-	dest = new WCHAR[resultSize + 1];
+	dest = new wchar_t[resultSize + 1];
 	size_t destpos = 0;
 	for (i = 0; i < numparts; i++) {
 		if (i) { // part before first boudary should not have headers
@@ -673,7 +673,7 @@ FailBackRaw:
 			}
 			mir_snprintf(infoline + linesize, _countof(infoline) - linesize, ".\r\n");
 			{
-				WCHAR *temp = nullptr;
+				wchar_t *temp = nullptr;
 				dest[destpos] = dest[destpos + 1] = dest[destpos + 2] = 0x2022; // bullet;
 				destpos += 3;
 				ConvertStringToUnicode(infoline, CP_ACP, &temp);

@@ -372,7 +372,7 @@ wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char De
 	return buf;
 }
 
-WCHAR* GetParamN(WCHAR *string, WCHAR *buf, int buflen, BYTE paramN, WCHAR Delim, BOOL SkipSpaces)
+wchar_t* GetParamN(wchar_t *string, wchar_t *buf, int buflen, BYTE paramN, wchar_t Delim, BOOL SkipSpaces)
 {
 	size_t i = 0, start = 0, CurentCount = 0, len;
 	while (i < mir_wstrlen(string)) {

@@ -71,7 +71,7 @@ std::wstring EventInformation::getMessage()
 //------------------------------------------------------------------------------
 size_t EventInformation::getMessageSize()
 {
-	return std::wstring((WCHAR *)m_event_info.pBlob).size();
+	return std::wstring((wchar_t *)m_event_info.pBlob).size();
 }
 
 //------------------------------------------------------------------------------

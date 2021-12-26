@@ -108,7 +108,7 @@ BOOL TimeStampToSystemTime(time_t timestamp, SYSTEMTIME *st)
 BOOL GetFormatedCountdown(wchar_t *pszOut, int nSize, time_t countdown)
 {
 	static BOOL fInited = FALSE;
-	static int (WINAPI *pfnGetDurationFormat)(LCID, DWORD, const SYSTEMTIME*, double, WCHAR*, WCHAR*, int);
+	static int (WINAPI *pfnGetDurationFormat)(LCID, DWORD, const SYSTEMTIME*, double, wchar_t*, wchar_t*, int);
 	/* Init */
 	if (!fInited && IsWinVerVistaPlus()) {
 		*(PROC*)&pfnGetDurationFormat = GetProcAddress(GetModuleHandleA("KERNEL32"), "GetDurationFormat");

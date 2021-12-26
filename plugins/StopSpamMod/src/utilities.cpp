@@ -144,7 +144,7 @@ wchar_t* ReqGetText(DBEVENTINFO* dbei)
 		char * tstr = (char *)mir_alloc(len + 1);
 		memcpy(tstr, ptr, len);
 		tstr[len] = 0;
-		WCHAR* msg = nullptr;
+		wchar_t* msg = nullptr;
 		msg = (dbei->flags&DBEF_UTF) ? mir_utf8decodeW(tstr) : mir_a2u(tstr);
 		mir_free(tstr);
 		return (wchar_t *)msg;

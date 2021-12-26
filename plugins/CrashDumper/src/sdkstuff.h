@@ -41,9 +41,9 @@ typedef struct _IMAGEHLP_MODULEW64_V2 {
 	DWORD    CheckSum;               // checksum from the pe header
 	DWORD    NumSyms;                // number of symbols in the symbol table
 	SYM_TYPE SymType;                // type of symbols loaded
-	WCHAR    ModuleName[32];         // module name
-	WCHAR    ImageName[256];         // image name
-	WCHAR    LoadedImageName[256];   // symbol file name
+	wchar_t    ModuleName[32];         // module name
+	wchar_t    ImageName[256];         // image name
+	wchar_t    LoadedImageName[256];   // symbol file name
 } IMAGEHLP_MODULEW64_V2;
 
 #ifdef DBGHELP_TRANSLATE_TCHAR

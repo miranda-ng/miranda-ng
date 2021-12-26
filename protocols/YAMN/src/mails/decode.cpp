@@ -191,14 +191,14 @@ int DecodeBase64(char *Src,char *Dst,int DstLen);
 // stream- input string
 // cp- codepage of input string
 // out- pointer to new allocated memory that contains unicode string
-int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out);
+int ConvertStringToUnicode(char *stream,unsigned int cp,wchar_t **out);
 
 //Converts string from MIME header to unicode
 // stream- input string
 // cp- codepage of input string
 // storeto- pointer to memory that contains unicode string
 // mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' from start and end of string)
-void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode);
+void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,DWORD cp,int mode);
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -382,10 +382,10 @@ end:
 
 
 
-int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
+int ConvertStringToUnicode(char *stream,unsigned int cp,wchar_t **out)
 {
 	CPINFO CPInfo;
-	WCHAR *temp,*src=*out,*dest;
+	wchar_t *temp,*src=*out,*dest;
 	size_t outlen;
 	int streamlen,Index;
 
@@ -413,11 +413,11 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 		outlen=mir_wstrlen(*out);
 	else
 		outlen=0;
-	temp=new WCHAR[streamlen+outlen+1];
+	temp=new wchar_t[streamlen+outlen+1];
 
 	if (*out != nullptr)
 	{
-		for (dest=temp;*src != (WCHAR)0;src++,dest++)				//copy old string from *out to temp
+		for (dest=temp;*src != (wchar_t)0;src++,dest++)				//copy old string from *out to temp
 			*dest=*src;
 //		*dest++=L' ';								//add space?
 		delete[] *out;
@@ -439,7 +439,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,WCHAR **out)
 	return 1;
 }
 
-void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
+void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,DWORD cp,int mode)
 {
 	char *start=stream,*finder,*finderend;
 	char Encoding=0;
@@ -448,7 +448,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 		return;
 
 	while(WS(start)) start++;
-	WCHAR *tempstore=nullptr;
+	wchar_t *tempstore=nullptr;
 	if (!ConvertStringToUnicode(stream,cp,&tempstore))return;
 
 	size_t tempstoreLength = mir_wstrlen(tempstore);
@@ -530,10 +530,10 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 						DecodedResult[len+1]=0;
 						finderend++;
 					}
-					WCHAR *oneWord=nullptr;
+					wchar_t *oneWord=nullptr;
 					if (ConvertStringToUnicode(DecodedResult,cp,&oneWord)) {
 						size_t len = mir_wstrlen(oneWord);
-						memcpy(&tempstore[outind],oneWord,len*sizeof(WCHAR));
+						memcpy(&tempstore[outind],oneWord,len*sizeof(wchar_t));
 						outind += len;
 					}
 					delete oneWord;

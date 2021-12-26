@@ -24,12 +24,12 @@ class WindowsMediaPlayer : public Player
 {
 protected:
 	HWND hWnd;
-	WCHAR received[1024];
+	wchar_t received[1024];
 
 public:
 	WindowsMediaPlayer();
 	virtual ~WindowsMediaPlayer();
 
 	void ProcessReceived();
-	void NewData(const WCHAR *data, size_t len);
+	void NewData(const wchar_t *data, size_t len);
 };

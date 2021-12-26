@@ -361,7 +361,7 @@ void SaveGIF(HBITMAP hBmp, const wchar_t *szFilename)
 		CLSID clsidEncoder;
 		if (GetEncoderClsid(L"image/gif", clsidEncoder)) {
 			LPWSTR pswFile = mir_wstrdup(szFilename);
-			pBitmap->Save((const WCHAR*)pswFile, &clsidEncoder, nullptr);
+			pBitmap->Save((const wchar_t*)pswFile, &clsidEncoder, nullptr);
 			mir_free(pswFile);
 		}
 		delete pBitmap;
@@ -402,7 +402,7 @@ void SaveTIF(HBITMAP hBmp, const wchar_t *szFilename)
 			EncParams->Parameter[1].Value = &ulColorDepth;
 
 			LPWSTR pswFile = mir_wstrdup(szFilename);
-			stat = pBitmap->Save((const WCHAR*)pswFile, &EncCLSID, EncParams);
+			stat = pBitmap->Save((const wchar_t*)pswFile, &EncCLSID, EncParams);
 			mir_free(pswFile);
 			free(EncParams);
 		}

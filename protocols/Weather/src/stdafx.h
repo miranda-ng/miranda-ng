@@ -410,7 +410,7 @@ HICON GetStatusIconBig(MCONTACT hContact);
 WORD GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);
 void TrimString(char *str);
-void TrimString(WCHAR *str);
+void TrimString(wchar_t *str);
 void ConvertBackslashes(char *str);
 char *GetSearchStr(char *dis);
 
@@ -432,10 +432,10 @@ void EraseAllInfo(void);
 void GetDataValue(WIDATAITEM *UpdateData, wchar_t *Data, wchar_t** szInfo);
 void ConvertDataValue(WIDATAITEM *UpdateData, wchar_t *Data);
 void wSetData(char *&Data, const char *Value);
-void wSetData(WCHAR *&Data, const char *Value);
-void wSetData(WCHAR *&Data, const WCHAR *Value);
+void wSetData(wchar_t *&Data, const char *Value);
+void wSetData(wchar_t *&Data, const wchar_t *Value);
 void wfree(char *&Data);
-void wfree(WCHAR *&Data);
+void wfree(wchar_t *&Data);
 
 void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
 

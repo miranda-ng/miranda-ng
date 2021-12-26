@@ -5,10 +5,10 @@
 
 #if defined(HISTORYSTATS_CONST_DEFINE)
 #define CONST_A(nam, txt) extern const char* nam = txt;
-#define CONST_W(nam, txt) extern const WCHAR* nam = L##txt;
+#define CONST_W(nam, txt) extern const wchar_t* nam = L##txt;
 #else
 #define CONST_A(nam, txt) extern const char* nam;
-#define CONST_W(nam, txt) extern const WCHAR* nam;
+#define CONST_W(nam, txt) extern const wchar_t* nam;
 #endif
 
 /*

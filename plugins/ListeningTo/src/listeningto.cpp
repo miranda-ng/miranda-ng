@@ -828,7 +828,7 @@ INT_PTR SetNewSong(WPARAM wParam, LPARAM lParam)
 		((GenericPlayer *)players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 	else {
-		WCHAR *data = (WCHAR *)wParam;
+		wchar_t *data = (wchar_t *)wParam;
 		((GenericPlayer *)players[GENERIC])->NewData(data, mir_wstrlen(data));
 	}
 

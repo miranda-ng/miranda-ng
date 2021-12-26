@@ -366,7 +366,7 @@ MIR_APP_DLL(char*) Utils_ReplaceVars(const char *szData, MCONTACT hContact, REPL
 
 MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *wszData, MCONTACT hContact, REPLACEVARSARRAY *vars)
 {
-	return ReplaceVariables<WCHAR>(wszData, hContact, vars);
+	return ReplaceVariables<wchar_t>(wszData, hContact, vars);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

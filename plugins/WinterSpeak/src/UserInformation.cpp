@@ -46,7 +46,7 @@ std::wstring UserInformation::statusString(MCONTACT user)
 //------------------------------------------------------------------------------
 std::wstring UserInformation::statusModeString(MCONTACT user)
 {
-	WCHAR *status = Clist_GetStatusModeDescription(m_status_info[user], 0);
+	wchar_t *status = Clist_GetStatusModeDescription(m_status_info[user], 0);
 	if (nullptr == status)
 		return L"";
 
@@ -63,7 +63,7 @@ void UserInformation::insertName(std::wstring &str, MCONTACT user) const
 //------------------------------------------------------------------------------
 std::wstring UserInformation::nameString(MCONTACT hContact) const
 {
-	WCHAR *ret = Clist_GetContactDisplayName(hContact);
+	wchar_t *ret = Clist_GetContactDisplayName(hContact);
 	if (nullptr == ret)
 		return L"";
 

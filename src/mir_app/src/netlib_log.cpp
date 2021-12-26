@@ -406,7 +406,7 @@ void PROTO_INTERFACE::debugLogA(const char *szFormat, ...)
 
 void PROTO_INTERFACE::debugLogW(const wchar_t *wszFormat, ...)
 {
-	WCHAR buf[4096];
+	wchar_t buf[4096];
 	va_list args;
 	va_start(args, wszFormat);
 	int res = _vsnwprintf(buf, _countof(buf), wszFormat, args);

@@ -466,13 +466,13 @@ void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
 
 
 //what to do with error msg
-void ErMsgW(WCHAR* msg)
+void ErMsgW(wchar_t* msg)
 {
 	wchar_t* msgT = mir_wstrdup(msg);
 	ErMsgT(msgT);
 	mir_free(msgT);
 }
-///TODO wchar_t->WCHAR and test
+///TODO wchar_t->wchar_t and test
 void ErMsgT(wchar_t* msg)
 {
 	log_p(L"Error: %S", msg);
@@ -492,7 +492,7 @@ void ErMsgByLotusCode(STATUS erno)
 {
 	char far error_text_LMBCS[200];
 	char far error_text_UNICODEatCHAR[400];
-	WCHAR far error_text_UNICODE[200];
+	wchar_t far error_text_UNICODE[200];
     WORD text_len;
 
     text_len = OSLoadString1(NULLHANDLE, erno, error_text_LMBCS, sizeof(error_text_LMBCS)-1);
@@ -553,7 +553,7 @@ void checkthread(void*)
 
 	char        field_lotus_LMBCS[MAX_FIELD];
 	char        field_lotus_UNICODEatCHAR[MAX_FIELD * sizeof(wchar_t)];
-	WCHAR field_from_UNICODE[MAX_FIELD], field_subject_UNICODE[MAX_FIELD], field_to_UNICODE[MAX_FIELD],field_copy_UNICODE[MAX_FIELD];
+	wchar_t field_from_UNICODE[MAX_FIELD], field_subject_UNICODE[MAX_FIELD], field_to_UNICODE[MAX_FIELD],field_copy_UNICODE[MAX_FIELD];
 
 	mir_cslock lck(checkthreadCS);
 	log(L"checkthread: inside new check thread");
@@ -729,7 +729,7 @@ void checkthread(void*)
 		field_copy_UNICODE[field_len] = '\0';
 
 
-		WCHAR msgFrom[512], msgSubject[512];
+		wchar_t msgFrom[512], msgSubject[512];
 		memset(msgFrom, 0, sizeof(msgFrom));
 		memset(msgSubject, 0, sizeof(msgSubject));
 
@@ -764,7 +764,7 @@ void checkthread(void*)
 
 
 		if (attSize) {
-			WCHAR field_attachments_UNICODE[MAX_FIELD];
+			wchar_t field_attachments_UNICODE[MAX_FIELD];
 			mir_snwprintf(field_attachments_UNICODE, TranslateT("Attachments: %d bytes"), attSize);
 			mir_snwprintf(msgSubject, L"%S\n%s\n%s", field_date, field_subject_UNICODE, field_attachments_UNICODE);
 		}

@@ -1092,32 +1092,32 @@ BOOL BASSDEF(BASS_FXReset)(DWORD handle);
 }
 
 #if defined(_WIN32) && !defined(NOBASSOVERLOADS)
-static inline HSUBPLUGIN BASS_PluginLoad(const WCHAR *file, DWORD flags)
+static inline HSUBPLUGIN BASS_PluginLoad(const wchar_t *file, DWORD flags)
 {
 	return BASS_PluginLoad((const char*)file, flags | BASS_UNICODE);
 }
 
-static inline HMUSIC BASS_MusicLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
+static inline HMUSIC BASS_MusicLoad(BOOL mem, const wchar_t *file, QWORD offset, DWORD length, DWORD flags, DWORD freq)
 {
 	return BASS_MusicLoad(mem, (const void*)file, offset, length, flags | BASS_UNICODE, freq);
 }
 
-static inline HSAMPLE BASS_SampleLoad(BOOL mem, const WCHAR *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
+static inline HSAMPLE BASS_SampleLoad(BOOL mem, const wchar_t *file, QWORD offset, DWORD length, DWORD max, DWORD flags)
 {
 	return BASS_SampleLoad(mem, (const void*)file, offset, length, max, flags | BASS_UNICODE);
 }
 
-static inline HSTREAM BASS_StreamCreateFile(BOOL mem, const WCHAR *file, QWORD offset, QWORD length, DWORD flags)
+static inline HSTREAM BASS_StreamCreateFile(BOOL mem, const wchar_t *file, QWORD offset, QWORD length, DWORD flags)
 {
 	return BASS_StreamCreateFile(mem, (const void*)file, offset, length, flags | BASS_UNICODE);
 }
 
-static inline HSTREAM BASS_StreamCreateURL(const WCHAR *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
+static inline HSTREAM BASS_StreamCreateURL(const wchar_t *url, DWORD offset, DWORD flags, DOWNLOADPROC *proc, void *user)
 {
 	return BASS_StreamCreateURL((const char*)url, offset, flags | BASS_UNICODE, proc, user);
 }
 
-static inline BOOL BASS_SetConfigPtr(DWORD option, const WCHAR *value)
+static inline BOOL BASS_SetConfigPtr(DWORD option, const wchar_t *value)
 {
 	return BASS_SetConfigPtr(option | BASS_UNICODE, (const void*)value);
 }

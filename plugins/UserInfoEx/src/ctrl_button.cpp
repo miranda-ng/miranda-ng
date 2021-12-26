@@ -155,7 +155,7 @@ static void __fastcall PaintIcon(BTNCTRL *ctl, HDC hdcMem, LPWORD ccText, LPRECT
 static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
-	WCHAR wszText[MAX_PATH] = { 0 };
+	wchar_t wszText[MAX_PATH] = { 0 };
 	WORD ccText;
 
 	// Draw the flat button

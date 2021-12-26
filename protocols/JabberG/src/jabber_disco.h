@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef _JABBER_DISCO_H_
 #define _JABBER_DISCO_H_
 
-#define	CHR_BULLET	((WCHAR)0x2022)
+#define	CHR_BULLET	((wchar_t)0x2022)
 //	#define	STR_BULLET	L" \u2022 "
 
 #define JABBER_DISCO_RESULT_NOT_REQUESTED			0

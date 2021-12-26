@@ -39,9 +39,9 @@ void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
 
 int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, char *szError, char *szResult, size_t size);
-int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
+int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, wchar_t *szError, wchar_t *szResult, size_t count);
 int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, size_t size);
-int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count);
+int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResult, size_t count);
 
 wchar_t* GetContactName(MCONTACT hContact, char *szProto);
 wchar_t* GetContactID(MCONTACT hContact, char *szProto);

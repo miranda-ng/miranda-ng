@@ -90,7 +90,7 @@ int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName
 	return res;
 }
 
-int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
+int GetStringFromDatabase(MCONTACT hContact, char *szModule, char *szSettingName, wchar_t *szError, wchar_t *szResult, size_t count)
 {
 	DBVARIANT dbv = { 0 };
 	int res = 1;
@@ -129,7 +129,7 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 	return GetStringFromDatabase(0, MODULENAME, szSettingName, szError, szResult, size);
 }
 
-int GetStringFromDatabase(char *szSettingName, WCHAR *szError, WCHAR *szResult, size_t count)
+int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResult, size_t count)
 {
 	return GetStringFromDatabase(0, MODULENAME, szSettingName, szError, szResult, count);
 }

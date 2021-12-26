@@ -420,9 +420,9 @@ bool Statistic::stepReadDB()
 						char* pAnsiText = reinterpret_cast<char*>(dbei.pBlob);
 						int nAnsiLenP1 = ext::a::strfunc::len(pAnsiText) + 1;
 
-						WCHAR* pWideText = reinterpret_cast<WCHAR*>(pAnsiText + nAnsiLenP1);
+						wchar_t* pWideText = reinterpret_cast<wchar_t*>(pAnsiText + nAnsiLenP1);
 						int nWideLen = 0;
-						int nWideMaxLen = (dbei.cbBlob - nAnsiLenP1) / sizeof(WCHAR);
+						int nWideMaxLen = (dbei.cbBlob - nAnsiLenP1) / sizeof(wchar_t);
 
 						if (dbei.cbBlob >= nAnsiLenP1 * 3) {
 							for (int i = 0; i < nWideMaxLen; ++i) {

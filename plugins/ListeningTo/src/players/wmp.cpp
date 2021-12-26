@@ -66,7 +66,7 @@ void WindowsMediaPlayer::ProcessReceived()
 		// MSNMusicString = L"\\0Music\\0%d\\0%s\\0%s\\0%s\\0%s\\0%s\\0\\0"
 		// MSNMusicString, msn->msncommand, strMSNFormat, msn->title, msn->artist, msn->album, msn->wmcontentid);
 
-		WCHAR *p1 = wcsstr(received, L"\\0");
+		wchar_t *p1 = wcsstr(received, L"\\0");
 
 		if (received[0] == L'\0' || p1 == nullptr) {
 			NotifyInfoChanged();
@@ -74,9 +74,9 @@ void WindowsMediaPlayer::ProcessReceived()
 		}
 
 		// Process string
-		WCHAR *parts[8] = {};
+		wchar_t *parts[8] = {};
 		int pCount = 0;
-		WCHAR *p = received;
+		wchar_t *p = received;
 		do {
 			*p1 = L'\0';
 			parts[pCount] = p;
@@ -123,7 +123,7 @@ static VOID CALLBACK SendTimerProc(HWND, UINT, UINT_PTR, DWORD)
 		singleton->ProcessReceived();
 }
 
-void WindowsMediaPlayer::NewData(const WCHAR *data, size_t len)
+void WindowsMediaPlayer::NewData(const wchar_t *data, size_t len)
 {
 	mir_cslock lck(cs);
 
@@ -152,7 +152,7 @@ static LRESULT CALLBACK ReceiverWndProc(HWND hWnd, UINT message, WPARAM wParam, 
 			return FALSE;
 
 		if (singleton != nullptr)
-			singleton->NewData((WCHAR *)pData->lpData, pData->cbData / 2);
+			singleton->NewData((wchar_t *)pData->lpData, pData->cbData / 2);
 
 		return TRUE;
 	}

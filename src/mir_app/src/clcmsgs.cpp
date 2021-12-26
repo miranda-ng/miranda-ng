@@ -67,7 +67,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 			
 			ClcContact *cc;
 			if (msg == CLM_ADDINFOITEMA) {
-				WCHAR* wszText = mir_a2u((char*)cii->pszText);
+				wchar_t* wszText = mir_a2u((char*)cii->pszText);
 				cc = g_clistApi.pfnAddInfoItemToGroup(group, cii->flags, wszText);
 				mir_free(wszText);
 			}

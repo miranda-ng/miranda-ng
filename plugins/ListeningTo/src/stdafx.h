@@ -108,7 +108,7 @@ static bool IsEmpty(const char *str)
 {
 	return str == nullptr || str[0] == 0;
 }
-static bool IsEmpty(const WCHAR *str)
+static bool IsEmpty(const wchar_t *str)
 {
 	return str == nullptr || str[0] == 0;
 }

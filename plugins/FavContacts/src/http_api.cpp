@@ -99,7 +99,7 @@ public:
 	}
 
 
-	void Send(WCHAR *ws)
+	void Send(wchar_t *ws)
 	{
 		char *s = mir_utf8encodeW(ws);
 		m_socket->Send(s);

@@ -13,7 +13,7 @@
 //#define DEBUG_FILEREADMESSAGES		//debug file reading messages to message boxes
 
 void DebugLog(HANDLE,const char *fmt,...);
-void DebugLogW(HANDLE File,const WCHAR *fmt,...);
+void DebugLogW(HANDLE File,const wchar_t *fmt,...);
 
 #ifdef DEBUG_SYNCHRO
 // Used for synchronization debug
@@ -38,7 +38,7 @@ DWORD ReadStringFromMemoryW(char **Parser,wchar_t *End,char **StoreTo,wchar_t *D
 #else
 DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo);
 	
-DWORD ReadStringFromMemoryW(WCHAR **Parser,WCHAR *End,WCHAR **StoreTo);
+DWORD ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo);
 	
 #endif
 

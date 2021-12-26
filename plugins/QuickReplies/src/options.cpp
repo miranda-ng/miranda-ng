@@ -35,13 +35,13 @@ static LRESULT CALLBACK MessageEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPar
 
 		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) {	// ctrl-backspace
 			DWORD start, end;
-			WCHAR text[1024];
+			wchar_t text[1024];
 
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&end, 0);
 			SendMessage(hwnd, WM_KEYDOWN, VK_LEFT, 0);
 			SendMessage(hwnd, EM_GETSEL, (WPARAM)&start, 0);
 			GetWindowText(hwnd, text, _countof(text));
-			memmove(text + start, text + end, sizeof(WCHAR)*(mir_wstrlen(text) + 1 - end));
+			memmove(text + start, text + end, sizeof(wchar_t)*(mir_wstrlen(text) + 1 - end));
 			SetWindowText(hwnd, text);
 			SendMessage(hwnd, EM_SETSEL, start, start);
 			SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), EN_CHANGE), (LPARAM)hwnd);

@@ -45,7 +45,7 @@ void DynamicLoadInit()
 wchar_t* s2t(const void *pszStr, DWORD fUnicode, BOOL fMirCp)
 {
 	if (fUnicode)
-		return mir_wstrdup((WCHAR*)pszStr);
+		return mir_wstrdup((wchar_t*)pszStr);
 	return mir_a2u_cp((char*)pszStr, fMirCp);
 
 }

@@ -38,7 +38,7 @@ public:
 	size_t operator=(const CHAR *szVal);
 
 	size_t operator + (const CHAR *szVal);
-	size_t operator + (const WCHAR *wszVal);
+	size_t operator + (const wchar_t *wszVal);
 	size_t operator + (const CHAR cVal);
 	size_t operator + (const BYTE bVal);
 	size_t operator + (const SHORT sVal);

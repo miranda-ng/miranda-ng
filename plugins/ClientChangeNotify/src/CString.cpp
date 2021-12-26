@@ -255,7 +255,7 @@ TString<T>& TString<T>::operator=(const T *pStr)
 
 template class TString<wchar_t>;
 template class TString<char>;
-template class TString<WCHAR>;
+template class TString<wchar_t>;
 
 CString db_get_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szDefaultValue)
 {

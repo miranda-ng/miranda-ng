@@ -88,7 +88,7 @@ static int CALLBACK CheckboxWndProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 			HFONT hOldFont = (HFONT)SelectObject(hdc, dat->hFont);
 			RECT rcText = { 0 };
 			if (hTheme) {
-				WCHAR *szText = (WCHAR*)_alloca(Len * sizeof(WCHAR));
+				wchar_t *szText = (wchar_t*)_alloca(Len * sizeof(wchar_t));
 				GetWindowTextW(hWnd, szText, Len);
 				GetThemeTextExtent(hTheme, hdc, BP_GROUPBOX, IsWindowEnabled(hWnd) ? GBS_NORMAL : GBS_DISABLED, szText, -1, DT_CALCRECT | DT_LEFT | DT_VCENTER | DT_SINGLELINE, nullptr, &rcText);
 			}

@@ -57,8 +57,8 @@ inline std::string toNarrowString( const std::string& str )
 
 	extern tstring Utf8_Decode(const char *str);
 
-//	extern WCHAR *Utf8_Decode(const char *str);
-	extern string Utf8_Encode(const WCHAR *str);
+//	extern wchar_t *Utf8_Decode(const char *str);
+	extern string Utf8_Encode(const wchar_t *str);
 #else 
 	#define tstring string
     inline wchar_t toTchar( char ch )

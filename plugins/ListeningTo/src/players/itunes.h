@@ -28,7 +28,7 @@ extern "C"
 class ITunes : public Player
 {
 protected:
-	WCHAR filename[1024];
+	wchar_t filename[1024];
 
 	HWND hwnd;
 	IiTunes *iTunesApp;

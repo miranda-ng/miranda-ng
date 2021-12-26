@@ -24,18 +24,18 @@ namespace ext
 	};
 
 	template<>
-	class basic_strfunc<WCHAR>
+	class basic_strfunc<wchar_t>
 	{
 	public:
-		static const WCHAR* chr(const WCHAR* string, WCHAR c) { return wcschr(string, c); }
-		static int cmp(const WCHAR* string1, const WCHAR* string2) { return mir_wstrcmp(string1, string2); }
-		static int icmp(const WCHAR* string1, const WCHAR* string2) { return _wcsicmp(string1, string2); }
-		static int coll(const WCHAR* string1, const WCHAR* string2) { return wcscoll(string1, string2); }
-		static int icoll(const WCHAR* string1, const WCHAR* string2) { return _wcsicoll(string1, string2); }
-		static const WCHAR* str(const WCHAR* string, const WCHAR* strSearch) { return wcsstr(string, strSearch); }
-		static size_t len(const WCHAR* string) { return mir_wstrlen(string); }
-		static size_t ftime(WCHAR* strDest, size_t maxsize, const WCHAR* format, const struct tm* timeptr) { return wcsftime(strDest, maxsize, format, timeptr); }
-		static int sprintf(WCHAR* buffer, const WCHAR* format, ...) { va_list args; va_start(args, format); return vswprintf(buffer, format, args); }
+		static const wchar_t* chr(const wchar_t* string, wchar_t c) { return wcschr(string, c); }
+		static int cmp(const wchar_t* string1, const wchar_t* string2) { return mir_wstrcmp(string1, string2); }
+		static int icmp(const wchar_t* string1, const wchar_t* string2) { return _wcsicmp(string1, string2); }
+		static int coll(const wchar_t* string1, const wchar_t* string2) { return wcscoll(string1, string2); }
+		static int icoll(const wchar_t* string1, const wchar_t* string2) { return _wcsicoll(string1, string2); }
+		static const wchar_t* str(const wchar_t* string, const wchar_t* strSearch) { return wcsstr(string, strSearch); }
+		static size_t len(const wchar_t* string) { return mir_wstrlen(string); }
+		static size_t ftime(wchar_t* strDest, size_t maxsize, const wchar_t* format, const struct tm* timeptr) { return wcsftime(strDest, maxsize, format, timeptr); }
+		static int sprintf(wchar_t* buffer, const wchar_t* format, ...) { va_list args; va_start(args, format); return vswprintf(buffer, format, args); }
 	};
 }
 

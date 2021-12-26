@@ -72,11 +72,11 @@ namespace mu
 	 * string handling
 	 */
 
-	char* wideToAnsiDup(const WCHAR* pszWide, UINT uCP = CP_ACP);
-	WCHAR* ansiToWideDup(const char* pszAnsi, UINT uCP = CP_ACP);
-	char* wideToAnsi(const WCHAR* pszWide, char* pszRes, int maxLen, UINT uCP = CP_ACP);
-	WCHAR* ansiToWide(const char* pszAnsi, WCHAR* pszRes, int maxLen, UINT uCP = CP_ACP);
-	inline void freeWide(WCHAR* pszWide) { free(pszWide); }
+	char* wideToAnsiDup(const wchar_t* pszWide, UINT uCP = CP_ACP);
+	wchar_t* ansiToWideDup(const char* pszAnsi, UINT uCP = CP_ACP);
+	char* wideToAnsi(const wchar_t* pszWide, char* pszRes, int maxLen, UINT uCP = CP_ACP);
+	wchar_t* ansiToWide(const char* pszAnsi, wchar_t* pszRes, int maxLen, UINT uCP = CP_ACP);
+	inline void freeWide(wchar_t* pszWide) { free(pszWide); }
 	inline void freeAnsi(char* pszAnsi) { free(pszAnsi); }
 }
 

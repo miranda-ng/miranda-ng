@@ -278,7 +278,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		if (dat->lpzTitle)
 			mir_free(dat->lpzTitle);
 		if (wParam & MDBCF_UNICODE)
-			dat->lpzTitle = mir_wstrdup((WCHAR *)lParam);
+			dat->lpzTitle = mir_wstrdup((wchar_t *)lParam);
 		else
 			dat->lpzTitle = mir_a2u((char *)lParam);
 		RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE);
@@ -288,7 +288,7 @@ static LRESULT CALLBACK MDescButtonWndProc(HWND hwndDlg, UINT  msg, WPARAM wPara
 		if (dat->lpzDescription)
 			mir_free(dat->lpzDescription);
 		if (wParam & MDBCF_UNICODE)
-			dat->lpzDescription = mir_wstrdup((WCHAR *)lParam);
+			dat->lpzDescription = mir_wstrdup((wchar_t *)lParam);
 		else
 			dat->lpzDescription = mir_a2u((char *)lParam);
 		RedrawWindow(hwndDlg, nullptr, nullptr, RDW_INVALIDATE);

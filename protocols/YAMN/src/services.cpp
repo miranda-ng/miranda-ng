@@ -84,11 +84,11 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 			DebugLog(SynchroFile, "ContactApplication:ualAccountSO-read enter\n");
 #endif
 			if (ActualAccount->NewMailN.App != nullptr) {
-				WCHAR *Command;
+				wchar_t *Command;
 				if (ActualAccount->NewMailN.AppParam != nullptr)
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
+					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 				else
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
+					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
 
 				if (Command != nullptr) {
 					mir_wstrcpy(Command, L"\"");

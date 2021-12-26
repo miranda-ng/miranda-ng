@@ -43,18 +43,18 @@ namespace utils
 	ext::string versionToDotted(DWORD version);
 
 	// character conversion (wide, ansi, utf8)
-	ext::a::string convertWToA(const WCHAR* str, size_t len);
+	ext::a::string convertWToA(const wchar_t* str, size_t len);
 	ext::w::string convertAToW(const char* str, size_t len);
 	ext::a::string convertTToUTF8(const wchar_t* str, size_t str_len);
 	ext::string convertUTF8ToT(const char* str, size_t str_len);
-	size_t rawUTF8Encode(const WCHAR* pIn, size_t lenIn, char* pOut);
+	size_t rawUTF8Encode(const wchar_t* pIn, size_t lenIn, char* pOut);
 	size_t getUTF8Len(const char* str);
 
 	// character conversion (convenience functions)
 	inline ext::a::string toA(const wchar_t* str) { return convertWToA(str, ext::strfunc::len(str)); }
 	inline ext::w::string toW(const wchar_t* str) { return str; }
 	inline ext::string fromA(const char* str) { return convertAToW(str, ext::a::strfunc::len(str)); }
-	inline ext::string fromW(const WCHAR* str) { return str; }
+	inline ext::string fromW(const wchar_t* str) { return str; }
 	inline ext::a::string toA(const ext::string& str) { return convertWToA(str.c_str(), str.length()); }
 	inline ext::w::string toW(const ext::string& str) { return str; }
 	inline ext::string fromA(const ext::a::string& str) { return convertAToW(str.c_str(), str.length()); }

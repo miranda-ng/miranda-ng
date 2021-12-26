@@ -54,7 +54,7 @@ LPWSTR __cdecl utf8decode(LPCSTR str)
 	size_t len = strlen(str) + 1;
 
 	SAFE_FREE(wszOut);
-	if ((wszOut = (LPWSTR)malloc(len*sizeof(WCHAR))) == nullptr)
+	if ((wszOut = (LPWSTR)malloc(len*sizeof(wchar_t))) == nullptr)
 		return nullptr;
 	p = (LPSTR)str;
 	i = 0;

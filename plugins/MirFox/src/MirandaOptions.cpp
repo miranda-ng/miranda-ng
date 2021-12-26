@@ -133,7 +133,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			}
 
 			int opt2Len = SendDlgItemMessage(hwndDlg, IDC1_EDIT1, WM_GETTEXTLENGTH, 0, 0);
-			wchar_t * opt2Buffer = new WCHAR[opt2Len+1];
+			wchar_t * opt2Buffer = new wchar_t[opt2Len+1];
 			UINT opt2NumCharCopy = GetDlgItemText(hwndDlg, IDC1_EDIT1, opt2Buffer, opt2Len+1);
 			mirfoxMiranda.getMirfoxData().getClientsProfilesFilterStringPtr()->assign(opt2Buffer);
 			delete[] opt2Buffer;

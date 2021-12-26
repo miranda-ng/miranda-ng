@@ -230,7 +230,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 					DBVARIANT dbv2;
 					if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
 						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
-						wchar_t *buf = (WCHAR*)mir_alloc(sizeof(WCHAR)*len);
+						wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t)*len);
 						if (buf != nullptr)
 							mir_wstrcat(mir_wstrcat(mir_wstrcpy(buf, dbv.pwszVal), L" "), dbv2.pwszVal);
 

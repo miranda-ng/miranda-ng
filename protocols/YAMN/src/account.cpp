@@ -269,23 +269,23 @@ DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemoryW(WCHAR **Parser,wchar_t *End,WCHAR **StoreTo,WCHAR *DebugString)
+DWORD ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo,wchar_t *DebugString)
 {
 	//This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
 	//read string is displayed
-	WCHAR *Dest,*Finder;
+	wchar_t *Dest,*Finder;
 	DWORD Size;
-	WCHAR Debug[65536];
+	wchar_t Debug[65536];
 
 	Finder=*Parser;
-	while((*Finder != (WCHAR)0) && (Finder<=(WCHAR *)End)) Finder++;
-	mir_snwprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder-*Parser, (WCHAR *)End-Finder);
+	while((*Finder != (wchar_t)0) && (Finder<=(wchar_t *)End)) Finder++;
+	mir_snwprintf(Debug, L"%s: %s,length is %d, remaining %d chars", DebugString, *Parser, Finder-*Parser, (wchar_t *)End-Finder);
 	MessageBoxW(NULL,Debug,L"debug",MB_OK);
-	if (Finder>=(WCHAR *)End)
+	if (Finder>=(wchar_t *)End)
 		return EACC_FILECOMPATIBILITY;
 	if (Size=Finder-*Parser)
 	{
-		if (NULL==(Dest=*StoreTo=new WCHAR[Size+1]))
+		if (NULL==(Dest=*StoreTo=new wchar_t[Size+1]))
 			return EACC_ALLOC;
 		for (;*Parser<=Finder;(*Parser)++,Dest++)
 			*Dest=**Parser;
@@ -299,18 +299,18 @@ DWORD ReadStringFromMemoryW(WCHAR **Parser,wchar_t *End,WCHAR **StoreTo,WCHAR *D
 }
 #endif  //if defined(DEBUG...)
 
-DWORD ReadStringFromMemoryW(WCHAR **Parser, WCHAR *End, WCHAR **StoreTo)
+DWORD ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
 {
-	WCHAR *Dest, *Finder;
+	wchar_t *Dest, *Finder;
 	DWORD Size;
 
 	Finder = *Parser;
-	while ((*Finder != (WCHAR)0) && (Finder <= (WCHAR *)End)) Finder++;
-	if (Finder >= (WCHAR *)End)
+	while ((*Finder != (wchar_t)0) && (Finder <= (wchar_t *)End)) Finder++;
+	if (Finder >= (wchar_t *)End)
 		return EACC_FILECOMPATIBILITY;
 	if (Size = Finder - *Parser)
 	{
-		if (nullptr == (Dest = *StoreTo = new WCHAR[Size + 1]))
+		if (nullptr == (Dest = *StoreTo = new wchar_t[Size + 1]))
 			return EACC_ALLOC;
 		for (; *Parser <= Finder; (*Parser)++, Dest++)
 			*Dest = **Parser;
@@ -365,15 +365,15 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 #endif
 
 #ifdef	DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemoryW((WCHAR **)Parser,(WCHAR*)End,&Which->App,L"App"))
+	if (Stat=ReadStringFromMemoryW((wchar_t **)Parser,(wchar_t*)End,&Which->App,L"App"))
 #else
-	if (Stat = ReadStringFromMemoryW((WCHAR **)Parser, (WCHAR*)End, &Which->App))
+	if (Stat = ReadStringFromMemoryW((wchar_t **)Parser, (wchar_t*)End, &Which->App))
 #endif
 		return Stat;
 #ifdef	DEBUG_FILEREAD
-	if (Stat=ReadStringFromMemoryW((WCHAR **)Parser,(WCHAR*)End,&Which->AppParam,L"AppParam"))
+	if (Stat=ReadStringFromMemoryW((wchar_t **)Parser,(wchar_t*)End,&Which->AppParam,L"AppParam"))
 #else
-	if (Stat = ReadStringFromMemoryW((WCHAR **)Parser, (WCHAR*)End, &Which->AppParam))
+	if (Stat = ReadStringFromMemoryW((wchar_t **)Parser, (wchar_t*)End, &Which->AppParam))
 #endif
 		return Stat;
 	return 0;
@@ -760,20 +760,20 @@ DWORD WriteStringToFile(HANDLE File, char *Source)
 	return 0;
 }
 
-DWORD WriteStringToFileW(HANDLE File, WCHAR *Source)
+DWORD WriteStringToFileW(HANDLE File, wchar_t *Source)
 {
 	DWORD Length, WrittenBytes;
-	WCHAR null = (WCHAR)0;
+	wchar_t null = (wchar_t)0;
 
 	if ((Source == nullptr) || !(Length = (DWORD)mir_wstrlen(Source)))
 	{
-		if (!WriteFile(File, &null, sizeof(WCHAR), &WrittenBytes, nullptr))
+		if (!WriteFile(File, &null, sizeof(wchar_t), &WrittenBytes, nullptr))
 		{
 			CloseHandle(File);
 			return EACC_SYSTEM;
 		}
 	}
-	else if (!WriteFile(File, Source, (Length + 1)*sizeof(WCHAR), &WrittenBytes, nullptr))
+	else if (!WriteFile(File, Source, (Length + 1)*sizeof(wchar_t), &WrittenBytes, nullptr))
 		return EACC_SYSTEM;
 	return 0;
 }

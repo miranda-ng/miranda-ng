@@ -16,10 +16,10 @@ private:
 	wchar_t* m_pBuf;
 	ext::a::ostream& m_Stream;
 	char* m_pUTF8Buf;
-	WCHAR* m_pBufW;
+	wchar_t* m_pBufW;
 
 #if !defined(_UNICODE)
-	WCHAR m_CharMap[256];
+	wchar_t m_CharMap[256];
 #endif // _UNICODE
 
 private:
@@ -28,7 +28,7 @@ private:
 		size_t len = pEnd - pBegin;
 
 #if !defined(_UNICODE)
-		WCHAR* pW = m_pBufW;
+		wchar_t* pW = m_pBufW;
 		char* pA = m_pBuf;
 
 		while (pA < pEnd)
@@ -87,7 +87,7 @@ public:
 #if defined(_UNICODE)
 		m_pBufW = m_pBuf;
 #else // _UNICODE
-		m_pBufW = new WCHAR[m_BufSize];
+		m_pBufW = new wchar_t[m_BufSize];
 #endif // _UNICODE
 
 #if !defined(_UNICODE)

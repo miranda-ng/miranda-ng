@@ -169,12 +169,12 @@ static void freeEvent(EventData *evt)
 	mir_free(evt);
 }
 
-static int AppendUnicodeOrAnsiiToBufferL(CMStringA &buf, const WCHAR *line, size_t maxLen, BOOL isAnsii)
+static int AppendUnicodeOrAnsiiToBufferL(CMStringA &buf, const wchar_t *line, size_t maxLen, BOOL isAnsii)
 {
 	if (maxLen == -1)
 		maxLen = mir_wstrlen(line);
 
-	const WCHAR *maxLine = line + maxLen;
+	const wchar_t *maxLine = line + maxLen;
 
 	if (isAnsii)
 		buf.Append("{");
@@ -223,7 +223,7 @@ static int AppendAnsiToBuffer(CMStringA &buf, const char *line)
 	return AppendUnicodeOrAnsiiToBufferL(buf, _A2T(line), -1, true);
 }
 
-static int AppendUnicodeToBuffer(CMStringA &buf, const WCHAR *line)
+static int AppendUnicodeToBuffer(CMStringA &buf, const wchar_t *line)
 {
 	return AppendUnicodeOrAnsiiToBufferL(buf, line, -1, false);
 }
@@ -348,7 +348,7 @@ static void AppendWithCustomLinks(EventData *evt, int style, CMStringA &buf)
 		return;
 
 	BOOL isAnsii = (evt->dwFlags & IEEDF_UNICODE_TEXT) == 0;
-	WCHAR *wText;
+	wchar_t *wText;
 	size_t len;
 	if (isAnsii) {
 		len = mir_strlen(evt->szText.a);

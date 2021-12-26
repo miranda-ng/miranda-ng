@@ -402,7 +402,7 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags)
 	if (RunMailBrowser) {
 		size_t len = mir_strlen(ActualAccount->Name) + mir_strlen(Translate(MAILBROWSERTITLE)) + 10;	//+10 chars for numbers
 		char *TitleStrA = new char[len];
-		WCHAR *TitleStrW = new WCHAR[len];
+		wchar_t *TitleStrW = new wchar_t[len];
 
 		mir_snprintf(TitleStrA, len, Translate(MAILBROWSERTITLE), ActualAccount->Name, MN.Real.DisplayUC + MN.Virtual.DisplayUC, MN.Real.Display + MN.Virtual.Display);
 		MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, TitleStrA, -1, TitleStrW, (int)mir_strlen(TitleStrA) + 1);
@@ -470,12 +470,12 @@ int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount)
 	return TRUE;
 }
 
-void MimeDateToLocalizedDateTime(char *datein, WCHAR *dateout, int lendateout);
+void MimeDateToLocalizedDateTime(char *datein, wchar_t *dateout, int lendateout);
 int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 {
-	WCHAR *FromStr;
-	WCHAR SizeStr[20];
-	WCHAR LocalDateStr[128];
+	wchar_t *FromStr;
+	wchar_t SizeStr[20];
+	wchar_t LocalDateStr[128];
 
 	LVITEMW item;
 	LVFINDINFO fi;
@@ -542,7 +542,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 
 			if ((UnicodeHeader.From != nullptr) && (UnicodeHeader.FromNick != nullptr)) {
 				size_t size = mir_wstrlen(UnicodeHeader.From) + mir_wstrlen(UnicodeHeader.FromNick) + 4;
-				FromStr = new WCHAR[size];
+				FromStr = new wchar_t[size];
 				mir_snwprintf(FromStr, size, L"%s <%s>", UnicodeHeader.FromNick, UnicodeHeader.From);
 				FromStrNew = TRUE;
 			}
@@ -565,7 +565,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 			item.iItem = SendMessage(hListView, LVM_INSERTITEM, 0, (LPARAM)&item);
 
 			item.iSubItem = 1;
-			item.pszText = (nullptr != UnicodeHeader.Subject ? UnicodeHeader.Subject : (WCHAR*)L"");
+			item.pszText = (nullptr != UnicodeHeader.Subject ? UnicodeHeader.Subject : (wchar_t*)L"");
 			SendMessage(hListView, LVM_SETITEMTEXT, (WPARAM)item.iItem, (LPARAM)&item);
 
 			item.iSubItem = 2;
@@ -720,11 +720,11 @@ void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, 
 			si.cb = sizeof(si);
 
 			if (ActualAccount->NewMailN.App != nullptr) {
-				WCHAR *Command;
+				wchar_t *Command;
 				if (ActualAccount->NewMailN.AppParam != nullptr)
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
+					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 				else
-					Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
+					Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
 
 				if (Command != nullptr) {
 					mir_wstrcpy(Command, L"\"");
@@ -1073,7 +1073,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	return res;
 }
 
-void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateout)
+void FileTimeToLocalizedDateTime(LONGLONG filetime, wchar_t *dateout, int lendateout)
 {
 	int localeID = Langpack_GetDefaultLocale();
 	//int localeID = MAKELCID(LANG_URDU, SORT_DEFAULT);
@@ -1120,7 +1120,7 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateo
 	}
 }
 
-void MimeDateToLocalizedDateTime(char *datein, WCHAR *dateout, int lendateout)
+void MimeDateToLocalizedDateTime(char *datein, wchar_t *dateout, int lendateout)
 {
 	ULONGLONG ft = MimeDateToFileTime(datein);
 	FileTimeToLocalizedDateTime(ft, dateout, lendateout);
@@ -1246,8 +1246,8 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-void ConvertCodedStringToUnicode(char *stream, WCHAR **storeto, DWORD cp, int mode);
-int ConvertStringToUnicode(char *stream, unsigned int cp, WCHAR **out);
+void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, DWORD cp, int mode);
+int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
 
 INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -1255,8 +1255,8 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_INITDIALOG:
 		{
 			PYAMN_MAILSHOWPARAM MailParam = (PYAMN_MAILSHOWPARAM)lParam;
-			WCHAR *iHeaderW = nullptr;
-			WCHAR *iValueW = nullptr;
+			wchar_t *iHeaderW = nullptr;
+			wchar_t *iValueW = nullptr;
 			int StrLen;
 			HWND hListView = GetDlgItem(hDlg, IDC_LISTHEADERS);
 			mir_subclassWindow(GetDlgItem(hDlg, IDC_SPLITTER), SplitterSubclassProc);
@@ -1267,11 +1267,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			ListView_SetExtendedListViewStyle(hListView, LVS_EX_FULLROWSELECT);
 
 			StrLen = MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Header"), -1, nullptr, 0);
-			iHeaderW = new WCHAR[StrLen + 1];
+			iHeaderW = new wchar_t[StrLen + 1];
 			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Header"), -1, iHeaderW, StrLen);
 
 			StrLen = MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Value"), -1, nullptr, 0);
-			iValueW = new WCHAR[StrLen + 1];
+			iValueW = new wchar_t[StrLen + 1];
 			MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, Translate("Value"), -1, iValueW, StrLen);
 
 			LVCOLUMN lvc0 = { LVCF_FMT | LVCF_TEXT | LVCF_WIDTH, LVCFMT_LEFT, 130, iHeaderW, 0, 0 };
@@ -1301,40 +1301,40 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			struct CMimeItem *Header;
 			LVITEMW item;
 			item.mask = LVIF_TEXT | LVIF_PARAM;
-			WCHAR *From = nullptr, *Subj = nullptr;
+			wchar_t *From = nullptr, *Subj = nullptr;
 			char *contentType = nullptr, *transEncoding = nullptr, *body = nullptr; //should not be delete[]-ed
 			for (Header = MailParam->mail->MailData->TranslatedHeader; Header != nullptr; Header = Header->Next) {
-				WCHAR *str1 = nullptr;
-				WCHAR *str2 = nullptr;
-				WCHAR str_nul[2] = { 0 };
+				wchar_t *str1 = nullptr;
+				wchar_t *str2 = nullptr;
+				wchar_t str_nul[2] = { 0 };
 				if (!body) if (!_stricmp(Header->name, "Body")) { body = Header->value; continue; }
 				if (!contentType) if (!_stricmp(Header->name, "Content-Type")) contentType = Header->value;
 				if (!transEncoding) if (!_stricmp(Header->name, "Content-Transfer-Encoding")) transEncoding = Header->value;
 				//ConvertCodedStringToUnicode(Header->name,&str1,MailParam->mail->MailData->CP,1); 
 				{
 					int streamsize = MultiByteToWideChar(20127, 0, Header->name, -1, nullptr, 0);
-					str1 = (WCHAR *)malloc(sizeof(WCHAR) * (streamsize + 1));
+					str1 = (wchar_t *)malloc(sizeof(wchar_t) * (streamsize + 1));
 					MultiByteToWideChar(20127, 0, Header->name, -1, str1, streamsize);//US-ASCII
 				}
 				ConvertCodedStringToUnicode(Header->value, &str2, MailParam->mail->MailData->CP, 1);
-				if (!str2) { str2 = (WCHAR *)str_nul; }// the header value may be NULL
+				if (!str2) { str2 = (wchar_t *)str_nul; }// the header value may be NULL
 				if (!From) if (!_stricmp(Header->name, "From")) {
-					From = new WCHAR[mir_wstrlen(str2) + 1];
+					From = new wchar_t[mir_wstrlen(str2) + 1];
 					mir_wstrcpy(From, str2);
 				}
 				if (!Subj) if (!_stricmp(Header->name, "Subject")) {
-					Subj = new WCHAR[mir_wstrlen(str2) + 1];
+					Subj = new wchar_t[mir_wstrlen(str2) + 1];
 					mir_wstrcpy(Subj, str2);
 				}
 				//if (!hasBody) if (!mir_strcmp(Header->name,"Body")) hasBody = true;
-				int count = 0; WCHAR **split = nullptr;
+				int count = 0; wchar_t **split = nullptr;
 				int ofs = 0;
 				while (str2[ofs]) {
 					if ((str2[ofs] == 0x266A) || (str2[ofs] == 0x25D9) || (str2[ofs] == 0x25CB) ||
 						(str2[ofs] == 0x09) || (str2[ofs] == 0x0A) || (str2[ofs] == 0x0D))count++;
 					ofs++;
 				}
-				split = new WCHAR*[count + 1];
+				split = new wchar_t*[count + 1];
 				count = 0; ofs = 0;
 				split[0] = str2;
 				while (str2[ofs]) {
@@ -1343,7 +1343,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 						if (str2[ofs - 1]) {
 							count++;
 						}
-						split[count] = (WCHAR *)(str2 + ofs + 1);
+						split[count] = (wchar_t *)(str2 + ofs + 1);
 						str2[ofs] = 0;
 					}
 					ofs++;
@@ -1370,11 +1370,11 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (str1)
 					free(str1);
-				if (str2 != (WCHAR *)str_nul)
+				if (str2 != (wchar_t *)str_nul)
 					free(str2);
 			}
 			if (body) {
-				WCHAR *bodyDecoded = nullptr;
+				wchar_t *bodyDecoded = nullptr;
 				char *localBody = nullptr;
 				if (contentType) {
 					if (!_strnicmp(contentType, "text", 4)) {
@@ -1422,9 +1422,9 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 			}
 			ShowWindow(GetDlgItem(hDlg, IDC_SPLITTER), (MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED) ? SW_SHOW : SW_HIDE);
 			ShowWindow(hEdit, (MailParam->mail->Flags & YAMN_MSG_BODYRECEIVED) ? SW_SHOW : SW_HIDE);
-			WCHAR *title = nullptr;
+			wchar_t *title = nullptr;
 			size_t size = (From ? mir_wstrlen(From) : 0) + (Subj ? mir_wstrlen(Subj) : 0) + 4;
-			title = new WCHAR[size];
+			title = new wchar_t[size];
 			if (From && Subj)
 				mir_snwprintf(title, size, L"%s (%s)", Subj, From);
 			else if (From)
@@ -1955,11 +1955,11 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 
 				if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
 					if (ActualAccount->NewMailN.App != nullptr) {
-						WCHAR *Command;
+						wchar_t *Command;
 						if (ActualAccount->NewMailN.AppParam != nullptr)
-							Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
+							Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + mir_wstrlen(ActualAccount->NewMailN.AppParam) + 6];
 						else
-							Command = new WCHAR[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
+							Command = new wchar_t[mir_wstrlen(ActualAccount->NewMailN.App) + 6];
 
 						if (Command != nullptr) {
 							mir_wstrcpy(Command, L"\"");

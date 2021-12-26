@@ -104,7 +104,7 @@ static int __inline CheckStr(char *str, int not_empty, int empty)
 		return not_empty;
 }
 
-static int __inline CheckStrW(WCHAR *str, int not_empty, int empty)
+static int __inline CheckStrW(wchar_t *str, int not_empty, int empty)
 {
 	if (str == nullptr || str[0] == L'\0')
 		return empty;

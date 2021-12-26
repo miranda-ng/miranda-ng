@@ -72,7 +72,7 @@ MTEXTCONTROL_DLL(HANDLE) MTextCreateW(HANDLE userHandle, const char *szProto, co
 	InitRichEdit(result->ftd->getTextService());
 
 	MText_InitFormatting0(result->ftd, result->options);
-	result->ftd->putTextW((WCHAR*)text);
+	result->ftd->putTextW((wchar_t*)text);
 	MText_InitFormatting1(result);
 
 	return (HANDLE)result;
@@ -91,7 +91,7 @@ MTEXTCONTROL_DLL(HANDLE) MTextCreateEx(HANDLE userHandle, void *text, DWORD flag
 
 	MText_InitFormatting0(result->ftd, result->options);
 	if (flags & MTEXT_FLG_WCHAR)
-		result->ftd->putTextW((WCHAR *)text);
+		result->ftd->putTextW((wchar_t *)text);
 	else
 		result->ftd->putTextA((char *)text);
 	MText_InitFormatting1(result);

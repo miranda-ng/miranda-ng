@@ -77,14 +77,14 @@ namespace ext
 {
 	namespace w
 	{
-		const WCHAR* const endl = L"\n";
+		const wchar_t* const endl = L"\n";
 
-		typedef std::basic_string  <WCHAR> string;
-		typedef std::basic_ofstream<WCHAR> ofstream;
-		typedef std::basic_ostream <WCHAR> ostream;
-		typedef ext::basic_strfunc <WCHAR> strfunc;
-		typedef ext::basic_format  <WCHAR> format;
-		typedef ext::basic_kformat <WCHAR> kformat;
+		typedef std::basic_string  <wchar_t> string;
+		typedef std::basic_ofstream<wchar_t> ofstream;
+		typedef std::basic_ostream <wchar_t> ostream;
+		typedef ext::basic_strfunc <wchar_t> strfunc;
+		typedef ext::basic_format  <wchar_t> format;
+		typedef ext::basic_kformat <wchar_t> kformat;
 	}
 
 	namespace a

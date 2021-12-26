@@ -93,14 +93,14 @@ tstring Utf8_Decode(const char *str)
 
 	int i;
 	char *p;
-	WCHAR *wszTemp = nullptr;
+	wchar_t *wszTemp = nullptr;
 
 	if (str == nullptr)
 		return strRes;
 
 	size_t len = mir_strlen(str);
 
-	if ((wszTemp = (WCHAR *)malloc(sizeof(wchar_t) * (len + 2))) == nullptr)
+	if ((wszTemp = (wchar_t *)malloc(sizeof(wchar_t) * (len + 2))) == nullptr)
 		return strRes;
 
 	p = (char *)str;
@@ -131,13 +131,13 @@ tstring Utf8_Decode(const char *str)
  * free() the return value
  */
 
-string Utf8_Encode(const WCHAR *str)
+string Utf8_Encode(const wchar_t *str)
 {
 	string strRes = "";
 
 	unsigned char *szOut = nullptr;
 	int len, i;
-	const WCHAR *wszTemp, *w;
+	const wchar_t *wszTemp, *w;
 
 	if (str == nullptr)
 		return strRes;

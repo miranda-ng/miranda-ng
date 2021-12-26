@@ -46,7 +46,7 @@ namespace NServices
 			if (!mtb.DBGetBirthDate(hContact)) {
 				MZodiac zodiac;
 				//ICONINFO iinfo;
-				WCHAR szFileName[MAX_PATH];
+				wchar_t szFileName[MAX_PATH];
 
 				// get zodiac for birthday
 				zodiac = mtb.Zodiac();

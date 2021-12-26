@@ -407,7 +407,7 @@ ext::string utils::versionToDotted(DWORD version)
 	return temp;
 }
 
-ext::a::string utils::convertWToA(const WCHAR* str, size_t len)
+ext::a::string utils::convertWToA(const wchar_t* str, size_t len)
 {
 	char* buf = new char[len + 1];
 
@@ -424,7 +424,7 @@ ext::a::string utils::convertWToA(const WCHAR* str, size_t len)
 
 ext::w::string utils::convertAToW(const char* str, size_t len)
 {
-	WCHAR* buf = new WCHAR[len + 1];
+	wchar_t* buf = new wchar_t[len + 1];
 
 	len = MultiByteToWideChar(CP_ACP, 0, str, len, buf, len);
 
@@ -440,17 +440,17 @@ ext::w::string utils::convertAToW(const char* str, size_t len)
 ext::a::string utils::convertTToUTF8(const wchar_t* str, size_t str_len)
 {
 #if defined(_UNICODE)
-	const WCHAR* conv_str = str;
+	const wchar_t* conv_str = str;
 #else // _UNICODE
 	const ext::w::string conv_strX = convertAToW(str, str_len);
-	const WCHAR* conv_str = conv_strX.c_str();
+	const wchar_t* conv_str = conv_strX.c_str();
 #endif // _UNICODE
 
 	int len = 0;
 
 	upto_each_(i, str_len)
 	{
-		WCHAR c = conv_str[i];
+		wchar_t c = conv_str[i];
 
 		if (c <= 0x007F) {
 			len++;
@@ -469,7 +469,7 @@ ext::a::string utils::convertTToUTF8(const wchar_t* str, size_t str_len)
 
 	upto_each_(i, str_len)
 	{
-		WCHAR c = conv_str[i];
+		wchar_t c = conv_str[i];
 
 		if (c <= 0x007F) {
 			out_str[pos++] = (unsigned char)c;
@@ -520,15 +520,15 @@ ext::string utils::convertUTF8ToT(const char* str, size_t str_len)
 		unsigned char c = (unsigned char)str[in_pos];
 
 		if ((c & 0x80) == 0x00) {
-			out_str[out_pos] = (WCHAR)c;
+			out_str[out_pos] = (wchar_t)c;
 			in_pos++;
 		}
 		else if ((c & 0xE0) == 0xC0) {
-			out_str[out_pos] = (WCHAR)(((c & 0x1F) << 6) | ((unsigned char)str[in_pos + 1] & 0x3F));
+			out_str[out_pos] = (wchar_t)(((c & 0x1F) << 6) | ((unsigned char)str[in_pos + 1] & 0x3F));
 			in_pos += 2;
 		}
 		else if ((c & 0xF0) == 0xE0) {
-			out_str[out_pos] = (WCHAR)(((c & 0x0F) << 12) | (((unsigned char)str[in_pos + 1] & 0x3F) << 6) | ((unsigned char)str[in_pos + 2] & 0x3F));
+			out_str[out_pos] = (wchar_t)(((c & 0x0F) << 12) | (((unsigned char)str[in_pos + 1] & 0x3F) << 6) | ((unsigned char)str[in_pos + 2] & 0x3F));
 			in_pos += 3;
 		}
 		else {
@@ -545,13 +545,13 @@ ext::string utils::convertUTF8ToT(const char* str, size_t str_len)
 #endif // _UNICODE
 }
 
-size_t utils::rawUTF8Encode(const WCHAR* pIn, size_t lenIn, char* pOut)
+size_t utils::rawUTF8Encode(const wchar_t* pIn, size_t lenIn, char* pOut)
 {
 	char* pOutBegin = pOut;
 
 	upto_each_(i, lenIn)
 	{
-		WCHAR c = pIn[i];
+		wchar_t c = pIn[i];
 
 		if (c <= 0x007F) {
 			*pOut++ = (unsigned char)c;

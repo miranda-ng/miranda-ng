@@ -40,7 +40,7 @@ struct StringBuf
 };
 
 static void sttAppendBufRaw(StringBuf *buf, const char *str);
-static void sttAppendBufW(StringBuf *buf, const WCHAR *str);
+static void sttAppendBufW(StringBuf *buf, const wchar_t *str);
 #define sttAppendBufT(a,b)		(sttAppendBufW((a),(b)))
 static void sttEmptyBuf(StringBuf *buf);
 
@@ -149,14 +149,14 @@ static void sttAppendBufRaw(StringBuf *buf, const char *str)
 	buf->offset += length;
 }
 
-static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
+static void sttAppendBufW(StringBuf *buf, const wchar_t *str)
 {
 	char tmp[32];
 
 	if (!str) return;
 
 	sttAppendBufRaw(buf, "{\\uc1 ");
-	for (const WCHAR *p = str; *p; ++p) {
+	for (const wchar_t *p = str; *p; ++p) {
 		if ((*p == '\\') || (*p == '{') || (*p == '}')) {
 			tmp[0] = '\\';
 			tmp[1] = (char)*p;

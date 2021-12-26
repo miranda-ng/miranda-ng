@@ -974,7 +974,7 @@ wchar_t* IEView::getSelection()
 /**
  * Returns the destination url (href) of the given anchor element (or parent anchor element)
  **/
-WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
+wchar_t* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 {
 	if (element == nullptr)
 		return nullptr;
@@ -982,7 +982,7 @@ WCHAR* IEView::getHrefFromAnchor(CComPtr<IHTMLElement> element)
 	CComPtr<IHTMLAnchorElement> pAnchor;
 	if (FAILED(element.QueryInterface(&pAnchor))) {
 		VARIANT variant;
-		WCHAR *url = nullptr;
+		wchar_t *url = nullptr;
 		if (SUCCEEDED(element->getAttribute(BSTR_PTR(L"href"), 2, &variant)) && variant.vt == VT_BSTR) {
 			url = mir_wstrdup(variant.bstrVal);
 			::SysFreeString(variant.bstrVal);

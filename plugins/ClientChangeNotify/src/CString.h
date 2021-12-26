@@ -100,17 +100,17 @@ private:
 
 typedef TString<wchar_t> TCString;
 typedef TString<char> CString;
-typedef TString<WCHAR> WCString;
+typedef TString<wchar_t> WCString;
 
 #ifdef CHARARRAY_CONVERT
 
 __inline CHARARRAY WCHAR2ANSI_ARRAY(CHARARRAY &c)
 {
 	CHARARRAY Result;
-	int Len = WideCharToMultiByte(CP_ACP, 0, (WCHAR*)c.GetData(), c.GetSize() / sizeof(WCHAR), NULL, 0, NULL, NULL);
+	int Len = WideCharToMultiByte(CP_ACP, 0, (wchar_t*)c.GetData(), c.GetSize() / sizeof(wchar_t), NULL, 0, NULL, NULL);
 	if (Len) {
 		Result.SetAtGrow(Len - 1);
-		if (!WideCharToMultiByte(CP_ACP, 0, (WCHAR*)c.GetData(), c.GetSize() / sizeof(WCHAR), Result.GetData(), Len, NULL, NULL)) {
+		if (!WideCharToMultiByte(CP_ACP, 0, (wchar_t*)c.GetData(), c.GetSize() / sizeof(wchar_t), Result.GetData(), Len, NULL, NULL)) {
 			Result.RemoveAll();
 		}
 		if (Result.GetSize()) {
@@ -125,8 +125,8 @@ __inline CHARARRAY ANSI2WCHAR_ARRAY(CHARARRAY &c)
 	CHARARRAY Result;
 	int Len = MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), NULL, 0);
 	if (Len) {
-		Result.SetAtGrow(Len * sizeof(WCHAR) - 1);
-		if (!MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), (WCHAR*)Result.GetData(), Len)) {
+		Result.SetAtGrow(Len * sizeof(wchar_t) - 1);
+		if (!MultiByteToWideChar(CP_ACP, 0, c.GetData(), c.GetSize(), (wchar_t*)Result.GetData(), Len)) {
 			Result.RemoveAll();
 		}
 		if (Result.GetSize()) {

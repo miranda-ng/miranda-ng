@@ -356,7 +356,7 @@ void wSetData(char *&Data, const char *Value)
 		Data = "";
 }
 
-void wSetData(WCHAR *&Data, const char *Value)
+void wSetData(wchar_t *&Data, const char *Value)
 {
 	if (Value[0] != 0)
 		Data = (g_bIsUtf) ? mir_utf8decodeW(Value) : mir_a2u(Value);
@@ -364,7 +364,7 @@ void wSetData(WCHAR *&Data, const char *Value)
 		Data = L"";
 }
 
-void wSetData(WCHAR *&Data, const WCHAR *Value)
+void wSetData(wchar_t *&Data, const wchar_t *Value)
 {
 	if (Value[0] != 0)
 		Data = mir_wstrdup(Value);
@@ -381,7 +381,7 @@ void wfree(char *&Data)
 	Data = nullptr;
 }
 
-void wfree(WCHAR *&Data)
+void wfree(wchar_t *&Data)
 {
 	if (Data && mir_wstrlen(Data) > 0)
 		mir_free(Data);

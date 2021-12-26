@@ -434,7 +434,7 @@ BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
 	if (dbv == nullptr)
 		return 1;
 
-	WCHAR wbuf[32];
+	wchar_t wbuf[32];
 	CHAR buf[32];
 	switch (destType) {
 	// destination type is "utf8" or "ascii"

@@ -300,7 +300,7 @@ int GetStatus(HWND)
 	return Parser() ? -1 : gbState;
 }
 
-WCHAR* GetFileName(HWND, int)
+wchar_t* GetFileName(HWND, int)
 {
 	if(!ghConnection)
 	{

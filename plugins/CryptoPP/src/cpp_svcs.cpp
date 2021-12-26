@@ -158,8 +158,8 @@ LPSTR __cdecl cpp_encodeA(HANDLE context, LPCSTR msg)
 	if (ptr->features & FEATURES_UTF8) {
 		// ansi message: convert to unicode->utf-8 and encrypt.
 		int slen = (int)strlen(szOldMsg) + 1;
-		LPWSTR wstring = (LPWSTR)alloca(slen*sizeof(WCHAR));
-		MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(WCHAR));
+		LPWSTR wstring = (LPWSTR)alloca(slen*sizeof(wchar_t));
+		MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(wchar_t));
 		// encrypt
 		szNewMsg = cpp_encrypt(ptr, utf8encode(wstring));
 	}
@@ -242,18 +242,18 @@ LPSTR __cdecl cpp_decode(HANDLE context, LPCSTR szEncMsg)
 			// utf8 message: convert to unicode -> ansii
 			LPWSTR wstring = utf8decode(szOldMsg);
 			int wlen = (int)wcslen(wstring) + 1;
-			szNewMsg = (LPSTR)mir_alloc(wlen*(sizeof(WCHAR)+2));			// work.zy@gmail.com
+			szNewMsg = (LPSTR)mir_alloc(wlen*(sizeof(wchar_t)+2));			// work.zy@gmail.com
 			WideCharToMultiByte(CP_ACP, 0, wstring, -1, szNewMsg, wlen, nullptr, nullptr);
-			memcpy(szNewMsg + strlen(szNewMsg) + 1, wstring, wlen*sizeof(WCHAR));	// work.zy@gmail.com
+			memcpy(szNewMsg + strlen(szNewMsg) + 1, wstring, wlen*sizeof(wchar_t));	// work.zy@gmail.com
 		}
 		else {
 			// ansi message: convert to unicode
 			int slen = (int)strlen(szOldMsg) + 1;
-			szNewMsg = (LPSTR)mir_alloc(slen*(sizeof(WCHAR)+1));
+			szNewMsg = (LPSTR)mir_alloc(slen*(sizeof(wchar_t)+1));
 			memcpy(szNewMsg, szOldMsg, slen);
-			WCHAR* wstring = (LPWSTR)alloca(slen*sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(WCHAR));
-			memcpy(szNewMsg + slen, wstring, slen*sizeof(WCHAR));
+			wchar_t* wstring = (LPWSTR)alloca(slen*sizeof(wchar_t));
+			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(wchar_t));
+			memcpy(szNewMsg + slen, wstring, slen*sizeof(wchar_t));
 		}
 	}
 	mir_free(ptr->tmp);
@@ -281,8 +281,8 @@ LPSTR __cdecl cpp_decodeU(HANDLE context, LPCSTR szEncMsg)
 		else {
 			// ansi message: convert to utf8
 			int slen = (int)strlen(szOldMsg) + 1;
-			LPWSTR wstring = (LPWSTR)alloca(slen*sizeof(WCHAR));
-			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(WCHAR));
+			LPWSTR wstring = (LPWSTR)alloca(slen*sizeof(wchar_t));
+			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wstring, slen*sizeof(wchar_t));
 			szNewMsg = mir_strdup(utf8encode(wstring));
 		}
 	}

@@ -32,12 +32,12 @@ CMPlugin::CMPlugin() :
 //-----------------------------------------------------------------------------
 INT_PTR status(WPARAM wParam, LPARAM lParam)
 {
-	return g_speak_config->status(reinterpret_cast<WCHAR *>(lParam), MCONTACT(wParam));
+	return g_speak_config->status(reinterpret_cast<wchar_t *>(lParam), MCONTACT(wParam));
 }
 
 INT_PTR message(WPARAM wParam, LPARAM lParam)
 {
-	return g_speak_config->message(reinterpret_cast<WCHAR *>(lParam), MCONTACT(wParam));
+	return g_speak_config->message(reinterpret_cast<wchar_t *>(lParam), MCONTACT(wParam));
 }
 
 //-----------------------------------------------------------------------------

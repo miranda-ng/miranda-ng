@@ -106,7 +106,7 @@ int ParseValueParam(wchar_t *param, void *&result)
 		case 'w':
 			{
 				size_t len = mir_wstrlen(param);
-				result = (WCHAR *)malloc(len * sizeof(WCHAR));
+				result = (wchar_t *)malloc(len * sizeof(wchar_t));
 				wcsncpy_s((wchar_t*)result, len, param + 1, _TRUNCATE);
 				return VALUE_WIDE;
 			}
@@ -823,7 +823,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 					break;
 
 				case VALUE_WIDE:
-					db_set_ws(0, module, key, (WCHAR *)value);
+					db_set_ws(0, module, key, (wchar_t *)value);
 					wrote = Translate("wide string");
 					break;
 

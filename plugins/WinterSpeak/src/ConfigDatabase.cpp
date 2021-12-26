@@ -125,7 +125,7 @@ void ConfigDatabase::save()
 //------------------------------------------------------------------------------
 // private:
 //------------------------------------------------------------------------------
-std::wstring ConfigDatabase::DBGetContactSettingString(const char *szModule, const char *szSetting, const WCHAR *def)
+std::wstring ConfigDatabase::DBGetContactSettingString(const char *szModule, const char *szSetting, const wchar_t *def)
 {
 	std::wstring ret = def;
 	DBVARIANT dbv;

@@ -103,23 +103,23 @@ void DebugLog(HANDLE File,const char *fmt,...)
 	free(str);
 }
 
-void DebugLogW(HANDLE File,const WCHAR *fmt,...)
+void DebugLogW(HANDLE File,const wchar_t *fmt,...)
 {
-	WCHAR *str;
+	wchar_t *str;
 	char tids[32];
 	va_list vararg;
 	int strsize;
 	DWORD Written;
 
 	va_start(vararg,fmt);
-	str=(WCHAR *)malloc((strsize=65536)*sizeof(WCHAR));
+	str=(wchar_t *)malloc((strsize=65536)*sizeof(wchar_t));
 	mir_snprintf(tids, "[%x]",GetCurrentThreadId());
 	while(mir_vsnwprintf(str, strsize, fmt, vararg)==-1)
-		str=(WCHAR *)realloc(str,(strsize+=65536)*sizeof(WCHAR));
+		str=(wchar_t *)realloc(str,(strsize+=65536)*sizeof(wchar_t));
 	va_end(vararg);
 	EnterCriticalSection(&FileAccessCS);
 	WriteFile(File,tids,(DWORD)mir_strlen(tids),&Written,nullptr);
-	WriteFile(File,str,(DWORD)mir_wstrlen(str)*sizeof(WCHAR),&Written,nullptr);
+	WriteFile(File,str,(DWORD)mir_wstrlen(str)*sizeof(wchar_t),&Written,nullptr);
 	LeaveCriticalSection(&FileAccessCS);
 	free(str);
 }

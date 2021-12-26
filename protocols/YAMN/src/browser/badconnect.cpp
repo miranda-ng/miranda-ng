@@ -30,11 +30,11 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
 #endif
 				if (ActualAccount->BadConnectN.App != nullptr) {
-					WCHAR *Command;
+					wchar_t *Command;
 					if (ActualAccount->BadConnectN.AppParam != nullptr)
-						Command = new WCHAR[mir_wstrlen(ActualAccount->BadConnectN.App) + mir_wstrlen(ActualAccount->BadConnectN.AppParam) + 6];
+						Command = new wchar_t[mir_wstrlen(ActualAccount->BadConnectN.App) + mir_wstrlen(ActualAccount->BadConnectN.AppParam) + 6];
 					else
-						Command = new WCHAR[mir_wstrlen(ActualAccount->BadConnectN.App) + 6];
+						Command = new wchar_t[mir_wstrlen(ActualAccount->BadConnectN.App) + 6];
 
 					if (Command != nullptr) {
 						mir_wstrcpy(Command, L"\"");

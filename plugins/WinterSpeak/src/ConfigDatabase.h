@@ -68,7 +68,7 @@ private:
 	//               def       - default string if entry doesn't exist
 	//--------------------------------------------------------------------------
 	static std::wstring DBGetContactSettingString(const char *szModule,
-		const char *szSetting, const WCHAR *def);
+		const char *szSetting, const wchar_t *def);
 
 	VoiceDesc      m_voice_desc;
 	unsigned int   m_active_flags;
