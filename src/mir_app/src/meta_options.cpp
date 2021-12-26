@@ -29,9 +29,9 @@ MetaOptions g_metaOptions;
 int Meta_WriteOptions()
 {
 	db_set_b(0, META_PROTO, "LockHandle", g_metaOptions.bLockHandle);
-	db_set_w(0, META_PROTO, "MenuContactLabel", (WORD)g_metaOptions.menu_contact_label);
-	db_set_w(0, META_PROTO, "MenuContactFunction", (WORD)g_metaOptions.menu_function);
-	db_set_w(0, META_PROTO, "CListContactName", (WORD)g_metaOptions.clist_contact_name);
+	db_set_w(0, META_PROTO, "MenuContactLabel", (uint16_t)g_metaOptions.menu_contact_label);
+	db_set_w(0, META_PROTO, "MenuContactFunction", (uint16_t)g_metaOptions.menu_function);
+	db_set_w(0, META_PROTO, "CListContactName", (uint16_t)g_metaOptions.clist_contact_name);
 	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(g_metaOptions.set_status_from_offline_delay));
 	return 0;
 }

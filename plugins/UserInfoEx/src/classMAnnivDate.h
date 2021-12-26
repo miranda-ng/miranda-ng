@@ -43,12 +43,12 @@ public:
 	} EFlags;
 
 private:
-	WORD	_wID;			// index to anniversary in database or ANID_BIRTHDAY
+	uint16_t	_wID;			// index to anniversary in database or ANID_BIRTHDAY
 	wstring	_strDesc;		// descripes the anniversary (e.g. birthday)
 	string	_strModule;		// the module the anniversary has been read from
-	WORD	_wFlags;		// the flags
+	uint16_t	_wFlags;		// the flags
 	uint8_t	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
-	WORD	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
+	uint16_t	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
 
 	int DBWriteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
 	int DBDeleteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
@@ -64,10 +64,10 @@ public:
 	__inline void		Module(LPCSTR pszModule)		{ if (pszModule) _strModule = pszModule; else _strModule.clear(); };
 	__inline uint8_t		RemindOption() const			{ return _bRemind; };
 	__inline void		RemindOption(uint8_t bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
-	__inline WORD		RemindOffset() const			{ return _wDaysEarlier; };
-	__inline void		RemindOffset(WORD wOffset)		{ _wDaysEarlier = wOffset; };
-	__inline WORD		Id() const						{ return _wID; };
-	__inline void		Id(WORD wId)					{ if (_wID == ANID_NONE) _wID = wId; };
+	__inline uint16_t		RemindOffset() const			{ return _wDaysEarlier; };
+	__inline void		RemindOffset(uint16_t wOffset)		{ _wDaysEarlier = wOffset; };
+	__inline uint16_t		Id() const						{ return _wID; };
+	__inline void		Id(uint16_t wId)					{ if (_wID == ANID_NONE) _wID = wId; };
 	
 	DWORD				DateStamp() const;
 	void				DateStamp(const DWORD dwStamp);
@@ -80,10 +80,10 @@ public:
 	uint8_t	IsEqual(const SYSTEMTIME &st) const;
 
 	// handling flags
-	__inline WORD	Flags() const			{ return _wFlags; };
-	__inline void	Flags(WORD wFlags)		{ _wFlags = wFlags; };
-	__inline void	SetFlags(WORD wFlag)	{ _wFlags |= wFlag; };
-	__inline void	RemoveFlags(WORD wFlag)	{ _wFlags &= ~wFlag; };
+	__inline uint16_t	Flags() const			{ return _wFlags; };
+	__inline void	Flags(uint16_t wFlags)		{ _wFlags = wFlags; };
+	__inline void	SetFlags(uint16_t wFlag)	{ _wFlags |= wFlag; };
+	__inline void	RemoveFlags(uint16_t wFlag)	{ _wFlags &= ~wFlag; };
 
 	// return diffence of days, ignoring the date
 	int	CompareDays(MTime mt) const;
@@ -95,13 +95,13 @@ public:
 	// read date from database
 	int DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
 	int DBGetDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	int DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex);
+	int DBGetAnniversaryDate(MCONTACT hContact, uint16_t iIndex);
 	int DBGetBirthDate(MCONTACT hContact, LPSTR pszProto = nullptr);
 	int DBGetReminderOpts(MCONTACT hContact);
 
 	// write date to database
 	int DBWriteDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
-	int DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex);
+	int DBWriteAnniversaryDate(MCONTACT hContact, uint16_t wIndex);
 	int DBWriteBirthDate(MCONTACT hContact);
 	int DBWriteReminderOpts(MCONTACT hContact);
 

@@ -86,8 +86,8 @@ public:
 		g_plugin.setByte("SortByProto", (uint8_t)(g_bSortByProto = IsDlgButtonChecked(m_hwnd, IDC_SORTBYPROTO)));
 		g_plugin.setByte("AlwaysMulti", (uint8_t)!IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
 		g_plugin.setByte("TrayIcon", iTrayIcon);
-		g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("IconFlashTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
 		g_plugin.setByte("DisableTrayFlash", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
 
 		int cur = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);

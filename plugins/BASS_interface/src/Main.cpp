@@ -58,7 +58,7 @@ static wchar_t CurrBassPath[MAX_PATH], tmp[MAX_PATH];
 static int sndNSnd = 0, sndLimSnd;
 static HSTREAM sndSSnd[MAXCHAN] = { 0 };
 
-static WORD TimeWrd1, TimeWrd2, StatMask;
+static uint16_t TimeWrd1, TimeWrd2, StatMask;
 static BOOL QuietTime, Preview, EnPreview;
 static int Volume;
 static int device = -1;
@@ -77,9 +77,9 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	BOOL doPlay = TRUE;
 
 	GetLocalTime(&systime);
-	WORD currtime = MAKEWORD(systime.wMinute, systime.wHour);
+	uint16_t currtime = MAKEWORD(systime.wMinute, systime.wHour);
 
-	WORD currstat = 1;
+	uint16_t currstat = 1;
 	switch (CallService(MS_CLIST_GETSTATUSMODE, 0, 0)) {
 	case ID_STATUS_INVISIBLE:    currstat <<= 1;
 	case ID_STATUS_FREECHAT:     currstat <<= 1;

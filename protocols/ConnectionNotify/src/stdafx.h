@@ -46,7 +46,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int      iStatus[MAX_STATUS_COUNT];
 	int      iFiltersCount;
 	int      iDefaultAction = TRUE;
-	WORD     iStatusMask;
+	uint16_t     iStatusMask;
 
 	CMPlugin();
 

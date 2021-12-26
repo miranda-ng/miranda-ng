@@ -1517,7 +1517,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 		db_set_b(0, cb->dbModule, cb->dbSetting, (uint8_t)value);
 		break;
 	case DBVT_WORD:
-		db_set_w(0, cb->dbModule, cb->dbSetting, (WORD)value);
+		db_set_w(0, cb->dbModule, cb->dbSetting, (uint16_t)value);
 		break;
 	case DBVT_DWORD:
 		db_set_dw(0, cb->dbModule, cb->dbSetting, (DWORD)value);

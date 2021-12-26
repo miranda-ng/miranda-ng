@@ -82,7 +82,7 @@ struct USERINFO : public MZeroedObject, public MNonCopyable
 {
 	wchar_t* pszUID;
 	wchar_t* pszNick;
-	WORD     Status;
+	uint16_t Status;
 	int      iStatusEx;
 	WORD     ContactStatus;
 };
@@ -153,9 +153,9 @@ struct MIR_APP_EXPORT GCSessionInfoBase : public MZeroedObject, public MNonCopya
 	int         iEventCount;
 	int         iStatusCount;
 
-	WORD        wStatus;
-	WORD        wState;
-	WORD        wCommandsNum;
+	uint16_t    wStatus;
+	uint16_t    wState;
+	uint16_t    wCommandsNum;
 	void*       pItemData;
 	time_t      LastTime;
 
@@ -293,16 +293,16 @@ struct CHAT_MANAGER
 	BOOL          (*MM_RemoveAll)(void);
 
 	STATUSINFO*   (*TM_FindStatus)(STATUSINFO *pStatusList, const wchar_t *pszStatus);
-	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, WORD Status);
+	wchar_t*      (*TM_WordToString)(STATUSINFO *pStatusList, uint16_t Status);
 	BOOL          (*TM_RemoveAll)(STATUSINFO** pStatusList);
 
 	int           (*UM_CompareItem)(const USERINFO *u1, const USERINFO *u2);
-	USERINFO*     (*UM_AddUser)(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, WORD wStatus);
+	USERINFO*     (*UM_AddUser)(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszNick, uint16_t wStatus);
 	USERINFO*     (*UM_FindUser)(SESSION_INFO *si, const wchar_t *pszUID);
 	USERINFO*     (*UM_FindUserFromIndex)(SESSION_INFO *si, int index);
-	USERINFO*     (*UM_GiveStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_SetContactStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
-	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, WORD status);
+	USERINFO*     (*UM_GiveStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
+	USERINFO*     (*UM_SetContactStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
+	USERINFO*     (*UM_TakeStatus)(SESSION_INFO *si, const wchar_t *pszUID, uint16_t status);
 	wchar_t*      (*UM_FindUserAutoComplete)(SESSION_INFO *si, const wchar_t* pszOriginal, const wchar_t* pszCurrent);
 	BOOL          (*UM_RemoveUser)(SESSION_INFO *si, const wchar_t *pszUID);
 

@@ -221,8 +221,8 @@ static INT_PTR CALLBACK DlgProcOptionsAvatars(HWND hwndDlg, UINT msg, WPARAM wPa
 				g_plugin.setByte("MakeGrayscale", IsDlgButtonChecked(hwndDlg, IDC_MAKE_GRAYSCALE) ? 1 : 0);
 				g_plugin.setByte("MakeTransparentBkg", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSPARENT_BKG) ? 1 : 0);
 				g_plugin.setByte("MakeTransparencyProportionalToColorDiff", IsDlgButtonChecked(hwndDlg, IDC_MAKE_TRANSP_PROPORTIONAL) ? 1 : 0);
-				g_plugin.setWord("TranspBkgNumPoints", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setWord("TranspBkgColorDiff", (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("TranspBkgNumPoints", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("TranspBkgColorDiff", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0));
 			}
 		}
 		break;
@@ -452,13 +452,13 @@ static void SaveTransparentData(HWND hwndDlg, MCONTACT hContact)
 	else
 		db_set_b(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
 
-	WORD tmp = (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
+	uint16_t tmp = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
 	if (g_plugin.getWord("TranspBkgNumPoints", 5) == tmp)
 		db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
 	else
 		db_set_w(hContact, "ContactPhoto", "TranspBkgNumPoints", tmp);
 
-	tmp = (WORD)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0);
+	tmp = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0);
 	if (g_plugin.getWord("TranspBkgColorDiff", 10) == tmp)
 		db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
 	else

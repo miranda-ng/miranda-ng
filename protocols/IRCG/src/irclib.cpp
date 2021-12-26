@@ -859,7 +859,7 @@ int CDccSession::SetupConnection()
 	if (di->iType == DCC_CHAT && !di->bSender || di->iType == DCC_SEND && di->bSender && di->bReverse) {
 		NETLIBOPENCONNECTION ncon = {};
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr);
-		ncon.wPort = (WORD)di->iPort;
+		ncon.wPort = (uint16_t)di->iPort;
 		con = Netlib_OpenConnection(m_proto->hNetlibDCC, &ncon);
 	}
 
@@ -953,7 +953,7 @@ int CDccSession::SetupConnection()
 		// connect to the remote computer from which you are receiving the file (now all actions to take (resume/overwrite etc) have been decided
 		NETLIBOPENCONNECTION ncon = {};
 		ncon.szHost = ConvertIntegerToIP(di->dwAdr);
-		ncon.wPort = (WORD)di->iPort;
+		ncon.wPort = (uint16_t)di->iPort;
 
 		con = Netlib_OpenConnection(m_proto->hNetlibDCC, &ncon);
 	}
@@ -1024,7 +1024,7 @@ void CDccSession::DoSendFile()
 	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (void *)di, 0);
 	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (void *)di, 0);
 
-	WORD wPacketSize = m_proto->getWord("DCCPacketSize", 1024 * 4);
+	uint16_t wPacketSize = m_proto->getWord("DCCPacketSize", 1024 * 4);
 
 	if (wPacketSize < 256)
 		wPacketSize = 256;

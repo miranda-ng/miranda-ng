@@ -21,7 +21,7 @@ void FillCheckBoxTree(HWND hwndTree, DWORD style)
 	tvis.hParent = nullptr;
 	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
-	for (WORD status = ID_STATUS_OFFLINE; status <= ID_STATUS_MAX; status++) {
+	for (uint16_t status = ID_STATUS_OFFLINE; status <= ID_STATUS_MAX; status++) {
 		tvis.item.lParam = status - ID_STATUS_OFFLINE;
 		tvis.item.pszText = Clist_GetStatusModeDescription(status, 0);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;

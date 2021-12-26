@@ -273,7 +273,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case INTM_GROUPCHANGED:
 		{
-			WORD iExtraImage[EXTRA_ICON_COUNT];
+			uint16_t iExtraImage[EXTRA_ICON_COUNT];
 			uint8_t flags = 0;
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
@@ -307,7 +307,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		{
 			int recalcScrollBar = 0;
 			MCONTACT hContact = wParam;
-			WORD status = ID_STATUS_OFFLINE;
+			uint16_t status = ID_STATUS_OFFLINE;
 			int  contactRemoved = 0;
 			MCONTACT hSelItem = NULL;
 			ClcContact *selcontact = nullptr;
@@ -330,7 +330,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					recalcScrollBar = 1;
 					Clist_FindItem(hwnd, dat, hContact, &contact);
 					if (contact) {
-						contact->iImage = (WORD)lParam;
+						contact->iImage = (uint16_t)lParam;
 						Clist_NotifyNewContact(hwnd, hContact);
 					}
 				}
@@ -338,7 +338,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			else {
 				// item in list already
 				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-				if (contact->iImage == (WORD)lParam)
+				if (contact->iImage == (uint16_t)lParam)
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
@@ -348,7 +348,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 					recalcScrollBar = 1;
 				}
 				else {
-					contact->iImage = (WORD)lParam;
+					contact->iImage = (uint16_t)lParam;
 					if (!Clist_IsHiddenMode(dat, status))
 						contact->flags |= CONTACTF_ONLINE;
 					else
@@ -473,7 +473,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 	case INTM_STATUSCHANGED:
 		if (Clist_FindItem(hwnd, dat, wParam, &contact)) {
-			WORD wStatus = db_get_w(wParam, contact->pce->szProto, "Status", ID_STATUS_OFFLINE);
+			uint16_t wStatus = db_get_w(wParam, contact->pce->szProto, "Status", ID_STATUS_OFFLINE);
 			if (cfg::dat.bNoOfflineAvatars && wStatus != ID_STATUS_OFFLINE && contact->wStatus == ID_STATUS_OFFLINE) {
 				contact->wStatus = wStatus;
 				if (cfg::dat.bAvatarServiceAvail && contact->ace == nullptr)

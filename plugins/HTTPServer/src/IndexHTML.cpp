@@ -127,7 +127,7 @@ bool LoadIndexHTMLTemplate()
 				case SY_IS_ODD:
 				case SY_IS_FILE_TYPE:
 					{
-						*((WORD*)(pszDestBuf)) = 0x7070;
+						*((uint16_t*)(pszDestBuf)) = 0x7070;
 						pszDestBuf += 2;
 					}
 				}
@@ -227,7 +227,7 @@ bool LoadIndexHTMLTemplate()
 				}
 
 				// write jump address
-				*((WORD*)(pszBuf)) = (WORD)((pszLevelEnd - pszBuf - 1) | 0x8000);
+				*((uint16_t*)(pszBuf)) = (uint16_t)((pszLevelEnd - pszBuf - 1) | 0x8000);
 				pszBuf += 2;
 			}
 		}
@@ -281,7 +281,7 @@ void FreeIndexHTMLTemplate()
 bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
 	const char * pszSrvPath, DWORD /* dwRemoteIP */)
 {
-	#define RelativeJump(begin) { pszPos += *((WORD*)(begin+1)) & 0x7FFF; }
+	#define RelativeJump(begin) { pszPos += *((uint16_t*)(begin+1)) & 0x7FFF; }
 
 	if (szIndexHTMLTemplate == nullptr)
 		return false;

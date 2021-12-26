@@ -18,5 +18,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
-BOOL IsIgnored(MCONTACT, WORD);
+BOOL IsIgnored(MCONTACT, uint16_t);
 INT_PTR CALLBACK DlgProcIgnoreOptions(HWND, UINT, WPARAM, LPARAM);

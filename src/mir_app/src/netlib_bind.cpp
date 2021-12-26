@@ -40,8 +40,8 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 		if (*portn == 0)
 			return false;
 
-		WORD num;
-		Utils_GetRandom(&num, sizeof(WORD));
+		uint16_t num;
+		Utils_GetRandom(&num, sizeof(uint16_t));
 		*portn = num % *portn;
 	}
 
@@ -82,10 +82,10 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 					if (before  && portnum >= *portn)
 						return false;
 
-					sin.sin_port = htons((WORD)port);
+					sin.sin_port = htons((uint16_t)port);
 					bool bV4Mapped = s == INVALID_SOCKET || bind(s, (SOCKADDR*)&sin, sizeof(sin)) == 0;
 
-					sin6.sin6_port = htons((WORD)port);
+					sin6.sin6_port = htons((uint16_t)port);
 					bool bV6Mapped = s6 == INVALID_SOCKET || bind(s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0;
 
 					if (bV4Mapped && bV6Mapped) {

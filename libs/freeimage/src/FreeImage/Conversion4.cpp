@@ -59,7 +59,7 @@ FreeImage_ConvertLine8To4(uint8_t *target, uint8_t *source, int width_in_pixels,
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To4_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *bits = (WORD *)source;
+	uint16_t *bits = (uint16_t *)source;
 	BOOL hinibble = TRUE;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
@@ -81,7 +81,7 @@ FreeImage_ConvertLine16To4_555(uint8_t *target, uint8_t *source, int width_in_pi
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To4_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *bits = (WORD *)source;
+	uint16_t *bits = (uint16_t *)source;
 	BOOL hinibble = TRUE;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {

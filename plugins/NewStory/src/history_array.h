@@ -39,7 +39,7 @@ struct ItemData
 
 class Filter
 {
-	WORD flags;
+	uint16_t flags;
 	int *refCount;
 	wchar_t *text;
 
@@ -56,7 +56,7 @@ public:
 		EVENTONLY = 0x100,
 	};
 
-	Filter(WORD aFlags, wchar_t *wText)
+	Filter(uint16_t aFlags, wchar_t *wText)
 	{
 		refCount = new int(0);
 		flags = aFlags;

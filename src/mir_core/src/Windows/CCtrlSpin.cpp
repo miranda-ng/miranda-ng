@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlSpin class
 
-CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId, WORD wMax, WORD wMin) :
+CCtrlSpin::CCtrlSpin(CDlgBase *dlg, int ctrlId, uint16_t wMax, uint16_t wMin) :
 	CCtrlData(dlg, ctrlId),
 	m_wMin(wMin),
 	m_wMax(wMax),
@@ -70,12 +70,12 @@ void CCtrlSpin::OnReset()
 		SetPosition(LoadInt());
 }
 
-WORD CCtrlSpin::GetPosition()
+uint16_t CCtrlSpin::GetPosition()
 {
 	return m_wCurr;
 }
 
-void CCtrlSpin::SetPosition(WORD wPos)
+void CCtrlSpin::SetPosition(uint16_t wPos)
 {
 	SendMsg(UDM_SETPOS, 0, m_wCurr = wPos);
 }

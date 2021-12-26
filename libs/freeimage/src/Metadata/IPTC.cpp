@@ -46,7 +46,7 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 	std::string Keywords;
 	std::string SupplementalCategory;
 
-	WORD tag_id;
+	uint16_t tag_id;
 
 	if(!dataptr || (datalen == 0)) {
 		return FALSE;
@@ -107,7 +107,7 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 
 		// process the tag
 
-		tag_id = (WORD)(tagType | (directoryType << 8));
+		tag_id = (uint16_t)(tagType | (directoryType << 8));
 
 		FreeImage_SetTagID(tag, tag_id);
 		FreeImage_SetTagLength(tag, tagByteCount);
@@ -222,7 +222,7 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 // --------------------------------------------------------------------------
 
 static uint8_t* 
-append_iptc_tag(uint8_t *profile, unsigned *profile_size, WORD id, DWORD length, const void *value) {
+append_iptc_tag(uint8_t *profile, unsigned *profile_size, uint16_t id, DWORD length, const void *value) {
 	uint8_t *buffer = NULL;
 
 	// calculate the new buffer size
@@ -271,7 +271,7 @@ write_iptc_profile(FIBITMAP *dib, uint8_t **profile, unsigned *profile_size) {
 
 	if(mdhandle) {
 		do {
-			WORD tag_id	= FreeImage_GetTagID(tag);
+			uint16_t tag_id	= FreeImage_GetTagID(tag);
 
 			// append the tag to the profile
 

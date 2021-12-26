@@ -96,7 +96,7 @@ public:
 	LPSTR ParentItemName();
 	HWND CreateWnd(LPPS pPs);
 	
-	WORD DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags);
+	uint16_t DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags);
 
 	// notification handlers
 	void OnInfoChanged();
@@ -145,7 +145,7 @@ class CPsTree
 	bool _isDragging = false;
 	LPPS _pPs = nullptr;
 
-	WORD	SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem);
+	uint16_t	SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem);
 
 public:
 	CPsTree(LPPS pPs);
@@ -223,7 +223,7 @@ struct CPsHdr
 	LPCSTR   _pszProto = 0;    // owning contact's protocol 
 	LPCSTR   _pszPrefix = 0;   // name prefix for treeitem settings
 	CPsTreeItem** _pPages = 0; // the pages
-	WORD     _numPages = 0;    // number of pages
+	uint16_t     _numPages = 0;    // number of pages
 	DWORD    _dwFlags = 0;     // some option flags
 	HIMAGELIST _hImages = 0;   // the imagelist with all tree item icons
 	LIST<wchar_t> _ignore;     // list of skipped items when adding metasubcontacts pages

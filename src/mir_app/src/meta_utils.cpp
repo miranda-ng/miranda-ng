@@ -128,7 +128,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	db_set_ws(hMeta, META_PROTO, buffer, Clist_GetContactDisplayName(hSub));
 
 	// Get the status
-	WORD status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
+	uint16_t status = db_get_w(hSub, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
 	mir_snprintf(buffer, "Status%d", ccDest->nSubs);
@@ -345,7 +345,7 @@ int Meta_HideLinkedContacts(void)
 		// prepare to update metacontact record of subcontat status
 		char *szProto = Proto_GetBaseAccountName(hContact);
 
-		WORD status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		uint16_t status = (!szProto) ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		db_set_w(ccMeta->contactID, META_PROTO, buffer, status);
 
 		// update metacontact's record of nick for this contact
@@ -518,7 +518,7 @@ void Meta_GetSubNick(MCONTACT hMeta, int i, CMStringW &tszDest)
 
 void Meta_FixStatus(DBCachedContact *ccMeta)
 {
-	WORD status = ID_STATUS_OFFLINE;
+	uint16_t status = ID_STATUS_OFFLINE;
 
 	MCONTACT most_online = db_mc_getMostOnline(ccMeta->contactID);
 	if (most_online) {

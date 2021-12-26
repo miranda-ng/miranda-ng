@@ -428,7 +428,7 @@ FreeImage_AllocateBitmap(BOOL header_only, uint8_t *ext_bits, unsigned ext_pitch
 			bih->biHeight           = height;
 			bih->biPlanes           = 1;
 			bih->biCompression      = need_masks ? BI_BITFIELDS : BI_RGB;
-			bih->biBitCount         = (WORD)bpp;
+			bih->biBitCount         = (uint16_t)bpp;
 			bih->biClrUsed          = CalculateUsedPaletteEntries(bpp);
 			bih->biClrImportant     = bih->biClrUsed;
 			bih->biXPelsPerMeter	= 2835;	// 72 dpi
@@ -1379,7 +1379,7 @@ FreeImage_SetMetadata(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, 
 						FreeImage_OutputMessageProc(FIF_UNKNOWN, "IPTC: Invalid key '%s'", key);
 					}
 					*/
-					FreeImage_SetTagID(tag, (WORD)id);
+					FreeImage_SetTagID(tag, (uint16_t)id);
 				}
 				break;
 

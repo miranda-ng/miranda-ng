@@ -479,9 +479,9 @@ DWORD __fastcall blend(DWORD X1, DWORD X2)
 	RGBA* q2 = (RGBA*)&X2;
 	uint8_t a_1 = ~q1->a;
 	uint8_t a_2 = ~q2->a;
-	WORD am = q1->a * a_2;
+	uint16_t am = q1->a * a_2;
 
-	WORD ar = q1->a + ((a_1 * q2->a) / 255);
+	uint16_t ar = q1->a + ((a_1 * q2->a) / 255);
 	// if a2 more than 0 than result should be more
 	// or equal (if a1==0) to a2, else in combination
 	// with mask we can get here black points
@@ -491,10 +491,10 @@ DWORD __fastcall blend(DWORD X1, DWORD X2)
 	if (ar == 0) return 0;
 
 	{
-		WORD arm = ar * 255;
-		WORD rr = ((q1->r * am + q2->r * q2->a * 255)) / arm;
-		WORD gr = ((q1->g * am + q2->g * q2->a * 255)) / arm;
-		WORD br = ((q1->b * am + q2->b * q2->a * 255)) / arm;
+		uint16_t arm = ar * 255;
+		uint16_t rr = ((q1->r * am + q2->r * q2->a * 255)) / arm;
+		uint16_t gr = ((q1->g * am + q2->g * q2->a * 255)) / arm;
+		uint16_t br = ((q1->b * am + q2->b * q2->a * 255)) / arm;
 		return (ar << 24) | (rr << 16) | (gr << 8) | br;
 	}
 }

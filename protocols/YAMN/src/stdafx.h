@@ -134,7 +134,7 @@ INT_PTR UnloadMailDataSvc(WPARAM wParam, LPARAM);
 INT_PTR SaveMailDataSvc(WPARAM wParam, LPARAM lParam);
 
 //From mime.cpp
-//void WINAPI ExtractHeaderFcn(char *,int,WORD,HYAMNMAIL);	//already in MailExported
+//void WINAPI ExtractHeaderFcn(char *,int,uint16_t,HYAMNMAIL);	//already in MailExported
 struct _tcptable
 {
 	char *NameBase, *NameSub;

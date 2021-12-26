@@ -281,7 +281,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		dat->hIcon = nullptr;
 		{
 			char *szProto = Proto_GetBaseAccountName(dat->hContact);
-			WORD status = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_ONLINE);
+			uint16_t status = db_get_w(dat->hContact, szProto, "Status", ID_STATUS_ONLINE);
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_LoadProtoIcon(szProto, status));
 		}
 

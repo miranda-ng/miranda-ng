@@ -226,7 +226,7 @@ uint8_t GetCachedStatusMsg(TExtraCache *p, char *szProto)
 		db_free(&dbv);
 
 	if (p->bStatusMsgValid != STATUSMSG_NOTFOUND) {
-		WORD infoTypeC2[12];
+		uint16_t infoTypeC2[12];
 		memset(infoTypeC2, 0, sizeof(infoTypeC2));
 		int iLen = min((int)mir_wstrlen(p->statusMsg), 10);
 		GetStringTypeW(CT_CTYPE2, p->statusMsg, iLen, infoTypeC2);
@@ -262,7 +262,7 @@ void ReloadExtraInfo(MCONTACT hContact)
 
 void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 {
-	WORD infoTypeC2[12];
+	uint16_t infoTypeC2[12];
 	wchar_t *szText;
 	TExtraCache *p;
 
@@ -291,7 +291,7 @@ void RTL_DetectAndSet(ClcContact *contact, MCONTACT hContact)
 
 void RTL_DetectGroupName(ClcContact *group)
 {
-	WORD infoTypeC2[12];
+	uint16_t infoTypeC2[12];
 
 	group->isRtl = 0;
 
@@ -389,7 +389,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 		DWORD dwLocalMask = db_get_dw(hContact, "CLVM", cfg::dat.current_viewmode, 0);
 		if (dwLocalMask != 0) {
 			if (cfg::dat.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
-				WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+				uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask));
 			}
 			return 0;
@@ -419,7 +419,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData
 	}
 
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_STATUS) {
-		WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		filterResult = (cfg::dat.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & cfg::dat.statusMaskFilter ? 1 : 0));
 	}
 

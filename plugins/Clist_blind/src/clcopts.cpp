@@ -91,7 +91,7 @@ public:
 
 		db_set_b(0, "CLC", "ShowIdle", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_IDLE) ? 1 : 0));
 		db_set_b(0, "CLC", "LeftMargin", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
-		db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, "CLC", "ScrollTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 		db_set_b(0, "CLC", "GroupIndent", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
 
 		wchar_t tmp[1024];

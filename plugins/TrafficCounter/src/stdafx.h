@@ -63,9 +63,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 typedef	struct
 {
 	uint8_t Hour, Day, Month;
-	WORD Year;
+	uint16_t Year;
 	DWORD Incoming, Outgoing;
-	WORD Time;
+	uint16_t Time;
 } HOURLYSTATS;
 #pragma pack(pop)
 
@@ -171,7 +171,7 @@ extern COLORREF KeyColor;
 
 extern HGENMENU hTrafficMainMenuItem;
 
-extern WORD Stat_SelAcc;
+extern uint16_t Stat_SelAcc;
 extern OPTTREE_OPTION *pOptions; // Объявлено в модуле TrafficCounter.c.
 extern PROTOLIST OverallInfo;
 

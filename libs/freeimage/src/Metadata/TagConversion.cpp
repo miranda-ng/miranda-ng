@@ -896,7 +896,7 @@ ConvertExifTag(FITAG *tag) {
 
 		case TAG_COMPRESSION:
 		{
-			WORD compression = *((WORD*)FreeImage_GetTagValue(tag));
+			uint16_t compression = *((uint16_t*)FreeImage_GetTagValue(tag));
 			switch(compression) {
 				case TAG_COMPRESSION_NONE:
 					sprintf(format, "dump mode (%d)", compression);

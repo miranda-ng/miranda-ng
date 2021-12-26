@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_hotkeys.h>
 #include "skin.h"
 
-static wchar_t* sttHokeyVkToName(WORD vkKey)
+static wchar_t* sttHokeyVkToName(uint16_t vkKey)
 {
 	static wchar_t buf[256] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
@@ -459,7 +459,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 {
 	static BOOL initialized = FALSE;
 	static int colWidth = 0;
-	static WORD currentLanguage = 0;
+	static uint16_t currentLanguage = 0;
 
 	HWND hwndHotkey = GetDlgItem(hwndDlg, IDC_LV_HOTKEYS);
 
@@ -547,7 +547,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 	case WM_TIMER:
 		if (initialized) {
-			WORD newLanguage = LOWORD(GetKeyboardLayout(0));
+			uint16_t newLanguage = LOWORD(GetKeyboardLayout(0));
 			if (newLanguage == currentLanguage)
 				break;
 
@@ -638,7 +638,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 		if ((LOWORD(wParam) == IDC_HOTKEY) && ((HIWORD(wParam) == EN_KILLFOCUS) || (HIWORD(wParam) == 0))) {
 			LVITEM lvi;
 			THotkeyItem *item;
-			WORD wHotkey = (WORD)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
+			uint16_t wHotkey = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HOTKEY, HKM_GETHOTKEY, 0, 0);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_HOTKEY), SW_HIDE);
 			SetFocus(hwndHotkey);

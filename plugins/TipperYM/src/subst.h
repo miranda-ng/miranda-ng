@@ -35,7 +35,7 @@ bool Uid(MCONTACT hContact, char *szProto, wchar_t *buff, int bufflen);
 // get info for status and tray tooltip
 bool DBGetContactSettingAsString(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen); 
 bool CanRetrieveStatusMsg(MCONTACT hContact, char *szProto);
-wchar_t *GetProtoStatusMessage(char *szProto, WORD status);
+wchar_t *GetProtoStatusMessage(char *szProto, uint16_t status);
 wchar_t *GetProtoExtraStatusTitle(char *szProto);
 wchar_t *GetProtoExtraStatusMessage(char *szProto); 
 wchar_t *GetListeningTo(char *szProto);

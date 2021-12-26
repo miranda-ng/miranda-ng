@@ -361,7 +361,7 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			add_edit_alarm->time.wDayOfWeek = (unsigned short)SendDlgItemMessage(hwndDlg, IDC_DAY, CB_GETCURSEL, 0, 0);
 
 		if (add_edit_alarm->occurrence == OC_MONTHLY)
-			add_edit_alarm->time.wDay = (WORD)SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_GETCURSEL, 0, 0) + 1;
+			add_edit_alarm->time.wDay = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_DAYNUM, CB_GETCURSEL, 0, 0) + 1;
 
 		SendDlgItemMessage(hwndDlg, IDC_TIME, DTM_GETSYSTEMTIME, 0, (LPARAM)&temp_time);
 		add_edit_alarm->time.wHour = temp_time.wHour;

@@ -21,7 +21,7 @@
 
 #include "stdafx.h"
 
-void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar_t *stzText, PLUGINDATA *pdp)
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, uint16_t newStatus, const wchar_t *stzText, PLUGINDATA *pdp)
 {
 	POPUPDATAW ppd;
 	ppd.lchContact = hContact;

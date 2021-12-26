@@ -346,15 +346,15 @@ void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
 
 void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
 {
-	WORD temp;
+	uint16_t temp;
 	COLORREF res = 0;
-	temp = (WORD)(colDword >> 16);
+	temp = (uint16_t)(colDword >> 16);
 	res |= ((temp & 0x1F) << 3);
 	res |= ((temp & 0x3E0) << 6);
 	res |= ((temp & 0x7C00) << 9);
 	if (First) *First = res;
 	res = 0;
-	temp = (WORD)colDword;
+	temp = (uint16_t)colDword;
 	res |= ((temp & 0x1F) << 3);
 	res |= ((temp & 0x3E0) << 6);
 	res |= ((temp & 0x7C00) << 9);
@@ -426,7 +426,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	PUAddPopupW(&ppd);
 }
 
-void myPlaySound(MCONTACT hcontact, WORD newStatus, WORD oldStatus)
+void myPlaySound(MCONTACT hcontact, uint16_t newStatus, uint16_t oldStatus)
 {
 	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
 		return;
@@ -446,7 +446,7 @@ static void waitThread(logthread_info* infoParam)
 {
 	Thread_SetName("SeenPlugin: waitThread");
 
-	WORD prevStatus = g_plugin.getWord(infoParam->hContact, "StatusTriger", ID_STATUS_OFFLINE);
+	uint16_t prevStatus = g_plugin.getWord(infoParam->hContact, "StatusTriger", ID_STATUS_OFFLINE);
 
 	// I hope in 1.5 second all the needed info will be set
 	if (WaitForSingleObject(g_hShutdownEvent, 1500) == WAIT_TIMEOUT) {
@@ -455,7 +455,7 @@ static void waitThread(logthread_info* infoParam)
 				infoParam->currStatus &= 0x7FFF;
 
 		if (infoParam->currStatus != prevStatus) {
-			g_plugin.setWord(infoParam->hContact, "OldStatus", (WORD)(prevStatus | 0x8000));
+			g_plugin.setWord(infoParam->hContact, "OldStatus", (uint16_t)(prevStatus | 0x8000));
 			if (includeIdle)
 				g_plugin.setByte(infoParam->hContact, "OldIdle", (uint8_t)((prevStatus & 0x8000) == 0));
 
@@ -493,7 +493,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 	
 	if (!strcmp(cws->szModule, MODULENAME)) {
 		// here we will come when Settings/SeenModule/StatusTriger is changed
-		WORD prevStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
+		uint16_t prevStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
 		if (includeIdle) {
 			if (g_plugin.getByte(hContact, "OldIdle", 0))
 				prevStatus &= 0x7FFF;
@@ -583,10 +583,10 @@ static void cleanThread(logthread_info* infoParam)
 	// I hope in 10 secons all logged-in contacts will be listed
 	if (WaitForSingleObject(g_hShutdownEvent, 10000) == WAIT_TIMEOUT) {
 		for (auto &hContact : Contacts(szProto)) {
-			WORD oldStatus = g_plugin.getWord(hContact, "StatusTriger", ID_STATUS_OFFLINE) | 0x8000;
+			uint16_t oldStatus = g_plugin.getWord(hContact, "StatusTriger", ID_STATUS_OFFLINE) | 0x8000;
 			if (oldStatus > ID_STATUS_OFFLINE) {
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
-					g_plugin.setWord(hContact, "OldStatus", (WORD)(oldStatus | 0x8000));
+					g_plugin.setWord(hContact, "OldStatus", (uint16_t)(oldStatus | 0x8000));
 					if (includeIdle)
 						g_plugin.setByte(hContact, "OldIdle", (uint8_t)((oldStatus & 0x8000) ? 0 : 1));
 					g_plugin.setWord(hContact, "StatusTriger", ID_STATUS_OFFLINE);
@@ -612,7 +612,7 @@ int ModeChange(WPARAM, LPARAM lparam)
 
 	DBWriteTimeTS(time(0), NULL);
 
-	WORD isetting = (WORD)ack->lParam;
+	uint16_t isetting = (uint16_t)ack->lParam;
 	if (isetting < ID_STATUS_OFFLINE)
 		isetting = ID_STATUS_OFFLINE;
 	if ((isetting > ID_STATUS_OFFLINE) && ((UINT_PTR)ack->hProcess <= ID_STATUS_OFFLINE)) {

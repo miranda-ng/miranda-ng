@@ -684,20 +684,20 @@ static int CLUIFramesStoreFrameSettings(int Frameid)
 	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), (uint8_t)btoint(F.visible));
 	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), (uint8_t)btoint(F.TitleBar.ShowTitleBar));
 
-	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), (WORD)F.height);
-	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), (WORD)F.HeightWhenCollapsed);
-	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), (WORD)F.align);
+	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), (uint16_t)F.height);
+	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), (uint16_t)F.HeightWhenCollapsed);
+	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", storpos), (uint16_t)F.align);
 
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), (WORD)F.FloatingPos.x);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), (WORD)F.FloatingPos.y);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), (WORD)F.FloatingSize.x);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), (WORD)F.FloatingSize.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", storpos), (uint16_t)F.FloatingPos.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", storpos), (uint16_t)F.FloatingPos.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), (uint16_t)F.FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), (uint16_t)F.FloatingSize.y);
 
 	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), (uint8_t)btoint(F.floating));
 	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), (uint8_t)btoint(F.UseBorder));
-	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), (WORD)F.order);
+	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), (uint16_t)F.order);
 
-	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
+	db_set_w(0, CLUIFrameModule, "StoredFrames", (uint16_t)maxstored);
 	return 0;
 }
 

@@ -196,17 +196,17 @@ static int WriteAutoAwaySetting(SMProto &autoAwaySetting, char *protoName)
 {
 	char setting[128];
 	mir_snprintf(setting, "%s_OptionFlags", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.optionFlags);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.optionFlags);
 	mir_snprintf(setting, "%s_AwayTime", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.awayTime);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.awayTime);
 	mir_snprintf(setting, "%s_NATime", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.naTime);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.naTime);
 	mir_snprintf(setting, "%s_StatusFlags", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.statusFlags);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.statusFlags);
 	mir_snprintf(setting, "%s_Lv1Status", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.lv1Status);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.lv1Status);
 	mir_snprintf(setting, "%s_Lv2Status", protoName);
-	AAAPlugin.setWord(setting, (WORD)autoAwaySetting.lv2Status);
+	AAAPlugin.setWord(setting, (uint16_t)autoAwaySetting.lv2Status);
 
 	return 0;
 }
@@ -584,8 +584,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 				AAAPlugin.setByte(SETTING_IGNSYSKEYS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
 				AAAPlugin.setByte(SETTING_IGNALTCOMBO, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
 				AAAPlugin.setByte(SETTING_SAMESETTINGS, (uint8_t)g_bAAASettingSame);
-				AAAPlugin.setWord(SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
-				AAAPlugin.setWord(SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
+				AAAPlugin.setWord(SETTING_AWAYCHECKTIMEINSECS, (uint16_t)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
+				AAAPlugin.setWord(SETTING_CONFIRMDELAY, (uint16_t)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
 				AAAPlugin.setByte(SETTING_MONITORMOUSE, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
 				AAAPlugin.setByte(SETTING_MONITORKEYBOARD, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
 			}

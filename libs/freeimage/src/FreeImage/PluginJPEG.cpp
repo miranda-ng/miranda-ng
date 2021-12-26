@@ -1308,7 +1308,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					jpeg_read_scanlines(&cinfo, buffer, 1);
 
 					for(unsigned x = 0; x < cinfo.output_width; x++) {
-						WORD K = (WORD)src[3];
+						uint16_t K = (uint16_t)src[3];
 						dst[FI_RGBA_RED]   = (uint8_t)((K * src[0]) / 255);	// C -> R
 						dst[FI_RGBA_GREEN] = (uint8_t)((K * src[1]) / 255);	// M -> G
 						dst[FI_RGBA_BLUE]  = (uint8_t)((K * src[2]) / 255);	// Y -> B
@@ -1408,7 +1408,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			const char *sError = "only 24-bit RGB, 8-bit greyscale/palette or 32-bit CMYK bitmaps can be saved as JPEG";
 
 			FREE_IMAGE_COLOR_TYPE color_type = FreeImage_GetColorType(dib);
-			WORD bpp = (WORD)FreeImage_GetBPP(dib);
+			uint16_t bpp = (uint16_t)FreeImage_GetBPP(dib);
 
 			if ((bpp != 24) && (bpp != 8) && !(bpp == 32 && (color_type == FIC_CMYK))) {
 				throw sError;

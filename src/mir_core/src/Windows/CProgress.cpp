@@ -30,22 +30,22 @@ CCtrlProgress::CCtrlProgress(CDlgBase *wnd, int idCtrl)
 {
 }
 
-void CCtrlProgress::SetRange(WORD max, WORD min)
+void CCtrlProgress::SetRange(uint16_t max, uint16_t min)
 {
 	SendMsg(PBM_SETRANGE, 0, MAKELPARAM(min, max));
 }
 
-void CCtrlProgress::SetPosition(WORD value)
+void CCtrlProgress::SetPosition(uint16_t value)
 {
 	SendMsg(PBM_SETPOS, value, 0);
 }
 
-void CCtrlProgress::SetStep(WORD value)
+void CCtrlProgress::SetStep(uint16_t value)
 {
 	SendMsg(PBM_SETSTEP, value, 0);
 }
 
-WORD CCtrlProgress::Move(WORD delta)
+uint16_t CCtrlProgress::Move(uint16_t delta)
 {
 	return delta == 0
 		? SendMsg(PBM_STEPIT, 0, 0)

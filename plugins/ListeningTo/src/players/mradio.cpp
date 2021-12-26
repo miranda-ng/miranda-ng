@@ -35,7 +35,7 @@ void MRadio::EnableDisable()
 int MRadio::GetData()
 {
 	for (auto &hContact : Contacts("mRadio")) {
-		WORD status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE);
+		uint16_t status = db_get_w(hContact, "mRadio", "Status", ID_STATUS_OFFLINE);
 		if (status != ID_STATUS_ONLINE)
 			continue;
 

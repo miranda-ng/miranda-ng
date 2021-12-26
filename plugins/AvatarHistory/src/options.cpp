@@ -37,7 +37,7 @@ static OptPageControl popupsControls[] = {
 	{ &opts.popup_delay_type,         CONTROL_RADIO,    IDC_DELAYFROMPU,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_DEFAULT },
 	{ nullptr,                        CONTROL_RADIO,    IDC_DELAYCUSTOM,    "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_CUSTOM },
 	{ nullptr,                        CONTROL_RADIO,    IDC_DELAYPERMANENT, "PopupsDelayType",   POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
-	{ &opts.popup_timeout,            CONTROL_SPIN,     IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD)1, (WORD)255 },
+	{ &opts.popup_timeout,            CONTROL_SPIN,     IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (uint16_t)1, (uint16_t)255 },
 	{ &opts.popup_right_click_action, CONTROL_COMBO,    IDC_RIGHT_ACTION,   "PopupsRightClick",  POPUP_ACTION_CLOSEPOPUP },
 	{ &opts.popup_left_click_action,  CONTROL_COMBO,    IDC_LEFT_ACTION,    "PopupsLeftClick",   POPUP_ACTION_OPENAVATARHISTORY },
 	{ &opts.popup_show_changed,       CONTROL_CHECKBOX, IDC_CHANGED_L,      "PopupsShowChanged", TRUE },

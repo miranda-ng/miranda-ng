@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-WORD CToxProto::GetContactStatus(MCONTACT hContact)
+uint16_t CToxProto::GetContactStatus(MCONTACT hContact)
 {
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-void CToxProto::SetContactStatus(MCONTACT hContact, WORD status)
+void CToxProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 {
-	WORD oldStatus = GetContactStatus(hContact);
+	uint16_t oldStatus = GetContactStatus(hContact);
 	if (oldStatus != status)
 		setWord(hContact, "Status", status);
 }

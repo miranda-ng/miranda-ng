@@ -55,7 +55,7 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 {
 	int oldStatus = LCStatus;
 	LCStatus = wParam;
-	g_plugin.setWord("Status", (WORD)wParam);
+	g_plugin.setWord("Status", (uint16_t)wParam);
 	g_plugin.setWord("timerCount", 0);
 	if (LCStatus == ID_STATUS_OFFLINE || (LCStatus == ID_STATUS_AWAY && !g_plugin.getByte("AwayAsStatus", 0)) || !g_plugin.getWord("Timer", 1))
 		killTimer();
@@ -69,27 +69,27 @@ int SetLCStatus(WPARAM wParam, LPARAM)
 		switch (LCStatus) {
 		case ID_STATUS_OFFLINE:
 			if (g_plugin.getByte(hContact, "AlwaysVisible", 0) && !g_plugin.getByte(hContact, "VisibleUnlessOffline", 1))
-				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+				g_plugin.setWord(hContact, "Status", (uint16_t)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			else
 				g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		case ID_STATUS_ONLINE:
-			g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+			g_plugin.setWord(hContact, "Status", (uint16_t)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			break;
 
 		case ID_STATUS_AWAY:
 			if (g_plugin.getByte("AwayAsStatus", 0) && (g_plugin.getByte(hContact, "AlwaysVisible", 0) || (g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE) == ID_STATUS_AWAY)))
-				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+				g_plugin.setWord(hContact, "Status", (uint16_t)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			else if (!g_plugin.getByte("AwayAsStatus", 0))
-				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+				g_plugin.setWord(hContact, "Status", (uint16_t)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			else
 				g_plugin.setWord(hContact, "Status", ID_STATUS_OFFLINE);
 			break;
 
 		default:
 			if (g_plugin.getByte(hContact, "AlwaysVisible", 0) || LCStatus == g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE))
-				g_plugin.setWord(hContact, "Status", (WORD)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
+				g_plugin.setWord(hContact, "Status", (uint16_t)g_plugin.getWord(hContact, "Icon", ID_STATUS_ONLINE));
 			break;
 		}
 	}

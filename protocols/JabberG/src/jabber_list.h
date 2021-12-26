@@ -190,7 +190,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	// LIST_FILE
 	// jid = string representation of port number
 	filetransfer *ft;
-	WORD port;
+	uint16_t port;
 
 	// LIST_BYTE
 	// jid = string representation of port number

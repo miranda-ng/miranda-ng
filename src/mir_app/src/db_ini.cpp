@@ -394,7 +394,7 @@ LBL_NewLine:
 			break;
 		case 'w':
 		case 'W':
-			db_set_w(0, szSection, szName, (WORD)strtol(szValue + 1, nullptr, 0));
+			db_set_w(0, szSection, szName, (uint16_t)strtol(szValue + 1, nullptr, 0));
 			break;
 		case 'd':
 		case 'D':

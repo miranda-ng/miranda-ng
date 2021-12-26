@@ -515,9 +515,9 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 				db_set_b(0, CHAT_MODULE, "LoggingEnabled", (uint8_t)g_Settings.bLoggingEnabled);
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
-				db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
+				db_set_w(0, CHAT_MODULE, "LogLimit", (uint16_t)iLen);
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
-				db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
+				db_set_w(0, CHAT_MODULE, "LoggingLimit", (uint16_t)iLen);
 
 				SaveBranch(GetDlgItem(hwndDlg, IDC_CHAT_CHECKBOXES), branch2, _countof(branch2));
 
@@ -611,7 +611,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN1, UDM_GETPOS, 0, 0);
 				g_Settings.iPopupTimeout = iLen;
-				db_set_w(0, CHAT_MODULE, "PopupTimeout", (WORD)iLen);
+				db_set_w(0, CHAT_MODULE, "PopupTimeout", (uint16_t)iLen);
 
 				g_Settings.crPUBkgColour = SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0);
 				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0));

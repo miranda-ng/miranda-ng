@@ -50,7 +50,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 		if (pdnce->szProto == nullptr)
 			continue;
 
-		WORD wStatus = pdnce->getStatus();
+		uint16_t wStatus = pdnce->getStatus();
 		if (!showOfflineHereGroup && bHideOffline && !pdnce->m_bNoHiddenOffline && wStatus == ID_STATUS_OFFLINE)
 			continue;
 
@@ -132,7 +132,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, pdnce->m_iStatus))
 		cont->flags |= CONTACTF_ONLINE;
 
-	WORD apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
+	uint16_t apparentMode = szProto != nullptr ? pdnce->ApparentMode : 0;
 	if (apparentMode)
 		switch (apparentMode) {
 		case ID_STATUS_OFFLINE:
@@ -422,7 +422,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
 			if (DWORD dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) {
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
-					WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+					uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
 				}
 				return 0 | searchResult;
@@ -459,7 +459,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 		}
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			WORD wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			filterResult = (g_CluiData.filterFlags & CLVM_GROUPSTATUS_OP) ? ((filterResult | ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0))) : (filterResult & ((1 << (wStatus - ID_STATUS_OFFLINE)) & g_CluiData.statusMaskFilter ? 1 : 0));
 		}
 

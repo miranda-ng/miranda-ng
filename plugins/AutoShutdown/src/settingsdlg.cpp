@@ -81,7 +81,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			/* read-in watcher flags */
 			{
-				WORD watcherType = g_plugin.getWord("WatcherFlags", SETTING_WATCHERFLAGS_DEFAULT);
+				uint16_t watcherType = g_plugin.getWord("WatcherFlags", SETTING_WATCHERFLAGS_DEFAULT);
 				CheckRadioButton(hwndDlg, IDC_RADIO_STTIME, IDC_RADIO_STCOUNTDOWN, (watcherType&SDWTF_ST_TIME) ? IDC_RADIO_STTIME : IDC_RADIO_STCOUNTDOWN);
 				CheckDlgButton(hwndDlg, IDC_CHECK_SPECIFICTIME, (watcherType&SDWTF_SPECIFICTIME) != 0 ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_CHECK_MESSAGE, (watcherType&SDWTF_MESSAGE) != 0 ? BST_CHECKED : BST_UNCHECKED);
@@ -313,7 +313,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_EDIT_CPUUSAGE:
 			if (HIWORD(wParam) == EN_KILLFOCUS) {
-				WORD val = (WORD)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE);
+				uint16_t val = (uint16_t)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE);
 				if (val < 1) val = 1;
 				else if (val>100) val = 100;
 				SendDlgItemMessage(hwndDlg, IDC_SPIN_CPUUSAGE, UDM_SETPOS, 0, MAKELPARAM(val, 0));
@@ -366,7 +366,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			/* watcher type */
 			{
-				WORD watcherType = (WORD)(IsDlgButtonChecked(hwndDlg, IDC_RADIO_STTIME) ? SDWTF_ST_TIME : SDWTF_ST_COUNTDOWN);
+				uint16_t watcherType = (uint16_t)(IsDlgButtonChecked(hwndDlg, IDC_RADIO_STTIME) ? SDWTF_ST_TIME : SDWTF_ST_COUNTDOWN);
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_SPECIFICTIME)) watcherType |= SDWTF_SPECIFICTIME;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_MESSAGE)) watcherType |= SDWTF_MESSAGE;
 				if (IsDlgButtonChecked(hwndDlg, IDC_CHECK_FILETRANSFER)) watcherType |= SDWTF_FILETRANSFER;

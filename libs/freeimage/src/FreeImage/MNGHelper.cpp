@@ -241,7 +241,7 @@ mng_GetChunckType(const uint8_t *mChunkName) {
 }
 
 inline void
-mng_SwapShort(WORD *sp) {
+mng_SwapShort(uint16_t *sp) {
 #ifndef FREEIMAGE_BIGENDIAN
 	SwapShort(sp);
 #endif
@@ -786,7 +786,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 	DWORD res_x = 2835;	// 72 dpi
 	DWORD res_y = 2835;	// 72 dpi
 	RGBQUAD rgbBkColor = {0, 0, 0, 0};
-	WORD bk_red, bk_green, bk_blue;
+	uint16_t bk_red, bk_green, bk_blue;
 	BOOL hasBkColor = FALSE;
 	BOOL mHasIDAT = FALSE;
 

@@ -597,7 +597,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				TranslateMenu(hSubMenu);
 
 				if (si != nullptr) {
-					WORD w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
+					uint16_t w = db_get_w(si->hContact, si->pszModule, "TabPosition", 0);
 					if (w == 0)
 						CheckMenuItem(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND | MF_UNCHECKED);
 					else
@@ -614,7 +614,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					if (si != nullptr) {
 						if (!(GetMenuState(hSubMenu, ID_LOCKPOSITION, MF_BYCOMMAND)&MF_CHECKED)) {
 							if (si->hContact)
-								db_set_w(si->hContact, si->pszModule, "TabPosition", (WORD)(i + 1));
+								db_set_w(si->hContact, si->pszModule, "TabPosition", (uint16_t)(i + 1));
 						}
 						else db_unset(si->hContact, si->pszModule, "TabPosition");
 					}

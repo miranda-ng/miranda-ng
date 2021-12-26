@@ -406,10 +406,10 @@ LBL_Seek:
 			if (isStatic) {
 				dbv->cchVal--;
 				if (realLen < dbv->cchVal)
-					dbv->cchVal = WORD(realLen);
+					dbv->cchVal = uint16_t(realLen);
 				memcpy(dbv->pszVal, decoded, dbv->cchVal);
 				dbv->pszVal[dbv->cchVal] = 0;
-				dbv->cchVal = WORD(realLen);
+				dbv->cchVal = uint16_t(realLen);
 			}
 			else {
 				dbv->pszVal = (char *)mir_alloc(1 + realLen);
@@ -491,13 +491,13 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBC
 		if (dbcwWork.value.pszVal == nullptr)
 			return 1;
 
-		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
+		dbcwWork.value.cchVal = (uint16_t)strlen(dbcwWork.value.pszVal);
 		if (bIsEncrypted && m_crypto) {
 			size_t len;
 			uint8_t *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
 			if (pResult != nullptr) {
 				pEncoded = dbcwWork.value.pbVal = pResult;
-				dbcwWork.value.cpbVal = (WORD)len;
+				dbcwWork.value.cpbVal = (uint16_t)len;
 				dbcwWork.value.type = DBVT_ENCRYPTED;
 			}
 		}

@@ -16,20 +16,6 @@
 #include <process.h>
 #include <string.h>
 
-struct DLGTEMPLATEEX
-{
-    WORD dlgVer;
-    WORD signature;
-    DWORD helpID;
-    DWORD exStyle;
-    DWORD style;
-    WORD cDlgItems;
-    short x;
-    short y;
-    short cx;
-    short cy;
-};
-
 #include <newpluginapi.h>
 #include <m_clistint.h>
 #include <m_skin.h>
@@ -50,7 +36,7 @@ struct DLGTEMPLATEEX
 //=======================================================
 //	Definitions
 //=======================================================
-#define MODNAME        "NIM_Contact"
+#define MODNAME           "NIM_Contact"
 #define modFullname       "Non-IM Contact"
 #define MAXLINES          10000
 #define MAX_STRING_LENGTH 10000

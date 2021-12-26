@@ -108,8 +108,8 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	void UpdateSelfStatus();
 	int SetIdle(bool idle);
 	void SetSessionAwayMessage(int status, const wchar_t* msg);
-	WORD GetClientVersion();
-	WORD GetServerVersion();
+	uint16_t GetClientVersion();
+	uint16_t GetServerVersion();
 	INT_PTR __cdecl SessionAnnounce(WPARAM wParam, LPARAM lParam);
 	void InitAwayMsg();
 	void DeinitAwayMsg();

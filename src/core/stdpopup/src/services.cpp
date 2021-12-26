@@ -304,7 +304,7 @@ static INT_PTR RegisterPopupClass(WPARAM, LPARAM lParam)
 	char setting[256];
 	mir_snprintf(setting, "%s/Timeout", pc->pszName);
 	pc->iSeconds = g_plugin.getWord(setting, pc->iSeconds);
-	if (pc->iSeconds == (WORD)-1) pc->iSeconds = -1;
+	if (pc->iSeconds == (uint16_t)-1) pc->iSeconds = -1;
 	mir_snprintf(setting, "%s/TextCol", pc->pszName);
 	pc->colorText = (COLORREF)g_plugin.getDword(setting, (DWORD)pc->colorText);
 	mir_snprintf(setting, "%s/BgCol", pc->pszName);

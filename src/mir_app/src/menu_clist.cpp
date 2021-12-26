@@ -565,7 +565,7 @@ static INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 		Proto_SetStatus(pa->szModuleName, g_clistApi.currentDesiredStatusMode);
 	}
 	NotifyEventHooks(hStatusModeChangeEvent, g_clistApi.currentDesiredStatusMode, 0);
-	db_set_w(0, "CList", "Status", (WORD)g_clistApi.currentDesiredStatusMode);
+	db_set_w(0, "CList", "Status", (uint16_t)g_clistApi.currentDesiredStatusMode);
 	return 1;
 }
 
@@ -817,7 +817,7 @@ void RebuildMenuOrder(void)
 			smep->status = it.iStatus;
 			{
 				wchar_t buf[256], hotkeyName[100];
-				WORD hotKey = GetHotkeyValue(it.iHotKey);
+				uint16_t hotKey = GetHotkeyValue(it.iHotKey);
 				HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 				mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(it.iStatus, 0), hotkeyName);
 				mi.name.w = buf;
@@ -874,7 +874,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 			continue;
 
 		wchar_t buf[256], hotkeyName[100];
-		WORD hotKey = GetHotkeyValue(it.iHotKey);
+		uint16_t hotKey = GetHotkeyValue(it.iHotKey);
 		HotkeyToName(hotkeyName, _countof(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
 		mir_snwprintf(buf, L"%s\t%s", Clist_GetStatusModeDescription(it.iStatus, 0), hotkeyName);
 		Menu_ModifyItem(it.hStatusMenu, buf);

@@ -41,7 +41,7 @@ void CMsgDialog::SetupInfobar()
 	cf2.bCharSet = lf.lfCharSet;
 	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
-	cf2.wWeight = (WORD)lf.lfWeight;
+	cf2.wWeight = (uint16_t)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_NAME, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);
@@ -55,7 +55,7 @@ void CMsgDialog::SetupInfobar()
 	cf2.bCharSet = lf.lfCharSet;
 	wcsncpy(cf2.szFaceName, lf.lfFaceName, LF_FACESIZE);
 	cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0);
-	cf2.wWeight = (WORD)lf.lfWeight;
+	cf2.wWeight = (uint16_t)lf.lfWeight;
 	cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 	cf2.yHeight = abs(lf.lfHeight) * 1440 / g_dat.logPixelSY;
 	SendDlgItemMessage(m_hwndInfo, IDC_INFOBAR_STATUS, EM_SETCHARFORMAT, SCF_DEFAULT, (LPARAM)&cf2);

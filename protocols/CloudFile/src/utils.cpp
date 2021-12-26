@@ -23,7 +23,7 @@ void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 	ShowNotification(_A2W(MODULENAME), message, flags, hContact);
 }
 
-MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD flags, DWORD cbBlob, uint8_t *pBlob)
+MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, DWORD flags, DWORD cbBlob, uint8_t *pBlob)
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;

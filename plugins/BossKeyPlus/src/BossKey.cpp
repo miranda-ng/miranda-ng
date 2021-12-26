@@ -25,7 +25,7 @@ HWND g_hListenWindow, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
 HMODULE hDwmApi;
 DWORD g_dwMirandaPID;
-WORD g_wMask, g_wMaskAdv;
+uint16_t g_wMask, g_wMaskAdv;
 bool g_bWindowHidden, g_fPassRequested, g_TrayIcon;
 char g_password[MAXPASSLEN + 1];
 HKL oldLangID, oldLayout;
@@ -436,7 +436,7 @@ INT_PTR BossKeyHideMiranda(WPARAM, LPARAM) // for service :)
 	return 0;
 }
 
-static wchar_t* HotkeyVkToName(WORD vkKey)
+static wchar_t* HotkeyVkToName(uint16_t vkKey)
 {
 	static wchar_t buf[32] = { 0 };
 	DWORD code = MapVirtualKey(vkKey, 0) << 16;
@@ -474,7 +474,7 @@ static wchar_t* HotkeyVkToName(WORD vkKey)
 
 static wchar_t* GetBossKeyText(void)
 {
-	WORD wHotKey = db_get_w(0, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
+	uint16_t wHotKey = db_get_w(0, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
 	uint8_t key = LOBYTE(wHotKey);
 	uint8_t shift = HIBYTE(wHotKey);

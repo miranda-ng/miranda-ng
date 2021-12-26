@@ -49,7 +49,7 @@
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bExpandSettingsOnOpen, bRestoreOnOpen, bWarnOnDelete;
-	CMOption<WORD> iPopupDelay;
+	CMOption<uint16_t> iPopupDelay;
 	CMOption<DWORD> iPopupBkColor, iPopupTxtColor;
 
 	CMPlugin();
@@ -175,7 +175,7 @@ extern bool g_bUsePopups;
 #define HEX_DWORD		4
 
 // main
-char *StringFromBlob(uint8_t *blob, WORD len);
+char *StringFromBlob(uint8_t *blob, uint16_t len);
 int WriteBlobFromString(MCONTACT hContact, const char *module, const char *setting, const char *value, int len);
 wchar_t *DBVType(uint8_t type);
 DWORD getNumericValue(DBVARIANT *dbv);

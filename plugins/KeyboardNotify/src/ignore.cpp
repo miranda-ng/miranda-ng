@@ -318,9 +318,9 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 	return FALSE;
 }
 
-BOOL IsIgnored(MCONTACT hContact, WORD eventType)
+BOOL IsIgnored(MCONTACT hContact, uint16_t eventType)
 {
-	WORD ignoreID = 0;
+	uint16_t ignoreID = 0;
 	DWORD mask = GetMask(hContact);
 
 	switch(eventType) {

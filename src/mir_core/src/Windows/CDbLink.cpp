@@ -68,7 +68,7 @@ void CDbLink::SaveInt(DWORD value)
 {
 	switch (m_type) {
 		case DBVT_BYTE:  db_set_b(0, m_szModule, m_szSetting, (uint8_t)value); break;
-		case DBVT_WORD:  db_set_w(0, m_szModule, m_szSetting, (WORD)value); break;
+		case DBVT_WORD:  db_set_w(0, m_szModule, m_szSetting, (uint16_t)value); break;
 		case DBVT_DWORD: db_set_dw(0, m_szModule, m_szSetting, value); break;
 	}
 }

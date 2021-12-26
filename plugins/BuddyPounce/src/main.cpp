@@ -220,8 +220,8 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 	MCONTACT hContact = wParam;
 	wchar_t* message = (wchar_t*)lParam;
 	g_plugin.setWString(hContact, "PounceMsg", message);
-	g_plugin.setWord(hContact, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
-	g_plugin.setWord(hContact, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
+	g_plugin.setWord(hContact, "SendIfMyStatusIsFLAG", (uint16_t)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
+	g_plugin.setWord(hContact, "SendIfTheirStatusIsFLAG", (uint16_t)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
 	g_plugin.setByte(hContact, "Reuse", (uint8_t)g_plugin.getByte("Reuse", 0));
 	g_plugin.setByte(hContact, "GiveUpDays", (uint8_t)g_plugin.getByte("GiveUpDays", 0));
 	g_plugin.setDword(hContact, "GiveUpDate", (DWORD)(g_plugin.getByte(hContact, "GiveUpDays", 0)*SECONDSINADAY));

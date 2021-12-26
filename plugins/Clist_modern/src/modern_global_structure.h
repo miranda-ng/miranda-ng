@@ -11,7 +11,7 @@ struct CLUIDATA
 
 	// NotifyArea menu
 	HMENU    hMenuNotify;
-	WORD     wNextMenuID;
+	uint16_t     wNextMenuID;
 	int      iIconNotify;
 	DWORD    dwFlags;
 	int      hIconNotify;

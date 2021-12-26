@@ -187,7 +187,7 @@ HRESULT IniParser::WriteStrToDb(const char * szSection, const char * szName, con
 		break;
 
 	case 'w':
-		db_set_w(0, szSection, szName, (WORD)atoi(szValue + 1));
+		db_set_w(0, szSection, szName, (uint16_t)atoi(szValue + 1));
 		break;
 
 	case 'd':
@@ -2188,9 +2188,9 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	// Step first fill fast calc correction tables:
 	static bool _tables_empty = true;
 	static uint8_t gammaTbl[256];			// Gamma correction table
-	static WORD blueMulTbl[256];		// blue  coefficient multiplication table
-	static WORD greenMulTbl[256];		// green coefficient multiplication table
-	static WORD redMulTbl[256];			// red   coefficient multiplication table
+	static uint16_t blueMulTbl[256];		// blue  coefficient multiplication table
+	static uint16_t greenMulTbl[256];		// green coefficient multiplication table
+	static uint16_t redMulTbl[256];			// red   coefficient multiplication table
 	if (_tables_empty) {
 		// fill tables
 		double gammaCfPw = 1000 / (double)DBGetContactSettingRangedWord(0, "ModernData", "AlphaTextOutGamma", 700, 1, 5000);
@@ -2368,7 +2368,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 						if (ax) {
 							//Normalize components to gray
 							uint8_t axx = 255 - ((r + g + b) >> 2); // Coefficient of grayance, more white font - more gray edges
-							WORD atx = ax * (255 - axx);
+							uint16_t atx = ax * (255 - axx);
 							bx = (atx + bx * axx) / 255;
 							gx = (atx + gx * axx) / 255;
 							rx = (atx + rx * axx) / 255;
@@ -3506,12 +3506,12 @@ static DWORD ske_Blend(DWORD X1, DWORD X2, uint8_t alpha)
 
 	uint8_t a_1 = ~a1;
 	uint8_t a_2 = ~a2;
-	WORD am = (WORD)a1*a_2;
+	uint16_t am = (uint16_t)a1*a_2;
 
 	/*  it is possible to use >>8 instead of /255 but it is require additional
 	*   checking of alphavalues
 	*/
-	WORD ar = a1 + (((WORD)a_1*a2) / 255);
+	uint16_t ar = a1 + (((uint16_t)a_1*a2) / 255);
 	// if a2 more than 0 than result should be more
 	// or equal (if a1 == 0) to a2, else in combination
 	// with mask we can get here black points
@@ -3520,10 +3520,10 @@ static DWORD ske_Blend(DWORD X1, DWORD X2, uint8_t alpha)
 
 	if (ar == 0) return 0;
 
-	WORD arm = ar * 255;
-	WORD rr = (((WORD)r1*am + (WORD)r2*a2 * 255)) / arm;
-	WORD gr = (((WORD)g1*am + (WORD)g2*a2 * 255)) / arm;
-	WORD br = (((WORD)b1*am + (WORD)b2*a2 * 255)) / arm;
+	uint16_t arm = ar * 255;
+	uint16_t rr = (((uint16_t)r1*am + (uint16_t)r2*a2 * 255)) / arm;
+	uint16_t gr = (((uint16_t)g1*am + (uint16_t)g2*a2 * 255)) / arm;
+	uint16_t br = (((uint16_t)b1*am + (uint16_t)b2*a2 * 255)) / arm;
 	return (ar << 24) | (rr << 16) | (gr << 8) | br;
 }
 
@@ -3722,13 +3722,13 @@ uint8_t SkinDBGetContactSettingByte(MCONTACT hContact, const char *szSection, co
 	return bDefault;
 }
 
-WORD SkinDBGetContactSettingWord(MCONTACT hContact, const char *szSection, const char *szKey, WORD wDefault)
+uint16_t SkinDBGetContactSettingWord(MCONTACT hContact, const char *szSection, const char *szKey, uint16_t wDefault)
 {
 	BOOL bSkinned = FALSE;
 	DBVARIANT dbv = { 0 };
 	if (!SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkinned)) {
 		if (dbv.type == DBVT_WORD) {
-			WORD retVal = dbv.wVal;
+			uint16_t retVal = dbv.wVal;
 			db_free(&dbv);
 			return retVal;
 		}

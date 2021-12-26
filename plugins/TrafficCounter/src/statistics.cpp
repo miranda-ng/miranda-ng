@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-WORD Stat_SelAcc; // Выбранные аккаунты в окне статистики
+uint16_t Stat_SelAcc; // Выбранные аккаунты в окне статистики
 
 HWND hListAccs;
 
@@ -415,7 +415,7 @@ void Stat_CheckStatistics(PROTOLIST &p)
 
 		// Последняя запись из статистики понадобится для вычисления новых записей, поэтому копируем её (кроме трафика и времени).
 		memcpy(&htTmp, &p.AllStatistics[p.NumberOfRecords - 1],
-			sizeof(HOURLYSTATS) - 2 * sizeof(DWORD) - sizeof(WORD));
+			sizeof(HOURLYSTATS) - 2 * sizeof(DWORD) - sizeof(uint16_t));
 		// Счётчик времени каждый час должен начинать считать с нуля.
 		p.Total.TimeAtStart = GetTickCount() - stNow.wMilliseconds;
 
@@ -571,7 +571,7 @@ Interval - выбранный интервал;
 ItemNum - номер строки в ListVew;
 SubitemNum - номер колонки, определяет вид информации. */
 
-DWORD Stat_GetItemValue(WORD SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubItemNum)
+DWORD Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubItemNum)
 {
 	DWORD Result = 0;
 	SYSTEMTIME st = { 0 };
@@ -683,7 +683,7 @@ DWORD Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval)
 	return Result;
 }
 
-uint8_t Stat_GetEldestAcc(WORD SelectedAccs)
+uint8_t Stat_GetEldestAcc(uint16_t SelectedAccs)
 {
 	uint8_t Result, i;
 

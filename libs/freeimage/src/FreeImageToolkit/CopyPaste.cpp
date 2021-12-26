@@ -115,11 +115,11 @@ Combine4(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 	// build a swap table for the closest color match from the source palette to the destination palette
 
 	for (int i = 0; i < 16; i++)	{
-		WORD min_diff = (WORD)-1;
+		uint16_t min_diff = (uint16_t)-1;
 
 		for (int j = 0; j < 16; j++)	{
 			// calculates the color difference using a Manhattan distance
-			WORD abs_diff = (WORD)(
+			uint16_t abs_diff = (uint16_t)(
 				abs(src_pal[i].rgbBlue - dst_pal[j].rgbBlue)
 				+ abs(src_pal[i].rgbGreen - dst_pal[j].rgbGreen)
 				+ abs(src_pal[i].rgbRed - dst_pal[j].rgbRed)
@@ -262,8 +262,8 @@ Combine16_555(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsi
 				RGBTRIPLE color_s;
 				RGBTRIPLE color_t;
 				
-				WORD *tmp1 = (WORD *)&dst_bits[cols];
-				WORD *tmp2 = (WORD *)&src_bits[cols];
+				uint16_t *tmp1 = (uint16_t *)&dst_bits[cols];
+				uint16_t *tmp2 = (uint16_t *)&src_bits[cols];
 
 				// convert 16-bit colors to 24-bit
 
@@ -322,8 +322,8 @@ Combine16_565(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsi
 				RGBTRIPLE color_s;
 				RGBTRIPLE color_t;
 				
-				WORD *tmp1 = (WORD *)&dst_bits[cols];
-				WORD *tmp2 = (WORD *)&src_bits[cols];
+				uint16_t *tmp1 = (uint16_t *)&dst_bits[cols];
+				uint16_t *tmp2 = (uint16_t *)&src_bits[cols];
 
 				// convert 16-bit colors to 24-bit
 

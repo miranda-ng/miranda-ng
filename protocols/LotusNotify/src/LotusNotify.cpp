@@ -493,10 +493,10 @@ void ErMsgByLotusCode(STATUS erno)
 	char far error_text_LMBCS[200];
 	char far error_text_UNICODEatCHAR[400];
 	wchar_t far error_text_UNICODE[200];
-    WORD text_len;
+    uint16_t text_len;
 
     text_len = OSLoadString1(NULLHANDLE, erno, error_text_LMBCS, sizeof(error_text_LMBCS)-1);
-	OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, error_text_LMBCS, (WORD)mir_strlen(error_text_LMBCS), error_text_UNICODEatCHAR, sizeof(error_text_UNICODEatCHAR)-1);
+	OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, error_text_LMBCS, (uint16_t)mir_strlen(error_text_LMBCS), error_text_UNICODEatCHAR, sizeof(error_text_UNICODEatCHAR)-1);
 	memcpy(error_text_UNICODE, error_text_UNICODEatCHAR, sizeof(error_text_UNICODE));
 
 	ErMsgW(error_text_UNICODE);
@@ -548,7 +548,7 @@ void checkthread(void*)
 	BOOL		fFirst = TRUE;
 
 	NOTEHANDLE	note_handle;
-	WORD        field_len;
+	uint16_t        field_len;
 	char        field_date[MAXALPHATIMEDATE + 1];
 
 	char        field_lotus_LMBCS[MAX_FIELD];
@@ -601,7 +601,7 @@ void checkthread(void*)
 #endif
 
 	/* Get the unread list */
-	if (error = NSFDbGetUnreadNoteTable1(db_handle, UserName, (WORD)mir_strlen(UserName), TRUE, &hTable)) {
+	if (error = NSFDbGetUnreadNoteTable1(db_handle, UserName, (uint16_t)mir_strlen(UserName), TRUE, &hTable)) {
 		goto errorblock0;
 	}
 #ifdef _DEBUG
@@ -621,13 +621,13 @@ void checkthread(void*)
 
 	while (IDScan1(hTable, fFirst, &noteID)) {
 
-		WORD Att;
+		uint16_t Att;
 		BLOCKID bhAttachment;
 		DWORD cSize = 0;
 		DWORD attSize = 0;
 		OID          retNoteOID;
 		TIMEDATE     retModified;     /* modified timedate      */
-		WORD         retNoteClass;    /* note class             */
+		uint16_t         retNoteClass;    /* note class             */
 		TIMEDATE     sendDate;
 		char strLink[4 * 16];
 
@@ -704,7 +704,7 @@ void checkthread(void*)
 
 		log_p(L"checkthread: got noteInfo, built link: %S", strLink);
 
-		field_len = NSFItemGetText1(note_handle, MAIL_FROM_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = NSFItemGetText1(note_handle, MAIL_FROM_ITEM, field_lotus_LMBCS, (uint16_t)sizeof(field_lotus_LMBCS));
 		OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_from_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(wchar_t));
 		field_from_UNICODE[field_len] = '\0';
@@ -713,17 +713,17 @@ void checkthread(void*)
 		error = ConvertTIMEDATEToText1(nullptr, nullptr, &sendDate, field_date, MAXALPHATIMEDATE, &field_len);
 		field_date[field_len] = '\0';
 
-		field_len = NSFItemGetText1(note_handle, MAIL_SUBJECT_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = NSFItemGetText1(note_handle, MAIL_SUBJECT_ITEM, field_lotus_LMBCS, (uint16_t)sizeof(field_lotus_LMBCS));
 		OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_subject_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(wchar_t));
 		field_subject_UNICODE[field_len] = '\0';
 
-		field_len = NSFItemGetText1(note_handle, MAIL_SENDTO_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = NSFItemGetText1(note_handle, MAIL_SENDTO_ITEM, field_lotus_LMBCS, (uint16_t)sizeof(field_lotus_LMBCS));
 		OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_to_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(wchar_t));
 		field_to_UNICODE[field_len] = '\0';
 
-		field_len = NSFItemGetText1(note_handle, MAIL_COPYTO_ITEM, field_lotus_LMBCS, (WORD)sizeof(field_lotus_LMBCS));
+		field_len = NSFItemGetText1(note_handle, MAIL_COPYTO_ITEM, field_lotus_LMBCS, (uint16_t)sizeof(field_lotus_LMBCS));
 		OSTranslate1(OS_TRANSLATE_LMBCS_TO_UNICODE, field_lotus_LMBCS, field_len, field_lotus_UNICODEatCHAR, sizeof(field_lotus_UNICODEatCHAR));
 		memcpy(field_copy_UNICODE, field_lotus_UNICODEatCHAR, field_len * sizeof(wchar_t));
 		field_copy_UNICODE[field_len] = '\0';
@@ -888,8 +888,8 @@ void fillServersList(HWND hwndDlg)
 {
 	HANDLE    hServerList = NULLHANDLE;
 	uint8_t far *pServerList;            /* Pointer to start of Server List */
-	WORD      wServerCount;           /* Number of servers in list. */
-	WORD far *pwServerLength;         /* Index to array of servername lens */
+	uint16_t      wServerCount;           /* Number of servers in list. */
+	uint16_t far *pwServerLength;         /* Index to array of servername lens */
 	uint8_t far *pServerName;
 	STATUS    error = NOERROR;        /* Error return from API routines. */
 	char      ServerString[MAXPATH];  /* String to hold server names.   */
@@ -903,11 +903,11 @@ void fillServersList(HWND hwndDlg)
 	if (error == NOERROR) {
 
 		pServerList = (uint8_t far *) OSLockObject1(hServerList);
-		wServerCount = (WORD)*pServerList;
+		wServerCount = (uint16_t)*pServerList;
 
-		pwServerLength = (WORD *)(pServerList + sizeof(WORD));
+		pwServerLength = (uint16_t *)(pServerList + sizeof(uint16_t));
 
-		pServerName = (uint8_t far *) pServerList + sizeof(wServerCount) + ((wServerCount)* sizeof(WORD));
+		pServerName = (uint8_t far *) pServerList + sizeof(wServerCount) + ((wServerCount)* sizeof(uint16_t));
 
 		for (USHORT i = 0; i < wServerCount; pServerName += pwServerLength[i], i++) {
 			memmove(szServerString, pServerName, pwServerLength[i]);

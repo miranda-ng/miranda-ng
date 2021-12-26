@@ -528,7 +528,7 @@ int CExImContactXML::LoadXmlElement(const TiXmlElement *xContact)
 					uid((uint8_t)atoi(pUID));
 					break;
 				case 'w':
-					uid((WORD)atoi(pUID));
+					uid((uint16_t)atoi(pUID));
 					break;
 				case 'd':
 					uid((DWORD)_atoi64(pUID));
@@ -850,7 +850,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, const TiXmlElement *xmlEntr
 		break;
 	case 'w':			//'w' wVal and sVal are valid
 		dbv.type = DBVT_WORD;
-		dbv.wVal = (WORD)atoi(value + 1);
+		dbv.wVal = (uint16_t)atoi(value + 1);
 		break;
 	case 'd':			//'d' dVal and lVal are valid
 		dbv.type = DBVT_DWORD;
@@ -868,7 +868,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, const TiXmlElement *xmlEntr
 		dbv.type = DBVT_BLOB;
 		dbv.pbVal = (uint8_t*)mir_base64_decode(value + 1, &baselen);
 		if (dbv.pbVal != nullptr)
-			dbv.cpbVal = (WORD)baselen;
+			dbv.cpbVal = (uint16_t)baselen;
 		else {
 			mir_free(dbv.pbVal);
 			return ERROR_NOT_ADDED;
@@ -928,7 +928,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent)
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;
-		dbei.cbBlob = (WORD)baselen;
+		dbei.cbBlob = (uint16_t)baselen;
 		dbei.szModule = (LPSTR)pszModule;
 		dbei.eventType = xmlEvent->IntAttribute("type");
 		dbei.flags = xmlEvent->IntAttribute("flag");

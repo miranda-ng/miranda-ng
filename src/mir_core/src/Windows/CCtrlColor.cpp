@@ -29,7 +29,7 @@ CCtrlColor::CCtrlColor(CDlgBase *dlg, int ctrlId) :
 	CCtrlData(dlg, ctrlId)
 {}
 
-BOOL CCtrlColor::OnCommand(HWND, WORD, WORD)
+BOOL CCtrlColor::OnCommand(HWND, uint16_t, uint16_t)
 {
 	NotifyChange();
 	return TRUE;

@@ -118,7 +118,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	char     m_mySpecifiedHost[500];
 	char     m_mySpecifiedHostIP[50];
 	char     m_myLocalHost[50];
-	WORD     m_myLocalPort;
+	uint16_t     m_myLocalPort;
 	wchar_t *m_alias;
 	int      m_quickComboSelection;
 	int      m_onlineNotificationTime;
@@ -146,7 +146,7 @@ struct CIrcProto : public PROTO<CIrcProto>
 	uint8_t     m_DCCChatIgnore;
 	uint8_t     m_DCCPassive;
 	uint8_t     m_DCCMode;
-	WORD     m_DCCPacketSize;
+	uint16_t     m_DCCPacketSize;
 	uint8_t     m_manualHost;
 	uint8_t     m_oldStyleModes;
 	uint8_t     m_channelAwayNotification;

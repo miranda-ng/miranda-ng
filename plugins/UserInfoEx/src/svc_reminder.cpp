@@ -34,17 +34,17 @@ struct CEvent
 	enum EType { NONE, BIRTHDAY, ANNIVERSARY };
 
 	EType	_eType;
-	WORD	_wDaysLeft;
+	uint16_t	_wDaysLeft;
 
 	CEvent();
-	CEvent(EType eType, WORD wDaysLeft);
+	CEvent(EType eType, uint16_t wDaysLeft);
 
 	uint8_t operator << (const CEvent& e);
 };
 
 typedef struct _REMINDEROPTIONS
 {
-	WORD	wDaysEarlier;
+	uint16_t	wDaysEarlier;
 	uint8_t	bPopups;
 	uint8_t	bCListExtraIcon;
 	uint8_t	bFlashCList;
@@ -98,7 +98,7 @@ CEvent::CEvent()
 * @return	nothing
 **/
 
-CEvent::CEvent(EType eType, WORD wDaysLeft)
+CEvent::CEvent(EType eType, uint16_t wDaysLeft)
 {
 	_wDaysLeft = wDaysLeft;
 	_eType = eType;
@@ -369,8 +369,8 @@ static uint8_t CheckAnniversaries(MCONTACT hContact, MTime &Now, CEvent &evt, ui
 			mta.DBGetReminderOpts(hContact);
 
 			if (mta.RemindOption() != BST_UNCHECKED) {
-				WORD wDaysEarlier = (mta.RemindOption() == BST_CHECKED) ? mta.RemindOffset() : -1;
-				if (wDaysEarlier == (WORD)-1)
+				uint16_t wDaysEarlier = (mta.RemindOption() == BST_CHECKED) ? mta.RemindOffset() : -1;
+				if (wDaysEarlier == (uint16_t)-1)
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 
 				Diff = mta.CompareDays(Now);
@@ -454,8 +454,8 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, uint8_t bN
 				mtb.BackupBirthday(hContact, nullptr, 0, LastAnwer);
 
 			if (mtb.RemindOption() != BST_UNCHECKED) {
-				WORD wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
-				if (wDaysEarlier == (WORD)-1)
+				uint16_t wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
+				if (wDaysEarlier == (uint16_t)-1)
 					wDaysEarlier = gRemindOpts.wDaysEarlier;
 
 				Diff = mtb.CompareDays(Now);
@@ -467,7 +467,7 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, uint8_t bN
 
 					if (bNotify) {
 						wchar_t szMsg[MAXDATASIZE];
-						WORD cchMsg = 0;
+						uint16_t cchMsg = 0;
 
 						switch (Diff) {
 						case 0:
@@ -553,7 +553,7 @@ void SvcReminderCheckAll(const ENotify notify)
 
 	// walk through all the contacts stored in the DB
 	CEvent evt;
-	WORD a1 = 0;
+	uint16_t a1 = 0;
 	for (auto &hContact : Contacts())
 		CheckContact(hContact, now, evt, notify != NOTIFY_CLIST, &a1);
 
@@ -646,7 +646,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 		MTime now;
 		now.GetLocalTime();
 		if (!mir_strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule())) {
-			WORD LastAnswer = IDNONE;
+			uint16_t LastAnswer = IDNONE;
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
 		}
 		else CheckContact(hContact, now, evt, FALSE, nullptr);
@@ -692,7 +692,7 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 			mdb.BackupBirthday(hContact, nullptr, TRUE);
 	}
 	else {
-		WORD a1 = 0;
+		uint16_t a1 = 0;
 
 		// walk through all the contacts stored in the DB
 		for (auto &cc : Contacts())

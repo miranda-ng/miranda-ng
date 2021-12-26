@@ -34,7 +34,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 
 	int newStatus = cws->value.wVal;
 	int oldStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
-	g_plugin.setWord(hContact, "OldStatus", (WORD)newStatus);
+	g_plugin.setWord(hContact, "OldStatus", (uint16_t)newStatus);
 	if (Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE)) return 0;
 	if (Contact_IsHidden(hContact)) return 0;
 	if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {

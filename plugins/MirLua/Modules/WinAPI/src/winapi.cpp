@@ -15,7 +15,7 @@ static HWND luaM_checkhwnd(lua_State *L, int idx)
 
 /***********************************************/
 
-EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, WORD wLanguageId, DWORD dwMilliseconds);
+EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, uint16_t wLanguageId, DWORD dwMilliseconds);
 
 #define MB_TIMEDOUT 32000
 
@@ -815,7 +815,7 @@ static int global_CreateProcess(lua_State *L)
 				si.dwFlags = (DWORD)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "wShowWindow")) {
-				si.wShowWindow = (WORD)luaL_checknumber(L, -1);
+				si.wShowWindow = (uint16_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "hStdInput")) {
 				long h = (long)luaL_checknumber(L, -1);

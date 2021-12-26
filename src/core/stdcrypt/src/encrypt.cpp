@@ -148,7 +148,7 @@ uint8_t* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResult
 		return nullptr;
 
 	uint8_t *tmpBuf = (uint8_t*)_alloca(cbLen + 2);
-	*(PWORD)tmpBuf = (WORD)cbLen;
+	*(PWORD)tmpBuf = (uint16_t)cbLen;
 	memcpy(tmpBuf + 2, src, cbLen);
 	cbLen += 2;
 	size_t rest = cbLen % BLOCK_SIZE;
@@ -199,7 +199,7 @@ void* CStdCrypt::decodeBuffer(const uint8_t *pBuf, size_t bufLen, size_t *cbResu
 	}
 
 	result[bufLen] = 0;
-	WORD cbLen = *(PWORD)result;
+	uint16_t cbLen = *(PWORD)result;
 	if (cbLen > bufLen) {
 		mir_free(result);
 		return nullptr;

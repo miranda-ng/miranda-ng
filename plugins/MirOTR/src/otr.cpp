@@ -122,7 +122,7 @@ extern "C" {
 		DEBUGOUTA("OTR_GUI_IS_LOGGED_IN\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
 		if (hContact) {
-			WORD status = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "Status", ID_STATUS_OFFLINE);
+			uint16_t status = db_get_w(hContact, Proto_GetBaseAccountName(hContact), "Status", ID_STATUS_OFFLINE);
 			if (status == ID_STATUS_OFFLINE) return 0;
 			else return 1;
 		}

@@ -279,8 +279,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		{
 			HWND hwndCtrl = (HWND)lParam;
-			WORD idCtrl = LOWORD(wParam);
-			WORD idCode = HIWORD(wParam);
+			uint16_t idCtrl = LOWORD(wParam);
+			uint16_t idCode = HIWORD(wParam);
 			if (CCtrlBase *ctrl = FindControl(idCtrl)) {
 				BOOL result = ctrl->OnCommand(hwndCtrl, idCtrl, idCode);
 				if (result != FALSE)

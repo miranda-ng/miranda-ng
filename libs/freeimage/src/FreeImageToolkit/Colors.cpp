@@ -109,10 +109,10 @@ FreeImage_Invert(FIBITMAP *src) {
 	}
 	else if((image_type == FIT_UINT16) || (image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
 		// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-		const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(WORD);
+		const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(uint16_t);
 
 		for(y = 0; y < height; y++) {
-			WORD *bits = (WORD*)FreeImage_GetScanLine(src, y);
+			uint16_t *bits = (uint16_t*)FreeImage_GetScanLine(src, y);
 			for(x = 0; x < width; x++) {
 				for(k = 0; k < wordspp; k++) {
 					bits[k] = ~bits[k];
@@ -704,12 +704,12 @@ FreeImage_ApplyColorMapping(FIBITMAP *dib, RGBQUAD *srccolors, RGBQUAD *dstcolor
 			return result;
 		}
 		case 16: {
-			WORD *src16 = (WORD *)malloc(sizeof(WORD) * count);
+			uint16_t *src16 = (uint16_t *)malloc(sizeof(uint16_t) * count);
 			if (NULL == src16) {
 				return 0;
 			}
 
-			WORD *dst16 = (WORD *)malloc(sizeof(WORD) * count);
+			uint16_t *dst16 = (uint16_t *)malloc(sizeof(uint16_t) * count);
 			if (NULL == dst16) {
 				free(src16);
 				return 0;
@@ -722,9 +722,9 @@ FreeImage_ApplyColorMapping(FIBITMAP *dib, RGBQUAD *srccolors, RGBQUAD *dstcolor
 
 			unsigned height = FreeImage_GetHeight(dib);
 			unsigned width = FreeImage_GetWidth(dib);
-			WORD *a, *b;
+			uint16_t *a, *b;
 			for (unsigned y = 0; y < height; y++) {
-				WORD *bits = (WORD *)FreeImage_GetScanLine(dib, y);
+				uint16_t *bits = (uint16_t *)FreeImage_GetScanLine(dib, y);
 				for (unsigned x = 0; x < width; x++, bits++) {
 					for (unsigned j = 0; j < count; j++) {
 						a = src16;

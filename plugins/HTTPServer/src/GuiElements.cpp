@@ -927,16 +927,16 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 		HWND hShareList = GetDlgItem(hwndDlg, IDC_CURRENT_SHARES);
 		HWND hUserList = GetDlgItem(hwndDlg, IDC_CURRENT_USERS);
 
-		g_plugin.setWord("StatWnd_cx1", (WORD)ListView_GetColumnWidth(hShareList, 0));
-		g_plugin.setWord("StatWnd_cx2", (WORD)ListView_GetColumnWidth(hShareList, 1));
-		g_plugin.setWord("StatWnd_cx3", (WORD)ListView_GetColumnWidth(hShareList, 2));
-		g_plugin.setWord("StatWnd_cx4", (WORD)ListView_GetColumnWidth(hShareList, 3));
-		g_plugin.setWord("StatWnd_cx5", (WORD)ListView_GetColumnWidth(hShareList, 4));
-		g_plugin.setWord("StatWnd_cx6", (WORD)ListView_GetColumnWidth(hUserList, 0));
-		g_plugin.setWord("StatWnd_cx7", (WORD)ListView_GetColumnWidth(hUserList, 1));
-		g_plugin.setWord("StatWnd_cx8", (WORD)ListView_GetColumnWidth(hUserList, 2));
-		g_plugin.setWord("StatWnd_cx9", (WORD)ListView_GetColumnWidth(hUserList, 3));
-		g_plugin.setWord("StatWnd_cx10", (WORD)ListView_GetColumnWidth(hUserList, 4));
+		g_plugin.setWord("StatWnd_cx1", (uint16_t)ListView_GetColumnWidth(hShareList, 0));
+		g_plugin.setWord("StatWnd_cx2", (uint16_t)ListView_GetColumnWidth(hShareList, 1));
+		g_plugin.setWord("StatWnd_cx3", (uint16_t)ListView_GetColumnWidth(hShareList, 2));
+		g_plugin.setWord("StatWnd_cx4", (uint16_t)ListView_GetColumnWidth(hShareList, 3));
+		g_plugin.setWord("StatWnd_cx5", (uint16_t)ListView_GetColumnWidth(hShareList, 4));
+		g_plugin.setWord("StatWnd_cx6", (uint16_t)ListView_GetColumnWidth(hUserList, 0));
+		g_plugin.setWord("StatWnd_cx7", (uint16_t)ListView_GetColumnWidth(hUserList, 1));
+		g_plugin.setWord("StatWnd_cx8", (uint16_t)ListView_GetColumnWidth(hUserList, 2));
+		g_plugin.setWord("StatWnd_cx9", (uint16_t)ListView_GetColumnWidth(hUserList, 3));
+		g_plugin.setWord("StatWnd_cx10", (uint16_t)ListView_GetColumnWidth(hUserList, 4));
 
 		bool b = IsDlgButtonChecked(hwndDlg, IDC_SHOWHIDDENSHARES) == BST_CHECKED;
 		g_plugin.setByte("StatWnd_ShowHidden", b);

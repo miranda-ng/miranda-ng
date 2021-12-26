@@ -347,7 +347,7 @@ public:
 
 			char setting[512];
 			mir_snprintf(setting, "%d_count", k);
-			db_set_w(0, EI_MODULE_NAME "Groups", setting, (WORD)group->m_items.getCount());
+			db_set_w(0, EI_MODULE_NAME "Groups", setting, (uint16_t)group->m_items.getCount());
 
 			for (int j = 0; j < group->m_items.getCount(); j++) {
 				BaseExtraIcon *extra = group->m_items[j];

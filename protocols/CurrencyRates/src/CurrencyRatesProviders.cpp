@@ -23,7 +23,7 @@ void ClearProviders()
 
 void convert_contact_settings(MCONTACT hContact)
 {
-	WORD dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled));
+	uint16_t dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<uint16_t>(lmDisabled));
 	if ((dwLogMode&lmInternalHistory) || (dwLogMode&lmExternalFile))
 		g_plugin.setByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 1);
 }
@@ -32,8 +32,8 @@ void InitProviders()
 {
 	CreateProviders();
 
-	const WORD nCurrentVersion = 17;
-	WORD nVersion = g_plugin.getWord(LAST_RUN_VERSION, 1);
+	const uint16_t nCurrentVersion = 17;
+	uint16_t nVersion = g_plugin.getWord(LAST_RUN_VERSION, 1);
 
 	for (auto &hContact : Contacts(MODULENAME)) {
 		ICurrencyRatesProvider *pProvider = GetContactProviderPtr(hContact);

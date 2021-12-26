@@ -343,11 +343,11 @@ public:
 		db_set_b(hContact, m_szModuleName, name, value);
 	}
 
-	__forceinline void setWord(const char *name, WORD value)
+	__forceinline void setWord(const char *name, uint16_t value)
 	{
 		db_set_w(0, m_szModuleName, name, value);
 	}
-	__forceinline void setWord(MCONTACT hContact, const char *name, WORD value)
+	__forceinline void setWord(MCONTACT hContact, const char *name, uint16_t value)
 	{
 		db_set_w(hContact, m_szModuleName, name, value);
 	}

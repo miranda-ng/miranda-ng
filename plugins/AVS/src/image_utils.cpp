@@ -270,7 +270,7 @@ DWORD GetImgHash(HBITMAP hBitmap)
 	GetObject(hBitmap, sizeof(bmp), &bmp);
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	WORD *p = (WORD *)malloc(dwLen);
+	uint16_t *p = (uint16_t *)malloc(dwLen);
 	if (p == nullptr)
 		return 0;
 	memset(p, 0, dwLen);

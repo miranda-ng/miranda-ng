@@ -503,7 +503,7 @@ bool CMainDlg::EditLabelWndProc(HWND hwnd, UINT uMsg, WPARAM wParam)
 					case 'W':
 						val = wcstoul(&value[1], nullptr, 0);
 						if (!val || value[1] == '0')
-							res = !db_set_w(m_hContact, m_module, m_setting, (WORD)val);
+							res = !db_set_w(m_hContact, m_module, m_setting, (uint16_t)val);
 						else
 							res = setTextValue(m_hContact, m_module, m_setting, value, dbv.type);
 						break;

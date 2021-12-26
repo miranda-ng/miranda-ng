@@ -1390,7 +1390,7 @@ void CSkin::Load(void)
 			db_set_dw(0, SRMSGMOD_T, _tagSettings[i].szSetting, data);
 			break;
 		case 2:
-			db_set_w(0, SRMSGMOD_T, _tagSettings[i].szSetting, (WORD)data);
+			db_set_w(0, SRMSGMOD_T, _tagSettings[i].szSetting, (uint16_t)data);
 			break;
 		case 5:
 			GetPrivateProfileString(_tagSettings[i].szIniKey, _tagSettings[i].szIniName, L"000000",

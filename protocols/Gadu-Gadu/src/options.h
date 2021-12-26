@@ -13,8 +13,8 @@ struct GaduOptions
 	CMOption<uint8_t> useMsgDeliveryAcknowledge;
 	CMOption<uint8_t> useSslConnection;
 
-	CMOption<WORD> directConnectionPort;
-	CMOption<WORD> forwardPort;
+	CMOption<uint16_t> directConnectionPort;
+	CMOption<uint16_t> forwardPort;
 
 	CMOption<wchar_t*> forwardHost;
 	CMOption<wchar_t*> serverHosts;

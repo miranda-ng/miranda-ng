@@ -509,8 +509,8 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 	if (Proto_GetStatus(c->getProto()) == ID_STATUS_OFFLINE || db_get_b(hContact, c->getProto(), "ChatRoom", 0))
 		return;
 
-	WORD wStatus = LOWORD(wParam);
-	WORD wOldStatus = HIWORD(wParam);
+	uint16_t wStatus = LOWORD(wParam);
+	uint16_t wOldStatus = HIWORD(wParam);
 	if (wStatus == wOldStatus)
 		return;
 

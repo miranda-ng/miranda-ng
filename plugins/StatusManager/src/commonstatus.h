@@ -103,7 +103,7 @@ struct SMProto : public PROTOCOLSETTINGEX, public MZeroedObject
 	int  awayTime; // db: time to wait for inactivity
 	int  naTime; // db: time to wait after away is set
 	int  statusFlags; // db: set lv1 status if this is original status
-	WORD lv1Status, lv2Status; // db: statuses to switch protocol to
+	uint16_t lv1Status, lv2Status; // db: statuses to switch protocol to
 	unsigned int sts1setTimer;
 
 	// KeepStatus

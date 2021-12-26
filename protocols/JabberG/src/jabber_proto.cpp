@@ -989,7 +989,7 @@ int CJabberProto::SetApparentMode(MCONTACT hContact, int mode)
 	if (mode == oldMode)
 		return 1;
 
-	setWord(hContact, "ApparentMode", (WORD)mode);
+	setWord(hContact, "ApparentMode", (uint16_t)mode);
 	if (!m_bJabberOnline)
 		return 0;
 

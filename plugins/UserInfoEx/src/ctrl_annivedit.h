@@ -36,10 +36,10 @@ class CAnnivEditCtrl : public CBaseCtrl
 	uint8_t	_ReminderEnabled;
 
 	MAnnivDate** _pDates;
-	WORD	_numDates;
-	WORD	_curDate;
+	uint16_t	_numDates;
+	uint16_t	_curDate;
 
-	uint8_t ItemValid(WORD wIndex) const;
+	uint8_t ItemValid(uint16_t wIndex) const;
 	uint8_t CurrentItemValid() const;
 
 	INT_PTR DBGetBirthDay(MCONTACT hContact, LPCSTR pszProto);
@@ -48,25 +48,25 @@ class CAnnivEditCtrl : public CBaseCtrl
 	INT_PTR DBGetAnniversaries(MCONTACT hContact);
 	INT_PTR DBWriteAnniversaries(MCONTACT hContact);
 
-	CAnnivEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
+	CAnnivEditCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
 	~CAnnivEditCtrl();
 
 public:
 
 	MAnnivDate* Current() { return CurrentItemValid() ? _pDates[_curDate] : nullptr; };
-	WORD				CurrentIndex() const { return _curDate; };
-	WORD				NumDates() const { return _numDates; };
+	uint16_t				CurrentIndex() const { return _curDate; };
+	uint16_t				NumDates() const { return _numDates; };
 	uint8_t		 ReminderEnabled() const { return _ReminderEnabled; };
 
-	MAnnivDate* FindDateById(const WORD wId);
+	MAnnivDate* FindDateById(const uint16_t wId);
 
 	void				EnableCurrentItem();
 	void				EnableReminderCtrl(uint8_t bEnabled);
 
-	INT_PTR		 SetCurSel(WORD wIndex);
+	INT_PTR		 SetCurSel(uint16_t wIndex);
 
 	INT_PTR		 AddDate(MAnnivDate &mda);
-	INT_PTR		 DeleteDate(WORD wIndex);
+	INT_PTR		 DeleteDate(uint16_t wIndex);
 
 	void				SetZodiacAndAge(MAnnivDate *mt);
 
@@ -81,10 +81,10 @@ public:
 	 **/
 	static FORCEINLINE CAnnivEditCtrl* GetObj(HWND hCtrl) 
 		{ return (CAnnivEditCtrl*) GetUserData(hCtrl); }
-	static FORCEINLINE CAnnivEditCtrl* GetObj(HWND hDlg, WORD idCtrl)
+	static FORCEINLINE CAnnivEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
+	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
 
 	virtual void	Release();
 	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);

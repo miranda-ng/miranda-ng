@@ -41,7 +41,7 @@ struct LANGPACK_INFO
 {
 	wchar_t tszLanguage[64];
 	LCID Locale;
-	WORD codepage;
+	uint16_t codepage;
 	CMStringA szAuthors, szLastModifiedUsing;
 	FILETIME ftFileDate;
 	wchar_t tszFileName[MAX_PATH]; /* just the file name itself */

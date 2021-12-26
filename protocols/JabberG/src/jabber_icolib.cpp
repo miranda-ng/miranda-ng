@@ -340,7 +340,7 @@ INT_PTR __cdecl CJabberProto::OnGetAdvancedStatusIcon(WPARAM hContact, LPARAM)
 		if (iID < 0)
 			return -1;
 
-		WORD Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+		uint16_t Status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (Status < ID_STATUS_OFFLINE)
 			Status = ID_STATUS_OFFLINE;
 		else if (Status > ID_STATUS_INVISIBLE)

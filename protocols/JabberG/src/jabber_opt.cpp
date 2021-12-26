@@ -550,11 +550,11 @@ private:
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
-			regInfo.port = (WORD)m_txtManualPort.GetInt();
+			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
 		else {
-			regInfo.port = (WORD)m_txtPort.GetInt();
+			regInfo.port = (uint16_t)m_txtPort.GetInt();
 			regInfo.manualHost[0] = '\0';
 		}
 
@@ -669,11 +669,11 @@ private:
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
-			regInfo.port = (WORD)m_txtManualPort.GetInt();
+			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
 		else {
-			regInfo.port = (WORD)m_txtPort.GetInt();
+			regInfo.port = (uint16_t)m_txtPort.GetInt();
 			regInfo.manualHost[0] = '\0';
 		}
 
@@ -830,7 +830,7 @@ public:
 					if (hContact != 0) {
 						if (bChecked) {
 							if (item->getTemp()->m_iStatus != m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE)) {
-								m_proto->setWord(hContact, "Status", (WORD)item->getTemp()->m_iStatus);
+								m_proto->setWord(hContact, "Status", (uint16_t)item->getTemp()->m_iStatus);
 							}
 						}
 						else if (m_proto->getWord(hContact, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
@@ -1251,7 +1251,7 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		regInfo.port = (WORD)m_txtPort.GetInt();
+		regInfo.port = (uint16_t)m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		else

@@ -51,7 +51,7 @@ struct JabberPasswordDlgParam
 	CJabberProto *pro;
 
 	BOOL    saveOnlinePassword;
-	WORD    dlgResult;
+	uint16_t    dlgResult;
 	wchar_t onlinePassword[128];
 	HANDLE  hEventPasswdDlg;
 	char   *pszJid;
@@ -188,7 +188,7 @@ void ThreadData::xmpp_client_query(void)
 				dnsList.insert(&rec->Data.Srv);
 
 		for (auto &it : dnsList) {
-			WORD dnsPort = (conn.port == 0 || conn.port == 5222) ? it->wPort : conn.port;
+			uint16_t dnsPort = (conn.port == 0 || conn.port == 5222) ? it->wPort : conn.port;
 			char* dnsHost = it->pNameTarget;
 
 			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", conn.server, dnsHost, dnsPort);
@@ -1514,7 +1514,7 @@ void CJabberProto::UpdateJidDbSettings(const char *jid)
 
 	if (strchr(jid, '@') != nullptr || m_bShowTransport == TRUE)
 		if (getWord(hContact, "Status", ID_STATUS_OFFLINE) != status)
-			setWord(hContact, "Status", (WORD)status);
+			setWord(hContact, "Status", (uint16_t)status);
 
 	// remove x-status icon
 	if (status == ID_STATUS_OFFLINE) {

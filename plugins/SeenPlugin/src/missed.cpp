@@ -132,7 +132,7 @@ int Test(WPARAM wparam, LPARAM lparam)
 	switch (lparam) {
 	case ICON_OFFLINE:
 		if (g_plugin.getByte((MCONTACT)wparam, "Missed", 0) == 1) {
-			WORD missed = IsUserMissed(wparam);
+			uint16_t missed = IsUserMissed(wparam);
 			if (!LOWORD(missed)) {
 				mcs.times[mcs.count] = 1;
 				mcs.wpcontact[mcs.count++] = wparam;

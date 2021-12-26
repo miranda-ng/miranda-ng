@@ -79,7 +79,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint8_t> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
 	CMOption<uint8_t> bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist, bShowTypingSwitch;
 	CMOption<uint8_t> iFlashCount, iHistoryMode;
-	CMOption<WORD> iLimitNames, iLimitTabs, iLimitChatTabs, iLoadCount, iLoadTime, iIndentSize, iAutoResizeLines;
+	CMOption<uint16_t> iLimitNames, iLimitTabs, iLimitChatTabs, iLoadCount, iLoadTime, iIndentSize, iAutoResizeLines;
 	CMOption<DWORD> iPopFlags, iMsgTimeout, iActiveAlpha, iInactiveAlpha;
 
 	CMPlugin();

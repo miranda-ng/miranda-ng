@@ -288,11 +288,11 @@ AssignPixel(uint8_t* dst, const uint8_t* src, unsigned bytesperpixel) {
 			break;
 
 		case 2: // FIT_UINT16 / FIT_INT16 / 16-bit
-			*(reinterpret_cast<WORD*>(dst)) = *(reinterpret_cast<const WORD*> (src));
+			*(reinterpret_cast<uint16_t*>(dst)) = *(reinterpret_cast<const uint16_t*> (src));
 			break;
 
 		case 3: // FIT_BITMAP (24-bit)
-			*(reinterpret_cast<WORD*>(dst)) = *(reinterpret_cast<const WORD*> (src));
+			*(reinterpret_cast<uint16_t*>(dst)) = *(reinterpret_cast<const uint16_t*> (src));
 			dst[2] = src[2];
 			break;
 
@@ -302,7 +302,7 @@ AssignPixel(uint8_t* dst, const uint8_t* src, unsigned bytesperpixel) {
 
 		case 6: // FIT_RGB16 (3 x 16-bit)
 			*(reinterpret_cast<DWORD*>(dst)) = *(reinterpret_cast<const DWORD*> (src));
-			*(reinterpret_cast<WORD*>(dst + 4)) = *(reinterpret_cast<const WORD*> (src + 4));	
+			*(reinterpret_cast<uint16_t*>(dst + 4)) = *(reinterpret_cast<const uint16_t*> (src + 4));	
 			break;
 
 		// the rest can be speeded up with int64
@@ -370,20 +370,20 @@ void RotateExif(FIBITMAP **dib);
 //   Big Endian / Little Endian utility functions
 // ==========================================================
 
-inline WORD 
-__SwapUInt16(WORD arg) { 
+inline uint16_t 
+__SwapUInt16(uint16_t arg) { 
 #if defined(_MSC_VER) && _MSC_VER >= 1310 
 	return _byteswap_ushort(arg); 
 #elif defined(__i386__) && defined(__GNUC__) 
 	__asm__("xchgb %b0, %h0" : "+q" (arg)); 
 	return arg; 
 #elif defined(__ppc__) && defined(__GNUC__) 
-	WORD result; 
+	uint16_t result; 
 	__asm__("lhbrx %0,0,%1" : "=r" (result) : "r" (&arg), "m" (arg)); 
 	return result; 
 #else 
 	// swap bytes 
-	WORD result;
+	uint16_t result;
 	result = ((arg << 8) & 0xFF00) | ((arg >> 8) & 0x00FF); 
 	return result; 
 #endif 
@@ -409,7 +409,7 @@ __SwapUInt32(DWORD arg) {
 } 
 
 inline void
-SwapShort(WORD *sp) {
+SwapShort(uint16_t *sp) {
 	*sp = __SwapUInt16(*sp);
 }
 
@@ -452,10 +452,10 @@ A Standard Default Color Space for the Internet - sRGB.
 
 #define GREY(r, g, b) (uint8_t)(LUMA_REC709(r, g, b) + 0.5F)
 /*
-#define GREY(r, g, b) (uint8_t)(((WORD)r * 77 + (WORD)g * 150 + (WORD)b * 29) >> 8)	// .299R + .587G + .114B
+#define GREY(r, g, b) (uint8_t)(((uint16_t)r * 77 + (uint16_t)g * 150 + (uint16_t)b * 29) >> 8)	// .299R + .587G + .114B
 */
 /*
-#define GREY(r, g, b) (uint8_t)(((WORD)r * 169 + (WORD)g * 256 + (WORD)b * 87) >> 9)	// .33R + 0.5G + .17B
+#define GREY(r, g, b) (uint8_t)(((uint16_t)r * 169 + (uint16_t)g * 256 + (uint16_t)b * 87) >> 9)	// .33R + 0.5G + .17B
 */
 
 /**
@@ -474,7 +474,7 @@ Returns TRUE if the format of a dib is RGB565
 #define IS_FORMAT_RGB565(dib) ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK))
 
 /**
-Convert a RGB565 or RGB555 RGBQUAD pixel to a WORD
+Convert a RGB565 or RGB555 RGBQUAD pixel to a uint16_t
 */
 #define RGBQUAD_TO_WORD(dib, color) (IS_FORMAT_RGB565(dib) ? RGB565((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed) : RGB555((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed))
 

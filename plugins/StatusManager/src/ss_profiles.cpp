@@ -216,7 +216,7 @@ INT_PTR LoadAndSetProfile(WPARAM iProfileNo, LPARAM)
 	return 0;
 }
 
-static UINT GetFsModifiers(WORD wHotKey)
+static UINT GetFsModifiers(uint16_t wHotKey)
 {
 	UINT fsm = 0;
 	if (HIBYTE(wHotKey)&HOTKEYF_ALT)
@@ -269,7 +269,7 @@ int RegisterHotKeys()
 		if (!SSPlugin.getByte(OptName(i, SETTING_REGHOTKEY), 0))
 			continue;
 
-		WORD wHotKey = SSPlugin.getWord(OptName(i, SETTING_HOTKEY), 0);
+		uint16_t wHotKey = SSPlugin.getWord(OptName(i, SETTING_HOTKEY), 0);
 		hkInfo = (HKINFO*)mir_realloc(hkInfo, (hkiCount + 1)*sizeof(HKINFO));
 		if (hkInfo == nullptr)
 			return -1;

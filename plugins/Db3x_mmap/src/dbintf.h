@@ -150,7 +150,7 @@ struct DBEvent_094         // previous event storage format
 	// the owner of this event
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
-	WORD  wEventType;       // module-defined event type
+	uint16_t  wEventType;       // module-defined event type
 	DWORD cbBlob;           // number of bytes in the blob
 	uint8_t  blob[1];          // the blob. module-defined formatting
 };
@@ -165,7 +165,7 @@ struct DBEvent
 	// the owner of this event
 	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
 	DWORD flags;            // see m_database.h, db/event/add
-	WORD  wEventType;       // module-defined event type
+	uint16_t  wEventType;       // module-defined event type
 	DWORD cbBlob;           // number of bytes in the blob
 	uint8_t  blob[1];          // the blob. module-defined formatting
 

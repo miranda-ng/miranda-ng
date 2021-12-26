@@ -46,8 +46,8 @@ wchar_t *TRAFFIC_COUNTER_WINDOW_CLASS = L"TrafficCounterWnd";
 //TRAFFIC COUNTER
 /*-------------------------------------------------------------------------------------------------------------------*/
 
-WORD notify_send_size = 0;
-WORD notify_recv_size = 0;
+uint16_t notify_send_size = 0;
+uint16_t notify_recv_size = 0;
 //
 // Цвет шрифта и фона
 COLORREF Traffic_BkColor, Traffic_FontColor;
@@ -474,7 +474,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 		// Если есть Variables - рисуем по-новому
 		//-------------
 		RowItemInfo *ItemsList;
-		WORD ItemsNumber, RowsNumber;
+		uint16_t ItemsNumber, RowsNumber;
 
 		// Готовим список строк для Variables и иконок.
 		wchar_t **ExtraText = (wchar_t**)mir_alloc(sizeof(wchar_t*));

@@ -38,7 +38,7 @@ MEVENT CSkypeProto::GetMessageFromDb(const char *messageId)
 	return db_event_getById(m_szModuleName, messageId);
 }
 
-MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId)
+MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId)
 {
 	if (MEVENT hDbEvent = GetMessageFromDb(msgId))
 		return hDbEvent;

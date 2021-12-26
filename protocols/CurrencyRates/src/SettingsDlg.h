@@ -38,8 +38,8 @@ public:
 	EDelayMode GetDelayMode() const;
 	void SetDelayMode(EDelayMode nMode);
 
-	WORD GetDelayTimeout() const;
-	void SetDelayTimeout(WORD delay);
+	uint16_t GetDelayTimeout() const;
+	void SetDelayTimeout(uint16_t delay);
 
 	bool GetHistoryFlag() const;
 	void SetHistoryFlag(bool flag);
@@ -49,7 +49,7 @@ private:
 	EDelayMode m_modeDelay;
 	COLORREF m_rgbBkg;
 	COLORREF m_rgbText;
-	WORD m_wDelay;
+	uint16_t m_wDelay;
 	bool m_bUseHistory;
 };
 
@@ -57,7 +57,7 @@ private:
 class CAdvProviderSettings
 {
 	const ICurrencyRatesProvider *m_pCurrencyRatesProvider;
-	WORD m_wLogMode;
+	uint16_t m_wLogMode;
 	bool m_bIsOnlyChangedHistory;
 	bool m_bIsOnlyChangedLogFile;
 	bool m_bShowPopupIfValueChanged;
@@ -73,8 +73,8 @@ public:
 
 	void SaveToDb() const;
 
-	__forceinline WORD GetLogMode() const { return m_wLogMode; }
-	__forceinline void SetLogMode(WORD wMode) { m_wLogMode = wMode; }
+	__forceinline uint16_t GetLogMode() const { return m_wLogMode; }
+	__forceinline void SetLogMode(uint16_t wMode) { m_wLogMode = wMode; }
 
 	__forceinline const CMStringW& GetHistoryFormat() const { return m_sFormatHistory; }
 	__forceinline void SetHistoryFormat(const CMStringW &rsFormat) { m_sFormatHistory = rsFormat; }

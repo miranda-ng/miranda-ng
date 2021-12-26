@@ -101,13 +101,13 @@ INT_PTR CALLBACK DlgProcOpts_Tab1(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_APPLY){
 			//SaveOptions from tab1 mirfoxData to miranda database
-			mirfoxMiranda.getMirfoxData().leftClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_GETCURSEL, 0, 0));
+			mirfoxMiranda.getMirfoxData().leftClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (uint16_t)SendDlgItemMessage(hwndDlg, IDC1_COMBO1, CB_GETCURSEL, 0, 0));
 			g_plugin.setByte("leftClickSendMode", (int)mirfoxMiranda.getMirfoxData().leftClickSendMode);
 
-			mirfoxMiranda.getMirfoxData().rightClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_GETCURSEL, 0, 0));
+			mirfoxMiranda.getMirfoxData().rightClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (uint16_t)SendDlgItemMessage(hwndDlg, IDC1_COMBO2, CB_GETCURSEL, 0, 0));
 			g_plugin.setByte("rightClickSendMode", (int)mirfoxMiranda.getMirfoxData().rightClickSendMode);
 
-			mirfoxMiranda.getMirfoxData().middleClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (WORD)SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_GETCURSEL, 0, 0));
+			mirfoxMiranda.getMirfoxData().middleClickSendMode = (MFENUM_SEND_MESSAGE_MODE)( 1 + (uint16_t)SendDlgItemMessage(hwndDlg, IDC1_COMBO3, CB_GETCURSEL, 0, 0));
 			g_plugin.setByte("middleClickSendMode", (int)mirfoxMiranda.getMirfoxData().middleClickSendMode);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC1_CHECK1) == BST_CHECKED){

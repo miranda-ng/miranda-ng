@@ -39,7 +39,7 @@ bool CJabberProto::WsInit(void)
 	return m_hNetlibUser != nullptr;
 }
 
-HNETLIBCONN CJabberProto::WsConnect(char* host, WORD port)
+HNETLIBCONN CJabberProto::WsConnect(char* host, uint16_t port)
 {
 	NETLIBOPENCONNECTION nloc = {};
 	nloc.szHost = host;

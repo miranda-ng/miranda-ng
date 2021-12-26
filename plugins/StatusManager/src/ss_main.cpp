@@ -426,7 +426,7 @@ void StartupStatusLoad()
 		HookEvent(ME_SYSTEM_MODULESLOADED, SSModuleLoaded);
 
 	if (SSPlugin.getByte(SETTING_SETPROFILE, 1) || SSPlugin.getByte(SETTING_OFFLINECLOSE, 0))
-		db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+		db_set_w(0, "CList", "Status", (uint16_t)ID_STATUS_OFFLINE);
 
 	// docking
 	if (SSPlugin.getByte(SETTING_SETDOCKED, 0)) {

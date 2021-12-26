@@ -140,8 +140,8 @@ private:
 	int __cdecl OnUserInfoInit(WPARAM wParam, LPARAM lParam);
 
 	// contacts
-	WORD GetContactStatus(MCONTACT hContact);
-	void SetContactStatus(MCONTACT hContact, WORD status);
+	uint16_t GetContactStatus(MCONTACT hContact);
+	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	MCONTACT GetContact(const Tox *tox, const int friendNumber);
 	MCONTACT GetContact(const char *pubKey);
@@ -236,7 +236,7 @@ private:
 
 	static bool IsFileExists(const wchar_t* path);
 
-	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, uint8_t *pBlob, size_t cbBlob);
+	MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, DWORD timestamp, DWORD flags, uint8_t *pBlob, size_t cbBlob);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>

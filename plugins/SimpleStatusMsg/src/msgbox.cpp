@@ -657,7 +657,7 @@ void ClearHistory(struct MsgBoxData *data, int cur_sel)
 		mir_snprintf(buff2, "Last%sMsg", pa->szModuleName);
 		g_plugin.setString(buff2, "");
 	}
-	g_plugin.setWord("LMMsg", (WORD)data->max_hist_msgs);
+	g_plugin.setWord("LMMsg", (uint16_t)data->max_hist_msgs);
 	SendMessage(data->recent_cbex, CB_SETCURSEL, -1, 0);
 	num_items = SendMessage(data->recent_cbex, CB_GETCOUNT, 0, 0);
 	if (num_items == CB_ERR)
@@ -1256,7 +1256,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								db_set_ws(0, "SRAway", StatusModeToDbSetting(iStatus, buff2), tszMsg);
 							}
 						}
-						g_plugin.setWord("LMMsg", (WORD)last_modified_msg);
+						g_plugin.setWord("LMMsg", (uint16_t)last_modified_msg);
 					}
 
 					if (!msgbox_data->m_szProto)
@@ -1599,7 +1599,7 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 						g_plugin.delSetting(buff);
 					num_items--;
 				}
-				g_plugin.setWord("DefMsgCount", (WORD)new_num_def_msgs);
+				g_plugin.setWord("DefMsgCount", (uint16_t)new_num_def_msgs);
 			}
 
 			ImageList_Destroy(msgbox_data->status_icons);

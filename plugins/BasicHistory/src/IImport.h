@@ -32,8 +32,8 @@ public:
 	struct ExternalMessage
 	{
 		DWORD timestamp;
-		WORD eventType;
-		WORD flags;
+		uint16_t eventType;
+		uint16_t flags;
 		std::wstring message;
 	};
 

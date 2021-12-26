@@ -90,7 +90,7 @@ struct TSlotIPC
 	MCONTACT hContact;
 	UINT hProto; // hash of the protocol the user is on
 	UINT hGroup; // hash of the entire path (not defined for REQUEST_GROUPS slots)
-	WORD Status;
+	uint16_t Status;
 	// only used for contacts -- can be STATUS_PROFILENAME -- but that is because returning the profile name is optional
 	uint8_t MRU; // if set, contact has been recently used
 	int cbStrSection;

@@ -72,7 +72,7 @@ time_t utils::time::from_string(const std::string &data)
 	return (time_t)timestamp;
 }
 
-std::string utils::conversion::to_string(void* data, WORD type)
+std::string utils::conversion::to_string(void* data, uint16_t type)
 {
 	std::stringstream out;
 

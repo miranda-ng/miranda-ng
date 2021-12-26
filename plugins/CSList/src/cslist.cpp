@@ -147,7 +147,7 @@ void RegisterHotkeys(char buf[200], wchar_t* accName, int Number)
 	g_plugin.addHotkey(&hotkey);
 }
 
-void SetStatus(WORD code, StatusItem* item, char *szAccName)
+void SetStatus(uint16_t code, StatusItem* item, char *szAccName)
 {
 	if (code == IDCLOSE)
 		return;
@@ -413,7 +413,7 @@ BOOL CSWindow::toggleButtons()
 ///////////////////////////////////////////////////////////////////////////////
 // CSAMWindow class - add form window
 
-CSAMWindow::CSAMWindow(WORD action, CSWindow* parent)
+CSAMWindow::CSAMWindow(uint16_t action, CSWindow* parent)
 {
 	m_action = action;
 	m_parent = parent;
@@ -491,7 +491,7 @@ void CSAMWindow::fillDialog()
 	SetDlgItemText(m_handle, IDC_MESSAGE, m_item->m_tszMessage);
 }
 
-void CSAMWindow::checkFieldLimit(WORD action, WORD item)
+void CSAMWindow::checkFieldLimit(uint16_t action, uint16_t item)
 {
 	BOOL type = (item == IDC_MESSAGE) ? TRUE : FALSE;
 	unsigned int limit = type ? EXTRASTATUS_MESSAGE_LIMIT : EXTRASTATUS_TITLE_LIMIT;

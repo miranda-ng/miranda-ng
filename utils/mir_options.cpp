@@ -107,7 +107,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_SPIN:
-		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
+		*((uint16_t *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_COLOR:
@@ -115,11 +115,11 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 		break;
 
 	case CONTROL_RADIO:
-		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
+		*((uint16_t *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_COMBO:
-		*((WORD *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
+		*((uint16_t *)ctrl->var) = db_get_w(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_PROTOCOL_LIST:
@@ -317,7 +317,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						break;
 
 					case CONTROL_SPIN:
-						db_set_w(0, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
+						db_set_w(0, module, ctrl->setting, (uint16_t)SendDlgItemMessage(hwndDlg, ctrl->nIDSpin, UDM_GETPOS, 0, 0));
 						break;
 
 					case CONTROL_COLOR:
@@ -330,7 +330,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						break;
 
 					case CONTROL_COMBO:
-						db_set_w(0, module, ctrl->setting, (WORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
+						db_set_w(0, module, ctrl->setting, (uint16_t)SendDlgItemMessage(hwndDlg, ctrl->nID, CB_GETCURSEL, 0, 0));
 						break;
 
 					case CONTROL_PROTOCOL_LIST:

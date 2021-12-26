@@ -100,7 +100,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetContactSettingWorker(MCONTACT contactID, LPCS
 		dbv->bVal = (uint8_t)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
 		break;
 	case DBVT_WORD:
-		dbv->wVal = (WORD)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
+		dbv->wVal = (uint16_t)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
 		break;
 	case DBVT_DWORD:
 		dbv->dVal = (DWORD)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
@@ -130,7 +130,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetContactSettingWorker(MCONTACT contactID, LPCS
 			if (!isStatic)
 				dbv->pbVal = (uint8_t*)mir_alloc(copylen);
 			memcpy(dbv->pbVal, sqlite3_column_blob(set_stmts_prep[SQL_SET_STMT_READ], 1), copylen);
-			dbv->cpbVal = (WORD)copylen;
+			dbv->cpbVal = (uint16_t)copylen;
 		}
 		else {
 			dbv = 0;

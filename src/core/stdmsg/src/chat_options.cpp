@@ -529,7 +529,7 @@ public:
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
 		g_Settings.iPopupTimeout = iLen;
-		db_set_w(0, CHAT_MODULE, "PopupTimeout", (WORD)iLen);
+		db_set_w(0, CHAT_MODULE, "PopupTimeout", (uint16_t)iLen);
 
 		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings.crPUBkgColour = clrBack.GetColor());
 		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings.crPUTextColour = clrText.GetColor());

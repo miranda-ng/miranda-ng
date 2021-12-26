@@ -121,8 +121,8 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 
 		case DBVT_WORD:
 			if (special == SVS_COUNTRY) {
-				WORD wSave = dbv.wVal;
-				if (wSave == (WORD)-1) {
+				uint16_t wSave = dbv.wVal;
+				if (wSave == (uint16_t)-1) {
 					char szSettingName[100];
 					mir_snprintf(szSettingName, "%sName", szSetting);
 					if (!db_get_ws(hContact, szModule, szSettingName, &dbv)) {

@@ -85,7 +85,7 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE *file)
 
 				case DBVT_BLOB:
 					fprintf(file, "%s=n", it);
-					for (WORD j = 0; j < dbv.cpbVal; j++)
+					for (uint16_t j = 0; j < dbv.cpbVal; j++)
 						fprintf(file, "%02X ", (uint8_t)dbv.pbVal[j]);
 					fputc('\n', file);
 					break;
@@ -321,7 +321,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 		if (size_t brk = strspn(value, "0123456789-"))
 			*(value + brk) = 0;
 		dbv.type = DBVT_WORD;
-		dbv.wVal = (WORD)atoi(value);
+		dbv.wVal = (uint16_t)atoi(value);
 		break;
 
 	case 'd':
@@ -367,7 +367,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 	case 'N':
 		uint8_t *dest;
 		dbv.type = DBVT_BLOB;
-		dbv.cpbVal = (WORD)mir_strlen(value) / 3;
+		dbv.cpbVal = (uint16_t)mir_strlen(value) / 3;
 		dbv.pbVal = (uint8_t*)value;
 		for (dest = dbv.pbVal, value = strtok(value, " ");
 			value && *value;

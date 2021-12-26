@@ -81,8 +81,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	logmsg("ContactSettingChanged1");
 
-	WORD newStatus = cws->value.wVal;
-	WORD oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "OldStatus2", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
+	uint16_t newStatus = cws->value.wVal;
+	uint16_t oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "OldStatus2", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
 
 	if (oldStatus == newStatus) return 0;
 
@@ -101,7 +101,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
-	WORD newStatus = HIWORD(lParam);
+	uint16_t newStatus = HIWORD(lParam);
 	DWORD ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
 
 	logmsg("ContactStatusChanged1");

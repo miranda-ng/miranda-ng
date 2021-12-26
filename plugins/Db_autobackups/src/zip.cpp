@@ -16,7 +16,7 @@ int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const s
 			GetFileTime(hSrcFile, 0, &ft, 0);
 			FileTimeToLocalFileTime(&ft, &ft2);
 
-			WORD dosDate, dosTime;
+			uint16_t dosDate, dosTime;
 			FileTimeToDosDateTime(&ft2, &dosDate, &dosTime);
 			fi.dosDate = MAKELONG(dosTime, dosDate);
 

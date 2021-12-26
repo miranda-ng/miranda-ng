@@ -433,7 +433,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					db_set_dw(0, "CLC", "GreyoutFlags", 0);
 
 				db_set_b(0, "CLC", "ShowIdle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
-				db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+				db_set_w(0, "CLC", "ScrollTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "GroupIndent", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
 				db_set_b(0, "CLC", "NoVScrollBar", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
 
@@ -676,7 +676,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("IconFlashTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
 				g_plugin.setByte("DisableTrayFlash", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DISABLEBLINK));
 
 				uint8_t xOptions = 0;
@@ -700,7 +700,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				}
 
 				// icon cycling timeout.
-				g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
 
 				// icon modes
 				g_plugin.setByte("tiModeS",
@@ -859,9 +859,9 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			db_set_b(0, "ModernData", "HideBehind", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_HIDEMETHOD, CB_GETCURSEL, 0, 0));
-			db_set_w(0, "ModernData", "ShowDelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN2, UDM_GETPOS, 0, 0));
-			db_set_w(0, "ModernData", "HideDelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN3, UDM_GETPOS, 0, 0));
-			db_set_w(0, "ModernData", "HideBehindBorderSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN4, UDM_GETPOS, 0, 0));
+			db_set_w(0, "ModernData", "ShowDelay", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN2, UDM_GETPOS, 0, 0));
+			db_set_w(0, "ModernData", "HideDelay", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN3, UDM_GETPOS, 0, 0));
+			db_set_w(0, "ModernData", "HideBehindBorderSize", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN4, UDM_GETPOS, 0, 0));
 
 			db_set_b(0, "CLUI", "DragToScroll", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAGTOSCROLL));
 			g_plugin.setByte("BringToFront", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BRINGTOFRONT));
@@ -880,7 +880,7 @@ static INT_PTR CALLBACK DlgProcClistBehaviourOpts(HWND hwndDlg, UINT msg, WPARAM
 				(uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA_ALWAYS) ? 2 : (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EVENTAREA) ? 1 : 0));
 
 			g_plugin.setByte("AutoHide", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			g_plugin.setWord("HideTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
+			g_plugin.setWord("HideTime", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 			CLUI_ChangeWindowMode();
 			SendMessage(g_clistApi.hwndContactTree, WM_SIZE, 0, 0);	//forces it to send a cln_listsizechanged
 			CLUI_ReloadCLUIOptions();
@@ -1201,7 +1201,7 @@ struct BkgrItem
 	uint8_t useBitmap;
 	COLORREF bkColor, selColor;
 	char filename[MAX_PATH];
-	WORD flags;
+	uint16_t flags;
 	uint8_t useWinColours;
 };
 struct BkgrData
@@ -1277,7 +1277,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			GetDlgItemTextA(hwndDlg, IDC_FILENAME, dat->item[indx].filename, _countof(dat->item[indx].filename));
 
-			WORD flags = 0;
+			uint16_t flags = 0;
 			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH)) flags |= CLB_STRETCHH;
 			if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV)) flags |= CLB_STRETCHV;
 			if (IsDlgButtonChecked(hwndDlg, IDC_TILEH)) flags |= CLBF_TILEH;

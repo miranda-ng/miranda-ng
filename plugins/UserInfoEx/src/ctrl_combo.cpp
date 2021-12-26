@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * @param		hDlg			- HWND of the owning propertysheet page
  * @param		idCtrl			- the ID of the control to associate with this class's instance
  * @param		pszSetting		- the database setting to be handled by this class
- * @param		bDBDataType		- datatype of of the associated database setting (WORD, DWORD, ...)
+ * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, DWORD, ...)
  * @param		pList			- pointer to a LPIDSTRLIST list, which holds the items to insert into the combobox.
  * @param		nListCount		- number of items in the list
  *
  * @return	pointer of the newly created CCombo object.
  **/
-CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
+CBaseCtrl* CCombo::CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
 {
 	return new CCombo(hDlg, idCtrl, pszSetting, bDBDataType, pList, nListCount);
 }
@@ -45,13 +45,13 @@ CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t 
  * @param		hDlg			- HWND of the owning propertysheet page
  * @param		idCtrl			- the ID of the control to associate with this class's instance
  * @param		pszSetting		- the database setting to be handled by this class
- * @param		bDBDataType		- datatype of of the associated database setting (WORD, DWORD, ...)
+ * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, DWORD, ...)
  * @param		pList			- pointer to a LPIDSTRLIST list, which holds the items to insert into the combobox.
  * @param		nListCount		- number of items in the list
  *
  * @return	nothing
  **/
-CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
+CCombo::CCombo(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
 	: CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;
@@ -172,7 +172,7 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		db_free(&dbv);
 		ComboBox_SetCurSel(_hwnd, iVal);
 		_curSel = ComboBox_GetCurSel(_hwnd);
-		SendMessage(GetParent(_hwnd), WM_COMMAND, MAKEWPARAM((WORD)this->_idCtrl, (WORD)CBN_SELCHANGE), (LPARAM)_hwnd);
+		SendMessage(GetParent(_hwnd), WM_COMMAND, MAKEWPARAM((uint16_t)this->_idCtrl, (uint16_t)CBN_SELCHANGE), (LPARAM)_hwnd);
 	}
 	return _Flags.B.hasChanged;
 }
@@ -229,7 +229,7 @@ void CCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
  * The user changed combobox selection, so mark it changed.
  *
  **/
-void CCombo::OnChangedByUser(WORD wChangedMsg)
+void CCombo::OnChangedByUser(uint16_t wChangedMsg)
 {
 	if (wChangedMsg == CBN_SELCHANGE) {
 		int c = ComboBox_GetCurSel(_hwnd);

@@ -532,7 +532,7 @@ public:
 			T2Utf value(dbcwWork.value.pwszVal);
 			dbcwWork.value.pszVal = NEWSTR_ALLOCA(value);
 			dbcwWork.value.type = DBVT_UTF8;
-			dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
+			dbcwWork.value.cchVal = (uint16_t)strlen(dbcwWork.value.pszVal);
 		}
 
 		char* cachedSettingName = m_cache->GetCachedSetting(dbcwWork.szModule, dbcwWork.szSetting, mir_strlen(dbcwWork.szModule), mir_strlen(dbcwWork.szSetting));

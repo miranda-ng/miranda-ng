@@ -342,7 +342,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		{
-			WORD idCtrl = LOWORD(wParam);
+			uint16_t idCtrl = LOWORD(wParam);
 			if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 				if (idCtrl >= IDC_CHK_OFFLINE) {
 					COLORREF colour = SendDlgItemMessage(hwndDlg, idCtrl, CPM_GETCOLOUR, 0, 0);

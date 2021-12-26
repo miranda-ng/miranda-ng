@@ -58,7 +58,7 @@ static bool bNewReminderVisible = false;
 static UINT QueuedReminderCount = 0;
 
 int WS_Send(SOCKET s, char *data, int datalen);
-unsigned long WS_ResolveName(char *name, WORD *port, int defaultPort);
+unsigned long WS_ResolveName(char *name, uint16_t *port, int defaultPort);
 
 void Send(char *user, char *host, const char *Msg, char* server);
 wchar_t* GetPreviewString(const wchar_t *lpsz);
@@ -800,8 +800,8 @@ protected:
 
 			// cur time
 			FileTimeToTzLocalST((FILETIME *)&li, &tm2);
-			WORD wCurHour = tm2.wHour;
-			WORD wCurMinute = tm2.wMinute;
+			uint16_t wCurHour = tm2.wHour;
+			uint16_t wCurMinute = tm2.wMinute;
 			mir_snwprintf(s, L"%02d:%02d", (UINT)tm2.wHour, (UINT)tm2.wMinute);
 			cmbTime.AddString(s, (li - ref) / FILETIME_TICKS_PER_SEC);
 
@@ -938,8 +938,8 @@ protected:
 
 			SYSTEMTIME tmTriggerLocal, tmTriggerLocal2;
 			tmTriggerLocal = tmRefLocal;
-			tmTriggerLocal.wHour = (WORD)h;
-			tmTriggerLocal.wMinute = (WORD)m;
+			tmTriggerLocal.wHour = (uint16_t)h;
+			tmTriggerLocal.wMinute = (uint16_t)m;
 			tmTriggerLocal.wSecond = 0;
 			tmTriggerLocal.wMilliseconds = 0;
 

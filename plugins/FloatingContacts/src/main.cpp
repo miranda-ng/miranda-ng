@@ -49,7 +49,7 @@ HPEN       hRBEdgesPen;
 HBRUSH     hBkBrush;
 DWORD      bkColor;
 HBITMAP    hBmpBackground;
-WORD       nBackgroundBmpUse = CLB_STRETCH;
+uint16_t       nBackgroundBmpUse = CLB_STRETCH;
 
 HWND       hwndMiranda;
 BOOL       bVersionOK;
@@ -564,7 +564,7 @@ static void CreateBackgroundBrush()
 		if (tszBitmapName != NULL)
 			hBmpBackground = Bitmap_Load(tszBitmapName);
 	}
-	nBackgroundBmpUse = (WORD)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
+	nBackgroundBmpUse = (uint16_t)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 
 	// Create brush
 	hBkBrush = CreateSolidBrush(bkColor);
@@ -827,7 +827,7 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 		else if (!(wp->flags & SWP_NOMOVE)) {
 			uint8_t method = db_get_b(0, "ModernData", "HideBehind", 0);
 			if (method) {
-				WORD wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", 0);
+				uint16_t wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = { wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy };
 				RECT rcScr = { wBehindEdgeBorderSize*(2 - method), 0, GetSystemMetrics(SM_CXSCREEN) - wBehindEdgeBorderSize * (method - 1), GetSystemMetrics(SM_CYSCREEN) };
 				RECT rcOverlap;

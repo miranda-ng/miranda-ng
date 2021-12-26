@@ -183,7 +183,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			if (wszBitmap)
 				SetDlgItemText(hwndDlg, IDC_FILENAME, wszBitmap);
 
-			WORD bmpUse = (WORD)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
+			uint16_t bmpUse = (uint16_t)g_plugin.getWord("BkBitmapOpt", FLT_DEFAULT_BKGNDBITMAPOPT);
 			CheckDlgButton(hwndDlg, IDC_STRETCHH, ((bmpUse & CLB_STRETCHH) ? BST_CHECKED : BST_UNCHECKED));
 			CheckDlgButton(hwndDlg, IDC_STRETCHV, ((bmpUse & CLB_STRETCHV) ? BST_CHECKED : BST_UNCHECKED));
 			CheckDlgButton(hwndDlg, IDC_TILEH, ((bmpUse & CLBF_TILEH) ? BST_CHECKED : BST_UNCHECKED));
@@ -303,7 +303,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));
 				g_plugin.setWString("BkBitmap", str);
 
-				WORD flags = 0;
+				uint16_t flags = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHH))
 					flags |= CLB_STRETCHH;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STRETCHV))

@@ -439,7 +439,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else {
 			if (g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
 				DBVARIANT _dbv;
-				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
+				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(uint16_t) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
 				uint8_t *eventdata = (uint8_t*)malloc(dbei_size);
 				uint8_t *pos = eventdata;
 				if (eventdata != nullptr && dbei->cbBlob > 0) {
@@ -450,12 +450,12 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 						pos += _dbv.cpbVal;
 						db_free(&_dbv);
 					}
-					memcpy(pos, &dbei->eventType, sizeof(WORD));
-					memcpy(pos + sizeof(WORD), &dbei->flags, sizeof(DWORD));
-					memcpy(pos + sizeof(WORD) + sizeof(DWORD), &dbei->timestamp, sizeof(DWORD));
-					memcpy(pos + sizeof(WORD) + sizeof(DWORD) * 2, dbei->szModule, mir_strlen(dbei->szModule) + 1);
-					memcpy(pos + sizeof(WORD) + sizeof(DWORD) * 2 + mir_strlen(dbei->szModule) + 1, &dbei->cbBlob, sizeof(DWORD));
-					memcpy(pos + sizeof(WORD) + sizeof(DWORD) * 3 + mir_strlen(dbei->szModule) + 1, dbei->pBlob, dbei->cbBlob);
+					memcpy(pos, &dbei->eventType, sizeof(uint16_t));
+					memcpy(pos + sizeof(uint16_t), &dbei->flags, sizeof(DWORD));
+					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD), &dbei->timestamp, sizeof(DWORD));
+					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 2, dbei->szModule, mir_strlen(dbei->szModule) + 1);
+					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 2 + mir_strlen(dbei->szModule) + 1, &dbei->cbBlob, sizeof(DWORD));
+					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 3 + mir_strlen(dbei->szModule) + 1, dbei->pBlob, dbei->cbBlob);
 					db_set_blob(hContact, MODULENAME, "LastMsgEvents", eventdata, (pos - eventdata) + dbei_size);
 					free(eventdata);
 				}

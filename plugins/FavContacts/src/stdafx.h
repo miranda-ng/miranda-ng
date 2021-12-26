@@ -73,7 +73,7 @@ struct Options
 	uint8_t bSecondLine;
 	uint8_t bAvatars;
 	uint8_t bAvatarBorder;
-	WORD wAvatarRadius;
+	uint16_t wAvatarRadius;
 	uint8_t bNoTransparentBorder;
 	uint8_t bSysColors;
 	uint8_t bCenterHotkey;
@@ -81,7 +81,7 @@ struct Options
 	uint8_t bUseColumns;
 	uint8_t bRightAvatars;
 	uint8_t bDimIdle;
-	WORD wMaxRecent;
+	uint16_t wMaxRecent;
 
 	COLORREF clLine1, clLine2, clBack;
 	COLORREF clLine1Sel, clLine2Sel, clBackSel;

@@ -143,7 +143,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 					uint8_t *pSecStart = ptr + pISH->PointerToRawData - pISH->VirtualAddress;
 					IMAGE_EXPORT_DIRECTORY *pED = (PIMAGE_EXPORT_DIRECTORY)&pSecStart[expAddr];
 					DWORD *ptrRVA = (DWORD*)&pSecStart[pED->AddressOfNames];
-					WORD  *ptrOrdRVA = (WORD*)&pSecStart[pED->AddressOfNameOrdinals];
+					uint16_t  *ptrOrdRVA = (uint16_t*)&pSecStart[pED->AddressOfNameOrdinals];
 					DWORD *ptrFuncList = (DWORD*)&pSecStart[pED->AddressOfFunctions];
 
 					MUUID *pIds = nullptr;
@@ -181,7 +181,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 					// patch version
 					if (dwVersion) {
 						uint8_t *pVersionRes = &pSecStart[dwVersion];
-						size_t cbLen = *(WORD*)pVersionRes;
+						size_t cbLen = *(uint16_t*)pVersionRes;
 						mir_ptr<uint8_t> pData((uint8_t*)mir_alloc(cbLen));
 						memcpy(pData, pVersionRes, cbLen);
 

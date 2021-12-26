@@ -393,7 +393,7 @@ int CMsgDialog::FindRTLLocale()
 	HKL layouts[20];
 	int i, result = 0;
 	LCID lcid;
-	WORD wCtype2[5];
+	uint16_t wCtype2[5];
 
 	if (m_iHaveRTLLang == 0) {
 		memset(layouts, 0, sizeof(layouts));
@@ -474,9 +474,9 @@ struct TOldContainerSettings
 	DWORD   panelheight;
 	int     iSplitterY;
 	wchar_t szTitleFormat[32];
-	WORD    avatarMode;
-	WORD    ownAvatarMode;
-	WORD    autoCloseSeconds;
+	uint16_t    avatarMode;
+	uint16_t    ownAvatarMode;
+	uint16_t    autoCloseSeconds;
 	uint8_t    reserved[10];
 };
 

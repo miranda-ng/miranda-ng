@@ -92,8 +92,8 @@ public:
 	{
 		g_plugin.setByte("AlwaysMulti", (uint8_t)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
 		g_plugin.setByte("TrayIcon", (uint8_t)(chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
-		g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("CycleTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("IconFlashTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
 		g_plugin.setByte("DisableTrayFlash", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
 		g_plugin.setByte("AutoApplyLastViewMode", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_APPLYLASTVIEWMODE));
 
@@ -254,7 +254,7 @@ public:
 
 		cfgSetFlag(m_hwnd, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
 
-		db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
+		db_set_w(0, "CLC", "ScrollTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 		db_set_b(0, "CLC", "NoVScrollBar", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_NOSCROLLBAR) ? 1 : 0));
 		cfg::dat.bDblClkAvatars = IsDlgButtonChecked(m_hwnd, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
 		db_set_b(0, "CLC", "dblclkav", (uint8_t)cfg::dat.bDblClkAvatars);
@@ -447,7 +447,7 @@ public:
 		db_set_b(0, "CLUI", "MaxSizeHeight", (uint8_t)GetDlgItemInt(m_hwnd, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
 		db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
 		g_plugin.setByte("AutoHide", chkAutoHide.GetState());
-		g_plugin.setWord("HideTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
+		g_plugin.setWord("HideTime", (uint16_t)SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 
 		g_plugin.setByte("Transparent", cfg::dat.isTransparent = chkTransparent.GetState());
 		g_plugin.setByte("Alpha", cfg::dat.alpha = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
@@ -577,7 +577,7 @@ public:
 			db_free(&dbv);
 		}
 
-		WORD bmpUse = db_get_w(0, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		uint16_t bmpUse = db_get_w(0, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 		CheckDlgButton(m_hwnd, IDC_STRETCHH, bmpUse & CLB_STRETCHH ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_STRETCHV, bmpUse & CLB_STRETCHV ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_TILEH, bmpUse & CLBF_TILEH ? BST_CHECKED : BST_UNCHECKED);
@@ -601,7 +601,7 @@ public:
 		else
 			db_set_s(0, "CLC", "BkBitmap", str);
 
-		WORD flags = 0;
+		uint16_t flags = 0;
 		if (IsDlgButtonChecked(m_hwnd, IDC_STRETCHH))
 			flags |= CLB_STRETCHH;
 		if (IsDlgButtonChecked(m_hwnd, IDC_STRETCHV))

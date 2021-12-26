@@ -64,8 +64,8 @@ void dlgProcessInit(HWND hWnd, UINT, WPARAM, LPARAM)
 
 void dlgProcessCommand(HWND hWnd, UINT, WPARAM wParam, LPARAM)
 {
-	WORD idCtrl = LOWORD(wParam);
-	WORD idNotifyCode = HIWORD(wParam);
+	uint16_t idCtrl = LOWORD(wParam);
+	uint16_t idNotifyCode = HIWORD(wParam);
 
 	switch (idCtrl) {
 	case IDC_RADIO_G1_LEFTCL:

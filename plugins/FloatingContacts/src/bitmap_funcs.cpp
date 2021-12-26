@@ -768,9 +768,9 @@ void MyBitmap::DrawText(wchar_t *str, int x, int y, int blur, int strength)
 			mx = (uint8_t)(max(max(bx, rx), gx));
 
 			if (1) {
-				bx = (bx < mx) ? (uint8_t)(((WORD)bx * 7 + (WORD)mx) >> 3) : bx;
-				rx = (rx < mx) ? (uint8_t)(((WORD)rx * 7 + (WORD)mx) >> 3) : rx;
-				gx = (gx < mx) ? (uint8_t)(((WORD)gx * 7 + (WORD)mx) >> 3) : gx;
+				bx = (bx < mx) ? (uint8_t)(((uint16_t)bx * 7 + (uint16_t)mx) >> 3) : bx;
+				rx = (rx < mx) ? (uint8_t)(((uint16_t)rx * 7 + (uint16_t)mx) >> 3) : rx;
+				gx = (gx < mx) ? (uint8_t)(((uint16_t)gx * 7 + (uint16_t)mx) >> 3) : gx;
 				// reduce boldeness at white fonts
 			}
 			COLOR32 cl = row_dst[j];

@@ -106,7 +106,7 @@ public:
 	void endMessages() { }
 	void addMessage(Message& msg);
 	void addChat(bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
-	void addEvent(WORD eventType, bool bOutgoing);
+	void addEvent(uint16_t eventType, bool bOutgoing);
 	void merge(const Contact& other);
 
 	// slot stuff

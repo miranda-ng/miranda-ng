@@ -126,7 +126,7 @@ struct logthread_info
 {
 	MCONTACT hContact;
 	char   sProtoName[MAXMODULELABELLENGTH];
-	WORD   currStatus;
+	uint16_t   currStatus;
 };
 
 extern DWORD StatusColors15bits[];

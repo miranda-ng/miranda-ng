@@ -34,7 +34,7 @@ STATUS StatusList[STATUS_COUNT];
 STATUS StatusListEx[STATUSEX_COUNT];
 HWND SecretWnd;
 
-int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus);
+int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStatus);
 
 IconItem iconList[ICO_MAXID] =
 {
@@ -287,7 +287,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 	}
 }
 
-void GetStatusText(MCONTACT hContact, WORD newStatus, WORD oldStatus, wchar_t *stzStatusText)
+void GetStatusText(MCONTACT hContact, uint16_t newStatus, uint16_t oldStatus, wchar_t *stzStatusText)
 {
 	if (opt.UseAlternativeText) {
 		switch (GetGender(hContact)) {
@@ -347,7 +347,7 @@ void PlayChangeSound(MCONTACT hContact, const char *name)
 		Skin_PlaySound(name);
 }
 
-int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
+int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStatus)
 {
 	if (opt.LogToDB && (!opt.LogToDB_WinOpen || CheckMsgWnd(hContact))) {
 		wchar_t stzStatusText[MAX_SECONDLINE] = { 0 };
@@ -469,7 +469,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 {
-	WORD newStatus = cws->value.wVal;
+	uint16_t newStatus = cws->value.wVal;
 	if (newStatus < ID_STATUS_MIN || newStatus > ID_STATUS_MAX)
 		return 0;
 
@@ -481,7 +481,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
 		return 0;
 
-	WORD oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "LastStatus", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
+	uint16_t oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "LastStatus", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
 	if (oldStatus == newStatus)
 		return 0;
 
@@ -1004,8 +1004,8 @@ int ProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA *)lParam;
 
 	if (ack->type == ACKTYPE_STATUS) {
-		WORD newStatus = (WORD)ack->lParam;
-		WORD oldStatus = (DWORD_PTR)ack->hProcess;
+		uint16_t newStatus = (uint16_t)ack->lParam;
+		uint16_t oldStatus = (DWORD_PTR)ack->hProcess;
 		if (oldStatus == newStatus)
 			return 0;
 

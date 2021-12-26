@@ -41,9 +41,9 @@ struct ASSOCDATA : public MZeroedObject
 	ptrA pszClassName;    // class name as used in registry and db
 	ptrW pszDescription;
 	HINSTANCE hInstance;   // allowed to be NULL for miranda32.exe
-	WORD nIconResID;
+	uint16_t nIconResID;
 	ptrA pszService;
-	WORD flags;            // set of FTDF_* and UTDF_* flags
+	uint16_t flags;            // set of FTDF_* and UTDF_* flags
 	ptrA pszFileExt;      // file type: NULL for url type
 	ptrA pszMimeType;     // file type: allowed to be NULL
 	ptrW pszVerbDesc;    // file type: allowed to be NULL

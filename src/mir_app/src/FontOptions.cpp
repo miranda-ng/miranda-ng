@@ -560,10 +560,10 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	db_set_dw(0, F.dbSettingsGroup, str, F.value.colour);
 	if (F.flags & FIDF_NOAS) {
 		mir_snprintf(str, "%sAs", F.setting);
-		db_set_w(0, F.dbSettingsGroup, str, (WORD)0x00FF);
+		db_set_w(0, F.dbSettingsGroup, str, (uint16_t)0x00FF);
 	}
 	mir_snprintf(str, "%sFlags", F.setting);
-	db_set_w(0, F.dbSettingsGroup, str, (WORD)F.flags);
+	db_set_w(0, F.dbSettingsGroup, str, (uint16_t)F.flags);
 }
 
 static void RebuildTree(HWND hwndDlg)

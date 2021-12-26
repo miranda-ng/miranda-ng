@@ -43,8 +43,8 @@ void LoadOptions()
 
 static OptPageControl controls[] = {
 	{ nullptr, CONTROL_CHECKBOX, IDC_LASTSENTTO, "EnableLastSentTo", (uint8_t)TRUE },
-	{ nullptr, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_GLOBAL },
-	{ nullptr, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (WORD)TYPE_GLOBAL, TYPE_LOCAL },
+	{ nullptr, CONTROL_RADIO, IDC_GLOBAL, "MsgTypeRec", (uint16_t)TYPE_GLOBAL, TYPE_GLOBAL },
+	{ nullptr, CONTROL_RADIO, IDC_LOCAL, "MsgTypeRec", (uint16_t)TYPE_GLOBAL, TYPE_LOCAL },
 	{ nullptr, CONTROL_PROTOCOL_LIST, IDC_PROTOCOLS, "ShowOffline%s", (uint8_t)FALSE },
 	{ nullptr, CONTROL_CHECKBOX, IDC_HIDE_OFFLINE, "HideOfflineFromOfflineProto", (uint8_t)TRUE },
 	{ nullptr, CONTROL_CHECKBOX, IDC_APPEND_GROUP, "AppendGroupName", (uint8_t)FALSE },

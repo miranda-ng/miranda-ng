@@ -519,7 +519,7 @@ void CMsgDialog::DM_InitRichEdit()
 		cf2.crBackColor = m_pContainer->m_theme.inputbg;
 		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
 		cf2.dwEffects = 0;
-		cf2.wWeight = (WORD)lf.lfWeight;
+		cf2.wWeight = (uint16_t)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 	}
@@ -536,7 +536,7 @@ void CMsgDialog::DM_InitRichEdit()
 		cf2.bCharSet = lf.lfCharSet;
 		wcsncpy_s(cf2.szFaceName, lf.lfFaceName, _TRUNCATE);
 		cf2.dwEffects = ((lf.lfWeight >= FW_BOLD) ? CFE_BOLD : 0) | (lf.lfItalic ? CFE_ITALIC : 0) | (lf.lfUnderline ? CFE_UNDERLINE : 0) | (lf.lfStrikeOut ? CFE_STRIKEOUT : 0);
-		cf2.wWeight = (WORD)lf.lfWeight;
+		cf2.wWeight = (uint16_t)lf.lfWeight;
 		cf2.bPitchAndFamily = lf.lfPitchAndFamily;
 		cf2.yHeight = abs(lf.lfHeight) * 15;
 	}
@@ -608,7 +608,7 @@ void CMsgDialog::DM_SetDBButtonStates()
 			result = (db_get_b(hFinalContact, szModule, szSetting, 0) == buttonItem->bValuePush[0]);
 			break;
 		case DBVT_WORD:
-			result = (db_get_w(hFinalContact, szModule, szSetting, 0) == *((WORD *)&buttonItem->bValuePush));
+			result = (db_get_w(hFinalContact, szModule, szSetting, 0) == *((uint16_t *)&buttonItem->bValuePush));
 			break;
 		case DBVT_DWORD:
 			result = (db_get_dw(hFinalContact, szModule, szSetting, 0) == *((DWORD *)&buttonItem->bValuePush));

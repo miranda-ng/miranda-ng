@@ -56,21 +56,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 struct CBEXITEM
 {
-	WORD     wMask;		// determines which element of this structure is valid
-	WORD     wFlags;	 // standard control flags
+	uint16_t     wMask;		// determines which element of this structure is valid
+	uint16_t     wFlags;	 // standard control flags
 	int      iItem;		// position of the item in the data array
 	DWORD	   dwID;		 // unique number for each setting read from db to identify it, new entries have dwID = 0
 	LPTSTR   pszCat;	 // pointer to a descriptive category string to set or retrieve for the data entry
-	WORD     ccCat;
+	uint16_t     ccCat;
 	LPTSTR   pszVal;
-	WORD     ccVal;
+	uint16_t     ccVal;
 	int      iIcon;
 };
 
 int CtrlContactLoadModule();
 int CtrlContactUnLoadModule();
 int CtrlContactAddItemFromDB(HWND hCtrl, int iIcon, LPTSTR szItem, MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szSettingVal);
-int CtrlContactAddMyItemsFromDB(HWND hCtrl, int iIcon, WORD wForcedFlags, MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
+int CtrlContactAddMyItemsFromDB(HWND hCtrl, int iIcon, uint16_t wForcedFlags, MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
 int CtrlContactWriteItemToDB(HWND hCtrl, MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting);
 int CtrlContactWriteMyItemsToDB(HWND hCtrl, int iFirstItem, MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR szFormatCat, LPCSTR szFormatVal);
 

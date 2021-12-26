@@ -505,8 +505,8 @@ DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	if (Stat = ReadStringFromMemory(Parser, End, &Which->Server->Name))
 #endif
 		return Stat;
-	Which->Server->Port = *(WORD *)(*Parser);
-	(*Parser) += sizeof(WORD);
+	Which->Server->Port = *(uint16_t *)(*Parser);
+	(*Parser) += sizeof(uint16_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef	DEBUG_FILEREAD
@@ -550,9 +550,9 @@ DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 #endif
 
 	//Read account miscellaneous parameters
-	Which->Interval = *(WORD *)(*Parser);
+	Which->Interval = *(uint16_t *)(*Parser);
 	Which->TimeLeft = Which->Interval;		//check on loading
-	(*Parser) += sizeof(WORD);
+	(*Parser) += sizeof(uint16_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
@@ -885,7 +885,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 				(!WriteFile(File, (char *)&ActualAccount->PluginFlags, sizeof(DWORD), &WrittenBytes, nullptr))))
 				throw (DWORD)EACC_SYSTEM;
 
-			if (!WriteFile(File, (char *)&ActualAccount->Interval, sizeof(WORD), &WrittenBytes, nullptr))
+			if (!WriteFile(File, (char *)&ActualAccount->Interval, sizeof(uint16_t), &WrittenBytes, nullptr))
 				throw (DWORD)EACC_SYSTEM;
 
 			if ((!WriteFile(File, (char *)&ActualAccount->NewMailN.Flags, sizeof(DWORD), &WrittenBytes, nullptr)) ||

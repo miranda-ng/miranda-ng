@@ -42,7 +42,7 @@
 /**
 Skews a row horizontally (with filtered weights). 
 Limited to 45 degree skewing only. Filters two adjacent pixels.
-Parameter T can be uint8_t, WORD of float. 
+Parameter T can be uint8_t, uint16_t of float. 
 @param src Pointer to source image to rotate
 @param dst Pointer to destination image
 @param row Row index
@@ -160,7 +160,7 @@ HorizontalSkew(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double dWeigh
 		case FIT_UINT16:
 		case FIT_RGB16:
 		case FIT_RGBA16:
-			HorizontalSkewT<WORD>(src, dst, row, iOffset, dWeight, bkcolor);
+			HorizontalSkewT<uint16_t>(src, dst, row, iOffset, dWeight, bkcolor);
 			break;
 		case FIT_FLOAT:
 		case FIT_RGBF:
@@ -173,7 +173,7 @@ HorizontalSkew(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double dWeigh
 /**
 Skews a column vertically (with filtered weights). 
 Limited to 45 degree skewing only. Filters two adjacent pixels.
-Parameter T can be uint8_t, WORD of float. 
+Parameter T can be uint8_t, uint16_t of float. 
 @param src Pointer to source image to rotate
 @param dst Pointer to destination image
 @param col Column index
@@ -299,7 +299,7 @@ VerticalSkew(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double dWeight,
 			case FIT_UINT16:
 			case FIT_RGB16:
 			case FIT_RGBA16:
-				VerticalSkewT<WORD>(src, dst, col, iOffset, dWeight, bkcolor);
+				VerticalSkewT<uint16_t>(src, dst, col, iOffset, dWeight, bkcolor);
 				break;
 			case FIT_FLOAT:
 			case FIT_RGBF:

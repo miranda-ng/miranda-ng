@@ -90,7 +90,7 @@ public:
 
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
 		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		WORD dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		uint16_t dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
 		wchar_t str[256], format[128];

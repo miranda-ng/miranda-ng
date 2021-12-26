@@ -478,7 +478,7 @@ struct PROTOFILERESUME
 
 ///////////////////////////////////////////////////////////////////////////////
 // Asks protocol for the status message for a status
-// wParam = (WORD) 0 for current status or a status id
+// wParam = (uint16_t)0 for current status or a status id
 // lParam = SGMA_xxx
 // Returns status msg or NULL if there is none.  The protocol have to handle only the current
 // status. Handling messages for other statuses is optional.

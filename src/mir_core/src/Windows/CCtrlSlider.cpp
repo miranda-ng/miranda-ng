@@ -33,7 +33,7 @@ CCtrlSlider::CCtrlSlider(CDlgBase *dlg, int ctrlId, int wMax, int wMin) :
 	m_bNotifiable = true;
 }
 
-BOOL CCtrlSlider::OnCommand(HWND, WORD, WORD idCode)
+BOOL CCtrlSlider::OnCommand(HWND, uint16_t, uint16_t idCode)
 {
 	if (idCode == WM_HSCROLL) {
 		NotifyChange();

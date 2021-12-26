@@ -71,7 +71,7 @@ void InitServices()
 
 void ChangeContactStatus(int con_stat)
 {
-   WORD status_code = 0;
+   uint16_t status_code = 0;
    if (con_stat == 0)
       status_code = ID_STATUS_OFFLINE;
    if (con_stat == 1)

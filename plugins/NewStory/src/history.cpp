@@ -120,7 +120,7 @@ const char* pSettings[] =
 class CHistoryDlg : public CDlgBase
 {
 	HMENU m_hMenu;
-	WORD showFlags;
+	uint16_t showFlags;
 	bool gonnaRedraw;
 	bool isContactHistory;
 	MCONTACT m_hContact;

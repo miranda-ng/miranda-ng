@@ -167,7 +167,7 @@ LBL_Seek:
 						if (decoded == nullptr)
 							return 1;
 
-						varLen = (WORD)realLen;
+						varLen = (uint16_t)realLen;
 						dbv->type = DBVT_UTF8;
 						if (isStatic) {
 							dbv->cchVal--;

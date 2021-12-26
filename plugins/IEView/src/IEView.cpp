@@ -140,7 +140,7 @@ STDMETHODIMP IEViewSink::GetTypeInfoCount(UINT *) { return E_NOTIMPL; }
 STDMETHODIMP IEViewSink::GetTypeInfo(UINT, LCID, LPTYPEINFO*) { return S_OK; }
 STDMETHODIMP IEViewSink::GetIDsOfNames(REFIID, LPOLESTR*, UINT, LCID, DISPID*) { return S_OK; }
 
-STDMETHODIMP IEViewSink::Invoke(DISPID dispIdMember, REFIID, LCID, WORD, DISPPARAMS* pDispParams, VARIANT*, EXCEPINFO*, UINT*)
+STDMETHODIMP IEViewSink::Invoke(DISPID dispIdMember, REFIID, LCID, uint16_t, DISPPARAMS* pDispParams, VARIANT*, EXCEPINFO*, UINT*)
 {
 	if (!pDispParams) return E_INVALIDARG;
 	switch (dispIdMember) {
@@ -432,7 +432,7 @@ STDMETHODIMP IEView::GetIDsOfNames(REFIID /*riid*/, LPOLESTR *rgszNames, UINT cN
 STDMETHODIMP IEView::Invoke(DISPID dispIdMember,
 	REFIID /*riid*/,
 	LCID /*lcid*/,
-	WORD /*wFlags*/,
+	uint16_t /*wFlags*/,
 	DISPPARAMS *pDispParams,
 	VARIANT *pVarResult,
 	EXCEPINFO * /*pExcepInfo*/,

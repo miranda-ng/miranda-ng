@@ -152,7 +152,7 @@ public:
 	LRESULT OnCommand(UINT, WPARAM wParam, LPARAM)
 	{
 		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-			WORD idText, idBack;
+			uint16_t idText, idBack;
 			if (LOWORD(wParam) > ID_STATUS_MAX) // we have clicked a text color
 				idText = wParam, idBack = wParam - 20;
 			else
@@ -293,7 +293,7 @@ public:
 		GetDlgItemText(m_hwnd, IDC_HISTORYSTAMP, szstamp, _countof(szstamp));
 		g_plugin.setWString("HistoryStamp", szstamp);
 
-		g_plugin.setWord("HistoryMax", (WORD)(GetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, nullptr, FALSE) + 1));
+		g_plugin.setWord("HistoryMax", (uint16_t)(GetDlgItemInt(m_hwnd, IDC_HISTORYSIZE, nullptr, FALSE) + 1));
 
 		if (chkMenuItem.IsChanged()) {
 			bool bchecked = chkMenuItem.GetState();

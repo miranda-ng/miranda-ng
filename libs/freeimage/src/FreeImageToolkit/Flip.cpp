@@ -86,8 +86,8 @@ FreeImage_FlipHorizontal(FIBITMAP *src) {
 
 			case 16:
 			{				
-				WORD *dst_data = (WORD*) bits; 				
-				WORD *src_data = (WORD*) (new_bits + line - bytespp); 				
+				uint16_t *dst_data = (uint16_t*) bits; 				
+				uint16_t *src_data = (uint16_t*) (new_bits + line - bytespp); 				
 				for(unsigned c = 0; c < width; c++) { 			
 					*dst_data++ = *src_data--;  
 				} 

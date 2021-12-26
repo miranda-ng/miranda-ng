@@ -432,7 +432,7 @@ struct filetransfer : public MZeroedObject
 
 	// Used by file receiving only
 	char* httpHostName;
-	WORD httpPort;
+	uint16_t httpPort;
 	char* httpPath;
 	unsigned __int64 dwExpectedRecvFileSize;
 

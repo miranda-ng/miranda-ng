@@ -142,7 +142,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int i;
-	WORD idCtrl;
+	uint16_t idCtrl;
 	char str[20] = { 0 }, str2[20] = { 0 };
 
 	switch (msg) {

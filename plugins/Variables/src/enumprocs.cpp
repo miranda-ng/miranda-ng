@@ -37,7 +37,7 @@ struct EnumInfoStruct
 //           the callback routine.
 //
 // Callback function definition:
-// BOOL CALLBACK Proc(DWORD dw, WORD w, LPCSTR lpstr, LPARAM lParam);
+// BOOL CALLBACK Proc(DWORD dw, uint16_t w, LPCSTR lpstr, LPARAM lParam);
 
 BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam)
 {

@@ -91,8 +91,8 @@
 /* old; replaced by PROTOCOLSETTINGEX see m_statusplugins.h */
 typedef struct {
 	char *szName;	// pointer to protocol modulename
-	WORD status;	// the status
-	WORD lastStatus;// last status
+	uint16_t status;	// the status
+	uint16_t lastStatus;// last status
 } PROTOCOLSETTING;
 
 /* old; replaced by ME_CS_STATUSCHANGE see m_statusplugins.h */

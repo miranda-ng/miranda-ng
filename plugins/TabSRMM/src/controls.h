@@ -40,7 +40,7 @@ public:
 	~CMenuBar();
 
 	const RECT&  getClientRect();
-	void         Resize(WORD wWidth) const
+	void         Resize(uint16_t wWidth) const
 	{
 		::SetWindowPos(m_hwndToolbar, nullptr, 4, 0, wWidth, m_size_y, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOCOPYBITS | SWP_NOREDRAW);
 	}

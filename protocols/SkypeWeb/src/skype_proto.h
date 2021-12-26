@@ -248,8 +248,8 @@ private:
 	void __cdecl CSkypeProto::SendFileThread(void *p);
 
 	// contacts
-	WORD GetContactStatus(MCONTACT hContact);
-	void SetContactStatus(MCONTACT hContact, WORD status);
+	uint16_t GetContactStatus(MCONTACT hContact);
+	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	void SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl);
 	void ReloadAvatarInfo(MCONTACT hContact);
@@ -266,7 +266,7 @@ private:
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
 	MEVENT GetMessageFromDb(const char *messageId);
-	MEVENT AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId);
+	MEVENT AddDbEvent(uint16_t type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId);
 	void EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &content, time_t edit_time);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);

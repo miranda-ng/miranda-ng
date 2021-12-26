@@ -6,12 +6,12 @@ void CSteamProto::SetAllContactStatuses(int status)
 		SetContactStatus(hContact, status);
 }
 
-void CSteamProto::SetContactStatus(MCONTACT hContact, WORD status)
+void CSteamProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 {
 	if (!hContact)
 		return;
 
-	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	uint16_t oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (oldStatus == status)
 		return;
 
@@ -152,10 +152,10 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 	// status
 	// note: this here is often wrong info, probably depending on publicity of steam profile
 	// but sometimes polling does not get status at all
-	WORD oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+	uint16_t oldStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	// so, set status only if contact is offline
 	if (oldStatus == ID_STATUS_OFFLINE) {
-		WORD status = SteamToMirandaStatus((PersonaState)data["personastate"].as_int());
+		uint16_t status = SteamToMirandaStatus((PersonaState)data["personastate"].as_int());
 		SetContactStatus(hContact, status);
 	}
 
@@ -165,7 +165,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 
 	if (stateflags == PersonaStateFlag::None) {
 		// nothing special, either standard client or in different status (only online, I want to play, I want to trade statuses support this flags)
-		WORD status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
+		uint16_t status = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 		if (status == ID_STATUS_ONLINE || status == ID_STATUS_FREECHAT)
 			setWString(hContact, "MirVer", L"Steam");
 	}

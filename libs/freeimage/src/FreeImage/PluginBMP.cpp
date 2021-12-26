@@ -39,10 +39,10 @@ static const uint8_t BI_ALPHABITFIELDS = 6;	// compression: Bit field (this valu
 
 typedef struct tagBITMAPINFOOS2_1X_HEADER {
   DWORD  biSize;
-  WORD   biWidth;
-  WORD   biHeight; 
-  WORD   biPlanes; 
-  WORD   biBitCount;
+  uint16_t   biWidth;
+  uint16_t   biHeight; 
+  uint16_t   biPlanes; 
+  uint16_t   biBitCount;
 } BITMAPINFOOS2_1X_HEADER, *PBITMAPINFOOS2_1X_HEADER; 
 
 // ==========================================================
@@ -136,7 +136,7 @@ LoadPixelData(FreeImageIO *io, fi_handle handle, FIBITMAP *dib, int height, unsi
 #ifdef FREEIMAGE_BIGENDIAN
 	if (bit_count == 16) {
 		for(unsigned y = 0; y < FreeImage_GetHeight(dib); y++) {
-			WORD *pixel = (WORD *)FreeImage_GetScanLine(dib, y);
+			uint16_t *pixel = (uint16_t *)FreeImage_GetScanLine(dib, y);
 			for(unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
 				SwapShort(pixel);
 				pixel++;
@@ -1383,15 +1383,15 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			free(buffer);
 #ifdef FREEIMAGE_BIGENDIAN
 		} else if (bpp == 16) {
-			int padding = dst_pitch - dst_width * sizeof(WORD);
-			WORD pad = 0;
-			WORD pixel;
+			int padding = dst_pitch - dst_width * sizeof(uint16_t);
+			uint16_t pad = 0;
+			uint16_t pixel;
 			for(unsigned y = 0; y < dst_height; y++) {
 				uint8_t *line = FreeImage_GetScanLine(dib, y);
 				for(unsigned x = 0; x < dst_width; x++) {
-					pixel = ((WORD *)line)[x];
+					pixel = ((uint16_t *)line)[x];
 					SwapShort(&pixel);
-					if (io->write_proc(&pixel, sizeof(WORD), 1, handle) != 1) {
+					if (io->write_proc(&pixel, sizeof(uint16_t), 1, handle) != 1) {
 						return FALSE;
 					}
 				}

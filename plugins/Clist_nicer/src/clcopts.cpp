@@ -317,7 +317,7 @@ public:
 		db_set_dw(0, "CLC", "avatarradius", cfg::dat.avatarRadius);
 
 		cfg::dat.avatarSize = GetDlgItemInt(m_hwnd, IDC_AVATARHEIGHT, &translated, FALSE);
-		g_plugin.setWord("AvatarSize", (WORD)cfg::dat.avatarSize);
+		g_plugin.setWord("AvatarSize", (uint16_t)cfg::dat.avatarSize);
 
 		cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(m_hwnd, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
 		g_plugin.setByte("NoOfflineAV", (uint8_t)cfg::dat.bNoOfflineAvatars);

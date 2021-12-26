@@ -19,7 +19,7 @@ typedef unsigned __int64 QWORD;
 #define WINAPI
 #define CALLBACK
 typedef uint8_t uint8_t;
-typedef uint16_t WORD;
+typedef uint16_t uint16_t;
 typedef uint32_t DWORD;
 typedef uint64_t QWORD;
 #ifdef __OBJC__
@@ -34,9 +34,9 @@ typedef int BOOL;
 #endif
 #define LOBYTE(a) (uint8_t)(a)
 #define HIBYTE(a) (uint8_t)((a)>>8)
-#define LOWORD(a) (WORD)(a)
-#define HIWORD(a) (WORD)((a)>>16)
-#define MAKEWORD(a,b) (WORD)(((a)&0xff)|((b)<<8))
+#define LOWORD(a) (uint16_t)(a)
+#define HIWORD(a) (uint16_t)((a)>>16)
+#define MAKEWORD(a,b) (uint16_t)(((a)&0xff)|((b)<<8))
 #define MAKELONG(a,b) (DWORD)(((a)&0xffff)|((b)<<16))
 #endif
 
@@ -695,7 +695,7 @@ typedef struct {
 	char OriginationDate[10];		// date of creation (yyyy-mm-dd)
 	char OriginationTime[8];		// time of creation (hh-mm-ss)
 	QWORD TimeReference;			// first sample count since midnight (little-endian)
-	WORD Version;					// BWF version (little-endian)
+	uint16_t Version;					// BWF version (little-endian)
 	uint8_t UMID[64];					// SMPTE UMID
 	uint8_t Reserved[190];
 #if defined(__GNUC__) && __GNUC__<3
@@ -814,13 +814,13 @@ typedef struct {
 #pragma pack(push,1)
 typedef struct tWAVEFORMATEX
 {
-	WORD wFormatTag;
-	WORD nChannels;
+	uint16_t wFormatTag;
+	uint16_t nChannels;
 	DWORD nSamplesPerSec;
 	DWORD nAvgBytesPerSec;
-	WORD nBlockAlign;
-	WORD wBitsPerSample;
-	WORD cbSize;
+	uint16_t nBlockAlign;
+	uint16_t wBitsPerSample;
+	uint16_t cbSize;
 } WAVEFORMATEX, *PWAVEFORMATEX, *LPWAVEFORMATEX;
 typedef const WAVEFORMATEX *LPCWAVEFORMATEX;
 #pragma pack(pop)

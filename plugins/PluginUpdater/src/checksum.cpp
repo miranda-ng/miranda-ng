@@ -109,7 +109,7 @@ LBL_NotPE:
 		if (pINTH->Signature != IMAGE_NT_SIGNATURE)
 			goto LBL_NotPE;
 
-		WORD  machine = pINTH->FileHeader.Machine;
+		uint16_t  machine = pINTH->FileHeader.Machine;
 		DWORD sections = pINTH->FileHeader.NumberOfSections;
 		if (!sections)
 			return RESULT_INVALID;
@@ -241,7 +241,7 @@ LBL_NotPE:
 								break;
 							}
 
-							len -= sizeof(WORD);
+							len -= sizeof(uint16_t);
 							pw++;
 						}
 					}

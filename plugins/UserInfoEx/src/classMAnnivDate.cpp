@@ -63,7 +63,7 @@ void MAnnivDate::Clear()
 	_strModule.clear();
 	_wFlags = MADF_NONE;
 	_bRemind = BST_INDETERMINATE;
-	_wDaysEarlier = (WORD)-1;
+	_wDaysEarlier = (uint16_t)-1;
 }
 
 /**
@@ -171,9 +171,9 @@ DWORD MAnnivDate::DateStamp() const
  **/
 void MAnnivDate::DateStamp(const DWORD dwStamp)
 {
-	Day((const WORD)((dwStamp & 0xFF000000) >> 24));
-	Month((const WORD)((dwStamp & 0x00FF0000) >> 16));
-	Year((const WORD)(dwStamp & 0x0000FFFF));
+	Day((const uint16_t)((dwStamp & 0xFF000000) >> 24));
+	Month((const uint16_t)((dwStamp & 0x00FF0000) >> 16));
+	Year((const uint16_t)(dwStamp & 0x0000FFFF));
 }
 
 /**
@@ -212,8 +212,8 @@ int MAnnivDate::Age(MTime *pNow)
 
 struct
 {
-	WORD startDays;
-	WORD endDays;
+	uint16_t startDays;
+	uint16_t endDays;
 	LPCTSTR szZodiac;
 	int szZodiacIcon;
 }
@@ -236,7 +236,7 @@ static zodiac[] = {
 
 MZodiac MAnnivDate::Zodiac()
 {
-	const WORD wDays = DayOfYear();
+	const uint16_t wDays = DayOfYear();
 
 	int i;
 	for (i = 0; i < 13 && (wDays < zodiac[i].startDays || wDays > zodiac[i].endDays); i++);
@@ -265,7 +265,7 @@ int MAnnivDate::DBGetReminderOpts(MCONTACT hContact)
 
 	if (_wID == ANID_BIRTHDAY) {
 		_bRemind = db_get_b(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, BST_INDETERMINATE);
-		_wDaysEarlier = db_get_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (WORD)-1);
+		_wDaysEarlier = db_get_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, (uint16_t)-1);
 	}
 	else if (_wID <= ANID_LAST) {
 		char pszSetting[MAXSETTING];
@@ -275,11 +275,11 @@ int MAnnivDate::DBGetReminderOpts(MCONTACT hContact)
 		_bRemind = db_get_b(hContact, Module(), pszSetting, BST_INDETERMINATE);
 		// read offset
 		mir_snprintf(pszSetting, "Anniv%dOffset", _wID);
-		_wDaysEarlier = db_get_w(hContact, Module(), pszSetting, (WORD)-1);
+		_wDaysEarlier = db_get_w(hContact, Module(), pszSetting, (uint16_t)-1);
 	}
 	else {
 		_bRemind = BST_INDETERMINATE;
-		_wDaysEarlier = (WORD)-1;
+		_wDaysEarlier = (uint16_t)-1;
 	}
 	return 0;
 }
@@ -302,7 +302,7 @@ int MAnnivDate::DBWriteReminderOpts(MCONTACT hContact)
 		else
 			db_set_b(hContact, USERINFO, SET_REMIND_BIRTHDAY_ENABLED, _bRemind);
 
-		if (_wDaysEarlier == (WORD)-1)
+		if (_wDaysEarlier == (uint16_t)-1)
 			db_unset(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET);
 		else
 			db_set_w(hContact, USERINFO, SET_REMIND_BIRTHDAY_OFFSET, _wDaysEarlier);
@@ -318,7 +318,7 @@ int MAnnivDate::DBWriteReminderOpts(MCONTACT hContact)
 
 		// read offset
 		mir_snprintf(pszSetting, "Anniv%dOffset", _wID);
-		if (_wDaysEarlier == (WORD)-1)
+		if (_wDaysEarlier == (uint16_t)-1)
 			db_unset(hContact, USERINFO, pszSetting);
 		else
 			db_set_w(hContact, USERINFO, pszSetting, _wDaysEarlier);
@@ -345,7 +345,7 @@ int MAnnivDate::DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPC
 {
 	ZeroDate();
 
-	WORD wtmp = db_get_w(hContact, pszModule, szYear, 0);
+	uint16_t wtmp = db_get_w(hContact, pszModule, szYear, 0);
 	Year(wtmp);
 
 	wtmp = db_get_w(hContact, pszModule, szMonth, 0);
@@ -620,7 +620,7 @@ int MAnnivDate::DBDeleteBirthDate(MCONTACT hContact)
  * return: 0 on success, 1 otherwise
  **/
 
-int MAnnivDate::DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex)
+int MAnnivDate::DBGetAnniversaryDate(MCONTACT hContact, uint16_t iIndex)
 {
 	Clear();
 
@@ -652,7 +652,7 @@ int MAnnivDate::DBGetAnniversaryDate(MCONTACT hContact, WORD iIndex)
  *			pszProto		- basic protocol module
  * return:	0 on success, 1 otherwise
  **/
-int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex)
+int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, uint16_t wIndex)
 {
 	// date can only be written to db as anniversary if it is not marked as birthday
 	if (wIndex <= ANID_LAST && _wID != ANID_BIRTHDAY) {
@@ -676,7 +676,7 @@ int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, WORD wIndex)
  * automatic backup service
  ***********************************************************************************************************/
 
-static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNewProtoDate)
+static uint16_t AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNewProtoDate)
 {
 	MSGBOX	MB;
 	wchar_t	 szMsg[MAXDATASIZE];
@@ -753,7 +753,7 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const uint8_t 
 			}
 			if (bWantBackup) {
 				if (!lastAnswer || *lastAnswer != IDALL) {
-					WORD rc = AskUser(hContact, this, &mdbNewProto);
+					uint16_t rc = AskUser(hContact, this, &mdbNewProto);
 					if (lastAnswer)
 						*lastAnswer = rc;
 

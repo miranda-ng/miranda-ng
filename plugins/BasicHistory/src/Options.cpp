@@ -174,7 +174,7 @@ struct HotkeyOptionsList
 	wchar_t *pwszDescription;
 	wchar_t *pwszSection;
 	const char *pszService;
-	WORD DefHotKey;
+	uint16_t DefHotKey;
 	LPARAM lParam;
 };
 

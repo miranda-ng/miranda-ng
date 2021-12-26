@@ -29,7 +29,7 @@ CCtrlCombo::CCtrlCombo(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
 {}
 
-BOOL CCtrlCombo::OnCommand(HWND, WORD, WORD idCode)
+BOOL CCtrlCombo::OnCommand(HWND, uint16_t, uint16_t idCode)
 {
 	switch (idCode) {
 	case CBN_CLOSEUP:  OnCloseup(this); break;

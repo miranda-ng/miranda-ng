@@ -359,7 +359,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 				case 'w':
 				case 'W':
 					if (sscanf(end + 2, "%u", &value) == 1)
-						db_set_w(hContact, module, setting, (WORD)value);
+						db_set_w(hContact, module, setting, (uint16_t)value);
 					break;
 				case 'd':
 				case 'D':

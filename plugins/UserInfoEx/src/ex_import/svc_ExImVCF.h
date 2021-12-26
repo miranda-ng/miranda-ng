@@ -42,7 +42,7 @@ public:
 	size_t operator + (const CHAR cVal);
 	size_t operator + (const uint8_t bVal);
 	size_t operator + (const SHORT sVal);
-	size_t operator + (const WORD wVal);
+	size_t operator + (const uint16_t wVal);
 	size_t operator + (const LONG lVal);
 	size_t operator + (const DWORD dVal);
 
@@ -71,9 +71,9 @@ private:
 	FILE*       _pFile;
 	MCONTACT    _hContact;
 	const CHAR* _pszBaseProto;
-	WORD        _cbRew;
+	uint16_t        _cbRew;
 	uint8_t        _useUtf8;
-	WORD        _hasUtf8;
+	uint16_t        _hasUtf8;
 
 	size_t packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = nullptr);
 	uint8_t   GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
@@ -82,7 +82,7 @@ private:
 
 	void writeLine(const CHAR *szSet, size_t *cbRew = nullptr);
 	void writeLineEncoded(const CHAR *szSet, size_t *cbRew = nullptr);
-	int  readLine(LPSTR szVCFSetting, WORD cchSetting);
+	int  readLine(LPSTR szVCFSetting, uint16_t cchSetting);
 
 public:
 	CVCardFileVCF();

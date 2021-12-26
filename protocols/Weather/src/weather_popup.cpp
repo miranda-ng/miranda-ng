@@ -81,7 +81,7 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 //  (threaded)
 // lpzText = error text
 // kind = display type (see m_popup.h)
-int WPShowMessage(const wchar_t* lpzText, WORD kind)
+int WPShowMessage(const wchar_t* lpzText, uint16_t kind)
 {
 	NotifyEventHooks(hHookWeatherError, (WPARAM)lpzText, (LPARAM)kind);
 	return 0;

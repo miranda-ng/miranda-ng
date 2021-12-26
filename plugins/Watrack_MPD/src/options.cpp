@@ -33,7 +33,7 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setWord("Port", (WORD)edit_PORT.GetInt());
+		g_plugin.setWord("Port", (uint16_t)edit_PORT.GetInt());
 		gbPort = edit_PORT.GetInt();
 		g_plugin.setWString("Server", edit_SERVER.GetText());
 		mir_wstrcpy(gbHost, edit_SERVER.GetText());

@@ -78,7 +78,7 @@ INT_PTR CALLBACK DlgProcPluginOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 	case WM_COMMAND:
 		{
-			WORD wNotifyCode = HIWORD(wParam);
+			uint16_t wNotifyCode = HIWORD(wParam);
 			switch (LOWORD(wParam)) {
 			case IDC_COMBOPLUGINS:
 				if (wNotifyCode == CBN_SELCHANGE) {
@@ -1158,7 +1158,7 @@ INT_PTR CALLBACK DlgProcPOP3AccPopup(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 
 	case WM_COMMAND:
 		{
-			WORD wNotifyCode = HIWORD(wParam);
+			uint16_t wNotifyCode = HIWORD(wParam);
 			switch (LOWORD(wParam)) {
 				LONG Result;
 			case IDC_COMBOACCOUNT:

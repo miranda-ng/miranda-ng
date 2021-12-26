@@ -146,17 +146,17 @@ struct DBVARIANT
 	uint8_t type;
 	union {
 		uint8_t bVal; char cVal;
-		WORD wVal; short sVal;
+		uint16_t wVal; short sVal;
 		DWORD dVal; long lVal;
 		struct {
 			union {
 				char *pszVal;
 				wchar_t *pwszVal;
 			};
-			WORD cchVal;   //only used for db/contact/getsettingstatic
+			uint16_t cchVal;   //only used for db/contact/getsettingstatic
 		};
 		struct {
-			WORD cpbVal;
+			uint16_t cpbVal;
 			uint8_t *pbVal;
 		};
 	};
@@ -176,10 +176,10 @@ struct DBEVENTINFO
 	DWORD timestamp;            // seconds since 00:00, 01/01/1970. Gives us times until 2106
 									    // unless you use the standard C library which is
 									    // signed and can only do until 2038. In GMT.
-	DWORD flags;                // combination of DBEF_* flags
-	WORD  eventType;            // module-defined event type field
-	int   cbBlob;               // size of pBlob in bytes
-	uint8_t *pBlob;             // pointer to buffer containing module-defined event data
+	DWORD      flags;           // combination of DBEF_* flags
+	uint16_t   eventType;       // module-defined event type field
+	int        cbBlob;          // size of pBlob in bytes
+	uint8_t    *pBlob;          // pointer to buffer containing module-defined event data
 	const char *szId;           // server id
 
 	bool __forceinline markedRead() const {
@@ -383,7 +383,7 @@ EXTERN_C MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, const char *sz
 
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, const char *szModule, const char *szSetting, uint8_t val);
-EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, WORD val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, uint16_t val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *val);
@@ -653,9 +653,9 @@ __inline uint8_t DBGetContactSettingRangedByte(MCONTACT hContact, const char *sz
 	return (bVal < minValue || bVal > maxValue) ? errorValue : bVal;
 }
 
-__inline WORD DBGetContactSettingRangedWord(MCONTACT hContact, const char *szModule, const char *szSetting, WORD errorValue, WORD minValue, WORD maxValue)
+__inline uint16_t DBGetContactSettingRangedWord(MCONTACT hContact, const char *szModule, const char *szSetting, uint16_t errorValue, uint16_t minValue, uint16_t maxValue)
 {
-	WORD wVal = db_get_w(hContact, szModule, szSetting, errorValue);
+	uint16_t wVal = db_get_w(hContact, szModule, szSetting, errorValue);
 	return (wVal < minValue || wVal > maxValue) ? errorValue : wVal;
 }
 

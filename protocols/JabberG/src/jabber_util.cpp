@@ -338,7 +338,7 @@ void CJabberProto::SendVisibleInvisiblePresence(bool invisible)
 		if (hContact == 0)
 			continue;
 
-		WORD apparentMode = getWord(hContact, "ApparentMode", 0);
+		uint16_t apparentMode = getWord(hContact, "ApparentMode", 0);
 		if (invisible && apparentMode == ID_STATUS_OFFLINE)
 			m_ThreadInfo->send(XmlNode("presence") << XATTR("to", item->jid) << XATTR("type", "invisible"));
 		else if (!invisible && apparentMode == ID_STATUS_ONLINE)

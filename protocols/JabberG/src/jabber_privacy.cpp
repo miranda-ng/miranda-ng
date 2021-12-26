@@ -1866,7 +1866,7 @@ public:
 		PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 
-	void OnCommand_Close(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/)
+	void OnCommand_Close(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/)
 	{
 		if (IsWindowVisible(m_clcClist.GetHwnd()))
 			CListBuildList(clc_info.pList);

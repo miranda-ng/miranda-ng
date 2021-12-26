@@ -46,7 +46,7 @@ typedef struct
 							//2106 unless you use the standard C library which is
 					  //signed and can only do until 2038. In GMT.
 	DWORD flags;	  //the omnipresent flags
-	WORD eventType;	  //module-defined event type field
+	uint16_t eventType;	  //module-defined event type field
 	DWORD cbBlob;	  //size of pBlob in bytes
 	DWORD pBlob;	  //pointer to buffer containing module-defined event data
 } DBEVENTINFO86;

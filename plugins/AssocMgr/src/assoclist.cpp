@@ -351,9 +351,9 @@ static bool AddNewAssocItem_Worker(char *pszClassName, const TYPEDESCHEAD *tdh, 
 	assoc->pszClassName = pszClassName; // no dup here
 	assoc->pszDescription = s2t(tdh->pszDescription, tdh->flags & FTDF_UNICODE, TRUE); // does NULL check
 	assoc->hInstance = tdh->hInstance; // hInstance is allowed to be NULL for miranda32.exe
-	assoc->nIconResID = (WORD)tdh->nIconResID; // default icon selected later on
+	assoc->nIconResID = (uint16_t)tdh->nIconResID; // default icon selected later on
 	assoc->pszService = mir_strdup(tdh->pszService); // does NULL check
-	assoc->flags = (WORD)tdh->flags;
+	assoc->flags = (uint16_t)tdh->flags;
 	assoc->pszFileExt = pszFileExt;
 	assoc->pszMimeType = pszMimeType;
 	assoc->pszVerbDesc = pszVerbDesc;

@@ -365,7 +365,7 @@ int CJabberProto::ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, ch
 		// 03-03 address type (1=IPv4 address)
 		// 04-07 bnd.addr server bound address
 		// 08-09 bnd.port server bound port
-		if (datalen == 47 && *((DWORD*)buffer) == 0x03000105 && buffer[4] == 40 && *((WORD*)(buffer + 45)) == 0) {
+		if (datalen == 47 && *((DWORD*)buffer) == 0x03000105 && buffer[4] == 40 && *((uint16_t*)(buffer + 45)) == 0) {
 			ptrA szInitiatorJid(JabberPrepareJid(jbt->srcJID));
 			ptrA szTargetJid(JabberPrepareJid(jbt->dstJID));
 			CMStringA szAuthString(FORMAT, "%s%s%s", jbt->sid, szInitiatorJid.get(), szTargetJid.get());
@@ -438,7 +438,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	char *szPort = jbt->szProxyPort;
 	char *szHost = jbt->szProxyHost;
 
-	WORD port = (WORD)atoi(szPort);
+	uint16_t port = (uint16_t)atoi(szPort);
 	replaceStr(jbt->streamhostJID, jbt->szProxyJid);
 
 	NETLIBOPENCONNECTION nloc = {};
@@ -575,7 +575,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 		return;
 
 	const TiXmlElement *iqNode, *queryNode = nullptr;
-	WORD port;
+	uint16_t port;
 	char data[3];
 	char* buffer;
 	int datalen, bytesParsed, recvResult;
@@ -606,7 +606,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 				const char *szHost = XmlGetAttr(n, "host");
 				const char *szPort = XmlGetAttr(n, "port");
 				if (str != nullptr && szHost != nullptr && szPort != nullptr) {
-					port = (WORD)atoi(szPort);
+					port = (uint16_t)atoi(szPort);
 					replaceStr(jbt->streamhostJID, str);
 
 					debugLogA("bytestream_recv connecting to %s:%d", szHost, port);

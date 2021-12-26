@@ -30,7 +30,7 @@ class CTzCombo : public CBaseCtrl
 	int _curSel;											//selectet combo index
 	
 	CTzCombo();
-	CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
+	CTzCombo(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
 
 	int Find(LPTIME_ZONE_INFORMATION pTimeZone) const;		//new core tz interface
 
@@ -38,16 +38,16 @@ public:
 
 	static FORCEINLINE CTzCombo* GetObj(HWND hCtrl) 
 		{ return (CTzCombo*) GetUserData(hCtrl); }
-	static FORCEINLINE CTzCombo* GetObj(HWND hDlg, WORD idCtrl)
+	static FORCEINLINE CTzCombo* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
+	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
 
 	virtual void	Release();
 //	virtual void	OnReset() {};
 	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnChangedByUser(uint16_t wChangedMsg);
 
 	void			GetTime(LPTSTR szTime, int cchTime);
 };

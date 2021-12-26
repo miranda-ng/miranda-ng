@@ -268,7 +268,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 
 			// get update time and remove the old timer
 			GetDlgItemText(hdlg, IDC_UPDATETIME, str, _countof(str));
-			opt.UpdateTime = (WORD)_wtoi(str);
+			opt.UpdateTime = (uint16_t)_wtoi(str);
 			if (opt.UpdateTime < 1)	opt.UpdateTime = 1;
 			KillTimer(nullptr, timerId);
 			timerId = SetTimer(nullptr, 0, opt.UpdateTime * 60000, timerProc);

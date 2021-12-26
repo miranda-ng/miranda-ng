@@ -99,7 +99,7 @@ protected:
 	wchar_t*    m_ErrorTitle;
       
 	void Unhook(){if(m_hOnSend) {UnhookEvent(m_hOnSend);m_hOnSend = nullptr;}}
-	void DB_EventAdd(WORD EventType);
+	void DB_EventAdd(uint16_t EventType);
       
 	static INT_PTR CALLBACK ResultDialogProc(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lParam);
       

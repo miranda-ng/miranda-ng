@@ -62,7 +62,7 @@ WuQuantizer::WuQuantizer(FIBITMAP *dib) {
 	mb = (LONG*)malloc(SIZE_3D * sizeof(LONG));
 
 	// Allocate Qadd
-	Qadd = (WORD *)malloc(sizeof(WORD) * width * height);
+	Qadd = (uint16_t *)malloc(sizeof(uint16_t) * width * height);
 
 	if(!gm2 || !wt || !mr || !mg || !mb || !Qadd) {
 		if(gm2)	free(gm2);
@@ -78,7 +78,7 @@ WuQuantizer::WuQuantizer(FIBITMAP *dib) {
 	memset(mr, 0, SIZE_3D * sizeof(LONG));
 	memset(mg, 0, SIZE_3D * sizeof(LONG));
 	memset(mb, 0, SIZE_3D * sizeof(LONG));
-	memset(Qadd, 0, sizeof(WORD) * width * height);
+	memset(Qadd, 0, sizeof(uint16_t) * width * height);
 }
 
 WuQuantizer::~WuQuantizer() {
@@ -115,7 +115,7 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 				ing = (bits[FI_RGBA_GREEN] >> 3) + 1;
 				inb = (bits[FI_RGBA_BLUE] >> 3) + 1;
 				ind = INDEX(inr, ing, inb);
-				Qadd[y*width + x] = (WORD)ind;
+				Qadd[y*width + x] = (uint16_t)ind;
 				// [inr][ing][inb]
 				vwt[ind]++;
 				vmr[ind] += bits[FI_RGBA_RED];
@@ -134,7 +134,7 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 				ing = (bits[FI_RGBA_GREEN] >> 3) + 1;
 				inb = (bits[FI_RGBA_BLUE] >> 3) + 1;
 				ind = INDEX(inr, ing, inb);
-				Qadd[y*width + x] = (WORD)ind;
+				Qadd[y*width + x] = (uint16_t)ind;
 				// [inr][ing][inb]
 				vwt[ind]++;
 				vmr[ind] += bits[FI_RGBA_RED];

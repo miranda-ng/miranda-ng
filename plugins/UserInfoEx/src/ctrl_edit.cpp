@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * @return	This static method returns the pointer of the created object.
  **/
 
-CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t dbType)
+CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t dbType)
 {
 	CEditCtrl *ctrl = new CEditCtrl(hDlg, idCtrl, USERINFO, pszSetting);
 	if (ctrl)
@@ -53,7 +53,7 @@ CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8
  * @return	This static method returns the pointer of the created object.
  **/
 
-CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType)
+CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType)
 {
 	CEditCtrl *ctrl = new CEditCtrl(hDlg, idCtrl, pszModule, pszSetting);
 	if (ctrl)
@@ -66,7 +66,7 @@ CBaseCtrl* CEditCtrl::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR
  *
  *
  **/
-CEditCtrl::CEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting)
+CEditCtrl::CEditCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting)
 	: CBaseCtrl(hDlg, idCtrl, pszModule, pszSetting)
 {
 	SendDlgItemMessage(hDlg, idCtrl, EM_LIMITTEXT, 0x7fFFffFF, 0L);
@@ -183,7 +183,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 						break;
 
 					case DBVT_WORD:
-						dbv.wVal = (WORD)wcstol(val, nullptr, 10);
+						dbv.wVal = (uint16_t)wcstol(val, nullptr, 10);
 						break;
 
 					case DBVT_DWORD:
@@ -232,7 +232,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-void CEditCtrl::OnChangedByUser(WORD wChangedMsg)
+void CEditCtrl::OnChangedByUser(uint16_t wChangedMsg)
 {
 	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE)) {
 		DWORD cch = GetWindowTextLength(_hwnd);

@@ -87,8 +87,8 @@ void ChooseFile(HWND hwndDlg)
 
 INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
-	WORD wControlId = LOWORD(wparam);
-	WORD wNotifyCode = HIWORD(wparam);
+	uint16_t wControlId = LOWORD(wparam);
+	uint16_t wNotifyCode = HIWORD(wparam);
 	int seconds;
 
 	switch(msg) {

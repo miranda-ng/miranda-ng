@@ -703,7 +703,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 					if (hContact != 0) {
 						if (sscanf(n->GetText(), "%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
 							hasBday = true;
-							setWord(hContact, "BirthYear", (WORD)nYear);
+							setWord(hContact, "BirthYear", (uint16_t)nYear);
 							setByte(hContact, "BirthMonth", (uint8_t)nMonth);
 							setByte(hContact, "BirthDay", (uint8_t)nDay);
 
@@ -713,7 +713,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 							if (sToday.wMonth < nMonth || (sToday.wMonth == nMonth && sToday.wDay < nDay))
 								nAge--;
 							if (nAge)
-								setWord(hContact, "Age", (WORD)nAge);
+								setWord(hContact, "Age", (uint16_t)nAge);
 						}
 					}
 					else {

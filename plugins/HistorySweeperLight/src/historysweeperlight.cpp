@@ -98,15 +98,15 @@ static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
 
 	DBVARIANT dbv;
 	if (db_get(hContact, "HistoryPlusPlus", "Bookmarks", &dbv) == 0) {
-		if (dbv.cpbVal > 2 && *(WORD*)dbv.pbVal >= sizeof(BEventData)) {
-			size_t recSize = *(WORD*)dbv.pbVal;
-			size_t numb = (dbv.cpbVal - sizeof(WORD)) / recSize;
+		if (dbv.cpbVal > 2 && *(uint16_t*)dbv.pbVal >= sizeof(BEventData)) {
+			size_t recSize = *(uint16_t*)dbv.pbVal;
+			size_t numb = (dbv.cpbVal - sizeof(uint16_t)) / recSize;
 
 			BEventData* tbooks = (BEventData*)mir_alloc(sizeof(BEventData)*numb);
 			size_t tbookcnt = 0;
 
 			size_t i;
-			uint8_t* evs = dbv.pbVal + sizeof(WORD);
+			uint8_t* evs = dbv.pbVal + sizeof(uint16_t);
 
 			for (i = 0; i < numb; ++i) {
 				tbooks[tbookcnt++] = *(BEventData*)evs;

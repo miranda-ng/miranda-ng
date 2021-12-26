@@ -283,7 +283,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 				strncpy_s(text, p, q - p);
 				text[q - p] = '\0';
 				if (char *d = strchr(text, ':')) {
-					ft->httpPort = (WORD)atoi(d + 1);
+					ft->httpPort = (uint16_t)atoi(d + 1);
 					*d = '\0';
 				}
 				ft->httpHostName = mir_strdup(text);

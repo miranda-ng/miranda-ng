@@ -329,12 +329,12 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 		case ACKTYPE_CHAT:
 			break;
 		case ACKTYPE_MESSAGE:
-			self->DB_EventAdd((WORD)EVENTTYPE_MESSAGE);
+			self->DB_EventAdd((uint16_t)EVENTTYPE_MESSAGE);
 			break;
 		case ACKTYPE_FILE:
 			self->m_szEventMsg.Insert(0, "aaaa");
 			self->m_cbEventMsg += sizeof(DWORD);
-			self->DB_EventAdd((WORD)EVENTTYPE_FILE);
+			self->DB_EventAdd((uint16_t)EVENTTYPE_FILE);
 			break;
 		}
 		self->Exit(ack->result);
@@ -343,7 +343,7 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 	return 0;
 }
 
-void CSend::DB_EventAdd(WORD EventType)
+void CSend::DB_EventAdd(uint16_t EventType)
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_pszProto;

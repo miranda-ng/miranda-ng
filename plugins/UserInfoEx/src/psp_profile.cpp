@@ -208,7 +208,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, uint8_t bSave)
 	pList->labelEdit.hEdit = nullptr;
 
 	if (bSave != FALSE && pList->labelEdit.pItem) {
-		WORD ccText;
+		uint16_t ccText;
 		LPTSTR	szEdit = nullptr;
 		uint8_t bChanged = FALSE;
 
@@ -474,7 +474,7 @@ static int ProfileList_AddItemlistFromDB(
 				LPCSTR pszModule,
 				LPCSTR szCatFormat,
 				LPCSTR szValFormat,
-				WORD wFlags)
+				uint16_t wFlags)
 {
 	DBVARIANT dbvVal, dbvCat;
 	LPLCITEM pItem;
@@ -519,7 +519,7 @@ static int ProfileList_AddItemlistFromDB(
 						continue;
 					break;
 				case DBVT_WORD:
-					if (dbvCat.wVal != (WORD)idList[j].nID)
+					if (dbvCat.wVal != (uint16_t)idList[j].nID)
 						continue;
 					break;
 				case DBVT_DWORD:

@@ -31,10 +31,10 @@ struct NAS_PROTOINFOv1
 		wchar_t *wszMsg;
 		wchar_t *tszMsg;
 	};
-	WORD status;
+	uint16_t status;
 };
 
-__inline void PSSetStatus(char *szProto, WORD Status, int bNoClistSetStatusMode = false) // just a helper function that sets the status and handles szProto==NULL correctly
+__inline void PSSetStatus(char *szProto, uint16_t Status, int bNoClistSetStatusMode = false) // just a helper function that sets the status and handles szProto==NULL correctly
 {
 	g_ProtoStates[szProto].m_status = Status;
 	if (szProto)

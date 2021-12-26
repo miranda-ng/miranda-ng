@@ -40,7 +40,7 @@ void Ctrl_InitTextColours()
 	clrMeta = g_plugin.getDword(SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
 }
 
-INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags)
+INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, uint16_t wFlags)
 {
 	// OLD stuff
 	SetTextColor(hdc, 
@@ -82,7 +82,7 @@ CBaseCtrl::CBaseCtrl()
  *
  *
  **/
-CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
+CBaseCtrl::CBaseCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
 {
 	memset(this, 0, sizeof(*this));
 	_cbSize = sizeof(CBaseCtrl);
@@ -98,7 +98,7 @@ CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
  *
  *
  **/
-CBaseCtrl::CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting)
+CBaseCtrl::CBaseCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	memset(this, 0, sizeof(*this));
 	_cbSize		= sizeof(CBaseCtrl);
@@ -255,7 +255,7 @@ void CCtrlList::OnApply(MCONTACT hContact, LPCSTR pszProto)
  *
  *
  **/
-void CCtrlList::OnChangedByUser(WORD idCtrl, WORD wChangedMsg)
+void CCtrlList::OnChangedByUser(uint16_t idCtrl, uint16_t wChangedMsg)
 {
 	// prefilter messages to avoid unessesary search operations
 	switch (wChangedMsg)

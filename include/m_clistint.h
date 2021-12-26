@@ -109,11 +109,11 @@ struct ClcContactBase
 			MCONTACT hContact;
 		};
 		struct {
-			WORD groupId;
+			uint16_t groupId;
 			ClcGroup *group;
 		};
 	};
-	WORD  iExtraImage[EXTRA_ICON_COUNT];
+	uint16_t iExtraImage[EXTRA_ICON_COUNT];
 	wchar_t szText[120-EXTRA_ICON_COUNT];
 	ClcCacheEntry *pce; // cache is persistent, contacts aren't
 };

@@ -48,7 +48,7 @@ HANDLE hEvChanged = nullptr;
 static BOOL bModuleInitialized = FALSE;
 static HHOOK hhkKeyboard = nullptr;
 
-WORD GetHotkeyValue(INT_PTR idHotkey)
+uint16_t GetHotkeyValue(INT_PTR idHotkey)
 {
 	for (auto &it : hotkeys)
 		if (it->idHotkey == idHotkey)
@@ -57,7 +57,7 @@ WORD GetHotkeyValue(INT_PTR idHotkey)
 	return 0;
 }
 
-static void sttWordToModAndVk(WORD w, uint8_t *mod, uint8_t *vk)
+static void sttWordToModAndVk(uint16_t w, uint8_t *mod, uint8_t *vk)
 {
 	*mod = 0;
 	if (HIBYTE(w) & HOTKEYF_CONTROL) *mod |= MOD_CONTROL;
@@ -337,7 +337,7 @@ int LoadSkinHotkeys(void)
 		char szSetting[100];
 		mir_snprintf(szSetting, "HK%s", oldSettings[i]);
 
-		WORD key;
+		uint16_t key;
 		if ((key = db_get_w(0, "Clist", szSetting, 0))) {
 			db_unset(0, "Clist", szSetting);
 			db_set_w(0, DBMODULENAME, newSettings[i], key);

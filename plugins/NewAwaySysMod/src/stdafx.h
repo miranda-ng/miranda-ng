@@ -254,7 +254,7 @@ struct NAS_ISWINFOv1
 	char *szProto;
 	MCONTACT hContact;
 	char *szMsg;
-	WORD status;
+	uint16_t status;
 };
 
 #define MTYPE_AUTOONLINE 0xE7 // required to support ICQ Plus online status messages

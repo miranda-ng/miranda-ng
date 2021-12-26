@@ -193,7 +193,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 									timer = atoi(text);
 								}
 								mir_snprintf(fn, "fn%d_timer", i);
-								g_plugin.setWord(fn, (WORD)timer);
+								g_plugin.setWord(fn, (uint16_t)timer);
 								SendMessage(hwnd, WM_RELOADWINDOW, 0, 0);
 							}
 							break;
@@ -302,7 +302,7 @@ INT_PTR CALLBACK DlgProcFiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				if (!db_get_static(NULL, MODNAME, fn, string, _countof(string)))
 					if (!strncmp("http://", string, mir_strlen("http://")) || !strncmp("https://", string, mir_strlen("https://"))) {
 						mir_snprintf(fn, "fn%d_timer", i);
-						g_plugin.setWord(fn, (WORD)timer);
+						g_plugin.setWord(fn, (uint16_t)timer);
 					}
 
 				return TRUE;

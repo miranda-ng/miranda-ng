@@ -60,7 +60,7 @@ struct Options {
 	bool enable_code_injection;
 	int time_to_pool;
 
-	WORD xstatus_set;
+	uint16_t xstatus_set;
 	wchar_t xstatus_name[1024];
 	wchar_t xstatus_message[1024];
 	wchar_t nothing[128];

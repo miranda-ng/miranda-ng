@@ -348,7 +348,7 @@ void PopupWnd2::show()
 					for (int row = 0; row < m_bmpAnimate->getHeight(); ++row) {
 						unsigned char *pixel = (unsigned char *)m_bmpAnimate->getRow(row);
 						for (int col = 0; col < m_bmpAnimate->getWidth(); ++col) {
-							WORD alphaLevel = effect->getPixelAlpha(col, row);
+							uint16_t alphaLevel = effect->getPixelAlpha(col, row);
 							pixel[0] = (pixel[0] * alphaLevel) >> 8;
 							pixel[1] = (pixel[1] * alphaLevel) >> 8;
 							pixel[2] = (pixel[2] * alphaLevel) >> 8;
@@ -429,7 +429,7 @@ void PopupWnd2::hide()
 					for (int row = 0; row < m_bmpAnimate->getHeight(); ++row) {
 						unsigned char *pixel = (unsigned char *)m_bmpAnimate->getRow(row);
 						for (int col = 0; col < m_bmpAnimate->getWidth(); ++col) {
-							WORD alphaLevel = effect->getPixelAlpha(col, row);
+							uint16_t alphaLevel = effect->getPixelAlpha(col, row);
 							pixel[0] = (pixel[0] * alphaLevel) >> 8;
 							pixel[1] = (pixel[1] * alphaLevel) >> 8;
 							pixel[2] = (pixel[2] * alphaLevel) >> 8;

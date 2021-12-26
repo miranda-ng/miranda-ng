@@ -370,7 +370,7 @@ void CMainDlg::onChange_Splitter(CSplitter *)
 	if (m_splitterPos > rc2.right - rc2.left - 150)
 		m_splitterPos = rc2.right - rc2.left - 150;
 	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWLP_USERDATA, m_splitterPos);
-	g_plugin.setWord("Splitter", (WORD)m_splitterPos);
+	g_plugin.setWord("Splitter", (uint16_t)m_splitterPos);
 
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }

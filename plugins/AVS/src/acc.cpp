@@ -85,11 +85,11 @@ BOOL AnimatedGifGetData(ACCData *data)
 	FITAG *tag = nullptr;
 	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "LogicalWidth", &tag))
 		goto ERR;
-	data->ag.logicalWidth = *(WORD *)FreeImage_GetTagValue(tag);
+	data->ag.logicalWidth = *(uint16_t *)FreeImage_GetTagValue(tag);
 
 	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "LogicalHeight", &tag))
 		goto ERR;
-	data->ag.logicalHeight = *(WORD *)FreeImage_GetTagValue(tag);
+	data->ag.logicalHeight = *(uint16_t *)FreeImage_GetTagValue(tag);
 
 	if (!FreeImage_GetMetadata(FIMD_ANIMATION, page, "Loop", &tag))
 		goto ERR;
@@ -135,12 +135,12 @@ void AnimatedGifMountFrame(ACCData* data, int page)
 
 	FITAG *tag = nullptr;
 	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "FrameLeft", &tag))
-		data->ag.frame.left = *(WORD *)FreeImage_GetTagValue(tag);
+		data->ag.frame.left = *(uint16_t *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.frame.left = 0;
 
 	if (FreeImage_GetMetadata(FIMD_ANIMATION, dib, "FrameTop", &tag))
-		data->ag.frame.top = *(WORD *)FreeImage_GetTagValue(tag);
+		data->ag.frame.top = *(uint16_t *)FreeImage_GetTagValue(tag);
 	else
 		data->ag.frame.top = 0;
 

@@ -37,12 +37,12 @@ struct START_OF_DLGITEMTEMPLATEEX
 
 struct START_OF_DLGTEMPLATEEX
 {
-	WORD   dlgVer;
-	WORD   signature;
+	uint16_t   dlgVer;
+	uint16_t   signature;
 	DWORD  helpID;
 	DWORD  exStyle;
 	DWORD  style;
-	WORD   cDlgItems;
+	uint16_t   cDlgItems;
 	short  x, y, cx, cy;
 };
 

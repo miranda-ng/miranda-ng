@@ -104,7 +104,7 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 		case FIT_UINT16:
 		{
 			for(unsigned y = 0; y < height; y++) {
-				const WORD *src_pixel = (WORD*)src_bits;
+				const uint16_t *src_pixel = (uint16_t*)src_bits;
 				float *dst_pixel = (float*)dst_bits;
 
 				for(unsigned x = 0; x < width; x++) {

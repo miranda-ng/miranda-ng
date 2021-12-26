@@ -126,7 +126,7 @@ MIR_CORE_DLL(int) db_get_w(MCONTACT hContact, const char *szModule, const char *
 			switch(dbv.type) {
 				case DBVT_BYTE:	return dbv.bVal;
 				case DBVT_WORD:   return dbv.wVal;
-				case DBVT_DWORD:	return WORD(dbv.dVal);
+				case DBVT_DWORD:	return uint16_t(dbv.dVal);
 			}
 			g_pCurrDb->FreeVariant(&dbv);
 		}
@@ -290,7 +290,7 @@ MIR_CORE_DLL(INT_PTR) db_set_b(MCONTACT hContact, const char *szModule, const ch
 	return g_pCurrDb->WriteContactSetting(hContact, &cws);
 }
 
-MIR_CORE_DLL(INT_PTR) db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, WORD val)
+MIR_CORE_DLL(INT_PTR) db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, uint16_t val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
@@ -358,7 +358,7 @@ MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const
 	cws.szModule = szModule;
 	cws.szSetting = szSetting;
 	cws.value.type = DBVT_BLOB;
-	cws.value.cpbVal = (WORD)len;
+	cws.value.cpbVal = (uint16_t)len;
 	cws.value.pbVal = (unsigned char*)val;
 	return g_pCurrDb->WriteContactSetting(hContact, &cws);
 }

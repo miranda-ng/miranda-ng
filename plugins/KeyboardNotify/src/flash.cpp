@@ -44,12 +44,12 @@ FLASHING_SEQUENCE *pFS;
 BOOL bTemporarilyUseExtern;
 extern uint8_t bFlashLed[3];
 extern uint8_t bFlashEffect; extern uint8_t bSequenceOrder;
-extern WORD wCustomTheme;
+extern uint16_t wCustomTheme;
 extern uint8_t bTrillianLedsMsg, bTrillianLedsFile, bTrillianLedsOther;
 extern uint8_t bEmulateKeypresses;
 
 // TestThread/PreviewThread globals
-extern int nWaitDelay; extern WORD wStartDelay;
+extern int nWaitDelay; extern uint16_t wStartDelay;
 BOOL bTestSemaphore, bPreviewSemaphore, bPreview;
 
 void RestoreLEDState(void)

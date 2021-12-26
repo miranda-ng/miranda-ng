@@ -521,7 +521,7 @@ int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 //
 int GaduProto::SetApparentMode(MCONTACT hContact, int mode)
 {
-	setWord(hContact, GG_KEY_APPARENT, (WORD)mode);
+	setWord(hContact, GG_KEY_APPARENT, (uint16_t)mode);
 	notifyuser(hContact, 1);
 
 	return 0;

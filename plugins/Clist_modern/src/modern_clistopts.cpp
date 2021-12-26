@@ -192,8 +192,8 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				g_plugin.setWord("MinRowHeight", (WORD)SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setWord("RowBorder", (WORD)SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("MinRowHeight", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_MIN_ROW_HEIGHT_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("RowBorder", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_ROW_BORDER_SPIN, UDM_GETPOS, 0, 0));
 				g_plugin.setByte("VariableRowHeight", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_VARIABLE_ROW_HEIGHT));
 				g_plugin.setByte("AlignLeftItemsToLeft", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_LEFT));
 				g_plugin.setByte("AlignRightItemsToRight", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ALIGN_TO_RIGHT));
@@ -205,7 +205,7 @@ static INT_PTR CALLBACK DlgProcItemRowOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					for (int i = 0; i < NUM_ITEM_TYPE; i++) {
 						char tmp[128];
 						mir_snprintf(tmp, "RowPos%d", i);
-						g_plugin.setWord(tmp, (WORD)SendMessage(hwndList, LB_GETITEMDATA, i, 0));
+						g_plugin.setWord(tmp, (uint16_t)SendMessage(hwndList, LB_GETITEMDATA, i, 0));
 					}
 				}
 
@@ -384,10 +384,10 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				g_plugin.setByte("AvatarsRoundCorners", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS));
 				g_plugin.setByte("AvatarsIgnoreSizeForRow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_IGNORE_SIZE));
 				g_plugin.setByte("AvatarsUseCustomCornerSize", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));
-				g_plugin.setWord("AvatarsCustomCornerSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("AvatarsCustomCornerSize", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, UDM_GETPOS, 0, 0));
 				g_plugin.setByte("AvatarsDrawOverlay", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICONS));
-				g_plugin.setWord("AvatarsSize", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_GETPOS, 0, 0));
-				g_plugin.setWord("AvatarsWidth", (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("AvatarsSize", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATAR_SIZE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("AvatarsWidth", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATAR_WIDTH_SPIN, UDM_GETPOS, 0, 0));
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_AVATAR_OVERLAY_ICON_NORMAL))
 					g_plugin.setByte("AvatarsOverlayType", SETTING_AVATAR_OVERLAY_TYPE_NORMAL);
@@ -689,10 +689,10 @@ static INT_PTR CALLBACK DlgProcItemSecondLineOpts(HWND hwndDlg, UINT msg, WPARAM
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				g_plugin.setByte("SecondLineShow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
-				g_plugin.setWord("SecondLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("SecondLineTopSpace", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
 				g_plugin.setByte("SecondLineDrawSmileys", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
 
-				WORD radio;
+				uint16_t radio;
 				if (IsDlgButtonChecked(hwndDlg, IDC_STATUS))
 					radio = TEXT_STATUS;
 				else if (IsDlgButtonChecked(hwndDlg, IDC_NICKNAME))
@@ -846,7 +846,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
 				g_plugin.setByte("ThirdLineShow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOW));
-				g_plugin.setWord("ThirdLineTopSpace", (WORD)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
+				g_plugin.setWord("ThirdLineTopSpace", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_TOP_SPACE_SPIN, UDM_GETPOS, 0, 0));
 				g_plugin.setByte("ThirdLineDrawSmileys", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAW_SMILEYS));
 				{
 					int radio;
@@ -862,7 +862,7 @@ static INT_PTR CALLBACK DlgProcItemThirdLineOpts(HWND hwndDlg, UINT msg, WPARAM 
 						radio = TEXT_LISTENING_TO;
 					else
 						radio = TEXT_STATUS_MESSAGE;
-					g_plugin.setWord("ThirdLineType", (WORD)radio);
+					g_plugin.setWord("ThirdLineType", (uint16_t)radio);
 				}
 				{
 					wchar_t t[TEXT_TEXT_MAX_LENGTH];

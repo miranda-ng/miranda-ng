@@ -268,9 +268,9 @@ struct TContainerSettings
 	DWORD   panelheight;
 	int     iSplitterX, iSplitterY;
 	wchar_t szTitleFormat[TITLE_FORMATLEN + 2];
-	WORD    avatarMode;
-	WORD    ownAvatarMode;
-	WORD    autoCloseSeconds;
+	uint16_t    avatarMode;
+	uint16_t    ownAvatarMode;
+	uint16_t    autoCloseSeconds;
 	bool    fPrivate;
 };
 
@@ -324,7 +324,7 @@ struct TContainerData : public MZeroedObject
 	HBITMAP  m_hbmToolbarBG, m_oldhbmToolbarBG;
 	SIZE	   m_szOldToolbarSize;
 	SIZE     m_oldSize, m_preSIZE;
-	WORD	   m_avatarMode, m_ownAvatarMode;
+	uint16_t	   m_avatarMode, m_ownAvatarMode;
 	uint8_t	   m_bTBRenderingMode;
 	TLogTheme m_theme;
 	CMenuBar *m_pMenuBar;
@@ -477,7 +477,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void    VerifyProxy(void);
 	LRESULT WMCopyHandler(UINT uMsg, WPARAM wParam, LPARAM lParam);
 
-	WORD    m_wStatus, m_wOldStatus;
+	uint16_t    m_wStatus, m_wOldStatus;
 	size_t  m_iSendBufferSize;
 	int     m_iSendLength;				// message length in utf-8 octets
 	HICON   m_hSmileyIcon;

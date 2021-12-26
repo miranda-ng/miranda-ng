@@ -489,7 +489,7 @@ void MarkUnread(MCONTACT hContact)
 		pos = _dbv.pbVal;
 		while (pos - _dbv.pbVal < _dbv.cpbVal) {
 			DBEVENTINFO dbei = {};
-			memcpy(&dbei.eventType, pos, sizeof(WORD)); pos += sizeof(WORD);
+			memcpy(&dbei.eventType, pos, sizeof(uint16_t)); pos += sizeof(uint16_t);
 			memcpy(&dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 			memcpy(&dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
 

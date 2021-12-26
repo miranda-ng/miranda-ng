@@ -171,7 +171,7 @@ bool CJabberProto::OnIbbRecvdData(const char *data, const char *sid, const char 
 	if (item == nullptr)
 		return false;
 
-	WORD wSeq = (WORD)atoi(seq);
+	uint16_t wSeq = (uint16_t)atoi(seq);
 	if (wSeq != item->jibb->wPacketId) {
 		if (item->jibb->hEvent)
 			SetEvent(item->jibb->hEvent);

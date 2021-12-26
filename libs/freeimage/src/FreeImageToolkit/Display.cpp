@@ -165,9 +165,9 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 			else {
 				// output = alpha * foreground + (1-alpha) * background
 				not_alpha = (uint8_t)~alpha;
-				cp_bits[FI_RGBA_BLUE] = (uint8_t)((alpha * (WORD)fgc.rgbBlue  + not_alpha * (WORD)bkc.rgbBlue) >> 8);
-				cp_bits[FI_RGBA_GREEN] = (uint8_t)((alpha * (WORD)fgc.rgbGreen + not_alpha * (WORD)bkc.rgbGreen) >> 8);
-				cp_bits[FI_RGBA_RED] = (uint8_t)((alpha * (WORD)fgc.rgbRed   + not_alpha * (WORD)bkc.rgbRed) >> 8);
+				cp_bits[FI_RGBA_BLUE] = (uint8_t)((alpha * (uint16_t)fgc.rgbBlue  + not_alpha * (uint16_t)bkc.rgbBlue) >> 8);
+				cp_bits[FI_RGBA_GREEN] = (uint8_t)((alpha * (uint16_t)fgc.rgbGreen + not_alpha * (uint16_t)bkc.rgbGreen) >> 8);
+				cp_bits[FI_RGBA_RED] = (uint8_t)((alpha * (uint16_t)fgc.rgbRed   + not_alpha * (uint16_t)bkc.rgbRed) >> 8);
 			}
 
 			fg_bits += bytespp;
@@ -217,9 +217,9 @@ FreeImage_PreMultiplyWithAlpha(FIBITMAP *dib) {
 				// color * 0xFF / 0xFF = color
 				continue;
 			} else {
-				bits[FI_RGBA_BLUE] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_BLUE] + 127) / 255 );
-				bits[FI_RGBA_GREEN] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_GREEN] + 127) / 255 );
-				bits[FI_RGBA_RED] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_RED] + 127) / 255 );
+				bits[FI_RGBA_BLUE] = (uint8_t)( (alpha * (uint16_t)bits[FI_RGBA_BLUE] + 127) / 255 );
+				bits[FI_RGBA_GREEN] = (uint8_t)( (alpha * (uint16_t)bits[FI_RGBA_GREEN] + 127) / 255 );
+				bits[FI_RGBA_RED] = (uint8_t)( (alpha * (uint16_t)bits[FI_RGBA_RED] + 127) / 255 );
 			}
 		}
 	}

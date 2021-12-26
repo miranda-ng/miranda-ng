@@ -214,7 +214,7 @@ static void Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA 
 		else if (*line > 0 && *line < 128) {
 			res.AppendChar((char)*line);
 		}
-		else res.AppendFormat("\\u%u ?", (WORD)*line);
+		else res.AppendFormat("\\u%u ?", (uint16_t)*line);
 	}
 
 	str += res;

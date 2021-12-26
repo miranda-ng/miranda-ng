@@ -1130,8 +1130,8 @@ static void BTN_ReadItem(char *itemName, char *file)
 				}
 			case 'w':
 				{
-					WORD value = (WORD)atol(&szBuffer[1]);
-					*((WORD *)&pValue[0]) = value;
+					uint16_t value = (uint16_t)atol(&szBuffer[1]);
+					*((uint16_t *)&pValue[0]) = value;
 					tmpItem.type = DBVT_WORD;
 					break;
 				}
@@ -1440,12 +1440,12 @@ void extbk_import(char *file, HWND hwndDlg)
 			mir_snprintf(szKey, "Font%dFlags", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Flags", &data, 4, file);
-			db_set_dw(0, "CLC", szKey, (WORD)data);
+			db_set_dw(0, "CLC", szKey, (uint16_t)data);
 
 			mir_snprintf(szKey, "Font%dAs", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "SameAs", &data, 2, file);
-			db_set_dw(0, "CLC", szKey, (WORD)data);
+			db_set_dw(0, "CLC", szKey, (uint16_t)data);
 		}
 	}
 	i = 0;
@@ -1464,7 +1464,7 @@ void extbk_import(char *file, HWND hwndDlg)
 				db_set_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, data);
 				break;
 			case 2:
-				db_set_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (WORD)data);
+				db_set_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint16_t)data);
 				break;
 			}
 			i++;

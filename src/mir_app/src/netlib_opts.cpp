@@ -68,7 +68,7 @@ static const UINT specifyPortsControls[] = {
 	IDC_STATIC52};
 
 static const wchar_t* szProxyTypes[] = {LPGENW("<mixed>"), L"SOCKS4", L"SOCKS5", L"HTTP", L"HTTPS", L"Internet Explorer"};
-static const WORD oftenProxyPorts[] = {1080, 1080, 1080, 8080, 8080, 8080};
+static const uint16_t oftenProxyPorts[] = {1080, 1080, 1080, 8080, 8080, 8080};
 
 #define M_REFRESHALL      (WM_USER+100)
 #define M_REFRESHENABLING (WM_USER+101)
@@ -202,7 +202,7 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 		db_set_b(0, szSettingsModule, "NLUseProxy", (uint8_t)settings->useProxy);
 		db_set_b(0, szSettingsModule, "NLProxyType", (uint8_t)settings->proxyType);
 		db_set_s(0, szSettingsModule, "NLProxyServer", settings->szProxyServer ? settings->szProxyServer : "");
-		db_set_w(0, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
+		db_set_w(0, szSettingsModule, "NLProxyPort", (uint16_t)settings->wProxyPort);
 		db_set_b(0, szSettingsModule, "NLUseProxyAuth", (uint8_t)settings->useProxyAuth);
 		db_set_s(0, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser ? settings->szProxyAuthUser : "");
 		db_set_s(0, szSettingsModule, "NLProxyAuthPassword", settings->szProxyAuthPassword ? settings->szProxyAuthPassword : "");

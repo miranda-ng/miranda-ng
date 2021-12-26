@@ -33,9 +33,9 @@ typedef struct tagPOPUPOPTIONS {
 	//Size&Position
 	uint8_t DynamicResize;
 	uint8_t UseMinimumWidth;
-	WORD MinimumWidth;
+	uint16_t MinimumWidth;
 	uint8_t UseMaximumWidth;
-	WORD MaximumWidth;
+	uint16_t MaximumWidth;
 	int Position;
 	int Spreading;
 	//position Popup
@@ -68,13 +68,13 @@ typedef struct tagPOPUPOPTIONS {
 	//==Page Advanced====
 	//History
 	uint8_t EnableHistory;
-	WORD HistorySize;
+	uint16_t HistorySize;
 	uint8_t UseHppHistoryLog;
 	//Avatars
 	uint8_t avatarBorders;
 	uint8_t avatarPNGBorders;
 	uint8_t avatarRadius;
-	WORD avatarSize;
+	uint16_t avatarSize;
 	uint8_t EnableAvatarUpdates;
 	//Monitor
 	uint8_t Monitor;
@@ -89,7 +89,7 @@ typedef struct tagPOPUPOPTIONS {
 	DWORD FadeIn;
 	DWORD FadeOut;
 	//Others
-	WORD MaxPopups;
+	uint16_t MaxPopups;
 } POPUPOPTIONS;
 
 //===== User wnd class =====

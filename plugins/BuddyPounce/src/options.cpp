@@ -119,7 +119,7 @@ void COptionsDlg::saveLastSetting()
 		g_plugin.setDword(hContact, "GiveUpDate", (DWORD)edtNumber.GetInt() * SECONDSINADAY);
 		break;
 	case 5:	// confirm window
-		g_plugin.setWord(hContact, "ConfirmTimeout", (WORD)edtNumber.GetInt());
+		g_plugin.setWord(hContact, "ConfirmTimeout", (uint16_t)edtNumber.GetInt());
 		break;
 	}
 }

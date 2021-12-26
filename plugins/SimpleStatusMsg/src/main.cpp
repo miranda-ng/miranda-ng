@@ -430,7 +430,7 @@ void SaveStatusAsCurrent(const char *szProto, int iStatus)
 {
 	char szSetting[80];
 	mir_snprintf(szSetting, "Cur%sStatus", szProto);
-	g_plugin.setWord(szSetting, (WORD)iStatus);
+	g_plugin.setWord(szSetting, (uint16_t)iStatus);
 }
 
 static wchar_t *GetAwayMessage(int iStatus, const char *szProto, BOOL bInsertVars, MCONTACT hContact)
@@ -1115,7 +1115,7 @@ VOID CALLBACK SetStartupStatusGlobal(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 			ChangeStatusMessage(status_mode, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
 		else {
 			// pseudo-currentDesiredStatusMode ;-)
-			g_plugin.setWord("StartupStatus", (WORD)temp_status_mode);
+			g_plugin.setWord("StartupStatus", (uint16_t)temp_status_mode);
 			ChangeStatusMessage(ID_STATUS_CURRENT, (LPARAM)"SimpleStatusMsgGlobalStartupStatus");
 		}
 		return;
@@ -1624,7 +1624,7 @@ int CMPlugin::Load()
 	hwndSAMsgDialog = nullptr;
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));
 
-	db_set_w(0, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
+	db_set_w(0, "CList", "Status", (uint16_t)ID_STATUS_OFFLINE);
 
 	HookEvent(ME_OPT_INITIALISE, InitOptions);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);

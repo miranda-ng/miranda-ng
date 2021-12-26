@@ -25,7 +25,7 @@ INT_PTR CALLBACK DlgOption::SubGlobal::staticInfoProc(HWND hDlg, UINT msg, WPARA
 			SetDlgItemText(hDlg, IDC_FEATURES, TranslateW(info.szTeaser));
 			SetDlgItemText(hDlg, IDC_DESCRIPTION, TranslateW(info.szDescription));
 
-			static const WORD LinkIDs[] = { IDC_LINK2, IDC_LINK1 };
+			static const uint16_t LinkIDs[] = { IDC_LINK2, IDC_LINK1 };
 
 			ext::string linkTexts = TranslateW(info.szLinkTexts);
 			ext::string linkURLs = info.szLinkURLs;

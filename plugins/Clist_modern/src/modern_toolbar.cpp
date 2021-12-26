@@ -103,7 +103,7 @@ struct
 {
 	HBITMAP  mtb_hBmpBackground;
 	COLORREF mtb_bkColour;
-	WORD     mtb_backgroundBmpUse;
+	uint16_t     mtb_backgroundBmpUse;
 	BOOL     mtb_useWinColors;
 }
 static tbdat = { nullptr, CLCDEFAULT_BKCOLOUR, CLCDEFAULT_BKBMPUSE, CLCDEFAULT_USEWINDOWSCOLOURS };

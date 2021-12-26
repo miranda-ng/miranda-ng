@@ -55,7 +55,7 @@ struct GlobalMessageData
 	CMOption<bool> bUseStatusWinIcon;
 
 	CMOption<bool> bLimitAvatarHeight;
-	CMOption<WORD> iAvatarHeight;
+	CMOption<uint16_t> iAvatarHeight;
 
 	CMOption<DWORD> popupFlags;
 	CMOption<DWORD> msgTimeout;
@@ -63,7 +63,7 @@ struct GlobalMessageData
 	CMOption<uint8_t>  iGap;
 
 	CMOption<uint8_t>  iLoadHistory;
-	CMOption<WORD>  nLoadCount, nLoadTime;
+	CMOption<uint16_t>  nLoadCount, nLoadTime;
 
 	bool bSmileyInstalled = false;
 };

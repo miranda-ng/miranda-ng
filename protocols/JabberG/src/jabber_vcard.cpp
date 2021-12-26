@@ -563,7 +563,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SetDlgItemTextA(hwndDlg, IDC_EMAIL, email);
 
 			mir_snprintf(idstr, "e-mailFlag%d", (int)lParam);
-			WORD nFlag = dat->ppro->getWord(idstr, 0);
+			uint16_t nFlag = dat->ppro->getWord(idstr, 0);
 			if (nFlag & JABBER_VCEMAIL_HOME) CheckDlgButton(hwndDlg, IDC_HOME, BST_CHECKED);
 			if (nFlag & JABBER_VCEMAIL_WORK) CheckDlgButton(hwndDlg, IDC_WORK, BST_CHECKED);
 			if (nFlag & JABBER_VCEMAIL_INTERNET) CheckDlgButton(hwndDlg, IDC_INTERNET, BST_CHECKED);
@@ -588,7 +588,7 @@ static INT_PTR CALLBACK EditEmailDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			mir_snprintf(idstr, "e-mail%d", dat->id);
 			dat->ppro->setWString(idstr, text);
 			{
-				WORD nFlag = 0;
+				uint16_t nFlag = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_HOME)) nFlag |= JABBER_VCEMAIL_HOME;
 				if (IsDlgButtonChecked(hwndDlg, IDC_WORK)) nFlag |= JABBER_VCEMAIL_WORK;
 				if (IsDlgButtonChecked(hwndDlg, IDC_INTERNET)) nFlag |= JABBER_VCEMAIL_INTERNET;
@@ -659,7 +659,7 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			mir_snprintf(idstr, "Phone%d", dat->id);
 			dat->ppro->setString(idstr, text);
 			{
-				WORD nFlag = 0;
+				uint16_t nFlag = 0;
 				if (IsDlgButtonChecked(hwndDlg, IDC_HOME))  nFlag |= JABBER_VCTEL_HOME;
 				if (IsDlgButtonChecked(hwndDlg, IDC_WORK))  nFlag |= JABBER_VCTEL_WORK;
 				if (IsDlgButtonChecked(hwndDlg, IDC_VOICE)) nFlag |= JABBER_VCTEL_VOICE;
@@ -872,7 +872,7 @@ static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lP
 							ppro->setString(idstr, fieldVal);
 
 							mir_snprintf(idstr, szFlagTemplate, i + 1);
-							WORD nFlag = ppro->getWord(idstr, 0);
+							uint16_t nFlag = ppro->getWord(idstr, 0);
 							mir_snprintf(idstr, szFlagTemplate, i);
 							ppro->setWord(idstr, nFlag);
 						}
@@ -1043,7 +1043,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 		AppendVcardFromDB(e, "USERID", idstr);
 
 		mir_snprintf(idstr, "e-mailFlag%d", i);
-		WORD nFlag = getWord(idstr, 0);
+		uint16_t nFlag = getWord(idstr, 0);
 		if (nFlag & JABBER_VCEMAIL_HOME)     e << XCHILD("HOME");
 		if (nFlag & JABBER_VCEMAIL_WORK)     e << XCHILD("WORK");
 		if (nFlag & JABBER_VCEMAIL_INTERNET) e << XCHILD("INTERNET");
@@ -1091,7 +1091,7 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 		AppendVcardFromDB(n, "NUMBER", idstr);
 
 		mir_snprintf(idstr, "PhoneFlag%d", i);
-		WORD nFlag = getWord(idstr, 0);
+		uint16_t nFlag = getWord(idstr, 0);
 		if (nFlag & JABBER_VCTEL_HOME)  n << XCHILD("HOME");
 		if (nFlag & JABBER_VCTEL_WORK)  n << XCHILD("WORK");
 		if (nFlag & JABBER_VCTEL_VOICE) n << XCHILD("VOICE");

@@ -32,14 +32,14 @@ struct Options {
 	wchar_t popup_changed[1024];
 	BOOL popup_show_removed;
 	wchar_t popup_removed[1024];
-	WORD popup_delay_type;
-	WORD popup_timeout;
+	uint16_t popup_delay_type;
+	uint16_t popup_timeout;
 	uint8_t popup_use_win_colors;
 	uint8_t popup_use_default_colors;
 	COLORREF popup_bkg_color;
 	COLORREF popup_text_color;
-	WORD popup_left_click_action;
-	WORD popup_right_click_action;
+	uint16_t popup_left_click_action;
+	uint16_t popup_right_click_action;
 };
 
 // Initializations needed by popups

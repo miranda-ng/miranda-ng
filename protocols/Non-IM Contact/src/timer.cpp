@@ -19,7 +19,7 @@ void timerFunc(void*)
 		killTimer();
 		return;
 	}
-	g_plugin.setWord("timerCount", (WORD)timerCount);
+	g_plugin.setWord("timerCount", (uint16_t)timerCount);
 
 	/* update the web pages*/
 	for (int i = 0;; i++) {

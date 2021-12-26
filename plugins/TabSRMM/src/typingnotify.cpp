@@ -170,7 +170,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 
 static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WORD idCtrl, wNotifyCode;
+	uint16_t idCtrl, wNotifyCode;
 
 	switch (msg) {
 	case WM_INITDIALOG:

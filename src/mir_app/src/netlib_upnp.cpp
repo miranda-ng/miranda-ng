@@ -109,7 +109,7 @@ static SOCKET sock = INVALID_SOCKET;
 static char szConnHost[256];
 static unsigned short sConnPort;
 
-static WORD *portList;
+static uint16_t *portList;
 static unsigned numports, numportsAlloc;
 static HANDLE portListMutex;
 
@@ -664,7 +664,7 @@ static bool findUPnPGateway(void)
 	return gatewayFound;
 }
 
-bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *extip, bool search)
+bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, DWORD *extip, bool search)
 {
 	int res = 0, i = 5;
 
@@ -693,7 +693,7 @@ bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *e
 			if (ip) *extip = ip;
 
 			if (numports >= numportsAlloc)
-				mir_realloc(portList, sizeof(WORD)*(numportsAlloc += 10));
+				mir_realloc(portList, sizeof(uint16_t)*(numportsAlloc += 10));
 			portList[numports++] = *extport;
 		}
 
@@ -703,7 +703,7 @@ bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *e
 	return res == 200;
 }
 
-void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
+void NetlibUPnPDeletePortMapping(uint16_t extport, char* proto)
 {
 	if (extport == 0)
 		return;
@@ -720,7 +720,7 @@ void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
 
 		for (i = 0; i < numports; i++)
 			if (portList[i] == extport && --numports > 0)
-				memmove(&portList[i], &portList[i + 1], (numports - i) * sizeof(WORD));
+				memmove(&portList[i], &portList[i + 1], (numports - i) * sizeof(uint16_t));
 
 		mir_free(szData);
 		ReleaseMutex(portListMutex);
@@ -759,7 +759,7 @@ void NetlibUPnPCleanup(void*)
 			txtParseParam(szData, "QueryStateVariableResponse", "<return>", "<", buf, sizeof(buf)))
 			num = atol(buf);
 
-		WORD ports[30];
+		uint16_t ports[30];
 		for (unsigned i = 0; i < num && !Miranda_IsTerminated(); i++) {
 			mir_snprintf(szData, 4096, get_port_mapping, i);
 
@@ -776,7 +776,7 @@ void NetlibUPnPCleanup(void*)
 				continue;
 
 			if (txtParseParam(szData, "<NewExternalPort", ">", "<", buf, sizeof(buf))) {
-				WORD mport = (WORD)atol(buf);
+				uint16_t mport = (uint16_t)atol(buf);
 
 				if (j >= _countof(ports))
 					break;
@@ -801,7 +801,7 @@ void NetlibUPnPInit(void)
 {
 	numports = 0;
 	numportsAlloc = 10;
-	portList = (WORD*)mir_alloc(sizeof(WORD)*numportsAlloc);
+	portList = (uint16_t*)mir_alloc(sizeof(uint16_t)*numportsAlloc);
 
 	portListMutex = CreateMutex(nullptr, FALSE, nullptr);
 }

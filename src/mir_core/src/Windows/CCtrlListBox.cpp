@@ -29,7 +29,7 @@ CCtrlListBox::CCtrlListBox(CDlgBase *dlg, int ctrlId)
 	: CCtrlBase(dlg, ctrlId)
 {}
 
-BOOL CCtrlListBox::OnCommand(HWND, WORD, WORD idCode)
+BOOL CCtrlListBox::OnCommand(HWND, uint16_t, uint16_t idCode)
 {
 	switch (idCode) {
 		case LBN_DBLCLK:    OnDblClick(this); break;

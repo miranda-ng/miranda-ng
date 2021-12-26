@@ -50,7 +50,7 @@ typedef struct tagBox {
 protected:
     float *gm2;
 	LONG *wt, *mr, *mg, *mb;
-	WORD *Qadd;
+	uint16_t *Qadd;
 
 	// DIB data
 	unsigned width, height;

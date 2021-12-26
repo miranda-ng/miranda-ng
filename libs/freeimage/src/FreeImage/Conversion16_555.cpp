@@ -33,7 +33,7 @@
 
 void DLL_CALLCONV
 FreeImage_ConvertLine1To16_555(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
-	WORD *new_bits = (WORD *)target;
+	uint16_t *new_bits = (uint16_t *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		int index = (source[cols >> 3] & (0x80 >> (cols & 0x07))) != 0 ? 1 : 0;
@@ -44,7 +44,7 @@ FreeImage_ConvertLine1To16_555(uint8_t *target, uint8_t *source, int width_in_pi
 
 void DLL_CALLCONV
 FreeImage_ConvertLine4To16_555(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
-	WORD *new_bits = (WORD *)target;
+	uint16_t *new_bits = (uint16_t *)target;
 	BOOL lonibble = FALSE;
 	int x = 0;
 
@@ -65,7 +65,7 @@ FreeImage_ConvertLine4To16_555(uint8_t *target, uint8_t *source, int width_in_pi
 
 void DLL_CALLCONV
 FreeImage_ConvertLine8To16_555(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
-	WORD *new_bits = (WORD *)target;
+	uint16_t *new_bits = (uint16_t *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		RGBQUAD *grab_palette = palette + source[cols];
@@ -76,8 +76,8 @@ FreeImage_ConvertLine8To16_555(uint8_t *target, uint8_t *source, int width_in_pi
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16_565_To16_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *src_bits = (WORD *)source;
-	WORD *new_bits = (WORD *)target;
+	uint16_t *src_bits = (uint16_t *)source;
+	uint16_t *new_bits = (uint16_t *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		new_bits[cols] = RGB555((((src_bits[cols] & FI16_565_BLUE_MASK) >> FI16_565_BLUE_SHIFT) * 0xFF) / 0x1F,
@@ -88,7 +88,7 @@ FreeImage_ConvertLine16_565_To16_555(uint8_t *target, uint8_t *source, int width
 
 void DLL_CALLCONV
 FreeImage_ConvertLine24To16_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *new_bits = (WORD *)target;
+	uint16_t *new_bits = (uint16_t *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		new_bits[cols] = RGB555(source[FI_RGBA_BLUE], source[FI_RGBA_GREEN], source[FI_RGBA_RED]);
@@ -99,7 +99,7 @@ FreeImage_ConvertLine24To16_555(uint8_t *target, uint8_t *source, int width_in_p
 
 void DLL_CALLCONV
 FreeImage_ConvertLine32To16_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *new_bits = (WORD *)target;
+	uint16_t *new_bits = (uint16_t *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		new_bits[cols] = RGB555(source[FI_RGBA_BLUE], source[FI_RGBA_GREEN], source[FI_RGBA_RED]);

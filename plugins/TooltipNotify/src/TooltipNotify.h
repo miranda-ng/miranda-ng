@@ -52,8 +52,8 @@ private:
 		uint8_t  bAlpha;
 		uint8_t  bLDblClick;
 		uint8_t  bPrefixProto;
-		WORD  wDuration;
-		WORD  wStartupDelay;
+		uint16_t  wDuration;
+		uint16_t  wStartupDelay;
 		uint8_t  bIgnoreNew;
 		uint8_t  bIgnoreUnknown;
 	} m_sOptions;

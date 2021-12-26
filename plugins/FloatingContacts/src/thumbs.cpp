@@ -400,7 +400,7 @@ void ThumbInfo::OnMouseMove(int nX, int nY)
 	}
 
 	if (bEnableTip && fcOpt.bShowTip && !bMouseDown) {
-		WORD tmpTimeIn;
+		uint16_t tmpTimeIn;
 		POINT pt;
 		RECT rc;
 

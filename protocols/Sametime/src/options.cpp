@@ -100,14 +100,14 @@ static INT_PTR CALLBACK DlgProcOptNet(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		proto = (CSametimeProto*)lParam;
 
-		WORD client_ver = proto->GetClientVersion();
+		uint16_t client_ver = proto->GetClientVersion();
 		if (client_ver) {
 			wchar_t verbuf[100];
 			mir_snwprintf(verbuf, TranslateT("Client protocol version: %03d.%03d"), (client_ver & 0xFF00) >> 8, client_ver & 0xFF);
 			SetDlgItemText(hwndDlg, IDC_ST_CLIENTVER, verbuf);
 		}
 
-		WORD server_ver = proto->GetServerVersion();
+		uint16_t server_ver = proto->GetServerVersion();
 		if (server_ver) {
 			wchar_t verbuf[100];
 			mir_snwprintf(verbuf, TranslateT("Server protocol version: %03d.%03d"), (server_ver & 0xFF00) >> 8, server_ver & 0xFF);

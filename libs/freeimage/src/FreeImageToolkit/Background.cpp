@@ -192,9 +192,9 @@ GetAlphaBlendedColor(const RGBQUAD *bgcolor, const RGBQUAD *fgcolor, RGBQUAD *bl
 	uint8_t alpha = fgcolor->rgbReserved;
 	uint8_t not_alpha = ~alpha;
 	
-	blended->rgbRed   = (uint8_t)( ((WORD)fgcolor->rgbRed   * alpha + not_alpha * (WORD)bgcolor->rgbRed)   >> 8 );
-	blended->rgbGreen = (uint8_t)( ((WORD)fgcolor->rgbGreen * alpha + not_alpha * (WORD)bgcolor->rgbGreen) >> 8) ;
-	blended->rgbBlue  = (uint8_t)( ((WORD)fgcolor->rgbBlue   * alpha + not_alpha * (WORD)bgcolor->rgbBlue)  >> 8 );
+	blended->rgbRed   = (uint8_t)( ((uint16_t)fgcolor->rgbRed   * alpha + not_alpha * (uint16_t)bgcolor->rgbRed)   >> 8 );
+	blended->rgbGreen = (uint8_t)( ((uint16_t)fgcolor->rgbGreen * alpha + not_alpha * (uint16_t)bgcolor->rgbGreen) >> 8) ;
+	blended->rgbBlue  = (uint8_t)( ((uint16_t)fgcolor->rgbBlue   * alpha + not_alpha * (uint16_t)bgcolor->rgbBlue)  >> 8 );
 	blended->rgbReserved = 0xFF;
 
 	return TRUE;
@@ -309,9 +309,9 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 			break;
 		}
 		case 16: {
-			WORD wcolor = RGBQUAD_TO_WORD(dib, color_intl);
+			uint16_t wcolor = RGBQUAD_TO_WORD(dib, color_intl);
 			for (unsigned x = 0; x < width; x++) {
-				((WORD *)dst_bits)[x] = wcolor;
+				((uint16_t *)dst_bits)[x] = wcolor;
 			}
 			break;
 		}
@@ -626,8 +626,8 @@ FreeImage_AllocateExT(FREE_IMAGE_TYPE type, int width, int height, int bpp, cons
 				break;
 			}
 			case 16: {
-				WORD wcolor = (type == FIT_BITMAP) ?
-					RGBQUAD_TO_WORD(bitmap, ((RGBQUAD *)color)) : *((WORD *)color);
+				uint16_t wcolor = (type == FIT_BITMAP) ?
+					RGBQUAD_TO_WORD(bitmap, ((RGBQUAD *)color)) : *((uint16_t *)color);
 				if (wcolor != 0) {
 					FreeImage_FillBackground(bitmap, color, options);
 				}

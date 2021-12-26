@@ -130,7 +130,7 @@ FreeImage_ConvertToRGBF(FIBITMAP *dib) {
 			uint8_t *dst_bits = (uint8_t*)FreeImage_GetBits(dst);
 
 			for(unsigned y = 0; y < height; y++) {
-				const WORD *src_pixel = (WORD*)src_bits;
+				const uint16_t *src_pixel = (uint16_t*)src_bits;
 				FIRGBF *dst_pixel = (FIRGBF*)dst_bits;
 
 				for(unsigned x = 0; x < width; x++) {

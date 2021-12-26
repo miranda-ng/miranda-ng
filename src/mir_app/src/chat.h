@@ -69,7 +69,7 @@ BOOL          SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const w
 void          SM_RemoveAll(void);
 int           SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeContact);
 BOOL          SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID);
-BOOL          SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, WORD wStatus);
+BOOL          SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, uint16_t wStatus);
 BOOL          SM_SetOffline(const char *pszModule, SESSION_INFO *si);
 BOOL          SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus);
 BOOL          SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus);
@@ -79,7 +79,7 @@ SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);
 
 STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);
-WORD          TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+uint16_t          TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);

@@ -389,7 +389,7 @@ public:
 	STDMETHOD(GetTypeInfoCount)(UINT*);
 	STDMETHOD(GetTypeInfo)(UINT, LCID, LPTYPEINFO*);
 	STDMETHOD(GetIDsOfNames)(REFIID, LPOLESTR*, UINT, LCID, DISPID*);
-	STDMETHOD(Invoke)(DISPID, REFIID, LCID, WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
+	STDMETHOD(Invoke)(DISPID, REFIID, LCID, uint16_t, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
 	// DWebBrowserEvents2
 	STDMETHODIMP_(void)StatusTextChange(BSTR);
 	STDMETHODIMP_(void)ProgressChange(long, long);
@@ -453,7 +453,7 @@ class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, p
 	STDMETHOD(GetTypeInfoCount)(UINT*);
 	STDMETHOD(GetTypeInfo)(UINT, LCID, LPTYPEINFO*);
 	STDMETHOD(GetIDsOfNames)(REFIID, LPOLESTR*, UINT, LCID, DISPID*);
-	STDMETHOD(Invoke)(DISPID, REFIID, LCID, WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
+	STDMETHOD(Invoke)(DISPID, REFIID, LCID, uint16_t, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
 	// IOleWindow
 	STDMETHOD(GetWindow)(HWND *phwnd);
 	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode);

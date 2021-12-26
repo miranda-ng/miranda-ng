@@ -39,7 +39,7 @@ DlgOption::SubBase::~SubBase()
 {
 }
 
-void DlgOption::SubBase::createWindow(DlgOption* pParent, WORD nDlgResource, const RECT& rect)
+void DlgOption::SubBase::createWindow(DlgOption* pParent, uint16_t nDlgResource, const RECT& rect)
 {
 	m_pParent = pParent;
 

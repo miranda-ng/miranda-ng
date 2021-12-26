@@ -914,7 +914,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					//							g_plugin.delSetting(szSetting);
 
 					mir_snprintf(szSetting, "Proto%sMaxLen", pa->szModuleName);
-					g_plugin.setWord(szSetting, (WORD)data->proto_msg[i + 1].max_length);
+					g_plugin.setWord(szSetting, (uint16_t)data->proto_msg[i + 1].max_length);
 
 					mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
 					g_plugin.setByte(szSetting, (uint8_t)data->proto_msg[i + 1].flags);
@@ -1008,7 +1008,7 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 				KillTimer(nullptr, g_uUpdateMsgTimer);
 
 			int val = SendDlgItemMessage(hwndDlg, IDC_SSECUPDTMSG, UDM_GETPOS, 0, 0);
-			g_plugin.setWord("UpdateMsgInt", (WORD)val);
+			g_plugin.setWord("UpdateMsgInt", (uint16_t)val);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val) {
 				g_plugin.setByte("UpdateMsgOn", (uint8_t)1);
@@ -1207,7 +1207,7 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 					mir_snprintf(setting, "Last%sMsg", pa->szModuleName);
 					g_plugin.setString(setting, "");
 				}
-				g_plugin.setWord("LMMsg", (WORD)max_hist_msgs);
+				g_plugin.setWord("LMMsg", (uint16_t)max_hist_msgs);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BOPTHIST), FALSE);
 			}
 			return 0;
@@ -1459,12 +1459,12 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 
 				char szSetting[80];
 				mir_snprintf(szSetting, "Startup%sStatus", pa->szModuleName);
-				g_plugin.setWord(szSetting, (WORD)data->status[i]);
+				g_plugin.setWord(szSetting, (uint16_t)data->status[i]);
 
 				mir_snprintf(szSetting, "Set%sStatusDelay", pa->szModuleName);
-				g_plugin.setWord(szSetting, (WORD)data->setdelay[i]);
+				g_plugin.setWord(szSetting, (uint16_t)data->setdelay[i]);
 			}
-			g_plugin.setWord("SetStatusDelay", (WORD)data->setglobaldelay);
+			g_plugin.setWord("SetStatusDelay", (uint16_t)data->setglobaldelay);
 			g_plugin.setByte("GlobalStatusDelay", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
 			g_plugin.setByte("StartupPopupDlg", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
 			return TRUE;

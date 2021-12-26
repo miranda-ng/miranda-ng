@@ -98,7 +98,7 @@ struct DBSettingValue
 	union
 	{
 		uint8_t bVal;
-		WORD wVal;
+		uint16_t wVal;
 		DWORD dwVal;
 		char szVal[];
 

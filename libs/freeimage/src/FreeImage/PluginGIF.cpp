@@ -64,10 +64,10 @@ struct GIFinfo {
 
 struct PageInfo {
 	PageInfo(int d, int l, int t, int w, int h) { 
-		disposal_method = d; left = (WORD)l; top = (WORD)t; width = (WORD)w; height = (WORD)h; 
+		disposal_method = d; left = (uint16_t)l; top = (uint16_t)t; width = (uint16_t)w; height = (uint16_t)h; 
 	}
 	int disposal_method;
-	WORD left, top, width, height;
+	uint16_t left, top, width, height;
 };
 
 //GIF defines a max of 12 bits per code
@@ -144,7 +144,7 @@ static int g_GifInterlaceIncrement[GIF_INTERLACE_PASSES] = {8, 8, 4, 2};
 // ==========================================================
 
 static BOOL 
-FreeImage_SetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, WORD id, FREE_IMAGE_MDTYPE type, DWORD count, DWORD length, const void *value)
+FreeImage_SetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, uint16_t id, FREE_IMAGE_MDTYPE type, DWORD count, DWORD length, const void *value)
 {
 	BOOL bResult = FALSE;
 	FITAG *tag = FreeImage_CreateTag();
@@ -672,15 +672,15 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	try {
 		bool have_transparent = false, no_local_palette = false, interlaced = false;
 		int disposal_method = GIF_DISPOSAL_LEAVE, delay_time = 0, transparent_color = 0;
-		WORD left, top, width, height;
+		uint16_t left, top, width, height;
 		uint8_t packed, b;
-		WORD w;
+		uint16_t w;
 
 		//playback pages to generate what the user would see for this frame
 		if( (flags & GIF_PLAYBACK) == GIF_PLAYBACK ) {
 			//Logical Screen Descriptor
 			io->seek_proc(handle, 6, SEEK_SET);
-			WORD logicalwidth, logicalheight;
+			uint16_t logicalwidth, logicalheight;
 			io->read_proc(&logicalwidth, 2, 1, handle);
 			io->read_proc(&logicalheight, 2, 1, handle);
 #ifdef FREEIMAGE_BIGENDIAN
@@ -958,7 +958,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			//Logical Screen Descriptor
 			io->seek_proc(handle, 6, SEEK_SET);
-			WORD logicalwidth, logicalheight;
+			uint16_t logicalwidth, logicalheight;
 			io->read_proc(&logicalwidth, 2, 1, handle);
 			io->read_proc(&logicalheight, 2, 1, handle);
 #ifdef FREEIMAGE_BIGENDIAN
@@ -1083,7 +1083,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 	try {
 		uint8_t packed, b;
-		WORD w;
+		uint16_t w;
 		FITAG *tag;
 
 		int bpp = FreeImage_GetBPP(dib);
@@ -1093,13 +1093,13 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 		bool have_transparent = false, no_local_palette = false, interlaced = false;
 		int disposal_method = GIF_DISPOSAL_BACKGROUND, delay_time = 100, transparent_color = 0;
-		WORD left = 0, top = 0, width = (WORD)FreeImage_GetWidth(dib), height = (WORD)FreeImage_GetHeight(dib);
-		WORD output_height = height;
+		uint16_t left = 0, top = 0, width = (uint16_t)FreeImage_GetWidth(dib), height = (uint16_t)FreeImage_GetHeight(dib);
+		uint16_t output_height = height;
 		if( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameLeft", FIDT_SHORT, &tag) ) {
-			left = *(WORD *)FreeImage_GetTagValue(tag);
+			left = *(uint16_t *)FreeImage_GetTagValue(tag);
 		}
 		if( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "FrameTop", FIDT_SHORT, &tag) ) {
-			top = *(WORD *)FreeImage_GetTagValue(tag);
+			top = *(uint16_t *)FreeImage_GetTagValue(tag);
 		}
 		if( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "NoLocalPalette", FIDT_BYTE, &tag) ) {
 			no_local_palette = *(uint8_t *)FreeImage_GetTagValue(tag) ? true : false;
@@ -1124,16 +1124,16 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 		if( page == 0 ) {
 			//gather some info
-			WORD logicalwidth = width; // width has already been swapped...
+			uint16_t logicalwidth = width; // width has already been swapped...
 			if( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalWidth", FIDT_SHORT, &tag) ) {
-				logicalwidth = *(WORD *)FreeImage_GetTagValue(tag);
+				logicalwidth = *(uint16_t *)FreeImage_GetTagValue(tag);
 #ifdef FREEIMAGE_BIGENDIAN
 				SwapShort(&logicalwidth);
 #endif
 			}
-			WORD logicalheight = height; // height has already been swapped...
+			uint16_t logicalheight = height; // height has already been swapped...
 			if( FreeImage_GetMetadataEx(FIMD_ANIMATION, dib, "LogicalHeight", FIDT_SHORT, &tag) ) {
-				logicalheight = *(WORD *)FreeImage_GetTagValue(tag);
+				logicalheight = *(uint16_t *)FreeImage_GetTagValue(tag);
 #ifdef FREEIMAGE_BIGENDIAN
 				SwapShort(&logicalheight);
 #endif
@@ -1219,7 +1219,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 				//the Netscape extension is really "repeats" not "loops"
 				if( loop > 1 ) loop--;
 				if( loop > 0xFFFF ) loop = 0xFFFF;
-				w = (WORD)loop;
+				w = (uint16_t)loop;
 #ifdef FREEIMAGE_BIGENDIAN
 				SwapShort(&w);
 #endif
@@ -1275,7 +1275,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		//IE5/IE6 have a minimum and default of 100ms
 		//Mozilla/Firefox/Netscape 6+/Opera have a minimum of 20ms and a default of 100ms if <20ms is specified or the GCE is absent
 		//Netscape 4 has a minimum of 10ms if 0ms is specified, but will use 0ms if the GCE is absent
-		w = (WORD)(delay_time / 10); //convert ms to cs
+		w = (uint16_t)(delay_time / 10); //convert ms to cs
 #ifdef FREEIMAGE_BIGENDIAN
 		SwapShort(&w);
 #endif
@@ -1344,7 +1344,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		}
 		size = (int)(bufptr - buf);
 		uint8_t last[4];
-		w = (WORD)stringtable->CompressEnd(last);
+		w = (uint16_t)stringtable->CompressEnd(last);
 		if( size + w >= sizeof(buf) ) {
 			//one last full size sub-block
 			io->write_proc(&b, 1, 1, handle);

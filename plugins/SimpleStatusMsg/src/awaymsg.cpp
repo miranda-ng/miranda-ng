@@ -57,7 +57,7 @@ public:
 		wchar_t str[256], format[128];
 		wchar_t *contactName = Clist_GetContactDisplayName(m_hContact, 0);
 		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		WORD dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
+		uint16_t dwStatus = db_get_w(m_hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		wchar_t *status = Clist_GetStatusModeDescription(dwStatus, 0);
 
 		GetWindowText(m_hwnd, format, _countof(format));

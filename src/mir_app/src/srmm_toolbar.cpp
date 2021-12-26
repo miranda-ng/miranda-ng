@@ -640,7 +640,7 @@ public:
 		SaveTree();               // save the whole tree then
 		CB_ReInitCustomButtons();
 
-		WORD newGap = m_gap.GetPosition();
+		uint16_t newGap = m_gap.GetPosition();
 		if (newGap != db_get_b(0, BB_MODULE_NAME, "ButtonsBarGap", 1)) {
 			WindowList_BroadcastAsync(g_hWindowList, WM_SIZE, 0, 0);
 			db_set_b(0, BB_MODULE_NAME, "ButtonsBarGap", newGap);

@@ -242,13 +242,13 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 			auto pProvider = GetContactProviderPtr(hContact);
 			CAdvProviderSettings setGlobal(pProvider);
 			// log to history
-			WORD dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
+			uint16_t dwLogMode = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, setGlobal.GetLogMode());
 			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, g_plugin.getMStringW(hContact, DB_STR_CURRENCYRATE_FORMAT_HISTORY, setGlobal.GetHistoryFormat()));
 
-			WORD wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
+			uint16_t wOnlyIfChanged = g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_HISTORY_CONDITION, setGlobal.GetHistoryOnlyChangedFlag());
 			::CheckDlgButton(hWnd, IDC_CHECK_HISTORY_CONDITION, (1 == wOnlyIfChanged) ? BST_CHECKED : BST_UNCHECKED);
 
 			// log to file
@@ -335,7 +335,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 				bool bUseContactSpec = 1 == ::IsDlgButtonChecked(hWnd, IDC_CHECK_CONTACT_SPECIFIC);
 
-				WORD nLogMode = lmDisabled;
+				uint16_t nLogMode = lmDisabled;
 				UINT nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_EXTERNAL_FILE);
 				if (1 == nCheck)
 					nLogMode |= lmExternalFile;
@@ -456,7 +456,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, pAdvSettings->GetProviderPtr()->GetInfo().m_sName.c_str());
 
 			// log to history
-			WORD dwLogMode = pAdvSettings->GetLogMode();
+			uint16_t dwLogMode = pAdvSettings->GetLogMode();
 			UINT nCheck = (dwLogMode & lmInternalHistory) ? 1 : 0;
 			::CheckDlgButton(hWnd, IDC_CHECK_INTERNAL_HISTORY, nCheck ? BST_CHECKED : BST_UNCHECKED);
 			::SetDlgItemText(hWnd, IDC_EDIT_HISTORY_FORMAT, pAdvSettings->GetHistoryFormat().c_str());
@@ -488,7 +488,7 @@ INT_PTR CALLBACK EditSettingsPerProviderDlgProc(HWND hWnd, UINT msg, WPARAM wp, 
 		switch (LOWORD(wp)) {
 		case IDOK:
 			{
-				WORD nLogMode = lmDisabled;
+				uint16_t nLogMode = lmDisabled;
 				UINT nCheck = ::IsDlgButtonChecked(hWnd, IDC_CHECK_EXTERNAL_FILE);
 				if (1 == nCheck) {
 					nLogMode |= lmExternalFile;
@@ -613,7 +613,7 @@ CAdvProviderSettings::CAdvProviderSettings(const ICurrencyRatesProvider *pCurren
 {
 	assert(m_pCurrencyRatesProvider);
 
-	m_wLogMode = g_plugin.getWord(DB_KEY_LogMode, static_cast<WORD>(lmDisabled));
+	m_wLogMode = g_plugin.getWord(DB_KEY_LogMode, static_cast<uint16_t>(lmDisabled));
 	m_sFormatHistory = g_plugin.getMStringW(DB_KEY_HistoryFormat, DB_DEF_HistoryFormat);
 	m_bIsOnlyChangedHistory = 1 == g_plugin.getByte(DB_KEY_HistoryCondition, 0);
 
@@ -778,12 +778,12 @@ void CPopupSettings::SetDelayMode(EDelayMode nMode)
 	m_modeDelay = nMode;
 }
 
-WORD CPopupSettings::GetDelayTimeout() const
+uint16_t CPopupSettings::GetDelayTimeout() const
 {
 	return m_wDelay;
 }
 
-void CPopupSettings::SetDelayTimeout(WORD delay)
+void CPopupSettings::SetDelayTimeout(uint16_t delay)
 {
 	m_wDelay = delay;
 }

@@ -1084,7 +1084,7 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, wchar_t *dateout, int lendat
 		return;
 	}
 	SYSTEMTIME st;
-	WORD wTodayYear = 0, wTodayMonth = 0, wTodayDay = 0;
+	uint16_t wTodayYear = 0, wTodayMonth = 0, wTodayDay = 0;
 	FILETIME ft;
 	BOOL willShowDate = !(optDateTime&SHOWDATENOTODAY);
 	if (!willShowDate) {

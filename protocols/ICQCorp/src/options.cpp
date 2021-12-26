@@ -50,7 +50,7 @@ static INT_PTR CALLBACK icqOptionsDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LP
 			g_plugin.setString("Password", str);
 			GetDlgItemTextA(hWnd, IDC_OPT_SERVER, str, sizeof(str));
 			g_plugin.setString("Server", str);
-			g_plugin.setWord("Port", (WORD)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
+			g_plugin.setWord("Port", (uint16_t)GetDlgItemInt(hWnd, IDC_OPT_PORT, nullptr, FALSE));
 			return TRUE;
 		}
 		break;

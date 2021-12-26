@@ -1584,7 +1584,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						if (proto == nullptr)
 							continue;
 
-						WORD wStatus = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
+						uint16_t wStatus = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 						WordToStatusDesc(hContact, proto, "Status", swzStatus, 256);
 
 						if (wStatus != ID_STATUS_OFFLINE)

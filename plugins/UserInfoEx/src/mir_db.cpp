@@ -242,12 +242,12 @@ uint8_t GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSe
 * @param	pszSetting		- the setting to read
 * @param	destType		- desired string type (DBVT_ASCIIZ, DBVT_WCHAR, DBVT_UTF8)
 *
-* @return	This function returns the WORD which contains the source of information.
+* @return	This function returns the uint16_t which contains the source of information.
 **/
 
-WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t destType)
+uint16_t GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t destType)
 {
-	WORD wFlags = 0;
+	uint16_t wFlags = 0;
 
 	// read setting from given module
 	if (hContact && pszModule && *pszModule && !Get(hContact, pszModule, pszSetting, dbv, destType)) {
@@ -421,7 +421,7 @@ uint8_t ConvertString(DBVARIANT* dbv, const uint8_t destType)
 
 /**
 * This function completely converts a DBVARIANT to the destination string type.
-* It includes uint8_t, WORD, DWORD and all string types
+* It includes uint8_t, uint16_t, DWORD and all string types
 * @param		dbv			- pointer to DBVARIANT structure which is to manipulate
 * @param		destType	- one of (DBVT_ASCIIZ, DBVT_UTF8 or DBVT_WCHAR)
 *

@@ -409,7 +409,7 @@ static INT_PTR icqSetApparentMode(WPARAM, LPARAM)
 
 	Netlib_Logf(hNetlibUser, "[   ] set apparent mode\n");
 
-	if (newMode == ID_STATUS_ONLINE || newMode == ID_STATUS_OFFLINE) db_set_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", (WORD)newMode);
+	if (newMode == ID_STATUS_ONLINE || newMode == ID_STATUS_OFFLINE) db_set_w(u->hContact, ICQCORP_PROTONAME, "ApparentMode", (uint16_t)newMode);
 	else db_unset(u->hContact, ICQCORP_PROTONAME, "ApparentMode");
 
 	if (icq.statusVal <= ID_STATUS_OFFLINE) return 0;

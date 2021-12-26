@@ -44,7 +44,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern HNETLIBUSER ghNetlibUser;
 extern BOOL bWatrackService;
 extern wchar_t *gbHost, *gbPassword;
-extern WORD gbPort;
+extern uint16_t gbPort;
 
 extern int WaMpdOptInit(WPARAM, LPARAM);
 extern void RegisterPlayer();

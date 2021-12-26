@@ -20,5 +20,5 @@
 #pragma once
 
 /*** Process names are ANSI only ***/
-typedef BOOL (CALLBACK *PROCENUMPROC)(DWORD, WORD, char *, LPARAM);
+typedef BOOL (CALLBACK *PROCENUMPROC)(DWORD, uint16_t, char *, LPARAM);
 BOOL WINAPI EnumProcs(PROCENUMPROC lpProc, LPARAM lParam);

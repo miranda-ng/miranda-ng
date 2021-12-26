@@ -245,7 +245,7 @@ size_t CLineBuffer::operator + (const SHORT sVal)
  * return:	length of the string, added
  **/
 
-size_t CLineBuffer::operator + (const WORD wVal)
+size_t CLineBuffer::operator + (const uint16_t wVal)
 {
 	size_t cbLength = 5;
 
@@ -460,7 +460,7 @@ int CLineBuffer::fgetEncoded(FILE *inFile)
 {
 	int c;
 	CHAR hex[3];
-	WORD wAdd = 0;
+	uint16_t wAdd = 0;
 
 	hex[2] = 0;
 
@@ -1138,7 +1138,7 @@ uint8_t CVCardFileVCF::Export(uint8_t bExportUtf)
  * return:	number of characters read from the file or EOF
  **/
 
-int CVCardFileVCF::readLine(LPSTR szVCFSetting, WORD cchSetting)
+int CVCardFileVCF::readLine(LPSTR szVCFSetting, uint16_t cchSetting)
 {
 	LPSTR here;
 	int c;
@@ -1234,7 +1234,7 @@ uint8_t CVCardFileVCF::Import()
 
 					memcpy(buf, _clVal.GetBuffer(), 4);
 					buf[4] = 0;
-					db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (WORD)strtol(buf, nullptr, 10));
+					db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (uint16_t)strtol(buf, nullptr, 10));
 					memcpy(buf, _clVal.GetBuffer() + 4, 2);
 					buf[2] = 0;
 					db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (uint8_t)strtol(buf, nullptr, 10));

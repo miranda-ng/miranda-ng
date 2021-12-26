@@ -368,7 +368,7 @@ static void AddUser(GCEVENT *gce)
 	if (si == nullptr)
 		return;
 
-	WORD status = TM_StringToWord(si->pStatuses, gce->pszStatus.w);
+	uint16_t status = TM_StringToWord(si->pStatuses, gce->pszStatus.w);
 
 	USERINFO *ui = g_chatApi.UM_AddUser(si, gce->pszUID.w, gce->pszNick.w, status);
 	if (ui == nullptr)
@@ -444,7 +444,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 	// Do different things according to type of event
 	switch (gce.iType) {
 	case GC_EVENT_SETCONTACTSTATUS:
-		return SM_SetContactStatus(gce.pszID.w, gce.pszModule, gce.pszUID.w, (WORD)gce.dwItemData);
+		return SM_SetContactStatus(gce.pszID.w, gce.pszModule, gce.pszUID.w, (uint16_t)gce.dwItemData);
 
 	case GC_EVENT_TOPIC:
 		if (SESSION_INFO *si = SM_FindSession(gce.pszID.w, gce.pszModule)) {

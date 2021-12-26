@@ -85,7 +85,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 			bciphered++; clen--; // cut GZIP flag
 		}
 		if (ptr->features & FEATURES_CRC32) {
-			int len = *(WORD*)bciphered;
+			int len = *(uint16_t*)bciphered;
 			bciphered += 2; clen -= 2; // cut CRC32 length
 
 			if ((int)clen - CRC32::DIGESTSIZE < len) { // mesage not full

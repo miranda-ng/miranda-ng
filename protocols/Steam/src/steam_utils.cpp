@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-WORD CSteamProto::SteamToMirandaStatus(PersonaState state)
+uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
 {
 	switch (state) {
 	case PersonaState::Offline:

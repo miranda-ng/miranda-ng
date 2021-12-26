@@ -39,7 +39,7 @@ class CEditCtrl : public CBaseCtrl
 	 *
 	 * @return	nothing
 	 **/
-	CEditCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting);
+	CEditCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting);
 
 public:
 
@@ -49,17 +49,17 @@ public:
 	 **/
 	static FORCEINLINE CEditCtrl* GetObj(HWND hCtrl) 
 		{ return (CEditCtrl*) GetUserData(hCtrl); }
-	static FORCEINLINE CEditCtrl* GetObj(HWND hDlg, WORD idCtrl)
+	static FORCEINLINE CEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t dbType);
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType);
+	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t dbType);
+	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType);
 
 	virtual void	Release();
 	virtual void	OnReset();
 	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnChangedByUser(uint16_t wChangedMsg);
 
 	void		OpenUrl();
 	LRESULT LinkNotificationHandler(ENLINK* lnk);

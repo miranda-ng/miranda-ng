@@ -614,7 +614,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			pPs->hBoldFont = CreateFontIndirect(&lf);
 
 			// initialize the optionpages and tree control
-			WORD needWidth = 0;
+			uint16_t needWidth = 0;
 			if (!pPs->pTree->InitTreeItems(&needWidth))
 				return FALSE;
 
@@ -663,8 +663,8 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 				// move and resize the rest of the controls
 				if (addWidth > 0) {
-					static const WORD idResize[] = { IDC_HEADERBAR, STATIC_LINE2 };
-					static const WORD idMove[] = { IDC_PAGETITLE, IDC_PAGETITLEBG, IDC_PAGETITLEBG2, IDOK, IDCANCEL, IDAPPLY };
+					static const uint16_t idResize[] = { IDC_HEADERBAR, STATIC_LINE2 };
+					static const uint16_t idMove[] = { IDC_PAGETITLE, IDC_PAGETITLEBG, IDC_PAGETITLEBG2, IDOK, IDCANCEL, IDAPPLY };
 					HWND hCtrl;
 
 					for (auto &it : idResize) {

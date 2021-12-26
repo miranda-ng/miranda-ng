@@ -224,7 +224,7 @@ ChangeIsCountingStatusLabel:
 #endif
 			if (((ActualAccount->isCounting) != 0) != isAccountCounting) {
 				ActualAccount->isCounting=isAccountCounting;
-				WORD cStatus = g_plugin.getWord(ActualAccount->hContact, "Status");
+				uint16_t cStatus = g_plugin.getWord(ActualAccount->hContact, "Status");
 				switch (cStatus) {
 					case ID_STATUS_ONLINE:
 					case ID_STATUS_OFFLINE:

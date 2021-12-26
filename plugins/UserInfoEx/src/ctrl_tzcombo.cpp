@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	CTzCombo*
  **/
-CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
+CBaseCtrl* CTzCombo::CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
 {
 	HWND hCtrl = GetDlgItem(hDlg, idCtrl);
 
@@ -58,7 +58,7 @@ CTzCombo::CTzCombo() : CBaseCtrl()
  *
  *
  **/
-CTzCombo::CTzCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting)
+CTzCombo::CTzCombo(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
 	: CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;
@@ -159,7 +159,7 @@ void CTzCombo::OnApply(MCONTACT hContact, LPCSTR pszProto)
  *
  * @return	nothing
  **/
-void CTzCombo::OnChangedByUser(WORD wChangedMsg)
+void CTzCombo::OnChangedByUser(uint16_t wChangedMsg)
 {
 	if (wChangedMsg == CBN_SELCHANGE) {
 		int c = ComboBox_GetCurSel(_hwnd);

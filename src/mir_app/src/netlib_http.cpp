@@ -159,7 +159,7 @@ void NetlibConnFromUrl(const char *szUrl, bool secur, NETLIBOPENCONNECTION &nloc
 	char* pcolon = strrchr(szHost, ':');
 	if (pcolon) {
 		*pcolon = '\0';
-		nloc.wPort = (WORD)strtol(pcolon+1, nullptr, 10);
+		nloc.wPort = (uint16_t)strtol(pcolon+1, nullptr, 10);
 	}
 	else nloc.wPort = secur ? 443 : 80;
 	nloc.flags = (secur ? NLOCF_SSL : 0);

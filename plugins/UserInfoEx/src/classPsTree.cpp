@@ -380,7 +380,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
 		// calculate width of treeview
 		if (needWidth && TreeView_GetItemRect(_hWndTree, pti->Hti(), &rc, TRUE) && rc.right > *needWidth)
 		{
-			*needWidth = (WORD)rc.right;
+			*needWidth = (uint16_t)rc.right;
 		}
 	}
 	return tvii.itemex.hItem;
@@ -483,7 +483,7 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, uint8_t bAs
  * return:	0 on success or 1 otherwise
  **/
 
-WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
+uint16_t CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
 {
 	TVITEMEX tvi;
 	tvi.mask = TVIF_CHILDREN|TVIF_STATE|TVIF_PARAM;
@@ -492,7 +492,7 @@ WORD CPsTree::SaveItemsState(LPCSTR pszGroup, HTREEITEM hRootItem, int& iItem)
 	tvi.lParam = (LPARAM)-1;
 
 	// save all visible items
-	WORD numErrors = 0;
+	uint16_t numErrors = 0;
 	for (tvi.hItem = TreeView_GetChild(_hWndTree, hRootItem); TreeView_GetItem(_hWndTree, &tvi); tvi.hItem = TreeView_GetNextSibling(_hWndTree, tvi.hItem)) {
 		auto &it = _pages[tvi.lParam];
 		numErrors += it.DBSaveItemState(pszGroup, iItem++, tvi.state, _dwFlags);
@@ -518,7 +518,7 @@ void CPsTree::SaveState()
 		int iItem = 0;
 
 		// save all visible items
-		WORD numErrors = SaveItemsState(TREE_ROOTITEM, TVGN_ROOT, iItem);
+		uint16_t numErrors = SaveItemsState(TREE_ROOTITEM, TVGN_ROOT, iItem);
 
 		// save all invisible items of the current subtree
 		for (auto &it : _pages) {
@@ -662,7 +662,7 @@ int CPsTree::EndLabelEdit(const uint8_t bSave)
 {
 	wchar_t szEdit[MAX_TINAME];
 	TVITEM tvi;
-	WORD cchEdit;
+	uint16_t cchEdit;
 
 	if (bSave && (cchEdit = Edit_GetText(_hLabelEdit, szEdit, MAX_TINAME)) > 0)
 	{

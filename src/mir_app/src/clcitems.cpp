@@ -68,7 +68,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			compareResult = mir_wstrcmp(pThisField, cc->szText);
 			if (compareResult == 0) {
 				if (pNextField == nullptr && flags != (DWORD)-1) {
-					cc->groupId = (WORD)groupId;
+					cc->groupId = (uint16_t)groupId;
 					group = cc->group;
 					group->expanded = (flags & GROUPF_EXPANDED) != 0;
 					group->hideOffline = (flags & GROUPF_HIDEOFFLINE) != 0;
@@ -90,7 +90,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			ClcContact *cc = g_clistApi.pfnAddItemToGroup(group, i);
 			cc->type = CLCIT_GROUP;
 			mir_wstrncpy(cc->szText, pThisField, _countof(cc->szText));
-			cc->groupId = (WORD)(pNextField ? 0 : groupId);
+			cc->groupId = (uint16_t)(pNextField ? 0 : groupId);
 			cc->group = new ClcGroup(10);
 			cc->group->parent = group;
 			group = cc->group;
@@ -194,7 +194,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 	cc->pce = pce;
 	if (szProto != nullptr && !Clist_IsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 		cc->flags |= CONTACTF_ONLINE;
-	WORD apparentMode = szProto != nullptr ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
+	uint16_t apparentMode = szProto != nullptr ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
 	if (apparentMode == ID_STATUS_OFFLINE)
 		cc->flags |= CONTACTF_INVISTO;
 	else if (apparentMode == ID_STATUS_ONLINE)
@@ -213,7 +213,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	WORD status = ID_STATUS_OFFLINE;
+	uint16_t status = ID_STATUS_OFFLINE;
 	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	dat->bNeedsResort = true;
@@ -600,7 +600,7 @@ void fnSortCLC(HWND hwnd, ClcData *dat, int useInsertionSort)
 struct SavedContactState_t
 {
 	MCONTACT hContact;
-	WORD iExtraImage[EXTRA_ICON_COUNT];
+	uint16_t iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
 

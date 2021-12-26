@@ -287,23 +287,23 @@ DWORD	MTime::TimeStamp() const
 	return (DWORD)li.QuadPart;
 }
 
-WORD	MTime::DaysInMonth(const WORD &wMonth)	const
+uint16_t	MTime::DaysInMonth(const uint16_t &wMonth)	const
 {
-	static const WORD wDaysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+	static const uint16_t wDaysInMonth[] = { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
 
 	if (wMonth > 12) return 0;
 	return (IsLeapYear() && wMonth == 2) ? wDaysInMonth[wMonth] + 1 : wDaysInMonth[wMonth];
 }
 
-WORD	MTime::DaysInYear(uint8_t bIgnoreLeap)	const
+uint16_t	MTime::DaysInYear(uint8_t bIgnoreLeap)	const
 {
 	return ((!bIgnoreLeap && IsLeapYear()) ? 366 : 365); 
 };
 
-WORD	MTime::DayOfYear()	const
+uint16_t	MTime::DayOfYear()	const
 {
-	WORD daysResult = 0;
-	WORD i;
+	uint16_t daysResult = 0;
+	uint16_t i;
 
 	for (i = 0; i < _SysTime.wMonth; i++)
 		daysResult += DaysInMonth(i);
@@ -311,7 +311,7 @@ WORD	MTime::DayOfYear()	const
 	return daysResult;
 }
 
-WORD	MTime::AdjustYear(const int nDiffDays)
+uint16_t	MTime::AdjustYear(const int nDiffDays)
 {
 	const int nDay = DayOfYear() + nDiffDays;
 
@@ -322,7 +322,7 @@ WORD	MTime::AdjustYear(const int nDiffDays)
 	return _SysTime.wYear;
 }
 
-WORD	MTime::TimeFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
+uint16_t	MTime::TimeFormat(LPTSTR ptszTimeFormat, uint16_t cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
@@ -333,7 +333,7 @@ WORD	MTime::TimeFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 	return cchTimeFormat;
 }
 
-WORD	MTime::DateFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
+uint16_t	MTime::DateFormat(LPTSTR ptszTimeFormat, uint16_t cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
@@ -344,12 +344,12 @@ WORD	MTime::DateFormat(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 	return cchTimeFormat;
 }
 
-WORD	MTime::DateFormatAlt(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
+uint16_t	MTime::DateFormatAlt(LPTSTR ptszTimeFormat, uint16_t cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;
 
-	WORD wRes = DateFormat(ptszTimeFormat, cchTimeFormat);
+	uint16_t wRes = DateFormat(ptszTimeFormat, cchTimeFormat);
 	if (wRes != 0)
 		return wRes;
 
@@ -377,7 +377,7 @@ WORD	MTime::DateFormatAlt(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
 	return cchTimeFormat;
 }
 
-WORD	MTime::DateFormatLong(LPTSTR ptszTimeFormat, WORD cchTimeFormat)
+uint16_t	MTime::DateFormatLong(LPTSTR ptszTimeFormat, uint16_t cchTimeFormat)
 {
 	if (!ptszTimeFormat || !cchTimeFormat)
 		return 0;

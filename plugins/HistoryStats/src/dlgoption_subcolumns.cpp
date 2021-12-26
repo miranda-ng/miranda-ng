@@ -162,7 +162,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 
 	static const struct
 	{
-		WORD iconId;
+		uint16_t iconId;
 		wchar_t* szTooltip;
 		bool bRight;
 		bool bDropDown;

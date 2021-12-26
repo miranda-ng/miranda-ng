@@ -253,7 +253,7 @@ public:
 	bool OnApply() override
 	{
 		int iDelay = GetDlgItemInt(m_hwnd, IDC_STARTDELAY, nullptr, FALSE);
-		g_plugin.setWord("StartupModeDelay", (WORD)iDelay);
+		g_plugin.setWord("StartupModeDelay", (uint16_t)iDelay);
 		g_plugin.setByte("TrackCount", (uint8_t)(g_ses_limit = GetDlgItemInt(m_hwnd, IDC_TRACK, nullptr, FALSE)));
 		if (chkExitSave.IsChecked())
 			g_plugin.setByte("ShutdownMode", 2);

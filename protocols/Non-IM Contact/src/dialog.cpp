@@ -61,7 +61,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				g_plugin.setByte("AwayAsStatus", (uint8_t)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, _countof(tmp));
-					g_plugin.setWord("Timer", (WORD)_wtoi(tmp));
+					g_plugin.setWord("Timer", (uint16_t)_wtoi(tmp));
 				}
 				else g_plugin.setWord("Timer", 0);
 				return TRUE;
@@ -217,22 +217,6 @@ INT_PTR LoadFilesDlg(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CALLBACK PropSheetProc(HWND, UINT uMsg, LPARAM lParam)
-{
-	if (uMsg == PSCB_PRECREATE) {
-		// Remove the DS_CONTEXTHELP style from the
-		// dialog box template
-		if (((DLGTEMPLATEEX*)lParam)->signature == 0xFFFF)
-			((DLGTEMPLATEEX*)lParam)->style &= ~DS_CONTEXTHELP;
-		else
-			((LPDLGTEMPLATE)lParam)->style &= ~DS_CONTEXTHELP;
-
-		return TRUE;
-	}
-
-	return 0;
-}
-
 void DoPropertySheet(MCONTACT hContact)
 {
 	char nick[256];
@@ -294,9 +278,6 @@ void DoPropertySheet(MCONTACT hContact)
 	}
 	psh.nPages = _countof(psp);
 	psh.ppsp = (LPCPROPSHEETPAGEA)&psp;
-	psh.pfnCallback = PropSheetProc;
-
-	// Now do it and return
 	PropertySheetA(&psh);
 }
 

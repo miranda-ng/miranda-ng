@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // Prototypes
-void SetLock(WORD, uint8_t, unsigned int *, INPUT *);
+void SetLock(uint16_t, uint8_t, unsigned int *, INPUT *);
 
 // Globals
 BOOL LEDstateSaved = FALSE;
@@ -51,7 +51,7 @@ BOOL keypresses_ToggleKeyboardLights(uint8_t byte)
 	return TRUE;
 }
 
-void SetLock(WORD keyCode, uint8_t value, unsigned int *n, INPUT *keystrokes)
+void SetLock(uint16_t keyCode, uint8_t value, unsigned int *n, INPUT *keystrokes)
 {
 	uint8_t status;
 

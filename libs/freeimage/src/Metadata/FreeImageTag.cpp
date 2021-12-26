@@ -34,8 +34,8 @@
 FI_STRUCT (FITAGHEADER) { 
 	char *key;			// tag field name
 	char *description;	// tag description
-	WORD id;			// tag ID
-	WORD type;			// tag data type (see FREE_IMAGE_MDTYPE)
+	uint16_t id;			// tag ID
+	uint16_t type;			// tag data type (see FREE_IMAGE_MDTYPE)
 	DWORD count;		// number of components (in 'tag data types' units)
 	DWORD length;		// value length in bytes
 	void *value;		// tag value
@@ -158,7 +158,7 @@ FreeImage_GetTagDescription(FITAG *tag) {
 	return tag ? ((FITAGHEADER *)tag->data)->description : 0;
 }
 
-WORD DLL_CALLCONV 
+uint16_t DLL_CALLCONV 
 FreeImage_GetTagID(FITAG *tag) {
 	return tag ? ((FITAGHEADER *)tag->data)->id : 0;
 }
@@ -208,7 +208,7 @@ FreeImage_SetTagDescription(FITAG *tag, const char *description) {
 }
 
 BOOL DLL_CALLCONV 
-FreeImage_SetTagID(FITAG *tag, WORD id) {
+FreeImage_SetTagID(FITAG *tag, uint16_t id) {
 	if(tag) {
 		FITAGHEADER *tag_header = (FITAGHEADER *)tag->data;
 		tag_header->id = id;
@@ -221,7 +221,7 @@ BOOL DLL_CALLCONV
 FreeImage_SetTagType(FITAG *tag, FREE_IMAGE_MDTYPE type) {
 	if(tag) {
 		FITAGHEADER *tag_header = (FITAGHEADER *)tag->data;
-		tag_header->type = (WORD)type;
+		tag_header->type = (uint16_t)type;
 		return TRUE;
 	}
 	return FALSE;

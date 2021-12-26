@@ -106,7 +106,7 @@ static void SetAllContactIcons(HWND hwndList)
 			continue;
 
 		DWORD flags;
-		WORD status;
+		uint16_t status;
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr) {
 			flags = 0;

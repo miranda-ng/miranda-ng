@@ -317,9 +317,9 @@ void GetElev(wchar_t *tempchar, wchar_t *unit, wchar_t *str)
 // return value = status for the icon (ONLINE, OFFLINE, etc)
 
 static const wchar_t *statusStr[MAX_COND] = { L"Lightning", L"Fog", L"Snow", L"Rain", L"Partly Cloudy", L"Cloudy", L"Sunny", L"N/A", L"Rain Shower", L"Snow Shower"};
-static const WORD statusValue[MAX_COND] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA, RSHOWER, SSHOWER };
+static const uint16_t statusValue[MAX_COND] = { LIGHT, FOG, SNOW, RAIN, PCLOUDY, CLOUDY, SUNNY, NA, RSHOWER, SSHOWER };
 
-WORD GetIcon(const wchar_t *cond, WIDATA *Data)
+uint16_t GetIcon(const wchar_t *cond, WIDATA *Data)
 {
 	// set the icon using ini
 	for (int i = 0; i < _countof(statusValue); i++)

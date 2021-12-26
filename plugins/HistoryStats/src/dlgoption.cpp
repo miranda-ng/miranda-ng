@@ -89,11 +89,11 @@ void DlgOption::onWMInitDialog()
 
 		static const struct
 		{
-			WORD iconId;
+			uint16_t iconId;
 			wchar_t* szText;
 			wchar_t* szTooltip;
 			bool bRight;
-			WORD dlgId;
+			uint16_t dlgId;
 			bool bVisible;
 			bool bDropDown;
 		}

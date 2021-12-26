@@ -677,7 +677,7 @@ public:
 		g_chatApi.SM_InvalidateLogDirectories();
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN4, UDM_GETPOS, 0, 0);
-		db_set_w(0, CHAT_MODULE, "LoggingLimit", (WORD)iLen);
+		db_set_w(0, CHAT_MODULE, "LoggingLimit", (uint16_t)iLen);
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN3, UDM_GETPOS, 0, 0);
 		if (iLen > 0)
@@ -722,7 +722,7 @@ public:
 		db_set_b(0, CHAT_MODULE, "LogSymbols", lr == 2);
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_CHAT_SPIN2, UDM_GETPOS, 0, 0);
-		db_set_w(0, CHAT_MODULE, "LogLimit", (WORD)iLen);
+		db_set_w(0, CHAT_MODULE, "LogLimit", (uint16_t)iLen);
 		mir_free(pszText);
 
 		if (g_chatApi.hListBkgBrush)

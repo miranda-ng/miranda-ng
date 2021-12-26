@@ -188,7 +188,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (AutoreplyOptData.GetValue(IDC_REPLYDLG_DONTREPLYINVISIBLE)) {
-		WORD ApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
+		uint16_t ApparentMode = db_get_w(hContact, szProto, "ApparentMode", 0);
 		if ((iMode == ID_STATUS_INVISIBLE && (!(Flags1 & PF1_INVISLIST) || ApparentMode != ID_STATUS_ONLINE)) || (Flags1 & PF1_VISLIST && ApparentMode == ID_STATUS_OFFLINE))
 			return 0;
 	}

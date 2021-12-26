@@ -38,7 +38,7 @@ struct Options
 	BOOL ignore_with_numbers;
 	BOOL ask_when_sending_with_error;
 
-	WORD underline_type;
+	uint16_t underline_type;
 	BOOL cascade_corrections;
 	BOOL show_all_corrections;
 	BOOL show_wrong_word;

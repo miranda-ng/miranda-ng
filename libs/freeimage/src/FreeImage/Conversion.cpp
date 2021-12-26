@@ -87,7 +87,7 @@ BOOL SwapRedBlue32(FIBITMAP* dib) {
 // ----------------------------------------------------------
 
 static inline void 
-assignRGB(WORD r, WORD g, WORD b, WORD* out) {
+assignRGB(uint16_t r, uint16_t g, uint16_t b, uint16_t* out) {
 	out[0] = r;
 	out[1] = g;
 	out[2] = b;
@@ -162,7 +162,7 @@ ConvertCMYKtoRGBA(FIBITMAP* dib) {
 	
 	unsigned channelSize = 1;
 	if (image_type == FIT_RGBA16 || image_type == FIT_RGB16) {
-		channelSize = sizeof(WORD);
+		channelSize = sizeof(uint16_t);
 	} else if (!(image_type == FIT_BITMAP && (bytesperpixel > 2))) {
 		return FALSE;
 	}
@@ -174,8 +174,8 @@ ConvertCMYKtoRGBA(FIBITMAP* dib) {
 	
 	unsigned samplesperpixel = FreeImage_GetLine(dib) / width / channelSize;
 
-	if(channelSize == sizeof(WORD)) {
-		_convertCMYKtoRGBA<WORD>(width, height, line_start, pitch, samplesperpixel);
+	if(channelSize == sizeof(uint16_t)) {
+		_convertCMYKtoRGBA<uint16_t>(width, height, line_start, pitch, samplesperpixel);
 	} else {
 		_convertCMYKtoRGBA<uint8_t>(width, height, line_start, pitch, samplesperpixel);
 	}
@@ -311,7 +311,7 @@ ConvertLABtoRGB(FIBITMAP* dib) {
 	
 	unsigned channelSize = 1;
 	if (image_type == FIT_RGBA16 || image_type == FIT_RGB16) {
-		channelSize = sizeof(WORD);
+		channelSize = sizeof(uint16_t);
 	} else if (!(image_type == FIT_BITMAP && (bytesperpixel > 2))) {
 		return FALSE;
 	}
@@ -327,7 +327,7 @@ ConvertLABtoRGB(FIBITMAP* dib) {
 		_convertLABtoRGB<uint8_t>(width, height, line_start, pitch, samplesperpixel);
 	}
 	else {
-		_convertLABtoRGB<WORD>(width, height, line_start, pitch, samplesperpixel);
+		_convertLABtoRGB<uint16_t>(width, height, line_start, pitch, samplesperpixel);
 	}
 
 	return TRUE;	

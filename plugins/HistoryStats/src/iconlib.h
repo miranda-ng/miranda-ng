@@ -42,7 +42,7 @@ public:
 private:
 	struct IconInfo
 	{
-		WORD wID;
+		uint16_t wID;
 		char* szIconName;
 		wchar_t* szSection;
 		wchar_t* szDescription;

@@ -121,15 +121,15 @@ ReadInt32(BOOL msb_order, const void *buffer) {
 	return value;
 }
 
-static WORD 
+static uint16_t 
 ReadUint16(BOOL msb_order, const void *buffer) {
-	WORD value;
+	uint16_t value;
 	
 	if(msb_order) {
-		value = (WORD) ((((uint8_t*) buffer)[0] << 8) | ((uint8_t*) buffer)[1]);
+		value = (uint16_t) ((((uint8_t*) buffer)[0] << 8) | ((uint8_t*) buffer)[1]);
 		return value;
     }
-	value = (WORD) ((((uint8_t*) buffer)[1] << 8) | ((uint8_t*) buffer)[0]);
+	value = (uint16_t) ((((uint8_t*) buffer)[1] << 8) | ((uint8_t*) buffer)[0]);
 	return value;
 }
 
@@ -310,7 +310,7 @@ processCanonMakerNoteTag(FIBITMAP *dib, FITAG *tag) {
 	DWORD startIndex = 0;
 	TagLib& s = TagLib::instance();
 
-	WORD tag_id = FreeImage_GetTagID(tag);
+	uint16_t tag_id = FreeImage_GetTagID(tag);
 
 	int subTagTypeBase = 0;
 
@@ -361,7 +361,7 @@ processCanonMakerNoteTag(FIBITMAP *dib, FITAG *tag) {
 
 	}
 
-	WORD *pvalue = (WORD*)FreeImage_GetTagValue(tag);
+	uint16_t *pvalue = (uint16_t*)FreeImage_GetTagValue(tag);
 
 	// create a tag
 	FITAG *canonTag = FreeImage_CreateTag();
@@ -370,7 +370,7 @@ processCanonMakerNoteTag(FIBITMAP *dib, FITAG *tag) {
 	// we intentionally skip the first array member (if needed)
     for (DWORD i = startIndex; i < FreeImage_GetTagCount(tag); i++) {
 
-		tag_id = (WORD)(subTagTypeBase + i);
+		tag_id = (uint16_t)(subTagTypeBase + i);
 
 		FreeImage_SetTagID(canonTag, tag_id);
 		FreeImage_SetTagType(canonTag, FIDT_SHORT);
@@ -418,9 +418,9 @@ processExifTag(FIBITMAP *dib, FITAG *tag, char *pval, BOOL msb_order, TagLib::MD
 
 		case FIDT_SHORT:
 		{
-			WORD *value = (WORD*)&exif_value[0];
+			uint16_t *value = (uint16_t*)&exif_value[0];
 			for(i = 0; i < FreeImage_GetTagCount(tag); i++) {
-				value[i] = ReadUint16(msb_order, pval + i * sizeof(WORD));
+				value[i] = ReadUint16(msb_order, pval + i * sizeof(uint16_t));
 			}
 			FreeImage_SetTagValue(tag, value);
 			break;
@@ -494,7 +494,7 @@ processExifTag(FIBITMAP *dib, FITAG *tag, char *pval, BOOL msb_order, TagLib::MD
 	else {
 		TagLib& s = TagLib::instance();
 
-		WORD tag_id = FreeImage_GetTagID(tag);
+		uint16_t tag_id = FreeImage_GetTagID(tag);
 
 		// get the tag key and description
 		const char *key = s.getTagFieldName(md_model, tag_id, defaultKey);
@@ -528,9 +528,9 @@ Process Exif directory
 */
 static BOOL 
 jpeg_read_exif_dir(FIBITMAP *dib, const uint8_t *tiffp, DWORD dwOffsetIfd0, DWORD dwLength, DWORD dwProfileOffset, BOOL msb_order, TagLib::MDMODEL starting_md_model) {
-	WORD de, nde;
+	uint16_t de, nde;
 
-	std::stack<WORD>			destack;	// directory entries stack
+	std::stack<uint16_t>			destack;	// directory entries stack
 	std::stack<const uint8_t*>		ifdstack;	// IFD stack
 	std::stack<TagLib::MDMODEL>	modelstack; // metadata model stack
 
@@ -595,11 +595,11 @@ jpeg_read_exif_dir(FIBITMAP *dib, const uint8_t *tiffp, DWORD dwOffsetIfd0, DWOR
 			pde = (char*) DIR_ENTRY_ADDR(ifdp, de);
 
 			// get the tag ID
-			WORD tag_id = ReadUint16(msb_order, pde);
+			uint16_t tag_id = ReadUint16(msb_order, pde);
 			FreeImage_SetTagID(tag, tag_id);
 
 			// get the tag type
-			WORD tag_type = (WORD)ReadUint16(msb_order, pde + 2);
+			uint16_t tag_type = (uint16_t)ReadUint16(msb_order, pde + 2);
             if((tag_type - 1) >= EXIF_NUM_FORMATS) {
                 // a problem occured : delete the tag (not free'd after)
 			    FreeImage_DeleteTag(tag);
@@ -718,7 +718,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const uint8_t *tiffp, DWORD dwOffsetIfd0, DWOR
 	// --- handle thumbnail data ---
 	//
 
-	const WORD entriesCount0th = ReadUint16(msb_order, ifd0th);
+	const uint16_t entriesCount0th = ReadUint16(msb_order, ifd0th);
 	
 	DWORD next_offset = ReadUint32(msb_order, DIR_ENTRY_ADDR(ifd0th, entriesCount0th));
 	if((next_offset == 0) || (next_offset >= dwLength)) {
@@ -726,7 +726,7 @@ jpeg_read_exif_dir(FIBITMAP *dib, const uint8_t *tiffp, DWORD dwOffsetIfd0, DWOR
 	}
 	
 	const uint8_t* const ifd1st = (uint8_t*)tiffp + next_offset;
-	const WORD entriesCount1st = ReadUint16(msb_order, ifd1st);
+	const uint16_t entriesCount1st = ReadUint16(msb_order, ifd1st);
 	
 	unsigned thCompression = 0;
 	unsigned thOffset = 0; 
@@ -745,13 +745,13 @@ jpeg_read_exif_dir(FIBITMAP *dib, const uint8_t *tiffp, DWORD dwOffsetIfd0, DWOR
 		}
 
 		// get the tag ID
-		WORD tag = ReadUint16(msb_order, base);
+		uint16_t tag = ReadUint16(msb_order, base);
 		// get the tag type
-		/*WORD type = */ReadUint16(msb_order, base + sizeof(WORD));
+		/*uint16_t type = */ReadUint16(msb_order, base + sizeof(uint16_t));
 		// get number of components
-		/*DWORD count = */ReadUint32(msb_order, base + sizeof(WORD) + sizeof(WORD));
+		/*DWORD count = */ReadUint32(msb_order, base + sizeof(uint16_t) + sizeof(uint16_t));
 		// get the tag value
-		DWORD offset = ReadUint32(msb_order, base + sizeof(WORD) + sizeof(WORD) + sizeof(DWORD));
+		DWORD offset = ReadUint32(msb_order, base + sizeof(uint16_t) + sizeof(uint16_t) + sizeof(DWORD));
 
 		switch(tag) {
 			case TAG_COMPRESSION:
@@ -973,7 +973,7 @@ RotateExif(FIBITMAP **dib) {
 		FITAG *tag = NULL;
 		FreeImage_GetMetadata(FIMD_EXIF_MAIN, *dib, "Orientation", &tag);
 		if((tag != NULL) && (FreeImage_GetTagID(tag) == TAG_ORIENTATION)) {
-			const WORD orientation = *((WORD *)FreeImage_GetTagValue(tag));
+			const uint16_t orientation = *((uint16_t *)FreeImage_GetTagValue(tag));
 			switch (orientation) {
 				case 1:		// "top, left side" => 0°
 					break;
@@ -1024,8 +1024,8 @@ RotateExif(FIBITMAP **dib) {
 class PredicateTagIDCompare {
 public:
 	bool operator()(FITAG *a, FITAG *b) {
-		WORD tag_id_a = FreeImage_GetTagID(a);
-		WORD tag_id_b = FreeImage_GetTagID(b);
+		uint16_t tag_id_a = FreeImage_GetTagID(a);
+		uint16_t tag_id_b = FreeImage_GetTagID(b);
 		return (tag_id_a < tag_id_b);
 	}
 };
@@ -1056,7 +1056,7 @@ tiff_write_ifd(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, FIMEMORY *hmem) {
 	std::vector<FITAG*> vTagList;
 	TagLib::MDMODEL internal_md_model;
 
-	DWORD ifd_offset = 0;	// WORD-aligned IFD value offset
+	DWORD ifd_offset = 0;	// uint16_t-aligned IFD value offset
 
 	const uint8_t empty_byte = 0;
 
@@ -1105,7 +1105,7 @@ tiff_write_ifd(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, FIMEMORY *hmem) {
 				int tag_id = s.getTagID(internal_md_model, key);
 				if(tag_id != -1) {
 					// this is a known tag, set the tag ID
-					FreeImage_SetTagID(tag, (WORD)tag_id);
+					FreeImage_SetTagID(tag, (uint16_t)tag_id);
 					// record the tag
 					vTagList.push_back(tag);
 				}
@@ -1145,17 +1145,17 @@ tiff_write_ifd(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, FIMEMORY *hmem) {
 		// 3) write each IFD entry in tag id ascending order
 
 		// number of directory entries
-		WORD nde = (WORD)metadata_count;
+		uint16_t nde = (uint16_t)metadata_count;
 		FreeImage_WriteMemory(&nde, 1, 2, hmem);
 
 		// for each entry ...
 		for(unsigned i = 0; i < metadata_count; i++) {
 			FITAG *tag = vTagList[i];
 			// tag id
-			WORD tag_id = FreeImage_GetTagID(tag);
+			uint16_t tag_id = FreeImage_GetTagID(tag);
 			FreeImage_WriteMemory(&tag_id, 1, 2, hmem);
 			// tag type (compliant with TIFF specification)
-			WORD tag_type = (WORD)FreeImage_GetTagType(tag);
+			uint16_t tag_type = (uint16_t)FreeImage_GetTagType(tag);
 			FreeImage_WriteMemory(&tag_type, 1, 2, hmem);
 			// tag count
 			DWORD tag_count = FreeImage_GetTagCount(tag);
@@ -1177,7 +1177,7 @@ tiff_write_ifd(FIBITMAP *dib, FREE_IMAGE_MDMODEL md_model, FIMEMORY *hmem) {
 				FreeImage_SeekMemory(hmem, ifd_offset, SEEK_SET);
 				FreeImage_WriteMemory(FreeImage_GetTagValue(tag), 1, tag_length, hmem);
 				if(tag_length & 1) {
-					// align to the next WORD boundary
+					// align to the next uint16_t boundary
 					FreeImage_WriteMemory(&empty_byte, 1, 1, hmem);
 				}
 				// next offset to use

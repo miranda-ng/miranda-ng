@@ -471,7 +471,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_COMMAND) {
-			WORD idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
+			uint16_t idCtrl = LOWORD(wParam), wNotifyCode = HIWORD(wParam);
 			if (wNotifyCode == CPN_COLOURCHANGED) {
 				if (idCtrl > 40070) {
 					//It's a color picker change. idCtrl is the control id.

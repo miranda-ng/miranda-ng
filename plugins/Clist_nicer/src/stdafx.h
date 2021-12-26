@@ -89,7 +89,7 @@ extern HIMAGELIST hCListImages;
 
 extern CLIST_INTERFACE coreCli;
 
-typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
+typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, int selected, uint16_t cstatus, int rowHeight);
 
 BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem);
 

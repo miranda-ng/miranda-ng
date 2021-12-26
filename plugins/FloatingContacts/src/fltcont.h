@@ -75,9 +75,9 @@ enum
 //extern uint8_t			thumbAlpha;
 //extern BOOL			bShowTip;
 extern BOOL			bEnableTip;
-//extern WORD			TimeIn;
+//extern uint16_t			TimeIn;
 //extern BOOL			bToTop;
-//extern WORD			ToTopTime;
+//extern uint16_t			ToTopTime;
 //extern BOOL			bHideWhenCListShow;
 
 extern BOOL			bIsCListShow;
@@ -93,7 +93,7 @@ extern HPEN			hRBEdgesPen;
 extern HBRUSH		hBkBrush;
 extern DWORD		bkColor;
 extern HBITMAP		hBmpBackground;
-extern WORD			nBackgroundBmpUse;
+extern uint16_t			nBackgroundBmpUse;
 
 
 
@@ -107,9 +107,9 @@ typedef struct _FCOptions
 	BOOL	bFixedWidth;
 	int		nThumbWidth;
 	BOOL	bShowTip;
-	WORD	TimeIn;
+	uint16_t	TimeIn;
 	BOOL	bToTop;
-	WORD	ToTopTime;
+	uint16_t	ToTopTime;
 	BOOL	bHideWhenCListShow;
 	BOOL	bUseSingleClick;
 	BOOL	bShowIdle;

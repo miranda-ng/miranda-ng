@@ -56,17 +56,17 @@ uint8_t bWorkstationActive;
 uint8_t bFlashIfMsgOpen;
 uint8_t bFlashIfMsgWinNotTop;
 uint8_t bFlashIfMsgOlder;
-WORD wSecondsOlder;
+uint16_t wSecondsOlder;
 uint8_t bFlashUntil;
-WORD wBlinksNumber;
+uint16_t wBlinksNumber;
 uint8_t bMirandaOrWindows;
-WORD wStatusMap;
-WORD wReminderCheck;
+uint16_t wStatusMap;
+uint16_t wReminderCheck;
 uint8_t bFlashLed[3];
 uint8_t bFlashEffect;
 uint8_t bSequenceOrder;
-WORD wCustomTheme;
-WORD wStartDelay;
+uint16_t wCustomTheme;
+uint16_t wStartDelay;
 uint8_t bFlashSpeed;
 uint8_t bOverride;
 uint8_t bTrillianLedsMsg;
@@ -208,7 +208,7 @@ DBEVENTINFO readEventInfo(MEVENT hDbEvent, MCONTACT hContact)
 	return einfo;
 }
 
-BOOL checkIgnore(MCONTACT hContact, WORD eventType)
+BOOL checkIgnore(MCONTACT hContact, uint16_t eventType)
 {
 	return !IsIgnored(hContact, eventType);
 }
@@ -225,7 +225,7 @@ BOOL checkProtocol(const char *szProto)
 	return FALSE;
 }
 
-BOOL metaCheckProtocol(const char *szProto, MCONTACT hContact, WORD eventType)
+BOOL metaCheckProtocol(const char *szProto, MCONTACT hContact, uint16_t eventType)
 {
 	MCONTACT hSubContact = NULL;
 
@@ -346,7 +346,7 @@ BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampC
 }
 
 
-BOOL contactCheckProtocol(const char *szProto, MCONTACT hContact, WORD eventType)
+BOOL contactCheckProtocol(const char *szProto, MCONTACT hContact, uint16_t eventType)
 {
 	if (bMetaProtoEnabled && hContact) {
 		MCONTACT hMetaContact = (MCONTACT)db_get_dw(hContact, META_PROTO, "Handle", 0);
@@ -509,7 +509,7 @@ static void __cdecl ForceEventsWereOpenedThread(void *eventMaxSeconds)
 	CallService(MS_KBDNOTIFY_EVENTSOPENED, 1, 0);
 }
 
-void StartBlinkAction(char *flashSequence, WORD eventMaxSeconds)
+void StartBlinkAction(char *flashSequence, uint16_t eventMaxSeconds)
 {
 	if (eventMaxSeconds)
 		mir_forkthread(ForceEventsWereOpenedThread, (void *)eventMaxSeconds);

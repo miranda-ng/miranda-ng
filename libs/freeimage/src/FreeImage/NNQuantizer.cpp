@@ -489,11 +489,11 @@ FIBITMAP* NNQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserve
 
 	// 6) Write output image using inxsearch(b,g,r)
 
-	for (WORD rows = 0; rows < img_height; rows++) {
+	for (uint16_t rows = 0; rows < img_height; rows++) {
 		uint8_t *new_bits = FreeImage_GetScanLine(new_dib, rows);			
 		uint8_t *bits = FreeImage_GetScanLine(dib_ptr, rows);
 
-		for (WORD cols = 0; cols < img_width; cols++) {
+		for (uint16_t cols = 0; cols < img_width; cols++) {
 			new_bits[cols] = (uint8_t)inxsearch(bits[FI_RGBA_BLUE], bits[FI_RGBA_GREEN], bits[FI_RGBA_RED]);
 
 			bits += 3;

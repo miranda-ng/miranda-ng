@@ -78,7 +78,7 @@ FreeImage_ConvertLine8To24(uint8_t *target, uint8_t *source, int width_in_pixels
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To24_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *bits = (WORD *)source;
+	uint16_t *bits = (uint16_t *)source;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		target[FI_RGBA_RED]   = (uint8_t)((((bits[cols] & FI16_555_RED_MASK) >> FI16_555_RED_SHIFT) * 0xFF) / 0x1F);
@@ -91,7 +91,7 @@ FreeImage_ConvertLine16To24_555(uint8_t *target, uint8_t *source, int width_in_p
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To24_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	WORD *bits = (WORD *)source;
+	uint16_t *bits = (uint16_t *)source;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
 		target[FI_RGBA_RED]   = (uint8_t)((((bits[cols] & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F);

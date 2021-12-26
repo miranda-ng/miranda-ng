@@ -95,13 +95,13 @@ BOOL TimeStampToSystemTime(time_t timestamp, SYSTEMTIME *st)
 		return FALSE;
 
 	st->wMilliseconds = 0;                 /* 0-999 (not given in tm) */
-	st->wSecond = (WORD)ts.tm_sec;       /* 0-59 */
-	st->wMinute = (WORD)ts.tm_min;       /* 0-59 */
-	st->wHour = (WORD)ts.tm_hour;        /* 0-23 */
-	st->wDay = (WORD)ts.tm_mday;         /* 1-31 */
-	st->wDayOfWeek = (WORD)ts.tm_wday;   /* 0-6 (Sun-Sat) */
-	st->wMonth = (WORD)(ts.tm_mon + 1);    /* 1-12 (Jan-Dec) */
-	st->wYear = (WORD)(ts.tm_year + 1900); /* 1601-30827 */
+	st->wSecond = (uint16_t)ts.tm_sec;       /* 0-59 */
+	st->wMinute = (uint16_t)ts.tm_min;       /* 0-59 */
+	st->wHour = (uint16_t)ts.tm_hour;        /* 0-23 */
+	st->wDay = (uint16_t)ts.tm_mday;         /* 1-31 */
+	st->wDayOfWeek = (uint16_t)ts.tm_wday;   /* 0-6 (Sun-Sat) */
+	st->wMonth = (uint16_t)(ts.tm_mon + 1);    /* 1-12 (Jan-Dec) */
+	st->wYear = (uint16_t)(ts.tm_year + 1900); /* 1601-30827 */
 	return TRUE;
 }
 

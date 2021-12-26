@@ -582,7 +582,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		switch (LOWORD(wParam)) {
 		case ID_MENU_GRAPH:
 			if (context_point_valid) {
-				WORD x = LOWORD(context_point), y = HIWORD(context_point);
+				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				if (HIWORD(item) == 0) {
@@ -604,7 +604,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case ID_MENU_TOGGLE:
 			if (context_point_valid) {
-				WORD x = LOWORD(context_point), y = HIWORD(context_point);
+				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				if (HIWORD(item) == 0) {
@@ -621,7 +621,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 		case ID_MENU_EDIT:
 			if (context_point_valid) {
-				WORD x = LOWORD(context_point), y = HIWORD(context_point);
+				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
 				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				PINGADDRESS *temp = nullptr;

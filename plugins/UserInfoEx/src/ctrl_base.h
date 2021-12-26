@@ -43,12 +43,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct TCtrlInfo {
 	uint8_t	nType;
-	WORD	wFlags;
+	uint16_t	wFlags;
 } CTRL, *LPCTRL;
 
 // for compatibility with old styled controls
 void             Ctrl_InitTextColours();
-INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags);
+INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, uint16_t wFlags);
 
 /***********************************************************************************************************
  * CBaseCtrl declaration
@@ -56,7 +56,7 @@ INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, WORD wFlags);
 
 union CCtrlFlags 
 {
-	WORD W;
+	uint16_t W;
 	struct CBits 
 	{
 		bool	hasChanged : 1;
@@ -82,7 +82,7 @@ protected:
 	
 	CCtrlFlags		_Flags; 
 	HWND			_hwnd;
-	WORD			_idCtrl;
+	uint16_t			_idCtrl;
 	LPCSTR			_pszModule;
 	LPCSTR			_pszSetting;
 	LPTSTR			_pszValue;
@@ -95,8 +95,8 @@ protected:
 	 * @return	nothing
 	 **/
 	CBaseCtrl();
-	CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszSetting);
-	CBaseCtrl(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting);
+	CBaseCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
+	CBaseCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting);
 
 	/**
 	 * Private constructure is to force the class used as base class only.
@@ -120,7 +120,7 @@ public:
 	 *
 	 *
 	 **/
-	static FORCEINLINE CBaseCtrl* GetObj(HWND hDlg, WORD idCtrl)
+	static FORCEINLINE CBaseCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 	
 	/**
@@ -172,7 +172,7 @@ public:
 	 *
 	 * @return	nothing
 	 **/
-	virtual void OnChangedByUser(WORD) { }
+	virtual void OnChangedByUser(uint16_t) { }
 
 	virtual void OnReset() { }
 
@@ -209,7 +209,7 @@ public:
 	void		OnReset();
 	BOOL		OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
 	void		OnApply(MCONTACT hContact, LPCSTR pszProto);
-	void		OnChangedByUser(WORD idCtrl, WORD wChangedMsg);
+	void		OnChangedByUser(uint16_t idCtrl, uint16_t wChangedMsg);
 	INT_PTR OnSetTextColour(HWND hCtrl, HDC hdc);
 };
 

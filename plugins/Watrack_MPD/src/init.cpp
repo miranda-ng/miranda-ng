@@ -20,7 +20,7 @@ CMPlugin g_plugin;
 
 BOOL bWatrackService = FALSE;
 wchar_t *gbHost, *gbPassword;
-WORD gbPort;
+uint16_t gbPort;
 HNETLIBUSER ghNetlibUser;
 
 /////////////////////////////////////////////////////////////////////////////////////////

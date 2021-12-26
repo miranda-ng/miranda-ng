@@ -334,7 +334,7 @@ static COLORREF GetSBBackColor(void)
 //
 static void DrawCheckedRect(HDC hdc, RECT *rect, COLORREF fg, COLORREF bg)
 {
-	static WORD wCheckPat[8] = 
+	static uint16_t wCheckPat[8] = 
 	{ 
 		0xaaaa, 0x5555, 0xaaaa, 0x5555, 0xaaaa, 0x5555, 0xaaaa, 0x5555 
 	};

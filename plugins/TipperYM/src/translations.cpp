@@ -228,7 +228,7 @@ wchar_t *SecondsToTimeDifference(MCONTACT hContact, const char *szModuleName, co
 
 wchar_t *WordToStatusDesc(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	WORD wStatus = db_get_w(hContact, szModuleName, szSettingName, ID_STATUS_OFFLINE);
+	uint16_t wStatus = db_get_w(hContact, szModuleName, szSettingName, ID_STATUS_OFFLINE);
 	wchar_t *szStatus = Clist_GetStatusModeDescription(wStatus, 0);
 	wcsncpy_s(buff, bufflen, szStatus, _TRUNCATE);
 	return buff;
@@ -269,8 +269,8 @@ wchar_t *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *s
 wchar_t *WordToCountry(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
 	char *szCountryName = nullptr;
-	WORD cid = (WORD)db_get_w(hContact, szModuleName, szSettingName, (WORD)-1);
-	if (cid != (WORD)-1 && ServiceExists(MS_UTILS_GETCOUNTRYBYNUMBER) && (szCountryName = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, cid, 0)) != nullptr) {
+	uint16_t cid = (uint16_t)db_get_w(hContact, szModuleName, szSettingName, (uint16_t)-1);
+	if (cid != (uint16_t)-1 && ServiceExists(MS_UTILS_GETCOUNTRYBYNUMBER) && (szCountryName = (char *)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, cid, 0)) != nullptr) {
 		if (mir_strcmp(szCountryName, "Unknown") == 0)
 			return nullptr;
 		a2t(szCountryName, buff, bufflen);
@@ -717,12 +717,12 @@ INT_PTR ServiceAddTranslation(WPARAM, LPARAM lParam)
 static DBVTranslation internalTranslations[] =
 {
 	{	NullTranslation,               LPGENW("[No translation]")                                                },
-	{	WordToStatusDesc,              LPGENW("WORD to status description")                                      },
+	{	WordToStatusDesc,              LPGENW("uint16_t to status description")                                      },
 	{	TimestampToTime,               LPGENW("DWORD timestamp to time")                                         },
 	{	TimestampToTimeDifference,     LPGENW("DWORD timestamp to time difference")                              },
 	{	ByteToYesNo,                   LPGENW("uint8_t to Yes/No")                                                  },
 	{	ByteToGender,                  LPGENW("uint8_t to Male/Female (ICQ)")                                       },
-	{	WordToCountry,                 LPGENW("WORD to country name")                                            },
+	{	WordToCountry,                 LPGENW("uint16_t to country name")                                            },
 	{	DwordToIp,                     LPGENW("DWORD to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENW("<prefix>Day|Month|Year to date")                                  },
 	{  DayMonthYearToAge,             LPGENW("<prefix>Day|Month|Year to age")                                   },
@@ -736,8 +736,8 @@ static DBVTranslation internalTranslations[] =
 	{	EmptyXStatusToDefaultName,     LPGENW("xStatus: empty xStatus name to default name")                     },
 	{	SecondsToTimeDifference,       LPGENW("DWORD seconds to time difference")                                },
 	{	TimezoneToTime,                LPGENW("uint8_t timezone to time")                                           },
-	{	ByteToDay,                     LPGENW("WORD to name of a day (0..6, 0 is Sunday)")                       },
-	{	ByteToMonth,                   LPGENW("WORD to name of a month (1..12, 1 is January)")                   },
+	{	ByteToDay,                     LPGENW("uint16_t to name of a day (0..6, 0 is Sunday)")                       },
+	{	ByteToMonth,                   LPGENW("uint16_t to name of a month (1..12, 1 is January)")                   },
 	{	ByteToLanguage,                LPGENW("uint8_t to language (ICQ)")                                          },
 };
 

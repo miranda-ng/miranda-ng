@@ -398,7 +398,7 @@ int GetWeatherData(MCONTACT hContact)
 	if (Data == nullptr)
 		return SVC_NOT_FOUND;	// the ini for the station cannot be found
 
-	WORD cond = NA;
+	uint16_t cond = NA;
 	char loc[256];
 	for (int i = 0; i < 4; ++i) {
 		// generate update URL

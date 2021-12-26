@@ -75,7 +75,7 @@ class CAnnivList
 
 	struct CFilter
 	{
-		WORD	wDaysBefore = (WORD)-1;
+		uint16_t	wDaysBefore = (uint16_t)-1;
 		uint8_t	bFilterIndex = 0;
 		LPSTR	pszProto = nullptr;
 		LPTSTR pszAnniv = nullptr;
@@ -85,7 +85,7 @@ class CAnnivList
 	{
 		MCONTACT	_hContact;
 		MAnnivDate _pDate;
-		WORD		_wDaysBefore;
+		uint16_t		_wDaysBefore;
 		uint8_t		_wReminderState;
 
 		CItemData(MCONTACT hContact, MAnnivDate &date) :
@@ -187,7 +187,7 @@ class CAnnivList
 			EndDeferWindowPos(_hdWnds);
 		}
 
-		void MoveCtrl(WORD idCtrl, int anchors)
+		void MoveCtrl(uint16_t idCtrl, int anchors)
 		{
 			if (!(_wndPos->flags & SWP_NOSIZE)) {
 				HWND hCtrl = GetDlgItem(_wndPos->hwnd, idCtrl);
@@ -433,7 +433,7 @@ class CAnnivList
 				// number of days to remind in advance is edited
 				case EDIT_REMIND:
 					if (pid && pDlg->_bRemindEnable && HIWORD(wParam) == EN_CHANGE) {
-						WORD wDaysBefore = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
+						uint16_t wDaysBefore = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
 						if (pid->_wReminderState == BST_CHECKED && pid->_wDaysBefore != wDaysBefore) {
 							pid->_wDaysBefore = wDaysBefore;
 						}
@@ -447,7 +447,7 @@ class CAnnivList
 						uint8_t isChecked = Button_GetCheck((HWND)lParam);
 						EnableWindow(GetDlgItem(hDlg, EDIT_DAYS), isChecked);
 						EnableWindow(GetDlgItem(hDlg, TXT_DAYS), isChecked);
-						pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, nullptr, FALSE) : (WORD)-1;
+						pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, nullptr, FALSE) : (uint16_t)-1;
 						pDlg->RebuildList();
 					}
 					break;
@@ -455,7 +455,7 @@ class CAnnivList
 				// the number of days a contact must have an anniversary in advance to be displayed is edited
 				case EDIT_DAYS:
 					if (HIWORD(wParam) == EN_CHANGE) {
-						WORD wNewDays = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
+						uint16_t wNewDays = GetDlgItemInt(hDlg, LOWORD(wParam), nullptr, FALSE);
 						if (wNewDays != pDlg->_filter.wDaysBefore) {
 							pDlg->_filter.wDaysBefore = wNewDays;
 							pDlg->RebuildList();
@@ -657,7 +657,7 @@ class CAnnivList
 			ad.DBGetReminderOpts(hContact);
 			if ((_filter.bFilterIndex != FILTER_DISABLED_REMINDER) || (ad.RemindOption() == BST_UNCHECKED)) {
 				// set default offset if required
-				if (ad.RemindOffset() == (WORD)-1) {
+				if (ad.RemindOffset() == (uint16_t)-1) {
 					ad.RemindOffset(wDaysBefore);
 					
 					// create data object
@@ -810,7 +810,7 @@ class CAnnivList
 	void SaveFilter()
 	{
 		if (_hDlg) {
-			g_plugin.setWord(SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
+			g_plugin.setWord(SET_ANNIVLIST_FILTER_DAYS, (uint16_t)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
 			g_plugin.setByte(SET_ANNIVLIST_FILTER_DAYSENABLED, (uint8_t)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
 			g_plugin.setByte(SET_ANNIVLIST_FILTER_INDEX, (uint8_t)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
 		}
@@ -857,7 +857,7 @@ public:
 
 				for (c = 0; c < cc; c++) {
 					mir_snprintf(pszSetting, "AnnivDlg_Col%d", c);
-					g_plugin.setWord(pszSetting, (WORD)ListView_GetColumnWidth(_hList, c));
+					g_plugin.setWord(pszSetting, (uint16_t)ListView_GetColumnWidth(_hList, c));
 				}
 				DeleteAllItems();
 			}

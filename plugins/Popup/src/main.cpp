@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-WORD SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
+uint16_t SETTING_MAXIMUMWIDTH_MAX = GetSystemMetrics(SM_CXSCREEN);
 
 #define MENUCOMMAND_HISTORY "Popup/ShowHistory"
 #define MENUCOMMAND_SVC "Popup/EnableDisableMenuCommand"

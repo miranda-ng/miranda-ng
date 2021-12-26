@@ -703,8 +703,8 @@ retry:
 							int br = atoi(__birthyear);
 							if (br > 0)
 							{
-								setWord(hContact, GG_KEY_PD_AGE, (WORD)(lt->tm_year + 1900 - br));
-								setWord(hContact, GG_KEY_PD_BIRTHYEAR, (WORD)br);
+								setWord(hContact, GG_KEY_PD_AGE, (uint16_t)(lt->tm_year + 1900 - br));
+								setWord(hContact, GG_KEY_PD_BIRTHYEAR, (uint16_t)br);
 							}
 						}
 						else if (res->seq == GG_SEQ_CHINFO) {
@@ -758,7 +758,7 @@ retry:
 		case GG_EVENT_STATUS60:
 		{
 			MCONTACT hContact = getcontact(e->event.status60.uin, 0, 0, nullptr);
-			int oldstatus = getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE);
+			int oldstatus = getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE);
 			uin_t uin = (uin_t)getDword(GG_KEY_UIN, 0);
 
 			wchar_t *descrT = mir_utf8decodeW(e->event.status60.descr);
@@ -775,7 +775,7 @@ retry:
 
 			mir_free(descrT);
 
-			if (oldstatus == ID_STATUS_OFFLINE && getWord(hContact, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+			if (oldstatus == ID_STATUS_OFFLINE && getWord(hContact, GG_KEY_STATUS, (uint16_t)ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 				requestAvatarInfo(hContact, 0);
 		}
 		break;
@@ -1367,7 +1367,7 @@ void GaduProto::notifyuser(MCONTACT hContact, int refresh)
 	{
 		// Check if user should be invisible
 		// Or be blocked ?
-		if ((getWord(hContact, GG_KEY_APPARENT, (WORD)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact_OnList(hContact))
+		if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact_OnList(hContact))
 		{
 			gg_EnterCriticalSection(&sess_mutex, "notifyuser", 77, "sess_mutex", 1);
 			if (refresh) {
@@ -1422,7 +1422,7 @@ void GaduProto::notifyall()
 	int cc = 0;
 	for (auto &hContact : AccContacts()) {
 		if (uins[cc] = getDword(hContact, GG_KEY_UIN, 0)) {
-			if ((getWord(hContact, GG_KEY_APPARENT, (WORD)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact_OnList(hContact))
+			if ((getWord(hContact, GG_KEY_APPARENT, (uint16_t)ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) || !Contact_OnList(hContact))
 				types[cc] = GG_USER_OFFLINE;
 			else if (getByte(hContact, GG_KEY_BLOCK, 0))
 				types[cc] = GG_USER_BLOCKED;
@@ -1612,7 +1612,7 @@ void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr
 		return;
 
 	// Write contact status
-	setWord(hContact, GG_KEY_STATUS, (WORD)status_gg2m(status));
+	setWord(hContact, GG_KEY_STATUS, (uint16_t)status_gg2m(status));
 
 	// Check if there's description and if it's not empty
 	if (idescr && *idescr) {
@@ -1628,7 +1628,7 @@ void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr
 	if (remote_ip)
 		setDword(hContact, GG_KEY_CLIENTIP, (DWORD)swap32(remote_ip));
 	if (remote_port)
-		setWord(hContact, GG_KEY_CLIENTPORT, (WORD)remote_port);
+		setWord(hContact, GG_KEY_CLIENTPORT, (uint16_t)remote_port);
 	if (version) {
 		char sversion[48];
 		setDword(hContact, GG_KEY_CLIENTVERSION, (DWORD)version);

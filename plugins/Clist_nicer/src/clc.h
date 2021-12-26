@@ -128,7 +128,7 @@ struct ClcContact : public ClcContactBase
 	MCONTACT	hSubContact;
 	char    *metaProto;
 	DWORD    codePage;
-	WORD     wStatus;
+	uint16_t     wStatus;
 	int      avatarLeft, extraIconRightBegin;
 	int      isRtl;
 	DWORD    cFlags;

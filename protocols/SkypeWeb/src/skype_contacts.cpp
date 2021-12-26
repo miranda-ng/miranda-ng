@@ -17,14 +17,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-WORD CSkypeProto::GetContactStatus(MCONTACT hContact)
+uint16_t CSkypeProto::GetContactStatus(MCONTACT hContact)
 {
 	return getWord(hContact, "Status", ID_STATUS_OFFLINE);
 }
 
-void CSkypeProto::SetContactStatus(MCONTACT hContact, WORD status)
+void CSkypeProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 {
-	WORD oldStatus = GetContactStatus(hContact);
+	uint16_t oldStatus = GetContactStatus(hContact);
 	if (oldStatus != status) {
 		setWord(hContact, "Status", status);
 		if (status == ID_STATUS_OFFLINE)

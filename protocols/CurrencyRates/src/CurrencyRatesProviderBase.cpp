@@ -525,8 +525,8 @@ void CCurrencyRatesProviderBase::WriteContactRate(MCONTACT hContact, double dRat
 
 	CAdvProviderSettings global_settings(this);
 
-	WORD dwMode = (bUseContactSpecific)
-		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<WORD>(lmDisabled))
+	uint16_t dwMode = (bUseContactSpecific)
+		? g_plugin.getWord(hContact, DB_STR_CURRENCYRATE_LOG, static_cast<uint16_t>(lmDisabled))
 		: global_settings.GetLogMode();
 	if (dwMode&lmExternalFile) {
 		bool bAdd = true;

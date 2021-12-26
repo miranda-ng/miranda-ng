@@ -220,7 +220,7 @@ static BOOL IsValidRunCommand(const wchar_t *pszRunCmd)
 }
 
 // mir_free() the return value
-wchar_t* MakeIconLocation(HMODULE hModule, WORD nIconResID)
+wchar_t* MakeIconLocation(HMODULE hModule, uint16_t nIconResID)
 {
 	wchar_t szModule[MAX_PATH], *pszIconLoc = nullptr;
 	int cch;

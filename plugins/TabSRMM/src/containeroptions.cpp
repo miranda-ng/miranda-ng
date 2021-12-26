@@ -271,11 +271,11 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 		case IDC_APPLY:
 			SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, (LPARAM)pContainer->m_pSettings);
 
-			pContainer->m_pSettings->dwTransparency = MAKELONG((WORD)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_GETPOS, 0, 0),
-				(WORD)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_GETPOS, 0, 0));
+			pContainer->m_pSettings->dwTransparency = MAKELONG((uint16_t)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_GETPOS, 0, 0),
+				(uint16_t)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_GETPOS, 0, 0));
 
-			pContainer->m_pSettings->avatarMode = (WORD)SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_GETCURSEL, 0, 0);
-			pContainer->m_pSettings->ownAvatarMode = (WORD)SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_GETCURSEL, 0, 0);
+			pContainer->m_pSettings->avatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_GETCURSEL, 0, 0);
+			pContainer->m_pSettings->ownAvatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_GETCURSEL, 0, 0);
 
 			GetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->m_pSettings->szTitleFormat, TITLE_FORMATLEN);
 			pContainer->m_pSettings->szTitleFormat[TITLE_FORMATLEN - 1] = 0;
@@ -503,7 +503,7 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 
 			cs->flags = newFlags;
 			cs->flagsEx = newFlagsEx;
-			cs->autoCloseSeconds = (WORD)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
+			cs->autoCloseSeconds = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_GETPOS, 0, 0);
 		}
 		break;
 

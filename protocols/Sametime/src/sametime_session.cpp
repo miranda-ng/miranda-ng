@@ -449,21 +449,21 @@ void __cdecl CSametimeProto::SessionThread(LPVOID)
 	return;
 }
 
-WORD CSametimeProto::GetClientVersion()
+uint16_t CSametimeProto::GetClientVersion()
 {
 	if (!session) return 0;
 
-	WORD retval = 0;
+	uint16_t retval = 0;
 	retval = (UINT_PTR)mwSession_getProperty(session, mwSession_CLIENT_VER_MAJOR) << 8;
 	retval |= (UINT_PTR)mwSession_getProperty(session, mwSession_CLIENT_VER_MINOR);
 	return retval;
 }
 
-WORD CSametimeProto::GetServerVersion()
+uint16_t CSametimeProto::GetServerVersion()
 {
 	if (!session) return 0;
 
-	WORD retval = 0;
+	uint16_t retval = 0;
 	retval = (UINT_PTR)mwSession_getProperty(session, mwSession_SERVER_VER_MAJOR) << 8;
 	retval |= (UINT_PTR)mwSession_getProperty(session, mwSession_SERVER_VER_MINOR);
 	return retval;

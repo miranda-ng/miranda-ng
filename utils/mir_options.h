@@ -55,8 +55,8 @@ typedef struct {
 		FPAllowProtocol allowProtocol;
 		unsigned int checkboxID;
 	};
-	WORD min;
-	WORD max;
+	uint16_t min;
+	uint16_t max;
 } OptPageControl;
 
 INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, char *module, HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

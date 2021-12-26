@@ -402,7 +402,7 @@ int GetWeatherDataFromDB(const char *szSetting, void *lparam)
 // remove or display the weather information for a contact
 // hContact - the contact in which the info is going to be removed
 //
-void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM)
+void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM)
 {
 	// get all the settings and store them in a temporary list
 	LIST<char> arSettings(10);

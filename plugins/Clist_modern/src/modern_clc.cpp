@@ -1295,7 +1295,7 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 
 static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
 {
-	WORD iExtraImage[EXTRA_ICON_COUNT];
+	uint16_t iExtraImage[EXTRA_ICON_COUNT];
 	uint8_t flags = 0;
 
 	ClcContact *contact;
@@ -1337,7 +1337,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 	ClcContact *selcontact = nullptr;
 
 	char *szProto = Proto_GetBaseAccountName(wParam);
-	WORD status = (szProto == nullptr) ? ID_STATUS_OFFLINE : GetContactCachedStatus(wParam);
+	uint16_t status = (szProto == nullptr) ? ID_STATUS_OFFLINE : GetContactCachedStatus(wParam);
 	bool bImageIsSpecial = (LOWORD(contacticon) != (LOWORD(lParam))); //check only base icons
 
 	int nHiddenStatus = CLVM_GetContactHiddenStatus(wParam, szProto, dat);

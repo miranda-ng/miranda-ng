@@ -201,7 +201,7 @@ static uint8_t DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, u
 }
 
 /**
- * This function writes a WORD to database according to the value
+ * This function writes a uint16_t to database according to the value
  * read from the edit control identified by 'idCtrl'.
  *
  * @param	hWnd			- the dialog's window handle
@@ -213,12 +213,12 @@ static uint8_t DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, u
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static uint8_t DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD defVal)
+static uint8_t DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint16_t defVal)
 {
-	WORD v;
+	uint16_t v;
 	BOOL t;
 
-	v = (WORD)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
+	v = (uint16_t)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
 	if (t && (v != g_plugin.getWord(pszSetting, defVal))) {
 		g_plugin.setWord(pszSetting, v);
 		return true;
@@ -688,7 +688,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		case EDIT_REMIND:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
-				WORD v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
+				uint16_t v = (uint16_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
 				if (t && (v != g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
 					NotifyParentOfChange(hDlg);
 			}
@@ -708,7 +708,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		case EDIT_REMIND2:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
-				WORD v = (WORD)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
+				uint16_t v = (uint16_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
 				if (t && (v != g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
 					NotifyParentOfChange(hDlg);
 			}

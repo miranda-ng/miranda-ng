@@ -171,7 +171,7 @@ struct CREOleCallback : public IRichEditOleCallback
 	{ return E_NOTIMPL; }
 	STDMETHOD(GetDragDropEffect)(BOOL, DWORD, LPDWORD)
 	{ return S_OK; }
-	STDMETHOD(GetContextMenu)(WORD, LPOLEOBJECT, CHARRANGE*, HMENU*)
+	STDMETHOD(GetContextMenu)(uint16_t, LPOLEOBJECT, CHARRANGE*, HMENU*)
 	{ return E_INVALIDARG; }
 };
 

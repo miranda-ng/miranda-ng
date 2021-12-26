@@ -28,7 +28,7 @@ Options opts;
 
 static OptPageControl pageControls[] = {
 	{ &opts.cycle_through_protocols, CONTROL_CHECKBOX, IDC_CYCLE_THROUGH_PROTOS, "CicleThroughtProtocols", (uint8_t)1 },
-	{ &opts.seconds_to_show_protocol, CONTROL_SPIN, IDC_CYCLE_TIME, "CicleTime", (WORD)5, IDC_CYCLE_TIME_SPIN, (WORD)1, (WORD)255 },
+	{ &opts.seconds_to_show_protocol, CONTROL_SPIN, IDC_CYCLE_TIME, "CicleTime", (uint16_t)5, IDC_CYCLE_TIME_SPIN, (uint16_t)1, (uint16_t)255 },
 	{ &opts.draw_show_protocol_name, CONTROL_CHECKBOX, IDC_SHOW_PROTO_NAME, "ShowProtocolName", (uint8_t)1 },
 	{ &opts.show_protocol_cycle_button, CONTROL_CHECKBOX, IDC_SHOW_CYCLE_PROTO_BUTTON, "ShowProtocolCycleButton", (uint8_t)0 },
 	{ &opts.draw_text_rtl, CONTROL_CHECKBOX, IDC_TEXT_RTL, "TextRTL", (uint8_t)0 },
@@ -42,18 +42,18 @@ static OptPageControl pageControls[] = {
 	{ &opts.global_on_status_message, CONTROL_CHECKBOX, IDC_GLOBAL_ON_STATUS_MESSAGE, "GlobalOnStatusMessage", (uint8_t)0 },
 	{ &opts.draw_avatar_allow_to_grow, CONTROL_CHECKBOX, IDC_AVATAR_ALLOW_TO_GROW, "AvatarAllowToGrow", (uint8_t)0 },
 	{ &opts.draw_avatar_custom_size, CONTROL_CHECKBOX, IDC_AVATAR_CUSTOM_SIZE_CHK, "AvatarCustomSize", (uint8_t)0 },
-	{ &opts.draw_avatar_custom_size_pixels, CONTROL_SPIN, IDC_AVATAR_CUSTOM_SIZE, "AvatarCustomSizePixels", (WORD)30, IDC_AVATAR_CUSTOM_SIZE_SPIN, (WORD)1, (WORD)255 },
+	{ &opts.draw_avatar_custom_size_pixels, CONTROL_SPIN, IDC_AVATAR_CUSTOM_SIZE, "AvatarCustomSizePixels", (uint16_t)30, IDC_AVATAR_CUSTOM_SIZE_SPIN, (uint16_t)1, (uint16_t)255 },
 	{ &opts.draw_avatar_border, CONTROL_CHECKBOX, IDC_AVATAR_DRAW_BORDER, "AvatarDrawBorders", (uint8_t)0 },
 	{ &opts.draw_avatar_round_corner, CONTROL_CHECKBOX, IDC_AVATAR_ROUND_CORNERS, "AvatarRoundCorners", (uint8_t)1 },
 	{ &opts.draw_avatar_use_custom_corner_size, CONTROL_CHECKBOX, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK, "AvatarUseCustomCornerSize", (uint8_t)0 },
-	{ &opts.draw_avatar_custom_corner_size, CONTROL_SPIN, IDC_AVATAR_CUSTOM_CORNER_SIZE, "AvatarCustomCornerSize", (WORD)4, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, (WORD)1, (WORD)255 },
+	{ &opts.draw_avatar_custom_corner_size, CONTROL_SPIN, IDC_AVATAR_CUSTOM_CORNER_SIZE, "AvatarCustomCornerSize", (uint16_t)4, IDC_AVATAR_CUSTOM_CORNER_SIZE_SPIN, (uint16_t)1, (uint16_t)255 },
 	{ &opts.use_avatar_space_to_draw_text, CONTROL_CHECKBOX, IDC_AVATAR_USE_FREE_SPACE, "AvatarUseFreeSpaceToDrawText", (uint8_t)1 },
 	{ &opts.resize_frame, CONTROL_CHECKBOX, IDC_RESIZE_FRAME, "ResizeFrame", (uint8_t)0 },
 	{ &opts.use_skinning, CONTROL_CHECKBOX, IDC_USE_SKINNING, "UseSkinning", (uint8_t)0 },
-	{ &opts.borders[RIGHT], CONTROL_SPIN, IDC_BORDER_RIGHT, "BorderRight", (WORD)8, IDC_BORDER_RIGHT_SPIN, (WORD)0, (WORD)255 },
-	{ &opts.borders[LEFT], CONTROL_SPIN, IDC_BORDER_LEFT, "BorderLeft", (WORD)8, IDC_BORDER_LEFT_SPIN, (WORD)0, (WORD)255 },
-	{ &opts.borders[TOP], CONTROL_SPIN, IDC_BORDER_TOP, "BorderTop", (WORD)8, IDC_BORDER_TOP_SPIN, (WORD)0, (WORD)255 },
-	{ &opts.borders[BOTTOM], CONTROL_SPIN, IDC_BORDER_BOTTOM, "BorderBottom", (WORD)8, IDC_BORDER_BOTTOM_SPIN, (WORD)0, (WORD)255 },
+	{ &opts.borders[RIGHT], CONTROL_SPIN, IDC_BORDER_RIGHT, "BorderRight", (uint16_t)8, IDC_BORDER_RIGHT_SPIN, (uint16_t)0, (uint16_t)255 },
+	{ &opts.borders[LEFT], CONTROL_SPIN, IDC_BORDER_LEFT, "BorderLeft", (uint16_t)8, IDC_BORDER_LEFT_SPIN, (uint16_t)0, (uint16_t)255 },
+	{ &opts.borders[TOP], CONTROL_SPIN, IDC_BORDER_TOP, "BorderTop", (uint16_t)8, IDC_BORDER_TOP_SPIN, (uint16_t)0, (uint16_t)255 },
+	{ &opts.borders[BOTTOM], CONTROL_SPIN, IDC_BORDER_BOTTOM, "BorderBottom", (uint16_t)8, IDC_BORDER_BOTTOM_SPIN, (uint16_t)0, (uint16_t)255 },
 };
 
 

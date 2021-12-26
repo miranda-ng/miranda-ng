@@ -15,7 +15,7 @@ typedef struct CPOP3Account: public CAccount
 	class CPop3Client Client;
 
 // This member is usefull for MIME headers. It is default codepage, if no other codepage found
-	WORD CP;				//access only through AccountAccessSO
+	uint16_t CP;				//access only through AccountAccessSO
 
 // In this memeber last error code is stored
 	DWORD SystemError;			//access through UseInternetFree

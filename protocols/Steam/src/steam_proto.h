@@ -153,7 +153,7 @@ protected:
 
 	// contacts
 	void SetAllContactStatuses(int status);
-	void SetContactStatus(MCONTACT hContact, WORD status);
+	void SetContactStatus(MCONTACT hContact, uint16_t status);
 
 	MCONTACT GetContactFromAuthEvent(MEVENT hEvent);
 
@@ -239,7 +239,7 @@ protected:
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	// utils
-	static WORD SteamToMirandaStatus(PersonaState state);
+	static uint16_t SteamToMirandaStatus(PersonaState state);
 	static PersonaState MirandaToSteamState(int status);
 
 	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encrypted, DWORD &encryptedSize);

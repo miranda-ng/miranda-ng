@@ -354,7 +354,7 @@ DWORD WINAPI WritePOP3Options(HANDLE File, CAccount *Which)
 	DWORD Ver = POP3_FILEVERSION;
 
 	if ((!WriteFile(File, (char *)&Ver, sizeof(DWORD), &WrittenBytes, nullptr)) ||
-		(!WriteFile(File, (char *)&((HPOP3ACCOUNT)Which)->CP, sizeof(WORD), &WrittenBytes, nullptr)))
+		(!WriteFile(File, (char *)&((HPOP3ACCOUNT)Which)->CP, sizeof(uint16_t), &WrittenBytes, nullptr)))
 		return EACC_SYSTEM;
 	return 0;
 }
@@ -372,8 +372,8 @@ DWORD WINAPI ReadPOP3Options(CAccount *Which, char **Parser, char *End)
 	if (Ver != POP3_FILEVERSION)
 		return EACC_FILECOMPATIBILITY;
 
-	((HPOP3ACCOUNT)Which)->CP = *(WORD *)(*Parser);
-	(*Parser) += sizeof(WORD);
+	((HPOP3ACCOUNT)Which)->CP = *(uint16_t *)(*Parser);
+	(*Parser) += sizeof(uint16_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD

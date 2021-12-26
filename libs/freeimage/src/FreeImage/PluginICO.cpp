@@ -36,9 +36,9 @@
 // in an ICO file.
 
 typedef struct tagICONHEADER {
-	WORD			idReserved;   // reserved
-	WORD			idType;       // resource type (1 for icons)
-	WORD			idCount;      // how many images?
+	uint16_t			idReserved;   // reserved
+	uint16_t			idType;       // resource type (1 for icons)
+	uint16_t			idCount;      // how many images?
 } ICONHEADER;
 
 typedef struct tagICONDIRECTORYENTRY {
@@ -46,8 +46,8 @@ typedef struct tagICONDIRECTORYENTRY {
 	uint8_t	bHeight;              // height of the image (times 2)
 	uint8_t	bColorCount;          // number of colors in image (0 if >=8bpp)
 	uint8_t	bReserved;            // reserved
-	WORD	wPlanes;              // color Planes
-	WORD	wBitCount;            // bits per pixel
+	uint16_t	wPlanes;              // color Planes
+	uint16_t	wBitCount;            // bits per pixel
 	DWORD	dwBytesInRes;         // how many bytes in this resource?
 	DWORD	dwImageOffset;        // where in the file is this image
 } ICONDIRENTRY;
@@ -333,7 +333,7 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 #ifdef FREEIMAGE_BIGENDIAN
 	if (bit_count == 16) {
 		for(int y = 0; y < height; y++) {
-			WORD *pixel = (WORD *)FreeImage_GetScanLine(dib, y);
+			uint16_t *pixel = (uint16_t *)FreeImage_GetScanLine(dib, y);
 			for(int x = 0; x < width; x++) {
 				SwapShort(pixel);
 				pixel++;
@@ -496,13 +496,13 @@ SaveStandardIcon(FreeImageIO *io, FIBITMAP *dib, fi_handle handle) {
 	// XOR mask
 #ifdef FREEIMAGE_BIGENDIAN
 	if (bit_count == 16) {
-		WORD pixel;
+		uint16_t pixel;
 		for(unsigned y = 0; y < FreeImage_GetHeight(dib); y++) {
 			uint8_t *line = FreeImage_GetScanLine(dib, y);
 			for(unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
-				pixel = ((WORD *)line)[x];
+				pixel = ((uint16_t *)line)[x];
 				SwapShort(&pixel);
-				if (io->write_proc(&pixel, sizeof(WORD), 1, handle) != 1)
+				if (io->write_proc(&pixel, sizeof(uint16_t), 1, handle) != 1)
 					return FALSE;
 			}
 		}

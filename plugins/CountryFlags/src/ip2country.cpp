@@ -24,7 +24,7 @@ extern struct CountryListEntry *countries;
 
 /************************* Bin Records ****************************/
 
-#define DATARECORD_SIZE (sizeof(DWORD)+sizeof(DWORD)+sizeof(WORD))
+#define DATARECORD_SIZE (sizeof(DWORD)+sizeof(DWORD)+sizeof(uint16_t))
 
 // mir_free() the return value
 static uint8_t* GetDataHeader(uint8_t *data, DWORD cbDataSize, DWORD *pnDataRecordCount)
@@ -45,7 +45,7 @@ static int GetDataRecord(uint8_t *data, DWORD index, DWORD *pdwFrom, DWORD *pdwT
 	data += sizeof(DWORD);
 	if (pdwTo != nullptr) *pdwTo = *(DWORD*)data;
 	data += sizeof(DWORD);
-	return (int)*(WORD*)data;
+	return (int)*(uint16_t*)data;
 }
 
 /************************* Record Cache ***************************/
@@ -185,7 +185,7 @@ static int EnumIpDataLines(const char *pszFileCSV, const char *pszFileOut)
 	char line[1024], out[512], *pszFrom, *pszTo, *pszTwo, *pszCountry, *buf;
 	int i, j;
 	DWORD dwOut;
-	WORD wOut;
+	uint16_t wOut;
 	struct ResizableByteBuffer buffer;
 
 	memset(&buffer, 0, sizeof(buffer));
@@ -237,8 +237,8 @@ static int EnumIpDataLines(const char *pszFileCSV, const char *pszFileOut)
 					AppendToByteBuffer(&buffer, (void*)&dwOut, sizeof(DWORD));
 					dwOut = (DWORD)atoi(pszTo);
 					AppendToByteBuffer(&buffer, (void*)&dwOut, sizeof(DWORD));
-					wOut = (WORD)countries[i].id;
-					AppendToByteBuffer(&buffer, (void*)&wOut, sizeof(WORD));
+					wOut = (uint16_t)countries[i].id;
+					AppendToByteBuffer(&buffer, (void*)&wOut, sizeof(uint16_t));
 					break;
 				}
 			}

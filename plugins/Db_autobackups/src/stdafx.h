@@ -41,10 +41,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	wchar_t folder[MAX_PATH];
 
 	CMOption<uint8_t>	    backup_types;
-	CMOption<WORD>	    period;
+	CMOption<uint16_t>	    period;
 	CMOption<uint8_t>	    period_type;
 	CMOption<wchar_t*> file_mask;
-	CMOption<WORD>	    num_backups;
+	CMOption<uint16_t>	    num_backups;
 	CMOption<uint8_t>	    disable_progress;
 	CMOption<uint8_t>	    disable_popups;
 	CMOption<uint8_t>	    use_zip;

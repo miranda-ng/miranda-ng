@@ -39,8 +39,8 @@
 
 typedef struct tagPLUGINDATA
 {
-	WORD newStatus;
-	WORD oldStatus;
+	uint16_t newStatus;
+	uint16_t oldStatus;
 	HWND hWnd;
 	HANDLE hAwayMsgProcess;
 	HANDLE hAwayMsgHook;
@@ -58,7 +58,7 @@ static struct {
 	LPGENW("Do nothing"), PCA_DONOTHING
 };
 
-void ShowChangePopup(MCONTACT hContact, HICON hIcon, WORD newStatus, const wchar_t *stzText, PLUGINDATA *pdp = nullptr);
+void ShowChangePopup(MCONTACT hContact, HICON hIcon, uint16_t newStatus, const wchar_t *stzText, PLUGINDATA *pdp = nullptr);
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif

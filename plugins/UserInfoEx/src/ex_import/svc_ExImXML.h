@@ -39,7 +39,7 @@ class CFileXml {
 
 	MCONTACT _hContactToWorkOn;	// contact to ex/import (NULL=owner|INVALID_HANDLE_VALUE=all|HADNLE=one user)
 
-	WORD _wExport;
+	uint16_t _wExport;
 
 	CProgress _progress;
 

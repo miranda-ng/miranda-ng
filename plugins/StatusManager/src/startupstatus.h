@@ -39,7 +39,7 @@ struct PROFILEOPTIONS : public MZeroedObject
 	BOOL createMmi;
 	BOOL inSubMenu;
 	BOOL regHotkey;
-	WORD hotKey;
+	uint16_t hotKey;
 };
 
 typedef struct {

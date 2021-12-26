@@ -104,7 +104,7 @@ FreeImage_ConvertToRGBA16(FIBITMAP *dib) {
 		case FIT_UINT16:
 		{
 			for(unsigned y = 0; y < height; y++) {
-				const WORD *src_bits = (WORD*)FreeImage_GetScanLine(src, y);
+				const uint16_t *src_bits = (uint16_t*)FreeImage_GetScanLine(src, y);
 				FIRGBA16 *dst_bits = (FIRGBA16*)FreeImage_GetScanLine(dst, y);
 				for(unsigned x = 0; x < width; x++) {
 					// convert by copying greyscale channel to each R, G, B channels

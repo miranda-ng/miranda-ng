@@ -173,7 +173,7 @@ static int Log_AppendRTF(LOGSTREAMDATA *streamData, bool simpleMode, CMStringA &
 		else if (*line > 0 && *line < 128) {
 			buf.AppendChar(*line);
 		}
-		else buf.AppendFormat("\\u%u ?", (WORD)*line);
+		else buf.AppendFormat("\\u%u ?", (uint16_t)*line);
 	}
 
 	return textCharsCount;

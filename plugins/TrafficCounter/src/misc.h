@@ -3,7 +3,7 @@
 typedef struct
 {
 	wchar_t Alignment;	// Выравнивание. L - к левой границе, R - к правой.
-	WORD Interval;		// Расстояние, на которое граница строки отстоит от левого края фрейма.
+	uint16_t Interval;		// Расстояние, на которое граница строки отстоит от левого края фрейма.
 	wchar_t *String;		// Собственно строка.
 } RowItemInfo;
 
@@ -12,14 +12,14 @@ typedef struct
 InputString - строка для разбора;
 RowItemsList - список найденных элементов.
 Возвращаемое значение - количество элементов в списках. */
-WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList);
+uint16_t GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList);
 
 /* Функция возвращает количество дней в указанном месяце указанного года. */
-uint8_t DaysInMonth(uint8_t Month, WORD Year);
+uint8_t DaysInMonth(uint8_t Month, uint16_t Year);
 
 // Функция определяет день недели по дате
 // 7 - ВС, 1 - ПН и т. д.
-uint8_t DayOfWeek(uint8_t Day, uint8_t Month, WORD Year);
+uint8_t DayOfWeek(uint8_t Day, uint8_t Month, uint16_t Year);
 
 /* Аргументы:
 	Value - количество байт;

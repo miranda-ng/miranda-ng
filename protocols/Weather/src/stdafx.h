@@ -187,16 +187,16 @@ struct MYOPTIONS
 	uint8_t RemoveOldData;
 	uint8_t MakeItalic;
 
-	WORD UpdateTime;
-	WORD AvatarSize;
+	uint16_t UpdateTime;
+	uint16_t AvatarSize;
 
 	// units
-	WORD tUnit;
-	WORD wUnit;
-	WORD vUnit;
-	WORD pUnit;
-	WORD dUnit;
-	WORD eUnit;
+	uint16_t tUnit;
+	uint16_t wUnit;
+	uint16_t vUnit;
+	uint16_t pUnit;
+	uint16_t dUnit;
+	uint16_t eUnit;
 	wchar_t DegreeSign[4];
 	uint8_t DoNotAppendUnit;
 	uint8_t NoFrac;
@@ -407,7 +407,7 @@ int MapCondToStatus(MCONTACT hContact);
 HICON GetStatusIcon(MCONTACT hContact);
 HICON GetStatusIconBig(MCONTACT hContact);
 
-WORD GetIcon(const wchar_t* cond, WIDATA *Data);
+uint16_t GetIcon(const wchar_t* cond, WIDATA *Data);
 void CaseConv(wchar_t *str);
 void TrimString(char *str);
 void TrimString(wchar_t *str);
@@ -437,7 +437,7 @@ void wSetData(wchar_t *&Data, const wchar_t *Value);
 void wfree(char *&Data);
 void wfree(wchar_t *&Data);
 
-void DBDataManage(MCONTACT hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
+void DBDataManage(MCONTACT hContact, uint16_t Mode, WPARAM wParam, LPARAM lParam);
 
 // functions in weather_http.c
 int InternetDownloadFile (char *szUrl, char *cookie, char *userAgent, wchar_t** szData);
@@ -471,7 +471,7 @@ const wchar_t* GetDefaultText(int c);
 // functions in weather_popup.c
 int WeatherPopup(WPARAM wParam, LPARAM lParam);
 int WeatherError(WPARAM wParam, LPARAM lParam);
-int WPShowMessage(const wchar_t* lpzText, WORD kind);
+int WPShowMessage(const wchar_t* lpzText, uint16_t kind);
 
 LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 

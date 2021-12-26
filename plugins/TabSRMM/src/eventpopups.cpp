@@ -247,7 +247,7 @@ static wchar_t* ShortenPreview(DBEVENTINFO *dbe)
 	return buf;
 }
 
-static wchar_t* GetPreviewT(WORD eventType, DBEVENTINFO *dbe)
+static wchar_t* GetPreviewT(uint16_t eventType, DBEVENTINFO *dbe)
 {
 	char *pBlob = (char*)dbe->pBlob;
 
@@ -415,7 +415,7 @@ static int PopupShowT(NEN_OPTIONS *pluginOptions, MCONTACT hContact, MEVENT hEve
 	else
 		wcsncpy_s(pud.lpwzContactName, _A2T(dbe.szModule), _TRUNCATE);
 
-	wchar_t *szPreview = GetPreviewT((WORD)eventType, &dbe);
+	wchar_t *szPreview = GetPreviewT((uint16_t)eventType, &dbe);
 	if (szPreview) {
 		wcsncpy_s(pud.lpwzText, szPreview, _TRUNCATE);
 		mir_free(szPreview);
@@ -708,7 +708,7 @@ void Popup_Options(WPARAM wParam)
 	g_plugin.addOptions(wParam, &odp);
 }
 
-int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, WORD eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)
+int tabSRMM_ShowPopup(MCONTACT hContact, MEVENT hDbEvent, uint16_t eventType, int windowOpen, TContainerData *pContainer, HWND hwndChild, const char *szProto)
 {
 	if (nen_options.iDisable) // no popups at all. Period
 		return 0;

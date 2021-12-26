@@ -305,7 +305,7 @@ void UpdateUnderstandAlwaysCheckbox(HWND hwndDlg)
 
 static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	WORD param;
+	uint16_t param;
 	BOOL bTranslated = FALSE;
 	static bool loading = true;
 	static int changeCount = 0;

@@ -182,7 +182,7 @@ HDC hdcAV;
 
 LONG g_maxAV_X = 200, g_maxAV_Y = 200;
 
-static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, WORD cstatus, int rowHeight, DWORD dwFlags)
+static int __fastcall DrawAvatar(HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, uint16_t cstatus, int rowHeight, DWORD dwFlags)
 {
 	float dScale = 0.;
 	float newHeight, newWidth;
@@ -461,7 +461,7 @@ set_bg_l:
 
 	RECT rc;
 	rc.left = 0;
-	WORD cstatus = contact->wStatus;
+	uint16_t cstatus = contact->wStatus;
 
 	/***** BACKGROUND DRAWING *****/
 	// contacts
@@ -829,13 +829,13 @@ bgskipped:
 		rc2.bottom = rc2.top + rowHeight;
 
 		if (av_left) {
-			leftOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+			leftOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (uint16_t)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			rcContent.left += leftOffset;
 			leftX += leftOffset;
 		}
 		else {
 			rc2.left = (rcContent.right - cfg::dat.avatarSize) + 1;
-			rightOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+			rightOffset += DrawAvatar(hdcMem, &rc2, contact, y, dat, (uint16_t)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			rcContent.right -= (rightOffset);
 		}
 	}
@@ -1014,10 +1014,10 @@ bgskipped:
 					RECT rcAvatar = rcContent;
 
 					rcAvatar.left = rcContent.right - (cfg::dat.avatarSize - 1);
-					DrawAvatar(hdcMem, &rcAvatar, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+					DrawAvatar(hdcMem, &rcAvatar, contact, y, dat, (uint16_t)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 					rcContent.right -= (cfg::dat.avatarSize + 2);
 				}
-				else rcContent.left += DrawAvatar(hdcMem, &rcContent, contact, y, dat, (WORD)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
+				else rcContent.left += DrawAvatar(hdcMem, &rcContent, contact, y, dat, (uint16_t)(iImage ? cstatus : 0), rowHeight, cEntry->dwDFlags);
 			}
 			else if (dwFlags & CLUI_FRAME_ALWAYSALIGNNICK && !avatar_done && av_local_wanted)
 				rcContent.left += (dwFlags & (CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK) ? 0 : cfg::dat.avatarSize + 2);

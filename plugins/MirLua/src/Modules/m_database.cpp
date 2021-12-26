@@ -538,7 +538,7 @@ static int db_WriteSetting(lua_State *L)
 		break;
 	case DBVT_BLOB:
 	{
-		dbv.cpbVal = (WORD)lua_rawlen(L, 4);
+		dbv.cpbVal = (uint16_t)lua_rawlen(L, 4);
 		dbv.pbVal = (uint8_t*)mir_calloc(dbv.cpbVal);
 		for (int i = 0; i < dbv.cpbVal; i++) {
 			lua_geti(L, 4, i + 1);

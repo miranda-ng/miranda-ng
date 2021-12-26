@@ -187,7 +187,7 @@ void SaveDS(DISPLAYSUBST *ds, int index)
 	mir_snprintf(setting, "Setting%d", index);
 	db_set_s(0, MODULE_ITEMS, setting, ds->szSettingName);
 	mir_snprintf(setting, "TransFuncId%d", index);
-	db_set_dw(0, MODULE_ITEMS, setting, (WORD)ds->iTranslateFuncId);
+	db_set_dw(0, MODULE_ITEMS, setting, (uint16_t)ds->iTranslateFuncId);
 }
 
 bool LoadDI(DISPLAYITEM *di, int index)

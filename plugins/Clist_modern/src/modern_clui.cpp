@@ -74,7 +74,7 @@ static uint8_t bAlphaEnd;
 static int bOldHideOffline;
 static int bOldUseGroups;
 
-static WORD wBehindEdgeShowDelay,
+static uint16_t wBehindEdgeShowDelay,
 wBehindEdgeHideDelay,
 wBehindEdgeBorderSize;
 

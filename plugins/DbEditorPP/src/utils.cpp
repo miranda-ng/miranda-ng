@@ -40,7 +40,7 @@ int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* StringFromBlob(uint8_t *blob, WORD len)
+char* StringFromBlob(uint8_t *blob, uint16_t len)
 {
 	int j;
 	char tmp[16];
@@ -81,7 +81,7 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 
 
 	if (i)
-		res = !db_set_blob(hContact, szModule, szSetting, data, (WORD)i);
+		res = !db_set_blob(hContact, szModule, szSetting, data, (uint16_t)i);
 
 	mir_free(data);
 	return res;
@@ -91,7 +91,7 @@ wchar_t* DBVType(uint8_t type)
 {
 	switch (type) {
 	case DBVT_BYTE:     return L"uint8_t";
-	case DBVT_WORD:     return L"WORD";
+	case DBVT_WORD:     return L"uint16_t";
 	case DBVT_DWORD:    return L"DWORD";
 	case DBVT_ASCIIZ:   return L"STRING";
 	case DBVT_WCHAR:
@@ -125,7 +125,7 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 
 	case DBVT_WORD:
 		if (value <= 0xFFFF)
-			return !db_set_w(hContact, module, setting, (WORD)value);
+			return !db_set_w(hContact, module, setting, (uint16_t)value);
 		break;
 
 	case DBVT_DWORD:
@@ -366,7 +366,7 @@ void saveListSettings(HWND hwnd, ColumnsSettings *cs)
 	while (cs[i].name) {
 		if (ListView_GetColumn(hwnd, cs[i].index, &sLC)) {
 			mir_snprintf(tmp, cs[i].dbname, i);
-			g_plugin.setWord(tmp, (WORD)sLC.cx);
+			g_plugin.setWord(tmp, (uint16_t)sLC.cx);
 		}
 		i++;
 	}

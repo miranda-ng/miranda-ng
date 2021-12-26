@@ -59,7 +59,7 @@ void WINAPI ReadDoneFcn(PSWMRG SObject);
 // Note you must not read the number from memory directly, because
 // CPU can stop reading thread when it has read HI-Word, then another thread
 // can change the value and then OS starts the previous thread, that reads the
-// LO-WORD of DWORD. And the return value HI+LO-WORD is corrupted
+// LO-uint16_t of DWORD. And the return value HI+LO-uint16_t is corrupted
 DWORD WINAPI SCGetNumberFcn(PSCOUNTER SCounter);
 
 // Increments SCOUNTER and unsets event

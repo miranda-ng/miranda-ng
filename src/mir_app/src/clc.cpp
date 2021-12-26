@@ -169,7 +169,7 @@ static int ClcIconsChanged(WPARAM, LPARAM)
 
 static INT_PTR SetInfoTipHoverTime(WPARAM wParam, LPARAM)
 {
-	db_set_w(0, "CLC", "InfoTipHoverTime", (WORD)wParam);
+	db_set_w(0, "CLC", "InfoTipHoverTime", (uint16_t)wParam);
 	Clist_Broadcast(INTM_SETINFOTIPHOVERTIME, wParam, 0);
 	return 0;
 }
@@ -434,7 +434,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_GROUPCHANGED:
 		{
-			WORD iExtraImage[EXTRA_ICON_COUNT];
+			uint16_t iExtraImage[EXTRA_ICON_COUNT];
 			uint8_t flags = 0;
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
@@ -465,7 +465,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 
 	case INTM_ICONCHANGED:
 		{
-			WORD status;
+			uint16_t status;
 			MCONTACT hSelItem = 0;
 			ClcContact *selcontact = nullptr;
 
@@ -489,14 +489,14 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					g_clistApi.pfnAddContactToTree(hwnd, dat, wParam, (style & CLS_CONTACTLIST) == 0, 0);
 					Clist_FindItem(hwnd, dat, wParam, &contact);
 					if (contact) {
-						contact->iImage = (WORD)lParam;
+						contact->iImage = (uint16_t)lParam;
 						Clist_NotifyNewContact(hwnd, wParam);
 						dat->bNeedsResort = true;
 					}
 				}
 			}
 			else { // item in list already
-				if (contact->iImage == (WORD)lParam)
+				if (contact->iImage == (uint16_t)lParam)
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					if (dat->selection >= 0 && g_clistApi.pfnGetRowByIndex(dat, dat->selection, &selcontact, nullptr) != -1)
@@ -504,7 +504,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 					Clist_RemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
 				}
 				else {
-					contact->iImage = (WORD)lParam;
+					contact->iImage = (uint16_t)lParam;
 					if (!Clist_IsHiddenMode(dat, status))
 						contact->flags |= CONTACTF_ONLINE;
 					else
@@ -566,7 +566,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 			if (szProto == nullptr)
 				break;
 
-			WORD apparentMode = db_get_w(wParam, szProto, "ApparentMode", 0);
+			uint16_t apparentMode = db_get_w(wParam, szProto, "ApparentMode", 0);
 			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
 			if (apparentMode == ID_STATUS_OFFLINE)
 				contact->flags |= CONTACTF_INVISTO;

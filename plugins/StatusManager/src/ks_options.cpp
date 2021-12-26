@@ -231,7 +231,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			else KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_NOTHING);
 
 			KSPlugin.setByte(SETTING_CHECKAPMRESUME, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHECKAPMRESUME));
-			KSPlugin.setWord(SETTING_PINGCOUNT, (WORD)GetDlgItemInt(hwndDlg, IDC_PINGCOUNT, nullptr, FALSE));
+			KSPlugin.setWord(SETTING_PINGCOUNT, (uint16_t)GetDlgItemInt(hwndDlg, IDC_PINGCOUNT, nullptr, FALSE));
 			KSPlugin.setDword(SETTING_CNTDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE) == 0 ? CHECKCONTIN_DELAY : GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE));
 		}
 		break;

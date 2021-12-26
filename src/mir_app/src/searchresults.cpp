@@ -48,7 +48,7 @@ void SaveColumnSizes(HWND hwndResults)
 		mir_snprintf(szSetting, "ColOrder%d", i);
 		db_set_b(0, "FindAdd", szSetting, (uint8_t)columnOrder[i]);
 		mir_snprintf(szSetting, "ColWidth%d", i);
-		db_set_w(0, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
+		db_set_w(0, "FindAdd", szSetting, (uint16_t)ListView_GetColumnWidth(hwndResults, i));
 	}
 	db_set_b(0, "FindAdd", "SortColumn", (uint8_t)dat->iLastColumnSortIndex);
 	db_set_b(0, "FindAdd", "SortAscending", (uint8_t)dat->bSortAscending);

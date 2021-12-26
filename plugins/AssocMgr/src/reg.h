@@ -50,5 +50,5 @@ char* MakeFileClassName(const char *pszFileExt);
 char* MakeUrlClassName(const char *pszUrl);
 
 wchar_t* MakeRunCommand(BOOL fMirExe, BOOL fFixedDbProfile);
-wchar_t* MakeIconLocation(HMODULE hModule, WORD nIconResID);
+wchar_t* MakeIconLocation(HMODULE hModule, uint16_t nIconResID);
 wchar_t* MakeAppFileName(BOOL fMirExe);

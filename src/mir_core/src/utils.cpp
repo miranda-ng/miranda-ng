@@ -558,7 +558,7 @@ MIR_CORE_DLL(bool) Utils_IsRtl(const wchar_t *pszwText)
 {
    #ifdef _MSC_VER
       size_t iLen = mir_wstrlen(pszwText);
-      mir_ptr<WORD> infoTypeC2((WORD*)mir_calloc(sizeof(WORD) * (iLen + 2)));
+      mir_ptr<uint16_t> infoTypeC2((uint16_t*)mir_calloc(sizeof(uint16_t) * (iLen + 2)));
       GetStringTypeW(CT_CTYPE2, pszwText, (int)iLen, infoTypeC2);
 
       for (size_t i = 0; i < iLen; i++)

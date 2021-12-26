@@ -276,7 +276,7 @@ int GetStatusName(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL bXsta
 	BOOL noAwayMsg = FALSE;
 	BOOL noXstatus = FALSE;
 	// Hide status text if Offline  /// no offline
-	WORD nStatus = pdnce->getStatus();
+	uint16_t nStatus = pdnce->getStatus();
 	if ((nStatus == ID_STATUS_OFFLINE || nStatus == 0) && g_CluiData.bRemoveAwayMessageForOffline) noAwayMsg = TRUE;
 	if (nStatus == ID_STATUS_OFFLINE || nStatus == 0) noXstatus = TRUE;
 	text[0] = '\0';
@@ -336,7 +336,7 @@ void GetListeningTo(wchar_t *text, int text_size, ClcCacheEntry *pdnce)
 int GetStatusMessage(wchar_t *text, int text_size, ClcCacheEntry *pdnce, BOOL bXstatusHasPriority)
 {
 	BOOL noAwayMsg = FALSE;
-	WORD wStatus = pdnce->getStatus();
+	uint16_t wStatus = pdnce->getStatus();
 	*text = '\0';
 
 	// Hide status text if Offline  /// no offline

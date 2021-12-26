@@ -813,7 +813,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 					break;
 
 				case VALUE_WORD:
-					db_set_w(0, module, key, (*(WORD *)value));
+					db_set_w(0, module, key, (*(uint16_t *)value));
 					wrote = Translate("word");
 					break;
 
@@ -1117,7 +1117,7 @@ int ContactMatchSearch(MCONTACT hContact, wchar_t *contact, wchar_t *id, char *a
 				char protocol[128];
 
 				AccountName2Protocol(_A2T(account), protocol, _countof(protocol));
-				WORD contactStatus = db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE);
+				uint16_t contactStatus = db_get_w(hContact, protocol, "Status", ID_STATUS_OFFLINE);
 
 				if (searchStatus != contactStatus) {
 					matches = 0;

@@ -83,7 +83,7 @@ void Contact::addChat(bool bOutgoing, DWORD, DWORD duration)
 	updateChatDur(duration);
 }
 
-void Contact::addEvent(WORD eventType, bool bOutgoing)
+void Contact::addEvent(uint16_t eventType, bool bOutgoing)
 {
 	InOut* pIO = nullptr;
 

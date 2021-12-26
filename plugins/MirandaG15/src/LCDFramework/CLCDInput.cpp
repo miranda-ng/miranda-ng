@@ -380,7 +380,7 @@ LRESULT CLCDInput::ProcessKeyEvent(int Code, WPARAM wParam, LPARAM lParam)
 							#ifdef _UNICODE
 								res = ToUnicode(key->vkCode, key->scanCode, m_acKeyboardState, output, 4, 0);
 							#else
-								res = ToAscii(key->vkCode, key->scanCode, m_acKeyboardState, (WORD*)output, 0);
+								res = ToAscii(key->vkCode, key->scanCode, m_acKeyboardState, (uint16_t*)output, 0);
 							#endif
 							}
 

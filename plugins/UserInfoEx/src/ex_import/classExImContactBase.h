@@ -54,9 +54,9 @@ public:
 	__inline void	ampro(LPCSTR val) { _pszAMPro = val ? mir_strdup(val) : nullptr; }
 	__inline void	uidk(LPCSTR val) { _pszUIDKey = val ? mir_strdup(val) : nullptr; }
 	__inline void	uid(uint8_t val) { _dbvUID.type = DBVT_BYTE;  _dbvUID.bVal = val; }
-	__inline void	uid(WORD val) { _dbvUID.type = DBVT_WORD;  _dbvUID.wVal = val; }
+	__inline void	uid(uint16_t val) { _dbvUID.type = DBVT_WORD;  _dbvUID.wVal = val; }
 	__inline void	uid(DWORD val) { _dbvUID.type = DBVT_DWORD; _dbvUID.dVal = val; }
-	__inline void	uidn(uint8_t *val, DWORD len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (WORD)len; }
+	__inline void	uidn(uint8_t *val, DWORD len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (uint16_t)len; }
 	__inline void	uida(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val)) ? DBVT_ASCIIZ : DBVT_DELETED;

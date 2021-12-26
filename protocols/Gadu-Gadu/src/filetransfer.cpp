@@ -72,7 +72,7 @@ void GaduProto::dccconnect(uin_t uin)
 
 	// Read user IP and port
 	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
-	WORD port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	uint16_t port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
 	DWORD myuin = getDword(GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
@@ -916,7 +916,7 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 
 	// Read user IP and port
 	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
-	WORD port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
+	uint16_t port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
 	uin_t myuin = getDword(GG_KEY_UIN, 0);
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
 	DWORD ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);

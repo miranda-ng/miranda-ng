@@ -467,9 +467,9 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
  *			dwFlags				- tells what to save
  * return:	handle to new (moved) treeitem if successful or NULL otherwise
  **/
-WORD CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags)
+uint16_t CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags)
 {
-	WORD numErrors = 0;
+	uint16_t numErrors = 0;
 
 	// save group
 	if ((dwFlags & PSTVF_GROUPS) && (dwFlags & PSTVF_POS_CHANGED))

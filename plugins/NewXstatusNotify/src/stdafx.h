@@ -149,8 +149,8 @@ typedef struct {
 
 /*
 MCONTACT hContact = wParam;
-WORD oldStatus = LOWORD(lParam);
-WORD newStatus = HIWORD(lParam);
+uint16_t oldStatus = LOWORD(lParam);
+uint16_t newStatus = HIWORD(lParam);
 oldStatus is the status the contact was before the change.
 newStatus is the status the contact is now.
 Cast them to (int) if you need them that way.

@@ -285,7 +285,7 @@ public:
 			return false;
 		}
 		else nMaxLineWidth = nTmp;
-		g_plugin.setWord("MaxLineWidth", (WORD)nMaxLineWidth);
+		g_plugin.setWord("MaxLineWidth", (uint16_t)nMaxLineWidth);
 
 		cmbTimeFormat.GetText(szTemp, _countof(szTemp));
 		g_sTimeFormat = szTemp;

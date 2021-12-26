@@ -32,8 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct TCbExItem
 {
-	WORD	wMask;
-	WORD	wFlags;
+	uint16_t	wMask;
+	uint16_t	wFlags;
 	DWORD	dwID;
 	wchar_t	szCat[MAX_CAT];
 	LPTSTR	pszVal;
@@ -68,7 +68,7 @@ static int compareProc(LPCVOID cbi1, LPCVOID cbi2)
 	return mir_wstrcmp(((LPCBEXITEMINTERN)cbi1)->szCat, ((LPCBEXITEMINTERN)cbi2)->szCat);
 }
 
-static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int& errorPos)
+static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, uint16_t cchNumber, int& errorPos)
 {
 	int lenNum = 0;
 	uint8_t	hasLeftBreaket = FALSE,
@@ -440,9 +440,9 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			**/
 	case WM_CREATE:
 		{
-			WORD wHeight = (WORD)(cbex->rect.bottom - cbex->rect.top);
-			WORD wWidth = 130;
-			WORD x = 0;
+			uint16_t wHeight = (uint16_t)(cbex->rect.bottom - cbex->rect.top);
+			uint16_t wWidth = 130;
+			uint16_t x = 0;
 
 			if (!(cbex->hBtnEdit = CreateWindowEx(WS_EX_NOPARENTNOTIFY,
 				UINFOBUTTONCLASS,
@@ -471,7 +471,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				return FALSE;
 			}
 			x += wWidth + 2;
-			wWidth = (WORD)(cbex->rect.right - cbex->rect.left - x - (2 * (wHeight + 2)));
+			wWidth = (uint16_t)(cbex->rect.right - cbex->rect.left - x - (2 * (wHeight + 2)));
 			if (!(cbex->hEdit = CreateWindowEx(WS_EX_CLIENTEDGE,
 				L"Edit",
 				nullptr,
@@ -661,7 +661,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		case BTN_ADD:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
-				WORD dlgID;
+				uint16_t dlgID;
 				wchar_t szCat[MAX_CAT] = { 0 };
 				wchar_t szVal[MAXDATASIZE] = { 0 };
 				CBEXITEM cbi;
@@ -718,7 +718,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		case BTN_EDIT:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				DLGPROC dlgProc;
-				WORD dlgID;
+				uint16_t dlgID;
 				wchar_t szCat[MAX_CAT] = { 0 };
 				wchar_t szVal[MAXDATASIZE] = { 0 };
 				CBEXITEM cbi;
@@ -1331,7 +1331,7 @@ int CtrlContactAddItemFromDB(
 int CtrlContactAddMyItemsFromDB(
 	HWND hCtrl,
 	int iIcon,
-	WORD wForcedFlags,
+	uint16_t wForcedFlags,
 	MCONTACT hContact,
 	LPCSTR pszModule,
 	LPCSTR pszProto,
@@ -1341,7 +1341,7 @@ int CtrlContactAddMyItemsFromDB(
 	CBEXITEM cbi;
 	DBVARIANT dbv;
 	CHAR pszSetting[MAXSETTING];
-	WORD i;
+	uint16_t i;
 	LPTSTR sms;
 	int bAnyItemIsChanged = 0;
 

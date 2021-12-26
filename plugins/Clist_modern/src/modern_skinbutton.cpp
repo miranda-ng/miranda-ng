@@ -230,7 +230,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 		case 'w':
 			curval = db_get_w(0, section, key, l2);
 			curval = (curval == l2) ? l1 : l2;
-			db_set_w(0, section, key, (WORD)curval);
+			db_set_w(0, section, key, (uint16_t)curval);
 			break;
 
 		case 'b':

@@ -363,7 +363,7 @@ struct CSWindow
 
 struct CSAMWindow
 {
-	WORD        m_action;
+	uint16_t        m_action;
 	StatusItem* m_item;
 	CSWindow*   m_parent;
 	BOOL        m_bChanged;
@@ -372,13 +372,13 @@ struct CSAMWindow
 	HWND        m_hCombo;
 	HWND        m_hMessage;
 
-	CSAMWindow(WORD action, CSWindow* parent);
+	CSAMWindow(uint16_t action, CSWindow* parent);
 	~CSAMWindow();
 
 	void    exec();
 	void    setCombo();
 	void    fillDialog();
-	void    checkFieldLimit(WORD action, WORD item);
+	void    checkFieldLimit(uint16_t action, uint16_t item);
 	void    checkItemValidity();
 };
 
@@ -391,7 +391,7 @@ void addProtoStatusMenuItem(char *protoName);
 
 // other functions
 void RegisterHotkeys(char buf[200], wchar_t* accName, int Number);
-void SetStatus(WORD code, StatusItem* item, char *protoName);
+void SetStatus(uint16_t code, StatusItem* item, char *protoName);
 
 //====[ PROCEDURES ]=========================================================
 

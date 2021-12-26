@@ -981,14 +981,14 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 						// image has 565 format
 						for (unsigned y = 0; y < height; y++) {
 							// scale each row
-							const WORD * const src_bits = (WORD *)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(WORD);
+							const uint16_t * const src_bits = (uint16_t *)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(uint16_t);
 							uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 
 							for (unsigned x = 0; x < dst_width; x++) {
 								// loop through row
 								const unsigned iLeft = weightsTable.getLeftBoundary(x);				// retrieve left boundary
 								const unsigned iLimit = weightsTable.getRightBoundary(x) - iLeft;	// retrieve right boundary
-								const WORD *pixel = src_bits + iLeft;
+								const uint16_t *pixel = src_bits + iLeft;
 								double r = 0, g = 0, b = 0;
 
 								// for(i = iLeft to iRight)
@@ -1013,14 +1013,14 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 						// image has 555 format
 						for (unsigned y = 0; y < height; y++) {
 							// scale each row
-							const WORD * const src_bits = (WORD *)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x;
+							const uint16_t * const src_bits = (uint16_t *)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x;
 							uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 
 							for (unsigned x = 0; x < dst_width; x++) {
 								// loop through row
 								const unsigned iLeft = weightsTable.getLeftBoundary(x);				// retrieve left boundary
 								const unsigned iLimit = weightsTable.getRightBoundary(x) - iLeft;	// retrieve right boundary
-								const WORD *pixel = src_bits + iLeft;
+								const uint16_t *pixel = src_bits + iLeft;
 								double r = 0, g = 0, b = 0;
 
 								// for(i = iLeft to iRight)
@@ -1125,18 +1125,18 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 		case FIT_UINT16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(uint16_t);
 
 			for (unsigned y = 0; y < height; y++) {
 				// scale each row
-				const WORD *src_bits = (WORD*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(WORD);
-				WORD *dst_bits = (WORD*)FreeImage_GetScanLine(dst, y);
+				const uint16_t *src_bits = (uint16_t*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(uint16_t);
+				uint16_t *dst_bits = (uint16_t*)FreeImage_GetScanLine(dst, y);
 
 				for (unsigned x = 0; x < dst_width; x++) {
 					// loop through row
 					const unsigned iLeft = weightsTable.getLeftBoundary(x);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(x) - iLeft;	// retrieve right boundary
-					const WORD *pixel = src_bits + iLeft * wordspp;
+					const uint16_t *pixel = src_bits + iLeft * wordspp;
 					double value = 0;
 
 					// for(i = iLeft to iRight)
@@ -1149,7 +1149,7 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(value + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(value + 0.5), 0, 0xFFFF);
 					dst_bits += wordspp;
 				}
 			}
@@ -1159,18 +1159,18 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 		case FIT_RGB16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(uint16_t);
 
 			for (unsigned y = 0; y < height; y++) {
 				// scale each row
-				const WORD *src_bits = (WORD*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(WORD);
-				WORD *dst_bits = (WORD*)FreeImage_GetScanLine(dst, y);
+				const uint16_t *src_bits = (uint16_t*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(uint16_t);
+				uint16_t *dst_bits = (uint16_t*)FreeImage_GetScanLine(dst, y);
 
 				for (unsigned x = 0; x < dst_width; x++) {
 					// loop through row
 					const unsigned iLeft = weightsTable.getLeftBoundary(x);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(x) - iLeft;	// retrieve right boundary
-					const WORD *pixel = src_bits + iLeft * wordspp;
+					const uint16_t *pixel = src_bits + iLeft * wordspp;
 					double r = 0, g = 0, b = 0;
 
 					// for(i = iLeft to iRight)
@@ -1185,9 +1185,9 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
-					dst_bits[1] = (WORD)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
-					dst_bits[2] = (WORD)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
+					dst_bits[1] = (uint16_t)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
+					dst_bits[2] = (uint16_t)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
 					dst_bits += wordspp;
 				}
 			}
@@ -1197,18 +1197,18 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 		case FIT_RGBA16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / src_width) / sizeof(uint16_t);
 
 			for (unsigned y = 0; y < height; y++) {
 				// scale each row
-				const WORD *src_bits = (WORD*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(WORD);
-				WORD *dst_bits = (WORD*)FreeImage_GetScanLine(dst, y);
+				const uint16_t *src_bits = (uint16_t*)FreeImage_GetScanLine(src, y + src_offset_y) + src_offset_x / sizeof(uint16_t);
+				uint16_t *dst_bits = (uint16_t*)FreeImage_GetScanLine(dst, y);
 
 				for (unsigned x = 0; x < dst_width; x++) {
 					// loop through row
 					const unsigned iLeft = weightsTable.getLeftBoundary(x);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(x) - iLeft;	// retrieve right boundary
-					const WORD *pixel = src_bits + iLeft * wordspp;
+					const uint16_t *pixel = src_bits + iLeft * wordspp;
 					double r = 0, g = 0, b = 0, a = 0;
 
 					// for(i = iLeft to iRight)
@@ -1224,10 +1224,10 @@ void CResizeEngine::horizontalFilter(FIBITMAP *const src, unsigned height, unsig
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
-					dst_bits[1] = (WORD)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
-					dst_bits[2] = (WORD)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
-					dst_bits[3] = (WORD)CLAMP<int>((int)(a + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
+					dst_bits[1] = (uint16_t)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
+					dst_bits[2] = (uint16_t)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
+					dst_bits[3] = (uint16_t)CLAMP<int>((int)(a + 0.5), 0, 0xFFFF);
 					dst_bits += wordspp;
 				}
 			}
@@ -1781,8 +1781,8 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 				case 16:
 				{
 					// transparently convert the 16-bit non-transparent image to 24 bpp
-					const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(WORD);
-					const WORD *const src_base = (WORD *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x;
+					const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(uint16_t);
+					const uint16_t *const src_base = (uint16_t *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x;
 
 					if (IS_FORMAT_RGB565(src)) {
 						// image has 565 format
@@ -1795,7 +1795,7 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 								// loop through column
 								const unsigned iLeft = weightsTable.getLeftBoundary(y);				// retrieve left boundary
 								const unsigned iLimit = weightsTable.getRightBoundary(y) - iLeft;	// retrieve right boundary
-								const WORD *src_bits = src_base + iLeft * src_pitch + x;
+								const uint16_t *src_bits = src_base + iLeft * src_pitch + x;
 								double r = 0, g = 0, b = 0;
 
 								for (unsigned i = 0; i < iLimit; i++) {
@@ -1826,7 +1826,7 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 								// loop through column
 								const unsigned iLeft = weightsTable.getLeftBoundary(y);				// retrieve left boundary
 								const unsigned iLimit = weightsTable.getRightBoundary(y) - iLeft;	// retrieve right boundary
-								const WORD *src_bits = src_base + iLeft * src_pitch + x;
+								const uint16_t *src_bits = src_base + iLeft * src_pitch + x;
 								double r = 0, g = 0, b = 0;
 
 								for (unsigned i = 0; i < iLimit; i++) {
@@ -1936,25 +1936,25 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 		case FIT_UINT16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(uint16_t);
 
-			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(WORD);
-			WORD *const dst_base = (WORD *)FreeImage_GetBits(dst);
+			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(uint16_t);
+			uint16_t *const dst_base = (uint16_t *)FreeImage_GetBits(dst);
 
-			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(WORD);
-			const WORD *const src_base = (WORD *)FreeImage_GetBits(src)	+ src_offset_y * src_pitch + src_offset_x * wordspp;
+			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(uint16_t);
+			const uint16_t *const src_base = (uint16_t *)FreeImage_GetBits(src)	+ src_offset_y * src_pitch + src_offset_x * wordspp;
 
 			for (unsigned x = 0; x < width; x++) {
 				// work on column x in dst
 				const unsigned index = x * wordspp;	// pixel index
-				WORD *dst_bits = dst_base + index;
+				uint16_t *dst_bits = dst_base + index;
 
 				// scale each column
 				for (unsigned y = 0; y < dst_height; y++) {
 					// loop through column
 					const unsigned iLeft = weightsTable.getLeftBoundary(y);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(y) - iLeft;	// retrieve right boundary
-					const WORD *src_bits = src_base + iLeft * src_pitch + index;
+					const uint16_t *src_bits = src_base + iLeft * src_pitch + index;
 					double value = 0;
 
 					for (unsigned i = 0; i < iLimit; i++) {
@@ -1966,7 +1966,7 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(value + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(value + 0.5), 0, 0xFFFF);
 
 					dst_bits += dst_pitch;
 				}
@@ -1977,25 +1977,25 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 		case FIT_RGB16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(uint16_t);
 
-			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(WORD);
-			WORD *const dst_base = (WORD *)FreeImage_GetBits(dst);
+			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(uint16_t);
+			uint16_t *const dst_base = (uint16_t *)FreeImage_GetBits(dst);
 
-			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(WORD);
-			const WORD *const src_base = (WORD *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x * wordspp;
+			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(uint16_t);
+			const uint16_t *const src_base = (uint16_t *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x * wordspp;
 
 			for (unsigned x = 0; x < width; x++) {
 				// work on column x in dst
 				const unsigned index = x * wordspp;	// pixel index
-				WORD *dst_bits = dst_base + index;
+				uint16_t *dst_bits = dst_base + index;
 
 				// scale each column
 				for (unsigned y = 0; y < dst_height; y++) {
 					// loop through column
 					const unsigned iLeft = weightsTable.getLeftBoundary(y);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(y) - iLeft;	// retrieve right boundary
-					const WORD *src_bits = src_base + iLeft * src_pitch + index;
+					const uint16_t *src_bits = src_base + iLeft * src_pitch + index;
 					double r = 0, g = 0, b = 0;
 
 					for (unsigned i = 0; i < iLimit; i++) {
@@ -2010,9 +2010,9 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
-					dst_bits[1] = (WORD)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
-					dst_bits[2] = (WORD)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
+					dst_bits[1] = (uint16_t)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
+					dst_bits[2] = (uint16_t)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
 
 					dst_bits += dst_pitch;
 				}
@@ -2023,25 +2023,25 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 		case FIT_RGBA16:
 		{
 			// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
-			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(WORD);
+			const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(uint16_t);
 
-			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(WORD);
-			WORD *const dst_base = (WORD *)FreeImage_GetBits(dst);
+			const unsigned dst_pitch = FreeImage_GetPitch(dst) / sizeof(uint16_t);
+			uint16_t *const dst_base = (uint16_t *)FreeImage_GetBits(dst);
 
-			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(WORD);
-			const WORD *const src_base = (WORD *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x * wordspp;
+			const unsigned src_pitch = FreeImage_GetPitch(src) / sizeof(uint16_t);
+			const uint16_t *const src_base = (uint16_t *)FreeImage_GetBits(src) + src_offset_y * src_pitch + src_offset_x * wordspp;
 
 			for (unsigned x = 0; x < width; x++) {
 				// work on column x in dst
 				const unsigned index = x * wordspp;	// pixel index
-				WORD *dst_bits = dst_base + index;
+				uint16_t *dst_bits = dst_base + index;
 
 				// scale each column
 				for (unsigned y = 0; y < dst_height; y++) {
 					// loop through column
 					const unsigned iLeft = weightsTable.getLeftBoundary(y);				// retrieve left boundary
 					const unsigned iLimit = weightsTable.getRightBoundary(y) - iLeft;	// retrieve right boundary
-					const WORD *src_bits = src_base + iLeft * src_pitch + index;
+					const uint16_t *src_bits = src_base + iLeft * src_pitch + index;
 					double r = 0, g = 0, b = 0, a = 0;
 
 					for (unsigned i = 0; i < iLimit; i++) {
@@ -2057,10 +2057,10 @@ void CResizeEngine::verticalFilter(FIBITMAP *const src, unsigned width, unsigned
 					}
 
 					// clamp and place result in destination pixel
-					dst_bits[0] = (WORD)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
-					dst_bits[1] = (WORD)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
-					dst_bits[2] = (WORD)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
-					dst_bits[3] = (WORD)CLAMP<int>((int)(a + 0.5), 0, 0xFFFF);
+					dst_bits[0] = (uint16_t)CLAMP<int>((int)(r + 0.5), 0, 0xFFFF);
+					dst_bits[1] = (uint16_t)CLAMP<int>((int)(g + 0.5), 0, 0xFFFF);
+					dst_bits[2] = (uint16_t)CLAMP<int>((int)(b + 0.5), 0, 0xFFFF);
+					dst_bits[3] = (uint16_t)CLAMP<int>((int)(a + 0.5), 0, 0xFFFF);
 
 					dst_bits += dst_pitch;
 				}

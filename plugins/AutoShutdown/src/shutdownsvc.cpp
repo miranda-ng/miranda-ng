@@ -298,7 +298,7 @@ static DWORD ShutdownNow(uint8_t shutdownType)
 static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	uint8_t shutdownType = (uint8_t)GetWindowLongPtr(hwndDlg, DWLP_USER);
-	WORD countdown = (WORD)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA);
+	uint16_t countdown = (uint16_t)GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_TEXT_HEADER), GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -380,7 +380,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		PostMessage(hwndDlg, M_UPDATE_COUNTDOWN, 0, countdown);
 		return TRUE;
 
-	case M_UPDATE_COUNTDOWN:  /* lParam=(WORD)countdown */
+	case M_UPDATE_COUNTDOWN:  /* lParam=(uint16_t)countdown */
 		{
 			wchar_t szText[256];
 			mir_snwprintf(szText, TranslateW(desc[shutdownType - 1]), lParam);

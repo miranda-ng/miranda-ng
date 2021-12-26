@@ -65,7 +65,7 @@ struct CMDBTraits<1>
 template<>
 struct CMDBTraits<2>
 {
-	typedef WORD DBType;
+	typedef uint16_t DBType;
 	enum { DBTypeId = DBVT_WORD };
 	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
@@ -516,7 +516,7 @@ public:
 
 	int      GetInt() const;
 
-	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { return FALSE; }
+	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) { return FALSE; }
 	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
 
 	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
@@ -571,7 +571,7 @@ class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 public:
 	CCtrlButton(CDlgBase *dlg, int ctrlId);
 
-	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 	CCallback<CCtrlButton> OnClick;
 
@@ -631,7 +631,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 public:
 	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url = nullptr);
 
-	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 	CCallback<CCtrlHyperlink> OnClick;
 
@@ -652,10 +652,10 @@ class MIR_CORE_EXPORT CCtrlProgress : public CCtrlBase
 public:
 	CCtrlProgress(CDlgBase *dlg, int ctrlId);
 
-	void SetRange(WORD max, WORD min = 0);
-	void SetPosition(WORD value);
-	void SetStep(WORD value);
-	WORD Move(WORD delta = 0);
+	void SetRange(uint16_t max, uint16_t min = 0);
+	void SetPosition(uint16_t value);
+	void SetStep(uint16_t value);
+	uint16_t Move(uint16_t delta = 0);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -771,7 +771,7 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 
 public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -791,7 +791,7 @@ class MIR_CORE_EXPORT CCtrlColor : public CCtrlData
 
 public:
 	CCtrlColor(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -825,7 +825,7 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 
 public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -868,7 +868,7 @@ class MIR_CORE_EXPORT CCtrlSlider : public CCtrlData
 	int m_wMin, m_wMax;
 
 protected:
-	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 public:
 	CCtrlSlider(CDlgBase *dlg, int ctrlId, int max = 100, int min = 0);
@@ -887,18 +887,18 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
-	WORD m_wMin, m_wMax, m_wCurr;
+	uint16_t m_wMin, m_wMax, m_wCurr;
 
 	BOOL OnNotify(int, NMHDR*) override;
 
 public:
-	CCtrlSpin(CDlgBase *dlg, int ctrlId, WORD max = 100, WORD min = 0);
+	CCtrlSpin(CDlgBase *dlg, int ctrlId, uint16_t max = 100, uint16_t min = 0);
 
 	bool OnApply() override;
 	void OnReset() override;
 
-	WORD GetPosition();
-	void SetPosition(WORD pos);
+	uint16_t GetPosition();
+	void SetPosition(uint16_t pos);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -938,7 +938,7 @@ public:
 	CCallback<CCtrlListBox>	OnSelChange;
 
 protected:
-	BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode) override;
+	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 	void GetCaretPos(CContextMenuPos&) const override;
 };
 
@@ -952,7 +952,7 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
-	BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode) override;
+	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
 	void OnInit() override;
 	bool OnApply() override;
 	void OnReset() override;

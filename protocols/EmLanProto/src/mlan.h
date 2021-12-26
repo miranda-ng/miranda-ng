@@ -19,7 +19,7 @@ class CMLan;
 struct EMPSEARCHRESULT : public PROTOSEARCHRESULT
 {
 	u_long ipaddr;
-	WORD stat;
+	uint16_t stat;
 	u_long ver;
 };
 

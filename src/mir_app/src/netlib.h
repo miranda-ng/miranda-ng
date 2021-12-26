@@ -95,7 +95,7 @@ struct NetlibConnection : public MZeroedObject
 	NetlibHTTPProxyPacketQueue *pHttpProxyPacketQueue;
 	int proxyType;
 	char *szProxyServer;
-	WORD wProxyPort;
+	uint16_t wProxyPort;
 	CMStringA szProxyBuf;
 
 	int pollingTimeout;
@@ -114,8 +114,8 @@ struct NetlibBoundPort : public MZeroedObject
 	int handleType;
 	SOCKET s;
 	SOCKET s6;
-	WORD wPort;
-	WORD wExPort;
+	uint16_t wPort;
+	uint16_t wExPort;
 	NetlibUser *nlu;
 	NETLIBNEWCONNECTIONPROC pfnNewConnection;
 	HANDLE hThread;
@@ -186,8 +186,8 @@ bool OpenSsl_Init();
 void OpenSsl_Unload();
 
 // netlibupnp.cpp
-bool NetlibUPnPAddPortMapping(WORD intport, char *proto, WORD *extport, DWORD *extip, bool search);
-void NetlibUPnPDeletePortMapping(WORD extport, char* proto);
+bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, DWORD *extip, bool search);
+void NetlibUPnPDeletePortMapping(uint16_t extport, char* proto);
 void NetlibUPnPCleanup(void*);
 void NetlibUPnPInit(void);
 void NetlibUPnPDestroy(void);

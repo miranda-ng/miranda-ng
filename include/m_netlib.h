@@ -272,7 +272,7 @@ struct NETLIBBIND
 	// new connection, IP of remote machine (host byte order)
 	DWORD dwInternalIP;   // set on return, host byte order
 	DWORD dwExternalIP;   // set on return, host byte order
-	WORD  wPort, wExPort; // set on return, host byte order
+	uint16_t  wPort, wExPort; // set on return, host byte order
 	void *pExtra;         // argument is sent to callback
 };
 
@@ -316,8 +316,8 @@ EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *n
 
 struct NETLIBOPENCONNECTION
 {
-	const char *szHost;	  // can contain the string representation of an IP
-	WORD wPort;			  // host byte order
+	const char *szHost;    // can contain the string representation of an IP
+	uint16_t wPort;        // host byte order
 	DWORD flags;
 	unsigned int timeout;
 	/* optional, called in the context of the thread that issued the attempt, if it returns 0 the connection attempt is
@@ -398,7 +398,7 @@ struct NETLIBCONNINFO
 {
 	char szIpPort[64];
 	unsigned dwIpv4;
-	WORD wPort;
+	uint16_t wPort;
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_GetConnectionInfo(HNETLIBCONN hConnection, NETLIBCONNINFO *connInfo);

@@ -38,8 +38,8 @@ void Stat_UpdateTotalTraffic(HWND, DWORD, DWORD);
 void Stat_CheckStatistics(PROTOLIST &p);
 DWORD Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *st);
 void Stat_SetAccShift(uint8_t AccNum, uint8_t EldestAccount);
-DWORD Stat_GetItemValue(WORD SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubitemNum);
+DWORD Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubitemNum);
 DWORD Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval);
-uint8_t Stat_GetEldestAcc(WORD SelectedAccs);
+uint8_t Stat_GetEldestAcc(uint16_t SelectedAccs);
 
 #endif // _statistics_h

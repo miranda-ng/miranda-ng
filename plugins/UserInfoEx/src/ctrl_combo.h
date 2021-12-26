@@ -40,7 +40,7 @@ class CCombo : public CBaseCtrl
 	 *
 	 * @return	nothing
 	 **/
-	CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
+	CCombo(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
 
 	int Find(int nIndex) const;
 	int Find(LPTSTR ptszItemLabel) const;
@@ -55,15 +55,15 @@ public:
 	 **/
 	static FORCEINLINE CCombo* GetObj(HWND hCtrl) 
 		{ return (CCombo*) GetUserData(hCtrl); }
-	static FORCEINLINE CCombo* GetObj(HWND hDlg, WORD idCtrl)
+	static FORCEINLINE CCombo* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
+	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
 
 	virtual void	Release();
 	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
 	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnChangedByUser(WORD wChangedMsg);
+	virtual void	OnChangedByUser(uint16_t wChangedMsg);
 };
 
 #endif /* _UI_CTRL_COMBO_INCLUDE_ */

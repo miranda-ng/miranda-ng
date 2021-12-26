@@ -55,7 +55,7 @@ FreeImage_ConvertLine4To8(uint8_t *target, uint8_t *source, int width_in_pixels)
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To8_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	const WORD *const bits = (WORD *)source;
+	const uint16_t *const bits = (uint16_t *)source;
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY((((bits[cols] & FI16_555_RED_MASK) >> FI16_555_RED_SHIFT) * 0xFF) / 0x1F,
 			                (((bits[cols] & FI16_555_GREEN_MASK) >> FI16_555_GREEN_SHIFT) * 0xFF) / 0x1F,
@@ -65,7 +65,7 @@ FreeImage_ConvertLine16To8_555(uint8_t *target, uint8_t *source, int width_in_pi
 
 void DLL_CALLCONV
 FreeImage_ConvertLine16To8_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
-	const WORD *const bits = (WORD *)source;
+	const uint16_t *const bits = (uint16_t *)source;
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY((((bits[cols] & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F,
 			        (((bits[cols] & FI16_565_GREEN_MASK) >> FI16_565_GREEN_SHIFT) * 0xFF) / 0x3F,
@@ -204,7 +204,7 @@ FreeImage_ConvertTo8Bits(FIBITMAP *dib) {
 			uint8_t *dst_bits = FreeImage_GetBits(new_dib);
 
 			for (unsigned rows = 0; rows < height; rows++) {
-				const WORD *const src_pixel = (WORD*)src_bits;
+				const uint16_t *const src_pixel = (uint16_t*)src_bits;
 				uint8_t *dst_pixel = (uint8_t*)dst_bits;
 				for(unsigned cols = 0; cols < width; cols++) {
 					dst_pixel[cols] = (uint8_t)(src_pixel[cols] >> 8);

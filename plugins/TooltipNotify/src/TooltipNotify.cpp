@@ -167,8 +167,8 @@ int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if ((ack == nullptr) || (ack->type != ACKTYPE_STATUS)) return 0;
 
-	WORD wNewStatus = (WORD)ack->lParam;
-	WORD wOldStatus = (UINT_PTR)ack->hProcess;
+	uint16_t wNewStatus = (uint16_t)ack->lParam;
+	uint16_t wOldStatus = (UINT_PTR)ack->hProcess;
 	if (wOldStatus == wNewStatus) return 0; //Useless message.
 
 	char *szProtocol = (char *)ack->szModule;
@@ -218,7 +218,7 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (idle && !m_sOptions.bIdle)
 		return 0;
 
-	WORD wNewStatus = cws->value.wVal;
+	uint16_t wNewStatus = cws->value.wVal;
 	switch (wNewStatus) {
 	case ID_STATUS_OFFLINE:
 		if (!m_sOptions.bOffline) return 0;

@@ -38,7 +38,7 @@ struct ICONCTRL
 {
 	int   iIcon;
 	UINT  Message;
-	WORD  idCtrl;
+	uint16_t  idCtrl;
 };
 
 LPTSTR	IcoLib_GetDefaultIconFileName();

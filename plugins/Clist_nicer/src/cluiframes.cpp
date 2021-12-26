@@ -430,18 +430,18 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), (uint8_t)btoint(Frames[Frameid].visible));
 	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), (uint8_t)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
-	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", pos), (WORD)Frames[Frameid].height);
-	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (WORD)Frames[Frameid].HeightWhenCollapsed);
-	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", pos), (WORD)Frames[Frameid].align);
+	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", pos), (uint16_t)Frames[Frameid].height);
+	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (uint16_t)Frames[Frameid].HeightWhenCollapsed);
+	db_set_w(0, CLUIFrameModule, buf.Format("Align%d", pos), (uint16_t)Frames[Frameid].align);
 	//FloatingPos
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", pos), (WORD)Frames[Frameid].FloatingPos.x);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", pos), (WORD)Frames[Frameid].FloatingPos.y);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", pos), (WORD)Frames[Frameid].FloatingSize.x);
-	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", pos), (WORD)Frames[Frameid].FloatingSize.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatX%d", pos), (uint16_t)Frames[Frameid].FloatingPos.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatY%d", pos), (uint16_t)Frames[Frameid].FloatingPos.y);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", pos), (uint16_t)Frames[Frameid].FloatingSize.x);
+	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", pos), (uint16_t)Frames[Frameid].FloatingSize.y);
 
 	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), (uint8_t)btoint(Frames[Frameid].floating));
 	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), (uint8_t)btoint(Frames[Frameid].UseBorder));
-	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", pos), (WORD)Frames[Frameid].order);
+	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", pos), (uint16_t)Frames[Frameid].order);
 
 	db_set_b(0, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);
 	return 0;
@@ -500,7 +500,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	}
 
 	DBStoreFrameSettingsAtPos(storpos, Frameid);
-	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
+	db_set_w(0, CLUIFrameModule, "StoredFrames", (uint16_t)maxstored);
 	return 0;
 }
 

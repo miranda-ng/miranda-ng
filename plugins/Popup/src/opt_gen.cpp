@@ -484,7 +484,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			case PSN_APPLY:
 				// Seconds
 				g_plugin.setByte("InfiniteDelay", PopupOptions.InfiniteDelay);
-				g_plugin.setWord("Seconds", (WORD)PopupOptions.Seconds);
+				g_plugin.setWord("Seconds", (uint16_t)PopupOptions.Seconds);
 				g_plugin.setByte("LeaveHovered", PopupOptions.LeaveHovered);
 
 				// Dynamic Resize
@@ -498,11 +498,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				g_plugin.setByte("Position", (uint8_t)PopupOptions.Position);
 
 				// Configure popup area
-				g_plugin.setWord("gapTop", (WORD)PopupOptions.gapTop);
-				g_plugin.setWord("gapBottom", (WORD)PopupOptions.gapBottom);
-				g_plugin.setWord("gapLeft", (WORD)PopupOptions.gapLeft);
-				g_plugin.setWord("gapRight", (WORD)PopupOptions.gapRight);
-				g_plugin.setWord("spacing", (WORD)PopupOptions.spacing);
+				g_plugin.setWord("gapTop", (uint16_t)PopupOptions.gapTop);
+				g_plugin.setWord("gapBottom", (uint16_t)PopupOptions.gapBottom);
+				g_plugin.setWord("gapLeft", (uint16_t)PopupOptions.gapLeft);
+				g_plugin.setWord("gapRight", (uint16_t)PopupOptions.gapRight);
+				g_plugin.setWord("spacing", (uint16_t)PopupOptions.spacing);
 
 				// Spreading
 				g_plugin.setByte("Spreading", (uint8_t)PopupOptions.Spreading);

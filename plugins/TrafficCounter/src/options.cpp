@@ -175,10 +175,10 @@ static OPTTREE_OPTION options[] =
 
 static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	WORD i, j;
+	uint16_t i, j;
 	BOOL result;
 	static uint8_t Initialized = 0;
-	static WORD optionCount = 0;
+	static uint16_t optionCount = 0;
 
 	if (!Initialized) {
 		pOptions = options;

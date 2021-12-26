@@ -63,7 +63,7 @@ private:
 		DlgOption* getParent() { return m_pParent; }
 
 	public:
-		void createWindow(DlgOption* pParent, WORD nDlgResource, const RECT& rect);
+		void createWindow(DlgOption* pParent, uint16_t nDlgResource, const RECT& rect);
 		void destroyWindow();
 		void moveWindow(const RECT& rWnd);
 		void show() { ShowWindow(m_hWnd, SW_SHOW); }

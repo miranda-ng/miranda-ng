@@ -61,7 +61,7 @@ INT_PTR CALLBACK DlgProc_DataHistory(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 				break;
 
 			case IDOK:
-				WORD hiWord = 0;
+				uint16_t hiWord = 0;
 				if (IsDlgButtonChecked(hDlg, IDC_CHECK1))
 					hiWord |= EXPORT_DATA;
 				if (IsDlgButtonChecked(hDlg, IDC_CHECK2))

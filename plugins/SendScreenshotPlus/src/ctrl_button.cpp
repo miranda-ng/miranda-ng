@@ -160,7 +160,7 @@ static void __fastcall PaintThemeButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClien
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	wchar_t wszText[MAX_PATH] = { 0 };
-	WORD ccText;
+	uint16_t ccText;
 
 	// Draw the flat button
 	if ((ctl->dwStyle & MBS_FLAT) && ctl->hThemeToolbar) {
@@ -259,7 +259,7 @@ static void __fastcall PaintButton(BTNCTRL *ctl, HDC hdcMem, LPRECT rcClient)
 {
 	RECT rcText = { 0, 0, 0, 0 };
 	wchar_t szText[MAX_PATH] = { 0 };
-	WORD ccText;
+	uint16_t ccText;
 
 	// Draw the flat button
 	if (ctl->dwStyle & MBS_FLAT) {

@@ -114,7 +114,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
 	int    m_minLogBoxHeight, m_minEditBoxHeight;
 	int    m_iShowUnread;
-	WORD   m_wStatus;
+	uint16_t   m_wStatus;
 	DWORD  m_lastMessage;
 	int    m_iMessagesInProgress;
 	int    m_iSendAllConfirm;

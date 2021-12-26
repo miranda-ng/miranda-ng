@@ -418,8 +418,8 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 					break;
 				}
 			case DBVT_WORD: {
-					WORD val = db_get_w(hFinalContact, szModule, szSetting, 0);
-					result = (val == *((WORD *)&buttonItem->bValuePush));
+					uint16_t val = db_get_w(hFinalContact, szModule, szSetting, 0);
+					result = (val == *((uint16_t *)&buttonItem->bValuePush));
 					break;
 				}
 			case DBVT_DWORD:
@@ -1387,7 +1387,7 @@ skipbg:
 											db_set_b(finalhContact, szModule, szSetting, pValue[0]);
 											break;
 										case DBVT_WORD:
-											db_set_w(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
+											db_set_w(finalhContact, szModule, szSetting, *((uint16_t *)&pValue[0]));
 											break;
 										case DBVT_DWORD:
 											db_set_dw(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));

@@ -33,7 +33,7 @@ public:
 	struct EventData
 	{
 		bool isMe;
-		WORD eventType;
+		uint16_t eventType;
 		DWORD timestamp;
 	};
 	struct EventIndex

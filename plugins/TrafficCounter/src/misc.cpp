@@ -25,10 +25,10 @@ InputString - строка для разбора;
 RowItemsList - список найденных элементов.
 Возвращаемое значение - количество элементов в списках. */
 
-WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
+uint16_t GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 {
 	wchar_t *begin, *end;
-	WORD c = 0;
+	uint16_t c = 0;
 
 	// Ищем слева открывающую скобку.
 	begin = wcschr(InputString, '{');
@@ -75,7 +75,7 @@ WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 }
 
 /* Функция возвращает количество дней в указанном месяце указанного года. */
-uint8_t DaysInMonth(uint8_t Month, WORD Year)
+uint8_t DaysInMonth(uint8_t Month, uint16_t Year)
 {
 	switch (Month) {
 	case 1:
@@ -96,9 +96,9 @@ uint8_t DaysInMonth(uint8_t Month, WORD Year)
 
 // Функция определяет день недели по дате
 // 7 - ВС, 1 - ПН и т. д.
-uint8_t DayOfWeek(uint8_t Day, uint8_t Month, WORD Year)
+uint8_t DayOfWeek(uint8_t Day, uint8_t Month, uint16_t Year)
 {
-	WORD a, y, m;
+	uint16_t a, y, m;
 
 	a = (14 - Month) / 12;
 	y = Year - a;

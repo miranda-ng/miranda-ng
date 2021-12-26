@@ -77,7 +77,7 @@ FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 			case 16:
 			{
 				bits += 2*x;
-				WORD *pixel = (WORD *)bits;
+				uint16_t *pixel = (uint16_t *)bits;
 				if((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
 					value->rgbBlue		= (uint8_t)((((*pixel & FI16_565_BLUE_MASK) >> FI16_565_BLUE_SHIFT) * 0xFF) / 0x1F);
 					value->rgbGreen		= (uint8_t)((((*pixel & FI16_565_GREEN_MASK) >> FI16_565_GREEN_SHIFT) * 0xFF) / 0x3F);
@@ -159,7 +159,7 @@ FreeImage_SetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 			case 16:
 			{
 				bits += 2*x;
-				WORD *pixel = (WORD *)bits;
+				uint16_t *pixel = (uint16_t *)bits;
 				if((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
 					*pixel = ((value->rgbBlue >> 3) << FI16_565_BLUE_SHIFT) |
 						((value->rgbGreen >> 2) << FI16_565_GREEN_SHIFT) |

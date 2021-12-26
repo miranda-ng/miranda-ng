@@ -43,8 +43,8 @@ struct NtlmHandleType
 
 struct NTLM_String
 {
-	WORD     len;
-	WORD     allocedSpace;
+	uint16_t     len;
+	uint16_t     allocedSpace;
 	DWORD    offset;
 };
 

@@ -27,7 +27,7 @@ extern uint8_t
 	bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
 	bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
 
-extern WORD wSecondsOlder, wBlinksNumber, wStatusMap, wReminderCheck, wCustomTheme, wStartDelay;
+extern uint16_t wSecondsOlder, wBlinksNumber, wStatusMap, wReminderCheck, wCustomTheme, wStartDelay;
 
 extern PROTOCOL_LIST ProtoList;
 extern PROCESS_LIST ProcessList;
@@ -732,7 +732,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 	case WM_NOTIFY:
 		{
 			uint8_t untilMap = 0;
-			WORD statusMap = 0;
+			uint16_t statusMap = 0;
 			//Here we have pressed either the OK or the APPLY button.
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
@@ -752,7 +752,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					g_plugin.setByte("ifmsgopen", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
 					g_plugin.setByte("ifmsgnottop", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
 					g_plugin.setByte("ifmsgolder", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
-					g_plugin.setWord("secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("secsolder", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
 						untilMap |= UNTIL_NBLINKS;
@@ -763,7 +763,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILCOND) == BST_CHECKED)
 						untilMap |= UNTIL_CONDITIONS;
 					g_plugin.setByte("funtil", untilMap);
-					g_plugin.setWord("nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("nblinks", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
 					g_plugin.setByte("mirorwin", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
@@ -784,13 +784,13 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 						statusMap |= MAP_OFFLINE;
 					g_plugin.setWord("status", statusMap);
 
-					g_plugin.setWord("remcheck", (WORD)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("remcheck", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_REMCHECK, UDM_GETPOS, 0, 0));
 
 					int i = 0;
 					for (int j = 0; j < ProcessListAux.count; j++)
 						if (ProcessListAux.szFileName[j])
 							g_plugin.setWString(fmtDBSettingName("process%d", i++), ProcessListAux.szFileName[j]);
-					g_plugin.setWord("processcount", (WORD)i);
+					g_plugin.setWord("processcount", (uint16_t)i);
 					while (!g_plugin.delSetting(fmtDBSettingName("process%d", i++)));
 
 					if (XstatusListAux)
@@ -939,14 +939,14 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 					else
 						g_plugin.setByte("feffect", FLASH_SAMETIME);
 					g_plugin.setByte("order", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
-					g_plugin.setWord("custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
+					g_plugin.setWord("custom", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
 					g_plugin.setByte("ledsmsg", trillianLedsMsg);
 					g_plugin.setByte("ledsfile", trillianLedsFile);
 					g_plugin.setByte("ledsurl", trillianLedsURL);
 					g_plugin.setByte("ledsother", trillianLedsOther);
 
-					g_plugin.setWord("sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
+					g_plugin.setWord("sdelay", (uint16_t)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
 					g_plugin.setByte("speed", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 

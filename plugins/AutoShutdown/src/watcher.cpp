@@ -38,7 +38,7 @@ static HANDLE hHookModulesLoaded;
 
 /************************* Shared *************************************/
 
-static WORD currentWatcherType;
+static uint16_t currentWatcherType;
 
 static void __stdcall MainThreadMapping(void *param)
 {
@@ -228,7 +228,7 @@ INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
 	if (lParam&SDWTF_SPECIFICTIME && !(lParam&SDWTF_ST_MASK))
 		return 2;
 
-	if (currentWatcherType == (WORD)lParam)
+	if (currentWatcherType == (uint16_t)lParam)
 		return 3;
 
 	if (currentWatcherType != 0) {
@@ -239,7 +239,7 @@ INT_PTR ServiceStartWatcher(WPARAM, LPARAM lParam)
 	}
 	SetShutdownMenuItem(true);
 	SetShutdownToolbarButton(true);
-	currentWatcherType = (WORD)lParam;
+	currentWatcherType = (uint16_t)lParam;
 	NotifyEventHooks(hEventWatcherChanged, TRUE, 0);
 
 	/* Time Shutdown */

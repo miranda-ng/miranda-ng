@@ -415,7 +415,7 @@ static wchar_t* parseListDir(ARGUMENTSINFO *ai)
 }
 
 #ifndef WINE
-static BOOL CALLBACK MyProcessEnumerator(DWORD, WORD, char *szProcess, LPARAM lParam)
+static BOOL CALLBACK MyProcessEnumerator(DWORD, uint16_t, char *szProcess, LPARAM lParam)
 {
 	char **szProc = (char **)lParam;
 	if ((*szProc != nullptr) && (!_stricmp(*szProc, szProcess)))

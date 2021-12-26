@@ -97,8 +97,8 @@ class CMsgDialog : public CSrmmBaseDialog
 	int m_limitAvatarH = 0;
 	DWORD m_lastMessage = 0;
 	HANDLE m_hTimeZone = 0;
-	WORD m_wStatus = ID_STATUS_OFFLINE, m_wOldStatus = ID_STATUS_OFFLINE;
-	WORD m_wMinute = 0;
+	uint16_t m_wStatus = ID_STATUS_OFFLINE, m_wOldStatus = ID_STATUS_OFFLINE;
+	uint16_t m_wMinute = 0;
 	bool m_bIsMeta = false, m_bWindowCascaded = false, m_bNoActivate = false;
 
 public:

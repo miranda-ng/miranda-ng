@@ -364,7 +364,7 @@ public:
 			SSPlugin.setDword(SETTING_SETPROFILEDELAY, GetDlgItemInt(m_hwnd, IDC_SETPROFILEDELAY, nullptr, FALSE));
 
 		if (bChecked || chkShowDialog.GetState())
-			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (WORD)profiles.GetCurData());
+			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (uint16_t)profiles.GetCurData());
 
 		SSPlugin.setByte(SETTING_OVERRIDE, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
 		SSPlugin.setByte(SETTING_SHOWDIALOG, bChecked = chkShowDialog.GetState());
@@ -736,7 +736,7 @@ public:
 				SSPlugin.setWord(OptName(i, jt->m_szName), jt->m_status);
 			}
 		}
-		SSPlugin.setWord(SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
+		SSPlugin.setWord(SETTING_PROFILECOUNT, (uint16_t)arProfiles.getCount());
 
 		// Rebuild status menu
 		if (bNeedRebuildMenu)

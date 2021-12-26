@@ -31,21 +31,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // http://msdn.microsoft.com/library/default.asp?url = /library/en-us/winui/winui/windowsuserinterface/resources/introductiontoresources/resourcereference/resourcestructures/newheader.asp
 typedef struct
 {
-	WORD    Reserved;
-	WORD    ResType;
-	WORD    ResCount;
+	uint16_t    Reserved;
+	uint16_t    ResType;
+	uint16_t    ResCount;
 }
 	NEWHEADER;
 
 #define MAGIC_ICON       0
 #define MAGIC_ICO1       1
 #define MAGIC_CUR        2
-#define MAGIC_BMP        ((WORD)'B'+((WORD)'M'<<8))
+#define MAGIC_BMP        ((uint16_t)'B'+((uint16_t)'M'<<8))
 
-#define MAGIC_ANI1       ((WORD)'R'+((WORD)'I'<<8))
-#define MAGIC_ANI2       ((WORD)'F'+((WORD)'F'<<8))
-#define MAGIC_ANI3       ((WORD)'A'+((WORD)'C'<<8))
-#define MAGIC_ANI4       ((WORD)'O'+((WORD)'N'<<8))
+#define MAGIC_ANI1       ((uint16_t)'R'+((uint16_t)'I'<<8))
+#define MAGIC_ANI2       ((uint16_t)'F'+((uint16_t)'F'<<8))
+#define MAGIC_ANI3       ((uint16_t)'A'+((uint16_t)'C'<<8))
+#define MAGIC_ANI4       ((uint16_t)'O'+((uint16_t)'N'<<8))
 
 #define VER30            0x00030000
 
@@ -236,7 +236,7 @@ UINT _ExtractIconEx(LPCTSTR lpszFile, int iconIndex, int cxIcon, int cyIcon, HIC
 
 	// failed to read file signature
 	DWORD read = 0;
-	WORD magic[6];
+	uint16_t magic[6];
 	if (!ReadFile(hFile, &magic, sizeof(magic), &read, nullptr) || (read != sizeof(magic))) {
 		CloseHandle(hFile);
 		return 0;

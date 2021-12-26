@@ -78,7 +78,7 @@ static int hotkeys_MakeHotkey(lua_State *L)
 	}
 	int vk = luaL_checknumber(L, 2);
 
-	WORD res = HOTKEYCODE(mod, vk);
+	uint16_t res = HOTKEYCODE(mod, vk);
 	lua_pushinteger(L, res);
 
 	return 1;
