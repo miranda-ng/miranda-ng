@@ -51,7 +51,7 @@ FreeImage_CreateTag() {
 
 	if (tag != NULL) {
 		unsigned tag_size = sizeof(FITAGHEADER); 
-		tag->data = (BYTE *)malloc(tag_size * sizeof(BYTE));
+		tag->data = (uint8_t *)malloc(tag_size * sizeof(uint8_t));
 		if (tag->data != NULL) {
 			memset(tag->data, 0, tag_size);
 			return tag;
@@ -119,15 +119,15 @@ FreeImage_CloneTag(FITAG *tag) {
 		// tag value
 		switch(dst_tag->type) {
 			case FIDT_ASCII:
-				dst_tag->value = (BYTE*)malloc((src_tag->length + 1) * sizeof(BYTE));
+				dst_tag->value = (uint8_t*)malloc((src_tag->length + 1) * sizeof(uint8_t));
 				if(!dst_tag->value) {
 					throw FI_MSG_ERROR_MEMORY;
 				}
 				memcpy(dst_tag->value, src_tag->value, src_tag->length);
-				((BYTE*)dst_tag->value)[src_tag->length] = 0;
+				((uint8_t*)dst_tag->value)[src_tag->length] = 0;
 				break;
 			default:
-				dst_tag->value = (BYTE*)malloc(src_tag->length * sizeof(BYTE));
+				dst_tag->value = (uint8_t*)malloc(src_tag->length * sizeof(uint8_t));
 				if(!dst_tag->value) {
 					throw FI_MSG_ERROR_MEMORY;
 				}
@@ -278,7 +278,7 @@ FreeImage_SetTagValue(FITAG *tag, const void *value) {
 			break;
 
 			default:
-				tag_header->value = malloc(tag_header->length * sizeof(BYTE));
+				tag_header->value = malloc(tag_header->length * sizeof(uint8_t));
 				if(!tag_header->value) {
 					return FALSE;
 				}

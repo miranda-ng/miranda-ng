@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 class CExImContactBase
 {
-	BYTE compareUID(DBVARIANT *dbv);
+	uint8_t compareUID(DBVARIANT *dbv);
 
 protected:
 	LPSTR _pszNick;		// utf8 encoded
@@ -36,7 +36,7 @@ protected:
 	DWORD _dbvUIDHash;
 	DBVARIANT _dbvUID;
 	MCONTACT _hContact;
-	BYTE _isNewContact;	// is this contact a new one?
+	uint8_t _isNewContact;	// is this contact a new one?
 
 	MCONTACT findHandle();
 
@@ -53,7 +53,7 @@ public:
 	__inline void	proto(LPCSTR val) { _pszProto = val ? mir_strdup(val) : nullptr; }
 	__inline void	ampro(LPCSTR val) { _pszAMPro = val ? mir_strdup(val) : nullptr; }
 	__inline void	uidk(LPCSTR val) { _pszUIDKey = val ? mir_strdup(val) : nullptr; }
-	__inline void	uid(BYTE val) { _dbvUID.type = DBVT_BYTE;  _dbvUID.bVal = val; }
+	__inline void	uid(uint8_t val) { _dbvUID.type = DBVT_BYTE;  _dbvUID.bVal = val; }
 	__inline void	uid(WORD val) { _dbvUID.type = DBVT_WORD;  _dbvUID.wVal = val; }
 	__inline void	uid(DWORD val) { _dbvUID.type = DBVT_DWORD; _dbvUID.dVal = val; }
 	__inline void	uidn(uint8_t *val, DWORD len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (WORD)len; }
@@ -70,16 +70,16 @@ public:
 		mir_free(temp);
 	}
 
-	BYTE isHandle(MCONTACT hContact);
-	BYTE isMeta() const;
+	uint8_t isHandle(MCONTACT hContact);
+	uint8_t isMeta() const;
 
-	LPSTR uid2String(BYTE bPrependType);
+	LPSTR uid2String(uint8_t bPrependType);
 
-	BYTE fromDB(MCONTACT hContact);
-	BYTE fromIni(LPSTR &row);
+	uint8_t fromDB(MCONTACT hContact);
+	uint8_t fromIni(LPSTR &row);
 
 	MCONTACT toDB();
 	void toIni(FILE *file, int modCount);
 
-	BYTE operator=(MCONTACT hContact) { return fromDB(hContact); }
+	uint8_t operator=(MCONTACT hContact) { return fromDB(hContact); }
 };

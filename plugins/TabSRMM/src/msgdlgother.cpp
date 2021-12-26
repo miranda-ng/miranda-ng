@@ -560,8 +560,8 @@ void CMsgDialog::FlashTab(bool bInvertMode)
 
 bool CMsgDialog::GetAvatarVisibility()
 {
-	BYTE bAvatarMode = m_pContainer->m_avatarMode;
-	BYTE bOwnAvatarMode = m_pContainer->m_ownAvatarMode;
+	uint8_t bAvatarMode = m_pContainer->m_avatarMode;
+	uint8_t bOwnAvatarMode = m_pContainer->m_ownAvatarMode;
 	char hideOverride = (char)M.GetByte(m_hContact, "hideavatar", -1);
 
 	// infopanel visible, consider own avatar display
@@ -722,7 +722,7 @@ void CMsgDialog::GetSendFormat()
 
 HICON CMsgDialog::GetXStatusIcon() const
 {
-	BYTE xStatus = m_cache->getXStatusId();
+	uint8_t xStatus = m_cache->getXStatusId();
 	if (xStatus == 0)
 		return nullptr;
 
@@ -1126,7 +1126,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 		case ID_VISIBILITY_HIDDENFORTHISCONTACT:
 		case ID_VISIBILITY_VISIBLEFORTHISCONTACT:
 			{
-				BYTE avOverrideMode;
+				uint8_t avOverrideMode;
 				if (selection == ID_VISIBILITY_DEFAULT)
 					avOverrideMode = -1;
 				else if (selection == ID_VISIBILITY_VISIBLEFORTHISCONTACT)
@@ -1143,7 +1143,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 
 		case ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH:
 			PluginConfig.m_bAlwaysFullToolbarWidth = !PluginConfig.m_bAlwaysFullToolbarWidth;
-			db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (BYTE)PluginConfig.m_bAlwaysFullToolbarWidth);
+			db_set_b(0, SRMSGMOD_T, "alwaysfulltoolbar", (uint8_t)PluginConfig.m_bAlwaysFullToolbarWidth);
 			Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
 			break;
 
@@ -1713,7 +1713,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		break;
 	case ID_EDITOR_SHOWMESSAGELENGTHINDICATOR:
 		PluginConfig.m_visualMessageSizeIndicator = !PluginConfig.m_visualMessageSizeIndicator;
-		db_set_b(0, SRMSGMOD_T, "msgsizebar", (BYTE)PluginConfig.m_visualMessageSizeIndicator);
+		db_set_b(0, SRMSGMOD_T, "msgsizebar", (uint8_t)PluginConfig.m_visualMessageSizeIndicator);
 		Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 0);
 		Resize();
 		if (m_pContainer->m_hwndStatus)
@@ -2358,7 +2358,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	if (msg == WM_ACTIVATE) {
 		if (m_pContainer->m_flags.m_bTransparent) {
 			DWORD trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
-			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (BYTE)trans, (m_pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
+			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (uint8_t)trans, (m_pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 		}
 	}
 

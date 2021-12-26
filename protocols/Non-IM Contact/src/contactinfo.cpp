@@ -261,8 +261,8 @@ INT_PTR CALLBACK DlgProcOtherStuff(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				else g_plugin.setWord(hContact, "Timer", 0);
 
 				// always visible
-				g_plugin.setByte(hContact, "AlwaysVisible", (BYTE)IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE));
-				g_plugin.setByte(hContact, "VisibleUnlessOffline", (BYTE)IsDlgButtonChecked(hwnd, IDC_VISIBLE_UNLESS_OFFLINE));
+				g_plugin.setByte(hContact, "AlwaysVisible", (uint8_t)IsDlgButtonChecked(hwnd, IDC_ALWAYS_VISIBLE));
+				g_plugin.setByte(hContact, "VisibleUnlessOffline", (uint8_t)IsDlgButtonChecked(hwnd, IDC_VISIBLE_UNLESS_OFFLINE));
 			}
 			return TRUE;
 		}
@@ -643,8 +643,8 @@ INT_PTR ImportContacts(WPARAM, LPARAM)
 				// copy the ToolTip
 				g_plugin.setString(hContact, "ToolTip", tooltip);
 				// timer
-				g_plugin.setByte(hContact, "UseTimer", (BYTE)usetimer);
-				g_plugin.setByte(hContact, "Minutes", (BYTE)minutes);
+				g_plugin.setByte(hContact, "UseTimer", (uint8_t)usetimer);
+				g_plugin.setByte(hContact, "Minutes", (uint8_t)minutes);
 				g_plugin.setWord(hContact, "Timer", (WORD)timer);
 				//icon
 				g_plugin.setWord(hContact, "Icon", (WORD)icon);

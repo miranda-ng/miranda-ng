@@ -88,7 +88,7 @@ struct BEventData
 
 static int CompareBookmarks(const void* p1, const void* p2)
 {
-	return (BYTE*)((BEventData*)p1)->hDBEvent - (BYTE*)((BEventData*)p2)->hDBEvent;
+	return (uint8_t*)((BEventData*)p1)->hDBEvent - (uint8_t*)((BEventData*)p2)->hDBEvent;
 }
 
 static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
@@ -106,7 +106,7 @@ static void GetBookmarks(MCONTACT hContact, BEventData** books, size_t* bookcnt)
 			size_t tbookcnt = 0;
 
 			size_t i;
-			BYTE* evs = dbv.pbVal + sizeof(WORD);
+			uint8_t* evs = dbv.pbVal + sizeof(WORD);
 
 			for (i = 0; i < numb; ++i) {
 				tbooks[tbookcnt++] = *(BEventData*)evs;

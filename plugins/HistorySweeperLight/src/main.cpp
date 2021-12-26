@@ -57,7 +57,7 @@ static int OnIconPressed(WPARAM hContact, LPARAM lParam)
 
 		nh = (nh + 1) % 4;
 
-		g_plugin.setByte(hContact, "SweepHistory", (BYTE)nh);
+		g_plugin.setByte(hContact, "SweepHistory", (uint8_t)nh);
 		Srmm_SetIconFlags(hContact, MODULENAME, nh, 0);
 	}
 	return 0;

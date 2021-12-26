@@ -314,7 +314,7 @@ void SaveMenuTree()
 		iBl++;
 	}
 
-	g_plugin.setByte("ButtonsCount", (BYTE)g_iButtonsCount);
+	g_plugin.setByte("ButtonsCount", (uint8_t)g_iButtonsCount);
 }
 
 void RestoreModuleData()
@@ -567,7 +567,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			ButtonData* bd = nullptr;
 			TVITEM tvi;
 			RECT rc;
-			BYTE height;
+			uint8_t height;
 			BOOLEAN bAsChild = FALSE;
 
 			TreeView_SetInsertMark(hMenuTree, NULL, 0);
@@ -601,7 +601,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 							drag = 0;
 							break;
 						}
-						height = (BYTE)(rc.bottom - rc.top);
+						height = (uint8_t)(rc.bottom - rc.top);
 
 						if (hti.pt.y - (height / 3) < rc.top) {
 							HTREEITEM hItem = hti.hItem;
@@ -655,7 +655,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT)) {
 				RECT rc;
 				if (TreeView_GetItemRect(hMenuTree, hti.hItem, &rc, FALSE)) {
-					BYTE height = (BYTE)(rc.bottom - rc.top);
+					uint8_t height = (uint8_t)(rc.bottom - rc.top);
 
 					if (hti.pt.y - (height / 3) < rc.top) {
 						SetCursor(LoadCursor(nullptr, IDC_ARROW));
@@ -694,9 +694,9 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 					SetMenuEntryProperties(hdlg);
 					SaveMenuTree();
 				}
-				g_plugin.setByte("RClickAuto", (BYTE)(g_bRClickAuto = IsDlgButtonChecked(hdlg, IDC_RAUTOSEND)));
-				g_plugin.setByte("LClickAuto", (BYTE)(g_bLClickAuto = IsDlgButtonChecked(hdlg, IDC_LAUTOSEND)));
-				g_plugin.setByte("QuickMenu", (BYTE)(g_bQuickMenu = IsDlgButtonChecked(hdlg, IDC_ENABLEQUICKMENU)));
+				g_plugin.setByte("RClickAuto", (uint8_t)(g_bRClickAuto = IsDlgButtonChecked(hdlg, IDC_RAUTOSEND)));
+				g_plugin.setByte("LClickAuto", (uint8_t)(g_bLClickAuto = IsDlgButtonChecked(hdlg, IDC_LAUTOSEND)));
+				g_plugin.setByte("QuickMenu", (uint8_t)(g_bQuickMenu = IsDlgButtonChecked(hdlg, IDC_ENABLEQUICKMENU)));
 				return 1;
 			}
 			else if (((LPNMHDR)lparam)->code == PSN_RESET) {

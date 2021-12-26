@@ -49,9 +49,9 @@ class CFileXml {
 	DWORD CountContacts(const TiXmlElement* xmlParent);
 
 	/*
-	int ExportOwner(FILE *xmlfile, BYTE bExportEvents);
-	int ExportContact(FILE *xmlfile, MCONTACT hContact, BYTE bExportEvents, LPENUMLIST pModules);
-	int ExportSubContact(TiXmlElement *xContact, MCONTACT hContact, BYTE bExportEvents);
+	int ExportOwner(FILE *xmlfile, uint8_t bExportEvents);
+	int ExportContact(FILE *xmlfile, MCONTACT hContact, uint8_t bExportEvents, LPENUMLIST pModules);
+	int ExportSubContact(TiXmlElement *xContact, MCONTACT hContact, uint8_t bExportEvents);
 	*/
 
 public:

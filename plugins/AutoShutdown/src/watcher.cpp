@@ -182,16 +182,16 @@ static int StatusSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static DWORD idCpuUsageThread;
 
-static BOOL CALLBACK CpuUsageWatcherProc(BYTE nCpuUsage, LPARAM lParam)
+static BOOL CALLBACK CpuUsageWatcherProc(uint8_t nCpuUsage, LPARAM lParam)
 {
-	static BYTE nTimesBelow = 0; /* only one watcher thread */
+	static uint8_t nTimesBelow = 0; /* only one watcher thread */
 	/* terminated? */
 	if (idCpuUsageThread != GetCurrentThreadId()) {
 		nTimesBelow = 0;
 		return FALSE; /* stop poll thread */
 	}
 	/* ignore random peaks */
-	if (nCpuUsage < (BYTE)lParam) ++nTimesBelow;
+	if (nCpuUsage < (uint8_t)lParam) ++nTimesBelow;
 	else nTimesBelow = 0;
 	if (nTimesBelow == 3) {
 		nTimesBelow = 0;

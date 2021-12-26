@@ -48,7 +48,7 @@ void CDbxSQLite::InitSettings()
 			dbv->cpbVal = sqlite3_column_bytes(stmt, 1);
 			{
 				const char *data = (const char *)sqlite3_column_blob(stmt, 1);
-				dbv->pbVal = (BYTE *)mir_alloc(dbv->cpbVal + 1);
+				dbv->pbVal = (uint8_t *)mir_alloc(dbv->cpbVal + 1);
 				memcpy(dbv->pbVal, data, dbv->cpbVal);
 				dbv->pbVal[dbv->cpbVal] = 0;
 			}

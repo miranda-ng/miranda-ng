@@ -330,17 +330,17 @@ void LoadExtBkSettingsFromDB()
 		p->imageItem = nullptr;
 		CMStringA buffer;
 		buffer.Format("%s_IGNORE", p->szDBname);
-		p->IGNORED = (BYTE)db_get_b(0, "CLCExt", buffer, p->IGNORED);
+		p->IGNORED = (uint8_t)db_get_b(0, "CLCExt", buffer, p->IGNORED);
 		buffer.Format("%s_GRADIENT", p->szDBname);
-		p->GRADIENT = (BYTE)db_get_dw(0, "CLCExt", buffer, p->GRADIENT);
+		p->GRADIENT = (uint8_t)db_get_dw(0, "CLCExt", buffer, p->GRADIENT);
 		buffer.Format("%s_CORNER", p->szDBname);
-		p->CORNER = (BYTE)db_get_dw(0, "CLCExt", buffer, p->CORNER);
+		p->CORNER = (uint8_t)db_get_dw(0, "CLCExt", buffer, p->CORNER);
 		buffer.Format("%s_COLOR", p->szDBname);
 		p->COLOR = db_get_dw(0, "CLCExt", buffer, p->COLOR);
 		buffer.Format("%s_COLOR2", p->szDBname);
 		p->COLOR2 = db_get_dw(0, "CLCExt", buffer, p->COLOR2);
 		buffer.Format("%s_COLOR2_TRANSPARENT", p->szDBname);
-		p->COLOR2_TRANSPARENT = (BYTE)db_get_b(0, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
+		p->COLOR2_TRANSPARENT = (uint8_t)db_get_b(0, "CLCExt", buffer, p->COLOR2_TRANSPARENT);
 		buffer.Format("%s_TEXTCOLOR", p->szDBname);
 		p->TEXTCOLOR = db_get_dw(0, "CLCExt", buffer, p->TEXTCOLOR);
 		buffer.Format("%s_ALPHA", p->szDBname);
@@ -391,15 +391,15 @@ static void SaveCompleteStructToDB()
 			mir_snprintf(buffer, "%s_TEXTCOLOR", p->szDBname);
 			db_set_dw(0, "CLCExt", buffer, p->TEXTCOLOR);
 			mir_snprintf(buffer, "%s_ALPHA", p->szDBname);
-			db_set_b(0, "CLCExt", buffer, (BYTE)p->ALPHA);
+			db_set_b(0, "CLCExt", buffer, (uint8_t)p->ALPHA);
 			mir_snprintf(buffer, "%s_MRGN_LEFT", p->szDBname);
-			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_LEFT);
+			db_set_b(0, "CLCExt", buffer, (uint8_t)p->MARGIN_LEFT);
 			mir_snprintf(buffer, "%s_MRGN_TOP", p->szDBname);
-			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_TOP);
+			db_set_b(0, "CLCExt", buffer, (uint8_t)p->MARGIN_TOP);
 			mir_snprintf(buffer, "%s_MRGN_RIGHT", p->szDBname);
-			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_RIGHT);
+			db_set_b(0, "CLCExt", buffer, (uint8_t)p->MARGIN_RIGHT);
 			mir_snprintf(buffer, "%s_MRGN_BOTTOM", p->szDBname);
-			db_set_b(0, "CLCExt", buffer, (BYTE)p->MARGIN_BOTTOM);
+			db_set_b(0, "CLCExt", buffer, (uint8_t)p->MARGIN_BOTTOM);
 			mir_snprintf(buffer, "%s_BDRSTYLE", p->szDBname);
 			db_set_dw(0, "CLCExt", buffer, p->BORDERSTYLE);
 		}
@@ -439,24 +439,24 @@ void SaveNonStatusItemsSettings(HWND hwndDlg)
 {
 	BOOL translated;
 
-	db_set_b(0, "CLCExt", "EXBK_EqualSelection", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSELECTION));
-	db_set_b(0, "CLCExt", "EXBK_SelBlend", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SELBLEND));
+	db_set_b(0, "CLCExt", "EXBK_EqualSelection", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EQUALSELECTION));
+	db_set_b(0, "CLCExt", "EXBK_SelBlend", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SELBLEND));
 
 	cfg::dat.cornerRadius = GetDlgItemInt(hwndDlg, IDC_CORNERRAD, &translated, FALSE);
 	cfg::dat.bApplyIndentToBg = IsDlgButtonChecked(hwndDlg, IDC_APPLYINDENTBG) ? 1 : 0;
 	cfg::dat.bUsePerProto = IsDlgButtonChecked(hwndDlg, IDC_USEPERPROTO) ? 1 : 0;
 	cfg::dat.bWantFastGradients = IsDlgButtonChecked(hwndDlg, IDC_FASTGRADIENT) ? 1 : 0;
 	cfg::dat.bOverridePerStatusColors = IsDlgButtonChecked(hwndDlg, IDC_OVERRIDEPERSTATUSCOLOR) ? 1 : 0;
-	cfg::dat.titleBarHeight = (BYTE)GetDlgItemInt(hwndDlg, IDC_LASTITEMPADDING, &translated, FALSE);
+	cfg::dat.titleBarHeight = (uint8_t)GetDlgItemInt(hwndDlg, IDC_LASTITEMPADDING, &translated, FALSE);
 	cfg::dat.group_padding = GetDlgItemInt(hwndDlg, IDC_GRPTOPPADDING, &translated, FALSE);
 
 	db_set_b(0, "CLCExt", "CornerRad", cfg::dat.cornerRadius);
-	db_set_b(0, "CLCExt", "applyindentbg", (BYTE)cfg::dat.bApplyIndentToBg);
-	db_set_b(0, "CLCExt", "useperproto", (BYTE)cfg::dat.bUsePerProto);
-	db_set_b(0, "CLCExt", "override_status", (BYTE)cfg::dat.bOverridePerStatusColors);
-	db_set_b(0, "CLCExt", "bskinned", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SETALLBUTTONSKINNED) ? 1 : 0));
+	db_set_b(0, "CLCExt", "applyindentbg", (uint8_t)cfg::dat.bApplyIndentToBg);
+	db_set_b(0, "CLCExt", "useperproto", (uint8_t)cfg::dat.bUsePerProto);
+	db_set_b(0, "CLCExt", "override_status", (uint8_t)cfg::dat.bOverridePerStatusColors);
+	db_set_b(0, "CLCExt", "bskinned", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_SETALLBUTTONSKINNED) ? 1 : 0));
 	db_set_b(0, "CLCExt", "FastGradients", cfg::dat.bWantFastGradients);
-	db_set_b(0, "CLC", "IgnoreSelforGroups", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORESELFORGROUPS));
+	db_set_b(0, "CLC", "IgnoreSelforGroups", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNORESELFORGROUPS));
 
 	db_set_dw(0, "CLCExt", "grp_padding", cfg::dat.group_padding);
 	db_set_b(0, "CLCExt", "frame_height", cfg::dat.titleBarHeight);
@@ -573,7 +573,7 @@ void extbk_export(char *file)
 		data = 0;
 		switch (_tagSettings[i].size) {
 		case 1:
-			data = (DWORD)db_get_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)_tagSettings[i].defaultval);
+			data = (DWORD)db_get_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint8_t)_tagSettings[i].defaultval);
 			break;
 		case 2:
 			data = (DWORD)db_get_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
@@ -617,17 +617,17 @@ static void PreMultiply(HBITMAP hBitmap, int mode)
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
 	DWORD dwLen = width * height * 4;
-	BYTE *p = (BYTE *)malloc(dwLen);
+	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
 
 	GetBitmapBits(hBitmap, dwLen, p);
 	for (int y = 0; y < height; ++y) {
-		BYTE *px = p + width * 4 * y;
+		uint8_t *px = p + width * 4 * y;
 
 		for (int x = 0; x < width; ++x) {
 			if (mode) {
-				BYTE alpha = px[3];
+				uint8_t alpha = px[3];
 				px[0] = px[0] * alpha / 255;
 				px[1] = px[1] * alpha / 255;
 				px[2] = px[2] * alpha / 255;
@@ -648,7 +648,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 		return;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE*)calloc(1, dwLen);
+	uint8_t *p = (uint8_t*)calloc(1, dwLen);
 	if (p == nullptr)
 		return;
 
@@ -656,7 +656,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 
 	BOOL fixIt = TRUE;
 	for (int y = 0; y < bmp.bmHeight; ++y) {
-		BYTE *px = p + bmp.bmWidth * 4 * y;
+		uint8_t *px = p + bmp.bmWidth * 4 * y;
 
 		for (int x = 0; x < bmp.bmWidth; ++x) {
 			if (px[3] != 0)
@@ -757,7 +757,7 @@ static void ReadItem(StatusItems_t *this_item, char *szItem, char *file)
 	GetPrivateProfileStringA(szItem, "Color2", def_color, buffer, 400, file);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
-	this_item->COLOR2_TRANSPARENT = (BYTE)GetPrivateProfileIntA(szItem, "COLOR2_TRANSPARENT", defaults->COLOR2_TRANSPARENT, file);
+	this_item->COLOR2_TRANSPARENT = (uint8_t)GetPrivateProfileIntA(szItem, "COLOR2_TRANSPARENT", defaults->COLOR2_TRANSPARENT, file);
 
 	this_item->CORNER = defaults->CORNER & CORNER_ACTIVE ? defaults->CORNER : 0;
 	GetPrivateProfileStringA(szItem, "Corner", "None", buffer, 400, file);
@@ -828,7 +828,7 @@ done_with_glyph:
 		mir_snprintf(szFinalName, "%s\\%s\\%s", szDrive, szPath, buffer);
 		tmpItem.alpha = GetPrivateProfileIntA(itemname, "Alpha", 100, szFileName);
 		tmpItem.alpha = min(tmpItem.alpha, 100);
-		tmpItem.alpha = (BYTE)((FLOAT)(((FLOAT)tmpItem.alpha) / 100) * 255);
+		tmpItem.alpha = (uint8_t)((FLOAT)(((FLOAT)tmpItem.alpha) / 100) * 255);
 		tmpItem.bf.SourceConstantAlpha = tmpItem.alpha;
 		tmpItem.bLeft = GetPrivateProfileIntA(itemname, "Left", 0, szFileName);
 		tmpItem.bRight = GetPrivateProfileIntA(itemname, "Right", 0, szFileName);
@@ -1111,7 +1111,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 
 		for (n = 0; n <= 1; n++) {
 			CMStringA szKey;
-			BYTE *pValue;
+			uint8_t *pValue;
 
 			if (n == 0)
 				szKey = "dbonpush";
@@ -1123,7 +1123,7 @@ static void BTN_ReadItem(char *itemName, char *file)
 			switch (szBuffer[0]) {
 			case 'b':
 				{
-					BYTE value = (BYTE)atol(&szBuffer[1]);
+					uint8_t value = (uint8_t)atol(&szBuffer[1]);
 					pValue[0] = value;
 					tmpItem.type = DBVT_BYTE;
 					break;
@@ -1261,7 +1261,7 @@ void IMG_LoadItems()
 	if (g_CLUIImageItem) {
 		cfg::dat.bFullTransparent = TRUE;
 		cfg::dat.dwFlags &= ~CLUI_FRAME_CLISTSUNKEN;
-		db_set_b(0, "CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
+		db_set_b(0, "CLUI", "fulltransparent", (uint8_t)cfg::dat.bFullTransparent);
 		db_set_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_NOBORDER);
 		ApplyCLUIBorderStyle();
 		SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -1341,12 +1341,12 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 						db_set_dw(hContact, "EXTBK", "TEXT", items[j].TEXTCOLOR);
 						db_set_dw(hContact, "EXTBK", "COLOR1", items[j].COLOR);
 						db_set_dw(hContact, "EXTBK", "COLOR2", items[j].COLOR2);
-						db_set_b(hContact, "EXTBK", "ALPHA", (BYTE)items[j].ALPHA);
+						db_set_b(hContact, "EXTBK", "ALPHA", (uint8_t)items[j].ALPHA);
 
-						db_set_b(hContact, "EXTBK", "LEFT", (BYTE)items[j].MARGIN_LEFT);
-						db_set_b(hContact, "EXTBK", "RIGHT", (BYTE)items[j].MARGIN_RIGHT);
-						db_set_b(hContact, "EXTBK", "TOP", (BYTE)items[j].MARGIN_TOP);
-						db_set_b(hContact, "EXTBK", "BOTTOM", (BYTE)items[j].MARGIN_BOTTOM);
+						db_set_b(hContact, "EXTBK", "LEFT", (uint8_t)items[j].MARGIN_LEFT);
+						db_set_b(hContact, "EXTBK", "RIGHT", (uint8_t)items[j].MARGIN_RIGHT);
+						db_set_b(hContact, "EXTBK", "TOP", (uint8_t)items[j].MARGIN_TOP);
+						db_set_b(hContact, "EXTBK", "BOTTOM", (uint8_t)items[j].MARGIN_BOTTOM);
 
 						db_set_b(hContact, "EXTBK", "TRANS", items[j].COLOR2_TRANSPARENT);
 						db_set_dw(hContact, "EXTBK", "BDR", items[j].BORDERSTYLE);
@@ -1420,17 +1420,17 @@ void extbk_import(char *file, HWND hwndDlg)
 			mir_snprintf(szKey, "Font%dSize", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Size", &data, 1, file);
-			db_set_b(0, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (uint8_t)data);
 
 			mir_snprintf(szKey, "Font%dSty", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Style", &data, 1, file);
-			db_set_b(0, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (uint8_t)data);
 
 			mir_snprintf(szKey, "Font%dSet", n);
 			data = 0;
 			GetPrivateProfileStructA(szSection, "Set", &data, 1, file);
-			db_set_b(0, "CLC", szKey, (BYTE)data);
+			db_set_b(0, "CLC", szKey, (uint8_t)data);
 
 			mir_snprintf(szKey, "Font%dCol", n);
 			data = 0;
@@ -1458,7 +1458,7 @@ void extbk_import(char *file, HWND hwndDlg)
 			GetPrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
 			switch (_tagSettings[i].size) {
 			case 1:
-				db_set_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (BYTE)data);
+				db_set_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint8_t)data);
 				break;
 			case 4:
 				db_set_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, data);
@@ -1557,7 +1557,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case IDC_USESKIN:
 			{
 				int useskin = IsDlgButtonChecked(hwndDlg, IDC_USESKIN);
-				db_set_b(0, "CLUI", "useskin", (BYTE)(useskin ? 1 : 0));
+				db_set_b(0, "CLUI", "useskin", (uint8_t)(useskin ? 1 : 0));
 			}
 			break;
 
@@ -1603,7 +1603,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					else
 						skinChanged = TRUE;
 					db_set_ws(0, "CLC", "AdvancedSkin", final_path);
-					db_set_b(0, "CLUI", "skin_changed", (BYTE)skinChanged);
+					db_set_b(0, "CLUI", "skin_changed", (uint8_t)skinChanged);
 					SetDlgItemText(hwndDlg, IDC_SKINFILENAME, final_path);
 				}
 			}
@@ -1776,7 +1776,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				tci.mask = TCIF_PARAM;
 				TabCtrl_GetItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)), &tci);
 				ShowWindow((HWND)tci.lParam, SW_SHOW);
-				db_set_b(0, "CLUI", "opage", (BYTE)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
+				db_set_b(0, "CLUI", "opage", (uint8_t)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
 				Utils::enableDlgControl(hwnd, IDC_EXPORT, TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)) != 0);
 				Utils::enableDlgControl(hwnd, IDC_IMPORT, TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)) != 0);
 				break;

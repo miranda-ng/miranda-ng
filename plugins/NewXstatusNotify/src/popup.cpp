@@ -110,7 +110,7 @@ void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 	}
 }
 
-void PopupAction(HWND hWnd, BYTE action)
+void PopupAction(HWND hWnd, uint8_t action)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	if (hContact && hContact != INVALID_CONTACT_ID) {

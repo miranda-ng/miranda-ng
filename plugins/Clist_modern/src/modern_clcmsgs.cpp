@@ -200,7 +200,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 				index += contact->iSubNumber;
 			}
 
-			BYTE k = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
+			uint8_t k = db_get_b(0, "CLC", "MetaExpanding", SETTING_METAEXPANDING_DEFAULT);
 			if (k) {
 				for (int i = 0; i < mainindex; i++) {
 					ClcContact *tempCont = group->cl[i];

@@ -40,16 +40,16 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE hevBackup;
 	wchar_t folder[MAX_PATH];
 
-	CMOption<BYTE>	    backup_types;
+	CMOption<uint8_t>	    backup_types;
 	CMOption<WORD>	    period;
-	CMOption<BYTE>	    period_type;
+	CMOption<uint8_t>	    period_type;
 	CMOption<wchar_t*> file_mask;
 	CMOption<WORD>	    num_backups;
-	CMOption<BYTE>	    disable_progress;
-	CMOption<BYTE>	    disable_popups;
-	CMOption<BYTE>	    use_zip;
-	CMOption<BYTE>	    backup_profile;
-	CMOption<BYTE>	    use_cloudfile;
+	CMOption<uint8_t>	    disable_progress;
+	CMOption<uint8_t>	    disable_popups;
+	CMOption<uint8_t>	    use_zip;
+	CMOption<uint8_t>	    backup_profile;
+	CMOption<uint8_t>	    use_cloudfile;
 	CMOption<char*>    cloudfile_service;
 
 	int Load() override;

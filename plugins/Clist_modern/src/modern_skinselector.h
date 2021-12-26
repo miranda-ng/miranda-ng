@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct MASKPARAM
 {
 	DWORD	dwId;
-	BYTE	bMaskParamFlag;
+	uint8_t	bMaskParamFlag;
 	char*	szName;
 	DWORD	dwValueHash;
 	char*	szValue;
@@ -71,6 +71,6 @@ DWORD mod_CalcHash(const char *a);
 int RegisterObjectByParce(char *ObjectName, char *Params);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mmTemplateList);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList);
-wchar_t * GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces);
+wchar_t * GetParamNT(char *string, wchar_t *buf, int buflen, uint8_t paramN, char Delim, BOOL SkipSpaces);
 int SkinDrawGlyphMask(HDC hdc, RECT *rcSize, RECT *rcClip, MODERNMASK *ModernMask);
 #endif

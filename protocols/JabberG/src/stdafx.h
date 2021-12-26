@@ -447,9 +447,9 @@ struct filetransfer : public MZeroedObject
 struct JABBER_GCLOG_FONT
 {
 	char face[LF_FACESIZE];		// LF_FACESIZE is from LOGFONT struct
-	BYTE style;
+	uint8_t style;
 	char size;	// signed
-	BYTE charset;
+	uint8_t charset;
 	COLORREF color;
 };
 

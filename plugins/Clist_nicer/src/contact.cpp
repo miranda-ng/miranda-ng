@@ -125,7 +125,7 @@ void MF_UpdateThread(LPVOID)
 
 void MF_InitCheck(void)
 {
-	BYTE bMsgFrequency = g_plugin.getByte("fhistdata", 0);
+	uint8_t bMsgFrequency = g_plugin.getByte("fhistdata", 0);
 	if (!bMsgFrequency) {
 		for (auto &hContact : Contacts())
 			MF_CalcFrequency(hContact, 100, 0);

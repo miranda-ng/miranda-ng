@@ -28,9 +28,9 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 struct ExternalKey
 {
-	BYTE  m_key[KEY_LENGTH];
+	uint8_t  m_key[KEY_LENGTH];
 	DWORD m_crc32;
-	BYTE  slack[BLOCK_SIZE - sizeof(DWORD)];
+	uint8_t  slack[BLOCK_SIZE - sizeof(DWORD)];
 };
 
 struct CStdCrypt : public MICryptoEngine, public MZeroedObject
@@ -49,8 +49,8 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 
 	// get/set the instance key
 	STDMETHODIMP_(size_t) getKeyLength(void) override;
-	STDMETHODIMP_(bool) getKey(BYTE *pKey, size_t cbKeyLen) override;
-	STDMETHODIMP_(bool) setKey(const char *pszPassword, const BYTE *pKey, size_t cbKeyLen) override;
+	STDMETHODIMP_(bool) getKey(uint8_t *pKey, size_t cbKeyLen) override;
+	STDMETHODIMP_(bool) setKey(const char *pszPassword, const uint8_t *pKey, size_t cbKeyLen) override;
 
 	STDMETHODIMP_(bool) generateKey(void) override; // creates a new key inside
 	STDMETHODIMP_(void) purgeKey(void) override;    // purges a key from memory
@@ -59,11 +59,11 @@ struct CStdCrypt : public MICryptoEngine, public MZeroedObject
 	STDMETHODIMP_(void) setPassword(const char *pszPassword);
 	STDMETHODIMP_(bool) checkPassword(const char *pszPassword) override;
 
-	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
-	STDMETHODIMP_(BYTE*) encodeString(const char *src, size_t *cbResultLen) override;
-	STDMETHODIMP_(BYTE*) encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen) override;
+	// result must be freed using mir_free or assigned to mir_ptr<uint8_t>
+	STDMETHODIMP_(uint8_t*) encodeString(const char *src, size_t *cbResultLen) override;
+	STDMETHODIMP_(uint8_t*) encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen) override;
 
 	// result must be freed using mir_free or assigned to ptrA/ptrW
-	STDMETHODIMP_(char*) decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) override;
-	STDMETHODIMP_(void*) decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) override;
+	STDMETHODIMP_(char*) decodeString(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen) override;
+	STDMETHODIMP_(void*) decodeBuffer(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen) override;
 };

@@ -191,7 +191,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 		return 0;
 
 	ptrA pszTemp;
-	mir_ptr<BYTE> pszBlob;
+	mir_ptr<uint8_t> pszBlob;
 
 	DBEVENTINFO dbei = {};
 	dbei.flags = DBEF_UTF;

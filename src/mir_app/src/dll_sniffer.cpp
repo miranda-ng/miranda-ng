@@ -66,7 +66,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 		return nullptr;
 
 	MUUID *pResult = nullptr;
-	BYTE *ptr = nullptr;
+	uint8_t *ptr = nullptr;
 	HANDLE hMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
 
 	__try {
@@ -81,7 +81,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 			if (filesize < sizeof(IMAGE_DOS_HEADER) + sizeof(IMAGE_NT_HEADERS))
 				__leave;
 
-			ptr = (BYTE*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
+			ptr = (uint8_t*)MapViewOfFile(hMap, FILE_MAP_READ, 0, 0, 0);
 			if (ptr == nullptr)
 				__leave;
 
@@ -131,7 +131,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 			else if (expSize < sizeof(IMAGE_EXPORT_DIRECTORY))
 				__leave;
 
-			BYTE* pImage = ptr + pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
+			uint8_t* pImage = ptr + pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 
 			for (DWORD idx = 0; idx < nSections; idx++) {
 				PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(pImage + idx * sizeof(IMAGE_SECTION_HEADER));
@@ -140,7 +140,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 
 				// process export table
 				if (expSize >= sizeof(IMAGE_EXPORT_DIRECTORY) && Contains(pISH, expAddr, expSize)) {
-					BYTE *pSecStart = ptr + pISH->PointerToRawData - pISH->VirtualAddress;
+					uint8_t *pSecStart = ptr + pISH->PointerToRawData - pISH->VirtualAddress;
 					IMAGE_EXPORT_DIRECTORY *pED = (PIMAGE_EXPORT_DIRECTORY)&pSecStart[expAddr];
 					DWORD *ptrRVA = (DWORD*)&pSecStart[pED->AddressOfNames];
 					WORD  *ptrOrdRVA = (WORD*)&pSecStart[pED->AddressOfNameOrdinals];
@@ -174,15 +174,15 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 				if (resSize > 0 && Contains(pISH, resAddr, resSize)) {
 					dwVersion = 0;
 
-					BYTE *pSecStart = ptr + pISH->PointerToRawData - pISH->VirtualAddress;
+					uint8_t *pSecStart = ptr + pISH->PointerToRawData - pISH->VirtualAddress;
 					IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)&pSecStart[resAddr];
 					ProcessResourcesDirectory(pIRD, &pSecStart[resAddr], 0);
 
 					// patch version
 					if (dwVersion) {
-						BYTE *pVersionRes = &pSecStart[dwVersion];
+						uint8_t *pVersionRes = &pSecStart[dwVersion];
 						size_t cbLen = *(WORD*)pVersionRes;
-						mir_ptr<BYTE> pData((BYTE*)mir_alloc(cbLen));
+						mir_ptr<uint8_t> pData((uint8_t*)mir_alloc(cbLen));
 						memcpy(pData, pVersionRes, cbLen);
 
 						UINT blockSize;

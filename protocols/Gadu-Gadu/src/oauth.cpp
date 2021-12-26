@@ -185,9 +185,9 @@ int oauth_sign_request(LIST<OAUTHPARAMETER> &params, const char *httpmethod, con
 		mir_strcat(key, "&");
 		mir_strcat(key, tsenc);
 
-		BYTE digest[MIR_SHA1_HASH_SIZE];
+		uint8_t digest[MIR_SHA1_HASH_SIZE];
 		unsigned len;
-		HMAC(EVP_sha1(), key, (int)mir_strlen(key), (BYTE*)(char*)text, (int)mir_strlen(text), digest, &len);
+		HMAC(EVP_sha1(), key, (int)mir_strlen(key), (uint8_t*)(char*)text, (int)mir_strlen(text), digest, &len);
 		sign = mir_base64_encode(digest, MIR_SHA1_HASH_SIZE);
 	}
 	else { // PLAINTEXT
@@ -213,8 +213,8 @@ char* oauth_generate_nonce()
 
 	CMStringA str(FORMAT, "%ld%s", time(0), randnum);
 
-	BYTE digest[16];
-	mir_md5_hash((BYTE*)str.GetString(), str.GetLength(), digest);
+	uint8_t digest[16];
+	mir_md5_hash((uint8_t*)str.GetString(), str.GetLength(), digest);
 
 	return bin2hex(digest, sizeof(digest), (char *)mir_alloc(32 + 1));
 }

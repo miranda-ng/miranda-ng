@@ -456,8 +456,8 @@ void CJabberProto::UpdateFeatHash()
 		feat_buf.Append(os); feat_buf.AppendChar('<');
 	}
 
-	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_sha1_hash((BYTE *)feat_buf.c_str(), feat_buf.GetLength(), hash);
+	uint8_t hash[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((uint8_t *)feat_buf.c_str(), feat_buf.GetLength(), hash);
 	ptrA szHash(mir_base64_encode(&hash, sizeof(hash)));
 	m_szFeaturesCrc = szHash;
 }

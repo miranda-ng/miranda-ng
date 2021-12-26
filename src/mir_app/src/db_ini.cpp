@@ -308,7 +308,7 @@ static void ProcessIniFile(wchar_t* szIniPath, char *szSafeSections, char *szUns
 			break;
 LBL_NewLine:
 		size_t lineLength = mir_strlen(szLine);
-		while (lineLength && (BYTE)(szLine[lineLength - 1]) <= ' ')
+		while (lineLength && (uint8_t)(szLine[lineLength - 1]) <= ' ')
 			szLine[--lineLength] = '\0';
 
 		if (szLine[0] == ';' || szLine[0] <= ' ')
@@ -390,7 +390,7 @@ LBL_NewLine:
 		switch (szValue[0]) {
 		case 'b':
 		case 'B':
-			db_set_b(0, szSection, szName, (BYTE)strtol(szValue + 1, nullptr, 0));
+			db_set_b(0, szSection, szName, (uint8_t)strtol(szValue + 1, nullptr, 0));
 			break;
 		case 'w':
 		case 'W':
@@ -469,7 +469,7 @@ LBL_NewLine:
 
 				uint8_t *buf = (uint8_t*)mir_alloc(mir_strlen(szValue + 1));
 				for (len = 0, pszValue = szValue + 1;; len++) {
-					buf[len] = (BYTE)strtol(pszValue, &pszEnd, 0x10);
+					buf[len] = (uint8_t)strtol(pszValue, &pszEnd, 0x10);
 					if (pszValue == pszEnd)
 						break;
 					pszValue = pszEnd;

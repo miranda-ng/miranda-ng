@@ -113,7 +113,7 @@ static wchar_t* parseContactInfo(ARGUMENTSINFO *ai)
 	if (hContact == INVALID_CONTACT_ID)
 		return nullptr;
 
-	BYTE type = getContactInfoType(ai->argv.w[2]);
+	uint8_t type = getContactInfoType(ai->argv.w[2]);
 	if (type == 0)
 		return nullptr;
 

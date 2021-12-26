@@ -106,7 +106,7 @@ void MAnnivDate::SetDate(const MAnnivDate &mda)
  * param:	st	- SYSTEMTIME to compare with
  * return:	number of days the st differs from the class value
  **/
-__inline BYTE MAnnivDate::IsValid() const
+__inline uint8_t MAnnivDate::IsValid() const
 {
 	return (
 		Month() > 0 && Month() < 13 &&
@@ -134,7 +134,7 @@ int MAnnivDate::CompareDays(MTime mt) const
  * param:	st	- SYSTEMTIME to compare with
  * return:	number of days the st differs from the class value
  **/
-BYTE MAnnivDate::IsEqual(const SYSTEMTIME &st) const
+uint8_t MAnnivDate::IsEqual(const SYSTEMTIME &st) const
 {
 	return (
 		Day() == st.wDay &&
@@ -378,8 +378,8 @@ int MAnnivDate::DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPC
 int MAnnivDate::DBWriteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear)
 {
 	return
-		db_set_b(hContact, pszModule, szDay, (BYTE)Day()) ||
-		db_set_b(hContact, pszModule, szMonth, (BYTE)Month()) ||
+		db_set_b(hContact, pszModule, szDay, (uint8_t)Day()) ||
+		db_set_b(hContact, pszModule, szMonth, (uint8_t)Month()) ||
 		db_set_w(hContact, pszModule, szYear, Year());
 }
 
@@ -525,7 +525,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
  * return:	0 on success, 1 otherwise
  **/
 
-int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE)
+int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, uint8_t bOld, uint8_t)
 {
 	Clear();
 	switch(bOld) {
@@ -710,7 +710,7 @@ static WORD AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *p
  * return:	0 if backup was done, 1 otherwise
  **/
 
-int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDontIgnoreAnything, PWORD lastAnswer)
+int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const uint8_t bDontIgnoreAnything, PWORD lastAnswer)
 {
 	if (!hContact)
 		return 1;
@@ -731,14 +731,14 @@ int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const BYTE bDo
 			pszProto = Proto_GetBaseAccountName(hContact);
 
 		if (pszProto) {
-			BYTE bIsMeta = DB::Module::IsMeta(pszProto);
-			BYTE bIsMetaSub = !bIsMeta && db_mc_isSub(hContact);
+			uint8_t bIsMeta = DB::Module::IsMeta(pszProto);
+			uint8_t bIsMetaSub = !bIsMeta && db_mc_isSub(hContact);
 			MAnnivDate mdbNewProto;
 			MAnnivDate mdbIgnore;
 
 			const int nSubContactCount = (bIsMeta) ? db_mc_getSubCount(hContact) : 0;
 
-			BYTE bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)
+			uint8_t bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)
 									&& !IsEqual(mdbNewProto.SystemTime())
 									&& (bDontIgnoreAnything || (db_get_dw(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbNewProto.DateStamp()))
 									&& !bIsMetaSub;

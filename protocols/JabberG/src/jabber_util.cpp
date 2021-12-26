@@ -166,10 +166,10 @@ char* JabberPrepareJid(const char *jid)
 
 char* JabberSha1(const char *str, JabberShaStrBuf buf)
 {
-	BYTE digest[MIR_SHA1_HASH_SIZE];
+	uint8_t digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
-	mir_sha1_append(&sha, (BYTE*)str, (int)mir_strlen(str));
+	mir_sha1_append(&sha, (uint8_t*)str, (int)mir_strlen(str));
 	mir_sha1_finish(&sha, digest);
 
 	bin2hex(digest, sizeof(digest), buf);
@@ -947,10 +947,10 @@ void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 					setByte(ai.hContact, "AvatarType", pictureType);
 
 					char buffer[2 * MIR_SHA1_HASH_SIZE + 1];
-					BYTE digest[MIR_SHA1_HASH_SIZE];
+					uint8_t digest[MIR_SHA1_HASH_SIZE];
 					mir_sha1_ctx sha;
 					mir_sha1_init(&sha);
-					mir_sha1_append(&sha, (BYTE*)res->pData, res->dataLength);
+					mir_sha1_append(&sha, (uint8_t*)res->pData, res->dataLength);
 					mir_sha1_finish(&sha, digest);
 					bin2hex(digest, sizeof(digest), buffer);
 

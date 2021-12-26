@@ -159,7 +159,7 @@ void RebuildContact()
  **/
 void RebuildMain()
 {
-	BYTE item = 0;
+	uint8_t item = 0;
 
 	HGENMENU mhRoot = nullptr;
 	HGENMENU mhExIm = nullptr;
@@ -239,7 +239,7 @@ void RebuildMain()
 
 	// reminder
 	mi.root = mhRoot;
-	const BYTE bRemindMenus =
+	const uint8_t bRemindMenus =
 		g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
 		g_plugin.getByte(SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 	if (bRemindMenus) {
@@ -293,7 +293,7 @@ void RebuildMain()
 void RebuildGroup()
 {
 	int flag = 0;
-	BYTE item = 0;
+	uint8_t item = 0;
 
 	HGENMENU mhRoot = nullptr;
 	HGENMENU mhExIm = nullptr;
@@ -383,7 +383,7 @@ void RebuildGroup()
 void RebuildSubGroup()
 {
 	int flag = 0;
-	BYTE item = 0;
+	uint8_t item = 0;
 	GroupMenuParam gmp = { 0 };
 
 	HGENMENU mhRoot = nullptr;
@@ -484,8 +484,8 @@ INT_PTR RebuildAccount(WPARAM, LPARAM lParam)
 	if (Miranda_IsTerminated())
 		return 0;
 
-	const BYTE mItems = 3;				// menuitems to create
-	BYTE item = 0;
+	const uint8_t mItems = 3;				// menuitems to create
+	uint8_t item = 0;
 
 	// on call by hook or first start
 	if (!lParam || !hMenuItemAccount) {

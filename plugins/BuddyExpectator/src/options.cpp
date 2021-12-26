@@ -50,7 +50,7 @@ void LoadOptions()
 
 	options.iShowPopup2 = g_plugin.getByte("iShowPopUp2", 1);
 	options.iShowEvent2 = g_plugin.getByte("iShowEvent2", 0);
-	options.action2 = (GoneContactAction)g_plugin.getByte("Action2", (BYTE)GCA_NOACTION);
+	options.action2 = (GoneContactAction)g_plugin.getByte("Action2", (uint8_t)GCA_NOACTION);
 	options.notifyFirstOnline = g_plugin.getByte("bShowFirstSight", 0) ? true : false;
 	options.hideInactive = g_plugin.getByte("bHideInactive", 0) ? true : false;
 	options.enableMissYou = g_plugin.getByte("bMissYouEnabled", 1) ? true : false;
@@ -69,7 +69,7 @@ void SaveOptions()
 
 	g_plugin.setByte("iShowPopUp2", options.iShowPopup2);
 	g_plugin.setByte("iShowEvent2", options.iShowEvent2);
-	g_plugin.setByte("Action2", (BYTE)options.action2);
+	g_plugin.setByte("Action2", (uint8_t)options.action2);
 	g_plugin.setByte("bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
 	g_plugin.setByte("bHideInactive", options.hideInactive ? 1 : 0);
 	g_plugin.setByte("bMissYouEnabled", options.enableMissYou ? 1 : 0);

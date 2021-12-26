@@ -62,7 +62,7 @@ struct FontOptionsList
 	wchar_t *szDescr;
 	COLORREF defColour;
 	wchar_t *szDefFace;
-	BYTE defStyle;
+	uint8_t defStyle;
 	int  defSize;
 	wchar_t *szBkgName;
 }

@@ -31,5 +31,5 @@ void* t2s(const wchar_t *pszStr, DWORD fUnicode, BOOL fMirCp);
 BOOL EnumDbPrefixSettings(const char *pszModule, const char *pszSettingPrefix, char ***pSettings, int *pnSettingsCount);
 
 /* Error Output */
-void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, ...);
+void ShowInfoMessage(uint8_t flags, const char *pszTitle, const char *pszTextFmt, ...);
 char* GetWinErrorDescription(DWORD dwLastError);

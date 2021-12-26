@@ -540,7 +540,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 		// to "flip" the tab item.
 		BitBlt(dcMem, 0, 0, szBmp.cx, szBmp.cy, pDC, rcItem->left, rcItem->top, SRCCOPY);
 
-		BYTE *pcImg1 = (BYTE*)mir_alloc(nSzBuffPS);
+		uint8_t *pcImg1 = (uint8_t*)mir_alloc(nSzBuffPS);
 		if (pcImg1) {
 			GetDIBits(pDC, bmpMem, nStart, szBmp.cy - nLenSub, pcImg1, &biOut, DIB_RGB_COLORS);
 			bihOut->biHeight = -szBmp.cy; 				// to mirror bitmap is eough to use negative height between Get/SetDIBits
@@ -569,7 +569,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 
 		CSkin::FillBack(hdcTemp, &rcTemp);
 		DrawThemesPart(tabdat, hdcTemp, 9, 0, &rcTemp);	// TABP_PANE id = 9
-		pcImg = (BYTE *)mir_alloc(nSzBuffPS);
+		pcImg = (uint8_t *)mir_alloc(nSzBuffPS);
 		if (pcImg) {									// get bits:
 			GetDIBits(hdcTemp, hbmTemp, nStart, 50 - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);
 			bihOut->biHeight = -50;
@@ -599,7 +599,7 @@ static void DrawThemesXpTabItem(HDC pDC, RECT *rcItem, UINT uiFlag, TabControlDa
 	}
 
 	bihOut->biHeight = szBmp.cy;
-	pcImg = (BYTE *)mir_alloc(nSzBuffPS);
+	pcImg = (uint8_t *)mir_alloc(nSzBuffPS);
 
 	if (pcImg) {									// get bits:
 		GetDIBits(pDC, bmpMem, nStart, szBmp.cy - nLenSub, pcImg, &biOut, DIB_RGB_COLORS);

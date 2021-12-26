@@ -47,7 +47,7 @@ private:
 	wstring	_strDesc;		// descripes the anniversary (e.g. birthday)
 	string	_strModule;		// the module the anniversary has been read from
 	WORD	_wFlags;		// the flags
-	BYTE	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
+	uint8_t	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
 	WORD	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
 
 	int DBWriteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
@@ -62,8 +62,8 @@ public:
 	__inline void		Description(LPCTSTR pszDesc)	{ if (pszDesc) _strDesc = pszDesc; };
 	__inline LPCSTR		Module() const					{ return _strModule.c_str(); };
 	__inline void		Module(LPCSTR pszModule)		{ if (pszModule) _strModule = pszModule; else _strModule.clear(); };
-	__inline BYTE		RemindOption() const			{ return _bRemind; };
-	__inline void		RemindOption(BYTE bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
+	__inline uint8_t		RemindOption() const			{ return _bRemind; };
+	__inline void		RemindOption(uint8_t bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
 	__inline WORD		RemindOffset() const			{ return _wDaysEarlier; };
 	__inline void		RemindOffset(WORD wOffset)		{ _wDaysEarlier = wOffset; };
 	__inline WORD		Id() const						{ return _wID; };
@@ -73,11 +73,11 @@ public:
 	void				DateStamp(const DWORD dwStamp);
 	
 	// basic checks
-	__inline BYTE IsValid() const;
-	__inline BYTE IsChanged() const						{ return (_wFlags & MADF_CHANGED); };
-	__inline BYTE IsReminderChanged() const				{ return (_wFlags & MADF_REMINDER_CHANGED); };
-	__inline BYTE IsEqual(const MAnnivDate &mda) const	{ return IsEqual(mda.SystemTime()); };
-	BYTE	IsEqual(const SYSTEMTIME &st) const;
+	__inline uint8_t IsValid() const;
+	__inline uint8_t IsChanged() const						{ return (_wFlags & MADF_CHANGED); };
+	__inline uint8_t IsReminderChanged() const				{ return (_wFlags & MADF_REMINDER_CHANGED); };
+	__inline uint8_t IsEqual(const MAnnivDate &mda) const	{ return IsEqual(mda.SystemTime()); };
+	uint8_t	IsEqual(const SYSTEMTIME &st) const;
 
 	// handling flags
 	__inline WORD	Flags() const			{ return _wFlags; };
@@ -108,15 +108,15 @@ public:
 	// delete date from database
 	int DBDeleteBirthDate(MCONTACT hContact);
 
-	int DBMoveBirthDate(MCONTACT hContact, BYTE bOld, BYTE bNew);
-	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = nullptr, const BYTE bDontIgnoreAnything = FALSE, PWORD lastAnswer = nullptr);
+	int DBMoveBirthDate(MCONTACT hContact, uint8_t bOld, uint8_t bNew);
+	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = nullptr, const uint8_t bDontIgnoreAnything = FALSE, PWORD lastAnswer = nullptr);
 
 	// setting values
 	void	SetDate(const SYSTEMTIME &st);
 	void	SetDate(const MAnnivDate &mda);
 
-	BYTE operator == (const SYSTEMTIME &st) { return IsEqual(st); };
-	BYTE operator == (const MAnnivDate &mda) { return IsEqual(mda); };
+	uint8_t operator == (const SYSTEMTIME &st) { return IsEqual(st); };
+	uint8_t operator == (const MAnnivDate &mda) { return IsEqual(mda); };
 
 	void operator=(SYSTEMTIME &st) { SetDate(st); };
 	void operator=(MAnnivDate &mda) { SetDate(mda); };

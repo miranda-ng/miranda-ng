@@ -161,7 +161,7 @@ void CProgress::Hide()
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
 
-BYTE CProgress::Update()
+uint8_t CProgress::Update()
 {
 	MSG msg;
 
@@ -189,7 +189,7 @@ BYTE CProgress::Update()
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
 
-BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
+uint8_t CProgress::UpdateContact(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != nullptr) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS2);
@@ -216,7 +216,7 @@ BYTE CProgress::UpdateContact(LPCTSTR pszFormat, ...)
  * return:	FALSE if user pressed cancel, TRUE otherwise
  **/
 
-BYTE CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
+uint8_t CProgress::UpdateSetting(LPCTSTR pszFormat, ...)
 {
 	if (_hDlg != nullptr) {
 		HWND hProg = GetDlgItem(_hDlg, IDC_PROGRESS);

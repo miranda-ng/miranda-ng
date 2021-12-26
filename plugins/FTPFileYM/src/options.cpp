@@ -106,7 +106,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 		}
 		else if (HIWORD(wParam) == CBN_SELCHANGE) {
 			if (LOWORD(wParam) == IDC_FTPLIST) {
-				opt.selected = (BYTE)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
+				opt.selected = (uint8_t)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
 				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP ? BST_CHECKED : BST_UNCHECKED);
 
 				ServerList::FTP *ftp = ftpList.getSelected();

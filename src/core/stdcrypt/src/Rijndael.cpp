@@ -931,7 +931,7 @@ CRijndael::~CRijndael()
 // chain      - initial chain block
 // keylength  - 16, 24 or 32 bytes
 // blockSize  - The block size in bytes of this Rijndael (16, 24 or 32 bytes).
-int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int blockSize)
+int CRijndael::MakeKey(uint8_t const* key, char const* chain, int keylength, int blockSize)
 {
 	if (nullptr == key)
 		return 1;
@@ -978,7 +978,7 @@ int CRijndael::MakeKey(BYTE const* key, char const* chain, int keylength, int bl
 	int KC = m_keylength / 4;
 	//Copy user material bytes into temporary ints
 	int* pi = tk;
-	BYTE const* pc = key;
+	uint8_t const* pc = key;
 	for (i = 0; i < KC; i++) {
 		*pi = *(pc++) << 24;
 		*pi |= *(pc++) << 16;

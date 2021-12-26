@@ -63,7 +63,7 @@ int InitKeyB(pUinKey ptr, LPCSTR key)
 
 
 // store KeyX into context
-void InitKeyX(pUinKey ptr, BYTE *key)
+void InitKeyX(pUinKey ptr, uint8_t *key)
 {
 	if (!ptr->cntx)
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact) ? CPP_MODE_BASE64 : 0);

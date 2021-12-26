@@ -300,8 +300,8 @@ void CMsgDialog::StopMessageSending()
 void CMsgDialog::SwitchTyping()
 {
 	if (IsTypingNotificationSupported()) {
-		BYTE typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
-		g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!typingNotify);
+		uint8_t typingNotify = (g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew));
+		g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (uint8_t)!typingNotify);
 		Srmm_SetIconFlags(m_hContact, SRMM_MODULE, 1, typingNotify ? MBF_DISABLED : 0);
 	}
 }

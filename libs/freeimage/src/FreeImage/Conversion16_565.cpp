@@ -28,7 +28,7 @@
 // ----------------------------------------------------------
 
 void DLL_CALLCONV
-FreeImage_ConvertLine1To16_565(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette) {
+FreeImage_ConvertLine1To16_565(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
 	WORD *new_bits = (WORD *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
@@ -39,7 +39,7 @@ FreeImage_ConvertLine1To16_565(BYTE *target, BYTE *source, int width_in_pixels, 
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine4To16_565(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette) {
+FreeImage_ConvertLine4To16_565(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
 	WORD *new_bits = (WORD *)target;
 	BOOL lonibble = FALSE;
 	int x = 0;
@@ -60,7 +60,7 @@ FreeImage_ConvertLine4To16_565(BYTE *target, BYTE *source, int width_in_pixels, 
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine8To16_565(BYTE *target, BYTE *source, int width_in_pixels, RGBQUAD *palette) {
+FreeImage_ConvertLine8To16_565(uint8_t *target, uint8_t *source, int width_in_pixels, RGBQUAD *palette) {
 	WORD *new_bits = (WORD *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
@@ -71,7 +71,7 @@ FreeImage_ConvertLine8To16_565(BYTE *target, BYTE *source, int width_in_pixels, 
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine16_555_To16_565(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine16_555_To16_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	WORD *src_bits = (WORD *)source;
 	WORD *new_bits = (WORD *)target;
 
@@ -83,7 +83,7 @@ FreeImage_ConvertLine16_555_To16_565(BYTE *target, BYTE *source, int width_in_pi
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine24To16_565(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine24To16_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	WORD *new_bits = (WORD *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {
@@ -94,7 +94,7 @@ FreeImage_ConvertLine24To16_565(BYTE *target, BYTE *source, int width_in_pixels)
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine32To16_565(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine32To16_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	WORD *new_bits = (WORD *)target;
 
 	for (int cols = 0; cols < width_in_pixels; cols++) {

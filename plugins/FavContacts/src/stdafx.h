@@ -70,17 +70,17 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 struct Options
 {
-	BYTE bSecondLine;
-	BYTE bAvatars;
-	BYTE bAvatarBorder;
+	uint8_t bSecondLine;
+	uint8_t bAvatars;
+	uint8_t bAvatarBorder;
 	WORD wAvatarRadius;
-	BYTE bNoTransparentBorder;
-	BYTE bSysColors;
-	BYTE bCenterHotkey;
-	BYTE bUseGroups;
-	BYTE bUseColumns;
-	BYTE bRightAvatars;
-	BYTE bDimIdle;
+	uint8_t bNoTransparentBorder;
+	uint8_t bSysColors;
+	uint8_t bCenterHotkey;
+	uint8_t bUseGroups;
+	uint8_t bUseColumns;
+	uint8_t bRightAvatars;
+	uint8_t bDimIdle;
 	WORD wMaxRecent;
 
 	COLORREF clLine1, clLine2, clBack;

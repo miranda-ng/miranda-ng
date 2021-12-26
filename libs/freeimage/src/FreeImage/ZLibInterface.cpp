@@ -37,7 +37,7 @@ which must be at least 0.1% larger than source_size plus 12 bytes.
 @see FreeImage_ZLibUncompress
 */
 DWORD DLL_CALLCONV 
-FreeImage_ZLibCompress(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size) {
+FreeImage_ZLibCompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
 	uLongf dest_len = (uLongf)target_size;
 
 	int zerr = compress(target, &dest_len, source, source_size);
@@ -69,7 +69,7 @@ compression library.
 @see FreeImage_ZLibCompress
 */
 DWORD DLL_CALLCONV 
-FreeImage_ZLibUncompress(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size) {
+FreeImage_ZLibUncompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
 	uLongf dest_len = (uLongf)target_size;
 
 	int zerr = uncompress(target, &dest_len, source, source_size);
@@ -100,7 +100,7 @@ which must be at least 0.1% larger than source_size plus 24 bytes.
 @see FreeImage_ZLibCompress
 */
 DWORD DLL_CALLCONV 
-FreeImage_ZLibGZip(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size) {
+FreeImage_ZLibGZip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
 	uLongf dest_len = (uLongf)target_size - 12;
 	DWORD crc = crc32(0L, NULL, 0);
 
@@ -115,7 +115,7 @@ FreeImage_ZLibGZip(BYTE *target, DWORD target_size, BYTE *source, DWORD source_s
 			return 0;
         case Z_OK: {
             // patch header, setup crc and length (stolen from mod_trace_output)
-            BYTE *p = target + 8; *p++ = 2; *p = OS_CODE; // xflags, os_code
+            uint8_t *p = target + 8; *p++ = 2; *p = OS_CODE; // xflags, os_code
  	        crc = crc32(crc, source, source_size);
 	        memcpy(target + 4 + dest_len, &crc, 4);
 	        memcpy(target + 8 + dest_len, &source_size, 4);
@@ -176,7 +176,7 @@ static int checkheader(z_stream *stream) {
 }
 
 DWORD DLL_CALLCONV 
-FreeImage_ZLibGUnzip(BYTE *target, DWORD target_size, BYTE *source, DWORD source_size) {
+FreeImage_ZLibGUnzip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
     DWORD src_len  = source_size;
     DWORD dest_len = target_size;
     int   zerr     = Z_DATA_ERROR;
@@ -217,7 +217,7 @@ If source is NULL, this function returns the required initial value for the crc.
 @return Returns the new crc value
 */
 DWORD DLL_CALLCONV 
-FreeImage_ZLibCRC32(DWORD crc, BYTE *source, DWORD source_size) {
+FreeImage_ZLibCRC32(DWORD crc, uint8_t *source, DWORD source_size) {
 
     return crc32(crc, source, source_size);
 }

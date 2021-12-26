@@ -75,7 +75,7 @@ WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList)
 }
 
 /* Функция возвращает количество дней в указанном месяце указанного года. */
-BYTE DaysInMonth(BYTE Month, WORD Year)
+uint8_t DaysInMonth(uint8_t Month, WORD Year)
 {
 	switch (Month) {
 	case 1:
@@ -89,14 +89,14 @@ BYTE DaysInMonth(BYTE Month, WORD Year)
 	case 6:
 	case 9:
 	case 11: return 30;
-	case 2: return 28 + (BYTE)!((Year % 4) && ((Year % 100) || !(Year % 400)));
+	case 2: return 28 + (uint8_t)!((Year % 4) && ((Year % 100) || !(Year % 400)));
 	}
 	return 0;
 }
 
 // Функция определяет день недели по дате
 // 7 - ВС, 1 - ПН и т. д.
-BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year)
+uint8_t DayOfWeek(uint8_t Day, uint8_t Month, WORD Year)
 {
 	WORD a, y, m;
 
@@ -118,7 +118,7 @@ Buffer - адрес строки для записи результата;
 Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера.
 */
-size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size)
+size_t GetFormattedTraffic(DWORD Value, uint8_t Unit, wchar_t *Buffer, size_t Size)
 {
 	wchar_t Str1[32], szUnit[4] = { ' ', 0 };
 	DWORD Divider;

@@ -196,7 +196,7 @@ static void ProfileList_Clear(HWND hList)
  *			bSave	- tells, whether to save changes (TRUE) or not (FALSE)
  * return:	returns 0 on success or nonzero
  **/
-static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
+static int ProfileList_EndLabelEdit(LPLISTCTRL pList, uint8_t bSave)
 {
 	HWND hEdit;
 
@@ -210,7 +210,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 	if (bSave != FALSE && pList->labelEdit.pItem) {
 		WORD ccText;
 		LPTSTR	szEdit = nullptr;
-		BYTE bChanged = FALSE;
+		uint8_t bChanged = FALSE;
 
 		// an list element was selected
 		if (pList->labelEdit.iSubItem && pList->labelEdit.dropDown.iItem != pList->labelEdit.pItem->iListItem && pList->labelEdit.dropDown.iItem >= 0 && pList->labelEdit.dropDown.iItem < pList->labelEdit.pItem->idstrListCount) {
@@ -257,7 +257,7 @@ static int ProfileList_EndLabelEdit(LPLISTCTRL pList, BYTE bSave)
 	return 0;
 }
 
-static int ProfileList_EndLabelEdit(HWND hList, BYTE bSave)
+static int ProfileList_EndLabelEdit(HWND hList, uint8_t bSave)
 {
 	return ProfileList_EndLabelEdit((LPLISTCTRL)GetUserData(hList), bSave);
 }
@@ -419,7 +419,7 @@ static int ProfileList_GetInsertIndex(HWND hList, LPTSTR pszGroup)
  *
  * return:	TRUE or FALSE
  **/
-static BYTE ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENTRY *pEntry)
+static uint8_t ProfileList_AddNewItem(HWND hDlg, LPLISTCTRL pList, const PROFILEENTRY *pEntry)
 {
 	LPLCITEM pItem;
 	LVITEM lvi;
@@ -515,7 +515,7 @@ static int ProfileList_AddItemlistFromDB(
 			for (j = 0; j < nList; j++) {
 				switch (dbvCat.type) {
 				case DBVT_BYTE:
-					if (dbvCat.bVal != (BYTE)idList[j].nID)
+					if (dbvCat.bVal != (uint8_t)idList[j].nID)
 						continue;
 					break;
 				case DBVT_WORD:
@@ -655,7 +655,7 @@ static LRESULT CALLBACK ProfileList_LabelEditProc(HWND hwnd, UINT msg, WPARAM wP
 			return 0;
 		case VK_RETURN:
 			{
-				BYTE bEditNext;
+				uint8_t bEditNext;
 				int iItem;
 		
 				if (GetWindowLongPtr(hwnd, GWL_STYLE) & ES_WANTRETURN && !(GetKeyState(VK_CONTROL) & 0x8000))
@@ -1115,10 +1115,10 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_INFOCHANGED:
 					{
-						BYTE msgResult = 0;
+						uint8_t msgResult = 0;
 						LPIDSTRLIST idList;
 						UINT nList;
-						BYTE i;
+						uint8_t i;
 						int iItem = 0, iGrp = 0, numProtoItems, numUserItems;
 
 						if (!(pList->wFlags & CTRLF_CHANGED) && PSGetBaseProto(hDlg, pszProto) && *pszProto != 0) {
@@ -1175,7 +1175,7 @@ INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				// user selected to apply settings to the database
 				case PSN_APPLY:
 					if (pList->wFlags & CTRLF_CHANGED) {
-						BYTE iFmt = -1;
+						uint8_t iFmt = -1;
 						int iItem;
 						LVITEM lvi;
 						wchar_t szGroup[MAX_PATH];

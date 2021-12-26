@@ -179,7 +179,7 @@ void PopupWnd2::create()
 	update();
 }
 
-void PopupWnd2::updateLayered(BYTE opacity)
+void PopupWnd2::updateLayered(uint8_t opacity)
 {
 	if (!m_hwnd) return;
 

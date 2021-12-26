@@ -30,7 +30,7 @@ class CCombo : public CBaseCtrl
 	int					_curSel;
 	LPIDSTRLIST _pList;
 	int					_nList;
-	BYTE				_bDataType;
+	uint8_t				_bDataType;
 	
 	/**
 	 * Private constructure is to force to use static member 'Create' 
@@ -40,7 +40,7 @@ class CCombo : public CBaseCtrl
 	 *
 	 * @return	nothing
 	 **/
-	CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount);
+	CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
 
 	int Find(int nIndex) const;
 	int Find(LPTSTR ptszItemLabel) const;
@@ -58,7 +58,7 @@ public:
 	static FORCEINLINE CCombo* GetObj(HWND hDlg, WORD idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount);
+	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);
 
 	virtual void	Release();
 	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);

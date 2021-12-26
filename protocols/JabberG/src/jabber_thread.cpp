@@ -1225,7 +1225,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 
 	// chatstates gone event
 	if (hContact && XmlGetChildByTag(node, "gone", "xmlns", JABBER_FEAT_CHATSTATES) && m_bLogChatstates) {
-		BYTE bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
+		uint8_t bEventType = JABBER_DB_EVENT_CHATSTATES_GONE; // gone event
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = &bEventType;
 		dbei.cbBlob = 1;
@@ -1439,8 +1439,8 @@ void CJabberProto::OnProcessPresenceCapabilites(const TiXmlElement *node, pResou
 
 	const char *szHash = XmlGetAttr(n, "hash");
 	if (szHash == nullptr) { // old version
-		BYTE hashOut[MIR_SHA1_HASH_SIZE];
-		mir_sha1_hash((BYTE*)szVer, mir_strlen(szVer), hashOut);
+		uint8_t hashOut[MIR_SHA1_HASH_SIZE];
+		mir_sha1_hash((uint8_t*)szVer, mir_strlen(szVer), hashOut);
 
 		char szHashOut[MIR_SHA1_HASH_SIZE*2 + 1];
 		r->m_pCaps = g_clientCapsManager.GetPartialCaps(szNode, bin2hex(hashOut, _countof(hashOut), szHashOut));
@@ -2050,7 +2050,7 @@ int ThreadData::send_no_strm_mgmt(TiXmlElement *node)
 	// strip forbidden control characters from outgoing XML stream
 	char *q = buf.GetBuffer();
 	for (char *p = buf.GetBuffer(); *p; ++p) {
-		int c = *(BYTE*)p;
+		int c = *(uint8_t*)p;
 		if (c < 32 && c != '\t' && c != '\n' && c != '\r')
 			continue;
 

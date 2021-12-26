@@ -31,7 +31,7 @@ extern ImageItem *g_glyphItem;
 
 extern int hClcProtoCount;
 
-static BYTE divide3[765] = { 255 };
+static uint8_t divide3[765] = { 255 };
 extern char *im_clients[];
 extern HICON im_clienthIcons[];
 extern HICON overlayicons[];
@@ -42,8 +42,8 @@ extern LONG g_cxsmIcon, g_cysmIcon;
 
 int g_hottrack, g_center, g_ignoreselforgroups, g_selectiveIcon, g_hottrack_done;
 HWND g_focusWnd;
-BYTE selBlend;
-BYTE saved_alpha;
+uint8_t selBlend;
+uint8_t saved_alpha;
 int my_status;
 
 BOOL g_inCLCpaint = FALSE;
@@ -342,7 +342,7 @@ static BOOL pi_selectiveIcon;
 static BOOL av_left, av_right, av_rightwithnick;
 static BOOL mirror_rtl, mirror_always, mirror_rtltext;
 
-BYTE savedCORNER = -1;
+uint8_t savedCORNER = -1;
 int  g_padding_y = 0;
 
 void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight)
@@ -374,8 +374,8 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	int scanIndex = group->scanIndex;
 	BOOL av_local_wanted = (g_list_avatars > 0);
 
-	BYTE type = contact->type;
-	BYTE flags = contact->flags;
+	uint8_t type = contact->type;
+	uint8_t flags = contact->flags;
 	int  selected = index == dat->selection && (dat->bShowSelAlways || dat->exStyle & CLS_EX_SHOWSELALWAYS || g_focusWnd == hwnd) && type != CLCIT_DIVIDER;
 	avatar_done = FALSE;
 
@@ -491,7 +491,7 @@ set_bg_l:
 			*sfirstitem_NG, *ssingleitem_NG, *sevencontact_pos, *soddcontact_pos, *pp_item;
 
 		if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_MAX) {
-			BYTE perstatus_ignored;
+			uint8_t perstatus_ignored;
 
 			if ((flags & CONTACTF_IDLE) && !arStatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE]->IGNORED)
 				sitem = arStatusItems[ID_EXTBKIDLE - ID_STATUS_OFFLINE];
@@ -1106,7 +1106,7 @@ bgskipped:
 			rcContent.bottom = y + rowHeight;
 
 			if (cstatus >= ID_STATUS_OFFLINE && cstatus <= ID_STATUS_MAX) {
-				BYTE smsgValid = cEntry->bStatusMsgValid;
+				uint8_t smsgValid = cEntry->bStatusMsgValid;
 
 				if ((dwFlags & CLUI_FRAME_SHOWSTATUSMSG && smsgValid > STATUSMSG_XSTATUSID) || smsgValid == STATUSMSG_XSTATUSNAME)
 					szText = cEntry->statusMsg;

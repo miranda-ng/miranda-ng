@@ -53,7 +53,7 @@ INT_PTR TTBInternalStatusMenuButt(WPARAM, LPARAM)
 INT_PTR TTBInternalSoundsOnOff(WPARAM, LPARAM)
 {
 	int newVal = !(db_get_b(0, "Skin", "UseSound", 1));
-	db_set_b(0, "Skin", "UseSound", (BYTE)newVal);
+	db_set_b(0, "Skin", "UseSound", (uint8_t)newVal);
 	return 0;
 }
 

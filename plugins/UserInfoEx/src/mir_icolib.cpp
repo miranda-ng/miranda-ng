@@ -178,7 +178,7 @@ static HINSTANCE IcoLib_CheckIconPackVersion(wchar_t *szIconPack)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Set the icon of each control in the list
 
-void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, BYTE numCtrls)
+void IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL *pCtrl, uint8_t numCtrls)
 {
 	for (int i = 0; i < numCtrls; i++) {
 		HICON	hIcon = g_plugin.getIcon(pCtrl[i].iIcon);

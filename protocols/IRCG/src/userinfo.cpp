@@ -54,7 +54,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 			p->ppro = (CIrcProto*)((PSHNOTIFY*)lParam)->lParam;
 
 			DBVARIANT dbv;
-			BYTE bAdvanced = p->ppro->getByte(p->hContact, "AdvancedMode", 0);
+			uint8_t bAdvanced = p->ppro->getByte(p->hContact, "AdvancedMode", 0);
 
 			TranslateDialogDefault(m_hwnd);
 
@@ -102,7 +102,7 @@ INT_PTR CALLBACK UserDetailsDlgProc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM
 			wchar_t temp[500];
 			GetDlgItemText(m_hwnd, IDC_WILDCARD, temp, _countof(temp));
 
-			BYTE bAdvanced = IsDlgButtonChecked(m_hwnd, IDC_RADIO1) ? 0 : 1;
+			uint8_t bAdvanced = IsDlgButtonChecked(m_hwnd, IDC_RADIO1) ? 0 : 1;
 			if (bAdvanced) {
 				if (GetWindowTextLength(GetDlgItem(m_hwnd, IDC_WILDCARD)) == 0 ||
 					GetWindowTextLength(GetDlgItem(m_hwnd, IDC_USER)) == 0 ||

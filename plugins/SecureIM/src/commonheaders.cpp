@@ -18,7 +18,7 @@ int iBmpDepth;
 BOOL bPGPloaded = false, bPGPkeyrings = false, bUseKeyrings = false, bPGPprivkey = false;
 BOOL bGPGloaded = false, bGPGkeyrings = false, bSavePass = false;
 BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
-BYTE bPGP, bGPG;
+uint8_t bPGP, bGPG;
 mir_cs localQueueMutex;
 
 LPSTR myDBGetStringDecode(MCONTACT hContact, const char *szModule, const char *szSetting)

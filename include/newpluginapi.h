@@ -106,7 +106,7 @@ struct PLUGININFOEX
 	char *author;
 	char *copyright;
 	char *homepage;
-	BYTE flags;	   // right now the only flag, UNICODE_AWARE, is recognized here
+	uint8_t flags;	   // right now the only flag, UNICODE_AWARE, is recognized here
 	MUUID uuid;    // plugin's unique identifier
 };
 
@@ -334,11 +334,11 @@ public:
 		return db_get_wsm(hContact, m_szModuleName, name, szValue);
 	}
 
-	__forceinline void setByte(const char *name, BYTE value)
+	__forceinline void setByte(const char *name, uint8_t value)
 	{
 		db_set_b(0, m_szModuleName, name, value);
 	}
-	__forceinline void setByte(MCONTACT hContact, const char *name, BYTE value)
+	__forceinline void setByte(MCONTACT hContact, const char *name, uint8_t value)
 	{
 		db_set_b(hContact, m_szModuleName, name, value);
 	}

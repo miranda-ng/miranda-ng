@@ -870,7 +870,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 			for (int i = ID_STATUS_ONLINE; i <= ID_STATUS_MAX; i++) {
 				if (accounts->statusMsgFlags & Proto_Status2Flag(i)) {
 					db_set_ws(0, "SRAway", StatusModeToDbSetting(i, "Default"), data->status_msg[0].msg[i - ID_STATUS_ONLINE]);
-					g_plugin.setByte(StatusModeToDbSetting(i, "Flags"), (BYTE)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
+					g_plugin.setByte(StatusModeToDbSetting(i, "Flags"), (uint8_t)data->status_msg[0].flags[i - ID_STATUS_ONLINE]);
 
 					for (int j = 0; j < accounts->count; j++) {
 						auto *pa = accounts->pa[j];
@@ -885,16 +885,16 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 							db_set_ws(0, "SRAway", StatusModeToDbSetting(i, szSetting), data->status_msg[j + 1].msg[i - ID_STATUS_ONLINE]);
 
 							mir_snprintf(szSetting, "%sFlags", pa->szModuleName);
-							g_plugin.setByte(StatusModeToDbSetting(i, szSetting), (BYTE)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
+							g_plugin.setByte(StatusModeToDbSetting(i, szSetting), (uint8_t)data->status_msg[j + 1].flags[i - ID_STATUS_ONLINE]);
 						}
 					}
 				}
 			}
 
-			g_plugin.setByte("PutDefInList", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
+			g_plugin.setByte("PutDefInList", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_COPTMSG2) == BST_CHECKED));
 
 			if (data->proto_ok) {
-				g_plugin.setByte("ProtoFlags", (BYTE)data->proto_msg[0].flags);
+				g_plugin.setByte("ProtoFlags", (uint8_t)data->proto_msg[0].flags);
 
 				for (int i = 0; i < accounts->count; i++) {
 					auto *pa = accounts->pa[i];
@@ -917,7 +917,7 @@ INT_PTR CALLBACK DlgOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM l
 					g_plugin.setWord(szSetting, (WORD)data->proto_msg[i + 1].max_length);
 
 					mir_snprintf(szSetting, "Proto%sFlags", pa->szModuleName);
-					g_plugin.setByte(szSetting, (BYTE)data->proto_msg[i + 1].flags);
+					g_plugin.setByte(szSetting, (uint8_t)data->proto_msg[i + 1].flags);
 				}
 			}
 			RebuildStatusMenu();
@@ -1011,19 +1011,19 @@ static INT_PTR CALLBACK DlgVariablesOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM 
 			g_plugin.setWord("UpdateMsgInt", (WORD)val);
 
 			if (IsDlgButtonChecked(hwndDlg, IDC_CUPDATEMSG) == BST_CHECKED && val) {
-				g_plugin.setByte("UpdateMsgOn", (BYTE)1);
+				g_plugin.setByte("UpdateMsgOn", (uint8_t)1);
 				g_uUpdateMsgTimer = SetTimer(nullptr, 0, val * 1000, (TIMERPROC)UpdateMsgTimerProc);
 			}
 			else {
-				g_plugin.setByte("UpdateMsgOn", (BYTE)0);
+				g_plugin.setByte("UpdateMsgOn", (uint8_t)0);
 			}
 
-			g_plugin.setByte("NoUpdateOnIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
-			g_plugin.setByte("NoUpdateOnICQReq", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
-			g_plugin.setByte("AmpLeaveTitle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
+			g_plugin.setByte("NoUpdateOnIdle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CNOIDLE) == BST_CHECKED));
+			g_plugin.setByte("NoUpdateOnICQReq", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CNOICQREQ) == BST_CHECKED));
+			g_plugin.setByte("AmpLeaveTitle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CLEAVEWINAMP) == BST_CHECKED));
 			if (ServiceExists(MS_VARS_FORMATSTRING)) {
-				g_plugin.setByte("EnableVariables", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
-				g_plugin.setByte("ExclDateToken", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
+				g_plugin.setByte("EnableVariables", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CVARIABLES) == BST_CHECKED));
+				g_plugin.setByte("ExclDateToken", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CDATEPARSING) == BST_CHECKED));
 			}
 			return TRUE;
 		}
@@ -1249,14 +1249,14 @@ static INT_PTR CALLBACK DlgAdvancedOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM w
 			if (curSel != CB_ERR)
 				flags |= SendDlgItemMessage(hwndDlg, IDC_CBOPTBUTTONS, CB_GETITEMDATA, (WPARAM)curSel, 0);
 
-			g_plugin.setByte("DlgFlags", (BYTE)flags);
+			g_plugin.setByte("DlgFlags", (uint8_t)flags);
 
 			// Misc.
-			g_plugin.setByte("MaxHist", (BYTE)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE));
-			g_plugin.setByte("AutoClose", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
-			g_plugin.setByte("DlgTime", (BYTE)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE));
-			g_plugin.setByte("WinCentered", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
-			g_plugin.setByte("RemoveCR", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
+			g_plugin.setByte("MaxHist", (uint8_t)GetDlgItemInt(hwndDlg, IDC_EMAXHIST, nullptr, FALSE));
+			g_plugin.setByte("AutoClose", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CCLOSEWND) == BST_CHECKED));
+			g_plugin.setByte("DlgTime", (uint8_t)GetDlgItemInt(hwndDlg, IDC_ETIMEOUT, nullptr, FALSE));
+			g_plugin.setByte("WinCentered", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CRPOSWND) != BST_CHECKED));
+			g_plugin.setByte("RemoveCR", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CREMOVECR) == BST_CHECKED));
 
 			RebuildStatusMenu();
 			return TRUE;
@@ -1465,8 +1465,8 @@ static INT_PTR CALLBACK DlgStatusOptionsProc(HWND hwndDlg, UINT uMsg, WPARAM wPa
 				g_plugin.setWord(szSetting, (WORD)data->setdelay[i]);
 			}
 			g_plugin.setWord("SetStatusDelay", (WORD)data->setglobaldelay);
-			g_plugin.setByte("GlobalStatusDelay", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
-			g_plugin.setByte("StartupPopupDlg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
+			g_plugin.setByte("GlobalStatusDelay", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_SPECSET) != BST_CHECKED));
+			g_plugin.setByte("StartupPopupDlg", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_POPUPDLG) == BST_CHECKED));
 			return TRUE;
 		}
 		break;

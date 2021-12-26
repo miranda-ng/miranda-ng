@@ -182,7 +182,7 @@ static bool EnterMuuid(const char *p, MUUID &result)
 	if (*p++ != '{')
 		return false;
 
-	BYTE *d = (BYTE*)&result;
+	uint8_t *d = (uint8_t*)&result;
 
 	for (int nBytes = 0; *p && nBytes < 24; p++) {
 		if (*p == '-')
@@ -201,7 +201,7 @@ static bool EnterMuuid(const char *p, MUUID &result)
 		if (sscanf(p, "%2x", &c) != 1)
 			return false;
 
-		*d++ = (BYTE)c;
+		*d++ = (uint8_t)c;
 		nBytes++;
 		p++;
 	}

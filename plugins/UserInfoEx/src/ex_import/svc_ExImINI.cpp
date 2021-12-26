@@ -86,7 +86,7 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE *file)
 				case DBVT_BLOB:
 					fprintf(file, "%s=n", it);
 					for (WORD j = 0; j < dbv.cpbVal; j++)
-						fprintf(file, "%02X ", (BYTE)dbv.pbVal[j]);
+						fprintf(file, "%02X ", (uint8_t)dbv.pbVal[j]);
 					fputc('\n', file);
 					break;
 				}
@@ -104,7 +104,7 @@ static void ExportModule(MCONTACT hContact, LPCSTR pszModule, FILE *file)
  *			file		- ini file to write the contact to
  **/
 
-static BYTE ExportContact(MCONTACT hContact, DB::CEnumList *pModules, FILE *file)
+static uint8_t ExportContact(MCONTACT hContact, DB::CEnumList *pModules, FILE *file)
 {
 	CExImContactBase vcc;
 
@@ -255,7 +255,7 @@ static DWORD ImportreadLine(FILE *file, LPSTR &str)
  * return:	handle to the contact that matches the information or NULL if no match
  **/
 
-static MCONTACT ImportFindContact(MCONTACT, LPSTR &strBuf, BYTE bCanCreate)
+static MCONTACT ImportFindContact(MCONTACT, LPSTR &strBuf, uint8_t bCanCreate)
 {
 	CExImContactBase vcc;
 
@@ -313,7 +313,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 		if (size_t brk = strspn(value, "0123456789-"))
 			*(value + brk) = 0;
 		dbv.type = DBVT_BYTE;
-		dbv.bVal = (BYTE)atoi(value);
+		dbv.bVal = (uint8_t)atoi(value);
 		break;
 
 	case 'w':
@@ -372,7 +372,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 		for (dest = dbv.pbVal, value = strtok(value, " ");
 			value && *value;
 			value = strtok(nullptr, " "))
-			*(dest++) = (BYTE)strtol(value, nullptr, 16);
+			*(dest++) = (uint8_t)strtol(value, nullptr, 16);
 		*dest = 0;
 		break;
 

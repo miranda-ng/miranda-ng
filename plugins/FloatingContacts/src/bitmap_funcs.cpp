@@ -59,7 +59,7 @@ MyBitmap::~MyBitmap()
 	free();
 }
 
-void MyBitmap::setAlpha(BYTE level)
+void MyBitmap::setAlpha(uint8_t level)
 {
 	if (!bits) return;
 
@@ -72,7 +72,7 @@ void MyBitmap::setAlpha(BYTE level)
 	}
 }
 
-void MyBitmap::setAlphaRect(int x1, int y1, int x2, int y2, BYTE level)
+void MyBitmap::setAlphaRect(int x1, int y1, int x2, int y2, uint8_t level)
 {
 	if (!bits) return;
 
@@ -550,12 +550,12 @@ void MyBitmap::Blur(int w, int h)
 {
 	if ((w <= 0) || (h <= 0)) return;
 
-	BYTE *buf_src = new BYTE[width*height * 4];
+	uint8_t *buf_src = new uint8_t[width*height * 4];
 	long *buf_tmp = new long[width*height * 4];
-	BYTE *buf_dst = (BYTE *)bits;
+	uint8_t *buf_dst = (uint8_t *)bits;
 	memcpy(buf_src, buf_dst, width*height * 4);
 
-	BYTE *src, *dst;
+	uint8_t *src, *dst;
 	long *tmp;
 
 	src = buf_src;
@@ -591,7 +591,7 @@ void MyBitmap::Blur(int w, int h)
 					ReadP(tmp, width, height, x - w, y + h, k) -
 					ReadP(tmp, width, height, x + w, y - h, k);
 
-				*dst = BYTE(tot*mul);
+				*dst = uint8_t(tot*mul);
 
 				++dst;
 				++src;
@@ -605,7 +605,7 @@ void MyBitmap::Blur(int w, int h)
 
 void MyBitmap::IncreaseAlpha(float q)
 {
-	BYTE *p = (BYTE *)bits;
+	uint8_t *p = (uint8_t *)bits;
 
 	for (int i = 0; i < height; ++i) {
 		for (int j = 0; j < width; ++j) {
@@ -617,7 +617,7 @@ void MyBitmap::IncreaseAlpha(float q)
 			float q1 = min(q, 255.f / p[3]);
 
 			for (int k = 0; k < 4; ++k) {
-				*p = (BYTE)min(255, *p * q1);
+				*p = (uint8_t)min(255, *p * q1);
 				++p;
 			}
 		}
@@ -649,14 +649,14 @@ void MyBitmap::DrawIcon(HICON hic, int x, int y, int w, int h)
 			DestroyIcon(hicTmp);
 		}
 
-		BYTE *cbit = new BYTE[bmpColor.bmWidthBytes*bmpColor.bmHeight];
-		BYTE *mbit = new BYTE[bmpMask.bmWidthBytes*bmpMask.bmHeight];
+		uint8_t *cbit = new uint8_t[bmpColor.bmWidthBytes*bmpColor.bmHeight];
+		uint8_t *mbit = new uint8_t[bmpMask.bmWidthBytes*bmpMask.bmHeight];
 		GetBitmapBits(info.hbmColor, bmpColor.bmWidthBytes*bmpColor.bmHeight, cbit);
 		GetBitmapBits(info.hbmMask, bmpMask.bmWidthBytes*bmpMask.bmHeight, mbit);
 
 		for (int i = 0; i < bmpColor.bmHeight; i++) {
 			for (int j = 0; j < bmpColor.bmWidth; j++) {
-				BYTE *pixel = cbit + i*bmpColor.bmWidthBytes + j * 4;
+				uint8_t *pixel = cbit + i*bmpColor.bmWidthBytes + j * 4;
 				if (!pixel[3]) {
 					pixel[3] = (*(mbit + i*bmpMask.bmWidthBytes + j*bmpMask.bmBitsPixel / 8) & (1 << (7 - j % 8))) ? 0 : 255;
 				}
@@ -693,7 +693,7 @@ void MyBitmap::DrawText(wchar_t *str, int x, int y, int blur, int strength)
 	sz.cx += (blur + 2) * 2; sz.cy += (blur + 2) * 2;
 	x -= blur + 2; y -= blur + 2;
 
-	static BYTE             pbGammaWeight[256] = { 0 };
+	static uint8_t             pbGammaWeight[256] = { 0 };
 	static BOOL             bGammaWeightFilled = FALSE;
 
 	if (!bGammaWeightFilled) {
@@ -705,7 +705,7 @@ void MyBitmap::DrawText(wchar_t *str, int x, int y, int blur, int strength)
 			f = (double)i / 255;
 			f = pow(f, (1 / gamma));
 
-			pbGammaWeight[i] = (BYTE)(255 * f);
+			pbGammaWeight[i] = (uint8_t)(255 * f);
 		}
 		bGammaWeightFilled = 1;
 	}
@@ -765,12 +765,12 @@ void MyBitmap::DrawText(wchar_t *str, int x, int y, int blur, int strength)
 			gx = (pbGammaWeight[gx] * (255 - g) + gx*(g)) / 255;
 			rx = (pbGammaWeight[rx] * (255 - r) + rx*(r)) / 255;
 
-			mx = (BYTE)(max(max(bx, rx), gx));
+			mx = (uint8_t)(max(max(bx, rx), gx));
 
 			if (1) {
-				bx = (bx < mx) ? (BYTE)(((WORD)bx * 7 + (WORD)mx) >> 3) : bx;
-				rx = (rx < mx) ? (BYTE)(((WORD)rx * 7 + (WORD)mx) >> 3) : rx;
-				gx = (gx < mx) ? (BYTE)(((WORD)gx * 7 + (WORD)mx) >> 3) : gx;
+				bx = (bx < mx) ? (uint8_t)(((WORD)bx * 7 + (WORD)mx) >> 3) : bx;
+				rx = (rx < mx) ? (uint8_t)(((WORD)rx * 7 + (WORD)mx) >> 3) : rx;
+				gx = (gx < mx) ? (uint8_t)(((WORD)gx * 7 + (WORD)mx) >> 3) : gx;
 				// reduce boldeness at white fonts
 			}
 			COLOR32 cl = row_dst[j];
@@ -811,7 +811,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 
 	const int addRectsCount = 64;
 	int rectsCount = addRectsCount;
-	PRGNDATA pRgnData = (PRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
+	PRGNDATA pRgnData = (PRGNDATA)(new uint8_t[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 	LPRECT pRects = (LPRECT)(&pRgnData->Buffer);
 
 	memset(pRgnData, 0, sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT));
@@ -830,7 +830,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 					SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
 					if ((int)(pRgnData->rdh.nCount) >= rectsCount) {
 						rectsCount += addRectsCount;
-						LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
+						LPRGNDATA pRgnDataNew = (LPRGNDATA)(new uint8_t[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 						memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
 						delete[] pRgnData;
 						pRgnData = pRgnDataNew;
@@ -851,7 +851,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 			SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
 			if ((int)(pRgnData->rdh.nCount) >= rectsCount) {
 				rectsCount += addRectsCount;
-				LPRGNDATA pRgnDataNew = (LPRGNDATA)(new BYTE[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
+				LPRGNDATA pRgnDataNew = (LPRGNDATA)(new uint8_t[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 				memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
 				delete[] pRgnData;
 				pRgnData = pRgnDataNew;

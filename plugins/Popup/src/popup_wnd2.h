@@ -86,7 +86,7 @@ private:
 
 	// show & hide
 	bool        m_bFade;
-	BYTE        m_btAlpha0, m_btAlpha1;
+	uint8_t        m_btAlpha0, m_btAlpha1;
 	bool        m_bSlide;
 	POINT       m_ptPosition0, m_ptPosition1;
 	bool        m_bDestroy;
@@ -113,7 +113,7 @@ public:
 	void	startThread();
 
 	void	create();
-	void	updateLayered(BYTE opacity);
+	void	updateLayered(uint8_t opacity);
 	SIZE	measure();
 	void	update();
 	void	animate();

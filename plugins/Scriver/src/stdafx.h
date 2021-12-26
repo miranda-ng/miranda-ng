@@ -71,14 +71,14 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE hLogger;
 
-	CMOption<BYTE> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
-	CMOption<BYTE> bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
-	CMOption<BYTE> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
-	CMOption<BYTE> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
-	CMOption<BYTE>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText;
-	CMOption<BYTE> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
-	CMOption<BYTE> bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist, bShowTypingSwitch;
-	CMOption<BYTE> iFlashCount, iHistoryMode;
+	CMOption<uint8_t> bSavePerContact, bCascade, bStayMinimized, bAutoMin, bSaveDrafts, bDelTemp, bHideContainer, bAutoPopup;
+	CMOption<uint8_t> bUseTransparency, bTopmost, bAutoClose, bTypingNew, bTypingUnknown;
+	CMOption<uint8_t> bShowTitleBar, bShowStatusBar, bShowToolBar, bShowInfoBar;
+	CMOption<uint8_t> bShowAvatar, bShowProgress, bShowIcons, bShowTime, bShowSeconds, bShowDate, bLongDate, bRelativeDate;
+	CMOption<uint8_t>	bGroupMessages, bMarkFollowups, bMsgOnNewline, bDrawLines, bHideNames, bIndentText;
+	CMOption<uint8_t> bUseTabs, bLimitTabs, bLimitChatTabs, bLimitNames, bSeparateChats, bTabCloseButton, bHideOneTab, bTabsAtBottom, bSwitchToActive;
+	CMOption<uint8_t> bShowTyping, bShowTypingWin, bShowTypingTray, bShowTypingClist, bShowTypingSwitch;
+	CMOption<uint8_t> iFlashCount, iHistoryMode;
 	CMOption<WORD> iLimitNames, iLimitTabs, iLimitChatTabs, iLoadCount, iLoadTime, iIndentSize, iAutoResizeLines;
 	CMOption<DWORD> iPopFlags, iMsgTimeout, iActiveAlpha, iInactiveAlpha;
 

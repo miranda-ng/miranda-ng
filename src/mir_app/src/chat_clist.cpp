@@ -56,7 +56,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 
 	db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
 	db_set_ws(hContact, pszModule, "ChatRoomID", pszRoom);
-	db_set_b(hContact, pszModule, "ChatRoom", (BYTE)iType);
+	db_set_b(hContact, pszModule, "ChatRoom", (uint8_t)iType);
 	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
 }

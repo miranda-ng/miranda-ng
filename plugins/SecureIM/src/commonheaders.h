@@ -86,7 +86,7 @@ extern int iBmpDepth;
 extern BOOL bPGPloaded, bPGPkeyrings, bUseKeyrings, bPGPprivkey;
 extern BOOL bGPGloaded, bGPGkeyrings, bSavePass;
 extern BOOL bSFT, bSOM, bASI, bMCD, bSCM, bDGP, bAIP, bNOL, bAAK, bMCM;
-extern BYTE bPGP, bGPG;
+extern uint8_t bPGP, bGPG;
 extern mir_cs localQueueMutex;
 
 __forceinline int SendBroadcast(MCONTACT hContact, int type, int result, HANDLE hProcess, LPARAM lParam)

@@ -48,9 +48,9 @@ typedef struct TComboEx
 	int			numOther;
 	int			iSelectedItem;
 
-	BYTE		bIsChanged;
-	BYTE		bLocked;
-	BYTE		bIsEditChanged;
+	uint8_t		bIsChanged;
+	uint8_t		bLocked;
+	uint8_t		bIsEditChanged;
 
 	HINSTANCE	hInstance;
 	HFONT		hFont;
@@ -71,7 +71,7 @@ static int compareProc(LPCVOID cbi1, LPCVOID cbi2)
 static int CheckPhoneSyntax(LPTSTR pszSrc, LPTSTR szNumber, WORD cchNumber, int& errorPos)
 {
 	int lenNum = 0;
-	BYTE	hasLeftBreaket = FALSE,
+	uint8_t	hasLeftBreaket = FALSE,
 		hasRightBreaket = FALSE;
 
 	if (!szNumber || !pszSrc || !*pszSrc || !cchNumber) return 0;
@@ -1130,7 +1130,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case CBEXM_ENABLEITEM:
 		if (cbex->iSelectedItem >= 0 && cbex->iSelectedItem < cbex->numItems) {
 			MCONTACT hContact;
-			BYTE bEnabled;
+			uint8_t bEnabled;
 
 			PSGetContact(GetParent(hwnd), hContact);
 
@@ -1170,7 +1170,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			* name:	CBEXM_SETCURSEL
 			* desc:	selects a certain item
 			* param:	wParam - index of the item to select
-			*			lParam - (BYTE)bValid - if TRUE, the next item with a value is selected
+			*			lParam - (uint8_t)bValid - if TRUE, the next item with a value is selected
 			* return:	always FALSE
 			**/
 	case CBEXM_SETCURSEL:
@@ -1181,7 +1181,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if ((int)wParam < 0 || (int)wParam >= cbex->numItems) wParam = max(cbex->iSelectedItem, 0);
 			cbex->bLocked = 1;
 
-			if ((BYTE)lParam == TRUE) {
+			if ((uint8_t)lParam == TRUE) {
 				i = (int)wParam;
 
 				cbex->iSelectedItem = (int)wParam;

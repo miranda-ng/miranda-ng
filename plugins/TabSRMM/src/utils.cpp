@@ -261,7 +261,7 @@ bool CMsgDialog::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 
 		case 'x':
 			{
-				BYTE xStatus = m_cache->getXStatusId();
+				uint8_t xStatus = m_cache->getXStatusId();
 				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
 					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
@@ -271,7 +271,7 @@ bool CMsgDialog::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 
 		case 'm':
 			{
-				BYTE xStatus = m_cache->getXStatusId();
+				uint8_t xStatus = m_cache->getXStatusId();
 				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
 					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
 					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
@@ -477,7 +477,7 @@ struct TOldContainerSettings
 	WORD    avatarMode;
 	WORD    ownAvatarMode;
 	WORD    autoCloseSeconds;
-	BYTE    reserved[10];
+	uint8_t    reserved[10];
 };
 
 int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey)

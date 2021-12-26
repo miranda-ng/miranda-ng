@@ -94,7 +94,7 @@ MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx)
 		ctx->W[i] = 0;
 }
 
-MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, size_t len)
+MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const uint8_t *dataIn, size_t len)
 {
 	/* Read the data into W and process blocks as they get full
 	*/
@@ -110,7 +110,7 @@ MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, size_t
 	}
 }
 
-MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[20])
+MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, uint8_t hashout[20])
 {
 	unsigned char pad0x80 = 0x80;
 	unsigned char pad0x00 = 0x00;
@@ -145,7 +145,7 @@ MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[20])
 	mir_sha1_init(ctx); 
 }
 
-MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, size_t len, BYTE hashout[20])
+MIR_CORE_DLL(void) mir_sha1_hash(uint8_t *dataIn, size_t len, uint8_t hashout[20])
 {
 	mir_sha1_ctx ctx;
 

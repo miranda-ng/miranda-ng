@@ -69,7 +69,7 @@ static int EventToIndex(LOGINFO *lin)
 	return 0;
 }
 
-static BYTE EventToSymbol(LOGINFO *lin)
+static uint8_t EventToSymbol(LOGINFO *lin)
 {
 	switch (lin->iType) {
 	case GC_EVENT_MESSAGE:

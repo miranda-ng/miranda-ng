@@ -231,13 +231,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					else
 						db_set_dw(0, "CLC", "GreyoutFlags", 0);
 				}
-				db_set_b(0, "CLC", "ShowIdle", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
-				db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "ShowIdle", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0));
+				db_set_b(0, "CLC", "LeftMargin", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
 				db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
-				db_set_b(0, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
-				db_set_b(0, "CLC", "GammaCorrect", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
+				db_set_b(0, "CLC", "GroupIndent", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "NoVScrollBar", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
+				db_set_b(0, "CLC", "RowHeight", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+				db_set_b(0, "CLC", "GammaCorrect", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_GAMMACORRECT));
 				Clist_ClcOptionsChanged();
 				return TRUE;
 			}
@@ -347,7 +347,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				db_set_b(0, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				db_set_b(0, "CLC", "UseBitmap", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 				{
 					COLORREF col;
 					col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 						db_unset(0, "CLC", "SelBkColour");
 					else
 						db_set_dw(0, "CLC", "SelBkColour", col);
-					db_set_b(0, "CLC", "UseWinColours", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR)));
+					db_set_b(0, "CLC", "UseWinColours", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_WINCOLOUR)));
 				}
 				{
 					char str[MAX_PATH], strrel[MAX_PATH];

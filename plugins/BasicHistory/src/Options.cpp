@@ -156,7 +156,7 @@ struct FontOptionsList
 	wchar_t*   szDescr;
 	COLORREF defColour;
 	wchar_t*   szDefFace;
-	BYTE     defStyle;
+	uint8_t     defStyle;
 	char     defSize;
 	wchar_t*   szBackgroundName;
 	DWORD     flags;

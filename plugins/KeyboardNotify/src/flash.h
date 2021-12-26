@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 void RestoreLEDState(void);
-BYTE getBlinkingLeds(void);
+uint8_t getBlinkingLeds(void);
 void setFlashingSequence(void);
 void useExternSequence(wchar_t *);
 wchar_t *normalizeCustomString(wchar_t *);
@@ -27,4 +27,4 @@ wchar_t *getCurrentSequenceString(void);
 void testSequence(wchar_t *);
 void previewFlashing(BOOL);
 
-#define LedState(a) (((BYTE)(GetKeyState(a) & 0xffff))!=0)
+#define LedState(a) (((uint8_t)(GetKeyState(a) & 0xffff))!=0)

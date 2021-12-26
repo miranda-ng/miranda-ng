@@ -77,7 +77,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_USERON
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BYTE GetGender(MCONTACT hContact)
+uint8_t GetGender(MCONTACT hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
@@ -803,7 +803,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 		if (opt.DisablePopupGlobally) {
 			char szSetting[12];
 			mir_snprintf(szSetting, "p%d", wParam);
-			BYTE hlpDisablePopup = g_plugin.getByte(szSetting, 0);
+			uint8_t hlpDisablePopup = g_plugin.getByte(szSetting, 0);
 
 			if (hlpDisablePopup != opt.PopupAutoDisabled) {
 				bool hlpPopupStatus = Popup_Enabled();
@@ -821,10 +821,10 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 		if (opt.DisableSoundGlobally) {
 			char szSetting[12];
 			mir_snprintf(szSetting, "s%d", wParam);
-			BYTE hlpDisableSound = g_plugin.getByte(szSetting, 0);
+			uint8_t hlpDisableSound = g_plugin.getByte(szSetting, 0);
 
 			if (hlpDisableSound != opt.SoundAutoDisabled) {
-				BYTE hlpUseSound = db_get_b(0, "Skin", "UseSound", 1);
+				uint8_t hlpUseSound = db_get_b(0, "Skin", "UseSound", 1);
 				opt.SoundAutoDisabled = hlpDisableSound;
 
 				if (hlpDisableSound) {

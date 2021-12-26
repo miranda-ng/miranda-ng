@@ -15,11 +15,11 @@ RowItemsList - список найденных элементов.
 WORD GetRowItems(wchar_t *InputString, RowItemInfo **RowItemsList);
 
 /* Функция возвращает количество дней в указанном месяце указанного года. */
-BYTE DaysInMonth(BYTE Month, WORD Year);
+uint8_t DaysInMonth(uint8_t Month, WORD Year);
 
 // Функция определяет день недели по дате
 // 7 - ВС, 1 - ПН и т. д.
-BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year);
+uint8_t DayOfWeek(uint8_t Day, uint8_t Month, WORD Year);
 
 /* Аргументы:
 	Value - количество байт;
@@ -27,7 +27,7 @@ BYTE DayOfWeek(BYTE Day, BYTE Month, WORD Year);
 	Buffer - адрес строки для записи результата;
 	Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера. */
-size_t GetFormattedTraffic(DWORD Value, BYTE Unit, wchar_t *Buffer, size_t Size);
+size_t GetFormattedTraffic(DWORD Value, uint8_t Unit, wchar_t *Buffer, size_t Size);
 
 size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size_t Size);
 

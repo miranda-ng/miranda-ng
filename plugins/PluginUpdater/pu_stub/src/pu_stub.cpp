@@ -92,7 +92,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 	log(L"Entering the reading cycle...");
 
-	BYTE szReadBuffer[1024] = { 0 };
+	uint8_t szReadBuffer[1024] = { 0 };
 	DWORD dwBytes;
 	while (ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, nullptr)) {
 		DWORD dwAction = *(DWORD*)szReadBuffer;

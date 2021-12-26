@@ -342,7 +342,7 @@ void ParentWindowData::SetContainerWindowStyle()
 	ws |= flags2.bUseTransparency ? WS_EX_LAYERED : 0;
 	SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, ws);
 	if (flags2.bUseTransparency)
-		SetLayeredWindowAttributes(m_hwnd, RGB(255, 255, 255), (BYTE)(255 - g_dat.inactiveAlpha), LWA_ALPHA);
+		SetLayeredWindowAttributes(m_hwnd, RGB(255, 255, 255), (uint8_t)(255 - g_dat.inactiveAlpha), LWA_ALPHA);
 
 	ws = GetWindowLongPtr(m_hwndTabs, GWL_STYLE) & ~(TCS_BOTTOM | 0x2000);
 	if (flags2.bTabsAtBottom)
@@ -1034,7 +1034,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			ws |= dat->flags2.bUseTransparency ? WS_EX_LAYERED : 0;
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ws);
 			if (dat->flags2.bUseTransparency)
-				SetLayeredWindowAttributes(hwndDlg, RGB(255, 255, 255), (BYTE)(255 - g_dat.inactiveAlpha), LWA_ALPHA);
+				SetLayeredWindowAttributes(hwndDlg, RGB(255, 255, 255), (uint8_t)(255 - g_dat.inactiveAlpha), LWA_ALPHA);
 			break;
 		}
 		if (dat->m_hwndActive != nullptr) {
@@ -1053,7 +1053,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ws);
 		}
 		if (dat->flags2.bUseTransparency)
-			SetLayeredWindowAttributes(hwndDlg, RGB(255, 255, 255), (BYTE)(255 - g_dat.activeAlpha), LWA_ALPHA);
+			SetLayeredWindowAttributes(hwndDlg, RGB(255, 255, 255), (uint8_t)(255 - g_dat.activeAlpha), LWA_ALPHA);
 		break;
 
 	case WM_LBUTTONDOWN:

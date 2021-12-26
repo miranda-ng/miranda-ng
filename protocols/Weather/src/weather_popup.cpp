@@ -234,12 +234,12 @@ void ReadPopupOpt(HWND hdlg)
 	opt.pDelay = num;
 
 	// other options
-	opt.UseWinColors = (BYTE)IsDlgButtonChecked(hdlg, IDC_USEWINCOLORS);
-	opt.UsePopup = (BYTE)IsDlgButtonChecked(hdlg, IDC_E);
-	opt.UpdatePopup = (BYTE)IsDlgButtonChecked(hdlg, IDC_POP1);
-	opt.AlertPopup = (BYTE)IsDlgButtonChecked(hdlg, IDC_POP2);
-	opt.PopupOnChange = (BYTE)IsDlgButtonChecked(hdlg, IDC_CH);
-	opt.ShowWarnings = (BYTE)IsDlgButtonChecked(hdlg, IDC_W);
+	opt.UseWinColors = (uint8_t)IsDlgButtonChecked(hdlg, IDC_USEWINCOLORS);
+	opt.UsePopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_E);
+	opt.UpdatePopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP1);
+	opt.AlertPopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP2);
+	opt.PopupOnChange = (uint8_t)IsDlgButtonChecked(hdlg, IDC_CH);
+	opt.ShowWarnings = (uint8_t)IsDlgButtonChecked(hdlg, IDC_W);
 }
 
 // copied and modified from NewStatusNotify

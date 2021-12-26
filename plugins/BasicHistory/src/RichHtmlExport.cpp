@@ -143,10 +143,10 @@ void ExtractFile(short int iRes, const std::wstring &fileName)
 #pragma pack(push, 2)
 typedef struct
 {
-	BYTE        bWidth;          // Width, in pixels, of the image
-	BYTE        bHeight;         // Height, in pixels, of the image
-	BYTE        bColorCount;     // Number of colors in image (0 if >=8bpp)
-	BYTE        bReserved;       // Reserved ( must be 0)
+	uint8_t        bWidth;          // Width, in pixels, of the image
+	uint8_t        bHeight;         // Height, in pixels, of the image
+	uint8_t        bColorCount;     // Number of colors in image (0 if >=8bpp)
+	uint8_t        bReserved;       // Reserved ( must be 0)
 	WORD        wPlanes;         // Color Planes
 	WORD        wBitCount;       // Bits per pixel
 	DWORD       dwBytesInRes;    // How many bytes in this resource?

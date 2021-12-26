@@ -181,7 +181,7 @@ void SaveDS(DISPLAYSUBST *ds, int index)
 	mir_snprintf(setting, "Name%d", index);
 	db_set_ws(0, MODULE_ITEMS, setting, ds->swzName);
 	mir_snprintf(setting, "Type%d", index);
-	db_set_b(0, MODULE_ITEMS, setting, (BYTE)ds->type);
+	db_set_b(0, MODULE_ITEMS, setting, (uint8_t)ds->type);
 	mir_snprintf(setting, "Module%d", index);
 	db_set_s(0, MODULE_ITEMS, setting, ds->szModuleName);
 	mir_snprintf(setting, "Setting%d", index);
@@ -245,7 +245,7 @@ void SaveDI(DISPLAYITEM *di, int index)
 	}
 
 	mir_snprintf(setting, "DIType%d", index);
-	db_set_b(0, MODULE_ITEMS, setting, (BYTE)di->type);
+	db_set_b(0, MODULE_ITEMS, setting, (uint8_t)di->type);
 	mir_snprintf(setting, "DILineAbove%d", index);
 	db_set_b(0, MODULE_ITEMS, setting, di->bLineAbove ? 1 : 0);
 	mir_snprintf(setting, "DIValNewline%d", index);
@@ -260,12 +260,12 @@ void SaveOptions()
 {
 	g_plugin.setDword("MaxWidth", opt.iWinWidth);
 	g_plugin.setDword("MaxHeight", opt.iWinMaxHeight);
-	g_plugin.setByte("AvatarOpacity", (BYTE)opt.iAvatarOpacity);
+	g_plugin.setByte("AvatarOpacity", (uint8_t)opt.iAvatarOpacity);
 	g_plugin.setByte("AvatarRoundCorners", (opt.bAvatarRound ? 1 : 0));
-	g_plugin.setByte("TitleIconLayout", (BYTE)opt.titleIconLayout);
+	g_plugin.setByte("TitleIconLayout", (uint8_t)opt.titleIconLayout);
 	g_plugin.setByte("TitleShow", (opt.bShowTitle ? 1 : 0));
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		g_plugin.setByte("AVLayout", (BYTE)opt.avatarLayout);
+		g_plugin.setByte("AVLayout", (uint8_t)opt.avatarLayout);
 	opt.bWaitForAvatar = (opt.avatarLayout == PAV_NONE) ? false : true;
 
 	g_plugin.setDword("AVSize", opt.iAvatarSize);
@@ -281,11 +281,11 @@ void SaveOptions()
 	g_plugin.setWord("OuterAvatarPadding", opt.iOuterAvatarPadding);
 	g_plugin.setWord("InnerAvatarPadding", opt.iInnerAvatarPadding);
 	g_plugin.setWord("TextPadding", opt.iTextPadding);
-	g_plugin.setByte("Position", (BYTE)opt.pos);
+	g_plugin.setByte("Position", (uint8_t)opt.pos);
 	g_plugin.setDword("MinWidth", (DWORD)opt.iMinWidth);
 	g_plugin.setDword("MinHeight", (DWORD)opt.iMinHeight);
 	g_plugin.setDword("SidebarWidth", (DWORD)opt.iSidebarWidth);
-	g_plugin.setByte("MouseTollerance", (BYTE)opt.iMouseTollerance);
+	g_plugin.setByte("MouseTollerance", (uint8_t)opt.iMouseTollerance);
 	g_plugin.setByte("SBarTips", (opt.bStatusBarTips ? 1 : 0));
 
 	g_plugin.setWord("LabelVAlign", opt.iLabelValign);
@@ -329,9 +329,9 @@ void SaveSkinOptions()
 	g_plugin.setByte("DropShadow", (opt.bDropShadow ? 1 : 0));
 	g_plugin.setByte("RoundCorners", (opt.bRound ? 1 : 0));
 	g_plugin.setByte("AeroGlass", (opt.bAeroGlass ? 1 : 0));
-	g_plugin.setByte("Opacity", (BYTE)opt.iOpacity);
-	g_plugin.setByte("ShowEffect", (BYTE)opt.showEffect);
-	g_plugin.setByte("ShowEffectSpeed", (BYTE)opt.iAnimateSpeed);
+	g_plugin.setByte("Opacity", (uint8_t)opt.iOpacity);
+	g_plugin.setByte("ShowEffect", (uint8_t)opt.showEffect);
+	g_plugin.setByte("ShowEffectSpeed", (uint8_t)opt.iAnimateSpeed);
 	g_plugin.setByte("LoadFonts", (opt.bLoadFonts ? 1 : 0));
 	g_plugin.setByte("LoadProportions", (opt.bLoadProportions ? 1 : 0));
 	g_plugin.setDword("EnableColoring", opt.iEnableColoring);
@@ -367,7 +367,7 @@ void LoadOptions()
 	opt.iAvatarOpacity = g_plugin.getByte("AvatarOpacity", 100);
 	if (opt.iAvatarOpacity > 100) opt.iAvatarOpacity = 100;
 	opt.bAvatarRound = (g_plugin.getByte("AvatarRoundCorners", opt.bRound ? 1 : 0) == 1);
-	opt.titleIconLayout = (PopupIconTitleLayout)g_plugin.getByte("TitleIconLayout", (BYTE)PTL_LEFTICON);
+	opt.titleIconLayout = (PopupIconTitleLayout)g_plugin.getByte("TitleIconLayout", (uint8_t)PTL_LEFTICON);
 	opt.bShowTitle = (g_plugin.getByte("TitleShow", 1) == 1);
 	if (ServiceExists(MS_AV_DRAWAVATAR))
 		opt.avatarLayout = (PopupAvLayout)g_plugin.getByte("AVLayout", PAV_RIGHT);
@@ -422,11 +422,11 @@ void LoadOptions()
 	opt.iOuterAvatarPadding = g_plugin.getWord("OuterAvatarPadding", 6);
 	opt.iInnerAvatarPadding = g_plugin.getWord("InnerAvatarPadding", 10);
 	opt.iTextPadding = g_plugin.getWord("TextPadding", 4);
-	opt.pos = (PopupPosition)g_plugin.getByte("Position", (BYTE)PP_BOTTOMRIGHT);
+	opt.pos = (PopupPosition)g_plugin.getByte("Position", (uint8_t)PP_BOTTOMRIGHT);
 	opt.iMinWidth = g_plugin.getDword("MinWidth", 0);
 	opt.iMinHeight = g_plugin.getDword("MinHeight", 0);
 
-	opt.iMouseTollerance = g_plugin.getByte("MouseTollerance", (BYTE)GetSystemMetrics(SM_CXSMICON));
+	opt.iMouseTollerance = g_plugin.getByte("MouseTollerance", (uint8_t)GetSystemMetrics(SM_CXSMICON));
 	opt.bStatusBarTips = (g_plugin.getByte("SBarTips", 1) == 1);
 
 	// convert defunct last message and status message options to new 'sys' items, and remove the old settings
@@ -533,7 +533,7 @@ void LoadOptions()
 	opt.bDropShadow = g_plugin.getByte("DropShadow", 1) ? true : false;
 	opt.bRound = g_plugin.getByte("RoundCorners", 1) ? true : false;
 	opt.bAeroGlass = g_plugin.getByte("AeroGlass", 0) ? true : false;
-	opt.showEffect = (PopupShowEffect)g_plugin.getByte("ShowEffect", (BYTE)PSE_FADE);
+	opt.showEffect = (PopupShowEffect)g_plugin.getByte("ShowEffect", (uint8_t)PSE_FADE);
 	opt.iAnimateSpeed = g_plugin.getByte("ShowEffectSpeed", 12);
 
 	if (opt.iAnimateSpeed < 1)
@@ -1893,13 +1893,13 @@ INT_PTR CALLBACK DlgProcFavouriteContacts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		switch (LOWORD(wParam)) {
 		case IDC_BTN_OK:
 			{
-				BYTE isChecked;
+				uint8_t isChecked;
 				int count = 0;
 
 				for (auto &hContact : Contacts()) {
 					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 					if (hItem) {
-						isChecked = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
+						isChecked = (uint8_t)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0);
 						g_plugin.setByte(hContact, "FavouriteContact", isChecked);
 						if (isChecked)
 							count++;

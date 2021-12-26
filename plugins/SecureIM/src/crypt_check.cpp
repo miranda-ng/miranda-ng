@@ -18,7 +18,7 @@ bool isSecureProtocol(MCONTACT hContact)
 	return ptr->inspecting != 0;
 }
 
-BYTE isContactSecured(MCONTACT hContact)
+uint8_t isContactSecured(MCONTACT hContact)
 {
 	// нужна проверка на Offline и в этом случае другие статусы
 	if (!arClist.getCount()) return 0;
@@ -30,7 +30,7 @@ BYTE isContactSecured(MCONTACT hContact)
 	if (!p || !p->proto || !p->proto->inspecting)
 		return false;
 
-	BYTE res = p->mode;
+	uint8_t res = p->mode;
 	DBVARIANT dbv;
 	switch (p->mode) {
 	case MODE_NATIVE:

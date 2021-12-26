@@ -78,9 +78,9 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 	if (szUrl == nullptr)
 		return nullptr;
 
-	const BYTE *s;
+	const uint8_t *s;
 	int outputLen;
-	for (outputLen = 0, s = (const BYTE*)szUrl; *s; s++)
+	for (outputLen = 0, s = (const uint8_t*)szUrl; *s; s++)
 		if ((*s & 0x80 && !strict) || // UTF-8 multibyte
 			('0' <= *s && *s <= '9') || //0-9
 			('A' <= *s && *s <= 'Z') || //ABC...XYZ
@@ -95,7 +95,7 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 		return nullptr;
 
 	char *d = szOutput;
-	for (s = (const BYTE*)szUrl; *s; s++)
+	for (s = (const uint8_t*)szUrl; *s; s++)
 		if ((*s & 0x80 && !strict) || // UTF-8 multibyte
 			('0' <= *s && *s <= '9') || //0-9
 			('A' <= *s && *s <= 'Z') || //ABC...XYZ
@@ -1677,7 +1677,7 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	FIMEMORY *hMem = FreeImage_OpenMemory(nullptr, 0);
 	FreeImage_SaveToMemory(FIF_PNG, dib, hMem, 0);
 
-	BYTE *buf = nullptr;
+	uint8_t *buf = nullptr;
 	DWORD bufLen;
 	FreeImage_AcquireMemory(hMem, &buf, &bufLen);
 	ptrA base64(mir_base64_encode(buf, bufLen));

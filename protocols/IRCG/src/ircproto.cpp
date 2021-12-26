@@ -595,7 +595,7 @@ HANDLE CIrcProto::SendFile(MCONTACT hContact, const wchar_t*, wchar_t** ppszFile
 
 int CIrcProto::SendMsg(MCONTACT hContact, int, const char* pszSrc)
 {
-	BYTE bDcc = getByte(hContact, "DCC", 0);
+	uint8_t bDcc = getByte(hContact, "DCC", 0);
 	WORD wStatus = getWord(hContact, "Status", ID_STATUS_OFFLINE);
 	if (bDcc && wStatus != ID_STATUS_ONLINE) {
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, nullptr, (LPARAM)TranslateT("The dcc chat connection is not active"));

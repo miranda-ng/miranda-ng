@@ -208,7 +208,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			sttSaveOptions();
 
 			for (auto &hContact : Contacts()) {
-				BYTE fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
+				uint8_t fav = SendDlgItemMessage(hwnd, IDC_CLIST, CLM_GETCHECKMARK,
 					SendDlgItemMessage(hwnd, IDC_CLIST, CLM_FINDCONTACT, hContact, 0), 0);
 				if (fav != g_plugin.getByte(hContact, "IsFavourite"))
 					g_plugin.setByte(hContact, "IsFavourite", fav);

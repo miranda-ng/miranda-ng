@@ -47,10 +47,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 struct RGBA
 {
-	BYTE	b;
-	BYTE	g;
-	BYTE	r;
-	BYTE	a;
+	uint8_t	b;
+	uint8_t	g;
+	uint8_t	r;
+	uint8_t	a;
 };
 
 struct KN_FP_MASK

@@ -407,14 +407,14 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			this->Close();
 			break;
 		case ID_chkTimed:
-			m_opt_chkTimed = (BYTE)Button_GetCheck((HWND)lParam);
+			m_opt_chkTimed = (uint8_t)Button_GetCheck((HWND)lParam);
 			TfrmMain::chkTimedClick();
 			break;
 		case ID_chkIndirectCapture:
-			m_opt_chkIndirectCapture = (BYTE)Button_GetCheck((HWND)lParam);
+			m_opt_chkIndirectCapture = (uint8_t)Button_GetCheck((HWND)lParam);
 			break;
 		case ID_chkClientArea:
-			m_opt_chkClientArea = (BYTE)Button_GetCheck((HWND)lParam);
+			m_opt_chkClientArea = (uint8_t)Button_GetCheck((HWND)lParam);
 			if (m_hTargetWindow)
 				edtSizeUpdate(m_hTargetWindow, m_opt_chkClientArea, GetParent((HWND)lParam), ID_edtSize);
 			break;
@@ -454,7 +454,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 	case CBN_SELCHANGE: // ComboBox controls
 		switch (IDControl) { // lParam = Handle to the control
 		case ID_cboxFormat:  // not finish
-			m_opt_cboxFormat = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+			m_opt_cboxFormat = (uint8_t)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 			break;
 		case ID_cboxSendBy:
 			{
@@ -465,7 +465,7 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 			break;
 
 		case ID_edtCaption: // cboxDesktopChange
-			m_opt_cboxDesktop = (BYTE)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
+			m_opt_cboxDesktop = (uint8_t)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
 			m_hTargetWindow = nullptr;
 			if (m_opt_cboxDesktop > 0) {
 				edtSizeUpdate(m_Monitors[m_opt_cboxDesktop - 1].rcMonitor, GetParent((HWND)lParam), ID_edtSize);
@@ -480,10 +480,10 @@ void TfrmMain::wmCommand(WPARAM wParam, LPARAM lParam)
 	case EN_CHANGE: // Edit controls
 		switch (IDControl) { // lParam = Handle to the control
 		case ID_edtQuality:
-			m_opt_edtQuality = (BYTE)GetDlgItemInt(m_hWnd, ID_edtQuality, nullptr, FALSE);
+			m_opt_edtQuality = (uint8_t)GetDlgItemInt(m_hWnd, ID_edtQuality, nullptr, FALSE);
 			break;
 		case ID_edtTimed:
-			m_opt_edtTimed = (BYTE)GetDlgItemInt(m_hWnd, ID_edtTimed, nullptr, FALSE);
+			m_opt_edtTimed = (uint8_t)GetDlgItemInt(m_hWnd, ID_edtTimed, nullptr, FALSE);
 			break;
 		}
 		break;
@@ -852,7 +852,7 @@ void TfrmMain::cboxSendByChange(void *param)
 {
 	BOOL bState;
 	HICON hIcon;
-	BYTE itemFlag = SS_DLG_DESCRIPTION;
+	uint8_t itemFlag = SS_DLG_DESCRIPTION;
 	if (m_cSend)
 		delete m_cSend;
 	switch (m_opt_cboxSendBy) {

@@ -82,14 +82,14 @@ FreeImage_ConvertToFloat(FIBITMAP *dib) {
 	const unsigned src_pitch = FreeImage_GetPitch(src);
 	const unsigned dst_pitch = FreeImage_GetPitch(dst);
 
-	const BYTE *src_bits = (BYTE*)FreeImage_GetBits(src);
-	BYTE *dst_bits = (BYTE*)FreeImage_GetBits(dst);
+	const uint8_t *src_bits = (uint8_t*)FreeImage_GetBits(src);
+	uint8_t *dst_bits = (uint8_t*)FreeImage_GetBits(dst);
 
 	switch(src_type) {
 		case FIT_BITMAP:
 		{
 			for(unsigned y = 0; y < height; y++) {
-				const BYTE *src_pixel = (BYTE*)src_bits;
+				const uint8_t *src_pixel = (uint8_t*)src_bits;
 				float *dst_pixel = (float*)dst_bits;
 				for(unsigned x = 0; x < width; x++) {
 					// convert and scale to the range [0..1]

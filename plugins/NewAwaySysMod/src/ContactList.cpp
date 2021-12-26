@@ -133,7 +133,7 @@ LRESULT CALLBACK CCList::ParentSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 						RECT rc;
 						if (TreeView_GetItemRect(dat->hTreeView, (HTREEITEM)lpNMCD->nmcd.dwItemSpec, &rc, false)) {
 							for (int i = 0; i < MAXEXTRAICONS; i++) {
-								BYTE nIndex = dat->Items[lpNMCD->nmcd.lItemlParam].ExtraIcons[i];
+								uint8_t nIndex = dat->Items[lpNMCD->nmcd.lItemlParam].ExtraIcons[i];
 								if (nIndex != CLC_EXTRAICON_EMPTY) {
 									ImageList_DrawEx(dat->ExtraImageList, nIndex, lpNMCD->nmcd.hdc, rc.right - EXTRAICON_XSTEP * (i + 1), rc.top, 0, 0, /*GetSysColor(COLOR_WINDOW)*/CLR_NONE, CLR_NONE, ILD_NORMAL);
 								}

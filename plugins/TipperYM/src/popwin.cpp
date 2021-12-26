@@ -499,7 +499,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						HDC hdcMem = CreateCompatibleDC(hdc);
 						SelectObject(hdcMem, hbmpAvatar);
 
-						blend.SourceConstantAlpha = (BYTE)(opt.iAvatarOpacity / 100.0 * 255);
+						blend.SourceConstantAlpha = (uint8_t)(opt.iAvatarOpacity / 100.0 * 255);
 						AlphaBlend(hdc, rcAvatar.left, rcAvatar.top, bm.bmWidth, bm.bmHeight, hdcMem, 0, 0, bm.bmWidth, bm.bmHeight, blend);
 						blend.SourceConstantAlpha = 255;
 
@@ -512,7 +512,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								FrameRect(hdc, &rcAvatar, hbrBorder);
 
 							DeleteObject(hbrBorder);
-							RestoreAlpha(&rcAvatar, pBits, (BYTE)(opt.iAvatarOpacity / 100.0 * 255));
+							RestoreAlpha(&rcAvatar, pBits, (uint8_t)(opt.iAvatarOpacity / 100.0 * 255));
 						}
 
 						if (hrgnAvatar) {

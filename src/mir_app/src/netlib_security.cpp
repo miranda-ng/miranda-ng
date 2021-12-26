@@ -54,8 +54,8 @@ struct NtlmType2packet
 	DWORD       type;   // == 2
 	NTLM_String targetName;
 	DWORD       flags;
-	BYTE        challenge[8];
-	BYTE        context[8];
+	uint8_t        challenge[8];
+	uint8_t        context[8];
 	NTLM_String targetInfo;
 };
 
@@ -220,7 +220,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 		bool hasChallenge = szChallenge != nullptr && szChallenge[0] != '\0';
 		if (hasChallenge) {
 			size_t tokenLen;
-			BYTE *token = (BYTE*)mir_base64_decode(szChallenge, &tokenLen);
+			uint8_t *token = (uint8_t*)mir_base64_decode(szChallenge, &tokenLen);
 			if (token == nullptr)
 				return nullptr;
 

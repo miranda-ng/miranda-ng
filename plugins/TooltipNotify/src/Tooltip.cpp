@@ -167,7 +167,7 @@ void CTooltip::Hide()
 
 
 
-void CTooltip::set_Translucency(BYTE bAlpha)
+void CTooltip::set_Translucency(uint8_t bAlpha)
 {
 	if (SetWindowLongPtr(m_hWnd, GWL_EXSTYLE, GetWindowLongPtr(m_hWnd, GWL_EXSTYLE) | WS_EX_LAYERED) != 0)
 		SetLayeredWindowAttributes(m_hWnd, RGB(0,0,0), bAlpha, LWA_ALPHA);

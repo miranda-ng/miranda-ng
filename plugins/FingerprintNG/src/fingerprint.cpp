@@ -430,7 +430,7 @@ HBITMAP __fastcall CreateBitmap32Point(int cx, int cy, LPVOID* bits)
 }
 
 /*
-*	 checkHasAlfa - checks if image has at least one BYTE in alpha channel
+*	 checkHasAlfa - checks if image has at least one uint8_t in alpha channel
 *				 that is not a 0. (is image real 32 bit or just 24 bit)
 */
 BOOL __fastcall checkHasAlfa(LPBYTE from, int width, int height)
@@ -477,8 +477,8 @@ DWORD __fastcall blend(DWORD X1, DWORD X2)
 {
 	RGBA* q1 = (RGBA*)&X1;
 	RGBA* q2 = (RGBA*)&X2;
-	BYTE a_1 = ~q1->a;
-	BYTE a_2 = ~q2->a;
+	uint8_t a_1 = ~q1->a;
+	uint8_t a_2 = ~q2->a;
 	WORD am = q1->a * a_2;
 
 	WORD ar = q1->a + ((a_1 * q2->a) / 255);
@@ -511,7 +511,7 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 	HBITMAP nMask, hbm, obmp, obmp2;
 	LPBYTE ptPixels = nullptr;
 	ICONINFO iNew = { 0 };
-	BYTE p[32] = { 0 };
+	uint8_t p[32] = { 0 };
 
 	tempDC = CreateCompatibleDC(nullptr);
 	nImage = CreateBitmap32Point(16, 16, (LPVOID*)&ptPixels);

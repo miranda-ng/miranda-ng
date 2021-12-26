@@ -73,10 +73,10 @@ CExImContactBase::~CExImContactBase()
  * return:	TRUE if successful or FALSE otherwise
  **/
 
-BYTE CExImContactBase::fromDB(MCONTACT hContact)
+uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 {
-	BYTE		ret = FALSE;
-	BYTE		isChatRoom = FALSE;
+	uint8_t		ret = FALSE;
+	uint8_t		isChatRoom = FALSE;
 	LPSTR		pszProto;
 	LPCSTR		uidSetting;
 	DBVARIANT	dbv;
@@ -160,7 +160,7 @@ BYTE CExImContactBase::fromDB(MCONTACT hContact)
  * return:	TRUE if successful or FALSE otherwise
  **/
 
-BYTE CExImContactBase::fromIni(LPSTR &row)
+uint8_t CExImContactBase::fromIni(LPSTR &row)
 {
 	LPSTR p1, p2 = nullptr;
 	LPSTR pszUIDValue, pszUIDSetting, pszProto = nullptr;
@@ -317,7 +317,7 @@ void CExImContactBase::toIni(FILE *file, int modCount)
 	}
 }
 
-BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
+uint8_t CExImContactBase::compareUID(DBVARIANT *dbv)
 {
 	DWORD hash = 0;
 	switch (dbv->type) {
@@ -363,7 +363,7 @@ BYTE CExImContactBase::compareUID(DBVARIANT *dbv)
 	return FALSE;
 }
 
-LPSTR CExImContactBase::uid2String(BYTE bPrependType)
+LPSTR CExImContactBase::uid2String(uint8_t bPrependType)
 {
 	CHAR szUID[4096];
 	LPSTR ptr = szUID;
@@ -437,7 +437,7 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 			memset(r, 0, baselen);
 			ptr = r;
 			for (SIZE_T j = 0; j < _dbvUID.cpbVal; j++, ptr += 3) {
-				mir_snprintf(ptr, ((r + baselen) - ptr), "%02X ", (BYTE)_dbvUID.pbVal[j]);
+				mir_snprintf(ptr, ((r + baselen) - ptr), "%02X ", (uint8_t)_dbvUID.pbVal[j]);
 			}
 			return r;
 		}
@@ -448,16 +448,16 @@ LPSTR CExImContactBase::uid2String(BYTE bPrependType)
 	return mir_strdup(szUID);
 }
 
-BYTE CExImContactBase::isMeta() const
+uint8_t CExImContactBase::isMeta() const
 {
 	return DB::Module::IsMeta(_pszProto);
 }
 
-BYTE CExImContactBase::isHandle(MCONTACT hContact)
+uint8_t CExImContactBase::isHandle(MCONTACT hContact)
 {
 	LPCSTR pszProto;
 	DBVARIANT dbv;
-	BYTE isEqual = FALSE;
+	uint8_t isEqual = FALSE;
 
 	// owner contact ?
 	if (!_pszProto) return hContact == NULL;

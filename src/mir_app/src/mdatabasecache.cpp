@@ -183,9 +183,9 @@ void MDatabaseCache::SetCachedVariant(DBVARIANT* s /* new */, DBVARIANT* d /* ca
 			}
 
 			if (szSave != nullptr)
-				d->pbVal = (BYTE*)mir_realloc(szSave, s->cpbVal);
+				d->pbVal = (uint8_t*)mir_realloc(szSave, s->cpbVal);
 			else
-				d->pbVal = (BYTE*)mir_alloc(s->cpbVal);
+				d->pbVal = (uint8_t*)mir_alloc(s->cpbVal);
 			memcpy(d->pbVal, s->pbVal, s->cpbVal);
 		}
 	}

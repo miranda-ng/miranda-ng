@@ -27,18 +27,18 @@ extern struct CountryListEntry *countries;
 #define DATARECORD_SIZE (sizeof(DWORD)+sizeof(DWORD)+sizeof(WORD))
 
 // mir_free() the return value
-static BYTE* GetDataHeader(BYTE *data, DWORD cbDataSize, DWORD *pnDataRecordCount)
+static uint8_t* GetDataHeader(uint8_t *data, DWORD cbDataSize, DWORD *pnDataRecordCount)
 {
-	BYTE *recordData;
+	uint8_t *recordData;
 	/* uncompressed size stored in first DWORD */
 	*pnDataRecordCount = (*(DWORD*)data) / DATARECORD_SIZE;
-	recordData = (BYTE*)mir_alloc(*(DWORD*)data);
+	recordData = (uint8_t*)mir_alloc(*(DWORD*)data);
 	if (recordData != nullptr)
 		Huffman_Uncompress(data + sizeof(DWORD), recordData, cbDataSize - sizeof(DWORD), *(DWORD*)data);
 	return recordData;
 }
 
-static int GetDataRecord(BYTE *data, DWORD index, DWORD *pdwFrom, DWORD *pdwTo)
+static int GetDataRecord(uint8_t *data, DWORD index, DWORD *pdwFrom, DWORD *pdwTo)
 {
 	data += index * DATARECORD_SIZE;
 	*pdwFrom = *(DWORD*)data;
@@ -52,7 +52,7 @@ static int GetDataRecord(BYTE *data, DWORD index, DWORD *pdwFrom, DWORD *pdwTo)
 
 static mir_cs csRecordCache;
 static DWORD nDataRecordsCount; /* protected by csRecordCache */
-static BYTE *dataRecords;       /* protected by csRecordCache */
+static uint8_t *dataRecords;       /* protected by csRecordCache */
 
 #define UNLOADDELAY  30*1000  /* time after which the data records are being unloaded */
 
@@ -64,7 +64,7 @@ static void CALLBACK UnloadRecordCache(LPARAM)
 }
 
 // function assumes it has got the csRecordCache mutex
-static BOOL EnsureRecordCacheLoaded(BYTE **pdata, DWORD *pcount)
+static BOOL EnsureRecordCacheLoaded(uint8_t **pdata, DWORD *pcount)
 {
 	HRSRC hrsrc;
 	DWORD cb;
@@ -73,7 +73,7 @@ static BOOL EnsureRecordCacheLoaded(BYTE **pdata, DWORD *pcount)
 		/* load record data list from resources */
 		hrsrc = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_IPTOCOUNTRY), L"BIN");
 		cb = SizeofResource(g_plugin.getInst(), hrsrc);
-		dataRecords = (BYTE*)LockResource(LoadResource(g_plugin.getInst(), hrsrc));
+		dataRecords = (uint8_t*)LockResource(LoadResource(g_plugin.getInst(), hrsrc));
 		if (cb <= sizeof(DWORD) || dataRecords == nullptr)
 			return FALSE;
 		/* uncompress record data */
@@ -97,7 +97,7 @@ static void LeaveRecordCache(void)
 
 INT_PTR ServiceIpToCountry(WPARAM wParam, LPARAM)
 {
-	BYTE *data;
+	uint8_t *data;
 	DWORD dwFrom, dwTo;
 	DWORD low = 0, i, high;
 	int id;
@@ -162,14 +162,14 @@ struct {
 #define ALLOC_STEP (800*1024)  /* approx. size of data output */
 
 struct ResizableByteBuffer {
-	BYTE *buf;
+	uint8_t *buf;
 	DWORD cbLength, cbAlloced;
 };
 
 static void AppendToByteBuffer(struct ResizableByteBuffer *buffer, const void *append, DWORD cbAppendSize)
 {
 	if (buffer->cbAlloced <= buffer->cbLength + cbAppendSize) {
-		BYTE* buf = (BYTE*)mir_realloc(buffer->buf, buffer->cbAlloced + ALLOC_STEP + cbAppendSize);
+		uint8_t* buf = (uint8_t*)mir_realloc(buffer->buf, buffer->cbAlloced + ALLOC_STEP + cbAppendSize);
 		if (buf == NULL) return;
 		buffer->buf = buf;
 		buffer->cbAlloced += ALLOC_STEP + cbAppendSize;
@@ -253,11 +253,11 @@ static int EnumIpDataLines(const char *pszFileCSV, const char *pszFileOut)
 		if (buffer.buf != NULL) {
 			HANDLE hFileOut;
 			DWORD cbWritten = 0;
-			BYTE *compressed;
+			uint8_t *compressed;
 			DWORD cbCompressed;
 			/* compress whole data */
 			OutputDebugStringA("Compressing...\n"); /* all ascii */
-			compressed = (BYTE*)mir_alloc(buffer.cbAlloced + 384);
+			compressed = (uint8_t*)mir_alloc(buffer.cbAlloced + 384);
 			if (compressed != NULL) {
 				cbCompressed = Huffman_Compress(buffer.buf, compressed, buffer.cbLength);
 				OutputDebugStringA("Done!\n"); /* all ascii */

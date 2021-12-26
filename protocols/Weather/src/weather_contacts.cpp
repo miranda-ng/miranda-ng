@@ -175,7 +175,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			db_free(&dbv);
 		}
 		// enable/disable the browse button depending on the value of external log checkbox
-		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
+		EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_External));
 
 		// other checkbox options
 		CheckDlgButton(hwndDlg, IDC_DPop, g_plugin.getByte(hContact, "DPopUp", FALSE) ? BST_CHECKED : BST_UNCHECKED);
@@ -256,8 +256,8 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case IDC_External:
 			// enable/disable the borwse button depending if the external log is enabled
-			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
-			if (!(BYTE)IsDlgButtonChecked(hwndDlg, IDC_External))
+			EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE), (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_External));
+			if (!(uint8_t)IsDlgButtonChecked(hwndDlg, IDC_External))
 				return TRUE;
 			__fallthrough;
 
@@ -333,7 +333,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			// start writing the new settings to database
 			GetDlgItemText(hwndDlg, IDC_ID, str, _countof(str));
 			g_plugin.setWString(hContact, "ID", str);
-			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
+			if ((uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DEFA)) {	// if default station is set
 				mir_wstrcpy(opt.Default, str);
 				opt.DefStn = hContact;
 				g_plugin.setWString("Default", opt.Default);
@@ -341,7 +341,7 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			GetDlgItemText(hwndDlg, IDC_NAME, city, _countof(city));
 			g_plugin.setWString(hContact, "Nick", city);
 			mir_snwprintf(str2, TranslateT("Current weather information for %s."), city);
-			if ((BYTE)IsDlgButtonChecked(hwndDlg, IDC_External)) {
+			if ((uint8_t)IsDlgButtonChecked(hwndDlg, IDC_External)) {
 				GetDlgItemText(hwndDlg, IDC_LOG, str, _countof(str));
 				g_plugin.setWString(hContact, "Log", str);
 			}
@@ -356,11 +356,11 @@ static INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			g_plugin.setWord(hContact, "StatusIcon", -1);
 			AvatarDownloaded(hContact);
 			g_plugin.setWString(hContact, "About", str2);
-			g_plugin.setByte(hContact, "History", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Internal));
-			g_plugin.setByte(hContact, "Overwrite", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_Overwrite));
-			g_plugin.setByte(hContact, "File", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_External));
-			g_plugin.setByte(hContact, "DPopUp", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DPop));
-			g_plugin.setByte(hContact, "DAutoUpdate", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DAutoUpdate));
+			g_plugin.setByte(hContact, "History", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_Internal));
+			g_plugin.setByte(hContact, "Overwrite", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_Overwrite));
+			g_plugin.setByte(hContact, "File", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_External));
+			g_plugin.setByte(hContact, "DPopUp", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DPop));
+			g_plugin.setByte(hContact, "DAutoUpdate", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DAutoUpdate));
 
 			// re-enable the protocol and update the data for the station
 			g_plugin.setString(hContact, "LastCondition", "None");

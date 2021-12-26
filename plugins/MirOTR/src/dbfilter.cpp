@@ -97,7 +97,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 		buf.Append(msg + msgLen + 1, datalen);
 	}
 	
-	my_dbei.pBlob = (BYTE*)buf.GetBuffer();
+	my_dbei.pBlob = (uint8_t*)buf.GetBuffer();
 	my_dbei.cbBlob = (int)buf.GetLength();
 	my_dbei.flags |= DBEF_OTR_PREFIXED;
 	db_event_add(hContact, &my_dbei);

@@ -30,11 +30,11 @@
 // =====================================================================
 
 FIMEMORY * DLL_CALLCONV 
-FreeImage_OpenMemory(BYTE *data, DWORD size_in_bytes) {
+FreeImage_OpenMemory(uint8_t *data, DWORD size_in_bytes) {
 	// allocate a memory handle
 	FIMEMORY *stream = (FIMEMORY*)malloc(sizeof(FIMEMORY));
 	if(stream) {
-		stream->data = (BYTE*)malloc(sizeof(FIMEMORYHEADER));
+		stream->data = (uint8_t*)malloc(sizeof(FIMEMORYHEADER));
 
 		if(stream->data) {
 			FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(stream->data);
@@ -45,7 +45,7 @@ FreeImage_OpenMemory(BYTE *data, DWORD size_in_bytes) {
 			if(data && size_in_bytes) {
 				// wrap a user buffer
 				mem_header->delete_me = FALSE;
-				mem_header->data = (BYTE*)data;
+				mem_header->data = (uint8_t*)data;
 				mem_header->data_length = mem_header->file_length = size_in_bytes;
 			} else {
 				mem_header->delete_me = TRUE;
@@ -113,11 +113,11 @@ FreeImage_SaveToMemory(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FIMEMORY *stream, i
 // =====================================================================
 
 BOOL DLL_CALLCONV
-FreeImage_AcquireMemory(FIMEMORY *stream, BYTE **data, DWORD *size_in_bytes) {
+FreeImage_AcquireMemory(FIMEMORY *stream, uint8_t **data, DWORD *size_in_bytes) {
 	if (stream) {
 		FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(stream->data);
 
-		*data = (BYTE*)mem_header->data;
+		*data = (uint8_t*)mem_header->data;
 		*size_in_bytes = mem_header->file_length;
 		return TRUE;
 	}

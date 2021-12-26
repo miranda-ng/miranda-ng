@@ -299,7 +299,7 @@ __inline void SetExtraImage(HWND hwndList, HANDLE hItem, int column, int imageID
 
 void SetAllContactsIcons(HWND hwndList)
 {
-	BYTE EnableSounds, EnablePopups, EnableXStatus, EnableXLogging, EnableStatusMsg, EnableSMsgLogging;
+	uint8_t EnableSounds, EnablePopups, EnableXStatus, EnableXLogging, EnableStatusMsg, EnableSMsgLogging;
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);

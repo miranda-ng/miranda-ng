@@ -22,7 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, BYTE bDef = 0)
+static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting, uint8_t bDef = 0)
 {
 	BOOL state = db_get_b(0, ppro->m_szModuleName, szSetting, bDef);
 	CheckDlgButton(hwnd, idCtrl, state ? BST_CHECKED : BST_UNCHECKED);
@@ -32,7 +32,7 @@ static BOOL LoadDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const cha
 static BOOL StoreDBCheckState(OmegleProto* ppro, HWND hwnd, int idCtrl, const char* szSetting)
 {
 	BOOL state = IsDlgButtonChecked(hwnd, idCtrl);
-	db_set_b(0, ppro->m_szModuleName, szSetting, (BYTE)state);
+	db_set_b(0, ppro->m_szModuleName, szSetting, (uint8_t)state);
 	return state;
 }
 

@@ -337,7 +337,7 @@ void NNQuantizer::getSample(long pos, int *b, int *g, int *r) {
 	int x = pos % img_line;
 	int y = pos / img_line;
 
-	BYTE *bits = FreeImage_GetScanLine(dib_ptr, y) + x;
+	uint8_t *bits = FreeImage_GetScanLine(dib_ptr, y) + x;
 
 	*b = bits[FI_RGBA_BLUE] << netbiasshift;
 	*g = bits[FI_RGBA_GREEN] << netbiasshift;
@@ -480,9 +480,9 @@ FIBITMAP* NNQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserve
 	RGBQUAD *new_pal = FreeImage_GetPalette(new_dib);
 
     for (int j = 0; j < netsize; j++) {
-		new_pal[j].rgbBlue  = (BYTE)network[j][FI_RGBA_BLUE];
-		new_pal[j].rgbGreen = (BYTE)network[j][FI_RGBA_GREEN];
-		new_pal[j].rgbRed	= (BYTE)network[j][FI_RGBA_RED];
+		new_pal[j].rgbBlue  = (uint8_t)network[j][FI_RGBA_BLUE];
+		new_pal[j].rgbGreen = (uint8_t)network[j][FI_RGBA_GREEN];
+		new_pal[j].rgbRed	= (uint8_t)network[j][FI_RGBA_RED];
 	}
 
 	inxbuild();
@@ -490,11 +490,11 @@ FIBITMAP* NNQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserve
 	// 6) Write output image using inxsearch(b,g,r)
 
 	for (WORD rows = 0; rows < img_height; rows++) {
-		BYTE *new_bits = FreeImage_GetScanLine(new_dib, rows);			
-		BYTE *bits = FreeImage_GetScanLine(dib_ptr, rows);
+		uint8_t *new_bits = FreeImage_GetScanLine(new_dib, rows);			
+		uint8_t *bits = FreeImage_GetScanLine(dib_ptr, rows);
 
 		for (WORD cols = 0; cols < img_width; cols++) {
-			new_bits[cols] = (BYTE)inxsearch(bits[FI_RGBA_BLUE], bits[FI_RGBA_GREEN], bits[FI_RGBA_RED]);
+			new_bits[cols] = (uint8_t)inxsearch(bits[FI_RGBA_BLUE], bits[FI_RGBA_GREEN], bits[FI_RGBA_RED]);
 
 			bits += 3;
 		}

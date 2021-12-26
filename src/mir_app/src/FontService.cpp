@@ -143,7 +143,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORR
 	lf->lfHeight = (char)db_get_b(0, settings_group, idstr, lf->lfHeight);
 
 	mir_snprintf(idstr, "%sSty", prefix);
-	BYTE style = (BYTE)db_get_b(0, settings_group, idstr,
+	uint8_t style = (uint8_t)db_get_b(0, settings_group, idstr,
 		(lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0) | lf->lfStrikeOut ? DBFONTF_STRIKEOUT : 0);
 
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;

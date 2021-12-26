@@ -260,10 +260,10 @@ class CDiscordProto : public PROTO<CDiscordProto>
 
 	CMOption<wchar_t*> m_wszEmail;        // my own email
 	CMOption<wchar_t*> m_wszDefaultGroup; // clist group to store contacts
-	CMOption<BYTE>     m_bUseGroupchats;  // Shall we connect Guilds at all?
-	CMOption<BYTE>     m_bHideGroupchats; // Do not open chat windows on creation
-	CMOption<BYTE>     m_bUseGuildGroups; // use special subgroups for guilds
-	CMOption<BYTE>     m_bSyncDeleteMsgs; // delete messages from Miranda if they are deleted at the server
+	CMOption<uint8_t>     m_bUseGroupchats;  // Shall we connect Guilds at all?
+	CMOption<uint8_t>     m_bHideGroupchats; // Do not open chat windows on creation
+	CMOption<uint8_t>     m_bUseGuildGroups; // use special subgroups for guilds
+	CMOption<uint8_t>     m_bSyncDeleteMsgs; // delete messages from Miranda if they are deleted at the server
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// common data

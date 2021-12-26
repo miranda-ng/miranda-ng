@@ -145,21 +145,21 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		return 0;
 	}
 
-	switch ((BYTE)reply[1]) {
+	switch ((uint8_t)reply[1]) {
 		case 90: return 1;
 		case 91: SetLastError(ERROR_ACCESS_DENIED); break;
 		case 92: SetLastError(ERROR_CONNECTION_UNAVAIL); break;
 		case 93: SetLastError(ERROR_INVALID_ACCESS); break;
 		default: SetLastError(ERROR_INVALID_DATA); break;
 	}
-	Netlib_Logf(nlu, "%s %d: Proxy connection failed (%x %u)", __FILE__, __LINE__, (BYTE)reply[1], GetLastError());
+	Netlib_Logf(nlu, "%s %d: Proxy connection failed (%x %u)", __FILE__, __LINE__, (uint8_t)reply[1], GetLastError());
 	return 0;
 }
 
 static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
 {
 	//rfc1928
-	BYTE buf[258];
+	uint8_t buf[258];
 
 	buf[0] = 5;  //yep, socks5
 	buf[1] = 1;  //one auth method
@@ -185,9 +185,9 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		size_t nPassLen = mir_strlen(nlu->settings.szProxyAuthPassword);
 		uint8_t *pAuthBuf = (uint8_t*)mir_alloc(3 + nUserLen + nPassLen);
 		pAuthBuf[0] = 1;		//auth version
-		pAuthBuf[1] = (BYTE)nUserLen;
+		pAuthBuf[1] = (uint8_t)nUserLen;
 		memcpy(pAuthBuf + 2, nlu->settings.szProxyAuthUser, nUserLen);
-		pAuthBuf[2 + nUserLen] = (BYTE)nPassLen;
+		pAuthBuf[2 + nUserLen] = (uint8_t)nPassLen;
 		memcpy(pAuthBuf + 3 + nUserLen, nlu->settings.szProxyAuthPassword, nPassLen);
 		if (Netlib_Send(nlc, (char*)pAuthBuf, int(3 + nUserLen + nPassLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
 			Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
@@ -226,7 +226,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	pInit[2] = 0;   //reserved
 	if (hostIP == INADDR_NONE) {		 //DNS lookup through proxy
 		pInit[3] = 3;
-		pInit[4] = BYTE(nHostLen - 1);
+		pInit[4] = uint8_t(nHostLen - 1);
 		memcpy(pInit + 5, nloc->szHost, nHostLen - 1);
 	}
 	else {

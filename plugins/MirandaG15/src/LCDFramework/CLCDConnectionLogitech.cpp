@@ -323,11 +323,11 @@ bool CLCDConnectionLogitech::Shutdown()
 //************************************************************************
 // Reads data from the keyboard HID device
 //************************************************************************
-bool CLCDConnectionLogitech::HIDReadData(BYTE* data)
+bool CLCDConnectionLogitech::HIDReadData(uint8_t* data)
 {
 	static OVERLAPPED olRead;
 	static HANDLE hReadEvent = CreateEvent(nullptr, false, true, L"ReadEvent");
-	static BYTE privateBuffer[9];
+	static uint8_t privateBuffer[9];
 
 	DWORD TransBytes;
 	if (!m_bConnected) {
@@ -339,7 +339,7 @@ bool CLCDConnectionLogitech::HIDReadData(BYTE* data)
 	if (dwRes == WAIT_OBJECT_0) {
 		bool bRes = false;
 		if (GetOverlappedResult(m_hHIDDeviceHandle, &olRead, &TransBytes, false)) {
-			memcpy(data, privateBuffer, 9 * sizeof(BYTE));
+			memcpy(data, privateBuffer, 9 * sizeof(uint8_t));
 			bRes = true;
 		}
 
@@ -427,7 +427,7 @@ bool CLCDConnectionLogitech::Update()
 		}
 	}
 
-	BYTE buffer[9];
+	uint8_t buffer[9];
 	if (HIDReadData(buffer)) {
 		int button = 0;
 		// mr key
@@ -892,7 +892,7 @@ SG15LightStatus CLCDConnectionLogitech::GetLightStatus()
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return status;
 
-	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
+	uint8_t *data = new uint8_t[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x02;
@@ -936,7 +936,7 @@ void CLCDConnectionLogitech::SetMKeyLight(bool bM1, bool bM2, bool bM3, bool bMR
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
+	uint8_t *data = new uint8_t[m_HIDCapabilities.FeatureReportByteLength];
 	data[0] = 0x02;
 	data[1] = 0x04;
 	data[2] = 0x00;
@@ -962,7 +962,7 @@ void CLCDConnectionLogitech::SetLCDBacklight(ELCDBrightness eBrightness)
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
+	uint8_t *data = new uint8_t[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x02;
@@ -980,7 +980,7 @@ void CLCDConnectionLogitech::SetKBDBacklight(EKBDBrightness eBrightness)
 		m_pConnectedDevice->GetIndex() != LGLCD_DEVICE_BW) //m_lcdDeviceDesc.deviceFamilyId != LGLCD_DEVICE_FAMILY_KEYBOARD_G15)
 		return;
 
-	BYTE *data = new BYTE[m_HIDCapabilities.FeatureReportByteLength];
+	uint8_t *data = new uint8_t[m_HIDCapabilities.FeatureReportByteLength];
 
 	data[0] = 0x02;
 	data[1] = 0x01;

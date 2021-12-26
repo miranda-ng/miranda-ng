@@ -49,7 +49,7 @@ MEVENT CSkypeProto::AddDbEvent(WORD type, MCONTACT hContact, DWORD timestamp, DW
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
 	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
-	dbei.pBlob = (BYTE *)szMsg;
+	dbei.pBlob = (uint8_t *)szMsg;
 	dbei.flags = flags;
 	dbei.szId = msgId;
 	return db_event_add(hContact, &dbei);

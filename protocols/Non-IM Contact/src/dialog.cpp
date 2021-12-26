@@ -58,7 +58,7 @@ INT_PTR CALLBACK DlgProcNimcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				g_plugin.setByte("AwayAsStatus", (BYTE)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
+				g_plugin.setByte("AwayAsStatus", (uint8_t)IsDlgButtonChecked(hwnd, IDC_AWAYISNOTONLINE));
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_DISABLETIMER) && GetWindowTextLength(GetDlgItem(hwnd, IDC_TIMER_INT))) {
 					GetDlgItemText(hwnd, IDC_TIMER_INT, tmp, _countof(tmp));
 					g_plugin.setWord("Timer", (WORD)_wtoi(tmp));

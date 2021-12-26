@@ -1253,7 +1253,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				indexCreationMode = INDEX_CREATION_DISABLE;
 			}
 
-			g_plugin.setByte("IndexCreationMode", (BYTE)indexCreationMode);
+			g_plugin.setByte("IndexCreationMode", (uint8_t)indexCreationMode);
 
 			return TRUE;
 		}

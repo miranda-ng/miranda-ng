@@ -484,7 +484,7 @@ static wchar_t* parseRegistryValue(ARGUMENTSINFO *ai)
 		return nullptr;
 
 	memset(res, 0, (len * sizeof(wchar_t)));
-	int err = RegQueryValueEx(hKey, ai->argv.w[2], nullptr, &type, (BYTE*)res, &len);
+	int err = RegQueryValueEx(hKey, ai->argv.w[2], nullptr, &type, (uint8_t*)res, &len);
 	if ((err != ERROR_SUCCESS) || (type != REG_SZ)) {
 		RegCloseKey(hKey);
 		mir_free(res);
@@ -598,7 +598,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 	DWORD readSz, totalReadSz;
 	unsigned long linePos;
 	wchar_t tUC, *res;
-	BYTE *pBuf, *pCur;
+	uint8_t *pBuf, *pCur;
 	ReadFile(hFile, &tUC, sizeof(wchar_t), &readSz, nullptr);
 	if (tUC != (wchar_t)0xFEFF) {
 		tUC = 0;

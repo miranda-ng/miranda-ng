@@ -255,7 +255,7 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort)
 	if ((lParamSort & 0x0F) == 0)
 		lParamSort = (int)g_plugin.getByte(t, lParamSort + 1);
 
-	g_plugin.setByte(t, (BYTE)lParamSort);
+	g_plugin.setByte(t, (uint8_t)lParamSort);
 
 	// restore sort order
 	mir_snprintf(t, "os%02x", (UINT)lParamSort);
@@ -979,7 +979,7 @@ static void RefreshProtoDlg(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITON), false);
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITOFF), false);
 
-	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, nullptr, nullptr, (uint8_t*)&sha, &len);
+	uint8_t sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, nullptr, nullptr, (uint8_t*)&sha, &len);
 	LPSTR txt = mir_strdup(to_hex(sha, len));
 	SetDlgItemText(hDlg, IDC_RSA_SHA, txt);
 	mir_free(txt);

@@ -23,7 +23,7 @@ int CreateZipFile(const wchar_t *szDestPath, OBJLIST<ZipFile> &lstFiles, const s
 			int iOpenRes = zipOpenNewFileInZip(hZip, _T2A(zf->sZipPath.c_str()), &fi, nullptr, 0, nullptr, 0, "", Z_DEFLATED, Z_BEST_COMPRESSION);
 			if (iOpenRes == ZIP_OK) {
 				DWORD dwRead;
-				BYTE buf[0x40000];
+				uint8_t buf[0x40000];
 
 				while (ReadFile(hSrcFile, buf, sizeof(buf), &dwRead, nullptr) && dwRead)
 					if (zipWriteInFileInZip(hZip, buf, dwRead) != ZIP_OK)

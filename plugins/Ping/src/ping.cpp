@@ -119,7 +119,7 @@ static IconItem iconList[] =
 int CMPlugin::Load()
 {
 	use_raw_ping = false;
-	g_plugin.setByte("UsingRawSockets", (BYTE)use_raw_ping);
+	g_plugin.setByte("UsingRawSockets", (uint8_t)use_raw_ping);
 
 	hWakeEvent = CreateEvent(nullptr, FALSE, FALSE, L"Local\\ThreadWaitEvent");
 

@@ -188,12 +188,12 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
-	BYTE *pBlob = dbei->pBlob;
+	uint8_t *pBlob = dbei->pBlob;
 
-	mir_ptr<BYTE> pCryptBlob;
+	mir_ptr<uint8_t> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
+		uint8_t *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = pBlob = pResult;
 			dbe.cbBlob = (uint16_t)len;
@@ -207,7 +207,7 @@ bool CDbxMDBX::EditEvent(MCONTACT contactID, MEVENT hDbEvent, const DBEVENTINFO 
 		dbe.flags |= DBEF_HAS_ID;
 	}
 
-	BYTE *recBuf = (BYTE*)_alloca(sizeof(dbe) + dbe.cbBlob + cbSrvId + 2), *p = recBuf;
+	uint8_t *recBuf = (uint8_t*)_alloca(sizeof(dbe) + dbe.cbBlob + cbSrvId + 2), *p = recBuf;
 	memcpy(p, &dbe, sizeof(dbe)); p += sizeof(dbe);
 	memcpy(p, pBlob, dbe.cbBlob); p += dbe.cbBlob;
 	if (*p != 0)
@@ -319,11 +319,11 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	dbei->cbBlob = (DWORD)cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		BYTE *pSrc = (BYTE*)dbe + sizeof(DBEvent);
+		uint8_t *pSrc = (uint8_t*)dbe + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
-			BYTE* pBlob = (BYTE*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len);
+			uint8_t* pBlob = (uint8_t*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len);
 			if (pBlob == nullptr)
 				return 1;
 

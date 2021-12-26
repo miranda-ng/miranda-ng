@@ -76,7 +76,7 @@ MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t 
 	if (bufSize < 2)
 		return false;
 
-	auto *buf = (const BYTE *)pData;
+	auto *buf = (const uint8_t *)pData;
 	hdr.bIsFinal = (buf[0] & 0x80) != 0;
 	hdr.bIsMasked = (buf[1] & 0x80) != 0;
 	hdr.opCode = buf[0] & 0x0F;
@@ -112,9 +112,9 @@ MIR_APP_DLL(bool) WebSocket_InitHeader(WSHeader &hdr, const void *pData, size_t 
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t dataLen, BYTE opCode)
+static void WebSocket_Send(HNETLIBCONN nlc, const void *pData, size_t dataLen, uint8_t opCode)
 {
-	BYTE header[20];
+	uint8_t header[20];
 	size_t datalen;
 
 	header[0] = 0x80 + (opCode & 0x7F);

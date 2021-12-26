@@ -161,7 +161,7 @@ void sttGenerateRSA(LPVOID)
 }
 
 // загружает паблик-ключ в RSA контекст
-BYTE loadRSAkey(pUinKey ptr)
+uint8_t loadRSAkey(pUinKey ptr)
 {
 	if (!ptr->keyLoaded) {
 		DBVARIANT dbv;

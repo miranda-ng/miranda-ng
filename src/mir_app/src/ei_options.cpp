@@ -286,7 +286,7 @@ public:
 		// Get user data and create new groups
 		LIST<ExtraIconGroup> groups(1);
 
-		BYTE pos = 0;
+		uint8_t pos = 0;
 		int firstEmptySlot = 0;
 		HTREEITEM ht = m_tree.GetRoot();
 		TVITEMEX tvi;

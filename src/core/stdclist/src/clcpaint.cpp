@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 extern HIMAGELIST himlCListClc;
-static BYTE divide3[765] = { 255 };
+static uint8_t divide3[765] = { 255 };
 
 static void ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight)
 {

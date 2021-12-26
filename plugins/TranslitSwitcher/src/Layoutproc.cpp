@@ -407,7 +407,7 @@ void SwitchLayout(bool lastword)
 
 			for (size_t i = 0; i < slen; i++) {
 				SHORT vks;
-				BYTE keys[256] = { 0 };
+				uint8_t keys[256] = { 0 };
 
 				vks = VkKeyScanEx(buf[i], hkl);
 
@@ -435,7 +435,7 @@ void SwitchLayout(bool lastword)
 	else if (mir_wstrcmpi(szClassName, L"RichEdit50W") == 0) {
 		size_t i, start = 0, end = 0;
 		SHORT vks;
-		BYTE keys[256] = { 0 };
+		uint8_t keys[256] = { 0 };
 		HKL hkl = GetKeyboardLayout(dwThreadID);
 
 		DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
@@ -652,7 +652,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 
 	HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_SRMM_MESSAGE);
 
-	BYTE byKeybState[256];
+	uint8_t byKeybState[256];
 	GetKeyboardState(byKeybState);
 	byKeybState[VK_CONTROL] = 128;
 	SetKeyboardState(byKeybState);
@@ -683,7 +683,7 @@ int OnButtonPressed(WPARAM, LPARAM lParam)
 
 			for (int i = 0; i < (int)slen; i++) {
 				wchar_t tchr;
-				BYTE keys[256] = { 0 };
+				uint8_t keys[256] = { 0 };
 				SHORT vks = VkKeyScanEx(sel[i], hkl);
 
 				keys[VK_SHIFT] = (HIBYTE(vks) & 1) ? 0xFF : 0x00; // shift

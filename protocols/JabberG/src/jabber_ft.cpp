@@ -851,7 +851,7 @@ bool CJabberProto::FtHandleCidRequest(const TiXmlElement*, CJabberIqInfo *pInfo)
 	if (fileId < 0)
 		goto LBL_Error;
 
-	mir_ptr<BYTE> buf((BYTE *)mir_alloc(data.nFileSizeLow));
+	mir_ptr<uint8_t> buf((uint8_t *)mir_alloc(data.nFileSizeLow));
 	_read(fileId, buf, data.nFileSizeLow);
 	_close(fileId);
 

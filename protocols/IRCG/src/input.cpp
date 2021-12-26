@@ -788,7 +788,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 {
 	DBVARIANT dbv;
 	wchar_t windowname[256];
-	BYTE bDCC = 0;
+	uint8_t bDCC = 0;
 
 	if (hContact)
 		bDCC = getByte(hContact, "DCC", 0);

@@ -118,7 +118,7 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 		szMessage = g_plugin.getMStringA("GPGPubKey"); //try to get default key as fallback in any way
 
 	if (!szMessage.IsEmpty()) {
-		BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+		uint8_t enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 		g_plugin.setByte(hContact, "GPGEncryption", 0);
 		ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)szMessage.c_str());
 		std::string msg = "Public key ";
@@ -138,7 +138,7 @@ INT_PTR SendKey(WPARAM w, LPARAM)
 INT_PTR ToggleEncryption(WPARAM w, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)w;
-	BYTE enc;
+	uint8_t enc;
 	if (db_mc_isMeta(hContact)) {
 		enc = g_plugin.getByte(metaGetMostOnline(hContact), "GPGEncryption");
 		if (MessageBox(nullptr, TranslateT("Do you want to toggle encryption for all subcontacts?"), TranslateT("Metacontact detected"), MB_YESNO) == IDYES) {
@@ -784,7 +784,7 @@ void RemoveHandlers()
 
 bool isContactSecured(MCONTACT hContact)
 {
-	BYTE gpg_enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+	uint8_t gpg_enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 	if (!gpg_enc) {
 		if (globals.debuglog)
 			globals.debuglog << "encryption is turned off for " + toUTF8(Clist_GetContactDisplayName(hContact));
@@ -1210,7 +1210,7 @@ void SendErrorMessage(MCONTACT hContact)
 	if (!g_plugin.bSendErrorMessages)
 		return;
 
-	BYTE enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
+	uint8_t enc = g_plugin.getByte(hContact, "GPGEncryption", 0);
 	g_plugin.setByte(hContact, "GPGEncryption", 0);
 	ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)"Unable to decrypt PGP encrypted message");
 	HistoryLog(hContact, "Error message sent", DBEF_SENT);

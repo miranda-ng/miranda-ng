@@ -724,7 +724,7 @@ struct NETLIBPACKETRECVER
 	int bytesUsed;      // fill before calling. This many bytes are removed from the start of the buffer. Set to 0 on return
 	int bytesAvailable; // equal to the return value, unless the return value is 0
 	int bufferSize;     // same as parameter to MS_NETLIB_CREATEPACKETRECVER
-	BYTE *buffer;       // contains the recved data
+	uint8_t *buffer;    // contains the recved data
 };
 
 EXTERN_C MIR_APP_DLL(int) Netlib_GetMorePackets(HANDLE hReceiver, NETLIBPACKETRECVER *nlprParam);

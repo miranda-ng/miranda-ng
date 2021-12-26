@@ -72,5 +72,5 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
-bool getRandomBytes(BYTE *buf, size_t bufLen);
-void slow_hash(const void *buf, size_t bufLen, BYTE *tmpHash);
+bool getRandomBytes(uint8_t *buf, size_t bufLen);
+void slow_hash(const void *buf, size_t bufLen, uint8_t *tmpHash);

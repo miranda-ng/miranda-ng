@@ -96,7 +96,7 @@ struct ANIAVA_WINDOWINFO
 
 	BOOL  bPlaying;
 	int   overlayIconIdx;
-	BYTE  bAlpha;
+	uint8_t  bAlpha;
 	BOOL  bOrderTop;
 
 	BOOL  bPaused;			// was request do not draw
@@ -107,7 +107,7 @@ struct ANIAVA_POSINFO
 {
 	RECT rcPos;
 	int  idxOverlay;
-	BYTE bAlpha;
+	uint8_t bAlpha;
 };
 
 struct ANIAVA_SYNCCALLITEM
@@ -132,8 +132,8 @@ static BOOL s_bModuleStarted;
 static mir_cs s_CS;
 
 // options
-static BYTE s_bFlags;				// 0x1 has border, 0x2 has round corners, 0x4 has overlay, 0x8 background color
-static BYTE s_cornerRadius;
+static uint8_t s_bFlags;				// 0x1 has border, 0x2 has round corners, 0x4 has overlay, 0x8 background color
+static uint8_t s_cornerRadius;
 static COLORREF s_borderColor;
 static COLORREF s_bkgColor;
 static HIMAGELIST s_overlayIconImageList;
@@ -453,7 +453,7 @@ static void _AniAva_LoadOptions()
 		s_cornerRadius = g_plugin.getByte("AvatarsUseCustomCornerSize", SETTINGS_AVATARUSECUTOMCORNERSIZE_DEFAULT) ? g_plugin.getWord("AvatarsCustomCornerSize", SETTINGS_AVATARCORNERSIZE_DEFAULT) : 0;
 	if (s_bFlags & AAO_HAS_OVERLAY) {
 		// check image list
-		BYTE type = g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
+		uint8_t type = g_plugin.getByte("AvatarsOverlayType", SETTINGS_AVATAROVERLAYTYPE_DEFAULT);
 		switch (type) {
 		case SETTING_AVATAR_OVERLAY_TYPE_NORMAL:
 			s_overlayIconImageList = hAvatarOverlays;
@@ -490,7 +490,7 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = nullpt
 	if (dat->bPlaying && IsWindowVisible(dat->hWindow)) {
 		POINT ptWnd = { 0 };
 		SIZE szWnd = { dat->rcPos.right - dat->rcPos.left, dat->rcPos.bottom - dat->rcPos.top };
-		BLENDFUNCTION bf = { AC_SRC_OVER, 0, BYTE(g_CluiData.bCurrentAlpha * dat->bAlpha / 256), AC_SRC_ALPHA };
+		BLENDFUNCTION bf = { AC_SRC_OVER, 0, uint8_t(g_CluiData.bCurrentAlpha * dat->bAlpha / 256), AC_SRC_ALPHA };
 		POINT pt_from = { 0, 0 };
 		HDC hDC_animation = GetDC(nullptr);
 		HDC copyFromDC;
@@ -898,7 +898,7 @@ int AniAva_RenderAvatar(MCONTACT hContact, HDC hdcMem, RECT *rc)
 /////////////////////////////////////////////////////////////////////////////////////////
 // update avatars pos
 
-int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
+int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, uint8_t bAlpha)
 {
 	aacheck 0;
 	mir_cslock lck(s_CS);

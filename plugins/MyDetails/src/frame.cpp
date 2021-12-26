@@ -70,7 +70,7 @@ COLORREF font_colour[NUM_FONTS];
 char *font_settings[] = { "NicknameFont", "AccountFont", "StatusFont", "StatusMessageFont", "ListeningToFont" };
 wchar_t *font_names[] = { LPGENW("Nickname"), LPGENW("Account"), LPGENW("Status"), LPGENW("Status message"), LPGENW("Listening to") };
 char font_sizes[] = { 13, 8, 8, 8, 8 };
-BYTE font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
+uint8_t font_styles[] = { DBFONTF_BOLD, 0, 0, DBFONTF_ITALIC, DBFONTF_ITALIC };
 COLORREF font_colors[] = { RGB(0, 0, 0), RGB(0, 0, 0), RGB(0, 0, 0), RGB(150, 150, 150), RGB(150, 150, 150) };
 
 static ColourID bg_colour, av_colour;

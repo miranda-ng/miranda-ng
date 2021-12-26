@@ -408,7 +408,7 @@ INT_PTR PluginCommand_SetMyStatusMessageUI(WPARAM wParam, LPARAM lParam)
 
 INT_PTR PluginCommand_CycleThroughtProtocols(WPARAM wParam, LPARAM)
 {
-	db_set_b(0, "MyDetails", "CicleThroughtProtocols", (BYTE)wParam);
+	db_set_b(0, "MyDetails", "CicleThroughtProtocols", (uint8_t)wParam);
 
 	LoadOptions();
 

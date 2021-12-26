@@ -314,7 +314,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
 
 			if (PluginConfig.m_SendFormat != iOldGlobalSendFormat)
-				db_set_b(0, SRMSGMOD_T, "sendformat", (BYTE)PluginConfig.m_SendFormat);
+				db_set_b(0, SRMSGMOD_T, "sendformat", (uint8_t)PluginConfig.m_SendFormat);
 			if (iNewLocalFormat != iLocalFormat || PluginConfig.m_SendFormat != iOldGlobalSendFormat) {
 				m_SendFormat = M.GetDword(m_hContact, "sendformat", PluginConfig.m_SendFormat);
 				if (m_SendFormat == -1)          // per contact override to disable it..
@@ -376,7 +376,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				db_unset(m_hContact, SRMSGMOD_T, "no_ack");
 			break;
 		}
-		db_set_b(m_hContact, SRMSGMOD_T, "no_ack", (BYTE)(m_sendMode & SMODE_NOACK ? 1 : 0));
+		db_set_b(m_hContact, SRMSGMOD_T, "no_ack", (uint8_t)(m_sendMode & SMODE_NOACK ? 1 : 0));
 		SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOSIZE | SWP_NOMOVE);
 		if (m_sendMode & SMODE_MULTIPLE || m_sendMode & SMODE_CONTAINER) {
 			SetWindowPos(m_message.GetHwnd(), nullptr, 0, 0, 0, 0, SWP_DRAWFRAME | SWP_FRAMECHANGED | SWP_NOZORDER |
@@ -480,7 +480,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 				m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
 			}
-			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (BYTE)!iCurrentTypingMode);
+			g_plugin.setByte(m_hContact, SRMSGSET_TYPING, (uint8_t)!iCurrentTypingMode);
 		}
 		break;
 

@@ -37,13 +37,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* tga header */
 struct tga_header_t
 {
-	BYTE id_lenght;          /* size of image id */
-	BYTE colormap_type;      /* 1 is has a colormap */
-	BYTE image_type;         /* compression type */
+	uint8_t id_lenght;          /* size of image id */
+	uint8_t colormap_type;      /* 1 is has a colormap */
+	uint8_t image_type;         /* compression type */
 
 	short	cm_first_entry;       /* colormap origin */
 	short	cm_length;            /* colormap length */
-	BYTE cm_size;               /* colormap size */
+	uint8_t cm_size;               /* colormap size */
 
 	short	x_origin;             /* bottom left x coord origin */
 	short	y_origin;             /* bottom left y coord origin */
@@ -51,8 +51,8 @@ struct tga_header_t
 	short	width;                /* picture width (in pixels) */
 	short	height;               /* picture height (in pixels) */
 
-	BYTE pixel_depth;        /* bits per pixel: 8, 16, 24 or 32 */
-	BYTE image_descriptor;   /* 24 bits = 0x00; 32 bits = 0x80 */
+	uint8_t pixel_depth;        /* bits per pixel: 8, 16, 24 or 32 */
+	uint8_t image_descriptor;   /* 24 bits = 0x00; 32 bits = 0x80 */
 };
 #pragma pack(pop)
 
@@ -86,8 +86,8 @@ static SKINOBJECTSLIST *pCurrentSkin = nullptr;
 static char  **pszSettingName = nullptr;
 static int   nArrayLen = 0;
 
-static BYTE  pbGammaWeight[256] = { 0 };
-static BYTE  pbGammaWeightAdv[256] = { 0 };
+static uint8_t  pbGammaWeight[256] = { 0 };
+static uint8_t  pbGammaWeightAdv[256] = { 0 };
 static BOOL  bGammaWeightFilled = FALSE;
 
 static mir_cs cs_SkinChanging;
@@ -95,7 +95,7 @@ static mir_cs cs_SkinChanging;
 static LISTMODERNMASK *MainModernMaskList = nullptr;
 
 /* Private module procedures */
-static BOOL ske_GetMaskBit(BYTE *line, int x);
+static BOOL ske_GetMaskBit(uint8_t *line, int x);
 static INT_PTR  ske_Service_AlphaTextOut(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_DrawIconEx(WPARAM wParam, LPARAM lParam);
 
@@ -105,7 +105,7 @@ static void ske_AddParseSkinFont(char * szFontID, char * szDefineString);
 static int  ske_GetSkinFromDB(char * szSection, SKINOBJECTSLIST * Skin);
 static SKINOBJECTDESCRIPTOR* ske_FindObject(const char *szName, SKINOBJECTSLIST *Skin);
 static int  ske_LoadSkinFromResource(BOOL bOnlyObjects);
-static void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult);
+static void ske_PreMultiplyChannels(HBITMAP hbmp, uint8_t Mult);
 static int  ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting);
 static INT_PTR ske_Service_UpdateFrameImage(WPARAM wParam, LPARAM lParam);
 static INT_PTR ske_Service_InvalidateFrameImage(WPARAM wParam, LPARAM lParam);
@@ -116,7 +116,7 @@ static MODERNEFFECT meCurrentEffect = { 0xFF, { 0 }, 0, 0 };
 //////////////////////////////////////////////////////////////////////////
 // Ini file parser
 
-IniParser::IniParser(wchar_t * tcsFileName, BYTE flags) : _Flags(flags)
+IniParser::IniParser(wchar_t * tcsFileName, uint8_t flags) : _Flags(flags)
 {
 	_DoInit();
 	if (!tcsFileName) return;
@@ -134,7 +134,7 @@ IniParser::IniParser(wchar_t * tcsFileName, BYTE flags) : _Flags(flags)
 	}
 }
 
-IniParser::IniParser(HINSTANCE hInst, const char *  resourceName, const char * resourceType, BYTE flags) : _Flags(flags)
+IniParser::IniParser(HINSTANCE hInst, const char *  resourceName, const char * resourceType, uint8_t flags) : _Flags(flags)
 {
 	_DoInit();
 	_LoadResourceIni(hInst, resourceName, resourceType);
@@ -183,7 +183,7 @@ HRESULT IniParser::WriteStrToDb(const char * szSection, const char * szName, con
 
 	switch (szValue[0]) {
 	case 'b':
-		db_set_b(0, szSection, szName, (BYTE)atoi(szValue + 1));
+		db_set_b(0, szSection, szName, (uint8_t)atoi(szValue + 1));
 		break;
 
 	case 'w':
@@ -566,7 +566,7 @@ BOOL ske_SetRgnOpaque(HDC memdc, HRGN hrgn, BOOL force)
 BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 {
 	int f = 0;
-	BYTE *bits;
+	uint8_t *bits;
 	BITMAP bmp;
 
 	if (g_CluiData.fDisableSkinEngine && !force)
@@ -580,11 +580,11 @@ BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 
 	if (!bmp.bmBits) {
 		f = 1;
-		bits = (BYTE*)mir_alloc(bmp.bmWidthBytes*bmp.bmHeight);
+		bits = (uint8_t*)mir_alloc(bmp.bmWidthBytes*bmp.bmHeight);
 		GetBitmapBits(hbmp, bmp.bmWidthBytes*bmp.bmHeight, bits);
 	}
 	else
-		bits = (BYTE*)bmp.bmBits;
+		bits = (uint8_t*)bmp.bmBits;
 
 	int sx = (fr->left > 0) ? fr->left : 0;
 	int sy = (fr->top > 0) ? fr->top : 0;
@@ -593,9 +593,9 @@ BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 
 	int width = ex - sx;
 
-	BYTE *pLine = ((BYTE *)bits) + (bmp.bmHeight - sy - 1) * bmp.bmWidthBytes + (sx << 2) + 3;
+	uint8_t *pLine = ((uint8_t *)bits) + (bmp.bmHeight - sy - 1) * bmp.bmWidthBytes + (sx << 2) + 3;
 	for (int y = 0; y < (ey - sy); y++) {
-		BYTE *pColumn = pLine;
+		uint8_t *pColumn = pLine;
 		for (int x = 0; x < width; x++) {
 			*pColumn = 255;
 			pColumn += 4;
@@ -610,7 +610,7 @@ BOOL ske_SetRectOpaque(HDC memdc, RECT *fr, BOOL force)
 	return 1;
 }
 
-static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *rGlyph, RECT *rClip, BYTE mode, BYTE drawMode)
+static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *rGlyph, RECT *rClip, uint8_t mode, uint8_t drawMode)
 {
 	BLENDFUNCTION bf = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
 
@@ -922,7 +922,7 @@ HBITMAP ske_CreateDIB32Point(int cx, int cy, void **bits)
 	return DirectBitmap;
 }
 
-HRGN ske_CreateOpaqueRgn(BYTE Level, bool Opaque)
+HRGN ske_CreateOpaqueRgn(uint8_t Level, bool Opaque)
 {
 	if (!g_pCachedWindow)
 		return nullptr;
@@ -986,7 +986,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST *preq, GLYPHOBJECT *pobj)
 	int k = 0;
 	//BITMAP bmp = {0};
 	HBITMAP membmp = nullptr, oldbmp = nullptr, oldglyph = nullptr;
-	BYTE Is32Bit = 0;
+	uint8_t Is32Bit = 0;
 	RECT PRect;
 	POINT mode2offset = { 0 };
 	int depth = 0;
@@ -1241,7 +1241,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST *preq, GLYPHOBJECT *pobj)
 
 			if ((k > 0 || k == -1) && mode == 2) {
 				{
-					BLENDFUNCTION bf = { AC_SRC_OVER, 0, pobj->dwAlpha, BYTE(pobj->bmBitsPixel == 32 && pobj->Style != ST_BRUSH ? AC_SRC_ALPHA : 0) };
+					BLENDFUNCTION bf = { AC_SRC_OVER, 0, pobj->dwAlpha, uint8_t(pobj->bmBitsPixel == 32 && pobj->Style != ST_BRUSH ? AC_SRC_ALPHA : 0) };
 					OffsetRect(&PRect, mode2offset.x, mode2offset.y);
 					ske_AlphaBlend(preq->hDC, PRect.left, PRect.top, PRect.right - PRect.left, PRect.bottom - PRect.top,
 						memdc, 0, 0, PRect.right - PRect.left, PRect.bottom - PRect.top, bf);
@@ -1370,7 +1370,7 @@ static SKINOBJECTDESCRIPTOR* ske_FindObjectByMask(MODERNMASK *pModernMask, SKINO
 	return sk->pMaskList ? skin_FindObjectByMask(pModernMask, sk->pMaskList) : nullptr;
 }
 
-SKINOBJECTDESCRIPTOR* ske_FindObjectByName(const char *szName, BYTE objType, SKINOBJECTSLIST *Skin)
+SKINOBJECTDESCRIPTOR* ske_FindObjectByName(const char *szName, uint8_t objType, SKINOBJECTSLIST *Skin)
 {
 	SKINOBJECTSLIST *sk = (Skin == nullptr) ? (&g_SkinObjectList) : Skin;
 	for (DWORD i = 0; i < sk->dwObjLPAlocated; i++) {
@@ -1411,7 +1411,7 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 			if (gl->hGlyph) {
 				BITMAP bmp = { 0 };
 				GetObject(gl->hGlyph, sizeof(BITMAP), &bmp);
-				gl->bmBitsPixel = (BYTE)bmp.bmBitsPixel;
+				gl->bmBitsPixel = (uint8_t)bmp.bmBitsPixel;
 				gl->bmHeight = bmp.bmHeight;
 				gl->bmWidth = bmp.bmWidth;
 			}
@@ -1422,11 +1422,11 @@ INT_PTR ske_Service_DrawGlyph(WPARAM wParam, LPARAM lParam)
 }
 
 
-void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
+void ske_PreMultiplyChannels(HBITMAP hbmp, uint8_t Mult)
 {
 	BITMAP bmp;
 	BOOL flag = FALSE;
-	BYTE *pBitmapBits;
+	uint8_t *pBitmapBits;
 	DWORD Len;
 	int bh, bw, y, x;
 
@@ -1440,9 +1440,9 @@ void ske_PreMultiplyChannels(HBITMAP hbmp, BYTE Mult)
 		GetBitmapBits(hbmp, Len, pBitmapBits);
 	}
 	else
-		pBitmapBits = (BYTE *)bmp.bmBits;
+		pBitmapBits = (uint8_t *)bmp.bmBits;
 	for (y = 0; y < bh; ++y) {
-		BYTE *pPixel = pBitmapBits + bw * 4 * y;
+		uint8_t *pPixel = pBitmapBits + bw * 4 * y;
 
 		for (x = 0; x < bw; ++x) {
 			if (Mult) {
@@ -1492,20 +1492,20 @@ This function is required to load TGA to dib buffer myself
 Major part of routines is from http://tfcduke.developpez.com/tutoriel/format/tga/fichiers/tga.c
 */
 
-static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, BYTE *destBuf, DWORD bufSize, BOOL RLE)
+static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, uint8_t *destBuf, DWORD bufSize, BOOL RLE)
 {
-	BYTE *pos = destBuf;
-	BYTE *from = fromSize ? (BYTE *)From : nullptr;
+	uint8_t *pos = destBuf;
+	uint8_t *from = fromSize ? (uint8_t *)From : nullptr;
 	FILE *fp = !fromSize ? (FILE *)From : nullptr;
 	DWORD destCount = 0;
 	DWORD fromCount = 0;
 	if (!RLE) {
 		while (((from && fromCount < fromSize) || (fp && fromCount < bufSize))
 			&& (destCount < bufSize)) {
-			BYTE r = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE g = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE b = from ? from[fromCount++] : (BYTE)fgetc(fp);
-			BYTE a = from ? from[fromCount++] : (BYTE)fgetc(fp);
+			uint8_t r = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+			uint8_t g = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+			uint8_t b = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+			uint8_t a = from ? from[fromCount++] : (uint8_t)fgetc(fp);
 			pos[destCount++] = r;
 			pos[destCount++] = g;
 			pos[destCount++] = b;
@@ -1516,14 +1516,14 @@ static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, BYTE *destBuf, DWOR
 		}
 	}
 	else {
-		BYTE rgba[4];
-		BYTE packet_header;
-		BYTE *ptr = pos;
-		BYTE size;
+		uint8_t rgba[4];
+		uint8_t packet_header;
+		uint8_t *ptr = pos;
+		uint8_t size;
 		int i;
 		while (ptr < pos + bufSize) {
 			/* read first byte */
-			packet_header = from ? from[fromCount] : (BYTE)fgetc(fp);
+			packet_header = from ? from[fromCount] : (uint8_t)fgetc(fp);
 			if (from) from++;
 			size = 1 + (packet_header & 0x7f);
 			if (packet_header & 0x80) {
@@ -1532,7 +1532,7 @@ static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, BYTE *destBuf, DWOR
 					*((DWORD*)rgba) = *((DWORD*)(from + fromCount));
 					fromCount += 4;
 				}
-				else fread(rgba, sizeof(BYTE), 4, fp);
+				else fread(rgba, sizeof(uint8_t), 4, fp);
 				for (i = 0; i < size; ++i, ptr += 4) {
 					ptr[2] = rgba[2];
 					ptr[1] = rgba[1];
@@ -1542,10 +1542,10 @@ static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, BYTE *destBuf, DWOR
 			}
 			else {	/* not run-length packet */
 				for (i = 0; i < size; ++i, ptr += 4) {
-					ptr[0] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[1] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[2] = from ? from[fromCount++] : (BYTE)fgetc(fp);
-					ptr[3] = from ? from[fromCount++] : (BYTE)fgetc(fp);
+					ptr[0] = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+					ptr[1] = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+					ptr[2] = from ? from[fromCount++] : (uint8_t)fgetc(fp);
+					ptr[3] = from ? from[fromCount++] : (uint8_t)fgetc(fp);
 				}
 			}
 		}
@@ -1555,7 +1555,7 @@ static BOOL ske_ReadTGAImageData(void *From, DWORD fromSize, BYTE *destBuf, DWOR
 
 static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 {
-	BYTE *colormap = nullptr;
+	uint8_t *colormap = nullptr;
 	int cx = 0, cy = 0;
 	BOOL err = FALSE;
 	tga_header_t header;
@@ -1575,7 +1575,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 		}
 
 		/*memory allocation */
-		colormap = (BYTE*)mir_alloc(header.width*header.height * 4);
+		colormap = (uint8_t*)mir_alloc(header.width*header.height * 4);
 		cx = header.width;
 		cy = header.height;
 		fseek(fp, header.id_lenght, SEEK_CUR);
@@ -1590,11 +1590,11 @@ static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 		HGLOBAL hRes = LoadResource(g_plugin.getInst(), hRSrc);
 		if (!hRes) return nullptr;
 		DWORD size = SizeofResource(g_plugin.getInst(), hRSrc);
-		BYTE *mem = (BYTE*)LockResource(hRes);
+		uint8_t *mem = (uint8_t*)LockResource(hRes);
 		if (size > sizeof(header)) {
 			tga_header_t *tgahdr = (tga_header_t*)mem;
 			if (tgahdr->pixel_depth == 32 && (tgahdr->image_type == 2 || tgahdr->image_type == 10)) {
-				colormap = (BYTE*)mir_alloc(tgahdr->width*tgahdr->height * 4);
+				colormap = (uint8_t*)mir_alloc(tgahdr->width*tgahdr->height * 4);
 				cx = tgahdr->width;
 				cy = tgahdr->height;
 				ske_ReadTGAImageData((void*)(mem + sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), size - (sizeof(tga_header_t) + tgahdr->id_lenght + tgahdr->cm_length), colormap, cx*cy * 4, tgahdr->image_type == 10);
@@ -1607,7 +1607,7 @@ static HBITMAP ske_LoadGlyphImage_TGA(const wchar_t *szFilename)
 		return nullptr;
 
 	// create dib section
-	BYTE *pt;
+	uint8_t *pt;
 	HBITMAP hbmp = ske_CreateDIB32Point(cx, cy, (void**)&pt);
 	if (hbmp)
 		memcpy(pt, colormap, cx*cy * 4);
@@ -2010,7 +2010,7 @@ bool ske_ResetTextEffect(HDC hdc)
 	return true;
 }
 
-bool ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor)
+bool ske_SelectTextEffect(HDC hdc, uint8_t EffectID, DWORD FirstColor, DWORD SecondColor)
 {
 	if (EffectID > MAXPREDEFINEDEFFECTS)
 		return false;
@@ -2047,22 +2047,22 @@ static bool ske_GetTextEffect(HDC hdc, MODERNEFFECT *modernEffect)
 	return true;
 }
 
-static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD height, MODERNEFFECT *effect)
+static bool ske_DrawTextEffect(uint8_t *destPt, uint8_t *maskPt, DWORD width, DWORD height, MODERNEFFECT *effect)
 {
 	sbyte *buf;
 	sbyte *outbuf;
 	sbyte *bufline, *buflineTop, *buflineMid;
 	int sign = 0;
-	BYTE *maskline, *destline;
-	BYTE al, rl, gl, bl, ad, rd, gd, bd;
+	uint8_t *maskline, *destline;
+	uint8_t al, rl, gl, bl, ad, rd, gd, bd;
 	int k = 0;
 	DWORD x, y;
 	sbyte *matrix;
-	BYTE mcTopStart;
-	BYTE mcBottomEnd;
-	BYTE mcLeftStart;
-	BYTE mcRightEnd;
-	BYTE effectCount;
+	uint8_t mcTopStart;
+	uint8_t mcBottomEnd;
+	uint8_t mcLeftStart;
+	uint8_t mcRightEnd;
+	uint8_t effectCount;
 	int minX = width;
 	int maxX = 0;
 	int minY = height;
@@ -2070,7 +2070,7 @@ static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD he
 	if (effect->EffectID == 0xFF) return false;
 	if (!width || !height) return false;
 	if (!destPt) return false;
-	buf = (sbyte*)mir_alloc(width*height*sizeof(BYTE));
+	buf = (sbyte*)mir_alloc(width*height*sizeof(uint8_t));
 	{
 		matrix = effect->EffectMatrix.matrix;
 		mcTopStart = 2 - effect->EffectMatrix.topEffect;
@@ -2079,11 +2079,11 @@ static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD he
 		mcRightEnd = 3 + effect->EffectMatrix.rightEffect;
 		effectCount = effect->EffectMatrix.cycleCount;
 	}
-	al = 255 - ((BYTE)(effect->EffectColor1 >> 24));
+	al = 255 - ((uint8_t)(effect->EffectColor1 >> 24));
 	rl = GetRValue(effect->EffectColor1);
 	gl = GetGValue(effect->EffectColor1);
 	bl = GetBValue(effect->EffectColor1);
-	ad = 255 - ((BYTE)(effect->EffectColor2 >> 24));
+	ad = 255 - ((uint8_t)(effect->EffectColor2 >> 24));
 	rd = GetRValue(effect->EffectColor2);
 	gd = GetGValue(effect->EffectColor2);
 	bd = GetBValue(effect->EffectColor2);
@@ -2093,7 +2093,7 @@ static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD he
 		bufline = buf + y*width;
 		maskline = maskPt + ((y*width) << 2);
 		for (x = 0; x < width; x++) {
-			BYTE a = (sbyte)(DWORD)((maskline[0] + maskline[2] + maskline[1] + maskline[1]) >> 4);
+			uint8_t a = (sbyte)(DWORD)((maskline[0] + maskline[2] + maskline[1] + maskline[1]) >> 4);
 			*bufline = a;
 			if (a != 0) {
 				minX = min((int)x, minX);
@@ -2146,7 +2146,7 @@ static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD he
 		buf = outbuf;
 	}
 	{
-		BYTE r1, b1, g1, a1;
+		uint8_t r1, b1, g1, a1;
 		b1 = bl; r1 = rl; g1 = gl; a1 = al; sign = 1;
 		//perform out to dest
 		for (y = 0; y < height; y++) {
@@ -2154,7 +2154,7 @@ static bool ske_DrawTextEffect(BYTE *destPt, BYTE *maskPt, DWORD width, DWORD he
 			destline = destPt + ((y*width) << 2);
 			for (x = 0; x < width; x++) {
 				sbyte val = *bufline;
-				BYTE absVal = ((val < 0) ? -val : val);
+				uint8_t absVal = ((val < 0) ? -val : val);
 
 				if (val != 0) {
 					if (val > 0 && sign < 0) {
@@ -2187,19 +2187,19 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 
 	// Step first fill fast calc correction tables:
 	static bool _tables_empty = true;
-	static BYTE gammaTbl[256];			// Gamma correction table
+	static uint8_t gammaTbl[256];			// Gamma correction table
 	static WORD blueMulTbl[256];		// blue  coefficient multiplication table
 	static WORD greenMulTbl[256];		// green coefficient multiplication table
 	static WORD redMulTbl[256];			// red   coefficient multiplication table
 	if (_tables_empty) {
 		// fill tables
 		double gammaCfPw = 1000 / (double)DBGetContactSettingRangedWord(0, "ModernData", "AlphaTextOutGamma", 700, 1, 5000);
-		BYTE blueCf = db_get_b(0, "ModernData", "AlphaTextOutBlueCorrection", 28);
-		BYTE redCf = db_get_b(0, "ModernData", "AlphaTextOutRed Correction", 77);
-		BYTE greenCf = db_get_b(0, "ModernData", "AlphaTextOutGreen Correction", 151);
+		uint8_t blueCf = db_get_b(0, "ModernData", "AlphaTextOutBlueCorrection", 28);
+		uint8_t redCf = db_get_b(0, "ModernData", "AlphaTextOutRed Correction", 77);
+		uint8_t greenCf = db_get_b(0, "ModernData", "AlphaTextOutGreen Correction", 151);
 
 		for (int i = 0; i < 256; i++) {
-			gammaTbl[i] = (BYTE)(255 * pow((double)i / 255, gammaCfPw));
+			gammaTbl[i] = (uint8_t)(255 * pow((double)i / 255, gammaCfPw));
 			blueMulTbl[i] = i * blueCf;
 			redMulTbl[i] = i * redCf;
 			greenMulTbl[i] = i * greenCf;
@@ -2216,13 +2216,13 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 	GetObject(hDestBitmap, sizeof(BITMAP), &bmpDest);
 
 	bool destHasNotDIB = (bmpDest.bmBits == nullptr);
-	BYTE *pDestBits;
+	uint8_t *pDestBits;
 	if (destHasNotDIB) {
-		pDestBits = (BYTE*)mir_alloc(bmpDest.bmHeight * bmpDest.bmWidthBytes);
+		pDestBits = (uint8_t*)mir_alloc(bmpDest.bmHeight * bmpDest.bmWidthBytes);
 		GetBitmapBits(hDestBitmap, bmpDest.bmHeight*bmpDest.bmWidthBytes, pDestBits);
 	}
 	else
-		pDestBits = (BYTE*)bmpDest.bmBits;
+		pDestBits = (uint8_t*)bmpDest.bmBits;
 
 	// Creating offscreen buffer
 	HDC hOffscreenDC = CreateCompatibleDC(hDC);
@@ -2302,13 +2302,13 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 		// probably here are mess ofscreen and temp buff dc
 
 		//Create bitmap image for offscreen
-		BYTE *bits = nullptr;
+		uint8_t *bits = nullptr;
 		HBITMAP hbmp = ske_CreateDIB32Point(textSize.cx, textSize.cy, (void**)&bits);
 		if (bits != nullptr) {
 			HBITMAP holdbmp = (HBITMAP)SelectObject(hOffscreenDC, hbmp);
 
 			//Create buffer bitmap image for temp text
-			BYTE *bufbits = nullptr;
+			uint8_t *bufbits = nullptr;
 			HBITMAP bufbmp = ske_CreateDIB32Point(textSize.cx, textSize.cy, (void**)&bufbits);
 			if (bufbits != nullptr) {
 				HDC     bufDC = CreateCompatibleDC(hDC);
@@ -2336,12 +2336,12 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 				DWORD width = textSize.cx;
 				DWORD heigh = textSize.cy;
 
-				BYTE *pDestScanLine, *pBufScanLine, *pix, *bufpix;
+				uint8_t *pDestScanLine, *pBufScanLine, *pix, *bufpix;
 
-				BYTE al = 255 - ((BYTE)(ARGBcolor >> 24));
-				BYTE r = GetRValue(ARGBcolor);
-				BYTE g = GetGValue(ARGBcolor);
-				BYTE b = GetBValue(ARGBcolor);
+				uint8_t al = 255 - ((uint8_t)(ARGBcolor >> 24));
+				uint8_t r = GetRValue(ARGBcolor);
+				uint8_t g = GetGValue(ARGBcolor);
+				uint8_t b = GetBValue(ARGBcolor);
 
 				for (DWORD y = 2; y < heigh - 2; y++) {
 					int lineBytes = y * (width << 2);
@@ -2354,9 +2354,9 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 						bufpix = pBufScanLine + (x << 2);
 
 						// Monochromatic
-						BYTE bx = gammaTbl[bufpix[0]];
-						BYTE gx = gammaTbl[bufpix[1]];
-						BYTE rx = gammaTbl[bufpix[2]];
+						uint8_t bx = gammaTbl[bufpix[0]];
+						uint8_t gx = gammaTbl[bufpix[1]];
+						uint8_t rx = gammaTbl[bufpix[2]];
 
 						if (al != 255) {
 							bx *= al / 255;
@@ -2364,10 +2364,10 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 							rx *= al / 255;
 						}
 
-						BYTE ax = (BYTE)(((DWORD)rx * 77 + (DWORD)gx * 151 + (DWORD)bx * 28 + 128) / 256);
+						uint8_t ax = (uint8_t)(((DWORD)rx * 77 + (DWORD)gx * 151 + (DWORD)bx * 28 + 128) / 256);
 						if (ax) {
 							//Normalize components to gray
-							BYTE axx = 255 - ((r + g + b) >> 2); // Coefficient of grayance, more white font - more gray edges
+							uint8_t axx = 255 - ((r + g + b) >> 2); // Coefficient of grayance, more white font - more gray edges
 							WORD atx = ax * (255 - axx);
 							bx = (atx + bx * axx) / 255;
 							gx = (atx + gx * axx) / 255;
@@ -2380,7 +2380,7 @@ static int ske_AlphaTextOut(HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect,
 							pix[0] += brx;
 							pix[1] += grx;
 							pix[2] += rrx;
-							pix[3] = (BYTE)(ax + (BYTE)(255 - ax)*pix[3] / 255);
+							pix[3] = (uint8_t)(ax + (uint8_t)(255 - ax)*pix[3] / 255);
 						}
 					}
 				}
@@ -2473,13 +2473,13 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 		// TODO: Direct draw Icon from imagelist without
 		// extracting of icon
 		if (bm.bmBitsPixel == 32) {
-			BYTE *bits = (BYTE*)bm.bmBits;
+			uint8_t *bits = (uint8_t*)bm.bmBits;
 			if (!bits) {
-				bits = (BYTE*)mir_alloc(bm.bmWidthBytes*bm.bmHeight);
+				bits = (uint8_t*)mir_alloc(bm.bmWidthBytes*bm.bmHeight);
 				GetBitmapBits(imi.hbmImage, bm.bmWidthBytes*bm.bmHeight, bits);
 			}
 
-			BYTE *bcbits = bits + (bm.bmHeight - imi.rcImage.bottom)*bm.bmWidthBytes + (imi.rcImage.left*bm.bmBitsPixel >> 3);
+			uint8_t *bcbits = bits + (bm.bmHeight - imi.rcImage.bottom)*bm.bmWidthBytes + (imi.rcImage.left*bm.bmBitsPixel >> 3);
 			for (int iy = 0; iy < imi.rcImage.bottom - imi.rcImage.top; iy++) {
 				int x;
 				// Dummy microsoft fix - alpha can be less than r,g or b
@@ -2489,11 +2489,11 @@ HICON ske_ImageList_GetIcon(HIMAGELIST himl, int i)
 				DWORD *c = ((DWORD*)bcbits);
 				for (x = 0; x < imi.rcImage.right - imi.rcImage.left; x++) {
 					DWORD val = *c;
-					BYTE a = (BYTE)((val) >> 24);
+					uint8_t a = (uint8_t)((val) >> 24);
 					if (a != 0) {
-						BYTE r = (BYTE)((val & 0xFF0000) >> 16);
-						BYTE g = (BYTE)((val & 0xFF00) >> 8);
-						BYTE b = (BYTE)(val & 0xFF);
+						uint8_t r = (uint8_t)((val & 0xFF0000) >> 16);
+						uint8_t g = (uint8_t)((val & 0xFF00) >> 8);
+						uint8_t b = (uint8_t)(val & 0xFF);
 						if (a < r || a < g || a < b) {
 							a = max(max(r, g), b);
 							val = a << 24 | r << 16 | g << 8 | b;
@@ -2523,7 +2523,7 @@ BOOL ske_ImageList_DrawEx(HIMAGELIST himl, int i, HDC hdcDst, int x, int y, int 
 	if (g_CluiData.fDisableSkinEngine)
 		return ImageList_DrawEx(himl, i, hdcDst, x, y, dx, dy, rgbBk, rgbFg, fStyle);
 
-	BYTE alpha;
+	uint8_t alpha;
 	if (fStyle & ILD_BLEND25)
 		alpha = 64;
 	else if (fStyle & ILD_BLEND50)
@@ -2553,14 +2553,14 @@ static INT_PTR ske_Service_DrawIconEx(WPARAM wParam, LPARAM)
 BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags)
 {
 	ICONINFO ici;
-	BYTE alpha = (BYTE)((diFlags & 0xFF000000) >> 24);
+	uint8_t alpha = (uint8_t)((diFlags & 0xFF000000) >> 24);
 
 	HBITMAP tBmp = nullptr;
-	BYTE *imbits, *imimagbits, *immaskbits;
-	BYTE *t1, *t2, *t3;
+	uint8_t *imbits, *imimagbits, *immaskbits;
+	uint8_t *t1, *t2, *t3;
 
 	//lockimagelist
-	BYTE hasmask = FALSE, no32bit = FALSE, noMirrorMask = FALSE, hasalpha = FALSE;
+	uint8_t hasmask = FALSE, no32bit = FALSE, noMirrorMask = FALSE, hasalpha = FALSE;
 	alpha = alpha ? alpha : 255;
 
 	if (g_CluiData.fDisableSkinEngine && !(diFlags & 0x80))
@@ -2597,16 +2597,16 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 
 	bool NoDIBImage = (imbt.bmBits == nullptr);
 	if (NoDIBImage) {
-		imimagbits = (BYTE*)mir_alloc(cy*imbt.bmWidthBytes);
+		imimagbits = (uint8_t*)mir_alloc(cy*imbt.bmWidthBytes);
 		GetBitmapBits(ici.hbmColor, cy*imbt.bmWidthBytes, (void*)imimagbits);
 	}
-	else imimagbits = (BYTE*)imbt.bmBits;
+	else imimagbits = (uint8_t*)imbt.bmBits;
 
 	if (immaskbt.bmBits == nullptr) {
-		immaskbits = (BYTE*)mir_alloc(cy*immaskbt.bmWidthBytes);
+		immaskbits = (uint8_t*)mir_alloc(cy*immaskbt.bmWidthBytes);
 		GetBitmapBits(ici.hbmMask, cy*immaskbt.bmWidthBytes, (void*)immaskbits);
 	}
-	else immaskbits = (BYTE*)immaskbt.bmBits;
+	else immaskbits = (uint8_t*)immaskbt.bmBits;
 
 	HDC imDC = CreateCompatibleDC(hdcDst);
 	DWORD icy = imbt.bmHeight;
@@ -2638,12 +2638,12 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 			t2 = imbits + (!no32bit ? y : (icy - y - 1))*mwb2;
 			t3 = immaskbits + (noMirrorMask ? y : (h - y - 1 - top))*mwb;
 			for (x = 0; x < right; x++) {
-				BYTE mask = 0;
-				BYTE a = 0;
+				uint8_t mask = 0;
+				uint8_t a = 0;
 				DWORD *src = (DWORD*)(t1 + (x << 2));
 				DWORD *dest = (DWORD*)(t2 + (x << 2));
 				if (hasalpha && !hasmask)
-					a = ((BYTE*)src)[3];
+					a = ((uint8_t*)src)[3];
 				else {
 					mask = ((1 << (7 - x % 8))&(*(t3 + (x >> 3)))) != 0;
 					if (mask) {
@@ -2652,22 +2652,22 @@ BOOL ske_DrawIconEx(HDC hdcDst, int xLeft, int yTop, HICON hIcon, int cxWidth, i
 							continue;
 						}
 
-						if (((BYTE*)src)[3]>0)
-							a = ((BYTE*)src)[3];
+						if (((uint8_t*)src)[3]>0)
+							a = ((uint8_t*)src)[3];
 						else
 							a = 0;
 					}
 					else if (hasalpha || hasmask)
-						a = (((BYTE*)src)[3] > 0 ? ((BYTE*)src)[3] : 255);
+						a = (((uint8_t*)src)[3] > 0 ? ((uint8_t*)src)[3] : 255);
 					else if (!hasalpha && !hasmask)
 						a = 255;
 					else { *dest = 0; continue; }
 				}
 				if (a > 0) {
-					((BYTE*)dest)[3] = a;
-					((BYTE*)dest)[0] = ((BYTE*)src)[0] * a / 255;
-					((BYTE*)dest)[1] = ((BYTE*)src)[1] * a / 255;
-					((BYTE*)dest)[2] = ((BYTE*)src)[2] * a / 255;
+					((uint8_t*)dest)[3] = a;
+					((uint8_t*)dest)[0] = ((uint8_t*)src)[0] * a / 255;
+					((uint8_t*)dest)[1] = ((uint8_t*)src)[1] * a / 255;
+					((uint8_t*)dest)[2] = ((uint8_t*)src)[2] * a / 255;
 				}
 				else *dest = 0;
 			}
@@ -3200,7 +3200,7 @@ void ske_ApplyTranslucency()
 	if (!g_CluiData.fLayered && IsTransparancy) {
 		if (!layered)
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-		SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)g_CluiData.bCurrentAlpha, LWA_ALPHA);
+		SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)g_CluiData.bCurrentAlpha, LWA_ALPHA);
 	}
 
 	AniAva_RedrawAllAvatars(FALSE);
@@ -3280,7 +3280,7 @@ static DWORD ske_HexToARGB(char *Hex)
 
 	char *st;
 	DWORD AARRGGBB = strtoul(buf2, &st, 16);
-	BYTE alpha = (BYTE)((AARRGGBB & 0xFF000000) >> 24);
+	uint8_t alpha = (uint8_t)((AARRGGBB & 0xFF000000) >> 24);
 	alpha = 255 - ((alpha == 0) ? 255 : alpha);
 	AARRGGBB = (alpha << 24) + ((AARRGGBB & 0x00FF0000) >> 16) + ((AARRGGBB & 0x000000FF) << 16) + (AARRGGBB & 0x0000FF00);
 	return AARRGGBB;
@@ -3449,14 +3449,14 @@ static void ske_AddParseSkinFont(char *szFontID, char *szDefineString)
 }
 
 /*
- *   ske_CheckHasAlfaChannel - checks if image has at least one BYTE in alpha chennel
+ *   ske_CheckHasAlfaChannel - checks if image has at least one uint8_t in alpha chennel
  *                  that is not a 0. (is image real 32 bit or just 24 bit)
  */
-static BOOL ske_CheckHasAlfaChannel(BYTE *from, int widthByte, int height)
+static BOOL ske_CheckHasAlfaChannel(uint8_t *from, int widthByte, int height)
 {
 	DWORD *pt = (DWORD*)from;
 	for (int j = 0; j < height; j++) {
-		BYTE *add = (BYTE*)pt + widthByte;
+		uint8_t *add = (uint8_t*)pt + widthByte;
 		while (pt < (DWORD*)add) {
 			if ((*pt & 0xFF000000) != 0)
 				return TRUE;
@@ -3471,7 +3471,7 @@ static BOOL ske_CheckHasAlfaChannel(BYTE *from, int widthByte, int height)
  *   ske_CheckIconHasMask - checks if mask image has at least one that is not a 0.
  *                  Not sure is ir required or not
  */
-static BOOL ske_CheckIconHasMask(BYTE *from)
+static BOOL ske_CheckIconHasMask(uint8_t *from)
 {
 	for (int i = 0; i < 16 * 16 / 8; i++)
 		if (from[i] != 0)
@@ -3483,7 +3483,7 @@ static BOOL ske_CheckIconHasMask(BYTE *from)
 /*
  *   ske_GetMaskBit - return value of apropriate mask bit in line at x position
  */
-static BOOL ske_GetMaskBit(BYTE *line, int x)
+static BOOL ske_GetMaskBit(uint8_t *line, int x)
 {
 	return ((*(line + (x >> 3)))&(0x01 << (7 - (x & 0x07)))) != 0;
 }
@@ -3493,19 +3493,19 @@ static BOOL ske_GetMaskBit(BYTE *line, int x)
  *            X2 - overlaying points.
  */
 
-static DWORD ske_Blend(DWORD X1, DWORD X2, BYTE alpha)
+static DWORD ske_Blend(DWORD X1, DWORD X2, uint8_t alpha)
 {
-	BYTE a1 = (BYTE)(X1 >> 24);
-	BYTE a2 = (BYTE)(((X2 >> 24)*alpha) >> 8);
-	BYTE r1 = (BYTE)(X1 >> 16);
-	BYTE r2 = (BYTE)(X2 >> 16);
-	BYTE g1 = (BYTE)(X1 >> 8);
-	BYTE g2 = (BYTE)(X2 >> 8);
-	BYTE b1 = (BYTE)(X1);
-	BYTE b2 = (BYTE)(X2);
+	uint8_t a1 = (uint8_t)(X1 >> 24);
+	uint8_t a2 = (uint8_t)(((X2 >> 24)*alpha) >> 8);
+	uint8_t r1 = (uint8_t)(X1 >> 16);
+	uint8_t r2 = (uint8_t)(X2 >> 16);
+	uint8_t g1 = (uint8_t)(X1 >> 8);
+	uint8_t g2 = (uint8_t)(X2 >> 8);
+	uint8_t b1 = (uint8_t)(X1);
+	uint8_t b2 = (uint8_t)(X2);
 
-	BYTE a_1 = ~a1;
-	BYTE a_2 = ~a2;
+	uint8_t a_1 = ~a1;
+	uint8_t a_2 = ~a2;
 	WORD am = (WORD)a1*a_2;
 
 	/*  it is possible to use >>8 instead of /255 but it is require additional
@@ -3531,7 +3531,7 @@ static DWORD ske_Blend(DWORD X1, DWORD X2, BYTE alpha)
  *    CreateJoinedIcon  - creates new icon by drawing hTop over hBottom.
  */
 
-HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
+HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, uint8_t alpha)
 {
 	ICONINFO iNew = { 0 };
 	ICONINFO iciBottom = { 0 };
@@ -3545,7 +3545,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 
 	HDC tempDC = CreateCompatibleDC(nullptr);
 
-	BYTE *ptPixels;
+	uint8_t *ptPixels;
 	HBITMAP nImage = ske_CreateDIB32Point(16, 16, (void**)&ptPixels);
 	HBITMAP oImage = (HBITMAP)SelectObject(tempDC, nImage);
 
@@ -3558,37 +3558,37 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 	GetObject(iciTop.hbmMask, sizeof(BITMAP), &bmp_top_mask);
 
 	if (bmp_bottom.bmBitsPixel == 32 && bmp_top.bmBitsPixel == 32) {
-		BYTE *BottomBuffer, *TopBuffer, *BottomMaskBuffer, *TopMaskBuffer;
-		BYTE *bb, *tb, *bmb, *tmb;
-		BYTE *db = ptPixels;
+		uint8_t *BottomBuffer, *TopBuffer, *BottomMaskBuffer, *TopMaskBuffer;
+		uint8_t *bb, *tb, *bmb, *tmb;
+		uint8_t *db = ptPixels;
 		int vstep_d = 16 * 4;
 		int vstep_b = bmp_bottom.bmWidthBytes;
 		int vstep_t = bmp_top.bmWidthBytes;
 		int vstep_bm = bmp_bottom_mask.bmWidthBytes;
 		int vstep_tm = bmp_top_mask.bmWidthBytes;
 		alpha = alpha ? alpha : 255;
-		if (bmp_bottom.bmBits) bb = BottomBuffer = (BYTE*)bmp_bottom.bmBits;
+		if (bmp_bottom.bmBits) bb = BottomBuffer = (uint8_t*)bmp_bottom.bmBits;
 		else {
-			BottomBuffer = (BYTE*)mir_alloc(bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes);
+			BottomBuffer = (uint8_t*)mir_alloc(bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes);
 			GetBitmapBits(iciBottom.hbmColor, bmp_bottom.bmHeight*bmp_bottom.bmWidthBytes, BottomBuffer);
 			bb = BottomBuffer + vstep_b*(bmp_bottom.bmHeight - 1);
 			vstep_b = -vstep_b;
 		}
 
-		if (bmp_top.bmBits) tb = TopBuffer = (BYTE*)bmp_top.bmBits;
+		if (bmp_top.bmBits) tb = TopBuffer = (uint8_t*)bmp_top.bmBits;
 		else {
-			TopBuffer = (BYTE*)mir_alloc(bmp_top.bmHeight*bmp_top.bmWidthBytes);
+			TopBuffer = (uint8_t*)mir_alloc(bmp_top.bmHeight*bmp_top.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmColor, bmp_top.bmHeight*bmp_top.bmWidthBytes, TopBuffer);
 			tb = TopBuffer + vstep_t*(bmp_top.bmHeight - 1);
 			vstep_t = -vstep_t;
 		}
 
 		if (bmp_bottom_mask.bmBits) {
-			BottomMaskBuffer = (BYTE*)bmp_bottom_mask.bmBits;
+			BottomMaskBuffer = (uint8_t*)bmp_bottom_mask.bmBits;
 			bmb = BottomMaskBuffer;
 		}
 		else {
-			BottomMaskBuffer = (BYTE*)mir_alloc(bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes);
+			BottomMaskBuffer = (uint8_t*)mir_alloc(bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes);
 			GetBitmapBits(iciBottom.hbmMask, bmp_bottom_mask.bmHeight*bmp_bottom_mask.bmWidthBytes, BottomMaskBuffer);
 			bmb = BottomMaskBuffer + vstep_bm*(bmp_bottom_mask.bmHeight - 1);
 			vstep_bm = -vstep_bm;
@@ -3596,11 +3596,11 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 		}
 
 		if (bmp_top_mask.bmBits) {
-			TopMaskBuffer = (BYTE*)bmp_top_mask.bmBits;
+			TopMaskBuffer = (uint8_t*)bmp_top_mask.bmBits;
 			tmb = TopMaskBuffer;
 		}
 		else {
-			TopMaskBuffer = (BYTE*)mir_alloc(bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes);
+			TopMaskBuffer = (uint8_t*)mir_alloc(bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes);
 			GetBitmapBits(iciTop.hbmMask, bmp_top_mask.bmHeight*bmp_top_mask.bmWidthBytes, TopMaskBuffer);
 			tmb = TopMaskBuffer + vstep_tm*(bmp_top_mask.bmHeight - 1);
 			vstep_tm = -vstep_tm;
@@ -3651,7 +3651,7 @@ HICON ske_CreateJoinedIcon(HICON hBottom, HICON hTop, BYTE alpha)
 	SelectObject(tempDC, oImage);
 	DeleteDC(tempDC);
 
-	BYTE p[32] = { 0 };
+	uint8_t p[32] = { 0 };
 	HBITMAP nMask = CreateBitmap(16, 16, 1, 1, (void*)&p);
 	{
 		HDC tempDC2 = CreateCompatibleDC(nullptr);
@@ -3703,13 +3703,13 @@ BOOL SkinDBGetContactSetting(MCONTACT hContact, const char *szSection, const cha
 	return db_get(hContact, szSection, szKey, retdbv);
 }
 
-BYTE SkinDBGetContactSettingByte(MCONTACT hContact, const char *szSection, const char *szKey, BYTE bDefault)
+uint8_t SkinDBGetContactSettingByte(MCONTACT hContact, const char *szSection, const char *szKey, uint8_t bDefault)
 {
 	DBVARIANT dbv = { 0 };
 	BOOL bSkinned = FALSE;
 	if (!SkinDBGetContactSetting(hContact, szSection, szKey, &dbv, &bSkinned)) {
 		if (dbv.type == DBVT_BYTE) {
-			BYTE retVal = dbv.bVal;
+			uint8_t retVal = dbv.bVal;
 			db_free(&dbv);
 			return retVal;
 		}

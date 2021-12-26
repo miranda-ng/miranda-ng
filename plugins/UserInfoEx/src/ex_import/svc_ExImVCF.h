@@ -29,7 +29,7 @@ private:
 	size_t	_cbVal;
 	size_t	_cbUsed;
 
-	BYTE _resizeBuf(const size_t cbReq);
+	uint8_t _resizeBuf(const size_t cbReq);
 
 public:
 	CLineBuffer();
@@ -40,7 +40,7 @@ public:
 	size_t operator + (const CHAR *szVal);
 	size_t operator + (const wchar_t *wszVal);
 	size_t operator + (const CHAR cVal);
-	size_t operator + (const BYTE bVal);
+	size_t operator + (const uint8_t bVal);
 	size_t operator + (const SHORT sVal);
 	size_t operator + (const WORD wVal);
 	size_t operator + (const LONG lVal);
@@ -72,13 +72,13 @@ private:
 	MCONTACT    _hContact;
 	const CHAR* _pszBaseProto;
 	WORD        _cbRew;
-	BYTE        _useUtf8;
+	uint8_t        _useUtf8;
 	WORD        _hasUtf8;
 
 	size_t packList(LPIDSTRLIST pList, UINT nList, int iID, size_t *cbRew = nullptr);
-	BYTE   GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
+	uint8_t   GetSetting(const CHAR *pszModule, const CHAR *pszSetting, DBVARIANT *dbv);
 	size_t packDB(const CHAR *pszModule, const CHAR *pszSetting, size_t *cbRew = nullptr);
-	size_t packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, BYTE bSigned = FALSE, size_t *cbRew = nullptr);
+	size_t packDBList(const CHAR *pszModule, const CHAR *pszSetting, MIRANDASERVICE GetList, uint8_t bSigned = FALSE, size_t *cbRew = nullptr);
 
 	void writeLine(const CHAR *szSet, size_t *cbRew = nullptr);
 	void writeLineEncoded(const CHAR *szSet, size_t *cbRew = nullptr);
@@ -87,8 +87,8 @@ private:
 public:
 	CVCardFileVCF();
 
-	BYTE Open(MCONTACT hContact, const wchar_t *pszFileName, const wchar_t *pszMode);
+	uint8_t Open(MCONTACT hContact, const wchar_t *pszFileName, const wchar_t *pszMode);
 	void Close(void);
-	BYTE Export(BYTE bExportUtf);
-	BYTE Import();
+	uint8_t Export(uint8_t bExportUtf);
+	uint8_t Import();
 };

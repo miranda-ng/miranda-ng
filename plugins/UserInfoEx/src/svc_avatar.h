@@ -26,7 +26,7 @@ namespace NServices
 {
 	namespace NAvatar 
 	{
-		void Enable					(BYTE bEnable);
+		void Enable					(uint8_t bEnable);
 		void OnModulesLoaded		();
 	}
 } /* namespace NServices */

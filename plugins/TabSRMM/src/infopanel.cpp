@@ -74,7 +74,7 @@ void CInfoPanel::setActive(const int newActive)
 
 void CInfoPanel::loadHeight()
 {
-	BYTE bSync = M.GetByte("syncAllPanels", 0);			// sync muc <> im panels
+	uint8_t bSync = M.GetByte("syncAllPanels", 0);			// sync muc <> im panels
 
 	m_height = M.GetDword(m_dat->m_hContact, "panelheight", -1);
 
@@ -101,7 +101,7 @@ void CInfoPanel::loadHeight()
 
 void CInfoPanel::saveHeight(bool fFlush)
 {
-	BYTE bSync = M.GetByte("syncAllPanels", 0);
+	uint8_t bSync = M.GetByte("syncAllPanels", 0);
 
 	if (m_height < 110 && m_height >= MIN_PANELHEIGHT) {          // only save valid panel splitter positions
 		if (!m_fPrivateHeight) {
@@ -218,10 +218,10 @@ void CInfoPanel::showHide() const
 
 bool CInfoPanel::getVisibility()
 {
-	BYTE bDefault = (m_dat->m_pContainer->m_flags.m_bInfoPanel) ? 1 : 0;
-	BYTE bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
+	uint8_t bDefault = (m_dat->m_pContainer->m_flags.m_bInfoPanel) ? 1 : 0;
+	uint8_t bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 
-	BYTE visible = (bContact == 0 ? bDefault : (bContact == (BYTE)-1 ? 0 : 1));
+	uint8_t visible = (bContact == 0 ? bDefault : (bContact == (uint8_t)-1 ? 0 : 1));
 	setActive(visible);
 	return m_active;
 }
@@ -879,7 +879,7 @@ void CInfoPanel::showTip(UINT ctrlId, const wchar_t *pwszTip)
 			m_dat->m_cache->getStatusMsg() ? m_dat->m_cache->getStatusMsg() : TranslateT("No status message"));
 
 		DBVARIANT dbv = { 0 };
-		if (BYTE xStatus = m_dat->m_cache->getXStatusId()) {
+		if (uint8_t xStatus = m_dat->m_cache->getXStatusId()) {
 			wchar_t	*tszXStatusName = nullptr;
 			if (0 == db_get_ws(m_dat->m_cache->getContact(), m_dat->m_cache->getProto(), "XStatusName", &dbv))
 				tszXStatusName = dbv.pwszVal;
@@ -1063,8 +1063,8 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always off"));
 			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always on"));
 
-			BYTE v = M.GetByte(m_dat->m_hContact, "infopanel", 0);
-			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (BYTE)-1 ? 1 : 2)), 0);
+			uint8_t v = M.GetByte(m_dat->m_hContact, "infopanel", 0);
+			::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_SETCURSEL, (WPARAM)(v == 0 ? 0 : (v == (uint8_t)-1 ? 1 : 2)), 0);
 
 			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use default size"));
 			::SendDlgItemMessage(hwnd, IDC_PANELSIZE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use private size"));
@@ -1080,7 +1080,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Use global setting"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Show always (if present)"));
 				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never show it at all"));
-				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (BYTE)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
+				::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_SETCURSEL, (v == (uint8_t)-1 ? 0 : (v == 1 ? 1 : 2)), 0);
 			}
 			else Utils::enableDlgControl(hwnd, IDC_PANELPICTUREVIS, false);
 		}
@@ -1141,12 +1141,12 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			case IDC_PANELPICTUREVIS:
 				{
-					BYTE	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", -1);
+					uint8_t	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", -1);
 					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELPICTUREVIS, CB_GETCURSEL, 0, 0);
 
-					BYTE vNew = (iResult == 0 ? (BYTE)-1 : (iResult == 1 ? 1 : 0));
+					uint8_t vNew = (iResult == 0 ? (uint8_t)-1 : (iResult == 1 ? 1 : 0));
 					if (vNew != vOld) {
-						if (vNew == (BYTE)-1)
+						if (vNew == (uint8_t)-1)
 							db_unset(m_dat->m_hContact, SRMSGMOD_T, "hideavatar");
 						else
 							db_set_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", vNew);
@@ -1160,10 +1160,10 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			case IDC_PANELVISIBILITY:
 				{
-					BYTE	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "infopanel", 0);
+					uint8_t	vOld = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "infopanel", 0);
 					LRESULT iResult = ::SendDlgItemMessage(hwnd, IDC_PANELVISIBILITY, CB_GETCURSEL, 0, 0);
 
-					BYTE vNew = (iResult == 0 ? 0 : (iResult == 1 ? (BYTE)-1 : 1));
+					uint8_t vNew = (iResult == 0 ? 0 : (iResult == 1 ? (uint8_t)-1 : 1));
 					if (vNew != vOld) {
 						db_set_b(m_dat->m_hContact, SRMSGMOD_T, "infopanel", vNew);
 						getVisibility();

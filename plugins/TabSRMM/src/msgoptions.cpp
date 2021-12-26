@@ -732,7 +732,7 @@ public:
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
 			dbei.szModule = (char *)L"Sample error message";
-		dbei.pBlob = (iIndex == 6) ? (BYTE *)"is now offline (was online)" : (BYTE *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
+		dbei.pBlob = (iIndex == 6) ? (uint8_t *)"is now offline (was online)" : (uint8_t *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);
@@ -1017,7 +1017,7 @@ class COptTypingDlg : public CDlgBase
 
 	void RebuildList(CCtrlClc* = nullptr)
 	{
-		BYTE defType = g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		uint8_t defType = g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
 		if (hItemNew && defType)
 			m_clist.SetCheck(hItemNew, true);
 
@@ -1104,14 +1104,14 @@ public:
 	bool OnApply() override
 	{
 		SaveList();
-		g_plugin.setByte(SRMSGSET_SHOWTYPING, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
-		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINFLASH, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEFLASHWIN));
-		g_plugin.setByte(SRMSGSET_SHOWTYPINGNOWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN));
-		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINOPEN, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
-		g_plugin.setByte(SRMSGSET_SHOWTYPINGCLIST, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
-		g_plugin.setByte("ShowTypingBalloon", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
-		g_plugin.setByte("ShowTypingPopup", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
-		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (BYTE)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
+		g_plugin.setByte(SRMSGSET_SHOWTYPING, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINFLASH, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_TYPEFLASHWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGNOWINOPEN, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINOPEN, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
+		g_plugin.setByte(SRMSGSET_SHOWTYPINGCLIST, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
+		g_plugin.setByte("ShowTypingBalloon", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
+		g_plugin.setByte("ShowTypingPopup", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
+		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
 		PluginConfig.reloadSettings();
 		return true;
 	}
@@ -1420,11 +1420,11 @@ public:
 
 struct
 {
-	BYTE sameAsFlags, sameAs;
+	uint8_t sameAsFlags, sameAs;
 	COLORREF colour;
 	char size;
-	BYTE style;
-	BYTE charset;
+	uint8_t style;
+	uint8_t charset;
 	char szFace[LF_FACESIZE];
 }
 static fontSettings[MSGDLGFONTCOUNT + 1];
@@ -1450,18 +1450,18 @@ struct OptCheckBox
 	DWORD defValue;		// should be full combined value for masked items!
 	DWORD dwBit;
 
-	BYTE dbType;
+	uint8_t dbType;
 	char *dbModule;
 	char *dbSetting;
 
-	BYTE valueType;
+	uint8_t valueType;
 	union
 	{
 		void *pValue;
 
 		char *charValue;
 		int *intValue;
-		BYTE *byteValue;
+		uint8_t *byteValue;
 		DWORD *dwordValue;
 		BOOL *boolValue;
 	};
@@ -1514,7 +1514,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 
 	switch (cb->dbType) {
 	case DBVT_BYTE:
-		db_set_b(0, cb->dbModule, cb->dbSetting, (BYTE)value);
+		db_set_b(0, cb->dbModule, cb->dbSetting, (uint8_t)value);
 		break;
 	case DBVT_WORD:
 		db_set_w(0, cb->dbModule, cb->dbSetting, (WORD)value);
@@ -1532,7 +1532,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 		*cb->intValue = (int)value;
 		break;
 	case CBVT_BYTE:
-		*cb->byteValue = (BYTE)value;
+		*cb->byteValue = (uint8_t)value;
 		break;
 	case CBVT_DWORD:
 		*cb->dwordValue = (DWORD)value;

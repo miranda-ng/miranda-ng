@@ -38,7 +38,7 @@ static wchar_t* nameOrderDescr[ NAMEORDERCOUNT ] =
 	LPGENW("'(Unknown contact)' (not movable)")
 };
 
-BYTE nameOrder[NAMEORDERCOUNT];
+uint8_t nameOrder[NAMEORDERCOUNT];
 
 static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
@@ -349,7 +349,7 @@ public:
 		while (tvi.hItem != nullptr) {
 			tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 			m_nameOrder.GetItem(&tvi);
-			nameOrder[i++] = (BYTE)tvi.lParam;
+			nameOrder[i++] = (uint8_t)tvi.lParam;
 			tvi.hItem = m_nameOrder.GetNextSibling(tvi.hItem);
 		}
 		db_set_blob(0, "Contact", "NameOrder", nameOrder, _countof(nameOrderDescr));
@@ -379,7 +379,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 
 int LoadContactsModule(void)
 {
-	for (BYTE i = 0; i < NAMEORDERCOUNT; i++)
+	for (uint8_t i = 0; i < NAMEORDERCOUNT; i++)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv;

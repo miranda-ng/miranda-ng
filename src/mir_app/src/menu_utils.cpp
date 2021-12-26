@@ -947,7 +947,7 @@ static void CALLBACK sttUpdateMenuService()
 				mi.flags = CMIF_CUSTOM;
 				mi.name.a = LPGEN("New submenu");
 				mi.position = 500050000;
-				BYTE *p = (BYTE*)&mi.uid;
+				uint8_t *p = (uint8_t*)&mi.uid;
 				for (int k = 0; k < sizeof(MUUID); k++) {
 					int tmp;
 					sscanf(&szCustomMenu[k*2], "%02x", &tmp);

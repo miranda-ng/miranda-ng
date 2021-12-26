@@ -73,7 +73,7 @@ void CSteamProto::OnGotRsaKey(const JSONNode &root, void *)
 		return;
 	}
 
-	BYTE *encryptedPassword = (BYTE *)mir_calloc(encryptedSize);
+	uint8_t *encryptedPassword = (uint8_t *)mir_calloc(encryptedSize);
 	if ((error = RsaEncrypt(modulus.c_str(), exponent, szPassword, encryptedPassword, encryptedSize)) != 0) {
 		debugLogA(__FUNCTION__ ": encryption error (%lu)", error);
 		SetStatus(ID_STATUS_OFFLINE);

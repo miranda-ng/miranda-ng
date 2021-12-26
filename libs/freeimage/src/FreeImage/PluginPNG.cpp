@@ -270,8 +270,8 @@ MimeType() {
 
 static BOOL DLL_CALLCONV
 Validate(FreeImageIO *io, fi_handle handle) {
-	BYTE png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
-	BYTE signature[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+	uint8_t png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
+	uint8_t signature[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
 	io->read_proc(&signature, 1, 8, handle);
 
@@ -521,7 +521,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		try {		
 			// check to see if the file is in fact a PNG file
 
-			BYTE png_check[PNG_BYTES_TO_CHECK];
+			uint8_t png_check[PNG_BYTES_TO_CHECK];
 
 			io->read_proc(png_check, PNG_BYTES_TO_CHECK, 1, handle);
 
@@ -620,7 +620,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 						for(int i = 0; i < palette_entries; i++) {
 							palette[i].rgbRed   =
 							palette[i].rgbGreen =
-							palette[i].rgbBlue  = (BYTE)((i * 255) / (palette_entries - 1));
+							palette[i].rgbBlue  = (uint8_t)((i * 255) / (palette_entries - 1));
 						}
 					}
 					break;
@@ -648,19 +648,19 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				if((color_type == PNG_COLOR_TYPE_GRAY) && trans_color) {
 					// single transparent color
 					if (trans_color->gray < 256) { 
-						BYTE table[256]; 
+						uint8_t table[256]; 
 						memset(table, 0xFF, 256); 
 						table[trans_color->gray] = 0; 
 						FreeImage_SetTransparencyTable(dib, table, 256); 
 					}
 					// check for a full transparency table, too
 					else if ((trans_alpha) && (pixel_depth <= 8)) {
-						FreeImage_SetTransparencyTable(dib, (BYTE *)trans_alpha, num_trans);
+						FreeImage_SetTransparencyTable(dib, (uint8_t *)trans_alpha, num_trans);
 					}
 
 				} else if((color_type == PNG_COLOR_TYPE_PALETTE) && trans_alpha) {
 					// transparency table
-					FreeImage_SetTransparencyTable(dib, (BYTE *)trans_alpha, num_trans);
+					FreeImage_SetTransparencyTable(dib, (uint8_t *)trans_alpha, num_trans);
 				}
 			}
 
@@ -675,9 +675,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				RGBQUAD rgbBkColor;
 
 				if (png_get_bKGD(png_ptr, info_ptr, &image_background)) {
-					rgbBkColor.rgbRed      = (BYTE)image_background->red;
-					rgbBkColor.rgbGreen    = (BYTE)image_background->green;
-					rgbBkColor.rgbBlue     = (BYTE)image_background->blue;
+					rgbBkColor.rgbRed      = (uint8_t)image_background->red;
+					rgbBkColor.rgbGreen    = (uint8_t)image_background->green;
+					rgbBkColor.rgbBlue     = (uint8_t)image_background->blue;
 					rgbBkColor.rgbReserved = 0;
 
 					FreeImage_SetBackgroundColor(dib, &rgbBkColor);
@@ -1048,7 +1048,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			}
 
 			if ((pixel_depth == 32) && (!has_alpha_channel)) {
-				BYTE *buffer = (BYTE *)malloc(width * 3);
+				uint8_t *buffer = (uint8_t *)malloc(width * 3);
 
 				// transparent conversion to 24-bit
 				// the number of passes is either 1 for non-interlaced images, or 7 for interlaced images

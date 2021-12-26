@@ -106,42 +106,42 @@ static INT_PTR APIENTRY OptWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 				BOOL bSuccess = FALSE;
 
 				fcOpt.bHideOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_OFFLINE);
-				g_plugin.setByte("HideOffline", (BYTE)fcOpt.bHideOffline);
+				g_plugin.setByte("HideOffline", (uint8_t)fcOpt.bHideOffline);
 
 				fcOpt.bHideAll = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_ALL);
-				g_plugin.setByte("HideAll", (BYTE)fcOpt.bHideAll);
+				g_plugin.setByte("HideAll", (uint8_t)fcOpt.bHideAll);
 
 				fcOpt.bHideWhenFullscreen = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_FULSCREEN);
-				g_plugin.setByte("HideWhenFullscreen", (BYTE)fcOpt.bHideWhenFullscreen);
+				g_plugin.setByte("HideWhenFullscreen", (uint8_t)fcOpt.bHideWhenFullscreen);
 
 				fcOpt.bMoveTogether = IsDlgButtonChecked(hwndDlg, IDC_CHK_STICK);
-				g_plugin.setByte("MoveTogether", (BYTE)fcOpt.bMoveTogether);
+				g_plugin.setByte("MoveTogether", (uint8_t)fcOpt.bMoveTogether);
 
 				fcOpt.bFixedWidth = IsDlgButtonChecked(hwndDlg, IDC_CHK_WIDTH);
-				g_plugin.setByte("FixedWidth", (BYTE)fcOpt.bFixedWidth);
+				g_plugin.setByte("FixedWidth", (uint8_t)fcOpt.bFixedWidth);
 				fcOpt.nThumbWidth = GetDlgItemInt(hwndDlg, IDC_TXT_WIDTH, &bSuccess, FALSE);
 				g_plugin.setDword("Width", fcOpt.nThumbWidth);
 
 				if (bEnableTip) {
 					fcOpt.bShowTip = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIP);
-					g_plugin.setByte("ShowTip", (BYTE)fcOpt.bShowTip);
+					g_plugin.setByte("ShowTip", (uint8_t)fcOpt.bShowTip);
 					fcOpt.TimeIn = GetDlgItemInt(hwndDlg, IDC_TXT_TIMEIN, &bSuccess, FALSE);
 					g_plugin.setWord("TimeIn", fcOpt.TimeIn);
 				}
 
 				fcOpt.bToTop = IsDlgButtonChecked(hwndDlg, IDC_CHK_TOTOP);
-				g_plugin.setByte("ToTop", (BYTE)fcOpt.bToTop);
+				g_plugin.setByte("ToTop", (uint8_t)fcOpt.bToTop);
 				fcOpt.ToTopTime = GetDlgItemInt(hwndDlg, IDC_TXT_TOTOPTIME, &bSuccess, FALSE);
 				g_plugin.setWord("ToTopTime", fcOpt.ToTopTime);
 
 				fcOpt.bHideWhenCListShow = IsDlgButtonChecked(hwndDlg, IDC_CHK_HIDE_WHEN_CLISTSHOW);
-				g_plugin.setByte("HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
+				g_plugin.setByte("HideWhenCListShow", (uint8_t)fcOpt.bHideWhenCListShow);
 
 				fcOpt.bUseSingleClick = IsDlgButtonChecked(hwndDlg, IDC_CHK_SINGLECLK);
-				g_plugin.setByte("UseSingleClick", (BYTE)fcOpt.bUseSingleClick);
+				g_plugin.setByte("UseSingleClick", (uint8_t)fcOpt.bUseSingleClick);
 
 				fcOpt.bShowIdle = IsDlgButtonChecked(hwndDlg, IDC_CHK_SHOWIDLE);
-				g_plugin.setByte("ShowIdle", (BYTE)fcOpt.bShowIdle);
+				g_plugin.setByte("ShowIdle", (uint8_t)fcOpt.bShowIdle);
 
 				ApplyOptionsChanges();
 				OnStatusChanged();
@@ -193,7 +193,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 			SHAutoComplete(GetDlgItem(hwndDlg, IDC_FILENAME), 1);
 
 			// Windows 2K/XP
-			BYTE btOpacity = (BYTE)g_plugin.getByte("Opacity", 100);
+			uint8_t btOpacity = (uint8_t)g_plugin.getByte("Opacity", 100);
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETRANGE, TRUE, MAKELONG(0, 100));
 			SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_SETPOS, TRUE, btOpacity);
 
@@ -225,7 +225,7 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 	case WM_HSCROLL:
 		if (wParam != TB_ENDTRACK) {
 			int nPos = (int)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0);
-			fcOpt.thumbAlpha = (BYTE)((nPos * 255) / 100);
+			fcOpt.thumbAlpha = (uint8_t)((nPos * 255) / 100);
 			SetThumbsOpacity(fcOpt.thumbAlpha);
 
 			mir_snprintf(szPercent, "%d%%", nPos);
@@ -278,26 +278,26 @@ static INT_PTR APIENTRY OptSknWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 		if (0 == ((LPNMHDR)lParam)->idFrom) {
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_RESET:
-				fcOpt.thumbAlpha = (BYTE)((double)g_plugin.getByte("Opacity", 100) * 2.55);
+				fcOpt.thumbAlpha = (uint8_t)((double)g_plugin.getByte("Opacity", 100) * 2.55);
 				SetThumbsOpacity(fcOpt.thumbAlpha);
 				break;
 
 			case PSN_APPLY:
 				// Border
-				g_plugin.setByte("DrawBorder", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DRAWBORDER));
+				g_plugin.setByte("DrawBorder", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DRAWBORDER));
 
 				COLORREF col = SendDlgItemMessage(hwndDlg, IDC_LTEDGESCOLOR, CPM_GETCOLOUR, 0, 0);
 				g_plugin.setDword("LTEdgesColor", col);
 				col = SendDlgItemMessage(hwndDlg, IDC_RBEDGESCOLOR, CPM_GETCOLOUR, 0, 0);
 				g_plugin.setDword("RBEdgesColor", col);
 
-				g_plugin.setByte("Opacity", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0));
+				g_plugin.setByte("Opacity", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SLIDER_OPACITY, TBM_GETPOS, 0, 0));
 
 				// Backgroud
 				col = SendDlgItemMessage(hwndDlg, IDC_BKGCOLOUR, CPM_GETCOLOUR, 0, 0);
 				g_plugin.setDword("BkColor", col);
 
-				g_plugin.setByte("BkUseBitmap", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
+				g_plugin.setByte("BkUseBitmap", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BITMAP));
 
 				wchar_t str[MAX_PATH];
 				GetDlgItemText(hwndDlg, IDC_FILENAME, str, _countof(str));

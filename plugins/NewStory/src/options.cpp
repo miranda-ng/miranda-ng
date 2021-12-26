@@ -89,7 +89,7 @@ public:
 		db_set_ws(m_hContact, META_PROTO, "Nick", TranslateT("Test contact"));
 
 		DBEVENTINFO dbei = {};
-		dbei.pBlob = (BYTE *)"The quick brown fox jumps over the lazy dog";
+		dbei.pBlob = (uint8_t *)"The quick brown fox jumps over the lazy dog";
 		dbei.cbBlob = (DWORD)strlen((char *)dbei.pBlob);
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.eventType = EVENTTYPE_MESSAGE;

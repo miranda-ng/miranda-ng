@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TTreeList_ItemInfo
 {
-	BYTE flags;
+	uint8_t flags;
 	int indent, sortIndex;
 
 	struct TTreeList_ItemInfo *parent;

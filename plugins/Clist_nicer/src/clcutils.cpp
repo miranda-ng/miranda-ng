@@ -204,7 +204,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	RECT clRect;
 	HFONT hFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	BYTE mirror_mode = cfg::dat.bUseDCMirroring;
+	uint8_t mirror_mode = cfg::dat.bUseDCMirroring;
 
 	if (flags)
 		*flags = 0;

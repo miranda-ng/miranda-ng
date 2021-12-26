@@ -107,7 +107,7 @@ void CSteamProto::ParsePollData(const JSONNode &data)
 			if (!getBool("ShowChatEvents", true))
 				continue;
 
-			BYTE bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
+			uint8_t bEventType = STEAM_DB_EVENT_CHATSTATES_GONE;
 			DBEVENTINFO dbei = {};
 			dbei.pBlob = &bEventType;
 			dbei.cbBlob = 1;

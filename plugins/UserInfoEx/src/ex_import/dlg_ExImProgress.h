@@ -29,7 +29,7 @@ class CProgress
 	HWND	_hDlg;
 	DWORD	_dwStartTime;
 
-	BYTE	Update();
+	uint8_t	Update();
 
 public:
 	CProgress();
@@ -40,8 +40,8 @@ public:
 	void SetContactCount(DWORD numContacts);
 	void SetSettingsCount(DWORD numSettings);
 
-	BYTE UpdateContact(LPCTSTR pszFormat, ...);
-	BYTE UpdateSetting(LPCTSTR pszFormat, ...);
+	uint8_t UpdateContact(LPCTSTR pszFormat, ...);
+	uint8_t UpdateSetting(LPCTSTR pszFormat, ...);
 };
 
 #endif /* _DLG_EXIMPROGRESS_H_ */

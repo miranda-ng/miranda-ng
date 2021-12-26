@@ -32,7 +32,7 @@ static BOOL IsAssocEnabled(const ASSOCDATA *assoc)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
-	return g_plugin.getByte(szSetting, (BYTE)!(assoc->flags&FTDF_DEFAULTDISABLED)) != 0;
+	return g_plugin.getByte(szSetting, (uint8_t)!(assoc->flags&FTDF_DEFAULTDISABLED)) != 0;
 }
 
 static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
@@ -40,7 +40,7 @@ static void SetAssocEnabled(const ASSOCDATA *assoc, BOOL fEnabled)
 	char szSetting[MAXMODULELABELLENGTH];
 	wchar_t szDLL[MAX_PATH], szBuf[MAX_PATH];
 	mir_snprintf(szSetting, "enabled_%s", assoc->pszClassName);
-	g_plugin.setByte(szSetting, (BYTE)fEnabled);
+	g_plugin.setByte(szSetting, (uint8_t)fEnabled);
 	// dll name for uninstall
 	if (assoc->hInstance != nullptr && assoc->hInstance != g_plugin.getInst() && assoc->hInstance != GetModuleHandle(nullptr))
 		if (GetModuleFileName(assoc->hInstance, szBuf, _countof(szBuf)))
@@ -92,7 +92,7 @@ void CleanupAssocEnabledSettings(void)
 
 /************************* Mime Reg *******************************/
 
-static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *pszFileExt, BYTE fAdded)
+static __inline void RememberMimeTypeAdded(const char *pszMimeType, const char *pszFileExt, uint8_t fAdded)
 {
 	char szSetting[MAXMODULELABELLENGTH];
 	mir_snprintf(szSetting, "mime_%s", pszMimeType);
@@ -888,7 +888,7 @@ void InitAssocList(void)
 void UninitAssocList(void)
 {
 	// Assoc List
-	BYTE fOnlyWhileRunning = g_plugin.getByte("OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
+	uint8_t fOnlyWhileRunning = g_plugin.getByte("OnlyWhileRunning", SETTING_ONLYWHILERUNNING_DEFAULT);
 	for (auto &it : arAssocList)
 		if (fOnlyWhileRunning)
 			UnregisterAssoc(it); // remove registry keys

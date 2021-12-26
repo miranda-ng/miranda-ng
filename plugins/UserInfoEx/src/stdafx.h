@@ -161,10 +161,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 typedef struct _MGLOBAL
 {
-	BYTE		CanChangeDetails : 1;         // is service to upload own contact information for icq present?
-	BYTE		TzIndexExist : 1;             // Win Reg has Timzone Index Info
-	BYTE		ShowPropsheetColours : 1;     // cached SET_PROPSHEET_SHOWCOLOURS database value
-	BYTE		WantAeroAdaption : 1;         // reserved for later use
+	uint8_t		CanChangeDetails : 1;         // is service to upload own contact information for icq present?
+	uint8_t		TzIndexExist : 1;             // Win Reg has Timzone Index Info
+	uint8_t		ShowPropsheetColours : 1;     // cached SET_PROPSHEET_SHOWCOLOURS database value
+	uint8_t		WantAeroAdaption : 1;         // reserved for later use
 } MGLOBAL, *LPMGLOBAL;
 
 extern MGLOBAL myGlobals;
@@ -214,7 +214,7 @@ static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-static FORCEINLINE BYTE IsAeroMode()
+static FORCEINLINE uint8_t IsAeroMode()
 {
 	BOOL result;
 	return myGlobals.WantAeroAdaption && dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;

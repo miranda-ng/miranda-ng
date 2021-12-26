@@ -41,11 +41,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 struct UPLOAD_INFO
 {
-	BYTE sendBy;		//SS_*
+	uint8_t sendBy;		//SS_*
 	void *param;
 
-	UPLOAD_INFO(BYTE sb) : sendBy(sb), param(nullptr) { }
-	UPLOAD_INFO(BYTE sb, void *p) : sendBy(sb), param(p) { }
+	UPLOAD_INFO(uint8_t sb) : sendBy(sb), param(nullptr) { }
+	UPLOAD_INFO(uint8_t sb, void *p) : sendBy(sb), param(p) { }
 };
 
 // Used for our own cheap TrackMouseEvent
@@ -74,12 +74,12 @@ public:
 	TfrmMain();
 	~TfrmMain();
 
-	BYTE		m_opt_tabCapture;  // capture tab page
-	BYTE		m_opt_cboxDesktop; // TRadioButton *rbtnDesktop;
-	BYTE		m_opt_chkTimed;    // TCheckBox *chkTimed;
-	BYTE		m_opt_cboxSendBy;  // TComboBox *cboxSendBy;
-	BYTE		m_opt_btnDesc;     // TCheckBox *chkDesc;
-	BYTE		m_opt_chkEditor;   // TCheckBox *chkEditor;
+	uint8_t		m_opt_tabCapture;  // capture tab page
+	uint8_t		m_opt_cboxDesktop; // TRadioButton *rbtnDesktop;
+	uint8_t		m_opt_chkTimed;    // TCheckBox *chkTimed;
+	uint8_t		m_opt_cboxSendBy;  // TComboBox *cboxSendBy;
+	uint8_t		m_opt_btnDesc;     // TCheckBox *chkDesc;
+	uint8_t		m_opt_chkEditor;   // TCheckBox *chkEditor;
 	bool		m_bOnExitSave;
 
 	static void Unload();
@@ -116,13 +116,13 @@ protected:
 	size_t         m_MonitorCount;
 	RECT           m_VirtualScreen;
 
-	BYTE           m_opt_chkOpenAgain;        // TCheckBox *chkOpenAgain;
-	BYTE           m_opt_chkIndirectCapture;  // TCheckBox *chkIndirectCapture;
-	BYTE           m_opt_chkClientArea;       // TCheckBox *chkClientArea;
-	BYTE           m_opt_edtQuality;          // TLabeledEdit *edtQuality;
+	uint8_t           m_opt_chkOpenAgain;        // TCheckBox *chkOpenAgain;
+	uint8_t           m_opt_chkIndirectCapture;  // TCheckBox *chkIndirectCapture;
+	uint8_t           m_opt_chkClientArea;       // TCheckBox *chkClientArea;
+	uint8_t           m_opt_edtQuality;          // TLabeledEdit *edtQuality;
 	bool           m_opt_btnDeleteAfterSend;  // TCheckBox *chkDeleteAfterSend;
-	BYTE           m_opt_cboxFormat;          // TComboBox *cboxFormat;
-	BYTE           m_opt_edtTimed;            // TLabeledEdit *edtTimed;
+	uint8_t           m_opt_cboxFormat;          // TComboBox *cboxFormat;
+	uint8_t           m_opt_edtTimed;            // TLabeledEdit *edtTimed;
 	bool           m_bCapture;                // is capture active
 	HWND           m_hwndTab;                 // TabControl handle
 	HWND           m_hwndTabPage;             // TabControl activ page handle

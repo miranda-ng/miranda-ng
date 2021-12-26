@@ -12,7 +12,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 		return;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE *)malloc(dwLen);
+	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
 
@@ -30,7 +30,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	GetObject(hBitmap, sizeof(bmp), &bmp);
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * 4;
-	BYTE *p = (BYTE *)malloc(dwLen);
+	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return nullptr;
 
@@ -43,7 +43,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
-	BYTE *ptPixels;
+	uint8_t *ptPixels;
 	HBITMAP hDirectBitmap = CreateDIBSection(nullptr, (BITMAPINFO *)&RGB32BitsBITMAPINFO, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
 
 	// Copy data
@@ -98,7 +98,7 @@ void SetTranspBkgColor(HBITMAP hBitmap, COLORREF color)
 		return;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE *)malloc(dwLen);
+	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
@@ -107,7 +107,7 @@ void SetTranspBkgColor(HBITMAP hBitmap, COLORREF color)
 
 	bool changed = false;
 	for (int y = 0; y < bmp.bmHeight; ++y) {
-		BYTE *px = p + bmp.bmWidth * 4 * y;
+		uint8_t *px = p + bmp.bmWidth * 4 * y;
 
 		for (int x = 0; x < bmp.bmWidth; ++x) {
 			if (px[3] == 0) {
@@ -220,7 +220,7 @@ int BmpFilterSaveBitmap(HBITMAP hBmp, const wchar_t *ptszFile, int flags)
 
 // Other utilities ////////////////////////////////////////////////////////////////////////////////
 
-static BOOL ColorsAreTheSame(int colorDiff, BYTE *px1, BYTE *px2)
+static BOOL ColorsAreTheSame(int colorDiff, uint8_t *px1, uint8_t *px2)
 {
 	return abs(px1[0] - px2[0]) <= colorDiff
 		&& abs(px1[1] - px2[1]) <= colorDiff
@@ -241,12 +241,12 @@ void AddToStack(int *stack, int *topPos, int x, int y)
 	(*topPos)++;
 }
 
-BOOL GetColorForPoint(int colorDiff, BYTE *p, int width,
-	int x0, int y0, int x1, int y1, int x2, int y2, BOOL *foundBkg, BYTE colors[][3])
+BOOL GetColorForPoint(int colorDiff, uint8_t *p, int width,
+	int x0, int y0, int x1, int y1, int x2, int y2, BOOL *foundBkg, uint8_t colors[][3])
 {
-	BYTE *px1 = GET_PIXEL(p, x0, y0);
-	BYTE *px2 = GET_PIXEL(p, x1, y1);
-	BYTE *px3 = GET_PIXEL(p, x2, y2);
+	uint8_t *px1 = GET_PIXEL(p, x0, y0);
+	uint8_t *px2 = GET_PIXEL(p, x1, y1);
+	uint8_t *px3 = GET_PIXEL(p, x2, y2);
 
 	// If any of the corners have transparency, forget about it
 	// Not using != 255 because some MSN bmps have 254 in some positions
@@ -326,7 +326,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 		return FALSE;
 
 	DWORD dwLen = width * height * 4;
-	BYTE *p = (BYTE *)malloc(dwLen);
+	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return FALSE;
 
@@ -341,7 +341,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	// **** Get corner colors
 
 	// Top left
-	BYTE colors[8][3];
+	uint8_t colors[8][3];
 	BOOL foundBkg[8];
 	if (!GetColorForPoint(colorDiff, p, width, 0, 0, 0, 1, 1, 0, &foundBkg[0], &colors[0])) {
 		if (hBmpTmp != *hBitmap)
@@ -428,7 +428,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 			count = 0;
 
 			for (j = 0; j < 8; j++) {
-				if (foundBkg[j] && ColorsAreTheSame(colorDiff, (BYTE *)&colors[i], (BYTE *)&colors[j]))
+				if (foundBkg[j] && ColorsAreTheSame(colorDiff, (uint8_t *)&colors[i], (uint8_t *)&colors[j]))
 					count++;
 			}
 
@@ -454,7 +454,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 		bkgColor[1] = 0;
 		bkgColor[2] = 0;
 		for (i = 0; i < 8; i++) {
-			if (foundBkg[i] && ColorsAreTheSame(colorDiff, (BYTE *)&colors[i], (BYTE *)&colors[selectedColor])) {
+			if (foundBkg[i] && ColorsAreTheSame(colorDiff, (uint8_t *)&colors[i], (uint8_t *)&colors[selectedColor])) {
 				bkgColor[0] += colors[i][0];
 				bkgColor[1] += colors[i][1];
 				bkgColor[2] += colors[i][2];
@@ -506,13 +506,13 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 		int y = stack[curPos]; curPos++;
 
 		// Get pixel
-		BYTE *px1 = GET_PIXEL(p, x, y);
+		uint8_t *px1 = GET_PIXEL(p, x, y);
 
 		// It won't change the transparency if one exists
 		// (This avoid an endless loop too)
 		// Not using == 255 because some MSN bmps have 254 in some positions
 		if (px1[3] >= 253) {
-			if (ColorsAreTheSame(colorDiff, px1, (BYTE *)&colors[selectedColor])) {
+			if (ColorsAreTheSame(colorDiff, px1, (uint8_t *)&colors[selectedColor])) {
 				px1[3] = (transpProportional) ? min(252,
 					(abs(px1[0] - colors[selectedColor][0])
 					+ abs(px1[1] - colors[selectedColor][1])

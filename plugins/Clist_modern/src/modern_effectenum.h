@@ -4,16 +4,16 @@ typedef signed char sbyte;
 typedef struct _MODERNEFFECTMATRIX
 {
 	sbyte matrix[25];
-	BYTE  topEffect;
-	BYTE  leftEffect;
-	BYTE  rightEffect;
-	BYTE  bottomEffect;
-	BYTE  cycleCount;	  //low 7 bits
+	uint8_t  topEffect;
+	uint8_t  leftEffect;
+	uint8_t  rightEffect;
+	uint8_t  bottomEffect;
+	uint8_t  cycleCount;	  //low 7 bits
 }MODERNEFFECTMATRIX;
 
 typedef  struct _MODERNEFFECT
 {
-	BYTE EffectID;
+	uint8_t EffectID;
 	MODERNEFFECTMATRIX EffectMatrix;
 	DWORD EffectColor1;
 	DWORD EffectColor2;
@@ -90,4 +90,4 @@ MODERNEFFECTMATRIX ModernEffectsEnum[] = {
 extern wchar_t * ModernEffectNames[];
 #endif
 extern BOOL SkinEngine_ResetTextEffect(HDC);
-extern BOOL SkinEngine_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
+extern BOOL SkinEngine_SelectTextEffect(HDC hdc, uint8_t EffectID, DWORD FirstColor, DWORD SecondColor);

@@ -96,7 +96,7 @@ LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
 //
 static void CoolSB_ZeroMemory(void *ptr, DWORD bytes)
 {
-	BYTE *bptr = (BYTE *)ptr;
+	uint8_t *bptr = (uint8_t *)ptr;
 
 	while(bytes--) *bptr++ = 0;
 }

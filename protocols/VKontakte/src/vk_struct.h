@@ -188,8 +188,8 @@ struct CVKNewsItem : public MZeroedObject {
 	bool bIsRepost;
 };
 
-enum VKBBCType : BYTE { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
-enum BBCSupport : BYTE { bbcNo, bbcBasic, bbcAdvanced };
+enum VKBBCType : uint8_t { vkbbcB, vkbbcI, vkbbcS, vkbbcU, vkbbcCode, vkbbcImg, vkbbcUrl, vkbbcSize, vkbbcColor };
+enum BBCSupport : uint8_t { bbcNo, bbcBasic, bbcAdvanced };
 
 struct CVKBBCItem {
 	VKBBCType vkBBCType;
@@ -217,10 +217,10 @@ struct CVKLang {
 	wchar_t *szDescription;
 };
 
-enum MarkMsgReadOn : BYTE { markOnRead, markOnReceive, markOnReply, markOnTyping };
-enum SyncHistoryMetod : BYTE { syncOff, syncAuto, sync1Days, sync3Days };
-enum MusicSendMetod : BYTE { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
-enum IMGBBCSypport : BYTE { imgNo, imgFullSize, imgPreview130, imgPreview604 };
+enum MarkMsgReadOn : uint8_t { markOnRead, markOnReceive, markOnReply, markOnTyping };
+enum SyncHistoryMetod : uint8_t { syncOff, syncAuto, sync1Days, sync3Days };
+enum MusicSendMetod : uint8_t { sendNone, sendStatusOnly, sendBroadcastOnly, sendBroadcastAndStatus };
+enum IMGBBCSypport : uint8_t { imgNo, imgFullSize, imgPreview130, imgPreview604 };
 
 struct CVKSync {
 	const wchar_t *type;
@@ -244,69 +244,69 @@ struct CVkCookie
 };
 
 struct CVKOptions {
-	CMOption<BYTE> bLoadLastMessageOnMsgWindowsOpen;
-	CMOption<BYTE> bLoadOnlyFriends;
-	CMOption<BYTE> bServerDelivery;
-	CMOption<BYTE> bHideChats;
-	CMOption<BYTE> bMesAsUnread;
-	CMOption<BYTE> bUseLocalTime;
-	CMOption<BYTE> bReportAbuse;
-	CMOption<BYTE> bClearServerHistory;
-	CMOption<BYTE> bRemoveFromFrendlist;
-	CMOption<BYTE> bRemoveFromCList;
-	CMOption<BYTE> bPopUpSyncHistory;
-	CMOption<BYTE> iMarkMessageReadOn;
-	CMOption<BYTE> bStikersAsSmileys;
-	CMOption<BYTE> bUseStikersAsStaticSmileys;
-	CMOption<BYTE> bUserForceInvisibleOnActivity;
-	CMOption<BYTE> iMusicSendMetod;
-	CMOption<BYTE> bPopupContactsMusic;
-	CMOption<BYTE> iSyncHistoryMetod;
-	CMOption<BYTE> bNewsEnabled;
-	CMOption<BYTE> iMaxLoadNewsPhoto;
-	CMOption<BYTE> bNotificationsEnabled;
-	CMOption<BYTE> bNotificationsMarkAsViewed;
-	CMOption<BYTE> bSpecialContactAlwaysEnabled;
-	CMOption<BYTE> iIMGBBCSupport;
-	CMOption<BYTE> iBBCForNews;
-	CMOption<BYTE> iBBCForAttachments;
-	CMOption<BYTE> bUseBBCOnAttacmentsAsNews;
-	CMOption<BYTE> bNewsAutoClearHistory;
-	CMOption<BYTE> bNewsFilterPosts;
-	CMOption<BYTE> bNewsFilterPhotos;
-	CMOption<BYTE> bNewsFilterTags;
-	CMOption<BYTE> bNewsFilterWallPhotos;
-	CMOption<BYTE> bNewsSourceFriends;
-	CMOption<BYTE> bNewsSourceGroups;
-	CMOption<BYTE> bNewsSourcePages;
-	CMOption<BYTE> bNewsSourceFollowing;
-	CMOption<BYTE> bNewsSourceIncludeBanned;
-	CMOption<BYTE> bNewsSourceNoReposts;
-	CMOption<BYTE> bNotificationFilterComments;
-	CMOption<BYTE> bNotificationFilterLikes;
-	CMOption<BYTE> bNotificationFilterReposts;
-	CMOption<BYTE> bNotificationFilterMentions;
-	CMOption<BYTE> bNotificationFilterInvites;
-	CMOption<BYTE> bNotificationFilterAcceptedFriends;
-	CMOption<BYTE> bUseNonStandardNotifications;
-	CMOption<BYTE> bShortenLinksForAudio;
-	CMOption<BYTE> bAddMessageLinkToMesWAtt;
-	CMOption<BYTE> bSplitFormatFwdMsg;
-	CMOption<BYTE> bSyncReadMessageStatusFromServer;
-	CMOption<BYTE> bLoadFullCList;
-	CMOption<BYTE> bSendVKLinksAsAttachments;
-	CMOption<BYTE> bLoadSentAttachments;
-	CMOption<BYTE> bShowVkDeactivateEvents;
-	CMOption<BYTE> bStickerBackground;
-	CMOption<BYTE> bFilterAudioMessages;
+	CMOption<uint8_t> bLoadLastMessageOnMsgWindowsOpen;
+	CMOption<uint8_t> bLoadOnlyFriends;
+	CMOption<uint8_t> bServerDelivery;
+	CMOption<uint8_t> bHideChats;
+	CMOption<uint8_t> bMesAsUnread;
+	CMOption<uint8_t> bUseLocalTime;
+	CMOption<uint8_t> bReportAbuse;
+	CMOption<uint8_t> bClearServerHistory;
+	CMOption<uint8_t> bRemoveFromFrendlist;
+	CMOption<uint8_t> bRemoveFromCList;
+	CMOption<uint8_t> bPopUpSyncHistory;
+	CMOption<uint8_t> iMarkMessageReadOn;
+	CMOption<uint8_t> bStikersAsSmileys;
+	CMOption<uint8_t> bUseStikersAsStaticSmileys;
+	CMOption<uint8_t> bUserForceInvisibleOnActivity;
+	CMOption<uint8_t> iMusicSendMetod;
+	CMOption<uint8_t> bPopupContactsMusic;
+	CMOption<uint8_t> iSyncHistoryMetod;
+	CMOption<uint8_t> bNewsEnabled;
+	CMOption<uint8_t> iMaxLoadNewsPhoto;
+	CMOption<uint8_t> bNotificationsEnabled;
+	CMOption<uint8_t> bNotificationsMarkAsViewed;
+	CMOption<uint8_t> bSpecialContactAlwaysEnabled;
+	CMOption<uint8_t> iIMGBBCSupport;
+	CMOption<uint8_t> iBBCForNews;
+	CMOption<uint8_t> iBBCForAttachments;
+	CMOption<uint8_t> bUseBBCOnAttacmentsAsNews;
+	CMOption<uint8_t> bNewsAutoClearHistory;
+	CMOption<uint8_t> bNewsFilterPosts;
+	CMOption<uint8_t> bNewsFilterPhotos;
+	CMOption<uint8_t> bNewsFilterTags;
+	CMOption<uint8_t> bNewsFilterWallPhotos;
+	CMOption<uint8_t> bNewsSourceFriends;
+	CMOption<uint8_t> bNewsSourceGroups;
+	CMOption<uint8_t> bNewsSourcePages;
+	CMOption<uint8_t> bNewsSourceFollowing;
+	CMOption<uint8_t> bNewsSourceIncludeBanned;
+	CMOption<uint8_t> bNewsSourceNoReposts;
+	CMOption<uint8_t> bNotificationFilterComments;
+	CMOption<uint8_t> bNotificationFilterLikes;
+	CMOption<uint8_t> bNotificationFilterReposts;
+	CMOption<uint8_t> bNotificationFilterMentions;
+	CMOption<uint8_t> bNotificationFilterInvites;
+	CMOption<uint8_t> bNotificationFilterAcceptedFriends;
+	CMOption<uint8_t> bUseNonStandardNotifications;
+	CMOption<uint8_t> bShortenLinksForAudio;
+	CMOption<uint8_t> bAddMessageLinkToMesWAtt;
+	CMOption<uint8_t> bSplitFormatFwdMsg;
+	CMOption<uint8_t> bSyncReadMessageStatusFromServer;
+	CMOption<uint8_t> bLoadFullCList;
+	CMOption<uint8_t> bSendVKLinksAsAttachments;
+	CMOption<uint8_t> bLoadSentAttachments;
+	CMOption<uint8_t> bShowVkDeactivateEvents;
+	CMOption<uint8_t> bStickerBackground;
+	CMOption<uint8_t> bFilterAudioMessages;
 
-	CMOption<BYTE> bShowProtoMenuItem0;
-	CMOption<BYTE> bShowProtoMenuItem1;
-	CMOption<BYTE> bShowProtoMenuItem2;
-	CMOption<BYTE> bShowProtoMenuItem3;
-	CMOption<BYTE> bShowProtoMenuItem4;
-	CMOption<BYTE> bShowProtoMenuItem5;
-	CMOption<BYTE> bShowProtoMenuItem6;
+	CMOption<uint8_t> bShowProtoMenuItem0;
+	CMOption<uint8_t> bShowProtoMenuItem1;
+	CMOption<uint8_t> bShowProtoMenuItem2;
+	CMOption<uint8_t> bShowProtoMenuItem3;
+	CMOption<uint8_t> bShowProtoMenuItem4;
+	CMOption<uint8_t> bShowProtoMenuItem5;
+	CMOption<uint8_t> bShowProtoMenuItem6;
 
 	CMOption<DWORD> iReqAuthTimeLater;
 	CMOption<DWORD> iNewsInterval;
@@ -321,8 +321,8 @@ struct CVKOptions {
 
 	CVKOptions(PROTO_INTERFACE *proto);
 
-	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(BYTE)iBBCForNews; };
-	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(BYTE)iBBCForAttachments; };
+	__forceinline BBCSupport BBCForNews() { return (BBCSupport)(uint8_t)iBBCForNews; };
+	__forceinline BBCSupport BBCForAttachments() { return (BBCSupport)(uint8_t)iBBCForAttachments; };
 
 };
 
@@ -331,8 +331,8 @@ struct CVKDeactivateEvent {
 	char *szDescription;
 };
 
-enum VKContactType : BYTE { vkContactNormal, vkContactSelf, vkContactMUCUser };
-enum VKMesType : BYTE { vkALL, vkIN, vkOUT };
+enum VKContactType : uint8_t { vkContactNormal, vkContactSelf, vkContactMUCUser };
+enum VKMesType : uint8_t { vkALL, vkIN, vkOUT };
 
 struct CVKImageSizeItem {
 	CMStringW wszUrl;

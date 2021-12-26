@@ -170,7 +170,7 @@ LPSTR CPsTreeItem::ParentItemName()
  *			bIsUnicode		- if TRUE the title is unicode
  * return:	0 on success, 1 to 4 indicating the failed operation
  **/
-int CPsTreeItem::Name(LPTSTR ptszTitle, const BYTE bIsUnicode)
+int CPsTreeItem::Name(LPTSTR ptszTitle, const uint8_t bIsUnicode)
 {
 	// convert title to utf8
 	_pszName = (bIsUnicode) ? mir_utf8encodeW((LPWSTR)ptszTitle) : mir_utf8encode((LPSTR)ptszTitle);
@@ -196,7 +196,7 @@ int CPsTreeItem::Name(LPTSTR ptszTitle, const BYTE bIsUnicode)
  * params:	pszName	- the name to match the item with
  * return:	nothing
  **/
-BYTE	CPsTreeItem::HasName(const LPCSTR pszName) const
+uint8_t	CPsTreeItem::HasName(const LPCSTR pszName) const
 { 
 	return !mir_strcmpi(_pszName, pszName); 
 };
@@ -236,7 +236,7 @@ void CPsTreeItem::Rename(const LPTSTR pszLabel)
  * param:	pszName		- uniquely identifiing string for a propertypage encoded with utf8 (e.g.: {group\item})
  * return:	Label in a newly allocated piece of memory
  **/
-int CPsTreeItem::ItemLabel(const BYTE bReadDBValue)
+int CPsTreeItem::ItemLabel(const uint8_t bReadDBValue)
 {
 	DBVARIANT dbv;
 
@@ -298,7 +298,7 @@ HICON CPsTreeItem::ProtoIcon()
  *			hDefaultIcon	- default icon to use
  * return: nothing
  **/
-int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOnly)
+int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIconsOnly)
 {
 	// check parameter
 	if (!_pszName || !odp)

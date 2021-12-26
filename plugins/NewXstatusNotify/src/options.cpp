@@ -285,7 +285,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				char status[8];
 				mir_snprintf(status, "%d", i);
-				g_plugin.setByte(status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
+				g_plugin.setByte(status, (uint8_t)IsDlgButtonChecked(hwndDlg, i));
 			}
 			opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
 
@@ -439,8 +439,8 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			opt.ShowGroup = IsDlgButtonChecked(hwndDlg, IDC_SHOWGROUP);
 			opt.PopupTimeout = GetDlgItemInt(hwndDlg, IDC_TIMEOUT_VALUE, nullptr, TRUE);
 			opt.PopupConnectionTimeout = GetDlgItemInt(hwndDlg, IDC_CONNECTIONTIMEOUT_VALUE, nullptr, TRUE);
-			opt.LeftClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_GETCURSEL, 0, 0);
-			opt.RightClickAction = (BYTE)SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_GETCURSEL, 0, 0);
+			opt.LeftClickAction = (uint8_t)SendDlgItemMessage(hwndDlg, IDC_STATUS_LC, CB_GETCURSEL, 0, 0);
+			opt.RightClickAction = (uint8_t)SendDlgItemMessage(hwndDlg, IDC_STATUS_RC, CB_GETCURSEL, 0, 0);
 
 			SaveOptions();
 			return TRUE;
@@ -830,7 +830,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
-				g_plugin.setByte(dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				g_plugin.setByte(dbSetting, (uint8_t)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 

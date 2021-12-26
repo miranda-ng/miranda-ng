@@ -373,7 +373,7 @@ int CJabberProto::AdhocSetStatusHandler(const TiXmlElement*, CJabberIqInfo *pInf
 		SetAwayMsg(status, Utf2T(szStatusMessage));
 
 		// return NoDlg setting
-		db_set_b(0, "SRAway", StatusModeToDbSetting(status, "NoDlg"), (BYTE)nNoDlg);
+		db_set_b(0, "SRAway", StatusModeToDbSetting(status, "NoDlg"), (uint8_t)nNoDlg);
 
 		return JABBER_ADHOC_HANDLER_STATUS_COMPLETED;
 	}

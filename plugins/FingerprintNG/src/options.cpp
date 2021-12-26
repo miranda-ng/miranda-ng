@@ -59,7 +59,7 @@ class COptDialog : public CDlgBase
 		m_chkFacebbok, m_chkGG, m_chkICQ, m_chkIRC, m_chkJabber, m_chkRSS, m_chkVK, m_chkWeather, m_chkMulti, m_chkOthersProto,
 		m_chkOthers, m_chkStatusBar;
 
-	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, BYTE bDef)
+	void LoadDBCheckState(int idCtrl, LPCSTR szSetting, uint8_t bDef)
 	{
 		CCtrlCheck &item = *(CCtrlCheck*)FindControl(idCtrl);
 		item.SetState(g_plugin.getByte(szSetting, bDef));

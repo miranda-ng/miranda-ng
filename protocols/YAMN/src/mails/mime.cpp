@@ -478,7 +478,7 @@ struct APartDataType
 	char *ContType;
 	int CodePage;
 	char *TransEnc;
-	BYTE TransEncType; //TE_something
+	uint8_t TransEncType; //TE_something
 	char *body;
 	int bodyLen;
 	wchar_t *wBody;

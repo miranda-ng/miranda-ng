@@ -88,7 +88,7 @@ FreeImage_ConvertToRGBA16(FIBITMAP *dib) {
 			const unsigned bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
 
 			for(unsigned y = 0; y < height; y++) {
-				const BYTE *src_bits = (BYTE*)FreeImage_GetScanLine(src, y);
+				const uint8_t *src_bits = (uint8_t*)FreeImage_GetScanLine(src, y);
 				FIRGBA16 *dst_bits = (FIRGBA16*)FreeImage_GetScanLine(dst, y);
 				for(unsigned x = 0; x < width; x++) {
 					dst_bits[x].red		= src_bits[FI_RGBA_RED] << 8;

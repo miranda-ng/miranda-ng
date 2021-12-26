@@ -29,7 +29,7 @@ struct HyperlinkWndData
 	HFONT hEnableFont, hDisableFont;
 	RECT rcText;
 	COLORREF enableColor, disableColor, focusColor;
-	BYTE flags; /* see HLKF_* */
+	uint8_t flags; /* see HLKF_* */
 };
 
 /* flags */

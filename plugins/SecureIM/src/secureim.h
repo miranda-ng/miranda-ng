@@ -37,7 +37,7 @@
 
 struct SIG {
 	char *sig;
-	BYTE len;
+	uint8_t len;
 	char key;
 };
 

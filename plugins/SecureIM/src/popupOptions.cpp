@@ -108,27 +108,27 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			break;
 		case IDC_EC:
 			//set ec checkbox value
-			g_plugin.setByte("ec", (BYTE)(SendMessage(hec, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ec", (uint8_t)(SendMessage(hec, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_DC:
 			//set dc checkbox value
-			g_plugin.setByte("dc", (BYTE)(SendMessage(hdc, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("dc", (uint8_t)(SendMessage(hdc, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SS:
 			//set ss checkbox value
-			g_plugin.setByte("ss", (BYTE)(SendMessage(hss, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ss", (uint8_t)(SendMessage(hss, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_SR:
 			//set sr checkbox value
-			g_plugin.setByte("sr", (BYTE)(SendMessage(hsr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("sr", (uint8_t)(SendMessage(hsr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KS:
 			//set indicator checkbox value
-			g_plugin.setByte("ks", (BYTE)(SendMessage(hks, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("ks", (uint8_t)(SendMessage(hks, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_KR:
 			//set indicator checkbox value
-			g_plugin.setByte("kr", (BYTE)(SendMessage(hkr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
+			g_plugin.setByte("kr", (uint8_t)(SendMessage(hkr, BM_GETCHECK, 0L, 0L) == BST_CHECKED));
 			break;
 		case IDC_TIMEKEY:
 			//set timeout value

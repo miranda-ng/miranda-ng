@@ -19,13 +19,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-enum ClistAlign : BYTE
+enum ClistAlign : uint8_t
 {
     left,
     right
 };
 
-enum ClistState : BYTE
+enum ClistState : uint8_t
 {
     hidden,
     minimized,
@@ -34,8 +34,8 @@ enum ClistState : BYTE
 
 struct ClistOptions
 {
-    CMOption<BYTE> isDocked;
-    CMOption<BYTE> state;
+    CMOption<uint8_t> isDocked;
+    CMOption<uint8_t> state;
 
     CMOption<DWORD> x;
     CMOption<DWORD> y;
@@ -54,13 +54,13 @@ struct ClistOptions
 
 struct StartPositionOptions
 {
-    CMOption<BYTE> setTopPosition;
-    CMOption<BYTE> setBottomPosition;
-    CMOption<BYTE> setSidePosition;
-    CMOption<BYTE> clistAlign;
-    CMOption<BYTE> setClistWidth;
-    CMOption<BYTE> setClistStartState;
-    CMOption<BYTE> clistState;
+    CMOption<uint8_t> setTopPosition;
+    CMOption<uint8_t> setBottomPosition;
+    CMOption<uint8_t> setSidePosition;
+    CMOption<uint8_t> clistAlign;
+    CMOption<uint8_t> setClistWidth;
+    CMOption<uint8_t> setClistStartState;
+    CMOption<uint8_t> clistState;
 
     CMOption<DWORD> pixelsFromTop;
     CMOption<DWORD> pixelsFromBottom;

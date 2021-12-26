@@ -56,9 +56,9 @@ http://libpng.org/pub/mng/spec/
 const DWORD JPEG_CHUNK_SIZE	= 8192;
 
 /** PNG signature */
-static const BYTE g_png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
+static const uint8_t g_png_signature[8] = { 137, 80, 78, 71, 13, 10, 26, 10 };
 /** JNG signature */
-static const BYTE g_jng_signature[8] = { 139, 74, 78, 71, 13, 10, 26, 10 };
+static const uint8_t g_jng_signature[8] = { 139, 74, 78, 71, 13, 10, 26, 10 };
 
 // --------------------------------------------------------------------------
 
@@ -128,57 +128,57 @@ typedef std::map<std::string, std::string> tEXtMAP;
   portable, we use ASCII numbers like this, not characters.
 */
 
-static BYTE mng_MHDR[5]={ 77,  72,  68,  82, (BYTE) '\0'};
-static BYTE mng_BACK[5]={ 66,  65,  67,  75, (BYTE) '\0'};
-static BYTE mng_BASI[5]={ 66,  65,  83,  73, (BYTE) '\0'};
-static BYTE mng_CLIP[5]={ 67,  76,  73,  80, (BYTE) '\0'};
-static BYTE mng_CLON[5]={ 67,  76,  79,  78, (BYTE) '\0'};
-static BYTE mng_DEFI[5]={ 68,  69,  70,  73, (BYTE) '\0'};
-static BYTE mng_DHDR[5]={ 68,  72,  68,  82, (BYTE) '\0'};
-static BYTE mng_DISC[5]={ 68,  73,  83,  67, (BYTE) '\0'};
-static BYTE mng_ENDL[5]={ 69,  78,  68,  76, (BYTE) '\0'};
-static BYTE mng_FRAM[5]={ 70,  82,  65,  77, (BYTE) '\0'};
-static BYTE mng_IEND[5]={ 73,  69,  78,  68, (BYTE) '\0'};
-static BYTE mng_IHDR[5]={ 73,  72,  68,  82, (BYTE) '\0'};
-static BYTE mng_JHDR[5]={ 74,  72,  68,  82, (BYTE) '\0'};
-static BYTE mng_LOOP[5]={ 76,  79,  79,  80, (BYTE) '\0'};
-static BYTE mng_MAGN[5]={ 77,  65,  71,  78, (BYTE) '\0'};
-static BYTE mng_MEND[5]={ 77,  69,  78,  68, (BYTE) '\0'};
-static BYTE mng_MOVE[5]={ 77,  79,  86,  69, (BYTE) '\0'};
-static BYTE mng_PAST[5]={ 80,  65,  83,  84, (BYTE) '\0'};
-static BYTE mng_PLTE[5]={ 80,  76,  84,  69, (BYTE) '\0'};
-static BYTE mng_SAVE[5]={ 83,  65,  86,  69, (BYTE) '\0'};
-static BYTE mng_SEEK[5]={ 83,  69,  69,  75, (BYTE) '\0'};
-static BYTE mng_SHOW[5]={ 83,  72,  79,  87, (BYTE) '\0'};
-static BYTE mng_TERM[5]={ 84,  69,  82,  77, (BYTE) '\0'};
-static BYTE mng_bKGD[5]={ 98,  75,  71,  68, (BYTE) '\0'};
-static BYTE mng_cHRM[5]={ 99,  72,  82,  77, (BYTE) '\0'};
-static BYTE mng_gAMA[5]={103,  65,  77,  65, (BYTE) '\0'};
-static BYTE mng_iCCP[5]={105,  67,  67,  80, (BYTE) '\0'};
-static BYTE mng_nEED[5]={110,  69,  69,  68, (BYTE) '\0'};
-static BYTE mng_pHYg[5]={112,  72,  89, 103, (BYTE) '\0'};
-static BYTE mng_vpAg[5]={118, 112,  65, 103, (BYTE) '\0'};
-static BYTE mng_pHYs[5]={112,  72,  89, 115, (BYTE) '\0'};
-static BYTE mng_sBIT[5]={115,  66,  73,  84, (BYTE) '\0'};
-static BYTE mng_sRGB[5]={115,  82,  71,  66, (BYTE) '\0'};
-static BYTE mng_tRNS[5]={116,  82,  78,  83, (BYTE) '\0'};
+static uint8_t mng_MHDR[5]={ 77,  72,  68,  82, (uint8_t) '\0'};
+static uint8_t mng_BACK[5]={ 66,  65,  67,  75, (uint8_t) '\0'};
+static uint8_t mng_BASI[5]={ 66,  65,  83,  73, (uint8_t) '\0'};
+static uint8_t mng_CLIP[5]={ 67,  76,  73,  80, (uint8_t) '\0'};
+static uint8_t mng_CLON[5]={ 67,  76,  79,  78, (uint8_t) '\0'};
+static uint8_t mng_DEFI[5]={ 68,  69,  70,  73, (uint8_t) '\0'};
+static uint8_t mng_DHDR[5]={ 68,  72,  68,  82, (uint8_t) '\0'};
+static uint8_t mng_DISC[5]={ 68,  73,  83,  67, (uint8_t) '\0'};
+static uint8_t mng_ENDL[5]={ 69,  78,  68,  76, (uint8_t) '\0'};
+static uint8_t mng_FRAM[5]={ 70,  82,  65,  77, (uint8_t) '\0'};
+static uint8_t mng_IEND[5]={ 73,  69,  78,  68, (uint8_t) '\0'};
+static uint8_t mng_IHDR[5]={ 73,  72,  68,  82, (uint8_t) '\0'};
+static uint8_t mng_JHDR[5]={ 74,  72,  68,  82, (uint8_t) '\0'};
+static uint8_t mng_LOOP[5]={ 76,  79,  79,  80, (uint8_t) '\0'};
+static uint8_t mng_MAGN[5]={ 77,  65,  71,  78, (uint8_t) '\0'};
+static uint8_t mng_MEND[5]={ 77,  69,  78,  68, (uint8_t) '\0'};
+static uint8_t mng_MOVE[5]={ 77,  79,  86,  69, (uint8_t) '\0'};
+static uint8_t mng_PAST[5]={ 80,  65,  83,  84, (uint8_t) '\0'};
+static uint8_t mng_PLTE[5]={ 80,  76,  84,  69, (uint8_t) '\0'};
+static uint8_t mng_SAVE[5]={ 83,  65,  86,  69, (uint8_t) '\0'};
+static uint8_t mng_SEEK[5]={ 83,  69,  69,  75, (uint8_t) '\0'};
+static uint8_t mng_SHOW[5]={ 83,  72,  79,  87, (uint8_t) '\0'};
+static uint8_t mng_TERM[5]={ 84,  69,  82,  77, (uint8_t) '\0'};
+static uint8_t mng_bKGD[5]={ 98,  75,  71,  68, (uint8_t) '\0'};
+static uint8_t mng_cHRM[5]={ 99,  72,  82,  77, (uint8_t) '\0'};
+static uint8_t mng_gAMA[5]={103,  65,  77,  65, (uint8_t) '\0'};
+static uint8_t mng_iCCP[5]={105,  67,  67,  80, (uint8_t) '\0'};
+static uint8_t mng_nEED[5]={110,  69,  69,  68, (uint8_t) '\0'};
+static uint8_t mng_pHYg[5]={112,  72,  89, 103, (uint8_t) '\0'};
+static uint8_t mng_vpAg[5]={118, 112,  65, 103, (uint8_t) '\0'};
+static uint8_t mng_pHYs[5]={112,  72,  89, 115, (uint8_t) '\0'};
+static uint8_t mng_sBIT[5]={115,  66,  73,  84, (uint8_t) '\0'};
+static uint8_t mng_sRGB[5]={115,  82,  71,  66, (uint8_t) '\0'};
+static uint8_t mng_tRNS[5]={116,  82,  78,  83, (uint8_t) '\0'};
 
 #if defined(JNG_SUPPORTED)
-static BYTE mng_IDAT[5]={ 73,  68,  65,  84, (BYTE) '\0'};
-static BYTE mng_JDAT[5]={ 74,  68,  65,  84, (BYTE) '\0'};
-static BYTE mng_JDAA[5]={ 74,  68,  65,  65, (BYTE) '\0'};
-static BYTE mng_JdAA[5]={ 74, 100,  65,  65, (BYTE) '\0'};
-static BYTE mng_JSEP[5]={ 74,  83,  69,  80, (BYTE) '\0'};
-static BYTE mng_oFFs[5]={111,  70,  70, 115, (BYTE) '\0'};
+static uint8_t mng_IDAT[5]={ 73,  68,  65,  84, (uint8_t) '\0'};
+static uint8_t mng_JDAT[5]={ 74,  68,  65,  84, (uint8_t) '\0'};
+static uint8_t mng_JDAA[5]={ 74,  68,  65,  65, (uint8_t) '\0'};
+static uint8_t mng_JdAA[5]={ 74, 100,  65,  65, (uint8_t) '\0'};
+static uint8_t mng_JSEP[5]={ 74,  83,  69,  80, (uint8_t) '\0'};
+static uint8_t mng_oFFs[5]={111,  70,  70, 115, (uint8_t) '\0'};
 #endif
 
-static BYTE mng_hIST[5]={104,  73,  83,  84, (BYTE) '\0'};
-static BYTE mng_iTXt[5]={105,  84,  88, 116, (BYTE) '\0'};
-static BYTE mng_sPLT[5]={115,  80,  76,  84, (BYTE) '\0'};
-static BYTE mng_sTER[5]={115,  84,  69,  82, (BYTE) '\0'};
-static BYTE mng_tEXt[5]={116,  69,  88, 116, (BYTE) '\0'};
-static BYTE mng_tIME[5]={116,  73,  77,  69, (BYTE) '\0'};
-static BYTE mng_zTXt[5]={122,  84,  88, 116, (BYTE) '\0'};
+static uint8_t mng_hIST[5]={104,  73,  83,  84, (uint8_t) '\0'};
+static uint8_t mng_iTXt[5]={105,  84,  88, 116, (uint8_t) '\0'};
+static uint8_t mng_sPLT[5]={115,  80,  76,  84, (uint8_t) '\0'};
+static uint8_t mng_sTER[5]={115,  84,  69,  82, (uint8_t) '\0'};
+static uint8_t mng_tEXt[5]={116,  69,  88, 116, (uint8_t) '\0'};
+static uint8_t mng_tIME[5]={116,  73,  77,  69, (uint8_t) '\0'};
+static uint8_t mng_zTXt[5]={122,  84,  88, 116, (uint8_t) '\0'};
 
 
 // --------------------------------------------------------------------------
@@ -187,7 +187,7 @@ static BYTE mng_zTXt[5]={122,  84,  88, 116, (BYTE) '\0'};
 Convert a chunk name to a unique ID
 */
 static eChunckType 
-mng_GetChunckType(const BYTE *mChunkName) {
+mng_GetChunckType(const uint8_t *mChunkName) {
 	if(memcmp(mChunkName, mng_MHDR, 4) == 0) {
 		return MHDR;
 	}
@@ -282,7 +282,7 @@ mng_CountPNGChunks(FreeImageIO *io, fi_handle handle, long inPos, unsigned *m_To
 	long mPos;
 	BOOL mEnd = FALSE;
 	DWORD mLength = 0;
-	BYTE mChunkName[5];
+	uint8_t mChunkName[5];
 
 	*m_TotalBytesOfChunks = 0;
 
@@ -355,10 +355,10 @@ Retrieve the position of a chunk in a PNG stream
 @return Returns TRUE if successful, returns FALSE otherwise
 */
 static BOOL 
-mng_FindChunk(FIMEMORY *hPngMemory, BYTE *chunk_name, long offset, DWORD *start_pos, DWORD *next_pos) {
+mng_FindChunk(FIMEMORY *hPngMemory, uint8_t *chunk_name, long offset, DWORD *start_pos, DWORD *next_pos) {
 	DWORD mLength = 0;
 
-	BYTE *data = NULL;
+	uint8_t *data = NULL;
 	DWORD size_in_bytes = 0;
 
 	*start_pos = 0;
@@ -418,7 +418,7 @@ Remove a chunk located at (start_pos, next_pos) in the PNG stream
 */
 static BOOL 
 mng_CopyRemoveChunks(FIMEMORY *hPngMemory, DWORD start_pos, DWORD next_pos) {
-	BYTE *data = NULL;
+	uint8_t *data = NULL;
 	DWORD size_in_bytes = 0;
 
 	// length of the chunk to remove
@@ -437,7 +437,7 @@ mng_CopyRemoveChunks(FIMEMORY *hPngMemory, DWORD start_pos, DWORD next_pos) {
 	// new file length
 	unsigned buffer_size = size_in_bytes + chunk_length;
 
-	BYTE *buffer = (BYTE*)malloc(buffer_size * sizeof(BYTE));
+	uint8_t *buffer = (uint8_t*)malloc(buffer_size * sizeof(uint8_t));
 	if(!buffer) {
 		return FALSE;
 	}
@@ -462,8 +462,8 @@ Insert a chunk just before the inNextChunkName chunk
 @return Returns TRUE if successfull, returns FALSE otherwise
 */
 static BOOL 
-mng_CopyInsertChunks(FIMEMORY *hPngMemory, BYTE *inNextChunkName, BYTE *inInsertChunk, DWORD inChunkLength, DWORD start_pos, DWORD next_pos) {
-	BYTE *data = NULL;
+mng_CopyInsertChunks(FIMEMORY *hPngMemory, uint8_t *inNextChunkName, uint8_t *inInsertChunk, DWORD inChunkLength, DWORD start_pos, DWORD next_pos) {
+	uint8_t *data = NULL;
 	DWORD size_in_bytes = 0;
 
 	// length of the chunk to check
@@ -482,7 +482,7 @@ mng_CopyInsertChunks(FIMEMORY *hPngMemory, BYTE *inNextChunkName, BYTE *inInsert
 	// new file length
 	unsigned buffer_size = inChunkLength + size_in_bytes;
 
-	BYTE *buffer = (BYTE*)malloc(buffer_size * sizeof(BYTE));
+	uint8_t *buffer = (uint8_t*)malloc(buffer_size * sizeof(uint8_t));
 	if(!buffer) {
 		return FALSE;
 	}
@@ -504,7 +504,7 @@ mng_CopyInsertChunks(FIMEMORY *hPngMemory, BYTE *inNextChunkName, BYTE *inInsert
 }
 
 static BOOL 
-mng_RemoveChunk(FIMEMORY *hPngMemory, BYTE *chunk_name) {
+mng_RemoveChunk(FIMEMORY *hPngMemory, uint8_t *chunk_name) {
 	BOOL bResult = FALSE;
 
 	DWORD start_pos = 0;
@@ -524,7 +524,7 @@ mng_RemoveChunk(FIMEMORY *hPngMemory, BYTE *chunk_name) {
 }
 
 static BOOL 
-mng_InsertChunk(FIMEMORY *hPngMemory, BYTE *inNextChunkName, BYTE *inInsertChunk, unsigned chunk_length) {
+mng_InsertChunk(FIMEMORY *hPngMemory, uint8_t *inNextChunkName, uint8_t *inInsertChunk, unsigned chunk_length) {
 	BOOL bResult = FALSE;
 
 	DWORD start_pos = 0;
@@ -571,7 +571,7 @@ Write a chunk in a PNG stream from the current position.
 @param hPngMemory PNG stream handle
 */
 static void
-mng_WriteChunk(BYTE *chunk_name, BYTE *chunk_data, DWORD length, FIMEMORY *hPngMemory) {
+mng_WriteChunk(uint8_t *chunk_name, uint8_t *chunk_data, DWORD length, FIMEMORY *hPngMemory) {
 	DWORD crc_file = 0;
 	// write a PNG chunk ...
 	// - length
@@ -610,10 +610,10 @@ The image is assumed to be a greyscale image.
 @param hPngMemory Output memory stream
 */
 static void 
-mng_WritePNGStream(DWORD jng_width, DWORD jng_height, BYTE jng_alpha_sample_depth, BYTE *mChunk, DWORD mLength, FIMEMORY *hPngMemory) {
+mng_WritePNGStream(DWORD jng_width, DWORD jng_height, uint8_t jng_alpha_sample_depth, uint8_t *mChunk, DWORD mLength, FIMEMORY *hPngMemory) {
 	// PNG grayscale IDAT format
 
-	BYTE data[14];
+	uint8_t data[14];
 
 	// wrap the IDAT chunk as a PNG stream
 
@@ -700,16 +700,16 @@ Read a tEXt chunk and extract the key/value pair.
 @return Returns TRUE if successful, returns FALSE otherwise
 */
 static BOOL 
-mng_SetMetadata_tEXt(tEXtMAP &key_value_pair, const BYTE *mChunk, DWORD mLength) {
+mng_SetMetadata_tEXt(tEXtMAP &key_value_pair, const uint8_t *mChunk, DWORD mLength) {
 	std::string key;
 	std::string value;
-	BYTE *buffer = (BYTE*)malloc(mLength * sizeof(BYTE));
+	uint8_t *buffer = (uint8_t*)malloc(mLength * sizeof(uint8_t));
 	if(!buffer) {
 		return FALSE;
 	}
 	DWORD pos = 0;
 
-	memset(buffer, 0, mLength * sizeof(BYTE));
+	memset(buffer, 0, mLength * sizeof(uint8_t));
 
 	for(DWORD i = 0; i < mLength; i++) {
 		buffer[pos++] = mChunk[i];
@@ -717,7 +717,7 @@ mng_SetMetadata_tEXt(tEXtMAP &key_value_pair, const BYTE *mChunk, DWORD mLength)
 			if(key.size() == 0) {
 				key = (char*)buffer;
 				pos = 0;
-				memset(buffer, 0, mLength * sizeof(BYTE));
+				memset(buffer, 0, mLength * sizeof(uint8_t));
 			} else {
 				break;
 			}
@@ -745,12 +745,12 @@ Load a FIBITMAP from a MNG or a JNG stream
 FIBITMAP* 
 mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, int flags = 0) {
 	DWORD mLength = 0;
-	BYTE mChunkName[5];
-	BYTE *mChunk = NULL;
+	uint8_t mChunkName[5];
+	uint8_t *mChunk = NULL;
 	DWORD crc_file;
 	long LastOffset;
 	long mOrigPos;
-	BYTE *PLTE_file_chunk = NULL;	// whole PLTE chunk (lentgh, name, array, crc)
+	uint8_t *PLTE_file_chunk = NULL;	// whole PLTE chunk (lentgh, name, array, crc)
 	DWORD PLTE_file_size = 0;		// size of PLTE chunk
 
 	BOOL m_HasGlobalPalette = FALSE; // may turn to TRUE in PLTE chunk
@@ -765,14 +765,14 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 	// ---
 	DWORD jng_width = 0;
 	DWORD jng_height = 0;
-	BYTE jng_color_type = 0;
-	BYTE jng_image_sample_depth = 0;
-	BYTE jng_image_compression_method = 0;
+	uint8_t jng_color_type = 0;
+	uint8_t jng_image_sample_depth = 0;
+	uint8_t jng_image_compression_method = 0;
 
-	BYTE jng_alpha_sample_depth = 0;
-	BYTE jng_alpha_compression_method = 0;
-	BYTE jng_alpha_filter_method = 0;
-	BYTE jng_alpha_interlace_method = 0;
+	uint8_t jng_alpha_sample_depth = 0;
+	uint8_t jng_alpha_compression_method = 0;
+	uint8_t jng_alpha_filter_method = 0;
+	uint8_t jng_alpha_interlace_method = 0;
 
 	DWORD mng_frame_width = 0;
 	DWORD mng_frame_height = 0;
@@ -816,7 +816,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 			mChunkName[4] = '\0';
 
 			if(mLength > 0) {
-				mChunk = (BYTE*)realloc(mChunk, mLength);
+				mChunk = (uint8_t*)realloc(mChunk, mLength);
 				if(!mChunk) {
 					FreeImage_OutputMessageProc(format_id, "Error while parsing %s chunk: out of memory", mChunkName);
 					throw (const char*)NULL;
@@ -886,7 +886,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 				case PLTE:	// Global
 					m_HasGlobalPalette = TRUE;
 					PLTE_file_size = mLength + 12; // (lentgh, name, array, crc) = (4, 4, mLength, 4)
-					PLTE_file_chunk = (BYTE*)realloc(PLTE_file_chunk, PLTE_file_size);
+					PLTE_file_chunk = (uint8_t*)realloc(PLTE_file_chunk, PLTE_file_size);
 					if(!PLTE_file_chunk) {
 						FreeImage_OutputMessageProc(format_id, "Error while parsing %s chunk: out of memory", mChunkName);
 						throw (const char*)NULL;
@@ -925,7 +925,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 					FreeImage_SeekMemory(hPngMemory, 0, SEEK_SET);
 					FreeImage_WriteMemory(g_png_signature, 1, 8, hPngMemory);
 
-					mChunk = (BYTE*)realloc(mChunk, m_TotalBytesOfChunks);
+					mChunk = (uint8_t*)realloc(mChunk, m_TotalBytesOfChunks);
 					if(!mChunk) {
 						FreeImage_OutputMessageProc(format_id, "Error while parsing %s chunk: out of memory", mChunkName);
 						throw (const char*)NULL;
@@ -968,7 +968,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 						jng_color_type = mChunk[8];
 						jng_image_sample_depth = mChunk[9];
 						jng_image_compression_method = mChunk[10];
-						//BYTE jng_image_interlace_method = mChunk[11];	// for debug only
+						//uint8_t jng_image_interlace_method = mChunk[11];	// for debug only
 
 						jng_alpha_sample_depth = mChunk[12];
 						jng_alpha_compression_method = mChunk[13];
@@ -1013,7 +1013,7 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 
 					// load the PNG alpha layer
 					if(mHasIDAT) {
-						BYTE *data = NULL;
+						uint8_t *data = NULL;
 						DWORD size_in_bytes = 0;
 
 						// get a pointer to the IDAT buffer
@@ -1052,13 +1052,13 @@ mng_ReadChunks(int format_id, FreeImageIO *io, fi_handle handle, long Offset, in
 				case bKGD:
 					memcpy(&bk_red, &mChunk[0], 2);
 					mng_SwapShort(&bk_red);
-					rgbBkColor.rgbRed = (BYTE)bk_red;
+					rgbBkColor.rgbRed = (uint8_t)bk_red;
 					memcpy(&bk_green, &mChunk[2], 2);
 					mng_SwapShort(&bk_green);
-					rgbBkColor.rgbGreen = (BYTE)bk_green;
+					rgbBkColor.rgbGreen = (uint8_t)bk_green;
 					memcpy(&bk_blue, &mChunk[4], 2);
 					mng_SwapShort(&bk_blue);
-					rgbBkColor.rgbBlue = (BYTE)bk_blue;
+					rgbBkColor.rgbBlue = (uint8_t)bk_blue;
 					hasBkColor = TRUE;
 					break;
 				
@@ -1143,17 +1143,17 @@ BOOL
 mng_WriteJNG(int format_id, FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int flags) {
 	DWORD jng_width = 0;
 	DWORD jng_height = 0;
-	BYTE jng_color_type = 0;
-	BYTE jng_image_sample_depth = 8;
-	BYTE jng_image_compression_method = 8;	//  8: ISO-10918-1 Huffman-coded baseline JPEG.
-	BYTE jng_image_interlace_method = 0;
+	uint8_t jng_color_type = 0;
+	uint8_t jng_image_sample_depth = 8;
+	uint8_t jng_image_compression_method = 8;	//  8: ISO-10918-1 Huffman-coded baseline JPEG.
+	uint8_t jng_image_interlace_method = 0;
 
-	BYTE jng_alpha_sample_depth = 0;
-	BYTE jng_alpha_compression_method = 0;
-	BYTE jng_alpha_filter_method = 0;
-	BYTE jng_alpha_interlace_method = 0;
+	uint8_t jng_alpha_sample_depth = 0;
+	uint8_t jng_alpha_compression_method = 0;
+	uint8_t jng_alpha_filter_method = 0;
+	uint8_t jng_alpha_interlace_method = 0;
 
-	BYTE buffer[16];
+	uint8_t buffer[16];
 
 	FIMEMORY *hJngMemory = NULL;
 	FIMEMORY *hJpegMemory = NULL;
@@ -1231,7 +1231,7 @@ mng_WriteJNG(int format_id, FreeImageIO *io, FIBITMAP *dib, fi_handle handle, in
 			dib_rgb = NULL;
 		}
 		{
-			BYTE *jpeg_data = NULL;
+			uint8_t *jpeg_data = NULL;
 			DWORD size_in_bytes = 0;
 			
 			// get a pointer to the stream buffer
@@ -1269,7 +1269,7 @@ mng_WriteJNG(int format_id, FreeImageIO *io, FIBITMAP *dib, fi_handle handle, in
 					bResult = mng_FindChunk(hPngMemory, mng_IDAT, offset, &start_pos, &next_pos);
 					if(!bResult) break;
 					
-					BYTE *png_data = NULL;
+					uint8_t *png_data = NULL;
 					DWORD size_in_bytes = 0;
 					
 					// get a pointer to the stream buffer
@@ -1291,7 +1291,7 @@ mng_WriteJNG(int format_id, FreeImageIO *io, FIBITMAP *dib, fi_handle handle, in
 
 		// write the JNG on output stream
 		{
-			BYTE *jng_data = NULL;
+			uint8_t *jng_data = NULL;
 			DWORD size_in_bytes = 0;
 			FreeImage_AcquireMemory(hJngMemory, &jng_data, &size_in_bytes);
 			io->write_proc(jng_data, 1, size_in_bytes, handle);			

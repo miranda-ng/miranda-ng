@@ -62,7 +62,7 @@ struct CSendLaterJob : public MZeroedObject
 	DWORD    dwFlags;
 	int      iSendCount;          // # of times we tried to send it...
 	bool     fSuccess, fFailed;
-	BYTE     bCode;               // error/progress code (for the UI)
+	uint8_t     bCode;               // error/progress code (for the UI)
 
 	// returns true if this job is persistent (saved to the database).
 	// such a job will survive a restart of Miranda
@@ -472,7 +472,7 @@ public:
 
 		LVITEM lvItem = { 0 };
 
-		BYTE bCode = '-';
+		uint8_t bCode = '-';
 		unsigned uIndex = 0;
 		for (auto &p : g_sendLaterJobList) {
 			CContactCache *c = CContactCache::getContactCache(p->hContact);

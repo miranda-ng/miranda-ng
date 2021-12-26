@@ -4,7 +4,7 @@
 #define ske_H_INC
 
 /* Definitions */
-#define GetAValue(argb)((BYTE)((argb)>>24))
+#define GetAValue(argb)((uint8_t)((argb)>>24))
 
 #define DEFAULTSKINSECTION  "ModernSkin"
 
@@ -32,7 +32,7 @@ struct GLYPHIMAGE
 	wchar_t  *szFileName;
 	DWORD   dwLoadedTimes;
 	HBITMAP hGlyph;
-	BYTE    isSemiTransp;
+	uint8_t    isSemiTransp;
 };
 
 typedef GLYPHIMAGE *LPGLYPHIMAGE;
@@ -44,15 +44,15 @@ struct CURRWNDIMAGEDATA
 	HDC hScreenDC;
 	HBITMAP hImageDIB, hImageOld;
 	HBITMAP hBackDIB, hBackOld;
-	BYTE * hImageDIBByte;
-	BYTE * hBackDIBByte;
+	uint8_t * hImageDIBByte;
+	uint8_t * hBackDIBByte;
 	int Width, Height;
 };
 
 struct EFFECTSSTACKITEM
 {
 	HDC hdc;
-	BYTE EffectID;
+	uint8_t EffectID;
 	DWORD FirstColor;
 	DWORD SecondColor;
 };
@@ -69,8 +69,8 @@ public:
 
 	typedef HRESULT(*ParserCallback_t)(const char *szSection, const char *szKey, const char *szValue, IniParser *This);
 
-	IniParser(wchar_t *szFileName, BYTE flags = FLAG_WITH_SETTINGS);
-	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, BYTE flags = FLAG_ONLY_OBJECTS);
+	IniParser(wchar_t *szFileName, uint8_t flags = FLAG_WITH_SETTINGS);
+	IniParser(HINSTANCE hInst, const char *resourceName, const char *resourceType, uint8_t flags = FLAG_ONLY_OBJECTS);
 	~IniParser();
 
 	bool CheckOK() { return _isValid; }
@@ -105,7 +105,7 @@ private:
 	DWORD   _dwSizeOfRes;
 	char*	_pPosition;
 
-	BYTE _Flags;
+	uint8_t _Flags;
 };
 
 

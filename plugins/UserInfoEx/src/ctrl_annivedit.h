@@ -33,14 +33,14 @@ class CAnnivEditCtrl : public CBaseCtrl
 	HWND	_hBtnAdd;	 // add anniversary button
 	HWND	_hBtnDel;	 // delete anniversary button
 
-	BYTE	_ReminderEnabled;
+	uint8_t	_ReminderEnabled;
 
 	MAnnivDate** _pDates;
 	WORD	_numDates;
 	WORD	_curDate;
 
-	BYTE ItemValid(WORD wIndex) const;
-	BYTE CurrentItemValid() const;
+	uint8_t ItemValid(WORD wIndex) const;
+	uint8_t CurrentItemValid() const;
 
 	INT_PTR DBGetBirthDay(MCONTACT hContact, LPCSTR pszProto);
 	INT_PTR DBWriteBirthDay(MCONTACT hContact);
@@ -56,12 +56,12 @@ public:
 	MAnnivDate* Current() { return CurrentItemValid() ? _pDates[_curDate] : nullptr; };
 	WORD				CurrentIndex() const { return _curDate; };
 	WORD				NumDates() const { return _numDates; };
-	BYTE		 ReminderEnabled() const { return _ReminderEnabled; };
+	uint8_t		 ReminderEnabled() const { return _ReminderEnabled; };
 
 	MAnnivDate* FindDateById(const WORD wId);
 
 	void				EnableCurrentItem();
-	void				EnableReminderCtrl(BYTE bEnabled);
+	void				EnableReminderCtrl(uint8_t bEnabled);
 
 	INT_PTR		 SetCurSel(WORD wIndex);
 

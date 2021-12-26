@@ -22,7 +22,7 @@ struct FLASHING_SEQUENCE
 {
 	unsigned int size;
 	unsigned int index;
-	BYTE frame[MAX_PATH];
+	uint8_t frame[MAX_PATH];
 };
 
 
@@ -34,19 +34,19 @@ void updateTrillianSeq(void);
 static void __cdecl TestThread(void *param);
 static void PreviewThread(void *);
 FLASHING_SEQUENCE str2FS(wchar_t *);
-BYTE KbdChar2Byte(char);
+uint8_t KbdChar2Byte(char);
 void countUnopenEvents(int *, int *, int *);
 
-#define Leds2Flash	((BYTE)(bFlashLed[2] + (bFlashLed[0]<<1) + (bFlashLed[1]<<2)))
+#define Leds2Flash	((uint8_t)(bFlashLed[2] + (bFlashLed[0]<<1) + (bFlashLed[1]<<2)))
 
 // Flashing settings
 FLASHING_SEQUENCE *pFS;
 BOOL bTemporarilyUseExtern;
-extern BYTE bFlashLed[3];
-extern BYTE bFlashEffect; extern BYTE bSequenceOrder;
+extern uint8_t bFlashLed[3];
+extern uint8_t bFlashEffect; extern uint8_t bSequenceOrder;
 extern WORD wCustomTheme;
-extern BYTE bTrillianLedsMsg, bTrillianLedsFile, bTrillianLedsOther;
-extern BYTE bEmulateKeypresses;
+extern uint8_t bTrillianLedsMsg, bTrillianLedsFile, bTrillianLedsOther;
+extern uint8_t bEmulateKeypresses;
 
 // TestThread/PreviewThread globals
 extern int nWaitDelay; extern WORD wStartDelay;
@@ -57,13 +57,13 @@ void RestoreLEDState(void)
 	if (bEmulateKeypresses)
 		keypresses_RestoreLEDState();
 	else
-		ToggleKeyboardLights((BYTE)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2)));
+		ToggleKeyboardLights((uint8_t)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2)));
 }
 
-BYTE getBlinkingLeds(void)
+uint8_t getBlinkingLeds(void)
 {
 	if (!pFS->size)
-		return (BYTE)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2));
+		return (uint8_t)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2));
 
 	pFS->index %= pFS->size;
 	if (bFlashEffect == FLASH_TRILLIAN && !bTemporarilyUseExtern && !pFS->index)
@@ -342,11 +342,11 @@ static void PreviewThread(void*)
 	if (wStartDelay > 0)
 		Sleep(wStartDelay * 1000);
 
-	BYTE unchangedLeds = (BYTE)(LedState(VK_SCROLL) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
+	uint8_t unchangedLeds = (uint8_t)(LedState(VK_SCROLL) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0])<<1) + ((LedState(VK_CAPITAL) * !bFlashLed[1])<<2));
 
 	while (bPreview)
 		for (unsigned i=0; bPreview && i < pFS->size; i++) {
-			ToggleKeyboardLights((BYTE)(pFS->frame[i%pFS->size]|unchangedLeds));
+			ToggleKeyboardLights((uint8_t)(pFS->frame[i%pFS->size]|unchangedLeds));
 			Sleep(nWaitDelay);				
 		}
 
@@ -375,7 +375,7 @@ FLASHING_SEQUENCE str2FS(wchar_t *str)
 }
 
 
-BYTE KbdChar2Byte(char kbdChar)
+uint8_t KbdChar2Byte(char kbdChar)
 {
 	switch (kbdChar) {
 	case '1': //NumLock

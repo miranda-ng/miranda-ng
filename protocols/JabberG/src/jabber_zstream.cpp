@@ -105,7 +105,7 @@ retry:
 	}
 
 	zStreamIn.avail_out = datalen;
-	zStreamIn.next_out = (BYTE*)data;
+	zStreamIn.next_out = (uint8_t*)data;
 
 	switch (inflate(&zStreamIn, Z_NO_FLUSH)) {
 		case Z_OK:         proto->debugLogA("Inflate: Z_OK");         break;

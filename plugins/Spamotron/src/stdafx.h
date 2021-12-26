@@ -94,9 +94,9 @@ BOOL Contains(wchar_t* dst, wchar_t* src);
 BOOL isOneDay(DWORD timestamp1, DWORD timestamp2);
 void MarkUnread(MCONTACT hContact);
 
-int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2);
-int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2);
-int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage);
+int ShowPopup(MCONTACT hContact, uint8_t popupType, wchar_t *line1, wchar_t *line2);
+int ShowPopupPreview(HWND optDlg, uint8_t popupType, wchar_t *line1, wchar_t *line2);
+int _notify(MCONTACT hContact, uint8_t type, wchar_t *message, wchar_t *origmessage);
 int LogToSystemHistory(char *message, char *origmessage);
 #define POPUP_DEFAULT 0
 #define POPUP_BLOCKED 1

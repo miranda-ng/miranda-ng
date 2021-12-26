@@ -93,7 +93,7 @@ void CAnnivEditCtrl::Release()
  * param:	wIndex	- index to desired item
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-BYTE CAnnivEditCtrl::ItemValid(WORD wIndex) const
+uint8_t CAnnivEditCtrl::ItemValid(WORD wIndex) const
 {
 	return (_pDates != nullptr && wIndex < _numDates && _pDates[wIndex] != nullptr);
 }
@@ -105,7 +105,7 @@ BYTE CAnnivEditCtrl::ItemValid(WORD wIndex) const
  * param:	none
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-BYTE CAnnivEditCtrl::CurrentItemValid() const
+uint8_t CAnnivEditCtrl::CurrentItemValid() const
 {
 	return ItemValid(_curDate);
 }
@@ -117,7 +117,7 @@ BYTE CAnnivEditCtrl::CurrentItemValid() const
  * param:	none
  * return:	TRUE if item is valid, FALSE otherwise
  **/
-void CAnnivEditCtrl::EnableReminderCtrl(BYTE bEnabled)
+void CAnnivEditCtrl::EnableReminderCtrl(uint8_t bEnabled)
 {
 	bEnabled &= _ReminderEnabled != REMIND_OFF;
 	EnableWindow(GetDlgItem(_hwndDlg, RADIO_REMIND1), bEnabled);
@@ -144,7 +144,7 @@ void CAnnivEditCtrl::EnableCurrentItem()
 	
 		PSGetContact(_hwndDlg, hContact);
 
-		const BYTE bEnabled
+		const uint8_t bEnabled
 			= !hContact ||
 				(pCurrent->Flags() & CTRLF_HASCUSTOM) || 
 				!(pCurrent->Flags() & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
@@ -189,7 +189,7 @@ INT_PTR CAnnivEditCtrl::AddDate(MAnnivDate &mda)
 {
 	// if a date with wID exists, replace it
 	if (MAnnivDate *pmda = FindDateById(mda.Id())) {
-		BYTE bChanged = pmda->IsChanged(),
+		uint8_t bChanged = pmda->IsChanged(),
 			bRemindChanged = pmda->IsReminderChanged();
 
 		if (!bChanged) {
@@ -293,7 +293,7 @@ INT_PTR CAnnivEditCtrl::DBGetAnniversaries(MCONTACT hContact)
 	MAnnivDate mda;
 
 	WORD i;
-	BYTE bChanged = FALSE;
+	uint8_t bChanged = FALSE;
 
 	for (i = 0; i < ANID_LAST && !mda.DBGetAnniversaryDate(hContact, i); i++) {
 		mda.DBGetReminderOpts(hContact);
@@ -383,7 +383,7 @@ INT_PTR CAnnivEditCtrl::DBWriteAnniversaries(MCONTACT hContact)
  **/
 INT_PTR CAnnivEditCtrl::SetCurSel(WORD wIndex)
 {
-	BYTE bEnabled = ItemValid(wIndex);
+	uint8_t bEnabled = ItemValid(wIndex);
 
 	EnableWindow(_hwndDate, bEnabled);
 	EnableWindow(_hBtnEdit, bEnabled);

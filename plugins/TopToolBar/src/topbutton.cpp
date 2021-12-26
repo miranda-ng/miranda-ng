@@ -75,7 +75,7 @@ void TopButtonInt::LoadSettings()
 {
 	char buf[255];
 
-	BYTE oldv = isVisible();
+	uint8_t oldv = isVisible();
 	dwFlags = dwFlags & (~TTBBF_VISIBLE);
 
 	if (dwFlags & TTBBF_ISSEPARATOR) {

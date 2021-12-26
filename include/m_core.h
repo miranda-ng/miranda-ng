@@ -259,9 +259,9 @@ typedef struct mir_md5_state_s {
 } mir_md5_state_t;
 
 MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms);
-MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t nbytes);
-MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16]);
-MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, size_t len, BYTE digest[16]);
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const uint8_t *data, size_t nbytes);
+MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, uint8_t digest[16]);
+MIR_CORE_DLL(void) mir_md5_hash(const uint8_t *data, size_t len, uint8_t digest[16]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // memory functions
@@ -360,9 +360,9 @@ struct mir_sha1_ctx
 };
 
 MIR_CORE_DLL(void) mir_sha1_init(mir_sha1_ctx *ctx);
-MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const BYTE *dataIn, size_t len);
-MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, BYTE hashout[MIR_SHA1_HASH_SIZE]);
-MIR_CORE_DLL(void) mir_sha1_hash(BYTE *dataIn, size_t len, BYTE hashout[MIR_SHA1_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha1_append(mir_sha1_ctx *ctx, const uint8_t *dataIn, size_t len);
+MIR_CORE_DLL(void) mir_sha1_finish(mir_sha1_ctx *ctx, uint8_t hashout[MIR_SHA1_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha1_hash(uint8_t *dataIn, size_t len, uint8_t hashout[MIR_SHA1_HASH_SIZE]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // sha256 functions
@@ -373,14 +373,14 @@ struct SHA256_CONTEXT
 {
 	uint32_t  h0, h1, h2, h3, h4, h5, h6, h7;
 	uint32_t  nblocks;
-	BYTE buf[MIR_SHA_BLOCKSIZE];
+	uint8_t buf[MIR_SHA_BLOCKSIZE];
 	int  count;
 };
 
 MIR_CORE_DLL(void) mir_sha256_init(SHA256_CONTEXT *ctx);
 MIR_CORE_DLL(void) mir_sha256_write(SHA256_CONTEXT *ctx, const void *dataIn, size_t len);
-MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *ctx, BYTE hashout[MIR_SHA256_HASH_SIZE]);
-MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, BYTE hashout[MIR_SHA256_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *ctx, uint8_t hashout[MIR_SHA256_HASH_SIZE]);
+MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, uint8_t hashout[MIR_SHA256_HASH_SIZE]);
 
 ///////////////////////////////////////////////////////////////////////////////
 // strings

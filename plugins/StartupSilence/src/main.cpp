@@ -29,16 +29,16 @@ CMPlugin g_plugin;
 HANDLE hTTBarloaded = nullptr;
 HANDLE Buttons = nullptr;
 
-BYTE Enabled;
+uint8_t Enabled;
 DWORD delay;
-BYTE PopUp;
+uint8_t PopUp;
 DWORD PopUpTime;
-BYTE TTBButtons;
-BYTE DefSound;
-BYTE DefPopup;
-BYTE DefEnabled;
-BYTE NonStatusAllow;
-BYTE timer;
+uint8_t TTBButtons;
+uint8_t DefSound;
+uint8_t DefPopup;
+uint8_t DefEnabled;
+uint8_t NonStatusAllow;
+uint8_t timer;
 char hostname[MAX_PATH] = "";
 char EnabledComp[MAX_PATH] = "";
 char DelayComp[MAX_PATH] = "";
@@ -218,7 +218,7 @@ static INT_PTR StartupSilenceEnabled(WPARAM, LPARAM)
 
 static INT_PTR SilenceConnection(WPARAM wParam, LPARAM)
 {
-	timer = (BYTE)wParam;
+	timer = (uint8_t)wParam;
 	return 0;
 }
 

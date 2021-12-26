@@ -423,14 +423,14 @@ int MDatabaseCommon::InitCrypt()
 	BOOL bSuccess = ReadCryptoKey(key);
 	if (bSuccess && (key.length() == m_crypto->getKeyLength())) {
 		// first try to set a key without password
-		if (!m_crypto->setKey(nullptr, (const BYTE*)key.data(), key.length())) {
+		if (!m_crypto->setKey(nullptr, (const uint8_t*)key.data(), key.length())) {
 			CEnterPasswordDialog dlg(this);
 			while (true) {
 				if (!dlg.DoModal())
 					return 4;
 
 				pass_ptrA szPassword(mir_utf8encodeW(dlg.m_newPass));
-				if (m_crypto->setKey(szPassword, (const BYTE*)key.data(), key.length())) {
+				if (m_crypto->setKey(szPassword, (const uint8_t*)key.data(), key.length())) {
 					m_bUsesPassword = true;
 					break;
 				}

@@ -65,7 +65,7 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, uint8_t *pLcdBitmapB
 	}
 
 	int nBMISize = sizeof(BITMAPINFO) + 256 * sizeof(RGBQUAD);
-	m_pBitmapInfo = (BITMAPINFO *) new BYTE[nBMISize];
+	m_pBitmapInfo = (BITMAPINFO *) new uint8_t[nBMISize];
 	if (nullptr == m_pBitmapInfo) {
 		TRACE(L"CLCDGfx::Initialize(): failed to allocate bitmap info.\n");
 		Shutdown();
@@ -87,9 +87,9 @@ bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, uint8_t *pLcdBitmapB
 
 	if (m_nBPP == 1) {
 		for (int nColor = 0; nColor < 256; ++nColor) {
-			m_pBitmapInfo->bmiColors[nColor].rgbRed = (BYTE)((nColor > 128) ? 255 : 0);
-			m_pBitmapInfo->bmiColors[nColor].rgbGreen = (BYTE)((nColor > 128) ? 255 : 0);
-			m_pBitmapInfo->bmiColors[nColor].rgbBlue = (BYTE)((nColor > 128) ? 255 : 0);
+			m_pBitmapInfo->bmiColors[nColor].rgbRed = (uint8_t)((nColor > 128) ? 255 : 0);
+			m_pBitmapInfo->bmiColors[nColor].rgbGreen = (uint8_t)((nColor > 128) ? 255 : 0);
+			m_pBitmapInfo->bmiColors[nColor].rgbBlue = (uint8_t)((nColor > 128) ? 255 : 0);
 			m_pBitmapInfo->bmiColors[nColor].rgbReserved = 0;
 		}
 	}
@@ -217,7 +217,7 @@ void CLCDGfx::SetPixel(int nX, int nY, COLORREF color)
 	::SetPixel(m_hDC, nX, nY, color);
 }
 
-void CLCDGfx::SetPixel(int nX, int nY, BYTE r, BYTE g, BYTE b)
+void CLCDGfx::SetPixel(int nX, int nY, uint8_t r, uint8_t g, uint8_t b)
 {
 	COLORREF ref;
 	if (m_nBPP == 1) {
@@ -721,13 +721,13 @@ void CLCDGfx::StartTransition(ETransitionType eType, LPRECT rect)
 
 	if (m_bTransition) {
 		EndTransition();
-		memcpy(m_pBitmapBits, m_pLcdBitmapBits, sizeof(BYTE)*m_nWidth*m_nHeight*m_nBPP);
+		memcpy(m_pBitmapBits, m_pLcdBitmapBits, sizeof(uint8_t)*m_nWidth*m_nHeight*m_nBPP);
 	}
 
 	if (m_pSavedBitmapBits == nullptr)
-		m_pSavedBitmapBits = (BYTE*)malloc(sizeof(BYTE)*m_nWidth*m_nHeight*m_nBPP);
+		m_pSavedBitmapBits = (uint8_t*)malloc(sizeof(uint8_t)*m_nWidth*m_nHeight*m_nBPP);
 
-	memcpy(m_pSavedBitmapBits, m_pBitmapBits, sizeof(BYTE)* m_nWidth * m_nHeight * m_nBPP);
+	memcpy(m_pSavedBitmapBits, m_pBitmapBits, sizeof(uint8_t)* m_nWidth * m_nHeight * m_nBPP);
 
 	m_dwTransitionStart = 0;
 

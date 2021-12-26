@@ -64,9 +64,9 @@ void DestroySkinBitmap();
 int DrawTextAlpha(HDC hdc, LPCTSTR lpString, int nCount, LPRECT lpRect, UINT uFormat);
 void DrawIconExAlpha(HDC hdc, int xLeft, int yTop, HICON hIcon, int cxWidth, int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags, bool bIsSmiley);
 COLOR32* SaveAlpha(LPRECT lpRect);
-void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, BYTE alpha = 0xff);
+void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, uint8_t alpha = 0xff);
 void PremultipleChannels();
 void ColorizeBitmap();
-HRGN CreateOpaqueRgn(BYTE level, bool bOpaque);
+HRGN CreateOpaqueRgn(uint8_t level, bool bOpaque);
 
 #endif

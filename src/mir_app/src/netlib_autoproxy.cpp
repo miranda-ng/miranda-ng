@@ -278,18 +278,18 @@ void NetlibLoadIeProxy(void)
 	char szHostStr[256] = "", szProxyBypassStr[4096] = "";
 
 	tValueLen = sizeof(enabled);
-	int tResult = RegQueryValueExA(hSettings, "ProxyEnable", nullptr, nullptr, (BYTE*)&enabled, &tValueLen);
+	int tResult = RegQueryValueExA(hSettings, "ProxyEnable", nullptr, nullptr, (uint8_t*)&enabled, &tValueLen);
 	bEnabled = enabled && tResult == ERROR_SUCCESS;
 
 	tValueLen = _countof(szHostStr);
-	tResult = RegQueryValueExA(hSettings, "ProxyServer", nullptr, nullptr, (BYTE*)szHostStr, &tValueLen);
+	tResult = RegQueryValueExA(hSettings, "ProxyServer", nullptr, nullptr, (uint8_t*)szHostStr, &tValueLen);
 	bEnabled = bEnabled && tResult == ERROR_SUCCESS;
 
 	tValueLen = _countof(szAutoUrlStr);
-	RegQueryValueExA(hSettings, "AutoConfigUrl", nullptr, nullptr, (BYTE*)szAutoUrlStr, &tValueLen);
+	RegQueryValueExA(hSettings, "AutoConfigUrl", nullptr, nullptr, (uint8_t*)szAutoUrlStr, &tValueLen);
 
 	tValueLen = _countof(szProxyBypassStr);
-	RegQueryValueExA(hSettings, "ProxyOverride", nullptr, nullptr, (BYTE*)szProxyBypassStr, &tValueLen);
+	RegQueryValueExA(hSettings, "ProxyOverride", nullptr, nullptr, (uint8_t*)szProxyBypassStr, &tValueLen);
 
 	RegCloseKey(hSettings);
 

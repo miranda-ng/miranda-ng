@@ -325,7 +325,7 @@ struct TContainerData : public MZeroedObject
 	SIZE	   m_szOldToolbarSize;
 	SIZE     m_oldSize, m_preSIZE;
 	WORD	   m_avatarMode, m_ownAvatarMode;
-	BYTE	   m_bTBRenderingMode;
+	uint8_t	   m_bTBRenderingMode;
 	TLogTheme m_theme;
 	CMenuBar *m_pMenuBar;
 	CSideBar *m_pSideBar;
@@ -483,7 +483,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	HICON   m_hSmileyIcon;
 	HWND    m_hwndContactPic, m_hwndPanelPic, m_hwndPanelPicParent;
 	UINT    m_bbLSideWidth, m_bbRSideWidth;
-	BYTE    kstate[256];
+	uint8_t    kstate[256];
 			  
 	RECT    m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
 	int     m_originalSplitterY;

@@ -38,10 +38,10 @@ HWND SetToolTip(HWND hwnd, wchar_t * tip);
 typedef struct _ModernSkinButtonCtrl
 {
 	HWND    hwnd;
-	BYTE    down; // button state
-	BYTE    focus;   // has focus (1 or 0)
-	BYTE    hover;
-	BYTE    IsSwitcher;
+	uint8_t    down; // button state
+	uint8_t    focus;   // has focus (1 or 0)
+	uint8_t    hover;
+	uint8_t    IsSwitcher;
 	BOOL    fCallOnPress;
 	char    * ID;
 	char    * CommandService;
@@ -236,7 +236,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 		case 'b':
 			curval = db_get_b(0, section, key, l2);
 			curval = (curval == l2) ? l1 : l2;
-			db_set_b(0, section, key, (BYTE)curval);
+			db_set_b(0, section, key, (uint8_t)curval);
 			break;
 		}
 		mir_free(section);
@@ -490,7 +490,7 @@ HWND SetToolTip(HWND hwnd, wchar_t * tip)
 typedef struct _MButton
 {
 	HWND hwnd;
-	BYTE    ConstrainPositionFrom;  //(BBRRTTLL)  L = 0 - from left, L = 1 from right, L = 2 from center
+	uint8_t    ConstrainPositionFrom;  //(BBRRTTLL)  L = 0 - from left, L = 1 from right, L = 2 from center
 	int OrL, OrR, OrT, OrB;
 	int minW, minH;
 	ModernSkinButtonCtrl * bct;
@@ -564,7 +564,7 @@ int ModernSkinButton_AddButton(HWND parent,
 		Buttons[ButtonsCount].OrT = Top;
 		Buttons[ButtonsCount].OrR = Right;
 		Buttons[ButtonsCount].OrB = Bottom;
-		Buttons[ButtonsCount].ConstrainPositionFrom = (BYTE)sbFlags;
+		Buttons[ButtonsCount].ConstrainPositionFrom = (uint8_t)sbFlags;
 		Buttons[ButtonsCount].minH = MinHeight;
 		Buttons[ButtonsCount].minW = MinWidth;
 		ButtonsCount++;
@@ -641,7 +641,7 @@ int ModernSkinButtonDeleteAll()
 	return 0;
 }
 
-int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *pRect)
+int ModernSkinButton_ReposButtons(HWND parent, uint8_t draw, RECT *pRect)
 {
 	RECT rc, clr, rd;
 	BOOL altDraw = FALSE;

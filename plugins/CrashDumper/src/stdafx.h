@@ -80,7 +80,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMOption<BYTE> bCatchCrashes, bClassicDates, bUploadChanged, bUseSubFolder, bSuccessPopups;
+	CMOption<uint8_t> bCatchCrashes, bClassicDates, bUploadChanged, bUseSubFolder, bSuccessPopups;
 
 	bool bNeedRestart = false, bServiceMode = false;
 

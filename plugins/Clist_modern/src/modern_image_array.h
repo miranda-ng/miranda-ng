@@ -79,6 +79,6 @@ BOOL ImageArray_ChangeImage(IMAGE_ARRAY_DATA *iad, HBITMAP hBmp, int pos);
 BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos);
 
 // Draw an image
-BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha);
+BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, uint8_t Alpha);
 
 #endif // __IMAGE_ARRAY_H__

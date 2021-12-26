@@ -88,13 +88,13 @@ const int CLCPaint::SELECTION_BORDER = 6;
 const int CLCPaint::MIN_TEXT_WIDTH = 20;
 const int CLCPaint::BUF2SIZE = 7;
 
-const BYTE CLCPaint::GIM_SELECTED_AFFECT = 1;
-const BYTE CLCPaint::GIM_HOT_AFFECT = 2;
-const BYTE CLCPaint::GIM_TEMP_AFFECT = 4;
-const BYTE CLCPaint::GIM_IDLE_AFFECT = 8;
-const BYTE CLCPaint::GIM_EXTRAICON_AFFECT = CLCPaint::GIM_SELECTED_AFFECT | CLCPaint::GIM_HOT_AFFECT | CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
-const BYTE CLCPaint::GIM_STATUSICON_AFFECT = CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
-const BYTE CLCPaint::GIM_AVATAR_AFFECT = CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
+const uint8_t CLCPaint::GIM_SELECTED_AFFECT = 1;
+const uint8_t CLCPaint::GIM_HOT_AFFECT = 2;
+const uint8_t CLCPaint::GIM_TEMP_AFFECT = 4;
+const uint8_t CLCPaint::GIM_IDLE_AFFECT = 8;
+const uint8_t CLCPaint::GIM_EXTRAICON_AFFECT = CLCPaint::GIM_SELECTED_AFFECT | CLCPaint::GIM_HOT_AFFECT | CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
+const uint8_t CLCPaint::GIM_STATUSICON_AFFECT = CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
+const uint8_t CLCPaint::GIM_AVATAR_AFFECT = CLCPaint::GIM_IDLE_AFFECT | CLCPaint::GIM_TEMP_AFFECT;
 
 CLCPaint::CLCPaint()
 {
@@ -1050,9 +1050,9 @@ void CLCPaint::_PreparePaintContext(ClcData *dat, HDC hdc, int paintMode, RECT &
 		int gValue = GetRValue(pc.tmpbkcolour) + gDelta;
 		int bValue = GetRValue(pc.tmpbkcolour) + bDelta;
 
-		BYTE brValue = (rValue > 255) ? 255 : rValue < 0 ? 0 : (BYTE)rValue;
-		BYTE bgValue = (gValue > 255) ? 255 : gValue < 0 ? 0 : (BYTE)gValue;
-		BYTE bbValue = (bValue > 255) ? 255 : bValue < 0 ? 0 : (BYTE)bValue;
+		uint8_t brValue = (rValue > 255) ? 255 : rValue < 0 ? 0 : (uint8_t)rValue;
+		uint8_t bgValue = (gValue > 255) ? 255 : gValue < 0 ? 0 : (uint8_t)gValue;
+		uint8_t bbValue = (bValue > 255) ? 255 : bValue < 0 ? 0 : (uint8_t)bValue;
 
 		pc.hBrushAlternateGrey = CreateSolidBrush(GetNearestColor(pc.hdcMem, RGB(brValue, bgValue, bbValue)));
 	}
@@ -2169,7 +2169,7 @@ void CLCPaint::_DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, i
 	text_rc.left = min(text_rc.left, prcItem->left);
 }
 
-void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int &selected, int &hottrack, RECT &text_rc, RECT *prcItem, UINT uTextFormat, BYTE itemType)
+void CLCPaint::_DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int &selected, int &hottrack, RECT &text_rc, RECT *prcItem, UINT uTextFormat, uint8_t itemType)
 {
 	if (Drawing->type == CLCIT_GROUP) {
 		wchar_t *szCounts = Clist_GetGroupCountsText(dat, Drawing);

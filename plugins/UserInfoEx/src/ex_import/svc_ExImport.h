@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 typedef struct
 {
-	BYTE Typ;
+	uint8_t Typ;
 	union {
 		MCONTACT hContact;
 		LPSTR pszName;

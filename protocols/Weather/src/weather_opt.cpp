@@ -137,14 +137,14 @@ void LoadOptions(void)
 void SaveOptions(void)
 {
 	// main options
-	g_plugin.setByte("StartupUpdate", (BYTE)opt.StartupUpdate);
-	g_plugin.setByte("AutoUpdate", (BYTE)opt.AutoUpdate);
+	g_plugin.setByte("StartupUpdate", (uint8_t)opt.StartupUpdate);
+	g_plugin.setByte("AutoUpdate", (uint8_t)opt.AutoUpdate);
 	g_plugin.setWord("UpdateTime", opt.UpdateTime);
-	g_plugin.setByte("NoStatus", (BYTE)opt.NoProtoCondition);
-	g_plugin.setByte("CondChangeAsUpdate", (BYTE)opt.UpdateOnlyConditionChanged);
-	g_plugin.setByte("RemoveOld", (BYTE)opt.RemoveOldData);
-	g_plugin.setByte("MakeItalic", (BYTE)opt.MakeItalic);
-	g_plugin.setByte("AvatarSize", (BYTE)opt.AvatarSize);
+	g_plugin.setByte("NoStatus", (uint8_t)opt.NoProtoCondition);
+	g_plugin.setByte("CondChangeAsUpdate", (uint8_t)opt.UpdateOnlyConditionChanged);
+	g_plugin.setByte("RemoveOld", (uint8_t)opt.RemoveOldData);
+	g_plugin.setByte("MakeItalic", (uint8_t)opt.MakeItalic);
+	g_plugin.setByte("AvatarSize", (uint8_t)opt.AvatarSize);
 	
 	// units
 	g_plugin.setWord("tUnit", opt.tUnit);
@@ -154,23 +154,23 @@ void SaveOptions(void)
 	g_plugin.setWord("dUnit", opt.dUnit);
 	g_plugin.setWord("eUnit", opt.eUnit);
 	g_plugin.setWString("DegreeSign", opt.DegreeSign);
-	g_plugin.setByte("DoNotAppendUnit", (BYTE)opt.DoNotAppendUnit);
-	g_plugin.setByte("NoFractions", (BYTE)opt.NoFrac);
+	g_plugin.setByte("DoNotAppendUnit", (uint8_t)opt.DoNotAppendUnit);
+	g_plugin.setByte("NoFractions", (uint8_t)opt.NoFrac);
 	
 	// advanced
-	g_plugin.setByte("DisableConditionIcon", (BYTE)opt.DisCondIcon);
+	g_plugin.setByte("DisableConditionIcon", (uint8_t)opt.DisCondIcon);
 	
 	// popup options
-	g_plugin.setByte("UsePopUp", (BYTE)opt.UsePopup);
-	g_plugin.setByte("UpdatePopup", (BYTE)opt.UpdatePopup);
-	g_plugin.setByte("AlertPopup", (BYTE)opt.AlertPopup);
-	g_plugin.setByte("PopUpOnChange", (BYTE)opt.PopupOnChange);
-	g_plugin.setByte("ShowWarnings", (BYTE)opt.ShowWarnings);
+	g_plugin.setByte("UsePopUp", (uint8_t)opt.UsePopup);
+	g_plugin.setByte("UpdatePopup", (uint8_t)opt.UpdatePopup);
+	g_plugin.setByte("AlertPopup", (uint8_t)opt.AlertPopup);
+	g_plugin.setByte("PopUpOnChange", (uint8_t)opt.PopupOnChange);
+	g_plugin.setByte("ShowWarnings", (uint8_t)opt.ShowWarnings);
 	
 	// popup colors
 	g_plugin.setDword("BackgroundColour", opt.BGColour);
 	g_plugin.setDword("TextColour", opt.TextColour);
-	g_plugin.setByte("UseWinColors", (BYTE)opt.UseWinColors);
+	g_plugin.setByte("UseWinColors", (uint8_t)opt.UseWinColors);
 	
 	// popup actions
 	g_plugin.setDword("LeftClickAction", opt.LeftClickAction);
@@ -279,7 +279,7 @@ static INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM l
 			opt.AutoUpdate = IsDlgButtonChecked(hdlg, IDC_UPDATE);
 			opt.NoProtoCondition = BST_UNCHECKED == IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
 			opt.DisCondIcon = IsDlgButtonChecked(hdlg, IDC_DISCONDICON);
-			opt.UpdateOnlyConditionChanged = (BYTE)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);
+			opt.UpdateOnlyConditionChanged = (uint8_t)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);
 			opt.RemoveOldData = IsDlgButtonChecked(hdlg, IDC_REMOVEOLD);
 			opt.MakeItalic = IsDlgButtonChecked(hdlg, IDC_MAKEI);
 			opt.AvatarSize = GetDlgItemInt(hdlg, IDC_AVATARSIZE, nullptr, FALSE);

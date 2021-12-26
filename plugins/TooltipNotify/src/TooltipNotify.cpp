@@ -174,7 +174,7 @@ int CTooltipNotify::ProtoAck(WPARAM, LPARAM lParam)
 	char *szProtocol = (char *)ack->szModule;
 
 	if (wNewStatus == ID_STATUS_OFFLINE) {
-		BYTE bProtoActive = g_plugin.getByte(szProtocol, ProtoUserBit | ProtoIntBit);
+		uint8_t bProtoActive = g_plugin.getByte(szProtocol, ProtoUserBit | ProtoIntBit);
 		bProtoActive &= ~ProtoIntBit;
 		g_plugin.setByte(szProtocol, bProtoActive);
 	}
@@ -354,7 +354,7 @@ void CTooltipNotify::OnConnectionTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 	MapTimerIdProtoIter iter = FindProtoByTimer(idEvent);
 	assert(iter != m_mapTimerIdProto.end());
 
-	BYTE bProtoActive = g_plugin.getByte(iter->proto, ProtoUserBit | ProtoIntBit);
+	uint8_t bProtoActive = g_plugin.getByte(iter->proto, ProtoUserBit | ProtoIntBit);
 	bProtoActive |= ProtoIntBit;
 	g_plugin.setByte(iter->proto, bProtoActive);
 
@@ -445,20 +445,20 @@ void CTooltipNotify::SaveSettings()
 
 void CTooltipNotify::ReadSettingsFromDlg(HWND hDlg)
 {
-	m_sOptions.bOffline = (BYTE)(IsDlgButtonChecked(hDlg, IDC_OFFLINE) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bOnline = (BYTE)(IsDlgButtonChecked(hDlg, IDC_ONLINE) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bOther = (BYTE)(IsDlgButtonChecked(hDlg, IDC_OTHER) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bTyping = (BYTE)(IsDlgButtonChecked(hDlg, IDC_TYPING) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bIdle = (BYTE)(IsDlgButtonChecked(hDlg, IDC_IDLE) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bX2 = (BYTE)(IsDlgButtonChecked(hDlg, IDC_X2) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bConjSOLN = (BYTE)(IsDlgButtonChecked(hDlg, IDC_CONJSOLN) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bAutoPos = (BYTE)(IsDlgButtonChecked(hDlg, IDC_AUTOPOS) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bBallonTip = (BYTE)(IsDlgButtonChecked(hDlg, IDC_BALLONTIP) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bTransp = (BYTE)(IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bAlpha = (BYTE)SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0);
-	m_sOptions.bTranspInput = (BYTE)(IsDlgButtonChecked(hDlg, IDC_TRANSP_INPUT) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bPrefixProto = (BYTE)(IsDlgButtonChecked(hDlg, IDC_PREFIX_PROTO) == BST_CHECKED ? 1 : 0);
-	m_sOptions.bLDblClick = (BYTE)(IsDlgButtonChecked(hDlg, IDC_RB_CLIST) == BST_CHECKED) ? SHOW_HIDE_CLIST : OPEN_MSGDLG;
+	m_sOptions.bOffline = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_OFFLINE) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bOnline = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_ONLINE) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bOther = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_OTHER) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bTyping = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_TYPING) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bIdle = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_IDLE) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bX2 = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_X2) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bConjSOLN = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_CONJSOLN) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bAutoPos = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_AUTOPOS) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bBallonTip = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_BALLONTIP) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bTransp = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_TRANSPARENCY) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bAlpha = (uint8_t)SendDlgItemMessage(hDlg, IDC_TRANSPARENCY_SLIDER, TBM_GETPOS, 0, 0);
+	m_sOptions.bTranspInput = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_TRANSP_INPUT) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bPrefixProto = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_PREFIX_PROTO) == BST_CHECKED ? 1 : 0);
+	m_sOptions.bLDblClick = (uint8_t)(IsDlgButtonChecked(hDlg, IDC_RB_CLIST) == BST_CHECKED) ? SHOW_HIDE_CLIST : OPEN_MSGDLG;
 	m_sOptions.wDuration = LOWORD(SendDlgItemMessage(hDlg, IDC_DURATIONSPIN, UDM_GETPOS, 0, 0));
 	m_sOptions.wStartupDelay = LOWORD(SendDlgItemMessage(hDlg, IDC_DELAYONCONNSPIN, UDM_GETPOS, 0, 0));
 }
@@ -639,7 +639,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 
 				ListView_InsertItem(GetDlgItem(hDlg, IDC_PROTOS), &lvi);
 
-				BYTE bProtoState = g_plugin.getByte(pa->szModuleName, ProtoUserBit | ProtoIntBit);
+				uint8_t bProtoState = g_plugin.getByte(pa->szModuleName, ProtoUserBit | ProtoIntBit);
 				BOOL bProtoEnabled = (bProtoState & ProtoUserBit) != 0; 
 				ListView_SetCheckState(GetDlgItem(hDlg, IDC_PROTOS), lvi.iItem, bProtoEnabled);
 			}
@@ -660,7 +660,7 @@ BOOL CTooltipNotify::ProtosDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM)
 					szMultiByteProto, sizeof(szMultiByteProto), nullptr, nullptr);
 				szMultiByteProto[lLen] = '\0';
 
-				BYTE bProtoState = g_plugin.getByte(szMultiByteProto, ProtoUserBit | ProtoIntBit);
+				uint8_t bProtoState = g_plugin.getByte(szMultiByteProto, ProtoUserBit | ProtoIntBit);
 
 
 				BOOL bProtoEnabled = ListView_GetCheckState(GetDlgItem(hDlg, IDC_PROTOS), i);
@@ -713,15 +713,15 @@ void CTooltipNotify::LoadList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown
 void CTooltipNotify::SaveList(HWND hwndDlg, HANDLE hItemNew, HANDLE hItemUnknown)
 {
 	if (hItemNew)
-		m_sOptions.bIgnoreNew = (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 0 : 1);
+		m_sOptions.bIgnoreNew = (uint8_t)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemNew, 0) ? 0 : 1);
 
 	if (hItemUnknown)
-		m_sOptions.bIgnoreUnknown = (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 0 : 1);
+		m_sOptions.bIgnoreUnknown = (uint8_t)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItemUnknown, 0) ? 0 : 1);
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_FINDCONTACT, hContact, 0);
 		if (hItem) {
-			BYTE bChecked = (BYTE)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0));
+			uint8_t bChecked = (uint8_t)(SendDlgItemMessage(hwndDlg, IDC_CLIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0));
 			g_plugin.setByte(hContact, CONTACT_IGNORE_TTNOTIFY, bChecked ? 0 : 1);
 		}
 	}

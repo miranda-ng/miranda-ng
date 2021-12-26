@@ -321,7 +321,7 @@ void CJabberProto::ByteInitiateResult(const TiXmlElement *iqNode, CJabberIqInfo 
 int CJabberProto::ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, char* buffer, int datalen)
 {
 	int nMethods;
-	BYTE data[10];
+	uint8_t data[10];
 	int i;
 
 	switch (jbt->state) {
@@ -497,7 +497,7 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 		// 04-44 dst.addr (41 bytes: 1-byte length, 40-byte SHA1 hash of [sid,srcJID,dstJID])
 		// 45-46 dst.port (0)
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
-			BYTE data[47];
+			uint8_t data[47];
 			memset(data, 0, sizeof(data));
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;
@@ -684,7 +684,7 @@ int CJabberProto::ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt,
 		// 04-44 dst.addr (41 bytes: 1-byte length, 40-byte SHA1 hash of [sid,srcJID,dstJID])
 		// 45-46 dst.port (0)
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
-			BYTE data[47];
+			uint8_t data[47];
 			memset(data, 0, sizeof(data));
 			*((DWORD*)data) = 0x03000105;
 			data[4] = 40;

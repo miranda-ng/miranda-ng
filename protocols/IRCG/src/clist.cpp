@@ -134,7 +134,7 @@ MCONTACT CIrcProto::CList_SetOffline(CONTACT *user)
 	return 0;
 }
 
-bool CIrcProto::CList_SetAllOffline(BYTE ChatsToo)
+bool CIrcProto::CList_SetAllOffline(uint8_t ChatsToo)
 {
 	DBVARIANT dbv;
 

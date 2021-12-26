@@ -62,8 +62,8 @@ LBL_Error:
 
 	fseek(pFile, 0, SEEK_SET);
 
-	mir_ptr<BYTE> pData((BYTE*)mir_alloc(lFileLen));
-	long lBytes = (long)fread(pData, sizeof(BYTE), lFileLen, pFile);
+	mir_ptr<uint8_t> pData((uint8_t*)mir_alloc(lFileLen));
+	long lBytes = (long)fread(pData, sizeof(uint8_t), lFileLen, pFile);
 	if (lBytes != lFileLen) {
 		fclose(pFile);
 		goto LBL_Error;

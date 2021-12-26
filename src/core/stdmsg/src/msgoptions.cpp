@@ -30,7 +30,7 @@ struct FontOptionsList
 	const wchar_t* szDescr;
 	COLORREF     defColour;
 	const wchar_t* szDefFace;
-	BYTE         defStyle;
+	uint8_t         defStyle;
 	char         defSize;
 }
 static const fontOptionsList[] =
@@ -437,7 +437,7 @@ public:
 
 	void RebuildList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		BYTE defType = g_dat.bTypingNew;
+		uint8_t defType = g_dat.bTypingNew;
 		if (hItemNew && defType)
 			clist.SetCheck(hItemNew, 1);
 
@@ -541,7 +541,7 @@ public:
 
 	bool OnApply() override
 	{
-		BYTE bOldValue = db_get_b(0, CHAT_MODULE, "Tabs", 1);
+		uint8_t bOldValue = db_get_b(0, CHAT_MODULE, "Tabs", 1);
 
 		db_set_b(0, CHAT_MODULE, "Tabs", m_chkTabs.GetState());
 		db_set_b(0, CHAT_MODULE, "TabBottom", m_chkTabsBottom.GetState());

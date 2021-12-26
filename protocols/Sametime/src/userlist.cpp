@@ -90,7 +90,7 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 		db_set_utf(hContact, m_szModuleName, "Nick", id);
 	}
 
-	db_set_b(hContact, m_szModuleName, "type", (BYTE)type);
+	db_set_b(hContact, m_szModuleName, "type", (uint8_t)type);
 
 	if (new_contact) {
 		//add to our awareness list
@@ -142,9 +142,9 @@ void CSametimeProto::ImportContactsFromList(mwSametimeList* user_list, bool temp
 		mir_snprintf(buff, "GN_%s", group_alias);
 		db_set_utf(0, szProtoGroups, buff, group_name);
 		mir_snprintf(buff, "GT_%s", group_alias);
-		db_set_b(0, szProtoGroups, buff, (BYTE)group_type);
+		db_set_b(0, szProtoGroups, buff, (uint8_t)group_type);
 		mir_snprintf(buff, "GO_%s", group_alias);
-		db_set_b(0, szProtoGroups, buff, (BYTE)(group_open ? 1 : 0));
+		db_set_b(0, szProtoGroups, buff, (uint8_t)(group_open ? 1 : 0));
 
 		// inverse mapping
 		mir_snprintf(buff, "GA_%s", group_name);
@@ -208,7 +208,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 
 					if (group_alias) {
 						mir_snprintf(buff, "GT_%s", group_alias);
-						group_type = (mwSametimeGroupType)db_get_b(0, szProtoGroups, buff, (BYTE)mwSametimeGroup_NORMAL);
+						group_type = (mwSametimeGroupType)db_get_b(0, szProtoGroups, buff, (uint8_t)mwSametimeGroup_NORMAL);
 						// apparently we don't want to upload contacts in dynamic groups - see gaim sametime plugin comments
 						if (group_type == mwSametimeGroup_DYNAMIC) {
 							db_free(&dbv);
@@ -264,7 +264,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						else
 							user_alias = nullptr;
 
-						user_type = (mwSametimeUserType)db_get_b(hContact, m_szModuleName, "type", (BYTE)mwSametimeUser_NORMAL);
+						user_type = (mwSametimeUserType)db_get_b(hContact, m_szModuleName, "type", (uint8_t)mwSametimeUser_NORMAL);
 
 						uid.user = id_block.user;
 						uid.community = id_block.community;

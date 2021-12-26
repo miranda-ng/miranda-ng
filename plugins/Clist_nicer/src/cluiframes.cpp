@@ -425,10 +425,10 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 
 	db_set_ws(0, CLUIFrameModule, buf.Format("Name%d", pos), Frames[Frameid].name);
 	//boolean
-	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", pos), (BYTE)btoint(Frames[Frameid].collapsed));
-	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", pos), (BYTE)btoint(Frames[Frameid].Locked));
-	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), (BYTE)btoint(Frames[Frameid].visible));
-	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), (BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
+	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", pos), (uint8_t)btoint(Frames[Frameid].collapsed));
+	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", pos), (uint8_t)btoint(Frames[Frameid].Locked));
+	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", pos), (uint8_t)btoint(Frames[Frameid].visible));
+	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", pos), (uint8_t)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
 	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", pos), (WORD)Frames[Frameid].height);
 	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", pos), (WORD)Frames[Frameid].HeightWhenCollapsed);
@@ -439,8 +439,8 @@ int DBStoreFrameSettingsAtPos(int pos, int Frameid)
 	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", pos), (WORD)Frames[Frameid].FloatingSize.x);
 	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", pos), (WORD)Frames[Frameid].FloatingSize.y);
 
-	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), (BYTE)btoint(Frames[Frameid].floating));
-	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), (BYTE)btoint(Frames[Frameid].UseBorder));
+	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", pos), (uint8_t)btoint(Frames[Frameid].floating));
+	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", pos), (uint8_t)btoint(Frames[Frameid].UseBorder));
 	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", pos), (WORD)Frames[Frameid].order);
 
 	db_set_b(0, CLUIFrameModule, buf.Format("Skinned%d", pos), Frames[Frameid].Skinned);

@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  *
  * @return	pointer of the newly created CCombo object.
  **/
-CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount)
+CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
 {
 	return new CCombo(hDlg, idCtrl, pszSetting, bDBDataType, pList, nListCount);
 }
@@ -51,7 +51,7 @@ CBaseCtrl* CCombo::CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDB
  *
  * @return	nothing
  **/
-CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE bDBDataType, LPIDSTRLIST pList, int nListCount)
+CCombo::CCombo(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount)
 	: CBaseCtrl(hDlg, idCtrl, pszSetting)
 {
 	_curSel = CB_ERR;

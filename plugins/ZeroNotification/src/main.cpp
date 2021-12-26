@@ -51,9 +51,9 @@ static int SoundSettingChanged(WPARAM, LPARAM lParam)
 
 int SetNotify(const long status)
 {
-	db_set_b(0, "Skin", "UseSound", (BYTE)!(g_plugin.getDword("NoSound", DEFAULT_NOSOUND) & status));
-	db_set_b(0, "CList", "DisableTrayFlash", (BYTE)(g_plugin.getDword("NoBlink", DEFAULT_NOBLINK) & status));
-	db_set_b(0, "CList", "NoIconBlink", (BYTE)(g_plugin.getDword("NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
+	db_set_b(0, "Skin", "UseSound", (uint8_t)!(g_plugin.getDword("NoSound", DEFAULT_NOSOUND) & status));
+	db_set_b(0, "CList", "DisableTrayFlash", (uint8_t)(g_plugin.getDword("NoBlink", DEFAULT_NOBLINK) & status));
+	db_set_b(0, "CList", "NoIconBlink", (uint8_t)(g_plugin.getDword("NoCLCBlink", DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
 	return 0;

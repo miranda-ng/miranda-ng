@@ -32,7 +32,7 @@ class COptMainDlg : public CDlgBase
 
 	void ComboboxSelState()
 	{
-		BYTE bSelection = (BYTE)m_cbStatusList.GetCurSel();
+		uint8_t bSelection = (uint8_t)m_cbStatusList.GetCurSel();
 		WORD wMode = STATUS_ARR_TO_ID[bSelection];
 		if (m_chkUsrDefMsg.GetState()) {
 			wchar_t *ptszDefMsg = GetDefStatusMsg(wMode, nullptr);
@@ -134,7 +134,7 @@ public:
 
 		// write down status type
 		if (m_chkChangeStatus.GetState()) {
-			g_plugin.setByte("stattype", (BYTE)m_cbStatusList.GetCurSel());
+			g_plugin.setByte("stattype", (uint8_t)m_cbStatusList.GetCurSel());
 
 			// status msg, if needed
 			if (m_edtStatMsg.Enabled()) { // meaning we should save it

@@ -125,7 +125,7 @@ struct CHANNELINFO   // Contains info about the channels
 	wchar_t* pszMode;
 	wchar_t* pszPassword;
 	wchar_t* pszLimit;
-	BYTE   OwnMode;	/* own mode on the channel. Bitmask:
+	uint8_t   OwnMode;	/* own mode on the channel. Bitmask:
 												0: voice
 												1: halfop
 												2: op

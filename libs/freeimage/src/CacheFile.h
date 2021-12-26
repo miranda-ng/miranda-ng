@@ -43,7 +43,7 @@ static const int BLOCK_SIZE = (64 * 1024) - 8;
 struct Block {
      unsigned nr;
      unsigned next;
-     BYTE *data;
+     uint8_t *data;
 };
 
 #ifdef _WIN32
@@ -67,8 +67,8 @@ public :
 	BOOL open(const std::string& filename = "", BOOL keep_in_memory = TRUE);
 	void close();
 
-	BOOL readFile(BYTE *data, int nr, int size);
-	int writeFile(BYTE *data, int size);
+	BOOL readFile(uint8_t *data, int nr, int size);
+	int writeFile(uint8_t *data, int size);
 	void deleteFile(int nr);
 
 private :

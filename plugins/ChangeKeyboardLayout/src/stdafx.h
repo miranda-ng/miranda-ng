@@ -82,18 +82,18 @@ typedef struct
 	BOOL ChangeSystemLayout;
 	BOOL CopyToClipboard;
 	BOOL ShowPopup;
-	BYTE bCaseOperations;
+	uint8_t bCaseOperations;
 } MainOptions;
 
 typedef struct  
 {
-	BYTE bColourType;
+	uint8_t bColourType;
 	COLORREF crTextColour;
 	COLORREF crBackColour;
-	BYTE bTimeoutType;
-	BYTE bTimeout;
-	BYTE bLeftClick;
-	BYTE bRightClick;
+	uint8_t bTimeoutType;
+	uint8_t bTimeout;
+	uint8_t bLeftClick;
+	uint8_t bRightClick;
 	POPUPACTION paActions[1];
 } PopupOptions;
 

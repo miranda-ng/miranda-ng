@@ -198,21 +198,21 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETTINGS *settings, DWORD flags)
 {
 	if (flags & NUF_OUTGOING) {
-		db_set_b(0, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
-		db_set_b(0, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
-		db_set_b(0, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
+		db_set_b(0, szSettingsModule, "NLValidateSSL", (uint8_t)settings->validateSSL);
+		db_set_b(0, szSettingsModule, "NLUseProxy", (uint8_t)settings->useProxy);
+		db_set_b(0, szSettingsModule, "NLProxyType", (uint8_t)settings->proxyType);
 		db_set_s(0, szSettingsModule, "NLProxyServer", settings->szProxyServer ? settings->szProxyServer : "");
 		db_set_w(0, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
-		db_set_b(0, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
+		db_set_b(0, szSettingsModule, "NLUseProxyAuth", (uint8_t)settings->useProxyAuth);
 		db_set_s(0, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser ? settings->szProxyAuthUser : "");
 		db_set_s(0, szSettingsModule, "NLProxyAuthPassword", settings->szProxyAuthPassword ? settings->szProxyAuthPassword : "");
-		db_set_b(0, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
-		db_set_b(0, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
+		db_set_b(0, szSettingsModule, "NLDnsThroughProxy", (uint8_t)settings->dnsThroughProxy);
+		db_set_b(0, szSettingsModule, "NLSpecifyOutgoingPorts", (uint8_t)settings->specifyOutgoingPorts);
 		db_set_s(0, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts ? settings->szOutgoingPorts : "");
 	}
 	if (flags & NUF_INCOMING) {
-		db_set_b(0, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
-		db_set_b(0, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
+		db_set_b(0, szSettingsModule, "NLEnableUPnP", (uint8_t)settings->enableUPnP);
+		db_set_b(0, szSettingsModule, "NLSpecifyIncomingPorts", (uint8_t)settings->specifyIncomingPorts);
 		db_set_s(0, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts ? settings->szIncomingPorts : "");
 	}
 }

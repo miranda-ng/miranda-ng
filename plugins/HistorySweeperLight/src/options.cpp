@@ -116,21 +116,21 @@ void SaveSettings(HWND hwndDlg)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 
-	g_plugin.setByte("StartupShutdownOlder", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
-	g_plugin.setByte("StartupShutdownKeep", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
-	g_plugin.setByte("UnsafeMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
-	g_plugin.setByte("SweepOnClose", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
-	g_plugin.setByte("ChangeInMW", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
+	g_plugin.setByte("StartupShutdownOlder", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_GETCURSEL, 0, 0));
+	g_plugin.setByte("StartupShutdownKeep", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_GETCURSEL, 0, 0));
+	g_plugin.setByte("UnsafeMode", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_UNSAFEMODE));
+	g_plugin.setByte("SweepOnClose", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SWEEPONCLOSE));
+	g_plugin.setByte("ChangeInMW", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_HISTMW));
 
-	g_plugin.setByte("SweepHistory", (BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
-	g_plugin.setByte("SweepSHistory", (BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
+	g_plugin.setByte("SweepHistory", (uint8_t)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
+	g_plugin.setByte("SweepSHistory", (uint8_t)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 
 		int st = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, 0);
 		if (st != 0)
-			g_plugin.setByte(hContact, "SweepHistory", (BYTE)st);
+			g_plugin.setByte(hContact, "SweepHistory", (uint8_t)st);
 		else
 			g_plugin.delSetting(hContact, "SweepHistory");
 	}

@@ -594,7 +594,7 @@ int fnTrayIconPauseAutoHide(WPARAM, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // processes tray icon's messages
 
-static BYTE s_LastHoverIconID = 0;
+static uint8_t s_LastHoverIconID = 0;
 static bool g_trayTooltipActive = false;
 static POINT tray_hover_pos = { 0 };
 

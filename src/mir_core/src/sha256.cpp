@@ -103,9 +103,9 @@ static void transform(SHA256_CONTEXT *hd, const unsigned char *data)
 	memcpy(x, data, 64);
 #else
 	{
-		BYTE *p2;
+		uint8_t *p2;
 
-		for (i = 0, p2 = (BYTE*)x; i < 16; i++, p2 += 4) {
+		for (i = 0, p2 = (uint8_t*)x; i < 16; i++, p2 += 4) {
 			p2[3] = *data++;
 			p2[2] = *data++;
 			p2[1] = *data++;
@@ -219,14 +219,14 @@ digest.  The handle is prepared for a new cycle, but adding bytes
 to the handle will the destroy the returned buffer.  Returns: 32
 bytes with the message the digest.  */
 
-MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_HASH_SIZE])
+MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, uint8_t hashout[MIR_SHA256_HASH_SIZE])
 {
 	uint32_t t, msb, lsb;
 
 	mir_sha256_write(hd, nullptr, 0); /* flush */;
 
 	t = hd->nblocks;
-	/* multiply by 64 to make a BYTE count */
+	/* multiply by 64 to make a uint8_t count */
 	lsb = t << 6;
 	msb = t >> 26;
 	/* add the count */
@@ -262,7 +262,7 @@ MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_
 	hd->buf[63] = lsb;
 	transform(hd, hd->buf);
 
-	BYTE *p = hashout;
+	uint8_t *p = hashout;
 #ifdef WORDS_BIGENDIAN
 #define X(a) do { *(uint32_t*)p = hd->h##a ; p += 4; } while(0)
 #else /* little endian */
@@ -280,7 +280,7 @@ MIR_CORE_DLL(void) mir_sha256_final(SHA256_CONTEXT *hd, BYTE hashout[MIR_SHA256_
 #undef X
 }
 
-MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, BYTE hashout[MIR_SHA256_HASH_SIZE])
+MIR_CORE_DLL(void) mir_sha256_hash(const void *dataIn, size_t len, uint8_t hashout[MIR_SHA256_HASH_SIZE])
 {
 	SHA256_CONTEXT tmp;
 	mir_sha256_init(&tmp);

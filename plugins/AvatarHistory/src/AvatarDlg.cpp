@@ -287,9 +287,9 @@ static INT_PTR CALLBACK AvatarDlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARA
 		case IDOK:
 			if (HIWORD(wParam) == BN_CLICKED) {
 				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-				g_plugin.setByte(hContact, "AvatarPopups", (BYTE)IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
-				g_plugin.setByte(hContact, "LogToDisk", (BYTE)IsDlgButtonChecked(hwnd, IDC_LOGUSER));
-				g_plugin.setByte(hContact, "LogToHistory", (BYTE)IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
+				g_plugin.setByte(hContact, "AvatarPopups", (uint8_t)IsDlgButtonChecked(hwnd, IDC_POPUPUSER));
+				g_plugin.setByte(hContact, "LogToDisk", (uint8_t)IsDlgButtonChecked(hwnd, IDC_LOGUSER));
+				g_plugin.setByte(hContact, "LogToHistory", (uint8_t)IsDlgButtonChecked(hwnd, IDC_HISTORYUSER));
 
 				CleanupAvatarPic(hwnd);
 				EndDialog(hwnd, 0);

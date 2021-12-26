@@ -3,8 +3,8 @@
 struct
 {
 	int  key; // Resource ID
-	BYTE tbl; // Table NUM
-	BYTE idx; // Table IDX
+	uint8_t tbl; // Table NUM
+	uint8_t idx; // Table IDX
 	char *section;
 	char *name;
 	char *text;

@@ -19,11 +19,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // Prototypes
-void SetLock(WORD, BYTE, unsigned int *, INPUT *);
+void SetLock(WORD, uint8_t, unsigned int *, INPUT *);
 
 // Globals
 BOOL LEDstateSaved = FALSE;
-BYTE LEDstate;
+uint8_t LEDstate;
 
 
 void keypresses_RestoreLEDState(void)
@@ -33,27 +33,27 @@ void keypresses_RestoreLEDState(void)
 	LEDstateSaved = FALSE;
 }
 
-BOOL keypresses_ToggleKeyboardLights(BYTE byte)
+BOOL keypresses_ToggleKeyboardLights(uint8_t byte)
 {
 	unsigned int n = 0;
 	INPUT keystrokes[6] = {0};
 
 	if (!LEDstateSaved) {
-		LEDstate = (BYTE)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2));
+		LEDstate = (uint8_t)(LedState(VK_SCROLL) + (LedState(VK_NUMLOCK)<<1) + (LedState(VK_CAPITAL)<<2));
 		LEDstateSaved = TRUE;
 	}
 
-	SetLock(VK_NUMLOCK, (BYTE)(byte&2), &n, keystrokes);
-	SetLock(VK_CAPITAL, (BYTE)(byte&4), &n, keystrokes);
-	SetLock(VK_SCROLL, (BYTE)(byte&1), &n, keystrokes);
+	SetLock(VK_NUMLOCK, (uint8_t)(byte&2), &n, keystrokes);
+	SetLock(VK_CAPITAL, (uint8_t)(byte&4), &n, keystrokes);
+	SetLock(VK_SCROLL, (uint8_t)(byte&1), &n, keystrokes);
 	SendInput(n, keystrokes, sizeof(INPUT));
 
 	return TRUE;
 }
 
-void SetLock(WORD keyCode, BYTE value, unsigned int *n, INPUT *keystrokes)
+void SetLock(WORD keyCode, uint8_t value, unsigned int *n, INPUT *keystrokes)
 {
-	BYTE status;
+	uint8_t status;
 
 	GetAsyncKeyState(keyCode);
 	status = GetKeyState(keyCode) & 1;

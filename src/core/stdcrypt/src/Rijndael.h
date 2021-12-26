@@ -33,7 +33,7 @@ public:
 	// chain      - initial chain block
 	// keylength  - 16, 24 or 32 bytes
 	// blockSize  - The block size in bytes of this Rijndael (16, 24 or 32 bytes).
-	int MakeKey(BYTE const* key, char const* chain, int keylength, int blockSize);
+	int MakeKey(uint8_t const* key, char const* chain, int keylength, int blockSize);
 
 private:
 	//Auxiliary Function

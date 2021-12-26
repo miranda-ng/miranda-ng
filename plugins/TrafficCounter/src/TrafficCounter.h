@@ -61,7 +61,7 @@ int TrafficSend(WPARAM wParam,LPARAM lParam);
 int TrafficCounterOptInitialise(WPARAM wParam,LPARAM lParam);
 int TrafficCounterShutdown(WPARAM wParam,LPARAM lParam);
 int ModuleLoad(WPARAM wParam, LPARAM lParam);
-void SaveSettings(BYTE);
+void SaveSettings(uint8_t);
 void CreateTrafficWindow(HWND);
 
 //popup

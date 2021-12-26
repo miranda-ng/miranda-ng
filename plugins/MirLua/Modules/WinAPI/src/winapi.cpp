@@ -207,12 +207,12 @@ static int lua_GetRegValue(lua_State *L)
 
 	DWORD type = 0;
 	DWORD length = 1024;
-	BYTE* value = (BYTE*)mir_alloc(length);
+	uint8_t* value = (uint8_t*)mir_alloc(length);
 	res = ::RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)value, &length);
 	while (res == ERROR_MORE_DATA)
 	{
 		length += length;
-		value = (BYTE*)mir_realloc(value, length);
+		value = (uint8_t*)mir_realloc(value, length);
 		res = ::RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)value, &length);
 	}
 
@@ -268,7 +268,7 @@ static int lua_SetRegValue(lua_State *L)
 
 	DWORD type = 0;
 	DWORD length = 0;
-	BYTE* value = nullptr;
+	uint8_t* value = nullptr;
 	switch (lua_type(L, 4))
 	{
 	case LUA_TNUMBER:
@@ -276,21 +276,21 @@ static int lua_SetRegValue(lua_State *L)
 		{
 			type = REG_DWORD;
 			length = sizeof(DWORD);
-			value = (BYTE*)lua_tointeger(L, 4);
+			value = (uint8_t*)lua_tointeger(L, 4);
 		}
 		else
 		{
 			type = REG_QWORD;
 			length = sizeof(DWORD) * 2;
 			lua_Number num = lua_tonumber(L, 4);
-			value = (BYTE*)&num;
+			value = (uint8_t*)&num;
 		}
 		break;
 
 	case LUA_TSTRING:
 		type = REG_SZ;
 		length = mir_strlen(lua_tostring(L, 4)) * sizeof(wchar_t);
-		value = (BYTE*)mir_utf8decodeW(lua_tostring(L, 4));
+		value = (uint8_t*)mir_utf8decodeW(lua_tostring(L, 4));
 		break;
 
 	default:
@@ -1216,9 +1216,9 @@ static int global_RegSetValueEx(lua_State *L) {
 	rv = RegCreateKeyExA(hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hsk, nullptr);
 	if (rv == ERROR_SUCCESS) {
 		if (szdata == nullptr)
-			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST BYTE *) &dwdata, sizeof(dwdata));
+			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST uint8_t *) &dwdata, sizeof(dwdata));
 		else
-			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST BYTE *) szdata, len + 1);
+			rv = RegSetValueExA(hsk, valuename, 0, type, (CONST uint8_t *) szdata, len + 1);
 		lua_pushboolean(L, rv == ERROR_SUCCESS);
 		RegCloseKey(hsk);
 	}

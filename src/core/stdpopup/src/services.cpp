@@ -204,7 +204,7 @@ void UpdateMenu()
 
 static INT_PTR TogglePopups(WPARAM, LPARAM)
 {
-	BYTE val = Popup_Enabled();
+	uint8_t val = Popup_Enabled();
 	Popup_Enable(!val);
 	UpdateMenu();
 	return 0;

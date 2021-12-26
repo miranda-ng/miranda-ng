@@ -506,7 +506,7 @@ int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 		return 0;
 
 	gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
-	int seq = gg_send_message(m_sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
+	int seq = gg_send_message(m_sess, GG_CLASS_CHAT, uin, (uint8_t*)msg);
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 
 	// Auto-ack message without waiting for server ack

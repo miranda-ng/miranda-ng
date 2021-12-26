@@ -622,7 +622,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				ListView_GetItem(hList, &lvItem);
 
 				char * accountId ((char *)lvItem.lParam);
-				BYTE accountStateB = (BYTE)ListView_GetCheckState(hList, lvItem.iItem);
+				uint8_t accountStateB = (uint8_t)ListView_GetCheckState(hList, lvItem.iItem);
 
 				MFENUM_MIRANDAACCOUNT_STATE accountState;
 				if (accountStateB == 0){

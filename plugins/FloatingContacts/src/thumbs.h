@@ -22,7 +22,7 @@ struct ThumbInfo
 	BOOL         fTipTimerActive;
 	POINT        ptTipSt;
 
-	BYTE         btAlpha;
+	uint8_t         btAlpha;
 	MyBitmap     bmpContent;
 
 	POINT        ptPos;
@@ -44,11 +44,11 @@ public:
 	void OnMouseMove(int nX, int nY);
 	void ThumbSelect(BOOL bMouse);
 	void ThumbDeselect(BOOL bMouse);
-	void SetThumbOpacity(BYTE btAlpha);
+	void SetThumbOpacity(uint8_t btAlpha);
 	void KillTip();
 	void UpdateContent();
 	void PopupMessageDialog();
-	void OnTimer(BYTE idTimer);
+	void OnTimer(uint8_t idTimer);
 };
 
 void UndockThumbs(ThumbInfo *pThumb1, ThumbInfo *pThumb2);

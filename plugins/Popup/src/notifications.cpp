@@ -209,7 +209,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	return (HANDLE)ptd;
 }
 
-HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ)
+HANDLE FindTreeData(LPTSTR group, LPTSTR name, uint8_t typ)
 {
 	for (auto &p : gTreeData)
 		if (p->typ == typ && (!group || (mir_wstrcmp(p->pszTreeRoot, group) == 0)) && (!name || (mir_wstrcmp(p->pszDescription, name) == 0)))

@@ -30,7 +30,7 @@ static HANDLE hProtoAckHook, hCSStatusChangeHook, hStatusChangeHook;
 
 static HWND hMessageWindow;
 
-static BYTE showDialogOnStartup = 0;
+static uint8_t showDialogOnStartup = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // command line options
@@ -303,7 +303,7 @@ static int OnShutdown(WPARAM, LPARAM)
 	int state = SSPlugin.getByte(SETTING_WINSTATE, SETTING_STATE_NORMAL);
 	// set windowstate and docked for next startup
 	if (SSPlugin.getByte(SETTING_SETWINSTATE, 0))
-		db_set_b(0, MODULE_CLIST, SETTING_WINSTATE, (BYTE)state);
+		db_set_b(0, MODULE_CLIST, SETTING_WINSTATE, (uint8_t)state);
 
 	if (hMessageWindow)
 		DestroyWindow(hMessageWindow);
@@ -434,7 +434,7 @@ void StartupStatusLoad()
 		if (docked == DOCKED_LEFT || docked == DOCKED_RIGHT)
 			docked = -docked;
 
-		db_set_b(0, MODULE_CLIST, SETTING_DOCKED, (BYTE)docked);
+		db_set_b(0, MODULE_CLIST, SETTING_DOCKED, (uint8_t)docked);
 	}
 
 	// Create service functions; the get functions are created here; they don't rely on commonstatus

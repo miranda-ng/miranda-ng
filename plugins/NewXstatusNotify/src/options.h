@@ -26,66 +26,66 @@
 
 typedef struct tagOPTIONS {
 	// IDD_OPT_POPUP
-	BYTE Colors;
-	BYTE ShowGroup;
-	BYTE ShowStatus;
-	BYTE UseAlternativeText;
-	BYTE ShowPreviousStatus;
-	BYTE ReadAwayMsg;
+	uint8_t Colors;
+	uint8_t ShowGroup;
+	uint8_t ShowStatus;
+	uint8_t UseAlternativeText;
+	uint8_t ShowPreviousStatus;
+	uint8_t ReadAwayMsg;
 	int PopupTimeout;
 	UINT PopupConnectionTimeout;
-	BYTE LeftClickAction;
-	BYTE RightClickAction;
+	uint8_t LeftClickAction;
+	uint8_t RightClickAction;
 	// IDD_OPT_XPOPUP
-	BYTE PXOnConnect;
-	BYTE PXDisableForMusic;
-	BYTE PXMsgTruncate;
+	uint8_t PXOnConnect;
+	uint8_t PXDisableForMusic;
+	uint8_t PXMsgTruncate;
 	DWORD PXMsgLen;
 	// IDD_OPT_GENERAL
-	BYTE FromOffline;
-	BYTE AutoDisable;
-	BYTE HiddenContactsToo;
-	BYTE UseIndSnd;
-	BYTE BlinkIcon;
-	BYTE BlinkIcon_Status;
-	BYTE BlinkIcon_ForMsgs;
+	uint8_t FromOffline;
+	uint8_t AutoDisable;
+	uint8_t HiddenContactsToo;
+	uint8_t UseIndSnd;
+	uint8_t BlinkIcon;
+	uint8_t BlinkIcon_Status;
+	uint8_t BlinkIcon_ForMsgs;
 	wchar_t LogFilePath[MAX_PATH];
 	// IDD_AUTODISABLE
-	BYTE OnlyGlobalChanges;
-	BYTE DisableSoundGlobally;
-	BYTE DisablePopupGlobally;
+	uint8_t OnlyGlobalChanges;
+	uint8_t DisableSoundGlobally;
+	uint8_t DisablePopupGlobally;
 	// IDD_OPT_LOG
-	BYTE LogToFile;
-	BYTE LogToDB;
-	BYTE LogToDB_WinOpen;
-	BYTE LogToDB_Remove;
-	BYTE LogPrevious;
-	BYTE SMsgLogToFile;
-	BYTE SMsgLogToDB;
-	BYTE SMsgLogToDB_WinOpen;
-	BYTE SMsgLogToDB_Remove;
+	uint8_t LogToFile;
+	uint8_t LogToDB;
+	uint8_t LogToDB_WinOpen;
+	uint8_t LogToDB_Remove;
+	uint8_t LogPrevious;
+	uint8_t SMsgLogToFile;
+	uint8_t SMsgLogToDB;
+	uint8_t SMsgLogToDB_WinOpen;
+	uint8_t SMsgLogToDB_Remove;
 	// IDD_OPT_XLOG
-	BYTE XLogToFile;
-	BYTE XLogToDB;
-	BYTE XLogToDB_WinOpen;
-	BYTE XLogToDB_Remove;
-	BYTE XLogDisableForMusic;
+	uint8_t XLogToFile;
+	uint8_t XLogToDB;
+	uint8_t XLogToDB_WinOpen;
+	uint8_t XLogToDB_Remove;
+	uint8_t XLogDisableForMusic;
 	// IDD_OPT_SMPOPUP
-	BYTE PSMsgOnConnect;
-	BYTE PSMsgTruncate;
+	uint8_t PSMsgOnConnect;
+	uint8_t PSMsgTruncate;
 	DWORD PSMsgLen;
 	// OTHER
-	BYTE TempDisabled;
-	BYTE PopupAutoDisabled;
-	BYTE SoundAutoDisabled;
-	BYTE EnableLastSeen;
+	uint8_t TempDisabled;
+	uint8_t PopupAutoDisabled;
+	uint8_t SoundAutoDisabled;
+	uint8_t EnableLastSeen;
 } OPTIONS;
 
 typedef struct tagTEMPLATES {
-	BYTE PopupXFlags;
-	BYTE PopupSMsgFlags;
-	BYTE LogXFlags;
-	BYTE LogSMsgFlags;
+	uint8_t PopupXFlags;
+	uint8_t PopupSMsgFlags;
+	uint8_t LogXFlags;
+	uint8_t LogSMsgFlags;
 	wchar_t PopupXstatusChanged[256];
 	wchar_t PopupXstatusRemoved[256];
 	wchar_t PopupXMsgChanged[256];

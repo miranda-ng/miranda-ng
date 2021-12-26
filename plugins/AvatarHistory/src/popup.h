@@ -34,8 +34,8 @@ struct Options {
 	wchar_t popup_removed[1024];
 	WORD popup_delay_type;
 	WORD popup_timeout;
-	BYTE popup_use_win_colors;
-	BYTE popup_use_default_colors;
+	uint8_t popup_use_win_colors;
+	uint8_t popup_use_default_colors;
 	COLORREF popup_bkg_color;
 	COLORREF popup_text_color;
 	WORD popup_left_click_action;

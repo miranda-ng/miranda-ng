@@ -128,8 +128,8 @@ char *gg_avatarhash(char *param)
 	if (param == nullptr || (result = (char *)mir_alloc(MIR_SHA1_HASH_SIZE * 2 + 1)) == nullptr)
 		return nullptr;
 
-	BYTE digest[MIR_SHA1_HASH_SIZE];
-	mir_sha1_hash((BYTE*)param, (int)mir_strlen(param), digest);
+	uint8_t digest[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((uint8_t*)param, (int)mir_strlen(param), digest);
 	return bin2hex(digest, sizeof(digest), result);
 }
 
@@ -251,7 +251,7 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 					if (strncmp(resp->pData, "\xFF\xD8", 2) == 0) avatarType = PA_FORMAT_JPEG;
 					if (strncmp(resp->pData, "\x47\x49\x46\x38", 4) == 0) avatarType = PA_FORMAT_GIF;
 					if (strncmp(resp->pData, "\x89\x50\x4E\x47\x0D\x0A\x1A\x0A", 8) == 0) avatarType = PA_FORMAT_PNG;
-					setByte(data->hContact, GG_KEY_AVATARTYPE, (BYTE)avatarType);
+					setByte(data->hContact, GG_KEY_AVATARTYPE, (uint8_t)avatarType);
 
 					getAvatarFilename(ai.hContact, ai.filename, _countof(ai.filename));
 					file_fd = _wopen(ai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);

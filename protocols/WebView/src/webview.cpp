@@ -247,7 +247,7 @@ int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgb
 	else mir_wstrcpy(cfFM.szFaceName, Def_font_face);
 
 	HDC hDC = GetDC(hWindow);
-	cfFM.yHeight = (BYTE)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (g_plugin.getByte(FONT_SIZE_KEY, 14));
+	cfFM.yHeight = (uint8_t)MulDiv(abs(g_lf.lfHeight), 120, GetDeviceCaps(GetDC(hWindow), LOGPIXELSY)) * (g_plugin.getByte(FONT_SIZE_KEY, 14));
 	ReleaseDC(hWindow, hDC);
 
 	cfFM.bCharSet = g_plugin.getByte(FONT_SCRIPT_KEY, 0);

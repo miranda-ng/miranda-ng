@@ -92,10 +92,10 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	}
 	else szEventId = "";
 
-	mir_ptr<BYTE> pCryptBlob;
+	mir_ptr<uint8_t> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		BYTE *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		uint8_t *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = tmp.pBlob = pResult;
 			tmp.cbBlob = (uint16_t)len;
@@ -219,10 +219,10 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 		return 1;
 
 	DBEVENTINFO tmp = *dbei;
-	mir_ptr<BYTE> pCryptBlob;
+	mir_ptr<uint8_t> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		BYTE *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
+		uint8_t *pResult = m_crypto->encodeBuffer(tmp.pBlob, tmp.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = tmp.pBlob = pResult;
 			tmp.cbBlob = (uint16_t)len;
@@ -318,12 +318,12 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		BYTE *data = (BYTE *)sqlite3_column_blob(stmt, 5);
+		uint8_t *data = (uint8_t *)sqlite3_column_blob(stmt, 5);
 
 		if (dbei->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
-			BYTE* pBlob = (BYTE*)m_crypto->decodeBuffer(data, cbBlob, &len);
+			uint8_t* pBlob = (uint8_t*)m_crypto->decodeBuffer(data, cbBlob, &len);
 			if (pBlob == nullptr)
 				return 1;
 

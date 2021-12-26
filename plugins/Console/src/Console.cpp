@@ -154,7 +154,7 @@ static void ShowConsole(int show)
 			ScrollDown(pActive);
 	}
 	ShowWindow(hwndConsole, show ? SW_SHOW : SW_HIDE);
-	g_plugin.setByte("Show", (BYTE)(show ? 1 : 0));
+	g_plugin.setByte("Show", (uint8_t)(show ? 1 : 0));
 
 	if (hwnd)
 		SetForegroundWindow(hwnd);
@@ -979,7 +979,7 @@ static void SaveSettings(HWND hwndDlg)
 
 	gWrapLen = len;
 	SetDlgItemInt(hwndDlg, IDC_WRAP, gWrapLen, FALSE);
-	g_plugin.setByte("Wrap", (BYTE)len);
+	g_plugin.setByte("Wrap", (uint8_t)len);
 
 	len = GetDlgItemInt(hwndDlg, IDC_LIMIT, nullptr, FALSE);
 	if (len < MIN_LIMIT)
@@ -991,11 +991,11 @@ static void SaveSettings(HWND hwndDlg)
 	SetDlgItemInt(hwndDlg, IDC_LIMIT, gLimit, FALSE);
 	g_plugin.setDword("Limit", len);
 
-	g_plugin.setByte("SingleMode", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
-	g_plugin.setByte("Separator", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
-	g_plugin.setByte("ShowIcons", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
+	g_plugin.setByte("SingleMode", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SINGLE));
+	g_plugin.setByte("Separator", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SEPARATOR));
+	g_plugin.setByte("ShowIcons", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWICONS));
 
-	g_plugin.setByte("ShowAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_START));
+	g_plugin.setByte("ShowAtStart", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_START));
 }
 
 

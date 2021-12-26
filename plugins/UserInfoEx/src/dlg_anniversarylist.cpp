@@ -49,7 +49,7 @@ class CAnnivList
 	int		_sortHeader;
 	int		_curSel;
 	int		_numRows;
-	BYTE	_bRemindEnable;
+	uint8_t	_bRemindEnable;
 	HANDLE	_mHookExit;
 	bool	_wmINIT;
 
@@ -76,7 +76,7 @@ class CAnnivList
 	struct CFilter
 	{
 		WORD	wDaysBefore = (WORD)-1;
-		BYTE	bFilterIndex = 0;
+		uint8_t	bFilterIndex = 0;
 		LPSTR	pszProto = nullptr;
 		LPTSTR pszAnniv = nullptr;
 	} _filter;
@@ -86,7 +86,7 @@ class CAnnivList
 		MCONTACT	_hContact;
 		MAnnivDate _pDate;
 		WORD		_wDaysBefore;
-		BYTE		_wReminderState;
+		uint8_t		_wReminderState;
 
 		CItemData(MCONTACT hContact, MAnnivDate &date) :
 			_pDate(date)
@@ -421,7 +421,7 @@ class CAnnivList
 				// enable/disable reminder checkbox is clicked
 				case CHECK_REMIND:
 					if (pDlg->_bRemindEnable && HIWORD(wParam) == BN_CLICKED) {
-						BYTE checkState = Button_GetCheck((HWND)lParam);
+						uint8_t checkState = Button_GetCheck((HWND)lParam);
 
 						EnableWindow(GetDlgItem(hDlg, EDIT_REMIND), checkState == BST_CHECKED);
 						EnableWindow(GetDlgItem(hDlg, SPIN_REMIND), checkState == BST_CHECKED);
@@ -444,7 +444,7 @@ class CAnnivList
 				// period of time is enabled/disabled
 				case CHECK_DAYS:
 					if (HIWORD(wParam) == BN_CLICKED) {
-						BYTE isChecked = Button_GetCheck((HWND)lParam);
+						uint8_t isChecked = Button_GetCheck((HWND)lParam);
 						EnableWindow(GetDlgItem(hDlg, EDIT_DAYS), isChecked);
 						EnableWindow(GetDlgItem(hDlg, TXT_DAYS), isChecked);
 						pDlg->_filter.wDaysBefore = isChecked ? GetDlgItemInt(hDlg, EDIT_DAYS, nullptr, FALSE) : (WORD)-1;
@@ -569,7 +569,7 @@ class CAnnivList
 	 * @retval	0 if successful
 	 * @retval	1 if failed
 	 **/
-	BYTE AddColumn(int iSubItem, LPCTSTR pszText, int defaultWidth)
+	uint8_t AddColumn(int iSubItem, LPCTSTR pszText, int defaultWidth)
 	{
 		LVCOLUMN lvc;
 		CHAR pszSetting[MAXSETTING];
@@ -592,7 +592,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BYTE AddSubItem(int iItem, int iSubItem, LPTSTR pszText)
+	uint8_t AddSubItem(int iItem, int iSubItem, LPTSTR pszText)
 	{
 		LVITEM lvi;
 		if (iSubItem > 0) {
@@ -614,7 +614,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/	
-	BYTE AddItem(LPTSTR pszText, LPARAM lParam)
+	uint8_t AddItem(LPTSTR pszText, LPARAM lParam)
 	{
 		LVITEM lvi;
 
@@ -641,7 +641,7 @@ class CAnnivList
 	 * @retval	TRUE if successful
 	 * @retval	FALSE if failed
 	 **/
-	BYTE AddRow(MCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, int wDaysBefore)
+	uint8_t AddRow(MCONTACT hContact, LPCSTR pszProto, MAnnivDate &ad, MTime &mtNow, int wDaysBefore)
 	{
 		wchar_t szText[MAX_PATH];
 		int diff, iItem = -1;
@@ -811,8 +811,8 @@ class CAnnivList
 	{
 		if (_hDlg) {
 			g_plugin.setWord(SET_ANNIVLIST_FILTER_DAYS, (WORD)GetDlgItemInt(_hDlg, EDIT_DAYS, nullptr, FALSE));
-			g_plugin.setByte(SET_ANNIVLIST_FILTER_DAYSENABLED, (BYTE)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
-			g_plugin.setByte(SET_ANNIVLIST_FILTER_INDEX, (BYTE)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
+			g_plugin.setByte(SET_ANNIVLIST_FILTER_DAYSENABLED, (uint8_t)Button_GetCheck(GetDlgItem(_hDlg, CHECK_DAYS)));
+			g_plugin.setByte(SET_ANNIVLIST_FILTER_INDEX, (uint8_t)ComboBox_GetCurSel(GetDlgItem(_hDlg, EDIT_DAYS)));
 		}
 	}
 
@@ -862,7 +862,7 @@ public:
 				DeleteAllItems();
 			}
 			// remember popup setting
-			g_plugin.setByte(SET_ANNIVLIST_POPUP, (BYTE)IsDlgButtonChecked(_hDlg, CHECK_POPUP));
+			g_plugin.setByte(SET_ANNIVLIST_POPUP, (uint8_t)IsDlgButtonChecked(_hDlg, CHECK_POPUP));
 			// save window position, size and column widths
 			Utils_SaveWindowPosition(_hDlg, NULL, MODULENAME, "AnnivDlg_");
 			SaveFilter();

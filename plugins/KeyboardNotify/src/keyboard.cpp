@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 // Globals
-extern BYTE bEmulateKeypresses;
+extern uint8_t bEmulateKeypresses;
 HANDLE hKbdDev[10] = {INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE, INVALID_HANDLE_VALUE};
 
 // Defines
@@ -52,7 +52,7 @@ BOOL OpenKeyboardDevice()
 	return hKbdDev[0] != INVALID_HANDLE_VALUE;
 }
 
-BOOL ToggleKeyboardLights(BYTE byte)
+BOOL ToggleKeyboardLights(uint8_t byte)
 {
 	int i; BOOL result = FALSE;
 	KEYBOARD_INDICATOR_PARAMETERS InputBuffer;	// Input buffer for DeviceIoControl

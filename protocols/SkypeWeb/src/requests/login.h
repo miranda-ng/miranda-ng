@@ -30,8 +30,8 @@ struct LoginOAuthRequest : public AsyncHttpRequest
 
 		CMStringA hashStr(::FORMAT, "%s\nskyper\n%s", pszLogin, password);
 
-		BYTE digest[16];
-		mir_md5_hash((const BYTE*)hashStr.GetString(), hashStr.GetLength(), digest);
+		uint8_t digest[16];
+		mir_md5_hash((const uint8_t*)hashStr.GetString(), hashStr.GetLength(), digest);
 
 		this << CHAR_PARAM("scopes", "client")
 			<< CHAR_PARAM("clientVersion", mir_urlEncode("0/7.4.85.102/259/").c_str())

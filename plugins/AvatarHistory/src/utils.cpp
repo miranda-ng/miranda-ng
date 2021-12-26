@@ -38,8 +38,8 @@ bool ContactEnabled(MCONTACT hContact, char *setting, int def)
 	if (!ProtocolEnabled(proto))
 		return false;
 
-	BYTE globpref = g_plugin.getByte(setting, def);
-	BYTE userpref = g_plugin.getByte(hContact, setting, BST_INDETERMINATE);
+	uint8_t globpref = g_plugin.getByte(setting, def);
+	uint8_t userpref = g_plugin.getByte(hContact, setting, BST_INDETERMINATE);
 
 	return (globpref && userpref == BST_INDETERMINATE) || userpref == BST_CHECKED;
 }

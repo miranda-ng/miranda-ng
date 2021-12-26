@@ -14,7 +14,7 @@ void CMPlugin::positionClist()
 	ClistOptions clOptions;
 
 	if (spOptions.setClistStartState)
-		clOptions.state = static_cast<BYTE>(spOptions.clistState);
+		clOptions.state = static_cast<uint8_t>(spOptions.clistState);
 
 	if (spOptions.setClistWidth && spOptions.clistWidth > 0)
 		clOptions.width = static_cast<DWORD>(spOptions.clistWidth);

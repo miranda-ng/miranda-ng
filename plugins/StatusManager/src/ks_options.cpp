@@ -117,13 +117,13 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 			break;
 
 		case PSN_APPLY:
-			KSPlugin.setByte(SETTING_MAXRETRIES, (BYTE)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
-			KSPlugin.setByte(SETTING_CHECKCONNECTION, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
-			KSPlugin.setByte(SETTING_SHOWCONNECTIONPOPUPS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
+			KSPlugin.setByte(SETTING_MAXRETRIES, (uint8_t)GetDlgItemInt(hwndDlg, IDC_MAXRETRIES, nullptr, FALSE));
+			KSPlugin.setByte(SETTING_CHECKCONNECTION, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHECKCONNECTION));
+			KSPlugin.setByte(SETTING_SHOWCONNECTIONPOPUPS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWCONNECTIONPOPUPS));
 			KSPlugin.setDword(SETTING_INITDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_INITDELAY, nullptr, FALSE));
-			KSPlugin.setByte(SETTING_CHKINET, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHKINET));
-			KSPlugin.setByte(SETTING_CONTCHECK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
-			KSPlugin.setByte(SETTING_BYPING, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
+			KSPlugin.setByte(SETTING_CHKINET, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHKINET));
+			KSPlugin.setByte(SETTING_CONTCHECK, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CONTCHECK));
+			KSPlugin.setByte(SETTING_BYPING, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BYPING));
 			if (IsDlgButtonChecked(hwndDlg, IDC_BYPING)) {
 				int len = SendDlgItemMessage(hwndDlg, IDC_PINGHOST, WM_GETTEXTLENGTH, 0, 0);
 				if (len > 0) {
@@ -143,7 +143,7 @@ static INT_PTR CALLBACK DlgProcKSBasicOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, "%s_enabled", (char *)lvItem.lParam);
-				KSPlugin.setByte(dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				KSPlugin.setByte(dbSetting, (uint8_t)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 		break;
@@ -214,13 +214,13 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			break;
 
 		case PSN_APPLY:
-			KSPlugin.setByte(SETTING_INCREASEEXPONENTIAL, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
+			KSPlugin.setByte(SETTING_INCREASEEXPONENTIAL, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_INCREASEEXPONENTIAL));
 			KSPlugin.setDword(SETTING_MAXDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXDELAY, nullptr, FALSE));
 			KSPlugin.setDword(SETTING_MAXCONNECTINGTIME, (DWORD)GetDlgItemInt(hwndDlg, IDC_MAXCONNECTINGTIME, nullptr, FALSE));
-			KSPlugin.setByte(SETTING_FIRSTOFFLINE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FIRSTOFFLINE));
-			KSPlugin.setByte(SETTING_NOLOCKED, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NOLOCKED));
-			KSPlugin.setByte(SETTING_CNCOTHERLOC, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CNCOTHERLOC));
-			KSPlugin.setByte(SETTING_LOGINERR, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
+			KSPlugin.setByte(SETTING_FIRSTOFFLINE, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FIRSTOFFLINE));
+			KSPlugin.setByte(SETTING_NOLOCKED, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NOLOCKED));
+			KSPlugin.setByte(SETTING_CNCOTHERLOC, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CNCOTHERLOC));
+			KSPlugin.setByte(SETTING_LOGINERR, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_LOGINERR));
 			if (IsDlgButtonChecked(hwndDlg, IDC_LOGINERR)) {
 				if (IsDlgButtonChecked(hwndDlg, IDC_LOGINERR_SETDELAY)) {
 					KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_SETDELAY);
@@ -230,7 +230,7 @@ static INT_PTR CALLBACK DlgProcKSAdvOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			else KSPlugin.setByte(SETTING_LOGINERR, LOGINERR_NOTHING);
 
-			KSPlugin.setByte(SETTING_CHECKAPMRESUME, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CHECKAPMRESUME));
+			KSPlugin.setByte(SETTING_CHECKAPMRESUME, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CHECKAPMRESUME));
 			KSPlugin.setWord(SETTING_PINGCOUNT, (WORD)GetDlgItemInt(hwndDlg, IDC_PINGCOUNT, nullptr, FALSE));
 			KSPlugin.setDword(SETTING_CNTDELAY, (DWORD)GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE) == 0 ? CHECKCONTIN_DELAY : GetDlgItemInt(hwndDlg, IDC_CNTDELAY, nullptr, FALSE));
 		}
@@ -431,15 +431,15 @@ static INT_PTR CALLBACK PopupOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			// text color
 			KSPlugin.setDword(SETTING_POPUP_TEXTCOLOR, SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0));
 			// use win
-			KSPlugin.setByte(SETTING_POPUP_USEWINCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
+			KSPlugin.setByte(SETTING_POPUP_USEWINCOLORS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
 			// use def
-			KSPlugin.setByte(SETTING_POPUP_USEDEFCOLORS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+			KSPlugin.setByte(SETTING_POPUP_USEDEFCOLORS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 			// store types
-			KSPlugin.setByte(SETTING_PUCONNLOST, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNLOST));
-			KSPlugin.setByte(SETTING_PUOTHER, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUOTHER));
-			KSPlugin.setByte(SETTING_PUCONNRETRY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUCONNRETRY));
-			KSPlugin.setByte(SETTING_PURESULT, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PURESULT));
-			KSPlugin.setByte(SETTING_PUSHOWEXTRA, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PUSHOWEXTRA));
+			KSPlugin.setByte(SETTING_PUCONNLOST, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PUCONNLOST));
+			KSPlugin.setByte(SETTING_PUOTHER, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PUOTHER));
+			KSPlugin.setByte(SETTING_PUCONNRETRY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PUCONNRETRY));
+			KSPlugin.setByte(SETTING_PURESULT, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PURESULT));
+			KSPlugin.setByte(SETTING_PUSHOWEXTRA, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PUSHOWEXTRA));
 		}
 		break;
 	}

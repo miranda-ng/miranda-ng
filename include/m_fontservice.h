@@ -62,8 +62,8 @@ struct FontSettings
 {
 	COLORREF colour;
 	char     size;
-	BYTE     style;					// see the DBFONTF_* flags above
-	BYTE     charset;
+	uint8_t  style;					// see the DBFONTF_* flags above
+	uint8_t  charset;
 	char     szFace[LF_FACESIZE];
 };
 
@@ -71,8 +71,8 @@ struct FontSettingsW
 {
 	COLORREF colour;
 	char     size;
-	BYTE     style;					// see the DBFONTF_* flags above
-	BYTE     charset;
+	uint8_t  style;					// see the DBFONTF_* flags above
+	uint8_t  charset;
 	wchar_t  szFace[LF_FACESIZE];
 };
 
@@ -180,7 +180,7 @@ __forceinline COLORREF Colour_GetW(ColourIDW &p)
 
 struct FONTEFFECT
 {
-	BYTE     effectIndex;
+	uint8_t  effectIndex;
 	DWORD    baseColour;        // ARGB
 	DWORD    secondaryColour;   // ARGB
 };

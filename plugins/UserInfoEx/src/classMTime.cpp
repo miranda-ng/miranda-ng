@@ -77,7 +77,7 @@ void	MTime::ZeroDate()
  * validation / checks
  *********************************************/
 
-BYTE	MTime::IsValid() const
+uint8_t	MTime::IsValid() const
 {
 	return (
 		_SysTime.wYear > 1600 &&
@@ -88,7 +88,7 @@ BYTE	MTime::IsValid() const
 		_SysTime.wSecond < 60 );
 }
 
-BYTE	MTime::IsLeapYear() const
+uint8_t	MTime::IsLeapYear() const
 {
 	return (!(((_SysTime.wYear) % 4 != 0) || (((_SysTime.wYear) % 100 == 0) && ((_SysTime.wYear) % 400 != 0))));
 }
@@ -295,7 +295,7 @@ WORD	MTime::DaysInMonth(const WORD &wMonth)	const
 	return (IsLeapYear() && wMonth == 2) ? wDaysInMonth[wMonth] + 1 : wDaysInMonth[wMonth];
 }
 
-WORD	MTime::DaysInYear(BYTE bIgnoreLeap)	const
+WORD	MTime::DaysInYear(uint8_t bIgnoreLeap)	const
 {
 	return ((!bIgnoreLeap && IsLeapYear()) ? 366 : 365); 
 };

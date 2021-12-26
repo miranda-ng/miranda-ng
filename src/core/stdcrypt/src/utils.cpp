@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-bool getRandomBytes(BYTE *buf, size_t bufLen)
+bool getRandomBytes(uint8_t *buf, size_t bufLen)
 {
 	// try to use Intel hardware randomizer first
 	HCRYPTPROV hProvider = NULL;
@@ -46,7 +46,7 @@ bool getRandomBytes(BYTE *buf, size_t bufLen)
 	return true;
 }
 
-void slow_hash(const void *buf, size_t bufLen, BYTE* tmpHash)
+void slow_hash(const void *buf, size_t bufLen, uint8_t* tmpHash)
 {
 	mir_sha256_hash(buf, bufLen, tmpHash);
 

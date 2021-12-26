@@ -573,7 +573,7 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 	}
 
 	if (pak.strName) {
-		*pb++ = 1 + (BYTE)nameLen + 1;
+		*pb++ = 1 + (uint8_t)nameLen + 1;
 		*pb++ = MCODE_SND_NAME;
 		memcpy(pb, pak.strName, nameLen);
 		pb += nameLen;
@@ -587,7 +587,7 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 
 	if (pak.strMessage) {
 		*pb++ = 255;
-		*((u_short*)pb) = 1 + 4 + (BYTE)mesLen + 1;
+		*((u_short*)pb) = 1 + 4 + (uint8_t)mesLen + 1;
 		pb += sizeof(u_short);
 		*pb++ = MCODE_SND_MESSAGE;
 		*((u_int*)pb) = pak.idMessage;
@@ -614,7 +614,7 @@ u_char* CMLan::CreatePacket(TPacket &pak, int *pBufLen)
 
 	if (pak.strAwayMessage) {
 		*pb++ = 255;
-		*((u_short*)pb) = 1 + 4 + (BYTE)awayLen + 1;
+		*((u_short*)pb) = 1 + 4 + (uint8_t)awayLen + 1;
 		pb += sizeof(u_short);
 		*pb++ = MCODE_SND_AWAYMSG;
 		*((u_int*)pb) = pak.idAckAwayMessage;

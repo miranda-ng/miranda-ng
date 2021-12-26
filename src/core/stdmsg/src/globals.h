@@ -60,9 +60,9 @@ struct GlobalMessageData
 	CMOption<DWORD> popupFlags;
 	CMOption<DWORD> msgTimeout;
 	CMOption<DWORD> nFlashMax;
-	CMOption<BYTE>  iGap;
+	CMOption<uint8_t>  iGap;
 
-	CMOption<BYTE>  iLoadHistory;
+	CMOption<uint8_t>  iLoadHistory;
 	CMOption<WORD>  nLoadCount, nLoadTime;
 
 	bool bSmileyInstalled = false;

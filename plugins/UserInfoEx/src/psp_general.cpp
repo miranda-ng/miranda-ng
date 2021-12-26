@@ -80,7 +80,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
-							BYTE bEnable;
+							uint8_t bEnable;
 							DBVARIANT dbv;
 							CCtrlFlags Flags;
 		
@@ -109,7 +109,7 @@ INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 							// gender
 							{
-								BYTE gender
+								uint8_t gender
 									= IsDlgButtonChecked(hDlg, RADIO_FEMALE)
 									? 'F'
 									: IsDlgButtonChecked(hDlg, RADIO_MALE)

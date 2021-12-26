@@ -56,7 +56,7 @@ extern COLORREF g_CLUISkinnedBkColorRGB;
 extern FRAMEWND *wndFrameCLC;
 extern HPEN g_hPenCLUIFrames;
 
-static BYTE old_cliststate, show_on_first_autosize = FALSE;
+static uint8_t old_cliststate, show_on_first_autosize = FALSE;
 
 RECT cluiPos;
 
@@ -112,9 +112,9 @@ static void Tweak_It(COLORREF clr)
 static void LayoutButtons(HWND hwnd, RECT *rc)
 {
 	RECT rect;
-	BYTE left_offset = cfg::dat.bCLeft - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
-	BYTE right_offset = cfg::dat.bCRight - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
-	BYTE delta = left_offset + right_offset;
+	uint8_t left_offset = cfg::dat.bCLeft - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
+	uint8_t right_offset = cfg::dat.bCRight - (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? 3 : 0);
+	uint8_t delta = left_offset + right_offset;
 	ButtonItem *btnItems = g_ButtonItems;
 
 	if (rc == nullptr)
@@ -413,7 +413,7 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 		else {
 			switch (buttonItem->type) {
 			case DBVT_BYTE: {
-					BYTE val = db_get_b(hFinalContact, szModule, szSetting, 0);
+					uint8_t val = db_get_b(hFinalContact, szModule, szSetting, 0);
 					result = (val == buttonItem->bValuePush[0]);
 					break;
 				}
@@ -551,7 +551,7 @@ void ReloadThemedOptions()
 	cfg::dat.bWallpaperMode = db_get_b(0, "CLUI", "UseBkSkin", 1);
 	cfg::dat.bClipBorder = db_get_b(0, "CLUI", "clipborder", 0);
 	cfg::dat.cornerRadius = db_get_b(0, "CLCExt", "CornerRad", 6);
-	cfg::dat.gapBetweenFrames = (BYTE)db_get_dw(0, "CLUIFrames", "GapBetweenFrames", 1);
+	cfg::dat.gapBetweenFrames = (uint8_t)db_get_dw(0, "CLUIFrames", "GapBetweenFrames", 1);
 	cfg::dat.bUseDCMirroring = db_get_b(0, "CLC", "MirrorDC", 0);
 	cfg::dat.bGroupAlign = db_get_b(0, "CLC", "GroupAlign", 0);
 	if (cfg::dat.hBrushColorKey)
@@ -824,7 +824,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 			{
 				LONG style;
-				BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
+				uint8_t windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 				ShowWindow(g_clistApi.hwndContactList, SW_HIDE);
 				style = GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE);
 				if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
@@ -1125,7 +1125,7 @@ skipbg:
 		return 0;
 
 	case CLUIINTM_REMOVEFROMTASKBAR: {
-			BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			uint8_t windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && g_plugin.getByte("AlwaysHideOnTB", 0))
 				RemoveFromTaskBar(hwnd);
 			return 0;
@@ -1259,7 +1259,7 @@ skipbg:
 			if (wParam) {
 				sourceAlpha = 0;
 				destAlpha = cfg::dat.isTransparent ? cfg::dat.alpha : 255;
-				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? (COLORREF)cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)sourceAlpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? (COLORREF)cfg::dat.colorkey : RGB(0, 0, 0), (uint8_t)sourceAlpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				noRecurse = 1;
 				ShowWindow(hwnd, SW_SHOW);
 				RedrawWindow(hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW | RDW_ALLCHILDREN);
@@ -1272,17 +1272,17 @@ skipbg:
 			for (startTick = GetTickCount();;) {
 				thisTick = GetTickCount();
 				if (thisTick >= startTick + 200) {
-					SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)destAlpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+					SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (uint8_t)destAlpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 					g_fading_active = 0;
 					return DefWindowProc(hwnd, msg, wParam, lParam);
 				}
-				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+				SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (uint8_t)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
 		}
 
 	case WM_SYSCOMMAND:
 		{
-			BYTE bWindowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+			uint8_t bWindowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
 				if (wParam == SC_RESTORE) {
 					CallWindowProc(DefWindowProc, hwnd, msg, wParam, lParam);
@@ -1352,7 +1352,7 @@ skipbg:
 								}
 							}
 							else if (item->dwFlags & BUTTON_ISDBACTION) {
-								BYTE *pValue;
+								uint8_t *pValue;
 								char *szModule = item->szModule;
 								char *szSetting = item->szSetting;
 								MCONTACT finalhContact = 0;
@@ -1433,8 +1433,8 @@ skipbg:
 				case IDC_TBSOUND:
 				case IDC_STBSOUND:
 					cfg::dat.soundsOff = !cfg::dat.soundsOff;
-					db_set_b(0, "CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
-					db_set_b(0, "Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
+					db_set_b(0, "CLUI", "NoSounds", (uint8_t)cfg::dat.soundsOff);
+					db_set_b(0, "Skin", "UseSound", (uint8_t)(cfg::dat.soundsOff ? 0 : 1));
 					return 0;
 
 				case IDC_TBSELECTVIEWMODE:
@@ -1634,7 +1634,7 @@ buttons_done:
 
 				int nParts = SendMessage(g_clistApi.hwndStatus, SB_GETPARTS, 0, 0);
 				SIZE textSize;
-				BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
+				uint8_t showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 
 				SetBkMode(dis->hDC, TRANSPARENT);
 				int x = dis->rcItem.left;

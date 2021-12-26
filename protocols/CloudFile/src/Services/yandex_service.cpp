@@ -167,7 +167,7 @@ void CYandexService::HandleJsonError(JSONNode &node)
 auto CYandexService::CreateUploadSession(const std::string &path)
 {
 	ptrA token(getStringA("TokenSecret"));
-	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
+	uint8_t strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	YandexAPI::GetUploadUrlRequest request(token, path.c_str(), (OnConflict)strategy);
 	NLHR_PTR response(request.Send(m_hConnection));
 

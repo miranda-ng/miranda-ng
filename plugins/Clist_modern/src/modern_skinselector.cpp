@@ -232,7 +232,7 @@ static int ParseToModernMask(MODERNMASK *mm, char *szText)
 	if (!mm || !szText) return -1;
 
 	unsigned int textLen = (unsigned)mir_strlen(szText);
-	BYTE curParam = 0;
+	uint8_t curParam = 0;
 
 	unsigned int startPos = 0;
 	char *pszParam;
@@ -278,7 +278,7 @@ static BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 {
 	//TODO
 	BOOL res = TRUE;
-	BYTE pVal = 0, pTemp = 0;
+	uint8_t pVal = 0, pTemp = 0;
 	while (pTemp < mmTemplate->dwParamCnt && pVal < mmValue->dwParamCnt) {
 		// find pTemp parameter in mValue
 		DWORD vh, ph;
@@ -363,7 +363,7 @@ SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mm
 	return res;
 }
 
-wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
+wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, uint8_t paramN, char Delim, BOOL SkipSpaces)
 {
 	char *ansibuf = (char*)mir_alloc(buflen / sizeof(wchar_t));
 	GetParamN(string, ansibuf, buflen / sizeof(wchar_t), paramN, Delim, SkipSpaces);
@@ -372,7 +372,7 @@ wchar_t* GetParamNT(char *string, wchar_t *buf, int buflen, BYTE paramN, char De
 	return buf;
 }
 
-wchar_t* GetParamN(wchar_t *string, wchar_t *buf, int buflen, BYTE paramN, wchar_t Delim, BOOL SkipSpaces)
+wchar_t* GetParamN(wchar_t *string, wchar_t *buf, int buflen, uint8_t paramN, wchar_t Delim, BOOL SkipSpaces)
 {
 	size_t i = 0, start = 0, CurentCount = 0, len;
 	while (i < mir_wstrlen(string)) {
@@ -398,7 +398,7 @@ wchar_t* GetParamN(wchar_t *string, wchar_t *buf, int buflen, BYTE paramN, wchar
 	return buf;
 }
 
-char* GetParamN(char *string, char *buf, int buflen, BYTE paramN, char Delim, BOOL SkipSpaces)
+char* GetParamN(char *string, char *buf, int buflen, uint8_t paramN, char Delim, BOOL SkipSpaces)
 {
 	size_t i = 0, start = 0, CurentCount = 0, len;
 	while (i < mir_strlen(string)) {

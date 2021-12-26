@@ -143,9 +143,9 @@ EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC
 
 struct DBVARIANT
 {
-	BYTE type;
+	uint8_t type;
 	union {
-		BYTE bVal; char cVal;
+		uint8_t bVal; char cVal;
 		WORD wVal; short sVal;
 		DWORD dVal; long lVal;
 		struct {
@@ -157,7 +157,7 @@ struct DBVARIANT
 		};
 		struct {
 			WORD cpbVal;
-			BYTE *pbVal;
+			uint8_t *pbVal;
 		};
 	};
 };
@@ -382,7 +382,7 @@ EXTERN_C MIR_CORE_DLL(int)      db_get_static_utf(MCONTACT hContact, const char 
 EXTERN_C MIR_CORE_DLL(int)      db_get_wstatic(MCONTACT hContact, const char *szModule, const char *szSetting, wchar_t *pDest, int cbDest);
 
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set(MCONTACT hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, const char *szModule, const char *szSetting, BYTE val);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_b(MCONTACT hContact, const char *szModule, const char *szSetting, uint8_t val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, WORD val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val);
@@ -647,9 +647,9 @@ EXTERN_C MIR_APP_DLL(wchar_t*) DbEvent_GetString(DBEVENTINFO *dbei, const char *
 
 ///////////////////////////////////////////////////////////////////////////////////////// inlined range tolerate versions */
 
-__inline BYTE DBGetContactSettingRangedByte(MCONTACT hContact, const char *szModule, const char *szSetting, BYTE errorValue, BYTE minValue, BYTE maxValue)
+__inline uint8_t DBGetContactSettingRangedByte(MCONTACT hContact, const char *szModule, const char *szSetting, uint8_t errorValue, uint8_t minValue, uint8_t maxValue)
 {
-	BYTE bVal = db_get_b(hContact, szModule, szSetting, errorValue);
+	uint8_t bVal = db_get_b(hContact, szModule, szSetting, errorValue);
 	return (bVal < minValue || bVal > maxValue) ? errorValue : bVal;
 }
 
@@ -707,7 +707,7 @@ namespace DB
 		~AUTH_BLOB();
 
 		__forceinline operator char*() { return (char*)makeBlob(); }
-		__forceinline operator BYTE*() { return makeBlob(); }
+		__forceinline operator uint8_t*() { return makeBlob(); }
 
 		__forceinline DWORD size() const  { return m_size; }
 

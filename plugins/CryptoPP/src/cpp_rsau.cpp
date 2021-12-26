@@ -113,7 +113,7 @@ string hash(string& b)
 
 string hash(uint8_t *b, size_t l)
 {
-	BYTE h[RSA_KEYSIZE];
+	uint8_t h[RSA_KEYSIZE];
 	RSA_CalculateDigest(h, b, l);
 	string s; s.assign((char*)&h, RSA_KEYSIZE);
 	return s;
@@ -131,7 +131,7 @@ string hash128(LPSTR b)
 
 string hash128(uint8_t *b, size_t l)
 {
-	BYTE h[RIPEMD128::DIGESTSIZE];
+	uint8_t h[RIPEMD128::DIGESTSIZE];
 	RIPEMD128().CalculateDigest(h, b, l);
 	string s; s.assign((char*)&h, sizeof(h));
 	return s;
@@ -149,7 +149,7 @@ string hash256(LPSTR b)
 
 string hash256(uint8_t *b, size_t l)
 {
-	BYTE h[RIPEMD256::DIGESTSIZE];
+	uint8_t h[RIPEMD256::DIGESTSIZE];
 	RIPEMD256().CalculateDigest(h, b, l);
 	string s; s.assign((char*)&h, sizeof(h));
 	return s;

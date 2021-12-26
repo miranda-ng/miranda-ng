@@ -455,8 +455,8 @@ static int ContactClick(WPARAM hContact, LPARAM, BOOL clickNotToChat)
 		}
 	}
 
-	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
-	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
+	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_AUTO_CHAT, (uint8_t)boltunautochat);
+	g_plugin.setByte(hContact, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (uint8_t)boltunnottochat);
 
 	return 0;
 }

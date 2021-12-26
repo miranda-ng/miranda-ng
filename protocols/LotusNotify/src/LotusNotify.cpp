@@ -43,7 +43,7 @@ wchar_t settingFilterSubject[MAX_SETTING_STR] = TEXT(""), settingFilterSender[MA
 COLORREF settingBgColor, settingFgColor;
 int settingInterval = 0, settingInterval1 = 0;
 DWORD settingNewestID = 0;
-BYTE settingSetColours = 0, settingShowError = 1, settingIniAnswer = -1, settingIniCheck = 0,
+uint8_t settingSetColours = 0, settingShowError = 1, settingIniAnswer = -1, settingIniCheck = 0,
 	settingOnceOnly = 0, settingNonClickedOnly = 0, settingNewest = 0, settingEvenNonClicked = 0, settingKeepConnection = 1;
 BOOL settingStatus[STATUS_COUNT];
 BOOL bMirandaCall=FALSE;
@@ -887,10 +887,10 @@ void decodeServer(char *tmp)
 void fillServersList(HWND hwndDlg)
 {
 	HANDLE    hServerList = NULLHANDLE;
-	BYTE far *pServerList;            /* Pointer to start of Server List */
+	uint8_t far *pServerList;            /* Pointer to start of Server List */
 	WORD      wServerCount;           /* Number of servers in list. */
 	WORD far *pwServerLength;         /* Index to array of servername lens */
-	BYTE far *pServerName;
+	uint8_t far *pServerName;
 	STATUS    error = NOERROR;        /* Error return from API routines. */
 	char      ServerString[MAXPATH];  /* String to hold server names.   */
 	LPSTR     szServerString = ServerString;
@@ -902,12 +902,12 @@ void fillServersList(HWND hwndDlg)
 	error = NSGetServerList1(nullptr, &hServerList);
 	if (error == NOERROR) {
 
-		pServerList = (BYTE far *) OSLockObject1(hServerList);
+		pServerList = (uint8_t far *) OSLockObject1(hServerList);
 		wServerCount = (WORD)*pServerList;
 
 		pwServerLength = (WORD *)(pServerList + sizeof(WORD));
 
-		pServerName = (BYTE far *) pServerList + sizeof(wServerCount) + ((wServerCount)* sizeof(WORD));
+		pServerName = (uint8_t far *) pServerList + sizeof(wServerCount) + ((wServerCount)* sizeof(WORD));
 
 		for (USHORT i = 0; i < wServerCount; pServerName += pwServerLength[i], i++) {
 			memmove(szServerString, pServerName, pwServerLength[i]);
@@ -1103,7 +1103,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg,
 			GetDlgItemTextA(hwndDlg, IDC_DATABASE, settingDatabase, _countof(settingDatabase));
 			break;
 		case IDC_BUTTON_CHECK:
-			settingIniCheck = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_BUTTON_CHECK);
+			settingIniCheck = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_BUTTON_CHECK);
 			checkNotesIniFile(TRUE);
 			break;
 		case IDC_DATABASE:
@@ -1141,7 +1141,7 @@ static INT_PTR CALLBACK DlgProcLotusNotifyConnectionOpts(HWND hwndDlg, UINT msg,
 			settingInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE);
 			break;
 		case IDC_KEEP_CONNEXION_ON_ERROR:
-			settingKeepConnection = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR);
+			settingKeepConnection = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_KEEP_CONNEXION_ON_ERROR);
 			break;
 		}
 		break;
@@ -1223,21 +1223,21 @@ static INT_PTR CALLBACK DlgProcLotusNotifyPopupOpts(HWND hwndDlg, UINT msg, WPAR
 			settingInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE);
 			break;
 		case IDC_ONCEONLY:
-			settingOnceOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
+			settingOnceOnly = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONCEONLY);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_NONCLICKEDONLY), settingOnceOnly);
 			break;
 		case IDC_NONCLICKEDONLY:
-			settingNonClickedOnly = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NONCLICKEDONLY);
+			settingNonClickedOnly = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NONCLICKEDONLY);
 			break;
 		case IDC_SHOWERROR:
-			settingShowError = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWERROR);
+			settingShowError = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWERROR);
 			break;
 		case IDC_NEWEST:
-			settingNewest = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NEWEST);
+			settingNewest = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NEWEST);
 			EnableWindow(GetDlgItem(hwndDlg, IDC_REMEMBEREVENNONCLICKED), settingNewest);
 			break;
 		case IDC_REMEMBEREVENNONCLICKED:
-			settingEvenNonClicked = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED);
+			settingEvenNonClicked = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_REMEMBEREVENNONCLICKED);
 			break;
 		case IDC_COMMAND:
 			GetDlgItemTextA(hwndDlg, IDC_COMMAND, settingCommand, _countof(settingCommand));

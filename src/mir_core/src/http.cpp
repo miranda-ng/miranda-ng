@@ -67,7 +67,7 @@ MIR_CORE_DLL(CMStringA) mir_urlEncode(const char *szUrl)
 
 	CMStringA ret;
 
-	for (const BYTE *s = (const BYTE*)szUrl; *s; s++) {
+	for (const uint8_t *s = (const uint8_t*)szUrl; *s; s++) {
 		if (('0' <= *s && *s <= '9') || // 0-9
 			('A' <= *s && *s <= 'Z') || // ABC...XYZ
 			('a' <= *s && *s <= 'z') || // abc...xyz
@@ -113,11 +113,11 @@ MIR_CORE_DLL(char*) mir_base64_encodebuf(const void *input, size_t inputLen, cha
 	if (outputLen < mir_base64_encode_bufsize(inputLen))
 		return nullptr;
 
-	const BYTE *s = (const BYTE*)input;
+	const uint8_t *s = (const uint8_t*)input;
 	char *p = output;
 	for (unsigned i=0; i < inputLen; ) {
 		int rest = 0;
-		BYTE chr[3];
+		uint8_t chr[3];
 		chr[0] = s[i++];
 		chr[1] = (i < inputLen) ? s[i++] : rest++, 0;
 		chr[2] = (i < inputLen) ? s[i++] : rest++, 0;
@@ -171,23 +171,23 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, size_t *outputLen)
 	char *p = output;
 
 	while (input < stop) {
-		BYTE e[4];
+		uint8_t e[4];
 		for (int i=0; i < 4; ) {
 			if (*input == '\n' || *input == '\r') // simply skip a char
 				input++;
 			else if (*input == 0)  // do not advance input
-				e[i++] = (BYTE)-1;
+				e[i++] = (uint8_t)-1;
 			else
 				e[i++] = Base64DecodeTable[*input++];
 		}
 
-		if (e[0] == (BYTE)-1 || e[1] == (BYTE)-1)
+		if (e[0] == (uint8_t)-1 || e[1] == (uint8_t)-1)
 			break;
 
 		*p++ = (e[0] << 2) | (e[1] >> 4);
-		if (e[2] != (BYTE)-1)
+		if (e[2] != (uint8_t)-1)
 			*p++ = ((e[1] & 15) << 4) | (e[2] >> 2);
-		if (e[3] != (BYTE)-1)
+		if (e[3] != (uint8_t)-1)
 			*p++ = ((e[2] & 3) << 6) | e[3];
 	}
 

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  **/
 class CEditCtrl : public CBaseCtrl
 {
-	BYTE	_dbType;
+	uint8_t	_dbType;
 	
 	/**
 	 * Private constructure is to force to use static member 'Create' 
@@ -52,8 +52,8 @@ public:
 	static FORCEINLINE CEditCtrl* GetObj(HWND hDlg, WORD idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, BYTE dbType);
-	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, BYTE dbType);
+	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszSetting, uint8_t dbType);
+	static CBaseCtrl* CreateObj(HWND hDlg, WORD idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType);
 
 	virtual void	Release();
 	virtual void	OnReset();

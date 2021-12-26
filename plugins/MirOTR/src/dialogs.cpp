@@ -494,7 +494,7 @@ static INT_PTR CALLBACK DlgProcSMPInitProc(HWND hwndDlg, UINT msg, WPARAM wParam
 					SetDlgItemText(hwndDlg, IDC_STC_SMP_INFO, buff);
 
 					unsigned char hash[20];
-					BYTE *ret;
+					uint8_t *ret;
 					{
 						mir_cslock lck(lib_cs);
 						ret = otrl_privkey_fingerprint_raw(otr_user_state, hash, context->accountname, context->protocol);

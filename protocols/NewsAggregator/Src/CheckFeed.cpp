@@ -160,7 +160,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	bool  MesExist = false;
 	T2Utf pszTemp(message);
 	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);
-	BYTE *pbBuffer = (BYTE*)mir_alloc(cbMemoLen);
+	uint8_t *pbBuffer = (uint8_t*)mir_alloc(cbMemoLen);
 
 	DB::ECPTR pCursor(DB::EventsRev(hContact));
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {

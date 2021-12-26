@@ -72,7 +72,7 @@ void CMsgDialog::RefreshInfobar()
 	ptrW szXStatusMsg(db_get_wsa(m_hContact, m_szProto, "XStatusMsg"));
 
 	HICON hIcon = nullptr;
-	BYTE bXStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
+	uint8_t bXStatus = db_get_b(m_hContact, m_szProto, "XStatusId", 0);
 	if (bXStatus > 0)
 		hIcon = (HICON)CallProtoService(m_szProto, PS_GETCUSTOMSTATUSICON, bXStatus, 0);
 

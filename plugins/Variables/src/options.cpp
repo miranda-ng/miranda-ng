@@ -94,10 +94,10 @@ static INT_PTR CALLBACK SetOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				mir_free(szFormatText);
 			}
-			g_plugin.setByte(SETTING_PARSEATSTARTUP, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP) ? 1 : 0));
-			g_plugin.setByte(SETTING_STRIPCRLF, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF) ? 1 : 0));
-			g_plugin.setByte(SETTING_STRIPWS, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS) ? 1 : 0));
-			g_plugin.setByte(SETTING_STRIPALL, (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? 1 : 0));
+			g_plugin.setByte(SETTING_PARSEATSTARTUP, (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_PARSEATSTARTUP) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPCRLF, (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_STRIPCRLF) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPWS, (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_STRIPWS) ? 1 : 0));
+			g_plugin.setByte(SETTING_STRIPALL, (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_STRIPALL) ? 1 : 0));
 		}
 		break;
 

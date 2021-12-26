@@ -35,7 +35,7 @@ private:
 	HGDIOBJ m_hOldBmp;
 
 private:
-	void updateTrans(BYTE* pData);
+	void updateTrans(uint8_t* pData);
 
 public:
 	explicit Canvas(int nWidth, int nHeight);

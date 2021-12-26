@@ -48,6 +48,6 @@ wchar_t* GetContactID(MCONTACT hContact, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
 void Proto_GetBaseAccountName(MCONTACT hContact, char *szProto, size_t size);
 
-int MyPUShowMessage(char *lpzText, BYTE kind);
+int MyPUShowMessage(char *lpzText, uint8_t kind);
 
 #endif

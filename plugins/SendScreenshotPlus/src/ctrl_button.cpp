@@ -37,7 +37,7 @@ typedef struct TMBCtrl
 	HFONT		hFont;			// font
 
 	DWORD		dwStyle;
-	BYTE		bFocus;
+	uint8_t		bFocus;
 
 	int			stateId;		// button state
 	int			defbutton;	// default button
@@ -604,7 +604,7 @@ static LRESULT CALLBACK Button_WndProc(HWND hwndBtn, UINT uMsg, WPARAM wParam, L
 	
 	case WM_LBUTTONUP:
 		if (bct->stateId != PBS_DISABLED) { // don't change states if disabled
-			BYTE bPressed = bct->stateId == PBS_PRESSED;
+			uint8_t bPressed = bct->stateId == PBS_PRESSED;
 
 			if (bct->dwStyle & MBS_PUSHBUTTON) {
 				if (bct->pbState) bct->pbState = 0;

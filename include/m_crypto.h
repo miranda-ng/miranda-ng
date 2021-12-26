@@ -36,8 +36,8 @@ struct MICryptoEngine
 
 	// get/set the instance key
 	STDMETHOD_(size_t, getKeyLength)(void) PURE;
-	STDMETHOD_(bool, getKey)(BYTE *pKey, size_t cbKeyLen) PURE;
-	STDMETHOD_(bool, setKey)(const char *pszPassword, const BYTE *pKey, size_t cbKeyLen) PURE;
+	STDMETHOD_(bool, getKey)(uint8_t *pKey, size_t cbKeyLen) PURE;
+	STDMETHOD_(bool, setKey)(const char *pszPassword, const uint8_t *pKey, size_t cbKeyLen) PURE;
 
 	STDMETHOD_(bool, generateKey)(void)PURE; // creates a new key inside
 	STDMETHOD_(void, purgeKey)(void)PURE;    // purges a key from memory
@@ -46,13 +46,13 @@ struct MICryptoEngine
 	STDMETHOD_(bool, checkPassword)(const char *pszPassword) PURE;
 	STDMETHOD_(void, setPassword)(const char *pszPassword) PURE;
 
-	// result must be freed using mir_free or assigned to mir_ptr<BYTE>
-	STDMETHOD_(BYTE*, encodeString)(const char *src, size_t *cbResultLen) PURE;
-	STDMETHOD_(BYTE*, encodeBuffer)(const void *src, size_t cbLen, size_t *cbResultLen) PURE;
+	// result must be freed using mir_free or assigned to mir_ptr<uint8_t>
+	STDMETHOD_(uint8_t*, encodeString)(const char *src, size_t *cbResultLen) PURE;
+	STDMETHOD_(uint8_t*, encodeBuffer)(const void *src, size_t cbLen, size_t *cbResultLen) PURE;
 
 	// result must be freed using mir_free or assigned to ptrA/ptrT
-	STDMETHOD_(char*, decodeString)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
-	STDMETHOD_(void*, decodeBuffer)(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
+	STDMETHOD_(char*, decodeString)(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
+	STDMETHOD_(void*, decodeBuffer)(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen) PURE;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

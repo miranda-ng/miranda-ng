@@ -78,7 +78,7 @@ DWORD __forceinline GetSettingValueLength(uint8_t *pSetting)
 struct DBSignature
 {
 	char name[15];
-	BYTE eof;
+	uint8_t eof;
 };
 
 struct ModuleName
@@ -90,7 +90,7 @@ struct ModuleName
 #include <pshpack1.h>
 struct DBHeader
 {
-	BYTE signature[16];        // 'Miranda ICQ DB',0,26
+	uint8_t signature[16];        // 'Miranda ICQ DB',0,26
 	DWORD version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
 	DWORD ofsFileEnd;       // offset of the end of the database - place to write new structures
 	DWORD slackSpace;       // a counter of the number of bytes that have been
@@ -123,7 +123,7 @@ struct DBModuleName
 {
 	DWORD signature;
 	DWORD ofsNext;          // offset to the next module name in the chain
-	BYTE cbName;            // number of characters in this module name
+	uint8_t cbName;            // number of characters in this module name
 	char name[1];           // name, no nul terminator
 };
 
@@ -136,7 +136,7 @@ struct DBContactSettings
 	DWORD cbBlob;           // size of the blob in bytes. May be larger than the
 	// actual size for reducing the number of moves
 	// required using granularity in resizing
-	BYTE blob[1];           // the blob. a back-to-back sequence of DBSetting
+	uint8_t blob[1];           // the blob. a back-to-back sequence of DBSetting
 	// structs, the last has cbName = 0
 };
 
@@ -152,7 +152,7 @@ struct DBEvent_094         // previous event storage format
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
 	DWORD cbBlob;           // number of bytes in the blob
-	BYTE  blob[1];          // the blob. module-defined formatting
+	uint8_t  blob[1];          // the blob. module-defined formatting
 };
 
 struct DBEvent
@@ -167,7 +167,7 @@ struct DBEvent
 	DWORD flags;            // see m_database.h, db/event/add
 	WORD  wEventType;       // module-defined event type
 	DWORD cbBlob;           // number of bytes in the blob
-	BYTE  blob[1];          // the blob. module-defined formatting
+	uint8_t  blob[1];          // the blob. module-defined formatting
 
 	bool __forceinline markedRead() const
 	{

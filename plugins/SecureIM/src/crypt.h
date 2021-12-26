@@ -42,8 +42,8 @@ struct UinKey
 	MCONTACT hContact;	// handle of contact
 	u_int header;		// HEADER
 	pSupPro proto;		// proto struct
-	BYTE mode,tmode;	// mode: Native,PGP,GPG,RSA/AES,RSA [0..4]
-	BYTE status,tstatus;	// status: Disabled,Enabled,AlwaysTry [0..2] for Native mode
+	uint8_t mode,tmode;	// mode: Native,PGP,GPG,RSA/AES,RSA [0..4]
+	uint8_t status,tstatus;	// status: Disabled,Enabled,AlwaysTry [0..2] for Native mode
 	LPSTR msgSplitted;	// message to combine
 	pPM msgPart;		// parts of message
 	pWM msgQueue;		// last messages not sended or to resend;
@@ -56,8 +56,8 @@ struct UinKey
 	BOOL decoded;		// false on decode error
 	short features;
 	HANDLE cntx;		// crypto context
-	BYTE keyLoaded;		// ( 1-PGP, 2-GPG ) | 1-RSA
-	BYTE gpgMode,tgpgMode;	// 0-UTF8, 1-ANSI
+	uint8_t keyLoaded;		// ( 1-PGP, 2-GPG ) | 1-RSA
+	uint8_t gpgMode,tgpgMode;	// 0-UTF8, 1-ANSI
 	char *lastFileRecv;
 	char *lastFileSend;
 	char **fileSend;
@@ -105,7 +105,7 @@ void getContactUinA(MCONTACT hContact, LPSTR szUIN);
 int getContactStatus(MCONTACT);
 
 bool isSecureProtocol(MCONTACT hContact);
-BYTE isContactSecured(MCONTACT hContact);
+uint8_t isContactSecured(MCONTACT hContact);
 bool isClientMiranda(pUinKey ptr, BOOL emptyMirverAsMiranda=FALSE);
 bool isClientMiranda(MCONTACT hContact, BOOL emptyMirverAsMiranda=FALSE);
 bool isProtoSmallPackets(MCONTACT);
@@ -144,7 +144,7 @@ void showPopupRM(MCONTACT);
 // crypt_dll.cpp
 LPSTR InitKeyA(pUinKey, int);
 int InitKeyB(pUinKey, LPCSTR);
-void InitKeyX(pUinKey, BYTE*);
+void InitKeyX(pUinKey, uint8_t*);
 BOOL CalculateKeyX(pUinKey, MCONTACT);
 LPSTR encodeMsg(pUinKey, LPARAM);
 LPSTR decodeMsg(pUinKey, LPARAM, LPSTR);

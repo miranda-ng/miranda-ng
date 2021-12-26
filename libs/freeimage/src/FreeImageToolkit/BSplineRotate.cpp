@@ -558,7 +558,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 	// buid a grey scale palette
 	RGBQUAD *pal = FreeImage_GetPalette(dst);
 	for(int i = 0; i < 256; i++) {
-		pal[i].rgbRed = pal[i].rgbGreen = pal[i].rgbBlue = (BYTE)i;
+		pal[i].rgbRed = pal[i].rgbGreen = pal[i].rgbBlue = (uint8_t)i;
 	}
 
 	// allocate a temporary array
@@ -570,7 +570,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 	// copy data samples
 	for(y = 0; y < height; y++) {
 		double *pImage = &ImageRasterArray[y*width];
-		BYTE *src_bits = FreeImage_GetScanLine(dib, height-1-y);
+		uint8_t *src_bits = FreeImage_GetScanLine(dib, height-1-y);
 
 		for(x = 0; x < width; x++) {
 			pImage[x] = (double)src_bits[x];
@@ -599,7 +599,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 
 	// visit all pixels of the output image and assign their value
 	for(y = 0; y < height; y++) {
-		BYTE *dst_bits = FreeImage_GetScanLine(dst, height-1-y);
+		uint8_t *dst_bits = FreeImage_GetScanLine(dst, height-1-y);
 		
 		x0 = a12 * (double)y + x_shift;
 		y0 = a22 * (double)y + y_shift;
@@ -618,8 +618,8 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 			else {
 				p = (double)InterpolatedValue(ImageRasterArray, width, height, x1, y1, spline);
 			}
-			// clamp and convert to BYTE
-			dst_bits[x] = (BYTE)MIN(MAX((int)0, (int)(p + 0.5)), (int)255);
+			// clamp and convert to uint8_t
+			dst_bits[x] = (uint8_t)MIN(MAX((int)0, (int)(p + 0.5)), (int)255);
 		}
 	}
 
@@ -646,7 +646,7 @@ FreeImage_RotateEx(FIBITMAP *dib, double angle, double x_shift, double y_shift, 
 
 	int x, y, bpp;
 	int channel, nb_channels;
-	BYTE *src_bits, *dst_bits;
+	uint8_t *src_bits, *dst_bits;
 	FIBITMAP *src8 = NULL, *dst8 = NULL, *dst = NULL;
 
 	if(!FreeImage_HasPixels(dib)) return NULL;

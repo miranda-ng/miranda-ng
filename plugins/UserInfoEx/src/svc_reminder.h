@@ -101,7 +101,7 @@ LPCSTR SvcReminderGetMyBirthdayModule(void);
 void   SvcReminderOnTopToolBarLoaded(void);
 void   SvcReminderOnModulesLoaded(void);
 
-void   SvcReminderEnable(BYTE bEnable);
+void   SvcReminderEnable(uint8_t bEnable);
 void   SvcReminderLoadModule(void);
 void   SvcReminderUnloadModule(void);
 

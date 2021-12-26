@@ -247,7 +247,7 @@ void TContainerData::Configure()
 
 	if (m_flags.m_bTransparent && fTransAllowed) {
 		DWORD trans = LOWORD(m_pSettings->dwTransparency);
-		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (BYTE)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_flags.m_bTransparent ? LWA_ALPHA : 0));
+		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (uint8_t)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_flags.m_bTransparent ? LWA_ALPHA : 0));
 	}
 
 	HMENU hSysmenu = GetSystemMenu(m_hwnd, FALSE);
@@ -1806,7 +1806,7 @@ panel_found:
 			BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
 			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
 		}
 		pContainer->m_hwndSaved = nullptr;
@@ -1840,7 +1840,7 @@ panel_found:
 
 			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
 				DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (BYTE)trans, (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)trans, (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
 			if (pContainer->m_flags.m_bNeedsUpdateTitle) {
 				pContainer->m_flags.m_bNeedsUpdateTitle = false;
@@ -2077,7 +2077,7 @@ panel_found:
 					if (pContainer->m_isCloned && pContainer->m_hContactFrom != 0) {
 						HWND hDlg = GetTabWindow(pContainer->m_hwndTabs, TabCtrl_GetCurSel(pContainer->m_hwndTabs));
 						SendMessage(hDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
-						db_set_b(hContact, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
+						db_set_b(hContact, SRMSGMOD_T, "splitmax", (uint8_t)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
 
 						for (int i = 0; i < TabCtrl_GetItemCount(pContainer->m_hwndTabs); i++) {
 							if (hDlg = GetTabWindow(pContainer->m_hwndTabs, i)) {
@@ -2100,7 +2100,7 @@ panel_found:
 						mir_snprintf(szCName, "%s%dheight", CONTAINER_PREFIX, pContainer->m_iContainerIndex);
 						db_set_dw(0, SRMSGMOD_T, szCName, wp.rcNormalPosition.bottom - wp.rcNormalPosition.top);
 
-						db_set_b(0, SRMSGMOD_T, "splitmax", (BYTE)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
+						db_set_b(0, SRMSGMOD_T, "splitmax", (uint8_t)((wp.showCmd == SW_SHOWMAXIMIZED) ? 1 : 0));
 					}
 				}
 			}

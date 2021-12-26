@@ -51,7 +51,7 @@ int ProcessSrmmEvent(WPARAM, LPARAM lParam)
 			hDialogsList = WindowList_Create();
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
 
-		BYTE fav = g_plugin.getByte(event->hContact, "IsFavourite");
+		uint8_t fav = g_plugin.getByte(event->hContact, "IsFavourite");
 		Srmm_SetIconFlags(event->hContact, MODULENAME, 0, fav ? 0 : MBF_DISABLED);
 
 		if (event->hContact == hContactToActivate) {
@@ -86,7 +86,7 @@ int ProcessSrmmIconClick(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	if (sicd->flags & MBCF_RIGHTBUTTON) {
-		BYTE fav = !g_plugin.getByte(hContact, "IsFavourite");
+		uint8_t fav = !g_plugin.getByte(hContact, "IsFavourite");
 		g_plugin.setByte(hContact, "IsFavourite", fav);
 		if (fav)
 			CallService(MS_AV_GETAVATARBITMAP, hContact, 0);

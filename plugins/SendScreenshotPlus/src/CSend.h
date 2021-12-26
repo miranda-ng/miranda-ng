@@ -65,7 +65,7 @@ public:
 	void        SetContact(MCONTACT hContact);
 	const char* GetURL() { return m_URL; }
 	const char* GetURLthumbnail() {return m_URLthumb; }
-	BYTE        GetEnableItem() {return m_EnableItem;};
+	uint8_t        GetEnableItem() {return m_EnableItem;};
 	wchar_t*    GetErrorMsg() {return m_ErrorMsg;};
 
 	bool        m_bDeleteAfterSend;
@@ -81,8 +81,8 @@ protected:
 	wchar_t*    m_pszSendTyp;      // hold string for error mess
 	char*       m_pszProto;        // Contact Proto Module
 	MCONTACT    m_hContact;        // Contact handle
-	BYTE        m_EnableItem;      // hold flag for send type
-	BYTE        m_ChatRoom;        // is Contact chatroom
+	uint8_t        m_EnableItem;      // hold flag for send type
+	uint8_t        m_ChatRoom;        // is Contact chatroom
 				   
 	void        Error(LPCTSTR pszFormat, ...);
 	void        svcSendFileExit();

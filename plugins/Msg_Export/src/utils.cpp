@@ -66,7 +66,7 @@ bool g_bUseUtf8InNewFiles;
 bool g_bUseJson;
 
 const char szUtf8ByteOrderHeader[] = "\xEF\xBB\xBF";
-bool bIsUtf8Header(BYTE * pucByteOrder)
+bool bIsUtf8Header(uint8_t * pucByteOrder)
 {
 	return memcmp(pucByteOrder, szUtf8ByteOrderHeader, 3) == 0;
 }
@@ -269,7 +269,7 @@ bool bWriteNewLine(HANDLE hFile, DWORD dwIndent)
 bool bWriteHexToFile(HANDLE hFile, void * pData, int nSize)
 {
 	char cBuf[10];
-	BYTE *p = (BYTE*)pData;
+	uint8_t *p = (uint8_t*)pData;
 	for (int n = 0; n < nSize; n++) {
 		mir_snprintf(cBuf, "%.2X ", p[n]);
 		if (!bWriteToFile(hFile, cBuf, 3))
@@ -670,7 +670,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		DWORD dwLowSize = GetFileSize(hFile, &dwHighSize);
 		if (dwLowSize == INVALID_FILE_SIZE || dwLowSize != 0 || dwHighSize != 0) {
 			DWORD dwDataRead = 0;
-			BYTE ucByteOrder[3];
+			uint8_t ucByteOrder[3];
 			if (ReadFile(hFile, ucByteOrder, 3, &dwDataRead, nullptr))
 				bWriteUTF8Format = bIsUtf8Header(ucByteOrder);
 

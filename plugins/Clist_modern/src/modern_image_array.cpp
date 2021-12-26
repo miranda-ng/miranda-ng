@@ -575,7 +575,7 @@ BOOL ImageArray_RemoveImage(IMAGE_ARRAY_DATA *iad, int pos)
 
 
 
-BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, BYTE Alpha)
+BOOL ImageArray_DrawImage(IMAGE_ARRAY_DATA *iad, int pos, HDC hdcDest, int nXDest, int nYDest, uint8_t Alpha)
 {
 	if (hdcDest == nullptr || pos < 0 || pos >= iad->nodes_size)
 		return FALSE;

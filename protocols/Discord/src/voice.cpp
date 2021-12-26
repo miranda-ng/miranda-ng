@@ -42,7 +42,7 @@ void CDiscordProto::OnCommandCallCreated(const JSONNode &pRoot)
 		dbei.timestamp = pCall->startTime;
 		dbei.eventType = EVENT_INCOMING_CALL;
 		dbei.cbBlob = DWORD(mir_strlen(szMessage) + 1);
-		dbei.pBlob = (BYTE *)szMessage;
+		dbei.pBlob = (uint8_t *)szMessage;
 		dbei.flags = DBEF_UTF;
 		db_event_add(pUser->hContact, &dbei);
 	}
@@ -76,7 +76,7 @@ void CDiscordProto::OnCommandCallDeleted(const JSONNode &pRoot)
 	dbei.timestamp = currTime;
 	dbei.eventType = EVENT_CALL_FINISHED;
 	dbei.cbBlob = DWORD(szMessage.GetLength() + 1);
-	dbei.pBlob = (BYTE *)szMessage.c_str();
+	dbei.pBlob = (uint8_t *)szMessage.c_str();
 	dbei.flags = DBEF_UTF;
 	db_event_add(pUser->hContact, &dbei);
 }

@@ -95,7 +95,7 @@ CMPlugin::CMPlugin() :
 struct ModSetLinkLinkItem
 { // code from dbe++ plugin by Bio
 	char *name;
-	BYTE *next; //struct ModSetLinkLinkItem
+	uint8_t *next; //struct ModSetLinkLinkItem
 };
 
 struct ModuleSettingLL
@@ -122,7 +122,7 @@ static int enumModulesSettingsProc(const char *szName, void *lParam)
 	else {
 		struct ModSetLinkLinkItem *item = (struct ModSetLinkLinkItem *)malloc(sizeof(struct ModSetLinkLinkItem));
 		if (!item) return 1;
-		msll->last->next = (BYTE*)item;
+		msll->last->next = (uint8_t*)item;
 		msll->last = (struct ModSetLinkLinkItem *)item;
 		item->name = _strdup(szName);
 		item->next = nullptr;

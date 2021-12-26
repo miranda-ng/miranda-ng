@@ -52,7 +52,7 @@ ConvertAnyTag(FITAG *tag) {
 	switch(tag_type) {
 		case FIDT_BYTE:		// N x 8-bit unsigned integer 
 		{
-			BYTE *pvalue = (BYTE*)FreeImage_GetTagValue(tag);
+			uint8_t *pvalue = (uint8_t*)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%ld",	(LONG) pvalue[0]);
 			buffer += format;
@@ -336,7 +336,7 @@ ConvertExifTag(FITAG *tag) {
 		case TAG_COMPONENTS_CONFIGURATION:
 		{
 			const char *componentStrings[7] = {"", "Y", "Cb", "Cr", "R", "G", "B"};
-			BYTE *pvalue = (BYTE*)FreeImage_GetTagValue(tag);
+			uint8_t *pvalue = (uint8_t*)FreeImage_GetTagValue(tag);
 			for(DWORD i = 0; i < MIN((DWORD)4, FreeImage_GetTagCount(tag)); i++) {
 				int j = pvalue[i];
 				if(j > 0 && j < 7)
@@ -522,7 +522,7 @@ ConvertExifTag(FITAG *tag) {
 
 		case TAG_SCENE_TYPE:
 		{
-			BYTE sceneType = *((BYTE*)FreeImage_GetTagValue(tag));
+			uint8_t sceneType = *((uint8_t*)FreeImage_GetTagValue(tag));
 			if (sceneType == 1) {
 				return "Directly photographed image";
 			} else {
@@ -654,7 +654,7 @@ ConvertExifTag(FITAG *tag) {
 
 		case TAG_FILE_SOURCE:
 		{
-			BYTE fileSource = *((BYTE*)FreeImage_GetTagValue(tag));
+			uint8_t fileSource = *((uint8_t*)FreeImage_GetTagValue(tag));
 			if (fileSource == 3) {
 				return "Digital Still Camera (DSC)";
 			} else {
@@ -885,7 +885,7 @@ ConvertExifTag(FITAG *tag) {
 		{
 			// first 8 bytes are used to define an ID code
 			// we assume this is an ASCII string
-			const BYTE *userComment = (BYTE*)FreeImage_GetTagValue(tag);
+			const uint8_t *userComment = (uint8_t*)FreeImage_GetTagValue(tag);
 			for(DWORD i = 8; i < FreeImage_GetTagLength(tag); i++) {
 				buffer += userComment[i];
 			}

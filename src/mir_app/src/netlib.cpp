@@ -494,7 +494,7 @@ int LoadNetlibModule(void)
 			if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, keyn, 0, KEY_QUERY_VALUE, &hSettings) == ERROR_SUCCESS) {
 				DWORD tValueLen, enabled;
 				tValueLen = sizeof(enabled);
-				if (RegQueryValueExA(hSettings, valn, nullptr, nullptr, (BYTE*)&enabled, &tValueLen) == ERROR_SUCCESS && enabled)
+				if (RegQueryValueExA(hSettings, valn, nullptr, nullptr, (uint8_t*)&enabled, &tValueLen) == ERROR_SUCCESS && enabled)
 					connectionTimeout = 150;  // if enabled limit is set to 10 / sec
 				RegCloseKey(hSettings);
 			}

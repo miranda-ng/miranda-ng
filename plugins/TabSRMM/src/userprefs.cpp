@@ -60,9 +60,9 @@ public:
 	{
 		DWORD maxhist = M.GetDword(m_hContact, "maxhist", 0);
 		int iLocalFormat = M.GetDword(m_hContact, "sendformat", 0);
-		BYTE bSplit = M.GetByte(m_hContact, "splitoverride", 0);
-		BYTE bInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
-		BYTE bAvatarVisible = M.GetByte(m_hContact, "hideavatar", -1);
+		uint8_t bSplit = M.GetByte(m_hContact, "splitoverride", 0);
+		uint8_t bInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
+		uint8_t bAvatarVisible = M.GetByte(m_hContact, "hideavatar", -1);
 
 		cmbPanel.AddString(TranslateT("Use global setting"));
 		cmbPanel.AddString(TranslateT("Always on"));
@@ -99,7 +99,7 @@ public:
 	bool OnApply() override
 	{
 		CMsgDialog *dat = Srmm_FindDialog(m_hContact);
-		BYTE bOldInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
+		uint8_t bOldInfoPanel = M.GetByte(m_hContact, "infopanel", 0);
 
 		int iIndex = SendDlgItemMessage(m_hwnd, IDC_TEXTFORMATTING, CB_GETCURSEL, 0, 0);
 		if (iIndex != CB_ERR) {
@@ -109,20 +109,20 @@ public:
 				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iIndex == 2 ? -1 : 1);
 		}
 
-		db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_PRIVATESPLITTER) ? 1 : 0));
+		db_set_b(m_hContact, SRMSGMOD_T, "splitoverride", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_PRIVATESPLITTER) ? 1 : 0));
 
-		db_set_b(m_hContact, TEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_TEMPLOVERRIDE)));
-		db_set_b(m_hContact, RTLTEMPLATES_MODULE, "enabled", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_RTLTEMPLOVERRIDE)));
+		db_set_b(m_hContact, TEMPLATES_MODULE, "enabled", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_TEMPLOVERRIDE)));
+		db_set_b(m_hContact, RTLTEMPLATES_MODULE, "enabled", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_RTLTEMPLOVERRIDE)));
 
-		BYTE bAvatarVisible = (BYTE)SendDlgItemMessage(m_hwnd, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
+		uint8_t bAvatarVisible = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_SHOWAVATAR, CB_GETCURSEL, 0, 0);
 		if (bAvatarVisible == 0)
 			db_unset(m_hContact, SRMSGMOD_T, "hideavatar");
 		else
-			db_set_b(m_hContact, SRMSGMOD_T, "hideavatar", (BYTE)(bAvatarVisible == 1 ? 1 : 0));
+			db_set_b(m_hContact, SRMSGMOD_T, "hideavatar", (uint8_t)(bAvatarVisible == 1 ? 1 : 0));
 
-		BYTE bInfoPanel = (BYTE)SendDlgItemMessage(m_hwnd, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
+		uint8_t bInfoPanel = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_INFOPANEL, CB_GETCURSEL, 0, 0);
 		if (bInfoPanel != bOldInfoPanel) {
-			db_set_b(m_hContact, SRMSGMOD_T, "infopanel", (BYTE)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
+			db_set_b(m_hContact, SRMSGMOD_T, "infopanel", (uint8_t)(bInfoPanel == 0 ? 0 : (bInfoPanel == 1 ? 1 : -1)));
 			if (dat)
 				SendMessage(dat->GetHwnd(), DM_SETINFOPANEL, 0, 0);
 		}
@@ -284,7 +284,7 @@ public:
 		
 		int state = IsDlgButtonChecked(m_hwnd, IDC_UPREFS_LOGSTATUS);
 		if (state != BST_INDETERMINATE)
-			db_set_b(m_hContact, SRMSGMOD_T, "logstatuschanges", (BYTE)state);
+			db_set_b(m_hContact, SRMSGMOD_T, "logstatuschanges", (uint8_t)state);
 
 		if (dwMask) {
 			db_set_dw(m_hContact, SRMSGMOD_T, "mwmask", dwMask);

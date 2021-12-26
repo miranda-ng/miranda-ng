@@ -103,7 +103,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if ((HWND)lParam == hListAccs) {
 			DWORD SelItems[16];
-			BYTE SelItemsCount;
+			uint8_t SelItemsCount;
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				SelItemsCount = SendMessage(hListAccs, LB_GETSELCOUNT, 0, 0);
 				SendMessage(hListAccs,
@@ -174,7 +174,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						DWORD Index, Value;
 						double vartime;
 						wchar_t szBufW[64];
-						BYTE EldestAcc;
+						uint8_t EldestAcc;
 
 						if (!(pdi->item.mask & LVIF_TEXT)) return 0;
 
@@ -262,7 +262,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 						case CDDS_ITEMPREPAINT: // Перед началом рисования строки.
 							{
 								COLORREF Color;
-								BYTE r, g, b;
+								uint8_t r, g, b;
 
 								if (lplvcd->nmcd.dwItemSpec & 0x01) {
 									Color = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETBKCOLOR, 0, 0);
@@ -453,7 +453,7 @@ void Stat_CheckStatistics(PROTOLIST &p)
 ItemNumber - номер строки в ListView (номер периода).
 stReq - дата, соответствующая вычисленному индексу.
 */
-DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, int ItemNumber, SYSTEMTIME *stReq)
+DWORD Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *stReq)
 {
 	int Left, Right, Probe; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stProbe = { 0 }; // Время тыка.
@@ -527,7 +527,7 @@ DWORD Stat_GetStartIndex(BYTE AccNum, BYTE Interval, int ItemNumber, SYSTEMTIME 
 /* Функция устанавливает величину сдвига для заданного аккаунта,
 то есть номер записи в статистике старейшего из выбранных аккаунтов,
 дата которой соответствует началу статистики указанного аккаунта. */
-void Stat_SetAccShift(BYTE AccNum, BYTE EldestAccount)
+void Stat_SetAccShift(uint8_t AccNum, uint8_t EldestAccount)
 {
 	DWORD Left, Right, Probe = 0; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stReq = { 0 }, stProbe;
@@ -571,13 +571,13 @@ Interval - выбранный интервал;
 ItemNum - номер строки в ListVew;
 SubitemNum - номер колонки, определяет вид информации. */
 
-DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE SubItemNum)
+DWORD Stat_GetItemValue(WORD SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubItemNum)
 {
 	DWORD Result = 0;
 	SYSTEMTIME st = { 0 };
 	int Index, IndexP, i;
 	signed long int IndexM;
-	BYTE a, EldestAcc;
+	uint8_t a, EldestAcc;
 
 	EldestAcc = Stat_GetEldestAcc(SelectedAccs);
 	Index = Stat_GetStartIndex(EldestAcc, Interval, ItemNum, &st);
@@ -644,7 +644,7 @@ DWORD Stat_GetItemValue(WORD SelectedAccs, BYTE Interval, DWORD ItemNum, BYTE Su
 
 /* Функция возвращает количество записей в статистике для
 заданного аккаунта и заданного интервала. */
-DWORD Stat_GetRecordsNumber(BYTE AccNum, BYTE Interval)
+DWORD Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval)
 {
 	DWORD Result, i;
 
@@ -683,9 +683,9 @@ DWORD Stat_GetRecordsNumber(BYTE AccNum, BYTE Interval)
 	return Result;
 }
 
-BYTE Stat_GetEldestAcc(WORD SelectedAccs)
+uint8_t Stat_GetEldestAcc(WORD SelectedAccs)
 {
-	BYTE Result, i;
+	uint8_t Result, i;
 
 	// Узнаём номер аккаунта из числа выбранных, имеющего самую старую первую запись.
 	// (Это аккаунт с максимальным количеством записей.)

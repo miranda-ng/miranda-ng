@@ -26,7 +26,7 @@ public:
 	void ClearScreen(void);
 	COLORREF GetPixel(int nX, int nY);
 	void SetPixel(int nX, int nY, COLORREF color);
-	void SetPixel(int nX, int nY, BYTE r, BYTE g, BYTE b);
+	void SetPixel(int nX, int nY, uint8_t r, uint8_t g, uint8_t b);
 	void DrawLine(int nX1, int nY1, int nX2, int nY2);
 	void DrawFilledRect(int nX, int nY, int nWidth, int nHeight);
 	void DrawRect(int iX, int iY, int iWidth, int iHeight);

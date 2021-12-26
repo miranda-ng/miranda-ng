@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 HWND hDlgDld = nullptr;
 INT UpdatesCount = 0;
 
-void PopupAction(HWND hWnd, BYTE action)
+void PopupAction(HWND hWnd, uint8_t action)
 {
 	switch (action) {
 	case PCA_CLOSEPOPUP:

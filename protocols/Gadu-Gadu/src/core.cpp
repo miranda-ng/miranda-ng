@@ -716,11 +716,11 @@ retry:
 						if (__gender) {
 							if (res->seq == GG_SEQ_CHINFO)
 								setByte(hContact, GG_KEY_PD_GANDER,
-								(BYTE)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_MALE) ? 'M' :
+								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_MALE) ? 'M' :
 									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_SET_FEMALE) ? 'F' : '?')));
 							else
 								setByte(hContact, GG_KEY_PD_GANDER,
-								(BYTE)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_MALE) ? 'M' :
+								(uint8_t)(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_MALE) ? 'M' :
 									(!mir_strcmp(__gender, GG_PUBDIR50_GENDER_FEMALE) ? 'F' : '?')));
 						}
 						else if (res->seq == GG_SEQ_CHINFO) {

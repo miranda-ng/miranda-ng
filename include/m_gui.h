@@ -50,7 +50,7 @@ struct CMDBTraits
 template<>
 struct CMDBTraits<1>
 {
-	typedef BYTE DBType;
+	typedef uint8_t DBType;
 	enum { DBTypeId = DBVT_BYTE };
 	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
@@ -246,13 +246,13 @@ private:
 class MIR_CORE_EXPORT CDataLink
 {
 protected:
-	BYTE m_type;
+	uint8_t m_type;
 
 public:
-	__inline CDataLink(BYTE type) : m_type(type) {}
+	__inline CDataLink(uint8_t type) : m_type(type) {}
 	virtual ~CDataLink() {}
 
-	__inline BYTE GetDataType() const { return m_type; }
+	__inline uint8_t GetDataType() const { return m_type; }
 
 	virtual DWORD LoadInt() = 0;
 	virtual void  SaveInt(DWORD value) = 0;
@@ -272,8 +272,8 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 	DBVARIANT dbv;
 
 public:
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, DWORD iValue);
-	CDbLink(const char *szModule, const char *szSetting, BYTE type, wchar_t *szValue);
+	CDbLink(const char *szModule, const char *szSetting, uint8_t type, DWORD iValue);
+	CDbLink(const char *szModule, const char *szSetting, uint8_t type, wchar_t *szValue);
 	~CDbLink();
 
 	DWORD LoadInt() override;
@@ -371,7 +371,7 @@ protected:
 	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 
 	enum { CLOSE_ON_OK = 0x1, CLOSE_ON_CANCEL = 0x2 };
-	BYTE    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
+	uint8_t    m_autoClose;    // automatically close dialog on IDOK/CANCEL commands. default: CLOSE_ON_OK|CLOSE_ON_CANCEL
 
 	CMPluginBase &m_pPlugin;
 
@@ -403,7 +403,7 @@ protected:
 	void RemoveTimer(UINT_PTR idEvent);
 
 	// options support
-	void CreateLink(class CCtrlData& ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(class CCtrlData& ctrl, const char *szSetting, uint8_t type, DWORD iValue);
 	void CreateLink(class CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>
@@ -690,7 +690,7 @@ public:
 	DWORD      GetExStyle() const;
 	DWORD      GetExpand(HANDLE hItem) const;
 	int        GetExtraColumns() const;
-	BYTE       GetExtraImage(HANDLE hItem, int iColumn) const;
+	uint8_t    GetExtraImage(HANDLE hItem, int iColumn) const;
 	HIMAGELIST GetExtraImageList() const;
 	HFONT      GetFont(int iFontId) const;
 	bool       GetHideOfflineRoot() const;
@@ -746,7 +746,7 @@ public:
 	CCtrlData(CDlgBase *dlg, int ctrlId);
 	~CCtrlData();
 
-	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, DWORD iValue);
 	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
@@ -755,7 +755,7 @@ public:
 protected:
 	CDataLink *m_dbLink;
 
-	__inline BYTE GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
+	__inline uint8_t GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
 	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
 	__inline void SaveInt(DWORD value) { if (m_dbLink) m_dbLink->SaveInt(value); }
 	__inline const wchar_t *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
@@ -1451,7 +1451,7 @@ class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog);
 
-	void CreateLink(CCtrlData &ctrl, const char *szSetting, BYTE type, DWORD iValue);
+	void CreateLink(CCtrlData &ctrl, const char *szSetting, uint8_t type, DWORD iValue);
 	void CreateLink(CCtrlData &ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>

@@ -440,7 +440,7 @@ public:
 			int i = int(&it - PopupsList);
 			char szSetting[20] = { 0 };
 			mir_snprintf(szSetting, "Popups%d", i);
-			g_plugin.setByte(szSetting, (BYTE)(IsDlgButtonChecked(m_hwnd, it.ctrl1)));
+			g_plugin.setByte(szSetting, (uint8_t)(IsDlgButtonChecked(m_hwnd, it.ctrl1)));
 
 			mir_snprintf(szSetting, "Popups%iTx", i);
 			g_plugin.setDword(szSetting, it.colorText = SendDlgItemMessage(m_hwnd, it.ctrl2, CPM_GETCOLOUR, 0, 0));
@@ -450,8 +450,8 @@ public:
 		}
 
 		g_plugin.PopupTimeout = GetDlgItemInt(m_hwnd, IDC_TIMEOUT_VALUE, nullptr, TRUE);
-		g_plugin.PopupLeftClickAction = (BYTE)SendDlgItemMessage(m_hwnd, IDC_LC, CB_GETCURSEL, 0, 0);
-		g_plugin.PopupRightClickAction = (BYTE)SendDlgItemMessage(m_hwnd, IDC_RC, CB_GETCURSEL, 0, 0);
+		g_plugin.PopupLeftClickAction = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_LC, CB_GETCURSEL, 0, 0);
+		g_plugin.PopupRightClickAction = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_RC, CB_GETCURSEL, 0, 0);
 
 		if (chkWinColors.GetState())
 			g_plugin.PopupDefColors = byCOLOR_OWN;

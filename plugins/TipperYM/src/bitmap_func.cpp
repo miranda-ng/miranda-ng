@@ -429,7 +429,7 @@ COLOR32* SaveAlpha(LPRECT lpRect)
 	return res;
 }
 
-void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, BYTE alpha)
+void RestoreAlpha(LPRECT lpRect, COLOR32 *pBits, uint8_t alpha)
 {
 	GdiFlush();
 
@@ -461,14 +461,14 @@ BOOL IsAlphaTransparent(HBITMAP hBitmap)
 		return FALSE;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE *)mir_calloc(dwLen);
+	uint8_t *p = (uint8_t *)mir_calloc(dwLen);
 	if (p == nullptr)
 		return FALSE;
 
 	GetBitmapBits(hBitmap, dwLen, p);
 
 	for (int y = 0; y < bmp.bmHeight; y++) {
-		BYTE *px = p + bmp.bmWidth * 4 * y;
+		uint8_t *px = p + bmp.bmWidth * 4 * y;
 		for (int x = 0; x < bmp.bmWidth; x++) {
 			if (px[3] != 0) {
 				mir_free(p);
@@ -601,7 +601,7 @@ void ColorizeBitmap()
 }
 
 // code from Clist Modern by FYR
-HRGN CreateOpaqueRgn(BYTE level, bool bOpaque)
+HRGN CreateOpaqueRgn(uint8_t level, bool bOpaque)
 {
 	if (!skin.colBits)
 		return nullptr;

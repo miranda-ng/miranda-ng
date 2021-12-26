@@ -829,7 +829,7 @@ ext::string utils::getGUID()
 
 	upto_each_(i, sizeof(guid))
 	{
-		BYTE val = reinterpret_cast<BYTE*>(&guid)[i];
+		uint8_t val = reinterpret_cast<uint8_t*>(&guid)[i];
 
 		strGUID[2 * i] = hexDigits[(val >> 4) & 0xF];
 		strGUID[2 * i + 1] = hexDigits[val & 0xF];

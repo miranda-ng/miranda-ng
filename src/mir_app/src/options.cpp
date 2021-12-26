@@ -40,7 +40,7 @@ HANDLE hOptionsInitEvent;
 static class COptionsDlg *pOptionsDlg = nullptr;
 
 // Thread for search keywords in dialogs
-static BYTE bSearchState = 0; // 0 - not executed; 1 - in progress; 2 - completed;
+static uint8_t bSearchState = 0; // 0 - not executed; 1 - in progress; 2 - completed;
 static bool bLoadingPrivateOptions = false;
 static int FilterLoadProgress = 100;
 
@@ -104,7 +104,7 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, UINT msg, LPARAM lpFlags)
 	bmi.bmiHeader.biBitCount = 32;
 	bmi.bmiHeader.biCompression = BI_RGB;
 
-	BYTE *pBits;
+	uint8_t *pBits;
 	HBITMAP hBmp = CreateDIBSection(tempDC, &bmi, DIB_RGB_COLORS, (void **)&pBits, nullptr, 0);
 	if (hBmp && pBits) {
 		HBITMAP hOldBmp = (HBITMAP)SelectObject(tempDC, hBmp);
@@ -419,7 +419,7 @@ class COptionsDlg : public CDlgBase
 
 			char buf[130];
 			GetTreeSettingName(tvi.lParam, buf, _countof(buf));
-			db_set_b(0, "Options", buf, (BYTE)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
+			db_set_b(0, "Options", buf, (uint8_t)((tvi.state & TVIS_EXPANDED) ? 1 : 0));
 		}
 	}
 

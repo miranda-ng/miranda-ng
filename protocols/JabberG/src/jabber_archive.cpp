@@ -257,7 +257,7 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 		dbei.szModule = m_szModuleName;
 		dbei.cbBlob = (DWORD)mir_strlen(tszBody) + 1;
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
-		dbei.pBlob = (BYTE*)tszBody;
+		dbei.pBlob = (uint8_t*)tszBody;
 		dbei.timestamp = tmStart + atol(tszSecs);
 		if (!IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);

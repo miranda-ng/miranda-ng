@@ -44,7 +44,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::ReadCryptoKey(MBinBuffer &buf)
 STDMETHODIMP_(BOOL) CDbxMDBX::StoreCryptoKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
-	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
+	uint8_t *pKey = (uint8_t*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 	{
 		txn_ptr trnlck(this);
@@ -129,15 +129,15 @@ STDMETHODIMP_(BOOL) CDbxMDBX::EnableEncryption(BOOL bEncrypted)
 			}
 
 			const DBEvent *dbEvent = (const DBEvent*)data.iov_base;
-			const BYTE    *pBlob = (BYTE*)(dbEvent + 1);
+			const uint8_t    *pBlob = (uint8_t*)(dbEvent + 1);
 
 			if (((dbEvent->flags & DBEF_ENCRYPTED) != 0) != bEncrypted) {
-				mir_ptr<BYTE> pNewBlob;
+				mir_ptr<uint8_t> pNewBlob;
 				size_t nNewBlob;
 				uint32_t dwNewFlags;
 
 				if (dbEvent->flags & DBEF_ENCRYPTED) {
-					pNewBlob = (BYTE*)m_crypto->decodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
+					pNewBlob = (uint8_t*)m_crypto->decodeBuffer(pBlob, dbEvent->cbBlob, &nNewBlob);
 					dwNewFlags = dbEvent->flags & (~DBEF_ENCRYPTED);
 				}
 				else {
@@ -146,7 +146,7 @@ STDMETHODIMP_(BOOL) CDbxMDBX::EnableEncryption(BOOL bEncrypted)
 				}
 
 				data.iov_len = sizeof(DBEvent) + nNewBlob;
-				mir_ptr<BYTE> pData((BYTE*)mir_alloc(data.iov_len));
+				mir_ptr<uint8_t> pData((uint8_t*)mir_alloc(data.iov_len));
 				data.iov_base = pData.get();
 
 				DBEvent *pNewDBEvent = (DBEvent *)data.iov_base;

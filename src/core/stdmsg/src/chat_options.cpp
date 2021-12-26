@@ -229,7 +229,7 @@ class COptMainDlg : public CDlgBase
 		for (int i = 0; i < nValues; i++, branch++) {
 			tvi.hItem = branch->hItem;
 			checkBoxes.GetItem(&tvi);
-			BYTE bChecked = (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 1) ? 0 : 1;
+			uint8_t bChecked = (((tvi.state & TVIS_STATEIMAGEMASK) >> 12) == 1) ? 0 : 1;
 			if (branch->iMode) {
 				if (bChecked)
 					iState |= branch->iMode;
@@ -285,7 +285,7 @@ public:
 
 	void OnDestroy() override
 	{
-		BYTE b = checkBoxes.GetItemState(hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
+		uint8_t b = checkBoxes.GetItemState(hListHeading1, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch1Exp", b);
 		b = checkBoxes.GetItemState(hListHeading2, TVIS_EXPANDED) & TVIS_EXPANDED ? 1 : 0;
 		db_set_b(0, CHAT_MODULE, "Branch2Exp", b);
@@ -432,7 +432,7 @@ public:
 
 		int iLen = spin4.GetPosition();
 		if (iLen > 0)
-			db_set_b(0, CHAT_MODULE, "NicklistRowDist", (BYTE)iLen);
+			db_set_b(0, CHAT_MODULE, "NicklistRowDist", (uint8_t)iLen);
 		else
 			db_unset(0, CHAT_MODULE, "NicklistRowDist");
 
@@ -525,7 +525,7 @@ public:
 		else
 			iLen = 1;
 		g_Settings.iPopupStyle = iLen;
-		db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)iLen);
+		db_set_b(0, CHAT_MODULE, "PopupStyle", (uint8_t)iLen);
 
 		iLen = SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
 		g_Settings.iPopupTimeout = iLen;

@@ -185,7 +185,7 @@ void CIrcProto::OnContactDeleted(MCONTACT hContact)
 				PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
 		}
 		else {
-			BYTE bDCC = getByte(hContact, "DCC", 0);
+			uint8_t bDCC = getByte(hContact, "DCC", 0);
 			if (bDCC) {
 				CDccSession *dcc = FindDCCSession(hContact);
 				if (dcc)
@@ -851,7 +851,7 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM hContact, LPARAM)
 			Menu_ShowItem(hUMenuChanSettings, false);
 
 			// for DCC contact
-			BYTE bDcc = getByte(hContact, "DCC", 0);
+			uint8_t bDcc = getByte(hContact, "DCC", 0);
 			if (bDcc)
 				Menu_ShowItem(hUMenuDisconnect, true);
 			else {

@@ -11,6 +11,6 @@ wchar_t *GetLayoutString(HKL hklLayout);
 HKL GetLayoutOfText(LPCTSTR ptzsInText);
 wchar_t *ChangeTextCase(LPCTSTR ptszInText);
 wchar_t *ChangeTextLayout(LPCTSTR ptzsInText, HKL hklCurLay, HKL hklToLay, BOOL TwoWay);
-int ChangeLayout(HWND hTextWnd, BYTE bTextOperation, BOOL CurrentWord);
+int ChangeLayout(HWND hTextWnd, uint8_t bTextOperation, BOOL CurrentWord);
 
 #endif

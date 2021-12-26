@@ -389,7 +389,7 @@ LBL_Seek:
 			memcpy(dbv->pbVal, pCachedValue->pbVal, dbv->cpbVal);
 		}
 		else {
-			dbv->pbVal = (BYTE *)mir_alloc(pCachedValue->cpbVal);
+			dbv->pbVal = (uint8_t *)mir_alloc(pCachedValue->cpbVal);
 			memcpy(dbv->pbVal, pCachedValue->pbVal, pCachedValue->cpbVal);
 		}
 		dbv->cpbVal = pCachedValue->cpbVal;
@@ -479,7 +479,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBC
 
 	DBCONTACTWRITESETTING dbcwWork = dbcwNotif;
 
-	mir_ptr<BYTE> pEncoded(nullptr);
+	mir_ptr<uint8_t> pEncoded(nullptr);
 	bool bIsEncrypted = false;
 	switch (dbcwWork.value.type) {
 	case DBVT_BYTE: case DBVT_WORD: case DBVT_DWORD:
@@ -494,7 +494,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBC
 		dbcwWork.value.cchVal = (WORD)strlen(dbcwWork.value.pszVal);
 		if (bIsEncrypted && m_crypto) {
 			size_t len;
-			BYTE *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
+			uint8_t *pResult = m_crypto->encodeString(dbcwWork.value.pszVal, &len);
 			if (pResult != nullptr) {
 				pEncoded = dbcwWork.value.pbVal = pResult;
 				dbcwWork.value.cpbVal = (WORD)len;

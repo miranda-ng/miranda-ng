@@ -27,13 +27,13 @@ private:
 	static const int MIN_TEXT_WIDTH;
 	static const int BUF2SIZE;
 
-	static const BYTE GIM_SELECTED_AFFECT;
-	static const BYTE GIM_HOT_AFFECT;
-	static const BYTE GIM_TEMP_AFFECT;
-	static const BYTE GIM_IDLE_AFFECT;
-	static const BYTE GIM_EXTRAICON_AFFECT;
-	static const BYTE GIM_STATUSICON_AFFECT;
-	static const BYTE GIM_AVATAR_AFFECT;
+	static const uint8_t GIM_SELECTED_AFFECT;
+	static const uint8_t GIM_HOT_AFFECT;
+	static const uint8_t GIM_TEMP_AFFECT;
+	static const uint8_t GIM_IDLE_AFFECT;
+	static const uint8_t GIM_EXTRAICON_AFFECT;
+	static const uint8_t GIM_STATUSICON_AFFECT;
+	static const uint8_t GIM_AVATAR_AFFECT;
 
 	enum tagenumHASHINDEX
 	{
@@ -116,7 +116,7 @@ private:
 	void _DrawContactAvatar(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT *prcItem);
 	void _DrawContactIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *prcItem);
 	void _DrawContactText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT *prcItem, UINT uTextFormat);
-	void _DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT *prcItem, UINT uTextFormat, BYTE itemType);
+	void _DrawContactSubText(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT *prcItem, UINT uTextFormat, uint8_t itemType);
 	void _DrawContactTime(HDC hdcMem, ClcData *dat, ClcContact *Drawing, RECT *prcItem);
 	void _DrawContactExtraIcon(HDC hdcMem, ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *rc, int iImage);
 	void _DrawContactSelection(HDC hdcMem, ClcData *dat, int& selected, int& hottrack, RECT *rcPaint, RECT *prcItem);

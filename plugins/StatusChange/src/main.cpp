@@ -239,19 +239,19 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				return TRUE;
 			
 			case PSN_APPLY:
-				g_plugin.setByte("MessageRead", (BYTE)Options.MessageRead);
-				g_plugin.setByte("MessageSend", (BYTE)Options.MessageSend);
-				g_plugin.setByte("FileRead", (BYTE)Options.FileRead);
-				g_plugin.setByte("FileSend", (BYTE)Options.FileSend);
+				g_plugin.setByte("MessageRead", (uint8_t)Options.MessageRead);
+				g_plugin.setByte("MessageSend", (uint8_t)Options.MessageSend);
+				g_plugin.setByte("FileRead", (uint8_t)Options.FileRead);
+				g_plugin.setByte("FileSend", (uint8_t)Options.FileSend);
 				g_plugin.setDword("ChangeTo", (DWORD)Options.ChangeTo);
-				g_plugin.setByte("IfOffline", (BYTE)Options.IfOffline);
-				g_plugin.setByte("IfOnline", (BYTE)Options.IfOnline);
-				g_plugin.setByte("IfAway", (BYTE)Options.IfAway);
-				g_plugin.setByte("IfNA", (BYTE)Options.IfNA);
-				g_plugin.setByte("IfDND", (BYTE)Options.IfDND);
-				g_plugin.setByte("IfOccupied", (BYTE)Options.IfOccupied);
-				g_plugin.setByte("IfFreeforchat", (BYTE)Options.IfFreeforchat);
-				g_plugin.setByte("IfInvisible", (BYTE)Options.IfInvisible);
+				g_plugin.setByte("IfOffline", (uint8_t)Options.IfOffline);
+				g_plugin.setByte("IfOnline", (uint8_t)Options.IfOnline);
+				g_plugin.setByte("IfAway", (uint8_t)Options.IfAway);
+				g_plugin.setByte("IfNA", (uint8_t)Options.IfNA);
+				g_plugin.setByte("IfDND", (uint8_t)Options.IfDND);
+				g_plugin.setByte("IfOccupied", (uint8_t)Options.IfOccupied);
+				g_plugin.setByte("IfFreeforchat", (uint8_t)Options.IfFreeforchat);
+				g_plugin.setByte("IfInvisible", (uint8_t)Options.IfInvisible);
 				return TRUE;
 			}
 			break;

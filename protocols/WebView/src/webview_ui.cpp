@@ -520,10 +520,10 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				eventIndex = g_plugin.getByte(hContact, EVNT_INDEX_KEY, 0);
 				alertIndex = g_plugin.getByte(hContact, ALRT_INDEX_KEY, 0);
 
-				g_plugin.setByte(hContact, ENABLE_ALERTS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS));
-				g_plugin.setByte(hContact, APND_DATE_NAME_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME));
-				g_plugin.setByte(hContact, USE_24_HOUR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_24_HOUR));
-				g_plugin.setByte(hContact, ALWAYS_LOG_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG));
+				g_plugin.setByte(hContact, ENABLE_ALERTS_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS));
+				g_plugin.setByte(hContact, APND_DATE_NAME_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ADD_DATE_NAME));
+				g_plugin.setByte(hContact, USE_24_HOUR_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_24_HOUR));
+				g_plugin.setByte(hContact, ALWAYS_LOG_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ALWAYS_LOG));
 
 				//if alerts is unticked delete the cache
 				if (!(IsDlgButtonChecked(hwndDlg, IDC_ENABLE_ALERTS)))
@@ -566,8 +566,8 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_FILENAME, buf, _countof(buf));
 				g_plugin.setWString(hContact, FILE_KEY, buf);
 
-				g_plugin.setByte(hContact, APPEND_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
-				g_plugin.setByte(hContact, SAVE_AS_RAW_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
+				g_plugin.setByte(hContact, APPEND_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_APPEND));
+				g_plugin.setByte(hContact, SAVE_AS_RAW_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SAVE_AS_RAW));
 
 				GetDlgItemText(hwndDlg, IDC_ALERT_STRING, buf, _countof(buf));
 				g_plugin.setWString(hContact, ALERT_STRING_KEY, buf);
@@ -578,7 +578,7 @@ INT_PTR CALLBACK DlgProcAlertOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				GetDlgItemText(hwndDlg, IDC_END2, buf, _countof(buf));
 				g_plugin.setWString(hContact, ALRT_E_STRING_KEY, buf);
 
-				g_plugin.setByte(hContact, CONTACT_PREFIX_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
+				g_plugin.setByte(hContact, CONTACT_PREFIX_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_PREFIX));
 
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ALERT_APPLY), 0);
 
@@ -825,11 +825,11 @@ INT_PTR CALLBACK DlgProcContactOpt(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				GetDlgItemText(hwndDlg, IDC_SITE_NAME, str, _countof(str));
 				db_set_ws(hContact, "CList", "MyHandle", str);
 
-				g_plugin.setByte(hContact, DBLE_WIN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
-				g_plugin.setByte(hContact, U_ALLSITE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_U_ALLSITE));
+				g_plugin.setByte(hContact, DBLE_WIN_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DBLE_WIN));
+				g_plugin.setByte(hContact, U_ALLSITE_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_U_ALLSITE));
 
-				g_plugin.setByte(hContact, CLEAR_DISPLAY_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
-				g_plugin.setByte(hContact, RWSPACE_KEY, (BYTE)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
+				g_plugin.setByte(hContact, CLEAR_DISPLAY_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_CLEAN));
+				g_plugin.setByte(hContact, RWSPACE_KEY, (uint8_t)(SendDlgItemMessage(hwndDlg, IDC_RWSPACE, TBM_GETPOS, 0, 0)));
 
 				SetDlgItemText(ParentHwnd, IDC_OPEN_URL, FixButtonText(url, _countof(url)));
 

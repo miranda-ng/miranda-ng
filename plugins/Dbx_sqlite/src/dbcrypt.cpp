@@ -34,7 +34,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::ReadCryptoKey(MBinBuffer &buf)
 STDMETHODIMP_(BOOL) CDbxSQLite::StoreCryptoKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
-	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
+	uint8_t *pKey = (uint8_t*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
 	mir_cslock lock(m_csDbAccess);
@@ -114,14 +114,14 @@ STDMETHODIMP_(BOOL) CDbxSQLite::EnableEncryption(BOOL bEncrypt)
 			continue;
 	
 		int id = sqlite3_column_int(stmt, 0);
-		auto *pBlob = (const BYTE *)sqlite3_column_blob(stmt, 2);
+		auto *pBlob = (const uint8_t *)sqlite3_column_blob(stmt, 2);
 		unsigned cbBlob = sqlite3_column_bytes(stmt, 2);
 
-		mir_ptr<BYTE> pNewBlob;
+		mir_ptr<uint8_t> pNewBlob;
 		size_t nNewBlob;
 
 		if (dwFlags & DBEF_ENCRYPTED) {
-			pNewBlob = (BYTE*)m_crypto->decodeBuffer(pBlob, cbBlob, &nNewBlob);
+			pNewBlob = (uint8_t*)m_crypto->decodeBuffer(pBlob, cbBlob, &nNewBlob);
 			dwFlags &= (~DBEF_ENCRYPTED);
 		}
 		else {

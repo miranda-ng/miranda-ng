@@ -145,14 +145,14 @@ VOID CALLBACK OnlineNotifTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 			if (ppro->isChatRoom(hContact))
 				continue;
 
-			BYTE bDCC = ppro->getByte(hContact, "DCC", 0);
+			uint8_t bDCC = ppro->getByte(hContact, "DCC", 0);
 			bool bHidden = Contact_IsHidden(hContact);
 			if (bDCC || bHidden)
 				continue;
 			if (ppro->getWString(hContact, "Default", &dbv))
 				continue;
 
-			BYTE bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0);
+			uint8_t bAdvanced = ppro->getByte(hContact, "AdvancedMode", 0);
 			if (!bAdvanced) {
 				db_free(&dbv);
 				if (!ppro->getWString(hContact, "Nick", &dbv)) {
@@ -1248,7 +1248,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 				sChanName++;
 
 			// Add a new chat window
-			BYTE btOwnMode = 0;
+			uint8_t btOwnMode = 0;
 
 			SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, sChanName, sChanName);
 			if (si) {

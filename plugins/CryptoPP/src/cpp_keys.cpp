@@ -24,8 +24,8 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features)
 		p->dh = new DH(p0, g0);
 	}
 
-	BYTE priv1[KEYSIZE];	// private key of 2048 bit
-	BYTE publ1[KEYSIZE + 2];	// public key of 2048 bit + faetures field
+	uint8_t priv1[KEYSIZE];	// private key of 2048 bit
+	uint8_t publ1[KEYSIZE + 2];	// public key of 2048 bit + faetures field
 
 	memset(priv1, 0, sizeof(priv1));
 	memset(publ1, 0, sizeof(publ1));
@@ -148,17 +148,17 @@ int __cdecl cpp_calc_keyx(HANDLE context)
 	if (!p->KeyB) { ptr->error = ERROR_NO_KEYB; return 0; }
 	ptr->error = ERROR_NONE;
 
-	BYTE agreeVal[KEYSIZE];
+	uint8_t agreeVal[KEYSIZE];
 	memset(agreeVal, 0, sizeof(agreeVal));
 
-	BYTE agr = p->dh->Agree(agreeVal, p->KeyA, p->KeyB, true); // calculate key
+	uint8_t agr = p->dh->Agree(agreeVal, p->KeyA, p->KeyB, true); // calculate key
 	if (agr) {
 		// not needed anymore
 		SAFE_FREE(p->PubA);
 		SAFE_FREE(p->KeyA);
 		mir_free(p->KeyB); p->KeyB = nullptr;
 
-		BYTE buffer[Tiger::DIGESTSIZE]; // buffer for hash
+		uint8_t buffer[Tiger::DIGESTSIZE]; // buffer for hash
 		memset(buffer, 0, sizeof(buffer));
 
 		// do this only if key exchanged is ok
@@ -179,7 +179,7 @@ int __cdecl cpp_init_keyp(HANDLE context, LPCSTR password)
 	pCNTX ptr = get_context_on_id(context); if (!ptr) return 0;
 	pSIMDATA p = (pSIMDATA)cpp_alloc_pdata(ptr);
 
-	BYTE buffer[Tiger::DIGESTSIZE]; // buffer for hash
+	uint8_t buffer[Tiger::DIGESTSIZE]; // buffer for hash
 	memset(buffer, 0, sizeof(buffer));
 
 	// calculate hash

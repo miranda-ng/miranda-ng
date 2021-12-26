@@ -58,7 +58,7 @@ class CExImContactXML : public CExImContactBase
 
 	MEVENT _hEvent;
 
-	BYTE IsContactInfo(LPCSTR pszKey);
+	uint8_t IsContactInfo(LPCSTR pszKey);
 
 	// private importing methods
 	int		ImportModule(const TiXmlElement *xmlModule);
@@ -72,7 +72,7 @@ class CExImContactXML : public CExImContactBase
 	// private exporting methods
 	int		ExportModule(LPCSTR pszModule);
 	int		ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LPCSTR pszSetting);
-	BYTE     ExportEvents();
+	uint8_t     ExportEvents();
 
 	int		ExportContact(DB::CEnumList *pModules);
 	int		ExportSubContact(CExImContactXML *vMetaContact, DB::CEnumList *pModules);
@@ -86,7 +86,7 @@ public:
 
 	// importing stuff
 	int		LoadXmlElement(const TiXmlElement *xContact);
-	int		Import(BYTE keepMetaSubContact = FALSE);
+	int		Import(uint8_t keepMetaSubContact = FALSE);
 };
 
 #endif /* _CLASS_EXIM_CONTACT_XML_INCLUDED_ */

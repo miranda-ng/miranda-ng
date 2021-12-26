@@ -42,7 +42,7 @@
 /**
 Skews a row horizontally (with filtered weights). 
 Limited to 45 degree skewing only. Filters two adjacent pixels.
-Parameter T can be BYTE, WORD of float. 
+Parameter T can be uint8_t, WORD of float. 
 @param src Pointer to source image to rotate
 @param dst Pointer to destination image
 @param row Row index
@@ -72,15 +72,15 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 	// calculate the number of samples per pixel
 	const unsigned samples = bytespp / sizeof(T);
 
-	BYTE *src_bits = FreeImage_GetScanLine(src, row);
-	BYTE *dst_bits = FreeImage_GetScanLine(dst, row);
+	uint8_t *src_bits = FreeImage_GetScanLine(src, row);
+	uint8_t *dst_bits = FreeImage_GetScanLine(dst, row);
 
 	// fill gap left of skew with background
 	if(bkcolor) {
 		for(int k = 0; k < iOffset; k++) {
 			memcpy(&dst_bits[k * bytespp], bkcolor, bytespp);
 		}
-		AssignPixel((BYTE*)&pxlOldLeft[0], (BYTE*)bkcolor, bytespp);
+		AssignPixel((uint8_t*)&pxlOldLeft[0], (uint8_t*)bkcolor, bytespp);
 	} else {
 		if(iOffset > 0) {
 			memset(dst_bits, 0, iOffset * bytespp);
@@ -90,7 +90,7 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 
 	for(unsigned i = 0; i < src_width; i++) {
 		// loop through row pixels
-		AssignPixel((BYTE*)&pxlSrc[0], (BYTE*)src_bits, bytespp);
+		AssignPixel((uint8_t*)&pxlSrc[0], (uint8_t*)src_bits, bytespp);
 		// calculate weights
 		for(unsigned j = 0; j < samples; j++) {
 			pxlLeft[j] = static_cast<T>(pxlBkg[j] + (pxlSrc[j] - pxlBkg[j]) * weight + 0.5);
@@ -102,10 +102,10 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 			for(unsigned j = 0; j < samples; j++) {
 				pxlSrc[j] = pxlSrc[j] - (pxlLeft[j] - pxlOldLeft[j]);
 			}
-			AssignPixel((BYTE*)&dst_bits[iXPos*bytespp], (BYTE*)&pxlSrc[0], bytespp);
+			AssignPixel((uint8_t*)&dst_bits[iXPos*bytespp], (uint8_t*)&pxlSrc[0], bytespp);
 		}
 		// save leftover for next pixel in scan
-		AssignPixel((BYTE*)&pxlOldLeft[0], (BYTE*)&pxlLeft[0], bytespp);
+		AssignPixel((uint8_t*)&pxlOldLeft[0], (uint8_t*)&pxlLeft[0], bytespp);
 
 		// next pixel in scan
 		src_bits += bytespp;
@@ -118,7 +118,7 @@ HorizontalSkewT(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double weigh
 		dst_bits = FreeImage_GetScanLine(dst, row) + iXPos * bytespp;
 
 		// If still in image bounds, put leftovers there
-		AssignPixel((BYTE*)dst_bits, (BYTE*)&pxlOldLeft[0], bytespp);
+		AssignPixel((uint8_t*)dst_bits, (uint8_t*)&pxlOldLeft[0], bytespp);
 
 		// clear to the right of the skewed line with background
 		dst_bits += bytespp;
@@ -153,7 +153,7 @@ HorizontalSkew(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double dWeigh
 				case 8:
 				case 24:
 				case 32:
-					HorizontalSkewT<BYTE>(src, dst, row, iOffset, dWeight, bkcolor);
+					HorizontalSkewT<uint8_t>(src, dst, row, iOffset, dWeight, bkcolor);
 				break;
 			}
 			break;
@@ -173,7 +173,7 @@ HorizontalSkew(FIBITMAP *src, FIBITMAP *dst, int row, int iOffset, double dWeigh
 /**
 Skews a column vertically (with filtered weights). 
 Limited to 45 degree skewing only. Filters two adjacent pixels.
-Parameter T can be BYTE, WORD of float. 
+Parameter T can be uint8_t, WORD of float. 
 @param src Pointer to source image to rotate
 @param dst Pointer to destination image
 @param col Column index
@@ -207,8 +207,8 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 	const unsigned dst_pitch = FreeImage_GetPitch(dst);
 	const unsigned index = col * bytespp;
 
-	BYTE *src_bits = FreeImage_GetBits(src) + index;
-	BYTE *dst_bits = FreeImage_GetBits(dst) + index;
+	uint8_t *src_bits = FreeImage_GetBits(src) + index;
+	uint8_t *dst_bits = FreeImage_GetBits(dst) + index;
 
 	// fill gap above skew with background
 	if(bkcolor) {
@@ -227,7 +227,7 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 
 	for(unsigned i = 0; i < src_height; i++) {
 		// loop through column pixels
-		AssignPixel((BYTE*)(&pxlSrc[0]), src_bits, bytespp);
+		AssignPixel((uint8_t*)(&pxlSrc[0]), src_bits, bytespp);
 		// calculate weights
 		for(unsigned j = 0; j < samples; j++) {
 			pxlLeft[j] = static_cast<T>(pxlBkg[j] + (pxlSrc[j] - pxlBkg[j]) * weight + 0.5);
@@ -240,10 +240,10 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 				pxlSrc[j] = pxlSrc[j] - (pxlLeft[j] - pxlOldLeft[j]);
 			}
 			dst_bits = FreeImage_GetScanLine(dst, iYPos) + index;
-			AssignPixel(dst_bits, (BYTE*)(&pxlSrc[0]), bytespp);
+			AssignPixel(dst_bits, (uint8_t*)(&pxlSrc[0]), bytespp);
 		}
 		// save leftover for next pixel in scan
-		AssignPixel((BYTE*)(&pxlOldLeft[0]), (BYTE*)(&pxlLeft[0]), bytespp);
+		AssignPixel((uint8_t*)(&pxlOldLeft[0]), (uint8_t*)(&pxlLeft[0]), bytespp);
 
 		// next pixel in scan
 		src_bits += src_pitch;
@@ -255,13 +255,13 @@ VerticalSkewT(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double weight,
 		dst_bits = FreeImage_GetScanLine(dst, iYPos) + index;
 
 		// if still in image bounds, put leftovers there				
-		AssignPixel((BYTE*)(dst_bits), (BYTE*)(&pxlOldLeft[0]), bytespp);
+		AssignPixel((uint8_t*)(dst_bits), (uint8_t*)(&pxlOldLeft[0]), bytespp);
 
 		// clear below skewed line with background
 		if(bkcolor) {
 			while(++iYPos < (int)dst_height) {					
 				dst_bits += dst_pitch;
-				AssignPixel((BYTE*)(dst_bits), (BYTE*)(bkcolor), bytespp);
+				AssignPixel((uint8_t*)(dst_bits), (uint8_t*)(bkcolor), bytespp);
 			}
 		} else {
 			while(++iYPos < (int)dst_height) {					
@@ -292,7 +292,7 @@ VerticalSkew(FIBITMAP *src, FIBITMAP *dst, int col, int iOffset, double dWeight,
 				case 8:
 				case 24:
 				case 32:
-					VerticalSkewT<BYTE>(src, dst, col, iOffset, dWeight, bkcolor);
+					VerticalSkewT<uint8_t>(src, dst, col, iOffset, dWeight, bkcolor);
 					break;
 			}
 			break;
@@ -341,25 +341,25 @@ Rotate90(FIBITMAP *src) {
 			if(bpp == 1) {
 				// speedy rotate for BW images
 
-				BYTE *bsrc  = FreeImage_GetBits(src); 
-				BYTE *bdest = FreeImage_GetBits(dst);
+				uint8_t *bsrc  = FreeImage_GetBits(src); 
+				uint8_t *bdest = FreeImage_GetBits(dst);
 
-				BYTE *dbitsmax = bdest + dst_height * dst_pitch - 1;
+				uint8_t *dbitsmax = bdest + dst_height * dst_pitch - 1;
 
 				for(unsigned y = 0; y < src_height; y++) {
 					// figure out the column we are going to be copying to
 					const div_t div_r = div(y, 8);
 					// set bit pos of src column byte
-					const BYTE bitpos = (BYTE)(128 >> div_r.rem);
-					BYTE *srcdisp = bsrc + y * src_pitch;
+					const uint8_t bitpos = (uint8_t)(128 >> div_r.rem);
+					uint8_t *srcdisp = bsrc + y * src_pitch;
 					for(unsigned x = 0; x < src_pitch; x++) {
 						// get source bits
-						BYTE *sbits = srcdisp + x;
+						uint8_t *sbits = srcdisp + x;
 						// get destination column
-						BYTE *nrow = bdest + (dst_height - 1 - (x * 8)) * dst_pitch + div_r.quot;
+						uint8_t *nrow = bdest + (dst_height - 1 - (x * 8)) * dst_pitch + div_r.quot;
 						for (int z = 0; z < 8; z++) {
 						   // get destination byte
-							BYTE *dbits = nrow - z * dst_pitch;
+							uint8_t *dbits = nrow - z * dst_pitch;
 							if ((dbits < bdest) || (dbits > dbitsmax)) break;
 							if (*sbits & (128 >> z)) *dbits |= bitpos;
 						}
@@ -375,8 +375,8 @@ Rotate90(FIBITMAP *src) {
 				// speed somehow, but once you drop out of CPU's cache, things will slow down drastically.
 				// For older CPUs with less cache, lower value would yield better results.
 
-				BYTE *bsrc  = FreeImage_GetBits(src);  // source pixels
-				BYTE *bdest = FreeImage_GetBits(dst);  // destination pixels
+				uint8_t *bsrc  = FreeImage_GetBits(src);  // source pixels
+				uint8_t *bdest = FreeImage_GetBits(dst);  // destination pixels
 
 				// calculate the number of bytes per pixel (1 for 8-bit, 3 for 24-bit or 4 for 32-bit)
 				const unsigned bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
@@ -390,9 +390,9 @@ Rotate90(FIBITMAP *src) {
 						for(unsigned y = ys; y < MIN(dst_height, ys + RBLOCK); y++) {    // do rotation
 							const unsigned y2 = dst_height - y - 1;
 							// point to src pixel at (y2, xs)
-							BYTE *src_bits = bsrc + (xs * src_pitch) + (y2 * bytespp);
+							uint8_t *src_bits = bsrc + (xs * src_pitch) + (y2 * bytespp);
 							// point to dst pixel at (xs, y)
-							BYTE *dst_bits = bdest + (y * dst_pitch) + (xs * bytespp);
+							uint8_t *dst_bits = bdest + (y * dst_pitch) + (xs * bytespp);
 							for(unsigned x = xs; x < MIN(dst_width, xs + RBLOCK); x++) {
 								// dst.SetPixel(x, y, src.GetPixel(y2, x));
 								AssignPixel(dst_bits, src_bits, bytespp);
@@ -411,15 +411,15 @@ Rotate90(FIBITMAP *src) {
 		case FIT_RGBF:
 		case FIT_RGBAF:
 		{
-			BYTE *bsrc  = FreeImage_GetBits(src);  // source pixels
-			BYTE *bdest = FreeImage_GetBits(dst);  // destination pixels
+			uint8_t *bsrc  = FreeImage_GetBits(src);  // source pixels
+			uint8_t *bdest = FreeImage_GetBits(dst);  // destination pixels
 
 			// calculate the number of bytes per pixel
 			const unsigned bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
 
 			for(unsigned y = 0; y < dst_height; y++) {
-				BYTE *src_bits = bsrc + (src_width - 1 - y) * bytespp;
-				BYTE *dst_bits = bdest + (y * dst_pitch);
+				uint8_t *src_bits = bsrc + (src_width - 1 - y) * bytespp;
+				uint8_t *dst_bits = bdest + (y * dst_pitch);
 				for(unsigned x = 0; x < dst_width; x++) {
 					AssignPixel(dst_bits, src_bits, bytespp);
 					src_bits += src_pitch;
@@ -459,8 +459,8 @@ Rotate180(FIBITMAP *src) {
 		case FIT_BITMAP:
 			if(bpp == 1) {
 				for(int y = 0; y < src_height; y++) {
-					BYTE *src_bits = FreeImage_GetScanLine(src, y);
-					BYTE *dst_bits = FreeImage_GetScanLine(dst, dst_height - y - 1);
+					uint8_t *src_bits = FreeImage_GetScanLine(src, y);
+					uint8_t *dst_bits = FreeImage_GetScanLine(dst, dst_height - y - 1);
 					for(int x = 0; x < src_width; x++) {
 						// get bit at (x, y)
 						k = (src_bits[x >> 3] & (0x80 >> (x & 0x07))) != 0;
@@ -483,8 +483,8 @@ Rotate180(FIBITMAP *src) {
 			const int bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
 
 			for(y = 0; y < src_height; y++) {
-				BYTE *src_bits = FreeImage_GetScanLine(src, y);
-				BYTE *dst_bits = FreeImage_GetScanLine(dst, dst_height - y - 1) + (dst_width - 1) * bytespp;
+				uint8_t *src_bits = FreeImage_GetScanLine(src, y);
+				uint8_t *dst_bits = FreeImage_GetScanLine(dst, dst_height - y - 1) + (dst_width - 1) * bytespp;
 				for(x = 0; x < src_width; x++) {
 					// get pixel at (x, y)
 					// set pixel at (dst_width - x - 1, dst_height - y - 1)
@@ -533,25 +533,25 @@ Rotate270(FIBITMAP *src) {
 			if(bpp == 1) {
 				// speedy rotate for BW images
 				
-				BYTE *bsrc  = FreeImage_GetBits(src); 
-				BYTE *bdest = FreeImage_GetBits(dst);
-				BYTE *dbitsmax = bdest + dst_height * dst_pitch - 1;
+				uint8_t *bsrc  = FreeImage_GetBits(src); 
+				uint8_t *bdest = FreeImage_GetBits(dst);
+				uint8_t *dbitsmax = bdest + dst_height * dst_pitch - 1;
 				dlineup = 8 * dst_pitch - dst_width;
 
 				for(unsigned y = 0; y < src_height; y++) {
 					// figure out the column we are going to be copying to
 					const div_t div_r = div(y + dlineup, 8);
 					// set bit pos of src column byte
-					const BYTE bitpos = (BYTE)(1 << div_r.rem);
-					const BYTE *srcdisp = bsrc + y * src_pitch;
+					const uint8_t bitpos = (uint8_t)(1 << div_r.rem);
+					const uint8_t *srcdisp = bsrc + y * src_pitch;
 					for(unsigned x = 0; x < src_pitch; x++) {
 						// get source bits
-						const BYTE *sbits = srcdisp + x;
+						const uint8_t *sbits = srcdisp + x;
 						// get destination column
-						BYTE *nrow = bdest + (x * 8) * dst_pitch + dst_pitch - 1 - div_r.quot;
+						uint8_t *nrow = bdest + (x * 8) * dst_pitch + dst_pitch - 1 - div_r.quot;
 						for(unsigned z = 0; z < 8; z++) {
 						   // get destination byte
-							BYTE *dbits = nrow + z * dst_pitch;
+							uint8_t *dbits = nrow + z * dst_pitch;
 							if ((dbits < bdest) || (dbits > dbitsmax)) break;
 							if (*sbits & (128 >> z)) *dbits |= bitpos;
 						}
@@ -567,8 +567,8 @@ Rotate270(FIBITMAP *src) {
 				// speed somehow, but once you drop out of CPU's cache, things will slow down drastically.
 				// For older CPUs with less cache, lower value would yield better results.
 
-				BYTE *bsrc  = FreeImage_GetBits(src);  // source pixels
-				BYTE *bdest = FreeImage_GetBits(dst);  // destination pixels
+				uint8_t *bsrc  = FreeImage_GetBits(src);  // source pixels
+				uint8_t *bdest = FreeImage_GetBits(dst);  // destination pixels
 
 				// Calculate the number of bytes per pixel (1 for 8-bit, 3 for 24-bit or 4 for 32-bit)
 				const unsigned bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
@@ -582,9 +582,9 @@ Rotate270(FIBITMAP *src) {
 						for(unsigned x = xs; x < MIN(dst_width, xs + RBLOCK); x++) {    // do rotation
 							x2 = dst_width - x - 1;
 							// point to src pixel at (ys, x2)
-							BYTE *src_bits = bsrc + (x2 * src_pitch) + (ys * bytespp);
+							uint8_t *src_bits = bsrc + (x2 * src_pitch) + (ys * bytespp);
 							// point to dst pixel at (x, ys)
-							BYTE *dst_bits = bdest + (ys * dst_pitch) + (x * bytespp);
+							uint8_t *dst_bits = bdest + (ys * dst_pitch) + (x * bytespp);
 							for(unsigned y = ys; y < MIN(dst_height, ys + RBLOCK); y++) {
 								// dst.SetPixel(x, y, src.GetPixel(y, x2));
 								AssignPixel(dst_bits, src_bits, bytespp);
@@ -603,15 +603,15 @@ Rotate270(FIBITMAP *src) {
 		case FIT_RGBF:
 		case FIT_RGBAF:
 		{
-			BYTE *bsrc  = FreeImage_GetBits(src);  // source pixels
-			BYTE *bdest = FreeImage_GetBits(dst);  // destination pixels
+			uint8_t *bsrc  = FreeImage_GetBits(src);  // source pixels
+			uint8_t *bdest = FreeImage_GetBits(dst);  // destination pixels
 
 			// calculate the number of bytes per pixel
 			const unsigned bytespp = FreeImage_GetLine(src) / FreeImage_GetWidth(src);
 
 			for(unsigned y = 0; y < dst_height; y++) {
-				BYTE *src_bits = bsrc + (src_height - 1) * src_pitch + y * bytespp;
-				BYTE *dst_bits = bdest + (y * dst_pitch);
+				uint8_t *src_bits = bsrc + (src_height - 1) * src_pitch + y * bytespp;
+				uint8_t *dst_bits = bdest + (y * dst_pitch);
 				for(unsigned x = 0; x < dst_width; x++) {
 					AssignPixel(dst_bits, src_bits, bytespp);
 					src_bits -= src_pitch;

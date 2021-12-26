@@ -74,10 +74,10 @@ struct DIListNode
 
 struct MARGINS
 {
-	BYTE top;
-	BYTE right;
-	BYTE bottom;
-	BYTE left;
+	uint8_t top;
+	uint8_t right;
+	uint8_t bottom;
+	uint8_t left;
 };
 
 struct EXTRAICONDATA
@@ -88,8 +88,8 @@ struct EXTRAICONDATA
 
 struct ICONSTATE
 {
-	BYTE order;
-	BYTE vis;
+	uint8_t order;
+	uint8_t vis;
 };
 
 enum PopupAvLayout { PAV_NONE = 0, PAV_LEFT = 1, PAV_RIGHT = 2 };
@@ -158,8 +158,8 @@ struct OPTIONS
 	bool bLimitMsg;
 	int iLimitCharCount;
 	int iSmileyAddFlags;
-	BYTE exIconsOrder[EXICONS_COUNT];
-	BYTE exIconsVis[EXICONS_COUNT];
+	uint8_t exIconsOrder[EXICONS_COUNT];
+	uint8_t exIconsVis[EXICONS_COUNT];
 };
 
 extern OPTIONS opt;

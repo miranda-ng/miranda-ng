@@ -61,7 +61,7 @@ struct CustomButtonData : public MZeroedObject
 	bool    m_bIMButton, m_bChatButton;
 	bool    m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton;
 	bool    m_bRSided;
-	BYTE    m_opFlags;
+	uint8_t m_opFlags;
 	HPLUGIN m_pPlugin;
 	DWORD   m_dwOrigPosition;
 	struct  THotkeyItem *m_hotkey;
@@ -214,7 +214,7 @@ protected:
 
 	// user typing support;
 	DWORD m_nLastTyping = 0;
-	BYTE m_bShowTyping = 0;
+	uint8_t m_bShowTyping = 0;
 	int m_nTypeSecs = 0, m_nTypeMode = 0;
 	const USERINFO* m_pUserTyping = nullptr;
 
@@ -279,7 +279,7 @@ class CMsgDialog : public CSrmmBaseDialog {};
 /////////////////////////////////////////////////////////////////////////////////////////
 // receives LOGSTREAMDATA* as the first parameter
 
-EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, BYTE *pbBuff, LONG cb, LONG *pcb);
+EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, uint8_t *pbBuff, LONG cb, LONG *pcb);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows

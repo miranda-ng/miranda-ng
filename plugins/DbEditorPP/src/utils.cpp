@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-extern BYTE nameOrder[NAMEORDERCOUNT];
+extern uint8_t nameOrder[NAMEORDERCOUNT];
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,7 +40,7 @@ int ListView_SetItemTextA(HWND hwndLV, int i, int iSubItem, const char *pszText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* StringFromBlob(BYTE *blob, WORD len)
+char* StringFromBlob(uint8_t *blob, WORD len)
 {
 	int j;
 	char tmp[16];
@@ -58,9 +58,9 @@ char* StringFromBlob(BYTE *blob, WORD len)
 int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szSetting, const char *szValue, int len)
 {
 	int j = 0, i = 0;
-	BYTE b;
+	uint8_t b;
 	int tmp, res = 0;
-	BYTE *data = (BYTE*)mir_alloc(2 + len / 2);
+	uint8_t *data = (uint8_t*)mir_alloc(2 + len / 2);
 
 	if (!data)
 		return 0;
@@ -72,7 +72,7 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 			(b >= 'A' && b <= 'F') ||
 			(b >= 'a' && b <= 'f')) {
 			if (sscanf(&szValue[j], "%02X", &tmp) == 1) {
-				data[i++] = (BYTE)(tmp & 0xFF);
+				data[i++] = (uint8_t)(tmp & 0xFF);
 				j++;
 			}
 		}
@@ -87,10 +87,10 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 	return res;
 }
 
-wchar_t* DBVType(BYTE type)
+wchar_t* DBVType(uint8_t type)
 {
 	switch (type) {
-	case DBVT_BYTE:     return L"BYTE";
+	case DBVT_BYTE:     return L"uint8_t";
 	case DBVT_WORD:     return L"WORD";
 	case DBVT_DWORD:    return L"DWORD";
 	case DBVT_ASCIIZ:   return L"STRING";
@@ -120,7 +120,7 @@ int setNumericValue(MCONTACT hContact, const char *module, const char *setting, 
 	switch (type) {
 	case DBVT_BYTE:
 		if (value <= 0xFF)
-			return !db_set_b(hContact, module, setting, (BYTE)value);
+			return !db_set_b(hContact, module, setting, (uint8_t)value);
 		break;
 
 	case DBVT_WORD:

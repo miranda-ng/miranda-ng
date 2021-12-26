@@ -156,8 +156,8 @@ void __cdecl SmileyDownloadThread(void*)
 
 bool GetSmileyFile(CMStringW &url, const CMStringW &packstr)
 {
-	BYTE hash[MIR_SHA1_HASH_SIZE];
-	mir_sha1_hash((BYTE*)url.c_str(), url.GetLength() * sizeof(wchar_t), hash);
+	uint8_t hash[MIR_SHA1_HASH_SIZE];
+	mir_sha1_hash((uint8_t*)url.c_str(), url.GetLength() * sizeof(wchar_t), hash);
 	wchar_t wszHash[MIR_SHA1_HASH_SIZE * 2 + 1];
 	bin2hexW(hash, sizeof(hash), wszHash);
 

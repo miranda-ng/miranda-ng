@@ -30,12 +30,12 @@ struct POPUPTREEDATA
 	DWORD signature;
 	LPTSTR pszTreeRoot;
 	LPTSTR pszDescription;
-	BYTE typ;
+	uint8_t typ;
 	union {
 		POPUPNOTIFICATION	notification;
 		POPUPCLASS			pupClass;
 	};
-	BYTE enabled;
+	uint8_t enabled;
 	DWORD disableWhen;
 	int timeoutValue;
 	char leftAction[MAXMODULELABELLENGTH];
@@ -49,7 +49,7 @@ extern LIST<POPUPTREEDATA> gTreeData;
 extern HANDLE g_hntfError, g_hntfWarning, g_hntfNotification;
 
 int TreeDataSortFunc(const POPUPTREEDATA *p1, const POPUPTREEDATA *p2);
-HANDLE FindTreeData(LPTSTR group, LPTSTR name, BYTE typ);
+HANDLE FindTreeData(LPTSTR group, LPTSTR name, uint8_t typ);
 void FreePopupClass(POPUPTREEDATA *ptd);
 void UnloadTreeData();
 

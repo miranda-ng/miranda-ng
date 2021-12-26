@@ -146,8 +146,8 @@ public:
 		g_plugin.setWString("ScanCmdLine", str);
 
 		g_plugin.setByte("UseScanner", chkScanAfterDl.GetState() ? VIRUSSCAN_AFTERDL : (chkScanDuringDl.GetState() ? VIRUSSCAN_DURINGDL : VIRUSSCAN_DISABLE));
-		g_plugin.setByte("WarnBeforeOpening", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_WARNBEFOREOPENING));
-		g_plugin.setByte("IfExists", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_ASK) ? FILERESUME_ASK : 
+		g_plugin.setByte("WarnBeforeOpening", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_WARNBEFOREOPENING));
+		g_plugin.setByte("IfExists", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_ASK) ? FILERESUME_ASK : 
 			(IsDlgButtonChecked(m_hwnd, IDC_RESUME) ? FILERESUME_RESUMEALL : 
 				(IsDlgButtonChecked(m_hwnd, IDC_OVERWRITE) ? FILERESUME_OVERWRITEALL : FILERESUME_RENAMEALL))));
 		return TRUE;

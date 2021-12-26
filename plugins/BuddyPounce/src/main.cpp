@@ -56,7 +56,7 @@ int MsgAck(WPARAM, LPARAM lParam)
 				}
 				// check to reuse
 				if (reuse > 1)
-					g_plugin.setByte(ack->hContact, "Reuse", (BYTE)(reuse - 1));
+					g_plugin.setByte(ack->hContact, "Reuse", (uint8_t)(reuse - 1));
 				else {
 					g_plugin.setByte(ack->hContact, "Reuse", 0);
 					g_plugin.setWString(ack->hContact, "PounceMsg", L"");
@@ -222,8 +222,8 @@ INT_PTR AddSimpleMessage(WPARAM wParam, LPARAM lParam)
 	g_plugin.setWString(hContact, "PounceMsg", message);
 	g_plugin.setWord(hContact, "SendIfMyStatusIsFLAG", (WORD)g_plugin.getWord("SendIfMyStatusIsFLAG", 1));
 	g_plugin.setWord(hContact, "SendIfTheirStatusIsFLAG", (WORD)g_plugin.getWord("SendIfTheirStatusIsFLAG", 1));
-	g_plugin.setByte(hContact, "Reuse", (BYTE)g_plugin.getByte("Reuse", 0));
-	g_plugin.setByte(hContact, "GiveUpDays", (BYTE)g_plugin.getByte("GiveUpDays", 0));
+	g_plugin.setByte(hContact, "Reuse", (uint8_t)g_plugin.getByte("Reuse", 0));
+	g_plugin.setByte(hContact, "GiveUpDays", (uint8_t)g_plugin.getByte("GiveUpDays", 0));
 	g_plugin.setDword(hContact, "GiveUpDate", (DWORD)(g_plugin.getByte(hContact, "GiveUpDays", 0)*SECONDSINADAY));
 	return 0;
 }

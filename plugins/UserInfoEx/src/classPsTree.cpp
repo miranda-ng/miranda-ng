@@ -70,9 +70,9 @@ CPsTree::~CPsTree()
  * param:	none
  * return:	none
  **/
-BYTE CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
+uint8_t CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
 {
-	BYTE rc;
+	uint8_t rc;
 
 	if (hWndTree && pPsh->_hImages && pPsh->_pPages && pPsh->_numPages)
 	{
@@ -154,7 +154,7 @@ void CPsTree::Remove(HINSTANCE hInst)
  * param:	needWidth	- width to expand the tree by
  * return:	TRUE if initialization is ok, FALSE otherwise
  **/
-BYTE CPsTree::InitTreeItems(LPWORD needWidth)
+uint8_t CPsTree::InitTreeItems(LPWORD needWidth)
 {
 	if (!_hWndTree || !_pages.getCount())
 		return FALSE;
@@ -396,7 +396,7 @@ HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
  *			bAsChild			- tells, whether to try to add hItem as child of hInsertAfter or not
  * return:	handle to new (moved) treeitem if successful or NULL otherwise
  **/
-HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChild)
+HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, uint8_t bAsChild)
 {
 	TVINSERTSTRUCT tvis;
 	HTREEITEM hParent, hChild, hNewItem;
@@ -658,7 +658,7 @@ int CPsTree::BeginLabelEdit(HTREEITEM hItem)
  * return:	0
  **/
 
-int CPsTree::EndLabelEdit(const BYTE bSave)
+int CPsTree::EndLabelEdit(const uint8_t bSave)
 {
 	wchar_t szEdit[MAX_TINAME];
 	TVITEM tvi;
@@ -808,10 +808,10 @@ void CPsTree::OnIconsChanged()
  * return:	TRUE if any page holds changed information
  **/
 
-BYTE CPsTree::OnInfoChanged()
+uint8_t CPsTree::OnInfoChanged()
 {
 	PSHNOTIFY pshn;
-	BYTE bChanged = 0;
+	uint8_t bChanged = 0;
 
 	pshn.hdr.idFrom = 0;
 	pshn.hdr.code = PSN_INFOCHANGED;
@@ -836,7 +836,7 @@ BYTE CPsTree::OnInfoChanged()
  * param:	none
  * return:	nothing
  **/
-BYTE CPsTree::OnSelChanging()
+uint8_t CPsTree::OnSelChanging()
 {
 	CPsTreeItem *pti = CurrentItem();
 

@@ -10,7 +10,7 @@ int __cdecl rsa_check_pub(HANDLE, uint8_t*, int, uint8_t*, int);
 void __cdecl rsa_notify(HANDLE, int);
 
 void sttGenerateRSA(LPVOID);
-BYTE loadRSAkey(pUinKey);
+uint8_t loadRSAkey(pUinKey);
 void createRSAcntx(pUinKey);
 void resetRSAcntx(pUinKey);
 void deleteRSAcntx(pUinKey);

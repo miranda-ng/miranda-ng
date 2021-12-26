@@ -38,7 +38,7 @@ void InitPopupList()
 	PopupsList[2].colorText = g_plugin.getDword("Popups2Tx", COLOR_TX_DEFAULT);
 }
 
-static void PopupAction(HWND hPopup, BYTE action)
+static void PopupAction(HWND hPopup, uint8_t action)
 {
 	switch (action) {
 	case PCA_CLOSEPOPUP:

@@ -36,7 +36,7 @@ static void EnableDlgItem(HWND hwndDlg, int idCtrl, BOOL fEnable)
 		EnableWindow(hwndDlg, fEnable);
 }
 
-static BOOL CALLBACK DisplayCpuUsageProc(BYTE nCpuUsage, LPARAM lParam)
+static BOOL CALLBACK DisplayCpuUsageProc(uint8_t nCpuUsage, LPARAM lParam)
 {
 	/* dialog closed? */
 	if (!IsWindow((HWND)lParam))
@@ -129,7 +129,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			/* cpuusage threshold */
 			{
-				BYTE setting = DBGetContactSettingRangedByte(0, MODULENAME, "CpuUsageThreshold", SETTING_CPUUSAGETHRESHOLD_DEFAULT, 1, 100);
+				uint8_t setting = DBGetContactSettingRangedByte(0, MODULENAME, "CpuUsageThreshold", SETTING_CPUUSAGETHRESHOLD_DEFAULT, 1, 100);
 				SendDlgItemMessage(hwndDlg, IDC_SPIN_CPUUSAGE, UDM_SETRANGE, 0, MAKELPARAM(100, 1));
 				SendDlgItemMessage(hwndDlg, IDC_EDIT_CPUUSAGE, EM_SETLIMITTEXT, (WPARAM)3, 0);
 				SendDlgItemMessage(hwndDlg, IDC_SPIN_CPUUSAGE, UDM_SETPOS, 0, MAKELPARAM(setting, 0));
@@ -138,11 +138,11 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			/* shutdown types */
 			{
 				HWND hwndCombo = GetDlgItem(hwndDlg, IDC_COMBO_SHUTDOWNTYPE);
-				BYTE lastShutdownType = g_plugin.getByte("ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
+				uint8_t lastShutdownType = g_plugin.getByte("ShutdownType", SETTING_SHUTDOWNTYPE_DEFAULT);
 				SendMessage(hwndCombo, CB_SETLOCALE, (WPARAM)locale, 0); /* sort order */
 				SendMessage(hwndCombo, CB_SETEXTENDEDUI, TRUE, 0);
 				SendMessage(hwndCombo, CB_INITSTORAGE, SDSDT_MAX, SDSDT_MAX * 32);
-				for (BYTE shutdownType = 1; shutdownType <= SDSDT_MAX; ++shutdownType)
+				for (uint8_t shutdownType = 1; shutdownType <= SDSDT_MAX; ++shutdownType)
 					if (ServiceIsTypeEnabled(shutdownType, 0)) {
 						wchar_t *pszText = (wchar_t*)ServiceGetTypeDescription(shutdownType, GSTDF_TCHAR); /* never fails */
 						int index = SendMessage(hwndCombo, CB_ADDSTRING, 0, (LPARAM)pszText);
@@ -232,7 +232,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 	case M_UPDATE_SHUTDOWNDESC: /* lParam=(LPARAM)(HWND)hwndCombo */
 		{
-			BYTE shutdownType = (BYTE)SendMessage((HWND)lParam, CB_GETITEMDATA, SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
+			uint8_t shutdownType = (uint8_t)SendMessage((HWND)lParam, CB_GETITEMDATA, SendMessage((HWND)lParam, CB_GETCURSEL, 0, 0), 0);
 			SetDlgItemText(hwndDlg, IDC_TEXT_SHUTDOWNTYPE, (wchar_t*)ServiceGetTypeDescription(shutdownType, GSTDF_LONGDESC | GSTDF_TCHAR));
 		}
 		return TRUE;
@@ -357,12 +357,12 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			{
 				int index = SendDlgItemMessage(hwndDlg, IDC_COMBO_SHUTDOWNTYPE, CB_GETCURSEL, 0, 0);
 				if (index != LB_ERR)
-					g_plugin.setByte("ShutdownType", (BYTE)SendDlgItemMessage(hwndDlg, IDC_COMBO_SHUTDOWNTYPE, CB_GETITEMDATA, (WPARAM)index, 0));
+					g_plugin.setByte("ShutdownType", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_COMBO_SHUTDOWNTYPE, CB_GETITEMDATA, (WPARAM)index, 0));
 				index = SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETCURSEL, 0, 0);
 				if (index != LB_ERR)
 					g_plugin.setDword("CountdownUnit", (DWORD)SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETITEMDATA, (WPARAM)index, 0));
 				g_plugin.setDword("Countdown", (DWORD)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, nullptr, FALSE));
-				g_plugin.setByte("CpuUsageThreshold", (BYTE)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE));
+				g_plugin.setByte("CpuUsageThreshold", (uint8_t)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE));
 			}
 			/* watcher type */
 			{

@@ -187,7 +187,7 @@ FIBITMAP *LoadResource(UINT ID, LPTSTR lpType)
 		HRSRC	hResInfo = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(ID), lpType);
 		DWORD	ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
 		HGLOBAL	hRes = LoadResource(g_plugin.getInst(), hResInfo);
-		BYTE *buffer = (BYTE *)LockResource(hRes);
+		uint8_t *buffer = (uint8_t *)LockResource(hRes);
 		if (buffer) {
 			// attach the binary data to a memory stream
 			FIMEMORY *hmem = FreeImage_OpenMemory(buffer, ResSize);
@@ -307,7 +307,7 @@ void InitIcons()
 	int bytespp = FreeImage_GetLine(dib_ico) / w;
 	// set alpha schannel
 	for (unsigned y = 0; y < h; y++) {
-		BYTE *bits = FreeImage_GetScanLine(dib_ico, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib_ico, y);
 		for (unsigned x = 0; x < w; x++) {
 			bits[FI_RGBA_ALPHA] = (y < t || y >= b) ? 0 : 255;
 			// jump to next pixel

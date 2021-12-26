@@ -213,7 +213,7 @@ FIBITMAP* CreateDIBFromDC(HDC hDC, const RECT* rect, HWND hCapture/*=NULL*/)
 	HRGN hRgn = CreateRectRgn(0, 0, 0, 0);
 	if (hCapture && GetWindowRgn(hCapture, hRgn) == ERROR) {
 		if ((GetWindowLongPtr(hCapture, GWL_EXSTYLE)&WS_EX_LAYERED)) {
-			BYTE bAlpha = 0;
+			uint8_t bAlpha = 0;
 			COLORREF crKey = 0x00000000;
 			DWORD dwFlags = 0;
 			if (GetLayeredWindowAttributes(hCapture, &crKey, &bAlpha, &dwFlags)) {

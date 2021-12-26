@@ -30,8 +30,8 @@ struct Options
 		TR_DAYS
 	};
 
-	BYTE selected;
-	BYTE defaultFTP;
+	uint8_t selected;
+	uint8_t defaultFTP;
 	bool bCloseDlg;
 	bool bCopyLink;
 	bool bAutosend;

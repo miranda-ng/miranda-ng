@@ -4,14 +4,14 @@
 
 struct GaduOptions
 {
-	CMOption<BYTE> autoRecconect;
-	CMOption<BYTE> keepConnectionAlive;
-	CMOption<BYTE> showConnectionErrors;
-	CMOption<BYTE> useDirectConnections;
-	CMOption<BYTE> useForwarding;
-	CMOption<BYTE> useManualHosts;
-	CMOption<BYTE> useMsgDeliveryAcknowledge;
-	CMOption<BYTE> useSslConnection;
+	CMOption<uint8_t> autoRecconect;
+	CMOption<uint8_t> keepConnectionAlive;
+	CMOption<uint8_t> showConnectionErrors;
+	CMOption<uint8_t> useDirectConnections;
+	CMOption<uint8_t> useForwarding;
+	CMOption<uint8_t> useManualHosts;
+	CMOption<uint8_t> useMsgDeliveryAcknowledge;
+	CMOption<uint8_t> useSslConnection;
 
 	CMOption<WORD> directConnectionPort;
 	CMOption<WORD> forwardPort;

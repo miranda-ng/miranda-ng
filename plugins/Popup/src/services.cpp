@@ -123,7 +123,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	if (ppd->lchContact)
 		proto = Proto_GetBaseAccountName(ppd->lchContact);
 
-	BYTE bShowMode = proto ? db_get_b(ppd->lchContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
+	uint8_t bShowMode = proto ? db_get_b(ppd->lchContact, MODULENAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
 
 	if (bShowMode == PU_SHOWMODE_BLOCK)
 		return -1;

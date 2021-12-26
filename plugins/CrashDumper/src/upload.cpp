@@ -20,11 +20,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HNETLIBUSER hNetlibUser;
 
-static void arrayToHex(BYTE* data, size_t datasz, char* res)
+static void arrayToHex(uint8_t* data, size_t datasz, char* res)
 {
 	char* resptr = res;
 	for (unsigned i = 0; i < datasz; i++) {
-		const BYTE ch = data[i];
+		const uint8_t ch = data[i];
 
 		const char ch0 = (char)(ch >> 4);
 		*resptr++ = (char)((ch0 <= 9) ? ('0' + ch0) : (('a' - 10) + ch0));
@@ -47,11 +47,11 @@ void GetLoginStr(char* user, size_t szuser, char* pass)
 		user[0] = 0;
 
 	if (g_plugin.getString("Password", &dbv) == 0) {
-		BYTE hash[16];
+		uint8_t hash[16];
 		mir_md5_state_t context;
 
 		mir_md5_init(&context);
-		mir_md5_append(&context, (BYTE*)dbv.pszVal, (int)mir_strlen(dbv.pszVal));
+		mir_md5_append(&context, (uint8_t*)dbv.pszVal, (int)mir_strlen(dbv.pszVal));
 		mir_md5_finish(&context, hash);
 
 		arrayToHex(hash, sizeof(hash), pass);
@@ -224,7 +224,7 @@ bool ProcessVIHash(bool store)
 	CMStringW buffer;
 	PrintVersionInfo(buffer, 0);
 
-	BYTE hash[16];
+	uint8_t hash[16];
 	mir_md5_state_t context;
 
 	mir_md5_init(&context);

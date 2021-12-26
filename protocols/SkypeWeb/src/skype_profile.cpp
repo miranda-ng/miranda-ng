@@ -253,7 +253,7 @@ void CSkypeProto::UpdateProfileGender(const JSONNode &root, MCONTACT hContact)
 {
 	CMStringW gender = root["gender"].as_mstring();
 	if (!gender.IsEmpty() && gender != "null")
-		setByte(hContact, "Gender", (BYTE)(_wtoi(gender) == 1 ? 'M' : 'F'));
+		setByte(hContact, "Gender", (uint8_t)(_wtoi(gender) == 1 ? 'M' : 'F'));
 	else
 		delSetting(hContact, "Gender");
 }

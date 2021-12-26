@@ -435,7 +435,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	case INTM_GROUPCHANGED:
 		{
 			WORD iExtraImage[EXTRA_ICON_COUNT];
-			BYTE flags = 0;
+			uint8_t flags = 0;
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {

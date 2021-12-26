@@ -55,7 +55,7 @@ using namespace std;
 #define MODULENAME "HTTPServer"
 #define MSG_BOX_TITLE "Miranda NG HTTP-Server"
 
-#define SplitIpAddress( p ) (BYTE)(p>>24),(BYTE)(p>>16),(BYTE)(p>>8),(BYTE)(p)
+#define SplitIpAddress( p ) (uint8_t)(p>>24),(uint8_t)(p>>16),(uint8_t)(p>>8),(uint8_t)(p)
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

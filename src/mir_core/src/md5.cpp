@@ -122,7 +122,7 @@
 #define T64 /* 0xeb86d391 */ (T_MASK ^ 0x14792c6e)
 
 //gfd*
-static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
+static void md5_process(mir_md5_state_t *pms, const uint8_t *data /*[64]*/)
 {
 	uint32_t
 		a = pms->abcd[0], b = pms->abcd[1],
@@ -140,13 +140,13 @@ static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
 		*/
 		static const int w = 1;
 
-		if (*((const BYTE *)&w)) /* dynamic little-endian */
+		if (*((const uint8_t *)&w)) /* dynamic little-endian */
 		{
 			/*
 			* On little-endian machines, we can process properly aligned
 			* data without copying it.
 			*/
-			if ( !((data - (const BYTE *)nullptr) & 3)) {
+			if ( !((data - (const uint8_t *)nullptr) & 3)) {
 				/* data are properly aligned */
 				X = (const uint32_t *)data;
 			} else {
@@ -161,7 +161,7 @@ static void md5_process(mir_md5_state_t *pms, const BYTE *data /*[64]*/)
 			* On big-endian machines, we must arrange the bytes in the
 			* right order.
 			*/
-			const BYTE *xp = data;
+			const uint8_t *xp = data;
 			int i;
 
 			X = xbuf;    /* (dynamic only) */
@@ -290,9 +290,9 @@ MIR_CORE_DLL(void) mir_md5_init(mir_md5_state_t *pms)
 	pms->abcd[3] = 0x10325476;
 }
 
-MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t nBytes)
+MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const uint8_t *data, size_t nBytes)
 {
-	const BYTE *p = data;
+	const uint8_t *p = data;
 	size_t left = nBytes;
 	size_t offset = (pms->count[0] >> 3) & 63;
 	uint32_t nbits = (uint32_t)(nBytes << 3);
@@ -327,29 +327,29 @@ MIR_CORE_DLL(void) mir_md5_append(mir_md5_state_t *pms, const BYTE *data, size_t
 		memcpy(pms->buf, p, left);
 }
 
-MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, BYTE digest[16])
+MIR_CORE_DLL(void) mir_md5_finish(mir_md5_state_t *pms, uint8_t digest[16])
 {
-	static const BYTE pad[64] = {
+	static const uint8_t pad[64] = {
 		0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	};
-	BYTE data[8];
+	uint8_t data[8];
 	int i;
 
 	/* Save the length before padding. */
 	for (i = 0; i < 8; ++i)
-		data[i] = (BYTE)(pms->count[i >> 2] >> ((i & 3) << 3));
+		data[i] = (uint8_t)(pms->count[i >> 2] >> ((i & 3) << 3));
 	/* Pad to 56 bytes mod 64. */
 	mir_md5_append(pms, pad, ((55 - (pms->count[0] >> 3)) & 63) + 1);
 	/* Append the length. */
 	mir_md5_append(pms, data, 8);
 	for (i = 0; i < 16; ++i)
-		digest[i] = (BYTE)(pms->abcd[i >> 2] >> ((i & 3) << 3));
+		digest[i] = (uint8_t)(pms->abcd[i >> 2] >> ((i & 3) << 3));
 }
 
-MIR_CORE_DLL(void) mir_md5_hash(const BYTE *data, size_t len, BYTE digest[16])
+MIR_CORE_DLL(void) mir_md5_hash(const uint8_t *data, size_t len, uint8_t digest[16])
 {
 	mir_md5_state_t state;
 	mir_md5_init(&state);

@@ -157,7 +157,7 @@ class CViewModeSetupDlg : public CDlgBase
 
 	static int __cdecl FillModes(const char *szsetting, void *param)
 	{
-		if (BYTE(szsetting[0]) == 246)
+		if (uint8_t(szsetting[0]) == 246)
 			return 1;
 		if (szsetting[0] == 13)
 			return 1;
@@ -557,7 +557,7 @@ class CViewModeSetupDlg : public CDlgBase
 		DWORD lmdat = db_get_dw(0, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
-		BYTE bTmp = LOBYTE(HIWORD(lmdat));
+		uint8_t bTmp = LOBYTE(HIWORD(lmdat));
 		SendDlgItemMessage(m_hwnd, IDC_LASTMESSAGEOP, CB_SETCURSEL, bTmp, 0);
 		bTmp = HIBYTE(HIWORD(lmdat));
 		SendDlgItemMessage(m_hwnd, IDC_LASTMESSAGEUNIT, CB_SETCURSEL, bTmp, 0);
@@ -847,7 +847,7 @@ static int menuCounter = 0;
 
 static int FillMenuCallback(char *szSetting)
 {
-	if (BYTE(szSetting[0]) == 246)
+	if (uint8_t(szSetting[0]) == 246)
 		return 1;
 	if (szSetting[0] == 13)
 		return 1;
@@ -1219,18 +1219,18 @@ void ApplyViewMode(const char *szName)
 		mir_snprintf(szSetting, "%c_LastMode", 246);
 		db_unset(0, CLVM_MODULE, szSetting);
 
-		if (g_CluiData.bOldUseGroups != (BYTE)-1)
+		if (g_CluiData.bOldUseGroups != (uint8_t)-1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
 
 		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		KillTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE);
 
-		if (g_CluiData.boldHideOffline != (BYTE)-1)
+		if (g_CluiData.boldHideOffline != (uint8_t)-1)
 			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
-		if (g_CluiData.bOldUseGroups != (BYTE)-1)
+		if (g_CluiData.bOldUseGroups != (uint8_t)-1)
 			CallService(MS_CLIST_SETUSEGROUPS, (WPARAM)g_CluiData.bOldUseGroups, 0);
-		g_CluiData.boldHideOffline = (BYTE)-1;
-		g_CluiData.bOldUseGroups = (BYTE)-1;
+		g_CluiData.boldHideOffline = (uint8_t)-1;
+		g_CluiData.bOldUseGroups = (uint8_t)-1;
 		g_CluiData.current_viewmode[0] = 0;
 		g_CluiData.old_viewmode[0] = 0;
 
@@ -1306,12 +1306,12 @@ void ApplyViewMode(const char *szName)
 			g_CluiData.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) {
-			if (g_CluiData.boldHideOffline == (BYTE)-1)
+			if (g_CluiData.boldHideOffline == (uint8_t)-1)
 				g_CluiData.boldHideOffline = Clist::HideOffline;
 
 			g_clistApi.pfnSetHideOffline(false);
 		}
-		else if (g_CluiData.boldHideOffline != (BYTE)-1) {
+		else if (g_CluiData.boldHideOffline != (uint8_t)-1) {
 			g_clistApi.pfnSetHideOffline(g_CluiData.boldHideOffline);
 			g_CluiData.boldHideOffline = -1;
 		}
@@ -1323,12 +1323,12 @@ void ApplyViewMode(const char *szName)
 			bUseGroups = 0;
 
 		if (bUseGroups != -1) {
-			if (g_CluiData.bOldUseGroups == (BYTE)-1)
+			if (g_CluiData.bOldUseGroups == (uint8_t)-1)
 				g_CluiData.bOldUseGroups = Clist::UseGroups;
 
 			CallService(MS_CLIST_SETUSEGROUPS, bUseGroups, 0);
 		}
-		else if (g_CluiData.bOldUseGroups != (BYTE)-1) {
+		else if (g_CluiData.bOldUseGroups != (uint8_t)-1) {
 			CallService(MS_CLIST_SETUSEGROUPS, g_CluiData.bOldUseGroups, 0);
 			g_CluiData.bOldUseGroups = -1;
 		}

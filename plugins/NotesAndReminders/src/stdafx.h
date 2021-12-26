@@ -39,8 +39,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	CMOption<BYTE> bShowNotesAtStart, bShowScrollbar, bShowNoteButtons;
-	CMOption<BYTE> bCloseAfterAddReminder, bUseMSI;
+	CMOption<uint8_t> bShowNotesAtStart, bShowScrollbar, bShowNoteButtons;
+	CMOption<uint8_t> bCloseAfterAddReminder, bUseMSI;
 
 	int Load() override;
 	int Unload() override;

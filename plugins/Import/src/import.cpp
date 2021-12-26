@@ -880,7 +880,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
-	BYTE *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
+	uint8_t *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
 	int i = 0;

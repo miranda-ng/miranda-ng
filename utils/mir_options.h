@@ -24,7 +24,7 @@ Boston, MA 02111-1307, USA.
 #include <windows.h>
 
 
-#define CONTROL_CHECKBOX 0			// Stored as BYTE
+#define CONTROL_CHECKBOX 0			// Stored as uint8_t
 #define CONTROL_SPIN 1				// Stored as WORD
 #define CONTROL_COLOR 2				// Stored as DWORD
 #define CONTROL_RADIO 3				// Stored as WORD

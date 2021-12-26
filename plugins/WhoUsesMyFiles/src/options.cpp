@@ -225,16 +225,16 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 			case PSN_APPLY:
 				g_plugin.setDword(COLOR_TEXT, (DWORD)WumfOptions.ColorText);
 				g_plugin.setDword(COLOR_BACK, (DWORD)WumfOptions.ColorBack);
-				g_plugin.setByte(COLOR_DEF, (BYTE)WumfOptions.UseDefColor);
-				g_plugin.setByte(COLOR_WIN, (BYTE)WumfOptions.UseWinColor);
-				g_plugin.setByte(COLOR_SET, (BYTE)WumfOptions.SelectColor );
-				g_plugin.setByte(DELAY_DEF, (BYTE)WumfOptions.DelayDef);
-				g_plugin.setByte(DELAY_INF, (BYTE)WumfOptions.DelayInf);
-				g_plugin.setByte(DELAY_SET, (BYTE)WumfOptions.DelaySet);
-				g_plugin.setByte(DELAY_SEC, (BYTE)WumfOptions.DelaySec);
-				g_plugin.setByte(LOG_INTO_FILE, (BYTE)WumfOptions.LogToFile);
-				g_plugin.setByte(LOG_FOLDER, (BYTE)WumfOptions.LogFolders);
-				g_plugin.setByte(ALERT_FOLDER, (BYTE)WumfOptions.AlertFolders);
+				g_plugin.setByte(COLOR_DEF, (uint8_t)WumfOptions.UseDefColor);
+				g_plugin.setByte(COLOR_WIN, (uint8_t)WumfOptions.UseWinColor);
+				g_plugin.setByte(COLOR_SET, (uint8_t)WumfOptions.SelectColor );
+				g_plugin.setByte(DELAY_DEF, (uint8_t)WumfOptions.DelayDef);
+				g_plugin.setByte(DELAY_INF, (uint8_t)WumfOptions.DelayInf);
+				g_plugin.setByte(DELAY_SET, (uint8_t)WumfOptions.DelaySet);
+				g_plugin.setByte(DELAY_SEC, (uint8_t)WumfOptions.DelaySec);
+				g_plugin.setByte(LOG_INTO_FILE, (uint8_t)WumfOptions.LogToFile);
+				g_plugin.setByte(LOG_FOLDER, (uint8_t)WumfOptions.LogFolders);
+				g_plugin.setByte(ALERT_FOLDER, (uint8_t)WumfOptions.AlertFolders);
 				GetDlgItemText(hwndDlg, IDC_FILE, WumfOptions.LogFile, _countof(WumfOptions.LogFile));
 				g_plugin.setWString(OPT_FILE, WumfOptions.LogFile);
 			}

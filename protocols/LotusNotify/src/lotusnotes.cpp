@@ -77,7 +77,7 @@ void GetLotusPath(wchar_t *sTemp, DWORD size)
 		return; 
 	} 
 
-	RegQueryValueEx( dmKey, TEXT("Path"), nullptr, nullptr, (BYTE*)sTemp, &size );
+	RegQueryValueEx( dmKey, TEXT("Path"), nullptr, nullptr, (uint8_t*)sTemp, &size );
 	RegCloseKey(dmKey);
 	return;	
 }

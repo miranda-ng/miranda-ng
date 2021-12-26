@@ -129,7 +129,7 @@ void EraseAllInfo()
 		g_plugin.setByte(hContact, "IsUpdated", FALSE);
 		// reset logging settings
 		if (!g_plugin.getWString(hContact, "Log", &dbv)) {
-			g_plugin.setByte(hContact, "File", (BYTE)(dbv.pwszVal[0] != 0));
+			g_plugin.setByte(hContact, "File", (uint8_t)(dbv.pwszVal[0] != 0));
 			db_free(&dbv);
 		}
 		else g_plugin.setByte(hContact, "File", FALSE);

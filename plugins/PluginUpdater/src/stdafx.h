@@ -185,7 +185,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<DWORD> dwLastUpdate;
 
 	// popup options
-	CMOption<BYTE> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
+	CMOption<uint8_t> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
 	CMOption<DWORD> PopupTimeout;
 };
 

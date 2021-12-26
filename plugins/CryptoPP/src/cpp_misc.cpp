@@ -36,7 +36,7 @@ int __cdecl cpp_size_keyx(void)
 	return(Tiger::DIGESTSIZE + 2);
 }
 
-void __cdecl cpp_get_keyx(HANDLE context, BYTE *key)
+void __cdecl cpp_get_keyx(HANDLE context, uint8_t *key)
 {
 	pCNTX ptr;
 	pSIMDATA p;
@@ -46,7 +46,7 @@ void __cdecl cpp_get_keyx(HANDLE context, BYTE *key)
 	memcpy(key + Tiger::DIGESTSIZE, &ptr->features, 2);
 }
 
-void __cdecl cpp_set_keyx(HANDLE context, BYTE *key)
+void __cdecl cpp_set_keyx(HANDLE context, uint8_t *key)
 {
 	pCNTX ptr;
 	pSIMDATA p;
@@ -61,7 +61,7 @@ void __cdecl cpp_set_keyx(HANDLE context, BYTE *key)
 	memcpy(&ptr->features, key + Tiger::DIGESTSIZE, 2);
 }
 
-void __cdecl cpp_get_keyp(HANDLE context, BYTE *key)
+void __cdecl cpp_get_keyp(HANDLE context, uint8_t *key)
 {
 	pCNTX ptr;
 	pSIMDATA p;
@@ -75,7 +75,7 @@ int __cdecl cpp_size_keyp(void)
 	return(Tiger::DIGESTSIZE);
 }
 
-void __cdecl cpp_set_keyp(HANDLE context, BYTE *key)
+void __cdecl cpp_set_keyp(HANDLE context, uint8_t *key)
 {
 	pCNTX ptr;
 	pSIMDATA p;

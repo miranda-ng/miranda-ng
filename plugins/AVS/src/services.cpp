@@ -44,9 +44,9 @@ INT_PTR GetAvatarBitmap(WPARAM hContact, LPARAM)
 
 INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 {
-	BYTE was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
+	uint8_t was_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-	if (was_locked == (BYTE)lParam)      // no need for redundant lockings...
+	if (was_locked == (uint8_t)lParam)      // no need for redundant lockings...
 		return 0;
 
 	if (hContact) {
@@ -68,8 +68,8 @@ INT_PTR ProtectAvatar(WPARAM hContact, LPARAM lParam)
 
 struct OpenFileSubclassData
 {
-	BYTE *locking_request;
-	BYTE setView;
+	uint8_t *locking_request;
+	uint8_t setView;
 };
 
 UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -84,7 +84,7 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 			data = (OpenFileSubclassData *)malloc(sizeof(OpenFileSubclassData));
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)data);
-			data->locking_request = (BYTE *)ofn->lCustData;
+			data->locking_request = (uint8_t *)ofn->lCustData;
 			data->setView = TRUE;
 			CheckDlgButton(hwnd, IDC_PROTECTAVATAR, *(data->locking_request) ? BST_CHECKED : BST_UNCHECKED);
 		}
@@ -119,7 +119,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 {
 	wchar_t FileName[MAX_PATH];
 	wchar_t *szFinalName;
-	BYTE locking_request;
+	uint8_t locking_request;
 
 	if (hContact == NULL)
 		return 0;

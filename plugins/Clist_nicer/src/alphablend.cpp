@@ -26,13 +26,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern int g_hottrack, g_hottrack_done;
 extern BOOL g_inCLCpaint;
-extern BYTE saved_alpha;
+extern uint8_t saved_alpha;
 extern DWORD savedCORNER;
 extern ImageItem *g_glyphItem;
 
-BYTE __forceinline percent_to_byte(UINT32 percent)
+uint8_t __forceinline percent_to_byte(UINT32 percent)
 {
-	return(BYTE)((FLOAT)(((FLOAT)percent) / 100) * 255);
+	return(uint8_t)((FLOAT)(((FLOAT)percent) / 100) * 255);
 }
 
 COLORREF __forceinline revcolref(COLORREF colref)
@@ -42,7 +42,7 @@ COLORREF __forceinline revcolref(COLORREF colref)
 
 DWORD __forceinline argb_from_cola(COLORREF col, UINT32 alpha)
 {
-	return((BYTE)percent_to_byte(alpha) << 24 | col);
+	return((uint8_t)percent_to_byte(alpha) << 24 | col);
 }
 
 
@@ -79,7 +79,7 @@ void __forceinline DrawBorderStyle(HDC hdcwnd, RECT *rc, DWORD BORDERSTYLE)
 	if (hPenOld)
 		SelectObject(hdcwnd, hPenOld);
 }
-void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, BYTE FLG_GRADIENT, BYTE FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
+void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, uint8_t FLG_GRADIENT, uint8_t FLG_CORNER, DWORD BORDERSTYLE, ImageItem *imageItem)
 {
 	if (rc == nullptr)
 		return;
@@ -439,7 +439,7 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 
 void __fastcall IMG_RenderImageItem(HDC hdc, ImageItem *item, RECT *rc)
 {
-	BYTE l = item->bLeft, r = item->bRight, t = item->bTop, b = item->bBottom;
+	uint8_t l = item->bLeft, r = item->bRight, t = item->bTop, b = item->bBottom;
 	LONG width = rc->right - rc->left;
 	LONG height = rc->bottom - rc->top;
 	BOOL isGlyph = (item->dwFlags & IMAGE_GLYPH) && g_glyphItem;

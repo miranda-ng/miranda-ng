@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // internal variables
 
-static BYTE bInitIcons = INIT_ICONS_NONE;
+static uint8_t bInitIcons = INIT_ICONS_NONE;
 static MWindowList g_hWindowList = nullptr;
 static HANDLE g_hDetailsInitEvent = nullptr;
 
@@ -98,7 +98,7 @@ public:
 private:
 	PROTOACCOUNT **_pPd;
 	int _numProto;
-	BYTE _bExitAfterUploading;
+	uint8_t _bExitAfterUploading;
 	HANDLE _hUploading;
 	LPPS _pPs;
 
@@ -130,7 +130,7 @@ public:
 	// @param	pPs			- the owning propertysheet
 	// @param	bExitAfter	- whether the dialog is to close after upload or not
 
-	CPsUpload(LPPS pPs, BYTE bExitAfter)
+	CPsUpload(LPPS pPs, uint8_t bExitAfter)
 	{
 		_pPs = pPs;
 		_pPd = nullptr;
@@ -314,7 +314,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	odp->flags = odp->flags > (ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_ICON | PSPF_PROTOPREPENDED) ? 0 : odp->flags;
 
 	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY | PSF_PROTOPAGESONLY_INIT)) {
-		BYTE bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
+		uint8_t bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
 		wchar_t *ptszTitle = bIsUnicode ? mir_wstrdup(odp->szTitle.w) : mir_a2u(odp->szTitle.a);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
@@ -382,7 +382,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr *pPsh = (CPsHdr *)wParam;
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
-		BYTE bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		uint8_t bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
 			OPTIONSDIALOGPAGE odp = {};
 			odp.flags = ODPF_ICON | ODPF_UNICODE;
@@ -823,14 +823,14 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case PSM_ISLOCKED: // returns the lock state of the propertysheetpage
 		{
-			BYTE bLocked = (pPs->dwFlags & PSF_LOCKED) == PSF_LOCKED;
+			uint8_t bLocked = (pPs->dwFlags & PSF_LOCKED) == PSF_LOCKED;
 			SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bLocked);
 			return bLocked;
 		}
 
 	case PSM_FORCECHANGED: // force all propertysheetpages to update their controls with new values from the database
 		if (!(pPs->dwFlags & PSF_LOCKED)) {
-			BYTE bChanged;
+			uint8_t bChanged;
 
 			pPs->dwFlags |= PSF_LOCKED;
 			if (bChanged = pPs->pTree->OnInfoChanged())
@@ -865,9 +865,9 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 	case PSM_ISAEROMODE:
 		{
-			BYTE bIsAeroMode = IsAeroMode();
+			uint8_t bIsAeroMode = IsAeroMode();
 			if (lParam)
-				*(BYTE *)lParam = bIsAeroMode;
+				*(uint8_t *)lParam = bIsAeroMode;
 			return (INT_PTR)bIsAeroMode;
 		}
 
@@ -1172,7 +1172,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				// check where over the item, the pointer is
 				RECT rc;
 				if (TreeView_GetItemRect(pPs->pTree->Window(), hti.hItem, &rc, FALSE)) {
-					BYTE height = (BYTE)(rc.bottom - rc.top);
+					uint8_t height = (uint8_t)(rc.bottom - rc.top);
 
 					if (hti.pt.y - (height / 3) < rc.top) {
 						SetCursor(LoadCursor(nullptr, IDC_ARROW));
@@ -1227,7 +1227,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					pPs->pTree->EndDrag();
 					break;
 				}
-				BYTE height = (BYTE)(rc.bottom - rc.top);
+				uint8_t height = (uint8_t)(rc.bottom - rc.top);
 
 				if (hti.pt.y - (height / 3) < rc.top) {
 					HTREEITEM hItem = hti.hItem;
@@ -1308,7 +1308,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					}
 
 					if (pPs->nSubContacts != 0) {
-						BYTE bDo = FALSE;
+						uint8_t bDo = FALSE;
 
 						// call the services
 						for (int i = 0; i < pPs->nSubContacts; i++)

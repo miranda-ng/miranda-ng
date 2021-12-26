@@ -97,7 +97,7 @@ protected:
 	// Input variables
 	static CLCDInput* m_pInput;
 	HHOOK m_hKBHook = nullptr;
-	BYTE m_acKeyboardState[256];
+	uint8_t m_acKeyboardState[256];
 
 	// Scrollbar
 	CLCDBar *m_pScrollbar = nullptr;

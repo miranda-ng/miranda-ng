@@ -152,7 +152,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
  * get it and store it properly formatted in the extra data cache
  */
 
-BYTE GetCachedStatusMsg(TExtraCache *p, char *szProto)
+uint8_t GetCachedStatusMsg(TExtraCache *p, char *szProto)
 {
 	if (p == nullptr)
 		return 0;
@@ -346,14 +346,14 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 		cEntry->status_item->TEXTCOLOR = db_get_dw(hContact, "EXTBK", "TEXT", RGB(20, 20, 20));
 		cEntry->status_item->COLOR = db_get_dw(hContact, "EXTBK", "COLOR1", RGB(224, 224, 224));
 		cEntry->status_item->COLOR2 = db_get_dw(hContact, "EXTBK", "COLOR2", RGB(224, 224, 224));
-		cEntry->status_item->ALPHA = (BYTE)db_get_b(hContact, "EXTBK", "ALPHA", 100);
+		cEntry->status_item->ALPHA = (uint8_t)db_get_b(hContact, "EXTBK", "ALPHA", 100);
 
 		cEntry->status_item->MARGIN_LEFT = (DWORD)db_get_b(hContact, "EXTBK", "LEFT", 0);
 		cEntry->status_item->MARGIN_RIGHT = (DWORD)db_get_b(hContact, "EXTBK", "RIGHT", 0);
 		cEntry->status_item->MARGIN_TOP = (DWORD)db_get_b(hContact, "EXTBK", "TOP", 0);
 		cEntry->status_item->MARGIN_BOTTOM = (DWORD)db_get_b(hContact, "EXTBK", "BOTTOM", 0);
 
-		cEntry->status_item->COLOR2_TRANSPARENT = (BYTE)db_get_b(hContact, "EXTBK", "TRANS", 1);
+		cEntry->status_item->COLOR2_TRANSPARENT = (uint8_t)db_get_b(hContact, "EXTBK", "TRANS", 1);
 		cEntry->status_item->BORDERSTYLE = db_get_dw(hContact, "EXTBK", "BDR", 0);
 
 		cEntry->status_item->CORNER = db_get_b(hContact, "EXTBK", "CORNER", 0);

@@ -180,7 +180,7 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact);
 
 void RegisterModule(CMPluginBase*);
 
-void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key);
+void HotkeyToName(wchar_t *buf, int size, uint8_t shift, uint8_t key);
 WORD GetHotkeyValue(INT_PTR idHotkey);
 
 HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId);

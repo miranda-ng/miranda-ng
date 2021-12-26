@@ -206,7 +206,7 @@ INT_PTR CALLBACK DlgProcConnectionNotifyOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case IDC_INTERVAL: g_plugin.iInterval = GetDlgItemInt(hwndDlg, IDC_INTERVAL, nullptr, FALSE); break;
 		case IDC_INTERVAL1: g_plugin.iInterval1 = GetDlgItemInt(hwndDlg, IDC_INTERVAL1, nullptr, TRUE); break;
 		case IDC_RESOLVEIP: g_plugin.bResolveIp = 0 != IsDlgButtonChecked(hwndDlg, IDC_RESOLVEIP); break;
-		case ID_CHK_DEFAULTACTION: g_plugin.iDefaultAction = (BYTE)IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
+		case ID_CHK_DEFAULTACTION: g_plugin.iDefaultAction = (uint8_t)IsDlgButtonChecked(hwndDlg, ID_CHK_DEFAULTACTION); break;
 		case ID_ADD:
 			{
 				CONNECTION *cur = (CONNECTION *)mir_alloc(sizeof(CONNECTION));

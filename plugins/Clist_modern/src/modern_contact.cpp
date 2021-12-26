@@ -90,7 +90,7 @@ int cliCompareContacts(const ClcContact *contact1, const ClcContact *contact2)
 	ClcCacheEntry *c1 = contact1->pce, *c2 = contact2->pce;
 
 	for (int i = 0; i < _countof(g_CluiData.bSortByOrder); i++) {
-		BYTE &by = g_CluiData.bSortByOrder[i];
+		uint8_t &by = g_CluiData.bSortByOrder[i];
 
 		if (by == SORTBY_STATUS) { //status
 			int ordera = GetStatusModeOrdering(c1->getStatus());
@@ -177,6 +177,6 @@ INT_PTR SetUseGroups(WPARAM wParam, LPARAM)
 INT_PTR ToggleSounds(WPARAM, LPARAM)
 {
 	db_set_b(0, "Skin", "UseSound",
-		(BYTE)!db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
+		(uint8_t)!db_get_b(0, "Skin", "UseSound", SETTING_ENABLESOUNDS_DEFAULT));
 	return 0;
 }

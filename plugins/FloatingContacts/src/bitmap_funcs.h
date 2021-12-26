@@ -55,9 +55,9 @@ public:
 	HDC getDC() { return dcBmp; }
 	HBITMAP getBitmap() { return hBmp; }
 
-	void setAlpha(BYTE level);
-	void setAlphaRect(int x1, int y1, int x2, int y2, BYTE level);
-	void setAlphaRect(RECT rc, BYTE level) { setAlphaRect(rc.left, rc.top, rc.right, rc.bottom, level);  }
+	void setAlpha(uint8_t level);
+	void setAlphaRect(int x1, int y1, int x2, int y2, uint8_t level);
+	void setAlphaRect(RECT rc, uint8_t level) { setAlphaRect(rc.left, rc.top, rc.right, rc.bottom, level);  }
 
 	void makeOpaque();
 	void makeOpaqueRect(int x1, int y1, int x2, int y2);

@@ -141,11 +141,11 @@ class CRosterEditorDlg : public CJabberDlgBase
 	friend struct CJabberProto;
 	typedef CJabberDlgBase CSuper;
 
-	BYTE m_bRRAction;
+	uint8_t m_bRRAction;
 	BOOL m_bReadyToDownload = true;
 	BOOL m_bReadyToUpload = false;
 
-	void _RosterSendRequest(BYTE rrAction)
+	void _RosterSendRequest(uint8_t rrAction)
 	{
 		m_bRRAction = rrAction;
 

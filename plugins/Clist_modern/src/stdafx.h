@@ -241,7 +241,7 @@ int AniAva_UnloadModule();
 int AniAva_UpdateOptions();								   //reload options, //hot enable/disable engine
 
 int AniAva_AddAvatar(MCONTACT hContact, wchar_t * szFilename, int width, int heigth);  // adds avatars to be displayed
-int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
+int AniAva_SetAvatarPos(MCONTACT hContact, RECT *rc, int overlayIdx, uint8_t bAlpha);	   // update avatars pos
 int AniAva_InvalidateAvatarPositions(MCONTACT hContact);	   // reset positions of avatars to be drawn (still be painted at same place)
 int AniAva_RemoveInvalidatedAvatars();					   // all avatars without validated position will be stop painted and probably removed
 int AniAva_RemoveAvatar(MCONTACT hContact);				   // remove avatar

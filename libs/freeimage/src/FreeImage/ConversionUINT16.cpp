@@ -85,7 +85,7 @@ FreeImage_ConvertToUINT16(FIBITMAP *dib) {
 		case FIT_BITMAP:
 		{
 			for(unsigned y = 0; y < height; y++) {
-				const BYTE *src_bits = (BYTE*)FreeImage_GetScanLine(src, y);
+				const uint8_t *src_bits = (uint8_t*)FreeImage_GetScanLine(src, y);
 				WORD *dst_bits = (WORD*)FreeImage_GetScanLine(dst, y);
 				for(unsigned x = 0; x < width; x++) {
 					dst_bits[x] = src_bits[x] << 8;

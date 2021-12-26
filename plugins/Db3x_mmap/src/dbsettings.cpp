@@ -112,7 +112,7 @@ LBL_Seek:
 				if (isStatic && (pBlob[0] & DBVTF_VARIABLELENGTH) && VLT(dbv->type) != VLT(pBlob[0]))
 					return 1;
 
-				BYTE iType = dbv->type = pBlob[0];
+				uint8_t iType = dbv->type = pBlob[0];
 				switch (iType) {
 				case DBVT_DELETED: /* this setting is deleted */
 					dbv->type = DBVT_DELETED;
@@ -150,7 +150,7 @@ LBL_Seek:
 						memmove(dbv->pbVal, pBlob + 3, dbv->cpbVal);
 					}
 					else {
-						dbv->pbVal = (BYTE *)mir_alloc(varLen);
+						dbv->pbVal = (uint8_t *)mir_alloc(varLen);
 						memmove(dbv->pbVal, pBlob + 3, varLen);
 					}
 					dbv->cpbVal = varLen;
@@ -419,7 +419,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 		break;
 	}
 
-	BYTE zero = 0;
+	uint8_t zero = 0;
 	DBWrite(ofsBlobPtr, &zero, 1);
 
 	// quit

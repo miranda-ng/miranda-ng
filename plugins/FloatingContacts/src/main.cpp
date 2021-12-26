@@ -34,7 +34,7 @@ static void CreateThumbsFont(void);
 static void CreateBackgroundBrush(void);
 static int  GetContactStatus(MCONTACT hContact);
 static void GetScreenRect(void);
-extern void SetThumbsOpacity(BYTE btAlpha);
+extern void SetThumbsOpacity(uint8_t btAlpha);
 static int  ClcStatusToPf2(int status);
 
 static VOID CALLBACK ToTopTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
@@ -278,7 +278,7 @@ static int OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 
 static void LoadDBSettings()
 {
-	fcOpt.thumbAlpha = (BYTE)((double)g_plugin.getByte("Opacity", 100) * 2.55);
+	fcOpt.thumbAlpha = (uint8_t)((double)g_plugin.getByte("Opacity", 100) * 2.55);
 	fcOpt.bHideOffline = (BOOL)g_plugin.getByte("HideOffline", 0);
 	fcOpt.bHideAll = (BOOL)g_plugin.getByte("HideAll", 0);
 	fcOpt.bHideWhenFullscreen = (BOOL)g_plugin.getByte("HideWhenFullscreen", 0);
@@ -423,7 +423,7 @@ static LRESULT __stdcall CommWndProc(HWND	hwnd, UINT uMsg, WPARAM wParam, LPARAM
 	return DefWindowProc(hwnd, uMsg, wParam, lParam);
 }
 
-extern void SetThumbsOpacity(BYTE btAlpha)
+extern void SetThumbsOpacity(uint8_t btAlpha)
 {
 	for (auto &it : thumbList)
 		it->SetThumbOpacity(btAlpha);
@@ -672,7 +672,7 @@ static IconItemT g_iconList[] =
 static INT_PTR OnMainMenu_HideAll(WPARAM, LPARAM)
 {
 	fcOpt.bHideAll = !fcOpt.bHideAll;
-	g_plugin.setByte("HideAll", (BYTE)fcOpt.bHideAll);
+	g_plugin.setByte("HideAll", (uint8_t)fcOpt.bHideAll);
 
 	OnStatusChanged();
 
@@ -696,7 +696,7 @@ static INT_PTR OnContactMenu_Remove(WPARAM hContact, LPARAM)
 static INT_PTR OnHotKey_HideWhenCListShow(WPARAM, LPARAM)
 {
 	fcOpt.bHideWhenCListShow = !fcOpt.bHideWhenCListShow;
-	g_plugin.setByte("HideWhenCListShow", (BYTE)fcOpt.bHideWhenCListShow);
+	g_plugin.setByte("HideWhenCListShow", (uint8_t)fcOpt.bHideWhenCListShow);
 	OnStatusChanged();
 	return 0;
 }
@@ -825,7 +825,7 @@ static LRESULT __stdcall newMirandaWndProc(HWND hwnd, UINT uMsg, WPARAM wParam, 
 			HideThumbsOnShowCList();
 		}
 		else if (!(wp->flags & SWP_NOMOVE)) {
-			BYTE method = db_get_b(0, "ModernData", "HideBehind", 0);
+			uint8_t method = db_get_b(0, "ModernData", "HideBehind", 0);
 			if (method) {
 				WORD wBehindEdgeBorderSize = db_get_w(0, "ModernData", "HideBehindBorderSize", 0);
 				RECT rc = { wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy };

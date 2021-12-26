@@ -40,39 +40,39 @@ UINT hReminderTimer = 0;
 
 HHOOK hMouseHook = nullptr;
 HHOOK hKeyBoardHook = nullptr;
-BYTE  bEmulateKeypresses = 0;
+uint8_t  bEmulateKeypresses = 0;
 DWORD dwLastInput = 0;
 POINT lastGlobalMousePos = { 0, 0 };
 
-BYTE bFlashOnMsg;
-BYTE bFlashOnFile;
-BYTE bFlashOnGC;
-BYTE bFlashOnOther;
-BYTE bFullScreenMode;
-BYTE bScreenSaverRunning;
-BYTE bWorkstationLocked;
-BYTE bProcessesAreRunning;
-BYTE bWorkstationActive;
-BYTE bFlashIfMsgOpen;
-BYTE bFlashIfMsgWinNotTop;
-BYTE bFlashIfMsgOlder;
+uint8_t bFlashOnMsg;
+uint8_t bFlashOnFile;
+uint8_t bFlashOnGC;
+uint8_t bFlashOnOther;
+uint8_t bFullScreenMode;
+uint8_t bScreenSaverRunning;
+uint8_t bWorkstationLocked;
+uint8_t bProcessesAreRunning;
+uint8_t bWorkstationActive;
+uint8_t bFlashIfMsgOpen;
+uint8_t bFlashIfMsgWinNotTop;
+uint8_t bFlashIfMsgOlder;
 WORD wSecondsOlder;
-BYTE bFlashUntil;
+uint8_t bFlashUntil;
 WORD wBlinksNumber;
-BYTE bMirandaOrWindows;
+uint8_t bMirandaOrWindows;
 WORD wStatusMap;
 WORD wReminderCheck;
-BYTE bFlashLed[3];
-BYTE bFlashEffect;
-BYTE bSequenceOrder;
+uint8_t bFlashLed[3];
+uint8_t bFlashEffect;
+uint8_t bSequenceOrder;
 WORD wCustomTheme;
 WORD wStartDelay;
-BYTE bFlashSpeed;
-BYTE bOverride;
-BYTE bTrillianLedsMsg;
-BYTE bTrillianLedsURL;
-BYTE bTrillianLedsFile;
-BYTE bTrillianLedsOther;
+uint8_t bFlashSpeed;
+uint8_t bOverride;
+uint8_t bTrillianLedsMsg;
+uint8_t bTrillianLedsURL;
+uint8_t bTrillianLedsFile;
+uint8_t bTrillianLedsOther;
 
 PROTOCOL_LIST ProtoList = { 0, nullptr };
 PROCESS_LIST ProcessList = { 0, nullptr };
@@ -82,7 +82,7 @@ unsigned int nExternCount = 0;
 BOOL bFlashingEnabled = TRUE;
 BOOL bReminderDisabled = FALSE;
 
-BYTE bMetaProtoEnabled = 0;
+uint8_t bMetaProtoEnabled = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -263,13 +263,13 @@ static void __cdecl FlashThreadFunction(void*)
 {
 	BOOL bEvent = FALSE;
 	DWORD dwEventStarted = 0, dwFlashStarted = 0;
-	BYTE data, unchangedLeds;
+	uint8_t data, unchangedLeds;
 	
 	Thread_SetName("KeyboardNotify: FlashThreadFunction");
 	MThreadLock threadLock(hThread);
 
 	while (true) {
-		unchangedLeds = (BYTE)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));
+		unchangedLeds = (uint8_t)(LedState(VK_PAUSE) * !bFlashLed[2] + ((LedState(VK_NUMLOCK) * !bFlashLed[0]) << 1) + ((LedState(VK_CAPITAL) * !bFlashLed[1]) << 2));
 		GetAsyncKeyState(VK_PAUSE); // empty Pause/Break's keystroke buffer
 
 		// Start flashing
@@ -295,7 +295,7 @@ static void __cdecl FlashThreadFunction(void*)
 				break;
 
 			data = getBlinkingLeds();
-			ToggleKeyboardLights((BYTE)(data | unchangedLeds));
+			ToggleKeyboardLights((uint8_t)(data | unchangedLeds));
 
 			// Wait for exit event
 			if (WaitForSingleObject(hExitEvent, nWaitDelay) == WAIT_OBJECT_0) {

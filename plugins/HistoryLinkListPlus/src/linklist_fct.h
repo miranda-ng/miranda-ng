@@ -21,21 +21,21 @@
 #define _LINKLIST_FCT_H
 
 void DrawLine(HWND, size_t);
-BYTE GetFlags(HMENU);
+uint8_t GetFlags(HMENU);
 void GetFilterText(HMENU, LPTSTR, size_t);
-void GetListInfo(BYTE, LISTELEMENT*, LPCTSTR, size_t*, size_t*, size_t*);
+void GetListInfo(uint8_t, LISTELEMENT*, LPCTSTR, size_t*, size_t*, size_t*);
 void GetListOptions(LISTOPTIONS*);
 void SetListOptions(LISTOPTIONS*);
 void ClearLinePos(LISTELEMENT*);
 int GetLastLinePos(LISTELEMENT*);
-void WriteLinkList(HWND, BYTE, LISTELEMENT*, LPCTSTR, int);
+void WriteLinkList(HWND, uint8_t, LISTELEMENT*, LPCTSTR, int);
 int WriteOptionExample(HWND, DWORD, DWORD, DWORD, DWORD, LISTOPTIONS*);
 void WriteMessage(HWND, LISTELEMENT*, int);
 void GetColour(MYCOLOURSET*);
 void GetDBColour(MYCOLOURSET*);
 void SetDBColour(MYCOLOURSET*);
 int GetMirandaColour(MYCOLOURSET*);
-BYTE GetUpdateSetting(void);
+uint8_t GetUpdateSetting(void);
 int LinklistResizer(HWND,LPARAM,UTILRESIZECONTROL*);
 // RTF Save functions
 BOOL SaveEditAsStream( HWND );

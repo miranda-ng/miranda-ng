@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 {
 	DWORD tmp, tmpsn = 0, tmprn = 0, tmpst = 0, tmprt = 0;
-	BYTE ed;
+	uint8_t ed;
 
 	if (ai->argc != 5) return nullptr;
 
@@ -104,7 +104,7 @@ static wchar_t* GetTraffic(ARGUMENTSINFO *ai)
 
 static wchar_t* GetTime(ARGUMENTSINFO *ai)
 {
-	BYTE ed, flag;
+	uint8_t ed, flag;
 	DWORD Duration = 0;
 
 	if (ai->argc != 4) return nullptr;

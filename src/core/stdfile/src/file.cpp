@@ -388,11 +388,11 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 
 	dbei.cbBlob += (int)mir_strlen(szDescr) + 1;
 
-	if ((dbei.pBlob = (BYTE*)mir_alloc(dbei.cbBlob)) == nullptr)
+	if ((dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob)) == nullptr)
 		return 0;
 
 	*(DWORD*)dbei.pBlob = 0;
-	BYTE* p = dbei.pBlob + sizeof(DWORD);
+	uint8_t* p = dbei.pBlob + sizeof(DWORD);
 	for (int i = 0; i < pre->fileCount; i++) {
 		mir_strcpy((char*)p, pszFiles[i]);
 		p += mir_strlen(pszFiles[i]) + 1;

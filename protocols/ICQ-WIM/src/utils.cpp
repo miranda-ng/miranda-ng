@@ -110,8 +110,8 @@ void CIcqProto::CalcHash(AsyncHttpRequest *pReq)
 		mir_urlEncode(pReq->m_szUrl).c_str(), mir_urlEncode(pReq->m_szParam).c_str());
 
 	unsigned int len;
-	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	HMAC(EVP_sha256(), m_szSessionKey, m_szSessionKey.GetLength(), (BYTE*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
+	uint8_t hashOut[MIR_SHA256_HASH_SIZE];
+	HMAC(EVP_sha256(), m_szSessionKey, m_szSessionKey.GetLength(), (uint8_t*)hashData.c_str(), hashData.GetLength(), hashOut, &len);
 	pReq << CHAR_PARAM("sig_sha256", ptrA(mir_base64_encode(hashOut, sizeof(hashOut))));
 }
 

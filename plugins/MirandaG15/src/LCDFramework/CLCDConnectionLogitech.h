@@ -114,7 +114,7 @@ private:
 	// HID functions
 	bool HIDInit();
 	bool HIDDeInit();
-	bool HIDReadData(BYTE* data);
+	bool HIDReadData(uint8_t* data);
 
 	// Keyboard hook
 	HHOOK m_hKeyboardHook;
@@ -131,7 +131,7 @@ private:
 	tstring					m_strAppletName;
 	bool					m_bConnected;
 	lgLcdBitmap				m_lcdBitmap;
-	BYTE					*m_pPixels;
+	uint8_t					*m_pPixels;
 	int						m_iPixels;
 	int						m_hDevice;
 	int						m_hConnection;

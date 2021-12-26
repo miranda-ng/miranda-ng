@@ -121,10 +121,10 @@ struct AeroEffect
 	wchar_t    tszName[40];
 	DWORD    m_baseColor;
 	DWORD    m_gradientColor;
-	BYTE     m_baseAlpha;
-	BYTE     m_finalAlpha;
-	BYTE     m_cornerType;
-	BYTE     m_gradientType;
+	uint8_t     m_baseAlpha;
+	uint8_t     m_finalAlpha;
+	uint8_t     m_cornerType;
+	uint8_t     m_gradientType;
 	DWORD    m_cornerRadius;
 	DWORD    m_glowSize;
 	COLORREF m_clrBack, m_clrToolbar, m_clrToolbar2;
@@ -155,8 +155,8 @@ public:
 		m_szName[39] = 0;
 	}
 
-	CImageItem(BYTE bottom, BYTE left, BYTE top, BYTE right, HDC hdc, HBITMAP hbm, DWORD dwFlags,
-		HBRUSH brush, BYTE alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
+	CImageItem(uint8_t bottom, uint8_t left, uint8_t top, uint8_t right, HDC hdc, HBITMAP hbm, DWORD dwFlags,
+		HBRUSH brush, uint8_t alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
 	{
 		m_bBottom = bottom;
 		m_bLeft = left;
@@ -192,7 +192,7 @@ public:
 		m_hbm = hbm;
 	}
 
-	void			setAlphaFormat(const BYTE bFormat, const BYTE bConstantAlpha)
+	void			setAlphaFormat(const uint8_t bFormat, const uint8_t bConstantAlpha)
 	{
 		m_bf.AlphaFormat = bFormat;
 		m_bf.SourceConstantAlpha = bConstantAlpha;
@@ -225,23 +225,23 @@ public:
 	void              Create(const wchar_t *szImageFile);
 	void __fastcall   Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const;
 	static void TSAPI	PreMultiply(HBITMAP hBitmap, int mode);
-	static void TSAPI	SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha = 255);
-	static void TSAPI	Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha = 0);
+	static void TSAPI	SetBitmap32Alpha(HBITMAP hBitmap, uint8_t bAlpha = 255);
+	static void TSAPI	Colorize(HBITMAP hBitmap, uint8_t dr, uint8_t dg, uint8_t db, uint8_t alpha = 0);
 
 public:
 	bool			m_fValid;									// verified item, indicates that all parameters are valid
 private:
 	wchar_t 		 	m_szName[40];								// everything wants a name, an image item doesn't need one though
 	HBITMAP 		m_hbm;										// the bitmap handle
-	BYTE    		m_bLeft, m_bRight, m_bTop, m_bBottom;      	// sizing margins for the outer 8 image parts
-	BYTE    		m_alpha;									// constant alpha for the entire image, applied via m_bf. sums with perpixel alpha
+	uint8_t    		m_bLeft, m_bRight, m_bTop, m_bBottom;      	// sizing margins for the outer 8 image parts
+	uint8_t    		m_alpha;									// constant alpha for the entire image, applied via m_bf. sums with perpixel alpha
 	DWORD   		m_dwFlags;									// flags
 	HDC     		m_hdc;										// *can* hold a pre-created hdc to speed up rendering
 	HBITMAP 		m_hbmOld;									// old bitmap, needs to be selected into m_hdc before destroying it
 	LONG    		m_inner_height, m_inner_width;				// dimensions of the inner image part
 	LONG    		m_width, m_height;							// width and height of the image, in pixels
 	BLENDFUNCTION 	m_bf;										// for AlphaBlend()
-	BYTE    		m_bStretch;									// stretch mode (unused in tabSRMM
+	uint8_t    		m_bStretch;									// stretch mode (unused in tabSRMM
 	HBRUSH  		m_fillBrush;								// brush to fill the inner part (faster) dwFlags & IMAGE_FILLSOLID must be set
 	LONG    		m_glyphMetrics[4];							// these coordinates point into the glyph image (if IMAGE_GLYPH is set)
 	CImageItem*		m_nextItem;									// next item in a set of image items (usually the skin set)
@@ -253,13 +253,13 @@ struct CSkinItem {
 	char szDBname[40];
 	int statusID;
 
-	BYTE GRADIENT;
-	BYTE CORNER;
+	uint8_t GRADIENT;
+	uint8_t CORNER;
 
 	DWORD COLOR;
 	DWORD COLOR2;
 
-	BYTE COLOR2_TRANSPARENT;
+	uint8_t COLOR2_TRANSPARENT;
 
 	DWORD TEXTCOLOR;
 
@@ -269,7 +269,7 @@ struct CSkinItem {
 	int MARGIN_TOP;
 	int MARGIN_RIGHT;
 	int MARGIN_BOTTOM;
-	BYTE IGNORED;
+	uint8_t IGNORED;
 	DWORD BORDERSTYLE;
 	CImageItem *imageItem;
 };
@@ -369,7 +369,7 @@ public:
 	 */
 	static void    TSAPI	SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget);
 	static void    TSAPI	SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget);
-	static void    TSAPI	DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha);
+	static void    TSAPI	DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, uint8_t alpha);
 	static DWORD   TSAPI HexStringToLong(const wchar_t *szSource);
 	static UINT    TSAPI	DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
 	static UINT    TSAPI	NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
@@ -465,7 +465,7 @@ struct ButtonItem {
 	wchar_t szTip[256];
 	char    szService[256];
 	char    szModule[256], szSetting[256];
-	BYTE    bValuePush[256], bValueRelease[256];
+	uint8_t    bValuePush[256], bValueRelease[256];
 	DWORD   type;
 	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
 	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);

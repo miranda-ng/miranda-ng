@@ -38,8 +38,8 @@ public:
 
 	// checks
 	__inline bool IsLocal() const { return _isLocal; }
-	BYTE	IsValid() const;
-	BYTE	IsLeapYear() const;
+	uint8_t	IsValid() const;
+	uint8_t	IsLeapYear() const;
 
 	// compare by seconds
 	LONG	Compare(SYSTEMTIME st) const;
@@ -54,7 +54,7 @@ public:
 	SYSTEMTIME  SystemTime() const { return _SysTime; }
 	
 	WORD DaysInMonth(const WORD &wMonth) const;
-	WORD DaysInYear(BYTE bIgnoreLeap = FALSE) const;
+	WORD DaysInYear(uint8_t bIgnoreLeap = FALSE) const;
 	WORD DayOfYear() const;
 	WORD AdjustYear(const int nDiffDays);
 

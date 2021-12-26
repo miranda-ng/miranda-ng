@@ -35,9 +35,9 @@ static BOOL WinNT_PerfStatsSwitch(wchar_t *pszServiceName, BOOL fDisable)
 		if (!RegOpenKeyEx(hKeyServices, pszServiceName, 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyService)) {
 			if (!RegOpenKeyEx(hKeyService, L"Performance", 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyPerf)) {
 				dwDataSize = sizeof(DWORD);
-				if (!RegQueryValueEx(hKeyPerf, L"Disable Performance Counters", nullptr, nullptr, (BYTE*)&dwData, &dwDataSize))
+				if (!RegQueryValueEx(hKeyPerf, L"Disable Performance Counters", nullptr, nullptr, (uint8_t*)&dwData, &dwDataSize))
 					if ((dwData != 0) != fDisable)
-						fSwitched = !RegSetValueEx(hKeyPerf, L"Disable Performance Counters", 0, REG_DWORD, (BYTE*)&fDisable, dwDataSize);
+						fSwitched = !RegSetValueEx(hKeyPerf, L"Disable Performance Counters", 0, REG_DWORD, (uint8_t*)&fDisable, dwDataSize);
 				RegCloseKey(hKeyPerf);
 			}
 			RegCloseKey(hKeyService);
@@ -57,7 +57,7 @@ struct CpuUsageThreadParams
 	DWORD *pidThread;
 };
 
-static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, BYTE nCpuUsage)
+static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, uint8_t nCpuUsage)
 {
 	if (param->hFirstEvent != nullptr) {
 		/* return value for PollCpuUsage() */
@@ -75,7 +75,7 @@ static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, BYTE nCpuUsage)
 static void WinNT_PollThread(CpuUsageThreadParams *param)
 {
 	DWORD dwBufferSize = 0, dwCount;
-	BYTE *pBuffer = nullptr;
+	uint8_t *pBuffer = nullptr;
 	PERF_DATA_BLOCK *pPerfData = nullptr;
 	LONG res, lCount;
 	PERF_OBJECT_TYPE *pPerfObj;
@@ -84,7 +84,7 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 	PERF_COUNTER_BLOCK *pPerfCounterBlock;
 	DWORD dwObjectId, dwCounterId;
 	wchar_t wszValueName[11], *pwszInstanceName;
-	BYTE nCpuUsage;
+	uint8_t nCpuUsage;
 	BOOL fSwitched, fFound, fIsFirst = FALSE;
 	LARGE_INTEGER liPrevCounterValue = { 0 }, liCurrentCounterValue = { 0 }, liPrevPerfTime100nSec = { 0 };
 
@@ -98,9 +98,9 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 	/* poll */
 	for (;;) {
 		/* retrieve data for given object */
-		res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, nullptr, nullptr, (BYTE*)pPerfData, &dwBufferSize);
+		res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, nullptr, nullptr, (uint8_t*)pPerfData, &dwBufferSize);
 		while (!pBuffer || res == ERROR_MORE_DATA) {
-			pBuffer = (BYTE*)mir_realloc(pPerfData, dwBufferSize += 256);
+			pBuffer = (uint8_t*)mir_realloc(pPerfData, dwBufferSize += 256);
 			if (!pBuffer) break;
 			pPerfData = (PERF_DATA_BLOCK*)pBuffer;
 			res = RegQueryValueExW(HKEY_PERFORMANCE_DATA, wszValueName, nullptr, nullptr, pBuffer, &dwBufferSize);
@@ -110,43 +110,43 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 		/* find object in data */
 		fFound = FALSE;
 		/* first object */
-		pPerfObj = (PERF_OBJECT_TYPE*)((BYTE*)pPerfData + pPerfData->HeaderLength);
+		pPerfObj = (PERF_OBJECT_TYPE*)((uint8_t*)pPerfData + pPerfData->HeaderLength);
 		for (dwCount = 0; dwCount < pPerfData->NumObjectTypes; ++dwCount) {
 			if (pPerfObj->ObjectNameTitleIndex == dwObjectId) {
 				/* find counter in object data */
 				/* first counter */
-				pPerfCounter = (PERF_COUNTER_DEFINITION*)((BYTE*)pPerfObj + pPerfObj->HeaderLength);
+				pPerfCounter = (PERF_COUNTER_DEFINITION*)((uint8_t*)pPerfObj + pPerfObj->HeaderLength);
 				for (dwCount = 0; dwCount < (pPerfObj->NumCounters); ++dwCount) {
 					if (pPerfCounter->CounterNameTitleIndex == dwCounterId) {
 						/* find instance in counter data */
 						if (pPerfObj->NumInstances == PERF_NO_INSTANCES) {
-							pPerfCounterBlock = (PERF_COUNTER_BLOCK*)((BYTE*)pPerfObj + pPerfObj->DefinitionLength);
-							liCurrentCounterValue = *(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock + pPerfCounter->CounterOffset);
+							pPerfCounterBlock = (PERF_COUNTER_BLOCK*)((uint8_t*)pPerfObj + pPerfObj->DefinitionLength);
+							liCurrentCounterValue = *(LARGE_INTEGER*)((uint8_t*)pPerfCounterBlock + pPerfCounter->CounterOffset);
 							fFound = TRUE;
 						}
 						else {
 							/* first instance */
-							pPerfInstance = (PERF_INSTANCE_DEFINITION*)((BYTE*)pPerfObj + pPerfObj->DefinitionLength);
+							pPerfInstance = (PERF_INSTANCE_DEFINITION*)((uint8_t*)pPerfObj + pPerfObj->DefinitionLength);
 							for (lCount = 0; lCount < (pPerfObj->NumInstances); ++lCount) {
-								pPerfCounterBlock = (PERF_COUNTER_BLOCK*)((BYTE*)pPerfInstance + pPerfInstance->ByteLength);
-								if (!mir_wstrcmpi(pwszInstanceName, (wchar_t*)((BYTE*)pPerfInstance + pPerfInstance->NameOffset))) {
-									liCurrentCounterValue = *(LARGE_INTEGER*)((BYTE*)pPerfCounterBlock + pPerfCounter->CounterOffset);
+								pPerfCounterBlock = (PERF_COUNTER_BLOCK*)((uint8_t*)pPerfInstance + pPerfInstance->ByteLength);
+								if (!mir_wstrcmpi(pwszInstanceName, (wchar_t*)((uint8_t*)pPerfInstance + pPerfInstance->NameOffset))) {
+									liCurrentCounterValue = *(LARGE_INTEGER*)((uint8_t*)pPerfCounterBlock + pPerfCounter->CounterOffset);
 									fFound = TRUE;
 									break;
 								}
 								/* next instance */
-								pPerfInstance = (PPERF_INSTANCE_DEFINITION)((BYTE*)pPerfCounterBlock + pPerfCounterBlock->ByteLength);
+								pPerfInstance = (PPERF_INSTANCE_DEFINITION)((uint8_t*)pPerfCounterBlock + pPerfCounterBlock->ByteLength);
 							}
 						}
 						break;
 					}
 					/* next counter */
-					pPerfCounter = (PERF_COUNTER_DEFINITION*)((BYTE*)pPerfCounter + pPerfCounter->ByteLength);
+					pPerfCounter = (PERF_COUNTER_DEFINITION*)((uint8_t*)pPerfCounter + pPerfCounter->ByteLength);
 				}
 				break;
 			}
 			/* next object */
-			pPerfObj = (PERF_OBJECT_TYPE*)((BYTE*)pPerfObj + pPerfObj->TotalByteLength);
+			pPerfObj = (PERF_OBJECT_TYPE*)((uint8_t*)pPerfObj + pPerfObj->TotalByteLength);
 		}
 		if (!fFound)
 			break;
@@ -155,7 +155,7 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 		 * counter type: PERF_100NSEC_TIMER_INV
 		 * calc: time base=100Ns, value=100*(1-(data_diff)/(100NsTime_diff)) */
 		if (!fIsFirst) {
-			nCpuUsage = (BYTE)((1.0 - (Li2Double(liCurrentCounterValue) - Li2Double(liPrevCounterValue)) / (Li2Double(pPerfData->PerfTime100nSec) - Li2Double(liPrevPerfTime100nSec)))*100.0 + 0.5);
+			nCpuUsage = (uint8_t)((1.0 - (Li2Double(liCurrentCounterValue) - Li2Double(liPrevCounterValue)) / (Li2Double(pPerfData->PerfTime100nSec) - Li2Double(liPrevPerfTime100nSec)))*100.0 + 0.5);
 			if (!CallBackAndWait(param, nCpuUsage))
 				break;
 		}

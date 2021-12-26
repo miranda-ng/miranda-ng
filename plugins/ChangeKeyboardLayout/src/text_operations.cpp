@@ -101,7 +101,7 @@ wchar_t* GenerateLayoutString(HKL hklLayout)
 		SHORT shVirtualKey = VkKeyScanExW(ptszKeybEng[i], g_plugin.hklEng);
 		UINT iScanCode = MapVirtualKeyExW(shVirtualKey & 0x00FF, 0, g_plugin.hklEng);
 
-		BYTE bState[256] = {};
+		uint8_t bState[256] = {};
 
 		if (shVirtualKey & 0x0100) bState[VK_SHIFT] = 0x80;
 		if (shVirtualKey & 0x0200) bState[VK_CONTROL] = 0x80;
@@ -213,7 +213,7 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 	return hklCurLay;
 }
 
-int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
+int ChangeLayout(HWND hTextWnd, uint8_t TextOperation, BOOL CurrentWord)
 {
 	HKL hklCurLay = nullptr, hklToLay = nullptr;
 
@@ -221,7 +221,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 	CHARRANGE crSelection = { 0 }, crTemp = { 0 };
 	DWORD dwStartWord, dwEndWord;
 
-	BYTE WindowType = WTYPE_Unknown;
+	uint8_t WindowType = WTYPE_Unknown;
 	BOOL WindowIsReadOnly, TwoWay;
 
 	if (hTextWnd == nullptr)

@@ -29,11 +29,11 @@ typedef struct _StatusBarProtocolOptions
 	char *szName;
 	BOOL AccountIsCustomized;
 	BOOL HideAccount;
-	BYTE SBarShow;
-	BYTE SBarRightClk;
-	BYTE UseConnectingIcon;
-	BYTE ShowUnreadEmails;
-	BYTE ShowXStatus;
+	uint8_t SBarShow;
+	uint8_t SBarRightClk;
+	uint8_t UseConnectingIcon;
+	uint8_t ShowUnreadEmails;
+	uint8_t ShowXStatus;
 	int PaddingLeft;
 	int PaddingRight;
 } StatusBarProtocolOptions;
@@ -52,7 +52,7 @@ static void UpdateXStatusIconOptions(HWND hwndDlg, StatusBarProtocolOptions &dat
 
 	EnableWindow(GetDlgItem(hwndDlg, IDC_TRANSPARENTOVERLAY), en && IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS) && IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL) && BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH));
 
-	BYTE val = 0;
+	uint8_t val = 0;
 	if (IsDlgButtonChecked(hwndDlg, IDC_SHOWXSTATUS)) {
 		if (IsDlgButtonChecked(hwndDlg, IDC_SHOWBOTH)) val = 3;
 		else if (IsDlgButtonChecked(hwndDlg, IDC_SHOWNORMAL)) val = 2;
@@ -89,7 +89,7 @@ static void UpdateStatusBarOptionsDisplay(HWND hwndDlg)
 	CheckDlgButton(hwndDlg, IDC_SHOWUNREADEMAIL, (sbpo.ShowUnreadEmails == 1) ? BST_CHECKED : BST_UNCHECKED);
 	CheckDlgButton(hwndDlg, IDC_TRANSPARENTOVERLAY, (sbpo.ShowXStatus & 4) ? BST_CHECKED : BST_UNCHECKED);
 	{
-		BYTE showOpts = sbpo.SBarShow;
+		uint8_t showOpts = sbpo.SBarShow;
 		CheckDlgButton(hwndDlg, IDC_SHOWICON, showOpts & 1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWPROTO, showOpts & 2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUS, showOpts & 4 ? BST_CHECKED : BST_UNCHECKED);
@@ -397,19 +397,19 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 				char settingBuf[256];
 				mir_snprintf(settingBuf, "SBarAccountIsCustom_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->AccountIsCustomized);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->AccountIsCustomized);
 
 				mir_snprintf(settingBuf, "HideAccount_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->HideAccount);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->HideAccount);
 
 				mir_snprintf(settingBuf, "SBarShow_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->SBarShow);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->SBarShow);
 				mir_snprintf(settingBuf, "SBarRightClk_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->SBarRightClk);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->SBarRightClk);
 				mir_snprintf(settingBuf, "UseConnectingIcon_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->UseConnectingIcon);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->UseConnectingIcon);
 				mir_snprintf(settingBuf, "ShowUnreadEmails_%s", sbpo->szName);
-				db_set_b(0, "CLUI", settingBuf, (BYTE)sbpo->ShowUnreadEmails);
+				db_set_b(0, "CLUI", settingBuf, (uint8_t)sbpo->ShowUnreadEmails);
 				mir_snprintf(settingBuf, "ShowXStatus_%s", sbpo->szName);
 				db_set_b(0, "CLUI", settingBuf, sbpo->ShowXStatus);
 				mir_snprintf(settingBuf, "PaddingLeft_%s", sbpo->szName);
@@ -418,25 +418,25 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				db_set_dw(0, "CLUI", settingBuf, sbpo->PaddingRight);
 			}
 
-			db_set_b(0, "CLUI", "SBarShow", (BYTE)_GlobalOptions.SBarShow);
-			db_set_b(0, "CLUI", "SBarRightClk", (BYTE)_GlobalOptions.SBarRightClk);
-			db_set_b(0, "CLUI", "UseConnectingIcon", (BYTE)_GlobalOptions.UseConnectingIcon);
-			db_set_b(0, "CLUI", "ShowUnreadEmails", (BYTE)_GlobalOptions.ShowUnreadEmails);
+			db_set_b(0, "CLUI", "SBarShow", (uint8_t)_GlobalOptions.SBarShow);
+			db_set_b(0, "CLUI", "SBarRightClk", (uint8_t)_GlobalOptions.SBarRightClk);
+			db_set_b(0, "CLUI", "UseConnectingIcon", (uint8_t)_GlobalOptions.UseConnectingIcon);
+			db_set_b(0, "CLUI", "ShowUnreadEmails", (uint8_t)_GlobalOptions.ShowUnreadEmails);
 			db_set_b(0, "CLUI", "ShowXStatus", _GlobalOptions.ShowXStatus);
 			db_set_dw(0, "CLUI", "PaddingLeft", _GlobalOptions.PaddingLeft);
 			db_set_dw(0, "CLUI", "PaddingRight", _GlobalOptions.PaddingRight);
 
 
-			db_set_b(0, "CLUI", "StatusBarProtosPerLine", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_GETPOS, 0, 0));
-			db_set_b(0, "CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
-			db_set_b(0, "CLUI", "Align", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_GETCURSEL, 0, 0));
-			db_set_b(0, "CLUI", "VAlign", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_GETCURSEL, 0, 0));
+			db_set_b(0, "CLUI", "StatusBarProtosPerLine", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_MULTI_SPIN, UDM_GETPOS, 0, 0));
+			db_set_b(0, "CLUI", "EqualSections", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
+			db_set_b(0, "CLUI", "Align", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_GETCURSEL, 0, 0));
+			db_set_b(0, "CLUI", "VAlign", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_GETCURSEL, 0, 0));
 			db_set_dw(0, "CLUI", "LeftOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_GETPOS, 0, 0));
 			db_set_dw(0, "CLUI", "RightOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_GETPOS, 0, 0));
 			db_set_dw(0, "CLUI", "TopOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_GETPOS, 0, 0));
 			db_set_dw(0, "CLUI", "BottomOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_GETPOS, 0, 0));
 			db_set_dw(0, "CLUI", "SpaceBetween", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_GETPOS, 0, 0));
-			db_set_b(0, "CLUI", "ShowSBar", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
+			db_set_b(0, "CLUI", "ShowSBar", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
 
 			LoadStatusBarData();
 			cliCluiProtocolStatusChanged(0, nullptr);

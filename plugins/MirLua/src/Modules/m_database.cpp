@@ -305,7 +305,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	switch (lua_type(L, -1)) {
 	case LUA_TTABLE:
 		dbei.cbBlob = (DWORD)lua_rawlen(L, 4);
-		dbei.pBlob = (BYTE*)mir_calloc(dbei.cbBlob);
+		dbei.pBlob = (uint8_t*)mir_calloc(dbei.cbBlob);
 		for (DWORD i = 0; i < dbei.cbBlob; i++) {
 			lua_geti(L, 4, i + 1);
 			dbei.pBlob[i] = lua_tointeger(L, -1);
@@ -316,7 +316,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 		size_t nLen;
 		const char *str = lua_tolstring(L, -1, &nLen);
 		dbei.cbBlob = (DWORD)nLen;
-		dbei.pBlob = (BYTE*)mir_alloc(nLen);
+		dbei.pBlob = (uint8_t*)mir_alloc(nLen);
 		memcpy(dbei.pBlob, str, nLen);
 		break;
 	}
@@ -539,7 +539,7 @@ static int db_WriteSetting(lua_State *L)
 	case DBVT_BLOB:
 	{
 		dbv.cpbVal = (WORD)lua_rawlen(L, 4);
-		dbv.pbVal = (BYTE*)mir_calloc(dbv.cpbVal);
+		dbv.pbVal = (uint8_t*)mir_calloc(dbv.cpbVal);
 		for (int i = 0; i < dbv.cpbVal; i++) {
 			lua_geti(L, 4, i + 1);
 			dbv.pbVal[i] = lua_tointeger(L, -1);

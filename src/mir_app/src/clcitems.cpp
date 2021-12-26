@@ -161,7 +161,7 @@ ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszT
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
 	cc->type = CLCIT_INFO;
-	cc->flags = (BYTE)flags;
+	cc->flags = (uint8_t)flags;
 	cc->hContact = (MCONTACT)++iInfoItemUniqueHandle;
 	mir_wstrncpy(cc->szText, pszText, _countof(cc->szText));
 	return cc;

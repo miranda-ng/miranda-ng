@@ -2,7 +2,7 @@
 
 #pragma comment(lib, "crypt32.lib")
 
-int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, BYTE *encryptedData, DWORD &encryptedSize)
+int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encryptedData, DWORD &encryptedSize)
 {
 	DWORD cchModulus = (DWORD)mir_strlen(pszModulus);
 	int result;
@@ -18,7 +18,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 		}
 
 		// allocate a new buffer.
-		mir_ptr<BYTE> pbBuffer((BYTE *)mir_alloc(cbLen));
+		mir_ptr<uint8_t> pbBuffer((uint8_t *)mir_alloc(cbLen));
 		if (!CryptStringToBinaryA(pszModulus, cchModulus, CRYPT_STRING_HEX, pbBuffer, &cbLen, &dwSkip, &dwFlags)) {
 			result = GetLastError();
 			__leave;
@@ -26,7 +26,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 
 		// reverse byte array, because of microsoft
 		for (int i = 0; i < (int)(cbLen / 2); ++i) {
-			BYTE temp = pbBuffer[cbLen - i - 1];
+			uint8_t temp = pbBuffer[cbLen - i - 1];
 			pbBuffer[cbLen - i - 1] = pbBuffer[i];
 			pbBuffer[i] = temp;
 		}
@@ -39,7 +39,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 
 		// Move the key into the key container.
 		DWORD cbKeyBlob = sizeof(PUBLICKEYSTRUC) + sizeof(RSAPUBKEY) + cbLen;
-		mir_ptr<BYTE> pKeyBlob((BYTE *)mir_alloc(cbKeyBlob));
+		mir_ptr<uint8_t> pKeyBlob((uint8_t *)mir_alloc(cbKeyBlob));
 
 		// Fill in the data.
 		PUBLICKEYSTRUC *pPublicKey = (PUBLICKEYSTRUC *)pKeyBlob.get();
@@ -56,7 +56,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 
 		// Copy the modulus into the blob. Put the modulus directly after the
 		// RSAPUBKEY structure in the blob.
-		BYTE *pKey = (BYTE *)(((BYTE *)pRsaPubKey) + sizeof(RSAPUBKEY));
+		uint8_t *pKey = (uint8_t *)(((uint8_t *)pRsaPubKey) + sizeof(RSAPUBKEY));
 		memcpy(pKey, pbBuffer, cbLen);
 
 		// Now import public key	
@@ -84,7 +84,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 
 		// reverse byte array again
 		for (int i = 0; i < (int)(encryptedSize / 2); ++i) {
-			BYTE temp = encryptedData[encryptedSize - i - 1];
+			uint8_t temp = encryptedData[encryptedSize - i - 1];
 			encryptedData[encryptedSize - i - 1] = encryptedData[i];
 			encryptedData[i] = temp;
 		}

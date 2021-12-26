@@ -31,7 +31,7 @@ static void MessageBoxIndirectFree(MSGBOXPARAMSA *mbp)
 	mir_free(mbp);
 }
 
-void ShowInfoMessage(BYTE flags, const char *pszTitle, const char *pszTextFmt, ...)
+void ShowInfoMessage(uint8_t flags, const char *pszTitle, const char *pszTextFmt, ...)
 {
 	char szText[256]; /* max for systray */
 

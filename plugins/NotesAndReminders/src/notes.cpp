@@ -63,8 +63,8 @@ struct STICKYNOTEFONT : public MZeroedObject
 {
 	HFONT hFont;
 	char  size;
-	BYTE  style;					// see the DBFONTF_* flags
-	BYTE  charset;
+	uint8_t  style;					// see the DBFONTF_* flags
+	uint8_t  charset;
 	wchar_t szFace[LF_FACESIZE];
 };
 
@@ -1128,7 +1128,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const wchar_t *pwsz
 	TSN->SNHwnd = CreateWindowEx(L1, NOTE_WND_CLASS, L"StickyNote", L2, Ax, Ay, Aw, Ah, nullptr, nullptr, hmiranda, TSN);
 
 	if (g_Transparency < 255)
-		SetLayeredWindowAttributes(TSN->SNHwnd, 0, (BYTE)g_Transparency, LWA_ALPHA);
+		SetLayeredWindowAttributes(TSN->SNHwnd, 0, (uint8_t)g_Transparency, LWA_ALPHA);
 
 	// ensure that window is not placed off-screen (if previous session had different monitor count or resolution)
 	// NOTE: SetWindowPlacement should do this, but it's extremly flakey
@@ -1290,8 +1290,8 @@ static void LoadNote(char *Value, bool bIsStartup)
 
 			pCustomFont = (STICKYNOTEFONT*)malloc(sizeof(STICKYNOTEFONT));
 			pCustomFont->size = (char)fsize;
-			pCustomFont->style = (BYTE)fstyle;
-			pCustomFont->charset = (BYTE)fcharset;
+			pCustomFont->style = (uint8_t)fstyle;
+			pCustomFont->charset = (uint8_t)fcharset;
 			wcsncpy_s(pCustomFont->szFace, _A2T(TVal2), _TRUNCATE);
 			pCustomFont->hFont = nullptr;
 

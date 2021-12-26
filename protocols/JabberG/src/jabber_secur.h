@@ -100,7 +100,7 @@ public:
 	char* getChallenge(const char *challenge) override;
 	bool  validateLogin(const char *challenge) override;
 
-	void Hi(BYTE* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind);
+	void Hi(uint8_t* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind);
 };
 
 // ntlm auth - LanServer based authorization

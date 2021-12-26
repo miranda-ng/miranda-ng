@@ -41,9 +41,9 @@ int ComboBox_SelectItem(HWND hwndCtl, char *data) {
 
 struct {
 	UINT idCtrl;
-	BYTE onTyp0;
-	BYTE onTyp1;
-	BYTE onTyp2;
+	uint8_t onTyp0;
+	uint8_t onTyp1;
+	uint8_t onTyp2;
 }
 static ctrlsAll[] = {
 	{ IDC_TXT_TITLE1, 0, 1, 1 },
@@ -319,7 +319,7 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case BN_CLICKED:		// Button controls
 				switch (idCtrl) {
 				case IDC_ENABLE:
-					ptd->enabled = (BYTE)Button_GetCheck((HWND)lParam);
+					ptd->enabled = (uint8_t)Button_GetCheck((HWND)lParam);
 					for (auto &it : ctrlsEnable)
 						EnableWindow(GetDlgItem(hwnd, it), ptd->enabled);
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);

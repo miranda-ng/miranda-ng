@@ -33,7 +33,7 @@ static HANDLE hHookModulesLoaded;
 #define FRAMEELEMENT_BKGRND  2
 #define FRAMEELEMENT_TEXT    3
 
-static COLORREF GetDefaultColor(BYTE id)
+static COLORREF GetDefaultColor(uint8_t id)
 {
 	switch (id) {
 	case FRAMEELEMENT_BAR:
@@ -84,7 +84,7 @@ struct CountdownFrameWndData
 	COLORREF clrBackground, clrText;
 	HFONT hFont;
 	WORD fTimeFlags;
-	BYTE flags;
+	uint8_t flags;
 };
 
 /* Flags */

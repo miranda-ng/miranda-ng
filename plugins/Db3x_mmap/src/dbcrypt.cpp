@@ -74,7 +74,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::ReadCryptoKey(MBinBuffer &buf)
 STDMETHODIMP_(BOOL) CDb3Mmap::StoreCryptoKey()
 {
 	size_t iKeyLength = m_crypto->getKeyLength();
-	BYTE *pKey = (BYTE*)_alloca(iKeyLength);
+	uint8_t *pKey = (uint8_t*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
 	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "StoredKey" };
@@ -196,7 +196,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 				len = *(PWORD)(pBlob + 1);
 				// we need to convert a string into utf8 and encrypt it
 				if (!m_bEncrypted) {
-					BYTE bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
+					uint8_t bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
 					arSettings.insert(new VarDescr(szSetting, mir_utf8encode((LPCSTR)pBlob + 3)));
 					pBlob[len + 3] = bSave;
 				}
@@ -207,7 +207,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 				len = *(PWORD)(pBlob + 1);
 				// we need to encrypt these strings
 				if (!m_bEncrypted) {
-					BYTE bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
+					uint8_t bSave = pBlob[len + 3]; pBlob[len + 3] = 0;
 					arSettings.insert(new VarDescr(szSetting, (LPCSTR)pBlob + 3));
 					pBlob[len + 3] = bSave;
 				}
@@ -234,7 +234,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 		for (auto &p : arSettings) {
 			if (!m_bEncrypted) {
 				size_t encodedLen;
-				BYTE *pResult = m_crypto->encodeString(p->szValue, &encodedLen);
+				uint8_t *pResult = m_crypto->encodeString(p->szValue, &encodedLen);
 				if (pResult != nullptr) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 					dbcws.value.type = DBVT_ENCRYPTED;
@@ -285,8 +285,8 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 
 		size_t len;
 		DWORD ofsDest;
-		mir_ptr<BYTE> pBlob;
-		BYTE *pSource = DBRead(offset + offsetof(DBEvent, blob), nullptr);
+		mir_ptr<uint8_t> pBlob;
+		uint8_t *pSource = DBRead(offset + offsetof(DBEvent, blob), nullptr);
 		if (!m_bEncrypted) { // we need more space
 			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;
@@ -313,7 +313,7 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 			evt.flags |= DBEF_ENCRYPTED;
 		}
 		else {
-			if ((pBlob = (BYTE*)m_crypto->decodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
+			if ((pBlob = (uint8_t*)m_crypto->decodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;
 
 			ofsDest = offset; // reuse the old space

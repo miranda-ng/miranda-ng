@@ -23,8 +23,8 @@ struct CLUIDATA
 	char     varFilter[2048];
 	DWORD    lastMsgFilter;
 	char     current_viewmode[256], old_viewmode[256];
-	BYTE     boldHideOffline;
-	BYTE     bOldUseGroups;
+	uint8_t     boldHideOffline;
+	uint8_t     bOldUseGroups;
 	DWORD    statusMaskFilter;
 	DWORD    stickyMaskFilter;
 	DWORD    filterFlags;
@@ -48,10 +48,10 @@ struct CLUIDATA
 	bool     fSortNoOfflineBottom;
 	bool     fAutoSize;
 	bool     fAeroGlass;
-	BYTE     bCurrentAlpha;
-	BYTE     bSTATE;
-	BYTE     bBehindEdgeSettings;
-	BYTE     bSortByOrder[3];
+	uint8_t     bCurrentAlpha;
+	uint8_t     bSTATE;
+	uint8_t     bBehindEdgeSettings;
+	uint8_t     bSortByOrder[3];
 
 	signed char nBehindEdgeState;
 

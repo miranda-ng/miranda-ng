@@ -34,15 +34,15 @@ static void removeSpaces(wchar_t* p)
 
 void CIrcProto::ReadSettings(TDbSetting *sets, int count)
 {
-	BYTE *base = (BYTE *)this;
+	uint8_t *base = (uint8_t *)this;
 
 	DBVARIANT dbv;
 	for (int i = 0; i < count; i++) {
 		TDbSetting *p = &sets[i];
-		BYTE *ptr = base + p->offset;
+		uint8_t *ptr = base + p->offset;
 		switch (p->type) {
 		case DBVT_BYTE:
-			*(BYTE*)ptr = getByte(p->name, p->defValue);
+			*(uint8_t*)ptr = getByte(p->name, p->defValue);
 			break;
 		case DBVT_WORD:
 			*(WORD*)ptr = getWord(p->name, p->defValue);
@@ -93,13 +93,13 @@ void CIrcProto::ReadSettings(TDbSetting *sets, int count)
 
 void CIrcProto::WriteSettings(TDbSetting *sets, int count)
 {
-	BYTE *base = (BYTE*)this;
+	uint8_t *base = (uint8_t*)this;
 
 	for (int i = 0; i < count; i++) {
 		TDbSetting *p = &sets[i];
-		BYTE *ptr = base + p->offset;
+		uint8_t *ptr = base + p->offset;
 		switch (p->type) {
-		case DBVT_BYTE:   setByte(p->name, *(BYTE*)ptr);       break;
+		case DBVT_BYTE:   setByte(p->name, *(uint8_t*)ptr);       break;
 		case DBVT_WORD:   setWord(p->name, *(WORD*)ptr);       break;
 		case DBVT_DWORD:  setDword(p->name, *(DWORD*)ptr);     break;
 

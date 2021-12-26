@@ -136,8 +136,8 @@ GetPaletteIndex(FIBITMAP *dib, const RGBQUAD *color, int options, FREE_IMAGE_COL
 	} else {
 		unsigned minimum = UINT_MAX;
 		unsigned ncolors = FreeImage_GetColorsUsed(dib);
-		BYTE *palette = (BYTE *)FreeImage_GetPalette(dib);
-		BYTE red, green, blue;
+		uint8_t *palette = (uint8_t *)FreeImage_GetPalette(dib);
+		uint8_t red, green, blue;
 		if (!IsVisualGreyscaleImage(dib)) {
 			red = color->rgbRed;
 			green = color->rgbGreen;
@@ -189,12 +189,12 @@ GetAlphaBlendedColor(const RGBQUAD *bgcolor, const RGBQUAD *fgcolor, RGBQUAD *bl
 		return FALSE;
 	}
 	
-	BYTE alpha = fgcolor->rgbReserved;
-	BYTE not_alpha = ~alpha;
+	uint8_t alpha = fgcolor->rgbReserved;
+	uint8_t not_alpha = ~alpha;
 	
-	blended->rgbRed   = (BYTE)( ((WORD)fgcolor->rgbRed   * alpha + not_alpha * (WORD)bgcolor->rgbRed)   >> 8 );
-	blended->rgbGreen = (BYTE)( ((WORD)fgcolor->rgbGreen * alpha + not_alpha * (WORD)bgcolor->rgbGreen) >> 8) ;
-	blended->rgbBlue  = (BYTE)( ((WORD)fgcolor->rgbBlue   * alpha + not_alpha * (WORD)bgcolor->rgbBlue)  >> 8 );
+	blended->rgbRed   = (uint8_t)( ((WORD)fgcolor->rgbRed   * alpha + not_alpha * (WORD)bgcolor->rgbRed)   >> 8 );
+	blended->rgbGreen = (uint8_t)( ((WORD)fgcolor->rgbGreen * alpha + not_alpha * (WORD)bgcolor->rgbGreen) >> 8) ;
+	blended->rgbBlue  = (uint8_t)( ((WORD)fgcolor->rgbBlue   * alpha + not_alpha * (WORD)bgcolor->rgbBlue)  >> 8 );
 	blended->rgbReserved = 0xFF;
 
 	return TRUE;
@@ -229,8 +229,8 @@ FillBackgroundBitmap(FIBITMAP *dib, const RGBQUAD *color, int options) {
 	FREE_IMAGE_COLOR_TYPE color_type = FreeImage_GetColorType(dib);
 	
 	// get a pointer to the first scanline (bottom line)
-	BYTE *src_bits = FreeImage_GetScanLine(dib, 0);
-	BYTE *dst_bits = src_bits;	
+	uint8_t *src_bits = FreeImage_GetScanLine(dib, 0);
+	uint8_t *dst_bits = src_bits;	
 	
 	BOOL supports_alpha = ((bpp >= 24) || ((bpp == 8) && (color_type != FIC_PALETTE)));
 	
@@ -434,8 +434,8 @@ FreeImage_FillBackground(FIBITMAP *dib, const void *color, int options) {
 	
 	// first, construct the first scanline (bottom line)
 	unsigned bytespp = (FreeImage_GetBPP(dib) / 8);
-	BYTE *src_bits = FreeImage_GetScanLine(dib, 0);
-	BYTE *dst_bits = src_bits;
+	uint8_t *src_bits = FreeImage_GetScanLine(dib, 0);
+	uint8_t *dst_bits = src_bits;
 	for (unsigned x = 0; x < FreeImage_GetWidth(dib); x++) {
 		memcpy(dst_bits, color, bytespp);
 		dst_bits += bytespp;
@@ -554,7 +554,7 @@ FreeImage_AllocateExT(FREE_IMAGE_TYPE type, int width, int height, int bpp, cons
 						// Otherwise inject the specified color into the so far
 						// black-only palette. We use color->rgbReserved as the
 						// desired palette index.
-						BYTE index = ((RGBQUAD *)color)->rgbReserved & 0x01;
+						uint8_t index = ((RGBQUAD *)color)->rgbReserved & 0x01;
 						upal[index] = *urgb & 0x00FFFFFF;  
 					}
 					options |= FI_COLOR_ALPHA_IS_INDEX;
@@ -585,7 +585,7 @@ FreeImage_AllocateExT(FREE_IMAGE_TYPE type, int width, int height, int bpp, cons
 						// Otherwise inject the specified color into the so far
 						// black-only palette. We use color->rgbReserved as the
 						// desired palette index.
-						BYTE index = (rgb->rgbReserved & 0x0F);
+						uint8_t index = (rgb->rgbReserved & 0x0F);
 						((unsigned *)pal)[index] = *((unsigned *)rgb) & 0x00FFFFFF;
 					}
 					options |= FI_COLOR_ALPHA_IS_INDEX;
@@ -616,7 +616,7 @@ FreeImage_AllocateExT(FREE_IMAGE_TYPE type, int width, int height, int bpp, cons
 						// Otherwise inject the specified color into the so far
 						// black-only palette. We use color->rgbReserved as the
 						// desired palette index.
-						BYTE index = rgb->rgbReserved;
+						uint8_t index = rgb->rgbReserved;
 						((unsigned *)pal)[index] = *((unsigned *)rgb) & 0x00FFFFFF;  
 					}
 					options |= FI_COLOR_ALPHA_IS_INDEX;
@@ -636,7 +636,7 @@ FreeImage_AllocateExT(FREE_IMAGE_TYPE type, int width, int height, int bpp, cons
 			default: {
 				int bytespp = bpp / 8;
 				for (int i = 0; i < bytespp; i++) {
-					if (((BYTE *)color)[i] != 0) {
+					if (((uint8_t *)color)[i] != 0) {
 						FreeImage_FillBackground(bitmap, color, options);
 						break;
 					}
@@ -846,8 +846,8 @@ FreeImage_EnlargeCanvas(FIBITMAP *src, int left, int top, int right, int bottom,
 	} else {
 
 		int bytespp = bpp / 8;
-		BYTE *srcPtr = FreeImage_GetScanLine(src, height - 1 - ((top >= 0) ? 0 : -top));
-		BYTE *dstPtr = FreeImage_GetScanLine(dst, newHeight - 1 - ((top <= 0) ? 0 : top));
+		uint8_t *srcPtr = FreeImage_GetScanLine(src, height - 1 - ((top >= 0) ? 0 : -top));
+		uint8_t *dstPtr = FreeImage_GetScanLine(dst, newHeight - 1 - ((top <= 0) ? 0 : top));
 
 		unsigned srcPitch = FreeImage_GetPitch(src);
 		unsigned dstPitch = FreeImage_GetPitch(dst);

@@ -46,7 +46,7 @@ struct LANGPACK_INFO
 	FILETIME ftFileDate;
 	wchar_t tszFileName[MAX_PATH]; /* just the file name itself */
 	wchar_t tszFullPath[MAX_PATH]; /* full path to the langpack */
-	BYTE flags; /* see LPIF_* flags */
+	uint8_t flags; /* see LPIF_* flags */
 };
 
 int LangpackOptionsInit(WPARAM wParam, LPARAM);

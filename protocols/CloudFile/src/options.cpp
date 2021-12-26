@@ -31,7 +31,7 @@ bool COptionsMainDlg::OnInitDialog()
 			m_defaultService.SetCurSel(iItem);
 	}
 
-	BYTE strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
+	uint8_t strategy = g_plugin.getByte("ConflictStrategy", OnConflict::REPLACE);
 	switch (strategy)
 	{
 	case OnConflict::RENAME:

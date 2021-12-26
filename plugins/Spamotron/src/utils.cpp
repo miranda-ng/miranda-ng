@@ -423,7 +423,7 @@ err_out:
 	return dst;
 } 
 
-int _notify(MCONTACT hContact, BYTE type, wchar_t *message, wchar_t *origmessage)
+int _notify(MCONTACT hContact, uint8_t type, wchar_t *message, wchar_t *origmessage)
 {
 	char *tmp, *tmporig;
 	wchar_t msg[MAX_BUFFER_LENGTH];

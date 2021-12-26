@@ -137,7 +137,7 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_b(0, "Skin", "UseSound", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_ENABLESOUNDS));
+		db_set_b(0, "Skin", "UseSound", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ENABLESOUNDS));
 
 		for (auto &p : arSounds)
 			if (p->ptszTempFile)

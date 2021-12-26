@@ -302,7 +302,7 @@ void checkStringForSaveN(CMStringA &str)
 				switch (D[0]) {
 				case '0':
 				case 'b':
-					db_set_b(0, A, B, (BYTE)atoi(C));
+					db_set_b(0, A, B, (uint8_t)atoi(C));
 					break;
 				case '1':
 				case 'w':

@@ -32,8 +32,8 @@ enum THotkeyType { HKT_GLOBAL, HKT_LOCAL, HKT_MANUAL };
 
 struct THotkeyBoxData
 {
-	BYTE shift;
-	BYTE key;
+	uint8_t shift;
+	uint8_t key;
 };
 
 struct THotkeyItem

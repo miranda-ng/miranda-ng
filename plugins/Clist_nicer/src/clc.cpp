@@ -95,7 +95,7 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 static int ClcMetamodeChanged(WPARAM bMetaEnabled, LPARAM)
 {
 	if (BOOL(bMetaEnabled) != cfg::dat.bMetaEnabled) {
-		cfg::dat.bMetaEnabled = (BYTE)bMetaEnabled;
+		cfg::dat.bMetaEnabled = (uint8_t)bMetaEnabled;
 		Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 	}
 	return 0;
@@ -274,7 +274,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	case INTM_GROUPCHANGED:
 		{
 			WORD iExtraImage[EXTRA_ICON_COUNT];
-			BYTE flags = 0;
+			uint8_t flags = 0;
 			if (!Clist_FindItem(hwnd, dat, wParam, &contact))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
@@ -547,7 +547,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				if (!dat->bisEmbedded && szProto) {				// may be a subcontact, forward the xstatus
 					MCONTACT hMasterContact = db_mc_tryMeta(hContact);
 					if (hMasterContact != hContact)				// avoid recursive call of settings handler
-						db_set_b(hMasterContact, META_PROTO, "XStatusId", (BYTE)db_get_b(hContact, szProto, "XStatusId", 0));
+						db_set_b(hMasterContact, META_PROTO, "XStatusId", (uint8_t)db_get_b(hContact, szProto, "XStatusId", 0));
 					break;
 				}
 			}

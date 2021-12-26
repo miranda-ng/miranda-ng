@@ -74,7 +74,7 @@ FreeImage_Invert(FIBITMAP *src) {
 					}
 				} else {
 					for(y = 0; y < height; y++) {
-						BYTE *bits = FreeImage_GetScanLine(src, y);
+						uint8_t *bits = FreeImage_GetScanLine(src, y);
 
 						for (x = 0; x < FreeImage_GetLine(src); x++) {
 							bits[x] = ~bits[x];
@@ -92,7 +92,7 @@ FreeImage_Invert(FIBITMAP *src) {
 				const unsigned bytespp = FreeImage_GetLine(src) / width;
 
 				for(y = 0; y < height; y++) {
-					BYTE *bits = FreeImage_GetScanLine(src, y);
+					uint8_t *bits = FreeImage_GetScanLine(src, y);
 					for(x = 0; x < width; x++) {
 						for(k = 0; k < bytespp; k++) {
 							bits[k] = ~bits[k];
@@ -144,9 +144,9 @@ plane (R,G, and B). Otherwise, the LUT is applied to the specified channel only.
 @see FREE_IMAGE_COLOR_CHANNEL
 */
 BOOL DLL_CALLCONV 
-FreeImage_AdjustCurve(FIBITMAP *src, BYTE *LUT, FREE_IMAGE_COLOR_CHANNEL channel) {
+FreeImage_AdjustCurve(FIBITMAP *src, uint8_t *LUT, FREE_IMAGE_COLOR_CHANNEL channel) {
 	unsigned x, y;
-	BYTE *bits = NULL;
+	uint8_t *bits = NULL;
 
 	if(!FreeImage_HasPixels(src) || !LUT || (FreeImage_GetImageType(src) != FIT_BITMAP))
 		return FALSE;
@@ -268,7 +268,7 @@ less than one darkens it, and greater than one lightens it.
 */
 BOOL DLL_CALLCONV 
 FreeImage_AdjustGamma(FIBITMAP *src, double gamma) {
-	BYTE LUT[256];		// Lookup table
+	uint8_t LUT[256];		// Lookup table
 
 	if(!FreeImage_HasPixels(src) || (gamma <= 0))
 		return FALSE;
@@ -281,7 +281,7 @@ FreeImage_AdjustGamma(FIBITMAP *src, double gamma) {
 		double color = (double)pow((double)i, exponent) * v;
 		if(color > 255)
 			color = 255;
-		LUT[i] = (BYTE)floor(color + 0.5);
+		LUT[i] = (uint8_t)floor(color + 0.5);
 	}
 
 	// Apply the gamma correction
@@ -298,7 +298,7 @@ and greater than 0 will make the image brighter.
 */
 BOOL DLL_CALLCONV 
 FreeImage_AdjustBrightness(FIBITMAP *src, double percentage) {
-	BYTE LUT[256];		// Lookup table
+	uint8_t LUT[256];		// Lookup table
 	double value;
 
 	if(!FreeImage_HasPixels(src))
@@ -309,7 +309,7 @@ FreeImage_AdjustBrightness(FIBITMAP *src, double percentage) {
 	for(int i = 0; i < 256; i++) {
 		value = i * scale;
 		value = MAX(0.0, MIN(value, 255.0));
-		LUT[i] = (BYTE)floor(value + 0.5);
+		LUT[i] = (uint8_t)floor(value + 0.5);
 	}
 	return FreeImage_AdjustCurve(src, LUT, FICC_RGB);
 }
@@ -324,7 +324,7 @@ and greater than 0 will increase the contrast of the image.
 */
 BOOL DLL_CALLCONV 
 FreeImage_AdjustContrast(FIBITMAP *src, double percentage) {
-	BYTE LUT[256];		// Lookup table
+	uint8_t LUT[256];		// Lookup table
 	double value;
 
 	if(!FreeImage_HasPixels(src))
@@ -335,7 +335,7 @@ FreeImage_AdjustContrast(FIBITMAP *src, double percentage) {
 	for(int i = 0; i < 256; i++) {
 		value = 128 + (i - 128) * scale;
 		value = MAX(0.0, MIN(value, 255.0));
-		LUT[i] = (BYTE)floor(value + 0.5);
+		LUT[i] = (uint8_t)floor(value + 0.5);
 	}
 	return FreeImage_AdjustCurve(src, LUT, FICC_RGB);
 }
@@ -352,8 +352,8 @@ bit depth is not supported (nothing is done).
 */
 BOOL DLL_CALLCONV 
 FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL channel) {
-	BYTE pixel;
-	BYTE *bits = NULL;
+	uint8_t pixel;
+	uint8_t *bits = NULL;
 	unsigned x, y;
 
 	if(!FreeImage_HasPixels(src) || !histo) return FALSE;
@@ -474,7 +474,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
  Better and even faster would be snippet 3:
  
  // snippet 3:
- BYTE LUT[256];
+ uint8_t LUT[256];
  FreeImage_GetAdjustColorsLookupTable(LUT, 50.0, 15.0, 1.0, FALSE); 
  FreeImage_AdjustCurve(dib, LUT, FICC_RGB);
  
@@ -499,7 +499,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
  compared to a blind lookup table.
  */
 int DLL_CALLCONV
-FreeImage_GetAdjustColorsLookupTable(BYTE *LUT, double brightness, double contrast, double gamma, BOOL invert) {
+FreeImage_GetAdjustColorsLookupTable(uint8_t *LUT, double brightness, double contrast, double gamma, BOOL invert) {
 	double dblLUT[256];
 	double value;
 	int result = 0;
@@ -508,7 +508,7 @@ FreeImage_GetAdjustColorsLookupTable(BYTE *LUT, double brightness, double contra
 		// nothing to do, if all arguments have their default values
 		// return a blind LUT
 		for (int i = 0; i < 256; i++) {
-			LUT[i] = (BYTE)i;
+			LUT[i] = (uint8_t)i;
 		}
 		return 0;
 	}
@@ -551,11 +551,11 @@ FreeImage_GetAdjustColorsLookupTable(BYTE *LUT, double brightness, double contra
 
 	if (!invert) {
 		for (int i = 0; i < 256; i++) {
-			LUT[i] = (BYTE)floor(dblLUT[i] + 0.5);
+			LUT[i] = (uint8_t)floor(dblLUT[i] + 0.5);
 		}
 	} else {
 		for (int i = 0; i < 256; i++) {
-			LUT[i] = 255 - (BYTE)floor(dblLUT[i] + 0.5);
+			LUT[i] = 255 - (uint8_t)floor(dblLUT[i] + 0.5);
 		}
 		result++;
 	}
@@ -611,7 +611,7 @@ FreeImage_GetAdjustColorsLookupTable(BYTE *LUT, double brightness, double contra
  */
 BOOL DLL_CALLCONV
 FreeImage_AdjustColors(FIBITMAP *dib, double brightness, double contrast, double gamma, BOOL invert) {
-	BYTE LUT[256];
+	uint8_t LUT[256];
 
 	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) {
 		return FALSE;
@@ -751,7 +751,7 @@ FreeImage_ApplyColorMapping(FIBITMAP *dib, RGBQUAD *srccolors, RGBQUAD *dstcolor
 			unsigned width = FreeImage_GetWidth(dib);
 			RGBQUAD *a, *b;
 			for (unsigned y = 0; y < height; y++) {
-				BYTE *bits = FreeImage_GetScanLine(dib, y);
+				uint8_t *bits = FreeImage_GetScanLine(dib, y);
 				for (unsigned x = 0; x < width; x++, bits += 3) {
 					for (unsigned j = 0; j < count; j++) {
 						a = srccolors;
@@ -778,7 +778,7 @@ FreeImage_ApplyColorMapping(FIBITMAP *dib, RGBQUAD *srccolors, RGBQUAD *dstcolor
 			unsigned width = FreeImage_GetWidth(dib);
 			RGBQUAD *a, *b;
 			for (unsigned y = 0; y < height; y++) {
-				BYTE *bits = FreeImage_GetScanLine(dib, y);
+				uint8_t *bits = FreeImage_GetScanLine(dib, y);
 				for (unsigned x = 0; x < width; x++, bits += 4) {
 					for (unsigned j = 0; j < count; j++) {
 						a = srccolors;
@@ -864,7 +864,7 @@ FreeImage_SwapColors(FIBITMAP *dib, RGBQUAD *color_a, RGBQUAD *color_b, BOOL ign
  @return Returns the total number of pixels changed. 
  */
 unsigned DLL_CALLCONV
-FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, BYTE *srcindices,	BYTE *dstindices, unsigned count, BOOL swap) {
+FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, uint8_t *srcindices,	uint8_t *dstindices, unsigned count, BOOL swap) {
 	unsigned result = 0;
 
 	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP)) {
@@ -878,7 +878,7 @@ FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, BYTE *srcindices,	BYTE *dstind
 
 	unsigned height = FreeImage_GetHeight(dib);
 	unsigned width = FreeImage_GetLine(dib);
-	BYTE *a, *b;
+	uint8_t *a, *b;
 
 	int bpp = FreeImage_GetBPP(dib);
 	switch (bpp) {
@@ -890,7 +890,7 @@ FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, BYTE *srcindices,	BYTE *dstind
 			int skip_last = (FreeImage_GetWidth(dib) & 0x01);
 			unsigned max_x = width - 1;
 			for (unsigned y = 0; y < height; y++) {
-				BYTE *bits = FreeImage_GetScanLine(dib, y);
+				uint8_t *bits = FreeImage_GetScanLine(dib, y);
 				for (unsigned x = 0; x < width; x++) {
 					int start = ((skip_last) && (x == max_x)) ? 1 : 0;
 					for (int cn = start; cn < 2; cn++) {
@@ -915,7 +915,7 @@ FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, BYTE *srcindices,	BYTE *dstind
 		}
 		case 8: {
 			for (unsigned y = 0; y < height; y++) {
-				BYTE *bits = FreeImage_GetScanLine(dib, y);
+				uint8_t *bits = FreeImage_GetScanLine(dib, y);
 				for (unsigned x = 0; x < width; x++) {
 					for (unsigned j = 0; j < count; j++) {
 						a = srcindices;
@@ -960,7 +960,7 @@ FreeImage_ApplyPaletteIndexMapping(FIBITMAP *dib, BYTE *srcindices,	BYTE *dstind
  @return Returns the total number of pixels changed. 
  */
 unsigned DLL_CALLCONV 
-FreeImage_SwapPaletteIndices(FIBITMAP *dib, BYTE *index_a, BYTE *index_b) {
+FreeImage_SwapPaletteIndices(FIBITMAP *dib, uint8_t *index_a, uint8_t *index_b) {
 	return FreeImage_ApplyPaletteIndexMapping(dib, index_a, index_b, 1, TRUE);
 }
 

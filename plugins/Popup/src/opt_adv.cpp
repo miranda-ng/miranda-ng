@@ -235,7 +235,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 
 		case IDC_TRANS_SLIDER:
-			PopupOptions.Alpha = (BYTE)SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_GETPOS, 0, 0);
+			PopupOptions.Alpha = (uint8_t)SendDlgItemMessage(hwnd, IDC_TRANS_SLIDER, TBM_GETPOS, 0, 0);
 			mir_snwprintf(tstr, TranslateT("%d%%"), Byte2Percentile(PopupOptions.Alpha));
 			SetDlgItemText(hwnd, IDC_TRANS_PERCENT, tstr);
 			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
@@ -492,7 +492,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			case PSN_APPLY:
 				// History
-				g_plugin.setByte("EnableHistory", (BYTE)PopupOptions.EnableHistory);
+				g_plugin.setByte("EnableHistory", (uint8_t)PopupOptions.EnableHistory);
 				g_plugin.setWord("HistorySize", PopupOptions.HistorySize);
 				PopupHistoryResize();
 				g_plugin.setByte("UseHppHistoryLog", PopupOptions.UseHppHistoryLog);
@@ -516,7 +516,7 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				g_plugin.setDword("FadeInTime", PopupOptions.FadeIn);
 				g_plugin.setDword("FadeOutTime", PopupOptions.FadeOut);
 				// other old stuff
-				g_plugin.setWord("MaxPopups", (BYTE)PopupOptions.MaxPopups);
+				g_plugin.setWord("MaxPopups", (uint8_t)PopupOptions.MaxPopups);
 			}
 			return TRUE;
 		}
@@ -551,7 +551,7 @@ LRESULT CALLBACK AvatarTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 		tme.hwndTrack = hwnd;
 		_TrackMouseEvent(&tme);
 
-		int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
+		int newVal = (uint8_t)SendMessage(hwnd, TBM_GETPOS, 0, 0);
 		if (oldVal != newVal) {
 			if (oldVal < 0)
 				SetWindowLongPtr(hwndBox, GWLP_USERDATA, 0);
@@ -600,7 +600,7 @@ LRESULT CALLBACK AlphaTrackBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		tme.hwndTrack = hwnd;
 		_TrackMouseEvent(&tme);
 
-		int newVal = (BYTE)SendMessage(hwnd, TBM_GETPOS, 0, 0);
+		int newVal = (uint8_t)SendMessage(hwnd, TBM_GETPOS, 0, 0);
 		if (oldVal != newVal)
 		{
 

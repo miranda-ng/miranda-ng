@@ -242,7 +242,7 @@ protected:
 	static WORD SteamToMirandaStatus(PersonaState state);
 	static PersonaState MirandaToSteamState(int status);
 
-	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, BYTE *encrypted, DWORD &encryptedSize);
+	static int RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encrypted, DWORD &encryptedSize);
 
 	static void ShowNotification(const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);
 	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, MCONTACT hContact = NULL);

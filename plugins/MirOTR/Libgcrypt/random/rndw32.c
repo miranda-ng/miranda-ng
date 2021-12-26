@@ -146,7 +146,7 @@ typedef BOOL (WINAPI *CRYPTACQUIRECONTEXT)(HCRYPTPROV *phProv,
                                            DWORD dwProvType,
                                            DWORD dwFlags);
 typedef BOOL (WINAPI *CRYPTGENRANDOM)(HCRYPTPROV hProv, DWORD dwLen,
-                                      BYTE *pbBuffer);
+                                      uint8_t *pbBuffer);
 typedef BOOL (WINAPI *CRYPTRELEASECONTEXT)(HCRYPTPROV hProv, DWORD dwFlags);
 
 /* Somewhat alternative functionality available as a direct call, for
@@ -298,7 +298,7 @@ static void
 read_system_rng (void (*add)(const void*, size_t, enum random_origins),
                  enum random_origins requester)
 {
-  BYTE buffer[ SYSTEMRNG_BYTES + 8 ];
+  uint8_t buffer[ SYSTEMRNG_BYTES + 8 ];
   int quality = 0;
 
   if (!system_rng_available)
@@ -505,7 +505,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
                         "SYSTEM\\CurrentControlSet\\Control\\ProductOptions",
                         0, KEY_READ, &hKey) == ERROR_SUCCESS)
         {
-          BYTE szValue[32 + 8];
+          uint8_t szValue[32 + 8];
           dwSize = 32;
 
           if ( debug_me )

@@ -201,7 +201,7 @@ void CleanSettings(int buttonnum, int from)
 	db_free(&dbv);
 }
 
-BYTE getEntryByte(int buttonnum, int entrynum, BOOL mode)
+uint8_t getEntryByte(int buttonnum, int entrynum, BOOL mode)
 {
 	char szMEntry[256] = { '\0' };
 
@@ -270,7 +270,7 @@ void InitButtonsList()
 		ListData* ld = nullptr;
 		if (!(pszBName = getMenuEntry(i, 0, 3))) {
 			g_iButtonsCount = i;
-			g_plugin.setByte("ButtonsCount", (BYTE)g_iButtonsCount);
+			g_plugin.setByte("ButtonsCount", (uint8_t)g_iButtonsCount);
 			break;
 		}
 
@@ -328,7 +328,7 @@ void DestructButtonsList()
 	}
 }
 
-wchar_t* getMenuEntry(int buttonnum, int entrynum, BYTE mode)
+wchar_t* getMenuEntry(int buttonnum, int entrynum, uint8_t mode)
 {
 	wchar_t* buffer = nullptr;
 	char szMEntry[256];

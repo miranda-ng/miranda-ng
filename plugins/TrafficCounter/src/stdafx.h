@@ -62,7 +62,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #pragma pack(1)
 typedef	struct
 {
-	BYTE Hour, Day, Month;
+	uint8_t Hour, Day, Month;
 	WORD Year;
 	DWORD Incoming, Outgoing;
 	WORD Time;
@@ -88,7 +88,7 @@ struct PROTOLIST
 		  CurrentSentTraffic;
 	union
 	{
-		BYTE Flags;
+		uint8_t Flags;
 		struct
 		{
 			unsigned int Reserv0:1; // Активность потеряла смысл - статистика ведётся по всем аккаунтам.

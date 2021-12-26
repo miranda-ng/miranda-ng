@@ -97,7 +97,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG *)wParam;
 
 	if (msg->message == WM_DESTROY)
-		g_plugin.setByte("Docked", (BYTE)docked);
+		g_plugin.setByte("Docked", (uint8_t)docked);
 	if (!docked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE)
 		return 0;
 

@@ -21,7 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto)
+uint8_t GenderOf(MCONTACT hContact, LPCSTR pszProto)
 {
 	DBVARIANT dbv;
 	if (DB::Setting::GetAsIsEx(hContact, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv) == 0) {
@@ -44,7 +44,7 @@ BYTE GenderOf(MCONTACT hContact, LPCSTR pszProto)
 * @retval	0	- contact does not provide its gender
 **/
 
-BYTE GenderOf(MCONTACT hContact)
+uint8_t GenderOf(MCONTACT hContact)
 {
 	return GenderOf(hContact, Proto_GetBaseAccountName(hContact));
 }

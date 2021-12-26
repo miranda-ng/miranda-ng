@@ -143,7 +143,7 @@ INT_PTR CALLBACK DlgProcOptionsPopups(HWND optDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2)
+int ShowPopupPreview(HWND optDlg, uint8_t popupType, wchar_t *line1, wchar_t *line2)
 {
 	POPUPDATAW ppd;
 	switch (popupType)
@@ -191,7 +191,7 @@ int ShowPopupPreview(HWND optDlg, BYTE popupType, wchar_t *line1, wchar_t *line2
 	return (int)PUAddPopupW(&ppd);
 }
 
-int ShowPopup(MCONTACT hContact, BYTE popupType, wchar_t *line1, wchar_t *line2)
+int ShowPopup(MCONTACT hContact, uint8_t popupType, wchar_t *line1, wchar_t *line2)
 {
 	POPUPDATAW ppd;
 	switch (popupType)

@@ -338,7 +338,7 @@ INT_PTR GaduProto::setmyavatar(WPARAM, LPARAM lParam)
 	}
 
 	setByte(GG_KEY_AVATARTYPEPREV, getByte(GG_KEY_AVATARTYPE, -1));
-	setByte(GG_KEY_AVATARTYPE, (BYTE)iAvType);
+	setByte(GG_KEY_AVATARTYPE, (uint8_t)iAvType);
 
 	wchar_t szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, _countof(szMyFilename));

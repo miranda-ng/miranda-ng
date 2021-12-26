@@ -134,10 +134,10 @@ namespace Setting {
 * @retval	1 - error
 **/
 
-BYTE Get(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+uint8_t Get(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t destType)
 {
 	// read value without translation to specific type
-	BYTE result = db_get_s(hContact, pszModule, pszSetting, dbv, 0) != 0;
+	uint8_t result = db_get_s(hContact, pszModule, pszSetting, dbv, 0) != 0;
 
 	// Is value read successfully and destination type set?
 	if (!result && destType)
@@ -200,9 +200,9 @@ LPWSTR GetWString(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 * @retval	1 - error
 **/
 
-BYTE GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+uint8_t GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t destType)
 {
-	BYTE result = !pszModule || Get(hContact, pszModule, pszSetting, dbv, destType);
+	uint8_t result = !pszModule || Get(hContact, pszModule, pszSetting, dbv, destType);
 	// try to read setting from the contact's protocol module 
 	if (result && pszProto) {
 		result = Get(hContact, pszProto, pszSetting, dbv, destType) != 0;
@@ -245,7 +245,7 @@ BYTE GetEx(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszProto, LPCSTR pszSetti
 * @return	This function returns the WORD which contains the source of information.
 **/
 
-WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const BYTE destType)
+WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR pszProto, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t destType)
 {
 	WORD wFlags = 0;
 
@@ -307,7 +307,7 @@ WORD GetCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSubModule, LPCSTR ps
 * @retval	FALSE			- setting does not exist
 **/
 
-BYTE Exists(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
+uint8_t Exists(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 {
 	if (pszModule && pszSetting) {
 		CHAR szDummy[1];
@@ -349,7 +349,7 @@ namespace Variant {
 * @retval		1			- error
 **/
 
-BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
+uint8_t ConvertString(DBVARIANT* dbv, const uint8_t destType)
 {
 	if (dbv == nullptr)
 		return 1;
@@ -421,7 +421,7 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 
 /**
 * This function completely converts a DBVARIANT to the destination string type.
-* It includes BYTE, WORD, DWORD and all string types
+* It includes uint8_t, WORD, DWORD and all string types
 * @param		dbv			- pointer to DBVARIANT structure which is to manipulate
 * @param		destType	- one of (DBVT_ASCIIZ, DBVT_UTF8 or DBVT_WCHAR)
 *
@@ -429,7 +429,7 @@ BYTE ConvertString(DBVARIANT* dbv, const BYTE destType)
 * @retval	1 - error
 **/
 
-BYTE	dbv2String(DBVARIANT* dbv, const BYTE destType)
+uint8_t	dbv2String(DBVARIANT* dbv, const uint8_t destType)
 {
 	if (dbv == nullptr)
 		return 1;

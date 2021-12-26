@@ -223,9 +223,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		if (HIWORD(wParam) == CBN_SELCHANGE) {
 			if (idCtrl == IDC_LC)
-				MyOptions.LeftClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
+				MyOptions.LeftClickAction = (uint8_t)SendDlgItemMessage(hdlg, IDC_LC, CB_GETCURSEL, 0, 0);
 			else if (idCtrl == IDC_RC)
-				MyOptions.RightClickAction = (BYTE)SendDlgItemMessage(hdlg, IDC_RC, CB_GETCURSEL, 0, 0);
+				MyOptions.RightClickAction = (uint8_t)SendDlgItemMessage(hdlg, IDC_RC, CB_GETCURSEL, 0, 0);
 
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			return TRUE;
@@ -352,9 +352,9 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			//Notified popups
 			for (i = 0; i < POPUPS; i++) {
 				mir_snprintf(str, "Popups%d", i);
-				g_plugin.setByte(str, (BYTE)(IsDlgButtonChecked(hdlg, (i + 40071))));
+				g_plugin.setByte(str, (uint8_t)(IsDlgButtonChecked(hdlg, (i + 40071))));
 				mir_snprintf(str2, "Popups%dM", i);
-				g_plugin.setByte(str2, (BYTE)(IsDlgButtonChecked(hdlg, (i + 1024))));
+				g_plugin.setByte(str2, (uint8_t)(IsDlgButtonChecked(hdlg, (i + 1024))));
 			}
 			return TRUE;
 		}

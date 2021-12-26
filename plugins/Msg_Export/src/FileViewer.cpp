@@ -148,7 +148,7 @@ private:
 	// buffer size supplyed on win XP 4092 byte when streamin in
 	// optimal size it to fully use this buffer but we can guess
 	// how may bytes need converting in the file we are reading.
-	BYTE abBuf[3300];
+	uint8_t abBuf[3300];
 	char szMyNick[100];
 	int nNickLen;
 	static int nOptimalReadLen;
@@ -763,7 +763,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION, ID_FV_SAVE_AS_RTF, LPGENW("Save as RTF"));
 			InsertMenu(hSysMenu, 0, MF_SEPARATOR | MF_BYPOSITION, 0, nullptr);
 
-			BYTE bUseCC = (BYTE)g_plugin.getByte(szFileViewDB "UseCC", 0);
+			uint8_t bUseCC = (uint8_t)g_plugin.getByte(szFileViewDB "UseCC", 0);
 			InsertMenu(hSysMenu, 0, MF_STRING | MF_BYPOSITION | (bUseCC ? MF_CHECKED : 0), ID_FV_COLOR, LPGENW("Color..."));
 
 			if (bUseCC)
@@ -868,7 +868,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			
 			if ((wParam & 0xFFF0) == ID_FV_COLOR) {
-				BYTE bUseCC = !g_plugin.getByte(szFileViewDB "UseCC", 0);
+				uint8_t bUseCC = !g_plugin.getByte(szFileViewDB "UseCC", 0);
 				if (bUseCC) {
 					CHOOSECOLOR cc = { 0 };
 					cc.lStructSize = sizeof(cc);

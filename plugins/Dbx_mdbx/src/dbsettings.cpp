@@ -36,7 +36,7 @@ void CDbxMDBX::FillSettings()
 		if (szModule == nullptr)
 			continue;
 
-		const BYTE *pBlob = (const BYTE*)data.iov_base;
+		const uint8_t *pBlob = (const uint8_t*)data.iov_base;
 		if (*pBlob == DBVT_DELETED)
 			continue;
 
@@ -51,7 +51,7 @@ void CDbxMDBX::FillSettings()
 
 		WORD varLen;
 
-		BYTE iType = dbv->type = pBlob[0]; pBlob++;
+		uint8_t iType = dbv->type = pBlob[0]; pBlob++;
 		switch (iType) {
 		case DBVT_BYTE:  dbv->bVal = *pBlob; break;
 		case DBVT_WORD:  dbv->wVal = *(WORD*)pBlob; break;
@@ -70,7 +70,7 @@ void CDbxMDBX::FillSettings()
 		case DBVT_ENCRYPTED:
 			varLen = *(WORD*)pBlob;
 			pBlob += 2;
-			dbv->pbVal = (BYTE *)mir_alloc(varLen);
+			dbv->pbVal = (uint8_t *)mir_alloc(varLen);
 			memcpy(dbv->pbVal, pBlob, varLen);
 			dbv->cpbVal = varLen;
 			break;
@@ -113,7 +113,7 @@ BOOL CDbxMDBX::WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTI
 
 	data.iov_base = _alloca(data.iov_len);
 
-	BYTE *pBlob = (BYTE*)data.iov_base;
+	uint8_t *pBlob = (uint8_t*)data.iov_base;
 	*pBlob++ = dbcws.value.type;
 	switch (dbcws.value.type) {
 	case DBVT_BYTE:  *pBlob = dbcws.value.bVal; break;

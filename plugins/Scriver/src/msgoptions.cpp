@@ -31,7 +31,7 @@ struct
 	const wchar_t *szDescr;
 	COLORREF defColour;
 	const wchar_t *szDefFace;
-	BYTE defStyle;
+	uint8_t defStyle;
 	char defSize;
 	const wchar_t *szBkgName;
 }
@@ -769,7 +769,7 @@ public:
 
 	void onRebuildClist(CCtrlClc *)
 	{
-		BYTE defType = g_plugin.bTypingNew;
+		uint8_t defType = g_plugin.bTypingNew;
 		if (hItemNew && defType)
 			m_list.SetCheck(hItemNew, 1);
 

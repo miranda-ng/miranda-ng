@@ -206,7 +206,7 @@ static BOOL ExportSettings(HWND hwndDlg, const wchar_t *filename, OBJLIST<FontIn
 			}
 			else if (F->flags & FIDF_SAVEPOINTSIZE) {
 				HDC hdc = GetDC(hwndDlg);
-				iFontSize = (BYTE)-MulDiv(F->value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY));
+				iFontSize = (uint8_t)-MulDiv(F->value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY));
 				ReleaseDC(hwndDlg, hdc);
 			}
 			else iFontSize = F->value.size;
@@ -487,8 +487,8 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 
 		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_SETRANGE, 0, MAKELONG(255, 0));
 		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_SETRANGE, 0, MAKELONG(255, 0));
-		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_SETPOS, 0, MAKELONG((BYTE)~((BYTE)((pEffect->baseColour & 0xFF000000) >> 24)), 0));
-		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_SETPOS, 0, MAKELONG((BYTE)~((BYTE)((pEffect->secondaryColour & 0xFF000000) >> 24)), 0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_SETPOS, 0, MAKELONG((uint8_t)~((uint8_t)((pEffect->baseColour & 0xFF000000) >> 24)), 0));
+		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_SETPOS, 0, MAKELONG((uint8_t)~((uint8_t)((pEffect->secondaryColour & 0xFF000000) >> 24)), 0));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -496,9 +496,9 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 		case IDOK:
 			{
 				int i = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETCURSEL, 0, 0);
-				pEffect->effectIndex = (BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0);
-				pEffect->baseColour = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR1, CPM_GETCOLOUR, 0, 0) | ((~(BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_GETPOS, 0, 0)) << 24);
-				pEffect->secondaryColour = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR2, CPM_GETCOLOUR, 0, 0) | ((~(BYTE)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_GETPOS, 0, 0)) << 24);
+				pEffect->effectIndex = (uint8_t)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0);
+				pEffect->baseColour = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR1, CPM_GETCOLOUR, 0, 0) | ((~(uint8_t)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN1, UDM_GETPOS, 0, 0)) << 24);
+				pEffect->secondaryColour = SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR2, CPM_GETCOLOUR, 0, 0) | ((~(uint8_t)SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR_SPIN2, UDM_GETPOS, 0, 0)) << 24);
 			}
 			EndDialog(hwndDlg, IDOK);
 			return TRUE;
@@ -547,7 +547,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	}
 	else if (F.flags & FIDF_SAVEPOINTSIZE) {
 		HDC hdc = GetDC(hwndDlg);
-		db_set_b(0, F.dbSettingsGroup, str, (BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)));
+		db_set_b(0, F.dbSettingsGroup, str, (uint8_t)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)));
 		ReleaseDC(hwndDlg, hdc);
 	}
 	else db_set_b(0, F.dbSettingsGroup, str, F.value.size);

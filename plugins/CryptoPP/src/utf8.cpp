@@ -27,7 +27,7 @@ LPSTR __cdecl utf8encode(LPCWSTR str)
 	i = 0;
 	for (w = wszTemp; *w; w++) {
 		if (*w < 0x0080)
-			szOut[i++] = (BYTE)*w;
+			szOut[i++] = (uint8_t)*w;
 		else if (*w < 0x0800) {
 			szOut[i++] = 0xc0 | (((*w) >> 6) & 0x3f);
 			szOut[i++] = 0x80 | ((*w) & 0x3f);

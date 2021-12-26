@@ -26,7 +26,7 @@
 
 // ----------------------------------------------------------
 
-BYTE * DLL_CALLCONV
+uint8_t * DLL_CALLCONV
 FreeImage_GetScanLine(FIBITMAP *dib, int scanline) {
 	if(!FreeImage_HasPixels(dib)) {
 		return NULL;
@@ -35,21 +35,21 @@ FreeImage_GetScanLine(FIBITMAP *dib, int scanline) {
 }
 
 BOOL DLL_CALLCONV
-FreeImage_GetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
-	BYTE shift;
+FreeImage_GetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, uint8_t *value) {
+	uint8_t shift;
 
 	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
 	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
-		BYTE *bits = FreeImage_GetScanLine(dib, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
 			case 1:
 				*value = (bits[x >> 3] & (0x80 >> (x & 0x07))) != 0;
 				break;
 			case 4:
-				shift = (BYTE)((1 - x % 2) << 2);
+				shift = (uint8_t)((1 - x % 2) << 2);
 				*value = (bits[x >> 1] & (0x0F << shift)) >> shift;
 				break;
 			case 8:
@@ -71,7 +71,7 @@ FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 		return FALSE;
 
 	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
-		BYTE *bits = FreeImage_GetScanLine(dib, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
 			case 16:
@@ -79,14 +79,14 @@ FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 				bits += 2*x;
 				WORD *pixel = (WORD *)bits;
 				if((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
-					value->rgbBlue		= (BYTE)((((*pixel & FI16_565_BLUE_MASK) >> FI16_565_BLUE_SHIFT) * 0xFF) / 0x1F);
-					value->rgbGreen		= (BYTE)((((*pixel & FI16_565_GREEN_MASK) >> FI16_565_GREEN_SHIFT) * 0xFF) / 0x3F);
-					value->rgbRed		= (BYTE)((((*pixel & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F);
+					value->rgbBlue		= (uint8_t)((((*pixel & FI16_565_BLUE_MASK) >> FI16_565_BLUE_SHIFT) * 0xFF) / 0x1F);
+					value->rgbGreen		= (uint8_t)((((*pixel & FI16_565_GREEN_MASK) >> FI16_565_GREEN_SHIFT) * 0xFF) / 0x3F);
+					value->rgbRed		= (uint8_t)((((*pixel & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F);
 					value->rgbReserved	= 0;
 				} else {
-					value->rgbBlue		= (BYTE)((((*pixel & FI16_555_BLUE_MASK) >> FI16_555_BLUE_SHIFT) * 0xFF) / 0x1F);
-					value->rgbGreen		= (BYTE)((((*pixel & FI16_555_GREEN_MASK) >> FI16_555_GREEN_SHIFT) * 0xFF) / 0x1F);
-					value->rgbRed		= (BYTE)((((*pixel & FI16_555_RED_MASK) >> FI16_555_RED_SHIFT) * 0xFF) / 0x1F);
+					value->rgbBlue		= (uint8_t)((((*pixel & FI16_555_BLUE_MASK) >> FI16_555_BLUE_SHIFT) * 0xFF) / 0x1F);
+					value->rgbGreen		= (uint8_t)((((*pixel & FI16_555_GREEN_MASK) >> FI16_555_GREEN_SHIFT) * 0xFF) / 0x1F);
+					value->rgbRed		= (uint8_t)((((*pixel & FI16_555_RED_MASK) >> FI16_555_RED_SHIFT) * 0xFF) / 0x1F);
 					value->rgbReserved	= 0;
 				}
 				break;
@@ -116,21 +116,21 @@ FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 }
 
 BOOL DLL_CALLCONV
-FreeImage_SetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
-	BYTE shift;
+FreeImage_SetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, uint8_t *value) {
+	uint8_t shift;
 
 	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
 	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
-		BYTE *bits = FreeImage_GetScanLine(dib, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
 			case 1:
 				*value ? bits[x >> 3] |= (0x80 >> (x & 0x7)) : bits[x >> 3] &= (0xFF7F >> (x & 0x7));
 				break;
 			case 4:
-				shift = (BYTE)((1 - x % 2) << 2);
+				shift = (uint8_t)((1 - x % 2) << 2);
 				bits[x >> 1] &= ~(0x0F << shift);
 				bits[x >> 1] |= ((*value & 0x0F) << shift);
 				break;
@@ -153,7 +153,7 @@ FreeImage_SetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 		return FALSE;
 
 	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
-		BYTE *bits = FreeImage_GetScanLine(dib, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
 			case 16:

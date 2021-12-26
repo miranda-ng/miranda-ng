@@ -101,7 +101,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			LPTSTR link;
 			ENLINK *pENLink = (ENLINK*)lParam;
 
-			BYTE mouseEvent = g_plugin.getByte(LINKLIST_MOUSE_EVENT, 0xFF);
+			uint8_t mouseEvent = g_plugin.getByte(LINKLIST_MOUSE_EVENT, 0xFF);
 
 			switch (pENLink->msg) {
 			case WM_MOUSEMOVE:
@@ -381,7 +381,7 @@ INT_PTR CALLBACK SearchDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			return TRUE;
 
 		case IDSEARCH:
-			BYTE flags = 0x00;
+			uint8_t flags = 0x00;
 			wchar_t filter[FILTERTEXT];
 
 			HWND hListDlg = WindowList_Find(hWindowList, DlgParam->hContact);
@@ -421,7 +421,7 @@ This function handles the options dialog messages
 */
 INT_PTR CALLBACK OptionsDlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	BYTE useDefault;
+	uint8_t useDefault;
 
 	switch (message) {
 	case WM_INITDIALOG:

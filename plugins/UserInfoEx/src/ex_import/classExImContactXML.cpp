@@ -63,7 +63,7 @@ CExImContactXML::CExImContactXML(CFileXml *pXmlFile)
 * return:	TRUE if pszKey is a valid contact information
 **/
 
-BYTE CExImContactXML::IsContactInfo(LPCSTR pszKey)
+uint8_t CExImContactXML::IsContactInfo(LPCSTR pszKey)
 {
 	// This is a sorted list of all hashvalues of the contact information.
 	// This is the same as the szCiKey[] array below but sorted
@@ -381,7 +381,7 @@ int CExImContactXML::ExportSetting(TiXmlElement *xmlModule, LPCSTR pszModule, LP
 * return:	TRUE on success, FALSE otherwise
 **/
 
-BYTE CExImContactXML::ExportEvents()
+uint8_t CExImContactXML::ExportEvents()
 {
 	int dwNumEvents = db_event_count(_hContact);
 	if (dwNumEvents == 0)
@@ -525,7 +525,7 @@ int CExImContactXML::LoadXmlElement(const TiXmlElement *xContact)
 			if (pUID != nullptr) {
 				switch (*(pUID++)) {
 				case 'b':
-					uid((BYTE)atoi(pUID));
+					uid((uint8_t)atoi(pUID));
 					break;
 				case 'w':
 					uid((WORD)atoi(pUID));
@@ -636,7 +636,7 @@ int CExImContactXML::ImportNormalContact()
 * return:	ERROR_OK on success or any other error number otherwise
 **/
 
-int CExImContactXML::Import(BYTE keepMetaSubContact)
+int CExImContactXML::Import(uint8_t keepMetaSubContact)
 {
 	// xml contact contains subcontacts?
 	const TiXmlElement *xContact = _xmlReader->FirstChildElement("CONTACT");
@@ -771,8 +771,8 @@ int CExImContactXML::ImportModule(const TiXmlElement *xmlModule)
 		// import setting
 		if (!mir_strcmpi(xKey->Value(), XKEY_SET)) {
 			// check if the module to import is the contact's protocol module
-			BYTE isProtoModule = !mir_strcmpi(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
-			BYTE isMetaModule = DB::Module::IsMeta(pszModule);
+			uint8_t isProtoModule = !mir_strcmpi(pszModule, _pszProto)/* || DB::Module::IsMeta(pszModule)*/;
+			uint8_t isMetaModule = DB::Module::IsMeta(pszModule);
 
 			// just ignore MetaModule on normal contact to avoid errors (only keys)
 			if (!isProtoModule && isMetaModule)
@@ -846,7 +846,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, const TiXmlElement *xmlEntr
 	switch (value[0]) {
 	case 'b':			//'b' bVal and cVal are valid
 		dbv.type = DBVT_BYTE;
-		dbv.bVal = (BYTE)atoi(value + 1);
+		dbv.bVal = (uint8_t)atoi(value + 1);
 		break;
 	case 'w':			//'w' wVal and sVal are valid
 		dbv.type = DBVT_WORD;
@@ -924,7 +924,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent)
 		return ERROR_INVALID_VALUE;
 
 	size_t baselen;
-	mir_ptr<BYTE> tmpVal((uint8_t*)mir_base64_decode(tmp, &baselen));
+	mir_ptr<uint8_t> tmpVal((uint8_t*)mir_base64_decode(tmp, &baselen));
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;

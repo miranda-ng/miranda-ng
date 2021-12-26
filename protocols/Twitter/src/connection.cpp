@@ -520,7 +520,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 		// if we send twits as messages, add an unread event
 		if (tweetToMsg) {
 			DBEVENTINFO dbei = {};
-			dbei.pBlob = (BYTE*)(u->status.text.c_str());
+			dbei.pBlob = (uint8_t*)(u->status.text.c_str());
 			dbei.cbBlob = (int)u->status.text.length() + 1;
 			dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 			dbei.flags = DBEF_UTF;

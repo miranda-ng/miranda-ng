@@ -346,7 +346,7 @@ void SendQueue::logError(CMsgDialog *dat, int iSendJobIndex, const wchar_t *szEr
 	DBEVENTINFO	dbei = {};
 	dbei.eventType = EVENTTYPE_ERRMSG;
 	if (iSendJobIndex >= 0) {
-		dbei.pBlob = (BYTE *)m_jobs[iSendJobIndex].szSendBuffer;
+		dbei.pBlob = (uint8_t *)m_jobs[iSendJobIndex].szSendBuffer;
 		iMsgLen = mir_strlen(m_jobs[iSendJobIndex].szSendBuffer) + 1;
 	}
 	else {

@@ -108,7 +108,7 @@ HTREEITEM ExportTree_FindItem(HWND hTree, HTREEITEM hParent, LPSTR pszText)
  * return:	return handle to added treeitem
  **/
 
-HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, BYTE bUseImages, BYTE bState)
+HTREEITEM ExportTree_AddItem(HWND hTree, HTREEITEM hParent, LPSTR pszDesc, uint8_t bUseImages, uint8_t bState)
 {
 	TVINSERTSTRUCTA	tvii;
 	HTREEITEM hItem = nullptr;
@@ -143,7 +143,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			BYTE bImagesLoaded = 0;
+			uint8_t bImagesLoaded = 0;
 
 			// get tree handle and set treeview style
 			HWND hTree = GetDlgItem(hDlg, IDC_TREE);

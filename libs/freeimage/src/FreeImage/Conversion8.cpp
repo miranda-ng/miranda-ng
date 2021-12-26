@@ -30,13 +30,13 @@
 // ----------------------------------------------------------
 
 void DLL_CALLCONV
-FreeImage_ConvertLine1To8(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine1To8(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++)
 		target[cols] = (source[cols >> 3] & (0x80 >> (cols & 0x07))) != 0 ? 255 : 0;	
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine4To8(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine4To8(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	unsigned count_new = 0;
 	unsigned count_org = 0;
 	BOOL hinibble = TRUE;
@@ -54,7 +54,7 @@ FreeImage_ConvertLine4To8(BYTE *target, BYTE *source, int width_in_pixels) {
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine16To8_555(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine16To8_555(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	const WORD *const bits = (WORD *)source;
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY((((bits[cols] & FI16_555_RED_MASK) >> FI16_555_RED_SHIFT) * 0xFF) / 0x1F,
@@ -64,7 +64,7 @@ FreeImage_ConvertLine16To8_555(BYTE *target, BYTE *source, int width_in_pixels) 
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine16To8_565(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine16To8_565(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	const WORD *const bits = (WORD *)source;
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY((((bits[cols] & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F,
@@ -74,7 +74,7 @@ FreeImage_ConvertLine16To8_565(BYTE *target, BYTE *source, int width_in_pixels) 
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine24To8(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine24To8(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY(source[FI_RGBA_RED], source[FI_RGBA_GREEN], source[FI_RGBA_BLUE]);
 		source += 3;
@@ -82,7 +82,7 @@ FreeImage_ConvertLine24To8(BYTE *target, BYTE *source, int width_in_pixels) {
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertLine32To8(BYTE *target, BYTE *source, int width_in_pixels) {
+FreeImage_ConvertLine32To8(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	for (unsigned cols = 0; cols < (unsigned)width_in_pixels; cols++) {
 		target[cols] = GREY(source[FI_RGBA_RED], source[FI_RGBA_GREEN], source[FI_RGBA_BLUE]);
 		source += 4;
@@ -200,14 +200,14 @@ FreeImage_ConvertTo8Bits(FIBITMAP *dib) {
 
 			const unsigned src_pitch = FreeImage_GetPitch(dib);
 			const unsigned dst_pitch = FreeImage_GetPitch(new_dib);
-			const BYTE *src_bits = FreeImage_GetBits(dib);
-			BYTE *dst_bits = FreeImage_GetBits(new_dib);
+			const uint8_t *src_bits = FreeImage_GetBits(dib);
+			uint8_t *dst_bits = FreeImage_GetBits(new_dib);
 
 			for (unsigned rows = 0; rows < height; rows++) {
 				const WORD *const src_pixel = (WORD*)src_bits;
-				BYTE *dst_pixel = (BYTE*)dst_bits;
+				uint8_t *dst_pixel = (uint8_t*)dst_bits;
 				for(unsigned cols = 0; cols < width; cols++) {
-					dst_pixel[cols] = (BYTE)(src_pixel[cols] >> 8);
+					dst_pixel[cols] = (uint8_t)(src_pixel[cols] >> 8);
 				}
 				src_bits += src_pitch;
 				dst_bits += dst_pitch;
@@ -243,7 +243,7 @@ FreeImage_ConvertToGreyscale(FIBITMAP *dib) {
 		FreeImage_CloneMetadata(new_dib, dib);
 
 		// Create a greyscale palette
-		BYTE grey_pal[256];
+		uint8_t grey_pal[256];
 		const RGBQUAD *pal = FreeImage_GetPalette(dib);
 		const unsigned size = CalculateUsedPaletteEntries(bpp);
 		for (unsigned i = 0; i < size; i++) {
@@ -251,8 +251,8 @@ FreeImage_ConvertToGreyscale(FIBITMAP *dib) {
 			pal++;
 		}
 
-		const BYTE *src_bits = FreeImage_GetBits(dib);
-		BYTE *dst_bits = FreeImage_GetBits(new_dib);
+		const uint8_t *src_bits = FreeImage_GetBits(dib);
+		uint8_t *dst_bits = FreeImage_GetBits(new_dib);
 
 		const unsigned src_pitch = FreeImage_GetPitch(dib);
 		const unsigned dst_pitch = FreeImage_GetPitch(new_dib);

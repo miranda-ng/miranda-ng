@@ -375,7 +375,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:
-		db_set_b(0, "CLC", "HideOfflineRoot", (BYTE)wParam);
+		db_set_b(0, "CLC", "HideOfflineRoot", (uint8_t)wParam);
 		Clist_InitAutoRebuild(hwnd);
 		break;
 

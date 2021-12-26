@@ -59,8 +59,8 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 
 	
 	int x, y, c;
-	BYTE alpha = 0, not_alpha;
-	BYTE index;
+	uint8_t alpha = 0, not_alpha;
+	uint8_t index;
 	RGBQUAD fgc;	// foreground color
 	RGBQUAD bkc;	// background color
 
@@ -76,7 +76,7 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 
 	// retrieve the alpha table from the foreground image
 	BOOL bIsTransparent = FreeImage_IsTransparent(fg);
-	BYTE *trns = FreeImage_GetTransparencyTable(fg);
+	uint8_t *trns = FreeImage_GetTransparencyTable(fg);
 
 	// retrieve the background color from the foreground image
 	BOOL bHasBkColor = FALSE;
@@ -99,11 +99,11 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 
 	for(y = 0; y < height; y++) {
 		// foreground
-		BYTE *fg_bits = FreeImage_GetScanLine(fg, y);
+		uint8_t *fg_bits = FreeImage_GetScanLine(fg, y);
 		// background
-		BYTE *bg_bits = FreeImage_GetScanLine(bg, y);
+		uint8_t *bg_bits = FreeImage_GetScanLine(bg, y);
 		// composite image
-		BYTE *cp_bits = FreeImage_GetScanLine(composite, y);
+		uint8_t *cp_bits = FreeImage_GetScanLine(composite, y);
 
 		for(x = 0; x < width; x++) {
 
@@ -142,9 +142,9 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 					// use a checkerboard pattern
 					c = (((y & 0x8) == 0) ^ ((x & 0x8) == 0)) * 192;
 					c = c ? c : 255;
-					bkc.rgbBlue  = (BYTE)c;
-					bkc.rgbGreen = (BYTE)c;
-					bkc.rgbRed   = (BYTE)c;
+					bkc.rgbBlue  = (uint8_t)c;
+					bkc.rgbGreen = (uint8_t)c;
+					bkc.rgbRed   = (uint8_t)c;
 				}
 			}
 
@@ -164,10 +164,10 @@ FreeImage_Composite(FIBITMAP *fg, BOOL useFileBkg, RGBQUAD *appBkColor, FIBITMAP
 			}
 			else {
 				// output = alpha * foreground + (1-alpha) * background
-				not_alpha = (BYTE)~alpha;
-				cp_bits[FI_RGBA_BLUE] = (BYTE)((alpha * (WORD)fgc.rgbBlue  + not_alpha * (WORD)bkc.rgbBlue) >> 8);
-				cp_bits[FI_RGBA_GREEN] = (BYTE)((alpha * (WORD)fgc.rgbGreen + not_alpha * (WORD)bkc.rgbGreen) >> 8);
-				cp_bits[FI_RGBA_RED] = (BYTE)((alpha * (WORD)fgc.rgbRed   + not_alpha * (WORD)bkc.rgbRed) >> 8);
+				not_alpha = (uint8_t)~alpha;
+				cp_bits[FI_RGBA_BLUE] = (uint8_t)((alpha * (WORD)fgc.rgbBlue  + not_alpha * (WORD)bkc.rgbBlue) >> 8);
+				cp_bits[FI_RGBA_GREEN] = (uint8_t)((alpha * (WORD)fgc.rgbGreen + not_alpha * (WORD)bkc.rgbGreen) >> 8);
+				cp_bits[FI_RGBA_RED] = (uint8_t)((alpha * (WORD)fgc.rgbRed   + not_alpha * (WORD)bkc.rgbRed) >> 8);
 			}
 
 			fg_bits += bytespp;
@@ -202,9 +202,9 @@ FreeImage_PreMultiplyWithAlpha(FIBITMAP *dib) {
 	int height = FreeImage_GetHeight(dib);
 
 	for(int y = 0; y < height; y++) {
-		BYTE *bits = FreeImage_GetScanLine(dib, y);
+		uint8_t *bits = FreeImage_GetScanLine(dib, y);
 		for (int x = 0; x < width; x++, bits += 4) {
-			const BYTE alpha = bits[FI_RGBA_ALPHA];
+			const uint8_t alpha = bits[FI_RGBA_ALPHA];
 			// slightly faster: care for two special cases
 			if(alpha == 0x00) {
 				// special case for alpha == 0x00
@@ -217,9 +217,9 @@ FreeImage_PreMultiplyWithAlpha(FIBITMAP *dib) {
 				// color * 0xFF / 0xFF = color
 				continue;
 			} else {
-				bits[FI_RGBA_BLUE] = (BYTE)( (alpha * (WORD)bits[FI_RGBA_BLUE] + 127) / 255 );
-				bits[FI_RGBA_GREEN] = (BYTE)( (alpha * (WORD)bits[FI_RGBA_GREEN] + 127) / 255 );
-				bits[FI_RGBA_RED] = (BYTE)( (alpha * (WORD)bits[FI_RGBA_RED] + 127) / 255 );
+				bits[FI_RGBA_BLUE] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_BLUE] + 127) / 255 );
+				bits[FI_RGBA_GREEN] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_GREEN] + 127) / 255 );
+				bits[FI_RGBA_RED] = (uint8_t)( (alpha * (WORD)bits[FI_RGBA_RED] + 127) / 255 );
 			}
 		}
 	}

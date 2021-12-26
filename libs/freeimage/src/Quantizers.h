@@ -61,13 +61,13 @@ protected:
     void Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int ReserveSize, RGBQUAD *ReservePalette);
 	void M3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2);
 	LONG Vol(Box *cube, LONG *mmt);
-	LONG Bottom(Box *cube, BYTE dir, LONG *mmt);
-	LONG Top(Box *cube, BYTE dir, int pos, LONG *mmt);
+	LONG Bottom(Box *cube, uint8_t dir, LONG *mmt);
+	LONG Top(Box *cube, uint8_t dir, int pos, LONG *mmt);
 	float Var(Box *cube);
-	float Maximize(Box *cube, BYTE dir, int first, int last , int *cut,
+	float Maximize(Box *cube, uint8_t dir, int first, int last , int *cut,
 				   LONG whole_r, LONG whole_g, LONG whole_b, LONG whole_w);
 	bool Cut(Box *set1, Box *set2);
-	void Mark(Box *cube, int label, BYTE *tag);
+	void Mark(Box *cube, int label, uint8_t *tag);
 
 public:
 	// Constructor - Input parameter: DIB 24-bit to be quantized

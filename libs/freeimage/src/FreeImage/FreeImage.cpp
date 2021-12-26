@@ -90,7 +90,7 @@ BOOL DLL_CALLCONV
 FreeImage_IsLittleEndian() {
 	union {
 		DWORD i;
-		BYTE c[4];
+		uint8_t c[4];
 	} u;
 	u.i = 1;
 	return (u.c[0] != 0);

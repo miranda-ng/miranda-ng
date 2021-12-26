@@ -51,7 +51,7 @@ typedef struct
 
 void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, DWORD rva)
 {
-	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
+	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((uint8_t*)pDosHeader + pDosHeader->e_lfanew);
 	IMAGE_SECTION_HEADER *pSection = IMAGE_FIRST_SECTION(pPE);
 
 	for (int i = 0; i < pPE->FileHeader.NumberOfSections; i++) {
@@ -67,7 +67,7 @@ void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, DWORD rva)
 
 void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 {
-	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((BYTE*)pDosHeader + pDosHeader->e_lfanew);
+	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((uint8_t*)pDosHeader + pDosHeader->e_lfanew);
 	if (pPE->Signature != IMAGE_NT_SIGNATURE || pPE->FileHeader.SizeOfOptionalHeader < 2)
 		return nullptr;
 

@@ -76,7 +76,7 @@ HGENMENU hTrafficMainMenuItem = nullptr;
 /*-------------------------------------------------------------------------------------------------------------------*/
 //TIME COUNTER
 /*-------------------------------------------------------------------------------------------------------------------*/
-BYTE online_count = 0;
+uint8_t online_count = 0;
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //font service support
@@ -152,7 +152,7 @@ int ModuleLoad(WPARAM, LPARAM)
 	return 0;
 }
 
-void SaveSettings(BYTE OnlyCnt)
+void SaveSettings(uint8_t OnlyCnt)
 {
 	unsigned short int i;
 
@@ -230,7 +230,7 @@ int TrafficCounter_Draw(HWND hwnd, HDC hDC)
 	return 0;
 }
 
-static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, BYTE ClistModernPresent)
+static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, uint8_t ClistModernPresent)
 {
 	int nCount = (int)mir_wstrlen(lpString);
 
@@ -240,7 +240,7 @@ static void TC_AlphaText(HDC hDC, LPCTSTR lpString, RECT* lpRect, UINT format, B
 		DrawText(hDC, lpString, nCount, lpRect, format);
 }
 
-static void TC_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, HBRUSH hbrFlickerFreeDraw, BYTE ClistModernPresent)
+static void TC_DrawIconEx(HDC hdc, int xLeft, int yTop, HICON hIcon, HBRUSH hbrFlickerFreeDraw, uint8_t ClistModernPresent)
 {
 	if (ClistModernPresent)
 		mod_DrawIconEx_helper(hdc, xLeft, yTop, hIcon, 16, 16, 0, hbrFlickerFreeDraw, DI_NORMAL);
@@ -254,7 +254,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	BLENDFUNCTION aga = { AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA };
 	DWORD SummarySession, SummaryTotal;
 
-	BYTE ClistModernPresent = (GetModuleHandleA("clist_modern.dll") || GetModuleHandleA("clist_modern_dora.dll"))
+	uint8_t ClistModernPresent = (GetModuleHandleA("clist_modern.dll") || GetModuleHandleA("clist_modern_dora.dll"))
 		&& !db_get_b(0, "ModernData", "DisableEngine", 0)
 		&& db_get_b(0, "ModernData", "EnableLayering", 1);
 

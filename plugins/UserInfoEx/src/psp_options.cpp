@@ -64,7 +64,7 @@ static void FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, L
  * @retval	TRUE on success
  * @retval	FALSE on failure
  **/
-static BYTE EnableDlgItem(HWND hDlg, const int idCtrl, BYTE bEnabled)
+static uint8_t EnableDlgItem(HWND hDlg, const int idCtrl, uint8_t bEnabled)
 {
 	return EnableWindow(GetDlgItem(hDlg, idCtrl), bEnabled);
 }
@@ -79,7 +79,7 @@ static BYTE EnableDlgItem(HWND hDlg, const int idCtrl, BYTE bEnabled)
  *
  * @return	bEnabled
  **/
-static BYTE InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEnabled)
+static uint8_t InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, uint8_t bEnabled)
 {
 	HWND hCtrl;
 
@@ -100,7 +100,7 @@ static BYTE InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, B
  *
  * @return	bEnabled
  **/
-static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEnabled)
+static uint8_t EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, uint8_t bEnabled)
 {
 	while (countCtrl-- > 0)
 		EnableDlgItem(hDlg, idCtrl[countCtrl], bEnabled);
@@ -117,9 +117,9 @@ static BYTE EnableControls(HWND hDlg, const int *idCtrl, int countCtrl, BYTE bEn
  *
  * @return	This function returns the value from database or the default value.
  **/
-static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE bDefault)
+static uint8_t DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint8_t bDefault)
 {
-	BYTE val = (g_plugin.getByte(pszSetting, bDefault) & 1) == 1;
+	uint8_t val = (g_plugin.getByte(pszSetting, bDefault) & 1) == 1;
 	CheckDlgButton(hDlg, idCtrl, val ? BST_CHECKED : BST_UNCHECKED);
 	return val;
 }
@@ -134,9 +134,9 @@ static BYTE DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE b
  *
  * @return	checkstate
  **/
-static BYTE DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
+static uint8_t DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	BYTE val = IsDlgButtonChecked(hDlg, idCtrl);
+	uint8_t val = IsDlgButtonChecked(hDlg, idCtrl);
 	int Temp = g_plugin.getByte(pszSetting, 0);
 	Temp &= ~1;
 	g_plugin.setByte(pszSetting, Temp |= val);
@@ -175,7 +175,7 @@ static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 }
 
 /**
- * This function writes a BYTE to database according to the value
+ * This function writes a uint8_t to database according to the value
  * read from the edit control identified by 'idCtrl'.
  *
  * @param	hWnd			- the dialog's window handle
@@ -187,12 +187,12 @@ static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE defVal)
+static uint8_t DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint8_t defVal)
 {
-	BYTE v;
+	uint8_t v;
 	BOOL t;
 
-	v = (BYTE)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
+	v = (uint8_t)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
 	if (t && (v != g_plugin.getByte(pszSetting, defVal))) {
 		g_plugin.setByte(pszSetting, v);
 		return true;
@@ -213,7 +213,7 @@ static BYTE DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD defVal)
+static uint8_t DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD defVal)
 {
 	WORD v;
 	BOOL t;
@@ -227,7 +227,7 @@ static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD
 }
 
 /**
- * This function writes a BYTE to database according to the currently
+ * This function writes a uint8_t to database according to the currently
  * selected item of a combobox identified by 'idCtrl'.
  *
  * @param	hWnd			- the dialog's window handle
@@ -239,11 +239,11 @@ static BYTE DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, WORD
  * @retval	TRUE			- the database value was updated
  * @retval	FALSE			- no database update needed
  **/
-static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYTE defVal)
+static uint8_t DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint8_t defVal)
 {
-	BYTE v;
+	uint8_t v;
 
-	v = (BYTE)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
+	v = (uint8_t)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
 	if (v != g_plugin.getByte(pszSetting, defVal)) {
 		g_plugin.setByte(pszSetting, v);
 		return true;
@@ -253,7 +253,7 @@ static BYTE DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, BYT
 
 static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE bInitialized = 0;
+	static uint8_t bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -295,7 +295,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				flag |= IsDlgButtonChecked(hDlg, it.idNONE) ? 2 : 0;
 				flag |= IsDlgButtonChecked(hDlg, it.idALL) ? 4 : 0;
 				flag |= IsDlgButtonChecked(hDlg, it.idEXIMPORT) ? 8 : 0;
-				g_plugin.setByte(it.pszKey, (BYTE)flag);
+				g_plugin.setByte(it.pszKey, (uint8_t)flag);
 			}
 
 			RebuildMenu();
@@ -323,7 +323,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				UpdateStatusIcons();
 
 			// misc
-			BYTE bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
+			uint8_t bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
 			g_plugin.setByte(SET_ZODIAC_AVATARS, bEnabled);
 			NServices::NAvatar::Enable(bEnabled);
 		}
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE bInitialized = 0;
+	static uint8_t bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -414,7 +414,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			break;
 
 		case BTN_OPT_RESET:
-			BYTE WantReset = MsgBox(hDlg,
+			uint8_t WantReset = MsgBox(hDlg,
 				MB_ICON_WARNING | MB_YESNO,
 				LPGENW("Question"),
 				LPGENW("Reset factory defaults"),
@@ -462,7 +462,7 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE bInitialized = 0;
+	static uint8_t bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -542,7 +542,7 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 
 static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE bInitialized = 0;
+	static uint8_t bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -574,7 +574,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		bInitialized = 0;
 		{
 			// set reminder options
-			BYTE bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+			uint8_t bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
 			SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
 			DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
 				(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
@@ -607,7 +607,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
 			{
-				BYTE bReminderCheck = FALSE;
+				uint8_t bReminderCheck = FALSE;
 
 				// save checkbox options
 				DBWriteCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED);
@@ -621,8 +621,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				bReminderCheck = DBWriteEditWord(hDlg, EDIT_REMIND, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 
 				// save primary birthday module
-				BYTE bOld = g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
-				BYTE bNew = (BYTE)ComboBox_GetCurSel(GetDlgItem(hDlg, EDIT_BIRTHMODULE));
+				uint8_t bOld = g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
+				uint8_t bNew = (uint8_t)ComboBox_GetCurSel(GetDlgItem(hDlg, EDIT_BIRTHMODULE));
 				if (bOld != bNew) {
 					// keep the database clean
 					DBWriteComboByte(hDlg, EDIT_BIRTHMODULE, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);
@@ -634,7 +634,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				}
 
 				// update current reminder state
-				BYTE bNewVal = (BYTE)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
+				uint8_t bNewVal = (uint8_t)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
 				if (g_plugin.getByte(SET_REMIND_ENABLED, 1) != bNewVal) {
 					g_plugin.setByte(SET_REMIND_ENABLED, bNewVal);
 					if (bNewVal == REMIND_OFF) {
@@ -698,7 +698,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 		case EDIT_REMIND_SOUNDOFFSET:
 			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
 				BOOL t;
-				BYTE v = (BYTE)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
+				uint8_t v = (uint8_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
 				if (t && (v != g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
 					NotifyParentOfChange(hDlg);
 			}
@@ -719,7 +719,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static BYTE bInitialized = 0;
+	static uint8_t bInitialized = 0;
 
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -733,7 +733,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 
 			// enable/disable popups
-			BYTE isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+			uint8_t isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
 			SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ENABLED, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_POPUP_ENABLED));
 
 			// set colortype checkboxes and color controls
@@ -763,7 +763,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
 			}
 			// set delay values
-			BYTE bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
+			uint8_t bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
 			switch (bDelay) {
 			case 0:
 				CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
@@ -818,7 +818,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
 				wchar_t szDelay[4];
 				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, _countof(szDelay));
-				g_plugin.setByte(SET_POPUP_DELAY, (BYTE)wcstol(szDelay, nullptr, 10));
+				g_plugin.setByte(SET_POPUP_DELAY, (uint8_t)wcstol(szDelay, nullptr, 10));
 			}
 			else
 				g_plugin.delSetting(SET_POPUP_DELAY);

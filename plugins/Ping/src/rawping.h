@@ -20,14 +20,14 @@
 
 // The IP header
 struct IPHeader {
-	BYTE h_len : 4;           // Length of the header in dwords
-	BYTE version : 4;         // Version of IP
-	BYTE tos;               // Type of service
+	uint8_t h_len : 4;           // Length of the header in dwords
+	uint8_t version : 4;         // Version of IP
+	uint8_t tos;               // Type of service
 	USHORT total_len;       // Length of the packet in dwords
 	USHORT ident;           // unique identifier
 	USHORT flags;           // Flags
-	BYTE ttl;               // Time to live
-	BYTE proto;             // Protocol number (TCP, UDP etc)
+	uint8_t ttl;               // Time to live
+	uint8_t proto;             // Protocol number (TCP, UDP etc)
 	USHORT checksum;        // IP checksum
 	ULONG source_ip;
 	ULONG dest_ip;
@@ -35,8 +35,8 @@ struct IPHeader {
 
 // ICMP header
 struct ICMPHeader {
-	BYTE type;          // ICMP packet type
-	BYTE code;          // Type sub code
+	uint8_t type;          // ICMP packet type
+	uint8_t code;          // Type sub code
 	USHORT checksum;
 	USHORT id;
 	USHORT seq;

@@ -698,7 +698,7 @@ MIR_APP_DLL(void) Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 	lf->lfHeight = (char)db_get_b(0, "CLC", idstr, lf->lfHeight);
 
 	mir_snprintf(idstr, "Font%dSty", i);
-	BYTE style = (BYTE)db_get_b(0, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
+	uint8_t style = (uint8_t)db_get_b(0, "CLC", idstr, (lf->lfWeight == FW_NORMAL ? 0 : DBFONTF_BOLD) | (lf->lfItalic ? DBFONTF_ITALIC : 0) | (lf->lfUnderline ? DBFONTF_UNDERLINE : 0));
 	lf->lfWidth = lf->lfEscapement = lf->lfOrientation = 0;
 	lf->lfWeight = style & DBFONTF_BOLD ? FW_BOLD : FW_NORMAL;
 	lf->lfItalic = (style & DBFONTF_ITALIC) != 0;

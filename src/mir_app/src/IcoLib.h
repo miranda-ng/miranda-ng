@@ -56,7 +56,7 @@ class IconSourceItem : public MZeroedObject
 	IconSourceItemKey key;
 	int   ref_count;
 
-	BYTE* icon_data;
+	uint8_t* icon_data;
 	int   icon_size;
 
 public:

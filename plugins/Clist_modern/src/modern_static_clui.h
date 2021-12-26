@@ -69,7 +69,7 @@ int EventArea_Create(HWND hCluiWnd);
 int ExtraImage_ExtraIDToColumnNum(int extra);
 
 int ModernSkinButtonLoadModule();
-int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
+int ModernSkinButton_ReposButtons(HWND parent, uint8_t draw, RECT *r);
 
 void ske_ApplyTranslucency();
 HBITMAP ske_CreateDIB32(int cx, int cy);
@@ -88,7 +88,7 @@ int UnhookAll();
 
 int CLUI_IsInMainWindow(HWND hwnd);
 int CLUI_SizingOnBorder(POINT pt, int size);
-int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam);
+int CLUI_SmoothAlphaTransition(HWND hwnd, uint8_t GoalAlpha, BOOL wParam);
 int CLUI_TestCursorOnBorders();
 
 static int CLUI_SmoothAlphaThreadTransition();

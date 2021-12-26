@@ -173,13 +173,13 @@ void SaveSettings(void)
 	g_plugin.setWString("UseProxyIPNets", opt_useProxy);
 	g_plugin.setWString("NoProxyIPNets", opt_noProxy);
 	g_plugin.setWString("HideInterfaces", opt_hideIntf);
-	g_plugin.setByte("ManageMirandaProxy", (BYTE)opt_miranda);
-	g_plugin.setByte("ManageIEProxy", (BYTE)opt_ie);
-	g_plugin.setByte("ManageFirefoxProxy", (BYTE)opt_firefox);
-	g_plugin.setByte("AlwaysReconnect", (BYTE)opt_alwayReconnect);
-	g_plugin.setByte("PopupEnabled", (BYTE)opt_popups);
-	g_plugin.setByte("PopupDefaultColors", (BYTE)opt_defaultColors);
-	g_plugin.setByte("ShowProxyStatus", (BYTE)opt_showProxyState);
+	g_plugin.setByte("ManageMirandaProxy", (uint8_t)opt_miranda);
+	g_plugin.setByte("ManageIEProxy", (uint8_t)opt_ie);
+	g_plugin.setByte("ManageFirefoxProxy", (uint8_t)opt_firefox);
+	g_plugin.setByte("AlwaysReconnect", (uint8_t)opt_alwayReconnect);
+	g_plugin.setByte("PopupEnabled", (uint8_t)opt_popups);
+	g_plugin.setByte("PopupDefaultColors", (uint8_t)opt_defaultColors);
+	g_plugin.setByte("ShowProxyStatus", (uint8_t)opt_showProxyState);
 	g_plugin.setDword("PopupBgColor", (DWORD)opt_bgColor);
 	g_plugin.setDword("PopupTxtColor", (DWORD)opt_txtColor);
 }

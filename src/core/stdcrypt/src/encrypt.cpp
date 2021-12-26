@@ -49,7 +49,7 @@ void CStdCrypt::key2ext(const char *pszPassword, ExternalKey &key)
 	tmp.m_crc32 = crc32(0xAbbaDead, (LPCBYTE)pszPassword, (int)strlen(pszPassword));
 	getRandomBytes(tmp.slack, sizeof(tmp.slack));
 
-	BYTE tmpHash[32];
+	uint8_t tmpHash[32];
 	slow_hash(pszPassword, strlen(pszPassword), tmpHash);
 
 	CRijndael tmpAes;
@@ -57,7 +57,7 @@ void CStdCrypt::key2ext(const char *pszPassword, ExternalKey &key)
 	tmpAes.Encrypt(&tmp, &key, sizeof(ExternalKey));
 }
 
-bool CStdCrypt::getKey(BYTE *pKey, size_t cbKeyLen)
+bool CStdCrypt::getKey(uint8_t *pKey, size_t cbKeyLen)
 {
 	if (!m_valid || cbKeyLen < sizeof(m_extKey))
 		return false;
@@ -71,7 +71,7 @@ bool CStdCrypt::checkKey(const char *pszPassword, const ExternalKey *pPublic, Ex
 	if (mir_strlen(pszPassword) == 0)
 		pszPassword = "Miranda";
 
-	BYTE tmpHash[32];
+	uint8_t tmpHash[32];
 	slow_hash(pszPassword, strlen(pszPassword), tmpHash);
 
 	CRijndael tmpAes;
@@ -81,7 +81,7 @@ bool CStdCrypt::checkKey(const char *pszPassword, const ExternalKey *pPublic, Ex
 	return (tmp.m_crc32 == crc32(0xAbbaDead, (LPCBYTE)pszPassword, (int)strlen(pszPassword)));
 }
 
-bool CStdCrypt::setKey(const char *pszPassword, const BYTE *pPublic, size_t cbKeyLen)
+bool CStdCrypt::setKey(const char *pszPassword, const uint8_t *pPublic, size_t cbKeyLen)
 {
 	// full external key. decode & check password
 	if (cbKeyLen != sizeof(m_extKey))
@@ -99,7 +99,7 @@ bool CStdCrypt::setKey(const char *pszPassword, const BYTE *pPublic, size_t cbKe
 
 bool CStdCrypt::generateKey(void)
 {
-	BYTE tmp[KEY_LENGTH];
+	uint8_t tmp[KEY_LENGTH];
 	if (!getRandomBytes(tmp, sizeof(tmp)))
 		return false;
 
@@ -127,8 +127,8 @@ void CStdCrypt::setPassword(const char *pszPassword)
 	key2ext(pszPassword, m_extKey);
 }
 
-// result must be freed using mir_free or assigned to mir_ptr<BYTE>
-BYTE* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
+// result must be freed using mir_free or assigned to mir_ptr<uint8_t>
+uint8_t* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
 {
 	if (!m_valid || src == nullptr) {
 		if (cbResultLen)
@@ -139,7 +139,7 @@ BYTE* CStdCrypt::encodeString(const char *src, size_t *cbResultLen)
 	return encodeBuffer(src, mir_strlen(src)+1, cbResultLen);
 }
 
-BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen)
+uint8_t* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen)
 {
 	if (cbResultLen)
 		*cbResultLen = 0;
@@ -147,7 +147,7 @@ BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen
 	if (!m_valid || src == nullptr || cbLen >= 0xFFFE)
 		return nullptr;
 
-	BYTE *tmpBuf = (BYTE*)_alloca(cbLen + 2);
+	uint8_t *tmpBuf = (uint8_t*)_alloca(cbLen + 2);
 	*(PWORD)tmpBuf = (WORD)cbLen;
 	memcpy(tmpBuf + 2, src, cbLen);
 	cbLen += 2;
@@ -155,7 +155,7 @@ BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen
 	if (rest)
 		cbLen += BLOCK_SIZE - rest;
 
-	BYTE *result = (BYTE*)mir_alloc(cbLen);
+	uint8_t *result = (uint8_t*)mir_alloc(cbLen);
 	m_aes.ResetChain();
 	if (m_aes.Encrypt(tmpBuf, LPSTR(result), cbLen)) {
 		mir_free(result);
@@ -167,7 +167,7 @@ BYTE* CStdCrypt::encodeBuffer(const void *src, size_t cbLen, size_t *cbResultLen
 	return result;
 }
 
-char* CStdCrypt::decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen)
+char* CStdCrypt::decodeString(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen)
 {
 	size_t resLen;
 	char *result = (char*)decodeBuffer(pBuf, bufLen, &resLen);
@@ -183,7 +183,7 @@ char* CStdCrypt::decodeString(const BYTE *pBuf, size_t bufLen, size_t *cbResultL
 	return result;
 }
 
-void* CStdCrypt::decodeBuffer(const BYTE *pBuf, size_t bufLen, size_t *cbResultLen)
+void* CStdCrypt::decodeBuffer(const uint8_t *pBuf, size_t bufLen, size_t *cbResultLen)
 {
 	if (cbResultLen)
 		*cbResultLen = 0;

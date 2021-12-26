@@ -41,7 +41,7 @@ struct FontOptionsList
 	LPCTSTR  szDescr;
 	COLORREF defColour;
 	LPCTSTR  szDefFace;
-	BYTE     defCharset, defStyle; 
+	uint8_t     defCharset, defStyle; 
 	char     defSize;
 };
 

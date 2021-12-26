@@ -86,7 +86,7 @@ Allocate a FIBITMAP with no pixel data and wrap a user provided pixel buffer
 @return Returns the allocated FIBITMAP
 @see FreeImage_ConvertFromRawBitsEx
 */
-DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeaderForBits(BYTE *ext_bits, unsigned ext_pitch, FREE_IMAGE_TYPE type, int width, int height, int bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask);
+DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeaderForBits(uint8_t *ext_bits, unsigned ext_pitch, FREE_IMAGE_TYPE type, int width, int height, int bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask);
 
 /**
 Helper for 16-bit FIT_BITMAP
@@ -267,8 +267,8 @@ CalculateUsedPaletteEntries(const unsigned bit_count) {
 	return 0;
 }
 
-inline BYTE*
-CalculateScanLine(BYTE *bits, const unsigned pitch, const int scanline) {
+inline uint8_t*
+CalculateScanLine(uint8_t *bits, const unsigned pitch, const int scanline) {
 	return bits ? (bits + ((size_t)pitch * scanline)) : NULL;
 }
 
@@ -281,7 +281,7 @@ Fast generic assign (faster than for loop)
 @param bytesperpixel # of bytes per pixel
 */
 inline void 
-AssignPixel(BYTE* dst, const BYTE* src, unsigned bytesperpixel) {
+AssignPixel(uint8_t* dst, const uint8_t* src, unsigned bytesperpixel) {
 	switch (bytesperpixel) {
 		case 1:	// FIT_BITMAP (8-bit)
 			*dst = *src;
@@ -450,12 +450,12 @@ A Standard Default Color Space for the Internet - sRGB.
 */
 #define LUMA_REC709(r, g, b)	(0.2126F * r + 0.7152F * g + 0.0722F * b)
 
-#define GREY(r, g, b) (BYTE)(LUMA_REC709(r, g, b) + 0.5F)
+#define GREY(r, g, b) (uint8_t)(LUMA_REC709(r, g, b) + 0.5F)
 /*
-#define GREY(r, g, b) (BYTE)(((WORD)r * 77 + (WORD)g * 150 + (WORD)b * 29) >> 8)	// .299R + .587G + .114B
+#define GREY(r, g, b) (uint8_t)(((WORD)r * 77 + (WORD)g * 150 + (WORD)b * 29) >> 8)	// .299R + .587G + .114B
 */
 /*
-#define GREY(r, g, b) (BYTE)(((WORD)r * 169 + (WORD)g * 256 + (WORD)b * 87) >> 9)	// .33R + 0.5G + .17B
+#define GREY(r, g, b) (uint8_t)(((WORD)r * 169 + (WORD)g * 256 + (WORD)b * 87) >> 9)	// .33R + 0.5G + .17B
 */
 
 /**

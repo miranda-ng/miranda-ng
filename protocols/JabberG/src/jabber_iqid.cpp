@@ -506,10 +506,10 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 	if (szPicType == nullptr)
 		return;
 
-	BYTE digest[MIR_SHA1_HASH_SIZE];
+	uint8_t digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha1ctx;
 	mir_sha1_init(&sha1ctx);
-	mir_sha1_append(&sha1ctx, (BYTE *)buffer.get(), bufferLen);
+	mir_sha1_append(&sha1ctx, (uint8_t *)buffer.get(), bufferLen);
 	mir_sha1_finish(&sha1ctx, digest);
 
 	char digestHex[MIR_SHA1_HASH_SIZE*2 + 1];
@@ -704,8 +704,8 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 						if (sscanf(n->GetText(), "%d-%d-%d", &nYear, &nMonth, &nDay) == 3) {
 							hasBday = true;
 							setWord(hContact, "BirthYear", (WORD)nYear);
-							setByte(hContact, "BirthMonth", (BYTE)nMonth);
-							setByte(hContact, "BirthDay", (BYTE)nDay);
+							setByte(hContact, "BirthMonth", (uint8_t)nMonth);
+							setByte(hContact, "BirthDay", (uint8_t)nDay);
 
 							SYSTEMTIME sToday = { 0 };
 							GetLocalTime(&sToday);
@@ -728,7 +728,7 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 					if (hContact != 0) {
 						if (n->GetText()[0] && strchr("mMfF", n->GetText()[0]) != nullptr) {
 							hasGender = true;
-							setByte(hContact, "Gender", (BYTE)toupper(n->GetText()[0]));
+							setByte(hContact, "Gender", (uint8_t)toupper(n->GetText()[0]));
 						}
 					}
 					else {
@@ -1291,10 +1291,10 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, c
 
 	setByte(hContact, "AvatarType", pictureType);
 
-	BYTE digest[MIR_SHA1_HASH_SIZE];
+	uint8_t digest[MIR_SHA1_HASH_SIZE];
 	mir_sha1_ctx sha;
 	mir_sha1_init(&sha);
-	mir_sha1_append(&sha, (BYTE*)(char*)body, resultLen);
+	mir_sha1_append(&sha, (uint8_t*)(char*)body, resultLen);
 	mir_sha1_finish(&sha, digest);
 
 	GetAvatarFileName(hContact, tszFileName, _countof(tszFileName));

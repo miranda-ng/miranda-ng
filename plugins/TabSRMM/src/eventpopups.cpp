@@ -88,10 +88,10 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->iDelayOthers = db_get_dw(0, MODULE, OPT_DELAY_OTHERS, DEFAULT_DELAY);
 	options->iDelayErr = db_get_dw(0, MODULE, OPT_DELAY_ERR, DEFAULT_DELAY);
 	options->iDelayDefault = (int)DBGetContactSettingRangedWord(0, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	options->bShowHeaders = (BYTE)db_get_b(0, MODULE, OPT_SHOW_HEADERS, FALSE);
+	options->bShowHeaders = (uint8_t)db_get_b(0, MODULE, OPT_SHOW_HEADERS, FALSE);
 	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, FALSE);
-	options->iDisable = (BYTE)db_get_b(0, MODULE, OPT_DISABLE, 0);
-	options->iMUCDisable = (BYTE)db_get_b(0, MODULE, OPT_MUCDISABLE, 0);
+	options->iDisable = (uint8_t)db_get_b(0, MODULE, OPT_DISABLE, 0);
+	options->iMUCDisable = (uint8_t)db_get_b(0, MODULE, OPT_MUCDISABLE, 0);
 	options->dwStatusMask = db_get_dw(0, MODULE, "statusmask", (DWORD)-1);
 	options->bWindowCheck = (BOOL)db_get_b(0, MODULE, OPT_WINDOWCHECK, 0);
 	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, 0);
@@ -106,28 +106,28 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 
 int TSAPI NEN_WriteOptions(NEN_OPTIONS *options)
 {
-	db_set_b(0, MODULE, OPT_PREVIEW, (BYTE)options->bPreview);
-	db_set_b(0, MODULE, OPT_COLDEFAULT_MESSAGE, (BYTE)options->bDefaultColorMsg);
-	db_set_b(0, MODULE, OPT_COLDEFAULT_OTHERS, (BYTE)options->bDefaultColorOthers);
-	db_set_b(0, MODULE, OPT_COLDEFAULT_ERR, (BYTE)options->bDefaultColorErr);
+	db_set_b(0, MODULE, OPT_PREVIEW, (uint8_t)options->bPreview);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_MESSAGE, (uint8_t)options->bDefaultColorMsg);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_OTHERS, (uint8_t)options->bDefaultColorOthers);
+	db_set_b(0, MODULE, OPT_COLDEFAULT_ERR, (uint8_t)options->bDefaultColorErr);
 	db_set_dw(0, MODULE, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
 	db_set_dw(0, MODULE, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
 	db_set_dw(0, MODULE, OPT_COLBACK_OTHERS, (DWORD)options->colBackOthers);
 	db_set_dw(0, MODULE, OPT_COLTEXT_OTHERS, (DWORD)options->colTextOthers);
 	db_set_dw(0, MODULE, OPT_COLBACK_ERR, (DWORD)options->colBackErr);
 	db_set_dw(0, MODULE, OPT_COLTEXT_ERR, (DWORD)options->colTextErr);
-	db_set_b(0, MODULE, OPT_MASKACTL, (BYTE)options->maskActL);
-	db_set_b(0, MODULE, OPT_MASKACTR, (BYTE)options->maskActR);
-	db_set_b(0, MODULE, OPT_MASKACTTE, (BYTE)options->maskActTE);
-	db_set_b(0, MODULE, OPT_MERGEPOPUP, (BYTE)options->bMergePopup);
+	db_set_b(0, MODULE, OPT_MASKACTL, (uint8_t)options->maskActL);
+	db_set_b(0, MODULE, OPT_MASKACTR, (uint8_t)options->maskActR);
+	db_set_b(0, MODULE, OPT_MASKACTTE, (uint8_t)options->maskActTE);
+	db_set_b(0, MODULE, OPT_MERGEPOPUP, (uint8_t)options->bMergePopup);
 	db_set_dw(0, MODULE, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
 	db_set_dw(0, MODULE, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
 	db_set_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)options->iDelayErr);
-	db_set_b(0, MODULE, OPT_SHOW_HEADERS, (BYTE)options->bShowHeaders);
-	db_set_b(0, MODULE, OPT_DISABLE, (BYTE)options->iDisable);
-	db_set_b(0, MODULE, OPT_MUCDISABLE, (BYTE)options->iMUCDisable);
-	db_set_b(0, MODULE, OPT_WINDOWCHECK, (BYTE)options->bWindowCheck);
-	db_set_b(0, MODULE, OPT_NORSS, (BYTE)options->bNoRSS);
+	db_set_b(0, MODULE, OPT_SHOW_HEADERS, (uint8_t)options->bShowHeaders);
+	db_set_b(0, MODULE, OPT_DISABLE, (uint8_t)options->iDisable);
+	db_set_b(0, MODULE, OPT_MUCDISABLE, (uint8_t)options->iMUCDisable);
+	db_set_b(0, MODULE, OPT_WINDOWCHECK, (uint8_t)options->bWindowCheck);
+	db_set_b(0, MODULE, OPT_NORSS, (uint8_t)options->bNoRSS);
 	db_set_dw(0, MODULE, OPT_LIMITPREVIEW, options->iLimitPreview);
 	db_set_dw(0, MODULE, OPT_REMOVEMASK, options->dwRemoveMask);
 	db_set_b(0, MODULE, "disablenonmessage", options->bDisableNonMessage);
@@ -599,7 +599,7 @@ public:
 		// scan the tree view and obtain the options...
 		TreeViewToDB(eventOptions, lvItemsNEN, nullptr, nullptr);
 
-		db_set_b(0, CHAT_MODULE, "PopupStyle", (BYTE)g_Settings.iPopupStyle);
+		db_set_b(0, CHAT_MODULE, "PopupStyle", (uint8_t)g_Settings.iPopupStyle);
 		db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings.iPopupTimeout);
 		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings.crPUBkgColour = mucBack.GetColor());
 		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings.crPUTextColour = mucText.GetColor());

@@ -95,9 +95,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Extra icons settings */
 typedef struct _OrderTreeData
 {
-	BYTE			ID;
+	uint8_t			ID;
 	const wchar_t *	Name;
-	BYTE			Position;
+	uint8_t			Position;
 	BOOL			Visible;
 	BOOL			fReserved;
 } *PORDERTREEDATA, ORDERTREEDATA;
@@ -106,9 +106,9 @@ struct TExtraCache
 {
 	MCONTACT	hContact;
 	HANDLE		hTimeZone;
-	BYTE		valid;
+	uint8_t		valid;
 	wchar_t		*statusMsg;
-	BYTE		bStatusMsgValid;
+	uint8_t		bStatusMsgValid;
 	DWORD		dwCFlags;
 	DWORD		dwDFlags; // display flags for caching only
 	StatusItems_t	*status_item, *proto_status_item;
@@ -123,7 +123,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 struct ClcContact : public ClcContactBase
 {
 	BOOL     bIsMeta;
-	BYTE     xStatus;
+	uint8_t     xStatus;
 	int      xStatusIcon;
 	MCONTACT	hSubContact;
 	char    *metaProto;
@@ -132,7 +132,7 @@ struct ClcContact : public ClcContactBase
 	int      avatarLeft, extraIconRightBegin;
 	int      isRtl;
 	DWORD    cFlags;
-	BYTE     bSecondLine;
+	uint8_t     bSecondLine;
 
 	AVATARCACHEENTRY *ace;
 	TExtraCache *pExtra;
@@ -169,8 +169,8 @@ struct ClcData : public ClcDataBase
 
 	int currentFontID;
 	int rightMargin;
-	BYTE SelectMode;
-	BYTE isMultiSelect;
+	uint8_t SelectMode;
+	uint8_t isMultiSelect;
 	HWND hwndParent;
 	DWORD lastSort;
 	DWORD lastRepaint;
@@ -226,7 +226,7 @@ struct TCluiData {
 	DWORD topOffset, bottomOffset;
 	int statusBarHeight;
 	int soundsOff;
-	BYTE bAvatarServiceAvail;
+	uint8_t bAvatarServiceAvail;
 	HICON hIconConnecting;
 	DWORD winFlags;
 	DWORD winFlagsEx;
@@ -245,16 +245,16 @@ struct TCluiData {
 	DWORD avatarRadius;
 	int avatarSize;
 	BOOL bForceRefetchOnPaint;
-	BYTE dualRowMode;
-	BYTE avatarPadding;
-	BYTE cornerRadius;
-	BYTE isTransparent;
-	BYTE alpha, autoalpha;
-	BYTE fadeinout;
-	BYTE autosize;
-	BYTE gapBetweenFrames;
-	BYTE titleBarHeight;
-	BYTE bClipBorder, bRowSpacing;
+	uint8_t dualRowMode;
+	uint8_t avatarPadding;
+	uint8_t cornerRadius;
+	uint8_t isTransparent;
+	uint8_t alpha, autoalpha;
+	uint8_t fadeinout;
+	uint8_t autosize;
+	uint8_t gapBetweenFrames;
+	uint8_t titleBarHeight;
+	uint8_t bClipBorder, bRowSpacing;
 	HBITMAP bmpBackground, hbmBgOld, hbmBg;
 	HBITMAP hbmToolbar, hbmToolbarOld;
 	HDC hdcBg;
@@ -283,7 +283,7 @@ struct TCluiData {
 	char varFilter[2048];
 	DWORD lastMsgFilter;
 	char current_viewmode[256], old_viewmode[256];
-	BYTE boldHideOffline;
+	uint8_t boldHideOffline;
 	DWORD statusMaskFilter;
 	DWORD stickyMaskFilter;
 	DWORD filterFlags;
@@ -296,17 +296,17 @@ struct TCluiData {
 	BOOL bShowXStatusOnSbar;
 	BOOL bLayeredHack;
 	HPEN hPen3DBright, hPen3DDark;
-	BYTE bSkinnedButtonMode;
-	BYTE bFirstRun;
-	BYTE bUseDCMirroring;
-	BYTE bCLeft, bCRight, bCTop, bCBottom;
-	BYTE fullyInited;
-	BYTE bAutoExpandGroups;
+	uint8_t bSkinnedButtonMode;
+	uint8_t bFirstRun;
+	uint8_t bUseDCMirroring;
+	uint8_t bCLeft, bCRight, bCTop, bCBottom;
+	uint8_t fullyInited;
+	uint8_t bAutoExpandGroups;
 	SIZE szOldCTreeSize;
-	BYTE bWantFastGradients, bUseFastGradients;
-	BYTE sortOrder[3];
-	BYTE bGroupAlign;
-	BYTE bSkinnedScrollbar;
+	uint8_t bWantFastGradients, bUseFastGradients;
+	uint8_t sortOrder[3];
+	uint8_t bGroupAlign;
+	uint8_t bSkinnedScrollbar;
 	DWORD langPackCP;
 	BOOL fOnDesktop;
 	int group_padding;
@@ -385,11 +385,11 @@ size_t MY_pathToAbsolute(const wchar_t *pSrc, wchar_t *pOut);
 
 int    GetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt);
 void   LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);
-BYTE   GetCachedStatusMsg(TExtraCache* p, char *szProto);
+uint8_t   GetCachedStatusMsg(TExtraCache* p, char *szProto);
 void   GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
 LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void   HideShowNotifyFrame();
-DWORD  GetCLUIWindowStyle(BYTE style);
+DWORD  GetCLUIWindowStyle(uint8_t style);
 void   ApplyCLUIBorderStyle();
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);

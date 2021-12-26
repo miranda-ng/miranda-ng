@@ -375,9 +375,9 @@ static INT_PTR CALLBACK ButOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				g_ctrl->nButtonWidth = GetDlgItemInt(hwndDlg, IDC_BUTTWIDTH, nullptr, FALSE);
 				g_ctrl->nButtonSpace = GetDlgItemInt(hwndDlg, IDC_BUTTGAP, nullptr, FALSE);
 				
-				g_ctrl->bFlatButtons = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT);
-				g_ctrl->bAutoSize = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_AUTORESIZE);
-				g_ctrl->bSingleLine = (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SINGLELINE);
+				g_ctrl->bFlatButtons = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_USEFLAT);
+				g_ctrl->bAutoSize = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AUTORESIZE);
+				g_ctrl->bSingleLine = (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SINGLELINE);
 
 				g_plugin.setDword("BUTTHEIGHT", g_ctrl->nButtonHeight);
 				g_plugin.setDword("BUTTWIDTH", g_ctrl->nButtonWidth);

@@ -8,13 +8,13 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	ptr->error = ERROR_NONE;
 	pSIMDATA p = (pSIMDATA)ptr->pdata;
 
-	BYTE dataflag = 0;
+	uint8_t dataflag = 0;
 	size_t slen = strlen(szPlainMsg);
 
 	LPSTR szMsg;
 	if (ptr->features & FEATURES_GZIP) {
 		size_t clen;
-		szMsg = (LPSTR)cpp_gzip((BYTE*)szPlainMsg, slen, clen);
+		szMsg = (LPSTR)cpp_gzip((uint8_t*)szPlainMsg, slen, clen);
 		if (clen >= slen) {
 			free(szMsg);
 			szMsg = _strdup(szPlainMsg);
@@ -38,9 +38,9 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 
 	unsigned clen = (unsigned)ciphered.length();
 	if (ptr->features & FEATURES_CRC32) {
-		BYTE crc32[CRC32::DIGESTSIZE];
+		uint8_t crc32[CRC32::DIGESTSIZE];
 		memset(crc32, 0, sizeof(crc32));
-		CRC32().CalculateDigest(crc32, (BYTE*)ciphered.data(), clen);
+		CRC32().CalculateDigest(crc32, (uint8_t*)ciphered.data(), clen);
 		ciphered.insert(0, (LPSTR)&crc32, CRC32::DIGESTSIZE);
 		ciphered.insert(0, (LPSTR)&clen, 2);
 	}
@@ -79,7 +79,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 
 		LPSTR bciphered = ciphered;
 
-		BYTE dataflag = 0;
+		uint8_t dataflag = 0;
 		if (ptr->features & FEATURES_GZIP) {
 			dataflag = *ciphered;
 			bciphered++; clen--; // cut GZIP flag
@@ -96,7 +96,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 				return nullptr;
 			}
 
-			BYTE crc32[CRC32::DIGESTSIZE];
+			uint8_t crc32[CRC32::DIGESTSIZE];
 			memset(crc32, 0, sizeof(crc32));
 
 			CRC32().CalculateDigest(crc32, (uint8_t*)(bciphered + CRC32::DIGESTSIZE), len);

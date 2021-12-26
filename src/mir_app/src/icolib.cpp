@@ -254,11 +254,11 @@ int IconSourceItem::getIconData(HICON hIcon)
 		return 1; // Failure
 	}
 
-	mir_ptr<BYTE>
-		MonoInfo((BYTE*)mir_calloc(MonoInfoSize)),
-		MonoBits((BYTE*)mir_calloc(MonoBitsSize)),
-		ColorInfo((BYTE*)mir_calloc(ColorInfoSize)),
-		ColorBits((BYTE*)mir_calloc(ColorBitsSize));
+	mir_ptr<uint8_t>
+		MonoInfo((uint8_t*)mir_calloc(MonoInfoSize)),
+		MonoBits((uint8_t*)mir_calloc(MonoBitsSize)),
+		ColorInfo((uint8_t*)mir_calloc(ColorInfoSize)),
+		ColorBits((uint8_t*)mir_calloc(ColorBitsSize));
 
 	if (InternalGetDIB(iconInfo.hbmMask, nullptr, MonoInfo, MonoBits)
 		|| InternalGetDIB(iconInfo.hbmColor, nullptr, ColorInfo, ColorBits)) {
@@ -268,10 +268,10 @@ int IconSourceItem::getIconData(HICON hIcon)
 	}
 
 	icon_size = ColorInfoSize + ColorBitsSize + MonoBitsSize;
-	icon_data = (BYTE*)mir_alloc(icon_size);
+	icon_data = (uint8_t*)mir_alloc(icon_size);
 
-	BYTE *buf = icon_data;
-	((BITMAPINFOHEADER*)(BYTE*)ColorInfo)->biHeight *= 2; // color height includes mono bits
+	uint8_t *buf = icon_data;
+	((BITMAPINFOHEADER*)(uint8_t*)ColorInfo)->biHeight *= 2; // color height includes mono bits
 	memcpy(buf, ColorInfo, ColorInfoSize);
 	buf += ColorInfoSize;
 	memcpy(buf, ColorBits, ColorBitsSize);

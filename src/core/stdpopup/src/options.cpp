@@ -21,7 +21,7 @@ void LoadOptions()
 	options.default_timeout = g_plugin.getDword("DefaultTimeout", 7);
 	options.win_width = g_plugin.getDword("WinWidth", 220);
 	options.win_max_height = g_plugin.getDword("WinMaxHeight", 400);
-	options.location = (PopupLocation)g_plugin.getByte("Location", (BYTE)PL_BOTTOMRIGHT);
+	options.location = (PopupLocation)g_plugin.getByte("Location", (uint8_t)PL_BOTTOMRIGHT);
 	options.opacity = g_plugin.getByte("Opacity", 75);
 	options.border = g_plugin.getByte("Border", 1) == 1;
 	options.round = g_plugin.getByte("RoundCorners", 1) == 1;
@@ -54,8 +54,8 @@ void SaveOptions()
 	g_plugin.setDword("DefaultTimeout", options.default_timeout);
 	g_plugin.setDword("WinWidth", options.win_width);
 	g_plugin.setDword("WinMaxHeight", options.win_max_height);
-	g_plugin.setByte("Location", (BYTE)options.location);
-	g_plugin.setByte("Opacity", (BYTE)options.opacity);
+	g_plugin.setByte("Location", (uint8_t)options.location);
+	g_plugin.setByte("Opacity", (uint8_t)options.opacity);
 	g_plugin.setByte("Border", (options.border ? 1 : 0));
 	g_plugin.setByte("RoundCorners", (options.round ? 1 : 0));
 	g_plugin.setByte("AvatarRoundCorners", (options.av_round ? 1 : 0));
@@ -64,11 +64,11 @@ void SaveOptions()
 	g_plugin.setByte("UseMimMonitor", (options.use_mim_monitor ? 1 : 0));
 	g_plugin.setByte("RightIcon", (options.right_icon ? 1 : 0));
 	if (ServiceExists(MS_AV_DRAWAVATAR))
-		g_plugin.setByte("AVLayout", (BYTE)options.av_layout);
+		g_plugin.setByte("AVLayout", (uint8_t)options.av_layout);
 	g_plugin.setDword("AVSize", options.av_size);
 	g_plugin.setDword("TextIndent", options.text_indent);
 	g_plugin.setByte("GlobalHover", (options.global_hover ? 1 : 0));
-	g_plugin.setByte("TimeLayout", (BYTE)options.time_layout);
+	g_plugin.setByte("TimeLayout", (uint8_t)options.time_layout);
 
 	char buff[128];
 	for (int i = 0; i < _countof(options.disable_status); i++) {

@@ -41,7 +41,7 @@ void CCtrlData::OnInit()
 	OnReset();
 }
 
-void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue)
+void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, DWORD iValue)
 {
 	m_dbLink = new CDbLink(szModuleName, szSetting, type, iValue);
 }

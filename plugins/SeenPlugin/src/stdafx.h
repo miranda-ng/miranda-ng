@@ -101,7 +101,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 typedef struct{
 	int count;
 	WPARAM wpcontact[1024];
-	BYTE times[1024];
+	uint8_t times[1024];
 } MISSEDCONTACTS;
 
 int IsWatchedProtocol(const char* szProto);
@@ -115,7 +115,7 @@ int UpdateValues(WPARAM, LPARAM);
 int ModeChange(WPARAM,LPARAM);
 int ModeChange_mo(WPARAM,LPARAM);
 int CheckIfOnline(void);
-void ShowHistory(MCONTACT hContact, BYTE isAlert);
+void ShowHistory(MCONTACT hContact, uint8_t isAlert);
 
 void InitFileOutput(void);
 void UninitFileOutput(void);

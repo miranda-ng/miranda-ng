@@ -274,7 +274,7 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 	return FALSE;
 }
 
-void ShowHistory(MCONTACT hContact, BYTE isAlert)
+void ShowHistory(MCONTACT hContact, uint8_t isAlert)
 {
 	HWND hHistoryDlg = WindowList_Find(hWindowList, hContact);
 	if (hHistoryDlg == nullptr) {

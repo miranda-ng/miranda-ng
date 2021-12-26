@@ -70,7 +70,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
 			contact->flags ^= CONTACTF_PRIORITY;
-			g_plugin.setByte(contact->hContact, "Priority", (BYTE)(contact->flags & CONTACTF_PRIORITY ? 1 : 0));
+			g_plugin.setByte(contact->hContact, "Priority", (uint8_t)(contact->flags & CONTACTF_PRIORITY ? 1 : 0));
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 		}
 		return 0;

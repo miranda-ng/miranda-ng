@@ -495,7 +495,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				g_plugin.setWord("MaximumWidth", PopupOptions.MaximumWidth);
 
 				// Position
-				g_plugin.setByte("Position", (BYTE)PopupOptions.Position);
+				g_plugin.setByte("Position", (uint8_t)PopupOptions.Position);
 
 				// Configure popup area
 				g_plugin.setWord("gapTop", (WORD)PopupOptions.gapTop);
@@ -505,7 +505,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				g_plugin.setWord("spacing", (WORD)PopupOptions.spacing);
 
 				// Spreading
-				g_plugin.setByte("Spreading", (BYTE)PopupOptions.Spreading);
+				g_plugin.setByte("Spreading", (uint8_t)PopupOptions.Spreading);
 
 				// miscellaneous
 				Check_ReorderPopups(hwnd);	// this save also PopupOptions.ReorderPopups

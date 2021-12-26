@@ -75,7 +75,7 @@ static VOID CALLBACK ShowContactMenu(void *param)
 	DestroyWindow(hMenuWnd);
 }
 
-void Popup_DoAction(HWND hWnd, BYTE Action, PLUGIN_DATA*)
+void Popup_DoAction(HWND hWnd, uint8_t Action, PLUGIN_DATA*)
 {
 	MCONTACT hContact = PUGetContact(hWnd);
 	switch (Action) {

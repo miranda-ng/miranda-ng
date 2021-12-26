@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 vector<FILEINFO> Files;
 BOOL DlgDld;
 INT FileCount = 0, CurrentFile = 0, Number = 0;
-BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
+uint8_t Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 INT Period;
 wchar_t tszDialogMsg[2048] = { 0 };
 FILEINFO* pFileInfo = nullptr;
@@ -380,7 +380,7 @@ BOOL AllowUpdateOnStartup()
 	return TRUE;
 }
 
-LONG PeriodToMilliseconds(const INT period, BYTE& periodMeasure)
+LONG PeriodToMilliseconds(const INT period, uint8_t& periodMeasure)
 {
 	LONG result = period * 1000;
 	switch (periodMeasure) {

@@ -76,7 +76,7 @@ void ItemData::load(bool bFullLoad)
 		return;
 
 	dbe.cbBlob = db_event_getBlobSize(hEvent);
-	mir_ptr<BYTE> pData((BYTE *)mir_calloc(dbe.cbBlob + 1));
+	mir_ptr<uint8_t> pData((uint8_t *)mir_calloc(dbe.cbBlob + 1));
 	dbe.pBlob = pData;
 	if (!db_event_get(hEvent, &dbe)) {
 		bLoaded = true;

@@ -37,25 +37,25 @@ private:
 	static const char *s_szModuleNameOld;
 	
 	struct SOptions {
-		BYTE  bFirstRun;
-		BYTE  bOffline;
-		BYTE  bOnline;
-		BYTE  bOther;
-		BYTE  bTyping;
-		BYTE  bIdle;
-		BYTE  bConjSOLN;
-		BYTE  bX2;
-		BYTE  bAutoPos;
-		BYTE  bBallonTip;
-		BYTE  bTransp;
-		BYTE  bTranspInput;
-		BYTE  bAlpha;
-		BYTE  bLDblClick;
-		BYTE  bPrefixProto;
+		uint8_t  bFirstRun;
+		uint8_t  bOffline;
+		uint8_t  bOnline;
+		uint8_t  bOther;
+		uint8_t  bTyping;
+		uint8_t  bIdle;
+		uint8_t  bConjSOLN;
+		uint8_t  bX2;
+		uint8_t  bAutoPos;
+		uint8_t  bBallonTip;
+		uint8_t  bTransp;
+		uint8_t  bTranspInput;
+		uint8_t  bAlpha;
+		uint8_t  bLDblClick;
+		uint8_t  bPrefixProto;
 		WORD  wDuration;
 		WORD  wStartupDelay;
-		BYTE  bIgnoreNew;
-		BYTE  bIgnoreUnknown;
+		uint8_t  bIgnoreNew;
+		uint8_t  bIgnoreUnknown;
 	} m_sOptions;
 
 	struct STooltipData	{

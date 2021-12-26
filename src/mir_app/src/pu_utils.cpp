@@ -187,7 +187,7 @@ MIR_APP_DLL(bool) PU::PrepareEscalation()
 
 static int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 {
-	BYTE buf[1024];
+	uint8_t buf[1024];
 	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
 	if (l1 > MAX_PATH || l2 > MAX_PATH)
 		return ERROR_BAD_ARGUMENTS;
@@ -203,7 +203,7 @@ static int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if (!WriteFile(g_hPipe, buf, (DWORD)((BYTE *)dst - buf), &dwBytes, nullptr))
+	if (!WriteFile(g_hPipe, buf, (DWORD)((uint8_t *)dst - buf), &dwBytes, nullptr))
 		return GetLastError();
 
 	dwError = 0;

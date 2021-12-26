@@ -112,12 +112,12 @@ public:
 			if (curSel == 0 || curSel == CB_ERR)
 				cfg::dat.sortOrder[i] = 0;
 			else
-				cfg::dat.sortOrder[i] = (BYTE)curSel;
+				cfg::dat.sortOrder[i] = (uint8_t)curSel;
 		}
 		g_plugin.setDword("SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
 
 		cfg::dat.bDontSeparateOffline = IsDlgButtonChecked(m_hwnd, IDC_DONTSEPARATE) ? 1 : 0;
-		g_plugin.setByte("DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
+		g_plugin.setByte("DontSeparateOffline", (uint8_t)cfg::dat.bDontSeparateOffline);
 
 		cfgSetFlag(m_hwnd, IDC_EVENTSONTOP, CLUI_STICKYEVENTS);
 
@@ -202,22 +202,22 @@ public:
 
 		LRESULT curSel = SendDlgItemMessage(m_hwnd, IDC_GROUPALIGN, CB_GETCURSEL, 0, 0);
 		if (curSel != CB_ERR) {
-			cfg::dat.bGroupAlign = (BYTE)curSel;
+			cfg::dat.bGroupAlign = (uint8_t)curSel;
 			db_set_b(0, "CLC", "GroupAlign", cfg::dat.bGroupAlign);
 		}
 
-		cfg::dat.bRowSpacing = (BYTE)SendDlgItemMessage(m_hwnd, IDC_ROWGAPSPIN, UDM_GETPOS, 0, 0);
+		cfg::dat.bRowSpacing = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_ROWGAPSPIN, UDM_GETPOS, 0, 0);
 		db_set_b(0, "CLC", "RowGap", cfg::dat.bRowSpacing);
 
 		BOOL translated;
-		cfg::dat.avatarPadding = (BYTE)GetDlgItemInt(m_hwnd, IDC_AVATARPADDING, &translated, FALSE);
+		cfg::dat.avatarPadding = (uint8_t)GetDlgItemInt(m_hwnd, IDC_AVATARPADDING, &translated, FALSE);
 		g_plugin.setByte("AvatarPadding", cfg::dat.avatarPadding);
 
-		db_set_b(0, "CLC", "LeftMargin", (BYTE)SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, "CLC", "RightMargin", (BYTE)SendDlgItemMessage(m_hwnd, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, "CLC", "GroupIndent", (BYTE)SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, "CLC", "RowHeight", (BYTE)SendDlgItemMessage(m_hwnd, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, "CLC", "GRowHeight", (BYTE)SendDlgItemMessage(m_hwnd, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "LeftMargin", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "RightMargin", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "GroupIndent", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "RowHeight", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+		db_set_b(0, "CLC", "GRowHeight", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
 		return true;
 	}
 };
@@ -320,19 +320,19 @@ public:
 		g_plugin.setWord("AvatarSize", (WORD)cfg::dat.avatarSize);
 
 		cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(m_hwnd, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
-		g_plugin.setByte("NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
+		g_plugin.setByte("NoOfflineAV", (uint8_t)cfg::dat.bNoOfflineAvatars);
 
 		cfg::dat.bShowLocalTime = chkLocalTime.GetState();
-		db_set_b(0, "CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
+		db_set_b(0, "CLC", "ShowLocalTime", (uint8_t)cfg::dat.bShowLocalTime);
 
 		cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(m_hwnd, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
-		db_set_b(0, "CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
+		db_set_b(0, "CLC", "SelectiveLocalTime", (uint8_t)cfg::dat.bShowLocalTimeSelective);
 
 		KillTimer(g_clistApi.hwndContactTree, TIMERID_REFRESH);
 		if (cfg::dat.bShowLocalTime)
 			SetTimer(g_clistApi.hwndContactTree, TIMERID_REFRESH, 65000, nullptr);
 
-		cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(m_hwnd, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
+		cfg::dat.dualRowMode = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
 		if (cfg::dat.dualRowMode == CB_ERR)
 			cfg::dat.dualRowMode = 0;
 		db_set_b(0, "CLC", "DualRowMode", cfg::dat.dualRowMode);
@@ -394,7 +394,7 @@ public:
 		db_set_b(0, "CLC", "ShowIdle", IsDlgButtonChecked(m_hwnd, IDC_IDLE) ? 1 : 0);
 
 		cfg::dat.bCenterStatusIcons = IsDlgButtonChecked(m_hwnd, IDC_STATUSICONSCENTERED) ? 1 : 0;
-		db_set_b(0, "CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
+		db_set_b(0, "CLC", "si_centered", (uint8_t)cfg::dat.bCenterStatusIcons);
 		return true;
 	}
 };

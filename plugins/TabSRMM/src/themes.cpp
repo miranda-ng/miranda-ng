@@ -315,9 +315,9 @@ static CSkinItem _defInfoPanel = {
 	CLCDEFAULT_MRGN_TOP, CLCDEFAULT_MRGN_RIGHT, CLCDEFAULT_MRGN_BOTTOM, CLCDEFAULT_IGNORE, 0, nullptr
 };
 
-static BYTE __inline percent_to_byte(UINT32 percent)
+static uint8_t __inline percent_to_byte(UINT32 percent)
 {
-	return(BYTE)((FLOAT)(((FLOAT)percent) / 100) * 255);
+	return(uint8_t)((FLOAT)(((FLOAT)percent) / 100) * 255);
 }
 
 static COLORREF __inline revcolref(COLORREF colref)
@@ -327,11 +327,11 @@ static COLORREF __inline revcolref(COLORREF colref)
 
 static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
 {
-	return((BYTE)percent_to_byte(alpha) << 24 | col);
+	return((uint8_t)percent_to_byte(alpha) << 24 | col);
 }
 
-void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, BYTE clr_dest_trans, BYTE bGradient,
-	BYTE bCorner, DWORD dwRadius, CImageItem *imageItem)
+void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, uint8_t clr_dest_trans, uint8_t bGradient,
+	uint8_t bCorner, DWORD dwRadius, CImageItem *imageItem)
 {
 	if (rc == nullptr)
 		return;
@@ -637,7 +637,7 @@ void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ub
 
 void __fastcall CImageItem::Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const
 {
-	BYTE l = m_bLeft, r = m_bRight, t = m_bTop, b = m_bBottom;
+	uint8_t l = m_bLeft, r = m_bRight, t = m_bTop, b = m_bBottom;
 	LONG width = rc->right - rc->left;
 	LONG height = rc->bottom - rc->top;
 	BOOL isGlyph = ((m_dwFlags & IMAGE_GLYPH) && Skin->haveGlyphItem());
@@ -838,7 +838,7 @@ wchar_t* CImageItem::Read(const wchar_t *szFilename)
 		}
 		m_alpha = GetPrivateProfileInt(m_szName, L"Alpha", 100, szFilename);
 		m_alpha = min(m_alpha, 100);
-		m_alpha = (BYTE)((FLOAT)(((FLOAT)m_alpha) / 100) * 255);
+		m_alpha = (uint8_t)((FLOAT)(((FLOAT)m_alpha) / 100) * 255);
 		m_bf.SourceConstantAlpha = m_alpha;
 		m_bLeft = GetPrivateProfileInt(m_szName, L"Left", 0, szFilename);
 		m_bRight = GetPrivateProfileInt(m_szName, L"Right", 0, szFilename);
@@ -920,7 +920,7 @@ void CImageItem::Free()
 // @param bAlpha	new alpha value (0 -> fully transparent, 255 -> opaque)
 // 					default value is 255
 
-void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
+void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, uint8_t bAlpha)
 {
 	BITMAP bmp;
 	GetObject(hBitmap, sizeof(bmp), &bmp);
@@ -928,7 +928,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 		return;
 
 	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	BYTE *p = (BYTE *)mir_alloc(dwLen);
+	uint8_t *p = (uint8_t *)mir_alloc(dwLen);
 	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
@@ -936,7 +936,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, BYTE bAlpha)
 	GetBitmapBits(hBitmap, dwLen, p);
 
 	for (int y = 0; y < bmp.bmHeight; ++y) {
-		BYTE *px = p + bmp.bmWidth * 4 * y;
+		uint8_t *px = p + bmp.bmWidth * 4 * y;
 
 		for (int x = 0; x < bmp.bmWidth; ++x) {
 			px[3] = bAlpha;
@@ -955,15 +955,15 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
 	DWORD dwLen = width * height * 4;
-	BYTE *p = (BYTE *)mir_alloc(dwLen);
+	uint8_t *p = (uint8_t *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
 		for (int y = 0; y < height; ++y) {
-			BYTE *px = p + width * 4 * y;
+			uint8_t *px = p + width * 4 * y;
 
 			for (int x = 0; x < width; ++x) {
 				if (mode) {
-					BYTE alpha = px[3];
+					uint8_t alpha = px[3];
 					px[0] = px[0] * alpha / 255;
 					px[1] = px[1] * alpha / 255;
 					px[2] = px[2] * alpha / 255;
@@ -978,7 +978,7 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 	}
 }
 
-void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha)
+void CImageItem::Colorize(HBITMAP hBitmap, uint8_t dr, uint8_t dg, uint8_t db, uint8_t alpha)
 {
 	float r = (float)dr / 2.55;
 	float g = (float)dg / 2.55;
@@ -990,11 +990,11 @@ void CImageItem::Colorize(HBITMAP hBitmap, BYTE dr, BYTE dg, BYTE db, BYTE alpha
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
 	int dwLen = width * height * 4;
-	BYTE *p = (BYTE *)mir_alloc(dwLen);
+	uint8_t *p = (uint8_t *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
 		for (int y = 0; y < height; ++y) {
-			BYTE *px = p + width * 4 * y;
+			uint8_t *px = p + width * 4 * y;
 
 			for (int x = 0; x < width; ++x) {
 				px[0] = (int)(px[0] + b) > 255 ? 255 : px[0] + b;
@@ -1249,7 +1249,7 @@ void CSkin::ReadItem(const int id, const wchar_t *szItem)
 	GetPrivateProfileString(szItem, L"Color2", def_color, buffer, 400, m_tszFileName);
 	this_item->COLOR2 = HexStringToLong(buffer);
 
-	this_item->COLOR2_TRANSPARENT = (BYTE)GetPrivateProfileInt(szItem, L"COLOR2_TRANSPARENT", defaults->COLOR2_TRANSPARENT, m_tszFileName);
+	this_item->COLOR2_TRANSPARENT = (uint8_t)GetPrivateProfileInt(szItem, L"COLOR2_TRANSPARENT", defaults->COLOR2_TRANSPARENT, m_tszFileName);
 
 	this_item->CORNER = defaults->CORNER & CORNER_ACTIVE ? defaults->CORNER : 0;
 	GetPrivateProfileString(szItem, L"Corner", L"None", buffer, 400, m_tszFileName);
@@ -1384,7 +1384,7 @@ void CSkin::Load(void)
 			_tagSettings[i].defaultval, m_tszFileName);
 		switch (_tagSettings[i].size) {
 		case 1:
-			db_set_b(0, SRMSGMOD_T, _tagSettings[i].szSetting, (BYTE)data);
+			db_set_b(0, SRMSGMOD_T, _tagSettings[i].szSetting, (uint8_t)data);
 			break;
 		case 4:
 			db_set_dw(0, SRMSGMOD_T, _tagSettings[i].szSetting, data);
@@ -1465,7 +1465,7 @@ void CSkin::Load(void)
 
 	m_bClipBorder = GetPrivateProfileInt(L"WindowFrame", L"ClipFrame", 0, m_tszFileName) ? true : false;
 
-	BYTE radius_tl, radius_tr, radius_bl, radius_br;
+	uint8_t radius_tl, radius_tr, radius_bl, radius_br;
 	wchar_t 	szFinalName[MAX_PATH];
 	wchar_t 	szDrive[MAX_PATH], szPath[MAX_PATH];
 
@@ -1701,7 +1701,7 @@ void CSkin::setupAeroSkins()
 	float fr = (float)((m_dwmColor & 0x00ff0000) >> 16);
 	float fg = (float)((m_dwmColor & 0x0000ff00) >> 8);
 	float fb = (float)((m_dwmColor & 0x000000ff));
-	BYTE alphafactor = 255 - ((m_dwmColor & 0xff000000) >> 24);
+	uint8_t alphafactor = 255 - ((m_dwmColor & 0xff000000) >> 24);
 
 	/*
 	 * a bit tricky, because for low alpha settings (high DWM transparency), the dwm
@@ -1735,7 +1735,7 @@ void CSkin::setupAeroSkins()
 		}
 	}
 
-	m_dwmColorRGB = RGB((BYTE)fr, (BYTE)fg, (BYTE)fb);
+	m_dwmColorRGB = RGB((uint8_t)fr, (uint8_t)fg, (uint8_t)fb);
 
 	FIBITMAP *fib = (FIBITMAP *)Image_Load(tszFilename, IMGL_RETURNDIB);
 
@@ -1906,7 +1906,7 @@ void CSkin::SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdc
 /////////////////////////////////////////////////////////////////////////////////////////
 // draw an icon "Dimmed" (small amount of transparency applied)
 
-void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, BYTE alpha)
+void CSkin::DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, uint8_t alpha)
 {
 	HDC dcMem = ::CreateCompatibleDC(hdc);
 	HBITMAP hbm = ::CreateCompatibleBitmap(hdc, dx, dy), hbmOld = nullptr;
@@ -2162,7 +2162,7 @@ void CMsgDialog::RenderToolbarBG(HDC hdc, const RECT &rcWindow) const
 
 	bool	 bAero = M.isAero();
 	bool	 fTbColorsValid = PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow;
-	BYTE	 bAlphaOffset = 0;
+	uint8_t	 bAlphaOffset = 0;
 	BOOL 	fMustDrawNonThemed = ((bAero || fTbColorsValid) && !db_get_b(0, SRMSGMOD_T, "forceThemedToolbar", 0));
 	RECT 	rc, rcToolbar;
 	POINT	pt;
@@ -2298,7 +2298,7 @@ void CSkin::AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectAr
 		int 	alpha = (iEffectArea == AERO_EFFECT_AREA_INFOPANEL) ? m_pCurrentAeroEffect->m_baseAlpha : 40;
 		if (iEffectArea == AERO_EFFECT_AREA_MENUBAR)
 			alpha = 90;
-		BYTE 	color2_trans = (iEffectArea == AERO_EFFECT_AREA_MENUBAR) ? 0 : 1;
+		uint8_t 	color2_trans = (iEffectArea == AERO_EFFECT_AREA_MENUBAR) ? 0 : 1;
 		DWORD   corner = (iEffectArea == AERO_EFFECT_AREA_INFOPANEL) ? m_pCurrentAeroEffect->m_cornerRadius : 6;
 
 		DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, alpha, m_pCurrentAeroEffect->m_gradientColor,
@@ -2327,7 +2327,7 @@ void CSkin::AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectA
 			m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, nullptr);
 	}
 	else {
-		BYTE	bGradient = (iEffectArea & AERO_EFFECT_AREA_TAB_BOTTOM ? GRADIENT_BT : GRADIENT_TB) + 1;
+		uint8_t	bGradient = (iEffectArea & AERO_EFFECT_AREA_TAB_BOTTOM ? GRADIENT_BT : GRADIENT_TB) + 1;
 		::DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, 70,
 			m_pCurrentAeroEffect->m_gradientColor, 1, bGradient,
 			m_pCurrentAeroEffect->m_cornerType, m_pCurrentAeroEffect->m_cornerRadius, nullptr);

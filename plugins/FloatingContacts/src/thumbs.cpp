@@ -447,7 +447,7 @@ void ThumbInfo::ThumbDeselect(BOOL bMouse)
 	SetThumbOpacity(fcOpt.thumbAlpha);
 }
 
-void ThumbInfo::SetThumbOpacity(BYTE bAlpha)
+void ThumbInfo::SetThumbOpacity(uint8_t bAlpha)
 {
 	if (bAlpha != btAlpha) {
 		btAlpha = bAlpha;
@@ -663,7 +663,7 @@ void ThumbInfo::PopupMessageDialog()
 	Clist_ContactDoubleClicked(hContact);
 }
 
-void ThumbInfo::OnTimer(BYTE idTimer)
+void ThumbInfo::OnTimer(uint8_t idTimer)
 {
 	if (idTimer == TIMERID_SELECT_T) {
 		KillTimer(hwnd, TIMERID_SELECT_T);

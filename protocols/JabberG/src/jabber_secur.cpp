@@ -158,38 +158,38 @@ char* TMD5Auth::getChallenge(const char *challenge)
 	ptrA serv(mir_utf8encode(info->conn.server));
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)info->conn.username, (int)mir_strlen(info->conn.username));
-	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)realm, (int)mir_strlen(realm));
-	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)info->conn.password, (int)mir_strlen(info->conn.password));
-	mir_md5_finish(&ctx, (BYTE*)hash1);
+	mir_md5_append(&ctx, (uint8_t*)info->conn.username, (int)mir_strlen(info->conn.username));
+	mir_md5_append(&ctx, (uint8_t*)":", 1);
+	mir_md5_append(&ctx, (uint8_t*)realm, (int)mir_strlen(realm));
+	mir_md5_append(&ctx, (uint8_t*)":", 1);
+	mir_md5_append(&ctx, (uint8_t*)info->conn.password, (int)mir_strlen(info->conn.password));
+	mir_md5_finish(&ctx, (uint8_t*)hash1);
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)hash1, 16);
-	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)nonce, (int)mir_strlen(nonce));
-	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)cnonce, (int)mir_strlen(cnonce));
-	mir_md5_finish(&ctx, (BYTE*)hash1);
+	mir_md5_append(&ctx, (uint8_t*)hash1, 16);
+	mir_md5_append(&ctx, (uint8_t*)":", 1);
+	mir_md5_append(&ctx, (uint8_t*)nonce, (int)mir_strlen(nonce));
+	mir_md5_append(&ctx, (uint8_t*)":", 1);
+	mir_md5_append(&ctx, (uint8_t*)cnonce, (int)mir_strlen(cnonce));
+	mir_md5_finish(&ctx, (uint8_t*)hash1);
 
 	mir_md5_init(&ctx);
-	mir_md5_append(&ctx, (BYTE*)"AUTHENTICATE:xmpp/", 18);
-	mir_md5_append(&ctx, (BYTE*)(char*)serv, (int)mir_strlen(serv));
-	mir_md5_finish(&ctx, (BYTE*)hash2);
+	mir_md5_append(&ctx, (uint8_t*)"AUTHENTICATE:xmpp/", 18);
+	mir_md5_append(&ctx, (uint8_t*)(char*)serv, (int)mir_strlen(serv));
+	mir_md5_finish(&ctx, (uint8_t*)hash2);
 
 	mir_md5_init(&ctx);
 	mir_snprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash1[0]), htonl(hash1[1]), htonl(hash1[2]), htonl(hash1[3]));
-	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
-	mir_md5_append(&ctx, (BYTE*)":", 1);
-	mir_md5_append(&ctx, (BYTE*)nonce, (int)mir_strlen(nonce));
+	mir_md5_append(&ctx, (uint8_t*)tmpBuf, (int)mir_strlen(tmpBuf));
+	mir_md5_append(&ctx, (uint8_t*)":", 1);
+	mir_md5_append(&ctx, (uint8_t*)nonce, (int)mir_strlen(nonce));
 	mir_snprintf(tmpBuf, ":%08d:", iCallCount);
-	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
-	mir_md5_append(&ctx, (BYTE*)cnonce, (int)mir_strlen(cnonce));
-	mir_md5_append(&ctx, (BYTE*)":auth:", 6);
+	mir_md5_append(&ctx, (uint8_t*)tmpBuf, (int)mir_strlen(tmpBuf));
+	mir_md5_append(&ctx, (uint8_t*)cnonce, (int)mir_strlen(cnonce));
+	mir_md5_append(&ctx, (uint8_t*)":auth:", 6);
 	mir_snprintf(tmpBuf, "%08x%08x%08x%08x", htonl(hash2[0]), htonl(hash2[1]), htonl(hash2[2]), htonl(hash2[3]));
-	mir_md5_append(&ctx, (BYTE*)tmpBuf, (int)mir_strlen(tmpBuf));
-	mir_md5_finish(&ctx, (BYTE*)digest);
+	mir_md5_append(&ctx, (uint8_t*)tmpBuf, (int)mir_strlen(tmpBuf));
+	mir_md5_finish(&ctx, (uint8_t*)digest);
 
 	char *buf = (char*)alloca(8000);
 	int cbLen = mir_snprintf(buf, 8000,
@@ -230,17 +230,17 @@ TScramAuth::~TScramAuth()
 	mir_free(serverSignature);
 }
 
-void TScramAuth::Hi(BYTE *res, char *passw, size_t passwLen, char *salt, size_t saltLen, int ind)
+void TScramAuth::Hi(uint8_t *res, char *passw, size_t passwLen, char *salt, size_t saltLen, int ind)
 {
 	size_t bufLen = saltLen + sizeof(UINT32);
-	BYTE *u = (BYTE*)_alloca(max(bufLen, EVP_MAX_MD_SIZE));
+	uint8_t *u = (uint8_t*)_alloca(max(bufLen, EVP_MAX_MD_SIZE));
 	memcpy(u, salt, saltLen); *(UINT32*)(u + saltLen) = htonl(1);
 	
 	memset(res, 0, EVP_MAX_MD_SIZE);
 
 	for (int i = 0; i < ind; i++) {
 		unsigned int len;
-		HMAC(hashMethod, (BYTE*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
+		HMAC(hashMethod, (uint8_t*)passw, (unsigned)passwLen, u, (unsigned)bufLen, u, &len);
 		bufLen = EVP_MD_size(hashMethod);
 
 		for (size_t j = 0; j < bufLen; j++)
@@ -292,14 +292,14 @@ char* TScramAuth::getChallenge(const char *challenge)
 
 	int hashSize = EVP_MD_size(hashMethod);
 
-	BYTE saltedPassw[EVP_MAX_MD_SIZE];
+	uint8_t saltedPassw[EVP_MAX_MD_SIZE];
 	Hi(saltedPassw, info->conn.password, mir_strlen(info->conn.password), salt, saltLen, ind);
 
-	BYTE clientKey[EVP_MAX_MD_SIZE];
+	uint8_t clientKey[EVP_MAX_MD_SIZE];
 	unsigned int len;
-	HMAC(hashMethod, saltedPassw, hashSize, (BYTE*)"Client Key", 10, clientKey, &len);
+	HMAC(hashMethod, saltedPassw, hashSize, (uint8_t*)"Client Key", 10, clientKey, &len);
 
-	BYTE storedKey[EVP_MAX_MD_SIZE];
+	uint8_t storedKey[EVP_MAX_MD_SIZE];
 	{
 		EVP_MD_CTX *pctx = EVP_MD_CTX_new();
 		EVP_DigestInit(pctx, hashMethod);
@@ -308,20 +308,20 @@ char* TScramAuth::getChallenge(const char *challenge)
 		EVP_MD_CTX_free(pctx);
 	}
 
-	BYTE clientSig[EVP_MAX_MD_SIZE];
+	uint8_t clientSig[EVP_MAX_MD_SIZE];
 	CMStringA authmsg(FORMAT, "%s,%s,c=%s,r=%s", msg1, chl.get(), cbd.get(), snonce.get());
-	HMAC(hashMethod, storedKey, hashSize, (BYTE*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
+	HMAC(hashMethod, storedKey, hashSize, (uint8_t*)authmsg.c_str(), authmsg.GetLength(), clientSig, &len);
 
-	BYTE clientProof[EVP_MAX_MD_SIZE];
+	uint8_t clientProof[EVP_MAX_MD_SIZE];
 	for (int j = 0; j < hashSize; j++)
 		clientProof[j] = clientKey[j] ^ clientSig[j];
 
 	/* Calculate the server signature */
-	BYTE serverKey[EVP_MAX_MD_SIZE];
-	HMAC(hashMethod, saltedPassw, hashSize, (BYTE*)"Server Key", 10, serverKey, &len);
+	uint8_t serverKey[EVP_MAX_MD_SIZE];
+	HMAC(hashMethod, saltedPassw, hashSize, (uint8_t*)"Server Key", 10, serverKey, &len);
 
-	BYTE srvSig[EVP_MAX_MD_SIZE];
-	HMAC(hashMethod, serverKey, hashSize, (BYTE*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
+	uint8_t srvSig[EVP_MAX_MD_SIZE];
+	HMAC(hashMethod, serverKey, hashSize, (uint8_t*)authmsg.c_str(), authmsg.GetLength(), srvSig, &len);
 	serverSignature = mir_base64_encode(srvSig, hashSize);
 
 	ptrA encproof(mir_base64_encode(clientProof, hashSize));

@@ -102,7 +102,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	MSG *msg = (MSG*)wParam;
 
 	if (msg->message == WM_DESTROY)
-		g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
+		g_plugin.setByte("Docked", (uint8_t)g_CluiData.fDocked);
 
 	if (!g_CluiData.fDocked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE && msg->message != WM_SIZE) return 0;
 	switch (msg->message) {
@@ -197,7 +197,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			Sync(CLUIFrames_OnMoving, msg->hwnd, (LPRECT)msg->lParam);
 			g_CluiData.mutexPreventDockMoving = 1;
 			mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, 0);
-			g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
+			g_plugin.setByte("Docked", (uint8_t)g_CluiData.fDocked);
 			ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, nullptr);
 			return TRUE;
 		}
@@ -294,7 +294,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			GetCursorPos(&pt);
 			PostMessage(msg->hwnd, WM_NCLBUTTONDOWN, HTCAPTION, MAKELPARAM(pt.x, pt.y));
 			SetWindowPos(msg->hwnd, nullptr, pt.x - rc.right / 2, pt.y - GetSystemMetrics(SM_CYFRAME) - GetSystemMetrics(SM_CYSMCAPTION) / 2, g_plugin.getDword("Width", 0), g_plugin.getDword("Height", 0), SWP_NOZORDER);
-			g_plugin.setByte("Docked", (BYTE)g_CluiData.fDocked);
+			g_plugin.setByte("Docked", (uint8_t)g_CluiData.fDocked);
 			// ModernSkinButton_ReposButtons(msg->hwnd, SBRF_DO_NOT_DRAW, nullptr);
 		}
 		return 1;

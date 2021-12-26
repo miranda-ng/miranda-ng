@@ -46,12 +46,12 @@ void SaveColumnSizes(HWND hwndResults)
 	for (int i = 0; i < NUM_COLUMNID; i++) {
 		char szSetting[32];
 		mir_snprintf(szSetting, "ColOrder%d", i);
-		db_set_b(0, "FindAdd", szSetting, (BYTE)columnOrder[i]);
+		db_set_b(0, "FindAdd", szSetting, (uint8_t)columnOrder[i]);
 		mir_snprintf(szSetting, "ColWidth%d", i);
 		db_set_w(0, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}
-	db_set_b(0, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
-	db_set_b(0, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
+	db_set_b(0, "FindAdd", "SortColumn", (uint8_t)dat->iLastColumnSortIndex);
+	db_set_b(0, "FindAdd", "SortAscending", (uint8_t)dat->bSortAscending);
 }
 
 static const wchar_t *szColumnNames[] = { nullptr, nullptr, L"Nick", L"First Name", L"Last Name", L"E-mail" };

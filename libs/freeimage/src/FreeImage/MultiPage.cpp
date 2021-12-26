@@ -440,9 +440,9 @@ FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, 
 						{
 							// read the compressed data
 							
-							BYTE *compressed_data = (BYTE*)malloc(i->getSize() * sizeof(BYTE));
+							uint8_t *compressed_data = (uint8_t*)malloc(i->getSize() * sizeof(uint8_t));
 							
-							header->m_cachefile.readFile((BYTE *)compressed_data, i->getReference(), i->getSize());
+							header->m_cachefile.readFile((uint8_t *)compressed_data, i->getReference(), i->getSize());
 							
 							// uncompress the data
 							
@@ -593,7 +593,7 @@ FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
 	}
 
 	DWORD compressed_size = 0;
-	BYTE *compressed_data = NULL;
+	uint8_t *compressed_data = NULL;
 
 	// compress the bitmap data
 
@@ -756,7 +756,7 @@ FreeImage_UnlockPage(FIMULTIBITMAP *bitmap, FIBITMAP *page, BOOL changed) {
 				// compress the data
 
 				DWORD compressed_size = 0;
-				BYTE *compressed_data = NULL;
+				uint8_t *compressed_data = NULL;
 
 				// open a memory handle
 				FIMEMORY *hmem = FreeImage_OpenMemory();

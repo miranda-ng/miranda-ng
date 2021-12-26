@@ -35,7 +35,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static HANDLE	hShowInfoTipEvent;
 static POINT	HitPoint;
 static BOOL		fMouseUpped;
-static BYTE		IsDragToScrollMode = 0;
+static uint8_t		IsDragToScrollMode = 0;
 static int		StartDragPos = 0;
 static int		StartScrollPos = 0;
 static BOOL		g_bSortTimerIsSet = FALSE;
@@ -1055,7 +1055,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 	fMouseUpped = TRUE;
 
 	if (hitcontact != nullptr && dat->bMetaExpanding) {
-		BYTE doubleClickExpand = db_get_b(0, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT);
+		uint8_t doubleClickExpand = db_get_b(0, "CLC", "MetaDoubleClick", SETTING_METAAVOIDDBLCLICK_DEFAULT);
 		CLUI_SafeSetTimer(hwnd, TIMERID_SUBEXPAND, GetDoubleClickTime()*doubleClickExpand, nullptr);
 	}
 	else if (dat->iHotTrack == -1 && dat->iDragItem == -1)
@@ -1296,7 +1296,7 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 static LRESULT clcOnIntmGroupChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPARAM)
 {
 	WORD iExtraImage[EXTRA_ICON_COUNT];
-	BYTE flags = 0;
+	uint8_t flags = 0;
 
 	ClcContact *contact;
 	if (!Clist_FindItem(hwnd, dat, wParam, &contact))
@@ -1643,9 +1643,9 @@ HRESULT ClcLoadModule()
 
 int ClcUnloadModule()
 {
-	if (g_CluiData.bOldUseGroups != (BYTE)-1)
+	if (g_CluiData.bOldUseGroups != (uint8_t)-1)
 		Clist::UseGroups = g_CluiData.bOldUseGroups;
-	if (g_CluiData.boldHideOffline != (BYTE)-1)
+	if (g_CluiData.boldHideOffline != (uint8_t)-1)
 		Clist::HideOffline = g_CluiData.boldHideOffline;
 
 	return 0;

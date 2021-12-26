@@ -254,7 +254,7 @@ public:
 	{
 		int iDelay = GetDlgItemInt(m_hwnd, IDC_STARTDELAY, nullptr, FALSE);
 		g_plugin.setWord("StartupModeDelay", (WORD)iDelay);
-		g_plugin.setByte("TrackCount", (BYTE)(g_ses_limit = GetDlgItemInt(m_hwnd, IDC_TRACK, nullptr, FALSE)));
+		g_plugin.setByte("TrackCount", (uint8_t)(g_ses_limit = GetDlgItemInt(m_hwnd, IDC_TRACK, nullptr, FALSE)));
 		if (chkExitSave.IsChecked())
 			g_plugin.setByte("ShutdownMode", 2);
 		else if (IsDlgButtonChecked(m_hwnd, IDC_REXDSAVE))
@@ -273,10 +273,10 @@ public:
 		else if (chkNothing.IsChecked())
 			g_plugin.setByte("StartupMode", 0);
 
-		g_plugin.setByte("ExclHidden", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
-		g_plugin.setByte("WarnOnHidden", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
-		g_plugin.setByte("OtherWarnings", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
-		g_plugin.setByte("CrashRecovery", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
+		g_plugin.setByte("ExclHidden", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_EXCLHIDDEN) ? (g_bExclHidden = 1) : (g_bExclHidden = 0)));
+		g_plugin.setByte("WarnOnHidden", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_LASTHIDDENWARN) ? (g_bWarnOnHidden = 1) : (g_bWarnOnHidden = 0)));
+		g_plugin.setByte("OtherWarnings", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_WARNINGS) ? (g_bOtherWarnings = 1) : (g_bOtherWarnings = 0)));
+		g_plugin.setByte("CrashRecovery", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_CRASHRECOVERY) ? (g_bCrashRecovery = 1) : (g_bCrashRecovery = 0)));
 		return true;
 	}
 
@@ -376,7 +376,7 @@ public:
 	void onClick_Save(CCtrlButton *)
 	{
 		for (auto &hContact : Contacts()) {
-			BYTE res = m_clist.GetCheck(m_clist.FindContact(hContact));
+			uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
 			if (res) {
 				// !!!!!!!!!!!!!!!!!!!
 			}

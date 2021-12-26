@@ -37,7 +37,7 @@ typedef struct ALARM_tag {
 	unsigned short action;
 	wchar_t *szCommand;
 	wchar_t *szCommandParams;
-	BYTE sound_num;
+	uint8_t sound_num;
 	int flags, day_mask;
 } ALARM; 
 

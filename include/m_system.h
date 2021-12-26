@@ -449,7 +449,7 @@ class T2Utf : public ptrA
 {
 public:
 	__forceinline T2Utf(const wchar_t *str) : ptrA(mir_utf8encodeW(str)) {}
-	__forceinline operator BYTE *() const { return (BYTE *)data; }
+	__forceinline operator uint8_t*() const { return (uint8_t*)data; }
 #ifdef _XSTRING_
 	std::string str() const { return std::string(data); }
 #endif

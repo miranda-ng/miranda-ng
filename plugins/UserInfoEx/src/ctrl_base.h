@@ -42,7 +42,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define CTRL_LIST_ITEM     7
 
 typedef struct TCtrlInfo {
-	BYTE	nType;
+	uint8_t	nType;
 	WORD	wFlags;
 } CTRL, *LPCTRL;
 

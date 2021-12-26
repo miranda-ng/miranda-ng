@@ -440,21 +440,21 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			gg->setString(GG_KEY_EMAIL, str);
 
 			// Write checkboxes
-			gg->setByte(GG_KEY_FRIENDSONLY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FRIENDSONLY));
-			gg->setByte(GG_KEY_SHOWINVISIBLE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLE));
-			gg->setByte(GG_KEY_LEAVESTATUSMSG, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
+			gg->setByte(GG_KEY_FRIENDSONLY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FRIENDSONLY));
+			gg->setByte(GG_KEY_SHOWINVISIBLE, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWINVISIBLE));
+			gg->setByte(GG_KEY_LEAVESTATUSMSG, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_LEAVESTATUSMSG));
 			if (gg->gc_enabled)
-				gg->setByte(GG_KEY_IGNORECONF, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNORECONF));
-			gg->setByte(GG_KEY_IMGRECEIVE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
-			gg->setByte(GG_KEY_SHOWLINKS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS));
+				gg->setByte(GG_KEY_IGNORECONF, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNORECONF));
+			gg->setByte(GG_KEY_IMGRECEIVE, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IMGRECEIVE));
+			gg->setByte(GG_KEY_SHOWLINKS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS));
 			if (IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS))
 				status_flags |= GG_STATUS_FLAG_SPAM;
 			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, "sess_mutex", 1);
 			gg_change_status_flags(gg->m_sess, status_flags);
 			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, 1, "sess_mutex", 1);
-			gg->setByte(GG_KEY_ENABLEAVATARS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
+			gg->setByte(GG_KEY_ENABLEAVATARS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
 
-			gg->setByte(GG_KEY_IMGMETHOD, (BYTE)SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_GETCURSEL, 0, 0));
+			gg->setByte(GG_KEY_IMGMETHOD, (uint8_t)SendDlgItemMessage(hwndDlg, IDC_IMGMETHOD, CB_GETCURSEL, 0, 0));
 
 			// Write leave status
 			switch (SendDlgItemMessage(hwndDlg, IDC_LEAVESTATUS, CB_GETCURSEL, 0, 0)) {
@@ -562,7 +562,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 						SetValue(hwndDlg, IDC_GENDER, hContact, szProto, GG_KEY_PD_GANDER, SVS_GENDER, hContact != NULL);
 						SetValue(hwndDlg, IDC_STATUSDESCR, hContact, "CList", GG_KEY_STATUSDESCR, SVS_NORMAL, hContact != NULL);
 					}
-					else switch ((char)db_get_b(hContact, gg->m_szModuleName, GG_KEY_PD_GANDER, (BYTE)'?')) {
+					else switch ((char)db_get_b(hContact, gg->m_szModuleName, GG_KEY_PD_GANDER, (uint8_t)'?')) {
 					case 'F':
 						SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_SETCURSEL, 1, 0);
 						break;

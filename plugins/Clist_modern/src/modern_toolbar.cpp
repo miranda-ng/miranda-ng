@@ -327,7 +327,7 @@ static int Toolbar_ModulesLoaded(WPARAM, LPARAM)
 
 	TopToolbar_SetCustomProc(CustomizeButton, 0);
 
-	BYTE bOldSetting = 0;
+	uint8_t bOldSetting = 0;
 	if (!db_get_b(0, "Compatibility", "TTB_Upgrade", 0)) {
 		if (bOldSetting = db_get_b(0, "CLUI", "ShowButtonBar", 1)) {
 			CopySettings("BUTTWIDTH", "option_Bar0_BtnWidth", 20);

@@ -111,8 +111,8 @@ private:
 	void TryConnect();
 	void CheckConnection();
 
-	static void __stdcall OnToxCheck(void*, BYTE);
-	static void __stdcall OnToxPoll(void*, BYTE);
+	static void __stdcall OnToxCheck(void*, uint8_t);
+	static void __stdcall OnToxPoll(void*, uint8_t);
 
 	// accounts
 	int __cdecl OnAccountRenamed(WPARAM, LPARAM);

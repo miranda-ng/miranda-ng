@@ -106,7 +106,7 @@ INT_PTR FreeOwnerDataGroupMenu(WPARAM, LPARAM lParam)
 static INT_PTR HideGroupsHelper(WPARAM, LPARAM)
 {
 	int newVal = !(GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-	db_set_b(0, "CList", "HideEmptyGroups", (BYTE)newVal);
+	db_set_b(0, "CList", "HideEmptyGroups", (uint8_t)newVal);
 	SendMessage(g_clistApi.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 	return newVal;
 }

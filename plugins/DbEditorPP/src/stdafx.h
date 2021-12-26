@@ -175,9 +175,9 @@ extern bool g_bUsePopups;
 #define HEX_DWORD		4
 
 // main
-char *StringFromBlob(BYTE *blob, WORD len);
+char *StringFromBlob(uint8_t *blob, WORD len);
 int WriteBlobFromString(MCONTACT hContact, const char *module, const char *setting, const char *value, int len);
-wchar_t *DBVType(BYTE type);
+wchar_t *DBVType(uint8_t type);
 DWORD getNumericValue(DBVARIANT *dbv);
 int setNumericValue(MCONTACT hContact, const char *module, const char *setting, DWORD value, int type);
 int IsRealUnicode(wchar_t *value);

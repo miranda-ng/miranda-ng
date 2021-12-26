@@ -15,7 +15,7 @@ using namespace Gdiplus;
 
 HBITMAP ske_CreateDIB32(int cx, int cy);
 
-BYTE      saved_alpha;
+uint8_t      saved_alpha;
 ULONG_PTR g_gdiplusToken;
 int       g_hottrack;
 
@@ -43,9 +43,9 @@ static ColorMatrix ClrMatrix =
 	0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 };
 
-DWORD argb_from_cola(COLORREF col, BYTE alpha)
+DWORD argb_from_cola(COLORREF col, uint8_t alpha)
 {
-	return((BYTE)(alpha) << 24 | col);
+	return((uint8_t)(alpha) << 24 | col);
 }
 
 HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *tszFileName)
@@ -63,17 +63,17 @@ HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *tszFileName)
 	return hbmp;
 }
 
-void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1, DWORD flag, BYTE alpha)
+void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1, DWORD flag, uint8_t alpha)
 {
 	BITMAP bmp;
 	Bitmap *bm;
-	BYTE * bmbits = nullptr;
+	uint8_t * bmbits = nullptr;
 	GetObject(hbmp, sizeof(BITMAP), &bmp);
 	Graphics g(hDestDC);
 	if (bmp.bmBitsPixel == 32 && (flag&AVS_PREMULTIPLIED)) {
-		bmbits = (BYTE*)bmp.bmBits;
+		bmbits = (uint8_t*)bmp.bmBits;
 		if (!bmbits) {
-			bmbits = (BYTE*)malloc(bmp.bmHeight*bmp.bmWidthBytes);
+			bmbits = (uint8_t*)malloc(bmp.bmHeight*bmp.bmWidthBytes);
 			GetBitmapBits(hbmp, bmp.bmHeight*bmp.bmWidthBytes, bmbits);
 		}
 		bm = new Bitmap(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PixelFormat32bppPARGB, bmbits);
@@ -110,7 +110,7 @@ BOOL GDIPlus_AlphaBlend(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWi
 
 	Bitmap *bm;
 	if (bmp.bmBitsPixel == 32 && bf->AlphaFormat) {
-		bm = new Bitmap(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PixelFormat32bppPARGB, (BYTE*)bmp.bmBits);
+		bm = new Bitmap(bmp.bmWidth, bmp.bmHeight, bmp.bmWidthBytes, PixelFormat32bppPARGB, (uint8_t*)bmp.bmBits);
 		bm->RotateFlip(RotateNoneFlipY);
 	}
 	else bm = new Bitmap(hbmp, nullptr);

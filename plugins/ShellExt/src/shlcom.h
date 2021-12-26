@@ -84,7 +84,7 @@ struct TSlotProtoIcons
 
 struct TSlotIPC
 {
-	BYTE cbSize;
+	uint8_t cbSize;
 	int  fType; // a REQUEST_* type
 	TSlotIPC* Next;
 	MCONTACT hContact;
@@ -92,7 +92,7 @@ struct TSlotIPC
 	UINT hGroup; // hash of the entire path (not defined for REQUEST_GROUPS slots)
 	WORD Status;
 	// only used for contacts -- can be STATUS_PROFILENAME -- but that is because returning the profile name is optional
-	BYTE MRU; // if set, contact has been recently used
+	uint8_t MRU; // if set, contact has been recently used
 	int cbStrSection;
 };
 

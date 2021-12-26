@@ -42,7 +42,7 @@ class COptionsDlg : public CDlgBase
 			m_cloudFileService.Enable(m_useCloudFile.IsChecked());
 			onChange_UseZip(0);
 
-			BYTE backupTypes = g_plugin.backup_types;
+			uint8_t backupTypes = g_plugin.backup_types;
 			if (backupTypes == BT_DISABLED)
 				backupTypes = g_plugin.backup_types.Default();
 			m_backupOnStart.SetState((backupTypes & BT_START) != 0);
@@ -219,7 +219,7 @@ public:
 
 	bool OnApply() override
 	{
-		BYTE backupTypes = BT_DISABLED;
+		uint8_t backupTypes = BT_DISABLED;
 
 		if (m_backupOnStart.IsChecked())
 			backupTypes |= BT_START;

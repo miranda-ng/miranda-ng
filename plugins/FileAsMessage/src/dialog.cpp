@@ -235,7 +235,7 @@ int FILEECHO::createTransfer()
 #ifdef DEBUG
 	overhead = 0;
 #endif
-	BYTE bAuto = db_get_b(0, "SRFile", "AutoAccept", 0);
+	uint8_t bAuto = db_get_b(0, "SRFile", "AutoAccept", 0);
 
 	hFile = CreateFileA(filename, inSend ? GENERIC_READ : (GENERIC_READ | GENERIC_WRITE), inSend ? FILE_SHARE_READ : 0, nullptr, inSend ? OPEN_EXISTING : (bAuto ? CREATE_ALWAYS : CREATE_NEW), FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE && !inSend && GetLastError() == ERROR_FILE_EXISTS) {
@@ -609,7 +609,7 @@ void FILEECHO::cmdDATA(char *param)
 	}
 	else {
 		size_t bufLen;
-		mir_ptr<BYTE> buf((BYTE*)mir_base64_decode(param, &bufLen));
+		mir_ptr<uint8_t> buf((uint8_t*)mir_base64_decode(param, &bufLen));
 		memcpy(data, buf, min(bufLen, unsigned(data_end - data)));
 		data += bufLen;
 	}

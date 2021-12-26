@@ -99,10 +99,10 @@ struct ClcFontInfo
 
 struct ClcContactBase
 {
-	__forceinline BYTE getType() const { return (this == nullptr) ? 0 : type; }
+	__forceinline uint8_t getType() const { return (this == nullptr) ? 0 : type; }
 
-	BYTE type;
-	BYTE flags;
+	uint8_t type;
+	uint8_t flags;
 	union {
 		struct {
 			int iImage;

@@ -670,12 +670,12 @@ STDMETHODIMP IEView::MapUrlToZone(LPCWSTR pwszUrl, DWORD *pdwZone, DWORD)
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::GetSecurityId(LPCWSTR, BYTE *, DWORD *, DWORD_PTR)
+STDMETHODIMP IEView::GetSecurityId(LPCWSTR, uint8_t *, DWORD *, DWORD_PTR)
 {
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPolicy, DWORD cbPolicy, BYTE *, DWORD, DWORD, DWORD)
+STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, uint8_t *pPolicy, DWORD cbPolicy, uint8_t *, DWORD, DWORD, DWORD)
 {
 	DWORD dwPolicy = URLPOLICY_ALLOW;
 	if (pwszUrl != nullptr && !mir_wstrcmp(pwszUrl, L"about:blank")) {
@@ -707,7 +707,7 @@ STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, BYTE *pPo
 	return INET_E_DEFAULT_ACTION;
 }
 
-STDMETHODIMP IEView::QueryCustomPolicy(LPCWSTR, REFGUID, BYTE **, DWORD *, BYTE *, DWORD, DWORD)
+STDMETHODIMP IEView::QueryCustomPolicy(LPCWSTR, REFGUID, uint8_t **, DWORD *, uint8_t *, DWORD, DWORD)
 {
 	return INET_E_DEFAULT_ACTION;
 }

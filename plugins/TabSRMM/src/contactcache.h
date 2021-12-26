@@ -59,7 +59,7 @@ class CContactCache : public MZeroedObject
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];
 	wchar_t *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
-	BYTE     m_xStatus;
+	uint8_t     m_xStatus;
 	DWORD    m_idleTS;
 	bool     m_isMeta;
 	bool     m_isValid;
@@ -101,7 +101,7 @@ public:
 	__forceinline LPCWSTR  getStatusMsg() const { return m_szStatusMsg; }
 	__forceinline LPCWSTR  getXStatusMsg() const { return m_xStatusMsg; }
 	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
-	__forceinline BYTE     getXStatusId() const { return m_xStatus; }
+	__forceinline uint8_t     getXStatusId() const { return m_xStatus; }
 
 	__forceinline DWORD    getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }

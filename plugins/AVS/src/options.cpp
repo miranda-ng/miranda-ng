@@ -659,7 +659,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		{
 			wchar_t szFinalName[MAX_PATH];
 			DBVARIANT dbv = { 0 };
-			BYTE is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
+			uint8_t is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
 			szFinalName[0] = 0;
 

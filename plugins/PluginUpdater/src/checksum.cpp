@@ -258,7 +258,7 @@ LBL_NotPE:
 		}
 	}
 
-	BYTE digest[16];
+	uint8_t digest[16];
 	mir_md5_finish(&pms, digest);
 	bin2hex(digest, sizeof(digest), szDest);
 	return RESULT_OK;

@@ -4,21 +4,21 @@ static HGENMENU hDisableMenu = nullptr;
 
 static MWindowList hPopupsList = nullptr;
 
-static BYTE   OnePopup;
-static BYTE   ShowMenu;
-static BYTE   StartDisabled;
-static BYTE   StopDisabled;
-static BYTE   Disabled;
-static BYTE   ColorMode;
-static BYTE   TimeoutMode;
-static BYTE   TimeoutMode2;
+static uint8_t   OnePopup;
+static uint8_t   ShowMenu;
+static uint8_t   StartDisabled;
+static uint8_t   StopDisabled;
+static uint8_t   Disabled;
+static uint8_t   ColorMode;
+static uint8_t   TimeoutMode;
+static uint8_t   TimeoutMode2;
 static int    Timeout;
 static int    Timeout2;
 static int    newTimeout;
 static int    newTimeout2;
-static BYTE   newTimeoutMode;
-static BYTE   newTimeoutMode2;
-static BYTE   newColorMode;
+static uint8_t   newTimeoutMode;
+static uint8_t   newTimeoutMode2;
+static uint8_t   newColorMode;
 
 static HANDLE hntfStarted = nullptr;
 static HANDLE hntfStopped = nullptr;
@@ -465,12 +465,12 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				db_set_b(0, TypigModule, SET_ONEPOPUP, OnePopup);
 				db_set_b(0, TypigModule, SET_SHOWDISABLEMENU, ShowMenu);
-				db_set_b(0, TypigModule, SET_DISABLED, (BYTE)(StartDisabled | StopDisabled));
+				db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
 				db_set_b(0, TypigModule, SET_COLOR_MODE, ColorMode);
 				db_set_b(0, TypigModule, SET_TIMEOUT_MODE, TimeoutMode);
-				db_set_b(0, TypigModule, SET_TIMEOUT, (BYTE)Timeout);
+				db_set_b(0, TypigModule, SET_TIMEOUT, (uint8_t)Timeout);
 				db_set_b(0, TypigModule, SET_TIMEOUT_MODE2, TimeoutMode2);
-				db_set_b(0, TypigModule, SET_TIMEOUT2, (BYTE)Timeout2);
+				db_set_b(0, TypigModule, SET_TIMEOUT2, (uint8_t)Timeout2);
 				return TRUE;
 			}
 		}
@@ -532,6 +532,6 @@ int TN_ModuleInit()
 int TN_ModuleDeInit()
 {
 	WindowList_Destroy(hPopupsList);
-	db_set_b(0, TypigModule, SET_DISABLED, (BYTE)(Disabled | StartDisabled | StopDisabled));
+	db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(Disabled | StartDisabled | StopDisabled));
 	return 0;
 }

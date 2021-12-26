@@ -37,7 +37,7 @@ EXTERN_C DLL_API void DLL_CALLCONV FreeImage_CorrectBitmap32Alpha(HBITMAP hBitma
 {
 	BITMAP bmp;
 	DWORD dwLen;
-	BYTE *p;
+	uint8_t *p;
 	int x, y;
 	BOOL fixIt;
 
@@ -47,7 +47,7 @@ EXTERN_C DLL_API void DLL_CALLCONV FreeImage_CorrectBitmap32Alpha(HBITMAP hBitma
 		return;
 
 	dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
-	p = (BYTE *)malloc(dwLen);
+	p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
 	memset(p, 0, dwLen);
@@ -56,7 +56,7 @@ EXTERN_C DLL_API void DLL_CALLCONV FreeImage_CorrectBitmap32Alpha(HBITMAP hBitma
 
 	fixIt = TRUE;
 	for (y = 0; fixIt && y < bmp.bmHeight; ++y) {
-		BYTE *px = p + bmp.bmWidth * 4 * y;
+		uint8_t *px = p + bmp.bmWidth * 4 * y;
 
 		for (x = 0; fixIt && x < bmp.bmWidth; ++x)
 		{
@@ -96,14 +96,14 @@ EXTERN_C DLL_API BOOL DLL_CALLCONV FreeImage_Premultiply(HBITMAP hBitmap)
 		int width = bmp.bmWidth;
 		int height = bmp.bmHeight;
 		int dwLen = width * height * 4;
-		BYTE *p = (BYTE *)malloc(dwLen);
+		uint8_t *p = (uint8_t *)malloc(dwLen);
 		if (p != nullptr) {
 			GetBitmapBits(hBitmap, dwLen, p);
 
 			for (int y = 0; y < height; ++y) {
-				BYTE *px = p + width * 4 * y;
+				uint8_t *px = p + width * 4 * y;
 				for (int x = 0; x < width; ++x) {
-					BYTE alpha = px[3];
+					uint8_t alpha = px[3];
 					if (alpha < 255) {
 						transp = TRUE;
 
@@ -137,7 +137,7 @@ EXTERN_C DLL_API HBITMAP DLL_CALLCONV FreeImage_CreateHBITMAPFromDIB(FIBITMAP *i
     else
         dib = in;
 
-	BYTE *ptPixels;
+	uint8_t *ptPixels;
 	BITMAPINFO *info = FreeImage_GetInfo(dib);
 	HBITMAP hBmp = CreateDIBSection(nullptr, info, DIB_RGB_COLORS, (void **)&ptPixels, nullptr, 0);
 	if (ptPixels != nullptr)

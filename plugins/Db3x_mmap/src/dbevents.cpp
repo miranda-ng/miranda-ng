@@ -64,12 +64,12 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 	dbe.flags = dbei->flags;
 	dbe.wEventType = dbei->eventType;
 	dbe.cbBlob = dbei->cbBlob;
-	BYTE *pBlob = dbei->pBlob;
+	uint8_t *pBlob = dbei->pBlob;
 
-	mir_ptr<BYTE> pCryptBlob;
+	mir_ptr<uint8_t> pCryptBlob;
 	if (m_bEncrypted) {
 		size_t len;
-		BYTE *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
+		uint8_t *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = pBlob = pResult;
 			dbe.cbBlob = (DWORD)len;
@@ -302,7 +302,7 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	dbei->cbBlob = dbe->cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		BYTE *pSrc;
+		uint8_t *pSrc;
 		if (m_dbHeader.version >= DB_095_1_VERSION)
 			pSrc = DBRead(DWORD(hDbEvent) + offsetof(DBEvent, blob), nullptr);
 		else
@@ -310,7 +310,7 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 		if (dbe->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
-			BYTE* pBlob = (BYTE*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len);
+			uint8_t* pBlob = (uint8_t*)m_crypto->decodeBuffer(pSrc, dbe->cbBlob, &len);
 			if (pBlob == nullptr)
 				return 1;
 

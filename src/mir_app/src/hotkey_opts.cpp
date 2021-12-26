@@ -99,7 +99,7 @@ static wchar_t* sttHokeyVkToName(WORD vkKey)
 	return buf;
 }
 
-void HotkeyToName(wchar_t *buf, int size, BYTE shift, BYTE key)
+void HotkeyToName(wchar_t *buf, int size, uint8_t shift, uint8_t key)
 {
 	mir_snwprintf(buf, size, L"%s%s%s%s%s",
 		(shift & HOTKEYF_CONTROL) ? TranslateT("Ctrl + ") : L"",
@@ -125,8 +125,8 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 	case HKM_SETHOTKEY:
 		{
 			wchar_t buf[256] = { 0 };
-			data->key = (BYTE)LOWORD(wParam);
-			data->shift = (BYTE)HIWORD(wParam);
+			data->key = (uint8_t)LOWORD(wParam);
+			data->shift = (uint8_t)HIWORD(wParam);
 			HotkeyToName(buf, _countof(buf), data->shift, data->key);
 			SetWindowText(hwnd, buf);
 		}
@@ -153,8 +153,8 @@ static LRESULT CALLBACK sttHotkeyEditProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 		{
 			wchar_t buf[256] = { 0 };
 
-			BYTE shift = 0;
-			BYTE key = wParam;
+			uint8_t shift = 0;
+			uint8_t key = wParam;
 			wchar_t *name = sttHokeyVkToName(key);
 			if (!*name || !bKeyDown)
 				key = 0;
@@ -356,9 +356,9 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	item->Enabled = item->OptEnabled;
 
 	db_set_w(0, DBMODULENAME, item->pszName, item->Hotkey);
-	db_set_b(0, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
+	db_set_b(0, DBMODULENAME "Off", item->pszName, (uint8_t)!item->Enabled);
 	if (item->type != HKT_MANUAL)
-		db_set_b(0, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
+		db_set_b(0, DBMODULENAME "Types", item->pszName, (uint8_t)item->type);
 
 	item->nSubHotkeys = 0;
 	for (auto &it : hotkeys) {
@@ -369,7 +369,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			mir_snprintf(buf, "%s$%d", item->pszName, item->nSubHotkeys);
 			db_set_w(0, DBMODULENAME, buf, it->Hotkey);
 			if (it->type != HKT_MANUAL)
-				db_set_b(0, DBMODULENAME "Types", buf, (BYTE)it->type);
+				db_set_b(0, DBMODULENAME "Types", buf, (uint8_t)it->type);
 
 			++item->nSubHotkeys;
 		}

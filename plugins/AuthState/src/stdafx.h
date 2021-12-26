@@ -42,7 +42,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-   CMOption<BYTE> bUseAuthIcon, bUseGrantIcon, bIconsForRecentContacts;
+   CMOption<uint8_t> bUseAuthIcon, bUseGrantIcon, bIconsForRecentContacts;
 
 	int Load() override;
 };

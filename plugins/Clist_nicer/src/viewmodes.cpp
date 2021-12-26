@@ -513,7 +513,7 @@ void UpdateFilters()
 	{
 		int useLastMsg = dwFlags & CLVM_USELASTMSG;
 		DWORD lmdat;
-		BYTE bTmp;
+		uint8_t bTmp;
 
 		CheckDlgButton(sttClvmHwnd, IDC_LASTMSG, useLastMsg ? BST_CHECKED : BST_UNCHECKED);
 		Utils::enableDlgControl(sttClvmHwnd, IDC_LASTMESSAGEOP, useLastMsg);
@@ -778,7 +778,7 @@ static int menuCounter = 0;
 
 static int FillMenuCallback(char *szSetting)
 {
-	if ((BYTE)szSetting[0] == 246)
+	if ((uint8_t)szSetting[0] == 246)
 		return 1;
 
 	AppendMenuA(hViewModeMenu, MF_STRING, menuCounter++, szSetting);
@@ -964,7 +964,7 @@ clvm_reset_command:
 			Clist_Broadcast(CLM_AUTOREBUILD, 0, 0);
 			SetDlgItemText(hwnd, IDC_SELECTMODE, TranslateT("No view mode"));
 			g_clistApi.pfnSetHideOffline(cfg::dat.boldHideOffline);
-			cfg::dat.boldHideOffline = (BYTE)-1;
+			cfg::dat.boldHideOffline = (uint8_t)-1;
 			SetButtonStates();
 			cfg::dat.current_viewmode[0] = 0;
 			cfg::dat.old_viewmode[0] = 0;
@@ -1064,7 +1064,7 @@ void ApplyViewMode(const char *name)
 		strncpy_s(cfg::dat.current_viewmode, name, _TRUNCATE);
 
 		if (cfg::dat.filterFlags & CLVM_USELASTMSG) {
-			BYTE bSaved = cfg::dat.sortOrder[0];
+			uint8_t bSaved = cfg::dat.sortOrder[0];
 
 			cfg::dat.sortOrder[0] = SORTBY_LASTMSG;
 			for (auto &p : cfg::arCache)
@@ -1099,7 +1099,7 @@ void ApplyViewMode(const char *name)
 	if (HIWORD(cfg::dat.filterFlags) > 0)
 		cfg::dat.bFilterEffective |= CLVM_STICKY_CONTACTS;
 
-	if (cfg::dat.boldHideOffline == (BYTE)-1)
+	if (cfg::dat.boldHideOffline == (uint8_t)-1)
 		cfg::dat.boldHideOffline = Clist::HideOffline;
 
 	g_clistApi.pfnSetHideOffline(false);

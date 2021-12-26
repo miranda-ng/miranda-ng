@@ -87,7 +87,7 @@ typedef PGPDATA* pPGPDATA;
 
 
 typedef struct __GPGDATA {
-	BYTE	*gpgKeyID; // GPG KeyID
+	uint8_t	*gpgKeyID; // GPG KeyID
 } GPGDATA;
 typedef GPGDATA* pGPGDATA;
 
@@ -155,8 +155,8 @@ extern LPCSTR szVersionStr;
 pCNTX get_context_on_id(int);
 pCNTX get_context_on_id(HANDLE);
 void cpp_free_keys(pCNTX);
-BYTE *cpp_gzip(BYTE*, size_t, size_t&);
-BYTE *cpp_gunzip(BYTE*, size_t, size_t&);
+uint8_t *cpp_gzip(uint8_t*, size_t, size_t&);
+uint8_t *cpp_gunzip(uint8_t*, size_t, size_t&);
 string cpp_zlibc(string&);
 string cpp_zlibd(string&);
 

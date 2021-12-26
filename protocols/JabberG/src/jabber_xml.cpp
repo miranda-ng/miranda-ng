@@ -52,12 +52,12 @@ bool XmlNodeHash::VisitEnter(const TiXmlElement &pNode, const tinyxml2::XMLAttri
 void XmlNodeHash::add(const char *str)
 {
 	if (str)
-		mir_md5_append(&state, (const BYTE *)str, strlen(str));
+		mir_md5_append(&state, (const uint8_t *)str, strlen(str));
 }
 
 CMStringA XmlNodeHash::getResult()
 {
-	BYTE digest[16];
+	uint8_t digest[16];
 	mir_md5_finish(&state, digest);
 
 	CMStringA res;

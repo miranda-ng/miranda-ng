@@ -194,13 +194,13 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 					}
 					else if (wcsstr(buff, L"color")) {
 						if (GetSettingName(buff, "Col", szSetting, sizeof(szSetting) - 1)) {
-							BYTE r = _wtoi(pch);
+							uint8_t r = _wtoi(pch);
 							pch = wcschr(pch, ' ');
 							if (++pch) {
-								BYTE g = _wtoi(pch);
+								uint8_t g = _wtoi(pch);
 								pch = wcschr(pch, ' ');
 								if (++pch) {
-									BYTE b = _wtoi(pch);
+									uint8_t b = _wtoi(pch);
 									COLORREF color = RGB(r, g, b);
 									g_plugin.setDword(szSetting, color);
 								}
@@ -211,13 +211,13 @@ void ParseFontPart(FILE *fp, wchar_t *buff)
 						if (GetSettingName(buff, "Size", szSetting, sizeof(szSetting) - 1)) {
 							HDC hdc = GetDC(nullptr);
 							int size = -MulDiv(_wtoi(pch), GetDeviceCaps(hdc, LOGPIXELSY), 72);
-							g_plugin.setByte(szSetting, (BYTE)size);
+							g_plugin.setByte(szSetting, (uint8_t)size);
 							ReleaseDC(nullptr, hdc);
 						}
 					}
 					else if (wcsstr(buff, L"effect")) {
 						if (GetSettingName(buff, "Sty", szSetting, sizeof(szSetting) - 1)) {
-							BYTE effect = 0;
+							uint8_t effect = 0;
 							if (wcsstr(pch, L"font_bold"))
 								effect |= DBFONTF_BOLD;
 							if (wcsstr(pch, L"font_italic"))

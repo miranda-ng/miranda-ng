@@ -103,21 +103,21 @@ static INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 		case IDC_POP_USESAMECOLORS:
 			// use same color as data window - enable/disable color selection
 			// controls
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), !((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)));
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), !((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), !((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), !((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS)));
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_POP_USEWINCOLORS:
 			// use window color - enable/disable color selection controls
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), !((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)));
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), !((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), !((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), !((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS)));
 			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 			break;
 
 		case IDC_POP_USECUSTCOLORS:
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), ((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)));
-			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), ((BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_BGCOLOUR), ((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)));
+			EnableWindow(GetDlgItem(hdlg, IDC_POP_TEXTCOLOUR), ((uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS)));
 			break;
 
 		case IDC_PD1:
@@ -178,17 +178,17 @@ static INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 			popupdelayval = _wtol(str2);
 			g_plugin.setDword(POP_DELAY_KEY, popupdelayval);
 
-			g_plugin.setByte(LCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
-			g_plugin.setByte(LCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
-			g_plugin.setByte(LCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
+			g_plugin.setByte(LCLK_WINDOW_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_LCLK_WINDOW));
+			g_plugin.setByte(LCLK_WEB_PGE_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_LCLK_WEB_PGE));
+			g_plugin.setByte(LCLK_DISMISS_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_LCLK_DISMISS));
 
-			g_plugin.setByte(RCLK_WINDOW_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
-			g_plugin.setByte(RCLK_WEB_PGE_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
-			g_plugin.setByte(RCLK_DISMISS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
+			g_plugin.setByte(RCLK_WINDOW_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_RCLK_WINDOW));
+			g_plugin.setByte(RCLK_WEB_PGE_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_RCLK_WEB_PGE));
+			g_plugin.setByte(RCLK_DISMISS_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_RCLK_DISMISS));
 
-			g_plugin.setByte(POP_USECUSTCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
-			g_plugin.setByte(POP_USEWINCLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
-			g_plugin.setByte(POP_USESAMECLRS_KEY, (BYTE)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
+			g_plugin.setByte(POP_USECUSTCLRS_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USECUSTCOLORS));
+			g_plugin.setByte(POP_USEWINCLRS_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USEWINCOLORS));
+			g_plugin.setByte(POP_USESAMECLRS_KEY, (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP_USESAMECOLORS));
 
 			BGColour = (SendDlgItemMessage(hdlg, IDC_POP_BGCOLOUR, CPM_GETCOLOUR, 0, 0));
 			TextColour = (SendDlgItemMessage(hdlg, IDC_POP_TEXTCOLOUR, CPM_GETCOLOUR, 0, 0));
@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			EnumFontFamiliesEx(hdc, &lf, (FONTENUMPROC)EnumFontScriptsProc, (LPARAM)GetDlgItem(hwndDlg, IDC_SCRIPT), 0);
 			ReleaseDC(hwndDlg, hdc);
 			for (i = SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCOUNT, 0, 0) - 1; i >= 0; i--) {
-				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (BYTE)((g_plugin.getByte(FONT_SCRIPT_KEY, 0)))) {
+				if (SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, i, 0) == (uint8_t)((g_plugin.getByte(FONT_SCRIPT_KEY, 0)))) {
 					SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_SETCURSEL, i, 0);
 					break;
 				}
@@ -383,26 +383,26 @@ static INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			g_plugin.setByte(SUPPRESS_ERR_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS));
-			g_plugin.setByte(UPDATE_ONSTART_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONSTART));
-			g_plugin.setByte(UPDATE_ON_OPEN_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ON_OPEN));
-			g_plugin.setByte(HIDE_STATUS_ICON_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_HIDE_STATUS_ICON));
-			g_plugin.setByte(FONT_BOLD_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_BOLD));
-			g_plugin.setByte(FONT_ITALIC_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_ITALIC));
-			g_plugin.setByte(FONT_UNDERLINE_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_FONT_UNDERLINE));
-			g_plugin.setByte(UPDATE_ONALERT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONALERT));
-			g_plugin.setByte(SAVE_INDIVID_POS_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SAVE_INDIVID_POS));
-			g_plugin.setByte(NO_PROTECT_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_NO_PROTECT));
-			g_plugin.setByte(DATA_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
+			g_plugin.setByte(SUPPRESS_ERR_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SUPPRESS));
+			g_plugin.setByte(UPDATE_ONSTART_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONSTART));
+			g_plugin.setByte(UPDATE_ON_OPEN_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ON_OPEN));
+			g_plugin.setByte(HIDE_STATUS_ICON_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_HIDE_STATUS_ICON));
+			g_plugin.setByte(FONT_BOLD_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FONT_BOLD));
+			g_plugin.setByte(FONT_ITALIC_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FONT_ITALIC));
+			g_plugin.setByte(FONT_UNDERLINE_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_FONT_UNDERLINE));
+			g_plugin.setByte(UPDATE_ONALERT_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_UPDATE_ONALERT));
+			g_plugin.setByte(SAVE_INDIVID_POS_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SAVE_INDIVID_POS));
+			g_plugin.setByte(NO_PROTECT_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_NO_PROTECT));
+			g_plugin.setByte(DATA_POPUP_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_DATAPOPUP));
 
 			wchar_t str[100];
 			GetDlgItemText(hwndDlg, IDC_TYPEFACE, str, _countof(str));
 			g_plugin.setWString(FONT_FACE_KEY, str);
 
 			g_plugin.setByte(FONT_SIZE_KEY, (GetDlgItemInt(hwndDlg, IDC_FONTSIZE, nullptr, FALSE)));
-			g_plugin.setByte(FONT_SCRIPT_KEY, ((BYTE)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));
+			g_plugin.setByte(FONT_SCRIPT_KEY, ((uint8_t)SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_SCRIPT, CB_GETCURSEL, 0, 0), 0)));
 
-			g_plugin.setByte(ERROR_POPUP_KEY, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_ERROR_POPUP));
+			g_plugin.setByte(ERROR_POPUP_KEY, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ERROR_POPUP));
 
 			timerval = GetDlgItemInt(hwndDlg, IDC_TIME, nullptr, FALSE);
 			g_plugin.setDword(REFRESH_KEY, timerval);

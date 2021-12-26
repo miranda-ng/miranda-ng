@@ -190,7 +190,7 @@ static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
 		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), Skin_GetIconHandle(SKINICON_OTHER_POPUP));
 	}
 
-	g_plugin.setByte(POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
+	g_plugin.setByte(POPUPS_ENABLED, (uint8_t)WumfOptions.PopupsEnabled);
 	return 0;
 }
 

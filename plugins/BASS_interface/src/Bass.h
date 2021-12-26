@@ -18,7 +18,7 @@ typedef unsigned __int64 QWORD;
 #include <stdint.h>
 #define WINAPI
 #define CALLBACK
-typedef uint8_t BYTE;
+typedef uint8_t uint8_t;
 typedef uint16_t WORD;
 typedef uint32_t DWORD;
 typedef uint64_t QWORD;
@@ -32,8 +32,8 @@ typedef int BOOL;
 #define TRUE 1
 #define FALSE 0
 #endif
-#define LOBYTE(a) (BYTE)(a)
-#define HIBYTE(a) (BYTE)((a)>>8)
+#define LOBYTE(a) (uint8_t)(a)
+#define HIBYTE(a) (uint8_t)((a)>>8)
 #define LOWORD(a) (WORD)(a)
 #define HIWORD(a) (WORD)((a)>>16)
 #define MAKEWORD(a,b) (WORD)(((a)&0xff)|((b)<<8))
@@ -658,7 +658,7 @@ RETURN : TRUE = continue recording, FALSE = stop */
 #define BASS_TAG_APE_BINARY	0x1000	// + index #, binary APE tag : TAG_APE_BINARY structure
 #define BASS_TAG_MUSIC_NAME		0x10000	// MOD music name : ANSI string
 #define BASS_TAG_MUSIC_MESSAGE	0x10001	// MOD message : ANSI string
-#define BASS_TAG_MUSIC_ORDERS	0x10002	// MOD order list : BYTE array of pattern numbers
+#define BASS_TAG_MUSIC_ORDERS	0x10002	// MOD order list : uint8_t array of pattern numbers
 #define BASS_TAG_MUSIC_AUTH		0x10003	// MOD author : UTF-8 string
 #define BASS_TAG_MUSIC_INST		0x10100	// + instrument #, MOD instrument name : ANSI string
 #define BASS_TAG_MUSIC_CHAN		0x10200	// + channel #, MOD channel name : ANSI string
@@ -672,7 +672,7 @@ typedef struct {
 	char album[30];
 	char year[4];
 	char comment[30];
-	BYTE genre;
+	uint8_t genre;
 } TAG_ID3;
 
 // Binary APE tag structure
@@ -696,8 +696,8 @@ typedef struct {
 	char OriginationTime[8];		// time of creation (hh-mm-ss)
 	QWORD TimeReference;			// first sample count since midnight (little-endian)
 	WORD Version;					// BWF version (little-endian)
-	BYTE UMID[64];					// SMPTE UMID
-	BYTE Reserved[190];
+	uint8_t UMID[64];					// SMPTE UMID
+	uint8_t Reserved[190];
 #if defined(__GNUC__) && __GNUC__<3
 	char CodingHistory[0];			// history
 #elif 1 // change to 0 if compiler fails the following line

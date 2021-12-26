@@ -173,7 +173,7 @@ bool CContactCache::filter(int rate, wchar_t *str)
 	int nKbdLayouts = GetKeyboardLayoutList(_countof(kbdLayouts), kbdLayouts);
 
 	wchar_t buf[256];
-	BYTE keyState[256] = { 0 };
+	uint8_t keyState[256] = { 0 };
 
 	for (int iLayout = 0; iLayout < nKbdLayouts; ++iLayout) {
 		if (kbdLayoutActive == kbdLayouts[iLayout])

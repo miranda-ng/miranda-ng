@@ -236,7 +236,7 @@ INT_PTR CALLBACK EditSettingsPerContactDlgProc(HWND hWnd, UINT msg, WPARAM wp, L
 
 			::SetDlgItemText(hWnd, IDC_EDIT_NAME, GetContactName(hContact));
 
-			BYTE bUseContactSpecific = g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0);
+			uint8_t bUseContactSpecific = g_plugin.getByte(hContact, DB_STR_CONTACT_SPEC_SETTINGS, 0);
 			::CheckDlgButton(hWnd, IDC_CHECK_CONTACT_SPECIFIC, bUseContactSpecific ? BST_CHECKED : BST_UNCHECKED);
 
 			auto pProvider = GetContactProviderPtr(hContact);
@@ -654,10 +654,10 @@ void CAdvProviderSettings::SaveToDb() const
 	g_plugin.setByte(DB_KEY_PopupCondition, m_bShowPopupIfValueChanged);
 
 	if (nullptr != m_pPopupSettings) {
-		g_plugin.setByte(DB_KEY_PopupColourMode, static_cast<BYTE>(m_pPopupSettings->GetColourMode()));
+		g_plugin.setByte(DB_KEY_PopupColourMode, static_cast<uint8_t>(m_pPopupSettings->GetColourMode()));
 		g_plugin.setDword(DB_KEY_PopupBkColour, m_pPopupSettings->GetColourBk());
 		g_plugin.setDword(DB_KEY_PopupTextColour, m_pPopupSettings->GetColourText());
-		g_plugin.setByte(DB_KEY_PopupDelayMode, static_cast<BYTE>(m_pPopupSettings->GetDelayMode()));
+		g_plugin.setByte(DB_KEY_PopupDelayMode, static_cast<uint8_t>(m_pPopupSettings->GetDelayMode()));
 		g_plugin.setWord(DB_KEY_PopupDelayTimeout, m_pPopupSettings->GetDelayTimeout());
 		g_plugin.setByte(DB_KEY_PopupHistoryFlag, m_pPopupSettings->GetHistoryFlag());
 	}
@@ -683,14 +683,14 @@ CPopupSettings::CPopupSettings() :
 	m_bUseHistory(false)
 
 {
-	BYTE m = g_plugin.getByte(DB_KEY_PopupColourMode, static_cast<BYTE>(m_modeColour));
+	uint8_t m = g_plugin.getByte(DB_KEY_PopupColourMode, static_cast<uint8_t>(m_modeColour));
 	if (m >= colourDefault && m <= colourUserDefined)
 		m_modeColour = static_cast<EColourMode>(m);
 
 	m_rgbBkg = g_plugin.getDword(DB_KEY_PopupBkColour, m_rgbBkg);
 	m_rgbText = g_plugin.getDword(DB_KEY_PopupTextColour, m_rgbText);
 
-	m = g_plugin.getByte(DB_KEY_PopupDelayMode, static_cast<BYTE>(m_modeDelay));
+	m = g_plugin.getByte(DB_KEY_PopupDelayMode, static_cast<uint8_t>(m_modeDelay));
 	if (m >= delayFromPopup && m <= delayPermanent)
 		m_modeDelay = static_cast<EDelayMode>(m);
 
@@ -712,7 +712,7 @@ COLORREF CPopupSettings::GetDefColourText()
 
 void CPopupSettings::InitForContact(MCONTACT hContact)
 {
-	BYTE m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	uint8_t m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<uint8_t>(m_modeColour));
 	if (m >= CPopupSettings::colourDefault && m <= CPopupSettings::colourUserDefined) {
 		m_modeColour = static_cast<CPopupSettings::EColourMode>(m);
 	}
@@ -720,7 +720,7 @@ void CPopupSettings::InitForContact(MCONTACT hContact)
 	m_rgbBkg = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
 	m_rgbText = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
 
-	m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	m = g_plugin.getByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<uint8_t>(m_modeDelay));
 	if (m >= CPopupSettings::delayFromPopup && m <= CPopupSettings::delayPermanent) {
 		m_modeDelay = static_cast<CPopupSettings::EDelayMode>(m);
 	}
@@ -730,10 +730,10 @@ void CPopupSettings::InitForContact(MCONTACT hContact)
 
 void CPopupSettings::SaveForContact(MCONTACT hContact) const
 {
-	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<BYTE>(m_modeColour));
+	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_MODE, static_cast<uint8_t>(m_modeColour));
 	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_BK, m_rgbBkg);
 	g_plugin.setDword(hContact, DB_STR_CURRENCYRATE_POPUP_COLOUR_TEXT, m_rgbText);
-	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<BYTE>(m_modeDelay));
+	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_MODE, static_cast<uint8_t>(m_modeDelay));
 	g_plugin.setWord(hContact, DB_STR_CURRENCYRATE_POPUP_DELAY_TIMEOUT, m_wDelay);
 	g_plugin.setByte(hContact, DB_STR_CURRENCYRATE_POPUP_HISTORY_FLAG, m_bUseHistory);
 }

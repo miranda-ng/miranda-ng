@@ -25,7 +25,7 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam)
 	case STATUS_ALWAYSTRY:
 		pUinKey ptr = getUinKey(wParam);
 		if (ptr) {
-			ptr->status = ptr->tstatus = (BYTE)lParam;
+			ptr->status = ptr->tstatus = (uint8_t)lParam;
 			if (ptr->status == STATUS_ENABLED)
 				db_unset(ptr->hContact, MODULENAME, "StatusID");
 			else
@@ -165,8 +165,8 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam)
 				ptr->cntx = nullptr;
 				ptr->keyLoaded = 0;
 			}
-			ptr->mode = (BYTE)lParam;
-			db_set_b(wParam, MODULENAME, "mode", (BYTE)lParam);
+			ptr->mode = (uint8_t)lParam;
+			db_set_b(wParam, MODULENAME, "mode", (uint8_t)lParam);
 		}
 		ShowStatusIcon(wParam);
 		break;

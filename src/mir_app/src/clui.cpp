@@ -452,7 +452,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		if (cluiopt.transparent) {
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)cluiopt.alpha, LWA_ALPHA);
 		}
 		transparentFocus = 1;
 		return FALSE;
@@ -552,7 +552,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		else {
 			if (cluiopt.transparent) {
 				KillTimer(hwnd, TM_AUTOALPHA);
-				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus = 1;
 			}
 		}
@@ -561,7 +561,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_SETCURSOR:
 		if (cluiopt.transparent) {
 			if (!transparentFocus && GetForegroundWindow() != hwnd) {
-				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)cluiopt.alpha, LWA_ALPHA);
 				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 			}
@@ -598,9 +598,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			if (inwnd != transparentFocus) {        //change
 				transparentFocus = inwnd;
 				if (transparentFocus)
-					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)cluiopt.alpha, LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)cluiopt.alpha, LWA_ALPHA);
 				else
-					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
 			if (!transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
@@ -619,14 +619,14 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			int sourceAlpha, destAlpha;
 			if (wParam) {
 				sourceAlpha = 0;
-				destAlpha = (BYTE)cluiopt.alpha;
+				destAlpha = (uint8_t)cluiopt.alpha;
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
 				noRecurse = 1;
 				ShowWindow(hwnd, SW_SHOW);
 				noRecurse = 0;
 			}
 			else {
-				sourceAlpha = (BYTE)cluiopt.alpha;
+				sourceAlpha = (uint8_t)cluiopt.alpha;
 				destAlpha = 0;
 			}
 			for (startTick = GetTickCount();;) {
@@ -634,9 +634,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (thisTick >= startTick + 200)
 					break;
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
-					(BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
+					(uint8_t)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
 			}
-			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE)destAlpha, LWA_ALPHA);
+			SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)destAlpha, LWA_ALPHA);
 		}
 		else {
 			if (wParam)
@@ -954,7 +954,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (szProto == nullptr) return 0;
 				int status, x;
 				SIZE textSize;
-				BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
+				uint8_t showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 				status = Proto_GetStatus(szProto);
 				SetBkMode(dis->hDC, TRANSPARENT);
 				x = dis->rcItem.left;

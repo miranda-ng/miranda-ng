@@ -19,5 +19,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #pragma once
 
 BOOL OpenKeyboardDevice(void);
-BOOL ToggleKeyboardLights(BYTE);
+BOOL ToggleKeyboardLights(uint8_t);
 void CloseKeyboardDevice(void);

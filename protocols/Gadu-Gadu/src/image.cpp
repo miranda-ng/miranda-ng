@@ -618,7 +618,7 @@ static INT_PTR CALLBACK gg_img_dlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				p->unknown1 = 0x109;
 				p->size = dat->lpImages->nSize;
 
-				dat->lpImages->crc32 = p->crc32 = gg_fix32(gg_crc32(0, (BYTE*)dat->lpImages->lpData, dat->lpImages->nSize));
+				dat->lpImages->crc32 = p->crc32 = gg_fix32(gg_crc32(0, (uint8_t*)dat->lpImages->lpData, dat->lpImages->nSize));
 
 				int len = sizeof(struct gg_msg_richtext_format) + sizeof(struct gg_msg_richtext_image);
 				((gg_msg_richtext*)format)->length = len;
@@ -754,7 +754,7 @@ int gg_img_isexists(wchar_t *szPath, GGIMAGEENTRY *dat)
 		char *lpData = (char*)mir_alloc(dat->nSize);
 		if (fread(lpData, 1, dat->nSize, fp) == dat->nSize)
 		{
-			if (dat->crc32 == gg_fix32(gg_crc32(0, (BYTE*)lpData, dat->nSize)) ||
+			if (dat->crc32 == gg_fix32(gg_crc32(0, (uint8_t*)lpData, dat->nSize)) ||
 				memcmp(lpData, dat->lpData, dat->nSize) == 0)
 			{
 				mir_free(lpData);

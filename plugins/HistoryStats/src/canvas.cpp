@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "canvas.h"
 
-void Canvas::updateTrans(BYTE* pData)
+void Canvas::updateTrans(uint8_t* pData)
 {
 	// MEMO: this follwing transparency code only makes sense for m_nChannels == 4
 	assert(m_nChannels == 4);
@@ -87,7 +87,7 @@ HDC Canvas::beginDraw()
 		m_pBMIH->biClrUsed = 0;
 		m_pBMIH->biClrImportant = 0;
 
-		BYTE* pData = nullptr;
+		uint8_t* pData = nullptr;
 
 		m_hDC = CreateCompatibleDC(nullptr);
 		m_hBmp = CreateDIBSection(m_hDC, reinterpret_cast<BITMAPINFO*>(m_pBMIH), DIB_RGB_COLORS, reinterpret_cast<void**>(&pData), nullptr, 0);
@@ -112,7 +112,7 @@ bool Canvas::getDigest(Digest& digest)
 
 	// read data from DIB
 	int nSize = m_nLineLength * m_nHeight;
-	BYTE* pData = new BYTE[nSize];
+	uint8_t* pData = new uint8_t[nSize];
 
 	memset(pData, 0, nSize);
 

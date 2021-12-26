@@ -254,7 +254,7 @@ wchar_t *ByteToYesNo(MCONTACT hContact, const char *szModuleName, const char *sz
 
 wchar_t *ByteToGender(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	BYTE val = (BYTE)db_get_b(hContact, szModuleName, szSettingName, 0);
+	uint8_t val = (uint8_t)db_get_b(hContact, szModuleName, szSettingName, 0);
 	if (val == 'F')
 		wcsncpy(buff, TranslateT("Female"), bufflen);
 	else if (val == 'M')
@@ -720,8 +720,8 @@ static DBVTranslation internalTranslations[] =
 	{	WordToStatusDesc,              LPGENW("WORD to status description")                                      },
 	{	TimestampToTime,               LPGENW("DWORD timestamp to time")                                         },
 	{	TimestampToTimeDifference,     LPGENW("DWORD timestamp to time difference")                              },
-	{	ByteToYesNo,                   LPGENW("BYTE to Yes/No")                                                  },
-	{	ByteToGender,                  LPGENW("BYTE to Male/Female (ICQ)")                                       },
+	{	ByteToYesNo,                   LPGENW("uint8_t to Yes/No")                                                  },
+	{	ByteToGender,                  LPGENW("uint8_t to Male/Female (ICQ)")                                       },
 	{	WordToCountry,                 LPGENW("WORD to country name")                                            },
 	{	DwordToIp,                     LPGENW("DWORD to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENW("<prefix>Day|Month|Year to date")                                  },
@@ -735,10 +735,10 @@ static DBVTranslation internalTranslations[] =
 	{	TimestampToLongDate,           LPGENW("DWORD timestamp to date (long)")                                  },
 	{	EmptyXStatusToDefaultName,     LPGENW("xStatus: empty xStatus name to default name")                     },
 	{	SecondsToTimeDifference,       LPGENW("DWORD seconds to time difference")                                },
-	{	TimezoneToTime,                LPGENW("BYTE timezone to time")                                           },
+	{	TimezoneToTime,                LPGENW("uint8_t timezone to time")                                           },
 	{	ByteToDay,                     LPGENW("WORD to name of a day (0..6, 0 is Sunday)")                       },
 	{	ByteToMonth,                   LPGENW("WORD to name of a month (1..12, 1 is January)")                   },
-	{	ByteToLanguage,                LPGENW("BYTE to language (ICQ)")                                          },
+	{	ByteToLanguage,                LPGENW("uint8_t to language (ICQ)")                                          },
 };
 
 void InitTranslations()

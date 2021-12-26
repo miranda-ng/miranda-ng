@@ -80,7 +80,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			BOOL translated;
 
 			BOOL fEnabled = IsDlgButtonChecked(hwndDlg, IDC_ENABLEREPLIER) == 1;
-			g_plugin.setByte(KEY_ENABLED, (BYTE)fEnabled);
+			g_plugin.setByte(KEY_ENABLED, (uint8_t)fEnabled);
 
 			if (fEnabled)
 				Menu_ModifyItem(hEnableMenu, LPGENW("Disable Auto&reply"), iconList[0].hIcolib);

@@ -137,7 +137,7 @@ ConvertInPlaceRGBFToYxy(FIBITMAP *dib) {
 	const unsigned height = FreeImage_GetHeight(dib);
 	const unsigned pitch  = FreeImage_GetPitch(dib);
 	
-	BYTE *bits = (BYTE*)FreeImage_GetBits(dib);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(dib);
 	for(unsigned y = 0; y < height; y++) {
 		FIRGBF *pixel = (FIRGBF*)bits;
 		for(unsigned x = 0; x < width; x++) {
@@ -182,7 +182,7 @@ ConvertInPlaceYxyToRGBF(FIBITMAP *dib) {
 	const unsigned height = FreeImage_GetHeight(dib);
 	const unsigned pitch  = FreeImage_GetPitch(dib);
 
-	BYTE *bits = (BYTE*)FreeImage_GetBits(dib);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(dib);
 	for(unsigned y = 0; y < height; y++) {
 		FIRGBF *pixel = (FIRGBF*)bits;
 		for(unsigned x = 0; x < width; x++) {
@@ -236,7 +236,7 @@ LuminanceFromYxy(FIBITMAP *Yxy, float *maxLum, float *minLum, float *worldLum) {
 	float max_lum = 0, min_lum = 0;
 	double sum = 0;
 
-	BYTE *bits = (BYTE*)FreeImage_GetBits(Yxy);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(Yxy);
 	for(unsigned y = 0; y < height; y++) {
 		const FIRGBF *pixel = (FIRGBF*)bits;
 		for(unsigned x = 0; x < width; x++) {
@@ -278,20 +278,20 @@ ClampConvertRGBFTo24(FIBITMAP *src) {
 	const unsigned src_pitch  = FreeImage_GetPitch(src);
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
 
-	BYTE *src_bits = (BYTE*)FreeImage_GetBits(src);
-	BYTE *dst_bits = (BYTE*)FreeImage_GetBits(dst);
+	uint8_t *src_bits = (uint8_t*)FreeImage_GetBits(src);
+	uint8_t *dst_bits = (uint8_t*)FreeImage_GetBits(dst);
 
 	for(unsigned y = 0; y < height; y++) {
 		const FIRGBF *src_pixel = (FIRGBF*)src_bits;
-		BYTE *dst_pixel = (BYTE*)dst_bits;
+		uint8_t *dst_pixel = (uint8_t*)dst_bits;
 		for(unsigned x = 0; x < width; x++) {
 			const float red   = (src_pixel[x].red > 1)   ? 1 : src_pixel[x].red;
 			const float green = (src_pixel[x].green > 1) ? 1 : src_pixel[x].green;
 			const float blue  = (src_pixel[x].blue > 1)  ? 1 : src_pixel[x].blue;
 			
-			dst_pixel[FI_RGBA_RED]   = (BYTE)(255.0F * red   + 0.5F);
-			dst_pixel[FI_RGBA_GREEN] = (BYTE)(255.0F * green + 0.5F);
-			dst_pixel[FI_RGBA_BLUE]  = (BYTE)(255.0F * blue  + 0.5F);
+			dst_pixel[FI_RGBA_RED]   = (uint8_t)(255.0F * red   + 0.5F);
+			dst_pixel[FI_RGBA_GREEN] = (uint8_t)(255.0F * green + 0.5F);
+			dst_pixel[FI_RGBA_BLUE]  = (uint8_t)(255.0F * blue  + 0.5F);
 			dst_pixel += 3;
 		}
 		src_bits += src_pitch;
@@ -325,8 +325,8 @@ ConvertRGBFToY(FIBITMAP *src) {
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
 
 	
-	BYTE *src_bits = (BYTE*)FreeImage_GetBits(src);
-	BYTE *dst_bits = (BYTE*)FreeImage_GetBits(dst);
+	uint8_t *src_bits = (uint8_t*)FreeImage_GetBits(src);
+	uint8_t *dst_bits = (uint8_t*)FreeImage_GetBits(dst);
 
 	for(unsigned y = 0; y < height; y++) {
 		const FIRGBF *src_pixel = (FIRGBF*)src_bits;
@@ -365,7 +365,7 @@ LuminanceFromY(FIBITMAP *dib, float *maxLum, float *minLum, float *Lav, float *L
 	float max_lum = -1e20F, min_lum = 1e20F;
 	double sumLum = 0, sumLogLum = 0;
 
-	BYTE *bits = (BYTE*)FreeImage_GetBits(dib);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(dib);
 	for(unsigned y = 0; y < height; y++) {
 		const float *pixel = (float*)bits;
 		for(unsigned x = 0; x < width; x++) {
@@ -400,7 +400,7 @@ static void findMaxMinPercentile(FIBITMAP *Y, float minPrct, float *minLum, floa
 
 	std::vector<float> vY(width * height);
 
-	BYTE *bits = (BYTE*)FreeImage_GetBits(Y);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(Y);
 	for(y = 0; y < height; y++) {
 		float *pixel = (float*)bits;
 		for(x = 0; x < width; x++) {
@@ -447,7 +447,7 @@ NormalizeY(FIBITMAP *Y, float minPrct, float maxPrct) {
 		findMaxMinPercentile(Y, minPrct, &minLum, maxPrct, &maxLum);
 	} else {
 		maxLum = -1e20F, minLum = 1e20F;
-		BYTE *bits = (BYTE*)FreeImage_GetBits(Y);
+		uint8_t *bits = (uint8_t*)FreeImage_GetBits(Y);
 		for(y = 0; y < height; y++) {
 			const float *pixel = (float*)bits;
 			for(x = 0; x < width; x++) {
@@ -463,7 +463,7 @@ NormalizeY(FIBITMAP *Y, float minPrct, float maxPrct) {
 
 	// normalize to range 0..1 
 	const float divider = maxLum - minLum;
-	BYTE *bits = (BYTE*)FreeImage_GetBits(Y);
+	uint8_t *bits = (uint8_t*)FreeImage_GetBits(Y);
 	for(y = 0; y < height; y++) {
 		float *pixel = (float*)bits;
 		for(x = 0; x < width; x++) {

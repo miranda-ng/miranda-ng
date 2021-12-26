@@ -27,14 +27,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct tagPOPUPOPTIONS {
 	//==Page General====
 	//Timeout
-	BYTE InfiniteDelay;
+	uint8_t InfiniteDelay;
 	int Seconds;
-	BYTE LeaveHovered;
+	uint8_t LeaveHovered;
 	//Size&Position
-	BYTE DynamicResize;
-	BYTE UseMinimumWidth;
+	uint8_t DynamicResize;
+	uint8_t UseMinimumWidth;
 	WORD MinimumWidth;
-	BYTE UseMaximumWidth;
+	uint8_t UseMaximumWidth;
 	WORD MaximumWidth;
 	int Position;
 	int Spreading;
@@ -45,20 +45,20 @@ typedef struct tagPOPUPOPTIONS {
 	int gapRight;
 	int spacing;
 	//Miscellaneous
-	BYTE ReorderPopups;
-	BYTE ReorderPopupsWarning;
+	uint8_t ReorderPopups;
+	uint8_t ReorderPopupsWarning;
 	//Disable when
-	BYTE DisableWhenFullscreen;
+	uint8_t DisableWhenFullscreen;
 	//others
-	BYTE debug;
+	uint8_t debug;
 	//==Page Skins====
 	LPTSTR SkinPack;
-	BYTE DisplayTime;
-	BYTE DropShadow;
-	BYTE EnableFreeformShadows;
-	BYTE EnableAeroGlass;
-	BYTE UseWinColors;
-	BYTE UseMText;
+	uint8_t DisplayTime;
+	uint8_t DropShadow;
+	uint8_t EnableFreeformShadows;
+	uint8_t EnableAeroGlass;
+	uint8_t UseWinColors;
+	uint8_t UseMText;
 	//==Page Actions====
 	DWORD actions;
 	//Mouse Override
@@ -67,24 +67,24 @@ typedef struct tagPOPUPOPTIONS {
 	int overrideMiddle;
 	//==Page Advanced====
 	//History
-	BYTE EnableHistory;
+	uint8_t EnableHistory;
 	WORD HistorySize;
-	BYTE UseHppHistoryLog;
+	uint8_t UseHppHistoryLog;
 	//Avatars
-	BYTE avatarBorders;
-	BYTE avatarPNGBorders;
-	BYTE avatarRadius;
+	uint8_t avatarBorders;
+	uint8_t avatarPNGBorders;
+	uint8_t avatarRadius;
 	WORD avatarSize;
-	BYTE EnableAvatarUpdates;
+	uint8_t EnableAvatarUpdates;
 	//Monitor
-	BYTE Monitor;
+	uint8_t Monitor;
 	//Transparency
-	BYTE UseTransparency;
-	BYTE Alpha;
-	BYTE OpaqueOnHover;
+	uint8_t UseTransparency;
+	uint8_t Alpha;
+	uint8_t OpaqueOnHover;
 	//Effect
-	BYTE UseAnimations;
-	BYTE UseEffect;
+	uint8_t UseAnimations;
+	uint8_t UseEffect;
 	LPTSTR Effect;
 	DWORD FadeIn;
 	DWORD FadeOut;

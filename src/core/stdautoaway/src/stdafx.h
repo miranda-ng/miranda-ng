@@ -76,9 +76,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 	int Unload() override;
 
-	CMOption<BYTE> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;
-	CMOption<BYTE> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
-	CMOption<BYTE> bAAEnable;
+	CMOption<uint8_t> bIdleCheck, bIdleMethod, bIdleOnSaver, bIdleOnFullScr, bIdleOnLock;
+	CMOption<uint8_t> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
+	CMOption<uint8_t> bAAEnable;
 	CMOption<WORD> bAAStatus;
 	CMOption<DWORD> iIdleTime1st;
 };

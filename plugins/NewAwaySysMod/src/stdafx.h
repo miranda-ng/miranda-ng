@@ -243,7 +243,7 @@ struct DYNAMIC_NOTIFY_DATA
 
 struct PLUGIN_DATA
 {
-	BYTE PopupLClickAction, PopupRClickAction;
+	uint8_t PopupLClickAction, PopupRClickAction;
 	MCONTACT hContact;
 	HICON hStatusIcon; // needed here to destroy its handle on UM_FREEPLUGINDATA
 };

@@ -42,7 +42,7 @@ int ExtractURI(DBEVENTINFO *dbei, MEVENT hEvent, LISTELEMENT *listStart)
 	};
 
 	LISTELEMENT *newElement, *actualElement;
-	BYTE type = LINK_UNKNOWN;
+	uint8_t type = LINK_UNKNOWN;
 	int direction, isLink, linkFound = 0;
 	wchar_t date[DATE_SIZE + 1];
 	wchar_t time[TIME_SIZE + 1];
@@ -243,7 +243,7 @@ Fill the richedit field with informations ;-)
 
 Special thanks to MatriX for his help with the cursor postion!
 */
-void WriteLinkList(HWND hDlg, BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, int append)
+void WriteLinkList(HWND hDlg, uint8_t params, LISTELEMENT *listStart, LPCTSTR searchString, int append)
 {
 	CHARFORMAT2 cf;
 	PARAFORMAT2 pf;
@@ -627,9 +627,9 @@ void WriteMessage(HWND hDlg, LISTELEMENT *listStart, int actLinePos)
 Little helper functions to get the actual state of
 user options.
 */
-BYTE GetFlags(HMENU listMenu)
+uint8_t GetFlags(HMENU listMenu)
 {
-	BYTE returnflags = 0x00;
+	uint8_t returnflags = 0x00;
 
 	if (GetMenuState(listMenu, IDM_TYPE_WEB, MF_BYCOMMAND) == MF_UNCHECKED)
 		returnflags = returnflags | WLL_MAIL;
@@ -727,7 +727,7 @@ void DrawLine(HWND hDlg, size_t lineLen)
 /*
 Little helper function to get informations about the linked list, such as number of links, etc
 */
-void GetListInfo(BYTE params, LISTELEMENT *listStart, LPCTSTR searchString, size_t *maxLen, size_t *elementCount, size_t *realElementCount)
+void GetListInfo(uint8_t params, LISTELEMENT *listStart, LPCTSTR searchString, size_t *maxLen, size_t *elementCount, size_t *realElementCount)
 {
 	size_t tempLen;
 	LISTELEMENT *actualElement;
@@ -931,7 +931,7 @@ Read current coloursettings from the database
 void GetColour(MYCOLOURSET *colourSet)
 {
 	DWORD colour;
-	BYTE useDefault;
+	uint8_t useDefault;
 
 	useDefault = g_plugin.getByte(LINKLIST_USE_DEF, 0xFF);
 	if (useDefault == 0xFF)
@@ -1134,9 +1134,9 @@ void SetDBColour(MYCOLOURSET *colourSet)
 	g_plugin.setDword(LINKLIST_TXT_COL, colourSet->text);
 }
 
-BYTE GetUpdateSetting(void)
+uint8_t GetUpdateSetting(void)
 {
-	BYTE updateWindow;
+	uint8_t updateWindow;
 
 	updateWindow = g_plugin.getByte(LINKLIST_UPDATE_WINDOW, 0xFF);
 	if (updateWindow == 0xFF)

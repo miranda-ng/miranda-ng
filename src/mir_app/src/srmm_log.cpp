@@ -42,7 +42,7 @@ struct LoggerClass
 
 static OBJLIST<LoggerClass> g_arLogClasses(1, PtrKeySortT);
 
-static CMOption<BYTE> g_bEnableCustomLogs("SRMM", "EnableCustomLogs", 0);
+static CMOption<uint8_t> g_bEnableCustomLogs("SRMM", "EnableCustomLogs", 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

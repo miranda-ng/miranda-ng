@@ -110,7 +110,7 @@ public:
 		if (chkSelContacts.IsChecked() && bSC) {
 			int i = 0;
 			for (auto &hContact : Contacts()) {
-				BYTE res = m_clist.GetCheck(m_clist.FindContact(hContact));
+				uint8_t res = m_clist.GetCheck(m_clist.FindContact(hContact));
 				if (res) {
 					user_session_list[i] = hContact;
 					i++;

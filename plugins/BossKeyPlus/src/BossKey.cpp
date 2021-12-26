@@ -33,7 +33,7 @@ int protoCount;
 PROTOACCOUNT **proto;
 unsigned *oldStatus;
 wchar_t **oldStatusMsg;
-BYTE g_bOldSetting;
+uint8_t g_bOldSetting;
 
 CMPlugin g_plugin;
 
@@ -304,7 +304,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 
 			if (g_wMask & OPT_CHANGESTATUS) // is this even needed?
 			{
-				BYTE bReqMode = g_plugin.getByte("stattype", 2);
+				uint8_t bReqMode = g_plugin.getByte("stattype", 2);
 				unsigned uMode = (STATUS_ARR_TO_ID[bReqMode]);
 				DBVARIANT dbVar;
 				if (g_wMask & OPT_USEDEFMSG || g_plugin.getWString("statmsg", &dbVar)) {
@@ -476,8 +476,8 @@ static wchar_t* GetBossKeyText(void)
 {
 	WORD wHotKey = db_get_w(0, "SkinHotKeys", "Hide/Show Miranda", HOTKEYCODE(HOTKEYF_CONTROL, VK_F12));
 
-	BYTE key = LOBYTE(wHotKey);
-	BYTE shift = HIBYTE(wHotKey);
+	uint8_t key = LOBYTE(wHotKey);
+	uint8_t shift = HIBYTE(wHotKey);
 
 	static wchar_t buf[128];
 	mir_snwprintf(buf, L"%s%s%s%s%s",

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void LoadSettings(void);
 
-extern BYTE 
+extern uint8_t 
 	bFlashOnMsg, bFlashOnFile, bFlashOnGC, bFlashOnOther, bFullScreenMode, bScreenSaverRunning, bWorkstationLocked, bProcessesAreRunning,
 	bWorkstationActive, bFlashIfMsgOpen, bFlashIfMsgOlder, bFlashUntil, bMirandaOrWindows, bFlashLed[3], bFlashEffect, bSequenceOrder, bFlashSpeed,
 	bEmulateKeypresses, bOverride, bFlashIfMsgWinNotTop, bTrillianLedsMsg, bTrillianLedsURL, bTrillianLedsFile, bTrillianLedsOther;
@@ -39,7 +39,7 @@ wchar_t *OrderName[] = { LPGENW("left -> right"), LPGENW("right -> left"), LPGEN
 
 PROCESS_LIST ProcessListAux;
 XSTATUS_INFO *XstatusListAux;
-BYTE trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
+uint8_t trillianLedsMsg, trillianLedsURL, trillianLedsFile, trillianLedsOther;
 
 static void writeThemeToCombo(const wchar_t *theme, const wchar_t *custom, BOOL overrideExisting)
 {
@@ -543,7 +543,7 @@ static INT_PTR CALLBACK DlgProcProtoOptions(HWND hwndDlg, UINT msg, WPARAM, LPAR
 						for (int i = 0; i < ListView_GetItemCount(hList); i++) {
 							lvItem.iItem = i;
 							ListView_GetItem(hList, &lvItem);
-							g_plugin.setByte((char *)lvItem.lParam, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+							g_plugin.setByte((char *)lvItem.lParam, (uint8_t)ListView_GetCheckState(hList, lvItem.iItem));
 						}
 					}
 
@@ -731,27 +731,27 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WM_NOTIFY:
 		{
-			BYTE untilMap = 0;
+			uint8_t untilMap = 0;
 			WORD statusMap = 0;
 			//Here we have pressed either the OK or the APPLY button.
 			switch (((LPNMHDR)lParam)->idFrom) {
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY:
-					g_plugin.setByte("onmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("ongcmsg", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_GCMSG) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("onfile", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("onother", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("onmsg", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_ONMESSAGE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ongcmsg", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_GCMSG) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("onfile", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_ONFILE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("onother", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_ONOTHER) == BST_CHECKED ? 1 : 0));
 
-					g_plugin.setByte("fscreenmode", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("ssaverrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("wstationlocked", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("procsrunning", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("wstationactive", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fscreenmode", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_FSCREEN) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ssaverrunning", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_SSAVER) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("wstationlocked", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_LOCKED) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("procsrunning", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_PGMS) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("wstationactive", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_ACTIVE) == BST_CHECKED ? 1 : 0));
 
-					g_plugin.setByte("ifmsgopen", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("ifmsgnottop", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("ifmsgolder", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ifmsgopen", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFOPEN) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ifmsgnottop", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFNOTTOP) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("ifmsgolder", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_IFOLDER) == BST_CHECKED ? 1 : 0));
 					g_plugin.setWord("secsolder", (WORD)SendDlgItemMessage(hwndDlg, IDC_OLDERSPIN, UDM_GETPOS, 0, 0));
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_UNTILBLK) == BST_CHECKED)
@@ -764,7 +764,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 						untilMap |= UNTIL_CONDITIONS;
 					g_plugin.setByte("funtil", untilMap);
 					g_plugin.setWord("nblinks", (WORD)SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-					g_plugin.setByte("mirorwin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
+					g_plugin.setByte("mirorwin", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_MIRORWIN, CB_GETCURSEL, 0, 0), 0));
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_ONLINE) == BST_CHECKED)
 						statusMap |= MAP_ONLINE;
@@ -796,7 +796,7 @@ static INT_PTR CALLBACK DlgProcBasicOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (XstatusListAux)
 						for (i = 0; i < ProtoList.protoCount; i++)
 							for (int j = 0; j < (int)XstatusListAux[i].count; j++)
-								g_plugin.setByte(fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (BYTE)XstatusListAux[i].enabled[j]);
+								g_plugin.setByte(fmtDBSettingName("%sxstatus%d", ProtoList.protoInfo[i].szProto, j), (uint8_t)XstatusListAux[i].enabled[j]);
 
 					LoadSettings();
 					return TRUE;
@@ -924,9 +924,9 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			case 0:
 				switch (((LPNMHDR)lParam)->code) {
 				case PSN_APPLY:
-					g_plugin.setByte("fnum", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("fcaps", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
-					g_plugin.setByte("fscroll", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fnum", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_NUM) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fcaps", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_CAPS) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("fscroll", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_SCROLL) == BST_CHECKED ? 1 : 0));
 
 					if (IsDlgButtonChecked(hwndDlg, IDC_INTURN) == BST_CHECKED)
 						g_plugin.setByte("feffect", FLASH_INTURN);
@@ -938,7 +938,7 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 						g_plugin.setByte("feffect", FLASH_TRILLIAN);
 					else
 						g_plugin.setByte("feffect", FLASH_SAMETIME);
-					g_plugin.setByte("order", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
+					g_plugin.setByte("order", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SEQORDER, CB_GETCURSEL, 0, 0), 0));
 					g_plugin.setWord("custom", (WORD)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETITEMDATA, (WPARAM)SendDlgItemMessage(hwndDlg, IDC_SCUSTOM, CB_GETCURSEL, 0, 0), 0));
 
 					g_plugin.setByte("ledsmsg", trillianLedsMsg);
@@ -948,9 +948,9 @@ static INT_PTR CALLBACK DlgProcEffectOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 
 					g_plugin.setWord("sdelay", (WORD)SendDlgItemMessage(hwndDlg, IDC_DELAYSPIN, UDM_GETPOS, 0, 0));
 
-					g_plugin.setByte("speed", (BYTE)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
+					g_plugin.setByte("speed", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SPEED, TBM_GETPOS, 0, 0));
 
-					g_plugin.setByte("keypresses", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("keypresses", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_KEYPRESSES) == BST_CHECKED ? 1 : 0));
 
 					LoadSettings();
 
@@ -1242,7 +1242,7 @@ static INT_PTR CALLBACK DlgProcThemeOptions(HWND hwndDlg, UINT msg, WPARAM wPara
 					// Still updating here the the Flashing tab's controls
 					SendDlgItemMessage(hwndEffect, IDC_SCUSTOM, CB_SETCURSEL, (WPARAM)wCustomTheme, 0);
 
-					g_plugin.setByte("override", (BYTE)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
+					g_plugin.setByte("override", (uint8_t)(IsDlgButtonChecked(hwndDlg, IDC_OVERRIDE) == BST_CHECKED ? 1 : 0));
 
 					return TRUE;
 				} // switch code

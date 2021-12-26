@@ -277,7 +277,7 @@ static LONG SetRegSubKeyStrDefValue(HKEY hMainKey, const wchar_t *pszSubKey, con
 	HKEY hSubKey;
 	LONG res = RegCreateKeyEx(hMainKey, pszSubKey, 0, nullptr, 0, KEY_SET_VALUE | KEY_QUERY_VALUE, nullptr, &hSubKey, nullptr);
 	if (!res) {
-		res = RegSetValueEx(hSubKey, nullptr, 0, REG_SZ, (BYTE*)pszVal, (int)(mir_wstrlen(pszVal) + 1) * sizeof(wchar_t));
+		res = RegSetValueEx(hSubKey, nullptr, 0, REG_SZ, (uint8_t*)pszVal, (int)(mir_wstrlen(pszVal) + 1) * sizeof(wchar_t));
 		RegCloseKey(hSubKey);
 	}
 	return res;
@@ -289,7 +289,7 @@ static void SetRegStrPrefixValue(HKEY hKey, const wchar_t *pszValPrefix, const w
 	size_t dwSize = (mir_wstrlen(pszVal) + mir_wstrlen(pszValPrefix) + 1) * sizeof(wchar_t);
 	wchar_t *pszStr = (wchar_t*)_alloca(dwSize);
 	mir_wstrcat(mir_wstrcpy(pszStr, pszValPrefix), pszVal); // buffer safe
-	RegSetValueEx(hKey, nullptr, 0, REG_SZ, (BYTE*)pszStr, (int)dwSize);
+	RegSetValueEx(hKey, nullptr, 0, REG_SZ, (uint8_t*)pszStr, (int)dwSize);
 }
 
 // hKey must have been opened with KEY_QUERY_VALUE access right
@@ -302,7 +302,7 @@ static wchar_t* GetRegStrValue(HKEY hKey, const wchar_t *pszValName)
 		wchar_t *pszVal = (wchar_t*)mir_alloc(dwSize + sizeof(wchar_t));
 		if (pszVal != nullptr) {
 			// get value
-			if (!RegQueryValueEx(hKey, pszValName, nullptr, &dwType, (BYTE*)pszVal, &dwSize)) {
+			if (!RegQueryValueEx(hKey, pszValName, nullptr, &dwType, (uint8_t*)pszVal, &dwSize)) {
 				pszVal[dwSize / sizeof(wchar_t)] = 0;
 				if (dwType == REG_EXPAND_SZ) {
 					dwSize = MAX_PATH;
@@ -351,7 +351,7 @@ static BOOL IsRegStrValueA(HKEY hKey, const wchar_t *pszValName, const char *psz
 #define REGF_ANSI  0x80000000 // this bit is set in dwType for ANSI registry data 
 
 // pData must always be Unicode data, registry supports Unicode even on Win95
-static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData, DWORD cbData)
+static void WriteDbBackupData(const char *pszSetting, DWORD dwType, uint8_t *pData, DWORD cbData)
 {
 	size_t cbLen = cbData + sizeof(DWORD);
 	uint8_t *buf = (uint8_t*)mir_alloc(cbLen);
@@ -364,7 +364,7 @@ static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData,
 }
 
 // mir_free() the value returned in ppData 
-static BOOL ReadDbBackupData(const char *pszSetting, DWORD *pdwType, BYTE **ppData, DWORD *pcbData)
+static BOOL ReadDbBackupData(const char *pszSetting, DWORD *pdwType, uint8_t **ppData, DWORD *pcbData)
 {
 	DBVARIANT dbv;
 	if (!db_get(0, MODULENAME, pszSetting, &dbv)) {
@@ -410,7 +410,7 @@ static void BackupRegTree_Worker(HKEY hKey, const char *pszSubKey, struct Backup
 			// enum values
 			pszName = (char*)mir_alloc(nMaxValNameLen + 1);
 			if (nMaxValSize == 0) nMaxValSize = 1;
-			BYTE *pData = (BYTE*)mir_alloc(nMaxValSize);
+			uint8_t *pData = (uint8_t*)mir_alloc(nMaxValSize);
 			if (pszName != nullptr && pData != nullptr) {
 				DWORD index = 0;
 				while (!res) {
@@ -489,7 +489,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 							break;
 					char *pszValName = pslash;
 					// read data
-					BYTE *pData;
+					uint8_t *pData;
 					DWORD dwType, cbData;
 					if (ReadDbBackupData(ppszSettings[i], &dwType, &pData, &cbData)) {
 						// set value
@@ -616,7 +616,7 @@ BOOL AddRegClass(const char *pszClassName, const wchar_t *pszTypeDescription, co
 		if (fUrlProto) BackupRegTree(hRootKey, pszClassName, "bak_");
 		// type description
 		if (fUrlProto) SetRegStrPrefixValue(hClassKey, L"URL:", pszTypeDescription);
-		else RegSetValueEx(hClassKey, nullptr, 0, REG_SZ, (BYTE*)pszTypeDescription, (int)(mir_wstrlen(pszTypeDescription) + 1) * sizeof(wchar_t));
+		else RegSetValueEx(hClassKey, nullptr, 0, REG_SZ, (uint8_t*)pszTypeDescription, (int)(mir_wstrlen(pszTypeDescription) + 1) * sizeof(wchar_t));
 		// default icon
 		if (pszIconLoc != nullptr) SetRegSubKeyStrDefValue(hClassKey, L"DefaultIcon", pszIconLoc);
 		// url protocol
@@ -627,11 +627,11 @@ BOOL AddRegClass(const char *pszClassName, const wchar_t *pszTypeDescription, co
 		// edit flags
 		{
 			DWORD dwFlags = 0, dwSize = sizeof(dwFlags);
-			RegQueryValueEx(hClassKey, L"EditFlags", nullptr, nullptr, (BYTE*)&dwFlags, &dwSize);
+			RegQueryValueEx(hClassKey, L"EditFlags", nullptr, nullptr, (uint8_t*)&dwFlags, &dwSize);
 			if (fBrowserAutoOpen) dwFlags = (dwFlags & ~FTA_AlwaysUnsafe) | FTA_OpenIsSafe;
 			if (!fUrlProto) dwFlags |= FTA_HasExtension;
 			else dwFlags = (dwFlags & ~FTA_HasExtension) | FTA_Show; // show classes without extension
-			RegSetValueEx(hClassKey, L"EditFlags", 0, REG_DWORD, (BYTE*)&dwFlags, sizeof(dwFlags));
+			RegSetValueEx(hClassKey, L"EditFlags", 0, REG_DWORD, (uint8_t*)&dwFlags, sizeof(dwFlags));
 		}
 		if (fIsShortcut) {
 			RegSetValueExA(hClassKey, "IsShortcut", 0, REG_SZ, nullptr, 0);
@@ -640,21 +640,21 @@ BOOL AddRegClass(const char *pszClassName, const wchar_t *pszTypeDescription, co
 		// shell
 		if ((res = RegCreateKeyEx(hClassKey, L"shell", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &hShellKey, nullptr)) == ERROR_SUCCESS) {
 			// default verb (when empty "open" is used)
-			RegSetValueEx(hShellKey, nullptr, 0, REG_SZ, (BYTE*)L"open", 5 * sizeof(wchar_t));
+			RegSetValueEx(hShellKey, nullptr, 0, REG_SZ, (uint8_t*)L"open", 5 * sizeof(wchar_t));
 			// verb
 			if ((res = RegCreateKeyEx(hShellKey, L"open", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY | DELETE, nullptr, &hVerbKey, nullptr)) == ERROR_SUCCESS) {
 				// verb description
 				if (pszVerbDesc == nullptr) RegDeleteValue(hVerbKey, nullptr);
-				else RegSetValueEx(hVerbKey, nullptr, 0, REG_SZ, (BYTE*)pszVerbDesc, (int)(mir_wstrlen(pszVerbDesc) + 1) * sizeof(wchar_t));
+				else RegSetValueEx(hVerbKey, nullptr, 0, REG_SZ, (uint8_t*)pszVerbDesc, (int)(mir_wstrlen(pszVerbDesc) + 1) * sizeof(wchar_t));
 				// friendly appname (mui string)
-				RegSetValueEx(hVerbKey, L"FriendlyAppName", 0, REG_SZ, (BYTE*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
+				RegSetValueEx(hVerbKey, L"FriendlyAppName", 0, REG_SZ, (uint8_t*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
 				// command
 				SetRegSubKeyStrDefValue(hVerbKey, L"command", pszRunCmd);
 				// ddeexec
 				if (pszDdeCmd != nullptr) {
 					if (!RegCreateKeyEx(hVerbKey, L"ddeexec", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY | DELETE, nullptr, &hDdeKey, nullptr)) {
 						// command
-						RegSetValueEx(hDdeKey, nullptr, 0, REG_SZ, (BYTE*)pszDdeCmd, (int)(mir_wstrlen(pszDdeCmd) + 1) * sizeof(wchar_t));
+						RegSetValueEx(hDdeKey, nullptr, 0, REG_SZ, (uint8_t*)pszDdeCmd, (int)(mir_wstrlen(pszDdeCmd) + 1) * sizeof(wchar_t));
 						// application
 						SetRegSubKeyStrDefValue(hDdeKey, L"application", pszDdeApp);
 						// topic
@@ -847,11 +847,11 @@ BOOL AddRegFileExt(const char *pszFileExt, const char *pszClassName, const char 
 			}
 		mir_free(pszPrevClass); // does NULL check
 		// class name
-		fSuccess = !RegSetValueExA(hExtKey, nullptr, 0, REG_SZ, (BYTE*)pszClassName, (int)mir_strlen(pszClassName) + 1);
+		fSuccess = !RegSetValueExA(hExtKey, nullptr, 0, REG_SZ, (uint8_t*)pszClassName, (int)mir_strlen(pszClassName) + 1);
 		// mime type e.g. "application/x-icq"
-		if (pszMimeType != nullptr) RegSetValueExA(hExtKey, "Content Type", 0, REG_SZ, (BYTE*)pszMimeType, (int)mir_strlen(pszMimeType) + 1);
+		if (pszMimeType != nullptr) RegSetValueExA(hExtKey, "Content Type", 0, REG_SZ, (uint8_t*)pszMimeType, (int)mir_strlen(pszMimeType) + 1);
 		// perceived type e.g. text (WinXP+)
-		if (fIsText) RegSetValueEx(hExtKey, L"PerceivedType", 0, REG_SZ, (BYTE*)L"text", 5 * sizeof(wchar_t));
+		if (fIsText) RegSetValueEx(hExtKey, L"PerceivedType", 0, REG_SZ, (uint8_t*)L"text", 5 * sizeof(wchar_t));
 		RegCloseKey(hExtKey);
 	}
 
@@ -958,7 +958,7 @@ BOOL AddRegMimeType(const char *pszMimeType, const char *pszFileExt)
 		if (!RegCreateKeyExA(hDbKey, pszMimeType, 0, nullptr, 0, KEY_QUERY_VALUE | KEY_SET_VALUE, nullptr, &hTypeKey, nullptr)) {
 			// file ext
 			if (RegQueryValueExA(hTypeKey, "Extension", nullptr, nullptr, nullptr, nullptr)) // only set if not present
-				fSuccess = !RegSetValueExA(hTypeKey, "Extension", 0, REG_SZ, (BYTE*)pszFileExt, (int)mir_strlen(pszFileExt) + 1);
+				fSuccess = !RegSetValueExA(hTypeKey, "Extension", 0, REG_SZ, (uint8_t*)pszFileExt, (int)mir_strlen(pszFileExt) + 1);
 			RegCloseKey(hTypeKey);
 		}
 		RegCloseKey(hDbKey);
@@ -1014,7 +1014,7 @@ void AddRegOpenWith(const wchar_t *pszAppFileName, BOOL fAllowOpenWith, const wc
 		// filename
 		if (!RegCreateKeyEx(hAppsKey, pszAppFileName, 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &hExeKey, nullptr)) {
 			// appname
-			RegSetValueEx(hExeKey, nullptr, 0, REG_SZ, (BYTE*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
+			RegSetValueEx(hExeKey, nullptr, 0, REG_SZ, (uint8_t*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
 			// no open-with flag
 			if (fAllowOpenWith) RegDeleteValue(hExeKey, L"NoOpenWith");
 			else RegSetValueEx(hExeKey, L"NoOpenWith", 0, REG_SZ, nullptr, 0);
@@ -1023,18 +1023,18 @@ void AddRegOpenWith(const wchar_t *pszAppFileName, BOOL fAllowOpenWith, const wc
 			// shell
 			if (!RegCreateKeyEx(hExeKey, L"shell", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &hShellKey, nullptr)) {
 				// default verb (when empty "open" is used)
-				RegSetValueEx(hShellKey, nullptr, 0, REG_SZ, (BYTE*)L"open", 5 * sizeof(wchar_t));
+				RegSetValueEx(hShellKey, nullptr, 0, REG_SZ, (uint8_t*)L"open", 5 * sizeof(wchar_t));
 				// verb
 				if (!RegCreateKeyEx(hShellKey, L"open", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &hVerbKey, nullptr)) {
 					// friendly appname (mui string)
-					RegSetValueEx(hVerbKey, L"FriendlyAppName", 0, REG_SZ, (BYTE*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
+					RegSetValueEx(hVerbKey, L"FriendlyAppName", 0, REG_SZ, (uint8_t*)pszAppName, (int)(mir_wstrlen(pszAppName) + 1) * sizeof(wchar_t));
 					// command
 					SetRegSubKeyStrDefValue(hVerbKey, L"command", pszRunCmd);
 					// ddeexec
 					if (pszDdeCmd != nullptr)
 						if (!RegCreateKeyEx(hVerbKey, L"ddeexec", 0, nullptr, 0, KEY_SET_VALUE | KEY_CREATE_SUB_KEY, nullptr, &hDdeKey, nullptr)) {
 							// command
-							RegSetValueEx(hDdeKey, nullptr, 0, REG_SZ, (BYTE*)pszDdeCmd, (int)(mir_wstrlen(pszDdeCmd) + 1) * sizeof(wchar_t));
+							RegSetValueEx(hDdeKey, nullptr, 0, REG_SZ, (uint8_t*)pszDdeCmd, (int)(mir_wstrlen(pszDdeCmd) + 1) * sizeof(wchar_t));
 							// application
 							SetRegSubKeyStrDefValue(hDdeKey, L"application", pszDdeApp);
 							// topic
@@ -1119,7 +1119,7 @@ void AddRegOpenWithExtEntry(const wchar_t *pszAppFileName, const char *pszFileEx
 			if (!RegCreateKeyEx(hExeKey, L"SupportedTypes", 0, nullptr, 0, KEY_SET_VALUE, nullptr, &hTypesKey, nullptr)) {
 				ptrW ptszFileExt(mir_a2u(pszFileExt));
 				if (ptszFileExt != nullptr)
-					RegSetValueEx(hTypesKey, ptszFileExt, 0, REG_SZ, (BYTE*)ptszFileExt.get(), (int)(mir_wstrlen(pszFileDesc) + 1) * sizeof(wchar_t));
+					RegSetValueEx(hTypesKey, ptszFileExt, 0, REG_SZ, (uint8_t*)ptszFileExt.get(), (int)(mir_wstrlen(pszFileDesc) + 1) * sizeof(wchar_t));
 				mir_free(ptszFileExt); // does NULL check
 				RegCloseKey(hTypesKey);
 			}
@@ -1171,7 +1171,7 @@ BOOL AddRegRunEntry(const wchar_t *pszAppName, const wchar_t *pszRunCmd)
 	HKEY hRunKey;
 	if (!RegCreateKeyEx(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Run", 0, nullptr, 0, KEY_SET_VALUE, nullptr, &hRunKey, nullptr)) {
 		// appname
-		fSuccess = !RegSetValueEx(hRunKey, pszAppName, 0, REG_SZ, (BYTE*)pszRunCmd, (int)(mir_wstrlen(pszRunCmd) + 1) * sizeof(wchar_t));
+		fSuccess = !RegSetValueEx(hRunKey, pszAppName, 0, REG_SZ, (uint8_t*)pszRunCmd, (int)(mir_wstrlen(pszRunCmd) + 1) * sizeof(wchar_t));
 		RegCloseKey(hRunKey);
 	}
 	return fSuccess;

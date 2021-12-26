@@ -130,7 +130,7 @@ static void TSAPI LoadLogfontFromINI(int i, char *szKey, LOGFONTW *lf, COLORREF 
 		if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 			lf->lfCharSet = SYMBOL_CHARSET;
 		else
-			lf->lfCharSet = (BYTE)GetPrivateProfileIntA(szKey, "Set", DEFAULT_CHARSET, szIniFilename);
+			lf->lfCharSet = (uint8_t)GetPrivateProfileIntA(szKey, "Set", DEFAULT_CHARSET, szIniFilename);
 		lf->lfOutPrecision = OUT_DEFAULT_PRECIS;
 		lf->lfClipPrecision = CLIP_DEFAULT_PRECIS;
 		lf->lfQuality = DEFAULT_QUALITY;
@@ -282,7 +282,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 				db_set_dw(0, szModule, szTemp, GetPrivateProfileIntA(szAppname, "Color", GetSysColor(COLOR_WINDOWTEXT), szIniFilename));
 
 				mir_snprintf(szTemp, "Font%dSty", firstIndex + i);
-				db_set_b(0, szModule, szTemp, (BYTE)(GetPrivateProfileIntA(szAppname, "Style", 0, szIniFilename)));
+				db_set_b(0, szModule, szTemp, (uint8_t)(GetPrivateProfileIntA(szAppname, "Style", 0, szIniFilename)));
 
 				mir_snprintf(szTemp, "Font%dSize", firstIndex + i);
 				bSize = (char)GetPrivateProfileIntA(szAppname, "Size", -10, szIniFilename);
@@ -294,7 +294,7 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 				charset = GetPrivateProfileIntA(szAppname, "Set", 0, szIniFilename);
 				if (i == MSGFONTID_SYMBOLS_IN || i == MSGFONTID_SYMBOLS_OUT)
 					charset = 0;
-				db_set_b(0, szModule, szTemp, (BYTE)charset);
+				db_set_b(0, szModule, szTemp, (uint8_t)charset);
 			}
 			n++;
 		}
@@ -311,8 +311,8 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 				for (auto &it : _extSettings_v5)
 					db_set_dw(0, it.szDbModule, it.szDbSetting, GetPrivateProfileIntA(it.szIniSection, it.szIniName, it.dwDef, szIniFilename));
 
-			db_set_b(0, SRMSGMOD_T, "wantvgrid", (BYTE)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
-			db_set_b(0, SRMSGMOD_T, "extramicrolf", (BYTE)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
+			db_set_b(0, SRMSGMOD_T, "wantvgrid", (uint8_t)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
+			db_set_b(0, SRMSGMOD_T, "extramicrolf", (uint8_t)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
 
 			for (i = 0; i < CUSTOM_COLORS; i++) {
 				mir_snprintf(szTemp, "cc%d", i + 1);
@@ -353,8 +353,8 @@ void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, 
 		dat->m_theme.inputbg = GetPrivateProfileIntA("Message Log", "InputBG", RGB(224, 224, 224), szIniFilename);
 		dat->m_theme.hgrid = GetPrivateProfileIntA("Message Log", "HgridColor", RGB(224, 224, 224), szIniFilename);
 		dat->m_theme.dwFlags = GetPrivateProfileIntA("Message Log", "DWFlags", MWF_LOG_DEFAULT, szIniFilename);
-		db_set_b(0, SRMSGMOD_T, "wantvgrid", (BYTE)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
-		db_set_b(0, SRMSGMOD_T, "extramicrolf", (BYTE)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
+		db_set_b(0, SRMSGMOD_T, "wantvgrid", (uint8_t)(GetPrivateProfileIntA("Message Log", "VGrid", 0, szIniFilename)));
+		db_set_b(0, SRMSGMOD_T, "extramicrolf", (uint8_t)(GetPrivateProfileIntA("Message Log", "ExtraMicroLF", 0, szIniFilename)));
 
 		dat->m_theme.left_indent = GetPrivateProfileIntA("Message Log", "LeftIndent", 0, szIniFilename);
 		dat->m_theme.right_indent = GetPrivateProfileIntA("Message Log", "RightIndent", 0, szIniFilename);

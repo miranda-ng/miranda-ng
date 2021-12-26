@@ -65,7 +65,7 @@ FreeImage_GetChannel(FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL channel) {
 		// build a greyscale palette
 		RGBQUAD *pal = FreeImage_GetPalette(dst);
 		for(int i = 0; i < 256; i++) {
-			pal[i].rgbBlue = pal[i].rgbGreen = pal[i].rgbRed = (BYTE)i;
+			pal[i].rgbBlue = pal[i].rgbGreen = pal[i].rgbRed = (uint8_t)i;
 		}
 
 		// perform extraction
@@ -73,8 +73,8 @@ FreeImage_GetChannel(FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL channel) {
 		int bytespp = bpp / 8;	// bytes / pixel
 
 		for(unsigned y = 0; y < height; y++) {
-			BYTE *src_bits = FreeImage_GetScanLine(src, y);
-			BYTE *dst_bits = FreeImage_GetScanLine(dst, y);
+			uint8_t *src_bits = FreeImage_GetScanLine(src, y);
+			uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 			for(unsigned x = 0; x < width; x++) {
 				dst_bits[x] = src_bits[c];
 				src_bits += bytespp;
@@ -250,8 +250,8 @@ FreeImage_SetChannel(FIBITMAP *dst, FIBITMAP *src, FREE_IMAGE_COLOR_CHANNEL chan
 		int bytespp = dst_bpp / 8;	// bytes / pixel
 
 		for(unsigned y = 0; y < dst_height; y++) {
-			BYTE *src_bits = FreeImage_GetScanLine(src, y);
-			BYTE *dst_bits = FreeImage_GetScanLine(dst, y);
+			uint8_t *src_bits = FreeImage_GetScanLine(src, y);
+			uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 			for(unsigned x = 0; x < dst_width; x++) {
 				dst_bits[c] = src_bits[x];
 				dst_bits += bytespp;

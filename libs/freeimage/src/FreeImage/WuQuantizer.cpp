@@ -108,7 +108,7 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 
 	if (FreeImage_GetBPP(m_dib) == 24) {
 		for(y = 0; y < height; y++) {
-			BYTE *bits = FreeImage_GetScanLine(m_dib, y);
+			uint8_t *bits = FreeImage_GetScanLine(m_dib, y);
 
 			for(x = 0; x < width; x++)	{
 				inr = (bits[FI_RGBA_RED] >> 3) + 1;
@@ -127,7 +127,7 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 		}
 	} else {
 		for(y = 0; y < height; y++) {
-			BYTE *bits = FreeImage_GetScanLine(m_dib, y);
+			uint8_t *bits = FreeImage_GetScanLine(m_dib, y);
 
 			for(x = 0; x < width; x++)	{
 				inr = (bits[FI_RGBA_RED] >> 3) + 1;
@@ -182,7 +182,7 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 void 
 WuQuantizer::M3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2) {
 	unsigned ind1, ind2;
-	BYTE i, r, g, b;
+	uint8_t i, r, g, b;
 	LONG line, line_r, line_g, line_b;
 	LONG area[33], area_r[33], area_g[33], area_b[33];
 	float line2, area2[33];
@@ -241,7 +241,7 @@ WuQuantizer::Vol( Box *cube, LONG *mmt ) {
 // (depending on dir)
 
 LONG 
-WuQuantizer::Bottom(Box *cube, BYTE dir, LONG *mmt) {
+WuQuantizer::Bottom(Box *cube, uint8_t dir, LONG *mmt) {
     switch(dir)
 	{
 		case FI_RGBA_RED:
@@ -272,7 +272,7 @@ WuQuantizer::Bottom(Box *cube, BYTE dir, LONG *mmt) {
 // r1, g1, or b1 (depending on dir)
 
 LONG 
-WuQuantizer::Top(Box *cube, BYTE dir, int pos, LONG *mmt) {
+WuQuantizer::Top(Box *cube, uint8_t dir, int pos, LONG *mmt) {
     switch(dir)
 	{
 		case FI_RGBA_RED:
@@ -325,7 +325,7 @@ WuQuantizer::Var(Box *cube) {
 // so we drop the minus sign and MAXIMIZE the sum of the two terms.
 
 float
-WuQuantizer::Maximize(Box *cube, BYTE dir, int first, int last , int *cut, LONG whole_r, LONG whole_g, LONG whole_b, LONG whole_w) {
+WuQuantizer::Maximize(Box *cube, uint8_t dir, int first, int last , int *cut, LONG whole_r, LONG whole_g, LONG whole_b, LONG whole_w) {
 	LONG half_r, half_g, half_b, half_w;
 	int i;
 	float temp;
@@ -375,7 +375,7 @@ WuQuantizer::Maximize(Box *cube, BYTE dir, int first, int last , int *cut, LONG 
 
 bool
 WuQuantizer::Cut(Box *set1, Box *set2) {
-	BYTE dir;
+	uint8_t dir;
 	int cutr, cutg, cutb;
 
     LONG whole_r = Vol(set1, mr);
@@ -431,11 +431,11 @@ WuQuantizer::Cut(Box *set1, Box *set2) {
 
 
 void
-WuQuantizer::Mark(Box *cube, int label, BYTE *tag) {
+WuQuantizer::Mark(Box *cube, int label, uint8_t *tag) {
     for (int r = cube->r0 + 1; r <= cube->r1; r++) {
 		for (int g = cube->g0 + 1; g <= cube->g1; g++) {
 			for (int b = cube->b0 + 1; b <= cube->b1; b++) {
-				tag[INDEX(r, g, b)] = (BYTE)label;
+				tag[INDEX(r, g, b)] = (uint8_t)label;
 			}
 		}
 	}
@@ -444,7 +444,7 @@ WuQuantizer::Mark(Box *cube, int label, BYTE *tag) {
 // Wu Quantization algorithm
 FIBITMAP *
 WuQuantizer::Quantize(int PaletteSize, int ReserveSize, RGBQUAD *ReservePalette) {
-	BYTE *tag = NULL;
+	uint8_t *tag = NULL;
 
 	try {
 		Box	cube[MAXCOLOR];
@@ -512,20 +512,20 @@ WuQuantizer::Quantize(int PaletteSize, int ReserveSize, RGBQUAD *ReservePalette)
 
 		RGBQUAD *new_pal = FreeImage_GetPalette(new_dib);
 
-		tag = (BYTE*) malloc(SIZE_3D * sizeof(BYTE));
+		tag = (uint8_t*) malloc(SIZE_3D * sizeof(uint8_t));
 		if (tag == NULL) {
 			throw FI_MSG_ERROR_MEMORY;
 		}
-		memset(tag, 0, SIZE_3D * sizeof(BYTE));
+		memset(tag, 0, SIZE_3D * sizeof(uint8_t));
 
 		for (k = 0; k < PaletteSize ; k++) {
 			Mark(&cube[k], k, tag);
 			weight = Vol(&cube[k], wt);
 
 			if (weight) {
-				new_pal[k].rgbRed	= (BYTE)(((float)Vol(&cube[k], mr) / (float)weight) + 0.5f);
-				new_pal[k].rgbGreen = (BYTE)(((float)Vol(&cube[k], mg) / (float)weight) + 0.5f);
-				new_pal[k].rgbBlue	= (BYTE)(((float)Vol(&cube[k], mb) / (float)weight) + 0.5f);
+				new_pal[k].rgbRed	= (uint8_t)(((float)Vol(&cube[k], mr) / (float)weight) + 0.5f);
+				new_pal[k].rgbGreen = (uint8_t)(((float)Vol(&cube[k], mg) / (float)weight) + 0.5f);
+				new_pal[k].rgbBlue	= (uint8_t)(((float)Vol(&cube[k], mb) / (float)weight) + 0.5f);
 			} else {
 				// Error: bogus box 'k'
 
@@ -536,7 +536,7 @@ WuQuantizer::Quantize(int PaletteSize, int ReserveSize, RGBQUAD *ReservePalette)
 		int npitch = FreeImage_GetPitch(new_dib);
 
 		for (unsigned y = 0; y < height; y++) {
-			BYTE *new_bits = FreeImage_GetBits(new_dib) + (y * npitch);
+			uint8_t *new_bits = FreeImage_GetBits(new_dib) + (y * npitch);
 
 			for (unsigned x = 0; x < width; x++) {
 				new_bits[x] = tag[Qadd[y*width + x]];

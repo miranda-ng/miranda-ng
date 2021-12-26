@@ -366,7 +366,7 @@ public:
 		if (bChecked || chkShowDialog.GetState())
 			SSPlugin.setWord(SETTING_DEFAULTPROFILE, (WORD)profiles.GetCurData());
 
-		SSPlugin.setByte(SETTING_OVERRIDE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
+		SSPlugin.setByte(SETTING_OVERRIDE, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_OVERRIDE));
 		SSPlugin.setByte(SETTING_SHOWDIALOG, bChecked = chkShowDialog.GetState());
 		if (bChecked)
 			SSPlugin.setDword(SETTING_DLGTIMEOUT, GetDlgItemInt(m_hwnd, IDC_DLGTIMEOUT, nullptr, FALSE));
@@ -374,13 +374,13 @@ public:
 		SSPlugin.setByte(SETTING_SETWINSTATE, bChecked = chkSetWinState.GetState());
 		if (bChecked) {
 			int val = (int)SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_WINSTATE, CB_GETCURSEL, 0, 0), 0);
-			SSPlugin.setByte(SETTING_WINSTATE, (BYTE)val);
+			SSPlugin.setByte(SETTING_WINSTATE, (uint8_t)val);
 		}
 		
 		SSPlugin.setByte(SETTING_SETDOCKED, bChecked = chkSetDocked.GetState());
 		if (bChecked) {
 			int val = (int)SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETITEMDATA, SendDlgItemMessage(m_hwnd, IDC_DOCKED, CB_GETCURSEL, 0, 0), 0);
-			SSPlugin.setByte(SETTING_DOCKED, (BYTE)val);
+			SSPlugin.setByte(SETTING_DOCKED, (uint8_t)val);
 		}
 		
 		SSPlugin.setByte(SETTING_SETWINLOCATION, bChecked = chkSetWinLocation.GetState());
@@ -395,9 +395,9 @@ public:
 			SSPlugin.setDword(SETTING_HEIGHT, GetDlgItemInt(m_hwnd, IDC_HEIGHT, nullptr, FALSE));
 		}
 		
-		SSPlugin.setByte(SETTING_OFFLINECLOSE, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
-		SSPlugin.setByte(SETTING_AUTODIAL, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
-		SSPlugin.setByte(SETTING_AUTOHANGUP, (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
+		SSPlugin.setByte(SETTING_OFFLINECLOSE, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_OFFLINECLOSE));
+		SSPlugin.setByte(SETTING_AUTODIAL, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTODIAL));
+		SSPlugin.setByte(SETTING_AUTOHANGUP, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOHANGUP));
 		return true;
 	}
 

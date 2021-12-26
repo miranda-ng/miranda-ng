@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		case PSN_APPLY:
 			SendMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDC_STATUS, CBN_SELCHANGE), 0);
 			for (int i = 0; i < count; i++) {
-				AAAPlugin.setByte(StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (BYTE)settings[i]->useCustom);
+				AAAPlugin.setByte(StatusModeToDbSetting(settings[i]->status, SETTING_MSGCUSTOM), (uint8_t)settings[i]->useCustom);
 				if ((settings[i]->useCustom) && (settings[i]->msg != nullptr) && (settings[i]->msg[0] != '\0'))
 					AAAPlugin.setString(StatusModeToDbSetting(settings[i]->status, SETTING_STATUSMSG), settings[i]->msg);
 			}
@@ -580,14 +580,14 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 				break;
 
 			case PSN_APPLY:
-				AAAPlugin.setByte(SETTING_IGNLOCK, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
-				AAAPlugin.setByte(SETTING_IGNSYSKEYS, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
-				AAAPlugin.setByte(SETTING_IGNALTCOMBO, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
-				AAAPlugin.setByte(SETTING_SAMESETTINGS, (BYTE)g_bAAASettingSame);
+				AAAPlugin.setByte(SETTING_IGNLOCK, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNLOCK));
+				AAAPlugin.setByte(SETTING_IGNSYSKEYS, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNSYSKEYS));
+				AAAPlugin.setByte(SETTING_IGNALTCOMBO, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_IGNALTCOMBO));
+				AAAPlugin.setByte(SETTING_SAMESETTINGS, (uint8_t)g_bAAASettingSame);
 				AAAPlugin.setWord(SETTING_AWAYCHECKTIMEINSECS, (WORD)GetDlgItemInt(hwndDlg, IDC_AWAYCHECKTIMEINSECS, nullptr, FALSE));
 				AAAPlugin.setWord(SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, nullptr, FALSE));
-				AAAPlugin.setByte(SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
-				AAAPlugin.setByte(SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
+				AAAPlugin.setByte(SETTING_MONITORMOUSE, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
+				AAAPlugin.setByte(SETTING_MONITORKEYBOARD, (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
 			}
 		}
 		break;

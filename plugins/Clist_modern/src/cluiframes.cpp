@@ -88,7 +88,7 @@ static COLORREF sttBkColour;
 static COLORREF sttSelBkColour;
 static BOOL sttBkUseWinColours;
 
-BYTE AlignCOLLIconToLeft; //will hide frame icon
+uint8_t AlignCOLLIconToLeft; //will hide frame icon
 
 //for old multiwindow
 #define MPCF_CONTEXTFRAMEMENU		3
@@ -130,7 +130,7 @@ int CLUIFrames_OnMoving(HWND hwnd, RECT *r)
 	return 0;
 }
 
-int SetAlpha(BYTE Alpha)
+int SetAlpha(uint8_t Alpha)
 {
 	for (int i = 0; i < g_nFramesCount; i++) {
 		FRAMEWND &F = g_pfwFrames[i];
@@ -679,10 +679,10 @@ static int CLUIFramesStoreFrameSettings(int Frameid)
 	CMStringA buf;
 	db_set_ws(0, CLUIFrameModule, buf.Format("Name%d", storpos), F.name);
 
-	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), (BYTE)btoint(F.collapsed));
-	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), (BYTE)btoint(F.Locked));
-	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), (BYTE)btoint(F.visible));
-	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), (BYTE)btoint(F.TitleBar.ShowTitleBar));
+	db_set_b(0, CLUIFrameModule, buf.Format("Collapse%d", storpos), (uint8_t)btoint(F.collapsed));
+	db_set_b(0, CLUIFrameModule, buf.Format("Locked%d", storpos), (uint8_t)btoint(F.Locked));
+	db_set_b(0, CLUIFrameModule, buf.Format("Visible%d", storpos), (uint8_t)btoint(F.visible));
+	db_set_b(0, CLUIFrameModule, buf.Format("TBVisile%d", storpos), (uint8_t)btoint(F.TitleBar.ShowTitleBar));
 
 	db_set_w(0, CLUIFrameModule, buf.Format("Height%d", storpos), (WORD)F.height);
 	db_set_w(0, CLUIFrameModule, buf.Format("HeightCollapsed%d", storpos), (WORD)F.HeightWhenCollapsed);
@@ -693,8 +693,8 @@ static int CLUIFramesStoreFrameSettings(int Frameid)
 	db_set_w(0, CLUIFrameModule, buf.Format("FloatW%d", storpos), (WORD)F.FloatingSize.x);
 	db_set_w(0, CLUIFrameModule, buf.Format("FloatH%d", storpos), (WORD)F.FloatingSize.y);
 
-	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), (BYTE)btoint(F.floating));
-	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), (BYTE)btoint(F.UseBorder));
+	db_set_b(0, CLUIFrameModule, buf.Format("Floating%d", storpos), (uint8_t)btoint(F.floating));
+	db_set_b(0, CLUIFrameModule, buf.Format("UseBorder%d", storpos), (uint8_t)btoint(F.UseBorder));
 	db_set_w(0, CLUIFrameModule, buf.Format("Order%d", storpos), (WORD)F.order);
 
 	db_set_w(0, CLUIFrameModule, "StoredFrames", (WORD)maxstored);
@@ -2939,7 +2939,7 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 	switch (msg) {
 	case WM_ACTIVATE:
 		if (g_bTransparentFlag) {
-			BYTE alpha;
+			uint8_t alpha;
 			if ((wParam != WA_INACTIVE || ((HWND)lParam == hwnd) || GetParent((HWND)lParam) == hwnd)) {
 				HWND hw = lParam ? GetParent((HWND)lParam) : nullptr;
 				alpha = g_plugin.getByte("Alpha", SETTING_ALPHA_DEFAULT);

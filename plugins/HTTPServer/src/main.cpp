@@ -770,7 +770,7 @@ int nSystemShutdown(WPARAM /*wparam*/, LPARAM /*lparam*/)
 	}
 	pclFirstNode = nullptr;
 
-	g_plugin.setByte("IndexCreationMode", (BYTE)indexCreationMode);
+	g_plugin.setByte("IndexCreationMode", (uint8_t)indexCreationMode);
 	FreeIndexHTMLTemplate();
 	return 0;
 }
@@ -834,7 +834,7 @@ int CMPlugin::Load()
 	if (indexCreationMode == INDEX_CREATION_HTML || indexCreationMode == INDEX_CREATION_DETECT)
 		if (!LoadIndexHTMLTemplate()) {
 			indexCreationMode = INDEX_CREATION_DISABLE;
-			g_plugin.setByte("IndexCreationMode", (BYTE)indexCreationMode);
+			g_plugin.setByte("IndexCreationMode", (uint8_t)indexCreationMode);
 		}
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-DWORD GetCLUIWindowStyle(BYTE style)
+DWORD GetCLUIWindowStyle(uint8_t style)
 {
 	DWORD dwBasic = WS_CLIPCHILDREN;
 
@@ -40,7 +40,7 @@ DWORD GetCLUIWindowStyle(BYTE style)
 
 void ApplyCLUIBorderStyle()
 {
-	BYTE windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
+	uint8_t windowStyle = db_get_b(0, "CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 	WINDOWPLACEMENT p;
 	bool minToTray = TRUE;
 

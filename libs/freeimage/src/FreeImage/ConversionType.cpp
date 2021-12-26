@@ -66,7 +66,7 @@ CONVERT_TYPE<Tdst, Tsrc>::convert(FIBITMAP *src, FREE_IMAGE_TYPE dst_type) {
 
 /** Convert a greyscale image of type Tsrc to a 8-bit grayscale dib.
 	Conversion is done using either a linear scaling from [min, max] to [0, 255]
-	or a rounding from src_pixel to (BYTE) MIN(255, MAX(0, q)) where int q = int(src_pixel + 0.5); 
+	or a rounding from src_pixel to (uint8_t) MIN(255, MAX(0, q)) where int q = int(src_pixel + 0.5); 
 */
 template<class Tsrc>
 class CONVERT_TO_BYTE
@@ -91,9 +91,9 @@ CONVERT_TO_BYTE<Tsrc>::convert(FIBITMAP *src, BOOL scale_linear) {
 	// build a greyscale palette
 	RGBQUAD *pal = FreeImage_GetPalette(dst);
 	for(int i = 0; i < 256; i++) {
-		pal[i].rgbRed = (BYTE)i;
-		pal[i].rgbGreen = (BYTE)i;
-		pal[i].rgbBlue = (BYTE)i;
+		pal[i].rgbRed = (uint8_t)i;
+		pal[i].rgbGreen = (uint8_t)i;
+		pal[i].rgbBlue = (uint8_t)i;
 	}
 
 	// convert the src image to dst
@@ -121,19 +121,19 @@ CONVERT_TO_BYTE<Tsrc>::convert(FIBITMAP *src, BOOL scale_linear) {
 		// scale to 8-bit
 		for(y = 0; y < height; y++) {
 			Tsrc *src_bits = reinterpret_cast<Tsrc*>(FreeImage_GetScanLine(src, y));
-			BYTE *dst_bits = FreeImage_GetScanLine(dst, y);
+			uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 			for(x = 0; x < width; x++) {
-				dst_bits[x] = (BYTE)( scale * (src_bits[x] - min) + 0.5);
+				dst_bits[x] = (uint8_t)( scale * (src_bits[x] - min) + 0.5);
 			}
 		}
 	} else {
 		for(y = 0; y < height; y++) {
 			Tsrc *src_bits = reinterpret_cast<Tsrc*>(FreeImage_GetScanLine(src, y));
-			BYTE *dst_bits = FreeImage_GetScanLine(dst, y);
+			uint8_t *dst_bits = FreeImage_GetScanLine(dst, y);
 			for(x = 0; x < width; x++) {
 				// rounding
 				int q = int(src_bits[x] + 0.5);
-				dst_bits[x] = (BYTE) MIN(255, MAX(0, q));
+				dst_bits[x] = (uint8_t) MIN(255, MAX(0, q));
 			}
 		}
 	}
@@ -179,15 +179,15 @@ CONVERT_TO_COMPLEX<Tsrc>::convert(FIBITMAP *src) {
 
 // ----------------------------------------------------------
 
-// Convert from type BYTE to type X
-CONVERT_TYPE<unsigned short, BYTE>	convertByteToUShort;
-CONVERT_TYPE<short, BYTE>			convertByteToShort;
-CONVERT_TYPE<DWORD, BYTE>			convertByteToULong;
-CONVERT_TYPE<LONG, BYTE>			convertByteToLong;
-CONVERT_TYPE<float, BYTE>			convertByteToFloat;
-CONVERT_TYPE<double, BYTE>			convertByteToDouble;
+// Convert from type uint8_t to type X
+CONVERT_TYPE<unsigned short, uint8_t>	convertByteToUShort;
+CONVERT_TYPE<short, uint8_t>			convertByteToShort;
+CONVERT_TYPE<DWORD, uint8_t>			convertByteToULong;
+CONVERT_TYPE<LONG, uint8_t>			convertByteToLong;
+CONVERT_TYPE<float, uint8_t>			convertByteToFloat;
+CONVERT_TYPE<double, uint8_t>			convertByteToDouble;
 
-// Convert from type X to type BYTE
+// Convert from type X to type uint8_t
 CONVERT_TO_BYTE<unsigned short>	convertUShortToByte;
 CONVERT_TO_BYTE<short>			convertShortToByte;
 CONVERT_TO_BYTE<DWORD>			convertULongToByte;
@@ -209,7 +209,7 @@ CONVERT_TYPE<double, LONG>				convertLongToDouble;
 CONVERT_TYPE<double, float>				convertFloatToDouble;
 
 // Convert from type X to type FICOMPLEX
-CONVERT_TO_COMPLEX<BYTE>			convertByteToComplex;
+CONVERT_TO_COMPLEX<uint8_t>			convertByteToComplex;
 CONVERT_TO_COMPLEX<unsigned short>	convertUShortToComplex;
 CONVERT_TO_COMPLEX<short>			convertShortToComplex;
 CONVERT_TO_COMPLEX<DWORD>			convertULongToComplex;

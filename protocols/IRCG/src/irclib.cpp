@@ -179,7 +179,7 @@ void CIrcProto::SendIrcMessage(const wchar_t* msg, bool bNotify, int cp)
 		int cbLen = (int)mir_strlen(str);
 		str = (char*)mir_realloc(str, cbLen + 3);
 		mir_strcat(str, "\r\n");
-		NLSend((const BYTE*)str, cbLen + 2);
+		NLSend((const uint8_t*)str, cbLen + 2);
 		mir_free(str);
 
 		if (bNotify) {
@@ -1032,7 +1032,7 @@ void CDccSession::DoSendFile()
 	if (wPacketSize > 32 * 1024)
 		wPacketSize = 32 * 1024;
 
-	BYTE* chBuf = new BYTE[wPacketSize + 1];
+	uint8_t* chBuf = new uint8_t[wPacketSize + 1];
 
 	// is there a connection?
 	if (con) {
@@ -1173,7 +1173,7 @@ void CDccSession::DoReceiveFile()
 	// initialize the filetransfer dialog
 	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (void *)di, 0);
 
-	BYTE chBuf[1024 * 32 + 1];
+	uint8_t chBuf[1024 * 32 + 1];
 
 	// do some stupid thing so  the filetransfer dialog shows the right thing
 	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (void *)di, 0);

@@ -177,7 +177,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	WORD i, j;
 	BOOL result;
-	static BYTE Initialized = 0;
+	static uint8_t Initialized = 0;
 	static WORD optionCount = 0;
 
 	if (!Initialized) {
@@ -305,7 +305,7 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			{
 				char buffer[32];
 				mir_strcpy(buffer, ProtoList[i].name);
-				ProtoList[i].Visible = (BYTE)OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, buffer);
+				ProtoList[i].Visible = (uint8_t)OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, buffer);
 			}
 			unOptions.ShowOverall = OptTree_GetOptions(hwndDlg, IDC_APPEARANCEOPTIONS, options, optionCount, "ShowOverall");
 

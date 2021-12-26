@@ -54,7 +54,7 @@ typedef HANDLE(WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC 
 typedef HRESULT(WINAPI *EBP)(HANDLE, BOOL);
 typedef HRESULT(WINAPI *BPI)(void);
 typedef HRESULT(WINAPI *BPU)(void);
-typedef HRESULT(WINAPI *BPSA)(HANDLE, const RECT *, BYTE);
+typedef HRESULT(WINAPI *BPSA)(HANDLE, const RECT *, uint8_t);
 //kernel32
 typedef int		(WINAPI *GLIX)(LPCWSTR, LCTYPE, LPCWSTR, int);
 

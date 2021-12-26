@@ -146,7 +146,7 @@ int __cdecl gpg_set_key(HANDLE context, LPCSTR RemoteKey)
 	if (!_gpg_check_key(RemoteKey)) return 0;
 
 	SAFE_FREE(ptr->pgpKey);
-	ptr->pgpKey = (BYTE *) malloc(strlen(RemoteKey)+1);
+	ptr->pgpKey = (uint8_t *) malloc(strlen(RemoteKey)+1);
 	strcpy((LPSTR)ptr->pgpKey,RemoteKey);
 
 	return 1;

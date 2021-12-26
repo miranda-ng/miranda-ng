@@ -179,13 +179,13 @@ enum EWeatherCondition
 struct MYOPTIONS
 {
 	// main options
-	BYTE AutoUpdate;
-	BYTE CAutoUpdate;
-	BYTE StartupUpdate;
-	BYTE NoProtoCondition;
-	BYTE UpdateOnlyConditionChanged;
-	BYTE RemoveOldData;
-	BYTE MakeItalic;
+	uint8_t AutoUpdate;
+	uint8_t CAutoUpdate;
+	uint8_t StartupUpdate;
+	uint8_t NoProtoCondition;
+	uint8_t UpdateOnlyConditionChanged;
+	uint8_t RemoveOldData;
+	uint8_t MakeItalic;
 
 	WORD UpdateTime;
 	WORD AvatarSize;
@@ -198,21 +198,21 @@ struct MYOPTIONS
 	WORD dUnit;
 	WORD eUnit;
 	wchar_t DegreeSign[4];
-	BYTE DoNotAppendUnit;
-	BYTE NoFrac;
+	uint8_t DoNotAppendUnit;
+	uint8_t NoFrac;
 
 	// advanced
-	BYTE DisCondIcon;
+	uint8_t DisCondIcon;
 
 	// popup options
-	BYTE UsePopup;
-	BYTE UpdatePopup;
-	BYTE AlertPopup;
-	BYTE PopupOnChange;
-	BYTE ShowWarnings;
+	uint8_t UsePopup;
+	uint8_t UpdatePopup;
+	uint8_t AlertPopup;
+	uint8_t PopupOnChange;
+	uint8_t ShowWarnings;
 
 	// popup colors
-	BYTE UseWinColors;
+	uint8_t UseWinColors;
 	COLORREF BGColour;
 	COLORREF TextColour;
 

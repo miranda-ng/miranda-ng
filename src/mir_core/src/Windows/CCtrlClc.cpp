@@ -113,9 +113,9 @@ int CCtrlClc::GetExtraColumns() const
 {	return SendMessage(m_hwnd, CLM_GETEXTRACOLUMNS, 0, 0);
 }
 
-BYTE CCtrlClc::GetExtraImage(HANDLE hItem, int iColumn) const
+uint8_t CCtrlClc::GetExtraImage(HANDLE hItem, int iColumn) const
 {
-	return (BYTE)(SendMessage(m_hwnd, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, 0)) & 0xFFFF);
+	return (uint8_t)(SendMessage(m_hwnd, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, 0)) & 0xFFFF);
 }
 
 HIMAGELIST CCtrlClc::GetExtraImageList() const

@@ -86,7 +86,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 		return getByte(StatusModeToDbSetting(status, suffix), bDefault) != 0;
 	}
 
-	void SetStatusModeByte(int status, const char *suffix, BYTE value)
+	void SetStatusModeByte(int status, const char *suffix, uint8_t value)
 	{
 		setByte(StatusModeToDbSetting(status, suffix), value);
 	}

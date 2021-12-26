@@ -173,7 +173,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	BOOL bHideSend;
 	BOOL bNoRSS;
 	BOOL bReadCheck;
-	BYTE iNumberMsg;
+	uint8_t iNumberMsg;
 };
 
 struct EVENT_DATA_EX

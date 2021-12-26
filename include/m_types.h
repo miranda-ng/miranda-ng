@@ -54,9 +54,8 @@ using namespace std;
 
 typedef void          *HANDLE;
 typedef int            BOOL, SOCKET;
-typedef uint8_t        BYTE;
 typedef uint16_t       WORD;
-typedef uint32_t       DWORD, UINT, COLORREF;
+typedef uint32_t       UINT, COLORREF;
 typedef intptr_t       WPARAM, LPARAM, INT_PTR;
 typedef uintptr_t      UINT_PTR, DWORD_PTR, LRESULT;
 typedef char          *LPSTR;

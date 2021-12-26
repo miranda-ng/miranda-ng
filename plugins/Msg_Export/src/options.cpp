@@ -876,7 +876,7 @@ public:
 			g_enRenameAction = eDAAutomatic;
 		else if (chkFcNothing.GetState() == BST_CHECKED)
 			g_enRenameAction = eDANothing;
-		g_plugin.setByte("RenameAction", (BYTE)g_enRenameAction);
+		g_plugin.setByte("RenameAction", (uint8_t)g_enRenameAction);
 
 		if (chkFdPrompt.GetState() == BST_CHECKED)
 			g_enDeleteAction = eDAPromptUser;
@@ -884,7 +884,7 @@ public:
 			g_enDeleteAction = eDAAutomatic;
 		else if (chkFdNothing.GetState() == BST_CHECKED)
 			g_enDeleteAction = eDANothing;
-		g_plugin.setByte("DeleteAction", (BYTE)g_enDeleteAction);
+		g_plugin.setByte("DeleteAction", (uint8_t)g_enDeleteAction);
 
 		int nCount = listProtos.GetItemCount();
 		for (int nCur = 0; nCur < nCount; nCur++) {

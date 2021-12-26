@@ -93,7 +93,7 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 					wParam != VK_UP    && wParam != VK_DOWN && wParam != VK_LEFT &&
 					wParam != VK_RIGHT && wParam != VK_TAB  && wParam != VK_SPACE) {
 					SetFocus(GetDlgItem(mwdat->GetHwnd(), IDC_SRMM_MESSAGE));
-					keybd_event((BYTE)wParam, (BYTE)MapVirtualKey(wParam, 0), KEYEVENTF_EXTENDEDKEY | 0, 0);
+					keybd_event((uint8_t)wParam, (uint8_t)MapVirtualKey(wParam, 0), KEYEVENTF_EXTENDEDKEY | 0, 0);
 					return 0;
 				}
 				break;
@@ -943,7 +943,7 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = db_event_getBlobSize(hDBEvent);
 		wchar_t *szText = (wchar_t*)mir_alloc((dbei.cbBlob + 1) * sizeof(wchar_t));   // URLs are made one char bigger for crlf
-		dbei.pBlob = (BYTE*)szText;
+		dbei.pBlob = (uint8_t*)szText;
 		db_event_get(hDBEvent, &dbei);
 		int iSize = int(mir_strlen((char*)dbei.pBlob)) + 1;
 
@@ -1964,13 +1964,13 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 		KbdState(isShift, isCtrl, isAlt);
 		if ((wParam >= '0' && wParam <= '9') && isAlt) {      // ALT-1 -> ALT-0 direct tab selection
-			BYTE bChar = (BYTE)wParam;
+			uint8_t bChar = (uint8_t)wParam;
 
 			int iIndex;
 			if (bChar == '0')
 				iIndex = 10;
 			else
-				iIndex = bChar - (BYTE)'0';
+				iIndex = bChar - (uint8_t)'0';
 			m_pContainer->SelectTab(DM_SELECT_BY_INDEX, iIndex);
 			return 0;
 		}

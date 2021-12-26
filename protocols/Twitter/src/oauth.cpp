@@ -155,7 +155,7 @@ CMStringA CTwitterProto::OAuthCreateSignature(const CMStringA &signatureBase, co
 	// URL encode key elements
 	CMStringA key = mir_urlEncode(consumerSecret) + "&" + mir_urlEncode(requestTokenSecret);
 
-	BYTE digest[MIR_SHA1_HASH_SIZE];
+	uint8_t digest[MIR_SHA1_HASH_SIZE];
 	unsigned int len;
 	HMAC(EVP_sha1(), key.c_str(), (int)key.GetLength(), (uint8_t*)signatureBase.c_str(), signatureBase.GetLength(), digest, &len);
 	return CMStringA(ptrA(mir_base64_encode(digest, sizeof(digest))));

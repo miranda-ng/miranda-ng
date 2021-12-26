@@ -102,7 +102,7 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	}
 	else {
 		SIZE textSize;
-		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
+		uint8_t showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 
 		HDC hdc = GetDC(nullptr);
 		HFONT hFont = (HFONT)SelectObject(hdc, (HFONT)SendMessage(g_clistApi.hwndStatus, WM_GETFONT, 0, 0));

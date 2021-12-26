@@ -288,7 +288,7 @@ void UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
-	g_plugin.setByte("AutoUpdate", (BYTE)State);
+	g_plugin.setByte("AutoUpdate", (uint8_t)State);
 
 	if (State) { // to enable auto-update
 		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON));
@@ -306,7 +306,7 @@ void UpdatePopupMenu(BOOL State)
 {
 	// update option setting
 	opt.UsePopup = State;
-	g_plugin.setByte("UsePopup", (BYTE)opt.UsePopup);
+	g_plugin.setByte("UsePopup", (uint8_t)opt.UsePopup);
 
 	if (State) // to enable popup
 		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), g_plugin.getIconHandle(IDI_POPUP));

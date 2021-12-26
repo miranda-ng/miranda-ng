@@ -139,7 +139,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 	if (msg->message == WM_DESTROY) {
 		if (docked) {
-			db_set_b(0, "CList", "Docked", (BYTE)docked);
+			db_set_b(0, "CList", "Docked", (uint8_t)docked);
 			db_set_dw(0, "CList", "DockX", (DWORD)dockPos.x);
 			db_set_dw(0, "CList", "DockY", (DWORD)dockPos.y);
 		}

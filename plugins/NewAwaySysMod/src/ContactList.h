@@ -35,7 +35,7 @@ class CCLItemData // internal CCList's class
 public:
 	CCLItemData(MCONTACT hContact = INVALID_CONTACT_ID): hContact(hContact) {memset(ExtraIcons, CLC_EXTRAICON_EMPTY, sizeof(ExtraIcons));};
 
-	BYTE ExtraIcons[MAXEXTRAICONS];
+	uint8_t ExtraIcons[MAXEXTRAICONS];
 	MCONTACT hContact;
 	LPARAM lParam;
 };

@@ -103,7 +103,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 	wchar_t tmp[1024];
 	switch (ctrl->type) {
 	case CONTROL_CHECKBOX:
-		*((BYTE *)ctrl->var) = db_get_b(0, module, ctrl->setting, ctrl->dwDefValue);
+		*((uint8_t *)ctrl->var) = db_get_b(0, module, ctrl->setting, ctrl->dwDefValue);
 		break;
 
 	case CONTROL_SPIN:
@@ -313,7 +313,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					switch (ctrl->type) {
 					case CONTROL_CHECKBOX:
-						db_set_b(0, module, ctrl->setting, (BYTE)IsDlgButtonChecked(hwndDlg, ctrl->nID));
+						db_set_b(0, module, ctrl->setting, (uint8_t)IsDlgButtonChecked(hwndDlg, ctrl->nID));
 						break;
 
 					case CONTROL_SPIN:
@@ -326,7 +326,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 
 					case CONTROL_RADIO:
 						if (IsDlgButtonChecked(hwndDlg, ctrl->nID))
-							db_set_w(0, module, ctrl->setting, (BYTE)ctrl->value);
+							db_set_w(0, module, ctrl->setting, (uint8_t)ctrl->value);
 						break;
 
 					case CONTROL_COMBO:
@@ -345,7 +345,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 								ListView_GetItem(hwndProtocols, &lvi);
 
 								char *setting = (char *)lvi.lParam;
-								db_set_b(0, module, setting, (BYTE)ListView_GetCheckState(hwndProtocols, k));
+								db_set_b(0, module, setting, (uint8_t)ListView_GetCheckState(hwndProtocols, k));
 							}
 						}
 						break;

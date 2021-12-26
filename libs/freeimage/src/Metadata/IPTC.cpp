@@ -36,10 +36,10 @@ static const char* IPTC_DELIMITER = ";";	// keywords/supplemental category delim
 	Read and decode IPTC binary data
 */
 BOOL 
-read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
+read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 	char defaultKey[16];
 	size_t length = datalen;
-	BYTE *profile = (BYTE*)dataptr;
+	uint8_t *profile = (uint8_t*)dataptr;
 
 	const char *JPEG_AdobeCM_Tag = "Adobe_CM";
 
@@ -113,8 +113,8 @@ read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
 		FreeImage_SetTagLength(tag, tagByteCount);
 
 		// allocate a buffer to store the tag value
-		BYTE *iptc_value = (BYTE*)malloc((tagByteCount + 1) * sizeof(BYTE));
-		memset(iptc_value, 0, (tagByteCount + 1) * sizeof(BYTE));
+		uint8_t *iptc_value = (uint8_t*)malloc((tagByteCount + 1) * sizeof(uint8_t));
+		memset(iptc_value, 0, (tagByteCount + 1) * sizeof(uint8_t));
 
 		// get the tag value
 
@@ -221,13 +221,13 @@ read_iptc_profile(FIBITMAP *dib, const BYTE *dataptr, unsigned int datalen) {
 
 // --------------------------------------------------------------------------
 
-static BYTE* 
-append_iptc_tag(BYTE *profile, unsigned *profile_size, WORD id, DWORD length, const void *value) {
-	BYTE *buffer = NULL;
+static uint8_t* 
+append_iptc_tag(uint8_t *profile, unsigned *profile_size, WORD id, DWORD length, const void *value) {
+	uint8_t *buffer = NULL;
 
 	// calculate the new buffer size
-	size_t buffer_size = (5 + *profile_size + length) * sizeof(BYTE);
-	buffer = (BYTE*)malloc(buffer_size);
+	size_t buffer_size = (5 + *profile_size + length) * sizeof(uint8_t);
+	buffer = (uint8_t*)malloc(buffer_size);
 	if(!buffer)
 		return NULL;
 
@@ -235,12 +235,12 @@ append_iptc_tag(BYTE *profile, unsigned *profile_size, WORD id, DWORD length, co
 	buffer[0] = 0x1C;
 	buffer[1] = 0x02;
 	// add the tag type
-	buffer[2] = (BYTE)(id & 0x00FF);
+	buffer[2] = (uint8_t)(id & 0x00FF);
 	// add the tag length
-	buffer[3] = (BYTE)(length >> 8);
-	buffer[4] = (BYTE)(length & 0xFF);
+	buffer[3] = (uint8_t)(length >> 8);
+	buffer[4] = (uint8_t)(length & 0xFF);
 	// add the tag value
-	memcpy(buffer + 5, (BYTE*)value, length);
+	memcpy(buffer + 5, (uint8_t*)value, length);
 	// append the previous profile
 	if(NULL == profile)	{
 		*profile_size = (5 + length);
@@ -259,11 +259,11 @@ Encode IPTC metadata into a binary buffer.
 The buffer is allocated by the function and must be freed by the caller. 
 */
 BOOL 
-write_iptc_profile(FIBITMAP *dib, BYTE **profile, unsigned *profile_size) {
+write_iptc_profile(FIBITMAP *dib, uint8_t **profile, unsigned *profile_size) {
 	FITAG *tag = NULL;
 	FIMETADATA *mdhandle = NULL;
 
-	BYTE *buffer = NULL;
+	uint8_t *buffer = NULL;
 	unsigned buffer_size = 0;
 
 	// parse all IPTC tags and rebuild a IPTC profile

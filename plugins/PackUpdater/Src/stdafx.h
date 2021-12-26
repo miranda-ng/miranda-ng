@@ -77,9 +77,9 @@ struct FILEINFO
 	wchar_t tszDescr[256];
 	FILEURL File;
 	BOOL enabled;
-	BYTE FileType;
+	uint8_t FileType;
 	INT FileNum;
-	BYTE Force;
+	uint8_t Force;
 };
 
 #define DEFAULT_REMINDER					1
@@ -100,7 +100,7 @@ using namespace std;
 
 extern INT FileCount, CurrentFile, Number, UpdatesCount, Period;
 extern BOOL Silent, DlgDld;
-extern BYTE Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
+extern uint8_t Reminder, UpdateOnStartup, UpdateOnPeriod, OnlyOnceADay, PeriodMeasure;
 extern wchar_t tszRoot[MAX_PATH], tszDialogMsg[2048];
 extern FILEINFO* pFileInfo;
 extern FILEURL* pFileUrl;

@@ -259,7 +259,7 @@ void PasteToWeb::FromClipboard()
 					isFile = 1;
 					if (df->fWide) {
 						// Unicode
-						wchar_t* file = (wchar_t*)((BYTE*)obj + df->pFiles);
+						wchar_t* file = (wchar_t*)((uint8_t*)obj + df->pFiles);
 						size_t len = mir_wstrlen(file);
 						if (*(file + len + 1) == L'\0') {
 							str.append(file, file + len);

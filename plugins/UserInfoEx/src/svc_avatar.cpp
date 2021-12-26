@@ -93,7 +93,7 @@ namespace NServices
 			return 0;
 		}
 
-		void Enable(BYTE bEnable)
+		void Enable(uint8_t bEnable)
 		{
 			DBVARIANT dbv;
 
@@ -103,7 +103,7 @@ namespace NServices
 				for (auto &hContact : Contacts()) {
 					// don't set if avatar is locked!
 					if (!db_get_b(hContact, "ContactPhoto", "Locked", 0)) {
-						BYTE bInvalidAvatar = TRUE;
+						uint8_t bInvalidAvatar = TRUE;
 
 						// the relative file is valid
 						if (!DB::Setting::GetAString(hContact, "ContactPhoto", "RFile", &dbv)) {

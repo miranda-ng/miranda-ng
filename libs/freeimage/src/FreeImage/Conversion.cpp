@@ -74,9 +74,9 @@ BOOL SwapRedBlue32(FIBITMAP* dib) {
 	const unsigned pitch = FreeImage_GetPitch(dib);
 	const unsigned lineSize = FreeImage_GetLine(dib);
 	
-	BYTE* line = FreeImage_GetBits(dib);
+	uint8_t* line = FreeImage_GetBits(dib);
 	for(unsigned y = 0; y < height; ++y, line += pitch) {
-		for(BYTE* pixel = line; pixel < line + lineSize ; pixel += bytesperpixel) {
+		for(uint8_t* pixel = line; pixel < line + lineSize ; pixel += bytesperpixel) {
 			INPLACESWAP(pixel[0], pixel[2]);
 		}
 	}
@@ -94,7 +94,7 @@ assignRGB(WORD r, WORD g, WORD b, WORD* out) {
 }
 
 static inline void 
-assignRGB(BYTE r, BYTE g, BYTE b, BYTE* out) {
+assignRGB(uint8_t r, uint8_t g, uint8_t b, uint8_t* out) {
 	out[FI_RGBA_RED]	= r;
 	out[FI_RGBA_GREEN]	= g;
 	out[FI_RGBA_BLUE]	= b;
@@ -129,7 +129,7 @@ CMYKToRGB(T C, T M, T Y, T K, T* out) {
 
 template <class T>
 static void 
-_convertCMYKtoRGBA(unsigned width, unsigned height, BYTE* line_start, unsigned pitch, unsigned samplesperpixel) {
+_convertCMYKtoRGBA(unsigned width, unsigned height, uint8_t* line_start, unsigned pitch, unsigned samplesperpixel) {
 	const BOOL hasBlack = (samplesperpixel > 3) ? TRUE : FALSE;
 	const T MAX_VAL = std::numeric_limits<T>::max();
 		
@@ -169,7 +169,7 @@ ConvertCMYKtoRGBA(FIBITMAP* dib) {
 				
 	const unsigned width = FreeImage_GetWidth(dib);
 	const unsigned height = FreeImage_GetHeight(dib);
-	BYTE *line_start = FreeImage_GetScanLine(dib, 0);
+	uint8_t *line_start = FreeImage_GetScanLine(dib, 0);
 	const unsigned pitch = FreeImage_GetPitch(dib);
 	
 	unsigned samplesperpixel = FreeImage_GetLine(dib) / width / channelSize;
@@ -177,7 +177,7 @@ ConvertCMYKtoRGBA(FIBITMAP* dib) {
 	if(channelSize == sizeof(WORD)) {
 		_convertCMYKtoRGBA<WORD>(width, height, line_start, pitch, samplesperpixel);
 	} else {
-		_convertCMYKtoRGBA<BYTE>(width, height, line_start, pitch, samplesperpixel);
+		_convertCMYKtoRGBA<uint8_t>(width, height, line_start, pitch, samplesperpixel);
 	}
 
 	return TRUE;	
@@ -282,7 +282,7 @@ CIELabToRGB(float L, float a, float b, T *rgb) {
 
 template<class T>
 static void 
-_convertLABtoRGB(unsigned width, unsigned height, BYTE* line_start, unsigned pitch, unsigned samplesperpixel) {
+_convertLABtoRGB(unsigned width, unsigned height, uint8_t* line_start, unsigned pitch, unsigned samplesperpixel) {
 	const unsigned max_val = std::numeric_limits<T>::max();
 	const float sL = 100.F / max_val;
 	const float sa = 256.F / max_val;
@@ -318,13 +318,13 @@ ConvertLABtoRGB(FIBITMAP* dib) {
 				
 	const unsigned width = FreeImage_GetWidth(dib);
 	const unsigned height = FreeImage_GetHeight(dib);
-	BYTE *line_start = FreeImage_GetScanLine(dib, 0);
+	uint8_t *line_start = FreeImage_GetScanLine(dib, 0);
 	const unsigned pitch = FreeImage_GetPitch(dib);
 	
 	unsigned samplesperpixel = FreeImage_GetLine(dib) / width / channelSize;
 			
 	if(channelSize == 1) {
-		_convertLABtoRGB<BYTE>(width, height, line_start, pitch, samplesperpixel);
+		_convertLABtoRGB<uint8_t>(width, height, line_start, pitch, samplesperpixel);
 	}
 	else {
 		_convertLABtoRGB<WORD>(width, height, line_start, pitch, samplesperpixel);
@@ -436,7 +436,7 @@ FreeImage_ColorQuantizeEx(FIBITMAP *dib, FREE_IMAGE_QUANTIZE quantize, int Palet
 // ==========================================================
 
 FIBITMAP * DLL_CALLCONV
-FreeImage_ConvertFromRawBitsEx(BOOL copySource, BYTE *bits, FREE_IMAGE_TYPE type, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
+FreeImage_ConvertFromRawBitsEx(BOOL copySource, uint8_t *bits, FREE_IMAGE_TYPE type, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
 	FIBITMAP *dib = NULL;
 
 	if(copySource) {
@@ -473,15 +473,15 @@ FreeImage_ConvertFromRawBitsEx(BOOL copySource, BYTE *bits, FREE_IMAGE_TYPE type
 }
 
 FIBITMAP * DLL_CALLCONV
-FreeImage_ConvertFromRawBits(BYTE *bits, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
+FreeImage_ConvertFromRawBits(uint8_t *bits, int width, int height, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
 	return FreeImage_ConvertFromRawBitsEx(TRUE /* copySource */, bits, FIT_BITMAP, width, height, pitch, bpp, red_mask, green_mask, blue_mask, topdown);
 }
 
 void DLL_CALLCONV
-FreeImage_ConvertToRawBits(BYTE *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
+FreeImage_ConvertToRawBits(uint8_t *bits, FIBITMAP *dib, int pitch, unsigned bpp, unsigned red_mask, unsigned green_mask, unsigned blue_mask, BOOL topdown) {
 	if (FreeImage_HasPixels(dib) && (bits != NULL)) {
 		for (unsigned i = 0; i < FreeImage_GetHeight(dib); ++i) {
-			BYTE *scanline = FreeImage_GetScanLine(dib, topdown ? (FreeImage_GetHeight(dib) - i - 1) : i);
+			uint8_t *scanline = FreeImage_GetScanLine(dib, topdown ? (FreeImage_GetHeight(dib) - i - 1) : i);
 
 			if ((bpp == 16) && (FreeImage_GetBPP(dib) == 16)) {
 				// convert 555 to 565 or vice versa

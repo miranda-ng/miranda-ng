@@ -94,10 +94,10 @@ struct DBSettingKey
 
 struct DBSettingValue
 {
-	BYTE type;
+	uint8_t type;
 	union
 	{
-		BYTE bVal;
+		uint8_t bVal;
 		WORD wVal;
 		DWORD dwVal;
 		char szVal[];
@@ -105,7 +105,7 @@ struct DBSettingValue
 		struct
 		{
 			size_t nLength;
-			BYTE bVal[];
+			uint8_t bVal[];
 		} blob;
 	};
 };

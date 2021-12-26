@@ -77,7 +77,7 @@ INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
-							BYTE bChanged = 0;
+							uint8_t bChanged = 0;
 
 							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
 								break;
@@ -221,7 +221,7 @@ INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					switch (((LPNMHDR)lParam)->code) {
 					case PSN_INFOCHANGED:
 						{
-							BYTE bChanged = 0;
+							uint8_t bChanged = 0;
 
 							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
 								break;

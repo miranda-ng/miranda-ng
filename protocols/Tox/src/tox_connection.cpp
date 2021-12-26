@@ -58,7 +58,7 @@ void CToxProto::CheckConnection()
 	}
 }
 
-void CToxProto::OnToxCheck(void *arg, BYTE)
+void CToxProto::OnToxCheck(void *arg, uint8_t)
 {
 	CToxProto *proto = (CToxProto*)arg;
 	if (proto->m_tox == nullptr)
@@ -71,7 +71,7 @@ void CToxProto::OnToxCheck(void *arg, BYTE)
 		proto->CheckConnection();
 }
 
-void CToxProto::OnToxPoll(void *arg, BYTE)
+void CToxProto::OnToxPoll(void *arg, uint8_t)
 {
 	CToxProto *proto = (CToxProto*)arg;
 	if (proto->m_tox)

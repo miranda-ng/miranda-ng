@@ -90,12 +90,12 @@ public:
 
 	bool OnApply() override
 	{
-		g_plugin.setByte("AlwaysMulti", (BYTE)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
-		g_plugin.setByte("TrayIcon", (BYTE)(chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
+		g_plugin.setByte("AlwaysMulti", (uint8_t)BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_ALWAYSMULTI));
+		g_plugin.setByte("TrayIcon", (uint8_t)(chkDontCycle.GetState() ? SETTING_TRAYICON_SINGLE : (chkCycle.GetState() ? SETTING_TRAYICON_CYCLE : SETTING_TRAYICON_MULTI)));
 		g_plugin.setWord("CycleTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_CYCLETIMESPIN, UDM_GETPOS, 0, 0));
 		g_plugin.setWord("IconFlashTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_BLINKSPIN, UDM_GETPOS, 0, 0));
-		g_plugin.setByte("DisableTrayFlash", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
-		g_plugin.setByte("AutoApplyLastViewMode", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_APPLYLASTVIEWMODE));
+		g_plugin.setByte("DisableTrayFlash", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DISABLEBLINK));
+		g_plugin.setByte("AutoApplyLastViewMode", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_APPLYLASTVIEWMODE));
 
 		cfgSetFlag(m_hwnd, CLUI_FRAME_EVENTAREASUNKEN, IDC_EVENTAREASUNKEN);
 		cfgSetFlag(m_hwnd, CLUI_FRAME_AUTOHIDENOTIFY, IDC_EVENTAREAAUTOHIDE);
@@ -104,7 +104,7 @@ public:
 		cfgSetFlag(m_hwnd, CLUI_FRAME_CLISTSUNKEN, IDC_CLISTSUNKEN);
 
 		cfg::dat.bNoTrayTips = IsDlgButtonChecked(m_hwnd, IDC_NOTRAYINFOTIPS) ? 1 : 0;
-		g_plugin.setByte("NoTrayTips", (BYTE)cfg::dat.bNoTrayTips);
+		g_plugin.setByte("NoTrayTips", (uint8_t)cfg::dat.bNoTrayTips);
 		{
 			int cursel = SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0);
 			PROTOACCOUNT *pa = (PROTOACCOUNT *)SendDlgItemMessage(m_hwnd, IDC_PRIMARYSTATUS, CB_GETITEMDATA, cursel, 0);
@@ -255,9 +255,9 @@ public:
 		cfgSetFlag(m_hwnd, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
 
 		db_set_w(0, "CLC", "ScrollTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
-		db_set_b(0, "CLC", "NoVScrollBar", (BYTE)(IsDlgButtonChecked(m_hwnd, IDC_NOSCROLLBAR) ? 1 : 0));
+		db_set_b(0, "CLC", "NoVScrollBar", (uint8_t)(IsDlgButtonChecked(m_hwnd, IDC_NOSCROLLBAR) ? 1 : 0));
 		cfg::dat.bDblClkAvatars = IsDlgButtonChecked(m_hwnd, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
-		db_set_b(0, "CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
+		db_set_b(0, "CLC", "dblclkav", (uint8_t)cfg::dat.bDblClkAvatars);
 
 		Clist_ClcOptionsChanged();
 		CoolSB_SetupScrollBar();
@@ -362,30 +362,30 @@ public:
 	bool OnApply() override
 	{
 		BOOL translated;
-		BYTE windowStyle = (BYTE)SendDlgItemMessage(m_hwnd, IDC_BORDERSTYLE, CB_GETCURSEL, 0, 0);
+		uint8_t windowStyle = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_BORDERSTYLE, CB_GETCURSEL, 0, 0);
 
-		db_set_b(0, "CLUI", "FadeInOut", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_FADEINOUT));
+		db_set_b(0, "CLUI", "FadeInOut", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_FADEINOUT));
 		cfg::dat.fadeinout = IsDlgButtonChecked(m_hwnd, IDC_FADEINOUT) ? 1 : 0;
-		BYTE oldFading = cfg::dat.fadeinout;
+		uint8_t oldFading = cfg::dat.fadeinout;
 		cfg::dat.fadeinout = FALSE;
 
 		db_set_b(0, "CLUI", "WindowStyle", windowStyle);
 		cfg::dat.gapBetweenFrames = GetDlgItemInt(m_hwnd, IDC_FRAMEGAP, &translated, FALSE);
 
 		db_set_dw(0, "CLUIFrames", "GapBetweenFrames", cfg::dat.gapBetweenFrames);
-		g_plugin.setByte("OnTop", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_ONTOP));
+		g_plugin.setByte("OnTop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONTOP));
 		SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(m_hwnd, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
-		cfg::dat.bCLeft = (BYTE)SendDlgItemMessage(m_hwnd, IDC_CLEFTSPIN, UDM_GETPOS, 0, 0);
-		cfg::dat.bCRight = (BYTE)SendDlgItemMessage(m_hwnd, IDC_CRIGHTSPIN, UDM_GETPOS, 0, 0);
-		cfg::dat.bCTop = (BYTE)SendDlgItemMessage(m_hwnd, IDC_CTOPSPIN, UDM_GETPOS, 0, 0);
-		cfg::dat.bCBottom = (BYTE)SendDlgItemMessage(m_hwnd, IDC_CBOTTOMSPIN, UDM_GETPOS, 0, 0);
+		cfg::dat.bCLeft = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CLEFTSPIN, UDM_GETPOS, 0, 0);
+		cfg::dat.bCRight = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CRIGHTSPIN, UDM_GETPOS, 0, 0);
+		cfg::dat.bCTop = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CTOPSPIN, UDM_GETPOS, 0, 0);
+		cfg::dat.bCBottom = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_CBOTTOMSPIN, UDM_GETPOS, 0, 0);
 
 		db_set_dw(0, "CLUI", "clmargins", MAKELONG(MAKEWORD(cfg::dat.bCLeft, cfg::dat.bCRight), MAKEWORD(cfg::dat.bCTop, cfg::dat.bCBottom)));
 		SendMessage(g_clistApi.hwndContactList, WM_SIZE, 0, 0);
 
-		g_plugin.setByte("BringToFront", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_BRINGTOFRONT));
-		g_plugin.setByte("AlwaysHideOnTB", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_ALWAYSHIDEONTASKBAR));
+		g_plugin.setByte("BringToFront", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_BRINGTOFRONT));
+		g_plugin.setByte("AlwaysHideOnTB", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ALWAYSHIDEONTASKBAR));
 
 		if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT) {
 			LONG style;
@@ -417,12 +417,12 @@ public:
 			SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, style);
 		}
 
-		cfg::dat.bClipBorder = (BYTE)GetDlgItemInt(m_hwnd, IDC_CLIPBORDER, &translated, FALSE);
+		cfg::dat.bClipBorder = (uint8_t)GetDlgItemInt(m_hwnd, IDC_CLIPBORDER, &translated, FALSE);
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 		db_set_b(0, "CLUI", "clipborder", cfg::dat.bClipBorder);
 
-		db_set_b(0, "CLUI", "ShowMainMenu", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWMAINMENU));
-		db_set_b(0, "CLUI", "ClientAreaDrag", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_CLIENTDRAG));
+		db_set_b(0, "CLUI", "ShowMainMenu", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWMAINMENU));
+		db_set_b(0, "CLUI", "ClientAreaDrag", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_CLIENTDRAG));
 
 		ApplyCLUIBorderStyle();
 
@@ -444,19 +444,19 @@ public:
 		}
 		db_set_b(0, "CLUI", "AutoSize", cfg::dat.autosize);
 
-		db_set_b(0, "CLUI", "MaxSizeHeight", (BYTE)GetDlgItemInt(m_hwnd, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
-		db_set_b(0, "CLUI", "AutoSizeUpward", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
+		db_set_b(0, "CLUI", "MaxSizeHeight", (uint8_t)GetDlgItemInt(m_hwnd, IDC_MAXSIZEHEIGHT, nullptr, FALSE));
+		db_set_b(0, "CLUI", "AutoSizeUpward", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_AUTOSIZEUPWARD));
 		g_plugin.setByte("AutoHide", chkAutoHide.GetState());
 		g_plugin.setWord("HideTime", (WORD)SendDlgItemMessage(m_hwnd, IDC_HIDETIMESPIN, UDM_GETPOS, 0, 0));
 
 		g_plugin.setByte("Transparent", cfg::dat.isTransparent = chkTransparent.GetState());
-		g_plugin.setByte("Alpha", cfg::dat.alpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
-		g_plugin.setByte("AutoAlpha", cfg::dat.autoalpha = (BYTE)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
-		g_plugin.setByte("WindowShadow", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
-		g_plugin.setByte("OnDesktop", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
+		g_plugin.setByte("Alpha", cfg::dat.alpha = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_TRANSACTIVE, TBM_GETPOS, 0, 0));
+		g_plugin.setByte("AutoAlpha", cfg::dat.autoalpha = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_TRANSINACTIVE, TBM_GETPOS, 0, 0));
+		g_plugin.setByte("WindowShadow", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_DROPSHADOW));
+		g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_ONDESKTOP));
 		db_set_dw(0, "CLUI", "Frameflags", cfg::dat.dwFlags);
 		cfg::dat.bFullTransparent = IsDlgButtonChecked(m_hwnd, IDC_FULLTRANSPARENT) ? 1 : 0;
-		db_set_b(0, "CLUI", "fulltransparent", (BYTE)cfg::dat.bFullTransparent);
+		db_set_b(0, "CLUI", "fulltransparent", (uint8_t)cfg::dat.bFullTransparent);
 
 		if (cfg::dat.bLayeredHack)
 			SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) | WS_EX_LAYERED);
@@ -475,11 +475,11 @@ public:
 			SetLayeredWindowAttributes(g_clistApi.hwndContactList, 0, 255, LWA_ALPHA | LWA_COLORKEY);
 			SetLayeredWindowAttributes(g_clistApi.hwndContactList,
 				(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
-				(BYTE)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
+				(uint8_t)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
 				(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
 		}
 		else {
-			SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
+			SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), (uint8_t)255, LWA_ALPHA);
 			if (!cfg::dat.bLayeredHack)
 				SetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(g_clistApi.hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 		}
@@ -591,8 +591,8 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_b(0, "CLC", "UseBitmap", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_BITMAP));
-		db_set_b(0, "CLC", "UseWinColours", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_WINCOLOUR));
+		db_set_b(0, "CLC", "UseBitmap", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_BITMAP));
+		db_set_b(0, "CLC", "UseWinColours", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_WINCOLOUR));
 
 		char str[MAX_PATH], strrel[MAX_PATH];
 		GetDlgItemTextA(m_hwnd, IDC_FILENAME, str, _countof(str));
@@ -616,7 +616,7 @@ public:
 			flags |= CLBF_PROPORTIONAL;
 		db_set_w(0, "CLC", "BkBmpUse", flags);
 		cfg::dat.bWallpaperMode = IsDlgButtonChecked(m_hwnd, IDC_SKINMODE) ? 1 : 0;
-		db_set_b(0, "CLUI", "UseBkSkin", (BYTE)cfg::dat.bWallpaperMode);
+		db_set_b(0, "CLUI", "UseBkSkin", (uint8_t)cfg::dat.bWallpaperMode);
 		return true;
 	}
 
@@ -672,7 +672,7 @@ public:
 	{
 		chkShowSbar.SetState(db_get_b(0, "CLUI", "ShowSBar", 1));
 
-		BYTE showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
+		uint8_t showOpts = db_get_b(0, "CLUI", "SBarShow", 1);
 		CheckDlgButton(m_hwnd, IDC_SHOWICON, showOpts & 1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SHOWPROTO, showOpts & 2 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SHOWSTATUS, showOpts & 4 ? BST_CHECKED : BST_UNCHECKED);
@@ -690,20 +690,20 @@ public:
 
 	bool OnApply() override
 	{
-		db_set_b(0, "CLUI", "ShowSBar", (BYTE)chkShowSbar.GetState());
-		db_set_b(0, "CLUI", "SBarShow", (BYTE)((IsDlgButtonChecked(m_hwnd, IDC_SHOWICON) ? 1 : 0) | (IsDlgButtonChecked(m_hwnd, IDC_SHOWPROTO) ? 2 : 0) | (IsDlgButtonChecked(m_hwnd, IDC_SHOWSTATUS) ? 4 : 0)));
-		db_set_b(0, "CLUI", "SBarRightClk", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_RIGHTMIRANDA));
-		db_set_b(0, "CLUI", "EqualSections", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_EQUALSECTIONS));
-		db_set_b(0, "CLUI", "sb_skinned", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SKINBACKGROUND));
-		db_set_b(0, "CLUI", "sbar_showlocked", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_MARKLOCKED));
+		db_set_b(0, "CLUI", "ShowSBar", (uint8_t)chkShowSbar.GetState());
+		db_set_b(0, "CLUI", "SBarShow", (uint8_t)((IsDlgButtonChecked(m_hwnd, IDC_SHOWICON) ? 1 : 0) | (IsDlgButtonChecked(m_hwnd, IDC_SHOWPROTO) ? 2 : 0) | (IsDlgButtonChecked(m_hwnd, IDC_SHOWSTATUS) ? 4 : 0)));
+		db_set_b(0, "CLUI", "SBarRightClk", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_RIGHTMIRANDA));
+		db_set_b(0, "CLUI", "EqualSections", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_EQUALSECTIONS));
+		db_set_b(0, "CLUI", "sb_skinned", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SKINBACKGROUND));
+		db_set_b(0, "CLUI", "sbar_showlocked", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_MARKLOCKED));
 
 		cfg::dat.bEqualSections = IsDlgButtonChecked(m_hwnd, IDC_EQUALSECTIONS) ? 1 : 0;
 		cfg::dat.bSkinnedStatusBar = IsDlgButtonChecked(m_hwnd, IDC_SKINBACKGROUND) ? 1 : 0;
 		cfg::dat.bShowXStatusOnSbar = IsDlgButtonChecked(m_hwnd, IDC_SHOWXSTATUS) ? 1 : 0;
-		db_set_b(0, "CLUI", "xstatus_sbar", (BYTE)cfg::dat.bShowXStatusOnSbar);
-		db_set_b(0, "CLUI", "SBarBevel", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SBPANELBEVEL));
-		if (db_get_b(0, "CLUI", "ShowGrip", 1) != (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWGRIP)) {
-			db_set_b(0, "CLUI", "ShowGrip", (BYTE)IsDlgButtonChecked(m_hwnd, IDC_SHOWGRIP));
+		db_set_b(0, "CLUI", "xstatus_sbar", (uint8_t)cfg::dat.bShowXStatusOnSbar);
+		db_set_b(0, "CLUI", "SBarBevel", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SBPANELBEVEL));
+		if (db_get_b(0, "CLUI", "ShowGrip", 1) != (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWGRIP)) {
+			db_set_b(0, "CLUI", "ShowGrip", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_SHOWGRIP));
 			ShowWindow(g_clistApi.hwndStatus, SW_HIDE);
 			mir_unsubclassWindow(g_clistApi.hwndStatus, NewStatusBarWndProc);
 			DestroyWindow(g_clistApi.hwndStatus);

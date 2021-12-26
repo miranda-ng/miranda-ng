@@ -35,7 +35,7 @@ struct ProtoItemData : public MZeroedObject
 	int    fullWidth;
 	RECT   protoRect;
 
-	BYTE   xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
+	uint8_t   xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
 	bool   bDoubleIcons;
 	bool   bShowProtoIcon;
 	bool   bShowProtoName;
@@ -72,7 +72,7 @@ int LoadStatusBarData()
 	g_StatusBarData.rectBorders.right = db_get_dw(0, "CLUI", "RightOffset", SETTING_RIGHTOFFSET_DEFAULT);
 	g_StatusBarData.rectBorders.top = db_get_dw(0, "CLUI", "TopOffset", SETTING_TOPOFFSET_DEFAULT);
 	g_StatusBarData.rectBorders.bottom = db_get_dw(0, "CLUI", "BottomOffset", SETTING_BOTTOMOFFSET_DEFAULT);
-	g_StatusBarData.extraspace = (BYTE)db_get_dw(0, "CLUI", "SpaceBetween", SETTING_SPACEBETWEEN_DEFAULT);
+	g_StatusBarData.extraspace = (uint8_t)db_get_dw(0, "CLUI", "SpaceBetween", SETTING_SPACEBETWEEN_DEFAULT);
 
 	if (g_StatusBarData.BarFont) {
 		DeleteObject(g_StatusBarData.BarFont);
@@ -188,7 +188,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 			mir_snprintf(buf, "SBarShow_%s", szProto);
 
-			BYTE showOps = db_get_b(0, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
+			uint8_t showOps = db_get_b(0, "CLUI", buf, SETTING_SBARSHOW_DEFAULT);
 			p = new ProtoItemData;
 			p->bShowProtoIcon = (showOps & 1) != 0;
 			p->bShowProtoName = (showOps & 2) != 0;
@@ -653,7 +653,7 @@ LRESULT CALLBACK ModernStatusProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			if (ID) {
 				int res = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, ID), 0);
 				if (res >= 0)
-					db_set_b(0, "CLUI", "ShowSBar", (BYTE)(wParam/*(res&F_VISIBLE)*/ ? 1 : 0));
+					db_set_b(0, "CLUI", "ShowSBar", (uint8_t)(wParam/*(res&F_VISIBLE)*/ ? 1 : 0));
 			}
 		}
 		break;

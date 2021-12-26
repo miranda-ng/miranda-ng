@@ -457,7 +457,7 @@ static void waitThread(logthread_info* infoParam)
 		if (infoParam->currStatus != prevStatus) {
 			g_plugin.setWord(infoParam->hContact, "OldStatus", (WORD)(prevStatus | 0x8000));
 			if (includeIdle)
-				g_plugin.setByte(infoParam->hContact, "OldIdle", (BYTE)((prevStatus & 0x8000) == 0));
+				g_plugin.setByte(infoParam->hContact, "OldIdle", (uint8_t)((prevStatus & 0x8000) == 0));
 
 			g_plugin.setWord(infoParam->hContact, "StatusTriger", infoParam->currStatus);
 		}
@@ -588,7 +588,7 @@ static void cleanThread(logthread_info* infoParam)
 				if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
 					g_plugin.setWord(hContact, "OldStatus", (WORD)(oldStatus | 0x8000));
 					if (includeIdle)
-						g_plugin.setByte(hContact, "OldIdle", (BYTE)((oldStatus & 0x8000) ? 0 : 1));
+						g_plugin.setByte(hContact, "OldIdle", (uint8_t)((oldStatus & 0x8000) ? 0 : 1));
 					g_plugin.setWord(hContact, "StatusTriger", ID_STATUS_OFFLINE);
 				}
 			}

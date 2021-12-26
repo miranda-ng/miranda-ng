@@ -318,7 +318,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		if (wszCap.GetLength() != 32)
 			continue;
 
-		BYTE cap[16];
+		uint8_t cap[16];
 		hex2binW(wszCap, cap, sizeof(cap));
 		if (!memcmp(cap, "MiNG", 4)) { // Miranda
 			int v[4];
@@ -819,8 +819,8 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 	CMStringA szPassTemp = m_szPassword;
 
 	unsigned int len;
-	BYTE hashOut[MIR_SHA256_HASH_SIZE];
-	HMAC(EVP_sha256(), szPassTemp, szPassTemp.GetLength(), (BYTE*)szSessionSecret.c_str(), szSessionSecret.GetLength(), hashOut, &len);
+	uint8_t hashOut[MIR_SHA256_HASH_SIZE];
+	HMAC(EVP_sha256(), szPassTemp, szPassTemp.GetLength(), (uint8_t*)szSessionSecret.c_str(), szSessionSecret.GetLength(), hashOut, &len);
 	m_szSessionKey = ptrA(mir_base64_encode(hashOut, sizeof(hashOut)));
 	setString(DB_KEY_SESSIONKEY, m_szSessionKey);
 

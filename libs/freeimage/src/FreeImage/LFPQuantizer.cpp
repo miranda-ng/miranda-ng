@@ -48,8 +48,8 @@ FIBITMAP* LFPQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserv
 	const unsigned src_pitch = FreeImage_GetPitch(dib);
 	const unsigned dst_pitch = FreeImage_GetPitch(dib8);
 
-	const BYTE * const src_bits = FreeImage_GetBits(dib);
-	BYTE * const dst_bits = FreeImage_GetBits(dib8);
+	const uint8_t * const src_bits = FreeImage_GetBits(dib);
+	uint8_t * const dst_bits = FreeImage_GetBits(dib8);
 
 	unsigned last_color = -1;
 	int last_index = 0;
@@ -64,8 +64,8 @@ FIBITMAP* LFPQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserv
 
 		// Process all but the last scanline.
 		for (unsigned y = 0; y < height - 1; ++y) {
-			BYTE *dst_line = dst_bits + y * dst_pitch;
-			const BYTE *src_line = src_bits + y * src_pitch;
+			uint8_t *dst_line = dst_bits + y * dst_pitch;
+			const uint8_t *src_line = src_bits + y * src_pitch;
 			for (unsigned x = 0; x < width; ++x) {
 				const unsigned color = *((unsigned *) src_line) & 0x00FFFFFF;
 				if (color != last_color) {
@@ -82,8 +82,8 @@ FIBITMAP* LFPQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserv
 		}
 
 		// Process all but the last pixel of the last scanline.
-		BYTE *dst_line = dst_bits + (height - 1) * dst_pitch;
-		const BYTE *src_line = src_bits + (height - 1) * src_pitch;
+		uint8_t *dst_line = dst_bits + (height - 1) * dst_pitch;
+		const uint8_t *src_line = src_bits + (height - 1) * src_pitch;
 		for (unsigned x = 0; x < width - 1; ++x) {
 			const unsigned color = *((unsigned *) src_line) & 0x00FFFFFF;
 			if (color != last_color) {
@@ -114,8 +114,8 @@ FIBITMAP* LFPQuantizer::Quantize(FIBITMAP *dib, int ReserveSize, RGBQUAD *Reserv
 
 	} else {
 		for (unsigned y = 0; y < height; ++y) {
-			BYTE *dst_line = dst_bits + y * dst_pitch;
-			const BYTE *src_line = src_bits + y * src_pitch;
+			uint8_t *dst_line = dst_bits + y * dst_pitch;
+			const uint8_t *src_line = src_bits + y * src_pitch;
 			for (unsigned x = 0; x < width; ++x) {
 				const unsigned color = *((unsigned *) src_line) & 0x00FFFFFF;
 				if (color != last_color) {

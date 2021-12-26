@@ -47,15 +47,15 @@ class CPsTreeItem
 	HTREEITEM     _hItem;      // handle to the treeview item if visible (NULL if this item is hidden)
 	int           _iParent;    // index of the owning tree item
 	int           _iImage;     // index of treeview item's image
-	BYTE          _bState;     // initial state of this treeitem
+	uint8_t          _bState;     // initial state of this treeitem
 	LPSTR         _pszName;    // original name, given by plugin (not customized)
 	LPTSTR        _ptszLabel;  // string to setting in db holding information about this treeitem
 
 	LPCSTR	GlobalName();
 
-	int Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BYTE bInitIconsOnly);
-	int ItemLabel(const BYTE bReadDBValue);
-	int Name(LPTSTR pszTitle, const BYTE bIsUnicode);
+	int Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIconsOnly);
+	int ItemLabel(const uint8_t bReadDBValue);
+	int Name(LPTSTR pszTitle, const uint8_t bIsUnicode);
 	HICON	ProtoIcon();
 
 public:
@@ -76,7 +76,7 @@ public:
 
 	__inline int Image() const { return _iImage; };
 	__inline int Pos() const { return _iPosition; };
-	__inline BYTE State() const { return _bState; };
+	__inline uint8_t State() const { return _bState; };
 	__inline HTREEITEM Hti() const { return _hItem; };
 	__inline void Hti(HTREEITEM hti) { _hItem = hti; };
 	__inline int Parent() const { return _iParent; };
@@ -87,7 +87,7 @@ public:
 	__inline void AddFlags(DWORD dwFlags) { _dwFlags |= dwFlags; };
 	__inline void RemoveFlags(DWORD dwFlags) { _dwFlags &= ~dwFlags; };
 
-	BYTE HasName(const LPCSTR pszName) const;
+	uint8_t HasName(const LPCSTR pszName) const;
 
 	LPCSTR PropertyKey(LPCSTR pszProperty);
 	LPCSTR GlobalPropertyKey(LPCSTR pszProperty);
@@ -164,7 +164,7 @@ public:
 	__inline int NumItems() const { return _pages.getCount(); }
 	__inline HWND Window() const { return _hWndTree; }
 	__inline HIMAGELIST ImageList() const { return _hImages; }
-	__inline BYTE IsIndexValid(const int index) const { return (index >= 0 && index < _pages.getCount()); }
+	__inline uint8_t IsIndexValid(const int index) const { return (index >= 0 && index < _pages.getCount()); }
 	
 	__inline CPsTreeItem* TreeItem(int index) const { return (IsIndexValid(index) ? &_pages[index] : nullptr); };
 	__inline HTREEITEM TreeItemHandle(int index) const { return (IsIndexValid(index) ? _pages[index].Hti() : nullptr); };
@@ -173,14 +173,14 @@ public:
 	__inline CPsTreeItem* CurrentItem() const { return TreeItem(CurrentItemIndex()); };
 
 	int  AddDummyItem(LPCSTR pszGroup);
-	BYTE Create(HWND hWndTree, CPsHdr *pPsh);
-	BYTE InitTreeItems(LPWORD needWidth);
+	uint8_t Create(HWND hWndTree, CPsHdr *pPsh);
+	uint8_t InitTreeItems(LPWORD needWidth);
 	void Remove(HINSTANCE);
 
 	void HideItem(const int iPageIndex);
 	HTREEITEM ShowItem(const int iPageIndex, LPWORD needWidth);
 
-	HTREEITEM MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, BYTE bAsChild = FALSE);
+	HTREEITEM MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, uint8_t bAsChild = FALSE);
 	void SaveState();
 	void DBResetState();
 
@@ -193,12 +193,12 @@ public:
 	CPsTreeItem *FindItemByResource(HINSTANCE hInst, int idDlg);
 
 	int  BeginLabelEdit(HTREEITEM hItem);
-	int  EndLabelEdit(const BYTE bSave);
+	int  EndLabelEdit(const uint8_t bSave);
 	void PopupMenu();
 
 	void OnIconsChanged();
-	BYTE OnInfoChanged();
-	BYTE OnSelChanging();
+	uint8_t OnInfoChanged();
+	uint8_t OnSelChanging();
 	void OnSelChanged(LPNMTREEVIEW lpnmtv);
 	void OnCancel();
 	int  OnApply();
@@ -256,7 +256,7 @@ struct TPropSheet
 	HFONT hCaptionFont;
 	HFONT hBoldFont;
 	RECT rcDisplay;
-	BYTE updateAnimFrame;
+	uint8_t updateAnimFrame;
 	CHAR szUpdating[64];
 	DWORD dwFlags;
 

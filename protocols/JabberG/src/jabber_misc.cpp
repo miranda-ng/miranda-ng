@@ -101,7 +101,7 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 	return hNewContact;
 }
 
-bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, BYTE btEventType)
+bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, uint8_t btEventType)
 {
 	if (!hContact)
 		return false;

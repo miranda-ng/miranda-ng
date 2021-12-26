@@ -49,14 +49,14 @@ inline INT_PTR QPDecodeGetRequiredLength(INT_PTR nSrcLen)
 	return nSrcLen;
 }
 
-inline BOOL QPEncode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, BYTE *bEncoded, DWORD dwFlags = 0)
+inline BOOL QPEncode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, uint8_t *bEncoded, DWORD dwFlags = 0)
 {
 	//The hexadecimal character set
 	static const CHAR s_chHexChars[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
 											'A', 'B', 'C', 'D', 'E', 'F' };
 	INT_PTR nRead = 0, nWritten = 0, nLineLen = 0;
 	CHAR ch;
-	BYTE bChanged = FALSE;
+	uint8_t bChanged = FALSE;
 
 
 	if (!pbSrcData || !szDest || !pnDestLen)
@@ -111,7 +111,7 @@ inline BOOL QPEncode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pn
 	return TRUE;
 }
 
-inline BOOL QPDecode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, DWORD dwFlags = 0)
+inline BOOL QPDecode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, DWORD dwFlags = 0)
 {
 	if (!pbSrcData || !szDest || !pnDestLen) {
 		return FALSE;
@@ -131,7 +131,7 @@ inline BOOL QPDecode(BYTE *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pn
 				szBuf[1] = *pbSrcData++;
 				szBuf[2] = '\0';
 				char *tmp = '\0';
-				*szDest++ = (BYTE)strtoul(szBuf, &tmp, 16);
+				*szDest++ = (uint8_t)strtoul(szBuf, &tmp, 16);
 				nWritten++;
 				nRead += 2;
 				continue;
