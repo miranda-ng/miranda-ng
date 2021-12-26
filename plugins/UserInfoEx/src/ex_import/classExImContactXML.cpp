@@ -543,7 +543,7 @@ int CExImContactXML::LoadXmlElement(const TiXmlElement *xContact)
 				case 'n':
 					size_t valLen;
 					{
-						PBYTE	pbVal = (PBYTE)mir_base64_decode(pUID, &valLen);
+						uint8_t *pbVal = (uint8_t*)mir_base64_decode(pUID, &valLen);
 						if (pbVal != nullptr)
 							uidn(pbVal, (DWORD)valLen);
 					}
@@ -866,7 +866,7 @@ int CExImContactXML::ImportSetting(LPCSTR pszModule, const TiXmlElement *xmlEntr
 		break;
 	case 'n':
 		dbv.type = DBVT_BLOB;
-		dbv.pbVal = (PBYTE)mir_base64_decode(value + 1, &baselen);
+		dbv.pbVal = (uint8_t*)mir_base64_decode(value + 1, &baselen);
 		if (dbv.pbVal != nullptr)
 			dbv.cpbVal = (WORD)baselen;
 		else {
@@ -924,7 +924,7 @@ int CExImContactXML::ImportEvent(LPCSTR pszModule, const TiXmlElement *xmlEvent)
 		return ERROR_INVALID_VALUE;
 
 	size_t baselen;
-	mir_ptr<BYTE> tmpVal((PBYTE)mir_base64_decode(tmp, &baselen));
+	mir_ptr<BYTE> tmpVal((uint8_t*)mir_base64_decode(tmp, &baselen));
 	if (tmpVal != NULL) {
 		// event owning module
 		dbei.pBlob = tmpVal;

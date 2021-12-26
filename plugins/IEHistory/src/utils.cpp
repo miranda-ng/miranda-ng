@@ -135,7 +135,7 @@ SearchResult SearchHistory(MCONTACT contact, MEVENT hFirstEvent, void *searchDat
 			buffer = (wchar_t *)realloc(buffer, newSize);
 			oldSize = newSize;
 		}
-		dbEvent.pBlob = (PBYTE)buffer;
+		dbEvent.pBlob = (uint8_t*)buffer;
 		dbEvent.cbBlob = newSize;
 		if (db_event_get(hEvent, &dbEvent) == 0) { //successful
 			switch (type) {

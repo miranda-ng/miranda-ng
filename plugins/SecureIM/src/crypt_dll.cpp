@@ -80,7 +80,7 @@ BOOL CalculateKeyX(pUinKey ptr, MCONTACT hContact)
 		// do this only if key exchanged is ok
 		// we use a 192bit key
 		int keysize = cpp_size_keyx();
-		PBYTE buffer = (PBYTE)alloca(keysize); // buffer for hash
+		uint8_t *buffer = (uint8_t*)alloca(keysize); // buffer for hash
 
 		// store key
 		cpp_get_keyx(ptr->cntx, buffer);

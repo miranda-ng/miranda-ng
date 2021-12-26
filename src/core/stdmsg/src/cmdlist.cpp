@@ -94,7 +94,7 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (DWORD)(mir_strlen(p->szMsg) + 1);
-	dbei.pBlob = (PBYTE)p->szMsg;
+	dbei.pBlob = (uint8_t*)p->szMsg;
 	dbei.szId = (char *)lParam;
 
 	MessageWindowEvent evt = { id, hContact, &dbei };

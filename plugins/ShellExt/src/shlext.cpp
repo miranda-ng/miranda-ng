@@ -535,7 +535,7 @@ static void BuildSkinIcons(TEnumData * lParam)
 		if (pct->cbSize != sizeof(TSlotIPC) || pct->fType != REQUEST_NEWICONS)
 			break;
 
-		TSlotProtoIcons * p = (TSlotProtoIcons*)(PBYTE(pct) + sizeof(TSlotIPC));
+		TSlotProtoIcons * p = (TSlotProtoIcons*)((uint8_t*)pct + sizeof(TSlotIPC));
 		Self->ProtoIcons = (TSlotProtoIcons*)realloc(Self->ProtoIcons, (Self->ProtoIconsCount + 1) * sizeof(TSlotProtoIcons));
 		TSlotProtoIcons * d = &Self->ProtoIcons[Self->ProtoIconsCount];
 		memmove(d, p, sizeof(TSlotProtoIcons));

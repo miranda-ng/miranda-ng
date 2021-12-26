@@ -118,7 +118,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 					dbei.szModule = szProto;
 					dbei.timestamp = (DWORD)time(0);
 					dbei.cbBlob = (DWORD)mir_strlen(pasteToWeb->szFileLink) + 1;
-					dbei.pBlob = (PBYTE)pasteToWeb->szFileLink;
+					dbei.pBlob = (uint8_t*)pasteToWeb->szFileLink;
 					db_event_add(hContact, &dbei);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
 				}

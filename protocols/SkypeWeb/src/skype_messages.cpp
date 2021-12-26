@@ -222,8 +222,8 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 		pre.timestamp = (DWORD)timestamp;
 		pre.szMessage = (char*)psr;
 
-		PBYTE b = (PBYTE)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
-		PBYTE pCur = b;
+		uint8_t *b = (uint8_t*)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
+		uint8_t *pCur = b;
 		*((PDWORD)pCur) = nCount;
 		pCur += sizeof(DWORD);
 

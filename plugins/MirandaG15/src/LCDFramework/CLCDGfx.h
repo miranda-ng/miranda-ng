@@ -18,7 +18,7 @@ public:
 	CLCDGfx(void);
 	virtual ~CLCDGfx(void);
 
-	bool Initialize(int nWidth, int nHeight, int nBPP, PBYTE pBitmapBits);
+	bool Initialize(int nWidth, int nHeight, int nBPP, uint8_t *pBitmapBits);
 	bool IsInitialized();
 	bool Shutdown(void);
 
@@ -49,7 +49,7 @@ public:
 
 protected:
 	void Cache();
-	int findNearestMatch(PBYTE targetArray, int iSourceIndex);
+	int findNearestMatch(uint8_t *targetArray, int iSourceIndex);
 
 	void EndTransition();
 
@@ -63,7 +63,7 @@ protected:
 	HDC m_hDC;
 	HBITMAP m_hBitmap;
 	HBITMAP m_hPrevBitmap;
-	PBYTE m_pBitmapBits, m_pLcdBitmapBits, m_pSavedBitmapBits;
+	uint8_t *m_pBitmapBits, *m_pLcdBitmapBits, *m_pSavedBitmapBits;
 
 	bool m_bInitialized;
 

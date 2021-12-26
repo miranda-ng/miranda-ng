@@ -467,7 +467,7 @@ LBL_NewLine:
 				int len;
 				char *pszValue, *pszEnd;
 
-				PBYTE buf = (PBYTE)mir_alloc(mir_strlen(szValue + 1));
+				uint8_t *buf = (uint8_t*)mir_alloc(mir_strlen(szValue + 1));
 				for (len = 0, pszValue = szValue + 1;; len++) {
 					buf[len] = (BYTE)strtol(pszValue, &pszEnd, 0x10);
 					if (pszValue == pszEnd)

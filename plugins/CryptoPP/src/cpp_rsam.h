@@ -2,14 +2,14 @@
 #define __CPP_RSAM_H__
 
 int __cdecl rsa_gen_keypair(short);
-int __cdecl rsa_get_keypair(short,PBYTE,int*,PBYTE,int*);
-int __cdecl rsa_get_keyhash(short,PBYTE,int*,PBYTE,int*);
-int __cdecl rsa_set_keypair(short,PBYTE,int);
-int __cdecl rsa_get_pubkey(HANDLE,PBYTE,int*);
-int __cdecl rsa_set_pubkey(HANDLE,PBYTE,int);
+int __cdecl rsa_get_keypair(short, uint8_t*,int*, uint8_t*,int*);
+int __cdecl rsa_get_keyhash(short,uint8_t*,int*,uint8_t*,int*);
+int __cdecl rsa_set_keypair(short,uint8_t*,int);
+int __cdecl rsa_get_pubkey(HANDLE,uint8_t*,int*);
+int __cdecl rsa_set_pubkey(HANDLE,uint8_t*,int);
 void __cdecl rsa_set_timeout(int);
 int __cdecl rsa_get_state(HANDLE);
-int __cdecl rsa_get_hash(PBYTE,int,PBYTE,int*);
+int __cdecl rsa_get_hash(uint8_t*,int,uint8_t*,int*);
 int __cdecl rsa_connect(HANDLE);
 int __cdecl rsa_disconnect(HANDLE);
 int __cdecl rsa_disabled(HANDLE);

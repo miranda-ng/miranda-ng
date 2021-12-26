@@ -3,7 +3,7 @@
 
 HMODULE hgpg;
 HRSRC	hRS_gpg;
-PBYTE	pRS_gpg;
+uint8_t *pRS_gpg;
 
 int   __cdecl _gpg_init(void);
 int   __cdecl _gpg_done(void);
@@ -163,7 +163,7 @@ int __cdecl gpg_set_keyid(HANDLE context, LPCSTR RemoteKeyID)
 	ptr->error = ERROR_NONE;
 
 	SAFE_FREE(p->gpgKeyID);
-	p->gpgKeyID = (PBYTE)_strdup(RemoteKeyID);
+	p->gpgKeyID = (uint8_t*)_strdup(RemoteKeyID);
 
 	return 1;
 }

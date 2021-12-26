@@ -166,7 +166,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	while (MEVENT hDbEvent = pCursor.FetchNext()) {
 		olddbei.cbBlob = db_event_getBlobSize(hDbEvent);
 		if (olddbei.cbBlob > cbMemoLen)
-			pbBuffer = (PBYTE)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));
+			pbBuffer = (uint8_t*)mir_realloc(pbBuffer, (size_t)(cbMemoLen = olddbei.cbBlob));
 		olddbei.pBlob = pbBuffer;
 		db_event_get(hDbEvent, &olddbei);
 

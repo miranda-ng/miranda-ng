@@ -95,7 +95,7 @@ static int onModulesLoaded(WPARAM, LPARAM)
 		char priv_key[4096]; int priv_len;
 		char pub_key[4096]; int pub_len;
 
-		mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
+		mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (uint8_t*)&priv_key, &priv_len, (uint8_t*)&pub_key, &pub_len);
 		db_set_blob(0, MODULENAME, "rsa_priv", priv_key, priv_len);
 		db_set_blob(0, MODULENAME, "rsa_pub", &pub_key, pub_len);
 		g_plugin.delSetting("rsa_priv_2048");

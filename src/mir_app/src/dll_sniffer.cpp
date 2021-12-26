@@ -27,9 +27,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 DWORD dwVersion = 0;
 
-static void ProcessResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase, DWORD dwType);
+static void ProcessResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, uint8_t *pBase, DWORD dwType);
 
-static void ProcessResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pBase, DWORD dwType)
+static void ProcessResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, uint8_t *pBase, DWORD dwType)
 {
 	if (pIRDE->DataIsDirectory)
 		ProcessResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase, dwType == 0 ? pIRDE->Name : dwType);
@@ -39,7 +39,7 @@ static void ProcessResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pB
 	}
 }
 
-static void ProcessResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase, DWORD dwType)
+static void ProcessResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, uint8_t *pBase, DWORD dwType)
 {
 	UINT i;
 
@@ -92,7 +92,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 			else
 				__leave;
 
-			if ((PBYTE)pINTH + sizeof(IMAGE_NT_HEADERS) >= ptr + filesize)
+			if ((uint8_t*)pINTH + sizeof(IMAGE_NT_HEADERS) >= ptr + filesize)
 				__leave;
 			if (pINTH->Signature != IMAGE_NT_SIGNATURE)
 				__leave;
@@ -107,14 +107,14 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 			if (pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_I386 &&
 				pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32) &&
 				pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC) {
-				pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
-				base = *(DWORD*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
+				pIDD = (PIMAGE_DATA_DIRECTORY)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
+				base = *(DWORD*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
 			}
 			else if (pINTH->FileHeader.Machine == IMAGE_FILE_MACHINE_AMD64 &&
 				pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64) &&
 				pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC) {
-				pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory));
-				base = *(ULONGLONG*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.ImageBase));
+				pIDD = (PIMAGE_DATA_DIRECTORY)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory));
+				base = *(ULONGLONG*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.ImageBase));
 			}
 			else __leave;
 
@@ -135,7 +135,7 @@ MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin)
 
 			for (DWORD idx = 0; idx < nSections; idx++) {
 				PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(pImage + idx * sizeof(IMAGE_SECTION_HEADER));
-				if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > pImage + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
+				if (((uint8_t*)pISH + sizeof(IMAGE_SECTION_HEADER) > pImage + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
 					__leave;
 
 				// process export table

@@ -70,7 +70,7 @@ char* m_ustrcat(LPCSTR strA, LPCSTR strB)
 
 LPSTR m_hex = nullptr;
 
-LPSTR to_hex(PBYTE bin, int len)
+LPSTR to_hex(uint8_t *bin, int len)
 {
 	SAFE_FREE(m_hex);
 	m_hex = (LPSTR)mir_alloc(len * 3 + 1);

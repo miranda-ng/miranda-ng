@@ -114,7 +114,7 @@ int DestroyIEView(HWND hWnd)
 	return 0;
 }
 
-void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, PBYTE blob)
+void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, uint8_t *blob)
 {
 	switch (dbInfo.eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -133,7 +133,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, PBYTE blob)
 	fillData->dwFlags = (dbInfo.flags & DBEF_SENT) ? IEEDF_SENT : 0;
 	fillData->time = dbInfo.timestamp;
 	size_t len = mir_strlen((char *)blob) + 1;
-	PBYTE pos;
+	uint8_t *pos;
 
 	fillData->szText.a = (char *)blob;
 	if (len < dbInfo.cbBlob) {
@@ -154,7 +154,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	int cLoad = LOAD_COUNT;
 	int i;
 	IEVIEWEVENTDATA ieData[LOAD_COUNT] = { 0 };
-	PBYTE messages[LOAD_COUNT] = {};
+	uint8_t *messages[LOAD_COUNT] = {};
 	MEVENT dbEvent = data->ieEvent.hDbEventFirst;
 	for (i = 0; i < LOAD_COUNT; i++)
 		ieData[i].next = &ieData[i + 1]; //it's a vector, so v[i]'s next element is v[i + 1]
@@ -164,7 +164,7 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 	ieEvent.iType = IEE_LOG_MEM_EVENTS;
 	ieEvent.eventData = ieData;
 	DBEVENTINFO dbInfo = {};
-	PBYTE buffer = nullptr;
+	uint8_t *buffer = nullptr;
 	int newSize, oldSize = 0;
 	while (count < target) {
 		cLoad = (count + LOAD_COUNT > target) ? target - count : LOAD_COUNT;
@@ -173,11 +173,11 @@ DWORD WINAPI WorkerThread(LPVOID lpvData)
 		for (i = 0; i < cLoad; i++) {
 			newSize = db_event_getBlobSize(dbEvent);
 			if (newSize > oldSize) {
-				buffer = (PBYTE)realloc(buffer, newSize);
+				buffer = (uint8_t*)realloc(buffer, newSize);
 				dbInfo.pBlob = buffer;
 				oldSize = newSize;
 			}
-			messages[i] = (PBYTE)realloc(messages[i], newSize);
+			messages[i] = (uint8_t*)realloc(messages[i], newSize);
 			dbInfo.cbBlob = newSize;
 			if (!db_event_get(dbEvent, &dbInfo)) {
 				memcpy(messages[i], dbInfo.pBlob, newSize);

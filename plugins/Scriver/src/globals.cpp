@@ -142,7 +142,7 @@ static int ackevent(WPARAM, LPARAM lParam)
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(item->sendBuffer) + 1;
-	dbei.pBlob = (PBYTE)item->sendBuffer;
+	dbei.pBlob = (uint8_t*)item->sendBuffer;
 	dbei.szId = (char *)pAck->lParam;
 
 	MessageWindowEvent evt = { item->hSendId, hContact, &dbei };

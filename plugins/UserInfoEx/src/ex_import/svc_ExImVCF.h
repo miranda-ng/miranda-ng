@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class CLineBuffer
 {
 private:
-	PBYTE	_pVal;
-	PBYTE	_pTok;
+	uint8_t *_pVal;
+	uint8_t *_pTok;
 	size_t	_cbVal;
 	size_t	_cbUsed;
 

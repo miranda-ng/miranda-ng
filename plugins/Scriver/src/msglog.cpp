@@ -646,7 +646,7 @@ void LoadMsgLogIcons(void)
 	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
+	uint8_t *pBmpBits = (uint8_t*)mir_alloc(widthBytes * bih.biHeight);
 	HBRUSH hBrush = hBkgBrush;
 	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		switch (i) {

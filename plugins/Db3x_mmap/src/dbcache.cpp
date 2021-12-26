@@ -33,7 +33,7 @@ void CDb3Mmap::Map()
 
 	m_hMap = CreateFileMapping(m_hDbFile, nullptr, dwProtectMode, 0, m_dwFileSize, nullptr);
 	if (m_hMap) {
-		m_pDbCache = (PBYTE)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
+		m_pDbCache = (uint8_t*)MapViewOfFile(m_hMap, dwAccess, 0, 0, 0);
 		if (!m_pDbCache)
 			DatabaseCorruption(L"%s (MapViewOfFile failed. Code: %d)");
 	}
@@ -85,7 +85,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
 }
 
 //we are assumed to be in a mutex here
-PBYTE CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
+uint8_t* CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
 {
 	// buggy read
 	if (ofs >= m_dwFileSize) {
@@ -175,7 +175,7 @@ int CDb3Mmap::InitMap(void)
 	Map();
 
 	// zero region for reads outside the file
-	m_pNull = (PBYTE)calloc(m_ChunkSize, 1);
+	m_pNull = (uint8_t*)calloc(m_ChunkSize, 1);
 	return 0;
 }
 

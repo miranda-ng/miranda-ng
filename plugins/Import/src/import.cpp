@@ -880,7 +880,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 
 	bool bSkipAll = false;
 	DWORD cbAlloc = 4096;
-	BYTE *eventBuf = (PBYTE)mir_alloc(cbAlloc);
+	BYTE *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
 	int i = 0;
@@ -893,7 +893,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 		dbei.cbBlob = srcDb->GetBlobSize(hEvent);
 		if (dbei.cbBlob > cbAlloc) {
 			cbAlloc = dbei.cbBlob + 4096 - dbei.cbBlob % 4096;
-			eventBuf = (PBYTE)mir_realloc(eventBuf, cbAlloc);
+			eventBuf = (uint8_t*)mir_realloc(eventBuf, cbAlloc);
 		}
 		dbei.pBlob = eventBuf;
 

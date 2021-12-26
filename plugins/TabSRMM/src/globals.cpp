@@ -529,7 +529,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 
 	T2Utf szMsg(text);
 	DBEVENTINFO dbei = {};
-	dbei.pBlob = (PBYTE)(char*)szMsg;
+	dbei.pBlob = (uint8_t*)(char*)szMsg;
 	dbei.cbBlob = (int)mir_strlen(szMsg) + 1;
 	dbei.flags = DBEF_UTF | DBEF_READ;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;

@@ -171,7 +171,7 @@ public:
 			buf.append(&tmp, 1);
 
 			dbei->cbBlob = (int)buf.length();
-			dbei->pBlob = (PBYTE)mir_alloc(dbei->cbBlob);
+			dbei->pBlob = (uint8_t*)mir_alloc(dbei->cbBlob);
 			memcpy(dbei->pBlob, buf.data(), buf.length());
 		}
 		else {
@@ -194,7 +194,7 @@ public:
 
 				dbei->flags |= DBEF_UTF;
 				dbei->cbBlob = (DWORD)szBody.size() + offset;
-				dbei->pBlob = (PBYTE)mir_calloc(dbei->cbBlob + 1);
+				dbei->pBlob = (uint8_t*)mir_calloc(dbei->cbBlob + 1);
 				memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
 				dbei->pBlob[dbei->cbBlob] = 0;
 			}

@@ -153,7 +153,7 @@ int CToxProto::OnPreCreateMessage(WPARAM, LPARAM lParam)
 		return 0;
 
 	evt->dbei->cbBlob = evt->dbei->cbBlob - 4;
-	PBYTE action = (PBYTE)mir_alloc(evt->dbei->cbBlob);
+	uint8_t *action = (uint8_t*)mir_alloc(evt->dbei->cbBlob);
 	memcpy(action, &evt->dbei->pBlob[4], evt->dbei->cbBlob);
 	mir_free(evt->dbei->pBlob);
 	evt->dbei->pBlob = action;

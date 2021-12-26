@@ -228,7 +228,7 @@ bool ProcessVIHash(bool store)
 	mir_md5_state_t context;
 
 	mir_md5_init(&context);
-	mir_md5_append(&context, (PBYTE)buffer.c_str(), buffer.GetLength()*sizeof(wchar_t));
+	mir_md5_append(&context, (uint8_t*)buffer.c_str(), buffer.GetLength()*sizeof(wchar_t));
 	mir_md5_finish(&context, hash);
 
 	char hashstr[40];

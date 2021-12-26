@@ -90,7 +90,7 @@ void UploadJob::autoSend()
 	dbei.szModule = szProto;
 	dbei.timestamp = (DWORD)time(0);
 	dbei.cbBlob = (DWORD)mir_strlen(m_szFileLink) + 1;
-	dbei.pBlob = (PBYTE)m_szFileLink;
+	dbei.pBlob = (uint8_t*)m_szFileLink;
 	db_event_add(m_hContact, &dbei);
 	ProtoChainSend(m_hContact, PSS_MESSAGE, 0, (LPARAM)m_szFileLink);
 	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, 0);

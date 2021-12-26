@@ -612,7 +612,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 	if (*ai->argv.w[2] == '0') {
 		// complete file
 		bufSz = fileSz + csz;
-		pBuf = (PBYTE)mir_calloc(bufSz);
+		pBuf = (uint8_t*)mir_calloc(bufSz);
 		if (pBuf == nullptr) {
 			CloseHandle(hFile);
 			return nullptr;
@@ -636,7 +636,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 		return res;
 	}
 	bufSz = TXTFILEBUFSZ*csz;
-	pBuf = (PBYTE)mir_calloc(bufSz);
+	pBuf = (uint8_t*)mir_calloc(bufSz);
 	if (pBuf == nullptr) {
 		CloseHandle(hFile);
 		return nullptr;
@@ -770,7 +770,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 				pCur -= csz;
 			}
 			icur = pCur - pBuf;
-			pBuf = (PBYTE)mir_realloc(pBuf, bufSz);
+			pBuf = (uint8_t*)mir_realloc(pBuf, bufSz);
 			pCur = pBuf + icur;
 			memset((pCur + 1), 0, (TXTFILEBUFSZ * csz));
 		}

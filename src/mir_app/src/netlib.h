@@ -54,7 +54,7 @@ struct NetlibNestedCriticalSection
 struct NetlibHTTPProxyPacketQueue
 {
 	NetlibHTTPProxyPacketQueue *next;
-	PBYTE dataBuffer;
+	uint8_t *dataBuffer;
 	int dataBufferLen;
 };
 

@@ -31,7 +31,7 @@ LPSTR __cdecl cpp_encrypt(pCNTX ptr, LPCSTR szPlainMsg)
 	CBC_Mode<AES>::Encryption enc(p->KeyX, Tiger::DIGESTSIZE, IV);
 	StreamTransformationFilter cbcEncryptor(enc, new StringSink(ciphered));
 
-	cbcEncryptor.Put((PBYTE)szMsg, slen);
+	cbcEncryptor.Put((uint8_t*)szMsg, slen);
 	cbcEncryptor.MessageEnd();
 
 	free(szMsg);
@@ -99,7 +99,7 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 			BYTE crc32[CRC32::DIGESTSIZE];
 			memset(crc32, 0, sizeof(crc32));
 
-			CRC32().CalculateDigest(crc32, (PBYTE)(bciphered + CRC32::DIGESTSIZE), len);
+			CRC32().CalculateDigest(crc32, (uint8_t*)(bciphered + CRC32::DIGESTSIZE), len);
 
 			if (memcmp(crc32, bciphered, CRC32::DIGESTSIZE)) { // message is bad crc
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -117,14 +117,14 @@ LPSTR __cdecl cpp_decrypt(pCNTX ptr, LPCSTR szEncMsg)
 		CBC_Mode<AES>::Decryption dec(p->KeyX, Tiger::DIGESTSIZE, IV);
 		StreamTransformationFilter cbcDecryptor(dec, new StringSink(unciphered));
 
-		cbcDecryptor.Put((PBYTE)bciphered, clen);
+		cbcDecryptor.Put((uint8_t*)bciphered, clen);
 		cbcDecryptor.MessageEnd();
 
 		mir_free(ptr->tmp);
 
 		if (dataflag & DATA_GZIP) {
 			size_t clen2 = clen;
-			LPSTR res = (LPSTR)cpp_gunzip((PBYTE)unciphered.data(), unciphered.length(), clen2);
+			LPSTR res = (LPSTR)cpp_gunzip((uint8_t*)unciphered.data(), unciphered.length(), clen2);
 			ptr->tmp = mir_strndup(res, clen2);
 			free(res);
 		}

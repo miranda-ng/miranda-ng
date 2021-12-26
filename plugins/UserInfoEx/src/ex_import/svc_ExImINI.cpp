@@ -365,10 +365,10 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 
 	case 'n':
 	case 'N':
-		PBYTE dest;
+		uint8_t *dest;
 		dbv.type = DBVT_BLOB;
 		dbv.cpbVal = (WORD)mir_strlen(value) / 3;
-		dbv.pbVal = (PBYTE)value;
+		dbv.pbVal = (uint8_t*)value;
 		for (dest = dbv.pbVal, value = strtok(value, " ");
 			value && *value;
 			value = strtok(nullptr, " "))

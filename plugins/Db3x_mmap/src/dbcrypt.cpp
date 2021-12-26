@@ -39,7 +39,7 @@ struct VarDescr
 		iLen(0)
 	{}
 
-	VarDescr(LPCSTR var, PBYTE value, int len) :
+	VarDescr(LPCSTR var, uint8_t *value, int len) :
 		szVar(mir_strdup(var)),
 		szValue((char*)memcpy(mir_alloc(len), value, len)),
 		iLen(len)
@@ -119,7 +119,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)
 {
 	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
 	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.pbVal = (PBYTE)pProvider->pszName;
+	dbcws.value.pbVal = (uint8_t*)pProvider->pszName;
 	dbcws.value.cpbVal = (WORD)mir_strlen(pProvider->pszName) + 1;
 	WriteContactSetting(0, &dbcws);
 	return TRUE;
@@ -182,7 +182,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 		char szSetting[256];
 		int bytesRemaining, len;
 		DWORD ofsBlobPtr = offset + offsetof(DBContactSettings, blob), ofsNext = setting->ofsNext;
-		PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+		uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(1);
 			len = pBlob[0];
@@ -247,7 +247,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 			}
 			else {
 				size_t realLen;
-				ptrA decoded(m_crypto->decodeString((PBYTE)(char*)p->szValue, p->iLen, &realLen));
+				ptrA decoded(m_crypto->decodeString((uint8_t*)(char*)p->szValue, p->iLen, &realLen));
 				if (decoded != nullptr) {
 					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
 					dbcws.value.type = DBVT_UNENCRYPTED;

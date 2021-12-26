@@ -4,7 +4,7 @@
 HMODULE hpgpsdk;
 UINT	pgpVer;
 HRSRC	hRS_pgp;
-PBYTE	pRS_pgp;
+uint8_t *pRS_pgp;
 
 int   __cdecl _pgp_init(void);
 int   __cdecl _pgp_done(void);
@@ -93,7 +93,7 @@ int __cdecl pgp_init()
 		// create context for private pgp keys
 		hPGPPRIV = (HANDLE)cpp_create_context(MODE_PGP | MODE_PRIV_KEY);
 		pCNTX tmp = (pCNTX)hPGPPRIV;
-		tmp->pdata = (PBYTE)malloc(sizeof(PGPDATA));
+		tmp->pdata = (uint8_t*)malloc(sizeof(PGPDATA));
 		memset(tmp->pdata, 0, sizeof(PGPDATA));
 	}
 
@@ -221,7 +221,7 @@ int __cdecl pgp_set_key(HANDLE context, LPCSTR RemoteKey)
 	ptr->error = ERROR_NONE;
 
 	SAFE_FREE(p->pgpKey);
-	p->pgpKey = (PBYTE)_strdup(RemoteKey);
+	p->pgpKey = (uint8_t*)_strdup(RemoteKey);
 
 	return 1;
 }
@@ -235,7 +235,7 @@ int __cdecl pgp_set_keyid(HANDLE context, PVOID RemoteKeyID)
 	ptr->error = ERROR_NONE;
 
 	SAFE_FREE(p->pgpKeyID);
-	p->pgpKeyID = (PBYTE)malloc(p_pgp_size_keyid());
+	p->pgpKeyID = (uint8_t*)malloc(p_pgp_size_keyid());
 	memcpy(p->pgpKeyID, RemoteKeyID, p_pgp_size_keyid());
 
 	return 1;

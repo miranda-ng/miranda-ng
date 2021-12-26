@@ -65,10 +65,10 @@ DBHeader
 
 #define MARKED_READ (DBEF_READ | DBEF_SENT)
 
-#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (PBYTE)DBRead(ofsBlobPtr,&bytesRemaining)
+#define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (uint8_t*)DBRead(ofsBlobPtr,&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
 
-DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
+DWORD __forceinline GetSettingValueLength(uint8_t *pSetting)
 {
 	if (pSetting[0] & DBVTF_VARIABLELENGTH)
 		return 2 + *(PWORD)(pSetting + 1);
@@ -245,24 +245,24 @@ public:
 	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
 
 protected:
-	DWORD GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
-	void  InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
+	DWORD    GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
+	void     InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
 
-	void  DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
-	PBYTE DBRead(DWORD ofs, int *bytesAvail);
-	void  DBWrite(DWORD ofs, PVOID pData, int bytes);
-	void  DBFill(DWORD ofs, int bytes);
-	void  DBFlush(int setting);
-	int   InitMap(void);
-	void  FillContacts(void);
+	void     DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
+	uint8_t* DBRead(DWORD ofs, int *bytesAvail);
+	void     DBWrite(DWORD ofs, PVOID pData, int bytes);
+	void     DBFill(DWORD ofs, int bytes);
+	void     DBFlush(int setting);
+	int      InitMap(void);
+	void     FillContacts(void);
 
-	PBYTE m_pNull;
+	uint8_t* m_pNull;
 
-	void  Map();
-	void  ReMap(DWORD needed);
+	void     Map();
+	void     ReMap(DWORD needed);
 
 protected:
-	wchar_t*   m_tszProfileName;
+	wchar_t* m_tszProfileName;
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
 	DWORD    m_ChunkSize;
@@ -273,7 +273,7 @@ protected:
 public:
 	UINT_PTR m_flushBuffersTimerId;
 	DWORD    m_flushFailTick;
-	PBYTE    m_pDbCache;
+	uint8_t* m_pDbCache;
 	HANDLE   m_hMap;
 
 protected:

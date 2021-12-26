@@ -103,7 +103,7 @@ LBL_Seek:
 		int bytesRemaining;
 		unsigned varLen;
 		DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		PBYTE pBlob = DBRead(ofsBlobPtr, &bytesRemaining);
+		uint8_t *pBlob = DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(1 + settingNameLen);
 			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, szSetting, settingNameLen)) {
@@ -236,7 +236,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 		return 1;
 
 	// make sure the module group exists
-	PBYTE pBlob;
+	uint8_t *pBlob;
 	int bytesRequired, bytesRemaining;
 	DBContactSettings dbcs;
 	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
@@ -263,14 +263,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 		DBWrite(ofsContact, &dbc, sizeof(DBContact));
 		DBWrite(ofsSettingsGroup, &dbcs, sizeof(DBContactSettings));
 		ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+		pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 	}
 	else {
 		dbcs = *(DBContactSettings*)DBRead(ofsSettingsGroup, &bytesRemaining);
 
 		// find if the setting exists
 		ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+		pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(settingNameLen + 1);
 			if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, dbcws.szSetting, settingNameLen))
@@ -306,7 +306,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 				}
 				DBMoveChunk(ofsSettingToCut, ofsSettingToCut + nameLen + valLen, ofsBlobPtr + 1 - ofsSettingToCut);
 				ofsBlobPtr -= nameLen + valLen;
-				pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+				pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 			}
 			else {
 				// replace existing setting at pBlob
@@ -386,7 +386,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 		}
 		ofsBlobPtr += ofsNew - ofsSettingsGroup;
 		ofsSettingsGroup = ofsNew;
-		pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+		pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 	}
 
 	// we now have a place to put it and enough space: make it
@@ -467,7 +467,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 			// find if the setting exists
 			DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
 			int bytesRemaining;
-			PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+			uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 			while (pBlob[0]) {
 				NeedBytes(settingNameLen + 1);
 				if (pBlob[0] == settingNameLen && !memcmp(pBlob + 1, szSetting, settingNameLen))
@@ -539,7 +539,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 
 	DWORD ofsBlobPtr = ofsSettings + offsetof(DBContactSettings, blob);
 	int bytesRemaining;
-	PBYTE pBlob = (PBYTE)DBRead(ofsBlobPtr, &bytesRemaining);
+	uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 	if (pBlob[0] == 0)
 		return -1;
 

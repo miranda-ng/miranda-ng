@@ -64,7 +64,7 @@ public:
 	virtual int GetColorCount();
 
 	// Get the pointer to the pixel buffer
-	virtual PBYTE GetPixelBuffer();
+	virtual uint8_t *GetPixelBuffer();
 
 public:
 	CLCDConnection();

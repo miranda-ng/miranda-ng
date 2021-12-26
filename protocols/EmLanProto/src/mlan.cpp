@@ -329,7 +329,7 @@ void CMLan::RecvMessageUrl(CCSDATA *ccs)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF + ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
 	dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
-	dbei.pBlob = (PBYTE)szMessage.get();
+	dbei.pBlob = (uint8_t*)szMessage.get();
 	db_event_add(ccs->hContact, &dbei);
 }
 
@@ -913,7 +913,7 @@ void CMLan::RecvFile(CCSDATA *ccs)
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.cbBlob = DWORD(sizeof(DWORD) + mir_strlen(szFile) + mir_strlen(szDesc) + 2);
-	dbei.pBlob = (PBYTE)pre->szMessage;
+	dbei.pBlob = (uint8_t*)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 }
 

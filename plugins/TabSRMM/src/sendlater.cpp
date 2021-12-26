@@ -58,7 +58,7 @@ struct CSendLaterJob : public MZeroedObject
 	time_t   created;             // job was created at this time (important to kill jobs, that are too old)
 	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
 	char    *sendBuffer;          // utf-8 send buffer
-	PBYTE    pBuf;                // conventional send buffer (for non-utf8 protocols)
+	uint8_t *pBuf;                // conventional send buffer (for non-utf8 protocols)
 	DWORD    dwFlags;
 	int      iSendCount;          // # of times we tried to send it...
 	bool     fSuccess, fFailed;
@@ -731,7 +731,7 @@ int SendLater::addJob(const char *szSetting, void *lParam)
 	if (szWchar)
 		required += (mir_wstrlen(szWchar) + 1) * sizeof(wchar_t);
 
-	job->pBuf = (PBYTE)mir_calloc(required);
+	job->pBuf = (uint8_t*)mir_calloc(required);
 
 	strncpy((char*)job->pBuf, szAnsi, iLen);
 	job->pBuf[iLen] = 0;
@@ -793,7 +793,7 @@ HANDLE SendLater::processAck(const ACKDATA *ack)
 				dbei.szModule = Proto_GetBaseAccountName((p->hContact));
 				dbei.timestamp = time(0);
 				dbei.cbBlob = (int)mir_strlen(p->sendBuffer) + 1;
-				dbei.pBlob = (PBYTE)(p->sendBuffer);
+				dbei.pBlob = (uint8_t*)(p->sendBuffer);
 				db_event_add(p->hContact, &dbei);
 
 				p->cleanDB();

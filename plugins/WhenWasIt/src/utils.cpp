@@ -73,7 +73,7 @@ int Info(char *title, char *format, ...)
 
 #define HEX_SIZE 8
 
-char* BinToHex(int size, PBYTE data)
+char* BinToHex(int size, uint8_t *data)
 {
 	char *szresult = nullptr;
 	char buffer[32] = { 0 }; //should be more than enough

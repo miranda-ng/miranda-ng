@@ -33,8 +33,8 @@ int LogInit();
 int Log(char *format, ...);
 int Info(char *title, char *format, ...);
 
-char *BinToHex(int size, PBYTE data);
-void HexToBin(wchar_t *inData, ULONG &size, PBYTE &outData);
+char *BinToHex(int size, uint8_t *data);
+void HexToBin(wchar_t *inData, ULONG &size, uint8_t *&outData);
 
 
 void ScreenToClient(HWND hWnd, LPRECT rect);

@@ -1458,7 +1458,7 @@ bgdone:
 		bmih.biPlanes = 1;
 		bmih.biWidth = clRect.right;
 		
-		PBYTE bits = (PBYTE)mir_alloc(4 * bmih.biWidth * -bmih.biHeight);
+		uint8_t *bits = (uint8_t*)mir_alloc(4 * bmih.biWidth * -bmih.biHeight);
 		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *)&bmih, DIB_RGB_COLORS);
 
 		COLORREF greyColour = GetSysColor(COLOR_3DFACE);

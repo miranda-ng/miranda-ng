@@ -426,7 +426,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	if (g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg)) {
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			// Save the request to database so that it can be automatically submitted on user approval
-			PBYTE eventdata = (PBYTE)malloc(sizeof(DWORD) + dbei->cbBlob);
+			uint8_t *eventdata = (uint8_t*)malloc(sizeof(DWORD) + dbei->cbBlob);
 			if (eventdata != nullptr && dbei->cbBlob > 0) {
 				memcpy(eventdata, &dbei->cbBlob, sizeof(DWORD));
 				memcpy(eventdata + sizeof(DWORD), dbei->pBlob, dbei->cbBlob);
@@ -440,11 +440,11 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			if (g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
 				DBVARIANT _dbv;
 				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(WORD) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
-				PBYTE eventdata = (PBYTE)malloc(dbei_size);
-				PBYTE pos = eventdata;
+				uint8_t *eventdata = (uint8_t*)malloc(dbei_size);
+				uint8_t *pos = eventdata;
 				if (eventdata != nullptr && dbei->cbBlob > 0) {
 					if (db_get(hContact, MODULENAME, "LastMsgEvents", &_dbv) == 0) {
-						eventdata = (PBYTE)realloc(eventdata, dbei_size + _dbv.cpbVal);
+						eventdata = (uint8_t*)realloc(eventdata, dbei_size + _dbv.cpbVal);
 						pos = eventdata;
 						memcpy(eventdata, _dbv.pbVal, _dbv.cpbVal);
 						pos += _dbv.cpbVal;

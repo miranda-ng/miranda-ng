@@ -705,7 +705,7 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							DBEVENTINFO dbei = {};
 							dbei.eventType = EVENTTYPE_MESSAGE;
 							dbei.flags = DBEF_SENT | DBEF_UTF;
-							dbei.pBlob = (PBYTE)szMessage.get();
+							dbei.pBlob = (uint8_t*)szMessage.get();
 							dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
 							dbei.szModule = ack->szModule;
 							dbei.timestamp = (DWORD)time(0);
@@ -1346,7 +1346,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 
 								DBEVENTINFO dbEvent = {};
 								char message[4096];
-								dbEvent.pBlob = (PBYTE)message;
+								dbEvent.pBlob = (uint8_t*)message;
 
 								DB::ECPTR pCursor(DB::Events(hContact));
 								while (MEVENT hEvent = pCursor.FetchNext()) {

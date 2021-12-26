@@ -354,7 +354,7 @@ static BOOL IsRegStrValueA(HKEY hKey, const wchar_t *pszValName, const char *psz
 static void WriteDbBackupData(const char *pszSetting, DWORD dwType, BYTE *pData, DWORD cbData)
 {
 	size_t cbLen = cbData + sizeof(DWORD);
-	PBYTE buf = (PBYTE)mir_alloc(cbLen);
+	uint8_t *buf = (uint8_t*)mir_alloc(cbLen);
 	if (buf) {
 		*(DWORD*)buf = dwType;
 		memcpy(buf + sizeof(DWORD), pData, cbData);

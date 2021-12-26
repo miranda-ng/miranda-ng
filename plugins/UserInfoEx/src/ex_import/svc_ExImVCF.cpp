@@ -40,7 +40,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer)
 {
 	BYTE c;
-	PBYTE s = (PBYTE)pBuffer;
+	uint8_t *s = (uint8_t*)pBuffer;
 	BYTE bIsUTF = 0;
 
 	if (s == nullptr) return 1;
@@ -49,7 +49,7 @@ BYTE IsUSASCII(LPCSTR pBuffer, LPDWORD pcbBuffer)
 		if (!pcbBuffer) return 0;
 		bIsUTF = 1;
 	}
-	if (pcbBuffer) *pcbBuffer = s - (PBYTE)pBuffer;
+	if (pcbBuffer) *pcbBuffer = s - (uint8_t*)pBuffer;
 	return !bIsUTF;
 }
 
@@ -100,7 +100,7 @@ CLineBuffer::~CLineBuffer()
 BYTE CLineBuffer::_resizeBuf(const size_t cbReq)
 {
 	if (cbReq > _cbVal - _cbUsed) {
-		if (!(_pVal = (PBYTE)mir_realloc(_pVal, BLOCKSIZE + _cbVal + 1))) {
+		if (!(_pVal = (uint8_t*)mir_realloc(_pVal, BLOCKSIZE + _cbVal + 1))) {
 			_cbVal = 0;
 			_cbUsed = 0;
 			return FALSE;
@@ -404,7 +404,7 @@ void CLineBuffer::fput(FILE *outfile)
 
 void CLineBuffer::fputEncoded(FILE *outFile)
 {
-	PBYTE pVal = _pVal;
+	uint8_t *pVal = _pVal;
 
 	if (pVal && _cbUsed > 0) {
 		_pVal[_cbUsed] = 0;
@@ -507,7 +507,7 @@ int CLineBuffer::fgetEncoded(FILE *inFile)
 
 size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer *pBuf)
 {
-	PBYTE here;
+	uint8_t *here;
 	size_t wLength;
 
 	_pTok = _pVal;
@@ -543,7 +543,7 @@ size_t CLineBuffer::GetTokenFirst(const CHAR delim, CLineBuffer *pBuf)
 
 size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer *pBuf)
 {
-	PBYTE here;
+	uint8_t *here;
 	size_t wLength;
 
 	if (!_pTok || !*_pTok)
@@ -581,7 +581,7 @@ size_t CLineBuffer::GetTokenNext(const CHAR delim, CLineBuffer *pBuf)
 
 int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim)
 {
-	PBYTE here;
+	uint8_t *here;
 	int iRet = 1;
 	_pTok = _pVal;
 
@@ -619,7 +619,7 @@ int CLineBuffer::DBWriteTokenFirst(MCONTACT hContact, const CHAR *pszModule, con
 
 int CLineBuffer::DBWriteTokenNext(MCONTACT hContact, const CHAR *pszModule, const CHAR *pszSetting, const CHAR delim)
 {
-	PBYTE here;
+	uint8_t *here;
 	int iRet = 1;
 
 	if (_pTok && *_pTok) {

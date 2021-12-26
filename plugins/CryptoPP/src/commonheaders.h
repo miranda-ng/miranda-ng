@@ -86,7 +86,7 @@ int Sent_NetLog(const char *, ...);
 
 #define DLLEXPORT __declspec(dllexport)
 
-PBYTE cpp_alloc_pdata(pCNTX);
+uint8_t* cpp_alloc_pdata(pCNTX);
 
 extern "C"
 {

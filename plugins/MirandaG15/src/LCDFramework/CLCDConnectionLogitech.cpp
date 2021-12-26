@@ -287,7 +287,7 @@ bool CLCDConnectionLogitech::Connect(int iIndex)
 
 	m_pPixels = OpenContext.deviceType == LGLCD_DEVICE_QVGA ? m_lcdBitmap.bmp_qvga32.pixels : m_lcdBitmap.bmp_mono.pixels;
 	m_iPixels = OpenContext.deviceType == LGLCD_DEVICE_QVGA ? sizeof(m_lcdBitmap.bmp_qvga32.pixels) : sizeof(m_lcdBitmap.bmp_mono.pixels);
-	m_pDrawingBuffer = (PBYTE)malloc(m_iPixels);
+	m_pDrawingBuffer = (uint8_t*)malloc(m_iPixels);
 	memset(m_pDrawingBuffer, 0, m_iPixels);
 
 	m_iPriority = LGLCD_PRIORITY_NORMAL;
@@ -615,12 +615,12 @@ int CLCDConnectionLogitech::GetColorCount()
 //************************************************************************
 // Get the pointer to the pixel buffer
 //************************************************************************
-PBYTE CLCDConnectionLogitech::GetPixelBuffer()
+uint8_t *CLCDConnectionLogitech::GetPixelBuffer()
 {
 	if (!GetConnectionState() == CONNECTED)
 		return nullptr;
 
-	return (PBYTE)m_pDrawingBuffer;
+	return (uint8_t*)m_pDrawingBuffer;
 }
 
 //************************************************************************

@@ -964,7 +964,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 		return &g_chatApi;
 
 	// wipe out old junk
-	memset(PBYTE(&g_chatApi) + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
+	memset((uint8_t*)&g_chatApi + offsetof(CHAT_MANAGER, OnCreateModule), 0, sizeof(CHAT_MANAGER) - offsetof(CHAT_MANAGER, OnCreateModule));
 
 	if (g_cbSession) { // reallocate old sessions
 		mir_cslock lck(csChat);
@@ -974,7 +974,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 		for (auto &p : tmp) {
 			SESSION_INFO *p1 = (SESSION_INFO*)realloc(p, pInit->cbSession);
-			memset(PBYTE(p1) + sizeof(SESSION_INFO), 0, pInit->cbSession - sizeof(SESSION_INFO));
+			memset((uint8_t*)p1 + sizeof(SESSION_INFO), 0, pInit->cbSession - sizeof(SESSION_INFO));
 			g_arSessions.insert(p1);
 		}
 	}
@@ -988,7 +988,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 
 		for (auto &mi : tmp) {
 			MODULEINFO *p1 = (MODULEINFO*)realloc(mi, pInit->cbModuleInfo);
-			memset(PBYTE(p1) + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
+			memset((uint8_t*)p1 + sizeof(GCModuleInfoBase), 0, pInit->cbModuleInfo - sizeof(GCModuleInfoBase));
 			g_arModules.insert(p1);
 			if (p1 != mi) // realloc could change a pointer
 				bReallocated = true;

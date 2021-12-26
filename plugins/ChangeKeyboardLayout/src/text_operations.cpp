@@ -5,7 +5,7 @@ struct EditStreamData
 	EditStreamData() { pbBuff = nullptr; cbBuff = iCurrent = 0; }
 	~EditStreamData() { free(pbBuff); }
 
-	PBYTE pbBuff;
+	uint8_t* pbBuff;
 	int cbBuff;
 	int iCurrent;
 };
@@ -14,7 +14,7 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 {
 	EditStreamData *esd = (EditStreamData *)dwCookie;
 	esd->cbBuff += cb;
-	esd->pbBuff = (PBYTE)realloc(esd->pbBuff, esd->cbBuff + sizeof(wchar_t));
+	esd->pbBuff = (uint8_t*)realloc(esd->pbBuff, esd->cbBuff + sizeof(wchar_t));
 	memcpy(esd->pbBuff + esd->iCurrent, pbBuff, cb);
 	esd->iCurrent += cb;
 	esd->pbBuff[esd->iCurrent] = 0;

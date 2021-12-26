@@ -48,7 +48,7 @@ MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 	DWORD body[3];
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD) * 2;
-	dbei.pBlob = (PBYTE)& body;
+	dbei.pBlob = (uint8_t*)& body;
 
 	if (db_event_get(hEvent, &dbei))
 		return INVALID_CONTACT_ID;

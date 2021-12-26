@@ -28,7 +28,7 @@ int __cdecl rsa_inject(HANDLE context, LPCSTR msg)
 
 #define MSGSIZE 1024
 
-int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int sigLen)
+int __cdecl rsa_check_pub(HANDLE context, uint8_t *pub, int pubLen, PBYTE sig, int sigLen)
 {
 	int v = 0, k = 0;
 	pUinKey ptr = getUinCtx(context); if (!ptr) return 0;
@@ -44,8 +44,8 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 	dbv.type = DBVT_BLOB;
 	if (db_get(ptr->hContact, MODULENAME, "rsa_pub", &dbv) == 0) {
 		k = 1;
-		PBYTE buf = (PBYTE)alloca(sigLen); int len;
-		mir_exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)buf, &len);
+		uint8_t *buf = (uint8_t*)alloca(sigLen); int len;
+		mir_exp->rsa_get_hash((uint8_t*)dbv.pbVal, dbv.cpbVal, (uint8_t*)buf, &len);
 		sha_old = mir_strdup(to_hex(buf, len));
 		db_free(&dbv);
 	}
@@ -153,7 +153,7 @@ void sttGenerateRSA(LPVOID)
 	char pub_key[4096]; int pub_len;
 
 	mir_exp->rsa_gen_keypair(CPP_MODE_RSA_4096);
-	mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (PBYTE)&priv_key, &priv_len, (PBYTE)&pub_key, &pub_len);
+	mir_exp->rsa_get_keypair(CPP_MODE_RSA_4096, (uint8_t*)&priv_key, &priv_len, (uint8_t*)&pub_key, &pub_len);
 
 	db_set_blob(0, MODULENAME, "rsa_priv", priv_key, priv_len);
 	db_set_blob(0, MODULENAME, "rsa_pub", pub_key, pub_len);

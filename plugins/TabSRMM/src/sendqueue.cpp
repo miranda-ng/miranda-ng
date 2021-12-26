@@ -471,7 +471,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 
 	if (job.dwFlags & PREF_RTL)
 		dbei.flags |= DBEF_RTL;
-	dbei.pBlob = (PBYTE)job.szSendBuffer;
+	dbei.pBlob = (uint8_t*)job.szSendBuffer;
 	dbei.szId = (char *)ack->lParam;
 
 	MessageWindowEvent evt = { job.iSendId, job.hContact, &dbei };
@@ -550,7 +550,7 @@ int SendQueue::doSendLater(int iJobIndex, CMsgDialog *dat, MCONTACT hContact, bo
 		dbei.szModule = Proto_GetBaseAccountName(dat->m_hContact);
 		dbei.timestamp = time(0);
 		dbei.cbBlob = (int)mir_strlen(utfText) + 1;
-		dbei.pBlob = (PBYTE)(char*)utfText;
+		dbei.pBlob = (uint8_t*)(char*)utfText;
 		dat->LogEvent(dbei);
 
 		if (dat->m_hDbEventFirst == 0)

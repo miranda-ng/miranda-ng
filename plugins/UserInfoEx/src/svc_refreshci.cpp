@@ -453,11 +453,11 @@ public:
 
 class CContactUpdater : public CContactQueue
 {
-	CUpdProgress*		_pProgress;			// pointer to the progress dialog/popup
-	HANDLE				_hProtoAckEvent;	// handle to protocol ack notification
-	MCONTACT				_hContact;			// current contact being refreshed
-	PBYTE				_hContactAcks;		// array of acknoledgements for the current contact to wait for
-	INT_PTR				_nContactAcks;		// number of acknoledgements for the current contact to wait for
+	CUpdProgress *_pProgress; // pointer to the progress dialog/popup
+	HANDLE _hProtoAckEvent;   // handle to protocol ack notification
+	MCONTACT	_hContact;       // current contact being refreshed
+	uint8_t *_hContactAcks;   // array of acknoledgements for the current contact to wait for
+	INT_PTR _nContactAcks;    // number of acknoledgements for the current contact to wait for
 
 	MIRANDA_CPP_PLUGIN_API(CContactUpdater);
 
@@ -518,7 +518,7 @@ class CContactUpdater : public CContactQueue
 			if (ack->hProcess || ack->lParam) {
 				if (!_hContactAcks) {
 					_nContactAcks = (INT_PTR)ack->hProcess;
-					_hContactAcks = (PBYTE)mir_calloc(sizeof(BYTE) * (INT_PTR)ack->hProcess);
+					_hContactAcks = (uint8_t*)mir_calloc(sizeof(BYTE) * (INT_PTR)ack->hProcess);
 				}
 
 				if (ack->result == ACKRESULT_SUCCESS || ack->result == ACKRESULT_FAILED)

@@ -183,7 +183,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	if (buf[1] == 2) {		//rfc1929
 		size_t nUserLen = mir_strlen(nlu->settings.szProxyAuthUser);
 		size_t nPassLen = mir_strlen(nlu->settings.szProxyAuthPassword);
-		PBYTE pAuthBuf = (PBYTE)mir_alloc(3 + nUserLen + nPassLen);
+		uint8_t *pAuthBuf = (uint8_t*)mir_alloc(3 + nUserLen + nPassLen);
 		pAuthBuf[0] = 1;		//auth version
 		pAuthBuf[1] = (BYTE)nUserLen;
 		memcpy(pAuthBuf + 2, nlu->settings.szProxyAuthUser, nUserLen);
@@ -220,7 +220,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 			return 0;
 		nHostLen = 4;
 	}
-	PBYTE pInit = (PBYTE)mir_alloc(6 + nHostLen);
+	uint8_t *pInit = (uint8_t*)mir_alloc(6 + nHostLen);
 	pInit[0] = 5;   //SOCKS5
 	pInit[1] = nloc->flags & NLOCF_UDP ? 3 : 1; //connect or UDP
 	pInit[2] = 0;   //reserved

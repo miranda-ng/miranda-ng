@@ -472,7 +472,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		bmih.biHeight = -clRect.bottom;
 		bmih.biPlanes = 1;
 		bmih.biWidth = clRect.right;
-		PBYTE bits = (PBYTE)malloc(4 * bmih.biWidth * -bmih.biHeight);
+		uint8_t *bits = (uint8_t*)malloc(4 * bmih.biWidth * -bmih.biHeight);
 		GetDIBits(hdc, hBmpOsb, 0, clRect.bottom, bits, (BITMAPINFO *)& bmih, DIB_RGB_COLORS);
 
 		COLORREF greyColour = GetSysColor(COLOR_3DFACE);

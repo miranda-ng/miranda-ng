@@ -304,7 +304,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int newBlobSize = db_event_getBlobSize(hDbEvent);
 			if (newBlobSize > oldBlobSize) {
-				dbei.pBlob = (PBYTE)mir_realloc(dbei.pBlob, newBlobSize);
+				dbei.pBlob = (uint8_t*)mir_realloc(dbei.pBlob, newBlobSize);
 				oldBlobSize = newBlobSize;
 			}
 			dbei.cbBlob = oldBlobSize;

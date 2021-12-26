@@ -908,7 +908,7 @@ retry:
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.cbBlob = (DWORD)mir_strlen(e->event.multilogon_msg.message) + 1;
-				dbei.pBlob = (PBYTE)e->event.multilogon_msg.message;
+				dbei.pBlob = (uint8_t*)e->event.multilogon_msg.message;
 				db_event_add(getcontact(e->event.multilogon_msg.sender, 1, 0, nullptr), &dbei);
 			}
 			break;

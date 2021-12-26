@@ -189,7 +189,7 @@ STDAPI DllRegisterServer()
 	GetModuleFileName(g_plugin.getInst(), tszFileName, _countof(tszFileName));
 	if (RegSetValueEx(kInprocServer, nullptr, 0, REG_SZ, (LPBYTE)tszFileName, sizeof(wchar_t) * (lstrlen(tszFileName) + 1)))
 		return E_FAIL;
-	if (RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (PBYTE)str4, sizeof(str4)))
+	if (RegSetValueExA(kInprocServer, "ThreadingModel", 0, REG_SZ, (uint8_t*)str4, sizeof(str4)))
 		return E_FAIL;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +204,7 @@ STDAPI DllRegisterServer()
 	HRegKey k2(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Shell Extensions\\Approved");
 	if (k2 == nullptr)
 		return E_FAIL;
-	if (RegSetValueExA(k2, str2, 0, REG_SZ, (PBYTE)str1, str1len))
+	if (RegSetValueExA(k2, str2, 0, REG_SZ, (uint8_t*)str1, str1len))
 		return E_FAIL;
 
 	return S_OK;

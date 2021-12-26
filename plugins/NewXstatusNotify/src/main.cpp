@@ -272,7 +272,7 @@ void LogSMsgToDB(STATUSMSGINFO *smi, const wchar_t *tmplt)
 
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
-	dbei.pBlob = (PBYTE)blob;
+	dbei.pBlob = (uint8_t*)blob;
 	dbei.eventType = EVENTTYPE_STATUSCHANGE;
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.timestamp = (DWORD)time(0);
@@ -356,7 +356,7 @@ int ContactStatusChanged(MCONTACT hContact, WORD oldStatus, WORD newStatus)
 
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
-		dbei.pBlob = (PBYTE)blob;
+		dbei.pBlob = (uint8_t*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
 		dbei.timestamp = (DWORD)time(0);

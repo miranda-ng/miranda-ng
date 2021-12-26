@@ -78,7 +78,7 @@ public:
 	int GetColorCount();
 
 	// Returns a pointer to the pixel buffer
-	PBYTE GetPixelBuffer();
+	uint8_t *GetPixelBuffer();
 
 	//----------------------------------------------
 	// Special functions to control the lights
@@ -101,7 +101,7 @@ public:
 	//----------------------------------------------
 	void runDrawingThread();
 private:
-	PBYTE m_pDrawingBuffer;
+	uint8_t *m_pDrawingBuffer;
 
 	CLgLCDDevice *m_pConnectedDevice;
 	// the connection instance

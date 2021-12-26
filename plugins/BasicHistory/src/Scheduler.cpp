@@ -1285,7 +1285,7 @@ void DoError(const TaskOptions& to, const std::wstring _error)
 		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, nullptr, 0, nullptr, nullptr);
 		char* buf = new char[dbei.cbBlob];
 		dbei.cbBlob = WideCharToMultiByte(CP_UTF8, 0, error.c_str(), len, buf, dbei.cbBlob, nullptr, nullptr);
-		dbei.pBlob = (PBYTE)buf;
+		dbei.pBlob = (uint8_t*)buf;
 		db_event_add(NULL, &dbei);
 	}
 

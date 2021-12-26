@@ -58,7 +58,7 @@ int __cdecl rsa_init(pRSA_EXPORT* e, pRSA_IMPORT i)
 		hRSA4096 = (HANDLE)cpp_create_context(MODE_RSA_4096 | MODE_PRIV_KEY);
 		pCNTX tmp = (pCNTX)hRSA4096;
 		pRSAPRIV p = new RSAPRIV;
-		tmp->pdata = (PBYTE)p;
+		tmp->pdata = (uint8_t*)p;
 	}
 	return 1;
 }
@@ -131,7 +131,7 @@ int __cdecl rsa_gen_keypair(short mode)
 	return 1;
 }
 
-int __cdecl rsa_get_keypair(short mode, PBYTE privKey, int* privKeyLen, PBYTE pubKey, int* pubKeyLen)
+int __cdecl rsa_get_keypair(short mode, uint8_t *privKey, int *privKeyLen, uint8_t *pubKey, int *pubKeyLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_keypair: %d", mode);
@@ -144,7 +144,7 @@ int __cdecl rsa_get_keypair(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	return 1;
 }
 
-int __cdecl rsa_get_keyhash(short mode, PBYTE privKey, int* privKeyLen, PBYTE pubKey, int* pubKeyLen)
+int __cdecl rsa_get_keyhash(short mode, uint8_t *privKey, int *privKeyLen, uint8_t *pubKey, int *pubKeyLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_keyhash: %d", mode);
@@ -158,7 +158,7 @@ int __cdecl rsa_get_keyhash(short mode, PBYTE privKey, int* privKeyLen, PBYTE pu
 	return 1;
 }
 
-int __cdecl rsa_set_keypair(short mode, PBYTE privKey, int privKeyLen)
+int __cdecl rsa_set_keypair(short mode, uint8_t *privKey, int privKeyLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_set_keypair: %s", privKey);
@@ -193,7 +193,7 @@ int __cdecl rsa_set_keypair(short mode, PBYTE privKey, int privKeyLen)
 	return 1;
 }
 
-int __cdecl rsa_get_pubkey(HANDLE context, PBYTE pubKey, int* pubKeyLen)
+int __cdecl rsa_get_pubkey(HANDLE context, uint8_t *pubKey, int *pubKeyLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_pubkey: %s", pubKey);
@@ -206,7 +206,7 @@ int __cdecl rsa_get_pubkey(HANDLE context, PBYTE pubKey, int* pubKeyLen)
 	return 1;
 }
 
-int __cdecl rsa_set_pubkey(HANDLE context, PBYTE pubKey, int pubKeyLen)
+int __cdecl rsa_set_pubkey(HANDLE context, uint8_t *pubKey, int pubKeyLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_set_pubkey: %s", pubKey);
@@ -238,7 +238,7 @@ int __cdecl rsa_get_state(HANDLE context)
 	return p->state;
 }
 
-int __cdecl rsa_get_hash(PBYTE pubKey, int pubKeyLen, PBYTE pubHash, int* pubHashLen)
+int __cdecl rsa_get_hash(uint8_t *pubKey, int pubKeyLen, uint8_t *pubHash, int *pubHashLen)
 {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("rsa_get_hash: %d", pubKeyLen);
@@ -286,7 +286,7 @@ int __cdecl rsa_disconnect(HANDLE context)
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr);
 	if (!p->state) return 1;
 
-	PBYTE buffer = (PBYTE)alloca(RAND_SIZE);
+	uint8_t *buffer = (uint8_t*)alloca(RAND_SIZE);
 	GlobalRNG().GenerateBlock(buffer, RAND_SIZE);
 	inject_msg(context, 0xF0, encode_msg(0, p, ::hash(buffer, RAND_SIZE)));
 
@@ -386,7 +386,7 @@ LPSTR __cdecl rsa_recv(HANDLE context, LPCSTR msg)
 			return nullptr;
 		}
 		{
-			PBYTE buffer = (PBYTE)alloca(RAND_SIZE);
+			uint8_t *buffer = (uint8_t*)alloca(RAND_SIZE);
 			GlobalRNG().GenerateBlock(buffer, RAND_SIZE);
 			inject_msg(context, 0x60, encode_msg(0, p, ::hash(buffer, RAND_SIZE)));
 		}
@@ -491,9 +491,9 @@ string encode_msg(short z, pRSADATA p, string& msg)
 
 	string ciphered;
 	try {
-		CBC_Mode<AES>::Encryption enc((PBYTE)p->aes_k.data(), p->aes_k.length(), (PBYTE)p->aes_v.data());
+		CBC_Mode<AES>::Encryption enc((uint8_t*)p->aes_k.data(), p->aes_k.length(), (uint8_t*)p->aes_v.data());
 		StreamTransformationFilter cbcEncryptor(enc, new StringSink(ciphered));
-		cbcEncryptor.Put((PBYTE)zlib.data(), zlib.length());
+		cbcEncryptor.Put((uint8_t*)zlib.data(), zlib.length());
 		cbcEncryptor.MessageEnd();
 	}
 	catch (...) {
@@ -513,9 +513,9 @@ string decode_msg(pRSADATA p, string& msg)
 
 	string unciphered, zlib;
 	try {
-		CBC_Mode<AES>::Decryption dec((PBYTE)p->aes_k.data(), p->aes_k.length(), (PBYTE)p->aes_v.data());
+		CBC_Mode<AES>::Decryption dec((uint8_t*)p->aes_k.data(), p->aes_k.length(), (uint8_t*)p->aes_v.data());
 		StreamTransformationFilter cbcDecryptor(dec, new StringSink(zlib));
-		cbcDecryptor.Put((PBYTE)ciphered.data(), ciphered.length());
+		cbcDecryptor.Put((uint8_t*)ciphered.data(), ciphered.length());
 		cbcDecryptor.MessageEnd();
 
 		if (sig == ::hash(zlib))
@@ -563,7 +563,7 @@ string gen_aes_key_iv(short m, pRSADATA p, pRSAPRIV r)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("gen_aes_key_iv: %04x", m);
 #endif
-	PBYTE buffer = (PBYTE)alloca(RAND_SIZE);
+	uint8_t *buffer = (uint8_t*)alloca(RAND_SIZE);
 
 	GlobalRNG().GenerateBlock(buffer, RAND_SIZE);
 	p->aes_k = hash256(buffer, RAND_SIZE);
@@ -655,7 +655,7 @@ int __cdecl rsa_encrypt_file(HANDLE context, LPCSTR file_in, LPCSTR file_out)
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr); if (p->state != 7) return 0;
 
 	try {
-		CBC_Mode<AES>::Encryption enc((PBYTE)p->aes_k.data(), p->aes_k.length(), (PBYTE)p->aes_v.data());
+		CBC_Mode<AES>::Encryption enc((uint8_t*)p->aes_k.data(), p->aes_k.length(), (uint8_t*)p->aes_v.data());
 		FileSource *f = new FileSource(file_in, true, new StreamTransformationFilter(enc, new FileSink(file_out)));
 		delete f;
 	}
@@ -672,7 +672,7 @@ int __cdecl rsa_decrypt_file(HANDLE context, LPCSTR file_in, LPCSTR file_out)
 	pRSADATA p = (pRSADATA)cpp_alloc_pdata(ptr); if (p->state != 7) return 0;
 
 	try {
-		CBC_Mode<AES>::Decryption dec((PBYTE)p->aes_k.data(), p->aes_k.length(), (PBYTE)p->aes_v.data());
+		CBC_Mode<AES>::Decryption dec((uint8_t*)p->aes_k.data(), p->aes_k.length(), (uint8_t*)p->aes_v.data());
 		FileSource *f = new FileSource(file_in, true, new StreamTransformationFilter(dec, new FileSink(file_out)));
 		delete f;
 	}
@@ -732,7 +732,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			string pub;
 			un_tlv(un_tlv(data, t[0], features), t[1], pub);
 			string sig = ::hash(pub);
-			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
+			if (!imp->rsa_check_pub(context, (uint8_t*)pub.data(), (int)pub.length(), (uint8_t*)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
 				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
 				return 0;
@@ -758,7 +758,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			string pub;
 			un_tlv(un_tlv(data, t[0], features), t[1], pub);
 			string sig = ::hash(pub);
-			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
+			if (!imp->rsa_check_pub(context, (uint8_t*)pub.data(), (int)pub.length(), (uint8_t*)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
 				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
 				return 0;
@@ -779,7 +779,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			string pub;
 			un_tlv(data, t[0], pub);
 			string sig = ::hash(pub);
-			if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
+			if (!imp->rsa_check_pub(context, (uint8_t*)pub.data(), (int)pub.length(), (uint8_t*)sig.data(), (int)sig.length())) {
 				p->state = 0; p->time = 0;
 				null_msg(context, 0x00, -type); // сессия разорвана по ошибке
 				return 0;
@@ -806,7 +806,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			}
 			un_tlv(key, t[0], p->aes_k);
 			un_tlv(key, t[1], p->aes_v);
-			PBYTE buffer = (PBYTE)alloca(RAND_SIZE);
+			uint8_t *buffer = (uint8_t*)alloca(RAND_SIZE);
 			GlobalRNG().GenerateBlock(buffer, RAND_SIZE);
 			inject_msg(context, 0x50, encode_msg(0, p, ::hash(buffer, RAND_SIZE)));
 			p->state = 6;
@@ -820,7 +820,7 @@ int __cdecl rsa_recv_thread(HANDLE context, string& msg)
 			un_tlv(un_tlv(un_tlv(data, t[0], features), t[1], pub), t[2], sha);
 			if (p->pub_k != pub) { // пришел новый паблик
 				string sig = ::hash(pub);
-				if (!imp->rsa_check_pub(context, (PBYTE)pub.data(), (int)pub.length(), (PBYTE)sig.data(), (int)sig.length())) {
+				if (!imp->rsa_check_pub(context, (uint8_t*)pub.data(), (int)pub.length(), (uint8_t*)sig.data(), (int)sig.length())) {
 					p->state = 0; p->time = 0;
 					null_msg(context, 0x00, -type); // сессия разорвана по ошибке
 					return 0;
@@ -849,7 +849,7 @@ void rsa_alloc(pCNTX ptr)
 	p->thread = p->event = nullptr;
 	p->thread_exit = 0;
 	p->queue = new STRINGQUEUE;
-	ptr->pdata = (PBYTE)p;
+	ptr->pdata = (uint8_t*)p;
 }
 
 int rsa_free(pCNTX ptr)
@@ -957,9 +957,9 @@ int __cdecl rsa_export_keypair(short mode, LPSTR privKey, LPSTR pubKey, LPSTR pa
 
 		string ciphered;
 		try {
-			CBC_Mode<AES>::Encryption enc((PBYTE)key.data(), key.length(), (PBYTE)iv.data());
+			CBC_Mode<AES>::Encryption enc((uint8_t*)key.data(), key.length(), (uint8_t*)iv.data());
 			StreamTransformationFilter cbcEncryptor(enc, new StringSink(ciphered));
-			cbcEncryptor.Put((PBYTE)priv.data(), priv.length());
+			cbcEncryptor.Put((uint8_t*)priv.data(), priv.length());
 			cbcEncryptor.MessageEnd();
 		}
 		catch (...) {
@@ -1008,9 +1008,9 @@ int __cdecl rsa_import_keypair(short mode, LPSTR privKey, LPSTR passPhrase)
 
 				string unciphered;
 				try {
-					CBC_Mode<AES>::Decryption dec((PBYTE)key.data(), key.length(), (PBYTE)iv.data());
+					CBC_Mode<AES>::Decryption dec((uint8_t*)key.data(), key.length(), (uint8_t*)iv.data());
 					StreamTransformationFilter cbcDecryptor(dec, new StringSink(unciphered));
-					cbcDecryptor.Put((PBYTE)priv.data(), priv.length());
+					cbcDecryptor.Put((uint8_t*)priv.data(), priv.length());
 					cbcDecryptor.MessageEnd();
 				}
 				catch (...) {

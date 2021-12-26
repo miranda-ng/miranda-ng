@@ -28,7 +28,7 @@ struct ASMObjectCreateRequest : public AsyncHttpRequest
 
 struct ASMObjectUploadRequest : public AsyncHttpRequest
 {
-	ASMObjectUploadRequest(CSkypeProto *ppro, const char *szObject, const PBYTE data, const size_t size, CFileUploadParam *fup) :
+	ASMObjectUploadRequest(CSkypeProto *ppro, const char *szObject, const uint8_t *data, const size_t size, CFileUploadParam *fup) :
 		AsyncHttpRequest(REQUEST_PUT, HOST_OTHER, 0, &CSkypeProto::OnASMObjectUploaded)
 	{
 		m_szUrl.AppendFormat("https://api.asm.skype.com/v1/objects/%s/content/original", szObject);

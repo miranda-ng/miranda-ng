@@ -108,10 +108,10 @@ int str2int(string& s)
 
 string hash(string& b)
 {
-	return ::hash((PBYTE)b.data(), b.length());
+	return ::hash((uint8_t*)b.data(), b.length());
 }
 
-string hash(PBYTE b, size_t l)
+string hash(uint8_t *b, size_t l)
 {
 	BYTE h[RSA_KEYSIZE];
 	RSA_CalculateDigest(h, b, l);
@@ -121,15 +121,15 @@ string hash(PBYTE b, size_t l)
 
 string hash128(string& b)
 {
-	return hash128((PBYTE)b.data(), b.length());
+	return hash128((uint8_t*)b.data(), b.length());
 }
 
 string hash128(LPSTR b)
 {
-	return hash128((PBYTE)b, strlen(b));
+	return hash128((uint8_t*)b, strlen(b));
 }
 
-string hash128(PBYTE b, size_t l)
+string hash128(uint8_t *b, size_t l)
 {
 	BYTE h[RIPEMD128::DIGESTSIZE];
 	RIPEMD128().CalculateDigest(h, b, l);
@@ -139,15 +139,15 @@ string hash128(PBYTE b, size_t l)
 
 string hash256(string& b)
 {
-	return hash256((PBYTE)b.data(), b.length());
+	return hash256((uint8_t*)b.data(), b.length());
 }
 
 string hash256(LPSTR b)
 {
-	return hash256((PBYTE)b, strlen(b));
+	return hash256((uint8_t*)b, strlen(b));
 }
 
-string hash256(PBYTE b, size_t l)
+string hash256(uint8_t *b, size_t l)
 {
 	BYTE h[RIPEMD256::DIGESTSIZE];
 	RIPEMD256().CalculateDigest(h, b, l);
@@ -232,5 +232,5 @@ BOOL RSAVerifyString(const RSA::PublicKey& pubkey, const string& plaintext, cons
 {
 	RSASSA_PKCS1v15_SHA_Verifier ver(pubkey);
 
-	return ver.VerifyMessage((PBYTE)plaintext.data(), plaintext.length(), (PBYTE)sig.data(), sig.length());
+	return ver.VerifyMessage((uint8_t*)plaintext.data(), plaintext.length(), (uint8_t*)sig.data(), sig.length());
 }

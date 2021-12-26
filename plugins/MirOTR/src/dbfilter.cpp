@@ -115,7 +115,7 @@ int OnDatabaseEventAdded(WPARAM hContact, LPARAM lParam)
 
 	DBEVENTINFO info = {};
 	info.cbBlob = len * 2;
-	info.pBlob = (PBYTE)_alloca(info.cbBlob);
+	info.pBlob = (uint8_t*)_alloca(info.cbBlob);
 	if (db_event_get(lParam, &info))
 		return 0;
 

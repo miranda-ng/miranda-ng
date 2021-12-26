@@ -45,22 +45,22 @@ void __cdecl cpp_reset_context(HANDLE context)
 }
 
 // allocate pdata
-PBYTE cpp_alloc_pdata(pCNTX ptr)
+uint8_t* cpp_alloc_pdata(pCNTX ptr)
 {
 	if (!ptr->pdata) {
 		if (ptr->mode & MODE_PGP) {
-			ptr->pdata = (PBYTE)malloc(sizeof(PGPDATA));
+			ptr->pdata = (uint8_t*)malloc(sizeof(PGPDATA));
 			memset(ptr->pdata, 0, sizeof(PGPDATA));
 		}
 		else if (ptr->mode & MODE_GPG) {
-			ptr->pdata = (PBYTE)malloc(sizeof(GPGDATA));
+			ptr->pdata = (uint8_t*)malloc(sizeof(GPGDATA));
 			memset(ptr->pdata, 0, sizeof(GPGDATA));
 		}
 		else if (ptr->mode & MODE_RSA) {
 			rsa_alloc(ptr);
 		}
 		else {
-			ptr->pdata = (PBYTE)malloc(sizeof(SIMDATA));
+			ptr->pdata = (uint8_t*)malloc(sizeof(SIMDATA));
 			memset(ptr->pdata, 0, sizeof(SIMDATA));
 		}
 	}

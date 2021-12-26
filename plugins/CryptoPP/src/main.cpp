@@ -61,7 +61,7 @@ BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 	if (RH == nullptr)
 		return FALSE;
 
-	PBYTE	RP = (PBYTE)LoadResource(g_plugin.getInst(), RH);
+	uint8_t *RP = (uint8_t*)LoadResource(g_plugin.getInst(), RH);
 	if (RP == nullptr)
 		return FALSE;
 

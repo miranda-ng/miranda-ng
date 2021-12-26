@@ -656,7 +656,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 					return;
 
 				dbei.cbBlob = pJob->iBufferSize;
-				dbei.pBlob = (PBYTE)pJob->pcBuffer;
+				dbei.pBlob = (uint8_t*)pJob->pcBuffer;
 
 				db_event_add(pJob->hContact, &dbei);
 			}

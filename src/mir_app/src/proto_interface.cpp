@@ -199,7 +199,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
-	dbei.pBlob = (PBYTE)pre->szMessage;
+	dbei.pBlob = (uint8_t*)pre->szMessage;
 
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;

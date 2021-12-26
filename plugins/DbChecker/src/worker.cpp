@@ -51,7 +51,7 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 
 	dbei.flags |= DBEF_UTF;
 	dbei.cbBlob = (DWORD)mir_strlen(utf8str);
-	dbei.pBlob = (PBYTE)utf8str;
+	dbei.pBlob = (uint8_t*)utf8str;
 	return true;
 }
 

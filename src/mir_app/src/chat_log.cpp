@@ -429,7 +429,7 @@ void LoadMsgLogBitmaps(void)
 	HDC hdc = GetDC(nullptr);
 	HBITMAP hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
 	HDC hdcMem = CreateCompatibleDC(hdc);
-	PBYTE pBmpBits = (PBYTE)mir_alloc(widthBytes * bih.biHeight);
+	uint8_t *pBmpBits = (uint8_t*)mir_alloc(widthBytes * bih.biHeight);
 	for (int i = 0; i < _countof(pLogIconBmpBits); i++) {
 		size_t size = RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2;
 		pLogIconBmpBits[i] = (char*)mir_alloc(size);

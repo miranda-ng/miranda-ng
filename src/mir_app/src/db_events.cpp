@@ -275,9 +275,9 @@ DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR ln
 	m_size = uint32_t(sizeof(uint32_t) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
 }
 
-DB::AUTH_BLOB::AUTH_BLOB(PBYTE blob)
+DB::AUTH_BLOB::AUTH_BLOB(uint8_t *blob)
 {
-	PBYTE pCurBlob = blob;
+	uint8_t *pCurBlob = blob;
 	m_dwUin = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
 	m_hContact = *(uint32_t*)pCurBlob;

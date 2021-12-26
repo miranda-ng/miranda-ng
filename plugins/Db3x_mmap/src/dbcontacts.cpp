@@ -216,18 +216,18 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			dbMeta->eventCount = arEvents.getCount();
 
 			DBEvent *pFirst = arEvents[0];
-			dbMeta->ofsFirstEvent = DWORD(PBYTE(pFirst) - m_pDbCache);
+			dbMeta->ofsFirstEvent = DWORD((uint8_t*)pFirst - m_pDbCache);
 			pFirst->ofsPrev = 0;
 			dbMeta->ofsFirstUnread = pFirst->markedRead() ? 0 : dbMeta->ofsFirstEvent;
 
 			DBEvent *pLast = arEvents[arEvents.getCount() - 1];
-			dbMeta->ofsLastEvent = DWORD(PBYTE(pLast) - m_pDbCache);
+			dbMeta->ofsLastEvent = DWORD((uint8_t*)pLast - m_pDbCache);
 			pLast->ofsNext = 0;
 
 			for (int i = 1; i < arEvents.getCount(); i++) {
 				DBEvent *pPrev = arEvents[i - 1], *pNext = arEvents[i];
-				pPrev->ofsNext = DWORD(PBYTE(pNext) - m_pDbCache);
-				pNext->ofsPrev = DWORD(PBYTE(pPrev) - m_pDbCache);
+				pPrev->ofsNext = DWORD((uint8_t*)pNext - m_pDbCache);
+				pNext->ofsPrev = DWORD((uint8_t*)pPrev - m_pDbCache);
 
 				if (dbMeta->ofsFirstUnread == 0 && !pNext->markedRead())
 					dbMeta->ofsFirstUnread = pPrev->ofsNext;
@@ -280,7 +280,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 				dbSub.eventCount++;
 				if (evSub != nullptr) {
 					evSub->ofsNext = dwOffset;
-					evCurr->ofsPrev = DWORD(PBYTE(evSub) - m_pDbCache);
+					evCurr->ofsPrev = DWORD((uint8_t*)evSub - m_pDbCache);
 				}
 				else {
 					dbSub.ofsFirstEvent = dwOffset;
@@ -297,7 +297,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 				dbMeta.eventCount++;
 				if (evMeta != nullptr) {
 					evMeta->ofsNext = dwOffset;
-					evCurr->ofsPrev = DWORD(PBYTE(evMeta) - m_pDbCache);
+					evCurr->ofsPrev = DWORD((uint8_t*)evMeta - m_pDbCache);
 				}
 				else {
 					dbMeta.ofsFirstEvent = dwOffset;

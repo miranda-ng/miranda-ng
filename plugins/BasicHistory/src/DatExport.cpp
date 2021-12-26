@@ -181,7 +181,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 		info.flags = messageHeader.flags;
 		info.timestamp = messageHeader.timestamp;
 		info.cbBlob = messageHeader.cbBlob;
-		info.pBlob = (PBYTE)memBuf.c_str();
+		info.pBlob = (uint8_t*)memBuf.c_str();
 		HistoryEventList::GetObjectDescription(&info, _str, MAXSELECTSTR);
 		exMsg.message = _str;
 		sortedEvents.insert(std::pair<DWORD, IImport::ExternalMessage>(messageHeader.timestamp, exMsg));

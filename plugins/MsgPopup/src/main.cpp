@@ -123,11 +123,11 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 		return;
 
 	for (; pImportDesc->Name; pImportDesc++) {
-		char *pszModName = (char *)((PBYTE)hModule + pImportDesc->Name);
+		char *pszModName = (char *)((uint8_t*)hModule + pImportDesc->Name);
 		if (mir_strcmpi(lpszImpModName, pszModName) != 0)
 			continue;
 
-		PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((PBYTE)hModule + pImportDesc->FirstThunk);
+		PIMAGE_THUNK_DATA pThunk = (PIMAGE_THUNK_DATA)((uint8_t*)hModule + pImportDesc->FirstThunk);
 		for (; pThunk->u1.Function; pThunk++) {
 			PVOID* ppfn = (PVOID*)&pThunk->u1.Function;
 			if (*ppfn != lpOrigFunc)

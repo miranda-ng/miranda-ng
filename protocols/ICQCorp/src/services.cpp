@@ -202,7 +202,7 @@ static INT_PTR icqRecvMessage(WPARAM, LPARAM lParam)
 		dbei.flags |= DBEF_READ;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
-	dbei.pBlob = (PBYTE)szMsg.get();
+	dbei.pBlob = (uint8_t*)szMsg.get();
 	db_event_add(ccs->hContact, &dbei);
 	return 0;
 }
@@ -374,7 +374,7 @@ static INT_PTR icqRecvFile(WPARAM, LPARAM lParam)
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.cbBlob = sizeof(DWORD) + (DWORD)mir_strlen(szFile) + (DWORD)mir_strlen(szDesc) + 2;
-	dbei.pBlob = (PBYTE)pre->szMessage;
+	dbei.pBlob = (uint8_t*)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 
 	return 0;

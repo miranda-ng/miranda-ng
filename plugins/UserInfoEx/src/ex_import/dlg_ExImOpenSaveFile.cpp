@@ -55,20 +55,20 @@ static void InitAlteredPlacesBar()
 			CHAR szProfilePath[MAX_PATH];
 
 			// default places: Desktop, My Documents, My Computer
-			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, L"Place0", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, L"Place1", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 17; RegSetValueEx(hkPlacesBar, L"Place2", 0, REG_DWORD, (PBYTE)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, L"Place0", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, L"Place1", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 17; RegSetValueEx(hkPlacesBar, L"Place2", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
 
 			// Miranda's installation path
 			GetModuleFileNameA(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));
 			p = mir_strrchr(szMirandaPath, '\\');
 			if (p)
-				RegSetValueExA(hkPlacesBar, "Place3", 0, REG_SZ, (PBYTE)szMirandaPath, (p - szMirandaPath) + 1);
+				RegSetValueExA(hkPlacesBar, "Place3", 0, REG_SZ, (uint8_t*)szMirandaPath, (p - szMirandaPath) + 1);
 
 			// Miranda's profile path
 			if (!Profile_GetPathA(_countof(szProfilePath), szProfilePath)) {
 				// only add if different from profile path
-				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (PBYTE)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
+				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (uint8_t*)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
 			}
 
 			RegCloseKey(hkPlacesBar);

@@ -60,7 +60,7 @@ static void DoAnnoyingShellCommand(HWND hwnd, const wchar_t *szFilename, int cmd
 				IShellFolder *pFileFolder;
 
 				for (pidl = pCurrentIdl;;) {
-					pidlNext = (ITEMIDLIST *)((PBYTE)pidl + pidl->mkid.cb);
+					pidlNext = (ITEMIDLIST *)((uint8_t*)pidl + pidl->mkid.cb);
 					if (pidlNext->mkid.cb == 0) {
 						pidlFilename = (ITEMIDLIST *)CoTaskMemAlloc(pidl->mkid.cb + sizeof(pidl->mkid.cb));
 						memcpy(pidlFilename, pidl, pidl->mkid.cb + sizeof(pidl->mkid.cb));

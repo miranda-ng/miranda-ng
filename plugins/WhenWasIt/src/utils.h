@@ -35,8 +35,8 @@ int LogInit();
 int Log(char *format, ...);
 int Info(char *title, char *format, ...);
 
-char *BinToHex(int size, PBYTE data);
-void HexToBin(char *inData, ULONG &size, PBYTE &outData);
+char *BinToHex(int size, uint8_t *data);
+void HexToBin(char *inData, ULONG &size, uint8_t *&outData);
 
 void ScreenToClient(HWND hWnd, LPRECT rect);
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);

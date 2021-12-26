@@ -49,7 +49,7 @@ CLCDGfx::~CLCDGfx(void)
 //************************************************************************
 // CLCDGfx::Initialize
 //************************************************************************
-bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, PBYTE pLcdBitmapBits)
+bool CLCDGfx::Initialize(int nWidth, int nHeight, int nBPP, uint8_t *pLcdBitmapBits)
 {
 	m_pLcdBitmapBits = pLcdBitmapBits;
 
@@ -365,8 +365,8 @@ void CLCDGfx::EndDraw(void)
 			Cache();
 		}
 
-		PBYTE pScreen1 = m_pSavedBitmapBits;
-		PBYTE pScreen2 = m_pBitmapBits;
+		uint8_t *pScreen1 = m_pSavedBitmapBits;
+		uint8_t *pScreen2 = m_pBitmapBits;
 
 		DWORD dwTimeElapsed = GetTickCount() - m_dwTransitionStart;
 
@@ -550,7 +550,7 @@ HBITMAP CLCDGfx::GetHBITMAP(void)
 	return m_hBitmap;
 }
 
-int CLCDGfx::findNearestMatch(PBYTE targetArray, int iSourceIndex)
+int CLCDGfx::findNearestMatch(uint8_t *targetArray, int iSourceIndex)
 {
 	int startY = iSourceIndex / m_nWidth;
 	int startX = iSourceIndex - (iSourceIndex / m_nWidth)*m_nWidth;

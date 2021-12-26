@@ -5,7 +5,7 @@ char *m_wwstrcat(LPCSTR,LPCSTR);
 char *m_awstrcat(LPCSTR,LPCSTR);
 char *m_aastrcat(LPCSTR,LPCSTR);
 char *m_ustrcat(LPCSTR,LPCSTR);
-LPSTR to_hex(PBYTE,int);
+LPSTR to_hex(uint8_t*,int);
 
 LPSTR utf8_to_miranda(LPCSTR,DWORD&);
 LPSTR miranda_to_utf8(LPCSTR,DWORD);

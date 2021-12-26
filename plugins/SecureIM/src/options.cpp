@@ -150,8 +150,8 @@ static void setListViewPUB(HWND hLV, UINT iItem, UINT iStatus)
 		pUinKey ptr = (pUinKey)getListViewParam(hLV, iItem);
 		if (db_get(ptr->hContact, MODULENAME, "rsa_pub", &dbv) == 0) {
 			int len;
-			mir_exp->rsa_get_hash((PBYTE)dbv.pbVal, dbv.cpbVal, (PBYTE)str, &len);
-			sha = mir_strdup(to_hex((PBYTE)str, len));
+			mir_exp->rsa_get_hash((uint8_t*)dbv.pbVal, dbv.cpbVal, (uint8_t*)str, &len);
+			sha = mir_strdup(to_hex((uint8_t*)str, len));
 			db_free(&dbv);
 		}
 	}
@@ -773,7 +773,7 @@ static INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wPara
 				if (!LoadImportRSAKeyDlg(hDlg, pub, 0)) return TRUE;
 				if (mir_exp->rsa_import_pubkey(ptr->cntx, pub)) {
 					int len;
-					mir_exp->rsa_get_pubkey(ptr->cntx, (PBYTE)pub, &len);
+					mir_exp->rsa_get_pubkey(ptr->cntx, (uint8_t*)pub, &len);
 					db_set_blob(ptr->hContact, MODULENAME, "rsa_pub", pub, len);
 
 					setListViewPUB(hLV, idx, 1);
@@ -979,7 +979,7 @@ static void RefreshProtoDlg(HWND hDlg)
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITON), false);
 	EnableWindow(GetDlgItem(hDlg, IDC_SPLITOFF), false);
 
-	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, nullptr, nullptr, (PBYTE)&sha, &len);
+	BYTE sha[64]; int len; mir_exp->rsa_get_keyhash(CPP_MODE_RSA, nullptr, nullptr, (uint8_t*)&sha, &len);
 	LPSTR txt = mir_strdup(to_hex(sha, len));
 	SetDlgItemText(hDlg, IDC_RSA_SHA, txt);
 	mir_free(txt);

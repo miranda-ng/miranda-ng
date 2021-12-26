@@ -77,15 +77,15 @@ string& un_tlv(string&,int&,int&);
 int str2int(string&);
 
 string hash(string&);
-string hash(PBYTE, size_t);
+string hash(uint8_t*, size_t);
 
 string hash128(string&);
 string hash128(LPSTR);
-string hash128(PBYTE, size_t);
+string hash128(uint8_t*, size_t);
 
 string hash256(string&);
 string hash256(LPSTR);
-string hash256(PBYTE, size_t);
+string hash256(uint8_t*, size_t);
 
 Integer BinaryToInteger(const string&);
 string  IntegerToBinary(const Integer&);

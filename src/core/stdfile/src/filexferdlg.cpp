@@ -83,7 +83,7 @@ void FillSendData(FileDlgData *dat, DBEVENTINFO& dbei)
 	dbei.flags |= DBEF_UTF;
 
 	dbei.cbBlob = int(sizeof(DWORD) + mir_strlen(szFileNames) + mir_strlen(szMsg) + 2);
-	dbei.pBlob = (PBYTE)mir_alloc(dbei.cbBlob);
+	dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob);
 	*(PDWORD)dbei.pBlob = 0;
 	mir_strcpy((char*)dbei.pBlob + sizeof(DWORD), szFileNames);
 	mir_strcpy((char*)dbei.pBlob + sizeof(DWORD) + mir_strlen(szFileNames) + 1, szMsg);

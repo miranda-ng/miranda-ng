@@ -167,9 +167,9 @@ static void ChangeSettingIntByCheckbox(HWND hwndDlg, UINT ctrlId, int iUser, int
 	if (iUser == -1) {
 		for (auto &p : tempSettings)
 			if (!(p->flags & NUF_NOOPTIONS))
-				*(int*)(((PBYTE)&p->settings) + memberOffset) = newValue;
+				*(int*)(((uint8_t*)&p->settings) + memberOffset) = newValue;
 	}
-	else *(int*)(((PBYTE)&tempSettings[iUser]->settings) + memberOffset) = newValue;
+	else *(int*)(((uint8_t*)&tempSettings[iUser]->settings) + memberOffset) = newValue;
 	SendMessage(hwndDlg, M_REFRESHENABLING, 0, 0);
 }
 
@@ -181,7 +181,7 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 	if (iUser == -1) {
 		for (auto &p : tempSettings) {
 			if (!(p->flags & NUF_NOOPTIONS)) {
-				char **ppszNew = (char**)(((PBYTE)&p->settings) + memberOffset);
+				char **ppszNew = (char**)(((uint8_t*)&p->settings) + memberOffset);
 				mir_free(*ppszNew);
 				*ppszNew = mir_strdup(szNewValue);
 			}
@@ -189,7 +189,7 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 		mir_free(szNewValue);
 	}
 	else {
-		char **ppszNew = (char**)(((PBYTE)&tempSettings[iUser]->settings) + memberOffset);
+		char **ppszNew = (char**)(((uint8_t*)&tempSettings[iUser]->settings) + memberOffset);
 		mir_free(*ppszNew);
 		*ppszNew = szNewValue;
 	}

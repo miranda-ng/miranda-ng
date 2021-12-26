@@ -131,7 +131,7 @@ int CLCDConnection::GetColorCount()
 //************************************************************************
 // Get the pointer to the pixel buffer
 //************************************************************************
-PBYTE CLCDConnection::GetPixelBuffer()
+uint8_t *CLCDConnection::GetPixelBuffer()
 {
 	return nullptr;
 }

@@ -799,7 +799,7 @@ void AddMessageToDB(MCONTACT hContact, char *msg)
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = time(0);
 	dbei.cbBlob = (int)mir_strlen(msg) + 1;
-	dbei.pBlob = (PBYTE)msg;
+	dbei.pBlob = (uint8_t*)msg;
 	db_event_add(hContact, &dbei);
 }
 

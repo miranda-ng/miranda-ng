@@ -313,7 +313,7 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	DWORD cbBlob = dbe->cbBlob;
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
-		dbei->pBlob = (PBYTE)mir_calloc(cbBlob + 2);
+		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
 	else if (dbei->cbBlob < cbBlob)
 		bytesToCopy = dbei->cbBlob;
 

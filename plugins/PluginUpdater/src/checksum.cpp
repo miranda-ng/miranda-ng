@@ -22,7 +22,7 @@ int debug = 0;
 
 struct MFileMapping
 {
-	PBYTE  ptr;
+	uint8_t *ptr;
 	HANDLE hMap, hFile;
 
 	MFileMapping(const wchar_t *pwszFileName)
@@ -34,7 +34,7 @@ struct MFileMapping
 		if (hFile != INVALID_HANDLE_VALUE)
 			hMap = CreateFileMapping(hFile, nullptr, PAGE_WRITECOPY, 0, 0, nullptr);
 		if (hMap)
-			ptr = (PBYTE)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
+			ptr = (uint8_t*)MapViewOfFile(hMap, FILE_MAP_COPY, 0, 0, 0);
 	}
 
 	~MFileMapping()
@@ -50,15 +50,15 @@ struct MFileMapping
 	}
 };
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase);
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, uint8_t *pBase);
 
-static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, PBYTE pBase)
+static void PatchResourceEntry(PIMAGE_RESOURCE_DIRECTORY_ENTRY pIRDE, uint8_t *pBase)
 {
 	if (pIRDE->DataIsDirectory)
 		PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY(pBase + pIRDE->OffsetToDirectory), pBase);
 }
 
-static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, PBYTE pBase)
+static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, uint8_t *pBase)
 {
 	UINT i;
 	pIRD->TimeDateStamp = 0;
@@ -103,7 +103,7 @@ LBL_NotPE:
 	}
 	else {
 		PIMAGE_NT_HEADERS pINTH = (PIMAGE_NT_HEADERS)(map.ptr + pIDH->e_lfanew);
-		if ((PBYTE)pINTH + sizeof(IMAGE_NT_HEADERS) >= map.ptr + filesize)
+		if ((uint8_t*)pINTH + sizeof(IMAGE_NT_HEADERS) >= map.ptr + filesize)
 			return RESULT_CORRUPTED;
 		
 		if (pINTH->Signature != IMAGE_NT_SIGNATURE)
@@ -116,7 +116,7 @@ LBL_NotPE:
 
 		PIMAGE_DATA_DIRECTORY pIDD = nullptr;
 		PIMAGE_DEBUG_DIRECTORY pDBG = nullptr;
-		PBYTE pRealloc = nullptr;
+		uint8_t *pRealloc = nullptr;
 		ULONGLONG base = 0;
 
 		// try to found correct offset independent of architectures
@@ -125,14 +125,14 @@ LBL_NotPE:
 		if ((machine == IMAGE_FILE_MACHINE_I386) &&
 			(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32)) &&
 			(pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)) {
-			pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
-			base = *(DWORD*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
+			pIDD = (PIMAGE_DATA_DIRECTORY)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
+			base = *(DWORD*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
 		}
 		else if ((machine == IMAGE_FILE_MACHINE_AMD64) &&
 			(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64)) &&
 			(pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR64_MAGIC)) {
-			pIDD = (PIMAGE_DATA_DIRECTORY)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory));
-			base = *(ULONGLONG*)((PBYTE)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.ImageBase));
+			pIDD = (PIMAGE_DATA_DIRECTORY)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.DataDirectory));
+			base = *(ULONGLONG*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS64, OptionalHeader.ImageBase));
 		}
 		else return RESULT_CORRUPTED;
 
@@ -155,7 +155,7 @@ LBL_NotPE:
 		// verify image integrity
 		for (DWORD idx = 0; idx < sections; idx++) {
 			PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(map.ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
-			if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > map.ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
+			if (((uint8_t*)pISH + sizeof(IMAGE_SECTION_HEADER) > map.ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
 				return RESULT_CORRUPTED;
 
 			// erase timestamp
@@ -183,7 +183,7 @@ LBL_NotPE:
 		for (size_t idx = 0; idx < sections; idx++) {
 			PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(map.ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
 
-			if (((PBYTE)pISH + sizeof(IMAGE_SECTION_HEADER) > map.ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
+			if (((uint8_t*)pISH + sizeof(IMAGE_SECTION_HEADER) > map.ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
 				return RESULT_CORRUPTED;
 
 			// erase debug information
@@ -206,12 +206,12 @@ LBL_NotPE:
 					if (Contains(pISH, pIBR->VirtualAddress) && pIBR->SizeOfBlock <= blocklen) {
 						DWORD shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
 						int len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
-						PWORD pw = (PWORD)((PBYTE)pIBR + sizeof(IMAGE_BASE_RELOCATION));
+						PWORD pw = (PWORD)((uint8_t*)pIBR + sizeof(IMAGE_BASE_RELOCATION));
 
 						while (len > 0) {
 							DWORD type = *pw >> 12;
 							DWORD addr = (*pw & 0x0FFF);
-							PBYTE pAddr = map.ptr + shift + addr;
+							uint8_t *pAddr = map.ptr + shift + addr;
 
 							switch (type) {
 							case IMAGE_REL_BASED_HIGHLOW:
@@ -250,7 +250,7 @@ LBL_NotPE:
 					if (blocklen <= sizeof(IMAGE_BASE_RELOCATION))
 						break;
 
-					pIBR = (PIMAGE_BASE_RELOCATION)((PBYTE)pIBR + pIBR->SizeOfBlock);
+					pIBR = (PIMAGE_BASE_RELOCATION)((uint8_t*)pIBR + pIBR->SizeOfBlock);
 				}
 			}
 

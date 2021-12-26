@@ -109,7 +109,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 
 			ptrA szBody(mir_utf8encodeW(wszText));
 			dbei.timestamp = dwTimeStamp;
-			dbei.pBlob = (PBYTE)szBody.get();
+			dbei.pBlob = (uint8_t*)szBody.get();
 			dbei.cbBlob = (DWORD)mir_strlen(szBody);
 
 			bool bSucceeded = false;

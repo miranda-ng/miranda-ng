@@ -82,7 +82,7 @@ int Info(char *title, char *format, ...)
 
 #define HEX_SIZE 8
 
-char *BinToHex(int size, PBYTE data)
+char *BinToHex(int size, uint8_t *data)
 {
 	char *szresult = nullptr;
 	int maxSize = size * 2 + HEX_SIZE + 1;

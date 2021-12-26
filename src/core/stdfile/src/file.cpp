@@ -124,7 +124,7 @@ static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 
 	DBEVENTINFO dbei = {};
 	dbei.cbBlob = sizeof(DWORD);
-	dbei.pBlob = (PBYTE)&dwSignature;
+	dbei.pBlob = (uint8_t*)&dwSignature;
 	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
 		return 0;
@@ -141,7 +141,7 @@ int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *sz
 	if (RegOpenKeyEx(hKeyBase, szSubKey, 0, KEY_QUERY_VALUE, &hKey) != ERROR_SUCCESS)
 		return 0;
 
-	if (RegQueryValueEx(hKey, szValue, nullptr, nullptr, (PBYTE)szOutput, &cbOut) != ERROR_SUCCESS) {
+	if (RegQueryValueEx(hKey, szValue, nullptr, nullptr, (uint8_t*)szOutput, &cbOut) != ERROR_SUCCESS) {
 		RegCloseKey(hKey);
 		return 0;
 	}

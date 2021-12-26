@@ -36,7 +36,7 @@ MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN nlc, int iMaxSize)
 	nlpr->handleType = NLH_PACKETRECVER;
 	nlpr->nlc = nlc;
 	nlpr->packetRecver.bufferSize = iMaxSize;
-	nlpr->packetRecver.buffer = (PBYTE)mir_alloc(nlpr->packetRecver.bufferSize);
+	nlpr->packetRecver.buffer = (uint8_t*)mir_alloc(nlpr->packetRecver.bufferSize);
 	nlpr->packetRecver.bytesUsed = 0;
 	nlpr->packetRecver.bytesAvailable = 0;
 	return nlpr;

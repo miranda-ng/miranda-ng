@@ -236,7 +236,7 @@ private:
 
 	static bool IsFileExists(const wchar_t* path);
 
-	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, PBYTE pBlob, size_t cbBlob);
+	MEVENT AddEventToDb(MCONTACT hContact, WORD type, DWORD timestamp, DWORD flags, uint8_t *pBlob, size_t cbBlob);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CToxProto>

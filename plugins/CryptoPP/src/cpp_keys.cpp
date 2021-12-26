@@ -34,11 +34,11 @@ LPSTR __cdecl cpp_init_keya(HANDLE context, int features)
 	p->dh->GenerateKeyPair(autorng, priv1, publ1);
 
 	SAFE_FREE(p->PubA);
-	p->PubA = (PBYTE)malloc(KEYSIZE);
+	p->PubA = (uint8_t*)malloc(KEYSIZE);
 	memcpy(p->PubA, publ1, KEYSIZE);
 
 	SAFE_FREE(p->KeyA);
-	p->KeyA = (PBYTE)malloc(KEYSIZE);
+	p->KeyA = (uint8_t*)malloc(KEYSIZE);
 	memcpy(p->KeyA, priv1, KEYSIZE);
 
 	if (p->KeyP) {
@@ -110,7 +110,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key)
 			CFB_Mode<AES>::Decryption dec(p->KeyP, Tiger::DIGESTSIZE, IV);
 			StreamTransformationFilter cbcDecryptor(dec, new StringSink(unciphered));
 
-			cbcDecryptor.Put((PBYTE)pub_binary, KEYSIZE);
+			cbcDecryptor.Put((uint8_t*)pub_binary, KEYSIZE);
 			cbcDecryptor.MessageEnd();
 			memcpy(pub_binary, unciphered.data(), unciphered.length());
 		}
@@ -123,7 +123,7 @@ int __cdecl cpp_init_keyb(HANDLE context, LPCSTR key)
 	}
 
 	mir_free(p->KeyB);
-	p->KeyB = (PBYTE)pub_binary;
+	p->KeyB = (uint8_t*)pub_binary;
 
 	if (p->PubA && memcmp(p->PubA, p->KeyB, KEYSIZE) == 0) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
@@ -167,7 +167,7 @@ int __cdecl cpp_calc_keyx(HANDLE context)
 
 		// store key
 		SAFE_FREE(p->KeyX);
-		p->KeyX = (PBYTE)malloc(Tiger::DIGESTSIZE);
+		p->KeyX = (uint8_t*)malloc(Tiger::DIGESTSIZE);
 		memcpy(p->KeyX, buffer, Tiger::DIGESTSIZE);
 	}
 	return (int)agr;
@@ -183,11 +183,11 @@ int __cdecl cpp_init_keyp(HANDLE context, LPCSTR password)
 	memset(buffer, 0, sizeof(buffer));
 
 	// calculate hash
-	Tiger().CalculateDigest(buffer, (PBYTE)password, strlen(password));
+	Tiger().CalculateDigest(buffer, (uint8_t*)password, strlen(password));
 
 	// store pre-shared key
 	SAFE_FREE(p->KeyP);
-	p->KeyP = (PBYTE)malloc(Tiger::DIGESTSIZE);
+	p->KeyP = (uint8_t*)malloc(Tiger::DIGESTSIZE);
 	memcpy(p->KeyP, buffer, Tiger::DIGESTSIZE);
 
 	return 1;

@@ -409,7 +409,7 @@ void log_to_history(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)::mir_strlen(psz) + 1;
-	dbei.pBlob = (PBYTE)(char*)psz;
+	dbei.pBlob = (uint8_t*)(char*)psz;
 	db_event_add(hContact, &dbei);
 }
 

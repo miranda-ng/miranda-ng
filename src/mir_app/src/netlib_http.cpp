@@ -1128,7 +1128,7 @@ next:
 		}
 
 		if (bufsz > 0) {
-			Netlib_Dump(nlc, (PBYTE)szData, bufsz, false, dflags | MSG_NOTITLE);
+			Netlib_Dump(nlc, (uint8_t*)szData, bufsz, false, dflags | MSG_NOTITLE);
 			mir_free(nlhrReply->pData);
 			nlhrReply->pData = szData;
 			nlhrReply->dataLength = bufsz;
