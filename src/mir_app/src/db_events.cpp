@@ -162,7 +162,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 	}
 
 	if (dbei->eventType == EVENTTYPE_FILE) {
-		char *buf = LPSTR(dbei->pBlob) + sizeof(DWORD);
+		char *buf = LPSTR(dbei->pBlob) + sizeof(uint32_t);
 		ptrW tszFileName(getEventString(dbei, buf));
 		ptrW tszDescription(getEventString(dbei, buf));
 		CMStringW wszText(tszFileName);
@@ -187,7 +187,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		str[dbei->cbBlob] = 0;
 
 		if (dbei->flags & DBEF_UTF) {
-			WCHAR *msg = nullptr;
+			wchar_t *msg = nullptr;
 			mir_utf8decodecp(str, codepage, &msg);
 			if (msg)
 				return (INT_PTR)msg;
@@ -272,37 +272,37 @@ DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR ln
 	m_szEmail(mir_strdup(email)),
 	m_szReason(mir_strdup(reason))
 {
-	m_size = DWORD(sizeof(DWORD) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
+	m_size = uint32_t(sizeof(uint32_t) * 2 + 5 + mir_strlen(m_szNick) + mir_strlen(m_szFirstName) + mir_strlen(m_szLastName) + mir_strlen(m_szEmail) + mir_strlen(m_szReason));
 }
 
 DB::AUTH_BLOB::AUTH_BLOB(PBYTE blob)
 {
 	PBYTE pCurBlob = blob;
-	m_dwUin = *(PDWORD)pCurBlob;
-	pCurBlob += sizeof(DWORD);
-	m_hContact = *(PDWORD)pCurBlob;
-	pCurBlob += sizeof(DWORD);
+	m_dwUin = *(Puint32_t)pCurBlob;
+	pCurBlob += sizeof(uint32_t);
+	m_hContact = *(Puint32_t)pCurBlob;
+	pCurBlob += sizeof(uint32_t);
 	m_szNick = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	m_szFirstName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	m_szLastName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	m_szEmail = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	m_szReason = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
-	m_size = DWORD(pCurBlob - blob);
+	m_size = uint32_t(pCurBlob - blob);
 }
 
 DB::AUTH_BLOB::~AUTH_BLOB()
 {
 }
 
-PBYTE DB::AUTH_BLOB::makeBlob()
+uint8_t* DB::AUTH_BLOB::makeBlob()
 {
-	PBYTE pBlob, pCurBlob;
-	pCurBlob = pBlob = (PBYTE)mir_alloc(m_size + 1);
+	uint8_t *pBlob, *pCurBlob;
+	pCurBlob = pBlob = (uint8_t*)mir_alloc(m_size + 1);
 
-	*((PDWORD)pCurBlob) = m_dwUin;
-	pCurBlob += sizeof(DWORD);
-	*((PDWORD)pCurBlob) = (DWORD)m_hContact;
-	pCurBlob += sizeof(DWORD);
+	*((uint32_t*)pCurBlob) = m_dwUin;
+	pCurBlob += sizeof(uint32_t);
+	*((uint32_t*)pCurBlob) = (uint32_t)m_hContact;
+	pCurBlob += sizeof(uint32_t);
 
 	mir_snprintf((char*)pCurBlob, m_size - 8, "%s%c%s%c%s%c%s%c%s%c",
 		(m_szNick) ? m_szNick.get() : "", 0,

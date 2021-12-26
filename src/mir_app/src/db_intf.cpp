@@ -48,7 +48,7 @@ MIR_APP_DLL(DATABASELINK*) FindDatabasePlugin(const wchar_t *ptszFileName)
 {
 	for (auto &it : arDbPlugins) {
 		int error = it->grokHeader(ptszFileName);
-		if (error == ERROR_SUCCESS || error == EGROKPRF_OBSOLETE)
+		if (error == EGROKPRF_NOERROR || error == EGROKPRF_OBSOLETE)
 			return it;
 	}
 

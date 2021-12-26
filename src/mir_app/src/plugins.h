@@ -5,8 +5,8 @@
 #define DEFMOD_REMOVED_PROTOCOLNETLIB   22
 
 // basic export prototypes
-typedef int(__cdecl *Miranda_Plugin_Load) (void);
-typedef int(__cdecl *Miranda_Plugin_Unload) (void);
+typedef int(MIR_CDECL *Miranda_Plugin_Load) (void);
+typedef int(MIR_CDECL *Miranda_Plugin_Unload) (void);
 
 struct pluginEntry
 {

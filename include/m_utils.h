@@ -424,8 +424,6 @@ namespace PU
 	MIR_APP_DLL(int) SafeCreateDirectory(const wchar_t *pwszFolder);
 	MIR_APP_DLL(int) SafeDeleteDirectory(const wchar_t *pwszDirName);
 	MIR_APP_DLL(int) SafeCreateFilePath(const wchar_t *pwszFolder);
-
-
 };
 
 #endif // M_UTILS_H__
