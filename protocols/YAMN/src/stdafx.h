@@ -83,18 +83,18 @@ int InitAccount(CAccount *Which);
 void DeInitAccount(CAccount *Which);
 void StopSignalFcn(CAccount *Which);
 void CodeDecodeString(char *Dest, BOOL Encrypt);
-DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End);
+uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End);
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
+uint32_t ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 #endif
-DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo);
-DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End);
-DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, wchar_t *End);
+uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo);
+uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End);
+uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, wchar_t *End);
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam);
 
-DWORD WriteStringToFile(HANDLE File, char *Source);
-DWORD WriteStringToFileW(HANDLE File, wchar_t *Source);
+uint32_t WriteStringToFile(HANDLE File, char *Source);
+uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source);
 
 
 DWORD WriteMessagesToFile(HANDLE File, CAccount *Which);
@@ -180,22 +180,22 @@ extern UINT SecTimer;
 
 //From synchro.cpp
 void  WINAPI DeleteMessagesToEndFcn(CAccount *Account, HYAMNMAIL From);
-DWORD WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
+uint32_t WINAPI WaitToWriteFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
 void  WINAPI WriteDoneFcn(PSWMRG SObject, PSCOUNTER SCounter = nullptr);
-DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
+uint32_t WINAPI WaitToReadFcn(PSWMRG SObject);
 void  WINAPI ReadDoneFcn(PSWMRG SObject);
-DWORD WINAPI SCIncFcn(PSCOUNTER SCounter);
-DWORD WINAPI SCDecFcn(PSCOUNTER SCounter);
+uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter);
+uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter);
 BOOL  WINAPI SWMRGInitialize(PSWMRG, wchar_t *);
 void  WINAPI SWMRGDelete(PSWMRG);
-DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, DWORD dwTimeout);
+uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG, uint32_t dwTimeout);
 void  WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
-DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
+uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
 void  WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
 
 //From mails.cpp
 void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From, HYAMNMAIL Which, int mode);
-void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, DWORD FlagsSet, DWORD FlagsNotSet, DWORD FlagsToSet, int mode);
+void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From, uint32_t FlagsSet, uint32_t FlagsNotSet, uint32_t FlagsToSet, int mode);
 
 //From mime.cpp
 void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head);
@@ -246,9 +246,9 @@ extern struct WndHandles *MessageWnd;
 
 extern int GetCharsetFromString(char *input, size_t size);
 extern void SendMsgToRecepients(struct WndHandles *FirstWin, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, DWORD cp, int mode);
+extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
 extern void __cdecl MailBrowser(void *Param);
-extern DWORD WINAPI NoNewMailProc(LPVOID Param);
+extern uint32_t WINAPI NoNewMailProc(LPVOID Param);
 extern void __cdecl BadConnection(void *Param);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;

@@ -99,7 +99,7 @@ void CLShareUser::CloseSocket()
 // Member Function : dwGetDownloadSpeed
 // Type            : Private / Public / Protected
 // Parameters      : None
-// Returns         : DWORD
+// Returns         : uint32_t
 // Description     :
 //
 // References      : -
@@ -108,7 +108,7 @@ void CLShareUser::CloseSocket()
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-DWORD CLShareUser::dwGetDownloadSpeed()
+uint32_t CLShareUser::dwGetDownloadSpeed()
 {
 	return dwSpeed;
 }

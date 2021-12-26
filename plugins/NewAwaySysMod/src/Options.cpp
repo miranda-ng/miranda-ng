@@ -352,7 +352,7 @@ void COptItem_TreeCtrl::WndToMem(HWND hWnd)
 {
 	HWND hTreeView = GetDlgItem(hWnd, m_dlgItemID);
 	for (int i = 0; i < m_value.GetSize(); i++) {
-		DWORD State = TreeView_GetItemState(hTreeView, m_value[i].hItem, TVIS_EXPANDED | TVIS_STATEIMAGEMASK);
+		uint32_t State = TreeView_GetItemState(hTreeView, m_value[i].hItem, TVIS_EXPANDED | TVIS_STATEIMAGEMASK);
 		int OldFlags = m_value[i].Flags;
 		if (State & TVIS_EXPANDED)
 			m_value[i].Flags |= TIF_EXPANDED;

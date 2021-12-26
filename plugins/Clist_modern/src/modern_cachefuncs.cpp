@@ -36,7 +36,7 @@ typedef BOOL(*ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subcontact
 /////////////////////////////////////////////////////////////////////////////////////////
 // Module static declarations
 
-static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, DWORD size);
+static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, uint32_t size);
 
 static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
@@ -51,7 +51,7 @@ void Cache_GetTimezone(ClcData *dat, MCONTACT hContact)
 		dat = (ClcData *)GetWindowLongPtr(g_clistApi.hwndContactTree, 0);
 
 	if (dat && dat->hWnd == g_clistApi.hwndContactTree) {
-		DWORD flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
+		uint32_t flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
 		pdnce->hTimeZone = TimeZone_CreateByContact(hContact, nullptr, flags);
 	}
 }
@@ -557,9 +557,9 @@ void RemoveTag(wchar_t *to, wchar_t *tag)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Copy string with removing Escape chars from text and BBcodes
 
-static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, DWORD size)
+static int CopySkipUnprintableChars(wchar_t *to, wchar_t * buf, uint32_t size)
 {
-	DWORD i;
+	uint32_t i;
 	BOOL keep = 0;
 	wchar_t * cp = to;
 	if (!to) return 0;
@@ -737,7 +737,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 			contact->avatar_data = nullptr;
 
 		if (contact->avatar_data != nullptr)
-			contact->avatar_data->t_lastAccess = (DWORD)time(0);
+			contact->avatar_data->t_lastAccess = (uint32_t)time(0);
 	}
 	else contact->avatar_data = nullptr;
 

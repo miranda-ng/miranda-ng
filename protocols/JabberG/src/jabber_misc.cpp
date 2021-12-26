@@ -53,7 +53,7 @@ void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
 	PROTORECVEVENT pre = {};
-	pre.timestamp = (DWORD)time(0);
+	pre.timestamp = (uint32_t)time(0);
 	pre.lParam = blob.size();
 	pre.szMessage = blob;
 	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
@@ -468,7 +468,7 @@ static bool SaveBlobToFile(const wchar_t *pwszFileName, const CMStringA &body)
 	DWORD n;
 	size_t bufferLen;
 	ptrA buffer((char *)mir_base64_decode(body, &bufferLen));
-	WriteFile(h, buffer, (DWORD)bufferLen, &n, nullptr);
+	WriteFile(h, buffer, (uint32_t)bufferLen, &n, nullptr);
 	CloseHandle(h);
 	return true;
 }

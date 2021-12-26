@@ -119,7 +119,7 @@ const Contact& Statistic::getContact(int index) const
 	return *m_Contacts[index];
 }
 
-DWORD Statistic::getFirstTime()
+uint32_t Statistic::getFirstTime()
 {
 	if (!m_bHistoryTimeAvailable) {
 		// put _all_ available contacts (including omitted/total) in one list
@@ -137,7 +137,7 @@ DWORD Statistic::getFirstTime()
 			l.push_back(&getTotals());
 
 		if (l.size() > 0) {
-			DWORD nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
+			uint32_t nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
 
 			citer_each_(Statistic::ContactListC, c, l)
 			{
@@ -163,7 +163,7 @@ DWORD Statistic::getFirstTime()
 	return m_nFirstTime;
 }
 
-DWORD Statistic::getLastTime()
+uint32_t Statistic::getLastTime()
 {
 	if (!m_bHistoryTimeAvailable) // trigger calculation
 		getFirstTime();
@@ -171,7 +171,7 @@ DWORD Statistic::getLastTime()
 	return m_nLastTime;
 }
 
-DWORD Statistic::getHistoryTime()
+uint32_t Statistic::getHistoryTime()
 {
 	if (!m_bHistoryTimeAvailable) // trigger calculation
 		getFirstTime();
@@ -253,7 +253,7 @@ void Statistic::handleAddMessage(Contact& contact, Message& msg)
 	}
 }
 
-void Statistic::handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration)
+void Statistic::handleAddChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration)
 {
 	if (duration >= m_Settings.m_ChatSessionMinDur) {
 		contact.addChat(bOutgoing, localTimestampStarted, duration);
@@ -392,8 +392,8 @@ bool Statistic::stepReadDB()
 		curContact.beginMessages();
 
 		// init data for chat detection
-		DWORD lastAddedTime = 0;
-		DWORD chatStartTime = 0;
+		uint32_t lastAddedTime = 0;
+		uint32_t chatStartTime = 0;
 		bool bChatOutgoing = false;
 		Message curMsg(m_Settings.m_FilterRawRTF && RTFFilter::available(), m_Settings.m_FilterBBCodes);
 
@@ -407,7 +407,7 @@ bool Statistic::stepReadDB()
 			// filter logged status messages from tabSRMM
 			if (dbei.eventType == etMessage) {
 				// convert to local time (everything in this plugin is done in local time)
-				DWORD localTimestamp = TimeZone_ToLocal(dbei.timestamp);
+				uint32_t localTimestamp = TimeZone_ToLocal(dbei.timestamp);
 
 				if (localTimestamp >= m_TimeMin && localTimestamp <= m_TimeMax) {
 					if (dbei.flags & DBEF_UTF) {
@@ -445,7 +445,7 @@ bool Statistic::stepReadDB()
 					handleAddMessage(curContact, curMsg);
 
 					// handle chats
-					if (localTimestamp - lastAddedTime >= (DWORD)m_Settings.m_ChatSessionTimeout || lastAddedTime == 0) {
+					if (localTimestamp - lastAddedTime >= (uint32_t)m_Settings.m_ChatSessionTimeout || lastAddedTime == 0) {
 						// new chat started
 						if (chatStartTime != 0)
 							handleAddChat(curContact, bChatOutgoing, chatStartTime, lastAddedTime - chatStartTime);
@@ -595,15 +595,15 @@ bool Statistic::stepSortContacts()
 			break;
 
 		case Settings::skChatDurationTotal:
-			pCmp = new ContactCompare<DWORD>(pPrev, &Contact::getChatDurSum);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getChatDurSum);
 			break;
 
 		case Settings::skTimeOfFirstMessage:
-			pCmp = new ContactCompare<DWORD>(pPrev, &Contact::getFirstTime);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getFirstTime);
 			break;
 
 		case Settings::skTimeOfLastMessage:
-			pCmp = new ContactCompare<DWORD>(pPrev, &Contact::getLastTime);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getLastTime);
 			break;
 
 		case Settings::skBytesOutAvg:
@@ -701,11 +701,11 @@ bool Statistic::stepOmitContacts()
 	if (m_Settings.m_OmitByValue) {
 		static const struct
 		{
-			int type; // 0 = int, 1 = double, 2 = DWORD
+			int type; // 0 = int, 1 = double, 2 = uint32_t
 			double factor; // factor to multiply function output with
 			int (Contact::*int_fn)() const;
 			double (Contact::*double_fn)() const;
-			DWORD(Contact::*DWORD_fn)() const;
+			uint32_t(Contact::*DWORD_fn)() const;
 		} valueMap[] = {
 			{ 0, 1.0, &Contact::getInBytes, nullptr, nullptr },
 			{ 0, 1.0, &Contact::getOutBytes, nullptr, nullptr },
@@ -1235,7 +1235,7 @@ bool Statistic::createStatistics()
 		if (bDone)
 			break;
 
-		DWORD result = MsgWaitForMultipleObjects(1, &hThread, FALSE, INFINITE, QS_ALLINPUT);
+		uint32_t result = MsgWaitForMultipleObjects(1, &hThread, FALSE, INFINITE, QS_ALLINPUT);
 
 		if (result == WAIT_OBJECT_0 + 1) // there is a message in the queue
 			continue;

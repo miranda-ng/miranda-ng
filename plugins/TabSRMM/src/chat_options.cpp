@@ -852,7 +852,7 @@ public:
 		if (wszText)
 			edtNick.SetText(wszText);
 
-		DWORD dwFlags = db_get_b(0, CHAT_MODULE, "HighlightEnabled", CMUCHighlight::MATCH_TEXT);
+		uint32_t dwFlags = db_get_b(0, CHAT_MODULE, "HighlightEnabled", CMUCHighlight::MATCH_TEXT);
 
 		chkNick.SetState(dwFlags & CMUCHighlight::MATCH_NICKNAME); onChange_Nick(0);
 		chkText.SetState(dwFlags & CMUCHighlight::MATCH_TEXT); onChange_Text(0);

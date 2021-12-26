@@ -230,7 +230,7 @@ struct VAR_PARSE_DATA
 {
 	char *szProto;
 	TCString Message;
-	DWORD UIN;
+	uint32_t UIN;
 	int Flags; // a combination of VPF_ flags
 };
 
@@ -274,7 +274,7 @@ extern bool g_fNoProcessing;
 extern int g_bIsIdle;
 
 // AwaySys.cpp
-TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = nullptr, DWORD UIN = 0, int iStatus = 0);
+TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto = nullptr, uint32_t UIN = 0, int iStatus = 0);
 
 // Client.cpp
 void InitUpdateMsgs();

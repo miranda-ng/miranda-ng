@@ -12,8 +12,7 @@ static CMStringW get_int_registry_value(LPCTSTR pszValueName)
 	LONG lResult = ::RegOpenKeyEx(HKEY_CURRENT_USER,
 		L"Control Panel\\International", 0, KEY_QUERY_VALUE, &hKey);
 	if ((ERROR_SUCCESS == lResult) && (nullptr != hKey)) {
-		DWORD dwType = 0;
-		DWORD dwSize = 0;
+		DWORD dwType = 0, dwSize = 0;
 		lResult = ::RegQueryValueEx(hKey, pszValueName, nullptr, &dwType, nullptr, &dwSize);
 		if ((ERROR_SUCCESS == lResult) && ((REG_SZ == dwType) || (REG_EXPAND_SZ == dwType))) {
 			sResult.Truncate(dwSize);

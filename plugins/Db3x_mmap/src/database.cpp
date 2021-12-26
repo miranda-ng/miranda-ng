@@ -23,9 +23,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-DWORD CDb3Mmap::CreateNewSpace(int bytes)
+uint32_t CDb3Mmap::CreateNewSpace(int bytes)
 {
-	DWORD ofsNew = m_dbHeader.ofsFileEnd;
+	uint32_t ofsNew = m_dbHeader.ofsFileEnd;
 	m_dbHeader.ofsFileEnd += bytes;
 	if (m_dbHeader.ofsFileEnd > m_dwFileSize)
 		ReMap(m_dbHeader.ofsFileEnd - m_dwFileSize);
@@ -34,7 +34,7 @@ DWORD CDb3Mmap::CreateNewSpace(int bytes)
 	return ofsNew;
 }
 
-void CDb3Mmap::DeleteSpace(DWORD ofs, int bytes)
+void CDb3Mmap::DeleteSpace(uint32_t ofs, int bytes)
 {
 	if (ofs + bytes == m_dbHeader.ofsFileEnd)	{
 		log2("freespace %d@%08x", bytes, ofs);
@@ -48,12 +48,12 @@ void CDb3Mmap::DeleteSpace(DWORD ofs, int bytes)
 	DBFill(ofs, bytes);
 }
 
-DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
+uint32_t CDb3Mmap::ReallocSpace(uint32_t ofs, int oldSize, int newSize)
 {
 	if (oldSize >= newSize)
 		return ofs;
 
-	DWORD ofsNew;
+	uint32_t ofsNew;
 	if (ofs + oldSize == m_dbHeader.ofsFileEnd) {
 		ofsNew = ofs;
 		m_dbHeader.ofsFileEnd += newSize - oldSize;
@@ -70,9 +70,9 @@ DWORD CDb3Mmap::ReallocSpace(DWORD ofs, int oldSize, int newSize)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static DWORD DatabaseCorrupted = 0;
+static uint32_t DatabaseCorrupted = 0;
 static wchar_t *msg = nullptr;
-static DWORD dwErr = 0;
+static uint32_t dwErr = 0;
 static wchar_t tszPanic[] = LPGENW("Miranda has detected corruption in your database. Miranda will now shut down.");
 
 void __cdecl dbpanic(void *)

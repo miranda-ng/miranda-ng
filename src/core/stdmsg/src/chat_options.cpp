@@ -197,7 +197,7 @@ class COptMainDlg : public CDlgBase
 		return res;
 	}
 
-	void FillBranch(HTREEITEM hParent, branch_t *branch, int nValues, DWORD defaultval)
+	void FillBranch(HTREEITEM hParent, branch_t *branch, int nValues, uint32_t defaultval)
 	{
 		int iState;
 
@@ -235,7 +235,7 @@ class COptMainDlg : public CDlgBase
 					iState |= branch->iMode;
 				if (iState & GC_EVENT_ADDSTATUS)
 					iState |= GC_EVENT_REMOVESTATUS;
-				db_set_dw(0, CHAT_MODULE, branch->szDBName, (DWORD)iState);
+				db_set_dw(0, CHAT_MODULE, branch->szDBName, (uint32_t)iState);
 			}
 			else db_set_b(0, CHAT_MODULE, branch->szDBName, bChecked);
 		}

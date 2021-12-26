@@ -245,7 +245,7 @@ int CSametimeProto::SetSessionStatus(int status)
 
 	if (idle_timerid) KillTimer(nullptr, idle_timerid);
 
-	us.time = (DWORD)time(0);
+	us.time = (uint32_t)time(0);
 	//us.time = 0;
 
 	switch (status) {
@@ -284,7 +284,7 @@ VOID CALLBACK IdleTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 	if (proto->idle_status) {
 		struct mwUserStatus us;
-		us.time = (DWORD)time(0);
+		us.time = (uint32_t)time(0);
 		us.status = mwStatus_IDLE;
 		us.desc = nullptr;
 		mwSession_setUserStatus(proto->session, &us);

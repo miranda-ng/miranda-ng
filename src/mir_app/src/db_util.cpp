@@ -81,9 +81,9 @@ MIR_APP_DLL(bool) Profile_GetSetting(const wchar_t *pwszSetting, wchar_t *pwszBu
 	wchar_t *p = wcschr(pBuf, '/');
 	if (p) {
 		*p = 0; p++;
-		GetPrivateProfileStringW(pBuf, p, pwszDefault, pwszBuf, (DWORD)cbLen, mirandabootini);
+		GetPrivateProfileStringW(pBuf, p, pwszDefault, pwszBuf, (uint32_t)cbLen, mirandabootini);
 	}
-	else GetPrivateProfileStringW(pBuf, L"", pwszDefault, pwszBuf, (DWORD)cbLen, mirandabootini);
+	else GetPrivateProfileStringW(pBuf, L"", pwszDefault, pwszBuf, (uint32_t)cbLen, mirandabootini);
 
 	return pwszBuf[0] != 0;
 }

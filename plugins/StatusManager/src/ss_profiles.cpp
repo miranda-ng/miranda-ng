@@ -231,7 +231,7 @@ static UINT GetFsModifiers(uint16_t wHotKey)
 	return fsm;
 }
 
-static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
+static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 {
 	if (msg == WM_HOTKEY) {
 		for (int i = 0; i < hkiCount; i++)

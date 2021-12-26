@@ -35,8 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 int initializeOptions(WPARAM, LPARAM);
 INT_PTR CALLBACK OptDlgProc(HWND, UINT, WPARAM, LPARAM);
-VOID HwHotKeys_PrintFullKeyname(DWORD);
-BOOL HwHotKeys_CompareCurrentScancode(DWORD);
+VOID HwHotKeys_PrintFullKeyname(uint32_t);
+BOOL HwHotKeys_CompareCurrentScancode(uint32_t);
 LRESULT CALLBACK key_hook(INT, WPARAM, LPARAM);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
@@ -50,16 +50,16 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern HWND hDialogWnd; // глобально используется для вывода туда в реалтайме сканкодов клавы, из хука
 extern HHOOK hHook;
 
-extern DWORD code_Close_tmp;
-extern DWORD code_HideShow_tmp;
-extern DWORD code_ReadMsg_tmp;
-extern DWORD code_Close;
-extern DWORD code_HideShow;
-extern DWORD code_ReadMsg;
+extern uint32_t code_Close_tmp;
+extern uint32_t code_HideShow_tmp;
+extern uint32_t code_ReadMsg_tmp;
+extern uint32_t code_Close;
+extern uint32_t code_HideShow;
+extern uint32_t code_ReadMsg;
 
-extern DWORD key_code;
-extern DWORD key_code_raw;
-extern DWORD key_code_assign;
+extern uint32_t key_code;
+extern uint32_t key_code_raw;
+extern uint32_t key_code_assign;
 
 
 extern CHAR key_name_buffer[150];

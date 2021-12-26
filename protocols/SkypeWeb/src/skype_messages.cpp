@@ -219,20 +219,20 @@ void CSkypeProto::ProcessContactRecv(MCONTACT hContact, time_t timestamp, const 
 
 	if (nCount) {
 		PROTORECVEVENT pre = {};
-		pre.timestamp = (DWORD)timestamp;
+		pre.timestamp = (uint32_t)timestamp;
 		pre.szMessage = (char*)psr;
 
-		uint8_t *b = (uint8_t*)mir_calloc(sizeof(DWORD) + mir_strlen(szMessageId) + 1);
+		uint8_t *b = (uint8_t*)mir_calloc(sizeof(uint32_t) + mir_strlen(szMessageId) + 1);
 		uint8_t *pCur = b;
 		*((PDWORD)pCur) = nCount;
-		pCur += sizeof(DWORD);
+		pCur += sizeof(uint32_t);
 
 		mir_strcpy((char*)pCur, szMessageId);
 
 		pre.lParam = (LPARAM)b;
 
 		ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
-		for (DWORD i = 0; i < *((PDWORD)b); i++) {
+		for (uint32_t i = 0; i < *((PDWORD)b); i++) {
 			mir_free(psr[i]->id.a);
 			mir_free(psr[i]);
 		}

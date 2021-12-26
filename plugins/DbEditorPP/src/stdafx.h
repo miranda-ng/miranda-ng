@@ -50,7 +50,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<bool> bExpandSettingsOnOpen, bRestoreOnOpen, bWarnOnDelete;
 	CMOption<uint16_t> iPopupDelay;
-	CMOption<DWORD> iPopupBkColor, iPopupTxtColor;
+	CMOption<uint32_t> iPopupBkColor, iPopupTxtColor;
 
 	CMPlugin();
 
@@ -178,8 +178,8 @@ extern bool g_bUsePopups;
 char *StringFromBlob(uint8_t *blob, uint16_t len);
 int WriteBlobFromString(MCONTACT hContact, const char *module, const char *setting, const char *value, int len);
 wchar_t *DBVType(uint8_t type);
-DWORD getNumericValue(DBVARIANT *dbv);
-int setNumericValue(MCONTACT hContact, const char *module, const char *setting, DWORD value, int type);
+uint32_t getNumericValue(DBVARIANT *dbv);
+int setNumericValue(MCONTACT hContact, const char *module, const char *setting, uint32_t value, int type);
 int IsRealUnicode(wchar_t *value);
 int setTextValue(MCONTACT hContact, const char *module, const char *setting, wchar_t *value, int type);
 int GetValueA(MCONTACT hContact, const char *module, const char *setting, char *value, int length);

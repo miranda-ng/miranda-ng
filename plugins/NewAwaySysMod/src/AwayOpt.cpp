@@ -858,7 +858,7 @@ static LRESULT CALLBACK ContactsSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam,
 {
 	switch (Msg) {
 	case WM_LBUTTONDBLCLK:
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		HANDLE hItem = (HANDLE)SendMessage(hWnd, CLM_HITTEST, (WPARAM)&hitFlags, lParam);
 		if (hItem && (hitFlags & CLCHT_ONITEMEXTRA))
 			Msg = WM_LBUTTONDOWN; // may be considered as a hack, but it's needed to make clicking on extra icons more convenient
@@ -946,7 +946,7 @@ INT_PTR CALLBACK ContactsOptDlg(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 					if (nm->iColumn == -1)
 						break;
 
-					DWORD hitFlags;
+					uint32_t hitFlags;
 					HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 					if (!hItem || !(hitFlags & CLCHT_ONITEMEXTRA))
 						break;

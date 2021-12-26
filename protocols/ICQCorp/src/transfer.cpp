@@ -23,7 +23,7 @@ std::vector <ICQTransfer *> icqTransfers;
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void WINAPI transferTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
+static void WINAPI transferTimerProc(HWND, UINT, UINT_PTR hTimer, DWORD)
 {
 	KillTimer(nullptr, hTimer);
 

@@ -70,9 +70,9 @@ static HGENMENU hAcceptConnectionsMenuItem = nullptr;
 char szPluginPath[MAX_PATH] = { 0 };
 int nPluginPathLen = 0;
 
-DWORD dwLocalIpAddress = 0;
-DWORD dwLocalPortUsed = 0;
-DWORD dwExternalIpAddress = 0;
+uint32_t dwLocalIpAddress = 0;
+uint32_t dwLocalPortUsed = 0;
+uint32_t dwExternalIpAddress = 0;
 
 int nMaxUploadSpeed = -1;
 int nMaxConnectionsTotal = -1;
@@ -139,7 +139,7 @@ bool bWriteToFile(HANDLE hFile, const char * pszSrc, int nLen = -1)
 	if (nLen < 0)
 		nLen = (int)mir_strlen(pszSrc);
 	DWORD dwBytesWritten;
-	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (DWORD)nLen);
+	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (uint32_t)nLen);
 }
 
 
@@ -189,7 +189,7 @@ void LogEvent(const char * pszTitle, const char * pszLog)
 // Member Function : dwReadIPAddress
 // Type            : Global
 // Parameters      : pszStr - ?
-// Returns         : DWORD
+// Returns         : uint32_t
 // Description     :
 //
 // References      : -
@@ -198,9 +198,9 @@ void LogEvent(const char * pszTitle, const char * pszLog)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-DWORD dwReadIPAddress(char * pszStr, bool &bError)
+uint32_t dwReadIPAddress(char * pszStr, bool &bError)
 {
-	DWORD ip = 0;
+	uint32_t ip = 0;
 	char *pszEnd;
 	for (int n = 0; n < 4; n++) {
 		int nVal = strtol(pszStr, &pszEnd, 10);
@@ -245,11 +245,11 @@ bool bReadConfigurationFile()
 
 	bool bEof = false;
 	while (!bEof) {
-		DWORD dwBytesInBuffer = 0;
+		uint32_t dwBytesInBuffer = 0;
 
 		// move rest of buffer to front
 		if (pszCurPos && pszCurPos != szBuf) {
-			dwBytesInBuffer = DWORD(sizeof(szBuf) - (pszCurPos - szBuf));
+			dwBytesInBuffer = uint32_t(sizeof(szBuf) - (pszCurPos - szBuf));
 			memmove(szBuf, pszCurPos, dwBytesInBuffer * sizeof(wchar_t));
 		}
 
@@ -346,7 +346,7 @@ bool bWriteConfigurationFile()
 	if (WriteFile(hFile, szXmlHeader, sizeof(szXmlHeader) - 1, &dwBytesWriten, nullptr)) {
 		CLFileShareNode *pclCur = pclFirstNode;
 		while (pclCur) {
-			DWORD dwBytesToWrite = mir_snprintf(szBuf, szXmlData,
+			uint32_t dwBytesToWrite = mir_snprintf(szBuf, szXmlData,
 				pclCur->st.pszSrvPath,
 				pclCur->pszOrigRealPath,
 				pclCur->st.nMaxDownloads,
@@ -566,7 +566,7 @@ void __cdecl HandleNewConnection(CLHttpUser *pclUser)
 // Developer       : KN
 /////////////////////////////////////////////////////////////////////
 
-void ConnectionOpen(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void*)
+void ConnectionOpen(HNETLIBCONN hNewConnection, uint32_t dwRemoteIP, void*)
 {
 	in_addr stAddr;
 	stAddr.S_un.S_addr = htonl(dwRemoteIP);

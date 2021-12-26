@@ -40,7 +40,7 @@ extern NSFDBUPDATEUNREAD NSFDbUpdateUnread1;
 typedef BOOL (CALLBACK LNPUBLIC *IDSCAN)(
 	HANDLE  hTable,///DHANDLE
 	BOOL  fFirst,
-	DWORD far *retID);
+	uint32_t far *retID);
 extern IDSCAN IDScan1;
 
 typedef STATUS (CALLBACK LNPUBLIC *NSFNOTEOPEN)(
@@ -93,7 +93,7 @@ typedef BOOL (CALLBACK LNPUBLIC *MAILGETMESSAGEATTACHMENTINFO)(
 	uint16_t  Num,
 	BLOCKID far *bhItem,
 	char far *FileName,
-	DWORD far *FileSize,
+	uint32_t far *FileSize,
 	uint16_t far *FileAttributes,
 	uint16_t far *FileHostType,
 	TIMEDATE *FileCreated,
@@ -152,7 +152,7 @@ extern OSMEMFREE OSMemFree1;
 
 typedef STATUS  (CALLBACK LNPUBLIC *EMREGISTER)(
 	EID  EmID,
-	DWORD  Flags,
+	uint32_t  Flags,
 	EMHANDLER  Proc,
 	uint16_t  RecursionID,
 	HEMREGISTRATION far *rethRegistration);
@@ -167,9 +167,6 @@ extern NOTESINITTHREAD NotesInitThread1;
 
 typedef void  (CALLBACK LNPUBLIC *NOTESTERMTHREAD)(void);
 extern NOTESTERMTHREAD NotesTermThread1;
-
-
-
 
 BOOL HookLotusFunctions();
 void GetLotusPath(wchar_t *sTemp, DWORD size);

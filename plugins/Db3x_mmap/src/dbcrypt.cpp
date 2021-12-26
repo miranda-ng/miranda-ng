@@ -162,7 +162,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnableEncryption(BOOL bEnable)
 
 void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 {
-	DWORD ofsContact = GetContactOffset(contactID);
+	uint32_t ofsContact = GetContactOffset(contactID);
 	if (ofsContact == 0)
 		return;
 
@@ -172,7 +172,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 
 	// fast cycle through all settings
 	DBContactSettings *setting = (DBContactSettings*)DBRead(contact->ofsFirstSettings, nullptr);
-	DWORD offset = contact->ofsFirstSettings;
+	uint32_t offset = contact->ofsFirstSettings;
 	char *szModule = GetModuleNameByOfs(setting->ofsModuleName);
 	if (szModule == nullptr)
 		return;
@@ -181,7 +181,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 		OBJLIST<VarDescr> arSettings(10);
 		char szSetting[256];
 		int bytesRemaining, len;
-		DWORD ofsBlobPtr = offset + offsetof(DBContactSettings, blob), ofsNext = setting->ofsNext;
+		uint32_t ofsBlobPtr = offset + offsetof(DBContactSettings, blob), ofsNext = setting->ofsNext;
 		uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(1);
@@ -269,7 +269,7 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 
 void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 {
-	DWORD ofsContact = GetContactOffset(contactID);
+	uint32_t ofsContact = GetContactOffset(contactID);
 	if (ofsContact == 0)
 		return;
 
@@ -278,20 +278,20 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 		return;
 
 	// fast cycle through all events
-	for (DWORD offset = contact.ofsFirstEvent; offset != 0;) {
+	for (uint32_t offset = contact.ofsFirstEvent; offset != 0;) {
 		DBEvent evt = *(DBEvent*)DBRead(offset, nullptr);
 		if (evt.signature != DBEVENT_SIGNATURE)
 			return;
 
 		size_t len;
-		DWORD ofsDest;
+		uint32_t ofsDest;
 		mir_ptr<uint8_t> pBlob;
 		uint8_t *pSource = DBRead(offset + offsetof(DBEvent, blob), nullptr);
 		if (!m_bEncrypted) { // we need more space
 			if ((pBlob = m_crypto->encodeBuffer(pSource, evt.cbBlob, &len)) == nullptr)
 				return;
 
-			ofsDest = ReallocSpace(offset, offsetof(DBEvent, blob) + evt.cbBlob, offsetof(DBEvent, blob) + (DWORD)len);
+			ofsDest = ReallocSpace(offset, offsetof(DBEvent, blob) + evt.cbBlob, offsetof(DBEvent, blob) + (uint32_t)len);
 
 			if (evt.ofsNext) {
 				DBEvent *e = (DBEvent*)DBRead(evt.ofsNext, nullptr);
@@ -320,12 +320,12 @@ void CDb3Mmap::ToggleEventsEncryption(MCONTACT contactID)
 			evt.flags &= ~DBEF_ENCRYPTED;
 
 			if (len < evt.cbBlob)
-				DBFill(ofsDest + offsetof(DBEvent, blob) + (DWORD)len, evt.cbBlob - (DWORD)len);
+				DBFill(ofsDest + offsetof(DBEvent, blob) + (uint32_t)len, evt.cbBlob - (uint32_t)len);
 		}
-		evt.cbBlob = (DWORD)len;
+		evt.cbBlob = (uint32_t)len;
 
 		DBWrite(ofsDest, &evt, offsetof(DBEvent, blob));
-		DBWrite(ofsDest + offsetof(DBEvent, blob), pBlob, (DWORD)len);
+		DBWrite(ofsDest + offsetof(DBEvent, blob), pBlob, (uint32_t)len);
 
 		offset = evt.ofsNext;
 	}

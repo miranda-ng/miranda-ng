@@ -29,7 +29,7 @@ INT_PTR FilterMailSvc(WPARAM,LPARAM);
 // YAMNFilterFcn- pointer to imported functions
 // YAMNfilterFcnVer- version of YAMN_FILTERIMPORTFCN, use YAMN_FILTERIMPORTFCNVERSION
 // returns nonzero if success
-int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance,PYAMN_FILTERIMPORTFCN YAMNFilterFcn,DWORD YAMNFilterFcnVer);
+int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,uint32_t Importance,PYAMN_FILTERIMPORTFCN YAMNFilterFcn,uint32_t YAMNFilterFcnVer);
 
 struct CExportedFunctions FilterPluginExportedFcn[]=
 {
@@ -122,7 +122,7 @@ INT_PTR UnregisterFilterPlugins()
 	return 1;
 }
 
-int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,DWORD Importance,PYAMN_FILTERIMPORTFCN YAMNFilterFcn,DWORD YAMNFilterFcnVer)
+int WINAPI SetFilterPluginFcnImportFcn(HYAMNFILTERPLUGIN Plugin,uint32_t Importance,PYAMN_FILTERIMPORTFCN YAMNFilterFcn,uint32_t YAMNFilterFcnVer)
 {
 	PYAMN_FILTERPLUGINQUEUE Parser,Previous;
 

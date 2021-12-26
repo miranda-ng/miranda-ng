@@ -89,7 +89,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 		CMStringW wszUserId = pNode["author"]["id"].as_mstring();
 		SnowFlake msgid = ::getId(pNode["id"]);
 		SnowFlake authorid = _wtoi64(wszUserId);
-		DWORD dwTimeStamp = StringToDate(pNode["timestamp"].as_mstring());
+		uint32_t dwTimeStamp = StringToDate(pNode["timestamp"].as_mstring());
 
 		if (pUser->bIsPrivate) {
 			DBEVENTINFO dbei = {};
@@ -110,7 +110,7 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 			ptrA szBody(mir_utf8encodeW(wszText));
 			dbei.timestamp = dwTimeStamp;
 			dbei.pBlob = (uint8_t*)szBody.get();
-			dbei.cbBlob = (DWORD)mir_strlen(szBody);
+			dbei.cbBlob = (uint32_t)mir_strlen(szBody);
 
 			bool bSucceeded = false;
 			char szMsgId[100];

@@ -16,7 +16,7 @@ public:
 	static int getMaxRowHeight(ClcData *dat, const HWND hwnd);
 
 	// Calc and store row height
-	static int getRowHeight(ClcData *dat, ClcContact *contact, int item, DWORD style)
+	static int getRowHeight(ClcData *dat, ClcContact *contact, int item, uint32_t style)
 	{
 		if (!Alloc(dat, item + 1))
 			return -1;

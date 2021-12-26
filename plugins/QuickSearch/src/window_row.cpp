@@ -96,14 +96,14 @@ void CRowItem::GetCellColor(int idx, COLORREF &clrBack, COLORREF &clrText)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t* int2strw(DWORD num)
+static wchar_t* int2strw(uint32_t num)
 {
 	wchar_t buf[64];
 	_itow_s(num, buf, 10);
 	return mir_wstrdup(buf);
 }
 
-static wchar_t* hex2strw(DWORD num)
+static wchar_t* hex2strw(uint32_t num)
 {
 	wchar_t buf[64];
 	_itow_s(num, buf, 16);

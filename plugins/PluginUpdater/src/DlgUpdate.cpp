@@ -21,12 +21,12 @@ Boston, MA 02111-1307, USA.
 
 static bool bShowDetails;
 static HWND hwndDialog;
-static DWORD dwCheckThreadId;
+static uint32_t dwCheckThreadId;
 static HANDLE hTimer;
 
 class CUpdateDLg : public CDlgBase
 {
-	DWORD dwThreadId = 0;
+	uint32_t dwThreadId = 0;
 	CCtrlButton btnDetails, btnSelAll, btnSelNone, btnOk;
 	CCtrlListView m_list;
 	OBJLIST<FILEINFO> *m_todo;
@@ -82,7 +82,7 @@ class CUpdateDLg : public CDlgBase
 			Netlib_CloseHandle(nlc);
 
 			// 3) Unpack all zips
-			DWORD dwErrorCode;
+			uint32_t dwErrorCode;
 			for (auto &it : todo) {
 				if (it->bEnabled) {
 					if (it->bDeleteOnly) {
@@ -432,7 +432,7 @@ static void DlgUpdateSilent(void *param)
 	}
 
 	// 3) Unpack all zips
-	DWORD dwErrorCode;
+	uint32_t dwErrorCode;
 	VARSW wszMirandaPath(L"%miranda_path%");
 	for (auto &it : UpdateFiles) {
 		if (it->bEnabled) {
@@ -805,7 +805,7 @@ static void CheckUpdates(void *)
 	ThreadWatch threadId(dwCheckThreadId);
 
 	TFileName wszTempPath;
-	DWORD dwLen = GetTempPath(_countof(wszTempPath), wszTempPath);
+	uint32_t dwLen = GetTempPath(_countof(wszTempPath), wszTempPath);
 	if (wszTempPath[dwLen - 1] == '\\')
 		wszTempPath[dwLen - 1] = 0;
 

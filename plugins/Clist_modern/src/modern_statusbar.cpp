@@ -120,7 +120,7 @@ int BgStatusBarChange(WPARAM, LPARAM)
 }
 
 // ProtocolData;
-int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t, void *)
 {
 	return ModernDrawStatusBar(hWnd, hDC);
 }
@@ -313,7 +313,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		int iconY = rc.top + (((rc.bottom - rc.top) - iconHeight) / 2);
 
 		// Code for each line
-		DWORD sw;
+		uint32_t sw;
 		int rectwidth = rc.right - rc.left - g_StatusBarData.rectBorders.left - g_StatusBarData.rectBorders.right;
 		if (visProtoCount > 1)
 			sw = (rectwidth - (g_StatusBarData.extraspace*(visProtoCount - 1))) / visProtoCount;
@@ -324,7 +324,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 		for (int i = 0; i < visProtoCount; i++) {
 			ProtoItemData &p = ProtosData[line*protosperline + i];
 
-			DWORD w = p.PaddingLeft;
+			uint32_t w = p.PaddingLeft;
 			w += p.PaddingRight;
 
 			if (p.bShowProtoIcon) {
@@ -469,7 +469,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				SelectClipRgn(hDC, rgn);
 				p.bDoubleIcons = false;
 
-				DWORD dim = p.bIsDimmed ? ((64 << 24) | 0x80) : 0;
+				uint32_t dim = p.bIsDimmed ? ((64 << 24) | 0x80) : 0;
 
 				if ((p.xStatusMode & 3) == 3) {
 					if (hIcon)

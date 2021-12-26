@@ -15,7 +15,7 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
+		HGENMENU addMainMenuItem(const wchar_t* pszName, uint32_t flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi(&g_plugin);
@@ -29,7 +29,7 @@ namespace mu
 			return Menu_AddMainMenuItem(&mi);
 		}
 
-		HGENMENU addContactMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService)
+		HGENMENU addContactMenuItem(const wchar_t* pszName, uint32_t flags, int position, HICON hIcon, const char* pszService)
 		{
 			// TODO: support for unicode-core with unicode-aware CList
 			CMenuItem mi(&g_plugin);
@@ -78,9 +78,9 @@ namespace mu
 
 	namespace protosvc
 	{
-		DWORD getCaps(const char* szProto, int flagNum)
+		uint32_t getCaps(const char* szProto, int flagNum)
 		{
-			return (DWORD)CallProtoService(szProto, PS_GETCAPS, static_cast<WPARAM>(flagNum), 0);
+			return (uint32_t)CallProtoService(szProto, PS_GETCAPS, static_cast<WPARAM>(flagNum), 0);
 		}
 
 		HICON loadIcon(const char* szProto, int whichIcon)
@@ -105,13 +105,13 @@ namespace mu
 	void unload()
 	{}
 
-	DWORD getMinimalMirandaVersion()
+	uint32_t getMinimalMirandaVersion()
 	{
 		// MEMO: version dependency check
 		return PLUGIN_MAKE_VERSION(0, 6, 7, 0);
 	}
 
-	bool isMirandaVersionOk(DWORD version)
+	bool isMirandaVersionOk(uint32_t version)
 	{
 		return (version >= getMinimalMirandaVersion());
 	}

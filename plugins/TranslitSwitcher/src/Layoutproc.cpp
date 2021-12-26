@@ -45,7 +45,7 @@ static DWORD CALLBACK StreamOutCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG 
 	return 0;
 }
 
-wchar_t* Message_GetFromStream(HWND hwndRtf, DWORD dwPassedFlags)
+wchar_t* Message_GetFromStream(HWND hwndRtf, uint32_t dwPassedFlags)
 {
 	if (hwndRtf == nullptr)
 		return nullptr;
@@ -415,7 +415,7 @@ void SwitchLayout(bool lastword)
 				keys[VK_CONTROL] = (HIBYTE(vks) & 2) ? 0xFF : 0x00; // ctrl
 				keys[VK_MENU] = (HIBYTE(vks) & 4) ? 0xFF : 0x00;	// alt
 
-				if (!isItSmiley(DWORD(i))) {
+				if (!isItSmiley(uint32_t(i))) {
 					wchar_t tchr;
 					if (ToUnicodeEx(LOBYTE(vks), 0, keys, &tchr, 1, 0, GetKeyboardLayout(dwThreadID)) == 1)
 						buf[i] = tchr;
@@ -438,7 +438,7 @@ void SwitchLayout(bool lastword)
 		uint8_t keys[256] = { 0 };
 		HKL hkl = GetKeyboardLayout(dwThreadID);
 
-		DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+		uint32_t dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
 		SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
 		bool somethingIsSelected = (dwStart != dwEnd);
 		if (somethingIsSelected)
@@ -516,7 +516,7 @@ void TranslitLayout(bool lastword)
 	if (mir_wstrcmpi(szClassName, L"RichEdit50W") != 0)
 		return;
 
-	DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+	uint32_t dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
 	SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
 	bool somethingIsSelected = (dwStart != dwEnd);
 	if (somethingIsSelected)
@@ -584,7 +584,7 @@ void InvertCase(bool lastword)
 	if (mir_wstrcmpi(szClassName, L"RichEdit50W") != 0)
 		return;
 
-	DWORD dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
+	uint32_t dwStart, dwEnd, dwFlags = SF_TEXT | SF_UNICODE;
 	SendMessage(hwnd2, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
 	bool somethingIsSelected = (dwStart != dwEnd);
 	if (somethingIsSelected)

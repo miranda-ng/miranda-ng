@@ -60,7 +60,7 @@ INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				break;
 			}
 
-			DWORD protoModeMsgFlags = 0;
+			uint32_t protoModeMsgFlags = 0;
 			for (int i = 0; i < protoCount; i++)
 				if (CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND & ~PF1_INDIVMODEMSG)
 					protoModeMsgFlags |= CallProtoService(proto[i]->szModuleName, PS_GETCAPS, PFLAGNUM_3, 0);

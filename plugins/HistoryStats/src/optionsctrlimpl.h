@@ -76,7 +76,7 @@ private:
 		INT_PTR m_dwData;
 
 	protected:
-		explicit Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData);
+		explicit Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData);
 
 		void enableChilds(bool bEnable);
 
@@ -102,7 +102,7 @@ private:
 		bool m_bDrawLine;
 
 	public:
-		explicit Group(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData);
+		explicit Group(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void setEnabled(bool bEnable);
 		virtual void childAdded(Item* pChild);
@@ -122,7 +122,7 @@ private:
 		void updateItem();
 
 	public:
-		explicit Check(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData);
+		explicit Check(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle();
 
@@ -171,7 +171,7 @@ private:
 		void updateItem();
 
 	public:
-		explicit Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData);
+		explicit Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData);
 		virtual ~Radio();
 
 		virtual void onToggle();
@@ -196,7 +196,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, DWORD dwFlags, INT_PTR dwData);
+		explicit Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -230,7 +230,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData);
+		explicit Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -256,7 +256,7 @@ private:
 		HWND m_hButtonWnd;
 
 	public:
-		explicit Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags, INT_PTR dwData);
+		explicit Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -294,7 +294,7 @@ private:
 		ext::string getCombinedText();
 
 	public:
-		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData);
+		explicit DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -325,7 +325,7 @@ private:
 		COLORREF getColorValue();
 
 	public:
-		explicit Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, COLORREF crColor, DWORD dwFlags, INT_PTR dwData);
+		explicit Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, COLORREF crColor, uint32_t dwFlags, INT_PTR dwData);
 
 		virtual void onToggle() { onActivate(); }
 		virtual void onSelect();
@@ -406,7 +406,7 @@ private:
 	void onOCMSetItemLabel(HTREEITEM hItem, const wchar_t* szLabel);
 	bool onOCMIsItemEnabled(HTREEITEM hItem);
 	void onOCMEnableItem(HTREEITEM hItem, bool bEnable);
-	DWORD onOCMGetItemData(HTREEITEM hItem);
+	uint32_t onOCMGetItemData(HTREEITEM hItem);
 	void onOCMSetItemData(HTREEITEM hItem, INT_PTR dwData);
 	bool onOCMIsItemChecked(HTREEITEM hItem);
 	void onOCMCheckItem(HTREEITEM hItem, bool bCheck);
@@ -423,18 +423,18 @@ private:
 	void onOCMDeleteAllItems();
 	HTREEITEM onOCMGetSelection();
 	void onOCMSelectItem(HTREEITEM hItem);
-	HTREEITEM onOCMGetItem(HTREEITEM hItem, DWORD dwFlag);
+	HTREEITEM onOCMGetItem(HTREEITEM hItem, uint32_t dwFlag);
 	void onOCMDeleteItem(HTREEITEM hItem);
 	void onOCMMoveItem(HTREEITEM& hItem, HTREEITEM hInsertAfter);
 	bool onOCMIsDateTimeNone(HTREEITEM hDateTime);
 	void onOCMSetDateTimeNone(HTREEITEM hDateTime);
-	DWORD onOCMGetDateTime(HTREEITEM hDateTime, BOOL* pbNone);
-	void onOCMSetDateTime(HTREEITEM hDateTime, DWORD dwTimestamp);
+	uint32_t onOCMGetDateTime(HTREEITEM hDateTime, BOOL* pbNone);
+	void onOCMSetDateTime(HTREEITEM hDateTime, uint32_t dwTimestamp);
 	COLORREF onOCMGetItemColor(HTREEITEM hColor);
 	void onOCMSetItemColor(HTREEITEM hColor, COLORREF crColor);
 
 private:
-	void insertItem(Item* pParent, Item* pItem, const wchar_t* szNodeText, DWORD dwFlags, int iImage);
+	void insertItem(Item* pParent, Item* pItem, const wchar_t* szNodeText, uint32_t dwFlags, int iImage);
 	void setModified(Item* pItem, bool bModified = true);
 	bool isItemValid(HTREEITEM hItem);
 	Item* getItem(HTREEITEM hItem);

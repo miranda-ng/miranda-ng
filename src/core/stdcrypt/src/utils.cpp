@@ -31,7 +31,7 @@ bool getRandomBytes(uint8_t *buf, size_t bufLen)
 		 ::CryptAcquireContext(&hProvider, nullptr, MS_STRONG_PROV, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) ||
 		 ::CryptAcquireContext(&hProvider, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT))
 	{
-		::CryptGenRandom(hProvider, DWORD(bufLen), buf);
+		::CryptGenRandom(hProvider, uint32_t(bufLen), buf);
 		::CryptReleaseContext(hProvider, 0);
 	}
 	// no luck? try to use Windows NT RTL
@@ -41,7 +41,7 @@ bool getRandomBytes(uint8_t *buf, size_t bufLen)
 		if (fnGetRandom == nullptr)
 			return false;
 
-		fnGetRandom(buf, DWORD(bufLen));
+		fnGetRandom(buf, uint32_t(bufLen));
 	}
 	return true;
 }

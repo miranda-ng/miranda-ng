@@ -90,8 +90,8 @@ public:
 	//----------------------------------------------
 	//----------------------------------------------
 	// Special functions for callbacks
-	void OnSoftButtonCB(DWORD state);
-	void OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD notifyParm2, DWORD notifyParm3, DWORD notifyParm4);
+	void OnSoftButtonCB(uint32_t state);
+	void OnNotificationCB(uint32_t notificationCode, uint32_t notifyParm1, uint32_t notifyParm2, uint32_t notifyParm3, uint32_t notifyParm4);
 	//----------------------------------------------
 	// Special functions for the volume wheel hook
 		// Activates/Deactivates the volumewheel hook
@@ -121,7 +121,7 @@ private:
 	bool m_bVolumeWheelHook;
 
 	// handles API Errors
-	void HandleErrorFromAPI(DWORD dwRes);
+	void HandleErrorFromAPI(uint32_t dwRes);
 
 	int						m_iNumQVGADevices;
 	int						m_iNumBWDevices;
@@ -135,10 +135,10 @@ private:
 	int						m_iPixels;
 	int						m_hDevice;
 	int						m_hConnection;
-	DWORD					m_dwButtonState;
+	uint32_t					m_dwButtonState;
 	int						m_iPriority;
 
-	DWORD					m_dwForegroundCheck;
+	uint32_t					m_dwForegroundCheck;
 	bool					m_bSetAsForeground;
 	std::vector<CLgLCDDevice*> m_lcdDevices;
 

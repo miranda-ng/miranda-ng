@@ -310,7 +310,7 @@ void checkStringForSaveN(CMStringA &str)
 					break;
 				case '2':
 				case 'd':
-					db_set_dw(0, A, B, (DWORD)atoi(C));
+					db_set_dw(0, A, B, (uint32_t)atoi(C));
 					break;
 				case '3':
 				case 's':

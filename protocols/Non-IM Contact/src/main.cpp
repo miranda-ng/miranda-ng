@@ -57,7 +57,7 @@ int NimcOptInit(WPARAM wParam, LPARAM)
 }
 //=====================================================
 // Name : __declspec(dllexport) PLUGININFO* MirandaPluginInfo
-// Parameters: (DWORD mirandaVersion)
+// Parameters: (uint32_t mirandaVersion)
 // Returns :
 // Description : Sets plugin info
 //=====================================================
@@ -87,7 +87,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 //=====================================================
 // Name : WINAPI DllMain
-// Parameters: HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved
+// Parameters: HINSTANCE hinst,uint32_t fdwReason,LPVOID lpvReserved
 // Returns : BOOL
 // Description :
 //=====================================================

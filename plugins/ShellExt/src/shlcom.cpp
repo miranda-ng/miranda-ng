@@ -9,13 +9,13 @@ int DllFactoryCount, DllObjectCount;
 struct TCMInvokeCommandInfo
 {
 	int   cbSize;
-	DWORD fMask;
+	uint32_t fMask;
 	HWND  hwnd;
 	char* lpVerb;  // maybe index, type cast as Integer
 	char* lpParams;
 	char* lpDir;
 	int   nShow;
-	DWORD dwHotkey;
+	uint32_t dwHotkey;
 	HICON hIcon;
 };
 
@@ -71,7 +71,7 @@ BOOL AddToList(TAddArgList& args)
 	char szBuf[MAX_PATH];
 	LPSTR szThis;
 
-	DWORD attr = GetFileAttributesA(args.szFile);
+	uint32_t attr = GetFileAttributesA(args.szFile);
 	if (attr != 0xFFFFFFFF && (attr & FILE_ATTRIBUTE_HIDDEN) == 0) {
 		if ((args.count % 10) == 5)
 			if (Miranda_IsTerminated() != 0)
@@ -199,7 +199,7 @@ void ipcGetSkinIcons(THeaderIPC * ipch)
 			PROTOACCOUNT* pa = *pp;
 			lstrcpyA(szTmp, pa->szModuleName);
 			lstrcatA(szTmp, PS_GETCAPS);
-			DWORD dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
+			uint32_t dwCaps = CallService(szTmp, PFLAGNUM_1, 0);
 			if (dwCaps & PF1_FILESEND) {
 				TSlotIPC* pct = ipcAlloc(ipch, sizeof(TSlotProtoIcons));
 				if (pct != nullptr) {
@@ -259,7 +259,7 @@ bool ipcGetSortedContacts(THeaderIPC * ipch, int* pSlot, bool bGroupMode)
 		char* szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto != nullptr) {
 			// does it support file sends?
-			DWORD dwCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t dwCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if ((dwCaps & PF1_FILESEND) == 0)
 				continue;
 

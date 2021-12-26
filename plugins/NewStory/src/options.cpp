@@ -90,7 +90,7 @@ public:
 
 		DBEVENTINFO dbei = {};
 		dbei.pBlob = (uint8_t *)"The quick brown fox jumps over the lazy dog";
-		dbei.cbBlob = (DWORD)strlen((char *)dbei.pBlob);
+		dbei.cbBlob = (uint32_t)strlen((char *)dbei.pBlob);
 		dbei.flags = DBEF_TEMPORARY;
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.timestamp = time(0);

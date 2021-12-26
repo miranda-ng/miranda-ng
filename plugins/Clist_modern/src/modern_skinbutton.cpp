@@ -57,7 +57,7 @@ typedef struct _ModernSkinButtonCtrl
 typedef struct _HandleServiceParams
 {
 	HWND    hwnd;
-	DWORD   msg;
+	uint32_t   msg;
 	WPARAM  wParam;
 	LPARAM  lParam;
 	BOOL    handled;
@@ -115,12 +115,12 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 			if (bct->ValueDBSection && bct->ValueTypeDef) {
 				char * key;
 				char * section;
-				DWORD defval = 0;
+				uint32_t defval = 0;
 				char buf[20];
 				key = mir_strdup(bct->ValueDBSection);
 				section = key;
 				if (bct->ValueTypeDef[0] != 's')
-					defval = (DWORD)atol(bct->ValueTypeDef + 1);
+					defval = (uint32_t)atol(bct->ValueTypeDef + 1);
 				do {
 					if (key[0] == '/') { key[0] = '\0'; key++; break; }
 					key++;
@@ -206,8 +206,8 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 		} while (val2[0] != '\0');
 
 		if (ValueTypeDef[0] != 's') {
-			l1 = (DWORD)atol(val);
-			l2 = (DWORD)atol(val2);
+			l1 = (uint32_t)atol(val);
+			l2 = (uint32_t)atol(val2);
 		}
 
 		switch (ValueTypeDef[0]) {
@@ -224,7 +224,7 @@ static int ModernSkinButtonToggleDBValue(char * ValueDBSection, char *ValueTypeD
 		case 'd':
 			curval = db_get_dw(0, section, key, l2);
 			curval = (curval == l2) ? l1 : l2;
-			db_set_dw(0, section, key, (DWORD)curval);
+			db_set_dw(0, section, key, (uint32_t)curval);
 			break;
 
 		case 'w':
@@ -497,7 +497,7 @@ typedef struct _MButton
 
 } MButton;
 MButton * Buttons = nullptr;
-DWORD ButtonsCount = 0;
+uint32_t ButtonsCount = 0;
 
 #define _center_h( rc ) (((rc)->right + (rc)->left ) >> 1)
 #define _center_v( rc ) (((rc)->bottom + (rc)->top ) >> 1)
@@ -511,7 +511,7 @@ int ModernSkinButton_AddButton(HWND parent,
 	int Top,
 	int Right,
 	int Bottom,
-	DWORD sbFlags,
+	uint32_t sbFlags,
 	wchar_t * Hint,
 	char * DBkey,
 	char * TypeDef,
@@ -577,7 +577,7 @@ int ModernSkinButton_AddButton(HWND parent,
 
 static int ModernSkinButtonErase(int l, int t, int r, int b)
 {
-	DWORD i;
+	uint32_t i;
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	if (!g_CluiData.fLayered) return 0;
 	if (!g_pCachedWindow) return 0;
@@ -618,7 +618,7 @@ int ModernSkinButtonRedrawAll()
 {
 	if (!ModernSkinButtonModuleIsLoaded) return 0;
 	g_mutex_bLockUpdating++;
-	for (DWORD i = 0; i < ButtonsCount; i++) {
+	for (uint32_t i = 0; i < ButtonsCount; i++) {
 		if (g_clistApi.hwndContactList && Buttons[i].hwnd == nullptr)
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, g_clistApi.hwndContactList);
 		ModernSkinButtonPaintWorker(Buttons[i].hwnd, nullptr);
@@ -667,7 +667,7 @@ int ModernSkinButton_ReposButtons(HWND parent, uint8_t draw, RECT *pRect)
 	OffsetRect(&rc, -rc.left, -rc.top);
 	rc.right = rc.left + (clr.right - clr.left);
 	rc.bottom = rc.top + (clr.bottom - clr.top);
-	for (DWORD i = 0; i < ButtonsCount; i++) {
+	for (uint32_t i = 0; i < ButtonsCount; i++) {
 		int sbFlags = Buttons[i].ConstrainPositionFrom;
 		if (parent && Buttons[i].hwnd == nullptr) {
 			Buttons[i].hwnd = ModernSkinButtonCreateWindow(Buttons[i].bct, parent);

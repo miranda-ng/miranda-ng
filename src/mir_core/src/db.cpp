@@ -134,7 +134,7 @@ MIR_CORE_DLL(int) db_get_w(MCONTACT hContact, const char *szModule, const char *
 	return errorValue;
 }
 
-MIR_CORE_DLL(DWORD) db_get_dw(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD errorValue)
+MIR_CORE_DLL(uint32_t) db_get_dw(MCONTACT hContact, const char *szModule, const char *szSetting, uint32_t errorValue)
 {
 	if (g_pCurrDb != nullptr) {
 		DBVARIANT dbv;
@@ -302,7 +302,7 @@ MIR_CORE_DLL(INT_PTR) db_set_w(MCONTACT hContact, const char *szModule, const ch
 	return g_pCurrDb->WriteContactSetting(hContact, &cws);
 }
 
-MIR_CORE_DLL(INT_PTR) db_set_dw(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD val)
+MIR_CORE_DLL(INT_PTR) db_set_dw(MCONTACT hContact, const char *szModule, const char *szSetting, uint32_t val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 

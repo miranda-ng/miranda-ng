@@ -189,8 +189,8 @@ struct TLogTheme
 	COLORREF  inbg, outbg, bg, oldinbg, oldoutbg, statbg, inputbg;
 	COLORREF  hgrid;
 	COLORREF  custom_colors[5];
-	DWORD     dwFlags;
-	DWORD     left_indent, right_indent;
+	uint32_t     dwFlags;
+	uint32_t     left_indent, right_indent;
 	LOGFONTW *logFonts;
 	COLORREF *fontColors;
 	char     *rtfFonts;
@@ -199,7 +199,7 @@ struct TLogTheme
 
 union TContainerFlags
 {
-	DWORD dw;
+	uint32_t dw;
 	struct {
 		bool m_bUnused1 : 1;
 		bool m_bNoTitle : 1;
@@ -238,7 +238,7 @@ union TContainerFlags
 
 union TContainerFlagsEx
 {
-	DWORD dw;
+	uint32_t dw;
 	struct
 	{
 		bool m_bTabFlat : 1;
@@ -264,8 +264,8 @@ struct TContainerSettings
 	TContainerFlags flags;
 	TContainerFlagsEx flagsEx;
 
-	DWORD   dwTransparency;
-	DWORD   panelheight;
+	uint32_t   dwTransparency;
+	uint32_t   panelheight;
 	int     iSplitterX, iSplitterY;
 	wchar_t szTitleFormat[TITLE_FORMATLEN + 2];
 	uint16_t    avatarMode;
@@ -301,10 +301,10 @@ struct TContainerData : public MZeroedObject
 	BOOL     m_isCloned;
 	HWND     m_hwndStatus;
 	int      m_statusBarHeight;
-	DWORD    m_dwLastActivity;
+	uint32_t    m_dwLastActivity;
 	int      m_hIcon;               // current window icon stick indicator
 	HICON	   m_hIconTaskbarOverlay; // contains a "sticky" taskbar overlay (e.g. new message icon)
-	DWORD    m_dwFlashingStarted;
+	uint32_t    m_dwFlashingStarted;
 	HWND     m_hWndOptions;
 	BOOL     m_bSizingLoop;
 	HDC      m_cachedDC;
@@ -317,7 +317,7 @@ struct TContainerData : public MZeroedObject
 	HWND     m_hwndSaved;
 	RECT     m_rcSaved, m_rcLogSaved;
 	POINT	   m_ptLogSaved;
-	DWORD    m_exFlags;
+	uint32_t    m_exFlags;
 	BOOL	   m_fPrivateThemeChanged;
 	MARGINS  m_mOld;
 	HDC      m_cachedToolbarDC;
@@ -428,7 +428,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	}
 
 	void    CB_DestroyAllButtons(void);
-	void    CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags);
+	void    CB_DestroyButton(uint32_t dwButtonCID, uint32_t dwFlags);
 	void    CB_ChangeButton(CustomButtonData *cbd);
 
 	void    DM_AddDivider(void);
@@ -488,8 +488,8 @@ class CMsgDialog : public CSrmmBaseDialog
 	RECT    m_rcNick, m_rcUIN, m_rcStatus, m_rcPic;
 	int     m_originalSplitterY;
 	SIZE    m_minEditBoxSize;
-	DWORD   m_lastMessage;
-	DWORD   m_dwTickLastEvent;
+	uint32_t   m_lastMessage;
+	uint32_t   m_dwTickLastEvent;
 	HBITMAP m_hOwnPic;
 	SIZE    m_pic;
 
@@ -510,21 +510,21 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	int     m_iRealAvatarHeight;
 	int     m_iButtonBarReallyNeeds;
-	DWORD   m_dwLastActivity;
+	uint32_t   m_dwLastActivity;
 	MEVENT  m_hFlashingEvent;
 	int     m_SendFormat;
 	LCID    m_lcid;
 	wchar_t m_lcID[10];
 	int     m_iPanelAvatarX, m_iPanelAvatarY;
 	HWND    m_hwndTip;
-	DWORD   m_panelStatusCX;
+	uint32_t   m_panelStatusCX;
 	int     m_textLen;         // current text len
 	LONG    m_ipFieldHeight;
 	WPARAM  m_wParam;          // used for "delayed" actions like moved splitters in minimized windows
 	LPARAM  m_lParam;
 	int     m_iHaveRTLLang;
 			  
-	DWORD   m_iSplitterSaved;
+	uint32_t   m_iSplitterSaved;
 	POINT   m_ptTipActivation;
 
 protected:
@@ -551,9 +551,9 @@ public:
 
 	int     m_sendMode;
 	HKL     m_hkl;                                    // keyboard layout identifier
-	DWORD   m_idle;
-	DWORD   m_dwFlags;
-	DWORD   m_dwUnread;
+	uint32_t   m_idle;
+	uint32_t   m_dwFlags;
+	uint32_t   m_dwUnread;
 	HANDLE  m_hTheme, m_hThemeIP, m_hThemeToolbar;
 	HICON   m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
 	MEVENT  m_hDbEventFirst, m_hDbEventLast;
@@ -721,7 +721,7 @@ struct myTabCtrl
 	HFONT   m_hMenuFont;
 	COLORREF colors[10];
 	HBRUSH  m_brushes[4];
-	DWORD   m_fixedwidth;
+	uint32_t   m_fixedwidth;
 	int     m_bottomAdjust;
 };
 
@@ -939,7 +939,7 @@ struct TOptionListItem
 struct SIDEBARITEM
 {
 	UINT    uId;
-	DWORD   dwFlags;
+	uint32_t   dwFlags;
 	HICON *hIcon, *hIconPressed, *hIconHover;
 	wchar_t *szName;
 	void (*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);

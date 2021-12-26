@@ -68,7 +68,7 @@ int CCtrlRichEdit::SetRichTextRtf(const char *text)
 
 static DWORD CALLBACK MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	static DWORD dwRead;
+	static uint32_t dwRead;
 	char **ppText = (char **)dwCookie;
 
 	if (*ppText == nullptr) {
@@ -92,7 +92,7 @@ static DWORD CALLBACK MessageStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, L
 char* CCtrlRichEdit::GetRichTextRtf(bool bText, bool bSelection) const
 {
 	char *pszText = nullptr;
-	DWORD dwFlags = SF_USECODEPAGE | (CP_UTF8 << 16);
+	uint32_t dwFlags = SF_USECODEPAGE | (CP_UTF8 << 16);
 	if (bText)
 		dwFlags |= SF_TEXT;
 	else

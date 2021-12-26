@@ -107,7 +107,7 @@ extern int raw_ping(char *host, int timeout)
 
 	bool use_hi_res = false;
 	LARGE_INTEGER hr_freq = { 0 }, hr_send_time = { 0 };
-	DWORD send_time;
+	uint32_t send_time;
 	if (QueryPerformanceFrequency(&hr_freq)) {
 		use_hi_res = true;
 		QueryPerformanceCounter(&hr_send_time);
@@ -128,7 +128,7 @@ extern int raw_ping(char *host, int timeout)
 	int fromlen = sizeof(source);
 	IPHeader *reply_header = (IPHeader *)recv_buff;
 	ICMPHeader *reply;
-	DWORD start, current_time;
+	uint32_t start, current_time;
 	LARGE_INTEGER hr_start = { 0 }, hr_current_time = { 0 }, hr_timeout = { 0 };
 	if (use_hi_res) {
 		hr_timeout.QuadPart = (timeout * hr_freq.QuadPart / 1000LL);

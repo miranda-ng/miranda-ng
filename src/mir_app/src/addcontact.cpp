@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
+static wchar_t* sttDecodeString(uint32_t dwFlags, MAllStrings &src)
 {
 	if (dwFlags & PSR_UNICODE)
 		return mir_wstrdup(src.w);
@@ -89,7 +89,7 @@ public:
 		if (db_get_b(0, "Miranda", "AuthOpenWindow", 1))
 			m_chkOpen.SetState(true);
 
-		DWORD flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+		uint32_t flags = (m_szProto) ? CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 		if (flags & PF4_FORCEAUTH)  // force auth requests for this protocol
 			m_chkAuth.Enable(false);
 
@@ -126,7 +126,7 @@ public:
 		Contact_PutOnList(hContact);
 
 		if (m_chkAuth.GetState()) {
-			DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+			uint32_t flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 			if (flags & PF4_NOCUSTOMAUTH)
 				ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 			else
@@ -145,7 +145,7 @@ public:
 
 	void OnAuthClicked(CCtrlButton*)
 	{
-		DWORD flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+		uint32_t flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 		if (flags & PF4_NOCUSTOMAUTH)
 			m_authReq.Enable(false);
 		else
@@ -190,7 +190,7 @@ MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent)
 		{
 			m_hDbEvent = hEvent;
 
-			DWORD dwData[2];
+			uint32_t dwData[2];
 			DBEVENTINFO dbei = {};
 			dbei.cbBlob = sizeof(dwData);
 			dbei.pBlob = (uint8_t*)&dwData;

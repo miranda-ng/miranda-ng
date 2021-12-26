@@ -7,7 +7,7 @@ const static long div_100_nsec = 10000000;
 /* POSIX or Unix Epoch (1-Jan-1970 00:00) in FILETIME units */
 const static ULONGLONG ix_epoch = 116444736000000000;
 
-DWORD gettime(void)
+uint32_t gettime(void)
 {
 	ULONGLONG diff_100_nsec;
 	union
@@ -20,5 +20,5 @@ DWORD gettime(void)
 
 	diff_100_nsec = now.u.QuadPart - ix_epoch;
 
-	return (DWORD)(diff_100_nsec / div_100_nsec);
+	return (uint32_t)(diff_100_nsec / div_100_nsec);
 }

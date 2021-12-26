@@ -144,7 +144,7 @@ static int g_GifInterlaceIncrement[GIF_INTERLACE_PASSES] = {8, 8, 4, 2};
 // ==========================================================
 
 static BOOL 
-FreeImage_SetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, uint16_t id, FREE_IMAGE_MDTYPE type, DWORD count, DWORD length, const void *value)
+FreeImage_SetMetadataEx(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const char *key, uint16_t id, FREE_IMAGE_MDTYPE type, uint32_t count, uint32_t length, const void *value)
 {
 	BOOL bResult = FALSE;
 	FITAG *tag = FreeImage_CreateTag();
@@ -1025,7 +1025,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				}
 				comment.append(1, '\0');
 				sprintf(buf, "Comment%zd", idx);
-				DWORD comment_size = (DWORD)comment.size();
+				uint32_t comment_size = (uint32_t)comment.size();
 				FreeImage_SetMetadataEx(FIMD_COMMENTS, dib, buf, 1, FIDT_ASCII, comment_size, comment_size, comment.c_str());
 			}
 		}

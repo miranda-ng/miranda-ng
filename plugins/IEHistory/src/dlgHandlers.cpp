@@ -143,7 +143,7 @@ void FillIEViewInfo(IEVIEWEVENTDATA *fillData, DBEVENTINFO dbInfo, uint8_t *blob
 	}
 }
 
-DWORD WINAPI WorkerThread(LPVOID lpvData)
+uint32_t WINAPI WorkerThread(LPVOID lpvData)
 {
 	Log("%s", "Inside worker thread ...");
 	WorkerThreadData *data = (WorkerThreadData *)lpvData;

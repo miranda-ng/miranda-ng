@@ -37,7 +37,7 @@ class CPsTreeItem
 	HINSTANCE     _hInst;      // instance handle of the owning plugin dll
 	DLGPROC       _pfnDlgProc; // dialog procedure for the property page
 	HWND          _hWnd;       // window handle for the property page if shown jet
-	DWORD         _dwFlags;    // some flags
+	uint32_t         _dwFlags;    // some flags
 	int           _iPosition;  // initiating position if custom (used for sorting)
 	LPARAM        _initParam;
 	MCONTACT      _hContact;   // contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
@@ -82,10 +82,10 @@ public:
 	__inline int Parent() const { return _iParent; };
 	__inline void Parent(const int iParent) { _iParent = iParent; };
 
-	__inline DWORD Flags() const { return _dwFlags; };
-	__inline void Flags(DWORD dwFlags) { _dwFlags = dwFlags; };
-	__inline void AddFlags(DWORD dwFlags) { _dwFlags |= dwFlags; };
-	__inline void RemoveFlags(DWORD dwFlags) { _dwFlags &= ~dwFlags; };
+	__inline uint32_t Flags() const { return _dwFlags; };
+	__inline void Flags(uint32_t dwFlags) { _dwFlags = dwFlags; };
+	__inline void AddFlags(uint32_t dwFlags) { _dwFlags |= dwFlags; };
+	__inline void RemoveFlags(uint32_t dwFlags) { _dwFlags &= ~dwFlags; };
 
 	uint8_t HasName(const LPCSTR pszName) const;
 
@@ -96,7 +96,7 @@ public:
 	LPSTR ParentItemName();
 	HWND CreateWnd(LPPS pPs);
 	
-	uint16_t DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags);
+	uint16_t DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, uint32_t dwFlags);
 
 	// notification handlers
 	void OnInfoChanged();
@@ -139,7 +139,7 @@ class CPsTree
 	HWND _hWndTree = nullptr;
 	HIMAGELIST _hImages = nullptr;
 	int _curItem = -1;
-	DWORD _dwFlags = 0;
+	uint32_t _dwFlags = 0;
 	HWND _hLabelEdit = nullptr;
 	HTREEITEM _hDragItem = nullptr;
 	bool _isDragging = false;
@@ -156,10 +156,10 @@ public:
 	__inline bool IsDragging() const { return _isDragging; }
 	__inline HTREEITEM DragItem() const { return _hDragItem; }
 
-	__inline DWORD Flags() const { return _dwFlags; }
-	__inline void Flags(DWORD dwFlags) { _dwFlags = dwFlags; }
-	__inline void AddFlags(DWORD dwFlags) { _dwFlags |= dwFlags; }
-	__inline void RemoveFlags(DWORD dwFlags) { _dwFlags &= ~dwFlags; }
+	__inline uint32_t Flags() const { return _dwFlags; }
+	__inline void Flags(uint32_t dwFlags) { _dwFlags = dwFlags; }
+	__inline void AddFlags(uint32_t dwFlags) { _dwFlags |= dwFlags; }
+	__inline void RemoveFlags(uint32_t dwFlags) { _dwFlags &= ~dwFlags; }
 
 	__inline int NumItems() const { return _pages.getCount(); }
 	__inline HWND Window() const { return _hWndTree; }
@@ -224,7 +224,7 @@ struct CPsHdr
 	LPCSTR   _pszPrefix = 0;   // name prefix for treeitem settings
 	CPsTreeItem** _pPages = 0; // the pages
 	uint16_t     _numPages = 0;    // number of pages
-	DWORD    _dwFlags = 0;     // some option flags
+	uint32_t    _dwFlags = 0;     // some option flags
 	HIMAGELIST _hImages = 0;   // the imagelist with all tree item icons
 	LIST<wchar_t> _ignore;     // list of skipped items when adding metasubcontacts pages
 	int      _nSubContact = 0; // index of a current subcontact
@@ -258,7 +258,7 @@ struct TPropSheet
 	RECT rcDisplay;
 	uint8_t updateAnimFrame;
 	CHAR szUpdating[64];
-	DWORD dwFlags;
+	uint32_t dwFlags;
 
 	TAckInfo	*infosUpdated;
 	int nSubContacts;

@@ -150,7 +150,7 @@ struct MessageWindowPopupData
 struct StatusIconData
 {
 	const char *szModule;            // used in combo with the dwId below to create a unique identifier
-	DWORD dwId;                      // uniquely defines a button inside a module
+	uint32_t dwId;                      // uniquely defines a button inside a module
 	HICON hIcon, hIconDisabled;      // hIconDisabled is optional - if null, will use hIcon in the disabled state
 	int   flags;                     // bitwize OR of MBF_* flags above
 	MAllCStrings szTooltip;          // controlled by MBF_UNICODE
@@ -162,14 +162,14 @@ struct StatusIconData
 EXTERN_C MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin);
 
 // removes an icon
-EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId);
+EXTERN_C MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, uint32_t iconId);
 
 // if hContact is null, icon is modified for all contacts
 // if either hIcon or pwszTooltip is null, they will not be modified
-EXTERN_C MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD iconId, HICON hIcon, const wchar_t *pwszToolTip);
+EXTERN_C MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, uint32_t iconId, HICON hIcon, const wchar_t *pwszToolTip);
 
 // if hContact is null, flags are modified for all contacts
-EXTERN_C MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWORD iconId, int flags);
+EXTERN_C MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, uint32_t iconId, int flags);
 
 // idx is zero-based index of a visible icon
 // returns (StatusIconData*)icon description filled for the required contact or NULL if there're no more icons
@@ -183,7 +183,7 @@ struct StatusIconClickData
 {
 	POINT clickLocation;             // click location, in screen coordinates
 	const char *szModule;
-	DWORD dwId;
+	uint32_t dwId;
 	int   flags;                       // bitwize OR of MBCF_* flags above
 };
 
@@ -232,9 +232,9 @@ struct BBButton
 
 	const wchar_t *pwszText;       // button's text, might be NULL
 	const wchar_t *pwszTooltip;    // button's tooltip, might be NULL
-	DWORD          dwDefPos;       // default order pos of button, counted from window edge (left or right)
+	uint32_t       dwDefPos;       // default order pos of button, counted from window edge (left or right)
 	                               // use value >100, because internal buttons using 10,20,30... 80, etc
-	DWORD          bbbFlags;       // combine of BBBF_ flags above
+	uint32_t       bbbFlags;       // combine of BBBF_ flags above
 	HANDLE         hIcon;          // Handle to icolib registered icon
 	const char    *pszHotkey;      // name of the registered hotkey or NULL
 };
@@ -293,10 +293,10 @@ struct CustomButtonClickData
 {
 	char    *pszModule;   // button owners name
 	POINT    pt;          // screen coordinates for menus
-	DWORD    dwButtonId;  // registered button ID
+	uint32_t dwButtonId;  // registered button ID
 	HWND     hwndFrom;    // button parents HWND
 	MCONTACT hContact;
-	DWORD    flags;       // BBCF_ flags
+	uint32_t flags;       // BBCF_ flags
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

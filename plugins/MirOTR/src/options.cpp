@@ -597,7 +597,7 @@ public:
 	{
 		for (auto &it : m_map) {
 			if (!it.first) continue;
-			db_set_dw(it.first, MODULENAME, "Policy", (DWORD)it.second.policy);
+			db_set_dw(it.first, MODULENAME, "Policy", (uint32_t)it.second.policy);
 			db_set_b(it.first, MODULENAME, "HTMLConv", it.second.htmlconv);
 		}
 		return true;

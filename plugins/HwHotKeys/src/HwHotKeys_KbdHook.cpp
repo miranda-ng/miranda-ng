@@ -75,7 +75,7 @@ LRESULT CALLBACK key_hook(int nCode, WPARAM wParam, LPARAM lParam)  // https://m
 					key_code = (LOWORD(key_code_raw)) | (key_code & 0xFFFF0000); // в старшей половине там лежат биты модификаторов - их оставляем (они там могут быть от предыдущего раза)
 					if (hDialogWnd) { // если диалог настроек открыт - выводим в него комплексную комбинацию (типа Shift+Key), которую потом можно назначить;
 						if (IsDlgButtonChecked(hDialogWnd, dlg_combine)) { // левые/правые модификаторы объединять в один?
-							DWORD tmp1, tmp2;
+							uint32_t tmp1, tmp2;
 							tmp1 = ((key_code >> 4) | (key_code >> 8)) & 0x00F00000;
 							tmp2 = LOWORD(key_code) | tmp1;
 							tmp2 &= 0x00F001FF;

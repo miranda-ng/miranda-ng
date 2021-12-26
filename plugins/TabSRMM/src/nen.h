@@ -119,7 +119,7 @@ struct NEN_OPTIONS
 	int    iLimitPreview;
 	uint16_t   wMaxRecent;
 	uint16_t   wMaxFavorites;
-	DWORD  dwRemoveMask;
+	uint32_t  dwRemoveMask;
 
 	COLORREF colBackMsg;
 	COLORREF colTextMsg;
@@ -133,7 +133,7 @@ struct EVENT_DATAT
 {
 	MEVENT hEvent;
 	wchar_t  tszText[MAX_SECONDLINE + 2];
-	DWORD  timestamp;
+	uint32_t  timestamp;
 };
 
 struct PLUGIN_DATAT

@@ -49,14 +49,14 @@ typedef struct
 
 #define VER30            0x00030000
 
-void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, DWORD rva)
+void* _RelativeVirtualAddresstoPtr(IMAGE_DOS_HEADER *pDosHeader, uint32_t rva)
 {
 	IMAGE_NT_HEADERS *pPE = (IMAGE_NT_HEADERS*)((uint8_t*)pDosHeader + pDosHeader->e_lfanew);
 	IMAGE_SECTION_HEADER *pSection = IMAGE_FIRST_SECTION(pPE);
 
 	for (int i = 0; i < pPE->FileHeader.NumberOfSections; i++) {
 		IMAGE_SECTION_HEADER* cSection = &pSection[i];
-		DWORD size = cSection->Misc.VirtualSize ? cSection->Misc.VirtualSize : cSection->SizeOfRawData;
+		uint32_t size = cSection->Misc.VirtualSize ? cSection->Misc.VirtualSize : cSection->SizeOfRawData;
 
 		if (rva >= cSection->VirtualAddress && rva < cSection->VirtualAddress + size)
 			return (LPBYTE)pDosHeader + cSection->PointerToRawData + (rva - cSection->VirtualAddress);
@@ -89,7 +89,7 @@ void* _GetResourceTable(IMAGE_DOS_HEADER* pDosHeader)
 	return nullptr;
 }
 
-IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, DWORD resType, int *pCount)
+IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, uint32_t resType, int *pCount)
 {
 	IMAGE_RESOURCE_DIRECTORY *pDir = (IMAGE_RESOURCE_DIRECTORY*)prt;
 	int i;
@@ -112,21 +112,21 @@ IMAGE_RESOURCE_DIRECTORY_ENTRY* _FindResourceBase(void *prt, DWORD resType, int 
 	return (IMAGE_RESOURCE_DIRECTORY_ENTRY*)(pDir + 1);
 }
 
-int _FindResourceCount(void *prt, DWORD resType)
+int _FindResourceCount(void *prt, uint32_t resType)
 {
 	int count;
 	_FindResourceBase(prt, resType, &count);
 	return count;
 }
 
-void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD resType, DWORD *pcbSize)
+void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, uint32_t resType, uint32_t *pcbSize)
 {
 	int count, index = 0;
 
 	IMAGE_RESOURCE_DIRECTORY_ENTRY *pRes = _FindResourceBase(prt, resType, &count);
 	if (resIndex < 0) {
 		for (index = 0; index < count; index++)
-			if (pRes[index].Name == (DWORD)(-resIndex))
+			if (pRes[index].Name == (uint32_t)(-resIndex))
 				break;
 	}
 	else index = resIndex;
@@ -152,7 +152,7 @@ void* _FindResource(IMAGE_DOS_HEADER *pDosHeader, void *prt, int resIndex, DWORD
 UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize, HICON *phicon, UINT flags)
 {
 	int retval = 0;
-	DWORD fileLen = GetFileSize(hFile, nullptr);
+	uint32_t fileLen = GetFileSize(hFile, nullptr);
 
 	HANDLE pFile = nullptr, hFileMap = CreateFileMapping(hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
 	if (hFileMap == nullptr)
@@ -165,7 +165,7 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 	IMAGE_DOS_HEADER *pDosHeader = (IMAGE_DOS_HEADER*)(void*)pFile;
 	if (pDosHeader->e_magic != IMAGE_DOS_SIGNATURE) goto cleanup;
 	if (pDosHeader->e_lfanew <= 0) goto cleanup;
-	if ((DWORD)(pDosHeader->e_lfanew) >= fileLen) goto cleanup;
+	if ((uint32_t)(pDosHeader->e_lfanew) >= fileLen) goto cleanup;
 
 	void *pRes = _GetResourceTable(pDosHeader);
 	if (!pRes) goto cleanup;
@@ -174,7 +174,7 @@ UINT _ExtractFromExe(HANDLE hFile, int iconIndex, int cxIconSize, int cyIconSize
 		goto cleanup;
 	}
 
-	DWORD cbSize = 0;
+	uint32_t cbSize = 0;
 	NEWHEADER *pIconDir = (NEWHEADER*)_FindResource(pDosHeader, pRes, iconIndex, (ULONG_PTR)RT_GROUP_ICON, &cbSize);
 	if (!pIconDir) goto cleanup;
 	if (pIconDir->Reserved || pIconDir->ResType != RES_ICON) goto cleanup;

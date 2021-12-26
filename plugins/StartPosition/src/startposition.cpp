@@ -17,15 +17,15 @@ void CMPlugin::positionClist()
 		clOptions.state = static_cast<uint8_t>(spOptions.clistState);
 
 	if (spOptions.setClistWidth && spOptions.clistWidth > 0)
-		clOptions.width = static_cast<DWORD>(spOptions.clistWidth);
+		clOptions.width = static_cast<uint32_t>(spOptions.clistWidth);
 	else
-		spOptions.clistWidth = static_cast<DWORD>(clOptions.width);
+		spOptions.clistWidth = static_cast<uint32_t>(clOptions.width);
 
 	if (spOptions.setTopPosition || spOptions.setBottomPosition || spOptions.setSidePosition)
 		clOptions.isDocked = false;
 
 	if (spOptions.setTopPosition)
-		clOptions.y = static_cast<DWORD>(spOptions.pixelsFromTop);
+		clOptions.y = static_cast<uint32_t>(spOptions.pixelsFromTop);
 
 	RECT WorkArea;
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);

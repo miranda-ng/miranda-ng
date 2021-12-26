@@ -42,7 +42,7 @@ static int MirandaWaitForMutex(HANDLE hEvent)
 {
 	// will get WAIT_IO_COMPLETE for QueueUserAPC() which isnt a result
 	for (;;) {
-		DWORD rc = MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+		uint32_t rc = MsgWaitForMultipleObjectsEx(1, &hEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (rc == WAIT_OBJECT_0 + 1) {
 			MSG msg;
 			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -63,7 +63,7 @@ static int MirandaWaitForMutex(HANDLE hEvent)
 /////////////////////////////////////////////////////////////////////////////////////////
 // exception handling
 
-static DWORD __cdecl sttDefaultFilter(DWORD, EXCEPTION_POINTERS*)
+static uint32_t __cdecl sttDefaultFilter(uint32_t, EXCEPTION_POINTERS*)
 {
 	return EXCEPTION_EXECUTE_HANDLER;
 }
@@ -88,7 +88,7 @@ MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter _mirandaE
 
 struct THREAD_WAIT_ENTRY
 {
-	DWORD dwThreadId;	// valid if hThread isn't signalled
+	uint32_t dwThreadId;	// valid if hThread isn't signalled
 	HANDLE hThread;
 	HINSTANCE hOwner;
 	void *pObject, *pEntryPoint;
@@ -146,7 +146,7 @@ MIR_CORE_DLL(HANDLE) mir_forkthread(void(__cdecl *threadcode)(void*), void *arg)
 /////////////////////////////////////////////////////////////////////////////////////////
 // forkthreadex - starts a new thread with the extended info and returns the thread id
 
-DWORD WINAPI forkthreadex_r(void * arg)
+DWORD WINAPI forkthreadex_r(void *arg)
 {
 	struct FORK_ARG *fa = (struct FORK_ARG *)arg;
 	pThreadFuncEx threadcode = fa->threadcodeex;
@@ -249,7 +249,7 @@ MIR_CORE_DLL(void) KillObjectThreads(void* owner)
 	if (owner == nullptr)
 		return;
 
-	DWORD dwTicks = GetTickCount() + 6000;
+	uint32_t dwTicks = GetTickCount() + 6000;
 	HANDLE hThread = mir_forkthread(KillObjectThreadsWorker, owner);
 	while (GetTickCount() < dwTicks) {
 		int res = MsgWaitForMultipleObjectsEx(1, &hThread, 50, QS_ALLPOSTMESSAGE | QS_ALLINPUT, MWMO_ALERTABLE);
@@ -350,7 +350,7 @@ MIR_CORE_DLL(INT_PTR) Thread_Push(HINSTANCE hInst, void* pOwner)
 
 MIR_CORE_DLL(INT_PTR) Thread_Pop()
 {
-	DWORD dwThreadId = GetCurrentThreadId();
+	uint32_t dwThreadId = GetCurrentThreadId();
 
 	mir_cslock lck(csThreads);
 	THREAD_WAIT_ENTRY *p = threads.find((THREAD_WAIT_ENTRY*)&dwThreadId);
@@ -372,15 +372,15 @@ MIR_CORE_DLL(INT_PTR) Thread_Pop()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const DWORD MS_VC_EXCEPTION=0x406D1388;
+const uint32_t MS_VC_EXCEPTION=0x406D1388;
 
 #pragma pack(push,8)
 typedef struct tagTHREADNAME_INFO
 {
-	DWORD dwType; // Must be 0x1000.
+	uint32_t dwType; // Must be 0x1000.
 	LPCSTR szName; // Pointer to name (in user addr space).
-	DWORD dwThreadID; // Thread ID (-1=caller thread).
-	DWORD dwFlags; // Reserved for future use, must be zero.
+	uint32_t dwThreadID; // Thread ID (-1=caller thread).
+	uint32_t dwFlags; // Reserved for future use, must be zero.
 } THREADNAME_INFO;
 #pragma pack(pop)
 

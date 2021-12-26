@@ -70,7 +70,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD flags = 0;
+		uint32_t flags = 0;
 		TVITEMEX tvi;
 		tvi.mask = TVIF_HANDLE | TBIF_LPARAM;
 		tvi.hItem = m_tvFilter.GetRoot(); //check ignore all

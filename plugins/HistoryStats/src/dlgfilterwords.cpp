@@ -88,7 +88,7 @@ void DlgFilterWords::onWMInitDialog()
 	array_each_(i, columnBand)
 	{
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
-		DWORD dwFlags = (columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
+		uint32_t dwFlags = (columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);
 
 		m_hActionButtons[i] = m_Band.addButton(dwFlags, hIcon, i, TranslateW(columnBand[i].szTooltip));
 

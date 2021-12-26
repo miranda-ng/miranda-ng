@@ -110,11 +110,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			BOOL trans_success;
 
-			DWORD new_ping_period = GetDlgItemInt(hwndDlg, IDC_PPM, &trans_success, FALSE);
+			uint32_t new_ping_period = GetDlgItemInt(hwndDlg, IDC_PPM, &trans_success, FALSE);
 			if (trans_success) {
 				options.ping_period = new_ping_period;
 			}
-			DWORD new_ping_timeout = GetDlgItemInt(hwndDlg, IDC_PT, &trans_success, FALSE);
+			uint32_t new_ping_timeout = GetDlgItemInt(hwndDlg, IDC_PT, &trans_success, FALSE);
 			if (trans_success) {
 				options.ping_timeout = new_ping_timeout;
 			}
@@ -130,7 +130,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			options.indent = SendDlgItemMessage(hwndDlg, IDC_SP_INDENT, UDM_GETPOS, 0, 0);
 			options.row_height = SendDlgItemMessage(hwndDlg, IDC_SP_ROWHEIGHT, UDM_GETPOS, 0, 0);
 
-			DWORD new_retries = GetDlgItemInt(hwndDlg, IDC_RPT, &trans_success, FALSE);
+			uint32_t new_retries = GetDlgItemInt(hwndDlg, IDC_RPT, &trans_success, FALSE);
 			if (trans_success) {
 				options.retries = new_retries;
 			}
@@ -547,7 +547,7 @@ void SaveOptions() {
 	g_plugin.setWord("Indent", options.indent);
 	g_plugin.setWord("RowHeight", options.row_height);
 
-	g_plugin.setDword("Retries", (DWORD)options.retries);
+	g_plugin.setDword("Retries", (uint32_t)options.retries);
 
 	CallService(MODULENAME "/SetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
 

@@ -192,7 +192,7 @@ void ColSplit::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColSplit::addToSlot(Contact& contact, DWORD localTimestamp, int toAdd)
+void ColSplit::addToSlot(Contact& contact, uint32_t localTimestamp, int toAdd)
 {
 	if (toAdd > 0)
 	{
@@ -217,7 +217,7 @@ void ColSplit::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
+void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
 {
 	if (m_nSource == 2 && (!bOutgoing && m_nSourceType == 0 || bOutgoing && m_nSourceType == 1 || m_nSourceType == 2))
 	{

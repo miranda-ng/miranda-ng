@@ -44,27 +44,27 @@ struct CustomButtonData : public MZeroedObject
 	~CustomButtonData()
 	{}
 
-	int     m_dwPosition;    // default order pos of button, counted from window edge (left or right)
+	int      m_dwPosition;    // default order pos of button, counted from window edge (left or right)
 
-	int     m_dwButtonID;    // id of button used while button creation and to store button info in DB
-	ptrA    m_pszModuleName; // module name without spaces and underline symbols (e.g. "tabsrmm")
+	int      m_dwButtonID;    // id of button used while button creation and to store button info in DB
+	ptrA     m_pszModuleName; // module name without spaces and underline symbols (e.g. "tabsrmm")
 
-	int     m_dwButtonCID;	// button's control id
-	int     m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
+	int      m_dwButtonCID;	// button's control id
+	int      m_dwArrowCID;    // only use with BBBF_ISARROWBUTTON flag
 
-	ptrW    m_pwszText;      // button's text
-	ptrW    m_pwszTooltip;   // button's tooltip
+	ptrW     m_pwszText;      // button's text
+	ptrW     m_pwszTooltip;   // button's tooltip
 
-	int     m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
-	HANDLE  m_hIcon;         // Handle to icolib registred icon
+	int      m_iButtonWidth;  // must be 22 for regular button and 33 for button with arrow
+	HANDLE   m_hIcon;         // Handle to icolib registred icon
 
-	bool    m_bIMButton, m_bChatButton;
-	bool    m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton;
-	bool    m_bRSided;
-	uint8_t m_opFlags;
-	HPLUGIN m_pPlugin;
-	DWORD   m_dwOrigPosition;
-	struct  THotkeyItem *m_hotkey;
+	bool     m_bIMButton, m_bChatButton;
+	bool     m_bCanBeHidden, m_bCantBeHidden, m_bHidden, m_bSeparator, m_bDisabled, m_bPushButton;
+	bool     m_bRSided;
+	uint8_t  m_opFlags;
+	HPLUGIN  m_pPlugin;
+	uint32_t m_dwOrigPosition;
+	struct   THotkeyItem *m_hotkey;
 
 	struct {
 		bool bit1 : 1, bit2 : 1, bit3 : 1, bit4 : 1;
@@ -213,7 +213,7 @@ protected:
 	time_t m_iLastEnterTime;
 
 	// user typing support;
-	DWORD m_nLastTyping = 0;
+	uint32_t m_nLastTyping = 0;
 	uint8_t m_bShowTyping = 0;
 	int m_nTypeSecs = 0, m_nTypeMode = 0;
 	const USERINFO* m_pUserTyping = nullptr;

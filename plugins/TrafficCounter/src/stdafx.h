@@ -64,15 +64,15 @@ typedef	struct
 {
 	uint8_t Hour, Day, Month;
 	uint16_t Year;
-	DWORD Incoming, Outgoing;
+	uint32_t Incoming, Outgoing;
 	uint16_t Time;
 } HOURLYSTATS;
 #pragma pack(pop)
 
 typedef struct tagTimer
 {
-	DWORD TimeAtStart; // Время в момент запуска таймера - в миллисекундах.
-	DWORD Timer; // Количество секунд со времени запуска таймера.
+	uint32_t TimeAtStart; // Время в момент запуска таймера - в миллисекундах.
+	uint32_t Timer; // Количество секунд со времени запуска таймера.
 } TIMER;
 
 struct PROTOLIST
@@ -82,7 +82,7 @@ struct PROTOLIST
 	TIMER Session; // Таймер текущей сессии (протокол в онлайне).
 	TIMER Total; // Таймер общий.
 
-	DWORD TotalRecvTraffic, // Общий трафик протокола (за выбранный период)
+	uint32_t TotalRecvTraffic, // Общий трафик протокола (за выбранный период)
 		  TotalSentTraffic,
 		  CurrentRecvTraffic, // Текущий трафик протокола (за сессию)
 		  CurrentSentTraffic;
@@ -123,7 +123,7 @@ struct PROTOLIST
 //---------------------------------------------------------------------------------------------
 typedef union
 {
-	DWORD Flags;
+	uint32_t Flags;
 	struct
 	{
 		unsigned int NotifyBySize:1;			//0

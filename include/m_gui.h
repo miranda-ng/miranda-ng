@@ -80,7 +80,7 @@ struct CMDBTraits<2>
 template<>
 struct CMDBTraits<4>
 {
-	typedef DWORD DBType;
+	typedef uint32_t DBType;
 	enum { DBTypeId = DBVT_DWORD };
 	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
@@ -95,7 +95,7 @@ struct CMDBTraits<4>
 template<>
 struct CMDBTraits<8>
 {
-	typedef DWORD DBType;
+	typedef uint32_t DBType;
 	enum { DBTypeId = DBVT_DWORD };
 	static __forceinline DBType Get(const char *szModule, const char *szSetting, DBType value)
 	{
@@ -254,8 +254,8 @@ public:
 
 	__inline uint8_t GetDataType() const { return m_type; }
 
-	virtual DWORD LoadInt() = 0;
-	virtual void  SaveInt(DWORD value) = 0;
+	virtual uint32_t LoadInt() = 0;
+	virtual void  SaveInt(uint32_t value) = 0;
 
 	virtual wchar_t* LoadText() = 0;
 	virtual void   SaveText(wchar_t *value) = 0;
@@ -266,18 +266,18 @@ class MIR_CORE_EXPORT CDbLink : public CDataLink
 	char *m_szModule;
 	char *m_szSetting;
 
-	DWORD m_iDefault;
+	uint32_t m_iDefault;
 	wchar_t *m_szDefault;
 
 	DBVARIANT dbv;
 
 public:
-	CDbLink(const char *szModule, const char *szSetting, uint8_t type, DWORD iValue);
+	CDbLink(const char *szModule, const char *szSetting, uint8_t type, uint32_t iValue);
 	CDbLink(const char *szModule, const char *szSetting, uint8_t type, wchar_t *szValue);
 	~CDbLink();
 
-	DWORD LoadInt() override;
-	void  SaveInt(DWORD value) override;
+	uint32_t LoadInt() override;
+	void  SaveInt(uint32_t value) override;
 
 	wchar_t* LoadText() override;
 	void   SaveText(wchar_t *value) override;
@@ -294,8 +294,8 @@ public:
 		CDataLink(CMDBTraits<sizeof(T)>::DBTypeId), m_option(&option)
 	{}
 
-	__forceinline DWORD LoadInt() override { return (DWORD)(T)*m_option; }
-	__forceinline void  SaveInt(DWORD value) override { *m_option = (T)value; }
+	__forceinline uint32_t LoadInt() override { return (uint32_t)(T)*m_option; }
+	__forceinline void  SaveInt(uint32_t value) override { *m_option = (T)value; }
 
 	__forceinline wchar_t* LoadText() override { return nullptr; }
 	__forceinline void   SaveText(wchar_t*) override {}
@@ -313,8 +313,8 @@ public:
 		CDataLink(DBVT_WCHAR), m_option(&option)
 	{}
 
-	__forceinline DWORD LoadInt() override { return 0; }
-	__forceinline void  SaveInt(DWORD) override { }
+	__forceinline uint32_t LoadInt() override { return 0; }
+	__forceinline void  SaveInt(uint32_t) override { }
 
 	__forceinline wchar_t* LoadText() override { return *m_option; }
 	__forceinline void   SaveText(wchar_t *value) override { *m_option = value; }
@@ -403,7 +403,7 @@ protected:
 	void RemoveTimer(UINT_PTR idEvent);
 
 	// options support
-	void CreateLink(class CCtrlData& ctrl, const char *szSetting, uint8_t type, DWORD iValue);
+	void CreateLink(class CCtrlData& ctrl, const char *szSetting, uint8_t type, uint32_t iValue);
 	void CreateLink(class CCtrlData& ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>
@@ -680,28 +680,28 @@ public:
 	void       EditLabel(HANDLE hItem);
 	void       EndEditLabel(bool save);
 	void       EnsureVisible(HANDLE hItem, bool partialOk);
-	void       Expand(HANDLE hItem, DWORD flags);
+	void       Expand(HANDLE hItem, uint32_t flags);
 	HANDLE     FindContact(MCONTACT hContact);
 	HANDLE     FindGroup(MGROUP hGroup);
 	COLORREF   GetBkColor() const;
 	bool       GetCheck(HANDLE hItem) const;
 	int        GetCount() const;
 	HWND       GetEditControl() const;
-	DWORD      GetExStyle() const;
-	DWORD      GetExpand(HANDLE hItem) const;
+	uint32_t   GetExStyle() const;
+	uint32_t   GetExpand(HANDLE hItem) const;
 	int        GetExtraColumns() const;
 	uint8_t    GetExtraImage(HANDLE hItem, int iColumn) const;
 	HIMAGELIST GetExtraImageList() const;
 	HFONT      GetFont(int iFontId) const;
 	bool       GetHideOfflineRoot() const;
 	int        GetItemType(HANDLE hItem) const;
-	HANDLE     GetNextItem(HANDLE hItem, DWORD flags) const;
+	HANDLE     GetNextItem(HANDLE hItem, uint32_t flags) const;
 	HANDLE     GetSelection() const;
-	HANDLE     HitTest(int x, int y, DWORD *hitTest) const;
+	HANDLE     HitTest(int x, int y, uint32_t *hitTest) const;
 	void       SelectItem(HANDLE hItem);
 	void       SetBkColor(COLORREF clBack);
 	void       SetCheck(HANDLE hItem, bool check);
-	void       SetExStyle(DWORD exStyle);
+	void       SetExStyle(uint32_t exStyle);
 	void       SetExtraColumns(int iColumns);
 	void       SetExtraImage(HANDLE hItem, int iColumn, int iImage);
 	void       SetExtraImageList(HIMAGELIST hImgList);
@@ -709,7 +709,7 @@ public:
 	void       SetItemText(HANDLE hItem, char *szText);
 	void       SetHideEmptyGroups(bool state);
 	void       SetHideOfflineRoot(bool state);
-	void       SetOfflineModes(DWORD modes);
+	void       SetOfflineModes(uint32_t modes);
 	void       SetUseGroups(bool state);
 
 	struct TEventInfo
@@ -746,7 +746,7 @@ public:
 	CCtrlData(CDlgBase *dlg, int ctrlId);
 	~CCtrlData();
 
-	void CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, DWORD iValue);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, uint32_t iValue);
 	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
 	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
@@ -756,8 +756,8 @@ protected:
 	CDataLink *m_dbLink;
 
 	__inline uint8_t GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
-	__inline DWORD LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
-	__inline void SaveInt(DWORD value) { if (m_dbLink) m_dbLink->SaveInt(value); }
+	__inline uint32_t LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
+	__inline void SaveInt(uint32_t value) { if (m_dbLink) m_dbLink->SaveInt(value); }
 	__inline const wchar_t *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
 	__inline void SaveText(wchar_t *value) { if (m_dbLink) m_dbLink->SaveText(value); }
 };
@@ -796,8 +796,8 @@ public:
 	bool OnApply() override;
 	void OnReset() override;
 
-	DWORD GetColor();
-	void SetColor(DWORD dwValue);
+	uint32_t GetColor();
+	void SetColor(uint32_t dwValue);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1005,7 +1005,7 @@ public:
 	void SetCurSel(int idx);
 
 	// Classic LV interface
-	DWORD      ApproximateViewRect(int cx, int cy, int iCount);
+	uint32_t   ApproximateViewRect(int cx, int cy, int iCount);
 	void       Arrange(UINT code);
 	void       CancelEditLabel();
 	HIMAGELIST CreateDragImage(int iItem, POINT *lpptUpLeft);
@@ -1025,7 +1025,7 @@ public:
 	int        GetColumnWidth(int iCol) const;
 	int        GetCountPerPage() const;
 	HWND       GetEditControl() const;
-	DWORD      GetExtendedListViewStyle() const;
+	uint32_t   GetExtendedListViewStyle() const;
 	int        GetFocusedGroup() const;
 	int        GetGroupCount() const;
 	void       GetGroupInfo(int iGroupId, LVGROUP *pgrp) const;
@@ -1035,7 +1035,7 @@ public:
 	HWND       GetHeader() const;
 	HCURSOR    GetHotCursor() const;
 	int        GetHotItem() const;
-	DWORD      GetHoverTime() const;
+	uint32_t   GetHoverTime() const;
 	HIMAGELIST GetImageList(int iImageList) const;
 	BOOL       GetInsertMark(LVINSERTMARK *plvim) const;
 	COLORREF   GetInsertMarkColor() const;
@@ -1045,7 +1045,7 @@ public:
 	int        GetItemCount() const;
 	void       GetItemPosition(int i, POINT *ppt) const;
 	void       GetItemRect(int i, RECT *prc, int code) const;
-	DWORD      GetItemSpacing(BOOL fSmall) const;
+	uint32_t   GetItemSpacing(BOOL fSmall) const;
 	UINT       GetItemState(int i, UINT mask) const;
 	void       GetItemText(int iItem, int iSubItem, LPTSTR pszText, int cchTextMax) const;
 	int        GetNextItem(int iStart, UINT flags) const;
@@ -1064,7 +1064,7 @@ public:
 	HWND       GetToolTips() const;
 	int        GetTopIndex() const;
 	BOOL       GetUnicodeFormat() const;
-	DWORD      GetView() const;
+	uint32_t   GetView() const;
 	BOOL       GetViewRect(RECT *prc) const;
 	void       GetWorkAreas(int nWorkAreas, RECT *lprc) const;
 	BOOL       HasGroup(int dwGroupId);
@@ -1090,22 +1090,22 @@ public:
 	BOOL       SetColumn(int iCol, LVCOLUMN *pcol);
 	BOOL       SetColumnOrderArray(int iCount, int *lpiArray);
 	BOOL       SetColumnWidth(int iCol, int cx);
-	void       SetExtendedListViewStyle(DWORD dwExStyle);
-	void       SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle);
+	void       SetExtendedListViewStyle(uint32_t dwExStyle);
+	void       SetExtendedListViewStyleEx(uint32_t dwExMask, uint32_t dwExStyle);
 	int        SetGroupInfo(int iGroupId, LVGROUP *pgrp);
 	void       SetGroupMetrics(LVGROUPMETRICS *pGroupMetrics);
 	void       SetGroupState(UINT dwGroupId, UINT dwMask, UINT dwState);
 	HCURSOR    SetHotCursor(HCURSOR hCursor);
 	int        SetHotItem(int iIndex);
-	void       SetHoverTime(DWORD dwHoverTime);
-	DWORD      SetIconSpacing(int cx, int cy);
+	void       SetHoverTime(uint32_t dwHoverTime);
+	uint32_t   SetIconSpacing(int cx, int cy);
 	HIMAGELIST SetImageList(HIMAGELIST himl, int iImageList);
 	BOOL       SetInfoTip(LVSETINFOTIP *plvSetInfoTip);
 	BOOL       SetInsertMark(LVINSERTMARK *plvim);
 	COLORREF   SetInsertMarkColor(COLORREF color);
 	BOOL       SetItem(const LVITEM *pitem);
 	void       SetItemCount(int cItems);
-	void       SetItemCountEx(int cItems, DWORD dwFlags);
+	void       SetItemCountEx(int cItems, uint32_t dwFlags);
 	BOOL       SetItemPosition(int i, int x, int y);
 	void       SetItemPosition32(int iItem, int x, int y);
 	void       SetItemState(int i, UINT state, UINT mask);
@@ -1119,7 +1119,7 @@ public:
 	BOOL       SetTileViewInfo(LVTILEVIEWINFO *plvtvinfo);
 	HWND       SetToolTips(HWND ToolTip);
 	BOOL       SetUnicodeFormat(BOOL fUnicode);
-	int        SetView(DWORD iView);
+	int        SetView(uint32_t iView);
 	void       SetWorkAreas(int nWorkAreas, RECT *lprc);
 	int        SubItemHitTest(LVHITTESTINFO *pInfo) const;
 	int        SubItemHitTestEx(LVHITTESTINFO *plvhti);
@@ -1212,9 +1212,9 @@ public:
 	HWND       EditLabel(HTREEITEM hItem);
 	void       EndEditLabelNow(BOOL cancel);
 	void       EnsureVisible(HTREEITEM hItem);
-	void       Expand(HTREEITEM hItem, DWORD flag);
+	void       Expand(HTREEITEM hItem, uint32_t flag);
 	COLORREF   GetBkColor() const;
-	DWORD      GetCheckState(HTREEITEM hItem) const;
+	uint32_t   GetCheckState(HTREEITEM hItem) const;
 	HTREEITEM  GetChild(HTREEITEM hItem) const;
 	int        GetCount() const;
 	HTREEITEM  GetDropHilight() const;
@@ -1226,17 +1226,17 @@ public:
 	bool       GetItem(TVITEMEX *tvi) const;
 	int        GetItemHeight() const;
 	void       GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect) const;
-	DWORD      GetItemState(HTREEITEM hItem, DWORD stateMask) const;
+	uint32_t   GetItemState(HTREEITEM hItem, uint32_t stateMask) const;
 	HTREEITEM  GetLastVisible() const;
 	COLORREF   GetLineColor() const;
-	HTREEITEM  GetNextItem(HTREEITEM hItem, DWORD flag) const;
+	HTREEITEM  GetNextItem(HTREEITEM hItem, uint32_t flag) const;
 	HTREEITEM  GetNextSibling(HTREEITEM hItem) const;
 	HTREEITEM  GetNextVisible(HTREEITEM hItem) const;
 	HTREEITEM  GetParent(HTREEITEM hItem) const;
 	HTREEITEM  GetPrevSibling(HTREEITEM hItem) const;
 	HTREEITEM  GetPrevVisible(HTREEITEM hItem) const;
 	HTREEITEM  GetRoot() const;
-	DWORD      GetScrollTime() const;
+	uint32_t   GetScrollTime() const;
 	HTREEITEM  GetSelection() const;
 	COLORREF   GetTextColor() const;
 	HWND       GetToolTips() const;
@@ -1244,19 +1244,19 @@ public:
 	unsigned   GetVisibleCount() const;
 	HTREEITEM  HitTest(TVHITTESTINFO *hti) const;
 	HTREEITEM  InsertItem(TVINSERTSTRUCT *tvis);
-	void       Select(HTREEITEM hItem, DWORD flag);
+	void       Select(HTREEITEM hItem, uint32_t flag);
 	void       SelectDropTarget(HTREEITEM hItem);
 	void       SelectItem(HTREEITEM hItem);
 	void       SelectSetFirstVisible(HTREEITEM hItem);
 	COLORREF   SetBkColor(COLORREF clBack);
-	void       SetCheckState(HTREEITEM hItem, DWORD state);
+	void       SetCheckState(HTREEITEM hItem, uint32_t state);
 	void       SetImageList(HIMAGELIST hIml, int iImage);
 	void       SetIndent(int iIndent);
 	void       SetInsertMark(HTREEITEM hItem, BOOL fAfter);
 	COLORREF   SetInsertMarkColor(COLORREF clMark);
 	void       SetItem(TVITEMEX *tvi);
 	void       SetItemHeight(short cyItem);
-	void       SetItemState(HTREEITEM hItem, DWORD state, DWORD stateMask);
+	void       SetItemState(HTREEITEM hItem, uint32_t state, uint32_t stateMask);
 	COLORREF   SetLineColor(COLORREF clLine);
 	void       SetScrollTime(UINT uMaxScrollTime);
 	COLORREF   SetTextColor(COLORREF clText);
@@ -1451,7 +1451,7 @@ class MIR_APP_EXPORT CProtoIntDlgBase : public CDlgBase
 public:
 	CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog);
 
-	void CreateLink(CCtrlData &ctrl, const char *szSetting, uint8_t type, DWORD iValue);
+	void CreateLink(CCtrlData &ctrl, const char *szSetting, uint8_t type, uint32_t iValue);
 	void CreateLink(CCtrlData &ctrl, const char *szSetting, wchar_t *szValue);
 
 	template<class T>

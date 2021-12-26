@@ -78,7 +78,7 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
 	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_JOIN };
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.pszUID.a = gce.pszNick.a = name;
 	gce.bIsMe = (m_nick == name);
@@ -96,7 +96,7 @@ void MinecraftDynmapProto::DeleteChatContact(const char *name)
 	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_PART };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.pszUID.a = gce.pszNick.a = name;
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	gce.bIsMe = (m_nick == name);
 	Chat_Event(&gce);
 }

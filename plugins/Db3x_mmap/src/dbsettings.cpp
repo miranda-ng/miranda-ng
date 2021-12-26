@@ -90,19 +90,19 @@ LBL_Seek:
 		return 1;
 
 	DBCachedContact *cc;
-	DWORD ofsContact = GetContactOffset(contactID, &cc);
+	uint32_t ofsContact = GetContactOffset(contactID, &cc);
 
-	DWORD ofsModuleName = GetModuleNameOfs(szModule);
+	uint32_t ofsModuleName = GetModuleNameOfs(szModule);
 
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
+	uint32_t ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
 	if (ofsSettingsGroup) {
 		int bytesRemaining;
 		unsigned varLen;
-		DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
+		uint32_t ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
 		uint8_t *pBlob = DBRead(ofsBlobPtr, &bytesRemaining);
 		while (pBlob[0]) {
 			NeedBytes(1 + settingNameLen);
@@ -223,14 +223,14 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 {
 	log1(" write database as %s", printVariant(&dbcws.value));
 
-	DWORD settingNameLen = (DWORD)mir_strlen(dbcws.szSetting);
-	DWORD ofsBlobPtr, ofsContact = GetContactOffset(contactID);
+	uint32_t settingNameLen = (uint32_t)mir_strlen(dbcws.szSetting);
+	uint32_t ofsBlobPtr, ofsContact = GetContactOffset(contactID);
 	if (ofsContact == 0) {
 		_ASSERT(false); // contact doesn't exist?
 		return 2;
 	}
 
-	DWORD ofsModuleName = GetModuleNameOfs(dbcws.szModule);
+	uint32_t ofsModuleName = GetModuleNameOfs(dbcws.szModule);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
@@ -239,7 +239,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 	uint8_t *pBlob;
 	int bytesRequired, bytesRemaining;
 	DBContactSettings dbcs;
-	DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
+	uint32_t ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc, ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it
 		switch (dbcws.value.type) {
 		case DBVT_ASCIIZ: case DBVT_UTF8:
@@ -295,7 +295,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 				NeedBytes(3);
 				int nameLen = 1 + settingNameLen;
 				int valLen = 1 + GetSettingValueLength(pBlob);
-				DWORD ofsSettingToCut = ofsBlobPtr - nameLen;
+				uint32_t ofsSettingToCut = ofsBlobPtr - nameLen;
 				MoveAlong(valLen);
 				NeedBytes(1);
 				while (pBlob[0]) {
@@ -350,10 +350,10 @@ STDMETHODIMP_(BOOL) CDb3Mmap::WriteContactSettingWorker(MCONTACT contactID, DBCO
 	bytesRequired += 2 + settingNameLen;
 	bytesRequired += ofsBlobPtr + 1 - (ofsSettingsGroup + offsetof(DBContactSettings, blob));
 
-	if ((DWORD)bytesRequired > dbcs.cbBlob) {
+	if ((uint32_t)bytesRequired > dbcs.cbBlob) {
 		// doesn't fit: move entire group
 		DBContactSettings *dbcsPrev;
-		DWORD ofsDbcsPrev, ofsNew;
+		uint32_t ofsDbcsPrev, ofsNew;
 
 		InvalidateSettingsGroupOfsCacheEntry(ofsSettingsGroup);
 		bytesRequired += (DB_SETTINGS_RESIZE_GRANULARITY - (bytesRequired % DB_SETTINGS_RESIZE_GRANULARITY)) % DB_SETTINGS_RESIZE_GRANULARITY;
@@ -453,19 +453,19 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 		mir_cslock lck(m_csDbAccess);
 		char *szCachedSettingName = m_cache->GetCachedSetting(szModule, szSetting, moduleNameLen, settingNameLen);
 		if (szCachedSettingName[-1] == 0) { // it's not a resident variable
-			DWORD ofsModuleName = GetModuleNameOfs(szModule);
-			DWORD ofsContact = GetContactOffset(contactID);
+			uint32_t ofsModuleName = GetModuleNameOfs(szModule);
+			uint32_t ofsContact = GetContactOffset(contactID);
 			DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
 			if (dbc->signature != DBCONTACT_SIGNATURE)
 				return 1;
 
 			// make sure the module group exists
-			DWORD ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
+			uint32_t ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
 			if (ofsSettingsGroup == 0)
 				return 1;
 
 			// find if the setting exists
-			DWORD ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
+			uint32_t ofsBlobPtr = ofsSettingsGroup + offsetof(DBContactSettings, blob);
 			int bytesRemaining;
 			uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 			while (pBlob[0]) {
@@ -486,7 +486,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::DeleteContactSetting(MCONTACT contactID, LPCSTR sz
 			NeedBytes(3);
 			int nameLen = 1 + settingNameLen;
 			int valLen = 1 + GetSettingValueLength(pBlob);
-			DWORD ofsSettingToCut = ofsBlobPtr - nameLen;
+			uint32_t ofsSettingToCut = ofsBlobPtr - nameLen;
 			MoveAlong(valLen);
 			NeedBytes(1);
 			while (pBlob[0]) {
@@ -524,7 +524,7 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 
 	mir_cslock lck(m_csDbAccess);
 
-	DWORD ofsContact = GetContactOffset(contactID);
+	uint32_t ofsContact = GetContactOffset(contactID);
 	if (ofsContact == 0)
 		return -1;
 
@@ -532,12 +532,12 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnumContactSettings(MCONTACT contactID, DBSETTINGE
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return -1;
 
-	DWORD ofsModuleName = GetModuleNameOfs(szModule);
-	DWORD ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
+	uint32_t ofsModuleName = GetModuleNameOfs(szModule);
+	uint32_t ofsSettings = GetSettingsGroupOfsByModuleNameOfs(dbc, ofsModuleName);
 	if (!ofsSettings)
 		return -1;
 
-	DWORD ofsBlobPtr = ofsSettings + offsetof(DBContactSettings, blob);
+	uint32_t ofsBlobPtr = ofsSettings + offsetof(DBContactSettings, blob);
 	int bytesRemaining;
 	uint8_t *pBlob = (uint8_t*)DBRead(ofsBlobPtr, &bytesRemaining);
 	if (pBlob[0] == 0)

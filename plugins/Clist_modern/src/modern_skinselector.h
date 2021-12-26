@@ -35,39 +35,39 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct MASKPARAM
 {
-	DWORD	dwId;
+	uint32_t	dwId;
 	uint8_t	bMaskParamFlag;
 	char*	szName;
-	DWORD	dwValueHash;
+	uint32_t	dwValueHash;
 	char*	szValue;
 };
 
 struct MODERNMASK
 {
 	MASKPARAM*	    pl_Params;
-	DWORD				dwParamCnt;
+	uint32_t				dwParamCnt;
 	union
 	{
 		void*			pObject;
 		char*			szObjectName;
 	};
-	DWORD				dwMaskId;
+	uint32_t				dwMaskId;
 	BOOL				bObjectFound;
 };
 
 struct LISTMODERNMASK
 {
 	MODERNMASK*	pl_Masks;
-	DWORD			dwMaskCnt;
+	uint32_t			dwMaskCnt;
 };
 
 /// PROTOTYPES
-int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList);
+int AddStrModernMaskToList(uint32_t maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList);
 int SortMaskList(LISTMODERNMASK *mmList);
 int ClearMaskList(LISTMODERNMASK *mmTemplateList);
 
 BOOL CompareStrWithModernMask(char *szValue, MODERNMASK *mmTemplate);
-DWORD mod_CalcHash(const char *a);
+uint32_t mod_CalcHash(const char *a);
 int RegisterObjectByParce(char *ObjectName, char *Params);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByRequest(char *szValue, LISTMODERNMASK *mmTemplateList);
 SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList);

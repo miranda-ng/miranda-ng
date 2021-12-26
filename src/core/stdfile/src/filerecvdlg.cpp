@@ -35,7 +35,7 @@ static BOOL CALLBACK ClipSiblingsChildEnumProc(HWND hwnd, LPARAM)
 
 static void GetLowestExistingDirName(const wchar_t *szTestDir, wchar_t *szExistingDir, int cchExistingDir)
 {
-	DWORD dwAttributes;
+	uint32_t dwAttributes;
 	wchar_t *pszLastBackslash;
 
 	mir_wstrncpy(szExistingDir, szTestDir, cchExistingDir);

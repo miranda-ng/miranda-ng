@@ -119,9 +119,9 @@ public:
 	__forceinline int getWord(MCONTACT hContact, const char *name, uint16_t defaultValue = 0) {
 		return db_get_w(hContact, m_szModuleName, name, defaultValue); }
 
-	__forceinline DWORD getDword(const char *name, DWORD defaultValue = 0)  {
+	__forceinline uint32_t getDword(const char *name, uint32_t defaultValue = 0)  {
 		return db_get_dw(0, m_szModuleName, name, defaultValue); }
-	__forceinline DWORD getDword(MCONTACT hContact, const char *name, DWORD defaultValue = 0) {
+	__forceinline uint32_t getDword(MCONTACT hContact, const char *name, uint32_t defaultValue = 0) {
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue); }
 
 	__forceinline INT_PTR getString(const char *name, DBVARIANT *result) {
@@ -170,8 +170,8 @@ public:
 	__forceinline void setWord(const char *name, uint16_t value) { db_set_w(0, m_szModuleName, name, value); }
 	__forceinline void setWord(MCONTACT hContact, const char *name, uint16_t value) { db_set_w(hContact, m_szModuleName, name, value); }
 
-	__forceinline void setDword(const char *name, DWORD value) { db_set_dw(0, m_szModuleName, name, value); }
-	__forceinline void setDword(MCONTACT hContact, const char *name, DWORD value) { db_set_dw(hContact, m_szModuleName, name, value); }
+	__forceinline void setDword(const char *name, uint32_t value) { db_set_dw(0, m_szModuleName, name, value); }
+	__forceinline void setDword(MCONTACT hContact, const char *name, uint32_t value) { db_set_dw(hContact, m_szModuleName, name, value); }
 
 	__forceinline void setString(const char *name, const char* value) { db_set_s(0, m_szModuleName, name, value); }
 	__forceinline void setString(MCONTACT hContact, const char *name, const char* value) { db_set_s(hContact, m_szModuleName, name, value); }

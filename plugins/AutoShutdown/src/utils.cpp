@@ -59,10 +59,10 @@ void ShowInfoMessage(uint8_t flags, const char *pszTitle, const char *pszTextFmt
 }
 
 // LocalFree() the return value
-char* GetWinErrorDescription(DWORD dwLastError)
+char* GetWinErrorDescription(uint32_t dwLastError)
 {
 	char *buf = nullptr;
-	DWORD flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM;
+	uint32_t flags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM;
 	if (!FormatMessageA(flags, nullptr, dwLastError, LANGIDFROMLCID(Langpack_GetDefaultLocale()), (char*)&buf, 0, nullptr))
 		if (GetLastError() == ERROR_RESOURCE_LANG_NOT_FOUND)
 			FormatMessageA(flags, nullptr, dwLastError, 0, (char*)&buf, 0, nullptr);
@@ -108,7 +108,7 @@ BOOL TimeStampToSystemTime(time_t timestamp, SYSTEMTIME *st)
 BOOL GetFormatedCountdown(wchar_t *pszOut, int nSize, time_t countdown)
 {
 	static BOOL fInited = FALSE;
-	static int (WINAPI *pfnGetDurationFormat)(LCID, DWORD, const SYSTEMTIME*, double, wchar_t*, wchar_t*, int);
+	static int (WINAPI *pfnGetDurationFormat)(LCID, uint32_t, const SYSTEMTIME*, double, wchar_t*, wchar_t*, int);
 	/* Init */
 	if (!fInited && IsWinVerVistaPlus()) {
 		*(PROC*)&pfnGetDurationFormat = GetProcAddress(GetModuleHandleA("KERNEL32"), "GetDurationFormat");

@@ -1612,11 +1612,11 @@ void HistoryWindow::FindToolbarClicked(LPNMTOOLBAR lpnmTB)
 		AppendMenu(hPopupMenu, searcher.IsAllUsers() ? MF_STRING | MF_CHECKED : MF_STRING, IDM_ALLUSERS, TranslateT("All contacts"));
 		AppendMenu(hPopupMenu, MFT_SEPARATOR, 0, nullptr);
 		HMENU hFilterMenu = CreatePopupMenu();
-		DWORD filter = GetFilterNr();
+		uint32_t filter = GetFilterNr();
 		AppendMenu(hFilterMenu, filter == 0 ? MF_STRING | MF_CHECKED : MF_STRING, IDM_FILTERDEF, TranslateT("Default history events"));
 		AppendMenu(hFilterMenu, filter == 1 ? MF_STRING | MF_CHECKED : MF_STRING, IDM_FILTERALL, TranslateT("All events"));
 		for (size_t i = 0; i < Options::instance->customFilters.size(); ++i) {
-			DWORD flags = MF_STRING;
+			uint32_t flags = MF_STRING;
 			if (filter - 2 == i)
 				flags |= MF_CHECKED;
 

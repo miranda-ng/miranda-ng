@@ -48,7 +48,7 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT, wchar_t *);
 /*
 *
 ****************************/
-void Nudge_ShowStatus(CNudgeElement*, MCONTACT, DWORD timestamp);
+void Nudge_ShowStatus(CNudgeElement*, MCONTACT, uint32_t timestamp);
 
 /*
 *

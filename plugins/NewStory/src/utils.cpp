@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-DWORD toggleBit(DWORD dw, DWORD bit)
+uint32_t toggleBit(uint32_t dw, uint32_t bit)
 {
 	if (dw & bit)
 		return dw & ~bit;

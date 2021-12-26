@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Services */
 static HWND hwndSettingsDlg;
 
-const DWORD unitValues[] = { 1,60,60 * 60,60 * 60 * 24,60 * 60 * 24 * 7,60 * 60 * 24 * 31 };
+const uint32_t unitValues[] = { 1,60,60 * 60,60 * 60 * 24,60 * 60 * 24 * 7,60 * 60 * 24 * 31 };
 const wchar_t *unitNames[] = { LPGENW("Second(s)"), LPGENW("Minute(s)"), LPGENW("Hour(s)"), LPGENW("Day(s)"), LPGENW("Week(s)"), LPGENW("Month(s)") };
 
 /************************* Dialog *************************************/
@@ -48,7 +48,7 @@ static BOOL CALLBACK DisplayCpuUsageProc(uint8_t nCpuUsage, LPARAM lParam)
 	return TRUE;
 }
 
-static bool AnyProtoHasCaps(DWORD caps1)
+static bool AnyProtoHasCaps(uint32_t caps1)
 {
 	for (auto &pa : Accounts())
 		if (CallProtoService(pa->szModuleName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0) & caps1)
@@ -100,7 +100,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				SendMessage(hwndDlg, M_CHECK_DATETIME, 0, 0);
 			}
 			{
-				DWORD setting = g_plugin.getDword("Countdown", SETTING_COUNTDOWN_DEFAULT);
+				uint32_t setting = g_plugin.getDword("Countdown", SETTING_COUNTDOWN_DEFAULT);
 				if (setting < 1) setting = SETTING_COUNTDOWN_DEFAULT;
 				SendDlgItemMessage(hwndDlg, IDC_SPIN_COUNTDOWN, UDM_SETRANGE, 0, MAKELPARAM(UD_MAXVAL, 1));
 				SendDlgItemMessage(hwndDlg, IDC_EDIT_COUNTDOWN, EM_SETLIMITTEXT, (WPARAM)10, 0);
@@ -109,7 +109,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			}
 			{
 				HWND hwndCombo = GetDlgItem(hwndDlg, IDC_COMBO_COUNTDOWNUNIT);
-				DWORD lastUnit = g_plugin.getDword("CountdownUnit", SETTING_COUNTDOWNUNIT_DEFAULT);
+				uint32_t lastUnit = g_plugin.getDword("CountdownUnit", SETTING_COUNTDOWNUNIT_DEFAULT);
 				SendMessage(hwndCombo, CB_SETLOCALE, (WPARAM)locale, 0); /* sort order */
 				SendMessage(hwndCombo, CB_INITSTORAGE, _countof(unitNames), _countof(unitNames) * 16); /* approx. */
 				for (int i = 0; i < _countof(unitNames); ++i) {
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				DateTime_GetSystemtime(GetDlgItem(hwndDlg, IDC_TIME_TIMESTAMP), &st); /* time gets synchronized */
 				if (!SystemTimeToTimeStamp(&st, &timestamp))
 					timestamp = time(0);
-				g_plugin.setDword("TimeStamp", (DWORD)timestamp);
+				g_plugin.setDword("TimeStamp", (uint32_t)timestamp);
 			}
 			/* shutdown type */
 			{
@@ -360,8 +360,8 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					g_plugin.setByte("ShutdownType", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_COMBO_SHUTDOWNTYPE, CB_GETITEMDATA, (WPARAM)index, 0));
 				index = SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETCURSEL, 0, 0);
 				if (index != LB_ERR)
-					g_plugin.setDword("CountdownUnit", (DWORD)SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETITEMDATA, (WPARAM)index, 0));
-				g_plugin.setDword("Countdown", (DWORD)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, nullptr, FALSE));
+					g_plugin.setDword("CountdownUnit", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_COMBO_COUNTDOWNUNIT, CB_GETITEMDATA, (WPARAM)index, 0));
+				g_plugin.setDword("Countdown", (uint32_t)GetDlgItemInt(hwndDlg, IDC_EDIT_COUNTDOWN, nullptr, FALSE));
 				g_plugin.setByte("CpuUsageThreshold", (uint8_t)GetDlgItemInt(hwndDlg, IDC_EDIT_CPUUSAGE, nullptr, FALSE));
 			}
 			/* watcher type */

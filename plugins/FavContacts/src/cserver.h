@@ -20,8 +20,8 @@ private:
 	SOCKET m_socket;
 	IConnectionProcessorFactory *m_connectionProcessorFactory;
 
-	DWORD ConnectionAcceptThread();
-	DWORD ConnectionProcessThread(SOCKET s);
+	uint32_t ConnectionAcceptThread();
+	uint32_t ConnectionProcessThread(SOCKET s);
 
 	static void GlobalConnectionAcceptThread(void *arg);
 

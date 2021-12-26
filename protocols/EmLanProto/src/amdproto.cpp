@@ -44,7 +44,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 //////////////////////////////////////////////////////////////////////////
 
-BOOL APIENTRY DllMain(HINSTANCE hInstDLL, DWORD reason, LPVOID)
+BOOL APIENTRY DllMain(HINSTANCE hInstDLL, uint32_t reason, LPVOID)
 {
 	if (reason == DLL_PROCESS_ATTACH) {
 		EMLOG("EmLan Started");

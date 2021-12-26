@@ -502,7 +502,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 		int iLastSeen = jnLastSeen["time"].as_int();
 		int iOldLastSeen = db_get_dw(hContact, "BuddyExpectator", "LastSeen");
 		if (iLastSeen && iLastSeen > iOldLastSeen) {
-			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)iLastSeen);
+			db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)iLastSeen);
 			db_set_w(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 		}
 	}
@@ -511,7 +511,7 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 	setWord(hContact, "Status", iNewStatus);
 
 	if (iNewStatus == ID_STATUS_ONLINE) {
-		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)time(0));
+		db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)time(0));
 		db_set_dw(hContact, "BuddyExpectator", "LastStatus", ID_STATUS_ONLINE);
 
 		int online_app = _wtoi(jnItem["online_app"].as_mstring());

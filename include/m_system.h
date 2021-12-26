@@ -72,10 +72,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // return nonzero to stop the exit cycle
 #define ME_SYSTEM_OKTOEXIT "Miranda/System/OkToExitEvent"
 
-// gets the version number of Miranda encoded as a DWORD
+// gets the version number of Miranda encoded as a uint32_t
 // returns the version number, encoded as one version per byte, therefore
 // version 1.2.3.10 is 0x0102030a
-EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetVersion(void);
+EXTERN_C MIR_APP_DLL(uint32_t) Miranda_GetVersion(void);
 
 // gets the version number of Miranda encoded as four WORDs   v0.92.2+
 // returns the version number, encoded as one version per word, therefore
@@ -124,7 +124,7 @@ EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
 EXTERN_C MIR_APP_DLL(void) Miranda_SetIdleCallback(void(MIR_CDECL *pfnCallback)(void));
 
 // returns the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
-EXTERN_C MIR_APP_DLL(DWORD) Miranda_GetIdle(void);
+EXTERN_C MIR_APP_DLL(uint32_t) Miranda_GetIdle(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 

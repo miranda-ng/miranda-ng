@@ -49,7 +49,7 @@ DWORD TextUserGetOptions(HANDLE userHandle)
 	return ((TextUser *)userHandle)->options;
 }
 
-void TextUserSetOptions(HANDLE userHandle, DWORD options)
+void TextUserSetOptions(HANDLE userHandle, uint32_t options)
 {
 	if (!userHandle) return;
 	((TextUser *)userHandle)->options = options;

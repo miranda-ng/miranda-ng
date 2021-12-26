@@ -26,7 +26,7 @@ static DWORD CALLBACK EditStreamOutRtf(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG c
 
 wchar_t* GeTStringFromStreamData(EditStreamData *esd)
 {
-	DWORD i, k;
+	uint32_t i, k;
 
 	wchar_t *ptszOutText = (LPTSTR)mir_alloc(MaxTextSize * sizeof(wchar_t));
 	wchar_t *ptszTemp = (wchar_t *)esd->pbBuff;
@@ -72,7 +72,7 @@ wchar_t* GetShortNameOfLayout(HKL hklLayout)
 {
 	wchar_t szLI[20];
 	wchar_t *ptszLiShort = (LPTSTR)mir_alloc(3 * sizeof(wchar_t));
-	DWORD dwLcid = MAKELCID(LOWORD(hklLayout), 0);
+	uint32_t dwLcid = MAKELCID(LOWORD(hklLayout), 0);
 	GetLocaleInfoW(dwLcid, LOCALE_SISO639LANGNAME, szLI, 10);
 	ptszLiShort[0] = toupper(szLI[0]);
 	ptszLiShort[1] = toupper(szLI[1]);
@@ -161,9 +161,9 @@ wchar_t* ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL 
 	if (ptszKeybCur == nullptr || ptszKeybNext == nullptr)
 		return ptszOutText;
 
-	for (DWORD i = 0; i < mir_wstrlen(ptszInText); i++) {
+	for (uint32_t i = 0; i < mir_wstrlen(ptszInText); i++) {
 		BOOL Found = FALSE;
-		for (DWORD j = 0; j < mir_wstrlen(ptszKeybCur) && !Found; j++)
+		for (uint32_t j = 0; j < mir_wstrlen(ptszKeybCur) && !Found; j++)
 			if (ptszKeybCur[j] == ptszInText[i]) {
 				Found = TRUE;
 				if (mir_wstrlen(ptszKeybNext) >= j)
@@ -171,7 +171,7 @@ wchar_t* ChangeTextLayout(LPCTSTR ptszInText, HKL hklCurLay, HKL hklToLay, BOOL 
 			}
 
 		if (TwoWay && !Found)
-			for (DWORD j = 0; j < mir_wstrlen(ptszKeybNext) && !Found; j++)
+			for (uint32_t j = 0; j < mir_wstrlen(ptszKeybNext) && !Found; j++)
 				if (ptszKeybNext[j] == ptszInText[i]) {
 					Found = TRUE;
 					if (mir_wstrlen(ptszKeybCur) >= j)
@@ -185,17 +185,17 @@ HKL GetLayoutOfText(LPCTSTR ptszInText)
 {
 	HKL hklCurLay = hklLayouts[0];
 	wchar_t *ptszKeybBuff = ptszLayStrings[0];
-	DWORD dwMaxSymbols = 0, dwTemp = 0;
+	uint32_t dwMaxSymbols = 0, dwTemp = 0;
 
-	for (DWORD j = 0; j < mir_wstrlen(ptszInText); j++)
+	for (uint32_t j = 0; j < mir_wstrlen(ptszInText); j++)
 		if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 			++dwMaxSymbols;
 
 	for (int i = 1; i < bLayNum; i++) {
 		ptszKeybBuff = ptszLayStrings[i];
-		DWORD dwCountSymbols = 0;
+		uint32_t dwCountSymbols = 0;
 
-		for (DWORD j = 0; j < mir_wstrlen(ptszInText); j++)
+		for (uint32_t j = 0; j < mir_wstrlen(ptszInText); j++)
 			if (wcschr(ptszKeybBuff, ptszInText[j]) != nullptr)
 				++dwCountSymbols;
 
@@ -219,7 +219,7 @@ int ChangeLayout(HWND hTextWnd, uint8_t TextOperation, BOOL CurrentWord)
 
 	ptrW ptszInText;
 	CHARRANGE crSelection = { 0 }, crTemp = { 0 };
-	DWORD dwStartWord, dwEndWord;
+	uint32_t dwStartWord, dwEndWord;
 
 	uint8_t WindowType = WTYPE_Unknown;
 	BOOL WindowIsReadOnly, TwoWay;

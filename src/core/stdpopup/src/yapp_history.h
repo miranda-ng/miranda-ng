@@ -36,7 +36,7 @@
 
 struct PopupHistoryData
 {
-	DWORD flags; //PHDF_* flags
+	uint32_t flags; //PHDF_* flags
 	wchar_t *messageW;
 	wchar_t *titleW;
 	time_t timestamp;

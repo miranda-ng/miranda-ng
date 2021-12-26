@@ -504,7 +504,7 @@ void WriteLinkList(HWND hDlg, uint8_t params, LISTELEMENT *listStart, LPCTSTR se
 /*
 Output some example text to the options dialog
 */
-int WriteOptionExample(HWND hDlg, DWORD InColourSel, DWORD OutColourSel, DWORD BGColourSel, DWORD TxtColourSel, LISTOPTIONS *options)
+int WriteOptionExample(HWND hDlg, uint32_t InColourSel, uint32_t OutColourSel, uint32_t BGColourSel, uint32_t TxtColourSel, LISTOPTIONS *options)
 {
 	CHARFORMAT cf;
 	PARAFORMAT pf;
@@ -930,7 +930,7 @@ Read current coloursettings from the database
 */
 void GetColour(MYCOLOURSET *colourSet)
 {
-	DWORD colour;
+	uint32_t colour;
 	uint8_t useDefault;
 
 	useDefault = g_plugin.getByte(LINKLIST_USE_DEF, 0xFF);
@@ -1032,7 +1032,7 @@ if entry does not exist.
 */
 void GetDBColour(MYCOLOURSET *colourSet)
 {
-	DWORD colour;
+	uint32_t colour;
 
 	// Use Plugin user defined or default colours
 	colour = g_plugin.getDword(LINKLIST_IN_COL, 0xFF000000);
@@ -1077,7 +1077,7 @@ Read current coloursettings from the database (Miranda settings)
 */
 int GetMirandaColour(MYCOLOURSET *colourSet)
 {
-	DWORD colour;
+	uint32_t colour;
 
 	// Use Miranda-IM Default colours
 	// Try SRMM (Miranda 0.4) .... or SRMsg... for older versions
@@ -1259,7 +1259,7 @@ BOOL SaveEditAsStream(HWND hDlg)
 	return TRUE;
 }
 
-DWORD CALLBACK RTFSaveStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuffer, LONG lSize, LONG *plRead)
+uint32_t CALLBACK RTFSaveStreamCallback(DWORD_PTR dwCookie, LPBYTE lpBuffer, LONG lSize, LONG *plRead)
 {
 	// Sanity check...exit if nothing passed
 	if (!lSize)

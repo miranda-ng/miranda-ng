@@ -19,7 +19,7 @@ private:
 	OptionsCtrl::Check m_hGraph;
 	OptionsCtrl::Check m_hDetail;
 
-	DWORD m_nMaxForGraph;
+	uint32_t m_nMaxForGraph;
 
 	ext::string m_CSS;
 

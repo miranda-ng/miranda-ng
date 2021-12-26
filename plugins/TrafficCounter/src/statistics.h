@@ -34,12 +34,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void Stat_ReadFile(PROTOLIST &p);
 void Stat_Show(HWND);
-void Stat_UpdateTotalTraffic(HWND, DWORD, DWORD);
+void Stat_UpdateTotalTraffic(HWND, uint32_t, uint32_t);
 void Stat_CheckStatistics(PROTOLIST &p);
-DWORD Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *st);
+uint32_t Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *st);
 void Stat_SetAccShift(uint8_t AccNum, uint8_t EldestAccount);
-DWORD Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubitemNum);
-DWORD Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval);
+uint32_t Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, uint32_t ItemNum, uint8_t SubitemNum);
+uint32_t Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval);
 uint8_t Stat_GetEldestAcc(uint16_t SelectedAccs);
 
 #endif // _statistics_h

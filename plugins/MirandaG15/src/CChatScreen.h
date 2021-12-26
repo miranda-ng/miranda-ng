@@ -60,7 +60,7 @@ protected:
 	void AddIncomingMessage(tstring strMessage, tm *time, bool bIRC = false);
 
 	// maximizes the content object
-	void Maximize(DWORD dwTimer = INFINITE);
+	void Maximize(uint32_t dwTimer = INFINITE);
 	// minimizes the content object
 	void Minimize();
 	// returns wether the content is maximized
@@ -87,10 +87,10 @@ protected:
 	bool m_bTyping = false;
 
 	enum { REPLY_STATE_NONE, REPLY_STATE_INPUT, REPLY_STATE_SENDING, REPLY_STATE_FAILED } m_eReplyState = REPLY_STATE_NONE;
-	DWORD	m_dwCloseTimer = 0;
+	uint32_t	m_dwCloseTimer = 0;
 	bool	m_bCloseTimer = false;
-	DWORD	m_dwMaximizedTimer = 0;
-	DWORD	m_dwMaximizedDuration = 0;
+	uint32_t	m_dwMaximizedTimer = 0;
+	uint32_t	m_dwMaximizedDuration = 0;
 
 	MCONTACT m_hContact = 0;
 	MEVENT m_hMessage = 0;

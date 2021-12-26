@@ -500,7 +500,7 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
 	case WM_INITDIALOG: {
-			DWORD style;
+			uint32_t style;
 			g_opHdlg = hdlg;
 			bOptionsInit = TRUE;
 			TranslateDialogDefault(hdlg);

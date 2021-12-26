@@ -5,7 +5,7 @@
  * OptionsCtrlImpl::Group
  */
 
-OptionsCtrlImpl::Group::Group(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Group::Group(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itGroup, szLabel, dwFlags, dwData)
 {
 	m_bDrawLine = bool_(dwFlags & OCF_DRAWLINE);

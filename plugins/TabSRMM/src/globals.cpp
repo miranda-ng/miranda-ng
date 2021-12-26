@@ -145,7 +145,7 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_bAlwaysFullToolbarWidth = M.GetBool("alwaysfulltoolbar", true);
 	m_LimitStaticAvatarHeight = M.GetDword("avatarheight", 96);
 	m_SendFormat = M.GetByte("sendformat", 0);
-	m_panelHeight = (DWORD)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
+	m_panelHeight = (uint32_t)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_MUCpanelHeight = db_get_dw(0, CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
 	m_smcxicon = m_smcyicon = 16;

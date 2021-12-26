@@ -23,7 +23,7 @@ Avatar History Plugin
 */
 #include "stdafx.h"
 
-DWORD mirVer;
+uint32_t mirVer;
 
 HANDLE hFolder = nullptr;
 
@@ -206,9 +206,9 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 			DBEVENTINFO dbei = {};
 			dbei.szModule = Proto_GetBaseAccountName(hContact);
 			dbei.flags = DBEF_READ | DBEF_UTF;
-			dbei.timestamp = (DWORD)time(0);
+			dbei.timestamp = (uint32_t)time(0);
 			dbei.eventType = EVENTTYPE_AVATAR_CHANGE;
-			dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
+			dbei.cbBlob = (uint32_t)mir_strlen(blob) + 1;
 			dbei.pBlob = blob;
 			db_event_add(hContact, &dbei);
 		}

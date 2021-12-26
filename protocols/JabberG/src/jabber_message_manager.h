@@ -93,7 +93,7 @@ class CJabberMessagePermanentInfo : public MZeroedObject
 	friend class CJabberMessageManager;
 
 	JABBER_PERMANENT_MESSAGE_HANDLER m_pHandler;
-	DWORD m_dwParamsToParse;
+	uint32_t m_dwParamsToParse;
 	int m_nMessageTypes;
 	char *m_szXmlns;
 	char *m_szTag;
@@ -125,7 +125,7 @@ public:
 	CJabberMessageManager(CJabberProto *proto);
 	~CJabberMessageManager();
 
-	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberMessagePermanentInfo* AddPermanentHandler(JABBER_PERMANENT_MESSAGE_HANDLER pHandler, int nMessageTypes, uint32_t dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, MESSAGE_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 	bool DeletePermanentHandler(CJabberMessagePermanentInfo *pInfo);
 
 	bool HandleMessagePermanent(const TiXmlElement *node, ThreadData *pThreadData);

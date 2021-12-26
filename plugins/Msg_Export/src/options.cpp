@@ -39,7 +39,7 @@ const int nProtoColWitdh = 100; // width in pixels of the UIN column in the List
 
 class CLDBEvent
 {
-	DWORD time;
+	uint32_t time;
 public:
 	MCONTACT hUser;
 	MEVENT   hDbEvent;
@@ -82,8 +82,8 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 		return mir_strcmp(Proto_GetBaseAccountName((MCONTACT)lParam1), Proto_GetBaseAccountName((MCONTACT)lParam2));
 
 	if (lParamSort == 3) {
-		DWORD dwUin1 = db_get_dw((MCONTACT)lParam1, Proto_GetBaseAccountName((MCONTACT)lParam1), "UIN", 0);
-		DWORD dwUin2 = db_get_dw((MCONTACT)lParam2, Proto_GetBaseAccountName((MCONTACT)lParam2), "UIN", 0);
+		uint32_t dwUin1 = db_get_dw((MCONTACT)lParam1, Proto_GetBaseAccountName((MCONTACT)lParam1), "UIN", 0);
+		uint32_t dwUin2 = db_get_dw((MCONTACT)lParam2, Proto_GetBaseAccountName((MCONTACT)lParam2), "UIN", 0);
 		if (dwUin1 == dwUin2)
 			return 0;
 		return (dwUin1 > dwUin2) ? -1 : 1;
@@ -417,7 +417,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		DWORD dw = listUsers.GetExtendedListViewStyle();
+		uint32_t dw = listUsers.GetExtendedListViewStyle();
 		dw |= LVS_EX_HEADERDRAGDROP | LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES;
 		listUsers.SetExtendedListViewStyle(dw);
 

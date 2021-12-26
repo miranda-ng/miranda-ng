@@ -65,7 +65,7 @@ void WindowsHandle::CloseHandle()
 
 void WindowsPipe::HandleError(const char *operation) const
 {
-	DWORD err = GetLastError();
+	uint32_t err = GetLastError();
 	throw Err(GetHandle(), operation, err);
 }
 
@@ -92,7 +92,7 @@ bool WindowsPipeReceiver::Receive(byte* buf, size_t bufLen)
 
 	HANDLE h = GetHandle();
 	// don't queue too much at once, or we might use up non-paged memory
-	if (ReadFile(h, buf, UnsignedMin((DWORD)128*1024, bufLen), &m_lastResult, &m_overlapped))
+	if (ReadFile(h, buf, UnsignedMin((uint32_t)128*1024, bufLen), &m_lastResult, &m_overlapped))
 	{
 		if (m_lastResult == 0)
 			m_eofReceived = true;
@@ -166,7 +166,7 @@ void WindowsPipeSender::Send(const byte* buf, size_t bufLen)
 	DWORD written = 0;
 	HANDLE h = GetHandle();
 	// don't queue too much at once, or we might use up non-paged memory
-	if (WriteFile(h, buf, UnsignedMin((DWORD)128*1024, bufLen), &written, &m_overlapped))
+	if (WriteFile(h, buf, UnsignedMin((uint32_t)128*1024, bufLen), &written, &m_overlapped))
 	{
 		m_resultPending = false;
 		m_lastResult = written;

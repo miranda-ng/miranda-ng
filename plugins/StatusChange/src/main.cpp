@@ -88,7 +88,7 @@ static int StatusChangeGetMessage(WPARAM, LPARAM hDbEvent)
 	}
 
 	// If is a message sent...
-	if (((DWORD)(dbe.flags & ((DWORD)DBEF_SENT))) == ((DWORD)(DBEF_SENT))) {
+	if (((uint32_t)(dbe.flags & ((uint32_t)DBEF_SENT))) == ((uint32_t)(DBEF_SENT))) {
 		if (send) {
 			// change status
 			CallProtoService(dbe.szModule, PS_SETSTATUS, (LPARAM)Options.ChangeTo, 0);
@@ -243,7 +243,7 @@ static INT_PTR CALLBACK DlgProcStatusChangeOpts(HWND hwndDlg, UINT msg, WPARAM w
 				g_plugin.setByte("MessageSend", (uint8_t)Options.MessageSend);
 				g_plugin.setByte("FileRead", (uint8_t)Options.FileRead);
 				g_plugin.setByte("FileSend", (uint8_t)Options.FileSend);
-				g_plugin.setDword("ChangeTo", (DWORD)Options.ChangeTo);
+				g_plugin.setDword("ChangeTo", (uint32_t)Options.ChangeTo);
 				g_plugin.setByte("IfOffline", (uint8_t)Options.IfOffline);
 				g_plugin.setByte("IfOnline", (uint8_t)Options.IfOnline);
 				g_plugin.setByte("IfAway", (uint8_t)Options.IfAway);

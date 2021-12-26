@@ -35,7 +35,7 @@ INT_PTR __cdecl CJabberProto::JabberGetApi(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-DWORD CJabberProto::GetFlags() const
+uint32_t CJabberProto::GetFlags() const
 {
 	return JIF_UNICODE;
 }
@@ -45,7 +45,7 @@ int CJabberProto::GetVersion() const
 	return 1;
 }
 
-DWORD CJabberProto::GetJabberVersion() const
+uint32_t CJabberProto::GetJabberVersion() const
 {
 	return PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 }

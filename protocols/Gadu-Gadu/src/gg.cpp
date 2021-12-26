@@ -157,7 +157,7 @@ const wchar_t *http_error_string(int h)
 //////////////////////////////////////////////////////////
 // Cleanups from last plugin
 //
-void GaduProto::cleanuplastplugin(DWORD version)
+void GaduProto::cleanuplastplugin(uint32_t version)
 {
 	// Store current plugin version
 	setDword(GG_PLUGINVERSION, pluginInfoEx.version);

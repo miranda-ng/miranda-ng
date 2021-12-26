@@ -150,7 +150,7 @@ void CSteamCaptchaDialog::OnDestroy()
 INT_PTR CSteamCaptchaDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == WM_PAINT) {
-		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, (DWORD)m_captchaImageSize);
+		FIMEMORY *stream = FreeImage_OpenMemory(m_captchaImage, (uint32_t)m_captchaImageSize);
 		FREE_IMAGE_FORMAT fif = FreeImage_GetFileTypeFromMemory(stream, 0);
 		FIBITMAP *bitmap = FreeImage_LoadFromMemory(fif, stream, 0);
 		FreeImage_CloseMemory(stream);

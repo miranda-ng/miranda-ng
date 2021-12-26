@@ -38,7 +38,7 @@ private:
 	int m_iBPP;
 
 public:
-	CLgLCDDevice(DWORD type, SIZE size, int buttons, int BPP) : CLCDDevice(type)
+	CLgLCDDevice(uint32_t type, SIZE size, int buttons, int BPP) : CLCDDevice(type)
 	{
 		m_size = size;
 		m_iButtons = buttons;

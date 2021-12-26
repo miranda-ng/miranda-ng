@@ -273,7 +273,7 @@ LBL_Error:
 			nlb->dwInternalIP = ntohl(*(PDWORD)he->h_addr);
 	}
 
-	DWORD extIP;
+	uint32_t extIP;
 	if (nlu->settings.enableUPnP && NetlibUPnPAddPortMapping(nlb->wPort, "TCP", &nlbp->wExPort, &extIP, true)) {
 		Netlib_Logf(nullptr, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", nlb->wPort, nlbp->wExPort);
 		nlb->wExPort = nlbp->wExPort;

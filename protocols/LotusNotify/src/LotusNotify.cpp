@@ -42,7 +42,7 @@ wchar_t settingFilterSubject[MAX_SETTING_STR] = TEXT(""), settingFilterSender[MA
 
 COLORREF settingBgColor, settingFgColor;
 int settingInterval = 0, settingInterval1 = 0;
-DWORD settingNewestID = 0;
+uint32_t settingNewestID = 0;
 uint8_t settingSetColours = 0, settingShowError = 1, settingIniAnswer = -1, settingIniCheck = 0,
 	settingOnceOnly = 0, settingNonClickedOnly = 0, settingNewest = 0, settingEvenNonClicked = 0, settingKeepConnection = 1;
 BOOL settingStatus[STATUS_COUNT];
@@ -93,8 +93,8 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 {
 	VARARG_PTR pArgs;
-	DWORD maxPwdLen;
-	DWORD * retLength;
+	uint32_t maxPwdLen;
+	uint32_t * retLength;
 	char * retPassword;
 	char * fileName;
 	char * ownerName;
@@ -103,14 +103,14 @@ STATUS LNPUBLIC __stdcall EMCallBack (EMRECORD * pData)
 	if (pData->Status != NOERROR) return (ERR_EM_CONTINUE);
 
 	pArgs= pData->Ap;
-	maxPwdLen = VARARG_GET (pArgs, DWORD);
-	retLength = VARARG_GET (pArgs, DWORD *);
+	maxPwdLen = VARARG_GET (pArgs, uint32_t);
+	retLength = VARARG_GET (pArgs, uint32_t *);
 	retPassword = VARARG_GET (pArgs, char *);
 	fileName = VARARG_GET (pArgs, char *);
 	ownerName = VARARG_GET (pArgs, char *);
 	strncpy(retPassword, settingPassword, mir_strlen(settingPassword)); //set our password
 	retPassword[mir_strlen(settingPassword)]='\0';
-	*retLength = (DWORD)mir_strlen(retPassword);//and his length
+	*retLength = (uint32_t)mir_strlen(retPassword);//and his length
 	return ERR_BSAFE_EXTERNAL_PASSWORD;
 }
 
@@ -144,7 +144,7 @@ void ExtClear()
 
 
 //check if msg was clicked and exists on msgs list
-struct HISTORIA* getEl(DWORD id)
+struct HISTORIA* getEl(uint32_t id)
 {
 	for(struct HISTORIA *cur = first; cur != nullptr; cur = cur->next)
 	{
@@ -156,7 +156,7 @@ struct HISTORIA* getEl(DWORD id)
 
 
 //creates new entry on list of msgs
-void addNewId(DWORD id)
+void addNewId(uint32_t id)
 {
 	struct HISTORIA* nowy = (struct HISTORIA*)mir_alloc(sizeof(struct HISTORIA)) ;
 	assert(nowy);
@@ -169,7 +169,7 @@ void addNewId(DWORD id)
 
 
 //add popup handle. This queue is used to close popups with same msg
-void addPopup(DWORD id,HWND hWnd)
+void addPopup(uint32_t id,HWND hWnd)
 {
 	struct POPUPSQUEUE* nowy = (struct POPUPSQUEUE*)mir_alloc(sizeof(struct POPUPSQUEUE)) ;
 	struct HISTORIA *elem = getEl(id);
@@ -444,7 +444,7 @@ BOOL checkNotesIniFile(BOOL bInfo)
 
 
 //popup plugin to show popup function
-void showMsg(wchar_t* sender,wchar_t* text, DWORD id, char *strUID)
+void showMsg(wchar_t* sender,wchar_t* text, uint32_t id, char *strUID)
 {
 	POPUPATT * mpd = (POPUPATT*)malloc(sizeof(POPUPATT));
 	mpd->id = id;
@@ -544,7 +544,7 @@ void checkthread(void*)
 	char        UserName[MAXUSERNAME + 1];
 	HANDLE      hTable;
 
-	DWORD		noteID = 0L;
+	uint32_t		noteID = 0L;
 	BOOL		fFirst = TRUE;
 
 	NOTEHANDLE	note_handle;
@@ -623,8 +623,8 @@ void checkthread(void*)
 
 		uint16_t Att;
 		BLOCKID bhAttachment;
-		DWORD cSize = 0;
-		DWORD attSize = 0;
+		uint32_t cSize = 0;
+		uint32_t attSize = 0;
 		OID          retNoteOID;
 		TIMEDATE     retModified;     /* modified timedate      */
 		uint16_t         retNoteClass;    /* note class             */
@@ -993,11 +993,11 @@ static void LoadSettings()
 	settingNonClickedOnly = g_plugin.getByte("LNNonClickedOnly", 1);
 	settingShowError = g_plugin.getByte("LNShowError", 1);
 	settingSetColours = g_plugin.getByte("LNSetColours", 0);
-	settingBgColor = (COLORREF)g_plugin.getDword("LNBgColor", (DWORD)0xFFFFFF);
-	settingFgColor = (COLORREF)g_plugin.getDword("LNFgColor", (DWORD)0x000000);
+	settingBgColor = (COLORREF)g_plugin.getDword("LNBgColor", (uint32_t)0xFFFFFF);
+	settingFgColor = (COLORREF)g_plugin.getDword("LNFgColor", (uint32_t)0x000000);
 	settingNewest = g_plugin.getByte("LNNewest", 0);
 	settingEvenNonClicked = g_plugin.getByte("LNEvenNonClicked", 0);
-	settingNewestID = (DWORD)g_plugin.getDword("LNNewestID", 0);
+	settingNewestID = (uint32_t)g_plugin.getDword("LNNewestID", 0);
 	settingIniAnswer = g_plugin.getByte("LNIniAnswer", 0);
 	settingIniCheck = g_plugin.getByte("LNIniCheck", 0);
 
@@ -1026,8 +1026,8 @@ static void SaveSettings(HWND hwndDlg)
 	g_plugin.setByte("LNNonClickedOnly", settingNonClickedOnly);
 	g_plugin.setByte("LNShowError", settingShowError);
 	g_plugin.setByte("LNSetColours", settingSetColours);
-	g_plugin.setDword("LNBgColor", (DWORD)settingBgColor);
-	g_plugin.setDword("LNFgColor", (DWORD)settingFgColor);
+	g_plugin.setDword("LNBgColor", (uint32_t)settingBgColor);
+	g_plugin.setDword("LNFgColor", (uint32_t)settingFgColor);
 	g_plugin.setByte("LNNewest", settingNewest);
 	g_plugin.setByte("LNEvenNonClicked", settingEvenNonClicked);
 	g_plugin.setByte("LNIniCheck", settingIniCheck);

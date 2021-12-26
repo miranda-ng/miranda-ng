@@ -172,7 +172,7 @@ public:
 			return;
 
 		// Find clicked item
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		HANDLE hItem = clist.HitTest(nm->pt.x, nm->pt.y, &hitFlags);
 		if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 			return;

@@ -319,7 +319,7 @@ static UINT_PTR CALLBACK SetMyAvatarHookProc(HWND hwnd, UINT msg, WPARAM, LPARAM
 
 struct SaveProtocolData
 {
-	DWORD max_size;
+	uint32_t max_size;
 	wchar_t image_file_name[MAX_PATH];
 	BOOL saved;
 	BOOL need_smaller_size;
@@ -380,7 +380,7 @@ static int SetProtoMyAvatar(char *protocol, HBITMAP hBmp, wchar_t *originalFilen
 	// Get protocol info
 	SaveProtocolData d = { 0 };
 
-	d.max_size = (DWORD)Proto_GetAvatarMaxFileSize(protocol);
+	d.max_size = (uint32_t)Proto_GetAvatarMaxFileSize(protocol);
 
 	Proto_GetAvatarMaxSize(protocol, &d.width, &d.height);
 	int orig_width = d.width;

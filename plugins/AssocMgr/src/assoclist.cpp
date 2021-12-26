@@ -334,7 +334,7 @@ struct TYPEDESCHEAD
 	HINSTANCE hInstance;
 	UINT nIconResID;
 	const char *pszService;
-	DWORD flags;
+	uint32_t flags;
 };
 
 // ownership of pszClassName,  pszFileExt,  pszVerbDesc and pszMimeType is transfered

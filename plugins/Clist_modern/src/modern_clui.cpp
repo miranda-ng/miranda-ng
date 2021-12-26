@@ -161,7 +161,7 @@ int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 {
 	Clist_Broadcast(INTM_RELOADOPTIONS, wParam, lParam);
 
-	g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
+	g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
 
 	cliInvalidateRect(g_clistApi.hwndContactList, nullptr, 0);
 	return 0;
@@ -363,13 +363,13 @@ HRESULT CLUI::FillAlphaChannel(HDC hDC, RECT *prcParent)
 		return S_FALSE;
 	}
 
-	DWORD dwRgnSize = GetRegionData(hRgn, 0, nullptr);
+	uint32_t dwRgnSize = GetRegionData(hRgn, 0, nullptr);
 	RGNDATA *rgnData = (RGNDATA *)malloc(dwRgnSize);
 	GetRegionData(hRgn, dwRgnSize, rgnData);
 
 	RECT *pRect = (RECT *)rgnData->Buffer;
 
-	for (DWORD i = 0; i < rgnData->rdh.nCount; i++)
+	for (uint32_t i = 0; i < rgnData->rdh.nCount; i++)
 		ske_SetRectOpaque(hDC, &pRect[i]);
 
 	free(rgnData);
@@ -1644,11 +1644,11 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 			Sync(CLUIFrames_OnMoving, m_hWnd, &rc);
 			if (!IsIconic(m_hWnd)) {
 				if (!Clist_IsDocked()) { // if g_CluiData.fDocked, dont remember pos (except for width)
-					g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (DWORD)rc.left);
-					g_plugin.setDword("y", (DWORD)rc.top);
+					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
+					g_plugin.setDword("x", (uint32_t)rc.left);
+					g_plugin.setDword("y", (uint32_t)rc.top);
 				}
-				g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
+				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1681,12 +1681,12 @@ LRESULT CLUI::OnSizingMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// if g_CluiData.fDocked, dont remember pos (except for width)
 			if (!Clist_IsDocked()) {
-				g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
-				g_plugin.setDword("x", (DWORD)rc.left);
-				g_plugin.setDword("y", (DWORD)rc.top);
+				g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
+				g_plugin.setDword("x", (uint32_t)rc.left);
+				g_plugin.setDword("y", (uint32_t)rc.top);
 			}
 			else SetWindowRgn(m_hWnd, nullptr, 0);
-			g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
+			g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
 
 			if (!g_CluiData.fLayered) {
 				HRGN hRgn1;
@@ -2306,7 +2306,7 @@ LRESULT CLUI::OnListSizeChangeNotify(NMCLISTCONTROL *pnmc)
 
 LRESULT CLUI::OnClickNotify(NMCLISTCONTROL *pnmc)
 {
-	DWORD hitFlags;
+	uint32_t hitFlags;
 	HANDLE hItem = (HANDLE)SendMessage(g_clistApi.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(pnmc->pt.x, pnmc->pt.y));
 	if (hItem && !(hitFlags & CLCHT_NOWHERE))
 		return DefCluiWndProc(WM_NOTIFY, 0, (LPARAM)pnmc);

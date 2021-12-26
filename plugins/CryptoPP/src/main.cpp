@@ -55,7 +55,7 @@ int CMPlugin::Load()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
+BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, uint32_t* Size)
 {
 	HRSRC RH = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(ResId), MAKEINTRESOURCE(ResType));
 	if (RH == nullptr)
@@ -65,7 +65,7 @@ BOOL ExtractFileFromResource(HANDLE FH, int ResType, int ResId, DWORD* Size)
 	if (RP == nullptr)
 		return FALSE;
 
-	DWORD	x, s = SizeofResource(g_plugin.getInst(), RH);
+	DWORD x, s = SizeofResource(g_plugin.getInst(), RH);
 	if (!WriteFile(FH, RP, s, &x, nullptr)) return FALSE;
 	if (x != s) return FALSE;
 	if (Size) *Size = s;

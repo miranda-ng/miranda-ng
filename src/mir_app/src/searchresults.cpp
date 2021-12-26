@@ -185,7 +185,7 @@ static void __cdecl BeginSearchFailed(wchar_t *protoName)
 	MessageBox(nullptr, buf, TranslateT("Problem with search"), MB_OK | MB_ICONERROR);
 }
 
-int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams)
+int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, uint32_t requiredCapability, void *pvSearchParams)
 {
 	if (szProto == nullptr) {
 		int failures = 0;
@@ -195,7 +195,7 @@ int BeginSearch(HWND, struct FindAddDlgData *dat, const char *szProto, const cha
 			if (!pa->IsEnabled())
 				continue;
 			
-			DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (!(caps & requiredCapability))
 				continue;
 			

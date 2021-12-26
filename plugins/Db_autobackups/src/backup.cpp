@@ -265,7 +265,7 @@ static int Backup(wchar_t *backup_filename)
 			SendDlgItemMessage(progress_dialog, IDC_PROGRESS, PBM_SETPOS, (WPARAM)(100), 0);
 			UpdateWindow(progress_dialog);
 		}
-		g_plugin.setDword("LastBackupTimestamp", (DWORD)time(0));
+		g_plugin.setDword("LastBackupTimestamp", (uint32_t)time(0));
 		NotifyEventHooks(g_plugin.hevBackup);
 
 		if (g_plugin.use_cloudfile) {

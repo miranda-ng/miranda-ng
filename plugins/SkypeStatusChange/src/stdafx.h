@@ -79,19 +79,19 @@ public:
 
 	bool IsProtocolExcluded(const char* pszProtocol)const
 	{
-		DWORD dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
+		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		return ((dwSettings&cssAll) ? true : false);
 	}
 
 	bool IsProtocolStatusExcluded(const char* pszProtocol, int nStatus)const
 	{
-		DWORD dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
+		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		return ((dwSettings&Status2Flag(nStatus)) ? true : false);
 	}
 
 	void ExcludeProtocol(const char* pszProtocol, bool bExclude)
 	{
-		DWORD dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
+		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		if (bExclude)
 			dwSettings |= cssAll;
 		else
@@ -102,7 +102,7 @@ public:
 
 	void ExcludeProtocolStatus(const char* pszProtocol, int nStatus, bool bExclude)
 	{
-		DWORD dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
+		uint32_t dwSettings = db_get_dw(NULL, pszProtocol, "ChangeSkypeStatus_Exclusions", 0);
 		if (bExclude)
 			dwSettings |= Status2Flag(nStatus);
 		else

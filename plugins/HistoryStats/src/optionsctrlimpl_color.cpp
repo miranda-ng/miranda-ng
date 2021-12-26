@@ -12,7 +12,7 @@ COLORREF OptionsCtrlImpl::Color::getColorValue()
 	return SendMessage(m_hColorWnd, CPM_GETCOLOUR, 0, 0);
 }
 
-OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, COLORREF crColor, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Color::Color(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, COLORREF crColor, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itColor, szLabel, dwFlags, dwData)
 	, m_hColorWnd(nullptr)
 	, m_crColor(crColor)
@@ -51,7 +51,7 @@ void OptionsCtrlImpl::Color::onSelect()
 
 		HWND hTempWnd;
 
-		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
+		uint32_t dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP;
 
 		if (hTempWnd = CreateWindowEx(
 			0, _A2W(WNDCLASS_COLOURPICKER), nullptr, dwStyle,

@@ -36,7 +36,7 @@ struct {
 	char*	szIniName;
 	char*	szDbModule;
 	char*	szDbSetting;
-	DWORD	dwDef;
+	uint32_t	dwDef;
 }
 static _extSettings[] =
 {
@@ -64,7 +64,7 @@ struct
 	char*	szIniName;
 	char*	szDbModule;
 	char*	szDbSetting;
-	DWORD	dwDef;
+	uint32_t	dwDef;
 }
 static _extSettings_v5[] =
 {
@@ -241,7 +241,7 @@ void TSAPI WriteThemeToINI(const wchar_t *szIniFilenameT, CMsgDialog *dat)
 	mir_free(szIniFilename);
 }
 
-void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, int noAdvanced, DWORD dwFlags)
+void TSAPI ReadThemeFromINI(const wchar_t *szIniFilenameT, TContainerData *dat, int noAdvanced, uint32_t dwFlags)
 {
 	char szBuf[512], szTemp[100], szAppname[100];
 	int i, n = 0;

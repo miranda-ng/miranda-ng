@@ -43,7 +43,7 @@ static ColorMatrix ClrMatrix =
 	0.0f, 0.0f, 0.0f, 0.0f, 1.0f
 };
 
-DWORD argb_from_cola(COLORREF col, uint8_t alpha)
+uint32_t argb_from_cola(COLORREF col, uint8_t alpha)
 {
 	return((uint8_t)(alpha) << 24 | col);
 }
@@ -63,7 +63,7 @@ HBITMAP GDIPlus_LoadGlyphImage(const wchar_t *tszFileName)
 	return hbmp;
 }
 
-void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, DWORD width, DWORD height, HBITMAP hbmp, int x1, int y1, DWORD width1, DWORD height1, DWORD flag, uint8_t alpha)
+void DrawAvatarImageWithGDIp(HDC hDestDC, int x, int y, uint32_t width, uint32_t height, HBITMAP hbmp, int x1, int y1, uint32_t width1, uint32_t height1, uint32_t flag, uint8_t alpha)
 {
 	BITMAP bmp;
 	Bitmap *bm;

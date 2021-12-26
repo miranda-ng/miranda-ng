@@ -205,7 +205,7 @@ void SvcFlagsLoadModule()
 	HookEvent(ME_SKIN_ICONSCHANGED, OnStatusIconsChanged);
 
 	// get local langID for descIcon (try to use user local Flag as icon)
-	DWORD langid = 0;
+	uint32_t langid = 0;
 	if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER, langid, 0))
 		langid = 1;
 

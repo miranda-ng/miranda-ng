@@ -299,7 +299,7 @@ err_out:
 	return ret;
 }
 
-BOOL isOneDay(DWORD timestamp1, DWORD timestamp2)
+BOOL isOneDay(uint32_t timestamp1, uint32_t timestamp2)
 {
 	time_t t1, t2;
 	int at1[3], at2[3];
@@ -490,14 +490,14 @@ void MarkUnread(MCONTACT hContact)
 		while (pos - _dbv.pbVal < _dbv.cpbVal) {
 			DBEVENTINFO dbei = {};
 			memcpy(&dbei.eventType, pos, sizeof(uint16_t)); pos += sizeof(uint16_t);
-			memcpy(&dbei.flags, pos, sizeof(DWORD)); pos += sizeof(DWORD);
-			memcpy(&dbei.timestamp, pos, sizeof(DWORD)); pos += sizeof(DWORD);
+			memcpy(&dbei.flags, pos, sizeof(uint32_t)); pos += sizeof(uint32_t);
+			memcpy(&dbei.timestamp, pos, sizeof(uint32_t)); pos += sizeof(uint32_t);
 
 			dbei.szModule = (char*)malloc(mir_strlen((const char*)pos)+1);
 			mir_strcpy((char*)dbei.szModule, (const char*)pos);
 			pos += mir_strlen((const char*)pos)+1;
 
-			memcpy(&dbei.cbBlob, pos, sizeof(DWORD)); pos += sizeof(DWORD);
+			memcpy(&dbei.cbBlob, pos, sizeof(uint32_t)); pos += sizeof(uint32_t);
 			dbei.pBlob = (uint8_t*)malloc(dbei.cbBlob);
 			memcpy(dbei.pBlob, pos, dbei.cbBlob);
 			pos += dbei.cbBlob;

@@ -63,7 +63,7 @@ namespace Utils
 	void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
 	void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
 
-	DWORD    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
+	uint32_t    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
 
 	void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
 	void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
@@ -143,12 +143,12 @@ struct CWarning
 		CWF_NOALLOWHIDE = 0x00020000  // critical message, hide the "do not show this again" check box
 	};
 
-	CWarning(const wchar_t* tszTitle, const wchar_t* tszText, const UINT uId, const DWORD dwFlags);
+	CWarning(const wchar_t* tszTitle, const wchar_t* tszText, const UINT uId, const uint32_t dwFlags);
 	~CWarning();
 
 public:
 	// static function to construct and show the dialog, returns the user's choice
-	static LRESULT show(const int uId, DWORD dwFlags = 0, const wchar_t* tszTxt = nullptr);
+	static LRESULT show(const int uId, uint32_t dwFlags = 0, const wchar_t* tszTxt = nullptr);
 	static void destroyAll();
 	LRESULT ShowDialog() const;
 
@@ -156,7 +156,7 @@ private:
 	ptrW  m_szTitle, m_szText;
 	UINT  m_uId;
 	HFONT m_hFontCaption;
-	DWORD m_dwFlags;
+	uint32_t m_dwFlags;
 	HWND  m_hwnd = nullptr;
 	bool  m_fIsModal;
 

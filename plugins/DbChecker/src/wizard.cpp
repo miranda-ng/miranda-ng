@@ -28,8 +28,8 @@ HFONT hBoldFont = nullptr;
 
 static BOOL CALLBACK MyControlsEnumChildren(HWND hwnd, LPARAM)
 {
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	DWORD exstyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t exstyle = GetWindowLongPtr(hwnd, GWL_EXSTYLE);
 	char szClass[64];
 	int makeBold = 0;
 

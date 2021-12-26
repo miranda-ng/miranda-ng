@@ -42,7 +42,7 @@ public:
 	};
 
 	struct BCBUTTON {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		HICON hIcon;
 		const wchar_t *m_szText;
 		const wchar_t *m_szTooltip;

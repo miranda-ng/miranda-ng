@@ -331,7 +331,7 @@ void CMsgDialog::CB_DestroyAllButtons()
 	}
 }
 
-void CMsgDialog::CB_DestroyButton(DWORD dwButtonCID, DWORD dwFlags)
+void CMsgDialog::CB_DestroyButton(uint32_t dwButtonCID, uint32_t dwFlags)
 {
 	HWND hwndButton = GetDlgItem(m_hwnd, dwButtonCID);
 	if (hwndButton == nullptr)

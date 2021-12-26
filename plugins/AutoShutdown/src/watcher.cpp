@@ -180,7 +180,7 @@ static int StatusSettingChanged(WPARAM wParam, LPARAM lParam)
 
 /************************* Cpu Shutdown *******************************/
 
-static DWORD idCpuUsageThread;
+static uint32_t idCpuUsageThread;
 
 static BOOL CALLBACK CpuUsageWatcherProc(uint8_t nCpuUsage, LPARAM lParam)
 {

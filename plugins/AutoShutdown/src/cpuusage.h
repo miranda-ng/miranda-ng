@@ -23,4 +23,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Start Thread */
 typedef BOOL (CALLBACK* CPUUSAGEAVAILPROC)(uint8_t nCpuUsage,LPARAM lParam);
-DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc,LPARAM lParam,DWORD dwDelayMillis);
+uint32_t PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc,LPARAM lParam,uint32_t dwDelayMillis);

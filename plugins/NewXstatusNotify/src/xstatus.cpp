@@ -288,11 +288,11 @@ void LogChangeToDB(XSTATUSCHANGE *xsc)
 		T2Utf blob(stzLogText);
 
 		DBEVENTINFO dbei = {};
-		dbei.cbBlob = (DWORD)mir_strlen(blob) + 1;
+		dbei.cbBlob = (uint32_t)mir_strlen(blob) + 1;
 		dbei.pBlob = (uint8_t*)(char*)blob;
 		dbei.eventType = EVENTTYPE_STATUSCHANGE;
 		dbei.flags = DBEF_READ | DBEF_UTF;
-		dbei.timestamp = (DWORD)time(0);
+		dbei.timestamp = (uint32_t)time(0);
 		dbei.szModule = MODULENAME;
 
 		MEVENT hDBEvent = db_event_add(xsc->hContact, &dbei);

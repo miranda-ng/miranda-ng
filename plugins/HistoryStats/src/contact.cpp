@@ -27,7 +27,7 @@ Contact::Contact(Statistic* pStatistic, int nSlots, const ext::string& nick, con
 	m_Slots.resize(nSlots, NULL);
 }
 
-void Contact::updateTime(DWORD msgTime)
+void Contact::updateTime(uint32_t msgTime)
 {
 	if (!m_bFirstLastTimeValid) {
 		m_FirstTime = msgTime;
@@ -40,7 +40,7 @@ void Contact::updateTime(DWORD msgTime)
 	}
 }
 
-void Contact::updateChatDur(DWORD timeDelta)
+void Contact::updateChatDur(uint32_t timeDelta)
 {
 	m_bChatDurValid = true;
 
@@ -52,7 +52,7 @@ void Contact::updateChatDur(DWORD timeDelta)
 
 double Contact::getAvg(int nTotal) const
 {
-	DWORD dwHistTime = m_pStatistic->getLastTime() - getFirstTime();
+	uint32_t dwHistTime = m_pStatistic->getLastTime() - getFirstTime();
 	if (dwHistTime < m_pStatistic->getAverageMinTime())
 		dwHistTime = m_pStatistic->getAverageMinTime();
 
@@ -73,7 +73,7 @@ void Contact::addMessage(Message& msg)
 	updateTime(msg.getTimestamp());
 }
 
-void Contact::addChat(bool bOutgoing, DWORD, DWORD duration)
+void Contact::addChat(bool bOutgoing, uint32_t, uint32_t duration)
 {
 	if (bOutgoing)
 		m_Chats.out++;

@@ -58,10 +58,10 @@ bool ICMP::ping(char *host, ICMP_ECHO_REPLY &reply)
 	if (hIP == INVALID_HANDLE_VALUE)
 		return false;
 
-	DWORD rep_cnt = IcmpSendEcho2(hIP, nullptr, nullptr, nullptr, address, data, sizeof(data), nullptr, buff, BUFFER_SIZE, timeout);
+	uint32_t rep_cnt = IcmpSendEcho2(hIP, nullptr, nullptr, nullptr, address, data, sizeof(data), nullptr, buff, BUFFER_SIZE, timeout);
 	if (rep_cnt == 0)
 	{
-		DWORD code = GetLastError();
+		uint32_t code = GetLastError();
 		if (code != 11010)
 		{
 			char winmsg[512], msg[1024];

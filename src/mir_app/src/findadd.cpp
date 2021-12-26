@@ -299,7 +299,7 @@ static void SetListItemText(HWND hwndList, int idx, int col, wchar_t *szText)
 	ListView_SetItemText(hwndList, idx, col, szText);
 }
 
-static wchar_t* sttDecodeString(DWORD dwFlags, MAllStrings &src)
+static wchar_t* sttDecodeString(uint32_t dwFlags, MAllStrings &src)
 {
 	if (dwFlags & PSR_UNICODE)
 		return mir_wstrdup(src.w);
@@ -373,7 +373,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!pa->IsEnabled())
 					continue;
 
-				DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t caps = (uint32_t)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_ANYSEARCH)
 					netProtoCount++;
 			}
@@ -400,7 +400,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if (!pa->IsEnabled())
 					continue;
 
-				DWORD caps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t caps = (uint32_t)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (!(caps & PF1_ANYSEARCH))
 					continue;
 
@@ -474,14 +474,14 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (szProto == nullptr) {
 				for (auto &pa : g_arAccounts) {
 					if (pa->IsEnabled()) {
-						DWORD protoCaps = (DWORD)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+						uint32_t protoCaps = (uint32_t)CallProtoServiceInt(0, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 						if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
 						if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;
 					}
 				}
 			}
 			else {
-				DWORD protoCaps = (DWORD)CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t protoCaps = (uint32_t)CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (protoCaps & PF1_BASICSEARCH) dat->showProtoId = 1;
 				if (protoCaps & PF1_SEARCHBYEMAIL) dat->showEmail = 1;
 				if (protoCaps & PF1_SEARCHBYNAME) dat->showName = 1;

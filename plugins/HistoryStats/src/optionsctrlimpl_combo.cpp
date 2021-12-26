@@ -46,7 +46,7 @@ ext::string OptionsCtrlImpl::Combo::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Combo::Combo(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itCombo, szLabel, dwFlags, dwData), m_hComboWnd(nullptr), m_nSelected(-1)
 {
 	m_bDisableChildsOnIndex0 = bool_(dwFlags & OCF_DISABLECHILDSONINDEX0);
@@ -83,7 +83,7 @@ void OptionsCtrlImpl::Combo::onSelect()
 
 		HWND hTempWnd;
 
-		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST;
+		uint32_t dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | WS_VSCROLL | CBS_DROPDOWNLIST;
 
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, WC_COMBOBOX, L"", dwStyle,

@@ -45,7 +45,7 @@ void WriteUtfFile(HANDLE hDumpFile, char *bufu)
 	DWORD bytes;
 	static const unsigned char bytemark[] = { 0xEF, 0xBB, 0xBF };
 	WriteFile(hDumpFile, bytemark, 3, &bytes, nullptr);
-	WriteFile(hDumpFile, bufu, (DWORD)mir_strlen(bufu), &bytes, nullptr);
+	WriteFile(hDumpFile, bufu, (uint32_t)mir_strlen(bufu), &bytes, nullptr);
 }
 
 BOOL CALLBACK LoadedModules64(LPCSTR, DWORD64 ModuleBase, ULONG ModuleSize, PVOID UserContext)
@@ -77,7 +77,7 @@ BOOL CALLBACK LoadedModulesFind64(LPCSTR ModuleName, DWORD64 ModuleBase, ULONG M
 {
 	FindData *data = (FindData*)UserContext;
 
-	if ((DWORD)(data->Offset - ModuleBase) < ModuleSize) {
+	if ((uint32_t)(data->Offset - ModuleBase) < ModuleSize) {
 		const size_t len = _countof(data->pModule->ModuleName);
 		strncpy(data->pModule->ModuleName, ModuleName, len);
 		data->pModule->ModuleName[len - 1] = 0;
@@ -113,7 +113,7 @@ void GetLinkedModulesInfo(wchar_t *moduleName, CMStringW &buffer)
 		PIMAGE_IMPORT_DESCRIPTOR importData = (PIMAGE_IMPORT_DESCRIPTOR)ImageDirectoryEntryToData(dllAddr, FALSE, IMAGE_DIRECTORY_ENTRY_IMPORT, &tableSize);
 		if (importData) {
 			CMStringW wszEnvPath;
-			DWORD dwLen = GetEnvironmentVariableW(L"Path", nullptr, 0);
+			uint32_t dwLen = GetEnvironmentVariableW(L"Path", nullptr, 0);
 			wszEnvPath.Preallocate(dwLen + 1);
 			GetEnvironmentVariableW(L"Path", wszEnvPath.GetBuffer(), dwLen);
 
@@ -206,7 +206,7 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 				mir_free(pVerInfo);
 			}
 			else {
-				DWORD ver = pi->version;
+				uint32_t ver = pi->version;
 				v1 = HIBYTE(HIWORD(ver)), v2 = LOBYTE(HIWORD(ver)), v3 = HIBYTE(LOWORD(ver)), v4 = LOBYTE(LOWORD(ver));
 			}
 

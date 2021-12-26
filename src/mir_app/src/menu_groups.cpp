@@ -147,7 +147,7 @@ static int OnBuildGroupMenu(WPARAM, LPARAM)
 	bChecked = SendMessage(g_clistApi.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0) != 0;
 	Menu_SetChecked(hHideOfflineUsersOutHereMenuItem, bChecked);
 
-	DWORD dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
+	uint32_t dwStyle = GetWindowLongPtr(g_clistApi.hwndContactTree, GWL_STYLE);
 	Menu_SetChecked(hHideEmptyGroupsMenuItem, (dwStyle & CLS_HIDEEMPTYGROUPS) != 0);
 	Menu_SetChecked(hDisableGroupsMenuItem, (dwStyle & CLS_USEGROUPS) == 0);
 	return 0;

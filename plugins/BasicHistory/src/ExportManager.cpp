@@ -369,7 +369,7 @@ void ExportManager::DeleteExportedEvents()
 			DeleteEvent(m_eventList[j][i]);
 }
 
-void ExportManager::SetDeleteWithoutExportEvents(int deltaTime, DWORD now)
+void ExportManager::SetDeleteWithoutExportEvents(int deltaTime, uint32_t now)
 {
 	m_exp = nullptr;
 	m_deltaTime = deltaTime;

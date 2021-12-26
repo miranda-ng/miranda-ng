@@ -76,7 +76,7 @@ int TemplateHTMLBuilder::getFlags(ProtocolSettings * protoSettings)
 	return protoSettings->getSRMMFlags();
 }
 
-char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode)
+char *TemplateHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
 {
 	static char szResult[512]; szResult[0] = '\0';
 	wchar_t str[300];
@@ -363,12 +363,12 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			CMStringA str;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) && tmpm->isRTL();
-			bool isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags &IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
+			bool isHistory = (eventData->time < (uint32_t)getStartedTime() && (eventData->dwFlags &IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 			bool isGroupBreak = true;
 			if ((getFlags(protoSettings) & Options::LOG_GROUP_MESSAGES) && eventData->dwFlags == LOWORD(getLastEventType())
 				&& eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE
 				&& (isSameDate(eventData->time, getLastEventTime()))
-				&& (((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
+				&& (((eventData->time < (uint32_t)startedTime) == (getLastEventTime() < (uint32_t)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
 				isGroupBreak = false;
 
 			if (isSent) {

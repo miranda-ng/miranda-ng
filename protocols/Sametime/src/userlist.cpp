@@ -230,7 +230,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						ptrW ptszGroup(mir_utf8decodeW(group_alias));
 						MGROUP hGroup = Clist_GroupExists(ptszGroup);
 						if (hGroup) {
-							DWORD expanded;
+							uint32_t expanded;
 							Clist_GroupGetName(hGroup, &expanded);
 							group_open = (expanded != 0);
 						}
@@ -520,7 +520,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 					new_status = ID_STATUS_AWAY;
 					db_set_w(hContact, proto->m_szModuleName, "Status", new_status);
 				}
-				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", (DWORD)time(0));
+				db_set_dw(hContact, proto->m_szModuleName, "IdleTS", (uint32_t)time(0));
 				break;
 			case mwStatus_BUSY:
 				new_status = ID_STATUS_DND;

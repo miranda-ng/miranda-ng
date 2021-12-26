@@ -39,7 +39,7 @@ Constants for the BITMAPINFOHEADER::biCompression field
 BI_RGB:
 The bitmap is in uncompressed red green blue (RGB) format that is not compressed and does not use color masks.
 BI_BITFIELDS:
-The bitmap is not compressed and the color table consists of three DWORD color masks that specify the red, green, and blue components, 
+The bitmap is not compressed and the color table consists of three uint32_t color masks that specify the red, green, and blue components, 
 respectively, of each pixel. This is valid when used with 16 and 32-bits per pixel bitmaps.
 */
 #ifndef _WINGDI_
@@ -214,7 +214,7 @@ FreeImage_GetInternalImageSize(BOOL header_only, unsigned width, unsigned height
 	dib_size += sizeof(RGBQUAD) * CalculateUsedPaletteEntries(bpp);
 	// we both add palette size and masks size if need_masks is true, since CalculateUsedPaletteEntries
 	// always returns 0 if need_masks is true (which is only true for 16 bit images).
-	dib_size += need_masks ? sizeof(DWORD) * 3 : 0;
+	dib_size += need_masks ? sizeof(uint32_t) * 3 : 0;
 	dib_size += (dib_size % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - dib_size % FIBITMAP_ALIGNMENT : 0);
 
 	if(!header_only) {
@@ -332,7 +332,7 @@ FreeImage_AllocateBitmap(BOOL header_only, uint8_t *ext_bits, unsigned ext_pitch
 			bpp = 8 * sizeof(short);
 			break;
 		case FIT_UINT32:
-			bpp = 8 * sizeof(DWORD);
+			bpp = 8 * sizeof(uint32_t);
 			break;
 		case FIT_INT32:
 			bpp = 8 * sizeof(LONG);
@@ -647,7 +647,7 @@ FreeImage_GetBits(FIBITMAP *dib) {
 	// returns the pixels aligned on a FIBITMAP_ALIGNMENT bytes alignment boundary
 	size_t lp = (size_t)FreeImage_GetInfoHeader(dib);
 	lp += sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * FreeImage_GetColorsUsed(dib);
-	lp += FreeImage_HasRGBMasks(dib) ? sizeof(DWORD) * 3 : 0;
+	lp += FreeImage_HasRGBMasks(dib) ? sizeof(uint32_t) * 3 : 0;
 	lp += (lp % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - lp % FIBITMAP_ALIGNMENT : 0);
 	return (uint8_t *)lp;
 }
@@ -1467,7 +1467,7 @@ FreeImage_SetMetadataKeyValue(FREE_IMAGE_MDMODEL model, FIBITMAP *dib, const cha
 	if(tag) {
 		BOOL bSuccess = TRUE;
 		// fill the tag
-		DWORD tag_length = (DWORD)(strlen(value) + 1);
+		uint32_t tag_length = (uint32_t)(strlen(value) + 1);
 		bSuccess &= FreeImage_SetTagKey(tag, key);
 		bSuccess &= FreeImage_SetTagLength(tag, tag_length);
 		bSuccess &= FreeImage_SetTagCount(tag, tag_length);

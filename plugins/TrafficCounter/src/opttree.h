@@ -33,15 +33,15 @@ typedef struct {
   int       iconIndex;
   wchar_t		*szOptionName;
   int       groupId;
-  DWORD     dwFlag;
+  uint32_t     dwFlag;
   HTREEITEM hItem;
   char	    *szSettingName;
 } OPTTREE_OPTION;
 
 BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, BOOL *result, int idcTree, OPTTREE_OPTION *options, int optionCount);
 
-DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, char *szSettingName);
-void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, DWORD dwOptions, char *szSettingName);
+uint32_t OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, char *szSettingName);
+void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, uint32_t dwOptions, char *szSettingName);
 
 void OptTree_Translate(HWND hwndTree);
 

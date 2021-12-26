@@ -169,7 +169,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				dat = (StatusBarProtocolOptions *)mir_calloc(sizeof(StatusBarProtocolOptions));
 				dat->szName = szName;
 
-				DWORD dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
+				uint32_t dwNewId = SendMessage(hwndComboBox, CB_ADDSTRING, 0, (LPARAM)pa->tszAccountName);
 				SendMessage(hwndComboBox, CB_SETITEMDATA, dwNewId, (LPARAM)dat);
 
 				char buf[256];
@@ -370,10 +370,10 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			dat->SBarRightClk = IsDlgButtonChecked(hwndDlg, IDC_RIGHTMIRANDA);
 		}
 		else if (LOWORD(wParam) == IDC_OFFSETICON_LEFT) {
-			dat->PaddingLeft = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_GETPOS, 0, 0);
+			dat->PaddingLeft = (uint32_t)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_LEFT, UDM_GETPOS, 0, 0);
 		}
 		else if (LOWORD(wParam) == IDC_OFFSETICON_RIGHT) {
-			dat->PaddingRight = (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_GETPOS, 0, 0);
+			dat->PaddingRight = (uint32_t)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN_RIGHT, UDM_GETPOS, 0, 0);
 		}
 		else if ((LOWORD(wParam) == IDC_MULTI_COUNT || LOWORD(wParam) == IDC_OFFSETICON || LOWORD(wParam) == IDC_OFFSETICON2
 			|| LOWORD(wParam) == IDC_OFFSETICON3 || LOWORD(wParam) == IDC_SBAR_BORDER_BOTTOM || LOWORD(wParam) == IDC_SBAR_BORDER_TOP)
@@ -431,11 +431,11 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			db_set_b(0, "CLUI", "EqualSections", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_EQUALSECTIONS));
 			db_set_b(0, "CLUI", "Align", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_HORIZ_ALIGN, CB_GETCURSEL, 0, 0));
 			db_set_b(0, "CLUI", "VAlign", (uint8_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_VERT_ALIGN, CB_GETCURSEL, 0, 0));
-			db_set_dw(0, "CLUI", "LeftOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(0, "CLUI", "RightOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_GETPOS, 0, 0));
-			db_set_dw(0, "CLUI", "TopOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(0, "CLUI", "BottomOffset", (DWORD)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_GETPOS, 0, 0));
-			db_set_dw(0, "CLUI", "SpaceBetween", (DWORD)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "LeftOffset", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "RightOffset", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN2, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "TopOffset", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_TOP_SPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "BottomOffset", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_SBAR_BORDER_BOTTOM_SPIN, UDM_GETPOS, 0, 0));
+			db_set_dw(0, "CLUI", "SpaceBetween", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_OFFSETSPIN3, UDM_GETPOS, 0, 0));
 			db_set_b(0, "CLUI", "ShowSBar", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));
 
 			LoadStatusBarData();

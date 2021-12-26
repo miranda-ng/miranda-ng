@@ -276,7 +276,7 @@ void TfrmMain::wmInitdialog(WPARAM, LPARAM)
 		ShowWindow(m_hwndTabPage, SW_SHOW);
 
 		// enable Drag&Drop for local file pane
-		typedef BOOL(WINAPI *ChangeWindowMessageFilterEx_t)(HWND hwnd, UINT message, DWORD action, PCHANGEFILTERSTRUCT pChangeFilterStruct);
+		typedef BOOL(WINAPI *ChangeWindowMessageFilterEx_t)(HWND hwnd, UINT message, uint32_t action, PCHANGEFILTERSTRUCT pChangeFilterStruct);
 		ChangeWindowMessageFilterEx_t pChangeWindowMessageFilterEx;
 		pChangeWindowMessageFilterEx = (ChangeWindowMessageFilterEx_t)GetProcAddress(GetModuleHandleA("user32"), "ChangeWindowMessageFilterEx");
 		if (pChangeWindowMessageFilterEx) { // Win7+, UAC fix
@@ -732,7 +732,7 @@ TfrmMain::~TfrmMain()
 
 void TfrmMain::LoadOptions(void)
 {
-	DWORD rgb = g_plugin.getDword("AlphaColor", 16777215);
+	uint32_t rgb = g_plugin.getDword("AlphaColor", 16777215);
 	m_AlphaColor.rgbRed = GetRValue(rgb);
 	m_AlphaColor.rgbGreen = GetGValue(rgb);
 	m_AlphaColor.rgbBlue = GetBValue(rgb);
@@ -760,7 +760,7 @@ void TfrmMain::SaveOptions(void)
 {
 	if (m_bOnExitSave) {
 		g_plugin.setDword("AlphaColor",
-			(DWORD)RGB(m_AlphaColor.rgbRed, m_AlphaColor.rgbGreen, m_AlphaColor.rgbBlue));
+			(uint32_t)RGB(m_AlphaColor.rgbRed, m_AlphaColor.rgbGreen, m_AlphaColor.rgbBlue));
 
 		g_plugin.setByte("JpegQuality", m_opt_edtQuality);
 
@@ -1084,7 +1084,7 @@ void TfrmMain::FormClose()
 		shex.nShow = SW_SHOWNORMAL;
 		ShellExecuteEx(&shex);
 		if (shex.hProcess) {
-			DWORD res;
+			uint32_t res;
 			MSG msg;
 			do {
 				// wait for editor exit or messages/input

@@ -236,8 +236,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bUseTLS;
 
 	CMOption<int>   m_iMamMode;
-	CMOption<DWORD> m_iConnectionKeepAliveInterval;
-	CMOption<DWORD> m_iConnectionKeepAliveTimeout;
+	CMOption<uint32_t> m_iConnectionKeepAliveInterval;
+	CMOption<uint32_t> m_iConnectionKeepAliveTimeout;
 
 	PVOID  m_sslCtx;
 
@@ -324,8 +324,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	strm_mgmt m_StrmMgmt;
 
 	int m_nSDBrowseMode;
-	DWORD m_dwSDLastRefresh;
-	DWORD m_dwSDLastAutoDisco;
+	uint32_t m_dwSDLastRefresh;
+	uint32_t m_dwSDLastAutoDisco;
 
 	HGENMENU m_hChooseMenuItem;
 	int m_privacyMenuServiceAllocated;
@@ -454,8 +454,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 			     
 	void       ConsoleUninit(void);
 			     
-	bool       FilterXml(const TiXmlElement *node, DWORD flags);
-	bool       RecursiveCheckFilter(const TiXmlElement *node, DWORD flags);
+	bool       FilterXml(const TiXmlElement *node, uint32_t flags);
+	bool       RecursiveCheckFilter(const TiXmlElement *node, uint32_t flags);
 
 	//---- jabber_disco.cpp --------------------------------------------------------------
 
@@ -566,7 +566,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultSetPassword(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
-	void       OnProcessLoginRq(ThreadData *info, DWORD rq);
+	void       OnProcessLoginRq(ThreadData *info, uint32_t rq);
 	void       OnLoggedIn(void);
 
 	//---- jabber_iq_handlers.cpp -------------------------------------------------------
@@ -747,7 +747,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       __cdecl GetAwayMsgThread(void* hContact);
 	void       __cdecl SendMessageAckThread(void* hContact);
 			   
-	MCONTACT   AddToListByJID(const char *newJid, DWORD flags);
+	MCONTACT   AddToListByJID(const char *newJid, uint32_t flags);
 			   
 	void       InfoFrame_OnSetup(CJabberInfoFrame_Event *evt);
 	void       InfoFrame_OnTransport(CJabberInfoFrame_Event *evt);
@@ -892,7 +892,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_xml.c ------------------------------------------------------------------
 
-	void       OnConsoleProcessXml(const TiXmlElement *node, DWORD flags);
+	void       OnConsoleProcessXml(const TiXmlElement *node, uint32_t flags);
 
 	//---- jabber_xmlns.c ----------------------------------------------------------------
 
@@ -928,7 +928,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 private:
 	char      *m_szXmlStreamToBeInitialized;
 
-	DWORD      m_lastTicks;
+	uint32_t      m_lastTicks;
 
 	HANDLE     m_hPopupClass;
 
@@ -944,9 +944,9 @@ private:
 	JabberFeatCapPairDynamic* FindFeature(const char *szFeature);
 
 public:
-	DWORD      STDMETHODCALLTYPE GetFlags() const override;                      // Set of JIF_* flags.
+	uint32_t      STDMETHODCALLTYPE GetFlags() const override;                      // Set of JIF_* flags.
 	int        STDMETHODCALLTYPE GetVersion() const override;                    // Returns version of IJabberInterface.
-	DWORD      STDMETHODCALLTYPE GetJabberVersion() const override;              // Returns Jabber plugin version.
+	uint32_t      STDMETHODCALLTYPE GetJabberVersion() const override;              // Returns Jabber plugin version.
 				  
 	MCONTACT   STDMETHODCALLTYPE ContactFromJID(const char *jid) override;       // Returns contact handle for given JID.
 	char*      STDMETHODCALLTYPE ContactToJID(MCONTACT hContact) override;       // Returns JID of hContact. You must free the result using mir_free().

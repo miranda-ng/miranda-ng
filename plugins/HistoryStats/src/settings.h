@@ -204,7 +204,7 @@ public:
 	static const wchar_t* getDefaultFilterWords();
 
 public:
-	const DWORD m_VersionCurrent;
+	const uint32_t m_VersionCurrent;
 
 private:
 	// column settings
@@ -297,11 +297,11 @@ public:
 	bool manageFilterWords(HWND hParent, Column* pCol);
 	const Filter* getFilter(const ext::string& strID) const;
 
-	ext::string getOutputFile(DWORD timeStarted) const;
-	ext::string getOutputPrefix(DWORD timeStarted) const;
+	ext::string getOutputFile(uint32_t timeStarted) const;
+	ext::string getOutputPrefix(uint32_t timeStarted) const;
 	bool isPNGOutputActiveAndAvailable() const;
-	DWORD getIgnoreBefore() const;
-	DWORD getIgnoreAfter() const;
+	uint32_t getIgnoreBefore() const;
+	uint32_t getIgnoreAfter() const;
 
 	void ensureConstraints();
 

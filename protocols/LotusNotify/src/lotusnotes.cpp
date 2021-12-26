@@ -68,16 +68,12 @@ BOOL HookLotusFunctions()
 
 void GetLotusPath(wchar_t *sTemp, DWORD size)
 {
-	DWORD rc; 
 	HKEY dmKey;
+	DWORD rc = RegOpenKeyEx( HKEY_LOCAL_MACHINE , TEXT("Software\\Lotus\\Notes") ,0, KEY_QUERY_VALUE, &dmKey );
+	if (rc != ERROR_SUCCESS)
+		return;
 
-	rc = RegOpenKeyEx( HKEY_LOCAL_MACHINE , TEXT("Software\\Lotus\\Notes") ,0, KEY_QUERY_VALUE, &dmKey ); 
-
-	if (rc != ERROR_SUCCESS) { 
-		return; 
-	} 
-
-	RegQueryValueEx( dmKey, TEXT("Path"), nullptr, nullptr, (uint8_t*)sTemp, &size );
+	RegQueryValueEx( dmKey, TEXT("Path"), nullptr, nullptr, (uint8_t*)sTemp, &size);
 	RegCloseKey(dmKey);
 	return;	
 }

@@ -295,8 +295,8 @@ void MirandaUtils::addMessageToDB(MCONTACT hContact, char* msgBuffer, std::size_
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
 	dbei.szModule = targetHandleSzProto;
-	dbei.timestamp = (DWORD)time(0);
-	dbei.cbBlob = (DWORD)bufSize;
+	dbei.timestamp = (uint32_t)time(0);
+	dbei.cbBlob = (uint32_t)bufSize;
 	dbei.pBlob = (uint8_t*)msgBuffer;
 	db_event_add(hContact, &dbei);
 }
@@ -323,8 +323,8 @@ void MirandaUtils::notifyHookToOpenMsgWindow(ActionThreadArgStruct* args, bool s
 //http://www.shloemi.com/2012/09/solved-setforegroundwindow-win32-api-not-always-works/
 void MirandaUtils::ForceForegroundWindow(HWND hWnd)
 {
-	DWORD foreThread = GetWindowThreadProcessId(GetForegroundWindow(), nullptr);
-	DWORD appThread = GetCurrentThreadId();
+	uint32_t foreThread = GetWindowThreadProcessId(GetForegroundWindow(), nullptr);
+	uint32_t appThread = GetCurrentThreadId();
 
 	if (foreThread != appThread) {
 		AttachThreadInput(foreThread, appThread, true);

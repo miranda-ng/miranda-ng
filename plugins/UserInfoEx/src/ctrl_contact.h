@@ -59,7 +59,7 @@ struct CBEXITEM
 	uint16_t     wMask;		// determines which element of this structure is valid
 	uint16_t     wFlags;	 // standard control flags
 	int      iItem;		// position of the item in the data array
-	DWORD	   dwID;		 // unique number for each setting read from db to identify it, new entries have dwID = 0
+	uint32_t	   dwID;		 // unique number for each setting read from db to identify it, new entries have dwID = 0
 	LPTSTR   pszCat;	 // pointer to a descriptive category string to set or retrieve for the data entry
 	uint16_t     ccCat;
 	LPTSTR   pszVal;

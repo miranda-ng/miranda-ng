@@ -217,11 +217,11 @@ struct MYOPTIONS
 	COLORREF TextColour;
 
 	// popup actions
-	DWORD LeftClickAction;
-	DWORD RightClickAction;
+	uint32_t LeftClickAction;
+	uint32_t RightClickAction;
 
 	// popup delay
-	DWORD pDelay;
+	uint32_t pDelay;
 
 	// other misc stuff
 	wchar_t Default[64];

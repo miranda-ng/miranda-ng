@@ -223,7 +223,7 @@ class CExtraIconOptsDlg : public CDlgBase
 		HMENU submenu = GetSubMenu(menu, popup);
 		TranslateMenu(submenu);
 
-		DWORD pos = GetMessagePos();
+		uint32_t pos = GetMessagePos();
 		int ret = TrackPopupMenu(submenu, TPM_TOPALIGN | TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_LEFTALIGN, LOWORD(pos), HIWORD(pos), 0, m_hwnd, nullptr);
 
 		DestroyMenu(menu);

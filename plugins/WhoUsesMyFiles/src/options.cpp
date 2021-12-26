@@ -223,8 +223,8 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg,UINT msg,WPARAM wparam,LPARAM lpara
 				return TRUE;
 
 			case PSN_APPLY:
-				g_plugin.setDword(COLOR_TEXT, (DWORD)WumfOptions.ColorText);
-				g_plugin.setDword(COLOR_BACK, (DWORD)WumfOptions.ColorBack);
+				g_plugin.setDword(COLOR_TEXT, (uint32_t)WumfOptions.ColorText);
+				g_plugin.setDword(COLOR_BACK, (uint32_t)WumfOptions.ColorBack);
 				g_plugin.setByte(COLOR_DEF, (uint8_t)WumfOptions.UseDefColor);
 				g_plugin.setByte(COLOR_WIN, (uint8_t)WumfOptions.UseWinColor);
 				g_plugin.setByte(COLOR_SET, (uint8_t)WumfOptions.SelectColor );

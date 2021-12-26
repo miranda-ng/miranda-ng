@@ -25,10 +25,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-typedef HRESULT(STDAPICALLTYPE* pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, DWORD, LPRECT, const struct _DTTOPTS*);
+typedef HRESULT(STDAPICALLTYPE* pfnDrawThemeTextEx)(HTHEME, HDC, int, int, LPCWSTR, int, uint32_t, LPRECT, const struct _DTTOPTS*);
 static pfnDrawThemeTextEx drawThemeTextEx;
 
-typedef HRESULT(STDAPICALLTYPE* pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, DWORD);
+typedef HRESULT(STDAPICALLTYPE* pfnSetWindowThemeAttribute)(HWND, enum WINDOWTHEMEATTRIBUTETYPE, PVOID, uint32_t);
 static pfnSetWindowThemeAttribute setWindowThemeAttribute;
 
 typedef HRESULT(STDAPICALLTYPE* pfnDwmExtendFrameIntoClientArea)(HWND hwnd, const MARGINS* margins);

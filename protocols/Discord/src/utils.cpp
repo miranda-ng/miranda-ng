@@ -336,7 +336,7 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 			DB::AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), nullptr, nullptr, szId, nullptr);
 
 			PROTORECVEVENT pre = { 0 };
-			pre.timestamp = (DWORD)time(0);
+			pre.timestamp = (uint32_t)time(0);
 			pre.lParam = blob.size();
 			pre.szMessage = blob;
 			ProtoChainRecv(pUser->hContact, PSR_AUTH, 0, (LPARAM)&pre);

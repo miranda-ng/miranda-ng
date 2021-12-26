@@ -4,7 +4,7 @@
 
 int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char *data, uint8_t *encryptedData, DWORD &encryptedSize)
 {
-	DWORD cchModulus = (DWORD)mir_strlen(pszModulus);
+	uint32_t cchModulus = (uint32_t)mir_strlen(pszModulus);
 	int result;
 	HCRYPTKEY phKey = 0;
 	HCRYPTPROV hCSP = 0;
@@ -38,7 +38,7 @@ int CSteamProto::RsaEncrypt(const char *pszModulus, DWORD &exponent, const char 
 		}
 
 		// Move the key into the key container.
-		DWORD cbKeyBlob = sizeof(PUBLICKEYSTRUC) + sizeof(RSAPUBKEY) + cbLen;
+		uint32_t cbKeyBlob = sizeof(PUBLICKEYSTRUC) + sizeof(RSAPUBKEY) + cbLen;
 		mir_ptr<uint8_t> pKeyBlob((uint8_t *)mir_alloc(cbKeyBlob));
 
 		// Fill in the data.

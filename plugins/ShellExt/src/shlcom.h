@@ -55,7 +55,7 @@ struct TGroupNode
 	int cchGroup;
 	HMENU hMenu;
 	int hMenuGroupID;
-	DWORD dwItems;
+	uint32_t dwItems;
 };
 
 struct TGroupNodeList
@@ -99,10 +99,10 @@ struct TSlotIPC
 struct THeaderIPC
 {
 	int    cbSize;
-	DWORD  dwVersion;
+	uint32_t  dwVersion;
 	void* pServerBaseAddress, * pClientBaseAddress;
 	int    fRequests;
-	DWORD  dwFlags;
+	uint32_t  dwFlags;
 	int    Slots;
 	HANDLE Param;
 	char   SignalEventName[64];
@@ -174,7 +174,7 @@ struct TEnumData
 	THeaderIPC* ipch;
 	// OpenEvent()'d handle to give each IPC server an object to set signalled
 	HANDLE hWaitFor;
-	DWORD pid; // sub-unique value used to make work object name
+	uint32_t pid; // sub-unique value used to make work object name
 };
 
 struct TClassFactoryRec : public IClassFactory
@@ -223,12 +223,12 @@ struct TMenuDrawInfo
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void  ipcPrepareRequests(int ipcPacketSize, THeaderIPC* pipch, DWORD fRequests);
-DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC* pipch, DWORD dwTimeoutMsecs);
+void  ipcPrepareRequests(int ipcPacketSize, THeaderIPC* pipch, uint32_t fRequests);
+uint32_t ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC* pipch, uint32_t dwTimeoutMsecs);
 TSlotIPC* ipcAlloc(THeaderIPC* pipch, int nSize);
 void ipcFixupAddresses(THeaderIPC* pipch);
 
 TGroupNode* AllocGroupNode(TGroupNodeList* list, TGroupNode* Root, int Depth);
-TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth);
+TGroupNode* FindGroupNode(TGroupNode* p, const uint32_t Hash, int Depth);
 
 char* CreateProcessUID(int pid, char* buf, size_t bufLen);

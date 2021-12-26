@@ -12,7 +12,7 @@ class RichEdit
 	POINT m_old_scroll_pos;
 	CHARRANGE m_old_sel;
 	POINT m_caretPos;
-	DWORD m_old_mask;
+	uint32_t m_old_mask;
 	BOOL m_inverse;
 
 public:

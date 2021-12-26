@@ -231,7 +231,7 @@ static PopupOptions poOptionsTemp;
 INT_PTR CALLBACK DlgPopupsProcOptions(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
 	static BOOL PopupDialogLock = FALSE;
-	DWORD dwTimeOut;
+	uint32_t dwTimeOut;
 
 	switch (uiMessage) {
 	case WM_INITDIALOG:

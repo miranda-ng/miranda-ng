@@ -1433,7 +1433,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 		pwd->rows = nullptr;
 		pwd->iRowCount = 0;
 
-		DWORD dwItems = (wParam == 0) ? opt.iFirstItems : opt.iSecondItems;
+		uint32_t dwItems = (wParam == 0) ? opt.iFirstItems : opt.iSecondItems;
 		bool bFirstItem = true;
 		wchar_t buff[64];
 

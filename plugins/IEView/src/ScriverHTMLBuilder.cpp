@@ -118,7 +118,7 @@ void ScriverHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char* ScriverHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode)
+char* ScriverHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int mode)
 {
 	static char szResult[512]; szResult[0] = '\0';
 	char str[80];
@@ -260,7 +260,7 @@ void ScriverHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 void ScriverHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
 	bool showColon;
-	DWORD dwFlags = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, 0) ? SMF_LOG_SHOWTIME : 0;
+	uint32_t dwFlags = db_get_b(0, SRMMMOD, SRMSGSET_SHOWTIME, 0) ? SMF_LOG_SHOWTIME : 0;
 	dwFlags |= !db_get_b(0, SRMMMOD, SRMSGSET_HIDENAMES, 0) ? SMF_LOG_SHOWNICK : 0;
 	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWDATE, 0) ? SMF_LOG_SHOWDATE : 0;
 	dwFlags |= db_get_b(0, SRMMMOD, SRMSGSET_SHOWLOGICONS, 0) ? SMF_LOG_SHOWICONS : 0;

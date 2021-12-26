@@ -27,17 +27,17 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern mir_cs csNetlibUser;
 extern HANDLE hConnectionOpenMutex;
-extern DWORD g_LastConnectionTick;
+extern uint32_t g_LastConnectionTick;
 extern int connectionTimeout;
 static int iUPnPCleanup = 0;
 
 #define RECV_DEFAULT_TIMEOUT	60000
 
 //returns in network byte order
-DWORD DnsLookup(NetlibUser *nlu, const char *szHost)
+uint32_t DnsLookup(NetlibUser *nlu, const char *szHost)
 {
 	HOSTENT* host;
-	DWORD ip = inet_addr(szHost);
+	uint32_t ip = inet_addr(szHost);
 	if (ip != INADDR_NONE)
 		return ip;
 
@@ -53,7 +53,7 @@ DWORD DnsLookup(NetlibUser *nlu, const char *szHost)
 	return 0;
 }
 
-int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check)
+int WaitUntilReadable(SOCKET s, uint32_t dwTimeout, bool check)
 {
 	fd_set readfd;
 	TIMEVAL tv;
@@ -71,7 +71,7 @@ int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check)
 	return result;
 }
 
-int WaitUntilWritable(SOCKET s, DWORD dwTimeout)
+int WaitUntilWritable(SOCKET s, uint32_t dwTimeout)
 {
 	fd_set writefd;
 	TIMEVAL tv;
@@ -91,10 +91,10 @@ int WaitUntilWritable(SOCKET s, DWORD dwTimeout)
 	return 1;
 }
 
-bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, DWORD dwTimeout)
+bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, uint32_t dwTimeout)
 {
 	int nReceived = 0;
-	DWORD dwTimeNow, dwCompleteTime = GetTickCount() + dwTimeout;
+	uint32_t dwTimeNow, dwCompleteTime = GetTickCount() + dwTimeout;
 
 	while ((dwTimeNow = GetTickCount()) < dwCompleteTime) {
 		if (WaitUntilReadable(nlc->s, dwCompleteTime - dwTimeNow) <= 0) return false;
@@ -127,7 +127,7 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	else memcpy(&pInit[8], nlu->settings.szProxyAuthUser, nUserLen);
 
 	//if cannot resolve host, try resolving through proxy (requires SOCKS4a)
-	DWORD ip = DnsLookup(nlu, nloc->szHost);
+	uint32_t ip = DnsLookup(nlu, nloc->szHost);
 	*(PDWORD)&pInit[4] = ip ? ip : 0x01000000;
 	if (!ip) {
 		memcpy(&pInit[len], nloc->szHost, nHostLen);
@@ -208,7 +208,7 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	}
 
 	size_t nHostLen;
-	DWORD hostIP;
+	uint32_t hostIP;
 
 	if (nlc->dnsThroughProxy) {
 		hostIP = inet_addr(nloc->szHost);
@@ -298,7 +298,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	if (nlc->dnsThroughProxy)
 		szUrl.Format("%s:%u", nloc->szHost, nloc->wPort);
 	else {
-		DWORD ip = DnsLookup(nlu, nloc->szHost);
+		uint32_t ip = DnsLookup(nlu, nloc->szHost);
 		if (ip == 0) return false;
 		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
 	}
@@ -334,7 +334,7 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 {
-	DWORD dwOriginalLastError = GetLastError();
+	uint32_t dwOriginalLastError = GetLastError();
 
 	if (GetNetlibHandleType(nlc) == NLH_CONNECTION)
 		delete nlc;
@@ -346,7 +346,7 @@ static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 {
 	int rc = 0, retrycnt = 0;
 	u_long notblocking = 1;
-	DWORD lasterr = 0;
+	uint32_t lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 	NetlibUser *nlu = nlc->nlu;
 
@@ -491,7 +491,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 	NetlibUser *nlu = nlc->nlu;
 	int rc = SOCKET_ERROR, retrycnt = 0;
 	u_long notblocking = 1;
-	DWORD lasterr = 0;
+	uint32_t lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
 	unsigned int dwTimeout = (nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
 	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway

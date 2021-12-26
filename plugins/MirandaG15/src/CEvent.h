@@ -39,7 +39,7 @@ enum EventType
 struct CEvent
 {
 	enum EventType	eType;
-	DWORD dwFlags = 0;
+	uint32_t dwFlags = 0;
 	MCONTACT hContact = 0;
 	struct tm Time = {};
 	bool bTime = false;

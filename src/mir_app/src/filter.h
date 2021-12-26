@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hOptionsInitialize;
 
-typedef DWORD PageHash;
+typedef uint32_t PageHash;
 
 void	AddFilterString(const PageHash key, const wchar_t *data);
 BOOL	ContainsFilterString(const PageHash key, wchar_t *data);

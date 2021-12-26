@@ -56,7 +56,7 @@ MTime::MTime(LARGE_INTEGER &li, bool bIsLocal)
 	Set(li, bIsLocal);
 }
 
-MTime::MTime(DWORD dwStamp)
+MTime::MTime(uint32_t dwStamp)
 {
 	ZeroDate();
 	FromStampAsUTC(dwStamp);
@@ -93,7 +93,7 @@ uint8_t	MTime::IsLeapYear() const
 	return (!(((_SysTime.wYear) % 4 != 0) || (((_SysTime.wYear) % 100 == 0) && ((_SysTime.wYear) % 400 != 0))));
 }
 
-LONG	MTime::Compare(const DWORD dwTimeStamp) const
+LONG	MTime::Compare(const uint32_t dwTimeStamp) const
 {
 	return (LONG)(TimeStamp() - dwTimeStamp);
 }
@@ -266,7 +266,7 @@ FILETIME		MTime::FileTime() const
 	return ftFileTime;
 }
 
-DWORD	MTime::TimeStamp() const
+uint32_t	MTime::TimeStamp() const
 {
 	LARGE_INTEGER li;
 
@@ -284,7 +284,7 @@ DWORD	MTime::TimeStamp() const
 	if (li.QuadPart < 0)
 		return 0;
 
-	return (DWORD)li.QuadPart;
+	return (uint32_t)li.QuadPart;
 }
 
 uint16_t	MTime::DaysInMonth(const uint16_t &wMonth)	const
@@ -392,14 +392,14 @@ uint16_t	MTime::DateFormatLong(LPTSTR ptszTimeFormat, uint16_t cchTimeFormat)
  * set class value
  *********************************************/
 
-void	MTime::FromStampAsUTC(const DWORD dwTimeStamp)
+void	MTime::FromStampAsUTC(const uint32_t dwTimeStamp)
 {
 	LARGE_INTEGER li;
 	li.QuadPart = (dwTimeStamp + 11644473600i64) * 10000000i64;
 	Set(li, FALSE);
 }
 
-void	MTime::FromStampAsLocal(const DWORD dwTimeStamp)
+void	MTime::FromStampAsLocal(const uint32_t dwTimeStamp)
 {
 	FromStampAsUTC(dwTimeStamp);
 	UTCToLocal();
@@ -463,7 +463,7 @@ int MTime::DBGetStamp  (MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting)
 		return 1;
 	}
 
-	DWORD dwTimeStamp = db_get_dw(hContact, pszModule, pszSetting, 0);
+	uint32_t dwTimeStamp = db_get_dw(hContact, pszModule, pszSetting, 0);
 	if (dwTimeStamp == 0) {
 		ZeroDate();
 		return 1;

@@ -180,6 +180,6 @@ void SaveSettings(void)
 	g_plugin.setByte("PopupEnabled", (uint8_t)opt_popups);
 	g_plugin.setByte("PopupDefaultColors", (uint8_t)opt_defaultColors);
 	g_plugin.setByte("ShowProxyStatus", (uint8_t)opt_showProxyState);
-	g_plugin.setDword("PopupBgColor", (DWORD)opt_bgColor);
-	g_plugin.setDword("PopupTxtColor", (DWORD)opt_txtColor);
+	g_plugin.setDword("PopupBgColor", (uint32_t)opt_bgColor);
+	g_plugin.setDword("PopupTxtColor", (uint32_t)opt_txtColor);
 }

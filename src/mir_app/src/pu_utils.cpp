@@ -34,7 +34,7 @@ static HANDLE g_hPipe = nullptr;
 static bool IsRunAsAdmin()
 {
 	BOOL bIsRunAsAdmin = false;
-	DWORD dwError = ERROR_SUCCESS;
+	uint32_t dwError = ERROR_SUCCESS;
 	PSID pAdministratorsGroup = nullptr;
 
 	// Allocate and initialize a SID of the administrators group.
@@ -80,7 +80,7 @@ MIR_APP_DLL(bool) PU::IsDirect()
 MIR_APP_DLL(bool) PU::IsProcessElevated()
 {
 	bool bIsElevated = false;
-	DWORD dwError = ERROR_SUCCESS;
+	uint32_t dwError = ERROR_SUCCESS;
 	HANDLE hToken = nullptr;
 
 	// Open the primary access token of the process with TOKEN_QUERY.
@@ -174,7 +174,7 @@ MIR_APP_DLL(bool) PU::PrepareEscalation()
 			return true;
 		}
 
-		DWORD dwError = GetLastError();
+		uint32_t dwError = GetLastError();
 		if (dwError == ERROR_CANCELLED) {
 			// The user refused to allow privileges elevation.
 			// Do nothing ...
@@ -188,12 +188,12 @@ MIR_APP_DLL(bool) PU::PrepareEscalation()
 static int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 {
 	uint8_t buf[1024];
-	DWORD l1 = lstrlen(p1), l2 = lstrlen(p2);
+	uint32_t l1 = lstrlen(p1), l2 = lstrlen(p2);
 	if (l1 > MAX_PATH || l2 > MAX_PATH)
 		return ERROR_BAD_ARGUMENTS;
 
-	*(DWORD *)buf = opcode;
-	wchar_t *dst = (wchar_t *)&buf[sizeof(DWORD)];
+	*(uint32_t *)buf = opcode;
+	wchar_t *dst = (wchar_t *)&buf[sizeof(uint32_t)];
 	lstrcpy(dst, p1);
 	dst += l1 + 1;
 	if (p2) {
@@ -203,13 +203,13 @@ static int TransactPipe(int opcode, const wchar_t *p1, const wchar_t *p2)
 	else *dst++ = 0;
 
 	DWORD dwBytes = 0, dwError;
-	if (!WriteFile(g_hPipe, buf, (DWORD)((uint8_t *)dst - buf), &dwBytes, nullptr))
+	if (!WriteFile(g_hPipe, buf, (uint32_t)((uint8_t *)dst - buf), &dwBytes, nullptr))
 		return GetLastError();
 
 	dwError = 0;
-	if (!ReadFile(g_hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr))
+	if (!ReadFile(g_hPipe, &dwError, sizeof(uint32_t), &dwBytes, nullptr))
 		return GetLastError();
-	if (dwBytes != sizeof(DWORD))
+	if (dwBytes != sizeof(uint32_t))
 		return ERROR_BAD_ARGUMENTS;
 
 	return dwError;
@@ -227,13 +227,13 @@ MIR_APP_DLL(int) PU::SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 {
 	if (g_hPipe == nullptr) {
 		if (!DeleteFileW(pDst)) {
-			DWORD dwError = GetLastError();
+			uint32_t dwError = GetLastError();
 			if (dwError != ERROR_ACCESS_DENIED && dwError != ERROR_FILE_NOT_FOUND)
 				return dwError;
 		}
 
 		if (!MoveFileW(pSrc, pDst)) { // use copy on error
-			switch (DWORD dwError = GetLastError()) {
+			switch (uint32_t dwError = GetLastError()) {
 			case ERROR_ALREADY_EXISTS:
 			case ERROR_FILE_NOT_FOUND:
 				return 0; // this file was included into many archives, so Miranda tries to move it again & again

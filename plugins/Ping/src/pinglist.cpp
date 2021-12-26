@@ -4,7 +4,7 @@ PINGLIST list_items;
 mir_cs list_cs;
 HANDLE reload_event_handle;
 
-DWORD NextID = 1;
+uint32_t NextID = 1;
 
 BOOL clist_handle_changing = FALSE;
 

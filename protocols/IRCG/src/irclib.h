@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma warning (disable: 4786)
 
-void DoIdent(HNETLIBCONN hConnection, DWORD dwRemoteIP, void* extra);
-void DoIncomingDcc(HNETLIBCONN hConnection, DWORD dwRemoteIP, void* extra);
+void DoIdent(HNETLIBCONN hConnection, uint32_t dwRemoteIP, void* extra);
+void DoIncomingDcc(HNETLIBCONN hConnection, uint32_t dwRemoteIP, void* extra);
 unsigned long ConvertIPToInteger(char * IP);
 char* ConvertIntegerToIP(unsigned long int_ip_addr);
 
@@ -41,9 +41,9 @@ const int UNDERLINE = 0x1F;
 
 struct DCCINFO : public MZeroedObject
 {
-	DWORD    dwAdr;
+	uint32_t    dwAdr;
 	unsigned __int64   dwSize;
-	DWORD    iType;
+	uint32_t    iType;
 	CMStringW sToken;
 	int      iPort;
 	BOOL     bTurbo;
@@ -167,9 +167,9 @@ public:
 	DCCINFO* di;	// details regarding the filetrasnfer
 
 	int Connect();					
-	void SetupPassive( DWORD adr, DWORD port );
+	void SetupPassive( uint32_t adr, uint32_t port );
 	int SendStuff(const wchar_t* fmt);
-	int IncomingConnection(HNETLIBCONN hConnection, DWORD dwIP);
+	int IncomingConnection(HNETLIBCONN hConnection, uint32_t dwIP);
 	int Disconnect();
 };
 

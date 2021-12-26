@@ -297,19 +297,19 @@ AssignPixel(uint8_t* dst, const uint8_t* src, unsigned bytesperpixel) {
 			break;
 
 		case 4: // FIT_BITMAP (32-bit) / FIT_UINT32 / FIT_INT32 / FIT_FLOAT
-			*(reinterpret_cast<DWORD*>(dst)) = *(reinterpret_cast<const DWORD*> (src));
+			*(reinterpret_cast<uint32_t*>(dst)) = *(reinterpret_cast<const uint32_t*> (src));
 			break;
 
 		case 6: // FIT_RGB16 (3 x 16-bit)
-			*(reinterpret_cast<DWORD*>(dst)) = *(reinterpret_cast<const DWORD*> (src));
+			*(reinterpret_cast<uint32_t*>(dst)) = *(reinterpret_cast<const uint32_t*> (src));
 			*(reinterpret_cast<uint16_t*>(dst + 4)) = *(reinterpret_cast<const uint16_t*> (src + 4));	
 			break;
 
 		// the rest can be speeded up with int64
 			
 		case 8: // FIT_RGBA16 (4 x 16-bit)
-			*(reinterpret_cast<DWORD*>(dst)) = *(reinterpret_cast<const DWORD*> (src));
-			*(reinterpret_cast<DWORD*>(dst + 4)) = *(reinterpret_cast<const DWORD*> (src + 4));	
+			*(reinterpret_cast<uint32_t*>(dst)) = *(reinterpret_cast<const uint32_t*> (src));
+			*(reinterpret_cast<uint32_t*>(dst + 4)) = *(reinterpret_cast<const uint32_t*> (src + 4));	
 			break;
 		
 		case 12: // FIT_RGBF (3 x 32-bit IEEE floating point)
@@ -389,20 +389,20 @@ __SwapUInt16(uint16_t arg) {
 #endif 
 } 
  
-inline DWORD 
-__SwapUInt32(DWORD arg) { 
+inline uint32_t 
+__SwapUInt32(uint32_t arg) { 
 #if defined(_MSC_VER) && _MSC_VER >= 1310 
 	return _byteswap_ulong(arg); 
 #elif defined(__i386__) && defined(__GNUC__) 
 	__asm__("bswap %0" : "+r" (arg)); 
 	return arg; 
 #elif defined(__ppc__) && defined(__GNUC__) 
-	DWORD result; 
+	uint32_t result; 
 	__asm__("lwbrx %0,0,%1" : "=r" (result) : "r" (&arg), "m" (arg)); 
 	return result; 
 #else 
 	// swap words then bytes
-	DWORD result; 
+	uint32_t result; 
 	result = ((arg & 0x000000FF) << 24) | ((arg & 0x0000FF00) << 8) | ((arg >> 8) & 0x0000FF00) | ((arg >> 24) & 0x000000FF); 
 	return result; 
 #endif 
@@ -414,7 +414,7 @@ SwapShort(uint16_t *sp) {
 }
 
 inline void
-SwapLong(DWORD *lp) {
+SwapLong(uint32_t *lp) {
 	*lp = __SwapUInt32(*lp);
 }
  
@@ -425,7 +425,7 @@ SwapInt64(UINT64 *arg) {
 #else
 	union Swap {
 		UINT64 sv;
-		DWORD ul[2];
+		uint32_t ul[2];
 	} tmp, result;
 	tmp.sv = *arg;
 	SwapLong(&tmp.ul[0]);

@@ -78,7 +78,7 @@ void CNLClient::SSLify() throw(DWORD)
 	}
 
 	//ssl could not be created
-	throw NetworkError = (DWORD)ESSL_CREATESSL;
+	throw NetworkError = (uint32_t)ESSL_CREATESSL;
 }
 
 //Connects to the server through the sock
@@ -97,7 +97,7 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 		nloc.wPort = port;
 		if (nullptr == (hConnection = Netlib_OpenConnection(hNetlibUser, &nloc))) {
 			SystemError = WSAGetLastError();
-			throw NetworkError = (DWORD)ENL_CONNECT;
+			throw NetworkError = (uint32_t)ENL_CONNECT;
 		}
 		#ifdef DEBUG_COMM
 		DebugLog(CommFile, "</connect>\n");
@@ -133,7 +133,7 @@ void CNLClient::Send(const char *query) throw(DWORD)
 	try {
 		if ((SOCKET_ERROR == (Sent = LocalNetlib_Send(hConnection, query, (int)mir_strlen(query), MSG_DUMPASTEXT))) || Sent != (unsigned int)mir_strlen(query)) {
 			SystemError = WSAGetLastError();
-			throw NetworkError = (DWORD)ENL_SEND;
+			throw NetworkError = (uint32_t)ENL_SEND;
 		}
 		#ifdef DEBUG_COMM
 		DebugLog(CommFile, "</send>\n");
@@ -175,7 +175,7 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 		if (buf == nullptr)
 			buf = (char *)malloc(sizeof(char)*(buflen + 1));
 		if (buf == nullptr)
-			throw NetworkError = (DWORD)ENL_RECVALLOC;
+			throw NetworkError = (uint32_t)ENL_RECVALLOC;
 
 		if (!isTLSed) {
 			NETLIBSELECT nls = {};
@@ -185,10 +185,10 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 			case SOCKET_ERROR:
 				free(buf);
 				SystemError = WSAGetLastError();
-				throw NetworkError = (DWORD)ENL_RECV;
+				throw NetworkError = (uint32_t)ENL_RECV;
 			case 0: // time out!
 				free(buf);
-				throw NetworkError = (DWORD)ENL_TIMEOUT;
+				throw NetworkError = (uint32_t)ENL_TIMEOUT;
 			}
 		}
 
@@ -196,12 +196,12 @@ char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 		if (SOCKET_ERROR == (Rcv = LocalNetlib_Recv(hConnection, buf, buflen, MSG_DUMPASTEXT))) {
 			free(buf);
 			SystemError = WSAGetLastError();
-			throw NetworkError = (DWORD)ENL_RECV;
+			throw NetworkError = (uint32_t)ENL_RECV;
 		}
 		if (!Rcv) {
 			free(buf);
 			SystemError = WSAGetLastError();
-			throw NetworkError = (DWORD)ENL_RECV;
+			throw NetworkError = (uint32_t)ENL_RECV;
 		}
 		#ifdef DEBUG_COMM
 		*(buf + Rcv) = 0;				//end the buffer to write it to file

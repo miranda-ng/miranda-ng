@@ -175,7 +175,7 @@ int SvcExImINI_Export(lpExImParam ExImContact, const wchar_t *pszFileName)
  * importing stuff
  ***********************************************************************************************************/
 
-LPSTR strnrchr(LPSTR string, int ch, DWORD len)
+LPSTR strnrchr(LPSTR string, int ch, uint32_t len)
 {
 	LPSTR start = (LPSTR)string;
 	string += len; /* find end of string */
@@ -195,9 +195,9 @@ LPSTR strnrchr(LPSTR string, int ch, DWORD len)
  * return:	pointer to the buffer on success or NULL on error
  **/
 
-static DWORD ImportreadLine(FILE *file, LPSTR &str)
+static uint32_t ImportreadLine(FILE *file, LPSTR &str)
 {
-	DWORD l = 0;
+	uint32_t l = 0;
 	bool bComment = false;
 
 	str[0] = 0;
@@ -329,7 +329,7 @@ int ImportSetting(MCONTACT hContact, LPCSTR pszModule, LPSTR &strLine)
 		if (size_t brk = strspn(value, "0123456789-"))
 			*(value + brk) = 0;
 		dbv.type = DBVT_DWORD;
-		dbv.dVal = (DWORD)_atoi64(value);
+		dbv.dVal = (uint32_t)_atoi64(value);
 		break;
 
 	case 's':
@@ -403,7 +403,7 @@ int SvcExImINI_Import(MCONTACT hContact, const wchar_t *pszFileName)
 	}
 
 	MCONTACT hNewContact = INVALID_CONTACT_ID;
-	DWORD	end, numLines = 0;
+	uint32_t	end, numLines = 0;
 	CHAR szModule[MAXSETTING] = { 0 };
 	int numContactsInFile = 0; // number of contacts in the inifile
 	int numContactsAdded = 0;  // number of contacts, that were added to the database

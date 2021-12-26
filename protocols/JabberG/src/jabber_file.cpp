@@ -170,7 +170,7 @@ int CJabberProto::FileReceiveParse(filetransfer *ft, char* buffer, int datalen)
 	return num;
 }
 
-void JabberFileServerConnection(HNETLIBCONN hConnection, DWORD /*dwRemoteIP*/, void* extra)
+void JabberFileServerConnection(HNETLIBCONN hConnection, uint32_t /*dwRemoteIP*/, void* extra)
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
 

@@ -2,7 +2,7 @@
 
 struct HISTORIA
 {
-	DWORD noteID;
+	uint32_t noteID;
 	BOOL clicked;
 	BOOL again;
 	struct HISTORIA *next;
@@ -18,7 +18,7 @@ struct POPUPSQUEUE
 // structure contines only LN msg id to send to popup 
 
 typedef struct {
-	DWORD id;
+	uint32_t id;
 	char strNote[4*16]; 
 } POPUPATT;
 

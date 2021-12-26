@@ -24,12 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void DynamicLoadInit();
 
 /* String Conv */
-wchar_t* s2t(const void *pszStr, DWORD fUnicode, BOOL fMirCp);
-void* t2s(const wchar_t *pszStr, DWORD fUnicode, BOOL fMirCp);
+wchar_t* s2t(const void *pszStr, uint32_t fUnicode, BOOL fMirCp);
+void* t2s(const wchar_t *pszStr, uint32_t fUnicode, BOOL fMirCp);
 
 /* Database */
 BOOL EnumDbPrefixSettings(const char *pszModule, const char *pszSettingPrefix, char ***pSettings, int *pnSettingsCount);
 
 /* Error Output */
 void ShowInfoMessage(uint8_t flags, const char *pszTitle, const char *pszTextFmt, ...);
-char* GetWinErrorDescription(DWORD dwLastError);
+char* GetWinErrorDescription(uint32_t dwLastError);

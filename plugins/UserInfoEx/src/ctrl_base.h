@@ -74,7 +74,7 @@ union CCtrlFlags
 class CBaseCtrl
 {
 public:
-	DWORD			_cbSize;
+	uint32_t			_cbSize;
 
 	friend class CCtrlList;
 

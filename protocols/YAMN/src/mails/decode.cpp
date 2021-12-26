@@ -198,7 +198,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,wchar_t **out);
 // cp- codepage of input string
 // storeto- pointer to memory that contains unicode string
 // mode- MIME_PLAIN or MIME_MAIL (MIME_MAIL deletes '"' from start and end of string)
-void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,DWORD cp,int mode);
+void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,uint32_t cp,int mode);
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
@@ -390,7 +390,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,wchar_t **out)
 	int streamlen,Index;
 
 	//codepages, which require to have set 0 in dwFlags parameter when calling MultiByteToWideChar
-	DWORD CodePagesZeroFlags[]={50220,50221,50222,50225,50227,50229,52936,54936,57002,57003,57004,57005,57006,57007,57008,57009,57010,57011,65000,65001};
+	uint32_t CodePagesZeroFlags[]={50220,50221,50222,50225,50227,50229,52936,54936,57002,57003,57004,57005,57006,57007,57008,57009,57010,57011,65000,65001};
 
 	if ((cp != CP_ACP) && (cp != CP_OEMCP) && (cp != CP_MACCP) && (cp != CP_THREAD_ACP) && (cp != CP_SYMBOL) && (cp != CP_UTF7) && (cp != CP_UTF8) && !GetCPInfo(cp,&CPInfo))
 		cp=CP_ACP;
@@ -439,7 +439,7 @@ int ConvertStringToUnicode(char *stream,unsigned int cp,wchar_t **out)
 	return 1;
 }
 
-void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,DWORD cp,int mode)
+void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,uint32_t cp,int mode)
 {
 	char *start=stream,*finder,*finderend;
 	char Encoding=0;
@@ -472,7 +472,7 @@ void ConvertCodedStringToUnicode(char *stream,wchar_t **storeto,DWORD cp,int mod
 					default:
 						goto NotEncoded;
 				}
-				if (-1==(cp=(DWORD)GetCharsetFromString(finder,finderend-finder)))
+				if (-1==(cp=(uint32_t)GetCharsetFromString(finder,finderend-finder)))
 					cp=CP_ACP;
 				if (Encoding != 0)
 				{

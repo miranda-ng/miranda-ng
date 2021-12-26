@@ -128,7 +128,7 @@ public:
 	~PopupSkin();
 
 	void	measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options) const;
-	void	display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DWORD drawFlags = DF_ALL) const;
+	void	display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, uint32_t drawFlags = DF_ALL) const;
 	bool	onMouseMove(PopupWnd2 *wnd, int x, int y) const;
 	bool	onMouseLeave(PopupWnd2 *wnd) const;
 

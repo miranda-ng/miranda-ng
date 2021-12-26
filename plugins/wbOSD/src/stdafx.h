@@ -92,7 +92,7 @@ typedef struct _plgsettings {
 	wchar_t msgformat[256];
 	int winx, winy, winxpos, winypos, alpha, transparent, timeout;
 	COLORREF clr_msg, clr_status, clr_shadow, bkclr;
-	DWORD announce, showWhen;
+	uint32_t announce, showWhen;
 	LOGFONT lf;
 } plgsettings;
 

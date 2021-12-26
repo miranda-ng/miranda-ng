@@ -677,7 +677,7 @@ STDMETHODIMP IEView::GetSecurityId(LPCWSTR, uint8_t *, DWORD *, DWORD_PTR)
 
 STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, uint8_t *pPolicy, DWORD cbPolicy, uint8_t *, DWORD, DWORD, DWORD)
 {
-	DWORD dwPolicy = URLPOLICY_ALLOW;
+	uint32_t dwPolicy = URLPOLICY_ALLOW;
 	if (pwszUrl != nullptr && !mir_wstrcmp(pwszUrl, L"about:blank")) {
 		if (dwAction <= URLACTION_ACTIVEX_MAX && dwAction >= URLACTION_ACTIVEX_MIN) {
 			//dwPolicy = URLPOLICY_DISALLOW;
@@ -697,8 +697,8 @@ STDMETHODIMP IEView::ProcessUrlAction(LPCWSTR pwszUrl, DWORD dwAction, uint8_t *
 		}
 		else return INET_E_DEFAULT_ACTION;
 
-		if (cbPolicy >= sizeof(DWORD)) {
-			*(DWORD*)pPolicy = dwPolicy;
+		if (cbPolicy >= sizeof(uint32_t)) {
+			*(uint32_t*)pPolicy = dwPolicy;
 			return S_OK;
 		}
 

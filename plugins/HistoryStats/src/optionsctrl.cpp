@@ -7,7 +7,7 @@
  * OptionsCtrl
  */
 
-HANDLE OptionsCtrl::insertGroup(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertGroup(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCGROUP ocg;
 	ocg.dwFlags = dwFlags;
@@ -17,7 +17,7 @@ HANDLE OptionsCtrl::insertGroup(HANDLE hParent, const wchar_t* szLabel, DWORD dw
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTGROUP, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocg)));
 }
 
-HANDLE OptionsCtrl::insertCheck(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertCheck(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCCHECK occ;
 	occ.dwFlags = dwFlags;
@@ -27,7 +27,7 @@ HANDLE OptionsCtrl::insertCheck(HANDLE hParent, const wchar_t* szLabel, DWORD dw
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTCHECK, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&occ)));
 }
 
-HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const wchar_t* szLabel, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const wchar_t* szLabel, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCRADIO ocr;
 	ocr.dwFlags = dwFlags;
@@ -38,7 +38,7 @@ HANDLE OptionsCtrl::insertRadio(HANDLE hParent, HANDLE hSibling, const wchar_t* 
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTRADIO, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocr)));
 }
 
-HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szEdit /* = L"" */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szEdit /* = L"" */, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCEDIT oce;
 	oce.dwFlags = dwFlags;
@@ -49,7 +49,7 @@ HANDLE OptionsCtrl::insertEdit(HANDLE hParent, const wchar_t* szLabel, const wch
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTEDIT, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&oce)));
 }
 
-HANDLE OptionsCtrl::insertCombo(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertCombo(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCCOMBO occ;
 	occ.dwFlags = dwFlags;
@@ -59,7 +59,7 @@ HANDLE OptionsCtrl::insertCombo(HANDLE hParent, const wchar_t* szLabel, DWORD dw
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTCOMBO, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&occ)));
 }
 
-HANDLE OptionsCtrl::insertButton(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertButton(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szButton, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCBUTTON ocb;
 	ocb.dwFlags = dwFlags;
@@ -70,7 +70,7 @@ HANDLE OptionsCtrl::insertButton(HANDLE hParent, const wchar_t* szLabel, const w
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTBUTTON, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocb)));
 }
 
-HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const wchar_t* szLabel, DWORD dwDateTime, const wchar_t* szFormat /* = L"%Y-%m-%d" */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const wchar_t* szLabel, uint32_t dwDateTime, const wchar_t* szFormat /* = L"%Y-%m-%d" */, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCDATETIME ocdt;
 	ocdt.dwFlags = dwFlags;
@@ -82,7 +82,7 @@ HANDLE OptionsCtrl::insertDateTime(HANDLE hParent, const wchar_t* szLabel, DWORD
 	return reinterpret_cast<HANDLE>(SendMessage(m_hOptWnd, OCM_INSERTDATETIME, reinterpret_cast<WPARAM>(hParent), reinterpret_cast<LPARAM>(&ocdt)));
 }
 
-HANDLE OptionsCtrl::insertColor(HANDLE hParent, const wchar_t* szLabel, COLORREF crColor /* = 0 */, DWORD dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
+HANDLE OptionsCtrl::insertColor(HANDLE hParent, const wchar_t* szLabel, COLORREF crColor /* = 0 */, uint32_t dwFlags /* = 0 */, INT_PTR dwData /* = 0 */)
 {
 	OCCOLOR occ;
 	occ.dwFlags = dwFlags;
@@ -113,7 +113,7 @@ void OptionsCtrl::enableItem(HANDLE hItem, bool bEnable)
 	SendMessage(m_hOptWnd, OCM_ENABLEITEM, reinterpret_cast<WPARAM>(hItem), BOOL_(bEnable));
 }
 
-DWORD OptionsCtrl::getItemData(HANDLE hItem)
+uint32_t OptionsCtrl::getItemData(HANDLE hItem)
 {
 	return SendMessage(m_hOptWnd, OCM_GETITEMDATA, reinterpret_cast<WPARAM>(hItem), 0);
 }
@@ -248,10 +248,10 @@ void OptionsCtrl::setDateTimeNone(HANDLE hDateTime)
 	SendMessage(m_hOptWnd, OCM_SETDATETIMENONE, reinterpret_cast<LPARAM>(hDateTime), 0);
 }
 
-DWORD OptionsCtrl::getDateTime(HANDLE hDateTime, bool* pbNone /* = NULL */)
+uint32_t OptionsCtrl::getDateTime(HANDLE hDateTime, bool* pbNone /* = NULL */)
 {
 	BOOL bMyNone = FALSE;
-	DWORD dwResult = SendMessage(m_hOptWnd, OCM_GETDATETIME, reinterpret_cast<WPARAM>(hDateTime), reinterpret_cast<LPARAM>(&bMyNone));
+	uint32_t dwResult = SendMessage(m_hOptWnd, OCM_GETDATETIME, reinterpret_cast<WPARAM>(hDateTime), reinterpret_cast<LPARAM>(&bMyNone));
 
 	if (pbNone)
 		*pbNone = bool_(bMyNone);
@@ -259,7 +259,7 @@ DWORD OptionsCtrl::getDateTime(HANDLE hDateTime, bool* pbNone /* = NULL */)
 	return dwResult;
 }
 
-void OptionsCtrl::setDateTime(HANDLE hDateTime, DWORD dwDateTime)
+void OptionsCtrl::setDateTime(HANDLE hDateTime, uint32_t dwDateTime)
 {
 	SendMessage(m_hOptWnd, OCM_SETDATETIME, reinterpret_cast<WPARAM>(hDateTime), dwDateTime);
 }
@@ -268,7 +268,7 @@ void OptionsCtrl::setDateTime(HANDLE hDateTime, DWORD dwDateTime)
 ext::string OptionsCtrl::getDateTimeStr(HANDLE hDateTime)
 {
 	bool bNone = false;
-	DWORD dwTimestamp = getDateTime(hDateTime, &bNone);
+	uint32_t dwTimestamp = getDateTime(hDateTime, &bNone);
 
 	return bNone ? L"" : utils::formatDate(dwTimestamp);
 }

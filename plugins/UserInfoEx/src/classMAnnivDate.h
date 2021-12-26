@@ -69,8 +69,8 @@ public:
 	__inline uint16_t		Id() const						{ return _wID; };
 	__inline void		Id(uint16_t wId)					{ if (_wID == ANID_NONE) _wID = wId; };
 	
-	DWORD				DateStamp() const;
-	void				DateStamp(const DWORD dwStamp);
+	uint32_t				DateStamp() const;
+	void				DateStamp(const uint32_t dwStamp);
 	
 	// basic checks
 	__inline uint8_t IsValid() const;

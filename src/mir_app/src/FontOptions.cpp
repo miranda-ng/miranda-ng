@@ -225,7 +225,7 @@ static BOOL ExportSettings(HWND hwndDlg, const wchar_t *filename, OBJLIST<FontIn
 
 		ColourInternal *C = (ColourInternal*)it;
 		if (clist.indexOf(C) != -1) {
-			fprintf(out, "%s=d%d\n", C->setting, (DWORD)C->value);
+			fprintf(out, "%s=d%d\n", C->setting, (uint32_t)C->value);
 			continue;
 		}
 
@@ -409,7 +409,7 @@ static void sttSaveCollapseState(HWND hwndTree)
 
 		tvi.mask = TVIF_STATE | TVIF_HANDLE | TVIF_CHILDREN | TVIF_PARAM;
 		tvi.hItem = hti;
-		tvi.stateMask = (DWORD)-1;
+		tvi.stateMask = (uint32_t)-1;
 		TreeView_GetItem(hwndTree, &tvi);
 
 		if (tvi.cChildren > 0) {

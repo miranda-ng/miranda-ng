@@ -28,7 +28,7 @@ HINSTANCE hInstance;
 MWindowList hOpenWindowsList = nullptr;
 
 HMODULE hUxTheme = nullptr;
-BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
+BOOL(WINAPI *MyEnableThemeDialogTexture)(HANDLE, uint32_t) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -68,7 +68,7 @@ int CMPlugin::Load()
 	InitCommonControlsEx(&icex);
 
 	if ((hUxTheme = LoadLibraryA("uxtheme.dll")) != nullptr)
-		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
+		MyEnableThemeDialogTexture = (BOOL(WINAPI *)(HANDLE, uint32_t))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 
 	// all initialization here
 	hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_HISTORYICON));

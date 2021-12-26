@@ -22,7 +22,7 @@
 struct TokenRegisterEntry
 {
 	TOKENREGISTEREX tr;
-	DWORD nameHash;
+	uint32_t nameHash;
 };
 
 static int CompareTokens(const TokenRegisterEntry* p1, const TokenRegisterEntry* p2)
@@ -91,7 +91,7 @@ int deRegisterToken(wchar_t *token)
 
 INT_PTR registerToken(WPARAM, LPARAM lParam)
 {
-	DWORD hash;
+	uint32_t hash;
 
 	TOKENREGISTEREX *newVr = (TOKENREGISTEREX*)lParam;
 	if (newVr == nullptr || newVr->szTokenString.w == nullptr || newVr->cbSize <= 0)

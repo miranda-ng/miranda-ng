@@ -172,11 +172,11 @@ bool CMsgDialog::OnInitDialog()
 			case LOADHISTORY_TIME:
 				DBEVENTINFO dbei = {};
 				if (m_hDbEventFirst == 0)
-					dbei.timestamp = (DWORD)time(0);
+					dbei.timestamp = (uint32_t)time(0);
 				else
 					db_event_get(m_hDbEventFirst, &dbei);
 
-				DWORD firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
+				uint32_t firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
 				while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 					dbei.cbBlob = 0;
 					db_event_get(hPrevEvent, &dbei);
@@ -1427,7 +1427,7 @@ void CMsgDialog::NotifyTyping(int mode)
 	if (!m_szProto)
 		return;
 
-	DWORD typeCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+	uint32_t typeCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
@@ -1440,7 +1440,7 @@ void CMsgDialog::NotifyTyping(int mode)
 		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
 	}
 	else {
-		DWORD protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+		uint32_t protoCaps = CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & PF1_VISLIST && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 			return;
 

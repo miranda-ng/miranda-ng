@@ -124,14 +124,14 @@ void CJabberProto::OnIqResultNotes(const TiXmlElement *iqNode, CJabberIqInfo *pI
 				m_notes.LoadXml(storage);
 }
 
-void CJabberProto::OnProcessLoginRq(ThreadData *info, DWORD rq)
+void CJabberProto::OnProcessLoginRq(ThreadData *info, uint32_t rq)
 {
 	if (info == nullptr)
 		return;
 
 	info->dwLoginRqs |= rq;
 
-	DWORD dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
+	uint32_t dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
 	if ((info->dwLoginRqs & dwMask) == dwMask && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ)) {
 		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
 			EnableArchive(m_bEnableMsgArchive != 0);
@@ -531,7 +531,7 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 
 	debugLogA("Writing %d bytes", bufferLen);
 	DWORD nWritten;
-	bool bRes = WriteFile(hFile, buffer, (DWORD)bufferLen, &nWritten, nullptr) != 0;
+	bool bRes = WriteFile(hFile, buffer, (uint32_t)bufferLen, &nWritten, nullptr) != 0;
 	CloseHandle(hFile);
 	if (!bRes)
 		return;

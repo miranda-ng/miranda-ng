@@ -62,7 +62,7 @@ struct DbToolOptions : public MZeroedObject
 
 	MDatabaseCommon *db;
 	MIDatabaseChecker *dbChecker;
-	DWORD error;
+	uint32_t error;
 	HANDLE hEventRun, hEventAbort;
 	bool bFinished, bAutoExit, bOwnsDb, bMarkRead, bCheckUtf;
 	wchar_t filename[MAX_PATH];

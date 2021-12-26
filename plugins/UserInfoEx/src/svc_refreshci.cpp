@@ -721,7 +721,7 @@ static INT_PTR RefreshService(WPARAM, LPARAM)
 
 static int OnContactAdded(WPARAM hContact, LPARAM)
 {
-	DWORD dwStmp = db_get_dw(hContact, USERINFO, SET_CONTACT_ADDEDTIME, 0);
+	uint32_t dwStmp = db_get_dw(hContact, USERINFO, SET_CONTACT_ADDEDTIME, 0);
 	if (!dwStmp) {
 		MTime mt;
 		mt.GetLocalTime();

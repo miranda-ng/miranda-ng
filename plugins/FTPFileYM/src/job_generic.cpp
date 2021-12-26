@@ -146,7 +146,7 @@ int GenericJob::getFiles()
 	return 1;
 }
 
-int GenericJob::getFiles(void **objects, int objCount, DWORD flags)
+int GenericJob::getFiles(void **objects, int objCount, uint32_t flags)
 {
 	if (m_mode == FTP_ZIPFOLDER) {
 		wchar_t *folder;

@@ -25,7 +25,7 @@ void setSrmmIcon(MCONTACT);
 
 void send_encrypted_msgs_thread(void*);
 
-int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data);
+int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, uint32_t data);
 bool isContactSecured(MCONTACT hContact);
 bool isContactHaveKey(MCONTACT hContact);
 bool isGPGKeyExist();
@@ -41,7 +41,7 @@ string toUTF8(wstring str);
 wstring toUTF16(string str);
 string get_random(int length);
 
-void HistoryLog(MCONTACT, const char *msg, DWORD _time = 0, DWORD _flags = 0);
+void HistoryLog(MCONTACT, const char *msg, uint32_t _time = 0, uint32_t _flags = 0);
 void fix_line_term(std::string &s);
 void strip_line_term(std::wstring &s);
 void strip_line_term(std::string &s);

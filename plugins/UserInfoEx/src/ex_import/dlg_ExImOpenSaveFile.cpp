@@ -49,15 +49,15 @@ static void InitAlteredPlacesBar()
 		result = RegCreateKey(HKEY_CURRENT_USER, HKEY_WINPOL_PLACESBAR, &hkPlacesBar);
 		// install the places bar
 		if (SUCCEEDED(result)) {
-			DWORD dwFolderID;
+			uint32_t dwFolderID;
 			LPSTR p;
 			CHAR szMirandaPath[MAX_PATH];
 			CHAR szProfilePath[MAX_PATH];
 
 			// default places: Desktop, My Documents, My Computer
-			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, L"Place0", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, L"Place1", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
-			dwFolderID = 17; RegSetValueEx(hkPlacesBar, L"Place2", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(DWORD));
+			dwFolderID = 0;	 RegSetValueEx(hkPlacesBar, L"Place0", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(uint32_t));
+			dwFolderID = 5;	RegSetValueEx(hkPlacesBar, L"Place1", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(uint32_t));
+			dwFolderID = 17; RegSetValueEx(hkPlacesBar, L"Place2", 0, REG_DWORD, (uint8_t*)&dwFolderID, sizeof(uint32_t));
 
 			// Miranda's installation path
 			GetModuleFileNameA(GetModuleHandleA("mir_app.mir"), szMirandaPath, _countof(szMirandaPath));
@@ -68,7 +68,7 @@ static void InitAlteredPlacesBar()
 			// Miranda's profile path
 			if (!Profile_GetPathA(_countof(szProfilePath), szProfilePath)) {
 				// only add if different from profile path
-				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (uint8_t*)szProfilePath, (DWORD)mir_strlen(szProfilePath) + 1);
+				RegSetValueExA(hkPlacesBar, "Place4", 0, REG_SZ, (uint8_t*)szProfilePath, (uint32_t)mir_strlen(szProfilePath) + 1);
 			}
 
 			RegCloseKey(hkPlacesBar);
@@ -278,7 +278,7 @@ int DlgExIm_OpenFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t
 	InitOpenFileNameStruct(&ofn, hWndParent, pszTitle, pszFilter, szInitialDir, pszFile);
 	ofn.Flags |= OFN_PATHMUSTEXIST;
 	if (!GetOpenFileNameW(&ofn)) {
-		DWORD dwError = CommDlgExtendedError();
+		uint32_t dwError = CommDlgExtendedError();
 		if (dwError) MsgErr(ofn.hwndOwner, LPGENW("The OpenFileDialog returned an error: %d!"), dwError);
 		return -1;
 	}
@@ -304,7 +304,7 @@ int DlgExIm_SaveFileName(HWND hWndParent, const wchar_t *pszTitle, const wchar_t
 	ofn.Flags |= OFN_OVERWRITEPROMPT;
 
 	if (!GetSaveFileNameW(&ofn)) {
-		DWORD dwError = CommDlgExtendedError();
+		uint32_t dwError = CommDlgExtendedError();
 		if (dwError)
 			MsgErr(ofn.hwndOwner, LPGENW("The SaveFileDialog returned an error: %d!"), dwError);
 		return -1;

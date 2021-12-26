@@ -65,7 +65,7 @@ INT_PTR IsProtocolEnabledService(WPARAM wParam, LPARAM lParam);
 
 static int ProcessPopup(int reason, LPARAM lParam);
 LRESULT CALLBACK KSPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-static DWORD CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+static uint32_t CALLBACK MessageWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // options.c
 extern int KeepStatusOptionsInit(WPARAM wparam, LPARAM);
@@ -497,7 +497,7 @@ static int ProcessProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	StopTimer(IDT_CHECKCONNECTING);
 
@@ -516,7 +516,7 @@ static VOID CALLBACK CheckConnectingTimer(HWND, UINT, UINT_PTR, DWORD)
 	}
 }
 
-static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	bool needChecking = false;
 
@@ -552,7 +552,7 @@ static VOID CALLBACK CheckAckStatusTimer(HWND, UINT, UINT_PTR, DWORD)
 		StartTimer(IDT_CHECKCONN, initDelay, FALSE);
 }
 
-static VOID CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
+static void CALLBACK CheckConnectionTimer(HWND, UINT, UINT_PTR, DWORD)
 {
 	log_debug(0, "CheckConnectionTimer");
 	bool setStatus = false;
@@ -678,7 +678,7 @@ static void CheckContinuouslyFunction(void *)
 		else {
 			char *start, *end;
 			char host[MAX_PATH];
-			DWORD *addr;
+			uint32_t *addr;
 			struct hostent *hostent;
 			char reply[sizeof(ICMP_ECHO_REPLY) + 8];
 
@@ -698,7 +698,7 @@ static void CheckContinuouslyFunction(void *)
 					strncpy(host, start, end - start);
 					hostent = gethostbyname(host);
 					if (hostent != nullptr) {
-						addr = (DWORD *)(*hostent->h_addr_list);
+						addr = (uint32_t *)(*hostent->h_addr_list);
 						bLastPingResult = (IcmpSendEcho(hICMPFile, *addr, nullptr, 0, nullptr, reply, sizeof(ICMP_ECHO_REPLY) + 8, 5000) != 0);
 
 						if (bLastPingResult)
@@ -995,7 +995,7 @@ INT_PTR AnnounceStatusChangeService(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // window for suspend
 
-static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
+static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static TProtoSettings *ps = nullptr;
 

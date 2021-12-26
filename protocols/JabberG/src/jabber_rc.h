@@ -44,12 +44,12 @@ class CJabberAdhocSession
 protected:
 	CMStringA m_szSessionId;
 	CJabberAdhocSession* m_pNext = nullptr;
-	DWORD m_dwStartTime;
+	uint32_t m_dwStartTime;
 
 	void* m_pUserData = nullptr;
 	BOOL m_bAutofreeUserData;
 
-	DWORD m_dwStage = 0;
+	uint32_t m_dwStage = 0;
 
 public:
 	CJabberProto *ppro;
@@ -74,7 +74,7 @@ public:
 		return pRetVal;
 	}
 
-	DWORD GetSessionStartTime()
+	uint32_t GetSessionStartTime()
 	{
 		return m_dwStartTime;
 	}
@@ -92,14 +92,14 @@ public:
 		m_bAutofreeUserData = bAutofree;
 	}
 
-	DWORD SetStage(DWORD dwStage)
+	uint32_t SetStage(uint32_t dwStage)
 	{
-		DWORD dwRetVal = m_dwStage;
+		uint32_t dwRetVal = m_dwStage;
 		m_dwStage = dwStage;
 		return dwRetVal;
 	}
 
-	DWORD GetStage()
+	uint32_t GetStage()
 	{
 		return m_dwStage;
 	}
@@ -232,7 +232,7 @@ protected:
 		return false;
 	}
 
-	bool _ExpireSession(DWORD dwExpireTime)
+	bool _ExpireSession(uint32_t dwExpireTime)
 	{
 		if (!m_pSessions)
 			return false;
@@ -299,7 +299,7 @@ public:
 	void ExpireSessions()
 	{
 		mir_cslock lck(m_cs);
-		DWORD dwExpireTime = GetTickCount() - JABBER_ADHOC_SESSION_EXPIRE_TIME;
+		uint32_t dwExpireTime = GetTickCount() - JABBER_ADHOC_SESSION_EXPIRE_TIME;
 		while (_ExpireSession(dwExpireTime))
 			;
 	}

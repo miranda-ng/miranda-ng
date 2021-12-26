@@ -319,7 +319,7 @@ void CExImContactBase::toIni(FILE *file, int modCount)
 
 uint8_t CExImContactBase::compareUID(DBVARIANT *dbv)
 {
-	DWORD hash = 0;
+	uint32_t hash = 0;
 	switch (dbv->type) {
 	case DBVT_BYTE:
 		if (dbv->bVal == _dbvUID.bVal) {

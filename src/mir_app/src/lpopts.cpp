@@ -124,7 +124,7 @@ void CLangpackDlg::LoadLangpacks()
 		pack.Locale = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
 		mir_wstrcpy(pack.tszLanguage, L"English");
 		pack.szAuthors = "Miranda NG team";
-		DWORD v = Miranda_GetVersion();
+		uint32_t v = Miranda_GetVersion();
 		pack.szLastModifiedUsing.Format("%d.%d.%d", ((v >> 24) & 0xFF), ((v >> 16) & 0xFF), ((v >> 8) & 0xFF));
 
 		if (GetModuleFileName(nullptr, pack.tszFullPath, _countof(pack.tszFullPath))) {

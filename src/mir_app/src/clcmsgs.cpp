@@ -42,7 +42,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 
 	case CLM_ADDGROUP:
 		{
-			DWORD groupFlags;
+			uint32_t groupFlags;
 			wchar_t *szName = Clist_GroupGetName(wParam, &groupFlags);
 			if (szName == nullptr)
 				break;
@@ -281,7 +281,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wPar
 		return (LRESULT)dat->fontInfo[wParam].colour;
 
 	case CLM_HITTEST:
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		{
 			int hit = g_clistApi.pfnHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, nullptr, &hitFlags);
 			if (wParam)

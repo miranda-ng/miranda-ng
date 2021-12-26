@@ -309,7 +309,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
 
-	DWORD cbBlob = sqlite3_column_int64(stmt, 4);
+	uint32_t cbBlob = sqlite3_column_int64(stmt, 4);
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
 		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
@@ -348,7 +348,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	if (cc == nullptr)
 		return -1;
 
-	DWORD flags = 0;
+	uint32_t flags = 0;
 	{
 		mir_cslock lock(m_csDbAccess);
 		sqlite3_stmt *stmt = InitQuery("SELECT flags FROM events WHERE id = ? LIMIT 1;", qEvGetFlags);

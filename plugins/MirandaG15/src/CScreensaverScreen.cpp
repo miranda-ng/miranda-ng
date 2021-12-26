@@ -70,7 +70,7 @@ bool CScreensaverScreen::Update()
 	if (!CScreen::Update())
 		return false;
 
-	DWORD dwTimeElapsed = GetTickCount() - m_dwActivation;
+	uint32_t dwTimeElapsed = GetTickCount() - m_dwActivation;
 	int iOldPosition = m_iPosition;
 
 	if (dwTimeElapsed > m_dwDuration) {

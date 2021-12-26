@@ -82,8 +82,8 @@ int KeepCriteria(int dwti)
 struct BEventData
 {
 	MEVENT hDBEvent;
-	DWORD CRC32;
-	DWORD Timestamp;
+	uint32_t CRC32;
+	uint32_t Timestamp;
 };
 
 static int CompareBookmarks(const void* p1, const void* p2)

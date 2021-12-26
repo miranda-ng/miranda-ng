@@ -23,12 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IDI_FILLEDBLOB 212
 #define IDI_EMPTYBLOB  213
 
-static const DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, 0xFFFFFFFF, PF1_FILERECV, 0xFFFFFFFF};
+static const uint32_t ignoreIdToPf1[IGNOREEVENT_MAX] = {PF1_IMRECV, 0xFFFFFFFF, PF1_FILERECV, 0xFFFFFFFF};
 
-static DWORD GetMask(MCONTACT hContact)
+static uint32_t GetMask(MCONTACT hContact)
 {
-	DWORD mask = g_plugin.getDword(hContact, "Mask1", (DWORD)(-1));
-	if(mask == (DWORD)(-1)) {
+	uint32_t mask = g_plugin.getDword(hContact, "Mask1", (uint32_t)(-1));
+	if(mask == (uint32_t)(-1)) {
 		if(hContact == NULL)
 			mask=0;
 		else {
@@ -145,9 +145,9 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD protoCaps)
+static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, uint32_t protoCaps)
 {
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 	for (int i=0; i < IGNOREEVENT_MAX; i++)
 		if(ignoreIdToPf1[i] == 0xFFFFFFFF || protoCaps & ignoreIdToPf1[i])
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, mask&(1<<i)?i+3:0));
@@ -157,7 +157,7 @@ static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD
 
 static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const char *pszSetting)
 {
-	DWORD mask=0;
+	uint32_t mask=0;
 
 	for (int i=0; i < IGNOREEVENT_MAX; i++) {
 		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
@@ -169,7 +169,7 @@ static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const c
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	DWORD protoCaps;
+	uint32_t protoCaps;
 
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 						case NM_CLICK:
 						{
 							int iImage;
-							DWORD hitFlags;
+							uint32_t hitFlags;
 							NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 
 							if(nm->iColumn == -1)
@@ -321,7 +321,7 @@ INT_PTR CALLBACK DlgProcIgnoreOptions(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPa
 BOOL IsIgnored(MCONTACT hContact, uint16_t eventType)
 {
 	uint16_t ignoreID = 0;
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 
 	switch(eventType) {
 		case EVENTTYPE_MESSAGE:

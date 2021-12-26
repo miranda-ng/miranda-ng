@@ -26,7 +26,7 @@ void WINAPI SWMRGDelete(PSWMRG pSWMRG);
 // it can successfully write to the shared data.
 // returns WAIT_FINISH when we are in write-access or WAIT_FAILED
 // when event about quick finishing is set (or when system returns fail when waiting for synchro object)
-DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout);
+uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,uint32_t dwTimeout);
 
 // A writer thread calls this function to let other threads
 // know that it no longer needs to write to the shared data.
@@ -36,7 +36,7 @@ void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG);
 // it can successfully read the shared data.
 // returns WAIT_FINISH when we are in read-access or WAIT_FAILED
 // when event about quick finishing is set (or when system returns fail when waiting for synchro object)
-DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
+uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
 
 // A reader thread calls this function to let other threads
 // know when it no longer needs to read the shared data.
@@ -46,7 +46,7 @@ void WINAPI SWMRGDoneReading(PSWMRG pSWMRG);
 // is used to wait for read access with SWMRG SO, but it also increments counter if successfull
 // returns WAIT_FAILED or WAIT_FINISH
 // when WAIT_FAILED, we should not begin to access datas, we are not in read-access mode
-DWORD WINAPI WaitToReadFcn(PSWMRG SObject);
+uint32_t WINAPI WaitToReadFcn(PSWMRG SObject);
 
 // WriteDoneFcn
 // is used to release read access with SWMRG SO, but it also decrements counter if successfull
@@ -59,16 +59,16 @@ void WINAPI ReadDoneFcn(PSWMRG SObject);
 // Note you must not read the number from memory directly, because
 // CPU can stop reading thread when it has read HI-Word, then another thread
 // can change the value and then OS starts the previous thread, that reads the
-// LO-uint16_t of DWORD. And the return value HI+LO-uint16_t is corrupted
-DWORD WINAPI SCGetNumberFcn(PSCOUNTER SCounter);
+// LO-uint16_t of uint32_t. And the return value HI+LO-uint16_t is corrupted
+uint32_t WINAPI SCGetNumberFcn(PSCOUNTER SCounter);
 
 // Increments SCOUNTER and unsets event
 // Returns Number after incrementing
-DWORD WINAPI SCIncFcn(PSCOUNTER SCounter);
+uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter);
 
 // Decrements SCOUNTER and sets event if zero
 // Returns Number after decrementing
-DWORD WINAPI SCDecFcn(PSCOUNTER SCounter);
+uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter);
 
 struct CExportedFunctions SynchroExportedFcn[]=
 {
@@ -140,9 +140,9 @@ BOOL WINAPI SWMRGInitialize(PSWMRG pSWMRG,wchar_t *Name)
 	return TRUE;
 }
 
-DWORD WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,DWORD dwTimeout)
+uint32_t WINAPI SWMRGWaitToWrite(PSWMRG pSWMRG,uint32_t dwTimeout)
 {
-	DWORD dw; 
+	uint32_t dw; 
 	HANDLE aHandles[2];
 
 // We can write if the following are true:
@@ -183,9 +183,9 @@ void WINAPI SWMRGDoneWriting(PSWMRG pSWMRG)
 	SetEvent(pSWMRG->hEventNoWriter);
 }
 
-DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout)
+uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout)
 {
-	DWORD dw; 
+	uint32_t dw; 
 	LONG lPreviousCount;
 
 // We can read if no threads are writing.
@@ -254,9 +254,9 @@ void WINAPI SWMRGDoneReading(PSWMRG pSWMRG)
 	SetEvent(pSWMRG->hEventNoWriter);
 }
 
-DWORD WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter)
+uint32_t WINAPI WaitToWriteFcn(PSWMRG SObject,PSCOUNTER SCounter)
 {
-	DWORD EnterCode;
+	uint32_t EnterCode;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSO WaitToWrite: %x\n",SObject);
 #endif
@@ -276,9 +276,9 @@ void WINAPI WriteDoneFcn(PSWMRG SObject,PSCOUNTER SCounter)
 		SCDecFcn(SCounter);
 }
 
-DWORD WINAPI WaitToReadFcn(PSWMRG SObject)
+uint32_t WINAPI WaitToReadFcn(PSWMRG SObject)
 {
-	DWORD EnterCode;
+	uint32_t EnterCode;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSO WaitToRead: %x\n",SObject);
 #endif
@@ -294,9 +294,9 @@ void WINAPI ReadDoneFcn(PSWMRG SObject)
 	SWMRGDoneReading(SObject);
 }
 
-DWORD WINAPI SCGetNumberFcn(PSCOUNTER SCounter)
+uint32_t WINAPI SCGetNumberFcn(PSCOUNTER SCounter)
 {
-	DWORD Temp;
+	uint32_t Temp;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tGetNumber-cs wait\n");
 #endif
@@ -313,9 +313,9 @@ DWORD WINAPI SCGetNumberFcn(PSCOUNTER SCounter)
 	return Temp;
 }
 
-DWORD WINAPI SCIncFcn(PSCOUNTER SCounter)
+uint32_t WINAPI SCIncFcn(PSCOUNTER SCounter)
 {
-	DWORD Temp;
+	uint32_t Temp;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tIncrementValue-cs wait\n");
 #endif
@@ -333,9 +333,9 @@ DWORD WINAPI SCIncFcn(PSCOUNTER SCounter)
 	return Temp;
 }
 
-DWORD WINAPI SCDecFcn(PSCOUNTER SCounter)
+uint32_t WINAPI SCDecFcn(PSCOUNTER SCounter)
 {
-	DWORD Temp;
+	uint32_t Temp;
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tDecrementValue-cs wait\n");
 #endif

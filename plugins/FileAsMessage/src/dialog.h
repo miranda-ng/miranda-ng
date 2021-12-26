@@ -77,8 +77,8 @@ public:
 	uint fileSize;
 	uint chunkMaxLen;		// limit for outgoing chunk
 
-	DWORD lastTimestamp;
-	DWORD lastDelay;
+	uint32_t lastTimestamp;
+	uint32_t lastDelay;
 	bool asBinary;
 
 	// settings
@@ -92,7 +92,7 @@ public:
 
 	FILEECHO(MCONTACT Contact);
 
-	void setState(DWORD state);
+	void setState(uint32_t state);
 	void updateProgress();
 	void updateTitle();
 

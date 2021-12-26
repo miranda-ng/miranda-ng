@@ -18,7 +18,7 @@ typedef struct CPOP3Account: public CAccount
 	uint16_t CP;				//access only through AccountAccessSO
 
 // In this memeber last error code is stored
-	DWORD SystemError;			//access through UseInternetFree
+	uint32_t SystemError;			//access through UseInternetFree
 
 // We use only counter from this object and it is # of threads waiting to work on internet.
 // We use event UseInternet to access critical sections.
@@ -39,10 +39,10 @@ typedef struct CPOP3Account: public CAccount
 typedef struct POP3LayeredError
 {
 	BOOL SSL;
-	DWORD AppError;
-	DWORD POP3Error;
-	DWORD NetError;
-	DWORD SystemError;
+	uint32_t AppError;
+	uint32_t POP3Error;
+	uint32_t NetError;
+	uint32_t SystemError;
 } POP3_ERRORCODE,*PPOP3_ERRORCODE;
 
 struct YAMNExportedFcns

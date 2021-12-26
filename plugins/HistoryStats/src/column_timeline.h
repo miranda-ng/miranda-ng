@@ -43,7 +43,7 @@ private:
 		return 0;
 	}
 
-	void addToSlot(Contact& contact, bool bOutgoing, DWORD localTimestamp, int toAdd);
+	void addToSlot(Contact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd);
 
 	void outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType display);
 	void outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType display);
@@ -66,7 +66,7 @@ protected:
 	virtual void impl_contactDataPrepare(Contact& contact) const;
 	virtual void impl_contactDataFree(Contact& contact) const;
 	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg);
-	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
+	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const;
 	virtual void impl_columnDataAfterOmit();
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);

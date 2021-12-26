@@ -286,7 +286,7 @@ HANDLE CSametimeProto::SendFilesToUser(MCONTACT hContact, wchar_t** files, const
 		for (int i = 0; files[i]; i++) {
 			HANDLE hFile = CreateFile(files[i], GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, 0, nullptr);
 			if (hFile != INVALID_HANDLE_VALUE) {
-				DWORD filesize = GetFileSize(hFile, nullptr);
+				uint32_t filesize = GetFileSize(hFile, nullptr);
 
 				wchar_t *fn = wcsrchr(files[i], '\\');
 				if (fn)

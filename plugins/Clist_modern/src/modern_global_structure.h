@@ -13,7 +13,7 @@ struct CLUIDATA
 	HMENU    hMenuNotify;
 	uint16_t     wNextMenuID;
 	int      iIconNotify;
-	DWORD    dwFlags;
+	uint32_t    dwFlags;
 	int      hIconNotify;
 	MCONTACT hUpdateContact;
 
@@ -21,15 +21,15 @@ struct CLUIDATA
 	wchar_t  groupFilter[2048];
 	char     protoFilter[2048];
 	char     varFilter[2048];
-	DWORD    lastMsgFilter;
+	uint32_t    lastMsgFilter;
 	char     current_viewmode[256], old_viewmode[256];
 	uint8_t     boldHideOffline;
 	uint8_t     bOldUseGroups;
-	DWORD    statusMaskFilter;
-	DWORD    stickyMaskFilter;
-	DWORD    filterFlags;
-	DWORD    bFilterEffective;
-	DWORD    t_now;
+	uint32_t    statusMaskFilter;
+	uint32_t    stickyMaskFilter;
+	uint32_t    filterFlags;
+	uint32_t    bFilterEffective;
+	uint32_t    t_now;
 
 	// Modern Global Variables
 	int      fDocked;
@@ -55,7 +55,7 @@ struct CLUIDATA
 
 	signed char nBehindEdgeState;
 
-	DWORD   dwKeyColor;
+	uint32_t   dwKeyColor;
 
 	HWND    hwndEventFrame;
 

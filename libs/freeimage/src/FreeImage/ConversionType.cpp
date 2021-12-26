@@ -182,7 +182,7 @@ CONVERT_TO_COMPLEX<Tsrc>::convert(FIBITMAP *src) {
 // Convert from type uint8_t to type X
 CONVERT_TYPE<unsigned short, uint8_t>	convertByteToUShort;
 CONVERT_TYPE<short, uint8_t>			convertByteToShort;
-CONVERT_TYPE<DWORD, uint8_t>			convertByteToULong;
+CONVERT_TYPE<uint32_t, uint8_t>			convertByteToULong;
 CONVERT_TYPE<LONG, uint8_t>			convertByteToLong;
 CONVERT_TYPE<float, uint8_t>			convertByteToFloat;
 CONVERT_TYPE<double, uint8_t>			convertByteToDouble;
@@ -190,7 +190,7 @@ CONVERT_TYPE<double, uint8_t>			convertByteToDouble;
 // Convert from type X to type uint8_t
 CONVERT_TO_BYTE<unsigned short>	convertUShortToByte;
 CONVERT_TO_BYTE<short>			convertShortToByte;
-CONVERT_TO_BYTE<DWORD>			convertULongToByte;
+CONVERT_TO_BYTE<uint32_t>			convertULongToByte;
 CONVERT_TO_BYTE<LONG>			convertLongToByte;
 CONVERT_TO_BYTE<float>			convertFloatToByte;
 CONVERT_TO_BYTE<double>			convertDoubleToByte;
@@ -198,13 +198,13 @@ CONVERT_TO_BYTE<double>			convertDoubleToByte;
 // Convert from type X to type float
 CONVERT_TYPE<float, unsigned short>	convertUShortToFloat;
 CONVERT_TYPE<float, short>			convertShortToFloat;
-CONVERT_TYPE<float, DWORD>			convertULongToFloat;
+CONVERT_TYPE<float, uint32_t>			convertULongToFloat;
 CONVERT_TYPE<float, LONG>			convertLongToFloat;
 
 // Convert from type X to type double
 CONVERT_TYPE<double, unsigned short>	convertUShortToDouble;
 CONVERT_TYPE<double, short>				convertShortToDouble;
-CONVERT_TYPE<double, DWORD>				convertULongToDouble;
+CONVERT_TYPE<double, uint32_t>				convertULongToDouble;
 CONVERT_TYPE<double, LONG>				convertLongToDouble;
 CONVERT_TYPE<double, float>				convertFloatToDouble;
 
@@ -212,7 +212,7 @@ CONVERT_TYPE<double, float>				convertFloatToDouble;
 CONVERT_TO_COMPLEX<uint8_t>			convertByteToComplex;
 CONVERT_TO_COMPLEX<unsigned short>	convertUShortToComplex;
 CONVERT_TO_COMPLEX<short>			convertShortToComplex;
-CONVERT_TO_COMPLEX<DWORD>			convertULongToComplex;
+CONVERT_TO_COMPLEX<uint32_t>			convertULongToComplex;
 CONVERT_TO_COMPLEX<LONG>			convertLongToComplex;
 CONVERT_TO_COMPLEX<float>			convertFloatToComplex;
 CONVERT_TO_COMPLEX<double>			convertDoubleToComplex;

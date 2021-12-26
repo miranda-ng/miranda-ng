@@ -33,7 +33,7 @@ static const char *s_copyright = "This program uses FreeImage, a free, open sour
 #ifndef FREEIMAGE_LIB
 
 BOOL APIENTRY
-DllMain(HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved) {
+DllMain(HANDLE hModule, uint32_t ul_reason_for_call, LPVOID lpReserved) {
 	switch (ul_reason_for_call) {
 		case DLL_PROCESS_ATTACH :
 			FreeImage_Initialise(FALSE);
@@ -89,7 +89,7 @@ FreeImage_GetCopyrightMessage() {
 BOOL DLL_CALLCONV
 FreeImage_IsLittleEndian() {
 	union {
-		DWORD i;
+		uint32_t i;
 		uint8_t c[4];
 	} u;
 	u.i = 1;

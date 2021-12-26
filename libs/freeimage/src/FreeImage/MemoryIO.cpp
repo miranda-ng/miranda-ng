@@ -30,7 +30,7 @@
 // =====================================================================
 
 FIMEMORY * DLL_CALLCONV 
-FreeImage_OpenMemory(uint8_t *data, DWORD size_in_bytes) {
+FreeImage_OpenMemory(uint8_t *data, uint32_t size_in_bytes) {
 	// allocate a memory handle
 	FIMEMORY *stream = (FIMEMORY*)malloc(sizeof(FIMEMORY));
 	if(stream) {
@@ -113,7 +113,7 @@ FreeImage_SaveToMemory(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FIMEMORY *stream, i
 // =====================================================================
 
 BOOL DLL_CALLCONV
-FreeImage_AcquireMemory(FIMEMORY *stream, uint8_t **data, DWORD *size_in_bytes) {
+FreeImage_AcquireMemory(FIMEMORY *stream, uint8_t **data, uint32_t *size_in_bytes) {
 	if (stream) {
 		FIMEMORYHEADER *mem_header = (FIMEMORYHEADER*)(stream->data);
 

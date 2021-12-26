@@ -187,7 +187,7 @@ static void CheckUpdate()
 	}
 
 	if (compat == 1) {
-		DWORD oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
+		uint32_t oldBackColor = db_get_dw(0, FONTMODULE, "BkgColourMUC", SRMSGDEFSET_BKGCOLOUR);
 		db_set_dw(0, CHAT_MODULE, "ColorLogBG", oldBackColor);
 		db_unset(0, FONTMODULE, "BkgColourMUC");
 		compat++;

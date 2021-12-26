@@ -251,7 +251,7 @@ bool CIrcProto::Connect(const CIrcSessionInfo& info)
 
 void CIrcProto::Disconnect(void)
 {
-	static const DWORD dwServerTimeout = 5 * 1000;
+	static const uint32_t dwServerTimeout = 5 * 1000;
 
 	if (con == nullptr)
 		return;
@@ -805,7 +805,7 @@ void __cdecl CDccSession::ConnectProc(void *pparam)
 }
 
 // small function to setup the address and port of the remote computer fror passive filetransfers
-void CDccSession::SetupPassive(DWORD adress, DWORD port)
+void CDccSession::SetupPassive(uint32_t adress, uint32_t port)
 {
 	di->dwAdr = adress;
 	di->iPort = (int)port;
@@ -975,7 +975,7 @@ int CDccSession::SetupConnection()
 }
 
 // called by netlib for incoming connections on a listening socket (chat/filetransfer)
-int CDccSession::IncomingConnection(HNETLIBCONN hConnection, DWORD dwIP)
+int CDccSession::IncomingConnection(HNETLIBCONN hConnection, uint32_t dwIP)
 {
 	con = hConnection;
 	if (con == nullptr) {
@@ -1057,11 +1057,11 @@ void CDccSession::DoSendFile()
 			tLastActivity = time(0);
 
 			// create a packet receiver to handle receiving ack's from the remote computer.
-			HANDLE hPackrcver = Netlib_CreatePacketReceiver(con, sizeof(DWORD));
+			HANDLE hPackrcver = Netlib_CreatePacketReceiver(con, sizeof(uint32_t));
 
 			NETLIBPACKETRECVER npr = {};
 			npr.dwTimeout = 60 * 1000;
-			npr.bufferSize = sizeof(DWORD);
+			npr.bufferSize = sizeof(uint32_t);
 
 			// until the connection is dropped it will spin around in this while() loop
 			while (con) {
@@ -1082,17 +1082,17 @@ void CDccSession::DoSendFile()
 
 				// block connection and receive ack's from remote computer (if applicable)
 				if (m_proto->m_DCCMode == 0) {
-					DWORD dwRead = 0;
-					DWORD dwPacket = NULL;
+					uint32_t dwRead = 0;
+					uint32_t dwPacket = NULL;
 
 					do {
 						dwRead = Netlib_GetMorePackets(hPackrcver, &npr);
-						npr.bytesUsed = sizeof(DWORD);
+						npr.bytesUsed = sizeof(uint32_t);
 
 						if (dwRead <= 0)
 							break; // connection closed, or a timeout occurred.
 
-						dwPacket = *(DWORD*)npr.buffer;
+						dwPacket = *(uint32_t*)npr.buffer;
 						dwLastAck = ntohl(dwPacket);
 
 					}
@@ -1103,16 +1103,16 @@ void CDccSession::DoSendFile()
 				}
 
 				if (m_proto->m_DCCMode == 1) {
-					DWORD dwRead = 0;
-					DWORD dwPacket = 0;
+					uint32_t dwRead = 0;
+					uint32_t dwPacket = 0;
 
 					do {
 						dwRead = Netlib_GetMorePackets(hPackrcver, &npr);
-						npr.bytesUsed = sizeof(DWORD);
+						npr.bytesUsed = sizeof(uint32_t);
 						if (dwRead <= 0)
 							break; // connection closed, or a timeout occurred.
 
-						dwPacket = *(DWORD*)npr.buffer;
+						dwPacket = *(uint32_t*)npr.buffer;
 						dwLastAck = ntohl(dwPacket);
 					}
 					while (con && (di->dwSize != dwTotal
@@ -1213,9 +1213,9 @@ void CDccSession::DoReceiveFile()
 			// this snippet sends out an ack for every 4 kb received in send ahead
 			// or every packet for normal mode
 			if (!di->bTurbo) {
-				DWORD no = dwTotal;
+				uint32_t no = dwTotal;
 				no = htonl(no);
-				NLSend((unsigned char *)&no, sizeof(DWORD));
+				NLSend((unsigned char *)&no, sizeof(uint32_t));
 				dwLastAck = dwTotal;
 			}
 			else dwLastAck = dwTotal;
@@ -1293,7 +1293,7 @@ void CDccSession::DoChatReceive()
 			if (*pStart) {
 				// send it off to some messaging module
 				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = (DWORD)time(0);
+				pre.timestamp = (uint32_t)time(0);
 				pre.szMessage = pStart;
 				ProtoChainRecvMsg(di->hContact, &pre);
 			}
@@ -1340,7 +1340,7 @@ VOID CALLBACK DCCTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 }
 
 // helper function for incoming dcc connections.
-void DoIncomingDcc(HNETLIBCONN hConnection, DWORD dwRemoteIP, void * p1)
+void DoIncomingDcc(HNETLIBCONN hConnection, uint32_t dwRemoteIP, void * p1)
 {
 	CDccSession *dcc = (CDccSession*)p1;
 	dcc->IncomingConnection(hConnection, dwRemoteIP);
@@ -1348,7 +1348,7 @@ void DoIncomingDcc(HNETLIBCONN hConnection, DWORD dwRemoteIP, void * p1)
 
 // ident server
 
-void DoIdent(HNETLIBCONN hConnection, DWORD, void* extra)
+void DoIdent(HNETLIBCONN hConnection, uint32_t, void* extra)
 {
 	CIrcProto *ppro = (CIrcProto*)extra;
 

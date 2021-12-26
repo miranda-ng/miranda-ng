@@ -27,7 +27,7 @@ private:
 	int  type;
 	bool end = false;
 	int  tag = 0;
-	DWORD value = 0;
+	uint32_t value = 0;
 	wchar_t *wtext;
 	char *text;
 	wchar_t *wlink = nullptr;

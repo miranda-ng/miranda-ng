@@ -115,7 +115,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 	case WM_DRAWITEM:
 		dis = (DRAWITEMSTRUCT *)lParam;
-		if (dis->itemID != (DWORD)-1) {
+		if (dis->itemID != (uint32_t)-1) {
 			ALARM alarm = { 0 };
 			mir_cslock lck(list_cs);
 			ALARM &list_alarm = alarm_list.at(dis->itemData);
@@ -347,7 +347,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		ScreenToClient(hwnd_list, &pt);
 		{
 			mir_cslock lck(list_cs);
-			DWORD item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+			uint32_t item = SendMessage(hwnd_list, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 
 			HMENU menu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENU1)), submenu = GetSubMenu(menu, 0);
 			TranslateMenu(submenu);

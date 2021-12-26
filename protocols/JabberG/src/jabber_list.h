@@ -104,7 +104,7 @@ public:
 	// XEP-0115 support
 	CJabberClientPartialCaps *m_pCaps;
 	ptrA  m_tszCapsExt;
-	DWORD m_dwDiscoInfoRequestTime;
+	uint32_t m_dwDiscoInfoRequestTime;
 
 	JabberCapsBits m_jcbCachedCaps;
 	JabberCapsBits m_jcbManualDiscoveredCaps;
@@ -185,7 +185,7 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	HWND  hwndGcListAdmin;
 	HWND  hwndGcListOwner;
 	int   iChatState;
-	DWORD dwChatInitTime;
+	uint32_t dwChatInitTime;
 
 	// LIST_FILE
 	// jid = string representation of port number

@@ -23,7 +23,7 @@ Boston, MA 02111-1307, USA.
 int iTransFuncsCount = 0;
 DBVTranslation *translations = nullptr;
 
-DWORD dwNextFuncId;
+uint32_t dwNextFuncId;
 HANDLE hServiceAdd;
 
 static LISTTYPEDATAITEM languages[] =
@@ -131,7 +131,7 @@ void AddTranslation(DBVTranslation *newTrans)
 		translations[iTransFuncsCount - 1].id = 0;
 	}
 	else {
-		DWORD id = db_get_dw(0, MODULE_ITEMS, szSetting, 0);
+		uint32_t id = db_get_dw(0, MODULE_ITEMS, szSetting, 0);
 		if (id != 0) {
 			translations[iTransFuncsCount - 1].id = id;
 			if (dwNextFuncId <= id) dwNextFuncId = id + 1;
@@ -156,7 +156,7 @@ wchar_t *NullTranslation(MCONTACT hContact, const char *szModuleName, const char
 
 wchar_t* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
 		return nullptr;
 
@@ -165,7 +165,7 @@ wchar_t* TimestampToShortDate(MCONTACT hContact, const char *szModuleName, const
 
 wchar_t* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
 		return nullptr;
 
@@ -174,7 +174,7 @@ wchar_t* TimestampToLongDate(MCONTACT hContact, const char *szModuleName, const 
 
 wchar_t* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
 		return nullptr;
 
@@ -183,7 +183,7 @@ wchar_t* TimestampToTime(MCONTACT hContact, const char *szModuleName, const char
 
 wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ts == 0)
 		return nullptr;
 
@@ -192,11 +192,11 @@ wchar_t* TimestampToTimeNoSecs(MCONTACT hContact, const char *szModuleName, cons
 
 wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
-	DWORD t = (DWORD)time(0);
+	uint32_t ts = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t t = (uint32_t)time(0);
 	if (ts == 0) return nullptr;
 
-	DWORD diff = (ts > t) ? 0 : (t - ts);
+	uint32_t diff = (ts > t) ? 0 : (t - ts);
 	int d = (diff / 60 / 60 / 24);
 	int h = (diff - d * 60 * 60 * 24) / 60 / 60;
 	int m = (diff - d * 60 * 60 * 24 - h * 60 * 60) / 60;
@@ -212,7 +212,7 @@ wchar_t* TimestampToTimeDifference(MCONTACT hContact, const char *szModuleName, 
 
 wchar_t *SecondsToTimeDifference(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD diff = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t diff = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	int d = (diff / 60 / 60 / 24);
 	int h = (diff - d * 60 * 60 * 24) / 60 / 60;
 	int m = (diff - d * 60 * 60 * 24 - h * 60 * 60) / 60;
@@ -282,7 +282,7 @@ wchar_t *WordToCountry(MCONTACT hContact, const char *szModuleName, const char *
 
 wchar_t *DwordToIp(MCONTACT hContact, const char *szModuleName, const char *szSettingName, wchar_t *buff, int bufflen)
 {
-	DWORD ip = db_get_dw(hContact, szModuleName, szSettingName, 0);
+	uint32_t ip = db_get_dw(hContact, szModuleName, szSettingName, 0);
 	if (ip) {
 		unsigned char *ipc = (unsigned char*)&ip;
 		mir_snwprintf(buff, bufflen, L"%u.%u.%u.%u", ipc[3], ipc[2], ipc[1], ipc[0]);
@@ -718,23 +718,23 @@ static DBVTranslation internalTranslations[] =
 {
 	{	NullTranslation,               LPGENW("[No translation]")                                                },
 	{	WordToStatusDesc,              LPGENW("uint16_t to status description")                                      },
-	{	TimestampToTime,               LPGENW("DWORD timestamp to time")                                         },
-	{	TimestampToTimeDifference,     LPGENW("DWORD timestamp to time difference")                              },
+	{	TimestampToTime,               LPGENW("uint32_t timestamp to time")                                         },
+	{	TimestampToTimeDifference,     LPGENW("uint32_t timestamp to time difference")                              },
 	{	ByteToYesNo,                   LPGENW("uint8_t to Yes/No")                                                  },
 	{	ByteToGender,                  LPGENW("uint8_t to Male/Female (ICQ)")                                       },
 	{	WordToCountry,                 LPGENW("uint16_t to country name")                                            },
-	{	DwordToIp,                     LPGENW("DWORD to IP address")                                             },
+	{	DwordToIp,                     LPGENW("uint32_t to IP address")                                             },
 	{	DayMonthYearToDate,            LPGENW("<prefix>Day|Month|Year to date")                                  },
 	{  DayMonthYearToAge,             LPGENW("<prefix>Day|Month|Year to age")                                   },
 	{	HoursMinutesSecondsToTime,     LPGENW("<prefix>Hours|Minutes|Seconds to time")                           },
 	{	DmyToTimeDifference,           LPGENW("<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference") },
 	{	DayMonthToDaysToNextBirthday,  LPGENW("<prefix>Day|Month to days to next birthday")                      },
-	{	TimestampToTimeNoSecs,         LPGENW("DWORD timestamp to time (no seconds)")                            },
+	{	TimestampToTimeNoSecs,         LPGENW("uint32_t timestamp to time (no seconds)")                            },
 	{	HoursMinutesToTime,            LPGENW("<prefix>Hours|Minutes to time")                                   },
-	{	TimestampToShortDate,          LPGENW("DWORD timestamp to date (short)")                                 },
-	{	TimestampToLongDate,           LPGENW("DWORD timestamp to date (long)")                                  },
+	{	TimestampToShortDate,          LPGENW("uint32_t timestamp to date (short)")                                 },
+	{	TimestampToLongDate,           LPGENW("uint32_t timestamp to date (long)")                                  },
 	{	EmptyXStatusToDefaultName,     LPGENW("xStatus: empty xStatus name to default name")                     },
-	{	SecondsToTimeDifference,       LPGENW("DWORD seconds to time difference")                                },
+	{	SecondsToTimeDifference,       LPGENW("uint32_t seconds to time difference")                                },
 	{	TimezoneToTime,                LPGENW("uint8_t timezone to time")                                           },
 	{	ByteToDay,                     LPGENW("uint16_t to name of a day (0..6, 0 is Sunday)")                       },
 	{	ByteToMonth,                   LPGENW("uint16_t to name of a month (1..12, 1 is January)")                   },

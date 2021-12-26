@@ -38,7 +38,7 @@ static int message_Send(lua_State *L)
 		dbei.szModule = MODULENAME;
 		dbei.timestamp = time(0);
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		dbei.cbBlob = (DWORD)mir_strlen(message);
+		dbei.cbBlob = (uint32_t)mir_strlen(message);
 		dbei.pBlob = (uint8_t*)mir_strdup(message);
 		dbei.flags = DBEF_UTF | DBEF_SENT;
 		db_event_add(hContact, &dbei);

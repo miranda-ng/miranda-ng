@@ -89,7 +89,7 @@ protected:
 	void        svcSendMsgExit(const char* szMessage);
 	void        Exit(unsigned int Result);
 				   
-	DWORD       m_cbEventMsg;      // sizeof EventMsg(T) buffer
+	uint32_t       m_cbEventMsg;      // sizeof EventMsg(T) buffer
 	CMStringA   m_szEventMsg;      // EventMsg char*
 	HANDLE      m_hSend;           // protocol send handle
 	HANDLE      m_hOnSend;         // HookEventObj on ME_PROTO_ACK

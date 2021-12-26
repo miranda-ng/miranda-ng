@@ -82,8 +82,8 @@ bool CTaskbarInteract::haveLargeIcons()
 	m_fHaveLargeicons = false;
 
 	if (m_pTaskbarInterface && m_isEnabled) {
-		DWORD val = 0;
-		DWORD valGrouping = 2;
+		uint32_t val = 0;
+		uint32_t valGrouping = 2;
 		/*
 		 * check whether the taskbar is set to show large icons. This is necessary, because the method SetOverlayIcon()
 		 * always returns S_OK, but the icon is simply ignored when using small taskbar icons.

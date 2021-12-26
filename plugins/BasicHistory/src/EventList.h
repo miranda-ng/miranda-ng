@@ -34,7 +34,7 @@ public:
 	{
 		bool isMe;
 		uint16_t eventType;
-		DWORD timestamp;
+		uint32_t timestamp;
 	};
 	struct EventIndex
 	{
@@ -53,7 +53,7 @@ private:
 	int  m_defFilter;
 	std::wstring m_filterName;
 	std::vector<IImport::ExternalMessage> m_importedMessages;
-	DWORD m_oldBlobSize;
+	uint32_t m_oldBlobSize;
 
 	struct EventTempIndex
 	{
@@ -63,7 +63,7 @@ private:
 			int exIdx;
 		};
 		bool isExternal;
-		DWORD timestamp;
+		uint32_t timestamp;
 	};
 
 	struct ImportDiscData
@@ -89,7 +89,7 @@ protected:
 	bool  m_isWnd;
 	bool  m_isFlat;
 	int   m_deltaTime;
-	DWORD m_now;
+	uint32_t m_now;
 	DBEVENTINFO m_dbei;
 	
 	virtual void AddGroup(bool isMe, const std::wstring &time, const std::wstring &user, const std::wstring &eventText, int ico) = 0;

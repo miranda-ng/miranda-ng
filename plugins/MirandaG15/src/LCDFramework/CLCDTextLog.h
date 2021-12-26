@@ -79,7 +79,7 @@ private:
 	int m_iTextLines = 0;
 	int m_iLastScrollDirection = 0;
 
-	DWORD	m_dwLastScroll = 0;
+	uint32_t	m_dwLastScroll = 0;
 
 	list<CLogEntry*> m_Entrys;
 	CLCDBar *m_pScrollbar = nullptr;

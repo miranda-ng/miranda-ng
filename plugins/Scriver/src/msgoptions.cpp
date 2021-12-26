@@ -193,7 +193,7 @@ public:
 
 struct CheckBoxValues_t
 {
-	DWORD style;
+	uint32_t style;
 	const wchar_t *szDescr;
 };
 
@@ -211,7 +211,7 @@ static const struct CheckBoxValues_t statusValues[] =
 
 class CMainOptionsDlg : public CBaseOptionDlg
 {
-	void FillCheckBoxTree(const struct CheckBoxValues_t *values, int nValues, DWORD style)
+	void FillCheckBoxTree(const struct CheckBoxValues_t *values, int nValues, uint32_t style)
 	{
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
@@ -226,9 +226,9 @@ class CMainOptionsDlg : public CBaseOptionDlg
 		}
 	}
 
-	DWORD MakeCheckBoxTreeFlags()
+	uint32_t MakeCheckBoxTreeFlags()
 	{
-		DWORD flags = 0;
+		uint32_t flags = 0;
 		TVITEMEX tvi;
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 		tvi.hItem = m_tree.GetRoot();

@@ -236,8 +236,8 @@ public:
 
 	virtual COptItem* Copy() { return new COptItem_Colourpicker(*this); }
 
-	DWORD m_defValue;
-	DWORD m_value;
+	uint32_t m_defValue;
+	uint32_t m_value;
 };
 
 

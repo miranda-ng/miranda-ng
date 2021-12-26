@@ -116,7 +116,7 @@ void COptionsDlg::saveLastSetting()
 		break;
 	case 4: // Give Up delay
 		g_plugin.setByte(hContact, "GiveUpDays", (uint8_t)edtNumber.GetInt());
-		g_plugin.setDword(hContact, "GiveUpDate", (DWORD)edtNumber.GetInt() * SECONDSINADAY);
+		g_plugin.setDword(hContact, "GiveUpDate", (uint32_t)edtNumber.GetInt() * SECONDSINADAY);
 		break;
 	case 5:	// confirm window
 		g_plugin.setWord(hContact, "ConfirmTimeout", (uint16_t)edtNumber.GetInt());

@@ -36,7 +36,7 @@ extern wchar_t *g_szFontGroup;
 extern mir_cs   csChat;
 
 extern HICON    g_hChatIcons[20];
-extern DWORD    g_dwDiskLogFlags;
+extern uint32_t    g_dwDiskLogFlags;
 extern HCURSOR  g_hCurHyperlinkHand;
 extern char*    pLogIconBmpBits[14];
 extern HANDLE   hevSendEvent, hevBuildMenuEvent;

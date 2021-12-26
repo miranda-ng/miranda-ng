@@ -120,10 +120,10 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 
 static int FileEventAdded(WPARAM wParam, LPARAM lParam)
 {
-	DWORD dwSignature;
+	uint32_t dwSignature;
 
 	DBEVENTINFO dbei = {};
-	dbei.cbBlob = sizeof(DWORD);
+	dbei.cbBlob = sizeof(uint32_t);
 	dbei.pBlob = (uint8_t*)&dwSignature;
 	db_event_get(lParam, &dbei);
 	if (dbei.flags & (DBEF_SENT | DBEF_READ) || dbei.eventType != EVENTTYPE_FILE || dwSignature == 0)
@@ -381,7 +381,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 		szDescr = pre->descr.a;
 	}
 
-	dbei.cbBlob = sizeof(DWORD);
+	dbei.cbBlob = sizeof(uint32_t);
 
 	for (int i = 0; i < pre->fileCount; i++)
 		dbei.cbBlob += (int)mir_strlen(pszFiles[i]) + 1;
@@ -391,8 +391,8 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 	if ((dbei.pBlob = (uint8_t*)mir_alloc(dbei.cbBlob)) == nullptr)
 		return 0;
 
-	*(DWORD*)dbei.pBlob = 0;
-	uint8_t* p = dbei.pBlob + sizeof(DWORD);
+	*(uint32_t*)dbei.pBlob = 0;
+	uint8_t* p = dbei.pBlob + sizeof(uint32_t);
 	for (int i = 0; i < pre->fileCount; i++) {
 		mir_strcpy((char*)p, pszFiles[i]);
 		p += mir_strlen(pszFiles[i]) + 1;

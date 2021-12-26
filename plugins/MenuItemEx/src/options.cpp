@@ -24,7 +24,7 @@ static const checkboxes[] = {
 
 class COptDialog : public CDlgBase
 {
-	DWORD m_flags;
+	uint32_t m_flags;
 
 	CCtrlCheck m_chkVis, m_chkAlpha, m_chkHide, m_chkIgnore, m_chkProtos, m_chkRecvFiles, m_chkCopyIP, m_chkCopyMirver, m_chkStatusMsg,
 		m_chkSMName, m_chkCopyID, m_chkCopyIDName, m_chkShowID, m_chkTrimID, m_chkIgnoreHide;
@@ -76,7 +76,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD mod_flags = 0;
+		uint32_t mod_flags = 0;
 
 		for (auto &it : checkboxes) {
 			CCtrlCheck &item = *(CCtrlCheck*)FindControl(it.idc);

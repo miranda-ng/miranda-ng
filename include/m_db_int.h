@@ -41,7 +41,7 @@ struct DATABASELINK;
 
 struct DBCHeckCallback
 {
-	DWORD  spaceProcessed, spaceUsed;
+	uint32_t spaceProcessed, spaceUsed;
 
 	void (*pfnAddLogMessage)(int type, const wchar_t *ptszFormat, ...);
 };

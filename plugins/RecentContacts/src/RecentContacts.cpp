@@ -447,8 +447,8 @@ int Create_MenuitemShowList(void)
 static void SaveLastUsedTimeStamp(MCONTACT hContact)
 {
 	__time64_t ct = _time64(nullptr);
-	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeLo, (DWORD)ct);
-	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeHi, (DWORD)(ct >> 32));
+	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeLo, (uint32_t)ct);
+	g_plugin.setDword(hContact, dbLastUC_LastUsedTimeHi, (uint32_t)(ct >> 32));
 }
 
 static int OnGCInEvent(WPARAM, LPARAM lParam)

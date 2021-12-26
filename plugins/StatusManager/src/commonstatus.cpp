@@ -98,7 +98,7 @@ char* StatusModeToDbSetting(int status, const char *suffix)
 	return str;
 }
 
-DWORD StatusModeToProtoFlag(int status)
+uint32_t StatusModeToProtoFlag(int status)
 {
 	// *not* the same as in core, <offline>
 	switch (status) {

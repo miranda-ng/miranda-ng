@@ -34,8 +34,8 @@ enum eIndexCreationMode {
 
 extern eIndexCreationMode indexCreationMode;
 
-bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP);
-bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP);
+bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, uint32_t dwRemoteIP);
+bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, uint32_t dwRemoteIP);
 void FreeIndexHTMLTemplate();
 bool LoadIndexHTMLTemplate();
 

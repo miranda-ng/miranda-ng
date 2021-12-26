@@ -31,7 +31,7 @@ const IID IID_ITextDocument = {
 /////////////////////////////////////////////////////////////////////////////
 // CallBack functions
 
-DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
+uint32_t CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	COOKIE *pCookie = (COOKIE*)dwCookie;
 	if (pCookie->isUnicode) {
@@ -43,7 +43,7 @@ DWORD CALLBACK EditStreamInCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, 
 		pCookie->cbCount += *pcb / sizeof(wchar_t);
 	}
 	else {
-		if (pCookie->cbSize - pCookie->cbCount < (DWORD)cb)
+		if (pCookie->cbSize - pCookie->cbCount < (uint32_t)cb)
 			*pcb = LONG(pCookie->cbSize - pCookie->cbCount);
 		else
 			*pcb = cb;

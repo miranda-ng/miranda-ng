@@ -46,7 +46,7 @@ class CMUCHighlight;
 
 struct MODULEINFO : public GCModuleInfoBase
 {
-	DWORD idleTimeStamp;
+	uint32_t idleTimeStamp;
 	wchar_t tszIdleMsg[60];
 };
 

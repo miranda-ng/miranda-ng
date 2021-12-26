@@ -109,8 +109,8 @@ SYSTEMTIME OptionsCtrlImpl::DateTime::toSystemTime(time_t timestamp)
 	FILETIME ft;
 	LONGLONG ll = Int32x32To64(timestamp, 10000000) + 116444736000000000;
 
-	ft.dwLowDateTime = static_cast<DWORD>(ll);
-	ft.dwHighDateTime = static_cast<DWORD>(ll >> 32);
+	ft.dwLowDateTime = static_cast<uint32_t>(ll);
+	ft.dwHighDateTime = static_cast<uint32_t>(ll >> 32);
 
 	FileTimeToSystemTime(&ft, &st);
 
@@ -180,7 +180,7 @@ ext::string OptionsCtrlImpl::DateTime::getCombinedText()
 	return strTemp;
 }
 
-OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::DateTime::DateTime(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szFormat, time_t timestamp, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itDateTime, szLabel, dwFlags, dwData), m_hDateTimeWnd(nullptr), m_strFormat(szFormat), m_timestamp(timestamp)
 {
 	m_bDisableChildsOnNone = bool_(dwFlags & OCF_DISABLECHILDSONNONE);
@@ -216,7 +216,7 @@ void OptionsCtrlImpl::DateTime::onSelect()
 
 		HWND hTempWnd;
 
-		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | (m_bAllowNone ? DTS_SHOWNONE : 0);
+		uint32_t dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | (m_bAllowNone ? DTS_SHOWNONE : 0);
 
 		if (hTempWnd = CreateWindowEx(
 			WS_EX_CLIENTEDGE, DATETIMEPICK_CLASS, L"", dwStyle,

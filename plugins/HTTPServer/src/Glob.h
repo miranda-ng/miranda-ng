@@ -76,9 +76,9 @@ bool bOpenLogFile();
 extern char szPluginPath[MAX_PATH];
 extern int nPluginPathLen;
 
-extern DWORD dwLocalIpAddress;
-extern DWORD dwLocalPortUsed;
-extern DWORD dwExternalIpAddress;
+extern uint32_t dwLocalIpAddress;
+extern uint32_t dwLocalPortUsed;
+extern uint32_t dwExternalIpAddress;
 
 extern int nMaxUploadSpeed;
 extern int nMaxConnectionsTotal;

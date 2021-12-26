@@ -165,7 +165,7 @@ MIR_APP_DLL(MGROUP) Clist_GroupCreate(MGROUP hParent, LPCTSTR ptszGroupName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags)
+MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFlags)
 {
 	CGroupInternal *p = arByIds.find(hGroup-1);
 	if (p == nullptr)

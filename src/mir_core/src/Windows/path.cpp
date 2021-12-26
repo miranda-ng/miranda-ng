@@ -102,7 +102,7 @@ MIR_CORE_DLL(int) CreateDirectoryTree(const char *szDir)
 	if (szDir == nullptr)
 		return 1;
 
-	DWORD dwAttributes = GetFileAttributesA(szDir);
+	uint32_t dwAttributes = GetFileAttributesA(szDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
@@ -191,7 +191,7 @@ MIR_CORE_DLL(int) CreateDirectoryTreeW(const wchar_t *szDir)
 	if (szDir == nullptr)
 		return 1;
 
-	DWORD dwAttributes = GetFileAttributesW(szDir);
+	uint32_t dwAttributes = GetFileAttributesW(szDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 

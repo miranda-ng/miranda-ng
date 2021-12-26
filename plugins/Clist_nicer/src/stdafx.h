@@ -93,7 +93,7 @@ typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcCon
 
 BOOL __forceinline GetItemByStatus(int status, StatusItems_t *retitem);
 
-void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2, BOOL transparent, uint8_t FLG_GRADIENT, uint8_t FLG_CORNER, DWORD BORDERSTYLE, ImageItem *item);
+void DrawAlpha(HDC hdcwnd, PRECT rc, uint32_t basecolor, int alpha, uint32_t basecolor2, BOOL transparent, uint8_t FLG_GRADIENT, uint8_t FLG_CORNER, uint32_t BORDERSTYLE, ImageItem *item);
 
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat = false, bool bIsTTButton = false);
 

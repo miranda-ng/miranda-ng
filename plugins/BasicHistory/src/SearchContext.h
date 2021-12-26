@@ -34,7 +34,7 @@ public:
 
 	struct MessageData
 	{
-		MessageData(const std::wstring& _description, int _startPos, int _endPos, bool _isMe, DWORD _timestamp)
+		MessageData(const std::wstring& _description, int _startPos, int _endPos, bool _isMe, uint32_t _timestamp)
 			:description(_description)
 		{
 			startPos = _startPos;
@@ -47,7 +47,7 @@ public:
 		int startPos;
 		int endPos;
 		bool isMe;
-		DWORD timestamp;
+		uint32_t timestamp;
 	};
 
 	std::vector<MessageData> currentGroup;

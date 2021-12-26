@@ -47,7 +47,7 @@ struct DetailsPageData : public MNonCopyable
 	HTREEITEM    hItem;
 	HPLUGIN      pPlugin;
 	int          changed;
-	DWORD        dwFlags;
+	uint32_t        dwFlags;
 	wchar_t     *pwszTitle, *pwszTab;
 
 	~DetailsPageData()

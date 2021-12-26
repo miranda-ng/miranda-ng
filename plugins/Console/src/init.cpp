@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-DWORD mirandaVer;
+uint32_t mirandaVer;
 CMPlugin g_plugin;
 
 static IconItem iconList[] =

@@ -90,7 +90,7 @@ typedef LinkedList< HistPair > HistoryList;
 
 struct PINGADDRESS {
 	int cbSize;	//size in bytes of this structure
-	DWORD item_id;
+	uint32_t item_id;
 	wchar_t pszName[MAX_PINGADDRESS_STRING_LENGTH];		//IP address or domain name
 	wchar_t pszLabel[MAX_PINGADDRESS_STRING_LENGTH];
 	bool responding;
@@ -111,7 +111,7 @@ struct PINGADDRESS {
 
 #include "options.h"
 
-typedef Map<DWORD, HistoryList> HistoryMap;
+typedef Map<uint32_t, HistoryList> HistoryMap;
 typedef std::list<PINGADDRESS> PINGLIST;
 typedef std::list<PINGADDRESS>::iterator pinglist_it;
 

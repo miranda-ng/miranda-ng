@@ -77,7 +77,7 @@ void CCtrlClc::EnsureVisible(HANDLE hItem, bool partialOk)
 {	SendMessage(m_hwnd, CLM_ENSUREVISIBLE, (WPARAM)hItem, partialOk ? TRUE : FALSE);
 }
 
-void CCtrlClc::Expand(HANDLE hItem, DWORD flags)
+void CCtrlClc::Expand(HANDLE hItem, uint32_t flags)
 {	SendMessage(m_hwnd, CLM_EXPAND, (WPARAM)hItem, flags);
 }
 
@@ -105,7 +105,7 @@ HWND CCtrlClc::GetEditControl() const
 {	return (HWND)SendMessage(m_hwnd, CLM_GETEDITCONTROL, 0, 0);
 }
 
-DWORD CCtrlClc::GetExpand(HANDLE hItem) const
+uint32_t CCtrlClc::GetExpand(HANDLE hItem) const
 {	return SendMessage(m_hwnd, CLM_GETEXPAND, (WPARAM)hItem, 0);
 }
 
@@ -130,7 +130,7 @@ HANDLE CCtrlClc::GetSelection() const
 {	return (HANDLE)SendMessage(m_hwnd, CLM_GETSELECTION, 0, 0);
 }
 
-HANDLE CCtrlClc::HitTest(int x, int y, DWORD *hitTest) const
+HANDLE CCtrlClc::HitTest(int x, int y, uint32_t *hitTest) const
 {	return (HANDLE)SendMessage(m_hwnd, CLM_HITTEST, (WPARAM)hitTest, MAKELPARAM(x,y));
 }
 
@@ -182,15 +182,15 @@ void CCtrlClc::SetUseGroups(bool state)
 {	SendMessage(m_hwnd, CLM_SETUSEGROUPS, state ? 1 : 0, 0);
 }
 
-void CCtrlClc::SetOfflineModes(DWORD modes)
+void CCtrlClc::SetOfflineModes(uint32_t modes)
 {	SendMessage(m_hwnd, CLM_SETOFFLINEMODES, modes, 0);
 }
 
-DWORD CCtrlClc::GetExStyle() const
+uint32_t CCtrlClc::GetExStyle() const
 {	return SendMessage(m_hwnd, CLM_GETEXSTYLE, 0, 0);
 }
 
-void CCtrlClc::SetExStyle(DWORD exStyle)
+void CCtrlClc::SetExStyle(uint32_t exStyle)
 {	SendMessage(m_hwnd, CLM_SETEXSTYLE, (WPARAM)exStyle, 0);
 }
 
@@ -202,6 +202,6 @@ int CCtrlClc::GetItemType(HANDLE hItem) const
 {	return SendMessage(m_hwnd, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 }
 
-HANDLE CCtrlClc::GetNextItem(HANDLE hItem, DWORD flags) const
+HANDLE CCtrlClc::GetNextItem(HANDLE hItem, uint32_t flags) const
 {	return (HANDLE)SendMessage(m_hwnd, CLM_GETNEXTITEM, (WPARAM)flags, (LPARAM)hItem);
 }

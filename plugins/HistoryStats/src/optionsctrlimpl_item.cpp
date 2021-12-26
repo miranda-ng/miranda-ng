@@ -5,7 +5,7 @@
  * OptionsCtrlImpl::Item
  */
 
-OptionsCtrlImpl::Item::Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData) :
+OptionsCtrlImpl::Item::Item(OptionsCtrlImpl* pCtrl, ItemType ItemType, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData) :
 	m_pCtrl(pCtrl), m_hItem(nullptr), m_nRef(1), m_ItemType(ItemType), m_strLabel(szLabel), m_dwData(dwData)
 {
 	m_bEnabled       = !(dwFlags & OCF_DISABLED);

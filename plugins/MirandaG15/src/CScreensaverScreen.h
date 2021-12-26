@@ -43,8 +43,8 @@ public:
 private:
 
 	CLCDLabel m_Label, m_Label2;
-	DWORD m_dwActivation = 0;
-	DWORD m_dwDuration = 0;
+	uint32_t m_dwActivation = 0;
+	uint32_t m_dwDuration = 0;
 	int m_iPosition = 0;
 };
 

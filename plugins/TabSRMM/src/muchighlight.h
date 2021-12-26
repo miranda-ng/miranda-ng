@@ -50,12 +50,12 @@ public:
 
 	void init();
 	void cleanup();
-	bool match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags = MATCH_NICKNAME);
+	bool match(const GCEVENT *pgce, const SESSION_INFO *psi, uint32_t dwFlags = MATCH_NICKNAME);
 
 private:
 	void tokenize(wchar_t *tszString, wchar_t** &patterns, UINT &nr);
 
-	DWORD     m_iMode = 0; // combination of MATCH_* masks
+	uint32_t     m_iMode = 0; // combination of MATCH_* masks
 	UINT      m_iNickPatterns = 0;
 	UINT      m_iTextPatterns = 0;
 	bool      m_fInitialized = false;

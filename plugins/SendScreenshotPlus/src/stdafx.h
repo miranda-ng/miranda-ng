@@ -95,7 +95,7 @@ using namespace std;
 #define MSGINFO	(text) MessageBox(NULL, text, L"SendSS", MB_OK | MB_ICONINFORMATION)
 
 typedef struct _MGLOBAL {
-	DWORD   mirandaVersion;          // mirandaVersion
+	uint32_t   mirandaVersion;          // mirandaVersion
 	BOOLEAN PopupActionsExist   : 1; // Popup+ or MS_POPUP_REGISTERACTIONS exist
 	BOOLEAN PluginHTTPExist     : 1;	// HTTPServer or MS_HTTP_ACCEPT_CONNECTIONS exist
 	BOOLEAN PluginFTPExist      : 1; // FTPFile or MS_FTPFILE_UPLOAD exist

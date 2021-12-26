@@ -28,7 +28,7 @@ int Enum_Settings(const char *szSetting, LPARAM lParam)
 	return 0;
 }
 
-int Enum_Modules(const char *szModuleName, DWORD, LPARAM lParam) 
+int Enum_Modules(const char *szModuleName, uint32_t, LPARAM lParam) 
 {
 	//DBCONTACTENUMSETTINGS e;
 	MCONTACT hContact = NULL;

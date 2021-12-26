@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		case PSN_APPLY:
 			//Text color
 			char szSetting[20] = { 0 };
-			DWORD ctlColor = 0;
+			uint32_t ctlColor = 0;
 			for (i = 0; i <= POPUPS - 1; i++) {
 				ctlColor = SendDlgItemMessage(hdlg, (i + 42071), CPM_GETCOLOUR, 0, 0);
 				PopupsList[i].colorBack = ctlColor;

@@ -35,7 +35,7 @@ Boston, MA 02111-1307, USA.
 
 struct DWM_BLURBEHIND
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	BOOL fEnable;
 	HRGN hRgnBlur;
 	BOOL fTransitionOnMaximized;

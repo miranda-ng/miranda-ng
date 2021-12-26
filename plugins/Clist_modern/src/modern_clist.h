@@ -92,7 +92,7 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	CSmileyString ssThirdLine;
 
 	HANDLE   hTimeZone;
-	DWORD    dwLastMsgTime, dwLastOnlineTime;
+	uint32_t    dwLastMsgTime, dwLastOnlineTime;
 
 	int __forceinline getStatus() const
 	{	return (this == nullptr) ? ID_STATUS_OFFLINE : m_iStatus;

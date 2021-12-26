@@ -68,7 +68,7 @@ int cliGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex)
 	return -1;
 }
 
-ClcContact* cliFindItem(DWORD dwItem, ClcContact *cc)
+ClcContact* cliFindItem(uint32_t dwItem, ClcContact *cc)
 {
 	if (corecli.pfnFindItem(dwItem, cc))
 		return cc;

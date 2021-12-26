@@ -149,14 +149,14 @@ void TContainerData::ActivateExistingTab(CMsgDialog *dat)
 
 void TContainerData::AdjustTabClientRect(RECT &rc)
 {
-	DWORD dwStyle = GetWindowLongPtr(m_hwndTabs, GWL_STYLE);
+	uint32_t dwStyle = GetWindowLongPtr(m_hwndTabs, GWL_STYLE);
 
 	RECT rcTab, rcTabOrig;
 	GetClientRect(m_hwndTabs, &rcTab);
 	if (!m_flags.m_bSideBar && (m_iChilds > 1 || !m_flags.m_bHideTabs)) {
 		rcTabOrig = rcTab;
 		TabCtrl_AdjustRect(m_hwndTabs, FALSE, &rcTab);
-		DWORD dwTopPad = rcTab.top - rcTabOrig.top;
+		uint32_t dwTopPad = rcTab.top - rcTabOrig.top;
 
 		rc.left += m_tBorder;
 		rc.right -= m_tBorder;
@@ -224,7 +224,7 @@ void TContainerData::CloseTabByMouse(POINT *pt)
 
 void TContainerData::Configure()
 {
-	DWORD wsold, ws = wsold = GetWindowLong(m_hwnd, GWL_STYLE);
+	uint32_t wsold, ws = wsold = GetWindowLong(m_hwnd, GWL_STYLE);
 	if (!CSkin::m_frameSkins) {
 		ws = (m_flags.m_bNoTitle) ?
 			((IsWindowVisible(m_hwnd) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
@@ -241,12 +241,12 @@ void TContainerData::Configure()
 
 	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
-	DWORD ex = GetWindowLong(m_hwnd, GWL_EXSTYLE);
+	uint32_t ex = GetWindowLong(m_hwnd, GWL_EXSTYLE);
 	ex = (m_flags.m_bTransparent && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
 	SetWindowLong(m_hwnd, GWL_EXSTYLE, ex);
 
 	if (m_flags.m_bTransparent && fTransAllowed) {
-		DWORD trans = LOWORD(m_pSettings->dwTransparency);
+		uint32_t trans = LOWORD(m_pSettings->dwTransparency);
 		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (uint8_t)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_flags.m_bTransparent ? LWA_ALPHA : 0));
 	}
 
@@ -341,7 +341,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 	m_hwnd = hwndDlg;
 	m_hwndTabs = ::GetDlgItem(hwndDlg, IDC_MSGTABS);
 	{
-		DWORD dwCreateFlags = m_flags.dw;
+		uint32_t dwCreateFlags = m_flags.dw;
 		m_isCloned = m_flags.m_bCreateCloned;
 		m_fPrivateThemeChanged = FALSE;
 
@@ -349,7 +349,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 		m_flags.dw |= dwCreateFlags;
 
 		LoadOverrideTheme();
-		DWORD ws = ::GetWindowLong(m_hwndTabs, GWL_STYLE);
+		uint32_t ws = ::GetWindowLong(m_hwndTabs, GWL_STYLE);
 		if (m_flagsEx.m_bTabFlat)
 			ws |= TCS_BUTTONS;
 
@@ -525,13 +525,13 @@ void TContainerData::QueryClientArea(RECT &rc)
 void TContainerData::QueryPending()
 {
 	int   iMostRecent = -1;
-	DWORD dwMostRecent = 0;
+	uint32_t dwMostRecent = 0;
 	HWND  hwndMostRecent = nullptr;
 
 	int iItems = TabCtrl_GetItemCount(m_hwndTabs);
 	for (int i = 0; i < iItems; i++) {
 		HWND hDlg = GetTabWindow(m_hwndTabs, i);
-		DWORD dwTimestamp;
+		uint32_t dwTimestamp;
 		SendMessage(hDlg, DM_QUERYLASTUNREAD, 0, (LPARAM)&dwTimestamp);
 		if (dwTimestamp > dwMostRecent) {
 			dwMostRecent = dwTimestamp;
@@ -557,15 +557,15 @@ void TContainerData::ReflashContainer()
 	if (m_flags.m_bNoFlash || m_dwFlashingStarted == 0)
 		return;                                                                                 // dont care about containers which should never flash
 
-	DWORD dwStartTime = m_dwFlashingStarted;
+	uint32_t dwStartTime = m_dwFlashingStarted;
 
 	if (m_flags.m_bFlashAlways)
 		FlashContainer(1, 0);
 	else {
 		// recalc the remaining flashes
-		DWORD dwInterval = M.GetDword("flashinterval", 1000);
+		uint32_t dwInterval = M.GetDword("flashinterval", 1000);
 		int iFlashesElapsed = (GetTickCount() - dwStartTime) / dwInterval;
-		DWORD dwFlashesDesired = M.GetByte("nrflash", 4);
+		uint32_t dwFlashesDesired = M.GetByte("nrflash", 4);
 		if (iFlashesElapsed < (int)dwFlashesDesired)
 			FlashContainer(1, dwFlashesDesired - iFlashesElapsed);
 		else {
@@ -1433,7 +1433,7 @@ panel_found:
 			pContainer->m_pMenuBar->Cancel();
 
 			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
-			DWORD dwOldFlags = pContainer->m_flags.dw;
+			uint32_t dwOldFlags = pContainer->m_flags.dw;
 
 			auto &f = pContainer->m_flags;
 
@@ -1839,7 +1839,7 @@ panel_found:
 			}
 
 			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
-				DWORD trans = LOWORD(pContainer->m_pSettings->dwTransparency);
+				uint32_t trans = LOWORD(pContainer->m_pSettings->dwTransparency);
 				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)trans, (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
 			if (pContainer->m_flags.m_bNeedsUpdateTitle) {
@@ -2229,7 +2229,7 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
 	bool bAutoContainer = M.GetBool("autocontainer", true);
 
-	DWORD dwStatusMask = M.GetDword("autopopupmask", -1);
+	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
 	if (dwStatusMask == -1)
 		bAllowAutoCreate = true;
 	else {

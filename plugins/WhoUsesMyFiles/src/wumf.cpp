@@ -206,7 +206,7 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 	else w->mark = FALSE;
 }
 
-void printError(DWORD res) 
+void printError(uint32_t res) 
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, res, 0, (LPTSTR) &lpMsgBuf, 0, nullptr );

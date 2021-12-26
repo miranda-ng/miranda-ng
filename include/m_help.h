@@ -44,7 +44,7 @@ Returns 0 on success or nonzero on failure
 #define HCSF_AUTOTIP      0x02  // show automatic help tip on hover for this control
                                 // only works for non-editable
 #if !defined(HELP_NOHELPERFUNCTIONS)
-__inline static int Help_SetContextState(HWND hwndCtl,DWORD flags) {
+__inline static int Help_SetContextState(HWND hwndCtl, uint32_t flags) {
 	if(!ServiceExists(MS_HELP_SETCONTEXTSTATE)) return -1;
 	return CallService(MS_HELP_SETCONTEXTSTATE,(WPARAM)hwndCtl,flags);
 }

@@ -318,7 +318,7 @@ bool IntegrityCheckModule(const char *moduleFilename, const byte *expectedModule
 	const IMAGE_DOS_HEADER *ph = (IMAGE_DOS_HEADER *)memBase;
 	const IMAGE_NT_HEADERS *phnt = (IMAGE_NT_HEADERS *)(memBase + ph->e_lfanew);
 	const IMAGE_SECTION_HEADER *phs = IMAGE_FIRST_SECTION(phnt);
-	DWORD nSections = phnt->FileHeader.NumberOfSections;
+	uint32_t nSections = phnt->FileHeader.NumberOfSections;
 	size_t currentFilePos = 0;
 
 	size_t checksumPos = (byte *)&phnt->OptionalHeader.CheckSum - memBase;
@@ -599,7 +599,7 @@ NAMESPACE_END
 
 // DllMain needs to be in the global namespace
 BOOL APIENTRY DllMain(HANDLE hModule, 
-                      DWORD  ul_reason_for_call, 
+                      uint32_t  ul_reason_for_call, 
                       LPVOID lpReserved)
 {
 	if (ul_reason_for_call == DLL_PROCESS_ATTACH)

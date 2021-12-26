@@ -59,7 +59,7 @@ struct CSendLaterJob : public MZeroedObject
 	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
 	char    *sendBuffer;          // utf-8 send buffer
 	uint8_t *pBuf;                // conventional send buffer (for non-utf8 protocols)
-	DWORD    dwFlags;
+	uint32_t    dwFlags;
 	int      iSendCount;          // # of times we tried to send it...
 	bool     fSuccess, fFailed;
 	uint8_t     bCode;               // error/progress code (for the UI)
@@ -135,7 +135,7 @@ struct CSendLaterJob : public MZeroedObject
 	{
 		if (isPersistentJob()) {
 			char szKey[100];
-			DWORD localFlags;
+			uint32_t localFlags;
 
 			mir_snprintf(szKey, "$%s", szId);
 			localFlags = db_get_dw(hContact, "SendLater", szKey, 0);
@@ -150,7 +150,7 @@ struct CSendLaterJob : public MZeroedObject
 	void writeFlags()
 	{
 		if (isPersistentJob()) {
-			DWORD localFlags = (bCode == JOB_HOLD ? SLF_SUSPEND : 0);
+			uint32_t localFlags = (bCode == JOB_HOLD ? SLF_SUSPEND : 0);
 			char szKey[100];
 
 			mir_snprintf(szKey, "$%s", szId);

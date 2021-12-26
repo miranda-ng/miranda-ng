@@ -23,7 +23,7 @@ ext::string utils::tmStructToString(const tm& value, const wchar_t* format)
 	return (ext::strfunc::ftime(temp, 100, format, &value) > 0) ? temp : L"";
 }
 
-ext::string utils::durationToString(DWORD value)
+ext::string utils::durationToString(uint32_t value)
 {
 	wchar_t temp[100] = { 0 };
 
@@ -38,7 +38,7 @@ ext::string utils::durationToString(DWORD value)
 	return temp;
 }
 
-DWORD utils::parseDate(const ext::string& date)
+uint32_t utils::parseDate(const ext::string& date)
 {
 	if (date.length() != 10 || date[4] != '-' || date[7] != '-')
 		return 0;
@@ -367,7 +367,7 @@ ext::string utils::toUpperCase(const ext::string& text)
 	return ret_str;
 }
 
-DWORD utils::dottedToVersion(ext::string version)
+uint32_t utils::dottedToVersion(ext::string version)
 {
 	union
 	{
@@ -392,7 +392,7 @@ DWORD utils::dottedToVersion(ext::string version)
 	return res.combined;
 }
 
-ext::string utils::versionToDotted(DWORD version)
+ext::string utils::versionToDotted(uint32_t version)
 {
 	wchar_t temp[16] = { 0 };
 

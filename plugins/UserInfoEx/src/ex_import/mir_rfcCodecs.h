@@ -49,7 +49,7 @@ inline INT_PTR QPDecodeGetRequiredLength(INT_PTR nSrcLen)
 	return nSrcLen;
 }
 
-inline BOOL QPEncode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, uint8_t *bEncoded, DWORD dwFlags = 0)
+inline BOOL QPEncode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, uint8_t *bEncoded, uint32_t dwFlags = 0)
 {
 	//The hexadecimal character set
 	static const CHAR s_chHexChars[16] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
@@ -111,7 +111,7 @@ inline BOOL QPEncode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR 
 	return TRUE;
 }
 
-inline BOOL QPDecode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, DWORD dwFlags = 0)
+inline BOOL QPDecode(uint8_t *pbSrcData, INT_PTR nSrcLen, LPSTR szDest, INT_PTR *pnDestLen, uint32_t dwFlags = 0)
 {
 	if (!pbSrcData || !szDest || !pnDestLen) {
 		return FALSE;

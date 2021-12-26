@@ -67,7 +67,7 @@ class CExImContactXML : public CExImContactBase
 	int		ImportContact();
 	int		ImportNormalContact();
 	int		ImportMetaSubContact(CExImContactXML *pMetaContact);
-	void		CountKeys(DWORD &numSettings, DWORD &numEvents);
+	void		CountKeys(uint32_t &numSettings, uint32_t &numEvents);
 
 	// private exporting methods
 	int		ExportModule(LPCSTR pszModule);

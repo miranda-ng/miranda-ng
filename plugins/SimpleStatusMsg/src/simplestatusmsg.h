@@ -26,9 +26,9 @@ struct PROTOACCOUNTS
 	PROTOACCOUNT **pa;
 	int   count;
 	int   statusCount;
-	DWORD statusFlags;
+	uint32_t statusFlags;
 	int   statusMsgCount;
-	DWORD statusMsgFlags;
+	uint32_t statusMsgFlags;
 };
 
 extern PROTOACCOUNTS *accounts;

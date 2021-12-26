@@ -163,12 +163,12 @@ bool LoadDS(DISPLAYSUBST *ds, int index)
 	}
 
 	mir_snprintf(setting, "TransFuncId%d", index);
-	ds->iTranslateFuncId = db_get_dw(0, MODULE_ITEMS, setting, (DWORD)-1);
+	ds->iTranslateFuncId = db_get_dw(0, MODULE_ITEMS, setting, (uint32_t)-1);
 
 	// a little backward compatibility
-	if ((DWORD)ds->iTranslateFuncId == (DWORD)-1) {
+	if ((uint32_t)ds->iTranslateFuncId == (uint32_t)-1) {
 		mir_snprintf(setting, "TransFunc%d", index);
-		ds->iTranslateFuncId = (DWORD)db_get_w(0, MODULE_ITEMS, setting, 0);
+		ds->iTranslateFuncId = (uint32_t)db_get_w(0, MODULE_ITEMS, setting, 0);
 	}
 
 	return true;
@@ -282,9 +282,9 @@ void SaveOptions()
 	g_plugin.setWord("InnerAvatarPadding", opt.iInnerAvatarPadding);
 	g_plugin.setWord("TextPadding", opt.iTextPadding);
 	g_plugin.setByte("Position", (uint8_t)opt.pos);
-	g_plugin.setDword("MinWidth", (DWORD)opt.iMinWidth);
-	g_plugin.setDword("MinHeight", (DWORD)opt.iMinHeight);
-	g_plugin.setDword("SidebarWidth", (DWORD)opt.iSidebarWidth);
+	g_plugin.setDword("MinWidth", (uint32_t)opt.iMinWidth);
+	g_plugin.setDword("MinHeight", (uint32_t)opt.iMinHeight);
+	g_plugin.setDword("SidebarWidth", (uint32_t)opt.iSidebarWidth);
 	g_plugin.setByte("MouseTollerance", (uint8_t)opt.iMouseTollerance);
 	g_plugin.setByte("SBarTips", (opt.bStatusBarTips ? 1 : 0));
 
@@ -352,7 +352,7 @@ void LoadObsoleteSkinSetting()
 		}
 
 		mir_snprintf(setting, "SGlyphMargins%d", i);
-		DWORD margins = g_plugin.getDword(setting, 0);
+		uint32_t margins = g_plugin.getDword(setting, 0);
 		opt.margins[i].top = LOBYTE(LOWORD(margins));
 		opt.margins[i].right = HIBYTE(LOWORD(margins));
 		opt.margins[i].bottom = LOBYTE(HIWORD(margins));

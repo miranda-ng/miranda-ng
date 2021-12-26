@@ -241,7 +241,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	CallService(MS_CLC_SETINFOTIPHOVERTIME, opt.iTimeIn, 0);
 
 	// set Miranda start timestamp
-	g_plugin.setDword("MirandaStartTS", (DWORD)time(0));
+	g_plugin.setDword("MirandaStartTS", (uint32_t)time(0));
 	return 0;
 }
 

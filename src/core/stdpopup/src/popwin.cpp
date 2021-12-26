@@ -3,7 +3,7 @@
 #define ID_CLOSETIMER		0x0101
 #define ID_MOVETIMER		0x0102
 
-DWORD pop_start_x, pop_start_y;
+uint32_t pop_start_x, pop_start_y;
 int global_mouse_in = 0;
 
 void trimW(wchar_t *str)
@@ -222,7 +222,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 
 			if (pwd->custom_col) {
 				pwd->bkBrush = CreateSolidBrush(pd->colorBack);
-				DWORD darkBg = pd->colorBack - ((pd->colorBack >> 2) & 0x3f3f3f); // 3/4 of current individual RGB components
+				uint32_t darkBg = pd->colorBack - ((pd->colorBack >> 2) & 0x3f3f3f); // 3/4 of current individual RGB components
 				pwd->barBrush = CreateSolidBrush(darkBg); // make sidebar a dark version of the bg
 				pwd->underlineBrush = CreateSolidBrush(pd->colorBack); // make sidebar a dark version of the bg
 			}

@@ -383,8 +383,8 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					FITAG *tag = FreeImage_CreateTag();
 					if(tag) {
 						FreeImage_SetTagKey(tag, g_TagLib_XMPFieldName);
-						FreeImage_SetTagLength(tag, (DWORD)xmp_metadata.size);
-						FreeImage_SetTagCount(tag, (DWORD)xmp_metadata.size);
+						FreeImage_SetTagLength(tag, (uint32_t)xmp_metadata.size);
+						FreeImage_SetTagCount(tag, (uint32_t)xmp_metadata.size);
 						FreeImage_SetTagType(tag, FIDT_ASCII);
 						FreeImage_SetTagValue(tag, xmp_metadata.bytes);
 						
@@ -583,7 +583,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		}
 		// store the blob into the mux
 		uint8_t *data = NULL;
-		DWORD data_size = 0;
+		uint32_t data_size = 0;
 		FreeImage_AcquireMemory(hmem, &data, &data_size);
 		webp_image.bytes = data;
 		webp_image.size = data_size;

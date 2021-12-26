@@ -25,13 +25,13 @@
 
 void GaduProto::dccstart()
 {
-	DWORD exitCode = 0;
-
 	if (m_dcc)
 		return;
 
 	// Startup dcc thread
+	DWORD exitCode = 0;
 	GetExitCodeThread(pth_dcc.hThread, &exitCode);
+
 	// Check if dcc thread isn't running already
 	if (exitCode == STILL_ACTIVE)
 	{
@@ -71,9 +71,9 @@ void GaduProto::dccconnect(uin_t uin)
 		return;
 
 	// Read user IP and port
-	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	uint32_t ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
 	uint16_t port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
-	DWORD myuin = getDword(GG_KEY_UIN, 0);
+	uint32_t myuin = getDword(GG_KEY_UIN, 0);
 
 	// If not port nor ip nor my uin (?) specified
 	if (!ip || !port || !uin) return;
@@ -151,7 +151,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 	fd_set rd, wd;
 	int ret;
 	SOCKET maxfd;
-	DWORD tick;
+	uint32_t tick;
 	char szFilename[MAX_PATH];
 
 	while (pth_dcc.dwThreadId && m_dcc)
@@ -915,11 +915,11 @@ HANDLE GaduProto::SendFile(MCONTACT hContact, const wchar_t *, wchar_t** ppszFil
 	filename = mir_u2a(ppszFiles[0]);
 
 	// Read user IP and port
-	DWORD ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
+	uint32_t ip = swap32(getDword(hContact, GG_KEY_CLIENTIP, 0));
 	uint16_t port = getWord(hContact, GG_KEY_CLIENTPORT, 0);
 	uin_t myuin = getDword(GG_KEY_UIN, 0);
 	uin_t uin = getDword(hContact, GG_KEY_UIN, 0);
-	DWORD ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);
+	uint32_t ver = getDword(hContact, GG_KEY_CLIENTVERSION, 0);
 
 	// Use DCC7 if a contact is using at least version 7.6 or unknown version
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {

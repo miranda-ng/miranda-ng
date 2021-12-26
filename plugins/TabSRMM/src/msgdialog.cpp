@@ -272,7 +272,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			case ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS:
 				{
-					DWORD dwOff_IM = 0, dwOff_CHAT = 0;
+					uint32_t dwOff_IM = 0, dwOff_CHAT = 0;
 
 					dwOff_CHAT = -(2 + (PluginConfig.m_DPIscaleY > 1.0 ? 1 : 0));
 					dwOff_IM = 2 + (PluginConfig.m_DPIscaleY > 1.0 ? 1 : 0);
@@ -964,9 +964,9 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 		}
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
-			size_t iDescr = mir_strlen((char *)(szText + sizeof(DWORD)));
-			memmove(szText, szText + sizeof(DWORD), iDescr);
-			memmove(szText + iDescr + 2, szText + sizeof(DWORD) + iDescr, dbei.cbBlob - iDescr - sizeof(DWORD) - 1);
+			size_t iDescr = mir_strlen((char *)(szText + sizeof(uint32_t)));
+			memmove(szText, szText + sizeof(uint32_t), iDescr);
+			memmove(szText + iDescr + 2, szText + sizeof(uint32_t) + iDescr, dbei.cbBlob - iDescr - sizeof(uint32_t) - 1);
 			szText[iDescr] = '\r';
 			szText[iDescr + 1] = '\n';
 			szConverted = (wchar_t*)mir_alloc(sizeof(wchar_t)* (1 + mir_strlen((char *)szText)));
@@ -1392,7 +1392,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 
 int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 {
-	DWORD msg = pFilter->msg;
+	uint32_t msg = pFilter->msg;
 	WPARAM wp = pFilter->wParam;
 	LPARAM lp = pFilter->lParam;
 
@@ -1467,9 +1467,9 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		case TABSRMM_HK_TOGGLERTL:
 			m_dwFlags ^= MWF_LOG_RTL;
 			{
-				DWORD	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
-				DWORD	dwMask = M.GetDword(m_hContact, "mwmask", 0);
-				DWORD	dwFlags = M.GetDword(m_hContact, "mwflags", 0);
+				uint32_t	dwGlobal = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+				uint32_t	dwMask = M.GetDword(m_hContact, "mwmask", 0);
+				uint32_t	dwFlags = M.GetDword(m_hContact, "mwflags", 0);
 
 				if ((dwGlobal & MWF_LOG_RTL) != (dwFlags & MWF_LOG_RTL)) {
 					dwMask |= MWF_LOG_RTL;
@@ -2202,8 +2202,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			HANDLE hpb = nullptr;
 
 			GetClientRect(m_hwnd, &rcClient);
-			DWORD cx = rcClient.right - rcClient.left;
-			DWORD cy = rcClient.bottom - rcClient.top;
+			uint32_t cx = rcClient.right - rcClient.left;
+			uint32_t cy = rcClient.bottom - rcClient.top;
 
 			if (CMimAPI::m_haveBufferedPaint) {
 				hpb = CMimAPI::m_pfnBeginBufferedPaint(hdc, &rcClient, BPBF_TOPDOWNDIB, nullptr, &hdcMem);
@@ -2632,7 +2632,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		// 0 if there is none
 		// lParam = pointer to a dword receiving the value.
 		{
-			DWORD *pdw = (DWORD *)lParam;
+			uint32_t *pdw = (uint32_t *)lParam;
 			if (pdw)
 				*pdw = m_dwTickLastEvent;
 		}
@@ -2863,7 +2863,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_APPCOMMAND:
 		{
-			DWORD cmd = GET_APPCOMMAND_LPARAM(lParam);
+			uint32_t cmd = GET_APPCOMMAND_LPARAM(lParam);
 			if (cmd == APPCOMMAND_BROWSER_BACKWARD || cmd == APPCOMMAND_BROWSER_FORWARD) {
 				m_pContainer->SelectTab(cmd == APPCOMMAND_BROWSER_BACKWARD ? DM_SELECT_PREV : DM_SELECT_NEXT);
 				return 1;
@@ -2877,7 +2877,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CONTEXTMENU:
 		{
-			DWORD idFrom = GetDlgCtrlID((HWND)wParam);
+			uint32_t idFrom = GetDlgCtrlID((HWND)wParam);
 			if (idFrom >= MIN_CBUTTONID && idFrom <= MAX_CBUTTONID) {
 				Srmm_ClickToolbarIcon(m_hContact, idFrom, m_hwnd, 1);
 				break;
@@ -2950,7 +2950,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CBD_REMOVED:
 		if (lParam)
-			CB_DestroyButton((DWORD)wParam, (DWORD)lParam);
+			CB_DestroyButton((uint32_t)wParam, (uint32_t)lParam);
 		else
 			CB_DestroyAllButtons();
 		return 0;

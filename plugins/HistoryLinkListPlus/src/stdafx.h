@@ -96,10 +96,10 @@ typedef struct {
 } LISTOPTIONS;
 
 typedef struct {
-	DWORD incoming;
-	DWORD outgoing;
-	DWORD background;
-	DWORD text;
+	uint32_t incoming;
+	uint32_t outgoing;
+	uint32_t background;
+	uint32_t text;
 } MYCOLOURSET;
 
 #include "linklist_fct.h"
@@ -135,7 +135,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 #define _mstrlen(x) (_countof(x) - 1)
-#define MAKE_TXT_COL(BGCol) ((DWORD)~BGCol & 0x00FFFFFF)
+#define MAKE_TXT_COL(BGCol) ((uint32_t)~BGCol & 0x00FFFFFF)
 
 #define DM_LINKSPLITTER			WM_USER+99
 

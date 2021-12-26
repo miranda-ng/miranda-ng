@@ -33,7 +33,7 @@ CONNECTION *GetConnectionsTable()
 	//printf("Number of entries: %d\n", (int) pTcpTable->dwNumEntries);
 	struct in_addr IpAddr;
 	CONNECTION *connHead = nullptr;
-	for (DWORD i = 0; i < pTcpTable->dwNumEntries; i++) {
+	for (uint32_t i = 0; i < pTcpTable->dwNumEntries; i++) {
 		CONNECTION *newConn = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
 		memset(newConn, 0, sizeof(CONNECTION));
 		//pid2name(pTcpTable->table[i].dwOwningPid,&newConn->Pname);

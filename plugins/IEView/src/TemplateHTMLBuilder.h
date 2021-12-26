@@ -29,7 +29,7 @@ class TemplateHTMLBuilder;
 class TemplateHTMLBuilder :public HTMLBuilder
 {
 protected:
-	char *timestampToString(DWORD dwFlags, time_t check, int mode);
+	char *timestampToString(uint32_t dwFlags, time_t check, int mode);
 	time_t 		startedTime;
 	time_t 		getStartedTime();
 	const char *groupTemplate;

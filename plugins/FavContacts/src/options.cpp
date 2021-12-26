@@ -138,13 +138,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 				mis.CtlID = 0;
 				mis.CtlType = ODT_MENU;
-				mis.itemData = (DWORD)hSelectedContact;
+				mis.itemData = (uint32_t)hSelectedContact;
 				MenuMeasureItem(&mis, &options);
 				dis.rcItem.bottom = dis.rcItem.top + mis.itemHeight;
 
 				dis.CtlID = 0;
 				dis.CtlType = ODT_MENU;
-				dis.itemData = (DWORD)hSelectedContact;
+				dis.itemData = (uint32_t)hSelectedContact;
 				MenuDrawItem(&dis, &options);
 
 				RECT rc = lpdis->rcItem;

@@ -209,9 +209,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 				g_plugin.bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
 				g_plugin.bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
 				g_plugin.bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
-				g_plugin.iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
-				g_plugin.iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
-				g_plugin.iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (DWORD)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
+				g_plugin.iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
+				g_plugin.iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
+				g_plugin.iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
 				g_plugin.bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
 				g_plugin.bMsgWindowCheck = IsDlgButtonChecked(hWnd, IDC_CHKWINDOWCHECK);
 				g_plugin.bMsgReplyWindow = IsDlgButtonChecked(hWnd, IDC_CHKREPLYWINDOW);

@@ -92,7 +92,7 @@ bool SpeechApi40a::say(const std::wstring &sentence)
 	}
 	else {
 		SDATA data;
-		data.dwSize = (DWORD)(sentence.size() * sizeof(wchar_t));
+		data.dwSize = (uint32_t)(sentence.size() * sizeof(wchar_t));
 		data.pData = (wchar_t *)sentence.c_str();
 		m_tts_central->TextData(CHARSET_TEXT, 0, data, nullptr, IID_ITTSBufNotifySinkA);
 	}
@@ -109,7 +109,7 @@ bool SpeechApi40a::setVolume(int volume)
 		return true;
 	}
 
-	DWORD new_vol = volume / 100.0 * 0xffff;
+	uint32_t new_vol = volume / 100.0 * 0xffff;
 	new_vol |= new_vol << 16;
 
 	if (FAILED(m_tts_attribs->VolumeSet(new_vol))) {

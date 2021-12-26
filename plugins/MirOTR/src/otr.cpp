@@ -80,7 +80,7 @@ extern "C" {
 	OtrlPolicy otr_gui_policy(void *opdata, ConnContext *context) {
 		DEBUGOUTA("OTR_GUI_POLICY\n");
 		MCONTACT hContact = (UINT_PTR)opdata;
-		DWORD pol;
+		uint32_t pol;
 		if (hContact) {
 			pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 			if (options.bHaveSecureIM && pol != OTRL_POLICY_MANUAL_MOD && pol != OTRL_POLICY_NEVER && db_get_b(hContact, "SecureIM", "StatusID", 0)) {

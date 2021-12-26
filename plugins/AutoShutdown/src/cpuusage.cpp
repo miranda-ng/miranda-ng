@@ -34,7 +34,7 @@ static BOOL WinNT_PerfStatsSwitch(wchar_t *pszServiceName, BOOL fDisable)
 	if (!RegOpenKeyEx(HKEY_LOCAL_MACHINE, L"System\\CurrentControlSet\\Services", 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyServices)) {
 		if (!RegOpenKeyEx(hKeyServices, pszServiceName, 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyService)) {
 			if (!RegOpenKeyEx(hKeyService, L"Performance", 0, KEY_QUERY_VALUE | KEY_SET_VALUE, &hKeyPerf)) {
-				dwDataSize = sizeof(DWORD);
+				dwDataSize = sizeof(uint32_t);
 				if (!RegQueryValueEx(hKeyPerf, L"Disable Performance Counters", nullptr, nullptr, (uint8_t*)&dwData, &dwDataSize))
 					if ((dwData != 0) != fDisable)
 						fSwitched = !RegSetValueEx(hKeyPerf, L"Disable Performance Counters", 0, REG_DWORD, (uint8_t*)&fDisable, dwDataSize);
@@ -50,11 +50,11 @@ static BOOL WinNT_PerfStatsSwitch(wchar_t *pszServiceName, BOOL fDisable)
 /************************* Poll Thread ********************************/
 struct CpuUsageThreadParams
 {
-	DWORD dwDelayMillis;
+	uint32_t dwDelayMillis;
 	CPUUSAGEAVAILPROC pfnDataAvailProc;
 	LPARAM lParam;
 	HANDLE hFirstEvent;
-	DWORD *pidThread;
+	uint32_t *pidThread;
 };
 
 static BOOL CallBackAndWait(struct CpuUsageThreadParams *param, uint8_t nCpuUsage)
@@ -82,7 +82,7 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 	PERF_COUNTER_DEFINITION *pPerfCounter;
 	PERF_INSTANCE_DEFINITION *pPerfInstance;
 	PERF_COUNTER_BLOCK *pPerfCounterBlock;
-	DWORD dwObjectId, dwCounterId;
+	uint32_t dwObjectId, dwCounterId;
 	wchar_t wszValueName[11], *pwszInstanceName;
 	uint8_t nCpuUsage;
 	BOOL fSwitched, fFound, fIsFirst = FALSE;
@@ -180,9 +180,9 @@ static void WinNT_PollThread(CpuUsageThreadParams *param)
 /************************* Start Thread *******************************/
 
 // returns poll thread id on success
-DWORD PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc, LPARAM lParam, DWORD dwDelayMillis)
+uint32_t PollCpuUsage(CPUUSAGEAVAILPROC pfnDataAvailProc, LPARAM lParam, uint32_t dwDelayMillis)
 {
-	DWORD idThread = 0;
+	uint32_t idThread = 0;
 
 	/* init params */
 	CpuUsageThreadParams *param = (struct CpuUsageThreadParams*)mir_alloc(sizeof(struct CpuUsageThreadParams));

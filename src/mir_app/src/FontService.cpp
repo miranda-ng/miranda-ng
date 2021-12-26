@@ -117,7 +117,7 @@ static void GetDefaultFontSetting(LOGFONT *lf, COLORREF *colour)
 	ReleaseDC(nullptr, hdc);
 }
 
-int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORREF *colour, DWORD flags)
+int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT *lf, COLORREF *colour, uint32_t flags)
 {
 	GetDefaultFontSetting(lf, colour);
 

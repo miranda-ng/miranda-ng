@@ -431,12 +431,12 @@ HICON BandCtrlImpl::convertToGray(HICON hIcon)
 				uint8_t* pLine = pBits + y * bmp.bmWidthBytes;
 
 				for (int x = 0; x < bmp.bmWidth; ++x) {
-					DWORD color = reinterpret_cast<DWORD*>(pLine)[x];
+					uint32_t color = reinterpret_cast<uint32_t*>(pLine)[x];
 					uint8_t gray = (77 * GetBValue(color) + 150 * GetGValue(color) + 28 * GetRValue(color)) / 255;
 
 					color = (color & 0xFF000000) | RGB(gray, gray, gray);
 
-					reinterpret_cast<DWORD*>(pLine)[x] = color;
+					reinterpret_cast<uint32_t*>(pLine)[x] = color;
 				}
 			}
 

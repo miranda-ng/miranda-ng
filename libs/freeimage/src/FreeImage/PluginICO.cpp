@@ -48,8 +48,8 @@ typedef struct tagICONDIRECTORYENTRY {
 	uint8_t	bReserved;            // reserved
 	uint16_t	wPlanes;              // color Planes
 	uint16_t	wBitCount;            // bits per pixel
-	DWORD	dwBytesInRes;         // how many bytes in this resource?
-	DWORD	dwImageOffset;        // where in the file is this image
+	uint32_t	dwBytesInRes;         // how many bytes in this resource?
+	uint32_t	dwImageOffset;        // where in the file is this image
 } ICONDIRENTRY;
 
 #ifdef _WIN32
@@ -62,7 +62,7 @@ typedef struct tagICONDIRECTORYENTRY {
 // Static helpers
 // ==========================================================
 
-/**  How wide, in bytes, would this many bits be, DWORD aligned ?
+/**  How wide, in bytes, would this many bits be, uint32_t aligned ?
 */
 static int 
 WidthBytes(int bits) {
@@ -72,9 +72,9 @@ WidthBytes(int bits) {
 /** Calculates the size of a single icon image
 @return Returns the size for that image
 */
-static DWORD 
+static uint32_t 
 CalculateImageSize(FIBITMAP* icon_dib) {
-	DWORD dwNumBytes = 0;
+	uint32_t dwNumBytes = 0;
 
 	unsigned colors		= FreeImage_GetColorsUsed(icon_dib);
 	unsigned width		= FreeImage_GetWidth(icon_dib);
@@ -92,14 +92,14 @@ CalculateImageSize(FIBITMAP* icon_dib) {
 /** Calculates the file offset for an icon image
 @return Returns the file offset for that image
 */
-static DWORD 
+static uint32_t 
 CalculateImageOffset(std::vector<FIBITMAP*>& vPages, int nIndex ) {
-	DWORD	dwSize;
+	uint32_t	dwSize;
 
     // calculate the ICO header size
     dwSize = sizeof(ICONHEADER); 
     // add the ICONDIRENTRY's
-    dwSize += (DWORD)( vPages.size() * sizeof(ICONDIRENTRY) );
+    dwSize += (uint32_t)( vPages.size() * sizeof(ICONDIRENTRY) );
     // add the sizes of the previous images
     for(int k = 0; k < nIndex; k++) {
 		FIBITMAP *icon_dib = (FIBITMAP*)vPages[k];
@@ -130,14 +130,14 @@ IsPNG(FreeImageIO *io, fi_handle handle) {
 static void
 SwapInfoHeader(BITMAPINFOHEADER *header) {
 	SwapLong(&header->biSize);
-	SwapLong((DWORD *)&header->biWidth);
-	SwapLong((DWORD *)&header->biHeight);
+	SwapLong((uint32_t *)&header->biWidth);
+	SwapLong((uint32_t *)&header->biHeight);
 	SwapShort(&header->biPlanes);
 	SwapShort(&header->biBitCount);
 	SwapLong(&header->biCompression);
 	SwapLong(&header->biSizeImage);
-	SwapLong((DWORD *)&header->biXPelsPerMeter);
-	SwapLong((DWORD *)&header->biYPelsPerMeter);
+	SwapLong((uint32_t *)&header->biXPelsPerMeter);
+	SwapLong((uint32_t *)&header->biYPelsPerMeter);
 	SwapLong(&header->biClrUsed);
 	SwapLong(&header->biClrImportant);
 }
@@ -744,7 +744,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 		// write the image bits for each image
 		
-		DWORD dwImageOffset = (DWORD)io->tell_proc(handle);
+		uint32_t dwImageOffset = (uint32_t)io->tell_proc(handle);
 
 		for(k = 0; k < icon_header->idCount; k++) {
 			icon_dib = (FIBITMAP*)vPages[k];
@@ -760,7 +760,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			}
 
 			// update ICONDIRENTRY members			
-			DWORD dwBytesInRes = (DWORD)io->tell_proc(handle) - dwImageOffset;
+			uint32_t dwBytesInRes = (uint32_t)io->tell_proc(handle) - dwImageOffset;
 			icon_list[k].dwImageOffset = dwImageOffset;
 			icon_list[k].dwBytesInRes  = dwBytesInRes;
 			dwImageOffset += dwBytesInRes;

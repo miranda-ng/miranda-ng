@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct NetlibTempSettings
 {
-	DWORD flags;
+	uint32_t flags;
 	char *szSettingsModule;
 	NETLIBUSERSETTINGS settings;
 };
@@ -108,7 +108,7 @@ static void CombineSettingsStrings(char **dest, char **source)
 	if (*dest != nullptr && (*source == nullptr || mir_strcmpi(*dest, *source))) { mir_free(*dest); *dest = nullptr; }
 }
 
-static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, NETLIBUSERSETTINGS *source, DWORD sourceFlags)
+static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, uint32_t *destFlags, NETLIBUSERSETTINGS *source, uint32_t sourceFlags)
 {
 	if (sourceFlags & NUF_OUTGOING) {
 		if (*destFlags & NUF_OUTGOING) {
@@ -195,7 +195,7 @@ static void ChangeSettingStringByEdit(HWND hwndDlg, UINT ctrlId, int iUser, int 
 	}
 }
 
-static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETTINGS *settings, DWORD flags)
+static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETTINGS *settings, uint32_t flags)
 {
 	if (flags & NUF_OUTGOING) {
 		db_set_b(0, szSettingsModule, "NLValidateSSL", (uint8_t)settings->validateSSL);
@@ -234,7 +234,7 @@ void NetlibSaveUserSettingsStruct(const char *szSettingsModule, const NETLIBUSER
 	NETLIBUSERSETTINGS combinedSettings = { 0 };
 	combinedSettings.cbSize = sizeof(combinedSettings);
 
-	DWORD flags = 0;
+	uint32_t flags = 0;
 	for (auto &p : netlibUser) {
 		if (p->user.flags & NUF_NOOPTIONS)
 			continue;
@@ -285,7 +285,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		iUser = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_GETCURSEL, 0, 0), 0);
 		{
 			NETLIBUSERSETTINGS settings = { 0 };
-			DWORD flags = 0;
+			uint32_t flags = 0;
 
 			if (iUser == -1) {
 				settings.cbSize = sizeof(settings);

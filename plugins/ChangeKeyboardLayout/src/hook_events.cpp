@@ -152,7 +152,7 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM)
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 {
 	if (code == HC_ACTION) {
-		DWORD lcode = 0;
+		uint32_t lcode = 0;
 		if ((GetKeyState(VK_SHIFT) & 0x8000)) lcode |= HOTKEYF_SHIFT;
 		if ((GetKeyState(VK_CONTROL) & 0x8000)) lcode |= HOTKEYF_CONTROL;
 		if ((GetKeyState(VK_MENU) & 0x8000)) lcode |= HOTKEYF_ALT;

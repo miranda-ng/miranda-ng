@@ -426,7 +426,7 @@ OptionsCtrlImpl::~OptionsCtrlImpl()
 
 LRESULT OptionsCtrlImpl::onWMCreate(CREATESTRUCT* pCS)
 {
-	DWORD dwStyle = 0;
+	uint32_t dwStyle = 0;
 
 	if (!(pCS->style & OCS_ALLOWDRAGDROP))
 		dwStyle |= TVS_DISABLEDRAGDROP;
@@ -477,7 +477,7 @@ void OptionsCtrlImpl::onWMDestroy()
 
 void OptionsCtrlImpl::onNMClick()
 {
-	DWORD dwPoint = GetMessagePos();
+	uint32_t dwPoint = GetMessagePos();
 	POINTS pts = MAKEPOINTS(dwPoint);
 	TVHITTESTINFO hti = { { pts.x, pts.y } };
 
@@ -861,7 +861,7 @@ void OptionsCtrlImpl::onOCMEnableItem(HTREEITEM hItem, bool bEnable)
 	getItem(hItem)->setEnabled(bEnable);
 }
 
-DWORD OptionsCtrlImpl::onOCMGetItemData(HTREEITEM hItem)
+uint32_t OptionsCtrlImpl::onOCMGetItemData(HTREEITEM hItem)
 {
 	return getItem(hItem)->m_dwData;
 }
@@ -1002,7 +1002,7 @@ void OptionsCtrlImpl::onOCMSelectItem(HTREEITEM hItem)
 	TreeView_SelectItem(m_hTree, hItem);
 }
 
-HTREEITEM OptionsCtrlImpl::onOCMGetItem(HTREEITEM hItem, DWORD dwFlag)
+HTREEITEM OptionsCtrlImpl::onOCMGetItem(HTREEITEM hItem, uint32_t dwFlag)
 {
 	switch (dwFlag) {
 	case OCGI_FIRST:
@@ -1072,7 +1072,7 @@ void OptionsCtrlImpl::onOCMSetDateTimeNone(HTREEITEM hDateTime)
 	reinterpret_cast<DateTime*>(pDateTime)->setNone();
 }
 
-DWORD OptionsCtrlImpl::onOCMGetDateTime(HTREEITEM hDateTime, BOOL* pbNone)
+uint32_t OptionsCtrlImpl::onOCMGetDateTime(HTREEITEM hDateTime, BOOL* pbNone)
 {
 	Item* pDateTime = getItem(hDateTime);
 
@@ -1084,7 +1084,7 @@ DWORD OptionsCtrlImpl::onOCMGetDateTime(HTREEITEM hDateTime, BOOL* pbNone)
 	return reinterpret_cast<DateTime*>(pDateTime)->getTimestamp();
 }
 
-void OptionsCtrlImpl::onOCMSetDateTime(HTREEITEM hDateTime, DWORD dwTimestamp)
+void OptionsCtrlImpl::onOCMSetDateTime(HTREEITEM hDateTime, uint32_t dwTimestamp)
 {
 	Item* pDateTime = getItem(hDateTime);
 
@@ -1111,7 +1111,7 @@ void OptionsCtrlImpl::onOCMSetItemColor(HTREEITEM hColor, COLORREF crColor)
 	reinterpret_cast<Color*>(pColor)->setColor(crColor);
 }
 
-void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const wchar_t* szNodeText, DWORD dwFlags, int iImage)
+void OptionsCtrlImpl::insertItem(Item* pParent, Item* pItem, const wchar_t* szNodeText, uint32_t dwFlags, int iImage)
 {
 	assert(!pParent || pParent->m_hItem);
 	assert(pItem);

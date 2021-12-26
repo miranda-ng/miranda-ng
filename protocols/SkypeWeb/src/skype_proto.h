@@ -266,7 +266,7 @@ private:
 	std::map<ULONGLONG, HANDLE> m_mpOutMessagesIds;
 
 	MEVENT GetMessageFromDb(const char *messageId);
-	MEVENT AddDbEvent(uint16_t type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId);
+	MEVENT AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timestamp, uint32_t flags, const CMStringW &content, const CMStringA &msgId);
 	void EditEvent(MCONTACT hContact, MEVENT hEvent, const CMStringW &content, time_t edit_time);
 
 	int OnSendMessage(MCONTACT hContact, int flags, const char *message);

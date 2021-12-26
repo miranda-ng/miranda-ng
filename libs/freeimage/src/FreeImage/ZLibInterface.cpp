@@ -36,8 +36,8 @@ which must be at least 0.1% larger than source_size plus 12 bytes.
 @return Returns the actual size of the compressed buffer, returns 0 if an error occured
 @see FreeImage_ZLibUncompress
 */
-DWORD DLL_CALLCONV 
-FreeImage_ZLibCompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
+uint32_t DLL_CALLCONV 
+FreeImage_ZLibCompress(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size) {
 	uLongf dest_len = (uLongf)target_size;
 
 	int zerr = compress(target, &dest_len, source, source_size);
@@ -68,8 +68,8 @@ compression library.
 @return Returns the actual size of the uncompressed buffer, returns 0 if an error occured
 @see FreeImage_ZLibCompress
 */
-DWORD DLL_CALLCONV 
-FreeImage_ZLibUncompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
+uint32_t DLL_CALLCONV 
+FreeImage_ZLibUncompress(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size) {
 	uLongf dest_len = (uLongf)target_size;
 
 	int zerr = uncompress(target, &dest_len, source, source_size);
@@ -99,10 +99,10 @@ which must be at least 0.1% larger than source_size plus 24 bytes.
 @return Returns the actual size of the compressed buffer, returns 0 if an error occured
 @see FreeImage_ZLibCompress
 */
-DWORD DLL_CALLCONV 
-FreeImage_ZLibGZip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
+uint32_t DLL_CALLCONV 
+FreeImage_ZLibGZip(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size) {
 	uLongf dest_len = (uLongf)target_size - 12;
-	DWORD crc = crc32(0L, NULL, 0);
+	uint32_t crc = crc32(0L, NULL, 0);
 
     // set up header (stolen from zlib/gzio.c)
     sprintf((char *)target, "%c%c%c%c%c%c%c%c", 0x1f, 0x8b,
@@ -149,7 +149,7 @@ static int get_byte(z_stream *stream) {
 
 static int checkheader(z_stream *stream) {
     int flags, c;
-    DWORD len;
+    uint32_t len;
 
     if (get_byte(stream) != 0x1f || get_byte(stream) != 0x8b)
         return Z_DATA_ERROR;
@@ -158,8 +158,8 @@ static int checkheader(z_stream *stream) {
     for (len = 0; len < 6; len++) (void)get_byte(stream);
 
     if ((flags & 0x04) != 0) { /* skip the extra field */
-        len  =  (DWORD)get_byte(stream);
-        len += ((DWORD)get_byte(stream)) << 8;
+        len  =  (uint32_t)get_byte(stream);
+        len += ((uint32_t)get_byte(stream)) << 8;
         /* len is garbage if EOF but the loop below will quit anyway */
         while (len-- != 0 && get_byte(stream) != EOF) ;
     }
@@ -175,10 +175,10 @@ static int checkheader(z_stream *stream) {
     return Z_OK;
 }
 
-DWORD DLL_CALLCONV 
-FreeImage_ZLibGUnzip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size) {
-    DWORD src_len  = source_size;
-    DWORD dest_len = target_size;
+uint32_t DLL_CALLCONV 
+FreeImage_ZLibGUnzip(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size) {
+    uint32_t src_len  = source_size;
+    uint32_t dest_len = target_size;
     int   zerr     = Z_DATA_ERROR;
 
     if (src_len > 0) {
@@ -216,8 +216,8 @@ If source is NULL, this function returns the required initial value for the crc.
 @param source_size Size of the source buffer, in bytes
 @return Returns the new crc value
 */
-DWORD DLL_CALLCONV 
-FreeImage_ZLibCRC32(DWORD crc, uint8_t *source, DWORD source_size) {
+uint32_t DLL_CALLCONV 
+FreeImage_ZLibCRC32(uint32_t crc, uint8_t *source, uint32_t source_size) {
 
     return crc32(crc, source, source_size);
 }

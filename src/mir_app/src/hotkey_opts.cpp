@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static wchar_t* sttHokeyVkToName(uint16_t vkKey)
 {
 	static wchar_t buf[256] = { 0 };
-	DWORD code = MapVirtualKey(vkKey, 0) << 16;
+	uint32_t code = MapVirtualKey(vkKey, 0) << 16;
 
 	switch (vkKey) {
 	case 0:

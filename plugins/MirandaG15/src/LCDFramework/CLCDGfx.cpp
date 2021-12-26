@@ -368,7 +368,7 @@ void CLCDGfx::EndDraw(void)
 		uint8_t *pScreen1 = m_pSavedBitmapBits;
 		uint8_t *pScreen2 = m_pBitmapBits;
 
-		DWORD dwTimeElapsed = GetTickCount() - m_dwTransitionStart;
+		uint32_t dwTimeElapsed = GetTickCount() - m_dwTransitionStart;
 
 		/*	if(m_eTransition == TRANSITION_BT || m_eTransition == TRANSITION_TB)
 		{
@@ -587,7 +587,7 @@ int CLCDGfx::findNearestMatch(uint8_t *targetArray, int iSourceIndex)
 //************************************************************************
 void CLCDGfx::Cache()
 {
-	DWORD dwStart = GetTickCount();
+	uint32_t dwStart = GetTickCount();
 
 	// Initialize pixels
 	if (m_eTransition == TRANSITION_MORPH) {

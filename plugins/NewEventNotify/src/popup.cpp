@@ -191,7 +191,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_FILE:
 		if (dbei->pBlob) {
-			char *p = (char*)dbei->pBlob + sizeof(DWORD);
+			char *p = (char*)dbei->pBlob + sizeof(uint32_t);
 			// filenames
 			comment2 = (dbei->flags & DBEF_UTF) ? mir_utf8decodeW(p) : mir_a2u(p);
 			p += mir_strlen(p) + 1;
@@ -229,8 +229,8 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 
 	case EVENTTYPE_ADDED:
 		// blob format is:
-		// DWORD     numeric uin (ICQ only afaik)
-		// DWORD     HANDLE to contact
+		// uint32_t     numeric uin (ICQ only afaik)
+		// uint32_t     HANDLE to contact
 		// ASCIIZ    nick (or text UID)
 		// ASCIIZ    first name
 		// ASCIIZ    last name
@@ -244,7 +244,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, "%d", *((DWORD*)dbei->pBlob));
+			mir_snprintf(szUin, "%d", *((uint32_t*)dbei->pBlob));
 			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeW(pszNick);
@@ -257,7 +257,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 				else
 					szNick = mir_a2u(pszEmail);
 			}
-			else if (*((DWORD*)dbei->pBlob) > 0)
+			else if (*((uint32_t*)dbei->pBlob) > 0)
 				szNick = mir_a2u(szUin);
 
 			if (szNick) {

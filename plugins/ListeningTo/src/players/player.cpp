@@ -144,7 +144,7 @@ void CodeInjectionPlayer::InjectCode()
 	len = strlen(dll_path);
 
 	// File exists?
-	DWORD attribs = GetFileAttributesA(dll_path);
+	uint32_t attribs = GetFileAttributesA(dll_path);
 	if (attribs == 0xFFFFFFFF || !(attribs & FILE_ATTRIBUTE_ARCHIVE))
 		return;
 

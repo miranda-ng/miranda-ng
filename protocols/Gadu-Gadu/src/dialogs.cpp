@@ -217,7 +217,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 	case WM_INITDIALOG:
 		{
 			DBVARIANT dbv;
-			DWORD num;
+			uint32_t num;
 			gg = (GaduProto *)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
@@ -374,7 +374,7 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				if (ret == IDOK) {
 					DBVARIANT dbv;
-					DWORD num;
+					uint32_t num;
 					// Show reload required window
 					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
 
@@ -774,7 +774,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 
 			TranslateDialogDefault(hwndDlg);
-			DWORD num = gg->getDword(GG_KEY_UIN, 0);
+			uint32_t num = gg->getDword(GG_KEY_UIN, 0);
 			if (num)
 				SetDlgItemTextA(hwndDlg, IDC_UIN, ditoa(num));
 			if (!gg->getString(GG_KEY_PASSWORD, &dbv)) {
@@ -806,7 +806,7 @@ INT_PTR CALLBACK gg_acc_mgr_guidlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				if (ret == IDOK) {
 					DBVARIANT dbv;
-					DWORD num;
+					uint32_t num;
 					// Show reload required window
 					ShowWindow(GetDlgItem(hwndDlg, IDC_RELOADREQD), SW_SHOW);
 

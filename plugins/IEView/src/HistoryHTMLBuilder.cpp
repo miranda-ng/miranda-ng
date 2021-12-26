@@ -221,7 +221,7 @@ void HistoryHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 
 void HistoryHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD dwFlags = db_get_b(0, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
+	uint32_t dwFlags = db_get_b(0, HPPMOD, SRMSGSET_SHOWICONS, 0) ? SMF_LOG_SHOWICONS : 0;
 	IEVIEWEVENTDATA* eventData = event->eventData;
 	for (int eventIdx = 0; eventData != nullptr && (eventIdx < event->count || event->count == -1); eventData = eventData->next, eventIdx++) {
 		CMStringA str;

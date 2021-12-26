@@ -149,7 +149,7 @@ enum
 
 using namespace std;
 
-extern DWORD g_mirandaVersion;
+extern uint32_t g_mirandaVersion;
 extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
 extern HNETLIBUSER g_hNetlibUser;
 
@@ -182,11 +182,11 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	// common options
 	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bUseHttps, bAutoRestart;
 	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
-	CMOption<DWORD> dwLastUpdate;
+	CMOption<uint32_t> dwLastUpdate;
 
 	// popup options
 	CMOption<uint8_t> PopupDefColors, PopupLeftClickAction, PopupRightClickAction;
-	CMOption<DWORD> PopupTimeout;
+	CMOption<uint32_t> PopupTimeout;
 };
 
 void DoCheck(bool bSilent = true);
@@ -195,10 +195,10 @@ void UninitListNew(void);
 
 class ThreadWatch
 {
-	DWORD &pId;
+	uint32_t &pId;
 
 public:
-	ThreadWatch(DWORD &_1) :
+	ThreadWatch(uint32_t &_1) :
 		pId(_1)
 	{
 		pId = ::GetCurrentThreadId();
@@ -227,7 +227,7 @@ struct ServListEntry
 	}
 
 	wchar_t *m_name;
-	DWORD  m_crc;
+	uint32_t  m_crc;
 	char   m_szHash[32+1];
 };
 

@@ -32,7 +32,7 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void TreeViewInit(CCtrlTreeView &ctrl, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags, bool bFromMem)
+void TreeViewInit(CCtrlTreeView &ctrl, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, uint32_t dwFlags, bool bFromMem)
 {
 	SetWindowLongPtr(ctrl.GetHwnd(), GWL_STYLE, GetWindowLongPtr(ctrl.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
 
@@ -83,7 +83,7 @@ void TreeViewInit(CCtrlTreeView &ctrl, TOptionListGroup *lvGroups, TOptionListIt
 	}
 }
 
-void TreeViewSetFromDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, DWORD dwFlags)
+void TreeViewSetFromDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, uint32_t dwFlags)
 {
 	for (auto *p = lvItems; p->szName != nullptr; p++) {
 		bool bCheck = false;
@@ -95,7 +95,7 @@ void TreeViewSetFromDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, DWORD dwFl
 	}
 }
 
-void TreeViewToDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags)
+void TreeViewToDB(CCtrlTreeView &ctrl, TOptionListItem *lvItems, const char *DBPath, uint32_t *dwFlags)
 {
 	for (auto *p = lvItems; p->szName != nullptr; p++) {
 		UINT iState = ctrl.GetCheckState(p->handle);
@@ -366,7 +366,7 @@ public:
 			return;
 
 		const wchar_t *szFilename = GetThemeFileName(0);
-		DWORD dwFlags = THEME_READ_FONTS;
+		uint32_t dwFlags = THEME_READ_FONTS;
 
 		if (szFilename != nullptr) {
 			int result = MessageBox(nullptr, TranslateT("Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect Cancel to not load anything at all."),
@@ -901,7 +901,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+		uint32_t dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 		switch (g_plugin.getByte(SRMSGSET_LOADHISTORY, SRMSGDEFSET_LOADHISTORY)) {
 		case LOADHISTORY_UNREAD:
@@ -927,7 +927,7 @@ public:
 		spnLoadCount.SetPosition(g_plugin.getWord(SRMSGSET_LOADCOUNT, SRMSGDEFSET_LOADCOUNT));
 		spnLoadTime.SetPosition(g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME));
 
-		DWORD maxhist = M.GetDword("maxhist", 0);
+		uint32_t maxhist = M.GetDword("maxhist", 0);
 		spnTrim.SetPosition(maxhist);
 		spnTrim.Enable(maxhist != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TRIM, maxhist != 0);
@@ -937,7 +937,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
+		uint32_t dwFlags = M.GetDword("mwflags", MWF_LOG_DEFAULT);
 
 		dwFlags &= ~(MWF_LOG_ALL);
 
@@ -1234,7 +1234,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET)
-			db_set_dw(0, SRMSGMOD_T, "autopopupmask", (DWORD)lParam);
+			db_set_dw(0, SRMSGMOD_T, "autopopupmask", (uint32_t)lParam);
 
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
@@ -1447,8 +1447,8 @@ struct OptCheckBox
 {
 	UINT idc;
 
-	DWORD defValue;		// should be full combined value for masked items!
-	DWORD dwBit;
+	uint32_t defValue;		// should be full combined value for masked items!
+	uint32_t dwBit;
 
 	uint8_t dbType;
 	char *dbModule;
@@ -1462,12 +1462,12 @@ struct OptCheckBox
 		char *charValue;
 		int *intValue;
 		uint8_t *byteValue;
-		DWORD *dwordValue;
+		uint32_t *dwordValue;
 		BOOL *boolValue;
 	};
 };
 
-DWORD OptCheckBox_LoadValue(struct OptCheckBox *cb)
+uint32_t OptCheckBox_LoadValue(struct OptCheckBox *cb)
 {
 	switch (cb->valueType) {
 	case CBVT_NONE:
@@ -1498,17 +1498,17 @@ DWORD OptCheckBox_LoadValue(struct OptCheckBox *cb)
 
 void OptCheckBox_Load(HWND hwnd, OptCheckBox *cb)
 {
-	DWORD value = OptCheckBox_LoadValue(cb);
+	uint32_t value = OptCheckBox_LoadValue(cb);
 	if (cb->dwBit) value &= cb->dwBit;
 	CheckDlgButton(hwnd, cb->idc, value ? BST_CHECKED : BST_UNCHECKED);
 }
 
 void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 {
-	DWORD value = IsDlgButtonChecked(hwnd, cb->idc) == BST_CHECKED;
+	uint32_t value = IsDlgButtonChecked(hwnd, cb->idc) == BST_CHECKED;
 
 	if (cb->dwBit) {
-		DWORD curValue = OptCheckBox_LoadValue(cb);
+		uint32_t curValue = OptCheckBox_LoadValue(cb);
 		value = value ? (curValue | cb->dwBit) : (curValue & ~cb->dwBit);
 	}
 
@@ -1520,7 +1520,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 		db_set_w(0, cb->dbModule, cb->dbSetting, (uint16_t)value);
 		break;
 	case DBVT_DWORD:
-		db_set_dw(0, cb->dbModule, cb->dbSetting, (DWORD)value);
+		db_set_dw(0, cb->dbModule, cb->dbSetting, (uint32_t)value);
 		break;
 	}
 
@@ -1535,7 +1535,7 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 		*cb->byteValue = (uint8_t)value;
 		break;
 	case CBVT_DWORD:
-		*cb->dwordValue = (DWORD)value;
+		*cb->dwordValue = (uint32_t)value;
 		break;
 	case CBVT_BOOL:
 		*cb->boolValue = (BOOL)value;
@@ -1545,8 +1545,8 @@ void OptCheckBox_Save(HWND hwnd, OptCheckBox *cb)
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DWORD dwStatusMask = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	static DWORD dwNewStatusMask = 0;
+	uint32_t dwStatusMask = GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	static uint32_t dwNewStatusMask = 0;
 
 	switch (msg) {
 	case WM_INITDIALOG:

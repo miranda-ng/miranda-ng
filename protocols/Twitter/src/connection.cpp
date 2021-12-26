@@ -524,7 +524,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 			dbei.cbBlob = (int)u->status.text.length() + 1;
 			dbei.eventType = TWITTER_DB_EVENT_TYPE_TWEET;
 			dbei.flags = DBEF_UTF;
-			dbei.timestamp = static_cast<DWORD>(u->status.time);
+			dbei.timestamp = static_cast<uint32_t>(u->status.time);
 			dbei.szModule = m_szModuleName;
 			db_event_add(hContact, &dbei);
 		}
@@ -596,7 +596,7 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		if (bIsMe)
 			recv.flags |= PREF_SENT;
 		recv.szMessage = const_cast<char*>(text.c_str());
-		recv.timestamp = static_cast<DWORD>(time);
+		recv.timestamp = static_cast<uint32_t>(time);
 		recv.szMsgId = msgid.c_str();
 		
 		MEVENT hDbEVent = (MEVENT)ProtoChainRecvMsg(hContact, &recv);

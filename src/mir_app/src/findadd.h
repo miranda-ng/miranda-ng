@@ -58,7 +58,7 @@ struct FindAddDlgData
 
 int CALLBACK SearchResultsCompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 void FreeSearchResults(HWND hwndResults);
-int BeginSearch(HWND hwndDlg, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, DWORD requiredCapability, void *pvSearchParams);
+int BeginSearch(HWND hwndDlg, struct FindAddDlgData *dat, const char *szProto, const char *szSearchService, uint32_t requiredCapability, void *pvSearchParams);
 void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat);
 void SetStatusBarResultInfo(HWND hwndDlg);
 void CreateResultsColumns(HWND hwndResults, struct FindAddDlgData *dat, char *szProto);

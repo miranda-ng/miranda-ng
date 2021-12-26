@@ -60,7 +60,7 @@ void RegisterAction(POPUPACTION *action)
 {
 	int index;
 	if ((index = gActions.getIndex(action)) >= 0) {
-		DWORD flags = gActions[index]->flags;
+		uint32_t flags = gActions[index]->flags;
 		*gActions[index] = *action;
 		gActions[index]->flags = flags;
 	}
@@ -93,10 +93,10 @@ bool IsActionEnabled(char *name)
 	return IsActionEnabled(&action);
 }
 
-DWORD MouseOverride(HWND hCombo, int number)
+uint32_t MouseOverride(HWND hCombo, int number)
 {
-	DWORD dwItem = 0;
-	DWORD ItemActive = 0;
+	uint32_t dwItem = 0;
+	uint32_t ItemActive = 0;
 	if (number < 0 || number > 7)
 		number = 0;
 	dwItem = SendMessage(hCombo, CB_ADDSTRING, 0, (LPARAM)TranslateT("No overwrite"));
@@ -193,7 +193,7 @@ INT_PTR CALLBACK DlgProcPopupActions(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		CheckDlgButton(hwnd, IDC_RD_RIGHTICONS, PopupOptions.actions & ACT_RIGHTICONS ? BST_CHECKED : BST_UNCHECKED);
 
 		{
-			DWORD dwActiveItem = 0;
+			uint32_t dwActiveItem = 0;
 			HWND hCombo = GetDlgItem(hwnd, IDC_CB_LEFT);
 			dwActiveItem = MouseOverride(hCombo, PopupOptions.overrideLeft);
 			SendDlgItemMessage(hwnd, IDC_CB_LEFT, CB_SETCURSEL, dwActiveItem, 0);

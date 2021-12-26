@@ -405,7 +405,7 @@ INT_PTR CALLBACK DlgProcOpts_Tab2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				}
 
 				// Find clicked item
-				DWORD hitFlags;
+				uint32_t hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC2_CONTACTS_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 
 				// Nothing was clicked

@@ -41,11 +41,11 @@ CSkin* Skin = nullptr;
 
 static void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal,
 	ULONG ulBitmapHeight, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2,
-	UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha);
+	UCHAR ubGreen2, UCHAR ubBlue2, uint32_t FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha);
 
 static void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal,
 	ULONG ulBitmapWidth, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2,
-	UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 x, UCHAR *ubAlpha);
+	UCHAR ubGreen2, UCHAR ubBlue2, uint32_t FLG_GRADIENT, BOOL transparent, UINT32 x, UCHAR *ubAlpha);
 
 
 UINT 		nextButtonID;
@@ -95,7 +95,7 @@ HPEN     CSkin::m_SkinLightShadowPen = nullptr, CSkin::m_SkinDarkShadowPen = nul
 HICON    CSkin::m_closeIcon = nullptr, CSkin::m_maxIcon = nullptr, CSkin::m_minIcon = nullptr;
 
 UINT     CSkin::m_aeroEffect = 0;
-DWORD    CSkin::m_glowSize = 0;
+uint32_t    CSkin::m_glowSize = 0;
 HBRUSH   CSkin::m_BrushBack = nullptr, CSkin::m_BrushFill = nullptr;
 
 HBITMAP  CSkin::m_tabCloseBitmap = nullptr, CSkin::m_tabCloseOldBitmap = nullptr;
@@ -181,8 +181,8 @@ AeroEffect  CSkin::m_aeroEffects[AERO_EFFECT_LAST] = {
 		1,
 		0,
 		0xc0c0c0,
-		DWORD(-1),
-		DWORD(-1),
+		uint32_t(-1),
+		uint32_t(-1),
 		AeroEffectCallback_Solid
 	},
 	{
@@ -325,13 +325,13 @@ static COLORREF __inline revcolref(COLORREF colref)
 	return RGB(GetBValue(colref), GetGValue(colref), GetRValue(colref));
 }
 
-static DWORD __inline argb_from_cola(COLORREF col, UINT32 alpha)
+static uint32_t __inline argb_from_cola(COLORREF col, UINT32 alpha)
 {
 	return((uint8_t)percent_to_byte(alpha) << 24 | col);
 }
 
-void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_dest, uint8_t clr_dest_trans, uint8_t bGradient,
-	uint8_t bCorner, DWORD dwRadius, CImageItem *imageItem)
+void TSAPI  DrawAlpha(HDC hDC, PRECT rc, uint32_t clr_base, int alpha, uint32_t clr_dest, uint8_t clr_dest_trans, uint8_t bGradient,
+	uint8_t bCorner, uint32_t dwRadius, CImageItem *imageItem)
 {
 	if (rc == nullptr)
 		return;
@@ -568,7 +568,7 @@ void TSAPI  DrawAlpha(HDC hDC, PRECT rc, DWORD clr_base, int alpha, DWORD clr_de
 	DeleteDC(hdc);
 }
 
-void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapWidth, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 x, UCHAR *ubAlpha)
+void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapWidth, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, uint32_t FLG_GRADIENT, BOOL transparent, UINT32 x, UCHAR *ubAlpha)
 {
 	FLOAT fSolidMulti, fInvSolidMulti;
 
@@ -598,7 +598,7 @@ void __inline gradientHorizontal(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *
 	}
 }
 
-void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapHeight, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, DWORD FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha)
+void __inline gradientVertical(UCHAR *ubRedFinal, UCHAR *ubGreenFinal, UCHAR *ubBlueFinal, ULONG ulBitmapHeight, UCHAR ubRed, UCHAR ubGreen, UCHAR ubBlue, UCHAR ubRed2, UCHAR ubGreen2, UCHAR ubBlue2, uint32_t FLG_GRADIENT, BOOL transparent, UINT32 y, UCHAR *ubAlpha)
 {
 	// solid to transparent
 	if (transparent) {
@@ -927,7 +927,7 @@ void CImageItem::SetBitmap32Alpha(HBITMAP hBitmap, uint8_t bAlpha)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)mir_alloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -954,7 +954,7 @@ void CImageItem::PreMultiply(HBITMAP hBitmap, int mode)
 
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
-	DWORD dwLen = width * height * 4;
+	uint32_t dwLen = width * height * 4;
 	uint8_t *p = (uint8_t *)mir_alloc(dwLen);
 	if (p) {
 		::GetBitmapBits(hBitmap, dwLen, p);
@@ -2040,7 +2040,7 @@ UINT CSkin::DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, U
 //
 // @return COLORREF representation of the string value.
 
-DWORD CSkin::HexStringToLong(const wchar_t *szSource)
+uint32_t CSkin::HexStringToLong(const wchar_t *szSource)
 {
 	wchar_t *stopped;
 	COLORREF clr = wcstol(szSource, &stopped, 16);
@@ -2053,7 +2053,7 @@ DWORD CSkin::HexStringToLong(const wchar_t *szSource)
 // Render text to the given HDC. This function is aero aware and will use uxtheme DrawThemeTextEx() when needed.
 // Paramaters are pretty much comparable to GDI DrawText() API
 
-int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, DWORD dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
+int CSkin::RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, uint32_t dtFlags, const int iGlowSize, COLORREF clr, bool fForceAero)
 {
 	if ((IsWinVerVistaPlus() && !CSkin::m_skinEnabled && hTheme) || fForceAero) {
 		DTTOPTS dto = { 0 };
@@ -2299,7 +2299,7 @@ void CSkin::AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectAr
 		if (iEffectArea == AERO_EFFECT_AREA_MENUBAR)
 			alpha = 90;
 		uint8_t 	color2_trans = (iEffectArea == AERO_EFFECT_AREA_MENUBAR) ? 0 : 1;
-		DWORD   corner = (iEffectArea == AERO_EFFECT_AREA_INFOPANEL) ? m_pCurrentAeroEffect->m_cornerRadius : 6;
+		uint32_t   corner = (iEffectArea == AERO_EFFECT_AREA_INFOPANEL) ? m_pCurrentAeroEffect->m_cornerRadius : 6;
 
 		DrawAlpha(hdc, const_cast<RECT *>(rc), m_pCurrentAeroEffect->m_baseColor, alpha, m_pCurrentAeroEffect->m_gradientColor,
 			color2_trans, m_pCurrentAeroEffect->m_gradientType, m_pCurrentAeroEffect->m_cornerType, corner, nullptr);

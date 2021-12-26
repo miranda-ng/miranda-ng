@@ -297,9 +297,9 @@ static void CALLBACK ChatTimerProc(HWND hwnd, UINT, UINT_PTR idEvent, DWORD)
 	GetCursorPos(&pt);
 	ScreenToClient(hwnd, &pt);
 
-	DWORD nItemUnderMouse = (DWORD)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+	uint32_t nItemUnderMouse = (uint32_t)SendMessage(hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 	if (HIWORD(nItemUnderMouse) == 1)
-		nItemUnderMouse = (DWORD)(-1);
+		nItemUnderMouse = (uint32_t)(-1);
 	else
 		nItemUnderMouse &= 0xFFFF;
 	if (((int)nItemUnderMouse != si->currentHovered) || (nItemUnderMouse == -1)) {
@@ -369,9 +369,9 @@ LRESULT CSrmmBaseDialog::WndProc_Nicklist(UINT msg, WPARAM wParam, LPARAM lParam
 			GetClientRect(m_nickList.GetHwnd(), &clientRect);
 			if (PtInRect(&clientRect, pt)) {
 				// hit test item under mouse
-				DWORD nItemUnderMouse = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, lParam);
+				uint32_t nItemUnderMouse = m_nickList.SendMsg(LB_ITEMFROMPOINT, 0, lParam);
 				if (HIWORD(nItemUnderMouse) == 1)
-					nItemUnderMouse = (DWORD)(-1);
+					nItemUnderMouse = (uint32_t)(-1);
 				else
 					nItemUnderMouse &= 0xFFFF;
 

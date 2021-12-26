@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DBFONTF_ITALIC		2
 #define DBFONTF_UNDERLINE	4
 
-void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask)
+void cfgSetFlag(HWND hwndDlg, int ctrlId, uint32_t dwMask)
 {
 	if (IsDlgButtonChecked(hwndDlg, ctrlId))
 		cfg::dat.dwFlags |= dwMask;
@@ -132,7 +132,7 @@ public:
 struct CheckBoxToGroupStyleEx_t
 {
 	int id;
-	DWORD flag;
+	uint32_t flag;
 	int not_t;
 }
 static const checkBoxToGroupStyleEx[] =
@@ -159,7 +159,7 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always right"));
 		SendDlgItemMessage(m_hwnd, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
 
-		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+		uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 		for (auto &it : checkBoxToGroupStyleEx)
 			CheckDlgButton(m_hwnd, it.id, (exStyle & it.flag) ^ (it.flag * it.not_t) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -186,7 +186,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+		uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 
 		for (auto &it : checkBoxToGroupStyleEx) {
 			if ((IsDlgButtonChecked(m_hwnd, it.id) == 0) == it.not_t)

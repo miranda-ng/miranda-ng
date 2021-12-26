@@ -252,7 +252,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 		m_jobs[iEntry].iAcksNeeded = 1;
 		m_jobs[iEntry].chunkSize = (int)iMaxSize;
 
-		DWORD dwOldFlags = m_jobs[iEntry].dwFlags;
+		uint32_t dwOldFlags = m_jobs[iEntry].dwFlags;
 		mir_forkthread(DoSplitSendA, (LPVOID)iEntry);
 		m_jobs[iEntry].dwFlags = dwOldFlags;
 	}

@@ -25,10 +25,10 @@ public:
 
 public:
 	void setLayout(int nLayout);
-	HANDLE addButton(DWORD dwFlags, HICON hIcon, INT_PTR dwData, const wchar_t* szTooltip = nullptr, const wchar_t* szText = nullptr);
+	HANDLE addButton(uint32_t dwFlags, HICON hIcon, INT_PTR dwData, const wchar_t* szTooltip = nullptr, const wchar_t* szText = nullptr);
 	bool isButtonChecked(HANDLE hButton);
     void checkButton(HANDLE hButton, bool bCheck);
-	DWORD getButtonData(HANDLE hButton);
+	uint32_t getButtonData(HANDLE hButton);
 	void setButtonData(HANDLE hButton, INT_PTR dwData);
 	bool isButtonVisisble(HANDLE hButton);
 	void showButton(HANDLE hButton, bool bShow);

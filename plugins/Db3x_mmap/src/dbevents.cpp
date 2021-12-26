@@ -72,19 +72,19 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 		uint8_t *pResult = m_crypto->encodeBuffer(pBlob, dbe.cbBlob, &len);
 		if (pResult != nullptr) {
 			pCryptBlob = pBlob = pResult;
-			dbe.cbBlob = (DWORD)len;
+			dbe.cbBlob = (uint32_t)len;
 			dbe.flags |= DBEF_ENCRYPTED;
 		}
 	}
 
 	mir_cslockfull lck(m_csDbAccess);
 
-	DWORD ofsContact = GetContactOffset(contactID);
+	uint32_t ofsContact = GetContactOffset(contactID);
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 0;
 
-	DWORD ofsNew = CreateNewSpace(offsetof(DBEvent, blob) + dbe.cbBlob);
+	uint32_t ofsNew = CreateNewSpace(offsetof(DBEvent, blob) + dbe.cbBlob);
 
 	dbe.ofsModuleName = GetModuleNameOfs(dbei->szModule);
 	// find where to put it - sort by timestamp
@@ -105,7 +105,7 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 		}
 		else {
 			// Loop through the chain, starting at the end
-			DWORD ofsThis = dbc.ofsLastEvent;
+			uint32_t ofsThis = dbc.ofsLastEvent;
 			dbeTest = (DBEvent*)DBRead(ofsThis, nullptr);
 			for (;;) {
 				// If the new event's timesstamp is equal to or greater than the
@@ -168,7 +168,7 @@ MEVENT CDb3Mmap::AddEvent(MCONTACT contactID, const DBEVENTINFO *dbei)
 BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 {
 	mir_cslockfull lck(m_csDbAccess);
-	DBEvent dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, nullptr);
+	DBEvent dbe = *(DBEvent*)DBRead((uint32_t)hDbEvent, nullptr);
 	if (dbe.signature != DBEVENT_SIGNATURE)
 		return 1;
 
@@ -182,7 +182,7 @@ BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 	}
 	else cc = nullptr;
 
-	DWORD ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
+	uint32_t ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact *)DBRead(ofsContact, nullptr);
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
@@ -196,17 +196,17 @@ BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 	// get back in
 	lck.lock();
 	dbc = *(DBContact*)DBRead(ofsContact, nullptr);
-	dbe = *(DBEvent*)DBRead((DWORD)hDbEvent, nullptr);
+	dbe = *(DBEvent*)DBRead((uint32_t)hDbEvent, nullptr);
 
 	// check if this was the first unread, if so, recalc the first unread
-	if (dbc.ofsFirstUnread == (DWORD)hDbEvent) {
+	if (dbc.ofsFirstUnread == (uint32_t)hDbEvent) {
 		for (DBEvent *dbeNext = &dbe;;) {
 			if (dbeNext->ofsNext == 0) {
 				dbc.ofsFirstUnread = 0;
 				dbc.tsFirstUnread = 0;
 				break;
 			}
-			DWORD ofsThis = dbeNext->ofsNext;
+			uint32_t ofsThis = dbeNext->ofsNext;
 			dbeNext = (DBEvent*)DBRead(ofsThis, nullptr);
 			if (!dbeNext->markedRead()) {
 				dbc.ofsFirstUnread = ofsThis;
@@ -250,7 +250,7 @@ BOOL CDb3Mmap::DeleteEvent(MEVENT hDbEvent)
 	DBWrite(ofsContact, &dbc, sizeof(DBContact));
 
 	// delete event
-	DeleteSpace((DWORD)hDbEvent, offsetof(DBEvent, blob) + dbe.cbBlob);
+	DeleteSpace((uint32_t)hDbEvent, offsetof(DBEvent, blob) + dbe.cbBlob);
 
 	// also update a sub
 	if (cc && dbe.contactID != cc->contactID) {
@@ -271,7 +271,7 @@ BOOL CDb3Mmap::EditEvent(MCONTACT, MEVENT, const DBEVENTINFO*)
 int CDb3Mmap::GetBlobSize(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, 0);
+	DBEvent *dbe = AdaptEvent((uint32_t)hDbEvent, 0);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? -1 : dbe->cbBlob;
 }
 
@@ -284,7 +284,7 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, 0);
+	DBEvent *dbe = AdaptEvent((uint32_t)hDbEvent, 0);
 	if (dbe->signature != DBEVENT_SIGNATURE)
 		return 1;
 
@@ -293,7 +293,7 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
 
-	DWORD cbBlob = dbe->cbBlob;
+	uint32_t cbBlob = dbe->cbBlob;
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
 		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
@@ -304,9 +304,9 @@ BOOL CDb3Mmap::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (bytesToCopy && dbei->pBlob) {
 		uint8_t *pSrc;
 		if (m_dbHeader.version >= DB_095_1_VERSION)
-			pSrc = DBRead(DWORD(hDbEvent) + offsetof(DBEvent, blob), nullptr);
+			pSrc = DBRead(uint32_t(hDbEvent) + offsetof(DBEvent, blob), nullptr);
 		else
-			pSrc = DBRead(DWORD(hDbEvent) + offsetof(DBEvent_094, blob), nullptr);
+			pSrc = DBRead(uint32_t(hDbEvent) + offsetof(DBEvent_094, blob), nullptr);
 		if (dbe->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;
 			size_t len;
@@ -337,9 +337,9 @@ BOOL CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 	else cc = nullptr;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
+	uint32_t ofsContact = (cc) ? cc->dwOfsContact : m_dbHeader.ofsUser;
 	DBContact dbc = *(DBContact*)DBRead(ofsContact, nullptr);
-	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hDbEvent, nullptr);
+	DBEvent *dbe = (DBEvent*)DBRead((uint32_t)hDbEvent, nullptr);
 	if (dbe->signature != DBEVENT_SIGNATURE || dbc.signature != DBCONTACT_SIGNATURE)
 		return -1;
 
@@ -348,16 +348,16 @@ BOOL CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 
 	// log1("mark read @ %08x", hContact);
 	dbe->flags |= DBEF_READ;
-	DBWrite((DWORD)hDbEvent, dbe, sizeof(DBEvent));
+	DBWrite((uint32_t)hDbEvent, dbe, sizeof(DBEvent));
 	BOOL ret = dbe->flags;
-	if (dbc.ofsFirstUnread == (DWORD)hDbEvent) {
+	if (dbc.ofsFirstUnread == (uint32_t)hDbEvent) {
 		for (;;) {
 			if (dbe->ofsNext == 0) {
 				dbc.ofsFirstUnread = 0;
 				dbc.tsFirstUnread = 0;
 				break;
 			}
-			DWORD ofsThis = dbe->ofsNext;
+			uint32_t ofsThis = dbe->ofsNext;
 			dbe = (DBEvent*)DBRead(ofsThis, nullptr);
 			if (!dbe->markedRead()) {
 				dbc.ofsFirstUnread = ofsThis;
@@ -377,14 +377,14 @@ BOOL CDb3Mmap::MarkEventRead(MCONTACT contactID, MEVENT hDbEvent)
 MCONTACT CDb3Mmap::GetEventContact(MEVENT hDbEvent)
 {
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, INVALID_CONTACT_ID);
+	DBEvent *dbe = AdaptEvent((uint32_t)hDbEvent, INVALID_CONTACT_ID);
 	return (dbe->signature != DBEVENT_SIGNATURE) ? INVALID_CONTACT_ID : dbe->contactID;
 }
 
 MEVENT CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
-	DWORD ofsContact = GetContactOffset(contactID, &cc);
+	uint32_t ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
@@ -399,7 +399,7 @@ MEVENT CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 0;
 
-	for (DWORD dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
 		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return 0;
@@ -413,7 +413,7 @@ MEVENT CDb3Mmap::FindFirstEvent(MCONTACT contactID)
 MEVENT CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
-	DWORD ofsContact = GetContactOffset(contactID, &cc);
+	uint32_t ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
@@ -428,7 +428,7 @@ MEVENT CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 0;
 
-	for (DWORD dwOffset = dbc->ofsFirstUnread; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbc->ofsFirstUnread; dwOffset != 0;) {
 		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return 0;
@@ -442,7 +442,7 @@ MEVENT CDb3Mmap::FindFirstUnreadEvent(MCONTACT contactID)
 MEVENT CDb3Mmap::FindLastEvent(MCONTACT contactID)
 {
 	DBCachedContact *cc;
-	DWORD ofsContact = GetContactOffset(contactID, &cc);
+	uint32_t ofsContact = GetContactOffset(contactID, &cc);
 
 	mir_cslock lck(m_csDbAccess);
 	DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
@@ -457,7 +457,7 @@ MEVENT CDb3Mmap::FindLastEvent(MCONTACT contactID)
 	if (dbc->signature != DBCONTACT_SIGNATURE)
 		return 0;
 
-	for (DWORD dwOffset = dbc->ofsLastEvent; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbc->ofsLastEvent; dwOffset != 0;) {
 		DBEvent *dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return 0;
@@ -473,13 +473,13 @@ MEVENT CDb3Mmap::FindNextEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
 
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, contactID);
+	DBEvent *dbe = AdaptEvent((uint32_t)hDbEvent, contactID);
 	if (dbe->signature != DBEVENT_SIGNATURE)
 		return 0;
 	if (!cc || !cc->IsSub())
 		return MEVENT(dbe->ofsNext);
 
-	for (DWORD dwOffset = dbe->ofsNext; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbe->ofsNext; dwOffset != 0;) {
 		dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return 0;
@@ -495,13 +495,13 @@ MEVENT CDb3Mmap::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 	DBCachedContact *cc = (contactID) ? m_cache->GetCachedContact(contactID) : nullptr;
 
 	mir_cslock lck(m_csDbAccess);
-	DBEvent *dbe = AdaptEvent((DWORD)hDbEvent, contactID);
+	DBEvent *dbe = AdaptEvent((uint32_t)hDbEvent, contactID);
 	if (dbe->signature != DBEVENT_SIGNATURE)
 		return 0;
 	if (!cc || !cc->IsSub())
 		return MEVENT(dbe->ofsPrev);
 
-	for (DWORD dwOffset = dbe->ofsPrev; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbe->ofsPrev; dwOffset != 0;) {
 		dbe = AdaptEvent(dwOffset, contactID);
 		if (dbe->signature != DBEVENT_SIGNATURE)
 			return 0;
@@ -512,7 +512,7 @@ MEVENT CDb3Mmap::FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent)
 	return 0;
 }
 
-DBEvent* CDb3Mmap::AdaptEvent(DWORD ofs, DWORD dwContactID)
+DBEvent* CDb3Mmap::AdaptEvent(uint32_t ofs, uint32_t dwContactID)
 {
 	if (m_dbHeader.version >= DB_095_1_VERSION)
 		return (DBEvent*)DBRead(ofs, nullptr);
@@ -520,7 +520,7 @@ DBEvent* CDb3Mmap::AdaptEvent(DWORD ofs, DWORD dwContactID)
 	DBEvent_094 *pOldEvent = (DBEvent_094*)DBRead(ofs, nullptr);
 	m_tmpEvent.signature = pOldEvent->signature;
 	m_tmpEvent.contactID = dwContactID;
-	memcpy(&m_tmpEvent.ofsPrev, &pOldEvent->ofsPrev, sizeof(DBEvent_094) - sizeof(DWORD));
+	memcpy(&m_tmpEvent.ofsPrev, &pOldEvent->ofsPrev, sizeof(DBEvent_094) - sizeof(uint32_t));
 	return &m_tmpEvent;
 }
 
@@ -530,12 +530,12 @@ DBEvent* CDb3Mmap::AdaptEvent(DWORD ofs, DWORD dwContactID)
 int CDb3Mmap::WipeContactHistory(DBContact *dbc)
 {
 	// drop subContact's history if any
-	for (DWORD dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
+	for (uint32_t dwOffset = dbc->ofsFirstEvent; dwOffset != 0;) {
 		DBEvent *pev = (DBEvent*)DBRead(dwOffset, nullptr);
 		if (pev->signature != DBEVENT_SIGNATURE) // broken chain, don't touch it
 			return 2;
 
-		DWORD dwNext = pev->ofsNext;
+		uint32_t dwNext = pev->ofsNext;
 		DeleteSpace(dwOffset, offsetof(DBEvent, blob) + pev->cbBlob);
 		dwOffset = dwNext;
 	}

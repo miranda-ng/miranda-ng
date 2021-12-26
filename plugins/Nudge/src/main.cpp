@@ -94,8 +94,8 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 {
 	char *protoName = Proto_GetBaseAccountName(hContact);
 
-	DWORD currentTimestamp = time(0);
-	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
+	uint32_t currentTimestamp = time(0);
+	uint32_t nudgeSentTimestamp = lParam ? (uint32_t)lParam : currentTimestamp;
 
 	int diff = currentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived", currentTimestamp - 30);
 	int diff2 = nudgeSentTimestamp - db_get_dw(hContact, "Nudge", "LastReceived2", nudgeSentTimestamp - 30);
@@ -155,7 +155,7 @@ static int NudgeReceived(WPARAM hContact, LPARAM lParam)
 			if (DefaultNudge.useIgnoreSettings && Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE))
 				return 0;
 
-			DWORD Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
+			uint32_t Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 			if (((DefaultNudge.statusFlags & NUDGE_ACC_ST0) && (Status <= ID_STATUS_OFFLINE)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST1) && (Status == ID_STATUS_ONLINE)) ||
 				((DefaultNudge.statusFlags & NUDGE_ACC_ST2) && (Status == ID_STATUS_AWAY)) ||
@@ -288,14 +288,14 @@ void Nudge_SentStatus(CNudgeElement *n, MCONTACT hContact)
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_SENT | DBEF_UTF;
-	dbei.timestamp = (DWORD)time(0);
+	dbei.timestamp = (uint32_t)time(0);
 	dbei.eventType = 1;
-	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(buff) + 1;
 	dbei.pBlob = (uint8_t*)buff;
 	db_event_add(hContact, &dbei);
 }
 
-void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
+void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, uint32_t timestamp)
 {
 	T2Utf buff(n->recText);
 
@@ -304,7 +304,7 @@ void Nudge_ShowStatus(CNudgeElement *n, MCONTACT hContact, DWORD timestamp)
 	dbei.eventType = 1;
 	dbei.flags = DBEF_UTF;
 	dbei.timestamp = timestamp;
-	dbei.cbBlob = (DWORD)mir_strlen(buff) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(buff) + 1;
 	dbei.pBlob = (uint8_t*)buff;
 	db_event_add(hContact, &dbei);
 }

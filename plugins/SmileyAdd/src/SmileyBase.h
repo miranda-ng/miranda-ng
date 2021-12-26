@@ -38,7 +38,7 @@ class ISmileyBase : public IOleObject, public IViewObject2, public ITooltipData
 	IAdviseSink*      m_spAdviseSink;
 	IOleClientSite*   m_spClientSite;
 	
-	DWORD  m_advf;
+	uint32_t  m_advf;
 	LONG   m_lRefCount;
 
 	wchar_t* m_smltxt;
@@ -100,8 +100,8 @@ public:
 	// IViewObject members
 	//
 	STDMETHOD(SetAdvise)(DWORD aspect, DWORD advf, IAdviseSink* pAdvSink);
-	STDMETHOD(GetAdvise)(DWORD* /*pAspects*/, DWORD* /*pAdvf*/, IAdviseSink** ppAdvSink);
-	STDMETHOD(Freeze)(DWORD, long, void*, DWORD*);
+	STDMETHOD(GetAdvise)(DWORD * /*pAspects*/, DWORD * /*pAdvf*/, IAdviseSink** ppAdvSink);
+	STDMETHOD(Freeze)(DWORD, long, void*, DWORD *);
 	STDMETHOD(Unfreeze)(DWORD);
 	STDMETHOD(GetColorSet)(DWORD, long, void*, DVTARGETDEVICE*, HDC, LOGPALETTE**);
 

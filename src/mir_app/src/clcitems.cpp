@@ -40,7 +40,7 @@ ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	return newItem;
 }
 
-ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers)
+ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers)
 {
 	dat->bNeedsResort = true;
 	if (!(GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_USEGROUPS))
@@ -67,7 +67,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 				continue;
 			compareResult = mir_wstrcmp(pThisField, cc->szText);
 			if (compareResult == 0) {
-				if (pNextField == nullptr && flags != (DWORD)-1) {
+				if (pNextField == nullptr && flags != (uint32_t)-1) {
 					cc->groupId = (uint16_t)groupId;
 					group = cc->group;
 					group->expanded = (flags & GROUPF_EXPANDED) != 0;
@@ -95,7 +95,7 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			cc->group->parent = group;
 			group = cc->group;
 
-			if (flags == (DWORD)-1 || pNextField != nullptr) {
+			if (flags == (uint32_t)-1 || pNextField != nullptr) {
 				group->expanded = 0;
 				group->hideOffline = 0;
 			}
@@ -105,8 +105,8 @@ ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags
 			}
 			group->groupId = pNextField ? 0 : groupId;
 			group->totalMembers = 0;
-			if (flags != (DWORD)-1 && pNextField == nullptr && calcTotalMembers) {
-				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+			if (flags != (uint32_t)-1 && pNextField == nullptr && calcTotalMembers) {
+				uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				for (auto &hContact : Contacts()) {
 					ClcCacheEntry *cache = Clist_GetCacheEntry(hContact);
 					if (!mir_wstrcmp(cache->tszGroup, szName) && (style & CLS_SHOWHIDDEN || !cache->bIsHidden))
@@ -203,7 +203,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 		cc->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
 	if (!Contact_OnList(hContact))
 		cc->flags |= CONTACTF_NOTONLIST;
-	DWORD idleMode = szProto != nullptr ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
+	uint32_t idleMode = szProto != nullptr ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
 		cc->flags |= CONTACTF_IDLE;
 	mir_wstrncpy(cc->szText, Clist_GetContactDisplayName(hContact), _countof(cc->szText));
@@ -212,7 +212,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 
 void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTotalCount, int checkHideOffline)
 {
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	uint16_t status = ID_STATUS_OFFLINE;
 	char *szProto = Proto_GetBaseAccountName(hContact);
 
@@ -224,13 +224,13 @@ void fnAddContactToTree(HWND hwnd, ClcData *dat, MCONTACT hContact, int updateTo
 			status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 	int i;
-	DWORD groupFlags;
+	uint32_t groupFlags;
 	ClcGroup *group;
 	ptrW tszGroup(Clist_GetGroup(hContact));
 	if (tszGroup == nullptr)
 		group = &dat->list;
 	else {
-		group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, (DWORD)-1, 0, 0);
+		group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroup, (uint32_t)-1, 0, 0);
 		if (group == nullptr) {
 			if (!(style & CLS_HIDEEMPTYGROUPS))
 				return;
@@ -347,7 +347,7 @@ int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
 
 void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 {
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	dat->list.expanded = 1;
 	dat->list.hideOffline = db_get_b(0, "CLC", "HideOfflineRoot", 0) && (style & CLS_USEGROUPS);
@@ -356,7 +356,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 	dat->selection = -1;
 
 	for (int i = 1;; i++) {
-		DWORD groupFlags;
+		uint32_t groupFlags;
 		wchar_t *szGroupName = Clist_GroupGetName(i, &groupFlags);
 		if (szGroupName == nullptr)
 			break;
@@ -375,7 +375,7 @@ void fnRebuildEntireList(HWND hwnd, ClcData *dat)
 			if (tszGroupName == nullptr)
 				group = &dat->list;
 			else {
-				group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroupName, (DWORD)-1, 0, 0);
+				group = g_clistApi.pfnAddGroup(hwnd, dat, tszGroupName, (uint32_t)-1, 0, 0);
 				if (group == nullptr && style & CLS_SHOWHIDDEN)
 					group = &dat->list;
 			}

@@ -40,7 +40,7 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 		return 1;
 
 	mir_cslockfull lck(m_csDbAccess);
-	DWORD ofsContact = GetContactOffset(contactID);
+	uint32_t ofsContact = GetContactOffset(contactID);
 
 	DBContact *dbc = (DBContact*)DBRead(ofsContact, nullptr);
 	if (dbc->signature != DBCONTACT_SIGNATURE)
@@ -61,11 +61,11 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	lck.lock();
 
 	// delete settings chain
-	DWORD ofsThis = dbc->ofsFirstSettings;
-	DWORD ofsFirstEvent = dbc->ofsFirstEvent;
+	uint32_t ofsThis = dbc->ofsFirstSettings;
+	uint32_t ofsFirstEvent = dbc->ofsFirstEvent;
 	while (ofsThis) {
 		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, nullptr);
-		DWORD ofsNext = dbcs->ofsNext;
+		uint32_t ofsNext = dbcs->ofsNext;
 		DeleteSpace(ofsThis, offsetof(DBContactSettings, blob) + dbcs->cbBlob);
 		ofsThis = ofsNext;
 	}
@@ -74,7 +74,7 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 	ofsThis = ofsFirstEvent;
 	while (ofsThis) {
 		DBEvent *dbe = (DBEvent*)DBRead(ofsThis, nullptr);
-		DWORD ofsNext = dbe->ofsNext;
+		uint32_t ofsNext = dbe->ofsNext;
 		DeleteSpace(ofsThis, offsetof(DBEvent, blob) + dbe->cbBlob);
 		ofsThis = ofsNext;
 	}
@@ -85,7 +85,7 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 		DBWrite(0, &m_dbHeader, sizeof(m_dbHeader));
 	}
 	else {
-		DWORD ofsNext = dbc->ofsNext;
+		uint32_t ofsNext = dbc->ofsNext;
 		ofsThis = m_dbHeader.ofsFirstContact;
 		DBContact *dbcPrev = (DBContact*)DBRead(ofsThis, nullptr);
 		while (dbcPrev->ofsNext != ofsContact) {
@@ -115,7 +115,7 @@ STDMETHODIMP_(int) CDb3Mmap::DeleteContact(MCONTACT contactID)
 
 STDMETHODIMP_(MCONTACT) CDb3Mmap::AddContact()
 {
-	DWORD ofsNew;
+	uint32_t ofsNew;
 	log0("add contact");
 
 	DBContact dbc = { 0 };
@@ -189,7 +189,7 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		else {
 			// there're events in both meta's & sub's event chains
 			// relink sub's event chain to meta without changing events themselves
-			for (DWORD ofsMeta = dbMeta->ofsFirstEvent; ofsMeta != 0;) {
+			for (uint32_t ofsMeta = dbMeta->ofsFirstEvent; ofsMeta != 0;) {
 				DBEvent *pev = (DBEvent*)DBRead(ofsMeta, nullptr);
 				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
 					ret = 2;
@@ -200,7 +200,7 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 				ofsMeta = pev->ofsNext;
 			}
 
-			for (DWORD ofsSub = dbSub->ofsFirstEvent; ofsSub != 0;) {
+			for (uint32_t ofsSub = dbSub->ofsFirstEvent; ofsSub != 0;) {
 				DBEvent *pev = (DBEvent*)DBRead(ofsSub, nullptr);
 				if (pev->signature != DBEVENT_SIGNATURE) { // broken chain, don't touch it
 					ret = 2;
@@ -216,18 +216,18 @@ BOOL CDb3Mmap::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			dbMeta->eventCount = arEvents.getCount();
 
 			DBEvent *pFirst = arEvents[0];
-			dbMeta->ofsFirstEvent = DWORD((uint8_t*)pFirst - m_pDbCache);
+			dbMeta->ofsFirstEvent = uint32_t((uint8_t*)pFirst - m_pDbCache);
 			pFirst->ofsPrev = 0;
 			dbMeta->ofsFirstUnread = pFirst->markedRead() ? 0 : dbMeta->ofsFirstEvent;
 
 			DBEvent *pLast = arEvents[arEvents.getCount() - 1];
-			dbMeta->ofsLastEvent = DWORD((uint8_t*)pLast - m_pDbCache);
+			dbMeta->ofsLastEvent = uint32_t((uint8_t*)pLast - m_pDbCache);
 			pLast->ofsNext = 0;
 
 			for (int i = 1; i < arEvents.getCount(); i++) {
 				DBEvent *pPrev = arEvents[i - 1], *pNext = arEvents[i];
-				pPrev->ofsNext = DWORD((uint8_t*)pNext - m_pDbCache);
-				pNext->ofsPrev = DWORD((uint8_t*)pPrev - m_pDbCache);
+				pPrev->ofsNext = uint32_t((uint8_t*)pNext - m_pDbCache);
+				pNext->ofsPrev = uint32_t((uint8_t*)pPrev - m_pDbCache);
 
 				if (dbMeta->ofsFirstUnread == 0 && !pNext->markedRead())
 					dbMeta->ofsFirstUnread = pPrev->ofsNext;
@@ -264,7 +264,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 		if (ret = WipeContactHistory(&dbSub))
 			__leave;
 
-		DWORD dwOffset = dbMeta.ofsFirstEvent;
+		uint32_t dwOffset = dbMeta.ofsFirstEvent;
 		DBEvent *evMeta = nullptr, *evSub = nullptr;
 		dbMeta.eventCount = 0; dbMeta.ofsFirstEvent = dbMeta.ofsLastEvent = dbMeta.ofsFirstUnread = dbMeta.tsFirstUnread = 0;
 
@@ -273,14 +273,14 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 			if (evCurr->signature != DBEVENT_SIGNATURE)
 				break;
 
-			DWORD dwNext = evCurr->ofsNext; evCurr->ofsNext = 0;
+			uint32_t dwNext = evCurr->ofsNext; evCurr->ofsNext = 0;
 
 			// extract it to sub's chain
 			if (evCurr->contactID == ccSub->contactID) {
 				dbSub.eventCount++;
 				if (evSub != nullptr) {
 					evSub->ofsNext = dwOffset;
-					evCurr->ofsPrev = DWORD((uint8_t*)evSub - m_pDbCache);
+					evCurr->ofsPrev = uint32_t((uint8_t*)evSub - m_pDbCache);
 				}
 				else {
 					dbSub.ofsFirstEvent = dwOffset;
@@ -297,7 +297,7 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 				dbMeta.eventCount++;
 				if (evMeta != nullptr) {
 					evMeta->ofsNext = dwOffset;
-					evCurr->ofsPrev = DWORD((uint8_t*)evMeta - m_pDbCache);
+					evCurr->ofsPrev = uint32_t((uint8_t*)evMeta - m_pDbCache);
 				}
 				else {
 					dbMeta.ofsFirstEvent = dwOffset;
@@ -331,11 +331,11 @@ BOOL CDb3Mmap::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 
 struct COldMeta
 {
-	COldMeta(DWORD _id, DBCachedContact *_cc) :
+	COldMeta(uint32_t _id, DBCachedContact *_cc) :
 		hMetaID(_id), cc(_cc)
 	{}
 
-	DWORD hMetaID;
+	uint32_t hMetaID;
 	DBCachedContact *cc;
 };
 
@@ -343,12 +343,12 @@ void CDb3Mmap::FillContacts()
 {
 	OBJLIST<COldMeta> arMetas(10, NumericKeySortT);
 
-	for (DWORD dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
+	for (uint32_t dwOffset = m_dbHeader.ofsFirstContact; dwOffset != 0;) {
 		DBContact *p = (DBContact*)DBRead(dwOffset, nullptr);
 		if (p->signature != DBCONTACT_SIGNATURE)
 			break;
 
-		DWORD dwContactID;
+		uint32_t dwContactID;
 		if (m_dbHeader.version >= DB_095_VERSION) {
 			dwContactID = p->dwContactID;
 			if (dwContactID >= m_dwMaxContactId)
@@ -440,7 +440,7 @@ void CDb3Mmap::FillContacts()
 	}
 }
 
-DWORD CDb3Mmap::GetContactOffset(MCONTACT contactID, DBCachedContact **pcc)
+uint32_t CDb3Mmap::GetContactOffset(MCONTACT contactID, DBCachedContact **pcc)
 {
 	if (contactID == 0) {
 		if (pcc) *pcc = nullptr;

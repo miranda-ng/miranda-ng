@@ -29,7 +29,7 @@ static bool IsUserIdle()
 	UINT dwPeriod = g_plugin.getByte("time", 10) * 60 * 1000;
 
 	if (g_wMaskAdv & OPT_HIDEIFMIRIDLE) {
-		DWORD dwTick = Miranda_GetIdle();
+		uint32_t dwTick = Miranda_GetIdle();
 		return GetTickCount() - dwTick > dwPeriod;
 	}
 

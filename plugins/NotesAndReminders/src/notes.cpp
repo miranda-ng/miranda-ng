@@ -76,8 +76,8 @@ struct STICKYNOTE : public MZeroedObject
 	ULONGLONG ID;		// FILETIME in UTC
 	wchar_t *pwszTitle;
 	BOOL CustomTitle;
-	DWORD BgColor;			// custom bg color override (only valid if non-zero)
-	DWORD FgColor;			// custom fg/text color override (only valid if non-zero)
+	uint32_t BgColor;			// custom bg color override (only valid if non-zero)
+	uint32_t FgColor;			// custom fg/text color override (only valid if non-zero)
 	STICKYNOTEFONT *pCustomFont;// custom (body) font override (NULL if default font is used)
 
 	~STICKYNOTE()
@@ -102,9 +102,9 @@ static class CNotesListDlg *pListDialog;
 
 COLORREF GetCaptionColor(COLORREF bodyClr)
 {
-	const DWORD r = ((bodyClr & 0xff) * 4) / 5;
-	const DWORD g = (((bodyClr & 0xff00) * 4) / 5) & 0xff00;
-	const DWORD b = (((bodyClr & 0xff0000) * 4) / 5) & 0xff0000;
+	const uint32_t r = ((bodyClr & 0xff) * 4) / 5;
+	const uint32_t g = (((bodyClr & 0xff00) * 4) / 5) & 0xff00;
+	const uint32_t b = (((bodyClr & 0xff0000) * 4) / 5) & 0xff0000;
 
 	return (COLORREF)(r | g | b);
 }
@@ -261,7 +261,7 @@ static void JustSaveNotes(STICKYNOTE *pModified = nullptr)
 		int TH = wp.rcNormalPosition.bottom - wp.rcNormalPosition.top;
 
 		// set flags
-		DWORD flags = 0;
+		uint32_t flags = 0;
 		if (pNote->bVisible) flags |= 1;
 		if (pNote->bOnTop) flags |= 2;
 
@@ -586,7 +586,7 @@ LRESULT CALLBACK StickyNoteWndProc(HWND hdlg, UINT message, WPARAM wParam, LPARA
 	case WM_CREATE:
 		{
 			CREATESTRUCT *CS = (CREATESTRUCT *)lParam;
-			DWORD mystyle;
+			uint32_t mystyle;
 
 			SN = (STICKYNOTE*)CS->lpCreateParams;
 			SetPropA(hdlg, "ctrldata", (HANDLE)SN);
@@ -1055,7 +1055,7 @@ static STICKYNOTE* NewNoteEx(int Ax, int Ay, int Aw, int Ah, const wchar_t *pwsz
 {
 	WNDCLASSEX TWC = {0};
 	WINDOWPLACEMENT TWP;
-	DWORD L1, L2;
+	uint32_t L1, L2;
 	SYSTEMTIME tm;
 
 	const BOOL bIsStartup = bVisible & 0x10000;
@@ -1206,7 +1206,7 @@ static void LoadNote(char *Value, bool bIsStartup)
 	}
 
 	BOOL bVisible = 0, bOnTop = 0;
-	DWORD flags = strtoul(TVal, nullptr, 16);
+	uint32_t flags = strtoul(TVal, nullptr, 16);
 	if (flags & 1)
 		bVisible = TRUE;
 	if (flags & 2)

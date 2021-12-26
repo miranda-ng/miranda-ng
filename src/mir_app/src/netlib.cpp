@@ -28,12 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static BOOL bModuleInitialized = FALSE;
 
 HANDLE hConnectionHeaderMutex, hConnectionOpenMutex, hEventConnected = NULL, hEventDisconnected = NULL;
-DWORD g_LastConnectionTick;
+uint32_t g_LastConnectionTick;
 int connectionTimeout;
 HANDLE hSendEvent = nullptr, hRecvEvent = nullptr;
 static char szUserAgent[100];
 
-typedef BOOL(WINAPI *tGetProductInfo)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef BOOL(WINAPI *tGetProductInfo)(uint32_t, uint32_t, uint32_t, uint32_t, PDWORD);
 
 static int CompareNetlibUser(const NetlibUser* p1, const NetlibUser* p2)
 {
@@ -78,7 +78,7 @@ void NetlibDeleteNestedCS(NetlibNestedCriticalSection *nlncs)
 int NetlibEnterNestedCS(NetlibConnection *nlc, int which)
 {
 	NetlibNestedCriticalSection *nlncs;
-	DWORD dwCurrentThreadId = GetCurrentThreadId();
+	uint32_t dwCurrentThreadId = GetCurrentThreadId();
 
 	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 	if (nlc == nullptr || nlc->handleType != NLH_CONNECTION) {
@@ -315,7 +315,7 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 				ReleaseMutex(hConnectionHeaderMutex);
 
 				HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
-				DWORD waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
+				uint32_t waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
 				if (waitResult >= WAIT_OBJECT_0 + _countof(waitHandles)) {
 					ReleaseMutex(hConnectionHeaderMutex);
 					SetLastError(ERROR_INVALID_PARAMETER);  //already been closed

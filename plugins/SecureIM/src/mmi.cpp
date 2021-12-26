@@ -103,13 +103,13 @@ void __fastcall safe_delete(void** p)
 }
 
 // преобразуем текст из чистого UTF8 в формат миранды
-LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags)
+LPSTR utf8_to_miranda(LPCSTR szUtfMsg, uint32_t& flags)
 {
 	return mir_strdup(szUtfMsg);
 }
 
 // преобразуем текст из формата миранды в чистый UTF8
-LPSTR miranda_to_utf8(LPCSTR szMirMsg, DWORD flags)
+LPSTR miranda_to_utf8(LPCSTR szMirMsg, uint32_t flags)
 {
 	return mir_strdup(szMirMsg);
 }

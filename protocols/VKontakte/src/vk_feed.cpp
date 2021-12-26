@@ -620,7 +620,7 @@ void CVkProto::RetrieveUnreadNews(time_t tLastNewsTime)
 		<< CHAR_PARAM("filters", szFilter)
 		<< CHAR_PARAM("source_ids", szSource));
 
-	setDword("LastNewsReqTime", (DWORD)time(0));
+	setDword("LastNewsReqTime", (uint32_t)time(0));
 }
 
 static int sttCompareVKNewsItems(const CVKNewsItem *p1, const CVKNewsItem *p2)
@@ -711,7 +711,7 @@ void CVkProto::RetrieveUnreadNotifications(time_t tLastNotificationsTime)
 		<< WCHAR_PARAM("code", code)
 	);
 
-	setDword("LastNotificationsReqTime", (DWORD)time(0));
+	setDword("LastNotificationsReqTime", (uint32_t)time(0));
 }
 
 bool CVkProto::FilterNotification(CVKNewsItem* vkNotificationItem, bool& isCommented)

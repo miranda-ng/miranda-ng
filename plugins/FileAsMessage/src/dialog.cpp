@@ -6,7 +6,7 @@ char *szFEMode[] =
 	LPGEN("Send file")
 };
 
-char* ltoax(char* s, DWORD value)
+char* ltoax(char* s, uint32_t value)
 {
 	if (value == 0)
 		*s++ = '0';
@@ -165,7 +165,7 @@ char *hint_controls[4] =
 	"Stop"
 };
 
-void FILEECHO::setState(DWORD state)
+void FILEECHO::setState(uint32_t state)
 {
 	iState = state;
 

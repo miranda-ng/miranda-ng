@@ -188,7 +188,7 @@ struct ClcContact : public ClcContactBase
 	RECT pos_label;
 	RECT pos_contact_time;
 	RECT pos_extra[EXTRA_ICON_COUNT];
-	DWORD lastPaintCounter;
+	uint32_t lastPaintCounter;
 	uint8_t bContactRate;
 
 	// For extended layout
@@ -240,7 +240,7 @@ struct ClcData : public ClcDataBase
 	int  subIndent;
 	int  rightMargin, topMargin, bottomMargin;
 	HBITMAP hMenuBackground;
-	DWORD MenuBkColor, MenuBkHiColor, MenuTextColor, MenuTextHiColor;
+	uint32_t MenuBkColor, MenuBkHiColor, MenuTextColor, MenuTextHiColor;
 	int  MenuBmpUse;
 
 	// Row height
@@ -303,7 +303,7 @@ struct ClcData : public ClcDataBase
 	HWND  hWnd;
 	uint8_t  menuOwnerType;
 	int   menuOwnerID;
-	DWORD m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
+	uint32_t m_paintCouter; //range is enoght to 49 days if painting will occure each one millisecond
 	uint8_t  drawOverlayedStatus;
 	int   nInsertionLevel;
 
@@ -348,7 +348,7 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wP
 // clcutils.c
 void  cliRecalcScrollBar(HWND hwnd, ClcData *dat);
 void  cliBeginRenameSelection(HWND hwnd, ClcData *dat);
-int   cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
+int   cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
 void  cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 int   GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt);
 void  cli_LoadCLCOptions(HWND hwnd, ClcData *dat, BOOL bFirst);
@@ -357,7 +357,7 @@ COLORREF cliGetColor(char *module, char *color, COLORREF defColor);
 
 // clcopts.c
 int   ClcOptInit(WPARAM wParam, LPARAM lParam);
-DWORD GetDefaultExStyle(void);
+uint32_t GetDefaultExStyle(void);
 void  GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, uint8_t *effect, COLORREF *eColour1, COLORREF *eColour2);
 
 // groups.c

@@ -149,7 +149,7 @@ char* TMD5Auth::getChallenge(const char *challenge)
 	const char *realm = pairs["realm"], *nonce = pairs["nonce"];
 
 	char cnonce[40], tmpBuf[40];
-	DWORD digest[4], hash1[4], hash2[4];
+	uint32_t digest[4], hash1[4], hash2[4];
 	mir_md5_state_t ctx;
 
 	Utils_GetRandom(digest, sizeof(digest));

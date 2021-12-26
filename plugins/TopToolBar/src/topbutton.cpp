@@ -22,7 +22,7 @@ TopButtonInt::~TopButtonInt()
 	mir_free(ptszTooltipUp);
 }
 
-DWORD TopButtonInt::CheckFlags(DWORD Flags)
+uint32_t TopButtonInt::CheckFlags(uint32_t Flags)
 {
 	int res = 0;
 	if (BitChanged(TTBBF_DISABLED)) {

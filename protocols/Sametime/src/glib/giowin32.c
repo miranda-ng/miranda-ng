@@ -847,7 +847,7 @@ g_io_win32_check (GSource *source)
       else if (watch->channel->is_readable)
         {
 	  INPUT_RECORD buffer;
-	  DWORD n;
+     DWORD n;
 	  if (PeekConsoleInput ((HANDLE) watch->pollfd.fd, &buffer, 1, &n) &&
 	      n == 1)
 	    {

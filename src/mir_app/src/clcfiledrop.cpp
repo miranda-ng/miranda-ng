@@ -72,7 +72,7 @@ ULONG CDropTarget::Release(void)
 
 static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hitLine)
 {
-	DWORD hitFlags;
+	uint32_t hitFlags;
 	ClcContact *contact;
 	int hit = g_clistApi.pfnHitTest(hwnd, dat, x, y, &contact, nullptr, &hitFlags);
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
@@ -82,7 +82,7 @@ static MCONTACT HContactFromPoint(HWND hwnd, ClcData *dat, int x, int y, int *hi
 	if (szProto == nullptr)
 		return 0;
 
-	DWORD protoCaps = CallProtoServiceInt(0,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t protoCaps = CallProtoServiceInt(0,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (!(protoCaps & PF1_FILESEND))
 		return 0;
 	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))

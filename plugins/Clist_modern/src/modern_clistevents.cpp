@@ -332,7 +332,7 @@ static int EventArea_Draw(HWND hwnd, HDC hDC)
 	return 0;
 }
 
-static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t, void *)
 {
 	return EventArea_Draw(hWnd, hDC);
 }

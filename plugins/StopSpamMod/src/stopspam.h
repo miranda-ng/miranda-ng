@@ -2,7 +2,7 @@
 
 extern BOOL gbDosServiceExist;
 extern BOOL gbVarsServiceExist;
-extern DWORD gbMaxQuestCount;
+extern uint32_t gbMaxQuestCount;
 extern BOOL gbInfTalkProtection;
 extern BOOL gbAddPermanent;
 extern BOOL gbHandleAuthReq;

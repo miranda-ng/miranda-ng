@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR CALLBACK PositionBoxDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 // Helper for Status Tree
-static int CountStatusModes(DWORD flags)
+static int CountStatusModes(uint32_t flags)
 {
 	int res = 0;
 	if (flags & PF2_ONLINE) ++res;
@@ -40,7 +40,7 @@ static int CountStatusModes(DWORD flags)
 	return res;
 }
 
-int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
+int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, uint32_t flag)
 {
 	if (!flag) return pos;
 	options[pos].dwFlag = flag;
@@ -65,7 +65,7 @@ int AddStatusMode(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flag)
 	return pos + 1;
 }
 
-int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, DWORD flags)
+int AddStatusModes(OPTTREE_OPTION *options, int pos, LPTSTR prefix, uint32_t flags)
 {
 	pos = AddStatusMode(options, pos, prefix, PF2_IDLE);
 	pos = AddStatusMode(options, pos, prefix, flags & PF2_ONLINE);
@@ -199,11 +199,11 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		// new status options
 		{
 			statusOptionsCount = 0;
-			DWORD globalFlags = 0;
+			uint32_t globalFlags = 0;
 			auto &accs = Accounts();
 			for (auto &pa : accs) {
 				if (!pa->bIsVirtual) {
-					DWORD protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					uint32_t protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 					globalFlags |= protoFlags;
 					statusOptionsCount += CountStatusModes(protoFlags);
 				}
@@ -215,7 +215,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			int pos = AddStatusModes(statusOptions, 0, LPGENW("Global Status"), globalFlags);
 			for (auto &pa : accs) {
 				if (!pa->bIsVirtual) {
-					DWORD protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					uint32_t protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 					if (!CountStatusModes(protoFlags))
 						continue;
 
@@ -230,7 +230,7 @@ INT_PTR CALLBACK DlgProcPopupGeneral(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			for (auto &pa : accs) {
 				if (!pa->bIsVirtual) {
-					DWORD protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+					uint32_t protoFlags = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
 					if (!CountStatusModes(protoFlags))
 						continue;
 

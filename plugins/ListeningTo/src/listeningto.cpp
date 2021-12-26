@@ -27,7 +27,7 @@ static HANDLE hEnableStateChangedEvent;
 static HANDLE hTTB = nullptr;
 BOOL loaded = FALSE;
 static UINT hTimer = 0;
-static DWORD lastInfoSetTime = 0;
+static uint32_t lastInfoSetTime = 0;
 
 static IconItem iconList[] =
 {
@@ -716,7 +716,7 @@ static void CALLBACK GetInfoTimer(HWND, UINT, UINT_PTR, DWORD)
 	}
 
 	// Check if we can set it now...
-	DWORD now = GetTickCount();
+	uint32_t now = GetTickCount();
 	if (now < lastInfoSetTime + MIN_TIME_BEETWEEN_SETS) {
 		hTimer = SetTimer(nullptr, NULL, lastInfoSetTime + MIN_TIME_BEETWEEN_SETS - now, GetInfoTimer);
 		return;

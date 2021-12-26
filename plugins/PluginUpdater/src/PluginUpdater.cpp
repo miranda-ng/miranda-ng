@@ -90,7 +90,7 @@ int CMPlugin::Load()
 
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
 
-	DWORD dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
+	uint32_t dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
 	if (g_wszTempPath[dwLen-1] == '\\')
 		g_wszTempPath[dwLen-1] = 0;
 

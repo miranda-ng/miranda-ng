@@ -111,7 +111,7 @@ void WriteUtfFile(HANDLE hDumpFile, char* bufu);
 
 LONG WINAPI myfilter(PEXCEPTION_POINTERS exc_ptr);
 LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr);
-DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info);
+uint32_t MirandaThreadFilter(uint32_t code, EXCEPTION_POINTERS* info);
 
 void GetInternetExplorerVersion(CMStringW& buffer);
 void GetProcessorString(CMStringW& buffer);
@@ -123,12 +123,12 @@ void GetLanguagePackString(CMStringW& buffer);
 void GetWow64String(CMStringW& buffer);
 void GetVersionInfo(HMODULE hLib, CMStringW& buffer);
 
-void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, DWORD dwSize);
+void GetISO8061Time(SYSTEMTIME* stLocal, LPTSTR lpszString, uint32_t dwSize);
 
 void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMStringW& buffer);
 
-void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize);
-void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, DWORD dwSize);
+void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, uint32_t dwSize);
+void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, uint32_t dwSize);
 void StoreStringToClip(CMStringW& buffer);
 void ShowMessage(int type, const wchar_t* format, ...);
 

@@ -266,7 +266,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 	return mir_callNextSubclass(hwnd, toolbarWndProc, msg, wParam, lParam);
 }
 
-static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+static int ToolBar_LayeredPaintProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t, void *)
 {
 	return SendMessage(hWnd, MTBM_LAYEREDPAINT, (WPARAM)hDC, 0);
 }

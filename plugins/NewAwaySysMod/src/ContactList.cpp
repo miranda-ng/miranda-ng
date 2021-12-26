@@ -499,13 +499,13 @@ int CCList::GetItemType(HTREEITEM hItem) // returns a MCLCIT_ (see below)
 	return (IsHContactInfo(hContact)) ? MCLCIT_INFO : ((IsHContactGroup(hContact)) ? MCLCIT_GROUP : MCLCIT_CONTACT);
 }
 
-DWORD CCList::GetItemTypeAsCLGNFlag(HTREEITEM hItem)
+uint32_t CCList::GetItemTypeAsCLGNFlag(HTREEITEM hItem)
 {
 	MCONTACT hContact = GetItemData(hItem).hContact;
 	return (IsHContactInfo(hContact)) ? MCLGN_INFO : ((IsHContactGroup(hContact)) ? MCLGN_GROUP : MCLGN_CONTACT);
 }
 
-HTREEITEM CCList::GetNextItem(DWORD Flags, HTREEITEM hItem)
+HTREEITEM CCList::GetNextItem(uint32_t Flags, HTREEITEM hItem)
 {
 	switch (Flags & ~(MCLGN_MULTILEVEL | MCLGN_NOTCHILD | MCLGN_ANY)) {
 	case MCLGN_ROOT:

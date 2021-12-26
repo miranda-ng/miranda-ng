@@ -498,7 +498,7 @@ void extbk_export(char *file)
 	char szSection[255];
 	char szKey[255];
 	DBVARIANT dbv = { 0 };
-	DWORD data;
+	uint32_t data;
 
 	data = 3;
 
@@ -544,15 +544,15 @@ void extbk_export(char *file)
 			mir_free(dbv.pszVal);
 		}
 		mir_snprintf(szKey, "Font%dSize", n);
-		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
+		data = (uint32_t)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Size", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dSty", n);
-		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
+		data = (uint32_t)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Style", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dSet", n);
-		data = (DWORD)db_get_b(0, "CLC", szKey, 8);
+		data = (uint32_t)db_get_b(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Set", &data, 1, file);
 
 		mir_snprintf(szKey, "Font%dCol", n);
@@ -560,11 +560,11 @@ void extbk_export(char *file)
 		WritePrivateProfileStructA(szSection, "Color", &data, 4, file);
 
 		mir_snprintf(szKey, "Font%dFlags", n);
-		data = (DWORD)db_get_dw(0, "CLC", szKey, 8);
+		data = (uint32_t)db_get_dw(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "Flags", &data, 4, file);
 
 		mir_snprintf(szKey, "Font%dAs", n);
-		data = (DWORD)db_get_w(0, "CLC", szKey, 8);
+		data = (uint32_t)db_get_w(0, "CLC", szKey, 8);
 		WritePrivateProfileStructA(szSection, "SameAs", &data, 2, file);
 	}
 
@@ -573,13 +573,13 @@ void extbk_export(char *file)
 		data = 0;
 		switch (_tagSettings[i].size) {
 		case 1:
-			data = (DWORD)db_get_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint8_t)_tagSettings[i].defaultval);
+			data = (uint32_t)db_get_b(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint8_t)_tagSettings[i].defaultval);
 			break;
 		case 2:
-			data = (DWORD)db_get_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
+			data = (uint32_t)db_get_w(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint32_t)_tagSettings[i].defaultval);
 			break;
 		case 4:
-			data = (DWORD)db_get_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (DWORD)_tagSettings[i].defaultval);
+			data = (uint32_t)db_get_dw(0, _tagSettings[i].szModule, _tagSettings[i].szSetting, (uint32_t)_tagSettings[i].defaultval);
 			break;
 		}
 		WritePrivateProfileStructA("Global", _tagSettings[i].szSetting, &data, _tagSettings[i].size, file);
@@ -592,7 +592,7 @@ void extbk_export(char *file)
 	}
 }
 
-DWORD __fastcall HexStringToLong(const char *szSource)
+uint32_t __fastcall HexStringToLong(const char *szSource)
 {
 	char *stopped;
 	COLORREF clr = strtol(szSource, &stopped, 16);
@@ -604,7 +604,7 @@ DWORD __fastcall HexStringToLong(const char *szSource)
 static StatusItems_t default_item = {
 	"{--Contact--}", "", 0,
 	CLCDEFAULT_GRADIENT, CLCDEFAULT_CORNER,
-	CLCDEFAULT_COLOR, CLCDEFAULT_COLOR2, CLCDEFAULT_COLOR2_TRANSPARENT, DWORD(-1),
+	CLCDEFAULT_COLOR, CLCDEFAULT_COLOR2, CLCDEFAULT_COLOR2_TRANSPARENT, uint32_t(-1),
 	CLCDEFAULT_ALPHA, CLCDEFAULT_MRGN_LEFT, CLCDEFAULT_MRGN_TOP, CLCDEFAULT_MRGN_RIGHT,
 	CLCDEFAULT_MRGN_BOTTOM, CLCDEFAULT_IGNORE
 };
@@ -616,7 +616,7 @@ static void PreMultiply(HBITMAP hBitmap, int mode)
 
 	int width = bmp.bmWidth;
 	int height = bmp.bmHeight;
-	DWORD dwLen = width * height * 4;
+	uint32_t dwLen = width * height * 4;
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -647,7 +647,7 @@ static void CorrectBitmap32Alpha(HBITMAP hBitmap)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t*)calloc(1, dwLen);
 	if (p == nullptr)
 		return;
@@ -1137,8 +1137,8 @@ static void BTN_ReadItem(char *itemName, char *file)
 				}
 			case 'd':
 				{
-					DWORD value = (DWORD)atol(&szBuffer[1]);
-					*((DWORD *)&pValue[0]) = value;
+					uint32_t value = (uint32_t)atol(&szBuffer[1]);
+					*((uint32_t *)&pValue[0]) = value;
 					tmpItem.type = DBVT_DWORD;
 					break;
 				}
@@ -1373,7 +1373,7 @@ void extbk_import(char *file, HWND hwndDlg)
 	int i;
 	char buffer[255];
 	char szKey[255], szSection[255];
-	DWORD data, version = 0;
+	uint32_t data, version = 0;
 
 	for (auto &p : arStatusItems) {
 		if (p->statusID == ID_EXTBKSEPARATOR)

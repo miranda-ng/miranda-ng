@@ -118,11 +118,11 @@ void CJabberProto::OnIqResultPrivacyList(const TiXmlElement *iqNode, CJabberIqIn
 			bAllow = false;
 
 		const char *itemOrder = XmlGetAttr(item, "order");
-		DWORD dwOrder = 0;
+		uint32_t dwOrder = 0;
 		if (itemOrder)
 			dwOrder = atoi(itemOrder);
 
-		DWORD dwPackets = 0;
+		uint32_t dwPackets = 0;
 		if (XmlFirstChild(item, "message"))
 			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
 		if (XmlFirstChild(item, "presence-in"))
@@ -345,7 +345,7 @@ public:
 		m_cbAction.AddString(TranslateT("Allow"));
 		m_cbAction.SetCurSel(m_pRule->GetAction() ? 1 : 0);
 
-		DWORD dwPackets = m_pRule->GetPackets();
+		uint32_t dwPackets = m_pRule->GetPackets();
 		if (!dwPackets)
 			dwPackets = JABBER_PL_RULE_TYPE_ALL;
 		if (dwPackets & JABBER_PL_RULE_TYPE_IQ)
@@ -390,7 +390,7 @@ public:
 		m_pRule->SetType((PrivacyListRuleType)nItemData);
 		m_pRule->SetAction(m_cbAction.GetCurSel());
 
-		DWORD dwPackets = 0;
+		uint32_t dwPackets = 0;
 		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
 			dwPackets |= JABBER_PL_RULE_TYPE_MESSAGE;
 		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_PRESENCE_IN))
@@ -592,7 +592,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 
 			CMStringA szPackets;
 
-			DWORD dwPackets = pRule->GetPackets();
+			uint32_t dwPackets = pRule->GetPackets();
 			if (!dwPackets)
 				dwPackets = JABBER_PL_RULE_TYPE_ALL;
 			if (dwPackets == JABBER_PL_RULE_TYPE_ALL)
@@ -895,7 +895,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 			m_clcClist.SetExtraImage(hItem, i, hide ? EMPTY_EXTRA_ICON : 0);
 	}
 
-	void CListSetupIcons(HANDLE hItem, int iSlot, DWORD dwProcess, BOOL bAction)
+	void CListSetupIcons(HANDLE hItem, int iSlot, uint32_t dwProcess, BOOL bAction)
 	{
 		if (dwProcess && !m_clcClist.GetExtraImage(hItem, iSlot))
 			m_clcClist.SetExtraImage(hItem, iSlot, iSlot * 2 + (bAction ? 1 : 2));
@@ -977,7 +977,7 @@ class CJabberDlgPrivacyLists : public CJabberDlgBase
 			if (!hItem)
 				continue;
 
-			DWORD dwPackets = pRule->GetPackets();
+			uint32_t dwPackets = pRule->GetPackets();
 			if (!dwPackets) dwPackets = JABBER_PL_RULE_TYPE_ALL;
 			CListSetupIcons(hItem, 0, dwPackets & JABBER_PL_RULE_TYPE_MESSAGE, pRule->GetAction());
 			CListSetupIcons(hItem, 1, dwPackets & JABBER_PL_RULE_TYPE_PRESENCE_IN, pRule->GetAction());
@@ -989,9 +989,9 @@ lbl_return:
 		clc_info.bChanged = false;
 	}
 
-	DWORD CListGetPackets(HANDLE hItem, bool bAction)
+	uint32_t CListGetPackets(HANDLE hItem, bool bAction)
 	{
-		DWORD result = 0;
+		uint32_t result = 0;
 
 		int iIcon = m_clcClist.GetExtraImage(hItem, 0);
 		if (bAction && (iIcon == 1)) result |= JABBER_PL_RULE_TYPE_MESSAGE;
@@ -1019,8 +1019,8 @@ lbl_return:
 
 		clc_info.bChanged = false;
 
-		DWORD dwOrder = 0;
-		DWORD dwPackets = 0;
+		uint32_t dwOrder = 0;
+		uint32_t dwPackets = 0;
 
 		pList->RemoveAllRules();
 
@@ -1844,7 +1844,7 @@ public:
 					else
 						itemTag << XATTR("action", "deny");
 					itemTag << XATTRI("order", pRule->GetOrder());
-					DWORD dwPackets = pRule->GetPackets();
+					uint32_t dwPackets = pRule->GetPackets();
 					if (dwPackets != JABBER_PL_RULE_TYPE_ALL) {
 						if (dwPackets & JABBER_PL_RULE_TYPE_IQ)
 							itemTag << XCHILD("iq");
@@ -1892,7 +1892,7 @@ public:
 		if (evt->info->iColumn == -1)
 			return;
 
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		HANDLE hItem = m_clcClist.HitTest(evt->info->pt.x, evt->info->pt.y, &hitFlags);
 		if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 			return;

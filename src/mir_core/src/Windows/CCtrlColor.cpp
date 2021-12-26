@@ -50,12 +50,12 @@ void CCtrlColor::OnReset()
 		SetColor(LoadInt());
 }
 
-DWORD CCtrlColor::GetColor()
+uint32_t CCtrlColor::GetColor()
 {
    return ::SendMessage(m_hwnd, CPM_GETCOLOUR, 0, 0);
 }
 
-void CCtrlColor::SetColor(DWORD dwValue)
+void CCtrlColor::SetColor(uint32_t dwValue)
 {
    ::SendMessage(m_hwnd, CPM_SETCOLOUR, 0, dwValue);
 }

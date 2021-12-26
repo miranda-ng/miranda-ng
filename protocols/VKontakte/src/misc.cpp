@@ -120,7 +120,7 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 void CVkProto::ClearAccessToken()
 {
 	debugLogA("CVkProto::ClearAccessToken");
-	setDword("LastAccessTokenTime", (DWORD)time(0));
+	setDword("LastAccessTokenTime", (uint32_t)time(0));
 	m_szAccessToken = nullptr;
 	delSetting("AccessToken");
 	ShutdownSession();
@@ -573,7 +573,7 @@ bool CVkProto::AddAuthContactLater(MCONTACT hContact)
 		|| getBool(hContact, "friend"))
 		return false;
 
-	setDword(hContact, "ReqAuthTime", (DWORD)time(0));
+	setDword(hContact, "ReqAuthTime", (uint32_t)time(0));
 	return true;
 }
 
@@ -605,7 +605,7 @@ void CVkProto::DBAddAuthRequest(const MCONTACT hContact, bool added)
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = m_szModuleName;
-	dbei.timestamp = (DWORD)time(0);
+	dbei.timestamp = (uint32_t)time(0);
 	dbei.flags = DBEF_UTF;
 	dbei.eventType = added ? EVENTTYPE_ADDED : EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = blob.size();
@@ -620,9 +620,9 @@ MCONTACT CVkProto::MContactFromDbEvent(MEVENT hDbEvent)
 	if (!hDbEvent || !IsOnline())
 		return INVALID_CONTACT_ID;
 
-	DWORD body[2];
+	uint32_t body[2];
 	DBEVENTINFO dbei = {};
-	dbei.cbBlob = sizeof(DWORD) * 2;
+	dbei.cbBlob = sizeof(uint32_t) * 2;
 	dbei.pBlob = (uint8_t*)&body;
 
 	if (db_event_get(hDbEvent, &dbei))
@@ -1577,8 +1577,8 @@ void CVkProto::SetInvisible(MCONTACT hContact)
 		debugLogA("CVkProto::SetInvisible %d set ID_STATUS_INVISIBLE", getDword(hContact, "ID", VK_INVALID_USER));
 	}
 	time_t now = time(0);
-	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (DWORD)now);
-	setDword(hContact, "InvisibleTS", (DWORD)now);
+	db_set_dw(hContact, "BuddyExpectator", "LastSeen", (uint32_t)now);
+	setDword(hContact, "InvisibleTS", (uint32_t)now);
 }
 
 CMStringW CVkProto::RemoveBBC(CMStringW& wszSrc)
@@ -1678,7 +1678,7 @@ void CVkProto::ShowCaptchaInBrowser(HBITMAP hBitmap)
 	FreeImage_SaveToMemory(FIF_PNG, dib, hMem, 0);
 
 	uint8_t *buf = nullptr;
-	DWORD bufLen;
+	uint32_t bufLen;
 	FreeImage_AcquireMemory(hMem, &buf, &bufLen);
 	ptrA base64(mir_base64_encode(buf, bufLen));
 	FreeImage_CloseMemory(hMem);
@@ -1721,7 +1721,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 	dbei.timestamp = time(0);
 	dbei.eventType = VK_USER_DEACTIVATE_ACTION;
 	ptrA pszDescription(mir_utf8encode(vkDeactivateEvent[iDEIdx].szDescription));
-	dbei.cbBlob = (DWORD)mir_strlen(pszDescription) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(pszDescription) + 1;
 	dbei.pBlob = (uint8_t*)mir_strdup(pszDescription);
 	dbei.flags = DBEF_UTF | (
 		(

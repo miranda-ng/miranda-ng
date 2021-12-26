@@ -31,7 +31,7 @@ struct AddDialogParam : public MZeroedObject
 
 void AddContactDlgOpts(HWND hdlg, const char* szProto, BOOL bAuthOptsOnly = FALSE)
 {
-	DWORD flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
+	uint32_t flags = (szProto) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) : 0;
 	if (IsDlgButtonChecked(hdlg, IDC_ADDTEMP)) {
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTH), FALSE);
 		EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
@@ -78,7 +78,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 		if (!pa->IsEnabled())
 			continue;
 		
-		DWORD dwCaps = (DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		uint32_t dwCaps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
 			iAccCount++;
 	}
@@ -108,7 +108,7 @@ bool AddContactDlgAccounts(HWND hdlg, AddDialogParam *acs)
 		if (!pa->IsEnabled())
 			continue;
 		
-		DWORD dwCaps = (DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		uint32_t dwCaps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (!(dwCaps & PF1_BASICSEARCH) && !(dwCaps & PF1_EXTSEARCH) && !(dwCaps & PF1_SEARCHBYEMAIL) && !(dwCaps & PF1_SEARCHBYNAME))
 			continue;
 
@@ -206,7 +206,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 
 		case IDC_AUTH:
 			{
-				DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
+				uint32_t flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 				if (flags & PF4_NOCUSTOMAUTH) {
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 					EnableWindow(GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
@@ -262,7 +262,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM)
 					Contact_PutOnList(hContact);
 
 					if (IsDlgButtonChecked(hdlg, IDC_AUTH)) {
-						DWORD flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
+						uint32_t flags = CallProtoService(acs->proto, PS_GETCAPS, PFLAGNUM_4, 0);
 						if (flags & PF4_NOCUSTOMAUTH)
 							ProtoChainSend(hContact, PSS_AUTHREQUEST, 0, 0);
 						else {

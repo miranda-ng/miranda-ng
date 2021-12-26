@@ -55,7 +55,7 @@ void CDbxMDBX::FillSettings()
 		switch (iType) {
 		case DBVT_BYTE:  dbv->bVal = *pBlob; break;
 		case DBVT_WORD:  dbv->wVal = *(uint16_t*)pBlob; break;
-		case DBVT_DWORD: dbv->dVal = *(DWORD*)pBlob; break;
+		case DBVT_DWORD: dbv->dVal = *(uint32_t*)pBlob; break;
 
 		case DBVT_UTF8:
 		case DBVT_ASCIIZ:
@@ -118,7 +118,7 @@ BOOL CDbxMDBX::WriteContactSettingWorker(MCONTACT contactID, DBCONTACTWRITESETTI
 	switch (dbcws.value.type) {
 	case DBVT_BYTE:  *pBlob = dbcws.value.bVal; break;
 	case DBVT_WORD:  *(uint16_t*)pBlob = dbcws.value.wVal; break;
-	case DBVT_DWORD: *(DWORD*)pBlob = dbcws.value.dVal; break;
+	case DBVT_DWORD: *(uint32_t*)pBlob = dbcws.value.dVal; break;
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:

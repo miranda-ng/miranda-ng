@@ -41,21 +41,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 typedef INT_PTR mir_time;
 
-EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags);
-EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, uint32_t dwFlags);
+EXTERN_C MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, uint32_t dwFlags);
 
 EXTERN_C MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, HANDLE hTZ);
-EXTERN_C MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags);
 
-EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags);
-EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, uint32_t dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, uint32_t dwFlags);
 
-EXTERN_C MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
-EXTERN_C MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags);
 
 #ifdef _MSC_VER
 EXTERN_C MIR_CORE_DLL(int) TimeZone_GetTimeZoneTime(HANDLE hTZ, SYSTEMTIME *st);
-EXTERN_C MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time src, SYSTEMTIME *dest, DWORD dwFlags);
+EXTERN_C MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time src, SYSTEMTIME *dest, uint32_t dwFlags);
 
 EXTERN_C MIR_CORE_DLL(LPTIME_ZONE_INFORMATION) TimeZone_GetInfo(HANDLE hTZ);
 #endif
@@ -66,12 +66,12 @@ EXTERN_C MIR_CORE_DLL(LPCTSTR) TimeZone_GetDescription(LPCTSTR TZname);
 
 #ifdef __cplusplus
 
-__forceinline int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+__forceinline int printDateTimeByContact (MCONTACT hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, uint32_t dwFlags)
 {
 	return TimeZone_PrintDateTime(TimeZone_CreateByContact(hContact, nullptr, dwFlags), szFormat, szDest, cbDest, dwFlags);
 }
 
-__forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)
+__forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, int cbDest, uint32_t dwFlags)
 {
 	return TimeZone_PrintTimeStamp(TimeZone_CreateByContact(hContact, nullptr, dwFlags), ts, szFormat, szDest, cbDest, dwFlags);
 }
@@ -112,7 +112,7 @@ __forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, 
 // mixed up (like I did. Living at GMT makes things easier for me, but has certain
 // disadvantages :-)).
 
-EXTERN_C MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD);
+EXTERN_C MIR_CORE_DLL(uint32_t) TimeZone_ToLocal(uint32_t);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Converts a GMT timestamp into a customisable local time string

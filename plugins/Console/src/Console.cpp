@@ -98,10 +98,10 @@ static int gSingleMode = 0;
 static int gLimit = 0;
 static int gSeparator = 0;
 
-static DWORD gWrapLen = DEFAULT_WRAPLEN;
+static uint32_t gWrapLen = DEFAULT_WRAPLEN;
 
-static DWORD OutMsgs = 0;
-static DWORD InMsgs = 0;
+static uint32_t OutMsgs = 0;
+static uint32_t InMsgs = 0;
 
 static HICON hIcons[15] = {};
 static HGENMENU hMenu = nullptr;
@@ -371,8 +371,8 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 			LVITEM lvi = { 0 };
 			int last = 0x7fffffff;
 			wchar_t szBreak;
-			DWORD len, tmplen;
-			DWORD wraplen = gWrapLen;
+			uint32_t len, tmplen;
+			uint32_t wraplen = gWrapLen;
 			wchar_t *str = ((DUMPMSG *)lParam)->szMsg;
 
 			lvi.iItem = 0x7fffffff;
@@ -402,7 +402,7 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 
 			while (str != nullptr) {
 				lvi.pszText = &str[0];
-				tmplen = len = (DWORD)mir_wstrlen(lvi.pszText);
+				tmplen = len = (uint32_t)mir_wstrlen(lvi.pszText);
 
 				while (len > wraplen) {
 					szBreak = lvi.pszText[wraplen];
@@ -924,9 +924,9 @@ static int OnFastDump(WPARAM wParam, LPARAM lParam)
 {
 	if (pActive) {
 		LOGMSG *logMsg = (LOGMSG *)lParam;
-		DWORD headlen = (DWORD)mir_strlen(logMsg->pszHead);
-		DWORD msglen = (DWORD)mir_strlen(logMsg->pszMsg);
-		DWORD len = (headlen + msglen + 1) * sizeof(wchar_t) + sizeof(DUMPMSG);
+		uint32_t headlen = (uint32_t)mir_strlen(logMsg->pszHead);
+		uint32_t msglen = (uint32_t)mir_strlen(logMsg->pszMsg);
+		uint32_t len = (headlen + msglen + 1) * sizeof(wchar_t) + sizeof(DUMPMSG);
 		DUMPMSG *dumpMsg = (DUMPMSG *)mir_alloc(len);
 		wchar_t *str = dumpMsg->szMsg;
 

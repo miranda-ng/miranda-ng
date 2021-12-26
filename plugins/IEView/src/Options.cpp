@@ -159,7 +159,7 @@ static void UpdateControlsState(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_BROWSE_BACKGROUND_IMAGE), bChecked);
 }
 
-static void SetIcon(HWND hwnd, DWORD id, int index, bool condition)
+static void SetIcon(HWND hwnd, uint32_t id, int index, bool condition)
 {
 	HICON hIcon;
 	if (condition)
@@ -463,7 +463,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->code) {
 		case PSN_APPLY:
-			DWORD i = 0;
+			uint32_t i = 0;
 			if (IsDlgButtonChecked(hwndDlg, IDC_ENABLE_BBCODES))
 				i |= Options::GENERAL_ENABLE_BBCODES;
 
@@ -597,7 +597,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			case NM_CLICK:
 				{
 					TVHITTESTINFO ht = { 0 };
-					DWORD dwpos = GetMessagePos();
+					uint32_t dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
 					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
@@ -735,7 +735,7 @@ static INT_PTR CALLBACK IEViewHistoryOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			case NM_CLICK:
 				{
 					TVHITTESTINFO ht = {};
-					DWORD dwpos = GetMessagePos();
+					uint32_t dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
 					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
@@ -873,7 +873,7 @@ static INT_PTR CALLBACK IEViewGroupChatsOptDlgProc(HWND hwndDlg, UINT msg, WPARA
 			case NM_CLICK:
 				{
 					TVHITTESTINFO ht = {};
-					DWORD dwpos = GetMessagePos();
+					uint32_t dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
 					TreeView_HitTest(((LPNMHDR)lParam)->hwndFrom, &ht);
@@ -1131,7 +1131,7 @@ void Options::uninit()
 
 void Options::setEmbedSize(int size)
 {
-	g_plugin.setDword("Embedsize", (DWORD)size);
+	g_plugin.setDword("Embedsize", (uint32_t)size);
 }
 
 int Options::getEmbedSize()

@@ -37,8 +37,6 @@ static void GetScreenRect(void);
 extern void SetThumbsOpacity(uint8_t btAlpha);
 static int  ClcStatusToPf2(int status);
 
-static VOID CALLBACK ToTopTimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-
 HFONT      hFont[FLT_FONTIDS];
 COLORREF   tColor[FLT_FONTIDS];
 HIMAGELIST himlMiranda;
@@ -47,16 +45,16 @@ MCONTACT   hNewContact;
 HPEN       hLTEdgesPen;
 HPEN       hRBEdgesPen;
 HBRUSH     hBkBrush;
-DWORD      bkColor;
+uint32_t   bkColor;
 HBITMAP    hBmpBackground;
-uint16_t       nBackgroundBmpUse = CLB_STRETCH;
+uint16_t   nBackgroundBmpUse = CLB_STRETCH;
 
 HWND       hwndMiranda;
 BOOL       bVersionOK;
 BOOL       bDockHorz = TRUE;
 HMENU      hContactMenu;
 RECT       rcScreen;
-DWORD      dwOfflineModes;
+uint32_t   dwOfflineModes;
 BOOL       bEnableTip;
 UINT_PTR   ToTopTimerID;
 BOOL       bIsCListShow;
@@ -284,7 +282,7 @@ static void LoadDBSettings()
 	fcOpt.bHideWhenFullscreen = (BOOL)g_plugin.getByte("HideWhenFullscreen", 0);
 	fcOpt.bMoveTogether = (BOOL)g_plugin.getByte("MoveTogether", 0);
 	fcOpt.bFixedWidth = (BOOL)g_plugin.getByte("FixedWidth", 0);
-	fcOpt.nThumbWidth = (DWORD)g_plugin.getDword("Width", 0);
+	fcOpt.nThumbWidth = (uint32_t)g_plugin.getDword("Width", 0);
 	dwOfflineModes = Clist::OfflineModes;
 	fcOpt.bShowTip = (BOOL)g_plugin.getByte("ShowTip", 1);
 	fcOpt.TimeIn = g_plugin.getWord("TimeIn", 0);
@@ -445,6 +443,12 @@ void OnStatusChanged()
 		idStatus = GetContactStatus(it->hContact);
 		it->RefreshContactStatus(idStatus);
 	}
+}
+
+static VOID CALLBACK ToTopTimerProc(HWND, UINT, UINT_PTR, DWORD)
+{
+	for (auto &it : thumbList)
+		SetWindowPos(it->hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 
 void ApplyOptionsChanges()
@@ -746,7 +750,7 @@ static void LoadContact(MCONTACT hContact)
 	if (hContact == NULL)
 		return;
 
-	DWORD	dwPos = g_plugin.getDword(hContact, "ThumbsPos", (DWORD)-1);
+	uint32_t	dwPos = g_plugin.getDword(hContact, "ThumbsPos", (uint32_t)-1);
 	if (dwPos != -1) {
 		wchar_t	*ptName = Clist_GetContactDisplayName(hContact);
 		if (ptName != nullptr) {
@@ -784,12 +788,6 @@ BOOL HideOnFullScreen()
 	}
 
 	return bFullscreen && fcOpt.bHideWhenFullscreen;
-}
-
-static VOID CALLBACK ToTopTimerProc(HWND, UINT, UINT_PTR, DWORD)
-{
-	for (auto &it : thumbList)
-		SetWindowPos(it->hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOACTIVATE);
 }
 
 void ShowThumbsOnHideCList()

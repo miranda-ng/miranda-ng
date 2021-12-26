@@ -73,11 +73,11 @@ EXTERN_C MIR_APP_DLL(HBITMAP) Image_LoadFromMem(const void *pBuf, size_t cbLen, 
 
 struct IMGSRVC_INFO
 {
-    DWORD cbSize;
+    uint32_t cbSize;
 	 const wchar_t *pwszName;
     HBITMAP hbm;
     FIBITMAP *dib;
-    DWORD    dwMask;
+    uint32_t dwMask;
     FREE_IMAGE_FORMAT fif;
 };
 

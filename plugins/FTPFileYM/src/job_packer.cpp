@@ -224,7 +224,7 @@ uLong PackerJob::getFileTime(wchar_t *file, tm_zip*, uLong *dt)
 
 void PackerJob::updateStats()
 {
-	DWORD dwNewTick = GetTickCount();
+	uint32_t dwNewTick = GetTickCount();
 	if (m_uiReaded && (time(0) > m_startTS) && (dwNewTick > m_lastUpdateTick + 100)) {
 		m_lastUpdateTick = dwNewTick;
 

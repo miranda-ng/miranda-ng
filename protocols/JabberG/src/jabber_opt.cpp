@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_list.h"
 #include "jabber_caps.h"
 
-static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = nullptr;
+static BOOL(WINAPI *pfnEnableThemeDialogTexture)(HANDLE, uint32_t) = nullptr;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberRegisterDlgProc - the dialog proc for registering new account

@@ -123,7 +123,7 @@ void __stdcall RemoveLinebreaks(CMStringW &Message)
 char* __stdcall IrcLoadFile(wchar_t* szPath)
 {
 	char * szContainer = nullptr;
-	DWORD dwSiz = 0;
+	uint32_t dwSiz = 0;
 	FILE *hFile = _wfopen(szPath, L"rb");
 	if (hFile != nullptr) {
 		fseek(hFile, 0, SEEK_END); // seek to end

@@ -50,7 +50,7 @@ pfnEndBufferedPaint endBufferedPaint;
 
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
-DWORD hMainThreadId;
+uint32_t hMainThreadId;
 bool g_bModulesLoadedFired = false, g_bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
@@ -164,7 +164,7 @@ MIR_APP_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *pInfo)
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t dwReason, LPVOID)
 {
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		g_plugin.setInst(hinstDLL);
@@ -196,10 +196,10 @@ static void __cdecl compactHeapsThread(void*)
 		SleepEx((1000 * 60) * 5, TRUE); // every 5 minutes
 
 		HANDLE hHeaps[256];
-		DWORD hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
+		uint32_t hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
 		if (hc != 0 && hc < 256) {
 			__try {
-				for (DWORD j = 0; j < hc; j++)
+				for (uint32_t j = 0; j < hc; j++)
 					HeapCompact(hHeaps[j], 0);
 			}
 			__except (EXCEPTION_EXECUTE_HANDLER)
@@ -215,7 +215,7 @@ MIR_APP_DLL(void) Miranda_SetIdleCallback(void(__cdecl *pfnCallback)(void))
 	SetIdleCallback = pfnCallback;
 }
 
-static DWORD dwEventTime = 0;
+static uint32_t dwEventTime = 0;
 void checkIdle(MSG * msg)
 {
 	switch (msg->message) {
@@ -226,7 +226,7 @@ void checkIdle(MSG * msg)
 	}
 }
 
-MIR_APP_DLL(DWORD) Miranda_GetIdle()
+MIR_APP_DLL(uint32_t) Miranda_GetIdle()
 {
 	return dwEventTime;
 }
@@ -320,7 +320,7 @@ static MSystemWindow *g_pSystemWindow;
 static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
 {}
 
-static DWORD myWait()
+static uint32_t myWait()
 {
 	HANDLE *hWaitObjects = (HANDLE*)_alloca(arWaitableObjects.getCount() * sizeof(HANDLE));
 	for (int i = 0; i < arWaitableObjects.getCount(); i++)
@@ -389,13 +389,13 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 		mir_forkthread(compactHeapsThread);
 		dwEventTime = GetTickCount();
-		DWORD myPid = GetCurrentProcessId();
+		uint32_t myPid = GetCurrentProcessId();
 
 		bool messageloop = true;
 		while (messageloop) {
 			MSG msg;
 			BOOL dying = FALSE;
-			DWORD rc = myWait();
+			uint32_t rc = myWait();
 			if (rc < WAIT_OBJECT_0 + arWaitableObjects.getCount()) {
 				auto &pWait = arWaitableObjects[rc - WAIT_OBJECT_0];
 				if (pWait.m_pInfo == INVALID_HANDLE_VALUE)
@@ -484,7 +484,7 @@ MIR_APP_DLL(void) Miranda_Close()
 /////////////////////////////////////////////////////////////////////////////////////////
 // version functions
 
-MIR_APP_DLL(DWORD) Miranda_GetVersion()
+MIR_APP_DLL(uint32_t) Miranda_GetVersion()
 {
 	wchar_t filename[MAX_PATH];
 	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));

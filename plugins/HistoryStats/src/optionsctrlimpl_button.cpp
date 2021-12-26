@@ -7,7 +7,7 @@
  * OptionsCtrlImpl::Button
  */
 
-OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Button::Button(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szButton, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itButton, szLabel, dwFlags, dwData)
 	, m_hButtonWnd(nullptr)
 	, m_strButton(szButton)
@@ -42,7 +42,7 @@ void OptionsCtrlImpl::Button::onSelect()
 
 		HWND hTempWnd;
 
-		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_PUSHBUTTON | BS_TEXT | BS_CENTER | BS_VCENTER;
+		uint32_t dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | BS_PUSHBUTTON | BS_TEXT | BS_CENTER | BS_VCENTER;
 
 		if (hTempWnd = CreateWindowEx(
 			0, WC_BUTTON, m_strButton.c_str(), dwStyle,

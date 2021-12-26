@@ -150,7 +150,7 @@ MIR_APP_DLL(INT_PTR)  CallProtoService(const char *szModule, const char *szServi
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions
 
-typedef DWORD (MIR_CDECL *pfnExceptionFilter)(DWORD code, EXCEPTION_POINTERS *info);
+typedef uint32_t (MIR_CDECL *pfnExceptionFilter)(uint32_t code, EXCEPTION_POINTERS *info);
 
 MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter(void);
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter);

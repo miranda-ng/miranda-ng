@@ -110,7 +110,7 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 		evt->szNick.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
 	if (evt->eventType == EVENTTYPE_FILE) {
-		char *filename = ((char*)dbei.pBlob) + sizeof(DWORD);
+		char *filename = ((char*)dbei.pBlob) + sizeof(uint32_t);
 		char *descr = filename + mir_strlen(filename) + 1;
 		evt->szText.w = DbEvent_GetString(&dbei, filename);
 		if (*descr != 0)
@@ -124,7 +124,7 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 	return evt;
 }
 
-static EventData* GetTestEvent(DWORD flags)
+static EventData* GetTestEvent(uint32_t flags)
 {
 	EventData *evt = (EventData *)mir_calloc(sizeof(EventData));
 	evt->eventType = EVENTTYPE_MESSAGE;
@@ -706,7 +706,7 @@ void CLogWindow::Attach()
 {
 	CSuper::Attach();
 
-	DWORD dwExStyle = GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE);
+	uint32_t dwExStyle = GetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE);
 	SetWindowLongPtr(m_rtf.GetHwnd(), GWL_EXSTYLE, (m_pDlg.m_bUseRtl) ? dwExStyle | WS_EX_LEFTSCROLLBAR : dwExStyle & ~WS_EX_LEFTSCROLLBAR);
 
 	// Workaround to make Richedit display RTL messages correctly

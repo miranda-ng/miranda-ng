@@ -75,8 +75,8 @@ extern HWND hUpcomingDlg;
 extern MWindowList hAddBirthdayWndsList;
 
 struct CommonData{
-	DWORD foreground;
-	DWORD background;
+	uint32_t foreground;
+	uint32_t background;
 	int checkInterval;
 	int daysInAdvance;
 	int popupTimeout;

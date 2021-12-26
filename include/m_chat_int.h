@@ -217,9 +217,9 @@ struct GlobalLogSettingsBase
 	bool		bShowContactStatus;
 	bool		bContactStatusFirst;
 	bool     bDoubleClick4Privat;    // send a private message on dblclick in a nick list
-	DWORD    dwIconFlags;
-	DWORD    dwTrayIconFlags;
-	DWORD    dwPopupFlags;
+	uint32_t dwIconFlags;
+	uint32_t dwTrayIconFlags;
+	uint32_t dwPopupFlags;
 	int      LogIconSize;
 	int      LogTextIndent;
 	int      LoggingLimit;

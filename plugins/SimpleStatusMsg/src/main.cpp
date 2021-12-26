@@ -1246,7 +1246,7 @@ void RegisterHotkey(void)
 static int ChangeStatusMsgPrebuild(WPARAM, LPARAM)
 {
 	int iStatusMenuItemCount = 0;
-	DWORD iStatusMsgFlags = 0;
+	uint32_t iStatusMsgFlags = 0;
 
 	auto &accs = Accounts();
 	hProtoStatusMenuItem = (HANDLE *)mir_realloc(hProtoStatusMenuItem, sizeof(HANDLE) * accs.getCount());

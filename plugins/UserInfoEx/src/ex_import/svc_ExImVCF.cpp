@@ -285,7 +285,7 @@ size_t CLineBuffer::operator + (const LONG lVal)
  * return:	length of the string, added
  **/
 
-size_t CLineBuffer::operator + (const DWORD dVal)
+size_t CLineBuffer::operator + (const uint32_t dVal)
 {
 	size_t cbLength = 10;
 

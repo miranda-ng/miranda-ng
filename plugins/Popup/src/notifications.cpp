@@ -218,7 +218,7 @@ HANDLE FindTreeData(LPTSTR group, LPTSTR name, uint8_t typ)
 	return nullptr;
 }
 
-void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
+void FillNotificationData(POPUPDATA2 *ppd, uint32_t *disableWhen)
 {
 	if (!IsValidNotification(ppd->lchNotification)) {
 		*disableWhen = 0;

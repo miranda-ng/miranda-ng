@@ -71,7 +71,7 @@ static void PatchResourcesDirectory(PIMAGE_RESOURCE_DIRECTORY pIRD, uint8_t *pBa
 		PatchResourceEntry(pIRDE, pBase);
 }
 
-__forceinline bool Contains(PIMAGE_SECTION_HEADER pISH, DWORD address, DWORD size = 0)
+__forceinline bool Contains(PIMAGE_SECTION_HEADER pISH, uint32_t address, uint32_t size = 0)
 {
 	return (address >= pISH->VirtualAddress && address + size <= pISH->VirtualAddress + pISH->SizeOfRawData);
 }
@@ -110,7 +110,7 @@ LBL_NotPE:
 			goto LBL_NotPE;
 
 		uint16_t  machine = pINTH->FileHeader.Machine;
-		DWORD sections = pINTH->FileHeader.NumberOfSections;
+		uint32_t sections = pINTH->FileHeader.NumberOfSections;
 		if (!sections)
 			return RESULT_INVALID;
 
@@ -120,13 +120,13 @@ LBL_NotPE:
 		ULONGLONG base = 0;
 
 		// try to found correct offset independent of architectures
-		DWORD offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
+		uint32_t offset = pIDH->e_lfanew + pINTH->FileHeader.SizeOfOptionalHeader + sizeof(IMAGE_NT_HEADERS) - sizeof(IMAGE_OPTIONAL_HEADER);
 
 		if ((machine == IMAGE_FILE_MACHINE_I386) &&
 			(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER32)) &&
 			(pINTH->OptionalHeader.Magic == IMAGE_NT_OPTIONAL_HDR32_MAGIC)) {
 			pIDD = (PIMAGE_DATA_DIRECTORY)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.DataDirectory));
-			base = *(DWORD*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
+			base = *(uint32_t*)((uint8_t*)pINTH + offsetof(IMAGE_NT_HEADERS32, OptionalHeader.ImageBase));
 		}
 		else if ((machine == IMAGE_FILE_MACHINE_AMD64) &&
 			(pINTH->FileHeader.SizeOfOptionalHeader >= sizeof(IMAGE_OPTIONAL_HEADER64)) &&
@@ -137,30 +137,30 @@ LBL_NotPE:
 		else return RESULT_CORRUPTED;
 
 		// Debugging information entry
-		DWORD dbgAddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
-		DWORD dbgSize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
+		uint32_t dbgAddr = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress;
+		uint32_t dbgSize = pIDD[IMAGE_DIRECTORY_ENTRY_DEBUG].Size;
 
 		// Export information entry
-		DWORD expAddr = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
-		DWORD expSize = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
+		uint32_t expAddr = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;
+		uint32_t expSize = pIDD[IMAGE_DIRECTORY_ENTRY_EXPORT].Size;
 
 		// Resource directory
-		DWORD resAddr = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress;
-		DWORD resSize = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].Size;
+		uint32_t resAddr = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].VirtualAddress;
+		uint32_t resSize = pIDD[IMAGE_DIRECTORY_ENTRY_RESOURCE].Size;
 
 		// Reallocation information entry
-		DWORD relocAddr = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
-		DWORD relocSize = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
+		uint32_t relocAddr = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].VirtualAddress;
+		uint32_t relocSize = pIDD[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
 
 		// verify image integrity
-		for (DWORD idx = 0; idx < sections; idx++) {
+		for (uint32_t idx = 0; idx < sections; idx++) {
 			PIMAGE_SECTION_HEADER pISH = (PIMAGE_SECTION_HEADER)(map.ptr + offset + idx * sizeof(IMAGE_SECTION_HEADER));
 			if (((uint8_t*)pISH + sizeof(IMAGE_SECTION_HEADER) > map.ptr + filesize) || (pISH->PointerToRawData + pISH->SizeOfRawData > filesize))
 				return RESULT_CORRUPTED;
 
 			// erase timestamp
 			if (dbgSize >= sizeof(IMAGE_DEBUG_DIRECTORY) && Contains(pISH, dbgAddr, dbgSize)) {
-				DWORD shift = dbgAddr - pISH->VirtualAddress;
+				uint32_t shift = dbgAddr - pISH->VirtualAddress;
 				pDBG = (PIMAGE_DEBUG_DIRECTORY)(map.ptr + shift + pISH->PointerToRawData);
 				for (int i = dbgSize / sizeof(IMAGE_DEBUG_DIRECTORY); i > 0; i--)
 					pDBG[i - 1].TimeDateStamp = 0;
@@ -168,14 +168,14 @@ LBL_NotPE:
 
 			// erase export timestamp
 			if (expSize >= sizeof(IMAGE_EXPORT_DIRECTORY) && Contains(pISH, expAddr, expSize)) {
-				DWORD shift = expAddr - pISH->VirtualAddress;
+				uint32_t shift = expAddr - pISH->VirtualAddress;
 				PIMAGE_EXPORT_DIRECTORY pEXP = (PIMAGE_EXPORT_DIRECTORY)(map.ptr + shift + pISH->PointerToRawData);
 				pEXP->TimeDateStamp = 0;
 			}
 
 			// find realocation table
 			if ((relocSize >= sizeof(IMAGE_BASE_RELOCATION)) && Contains(pISH, relocAddr, relocSize)) {
-				DWORD shift = relocAddr - pISH->VirtualAddress;
+				uint32_t shift = relocAddr - pISH->VirtualAddress;
 				pRealloc = map.ptr + shift + pISH->PointerToRawData;
 			}
 		}
@@ -193,33 +193,33 @@ LBL_NotPE:
 
 			// patch resources
 			if (resSize > 0 && Contains(pISH, resAddr, resSize)) {
-				DWORD shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
+				uint32_t shift = resAddr - pISH->VirtualAddress + pISH->PointerToRawData;
 				IMAGE_RESOURCE_DIRECTORY *pIRD = (IMAGE_RESOURCE_DIRECTORY*)(map.ptr + shift);
 				PatchResourcesDirectory(pIRD, map.ptr + shift);
 			}
 
 			// rebase to zero address
 			if (pRealloc) {
-				DWORD blocklen = relocSize;
+				uint32_t blocklen = relocSize;
 				PIMAGE_BASE_RELOCATION pIBR = (PIMAGE_BASE_RELOCATION)pRealloc;
 				while (pIBR) {
 					if (Contains(pISH, pIBR->VirtualAddress) && pIBR->SizeOfBlock <= blocklen) {
-						DWORD shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
+						uint32_t shift = pIBR->VirtualAddress - pISH->VirtualAddress + pISH->PointerToRawData;
 						int len = pIBR->SizeOfBlock - sizeof(IMAGE_BASE_RELOCATION);
 						PWORD pw = (PWORD)((uint8_t*)pIBR + sizeof(IMAGE_BASE_RELOCATION));
 
 						while (len > 0) {
-							DWORD type = *pw >> 12;
-							DWORD addr = (*pw & 0x0FFF);
+							uint32_t type = *pw >> 12;
+							uint32_t addr = (*pw & 0x0FFF);
 							uint8_t *pAddr = map.ptr + shift + addr;
 
 							switch (type) {
 							case IMAGE_REL_BASED_HIGHLOW:
-								if (addr + pIBR->VirtualAddress + sizeof(DWORD) >= pISH->VirtualAddress + pISH->SizeOfRawData) {
+								if (addr + pIBR->VirtualAddress + sizeof(uint32_t) >= pISH->VirtualAddress + pISH->SizeOfRawData) {
 									len = 0;
 									break;
 								}
-								*(PDWORD)pAddr = (DWORD)((*(PDWORD)pAddr) - (DWORD)base);
+								*(PDWORD)pAddr = (uint32_t)((*(PDWORD)pAddr) - (uint32_t)base);
 								break;
 
 							case IMAGE_REL_BASED_DIR64:

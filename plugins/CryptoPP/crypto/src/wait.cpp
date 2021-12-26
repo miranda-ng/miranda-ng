@@ -105,7 +105,7 @@ struct WaitingThreadData
 	unsigned int count;
 	HANDLE threadHandle;
 	DWORD threadId;
-	DWORD* error;
+	DWORD *error;
 };
 
 WaitObjectContainer::~WaitObjectContainer()
@@ -125,7 +125,7 @@ WaitObjectContainer::~WaitObjectContainer()
 				threadHandles[i] = thread.threadHandle;
 			}
 			PulseEvent(m_startWaiting);
-			::WaitForMultipleObjects((DWORD)m_threads.size(), threadHandles, TRUE, INFINITE);
+			::WaitForMultipleObjects((uint32_t)m_threads.size(), threadHandles, TRUE, INFINITE);
 			for (i=0; i<m_threads.size(); i++)
 				CloseHandle(threadHandles[i]);
 			CloseHandle(m_startWaiting);
@@ -165,7 +165,7 @@ DWORD WINAPI WaitingThread(LPVOID lParam)
 		handles[0] = thread.stopWaiting;
 		std::copy(thread.waitHandles, thread.waitHandles+thread.count, handles.begin()+1);
 
-		DWORD result = ::WaitForMultipleObjects((DWORD)handles.size(), &handles[0], FALSE, INFINITE);
+		uint32_t result = ::WaitForMultipleObjects((uint32_t)handles.size(), &handles[0], FALSE, INFINITE);
 
 		if (result == WAIT_OBJECT_0)
 			continue;	// another thread finished waiting first, so do nothing
@@ -262,7 +262,7 @@ bool WaitObjectContainer::Wait(unsigned long milliseconds)
 		ResetEvent(m_stopWaiting);
 		PulseEvent(m_startWaiting);
 
-		DWORD result = ::WaitForSingleObject(m_stopWaiting, milliseconds);
+		uint32_t result = ::WaitForSingleObject(m_stopWaiting, milliseconds);
 		if (result == WAIT_OBJECT_0)
 		{
 			if (error == S_OK)
@@ -286,7 +286,7 @@ bool WaitObjectContainer::Wait(unsigned long milliseconds)
 		static unsigned long lastTime = 0;
 		unsigned long timeBeforeWait = t.ElapsedTime();
 #endif
-		DWORD result = ::WaitForMultipleObjects((DWORD)m_handles.size(), &m_handles[0], FALSE, milliseconds);
+		uint32_t result = ::WaitForMultipleObjects((uint32_t)m_handles.size(), &m_handles[0], FALSE, milliseconds);
 #if TRACE_WAIT
 		if (milliseconds > 0)
 		{

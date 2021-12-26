@@ -103,7 +103,7 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetContactSettingWorker(MCONTACT contactID, LPCS
 		dbv->wVal = (uint16_t)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
 		break;
 	case DBVT_DWORD:
-		dbv->dVal = (DWORD)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
+		dbv->dVal = (uint32_t)sqlite3_column_int(set_stmts_prep[SQL_SET_STMT_READ], 1);
 		break;
 	case DBVT_UTF8:
 	case DBVT_ASCIIZ:

@@ -142,7 +142,7 @@ static void ThreadFunc(void*)
 			}
 		}
 		else {
-			DWORD dwResult = ::MsgWaitForMultipleObjects(1, &g_hEventShutdown, FALSE, INFINITE, QS_ALLEVENTS);
+			uint32_t dwResult = ::MsgWaitForMultipleObjects(1, &g_hEventShutdown, FALSE, INFINITE, QS_ALLEVENTS);
 			assert(WAIT_FAILED != dwResult);
 			if (WAIT_OBJECT_0 == dwResult)
 				break;
@@ -182,7 +182,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 						const char szSkypeCmdSetStatus[] = "SET USERSTATUS ";
 						::strncpy_s(szSkypeCmd, szSkypeCmdSetStatus, sizeof(szSkypeCmdSetStatus) / sizeof(szSkypeCmdSetStatus[0]));
 						::strncat_s(szSkypeCmd, ms.m_pszSkypeStatus, _countof(szSkypeCmd) - mir_strlen(szSkypeCmd));
-						DWORD cLength = static_cast<DWORD>(mir_strlen(szSkypeCmd));
+						uint32_t cLength = static_cast<uint32_t>(mir_strlen(szSkypeCmd));
 
 						COPYDATASTRUCT oCopyData;
 						oCopyData.dwData = 0;
@@ -207,7 +207,7 @@ LRESULT APIENTRY SkypeAPI_WindowProc(HWND hWnd, UINT msg, WPARAM wp, LPARAM lp)
 
 								oCopyData.dwData = 0;
 								oCopyData.lpData = szSkypeCmd;
-								oCopyData.cbData = static_cast<DWORD>(mir_strlen(szSkypeCmd)) + 1;
+								oCopyData.cbData = static_cast<uint32_t>(mir_strlen(szSkypeCmd)) + 1;
 								SendMessage(wndSkypeAPIWindow, WM_COPYDATA, (WPARAM)hWnd, (LPARAM)&oCopyData);
 							}
 						}
@@ -245,7 +245,7 @@ int SSC_OnPreShutdown(WPARAM/* wParam*/, LPARAM/* lParam*/)
 	BOOL b = SetEvent(g_hEventShutdown);
 	assert(b && "SetEvent failed");
 
-	DWORD dwResult = ::WaitForSingleObject(g_hThread, INFINITE);
+	uint32_t dwResult = ::WaitForSingleObject(g_hThread, INFINITE);
 	assert(WAIT_FAILED != dwResult);
 
 	b = ::CloseHandle(g_hEventShutdown);

@@ -111,7 +111,7 @@ static void RedrawNonClient(HWND hwnd, BOOL fFrameChanged)
 //
 int WINAPI CoolSB_GetDefaultMinThumbSize(void)
 {
-	DWORD dwVersion = GetVersion();
+	uint32_t dwVersion = GetVersion();
 
 	// set the minimum thumb size for a scrollbar. This
 	// differs between NT4 and 2000, so need to check to see
@@ -153,7 +153,7 @@ BOOL WINAPI InitializeCoolSB(HWND hwnd)
 	INITCOMMONCONTROLSEX ice;
 	TOOLINFO ti;
 	RECT rect;
-	DWORD dwCurStyle;
+	uint32_t dwCurStyle;
 	//BOOL fDisabled;
 
 	if (pEnableScrollBar == nullptr)
@@ -459,7 +459,7 @@ BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow)
 {
 	SCROLLBAR *sbar;
 	BOOL bFailed = FALSE;
-	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (!CoolSB_IsCoolScrollEnabled(hwnd))
 		return ShowScrollBar(hwnd, wBar, fShow);
@@ -486,7 +486,7 @@ BOOL WINAPI CoolSB_ShowScrollBar(HWND hwnd, int wBar, BOOL fShow)
 		return FALSE;
 	}
 	else {
-		//DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+		//uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 		//style |= WS_VSCROLL;
 
 		//if (s

@@ -71,8 +71,8 @@ struct CMailWinUserInfo
 
 struct CChangeContent
 {
-	DWORD nflags;
-	DWORD nnflags;
+	uint32_t nflags;
+	uint32_t nnflags;
 };
 
 struct CUpdateMails
@@ -111,7 +111,7 @@ enum
 // nflags- flags what to do when new mail arrives
 // nnflags- flags what to do when no new mail arrives
 // returns one of UPDATE_XXX value(not implemented yet)
-int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags);
+int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nnflags);
 
 // When new mail occurs, shows window, plays sound, runs application...
 // hDlg- dialog handle. Dialog of mailbrowser is already created and actions are performed over this window
@@ -120,7 +120,7 @@ int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags)
 // nflags- what to do or not to do (e.g. to show mailbrowser window or prohibit to show)
 // nflags- flags what to do when new mail arrives
 // nnflags- flags what to do when no new mail arrives
-void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags);
+void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, uint32_t nflags, uint32_t nnflags);
 
 // Looks for items in mailbrowser and if they were deleted, delete them from browser window
 // hListView- handle of listview window
@@ -136,7 +136,7 @@ int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount);
 // MailNumbers- pointer to structure, in which function stores numbers of mails with some property
 // nflags- flags what to do when new mail arrives
 // returns one of UPDATE_XXX value (not implemented yet)
-int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags);
+int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nflags);
 
 // Window callback procedure for popup window (created by popup plugin)
 LRESULT CALLBACK NewMailPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -190,7 +190,7 @@ typedef struct _LVCOMPAREINFO
 
 //--------------------------------------------------------------------------------------------------
 
-LPARAM readItemLParam(HWND hwnd, DWORD iItem)
+LPARAM readItemLParam(HWND hwnd, uint32_t iItem)
 {
 	LVITEM item;
 	item.mask = LVIF_PARAM;
@@ -311,7 +311,7 @@ void IncrementMailCounters(HYAMNMAIL msgq, struct CMailNumbers *MN)
 			MN->Real.EventNC++;
 }
 
-int UpdateMails(HWND hDlg, CAccount *ActualAccount, DWORD nflags, DWORD nnflags)
+int UpdateMails(HWND hDlg, CAccount *ActualAccount, uint32_t nflags, uint32_t nnflags)
 {
 	struct CMailNumbers MN;
 
@@ -471,7 +471,7 @@ int ChangeExistingMailStatus(HWND hListView, CAccount *ActualAccount)
 }
 
 void MimeDateToLocalizedDateTime(char *datein, wchar_t *dateout, int lendateout);
-int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
+int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, uint32_t nflags)
 {
 	wchar_t *FromStr;
 	wchar_t SizeStr[20];
@@ -620,7 +620,7 @@ int AddNewMailsToListView(HWND hListView, CAccount *ActualAccount, DWORD nflags)
 	return TRUE;
 }
 
-void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, DWORD nflags, DWORD nnflags)
+void DoMailActions(HWND hDlg, CAccount *ActualAccount, struct CMailNumbers *MN, uint32_t nflags, uint32_t nnflags)
 {
 	NOTIFYICONDATA nid = {};
 	nid.cbSize = sizeof(nid);
@@ -1064,7 +1064,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	FILETIME ft;
 	if (SystemTimeToFileTime(&st, &ft)) {
 		res = ((ULONGLONG)ft.dwHighDateTime << 32) | ((ULONGLONG)ft.dwLowDateTime);
-		LONGLONG w100nano = Int32x32To64((DWORD)wShiftSeconds, 10000000);
+		LONGLONG w100nano = Int32x32To64((uint32_t)wShiftSeconds, 10000000);
 		res -= w100nano;
 	}
 	else {
@@ -1093,8 +1093,8 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, wchar_t *dateout, int lendat
 		wTodayMonth = st.wMonth;
 		wTodayDay = st.wDay;
 	}
-	ft.dwLowDateTime = (DWORD)filetime;
-	ft.dwHighDateTime = (DWORD)(filetime >> 32);
+	ft.dwLowDateTime = (uint32_t)filetime;
+	ft.dwHighDateTime = (uint32_t)(filetime >> 32);
 	FILETIME localft;
 	if (!FileTimeToLocalFileTime(&ft, &localft)) {
 		// this should never happen
@@ -1246,7 +1246,7 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 	return mir_callNextSubclass(hwnd, SplitterSubclassProc, msg, wParam, lParam);
 }
 
-void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, DWORD cp, int mode);
+void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
 int ConvertStringToUnicode(char *stream, unsigned int cp, wchar_t **out);
 
 INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1834,7 +1834,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 	case WM_YAMN_UPDATEMAILS:
 		{
 			struct CUpdateMails *um = (struct CUpdateMails *)lParam;
-			DWORD nflags, nnflags;
+			uint32_t nflags, nnflags;
 
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "MailBrowser:UPDATEMAILS\n");
@@ -1983,7 +1983,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg, UINT msg, WPARAM wParam, LPAR
 		case IDC_BTNDEL:
 			{
 				HYAMNMAIL ActualMail;
-				DWORD Total = 0;
+				uint32_t Total = 0;
 
 				//	we use event to signal, that running thread has all needed stack parameters copied
 				HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -2353,7 +2353,7 @@ INT_PTR RunMailBrowserSvc(WPARAM wParam, LPARAM lParam)
 {
 	PYAMN_MAILBROWSERPARAM Param = (PYAMN_MAILBROWSERPARAM)wParam;
 
-	if ((DWORD)lParam != YAMN_MAILBROWSERVERSION)
+	if ((uint32_t)lParam != YAMN_MAILBROWSERVERSION)
 		return 0;
 
 	//an event for successfull copy parameters to which point a pointer in stack for new thread

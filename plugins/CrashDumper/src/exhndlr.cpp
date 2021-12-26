@@ -127,7 +127,7 @@ LONG WINAPI myfilterv(PEXCEPTION_POINTERS exc_ptr)
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
-DWORD MirandaThreadFilter(DWORD code, EXCEPTION_POINTERS* info)
+uint32_t MirandaThreadFilter(uint32_t code, EXCEPTION_POINTERS* info)
 {
 	if (info != lastptr) {
 		lastptr = info;

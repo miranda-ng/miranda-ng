@@ -34,9 +34,9 @@ public:
 	HRESULT __stdcall QueryGetData(FORMATETC *pFormatEtc);
 	HRESULT __stdcall GetCanonicalFormatEtc(FORMATETC *pFormatEct, FORMATETC *pFormatEtcOut);
 	HRESULT __stdcall SetData(FORMATETC *pFormatEtc, STGMEDIUM *pMedium, BOOL fRelease);
-	HRESULT __stdcall EnumFormatEtc(DWORD      dwDirection, IEnumFORMATETC **ppEnumFormatEtc);
+	HRESULT __stdcall EnumFormatEtc(DWORD dwDirection, IEnumFORMATETC **ppEnumFormatEtc);
 	HRESULT __stdcall DAdvise(FORMATETC *pFormatEtc, DWORD advf, IAdviseSink *pAdvSink, DWORD *pdwConnection);
-	HRESULT __stdcall DUnadvise(DWORD      dwConnection);
+	HRESULT __stdcall DUnadvise(DWORD dwConnection);
 	HRESULT __stdcall EnumDAdvise(IEnumSTATDATA **ppEnumAdvise);
 
 	//

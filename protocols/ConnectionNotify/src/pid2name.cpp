@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-void pid2name(DWORD procid, wchar_t *buffer, size_t bufLen)
+void pid2name(uint32_t procid, wchar_t *buffer, size_t bufLen)
 {
 	PROCESSENTRY32 ProcessStruct;
 	ProcessStruct.dwSize = sizeof(PROCESSENTRY32);

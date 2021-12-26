@@ -96,12 +96,12 @@ MIR_APP_DLL(void*) PUGetPluginData(HWND hPopupWindow)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Messages
 
-MIR_APP_DLL(int) PUShowMessage(const char *lpzText, DWORD kind)
+MIR_APP_DLL(int) PUShowMessage(const char *lpzText, uint32_t kind)
 {
 	return (int)CallService(MS_POPUP_SHOWMESSAGE, (WPARAM)lpzText, (LPARAM)kind);
 }
 
-MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, DWORD kind)
+MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, uint32_t kind)
 {
 	return (int)CallService(MS_POPUP_SHOWMESSAGEW, (WPARAM)lpwzText, (LPARAM)kind);
 }

@@ -314,7 +314,7 @@ static int OnShutdown(WPARAM, LPARAM)
 }
 
 /* Window proc for poweroff event */
-static DWORD CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
+static uint32_t CALLBACK MessageWndProc(HWND, UINT msg, WPARAM wParam, LPARAM)
 {
 	switch (msg) {
 	case WM_ENDSESSION:

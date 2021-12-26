@@ -328,7 +328,7 @@ void CMLan::RecvMessageUrl(CCSDATA *ccs)
 	dbei.szModule = MODULENAME;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = DBEF_UTF + ((pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0);
-	dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(szMessage) + 1;
 	dbei.pBlob = (uint8_t*)szMessage.get();
 	db_event_add(ccs->hContact, &dbei);
 }
@@ -904,7 +904,7 @@ void CMLan::RecvFile(CCSDATA *ccs)
 
 	Contact_Hide(ccs->hContact, false);
 
-	char *szFile = pre->szMessage + sizeof(DWORD);
+	char *szFile = pre->szMessage + sizeof(uint32_t);
 	char *szDesc = szFile + mir_strlen(szFile) + 1;
 
 	DBEVENTINFO dbei = {};
@@ -912,7 +912,7 @@ void CMLan::RecvFile(CCSDATA *ccs)
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = pre->flags & (PREF_CREATEREAD ? DBEF_READ : 0);
 	dbei.eventType = EVENTTYPE_FILE;
-	dbei.cbBlob = DWORD(sizeof(DWORD) + mir_strlen(szFile) + mir_strlen(szDesc) + 2);
+	dbei.cbBlob = uint32_t(sizeof(uint32_t) + mir_strlen(szFile) + mir_strlen(szDesc) + 2);
 	dbei.pBlob = (uint8_t*)pre->szMessage;
 	db_event_add(ccs->hContact, &dbei);
 }

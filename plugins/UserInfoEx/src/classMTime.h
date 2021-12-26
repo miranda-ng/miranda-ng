@@ -33,7 +33,7 @@ public:
 	MTime(SYSTEMTIME &st, bool bIsLocal);
 	MTime(FILETIME &ft, bool bIsLocal);
 	MTime(LARGE_INTEGER &li, bool bIsLocal);
-	MTime(DWORD dwStamp);
+	MTime(uint32_t dwStamp);
 	MTime(const MTime& mtime);
 
 	// checks
@@ -45,12 +45,12 @@ public:
 	LONG	Compare(SYSTEMTIME st) const;
 	LONG	Compare(const FILETIME &ft) const;
 	LONG	Compare(const MTime &mt) const;
-	LONG	Compare(const DWORD dwTimeStamp) const;
+	LONG	Compare(const uint32_t dwTimeStamp) const;
 	
 	// get value from class
 	LARGE_INTEGER	LargeInt() const;
 	FILETIME    FileTime() const;
-	DWORD       TimeStamp() const;
+	uint32_t       TimeStamp() const;
 	SYSTEMTIME  SystemTime() const { return _SysTime; }
 	
 	uint16_t DaysInMonth(const uint16_t &wMonth) const;
@@ -81,8 +81,8 @@ public:
 
 	// set value to class
 	void ZeroDate();
-	void FromStampAsUTC(const DWORD dwTimeStamp);
-	void FromStampAsLocal(const DWORD dwTimeStamp);
+	void FromStampAsUTC(const uint32_t dwTimeStamp);
+	void FromStampAsLocal(const uint32_t dwTimeStamp);
 	void Set(const FILETIME &ftFileTime, bool bIsLocal);
 	void Set(LARGE_INTEGER liFileTime, bool bIsLocal);
 	void Set(const SYSTEMTIME &st, bool bIsLocal);
@@ -105,7 +105,7 @@ public:
 	int DBWriteStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting);
 
 	// operatoren
-	void operator=(DWORD& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
+	void operator=(uint32_t& dwTimeStamp)			{ FromStampAsUTC(dwTimeStamp); };
 	void operator=(FILETIME &ftFileTime)			{ Set(ftFileTime, FALSE); };
 	void operator=(LARGE_INTEGER &liFileTime)		{ Set(liFileTime, FALSE); };
 	void operator=(SYSTEMTIME &st)				{ Set(st, FALSE); };

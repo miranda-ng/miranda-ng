@@ -137,7 +137,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 
 		// increment question count
-		DWORD questCount = g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT);
+		uint32_t questCount = g_plugin.getDword(hContact, DB_KEY_QUESTCOUNT);
 		g_plugin.setDword(hContact, DB_KEY_QUESTCOUNT, questCount + 1);
 	}
 

@@ -74,7 +74,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	mir_snwprintf(szPath, L"%s\\%s\\ImageCache", (wchar_t*)VARSW(L"%miranda_userdata%"), m_tszUserName);
 	hImagesFolder = FoldersRegisterCustomPathW(LPGEN("Images"), m_szModuleName, szPath, m_tszUserName);
 
-	DWORD pluginVersion = getDword(GG_PLUGINVERSION, 0);
+	uint32_t pluginVersion = getDword(GG_PLUGINVERSION, 0);
 	if (pluginVersion < pluginInfoEx.version)
 		cleanuplastplugin(pluginVersion);
 

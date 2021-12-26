@@ -34,7 +34,7 @@ typedef struct TCbExItem
 {
 	uint16_t	wMask;
 	uint16_t	wFlags;
-	DWORD	dwID;
+	uint32_t	dwID;
 	wchar_t	szCat[MAX_CAT];
 	LPTSTR	pszVal;
 	int   iIcon;

@@ -70,16 +70,16 @@ struct WUMF_OPTIONS
 
 struct Wumf
 {
-	DWORD  dwID;
+	uint32_t  dwID;
 	wchar_t  szID[10], szPerm[10];
 	LPTSTR szUser;
 	LPTSTR szPath;
 	LPTSTR szComp;
 	LPTSTR szUNC;
-	DWORD  dwSess; 
-	DWORD  dwLocks; 
-	DWORD  dwAttr;
-	DWORD  dwPerm;
+	uint32_t  dwSess; 
+	uint32_t  dwLocks; 
+	uint32_t  dwAttr;
+	uint32_t  dwPerm;
 	BOOL   mark;
 	Wumf  *next;
 };
@@ -87,19 +87,19 @@ struct Wumf
 typedef Wumf *PWumf;
 
 PWumf new_wumf(
-	DWORD dwID, 
+	uint32_t dwID, 
 	LPTSTR szUser, 
 	LPTSTR szPath, 
 	LPTSTR szComp, 
 	LPTSTR szUNC, 
-	DWORD szSess, 
-	DWORD dwPerm, 
-	DWORD dwAttr);
+	uint32_t szSess, 
+	uint32_t dwPerm, 
+	uint32_t dwAttr);
 
 BOOL  add_cell  (PWumf* l, PWumf w);
 BOOL  del_cell  (PWumf* l, PWumf w);
 BOOL  cpy_cell  (PWumf* l, PWumf w);
-PWumf fnd_cell  (PWumf* l, DWORD dwID);
+PWumf fnd_cell  (PWumf* l, uint32_t dwID);
 PWumf cpy_list  (PWumf* l);
 BOOL  del_all   (PWumf* l);
 void  mark_all  (PWumf* l, BOOL mark);
@@ -129,7 +129,7 @@ void ShowWumfPopup(PWumf w);
 
 void process_session(SESSION_INFO_1 s_info);
 void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info);
-void printError(DWORD res);
+void printError(uint32_t res);
 
 #define msg(X) MessageBox(NULL, X, L"WUMF", MB_OK|MB_ICONSTOP)
 #define MS_WUMF_SWITCHPOPUP 	"WUMF/SwitchPopup"

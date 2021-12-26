@@ -74,7 +74,7 @@ INT_PTR CALLBACK PopOptionsDlgProc(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 	case WM_COMMAND:
 		if (HIWORD(wParam) == CPN_COLOURCHANGED) {
 			//It's a colour picker change. LOWORD(wParam) is the control id.
-			DWORD color = SendDlgItemMessage(hDlg, LOWORD(wParam), CPM_GETCOLOUR, 0, 0);
+			uint32_t color = SendDlgItemMessage(hDlg, LOWORD(wParam), CPM_GETCOLOUR, 0, 0);
 
 			switch (LOWORD(wParam)) {
 			case IDC_BACKKEY:

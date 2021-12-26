@@ -481,8 +481,8 @@ LBL_Stop:			wchar_t *statusText = TranslateT("Processing data stopped by user.")
 					SendDlgItemMessage(hwndDlg, IDC_DATA, EM_EXSETSEL, 0, (LPARAM)&sel2);
 					SetFocus(GetDlgItem(hwndDlg, IDC_DATA));
 
-					DWORD HiBackgoundClr = g_plugin.getDword(BG_COLOR_KEY, Def_color_bg);
-					DWORD HiTextClr = g_plugin.getDword(TXT_COLOR_KEY, Def_color_txt);
+					uint32_t HiBackgoundClr = g_plugin.getDword(BG_COLOR_KEY, Def_color_bg);
+					uint32_t HiTextClr = g_plugin.getDword(TXT_COLOR_KEY, Def_color_txt);
 
 					CHARFORMAT2 Format;
 					memset(&Format, 0, sizeof(Format));

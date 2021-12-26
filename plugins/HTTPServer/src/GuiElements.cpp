@@ -198,7 +198,7 @@ string sCreateLink(const char * pszSrvPath)
 	ReplaceAll(sLink, "%LocalIP%", szTemp);
 
 	if (sLink.find("%ExternalIP%") != sLink.npos) {
-		static DWORD dwExternalIpAddressGenerated = 0;
+		static uint32_t dwExternalIpAddressGenerated = 0;
 
 		// Get the IP again after 10 minutes
 		if (!dwExternalIpAddress || GetTickCount() - dwExternalIpAddressGenerated > 10 * 60 * 1000) {
@@ -405,7 +405,7 @@ UINT_PTR CALLBACK ShareNewFileDialogHook(
 		switch (LOWORD(wParam)) {
 		case IDC_TOGGLE_MASK:
 		{
-			DWORD dwCur;
+			uint32_t dwCur;
 			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_GETADDRESS, 0, (LPARAM)&dwCur);
 			SendDlgItemMessage(hDlg, IDC_ALLOWED_IP_MASK, IPM_SETADDRESS, 0, (LPARAM)dwCur == 0xFFFFFFFF ? 0 : 0xFFFFFFFF);
 			return TRUE;
@@ -599,7 +599,7 @@ void UpdateStatisticView(HWND hwndDlg, bool bRefressUsersOnly = false)
 			sItem.pszText = szTmp;
 			ListView_SetItem(hUserList, &sItem);
 
-			DWORD dwSpeed = pclCurUser->dwGetDownloadSpeed();
+			uint32_t dwSpeed = pclCurUser->dwGetDownloadSpeed();
 			if (dwSpeed > 10000) {
 				dwSpeed += 512; // make sure we round ot down correctly.
 				dwSpeed /= 1024;
@@ -689,12 +689,12 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 		HWND hUserList = GetDlgItem(hwndDlg, IDC_CURRENT_USERS);
 
 		{ // init adv. win styles
-			DWORD dw = ListView_GetExtendedListViewStyle(hShareList);
+			uint32_t dw = ListView_GetExtendedListViewStyle(hShareList);
 			dw |= LVS_EX_HEADERDRAGDROP | LVS_EX_FULLROWSELECT;
 			ListView_SetExtendedListViewStyle(hShareList, dw /*| LVS_EX_LABELTIP*/);
 		}
 		{ // init adv. win styles
-			DWORD dw = ListView_GetExtendedListViewStyle(hUserList);
+			uint32_t dw = ListView_GetExtendedListViewStyle(hUserList);
 			dw |= LVS_EX_HEADERDRAGDROP | LVS_EX_FULLROWSELECT;
 			ListView_SetExtendedListViewStyle(hUserList, dw /*| LVS_EX_LABELTIP*/);
 		}
@@ -1172,7 +1172,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			char szKeyWord[1000];
 			GetDlgItemText(hwndDlg, IDC_URL_ADDRESS, szUrl, _countof(szUrl));
 			GetDlgItemText(hwndDlg, IDC_PAGE_KEYWORD, szKeyWord, _countof(szKeyWord));
-			DWORD dwExternalIP = GetExternIP(szUrl, szKeyWord);
+			uint32_t dwExternalIP = GetExternIP(szUrl, szKeyWord);
 
 			mir_snprintf(szKeyWord, Translate("Your external IP was detected as %d.%d.%d.%d\r\nby: %s"),
 				SplitIpAddress(dwExternalIP),

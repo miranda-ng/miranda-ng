@@ -41,7 +41,7 @@ static BOOL bModuleInitialized = FALSE;
 
 struct LangPackEntry
 {
-	DWORD englishHash;
+	uint32_t englishHash;
 	char *szLocal;
 	char *utfLocal;
 	wchar_t *wszLocal;
@@ -413,7 +413,7 @@ MIR_CORE_DLL(int) LoadLangPack(const wchar_t *ptszLangPack)
 	langPack.flags = 0;
 
 	// exists & not a directory?
-	DWORD dwAttrib = GetFileAttributes(tszFullPath);
+	uint32_t dwAttrib = GetFileAttributes(tszFullPath);
 	if (dwAttrib == INVALID_FILE_ATTRIBUTES || (dwAttrib & FILE_ATTRIBUTE_DIRECTORY))
 		return 3;
 
@@ -621,7 +621,7 @@ MIR_CORE_DLL(void) Langpack_SortDuplicates(void)
 		return;
 
 	LangPackEntry *s = g_pEntries + 1, *d = s, *pLast = g_pEntries;
-	DWORD dwSavedHash = g_pEntries->englishHash;
+	uint32_t dwSavedHash = g_pEntries->englishHash;
 	bool bSortNeeded = false;
 
 	for (int i = 1; i < g_entryCount; i++, s++) {

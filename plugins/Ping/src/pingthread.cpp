@@ -294,7 +294,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	}
 }
 
-DWORD context_point;
+uint32_t context_point;
 bool context_point_valid = false;
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -409,7 +409,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			ScreenToClient(list_hwnd, &pt);
 
 			PINGADDRESS itemData;
-			DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+			uint32_t item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
 			bool found = false;
 			if (HIWORD(item) == 0) {
 				int count = LOWORD(item);
@@ -546,7 +546,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				break;
 			#ifdef WS_EX_LAYERED
 			if (GetWindowLongPtr(hwnd, GWL_EXSTYLE)&WS_EX_LAYERED) {
-				DWORD thisTick, startTick;
+				uint32_t thisTick, startTick;
 				int sourceAlpha, destAlpha;
 				if (wParam) {
 					sourceAlpha = 0;
@@ -584,7 +584,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (context_point_valid) {
 				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
-				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				uint32_t item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				if (HIWORD(item) == 0) {
 					int count = LOWORD(item);
 					bool found = false;
@@ -606,7 +606,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (context_point_valid) {
 				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
-				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				uint32_t item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				if (HIWORD(item) == 0) {
 					int count = LOWORD(item);
 
@@ -623,7 +623,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (context_point_valid) {
 				uint16_t x = LOWORD(context_point), y = HIWORD(context_point);
 				GetWindowRect(list_hwnd, &r);
-				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				uint32_t item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
 				PINGADDRESS *temp = nullptr;
 				if (HIWORD(item) == 0) {
 					int count = LOWORD(item);
@@ -671,7 +671,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 					PINGADDRESS *pItemData = (PINGADDRESS *)lp;
 					if (pItemData) {
-						DWORD item_id = pItemData->item_id;
+						uint32_t item_id = pItemData->item_id;
 
 						int wake = CallService(MODULENAME "/DblClick", (WPARAM)item_id, 0);
 						InvalidateRect(list_hwnd, nullptr, FALSE);

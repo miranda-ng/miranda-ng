@@ -135,7 +135,7 @@ public:
 	__forceinline const LONG getHeight() const { return m_height; }
 	__forceinline bool isActive() const { return m_active; }
 	__forceinline bool isPrivateHeight() const { return m_fPrivateHeight; }
-	__forceinline DWORD isHovered() const { return m_active ? m_hoverFlags : 0; }
+	__forceinline uint32_t isHovered() const { return m_active ? m_hoverFlags : 0; }
 	__forceinline const CMsgDialog* getDat() const { return m_dat; }
 
 	void setHeight(LONG newHeight, bool fBroadcast = false);
@@ -194,7 +194,7 @@ private:
 	RECT  m_rcNick;
 	RECT  m_rcUIN;
 	RECT  m_rcStatus;
-	DWORD m_hoverFlags;
+	uint32_t m_hoverFlags;
 	CTip *m_tip;
 };
 

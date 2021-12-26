@@ -248,7 +248,7 @@ static void addWindow(MCONTACT hContact)
 
 void removeWindow(MCONTACT hContact)
 {
-	DWORD frameId = g_plugin.getDword(hContact, "mwin");
+	uint32_t frameId = g_plugin.getDword(hContact, "mwin");
 
 	WindowList_Remove(hMwinWindowList, WindowList_Find(hMwinWindowList, hContact));
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
@@ -347,7 +347,7 @@ void InitMwin(void)
 void DestroyMwin(void)
 {
 	for (auto &hContact : Contacts(MODULENAME)) {
-		DWORD frameId = g_plugin.getDword(hContact, "mwin");
+		uint32_t frameId = g_plugin.getDword(hContact, "mwin");
 		if (frameId)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 	}

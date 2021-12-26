@@ -65,7 +65,7 @@ int __forceinline __strcmp(const char * src, const char * dst)
 
 static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 {
-	DWORD new_freq = 0;
+	uint32_t new_freq = 0;
 
 	cfg::dat.t_now = time(0);
 
@@ -73,8 +73,8 @@ static int ClcEventAdded(WPARAM hContact, LPARAM lParam)
 		DBEVENTINFO dbei = {};
 		db_event_get(lParam, &dbei);
 		if (dbei.eventType == EVENTTYPE_MESSAGE && !(dbei.flags & DBEF_SENT)) {
-			DWORD firstTime = g_plugin.getDword(hContact, "mf_firstEvent");
-			DWORD count = g_plugin.getDword(hContact, "mf_count");
+			uint32_t firstTime = g_plugin.getDword(hContact, "mf_firstEvent");
+			uint32_t count = g_plugin.getDword(hContact, "mf_count");
 			count++;
 			new_freq = count ? (dbei.timestamp - firstTime) / count : 0x7fffffff;
 			g_plugin.setDword(hContact, "mf_freq", new_freq);
@@ -337,7 +337,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 			else {
 				// item in list already
-				DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+				uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 				if (contact->iImage == (uint16_t)lParam)
 					break;
 				if (!shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline || cfg::dat.bFilterEffective)) {        // CLVM changed
@@ -440,7 +440,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (cEntry == nullptr)
 				contact->cFlags &= ~ECF_AVATAR;
 			else {
-				DWORD dwFlags;
+				uint32_t dwFlags;
 
 				if (contact->pExtra)
 					dwFlags = contact->pExtra->dwDFlags;
@@ -613,7 +613,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		dat->selection = HitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, nullptr, &hitFlags);
 		if (hitFlags & CLCHT_ONITEMEXTRA)
 			break;

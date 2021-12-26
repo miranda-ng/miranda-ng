@@ -32,7 +32,7 @@ int Meta_WriteOptions()
 	db_set_w(0, META_PROTO, "MenuContactLabel", (uint16_t)g_metaOptions.menu_contact_label);
 	db_set_w(0, META_PROTO, "MenuContactFunction", (uint16_t)g_metaOptions.menu_function);
 	db_set_w(0, META_PROTO, "CListContactName", (uint16_t)g_metaOptions.clist_contact_name);
-	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(g_metaOptions.set_status_from_offline_delay));
+	db_set_dw(0, META_PROTO, "SetStatusFromOfflineDelay", (uint32_t)(g_metaOptions.set_status_from_offline_delay));
 	return 0;
 }
 

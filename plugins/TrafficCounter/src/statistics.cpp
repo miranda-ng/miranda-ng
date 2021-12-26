@@ -102,7 +102,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break; // WM_INITDIALOG
 	case WM_COMMAND:
 		if ((HWND)lParam == hListAccs) {
-			DWORD SelItems[16];
+			uint32_t SelItems[16];
 			uint8_t SelItemsCount;
 			if (HIWORD(wParam) == LBN_SELCHANGE) {
 				SelItemsCount = SendMessage(hListAccs, LB_GETSELCOUNT, 0, 0);
@@ -171,7 +171,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					{
 						NMLVDISPINFO* pdi = (NMLVDISPINFO*)lParam;
 						SYSTEMTIME st = { 0 };
-						DWORD Index, Value;
+						uint32_t Index, Value;
 						double vartime;
 						wchar_t szBufW[64];
 						uint8_t EldestAcc;
@@ -239,7 +239,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				case NM_CLICK:
 				case LVN_ITEMCHANGED:
 					{
-						DWORD j = -1, dwTotalIncoming = 0, dwTotalOutgoing = 0;
+						uint32_t j = -1, dwTotalIncoming = 0, dwTotalOutgoing = 0;
 
 						int i = SendDlgItemMessage(hwndDlg, IDC_LIST_DATA, LVM_GETSELECTEDCOUNT, 0, 0);
 						for (; i--;) {
@@ -311,7 +311,7 @@ void Stat_ReadFile(PROTOLIST &p)
 	if (Size.QuadPart != 0) // Если файл со статистикой существует и имеет ненулевой размер...
 	{
 		// ...то читаем статистику из файла
-		p.NumberOfRecords = DWORD(Size.QuadPart / sizeof(HOURLYSTATS));
+		p.NumberOfRecords = uint32_t(Size.QuadPart / sizeof(HOURLYSTATS));
 		p.AllStatistics = (HOURLYSTATS*)mir_alloc(sizeof(HOURLYSTATS)*p.NumberOfRecords);
 		ReadFile(p.hFile, &p.AllStatistics[0], sizeof(HOURLYSTATS)*p.NumberOfRecords, &BytesRead, nullptr);
 		if (!BytesRead) {
@@ -336,7 +336,7 @@ void Stat_ReadFile(PROTOLIST &p)
 Аргументы: hwndDialog - хэндл окна диалога. */
 void Stat_Show(HWND hwndDialog)
 {
-	DWORD MaxRecords;
+	uint32_t MaxRecords;
 
 	// Нужно узнать количество записей.
 	MaxRecords = Stat_GetRecordsNumber(Stat_GetEldestAcc(Stat_SelAcc), unOptions.Stat_Tab);
@@ -346,7 +346,7 @@ void Stat_Show(HWND hwndDialog)
 	SendDlgItemMessage(hwndDialog, IDC_LIST_DATA, LVM_ENSUREVISIBLE, (WPARAM)(MaxRecords - 1), 0);
 }
 
-void Stat_UpdateTotalTraffic(HWND hwndDialog, DWORD Incoming, DWORD Outgoing)
+void Stat_UpdateTotalTraffic(HWND hwndDialog, uint32_t Incoming, uint32_t Outgoing)
 {
 	wchar_t tmp[32];
 
@@ -415,7 +415,7 @@ void Stat_CheckStatistics(PROTOLIST &p)
 
 		// Последняя запись из статистики понадобится для вычисления новых записей, поэтому копируем её (кроме трафика и времени).
 		memcpy(&htTmp, &p.AllStatistics[p.NumberOfRecords - 1],
-			sizeof(HOURLYSTATS) - 2 * sizeof(DWORD) - sizeof(uint16_t));
+			sizeof(HOURLYSTATS) - 2 * sizeof(uint32_t) - sizeof(uint16_t));
 		// Счётчик времени каждый час должен начинать считать с нуля.
 		p.Total.TimeAtStart = GetTickCount() - stNow.wMilliseconds;
 
@@ -453,7 +453,7 @@ void Stat_CheckStatistics(PROTOLIST &p)
 ItemNumber - номер строки в ListView (номер периода).
 stReq - дата, соответствующая вычисленному индексу.
 */
-DWORD Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *stReq)
+uint32_t Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTEMTIME *stReq)
 {
 	int Left, Right, Probe; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stProbe = { 0 }; // Время тыка.
@@ -529,7 +529,7 @@ DWORD Stat_GetStartIndex(uint8_t AccNum, uint8_t Interval, int ItemNumber, SYSTE
 дата которой соответствует началу статистики указанного аккаунта. */
 void Stat_SetAccShift(uint8_t AccNum, uint8_t EldestAccount)
 {
-	DWORD Left, Right, Probe = 0; // Границы интервала для поиска (индексы статистики).
+	uint32_t Left, Right, Probe = 0; // Границы интервала для поиска (индексы статистики).
 	SYSTEMTIME stReq = { 0 }, stProbe;
 	signed short int d = 1;
 
@@ -571,9 +571,9 @@ Interval - выбранный интервал;
 ItemNum - номер строки в ListVew;
 SubitemNum - номер колонки, определяет вид информации. */
 
-DWORD Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, DWORD ItemNum, uint8_t SubItemNum)
+uint32_t Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, uint32_t ItemNum, uint8_t SubItemNum)
 {
-	DWORD Result = 0;
+	uint32_t Result = 0;
 	SYSTEMTIME st = { 0 };
 	int Index, IndexP, i;
 	signed long int IndexM;
@@ -644,9 +644,9 @@ DWORD Stat_GetItemValue(uint16_t SelectedAccs, uint8_t Interval, DWORD ItemNum, 
 
 /* Функция возвращает количество записей в статистике для
 заданного аккаунта и заданного интервала. */
-DWORD Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval)
+uint32_t Stat_GetRecordsNumber(uint8_t AccNum, uint8_t Interval)
 {
-	DWORD Result, i;
+	uint32_t Result, i;
 
 	// Нужно узнать количество записей.
 	switch (Interval) {

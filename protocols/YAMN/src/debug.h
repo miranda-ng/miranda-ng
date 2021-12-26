@@ -31,14 +31,14 @@ extern HANDLE DecodeFile;
 #endif
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
+uint32_t ReadStringFromMemory(char **Parser,char *End,char **StoreTo,char *DebugString);
 	
-DWORD ReadStringFromMemoryW(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString);
+uint32_t ReadStringFromMemoryW(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString);
 	
 #else
-DWORD ReadStringFromMemory(char **Parser,char *End,char **StoreTo);
+uint32_t ReadStringFromMemory(char **Parser,char *End,char **StoreTo);
 	
-DWORD ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo);
+uint32_t ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo);
 	
 #endif
 

@@ -82,7 +82,7 @@ void CJabberProto::IqResultProxyDiscovery(const TiXmlElement *iqNode, CJabberIqI
 		SetEvent(jbt->hProxyEvent);
 }
 
-void JabberByteSendConnection(HNETLIBCONN hConn, DWORD /*dwRemoteIP*/, void* extra)
+void JabberByteSendConnection(HNETLIBCONN hConn, uint32_t /*dwRemoteIP*/, void* extra)
 {
 	CJabberProto *ppro = (CJabberProto*)extra;
 	JABBER_BYTE_TRANSFER *jbt;
@@ -365,7 +365,7 @@ int CJabberProto::ByteSendParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt, ch
 		// 03-03 address type (1=IPv4 address)
 		// 04-07 bnd.addr server bound address
 		// 08-09 bnd.port server bound port
-		if (datalen == 47 && *((DWORD*)buffer) == 0x03000105 && buffer[4] == 40 && *((uint16_t*)(buffer + 45)) == 0) {
+		if (datalen == 47 && *((uint32_t*)buffer) == 0x03000105 && buffer[4] == 40 && *((uint16_t*)(buffer + 45)) == 0) {
 			ptrA szInitiatorJid(JabberPrepareJid(jbt->srcJID));
 			ptrA szTargetJid(JabberPrepareJid(jbt->dstJID));
 			CMStringA szAuthString(FORMAT, "%s%s%s", jbt->sid, szInitiatorJid.get(), szTargetJid.get());
@@ -499,7 +499,7 @@ int CJabberProto::ByteSendProxyParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jb
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
 			uint8_t data[47];
 			memset(data, 0, sizeof(data));
-			*((DWORD*)data) = 0x03000105;
+			*((uint32_t*)data) = 0x03000105;
 			data[4] = 40;
 
 			char szAuthString[256];
@@ -686,7 +686,7 @@ int CJabberProto::ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt,
 		if (datalen == 2 && buffer[0] == 5 && buffer[1] == 0) {
 			uint8_t data[47];
 			memset(data, 0, sizeof(data));
-			*((DWORD*)data) = 0x03000105;
+			*((uint32_t*)data) = 0x03000105;
 			data[4] = 40;
 
 			CMStringA szAuthString(FORMAT, "%s%s%s", jbt->sid, ptrA(JabberPrepareJid(jbt->srcJID)).get(), ptrA(JabberPrepareJid(jbt->dstJID)).get());

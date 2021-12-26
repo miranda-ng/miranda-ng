@@ -200,7 +200,7 @@ void DeleteAvatarFromCache(MCONTACT hContact, bool bForever)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
+int SetAvatarAttribute(MCONTACT hContact, uint32_t attrib, int mode)
 {
 	if (g_shutDown)
 		return 0;
@@ -208,7 +208,7 @@ int SetAvatarAttribute(MCONTACT hContact, DWORD attrib, int mode)
 	mir_cslock lck(cachecs);
 	CacheNode *cc = arCache.find((CacheNode*)&hContact);
 	if (cc != nullptr) {
-		DWORD dwFlags = cc->dwFlags;
+		uint32_t dwFlags = cc->dwFlags;
 		cc->dwFlags = mode ? (cc->dwFlags | attrib) : (cc->dwFlags & ~attrib);
 		if (cc->dwFlags != dwFlags)
 			NotifyMetaAware(hContact, cc);
@@ -224,7 +224,7 @@ void PicLoader(LPVOID)
 {
 	Thread_SetName("AVS: PicLoader");
 
-	DWORD dwDelay = g_plugin.getDword("picloader_sleeptime", 80);
+	uint32_t dwDelay = g_plugin.getDword("picloader_sleeptime", 80);
 
 	if (dwDelay < 30)
 		dwDelay = 30;

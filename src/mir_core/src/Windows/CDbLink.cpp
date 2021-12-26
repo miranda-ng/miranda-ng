@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /////////////////////////////////////////////////////////////////////////////////////////
 // CDbLink class
 
-CDbLink::CDbLink(const char *szModule, const char *szSetting, uint8_t type, DWORD iValue)
+CDbLink::CDbLink(const char *szModule, const char *szSetting, uint8_t type, uint32_t iValue)
 	: CDataLink(type)
 {
 	m_szModule = mir_strdup(szModule);
@@ -54,7 +54,7 @@ CDbLink::~CDbLink()
 		db_free(&dbv);
 }
 
-DWORD CDbLink::LoadInt()
+uint32_t CDbLink::LoadInt()
 {
 	switch (m_type) {
 		case DBVT_BYTE:  return db_get_b(0, m_szModule, m_szSetting, m_iDefault);
@@ -64,7 +64,7 @@ DWORD CDbLink::LoadInt()
 	}
 }
 
-void CDbLink::SaveInt(DWORD value)
+void CDbLink::SaveInt(uint32_t value)
 {
 	switch (m_type) {
 		case DBVT_BYTE:  db_set_b(0, m_szModule, m_szSetting, (uint8_t)value); break;

@@ -67,7 +67,7 @@ protected:
 
 	bool m_bInitialized;
 
-	DWORD m_dwTransitionStart;
+	uint32_t m_dwTransitionStart;
 	bool m_bTransition;
 
 	ETransitionType m_eTransition;
@@ -75,7 +75,7 @@ protected:
 	vector<SLCDPixel*> m_LStaticPixels;
 
 	double m_dWave;
-	DWORD m_dwLastDraw;
+	uint32_t m_dwLastDraw;
 };
 
 #endif

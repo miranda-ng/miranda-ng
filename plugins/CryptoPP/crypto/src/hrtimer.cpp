@@ -103,7 +103,7 @@ TimerWord ThreadUserTimer::GetCurrentTimerValue()
 		FILETIME now, ignored;
 		if (!GetThreadTimes(GetCurrentThread(), &ignored, &ignored, &ignored, &now))
 		{
-			DWORD lastError = GetLastError();
+			uint32_t lastError = GetLastError();
 			if (lastError == ERROR_CALL_NOT_IMPLEMENTED)
 			{
 				getCurrentThreadImplemented = false;

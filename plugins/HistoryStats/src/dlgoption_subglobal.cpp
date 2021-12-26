@@ -170,7 +170,7 @@ BOOL DlgOption::SubGlobal::handleMsg(UINT msg, WPARAM wParam, LPARAM lParam)
 			NMTREEVIEW* pNM = reinterpret_cast<NMTREEVIEW*>(lParam);
 
 			if (p->code == NM_DBLCLK) {
-				DWORD dwPoint = GetMessagePos();
+				uint32_t dwPoint = GetMessagePos();
 				POINTS pts = MAKEPOINTS(dwPoint);
 				TVHITTESTINFO tvhti = { { pts.x, pts.y } };
 

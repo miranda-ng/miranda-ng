@@ -53,7 +53,7 @@ public:
 		Button_SetSkin_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
 		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
-		// blob is: uin(DWORD), hcontact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+		// blob is: uin(uint32_t), hcontact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 		DBEVENTINFO dbei = {};
 		dbei.cbBlob = -1;
 		if (db_event_get(m_hDbEvent, &dbei))
@@ -61,9 +61,9 @@ public:
 
 		m_szProto = dbei.szModule;
 
-		DWORD uin = *(DWORD*)dbei.pBlob;
+		uint32_t uin = *(uint32_t*)dbei.pBlob;
 		m_hContact = DbGetAuthEventContact(&dbei);
-		char *nick = (char*)dbei.pBlob + sizeof(DWORD) * 2;
+		char *nick = (char*)dbei.pBlob + sizeof(uint32_t) * 2;
 		char *first = nick + mir_strlen(nick) + 1;
 		char *last = first + mir_strlen(first) + 1;
 		char *email = last + mir_strlen(last) + 1;
@@ -194,15 +194,15 @@ public:
 		Button_SetSkin_IcoLib(m_hwnd, IDC_DETAILS, SKINICON_OTHER_USERDETAILS, LPGEN("View user's details"));
 		Button_SetSkin_IcoLib(m_hwnd, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add contact permanently to list"));
 
-		// blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+		// blob is: uin(uint32_t), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 		DB::EventInfo dbei;
 		dbei.cbBlob = -1;
 		db_event_get(m_hDbEvent, &dbei);
 
 		m_hContact = DbGetAuthEventContact(&dbei);
 
-		DWORD uin = *(PDWORD)dbei.pBlob;
-		char* nick = (char*)dbei.pBlob + sizeof(DWORD) * 2;
+		uint32_t uin = *(PDWORD)dbei.pBlob;
+		char* nick = (char*)dbei.pBlob + sizeof(uint32_t) * 2;
 		char* first = nick + mir_strlen(nick) + 1;
 		char* last = first + mir_strlen(first) + 1;
 		char* email = last + mir_strlen(last) + 1;

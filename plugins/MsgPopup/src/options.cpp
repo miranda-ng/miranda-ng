@@ -28,7 +28,7 @@ int idOptionControls[4][3] = {
 	IDC_QUESTION_FG, IDC_QUESTION_BG, IDC_TIMEOUT4
 };
 
-static int __inline DBWriteContactSettingDwordDef(MCONTACT hContact, const char *szModule, const char *szSetting, DWORD val, DWORD defValue)
+static int __inline DBWriteContactSettingDwordDef(MCONTACT hContact, const char *szModule, const char *szSetting, uint32_t val, uint32_t defValue)
 {
 	if (val == db_get_dw(hContact, szModule, szSetting, defValue))
 		return 0;
@@ -78,7 +78,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 					if (HIWORD(wParam) != EN_CHANGE) return FALSE;
 					if ((HWND)lParam != GetFocus()) return FALSE;
 
-					value = (DWORD)GetDlgItemInt(hWnd, LOWORD(wParam), &Translated, TRUE);
+					value = (uint32_t)GetDlgItemInt(hWnd, LOWORD(wParam), &Translated, TRUE);
 					if (Translated)
 						options.Timeout[indx] = value;
 				}
@@ -105,7 +105,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 
 				DBWriteContactSettingDwordDef(0, MODULENAME, szNameFG, options.FG[indx], optionsDefault.FG[indx]);
 				DBWriteContactSettingDwordDef(0, MODULENAME, szNameBG, options.BG[indx], optionsDefault.BG[indx]);
-				DBWriteContactSettingDwordDef(0, MODULENAME, szNameTO, options.Timeout[indx], (DWORD)optionsDefault.Timeout[indx]);
+				DBWriteContactSettingDwordDef(0, MODULENAME, szNameTO, options.Timeout[indx], (uint32_t)optionsDefault.Timeout[indx]);
 			}
 			DBWriteContactSettingDwordDef(0, MODULENAME, "Sound", options.Sound, optionsDefault.Sound);
 

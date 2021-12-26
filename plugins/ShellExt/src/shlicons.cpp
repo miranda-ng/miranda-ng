@@ -52,7 +52,7 @@ HBITMAP ARGB_BitmapFromIcon(IWICImagingFactory* Factory, HDC hDC, HICON hIcon)
 			void *pbBuffer;
 			hBmp = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, &pbBuffer, nullptr, 0);
 			if (hBmp != nullptr) {
-				UINT cbStride = cx * sizeof(DWORD); // ARGB = DWORD
+				UINT cbStride = cx * sizeof(uint32_t); // ARGB = uint32_t
 				UINT cbBuffer = cy * cbStride;
 				// note: the pbBuffer memory is owned by the DIB and will be freed when the bitmap is released
 				hr = bitmap->CopyPixels(nullptr, cbStride, cbBuffer, (uint8_t*)pbBuffer);

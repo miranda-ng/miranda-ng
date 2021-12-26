@@ -66,7 +66,7 @@ void ReplaceDefines(MCONTACT hContact, wstring &sTarget);
 void ReplaceTimeVariables(wstring &sRet);
 
 bool bWriteIndentedToFile(HANDLE hFile, int nIndent, const wchar_t *pszSrc, bool bUtf8File);
-bool bWriteNewLine(HANDLE hFile, DWORD dwIndent);
+bool bWriteNewLine(HANDLE hFile, uint32_t dwIndent);
 bool bIsUtf8Header(uint8_t *pucByteOrder);
 
 #endif

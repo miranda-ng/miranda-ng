@@ -92,13 +92,13 @@ void PopupPreview()
 	CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageW(TranslateT("This is a notification message"), (DWORD)SM_NOTIFY | 0x80000000);
+	PUShowMessageW(TranslateT("This is a notification message"), (uint32_t)SM_NOTIFY | 0x80000000);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageW(TranslateT("This is a warning message"), (DWORD)SM_WARNING | 0x80000000);
+	PUShowMessageW(TranslateT("This is a warning message"), (uint32_t)SM_WARNING | 0x80000000);
 	if (PopupOptions.UseAnimations || PopupOptions.UseEffect) Sleep((ANIM_TIME * 2) / 3); // Pause
 
-	PUShowMessageW(TranslateT("This is an error message"), (DWORD)SM_ERROR | 0x80000000);
+	PUShowMessageW(TranslateT("This is an error message"), (uint32_t)SM_ERROR | 0x80000000);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////

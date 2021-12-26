@@ -38,7 +38,7 @@ int NewsAggrInit(WPARAM, LPARAM)
 
 	for (auto &hContact : Contacts(MODULENAME)) {
 		if (!g_plugin.getByte("StartupRetrieve", 1))
-			g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
+			g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 		g_plugin.setWord(hContact, "Status", ID_STATUS_ONLINE);
 	}
 

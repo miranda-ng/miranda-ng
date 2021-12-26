@@ -20,13 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class CViewVersionInfo : public CDlgBase
 {
-	DWORD m_flags;
+	uint32_t m_flags;
 
 	CCtrlButton m_btnCopyClip, m_btnCopyFile;
 	CCtrlRichEdit m_redtViewVersionInfo;
 
 public:
-	CViewVersionInfo(DWORD flags) :
+	CViewVersionInfo(uint32_t flags) :
 		CDlgBase(g_plugin, IDD_VIEWVERSION),
 		m_btnCopyClip(this, IDC_CLIPVER),
 		m_btnCopyFile(this, IDC_FILEVER),
@@ -145,7 +145,7 @@ public:
 INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 {
 	if (pViewDialog == nullptr) {
-		DWORD dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
+		uint32_t dwFlags = wParam ? (VI_FLAG_PRNVAR | VI_FLAG_PRNDLL) : VI_FLAG_PRNVAR;
 		pViewDialog = new CViewVersionInfo(dwFlags);
 		pViewDialog->Show();
 	}

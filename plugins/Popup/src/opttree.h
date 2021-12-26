@@ -30,7 +30,7 @@ typedef struct {
 	int       iconIndex;
 	LPTSTR    pszOptionName;
 	int       groupId;
-	DWORD     dwFlag;
+	uint32_t     dwFlag;
 	HTREEITEM hItem;
 	LPTSTR    pszSettingName;
 	BOOL      bState;
@@ -38,8 +38,8 @@ typedef struct {
 } OPTTREE_OPTION;
 
 BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam, BOOL *result, int idcTree, OPTTREE_OPTION *options, int optionCount);
-DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, LPTSTR pszSettingName = nullptr);
-void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, DWORD dwOptions, LPTSTR pszSettingName = nullptr);
+uint32_t OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, LPTSTR pszSettingName = nullptr);
+void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, uint32_t dwOptions, LPTSTR pszSettingName = nullptr);
 
 void OptTree_Translate(HWND hwndTree);
 HTREEITEM OptTree_FindNamedTreeItemAt(HWND hwndTree, HTREEITEM hItem, LPCTSTR name);

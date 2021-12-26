@@ -26,7 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMPlugin g_plugin;
 
-DWORD g_mirandaVersion;
+uint32_t g_mirandaVersion;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

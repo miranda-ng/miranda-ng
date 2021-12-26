@@ -130,7 +130,7 @@ INT_PTR ToggleEnabled(WPARAM wParam, LPARAM) {
 	PINGLIST pl;
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		if (i->item_id == (DWORD)wParam) {
+		if (i->item_id == (uint32_t)wParam) {
 
 			if (i->status == PS_DISABLED)
 				i->status = PS_NOTRESPONDING;
@@ -152,7 +152,7 @@ INT_PTR EditContact(WPARAM wParam, LPARAM)
 
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		if (i->item_id == (DWORD)wParam) {
+		if (i->item_id == (uint32_t)wParam) {
 
 			add_edit_addr = *i;
 
@@ -171,7 +171,7 @@ INT_PTR DblClick(WPARAM wParam, LPARAM) {
 	PINGLIST pl;
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
 	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		if (i->item_id == (DWORD)wParam) {
+		if (i->item_id == (uint32_t)wParam) {
 			if (mir_wstrlen(i->pszCommand)) {
 				ShellExecute(nullptr, L"open", i->pszCommand, i->pszParams, nullptr, SW_SHOW);
 			}

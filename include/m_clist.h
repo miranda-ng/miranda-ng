@@ -225,7 +225,7 @@ EXTERN_C MIR_APP_DLL(HGENMENU) Menu_AddTrayMenuItem(TMO_MenuItem *pmi);
 struct CLISTEVENT
 {
 	MCONTACT hContact;      // handle to the contact to put the icon by
-	DWORD flags;            // ...of course
+	uint32_t flags;         // ...of course
 	HICON hIcon;            // icon to flash
 	MEVENT hDbEvent;        // caller defined but should be unique for hContact
 	const char *moduleName; // for events with CLEF_PROTOCOLGLOBAL in flags
@@ -409,7 +409,7 @@ EXTERN_C MIR_APP_DLL(int) Clist_GroupRename(MGROUP hGroup, const wchar_t *ptszNe
 #define GROUPF_EXPANDED    0x04
 #define GROUPF_HIDEOFFLINE 0x08
 
-EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, DWORD *pdwFlags = nullptr);
+EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GroupGetName(MGROUP hGroup, uint32_t *pdwFlags = nullptr);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // change the expanded state flag for a group internally
@@ -534,8 +534,8 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, in
 #define NIIF_ICON_MASK      0x0000000F
 #define NIIF_NOSOUND        0x00000010
 
-EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, DWORD dwInfoFlags, UINT uTimeout);
-EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, DWORD dwInfoFlags, UINT uTimeout);
+EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, uint32_t dwInfoFlags, UINT uTimeout);
+EXTERN_C MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, uint32_t dwInfoFlags, UINT uTimeout);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

@@ -181,7 +181,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				EnableWindow(GetDlgItem(hwndDlg, i), FALSE);
 		}
 		else {
-			DWORD bassver = BASS_GetVersion();
+			uint32_t bassver = BASS_GetVersion();
 			mir_snwprintf(tmp, TranslateT("Un4seen's BASS version: %d.%d.%d.%d"), bassver >> 24, (bassver >> 16) & 0xff, (bassver >> 8) & 0xff, bassver & 0xff);
 			SetDlgItemText(hwndDlg, IDC_BASSVERSION, tmp);
 
@@ -221,7 +221,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				GetDlgItemText(hwndDlg, IDC_OUTDEVICE, tmp, _countof(tmp));
 				g_plugin.setWString(OPT_OUTDEVICE, tmp);
 
-				Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
+				Volume = (uint32_t)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
 				g_plugin.setByte(OPT_VOLUME, Volume);
 
 				sndLimSnd = SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_GETCURSEL, 0, 0) + 1;
@@ -374,7 +374,7 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 	case WM_HSCROLL:
 		if (hBass != nullptr)
 			if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK) {
-				Volume = (DWORD)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
+				Volume = (uint32_t)SendMessage(hwndSlider, TBM_GETPOS, 0, 0);
 				g_plugin.setByte(OPT_VOLUME, Volume);
 				BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 				SendMessage(hwndOptSlider, TBM_SETPOS, TRUE, Volume);
@@ -483,7 +483,7 @@ void LoadBassLibrary(const wchar_t *ptszPath)
 
 		BASS_DEVICEINFO info;
 		if (!g_plugin.getWString(OPT_OUTDEVICE, &dbv))
-			for (size_t i = 1; BASS_GetDeviceInfo((DWORD)i, &info); i++)
+			for (size_t i = 1; BASS_GetDeviceInfo((uint32_t)i, &info); i++)
 				if (!mir_wstrcmp(dbv.pwszVal, _A2T(info.name)))
 					device = (int)i;
 

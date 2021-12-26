@@ -124,7 +124,7 @@ bool CLCDScreen::Draw(CLCDGfx *pGfx)
 //************************************************************************
 // Set the screen's time until expiration
 //************************************************************************
-void CLCDScreen::SetExpiration(DWORD dwTime)
+void CLCDScreen::SetExpiration(uint32_t dwTime)
 {
 	if (dwTime == INFINITE)
 		m_dwExpiration = INFINITE;

@@ -159,7 +159,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 	DBEVENTINFO olddbei = {};
 	bool  MesExist = false;
 	T2Utf pszTemp(message);
-	DWORD cbMemoLen = 10000, cbOrigLen = (DWORD)mir_strlen(pszTemp);
+	uint32_t cbMemoLen = 10000, cbOrigLen = (uint32_t)mir_strlen(pszTemp);
 	uint8_t *pbBuffer = (uint8_t*)mir_alloc(cbMemoLen);
 
 	DB::ECPTR pCursor(DB::EventsRev(hContact));
@@ -171,10 +171,10 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		db_event_get(hDbEvent, &olddbei);
 
 		// there's no need to look for the elder events
-		if (stamp > 0 && olddbei.timestamp < (DWORD)stamp)
+		if (stamp > 0 && olddbei.timestamp < (uint32_t)stamp)
 			break;
 
-		if ((DWORD)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
+		if ((uint32_t)mir_strlen((char*)olddbei.pBlob) == cbOrigLen && !mir_strcmp((char*)olddbei.pBlob, pszTemp)) {
 			MesExist = true;
 			break;
 		}
@@ -188,7 +188,7 @@ static void XmlToMsg(MCONTACT hContact, CMStringW &title, CMStringW &link, CMStr
 		T2Utf pszMessage(message);
 
 		PROTORECVEVENT recv = { 0 };
-		recv.timestamp = (DWORD)stamp;
+		recv.timestamp = (uint32_t)stamp;
 		recv.szMessage = pszMessage;
 		ProtoChainRecvMsg(hContact, &recv);
 	}
@@ -286,7 +286,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 					double deltaupd = difftime(time(0), stamp);
 					double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
 					if (deltaupd - deltacheck >= 0) {
-						g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
+						g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 						return;
 					}
 				}
@@ -375,7 +375,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 					double deltaupd = difftime(time(0), stamp);
 					double deltacheck = difftime(time(0), (time_t)g_plugin.getDword(hContact, "LastCheck"));
 					if (deltaupd - deltacheck >= 0) {
-						g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
+						g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 						return;
 					}
 				}
@@ -431,7 +431,7 @@ void CheckCurrentFeed(MCONTACT hContact)
 			}
 		}
 	}
-	g_plugin.setDword(hContact, "LastCheck", (DWORD)time(0));
+	g_plugin.setDword(hContact, "LastCheck", (uint32_t)time(0));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

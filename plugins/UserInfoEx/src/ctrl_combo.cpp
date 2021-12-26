@@ -28,7 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  * @param		hDlg			- HWND of the owning propertysheet page
  * @param		idCtrl			- the ID of the control to associate with this class's instance
  * @param		pszSetting		- the database setting to be handled by this class
- * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, DWORD, ...)
+ * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, uint32_t, ...)
  * @param		pList			- pointer to a LPIDSTRLIST list, which holds the items to insert into the combobox.
  * @param		nListCount		- number of items in the list
  *
@@ -45,7 +45,7 @@ CBaseCtrl* CCombo::CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint
  * @param		hDlg			- HWND of the owning propertysheet page
  * @param		idCtrl			- the ID of the control to associate with this class's instance
  * @param		pszSetting		- the database setting to be handled by this class
- * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, DWORD, ...)
+ * @param		bDBDataType		- datatype of of the associated database setting (uint16_t, uint32_t, ...)
  * @param		pList			- pointer to a LPIDSTRLIST list, which holds the items to insert into the combobox.
  * @param		nListCount		- number of items in the list
  *

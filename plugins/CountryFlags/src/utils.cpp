@@ -39,7 +39,7 @@ static int nCallListCount;
 // always gets called in main message loop
 static void CALLBACK BufferedProcTimer(HWND hwnd, UINT, UINT_PTR idTimer, DWORD currentTick)
 {
-	struct BufferedCallData *buf;
+	BufferedCallData *buf;
 	UINT uElapsed, uElapseNext = USER_TIMER_MAXIMUM;
 	BUFFEREDPROC pfnBuffProc;
 	LPARAM lParam;

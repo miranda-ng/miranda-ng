@@ -205,7 +205,7 @@ void ColSplitTimeline::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColSplitTimeline::addToSlot(Contact& contact, bool bOutgoing, DWORD localTimestamp, int toAdd)
+void ColSplitTimeline::addToSlot(Contact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd)
 {
 	if (toAdd > 0)
 	{
@@ -229,7 +229,7 @@ void ColSplitTimeline::impl_contactDataAcquireMessage(Contact& contact, Message&
 	}
 }
 
-void ColSplitTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
+void ColSplitTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
 {
 	if (m_nSource == 2)
 	{
@@ -311,7 +311,7 @@ void ColSplitTimeline::impl_columnDataAfterOmit()
 
 	if (l.size() > 0)
 	{
-		DWORD nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
+		uint32_t nFirstTime = con::MaxDateTime, nLastTime = con::MinDateTime;
 
 		citer_each_(Statistic::ContactListC, c, l)
 		{
@@ -435,11 +435,11 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 			for (int partBlock = 0; partBlock < params.blocks_in_column; ++partBlock)
 			{
 				int part_top = 0;
-				DWORD block_time = m_nBlockOffset + curBlock + partBlock;
+				uint32_t block_time = m_nBlockOffset + curBlock + partBlock;
 
 				for (int curCol = 0; curCol < params.columns_to_group; ++curCol)
 				{
-					DWORD cur_time = block_time + curCol * params.blocks_in_column;
+					uint32_t cur_time = block_time + curCol * params.blocks_in_column;
 
 					TimelineMap::const_iterator i = pData->find(cur_time);
 					
@@ -484,11 +484,11 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 			for (int partBlock = 0; partBlock < params.blocks_in_column; ++partBlock)
 			{
 				int part_top = 0;
-				DWORD block_time = m_nBlockOffset + curBlock + partBlock;
+				uint32_t block_time = m_nBlockOffset + curBlock + partBlock;
 
 				for (int curCol = 0; curCol < params.columns_to_group; ++curCol)
 				{
-					DWORD cur_time = block_time + curCol * params.blocks_in_column;
+					uint32_t cur_time = block_time + curCol * params.blocks_in_column;
 
 					TimelineMap::const_iterator i = pData->find(cur_time);
 					
@@ -510,11 +510,11 @@ void ColSplitTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& co
 		for (int partBlock = 0; partBlock < params.blocks_in_column; ++partBlock)
 		{
 			int part_top = 0;
-			DWORD block_time = m_nBlockOffset + curBlock + partBlock;
+			uint32_t block_time = m_nBlockOffset + curBlock + partBlock;
 
 			for (int curCol = 0; curCol < params.columns_to_group; ++curCol)
 			{
-				DWORD cur_time = block_time + curCol * params.blocks_in_column;
+				uint32_t cur_time = block_time + curCol * params.blocks_in_column;
 
 				TimelineMap::const_iterator i = pData->find(cur_time);
 				
@@ -581,11 +581,11 @@ void ColSplitTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& co
 		{
 			int part_in = 0;
 			int part_out = 0;
-			DWORD block_time = m_nBlockOffset + curBlock + partBlock;
+			uint32_t block_time = m_nBlockOffset + curBlock + partBlock;
 
 			for (int curCol = 0; curCol < params.columns_to_group; ++curCol)
 			{
-				DWORD cur_time = block_time + curCol * params.blocks_in_column;
+				uint32_t cur_time = block_time + curCol * params.blocks_in_column;
 
 				TimelineMap::const_iterator i = pData->find(cur_time);
 					

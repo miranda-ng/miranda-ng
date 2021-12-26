@@ -33,7 +33,7 @@
 
 // Globals
 extern HGENMENU hMenu;
-extern DWORD mirVer;
+extern uint32_t mirVer;
 extern MWindowList hAvatarWindowsList;
 extern Options opts;
 extern HANDLE hFolder;

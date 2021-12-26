@@ -80,7 +80,7 @@ void Protocol::lcopystr(wchar_t *dest, wchar_t *src, size_t maxlen)
 {
 	if (mir_wstrcmp(dest, src) != 0) {
 		data_changed = true;
-		mir_wstrncpy(dest, src, (DWORD)maxlen);
+		mir_wstrncpy(dest, src, (uint32_t)maxlen);
 	}
 }
 

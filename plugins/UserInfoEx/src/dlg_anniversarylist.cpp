@@ -704,7 +704,7 @@ class CAnnivList
 	{
 		MAnnivDate ad;
 		int i = 0;
-		DWORD age = 0;
+		uint32_t age = 0;
 		int wDaysBefore = g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 		int numMale = 0;
 		int numFemale = 0;

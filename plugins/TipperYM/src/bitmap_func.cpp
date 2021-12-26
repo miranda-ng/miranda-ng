@@ -460,7 +460,7 @@ BOOL IsAlphaTransparent(HBITMAP hBitmap)
 	if (bmp.bmBitsPixel != 32)
 		return FALSE;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)mir_calloc(dwLen);
 	if (p == nullptr)
 		return FALSE;

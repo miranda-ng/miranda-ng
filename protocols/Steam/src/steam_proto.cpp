@@ -80,7 +80,7 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 
 	debugLogA(__FUNCTION__":Setting protocol / module name to '%s'", m_szModuleName);
 
-	if (DWORD iGlobalValue = getDword(DB_KEY_LASTMSGTS)) {
+	if (uint32_t iGlobalValue = getDword(DB_KEY_LASTMSGTS)) {
 		for (auto &cc : AccContacts())
 			setDword(cc, DB_KEY_LASTMSGTS, iGlobalValue);
 		delSetting(DB_KEY_LASTMSGTS);

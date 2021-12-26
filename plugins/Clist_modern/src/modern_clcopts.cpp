@@ -52,7 +52,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 struct
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	int fontID;
 	const wchar_t *szGroup;
 	const wchar_t *szDescr;
@@ -180,10 +180,10 @@ void RegisterCLUIFonts(void)
 	registered = true;
 }
 
-DWORD GetDefaultExStyle(void)
+uint32_t GetDefaultExStyle(void)
 {
 	BOOL param;
-	DWORD ret = CLCDEFAULT_EXSTYLE;
+	uint32_t ret = CLCDEFAULT_EXSTYLE;
 	if (SystemParametersInfo(SPI_GETLISTBOXSMOOTHSCROLLING, 0, &param, FALSE) && !param)
 		ret |= CLS_EX_NOSMOOTHSCROLLING;
 	if (SystemParametersInfo(SPI_GETHOTTRACKING, 0, &param, FALSE) && !param)
@@ -219,7 +219,7 @@ void GetFontSetting(int i, LOGFONT *lf, COLORREF *colour, uint8_t *effect, COLOR
 struct
 {
 	int id;
-	DWORD flag;
+	uint32_t flag;
 	int neg;
 }
 static const checkBoxToStyleEx[] =
@@ -242,7 +242,7 @@ static const checkBoxToStyleEx[] =
 
 struct CheckBoxValues_t
 {
-	DWORD style;
+	uint32_t style;
 	wchar_t *szDescr;
 }
 static const greyoutValues[] = {
@@ -257,7 +257,7 @@ static const greyoutValues[] = {
 	{ PF2_INVISIBLE, LPGENW("Invisible") }
 };
 
-static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
+static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, uint32_t style)
 {
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = nullptr;
@@ -272,9 +272,9 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	}
 }
 
-static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
+static uint32_t MakeCheckBoxTreeFlags(HWND hwndTree)
 {
-	DWORD flags = 0;
+	uint32_t flags = 0;
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 	tvi.hItem = TreeView_GetRoot(hwndTree);
@@ -360,7 +360,7 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		TranslateDialogDefault(hwndDlg);
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", GetDefaultExStyle());
+			uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", GetDefaultExStyle());
 			for (auto &it : checkBoxToStyleEx)
 				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.neg) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -419,13 +419,13 @@ static INT_PTR CALLBACK DlgProcClistListOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 		case 0:
 			switch (((LPNMHDR)lParam)->code) {
 			case PSN_APPLY:
-				DWORD exStyle = 0;
+				uint32_t exStyle = 0;
 				for (auto &it : checkBoxToStyleEx)
 					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.neg)
 						exStyle |= it.flag;
 				db_set_dw(0, "CLC", "ExStyle", exStyle);
 
-				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
+				uint32_t fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
 				db_set_dw(0, "CLC", "FullGreyoutFlags", fullGreyoutFlags);
 				if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
 					db_set_dw(0, "CLC", "GreyoutFlags", fullGreyoutFlags);
@@ -1100,7 +1100,7 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				else
 					db_unset(0, "ModernData", "EnableLayering");
 			}
-			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (DWORD)SETTING_KEYCOLOR_DEFAULT);
+			g_CluiData.dwKeyColor = db_get_dw(0, "ModernSettings", "KeyColor", (uint32_t)SETTING_KEYCOLOR_DEFAULT);
 			g_plugin.setByte("OnDesktop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONDESKTOP));
 			g_plugin.setByte("OnTop", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
 			SetWindowPos(g_clistApi.hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
@@ -1146,8 +1146,8 @@ static INT_PTR CALLBACK DlgProcClistWindowOpts(HWND hwndDlg, UINT msg, WPARAM wP
 				int i1 = SendDlgItemMessage(hwndDlg, IDC_FRAMESSPIN, UDM_GETPOS, 0, 0);
 				int i2 = SendDlgItemMessage(hwndDlg, IDC_CAPTIONSSPIN, UDM_GETPOS, 0, 0);
 
-				db_set_dw(0, "CLUIFrames", "GapBetweenFrames", (DWORD)i1);
-				db_set_dw(0, "CLUIFrames", "GapBetweenTitleBar", (DWORD)i2);
+				db_set_dw(0, "CLUIFrames", "GapBetweenFrames", (uint32_t)i1);
+				db_set_dw(0, "CLUIFrames", "GapBetweenTitleBar", (uint32_t)i2);
 				Sync(CLUIFramesOnClistResize, (WPARAM)g_clistApi.hwndContactList, 0);
 			}
 			g_plugin.setByte("Transparent", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT));
@@ -1432,7 +1432,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 	char *szSetting = (char*)wParam;
 	size_t len = mir_strlen(szSetting) + 1;
 
-	char *value = (char *)mir_alloc(len + 4); // add room for flags (DWORD)
+	char *value = (char *)mir_alloc(len + 4); // add room for flags (uint32_t)
 	memcpy(value, szSetting, len);
 	char *tok = strchr(value, '/');
 	if (tok == nullptr) {
@@ -1440,7 +1440,7 @@ static INT_PTR BkgrCfg_Register(WPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 	*tok = 0;
-	*(DWORD*)(value + len) = lParam;
+	*(uint32_t*)(value + len) = lParam;
 
 	bkgrList = (char **)mir_realloc(bkgrList, sizeof(char*)*(bkgrCount + 1));
 	bkgrList[bkgrCount] = value;

@@ -37,13 +37,13 @@ private:
 	OptionsCtrl::Radio m_hGraphAlign;
 
 	ext::string m_CSS;
-	DWORD m_nTimeDiv;
-	DWORD m_nTimeMod;
-	DWORD m_nTimeOffset;
+	uint32_t m_nTimeDiv;
+	uint32_t m_nTimeMod;
+	uint32_t m_nTimeOffset;
 
 private:
 	SplitParams getParams() const;
-	void addToSlot(Contact& contact, DWORD localTimestamp, int toAdd);
+	void addToSlot(Contact& contact, uint32_t localTimestamp, int toAdd);
 
 public:
 	explicit ColSplit();
@@ -64,7 +64,7 @@ protected:
 	virtual void impl_contactDataPrepare(Contact& contact) const;
 	virtual void impl_contactDataFree(Contact& contact) const;
 	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg);
-	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
+	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const;
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;

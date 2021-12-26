@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void AddToTaskBar(HWND hWnd);
 
-void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask);
+void cfgSetFlag(HWND hwndDlg, int ctrlId, uint32_t dwMask);
 
 extern COLORREF g_CLUISkinnedBkColorRGB;
 
@@ -141,7 +141,7 @@ public:
 struct CheckBoxToStyleEx_t
 {
 	int id;
-	DWORD flag;
+	uint32_t flag;
 	int not_t;
 }
 static const checkBoxToStyleEx[] = {
@@ -156,7 +156,7 @@ static const checkBoxToStyleEx[] = {
 
 struct CheckBoxValues_t
 {
-	DWORD style;
+	uint32_t style;
 	wchar_t *szDescr;
 }
 static const greyoutValues[] = {
@@ -191,7 +191,7 @@ public:
 	{
 		SetWindowLongPtr(greyOut.GetHwnd(), GWL_STYLE, GetWindowLongPtr(greyOut.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 
-		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+		uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 		UDACCEL accel[2] = { { 0, 10 }, { 2, 50 } };
 		SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
 		SendDlgItemMessage(m_hwnd, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, _countof(accel), (LPARAM)&accel);
@@ -205,7 +205,7 @@ public:
 
 		chkGreyOut.SetState(db_get_dw(0, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS));
 
-		DWORD style = db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS);
+		uint32_t style = db_get_dw(0, "CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS);
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
@@ -224,7 +224,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
+		uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
 
 		for (auto &it : checkBoxToStyleEx)
 			exStyle &= ~(it.flag);
@@ -235,7 +235,7 @@ public:
 
 		db_set_dw(0, "CLC", "ExStyle", exStyle);
 
-		DWORD fullGreyoutFlags = 0;
+		uint32_t fullGreyoutFlags = 0;
 		TVITEMEX tvi;
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
 		tvi.hItem = greyOut.GetRoot();
@@ -476,7 +476,7 @@ public:
 			SetLayeredWindowAttributes(g_clistApi.hwndContactList,
 				(COLORREF)(cfg::dat.bFullTransparent ? cfg::dat.colorkey : 0),
 				(uint8_t)(cfg::dat.isTransparent ? cfg::dat.autoalpha : 255),
-				(DWORD)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
+				(uint32_t)((cfg::dat.isTransparent ? LWA_ALPHA : 0L) | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0L)));
 		}
 		else {
 			SetLayeredWindowAttributes(g_clistApi.hwndContactList, RGB(0, 0, 0), (uint8_t)255, LWA_ALPHA);

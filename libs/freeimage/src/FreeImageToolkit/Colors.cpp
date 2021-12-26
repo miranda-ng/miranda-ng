@@ -351,7 +351,7 @@ bit depth is not supported (nothing is done).
 @return Returns TRUE if succesful, returns FALSE if the image bit depth isn't supported.
 */
 BOOL DLL_CALLCONV 
-FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL channel) {
+FreeImage_GetHistogram(FIBITMAP *src, uint32_t *histo, FREE_IMAGE_COLOR_CHANNEL channel) {
 	uint8_t pixel;
 	uint8_t *bits = NULL;
 	unsigned x, y;
@@ -364,7 +364,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
 
 	if(bpp == 8) {
 		// clear histogram array
-		memset(histo, 0, 256 * sizeof(DWORD));
+		memset(histo, 0, 256 * sizeof(uint32_t));
 		// compute histogram for black channel
 		for(y = 0; y < height; y++) {
 			bits = FreeImage_GetScanLine(src, y);
@@ -380,7 +380,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
 		int bytespp = bpp / 8;	// bytes / pixel
 
 		// clear histogram array
-		memset(histo, 0, 256 * sizeof(DWORD));
+		memset(histo, 0, 256 * sizeof(uint32_t));
 
 		switch(channel) {
 			case FICC_RED:

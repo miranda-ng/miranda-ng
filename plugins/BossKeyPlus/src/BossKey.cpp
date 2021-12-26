@@ -70,7 +70,7 @@ static BOOL IsAeroMode()
 
 INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	static DWORD dwOldIcon = 0;
+	static uint32_t dwOldIcon = 0;
 	HICON hIcon = nullptr;
 	UINT uid;
 
@@ -173,7 +173,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd, LPARAM)
 		else if (!mir_wstrcmp(szTemp, L"PopupWnd2")) // destroy opened popups
 			PUDeletePopup(hWnd);
 		else {
-			DWORD threadId = GetWindowThreadProcessId(hWnd, 0);
+			uint32_t threadId = GetWindowThreadProcessId(hWnd, 0);
 			if (threadId != GetCurrentThreadId())
 				return false;
 
@@ -439,7 +439,7 @@ INT_PTR BossKeyHideMiranda(WPARAM, LPARAM) // for service :)
 static wchar_t* HotkeyVkToName(uint16_t vkKey)
 {
 	static wchar_t buf[32] = { 0 };
-	DWORD code = MapVirtualKey(vkKey, 0) << 16;
+	uint32_t code = MapVirtualKey(vkKey, 0) << 16;
 
 	switch (vkKey) {
 	case 0:

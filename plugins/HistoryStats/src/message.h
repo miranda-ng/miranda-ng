@@ -26,7 +26,7 @@ private:
 
 private:
 	bool m_bOutgoing;
-	DWORD m_Timestamp;
+	uint32_t m_Timestamp;
 	size_t m_nLength;
 	const void* m_RawSource;
 	int m_Available;
@@ -50,7 +50,7 @@ public:
 	}
 
 	// assigning data
-	void assignInfo(bool bOutgoing, DWORD localTimestamp)
+	void assignInfo(bool bOutgoing, uint32_t localTimestamp)
 	{
 		m_bOutgoing = bOutgoing;
 		m_Timestamp = localTimestamp;
@@ -85,7 +85,7 @@ public:
 		return m_bOutgoing;
 	}
 	
-	DWORD getTimestamp()
+	uint32_t getTimestamp()
 	{
 		return m_Timestamp;
 	}

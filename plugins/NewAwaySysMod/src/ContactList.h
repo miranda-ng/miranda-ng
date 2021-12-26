@@ -57,7 +57,7 @@ public:
 	void SetExtraImage(HTREEITEM hItem, int iColumn, int iImage); // set iImage to CLC_EXTRAICON_EMPTY to reset image
 	void SetExtraImageList(HIMAGELIST hImgList);
 	int GetItemType(HTREEITEM hItem); // returns a MCLCIT_ (see below)
-	HTREEITEM GetNextItem(DWORD Flags, HTREEITEM hItem);
+	HTREEITEM GetNextItem(uint32_t Flags, HTREEITEM hItem);
 	void SortContacts();
 	MCONTACT GethContact(HTREEITEM hItem); // returns hContact, hGroup or hInfo
 	HTREEITEM HitTest(LPPOINT pt, PDWORD hitFlags); // pt is relative to control; returns hItem or NULL
@@ -78,7 +78,7 @@ private:
 	HTREEITEM TreeView_GetLastChild(HWND hTreeView, HTREEITEM hItem);
 	HTREEITEM FindContact(MCONTACT hContact); // returns NULL if not found
 	void SelectGroups(HTREEITEM hCurItem, bool bSelected);
-	DWORD GetItemTypeAsCLGNFlag(HTREEITEM hItem); // returns MCLGN_CONTACT, MCLGN_GROUP or MCLGN_INFO
+	uint32_t GetItemTypeAsCLGNFlag(HTREEITEM hItem); // returns MCLGN_CONTACT, MCLGN_GROUP or MCLGN_INFO
 
 	HWND hTreeView;
 	WNDPROC OrigTreeViewProc;

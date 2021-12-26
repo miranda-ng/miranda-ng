@@ -32,7 +32,7 @@ public:
 	int m_fileID;
 	int m_iFtpNum;
 	char m_szFileName[256];
-	DWORD m_deleteTS;
+	uint32_t m_deleteTS;
 
 	static mir_cs mutexDB;
 

@@ -206,7 +206,7 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 {
 	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
 	gce.pszID.w = m_tszUserName;
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = name;
 	gce.pszUID.w = gce.pszNick.w;
@@ -231,7 +231,7 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = name;
 	gce.pszUID.w = gce.pszNick.w;
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	if (name == nullptr)
 		gce.bIsMe = false;
 	else

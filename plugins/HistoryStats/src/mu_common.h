@@ -13,8 +13,8 @@ namespace mu
 
 	namespace clist
 	{
-		HGENMENU addMainMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot = nullptr);
-		HGENMENU addContactMenuItem(const wchar_t* pszName, DWORD flags, int position, HICON hIcon, const char* pszService);
+		HGENMENU addMainMenuItem(const wchar_t* pszName, uint32_t flags, int position, HICON hIcon, const char* pszService, HGENMENU hRoot = nullptr);
+		HGENMENU addContactMenuItem(const wchar_t* pszName, uint32_t flags, int position, HICON hIcon, const char* pszService);
 	}
 
 	/*
@@ -34,7 +34,7 @@ namespace mu
 
 	namespace protosvc
 	{
-		DWORD getCaps(const char* szProto, int flagNum);
+		uint32_t getCaps(const char* szProto, int flagNum);
 		//int getName(const char* szProto, int cchName, char* szName);
 		HICON loadIcon(const char* szProto, int whichIcon);
 	}
@@ -64,8 +64,8 @@ namespace mu
 
 	bool load();
 	void unload();
-	DWORD getMinimalMirandaVersion();
-	bool isMirandaVersionOk(DWORD version);
+	uint32_t getMinimalMirandaVersion();
+	bool isMirandaVersionOk(uint32_t version);
 	bool isMirandaUnicode();
 
 	/*

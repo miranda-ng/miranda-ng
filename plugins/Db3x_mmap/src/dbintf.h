@@ -68,7 +68,7 @@ DBHeader
 #define NeedBytes(n)   if (bytesRemaining<(n)) pBlob = (uint8_t*)DBRead(ofsBlobPtr,&bytesRemaining)
 #define MoveAlong(n)   {int x = n; pBlob += (x); ofsBlobPtr += (x); bytesRemaining -= (x);}
 
-DWORD __forceinline GetSettingValueLength(uint8_t *pSetting)
+uint32_t __forceinline GetSettingValueLength(uint8_t *pSetting)
 {
 	if (pSetting[0] & DBVTF_VARIABLELENGTH)
 		return 2 + *(PWORD)(pSetting + 1);
@@ -84,45 +84,45 @@ struct DBSignature
 struct ModuleName
 {
 	char *name;
-	DWORD ofs;
+	uint32_t ofs;
 };
 
 #include <pshpack1.h>
 struct DBHeader
 {
 	uint8_t signature[16];        // 'Miranda ICQ DB',0,26
-	DWORD version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
-	DWORD ofsFileEnd;       // offset of the end of the database - place to write new structures
-	DWORD slackSpace;       // a counter of the number of bytes that have been
+	uint32_t version;          // as 4 bytes, ie 1.2.3.10 = 0x0102030a
+	uint32_t ofsFileEnd;       // offset of the end of the database - place to write new structures
+	uint32_t slackSpace;       // a counter of the number of bytes that have been
 										// wasted so far due to deleting structures and/or
 										// re-making them at the end. We should compact when
 										// this gets above a threshold
-	DWORD contactCount;     // number of contacts in the chain,excluding the user
-	DWORD ofsFirstContact;  // offset to first DBContact in the chain
-	DWORD ofsUser;          // offset to DBContact representing the user
-	DWORD ofsModuleNames;   // offset to first struct DBModuleName in the chain
+	uint32_t contactCount;     // number of contacts in the chain,excluding the user
+	uint32_t ofsFirstContact;  // offset to first DBContact in the chain
+	uint32_t ofsUser;          // offset to DBContact representing the user
+	uint32_t ofsModuleNames;   // offset to first struct DBModuleName in the chain
 };
 
 #define DBCONTACT_SIGNATURE   0x43DECADEu
 struct DBContact
 {
-	DWORD signature;
-	DWORD ofsNext;          // offset to the next contact in the chain. zero if
+	uint32_t signature;
+	uint32_t ofsNext;          // offset to the next contact in the chain. zero if
 	// this is the 'user' contact or the last contact in the chain
-	DWORD ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
-	DWORD eventCount;       // number of events in the chain for this contact
-	DWORD ofsFirstEvent,    // offsets to the first and
+	uint32_t ofsFirstSettings;	// offset to the first DBContactSettings in the chain for this contact.
+	uint32_t eventCount;       // number of events in the chain for this contact
+	uint32_t ofsFirstEvent,    // offsets to the first and
 	         ofsLastEvent;     // last DBEvent in the chain for this contact
-	DWORD ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
-	DWORD tsFirstUnread;    // timestamp of the event at ofsFirstUnread
-	DWORD dwContactID;
+	uint32_t ofsFirstUnread;   // offset to the first (chronological) unread event	in the chain, 0 if all are read
+	uint32_t tsFirstUnread;    // timestamp of the event at ofsFirstUnread
+	uint32_t dwContactID;
 };
 
 #define DBMODULENAME_SIGNATURE  0x4DDECADEu
 struct DBModuleName
 {
-	DWORD signature;
-	DWORD ofsNext;          // offset to the next module name in the chain
+	uint32_t signature;
+	uint32_t ofsNext;          // offset to the next module name in the chain
 	uint8_t cbName;            // number of characters in this module name
 	char name[1];           // name, no nul terminator
 };
@@ -130,10 +130,10 @@ struct DBModuleName
 #define DBCONTACTSETTINGS_SIGNATURE  0x53DECADEu
 struct DBContactSettings
 {
-	DWORD signature;
-	DWORD ofsNext;          // offset to the next contactsettings in the chain
-	DWORD ofsModuleName;	   // offset to the DBModuleName of the owner of these settings
-	DWORD cbBlob;           // size of the blob in bytes. May be larger than the
+	uint32_t signature;
+	uint32_t ofsNext;          // offset to the next contactsettings in the chain
+	uint32_t ofsModuleName;	   // offset to the DBModuleName of the owner of these settings
+	uint32_t cbBlob;           // size of the blob in bytes. May be larger than the
 	// actual size for reducing the number of moves
 	// required using granularity in resizing
 	uint8_t blob[1];           // the blob. a back-to-back sequence of DBSetting
@@ -143,30 +143,30 @@ struct DBContactSettings
 #define DBEVENT_SIGNATURE  0x45DECADEu
 struct DBEvent_094         // previous event storage format
 {
-	DWORD signature;
-	DWORD ofsPrev, ofsNext;	// offset to the previous and next events in the
+	uint32_t signature;
+	uint32_t ofsPrev, ofsNext;	// offset to the previous and next events in the
 	// chain. Chain is sorted chronologically
-	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
+	uint32_t ofsModuleName;	   // offset to a DBModuleName struct of the name of
 	// the owner of this event
-	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
-	DWORD flags;            // see m_database.h, db/event/add
+	uint32_t timestamp;        // seconds since 00:00:00 01/01/1970
+	uint32_t flags;            // see m_database.h, db/event/add
 	uint16_t  wEventType;       // module-defined event type
-	DWORD cbBlob;           // number of bytes in the blob
+	uint32_t cbBlob;           // number of bytes in the blob
 	uint8_t  blob[1];          // the blob. module-defined formatting
 };
 
 struct DBEvent
 {
-	DWORD signature;
+	uint32_t signature;
 	MCONTACT contactID;     // a contact this event belongs to
-	DWORD ofsPrev, ofsNext;	// offset to the previous and next events in the
+	uint32_t ofsPrev, ofsNext;	// offset to the previous and next events in the
 	// chain. Chain is sorted chronologically
-	DWORD ofsModuleName;	   // offset to a DBModuleName struct of the name of
+	uint32_t ofsModuleName;	   // offset to a DBModuleName struct of the name of
 	// the owner of this event
-	DWORD timestamp;        // seconds since 00:00:00 01/01/1970
-	DWORD flags;            // see m_database.h, db/event/add
+	uint32_t timestamp;        // seconds since 00:00:00 01/01/1970
+	uint32_t flags;            // see m_database.h, db/event/add
 	uint16_t  wEventType;       // module-defined event type
-	DWORD cbBlob;           // number of bytes in the blob
+	uint32_t cbBlob;           // number of bytes in the blob
 	uint8_t  blob[1];          // the blob. module-defined formatting
 
 	bool __forceinline markedRead() const
@@ -179,7 +179,7 @@ struct DBEvent
 
 struct DBCachedContact : public DBCachedContactBase
 {
-	DWORD dwOfsContact;
+	uint32_t dwOfsContact;
 };
 
 struct CDb3Mmap : public MDatabaseCommon, public MZeroedObject
@@ -245,13 +245,13 @@ public:
 	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
 
 protected:
-	DWORD    GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName);
-	void     InvalidateSettingsGroupOfsCacheEntry(DWORD) {}
+	uint32_t    GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, uint32_t ofsModuleName);
+	void     InvalidateSettingsGroupOfsCacheEntry(uint32_t) {}
 
-	void     DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes);
-	uint8_t* DBRead(DWORD ofs, int *bytesAvail);
-	void     DBWrite(DWORD ofs, PVOID pData, int bytes);
-	void     DBFill(DWORD ofs, int bytes);
+	void     DBMoveChunk(uint32_t ofsDest, uint32_t ofsSource, int bytes);
+	uint8_t* DBRead(uint32_t ofs, int *bytesAvail);
+	void     DBWrite(uint32_t ofs, PVOID pData, int bytes);
+	void     DBFill(uint32_t ofs, int bytes);
 	void     DBFlush(int setting);
 	int      InitMap(void);
 	void     FillContacts(void);
@@ -259,29 +259,29 @@ protected:
 	uint8_t* m_pNull;
 
 	void     Map();
-	void     ReMap(DWORD needed);
+	void     ReMap(uint32_t needed);
 
 protected:
 	wchar_t* m_tszProfileName;
 	HANDLE   m_hDbFile;
 	DBHeader m_dbHeader;
-	DWORD    m_ChunkSize;
+	uint32_t    m_ChunkSize;
 	bool     m_safetyMode, m_bReadOnly, m_bShared;
 
 	////////////////////////////////////////////////////////////////////////////
 	// database stuff
 public:
 	UINT_PTR m_flushBuffersTimerId;
-	DWORD    m_flushFailTick;
+	uint32_t    m_flushFailTick;
 	uint8_t* m_pDbCache;
 	HANDLE   m_hMap;
 
 protected:
-	DWORD    m_dwFileSize, m_dwMaxContactId;
+	uint32_t    m_dwFileSize, m_dwMaxContactId;
 
-	DWORD    CreateNewSpace(int bytes);
-	void     DeleteSpace(DWORD ofs, int bytes);
-	DWORD    ReallocSpace(DWORD ofs, int oldSize, int newSize);
+	uint32_t    CreateNewSpace(int bytes);
+	void     DeleteSpace(uint32_t ofs, int bytes);
+	uint32_t    ReallocSpace(uint32_t ofs, int oldSize, int newSize);
 
 	////////////////////////////////////////////////////////////////////////////
 	// settings
@@ -292,14 +292,14 @@ protected:
 	// contacts
 
 	int      WipeContactHistory(DBContact *dbc);
-	DWORD    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = nullptr);
+	uint32_t    GetContactOffset(MCONTACT contactID, DBCachedContact **cc = nullptr);
 
 	////////////////////////////////////////////////////////////////////////////
 	// events
 
 	DBEvent  m_tmpEvent;
 
-	DBEvent* AdaptEvent(DWORD offset, DWORD hContact);
+	DBEvent* AdaptEvent(uint32_t offset, uint32_t hContact);
 
 	////////////////////////////////////////////////////////////////////////////
 	// modules
@@ -309,11 +309,11 @@ protected:
 	MCONTACT m_hLastCachedContact;
 	ModuleName *m_lastmn;
 
-	void     AddToList(char *name, DWORD ofs);
-	DWORD    FindExistingModuleNameOfs(const char *szName);
+	void     AddToList(char *name, uint32_t ofs);
+	uint32_t    FindExistingModuleNameOfs(const char *szName);
 	int      InitModuleNames(void);
-	DWORD    GetModuleNameOfs(const char *szName);
-	char*    GetModuleNameByOfs(DWORD ofs);
+	uint32_t    GetModuleNameOfs(const char *szName);
+	char*    GetModuleNameByOfs(uint32_t ofs);
 
 	////////////////////////////////////////////////////////////////////////////
 	// encryption

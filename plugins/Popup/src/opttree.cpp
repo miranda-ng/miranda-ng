@@ -317,10 +317,10 @@ BOOL OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, int *res
 	return FALSE;
 }
 
-DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, LPTSTR pszSettingName)
+uint32_t OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, LPTSTR pszSettingName)
 {
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
-	DWORD result = 0;
+	uint32_t result = 0;
 	int i;
 	for (i = 0; i < optionCount; ++i) {
 		if ((!options[i].pszSettingName && !pszSettingName) ||
@@ -337,7 +337,7 @@ DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int op
 	return result;
 }
 
-void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, DWORD dwOptions, LPTSTR pszSettingName)
+void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, uint32_t dwOptions, LPTSTR pszSettingName)
 {
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
 	for (int i = 0; i < optionCount; ++i) {

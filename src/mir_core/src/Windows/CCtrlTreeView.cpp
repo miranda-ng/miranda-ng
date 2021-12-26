@@ -608,7 +608,7 @@ void CCtrlTreeView::EnsureVisible(HTREEITEM hItem)
 {	TreeView_EnsureVisible(m_hwnd, hItem);
 }
 
-void CCtrlTreeView::Expand(HTREEITEM hItem, DWORD flag)
+void CCtrlTreeView::Expand(HTREEITEM hItem, uint32_t flag)
 {	TreeView_Expand(m_hwnd, hItem, flag);
 }
 
@@ -616,7 +616,7 @@ COLORREF CCtrlTreeView::GetBkColor() const
 {	return TreeView_GetBkColor(m_hwnd);
 }
 
-DWORD CCtrlTreeView::GetCheckState(HTREEITEM hItem) const
+uint32_t CCtrlTreeView::GetCheckState(HTREEITEM hItem) const
 {	return TreeView_GetCheckState(m_hwnd, hItem);
 }
 
@@ -664,7 +664,7 @@ void CCtrlTreeView::GetItemRect(HTREEITEM hItem, RECT *rcItem, BOOL fItemRect) c
 {	TreeView_GetItemRect(m_hwnd, hItem, rcItem, fItemRect);
 }
 
-DWORD CCtrlTreeView::GetItemState(HTREEITEM hItem, DWORD stateMask) const
+uint32_t CCtrlTreeView::GetItemState(HTREEITEM hItem, uint32_t stateMask) const
 {	return TreeView_GetItemState(m_hwnd, hItem, stateMask);
 }
 
@@ -676,7 +676,7 @@ COLORREF CCtrlTreeView::GetLineColor() const
 {	return TreeView_GetLineColor(m_hwnd);
 }
 
-HTREEITEM CCtrlTreeView::GetNextItem(HTREEITEM hItem, DWORD flag) const
+HTREEITEM CCtrlTreeView::GetNextItem(HTREEITEM hItem, uint32_t flag) const
 {	return TreeView_GetNextItem(m_hwnd, hItem, flag);
 }
 
@@ -704,7 +704,7 @@ HTREEITEM CCtrlTreeView::GetRoot() const
 {	return TreeView_GetRoot(m_hwnd);
 }
 
-DWORD CCtrlTreeView::GetScrollTime() const
+uint32_t CCtrlTreeView::GetScrollTime() const
 {	return TreeView_GetScrollTime(m_hwnd);
 }
 
@@ -736,7 +736,7 @@ HTREEITEM CCtrlTreeView::InsertItem(TVINSERTSTRUCT *tvis)
 {	return TreeView_InsertItem(m_hwnd, tvis);
 }
 
-void CCtrlTreeView::Select(HTREEITEM hItem, DWORD flag)
+void CCtrlTreeView::Select(HTREEITEM hItem, uint32_t flag)
 {	TreeView_Select(m_hwnd, hItem, flag);
 }
 
@@ -756,7 +756,7 @@ COLORREF CCtrlTreeView::SetBkColor(COLORREF clBack)
 {	return TreeView_SetBkColor(m_hwnd, clBack);
 }
 
-void CCtrlTreeView::SetCheckState(HTREEITEM hItem, DWORD state)
+void CCtrlTreeView::SetCheckState(HTREEITEM hItem, uint32_t state)
 {	TreeView_SetCheckState(m_hwnd, hItem, state);
 }
 
@@ -784,7 +784,7 @@ void CCtrlTreeView::SetItemHeight(short cyItem)
 {	TreeView_SetItemHeight(m_hwnd, cyItem);
 }
 
-void CCtrlTreeView::SetItemState(HTREEITEM hItem, DWORD state, DWORD stateMask)
+void CCtrlTreeView::SetItemState(HTREEITEM hItem, uint32_t state, uint32_t stateMask)
 {	TreeView_SetItemState(m_hwnd, hItem, state, stateMask);
 }
 

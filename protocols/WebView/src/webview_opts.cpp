@@ -45,9 +45,9 @@ static int CALLBACK EnumFontScriptsProc(ENUMLOGFONTEX * lpelfe, NEWTEXTMETRICEX*
 static INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char str[512];
-	DWORD  BGColour = 0;
-	DWORD  TextColour = 0;
-	DWORD  delay = 0;
+	uint32_t  BGColour = 0;
+	uint32_t  TextColour = 0;
+	uint32_t  delay = 0;
 	static int test = 0;
 
 	switch (msg) {
@@ -208,7 +208,7 @@ static INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM 
 
 static INT_PTR CALLBACK DlgProcOpt(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	DWORD timerval, delaytime, oldcolor;
+	uint32_t timerval, delaytime, oldcolor;
 	DBVARIANT dbv;
 	static int test = 0;
 	static int test2 = 0;

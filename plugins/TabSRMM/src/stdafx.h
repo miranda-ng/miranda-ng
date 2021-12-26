@@ -96,7 +96,7 @@ typedef HTHUMBNAIL* PHTHUMBNAIL;
 
 typedef struct _DWM_BLURBEHIND
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	BOOL fEnable;
 	HRGN hRgnBlur;
 	BOOL fTransitionOnMaximized;
@@ -104,7 +104,7 @@ typedef struct _DWM_BLURBEHIND
 
 typedef struct _DWM_THUMBNAIL_PROPERTIES
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	RECT rcDestination;
 	RECT rcSource;
 	uint8_t opacity;
@@ -179,8 +179,8 @@ typedef enum _BP_BUFFERFORMAT
 
 typedef struct _BP_PAINTPARAMS
 {
-	DWORD                       cbSize;
-	DWORD                       dwFlags; // BPPF_ flags
+	uint32_t                       cbSize;
+	uint32_t                       dwFlags; // BPPF_ flags
 	const RECT            *     prcExclude;
 	const BLENDFUNCTION        * pBlendFunction;
 } BP_PAINTPARAMS, *PBP_PAINTPARAMS;
@@ -244,9 +244,9 @@ INT_PTR SendMessageCommand(WPARAM, LPARAM);
 INT_PTR SendMessageCommand_W(WPARAM, LPARAM);
 INT_PTR SetUserPrefs(WPARAM, LPARAM);
 
-void TreeViewInit(CCtrlTreeView&, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, DWORD dwFlags = 0, bool bFromMem = false);
-void TreeViewSetFromDB(CCtrlTreeView&, TOptionListItem *lvItems, DWORD dwFlags);
-void TreeViewToDB(CCtrlTreeView&, TOptionListItem *lvItems, const char *DBPath, DWORD *dwFlags);
+void TreeViewInit(CCtrlTreeView&, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, uint32_t dwFlags = 0, bool bFromMem = false);
+void TreeViewSetFromDB(CCtrlTreeView&, TOptionListItem *lvItems, uint32_t dwFlags);
+void TreeViewToDB(CCtrlTreeView&, TOptionListItem *lvItems, const char *DBPath, uint32_t *dwFlags);
 
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 

@@ -234,7 +234,7 @@ struct OptionsPageData : public MZeroedObject
 	bool bChanged, bInsideTab;
 	int height;
 	int width;
-	DWORD flags;
+	uint32_t flags;
 
 	__forceinline HWND getHwnd() const { return (pDialog == nullptr) ? nullptr : pDialog->GetHwnd(); }
 	__forceinline HINSTANCE getInst() const { return pDialog->GetInst(); }
@@ -270,7 +270,7 @@ struct OptionsPageData : public MZeroedObject
 			}
 		}
 
-		DWORD key = GetPluginPageHash(); // get the plugin page hash
+		uint32_t key = GetPluginPageHash(); // get the plugin page hash
 
 		wchar_t pluginName[MAX_PATH];
 		GetPluginName(getInst(), pluginName, _countof(pluginName));

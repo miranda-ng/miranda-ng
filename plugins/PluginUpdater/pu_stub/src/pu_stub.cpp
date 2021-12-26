@@ -25,7 +25,7 @@ int CreateDirectoryTreeW(const wchar_t* szDir)
 	if (lstrcpynW(szTestDir, szDir, MAX_PATH) == nullptr)
 		szTestDir[MAX_PATH] = 0;
 
-	DWORD dwAttributes = GetFileAttributesW(szTestDir);
+	uint32_t dwAttributes = GetFileAttributesW(szTestDir);
 	if (dwAttributes != INVALID_FILE_ATTRIBUTES && (dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return 0;
 
@@ -74,7 +74,7 @@ void CreatePathToFileW(wchar_t *wszFilePath)
 
 int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 {
-	DWORD dwError;
+	uint32_t dwError;
 
 	wchar_t tszPipeName[MAX_PATH];
 	#if _MSC_VER < 1400
@@ -95,8 +95,8 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 	uint8_t szReadBuffer[1024] = { 0 };
 	DWORD dwBytes;
 	while (ReadFile(hPipe, szReadBuffer, sizeof(szReadBuffer), &dwBytes, nullptr)) {
-		DWORD dwAction = *(DWORD*)szReadBuffer;
-		wchar_t *ptszFile1 = (wchar_t*)(szReadBuffer + sizeof(DWORD));
+		uint32_t dwAction = *(uint32_t*)szReadBuffer;
+		wchar_t *ptszFile1 = (wchar_t*)(szReadBuffer + sizeof(uint32_t));
 		wchar_t *ptszFile2 = ptszFile1 + wcslen(ptszFile1) + 1;
 		dwError = 0;
 		log(L"Received command: %d <%s> <%s>", dwAction, ptszFile1, ptszFile2);
@@ -108,7 +108,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 		case 2: // move
 			if (!DeleteFileW(ptszFile2)) {
-				DWORD err = GetLastError();
+				uint32_t err = GetLastError();
 				if (err != ERROR_ACCESS_DENIED && err != ERROR_FILE_NOT_FOUND) {
 					dwError = err;
 					break;
@@ -116,7 +116,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 			}
 			
 			if (!MoveFileW(ptszFile1, ptszFile2)) { // use copy on error
-				switch (DWORD err = GetLastError()) {
+				switch (uint32_t err = GetLastError()) {
 				case ERROR_ALREADY_EXISTS:
 				case ERROR_FILE_NOT_FOUND:
 					dwError = 0;
@@ -164,7 +164,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 			dwError = ERROR_UNKNOWN_FEATURE;
 		}
 
-		WriteFile(hPipe, &dwError, sizeof(DWORD), &dwBytes, nullptr);
+		WriteFile(hPipe, &dwError, sizeof(uint32_t), &dwBytes, nullptr);
 	}
 
 	dwError = GetLastError();

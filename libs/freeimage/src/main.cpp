@@ -36,7 +36,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 EXTERN_C DLL_API void DLL_CALLCONV FreeImage_CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 {
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 	int x, y;
 	BOOL fixIt;

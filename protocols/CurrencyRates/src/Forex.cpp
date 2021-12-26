@@ -230,7 +230,7 @@ void WaitForWorkingThreads()
 	size_t cThreads = g_ahThreads.size();
 	if (cThreads > 0) {
 		HANDLE* paHandles = &*(g_ahThreads.begin());
-		::WaitForMultipleObjects((DWORD)cThreads, paHandles, TRUE, INFINITE);
+		::WaitForMultipleObjects((uint32_t)cThreads, paHandles, TRUE, INFINITE);
 	}
 }
 

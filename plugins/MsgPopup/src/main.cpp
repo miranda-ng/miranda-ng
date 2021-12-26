@@ -133,10 +133,9 @@ void HookOnImport(HMODULE hModule, char *lpszImpModName, PVOID lpOrigFunc, PVOID
 			if (*ppfn != lpOrigFunc)
 				continue;
 
-			DWORD oldProtect;
-
 			g_mod++;
 
+			DWORD oldProtect;
 			if (!VirtualProtect((LPVOID)ppfn, sizeof(void*), PAGE_EXECUTE_READWRITE, &oldProtect)) {
 				if (!g_HookError)
 					g_HookError = TRUE;
@@ -201,10 +200,10 @@ void LoadConfig()
 		mir_snprintf(szNameTO, "TO%d", indx);
 		options.FG[indx] = g_plugin.getDword(szNameFG, optionsDefault.FG[indx]);
 		options.BG[indx] = g_plugin.getDword(szNameBG, optionsDefault.BG[indx]);
-		options.Timeout[indx] = g_plugin.getDword(szNameTO, (DWORD)optionsDefault.Timeout[indx]);
+		options.Timeout[indx] = g_plugin.getDword(szNameTO, (uint32_t)optionsDefault.Timeout[indx]);
 	}
 
-	options.Sound = g_plugin.getByte("Sound", (DWORD)optionsDefault.Sound);
+	options.Sound = g_plugin.getByte("Sound", (uint32_t)optionsDefault.Sound);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

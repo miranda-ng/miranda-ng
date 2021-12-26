@@ -91,7 +91,7 @@ int CFileXml::Export(lpExImParam ExImContact, const wchar_t *pszFileName)
 {
 	DB::CEnumList Modules;
 
-	DWORD result = (DWORD)DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY), nullptr, DlgProc_DataHistory);
+	uint32_t result = (uint32_t)DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_EXPORT_DATAHISTORY), nullptr, DlgProc_DataHistory);
 	if (LOWORD(result) != IDOK)
 		return 0;
 
@@ -284,9 +284,9 @@ int CFileXml::ImportContacts(const TiXmlElement *xmlParent)
  * return:	nothing
  **/
 
-DWORD CFileXml::CountContacts(const TiXmlElement *xmlParent)
+uint32_t CFileXml::CountContacts(const TiXmlElement *xmlParent)
 {
-	DWORD dwCount = 0;
+	uint32_t dwCount = 0;
 	// count contacts in file for progress bar
 	for (auto *xContact : TiXmlEnum(xmlParent))
 		if (!mir_strcmpi(xContact->Name(), XKEY_CONTACT) || !mir_strcmpi(xContact->Name(), XKEY_OWNER))

@@ -89,7 +89,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From);
 // FlagsNotSet- ...and must not have set these flags...
 // FlagsToSetRemove- ...to set/remove these flags (see mode)
 // mode- nonzero to set, else remove
-void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,DWORD FlagsSet,DWORD FlagsNotSet,DWORD FlagsToSetRemove,int mode);
+void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,uint32_t FlagsSet,uint32_t FlagsNotSet,uint32_t FlagsToSetRemove,int mode);
 
 struct CExportedFunctions MailExportedFcn[]=
 {
@@ -119,7 +119,7 @@ struct CExportedServices MailExportedSvc[]=
 INT_PTR CreateAccountMailSvc(WPARAM wParam,LPARAM lParam)
 {
 	CAccount *Account=(CAccount *)wParam;
-	DWORD MailVersion=(DWORD)lParam;
+	uint32_t MailVersion=(uint32_t)lParam;
 	HYAMNMAIL NewMail;
 
 //test if we are going to initialize members of suitable structure (structures of plugin and YAMN must match)
@@ -194,7 +194,7 @@ void WINAPI AppendQueueFcn(HYAMNMAIL first,HYAMNMAIL second)
 INT_PTR LoadMailDataSvc(WPARAM wParam,LPARAM lParam)
 {
 	HYAMNMAIL Mail=(HYAMNMAIL)wParam;
-	DWORD MailVersion=(DWORD)lParam;
+	uint32_t MailVersion=(uint32_t)lParam;
 
 	if (MailVersion != YAMN_MAILDATAVERSION)
 		return NULL;
@@ -210,7 +210,7 @@ INT_PTR UnloadMailDataSvc(WPARAM, LPARAM)
 
 INT_PTR SaveMailDataSvc(WPARAM, LPARAM lParam)
 {
-	DWORD MailVersion=(DWORD)lParam;
+	uint32_t MailVersion=(uint32_t)lParam;
 
 	if (MailVersion != YAMN_MAILDATAVERSION)
 		return (INT_PTR)-1;
@@ -324,7 +324,7 @@ void WINAPI DeleteMessagesToEndFcn(CAccount *Account,HYAMNMAIL From)
 
 void WINAPI DeleteMessageFromQueueFcn(HYAMNMAIL *From,HYAMNMAIL Which,int mode=0)
 {
-	DWORD Number=Which->Number;
+	uint32_t Number=Which->Number;
 	HYAMNMAIL Parser;
 
 	if (*From==Which)
@@ -477,7 +477,7 @@ HYAMNMAIL WINAPI CreateNewDeleteQueueFcn(HYAMNMAIL From)
 	return FirstMail;
 }
 
-void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,DWORD FlagsSet,DWORD FlagsNotSet,DWORD FlagsToSetRemove,int mode)
+void WINAPI SetRemoveFlagsInQueueFcn(HYAMNMAIL From,uint32_t FlagsSet,uint32_t FlagsNotSet,uint32_t FlagsToSetRemove,int mode)
 {
 	HYAMNMAIL msgq;
 

@@ -475,7 +475,7 @@ void ThumbInfo::UpdateContent()
 	HFONT hOldFont;
 	SIZE  size;
 	RECT  rc, rcText;
-	DWORD oldColor;
+	uint32_t oldColor;
 	int   oldBkMode, index = 0;// nStatus;
 	UINT	fStyle = ILD_NORMAL;
 

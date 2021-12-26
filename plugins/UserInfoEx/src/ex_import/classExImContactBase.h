@@ -33,7 +33,7 @@ protected:
 	LPSTR _pszProto;
 	LPSTR _pszProtoOld;
 	LPSTR _pszUIDKey;
-	DWORD _dbvUIDHash;
+	uint32_t _dbvUIDHash;
 	DBVARIANT _dbvUID;
 	MCONTACT _hContact;
 	uint8_t _isNewContact;	// is this contact a new one?
@@ -55,8 +55,8 @@ public:
 	__inline void	uidk(LPCSTR val) { _pszUIDKey = val ? mir_strdup(val) : nullptr; }
 	__inline void	uid(uint8_t val) { _dbvUID.type = DBVT_BYTE;  _dbvUID.bVal = val; }
 	__inline void	uid(uint16_t val) { _dbvUID.type = DBVT_WORD;  _dbvUID.wVal = val; }
-	__inline void	uid(DWORD val) { _dbvUID.type = DBVT_DWORD; _dbvUID.dVal = val; }
-	__inline void	uidn(uint8_t *val, DWORD len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (uint16_t)len; }
+	__inline void	uid(uint32_t val) { _dbvUID.type = DBVT_DWORD; _dbvUID.dVal = val; }
+	__inline void	uidn(uint8_t *val, uint32_t len) { _dbvUID.type = DBVT_BLOB;  _dbvUID.pbVal = val; _dbvUID.cpbVal = (uint16_t)len; }
 	__inline void	uida(LPCSTR val)
 	{
 		_dbvUID.type = (_dbvUID.pszVal = mir_utf8decodeA(val)) ? DBVT_ASCIIZ : DBVT_DELETED;

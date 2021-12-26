@@ -73,7 +73,7 @@ struct StatusIconMain : public MZeroedObject
 	}
 
 	char *szModule;
-	DWORD dwId;
+	uint32_t dwId;
 	HICON hIcon, hIconDisabled;
 	int   flags;
 	wchar_t *pwszTooltip;
@@ -128,7 +128,7 @@ MIR_APP_DLL(int) Srmm_AddIcon(StatusIconData *sid, HPLUGIN pPlugin)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD iconId, HICON hIcon, const wchar_t *pwszToolTip)
+MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, uint32_t iconId, HICON hIcon, const wchar_t *pwszToolTip)
 {
 	StatusIconData sid;
 	sid.szModule = szModule;
@@ -162,7 +162,7 @@ MIR_APP_DLL(void) Srmm_ModifyIcon(MCONTACT hContact, const char *szModule, DWORD
 	NotifyEventHooks(hHookIconsChanged, hContact, (LPARAM)p);
 }
 
-MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWORD iconId, int flags)
+MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, uint32_t iconId, int flags)
 {
 	StatusIconData sid;
 	sid.szModule = szModule;
@@ -189,7 +189,7 @@ MIR_APP_DLL(void) Srmm_SetIconFlags(MCONTACT hContact, const char *szModule, DWO
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, DWORD iconId)
+MIR_APP_DLL(void) Srmm_RemoveIcon(const char *szProto, uint32_t iconId)
 {
 	mir_cslock lck(csIcons);
 	StatusIconData tmp = { (char *)szProto, iconId };

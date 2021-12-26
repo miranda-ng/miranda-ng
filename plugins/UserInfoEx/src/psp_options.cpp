@@ -144,7 +144,7 @@ static uint8_t DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 }
 
 /**
- * This function reads a DWORD from database and interprets it as an color value
+ * This function reads a uint32_t from database and interprets it as an color value
  * to set to the color control.
  *
  * @param	hWnd			- the dialog's window handle
@@ -154,13 +154,13 @@ static uint8_t DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
  *
  * @return	nothing
  **/
-static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDefault)
+static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint32_t bDefault)
 {
 	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, g_plugin.getDword(pszSetting, bDefault));
 }
 
 /**
- * This function writes a DWORD to database according to the value
+ * This function writes a uint32_t to database according to the value
  * of the color control identified by 'idCtrl'.
  *
  * @param	hWnd			- the dialog's window handle
@@ -171,7 +171,7 @@ static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, DWORD bDe
  **/
 static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 {
-	g_plugin.setDword(pszSetting, (DWORD)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
+	g_plugin.setDword(pszSetting, (uint32_t)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
 
 /**

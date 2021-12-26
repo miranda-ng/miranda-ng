@@ -41,7 +41,7 @@ static HWND hwndSelector = nullptr;
 static HIMAGELIST himlViewModes = nullptr;
 static HANDLE hInfoItem = nullptr;
 static int nullImage;
-static DWORD stickyStatusMask = 0;
+static uint32_t stickyStatusMask = 0;
 static char g_szModename[2048];
 
 static UINT _page1Controls[] = 
@@ -86,7 +86,7 @@ static int DeleteAutoModesCallback(char *szsetting)
 	return 1;
 }
 
-void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, DWORD dwStatusMask, DWORD dwStickyStatusMask,
+void SaveViewMode(const char *name, const wchar_t *szGroupFilter, const char *szProtoFilter, uint32_t dwStatusMask, uint32_t dwStickyStatusMask,
 	unsigned int options, unsigned int stickies, unsigned int operators, unsigned int lmdat)
 {
 	CLVM_EnumModes(DeleteAutoModesCallback);
@@ -170,9 +170,9 @@ class CViewModeSetupDlg : public CDlgBase
 		return 1;
 	}
 
-	DWORD GetMaskForItem(HANDLE hItem)
+	uint32_t GetMaskForItem(HANDLE hItem)
 	{
-		DWORD dwMask = 0;
+		uint32_t dwMask = 0;
 
 		for (int i = 0; i <= ID_STATUS_MAX - ID_STATUS_OFFLINE; i++)
 			dwMask |= (clist.GetExtraImage(hItem, i) == nullImage ? 0 : 1 << i);
@@ -268,8 +268,8 @@ class CViewModeSetupDlg : public CDlgBase
 	{
 		wchar_t newGroupFilter[2048] = L"|";
 		char newProtoFilter[2048] = "|";
-		DWORD statusMask = 0;
-		DWORD operators = 0;
+		uint32_t statusMask = 0;
+		uint32_t operators = 0;
 
 		if (m_iCurrItem == -1)
 			return;
@@ -313,14 +313,14 @@ class CViewModeSetupDlg : public CDlgBase
 		if (szTempModeName) {
 			T2Utf szModeName(szTempModeName);
 
-			DWORD dwGlobalMask = GetMaskForItem(hInfoItem);
+			uint32_t dwGlobalMask = GetMaskForItem(hInfoItem);
 			for (auto &hContact : Contacts()) {
 				HANDLE hItem = clist.FindContact(hContact);
 				if (hItem == nullptr)
 					continue;
 
 				if (clist.GetCheck(hItem)) {
-					DWORD dwLocalMask = GetMaskForItem(hItem);
+					uint32_t dwLocalMask = GetMaskForItem(hItem);
 					db_set_dw(hContact, CLVM_MODULE, szModeName, MAKELONG(1, (unsigned short)dwLocalMask));
 					stickies++;
 				}
@@ -337,10 +337,10 @@ class CViewModeSetupDlg : public CDlgBase
 				(IsDlgButtonChecked(m_hwnd, IDC_USEGROUPS) == BST_CHECKED ? CLVM_USEGROUPS : 0) |
 				(IsDlgButtonChecked(m_hwnd, IDC_USEGROUPS) == BST_UNCHECKED ? CLVM_DONOTUSEGROUPS : 0));
 
-			DWORD options = SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
+			uint32_t options = SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_GETPOS, 0, 0);
 
 			BOOL translated;
-			DWORD lmdat = MAKELONG(GetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, &translated, FALSE),
+			uint32_t lmdat = MAKELONG(GetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, &translated, FALSE),
 				MAKEWORD(SendDlgItemMessage(m_hwnd, IDC_LASTMESSAGEOP, CB_GETCURSEL, 0, 0),
 				SendDlgItemMessage(m_hwnd, IDC_LASTMESSAGEUNIT, CB_GETCURSEL, 0, 0)));
 
@@ -448,7 +448,7 @@ class CViewModeSetupDlg : public CDlgBase
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	void UpdateClistItem(HANDLE hItem, DWORD mask)
+	void UpdateClistItem(HANDLE hItem, uint32_t mask)
 	{
 		for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_MAX; i++)
 			clist.SetExtraImage(hItem, i - ID_STATUS_OFFLINE, (1 << (i - ID_STATUS_OFFLINE)) & mask ? i - ID_STATUS_OFFLINE : nullImage);
@@ -460,8 +460,8 @@ class CViewModeSetupDlg : public CDlgBase
 	void UpdateFilters()
 	{
 		char szSetting[128];
-		DWORD dwFlags;
-		DWORD opt;
+		uint32_t dwFlags;
+		uint32_t opt;
 
 		if (m_iCurrItem == LB_ERR)
 			return;
@@ -489,7 +489,7 @@ class CViewModeSetupDlg : public CDlgBase
 			SendDlgItemMessage(m_hwnd, IDC_AUTOCLEARSPIN, UDM_SETPOS, 0, MAKELONG(LOWORD(opt), 0));
 
 		mir_snprintf(szSetting, "%c%s_SM", 246, szBuf.get());
-		DWORD statusMask = db_get_dw(0, CLVM_MODULE, szSetting, 0);
+		uint32_t statusMask = db_get_dw(0, CLVM_MODULE, szSetting, 0);
 		mir_snprintf(szSetting, "%c%s_SSM", 246, szBuf.get());
 		stickyStatusMask = db_get_dw(0, CLVM_MODULE, szSetting, -1);
 		dwFlags = db_get_dw(0, CLVM_MODULE, szBuf, 0);
@@ -554,7 +554,7 @@ class CViewModeSetupDlg : public CDlgBase
 		EnableWindow(GetDlgItem(m_hwnd, IDC_LASTMESSAGEUNIT), useLastMsg);
 
 		mir_snprintf(szSetting, "%c%s_LM", 246, szBuf.get());
-		DWORD lmdat = db_get_dw(0, CLVM_MODULE, szSetting, 0);
+		uint32_t lmdat = db_get_dw(0, CLVM_MODULE, szSetting, 0);
 
 		SetDlgItemInt(m_hwnd, IDC_LASTMSGVALUE, LOWORD(lmdat), FALSE);
 		uint8_t bTmp = LOBYTE(HIWORD(lmdat));
@@ -785,7 +785,7 @@ public:
 			if (hItem)
 				clist.SetCheck(hItem, db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
 
-			DWORD localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
+			uint32_t localMask = HIWORD(db_get_dw(hContact, CLVM_MODULE, g_szModename, 0));
 			UpdateClistItem(hItem, (localMask == 0 || localMask == stickyStatusMask) ? stickyStatusMask : localMask);
 		}
 
@@ -807,7 +807,7 @@ public:
 		if (nm->iColumn == -1)
 			return;
 
-		DWORD hitFlags;
+		uint32_t hitFlags;
 		HANDLE hItem = clist.HitTest(nm->pt.x, nm->pt.y, &hitFlags);
 		if (hItem == nullptr)
 			return;
@@ -1141,7 +1141,7 @@ static int ehhViewModeBackgroundSettingsChanged(WPARAM, LPARAM)
 	return 0;
 }
 
-static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, DWORD, void *)
+static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *, HRGN, uint32_t, void *)
 {
 	RECT MyRect = { 0 };
 	GetWindowRect(hWnd, &MyRect);
@@ -1268,7 +1268,7 @@ void ApplyViewMode(const char *szName)
 
 		if (g_CluiData.filterFlags & CLVM_AUTOCLEAR) {
 			mir_snprintf(szSetting, "%c%s_OPT", 246, szName);
-			DWORD timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
+			uint32_t timerexpire = LOWORD(db_get_dw(0, CLVM_MODULE, szSetting, 0));
 			strncpy_s(g_CluiData.old_viewmode, g_CluiData.current_viewmode, _TRUNCATE);
 			CLUI_SafeSetTimer(g_hwndViewModeFrame, TIMERID_VIEWMODEEXPIRE, timerexpire * 1000, nullptr);
 		}
@@ -1287,7 +1287,7 @@ void ApplyViewMode(const char *szName)
 			else
 				g_CluiData.bFilterEffective |= CLVM_FILTER_LASTMSG_OLDERTHAN;
 
-			DWORD unit = LOWORD(g_CluiData.lastMsgFilter);
+			uint32_t unit = LOWORD(g_CluiData.lastMsgFilter);
 			switch (HIBYTE(HIWORD(g_CluiData.lastMsgFilter))) {
 			case 0:
 				unit *= 60;

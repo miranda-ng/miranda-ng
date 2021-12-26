@@ -41,9 +41,9 @@ int ConnectToMiranda()
 	if (p) p[1] = 0;
 
 	wcsncat_s(tszPath, L"libs", _TRUNCATE);
-	DWORD cbPath = (DWORD)wcslen(tszPath);
+	uint32_t cbPath = (uint32_t)wcslen(tszPath);
 
-	DWORD cbSize = GetEnvironmentVariable(L"PATH", nullptr, 0);
+	uint32_t cbSize = GetEnvironmentVariable(L"PATH", nullptr, 0);
 	wchar_t *ptszVal = new wchar_t[cbSize + MAX_PATH + 2];
 	wcscpy(ptszVal, tszPath);
 	wcscat(ptszVal, L";");

@@ -69,5 +69,5 @@
 #define DBE_CONTACTS       0x00000400  // pBlob = 'some format', no string
 #define DBE_ADDED          0x00000800  // pBlob = 'some format', no string
 #define DBE_AUTHREQUEST    0x00001000  // pBlob = message
-#define DBE_FILE           0x00002000  // pBlob = DWORD + file + description
+#define DBE_FILE           0x00002000  // pBlob = uint32_t + file + description
 #define DBE_OTHER          0x00008000

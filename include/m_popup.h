@@ -47,7 +47,7 @@ struct POPUPACTION
 	// (e.g. "Popup Plus/Dismiss Popup") and don't translate
 	// This is translates by popup. So no unicode.
 	char lpzTitle[MAX_ACTIONTITLE];
-	DWORD flags;	// set of PAF_* flags
+	uint32_t flags;	// set of PAF_* flags
 	WPARAM wParam;	// wParam for UM_POPUPACTION message
 	LPARAM lParam;	// lParam for UM_POPUPACTION message
 };
@@ -70,7 +70,7 @@ struct POPUPDATA2
 {
 	// general
 	int cbSize;
-	DWORD flags;
+	uint32_t flags;
 
 	// miranda bindings
 	MCONTACT lchContact;
@@ -88,7 +88,7 @@ struct POPUPDATA2
 
 	// time and timeout
 	int iSeconds;
-	DWORD dwTimestamp;
+	uint32_t dwTimestamp;
 
 	#ifdef _WINDOWS
 		// plugin bindings
@@ -257,7 +257,7 @@ EXTERN_C MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count);
 typedef struct
 {
 	char lpzTitle[64];
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	union
 	{
 		struct
@@ -271,8 +271,8 @@ typedef struct
 		};
 		struct
 		{
-			DWORD dwCookie;
-			void(*pfnCallback)(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, DWORD cookie);
+			uint32_t dwCookie;
+			void(*pfnCallback)(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, uint32_t cookie);
 		};
 	};
 } POPUPNOTIFYACTION, *LPPOPUPNOTIFYACTION;
@@ -282,7 +282,7 @@ typedef struct
 typedef struct
 {
 	int cbSize;
-	DWORD dwFlags;			// set of PNF_* flags
+	uint32_t dwFlags;			// set of PNF_* flags
 	char lpzGroup[MAXMODULELABELLENGTH];
 	char lpzName[MAXMODULELABELLENGTH];
 	HANDLE lchIcoLib;			// gotten from icolib
@@ -391,8 +391,8 @@ Returns: 0 if the popup was shown, -1 in case of failure.
 #define SM_NOTIFY	0x02	//Exclamation mark icon.
 #define SM_ERROR	0x03	//Cross icon.
 
-EXTERN_C MIR_APP_DLL(int) PUShowMessage(const char *lpzText, DWORD kind);
-EXTERN_C MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, DWORD kind);
+EXTERN_C MIR_APP_DLL(int) PUShowMessage(const char *lpzText, uint32_t kind);
+EXTERN_C MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, uint32_t kind);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup/Filter

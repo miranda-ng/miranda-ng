@@ -34,7 +34,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 
 	bool markAllAsUnread = getBool("MarkMesUnread", true);
 	bool bUseLocalTime = !bUseServerTime && pRequest->pUserInfo != 0;
-	DWORD lastMsgTime = 0;
+	uint32_t lastMsgTime = 0;
 	time_t iLocalTime = time(0);
 
 	for (int i = (int)conversations.size(); i >= 0; i--) {
@@ -57,7 +57,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 
 		bool isEdited = message["skypeeditedid"];
 
-		DWORD id = message["id"].as_int();
+		uint32_t id = message["id"].as_int();
 		if (id > lastMsgTime)
 			lastMsgTime = id;
 
@@ -65,7 +65,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 			timestamp = iLocalTime;
 
 		if (userType == 8 || userType == 2) {
-			DWORD iFlags = DBEF_UTF;
+			uint32_t iFlags = DBEF_UTF;
 
 			if (!markAllAsUnread)
 				iFlags |= DBEF_READ;
@@ -169,7 +169,7 @@ void CSkypeProto::OnSyncHistory(NETLIBHTTPREQUEST *response, AsyncHttpRequest*)
 
 			MCONTACT hContact = FindContact(szSkypename);
 			if (hContact != NULL) {
-				DWORD lastMsgTime = getDword(hContact, "LastMsgTime", 0);
+				uint32_t lastMsgTime = getDword(hContact, "LastMsgTime", 0);
 				if (lastMsgTime && lastMsgTime < composeTime)
 					PushRequest(new GetHistoryRequest(szSkypename, 100, lastMsgTime, true));
 			}

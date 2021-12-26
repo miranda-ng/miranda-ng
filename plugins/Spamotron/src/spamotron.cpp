@@ -42,7 +42,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// get hContact from DBEVENTINFO as icq_proto.c doesn't pass hContact the usual way for some reason.
 	if (dbei->eventType == EVENTTYPE_AUTHREQUEST)
-		hContact = (MCONTACT)*(PDWORD(dbei->pBlob+sizeof(DWORD)));
+		hContact = (MCONTACT)*(PDWORD(dbei->pBlob+sizeof(uint32_t)));
 
 	// get maximum length of the message a protocol supports
 	maxmsglen = CallProtoService(dbei->szModule, PS_GETCAPS, PFLAG_MAXLENOFMESSAGE, hContact);
@@ -109,7 +109,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		msgblob = (char *)dbei->pBlob;
 	}
 	else if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
-		msgblob = (char *)(dbei->pBlob + sizeof(DWORD) + sizeof(DWORD));
+		msgblob = (char *)(dbei->pBlob + sizeof(uint32_t) + sizeof(uint32_t));
 		for(a = 4; a > 0; a--)
 			msgblob += mir_strlen(msgblob)+1;
 	}
@@ -228,13 +228,13 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			char* szAuthEventModule;
 			if (db_get(hContact, MODULENAME, "AuthEvent", &_dbv) == 0) {
 				DBEVENTINFO dbei2 = {};
-				dbei2.cbBlob = *(DWORD *)_dbv.pbVal;
+				dbei2.cbBlob = *(uint32_t *)_dbv.pbVal;
 				dbei2.eventType = EVENTTYPE_AUTHREQUEST;
 				_getCOptS(AuthEventModule, 100, hContact, "AuthEventModule", L"ICQ");
 				szAuthEventModule = mir_u2a(AuthEventModule);
 				dbei2.szModule = szAuthEventModule;
 				dbei2.timestamp = dbei->timestamp;
-				dbei2.pBlob = _dbv.pbVal + sizeof(DWORD);
+				dbei2.pBlob = _dbv.pbVal + sizeof(uint32_t);
 				db_event_add(hContact, &dbei2);
 
 				g_plugin.delSetting(hContact, "AuthEvent");
@@ -426,11 +426,11 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	if (g_plugin.getByte("KeepBlockedMsg", defaultKeepBlockedMsg)) {
 		if (dbei->eventType == EVENTTYPE_AUTHREQUEST) {
 			// Save the request to database so that it can be automatically submitted on user approval
-			uint8_t *eventdata = (uint8_t*)malloc(sizeof(DWORD) + dbei->cbBlob);
+			uint8_t *eventdata = (uint8_t*)malloc(sizeof(uint32_t) + dbei->cbBlob);
 			if (eventdata != nullptr && dbei->cbBlob > 0) {
-				memcpy(eventdata, &dbei->cbBlob, sizeof(DWORD));
-				memcpy(eventdata + sizeof(DWORD), dbei->pBlob, dbei->cbBlob);
-				db_set_blob(hContact, MODULENAME, "AuthEvent", eventdata, sizeof(DWORD) + dbei->cbBlob);
+				memcpy(eventdata, &dbei->cbBlob, sizeof(uint32_t));
+				memcpy(eventdata + sizeof(uint32_t), dbei->pBlob, dbei->cbBlob);
+				db_set_blob(hContact, MODULENAME, "AuthEvent", eventdata, sizeof(uint32_t) + dbei->cbBlob);
 				g_plugin.setString(hContact, "AuthEventModule", dbei->szModule);
 				g_plugin.setByte(hContact, "AuthEventPending", TRUE);
 				free(eventdata);
@@ -439,7 +439,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		else {
 			if (g_plugin.getByte("MarkMsgUnreadOnApproval", defaultMarkMsgUnreadOnApproval)) {
 				DBVARIANT _dbv;
-				DWORD dbei_size = 3 * sizeof(DWORD) + sizeof(uint16_t) + dbei->cbBlob + (DWORD)mir_strlen(dbei->szModule) + 1;
+				uint32_t dbei_size = 3 * sizeof(uint32_t) + sizeof(uint16_t) + dbei->cbBlob + (uint32_t)mir_strlen(dbei->szModule) + 1;
 				uint8_t *eventdata = (uint8_t*)malloc(dbei_size);
 				uint8_t *pos = eventdata;
 				if (eventdata != nullptr && dbei->cbBlob > 0) {
@@ -451,11 +451,11 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 						db_free(&_dbv);
 					}
 					memcpy(pos, &dbei->eventType, sizeof(uint16_t));
-					memcpy(pos + sizeof(uint16_t), &dbei->flags, sizeof(DWORD));
-					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD), &dbei->timestamp, sizeof(DWORD));
-					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 2, dbei->szModule, mir_strlen(dbei->szModule) + 1);
-					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 2 + mir_strlen(dbei->szModule) + 1, &dbei->cbBlob, sizeof(DWORD));
-					memcpy(pos + sizeof(uint16_t) + sizeof(DWORD) * 3 + mir_strlen(dbei->szModule) + 1, dbei->pBlob, dbei->cbBlob);
+					memcpy(pos + sizeof(uint16_t), &dbei->flags, sizeof(uint32_t));
+					memcpy(pos + sizeof(uint16_t) + sizeof(uint32_t), &dbei->timestamp, sizeof(uint32_t));
+					memcpy(pos + sizeof(uint16_t) + sizeof(uint32_t) * 2, dbei->szModule, mir_strlen(dbei->szModule) + 1);
+					memcpy(pos + sizeof(uint16_t) + sizeof(uint32_t) * 2 + mir_strlen(dbei->szModule) + 1, &dbei->cbBlob, sizeof(uint32_t));
+					memcpy(pos + sizeof(uint16_t) + sizeof(uint32_t) * 3 + mir_strlen(dbei->szModule) + 1, dbei->pBlob, dbei->cbBlob);
 					db_set_blob(hContact, MODULENAME, "LastMsgEvents", eventdata, (pos - eventdata) + dbei_size);
 					free(eventdata);
 				}

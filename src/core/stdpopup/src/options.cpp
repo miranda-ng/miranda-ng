@@ -458,9 +458,9 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 				mir_snprintf(setting, "%s/Timeout", pc->pszName);
 				g_plugin.setWord(setting, pc->iSeconds);
 				mir_snprintf(setting, "%s/TextCol", pc->pszName);
-				g_plugin.setDword(setting, (DWORD)pc->colorText);
+				g_plugin.setDword(setting, (uint32_t)pc->colorText);
 				mir_snprintf(setting, "%s/BgCol", pc->pszName);
-				g_plugin.setDword(setting, (DWORD)pc->colorBack);
+				g_plugin.setDword(setting, (uint32_t)pc->colorBack);
 			}
 			return TRUE;
 		}

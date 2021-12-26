@@ -41,7 +41,7 @@ static int sttCompareHotkeys(const THotkeyItem *p1, const THotkeyItem *p2)
 }
 
 LIST<THotkeyItem> hotkeys(10, sttCompareHotkeys);
-DWORD g_pid = 0, g_hkid = 1;
+uint32_t g_pid = 0, g_hkid = 1;
 HWND g_hwndHotkeyHost = nullptr, g_hwndHkOptions = nullptr;
 HANDLE hEvChanged = nullptr;
 

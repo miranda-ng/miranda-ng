@@ -41,15 +41,15 @@ typedef HRESULT(WINAPI *DEFICA)(HWND hwnd, const MARGINS *margins);
 typedef HRESULT(WINAPI *DICE)(BOOL *);
 typedef HRESULT(WINAPI *DRT)(HWND, HWND, PHTHUMBNAIL);
 typedef HRESULT(WINAPI *BBW)(HWND, DWM_BLURBEHIND *);
-typedef HRESULT(WINAPI *DGC)(DWORD *, BOOL *);
+typedef HRESULT(WINAPI *DGC)(uint32_t *, BOOL *);
 typedef HRESULT(WINAPI *DWMIIB)(HWND);
-typedef HRESULT(WINAPI *DWMSWA)(HWND, DWORD, LPCVOID, DWORD);
+typedef HRESULT(WINAPI *DWMSWA)(HWND, uint32_t, LPCVOID, uint32_t);
 typedef HRESULT(WINAPI *DWMUT)(HTHUMBNAIL, DWM_THUMBNAIL_PROPERTIES *);
 typedef HRESULT(WINAPI *DURT)(HTHUMBNAIL);
-typedef HRESULT(WINAPI *DSIT)(HWND, HBITMAP, DWORD);
-typedef HRESULT(WINAPI *DSILP)(HWND, HBITMAP, POINT *, DWORD);
+typedef HRESULT(WINAPI *DSIT)(HWND, HBITMAP, uint32_t);
+typedef HRESULT(WINAPI *DSILP)(HWND, HBITMAP, POINT *, uint32_t);
 //uxtheme
-typedef UINT(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, DWORD, RECT *, const DTTOPTS *);
+typedef UINT(WINAPI *PDTTE)(HANDLE, HDC, int, int, LPCWSTR, int, uint32_t, RECT *, const DTTOPTS *);
 typedef HANDLE(WINAPI *BBP)(HDC, RECT *, BP_BUFFERFORMAT, BP_PAINTPARAMS *, HDC *);
 typedef HRESULT(WINAPI *EBP)(HANDLE, BOOL);
 typedef HRESULT(WINAPI *BPI)(void);
@@ -97,10 +97,10 @@ public:
 	 * database functions
 	 */
 
-	static DWORD __forceinline GetDword(const char *szSetting, DWORD uDefault)
+	static uint32_t __forceinline GetDword(const char *szSetting, uint32_t uDefault)
 	{	return db_get_dw(0, SRMSGMOD_T, szSetting, uDefault);
 	}
-	static DWORD __forceinline GetDword(const MCONTACT hContact, const char *szSetting, DWORD uDefault)
+	static uint32_t __forceinline GetDword(const MCONTACT hContact, const char *szSetting, uint32_t uDefault)
 	{	return db_get_dw(hContact, SRMSGMOD_T, szSetting, uDefault);
 	}
 
@@ -128,10 +128,10 @@ public:
 	{	db_set_b(hContact, SRMSGMOD_T, "isFavorite", bValue);
 	}
 
-	static DWORD __forceinline IsRecent(const MCONTACT hContact)
+	static uint32_t __forceinline IsRecent(const MCONTACT hContact)
 	{	return db_get_dw(hContact, SRMSGMOD_T, "isRecent", 0);
 	}
-	static void __forceinline SetRecent(const MCONTACT hContact, DWORD dwValue)
+	static void __forceinline SetRecent(const MCONTACT hContact, uint32_t dwValue)
 	{	db_set_dw(hContact, SRMSGMOD_T, "isRecent", dwValue);
 	}
 

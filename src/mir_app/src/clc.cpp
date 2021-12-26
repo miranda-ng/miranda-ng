@@ -139,7 +139,7 @@ static int ClcProtoAck(WPARAM, LPARAM lParam)
 
 		if ((INT_PTR)ack->hProcess < ID_STATUS_ONLINE && ack->lParam >= ID_STATUS_ONLINE) {
 			// if we're going offline, kill all contacts scheduled for deletion
-			DWORD caps = (DWORD)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = (uint32_t)CallProtoServiceInt(0, ack->szModule, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				for (MCONTACT hContact = db_find_first(ack->szModule); hContact; ) {
 					MCONTACT hNext = db_find_next(hContact, ack->szModule);
@@ -226,7 +226,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 {
 	ClcGroup *group;
 	ClcContact *contact;
-	DWORD hitFlags;
+	uint32_t hitFlags;
 	int hit;
 
 	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd, 0);
@@ -476,7 +476,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 				status = db_get_w(wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
 			// this means an offline msg is flashing, so the contact should be shown
-			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+			uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 			int shouldShow = (style & CLS_SHOWHIDDEN || !Contact_IsHidden(wParam))
 				&& (!Clist_IsHiddenMode(dat, status) || Clist_GetContactIcon(wParam) != lParam);
 

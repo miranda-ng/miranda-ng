@@ -160,7 +160,7 @@ LRESULT CALLBACK WndProcPreviewBox(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	return mir_callNextSubclass(hwnd, WndProcPreviewBox, msg, wParam, lParam);
 }
 
-int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions) {
+int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos, uint32_t *dwGlobalOptions) {
 	const PopupSkin *skin = nullptr;
 	if (skin = skins.getSkin(PopupOptions.SkinPack)) {
 		for (int i = 1; i <= 10; i++) {
@@ -168,7 +168,7 @@ int  SkinOptionList_AddSkin(OPTTREE_OPTION* &options, int *OptionsCount, int pos
 				continue;
 			*OptionsCount += 1;
 			options = (OPTTREE_OPTION*)mir_realloc(options, sizeof(OPTTREE_OPTION)*(*OptionsCount));
-			options[pos].dwFlag = (DWORD)(1 << (i - 1));
+			options[pos].dwFlag = (uint32_t)(1 << (i - 1));
 			options[pos].groupId = OPTTREE_CHECK;
 			options[pos].iconIndex = 0;
 			options[pos].pszSettingName = mir_wstrdup(L"Skin options");
@@ -195,7 +195,7 @@ static LPTSTR mainOption[] = {
 	LPGENW("Use Windows colors"),
 	LPGENW("Use advanced text render") };
 
-int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, DWORD *dwGlobalOptions)
+int SkinOptionList_AddMain(OPTTREE_OPTION* &options, int *OptionsCount, int pos, uint32_t *dwGlobalOptions)
 {
 	for (int i = 0; i < _countof(mainOption); i++) {
 		BOOL bCheck = 0;
@@ -256,10 +256,10 @@ bool SkinOptionList_Update(OPTTREE_OPTION* &options, int *OptionsCount, HWND hwn
 		*OptionsCount = 0;
 	}
 	// add "Global options"
-	DWORD dwGlobalOptions = 0;
+	uint32_t dwGlobalOptions = 0;
 	int pos = SkinOptionList_AddMain(options, OptionsCount, 0, &dwGlobalOptions);
 	// add "Skin options"
-	DWORD dwSkinOptions = 0;
+	uint32_t dwSkinOptions = 0;
 	pos = SkinOptionList_AddSkin(options, OptionsCount, pos, &dwSkinOptions);
 	// generate treeview
 	int index = -1;
@@ -341,7 +341,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			HWND hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
 			ListBox_ResetContent(hCtrl);
 			for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next) {
-				DWORD dwIndex = ListBox_AddString(hCtrl, sl->name);
+				uint32_t dwIndex = ListBox_AddString(hCtrl, sl->name);
 				ListBox_SetItemData(hCtrl, dwIndex, sl->name);
 			}
 			ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
@@ -395,7 +395,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					hCtrl = GetDlgItem(hwndDlg, IDC_SKINLIST);
 					ListBox_ResetContent(hCtrl);
 					for (const Skins::SKINLIST *sl = skins.getSkinList(); sl; sl = sl->next) {
-						DWORD dwIndex = ListBox_AddString(hCtrl, sl->name);
+						uint32_t dwIndex = ListBox_AddString(hCtrl, sl->name);
 						ListBox_SetItemData(hCtrl, dwIndex, sl->name);
 					}
 					ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));

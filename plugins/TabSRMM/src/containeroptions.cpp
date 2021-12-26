@@ -348,7 +348,7 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			auto flags = cs->flags;
 			auto flagsEx = cs->flagsEx;
 
-			DWORD dwTransparency = cs->dwTransparency;
+			uint32_t dwTransparency = cs->dwTransparency;
 			BOOL fAllowTrans = FALSE;
 
 			if (IsWinVerVistaPlus())

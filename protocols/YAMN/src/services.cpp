@@ -117,7 +117,7 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
+uint32_t WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, uint32_t dwTimeout);
 static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 {
 	//This service will check/sincronize the account pointed by wParam

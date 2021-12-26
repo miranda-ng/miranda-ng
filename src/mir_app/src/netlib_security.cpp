@@ -45,15 +45,15 @@ struct NTLM_String
 {
 	uint16_t     len;
 	uint16_t     allocedSpace;
-	DWORD    offset;
+	uint32_t    offset;
 };
 
 struct NtlmType2packet
 {
 	char        sign[8];
-	DWORD       type;   // == 2
+	uint32_t       type;   // == 2
 	NTLM_String targetName;
-	DWORD       flags;
+	uint32_t       flags;
 	uint8_t        challenge[8];
 	uint8_t        context[8];
 	NTLM_String targetInfo;

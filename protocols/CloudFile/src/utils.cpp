@@ -23,7 +23,7 @@ void ShowNotification(const wchar_t *message, int flags, MCONTACT hContact)
 	ShowNotification(_A2W(MODULENAME), message, flags, hContact);
 }
 
-MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, DWORD flags, DWORD cbBlob, uint8_t *pBlob)
+MEVENT AddEventToDb(MCONTACT hContact, uint16_t type, uint32_t flags, uint32_t cbBlob, uint8_t *pBlob)
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
@@ -74,7 +74,7 @@ void SendToContact(MCONTACT hContact, const wchar_t *data)
 
 	char *message = mir_utf8encodeW(data);
 	if (ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message) != ACKRESULT_FAILED)
-		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (DWORD)mir_strlen(message), (uint8_t*)message);
+		AddEventToDb(hContact, EVENTTYPE_MESSAGE, DBEF_UTF | DBEF_SENT, (uint32_t)mir_strlen(message), (uint8_t*)message);
 }
 
 void PasteToInputArea(MCONTACT hContact, const wchar_t *data)

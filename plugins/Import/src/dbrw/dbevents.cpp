@@ -80,12 +80,12 @@ STDMETHODIMP_(BOOL) CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	if (sql_step(stmt) == SQLITE_ROW) {
 		const void *blob = sqlite3_column_blob(stmt, 4);
 
-		dbei->timestamp = (DWORD)sqlite3_column_int(stmt, 1);
-		dbei->flags = (DWORD)sqlite3_column_int(stmt, 2);
+		dbei->timestamp = (uint32_t)sqlite3_column_int(stmt, 1);
+		dbei->flags = (uint32_t)sqlite3_column_int(stmt, 2);
 		dbei->eventType = (uint16_t)sqlite3_column_int(stmt, 3);
 		dbei->szModule = mir_strdup((char*)sqlite3_column_text(stmt, 7));
 
-		DWORD cbBlob = sqlite3_column_int(stmt, 5);
+		uint32_t cbBlob = sqlite3_column_int(stmt, 5);
 		size_t bytesToCopy = cbBlob;
 		if (dbei->cbBlob == -1)
 			dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
@@ -136,7 +136,7 @@ STDMETHODIMP_(MEVENT) CDbxSQLite::FindFirstUnreadEvent(MCONTACT contactID)
 	mir_cslock lock(m_csDbAccess);
 
 	int res = 0;
-	DWORD flags = 0;
+	uint32_t flags = 0;
 	sqlite3_bind_int(evt_stmts_prep[SQL_EVT_STMT_FINDFIRSTUNREAD], 1, contactID);
 	while (sql_step(evt_stmts_prep[SQL_EVT_STMT_FINDFIRSTUNREAD]) == SQLITE_ROW) {
 		flags = sqlite3_column_int(evt_stmts_prep[SQL_EVT_STMT_FINDFIRSTUNREAD], 0);

@@ -473,7 +473,7 @@ BOOL __inline GetMaskBit(LPBYTE line, int x)
 *	blend	- alpha blend ARGB values of 2 pixels. X1 - underlaying,
 *	 X2 - overlaying points.
 */
-DWORD __fastcall blend(DWORD X1, DWORD X2)
+uint32_t __fastcall blend(uint32_t X1, uint32_t X2)
 {
 	RGBA* q1 = (RGBA*)&X1;
 	RGBA* q2 = (RGBA*)&X2;
@@ -592,8 +592,8 @@ HICON __fastcall CreateJoinedIcon(HICON hBottom, HICON hTop)
 			{
 				for (x = 0; x < 16; x++)
 				{
-					DWORD bottom_d = ((LPDWORD)bb)[x];
-					DWORD top_d = ((LPDWORD)tb)[x];
+					uint32_t bottom_d = ((LPDWORD)bb)[x];
+					uint32_t top_d = ((LPDWORD)tb)[x];
 
 					if (topMaskUsed)
 					{

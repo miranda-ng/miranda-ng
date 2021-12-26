@@ -31,7 +31,7 @@ BOOL RectHitTest(RECT *rc, int testx, int testy)
 	return testx >= rc->left && testx < rc->right && testy >= rc->top && testy < rc->bottom;
 }
 
-int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
+int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags)
 {
 	ClcContact *hitcontact = nullptr;
 	ClcGroup *hitgroup = nullptr;
@@ -114,7 +114,7 @@ int cliHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **conta
 
 void cliScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth)
 {
-	DWORD startTick, nowTick;
+	uint32_t startTick, nowTick;
 	int oldy = dat->yScroll;
 	RECT clRect, rcInvalidate;
 	int maxy, previousy;
@@ -320,7 +320,7 @@ int GetDropTargetInformation(HWND hwnd, ClcData *dat, POINT pt)
 	if (!PtInRect(&clRect, pt))
 		return DROPTARGET_OUTSIDE;
 
-	DWORD hitFlags;
+	uint32_t hitFlags;
 	int hit = cliHitTest(hwnd, dat, pt.x, pt.y, &contact, &group, &hitFlags);
 	cliGetRowByIndex(dat, dat->iDragItem, &movecontact, &movegroup);
 	if (hit == dat->iDragItem) return DROPTARGET_ONSELF;

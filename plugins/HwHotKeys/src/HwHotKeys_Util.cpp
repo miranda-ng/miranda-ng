@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 
 
 // сравнивает текущий нажатый сканкод с указанным
-BOOL HwHotKeys_CompareCurrentScancode(DWORD scancode)
+BOOL HwHotKeys_CompareCurrentScancode(uint32_t scancode)
 {
 	if (key_code == scancode) // key_code - текущий нажатый на клавиатуре сканкод.
 	{
@@ -32,7 +32,7 @@ BOOL HwHotKeys_CompareCurrentScancode(DWORD scancode)
 	{
 		return false;
 	}
-	DWORD tmp1, tmp2; // битовые маски: 0xF0000000 - левые кнопки Sft/Ctr/Alt/Win, 0x0F000000 - правые кнопки, 0x00F00000 - любые кнопки Sft/Ctr/Alt/Win
+	uint32_t tmp1, tmp2; // битовые маски: 0xF0000000 - левые кнопки Sft/Ctr/Alt/Win, 0x0F000000 - правые кнопки, 0x00F00000 - любые кнопки Sft/Ctr/Alt/Win
 	tmp1 = key_code >> 8;    // сдвигаем биты левых и правых кнопок.
 	tmp2 = key_code >> 4;
 	tmp1 |= tmp2;
@@ -49,7 +49,7 @@ BOOL HwHotKeys_CompareCurrentScancode(DWORD scancode)
 
 // печатает в буфер key_name_buffer текстовое описание нажатой комбинации кнопок
 // Кодировка ANSI (для экономии места, всё равно названия клавиш английские)
-VOID HwHotKeys_PrintFullKeyname(DWORD scancode)
+VOID HwHotKeys_PrintFullKeyname(uint32_t scancode)
 {
 	key_name_buffer[0] = 0;
 	if (!scancode) // если нулевой сканкод - то пустую строку делаем.

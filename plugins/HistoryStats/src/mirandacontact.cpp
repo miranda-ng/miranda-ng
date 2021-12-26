@@ -165,7 +165,7 @@ void MirandaContactTolerantMerge::fillQueue()
 	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.timestamp - m_EIs.front().dbe.timestamp) <= timestampTol)) {
 		// find oldest next event in chains
 		int nNext = 0;
-		DWORD timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
 			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {
@@ -230,7 +230,7 @@ void MirandaContactStrictMerge::fillQueue()
 	while (!m_CIs.empty() && (m_EIs.size() < 2 || (m_EIs.back().dbe.timestamp - m_EIs.front().dbe.timestamp) <= timestampTol)) {
 		// find oldest next event in chains
 		int nNext = 0;
-		DWORD timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
 			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {
@@ -291,7 +291,7 @@ void MirandaContactNoMerge::fillQueue()
 	while (!m_CIs.empty() && m_EIs.size() < 1) {
 		// find oldest next event in chains
 		int nNext = 0;
-		DWORD timestampFirst = m_CIs.front().ei.dbe.timestamp;
+		uint32_t timestampFirst = m_CIs.front().ei.dbe.timestamp;
 
 		for (int i = 1; i < m_CIs.size(); ++i) {
 			if (m_CIs[i].ei.dbe.timestamp < timestampFirst) {

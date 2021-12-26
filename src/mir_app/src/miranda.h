@@ -41,7 +41,7 @@ void UnloadIdleModule(void);
 
 /**** miranda.cpp **********************************************************************/
 
-extern DWORD hMainThreadId;
+extern uint32_t hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
 extern HANDLE hAccListChanged;
 extern wchar_t mirandabootini[MAX_PATH];

@@ -308,13 +308,13 @@ struct CVKOptions {
 	CMOption<uint8_t> bShowProtoMenuItem5;
 	CMOption<uint8_t> bShowProtoMenuItem6;
 
-	CMOption<DWORD> iReqAuthTimeLater;
-	CMOption<DWORD> iNewsInterval;
-	CMOption<DWORD> iNotificationsInterval;
-	CMOption<DWORD> iNewsAutoClearHistoryInterval;
-	CMOption<DWORD> iInvisibleInterval;
-	CMOption<DWORD> iMaxFriendsCount;
-	CMOption<DWORD> iStickerSize;
+	CMOption<uint32_t> iReqAuthTimeLater;
+	CMOption<uint32_t> iNewsInterval;
+	CMOption<uint32_t> iNotificationsInterval;
+	CMOption<uint32_t> iNewsAutoClearHistoryInterval;
+	CMOption<uint32_t> iInvisibleInterval;
+	CMOption<uint32_t> iMaxFriendsCount;
+	CMOption<uint32_t> iStickerSize;
 
 	CMOption<wchar_t*> pwszDefaultGroup;
 	CMOption<wchar_t*> pwszVKLang;

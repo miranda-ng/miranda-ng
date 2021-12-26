@@ -130,7 +130,7 @@ BOOL DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 		if (200 == pReply->resultCode && pReply->dataLength > 0) {
 			HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			DWORD dwBytes;
-			WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+			WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
 			ret = true;
 			if (hFile)
 				CloseHandle(hFile);
@@ -413,7 +413,7 @@ void InitTimer()
 		_int64 qwDueTime = -10000i64 * interval;
 
 		LARGE_INTEGER li = { 0 };
-		li.LowPart = (DWORD)(qwDueTime & 0xFFFFFFFF);
+		li.LowPart = (uint32_t)(qwDueTime & 0xFFFFFFFF);
 		li.HighPart = (LONG)(qwDueTime >> 32);
 
 		SetWaitableTimer(Timer, &li, interval, TimerAPCProc, nullptr, 0);

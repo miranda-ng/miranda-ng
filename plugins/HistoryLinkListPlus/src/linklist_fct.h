@@ -29,7 +29,7 @@ void SetListOptions(LISTOPTIONS*);
 void ClearLinePos(LISTELEMENT*);
 int GetLastLinePos(LISTELEMENT*);
 void WriteLinkList(HWND, uint8_t, LISTELEMENT*, LPCTSTR, int);
-int WriteOptionExample(HWND, DWORD, DWORD, DWORD, DWORD, LISTOPTIONS*);
+int WriteOptionExample(HWND, uint32_t, uint32_t, uint32_t, uint32_t, LISTOPTIONS*);
 void WriteMessage(HWND, LISTELEMENT*, int);
 void GetColour(MYCOLOURSET*);
 void GetDBColour(MYCOLOURSET*);
@@ -39,6 +39,6 @@ uint8_t GetUpdateSetting(void);
 int LinklistResizer(HWND,LPARAM,UTILRESIZECONTROL*);
 // RTF Save functions
 BOOL SaveEditAsStream( HWND );
-DWORD CALLBACK RTFSaveStreamCallback( DWORD_PTR, LPBYTE, LONG, LONG * );
+uint32_t CALLBACK RTFSaveStreamCallback( DWORD_PTR, LPBYTE, LONG, LONG * );
 
 #endif //_LINKLIST_FCT_H

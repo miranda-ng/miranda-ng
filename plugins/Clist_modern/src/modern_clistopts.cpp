@@ -380,7 +380,7 @@ static INT_PTR CALLBACK DlgProcItemAvatarOpts(HWND hwndDlg, UINT msg, WPARAM wPa
 				g_plugin.setByte("AvatarsInSeparateWnd", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_FASTDRAW));
 
 				g_plugin.setByte("AvatarsDrawBorders", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_DRAW_BORDER));
-				g_plugin.setDword("AvatarsBorderColor", (DWORD)SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_GETCOLOUR, 0, 0));
+				g_plugin.setDword("AvatarsBorderColor", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_AVATAR_BORDER_COLOR, CPM_GETCOLOUR, 0, 0));
 				g_plugin.setByte("AvatarsRoundCorners", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_ROUND_CORNERS));
 				g_plugin.setByte("AvatarsIgnoreSizeForRow", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_IGNORE_SIZE));
 				g_plugin.setByte("AvatarsUseCustomCornerSize", (uint8_t)IsDlgButtonChecked(hwndDlg, IDC_AVATAR_CUSTOM_CORNER_SIZE_CHECK));

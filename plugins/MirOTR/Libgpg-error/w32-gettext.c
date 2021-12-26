@@ -58,9 +58,9 @@
 static wchar_t *utf8_to_wchar (const char *string, size_t length, size_t *retlen);
 
 static HANDLE
-MyCreateFileA (LPCSTR lpFileName, DWORD dwDesiredAccess, DWORD dwSharedMode,
+MyCreateFileA (LPCSTR lpFileName, uint32_t dwDesiredAccess, uint32_t dwSharedMode,
 	     LPSECURITY_ATTRIBUTES lpSecurityAttributes,
-	     DWORD dwCreationDisposition, DWORD dwFlagsAndAttributes,
+	     uint32_t dwCreationDisposition, uint32_t dwFlagsAndAttributes,
 	     HANDLE hTemplateFile)
 {
   wchar_t *filename;
@@ -1230,7 +1230,7 @@ static struct loaded_domain *
 load_domain (const char *filename)
 {
   HANDLE fh;
-  DWORD size;
+  uint32_t size;
   struct mo_file_header *data = NULL;
   struct loaded_domain *domain = NULL;
   size_t to_read;
@@ -1260,7 +1260,7 @@ load_domain (const char *filename)
   do
     {
       BOOL res;
-      DWORD nb;
+      uint32_t nb;
 
       res = ReadFile (fh, read_ptr, to_read, &nb, NULL);
       if (! res || nb < to_read)

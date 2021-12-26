@@ -5,7 +5,7 @@ CMPlugin g_plugin;
 
 bool bIsVistaPlus;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t fdwReason, LPVOID)
 {
 	if (fdwReason == DLL_PROCESS_ATTACH) {
 		bIsVistaPlus = GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetProductInfo") != 0;

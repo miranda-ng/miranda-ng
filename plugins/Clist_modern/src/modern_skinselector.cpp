@@ -40,9 +40,9 @@ int SkinSelector_DeleteMask(MODERNMASK *mm)
 	return 1;
 }
 
-DWORD mod_CalcHash(const char *szStr)
+uint32_t mod_CalcHash(const char *szStr)
 {
-	DWORD hash = 0;
+	uint32_t hash = 0;
 	int shift = 0;
 	for (int i = 0; szStr[i]; i++) {
 		hash ^= szStr[i] << shift;
@@ -72,7 +72,7 @@ int ClearMaskList(LISTMODERNMASK * mmTemplateList)
 	return 0;
 }
 
-static int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
+static int DeleteMaskByItID(uint32_t mID, LISTMODERNMASK *mmTemplateList)
 {
 	if (!mmTemplateList) return -1;
 	if (mID >= mmTemplateList->dwMaskCnt) return -1;
@@ -86,7 +86,7 @@ static int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 		SkinSelector_DeleteMask(&(mmTemplateList->pl_Masks[mID]));
 		MODERNMASK *newAlocation = (MODERNMASK *)mir_alloc(sizeof(MODERNMASK)*mmTemplateList->dwMaskCnt - 1);
 		memcpy(newAlocation, mmTemplateList->pl_Masks, sizeof(MODERNMASK)*(mID + 1));
-		for (DWORD i = mID; i < mmTemplateList->dwMaskCnt - 1; i++) {
+		for (uint32_t i = mID; i < mmTemplateList->dwMaskCnt - 1; i++) {
 			newAlocation[i] = mmTemplateList->pl_Masks[i + 1];
 			newAlocation[i].dwMaskId = i;
 		}
@@ -98,7 +98,7 @@ static int DeleteMaskByItID(DWORD mID, LISTMODERNMASK *mmTemplateList)
 }
 
 
-static int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplateList)
+static int ExchangeMasksByID(uint32_t mID1, uint32_t mID2, LISTMODERNMASK * mmTemplateList)
 {
 	if (!mmTemplateList) return 0;
 	if (mID1 >= mmTemplateList->dwMaskCnt) return 0;
@@ -114,7 +114,7 @@ static int ExchangeMasksByID(DWORD mID1, DWORD mID2, LISTMODERNMASK * mmTemplate
 
 int SortMaskList(LISTMODERNMASK * mmList)
 {
-	DWORD pos = 1;
+	uint32_t pos = 1;
 	if (mmList->dwMaskCnt < 2) return 0;
 	do {
 		if (mmList->pl_Masks[pos].dwMaskId < mmList->pl_Masks[pos - 1].dwMaskId) {
@@ -281,7 +281,7 @@ static BOOL CompareModernMask(MODERNMASK *mmValue, MODERNMASK *mmTemplate)
 	uint8_t pVal = 0, pTemp = 0;
 	while (pTemp < mmTemplate->dwParamCnt && pVal < mmValue->dwParamCnt) {
 		// find pTemp parameter in mValue
-		DWORD vh, ph;
+		uint32_t vh, ph;
 		BOOL finded = 0;
 		MASKPARAM p = mmTemplate->pl_Params[pTemp];
 		ph = p.dwId;
@@ -323,7 +323,7 @@ BOOL CompareStrWithModernMask(char *szValue, MODERNMASK *mmTemplate)
 };
 
 // AddingMask
-int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList)
+int AddStrModernMaskToList(uint32_t maskID, char *szStr, char *objectName, LISTMODERNMASK *mmTemplateList)
 {
 	if (!szStr || !mmTemplateList)
 		return -1;
@@ -341,7 +341,7 @@ int AddStrModernMaskToList(DWORD maskID, char *szStr, char *objectName, LISTMODE
 
 SKINOBJECTDESCRIPTOR* skin_FindObjectByMask(MODERNMASK *mm, LISTMODERNMASK *mmTemplateList)
 {
-	for (DWORD i = 0; i < mmTemplateList->dwMaskCnt; i++)
+	for (uint32_t i = 0; i < mmTemplateList->dwMaskCnt; i++)
 		if (CompareModernMask(mm, &(mmTemplateList->pl_Masks[i])))
 			return (SKINOBJECTDESCRIPTOR*)mmTemplateList->pl_Masks[i].pObject;
 
@@ -441,7 +441,7 @@ int RegisterButtonByParce(char * ObjectName, char * Params)
 	char Section[250] = { 0 };
 	char Type[250] = { 0 };
 
-	DWORD alingnto;
+	uint32_t alingnto;
 	int a = ((int)!mir_strcmpi(buf, "Switch")) * 2;
 
 	GetParamN(Params, pServiceName, _countof(pServiceName), 1, ',', 0);

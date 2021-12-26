@@ -143,7 +143,7 @@ public:
 	HRESULT	TxDeactivate(LONG lNewState);
 	HRESULT	TxGetClientRect(LPRECT prc);
 	HRESULT	TxGetViewInset(LPRECT prc);
-	HRESULT TxGetCharFormat(const CHARFORMATW **ppCF);
+	HRESULT  TxGetCharFormat(const CHARFORMATW **ppCF);
 	HRESULT	TxGetParaFormat(const PARAFORMAT **ppPF);
 	COLORREF TxGetSysColor(int nIndex);
 	HRESULT	TxGetBackStyle(TXTBACKSTYLE *pstyle);
@@ -152,7 +152,7 @@ public:
 	HRESULT	TxGetPasswordChar(wchar_t *pch);
 	HRESULT	TxGetAcceleratorPos(LONG *pcp);
 	HRESULT	TxGetExtent(LPSIZEL lpExtent);
-	HRESULT OnTxCharFormatChange(const CHARFORMATW * pcf);
+	HRESULT  OnTxCharFormatChange(const CHARFORMATW * pcf);
 	HRESULT	OnTxParaFormatChange(const PARAFORMAT * ppf);
 	HRESULT	TxGetPropertyBits(DWORD dwMask, DWORD *pdwBits);
 	HRESULT	TxNotify(DWORD iNotify, void *pv);
@@ -177,9 +177,9 @@ public:
 
 	CHARFORMAT2W	*m_pCF;
 	PARAFORMAT2		m_PF;
-	DWORD			m_dwScrollbar;		// Scroll bar style
-	DWORD			m_dwPropertyBits;	// Property bits
-	DWORD			m_dwMaxLength;
+	uint32_t			m_dwScrollbar;		// Scroll bar style
+	uint32_t			m_dwPropertyBits;	// Property bits
+	uint32_t			m_dwMaxLength;
 	COOKIE			m_editCookie;
 
 	ITextServices	*m_spTextServices;

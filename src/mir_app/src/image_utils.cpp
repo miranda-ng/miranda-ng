@@ -166,7 +166,7 @@ MIR_APP_DLL(HBITMAP) Image_LoadFromMem(const void *pBuf, size_t cbLen, FREE_IMAG
 	if (cbLen == 0 || pBuf == nullptr)
 		return 0;
 
-	FIMEMORY *hmem = FreeImage_OpenMemory((uint8_t *)pBuf, (DWORD)cbLen);
+	FIMEMORY *hmem = FreeImage_OpenMemory((uint8_t *)pBuf, (uint32_t)cbLen);
 	if (fif == FIF_UNKNOWN)
 		fif = FreeImage_GetFileTypeFromMemory(hmem, 0);
 

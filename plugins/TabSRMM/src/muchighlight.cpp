@@ -109,7 +109,7 @@ void CMUCHighlight::tokenize(wchar_t *tszString, wchar_t**& patterns, UINT& nr)
 	}
 }
 
-bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, DWORD dwFlags)
+bool CMUCHighlight::match(const GCEVENT *pgce, const SESSION_INFO *psi, uint32_t dwFlags)
 {
 	int result = 0, nResult = 0;
 

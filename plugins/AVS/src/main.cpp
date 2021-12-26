@@ -213,7 +213,7 @@ static int ShutdownProc(WPARAM, LPARAM)
 	return 0;
 }
 
-void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, DWORD dwFlags)
+void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bmHeight, uint32_t dwFlags)
 {
 	int targetWidth = r->rcDraw.right - r->rcDraw.left;
 	int targetHeight = r->rcDraw.bottom - r->rcDraw.top;
@@ -239,8 +239,8 @@ void InternalDrawAvatar(AVATARDRAWREQUEST *r, HBITMAP hbm, LONG bmWidth, LONG bm
 		newHeight = (int)(bmHeight * dScale);
 	}
 
-	DWORD topoffset = targetHeight > newHeight ? (targetHeight - newHeight) / 2 : 0;
-	DWORD leftoffset = targetWidth > newWidth ? (targetWidth - newWidth) / 2 : 0;
+	uint32_t topoffset = targetHeight > newHeight ? (targetHeight - newHeight) / 2 : 0;
+	uint32_t leftoffset = targetWidth > newWidth ? (targetWidth - newWidth) / 2 : 0;
 
 	// create the region for the avatar border - use the same region for clipping, if needed.
 	HRGN oldRgn = CreateRectRgn(0, 0, 1, 1);

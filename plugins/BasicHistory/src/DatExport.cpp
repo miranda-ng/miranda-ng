@@ -40,15 +40,15 @@ struct MCHeader
 typedef struct
 {
 	int cbSize;       //size of the structure in bytes
-	DWORD szModule;	  //pointer to name of the module that 'owns' this
+	uint32_t szModule;	  //pointer to name of the module that 'owns' this
 							 //event, ie the one that is in control of the data format
-	DWORD timestamp;  //seconds since 00:00, 01/01/1970. Gives us times until
+	uint32_t timestamp;  //seconds since 00:00, 01/01/1970. Gives us times until
 							//2106 unless you use the standard C library which is
 					  //signed and can only do until 2038. In GMT.
-	DWORD flags;	  //the omnipresent flags
+	uint32_t flags;	  //the omnipresent flags
 	uint16_t eventType;	  //module-defined event type field
-	DWORD cbBlob;	  //size of pBlob in bytes
-	DWORD pBlob;	  //pointer to buffer containing module-defined event data
+	uint32_t cbBlob;	  //size of pBlob in bytes
+	uint32_t pBlob;	  //pointer to buffer containing module-defined event data
 } DBEVENTINFO86;
 
 
@@ -153,7 +153,7 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 	DBEVENTINFO info = {};
 	info.szModule = Proto_GetBaseAccountName(hContact);
 	wchar_t _str[MAXSELECTSTR + 8]; // for safety reason
-	std::multimap<DWORD, IImport::ExternalMessage> sortedEvents;
+	std::multimap<uint32_t, IImport::ExternalMessage> sortedEvents;
 	while (dataSize > 0) {
 		messageHeader.cbSize = 0;
 		IMP_FILE.read((char*)&messageHeader, sizeof(DBEVENTINFO86));
@@ -184,14 +184,14 @@ bool DatExport::GetEventList(std::vector<IImport::ExternalMessage>& eventList)
 		info.pBlob = (uint8_t*)memBuf.c_str();
 		HistoryEventList::GetObjectDescription(&info, _str, MAXSELECTSTR);
 		exMsg.message = _str;
-		sortedEvents.insert(std::pair<DWORD, IImport::ExternalMessage>(messageHeader.timestamp, exMsg));
+		sortedEvents.insert(std::pair<uint32_t, IImport::ExternalMessage>(messageHeader.timestamp, exMsg));
 		dataSize -= messageHeader.cbSize + messageHeader.cbBlob;
 	}
 
 	memBuf.resize(0);
 	memBuf.shrink_to_fit();
 
-	for (std::multimap<DWORD, IImport::ExternalMessage>::iterator it = sortedEvents.begin(); it != sortedEvents.end(); ++it)
+	for (std::multimap<uint32_t, IImport::ExternalMessage>::iterator it = sortedEvents.begin(); it != sortedEvents.end(); ++it)
 		eventList.push_back(it->second);
 
 	return true;

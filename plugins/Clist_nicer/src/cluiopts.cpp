@@ -24,9 +24,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-DWORD GetCLUIWindowStyle(uint8_t style)
+uint32_t GetCLUIWindowStyle(uint8_t style)
 {
-	DWORD dwBasic = WS_CLIPCHILDREN;
+	uint32_t dwBasic = WS_CLIPCHILDREN;
 
 	if (style == SETTING_WINDOWSTYLE_THINBORDER)
 		return dwBasic | WS_BORDER;

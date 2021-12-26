@@ -357,7 +357,7 @@ void CJabberProto::OnShutdown()
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAddToList - adds a contact to the contact list
 
-MCONTACT CJabberProto::AddToListByJID(const char *newJid, DWORD flags)
+MCONTACT CJabberProto::AddToListByJID(const char *newJid, uint32_t flags)
 {
 	debugLogA("AddToListByJID jid = %s", newJid);
 
@@ -452,7 +452,7 @@ int CJabberProto::AuthDeny(MEVENT hDbEvent, const wchar_t*)
 	if (mir_strcmp(dbei.szModule, m_szModuleName))
 		return 1;
 
-	char *nick = (char*)(dbei.pBlob + sizeof(DWORD) * 2);
+	char *nick = (char*)(dbei.pBlob + sizeof(uint32_t) * 2);
 	char *firstName = nick + mir_strlen(nick) + 1;
 	char *lastName = firstName + mir_strlen(firstName) + 1;
 	char *jid = lastName + mir_strlen(lastName) + 1;
@@ -577,7 +577,7 @@ int CJabberProto::FileResume(HANDLE hTransfer, int, const wchar_t *szFilename)
 
 INT_PTR CJabberProto::GetCaps(int type, MCONTACT hContact)
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	
 	switch (type) {
 	case PFLAGNUM_1:

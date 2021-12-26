@@ -63,6 +63,6 @@ int OnCommonOptionsInit(WPARAM wParam, LPARAM);
 void InitCommonOptions();
 
 char* StatusModeToDbSetting(int status, const char *suffix);
-DWORD StatusModeToProtoFlag(int status);
+uint32_t StatusModeToProtoFlag(int status);
 
 #endif //_COMMON_H_

@@ -368,7 +368,7 @@ void CSametimeProto::LoadOptions()
 
 	options.client_id = db_get_dw(0, m_szModuleName, "ClientID", DEFAULT_ID);
 	options.client_versionMajor = db_get_dw(0, m_szModuleName, "ClientVersionMajor", DEFAULT_CV_MAJOR);
-	DWORD defaultCVMinor;
+	uint32_t defaultCVMinor;
 	if (db_get_b(0, m_szModuleName, "UseOldClientVer", 0) == 1){
 		// if sb have checked old deprecated option 'Use old client version' respect it
 		defaultCVMinor = 0x001d;

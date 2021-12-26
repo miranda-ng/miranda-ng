@@ -924,12 +924,12 @@ void __cdecl udptcpThreadFunc(void *useUdp)
 		std::string t = err;
 		t += "\nWSAGetLastError: ";
 
-		DWORD ec = WSAGetLastError();
+		uint32_t ec = WSAGetLastError();
 
 		char buf[4096];
 		mir_strcpy(buf, Translate("NotifyAnything: Failed to format error message"));
 
-		DWORD fm = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+		uint32_t fm = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 			nullptr, ec, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 4096, nullptr);
 
 		if (!fm) {

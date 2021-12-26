@@ -433,7 +433,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 		if (b->dwFlags == lParam)
 			return 0;
 
-		DWORD retval = b->CheckFlags(lParam);
+		uint32_t retval = b->CheckFlags(lParam);
 
 		if (retval & TTBBF_PUSHED)
 			b->SetBitmap();
@@ -455,7 +455,7 @@ INT_PTR TTBSetOptions(WPARAM wParam, LPARAM lParam)
 	case TTBO_ALLDATA:
 		if (lParam) {
 			TTBButton *lpTTB = (TTBButton*)lParam;
-			DWORD retval = b->CheckFlags(lpTTB->dwFlags);
+			uint32_t retval = b->CheckFlags(lpTTB->dwFlags);
 
 			bool changed = false;
 			if (b->hIconUp != lpTTB->hIconUp) {

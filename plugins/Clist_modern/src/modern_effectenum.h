@@ -15,8 +15,8 @@ typedef  struct _MODERNEFFECT
 {
 	uint8_t EffectID;
 	MODERNEFFECTMATRIX EffectMatrix;
-	DWORD EffectColor1;
-	DWORD EffectColor2;
+	uint32_t EffectColor1;
+	uint32_t EffectColor2;
 }MODERNEFFECT;
 
 #ifdef _EFFECTENUM_FULL_H
@@ -90,4 +90,4 @@ MODERNEFFECTMATRIX ModernEffectsEnum[] = {
 extern wchar_t * ModernEffectNames[];
 #endif
 extern BOOL SkinEngine_ResetTextEffect(HDC);
-extern BOOL SkinEngine_SelectTextEffect(HDC hdc, uint8_t EffectID, DWORD FirstColor, DWORD SecondColor);
+extern BOOL SkinEngine_SelectTextEffect(HDC hdc, uint8_t EffectID, uint32_t FirstColor, uint32_t SecondColor);

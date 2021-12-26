@@ -304,9 +304,9 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	lua_getfield(L, -1, "Blob");
 	switch (lua_type(L, -1)) {
 	case LUA_TTABLE:
-		dbei.cbBlob = (DWORD)lua_rawlen(L, 4);
+		dbei.cbBlob = (uint32_t)lua_rawlen(L, 4);
 		dbei.pBlob = (uint8_t*)mir_calloc(dbei.cbBlob);
-		for (DWORD i = 0; i < dbei.cbBlob; i++) {
+		for (uint32_t i = 0; i < dbei.cbBlob; i++) {
 			lua_geti(L, 4, i + 1);
 			dbei.pBlob[i] = lua_tointeger(L, -1);
 			lua_pop(L, 1);
@@ -315,7 +315,7 @@ void MakeDbEvent(lua_State *L, DBEVENTINFO &dbei)
 	case LUA_TSTRING:
 		size_t nLen;
 		const char *str = lua_tolstring(L, -1, &nLen);
-		dbei.cbBlob = (DWORD)nLen;
+		dbei.cbBlob = (uint32_t)nLen;
 		dbei.pBlob = (uint8_t*)mir_alloc(nLen);
 		memcpy(dbei.pBlob, str, nLen);
 		break;
@@ -649,7 +649,7 @@ int MT<DBEVENTINFO>::Get(lua_State *L, DBEVENTINFO *dbei)
 
 	if (mir_strcmpi(key, "Blob") == 0) {
 		lua_createtable(L, dbei->cbBlob, 0);
-		for (DWORD i = 0; i < dbei->cbBlob; i++) {
+		for (uint32_t i = 0; i < dbei->cbBlob; i++) {
 			lua_pushinteger(L, dbei->pBlob[i]);
 			lua_rawseti(L, -2, i + 1);
 		}

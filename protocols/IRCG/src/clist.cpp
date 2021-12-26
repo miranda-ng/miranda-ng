@@ -43,7 +43,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMStringW& name, const CMStringW& hostmas
 	DCCINFO *pdci = new DCCINFO;
 	pdci->sHostmask = hostmask;
 	pdci->hContact = hContact;
-	pdci->dwAdr = (DWORD)adr;
+	pdci->dwAdr = (uint32_t)adr;
 	pdci->iPort = port;
 	pdci->iType = DCC_CHAT;
 	pdci->bSender = false;

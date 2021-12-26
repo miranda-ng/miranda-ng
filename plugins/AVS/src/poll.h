@@ -27,7 +27,7 @@ Boston, MA 02111-1307, USA.
 struct QueueItem
 {
 	MCONTACT hContact;
-	DWORD check_time;
+	uint32_t check_time;
 };
 
 void InitPolls();

@@ -70,7 +70,7 @@ struct THook : public MZeroedObject
 	int  subscriberCount;
 	THookSubscriber* subscriber;
 	MIRANDAHOOK pfnHook;
-	DWORD secretSignature = HOOK_SECRET_SIGNATURE;
+	uint32_t secretSignature = HOOK_SECRET_SIGNATURE;
 	mir_cs csHook;
 };
 
@@ -84,10 +84,10 @@ char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const i
 /////////////////////////////////////////////////////////////////////////////////////////
 // threads.cpp
 
-extern DWORD mir_tls;
+extern uint32_t mir_tls;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // utils.cpp
 
-typedef BOOL(MIR_SYSCALL *PGENRANDOM)(void*, DWORD);
+typedef BOOL(MIR_SYSCALL *PGENRANDOM)(void*, uint32_t);
 extern PGENRANDOM pfnRtlGenRandom;

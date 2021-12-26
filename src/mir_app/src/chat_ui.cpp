@@ -86,11 +86,11 @@ public:
 	{
 		btn1.MakeFlat(); btn2.MakeFlat(); btn3.MakeFlat(); btn4.MakeFlat();
 
-		DWORD dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-		DWORD dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwSoundFlags = db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
-		DWORD dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
+		uint32_t dwFilterFlags = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+		uint32_t dwTrayFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", GC_EVENT_HIGHLIGHT);
+		uint32_t dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", GC_EVENT_HIGHLIGHT);
+		uint32_t dwSoundFlags = db_get_dw(0, CHAT_MODULE, "SoundFlags", GC_EVENT_HIGHLIGHT);
+		uint32_t dwLogFlags = db_get_dw(0, CHAT_MODULE, "DiskLogFlags", GC_EVENT_ALL);
 
 		for (int i = 0; i < _countof(_eventorder); i++) {
 			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {
@@ -106,7 +106,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD dwFilterFlags = 0, dwTrayFlags = 0, dwPopupFlags = 0, dwSoundFlags = 0, dwLogFlags = 0;
+		uint32_t dwFilterFlags = 0, dwTrayFlags = 0, dwPopupFlags = 0, dwSoundFlags = 0, dwLogFlags = 0;
 
 		for (int i = 0; i < _countof(_eventorder); i++) {
 			if (_eventorder[i] != GC_EVENT_HIGHLIGHT) {

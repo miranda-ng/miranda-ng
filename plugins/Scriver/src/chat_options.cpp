@@ -71,7 +71,7 @@ static HTREEITEM InsertBranch(HWND hwndTree, wchar_t *pszDescr, BOOL bExpanded)
 	return TreeView_InsertItem(hwndTree, &tvis);
 }
 
-static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch, int nValues, DWORD defaultval)
+static void FillBranch(HWND hwndTree, HTREEITEM hParent, struct branch_t *branch, int nValues, uint32_t defaultval)
 {
 	int iState;
 
@@ -106,7 +106,7 @@ static void SaveBranch(HWND hwndTree, struct branch_t *branch, int nValues)
 				iState |= branch[i].iMode;
 			if (iState&GC_EVENT_ADDSTATUS)
 				iState |= GC_EVENT_REMOVESTATUS;
-			db_set_dw(0, CHAT_MODULE, branch[i].szDBName, (DWORD)iState);
+			db_set_dw(0, CHAT_MODULE, branch[i].szDBName, (uint32_t)iState);
 		}
 		else db_set_b(0, CHAT_MODULE, branch[i].szDBName, bChecked);
 	}
@@ -614,9 +614,9 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wPar
 				db_set_w(0, CHAT_MODULE, "PopupTimeout", (uint16_t)iLen);
 
 				g_Settings.crPUBkgColour = SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (DWORD)SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0));
+				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0));
 				g_Settings.crPUTextColour = SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(0, CHAT_MODULE, "PopupColorText", (DWORD)SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_GETCOLOUR, 0, 0));
+				db_set_dw(0, CHAT_MODULE, "PopupColorText", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_GETCOLOUR, 0, 0));
 			}
 			return TRUE;
 		}

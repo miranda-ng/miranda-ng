@@ -1426,7 +1426,7 @@ int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam,
 	StatusItems_t *item = (arStatusItems.getCount() != 0) ? (hasTitleBar ? arStatusItems[ID_EXTBKOWNEDFRAMEBORDERTB - ID_STATUS_OFFLINE] : arStatusItems[ID_EXTBKOWNEDFRAMEBORDER - ID_STATUS_OFFLINE]) : nullptr;
 	LRESULT orig = oldWndProc ? CallWindowProc(oldWndProc, hwnd, WM_NCCALCSIZE, wParam, lParam) : 0;
 	NCCALCSIZE_PARAMS *nccp = (NCCALCSIZE_PARAMS *)lParam;
-	DWORD dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t dwStyle = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (item == nullptr)
 		return orig;

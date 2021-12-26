@@ -23,7 +23,7 @@ static HINSTANCE hKernel = GetModuleHandleA("kernel32.dll");
 int GetTZOffset(void)
 {
 	TIME_ZONE_INFORMATION tzInfo = {};
-	DWORD type = GetTimeZoneInformation(&tzInfo);
+	uint32_t type = GetTimeZoneInformation(&tzInfo);
 
 	int offset = 0;
 	switch (type) {
@@ -42,7 +42,7 @@ int GetTZOffset(void)
 	return offset;
 }
 
-void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
+void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, uint32_t dwSize)
 {
 	SYSTEMTIME loctime;
 	if (stLocal == nullptr) {
@@ -66,7 +66,7 @@ void GetISO8061Time(SYSTEMTIME *stLocal, LPTSTR lpszString, DWORD dwSize)
 	}
 }
 
-void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, DWORD dwSize)
+void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, uint32_t dwSize)
 {
 	FILETIME ftLocal;
 	SYSTEMTIME stLocal;
@@ -78,7 +78,7 @@ void GetLastWriteTime(FILETIME *ftime, LPTSTR lpszString, DWORD dwSize)
 	GetISO8061Time(&stLocal, lpszString, dwSize);
 }
 
-void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, DWORD dwSize)
+void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, uint32_t dwSize)
 {
 	WIN32_FIND_DATA FindFileData;
 

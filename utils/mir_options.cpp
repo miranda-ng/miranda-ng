@@ -321,7 +321,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						break;
 
 					case CONTROL_COLOR:
-						db_set_dw(0, module, ctrl->setting, (DWORD)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
+						db_set_dw(0, module, ctrl->setting, (uint32_t)SendDlgItemMessage(hwndDlg, ctrl->nID, CPM_GETCOLOUR, 0, 0));
 						break;
 
 					case CONTROL_RADIO:

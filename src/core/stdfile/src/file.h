@@ -63,7 +63,7 @@ struct FileDlgData
 	PROTOFILETRANSFERSTATUS transferStatus;
 	int *fileVirusScanned;
 	HANDLE hPreshutdownEvent;
-	DWORD dwTicks;
+	uint32_t dwTicks;
 
 	wchar_t szSavePath[MAX_PATH];
 	wchar_t szMsg[450], szFilenames[1024];

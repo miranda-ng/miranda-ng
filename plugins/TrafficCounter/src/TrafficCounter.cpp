@@ -215,7 +215,7 @@ int TrafficSend(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT*, HRGN, DWORD, void*)
+int TrafficCounter_PaintCallbackProc(HWND hWnd, HDC hDC, RECT*, HRGN, uint32_t, void*)
 {
 	return TrafficCounter_Draw(hWnd, hDC);
 }
@@ -252,7 +252,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 {
 	RECT        rect, rect2;
 	BLENDFUNCTION aga = { AC_SRC_OVER, 0, 0xFF, AC_SRC_ALPHA };
-	DWORD SummarySession, SummaryTotal;
+	uint32_t SummarySession, SummaryTotal;
 
 	uint8_t ClistModernPresent = (GetModuleHandleA("clist_modern.dll") || GetModuleHandleA("clist_modern_dora.dll"))
 		&& !db_get_b(0, "ModernData", "DisableEngine", 0)
@@ -570,7 +570,7 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 
 void ProtocolIsOnLine(int num)
 {
-	DWORD CurrentTimeMs;
+	uint32_t CurrentTimeMs;
 
 	if (ProtoList[num].State) return;
 
@@ -688,7 +688,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 		case TIMER_REDRAW: // Перерисовка раз в полсекунды.
 			{
-				DWORD CurrentTimeMs;
+				uint32_t CurrentTimeMs;
 				SYSTEMTIME stNow;
 
 				SaveSettings(1);
@@ -710,7 +710,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 					Stat_CheckStatistics(p);
 
 					// Здесь на основании статистики вычисляются значения всех трафиков и времени.
-					DWORD Sum1 = 0, Sum2 = 0;
+					uint32_t Sum1 = 0, Sum2 = 0;
 						
 					// Значения для текущей сессии.
 					for (int j = p.StartIndex; j < p.NumberOfRecords; j++) {

@@ -40,7 +40,7 @@ static mir_cs amCS;
 static LIST<void> amItems(10, PtrKeySortT);
 
 static HANDLE  hamProcessEvent = nullptr;
-static DWORD   amRequestTick = 0;
+static uint32_t   amRequestTick = 0;
 
 /*
 *  Add contact handle to requests queue
@@ -81,7 +81,7 @@ static void amThreadProc(void *)
 	while (!MirandaExiting()) {
 		MCONTACT hContact = amGetCurrentChain();
 		while (hContact) {
-			DWORD time = GetTickCount();
+			uint32_t time = GetTickCount();
 			if ((time - amRequestTick) < AMASKPERIOD) {
 				SleepEx(AMASKPERIOD - (time - amRequestTick) + 10, TRUE);
 				if (MirandaExiting())
@@ -104,7 +104,7 @@ static void amThreadProc(void *)
 			amRequestTick = time;
 			hContact = amGetCurrentChain();
 			if (hContact) {
-				DWORD i = 0;
+				uint32_t i = 0;
 				do {
 					i++;
 					SleepEx(50, TRUE);

@@ -625,11 +625,11 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 	for (int i = 0; i < height; i++) {
 		int j; // we will need j after the loop!
 		for (j = 0; j < width; j++) {
-			ismask = opaque ? geta(this->getRow(i)[j]) > (DWORD)level : geta(this->getRow(i)[j]) < (DWORD)level;
+			ismask = opaque ? geta(this->getRow(i)[j]) > (uint32_t)level : geta(this->getRow(i)[j]) < (uint32_t)level;
 			if (wasfirst) {
 				if (!ismask) {
 					SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
-					if (pRgnData->rdh.nCount >= (DWORD)rectsCount) {
+					if (pRgnData->rdh.nCount >= (uint32_t)rectsCount) {
 						rectsCount += addRectsCount;
 						LPRGNDATA pRgnDataNew = (LPRGNDATA)(new uint8_t[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 						memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));
@@ -648,7 +648,7 @@ HRGN MyBitmap::buildOpaqueRgn(int level, bool opaque)
 
 		if (wasfirst && ismask) {
 			SetRect(&pRects[pRgnData->rdh.nCount++], first, i, j, i + 1);
-			if (pRgnData->rdh.nCount >= (DWORD)rectsCount) {
+			if (pRgnData->rdh.nCount >= (uint32_t)rectsCount) {
 				rectsCount += addRectsCount;
 				LPRGNDATA pRgnDataNew = (LPRGNDATA)(new uint8_t[sizeof(RGNDATAHEADER) + (rectsCount)*sizeof(RECT)]);
 				memcpy(pRgnDataNew, pRgnData, sizeof(RGNDATAHEADER) + pRgnData->rdh.nCount * sizeof(RECT));

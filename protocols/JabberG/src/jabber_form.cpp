@@ -358,7 +358,7 @@ static void JabberFormAddListItem(TJabberFormControlInfo *item, const char *text
 {
 	Utf2T wszText(text);
 
-	DWORD dwIndex;
+	uint32_t dwIndex;
 	switch (item->type) {
 	case JFORM_CTYPE_LIST_MULTI:
 		dwIndex = SendMessage(item->hCtrl, LB_ADDSTRING, 0, wszText);

@@ -178,7 +178,7 @@ struct SCROLLBUT
 struct NMCSBCUSTOMDRAW
 {
 	NMHDR	hdr;
-	DWORD dwDrawStage;
+	uint32_t dwDrawStage;
 	HDC   hdc;
 	RECT  rect;
 	UINT  uItem;

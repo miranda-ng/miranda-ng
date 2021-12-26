@@ -48,10 +48,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 int fnGetRowsPriorTo(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 int fnGetRowByIndex(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
 
-ClcContact* fnFindItem(DWORD dwItem, ClcContact *contact);
+ClcContact* fnFindItem(uint32_t dwItem, ClcContact *contact);
 
 /* clcitems.c */
-ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup* fnAddGroup(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
 ClcContact* fnAddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
 ClcContact* fnAddItemToGroup(ClcGroup *group, int iAboveItem);
@@ -71,7 +71,7 @@ int  fnGetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat);
 LRESULT fnProcessExternalMessages(HWND hwnd, ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /* clcutils.c */
-int  fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
+int  fnHitTest(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t * flags);
 void fnScrollTo(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 void fnRecalcScrollBar(HWND hwnd, ClcData *dat);
 void fnSetGroupExpand(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);

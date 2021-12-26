@@ -48,11 +48,11 @@ struct SendJob
 	HWND     hOwnerWnd;
 	unsigned iStatus;
 	wchar_t    szErrorMsg[128];
-	DWORD    dwFlags;
+	uint32_t    dwFlags;
 	int      iAcksNeeded;
 	HANDLE   hEventSplit;
 	int      chunkSize;
-	DWORD    dwTime;
+	uint32_t    dwTime;
 };
 
 class SendQueue {

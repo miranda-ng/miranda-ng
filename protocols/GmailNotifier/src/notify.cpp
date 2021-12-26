@@ -6,7 +6,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 		return;
 
 	HANDLE hTempFile;
-	DWORD  dwBytesWritten, dwBufSize = 1024;
+	DWORD dwBytesWritten, dwBufSize = 1024;
 	char szTempName[MAX_PATH];
 	char buffer[1024];
 	char *str_temp;
@@ -41,7 +41,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 				mir_strcat(buffer, "><input type=hidden name=password value=");
 				mir_strcat(buffer, curAcc->pass);
 				mir_strcat(buffer, "></form></body>");
-				WriteFile(hTempFile, buffer, (DWORD)mir_strlen(buffer), &dwBytesWritten, nullptr);
+				WriteFile(hTempFile, buffer, (uint32_t)mir_strlen(buffer), &dwBytesWritten, nullptr);
 				CloseHandle(hTempFile);
 				mir_strcat(lpPathBuffer, szTempName);
 			}
@@ -149,7 +149,7 @@ void NotifyUser(Account *curAcc)
 
 			resultLink *prst = curAcc->results.next;
 			for (int i = 0; i < newMails; i++) {
-				dbei.cbBlob = (DWORD)mir_strlen(prst->content) + 1;
+				dbei.cbBlob = (uint32_t)mir_strlen(prst->content) + 1;
 				dbei.pBlob = (uint8_t*)prst->content;
 				db_event_add(curAcc->hContact, &dbei);
 				prst = prst->next;

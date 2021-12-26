@@ -256,7 +256,7 @@ int CLStreamRTFInfo::nLoadFileStream(LPBYTE pbBuff, LONG cb)
 	for (; n < dwRead; n++) {
 		// worst case is a file ending with \n or a unicode letter. resulting in a big unicode string
 		// here we need szNewLine and szRtfEnd. the 10 is a small safty margin.
-		if (dwCurrent + (sizeof(szNewLine) + sizeof(szRtfEnd) + 10) > (DWORD)cb) {
+		if (dwCurrent + (sizeof(szNewLine) + sizeof(szRtfEnd) + 10) > (uint32_t)cb) {
 			// oh no !!! we have almost reached the end of the windows supplyed buffer
 			// we are writing to. we need to abort mision *S*!!
 			// and rewinde file
@@ -432,12 +432,12 @@ bool bUseInternalViewer(bool bNew)
 //                   pbBuff   - ?
 //                   cb       - ?
 //                   pcb      - ?
-// Returns         : DWORD CALLBACK
+// Returns         : uint32_t CALLBACK
 
 DWORD CALLBACK RichEditStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	ReadFile((HANDLE)dwCookie, pbBuff, (DWORD)cb, (DWORD *)pcb, (LPOVERLAPPED)nullptr);
-	return (DWORD)(*pcb >= 0 ? NOERROR : (*pcb = 0, E_FAIL));
+	return (uint32_t)(*pcb >= 0 ? NOERROR : (*pcb = 0, E_FAIL));
 }
 
 DWORD CALLBACK RichEditRTFStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
@@ -445,12 +445,12 @@ DWORD CALLBACK RichEditRTFStreamLoadFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG
 	*pcb = ((CLStreamRTFInfo *)dwCookie)->nLoadFileStream(pbBuff, cb);
 	if (*pcb)
 		return NOERROR;
-	return (DWORD)E_FAIL;
+	return (uint32_t)E_FAIL;
 }
 
 DWORD CALLBACK RichEditStreamSaveFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
-	WriteFile((HANDLE)dwCookie, pbBuff, cb, (DWORD*)pcb, (LPOVERLAPPED)nullptr);
+	WriteFile((HANDLE)dwCookie, pbBuff, cb, (DWORD *)pcb, (LPOVERLAPPED)nullptr);
 	return *pcb != cb;
 }
 
@@ -463,7 +463,7 @@ DWORD CALLBACK RichEditStreamSaveFile(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb
 
 bool bLoadFile(HWND hwndDlg, CLHistoryDlg *pclDlg)
 {
-	DWORD dwStart = GetTickCount();
+	uint32_t dwStart = GetTickCount();
 
 	HWND hRichEdit = GetDlgItem(hwndDlg, IDC_RICHEDIT);
 	if (!hRichEdit)
@@ -526,7 +526,7 @@ bool bLoadFile(HWND hwndDlg, CLHistoryDlg *pclDlg)
 	GETTEXTLENGTHEX sData = { 0 };
 	sData.flags = GTL_DEFAULT;
 
-	DWORD dwDataRead = (DWORD)SendMessage(hRichEdit, EM_GETTEXTLENGTHEX, (WPARAM)&sData, 0);
+	uint32_t dwDataRead = (uint32_t)SendMessage(hRichEdit, EM_GETTEXTLENGTHEX, (WPARAM)&sData, 0);
 	SendMessage(hRichEdit, EM_SETSEL, dwDataRead - 1, dwDataRead - 1);
 
 	if (!bScrollToBottom)
@@ -604,7 +604,7 @@ LRESULT CALLBACK EditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 
 			if (pt.x == -1 && pt.y == -1) {
-				DWORD dwStart, dwEnd;
+				uint32_t dwStart, dwEnd;
 				SendMessage(hwnd, EM_GETSEL, (WPARAM)&dwStart, (LPARAM)&dwEnd);
 				SendMessage(hwnd, EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)dwEnd);
 				ClientToScreen(hwnd, &pt);
@@ -838,7 +838,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				LOGFONT lf = { 0 };
 				lf.lfHeight = 14L;
 
-				DWORD dwEffects = g_plugin.getDword(szFileViewDB "TEffects", 0);
+				uint32_t dwEffects = g_plugin.getDword(szFileViewDB "TEffects", 0);
 				lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
 				lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
 				lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;

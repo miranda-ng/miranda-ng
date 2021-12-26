@@ -26,7 +26,7 @@
 #pragma warning(disable : 4189)
 
 ////////////////////////////////////////////////////////////
-// Swap bits in DWORD
+// Swap bits in uint32_t
 uint32_t swap32(uint32_t x)
 {
 	return (uint32_t)
@@ -436,11 +436,11 @@ retry:
 				&& errno == EACCES
 				&& (m_gaduOptions.autoRecconect || (hostnum < hostcount - 1)))
 			{
-				DWORD dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL);
+				uint32_t dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL);
 				BOOL bRetry = TRUE;
 
 				hConnStopEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
-				DWORD dwResult = WaitForSingleObjectEx(hConnStopEvent, dwInterval, TRUE);
+				uint32_t dwResult = WaitForSingleObjectEx(hConnStopEvent, dwInterval, TRUE);
 				if ((dwResult == WAIT_OBJECT_0 && m_iDesiredStatus == ID_STATUS_OFFLINE)
 					|| (dwResult == WAIT_IO_COMPLETION && Miranda_IsTerminated()))
 					bRetry = FALSE;
@@ -547,7 +547,7 @@ retry:
 			// Received ackowledge
 		case GG_EVENT_ACK:
 			if (e->event.ack.seq && e->event.ack.recipient) {
-				ProtoBroadcastAck(getcontact((DWORD)e->event.ack.recipient, 0, 0, nullptr),
+				ProtoBroadcastAck(getcontact((uint32_t)e->event.ack.recipient, 0, 0, nullptr),
 					ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)e->event.ack.seq, 0);
 			}
 			break;
@@ -904,10 +904,10 @@ retry:
 			{
 				DBEVENTINFO dbei = {};
 				dbei.szModule = m_szModuleName;
-				dbei.timestamp = (DWORD)e->event.multilogon_msg.time;
+				dbei.timestamp = (uint32_t)e->event.multilogon_msg.time;
 				dbei.flags = DBEF_SENT | DBEF_UTF;
 				dbei.eventType = EVENTTYPE_MESSAGE;
-				dbei.cbBlob = (DWORD)mir_strlen(e->event.multilogon_msg.message) + 1;
+				dbei.cbBlob = (uint32_t)mir_strlen(e->event.multilogon_msg.message) + 1;
 				dbei.pBlob = (uint8_t*)e->event.multilogon_msg.message;
 				db_event_add(getcontact(e->event.multilogon_msg.sender, 1, 0, nullptr), &dbei);
 			}
@@ -1474,7 +1474,7 @@ MCONTACT GaduProto::getcontact(uin_t uin, int create, int inlist, wchar_t *szNic
 	if (!inlist)
 		Contact_RemoveFromList(hContact);
 
-	setDword(hContact, GG_KEY_UIN, (DWORD)uin);
+	setDword(hContact, GG_KEY_UIN, (uint32_t)uin);
 	setWord(hContact, GG_KEY_STATUS, ID_STATUS_OFFLINE);
 
 	// If nick specified use it
@@ -1626,12 +1626,12 @@ void GaduProto::changecontactstatus(uin_t uin, int status, const wchar_t *idescr
 
 	// Store contact ip and port
 	if (remote_ip)
-		setDword(hContact, GG_KEY_CLIENTIP, (DWORD)swap32(remote_ip));
+		setDword(hContact, GG_KEY_CLIENTIP, (uint32_t)swap32(remote_ip));
 	if (remote_port)
 		setWord(hContact, GG_KEY_CLIENTPORT, (uint16_t)remote_port);
 	if (version) {
 		char sversion[48];
-		setDword(hContact, GG_KEY_CLIENTVERSION, (DWORD)version);
+		setDword(hContact, GG_KEY_CLIENTVERSION, (uint32_t)version);
 		mir_snprintf(sversion, "%sGadu-Gadu %s", (version & 0x00ffffff) > 0x2b ? "Nowe " : "", gg_version2string(version));
 		setString(hContact, "MirVer", sversion);
 	}

@@ -54,7 +54,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-void showMsg(wchar_t *pName,DWORD pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);
+void showMsg(wchar_t *pName,uint32_t pid,wchar_t *intIp,wchar_t *extIp,int intPort,int extPort,int state);
 static unsigned __stdcall checkthread(void *dummy);
 CONNECTION * LoadSettingsConnections();
 void saveSettingsConnections(CONNECTION *connHead);
@@ -62,7 +62,7 @@ void LoadSettings();
 
 extern CONNECTION *connExceptions;
 extern HANDLE hFilterOptionsThread;
-extern DWORD FilterOptionsThreadId;
+extern uint32_t FilterOptionsThreadId;
 extern CONNECTION *connCurrentEdit;
 extern HANDLE hExceptionsMutex;
 extern BOOL bOptionsOpen;

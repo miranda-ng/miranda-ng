@@ -32,7 +32,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct TEmailHeader{
 	int cbSize;
-	DWORD flags; //flags
+	uint32_t flags; //flags
 	wchar_t *szSender; //pointer to string that receives the sender name
 	int cSender; //size of szSender buffer
 	wchar_t *szSubject; //pointer to string that receives the email subject

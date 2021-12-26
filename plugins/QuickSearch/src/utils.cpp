@@ -338,7 +338,7 @@ void CMPlugin::LoadColumn(int n, ColumnItem &col)
 	}
 }
 
-void CMPlugin::LoadParamValue(char *buf, DWORD &dwFlags, LPARAM &dwWalue)
+void CMPlugin::LoadParamValue(char *buf, uint32_t &dwFlags, LPARAM &dwWalue)
 {
 	char *pEnd = buf + strlen(buf);
 	strcpy(pEnd, "flags"); dwFlags = getDword(buf);
@@ -432,7 +432,7 @@ void CMPlugin::SaveColumn(int n, const ColumnItem &col)
 	}
 }
 
-void CMPlugin::SaveParamValue(char *buf, DWORD flags, LPARAM value)
+void CMPlugin::SaveParamValue(char *buf, uint32_t flags, LPARAM value)
 {
 	char *pEnd = buf + strlen(buf);
 	strcpy(pEnd, "flags"); setDword(buf, flags);
@@ -500,7 +500,7 @@ const wchar_t* cnf2str(int cnf)
 /////////////////////////////////////////////////////////////////////////////////////////
 // formatters
 
-wchar_t* BuildLastSeenTime(DWORD ts)
+wchar_t* BuildLastSeenTime(uint32_t ts)
 {
 	int year = ts / (60 * 24 * 31 * 356);
 	if (year == 0)
@@ -516,7 +516,7 @@ wchar_t* BuildLastSeenTime(DWORD ts)
 	return CMStringW(FORMAT, L"%02d.%02d.%04d - %02d:%02d", year, month, day, hours, mins).Detach();
 }
 
-DWORD BuildLastSeenTimeInt(MCONTACT hContact, const char *szModule)
+uint32_t BuildLastSeenTimeInt(MCONTACT hContact, const char *szModule)
 {
 	int year = db_get_w(hContact, szModule, "Year");
 	if (year == 0)
@@ -530,7 +530,7 @@ DWORD BuildLastSeenTimeInt(MCONTACT hContact, const char *szModule)
 	return ((((year - 1980) * 356 + month) * 31 + day) * 24 + hours) * 60 + minutes;
 }
 
-wchar_t* TimeToStrW(DWORD timestamp)
+wchar_t* TimeToStrW(uint32_t timestamp)
 {
 	wchar_t buf[63];
 	TimeZone_ToStringW(timestamp, L"d - t", buf, _countof(buf));

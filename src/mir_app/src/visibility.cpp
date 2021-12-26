@@ -105,7 +105,7 @@ static void SetAllContactIcons(HWND hwndList)
 		if (hItem == nullptr)
 			continue;
 
-		DWORD flags;
+		uint32_t flags;
 		uint16_t status;
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr) {
@@ -188,7 +188,7 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 					break;
 
 				// Find clicked item
-				DWORD hitFlags;
+				uint32_t hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 				if (hItem == nullptr)
 					break;

@@ -73,7 +73,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	void OnType(CTimer *);
 
 	CTabbedWindow *m_pOwner;
-	DWORD m_nFlash = 0;
+	uint32_t m_nFlash = 0;
 	char *m_szProto = nullptr;
 
 	// splitters
@@ -95,7 +95,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	HFONT m_hFont = nullptr;
 
 	int m_limitAvatarH = 0;
-	DWORD m_lastMessage = 0;
+	uint32_t m_lastMessage = 0;
 	HANDLE m_hTimeZone = 0;
 	uint16_t m_wStatus = ID_STATUS_OFFLINE, m_wOldStatus = ID_STATUS_OFFLINE;
 	uint16_t m_wMinute = 0;

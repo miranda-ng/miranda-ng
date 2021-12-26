@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-PWumf new_wumf( DWORD dwID, 
+PWumf new_wumf( uint32_t dwID, 
 				LPTSTR szUser, 
 				LPTSTR szPath, 
 				LPTSTR szComp, 
 				LPTSTR szUNC, 
-				DWORD dwSess, 
-				DWORD dwPerm, 
-				DWORD dwAttr)
+				uint32_t dwSess, 
+				uint32_t dwPerm, 
+				uint32_t dwAttr)
 {
 	PWumf w = (PWumf)mir_calloc(sizeof(Wumf));
 	if (!w)
@@ -96,7 +96,7 @@ PWumf cpy_list(PWumf *l)
 	return p;
 }
 
-PWumf fnd_cell(PWumf *l, DWORD dwID)
+PWumf fnd_cell(PWumf *l, uint32_t dwID)
 {
 	if (!l || !*l)return nullptr;
 	PWumf w = *l;

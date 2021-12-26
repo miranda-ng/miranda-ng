@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct MImportOptions
 {
 	const wchar_t *pwszFileName;
-	DWORD dwFlags; // IOPT_* flags combination
+	uint32_t dwFlags; // IOPT_* flags combination
 };
 
 #define MS_IMPORT_RUN "Import/Run"

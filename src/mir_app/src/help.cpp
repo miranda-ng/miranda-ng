@@ -62,7 +62,7 @@ public:
 		ctrlHeaderBar.SetText(CMStringW(FORMAT, L"Miranda NG\nv%S", productVersion));
 
 		HRSRC hResInfo = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CREDITS), L"TEXT");
-		DWORD ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
+		uint32_t ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
 		HGLOBAL hRes = LoadResource(g_plugin.getInst(), hResInfo);
 		char *pszMsg = (char*)LockResource(hRes);
 		if (pszMsg) {

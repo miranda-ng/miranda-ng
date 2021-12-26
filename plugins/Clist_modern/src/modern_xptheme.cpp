@@ -117,7 +117,7 @@ HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int sta
 	return S_FALSE;
 }
 
-HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT *textRect)
+HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, uint32_t flag1, uint32_t flag2, const RECT *textRect)
 {
 	mir_cslock lck(xptCS);
 	if (xpt_IsThemed(xptHandle))

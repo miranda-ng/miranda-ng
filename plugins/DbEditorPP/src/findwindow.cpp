@@ -136,7 +136,7 @@ class CFindWindowDlg : public CDlgBase
 
 		int foundCount = 0, replaceCount = 0, deleteCount = 0;
 
-		DWORD numsearch = 0, numreplace = 0;
+		uint32_t numsearch = 0, numreplace = 0;
 		int NULLContactDone = 0;
 
 		if (!fi->search || !EnumModules(&ModuleList)) {

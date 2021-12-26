@@ -29,7 +29,7 @@ namespace DB {
  **/
 namespace Contact {
 
-	DWORD   WhenAdded(DWORD dwUIN, LPCSTR szBaseProto);
+	uint32_t   WhenAdded(uint32_t dwUIN, LPCSTR szBaseProto);
 } /* namespace Contact */
 
 namespace Module {
@@ -101,7 +101,7 @@ namespace Event   {
 	HANDLE FindLast(MCONTACT hContact);
 	bool   GetInfo(MEVENT hEvent, DBEVENTINFO *dbei);
 	bool   GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei);
-	DWORD  GetTime(MEVENT hEvent);
+	uint32_t  GetTime(MEVENT hEvent);
 	bool   Exists(MCONTACT hContact, MEVENT& hDbExistingEvent, DBEVENTINFO *dbei);
 } /* namespace Events */
 

@@ -91,7 +91,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRAWAY
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, DWORD UIN, int iStatus)
+TCString GetDynamicStatMsg(MCONTACT hContact, char *szProto, uint32_t UIN, int iStatus)
 {
 	// hContact is the contact that requests the status message
 	if (hContact != INVALID_CONTACT_ID)
@@ -139,8 +139,8 @@ int StatusChanged(WPARAM wParam, LPARAM lParam)
 		g_fNoProcessing = false; // take it off
 		return 0;
 	}
-	DWORD Flag1 = 0;
-	DWORD Flag3 = 0;
+	uint32_t Flag1 = 0;
+	uint32_t Flag3 = 0;
 	if (lParam) {
 		Flag1 = CallProtoService((char*)lParam, PS_GETCAPS, PFLAGNUM_1, 0);
 		Flag3 = CallProtoService((char*)lParam, PS_GETCAPS, PFLAGNUM_3, 0);

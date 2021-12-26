@@ -7,7 +7,7 @@ struct Settings
 	CMOption<bool> InfTalkProtection, AddPermanent, HandleAuthReq, AnswNotCaseSens, RemTmpAll, HistLog;
 	CMOption<wchar_t*> Question, AuthRepl, Answer, Congratulation, AnswSplitString;
 	CMOption<char*> DisabledProtoList;
-	CMOption<DWORD> MaxQuestCount;
+	CMOption<uint32_t> MaxQuestCount;
 
 	const wchar_t* getQuestion();
 	const wchar_t* getReply();

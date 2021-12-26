@@ -104,7 +104,7 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	SYSTEMTIME today;
 	GetLocalTime(&today);
 
-	DWORD lastChecked = g_plugin.getDword("LastChecked", 0); //get last checked date
+	uint32_t lastChecked = g_plugin.getDword("LastChecked", 0); //get last checked date
 	int lcDay = LOBYTE(LOWORD(lastChecked));
 	int lcMonth = HIBYTE(LOWORD(lastChecked));
 	int lcYear = HIWORD(lastChecked);

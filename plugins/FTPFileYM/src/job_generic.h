@@ -84,7 +84,7 @@ public:
 	virtual ~GenericJob();
 
 	int getFiles();	
-	int getFiles(void **objects, int objCount, DWORD flags);
+	int getFiles(void **objects, int objCount, uint32_t flags);
 	void setStatus(EStatus status);
 
 	bool isCompleted();

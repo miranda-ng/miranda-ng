@@ -70,9 +70,9 @@ static void sttEmptyBuf(StringBuf *buf);
 #define RTF_ENDPLAINXML		"\\par"
 #define RTF_SEPARATOR		"\\sl-1\\slmult0\\highlight5\\cf5\\-\\par\\sl0"
 
-static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flags, int indent);
+static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, uint32_t flags, int indent);
 
-void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, DWORD flags)
+void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, uint32_t flags)
 {
 	if (node && m_pDlgConsole) {
 		if (node->Name()) {
@@ -93,7 +93,7 @@ void CJabberProto::OnConsoleProcessXml(const TiXmlElement *node, DWORD flags)
 	}
 }
 
-bool CJabberProto::RecursiveCheckFilter(const TiXmlElement *node, DWORD flags)
+bool CJabberProto::RecursiveCheckFilter(const TiXmlElement *node, uint32_t flags)
 {
 	for (auto *p = node->FirstAttribute(); p; p = p->Next())
 		if (JabberStrIStr(Utf2T(p->Value()), m_filterInfo.pattern))
@@ -106,7 +106,7 @@ bool CJabberProto::RecursiveCheckFilter(const TiXmlElement *node, DWORD flags)
 	return false;
 }
 
-bool CJabberProto::FilterXml(const TiXmlElement *node, DWORD flags)
+bool CJabberProto::FilterXml(const TiXmlElement *node, uint32_t flags)
 {
 	if (!m_filterInfo.msg && !mir_strcmp(node->Name(), "message")) return false;
 	if (!m_filterInfo.presence && !mir_strcmp(node->Name(), "presence")) return false;
@@ -181,7 +181,7 @@ static void sttEmptyBuf(StringBuf *buf)
 	buf->offset = 0;
 }
 
-static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, DWORD flags, int indent)
+static void sttRtfAppendXml(StringBuf *buf, const TiXmlElement *node, uint32_t flags, int indent)
 {
 	char indentLevel[128];
 	mir_snprintf(indentLevel, RTF_INDENT_FMT, (int)(indent * 200));

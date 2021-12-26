@@ -29,8 +29,8 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 struct ExternalKey
 {
 	uint8_t  m_key[KEY_LENGTH];
-	DWORD m_crc32;
-	uint8_t  slack[BLOCK_SIZE - sizeof(DWORD)];
+	uint32_t m_crc32;
+	uint8_t  slack[BLOCK_SIZE - sizeof(uint32_t)];
 };
 
 struct CStdCrypt : public MICryptoEngine, public MZeroedObject

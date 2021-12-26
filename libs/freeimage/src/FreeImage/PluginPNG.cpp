@@ -115,7 +115,7 @@ ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 			tag = FreeImage_CreateTag();
 			if(!tag) return FALSE;
 
-			DWORD tag_length = (DWORD) MAX(text_ptr[i].text_length, text_ptr[i].itxt_length);
+			uint32_t tag_length = (uint32_t) MAX(text_ptr[i].text_length, text_ptr[i].itxt_length);
 
 			FreeImage_SetTagLength(tag, tag_length);
 			FreeImage_SetTagCount(tag, tag_length);
@@ -147,7 +147,7 @@ ReadMetadata(png_structp png_ptr, png_infop info_ptr, FIBITMAP *dib) {
 		// convert as 'yyyy:MM:dd hh:mm:ss'
 		sprintf(timestamp, "%4d:%02d:%02d %2d:%02d:%02d", mod_time->year, mod_time->month, mod_time->day, mod_time->hour, mod_time->minute, mod_time->second);
 
-		DWORD tag_length = (DWORD)strlen(timestamp) + 1;
+		uint32_t tag_length = (uint32_t)strlen(timestamp) + 1;
 		FreeImage_SetTagLength(tag, tag_length);
 		FreeImage_SetTagCount(tag, tag_length);
 		FreeImage_SetTagType(tag, FIDT_ASCII);

@@ -16,8 +16,8 @@ public:
 
 	BOOL Stopped;
 	int Rcv;
-	DWORD NetworkError;
-	DWORD SystemError;
+	uint32_t NetworkError;
+	uint32_t SystemError;
 	BOOL ifTLSed;
 };
 

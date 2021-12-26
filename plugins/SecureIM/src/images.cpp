@@ -7,7 +7,7 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -37,7 +37,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -52,7 +52,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 {
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 	int x, y;
 	BOOL fixIt;
@@ -99,7 +99,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	uint8_t * ptPixels;
 
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 
 	GetObject(hBitmap, sizeof(bmp), &bmp);
@@ -199,7 +199,7 @@ BOOL MakeGrayscale(HBITMAP *hBitmap)
 {
 	uint8_t *p = nullptr;
 	uint8_t *p1;
-	DWORD dwLen;
+	uint32_t dwLen;
 	int width, height, x, y;
 	BITMAP bmp;
 

@@ -73,7 +73,7 @@ static LIST<TMO_IntMenuItem> g_frameMenus(10);
 
 // others
 static int _nContactListHeight = 0;
-static DWORD _dwLastStoreTick = 0;
+static uint32_t _dwLastStoreTick = 0;
 
 HWND hWndExplorerToolBar;
 static int GapBetweenFrames = 1;
@@ -2302,7 +2302,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM, LPARAM)
 	return 0;
 }
 
-void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, DWORD backgroundBmpUse)
+void DrawBackGround(HWND hwnd, HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColour, uint32_t backgroundBmpUse)
 {
 	HDC hdc;
 	RECT clRect, *rcPaint;

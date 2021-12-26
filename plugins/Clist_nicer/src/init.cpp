@@ -47,7 +47,7 @@ int ShowHide(void);
 int ClcShutdown(WPARAM wParam, LPARAM lParam);
 
 CListEvent* AddEvent(CLISTEVENT *cle);
-ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
+ClcGroup*   AddGroup(HWND hwnd, struct ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 
 ClcContact* AddContactToGroup(struct ClcData *dat, ClcGroup *group, MCONTACT hContact);
 ClcContact* AddInfoItemToGroup(ClcGroup *group, int flags, const wchar_t *pszText);
@@ -153,7 +153,7 @@ int CMPlugin::Load()
 	cfg::dat.langPackCP = Langpack_GetDefaultCodePage();
 	cfg::dat.realTimeSaving = db_get_b(0, "CLUI", "save_pos_always", 0);
 
-	DWORD sortOrder = g_plugin.getDword("SortOrder", SORTBY_NAME);
+	uint32_t sortOrder = g_plugin.getDword("SortOrder", SORTBY_NAME);
 	cfg::dat.sortOrder[0] = LOBYTE(LOWORD(sortOrder));
 	cfg::dat.sortOrder[1] = HIBYTE(LOWORD(sortOrder));
 	cfg::dat.sortOrder[2] = LOBYTE(HIWORD(sortOrder));

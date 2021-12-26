@@ -198,7 +198,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
-	dbei.cbBlob = (DWORD)mir_strlen(pre->szMessage) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (uint8_t*)pre->szMessage;
 
 	if (pre->flags & PREF_CREATEREAD)

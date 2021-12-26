@@ -6,8 +6,8 @@ struct BBCodeInfo
 {
 	wchar_t *start;
 	wchar_t *end;
-	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, DWORD cookie);
-	DWORD cookie;
+	bool(*func)(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t cookie);
+	uint32_t cookie;
 };
 
 enum {
@@ -16,7 +16,7 @@ enum {
 	BBS_IMG1, BBS_IMG2
 };
 
-static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *pwszText, DWORD cookie)
+static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *pwszText, uint32_t cookie)
 {
 	wchar_t *pwszStr = L"";
 	CHARFORMAT cf = { 0 };
@@ -75,7 +75,7 @@ static bool bbCodeSimpleFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *
 	return true;
 }
 
-static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, DWORD)
+static bool bbCodeImageFunc(IFormattedTextDraw *ftd, CHARRANGE range, wchar_t *txt, uint32_t)
 {
 	ITextServices *ts = ftd->getTextService();
 	ITextDocument *td = ftd->getTextDocument();

@@ -206,9 +206,9 @@ INT_PTR CALLBACK DlgProcPopupAdvOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 				HWND hCtrl = GetDlgItem(hwnd, IDC_EFFECT);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("No effect")), -2);
 				ComboBox_SetItemData(hCtrl, ComboBox_AddString(hCtrl, TranslateT("Fade in/out")), -1);
-				DWORD dwActiveItem = (DWORD)PopupOptions.UseEffect;
+				uint32_t dwActiveItem = (uint32_t)PopupOptions.UseEffect;
 				for (int i = 0; i < g_lstPopupVfx.getCount(); ++i) {
-					DWORD dwItem = ComboBox_AddString(hCtrl, TranslateW(g_lstPopupVfx[i]));
+					uint32_t dwItem = ComboBox_AddString(hCtrl, TranslateW(g_lstPopupVfx[i]));
 					ComboBox_SetItemData(hCtrl, dwItem, i);
 					if (PopupOptions.UseEffect && !mir_wstrcmp(g_lstPopupVfx[i], PopupOptions.Effect))
 						dwActiveItem = dwItem;

@@ -495,7 +495,7 @@ void CMsgDialog::FindFirstEvent()
 		else
 			db_event_get(m_hDbEventFirst, &dbei);
 
-		DWORD firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
+		uint32_t firstTime = dbei.timestamp - 60 * g_plugin.getWord(SRMSGSET_LOADTIME, SRMSGDEFSET_LOADTIME);
 
 		while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 			dbei.cbBlob = 0;
@@ -1211,7 +1211,7 @@ void CMsgDialog::NotifyDeliveryFailure() const
 	ppd.PluginWindowProc = Utils::PopupDlgProcError;
 	ppd.lchIcon = PluginConfig.g_iconErr;
 	ppd.PluginData = nullptr;
-	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)DEFAULT_DELAY);
+	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (uint32_t)DEFAULT_DELAY);
 	PUAddPopupW(&ppd);
 }
 
@@ -1246,7 +1246,7 @@ void CMsgDialog::SaveAvatarToFile(HBITMAP hbm, int isOwnPic)
 	wchar_t szFinalFilename[MAX_PATH];
 	time_t t = time(0);
 	struct tm *lt = localtime(&t);
-	DWORD setView = 1;
+	uint32_t setView = 1;
 
 	wchar_t szTimestamp[100];
 	mir_snwprintf(szTimestamp, L"%04u %02u %02u_%02u%02u", lt->tm_year + 1900, lt->tm_mon, lt->tm_mday, lt->tm_hour, lt->tm_min);
@@ -1341,8 +1341,8 @@ void CMsgDialog::SendHBitmapAsFile(HBITMAP hbmp) const
 	const char *szProto = m_cache->getActiveProto();
 	int wMyStatus = Proto_GetStatus(szProto);
 
-	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 
 	// check protocol capabilities, status modes and visibility lists (privacy)
 	// to determine whether the file can be sent. Throw a warning if any of
@@ -1481,14 +1481,14 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 		pDlg = (CMsgDialog *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			DWORD dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
-			DWORD dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
+			uint32_t dwMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterMask", 0);
+			uint32_t dwFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "FilterFlags", 0);
 
-			DWORD dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
-			DWORD dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
+			uint32_t dwPopupMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupMask", 0);
+			uint32_t dwPopupFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "PopupFlags", 0);
 
-			DWORD dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
-			DWORD dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
+			uint32_t dwTrayMask = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconMask", 0);
+			uint32_t dwTrayFlags = db_get_dw(pDlg->m_hContact, CHAT_MODULE, "TrayIconFlags", 0);
 
 			for (int i = 0; i < _countof(_eventorder); i++) {
 				CheckDlgButton(hwndDlg, IDC_1 + i, dwMask & _eventorder[i] ? (dwFlags & _eventorder[i] ? BST_CHECKED : BST_UNCHECKED) : BST_INDETERMINATE);
@@ -1507,7 +1507,7 @@ INT_PTR CALLBACK CMsgDialog::FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 	case WM_CLOSE:
 		if (wParam == 1 && lParam == 1 && pDlg) {
 			int iFlags = 0;
-			DWORD dwMask = 0;
+			uint32_t dwMask = 0;
 
 			for (int i = 0; i < _countof(_eventorder); i++) {
 				int result = IsDlgButtonChecked(hwndDlg, IDC_1 + i);
@@ -2141,11 +2141,11 @@ void CMsgDialog::UpdateStatusBar()
 	wchar_t szFinalStatusBarText[512];
 	if (m_pPanel.isActive()) {
 		time_t now = time(0);
-		DWORD diff = (now - mi->idleTimeStamp) / 60;
+		uint32_t diff = (now - mi->idleTimeStamp) / 60;
 		if (diff >= 1) {
 			if (diff > 59) {
-				DWORD hours = diff / 60;
-				DWORD minutes = diff % 60;
+				uint32_t hours = diff / 60;
+				uint32_t minutes = diff % 60;
 				mir_snwprintf(mi->tszIdleMsg, TranslateT(", %d %s, %d %s idle"),
 					hours, hours > 1 ? TranslateT("hours") : TranslateT("hour"),
 					minutes, minutes > 1 ? TranslateT("minutes") : TranslateT("minute"));
@@ -2231,7 +2231,7 @@ void CMsgDialog::UpdateTitle()
 		}
 	}
 	else {
-		DWORD dwOldIdle = m_idle;
+		uint32_t dwOldIdle = m_idle;
 		const char *szActProto = nullptr;
 
 		m_wszStatus[0] = 0;
@@ -2357,7 +2357,7 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 	if (msg == WM_ACTIVATE) {
 		if (m_pContainer->m_flags.m_bTransparent) {
-			DWORD trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
+			uint32_t trans = LOWORD(m_pContainer->m_pSettings->dwTransparency);
 			SetLayeredWindowAttributes(m_pContainer->m_hwnd, CSkin::m_ContainerColorKey, (uint8_t)trans, (m_pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
 		}
 	}

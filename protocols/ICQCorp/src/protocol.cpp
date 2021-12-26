@@ -2104,11 +2104,11 @@ void ICQ::addFileReq(ICQUser *u, char *m, char *filename, unsigned long size, un
 	icqTransfers.push_back(transfer);
 
 	// Send chain event
-	char *szBlob = new char[sizeof(DWORD) + mir_strlen(filename) + mir_strlen(m) + 2];
+	char *szBlob = new char[sizeof(uint32_t) + mir_strlen(filename) + mir_strlen(m) + 2];
 
 	*(PDWORD)szBlob = (UINT_PTR)transfer;
-	mir_strcpy(szBlob + sizeof(DWORD), filename);
-	mir_strcpy(szBlob + sizeof(DWORD) + mir_strlen(filename) + 1, m);
+	mir_strcpy(szBlob + sizeof(uint32_t), filename);
+	mir_strcpy(szBlob + sizeof(uint32_t) + mir_strlen(filename) + 1, m);
 
 	PROTORECVEVENT pre;
 	pre.flags = 0;

@@ -114,7 +114,7 @@ CProgress::~CProgress()
  * return:	nothing
  **/
 
-void CProgress::SetContactCount(DWORD numContacts)
+void CProgress::SetContactCount(uint32_t numContacts)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS2);
@@ -131,7 +131,7 @@ void CProgress::SetContactCount(DWORD numContacts)
  * return:	nothing
  **/
 
-void CProgress::SetSettingsCount(DWORD numSettings)
+void CProgress::SetSettingsCount(uint32_t numSettings)
 {
 	if (_hDlg) {
 		HWND hProgress = GetDlgItem(_hDlg, IDC_PROGRESS);

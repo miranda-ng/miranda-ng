@@ -38,7 +38,7 @@ ext::string OptionsCtrlImpl::Edit::getCombinedText()
 	}
 }
 
-OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Edit::Edit(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, const wchar_t* szEdit, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itEdit, szLabel, dwFlags, dwData), m_hEditWnd(nullptr)
 {
 	m_strEdit = szEdit;
@@ -75,7 +75,7 @@ void OptionsCtrlImpl::Edit::onSelect()
 		}
 
 		HWND hTempWnd;
-		DWORD dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL;
+		uint32_t dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | ES_AUTOHSCROLL;
 
 		if (m_bNumber)
 		{

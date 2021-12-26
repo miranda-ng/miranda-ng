@@ -94,7 +94,7 @@ LRESULT CALLBACK CoolSBWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lP
 //
 //	Provide this so there are NO dependencies on CRT
 //
-static void CoolSB_ZeroMemory(void *ptr, DWORD bytes)
+static void CoolSB_ZeroMemory(void *ptr, uint32_t bytes)
 {
 	uint8_t *bptr = (uint8_t *)ptr;
 
@@ -1047,7 +1047,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 	HRGN clip = nullptr;
 	BOOL fCustomDraw = FALSE;
 	LRESULT ret;
-	DWORD dwStyle;
+	uint32_t dwStyle;
 
 	GetWindowRect(hwnd, &winrect);
 	
@@ -1779,7 +1779,7 @@ static LRESULT NCCalcSize(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam
 	RECT oldrect;
 	SCROLLBAR *sb;
 	LRESULT ret;
-	DWORD dwStyle;
+	uint32_t dwStyle;
 
 	//Regardless of the value of fCalcValidRects, the first rectangle 
 	//in the array specified by the rgrc structure member of the 

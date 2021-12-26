@@ -148,7 +148,7 @@ static void _LoadDataToContact(ClcContact *cont, ClcCacheEntry *pdnce, ClcGroup 
 	if (pdnce->NotOnList)
 		cont->flags |= CONTACTF_NOTONLIST;
 
-	DWORD idleMode = szProto != nullptr ? pdnce->IdleTS : 0;
+	uint32_t idleMode = szProto != nullptr ? pdnce->IdleTS : 0;
 	if (idleMode)
 		cont->flags |= CONTACTF_IDLE;
 
@@ -198,7 +198,7 @@ bool CLCItems_IsShowOfflineGroup(ClcGroup *group)
 	if (!group) return false;
 	if (group->hideOffline) return false;
 
-	DWORD groupFlags = 0;
+	uint32_t groupFlags = 0;
 	Clist_GroupGetName(group->groupId, &groupFlags);
 	return (groupFlags & GROUPF_SHOWOFFLINE) != 0;
 }
@@ -420,7 +420,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 			szProto = Proto_GetBaseAccountName(hContact);
 		// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 		if (g_CluiData.bFilterEffective & CLVM_STICKY_CONTACTS) {
-			if (DWORD dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) {
+			if (uint32_t dwLocalMask = db_get_dw(hContact, CLVM_MODULE, g_CluiData.current_viewmode, 0)) {
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_STICKYSTATUS) {
 					uint16_t wStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 					return !((1 << (wStatus - ID_STATUS_OFFLINE)) & HIWORD(dwLocalMask)) | searchResult;
@@ -465,7 +465,7 @@ int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, ClcData *dat)
 
 		if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG) {
 			if (pdnce->dwLastMsgTime != -1) {
-				DWORD now = g_CluiData.t_now;
+				uint32_t now = g_CluiData.t_now;
 				now -= g_CluiData.lastMsgFilter;
 				if (g_CluiData.bFilterEffective & CLVM_FILTER_LASTMSG_OLDERTHAN)
 					filterResult = filterResult & (pdnce->dwLastMsgTime < now);

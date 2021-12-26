@@ -74,7 +74,7 @@ int GetGMTOffset(void)
 	TIME_ZONE_INFORMATION tzinfo;
 	int nOffset = 0;
 
-	DWORD dwResult = GetTimeZoneInformation(&tzinfo);
+	uint32_t dwResult = GetTimeZoneInformation(&tzinfo);
 
 	switch (dwResult) {
 	case TIME_ZONE_ID_STANDARD:

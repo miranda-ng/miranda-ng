@@ -1184,7 +1184,7 @@ complete:
 	bool omemo_impl::create_session_store(MCONTACT hContact, const char *device_id)
 	{
 		signal_store_backend_user_data *data[4];
-		DWORD device_id_int = strtoul(device_id, nullptr, 10);
+		uint32_t device_id_int = strtoul(device_id, nullptr, 10);
 		for (int i = 0; i < 4; i++) {
 			data[i] = (signal_store_backend_user_data*)mir_alloc(sizeof(signal_store_backend_user_data));
 			data[i]->hContact = hContact;
@@ -1243,7 +1243,7 @@ complete:
 		const char *signed_pre_key_public, const char *signed_pre_key_signature, const char *identity_key)
 	{
 		// Instantiate a session_builder for a recipient address.
-		DWORD dev_id_int = strtoul(dev_id, nullptr, 10);
+		uint32_t dev_id_int = strtoul(dev_id, nullptr, 10);
 		auto &pSession = sessions[hContact][dev_id_int];
 
 		// libsignal does not copy structure, so we must allocate one manually, does it free it on exit ?
@@ -1438,7 +1438,7 @@ void CJabberProto::OmemoHandleMessageQueue()
 	}
 }
 
-DWORD JabberGetLastContactMessageTime(MCONTACT hContact);
+uint32_t JabberGetLastContactMessageTime(MCONTACT hContact);
 
 bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime)
 {
@@ -1472,7 +1472,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		debugLogA("Jabber OMEMO: error: failed to get sender device id");
 		return true;
 	}
-	DWORD sender_dev_id_int = strtoul(sender_dev_id, nullptr, 10);
+	uint32_t sender_dev_id_int = strtoul(sender_dev_id, nullptr, 10);
 
 	auto &pSession = m_omemo.sessions[hContact][sender_dev_id_int];
 	if (!pSession.cipher || !pSession.builder || !pSession.store_context) {
@@ -1481,10 +1481,10 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		return false;
 	}
 	
-	DWORD own_id = m_omemo.GetOwnDeviceId();
+	uint32_t own_id = m_omemo.GetOwnDeviceId();
 	const char *encrypted_key_base64 = nullptr;
 	for (auto *it : TiXmlFilter(header_node, "key")) {
-		DWORD dev_id_int = it->IntAttribute("rid");
+		uint32_t dev_id_int = it->IntAttribute("rid");
 		if (dev_id_int == own_id) {
 			encrypted_key_base64 = it->GetText();
 			break;
@@ -1674,7 +1674,7 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 		msgTime = now;
 
 	PROTORECVEVENT recv = {};
-	recv.timestamp = (DWORD)msgTime;
+	recv.timestamp = (uint32_t)msgTime;
 	recv.szMessage = mir_strdup(out);
 	ProtoChainRecvMsg(hContact, &recv);
 	mir_free(out);
@@ -1715,7 +1715,7 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 			setDword(setting_name, current_id);
 		}
 
-		DWORD val = 0;
+		uint32_t val = 0;
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
 		val = getDword(setting_name, 0);
 		while (val) {
@@ -1738,7 +1738,7 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 		}
 
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		DWORD val = getDword(hContact, setting_name, 0);
+		uint32_t val = getDword(hContact, setting_name, 0);
 		while (val) {
 			delSetting(hContact, setting_name);
 			i++;
@@ -1756,7 +1756,7 @@ void CJabberProto::OmemoAnnounceDevice()
 	char setting_name[64];
 	for (int i = 0;; ++i) {
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		DWORD val = getDword(setting_name);
+		uint32_t val = getDword(setting_name);
 		if (val == 0)
 			break;
 		if (val == own_id)
@@ -1775,7 +1775,7 @@ void CJabberProto::OmemoAnnounceDevice()
 
 	for (int i = 0; ; ++i) {
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		DWORD val = getDword(setting_name);
+		uint32_t val = getDword(setting_name);
 		if (val == 0)
 			break;
 
@@ -1805,7 +1805,7 @@ int db_enum_settings_prekeys_cb(const char *szSetting, void *lParam)
 void CJabberProto::OmemoSendBundle()
 {
 	// get own device id
-	DWORD own_id = m_omemo.GetOwnDeviceId();
+	uint32_t own_id = m_omemo.GetOwnDeviceId();
 
 	// construct bundle node
 	char szBareJid[JABBER_MAX_JID_LEN];
@@ -1941,7 +1941,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 		// failed to get bundle, do not try to build session
 		unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
 		char setting_name[64], setting_name2[64];
-		DWORD id = 0;
+		uint32_t id = 0;
 		int i = 0;
 
 		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
@@ -2036,7 +2036,7 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 
 	unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
 	char setting_name[64], setting_name2[64];
-	DWORD id = 0;
+	uint32_t id = 0;
 	int i = 0;
 
 	mir_snprintf(setting_name, "OmemoDeviceId%d", i);

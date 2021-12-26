@@ -151,7 +151,7 @@ class CDbxPattern : public MDatabaseReadonly, public MZeroedObject
 	const uint8_t *m_pFile = 0;
 	int m_iFileVersion = 0, m_iMsgHeaderSize = 0;
 
-	std::vector<DWORD> m_events;
+	std::vector<uint32_t> m_events;
 	std::vector<CMStringW> m_files;
 
 	bool CheckContact(MCONTACT hContact)
@@ -354,7 +354,7 @@ public:
 		auto *pPattern = g_pBatch->m_pPattern;
 
 		// create a mask for loading multiple data files for a folder
-		DWORD dwAttr = GetFileAttributesW(profile);
+		uint32_t dwAttr = GetFileAttributesW(profile);
 		if (dwAttr & FILE_ATTRIBUTE_DIRECTORY) {
 			wszBaseFolder = profile;
 			m_folder.AppendFormat(L"%s\\*.%s", profile, pPattern->wszExt.c_str());

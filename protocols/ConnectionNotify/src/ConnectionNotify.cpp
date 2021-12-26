@@ -11,8 +11,8 @@ HANDLE hFilterOptionsThread = nullptr;
 HANDLE killCheckThreadEvent = nullptr;
 HANDLE hExceptionsMutex = nullptr;
 
-DWORD FilterOptionsThreadId;
-DWORD ConnectionCheckThreadId;
+uint32_t FilterOptionsThreadId;
+uint32_t ConnectionCheckThreadId;
 
 CONNECTION *first = nullptr;
 CONNECTION *connExceptions = nullptr;
@@ -144,8 +144,8 @@ void LoadSettings()
 	g_plugin.iDefaultAction = g_plugin.getByte("FilterDefaultAction", TRUE);
 
 	g_plugin.bSetColours = g_plugin.getBool("PopupSetColours");
-	g_plugin.BgColor = g_plugin.getDword("PopupBgColor", (DWORD)0xFFFFFF);
-	g_plugin.FgColor = g_plugin.getDword("PopupFgColor", (DWORD)0x000000);
+	g_plugin.BgColor = g_plugin.getDword("PopupBgColor", (uint32_t)0xFFFFFF);
+	g_plugin.FgColor = g_plugin.getDword("PopupFgColor", (uint32_t)0x000000);
 	g_plugin.iFiltersCount = g_plugin.getDword("FiltersCount");
 	g_plugin.iStatusMask = g_plugin.getWord("StatusMask", 16);
 	for (int i = 0; i < MAX_STATUS_COUNT; i++) {
@@ -318,7 +318,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 }
 
 //show popup
-void showMsg(wchar_t *pName, DWORD pid, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
+void showMsg(wchar_t *pName, uint32_t pid, wchar_t *intIp, wchar_t *extIp, int intPort, int extPort, int state)
 {
 	CONNECTION *mpd = (CONNECTION*)mir_alloc(sizeof(CONNECTION));
 

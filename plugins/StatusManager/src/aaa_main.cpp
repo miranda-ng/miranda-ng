@@ -44,16 +44,16 @@ static int mouseStationaryTimer;
 HHOOK hMirandaMouseHook = nullptr;
 HHOOK hMirandaKeyBoardHook = nullptr;
 #pragma data_seg("Shared")
-DWORD lastInput = 0;
+uint32_t lastInput = 0;
 POINT lastMousePos = { 0 };
 HHOOK hMouseHook = nullptr;
 HHOOK hKeyBoardHook = nullptr;
 #pragma data_seg()
 #pragma comment(linker, "/section:Shared,rws")
-DWORD lastMirandaInput = 0;
+uint32_t lastMirandaInput = 0;
 static UINT_PTR hAutoAwayTimer;
 // prototypes
-extern DWORD StatusModeToProtoFlag(int status);
+extern uint32_t StatusModeToProtoFlag(int status);
 
 int AutoAwayOptInitialise(WPARAM wParam, LPARAM lParam);
 

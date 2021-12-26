@@ -523,7 +523,7 @@ void CChatScreen::DeactivateMessageMode()
 //************************************************************************
 // maximizes the content object
 //************************************************************************
-void CChatScreen::Maximize(DWORD dwTimer)
+void CChatScreen::Maximize(uint32_t dwTimer)
 {
 	m_bMaximizedTimer = true;
 	m_dwMaximizedTimer = GetTickCount();

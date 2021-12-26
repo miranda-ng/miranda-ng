@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CDb3Mmap::Map()
 {
-	DWORD dwProtectMode, dwAccess;
+	uint32_t dwProtectMode, dwAccess;
 	if (m_bReadOnly)
 		dwProtectMode = PAGE_READONLY, dwAccess = FILE_MAP_READ;
 	else
@@ -40,7 +40,7 @@ void CDb3Mmap::Map()
 	else DatabaseCorruption(L"%s (CreateFileMapping failed. Code: %d)");
 }
 
-void CDb3Mmap::ReMap(DWORD needed)
+void CDb3Mmap::ReMap(uint32_t needed)
 {
 	KillTimer(nullptr, m_flushBuffersTimerId);
 
@@ -51,7 +51,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 			if (needed + m_dwFileSize > m_dbHeader.ofsFileEnd + m_ChunkSize)
 				DatabaseCorruption(L"%s (Too large increment)");
 			else {
-				DWORD x = m_dbHeader.ofsFileEnd / m_ChunkSize;
+				uint32_t x = m_dbHeader.ofsFileEnd / m_ChunkSize;
 				m_dwFileSize = (x + 1)*m_ChunkSize;
 			}
 		}
@@ -65,7 +65,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 	Map();
 }
 
-void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
+void CDb3Mmap::DBMoveChunk(uint32_t ofsDest, uint32_t ofsSource, int bytes)
 {
 	int x = 0;
 	//log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
@@ -85,7 +85,7 @@ void CDb3Mmap::DBMoveChunk(DWORD ofsDest, DWORD ofsSource, int bytes)
 }
 
 //we are assumed to be in a mutex here
-uint8_t* CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
+uint8_t* CDb3Mmap::DBRead(uint32_t ofs, int *bytesAvail)
 {
 	// buggy read
 	if (ofs >= m_dwFileSize) {
@@ -101,7 +101,7 @@ uint8_t* CDb3Mmap::DBRead(DWORD ofs, int *bytesAvail)
 }
 
 //we are assumed to be in a mutex here
-void CDb3Mmap::DBWrite(DWORD ofs, PVOID pData, int bytes)
+void CDb3Mmap::DBWrite(uint32_t ofs, PVOID pData, int bytes)
 {
 	//log2("write %d@%08x",bytes,ofs);
 	if (ofs + bytes > m_dwFileSize)
@@ -111,7 +111,7 @@ void CDb3Mmap::DBWrite(DWORD ofs, PVOID pData, int bytes)
 }
 
 //we are assumed to be in a mutex here
-void CDb3Mmap::DBFill(DWORD ofs, int bytes)
+void CDb3Mmap::DBFill(uint32_t ofs, int bytes)
 {
 	//log2("zerofill %d@%08x",bytes,ofs);
 	if ((ofs + bytes) <= m_dwFileSize)
@@ -167,7 +167,7 @@ int CDb3Mmap::InitMap(void)
 
 	// Align to chunk
 	if (!m_bReadOnly) {
-		DWORD x = m_dwFileSize % m_ChunkSize;
+		uint32_t x = m_dwFileSize % m_ChunkSize;
 		if (x)
 			m_dwFileSize += m_ChunkSize - x;
 	}
@@ -179,9 +179,9 @@ int CDb3Mmap::InitMap(void)
 	return 0;
 }
 
-DWORD CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, DWORD ofsModuleName)
+uint32_t CDb3Mmap::GetSettingsGroupOfsByModuleNameOfs(DBContact *dbc, uint32_t ofsModuleName)
 {
-	DWORD ofsThis = dbc->ofsFirstSettings;
+	uint32_t ofsThis = dbc->ofsFirstSettings;
 	while (ofsThis) {
 		DBContactSettings *dbcs = (DBContactSettings*)DBRead(ofsThis, nullptr);
 		if (dbcs->signature != DBCONTACTSETTINGS_SIGNATURE) DatabaseCorruption(nullptr);

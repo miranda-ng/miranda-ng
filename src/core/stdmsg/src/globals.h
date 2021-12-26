@@ -57,9 +57,9 @@ struct GlobalMessageData
 	CMOption<bool> bLimitAvatarHeight;
 	CMOption<uint16_t> iAvatarHeight;
 
-	CMOption<DWORD> popupFlags;
-	CMOption<DWORD> msgTimeout;
-	CMOption<DWORD> nFlashMax;
+	CMOption<uint32_t> popupFlags;
+	CMOption<uint32_t> msgTimeout;
+	CMOption<uint32_t> nFlashMax;
 	CMOption<uint8_t>  iGap;
 
 	CMOption<uint8_t>  iLoadHistory;

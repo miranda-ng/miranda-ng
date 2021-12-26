@@ -363,7 +363,7 @@ uint16_t GetIcon(const wchar_t *cond, WIDATA *Data)
 			// using the format _T("# Weather <condition name> <counter> #"
 			mir_snwprintf(LangPackStr, L"# Weather %s %i #", statusStr[i], j);
 			wcsncpy_s(LangPackStr1, TranslateW(LangPackStr), _TRUNCATE);
-			CharLowerBuff(LangPackStr1, (DWORD)mir_wstrlen(LangPackStr1));
+			CharLowerBuff(LangPackStr1, (uint32_t)mir_wstrlen(LangPackStr1));
 			if (wcsstr(cond, LangPackStr1) != nullptr)
 				return statusValue[i];
 			// loop until the translation string exists (ie, the translated string is differ from original)
@@ -380,7 +380,7 @@ void CaseConv(wchar_t *str)
 {
 	bool nextUp = true;
 
-	CharLowerBuffW(str, (DWORD)mir_wstrlen(str));
+	CharLowerBuffW(str, (uint32_t)mir_wstrlen(str));
 	for (wchar_t *pstr = str; *pstr; pstr++) {
 		if (*pstr == ' ' || *pstr == '-')
 			nextUp = true;

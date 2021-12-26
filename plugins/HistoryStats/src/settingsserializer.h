@@ -11,7 +11,7 @@ class SettingsSerializer
 	, private pattern::NotCopyable<SettingsSerializer>
 {
 private:
-	DWORD m_VersionInDB;
+	uint32_t m_VersionInDB;
 	MirandaSettings m_DB;
 
 public:

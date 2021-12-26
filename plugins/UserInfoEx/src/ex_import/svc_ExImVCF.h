@@ -44,7 +44,7 @@ public:
 	size_t operator + (const SHORT sVal);
 	size_t operator + (const uint16_t wVal);
 	size_t operator + (const LONG lVal);
-	size_t operator + (const DWORD dVal);
+	size_t operator + (const uint32_t dVal);
 
 	size_t GetLength();
 	LPCSTR GetBuffer();

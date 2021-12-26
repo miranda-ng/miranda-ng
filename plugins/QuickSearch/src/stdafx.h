@@ -78,7 +78,7 @@ struct ServiceDescr
 {
 	char *service;
 	LPARAM wParam, lParam;
-	DWORD wFlags, lFlags, flags;
+	uint32_t wFlags, lFlags, flags;
 };
 
 struct ColumnItem : public MZeroedObject
@@ -195,18 +195,18 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	RECT m_rect;
 	OBJLIST<ColumnItem> m_columns;
 	int m_sortOrder;
-	DWORD m_flags; // QSO_* constants
+	uint32_t m_flags; // QSO_* constants
 
 	void LoadOptWnd();
 	void SaveOptWnd();
 
 	int  LoadColumns(OBJLIST<ColumnItem>&);
 	void LoadColumn(int n, ColumnItem &col);
-	void LoadParamValue(char *buf, DWORD &flags, LPARAM &value);
+	void LoadParamValue(char *buf, uint32_t &flags, LPARAM &value);
 
 	void SaveOptions();
 	void SaveColumn(int n, const ColumnItem &col);
-	void SaveParamValue(char *buf, DWORD flags, LPARAM value);
+	void SaveParamValue(char *buf, uint32_t flags, LPARAM value);
 
 	int Load() override;
 	int Unload() override;
@@ -225,9 +225,9 @@ void SnapToScreen(RECT &rc);
 
 const wchar_t* cnf2str(int);
 
-wchar_t* BuildLastSeenTime(DWORD timestamp);
-DWORD    BuildLastSeenTimeInt(MCONTACT hContact, const char *szModule);
-wchar_t* TimeToStrW(DWORD timestamp);
+wchar_t* BuildLastSeenTime(uint32_t timestamp);
+uint32_t    BuildLastSeenTimeInt(MCONTACT hContact, const char *szModule);
+wchar_t* TimeToStrW(uint32_t timestamp);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // windows.cpp
@@ -235,7 +235,7 @@ wchar_t* TimeToStrW(DWORD timestamp);
 struct QSFlags
 {
 	union {
-		DWORD flags = 0;
+		uint32_t flags = 0;
 		struct {
 			bool bInList : 1;  // in constant list
 			bool bActive : 1;  // contact in listview

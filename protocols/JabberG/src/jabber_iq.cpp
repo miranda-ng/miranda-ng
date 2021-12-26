@@ -325,7 +325,7 @@ CJabberIqInfo* CJabberIqManager::DetachInfo(void *pUserData)
 
 CJabberIqInfo* CJabberIqManager::DetachExpired()
 {
-	DWORD dwCurrentTime = GetTickCount();
+	uint32_t dwCurrentTime = GetTickCount();
 
 	mir_cslock lck(m_cs);
 
@@ -341,7 +341,7 @@ CJabberIqInfo* CJabberIqManager::DetachExpired()
 CJabberIqPermanentInfo* CJabberIqManager::AddPermanentHandler(
 	JABBER_PERMANENT_IQ_HANDLER pHandler,
 	int nIqTypes,
-	DWORD dwParamsToParse,
+	uint32_t dwParamsToParse,
 	const char *szXmlns,
 	BOOL bAllowPartialNs,
 	const char *szTag,

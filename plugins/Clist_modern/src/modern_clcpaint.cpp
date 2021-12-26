@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 CLCPaint g_clcPainter;
 
-DWORD CLCPaint::HASH[hi_LastItem] = { 0 };
+uint32_t CLCPaint::HASH[hi_LastItem] = { 0 };
 const char* CLCPaint::HASHTEXT[hi_LastItem] = {
 	"Module",
 	"ID",
@@ -231,7 +231,7 @@ void CLCPaint::GetTextSize(SIZE *text_size, HDC hdcMem, RECT free_row_rc, wchar_
 	}
 }
 
-void CLCPaint::AddParam(MODERNMASK *mpModernMask, DWORD dwParamHash, const char *const szValue, DWORD dwValueHash)
+void CLCPaint::AddParam(MODERNMASK *mpModernMask, uint32_t dwParamHash, const char *const szValue, uint32_t dwValueHash)
 {
 	static MASKPARAM param = { 0 }; //AddParameter will clear it so it can be static to avoid initializations
 	_FillParam(&param, dwParamHash, szValue, dwValueHash);
@@ -245,7 +245,7 @@ BOOL  CLCPaint::CheckMiniMode(ClcData *dat, BOOL selected)
 	return TRUE;
 }
 
-tPaintCallbackProc CLCPaint::PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN, DWORD, void *)
+tPaintCallbackProc CLCPaint::PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN, uint32_t, void *)
 {
 	ClcData *dat = (ClcData*)GetWindowLongPtr(hWnd, 0);
 	if (dat)
@@ -454,7 +454,7 @@ void CLCPaint::_AddParameter(MODERNMASK *mpModernMask, MASKPARAM *lpParam)
 	memset(lpParam, 0, sizeof(MASKPARAM));
 }
 
-void CLCPaint::_FillParam(MASKPARAM *lpParam, DWORD dwParamHash, const char *const szValue, DWORD dwValueHash)
+void CLCPaint::_FillParam(MASKPARAM *lpParam, uint32_t dwParamHash, const char *const szValue, uint32_t dwValueHash)
 {
 	lpParam->bMaskParamFlag = MPF_EQUAL | MPF_HASHED;
 	lpParam->dwId = dwParamHash;
@@ -470,7 +470,7 @@ void CLCPaint::_FillParam(MASKPARAM *lpParam, DWORD dwParamHash, const char *con
 		lpParam->szValue = nullptr;
 }
 
-void CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, DWORD dwParamIndex, DWORD dwValueIndex)
+void CLCPaint::_AddParamShort(MODERNMASK *mpModernMask, uint32_t dwParamIndex, uint32_t dwValueIndex)
 {
 	AddParam(mpModernMask, HASH[dwParamIndex], HASHTEXT[dwValueIndex], HASH[dwValueIndex]);
 }
@@ -891,7 +891,7 @@ void CLCPaint::_PaintRowItemsEx(HDC hdcMem, ClcData *dat, ClcContact *Drawing, R
 	dy += (minheight > height) ? ((minheight - height) >> 1) : 0;
 }
 
-void CLCPaint::_DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HDC hdcMem, int x, int y, int cx, int cy, DWORD colorbg, DWORD colorfg, int mode)
+void CLCPaint::_DrawStatusIcon(ClcContact *Drawing, ClcData *dat, int iImage, HDC hdcMem, int x, int y, int cx, int cy, uint32_t colorbg, uint32_t colorfg, int mode)
 {
 	if (Drawing->type != CLCIT_CONTACT)
 		ske_ImageList_DrawEx(g_himlCListClc, LOWORD(iImage), hdcMem, x, y, cx, cy, colorbg, colorfg, mode);

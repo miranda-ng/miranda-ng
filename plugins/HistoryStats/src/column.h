@@ -186,7 +186,7 @@ public:
 	void contactDataPrepare(Contact& contact) const { impl_contactDataPrepare(contact); }
 	void contactDataFree(Contact& contact) const { impl_contactDataFree(contact); }
 	void contactDataAcquireMessage(Contact& contact, Message& msg) { impl_contactDataAcquireMessage(contact, msg); }
-	void contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration) { impl_contactDataAcquireChat(contact, bOutgoing, localTimestampStarted, duration); }
+	void contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration) { impl_contactDataAcquireChat(contact, bOutgoing, localTimestampStarted, duration); }
 	void contactDataMerge(Contact& contact, const Contact& include) const { impl_contactDataMerge(contact, include); }
 	void contactDataTransform(Contact& contact) const { impl_contactDataTransform(contact); }
 	void contactDataTransformCleanup(Contact& contact) const { impl_contactDataTransformCleanup(contact); }
@@ -308,7 +308,7 @@ protected:
 	 * on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataAcquireChat(Contact&, bool, DWORD, DWORD) { }
+	virtual void impl_contactDataAcquireChat(Contact&, bool, uint32_t, uint32_t) { }
 
 	/*** VIRTUAL/ABSTRACT *** DATA POSTPROCESSING ***/
 

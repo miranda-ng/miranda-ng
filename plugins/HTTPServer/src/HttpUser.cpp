@@ -243,7 +243,7 @@ void CLHttpUser::SendError(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuf[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuf,
+	uint32_t dwBytesToWrite = mir_snprintf(szBuf,
 		"HTTP/1.1 %i %s\r\n"
 		"Date: %s\r\n"
 		"Server: MirandaWeb/%s\r\n"
@@ -294,7 +294,7 @@ void CLHttpUser::SendRedir(int iErrorCode, const char * pszError, const char * p
 		pszDescription = pszError;
 
 	char szBuff[1000];
-	DWORD dwBytesToWrite = mir_snprintf(szBuff,
+	uint32_t dwBytesToWrite = mir_snprintf(szBuff,
 		"HTTP/1.1 %i %s\r\n"
 		"Date: %s\r\n"
 		"Server: MirandaWeb/%s\r\n"
@@ -390,7 +390,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 		return false;
 	}
 
-	DWORD dwRemoteIP = ntohl(stAddr.S_un.S_addr);
+	uint32_t dwRemoteIP = ntohl(stAddr.S_un.S_addr);
 	for (CLFileShareNode * pclCur = pclFirstNode; pclCur; pclCur = pclCur->pclNext) {
 		if ((pclCur->st.dwAllowedIP ^ dwRemoteIP) & pclCur->st.dwAllowedMask)
 			continue; // Not an allowed IP address
@@ -528,7 +528,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 			mir_strcpy(this->szCurrentDLSrvPath, pszSrvPath);
 
-			DWORD nDataSize = GetFileSize(hFile, nullptr);
+			uint32_t nDataSize = GetFileSize(hFile, nullptr);
 			dwTotalSize = nDataSize;
 
 			FILETIME stFileTime;
@@ -563,8 +563,8 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 			lck.unlock();
 
-			DWORD dwFileStart = 0;
-			DWORD dwDataToSend = nDataSize;
+			uint32_t dwFileStart = 0;
+			uint32_t dwDataToSend = nDataSize;
 
 			char szETag[50];
 			{
@@ -580,12 +580,12 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 							char *pszEnd;
 							if (pszRange[0] == '-') {
 								// its a suffix-byte-range-spec
-								DWORD dwLen = strtol(pszRange + 1, &pszEnd, 10);
+								uint32_t dwLen = strtol(pszRange + 1, &pszEnd, 10);
 								if (dwLen < nDataSize)
 									dwFileStart = nDataSize - dwLen;
 							}
 							else {
-								DWORD dwLen = strtol(pszRange, &pszEnd, 10);
+								uint32_t dwLen = strtol(pszRange, &pszEnd, 10);
 								if (*pszEnd == '-' && dwLen < nDataSize) {
 									dwFileStart = dwLen;
 									pszRange = pszEnd + 1;
@@ -664,24 +664,24 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 				static int nThreadCount = 0;
 				nThreadCount++;
 
-				DWORD dwLastUpdate = GetTickCount();
-				DWORD dwLastCurrentDL = 0;
+				uint32_t dwLastUpdate = GetTickCount();
+				uint32_t dwLastCurrentDL = 0;
 				/*
 
 				dwLastDLSTickCount = dwCurTick;
 				dwCurrentDL;*/
 
-				//DWORD dwMaxSpeed = 8192;// Byte pr Sek
-				//DWORD dwMaxSpeed = 20000;// Byte pr Sek
-				//DWORD dwMaxSpeed = 163840;// Byte pr Sek
-				//DWORD dwMaxSpeed = 4096;// Byte pr Sek
+				//uint32_t dwMaxSpeed = 8192;// Byte pr Sek
+				//uint32_t dwMaxSpeed = 20000;// Byte pr Sek
+				//uint32_t dwMaxSpeed = 163840;// Byte pr Sek
+				//uint32_t dwMaxSpeed = 4096;// Byte pr Sek
 
-				DWORD dwLastResetTime = GetTickCount();
+				uint32_t dwLastResetTime = GetTickCount();
 				int nMaxBytesToSend = nMaxUploadSpeed / nThreadCount;
 
 				for (;;) {
 					{
-						DWORD dwCurTick = GetTickCount();
+						uint32_t dwCurTick = GetTickCount();
 						if (dwCurTick - dwLastUpdate >= 1000) {
 							dwSpeed = ((dwCurrentDL - dwLastCurrentDL) * 1000) / (dwCurTick - dwLastUpdate);
 							dwLastUpdate = dwCurTick;
@@ -696,7 +696,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 					bool bSpeedLimit = (nMaxUploadSpeed >= 0) && (bIsOnline || !bLimitOnlyWhenOnline);
 
-					DWORD dwCurOpr = sizeof(szBuf);
+					uint32_t dwCurOpr = sizeof(szBuf);
 					if (bSpeedLimit)
 						dwCurOpr = min(nMaxBytesToSend, sizeof(szBuf));
 
@@ -712,7 +712,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 					if (bSpeedLimit)
 						nMaxBytesToSend -= dwBytesToWrite;
 
-					DWORD dwSend = Netlib_Send(hConnection, szBuf, dwBytesToWrite, MSG_NODUMP);
+					uint32_t dwSend = Netlib_Send(hConnection, szBuf, dwBytesToWrite, MSG_NODUMP);
 					if (dwSend == SOCKET_ERROR)
 						break;
 					dwCurrentDL += dwSend;
@@ -724,7 +724,7 @@ bool CLHttpUser::bProcessGetRequest(char * pszRequest, bool bIsGetCommand)
 
 					if (bSpeedLimit && nMaxBytesToSend <= 0) {
 						// we have reached the limmit
-						DWORD dwTimeUsed = GetTickCount() - dwLastResetTime;
+						uint32_t dwTimeUsed = GetTickCount() - dwLastResetTime;
 						if (dwTimeUsed < 1000)
 							Sleep(1000 - dwTimeUsed);
 						dwLastResetTime = GetTickCount();

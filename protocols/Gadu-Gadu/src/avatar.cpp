@@ -298,8 +298,8 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 void GaduProto::initavatarrequestthread()
 {
 	DWORD exitCode = 0;
-
 	GetExitCodeThread(pth_avatar.hThread, &exitCode);
+
 	if (exitCode != STILL_ACTIVE) {
 		avatar_requests.destroy();
 		avatar_transfers.destroy();

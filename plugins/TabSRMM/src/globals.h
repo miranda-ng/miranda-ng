@@ -114,13 +114,13 @@ public:
 	COLORREF    crIncoming, crOutgoing, crOldIncoming, crOldOutgoing, crStatus;
 	BOOL        bUnicodeBuild;
 	HFONT       hFontCaption;
-	DWORD       m_LangPackCP;
+	uint32_t       m_LangPackCP;
 	uint8_t        m_SmileyButtonOverride;
 	HICON       m_AnimTrayIcons[4];
 	BOOL        m_visualMessageSizeIndicator;
 	BOOL        m_autoSplit;
 	BOOL        m_FlashOnMTN;
-	DWORD       dwThreadID;
+	uint32_t       dwThreadID;
 	MWindowList m_hMessageWindowList, hUserPrefsWindowList;
 	HMENU       m_MenuBar;
 	COLORREF    m_ipBackgroundGradient;

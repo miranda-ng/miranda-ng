@@ -93,13 +93,13 @@ enum
 struct IJabberInterface
 {
 	// Set of JIF_* flags.
-	virtual DWORD STDMETHODCALLTYPE GetFlags() const = 0;
+	virtual uint32_t STDMETHODCALLTYPE GetFlags() const = 0;
 
 	// Returns version of IJabberInterface.
 	virtual int STDMETHODCALLTYPE GetVersion() const = 0;
 
 	// Returns Jabber plugin version.
-	virtual DWORD STDMETHODCALLTYPE GetJabberVersion() const = 0;
+	virtual uint32_t STDMETHODCALLTYPE GetJabberVersion() const = 0;
 
 	// Returns contact handle for given JID, or NULL on error.
 	virtual MCONTACT STDMETHODCALLTYPE	ContactFromJID(LPCSTR jid) = 0;

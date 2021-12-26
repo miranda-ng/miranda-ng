@@ -36,8 +36,8 @@ FI_STRUCT (FITAGHEADER) {
 	char *description;	// tag description
 	uint16_t id;			// tag ID
 	uint16_t type;			// tag data type (see FREE_IMAGE_MDTYPE)
-	DWORD count;		// number of components (in 'tag data types' units)
-	DWORD length;		// value length in bytes
+	uint32_t count;		// number of components (in 'tag data types' units)
+	uint32_t length;		// value length in bytes
 	void *value;		// tag value
 };
 
@@ -168,12 +168,12 @@ FreeImage_GetTagType(FITAG *tag) {
 	return tag ? (FREE_IMAGE_MDTYPE)(((FITAGHEADER *)tag->data)->type) : FIDT_NOTYPE;
 }
 
-DWORD DLL_CALLCONV 
+uint32_t DLL_CALLCONV 
 FreeImage_GetTagCount(FITAG *tag) {
 	return tag ? ((FITAGHEADER *)tag->data)->count : 0;
 }
 
-DWORD DLL_CALLCONV 
+uint32_t DLL_CALLCONV 
 FreeImage_GetTagLength(FITAG *tag) {
 	return tag ? ((FITAGHEADER *)tag->data)->length : 0;
 }
@@ -228,7 +228,7 @@ FreeImage_SetTagType(FITAG *tag, FREE_IMAGE_MDTYPE type) {
 }
 
 BOOL DLL_CALLCONV 
-FreeImage_SetTagCount(FITAG *tag, DWORD count) {
+FreeImage_SetTagCount(FITAG *tag, uint32_t count) {
 	if(tag) {
 		FITAGHEADER *tag_header = (FITAGHEADER *)tag->data;
 		tag_header->count = count;
@@ -238,7 +238,7 @@ FreeImage_SetTagCount(FITAG *tag, DWORD count) {
 }
 
 BOOL DLL_CALLCONV 
-FreeImage_SetTagLength(FITAG *tag, DWORD length) {
+FreeImage_SetTagLength(FITAG *tag, uint32_t length) {
 	if(tag) {
 		FITAGHEADER *tag_header = (FITAGHEADER *)tag->data;
 		tag_header->length = length;
@@ -270,7 +270,7 @@ FreeImage_SetTagValue(FITAG *tag, const void *value) {
 				}
 				char *src_data = (char*)value;
 				char *dst_data = (char*)tag_header->value;
-				for(DWORD i = 0; i < tag_header->length; i++) {
+				for(uint32_t i = 0; i < tag_header->length; i++) {
 					dst_data[i] = src_data[i];
 				}
 				dst_data[tag_header->length] = '\0';

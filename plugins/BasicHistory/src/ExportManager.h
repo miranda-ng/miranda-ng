@@ -33,7 +33,7 @@ protected:
 public:
 	ExportManager(HWND _hwnd, MCONTACT _hContact, int filter);
 
-	void SetAutoExport(const std::wstring _file, int deltaTime, DWORD now)
+	void SetAutoExport(const std::wstring _file, int deltaTime, uint32_t now)
 	{
 		m_file = _file;
 		m_deltaTime = deltaTime;
@@ -51,7 +51,7 @@ public:
 	}
 
 	bool Export(IExport::ExportType type);
-	void SetDeleteWithoutExportEvents(int deltaTime, DWORD now);
+	void SetDeleteWithoutExportEvents(int deltaTime, uint32_t now);
 	void DeleteExportedEvents();
 	int Import(IImport::ImportType type, const std::vector<MCONTACT> &contacts);
 	bool Import(IImport::ImportType type, std::vector<IImport::ExternalMessage> &eventList, std::wstring *err = nullptr, bool *differentContact = nullptr, std::vector<MCONTACT> *contacts = nullptr);

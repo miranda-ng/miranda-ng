@@ -326,7 +326,7 @@ HRESULT ISmileyBase::SetAdvise(DWORD aspect, DWORD advf, IAdviseSink *pAdvSink)
 		SendOnViewChange();
 	return S_OK;
 }
-HRESULT ISmileyBase::GetAdvise(DWORD*, DWORD*, IAdviseSink **ppAdvSink)
+HRESULT ISmileyBase::GetAdvise(DWORD *, DWORD *, IAdviseSink **ppAdvSink)
 {
 	if (!ppAdvSink) return E_POINTER;
 	*ppAdvSink = m_spAdviseSink;
@@ -334,7 +334,7 @@ HRESULT ISmileyBase::GetAdvise(DWORD*, DWORD*, IAdviseSink **ppAdvSink)
 	return S_OK;
 }
 
-HRESULT ISmileyBase::Freeze(DWORD, long, void*, DWORD*) { return E_NOTIMPL; }
+HRESULT ISmileyBase::Freeze(DWORD, long, void*, DWORD *) { return E_NOTIMPL; }
 HRESULT ISmileyBase::Unfreeze(DWORD) { return E_NOTIMPL; }
 HRESULT ISmileyBase::GetColorSet(DWORD, long, void*, DVTARGETDEVICE*, HDC, LOGPALETTE**) { return E_NOTIMPL; }
 

@@ -122,7 +122,7 @@ struct NewstoryListData : public MZeroedObject
 		int fontid, colorid;
 		item->getFontColor(fontid, colorid);
 
-		DWORD dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
+		uint32_t dwStyle = WS_CHILD | WS_BORDER | ES_MULTILINE | ES_AUTOVSCROLL;
 		if (bReadOnly) 
 			dwStyle |= ES_READONLY;
 

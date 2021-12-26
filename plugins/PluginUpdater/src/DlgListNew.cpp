@@ -393,7 +393,7 @@ static void GetList(void *)
 	Thread_SetName("PluginUpdater: GetList");
 
 	TFileName wszTempPath;
-	DWORD dwLen = GetTempPath(_countof(wszTempPath), wszTempPath);
+	uint32_t dwLen = GetTempPath(_countof(wszTempPath), wszTempPath);
 	if (wszTempPath[dwLen - 1] == '\\')
 		wszTempPath[dwLen - 1] = 0;
 

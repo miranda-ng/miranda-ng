@@ -530,7 +530,7 @@ static LRESULT CALLBACK EditBoxSubProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, L
 			return 0;
 		}
 		if (wParam == 127 && GetKeyState(VK_CONTROL) & 0x8000) {	// Ctrl + Backspace
-			DWORD start, end;
+			uint32_t start, end;
 			wchar_t *text;
 			int textLen;
 			SendMessage(hwndDlg, EM_GETSEL, (WPARAM)&end, NULL);

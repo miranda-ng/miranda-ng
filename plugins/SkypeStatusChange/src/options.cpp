@@ -257,7 +257,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hdlg,UINT msg,WPARAM wp,LPARAM lp)
 
 			case NM_CLICK:
 				if (IDC_TREE_PROTOCOLS == wp) {
-					DWORD pos = ::GetMessagePos();
+					uint32_t pos = ::GetMessagePos();
 
 					HWND hwndTree = ::GetDlgItem(hdlg,IDC_TREE_PROTOCOLS);
 

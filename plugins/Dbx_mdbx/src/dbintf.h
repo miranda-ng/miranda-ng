@@ -99,7 +99,7 @@ struct DBSettingValue
 	{
 		uint8_t bVal;
 		uint16_t wVal;
-		DWORD dwVal;
+		uint32_t dwVal;
 		char szVal[];
 
 		struct

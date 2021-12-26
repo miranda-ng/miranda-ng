@@ -63,7 +63,7 @@ wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 	OPENFILENAME ofn = { 0 };
 
 	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, (DWORD)bufflen);
+	ListView_GetItemText(hList, ListView_GetNextItem(hList, -1, LVNI_SELECTED), 1, buff, (uint32_t)bufflen);
 	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND)))
 		buff = nullptr;
 
@@ -478,7 +478,7 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 			case NM_CLICK:
 			{
 				NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-				DWORD hitFlags;
+				uint32_t hitFlags;
 
 				// Make sure we have an extra column
 				if (nm->iColumn == -1)

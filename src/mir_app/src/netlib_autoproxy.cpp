@@ -205,8 +205,8 @@ static void __cdecl NetlibIeProxyThread(IeProxyParam *param)
 		char *proxy = proxyBuffer;
 		DWORD dwProxyLen = sizeof(proxyBuffer);
 
-		if (pInternetGetProxyInfo(param->szUrl, (DWORD)mir_strlen(param->szUrl),
-			param->szHost, (DWORD)mir_strlen(param->szHost), &proxy, &dwProxyLen))
+		if (pInternetGetProxyInfo(param->szUrl, (uint32_t)mir_strlen(param->szUrl),
+			param->szHost, (uint32_t)mir_strlen(param->szHost), &proxy, &dwProxyLen))
 			param->szProxy = mir_strdup(lrtrim(proxy));
 
 		Netlib_Logf(nullptr, "Autoproxy got response %s, Param: %s %s", param->szProxy, param->szUrl, param->szHost);

@@ -117,13 +117,13 @@ public:
 			return *this;
 		}
 		operator TCString() { return CurStatusMsg; }
-		DWORD GetUpdateTimeDifference()
+		uint32_t GetUpdateTimeDifference()
 		{
 			ULARGE_INTEGER CurTime;
 			SYSTEMTIME st;
 			GetLocalTime(&st);
 			SystemTimeToFileTime(&st, (LPFILETIME)&CurTime);
-			return (DWORD)((CurTime.QuadPart - LastUpdateTime.QuadPart) / 10000); // in milliseconds
+			return (uint32_t)((CurTime.QuadPart - LastUpdateTime.QuadPart) / 10000); // in milliseconds
 		}
 	private:
 		TCString CurStatusMsg;

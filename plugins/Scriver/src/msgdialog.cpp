@@ -283,7 +283,7 @@ bool CMsgDialog::OnInitDialog()
 				else
 					db_event_get(m_hDbEventFirst, &dbei);
 
-				DWORD firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
+				uint32_t firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
 				for (;;) {
 					hPrevEvent = pCursor.FetchNext();
 					if (hPrevEvent == 0)

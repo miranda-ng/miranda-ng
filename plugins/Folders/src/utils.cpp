@@ -62,7 +62,7 @@ void RemoveDirectories(const wchar_t *path)
 
 bool DirectoryExists(const wchar_t *path)
 {
-	DWORD dwAttributes = GetFileAttributes(path);
+	uint32_t dwAttributes = GetFileAttributes(path);
 	if (dwAttributes == INVALID_FILE_ATTRIBUTES || !(dwAttributes & FILE_ATTRIBUTE_DIRECTORY))
 		return false;
 	return true;

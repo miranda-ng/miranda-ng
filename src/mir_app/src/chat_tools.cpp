@@ -770,7 +770,7 @@ MIR_APP_DLL(void) Chat_AddMenuItems(HMENU hMenu, int nItems, const gc_item *Item
 	HMENU hSubMenu = nullptr;
 	for (int i = 0; i < nItems; i++) {
 		wchar_t *ptszText = TranslateW_LP(Item[i].pszDesc, pPlugin);
-		DWORD dwState = Item[i].bDisabled ? MF_GRAYED : 0;
+		uint32_t dwState = Item[i].bDisabled ? MF_GRAYED : 0;
 
 		if (Item[i].uType == MENU_NEWPOPUP) {
 			hSubMenu = CreateMenu();

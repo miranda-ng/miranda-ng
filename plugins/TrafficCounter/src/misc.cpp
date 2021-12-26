@@ -118,10 +118,10 @@ Buffer - адрес строки для записи результата;
 Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера.
 */
-size_t GetFormattedTraffic(DWORD Value, uint8_t Unit, wchar_t *Buffer, size_t Size)
+size_t GetFormattedTraffic(uint32_t Value, uint8_t Unit, wchar_t *Buffer, size_t Size)
 {
 	wchar_t Str1[32], szUnit[4] = { ' ', 0 };
-	DWORD Divider;
+	uint32_t Divider;
 	NUMBERFMT nf = { 0, 1, 3, L",", L" ", 0 };
 	wchar_t *Res; // Промежуточный результат.
 
@@ -174,7 +174,7 @@ Format: строка формата;
 Buffer: адрес буфера, куда функция помещает результат.
 Size - размер буфера. */
 
-size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size_t Size)
+size_t GetDurationFormatM(uint32_t Duration, wchar_t *Format, wchar_t *Buffer, size_t Size)
 {
 	size_t Length;
 	wchar_t Token[256];  // Аккумулятор.

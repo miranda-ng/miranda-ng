@@ -9,11 +9,11 @@ namespace utils
 	// time formatting
 	ext::string timestampToString(time_t value, const wchar_t* format);
 	ext::string tmStructToString(const tm& value, const wchar_t* format);
-	inline ext::string timestampToDateTime(DWORD value) { return timestampToString(value, L"%c"); }
-	inline ext::string timestampToDate(DWORD value) { return timestampToString(value, L"%x"); }
-	inline ext::string timestampToTime(DWORD value) { return timestampToString(value, L"%X"); }
-	ext::string durationToString(DWORD value);
-	DWORD parseDate(const ext::string& date);
+	inline ext::string timestampToDateTime(uint32_t value) { return timestampToString(value, L"%c"); }
+	inline ext::string timestampToDate(uint32_t value) { return timestampToString(value, L"%x"); }
+	inline ext::string timestampToTime(uint32_t value) { return timestampToString(value, L"%X"); }
+	ext::string durationToString(uint32_t value);
+	uint32_t parseDate(const ext::string& date);
 	inline ext::string formatDate(time_t timeValue) { return timestampToString(timeValue, L"%Y-%m-%d"); }
 
 	// number formatting
@@ -39,8 +39,8 @@ namespace utils
 	ext::string toUpperCase(const ext::string& text);
 	
 	// version conversion
-	DWORD dottedToVersion(ext::string version);
-	ext::string versionToDotted(DWORD version);
+	uint32_t dottedToVersion(ext::string version);
+	ext::string versionToDotted(uint32_t version);
 
 	// character conversion (wide, ansi, utf8)
 	ext::a::string convertWToA(const wchar_t* str, size_t len);

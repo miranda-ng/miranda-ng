@@ -469,25 +469,25 @@ INT_PTR onSendFile(WPARAM w, LPARAM l)
 	return Proto_ChainSend(w, ccs);
 }
 
-void HistoryLog(MCONTACT hContact, const char *msg, DWORD _time, DWORD flags)
+void HistoryLog(MCONTACT hContact, const char *msg, uint32_t _time, uint32_t flags)
 {
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
 	dbei.flags = DBEF_UTF | flags;
-	dbei.timestamp = (_time) ? _time : (DWORD)time(0);
-	dbei.cbBlob = (DWORD)mir_strlen(msg) + 1;
+	dbei.timestamp = (_time) ? _time : (uint32_t)time(0);
+	dbei.cbBlob = (uint32_t)mir_strlen(msg) + 1;
 	dbei.pBlob = (uint8_t*)msg;
 	db_event_add(hContact, &dbei);
 }
 
-static int ControlAddStringUtf(HWND ctrl, DWORD msg, const wchar_t *szString)
+static int ControlAddStringUtf(HWND ctrl, uint32_t msg, const wchar_t *szString)
 {
 	int item = -1;
 	item = SendMessage(ctrl, msg, 0, (LPARAM)szString);
 	return item;
 }
 
-int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, DWORD data)
+int ComboBoxAddStringUtf(HWND hCombo, const wchar_t *szString, uint32_t data)
 {
 	int item = ControlAddStringUtf(hCombo, CB_ADDSTRING, szString);
 	SendMessage(hCombo, CB_SETITEMDATA, item, data);
@@ -867,8 +867,8 @@ const bool StriStr(const char *str, const char *substr)
 	char *str_up = NEWTSTR_MALLOC(str);
 	char *substr_up = NEWTSTR_MALLOC(substr);
 
-	CharUpperBuffA(str_up, (DWORD)mir_strlen(str_up));
-	CharUpperBuffA(substr_up, (DWORD)mir_strlen(substr_up));
+	CharUpperBuffA(str_up, (uint32_t)mir_strlen(str_up));
+	CharUpperBuffA(substr_up, (uint32_t)mir_strlen(substr_up));
 
 	if (strstr(str_up, substr_up))
 		i = true;
@@ -1334,7 +1334,7 @@ bool gpg_validate_paths(wchar_t *gpg_bin_path, wchar_t *gpg_home_path)
 	}
 	{
 		CMStringW path = g_plugin.getMStringW("szHomePath");
-		DWORD dwFileAttr = GetFileAttributes(path);
+		uint32_t dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
 			SetFileAttributes(path, dwFileAttr);

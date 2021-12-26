@@ -60,7 +60,7 @@ struct NETLIBUSER
 {
 	char *szSettingsModule;          // used for db settings and log
 	MAllStrings szDescriptiveName;   // used in options dialog, already translated
-	DWORD flags;
+	uint32_t flags;
 	int minIncomingPorts;            // only if NUF_INCOMING. Will be used for validation of user input.
 };
 
@@ -262,7 +262,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE h);
 /* pExtra was added during 0.3.4+, prior its just two args, since we use the cdecl convention
 it shouldnt matter */
 
-typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, DWORD dwRemoteIP, void *pExtra);
+typedef void (*NETLIBNEWCONNECTIONPROC)(HNETLIBCONN hNewConnection, uint32_t dwRemoteIP, void *pExtra);
 
 struct NETLIBBIND
 {
@@ -270,9 +270,9 @@ struct NETLIBBIND
 
 	// function to call when there's a new connection. Params are: the
 	// new connection, IP of remote machine (host byte order)
-	DWORD dwInternalIP;   // set on return, host byte order
-	DWORD dwExternalIP;   // set on return, host byte order
-	uint16_t  wPort, wExPort; // set on return, host byte order
+	uint32_t dwInternalIP;   // set on return, host byte order
+	uint32_t dwExternalIP;   // set on return, host byte order
+	uint16_t wPort, wExPort; // set on return, host byte order
 	void *pExtra;         // argument is sent to callback
 };
 
@@ -318,7 +318,7 @@ struct NETLIBOPENCONNECTION
 {
 	const char *szHost;    // can contain the string representation of an IP
 	uint16_t wPort;        // host byte order
-	DWORD flags;
+	uint32_t flags;
 	unsigned int timeout;
 	/* optional, called in the context of the thread that issued the attempt, if it returns 0 the connection attempt is
 	stopped, the remaining timeout value can also be adjusted */
@@ -342,7 +342,7 @@ EXTERN_C MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(HNETLIBUSER nlu, const N
 
 struct NETLIBHTTPPROXYINFO
 {
-	DWORD flags;
+	uint32_t flags;
 	int firstGetSequence, firstPostSequence;
 	int combinePackets;
 	char *szHttpPostUrl;
@@ -464,10 +464,9 @@ struct NETLIBHTTPREQUEST
 {
 	int cbSize;
 	int requestType;	// a REQUEST_
-	DWORD flags;
+	uint32_t flags;
 	char *szUrl;
-	NETLIBHTTPHEADER *headers;	 // If this is a POST request and headers
-	     // doesn't contain a Content-Length it'll be added automatically
+	NETLIBHTTPHEADER *headers;	 // If this is a POST request and headers doesn't contain a Content-Length it'll be added automatically
 	int headersCount;
 	char *pData;   // data to be sent in POST request.
 	int dataLength;		 // must be 0 for REQUEST_GET/REQUEST_CONNECT
@@ -659,7 +658,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Recv(HNETLIBCONN hConn, char *buf, int len, int
 
 struct NETLIBSELECT
 {
-	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
+	uint32_t dwTimeout; // in milliseconds, INFINITE is acceptable
 	HNETLIBCONN hReadConns[FD_SETSIZE + 1];
 	HNETLIBCONN hWriteConns[FD_SETSIZE + 1];
 	HNETLIBCONN hExceptConns[FD_SETSIZE + 1];
@@ -669,7 +668,7 @@ EXTERN_C MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls);
 
 struct NETLIBSELECTEX
 {
-	DWORD dwTimeout; // in milliseconds, INFINITE is acceptable
+	uint32_t dwTimeout; // in milliseconds, INFINITE is acceptable
 	HNETLIBCONN hReadConns[FD_SETSIZE + 1];
 	HNETLIBCONN hWriteConns[FD_SETSIZE + 1];
 	HNETLIBCONN hExceptConns[FD_SETSIZE + 1];
@@ -720,7 +719,7 @@ EXTERN_C MIR_APP_DLL(HANDLE) Netlib_CreatePacketReceiver(HNETLIBCONN hConnection
 
 struct NETLIBPACKETRECVER
 {
-	DWORD dwTimeout;    // fill before calling. In milliseconds. INFINITE is valid
+	uint32_t dwTimeout; // fill before calling. In milliseconds. INFINITE is valid
 	int bytesUsed;      // fill before calling. This many bytes are removed from the start of the buffer. Set to 0 on return
 	int bytesAvailable; // equal to the return value, unless the return value is 0
 	int bufferSize;     // same as parameter to MS_NETLIB_CREATEPACKETRECVER

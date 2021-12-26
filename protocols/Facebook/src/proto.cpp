@@ -69,7 +69,7 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_szClientID = getMStringA(DBKEY_CLIENT_ID);
 	if (m_szClientID.IsEmpty()) {
 		for (int i = 0; i < 20; i++) {
-			DWORD dwRandon;
+			uint32_t dwRandon;
 			Utils_GetRandom(&dwRandon, sizeof(dwRandon));
 			int c = dwRandon % 62;
 			if (c >= 0 && c < 26)

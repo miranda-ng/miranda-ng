@@ -52,7 +52,7 @@ FIRational::FIRational(const FITAG *tag) {
 	switch(FreeImage_GetTagType((FITAG*)tag)) {
 		case FIDT_RATIONAL:		// 64-bit unsigned fraction 
 		{
-			DWORD *pvalue = (DWORD*)FreeImage_GetTagValue((FITAG*)tag);
+			uint32_t *pvalue = (uint32_t*)FreeImage_GetTagValue((FITAG*)tag);
 			initialize((LONG)pvalue[0], (LONG)pvalue[1]);
 			break;
 		}

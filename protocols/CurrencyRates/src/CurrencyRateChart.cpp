@@ -66,7 +66,7 @@ INT_PTR CurrencyRatesMenu_Chart(WPARAM wp, LPARAM /*lp*/)
 	if(auto hWnd = ::FindWindow(nullptr,_T("Miranda CurrencyRates Chart")))
 	{
 		COPYDATASTRUCT copydata_struct;
-		copydata_struct.cbData = static_cast<DWORD>(sLogFileName.GetLength() * sizeof(TCHAR));
+		copydata_struct.cbData = static_cast<uint32_t>(sLogFileName.GetLength() * sizeof(TCHAR));
 		copydata_struct.lpData = const_cast<void*>(static_cast<const void*>(sLogFileName.c_str()));
 		copydata_struct.dwData = 0x1945;
 

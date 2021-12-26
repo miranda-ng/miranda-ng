@@ -405,7 +405,7 @@ void log_to_history(const ICurrencyRatesProvider *pProvider, MCONTACT hContact, 
 
 	DBEVENTINFO dbei = {};
 	dbei.szModule = MODULENAME;
-	dbei.timestamp = static_cast<DWORD>(nTime);
+	dbei.timestamp = static_cast<uint32_t>(nTime);
 	dbei.flags = DBEF_READ | DBEF_UTF;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (int)::mir_strlen(psz) + 1;
@@ -604,7 +604,7 @@ MCONTACT CCurrencyRatesProviderBase::CreateNewContact(const CMStringW &rsName)
 	return hContact;
 }
 
-DWORD get_refresh_timeout_miliseconds()
+uint32_t get_refresh_timeout_miliseconds()
 {
 	if (!g_bAutoUpdate)
 		return INFINITE;
@@ -613,7 +613,7 @@ DWORD get_refresh_timeout_miliseconds()
 	if (nRefreshRateType < RRT_SECONDS || nRefreshRateType > RRT_HOURS)
 		nRefreshRateType = RRT_MINUTES;
 
-	DWORD nTimeout = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
+	uint32_t nTimeout = g_plugin.getWord(DB_KEY_RefreshRateValue, 1);
 	switch (nRefreshRateType) {
 	default:
 	case RRT_SECONDS:
@@ -651,7 +651,7 @@ private:
 
 void CCurrencyRatesProviderBase::Run()
 {
-	DWORD nTimeout = get_refresh_timeout_miliseconds();
+	uint32_t nTimeout = get_refresh_timeout_miliseconds();
 	m_sContactListFormat = g_plugin.getMStringW(DB_KEY_DisplayNameFormat, DB_DEF_DisplayNameFormat);
 	m_sStatusMsgFormat = g_plugin.getMStringW(DB_KEY_StatusMsgFormat, DB_DEF_StatusMsgFormat);
 	m_sTendencyFormat = g_plugin.getMStringW(DB_KEY_TendencyFormat, DB_DEF_TendencyFormat);
@@ -685,8 +685,8 @@ void CCurrencyRatesProviderBase::Run()
 	while (false == bGoToBed) {
 		anContacts.clear();
 
-		DWORD dwBegin = ::GetTickCount();
-		DWORD dwResult = ::WaitForMultipleObjects(COUNT_SYNC_OBJECTS, anEvents, FALSE, nTimeout);
+		uint32_t dwBegin = ::GetTickCount();
+		uint32_t dwResult = ::WaitForMultipleObjects(COUNT_SYNC_OBJECTS, anEvents, FALSE, nTimeout);
 		switch (dwResult) {
 		case WAIT_FAILED:
 			assert(!"WaitForMultipleObjects failed");
@@ -715,7 +715,7 @@ void CCurrencyRatesProviderBase::Run()
 
 		case WAIT_OBJECT_0 + REFRESH_CONTACT:
 			{
-				DWORD dwTimeRest = ::GetTickCount() - dwBegin;
+				uint32_t dwTimeRest = ::GetTickCount() - dwBegin;
 				if (INFINITE != nTimeout && dwTimeRest < nTimeout)
 					nTimeout -= dwTimeRest;
 

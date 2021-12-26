@@ -176,13 +176,13 @@ EXTERN_C MIR_CORE_DLL(int) WindowList_BroadcastAsync(MWindowList hList, UINT mes
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Use this in a SendMessage to set the color of the url when control is enabled
-// wParam = DWORD color
+// wParam = uint32_t color
 // lParam = not used
 #define HLK_SETENABLECOLOUR	 (WM_USER+101) // added in 0.3.1
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Use this in a SendMessage to set the color of the url when control is disabled
-// wParam = DWORD color
+// wParam = uint32_t color
 // lParam = not used
 #define HLK_SETDISABLECOLOUR (WM_USER+102) // added in 0.3.1
 

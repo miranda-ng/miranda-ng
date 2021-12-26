@@ -27,8 +27,8 @@ uint8_t DayOfWeek(uint8_t Day, uint8_t Month, uint16_t Year);
 	Buffer - адрес строки для записи результата;
 	Size - размер буфера.
 Возвращаемое значение: требуемый размер буфера. */
-size_t GetFormattedTraffic(DWORD Value, uint8_t Unit, wchar_t *Buffer, size_t Size);
+size_t GetFormattedTraffic(uint32_t Value, uint8_t Unit, wchar_t *Buffer, size_t Size);
 
-size_t GetDurationFormatM(DWORD Duration, wchar_t *Format, wchar_t *Buffer, size_t Size);
+size_t GetDurationFormatM(uint32_t Duration, wchar_t *Format, wchar_t *Buffer, size_t Size);
 
 signed short int TimeCompare(SYSTEMTIME st1, SYSTEMTIME st2);

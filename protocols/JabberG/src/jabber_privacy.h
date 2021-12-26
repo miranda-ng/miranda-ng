@@ -59,7 +59,7 @@ protected:
 	friend class CPrivacyList;
 
 public:
-	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const char *szValue = "", bool bAction = true, DWORD dwOrder = 90, DWORD dwPackets = 0)
+	CPrivacyListRule(CJabberProto *ppro, PrivacyListRuleType type = Else, const char *szValue = "", bool bAction = true, uint32_t dwOrder = 90, uint32_t dwPackets = 0)
 	{
 		m_proto = ppro;
 		m_szValue = mir_strdup(szValue);
@@ -85,13 +85,13 @@ public:
 		m_pNext = pNext;
 		return pRetVal;
 	}
-	__inline DWORD GetOrder()
+	__inline uint32_t GetOrder()
 	{
 		return m_dwOrder;
 	}
-	DWORD SetOrder(DWORD dwOrder)
+	uint32_t SetOrder(uint32_t dwOrder)
 	{
-		DWORD dwRetVal = m_dwOrder;
+		uint32_t dwRetVal = m_dwOrder;
 		m_dwOrder = dwOrder;
 		return dwRetVal;
 	}
@@ -111,11 +111,11 @@ public:
 	{
 		replaceStr(m_szValue, szValue);
 	}
-	__inline DWORD GetPackets()
+	__inline uint32_t GetPackets()
 	{
 		return m_dwPackets;
 	}
-	__inline void SetPackets(DWORD dwPackets)
+	__inline void SetPackets(uint32_t dwPackets)
 	{
 		m_dwPackets = dwPackets;
 	}
@@ -134,8 +134,8 @@ protected:
 	PrivacyListRuleType m_nType;
 	char *m_szValue;
 	bool  m_bAction;
-	DWORD m_dwOrder;
-	DWORD m_dwPackets;
+	uint32_t m_dwOrder;
+	uint32_t m_dwPackets;
 	CPrivacyListRule *m_pNext;
 };
 
@@ -194,7 +194,7 @@ public:
 		return pRetVal;
 	}
 
-	void AddRule(PrivacyListRuleType type, const char *szValue, BOOL bAction, DWORD dwOrder, DWORD dwPackets)
+	void AddRule(PrivacyListRuleType type, const char *szValue, BOOL bAction, uint32_t dwOrder, uint32_t dwPackets)
 	{
 		CPrivacyListRule *pRule = new CPrivacyListRule(m_proto, type, szValue, bAction, dwOrder, dwPackets);
 		pRule->SetNext(m_pRules);
@@ -243,7 +243,7 @@ public:
 		}
 
 		// get rules count
-		DWORD dwCount = 0;
+		uint32_t dwCount = 0;
 		CPrivacyListRule *pRule = m_pRules;
 		while (pRule) {
 			dwCount++;
@@ -254,7 +254,7 @@ public:
 		CPrivacyListRule **pRules = (CPrivacyListRule **)mir_alloc(dwCount * sizeof(CPrivacyListRule *));
 		if (!pRules)
 			return false;
-		DWORD dwPos = 0;
+		uint32_t dwPos = 0;
 		pRule = m_pRules;
 		while (pRule) {
 			pRules[dwPos++] = pRule;
@@ -262,7 +262,7 @@ public:
 		}
 
 		// sort array of pointers, slow, but working :)
-		DWORD i, j;
+		uint32_t i, j;
 		CPrivacyListRule *pTmp;
 		for (i=0; i < dwCount; i++) {
 			for (j = dwCount - 1; j > i; j--) {
@@ -275,7 +275,7 @@ public:
 		}
 
 		// reorder linked list
-		DWORD dwOrder = 100;
+		uint32_t dwOrder = 100;
 		CPrivacyListRule **ppPtr = &m_pRules;
 		for (i=0; i < dwCount; i++) {
 			*ppPtr = pRules[ i ];

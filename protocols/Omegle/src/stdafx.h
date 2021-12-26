@@ -73,7 +73,7 @@ class OmegleProto;
 #include "theme.h"
 #include "resource.h"
 
-extern DWORD g_mirandaVersion;
+extern uint32_t g_mirandaVersion;
 
 class ScopedLock
 {

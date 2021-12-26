@@ -251,7 +251,7 @@ int TabsrmmButtonPressed(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **objects, int objCount, DWORD flags)
+int UploadFile(MCONTACT hContact, int m_iFtpNum, GenericJob::EMode mode, void **objects, int objCount, uint32_t flags)
 {
 	if (!ftpList[m_iFtpNum]->isValid()) {
 		Utils::msgBox(TranslateT("You have to fill FTP server setting before upload a file."), MB_OK | MB_ICONERROR);

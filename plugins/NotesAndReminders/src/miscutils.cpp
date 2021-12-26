@@ -28,7 +28,7 @@ unsigned long WS_ResolveName(char *name, uint16_t *port, int defaultPort)
 		free(nameCopy);
 		return *(u_long*)lk->h_addr_list[0];
 	}
-	DWORD ret = inet_addr(nameCopy);
+	uint32_t ret = inet_addr(nameCopy);
 	free(nameCopy);
 	return ret;
 }

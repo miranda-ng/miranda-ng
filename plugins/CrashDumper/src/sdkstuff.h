@@ -21,12 +21,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "dbghelp.h"
 
 typedef struct _IMAGEHLP_MODULE64_V2 {
-	DWORD    SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
+	uint32_t    SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
 	DWORD64  BaseOfImage;            // base load address of module
-	DWORD    ImageSize;              // virtual size of the loaded module
-	DWORD    TimeDateStamp;          // date/time stamp from pe header
-	DWORD    CheckSum;               // checksum from the pe header
-	DWORD    NumSyms;                // number of symbols in the symbol table
+	uint32_t    ImageSize;              // virtual size of the loaded module
+	uint32_t    TimeDateStamp;          // date/time stamp from pe header
+	uint32_t    CheckSum;               // checksum from the pe header
+	uint32_t    NumSyms;                // number of symbols in the symbol table
 	SYM_TYPE SymType;                // type of symbols loaded
 	CHAR     ModuleName[32];         // module name
 	CHAR     ImageName[256];         // image name
@@ -34,12 +34,12 @@ typedef struct _IMAGEHLP_MODULE64_V2 {
 } IMAGEHLP_MODULE64_V2;
 
 typedef struct _IMAGEHLP_MODULEW64_V2 {
-	DWORD    SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
+	uint32_t    SizeOfStruct;           // set to sizeof(IMAGEHLP_MODULE64)
 	DWORD64  BaseOfImage;            // base load address of module
-	DWORD    ImageSize;              // virtual size of the loaded module
-	DWORD    TimeDateStamp;          // date/time stamp from pe header
-	DWORD    CheckSum;               // checksum from the pe header
-	DWORD    NumSyms;                // number of symbols in the symbol table
+	uint32_t    ImageSize;              // virtual size of the loaded module
+	uint32_t    TimeDateStamp;          // date/time stamp from pe header
+	uint32_t    CheckSum;               // checksum from the pe header
+	uint32_t    NumSyms;                // number of symbols in the symbol table
 	SYM_TYPE SymType;                // type of symbols loaded
 	wchar_t    ModuleName[32];         // module name
 	wchar_t    ImageName[256];         // image name

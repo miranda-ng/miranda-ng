@@ -112,7 +112,7 @@ void DialogConfigActive::notify(HWND hwndDlg, LPARAM lParam)
 			if (nm->iColumn == -1)
 				break;
 
-			DWORD hitFlags;
+			uint32_t hitFlags;
 			HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_ACTIVE_USERS, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 			if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 				break;

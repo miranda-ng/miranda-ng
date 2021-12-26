@@ -306,8 +306,8 @@ void PopupWnd2::show()
 	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeIn) {
 		IPopupPlusEffect *effect = nullptr;
 		m_bSlide = m_bFade = false;
-		DWORD dwTime, dwTime0 = GetTickCount();
-		DWORD dwTime1 = dwTime0 + m_options->FadeIn;
+		uint32_t dwTime, dwTime0 = GetTickCount();
+		uint32_t dwTime1 = dwTime0 + m_options->FadeIn;
 		if (m_options->UseEffect) {
 			m_bFade = true;
 			m_btAlpha0 = 0;
@@ -393,8 +393,8 @@ void PopupWnd2::hide()
 		m_bDestroy = true;
 		IPopupPlusEffect *effect = nullptr;
 		m_bFade = m_bSlide = false;
-		DWORD dwTime, dwTime0 = GetTickCount();
-		DWORD dwTime1 = dwTime0 + m_options->FadeOut;
+		uint32_t dwTime, dwTime0 = GetTickCount();
+		uint32_t dwTime1 = dwTime0 + m_options->FadeOut;
 		if (m_options->UseEffect) {
 			m_bFade = true;
 			m_btAlpha0 = m_options->UseTransparency ? m_options->Alpha : 255;

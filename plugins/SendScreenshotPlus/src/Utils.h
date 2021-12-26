@@ -66,7 +66,7 @@ public:
 	inline ~EventHandle() { CloseHandle(_hEvent); }
 	inline void Set() { SetEvent(_hEvent); }
 	inline void Wait() { WaitForSingleObject(_hEvent, INFINITE); }
-	inline void Wait(DWORD dwMilliseconds) { WaitForSingleObject(_hEvent, dwMilliseconds); }
+	inline void Wait(uint32_t dwMilliseconds) { WaitForSingleObject(_hEvent, dwMilliseconds); }
 	inline operator HANDLE() { return _hEvent; }
 };
 

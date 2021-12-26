@@ -80,7 +80,7 @@ public:
 struct IcolibItem : public MZeroedObject
 {
 	char*           name;
-	DWORD           signature = ICOLIB_MAGIC;
+	uint32_t           signature = ICOLIB_MAGIC;
 	SectionItem*    section;
 	int             orderID;
 	wchar_t*        description;

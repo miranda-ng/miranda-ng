@@ -1463,7 +1463,7 @@ static void ShowProtocolStatusMenu(HWND hwnd, MyDetailsFrameData *data, Protocol
 		TranslateMenu(submenu);
 
 		// Hide menu
-		DWORD flags = CallProtoService(proto->name, PS_GETCAPS, PFLAGNUM_2, 0);
+		uint32_t flags = CallProtoService(proto->name, PS_GETCAPS, PFLAGNUM_2, 0);
 		for (int i = GetMenuItemCount(submenu) - 1; i >= 0; i--)
 			if (!(flags & statusModePf2List[i]))
 				RemoveMenu(submenu, i, MF_BYPOSITION);

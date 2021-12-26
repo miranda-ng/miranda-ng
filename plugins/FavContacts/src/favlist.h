@@ -5,7 +5,7 @@ struct TContactInfo
 {
 private:
 	MCONTACT hContact;
-	DWORD status;
+	uint32_t status;
 	wchar_t *name;
 	wchar_t *group;
 	bool bManual;

@@ -22,7 +22,7 @@ public:
 	virtual bool Draw(CLCDGfx *pGfx);
 
 	// Sets the screen's time until expiration
-	void SetExpiration(DWORD dwTime);
+	void SetExpiration(uint32_t dwTime);
 	// Check if the screen has expired
 	bool HasExpired();
 
@@ -60,7 +60,7 @@ public:
 private:
 	SIZE m_Size;
 	bool m_bAlert = false;
-	DWORD m_dwExpiration = INFINITE;
+	uint32_t m_dwExpiration = INFINITE;
 	vector<CLCDObject*> m_Objects;
 };
 

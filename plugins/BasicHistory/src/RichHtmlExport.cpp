@@ -149,8 +149,8 @@ typedef struct
 	uint8_t        bReserved;       // Reserved ( must be 0)
 	uint16_t        wPlanes;         // Color Planes
 	uint16_t        wBitCount;       // Bits per pixel
-	DWORD       dwBytesInRes;    // How many bytes in this resource?
-	DWORD       dwImageOffset;   // Where in the file is this image?
+	uint32_t       dwBytesInRes;    // How many bytes in this resource?
+	uint32_t       dwImageOffset;   // Where in the file is this image?
 } ICONDIRENTRY, *LPICONDIRENTRY;
 
 typedef struct

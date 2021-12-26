@@ -20,17 +20,17 @@ typedef struct tagSTATUSBARDATA
 	bool  bShowStatusName;
 	bool  bConnectingIcon;
 	HFONT BarFont;
-	DWORD fontColor;
+	uint32_t fontColor;
 	uint8_t  TextEffectID;
-	DWORD TextEffectColor1;
-	DWORD TextEffectColor2;
+	uint32_t TextEffectColor1;
+	uint32_t TextEffectColor2;
 	uint8_t  xStatusMode;     // 0-only main, 1-xStatus, 2-main as overlay
 	uint8_t  nProtosPerLine;
 	bool  bShowProtoEmails;
 
 	HBITMAP hBmpBackground;
 	COLORREF bkColour;
-	DWORD backgroundBmpUse;
+	uint32_t backgroundBmpUse;
 	BOOL  bkUseWinColors;
 
 	XPTHANDLE hTheme;

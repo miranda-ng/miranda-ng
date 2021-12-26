@@ -64,7 +64,7 @@ BOOL DlgOption::SubExclude::handleMsg(UINT msg, WPARAM, LPARAM lParam)
 				if (pNM->iColumn == -1)
 					break;
 
-				DWORD dwHitFlags = 0;
+				uint32_t dwHitFlags = 0;
 				HANDLE hItem = reinterpret_cast<HANDLE>(SendMessage(hCList, CLM_HITTEST, reinterpret_cast<WPARAM>(&dwHitFlags), MAKELPARAM(pNM->pt.x, pNM->pt.y)));
 				if (!hItem || !(dwHitFlags & CLCHT_ONITEMEXTRA))
 					break;

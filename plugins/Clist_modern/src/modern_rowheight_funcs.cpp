@@ -331,7 +331,7 @@ static int other_fonts[] = { FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS, FONTID_C
 int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 {
 	int max_height = 0;
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
 	if (!dat->text_ignore_size_for_row_height) {
 		// Get contact font size
@@ -459,7 +459,7 @@ int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int it
 	if (!dat->row_variable_height)
 		return dat->rowHeight;
 
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	//TODO replace futher code with new rowheight definition
 	BOOL selected = ((item == dat->selection) && (dat->hwndRenameEdit != nullptr || dat->bShowSelAlways || (dat->exStyle & CLS_EX_SHOWSELALWAYS) || g_clcPainter.IsForegroundWindow(hwnd)) && contact->type != CLCIT_DIVIDER);
 	BOOL minimalistic = (g_clcPainter.CheckMiniMode(dat, selected));

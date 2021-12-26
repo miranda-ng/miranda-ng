@@ -523,7 +523,7 @@ static int ProfileList_AddItemlistFromDB(
 						continue;
 					break;
 				case DBVT_DWORD:
-					if (dbvCat.dVal != (DWORD)idList[j].nID)
+					if (dbvCat.dVal != (uint32_t)idList[j].nID)
 						continue;
 					break;
 				case DBVT_ASCIIZ:

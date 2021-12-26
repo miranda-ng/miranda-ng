@@ -266,7 +266,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 					if (modtime > filemodtime && buf.st_size != _wtoi(tsize)) {
 						DWORD dwBytes;
 						HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-						WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+						WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
 						ret = true;
 						if (hFile)
 							CloseHandle(hFile);
@@ -276,7 +276,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 				else {
 					DWORD dwBytes;
 					HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-					WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+					WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
 					ret = true;
 					if (hFile)
 						CloseHandle(hFile);
@@ -286,7 +286,7 @@ bool DownloadFile(LPCTSTR tszURL, LPCTSTR tszLocal)
 			else {
 				DWORD dwBytes;
 				HANDLE hFile = CreateFile(tszLocal, GENERIC_READ | GENERIC_WRITE, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-				WriteFile(hFile, pReply->pData, (DWORD)pReply->dataLength, &dwBytes, nullptr);
+				WriteFile(hFile, pReply->pData, (uint32_t)pReply->dataLength, &dwBytes, nullptr);
 				ret = true;
 				if (hFile)
 					CloseHandle(hFile);

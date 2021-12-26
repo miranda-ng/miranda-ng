@@ -38,7 +38,7 @@ private:
 		MIM_UNICODE = 2
 	};
 protected:
-	DWORD lastEventTime;
+	uint32_t lastEventTime;
 	int iLastEventType;
 	enum ENCODEFLAGS {
 		ENF_NONE = 0,
@@ -62,8 +62,8 @@ protected:
 	virtual char*    getEncodedContactName(MCONTACT hContact, const char *szProto);
 	virtual void     getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut);
 
-	virtual DWORD    getLastEventTime();
-	virtual void     setLastEventTime(DWORD);
+	virtual uint32_t    getLastEventTime();
+	virtual void     setLastEventTime(uint32_t);
 
 	virtual int      getLastEventType();
 	virtual void     setLastEventType(int);

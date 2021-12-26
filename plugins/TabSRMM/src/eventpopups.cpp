@@ -92,7 +92,7 @@ int TSAPI NEN_ReadOptions(NEN_OPTIONS *options)
 	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, FALSE);
 	options->iDisable = (uint8_t)db_get_b(0, MODULE, OPT_DISABLE, 0);
 	options->iMUCDisable = (uint8_t)db_get_b(0, MODULE, OPT_MUCDISABLE, 0);
-	options->dwStatusMask = db_get_dw(0, MODULE, "statusmask", (DWORD)-1);
+	options->dwStatusMask = db_get_dw(0, MODULE, "statusmask", (uint32_t)-1);
 	options->bWindowCheck = (BOOL)db_get_b(0, MODULE, OPT_WINDOWCHECK, 0);
 	options->bNoRSS = (BOOL)db_get_b(0, MODULE, OPT_NORSS, 0);
 	options->iLimitPreview = db_get_dw(0, MODULE, OPT_LIMITPREVIEW, 0);
@@ -110,19 +110,19 @@ int TSAPI NEN_WriteOptions(NEN_OPTIONS *options)
 	db_set_b(0, MODULE, OPT_COLDEFAULT_MESSAGE, (uint8_t)options->bDefaultColorMsg);
 	db_set_b(0, MODULE, OPT_COLDEFAULT_OTHERS, (uint8_t)options->bDefaultColorOthers);
 	db_set_b(0, MODULE, OPT_COLDEFAULT_ERR, (uint8_t)options->bDefaultColorErr);
-	db_set_dw(0, MODULE, OPT_COLBACK_MESSAGE, (DWORD)options->colBackMsg);
-	db_set_dw(0, MODULE, OPT_COLTEXT_MESSAGE, (DWORD)options->colTextMsg);
-	db_set_dw(0, MODULE, OPT_COLBACK_OTHERS, (DWORD)options->colBackOthers);
-	db_set_dw(0, MODULE, OPT_COLTEXT_OTHERS, (DWORD)options->colTextOthers);
-	db_set_dw(0, MODULE, OPT_COLBACK_ERR, (DWORD)options->colBackErr);
-	db_set_dw(0, MODULE, OPT_COLTEXT_ERR, (DWORD)options->colTextErr);
+	db_set_dw(0, MODULE, OPT_COLBACK_MESSAGE, (uint32_t)options->colBackMsg);
+	db_set_dw(0, MODULE, OPT_COLTEXT_MESSAGE, (uint32_t)options->colTextMsg);
+	db_set_dw(0, MODULE, OPT_COLBACK_OTHERS, (uint32_t)options->colBackOthers);
+	db_set_dw(0, MODULE, OPT_COLTEXT_OTHERS, (uint32_t)options->colTextOthers);
+	db_set_dw(0, MODULE, OPT_COLBACK_ERR, (uint32_t)options->colBackErr);
+	db_set_dw(0, MODULE, OPT_COLTEXT_ERR, (uint32_t)options->colTextErr);
 	db_set_b(0, MODULE, OPT_MASKACTL, (uint8_t)options->maskActL);
 	db_set_b(0, MODULE, OPT_MASKACTR, (uint8_t)options->maskActR);
 	db_set_b(0, MODULE, OPT_MASKACTTE, (uint8_t)options->maskActTE);
 	db_set_b(0, MODULE, OPT_MERGEPOPUP, (uint8_t)options->bMergePopup);
-	db_set_dw(0, MODULE, OPT_DELAY_MESSAGE, (DWORD)options->iDelayMsg);
-	db_set_dw(0, MODULE, OPT_DELAY_OTHERS, (DWORD)options->iDelayOthers);
-	db_set_dw(0, MODULE, OPT_DELAY_ERR, (DWORD)options->iDelayErr);
+	db_set_dw(0, MODULE, OPT_DELAY_MESSAGE, (uint32_t)options->iDelayMsg);
+	db_set_dw(0, MODULE, OPT_DELAY_OTHERS, (uint32_t)options->iDelayOthers);
+	db_set_dw(0, MODULE, OPT_DELAY_ERR, (uint32_t)options->iDelayErr);
 	db_set_b(0, MODULE, OPT_SHOW_HEADERS, (uint8_t)options->bShowHeaders);
 	db_set_b(0, MODULE, OPT_DISABLE, (uint8_t)options->iDisable);
 	db_set_b(0, MODULE, OPT_MUCDISABLE, (uint8_t)options->iMUCDisable);
@@ -263,18 +263,18 @@ static wchar_t* GetPreviewT(uint16_t eventType, DBEVENTINFO *dbe)
 			if (!nen_options.bPreview)
 				return mir_wstrdup(TranslateT("Incoming file"));
 
-			if (dbe->cbBlob > 5) { // min valid size = (sizeof(DWORD) + 1 character file name + terminating 0)
-				char* szFileName = (char *)dbe->pBlob + sizeof(DWORD);
+			if (dbe->cbBlob > 5) { // min valid size = (sizeof(uint32_t) + 1 character file name + terminating 0)
+				char* szFileName = (char *)dbe->pBlob + sizeof(uint32_t);
 				char* szDescr = nullptr;
-				size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(DWORD));
+				size_t namelength = Utils::safe_strlen(szFileName, dbe->cbBlob - sizeof(uint32_t));
 
-				if (dbe->cbBlob > (sizeof(DWORD) + namelength + 1))
+				if (dbe->cbBlob > (sizeof(uint32_t) + namelength + 1))
 					szDescr = szFileName + namelength + 1;
 
 				ptrW tszFileName(DbEvent_GetString(dbe, szFileName));
 				wchar_t buf[1024];
 
-				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(DWORD) - namelength - 1) > 0) {
+				if (szDescr && Utils::safe_strlen(szDescr, dbe->cbBlob - sizeof(uint32_t) - namelength - 1) > 0) {
 					ptrW tszDescr(DbEvent_GetString(dbe, szDescr));
 					if (tszFileName && tszDescr) {
 						mir_snwprintf(buf, L"%s: %s (%s)", TranslateT("Incoming file"), tszFileName.get(), tszDescr.get());
@@ -617,7 +617,7 @@ public:
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
 		if (msg == WM_COMMAND && wParam == DM_STATUSMASKSET) {
-			db_set_dw(0, MODULE, "statusmask", (DWORD)lParam);
+			db_set_dw(0, MODULE, "statusmask", (uint32_t)lParam);
 			tmpOpts.dwStatusMask = (int)lParam;
 		}
 
@@ -761,7 +761,7 @@ passed:
 }
 
 // remove all popups for hContact, but only if the mask matches the current "mode"
-void TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask)
+void TSAPI DeletePopupsForContact(MCONTACT hContact, uint32_t dwMask)
 {
 	if (!(dwMask & nen_options.dwRemoveMask) || nen_options.iDisable)
 		return;

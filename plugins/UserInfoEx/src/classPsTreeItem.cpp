@@ -177,7 +177,7 @@ int CPsTreeItem::Name(LPTSTR ptszTitle, const uint8_t bIsUnicode)
 	if (_pszName)
 	{
 		// convert disallowed characters
-		for (DWORD i = 0; _pszName[i] != 0; i++) 
+		for (uint32_t i = 0; _pszName[i] != 0; i++) 
 		{
 			switch (_pszName[i]) 
 			{
@@ -467,7 +467,7 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
  *			dwFlags				- tells what to save
  * return:	handle to new (moved) treeitem if successful or NULL otherwise
  **/
-uint16_t CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, DWORD dwFlags)
+uint16_t CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT iState, uint32_t dwFlags)
 {
 	uint16_t numErrors = 0;
 

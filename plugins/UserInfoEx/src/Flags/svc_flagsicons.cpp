@@ -185,7 +185,7 @@ FIBITMAP *LoadResource(UINT ID, LPTSTR lpType)
 	FIBITMAP *dib = nullptr;
 	if (lpType) {
 		HRSRC	hResInfo = FindResource(g_plugin.getInst(), MAKEINTRESOURCE(ID), lpType);
-		DWORD	ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
+		uint32_t	ResSize = SizeofResource(g_plugin.getInst(), hResInfo);
 		HGLOBAL	hRes = LoadResource(g_plugin.getInst(), hResInfo);
 		uint8_t *buffer = (uint8_t *)LockResource(hRes);
 		if (buffer) {

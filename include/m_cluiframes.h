@@ -56,7 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CLISTFrame
 {
-	DWORD cbSize;
+	uint32_t cbSize;
 	HWND hWnd;
 	HICON hIcon;
 	int align;              // al flags below

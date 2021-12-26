@@ -28,7 +28,7 @@
 
 CMPlugin g_plugin;
 
-DWORD IDThread = 0;
+uint32_t IDThread = 0;
 HANDLE hThread = nullptr;
 HANDLE hFlashEvent;
 HANDLE hExitEvent;
@@ -41,7 +41,7 @@ UINT hReminderTimer = 0;
 HHOOK hMouseHook = nullptr;
 HHOOK hKeyBoardHook = nullptr;
 uint8_t  bEmulateKeypresses = 0;
-DWORD dwLastInput = 0;
+uint32_t dwLastInput = 0;
 POINT lastGlobalMousePos = { 0, 0 };
 
 uint8_t bFlashOnMsg;
@@ -262,7 +262,7 @@ BOOL checkUnopenEvents()
 static void __cdecl FlashThreadFunction(void*)
 {
 	BOOL bEvent = FALSE;
-	DWORD dwEventStarted = 0, dwFlashStarted = 0;
+	uint32_t dwEventStarted = 0, dwFlashStarted = 0;
 	uint8_t data, unchangedLeds;
 	
 	Thread_SetName("KeyboardNotify: FlashThreadFunction");
@@ -327,7 +327,7 @@ static void __cdecl FlashThreadFunction(void*)
 	}
 }
 
-BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, DWORD timestampCurrent)
+BOOL checkMsgTimestamp(MCONTACT hContact, MEVENT hEventCurrent, uint32_t timestampCurrent)
 {
 	if (!bFlashIfMsgOlder)
 		return TRUE;

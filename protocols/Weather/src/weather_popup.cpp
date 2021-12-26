@@ -42,11 +42,11 @@ int WeatherError(WPARAM wParam, LPARAM lParam)
 
 	wchar_t* tszMsg = (wchar_t*)wParam;
 
-	if ((DWORD)lParam == SM_WARNING)
+	if ((uint32_t)lParam == SM_WARNING)
 		PUShowMessageW(tszMsg, SM_WARNING);
-	else if ((DWORD)lParam == SM_NOTIFY)
+	else if ((uint32_t)lParam == SM_NOTIFY)
 		PUShowMessageW(tszMsg, SM_NOTIFY);
-	else if ((DWORD)lParam == SM_WEATHERALERT) {
+	else if ((uint32_t)lParam == SM_WEATHERALERT) {
 		POPUPDATAW ppd;
 		wchar_t str1[512], str2[512];
 
@@ -94,7 +94,7 @@ int WPShowMessage(const wchar_t* lpzText, uint16_t kind)
 // use for displaying contact menu
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	DWORD ID = 0;
+	uint32_t ID = 0;
 	MCONTACT hContact;
 	hContact = PUGetContact(hWnd);
 

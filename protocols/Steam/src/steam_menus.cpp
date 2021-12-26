@@ -49,7 +49,7 @@ int CSteamProto::UnblockCommand(WPARAM hContact, LPARAM)
 int CSteamProto::JoinToGameCommand(WPARAM hContact, LPARAM)
 {
 	char url[MAX_PATH];
-	DWORD gameId = getDword(hContact, "GameID", 0);
+	uint32_t gameId = getDword(hContact, "GameID", 0);
 	mir_snprintf(url, "steam://rungameid/%lu", gameId);
 	Utils_OpenUrl(url);
 	return 0;
@@ -81,7 +81,7 @@ int CSteamProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(contactMenuItems[CMI_BLOCK], !isBlocked || ctrlPressed);
 	Menu_ShowItem(contactMenuItems[CMI_UNBLOCK], isBlocked || ctrlPressed);
 
-	DWORD gameId = getDword(hContact, "GameID", 0);
+	uint32_t gameId = getDword(hContact, "GameID", 0);
 	Menu_ShowItem(contactMenuItems[CMI_JOIN_GAME], gameId || ctrlPressed);
 	return 0;
 }

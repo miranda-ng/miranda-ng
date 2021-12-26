@@ -151,7 +151,7 @@ void CDlgBase::Show(int nCmdShow)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, uint8_t type, DWORD iValue)
+void CDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, uint8_t type, uint32_t iValue)
 {
 	ctrl.CreateDbLink(m_pPlugin.getModule(), szSetting, type, iValue);
 }

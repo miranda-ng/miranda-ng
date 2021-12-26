@@ -68,12 +68,12 @@ CMPlugin::CMPlugin() :
 
 time_t getLastSeen(MCONTACT hContact)
 {
-	return g_plugin.getDword(hContact, "LastSeen", g_plugin.getDword(hContact, "CreationTime", (DWORD)-1));
+	return g_plugin.getDword(hContact, "LastSeen", g_plugin.getDword(hContact, "CreationTime", (uint32_t)-1));
 }
 
 void setLastSeen(MCONTACT hContact)
 {
-	g_plugin.setDword(hContact, "LastSeen", (DWORD)time(0));
+	g_plugin.setDword(hContact, "LastSeen", (uint32_t)time(0));
 	if (g_plugin.getByte(hContact, "StillAbsentNotified", 0))
 		g_plugin.setByte(hContact, "StillAbsentNotified", 0);
 }
@@ -503,7 +503,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 	}
 
-	if (g_plugin.getDword(hContact, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline) {
+	if (g_plugin.getDword(hContact, "LastSeen", (uint32_t)-1) == (uint32_t)-1 && options.notifyFirstOnline) {
 		ReturnNotify(hContact, TranslateT("has gone online for the first time."));
 		setLastSeen(hContact);
 	}
@@ -630,7 +630,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int ContactAdded(WPARAM hContact, LPARAM)
 {
-	g_plugin.setDword(hContact, "CreationTime", (DWORD)time(0));
+	g_plugin.setDword(hContact, "CreationTime", (uint32_t)time(0));
 	return 0;
 }
 
@@ -657,7 +657,7 @@ int CMPlugin::Load()
 	HookEvent(ME_DB_CONTACT_ADDED, ContactAdded);
 
 	// ensure all contacts are timestamped
-	DWORD current_time = (DWORD)time(0);
+	uint32_t current_time = (uint32_t)time(0);
 	for (auto &hContact : Contacts())
 		if (!g_plugin.getDword(hContact, "CreationTime"))
 			g_plugin.setDword(hContact, "CreationTime", current_time);

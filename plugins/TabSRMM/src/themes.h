@@ -119,14 +119,14 @@ void CustomizeButton(HWND hwndButton);
 struct AeroEffect
 {
 	wchar_t    tszName[40];
-	DWORD    m_baseColor;
-	DWORD    m_gradientColor;
+	uint32_t    m_baseColor;
+	uint32_t    m_gradientColor;
 	uint8_t     m_baseAlpha;
 	uint8_t     m_finalAlpha;
 	uint8_t     m_cornerType;
 	uint8_t     m_gradientType;
-	DWORD    m_cornerRadius;
-	DWORD    m_glowSize;
+	uint32_t    m_cornerRadius;
+	uint32_t    m_glowSize;
 	COLORREF m_clrBack, m_clrToolbar, m_clrToolbar2;
 
 	void (TSAPI	*pfnEffectRenderer)(const HDC hdc, const RECT *rc, int iEffectArea);
@@ -155,7 +155,7 @@ public:
 		m_szName[39] = 0;
 	}
 
-	CImageItem(uint8_t bottom, uint8_t left, uint8_t top, uint8_t right, HDC hdc, HBITMAP hbm, DWORD dwFlags,
+	CImageItem(uint8_t bottom, uint8_t left, uint8_t top, uint8_t right, HDC hdc, HBITMAP hbm, uint32_t dwFlags,
 		HBRUSH brush, uint8_t alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
 	{
 		m_bBottom = bottom;
@@ -213,7 +213,7 @@ public:
 	CImageItem*		getNextItem() const { return(m_nextItem); }
 	void			setNextItem(CImageItem *item) { m_nextItem = item; }
 	HBITMAP			getHbm() const { return(m_hbm); }
-	DWORD			getFlags() const { return(m_dwFlags); }
+	uint32_t			getFlags() const { return(m_dwFlags); }
 	HDC				getDC() const { return(m_hdc); }
 	const BLENDFUNCTION&	getBF() const
 	{
@@ -235,7 +235,7 @@ private:
 	HBITMAP 		m_hbm;										// the bitmap handle
 	uint8_t    		m_bLeft, m_bRight, m_bTop, m_bBottom;      	// sizing margins for the outer 8 image parts
 	uint8_t    		m_alpha;									// constant alpha for the entire image, applied via m_bf. sums with perpixel alpha
-	DWORD   		m_dwFlags;									// flags
+	uint32_t   		m_dwFlags;									// flags
 	HDC     		m_hdc;										// *can* hold a pre-created hdc to speed up rendering
 	HBITMAP 		m_hbmOld;									// old bitmap, needs to be selected into m_hdc before destroying it
 	LONG    		m_inner_height, m_inner_width;				// dimensions of the inner image part
@@ -256,12 +256,12 @@ struct CSkinItem {
 	uint8_t GRADIENT;
 	uint8_t CORNER;
 
-	DWORD COLOR;
-	DWORD COLOR2;
+	uint32_t COLOR;
+	uint32_t COLOR2;
 
 	uint8_t COLOR2_TRANSPARENT;
 
-	DWORD TEXTCOLOR;
+	uint32_t TEXTCOLOR;
 
 	int ALPHA;
 
@@ -270,7 +270,7 @@ struct CSkinItem {
 	int MARGIN_RIGHT;
 	int MARGIN_BOTTOM;
 	uint8_t IGNORED;
-	DWORD BORDERSTYLE;
+	uint32_t BORDERSTYLE;
 	CImageItem *imageItem;
 };
 
@@ -342,7 +342,7 @@ public:
 	void  ReadButtonItem(const wchar_t *itemName) const;
 	bool  haveGlyphItem() const { return(m_fHaveGlyph); }
 	int   getNrIcons() const { return(m_nrSkinIcons); }
-	DWORD getDwmColor() const { return(m_dwmColor); }
+	uint32_t getDwmColor() const { return(m_dwmColor); }
 
 	const TIconDescW* getIconDesc(const int id) const { return(&m_skinIcons[id]); }
 	/**
@@ -370,11 +370,11 @@ public:
 	static void    TSAPI	SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget);
 	static void    TSAPI	SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget);
 	static void    TSAPI	DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, uint8_t alpha);
-	static DWORD   TSAPI HexStringToLong(const wchar_t *szSource);
+	static uint32_t   TSAPI HexStringToLong(const wchar_t *szSource);
 	static UINT    TSAPI	DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
 	static UINT    TSAPI	NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
 	static HBITMAP TSAPI CreateAeroCompatibleBitmap(const RECT &rc, HDC dc);
-	static int     TSAPI	RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, DWORD dtFlags, const int iGlowSize = DEFAULT_GLOW_SIZE, COLORREF clr = 0, bool fForceAero = false);
+	static int     TSAPI	RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, uint32_t dtFlags, const int iGlowSize = DEFAULT_GLOW_SIZE, COLORREF clr = 0, bool fForceAero = false);
 	static void    TSAPI	MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc);
 	static void    TSAPI	ApplyAeroEffect(const HDC hdc, const RECT* rc, int iEffectArea);
 	static void    TSAPI	setAeroEffect(const LRESULT effect);
@@ -419,7 +419,7 @@ public:
 	static AeroEffect	m_aeroEffects[AERO_EFFECT_LAST];
 	static AeroEffect	m_currentAeroEffect;
 	static AeroEffect*	m_pCurrentAeroEffect;
-	static DWORD		m_glowSize;
+	static uint32_t		m_glowSize;
 	static HBRUSH		m_BrushBack, m_BrushFill;
 
 	static COLORREF		m_dwmColorRGB;
@@ -438,7 +438,7 @@ private:
 	void 			SkinCalcFrameWidth();
 	TIconDescW		*m_skinIcons;
 	int				m_nrSkinIcons;
-	DWORD			m_dwmColor;
+	uint32_t			m_dwmColor;
 
 	static	void TSAPI AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea);
 	static	void TSAPI AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffectArea);
@@ -460,13 +460,13 @@ struct ButtonItem {
 	LONG_PTR normalGlyphMetrics[4];
 	LONG_PTR hoverGlyphMetrics[4];
 	LONG_PTR pressedGlyphMetrics[4];
-	DWORD   dwFlags, dwStockFlags;
-	DWORD   uId;
+	uint32_t   dwFlags, dwStockFlags;
+	uint32_t   uId;
 	wchar_t szTip[256];
 	char    szService[256];
 	char    szModule[256], szSetting[256];
 	uint8_t    bValuePush[256], bValueRelease[256];
-	DWORD   type;
+	uint32_t   type;
 	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
 	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
 	wchar_t   tszLabel[40];

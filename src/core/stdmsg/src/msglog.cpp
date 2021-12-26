@@ -306,7 +306,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 
 	case EVENTTYPE_FILE:
 		{
-			char *filename = (char*)dbei.pBlob + sizeof(DWORD);
+			char *filename = (char*)dbei.pBlob + sizeof(uint32_t);
 			char *descr = filename + mir_strlen(filename) + 1;
 			
 			SetToStyle(MSGFONTID_NOTICE, buf);

@@ -11,7 +11,7 @@ void MakeBmpTransparent(HBITMAP hBitmap)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -29,7 +29,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	BITMAP bmp;
 	GetObject(hBitmap, sizeof(bmp), &bmp);
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * 4;
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * 4;
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return nullptr;
@@ -97,7 +97,7 @@ void SetTranspBkgColor(HBITMAP hBitmap, COLORREF color)
 	if (bmp.bmBitsPixel != 32)
 		return;
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return;
@@ -264,12 +264,12 @@ BOOL GetColorForPoint(int colorDiff, uint8_t *p, int width,
 }
 
 
-DWORD GetImgHash(HBITMAP hBitmap)
+uint32_t GetImgHash(HBITMAP hBitmap)
 {
 	BITMAP bmp;
 	GetObject(hBitmap, sizeof(bmp), &bmp);
 
-	DWORD dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
+	uint32_t dwLen = bmp.bmWidth * bmp.bmHeight * (bmp.bmBitsPixel / 8);
 	uint16_t *p = (uint16_t *)malloc(dwLen);
 	if (p == nullptr)
 		return 0;
@@ -277,8 +277,8 @@ DWORD GetImgHash(HBITMAP hBitmap)
 
 	GetBitmapBits(hBitmap, dwLen, p);
 
-	DWORD ret = 0;
-	for (DWORD i = 0; i < dwLen / 2; i++)
+	uint32_t ret = 0;
+	for (uint32_t i = 0; i < dwLen / 2; i++)
 		ret += p[i];
 
 	free(p);
@@ -325,7 +325,7 @@ BOOL MakeTransparentBkg(MCONTACT hContact, HBITMAP *hBitmap)
 	if (width <= 4 || height <= 4)
 		return FALSE;
 
-	DWORD dwLen = width * height * 4;
+	uint32_t dwLen = width * height * 4;
 	uint8_t *p = (uint8_t *)malloc(dwLen);
 	if (p == nullptr)
 		return FALSE;

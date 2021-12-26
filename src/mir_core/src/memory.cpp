@@ -30,14 +30,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static int CheckBlock(void* blk)
 {
 	int result = FALSE;
-	char* p = (char*)blk - sizeof(DWORD)*2;
-	DWORD size, *b, *e;
+	char* p = (char*)blk - sizeof(uint32_t)*2;
+	uint32_t size, *b, *e;
 
 	__try
 	{
-		size = *(DWORD*)p;
-		b = (DWORD*)&p[ sizeof(DWORD) ];
-		e = (DWORD*)&p[ sizeof(DWORD)*2 + size ];
+		size = *(uint32_t*)p;
+		b = (uint32_t*)&p[ sizeof(uint32_t) ];
+		e = (uint32_t*)&p[ sizeof(uint32_t)*2 + size ];
 
 		if (*b != BLOCK_ALLOCED || *e != BLOCK_ALLOCED)
 		{
@@ -73,7 +73,7 @@ MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 	if (size == 0)
 		return nullptr;
 
-	char *p = (char*)malloc(size + sizeof(DWORD)* 3);
+	char *p = (char*)malloc(size + sizeof(uint32_t)* 3);
 	if (p == nullptr) {
       #ifdef _MSC_VER
          OutputDebugStringA("memory overflow\n");
@@ -84,10 +84,10 @@ MIR_C_CORE_DLL(void*) mir_alloc(size_t size)
 		return nullptr;
 	}
 
-	*(DWORD*)p = (DWORD)size;
-	*(DWORD*)&p[sizeof(DWORD)] = BLOCK_ALLOCED;
-	*(DWORD*)&p[size + sizeof(DWORD)*2] = BLOCK_ALLOCED;
-	return p + sizeof(DWORD)* 2;
+	*(uint32_t*)p = (uint32_t)size;
+	*(uint32_t*)&p[sizeof(uint32_t)] = BLOCK_ALLOCED;
+	*(uint32_t*)&p[size + sizeof(uint32_t)*2] = BLOCK_ALLOCED;
+	return p + sizeof(uint32_t)* 2;
 }
 
 /******************************************************************************/
@@ -109,11 +109,11 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 	if (ptr != nullptr) {
 		if (!CheckBlock(ptr))
 			return nullptr;
-		p = (char*)ptr - sizeof(DWORD)*2;
+		p = (char*)ptr - sizeof(uint32_t)*2;
 	}
 	else p = nullptr;
 
-	p = (char*)realloc(p, size + sizeof(DWORD)*3);
+	p = (char*)realloc(p, size + sizeof(uint32_t)*3);
 	if (p == nullptr) {
       #ifdef _MSC_VER
          OutputDebugStringA("memory overflow\n");
@@ -124,10 +124,10 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 		return nullptr;
 	}
 
-	*(DWORD*)p = (DWORD)size;
-	*(DWORD*)&p[sizeof(DWORD)] = BLOCK_ALLOCED;
-	*(DWORD*)&p[size + sizeof(DWORD)*2] = BLOCK_ALLOCED;
-	return p + sizeof(DWORD)*2;
+	*(uint32_t*)p = (uint32_t)size;
+	*(uint32_t*)&p[sizeof(uint32_t)] = BLOCK_ALLOCED;
+	*(uint32_t*)&p[size + sizeof(uint32_t)*2] = BLOCK_ALLOCED;
+	return p + sizeof(uint32_t)*2;
 }
 
 /******************************************************************************/
@@ -135,18 +135,18 @@ MIR_C_CORE_DLL(void*) mir_realloc(void* ptr, size_t size)
 MIR_C_CORE_DLL(void) mir_free(void* ptr)
 {
 	char* p;
-	DWORD size;
+	uint32_t size;
 
 	if (ptr == nullptr)
 		return;
 	if (!CheckBlock(ptr))
 		return;
 
-	p = (char*)ptr - sizeof(DWORD)*2;
-	size = *(DWORD*)p;
+	p = (char*)ptr - sizeof(uint32_t)*2;
+	size = *(uint32_t*)p;
 
-	*(DWORD*)&p[sizeof(DWORD)] = BLOCK_FREED;
-	*(DWORD*)&p[size + sizeof(DWORD)*2] = BLOCK_FREED;
+	*(uint32_t*)&p[sizeof(uint32_t)] = BLOCK_FREED;
+	*(uint32_t*)&p[size + sizeof(uint32_t)*2] = BLOCK_FREED;
 	free(p);
 }
 

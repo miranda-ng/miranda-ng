@@ -13,7 +13,7 @@ COLORREF pencustcolors[16];
 
 const static osdmsg defstr = { L"", 0, RGB(0, 0, 0), nullptr, 0 };
 
-void FillCheckBoxTree(HWND hwndTree, DWORD style)
+void FillCheckBoxTree(HWND hwndTree, uint32_t style)
 {
 	logmsg("FillCheckBoxTree");
 
@@ -30,9 +30,9 @@ void FillCheckBoxTree(HWND hwndTree, DWORD style)
 	}
 }
 
-DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
+uint32_t MakeCheckBoxTreeFlags(HWND hwndTree)
 {
-	DWORD flags = 0;
+	uint32_t flags = 0;
 
 	logmsg("MakeCheckBoxTreeFlags");
 

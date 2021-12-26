@@ -130,8 +130,8 @@ wchar_t* ReqGetText(DBEVENTINFO* dbei)
 	if (!dbei->pBlob)
 		return nullptr;
 
-	char * ptr = (char *)&dbei->pBlob[sizeof(DWORD) * 2];
-	int len = dbei->cbBlob - sizeof(DWORD) * 2;
+	char * ptr = (char *)&dbei->pBlob[sizeof(uint32_t) * 2];
+	int len = dbei->cbBlob - sizeof(uint32_t) * 2;
 	int i = 0;
 
 	while (len && (i < 4)) {
@@ -317,8 +317,8 @@ void HistoryLog(MCONTACT hContact, char *data, int event_type, int flags)
 	Event.szModule = MODULENAME;
 	Event.eventType = event_type;
 	Event.flags = flags | DBEF_UTF;
-	Event.timestamp = (DWORD)time(0);
-	Event.cbBlob = (DWORD)mir_strlen(data) + 1;
+	Event.timestamp = (uint32_t)time(0);
+	Event.cbBlob = (uint32_t)mir_strlen(data) + 1;
 	Event.pBlob = (uint8_t*)_strdup(data);
 	db_event_add(hContact, &Event);
 }

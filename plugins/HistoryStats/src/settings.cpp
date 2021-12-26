@@ -478,7 +478,7 @@ Settings& Settings::operator =(const Settings& other)
 	return *this;
 }
 
-ext::string Settings::getOutputFile(DWORD timeStarted) const
+ext::string Settings::getOutputFile(uint32_t timeStarted) const
 {
 	ext::string strFile = m_OutputFile;
 
@@ -492,7 +492,7 @@ ext::string Settings::getOutputFile(DWORD timeStarted) const
 	return strFile;
 }
 
-ext::string Settings::getOutputPrefix(DWORD timeStarted) const
+ext::string Settings::getOutputPrefix(uint32_t timeStarted) const
 {
 	if (m_OutputExtraToFolder && !m_OutputExtraFolder.empty()) {
 		ext::string extraFolder = m_OutputExtraFolder;
@@ -522,12 +522,12 @@ bool Settings::isPNGOutputActiveAndAvailable() const
 	return (m_GraphicsMode == gmPNG);
 }
 
-DWORD Settings::getIgnoreBefore() const
+uint32_t Settings::getIgnoreBefore() const
 {
 	return utils::parseDate(m_IgnoreBefore);
 }
 
-DWORD Settings::getIgnoreAfter() const
+uint32_t Settings::getIgnoreAfter() const
 {
 	return utils::parseDate(m_IgnoreAfter);
 }

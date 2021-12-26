@@ -117,7 +117,7 @@ static const char *inet_ntop4(const struct in_addr *addr, char *buf, size_t bufs
     saddr.sin_family = AF_INET;
     saddr.sin_addr = *addr;
 
-    DWORD len = bufsize;
+    uint32_t len = bufsize;
 
     if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
         return nullptr;
@@ -133,7 +133,7 @@ static const char *inet_ntop6(const struct in6_addr *addr, char *buf, size_t buf
     saddr.sin6_family = AF_INET6;
     saddr.sin6_addr = *addr;
 
-    DWORD len = bufsize;
+    uint32_t len = bufsize;
 
     if (WSAAddressToString((LPSOCKADDR)&saddr, sizeof(saddr), nullptr, buf, &len)) {
         return nullptr;

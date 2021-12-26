@@ -125,7 +125,7 @@ static INT_PTR CALLBACK DlgProcShakeOpt(HWND hwnd,UINT msg,WPARAM wParam,LPARAM 
 			|| (HWND)lParam == GetDlgItem(hwnd, IDC_SSCALE_CLIST) || (HWND)lParam == GetDlgItem(hwnd, IDC_SSCALE_CHAT))
 		{
 			wchar_t szBuf[20];
-			DWORD dwPos = SendMessage((HWND)lParam, TBM_GETPOS, 0, 0);
+			uint32_t dwPos = SendMessage((HWND)lParam, TBM_GETPOS, 0, 0);
 			mir_snwprintf(szBuf, L"%d", dwPos);
 			if ((HWND)lParam == GetDlgItem(hwnd, IDC_SNUMBER_CLIST))
 				SetDlgItemText(hwnd, IDC_LNUMBER_CLIST, szBuf);
@@ -334,7 +334,7 @@ static INT_PTR CALLBACK DlgProcNudgeOpt(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 				{
 					TVHITTESTINFO ht = { 0 };
 
-					DWORD dwpos = GetMessagePos();
+					uint32_t dwpos = GetMessagePos();
 					POINTSTOPOINT(ht.pt, MAKEPOINTS(dwpos));
 					MapWindowPoints(HWND_DESKTOP, ((LPNMHDR)lParam)->hwndFrom, &ht.pt, 1);
 

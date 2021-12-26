@@ -344,12 +344,12 @@ BOOL  OptTree_ProcessMessage(HWND hwnd, UINT msg, WPARAM, LPARAM lparam, BOOL*, 
 	return FALSE;
 }
 
-DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, char *szSettingName)
+uint32_t OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, char *szSettingName)
 {
 	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
 
 	HWND hwndTree = GetDlgItem(hwnd, idcTree);
-	DWORD result = 0;
+	uint32_t result = 0;
 	int i;
 	for (i = 0; i < optionCount; ++i)
 	{
@@ -367,7 +367,7 @@ DWORD OptTree_GetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int op
 	return result;
 }
 
-void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, DWORD dwOptions, char *szSettingName)
+void OptTree_SetOptions(HWND hwnd, int idcTree, OPTTREE_OPTION *options, int optionCount, uint32_t dwOptions, char *szSettingName)
 {
 	enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_RCHECK, IMG_NORCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
 

@@ -715,7 +715,7 @@ static LRESULT clcOnLButtonDown(ClcData *dat, HWND hwnd, UINT, WPARAM, LPARAM lP
 
 	ClcContact *contact;
 	ClcGroup *group;
-	DWORD hitFlags;
+	uint32_t hitFlags;
 	int hit = cliHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), &contact, &group, &hitFlags);
 	if (GetFocus() != hwnd)
 		SetFocus(hwnd);
@@ -886,7 +886,7 @@ static LRESULT clcOnMouseMove(ClcData *dat, HWND hwnd, UINT, WPARAM wParam, LPAR
 	}
 
 	if (dat->iDragItem == -1) {
-		DWORD flag = 0;
+		uint32_t flag = 0;
 		int iOldHotTrack = dat->iHotTrack;
 
 		if (dat->hwndRenameEdit != nullptr || GetKeyState(VK_MENU) & 0x8000 || GetKeyState(VK_F10) & 0x8000)
@@ -1066,7 +1066,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 
 	SetCursor((HCURSOR)GetClassLongPtr(hwnd, GCLP_HCURSOR));
 	if (dat->exStyle & CLS_EX_TRACKSELECT) {
-		DWORD flags;
+		uint32_t flags;
 		dat->iHotTrack = cliHitTest(hwnd, dat, (short)LOWORD(lParam), (short)HIWORD(lParam), nullptr, nullptr, &flags);
 		if (dat->iHotTrack == -1)
 			ReleaseCapture();
@@ -1342,7 +1342,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT, WPARAM wParam
 
 	int nHiddenStatus = CLVM_GetContactHiddenStatus(wParam, szProto, dat);
 
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	bool isVisiblebyFilter = (((style & CLS_SHOWHIDDEN) && nHiddenStatus != -1) || !nHiddenStatus);
 	bool ifVisibleByClui = !Clist_IsHiddenMode(dat, status);
 	bool isVisible = (g_CluiData.bFilterEffective & CLVM_FILTER_STATUS) ? true : ifVisibleByClui;

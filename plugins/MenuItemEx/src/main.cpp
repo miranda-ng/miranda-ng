@@ -208,7 +208,7 @@ BOOL DirectoryExists(MCONTACT hContact)
 {
 	char path[MAX_PATH];
 	CallService(MS_FILE_GETRECEIVEDFILESFOLDER, hContact, (LPARAM)&path);
-	DWORD attr = GetFileAttributesA(path);
+	uint32_t attr = GetFileAttributesA(path);
 	return (attr != -1) && (attr&FILE_ATTRIBUTE_DIRECTORY);
 }
 
@@ -270,8 +270,8 @@ BOOL IPExists(MCONTACT hContact)
 	LPSTR szProto = Proto_GetBaseAccountName(hContact);
 	if (!szProto) return 0;
 
-	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
-	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
+	uint32_t mIP = db_get_dw(hContact, szProto, "IP", 0);
+	uint32_t rIP = db_get_dw(hContact, szProto, "RealIP", 0);
 
 	return (mIP != 0 || rIP != 0);
 }
@@ -488,7 +488,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 
 static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 {
-	DWORD flags = g_plugin.getDword("flags", vf_default);
+	uint32_t flags = g_plugin.getDword("flags", vf_default);
 
 	LPSTR module = Proto_GetBaseAccountName(hContact);
 	if (!module)
@@ -527,11 +527,11 @@ static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(hContact);
 
 	CMStringW wszBuffer;
-	DWORD mIP = db_get_dw(hContact, szProto, "IP", 0);
+	uint32_t mIP = db_get_dw(hContact, szProto, "IP", 0);
 	if (mIP)
 		wszBuffer.AppendFormat(L"External IP: %d.%d.%d.%d\r\n", mIP >> 24, (mIP >> 16) & 0xFF, (mIP >> 8) & 0xFF, mIP & 0xFF);
 
-	DWORD rIP = db_get_dw(hContact, szProto, "RealIP", 0);
+	uint32_t rIP = db_get_dw(hContact, szProto, "RealIP", 0);
 	if (rIP)
 		wszBuffer.AppendFormat(L"Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 
@@ -621,7 +621,7 @@ static INT_PTR onIgnore(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static HGENMENU AddSubmenuItem(HGENMENU hRoot, wchar_t* name, HICON icon, DWORD flag, char* service, int pos, INT_PTR param)
+static HGENMENU AddSubmenuItem(HGENMENU hRoot, wchar_t* name, HICON icon, uint32_t flag, char* service, int pos, INT_PTR param)
 {
 	CMenuItem mi(&g_plugin);
 	mi.root = hRoot;
@@ -649,7 +649,7 @@ static void ModifySubmenuItem(HGENMENU hItem, int checked, int hidden)
 // called when the contact-menu is built
 static int BuildMenu(WPARAM wparam, LPARAM)
 {
-	DWORD flags = g_plugin.getDword("flags", vf_default);
+	uint32_t flags = g_plugin.getDword("flags", vf_default);
 	int j = 0, all = 0, hide = 0;
 	BOOL bIsOnline = FALSE, bShowAll = CTRL_IS_PRESSED;
 	MCONTACT hContact = (MCONTACT)wparam;

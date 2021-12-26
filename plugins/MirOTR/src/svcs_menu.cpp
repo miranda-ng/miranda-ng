@@ -13,7 +13,7 @@ int StartOTR(MCONTACT hContact)
 	if (!uname)
 		return 1; // error
 	
-	DWORD pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
+	uint32_t pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 	if (pol == CONTACT_DEFAULT_POLICY)
 		pol = options.default_policy;
 
@@ -199,7 +199,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	if ((caps & PF1_IM) == 0)
 		return 0;
 
-	DWORD pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
+	uint32_t pol = g_plugin.getDword(hContact, "Policy", CONTACT_DEFAULT_POLICY);
 	if (pol == CONTACT_DEFAULT_POLICY)
 		pol = options.default_policy;
 

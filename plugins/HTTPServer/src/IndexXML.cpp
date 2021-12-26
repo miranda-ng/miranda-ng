@@ -63,7 +63,7 @@ static void ReplaceSign(char* pszSrc, int MaxLength, const char pszReplace,
 // Developer       : Houdini
 /////////////////////////////////////////////////////////////////////
 
-bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, DWORD dwRemoteIP)
+bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const char * pszSrvPath, uint32_t dwRemoteIP)
 {
 	char szMask[MAX_PATH + 1];
 	mir_snprintf(szMask, "%s*", pszRealPath);
@@ -116,7 +116,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 		strncpy(szBuffer, "index.xsl", BUFFER_SIZE);
 	}
 
-	WriteFile(hFile, szBuffer, (DWORD)mir_strlen(szBuffer), &dwBytesWritten, nullptr);
+	WriteFile(hFile, szBuffer, (uint32_t)mir_strlen(szBuffer), &dwBytesWritten, nullptr);
 
 	WriteFile(hFile, szXmlHeader2, sizeof(szXmlHeader2) - 1, &dwBytesWritten, nullptr);
 
@@ -209,7 +209,7 @@ bool bCreateIndexXML(const char * pszRealPath, const char * pszIndexPath, const 
 						pszExt++;
 					}
 
-					DWORD dwFileSize = 0;
+					uint32_t dwFileSize = 0;
 					FILETIME ftFileCreateTime;
 					FILETIME ftFileAccessTime;
 					FILETIME ftFileModifyTime;

@@ -278,7 +278,7 @@ struct HttpSecurityContext
 	}
 };
 
-static int HttpPeekFirstResponseLine(NetlibConnection *nlc, DWORD dwTimeoutTime, DWORD recvFlags, int *resultCode, char **ppszResultDescr, int *length)
+static int HttpPeekFirstResponseLine(NetlibConnection *nlc, uint32_t dwTimeoutTime, uint32_t recvFlags, int *resultCode, char **ppszResultDescr, int *length)
 {
 	int bytesPeeked;
 	char buffer[2048], *peol;
@@ -348,14 +348,14 @@ static int SendHttpRequestAndData(NetlibConnection *nlc, CMStringA &httpRequest,
 	else
 		httpRequest.AppendFormat("\r\n");
 
-	DWORD hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
+	uint32_t hflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 		(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND | NLHRF_NODUMPHEADERS) ?
 	MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 					 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
 	int bytesSent = Netlib_Send(nlc, httpRequest, httpRequest.GetLength(), hflags);
 	if (bytesSent != SOCKET_ERROR && sendData && nlhr->dataLength) {
-		DWORD sflags = MSG_NOTITLE | (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
+		uint32_t sflags = MSG_NOTITLE | (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 			(nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ?
 		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
@@ -512,10 +512,10 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 		if (doneContentLengthHeader && nlhr->requestType != REQUEST_HEAD)
 			break;
 
-		DWORD fflags = MSG_PEEK | MSG_NODUMP | ((nlhr->flags & NLHRF_NOPROXY) ? MSG_RAW : 0);
-		DWORD dwTimeOutTime = hdrTimeout < 0 ? -1 : GetTickCount() + hdrTimeout;
+		uint32_t fflags = MSG_PEEK | MSG_NODUMP | ((nlhr->flags & NLHRF_NOPROXY) ? MSG_RAW : 0);
+		uint32_t dwTimeOutTime = hdrTimeout < 0 ? -1 : GetTickCount() + hdrTimeout;
 		if (!HttpPeekFirstResponseLine(nlc, dwTimeOutTime, fflags, &nlhr->resultCode, nullptr, nullptr)) {
-			DWORD err = GetLastError();
+			uint32_t err = GetLastError();
 			Netlib_Logf(nlu, "%s %d: %s Failed (%u %u)", __FILE__, __LINE__, "HttpPeekFirstResponseLine", err, count);
 
 			// connection died while we were waiting
@@ -536,11 +536,11 @@ MIR_APP_DLL(int) Netlib_SendHttpRequest(HNETLIBCONN nlc, NETLIBHTTPREQUEST *nlhr
 		int resultCode = nlhr->resultCode;
 		lastFirstLineFail = false;
 
-		DWORD hflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPHEADERS | NLHRF_NODUMPSEND) ?
+		uint32_t hflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPHEADERS | NLHRF_NODUMPSEND) ?
 		MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 						 (nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
-		DWORD dflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ? MSG_NODUMP : MSG_DUMPASTEXT | MSG_DUMPPROXY) |
+		uint32_t dflags = (nlhr->flags & (NLHRF_NODUMP | NLHRF_NODUMPSEND) ? MSG_NODUMP : MSG_DUMPASTEXT | MSG_DUMPPROXY) |
 			(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0) | MSG_NODUMP;
 
 		if (resultCode == 100)
@@ -718,7 +718,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 	if (!NetlibEnterNestedCS(nlc, NLNCS_RECV))
 		return nullptr;
 
-	DWORD dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
+	uint32_t dwRequestTimeoutTime = GetTickCount() + HTTPRECVDATATIMEOUT;
 	NETLIBHTTPREQUEST *nlhr = (NETLIBHTTPREQUEST*)mir_calloc(sizeof(NETLIBHTTPREQUEST));
 	nlhr->cbSize = sizeof(NETLIBHTTPREQUEST);
 	nlhr->nlc = nlc;  // Needed to id connection in the protocol HTTP gateway wrapper functions
@@ -868,11 +868,11 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_HttpTransaction(HNETLIBUSER nlu, NETLIBHT
 	if (!doneUserAgentHeader || !doneAcceptEncoding)
 		mir_free(nlhrSend.headers);
 
-	DWORD dflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
+	uint32_t dflags = (nlhr->flags & NLHRF_DUMPASTEXT ? MSG_DUMPASTEXT : 0) |
 		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
-	DWORD hflags =
+	uint32_t hflags =
 		(nlhr->flags & NLHRF_NODUMP ? MSG_NODUMP : (nlhr->flags & NLHRF_DUMPPROXY ? MSG_DUMPPROXY : 0)) |
 		(nlhr->flags & NLHRF_NOPROXY ? MSG_RAW : 0);
 
@@ -962,7 +962,7 @@ char* gzip_decode(char *gzip_data, int *len_ptr, int window)
 	return output_data;
 }
 
-static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD flags)
+static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, uint32_t flags)
 {
 	MBinBuffer buf;
 
@@ -997,7 +997,7 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, DWORD fl
 	}
 }
 
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, DWORD hflags, DWORD dflags, bool isConnect)
+NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection *nlc, uint32_t hflags, uint32_t dflags, bool isConnect)
 {
 	int dataLen = -1, i, chunkhdr = 0;
 	bool chunked = false;

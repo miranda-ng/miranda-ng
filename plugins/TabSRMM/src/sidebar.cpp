@@ -248,8 +248,8 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 	RECT	rc = *rcItem;
 
 	if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !pContainer->m_flagsEx.m_bTabFlashIcon) {
-		DWORD ix = rc.left + 4;
-		DWORD iy = (rc.bottom + rc.top - iSize) / 2;
+		uint32_t ix = rc.left + 4;
+		uint32_t iy = (rc.bottom + rc.top - iSize) / 2;
 		if (m_dat->m_bIsIdle && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(hdc, ix, iy, iSize, iSize, hIcon, 180);
 		else
@@ -283,7 +283,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 		else
 			clr = PluginConfig.tabConfig.colors[0];
 
-		DWORD	dwTextFlags = DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS;
+		uint32_t	dwTextFlags = DT_SINGLELINE | DT_VCENTER | DT_WORD_ELLIPSIS;
 		CSkin::RenderText(hdc, m_buttonControl->hThemeButton, m_dat->m_wszTitle, &rc, dwTextFlags, CSkin::m_glowSize, clr);
 	}
 }
@@ -702,7 +702,7 @@ void CSideBar::moveButtons()
 	HDWP hdwp = ::BeginDeferWindowPos(1);
 
 	BOOL 	topEnabled = FALSE, bottomEnabled = FALSE;
-	DWORD dwFlags = SWP_NOZORDER | SWP_NOACTIVATE | SWP_SHOWWINDOW;
+	uint32_t dwFlags = SWP_NOZORDER | SWP_NOACTIVATE | SWP_SHOWWINDOW;
 
 	m_firstVisibleOffset = max(0, m_firstVisibleOffset);
 	m_totalItemHeight = 0;
@@ -1064,7 +1064,7 @@ void __fastcall CSideBar::m_AdvancedContentRenderer(const HDC hdc, const RECT *r
 		LONG	required = szFirstLine.cy + szSecondLine.cy;
 		bool	fSecondLine = (required < cy ? true : false);
 
-		DWORD	dtFlags = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | (!fSecondLine ? DT_VCENTER : 0);
+		uint32_t	dtFlags = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_END_ELLIPSIS | (!fSecondLine ? DT_VCENTER : 0);
 
 		::SelectObject(hdc, CInfoPanel::m_ipConfig.hFonts[IPFONTID_NICK]);
 		rc.top++;

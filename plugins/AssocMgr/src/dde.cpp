@@ -193,7 +193,7 @@ EXTERN_C __declspec(dllexport) void CALLBACK WaitForDDE(HWND, HINSTANCE, wchar_t
 	if (pHandles[0] != nullptr) {
 		pHandles[1] = StartupMainProcess(pszCmdLine); /* obeys nCmdShow using GetStartupInfo() */
 		if (pHandles[1] != nullptr) {
-			DWORD dwTick = GetTickCount();
+			uint32_t dwTick = GetTickCount();
 			/* either process terminated or dde window created */
 			if (WaitForMultipleObjects(_countof(pHandles), pHandles, FALSE, DDEMESSAGETIMEOUT) == WAIT_OBJECT_0) {
 				dwTick = GetTickCount() - dwTick;

@@ -29,12 +29,12 @@ private:
 	InOut m_Messages;
 	InOut m_Chats;
 	bool m_bChatDurValid;
-	DWORD m_ChatDurMin;
-	DWORD m_ChatDurMax;
-	DWORD m_ChatDurSum;
+	uint32_t m_ChatDurMin;
+	uint32_t m_ChatDurMax;
+	uint32_t m_ChatDurSum;
 	bool m_bFirstLastTimeValid;
-	DWORD m_FirstTime;
-	DWORD m_LastTime;
+	uint32_t m_FirstTime;
+	uint32_t m_LastTime;
 	InOut m_Files;
 	int m_NumContacts;
 	int m_NumSubcontacts;
@@ -43,8 +43,8 @@ private:
 	Statistic* m_pStatistic;
 
 private:
-	void updateTime(DWORD msgTime);
-	void updateChatDur(DWORD timeDelta);
+	void updateTime(uint32_t msgTime);
+	void updateChatDur(uint32_t timeDelta);
 	double getAvg(int nTotal) const;
 
 public:
@@ -79,18 +79,18 @@ public:
 
 	// chat duration
 	bool isChatDurValid() const { return m_bChatDurValid; }
-	DWORD getChatDurMin() const { return m_ChatDurMin; }
-	DWORD getChatDurAvg() const { return getTotalChats() ? m_ChatDurSum / getTotalChats() : 0; }
-	DWORD getChatDurMax() const { return m_ChatDurMax; }
+	uint32_t getChatDurMin() const { return m_ChatDurMin; }
+	uint32_t getChatDurAvg() const { return getTotalChats() ? m_ChatDurSum / getTotalChats() : 0; }
+	uint32_t getChatDurMax() const { return m_ChatDurMax; }
 	int getChatDurMinForSort() const { return m_bChatDurValid ? getChatDurMin() : -1; }
 	int getChatDurAvgForSort() const { return m_bChatDurValid ? getChatDurAvg() : -1; }
 	int getChatDurMaxForSort() const { return m_bChatDurValid ? getChatDurMax() : -1; }
-	DWORD getChatDurSum() const { return m_ChatDurSum; }
+	uint32_t getChatDurSum() const { return m_ChatDurSum; }
 
 	// first/last time
 	bool isFirstLastTimeValid() const { return m_bFirstLastTimeValid; }
-	DWORD getFirstTime() const { return m_FirstTime; }
-	DWORD getLastTime() const { return m_LastTime; }
+	uint32_t getFirstTime() const { return m_FirstTime; }
+	uint32_t getLastTime() const { return m_LastTime; }
 
 	// files and URLs
 	int getOutFiles() const { return m_Files.out; }
@@ -105,7 +105,7 @@ public:
 	void beginMessages() { }
 	void endMessages() { }
 	void addMessage(Message& msg);
-	void addChat(bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
+	void addChat(bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 	void addEvent(uint16_t eventType, bool bOutgoing);
 	void merge(const Contact& other);
 

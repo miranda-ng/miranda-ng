@@ -56,9 +56,9 @@ protected:
 	JABBER_IQ_HANDLER m_pHandler;
 
 	int           m_nIqId;
-	DWORD         m_dwParamsToParse;
-	DWORD         m_dwRequestTime;
-	DWORD         m_dwTimeout;
+	uint32_t         m_dwParamsToParse;
+	uint32_t         m_dwRequestTime;
+	uint32_t         m_dwTimeout;
 	char*         m_szReceiver;
 	int           m_iPriority;
 	void*         m_pUserData;
@@ -80,11 +80,11 @@ public:
 	}
 
 	__forceinline void SetReceiver(const char *szReceiver) { replaceStr(m_szReceiver, szReceiver); }
-	__forceinline void SetParamsToParse(DWORD dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
-	__forceinline void SetTimeout(DWORD dwTimeout) { m_dwTimeout = dwTimeout; }
+	__forceinline void SetParamsToParse(uint32_t dwParamsToParse) { m_dwParamsToParse = dwParamsToParse; }
+	__forceinline void SetTimeout(uint32_t dwTimeout) { m_dwTimeout = dwTimeout; }
 
 	__forceinline int         GetIqId() const { return m_nIqId; }
-	__forceinline DWORD       GetRequestTime() const { return m_dwRequestTime; }
+	__forceinline uint32_t       GetRequestTime() const { return m_dwRequestTime; }
 	__forceinline int         GetIqType() const { return m_nIqType; }	
 	__forceinline void*       GetUserData() const {	return m_pUserData; }
 	__forceinline const char* GetFrom() const {	return m_szFrom; }
@@ -114,7 +114,7 @@ class CJabberIqPermanentInfo : public MZeroedObject
 	friend class CJabberIqManager;
 
 	JABBER_PERMANENT_IQ_HANDLER m_pHandler;
-	DWORD m_dwParamsToParse;
+	uint32_t m_dwParamsToParse;
 	int m_nIqTypes;
 	char *m_szXmlns;
 	char *m_szTag;
@@ -141,7 +141,7 @@ protected:
 	CJabberProto *ppro;
 
 	mir_cs m_cs;
-	DWORD  m_dwLastUsedHandle = 0;
+	uint32_t  m_dwLastUsedHandle = 0;
 
 	LIST<CJabberIqInfo> m_arIqs;
 	OBJLIST<CJabberIqPermanentInfo> m_arHandlers;
@@ -159,7 +159,7 @@ public:
 
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
 	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType, const char *szReceiver, void *pUserData, int iPriority);
-	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
+	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, uint32_t dwParamsToParse, const char *szXmlns, BOOL bAllowPartialNs, const char *szTag, void *pUserData = nullptr, IQ_USER_DATA_FREE_FUNC pUserDataFree = nullptr, int iPriority = JH_PRIORITY_DEFAULT);
 
 	// returns TRUE when pInfo found, or FALSE otherwise
 	bool DeletePermanentHandler(CJabberIqPermanentInfo *pInfo);

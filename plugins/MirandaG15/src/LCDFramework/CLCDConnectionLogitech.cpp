@@ -31,7 +31,7 @@ void CLCDConnectionLogitech::runDrawingThread()
 	m_hStopEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	m_hDrawEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
-	DWORD dwRes = 0;
+	uint32_t dwRes = 0;
 
 	while (1) {
 		HANDLE hArray[2] = {m_hStopEvent, m_hDrawEvent};
@@ -40,7 +40,7 @@ void CLCDConnectionLogitech::runDrawingThread()
 			break;
 		}
 		else if (dwRes == WAIT_OBJECT_0 + 1) {
-			DWORD rc;
+			uint32_t rc;
 			if (GetConnectionState() != CONNECTED) {
 				continue;
 			}
@@ -227,7 +227,7 @@ CLgLCDDevice* CLCDConnectionLogitech::GetConnectedDevice()
 //************************************************************************
 bool CLCDConnectionLogitech::Connect(int iIndex)
 {
-	DWORD rc;
+	uint32_t rc;
 	lgLcdOpenByTypeContext        OpenContext;
 	if (m_bConnected && (iIndex == 0 || iIndex == GetConnectedDevice()->GetIndex()))
 		return true;
@@ -335,7 +335,7 @@ bool CLCDConnectionLogitech::HIDReadData(uint8_t* data)
 		return false;
 	}
 
-	DWORD dwRes = WaitForSingleObject(hReadEvent, 0);
+	uint32_t dwRes = WaitForSingleObject(hReadEvent, 0);
 	if (dwRes == WAIT_OBJECT_0) {
 		bool bRes = false;
 		if (GetOverlappedResult(m_hHIDDeviceHandle, &olRead, &TransBytes, false)) {
@@ -347,7 +347,7 @@ bool CLCDConnectionLogitech::HIDReadData(uint8_t* data)
 		olRead.hEvent = hReadEvent;
 
 		if (!ReadFile(m_hHIDDeviceHandle, privateBuffer, 9, &TransBytes, &olRead)) {
-			DWORD error = GetLastError();
+			uint32_t error = GetLastError();
 			if (error != ERROR_IO_PENDING) {
 				return false;
 			}
@@ -358,12 +358,12 @@ bool CLCDConnectionLogitech::HIDReadData(uint8_t* data)
 	return false;
 }
 
-void CLCDConnectionLogitech::OnSoftButtonCB(DWORD state)
+void CLCDConnectionLogitech::OnSoftButtonCB(uint32_t state)
 {
 	m_dwButtonState = state;
 }
 
-void CLCDConnectionLogitech::OnNotificationCB(DWORD notificationCode, DWORD notifyParm1, DWORD, DWORD, DWORD)
+void CLCDConnectionLogitech::OnNotificationCB(uint32_t notificationCode, uint32_t notifyParm1, uint32_t, uint32_t, uint32_t)
 {
 	CLgLCDDevice *device;
 
@@ -513,7 +513,7 @@ bool CLCDConnectionLogitech::GetButtonState(int iButton)
 	if (!GetConnectionState() == CONNECTED)
 		return false;
 
-	DWORD dwButton = GetButtonId(iButton);
+	uint32_t dwButton = GetButtonId(iButton);
 
 	if (m_dwButtonState & dwButton)
 		return true;
@@ -528,7 +528,7 @@ bool CLCDConnectionLogitech::HideApplet()
 	if (!GetConnectionState() == CONNECTED)
 		return false;
 
-	DWORD rc;
+	uint32_t rc;
 
 	rc = lgLcdUpdateBitmap(m_hDevice, &m_lcdBitmap.hdr, LGLCD_ASYNC_UPDATE(LGLCD_PRIORITY_IDLE_NO_SHOW));
 	if (rc != ERROR_SUCCESS)
@@ -626,7 +626,7 @@ uint8_t *CLCDConnectionLogitech::GetPixelBuffer()
 //************************************************************************
 // CLCDConnectionLogitech::HandleErrorFromAPI
 //************************************************************************
-void CLCDConnectionLogitech::HandleErrorFromAPI(DWORD dwRes)
+void CLCDConnectionLogitech::HandleErrorFromAPI(uint32_t dwRes)
 {
 	switch (dwRes) {
 		// all is well

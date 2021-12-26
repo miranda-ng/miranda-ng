@@ -407,7 +407,7 @@ void InitCheck()
 	}
 	{
 		CMStringW path(g_plugin.getMStringW("szHomePath"));
-		DWORD dwFileAttr = GetFileAttributes(path);
+		uint32_t dwFileAttr = GetFileAttributes(path);
 		if (dwFileAttr != INVALID_FILE_ATTRIBUTES) {
 			dwFileAttr &= ~FILE_ATTRIBUTE_READONLY;
 			SetFileAttributes(path, dwFileAttr);

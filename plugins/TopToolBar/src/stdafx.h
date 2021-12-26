@@ -51,7 +51,7 @@ struct TopButtonInt : public MZeroedObject
 {
 	~TopButtonInt();
 
-	DWORD CheckFlags(DWORD Flags);
+	uint32_t CheckFlags(uint32_t Flags);
 	void  CreateWnd(void);
 	void  LoadSettings(void);
 	void  SaveSettings(int *SepCnt, int *LaunchCnt);

@@ -169,8 +169,8 @@ struct CIrcProto : public PROTO<CIrcProto>
 	SESSION_INFO *m_pServer;
 
 	int       m_portCount;
-	DWORD     m_bConnectRequested;
-	DWORD     m_bConnectThreadRunning;
+	uint32_t     m_bConnectRequested;
+	uint32_t     m_bConnectThreadRunning;
 
 	HGENMENU    hMenuQuick, hMenuServer, hMenuJoin, hMenuNick, hMenuList;
 	HNETLIBUSER hNetlibDCC;

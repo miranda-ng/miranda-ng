@@ -274,7 +274,7 @@ static __inline unsigned long Proto_Status2Flag(int status)
 // Returns 0 on success, nonzero on failure
 // Auth requests come in the form of an event added to the database for the NULL
 // user. The form is:
-// DWORD protocolSpecific
+// uint32_t protocolSpecific
 // ASCIIZ nick, firstName, lastName, e-mail, requestReason
 // hDbEvent must be the handle of such an event
 // One or more fields may be empty if the protocol doesn't support them
@@ -644,7 +644,7 @@ struct PROTOFILERESUME
 //    resulting directory
 // File transfers are marked by an EVENTTYPE_FILE added to the database. The
 // format is:
-// DWORD hTransfer
+// uint32_t hTransfer
 // ASCIIZ filename(s), description
 
 #define PSS_FILEALLOW   "/FileAllow"
@@ -735,8 +735,8 @@ struct PROTOFILERESUME
 
 struct PROTORECVEVENT
 {
-	DWORD flags;         // combination of PREF_*
-	DWORD timestamp;     // unix time
+	uint32_t flags;      // combination of PREF_*
+	uint32_t timestamp;  // unix time
 	char* szMessage;     // message body in utf8
 	LPARAM lParam;       // extra space for the network level protocol module
 	const char* szMsgId; // server message id, optional, should be NULL otherwise
@@ -779,8 +779,8 @@ EXTERN_C MIR_APP_DLL(MEVENT) Proto_AuthRecv(const char *szProtoName, PROTORECVEV
 
 struct PROTORECVFILE
 {
-	DWORD dwFlags;          // PRFF_*
-	DWORD timestamp;        // unix time
+	uint32_t dwFlags;       // PRFF_*
+	uint32_t timestamp;     // unix time
 	MAllCStrings descr;     // file description
 	int fileCount;          // number of files being transferred
 	MAllCStringArray files; // array of file names

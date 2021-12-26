@@ -636,8 +636,8 @@ jpeg_read_xmp_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datale
 		if(tag) {
 			FreeImage_SetTagID(tag, JPEG_APP0+1);	// 0xFFE1
 			FreeImage_SetTagKey(tag, g_TagLib_XMPFieldName);
-			FreeImage_SetTagLength(tag, (DWORD)length);
-			FreeImage_SetTagCount(tag, (DWORD)length);
+			FreeImage_SetTagLength(tag, (uint32_t)length);
+			FreeImage_SetTagCount(tag, (uint32_t)length);
 			FreeImage_SetTagType(tag, FIDT_ASCII);
 			FreeImage_SetTagValue(tag, profile);
 			
@@ -882,13 +882,13 @@ jpeg_write_xmp_profile(j_compress_ptr cinfo, FIBITMAP *dib) {
 			// XMP signature is 29 bytes long
 			unsigned int xmp_header_size = (unsigned int)strlen(xmp_signature) + 1;
 
-			DWORD tag_length = FreeImage_GetTagLength(tag_xmp);
+			uint32_t tag_length = FreeImage_GetTagLength(tag_xmp);
 
 			uint8_t *profile = (uint8_t*)malloc((tag_length + xmp_header_size) * sizeof(uint8_t));
 			if(profile == NULL) return FALSE;
 			memcpy(profile, xmp_signature, xmp_header_size);
 
-			for(DWORD i = 0; i < tag_length; i += 65504L) {
+			for(uint32_t i = 0; i < tag_length; i += 65504L) {
 				unsigned length = MIN((long)(tag_length - i), 65504L);
 				
 				memcpy(profile + xmp_header_size, tag_value + i, length);
@@ -926,12 +926,12 @@ jpeg_write_exif_profile_raw(j_compress_ptr cinfo, FIBITMAP *dib) {
 		}
 
 		if(NULL != tag_value) {
-			DWORD tag_length = FreeImage_GetTagLength(tag_exif);
+			uint32_t tag_length = FreeImage_GetTagLength(tag_exif);
 
 			uint8_t *profile = (uint8_t*)malloc(tag_length * sizeof(uint8_t));
 			if(profile == NULL) return FALSE;
 
-			for(DWORD i = 0; i < tag_length; i += 65504L) {
+			for(uint32_t i = 0; i < tag_length; i += 65504L) {
 				unsigned length = MIN((long)(tag_length - i), 65504L);
 				
 				memcpy(profile, tag_value + i, length);
@@ -982,14 +982,14 @@ jpeg_write_jfxx(j_compress_ptr cinfo, FIBITMAP *dib) {
 	}
 
 	uint8_t* thData = NULL;
-	DWORD thSize = 0;
+	uint32_t thSize = 0;
 	
 	FreeImage_AcquireMemory(stream, &thData, &thSize);	
 	
 	uint8_t id_length = 5; //< "JFXX"
 	uint8_t type = JFXX_TYPE_JPEG;
 	
-	DWORD totalsize = id_length + sizeof(type) + thSize;
+	uint32_t totalsize = id_length + sizeof(type) + thSize;
 	jpeg_write_m_header(cinfo, JPEG_APP0, totalsize);
 	
 	jpeg_write_m_byte(cinfo, 'J');
@@ -1065,8 +1065,8 @@ store_size_info(FIBITMAP *dib, JDIMENSION width, JDIMENSION height) {
 		sprintf(buffer, "%d", (int)width);
 		length = strlen(buffer) + 1;	// include the NULL/0 value
 		FreeImage_SetTagKey(tag, "OriginalJPEGWidth");
-		FreeImage_SetTagLength(tag, (DWORD)length);
-		FreeImage_SetTagCount(tag, (DWORD)length);
+		FreeImage_SetTagLength(tag, (uint32_t)length);
+		FreeImage_SetTagCount(tag, (uint32_t)length);
 		FreeImage_SetTagType(tag, FIDT_ASCII);
 		FreeImage_SetTagValue(tag, buffer);
 		FreeImage_SetMetadata(FIMD_COMMENTS, dib, FreeImage_GetTagKey(tag), tag);
@@ -1074,8 +1074,8 @@ store_size_info(FIBITMAP *dib, JDIMENSION width, JDIMENSION height) {
 		sprintf(buffer, "%d", (int)height);
 		length = strlen(buffer) + 1;	// include the NULL/0 value
 		FreeImage_SetTagKey(tag, "OriginalJPEGHeight");
-		FreeImage_SetTagLength(tag, (DWORD)length);
-		FreeImage_SetTagCount(tag, (DWORD)length);
+		FreeImage_SetTagLength(tag, (uint32_t)length);
+		FreeImage_SetTagCount(tag, (uint32_t)length);
 		FreeImage_SetTagType(tag, FIDT_ASCII);
 		FreeImage_SetTagValue(tag, buffer);
 		FreeImage_SetMetadata(FIMD_COMMENTS, dib, FreeImage_GetTagKey(tag), tag);

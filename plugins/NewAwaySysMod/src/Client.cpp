@@ -33,7 +33,7 @@ void __cdecl UpdateMsgsThreadProc(void *)
 	Thread_SetName("NewAwaySysMod: UpdateMsgsThreadProc");
 
 	while (WaitForSingleObject(g_hTerminateUpdateMsgsThread, 0) == WAIT_TIMEOUT && !Miranda_IsTerminated()) {
-		DWORD MinUpdateTimeDifference = (DWORD)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
+		uint32_t MinUpdateTimeDifference = (uint32_t)g_MoreOptPage.GetDBValueCopy(IDC_MOREOPTDLG_UPDATEMSGSPERIOD) * 1000; // in milliseconds
 		for (auto &p : Accounts()) {
 			if (CallProtoService(p->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 				int Status = Proto_GetStatus(p->szModuleName);

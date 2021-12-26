@@ -137,7 +137,7 @@ protected:
 	bool m_bUseGroups = false;
 	bool m_bUseMetaContacts = false;
 	vector<CContactListGroup*> m_Groups;
-	DWORD m_dwLastScroll = 0;
+	uint32_t m_dwLastScroll = 0;
 
 	HBITMAP m_ahBitmaps[8];
 };

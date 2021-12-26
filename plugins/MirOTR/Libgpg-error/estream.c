@@ -263,7 +263,7 @@ mem_free (void *p)
 
 #ifdef HAVE_W32_SYSTEM
 static int
-map_w32_to_errno (DWORD w32_err)
+map_w32_to_errno (uint32_t w32_err)
 {
   switch (w32_err)
     {
@@ -1075,7 +1075,7 @@ es_func_w32_read (void *cookie, void *buffer, size_t size)
         pre_syscall_func ();
       do
         {
-          DWORD nread, ec;
+          uint32_t nread, ec;
 
           if (!ReadFile (w32_cookie->hd, buffer, size, &nread, NULL))
             {
@@ -1117,7 +1117,7 @@ es_func_w32_write (void *cookie, const void *buffer, size_t size)
         pre_syscall_func ();
       do
         {
-          DWORD nwritten;
+          uint32_t nwritten;
 
 	  if (!WriteFile (w32_cookie->hd, buffer, size, &nwritten, NULL))
 	    {
@@ -1140,7 +1140,7 @@ static int
 es_func_w32_seek (void *cookie, gpgrt_off_t *offset, int whence)
 {
   estream_cookie_w32_t w32_cookie = cookie;
-  DWORD method;
+  uint32_t method;
   LARGE_INTEGER distance, newoff;
 
   if (w32_cookie->hd == INVALID_HANDLE_VALUE)

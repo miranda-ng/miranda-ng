@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CheckBoxToStyleEx_t
 {
 	int id;
-	DWORD flag;
+	uint32_t flag;
 	int not;
 }
 
@@ -53,7 +53,7 @@ static const checkBoxToStyleEx[] =
 
 struct CheckBoxValues_t
 {
-	DWORD  style;
+	uint32_t  style;
 	wchar_t* szDescr;
 }
 static const greyoutValues[] =
@@ -69,7 +69,7 @@ static const greyoutValues[] =
 	{ PF2_INVISIBLE,  LPGENW("Invisible")     }
 };
 
-static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
+static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, uint32_t style)
 {
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = nullptr;
@@ -84,9 +84,9 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	}
 }
 
-static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
+static uint32_t MakeCheckBoxTreeFlags(HWND hwndTree)
 {
-	DWORD flags = 0;
+	uint32_t flags = 0;
 
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
@@ -130,7 +130,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE,
 			GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+			uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 			for (auto &it : checkBoxToStyleEx)
 				CheckDlgButton(hwndDlg, it.id, (exStyle & it.flag) ^ (it.flag * it.not) ? BST_CHECKED : BST_UNCHECKED);
 		}
@@ -217,14 +217,14 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				DWORD exStyle = 0;
+				uint32_t exStyle = 0;
 				for (auto &it : checkBoxToStyleEx)
 					if ((IsDlgButtonChecked(hwndDlg, it.id) == 0) == it.not)
 						exStyle |= it.flag;
 
 				db_set_dw(0, "CLC", "ExStyle", exStyle);
 				{
-					DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
+					uint32_t fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
 					db_set_dw(0, "CLC", "FullGreyoutFlags", fullGreyoutFlags);
 					if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
 						db_set_dw(0, "CLC", "GreyoutFlags", fullGreyoutFlags);

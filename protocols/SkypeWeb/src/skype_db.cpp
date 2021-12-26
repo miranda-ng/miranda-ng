@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-struct { int type; char *name; DWORD flags; } g_SkypeDBTypes[] =
+struct { int type; char *name; uint32_t flags; } g_SkypeDBTypes[] =
 {
 	{ SKYPE_DB_EVENT_TYPE_INCOMING_CALL, LPGEN("Incoming call"), DETF_NONOTIFY },
 	{ SKYPE_DB_EVENT_TYPE_EDITED_MESSAGE, LPGEN("Edited message"), 0 },
@@ -38,7 +38,7 @@ MEVENT CSkypeProto::GetMessageFromDb(const char *messageId)
 	return db_event_getById(m_szModuleName, messageId);
 }
 
-MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, DWORD timestamp, DWORD flags, const CMStringW &content, const CMStringA &msgId)
+MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, uint32_t timestamp, uint32_t flags, const CMStringW &content, const CMStringA &msgId)
 {
 	if (MEVENT hDbEvent = GetMessageFromDb(msgId))
 		return hDbEvent;
@@ -48,7 +48,7 @@ MEVENT CSkypeProto::AddDbEvent(uint16_t type, MCONTACT hContact, DWORD timestamp
 	dbei.szModule = m_szModuleName;
 	dbei.timestamp = timestamp;
 	dbei.eventType = type;
-	dbei.cbBlob = (DWORD)mir_strlen(szMsg) + 1;
+	dbei.cbBlob = (uint32_t)mir_strlen(szMsg) + 1;
 	dbei.pBlob = (uint8_t *)szMsg;
 	dbei.flags = flags;
 	dbei.szId = msgId;

@@ -306,7 +306,7 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 		eventData->szNick.w = popupItem->titleW;
 		eventData->szText.w = popupItem->messageW;
 
-		eventData->time = (DWORD)popupItem->timestamp;
+		eventData->time = (uint32_t)popupItem->timestamp;
 		eventData->next = nullptr;
 	}
 

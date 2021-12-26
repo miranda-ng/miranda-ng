@@ -706,9 +706,9 @@ void HandleMessageCommand(PCommand command, TArgument *argv, int argc, PReply re
 							dbei.eventType = EVENTTYPE_MESSAGE;
 							dbei.flags = DBEF_SENT | DBEF_UTF;
 							dbei.pBlob = (uint8_t*)szMessage.get();
-							dbei.cbBlob = (DWORD)mir_strlen(szMessage) + 1;
+							dbei.cbBlob = (uint32_t)mir_strlen(szMessage) + 1;
 							dbei.szModule = ack->szModule;
-							dbei.timestamp = (DWORD)time(0);
+							dbei.timestamp = (uint32_t)time(0);
 							db_event_add(ack->hContact, &dbei);
 						}
 						else szReply.AppendFormat(TranslateT("Message to '%s' was marked as sent but the account seems to be offline"), contact);
@@ -818,7 +818,7 @@ void HandleDatabaseCommand(PCommand command, TArgument *argv, int argc, PReply r
 					break;
 
 				case VALUE_DWORD:
-					db_set_dw(0, module, key, (*(DWORD *)value));
+					db_set_dw(0, module, key, (*(uint32_t *)value));
 					wrote = Translate("dword");
 					break;
 

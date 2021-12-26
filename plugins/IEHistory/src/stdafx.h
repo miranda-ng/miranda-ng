@@ -59,7 +59,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMOption<uint8_t> bEnableRtl, bShowLastFirst, bUseWorker;
-	CMOption<DWORD> iLoadCount;
+	CMOption<uint32_t> iLoadCount;
 
 	CMPlugin();
 
@@ -70,6 +70,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern HICON hIcon; //history icon
 extern MWindowList hOpenWindowsList;
 
-extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, DWORD);
+extern BOOL (WINAPI *MyEnableThemeDialogTexture)(HANDLE, uint32_t);
 
 #endif

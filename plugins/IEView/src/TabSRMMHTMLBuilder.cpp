@@ -82,7 +82,7 @@ TabSRMMHTMLBuilder::TabSRMMHTMLBuilder()
 	startedTime = time(0);
 }
 
-bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
+bool TabSRMMHTMLBuilder::isDbEventShown(uint32_t dwFlags, DBEVENTINFO *dbei)
 {
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
@@ -103,7 +103,7 @@ bool TabSRMMHTMLBuilder::isDbEventShown(DWORD dwFlags, DBEVENTINFO *dbei)
 
 bool TabSRMMHTMLBuilder::isDbEventShown(DBEVENTINFO * dbei)
 {
-	DWORD dwFlags2 = db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
+	uint32_t dwFlags2 = db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWFILES, 0) ? MWF_SHOW_FILEEVENTS : 0;
 	return isDbEventShown(dwFlags2, dbei);
 }
@@ -148,7 +148,7 @@ void TabSRMMHTMLBuilder::loadMsgDlgFont(int i, LOGFONTA * lf, COLORREF * colour)
 	}
 }
 
-char* TabSRMMHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int isGroupBreak)
+char* TabSRMMHTMLBuilder::timestampToString(uint32_t dwFlags, time_t check, int isGroupBreak)
 {
 	static char szResult[512];
 	char str[80];
@@ -218,7 +218,7 @@ void TabSRMMHTMLBuilder::buildHead(IEView *view, IEVIEWEVENT *event)
 		HDC hdc = GetDC(nullptr);
 		int logPixelSY = GetDeviceCaps(hdc, LOGPIXELSY);
 		ReleaseDC(nullptr, hdc);
-		DWORD dwFlags = db_get_dw(0, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
+		uint32_t dwFlags = db_get_dw(0, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
 		str.Append("<html><head><style type=\"text/css\">\n");
 		COLORREF inColor, outColor;
 		COLORREF bkgColor = db_get_dw(0, TABSRMM_FONTMODULE, "BkgColour", 0xFFFFFF);
@@ -288,10 +288,10 @@ time_t TabSRMMHTMLBuilder::getStartedTime()
 
 void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event)
 {
-	DWORD today = (DWORD)time(0);
+	uint32_t today = (uint32_t)time(0);
 	today = today - today % 86400;
-	DWORD dwFlags = db_get_dw(0, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
-	DWORD dwFlags2 = db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
+	uint32_t dwFlags = db_get_dw(0, SRMSGMOD_T, "mwflags", MWF_LOG_DEFAULT);
+	uint32_t dwFlags2 = db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWURLS, 0) ? MWF_SHOW_URLEVENTS : 0;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, SRMSGSET_SHOWFILES, 0) ? MWF_SHOW_FILEEVENTS : 0;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, "in_out_icons", 0) ? MWF_SHOW_INOUTICONS : 0;
 	dwFlags2 |= db_get_b(0, SRMSGMOD_T, "emptylinefix", 1) ? MWF_SHOW_EMPTYLINEFIX : 0;
@@ -304,11 +304,11 @@ void TabSRMMHTMLBuilder::appendEventNonTemplate(IEView *view, IEVIEWEVENT *event
 			bool isGroupBreak = true;
 			bool isSent = (eventData->dwFlags & IEEDF_SENT) != 0;
 			bool isRTL = (eventData->dwFlags & IEEDF_RTL) != 0;
-			int isHistory = (eventData->time < (DWORD)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
+			int isHistory = (eventData->time < (uint32_t)getStartedTime() && (eventData->dwFlags & IEEDF_READ || eventData->dwFlags & IEEDF_SENT));
 			if (dwFlags & MWF_LOG_GROUPMODE && eventData->dwFlags == LOWORD(getLastEventType()) &&
 				eventData->iType == IEED_EVENT_MESSAGE && HIWORD(getLastEventType()) == IEED_EVENT_MESSAGE &&
 				((eventData->time < today) == (getLastEventTime() < today)) &&
-				(((eventData->time < (DWORD)startedTime) == (getLastEventTime() < (DWORD)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
+				(((eventData->time < (uint32_t)startedTime) == (getLastEventTime() < (uint32_t)startedTime)) || !(eventData->dwFlags & IEEDF_READ)))
 			{
 				isGroupBreak = FALSE;
 			}

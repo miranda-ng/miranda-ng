@@ -71,7 +71,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		if (!pa->IsEnabled())
 			continue;
 
-		DWORD dwCaps = (DWORD)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		uint32_t dwCaps = (uint32_t)CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
 			iAccCount++;
 	}

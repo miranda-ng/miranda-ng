@@ -129,7 +129,7 @@ class CHistoryDlg : public CDlgBase
 	bool disableTimeTreeChange = false;
 
 	// window flags
-	DWORD m_dwOptions = 0;
+	uint32_t m_dwOptions = 0;
 
 	// toolbar buttons
 	HWND m_hwndBtnToolbar[TBTN_COUNT];
@@ -878,7 +878,7 @@ public:
 
 				/*
 				GetWindowRect(GetDlgItem(m_hwnd, LOWORD(wParam)), &rc);
-	//					DWORD itemID = 0;
+	//					uint32_t itemID = 0;
 				bool doFilter = true;
 				switch (TrackPopupMenu(GetSubMenu(hMenu, 1), TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, NULL))
 				{

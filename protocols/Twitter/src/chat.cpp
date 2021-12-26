@@ -31,7 +31,7 @@ void CTwitterProto::UpdateChat(const twitter_user &update)
 	gce.bIsMe = (update.username.c_str() == m_szUserName);
 	gce.pszUID.a = update.username.c_str();
 	gce.pszText.a = chatText.c_str();
-	gce.time = (DWORD)update.status.time;
+	gce.time = (uint32_t)update.status.time;
 
 	MCONTACT hContact = UsernameToHContact(update.username.c_str());
 	ptrA szNick(db_get_utfa(hContact, "CList", "MyHandle"));
@@ -77,7 +77,7 @@ void CTwitterProto::AddChatContact(const char *name, const char *nick)
 {
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_UTF8;
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	gce.pszNick.a = nick ? nick : name;
 	gce.pszUID.a = name;
 	gce.pszStatus.a = "Normal";
@@ -88,7 +88,7 @@ void CTwitterProto::DeleteChatContact(const char *name)
 {
 	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_PART };
 	gce.dwFlags = GCEF_UTF8;
-	gce.time = DWORD(time(0));
+	gce.time = uint32_t(time(0));
 	gce.pszUID.a = gce.pszNick.a = name;
 	Chat_Event(&gce);
 }

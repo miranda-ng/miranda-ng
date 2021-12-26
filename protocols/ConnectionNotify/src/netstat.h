@@ -7,7 +7,7 @@ struct CONNECTION
 	int intIntPort;
 	int intExtPort;
 	int state;
-	DWORD Pid;
+	uint32_t Pid;
 	wchar_t PName[260];
 	CONNECTION *next;
 };

@@ -38,7 +38,7 @@ public:
 		OCM_DELETEALLITEMS   = WM_USER + 24, // (#, #)                                  -> #
 		OCM_GETSELECTION     = WM_USER + 25, // (#, #)                                  -> HANDLE hItem
 		OCM_SELECTITEM       = WM_USER + 26, // (HANDLE hItem, #)                       -> #
-		OCM_GETITEM          = WM_USER + 27, // (HANDLE hItem, DWORD dwFlag = OCGI_*)   -> HANDLE hItem
+		OCM_GETITEM          = WM_USER + 27, // (HANDLE hItem, uint32_t dwFlag = OCGI_*)   -> HANDLE hItem
 		OCM_DELETEITEM       = WM_USER + 28, // (HANDLE hItem, #)                       -> #
 		OCM_MOVEITEM         = WM_USER + 29, // (HANDLE* phItem, HANDLE hInsertAfter)   -> #
 		OCM_GETSCROLLPOS     = WM_USER + 30, // (int nBar, #)                           -> int nPos
@@ -46,8 +46,8 @@ public:
 		OCM_INSERTDATETIME   = WM_USER + 32, // (HANDLE hParent, OCDATETIME* pDateTime) -> HANDLE hDateTime        [DateTime]
 		OCM_ISDATETIMENONE   = WM_USER + 33, // (HANDLE hDateTime, #)                   -> BOOL bNone              [DateTime]
 		OCM_SETDATETIMENONE  = WM_USER + 34, // (HANDLE hDateTime, #)                   -> #                       [DateTime]
-		OCM_GETDATETIME      = WM_USER + 35, // (HANDLE hDateTime, BOOL* pbNone)        -> DWORD dwDateTime        [DateTime]
-		OCM_SETDATETIME      = WM_USER + 36, // (HANDLE hDateTime, DWORD dwDateTime)    -> #                       [DateTime]
+		OCM_GETDATETIME      = WM_USER + 35, // (HANDLE hDateTime, BOOL* pbNone)        -> uint32_t dwDateTime        [DateTime]
+		OCM_SETDATETIME      = WM_USER + 36, // (HANDLE hDateTime, uint32_t dwDateTime)    -> #                       [DateTime]
 		OCM_INSERTCOLOR      = WM_USER + 37, // (HANDLE hParent, OCCOLOR* pColor)       -> HANDLE hColor           [Color]
 		OCM_GETITEMCOLOR     = WM_USER + 38, // (HANDLE hColor, #)                      -> COLORREF crColor        [Color]
 		OCM_SETITEMCOLOR     = WM_USER + 39, // (HANDLE hColor, COLORREF crColor)       -> #                       [Color]
@@ -88,54 +88,54 @@ public:
 	};
 
 	struct OCGROUP {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 	};
 
 	struct OCCHECK {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 	};
 
 	struct OCRADIO {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 		HANDLE hSibling;
 	};
 
 	struct OCEDIT {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 		wchar_t* szEdit;
 	};
 
 	struct OCCOMBO {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 	};
 
 	struct OCBUTTON {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 		wchar_t* szButton;
 	};
 
 	struct OCDATETIME {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 		wchar_t* szFormat;
-		DWORD dwDateTime;
+		uint32_t dwDateTime;
 	};
 
 	struct OCCOLOR {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		wchar_t* szLabel;
 		INT_PTR dwData;
 		COLORREF crColor;
@@ -152,7 +152,7 @@ public:
 		HANDLE hItem;
 		INT_PTR dwData;
 		HANDLE hDropTarget;
-		DWORD dwDropTargetData;
+		uint32_t dwDropTargetData;
 		BOOL bAbove;
 	};
 };

@@ -753,7 +753,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 			bool bSuccess = false;
 			CMStringW wszFileName(FORMAT, L"%s\\STK{%S}.png", wszPath.c_str(), stickerId.c_str());
-			DWORD dwAttrib = GetFileAttributesW(wszFileName);
+			uint32_t dwAttrib = GetFileAttributesW(wszFileName);
 			if (dwAttrib == INVALID_FILE_ATTRIBUTES) {
 				wszFileName.Format(L"%s\\STK{%S}.webp", wszPath.c_str(), stickerId.c_str());
 				dwAttrib = GetFileAttributesW(wszFileName);
@@ -890,7 +890,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 	else { // otherwise store a private message
 		PROTORECVEVENT pre = {};
-		pre.timestamp = DWORD(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+		pre.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
 		pre.szMessage = (char *)szBody.c_str();
 		pre.szMsgId = (char *)szId.c_str();
 
@@ -994,7 +994,7 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 		return;
 	}
 
-	DWORD timestamp = _wtoi64(root["watermarkTimestampMs"].as_mstring());
+	uint32_t timestamp = _wtoi64(root["watermarkTimestampMs"].as_mstring());
 	for (MEVENT ev = db_event_firstUnread(pUser->hContact); ev != 0; ev = db_event_next(pUser->hContact, ev)) {
 		DBEVENTINFO dbei = {};
 		if (db_event_get(ev, &dbei))

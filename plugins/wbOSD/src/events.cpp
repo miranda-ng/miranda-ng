@@ -60,7 +60,7 @@ int ProtoAck(WPARAM, LPARAM lparam)
 			return 0;
 
 		if (ack->result == ACKRESULT_SUCCESS && (LPARAM)ack->hProcess != ack->lParam) {
-			DWORD ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
+			uint32_t ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
 			if (ann & (1 << (ack->lParam - ID_STATUS_OFFLINE))) {
 				wchar_t buffer[512];
 				mir_snwprintf(buffer, TranslateT("%s is %s"), Clist_GetContactDisplayName(ack->hContact), Clist_GetStatusModeDescription(ack->lParam, 0));
@@ -92,7 +92,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (Ignore_IsIgnored(wParam, IGNOREEVENT_USERONLINE)) return 0;
 
-	DWORD dwStatuses = MAKELPARAM(oldStatus, newStatus);
+	uint32_t dwStatuses = MAKELPARAM(oldStatus, newStatus);
 	NotifyEventHooks(hHookContactStatusChanged, wParam, (LPARAM)dwStatuses);
 
 	return 0;
@@ -102,7 +102,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
 	uint16_t newStatus = HIWORD(lParam);
-	DWORD ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
+	uint32_t ann = g_plugin.getDword("announce", DEFAULT_ANNOUNCE);
 
 	logmsg("ContactStatusChanged1");
 

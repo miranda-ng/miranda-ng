@@ -75,7 +75,7 @@ bool LoadIndexHTMLTemplate()
 
 	DWORD dwBytesRead = 0;
 	if (ReadFile(hFile, pszBuf, sizeof(szBuf), &dwBytesRead, nullptr) || dwBytesRead <= 0) {
-		while (dwBytesRead > (DWORD)(pszBuf - szBuf)) {
+		while (dwBytesRead > (uint32_t)(pszBuf - szBuf)) {
 			if (*pszBuf == '[') {
 				char* pszKeywordBegin = pszBuf + 1;
 				bool  bHasParameters = false;
@@ -279,7 +279,7 @@ void FreeIndexHTMLTemplate()
 /////////////////////////////////////////////////////////////////////
 
 bool bCreateIndexHTML(const char * pszRealPath, const char * pszIndexPath,
-	const char * pszSrvPath, DWORD /* dwRemoteIP */)
+	const char * pszSrvPath, uint32_t /* dwRemoteIP */)
 {
 	#define RelativeJump(begin) { pszPos += *((uint16_t*)(begin+1)) & 0x7FFF; }
 

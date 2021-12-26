@@ -117,7 +117,7 @@ void ColTimeline::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColTimeline::addToSlot(Contact& contact, bool bOutgoing, DWORD localTimestamp, int toAdd)
+void ColTimeline::addToSlot(Contact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd)
 {
 	if (toAdd > 0)
 	{
@@ -141,7 +141,7 @@ void ColTimeline::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD)
+void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
 {
 	if (m_nSource == 2)
 	{

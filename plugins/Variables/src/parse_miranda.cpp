@@ -434,7 +434,7 @@ static MEVENT findDbEvent(MCONTACT hContact, MEVENT hDbEvent, int flags)
 		}
 		else {
 			MEVENT hMatchEvent = NULL, hSearchEvent = NULL;
-			DWORD matchTimestamp = 0, priorTimestamp = 0;
+			uint32_t matchTimestamp = 0, priorTimestamp = 0;
 
 			DBEVENTINFO dbe = {};
 			if (flags & DBE_FIRST) {

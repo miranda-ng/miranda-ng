@@ -50,7 +50,7 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 	mir_free(dbei.pBlob);
 
 	dbei.flags |= DBEF_UTF;
-	dbei.cbBlob = (DWORD)mir_strlen(utf8str);
+	dbei.cbBlob = (uint32_t)mir_strlen(utf8str);
 	dbei.pBlob = (uint8_t*)utf8str;
 	return true;
 }
@@ -61,7 +61,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	AddToStatus(STATUS_MESSAGE, TranslateT("Database worker thread activated"));
 
-	DWORD sp = 0;
+	uint32_t sp = 0;
 
 	if (opts->bMarkRead || opts->bCheckUtf) {
 		int nCount = 0, nUtfCount = 0;

@@ -97,7 +97,7 @@ struct GaduProto : public PROTO<GaduProto>
 #endif
 	void gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging);
 	void gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging);
-	void gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging);
+	void gg_sleep(uint32_t miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging);
 
 	/* Global GG functions */
 	void notifyuser(MCONTACT hContact, int refresh);
@@ -108,7 +108,7 @@ struct GaduProto : public PROTO<GaduProto>
 	int refreshstatus(int status);
 
 	void broadcastnewstatus(int newStatus);
-	void cleanuplastplugin(DWORD version);
+	void cleanuplastplugin(uint32_t version);
 	void notifyall();
 	void changecontactstatus(uin_t uin, int status, const wchar_t *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version);
 	wchar_t *getstatusmsg(int status);
@@ -296,9 +296,9 @@ inline void GaduProto::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char *, 
 }
 
 #ifdef DEBUGMODE
-inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging) {
+inline void GaduProto::gg_sleep(uint32_t miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging) {
 #else
-inline void GaduProto::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int, int) {
+inline void GaduProto::gg_sleep(uint32_t miliseconds, BOOL alterable, char* callingFunction, int, int) {
 #endif
 	SleepEx(miliseconds, alterable);
 #ifdef DEBUGMODE

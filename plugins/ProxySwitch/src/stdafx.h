@@ -184,7 +184,7 @@ typedef struct {
 
 typedef struct {
 	char ProtoName[MAXLABELLENGTH];
-	DWORD Status;
+	uint32_t Status;
 } PROTO_SETTING, *PPROTO_SETTING;
 
 typedef struct {

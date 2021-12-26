@@ -39,7 +39,7 @@ struct HOTKEYDESC
 	MAllStrings szSection;        // section name used to group sounds (NULL is acceptable)
 	const char *pszService;       // Service to call when HotKey Pressed
 	uint16_t DefHotKey;           // default hot key for action
-	DWORD dwFlags;                // one of HKD_* constants
+	uint32_t dwFlags;             // one of HKD_* constants
 	LPARAM lParam;                // lParam to pass to service
 };
 

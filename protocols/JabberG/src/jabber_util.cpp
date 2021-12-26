@@ -799,8 +799,8 @@ const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 	wchar_t *str_up = NEWWSTR_ALLOCA(str);
 	wchar_t *substr_up = NEWWSTR_ALLOCA(substr);
 
-	CharUpperBuff(str_up, (DWORD)mir_wstrlen(str_up));
-	CharUpperBuff(substr_up, (DWORD)mir_wstrlen(substr_up));
+	CharUpperBuff(str_up, (uint32_t)mir_wstrlen(str_up));
+	CharUpperBuff(substr_up, (uint32_t)mir_wstrlen(substr_up));
 
 	wchar_t *p = wcsstr(str_up, substr_up);
 	return p ? (str + (p - str_up)) : nullptr;

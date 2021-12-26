@@ -38,7 +38,7 @@ static const uint8_t RLE_DELTA       = 2;
 static const uint8_t BI_ALPHABITFIELDS = 6;	// compression: Bit field (this value is valid in Windows CE .NET 4.0 and later)
 
 typedef struct tagBITMAPINFOOS2_1X_HEADER {
-  DWORD  biSize;
+  uint32_t  biSize;
   uint16_t   biWidth;
   uint16_t   biHeight; 
   uint16_t   biPlanes; 
@@ -59,14 +59,14 @@ static int s_format_id;
 static void
 SwapInfoHeader(BITMAPINFOHEADER *header) {
 	SwapLong(&header->biSize);
-	SwapLong((DWORD *)&header->biWidth);
-	SwapLong((DWORD *)&header->biHeight);
+	SwapLong((uint32_t *)&header->biWidth);
+	SwapLong((uint32_t *)&header->biHeight);
 	SwapShort(&header->biPlanes);
 	SwapShort(&header->biBitCount);
 	SwapLong(&header->biCompression);
 	SwapLong(&header->biSizeImage);
-	SwapLong((DWORD *)&header->biXPelsPerMeter);
-	SwapLong((DWORD *)&header->biYPelsPerMeter);
+	SwapLong((uint32_t *)&header->biXPelsPerMeter);
+	SwapLong((uint32_t *)&header->biYPelsPerMeter);
 	SwapLong(&header->biClrUsed);
 	SwapLong(&header->biClrImportant);
 }
@@ -537,8 +537,8 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 				else if (type >= 56) use_bitfields = 4;
 				
 				if (use_bitfields > 0) {
- 					DWORD bitfields[4];
-					io->read_proc(bitfields, use_bitfields * sizeof(DWORD), 1, handle);
+ 					uint32_t bitfields[4];
+					io->read_proc(bitfields, use_bitfields * sizeof(uint32_t), 1, handle);
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, bitfields[0], bitfields[1], bitfields[2]);
 				} else {
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI16_555_RED_MASK, FI16_555_GREEN_MASK, FI16_555_BLUE_MASK);
@@ -577,8 +577,8 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 				else if (type >= 56) use_bitfields = 4;
 
  				if (use_bitfields > 0) {
-					DWORD bitfields[4];
-					io->read_proc(bitfields, use_bitfields * sizeof(DWORD), 1, handle);
+					uint32_t bitfields[4];
+					io->read_proc(bitfields, use_bitfields * sizeof(uint32_t), 1, handle);
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, bitfields[0], bitfields[1], bitfields[2]);
 				} else {
 					if( bit_count == 32 ) {
@@ -753,9 +753,9 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 			case 16 :
 			{
 				if (bih.biCompression == 3) {
-					DWORD bitfields[3];
+					uint32_t bitfields[3];
 
-					io->read_proc(bitfields, 3 * sizeof(DWORD), 1, handle);
+					io->read_proc(bitfields, 3 * sizeof(uint32_t), 1, handle);
 
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, bitfields[0], bitfields[1], bitfields[2]);
 				} else {
@@ -1051,7 +1051,7 @@ static FIBITMAP * DLL_CALLCONV
 Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	if (handle != NULL) {
 		BITMAPFILEHEADER bitmapfileheader;
-		DWORD type = 0;
+		uint32_t type = 0;
 
 		// we use this offset value to make seemingly absolute seeks relative in the file
 		
@@ -1073,8 +1073,8 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// read the first byte of the infoheader
 
-		io->read_proc(&type, sizeof(DWORD), 1, handle);
-		io->seek_proc(handle, 0 - (long)sizeof(DWORD), SEEK_CUR);
+		io->read_proc(&type, sizeof(uint32_t), 1, handle);
+		io->seek_proc(handle, 0 - (long)sizeof(uint32_t), SEEK_CUR);
 #ifdef FREEIMAGE_BIGENDIAN
 		SwapLong(&type);
 #endif
@@ -1283,8 +1283,8 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		bool bit_fields = (dst_bpp == 16) ? true : false;
 
 		if (bit_fields) {
-			bitmapfileheader.bfSize += 3 * sizeof(DWORD);
-			bitmapfileheader.bfOffBits += 3 * sizeof(DWORD);
+			bitmapfileheader.bfSize += 3 * sizeof(uint32_t);
+			bitmapfileheader.bfOffBits += 3 * sizeof(uint32_t);
 		}
 
 #ifdef FREEIMAGE_BIGENDIAN
@@ -1321,23 +1321,23 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		// write the bit fields when we are dealing with a 16 bit BMP
 
 		if (bit_fields) {
-			DWORD d;
+			uint32_t d;
 
 			d = FreeImage_GetRedMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
+			if (io->write_proc(&d, sizeof(uint32_t), 1, handle) != 1) {
 				return FALSE;
 			}
 
 			d = FreeImage_GetGreenMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
+			if (io->write_proc(&d, sizeof(uint32_t), 1, handle) != 1) {
 				return FALSE;
 			}
 
 			d = FreeImage_GetBlueMask(dib);
 
-			if (io->write_proc(&d, sizeof(DWORD), 1, handle) != 1) {
+			if (io->write_proc(&d, sizeof(uint32_t), 1, handle) != 1) {
 				return FALSE;
 			}
 		}
@@ -1405,7 +1405,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
 		} else if (bpp == 24) {
 			int padding = dst_pitch - dst_width * sizeof(FILE_BGR);
-			DWORD pad = 0;
+			uint32_t pad = 0;
 			FILE_BGR bgr;
 			for(unsigned y = 0; y < dst_height; y++) {
 				uint8_t *line = FreeImage_GetScanLine(dib, y);

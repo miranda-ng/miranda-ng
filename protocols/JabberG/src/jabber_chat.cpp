@@ -336,7 +336,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 /////////////////////////////////////////////////////////////////////////////////////////
 // Context menu hooks
 
-static gc_item *sttFindGcMenuItem(int nItems, gc_item *items, DWORD id)
+static gc_item *sttFindGcMenuItem(int nItems, gc_item *items, uint32_t id)
 {
 	for (int i = 0; i < nItems; i++)
 		if (items[i].dwID == id)
@@ -345,27 +345,27 @@ static gc_item *sttFindGcMenuItem(int nItems, gc_item *items, DWORD id)
 	return nullptr;
 }
 
-static void sttSetupGcMenuItem(int nItems, gc_item *items, DWORD id, bool disabled)
+static void sttSetupGcMenuItem(int nItems, gc_item *items, uint32_t id, bool disabled)
 {
 	for (int i = 0; i < nItems; i++)
 		if (!id || (items[i].dwID == id))
 			items[i].bDisabled = disabled;
 }
 
-static void sttShowGcMenuItem(int nItems, gc_item *items, DWORD id, int type)
+static void sttShowGcMenuItem(int nItems, gc_item *items, uint32_t id, int type)
 {
 	for (int i = 0; i < nItems; i++)
 		if (!id || (items[i].dwID == id))
 			items[i].uType = type;
 }
 
-static void sttSetupGcMenuItems(int nItems, gc_item *items, DWORD *ids, bool disabled)
+static void sttSetupGcMenuItems(int nItems, gc_item *items, uint32_t *ids, bool disabled)
 {
 	for (; *ids; ++ids)
 		sttSetupGcMenuItem(nItems, items, *ids, disabled);
 }
 
-static void sttShowGcMenuItems(int nItems, gc_item *items, DWORD *ids, int type)
+static void sttShowGcMenuItems(int nItems, gc_item *items, uint32_t *ids, int type)
 {
 	for (; *ids; ++ids)
 		sttShowGcMenuItem(nItems, items, *ids, type);
@@ -492,9 +492,9 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 	if (gcmi->Type == MENU_ON_LOG) {
 		static wchar_t url_buf[1024] = { 0 };
 
-		static DWORD sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
-		static DWORD sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
-		static DWORD sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
+		static uint32_t sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
+		static uint32_t sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
+		static uint32_t sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
 
 		sttSetupGcMenuItem(_countof(sttLogListItems), sttLogListItems, 0, FALSE);
 
@@ -531,7 +531,7 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 		Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 	}
 	else if (gcmi->Type == MENU_ON_NICKLIST) {
-		static DWORD sttRJidItems[] = { IDM_RJID_VCARD, IDM_RJID_ADD, IDM_RJID_COPY, 0 };
+		static uint32_t sttRJidItems[] = { IDM_RJID_VCARD, IDM_RJID_ADD, IDM_RJID_COPY, 0 };
 
 		if (me && him) {
 			int i, idx;
@@ -942,7 +942,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 
 	// 1 kick per second, prevents crashes...
 	enum { BAN_KICK_INTERVAL = 1000 };
-	static DWORD dwLastBanKickTime = 0;
+	static uint32_t dwLastBanKickTime = 0;
 
 	CMStringW szBuffer, szTitle;
 

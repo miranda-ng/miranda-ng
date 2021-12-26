@@ -707,15 +707,15 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 	if (!szProto)
 		return;
 
-	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+	uint32_t typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
-	DWORD protoStatus = Proto_GetStatus(szProto);
+	uint32_t protoStatus = Proto_GetStatus(szProto);
 	if (protoStatus < ID_STATUS_ONLINE)
 		return;
 
-	DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 		return;
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
@@ -1454,7 +1454,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 	Event.strSummary = TranslateString(L"Contactlist event");
 
 	// Block notifications after connecting/disconnecting
-	if (pProtocolData->iStatus == ID_STATUS_OFFLINE || (DWORD)pProtocolData->lTimeStamp + PROTOCOL_NOTIFY_DELAY > GetTickCount())
+	if (pProtocolData->iStatus == ID_STATUS_OFFLINE || (uint32_t)pProtocolData->lTimeStamp + PROTOCOL_NOTIFY_DELAY > GetTickCount())
 		Event.bNotification = false;
 
 	//CAppletManager::GetInstance()->ActivateNotificationScreen(&Event);

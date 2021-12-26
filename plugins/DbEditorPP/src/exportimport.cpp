@@ -364,7 +364,7 @@ void importSettings(MCONTACT hContact, char *utf8)
 				case 'd':
 				case 'D':
 					if (sscanf(end + 2, "%u", &value) == 1)
-						db_set_dw(hContact, module, setting, (DWORD)value);
+						db_set_dw(hContact, module, setting, (uint32_t)value);
 					break;
 				case 's':
 				case 'S':
@@ -477,7 +477,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 	wchar_t szPath[MAX_PATH] = {};
 	wchar_t szFile[MAX_PATH];
 
-	DWORD offset = 0;
+	uint32_t offset = 0;
 
 	mir_wstrcpy(szFileNames, L"");
 
@@ -491,7 +491,7 @@ void ImportSettingsFromFileMenuItem(MCONTACT hContact, const char *FilePath)
 
 	int index = 0;
 	if (mir_wstrcmp(szFileNames, L"")) {
-		if ((DWORD)mir_wstrlen(szFileNames) < offset) {
+		if ((uint32_t)mir_wstrlen(szFileNames) < offset) {
 			index += offset;
 			mir_wstrncpy(szPath, szFileNames, offset);
 			mir_wstrcat(szPath, L"\\");

@@ -418,7 +418,7 @@ void PopupSkin::measure(HDC hdc, PopupWnd2 *wnd, int maxw, POPUPOPTIONS *options
 	wnd->setSize(sz);
 }
 
-void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, DWORD drawFlags) const
+void PopupSkin::display(MyBitmap *bmp, PopupWnd2 *wnd, POPUPOPTIONS *options, uint32_t drawFlags) const
 {
 	if (!m_elements) return;
 
@@ -1103,7 +1103,7 @@ bool Skins::load()
 	}
 	else {
 		mir_wstrncpy(dir, VARSW(L"%miranda_path%\\skins\\popup"), _countof(dir));
-		DWORD fa = GetFileAttributes(dir);
+		uint32_t fa = GetFileAttributes(dir);
 		if ((fa == INVALID_FILE_ATTRIBUTES) || !(fa&FILE_ATTRIBUTE_DIRECTORY))
 			return false;
 	}

@@ -20,10 +20,10 @@ struct SMessageJob
 {
 	MEVENT hEvent;
 	MCONTACT hContact;
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	char *pcBuffer;
 	int iBufferSize;
-	DWORD dwTimestamp;
+	uint32_t dwTimestamp;
 };
 
 class CAppletManager : public CLCDOutputManager

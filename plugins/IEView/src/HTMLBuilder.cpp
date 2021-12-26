@@ -129,12 +129,12 @@ void HTMLBuilder::setLastEventType(int t)
 	iLastEventType = t;
 }
 
-DWORD HTMLBuilder::getLastEventTime()
+uint32_t HTMLBuilder::getLastEventTime()
 {
 	return lastEventTime;
 }
 
-void HTMLBuilder::setLastEventTime(DWORD t)
+void HTMLBuilder::setLastEventTime(uint32_t t)
 {
 	lastEventTime = t;
 }
@@ -239,8 +239,8 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 				eventData->iType = IEED_EVENT_STATUSCHANGE;
 		}
 		else if (dbei.eventType == EVENTTYPE_FILE) {
-			// blob is: sequenceid(DWORD),filename(ASCIIZ),description(ASCIIZ)
-			char* filename = ((char *)dbei.pBlob) + sizeof(DWORD);
+			// blob is: sequenceid(uint32_t),filename(ASCIIZ),description(ASCIIZ)
+			char* filename = ((char *)dbei.pBlob) + sizeof(uint32_t);
 			char* descr = filename + mir_strlen(filename) + 1;
 			eventData->szText.w = DbEvent_GetString(&dbei, filename);
 			if (*descr != '\0')
@@ -248,13 +248,13 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
-			// blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+			// blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->szText.w = mir_wstrdup(TranslateT(" requested authorization"));
 			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;
 		}
 		else if (dbei.eventType == EVENTTYPE_ADDED) {
-			//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+			//blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
 			eventData->szText.w = mir_wstrdup(TranslateT(" was added."));
 			eventData->szNick.w = DbEvent_GetString(&dbei, (char *)dbei.pBlob + 8);
 			eventData->iType = IEED_EVENT_SYSTEM;

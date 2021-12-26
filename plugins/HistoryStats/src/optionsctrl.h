@@ -39,19 +39,19 @@ public:
 	operator HWND() { return m_hOptWnd; }
 
 public:
-	HANDLE insertGroup(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertCheck(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertRadio(HANDLE hParent, HANDLE hSibling, const wchar_t* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertEdit(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szEdit = L"", DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertCombo(HANDLE hParent, const wchar_t* szLabel, DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertButton(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szButton, DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertDateTime(HANDLE hParent, const wchar_t* szLabel, DWORD dwDateTime, const wchar_t* szFormat = L"%Y-%m-%d", DWORD dwFlags = 0, INT_PTR dwData = 0);
-	HANDLE insertColor(HANDLE hParent, const wchar_t* szLabel, COLORREF crColor = 0, DWORD dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertGroup(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertCheck(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertRadio(HANDLE hParent, HANDLE hSibling, const wchar_t* szLabel, uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertEdit(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szEdit = L"", uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertCombo(HANDLE hParent, const wchar_t* szLabel, uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertButton(HANDLE hParent, const wchar_t* szLabel, const wchar_t* szButton, uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertDateTime(HANDLE hParent, const wchar_t* szLabel, uint32_t dwDateTime, const wchar_t* szFormat = L"%Y-%m-%d", uint32_t dwFlags = 0, INT_PTR dwData = 0);
+	HANDLE insertColor(HANDLE hParent, const wchar_t* szLabel, COLORREF crColor = 0, uint32_t dwFlags = 0, INT_PTR dwData = 0);
 	const wchar_t* getItemLabel(HANDLE hItem);
 	void setItemLabel(HANDLE hItem, const wchar_t* szLabel);
 	bool isItemEnabled(HANDLE hItem);
 	void enableItem(HANDLE hItem, bool bEnable);
-    DWORD getItemData(HANDLE hItem);
+    uint32_t getItemData(HANDLE hItem);
 	void setItemData(HANDLE hItem, INT_PTR dwData);
 	bool isItemChecked(HANDLE hItem);
 	void checkItem(HANDLE hItem, bool bCheck);
@@ -78,8 +78,8 @@ public:
 	void setScrollPos(int nBar, int nPos);
 	bool isDateTimeNone(HANDLE hDateTime);
 	void setDateTimeNone(HANDLE hDateTime);
-	DWORD getDateTime(HANDLE hDateTime, bool* pbNone = nullptr);
-	void setDateTime(HANDLE hDateTime, DWORD dwDateTime);
+	uint32_t getDateTime(HANDLE hDateTime, bool* pbNone = nullptr);
+	void setDateTime(HANDLE hDateTime, uint32_t dwDateTime);
 	ext::string getDateTimeStr(HANDLE hDateTime);
 	void setDateTimeStr(HANDLE hDateTime, const ext::string& strDateTime);
 	COLORREF getColor(HANDLE hColor);

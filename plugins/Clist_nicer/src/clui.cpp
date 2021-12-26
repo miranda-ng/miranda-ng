@@ -203,7 +203,7 @@ static int CreateCLC()
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME | FO_UNICODETEXT, hFrameContactTree), (LPARAM)TranslateT("My contacts"));
 
 		// ugly, but working hack. Prevent that annoying little scroll bar from appearing in the "My Contacts" title bar
-		DWORD flags = (DWORD)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
+		uint32_t flags = (uint32_t)CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), 0);
 		flags |= F_VISIBLE;
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hFrameContactTree), flags);
 	}
@@ -301,7 +301,7 @@ void CLN_LoadAllIcons(BOOL mode)
 void ConfigureEventArea()
 {
 	int iCount = GetMenuItemCount(cfg::dat.hMenuNotify);
-	DWORD dwFlags = cfg::dat.dwFlags;
+	uint32_t dwFlags = cfg::dat.dwFlags;
 	int oldstate = cfg::dat.notifyActive;
 	int dwVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, hNotifyFrame), 0) & F_VISIBLE;
 
@@ -338,7 +338,7 @@ void IcoLibReloadIcons()
 void ConfigureCLUIGeometry(int mode)
 {
 	RECT rcStatus;
-	DWORD clmargins = db_get_dw(0, "CLUI", "clmargins", 0);
+	uint32_t clmargins = db_get_dw(0, "CLUI", "clmargins", 0);
 
 	cfg::dat.bCLeft = LOBYTE(LOWORD(clmargins));
 	cfg::dat.bCRight = HIBYTE(LOWORD(clmargins));
@@ -423,8 +423,8 @@ void SetDBButtonStates(MCONTACT hPassedContact)
 					break;
 				}
 			case DBVT_DWORD:
-				DWORD val = db_get_dw(hFinalContact, szModule, szSetting, 0);
-				result = (val == *((DWORD *)&buttonItem->bValuePush));
+				uint32_t val = db_get_dw(hFinalContact, szModule, szSetting, 0);
+				result = (val == *((uint32_t *)&buttonItem->bValuePush));
 				break;
 			}
 		}
@@ -687,7 +687,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 				DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
 					item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
 			}
-			DWORD dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
+			uint32_t dfcFlags = DFCS_FLAT | (nmcsbcd->uState == CDIS_DISABLED ? DFCS_INACTIVE :
 				(nmcsbcd->uState == CDIS_HOT ? DFCS_HOT : (nmcsbcd->uState == CDIS_SELECTED ? DFCS_PUSHED : 0)));
 
 			if (nmcsbcd->uItem == HTSCROLL_UP)
@@ -1101,7 +1101,7 @@ skipbg:
 			GetWindowRect(hwnd, &rc);
 
 			if (!Docking_IsDocked(0, 0)) {
-				cluiPos.bottom = (DWORD)(rc.bottom - rc.top);
+				cluiPos.bottom = (uint32_t)(rc.bottom - rc.top);
 				cluiPos.left = rc.left;
 				cluiPos.top = rc.top;
 			}
@@ -1111,11 +1111,11 @@ skipbg:
 
 				// if docked, dont remember pos (except for width)
 				if (!Clist_IsDocked()) {
-					g_plugin.setDword("Height", (DWORD)(rc.bottom - rc.top));
-					g_plugin.setDword("x", (DWORD)rc.left);
-					g_plugin.setDword("y", (DWORD)rc.top);
+					g_plugin.setDword("Height", (uint32_t)(rc.bottom - rc.top));
+					g_plugin.setDword("x", (uint32_t)rc.left);
+					g_plugin.setDword("y", (uint32_t)rc.top);
 				}
-				g_plugin.setDword("Width", (DWORD)(rc.right - rc.left));
+				g_plugin.setDword("Width", (uint32_t)(rc.right - rc.left));
 			}
 		}
 		return TRUE;
@@ -1237,7 +1237,7 @@ skipbg:
 	case WM_SHOWWINDOW:
 		{
 			static int noRecurse = 0;
-			DWORD thisTick, startTick;
+			uint32_t thisTick, startTick;
 			int sourceAlpha, destAlpha;
 
 			if (cfg::dat.forceResize && wParam != SW_HIDE) {
@@ -1314,7 +1314,7 @@ skipbg:
 
 	case WM_COMMAND:
 		{
-			DWORD dwOldFlags = cfg::dat.dwFlags;
+			uint32_t dwOldFlags = cfg::dat.dwFlags;
 			if (HIWORD(wParam) == BN_CLICKED && lParam != 0) {
 				if (LOWORD(wParam) == IDC_TBFIRSTUID - 1)
 					break;
@@ -1333,7 +1333,7 @@ skipbg:
 							hContact = contact->hContact;
 					}
 					while (item) {
-						if (item->uId == (DWORD)LOWORD(wParam)) {
+						if (item->uId == (uint32_t)LOWORD(wParam)) {
 							int contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);
 
 							if (item->dwFlags & BUTTON_ISSERVICE) {
@@ -1390,7 +1390,7 @@ skipbg:
 											db_set_w(finalhContact, szModule, szSetting, *((uint16_t *)&pValue[0]));
 											break;
 										case DBVT_DWORD:
-											db_set_dw(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));
+											db_set_dw(finalhContact, szModule, szSetting, *((uint32_t *)&pValue[0]));
 											break;
 										case DBVT_ASCIIZ:
 											db_set_s(finalhContact, szModule, szSetting, (char *)pValue);
@@ -1553,7 +1553,7 @@ buttons_done:
 			case NM_CLICK:
 				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-					DWORD hitFlags;
+					uint32_t hitFlags;
 					SendMessage(g_clistApi.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;

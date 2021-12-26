@@ -39,7 +39,7 @@ public:
 	BOOL SSL;
 	BOOL Stopped;
 
-	DWORD POP3Error;
+	uint32_t POP3Error;
 	class CNetClient *NetClient;	//here the network layout is defined (TCP or SSL+TCP etc.)
 private:
 	BOOL SearchFromEnd(char *end,int bs,int mode);

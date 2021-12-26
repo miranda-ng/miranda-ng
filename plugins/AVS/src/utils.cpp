@@ -170,7 +170,7 @@ int CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *sz
 	// Calc image hash
 	if (hContact != 0 && hContact != INVALID_CONTACT_ID) {
 		// Have to reset settings? -> do it if image changed
-		DWORD imgHash = GetImgHash(ace->hbmPic);
+		uint32_t imgHash = GetImgHash(ace->hbmPic);
 		if (imgHash != db_get_dw(hContact, "ContactPhoto", "ImageHash", 0)) {
 			db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
 			db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
@@ -458,7 +458,7 @@ void SetIgnoreNotify(char *protocol, BOOL ignore)
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
-DWORD GetFileSize(wchar_t *szFilename)
+uint32_t GetFileSize(wchar_t *szFilename)
 {
 	struct _stat info;
 	return (_wstat(szFilename, &info) == -1) ? 0 : info.st_size;

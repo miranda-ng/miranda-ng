@@ -5,7 +5,7 @@ HistoryMap history_map;
 #define ID_REPAINT_TIMER		10101
 
 struct WindowData {
-	DWORD item_id;
+	uint32_t item_id;
 	HistoryList list;
 	HWND hwnd_chk_grid;
 	HWND hwnd_chk_stat;
@@ -254,7 +254,7 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 	char buff[30];
-	mir_snprintf(buff, "WindowHandle%d", (DWORD)wParam);
+	mir_snprintf(buff, "WindowHandle%d", (uint32_t)wParam);
 	HWND hGraphWnd = (HWND)g_plugin.getDword(buff, 0);
 	if (hGraphWnd) {
 		ShowWindow(hGraphWnd, SW_SHOW);
@@ -288,7 +288,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam) {
 		0, 0, 800, 600, parent, nullptr, g_plugin.getInst(), nullptr);
 
 	WindowData *wd = new WindowData;
-	wd->item_id = (DWORD)wParam; // wParam is destination id
+	wd->item_id = (uint32_t)wParam; // wParam is destination id
 	wd->hwnd_chk_grid = nullptr;
 	wd->hwnd_chk_stat = nullptr;
 	wd->show_grid = g_plugin.getByte("ShowGridLines", 0) ? true : false;

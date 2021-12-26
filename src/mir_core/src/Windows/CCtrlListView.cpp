@@ -210,7 +210,7 @@ void CCtrlListView::GetCaretPos(CContextMenuPos &pos) const
 }
 
 // classic api
-DWORD CCtrlListView::ApproximateViewRect(int cx, int cy, int iCount)
+uint32_t CCtrlListView::ApproximateViewRect(int cx, int cy, int iCount)
 {	return ListView_ApproximateViewRect(m_hwnd, cx, cy, iCount);
 }
 void CCtrlListView::Arrange(UINT code)
@@ -270,7 +270,7 @@ int CCtrlListView::GetCountPerPage() const
 HWND CCtrlListView::GetEditControl() const
 {	return ListView_GetEditControl(m_hwnd);
 }
-DWORD CCtrlListView::GetExtendedListViewStyle() const
+uint32_t CCtrlListView::GetExtendedListViewStyle() const
 {	return ListView_GetExtendedListViewStyle(m_hwnd);
 }
 void CCtrlListView::GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics) const
@@ -285,7 +285,7 @@ HCURSOR CCtrlListView::GetHotCursor() const
 INT CCtrlListView::GetHotItem() const
 {	return ListView_GetHotItem(m_hwnd);
 }
-DWORD CCtrlListView::GetHoverTime() const
+uint32_t CCtrlListView::GetHoverTime() const
 {	return ListView_GetHoverTime(m_hwnd);
 }
 HIMAGELIST CCtrlListView::GetImageList(int iImageList) const
@@ -315,7 +315,7 @@ void CCtrlListView::GetItemPosition(int i, POINT *ppt) const
 void CCtrlListView::GetItemRect(int i, RECT *prc, int code) const
 {	ListView_GetItemRect(m_hwnd, i, prc, code);
 }
-DWORD CCtrlListView::GetItemSpacing(BOOL fSmall) const
+uint32_t CCtrlListView::GetItemSpacing(BOOL fSmall) const
 {	return ListView_GetItemSpacing(m_hwnd, fSmall);
 }
 UINT CCtrlListView::GetItemState(int i, UINT mask) const
@@ -372,7 +372,7 @@ int CCtrlListView::GetTopIndex() const
 BOOL CCtrlListView::GetUnicodeFormat() const
 {	return ListView_GetUnicodeFormat(m_hwnd);
 }
-DWORD CCtrlListView::GetView() const
+uint32_t CCtrlListView::GetView() const
 {	return ListView_GetView(m_hwnd);
 }
 BOOL CCtrlListView::GetViewRect(RECT *prc) const
@@ -444,10 +444,10 @@ BOOL CCtrlListView::SetColumnOrderArray(int iCount, int *lpiArray)
 BOOL CCtrlListView::SetColumnWidth(int iCol, int cx)
 {	return ListView_SetColumnWidth(m_hwnd, iCol, cx);
 }
-void CCtrlListView::SetExtendedListViewStyle(DWORD dwExStyle)
+void CCtrlListView::SetExtendedListViewStyle(uint32_t dwExStyle)
 {	ListView_SetExtendedListViewStyle(m_hwnd, dwExStyle);
 }
-void CCtrlListView::SetExtendedListViewStyleEx(DWORD dwExMask, DWORD dwExStyle)
+void CCtrlListView::SetExtendedListViewStyleEx(uint32_t dwExMask, uint32_t dwExStyle)
 {	ListView_SetExtendedListViewStyleEx(m_hwnd, dwExMask, dwExStyle);
 }
 int CCtrlListView::SetGroupInfo(int iGroupId, PLVGROUP pgrp)
@@ -462,10 +462,10 @@ HCURSOR CCtrlListView::SetHotCursor(HCURSOR hCursor)
 INT CCtrlListView::SetHotItem(INT iIndex)
 {	return ListView_SetHotItem(m_hwnd, iIndex);
 }
-void CCtrlListView::SetHoverTime(DWORD dwHoverTime)
+void CCtrlListView::SetHoverTime(uint32_t dwHoverTime)
 {	ListView_SetHoverTime(m_hwnd, dwHoverTime);
 }
-DWORD CCtrlListView::SetIconSpacing(int cx, int cy)
+uint32_t CCtrlListView::SetIconSpacing(int cx, int cy)
 {	return ListView_SetIconSpacing(m_hwnd, cx, cy);
 }
 HIMAGELIST CCtrlListView::SetImageList(HIMAGELIST himl, int iImageList)
@@ -486,7 +486,7 @@ BOOL CCtrlListView::SetItem(const LVITEM *pitem)
 void CCtrlListView::SetItemCount(int cItems)
 {	ListView_SetItemCount(m_hwnd, cItems);
 }
-void CCtrlListView::SetItemCountEx(int cItems, DWORD dwFlags)
+void CCtrlListView::SetItemCountEx(int cItems, uint32_t dwFlags)
 {	ListView_SetItemCountEx(m_hwnd, cItems, dwFlags);
 }
 BOOL CCtrlListView::SetItemPosition(int i, int x, int y)
@@ -528,7 +528,7 @@ HWND CCtrlListView::SetToolTips(HWND ToolTip)
 BOOL CCtrlListView::SetUnicodeFormat(BOOL fUnicode)
 {	return ListView_SetUnicodeFormat(m_hwnd, fUnicode);
 }
-int CCtrlListView::SetView(DWORD iView)
+int CCtrlListView::SetView(uint32_t iView)
 {	return ListView_SetView(m_hwnd, iView);
 }
 void CCtrlListView::SetWorkAreas(INT nWorkAreas, LPRECT lprc)

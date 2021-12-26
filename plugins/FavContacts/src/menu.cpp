@@ -486,7 +486,7 @@ int ShowMenu(bool centered)
 
 		AppendMenu(hMenu, MF_OWNERDRAW, ++idItem, (LPCTSTR)hContact);
 
-		mis.itemData = (DWORD)hContact;
+		mis.itemData = (uint32_t)hContact;
 		mis.itemID = idItem;
 		MenuMeasureItem(&mis);
 		szColumn.cx = max(szColumn.cx, (int)mis.itemWidth);

@@ -300,7 +300,7 @@ static wchar_t* parseEnvironmentVariable(ARGUMENTSINFO *ai)
 	if (ai->argc != 2)
 		return nullptr;
 
-	DWORD len = ExpandEnvironmentStrings(ai->argv.w[1], nullptr, 0);
+	uint32_t len = ExpandEnvironmentStrings(ai->argv.w[1], nullptr, 0);
 	if (len <= 0)
 		return nullptr;
 
@@ -415,7 +415,7 @@ static wchar_t* parseListDir(ARGUMENTSINFO *ai)
 }
 
 #ifndef WINE
-static BOOL CALLBACK MyProcessEnumerator(DWORD, uint16_t, char *szProcess, LPARAM lParam)
+static BOOL CALLBACK MyProcessEnumerator(uint32_t, uint16_t, char *szProcess, LPARAM lParam)
 {
 	char **szProc = (char **)lParam;
 	if ((*szProc != nullptr) && (!_stricmp(*szProc, szProcess)))
@@ -586,7 +586,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 	if (hFile == INVALID_HANDLE_VALUE)
 		return nullptr;
 
-	DWORD fileSz = GetFileSize(hFile, nullptr);
+	uint32_t fileSz = GetFileSize(hFile, nullptr);
 	if (fileSz == INVALID_FILE_SIZE) {
 		CloseHandle(hFile);
 		return nullptr;
@@ -750,7 +750,7 @@ static wchar_t* parseTextFile(ARGUMENTSINFO *ai)
 				return res;
 			}
 		}
-		if (((DWORD)(linePos + (pCur - pBuf)) == fileSz)) { // eof
+		if (((uint32_t)(linePos + (pCur - pBuf)) == fileSz)) { // eof
 			CloseHandle(hFile);
 
 			if (tUC) {

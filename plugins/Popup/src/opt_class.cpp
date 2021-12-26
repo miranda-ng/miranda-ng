@@ -132,8 +132,8 @@ struct {
 	int idCtrl;
 	int iconId;
 	char *title;
-	DWORD statusFlag;
-	DWORD disableWhenFlag;
+	uint32_t statusFlag;
+	uint32_t disableWhenFlag;
 }
 static statusButtons[] = {
 	{ IDC_SOFFLINE, SKINICON_STATUS_OFFLINE, "Offline", PF2_IDLE, PF2_IDLE },

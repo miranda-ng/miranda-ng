@@ -31,7 +31,7 @@ namespace Contact {
 /**
  * This function trys to guess, when an ICQ contact was added to database.
  **/
-DWORD	WhenAdded(DWORD dwUIN, LPCSTR)
+uint32_t	WhenAdded(uint32_t dwUIN, LPCSTR)
 {
 	DBEVENTINFO	dbei = {};
 	DB::ECPTR pCursor(DB::Events(0));
@@ -40,8 +40,8 @@ DWORD	WhenAdded(DWORD dwUIN, LPCSTR)
 		if (!DB::Event::GetInfo(edbe, &dbei) && dbei.eventType == EVENTTYPE_ADDED) {
 			if (!DB::Event::GetInfoWithData(edbe, &dbei)) {
 				// extract UIN and compare with given one
-				DWORD dwEvtUIN;
-				memcpy(&dwEvtUIN, dbei.pBlob, sizeof(DWORD));
+				uint32_t dwEvtUIN;
+				memcpy(&dwEvtUIN, dbei.pBlob, sizeof(uint32_t));
 				MIR_FREE(dbei.pBlob);
 				if (dwEvtUIN == dwUIN)
 					return dbei.timestamp;
@@ -421,7 +421,7 @@ uint8_t ConvertString(DBVARIANT* dbv, const uint8_t destType)
 
 /**
 * This function completely converts a DBVARIANT to the destination string type.
-* It includes uint8_t, uint16_t, DWORD and all string types
+* It includes uint8_t, uint16_t, uint32_t and all string types
 * @param		dbv			- pointer to DBVARIANT structure which is to manipulate
 * @param		destType	- one of (DBVT_ASCIIZ, DBVT_UTF8 or DBVT_WCHAR)
 *
@@ -533,7 +533,7 @@ bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 {
 	if (!dbei->cbBlob) {
 		INT_PTR size = db_event_getBlobSize(hEvent);
-		dbei->cbBlob = (size != -1) ? (DWORD)size : 0;
+		dbei->cbBlob = (size != -1) ? (uint32_t)size : 0;
 	}
 	if (dbei->cbBlob) {
 		dbei->pBlob = (uint8_t*) mir_alloc(dbei->cbBlob);
@@ -558,7 +558,7 @@ bool GetInfoWithData(MEVENT hEvent, DBEVENTINFO *dbei)
 * @retval	timestamp
 **/
 
-DWORD	TimeOf(MEVENT hEvent)
+uint32_t	TimeOf(MEVENT hEvent)
 {
 	DBEVENTINFO dbei;
 	if (!GetInfo(hEvent, &dbei))

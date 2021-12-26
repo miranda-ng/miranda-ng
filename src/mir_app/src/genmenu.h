@@ -44,7 +44,7 @@ struct TMO_LinkedList
 
 struct TMO_IntMenuItem
 {
-	DWORD        signature;
+	uint32_t        signature;
 	int          iCommand;
 	int          iconId;           // icon index in the section's image list
 	TMO_MenuItem mi;               // user-defined data
@@ -55,7 +55,7 @@ struct TMO_IntMenuItem
 	int          originalPosition; // !!!!!!!!!!!!!!!!!!!!!!!!
 	bool         customVisible;
 
-	DWORD        hotKey;
+	uint32_t        hotKey;
 	WPARAM       execParam;
 	void*        pUserData;
 

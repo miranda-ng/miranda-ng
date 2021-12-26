@@ -194,7 +194,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 		char *szProto = Proto_GetBaseAccountName(wParam);
 		if (szProto != nullptr) {
 			// Check if protocol uses server side lists
-			DWORD caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+			uint32_t caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 			if (caps & PF1_SERVERCLIST) {
 				int status = Proto_GetStatus(szProto);
 				if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status)) {
@@ -476,7 +476,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	// Power management
 	case WM_POWERBROADCAST:
-		switch ((DWORD)wParam) {
+		switch ((uint32_t)wParam) {
 		case PBT_APMSUSPEND:
 			// Computer is suspending, disconnect all protocols
 			DisconnectAll();
@@ -530,11 +530,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			//if docked, dont remember pos (except for width)
 			if (!Clist_IsDocked()) {
-				db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-				db_set_dw(0, "CList", "x", (DWORD)rc.left);
-				db_set_dw(0, "CList", "y", (DWORD)rc.top);
+				db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
+				db_set_dw(0, "CList", "x", (uint32_t)rc.left);
+				db_set_dw(0, "CList", "y", (uint32_t)rc.top);
 			}
-			db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
+			db_set_dw(0, "CList", "Width", (uint32_t)(rc.right - rc.left));
 		}
 		return FALSE;
 
@@ -615,7 +615,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (!db_get_b(0, "CLUI", "FadeInOut", 0))
 			break;
 		if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) {
-			DWORD thisTick, startTick;
+			uint32_t thisTick, startTick;
 			int sourceAlpha, destAlpha;
 			if (wParam) {
 				sourceAlpha = 0;
@@ -827,7 +827,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			case NM_CLICK:
 				{
-					DWORD hitFlags;
+					uint32_t hitFlags;
 					HANDLE hItem = (HANDLE)SendMessage(g_clistApi.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
 					if (hItem) {
 						if (hitFlags & CLCHT_ONITEMEXTRA) {
@@ -1020,11 +1020,11 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 			//if docked, dont remember pos (except for width)
 			if (!Clist_IsDocked()) {
-				db_set_dw(0, "CList", "Height", (DWORD)(rc.bottom - rc.top));
-				db_set_dw(0, "CList", "x", (DWORD)rc.left);
-				db_set_dw(0, "CList", "y", (DWORD)rc.top);
+				db_set_dw(0, "CList", "Height", (uint32_t)(rc.bottom - rc.top));
+				db_set_dw(0, "CList", "x", (uint32_t)rc.left);
+				db_set_dw(0, "CList", "y", (uint32_t)rc.top);
 			}
-			db_set_dw(0, "CList", "Width", (DWORD)(rc.right - rc.left));
+			db_set_dw(0, "CList", "Width", (uint32_t)(rc.right - rc.left));
 		}
 
 		RemoveMenu(g_clistApi.hMenuMain, 0, MF_BYPOSITION);

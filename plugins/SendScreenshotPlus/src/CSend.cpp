@@ -333,7 +333,7 @@ int CSend::OnSend(void *obj, WPARAM, LPARAM lParam)
 			break;
 		case ACKTYPE_FILE:
 			self->m_szEventMsg.Insert(0, "aaaa");
-			self->m_cbEventMsg += sizeof(DWORD);
+			self->m_cbEventMsg += sizeof(uint32_t);
 			self->DB_EventAdd((uint16_t)EVENTTYPE_FILE);
 			break;
 		}
@@ -481,7 +481,7 @@ int CSend::HTTPFormCreate(NETLIBHTTPREQUEST* nlhr, int requestType, const char* 
 	{
 		union
 		{
-			DWORD num;
+			uint32_t num;
 			unsigned char cr[4];
 		}; num = GetTickCount() ^ 0x8000;
 		for (int i = 0; i < 4; ++i) {

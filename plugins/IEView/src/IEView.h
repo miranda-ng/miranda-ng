@@ -42,8 +42,8 @@ static const CLSID CLSID_MozillaBrowser =
 typedef struct _DOCHOSTUIINFO
 {
 	ULONG cbSize;
-	DWORD dwFlags;
-	DWORD dwDoubleClick;
+	uint32_t dwFlags;
+	uint32_t dwDoubleClick;
 	OLECHAR *pchHostCss;
 	OLECHAR *pchHostNS;
 } DOCHOSTUIINFO;
@@ -358,12 +358,12 @@ extern "C" {
 
 		STDMETHOD(SetSecuritySite)(THIS_ IInternetSecurityMgrSite*) PURE;
 		STDMETHOD(GetSecuritySite)(THIS_ IInternetSecurityMgrSite**) PURE;
-		STDMETHOD(MapUrlToZone)(THIS_ LPCWSTR,DWORD*,DWORD) PURE;
-		STDMETHOD(GetSecurityId)(THIS_ LPCWSTR,uint8_t*,DWORD*,DWORD_PTR) PURE;
-		STDMETHOD(ProcessUrlAction)(THIS_ LPCWSTR,DWORD,uint8_t*,DWORD,uint8_t*,DWORD,DWORD,DWORD) PURE;
-		STDMETHOD(QueryCustomPolicy)(THIS_ LPCWSTR,REFGUID,uint8_t**,DWORD*,uint8_t*,DWORD,DWORD) PURE;
-		STDMETHOD(SetZoneMapping)(THIS_ DWORD,LPCWSTR,DWORD) PURE;
-		STDMETHOD(GetZoneMappings)(THIS_ DWORD,IEnumString**,DWORD) PURE;
+		STDMETHOD(MapUrlToZone)(THIS_ LPCWSTR,uint32_t*,uint32_t) PURE;
+		STDMETHOD(GetSecurityId)(THIS_ LPCWSTR,uint8_t*,uint32_t*,DWORD_PTR) PURE;
+		STDMETHOD(ProcessUrlAction)(THIS_ LPCWSTR,uint32_t,uint8_t*,uint32_t,uint8_t*,uint32_t,uint32_t,uint32_t) PURE;
+		STDMETHOD(QueryCustomPolicy)(THIS_ LPCWSTR,REFGUID,uint8_t**,uint32_t*,uint8_t*,uint32_t,uint32_t) PURE;
+		STDMETHOD(SetZoneMapping)(THIS_ uint32_t,LPCWSTR,uint32_t) PURE;
+		STDMETHOD(GetZoneMappings)(THIS_ uint32_t,IEnumString**,uint32_t) PURE;
 	};
 #undef INTERFACE
 
@@ -453,7 +453,7 @@ class IEView :public IDispatch, public IOleClientSite, public IOleInPlaceSite, p
 	STDMETHOD(GetTypeInfoCount)(UINT*);
 	STDMETHOD(GetTypeInfo)(UINT, LCID, LPTYPEINFO*);
 	STDMETHOD(GetIDsOfNames)(REFIID, LPOLESTR*, UINT, LCID, DISPID*);
-	STDMETHOD(Invoke)(DISPID, REFIID, LCID, uint16_t, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
+	STDMETHOD(Invoke)(DISPID, REFIID, LCID, WORD, DISPPARAMS*, VARIANT*, EXCEPINFO*, UINT*);
 	// IOleWindow
 	STDMETHOD(GetWindow)(HWND *phwnd);
 	STDMETHOD(ContextSensitiveHelp)(BOOL fEnterMode);

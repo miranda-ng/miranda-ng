@@ -592,7 +592,7 @@ FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
 		return res;
 	}
 
-	DWORD compressed_size = 0;
+	uint32_t compressed_size = 0;
 	uint8_t *compressed_data = NULL;
 
 	// compress the bitmap data
@@ -755,7 +755,7 @@ FreeImage_UnlockPage(FIMULTIBITMAP *bitmap, FIBITMAP *page, BOOL changed) {
 
 				// compress the data
 
-				DWORD compressed_size = 0;
+				uint32_t compressed_size = 0;
 				uint8_t *compressed_data = NULL;
 
 				// open a memory handle

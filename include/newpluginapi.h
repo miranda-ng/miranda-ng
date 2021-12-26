@@ -101,7 +101,7 @@ struct PLUGININFOEX
 {
 	int cbSize;
 	char *shortName;
-	DWORD version;
+	uint32_t version;
 	char *description;
 	char *author;
 	char *copyright;
@@ -253,11 +253,11 @@ public:
 		return db_get_w(hContact, m_szModuleName, name, defaultValue);
 	}
 
-	__forceinline DWORD getDword(const char *name, int defaultValue = 0)
+	__forceinline uint32_t getDword(const char *name, int defaultValue = 0)
 	{
 		return db_get_dw(0, m_szModuleName, name, defaultValue);
 	}
-	__forceinline DWORD getDword(MCONTACT hContact, const char *name, int defaultValue = 0)
+	__forceinline uint32_t getDword(MCONTACT hContact, const char *name, int defaultValue = 0)
 	{
 		return db_get_dw(hContact, m_szModuleName, name, defaultValue);
 	}
@@ -352,11 +352,11 @@ public:
 		db_set_w(hContact, m_szModuleName, name, value);
 	}
 
-	__forceinline void setDword(const char *name, DWORD value)
+	__forceinline void setDword(const char *name, uint32_t value)
 	{
 		db_set_dw(0, m_szModuleName, name, value);
 	}
-	__forceinline void setDword(MCONTACT hContact, const char *name, DWORD value)
+	__forceinline void setDword(MCONTACT hContact, const char *name, uint32_t value)
 	{
 		db_set_dw(hContact, m_szModuleName, name, value);
 	}
@@ -396,7 +396,7 @@ extern struct CMPlugin g_plugin;
 /////////////////////////////////////////////////////////////////////////////////////////
 // Basic class for plugins (not protocols) written in C++
 
-typedef BOOL(MIR_SYSCALL* const _pfnCrtInit)(HINSTANCE, DWORD, void*);
+typedef BOOL(MIR_SYSCALL* const _pfnCrtInit)(HINSTANCE, uint32_t, void*);
 
 template<class T> class PLUGIN : public CMPluginBase
 {

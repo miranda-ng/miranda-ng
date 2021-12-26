@@ -120,34 +120,34 @@
 
 
 /* Type definitions for function pointers to call NetAPI32 functions.  */
-typedef DWORD (WINAPI *NETSTATISTICSGET)(LPWSTR szServer, LPWSTR szService,
-                                         DWORD dwLevel, DWORD dwOptions,
+typedef uint32_t (WINAPI *NETSTATISTICSGET)(LPWSTR szServer, LPWSTR szService,
+                                         uint32_t dwLevel, uint32_t dwOptions,
                                          LPBYTE *lpBuffer);
-typedef DWORD (WINAPI *NETAPIBUFFERSIZE)(LPVOID lpBuffer, LPDWORD cbBuffer);
-typedef DWORD (WINAPI *NETAPIBUFFERFREE)(LPVOID lpBuffer);
+typedef uint32_t (WINAPI *NETAPIBUFFERSIZE)(LPVOID lpBuffer, LPDWORD cbBuffer);
+typedef uint32_t (WINAPI *NETAPIBUFFERFREE)(LPVOID lpBuffer);
 
 /* Type definitions for function pointers to call native NT functions.  */
-typedef DWORD (WINAPI *NTQUERYSYSTEMINFORMATION)(DWORD systemInformationClass,
+typedef uint32_t (WINAPI *NTQUERYSYSTEMINFORMATION)(uint32_t systemInformationClass,
                                                  PVOID systemInformation,
                                                  ULONG systemInformationLength,
                                                  PULONG returnLength);
-typedef DWORD (WINAPI *NTQUERYINFORMATIONPROCESS)
-     (HANDLE processHandle, DWORD processInformationClass,
+typedef uint32_t (WINAPI *NTQUERYINFORMATIONPROCESS)
+     (HANDLE processHandle, uint32_t processInformationClass,
       PVOID processInformation, ULONG processInformationLength,
       PULONG returnLength);
-typedef DWORD (WINAPI *NTPOWERINFORMATION)
-     (DWORD powerInformationClass, PVOID inputBuffer,
+typedef uint32_t (WINAPI *NTPOWERINFORMATION)
+     (uint32_t powerInformationClass, PVOID inputBuffer,
       ULONG inputBufferLength, PVOID outputBuffer, ULONG outputBufferLength );
 
 /* Type definitions for function pointers to call CryptoAPI functions. */
 typedef BOOL (WINAPI *CRYPTACQUIRECONTEXT)(HCRYPTPROV *phProv,
                                            LPCTSTR pszContainer,
                                            LPCTSTR pszProvider,
-                                           DWORD dwProvType,
-                                           DWORD dwFlags);
-typedef BOOL (WINAPI *CRYPTGENRANDOM)(HCRYPTPROV hProv, DWORD dwLen,
+                                           uint32_t dwProvType,
+                                           uint32_t dwFlags);
+typedef BOOL (WINAPI *CRYPTGENRANDOM)(HCRYPTPROV hProv, uint32_t dwLen,
                                       uint8_t *pbBuffer);
-typedef BOOL (WINAPI *CRYPTRELEASECONTEXT)(HCRYPTPROV hProv, DWORD dwFlags);
+typedef BOOL (WINAPI *CRYPTRELEASECONTEXT)(HCRYPTPROV hProv, uint32_t dwFlags);
 
 /* Somewhat alternative functionality available as a direct call, for
    Windows XP and newer.  This is the CryptoAPI RNG, which isn't anywhere
@@ -361,7 +361,7 @@ registry_poll (void (*add)(const void*, size_t, enum random_origins),
 {
   static int cbPerfData = PERFORMANCE_BUFFER_SIZE;
   int iterations;
-  DWORD dwSize, status;
+  uint32_t dwSize, status;
   PERF_DATA_BLOCK *pPerfData;
 
   /* Get information from the system performance counters.  This can take a
@@ -488,7 +488,7 @@ slow_gatherer ( void (*add)(const void*, size_t, enum random_origins),
   static int is_initialized = 0;
   static int is_workstation = 1;
   HANDLE hDevice;
-  DWORD dwType, dwSize, dwResult;
+  uint32_t dwType, dwSize, dwResult;
   ULONG ulSize;
   int drive_no, status;
   int no_results = 0;
@@ -985,7 +985,7 @@ _gcry_rndw32_gather_random_fast (void (*add)(const void*, size_t,
       else
         {
           /* Millisecond accuracy at best... */
-          DWORD aword = GetTickCount ();
+          uint32_t aword = GetTickCount ();
           (*add) (&aword, sizeof (aword), origin );
         }
     }

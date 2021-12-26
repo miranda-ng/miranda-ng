@@ -125,8 +125,8 @@ protected:
 	CJabberSDFeature *m_pFeatures;
 	CJabberSDNode *m_pNext;
 	CJabberSDNode *m_pChild;
-	DWORD m_dwInfoRequestTime;
-	DWORD m_dwItemsRequestTime;
+	uint32_t m_dwInfoRequestTime;
+	uint32_t m_dwItemsRequestTime;
 	int m_nInfoRequestId;
 	int m_nItemsRequestId;
 	HTREELISTITEM m_hTreeItem;

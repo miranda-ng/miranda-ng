@@ -214,7 +214,7 @@ void HistoryEventList::GetTempList(std::list<EventTempIndex>& tempList, bool noF
 		ti.isExternal = true;
 		for (int i = 0; i < (int)m_importedMessages.size(); ++i) {
 			if (noFilter || CanShowHistory(m_importedMessages[i])) {
-				DWORD ts = m_importedMessages[i].timestamp;
+				uint32_t ts = m_importedMessages[i].timestamp;
 				while (itL != tempList.end() && itL->timestamp < ts)++itL;
 				if (itL == tempList.end() || itL->timestamp > ts) {
 					ti.exIdx = i;
@@ -258,13 +258,13 @@ void HistoryEventList::RefreshEventList()
 
 	m_eventList.clear();
 	m_eventList.push_back(std::deque<EventIndex>());
-	DWORD lastTime = MAXDWORD;
-	DWORD groupTime = Options::instance->groupTime * 60 * 60;
+	uint32_t lastTime = MAXDWORD;
+	uint32_t groupTime = Options::instance->groupTime * 60 * 60;
 	int maxMess = Options::instance->groupMessagesNumber;
 	int limitator = 0;
 	EventIndex ei;
 	for (std::list<EventTempIndex>::iterator itL = nrTempList.begin(); itL != nrTempList.end(); ++itL) {
-		DWORD tm = isNewOnTop ? lastTime - itL->timestamp : itL->timestamp - lastTime;
+		uint32_t tm = isNewOnTop ? lastTime - itL->timestamp : itL->timestamp - lastTime;
 		if (m_isFlat || tm < groupTime && limitator < maxMess) {
 			lastTime = itL->timestamp;
 			ei.isExternal = itL->isExternal;
@@ -474,7 +474,7 @@ bool HistoryEventList::GetEventIcon(bool isMe, int eventType, int &id)
 
 void HistoryEventList::ImportMessages(const std::vector<IImport::ExternalMessage>& messages)
 {
-	DWORD lastTime = 0;
+	uint32_t lastTime = 0;
 	m_importedMessages.clear();
 	for (int i = 0; i < (int)messages.size(); ++i) {
 		if (messages[i].timestamp >= lastTime) {
@@ -522,7 +522,7 @@ void HistoryEventList::MargeMessages(const std::vector<IImport::ExternalMessage>
 bool HistoryEventList::GetEventData(const EventIndex& ev, EventData& data)
 {
 	if (!ev.isExternal) {
-		DWORD newBlobSize = db_event_getBlobSize(ev.hEvent);
+		uint32_t newBlobSize = db_event_getBlobSize(ev.hEvent);
 		if (newBlobSize > m_oldBlobSize) {
 			m_dbei.pBlob = (uint8_t*)mir_realloc(m_dbei.pBlob, newBlobSize);
 			m_oldBlobSize = newBlobSize;

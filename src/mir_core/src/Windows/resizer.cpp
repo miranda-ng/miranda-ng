@@ -28,20 +28,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct START_OF_DLGITEMTEMPLATEEX
 {
-	DWORD  helpID;
-	DWORD  exStyle;
-	DWORD  style;
+	uint32_t  helpID;
+	uint32_t  exStyle;
+	uint32_t  style;
 	short  x, y, cx, cy;
-	DWORD  id;
+	uint32_t  id;
 };
 
 struct START_OF_DLGTEMPLATEEX
 {
 	uint16_t   dlgVer;
 	uint16_t   signature;
-	DWORD  helpID;
-	DWORD  exStyle;
-	DWORD  style;
+	uint32_t  helpID;
+	uint32_t  exStyle;
+	uint32_t  style;
 	uint16_t   cDlgItems;
 	short  x, y, cx, cy;
 };

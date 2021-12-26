@@ -161,7 +161,7 @@ public:
 
 			dbei->flags |= DBEF_UTF;
 			MBinBuffer buf;
-			DWORD tmp = 0;
+			uint32_t tmp = 0;
 			buf.append(&tmp, sizeof(tmp));
 			buf.append(szFile.c_str(), szFile.size());
 			if (!szDescr.empty()) {
@@ -181,11 +181,11 @@ public:
 				switch (dbei->eventType) {
 				case EVENTTYPE_ADDED:
 				case EVENTTYPE_FILE:
-					offset = sizeof(DWORD);
+					offset = sizeof(uint32_t);
 					break;
 
 				case EVENTTYPE_AUTHREQUEST:
-					offset = sizeof(DWORD) * 2;
+					offset = sizeof(uint32_t) * 2;
 					break;
 
 				default:
@@ -193,7 +193,7 @@ public:
 				}
 
 				dbei->flags |= DBEF_UTF;
-				dbei->cbBlob = (DWORD)szBody.size() + offset;
+				dbei->cbBlob = (uint32_t)szBody.size() + offset;
 				dbei->pBlob = (uint8_t*)mir_calloc(dbei->cbBlob + 1);
 				memcpy(dbei->pBlob + offset, szBody.c_str(), szBody.size());
 				dbei->pBlob[dbei->cbBlob] = 0;

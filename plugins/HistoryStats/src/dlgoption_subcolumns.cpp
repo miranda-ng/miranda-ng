@@ -178,7 +178,7 @@ void DlgOption::SubColumns::onWMInitDialog()
 	array_each_(i, columnBand)
 	{
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(columnBand[i].iconId), IMAGE_ICON, OS::smIconCX(), OS::smIconCY(), 0));
-		DWORD dwFlags =
+		uint32_t dwFlags =
 			(columnBand[i].bRight ? BandCtrl::BCF_RIGHT : 0) |
 			(columnBand[i].bDropDown ? BandCtrl::BCF_DROPDOWN : 0) |
 			(columnBand[i].bDisabled ? BandCtrl::BCF_DISABLED : 0);

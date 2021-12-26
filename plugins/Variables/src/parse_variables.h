@@ -23,7 +23,7 @@ struct VARIABLEREGISTER
 {
 	wchar_t *szName;
 	wchar_t *szText;
-	DWORD dwOwnerThread;
+	uint32_t dwOwnerThread;
 };
 
 #define PUT					L"put"

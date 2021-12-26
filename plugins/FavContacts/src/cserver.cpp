@@ -34,7 +34,7 @@ void CServer::Stop()
 	closesocket(m_socket);
 }
 
-DWORD CServer::ConnectionAcceptThread()
+uint32_t CServer::ConnectionAcceptThread()
 {
 	while (1) {
 		SOCKET s = accept(m_socket, nullptr, nullptr);
@@ -45,7 +45,7 @@ DWORD CServer::ConnectionAcceptThread()
 	return 0;
 }
 
-DWORD CServer::ConnectionProcessThread(SOCKET s)
+uint32_t CServer::ConnectionProcessThread(SOCKET s)
 {
 	CSocket sock(s);
 	IConnectionProcessor *processor = m_connectionProcessorFactory->Create(&sock);

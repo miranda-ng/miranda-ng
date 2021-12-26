@@ -468,10 +468,10 @@ LRESULT CALLBACK Utils::PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam
 struct TOldContainerSettings
 {
 	BOOL    fPrivate;
-	DWORD   dwFlags;
-	DWORD   dwFlagsEx;
-	DWORD   dwTransparency;
-	DWORD   panelheight;
+	uint32_t   dwFlags;
+	uint32_t   dwFlagsEx;
+	uint32_t   dwTransparency;
+	uint32_t   panelheight;
 	int     iSplitterY;
 	wchar_t szTitleFormat[32];
 	uint16_t    avatarMode;
@@ -789,7 +789,7 @@ void Utils::showDlgControl(const HWND hwnd, UINT id, int showCmd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // stream function to write the contents of the message log to an rtf file
-DWORD CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+uint32_t CALLBACK Utils::StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
 {
 	wchar_t *szFilename = (wchar_t*)dwCookie;
 	HANDLE hFile = CreateFile(szFilename, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
@@ -816,7 +816,7 @@ bool Utils::extractResource(const HMODULE h, const UINT uID, const wchar_t *tszN
 		HGLOBAL hResource = LoadResource(h, hRes);
 		if (hResource) {
 			char 	*pData = (char *)LockResource(hResource);
-			DWORD	dwSize = SizeofResource(g_plugin.getInst(), hRes), written = 0;
+			DWORD dwSize = SizeofResource(g_plugin.getInst(), hRes), written = 0;
 
 			wchar_t	szFilename[MAX_PATH];
 			mir_snwprintf(szFilename, L"%s%s", tszPath, tszFilename);
@@ -1050,7 +1050,7 @@ static wchar_t* warnings[] = {
 	LPGENW("Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?"), /* WARN_THEME_OVERWRITE */
 };
 
-CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const DWORD dwFlags) :
+CWarning::CWarning(const wchar_t *tszTitle, const wchar_t *tszText, const UINT uId, const uint32_t dwFlags) :
 	m_szTitle(mir_wstrdup(tszTitle)),
 	m_szText(mir_wstrdup(tszText))
 {
@@ -1081,8 +1081,8 @@ __int64 CWarning::getMask()
 {
 	__int64 mask = 0;
 
-	DWORD	dwLow = M.GetDword("cWarningsL", 0);
-	DWORD	dwHigh = M.GetDword("cWarningsH", 0);
+	uint32_t	dwLow = M.GetDword("cWarningsL", 0);
+	uint32_t	dwHigh = M.GetDword("cWarningsH", 0);
 
 	mask = ((((__int64)dwHigh) << 32) & 0xffffffff00000000) | dwLow;
 	return(mask);
@@ -1105,7 +1105,7 @@ void CWarning::destroyAll()
 // not show this message again. This has room for 64 different warning dialogs, which
 // should be enough in the first place. Extending it should not be too hard though.
 
-LRESULT CWarning::show(const int uId, DWORD dwFlags, const wchar_t* tszTxt)
+LRESULT CWarning::show(const int uId, uint32_t dwFlags, const wchar_t* tszTxt)
 {
 	wchar_t*	separator_pos = nullptr;
 	__int64 	mask = 0, val = 0;
@@ -1292,9 +1292,9 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			newVal = mask | val64;
 
 			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
-				DWORD val = (DWORD)(newVal & 0x00000000ffffffff);
+				uint32_t val = (uint32_t)(newVal & 0x00000000ffffffff);
 				db_set_dw(0, SRMSGMOD_T, "cWarningsL", val);
-				val = (DWORD)((newVal >> 32) & 0x00000000ffffffff);
+				val = (uint32_t)((newVal >> 32) & 0x00000000ffffffff);
 				db_set_dw(0, SRMSGMOD_T, "cWarningsH", val);
 			}
 		}

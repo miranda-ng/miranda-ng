@@ -815,7 +815,7 @@ void GetHunspellDictionariesFromFolder(LIST<Dictionary> &dicts, wchar_t *path, w
 			mir_snwprintf(file, L"%s\\%s", path, ffd.cFileName);
 
 			// Check .dic
-			DWORD attrib = GetFileAttributes(file);
+			uint32_t attrib = GetFileAttributes(file);
 			if (attrib == 0xFFFFFFFF || (attrib & FILE_ATTRIBUTE_DIRECTORY))
 				continue;
 
@@ -882,7 +882,7 @@ void GetAvaibleDictionaries(LIST<Dictionary> &dicts, wchar_t *path, wchar_t *use
 						numValues = 0;
 
 					lResult = ERROR_NO_MORE_ITEMS;
-					for (DWORD local = 0; local < numValues; local++) {
+					for (uint32_t local = 0; local < numValues; local++) {
 						DWORD cchValue = _countof(key);
 						if (ERROR_SUCCESS != RegEnumValue(hKey, local, key, &cchValue, nullptr, nullptr, nullptr, nullptr))
 							break;

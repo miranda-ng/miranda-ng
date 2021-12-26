@@ -27,20 +27,20 @@ public:
 	virtual ~CLShareUser();
 	CLShareUser * pclNext;
 	in_addr stAddr;
-	DWORD dwCurrentDL;
-	DWORD dwTotalSize;
+	uint32_t dwCurrentDL;
+	uint32_t dwTotalSize;
 	char  szCurrentDLSrvPath[MAX_PATH];
-	virtual DWORD dwGetDownloadSpeed();
+	virtual uint32_t dwGetDownloadSpeed();
 	virtual bool bCloseTransfers() = NULL;
 	virtual const char * pszCustomInfo() = NULL;
 	void CloseSocket();
 protected:
 	HNETLIBCONN hConnection;
-	DWORD dwSpeed;
+	uint32_t dwSpeed;
 };
 
 class CLFileShareNode {
-public://, 	DWORD dwAllowedIP, DWORD dwAllowedMask, int nMaxDownloads );
+public://, 	uint32_t dwAllowedIP, uint32_t dwAllowedMask, int nMaxDownloads );
 	CLFileShareNode(char * pszSrvPath, char * pszRealPath);
 	CLFileShareNode(STFileShareInfo * pstInfo);
 	~CLFileShareNode();

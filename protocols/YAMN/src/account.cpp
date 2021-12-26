@@ -40,7 +40,7 @@ struct CExportedServices AccountExportedSvc[] =
 INT_PTR CreatePluginAccountSvc(WPARAM wParam, LPARAM lParam)
 {
 	HYAMNPROTOPLUGIN Plugin = (HYAMNPROTOPLUGIN)wParam;
-	DWORD AccountVersion = (DWORD)lParam;
+	uint32_t AccountVersion = (uint32_t)lParam;
 
 	//test if we are going to initialize members of suitable structure (structures of plugin and YAMN must match)
 	if (AccountVersion != YAMN_ACCOUNTVERSION)
@@ -177,7 +177,7 @@ void CodeDecodeString(char *Dest, BOOL Encrypt)
 	}
 }
 
-static DWORD PostFileToMemory(HANDLE File, char **MemFile, char **End)
+static uint32_t PostFileToMemory(HANDLE File, char **MemFile, char **End)
 {
 	DWORD FileSize, ReadBytes;
 	if (!(FileSize = GetFileSize(File, nullptr))) {
@@ -204,7 +204,7 @@ static DWORD PostFileToMemory(HANDLE File, char **MemFile, char **End)
 	return 0;
 }
 
-DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End)
+uint32_t FileToMemory(wchar_t *FileName, char **MemFile, char **End)
 {
 	HANDLE hFile = CreateFile(FileName, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -214,12 +214,12 @@ DWORD FileToMemory(wchar_t *FileName, char **MemFile, char **End)
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemory(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString)
+uint32_t ReadStringFromMemory(char **Parser,wchar_t *End,char **StoreTo,wchar_t *DebugString)
 {
 	//This is the debug version of ReadStringFromMemory function. This version shows MessageBox where
 	//read string is displayed
 	wchar_t *Dest,*Finder;
-	DWORD Size;
+	uint32_t Size;
 	wchar_t Debug[65536];
 
 	Finder=*Parser;
@@ -244,10 +244,10 @@ DWORD ReadStringFromMemory(char **Parser,wchar_t *End,char **StoreTo,wchar_t *De
 }
 #endif
 
-DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
+uint32_t ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 {
 	char *Dest, *Finder;
-	DWORD Size;
+	uint32_t Size;
 
 	Finder = *Parser;
 	while ((*Finder != (wchar_t)0) && (Finder <= End)) Finder++;
@@ -269,12 +269,12 @@ DWORD ReadStringFromMemory(char **Parser, char *End, char **StoreTo)
 }
 
 #if defined(DEBUG_FILEREAD) || defined(DEBUG_FILEREADMESSAGES)
-DWORD ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo,wchar_t *DebugString)
+uint32_t ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo,wchar_t *DebugString)
 {
 	//This is the debug version of ReadStringFromMemoryW function. This version shows MessageBox where
 	//read string is displayed
 	wchar_t *Dest,*Finder;
-	DWORD Size;
+	uint32_t Size;
 	wchar_t Debug[65536];
 
 	Finder=*Parser;
@@ -299,10 +299,10 @@ DWORD ReadStringFromMemoryW(wchar_t **Parser,wchar_t *End,wchar_t **StoreTo,wcha
 }
 #endif  //if defined(DEBUG...)
 
-DWORD ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
+uint32_t ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
 {
 	wchar_t *Dest, *Finder;
-	DWORD Size;
+	uint32_t Size;
 
 	Finder = *Parser;
 	while ((*Finder != (wchar_t)0) && (Finder <= (wchar_t *)End)) Finder++;
@@ -323,15 +323,15 @@ DWORD ReadStringFromMemoryW(wchar_t **Parser, wchar_t *End, wchar_t **StoreTo)
 	return 0;
 }
 
-static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICATION *Which)
+static uint32_t ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICATION *Which)
 {
-	DWORD Stat;
+	uint32_t Stat;
 #ifdef DEBUG_FILEREAD
 	wchar_t Debug[65536];
 #endif
 
-	Which->Flags = *(DWORD *)(*Parser);
-	(*Parser) += sizeof(DWORD);
+	Which->Flags = *(uint32_t *)(*Parser);
+	(*Parser) += sizeof(uint32_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
@@ -355,8 +355,8 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 	mir_snwprintf(Debug, L"PopupT: %04x, remaining %d chars", Which->PopupT, End-*Parser);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
-	Which->PopupTime = *(DWORD *)(*Parser);
-	(*Parser) += sizeof(DWORD);
+	Which->PopupTime = *(uint32_t *)(*Parser);
+	(*Parser) += sizeof(uint32_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
@@ -379,10 +379,10 @@ static DWORD ReadNotificationFromMemory(char **Parser, char *End, YAMN_NOTIFICAT
 	return 0;
 }
 
-DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
+uint32_t ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 {
 	char *Finder;
-	DWORD Size, Stat;
+	uint32_t Size, Stat;
 	HYAMNMAIL ActualMail = nullptr;
 	struct CMimeItem *items;
 	char *ReadString;
@@ -419,16 +419,16 @@ DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 				return Stat;
 			//			ActualMail->MailData=new MAILDATA;		 !!! mem leake !!! this is alloc by CreateAccountMail, no need for doubble alloc !!!!
 
-			ActualMail->MailData->Size = *(DWORD *)(*Parser);
-			(*Parser) += sizeof(DWORD);
+			ActualMail->MailData->Size = *(uint32_t *)(*Parser);
+			(*Parser) += sizeof(uint32_t);
 			if (*Parser >= End)
 				return EACC_FILECOMPATIBILITY;
-			ActualMail->Flags = *(DWORD *)(*Parser);
-			(*Parser) += sizeof(DWORD);
+			ActualMail->Flags = *(uint32_t *)(*Parser);
+			(*Parser) += sizeof(uint32_t);
 			if (*Parser >= End)
 				return EACC_FILECOMPATIBILITY;
-			ActualMail->Number = *(DWORD *)(*Parser);
-			(*Parser) += sizeof(DWORD);
+			ActualMail->Number = *(uint32_t *)(*Parser);
+			(*Parser) += sizeof(uint32_t);
 			if (*Parser >= End)
 				return EACC_FILECOMPATIBILITY;
 
@@ -481,9 +481,9 @@ DWORD ReadMessagesFromMemory(CAccount *Which, char **Parser, char *End)
 	return 0;
 }
 
-DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
+uint32_t ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 {
-	DWORD Stat;
+	uint32_t Stat;
 #ifdef DEBUG_FILEREAD
 	wchar_t Debug[65536];
 #endif
@@ -528,22 +528,22 @@ DWORD ReadAccountFromMemory(CAccount *Which, char **Parser, char *End)
 	CodeDecodeString(Which->Server->Passwd, FALSE);
 
 	//Read account flags
-	Which->Flags = *(DWORD *)(*Parser);
-	(*Parser) += sizeof(DWORD);
+	Which->Flags = *(uint32_t *)(*Parser);
+	(*Parser) += sizeof(uint32_t);
 	if (*Parser >= End)
 		return EACC_FILECOMPATIBILITY;
 #ifdef DEBUG_FILEREAD
 	mir_snwprintf(Debug, L"Flags: %04x, remaining %d chars", Which->Flags, End-*Parser);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
-	Which->StatusFlags = *(DWORD *)(*Parser);
-	(*Parser) += sizeof(DWORD);
+	Which->StatusFlags = *(uint32_t *)(*Parser);
+	(*Parser) += sizeof(uint32_t);
 #ifdef DEBUG_FILEREAD
 	mir_snwprintf(Debug, L"STFlags: %04x, remaining %d chars", Which->StatusFlags, End-*Parser);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
 #endif
-	Which->PluginFlags = *(DWORD *)(*Parser);
-	(*Parser) += sizeof(DWORD);
+	Which->PluginFlags = *(uint32_t *)(*Parser);
+	(*Parser) += sizeof(uint32_t);
 #ifdef DEBUG_FILEREAD
 	mir_snwprintf(Debug, L"PFlags: %04x, remaining %d chars", Which->PluginFlags, End-*Parser);
 	MessageBox(NULL,Debug,L"debug",MB_OK);
@@ -636,11 +636,11 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 {
 	//Retrieve info for account from memory
 	char *Parser;
-	DWORD Ver, Stat;
+	uint32_t Ver, Stat;
 
 	CAccount *ActualAccount, *FirstAllocatedAccount;
 
-	Ver = *(DWORD *)MemFile;
+	Ver = *(uint32_t *)MemFile;
 	if (Ver > YAMN_ACCOUNTFILEVERSION)
 	{
 		delete[] MemFile;
@@ -735,19 +735,19 @@ static INT_PTR PerformAccountReading(HYAMNPROTOPLUGIN Plugin, char *MemFile, cha
 INT_PTR AddAccountsFromFileSvc(WPARAM wParam, LPARAM lParam)
 {
 	char *MemFile, *End;
-	DWORD Stat = FileToMemory((wchar_t*)lParam, &MemFile, &End);
+	uint32_t Stat = FileToMemory((wchar_t*)lParam, &MemFile, &End);
 	if (Stat != NO_ERROR)
 		return (INT_PTR)Stat;
 
 	return PerformAccountReading((HYAMNPROTOPLUGIN)wParam, MemFile, End);
 }
 
-DWORD WriteStringToFile(HANDLE File, char *Source)
+uint32_t WriteStringToFile(HANDLE File, char *Source)
 {
 	DWORD Length, WrittenBytes;
 	char null = 0;
 
-	if ((Source == nullptr) || !(Length = (DWORD)mir_strlen(Source))) {
+	if ((Source == nullptr) || !(Length = (uint32_t)mir_strlen(Source))) {
 		if (!WriteFile(File, &null, 1, &WrittenBytes, nullptr)) {
 			CloseHandle(File);
 			return EACC_SYSTEM;
@@ -760,12 +760,12 @@ DWORD WriteStringToFile(HANDLE File, char *Source)
 	return 0;
 }
 
-DWORD WriteStringToFileW(HANDLE File, wchar_t *Source)
+uint32_t WriteStringToFileW(HANDLE File, wchar_t *Source)
 {
 	DWORD Length, WrittenBytes;
 	wchar_t null = (wchar_t)0;
 
-	if ((Source == nullptr) || !(Length = (DWORD)mir_wstrlen(Source)))
+	if ((Source == nullptr) || !(Length = (uint32_t)mir_wstrlen(Source)))
 	{
 		if (!WriteFile(File, &null, sizeof(wchar_t), &WrittenBytes, nullptr))
 		{
@@ -788,6 +788,7 @@ DWORD WriteMessagesToFile(HANDLE File, CAccount *Which)
 	{
 		if (Stat = WriteStringToFile(File, ActualMail->ID))
 			return Stat;
+		
 		if (!WriteFile(File, (char *)&ActualMail->MailData->Size, sizeof(ActualMail->MailData->Size), &WrittenBytes, nullptr) ||
 			!WriteFile(File, (char *)&ActualMail->Flags, sizeof(ActualMail->Flags), &WrittenBytes, nullptr) ||
 			!WriteFile(File, (char *)&ActualMail->Number, sizeof(ActualMail->Number), &WrittenBytes, nullptr))
@@ -814,9 +815,9 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 {
 	DWORD WrittenBytes, Stat;
 	CAccount *ActualAccount;
-	DWORD Ver = YAMN_ACCOUNTFILEVERSION;
+	uint32_t Ver = YAMN_ACCOUNTFILEVERSION;
 	BOOL Writed = FALSE;
-	DWORD ReturnValue = 0, EnterCode;
+	uint32_t ReturnValue = 0, EnterCode;
 
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"WriteAccountsToFile:AccountBrowserSO-read wait\n");
@@ -856,72 +857,72 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 			}
 
 			if (!Writed && !WriteFile(File, &Ver, sizeof(Ver), &WrittenBytes, nullptr))
-				throw (DWORD)EACC_SYSTEM;
+				throw (uint32_t)EACC_SYSTEM;
 			Writed = TRUE;
 
 			if (Stat = WriteStringToFile(File, ActualAccount->Name))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
 			if (Stat = WriteStringToFile(File, ActualAccount->Server->Name))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
 			if (!WriteFile(File, (char *)&ActualAccount->Server->Port, 2, &WrittenBytes, nullptr))
-				throw (DWORD)EACC_SYSTEM;
+				throw (uint32_t)EACC_SYSTEM;
 
 			if ((Stat = WriteStringToFile(File, ActualAccount->Server->Login)))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
 			CodeDecodeString(ActualAccount->Server->Passwd, TRUE);
 
 			if (Stat = WriteStringToFile(File, ActualAccount->Server->Passwd))
 			{
 				CodeDecodeString(ActualAccount->Server->Passwd, FALSE);
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 			}
 			CodeDecodeString(ActualAccount->Server->Passwd, FALSE);
 
-			if ((!WriteFile(File, (char *)&ActualAccount->Flags, sizeof(DWORD), &WrittenBytes, nullptr) ||
-				(!WriteFile(File, (char *)&ActualAccount->StatusFlags, sizeof(DWORD), &WrittenBytes, nullptr)) ||
-				(!WriteFile(File, (char *)&ActualAccount->PluginFlags, sizeof(DWORD), &WrittenBytes, nullptr))))
-				throw (DWORD)EACC_SYSTEM;
+			if ((!WriteFile(File, (char *)&ActualAccount->Flags, sizeof(uint32_t), &WrittenBytes, nullptr) ||
+				(!WriteFile(File, (char *)&ActualAccount->StatusFlags, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
+				(!WriteFile(File, (char *)&ActualAccount->PluginFlags, sizeof(uint32_t), &WrittenBytes, nullptr))))
+				throw (uint32_t)EACC_SYSTEM;
 
 			if (!WriteFile(File, (char *)&ActualAccount->Interval, sizeof(uint16_t), &WrittenBytes, nullptr))
-				throw (DWORD)EACC_SYSTEM;
+				throw (uint32_t)EACC_SYSTEM;
 
-			if ((!WriteFile(File, (char *)&ActualAccount->NewMailN.Flags, sizeof(DWORD), &WrittenBytes, nullptr)) ||
+			if ((!WriteFile(File, (char *)&ActualAccount->NewMailN.Flags, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->NewMailN.PopupB, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->NewMailN.PopupT, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
-				(!WriteFile(File, (char *)&ActualAccount->NewMailN.PopupTime, sizeof(DWORD), &WrittenBytes, nullptr)))
-				throw (DWORD)EACC_SYSTEM;
+				(!WriteFile(File, (char *)&ActualAccount->NewMailN.PopupTime, sizeof(uint32_t), &WrittenBytes, nullptr)))
+				throw (uint32_t)EACC_SYSTEM;
 
 			if ((Stat = WriteStringToFileW(File, ActualAccount->NewMailN.App)) ||
 				(Stat = WriteStringToFileW(File, ActualAccount->NewMailN.AppParam)))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
-			if ((!WriteFile(File, (char *)&ActualAccount->NoNewMailN.Flags, sizeof(DWORD), &WrittenBytes, nullptr)) ||
+			if ((!WriteFile(File, (char *)&ActualAccount->NoNewMailN.Flags, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->NoNewMailN.PopupB, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->NoNewMailN.PopupT, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
-				(!WriteFile(File, (char *)&ActualAccount->NoNewMailN.PopupTime, sizeof(DWORD), &WrittenBytes, nullptr)))
-				throw (DWORD)EACC_SYSTEM;
+				(!WriteFile(File, (char *)&ActualAccount->NoNewMailN.PopupTime, sizeof(uint32_t), &WrittenBytes, nullptr)))
+				throw (uint32_t)EACC_SYSTEM;
 
 			if ((Stat = WriteStringToFileW(File, ActualAccount->NoNewMailN.App)) ||
 				(Stat = WriteStringToFileW(File, ActualAccount->NoNewMailN.AppParam)))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
-			if ((!WriteFile(File, (char *)&ActualAccount->BadConnectN.Flags, sizeof(DWORD), &WrittenBytes, nullptr)) ||
+			if ((!WriteFile(File, (char *)&ActualAccount->BadConnectN.Flags, sizeof(uint32_t), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->BadConnectN.PopupB, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->BadConnectN.PopupT, sizeof(COLORREF), &WrittenBytes, nullptr)) ||
-				(!WriteFile(File, (char *)&ActualAccount->BadConnectN.PopupTime, sizeof(DWORD), &WrittenBytes, nullptr)))
-				throw (DWORD)EACC_SYSTEM;
+				(!WriteFile(File, (char *)&ActualAccount->BadConnectN.PopupTime, sizeof(uint32_t), &WrittenBytes, nullptr)))
+				throw (uint32_t)EACC_SYSTEM;
 
 			if ((Stat = WriteStringToFileW(File, ActualAccount->BadConnectN.App)) ||
 				(Stat = WriteStringToFileW(File, ActualAccount->BadConnectN.AppParam)))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
 			//Let plugin write its own values into file
 			if (ActualAccount->Plugin->Fcn != nullptr && ActualAccount->Plugin->Fcn->WritePluginOptsFcnPtr != nullptr)
 				if (Stat = ActualAccount->Plugin->Fcn->WritePluginOptsFcnPtr(File, ActualAccount))
-					throw (DWORD)Stat;
+					throw (uint32_t)Stat;
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountMsgsSO-read wait\n");
 #endif
@@ -935,7 +936,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 				DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountMsgsSO-read done\n");
 #endif
 				ReadDoneFcn(ActualAccount->MessagesAccessSO);
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 			}
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountMsgsSO-read done\n");
@@ -946,7 +947,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 				(!WriteFile(File, (char *)&ActualAccount->LastSChecked, sizeof(SYSTEMTIME), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->LastSynchronised, sizeof(SYSTEMTIME), &WrittenBytes, nullptr)) ||
 				(!WriteFile(File, (char *)&ActualAccount->LastMail, sizeof(SYSTEMTIME), &WrittenBytes, nullptr)))
-				throw (DWORD)Stat;
+				throw (uint32_t)Stat;
 
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountSO-read done\n");
@@ -954,7 +955,7 @@ static INT_PTR PerformAccountWriting(HYAMNPROTOPLUGIN Plugin, HANDLE File)
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
 	}
-	catch (DWORD ErrorCode)
+	catch (uint32_t ErrorCode)
 	{
 #ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"WriteAccountsToFile:ActualAccountSO-read done\n");

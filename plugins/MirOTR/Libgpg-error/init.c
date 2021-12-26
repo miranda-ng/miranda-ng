@@ -433,7 +433,7 @@ _gpg_err_set_errno (int err)
 /* Entry point called by the DLL loader.  */
 #ifdef DLL_EXPORT
 int WINAPI
-DllMain (HINSTANCE hinst, DWORD reason, LPVOID reserved)
+DllMain (HINSTANCE hinst, uint32_t reason, LPVOID reserved)
 {
   struct tls_space_s *tls;
   (void)reserved;

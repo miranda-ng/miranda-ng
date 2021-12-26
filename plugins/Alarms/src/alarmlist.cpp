@@ -5,7 +5,7 @@ mir_cs alarm_cs;
 
 unsigned short next_alarm_id = 1; // 0 is used for invalid id
 
-DWORD timer_id;
+uint32_t timer_id;
 #define TIMER_PERIOD				5000 // milliseconds delay between alarm checks
 
 static SYSTEMTIME last_check, last_saved_check;

@@ -34,7 +34,7 @@ INT_PTR GetVariablesSvc(WPARAM wParam, LPARAM);
 
 // Function every seconds decrements account counter of seconds and checks if they are 0
 // If yes, creates a POP3 thread to check account
-void CALLBACK TimerProc(HWND, UINT, UINT, DWORD);
+void CALLBACK TimerProc(HWND, UINT, UINT, uint32_t);
 
 // Function called to check all accounts immidialtelly
 // no params
@@ -42,7 +42,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 
 //thread is running all the time
 //waits for WriteToFileEV and then writes all accounts to file
-//DWORD WINAPI FileWritingThread(PVOID);
+//uint32_t WINAPI FileWritingThread(PVOID);
 
 // Function is called when Miranda notifies plugin that it is about to exit
 // Ensures succesfull end of POP3 checking, sets event that no next checking should be performed
@@ -57,7 +57,7 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM);
 
 INT_PTR GetFcnPtrSvc(WPARAM wParam, LPARAM)
 {
-	register int i;
+	int i;
 
 	for (i=0;i<sizeof(ProtoPluginExportedFcn)/sizeof(ProtoPluginExportedFcn[0]);i++)
 		if (0==mir_strcmp((char *)wParam, ProtoPluginExportedFcn[i].ID))

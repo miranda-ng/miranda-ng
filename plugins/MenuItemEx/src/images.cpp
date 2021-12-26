@@ -6,7 +6,7 @@ extern HINSTANCE hinstance;
 void HalfBitmap32Alpha(HBITMAP hBitmap)
 {
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 	int x, y;
 
@@ -43,7 +43,7 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 //void MakeBmpTransparent(HBITMAP hBitmap)
 //{
 //	BITMAP bmp;
-//	DWORD dwLen;
+//	uint32_t dwLen;
 //	uint8_t *p;
 //
 //	GetObject(hBitmap, sizeof(bmp), &bmp);
@@ -67,7 +67,7 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 {
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 	int x, y;
 	BOOL fixIt;
@@ -117,7 +117,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	uint8_t * ptPixels;
 
 	BITMAP bmp;
-	DWORD dwLen;
+	uint32_t dwLen;
 	uint8_t *p;
 
 	GetObject(hBitmap, sizeof(bmp), &bmp);
@@ -221,7 +221,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 //{
 //	uint8_t *p = NULL;
 //	uint8_t *p1;
-//	DWORD dwLen;
+//	uint32_t dwLen;
 //    int width, height, x, y;
 //    BITMAP bmp;
 //

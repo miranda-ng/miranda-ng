@@ -45,9 +45,9 @@ void CSteamProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 
 MCONTACT CSteamProto::GetContactFromAuthEvent(MEVENT hEvent)
 {
-	DWORD body[3];
+	uint32_t body[3];
 	DBEVENTINFO dbei = {};
-	dbei.cbBlob = sizeof(DWORD) * 2;
+	dbei.cbBlob = sizeof(uint32_t) * 2;
 	dbei.pBlob = (uint8_t*)& body;
 
 	if (db_event_get(hEvent, &dbei))
@@ -198,7 +198,7 @@ void CSteamProto::UpdateContactDetails(MCONTACT hContact, const JSONNode &data)
 	json_string appId = data["gameid"].as_string();
 	CMStringW gameInfo = data["gameextrainfo"].as_mstring();
 	if (!appId.empty() || !gameInfo.IsEmpty()) {
-		DWORD gameId = atol(appId.c_str());
+		uint32_t gameId = atol(appId.c_str());
 		json_string serverIP = data["gameserverip"].as_string();
 		json_string serverID = data["gameserversteamid"].as_string();
 
@@ -371,7 +371,7 @@ void CSteamProto::OnGotAppInfo(const JSONNode &root, void *arg)
 	MCONTACT hContact = (UINT_PTR)arg;
 
 	for (auto &app : root["apps"]) {
-		DWORD gameId = app["appid"].as_int();
+		uint32_t gameId = app["appid"].as_int();
 		CMStringW message = app["name"].as_mstring();
 
 		setDword(hContact, "XStatusId", gameId);

@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct POPUPTREEDATA
 {
 	int cbSize;
-	DWORD signature;
+	uint32_t signature;
 	LPTSTR pszTreeRoot;
 	LPTSTR pszDescription;
 	uint8_t typ;
@@ -36,7 +36,7 @@ struct POPUPTREEDATA
 		POPUPCLASS			pupClass;
 	};
 	uint8_t enabled;
-	DWORD disableWhen;
+	uint32_t disableWhen;
 	int timeoutValue;
 	char leftAction[MAXMODULELABELLENGTH];
 	char rightAction[MAXMODULELABELLENGTH];
@@ -56,7 +56,7 @@ void UnloadTreeData();
 void LoadNotifications();
 HANDLE RegisterNotification(POPUPNOTIFICATION *notification);
 
-void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen);
+void FillNotificationData(POPUPDATA2 *ppd, uint32_t *disableWhen);
 bool PerformAction(HANDLE hNotification, HWND hwnd, UINT message, WPARAM wparal, LPARAM lparam);
 bool IsValidNotification(HANDLE hNotification);
 

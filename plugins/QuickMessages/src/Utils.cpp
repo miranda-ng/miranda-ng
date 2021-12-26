@@ -237,7 +237,7 @@ static HANDLE AddIcon(char* szIcoName)
 	return g_plugin.addIcon(&sid);
 }
 
-DWORD BalanceButtons(int buttonsWas, int buttonsNow)
+uint32_t BalanceButtons(int buttonsWas, int buttonsNow)
 {
 	BBButton bb = {};
 	bb.pszModuleName = MODULENAME;

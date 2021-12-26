@@ -356,7 +356,7 @@ void MinecraftDynmapProto::SignOnWorker(void*)
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
 
-		setDword("LogonTS", (DWORD)time(0));
+		setDword("LogonTS", (uint32_t)time(0));
 		ClearChat();
 		OnJoinChat(0, false);
 

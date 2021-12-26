@@ -106,7 +106,7 @@ FreeImage_ConvertLine16To32_565(uint8_t *target, uint8_t *source, int width_in_p
 void DLL_CALLCONV
 FreeImage_ConvertLine24To32(uint8_t *target, uint8_t *source, int width_in_pixels) {
 	for (int cols = 0; cols < width_in_pixels; cols++) {
-		*(DWORD *)target = (*(DWORD *) source & FI_RGBA_RGB_MASK) | FI_RGBA_ALPHA_MASK;
+		*(uint32_t *)target = (*(uint32_t *) source & FI_RGBA_RGB_MASK) | FI_RGBA_ALPHA_MASK;
 		target += 4;
 		source += 3;
 	}

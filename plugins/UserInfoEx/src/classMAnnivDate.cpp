@@ -146,13 +146,13 @@ uint8_t MAnnivDate::IsEqual(const SYSTEMTIME &st) const
 /**
  * name:	DateStamp
  * class:	MAnnivDate
- * desc:	return the current date encoded as an DWORD
+ * desc:	return the current date encoded as an uint32_t
  * param:	nothing
- * return:	DWORD encoded date
+ * return:	uint32_t encoded date
  **/
-DWORD MAnnivDate::DateStamp() const
+uint32_t MAnnivDate::DateStamp() const
 {
-	DWORD dwStamp;
+	uint32_t dwStamp;
 
 	if (!IsValid()) return 0;
 
@@ -169,7 +169,7 @@ DWORD MAnnivDate::DateStamp() const
  * param:	dwStamp	- the dword encoded date
  * return:	nothing
  **/
-void MAnnivDate::DateStamp(const DWORD dwStamp)
+void MAnnivDate::DateStamp(const uint32_t dwStamp)
 {
 	Day((const uint16_t)((dwStamp & 0xFF000000) >> 24));
 	Month((const uint16_t)((dwStamp & 0x00FF0000) >> 16));
@@ -411,7 +411,7 @@ int MAnnivDate::DBDeleteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, 
 /**
  * name:	DBGetDateStamp
  * class:	MAnnivDate
- * desc:	Read a datestamp from database. A datestamp is an DWORD of the form <ddmmyyyy>.
+ * desc:	Read a datestamp from database. A datestamp is an uint32_t of the form <ddmmyyyy>.
  * param:	hContact		- handle to a contact to read the datestamp from
  *			pszModule		- module to read the datestamp from
  *			pszSetting		- key used to identify the datestamp
@@ -434,7 +434,7 @@ int MAnnivDate::DBGetDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSe
 /**
  * name:	DBWriteDateStamp
  * class:	MAnnivDate
- * desc:	Write a datestamp to database. A datestamp is an DWORD of the form <ddmmyyyy>.
+ * desc:	Write a datestamp to database. A datestamp is an uint32_t of the form <ddmmyyyy>.
  * param:	hContact		- handle to a contact to write the datestamp to
  *			pszModule	 - module to write the datestamp to
  *			pszSetting	- key used to save the datestamp
@@ -445,7 +445,7 @@ int MAnnivDate::DBWriteDateStamp(MCONTACT hContact, LPCSTR pszModule, LPCSTR psz
 	if (hContact == INVALID_CONTACT_ID || pszModule == nullptr || *pszModule	== 0 || pszSetting == nullptr || *pszSetting == 0)
 		return 1;
 
-	DWORD dwStamp = DateStamp();
+	uint32_t dwStamp = DateStamp();
 	return (dwStamp == 0) ? 1 : db_set_dw(hContact, pszModule, pszSetting, dwStamp);
 }
 

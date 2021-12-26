@@ -91,7 +91,7 @@ static void __inline SetHotTrackColour(HDC hdc, struct ClcData *dat)
 
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 {
-	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+	uint32_t style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	int status = Clist_GetGeneralizedStatus();
 	// yes I know about GetSysColorBrush()
 	COLORREF tmpbkcolour = style & CLS_CONTACTLIST ? (dat->bUseWindowsColours ? GetSysColor(COLOR_3DFACE) : dat->bkColour) : dat->bkColour;

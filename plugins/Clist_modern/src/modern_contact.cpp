@@ -56,9 +56,9 @@ static int GetStatusModeOrdering(int statusMode)
 	return 1000;
 }
 
-DWORD CompareContacts2_getLMTime(MCONTACT hContact)
+uint32_t CompareContacts2_getLMTime(MCONTACT hContact)
 {
-	DWORD ret = g_plugin.getDword(hContact, "mf_lastmsg");
+	uint32_t ret = g_plugin.getDword(hContact, "mf_lastmsg");
 	if (ret != 0)
 		return ret;
 

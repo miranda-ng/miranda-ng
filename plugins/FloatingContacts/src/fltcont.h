@@ -91,7 +91,7 @@ extern COLORREF		tColor[FLT_FONTIDS];
 extern HPEN			hLTEdgesPen;
 extern HPEN			hRBEdgesPen;
 extern HBRUSH		hBkBrush;
-extern DWORD		bkColor;
+extern uint32_t		bkColor;
 extern HBITMAP		hBmpBackground;
 extern uint16_t			nBackgroundBmpUse;
 

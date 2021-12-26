@@ -33,7 +33,7 @@ wchar_t* MyDBGetContactSettingTString(MCONTACT hContact, char *module, char *set
 struct
 {
 	int id;
-	DWORD flag;
+	uint32_t flag;
 }
 static checkBoxToStyleEx[] =
 {
@@ -54,7 +54,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		DWORD exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
+		uint32_t exStyle = db_get_dw(0, "CLC", "ExStyle", Clist_GetDefaultExStyle());
 		for (auto &it : checkBoxToStyleEx)
 			CheckDlgButton(m_hwnd, it.id, (exStyle & it.flag) ? BST_CHECKED : BST_UNCHECKED);
 
@@ -83,7 +83,7 @@ public:
 
 	bool OnApply() override
 	{
-		DWORD exStyle = 0;
+		uint32_t exStyle = 0;
 		for (int i = 0; i < _countof(checkBoxToStyleEx); i++)
 			if (IsDlgButtonChecked(m_hwnd, checkBoxToStyleEx[i].id))
 				exStyle |= checkBoxToStyleEx[i].flag;

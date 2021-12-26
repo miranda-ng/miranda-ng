@@ -664,7 +664,7 @@ static bool findUPnPGateway(void)
 	return gatewayFound;
 }
 
-bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, DWORD *extip, bool search)
+bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, uint32_t *extip, bool search)
 {
 	int res = 0, i = 5;
 

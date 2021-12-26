@@ -611,7 +611,7 @@ void CMsgDialog::DM_SetDBButtonStates()
 			result = (db_get_w(hFinalContact, szModule, szSetting, 0) == *((uint16_t *)&buttonItem->bValuePush));
 			break;
 		case DBVT_DWORD:
-			result = (db_get_dw(hFinalContact, szModule, szSetting, 0) == *((DWORD *)&buttonItem->bValuePush));
+			result = (db_get_dw(hFinalContact, szModule, szSetting, 0) == *((uint32_t *)&buttonItem->bValuePush));
 			break;
 		case DBVT_ASCIIZ:
 			ptrA szValue(db_get_sa(hFinalContact, szModule, szSetting));
@@ -818,7 +818,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 		return;
 
 	// check status and capabilities of the protocol
-	DWORD typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
+	uint32_t typeCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 	if (!(typeCaps & PF4_SUPPORTTYPING))
 		return;
 
@@ -827,13 +827,13 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 		Chat_DoEventHook(m_si, GC_USER_TYPNOTIFY, 0, 0, m_nTypeMode);
 	}
 	else {
-		DWORD protoStatus = Proto_GetStatus(szProto);
+		uint32_t protoStatus = Proto_GetStatus(szProto);
 		if (protoStatus < ID_STATUS_ONLINE)
 			return;
 
 		// check visibility/invisibility lists to not "accidentially" send MTN to contacts who
 		// should not see them (privacy issue)
-		DWORD protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+		uint32_t protoCaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & PF1_VISLIST && db_get_w(hContact, szProto, "ApparentMode", 0) == ID_STATUS_OFFLINE)
 			return;
 

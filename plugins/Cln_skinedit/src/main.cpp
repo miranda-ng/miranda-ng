@@ -169,7 +169,7 @@ static void ChangeControlItems(HWND hwndDlg, int status, int except)
 static void FillOptionDialogByStatusItem(HWND hwndDlg, StatusItems_t *item)
 {
 	char itoabuf[15];
-	DWORD ret;
+	uint32_t ret;
 	int index;
 
 	CheckDlgButton(hwndDlg, IDC_IGNORE, (item->IGNORED) ? BST_CHECKED : BST_UNCHECKED);

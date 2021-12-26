@@ -72,9 +72,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 typedef struct  
 {
-	DWORD dwHotkey_Layout;
-	DWORD dwHotkey_Layout2;
-	DWORD dwHotkey_Case;
+	uint32_t dwHotkey_Layout;
+	uint32_t dwHotkey_Layout2;
+	uint32_t dwHotkey_Case;
 	BOOL CurrentWordLayout;
 	BOOL CurrentWordLayout2;
 	BOOL CurrentWordCase;

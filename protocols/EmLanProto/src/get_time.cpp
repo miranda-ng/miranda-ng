@@ -28,9 +28,9 @@ static int IsLeapYear(int year)
 	return 1;
 }
 
-static DWORD YMDHMSToTime(int year,int month,int day,int hour,int minute,int second)
+static uint32_t YMDHMSToTime(int year,int month,int day,int hour,int minute,int second)
 {
-	DWORD ret=0;
+	uint32_t ret=0;
 	int i;
 
 	for(i=1970;i<year;i++) ret+=365+IsLeapYear(i);
@@ -41,7 +41,7 @@ static DWORD YMDHMSToTime(int year,int month,int day,int hour,int minute,int sec
 	return ret+3600*hour+60*minute+second;
 }
 
-DWORD get_time()
+uint32_t get_time()
 {
 	SYSTEMTIME stime;
 	GetSystemTime(&stime);

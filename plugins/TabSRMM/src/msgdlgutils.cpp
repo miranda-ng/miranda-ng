@@ -200,9 +200,9 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 		HWND hwndParent = GetParent(hwnd);
 		HWND hwndLv = FindWindowEx(hwndParent, nullptr, L"SHELLDLL_DefView", nullptr);
 
-		if (hwndLv != nullptr && *((DWORD *)(ofn->lCustData))) {
+		if (hwndLv != nullptr && *((uint32_t *)(ofn->lCustData))) {
 			SendMessage(hwndLv, WM_COMMAND, SHVIEW_THUMBNAIL, 0);
-			*((DWORD *)(ofn->lCustData)) = 0;
+			*((uint32_t *)(ofn->lCustData)) = 0;
 		}
 		break;
 	}

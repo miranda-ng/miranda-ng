@@ -159,7 +159,7 @@ struct FontOptionsList
 	uint8_t     defStyle;
 	char     defSize;
 	wchar_t*   szBackgroundName;
-	DWORD     flags;
+	uint32_t     flags;
 };
 
 struct ColorOptionsList
@@ -450,7 +450,7 @@ void Options::Save()
 	g_plugin.setByte("defFilter", defFilter < 2 ? defFilter : 2);
 	if (defFilter >= 2)
 		g_plugin.setWString("defFilterStr", customFilters[defFilter - 2].name.c_str());
-	g_plugin.setDword("customFiltersCount", (DWORD)customFilters.size());
+	g_plugin.setDword("customFiltersCount", (uint32_t)customFilters.size());
 	for (int i = 0; i < (int)customFilters.size(); ++i) {
 		char buf[256];
 		mir_snprintf(buf, "filterName_%d", i);
@@ -774,7 +774,7 @@ bool CheckFile(HWND hwndEdit)
 {
 	wchar_t buf[MAX_PATH];
 	Edit_GetText(hwndEdit, buf, MAX_PATH);
-	DWORD atr = GetFileAttributes(buf);
+	uint32_t atr = GetFileAttributes(buf);
 	if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 		MessageBox(GetParent(hwndEdit), TranslateT("File does not exist. Enter correct file path."), TranslateT("Invalid file"), MB_OK | MB_ICONERROR);
 		SetFocus(hwndEdit);
@@ -1896,6 +1896,6 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 bool Options::FTPAvail()
 {
-	DWORD atr = GetFileAttributes(instance->ftpExePath.c_str());
+	uint32_t atr = GetFileAttributes(instance->ftpExePath.c_str());
 	return !(atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY);
 }

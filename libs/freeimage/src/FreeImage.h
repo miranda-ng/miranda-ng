@@ -153,7 +153,7 @@ FI_STRUCT (FIMULTIBITMAP) { void *data; };
 typedef int32_t BOOL;
 typedef uint8_t uint8_t;
 typedef uint16_t uint16_t;
-typedef uint32_t DWORD;
+typedef uint32_t uint32_t;
 typedef int32_t LONG;
 typedef int64_t INT64;
 typedef uint64_t UINT64;
@@ -162,7 +162,7 @@ typedef uint64_t UINT64;
 typedef long BOOL;
 typedef unsigned char uint8_t;
 typedef unsigned short uint16_t;
-typedef unsigned long DWORD;
+typedef unsigned long uint32_t;
 typedef long LONG;
 typedef signed __int64 INT64;
 typedef unsigned __int64 UINT64;
@@ -206,17 +206,17 @@ typedef struct tagRGBTRIPLE {
 #endif // WIN32
 
 typedef struct tagBITMAPINFOHEADER{
-  DWORD biSize;
+  uint32_t biSize;
   LONG  biWidth; 
   LONG  biHeight; 
   uint16_t  biPlanes; 
   uint16_t  biBitCount;
-  DWORD biCompression; 
-  DWORD biSizeImage; 
+  uint32_t biCompression; 
+  uint32_t biSizeImage; 
   LONG  biXPelsPerMeter; 
   LONG  biYPelsPerMeter; 
-  DWORD biClrUsed; 
-  DWORD biClrImportant;
+  uint32_t biClrUsed; 
+  uint32_t biClrImportant;
 } BITMAPINFOHEADER, *PBITMAPINFOHEADER; 
 
 typedef struct tagBITMAPINFO { 
@@ -372,7 +372,7 @@ typedef struct tagFICOMPLEX {
 
 FI_STRUCT (FIICCPROFILE) { 
 	uint16_t    flags;	//! info flag
-	DWORD	size;	//! profile's size measured in bytes
+	uint32_t	size;	//! profile's size measured in bytes
 	void   *data;	//! points to a block of contiguous memory containing the profile
 };
 
@@ -832,13 +832,13 @@ DLL_API void DLL_CALLCONV FreeImage_CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL f
 DLL_API BOOL DLL_CALLCONV FreeImage_Premultiply(HBITMAP hBitmap);
 // Memory I/O stream routines -----------------------------------------------
 
-DLL_API FIMEMORY *DLL_CALLCONV FreeImage_OpenMemory(uint8_t *data FI_DEFAULT(0), DWORD size_in_bytes FI_DEFAULT(0));
+DLL_API FIMEMORY *DLL_CALLCONV FreeImage_OpenMemory(uint8_t *data FI_DEFAULT(0), uint32_t size_in_bytes FI_DEFAULT(0));
 DLL_API void DLL_CALLCONV FreeImage_CloseMemory(FIMEMORY *stream);
 DLL_API FIBITMAP *DLL_CALLCONV FreeImage_LoadFromMemory(FREE_IMAGE_FORMAT fif, FIMEMORY *stream, int flags FI_DEFAULT(0));
 DLL_API BOOL DLL_CALLCONV FreeImage_SaveToMemory(FREE_IMAGE_FORMAT fif, FIBITMAP *dib, FIMEMORY *stream, int flags FI_DEFAULT(0));
 DLL_API long DLL_CALLCONV FreeImage_TellMemory(FIMEMORY *stream);
 DLL_API BOOL DLL_CALLCONV FreeImage_SeekMemory(FIMEMORY *stream, long offset, int origin);
-DLL_API BOOL DLL_CALLCONV FreeImage_AcquireMemory(FIMEMORY *stream, uint8_t **data, DWORD *size_in_bytes);
+DLL_API BOOL DLL_CALLCONV FreeImage_AcquireMemory(FIMEMORY *stream, uint8_t **data, uint32_t *size_in_bytes);
 DLL_API unsigned DLL_CALLCONV FreeImage_ReadMemory(void *buffer, unsigned size, unsigned count, FIMEMORY *stream);
 DLL_API unsigned DLL_CALLCONV FreeImage_WriteMemory(const void *buffer, unsigned size, unsigned count, FIMEMORY *stream);
 
@@ -1044,11 +1044,11 @@ DLL_API FIBITMAP *DLL_CALLCONV FreeImage_TmoFattal02(FIBITMAP *src, double color
 
 // ZLib interface -----------------------------------------------------------
 
-DLL_API DWORD DLL_CALLCONV FreeImage_ZLibCompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size);
-DLL_API DWORD DLL_CALLCONV FreeImage_ZLibUncompress(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size);
-DLL_API DWORD DLL_CALLCONV FreeImage_ZLibGZip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size);
-DLL_API DWORD DLL_CALLCONV FreeImage_ZLibGUnzip(uint8_t *target, DWORD target_size, uint8_t *source, DWORD source_size);
-DLL_API DWORD DLL_CALLCONV FreeImage_ZLibCRC32(DWORD crc, uint8_t *source, DWORD source_size);
+DLL_API uint32_t DLL_CALLCONV FreeImage_ZLibCompress(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size);
+DLL_API uint32_t DLL_CALLCONV FreeImage_ZLibUncompress(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size);
+DLL_API uint32_t DLL_CALLCONV FreeImage_ZLibGZip(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size);
+DLL_API uint32_t DLL_CALLCONV FreeImage_ZLibGUnzip(uint8_t *target, uint32_t target_size, uint8_t *source, uint32_t source_size);
+DLL_API uint32_t DLL_CALLCONV FreeImage_ZLibCRC32(uint32_t crc, uint8_t *source, uint32_t source_size);
 
 // --------------------------------------------------------------------------
 // Metadata routines
@@ -1064,16 +1064,16 @@ DLL_API const char *DLL_CALLCONV FreeImage_GetTagKey(FITAG *tag);
 DLL_API const char *DLL_CALLCONV FreeImage_GetTagDescription(FITAG *tag);
 DLL_API uint16_t DLL_CALLCONV FreeImage_GetTagID(FITAG *tag);
 DLL_API FREE_IMAGE_MDTYPE DLL_CALLCONV FreeImage_GetTagType(FITAG *tag);
-DLL_API DWORD DLL_CALLCONV FreeImage_GetTagCount(FITAG *tag);
-DLL_API DWORD DLL_CALLCONV FreeImage_GetTagLength(FITAG *tag);
+DLL_API uint32_t DLL_CALLCONV FreeImage_GetTagCount(FITAG *tag);
+DLL_API uint32_t DLL_CALLCONV FreeImage_GetTagLength(FITAG *tag);
 DLL_API const void *DLL_CALLCONV FreeImage_GetTagValue(FITAG *tag);
 
 DLL_API BOOL DLL_CALLCONV FreeImage_SetTagKey(FITAG *tag, const char *key);
 DLL_API BOOL DLL_CALLCONV FreeImage_SetTagDescription(FITAG *tag, const char *description);
 DLL_API BOOL DLL_CALLCONV FreeImage_SetTagID(FITAG *tag, uint16_t id);
 DLL_API BOOL DLL_CALLCONV FreeImage_SetTagType(FITAG *tag, FREE_IMAGE_MDTYPE type);
-DLL_API BOOL DLL_CALLCONV FreeImage_SetTagCount(FITAG *tag, DWORD count);
-DLL_API BOOL DLL_CALLCONV FreeImage_SetTagLength(FITAG *tag, DWORD length);
+DLL_API BOOL DLL_CALLCONV FreeImage_SetTagCount(FITAG *tag, uint32_t count);
+DLL_API BOOL DLL_CALLCONV FreeImage_SetTagLength(FITAG *tag, uint32_t length);
 DLL_API BOOL DLL_CALLCONV FreeImage_SetTagValue(FITAG *tag, const void *value);
 
 // iterator
@@ -1128,7 +1128,7 @@ DLL_API BOOL DLL_CALLCONV FreeImage_AdjustGamma(FIBITMAP *dib, double gamma);
 DLL_API BOOL DLL_CALLCONV FreeImage_AdjustBrightness(FIBITMAP *dib, double percentage);
 DLL_API BOOL DLL_CALLCONV FreeImage_AdjustContrast(FIBITMAP *dib, double percentage);
 DLL_API BOOL DLL_CALLCONV FreeImage_Invert(FIBITMAP *dib);
-DLL_API BOOL DLL_CALLCONV FreeImage_GetHistogram(FIBITMAP *dib, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL channel FI_DEFAULT(FICC_BLACK));
+DLL_API BOOL DLL_CALLCONV FreeImage_GetHistogram(FIBITMAP *dib, uint32_t *histo, FREE_IMAGE_COLOR_CHANNEL channel FI_DEFAULT(FICC_BLACK));
 DLL_API int DLL_CALLCONV FreeImage_GetAdjustColorsLookupTable(uint8_t *LUT, double brightness, double contrast, double gamma, BOOL invert);
 DLL_API BOOL DLL_CALLCONV FreeImage_AdjustColors(FIBITMAP *dib, double brightness, double contrast, double gamma, BOOL invert FI_DEFAULT(FALSE));
 DLL_API unsigned DLL_CALLCONV FreeImage_ApplyColorMapping(FIBITMAP *dib, RGBQUAD *srccolors, RGBQUAD *dstcolors, unsigned count, BOOL ignore_alpha, BOOL swap);

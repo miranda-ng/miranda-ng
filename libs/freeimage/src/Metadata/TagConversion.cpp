@@ -37,7 +37,7 @@ static const char*
 ConvertAnyTag(FITAG *tag) {
 	char format[MAX_TEXT_EXTENT];
 	static std::string buffer;
-	DWORD i;
+	uint32_t i;
 
 	if(!tag)
 		return NULL;
@@ -47,7 +47,7 @@ ConvertAnyTag(FITAG *tag) {
 	// convert the tag value to a string buffer
 
 	FREE_IMAGE_MDTYPE tag_type = FreeImage_GetTagType(tag);
-	DWORD tag_count = FreeImage_GetTagCount(tag);
+	uint32_t tag_count = FreeImage_GetTagCount(tag);
 
 	switch(tag_type) {
 		case FIDT_BYTE:		// N x 8-bit unsigned integer 
@@ -76,7 +76,7 @@ ConvertAnyTag(FITAG *tag) {
 		}
 		case FIDT_LONG:		// N x 32-bit unsigned integer 
 		{
-			DWORD *pvalue = (DWORD *)FreeImage_GetTagValue(tag);
+			uint32_t *pvalue = (uint32_t *)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%lu", pvalue[0]);
 			buffer += format;
@@ -88,7 +88,7 @@ ConvertAnyTag(FITAG *tag) {
 		}
 		case FIDT_RATIONAL: // N x 64-bit unsigned fraction 
 		{
-			DWORD *pvalue = (DWORD*)FreeImage_GetTagValue(tag);
+			uint32_t *pvalue = (uint32_t*)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%ld/%ld", pvalue[0], pvalue[1]);
 			buffer += format;
@@ -172,7 +172,7 @@ ConvertAnyTag(FITAG *tag) {
 		}
 		case FIDT_IFD:		// N x 32-bit unsigned integer (offset) 
 		{
-			DWORD *pvalue = (DWORD *)FreeImage_GetTagValue(tag);
+			uint32_t *pvalue = (uint32_t *)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%X", pvalue[0]);
 			buffer += format;
@@ -295,7 +295,7 @@ ConvertExifTag(FITAG *tag) {
 
 		case TAG_REFERENCE_BLACK_WHITE:
 		{
-			DWORD *pvalue = (DWORD*)FreeImage_GetTagValue(tag);
+			uint32_t *pvalue = (uint32_t*)FreeImage_GetTagValue(tag);
 			if(FreeImage_GetTagLength(tag) == 48) {
 				// reference black point value and reference white point value (ReferenceBlackWhite)
 				int blackR = 0, whiteR = 0, blackG = 0, whiteG = 0, blackB = 0, whiteB = 0;
@@ -337,7 +337,7 @@ ConvertExifTag(FITAG *tag) {
 		{
 			const char *componentStrings[7] = {"", "Y", "Cb", "Cr", "R", "G", "B"};
 			uint8_t *pvalue = (uint8_t*)FreeImage_GetTagValue(tag);
-			for(DWORD i = 0; i < MIN((DWORD)4, FreeImage_GetTagCount(tag)); i++) {
+			for(uint32_t i = 0; i < MIN((uint32_t)4, FreeImage_GetTagCount(tag)); i++) {
 				int j = pvalue[i];
 				if(j > 0 && j < 7)
 					buffer += componentStrings[j];
@@ -886,7 +886,7 @@ ConvertExifTag(FITAG *tag) {
 			// first 8 bytes are used to define an ID code
 			// we assume this is an ASCII string
 			const uint8_t *userComment = (uint8_t*)FreeImage_GetTagValue(tag);
-			for(DWORD i = 8; i < FreeImage_GetTagLength(tag); i++) {
+			for(uint32_t i = 8; i < FreeImage_GetTagLength(tag); i++) {
 				buffer += userComment[i];
 			}
 			buffer += '\0';
@@ -1005,7 +1005,7 @@ ConvertExifGPSTag(FITAG *tag) {
 		case TAG_GPS_LONGITUDE:
 		case TAG_GPS_TIME_STAMP:
 		{
-			DWORD *pvalue = (DWORD*)FreeImage_GetTagValue(tag);
+			uint32_t *pvalue = (uint32_t*)FreeImage_GetTagValue(tag);
 			if(FreeImage_GetTagLength(tag) == 24) {
 				// dd:mm:ss or hh:mm:ss
 				int dd = 0, mm = 0;

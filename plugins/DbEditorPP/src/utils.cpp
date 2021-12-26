@@ -92,7 +92,7 @@ wchar_t* DBVType(uint8_t type)
 	switch (type) {
 	case DBVT_BYTE:     return L"uint8_t";
 	case DBVT_WORD:     return L"uint16_t";
-	case DBVT_DWORD:    return L"DWORD";
+	case DBVT_DWORD:    return L"uint32_t";
 	case DBVT_ASCIIZ:   return L"STRING";
 	case DBVT_WCHAR:
 	case DBVT_UTF8:     return L"UNICODE";
@@ -102,7 +102,7 @@ wchar_t* DBVType(uint8_t type)
 	return L"";
 }
 
-DWORD getNumericValue(DBVARIANT *dbv)
+uint32_t getNumericValue(DBVARIANT *dbv)
 {
 	switch (dbv->type) {
 	case DBVT_DWORD:
@@ -115,7 +115,7 @@ DWORD getNumericValue(DBVARIANT *dbv)
 	return 0;
 }
 
-int setNumericValue(MCONTACT hContact, const char *module, const char *setting, DWORD value, int type)
+int setNumericValue(MCONTACT hContact, const char *module, const char *setting, uint32_t value, int type)
 {
 	switch (type) {
 	case DBVT_BYTE:

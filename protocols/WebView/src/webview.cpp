@@ -26,7 +26,7 @@
 char* WndClass = "WEBWnd";
 WNDCLASSEX      wincl;
 MSG messages;
-DWORD  winheight;
+uint32_t  winheight;
 int StartUpDelay = 0;
 
 int       Xposition, Yposition;
@@ -218,9 +218,9 @@ int Doubleclick(WPARAM wParam, LPARAM)
 int SendToRichEdit(HWND hWindow, char *truncated, COLORREF rgbText, COLORREF rgbBack)
 {
 	DBVARIANT       dbv;
-	DWORD  bold = 0;
-	DWORD  italic = 0;
-	DWORD  underline = 0;
+	uint32_t  bold = 0;
+	uint32_t  italic = 0;
+	uint32_t  underline = 0;
 
 	SetDlgItemText(hWindow, IDC_DATA, L"");
 
@@ -277,7 +277,7 @@ void CALLBACK timerfunc(HWND, UINT, UINT_PTR, DWORD)
 /////////////////////////////////////////////////////////////////////////////////////////
 void CALLBACK Countdownfunc(HWND, UINT, UINT_PTR, DWORD)
 {
-	DWORD timetemp = g_plugin.getDword(COUNTDOWN_KEY, 100);
+	uint32_t timetemp = g_plugin.getDword(COUNTDOWN_KEY, 100);
 	if (timetemp <= 0) {
 		timetemp = g_plugin.getDword(REFRESH_KEY, TIME);
 		g_plugin.setDword(COUNTDOWN_KEY, timetemp);

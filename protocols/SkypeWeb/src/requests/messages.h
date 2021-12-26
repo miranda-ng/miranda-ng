@@ -21,7 +21,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 struct SendMessageParam
 {
 	MCONTACT hContact;
-	DWORD hMessage;
+	uint32_t hMessage;
 };
 
 struct SendMessageRequest : public AsyncHttpRequest

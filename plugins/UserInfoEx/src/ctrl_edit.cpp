@@ -168,7 +168,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 		const char* pszModule = hContact ? _pszModule : pszProto;
 
 		if (_Flags.B.hasCustom || !hContact) {
-			DWORD cch = GetWindowTextLength(_hwnd);
+			uint32_t cch = GetWindowTextLength(_hwnd);
 
 			if (cch > 0) {
 				LPTSTR val = (LPTSTR)mir_alloc((cch + 1) * sizeof(wchar_t));
@@ -187,7 +187,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 						break;
 
 					case DBVT_DWORD:
-						dbv.dVal = (DWORD)wcstol(val, nullptr, 10);
+						dbv.dVal = (uint32_t)wcstol(val, nullptr, 10);
 						break;
 
 					case DBVT_WCHAR:
@@ -235,7 +235,7 @@ void CEditCtrl::OnApply(MCONTACT hContact, LPCSTR pszProto)
 void CEditCtrl::OnChangedByUser(uint16_t wChangedMsg)
 {
 	if ((wChangedMsg == EN_UPDATE) || (wChangedMsg == EN_CHANGE)) {
-		DWORD cch = GetWindowTextLength(_hwnd);
+		uint32_t cch = GetWindowTextLength(_hwnd);
 
 		_Flags.B.hasChanged = mir_wstrlen(_pszValue) != cch;
 		_Flags.B.hasCustom = (cch > 0);

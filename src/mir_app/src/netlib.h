@@ -47,7 +47,7 @@ struct NetlibUser
 struct NetlibNestedCriticalSection
 {
 	HANDLE hMutex;
-	DWORD dwOwningThreadId;
+	uint32_t dwOwningThreadId;
 	int lockCount;
 };
 
@@ -157,7 +157,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
-NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, DWORD hflags, DWORD dflags, bool isConnect = false);
+NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
 void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
 // netliblog.cpp
@@ -166,9 +166,9 @@ void NetlibLogInit(void);
 void NetlibLogShutdown(void);
 
 // netlibopenconn.cpp
-DWORD DnsLookup(NetlibUser *nlu, const char *szHost);
-int WaitUntilReadable(SOCKET s, DWORD dwTimeout, bool check = false);
-int WaitUntilWritable(SOCKET s, DWORD dwTimeout);
+uint32_t DnsLookup(NetlibUser *nlu, const char *szHost);
+int WaitUntilReadable(SOCKET s, uint32_t dwTimeout, bool check = false);
+int WaitUntilWritable(SOCKET s, uint32_t dwTimeout);
 bool NetlibDoConnect(NetlibConnection *nlc);
 bool NetlibReconnect(NetlibConnection *nlc);
 
@@ -186,7 +186,7 @@ bool OpenSsl_Init();
 void OpenSsl_Unload();
 
 // netlibupnp.cpp
-bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, DWORD *extip, bool search);
+bool NetlibUPnPAddPortMapping(uint16_t intport, char *proto, uint16_t *extport, uint32_t *extip, bool search);
 void NetlibUPnPDeletePortMapping(uint16_t extport, char* proto);
 void NetlibUPnPCleanup(void*);
 void NetlibUPnPInit(void);

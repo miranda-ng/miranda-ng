@@ -23,7 +23,7 @@ char * __cdecl strstri(char *a, const char *b)
 
 void TRACE_ERROR()
 {
-	DWORD t = GetLastError();
+	uint32_t t = GetLastError();
 	LPVOID lpMsgBuf;
 	if (!FormatMessage(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |

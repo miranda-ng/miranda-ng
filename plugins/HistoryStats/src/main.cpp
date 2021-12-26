@@ -214,7 +214,7 @@ static INT_PTR MenuHistoryPaste(WPARAM wParam, LPARAM lParam)
 		mu::db::setSafetyMode(false);
 
 		// copy history
-		DWORD dwCountSuccess = 0, dwCountFailRead = 0, dwCountFailAdd = 0;
+		uint32_t dwCountSuccess = 0, dwCountFailRead = 0, dwCountFailAdd = 0;
 		DBEVENTINFO dbe;
 		int blobBuffer = 4096;
 		HANDLE hEvent = mu::db_event::findFirst(g_hHistoryCopyContact);

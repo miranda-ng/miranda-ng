@@ -113,8 +113,7 @@ public:
 		return E_NOTIMPL;
 	}
 
-	STDMETHOD(DAdvise)(FORMATETC*, DWORD, IAdviseSink*,
-		DWORD*) {
+	STDMETHOD(DAdvise)(FORMATETC*, DWORD, IAdviseSink*, DWORD*) {
 		return E_NOTIMPL;
 	}
 

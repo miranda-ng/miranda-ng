@@ -310,14 +310,14 @@ BOOL CDbxMDBX::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->flags = dbe->flags;
 	dbei->eventType = dbe->wEventType;
 
-	DWORD cbBlob = dbe->cbBlob;
+	uint32_t cbBlob = dbe->cbBlob;
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
 		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
 	else if (dbei->cbBlob < cbBlob)
 		bytesToCopy = dbei->cbBlob;
 
-	dbei->cbBlob = (DWORD)cbBlob;
+	dbei->cbBlob = (uint32_t)cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
 		uint8_t *pSrc = (uint8_t*)dbe + sizeof(DBEvent);
 		if (dbe->flags & DBEF_ENCRYPTED) {

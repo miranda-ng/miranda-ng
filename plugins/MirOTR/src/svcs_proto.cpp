@@ -125,7 +125,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam)
 	if (newmessage == nullptr)
 		return Proto_ChainRecv(wParam, ccs);
 	
-	DWORD oldflags = pre->flags;
+	uint32_t oldflags = pre->flags;
 		
 	typedef void (*msg_free_t)(void*);
 	msg_free_t msg_free = (msg_free_t)otrl_message_free;

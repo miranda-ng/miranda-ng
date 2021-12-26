@@ -112,7 +112,7 @@ struct ACKDATA
 struct PROTOFILETRANSFERSTATUS
 {
 	MCONTACT        hContact;
-	DWORD           flags;      // one of PFTS_* constants
+	uint32_t        flags;      // one of PFTS_* constants
 	MAllStringArray pszFiles;
 	int             totalFiles;
 	int             currentFileNumber;

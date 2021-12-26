@@ -128,7 +128,7 @@ static bool LoadMind(const wchar_t* filename, int &line)
 		delete mind;
 		return false;
 	}
-	DWORD size = SizeofResource(g_plugin.getInst(), hRes);
+	uint32_t size = SizeofResource(g_plugin.getInst(), hRes);
 	if (!size) {
 		delete mind;
 		return false;

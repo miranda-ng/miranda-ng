@@ -3871,7 +3871,7 @@ g_child_watch_check (GSource  *source)
 
   if (child_exited)
     {
-      DWORD child_status;
+     DWORD child_status;
 
       /*
        * Note: We do _not_ check for the special value of STILL_ACTIVE

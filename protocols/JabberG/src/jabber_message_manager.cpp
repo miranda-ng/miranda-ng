@@ -110,7 +110,7 @@ bool CJabberMessageManager::HandleMessagePermanent(const TiXmlElement *node, Thr
 CJabberMessagePermanentInfo* CJabberMessageManager::AddPermanentHandler(
 	JABBER_PERMANENT_MESSAGE_HANDLER pHandler,
 	int nMessageTypes,
-	DWORD dwParamsToParse,
+	uint32_t dwParamsToParse,
 	const char *szXmlns,
 	BOOL bAllowPartialNs,
 	const char *szTag,

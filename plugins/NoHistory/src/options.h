@@ -1,7 +1,7 @@
 #ifndef _OPTIONS_INC
 #define _OPTIONS_INC
 
-extern DWORD event_timeout;
+extern uint32_t event_timeout;
 
 int OptInit(WPARAM, LPARAM);
 

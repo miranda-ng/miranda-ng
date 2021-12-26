@@ -93,10 +93,10 @@ int IsSRMsgWindowOpen(MCONTACT hContact)
 class CMetacontactEvent
 {
 public:
-	CMetacontactEvent(MCONTACT hMetaContact, DWORD timestamp, int bMsgWindowIsOpen) : hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
+	CMetacontactEvent(MCONTACT hMetaContact, uint32_t timestamp, int bMsgWindowIsOpen) : hMetaContact(hMetaContact), timestamp(timestamp), bMsgWindowIsOpen(bMsgWindowIsOpen) {};
 
 	MCONTACT hMetaContact;
-	DWORD timestamp;
+	uint32_t timestamp;
 	int bMsgWindowIsOpen;
 };
 
@@ -119,7 +119,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	if (!szProto)
 		return 0;
 
-	DWORD Flags1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	uint32_t Flags1 = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if (!(Flags1 & PF1_IMSEND)) // don't reply to protocols that don't support outgoing messages
 		return 0;
 
@@ -131,7 +131,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		// remove outdated events first
-		DWORD CurTime = time(0);
+		uint32_t CurTime = time(0);
 		int i;
 		for (i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
@@ -153,7 +153,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 	// ugly workaround for metacontacts, part i; store all metacontacts' events to a temporary array, so we'll be able to get the 'source' protocol when subcontact event happens later. we need the protocol to get its status and per-status settings properly
 	if (!mir_strcmp(szProto, META_PROTO)) {
 		// remove outdated events first
-		DWORD CurTime = time(0);
+		uint32_t CurTime = time(0);
 		for (int i = MetacontactEvents.GetSize() - 1; i >= 0; i--)
 			if (CurTime - MetacontactEvents[i].timestamp > MAX_REPLY_TIMEDIFF)
 				MetacontactEvents.RemoveElem(i);

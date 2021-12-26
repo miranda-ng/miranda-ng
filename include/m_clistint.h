@@ -147,12 +147,12 @@ struct ClcDataBase : public MZeroedObject
 	int backgroundBmpUse, bkChanged;
 	int iHotTrack;
 	int gammaCorrection;
-	DWORD greyoutFlags;			  //see m_clc.h
-	DWORD offlineModes;
-	DWORD exStyle;
+	uint32_t greyoutFlags;			  //see m_clc.h
+	uint32_t offlineModes;
+	uint32_t exStyle;
 	POINT ptInfoTip;
 	int infoTipTimeout;
-	DWORD hInfoTipItem;
+	uint32_t hInfoTipItem;
 	HIMAGELIST himlExtraColumns;
 	int extraColumnsCount;
 	int extraColumnSpacing;
@@ -251,8 +251,8 @@ EXTERN_C MIR_APP_DLL(void)      Clist_CalcEipPosition(ClcData *dat, ClcContact *
 EXTERN_C MIR_APP_DLL(void)      Clist_ChangeContactIcon(MCONTACT hContact, int iIcon);
 EXTERN_C MIR_APP_DLL(void)      Clist_ClcOptionsChanged(void);
 EXTERN_C MIR_APP_DLL(int)       Clist_ClcStatusToPf2(int status);
-EXTERN_C MIR_APP_DLL(DWORD)     Clist_ContactToHItem(ClcContact *contact);
-EXTERN_C MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
+EXTERN_C MIR_APP_DLL(uint32_t)  Clist_ContactToHItem(ClcContact *contact);
+EXTERN_C MIR_APP_DLL(HANDLE)    Clist_ContactToItemHandle(ClcContact *contact, uint32_t *nmFlags);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteFromContactList(HWND hwnd, ClcData *dat);
 EXTERN_C MIR_APP_DLL(void)      Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem);
 EXTERN_C MIR_APP_DLL(void)      Clist_DoSelectionDefaultAction(HWND hwnd, ClcData *dat);
@@ -260,8 +260,8 @@ EXTERN_C MIR_APP_DLL(void)      Clist_DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hI
 EXTERN_C MIR_APP_DLL(void)      Clist_EndRename(ClcData *dat, int save);
 EXTERN_C MIR_APP_DLL(void)      Clist_EnsureVisible(HWND hwnd, ClcData *dat, int iItem, int partialOk);
 EXTERN_C MIR_APP_DLL(int)       Clist_EventsProcessTrayDoubleClick(int index);
-EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, DWORD dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0);
-EXTERN_C MIR_APP_DLL(DWORD)     Clist_GetDefaultExStyle(void);
+EXTERN_C MIR_APP_DLL(bool)      Clist_FindItem(HWND hwnd, ClcData *dat, uint32_t dwItem, ClcContact **contact, ClcGroup **subgroup = 0, int *isVisible = 0);
+EXTERN_C MIR_APP_DLL(uint32_t)  Clist_GetDefaultExStyle(void);
 EXTERN_C MIR_APP_DLL(void)      Clist_GetFontSetting(int i, LOGFONT *lf, COLORREF *colour);
 EXTERN_C MIR_APP_DLL(int)       Clist_GetGeneralizedStatus(char **szProto = nullptr);
 EXTERN_C MIR_APP_DLL(wchar_t*)  Clist_GetGroupCountsText(ClcData *dat, ClcContact *contact);
@@ -313,7 +313,7 @@ struct CLIST_INTERFACE
 	LRESULT        (CALLBACK *pfnContactListControlWndProc)(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	// clcidents.c
-	ClcContact*    (*pfnFindItem)(DWORD dwItem, ClcContact *contact);
+	ClcContact*    (*pfnFindItem)(uint32_t dwItem, ClcContact *contact);
 				      
 	int            (*pfnGetRowsPriorTo)(ClcGroup *group, ClcGroup *subgroup, int contactIndex);
 	int            (*pfnGetRowByIndex)(ClcData *dat, int testindex, ClcContact **contact, ClcGroup **subgroup);
@@ -322,7 +322,7 @@ struct CLIST_INTERFACE
 
 	/* clcitems.c */
 	ClcContact*    (*pfnCreateClcContact)(void);
-	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, DWORD flags, int groupId, int calcTotalMembers);
+	ClcGroup*      (*pfnAddGroup)(HWND hwnd, ClcData *dat, const wchar_t *szName, uint32_t flags, int groupId, int calcTotalMembers);
 	
 	void           (*pfnFreeContact)(ClcContact *contact);
 				      
@@ -342,7 +342,7 @@ struct CLIST_INTERFACE
 	void           (*pfnPaintClc)(HWND hwnd, ClcData *dat, HDC hdc, RECT * rcPaint);
 
 	/* clcutils.c */
-	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD * flags);
+	int            (*pfnHitTest)(HWND hwnd, ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t * flags);
 	void           (*pfnScrollTo)(HWND hwnd, ClcData *dat, int desty, int noSmooth);
 	void           (*pfnRecalcScrollBar)(HWND hwnd, ClcData *dat);
 	void           (*pfnSetGroupExpand)(HWND hwnd, ClcData *dat, ClcGroup *group, int newState);
@@ -453,7 +453,7 @@ namespace Clist
 		Tray1Click,
 		TrayAlwaysStatus;
 
-	extern MIR_APP_EXPORT CMOption<DWORD>
+	extern MIR_APP_EXPORT CMOption<uint32_t>
 		OfflineModes;
 };
 

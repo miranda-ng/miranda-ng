@@ -25,7 +25,7 @@ void OptionsCtrlImpl::Check::updateItem()
 		enableChilds(getChildEnable());
 }
 
-OptionsCtrlImpl::Check::Check(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData) :
+OptionsCtrlImpl::Check::Check(OptionsCtrlImpl* pCtrl, Item* pParent, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData) :
 	Item(pCtrl, itCheck, szLabel, dwFlags, dwData)
 {
 	m_bChecked = bool_(dwFlags & OCF_CHECKED);

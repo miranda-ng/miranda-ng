@@ -90,17 +90,17 @@ struct TabFlags
 struct GlobalMessageData
 {
 	union {
-		DWORD dwFlags;
+		uint32_t dwFlags;
 		WindowFlags flags;
 	};
 
 	union {
-		DWORD dwFlags2;
+		uint32_t dwFlags2;
 		TabFlags flags2;
 	};
 
-	DWORD      openFlags;
-	DWORD      limitNamesLength;
+	uint32_t      openFlags;
+	uint32_t      limitNamesLength;
 	int        activeAlpha;
 	int        inactiveAlpha;
 	SendMode   sendMode;
@@ -116,7 +116,7 @@ struct GlobalMessageData
 	HBRUSH     hInfobarBrush;
 	int        toolbarPosition;
 	HWND       hFocusWnd;
-	DWORD      logLineColour;
+	uint32_t      logLineColour;
 	int        logPixelSX;
 	int        logPixelSY;
 	HICON      hMsgIcon;

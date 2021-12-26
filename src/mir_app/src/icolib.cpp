@@ -144,7 +144,7 @@ static int InitializeBitmapInfoHeader(HBITMAP bitmap, BITMAPINFOHEADER *bi)
 	if (bytes == 0) // Failure
 		return 1;
 
-	if ((bytes >= (sizeof(DS.dsBm) + sizeof(DS.dsBmih))) && (DS.dsBmih.biSize >= DWORD(sizeof(DS.dsBmih))))
+	if ((bytes >= (sizeof(DS.dsBm) + sizeof(DS.dsBmih))) && (DS.dsBmih.biSize >= uint32_t(sizeof(DS.dsBmih))))
 		*bi = DS.dsBmih;
 	else {
 		memset(bi, 0, sizeof(BITMAPINFOHEADER));

@@ -68,7 +68,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MODULENAME "SRAway"
 
-extern DWORD protoModeMsgFlags;
+extern uint32_t protoModeMsgFlags;
 
 int AwayMsgOptInitialise(WPARAM wParam, LPARAM);
 

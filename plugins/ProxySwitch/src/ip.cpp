@@ -16,7 +16,7 @@ void IP_WatchDog(void*)
 
 	while (true) {
 		HANDLE hResult;
-		DWORD ret = NotifyAddrChange(&hResult, &overlap);
+		uint32_t ret = NotifyAddrChange(&hResult, &overlap);
 		if (ret != NO_ERROR && WSAGetLastError() != WSA_IO_PENDING) {
 			Netlib_Logf(0, "NotifyAddrChange Error: %d/nRestart Miranda NG to restore IP monitor.", WSAGetLastError());
 			break;
@@ -143,7 +143,7 @@ int Create_NIF_List(NETWORK_INTERFACE_LIST *list)
 	PIP_ADAPTER_ADDRESSES pAddresses, pAddr;
 	ULONG outBufLen;
 	wchar_t *tmp_opt, *intf, *rest, *name;
-	DWORD out;
+	uint32_t out;
 
 	// prepare and load IP_ADAPTER_ADDRESSES
 	outBufLen = 0;

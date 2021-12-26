@@ -98,7 +98,7 @@ void ColChatDuration::impl_columnDataAfterOmit()
 	// AFTER, i.e. contacts are trimmed to what user will see
 
 	if (m_bGraph) {
-		static DWORD (Contact::*getChatDurX[4])() const = {
+		static uint32_t (Contact::*getChatDurX[4])() const = {
 			&Contact::getChatDurMin,
 			&Contact::getChatDurAvg,
 			&Contact::getChatDurMax,
@@ -127,7 +127,7 @@ void ColChatDuration::impl_columnDataAfterOmit()
 
 void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
 {
-	static DWORD (Contact::*getChatDurX[4])() const = {
+	static uint32_t (Contact::*getChatDurX[4])() const = {
 		&Contact::getChatDurMin,
 		&Contact::getChatDurAvg,
 		&Contact::getChatDurMax,

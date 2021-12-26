@@ -81,9 +81,9 @@ INT_PTR Popup_AddPopupW(WPARAM wParam, LPARAM lParam)
 }
 
 //===== Popup/AddPopup2
-static __forceinline DWORD Proto_Status2Flag_My(DWORD status)
+static __forceinline uint32_t Proto_Status2Flag_My(uint32_t status)
 {
-	if (DWORD res = Proto_Status2Flag(status))
+	if (uint32_t res = Proto_Status2Flag(status))
 		return res;
 	return PF2_IDLE;
 }
@@ -106,7 +106,7 @@ INT_PTR Popup_AddPopup2(WPARAM wParam, LPARAM lParam)
 	POPUPDATA2 *ppd = &ppdFixed;
 	memcpy(ppd, ppdIn, min(ppdIn->cbSize, sizeof(POPUPDATA2)));
 
-	DWORD disableWhen;
+	uint32_t disableWhen;
 	FillNotificationData(ppd, &disableWhen);
 
 	if (!(lParam & APF_NO_HISTORY))
@@ -363,7 +363,7 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 
 	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
 	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (DWORD)fonts.clBack/*pc->colorBack*/);
+	ptd->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (uint32_t)fonts.clBack/*pc->colorBack*/);
 	
 	ColourIDW cid = {};
 	mir_snwprintf(cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);

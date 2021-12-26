@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct MICryptoEngine
 {
-	DWORD	dwVersion;
+	uint32_t	dwVersion;
 
 	STDMETHOD_(void, destroy)(void) PURE;
 
@@ -67,8 +67,8 @@ typedef MICryptoEngine* (MIR_CDECL *pfnCryptoProviderFactory)(void);
 
 struct CRYPTO_PROVIDER
 {
-	DWORD	dwSize;
-	DWORD	dwFlags; // one of CPF_* constants
+	uint32_t	dwSize;
+	uint32_t	dwFlags; // one of CPF_* constants
 	HPLUGIN pPlugin;
 
 	char *pszName; // unique id

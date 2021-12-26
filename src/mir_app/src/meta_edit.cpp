@@ -31,8 +31,8 @@ struct
 	DBCachedContact *cc;
 	MCONTACT hDefaultContact;                // HANDLE of the new default contact
 	MCONTACT hOfflineContact;
-	int num_deleted,                         // DWORD number of deleted contacts
-		num_contacts;                        // DWORD number of contacts
+	int num_deleted,                         // uint32_t number of deleted contacts
+		num_contacts;                        // uint32_t number of contacts
 	MCONTACT hDeletedContacts[MAX_CONTACTS]; // HANDLEs of the subcontacts to be removed from this metacontact
 	MCONTACT hContact[MAX_CONTACTS];         // HANDLEs of the subcontacts, in the order they should be in
 }

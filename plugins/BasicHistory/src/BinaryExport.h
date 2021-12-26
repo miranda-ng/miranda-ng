@@ -42,6 +42,6 @@ private:
 	unsigned int codepage;
 	inline void WriteString(const std::wstring &str);
 	inline bool ReadString(std::wstring &str);
-	DWORD lTime;
+	uint32_t lTime;
 };
 

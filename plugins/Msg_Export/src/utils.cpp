@@ -143,7 +143,7 @@ static void ReplaceAll(wstring &sSrc, const wchar_t *pszReplace, const wchar_t *
 // Parameters      : dwError - ?
 // Returns         : string
 
-CMStringW sGetErrorString(DWORD dwError)
+CMStringW sGetErrorString(uint32_t dwError)
 {
 	LPVOID lpMsgBuf;
 	FormatMessage(
@@ -174,7 +174,7 @@ CMStringW sGetErrorString()
 
 void LogLastError(const wchar_t *pszError)
 {
-	DWORD error = GetLastError();
+	uint32_t error = GetLastError();
 
 	CMStringW sError = pszError;
 
@@ -199,7 +199,7 @@ static bool bWriteToFile(HANDLE hFile, const char *pszSrc, int nLen = -1)
 		nLen = (int)mir_strlen(pszSrc);
 
 	DWORD dwBytesWritten;
-	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (DWORD)nLen);
+	return WriteFile(hFile, pszSrc, nLen, &dwBytesWritten, nullptr) && (dwBytesWritten == (uint32_t)nLen);
 }
 
 
@@ -251,7 +251,7 @@ static bool bWriteTextToFile(HANDLE hFile, const char *pszSrc, bool bUtf8File, i
 // Returns         : Returns true if all the data was written to the file
 
 const char szNewLineIndent[] = "\r\n                                                                                                   ";
-bool bWriteNewLine(HANDLE hFile, DWORD dwIndent)
+bool bWriteNewLine(HANDLE hFile, uint32_t dwIndent)
 {
 	if (dwIndent > sizeof(szNewLineIndent) - 2)
 		dwIndent = sizeof(szNewLineIndent) - 2;
@@ -460,7 +460,7 @@ void ReplaceDefines(MCONTACT hContact, wstring &sTarget)
 		ReplaceAll(sTarget, L"%nick%", FileNickFromHandle(hContact));
 
 	if (sTarget.find(L"%UIN%") != string::npos) {
-		DWORD dwUIN = db_get_dw(hContact, szProto, "UIN", 0);
+		uint32_t dwUIN = db_get_dw(hContact, szProto, "UIN", 0);
 		wstring sReplaceUin;
 		if (dwUIN) {
 			wchar_t sTmp[20];
@@ -779,7 +779,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 		pRoot.push_back(JSONNode("flags", flags));
 
 		if (dbei.eventType == EVENTTYPE_FILE) {
-			char *p = (char*)dbei.pBlob + sizeof(DWORD);
+			char *p = (char*)dbei.pBlob + sizeof(uint32_t);
 			ptrW wszFileName(getEventString(dbei, p));
 			ptrW wszDescr(getEventString(dbei, p));
 
@@ -824,7 +824,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 
 		case EVENTTYPE_FILE:
 			{
-				char *p = (char*)dbei.pBlob + sizeof(DWORD);
+				char *p = (char*)dbei.pBlob + sizeof(uint32_t);
 				ptrW wszFileName(getEventString(dbei, p));
 				ptrW wszDescr(getEventString(dbei, p));
 
@@ -860,14 +860,14 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				const wchar_t *pszTitle;
 				char *pszCurBlobPos;
 				if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {	// request 
-					//blob is: uin(DWORD), hContact(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
+					//blob is: uin(uint32_t), hContact(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)
 					nStringCount = 5;
-					pszCurBlobPos = (char *)dbei.pBlob + sizeof(DWORD) * 2;
+					pszCurBlobPos = (char *)dbei.pBlob + sizeof(uint32_t) * 2;
 					pszTitle = LPGENW("The following user made an authorization request:");
 				}
 				else {  // Added
-					//blob is: uin(DWORD), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
-					pszCurBlobPos = (char *)dbei.pBlob + sizeof(DWORD);
+					//blob is: uin(uint32_t), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ)
+					pszCurBlobPos = (char *)dbei.pBlob + sizeof(uint32_t);
 					nStringCount = 4;
 					pszTitle = LPGENW("The following user added you to their contact list:");
 				}
@@ -875,7 +875,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				if (bWriteTextToFile(hFile, pszTitle, bWriteUTF8Format) &&
 					bWriteNewLine(hFile, nIndent) &&
 					bWriteTextToFile(hFile, LPGENW("UIN       :"), bWriteUTF8Format)) {
-					DWORD uin = *((PDWORD)(dbei.pBlob));
+					uint32_t uin = *((PDWORD)(dbei.pBlob));
 					int n = mir_snwprintf(szTemp, L"%d", uin);
 					if (bWriteTextToFile(hFile, szTemp, bWriteUTF8Format, n)) {
 						char *pszEnd = (char *)(dbei.pBlob + sizeof(dbei));

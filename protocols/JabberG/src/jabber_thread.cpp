@@ -971,7 +971,7 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 }
 
 // returns 0, if error or no events
-DWORD JabberGetLastContactMessageTime(MCONTACT hContact)
+uint32_t JabberGetLastContactMessageTime(MCONTACT hContact)
 {
 	// TODO: time cache can improve performance
 	MEVENT hDbEvent = db_event_last(hContact);
@@ -1404,7 +1404,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (bWasSent)
 		recv.flags |= PREF_SENT;
 
-	recv.timestamp = (DWORD)msgTime;
+	recv.timestamp = (uint32_t)msgTime;
 	recv.szMessage = szMessage.GetBuffer();
 	recv.szMsgId = szMsgId;
 

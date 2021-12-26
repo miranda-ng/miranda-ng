@@ -60,7 +60,7 @@ typedef struct tagPOPUPOPTIONS {
 	uint8_t UseWinColors;
 	uint8_t UseMText;
 	//==Page Actions====
-	DWORD actions;
+	uint32_t actions;
 	//Mouse Override
 	int overrideLeft;
 	int overrideRight;
@@ -86,8 +86,8 @@ typedef struct tagPOPUPOPTIONS {
 	uint8_t UseAnimations;
 	uint8_t UseEffect;
 	LPTSTR Effect;
-	DWORD FadeIn;
-	DWORD FadeOut;
+	uint32_t FadeIn;
+	uint32_t FadeOut;
 	//Others
 	uint16_t MaxPopups;
 } POPUPOPTIONS;
@@ -162,7 +162,7 @@ extern bool OptionLoaded;
 #define AC_SRC_ALPHA 0x01
 #endif
 #ifndef INVALID_FILE_ATTRIBUTES
-#define INVALID_FILE_ATTRIBUTES (DWORD (-1))
+#define INVALID_FILE_ATTRIBUTES (uint32_t (-1))
 #endif
 
 #define DWM_BB_ENABLE					0x00000001
@@ -170,7 +170,7 @@ extern bool OptionLoaded;
 #define DWM_BB_TRANSITIONONMAXIMIZED	0x00000004
 struct DWM_BLURBEHIND
 {
-	DWORD dwFlags;
+	uint32_t dwFlags;
 	BOOL fEnable;
 	HRGN hRgnBlur;
 	BOOL fTransitionOnMaximized;

@@ -79,7 +79,7 @@ INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 								MTime mt;
 								
 								if (mt.DBGetStamp(hContact, USERINFO, SET_CONTACT_ADDEDTIME) && strstr(pszProto, "ICQ")) {
-									DWORD dwStamp;
+									uint32_t dwStamp;
 									
 									dwStamp = DB::Contact::WhenAdded(db_get_dw(hContact, pszProto, "UIN", 0), pszProto);
 									if (dwStamp > 0)

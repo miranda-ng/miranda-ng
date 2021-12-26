@@ -84,12 +84,12 @@ private:
 		m_bResult;           // result of calculations
 
 	// start time for statistics
-	DWORD m_TimeStarted;
-	DWORD m_MSecStarted;
+	uint32_t m_TimeStarted;
+	uint32_t m_MSecStarted;
 
 	// minimum/maximum date/time to include
-	DWORD m_TimeMin;
-	DWORD m_TimeMax;
+	uint32_t m_TimeMin;
+	uint32_t m_TimeMax;
 
 	// error processing and the like
 	ext::string m_ErrorText;
@@ -113,11 +113,11 @@ private:
 
 	// first/last message
 	bool m_bHistoryTimeAvailable;
-	DWORD m_nFirstTime;
-	DWORD m_nLastTime;
+	uint32_t m_nFirstTime;
+	uint32_t m_nLastTime;
 
 	// misc data
-	DWORD m_AverageMinTime;
+	uint32_t m_AverageMinTime;
 
 private:
 	// contact handling
@@ -129,10 +129,10 @@ private:
 	Contact& addContact(const ext::string& nick, const ext::string& protoDisplayName, const ext::string& groupName, int nSources);
 
 	// misc routines
-	DWORD getTimeStarted() { return m_TimeStarted; }
+	uint32_t getTimeStarted() { return m_TimeStarted; }
 	bool shouldTerminate() { return (WaitForSingleObject(m_hCancelEvent, 0) == WAIT_OBJECT_0) || bool_(Miranda_IsTerminated()); }
 	void handleAddMessage(Contact& contact, Message& msg);
-	void handleAddChat(Contact& contact, bool bOutgoing, DWORD localTimestampStarted, DWORD duration);
+	void handleAddChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 
 	// progress dialog handling
 	static INT_PTR CALLBACK staticProgressProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -172,10 +172,10 @@ public:
 	const Contact& getOmitted() const { assert(m_pOmitted); return *m_pOmitted; }
 	bool hasTotals() const { return (m_pTotals != nullptr) && m_Settings.m_CalcTotals; } // MEMO: only makes sense after 'calc totals'-step
 	bool hasOmitted() const { return (m_pOmitted != nullptr) && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted; } // MEMO: only makes sense after 'omit'-step
-	DWORD getFirstTime(); // MEMO: only makes sense after 'calc totals'-step
-	DWORD getLastTime(); // MEMO: only makes sense after 'calc totals'-step
-	DWORD getHistoryTime(); // MEMO: only makes sense after 'calc totals'-step
-	DWORD getAverageMinTime() { return m_AverageMinTime; }
+	uint32_t getFirstTime(); // MEMO: only makes sense after 'calc totals'-step
+	uint32_t getLastTime(); // MEMO: only makes sense after 'calc totals'-step
+	uint32_t getHistoryTime(); // MEMO: only makes sense after 'calc totals'-step
+	uint32_t getAverageMinTime() { return m_AverageMinTime; }
 
 	// file management
 	ext::string createFile(const ext::string& desiredName);

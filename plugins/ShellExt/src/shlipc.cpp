@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "shlcom.h"
 
-TGroupNode* FindGroupNode(TGroupNode* p, const DWORD Hash, int Depth)
+TGroupNode* FindGroupNode(TGroupNode* p, const uint32_t Hash, int Depth)
 {
 	while (p != nullptr) {
 		if (p->Hash == Hash && p->Depth == Depth)
@@ -41,7 +41,7 @@ TGroupNode* AllocGroupNode(TGroupNodeList *list, TGroupNode *Root, int Depth)
 	return p;
 }
 
-void ipcPrepareRequests(int ipcPacketSize, THeaderIPC * pipch, DWORD fRequests)
+void ipcPrepareRequests(int ipcPacketSize, THeaderIPC * pipch, uint32_t fRequests)
 {
 	// some fields may already have values like the event object name to open
 	pipch->cbSize = sizeof(THeaderIPC);
@@ -68,7 +68,7 @@ void ipcPrepareRequests(int ipcPacketSize, THeaderIPC * pipch, DWORD fRequests)
 	memset(pipch->DataPtr, 0, pipch->DataSize);
 }
 
-DWORD ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC * pipch, DWORD dwTimeoutMsecs)
+uint32_t ipcSendRequest(HANDLE hSignal, HANDLE hWaitFor, THeaderIPC * pipch, uint32_t dwTimeoutMsecs)
 {
 	// signal ST to work
 	SetEvent(hSignal);

@@ -73,7 +73,7 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 				return 0;
 			}
 			if (wParam == 127) { // ctrl-backspace
-				DWORD start, end;
+				uint32_t start, end;
 				SendMessage(hWnd, EM_GETSEL, (WPARAM)&end, NULL);
 				SendMessage(hWnd, WM_KEYDOWN, VK_LEFT, 0);
 				SendMessage(hWnd, EM_GETSEL, (WPARAM)&start, NULL);
@@ -130,18 +130,19 @@ static LRESULT CALLBACK SplitterSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam,
 static LRESULT CALLBACK CListSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
 	CCList *dat = CWndUserData(GetParent(hWnd)).GetCList();
+	DWORD hitFlags;
+
 	switch (Msg) {
 	case WM_MOUSEMOVE:
 		{
-			DWORD hitFlags;
 			POINT pt = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
 			if (dat->HitTest(&pt, &hitFlags) && hitFlags & MCLCHT_ONITEMEXTRA)
 				lParam = 0; // reset mouse coordinates, so TreeView's wndproc will not draw any item in a hovered state
 		}
 		break;
+
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONDBLCLK:
-		DWORD hitFlags;
 		POINT pt = { (short)LOWORD(lParam), (short)HIWORD(lParam) };
 		if (dat->HitTest(&pt, &hitFlags) && hitFlags & MCLCHT_ONITEMEXTRA) {
 			SetFocus(hWnd);

@@ -7,8 +7,8 @@ char *m_aastrcat(LPCSTR,LPCSTR);
 char *m_ustrcat(LPCSTR,LPCSTR);
 LPSTR to_hex(uint8_t*,int);
 
-LPSTR utf8_to_miranda(LPCSTR,DWORD&);
-LPSTR miranda_to_utf8(LPCSTR,DWORD);
+LPSTR utf8_to_miranda(LPCSTR,uint32_t&);
+LPSTR miranda_to_utf8(LPCSTR,uint32_t);
 
 void *operator new(size_t sz);
 void operator delete(void *p);

@@ -80,7 +80,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 		{
 			BOOL ShowPopup, ShowMsg, ShowIco;
 			CAccount *ActualAccount;
-			DWORD  ErrorCode;
+			uint32_t  ErrorCode;
 			char* TitleStrA;
 			char *Message1A = nullptr;
 			wchar_t *Message1W = nullptr;
@@ -279,7 +279,7 @@ INT_PTR RunBadConnectionSvc(WPARAM wParam, LPARAM lParam)
 {
 	// an event for successfull copy parameters to which point a pointer in stack for new thread
 	PYAMN_BADCONNECTIONPARAM Param = (PYAMN_BADCONNECTIONPARAM)wParam;
-	if ((DWORD)lParam != YAMN_BADCONNECTIONVERSION)
+	if ((uint32_t)lParam != YAMN_BADCONNECTIONVERSION)
 		return 0;
 
 	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);

@@ -19,8 +19,8 @@
 
 struct SKINOBJECTSLIST
 {
-	DWORD dwObjLPReserved;
-	DWORD dwObjLPAlocated;
+	uint32_t dwObjLPReserved;
+	uint32_t dwObjLPAlocated;
 	wchar_t *szSkinPlace;
 	LISTMODERNMASK	*pMaskList;
 	SKINOBJECTDESCRIPTOR  *pObjects;
@@ -30,7 +30,7 @@ struct SKINOBJECTSLIST
 struct GLYPHIMAGE
 {
 	wchar_t  *szFileName;
-	DWORD   dwLoadedTimes;
+	uint32_t   dwLoadedTimes;
 	HBITMAP hGlyph;
 	uint8_t    isSemiTransp;
 };
@@ -53,8 +53,8 @@ struct EFFECTSSTACKITEM
 {
 	HDC hdc;
 	uint8_t EffectID;
-	DWORD FirstColor;
-	DWORD SecondColor;
+	uint32_t FirstColor;
+	uint32_t SecondColor;
 };
 
 class IniParser
@@ -102,7 +102,7 @@ private:
 	const char* _RemoveTailings(const char *szLine, size_t &len);
 
 	HGLOBAL _hGlobalRes;
-	DWORD   _dwSizeOfRes;
+	uint32_t   _dwSizeOfRes;
 	char*	_pPosition;
 
 	uint8_t _Flags;

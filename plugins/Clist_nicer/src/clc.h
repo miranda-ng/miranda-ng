@@ -109,11 +109,11 @@ struct TExtraCache
 	uint8_t		valid;
 	wchar_t		*statusMsg;
 	uint8_t		bStatusMsgValid;
-	DWORD		dwCFlags;
-	DWORD		dwDFlags; // display flags for caching only
+	uint32_t		dwCFlags;
+	uint32_t		dwDFlags; // display flags for caching only
 	StatusItems_t	*status_item, *proto_status_item;
-	DWORD		dwLastMsgTime;
-	DWORD		msgFrequency;
+	uint32_t		dwLastMsgTime;
+	uint32_t		msgFrequency;
 	BOOL		isChatRoom;
 };
 
@@ -127,11 +127,11 @@ struct ClcContact : public ClcContactBase
 	int      xStatusIcon;
 	MCONTACT	hSubContact;
 	char    *metaProto;
-	DWORD    codePage;
+	uint32_t    codePage;
 	uint16_t     wStatus;
 	int      avatarLeft, extraIconRightBegin;
 	int      isRtl;
-	DWORD    cFlags;
+	uint32_t    cFlags;
 	uint8_t     bSecondLine;
 
 	AVATARCACHEENTRY *ace;
@@ -172,8 +172,8 @@ struct ClcData : public ClcDataBase
 	uint8_t SelectMode;
 	uint8_t isMultiSelect;
 	HWND hwndParent;
-	DWORD lastSort;
-	DWORD lastRepaint;
+	uint32_t lastSort;
+	uint32_t lastRepaint;
 	int oldSelection;
 
 	bool bNeedPaint, bisEmbedded, bHideSubcontacts, bForceScroll;
@@ -222,27 +222,27 @@ struct ClcData : public ClcDataBase
 #define CLC_GROUPALIGN_AUTO 2
 
 struct TCluiData {
-	DWORD dwFlags;
-	DWORD topOffset, bottomOffset;
+	uint32_t dwFlags;
+	uint32_t topOffset, bottomOffset;
 	int statusBarHeight;
 	int soundsOff;
 	uint8_t bAvatarServiceAvail;
 	HICON hIconConnecting;
-	DWORD winFlags;
-	DWORD winFlagsEx;
+	uint32_t winFlags;
+	uint32_t winFlagsEx;
 	int notifyActive;
 	int hIconNotify;
 	HMENU hMenuNotify;
 	int iLastEventAdded;
 	int wNextMenuID;
 	MCONTACT hUpdateContact;
-	DWORD sortTimer;
+	uint32_t sortTimer;
 	BOOL forceResize;
 	BOOL neeedSnap;
 	COLORREF avatarBorder;
 	HBRUSH hBrushAvatarBorder, hBrushColorKey;
 	HBRUSH hBrushCLCBk;
-	DWORD avatarRadius;
+	uint32_t avatarRadius;
 	int avatarSize;
 	BOOL bForceRefetchOnPaint;
 	uint8_t dualRowMode;
@@ -271,7 +271,7 @@ struct TCluiData {
 	BOOL bDblClkAvatars;
 	BOOL bApplyIndentToBg;
 	BOOL bEqualSections;
-	DWORD bFilterEffective;
+	uint32_t bFilterEffective;
 	BOOL bCenterStatusIcons;
 	BOOL bSkinnedToolbar;
 	BOOL bSkinnedStatusBar;
@@ -281,12 +281,12 @@ struct TCluiData {
 	wchar_t groupFilter[2048];
 	char protoFilter[2048];
 	char varFilter[2048];
-	DWORD lastMsgFilter;
+	uint32_t lastMsgFilter;
 	char current_viewmode[256], old_viewmode[256];
 	uint8_t boldHideOffline;
-	DWORD statusMaskFilter;
-	DWORD stickyMaskFilter;
-	DWORD filterFlags;
+	uint32_t statusMaskFilter;
+	uint32_t stickyMaskFilter;
+	uint32_t filterFlags;
 	COLORREF colorkey;
 	BOOL bMetaEnabled;
 	BOOL bSecIMAvail;
@@ -307,10 +307,10 @@ struct TCluiData {
 	uint8_t sortOrder[3];
 	uint8_t bGroupAlign;
 	uint8_t bSkinnedScrollbar;
-	DWORD langPackCP;
+	uint32_t langPackCP;
 	BOOL fOnDesktop;
 	int group_padding;
-	DWORD t_now;
+	uint32_t t_now;
 	BOOL realTimeSaving;
 	wchar_t tszProfilePath[MAX_PATH];
 	FILETIME ft;
@@ -369,7 +369,7 @@ struct protoMenu
 
 // clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
-DWORD INTSORT_GetLastMsgTime(MCONTACT hContact);
+uint32_t INTSORT_GetLastMsgTime(MCONTACT hContact);
 
 // clcmsgs.c
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -377,7 +377,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 // clcutils.c
 void   SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newState);
 void   BeginRenameSelection(HWND hwnd, struct ClcData *dat);
-int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
+int    HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, uint32_t *flags);
 void   ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void   RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 size_t MY_pathToRelative(const wchar_t *pSrc, wchar_t *pOut);
@@ -389,7 +389,7 @@ uint8_t   GetCachedStatusMsg(TExtraCache* p, char *szProto);
 void   GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
 LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void   HideShowNotifyFrame();
-DWORD  GetCLUIWindowStyle(uint8_t style);
+uint32_t  GetCLUIWindowStyle(uint8_t style);
 void   ApplyCLUIBorderStyle();
 
 int FrameNCCalcSize(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BOOL hasTitleBar);
@@ -419,7 +419,7 @@ HWND ClcGetButtonWindow(int ctrlid);
 
 // clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
-void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, uint32_t style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();

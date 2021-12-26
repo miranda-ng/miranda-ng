@@ -80,7 +80,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint8_t> bIdlePrivate, bIdleSoundsOff, bIdleOnTerminal, bIdleStatusLock;
 	CMOption<uint8_t> bAAEnable;
 	CMOption<uint16_t> bAAStatus;
-	CMOption<DWORD> iIdleTime1st;
+	CMOption<uint32_t> iIdleTime1st;
 };
 
 void IdleObject_Destroy();

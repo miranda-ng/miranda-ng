@@ -28,15 +28,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 typedef struct _tagButtonData
 	{
-	DWORD dwPos;
-	DWORD dwOPPos;
+	uint32_t dwPos;
+	uint32_t dwOPPos;
 	uint8_t  fEntryType;
 	uint8_t  fEntryOpType;
 	uint8_t  bIsServName;
 	uint8_t  bIsOpServName;
 	uint8_t  bInQMenu;
 	uint8_t  bOpInQMenu;
-	DWORD dwOPFlags;
+	uint32_t dwOPFlags;
 	wchar_t *pszName;
 	wchar_t *pszValue;
 	wchar_t *pszOpValue;
@@ -46,19 +46,19 @@ typedef struct _tagButtonData
 typedef struct _tagListData
 	{
 	SortedList* sl;
-	DWORD dwPos;
-	DWORD dwOPPos;
+	uint32_t dwPos;
+	uint32_t dwOPPos;
 	wchar_t* ptszQValue;
 	wchar_t* ptszOPQValue;
 	wchar_t* ptszButtonName;
 	uint8_t  bIsServName;
 	uint8_t  bIsOpServName;
-	DWORD dwOPFlags;
+	uint32_t dwOPFlags;
 	}ListData;
 
 typedef struct _tagQuickData
 	{
-	DWORD dwPos;
+	uint32_t dwPos;
 	BOOL bIsService;
 	uint8_t fEntryType;
 	wchar_t* ptszValue;
@@ -77,5 +77,5 @@ void RemoveMenuEntryNode(SortedList *pList, int index);
 void DestroyButton(int listnum);
 void SaveModuleSettings(int buttonnum,ButtonData* bd);
 void CleanSettings(int buttonnum,int from);
-DWORD BalanceButtons(int buttonsWas,int buttonsNow);
+uint32_t BalanceButtons(int buttonsWas,int buttonsNow);
 wchar_t* ParseString(MCONTACT hContact,wchar_t* ptszQValueIn,wchar_t* ptszText,wchar_t* ptszClip,int QVSize,int TextSize ,int ClipSize);

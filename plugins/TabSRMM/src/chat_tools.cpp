@@ -366,15 +366,15 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 void Chat_SetFilters(SESSION_INFO *si)
 {
-	DWORD dwFlags_default = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-	DWORD dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
-	DWORD dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
+	uint32_t dwFlags_default = db_get_dw(0, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+	uint32_t dwFlags_local = db_get_dw(si->hContact, CHAT_MODULE, "FilterFlags", GC_EVENT_ALL);
+	uint32_t dwMask = db_get_dw(si->hContact, CHAT_MODULE, "FilterMask", 0);
 
 	CMsgDialog *pDlg = si->pDlg;
 	if (pDlg) {
 		pDlg->m_iLogFilterFlags = dwFlags_default;
 		for (int i = 0; i < 32; i++) {
-			DWORD dwBit = 1 << i;
+			uint32_t dwBit = 1 << i;
 			if (dwMask & dwBit)
 				pDlg->m_iLogFilterFlags = (dwFlags_local & dwBit) ? pDlg->m_iLogFilterFlags | dwBit : pDlg->m_iLogFilterFlags & ~dwBit;
 		}
@@ -386,7 +386,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 	si->iLogPopupFlags = dwFlags_default;
 	for (int i = 0; i < 32; i++) {
-		DWORD dwBit = 1 << i;
+		uint32_t dwBit = 1 << i;
 		if (dwMask & dwBit)
 			si->iLogPopupFlags = (dwFlags_local & dwBit) ? si->iLogPopupFlags | dwBit : si->iLogPopupFlags & ~dwBit;
 	}
@@ -397,7 +397,7 @@ void Chat_SetFilters(SESSION_INFO *si)
 
 	si->iLogTrayFlags = dwFlags_default;
 	for (int i = 0; i < 32; i++) {
-		DWORD dwBit = 1 << i;
+		uint32_t dwBit = 1 << i;
 		if (dwMask & dwBit)
 			si->iLogTrayFlags = (dwFlags_local & dwBit) ? si->iLogTrayFlags | dwBit : si->iLogTrayFlags & ~dwBit;
 	}

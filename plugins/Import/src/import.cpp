@@ -109,7 +109,7 @@ MCONTACT CImportBatch::HContactFromChatID(const char *pszProtoName, const wchar_
 	return INVALID_CONTACT_ID;
 }
 
-MCONTACT CImportBatch::HContactFromNumericID(const char *pszProtoName, const char *pszSetting, DWORD dwID)
+MCONTACT CImportBatch::HContactFromNumericID(const char *pszProtoName, const char *pszSetting, uint32_t dwID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
 		if (db_get_dw(hContact, pszProtoName, pszSetting, 0) == dwID)
@@ -879,7 +879,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 	else hDst = NULL;
 
 	bool bSkipAll = false;
-	DWORD cbAlloc = 4096;
+	uint32_t cbAlloc = 4096;
 	uint8_t *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain
@@ -918,7 +918,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 			if (!bSkipThis) {
 				bool bIsSent = (dbei.flags & DBEF_SENT) != 0;
 
-				if (dbei.timestamp < (DWORD)m_dwSinceDate)
+				if (dbei.timestamp < (uint32_t)m_dwSinceDate)
 					bSkipThis = true;
 
 				if (!bSkipThis) {
@@ -1033,7 +1033,7 @@ void CImportBatch::DoImport()
 	dstDb->SetCacheSafetyMode(FALSE);
 
 	// Start benchmark timer
-	DWORD dwTimer = time(0);
+	uint32_t dwTimer = time(0);
 
 	OBJLIST<char> arSkippedAccs(1, CompareModules);
 	arSkippedAccs.insert(newStr("CListGroups"));

@@ -40,7 +40,7 @@ typedef struct tagOPTIONS {
 	uint8_t PXOnConnect;
 	uint8_t PXDisableForMusic;
 	uint8_t PXMsgTruncate;
-	DWORD PXMsgLen;
+	uint32_t PXMsgLen;
 	// IDD_OPT_GENERAL
 	uint8_t FromOffline;
 	uint8_t AutoDisable;
@@ -73,7 +73,7 @@ typedef struct tagOPTIONS {
 	// IDD_OPT_SMPOPUP
 	uint8_t PSMsgOnConnect;
 	uint8_t PSMsgTruncate;
-	DWORD PSMsgLen;
+	uint32_t PSMsgLen;
 	// OTHER
 	uint8_t TempDisabled;
 	uint8_t PopupAutoDisabled;

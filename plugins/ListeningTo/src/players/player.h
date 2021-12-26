@@ -69,7 +69,7 @@ class CodeInjectionPlayer : public ExternalPlayer
 protected:
 	char *dll_name;
 	wchar_t *message_window_class;
-	DWORD next_request_time;
+	uint32_t next_request_time;
 
 	virtual void InjectCode();
 

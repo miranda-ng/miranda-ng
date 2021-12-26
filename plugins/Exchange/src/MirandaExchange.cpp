@@ -406,7 +406,7 @@ HRESULT CMirandaExchange::InitializeAndLogin(LPCTSTR szUsername, LPCTSTR szPassw
 				return hr;
 			}
 
-			DWORD dwFlags = MAPI_EXPLICIT_PROFILE | MAPI_EXTENDED | MAPI_NEW_SESSION | MAPI_NO_MAIL;
+			uint32_t dwFlags = MAPI_EXPLICIT_PROFILE | MAPI_EXTENDED | MAPI_NEW_SESSION | MAPI_NO_MAIL;
 
 			hr = MAPILogonEx(0, (LPTSTR)mir_u2a(szPIDandName), (LPTSTR)mir_u2a(m_szPassword), dwFlags, &m_lpMAPISession);
 			if (FAILED(hr)) {

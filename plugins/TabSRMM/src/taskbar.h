@@ -56,7 +56,7 @@ protected:
 	LONG    m_width, m_height;
 	HDC     m_hdc;
 	RECT    m_rc, m_rcTop, m_rcBottom, m_rcIcon;
-	DWORD   m_dtFlags;
+	uint32_t   m_dtFlags;
 	SIZE    m_sz;
 	LONG    m_cx, m_cy;
 	HFONT   m_hOldFont;

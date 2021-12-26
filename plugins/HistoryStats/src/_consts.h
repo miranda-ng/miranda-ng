@@ -185,8 +185,8 @@ namespace con
 #endif
 
 	// min/max time
-	const DWORD MinDateTime = 0x00000000;
-	const DWORD MaxDateTime = 0xFFFFFFFF;
+	const uint32_t MinDateTime = 0x00000000;
+	const uint32_t MaxDateTime = 0xFFFFFFFF;
 
 	// default colors for html output
 	const COLORREF ColorOut     = RGB(0xE8, 0x64, 0x1B);

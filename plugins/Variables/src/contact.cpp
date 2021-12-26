@@ -76,7 +76,7 @@ static builtinCnfs[] =
 /* contact cache entry */
 struct CONTACTCE
 {
-	DWORD    flags;
+	uint32_t    flags;
 	wchar_t* tszContact;
 	MCONTACT hContact;
 };
@@ -140,7 +140,7 @@ wchar_t* getContactInfoT(uint8_t type, MCONTACT hContact)
 	case CCNF_INTERNALIP:
 	case CCNF_EXTERNALIP:
 		{
-			DWORD ip = db_get_dw(hContact, szProto, (type == CCNF_INTERNALIP) ? "RealIP" : "IP", 0);
+			uint32_t ip = db_get_dw(hContact, szProto, (type == CCNF_INTERNALIP) ? "RealIP" : "IP", 0);
 			if (ip != 0) {
 				struct in_addr in;
 				in.s_addr = htonl(ip);
@@ -168,7 +168,7 @@ wchar_t* getContactInfoT(uint8_t type, MCONTACT hContact)
 }
 
 // MS_VARS_GETCONTACTFROMSTRING
-MCONTACT getContactFromString(const wchar_t *tszContact, DWORD dwFlags, int nMatch)
+MCONTACT getContactFromString(const wchar_t *tszContact, uint32_t dwFlags, int nMatch)
 {
 	/* service to retrieve a contact's HANDLE from a given string */
 	if (tszContact == nullptr || *tszContact == 0)

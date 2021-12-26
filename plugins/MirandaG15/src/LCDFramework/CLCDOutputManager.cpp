@@ -149,8 +149,8 @@ void CLCDOutputManager::InitializeGfxObject()
 	int iButtonCount = m_pLcdConnection->GetButtonCount();
 
 	m_pbButtonStates = (bool*)malloc(sizeof(bool)*iButtonCount);
-	m_pdwButtonRepeatTimers = (DWORD*)malloc(sizeof(DWORD)*iButtonCount);
-	m_pdwButtonRepeatStarts = (DWORD*)malloc(sizeof(DWORD)*iButtonCount);
+	m_pdwButtonRepeatTimers = (uint32_t*)malloc(sizeof(uint32_t)*iButtonCount);
+	m_pdwButtonRepeatStarts = (uint32_t*)malloc(sizeof(uint32_t)*iButtonCount);
 	for (int i = 0; i < iButtonCount; i++) {
 		m_pbButtonStates[i] = false;
 		m_pdwButtonRepeatTimers[i] = 0;
@@ -236,7 +236,7 @@ bool CLCDOutputManager::Update()
 			iId = m_pLcdConnection->GetButtonId(i);
 
 			// reduce the delay by 5% per second
-			DWORD dwNewDelay = m_dwButtonRepeatDelay - ((float)m_dwButtonRepeatDelay * 0.05 * (GetTickCount() - m_pdwButtonRepeatStarts[i]) / 250);
+			uint32_t dwNewDelay = m_dwButtonRepeatDelay - ((float)m_dwButtonRepeatDelay * 0.05 * (GetTickCount() - m_pdwButtonRepeatStarts[i]) / 250);
 			// delay may not be less than 25% of the original value
 			if (dwNewDelay < m_dwButtonRepeatDelay * 0.25)
 				dwNewDelay = m_dwButtonRepeatDelay * 0.25;
@@ -354,7 +354,7 @@ void CLCDOutputManager::StartTransition(ETransitionType eTransition, LPRECT rect
 //************************************************************************
 // specifies the button repeat delay
 //************************************************************************
-void CLCDOutputManager::SetButtonRepeatDelay(DWORD dwDelay)
+void CLCDOutputManager::SetButtonRepeatDelay(uint32_t dwDelay)
 {
 	m_dwButtonRepeatDelay = dwDelay;
 }

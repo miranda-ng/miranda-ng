@@ -15,7 +15,7 @@ static HWND luaM_checkhwnd(lua_State *L, int idx)
 
 /***********************************************/
 
-EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, uint16_t wLanguageId, DWORD dwMilliseconds);
+EXTERN_C WINUSERAPI int WINAPI MessageBoxTimeoutA(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType, uint16_t wLanguageId, uint32_t dwMilliseconds);
 
 #define MB_TIMEDOUT 32000
 
@@ -26,7 +26,7 @@ static int lua_MessageBox(lua_State *L)
 	ptrA caption(mir_utf8decodeA(lua_tostring(L, 3)));
 	UINT flags = lua_tointeger(L, 4);
 	LANGID langId = GetUserDefaultUILanguage();
-	DWORD timeout = luaL_optinteger(L, 5, 0xFFFFFFFF);
+	uint32_t timeout = luaL_optinteger(L, 5, 0xFFFFFFFF);
 
 	int res = ::MessageBoxTimeoutA(hwnd, text, caption, flags, langId, timeout);
 	lua_pushinteger(L, res);
@@ -205,8 +205,7 @@ static int lua_GetRegValue(lua_State *L)
 		return 1;
 	}
 
-	DWORD type = 0;
-	DWORD length = 1024;
+	DWORD type = 0, length = 1024;
 	uint8_t* value = (uint8_t*)mir_alloc(length);
 	res = ::RegQueryValueEx(hKey, valueName, nullptr, &type, (LPBYTE)value, &length);
 	while (res == ERROR_MORE_DATA)
@@ -266,8 +265,8 @@ static int lua_SetRegValue(lua_State *L)
 		return 1;
 	}
 
-	DWORD type = 0;
-	DWORD length = 0;
+	uint32_t type = 0;
+	uint32_t length = 0;
 	uint8_t* value = nullptr;
 	switch (lua_type(L, 4))
 	{
@@ -275,13 +274,13 @@ static int lua_SetRegValue(lua_State *L)
 		if (lua_isinteger(L, 4) && lua_tointeger(L, 4) < UINT32_MAX)
 		{
 			type = REG_DWORD;
-			length = sizeof(DWORD);
+			length = sizeof(uint32_t);
 			value = (uint8_t*)lua_tointeger(L, 4);
 		}
 		else
 		{
 			type = REG_QWORD;
-			length = sizeof(DWORD) * 2;
+			length = sizeof(uint32_t) * 2;
 			lua_Number num = lua_tonumber(L, 4);
 			value = (uint8_t*)&num;
 		}
@@ -456,7 +455,7 @@ static int global_PostMessage(lua_State *L)
 
 static int global_PostThreadMessage(lua_State *L) 
 {
-	DWORD tid = (DWORD)luaL_checknumber(L, 1);
+	uint32_t tid = (uint32_t)luaL_checknumber(L, 1);
 	UINT msg = (UINT)luaL_checknumber(L, 2);
 	WPARAM wparam = (WPARAM)luaL_checknumber(L, 3);
 	LPARAM lparam = (LPARAM)luaL_checknumber(L, 4);
@@ -533,7 +532,7 @@ static int global_DispatchMessage(lua_State *L)
 	msg.message = (UINT)luaL_checknumber(L, 2);
 	msg.wParam = (WPARAM)luaL_checknumber(L, 3);
 	msg.lParam = (LPARAM)luaL_checknumber(L, 4);
-	msg.time = (DWORD)luaL_checknumber(L, 5);
+	msg.time = (uint32_t)luaL_checknumber(L, 5);
 	msg.pt.x = (LONG)luaL_checknumber(L, 6);
 	msg.pt.y = (LONG)luaL_checknumber(L, 7);
 
@@ -616,7 +615,7 @@ static int global_CreateEvent(lua_State *L)
 
 static int global_OpenEvent(lua_State *L) {
 	long h;
-	DWORD da = (DWORD)luaL_checknumber(L, 1);
+	uint32_t da = (uint32_t)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
 	const char *name = luaL_checkstring(L, 3);
 
@@ -676,7 +675,7 @@ static int global_CreateMutex(lua_State *L)
 
 static int global_OpenMutex(lua_State *L) 
 {
-	DWORD da = (DWORD)luaL_checknumber(L, 1);
+	uint32_t da = (uint32_t)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
 	const char *name = luaL_checkstring(L, 3);
 
@@ -718,7 +717,7 @@ static int global_CreateSemaphore(lua_State *L)
 
 static int global_OpenSemaphore(lua_State *L) 
 {
-	DWORD da = (DWORD)luaL_checknumber(L, 1);
+	uint32_t da = (uint32_t)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
 	const char *name = luaL_checkstring(L, 3);
 
@@ -751,7 +750,7 @@ static int global_CreateProcess(lua_State *L)
 	const char *an = luaL_optstring(L, 1, NULL);
 	const char *cl = luaL_optstring(L, 2, NULL);
 	BOOL ih = (BOOL)luaL_checknumber(L, 5);
-	DWORD cf = (DWORD)luaL_checknumber(L, 6);
+	uint32_t cf = (uint32_t)luaL_checknumber(L, 6);
 	const char *cd = lua_tostring(L, 8);
 
 	psa.nLength = sizeof(psa);
@@ -791,28 +790,28 @@ static int global_CreateProcess(lua_State *L)
 				si.lpTitle = mir_strdup(luaL_checkstring(L, -1));
 			}
 			else if (!mir_strcmp(key, "dwX")) {
-				si.dwX = (DWORD)luaL_checknumber(L, -1);
+				si.dwX = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwY")) {
-				si.dwY = (DWORD)luaL_checknumber(L, -1);
+				si.dwY = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwXSize")) {
-				si.dwXSize = (DWORD)luaL_checknumber(L, -1);
+				si.dwXSize = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwYSize")) {
-				si.dwYSize = (DWORD)luaL_checknumber(L, -1);
+				si.dwYSize = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwXCountChars")) {
-				si.dwXCountChars = (DWORD)luaL_checknumber(L, -1);
+				si.dwXCountChars = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwYCountChars")) {
-				si.dwYCountChars = (DWORD)luaL_checknumber(L, -1);
+				si.dwYCountChars = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwFillAttribute")) {
-				si.dwFillAttribute = (DWORD)luaL_checknumber(L, -1);
+				si.dwFillAttribute = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "dwFlags")) {
-				si.dwFlags = (DWORD)luaL_checknumber(L, -1);
+				si.dwFlags = (uint32_t)luaL_checknumber(L, -1);
 			}
 			else if (!mir_strcmp(key, "wShowWindow")) {
 				si.wShowWindow = (uint16_t)luaL_checknumber(L, -1);
@@ -907,7 +906,7 @@ static int global_GetTempFileName(lua_State *L)
 static int global_GetTempPath(lua_State *L) 
 {
 	char tfn[MAX_PATH];
-	DWORD rc = GetTempPathA(MAX_PATH, tfn);
+	uint32_t rc = GetTempPathA(MAX_PATH, tfn);
 	lua_pushnumber(L, rc);
 	luaM_PushStringIf(L, tfn, rc);
 	return(2);
@@ -917,12 +916,12 @@ static int global_GetTempPath(lua_State *L)
 static int global_CreateNamedPipe(lua_State *L)
 {
 	LPCSTR lpName = luaL_checkstring(L, 1);
-	DWORD dwOpenMode = luaL_checknumber(L, 2);
-	DWORD dwPipeMode = luaL_checknumber(L, 3);
-	DWORD nMaxInstances = luaL_checknumber(L, 4);
-	DWORD nOutBufferSize = luaL_checknumber(L, 5);
-	DWORD nInBufferSize = luaL_checknumber(L, 6);
-	DWORD nDefaultTimeOut = luaL_checknumber(L, 7);
+	uint32_t dwOpenMode = luaL_checknumber(L, 2);
+	uint32_t dwPipeMode = luaL_checknumber(L, 3);
+	uint32_t nMaxInstances = luaL_checknumber(L, 4);
+	uint32_t nOutBufferSize = luaL_checknumber(L, 5);
+	uint32_t nInBufferSize = luaL_checknumber(L, 6);
+	uint32_t nDefaultTimeOut = luaL_checknumber(L, 7);
 	SECURITY_ATTRIBUTES sa = { sizeof(sa), nullptr, false };
 
 	HANDLE hPipe = CreateNamedPipeA(lpName, dwOpenMode, dwPipeMode, nMaxInstances, nOutBufferSize, nInBufferSize, nDefaultTimeOut, &sa);
@@ -957,10 +956,10 @@ static int global_CreateFile(lua_State *L)
 	SECURITY_ATTRIBUTES sa;
 	HANDLE hFile;
 	const char *name = luaL_checkstring(L, 1);
-	DWORD da = (DWORD)luaL_checknumber(L, 2);
-	DWORD sm = (DWORD)luaL_checknumber(L, 3);
-	DWORD cd = (DWORD)luaL_checknumber(L, 5);
-	DWORD fa = (DWORD)luaL_checknumber(L, 6);
+	uint32_t da = (uint32_t)luaL_checknumber(L, 2);
+	uint32_t sm = (uint32_t)luaL_checknumber(L, 3);
+	uint32_t cd = (uint32_t)luaL_checknumber(L, 5);
+	uint32_t fa = (uint32_t)luaL_checknumber(L, 6);
 	intptr_t th = 0;
 
 	sa.nLength = sizeof(sa);
@@ -1003,7 +1002,7 @@ static int global_ReadFile(lua_State *L) {
 	char *buf;
 	BOOL brc = FALSE;
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	DWORD btoread = (DWORD)luaL_checknumber(L, 2);
+	uint32_t btoread = (uint32_t)luaL_checknumber(L, 2);
 
 	buf = (char*)mir_alloc(btoread);
 	if (buf != nullptr) 
@@ -1040,7 +1039,7 @@ static int global_ReadFile(lua_State *L) {
 
 static int global_WriteFile(lua_State *L) {
 	DWORD bwrite;
-	DWORD btowrite;
+	uint32_t btowrite;
 	BOOL brc;
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
 	const char *buf = luaL_checklstring(L, 2, (size_t*)&btowrite);
@@ -1073,7 +1072,7 @@ static int global_CopyFile(lua_State *L)
 
 static int global_WaitForSingleObject(lua_State *L) {
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	DWORD t = (DWORD)luaL_checknumber(L, 2);
+	uint32_t t = (uint32_t)luaL_checknumber(L, 2);
 
 	lua_pushnumber(L, WaitForSingleObject(h, t));
 	return(1);
@@ -1082,9 +1081,9 @@ static int global_WaitForSingleObject(lua_State *L) {
 static int global_WaitForMultipleObjects(lua_State *L) 
 {
 	HANDLE ha[64];
-	DWORD c = 0;
+	uint32_t c = 0;
 	BOOL wa = (BOOL)luaL_checknumber(L, 2);
-	DWORD t = (DWORD)luaL_checknumber(L, 3);
+	uint32_t t = (uint32_t)luaL_checknumber(L, 3);
 
 	if (lua_istable(L, 1)) 
 	{
@@ -1104,7 +1103,7 @@ static int global_WaitForMultipleObjects(lua_State *L)
 
 static int global_TerminateProcess(lua_State *L) {
 	HANDLE h = (HANDLE)(intptr_t)luaL_checknumber(L, 1);
-	DWORD ec = (DWORD)luaL_checknumber(L, 2);
+	uint32_t ec = (uint32_t)luaL_checknumber(L, 2);
 
 	lua_pushboolean(L, TerminateProcess(h, ec));
 	return(1);
@@ -1141,7 +1140,7 @@ static int global_RegQueryValueEx(lua_State *L)
 	long rv;
 	HKEY hsk;
 	DWORD type;
-	DWORD dwdata;
+	uint32_t dwdata;
 	DWORD len;
 	char *szdata;
 	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
@@ -1196,21 +1195,21 @@ static int global_RegQueryValueEx(lua_State *L)
 static int global_RegSetValueEx(lua_State *L) {
 	long rv;
 	HKEY hsk;
-	DWORD type;
-	DWORD dwdata;
-	DWORD len = 0;
+	uint32_t type;
+	uint32_t dwdata;
+	uint32_t len = 0;
 	char *szdata = nullptr;
 	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
 	const char *valuename = luaL_checkstring(L, 3);
 
 	if (lua_isnumber(L, 4)) {
-		dwdata = (DWORD)luaL_checknumber(L, 4);
-		type = (DWORD)luaL_optnumber(L, 5, REG_DWORD);
+		dwdata = (uint32_t)luaL_checknumber(L, 4);
+		type = (uint32_t)luaL_optnumber(L, 5, REG_DWORD);
 	}
 	else {
 		szdata = (char *)luaL_checklstring(L, 4, (size_t*)&len);
-		type = (DWORD)luaL_optnumber(L, 5, REG_SZ);
+		type = (uint32_t)luaL_optnumber(L, 5, REG_SZ);
 	}
 
 	rv = RegCreateKeyExA(hkey, subkey, 0, "", REG_OPTION_NON_VOLATILE, KEY_WRITE, nullptr, &hsk, nullptr);
@@ -1260,7 +1259,7 @@ static int global_RegEnumKeyEx(lua_State *L)
 	long rv;
 	HKEY hsk;
 	DWORD len;
-	DWORD index;
+	uint32_t index;
 	char name[256];
 	FILETIME ft;
 	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
@@ -1292,7 +1291,7 @@ static int global_RegEnumValue(lua_State *L) {
 	long rv;
 	HKEY hsk;
 	DWORD len;
-	DWORD index;
+	uint32_t index;
 	char name[256];
 	HKEY hkey = (HKEY)(intptr_t)luaL_checknumber(L, 1);
 	const char *subkey = luaL_checkstring(L, 2);
@@ -1321,7 +1320,7 @@ static int global_RegEnumValue(lua_State *L) {
 
 static int global_SetCurrentDirectory(lua_State *L) 
 {
-	DWORD le;
+	uint32_t le;
 	BOOL ok;
 	const char *pname = luaL_checkstring(L, 1);
 
@@ -1348,7 +1347,7 @@ static int global_SHDeleteKey(lua_State *L) {
 
 static int global_Sleep(lua_State *L) 
 {
-	DWORD tosleep = (DWORD)luaL_checknumber(L, 1);
+	uint32_t tosleep = (uint32_t)luaL_checknumber(L, 1);
 	Sleep(tosleep);
 	return 0;
 }
@@ -1493,8 +1492,8 @@ static int global_SHGetSpecialFolderLocation(lua_State *L)
 }
 
 static int global_GetFullPathName(lua_State *L) {
-	DWORD le;
-	DWORD rc;
+	uint32_t le;
+	uint32_t rc;
 	char fpname[MAX_PATH];
 	char *fpart;
 	const char *pname = luaL_checkstring(L, 1);
@@ -1543,9 +1542,9 @@ static int global_IsUserAdmin(lua_State *L)
 
 static int global_OpenProcess(lua_State *L) {
 	HANDLE h;
-	DWORD da = (DWORD)luaL_checknumber(L, 1);
+	uint32_t da = (uint32_t)luaL_checknumber(L, 1);
 	BOOL ih = (BOOL)luaL_checknumber(L, 2);
-	DWORD pid = (DWORD)luaL_checknumber(L, 3);
+	uint32_t pid = (uint32_t)luaL_checknumber(L, 3);
 
 	h = OpenProcess(da, ih, pid);
 	if (h != nullptr)
@@ -1559,7 +1558,7 @@ static int global_OpenProcess(lua_State *L) {
 static int global_IsRunning(lua_State *L) {
 	HANDLE h;
 	BOOL b = FALSE;
-	DWORD pid = (DWORD)luaL_checknumber(L, 1);
+	uint32_t pid = (uint32_t)luaL_checknumber(L, 1);
 
 	h = OpenProcess(SYNCHRONIZE, FALSE, pid);
 	if (h != nullptr) {
@@ -1672,7 +1671,7 @@ static int global_ControlService(lua_State *L)
 	SERVICE_STATUS ss;
 	BOOL brc;
 	SC_HANDLE h = (SC_HANDLE)lua_touserdata(L, 1);
-	DWORD c = (DWORD)luaL_checknumber(L, 2);
+	uint32_t c = (uint32_t)luaL_checknumber(L, 2);
 
 	brc = ControlService(h, c, &ss);
 	lua_pushboolean(L, brc);
@@ -1698,7 +1697,7 @@ static int global_StartService(lua_State *L)
 static int global_mciSendString(lua_State *L)
 {
 	const char *cmd = luaL_checkstring(L, 1);  // only one string parameter is used
-	DWORD lrc = mciSendStringA(cmd, nullptr, 0, nullptr);
+	uint32_t lrc = mciSendStringA(cmd, nullptr, 0, nullptr);
 	lua_pushnumber(L, lrc);
 	return(1);
 }
@@ -1712,8 +1711,8 @@ static int global_MessageBeep(lua_State *L)
 
 static int global_Beep(lua_State *L)
 {
-	const DWORD dwFreq = luaL_checkinteger(L, 1);
-	const DWORD dwDuration = luaL_checkinteger(L, 2);
+	const uint32_t dwFreq = luaL_checkinteger(L, 1);
+	const uint32_t dwDuration = luaL_checkinteger(L, 2);
 	lua_pushboolean(L, Beep(dwFreq, dwDuration));
 	return 1;
 }
@@ -1733,7 +1732,7 @@ static int global_CoUninitialize(lua_State *)
 
 static int global_GetCurrentProcessId(lua_State *L)
 {
-	DWORD pid = GetCurrentProcessId();
+	uint32_t pid = GetCurrentProcessId();
 	lua_pushinteger(L, pid);
 	return 1;
 }

@@ -6,8 +6,8 @@ typedef struct MailBrowserWinParam
 #define YAMN_MAILBROWSERVERSION	1
 	HANDLE ThreadRunningEV;
 	CAccount *account;
-	DWORD nflags;			//flags YAMN_ACC_??? when new mails
-	DWORD nnflags;			//flags YAMN_ACC_??? when no new mails
+	uint32_t nflags;			//flags YAMN_ACC_??? when new mails
+	uint32_t nnflags;			//flags YAMN_ACC_??? when no new mails
 	void *Param;
 } YAMN_MAILBROWSERPARAM,*PYAMN_MAILBROWSERPARAM;
 
@@ -23,7 +23,7 @@ typedef struct NoNewMailParam
 #define YAMN_NONEWMAILVERSION	1
 	HANDLE ThreadRunningEV;
 	CAccount *account;
-	DWORD flags;
+	uint32_t flags;
 	void *Param;
 } YAMN_NONEWMAILPARAM,*PYAMN_NONEWMAILPARAM;
 

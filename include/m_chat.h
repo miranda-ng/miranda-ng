@@ -367,10 +367,10 @@ struct GCEVENT
 	MAllCStrings pszUserInfo;      //
 
 	BOOL         bIsMe;            // Is this event from the Miranda user?
-	DWORD        dwFlags;          // event flags: GCEF_*
+	uint32_t     dwFlags;          // event flags: GCEF_*
 
 	INT_PTR      dwItemData;       // User specified data.
-	DWORD        time;             // Timestamp of the event
+	uint32_t     time;             // Timestamp of the event
 };
 
 EXTERN_C MIR_APP_DLL(int) Chat_Event(GCEVENT*);
@@ -442,7 +442,7 @@ EXTERN_C MIR_APP_DLL(int) Chat_Terminate(const char *szModule, const wchar_t *ws
 // The GC_INFO structure
 struct GC_INFO
 {
-	DWORD     Flags;        // use a combination of the above flags
+	uint32_t  Flags;        // use a combination of the above flags
 	int       iItem;        // session type (GCW_*)
 	int       iType;        // session type (GCW_*)
 	LPCSTR    pszModule;    // the module name as registered in MS_GC_REGISTER
@@ -522,7 +522,7 @@ struct GCHOOK
 // contains info on a menuitem to be added
 struct gc_item {
 	wchar_t *pszDesc;   // Textual description of the menu item to add
-	DWORD    dwID;      // when/if the user selects this menu item this
+	uint32_t dwID;      // when/if the user selects this menu item this
 							  // value will be returned via the above hook, GC_USER_LOGMENU
 						 	  // or GC_USER_NICKLISTMENU. Must not be 0 and must be unique.
 	int      uType;     // What kind of menu item is it? Use MENU_* flags above

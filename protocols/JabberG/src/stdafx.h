@@ -367,7 +367,7 @@ struct ThreadData
 	bool     bIsReg;
 	bool     reg_done, bIsSessionAvailable;
 	bool     bBookmarksLoaded;
-	DWORD	   dwLoginRqs;
+	uint32_t	   dwLoginRqs;
 
 	// connection & login data
 	JABBER_CONN_DATA conn;

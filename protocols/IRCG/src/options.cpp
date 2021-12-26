@@ -48,7 +48,7 @@ void CIrcProto::ReadSettings(TDbSetting *sets, int count)
 			*(uint16_t*)ptr = getWord(p->name, p->defValue);
 			break;
 		case DBVT_DWORD:
-			*(DWORD*)ptr = getDword(p->name, p->defValue);
+			*(uint32_t*)ptr = getDword(p->name, p->defValue);
 			break;
 		case DBVT_ASCIIZ:
 			if (!getString(p->name, &dbv)) {
@@ -101,7 +101,7 @@ void CIrcProto::WriteSettings(TDbSetting *sets, int count)
 		switch (p->type) {
 		case DBVT_BYTE:   setByte(p->name, *(uint8_t*)ptr);       break;
 		case DBVT_WORD:   setWord(p->name, *(uint16_t*)ptr);       break;
-		case DBVT_DWORD:  setDword(p->name, *(DWORD*)ptr);     break;
+		case DBVT_DWORD:  setDword(p->name, *(uint32_t*)ptr);     break;
 
 		case DBVT_ASCIIZ:
 			if (p->size == -1)

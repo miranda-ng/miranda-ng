@@ -32,7 +32,7 @@ static void sttSetAllContactIcons(HWND hwndList)
 {
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
-		DWORD dwMode = g_plugin.getByte(hContact, "ShowMode", 0);
+		uint32_t dwMode = g_plugin.getByte(hContact, "ShowMode", 0);
 		for (int i = 0; i < 4 /*_countof(sttIcons)*/; ++i)
 			// hIml element [0]    = SKINICON_OTHER_SMALLDOT
 			// hIml element [1..5] = IcoLib_GetIcon(....)   ~ old sttIcons
@@ -79,7 +79,7 @@ INT_PTR CALLBACK DlgProcContactOpts(HWND hwnd, UINT msg, WPARAM, LPARAM lParam)
 				NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 				if (nm->iColumn == -1) break;
 
-				DWORD hitFlags;
+				uint32_t hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwnd, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 				if (hItem == nullptr) break;
 				if (!(hitFlags&CLCHT_ONITEMEXTRA)) break;

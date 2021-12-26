@@ -451,7 +451,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 				DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, id, nullptr);
 
 				PROTORECVEVENT pre = {};
-				pre.timestamp = (DWORD)time(0);
+				pre.timestamp = (uint32_t)time(0);
 				pre.lParam = blob.size();
 				pre.szMessage = blob;
 				ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);

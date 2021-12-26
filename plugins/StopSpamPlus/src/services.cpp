@@ -31,7 +31,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto != nullptr) {
 				// Check if protocol uses server side lists
-				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+				uint32_t caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_SERVERCLIST) {
 					int status = Proto_GetStatus(szProto);
 					if (status == ID_STATUS_OFFLINE || IsStatusConnecting(status))

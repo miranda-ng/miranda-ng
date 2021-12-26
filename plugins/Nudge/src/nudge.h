@@ -42,7 +42,7 @@ struct CNudgeElement : public MZeroedObject
 	bool shakeChat;
 	bool enabled;
 	bool autoResend;
-	DWORD statusFlags;
+	uint32_t statusFlags;
 	int iProtoNumber;
 	HANDLE hEvent;
 

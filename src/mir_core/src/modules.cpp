@@ -46,7 +46,7 @@ struct THookToMainThreadItem
 
 struct TService
 {
-	DWORD nameHash;
+	uint32_t nameHash;
 	HINSTANCE hOwner;
 	union
 	{
@@ -76,7 +76,7 @@ TServiceToMainThreadItem;
 // other static variables
 static BOOL bServiceMode = FALSE;
 static mir_cs csHooks, csServices;
-static DWORD  mainThreadId;
+static uint32_t  mainThreadId;
 static int    sttHookId = 1;
 
 /////////////////////////////////////////////////////////////////////////////////////////

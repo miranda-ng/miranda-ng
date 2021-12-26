@@ -24,7 +24,7 @@ HANDLE hEventFilter = nullptr, hOptInitialise = nullptr, hSettingChanged = nullp
 BOOL gbDosServiceExist = 0;
 BOOL gbVarsServiceExist = 0;
 
-DWORD gbMaxQuestCount = 5;
+uint32_t gbMaxQuestCount = 5;
 BOOL gbInfTalkProtection = 0;
 BOOL gbAddPermanent = 0;
 BOOL gbHandleAuthReq = 1;

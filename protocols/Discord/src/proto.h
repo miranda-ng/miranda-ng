@@ -42,7 +42,7 @@ struct CDiscordRole : public MZeroedObject
 {
 	SnowFlake id;
 	COLORREF color;
-	DWORD permissions;
+	uint32_t permissions;
 	int position;
 	CMStringW wszName;
 };

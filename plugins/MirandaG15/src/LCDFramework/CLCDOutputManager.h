@@ -46,7 +46,7 @@ public:
 	CLCDConnection *GetLCDConnection();
 
 	// specifies the button repeat delay
-	void SetButtonRepeatDelay(DWORD dwDelay);
+	void SetButtonRepeatDelay(uint32_t dwDelay);
 
 	// starts a screen transition
 	void StartTransition(ETransitionType eTransition = TRANSITION_RANDOM, LPRECT rect = nullptr);
@@ -58,6 +58,7 @@ public:
 
 	// Called by the LCDManager to open a config dialog
 	static DWORD WINAPI configDialogCallback(IN int connection, IN const PVOID pContext);
+
 protected:
 	void InitializeGfxObject();
 	void DeinitializeGfxObject();
@@ -88,12 +89,12 @@ protected:
 private:
 	static CLCDOutputManager *m_pInstance;
 
-	DWORD  m_dwLastUpdate = 0;
-	DWORD  m_dwButtonRepeatDelay = 300;
+	uint32_t  m_dwLastUpdate = 0;
+	uint32_t  m_dwButtonRepeatDelay = 300;
 	bool   m_bInitialized = false;
 	bool  *m_pbButtonStates = nullptr;
-	DWORD *m_pdwButtonRepeatTimers = nullptr;
-	DWORD *m_pdwButtonRepeatStarts = nullptr;
+	uint32_t *m_pdwButtonRepeatTimers = nullptr;
+	uint32_t *m_pdwButtonRepeatStarts = nullptr;
 	tstring m_strAppletName;
 	CLCDConnection *m_pLcdConnection = nullptr;
 

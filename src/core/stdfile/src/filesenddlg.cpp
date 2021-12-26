@@ -73,7 +73,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 	FreeFilesMatrix(&dat->files);
 
 	// Get the file attributes of selection
-	DWORD dwFileAttributes = GetFileAttributes(buf);
+	uint32_t dwFileAttributes = GetFileAttributes(buf);
 	if (dwFileAttributes == INVALID_FILE_ATTRIBUTES)
 		return;
 

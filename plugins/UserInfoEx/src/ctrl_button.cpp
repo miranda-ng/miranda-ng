@@ -35,7 +35,7 @@ typedef struct TMBCtrl{
 	HBITMAP		hBitmap;
 	HFONT		hFont;			// font
 
-	DWORD		dwStyle;	
+	uint32_t		dwStyle;	
 	uint8_t		bFocus;	
 	
 	int			stateId;		// button state

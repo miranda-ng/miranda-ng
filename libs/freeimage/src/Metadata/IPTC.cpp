@@ -194,8 +194,8 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 		FreeImage_SetTagID(tag, TAG_KEYWORDS);
 		FreeImage_SetTagKey(tag, tag_lib.getTagFieldName(TagLib::IPTC, TAG_KEYWORDS, defaultKey));
 		FreeImage_SetTagDescription(tag, tag_lib.getTagDescription(TagLib::IPTC, TAG_KEYWORDS));
-		FreeImage_SetTagLength(tag, (DWORD)Keywords.length());
-		FreeImage_SetTagCount(tag, (DWORD)Keywords.length());
+		FreeImage_SetTagLength(tag, (uint32_t)Keywords.length());
+		FreeImage_SetTagCount(tag, (uint32_t)Keywords.length());
 		FreeImage_SetTagValue(tag, (char*)Keywords.c_str());
 		FreeImage_SetMetadata(FIMD_IPTC, dib, FreeImage_GetTagKey(tag), tag);
 	}
@@ -206,8 +206,8 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 		FreeImage_SetTagID(tag, TAG_SUPPLEMENTAL_CATEGORIES);
 		FreeImage_SetTagKey(tag, tag_lib.getTagFieldName(TagLib::IPTC, TAG_SUPPLEMENTAL_CATEGORIES, defaultKey));
 		FreeImage_SetTagDescription(tag, tag_lib.getTagDescription(TagLib::IPTC, TAG_SUPPLEMENTAL_CATEGORIES));
-		FreeImage_SetTagLength(tag, (DWORD)SupplementalCategory.length());
-		FreeImage_SetTagCount(tag, (DWORD)SupplementalCategory.length());
+		FreeImage_SetTagLength(tag, (uint32_t)SupplementalCategory.length());
+		FreeImage_SetTagCount(tag, (uint32_t)SupplementalCategory.length());
 		FreeImage_SetTagValue(tag, (char*)SupplementalCategory.c_str());
 		FreeImage_SetMetadata(FIMD_IPTC, dib, FreeImage_GetTagKey(tag), tag);
 	}
@@ -222,7 +222,7 @@ read_iptc_profile(FIBITMAP *dib, const uint8_t *dataptr, unsigned int datalen) {
 // --------------------------------------------------------------------------
 
 static uint8_t* 
-append_iptc_tag(uint8_t *profile, unsigned *profile_size, uint16_t id, DWORD length, const void *value) {
+append_iptc_tag(uint8_t *profile, unsigned *profile_size, uint16_t id, uint32_t length, const void *value) {
 	uint8_t *buffer = NULL;
 
 	// calculate the new buffer size
@@ -303,7 +303,7 @@ write_iptc_profile(FIBITMAP *dib, uint8_t **profile, unsigned *profile_size) {
 						// add as many tags as there are comma separated strings
 						for(int i = 0; i < (int)output.size(); i++) {
 							std::string& tag_value = output[i];
-							buffer = append_iptc_tag(buffer, &buffer_size, tag_id, (DWORD)tag_value.length(), tag_value.c_str());
+							buffer = append_iptc_tag(buffer, &buffer_size, tag_id, (uint32_t)tag_value.length(), tag_value.c_str());
 						}
 
 					}
@@ -311,14 +311,14 @@ write_iptc_profile(FIBITMAP *dib, uint8_t **profile, unsigned *profile_size) {
 
 				case TAG_URGENCY:
 					if(FreeImage_GetTagType(tag) == FIDT_ASCII) {
-						DWORD length = 1;	// keep the first octet only
+						uint32_t length = 1;	// keep the first octet only
 						buffer = append_iptc_tag(buffer, &buffer_size, tag_id, length, FreeImage_GetTagValue(tag));
 					}
 					break;
 
 				default:
 					if(FreeImage_GetTagType(tag) == FIDT_ASCII) {
-						DWORD length = FreeImage_GetTagLength(tag);	
+						uint32_t length = FreeImage_GetTagLength(tag);	
 						buffer = append_iptc_tag(buffer, &buffer_size, tag_id, length, FreeImage_GetTagValue(tag));
 					}					
 					break;

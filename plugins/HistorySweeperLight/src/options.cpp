@@ -205,7 +205,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 				break;
 
 			case NM_CLICK:
-				HANDLE hItem; DWORD hitFlags; int iImage;
+				HANDLE hItem; uint32_t hitFlags; int iImage;
 
 				if (nmc->iColumn == -1)
 					break;

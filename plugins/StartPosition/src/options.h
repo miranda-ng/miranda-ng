@@ -37,10 +37,10 @@ struct ClistOptions
     CMOption<uint8_t> isDocked;
     CMOption<uint8_t> state;
 
-    CMOption<DWORD> x;
-    CMOption<DWORD> y;
-    CMOption<DWORD> width;
-    CMOption<DWORD> height;
+    CMOption<uint32_t> x;
+    CMOption<uint32_t> y;
+    CMOption<uint32_t> width;
+    CMOption<uint32_t> height;
 
     ClistOptions() :
         isDocked(CLIST_MODULE_NAME, "Docked", 0),
@@ -62,10 +62,10 @@ struct StartPositionOptions
     CMOption<uint8_t> setClistStartState;
     CMOption<uint8_t> clistState;
 
-    CMOption<DWORD> pixelsFromTop;
-    CMOption<DWORD> pixelsFromBottom;
-    CMOption<DWORD> pixelsFromSide;
-    CMOption<DWORD> clistWidth;
+    CMOption<uint32_t> pixelsFromTop;
+    CMOption<uint32_t> pixelsFromBottom;
+    CMOption<uint32_t> pixelsFromSide;
+    CMOption<uint32_t> clistWidth;
 
     StartPositionOptions();
 };

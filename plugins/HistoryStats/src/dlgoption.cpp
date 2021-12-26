@@ -110,7 +110,7 @@ void DlgOption::onWMInitDialog()
 		array_each_(i, pageBand)
 		{
 			HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_plugin.getInst(), MAKEINTRESOURCE(pageBand[i].iconId), IMAGE_ICON, 32, 32, 0));
-			DWORD dwFlags = 0;
+			uint32_t dwFlags = 0;
 
 			dwFlags |= pageBand[i].bRight ? BandCtrl::BCF_RIGHT : 0;
 			dwFlags |= (i == m_nCurPage) ? BandCtrl::BCF_CHECKED : 0;

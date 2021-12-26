@@ -27,7 +27,7 @@ simple UTC offsets.
 
 #include "../stdafx.h"
 
-typedef DWORD 	(WINAPI *pfnGetDynamicTimeZoneInformation_t)(DYNAMIC_TIME_ZONE_INFORMATION *pdtzi);
+typedef uint32_t 	(WINAPI *pfnGetDynamicTimeZoneInformation_t)(DYNAMIC_TIME_ZONE_INFORMATION *pdtzi);
 static pfnGetDynamicTimeZoneInformation_t pfnGetDynamicTimeZoneInformation;
 
 struct REG_TZI_FORMAT
@@ -58,7 +58,7 @@ struct MIM_TIMEZONE
 
 struct TZ_INT_INFO
 {
-	DWORD timestamp;  // last time updated
+	uint32_t timestamp;  // last time updated
 	MIM_TIMEZONE myTZ;   // set to my own timezone
 };
 
@@ -71,7 +71,7 @@ static LIST<MIM_TIMEZONE>     g_timezonesBias(55, MIM_TIMEZONE::compareBias);
 void UnixTimeToFileTime(mir_time ts, LPFILETIME pft)
 {
 	unsigned __int64 ll = UInt32x32To64(ts, 10000000) + 116444736000000000i64;
-	pft->dwLowDateTime = (DWORD)ll;
+	pft->dwLowDateTime = (uint32_t)ll;
 	pft->dwHighDateTime = ll >> 32;
 }
 
@@ -89,7 +89,7 @@ void FormatTime(const SYSTEMTIME *st, const wchar_t *szFormat, wchar_t *szDest, 
 	CMStringW tszTemp;
 
 	for (const wchar_t* pFormat = szFormat; *pFormat; ++pFormat) {
-		DWORD fmt = 0;
+		uint32_t fmt = 0;
 		bool date = false, iso = false;
 		switch (*pFormat) {
 		case 't':
@@ -211,7 +211,7 @@ static bool IsSameTime(MIM_TIMEZONE *tz)
 	return st.wHour == stl.wHour && st.wMinute == stl.wMinute;
 }
 
-MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags)
+MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, uint32_t dwFlags)
 {
 	if (tszName == nullptr)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
@@ -232,7 +232,7 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, DWORD dwFlags)
 	return tz;
 }
 
-MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, DWORD dwFlags)
+MIR_CORE_DLL(HANDLE) TimeZone_CreateByContact(MCONTACT hContact, LPCSTR szModule, uint32_t dwFlags)
 {
 	if (hContact == NULL && szModule == nullptr)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
@@ -300,7 +300,7 @@ MIR_CORE_DLL(void) TimeZone_StoreByContact(MCONTACT hContact, LPCSTR szModule, H
 	}
 }
 
-MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, uint32_t dwFlags)
 {
 	MIM_TIMEZONE *tz = (MIM_TIMEZONE*)hTZ;
 	if (tz == nullptr && (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)))
@@ -317,7 +317,7 @@ MIR_CORE_DLL(int) TimeZone_PrintDateTime(HANDLE hTZ, LPCTSTR szFormat, LPTSTR sz
 	return 0;
 }
 
-MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time ts, SYSTEMTIME *dest, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time ts, SYSTEMTIME *dest, uint32_t dwFlags)
 {
 	if (dest == nullptr)
 		return 2;
@@ -345,7 +345,7 @@ MIR_CORE_DLL(int) TimeZone_GetSystemTime(HANDLE hTZ, mir_time ts, SYSTEMTIME *de
 	return 0;
 }
 
-MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_PrintTimeStamp(HANDLE hTZ, mir_time ts, LPCTSTR szFormat, LPTSTR szDest, size_t cbDest, uint32_t dwFlags)
 {
 	SYSTEMTIME st;
 	if (!TimeZone_GetSystemTime(hTZ, ts, &st, dwFlags))
@@ -384,7 +384,7 @@ struct ListMessages
 static const ListMessages lbMessages = { LB_ADDSTRING, LB_GETCURSEL, LB_SETCURSEL, LB_GETITEMDATA, LB_SETITEMDATA };
 static const ListMessages cbMessages = { CB_ADDSTRING, CB_GETCURSEL, CB_SETCURSEL, CB_GETITEMDATA, CB_SETITEMDATA };
 
-static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
+static const ListMessages* GetListMessages(HWND hWnd, uint32_t dwFlags)
 {
 	if (hWnd == nullptr)
 		return nullptr;
@@ -407,7 +407,7 @@ static const ListMessages* GetListMessages(HWND hWnd, DWORD dwFlags)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags)
 {
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
 	if (lstMsg == nullptr)
@@ -444,7 +444,7 @@ MIR_CORE_DLL(int) TimeZone_SelectListItem(MCONTACT hContact, LPCSTR szModule, HW
 	return iSelection;
 }
 
-MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
+MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags)
 {
 	const ListMessages *lstMsg = GetListMessages(hWnd, dwFlags);
 	if (lstMsg == nullptr)
@@ -460,7 +460,7 @@ MIR_CORE_DLL(int) TimeZone_PrepareList(MCONTACT hContact, LPCSTR szModule, HWND 
 	return TimeZone_SelectListItem(hContact, szModule, hWnd, dwFlags);
 }
 
-MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, DWORD dwFlags)
+MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, HWND hWnd, uint32_t dwFlags)
 {
 	if (szModule == nullptr) szModule = "UserInfo";
 
@@ -478,7 +478,7 @@ MIR_CORE_DLL(void) TimeZone_StoreListResult(MCONTACT hContact, LPCSTR szModule, 
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(DWORD) TimeZone_ToLocal(DWORD timeVal)
+MIR_CORE_DLL(uint32_t) TimeZone_ToLocal(uint32_t timeVal)
 {
 	return TimeZone_UtcToLocal(nullptr, (mir_time)timeVal);
 }
@@ -499,7 +499,7 @@ MIR_CORE_DLL(wchar_t*) TimeZone_ToStringW(mir_time timeVal, const wchar_t *wszFo
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void GetLocalizedString(HKEY hSubKey, const wchar_t *szName, wchar_t *szBuf, DWORD cbLen)
+void GetLocalizedString(HKEY hSubKey, const wchar_t *szName, wchar_t *szBuf, uint32_t cbLen)
 {
 	DWORD dwLength = cbLen * sizeof(wchar_t);
 	RegQueryValueEx(hSubKey, szName, nullptr, nullptr, (unsigned char *)szBuf, &dwLength);
@@ -549,7 +549,7 @@ void InitTimeZones(void)
 		pfnGetDynamicTimeZoneInformation = (pfnGetDynamicTimeZoneInformation_t)GetProcAddress(GetModuleHandle(L"kernel32"), "GetDynamicTimeZoneInformation");
 
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, tszKey, 0, KEY_ENUMERATE_SUB_KEYS, &hKey)) {
-		DWORD	dwIndex = 0;
+		uint32_t	dwIndex = 0;
 		HKEY	hSubKey;
 		wchar_t	tszName[MIM_TZ_NAMELEN];
 

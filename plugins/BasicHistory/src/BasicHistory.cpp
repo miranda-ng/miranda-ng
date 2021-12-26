@@ -187,7 +187,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	wchar_t ftpExe[MAX_PATH];
 	if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PROGRAM_FILES, nullptr, SHGFP_TYPE_CURRENT, ftpExe))) {
 		wcscat_s(ftpExe, L"\\WinSCP\\WinSCP.exe");
-		DWORD atr = GetFileAttributes(ftpExe);
+		uint32_t atr = GetFileAttributes(ftpExe);
 		if (atr == INVALID_FILE_ATTRIBUTES || atr & FILE_ATTRIBUTE_DIRECTORY) {
 			#ifdef _WIN64
 			if (SUCCEEDED(SHGetFolderPath(nullptr, CSIDL_PROGRAM_FILESX86, nullptr, SHGFP_TYPE_CURRENT, ftpExe))) {

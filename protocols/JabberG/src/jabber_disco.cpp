@@ -43,11 +43,11 @@ enum
 
 #define REFRESH_TIMEOUT		500
 #define REFRESH_TIMER		1607
-static DWORD sttLastRefresh = 0;
+static uint32_t sttLastRefresh = 0;
 
 #define AUTODISCO_TIMEOUT	500
 #define AUTODISCO_TIMER		1608
-static DWORD sttLastAutoDisco = 0;
+static uint32_t sttLastAutoDisco = 0;
 
 enum { SD_OVERLAY_NONE, SD_OVERLAY_FAIL, SD_OVERLAY_PROGRESS, SD_OVERLAY_REGISTERED };
 
@@ -509,7 +509,7 @@ struct
 	char *feature;
 	wchar_t *title;
 	int action;
-	DWORD flags;
+	uint32_t flags;
 }
 static items[] =
 {

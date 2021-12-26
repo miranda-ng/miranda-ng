@@ -413,7 +413,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 			::GetTextExtentPoint32(hdc, L"A", 1, &sMask);
 			::GetTextExtentPoint32(hdc, szStatusMsg, (int)mir_wstrlen(szStatusMsg), &sStatusMsg);
 
-			DWORD dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
+			uint32_t dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
 			if ((m_szNick.cx + sStatusMsg.cx + 6) < (rcItem.right - rcItem.left) || (rcItem.bottom - rcItem.top) < (2 * sMask.cy)) {
 				dtFlagsNick |= DT_VCENTER;
 				mapRealRect(rcItem, m_rcNick, m_szNick);
@@ -433,7 +433,7 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT &rcItem)
 
 			rcItem.left += (m_szNick.cx + 10);
 
-			DWORD dtFlags;
+			uint32_t dtFlags;
 			if (!(dtFlagsNick & DT_VCENTER))
 				dtFlags = DT_WORDBREAK | DT_END_ELLIPSIS | DT_NOPREFIX;
 			else
@@ -517,7 +517,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 void CInfoPanel::RenderIPStatus(const HDC hdc, RECT& rcItem)
 {
 	SIZE sProto = { 0 }, sStatus = { 0 }, sTime = { 0 };
-	DWORD oldPanelStatusCX = m_dat->m_panelStatusCX;
+	uint32_t oldPanelStatusCX = m_dat->m_panelStatusCX;
 
 	if (m_dat->m_wszStatus[0])
 		GetTextExtentPoint32(hdc, m_dat->m_wszStatus, (int)mir_wstrlen(m_dat->m_wszStatus), &sStatus);
@@ -819,7 +819,7 @@ void CInfoPanel::trackMouse(POINT &pt)
 
 	int result = hitTest(pt);
 
-	DWORD dwOldHovering = m_hoverFlags;
+	uint32_t dwOldHovering = m_hoverFlags;
 	m_hoverFlags = 0;
 
 	switch (result) {

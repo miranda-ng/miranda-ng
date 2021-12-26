@@ -40,7 +40,7 @@ protected:
 	// Called to draw the specified entry
 	void DrawEntry(CLCDGfx *pGfx, CEventLogEntry *pEntry, bool bSelected);
 
-	DWORD m_dwLastScroll = 0;
+	uint32_t m_dwLastScroll = 0;
 };
 
 #endif

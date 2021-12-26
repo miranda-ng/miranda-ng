@@ -39,7 +39,7 @@ struct BinaryFileHeader
 
 struct BinaryFileMessageHeader
 {
-	DWORD timestamp;
+	uint32_t timestamp;
 	uint16_t eventType;
 	uint16_t flags;
 };

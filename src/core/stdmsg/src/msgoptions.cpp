@@ -128,7 +128,7 @@ void RegisterSRMMFonts(void)
 
 struct CheckBoxValues_t
 {
-	DWORD  style;
+	uint32_t  style;
 	wchar_t* szDescr;
 }
 statusValues[] =
@@ -153,7 +153,7 @@ class COptionMainDlg : public CDlgBase
 
 	CCtrlTreeView tree;
 
-	void FillCheckBoxTree(DWORD style)
+	void FillCheckBoxTree(uint32_t style)
 	{
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
@@ -168,9 +168,9 @@ class COptionMainDlg : public CDlgBase
 		}
 	}
 
-	DWORD MakeCheckBoxTreeFlags()
+	uint32_t MakeCheckBoxTreeFlags()
 	{
-		DWORD flags = 0;
+		uint32_t flags = 0;
 
 		TVITEMEX tvi;
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_IMAGE;
@@ -242,7 +242,7 @@ public:
 	{
 		FillCheckBoxTree(g_dat.popupFlags);
 
-		DWORD msgTimeout = g_dat.msgTimeout;
+		uint32_t msgTimeout = g_dat.msgTimeout;
 		edtSecs.SetInt((msgTimeout >= 5000) ? msgTimeout / 1000 : 5);
 		
 		chkCascade.Enable(!g_dat.bSavePerContact);
@@ -254,7 +254,7 @@ public:
 	{
 		g_dat.popupFlags = MakeCheckBoxTreeFlags();
 
-		DWORD msgTimeout = edtSecs.GetInt() * 1000;
+		uint32_t msgTimeout = edtSecs.GetInt() * 1000;
 		if (msgTimeout < 5000)
 			msgTimeout = 5000;
 		g_dat.msgTimeout = msgTimeout;

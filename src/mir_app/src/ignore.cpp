@@ -28,13 +28,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static int masks[IGNOREEVENT_MAX] = { 0x0001, 0x0004, 0x0008, 0x0010, 0x0040 };
 
-static DWORD ignoreIdToPf1[IGNOREEVENT_MAX] = { PF1_IMRECV, PF1_FILERECV, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
-static DWORD ignoreIdToPf4[IGNOREEVENT_MAX] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, PF4_SUPPORTTYPING };
+static uint32_t ignoreIdToPf1[IGNOREEVENT_MAX] = { PF1_IMRECV, PF1_FILERECV, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF };
+static uint32_t ignoreIdToPf4[IGNOREEVENT_MAX] = { 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, PF4_SUPPORTTYPING };
 
-static DWORD GetMask(MCONTACT hContact)
+static uint32_t GetMask(MCONTACT hContact)
 {
-	DWORD mask = db_get_dw(hContact, "Ignore", "Mask1", (DWORD)-1);
-	if (mask == (DWORD)-1) {
+	uint32_t mask = db_get_dw(hContact, "Ignore", "Mask1", (uint32_t)-1);
+	if (mask == (uint32_t)-1) {
 		if (hContact == 0)
 			mask = 0;
 		else {
@@ -148,9 +148,9 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	}
 }
 
-static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD proto1Caps, DWORD proto4Caps)
+static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, uint32_t proto1Caps, uint32_t proto4Caps)
 {
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 	for (int i = 0; i < IGNOREEVENT_MAX; i++)
 		if ((ignoreIdToPf1[i] == 0xFFFFFFFF && ignoreIdToPf4[i] == 0xFFFFFFFF) || (proto1Caps & ignoreIdToPf1[i] || proto4Caps & ignoreIdToPf4[i]))
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, (mask & masks[i]) ? i + 3 : 0));
@@ -159,7 +159,7 @@ static void InitialiseItem(HWND hwndList, MCONTACT hContact, HANDLE hItem, DWORD
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX + 1, 2));
 }
 
-static void SaveItemValue(MCONTACT hContact, const char *pszSetting, DWORD dwValue)
+static void SaveItemValue(MCONTACT hContact, const char *pszSetting, uint32_t dwValue)
 {
 	db_set_dw(hContact, "Ignore", pszSetting, dwValue);
 
@@ -170,7 +170,7 @@ static void SaveItemValue(MCONTACT hContact, const char *pszSetting, DWORD dwVal
 
 static void SaveItemMask(HWND hwndList, MCONTACT hContact, HANDLE hItem, const char *pszSetting)
 {
-	DWORD mask = 0;
+	uint32_t mask = 0;
 	for (int i = 0; i < IGNOREEVENT_MAX; i++) {
 		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
 		if (iImage && iImage != EMPTY_EXTRA_ICON)
@@ -184,7 +184,7 @@ static void SetAllContactIcons(HWND hwndList)
 	for (auto &hContact : Contacts()) {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, hContact, 0);
 		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
-			DWORD proto1Caps, proto4Caps;
+			uint32_t proto1Caps, proto4Caps;
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto) {
 				proto1Caps = CallProtoServiceInt(0, szProto, PS_GETCAPS, PFLAGNUM_1, 0);
@@ -273,7 +273,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 				if (nm->iColumn == -1)
 					break;
 
-				DWORD hitFlags;
+				uint32_t hitFlags;
 				HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
 				if (hItem == nullptr || !(hitFlags & CLCHT_ONITEMEXTRA))
 					break;
@@ -344,7 +344,7 @@ static int IgnoreOptInitialise(WPARAM wParam, LPARAM)
 
 MIR_APP_DLL(bool) Ignore_IsIgnored(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 	if (idx < 1 || idx > IGNOREEVENT_MAX)
 		return 1;
 	return (masks[idx-1] & mask) != 0;
@@ -352,7 +352,7 @@ MIR_APP_DLL(bool) Ignore_IsIgnored(MCONTACT hContact, int idx)
 
 MIR_APP_DLL(int) Ignore_Ignore(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 	if ((idx < 1 || idx > IGNOREEVENT_MAX) && idx != IGNOREEVENT_ALL)
 		return 1;
 	
@@ -366,7 +366,7 @@ MIR_APP_DLL(int) Ignore_Ignore(MCONTACT hContact, int idx)
 
 MIR_APP_DLL(int) Ignore_Allow(MCONTACT hContact, int idx)
 {
-	DWORD mask = GetMask(hContact);
+	uint32_t mask = GetMask(hContact);
 	if ((idx < 1 || idx > IGNOREEVENT_MAX) && idx != IGNOREEVENT_ALL)
 		return 1;
 

@@ -47,7 +47,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	}
 
 	if ((newStatus == ID_STATUS_ONLINE || newStatus == ID_STATUS_FREECHAT) && oldStatus != ID_STATUS_ONLINE && oldStatus != ID_STATUS_FREECHAT) {
-		DWORD ticked = g_plugin.getDword(cws->szModule, GetTickCount());
+		uint32_t ticked = g_plugin.getDword(cws->szModule, GetTickCount());
 		// only play the sound (or show event) if this event happens at least 10 secs after the proto went from offline
 		if (GetTickCount() - ticked > (1000 * 10)) {
 			wchar_t tooltip[256];

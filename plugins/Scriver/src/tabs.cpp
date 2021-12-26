@@ -332,7 +332,7 @@ void ParentWindowData::SetContainerWindowStyle()
 {
 	ShowWindow(m_hwndStatus, (flags2.bShowStatusBar) ? SW_SHOW : SW_HIDE);
 
-	DWORD ws = GetWindowLongPtr(m_hwnd, GWL_STYLE) & ~(WS_CAPTION);
+	uint32_t ws = GetWindowLongPtr(m_hwnd, GWL_STYLE) & ~(WS_CAPTION);
 	if (flags2.bShowTitleBar)
 		ws |= WS_CAPTION;
 
@@ -393,7 +393,7 @@ void ParentWindowData::ToggleTitleBar()
 {
 	flags2.bShowTitleBar = !flags2.bShowTitleBar;
 
-	DWORD ws = GetWindowLongPtr(m_hwnd, GWL_STYLE) & ~(WS_CAPTION);
+	uint32_t ws = GetWindowLongPtr(m_hwnd, GWL_STYLE) & ~(WS_CAPTION);
 	if (flags2.bShowTitleBar)
 		ws |= WS_CAPTION;
 	SetWindowLongPtr(m_hwnd, GWL_STYLE, ws);
@@ -1030,7 +1030,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 
 	case WM_ACTIVATE:
 		if (LOWORD(wParam) == WA_INACTIVE) {
-			DWORD ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
+			uint32_t ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
 			ws |= dat->flags2.bUseTransparency ? WS_EX_LAYERED : 0;
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ws);
 			if (dat->flags2.bUseTransparency)
@@ -1048,7 +1048,7 @@ static INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wPara
 		}
 
 		{
-			DWORD ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
+			uint32_t ws = GetWindowLongPtr(hwndDlg, GWL_EXSTYLE) & ~WS_EX_LAYERED;
 			ws |= dat->flags2.bUseTransparency ? WS_EX_LAYERED : 0;
 			SetWindowLongPtr(hwndDlg, GWL_EXSTYLE, ws);
 		}

@@ -353,7 +353,7 @@ bool CJabberProto::FtIbbSend(int blocksize, filetransfer *ft)
 				return false;
 			}
 
-			ft->jibb->dwTransferredSize += (DWORD)numRead;
+			ft->jibb->dwTransferredSize += (uint32_t)numRead;
 			ft->std.currentFileProgress += numRead;
 			ft->std.totalProgress += numRead;
 			ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->std);
@@ -781,7 +781,7 @@ bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 	CMStringW wszFileName(FORMAT, L"%s\\%S%s", wszTempPath.get(), szHash, ProtoGetAvatarExtension(fileFormat));
 	if (_waccess(wszFileName, 0))
 		if (!CopyFileW(ft->std.szCurrentFile.w, wszFileName, FALSE)) {
-			DWORD dwError = GetLastError();
+			uint32_t dwError = GetLastError();
 			debugLogW(L"File <%s> cannot be copied to <%s>: error %d", ft->std.szCurrentFile.w, wszFileName.c_str(), dwError);
 			return false;
 		}

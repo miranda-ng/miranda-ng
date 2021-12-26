@@ -260,7 +260,7 @@ BOOL DlgShowAccountStatus(HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	HPOP3ACCOUNT ActualAccount = (HPOP3ACCOUNT)lParam;
 
-	if ((DWORD)wParam == M_SHOWACTUAL) {
+	if ((uint32_t)wParam == M_SHOWACTUAL) {
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read wait\n");
 		#endif
@@ -294,7 +294,7 @@ BOOL DlgShowAccountPopup(HWND hDlg, WPARAM wParam, LPARAM lParam)
 {
 	HPOP3ACCOUNT ActualAccount = (HPOP3ACCOUNT)lParam;
 
-	if ((DWORD)wParam == M_SHOWACTUAL) {
+	if ((uint32_t)wParam == M_SHOWACTUAL) {
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read wait\n");
 		#endif
@@ -342,7 +342,7 @@ BOOL DlgShowAccount(HWND hDlg, WPARAM wParam, LPARAM lParam)
 	HPOP3ACCOUNT ActualAccount = (HPOP3ACCOUNT)lParam;
 	int i;
 
-	if ((DWORD)wParam == M_SHOWACTUAL) {
+	if ((uint32_t)wParam == M_SHOWACTUAL) {
 		wchar_t accstatus[256];
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read wait\n");
@@ -641,7 +641,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_YAMN_CHANGETIME:
 		if ((HPOP3ACCOUNT)wParam == ActualAccount) {
 			wchar_t Text[256];
-			mir_snwprintf(Text, TranslateT("Time left to next check [s]: %d"), (DWORD)lParam);
+			mir_snwprintf(Text, TranslateT("Time left to next check [s]: %d"), (uint32_t)lParam);
 			SetDlgItemText(hDlg, IDC_STTIMELEFT, Text);
 		}
 		return TRUE;

@@ -319,7 +319,7 @@ int NetlibLog_Worker(NetlibUser *nlu, const char *pszMsg, int flags)
 	if (!bIsActive)
 		return 0;
 
-	DWORD dwOriginalLastError = GetLastError();
+	uint32_t dwOriginalLastError = GetLastError();
 
 	if ((nlu != nullptr && GetNetlibHandleType(nlu) != NLH_USER) || pszMsg == nullptr) {
 		SetLastError(ERROR_INVALID_PARAMETER);

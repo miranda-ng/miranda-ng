@@ -19,7 +19,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 struct CheckBoxValues_t
 {
-	DWORD style;
+	uint32_t style;
 	wchar_t *szDescr;
 }
 static const statusValues[] =
@@ -33,7 +33,7 @@ static const statusValues[] =
 	{ PF2_INVISIBLE, TEXT("Invisible") }
 };
 
-static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, DWORD style)
+static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *values, int nValues, uint32_t style)
 {
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = nullptr;
@@ -48,9 +48,9 @@ static void FillCheckBoxTree(HWND hwndTree, const struct CheckBoxValues_t *value
 	}
 }
 
-static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
+static uint32_t MakeCheckBoxTreeFlags(HWND hwndTree)
 {
-	DWORD flags = 0;
+	uint32_t flags = 0;
 
 	TVITEM tvi;
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_STATE;
@@ -66,7 +66,7 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 
 static INT_PTR CALLBACK DlgProcNoSoundOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
-	DWORD test;
+	uint32_t test;
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);

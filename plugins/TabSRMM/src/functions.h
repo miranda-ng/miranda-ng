@@ -50,7 +50,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
 int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
-void  TSAPI DeletePopupsForContact(MCONTACT hContact, DWORD dwMask);
+void  TSAPI DeletePopupsForContact(MCONTACT hContact, uint32_t dwMask);
 
 /*
  * gneric msgwindow functions(creation, container management etc.)
@@ -84,8 +84,8 @@ LRESULT CALLBACK HPPKFSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 /*
  * skinning engine
  */
-void  TSAPI DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor2,
-	uint8_t transparent, uint8_t FLG_GRADIENT, uint8_t FLG_CORNER, DWORD BORDERSTYLE, CImageItem *imageItem);
+void  TSAPI DrawAlpha(HDC hdcwnd, PRECT rc, uint32_t basecolor, int alpha, uint32_t basecolor2,
+	uint8_t transparent, uint8_t FLG_GRADIENT, uint8_t FLG_CORNER, uint32_t BORDERSTYLE, CImageItem *imageItem);
 // the cached message log icons
 
 void  TSAPI CacheMsgLogIcons();
@@ -116,7 +116,7 @@ int   _DebugPopup(MCONTACT hContact, const wchar_t *fmt, ...);
 const wchar_t* TSAPI GetThemeFileName(int iMode);
 int   TSAPI CheckThemeVersion(const wchar_t *szIniFilename);
 void  TSAPI WriteThemeToINI(const wchar_t *szIniFilename, CMsgDialog *dat);
-void  TSAPI ReadThemeFromINI(const wchar_t *szIniFilename, TContainerData *dat, int noAdvanced, DWORD dwFlags);
+void  TSAPI ReadThemeFromINI(const wchar_t *szIniFilename, TContainerData *dat, int noAdvanced, uint32_t dwFlags);
 
 // TypingNotify
 int   TN_ModuleInit();
@@ -124,6 +124,6 @@ int   TN_OptionsInitialize(WPARAM wParam, LPARAM lParam);
 int   TN_ModuleDeInit();
 void  TN_TypingMessage(MCONTACT hContact, int iMode);
 
-void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, DWORD dwIdle);
+void TSAPI DrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, uint32_t dwIdle);
 
 #endif /* _TABSRMM_FUNCTIONS_H */

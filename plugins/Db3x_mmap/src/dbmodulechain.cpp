@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-void CDb3Mmap::AddToList(char *name, DWORD ofs)
+void CDb3Mmap::AddToList(char *name, uint32_t ofs)
 {
 	ModuleName *mn = (ModuleName*)HeapAlloc(m_hModHeap, 0, sizeof(ModuleName));
 	mn->name = name;
@@ -40,7 +40,7 @@ void CDb3Mmap::AddToList(char *name, DWORD ofs)
 
 int CDb3Mmap::InitModuleNames(void)
 {
-	DWORD ofsThis = m_dbHeader.ofsModuleNames;
+	uint32_t ofsThis = m_dbHeader.ofsModuleNames;
 	DBModuleName *dbmn = (struct DBModuleName*)DBRead(ofsThis, nullptr);
 	while (ofsThis) {
 		if (dbmn->signature != DBMODULENAME_SIGNATURE)
@@ -60,7 +60,7 @@ int CDb3Mmap::InitModuleNames(void)
 	return 0;
 }
 
-DWORD CDb3Mmap::FindExistingModuleNameOfs(const char *szName)
+uint32_t CDb3Mmap::FindExistingModuleNameOfs(const char *szName)
 {
 	ModuleName mn = { (char*)szName, 0 };
 	if (m_lastmn && !mir_strcmp(mn.name, m_lastmn->name))
@@ -77,9 +77,9 @@ DWORD CDb3Mmap::FindExistingModuleNameOfs(const char *szName)
 }
 
 // will create the offset if it needs to
-DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
+uint32_t CDb3Mmap::GetModuleNameOfs(const char *szName)
 {
-	DWORD ofsExisting = FindExistingModuleNameOfs(szName);
+	uint32_t ofsExisting = FindExistingModuleNameOfs(szName);
 	if (ofsExisting)
 		return ofsExisting;
 
@@ -89,7 +89,7 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	int nameLen = (int)mir_strlen(szName);
 
 	// need to create the module name
-	DWORD ofsNew = CreateNewSpace(nameLen + offsetof(struct DBModuleName, name));
+	uint32_t ofsNew = CreateNewSpace(nameLen + offsetof(struct DBModuleName, name));
 
 	DBModuleName dbmn;
 	dbmn.signature = DBMODULENAME_SIGNATURE;
@@ -110,7 +110,7 @@ DWORD CDb3Mmap::GetModuleNameOfs(const char *szName)
 	return ofsNew;
 }
 
-char* CDb3Mmap::GetModuleNameByOfs(DWORD ofs)
+char* CDb3Mmap::GetModuleNameByOfs(uint32_t ofs)
 {
 	if (m_lastmn && m_lastmn->ofs == ofs)
 		return m_lastmn->name;

@@ -489,7 +489,7 @@ MIR_APP_DLL(int) Menu_ConfigureItem(HGENMENU hItem, int iOption, INT_PTR value)
 		return 0;
 
 	case MCI_OPT_HOTKEY:
-		pimi->hotKey = (DWORD)value;
+		pimi->hotKey = (uint32_t)value;
 		return 0;
 
 	case MCI_OPT_EXECPARAM:
@@ -783,7 +783,7 @@ static int WhereToPlace(HMENU hMenu, TMO_MenuItem *mi)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static DWORD GetMenuItemType(HMENU hMenu, int uItem)
+static uint32_t GetMenuItemType(HMENU hMenu, int uItem)
 {
 	MENUITEMINFO mii = { 0 };
 	mii.cbSize = sizeof(mii);

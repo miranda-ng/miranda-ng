@@ -366,9 +366,9 @@ int TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPrefer
 
 		g_clistApi.trayIcon[i].isBase = isBase;
 		if (db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
-			DWORD time1 = db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
-			DWORD time2 = db_get_w(0, "CList", "IconFlashTime", 550) + 1000;
-			DWORD time = max(max(DWORD(2000), time1), time2);
+			uint32_t time1 = db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
+			uint32_t time2 = db_get_w(0, "CList", "IconFlashTime", 550) + 1000;
+			uint32_t time = max(max(uint32_t(2000), time1), time2);
 			if (RefreshTimerId)
 				KillTimer(nullptr, RefreshTimerId);
 
@@ -788,7 +788,7 @@ static int sttGetIcon(const char *szProto)
 	return iconId;
 }
 
-MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, DWORD dwInfoFlags, UINT uTimeout)
+MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle, const char *szInfo, uint32_t dwInfoFlags, UINT uTimeout)
 {
 	if (szInfo == nullptr || szInfoTitle == nullptr)
 		return 1;
@@ -807,7 +807,7 @@ MIR_APP_DLL(int) Clist_TrayNotifyA(const char *szProto, const char *szInfoTitle,
 	return Shell_NotifyIconA(NIM_MODIFY, &nid) == 0;
 }
 
-MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, DWORD dwInfoFlags, UINT uTimeout)
+MIR_APP_DLL(int) Clist_TrayNotifyW(const char *szProto, const wchar_t *wszInfoTitle, const wchar_t *wszInfo, uint32_t dwInfoFlags, UINT uTimeout)
 {
 	if (wszInfo == nullptr || wszInfoTitle == nullptr)
 		return 1;

@@ -60,7 +60,7 @@ struct ANIAVA_OBJECT : public MZeroedObject
 	MCONTACT hContact;
 	HWND   hWindow;
 	BOOL   bInvalidPos;
-	DWORD  dwAvatarUniqId;
+	uint32_t  dwAvatarUniqId;
 	SIZE   ObjectSize;
 
 	~ANIAVA_OBJECT()
@@ -72,7 +72,7 @@ struct ANIAVA_OBJECT : public MZeroedObject
 
 struct ANIAVA_INFO
 {
-	DWORD  dwAvatarUniqId;
+	uint32_t  dwAvatarUniqId;
 	wchar_t *tcsFilename;
 	int    nRefCount;
 	int    nStripTop;
@@ -185,7 +185,7 @@ static void _AniAva_AnimationTreadProc(void*)
 	s_AnimationThreadHandle = hThread;
 	SetThreadPriority(hThread, THREAD_PRIORITY_LOWEST);
 	for (;;) {
-		DWORD rc = MsgWaitForMultipleObjectsEx(1, &s_hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
+		uint32_t rc = MsgWaitForMultipleObjectsEx(1, &s_hExitEvent, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
 		if (MirandaExiting())
 			break;
 
@@ -286,7 +286,7 @@ static void _AniAva_RemoveAniAvaDC()
 	}
 }
 
-static void _AniAva_RealRemoveAvatar(DWORD UniqueID)
+static void _AniAva_RealRemoveAvatar(uint32_t UniqueID)
 {
 	for (int j = 0; j < s_AniAvatarList.getCount(); j++) {
 		ANIAVA_INFO *aai = s_AniAvatarList[j];
@@ -411,7 +411,7 @@ static int	_AniAva_LoadAvatarFromImage(wchar_t * szFileName, int width, int heig
 	return paai->dwAvatarUniqId;
 }
 
-static BOOL _AniAva_GetAvatarImageInfo(DWORD dwAvatarUniqId, ANIAVATARIMAGEINFO * avii)
+static BOOL _AniAva_GetAvatarImageInfo(uint32_t dwAvatarUniqId, ANIAVATARIMAGEINFO * avii)
 {
 	BOOL res = FALSE;
 	for (auto &aai : s_AniAvatarList) {

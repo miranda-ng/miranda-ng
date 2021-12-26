@@ -72,7 +72,7 @@ enum ChatMenuItems
 
 struct IcqFileInfo
 {
-	IcqFileInfo(const std::string &pszUrl, const CMStringW &pwszDescr, DWORD dwSize) :
+	IcqFileInfo(const std::string &pszUrl, const CMStringW &pwszDescr, uint32_t dwSize) :
 		szUrl(pszUrl.c_str()),
 		wszDescr(pwszDescr),
 		dwFileSize(dwSize)
@@ -80,7 +80,7 @@ struct IcqFileInfo
 
 	CMStringA szUrl;
 	CMStringW wszDescr;
-	DWORD dwFileSize;
+	uint32_t dwFileSize;
 	bool bIsSticker = false;
 };
 
@@ -194,7 +194,7 @@ struct IcqFileTransfer : public MZeroedObject
 		pReq->AddHeader("Content-Type", "application/octet-stream");
 		pReq->AddHeader("Content-Disposition", CMStringA(FORMAT, "attachment; filename=\"%s\"", T2Utf(m_wszShortName).get()));
 
-		DWORD dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
+		uint32_t dwPortion = pfts.currentFileSize - pfts.currentFileProgress;
 		if (dwPortion > 1000000)
 			dwPortion = 1000000;
 
@@ -463,10 +463,10 @@ public:
 	CMOption<uint8_t>  m_bUseTrayIcon;    // use tray icon notifications
 	CMOption<uint8_t>  m_bErrorPopups;    // display popups with errors
 	CMOption<uint8_t>  m_bLaunchMailbox;  // launch browser to view email
-	CMOption<DWORD> m_iTimeDiff1;		  // set this status to m_iStatus1 after this interval of secs
-	CMOption<DWORD> m_iStatus1;
-	CMOption<DWORD> m_iTimeDiff2;		  // set this status to m_iStatus2 after this interval of secs
-	CMOption<DWORD> m_iStatus2;
+	CMOption<uint32_t> m_iTimeDiff1;		  // set this status to m_iStatus1 after this interval of secs
+	CMOption<uint32_t> m_iStatus1;
+	CMOption<uint32_t> m_iTimeDiff2;		  // set this status to m_iStatus2 after this interval of secs
+	CMOption<uint32_t> m_iStatus2;
 
 	void CheckStatus(void);
 	CMStringW GetUserId(MCONTACT);

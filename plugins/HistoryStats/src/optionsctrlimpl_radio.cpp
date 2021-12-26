@@ -74,7 +74,7 @@ void OptionsCtrlImpl::Radio::updateItem()
 	}
 }
 
-OptionsCtrlImpl::Radio::Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const wchar_t* szLabel, DWORD dwFlags, INT_PTR dwData)
+OptionsCtrlImpl::Radio::Radio(OptionsCtrlImpl* pCtrl, Item* pParent, Radio* pSibling, const wchar_t* szLabel, uint32_t dwFlags, INT_PTR dwData)
 	: Item(pCtrl, itRadio, szLabel, dwFlags, dwData)
 {
 	m_bDisableChildsOnUncheck = bool_(dwFlags & OCF_DISABLECHILDSONUNCHECK);

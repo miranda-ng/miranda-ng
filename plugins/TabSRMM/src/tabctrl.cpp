@@ -39,8 +39,8 @@ static WNDPROC OldTabControlClassProc;
 struct TabControlData
 {
 	HWND   hwnd;
-	DWORD  dwStyle;
-	DWORD  cx, cy;
+	uint32_t  dwStyle;
+	uint32_t  cx, cy;
 	HANDLE hTheme, hThemeButton, hbp;
 	int    xpad;
 	int    iBeginIndex;
@@ -225,8 +225,8 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	}
 
 	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->m_flagsEx.m_bTabFlashIcon) {
-		DWORD ix = rcItem->left + tabdat->xpad - 1;
-		DWORD iy = (rcItem->bottom + rcItem->top - iSize) / 2;
+		uint32_t ix = rcItem->left + tabdat->xpad - 1;
+		uint32_t iy = (rcItem->bottom + rcItem->top - iSize) / 2;
 		if (dat->m_bIsIdle && PluginConfig.m_bIdleDetect)
 			CSkin::DrawDimmedIcon(dc, ix, iy, iSize, iSize, hIcon, 180);
 		else
@@ -247,7 +247,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 	}
 
 	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->m_flagsEx.m_bTabFlashLabel) {
-		DWORD dwTextFlags = DT_SINGLELINE | DT_VCENTER;
+		uint32_t dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
 		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
 			rcItem->right -= tabdat->xpad;
@@ -268,7 +268,7 @@ static RECT rcTabPage = { 0 };
 static void DrawItemRect(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, const CMsgDialog *dat)
 {
 	POINT pt;
-	DWORD dwStyle = tabdat->dwStyle;
+	uint32_t dwStyle = tabdat->dwStyle;
 
 	rcItem->bottom -= 1;
 	if (rcItem->left < 0)
@@ -628,7 +628,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	RECT  rectTemp, rctPage, rctActive, rcItem, rctClip, rctOrig;
 	RECT  rectUpDn = { 0, 0, 0, 0 };
 	int   nCount = TabCtrl_GetItemCount(hwnd), i;
-	DWORD dwStyle = tabdat->dwStyle;
+	uint32_t dwStyle = tabdat->dwStyle;
 	bool  isAero = M.isAero();
 	bool  bClassicDraw = !isAero && (tabdat->bVisualStyles == false || CSkin::m_skinEnabled);
 
@@ -1115,7 +1115,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 					RECT rcClient, rc;
 					GetClientRect(hwnd, &rcClient);
 					TabCtrl_GetItemRect(hwnd, iTabs - 1, &rc);
-					DWORD newItemSize = (rcClient.right - 6) - (tabdat->dwStyle & TCS_BUTTONS ? (iTabs)* 10 : 0);
+					uint32_t newItemSize = (rcClient.right - 6) - (tabdat->dwStyle & TCS_BUTTONS ? (iTabs)* 10 : 0);
 					newItemSize = newItemSize / iTabs;
 					if (newItemSize < PluginConfig.tabConfig.m_fixedwidth)
 						TabCtrl_SetItemSize(hwnd, newItemSize, rc.bottom - rc.top);

@@ -128,14 +128,14 @@ static BOOL IsShutdownTypeEnabled(uint8_t shutdownType)
 	return bReturn;
 }
 
-static DWORD ShutdownNow(uint8_t shutdownType)
+static uint32_t ShutdownNow(uint8_t shutdownType)
 {
-	DWORD dwErrCode = ERROR_SUCCESS;
+	uint32_t dwErrCode = ERROR_SUCCESS;
 	switch (shutdownType) {
 	case SDSDT_CLOSEMIRANDA:
 		if (!Miranda_IsTerminated()) {
 			/* waiting for short until ready (but not too long...) */
-			DWORD dwLastTickCount = GetTickCount();
+			uint32_t dwLastTickCount = GetTickCount();
 			while (!Miranda_OkToExit()) {
 				/* infinite loop protection (max 5 sec) */
 				if (GetTickCount() - dwLastTickCount >= 5000) { /* wraparound works */
@@ -174,9 +174,9 @@ static DWORD ShutdownNow(uint8_t shutdownType)
 		ShutdownNow(SDSDT_SETMIRANDAOFFLINE); /* set Miranda offline */
 		/* hang up all ras connections */
 		{
-			DWORD dwRetries;
+			uint32_t dwRetries;
 			RASCONNSTATUS rcs;
-			DWORD dw, dwLastTickCount;
+			uint32_t dw, dwLastTickCount;
 
 			DWORD dwConnSize = sizeof(RASCONN);
 			DWORD dwConnItems = 0;
@@ -357,7 +357,7 @@ static INT_PTR CALLBACK ShutdownDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 		if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_BUTTON_SHUTDOWNNOW))) {
 			EnableWindow(GetDlgItem(hwndDlg, IDC_BUTTON_SHUTDOWNNOW), FALSE);
 			ShowWindow(hwndDlg, SW_HIDE);  /* get rid of the dialog immediately */
-			DWORD dwErrCode = ShutdownNow(shutdownType);
+			uint32_t dwErrCode = ShutdownNow(shutdownType);
 			if (dwErrCode != ERROR_SUCCESS) {
 				char *pszErr = GetWinErrorDescription(dwErrCode);
 				ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("The shutdown process failed!\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));
@@ -433,7 +433,7 @@ INT_PTR ServiceShutdown(WPARAM wParam, LPARAM lParam)
 			return 0;
 	/* show error */
 
-	DWORD dwErrCode = ShutdownNow((uint8_t)wParam);
+	uint32_t dwErrCode = ShutdownNow((uint8_t)wParam);
 	if (dwErrCode != ERROR_SUCCESS) {
 		char *pszErr = GetWinErrorDescription(dwErrCode);
 		ShowInfoMessage(NIIF_ERROR, Translate("Automatic shutdown error"), Translate("Initiating the shutdown process failed!\nReason: %s"), (pszErr != nullptr) ? pszErr : Translate("Unknown"));

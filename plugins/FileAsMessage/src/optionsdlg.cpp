@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-DWORD settingDefault[] =
+uint32_t settingDefault[] =
 {
 	RGB(64, 255, 64),
 	RGB(255, 255, 64),

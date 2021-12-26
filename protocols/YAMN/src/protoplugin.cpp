@@ -28,7 +28,7 @@ INT_PTR UnregisterProtoPlugins();
 // YAMNMailFcn- pointer to imported functions with mails
 // YAMNMailFcnVer- version of YAMN_MAILIMPORTFCN, use YAMN_MAILIMPORTFCNVERSION
 // returns nonzero if success
-int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPORTFCN YAMNFcn,DWORD YAMNFcnVer,PYAMN_MAILIMPORTFCN YAMNMailFcn,DWORD YAMNMailFcnVer);
+int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPORTFCN YAMNFcn,uint32_t YAMNFcnVer,PYAMN_MAILIMPORTFCN YAMNMailFcn,uint32_t YAMNMailFcnVer);
 
 struct CExportedFunctions ProtoPluginExportedFcn[]=
 {
@@ -74,7 +74,7 @@ INT_PTR RegisterProtocolPluginSvc(WPARAM wParam,LPARAM lParam)
 	return (INT_PTR)Plugin;
 }
 
-int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPORTFCN YAMNFcn,DWORD YAMNFcnVer,PYAMN_MAILIMPORTFCN YAMNMailFcn,DWORD YAMNMailFcnVer)
+int WINAPI SetProtocolPluginFcnImportFcn(HYAMNPROTOPLUGIN Plugin,PYAMN_PROTOIMPORTFCN YAMNFcn,uint32_t YAMNFcnVer,PYAMN_MAILIMPORTFCN YAMNMailFcn,uint32_t YAMNMailFcnVer)
 {
 	PYAMN_PROTOPLUGINQUEUE Parser;
 

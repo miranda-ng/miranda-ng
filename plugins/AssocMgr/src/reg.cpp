@@ -351,28 +351,28 @@ static BOOL IsRegStrValueA(HKEY hKey, const wchar_t *pszValName, const char *psz
 #define REGF_ANSI  0x80000000 // this bit is set in dwType for ANSI registry data 
 
 // pData must always be Unicode data, registry supports Unicode even on Win95
-static void WriteDbBackupData(const char *pszSetting, DWORD dwType, uint8_t *pData, DWORD cbData)
+static void WriteDbBackupData(const char *pszSetting, uint32_t dwType, uint8_t *pData, uint32_t cbData)
 {
-	size_t cbLen = cbData + sizeof(DWORD);
+	size_t cbLen = cbData + sizeof(uint32_t);
 	uint8_t *buf = (uint8_t*)mir_alloc(cbLen);
 	if (buf) {
-		*(DWORD*)buf = dwType;
-		memcpy(buf + sizeof(DWORD), pData, cbData);
+		*(uint32_t*)buf = dwType;
+		memcpy(buf + sizeof(uint32_t), pData, cbData);
 		db_set_blob(0, MODULENAME, pszSetting, buf, (unsigned)cbLen);
 		mir_free(buf);
 	}
 }
 
 // mir_free() the value returned in ppData 
-static BOOL ReadDbBackupData(const char *pszSetting, DWORD *pdwType, uint8_t **ppData, DWORD *pcbData)
+static BOOL ReadDbBackupData(const char *pszSetting, uint32_t *pdwType, uint8_t **ppData, uint32_t *pcbData)
 {
 	DBVARIANT dbv;
 	if (!db_get(0, MODULENAME, pszSetting, &dbv)) {
-		if (dbv.type == DBVT_BLOB && dbv.cpbVal >= sizeof(DWORD)) {
-			*pdwType = *(DWORD*)dbv.pbVal;
+		if (dbv.type == DBVT_BLOB && dbv.cpbVal >= sizeof(uint32_t)) {
+			*pdwType = *(uint32_t*)dbv.pbVal;
 			*ppData = dbv.pbVal;
-			*pcbData = dbv.cpbVal - sizeof(DWORD);
-			memmove(*ppData, *ppData + sizeof(DWORD), *pcbData);
+			*pcbData = dbv.cpbVal - sizeof(uint32_t);
+			memmove(*ppData, *ppData + sizeof(uint32_t), *pcbData);
 			return TRUE;
 		}
 		db_free(&dbv);
@@ -383,7 +383,7 @@ static BOOL ReadDbBackupData(const char *pszSetting, DWORD *pdwType, uint8_t **p
 struct BackupRegTreeParam
 {
 	char **ppszDbPrefix;
-	DWORD *pdwDbPrefixSize;
+	uint32_t *pdwDbPrefixSize;
 	int level;
 };
 
@@ -398,7 +398,7 @@ static void BackupRegTree_Worker(HKEY hKey, const char *pszSubKey, struct Backup
 		if ((res = RegQueryInfoKey(hKey, nullptr, nullptr, nullptr, nullptr, &nMaxSubKeyLen, nullptr, nullptr, &nMaxValNameLen, &nMaxValSize, nullptr, nullptr)) == ERROR_SUCCESS) {
 			if (nMaxSubKeyLen > nMaxValNameLen) nMaxValNameLen = nMaxSubKeyLen;
 			// prepare buffer
-			nDbPrefixLen = (DWORD)(mir_strlen(*param->ppszDbPrefix) + mir_strlen(pszSubKey) + 1);
+			nDbPrefixLen = (uint32_t)(mir_strlen(*param->ppszDbPrefix) + mir_strlen(pszSubKey) + 1);
 			cchName = nDbPrefixLen + nMaxValNameLen + 3;
 			if (cchName > *param->pdwDbPrefixSize) {
 				pszName = (char*)mir_realloc(*param->ppszDbPrefix, cchName);
@@ -412,7 +412,7 @@ static void BackupRegTree_Worker(HKEY hKey, const char *pszSubKey, struct Backup
 			if (nMaxValSize == 0) nMaxValSize = 1;
 			uint8_t *pData = (uint8_t*)mir_alloc(nMaxValSize);
 			if (pszName != nullptr && pData != nullptr) {
-				DWORD index = 0;
+				uint32_t index = 0;
 				while (!res) {
 					cchName = nMaxValNameLen + 1;
 					cbData = nMaxValSize;
@@ -430,7 +430,7 @@ static void BackupRegTree_Worker(HKEY hKey, const char *pszSubKey, struct Backup
 			// enum subkeys
 			if (param->level < 32 && pszName != nullptr) {
 				++param->level; // can be max 32 levels deep (after prefix), restriction of RegCreateKeyEx()
-				DWORD index = 0;
+				uint32_t index = 0;
 				while (!res) {
 					cchName = nMaxSubKeyLen + 1;
 					if ((res = RegEnumKeyExA(hKey, index++, pszName, &cchName, nullptr, nullptr, nullptr, nullptr)) == ERROR_SUCCESS) {
@@ -450,7 +450,7 @@ static void BackupRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPre
 {
 	char *prefix = mir_strdup(pszDbPrefix);
 	struct BackupRegTreeParam param;
-	DWORD dwDbPrefixSize;
+	uint32_t dwDbPrefixSize;
 	param.level = 0;
 	param.pdwDbPrefixSize = &dwDbPrefixSize;
 	param.ppszDbPrefix = (char**)&prefix;
@@ -490,7 +490,7 @@ static LONG RestoreRegTree(HKEY hKey, const char *pszSubKey, const char *pszDbPr
 					char *pszValName = pslash;
 					// read data
 					uint8_t *pData;
-					DWORD dwType, cbData;
+					uint32_t dwType, cbData;
 					if (ReadDbBackupData(ppszSettings[i], &dwType, &pData, &cbData)) {
 						// set value
 						if (!(dwType & REGF_ANSI)) {

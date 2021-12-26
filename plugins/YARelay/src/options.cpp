@@ -168,8 +168,8 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					iSplitMaxSize = 1;
 
 				// write to database
-				g_plugin.setDword("ForwardFrom", (DWORD)hForwardFrom);
-				g_plugin.setDword("ForwardTo", (DWORD)hForwardTo);
+				g_plugin.setDword("ForwardFrom", (uint32_t)hForwardFrom);
+				g_plugin.setDword("ForwardTo", (uint32_t)hForwardTo);
 				g_plugin.setDword("ForwardOnStatus", iForwardOnStatus);
 				g_plugin.setWString("ForwardTemplate", tszForwardTemplate);
 				g_plugin.setDword("Split", iSplit);

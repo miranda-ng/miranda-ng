@@ -75,16 +75,16 @@ bool isJabber(const char *protoname)
 	return false;
 }
 
-DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
+uint32_t isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 {
 	FILETIME ft;
 	ULONGLONG ll;
-	DWORD res = g_plugin.getDword(hcontact, "seenTS", 0);
+	uint32_t res = g_plugin.getDword(hcontact, "seenTS", 0);
 	if (res) {
 		if (st) {
 			ll = UInt32x32To64(TimeZone_ToLocal(res), 10000000) + NUM100NANOSEC;
-			ft.dwLowDateTime = (DWORD)ll;
-			ft.dwHighDateTime = (DWORD)(ll >> 32);
+			ft.dwLowDateTime = (uint32_t)ll;
+			ft.dwHighDateTime = (uint32_t)(ll >> 32);
 			FileTimeToSystemTime(&ft, st);
 		}
 		return res;
@@ -104,7 +104,7 @@ DWORD isSeen(MCONTACT hcontact, SYSTEMTIME *st)
 					ll -= NUM100NANOSEC;
 					ll /= 10000000;
 					//perform LOCALTOTIMESTAMP
-					res = (DWORD)ll - TimeZone_ToLocal(0);
+					res = (uint32_t)ll - TimeZone_ToLocal(0);
 					//nevel look for Year/Month/Day/Hour/Minute/Second again
 					g_plugin.setDword(hcontact, "seenTS", res);
 				}
@@ -324,13 +324,13 @@ LBL_noData:
 	return res;
 }
 
-void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
+void DBWriteTimeTS(uint32_t t, MCONTACT hcontact)
 {
 	ULONGLONG ll = UInt32x32To64(TimeZone_ToLocal(t), 10000000) + NUM100NANOSEC;
 
 	FILETIME ft;
-	ft.dwLowDateTime = (DWORD)ll;
-	ft.dwHighDateTime = (DWORD)(ll >> 32);
+	ft.dwLowDateTime = (uint32_t)ll;
+	ft.dwHighDateTime = (uint32_t)(ll >> 32);
 
 	SYSTEMTIME st;
 	FileTimeToSystemTime(&ft, &st);
@@ -344,7 +344,7 @@ void DBWriteTimeTS(DWORD t, MCONTACT hcontact)
 	g_plugin.setWord(hcontact, "WeekDay", st.wDayOfWeek);
 }
 
-void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
+void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, uint32_t colDword)
 {
 	uint16_t temp;
 	COLORREF res = 0;
@@ -361,7 +361,7 @@ void GetColorsFromDWord(LPCOLORREF First, LPCOLORREF Second, DWORD colDword)
 	if (Second) *Second = res;
 }
 
-DWORD StatusColors15bits[] = {
+uint32_t StatusColors15bits[] = {
 	0x63180000, // 0x00C0C0C0, 0x00000000, Offline - LightGray
 	0x7B350000, // 0x00F0C8A8, 0x00000000, Online  - LightBlue
 	0x33fe0000, // 0x0070E0E0, 0x00000000, Away - LightOrange
@@ -372,9 +372,9 @@ DWORD StatusColors15bits[] = {
 	0x76AF0000, // 0x00E8A878, 0x00000000, Invisible
 };
 
-DWORD GetDWordFromColors(COLORREF First, COLORREF Second)
+uint32_t GetDWordFromColors(COLORREF First, COLORREF Second)
 {
-	DWORD res = 0;
+	uint32_t res = 0;
 	res |= (First & 0xF8) >> 3;
 	res |= (First & 0xF800) >> 6;
 	res |= (First & 0xF80000) >> 9;
@@ -412,7 +412,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 
 	char szSetting[10];
 	mir_snprintf(szSetting, "Col_%d", newStatus - ID_STATUS_OFFLINE);
-	DWORD sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
+	uint32_t sett = g_plugin.getDword(szSetting, StatusColors15bits[newStatus - ID_STATUS_OFFLINE]);
 
 	POPUPDATAW ppd;
 	GetColorsFromDWord(&ppd.colorBack, &ppd.colorText, sett);
@@ -511,7 +511,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 				char str[MAXMODULELABELLENGTH + 9];
 
 				mir_snprintf(str, "OffTime-%s", szProto);
-				DWORD t = g_plugin.getDword(str, 0);
+				uint32_t t = g_plugin.getDword(str, 0);
 				if (!t)
 					t = time(0);
 				DBWriteTimeTS(t, hContact);

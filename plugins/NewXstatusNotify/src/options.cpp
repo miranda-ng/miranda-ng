@@ -412,7 +412,7 @@ INT_PTR CALLBACK DlgProcPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			char str[8];
-			DWORD ctlColour = 0;
+			uint32_t ctlColour = 0;
 			for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) {
 				ctlColour = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
 				StatusList[Index(i)].colorBack = SendDlgItemMessage(hwndDlg, (i + 2000), CPM_GETCOLOUR, 0, 0);
