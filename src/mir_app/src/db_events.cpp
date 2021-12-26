@@ -278,9 +278,9 @@ DB::AUTH_BLOB::AUTH_BLOB(MCONTACT hContact, LPCSTR nick, LPCSTR fname, LPCSTR ln
 DB::AUTH_BLOB::AUTH_BLOB(PBYTE blob)
 {
 	PBYTE pCurBlob = blob;
-	m_dwUin = *(Puint32_t)pCurBlob;
+	m_dwUin = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
-	m_hContact = *(Puint32_t)pCurBlob;
+	m_hContact = *(uint32_t*)pCurBlob;
 	pCurBlob += sizeof(uint32_t);
 	m_szNick = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
 	m_szFirstName = mir_strdup((char*)pCurBlob); pCurBlob += mir_strlen((char*)pCurBlob) + 1;
