@@ -33,5 +33,5 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111 - 1307, USA.
 #define __DESCRIPTION      "Allows you to assign expanded multimedia keys (only for PS/2 keyboards)." // описание плагина в миранде (локализуемое)
 #define __AUTHOR           "Eugene f2065" // описание плагина в миранде
 #define __AUTHORWEB        "http://f2065.narod.ru/" // описание плагина в dll-fileinfo "CompanyName", описание плагина в миранде
-#define __COPYRIGHT        "© 2010-21 Eugene f2065" // описание плагина в dll-fileinfo "LegalCopyright", описание плагина в миранде
+#define __COPYRIGHT        "© 2010-22 Eugene f2065" // описание плагина в dll-fileinfo "LegalCopyright", описание плагина в миранде
 

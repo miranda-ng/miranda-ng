@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Minecraft Dynmap support for Miranda NG."
 #define __AUTHOR                   "Robert Pösel"
 #define __AUTHORWEB                "https://miranda-ng.org/p/MinecraftDynmap/"
-#define __COPYRIGHT                "© 2015-17 Robert Pösel, 2017-21 Miranda NG team"
+#define __COPYRIGHT                "© 2015-17 Robert Pösel, 2017-22 Miranda NG team"

@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "New GPG encryption support plugin, based on code from old GPG plugin and SecureIM."
 #define __AUTHOR                 "sss, Miranda NG Team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/New_GPG/"
-#define __COPYRIGHT              "© 2010-21 sss, Miranda NG Team"
+#define __COPYRIGHT              "© 2010-22 sss, Miranda NG Team"

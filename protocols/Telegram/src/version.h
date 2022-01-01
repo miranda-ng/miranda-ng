@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Telegram protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Telegram/"
-#define __COPYRIGHT                "© 2018-21 Miranda NG team"
+#define __COPYRIGHT                "© 2018-22 Miranda NG team"

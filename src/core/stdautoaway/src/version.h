@@ -8,4 +8,4 @@
 #define __DESCRIPTION            "Core module for away state processing."
 #define __AUTHOR                 "Miranda NG team"
 #define __AUTHORWEB              "https://miranda-ng.org/p/StdAutoAway/"
-#define __COPYRIGHT              "© 2012-21 Miranda NG team"
+#define __COPYRIGHT              "© 2012-22 Miranda NG team"

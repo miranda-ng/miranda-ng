@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Facebook protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG Team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Facebook/"
-#define __COPYRIGHT                "© 2019-21 Miranda NG team"
+#define __COPYRIGHT                "© 2019-22 Miranda NG team"

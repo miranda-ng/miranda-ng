@@ -693,7 +693,7 @@
 #define IDI_POPUP                       40088
 #define IDI_NOPOPUP                     40089
 
-#define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-21 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
+#define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-22 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
 
 // Next default values for new objects
 // 

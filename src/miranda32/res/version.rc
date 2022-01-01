@@ -38,7 +38,7 @@ BEGIN
             VALUE "FileDescription", "Miranda NG\0"
             VALUE "FileVersion", MIRANDA_VERSION_DISPLAY
             VALUE "InternalName", "miranda32\0"
-            VALUE "LegalCopyright", "Copyright © 2000-11 Miranda IM, 2012-21 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
+            VALUE "LegalCopyright", "Copyright © 2000-11 Miranda IM, 2012-22 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
             VALUE "LegalTrademarks", "\0"
             VALUE "OriginalFilename", "miranda32.exe\0"
             VALUE "PrivateBuild", "\0"

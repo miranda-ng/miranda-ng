@@ -2,7 +2,7 @@
 WhenWasIt (birthday reminder) plugin for Miranda IM
 
 Copyright © 2006 Cristian Libotean
-Copyright (C) 2014-21 Rozhuk Ivan
+Copyright (C) 2014-22 Rozhuk Ivan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

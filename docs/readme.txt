@@ -91,7 +91,7 @@ Miranda NG is released under the terms of the GNU General Public License. See
 "LICENSE" for more details.
 
 Miranda IM is copyright 2000-2012 by the people listed in contributors.txt.
-Miranda NG is copyright 2012-2021 by the people listed in contributors.txt.
+Miranda NG is copyright 2012-2022 by the people listed in contributors.txt.
 
 The plugins included with this release are copyrighted by their authors. See the
 documentation for each plugin for more information.

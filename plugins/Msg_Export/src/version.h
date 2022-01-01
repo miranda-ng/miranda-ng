@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Exports every message, URL or file you receive to a text file."
 #define __AUTHOR                 "Kennet Nielsen, mod by ring0"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Msg_Export/"
-#define __COPYRIGHT              "© 2002 Kennet Nielsen, 2012-21 Miranda NG team"
+#define __COPYRIGHT              "© 2002 Kennet Nielsen, 2012-22 Miranda NG team"

@@ -5,7 +5,7 @@ Copyright (C) 2005-2008 Felipe Brahm - souFrag
 ICQ#50566818
 http://www.soufrag.cl
 
-Copyright (C) 2012-21 Miranda NG team (https://miranda-ng.org)
+Copyright (C) 2012-22 Miranda NG team (https://miranda-ng.org)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

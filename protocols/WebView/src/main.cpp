@@ -3,7 +3,7 @@
  * Copyright (C) 2005 Vincent Joyce.
  * 
  * Miranda IM: the free icq client for MS Windows 
- * Copyright (C) 2000-21 Richard Hughes, Roland Rabien & Tristan Van de Vreede
+ * Copyright (C) 2000-22 Richard Hughes, Roland Rabien & Tristan Van de Vreede
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

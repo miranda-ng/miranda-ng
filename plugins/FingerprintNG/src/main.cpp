@@ -1,6 +1,6 @@
 /*
 Fingerprint NG (client version) icons module for Miranda NG
-Copyright © 2006-21 FYR, Bio, nullbie, ghazan, mataes, HierOS, faith_healer and all respective contributors.
+Copyright © 2006-22 FYR, Bio, nullbie, ghazan, mataes, HierOS, faith_healer and all respective contributors.
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

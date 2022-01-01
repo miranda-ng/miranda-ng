@@ -2,7 +2,7 @@
 
 Chat module interface for Miranda NG
 
-Copyright (c) 2014-21 George Hazan
+Copyright (c) 2014-22 George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License

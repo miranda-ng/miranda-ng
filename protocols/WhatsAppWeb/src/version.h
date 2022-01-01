@@ -11,4 +11,4 @@
 #define __AUTHOR                 "George Hazan"
 #define __AUTHOREMAIL            ""
 #define __AUTHORWEB              "https://miranda-ng.org/p/WhatsApp/"
-#define __COPYRIGHT              "© 2019-21 Miranda NG Team"
+#define __COPYRIGHT              "© 2019-22 Miranda NG Team"

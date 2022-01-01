@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Skype protocol support for Miranda NG. Based on new Skype for Web."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/SkypeWeb/"
-#define __COPYRIGHT                "© 2015-21 Miranda NG team"
+#define __COPYRIGHT                "© 2015-22 Miranda NG team"

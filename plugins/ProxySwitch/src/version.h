@@ -10,4 +10,4 @@
 #define __DESCRIPTION             "Watches IP address changes, displays popups, and adjusts the proxy settings of Miranda, Internet Explorer and Firefox."
 #define __AUTHOR                  "Petr Smejkal"
 #define __AUTHORWEB               "https://miranda-ng.org/p/ProxySwitch/"
-#define __COPYRIGHT               "© 2005 Petr Smejkal, 2018-21 Miranda NG team"
+#define __COPYRIGHT               "© 2005 Petr Smejkal, 2018-22 Miranda NG team"

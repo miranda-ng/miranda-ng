@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Steam protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team, Robert Pösel"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Steam/"
-#define __COPYRIGHT                "© 2014-17 Robert Pösel, 2017-21 Miranda NG team"
+#define __COPYRIGHT                "© 2014-17 Robert Pösel, 2017-22 Miranda NG team"

@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Discord support for Miranda NG."
 #define __AUTHOR                   "George Hazan"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Discord/"
-#define __COPYRIGHT                "© 2016-21 Miranda NG team"
+#define __COPYRIGHT                "© 2016-22 Miranda NG team"

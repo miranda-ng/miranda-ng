@@ -3,7 +3,7 @@
 'AutoShutdown'-Plugin for
 Miranda NG: the free IM client for Microsoft* Windows*
 
-Copyright (C) 2012-21 Miranda NG team (https://miranda-ng.org),
+Copyright (C) 2012-22 Miranda NG team (https://miranda-ng.org),
 Copyright (C) 2004-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or

@@ -2,7 +2,7 @@
             DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
                     Version 2, December 2004
 
- Copyright (C) 2014-21  Miranda NG team (https://miranda-ng.org)
+ Copyright (C) 2014-22 Miranda NG team (https://miranda-ng.org)
 
  Everyone is permitted to copy and distribute verbatim or modified
  copies of this license document, and changing it is allowed as long

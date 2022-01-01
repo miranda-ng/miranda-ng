@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Loads and manages contact pictures for other plugins."
 #define __AUTHOR                   "Nightwish, Pescuma"
 #define __AUTHORWEB                "https://miranda-ng.org/p/AVS/"
-#define __COPYRIGHT                "© 2000-2012 Miranda-IM project, 2012-21 Miranda NG team"
+#define __COPYRIGHT                "© 2000-2012 Miranda-IM project, 2012-22 Miranda NG team"

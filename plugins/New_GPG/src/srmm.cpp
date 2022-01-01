@@ -1,4 +1,4 @@
-// Copyright © 2010-21 SecureIM developers (baloo and others), sss
+// Copyright © 2010-22 SecureIM developers (baloo and others), sss
 // 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License

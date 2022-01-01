@@ -10,4 +10,4 @@
 #define __DESCRIPTION              "Tox protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team"
 #define __AUTHORWEB                "https://miranda-ng.org/p/Tox/"
-#define __COPYRIGHT                "© 2014-21  Miranda NG team"
+#define __COPYRIGHT                "© 2014-22 Miranda NG team"

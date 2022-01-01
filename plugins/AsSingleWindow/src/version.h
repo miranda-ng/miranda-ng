@@ -10,4 +10,4 @@
 #define __DESCRIPTION            "Allows you to move, minimize and activate Miranda's windows as if it were a single window."
 #define __AUTHOR                 "Aleksey Smyrnov aka Soar"
 #define __AUTHORWEB              "https://miranda-ng.org/p/AsSingleWindow/"
-#define __COPYRIGHT              "© 2010-2011 Soar, 2017-21 Miranda NG team"
+#define __COPYRIGHT              "© 2010-2011 Soar, 2017-22 Miranda NG team"
