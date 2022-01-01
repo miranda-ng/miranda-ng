@@ -758,12 +758,7 @@ begin
     // show error if it doesn't work
     if tb_str = DEF_HISTORY_TOOLBAR then
     begin
-      // don't think it should be translated:
-      HppMessageBox(Handle, 'Can not apply default toolbar configuration.' + #10#13 +
-        'Looks like it is an internal problem.' + #10#13 + #10#13 +
-        'Download new History++ version or report the error to the authors' + #10#13 +
-        '(include plugin version number and file date in the report).' + #10#13 + #10#13 +
-        'You can find authors'' emails and plugin website in the Options->Plugins page.',
+      HppMessageBox(Handle, TranslateW('Can not apply default toolbar configuration.'),
         TranslateW('Error'), MB_OK or MB_ICONERROR);
       Exit;
     end
