@@ -527,15 +527,17 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	bool bPhoneReg = getByte(DB_KEY_PHONEREG) != 0;
 	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, bPhoneReg ? "https://u.icq.net/api/v65/rapi/search" : ICQ_ROBUST_SERVER, &CIcqProto::OnSearchResults);
 
-	JSONNode request, params; params.set_name("params");
-	params << WCHAR_PARAM(*pszSearch == '+' ? "phonenum" : "keyword", pszSearch);
+	JSONNode request;
 	if (bPhoneReg) {
 		pReq->AddHeader("Content-Type", "application/json");
 		request << CHAR_PARAM("aimsid", m_aimsid);
 	}
 	else request << CHAR_PARAM("method", "search");
 	
+	JSONNode params; params.set_name("params");
+	params << WCHAR_PARAM(*pszSearch == '+' ? "phonenum" : "keyword", pszSearch);
 	request << CHAR_PARAM("reqId", pReq->m_reqId) << params;
+
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 	return pReq;

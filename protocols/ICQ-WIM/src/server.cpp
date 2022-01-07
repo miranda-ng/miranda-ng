@@ -629,7 +629,8 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool 
 	if (startMsgId == 0)
 		startMsgId = -1;
 
-	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
+	bool bPhoneReg = getByte(DB_KEY_PHONEREG) != 0;
+	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, bPhoneReg ? "https://u.icq.net/api/v65/rapi/getHistory" : ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
 	#ifndef _DEBUG
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
@@ -640,10 +641,18 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool 
 	if (patchVer == 0)
 		patchVer = 1;
 
-	JSONNode request, params; params.set_name("params");
+	JSONNode request;
+	if (bPhoneReg) {
+		pReq->AddHeader("Content-Type", "application/json");
+		request << CHAR_PARAM("aimsid", m_aimsid);
+	}
+	else request << CHAR_PARAM("method", "getHistory");
+
+	JSONNode params; params.set_name("params");
 	params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
-	params << INT_PARAM("count", 1000) << CHAR_PARAM("aimSid", m_aimsid) << SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
-	request << CHAR_PARAM("method", "getHistory") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
+	params << INT_PARAM("count", 1000) << SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
+	request << CHAR_PARAM("reqId", pReq->m_reqId) << params;
+
 	pReq->m_szParam = ptrW(json_write(&request));
 	Push(pReq);
 }
