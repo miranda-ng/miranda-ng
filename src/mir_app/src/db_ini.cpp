@@ -34,7 +34,19 @@ static void MyDeleteFile(const wchar_t *pwszFileName)
 		PU::SafeDeleteFile(pwszFileName);
 }
 
-//////////////////////////////////////////////////////
+static void ToRecycleBin(const wchar_t *pwszFileName)
+{
+	CMStringW tmpPath(pwszFileName);
+	tmpPath.AppendChar(0);
+
+	SHFILEOPSTRUCT shfo = {};
+	shfo.wFunc = FO_DELETE;
+	shfo.pFrom = tmpPath;
+	shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+	SHFileOperation(&shfo);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 class CInstallIniDlg : public CDlgBase
 {
@@ -56,16 +68,16 @@ protected:
 
 		const wchar_t *pszSecurityInfo;
 		if (!mir_wstrcmpi(szSecurity, L"all"))
-			pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
+			pszSecurityInfo = TranslateT("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
 		else if (!mir_wstrcmpi(szSecurity, L"onlyunsafe"))
-			pszSecurityInfo = LPGENW("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
+			pszSecurityInfo = TranslateT("Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.");
 		else if (!mir_wstrcmpi(szSecurity, L"none"))
-			pszSecurityInfo = LPGENW("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
+			pszSecurityInfo = TranslateT("Security systems to prevent malicious changes have been disabled. You will receive no further warnings.");
 		else
 			pszSecurityInfo = nullptr;
 
 		if (pszSecurityInfo)
-			m_securityInfo.SetText(TranslateW(pszSecurityInfo));
+			m_securityInfo.SetText(pszSecurityInfo);
 		return true;
 	}
 
@@ -93,7 +105,7 @@ public:
 	}
 };
 
-//////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 {
@@ -151,12 +163,12 @@ protected:
 
 		const wchar_t *pszSecurityInfo;
 		if (IsInSpaceSeparatedList(m_warnInfo->szSection, m_warnInfo->szSafeSections))
-			pszSecurityInfo = LPGENW("This change is known to be safe.");
+			pszSecurityInfo = TranslateT("This change is known to be safe.");
 		else if (IsInSpaceSeparatedList(m_warnInfo->szSection, m_warnInfo->szUnsafeSections))
-			pszSecurityInfo = LPGENW("This change is known to be potentially hazardous.");
+			pszSecurityInfo = TranslateT("This change is known to be potentially hazardous.");
 		else
-			pszSecurityInfo = LPGENW("This change is not known to be safe.");
-		m_securityInfo.SetText(TranslateW(pszSecurityInfo));
+			pszSecurityInfo = TranslateT("This change is not known to be safe.");
+		m_securityInfo.SetText(pszSecurityInfo);
 		return true;
 	}
 
@@ -210,8 +222,7 @@ protected:
 
 	void Delete_OnClick(CCtrlBase*)
 	{
-		ptrW szIniPath(m_iniPath.GetText());
-		MyDeleteFile(szIniPath);
+		MyDeleteFile(ptrW(m_iniPath.GetText()));
 		Close();
 	}
 
@@ -222,15 +233,13 @@ protected:
 
 	void Recycle_OnClick(CCtrlBase*)
 	{
-		DeleteDirectoryTreeW(ptrW(m_iniPath.GetText()), true);
+		ToRecycleBin(ptrW(m_iniPath.GetText()));
 		Close();
 	}
 
 	void Move_OnClick(CCtrlBase*)
 	{
-		ptrW szIniPath(m_iniPath.GetText());
-		ptrW szNewPath(m_newPath.GetText());
-		MoveFile(szIniPath, szNewPath);
+		MoveFile(ptrW(m_iniPath.GetText()), ptrW(m_newPath.GetText()));
 		Close();
 	}
 
@@ -245,9 +254,9 @@ public:
 	}
 };
 
-//////////////////////////////////////////////////////
-
+/////////////////////////////////////////////////////////////////////////////////////////
 // settings:
+
 struct SettingsList
 {
 	char *name;
@@ -553,7 +562,7 @@ static void DoAutoExec(void)
 			if (!mir_wstrcmpi(szOnCompletion, L"delete"))
 				MyDeleteFile(szIniPath);
 			else if (!mir_wstrcmpi(szOnCompletion, L"recycle")) {
-				DeleteDirectoryTreeW(szIniPath, true);
+				ToRecycleBin(szIniPath);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"rename")) {
 				wchar_t szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
