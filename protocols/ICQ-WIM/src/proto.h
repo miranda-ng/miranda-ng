@@ -213,6 +213,8 @@ struct IcqFileTransfer : public MZeroedObject
 
 class CIcqProto : public PROTO<CIcqProto>
 {
+	friend struct AsyncRapiRequest;
+
 	class CIcqProtoImpl
 	{
 		friend class CIcqProto;

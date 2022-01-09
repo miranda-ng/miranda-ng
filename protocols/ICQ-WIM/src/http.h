@@ -15,6 +15,17 @@ struct AsyncHttpRequest : public MTHttpRequest<CIcqProto>
 	AsyncHttpRequest(IcqConnection, int type, const char *szUrl, MTHttpRequestHandler pFunc = nullptr);
 
 	void ReplaceJsonParam(const JSONNode&);
+
+	virtual void OnPush() {};
+};
+
+struct AsyncRapiRequest : public AsyncHttpRequest
+{
+	JSONNode request, params;
+
+	AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc = nullptr);
+
+	void OnPush() override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

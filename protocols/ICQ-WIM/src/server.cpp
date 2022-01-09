@@ -629,31 +629,18 @@ void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool 
 	if (startMsgId == 0)
 		startMsgId = -1;
 
-	bool bPhoneReg = getByte(DB_KEY_PHONEREG) != 0;
-	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, bPhoneReg ? "https://u.icq.net/api/v65/rapi/getHistory" : ICQ_ROBUST_SERVER, &CIcqProto::OnGetUserHistory);
+	__int64 patchVer = getId(hContact, DB_KEY_PATCHVER);
+	if (patchVer == 0)
+		patchVer = 1;
+
+	auto *pReq = new AsyncRapiRequest(this, "getHistory", &CIcqProto::OnGetUserHistory);
 	#ifndef _DEBUG
 		pReq->flags |= NLHRF_NODUMPSEND;
 	#endif
 	pReq->hContact = hContact;
 	pReq->pUserInfo = (bCreateRead) ? pReq : 0;
-
-	__int64 patchVer = getId(hContact, DB_KEY_PATCHVER);
-	if (patchVer == 0)
-		patchVer = 1;
-
-	JSONNode request;
-	if (bPhoneReg) {
-		pReq->AddHeader("Content-Type", "application/json");
-		request << CHAR_PARAM("aimsid", m_aimsid);
-	}
-	else request << CHAR_PARAM("method", "getHistory");
-
-	JSONNode params; params.set_name("params");
-	params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId);
-	params << INT_PARAM("count", 1000) << SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
-	request << CHAR_PARAM("reqId", pReq->m_reqId) << params;
-
-	pReq->m_szParam = ptrW(json_write(&request));
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact)) << INT64_PARAM("fromMsgId", startMsgId) << INT_PARAM("count", 1000)
+		<< SINT64_PARAM("patchVersion", patchVer) << CHAR_PARAM("language", "ru-ru");
 	Push(pReq);
 }
 
@@ -1183,13 +1170,11 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	PROTOSEARCHRESULT psr = {};
 	psr.cbSize = sizeof(psr);
 	psr.flags = PSR_UNICODE;
-	for (auto &it : results["data"]) {
-		const JSONNode &anketa = it["anketa"];
-
+	for (auto &it : results["persons"]) {
 		CMStringW wszId = it["sn"].as_mstring();
-		CMStringW wszNick = anketa["nickname"].as_mstring();
-		CMStringW wszFirst = anketa["firstName"].as_mstring();
-		CMStringW wszLast = anketa["lastName"].as_mstring();
+		CMStringW wszNick = it["friendly"].as_mstring();
+		CMStringW wszFirst = it["firstName"].as_mstring();
+		CMStringW wszLast = it["lastName"].as_mstring();
 
 		psr.id.w = wszId.GetBuffer();
 		psr.nick.w = wszNick.GetBuffer();

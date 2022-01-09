@@ -330,11 +330,8 @@ void CIcqProto::SendMarkRead()
 	while (m_arMarkReadQueue.getCount()) {
 		IcqCacheItem *pUser = m_arMarkReadQueue[0];
 
-		auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER);
-		JSONNode request, params; params.set_name("params");
-		params << WCHAR_PARAM("sn", GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", getId(pUser->m_hContact, DB_KEY_LASTMSGID));
-		request << CHAR_PARAM("method", "setDlgStateWim") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
-		pReq->m_szParam = ptrW(json_write(&request));
+		auto *pReq = new AsyncRapiRequest(this, "setDlgStateWim");
+		pReq->params << WCHAR_PARAM("sn", GetUserId(pUser->m_hContact)) << INT64_PARAM("lastRead", getId(pUser->m_hContact, DB_KEY_LASTMSGID));
 		Push(pReq);
 
 		m_arMarkReadQueue.remove(0);
@@ -524,22 +521,10 @@ HANDLE CIcqProto::SearchBasic(const wchar_t *pszSearch)
 	if (!m_bOnline)
 		return nullptr;
 
-	bool bPhoneReg = getByte(DB_KEY_PHONEREG) != 0;
-	auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, bPhoneReg ? "https://u.icq.net/api/v65/rapi/search" : ICQ_ROBUST_SERVER, &CIcqProto::OnSearchResults);
-
-	JSONNode request;
-	if (bPhoneReg) {
-		pReq->AddHeader("Content-Type", "application/json");
-		request << CHAR_PARAM("aimsid", m_aimsid);
-	}
-	else request << CHAR_PARAM("method", "search");
-	
-	JSONNode params; params.set_name("params");
-	params << WCHAR_PARAM(*pszSearch == '+' ? "phonenum" : "keyword", pszSearch);
-	request << CHAR_PARAM("reqId", pReq->m_reqId) << params;
-
-	pReq->m_szParam = ptrW(json_write(&request));
+	auto *pReq = new AsyncRapiRequest(this, "search", &CIcqProto::OnSearchResults);
+	pReq->params << WCHAR_PARAM(*pszSearch == '+' ? "phonenum" : "keyword", pszSearch);
 	Push(pReq);
+
 	return pReq;
 }
 

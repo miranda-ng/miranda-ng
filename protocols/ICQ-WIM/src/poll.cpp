@@ -179,11 +179,8 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 			__int64 srvInfoVer = _wtoi64(ev["mchatState"]["infoVersion"].as_mstring());
 			__int64 srvMembersVer = _wtoi64(ev["mchatState"]["membersVersion"].as_mstring());
 			if (srvInfoVer != getId(hContact, "InfoVersion") || srvMembersVer != getId(hContact, "MembersVersion")) {
-				auto *pReq = new AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, &CIcqProto::OnGetChatInfo);
-				JSONNode request, params; params.set_name("params");
-				params << WCHAR_PARAM("sn", wszId) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
-				request << CHAR_PARAM("method", "getChatInfo") << CHAR_PARAM("reqId", pReq->m_reqId) << params;
-				pReq->m_szParam = ptrW(json_write(&request));
+				auto *pReq = new AsyncRapiRequest(this, "getChatInfo", &CIcqProto::OnGetChatInfo);
+				pReq->params << WCHAR_PARAM("sn", wszId) << INT_PARAM("memberLimit", 100) << CHAR_PARAM("aimSid", m_aimsid);
 				pReq->pUserInfo = si;
 				Push(pReq);
 			}

@@ -99,6 +99,30 @@ void __cdecl CIcqProto::ServerThread(void*)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+AsyncRapiRequest::AsyncRapiRequest(CIcqProto *ppro, const char *pszMethod, MTHttpRequestHandler pFunc) :
+	AsyncHttpRequest(CONN_RAPI, REQUEST_POST, ICQ_ROBUST_SERVER, pFunc)
+{
+	params.set_name("params");
+
+	if (ppro->getByte(DB_KEY_PHONEREG)) {
+		m_szUrl.AppendChar('/');
+		m_szUrl.Append(pszMethod);
+		
+		AddHeader("Content-Type", "application/json");
+		request << CHAR_PARAM("aimsid", ppro->m_aimsid);
+	}
+	else request << CHAR_PARAM("method", pszMethod);
+}
+
+void AsyncRapiRequest::OnPush()
+{
+	request << CHAR_PARAM("reqId", m_reqId) << params;
+
+	m_szParam = ptrW(json_write(&request));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *szUrl, MTHttpRequestHandler pFunc) :
 	m_conn(conn)
 {
@@ -106,6 +130,7 @@ AsyncHttpRequest::AsyncHttpRequest(IcqConnection conn, int iType, const char *sz
 	requestType = iType;
 	m_szUrl = szUrl;
 	m_pFunc = pFunc;
+	timeout = 10000;
 
 	GUID packetId;
 	UuidCreate(&packetId);
@@ -237,7 +262,7 @@ void CIcqProto::Push(MHttpRequest *p)
 {
 	AsyncHttpRequest *pReq = (AsyncHttpRequest*)p;
 
-	pReq->timeout = 10000;
+	pReq->OnPush();
 	{
 		mir_cslock lck(m_csHttpQueue);
 		m_arHttpQueue.insert(pReq);
