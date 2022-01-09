@@ -407,7 +407,6 @@
 #define IDC_RECYCLE                     1340
 #define IDC_NEWNAME                     1341
 #define IDC_MOVE                        1342
-#define IDC_LEAVE                       1343
 #define IDC_CATEGORYLIST                1366
 #define IDC_LOADICONS                   1369
 #define IDC_STICONSGROUP                1371

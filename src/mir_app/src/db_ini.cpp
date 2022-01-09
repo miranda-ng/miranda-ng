@@ -204,15 +204,25 @@ class CIniImportDoneDlg : public CDlgBase
 {
 	wchar_t *m_path;
 
-	CCtrlButton m_delete;
-	CCtrlButton m_leave;
-	CCtrlButton m_recycle;
-	CCtrlButton m_move;
+	CCtrlEdit m_iniPath, m_newPath;
+	CCtrlButton btnMove, btnDelete, btnRecycle;
 
-	CCtrlBase m_iniPath;
-	CCtrlEdit m_newPath;
+public:
+	CIniImportDoneDlg(wchar_t *path) :
+		CDlgBase(g_plugin, IDD_INIIMPORTDONE),
+		m_iniPath(this, IDC_ININAME),
+		m_newPath(this, IDC_NEWNAME),
+		btnMove(this, IDC_MOVE),
+		btnDelete(this, IDC_DELETE), 
+		btnRecycle(this, IDC_RECYCLE)
+	{
+		m_path = path;
 
-protected:
+		btnMove.OnClick = Callback(this, &CIniImportDoneDlg::onClick_Move);
+		btnDelete.OnClick = Callback(this, &CIniImportDoneDlg::onClick_Delete);
+		btnRecycle.OnClick = Callback(this, &CIniImportDoneDlg::onClick_Recycle);
+	}
+
 	bool OnInitDialog() override
 	{
 		m_iniPath.SetText(m_path);
@@ -220,37 +230,22 @@ protected:
 		return true;
 	}
 
-	void Delete_OnClick(CCtrlBase*)
-	{
-		MyDeleteFile(ptrW(m_iniPath.GetText()));
-		Close();
-	}
-
-	void Leave_OnClick(CCtrlBase*)
-	{
-		Close();
-	}
-
-	void Recycle_OnClick(CCtrlBase*)
-	{
-		ToRecycleBin(ptrW(m_iniPath.GetText()));
-		Close();
-	}
-
-	void Move_OnClick(CCtrlBase*)
+	void onClick_Move(CCtrlBase *)
 	{
 		MyMoveFile(ptrW(m_iniPath.GetText()), ptrW(m_newPath.GetText()));
 		Close();
 	}
 
-public:
-	CIniImportDoneDlg(wchar_t *path) :
-		CDlgBase(g_plugin, IDD_INIIMPORTDONE),
-		m_delete(this, IDC_DELETE), m_leave(this, IDC_LEAVE),
-		m_recycle(this, IDC_RECYCLE), m_move(this, IDC_MOVE),
-		m_iniPath(this, IDC_ININAME), m_newPath(this, IDC_NEWNAME)
+	void onClick_Delete(CCtrlBase *)
 	{
-		m_path = path;
+		MyDeleteFile(ptrW(m_iniPath.GetText()));
+		Close();
+	}
+
+	void onClick_Recycle(CCtrlBase *)
+	{
+		ToRecycleBin(ptrW(m_iniPath.GetText()));
+		Close();
 	}
 };
 
