@@ -28,6 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static bool bModuleInitialized = false;
 static HANDLE hIniChangeNotification;
 
+static void MyMoveFile(const wchar_t *pwszFrom, const wchar_t *pwszTo)
+{
+	if (PU::PrepareEscalation())
+		PU::SafeMoveFile(pwszFrom, pwszTo);
+}
+
 static void MyDeleteFile(const wchar_t *pwszFileName)
 {
 	if (PU::PrepareEscalation())
@@ -233,7 +239,7 @@ protected:
 
 	void Move_OnClick(CCtrlBase*)
 	{
-		MoveFile(ptrW(m_iniPath.GetText()), ptrW(m_newPath.GetText()));
+		MyMoveFile(ptrW(m_iniPath.GetText()), ptrW(m_newPath.GetText()));
 		Close();
 	}
 
@@ -559,12 +565,10 @@ static void DoAutoExec(void)
 				ToRecycleBin(szIniPath);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"rename")) {
-				wchar_t szRenamePrefix[MAX_PATH], szNewPath[MAX_PATH];
-				Profile_GetSetting(L"AutoExec/RenamePrefix", szRenamePrefix, L"done_");
-				mir_wstrcpy(szNewPath, szFindPath);
-				mir_wstrcat(szNewPath, szRenamePrefix);
-				mir_wstrcat(szNewPath, fd.cFileName);
-				MoveFile(szIniPath, szNewPath);
+				wchar_t wszRenamePrefix[MAX_PATH], wszNewPath[MAX_PATH];
+				Profile_GetSetting(L"AutoExec/RenamePrefix", wszRenamePrefix, L"done_");
+				mir_snwprintf(wszNewPath, L"%s%s%s", szFindPath, wszRenamePrefix, fd.cFileName);
+				MyMoveFile(szIniPath, wszNewPath);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"ask")) {
 				CIniImportDoneDlg dlg(szIniPath);
