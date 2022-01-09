@@ -232,7 +232,13 @@ public:
 
 	void onClick_Move(CCtrlBase *)
 	{
-		MyMoveFile(ptrW(m_iniPath.GetText()), ptrW(m_newPath.GetText()));
+		ptrW wszOldFile(m_iniPath.GetText()), wszNewFile(ptrW(m_newPath.GetText()));
+		if (!wcsicmp(wszOldFile, wszNewFile)) {
+			MessageBoxW(m_hwnd, TranslateT("File names must be different"), TranslateT("Error"), MB_ICONERROR | MB_OK);
+			return;
+		}
+
+		MyMoveFile(wszOldFile, wszNewFile);
 		Close();
 	}
 
