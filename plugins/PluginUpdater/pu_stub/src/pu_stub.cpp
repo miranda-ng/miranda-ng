@@ -102,7 +102,7 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 		log(L"Received command: %d <%s> <%s>", dwAction, ptszFile1, ptszFile2);
 		switch (dwAction) {
 		case 1:  // copy
-			if (!CopyFile(ptszFile1, ptszFile2, FALSE))
+			if (!CopyFileW(ptszFile1, ptszFile2, FALSE))
 				dwError = GetLastError();
 			break;
 
@@ -158,6 +158,19 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 		case 6: // delete folder recursively
 			DeleteDirectoryTreeW(ptszFile1);
 			dwError = 0;
+			break;
+
+		case 7:
+			{
+				wchar_t tmpPath[MAX_PATH+1];
+				_snwprintf_s(tmpPath, _countof(tmpPath), L"%s%c", ptszFile1, 0);
+
+				SHFILEOPSTRUCT shfo = {};
+				shfo.wFunc = FO_DELETE;
+				shfo.pFrom = tmpPath;
+				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+				dwError = SHFileOperation(&shfo);
+			}
 			break;
 
 		default:

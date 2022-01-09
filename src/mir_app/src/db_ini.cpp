@@ -36,14 +36,8 @@ static void MyDeleteFile(const wchar_t *pwszFileName)
 
 static void ToRecycleBin(const wchar_t *pwszFileName)
 {
-	CMStringW tmpPath(pwszFileName);
-	tmpPath.AppendChar(0);
-
-	SHFILEOPSTRUCT shfo = {};
-	shfo.wFunc = FO_DELETE;
-	shfo.pFrom = tmpPath;
-	shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-	SHFileOperation(&shfo);
+	if (PU::PrepareEscalation())
+		PU::SafeRecycleBin(pwszFileName);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -789,3 +789,4 @@ Netlib_SslShutdown @876 NONAME
 Netlib_SslWrite @877 NONAME
 ?AllowTyping@CSrmmBaseDialog@@IEBA_NXZ @878 NONAME
 ?setTyping@CSrmmBaseDialog@@QEAAXHPEBUUSERINFO@@@Z @879 NONAME
+?SafeRecycleBin@PU@@YAHPEB_W@Z @880 NONAME

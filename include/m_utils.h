@@ -421,6 +421,7 @@ namespace PU
 	MIR_APP_DLL(int) SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst);
 	MIR_APP_DLL(int) SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst);
 	MIR_APP_DLL(int) SafeDeleteFile(const wchar_t *pwszFile);
+	MIR_APP_DLL(int) SafeRecycleBin(const wchar_t *pwszFile);
 	MIR_APP_DLL(int) SafeCreateDirectory(const wchar_t *pwszFolder);
 	MIR_APP_DLL(int) SafeDeleteDirectory(const wchar_t *pwszDirName);
 	MIR_APP_DLL(int) SafeCreateFilePath(const wchar_t *pwszFolder);

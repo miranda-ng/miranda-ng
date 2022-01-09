@@ -269,6 +269,22 @@ MIR_APP_DLL(int) PU::SafeDeleteFile(const wchar_t *pwszFile)
 	return TransactPipe(3, pwszFile, nullptr);
 }
 
+MIR_APP_DLL(int) PU::SafeRecycleBin(const wchar_t *pwszFile)
+{
+	if (g_hPipe == nullptr) {
+		CMStringW tmpPath(pwszFile);
+		tmpPath.AppendChar(0);
+
+		SHFILEOPSTRUCT shfo = {};
+		shfo.wFunc = FO_DELETE;
+		shfo.pFrom = tmpPath;
+		shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
+		return SHFileOperation(&shfo);
+	}
+
+	return TransactPipe(7, pwszFile, nullptr);
+}
+
 MIR_APP_DLL(int) PU::SafeCreateDirectory(const wchar_t *pwszFolder)
 {
 	if (g_hPipe == nullptr)
