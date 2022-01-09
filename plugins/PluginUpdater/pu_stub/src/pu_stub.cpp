@@ -162,14 +162,14 @@ int APIENTRY wWinMain(HINSTANCE /*hInstance*/, HINSTANCE, LPTSTR lpCmdLine, int)
 
 		case 7:
 			{
-				wchar_t tmpPath[MAX_PATH+1];
-				_snwprintf_s(tmpPath, _countof(tmpPath), L"%s%c", ptszFile1, 0);
+				wchar_t tmpPath[MAX_PATH+2];
+				_snwprintf_s(tmpPath, _countof(tmpPath), L"%s%c%c", ptszFile1, 0, 0);
 
-				SHFILEOPSTRUCT shfo = {};
+				SHFILEOPSTRUCTW shfo = {};
 				shfo.wFunc = FO_DELETE;
 				shfo.pFrom = tmpPath;
 				shfo.fFlags = FOF_NOCONFIRMATION | FOF_NOERRORUI | FOF_SILENT | FOF_ALLOWUNDO;
-				dwError = SHFileOperation(&shfo);
+				dwError = SHFileOperationW(&shfo);
 			}
 			break;
 
