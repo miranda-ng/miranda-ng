@@ -80,8 +80,6 @@
 Покинуть гильдию
 [Create new channel]
 Создать новую комнату чата
-[Copy Discord ID]
-Копировать Discord ID
 [Enable guild sync]
 Вкл. синхронизацию для этого сервера
 ;file \protocols\Discord\src\options.cpp

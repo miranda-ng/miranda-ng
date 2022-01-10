@@ -795,11 +795,11 @@
 [What do you want to do with the file now?]
 Что сделать с файлом?
 [&Recycle]
-&Использовать снова
+&В корзину
 [&Delete]
 &Удалить
-[&Move/Rename]
-&Переместить/Переименовать
+[&Move]
+&Переместить
 [&Leave]
 &Оставить
 [Netlib log options]
@@ -2196,6 +2196,8 @@ Miranda не может распознать этот профиль
 Это изменение потенциально опасно.
 [This change is not known to be safe.]
 Неизвестно, будет ли изменение безопасным.
+[File names must be different]
+Имена файлов должны отличаться
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неверный тип настройки для '%s'. Первая буква любого значения должна быть b, w, d, l, s, e, u, g, h или n.
 ;file \src\mir_app\src\db_upgrade.cpp
