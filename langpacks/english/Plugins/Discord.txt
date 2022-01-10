@@ -45,7 +45,6 @@
 [Copy my Discord ID]
 [Leave guild]
 [Create new channel]
-[Copy Discord ID]
 [Enable guild sync]
 ;file \protocols\Discord\src\options.cpp
 [Network]

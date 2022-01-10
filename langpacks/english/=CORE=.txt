@@ -405,7 +405,7 @@
 [What do you want to do with the file now?]
 [&Recycle]
 [&Delete]
-[&Move/Rename]
+[&Move]
 [&Leave]
 [Netlib log options]
 [Received bytes]
@@ -1131,6 +1131,7 @@
 [This change is known to be safe.]
 [This change is known to be potentially hazardous.]
 [This change is not known to be safe.]
+[File names must be different]
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 ;file \src\mir_app\src\db_upgrade.cpp
 [This database is in the old format that isn't supported anymore. Press Yes to convert it to the new format or No to return]
