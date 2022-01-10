@@ -412,6 +412,9 @@ namespace PU
 	// Checks if we're working via pu_stub or not
 	MIR_APP_DLL(bool) IsDirect();
 	
+	// Checks if Miranda's folder is writeable
+	MIR_APP_DLL(bool) IsMirandaFolderWritable();
+
 	// Checks if a process has enough rights to write into Miranda's folder
 	MIR_APP_DLL(bool) IsProcessElevated();
 	

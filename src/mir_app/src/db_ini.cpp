@@ -227,6 +227,14 @@ public:
 	{
 		m_iniPath.SetText(m_path);
 		m_newPath.SetText(m_path);
+
+		if (!PU::IsMirandaFolderWritable()) {
+			bool bIsElevated = PU::IsProcessElevated();
+			Button_SetElevationRequiredState(btnMove.GetHwnd(), !bIsElevated);
+			Button_SetElevationRequiredState(btnDelete.GetHwnd(), !bIsElevated);
+			Button_SetElevationRequiredState(btnRecycle.GetHwnd(), !bIsElevated);
+		}
+
 		return true;
 	}
 

@@ -75,19 +75,39 @@ MIR_APP_DLL(bool) PU::IsDirect()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Checks if Miranda's folder is writeable
+
+MIR_APP_DLL(bool) PU::IsMirandaFolderWritable()
+{
+	if (!IsWinVerVistaPlus())
+		return true;
+
+	wchar_t wszPath[MAX_PATH];
+	GetModuleFileNameW(nullptr, wszPath, _countof(wszPath));
+	wchar_t *ext = wcsrchr(wszPath, '.');
+	if (ext != nullptr)
+		*ext = '\0';
+	wcscat(wszPath, L".test");
+	HANDLE hFile = CreateFileW(wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	if (hFile == INVALID_HANDLE_VALUE)
+		return false;
+
+	CloseHandle(hFile);
+	DeleteFileW(wszPath);
+	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Checks if a process has enough rights to write into Miranda's folder
 
 MIR_APP_DLL(bool) PU::IsProcessElevated()
 {
 	bool bIsElevated = false;
-	uint32_t dwError = ERROR_SUCCESS;
 	HANDLE hToken = nullptr;
 
 	// Open the primary access token of the process with TOKEN_QUERY.
-	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
-		dwError = GetLastError();
+	if (!OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &hToken))
 		goto Cleanup;
-	}
 
 	// Retrieve token elevation information.
 	TOKEN_ELEVATION elevation;
@@ -97,7 +117,6 @@ MIR_APP_DLL(bool) PU::IsProcessElevated()
 		// Vista, GetTokenInformation returns FALSE with the
 		// ERROR_INVALID_PARAMETER error code because TokenElevation is
 		// not supported on those operating systems.
-		dwError = GetLastError();
 		goto Cleanup;
 	}
 
@@ -105,15 +124,8 @@ MIR_APP_DLL(bool) PU::IsProcessElevated()
 
 Cleanup:
 	// Centralized cleanup for all allocated resources.
-	if (hToken) {
+	if (hToken)
 		CloseHandle(hToken);
-		hToken = nullptr;
-	}
-
-	// Throw the error if something failed in the function.
-	if (ERROR_SUCCESS != dwError) {
-		throw dwError;
-	}
 
 	return bIsElevated;
 }

@@ -203,22 +203,8 @@ public:
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_MENU));
 
-		if (IsWinVerVistaPlus()) {
-			TFileName wszPath;
-			GetModuleFileName(nullptr, wszPath, _countof(wszPath));
-			wchar_t *ext = wcsrchr(wszPath, '.');
-			if (ext != nullptr)
-				*ext = '\0';
-			wcscat(wszPath, L".test");
-			HANDLE hFile = CreateFileW(wszPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-			if (hFile == INVALID_HANDLE_VALUE)
-				// Running Windows Vista or later (major version >= 6).
-				Button_SetElevationRequiredState(btnOk.GetHwnd(), !PU::IsProcessElevated());
-			else {
-				CloseHandle(hFile);
-				DeleteFileW(wszPath);
-			}
-		}
+		if (!PU::IsMirandaFolderWritable())
+			Button_SetElevationRequiredState(btnOk.GetHwnd(), !PU::IsProcessElevated());
 
 		// Initialize the LVCOLUMN structure.
 		// The mask specifies that the format, width, text, and

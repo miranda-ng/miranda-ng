@@ -129,21 +129,8 @@ public:
 		ImageList_AddIconFromIconLib(hIml, IDI_INFO);
 		m_list.SetImageList(hIml, LVSIL_SMALL);
 
-		if (IsWinVer7Plus()) {
-			TFileName szPath;
-			GetModuleFileNameW(nullptr, szPath, _countof(szPath));
-			wchar_t *ext = wcsrchr(szPath, '.');
-			if (ext != nullptr)
-				*ext = '\0';
-			wcscat(szPath, L".test");
-			HANDLE hFile = CreateFileW(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
-			if (hFile == INVALID_HANDLE_VALUE)
-				Button_SetElevationRequiredState(GetDlgItem(m_hwnd, IDOK), !PU::IsProcessElevated());
-			else {
-				CloseHandle(hFile);
-				DeleteFile(szPath);
-			}
-		}
+		if (!PU::IsMirandaFolderWritable())
+			Button_SetElevationRequiredState(GetDlgItem(m_hwnd, IDOK), !PU::IsProcessElevated());
 
 		//////////////////////////////////////////////////////////////////////////////////////
 		LVCOLUMN lvc = { 0 };
