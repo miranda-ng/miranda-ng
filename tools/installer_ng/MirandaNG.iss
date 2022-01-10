@@ -48,7 +48,7 @@ UsePreviousTasks=no
 [Files]
 ; Folders
 Source: "Files\Docs\*"; DestDir: "{app}\Docs"; Components: program; Flags: ignoreversion recursesubdirs createallsubdirs; AfterInstall: ShowPercent() 
-Source: "Files\Skins\Sounds\*"; DestDir: "{app}\Skins\Sounds"; Components: sounds; Flags: ignoreversion recursesubdirs createallsubdirs; AfterInstall: ShowPercent() 
+Source: "Files\Sounds\*"; DestDir: "{app}\Sounds"; Components: sounds; Flags: ignoreversion recursesubdirs createallsubdirs; AfterInstall: ShowPercent() 
 
 ; Icons
 Source: "Files\Icons\Proto_Dummy.dll"; DestDir: "{app}\Icons"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
