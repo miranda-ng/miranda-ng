@@ -69,11 +69,7 @@ int Clist_SetExtraIcon(MCONTACT hContact, int slot, HANDLE hImage)
 	if (icol == -1)
 		return -1;
 
-	HANDLE hItem = (HANDLE)SendMessage(g_clistApi.hwndContactTree, CLM_FINDCONTACT, hContact, 0);
-	if (hItem == nullptr)
-		return -1;
-
-	SendMessage(g_clistApi.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol, hImage));
+	SendMessage(g_clistApi.hwndContactTree, CLM_SETEXTRAIMAGE, hContact, MAKELPARAM(icol, hImage));
 	return 0;
 }
 

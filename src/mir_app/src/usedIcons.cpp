@@ -25,18 +25,13 @@ Boston, MA 02111-1307, USA.
 
 struct Icon
 {
-	char *name;
-	int refCount;
-	HANDLE hImage;
+	ptrA name;
+	int refCount = 0;
+	HANDLE hImage = INVALID_HANDLE_VALUE;
 
 	Icon(const char *icolibName) :
-		name( mir_strdup(icolibName)), refCount(0), hImage(INVALID_HANDLE_VALUE)
-	{
-	}
-
-	~Icon()
-	{	mir_free(name);
-	}
+		name(mir_strdup(icolibName))
+	{}
 };
 
 static int SortFunc(const Icon *p1, const Icon *p2)
@@ -77,7 +72,7 @@ HANDLE AddIcon(const char *icolibName)
 
 void RemoveIcon(const char *icolibName)
 {
-	Icon *icon = usedIcons.find((Icon*)&icolibName);
+	Icon *icon = usedIcons.find((Icon *)&icolibName);
 	if (icon != nullptr)
 		icon->refCount--;
 }
