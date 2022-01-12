@@ -52,8 +52,7 @@ CMPlugin::CMPlugin() :
 	bCatchCrashes(MODULENAME, "CatchCrashes", 1),
 	bClassicDates(MODULENAME, "ClassicDates", 1),
 	bUseSubFolder(MODULENAME, "SubFolders", 1),
-	bSuccessPopups(MODULENAME, "SuccessPopups", 1),
-	bUploadChanged(MODULENAME, "UploadChanged", 0)
+	bSuccessPopups(MODULENAME, "SuccessPopups", 1)
 {
 }
 
@@ -98,20 +97,6 @@ INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR UploadVersionInfo(WPARAM, LPARAM lParam)
-{
-	CMStringW buffer;
-	PrintVersionInfo(buffer);
-
-	VerTrnsfr *trn = (VerTrnsfr*)mir_alloc(sizeof(VerTrnsfr));
-	trn->buf = mir_utf8encodeW(buffer.c_str());
-	trn->autot = lParam == 0xa1;
-
-	mir_forkthread(VersionInfoUploadThread, trn);
-
-	return 0;
-}
-
 INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 {
 	int result = 1; //failure
@@ -128,15 +113,7 @@ INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 
 INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 {
-	switch (wParam) {
-	case 0:
-		ShellExecute(nullptr, L"explore", CrashLogFolder, nullptr, nullptr, SW_SHOW);
-		break;
-
-	case 1:
-		OpenAuthUrl("https://vi.miranda-ng.org/detail/%s");
-		break;
-	}
+	ShellExecute(nullptr, L"explore", CrashLogFolder, nullptr, nullptr, SW_SHOW);
 	return 0;
 }
 
@@ -194,11 +171,6 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 	ttb.name = ttb.pszTooltipUp = LPGEN("Show Version Information");
 	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VISHOW);
 	g_plugin.addTTB(&ttb);
-
-	ttb.pszService = MS_CRASHDUMPER_UPLOAD;
-	ttb.name = ttb.pszTooltipUp = LPGEN("Upload Version Information");
-	ttb.hIconHandleUp = g_plugin.getIconHandle(IDI_VIUPLOAD);
-	g_plugin.addTTB(&ttb);
 	return 0;
 }
 
@@ -251,13 +223,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
-	SET_UID(mi, 0xc6e3b558, 0xe1e8, 0x4cce, 0x96, 0x8, 0xc6, 0x89, 0x1b, 0x79, 0xf3, 0x7e);
-	mi.position = 2000089999;
-	mi.name.a = LPGEN("Upload");
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_VIUPLOAD);
-	mi.pszService = MS_CRASHDUMPER_UPLOAD;
-	Menu_AddMainMenuItem(&mi);
-
 	SET_UID(mi, 0xa23da95a, 0x7624, 0x4343, 0x8c, 0xc0, 0xa6, 0x16, 0xbc, 0x30, 0x13, 0x8c);
 	mi.position = 2000089999;
 	mi.name.a = LPGEN("Copy link to clipboard");
@@ -274,13 +239,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		Menu_AddMainMenuItem(&mi);
 	}
 
-	SET_UID(mi, 0x6b19be3, 0xfb7d, 0x457d, 0x85, 0xde, 0xe0, 0x26, 0x4c, 0x87, 0x35, 0xf4);
-	mi.position = 2000099991;
-	mi.name.a = LPGEN("Open online Version Info");
-	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_EVENT_URL);
-	mi.pszService = MS_CRASHDUMPER_URL;
-	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
-
 	HOTKEYDESC hk = {};
 	hk.szSection.a = MODULENAME;
 
@@ -294,8 +252,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
 	g_plugin.addHotkey(&hk);
 
-	UploadInit();
-
 	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart)
 		SetExceptionHandler();
 
@@ -303,15 +259,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	if (g_plugin.bServiceMode)
 		ViewVersionInfo(0, 0);
-	else if (g_plugin.bUploadChanged && !ProcessVIHash(false))
-		UploadVersionInfo(0, 0xa1);
 
-	return 0;
-}
-
-static int PreShutdown(WPARAM, LPARAM)
-{
-	UploadClose();
 	return 0;
 }
 
@@ -329,8 +277,7 @@ int CMPlugin::Load()
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-
+	
 	packlcid = (LCID)Langpack_GetDefaultLocale();
 
 	InitIcons();
@@ -342,7 +289,6 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
 	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_GETINFO, GetVersionInfo);
-	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
 	CreateServiceFunction(MS_CRASHDUMPER_URLTOCLIP, CopyLinkToClipboard);

@@ -162,8 +162,7 @@ INT_PTR ViewVersionInfo(WPARAM wParam, LPARAM)
 
 class COptDialog : public CDlgBase
 {
-	CCtrlEdit m_edtUserName, m_edtPass;
-	CCtrlCheck m_chkAutoUpload, m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes, m_chkSuccessPopups;
+	CCtrlCheck m_chkClassicDates, m_chkRepSubfolder, m_chkCatchCrashes, m_chkSuccessPopups;
 	CCtrlLabel m_lblRestart;
 
 	void COptDialog::OnCatchCrashesChange(CCtrlCheck*)
@@ -179,16 +178,12 @@ class COptDialog : public CDlgBase
 public:
 	COptDialog() :
 		CDlgBase(g_plugin, IDD_OPTIONS),
-		m_edtUserName(this, IDC_USERNAME),
-		m_edtPass(this, IDC_PASSWORD),
-		m_chkAutoUpload(this, IDC_UPLOADCHN),
 		m_chkCatchCrashes(this, IDC_CATCHCRASHES),
 		m_chkClassicDates(this, IDC_CLASSICDATES),
 		m_chkRepSubfolder(this, IDC_DATESUBFOLDER),
 		m_chkSuccessPopups(this, IDC_SUCCESSPOPUPS),
 		m_lblRestart(this, IDC_RESTARTNOTE)
 	{
-		CreateLink(m_chkAutoUpload, g_plugin.bUploadChanged);
 		CreateLink(m_chkCatchCrashes, g_plugin.bCatchCrashes);
 		CreateLink(m_chkClassicDates, g_plugin.bClassicDates);
 		CreateLink(m_chkRepSubfolder, g_plugin.bUseSubFolder);
@@ -201,31 +196,10 @@ public:
 	{
 		CDlgBase::OnInitDialog();
 
-		DBVARIANT dbv;
-		if (g_plugin.getString("Username", &dbv) == 0) {
-			m_edtUserName.SetTextA(dbv.pszVal);
-			db_free(&dbv);
-		}
-		if (g_plugin.getString("Password", &dbv) == 0) {
-			m_edtPass.SetTextA(dbv.pszVal);
-			db_free(&dbv);
-		}
-
 		if (!g_plugin.bCatchCrashes)
 			m_chkRepSubfolder.Disable();
 		if (g_plugin.bNeedRestart)
 			m_lblRestart.Show();
-		return true;
-	}
-
-	bool COptDialog::OnApply()
-	{
-		char szSetting[100];
-		m_edtUserName.GetTextA(szSetting, _countof(szSetting));
-		g_plugin.setString("Username", szSetting);
-
-		m_edtPass.GetTextA(szSetting, _countof(szSetting));
-		g_plugin.setString("Password", szSetting);
 		return true;
 	}
 };
@@ -252,22 +226,9 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_COMMAND:
-		switch ((INT_PTR)PUGetPluginData(hWnd)) {
-		case 0:
-			OpenAuthUrl("https://vi.miranda-ng.org/detail/%s");
-			break;
-
-		case 1:
-			OpenAuthUrl("https://vi.miranda-ng.org/global/%s");
-			break;
-
-		case 3:
-			wchar_t path[MAX_PATH];
-			mir_snwprintf(path, L"%s\\VersionInfo.txt", VersionInfoFolder);
-			ShellExecute(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
-			break;
-
-		}
+		wchar_t path[MAX_PATH];
+		mir_snwprintf(path, L"%s\\VersionInfo.txt", VersionInfoFolder);
+		ShellExecute(nullptr, L"open", path, nullptr, nullptr, SW_SHOW);
 		PUDeletePopup(hWnd);
 		break;
 

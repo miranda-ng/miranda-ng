@@ -72,7 +72,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MS_CRASHDUMPER_STORETOCLIP "CrashDmp/StoreVerInfoToClip"
 #define MS_CRASHDUMPER_GETINFO     "CrashDmp/GetInfo"
 #define MS_CRASHDUMPER_VIEWINFO    "CrashDmp/ViewInfo"
-#define MS_CRASHDUMPER_UPLOAD      "CrashDmp/UploadInfo"
 #define MS_CRASHDUMPER_URL         "CrashDmp/StartUrl"
 #define MS_CRASHDUMPER_URLTOCLIP   "CrashDmp/CopyToClip"
 
@@ -80,7 +79,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	CMOption<uint8_t> bCatchCrashes, bClassicDates, bUploadChanged, bUseSubFolder, bSuccessPopups;
+	CMOption<uint8_t> bCatchCrashes, bClassicDates, bUseSubFolder, bSuccessPopups;
 
 	bool bNeedRestart = false, bServiceMode = false;
 
@@ -137,7 +136,6 @@ const PLUGININFOEX* GetMirInfo(HMODULE hModule);
 void CreateMiniDump(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr);
 void CreateCrashReport(HANDLE hDumpFile, PEXCEPTION_POINTERS exc_ptr, const wchar_t* msg);
 void PrintVersionInfo(CMStringW& buffer, unsigned flags = VI_FLAG_PRNVAR);
-bool ProcessVIHash(bool store);
 
 void InitExceptionHandler(void);
 void DestroyExceptionHandler(void);
@@ -146,10 +144,7 @@ void RemoveExceptionHandler(void);
 
 extern CDlgBase *pViewDialog;
 
-void UploadInit(void);
-void UploadClose(void);
 void OpenAuthUrl(const char* url);
-void __cdecl VersionInfoUploadThread(void* arg);
 
 void InitIcons(void);
 

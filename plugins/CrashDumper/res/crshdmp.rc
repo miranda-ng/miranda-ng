@@ -7,8 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-#include "richedit.h"
+#include "winres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -32,8 +32,7 @@ END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
-    "#include ""richedit.h""\r\0"
+    "#include ""winres.h""\r\0"
 END
 
 3 TEXTINCLUDE 
@@ -65,20 +64,14 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Support for vi.miranda-ng.org",IDC_STATIC,7,7,253,62
-    LTEXT           "Username",IDC_STATIC,14,20,107,8
-    EDITTEXT        IDC_USERNAME,152,18,108,14,ES_AUTOHSCROLL
-    LTEXT           "Password",IDC_STATIC,14,39,107,8
-    EDITTEXT        IDC_PASSWORD,153,35,107,14,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Upload automatically when changed",IDC_UPLOADCHN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,54,245,10
-    GROUPBOX        "Crash reports",IDC_STATIC,7,70,253,52
-    CONTROL         "Generate crash reports",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,83,237,10
+    GROUPBOX        "Crash reports",-1,7,3,253,52
+    CONTROL         "Generate crash reports",IDC_CATCHCRASHES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,16,237,10
     CONTROL         "Create reports in subfolders naming as current date",IDC_DATESUBFOLDER,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,95,237,10
-    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,107,237,10
-    LTEXT           "* You need to restart Miranda NG to apply changes",IDC_RESTARTNOTE,7,145,251,22,NOT WS_VISIBLE
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,28,237,10
+    CONTROL         "Use classic dates",IDC_CLASSICDATES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,15,40,237,10
+    LTEXT           "* You need to restart Miranda NG to apply changes",IDC_RESTARTNOTE,7,78,251,22,NOT WS_VISIBLE
     CONTROL         "Display popups about successful actions",IDC_SUCCESSPOPUPS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,129,253,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,62,253,10
 END
 
 

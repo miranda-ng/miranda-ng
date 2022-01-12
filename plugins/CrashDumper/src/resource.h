@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by crshdmp.rc
+// Used by W:\miranda-ng\plugins\CrashDumper\res\crshdmp.rc
 //
 #define IDD_VIEWVERSION                 101
 #define IDR_CONTEXT                     102
@@ -14,9 +14,6 @@
 #define IDC_VIEWVERSIONINFO             1001
 #define IDC_FILEVER                     1003
 #define IDC_CLIPVER                     1004
-#define IDC_USERNAME                    1006
-#define IDC_PASSWORD                    1007
-#define IDC_UPLOADCHN                   1008
 #define IDC_CLASSICDATES                1009
 #define IDC_DATESUBFOLDER               1010
 #define IDC_CATCHCRASHES                1011
