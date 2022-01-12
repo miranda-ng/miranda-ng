@@ -117,28 +117,6 @@ INT_PTR OpenUrl(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-INT_PTR CopyLinkToClipboard(WPARAM, LPARAM)
-{
-	ptrW tmp(g_plugin.getWStringA("Username"));
-	if (tmp != NULL) {
-		wchar_t buffer[MAX_PATH];
-		mir_snwprintf(buffer, L"https://vi.miranda-ng.org/detail/%s", tmp);
-
-		int bufLen = (sizeof(buffer) + 1) * sizeof(wchar_t);
-		HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
-		LPSTR buf = (LPSTR)GlobalLock(hData);
-		memcpy(buf, buffer, bufLen);
-
-		OpenClipboard(nullptr);
-		EmptyClipboard();
-
-		if (SetClipboardData(CF_UNICODETEXT, hData) == nullptr)
-			GlobalFree(hData);
-		CloseClipboard();
-	}
-	return 0;
-}
-
 INT_PTR ServiceModeLaunch(WPARAM, LPARAM)
 {
 	g_plugin.bServiceMode = true;
@@ -223,13 +201,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_ConfigureItem(Menu_AddMainMenuItem(&mi), MCI_OPT_EXECPARAM, 1);
 
-	SET_UID(mi, 0xa23da95a, 0x7624, 0x4343, 0x8c, 0xc0, 0xa6, 0x16, 0xbc, 0x30, 0x13, 0x8c);
-	mi.position = 2000089999;
-	mi.name.a = LPGEN("Copy link to clipboard");
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LINKTOCLIP);//need icon
-	mi.pszService = MS_CRASHDUMPER_URLTOCLIP;
-	Menu_AddMainMenuItem(&mi);
-
 	if (g_plugin.bCatchCrashes && !g_plugin.bNeedRestart) {
 		SET_UID(mi, 0xecae52f2, 0xd601, 0x4f85, 0x87, 0x9, 0xec, 0x8e, 0x84, 0xfe, 0x1b, 0x3c);
 		mi.position = 2000099990;
@@ -291,7 +262,6 @@ int CMPlugin::Load()
 	CreateServiceFunction(MS_CRASHDUMPER_GETINFO, GetVersionInfo);
 	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
 	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
-	CreateServiceFunction(MS_CRASHDUMPER_URLTOCLIP, CopyLinkToClipboard);
 	return 0;
 }
 
