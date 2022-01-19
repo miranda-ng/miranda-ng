@@ -434,7 +434,7 @@ protected:
 		// fill MAM modes
 		wchar_t *szMamModes[] = { LPGENW("Never"), LPGENW("Roster"), LPGENW("Always") };
 		for (auto &it : szMamModes)
-			m_cbMam.AddString(it, int(&it - szMamModes));
+			m_cbMam.AddString(TranslateW(it), int(&it - szMamModes));
 		m_cbMam.SetCurSel(m_proto->m_iMamMode);
 		m_cbMam.Enable(m_proto->m_bMamPrefsAvailable);
 
