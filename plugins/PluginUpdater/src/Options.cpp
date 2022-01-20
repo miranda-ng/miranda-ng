@@ -454,9 +454,9 @@ public:
 		g_plugin.PopupRightClickAction = (uint8_t)SendDlgItemMessage(m_hwnd, IDC_RC, CB_GETCURSEL, 0, 0);
 
 		if (chkWinColors.GetState())
-			g_plugin.PopupDefColors = byCOLOR_OWN;
-		else if (chOwnColors.GetState())
 			g_plugin.PopupDefColors = byCOLOR_WINDOWS;
+		else if (chOwnColors.GetState())
+			g_plugin.PopupDefColors = byCOLOR_OWN;
 		else
 			g_plugin.PopupDefColors = byCOLOR_POPUP;
 		return true;
