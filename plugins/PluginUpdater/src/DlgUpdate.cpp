@@ -561,6 +561,7 @@ static renameTable[] =
 
 	{ L"advaimg.dll",                    nullptr },
 	{ L"aim.dll",                        nullptr },
+	{ L"discord.dll",                    nullptr },
 	{ L"extraicons.dll",                 nullptr },
 	{ L"firstrun.dll",                   nullptr },
 	{ L"flashavatars.dll",               nullptr },
