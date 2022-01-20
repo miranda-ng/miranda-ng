@@ -1,4 +1,3 @@
-#add_subdirectory(Discord)
 #add_subdirectory(Dummy)
 #add_subdirectory(EmLanProto)
 add_subdirectory(Facebook)
