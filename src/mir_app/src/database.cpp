@@ -475,7 +475,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 		SET_UID(mi, 0x98c0caf3, 0xBfe5, 0x4e31, 0xac, 0xf0, 0xab, 0x95, 0xb2, 0x9b, 0x9f, 0x73);
 		mi.position++;
 		mi.hIcolibItem = g_plugin.getIconHandle(IDI_DATABASE);
-		mi.name.a = LPGEN("Compact");
+		mi.name.a = LPGEN("Compact database");
 		mi.pszService = "DB/UI/Compact";
 		Menu_AddMainMenuItem(&mi);
 

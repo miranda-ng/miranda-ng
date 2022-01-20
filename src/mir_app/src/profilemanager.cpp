@@ -425,7 +425,7 @@ class CChooseProfileDlg : public CDlgBase
 		if (dblink != nullptr) {
 			bool bAdded = false;
 			if (dblink->capabilities & MDB_CAPS_COMPACT) {
-				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact"));
+				AppendMenu(hMenu, MF_STRING, 3, TranslateT("Compact database"));
 				bAdded = true;
 			}
 
