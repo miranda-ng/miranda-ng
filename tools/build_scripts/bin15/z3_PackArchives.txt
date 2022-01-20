@@ -67,7 +67,6 @@ Libs\sqlite3.mir
 Libs\Zlib.mir
 Icons\Proto_Dummy.dll
 Icons\Proto_Facebook.dll
-Icons\Proto_GG.dll
 Icons\Proto_ICQ.dll
 Icons\Proto_IRC.dll
 Icons\Proto_Jabber.dll
@@ -84,7 +83,6 @@ Plugins\DbChecker.dll
 Plugins\Dbx_sqlite.dll
 Plugins\Dummy.dll
 Plugins\Facebook.dll
-Plugins\GG.dll
 Plugins\ICQ.dll
 Plugins\Import.dll
 Plugins\IRC.dll
