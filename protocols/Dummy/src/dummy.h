@@ -35,6 +35,7 @@ static const ttemplate templates[] =
 {
 	{ LPGEN("Custom"), "", "" },
 	{ "AIM", "SN", LPGEN("Screen name") },
+	{ "Discord", "id", LPGEN("Discord ID") },
 	{ "EmLAN", "Nick", LPGEN("User name") },
 	{ "Facebook", "ID", LPGEN("Facebook ID") },
 	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
