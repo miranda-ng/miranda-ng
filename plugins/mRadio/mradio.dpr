@@ -31,24 +31,17 @@ uses
 function OnModulesLoaded(wParam:WPARAM;lParam:LPARAM):int;cdecl;
 var
   nlu:TNETLIBUSER;
-  buf:array [0..MAX_PATH-1] of WideChar;
-  szTemp:array [0..255] of AnsiChar absolute buf;
-  pc:pWideChar;
+  buf:PWideChar;
+  szTemp:array [0..255] of AnsiChar;
 begin
-  // buf = miranda directory
-  // must be same as %miranda_path% of MS_UTILS_REPLACEVARS
-
-  GetModuleFileNameW(0,buf,MAX_PATH-1);
-  pc:=StrEndW(buf);
-  repeat
-    dec(pc);
-  until pc^='\';
-  inc(pc);
-  pc^:=#0;
-
-  // INI file path
-  StrCopyW(pc,'plugins\mradio.ini');
+  buf:=Utils_ReplaceVarsW('%miranda_path%\plugins\mradio\mradio.ini');
+  if (GetFileAttributesW(buf) = $FFFFFFFF) then begin
+     mir_free(buf);
+     buf:=Utils_ReplaceVarsW('%miranda_path%\plugins\mradio.ini');
+  end;
   FastWideToAnsi(buf,storage);
+  mir_free(buf);
+
   mGetMem(storagep,MAX_PATH+32);
   Profile_GetPathA(MAX_PATH,storagep);
   StrCat(storagep,'\mradio.ini');
