@@ -168,7 +168,7 @@ CIrcProto::~CIrcProto()
 void CIrcProto::OnModulesLoaded()
 {
 	wchar_t name[128];
-	mir_snwprintf(name, TranslateT("%s server connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s (server)"), m_tszUserName);
 
 	db_unset(0, m_szModuleName, "JTemp");
 

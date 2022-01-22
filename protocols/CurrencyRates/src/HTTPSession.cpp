@@ -82,7 +82,7 @@ bool CHTTPSession::Init()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = TranslateT("CurrencyRates HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("CurrencyRates");
 	g_hNetLib = Netlib_RegisterUser(&nlu);
 	return (nullptr != g_hNetLib);
 }

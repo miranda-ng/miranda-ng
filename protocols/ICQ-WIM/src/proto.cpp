@@ -89,7 +89,7 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	Chat_Register(&gcr);
 
 	// netlib handle
-	CMStringW descr(FORMAT, TranslateT("%s server connection"), m_tszUserName);
+	CMStringW descr(FORMAT, TranslateT("%s (server)"), m_tszUserName);
 
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = m_szModuleName;

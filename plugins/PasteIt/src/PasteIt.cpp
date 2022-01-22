@@ -354,7 +354,7 @@ int CMPlugin::Load()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = TranslateT("Paste It HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("Paste It");
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	pasteToWebs[0] = new PasteToWeb1();

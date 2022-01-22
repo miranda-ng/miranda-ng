@@ -139,6 +139,6 @@ void NetlibInit(void)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = TranslateT("Weather HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("Weather");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

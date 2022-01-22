@@ -50,7 +50,7 @@ BOOL NetlibInit()
 {
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = TranslateT("Pack Updater HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("Pack Updater");
 	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 

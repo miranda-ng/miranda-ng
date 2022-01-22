@@ -61,7 +61,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 int CMPlugin::Load()
 {
-	CMStringA szDescr(FORMAT, "%s connection", protoName);
+	CMStringA szDescr(FORMAT, "%s", protoName);
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING;
 	nlu.szSettingsModule = protoName;

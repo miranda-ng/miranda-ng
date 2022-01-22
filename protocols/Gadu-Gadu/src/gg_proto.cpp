@@ -41,7 +41,7 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	// Register m_hNetlibUser user
 	wchar_t name[128];
-	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s"), m_tszUserName);
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;

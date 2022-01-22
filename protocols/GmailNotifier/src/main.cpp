@@ -91,7 +91,7 @@ int CMPlugin::Load()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = TranslateT("Gmail Notifier connection");
+	nlu.szDescriptiveName.w = TranslateT("Gmail Notifier");
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
