@@ -4,12 +4,12 @@
 
 //statical
 
-typedef struct _tagXPTObject
+struct XPTObject : public MZeroedObject
 {
 	HANDLE  hThemeHandle;
 	HWND    hOwnerWindow;
 	LPCWSTR lpcwClassObject;
-} XPTObject;
+};
 
 static OBJLIST<XPTObject> xptObjectList(1);
 static mir_cs xptCS;
