@@ -71,7 +71,7 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 	}
 }
 
-void __cdecl sttCheckStatusThreadProc(void*)
+void __cdecl sttCheckStatusThreadProc(void *)
 {
 	MThreadLock threadLock(status_update_thread);
 
@@ -140,8 +140,9 @@ void __cdecl sttCheckStatusThreadProc(void*)
 				if (get_thread_finished()) break;
 				if (get_list_changed()) break;
 
-				{	mir_cslock lck(data_list_cs);
-				
+				{
+					mir_cslock lck(data_list_cs);
+
 					for (pinglist_it i = data_list.begin(); i != data_list.end(); ++i) {
 						if (i->item_id == pa.item_id) {
 							i->responding = pa.responding;
@@ -246,7 +247,7 @@ int FillList(WPARAM, LPARAM)
 
 		int index = 0;
 		for (pinglist_it j = data_list.begin(); j != data_list.end(); ++j, index++) {
-			SendMessage(list_hwnd, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)&(*j));
+			SendMessage(list_hwnd, LB_INSERTSTRING, (WPARAM)-1, (LPARAM) & (*j));
 		}
 		set_list_changed(true);
 
@@ -341,16 +342,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
 
-					tcol = db_get_dw(0, "CLC", "SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT));
-					SetTextColor(dis->hDC, tcol);
+					SetTextColor(dis->hDC, db_get_dw(0, "CLC", "SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT)));
 				}
 				else {
 					tcol = bk_col;
 					SetBkColor(dis->hDC, tcol);
 					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
 
-					tcol = g_plugin.getDword("FontCol", GetSysColor(COLOR_WINDOWTEXT));
-					SetTextColor(dis->hDC, tcol);
+					SetTextColor(dis->hDC, font_id.deffontsettings.colour);
 				}
 
 				SetBkMode(dis->hDC, TRANSPARENT);
@@ -461,12 +460,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 			}
 			else {
-				#ifdef WS_EX_LAYERED
 				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-				#endif
-				#ifdef LWA_ALPHA
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				#endif
 			}
 		}
 
@@ -487,9 +482,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		else {
 			if (db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT)) {
 				KillTimer(hwnd, TM_AUTOALPHA);
-				#ifdef LWA_ALPHA
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				#endif
 				transparentFocus = 1;
 			}
 		}
@@ -498,9 +491,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_SETCURSOR:
 		if (db_get_b(0, "CList", "Transparent", SETTING_TRANSPARENT_DEFAULT)) {
 			if (!transparentFocus && GetForegroundWindow() != hwnd) {
-				#ifdef LWA_ALPHA
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				#endif
 				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, nullptr);
 			}
@@ -525,10 +516,10 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			if (inwnd != transparentFocus) { //change
 				transparentFocus = inwnd;
-				#ifdef LWA_ALPHA
-				if (transparentFocus) SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
-				else SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
-				#endif
+				if (transparentFocus)
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				else
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)db_get_b(0, "CList", "AutoAlpha", SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
 			}
 			if (!transparentFocus) KillTimer(hwnd, TM_AUTOALPHA);
 			return TRUE;
@@ -542,16 +533,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if (noRecurse) break;
 			if (!db_get_b(0, "CLUI", "FadeInOut", 0))
 				break;
-			#ifdef WS_EX_LAYERED
-			if (GetWindowLongPtr(hwnd, GWL_EXSTYLE)&WS_EX_LAYERED) {
+			
+			if (GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_LAYERED) {
 				uint32_t thisTick, startTick;
 				int sourceAlpha, destAlpha;
 				if (wParam) {
 					sourceAlpha = 0;
 					destAlpha = (uint8_t)db_get_b(0, "CList", "Alpha", SETTING_AUTOALPHA_DEFAULT);
-					#ifdef LWA_ALPHA
 					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
-					#endif
 					noRecurse = 1;
 					ShowWindow(hwnd, SW_SHOW);
 					noRecurse = 0;
@@ -562,17 +551,14 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				}
 				for (startTick = GetTickCount();;) {
 					thisTick = GetTickCount();
-					if (thisTick >= startTick + 200) break;
-					#ifdef LWA_ALPHA
-					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)(sourceAlpha + (destAlpha - sourceAlpha)*(int)(thisTick - startTick) / 200), LWA_ALPHA);
-					#endif
+					if (thisTick >= startTick + 200)
+						break;
+
+					SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
 				}
-				#ifdef LWA_ALPHA
 				SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (uint8_t)destAlpha, LWA_ALPHA);
-				#endif
 			}
 			else AnimateWindow(hwnd, 200, AW_BLEND | (wParam ? 0 : AW_HIDE));
-			#endif
 		}
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 
@@ -694,14 +680,11 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	case WM_SIZE:
 		GetClientRect(hwnd, &rect);
 		{
-			int winheight = rect.bottom - rect.top,
-				itemheight = SendMessage(list_hwnd, LB_GETITEMHEIGHT, 0, 0),
-				count = SendMessage(list_hwnd, LB_GETCOUNT, 0, 0),
-				#ifdef min
-				height = min(winheight - winheight % itemheight, itemheight * count);
-			#else
-				height = std::min(winheight - winheight % itemheight, itemheight * count);
-			#endif
+			int winheight = rect.bottom - rect.top;
+			int itemheight = SendMessage(list_hwnd, LB_GETITEMHEIGHT, 0, 0);
+			int count = SendMessage(list_hwnd, LB_GETCOUNT, 0, 0);
+			int height = min(winheight - winheight % itemheight, itemheight * count);
+
 			SetWindowPos(list_hwnd, nullptr, rect.left, rect.top, rect.right - rect.left, height, SWP_NOZORDER);
 			InvalidateRect(list_hwnd, nullptr, FALSE);
 		}
@@ -738,7 +721,8 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 
 int ReloadFont(WPARAM, LPARAM)
 {
-	if (hFont) DeleteObject(hFont);
+	if (hFont)
+		DeleteObject(hFont);
 
 	LOGFONT log_font;
 	Font_GetW(font_id, &log_font);
@@ -747,7 +731,6 @@ int ReloadFont(WPARAM, LPARAM)
 
 	bk_col = Colour_GetW(bk_col_id);
 	RefreshWindow(0, 0);
-
 	return 0;
 }
 
@@ -824,24 +807,19 @@ void InitList()
 {
 	hwnd_clist = g_clistApi.hwndContactList;
 
-	WNDCLASS wndclass;
-
-	wndclass.style = 0;
+	WNDCLASS wndclass = {};
 	wndclass.lpfnWndProc = FrameWindowProc;
-	wndclass.cbClsExtra = 0;
-	wndclass.cbWndExtra = 0;
 	wndclass.hInstance = g_plugin.getInst();
 	wndclass.hIcon = hIconResponding;
 	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE + 1);
-	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = _A2W(MODULENAME) L"WindowClass";
 	RegisterClass(&wndclass);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		hpwnd = CreateWindow(_A2W(MODULENAME) L"WindowClass", L"Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, nullptr, g_plugin.getInst(), nullptr);
 
-		CLISTFrame frame = { 0 };
+		CLISTFrame frame = {};
 		frame.cbSize = sizeof(CLISTFrame);
 		frame.szName.a = MODULENAME;
 		frame.szTBname.a = LPGEN("Ping");
@@ -871,8 +849,10 @@ void InitList()
 		mi.pszService = MODULENAME "/ShowWindow";
 		Menu_AddMainMenuItem(&mi);
 
-		if (options.attach_to_clist) AttachToClist(true);
-		else ShowWindow(hpwnd, SW_SHOW);
+		if (options.attach_to_clist)
+			AttachToClist(true);
+		else
+			ShowWindow(hpwnd, SW_SHOW);
 	}
 
 	mir_wstrncpy(font_id.group, LPGENW("Ping"), _countof(font_id.group));
@@ -888,7 +868,6 @@ void InitList()
 	font_id.deffontsettings.style = 0;
 	font_id.deffontsettings.colour = RGB(255, 255, 255);
 	mir_wstrncpy(font_id.deffontsettings.szFace, L"Tahoma", _countof(font_id.deffontsettings.szFace));
-
 	g_plugin.addFont(&font_id);
 
 	mir_wstrncpy(bk_col_id.group, L"Ping", _countof(bk_col_id.group));

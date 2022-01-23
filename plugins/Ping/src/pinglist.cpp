@@ -13,18 +13,15 @@ BOOL changing_clist_handle()
 	return clist_handle_changing;
 }
 
-
 void set_changing_clist_handle(BOOL flag)
 {
 	clist_handle_changing = flag;
 }
 
-
 const bool PINGADDRESS::operator==(const PINGADDRESS &b) const
 {
 	return index == b.index;
 }
-
 
 const bool PINGADDRESS::operator<(const PINGADDRESS &b) const
 {
@@ -50,7 +47,6 @@ INT_PTR GetListSize(WPARAM, LPARAM)
 	ret = list_items.size();
 	return ret;
 }
-
 
 void write_ping_address(PINGADDRESS &i)
 {
@@ -85,8 +81,7 @@ void write_ping_address(PINGADDRESS &i)
 void write_ping_addresses()
 {
 	int index = 0;
-	for (pinglist_it i = list_items.begin(); i != list_items.end(); ++i, index++)
-	{
+	for (pinglist_it i = list_items.begin(); i != list_items.end(); ++i, index++) {
 		i->index = index;
 		write_ping_address(*i);
 	}
@@ -105,7 +100,8 @@ void write_ping_addresses()
 	} while (found);
 }
 
-bool read_ping_address(PINGADDRESS &pa) {
+bool read_ping_address(PINGADDRESS &pa)
+{
 	int index = pa.index;
 
 	char buff[16];
@@ -175,13 +171,11 @@ void read_ping_addresses()
 	pa.index = 0;
 
 	list_items.clear();
-	while (read_ping_address(pa))
-	{
+	while (read_ping_address(pa)) {
 		list_items.push_back(pa);
 		++pa.index;
 	}
 }
-
 
 INT_PTR LoadPingList(WPARAM, LPARAM)
 {
@@ -239,4 +233,3 @@ INT_PTR ClearPingList(WPARAM, LPARAM)
 	NotifyEventHooks(reload_event_handle, 0, 0);
 	return 0;
 }
-
