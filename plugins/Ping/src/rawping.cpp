@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-USHORT ip_checksum(USHORT* buffer, int size)
+USHORT ip_checksum(USHORT *buffer, int size)
 {
 	unsigned long cksum = 0;
 
@@ -9,9 +9,9 @@ USHORT ip_checksum(USHORT* buffer, int size)
 		cksum += *buffer++;
 		size -= sizeof(USHORT);
 	}
-	if (size) {
-		cksum += *(UCHAR*)buffer;
-	}
+
+	if (size)
+		cksum += *(UCHAR *)buffer;
 
 	// Do a little shuffling
 	cksum = (cksum >> 16) + (cksum & 0xffff);
@@ -27,7 +27,7 @@ char recv_buff[1024];
 USHORT seq_no = 0;
 bool inited = false;
 
-extern int init_raw_ping()
+int init_raw_ping()
 {
 	WSAData wsaData;
 	if (WSAStartup(MAKEWORD(1, 1), &wsaData) != 0) {
@@ -46,7 +46,7 @@ extern int init_raw_ping()
 	}
 
 	int ttl = 255;
-	if (setsockopt(sd, IPPROTO_IP, IP_TTL, (const char*)&ttl, sizeof(ttl)) == SOCKET_ERROR) {
+	if (setsockopt(sd, IPPROTO_IP, IP_TTL, (const char *)&ttl, sizeof(ttl)) == SOCKET_ERROR) {
 		return 3;
 	}
 
@@ -69,7 +69,7 @@ extern int init_raw_ping()
 	return 5;
 }
 
-extern int raw_ping(char *host, int timeout)
+int raw_ping(char *host, int timeout)
 {
 	if (!inited) return -1;
 
@@ -86,7 +86,7 @@ extern int raw_ping(char *host, int timeout)
 	}
 	else {
 		// Not in dotted quad form, so try and look it up
-		hostent* hp = gethostbyname(host);
+		hostent *hp = gethostbyname(host);
 		if (hp != nullptr) {
 			// Found an address for that host, so save it
 			memcpy(&(dest.sin_addr), hp->h_addr, hp->h_length);
@@ -95,7 +95,7 @@ extern int raw_ping(char *host, int timeout)
 		}
 		else {
 			// Not a recognized hostname either!
-			if (options.logging) CallService(MODULENAME "/Log", (WPARAM)L"rawping error: unrecognised host", 0);
+			Log(L"rawping error: unrecognised host");
 			return -1;
 		}
 	}
@@ -103,7 +103,7 @@ extern int raw_ping(char *host, int timeout)
 	ICMPHeader *header = (ICMPHeader *)packet;
 	header->seq = ++seq_no;
 	header->checksum = 0;
-	header->checksum = ip_checksum((USHORT*)header, sizeof(ICMPHeader));
+	header->checksum = ip_checksum((USHORT *)header, sizeof(ICMPHeader));
 
 	bool use_hi_res = false;
 	LARGE_INTEGER hr_freq = { 0 }, hr_send_time = { 0 };
@@ -113,13 +113,12 @@ extern int raw_ping(char *host, int timeout)
 		QueryPerformanceCounter(&hr_send_time);
 		send_time = 0;
 	}
-	else
-		send_time = GetTickCount();
+	else send_time = GetTickCount();
 
 	// send packet
-	int bwrote = sendto(sd, (char*)packet, sizeof(ICMPHeader), 0, (sockaddr*)&dest, sizeof(dest));
+	int bwrote = sendto(sd, (char *)packet, sizeof(ICMPHeader), 0, (sockaddr *)&dest, sizeof(dest));
 	if (bwrote == SOCKET_ERROR) {
-		if (options.logging) CallService(MODULENAME "/Log", (WPARAM)L"rawping error: unable to send", 0);
+		Log(L"rawping error: unable to send");
 		return -1;
 	}
 
@@ -136,12 +135,10 @@ extern int raw_ping(char *host, int timeout)
 		hr_current_time = hr_start;
 		current_time = start = 0;
 	}
-	else
-		current_time = start = GetTickCount();
+	else current_time = start = GetTickCount();
 
-	while (use_hi_res ? (hr_current_time.QuadPart < hr_start.QuadPart + hr_timeout.QuadPart) : (current_time < start + timeout))
-	{
-		int bread = recvfrom(sd, recv_buff, 1024, 0, (sockaddr*)&source, &fromlen);
+	while (use_hi_res ? (hr_current_time.QuadPart < hr_start.QuadPart + hr_timeout.QuadPart) : (current_time < start + timeout)) {
+		int bread = recvfrom(sd, recv_buff, 1024, 0, (sockaddr *)&source, &fromlen);
 
 		if (use_hi_res)
 			QueryPerformanceCounter(&hr_current_time);
@@ -149,49 +146,41 @@ extern int raw_ping(char *host, int timeout)
 			current_time = GetTickCount();
 
 		if (bread == SOCKET_ERROR) {
-			if (WSAGetLastError() != WSAETIMEDOUT) {
-				if (options.logging)
-					CallService(MODULENAME "/Log", (WPARAM)L"rawping error: socket error...cycling", 0);
-			}
+			if (WSAGetLastError() != WSAETIMEDOUT)
+				Log(L"rawping error: socket error...cycling");
 			continue;
 		}
 
 		if (reply_header->proto != ICMP_PROTO) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: packet not ICMP...cycling", 0);
+			Log(L"rawping error: packet not ICMP...cycling");
 			continue;
 		}
 
 		if (reply_header->tos != 0) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: TOS not 0...cycling", 0);
+			Log(L"rawping error: TOS not 0...cycling");
 			continue;
 		}
 
 		reply = (ICMPHeader *)(recv_buff + reply_header->h_len * 4);
 		if ((unsigned)bread < reply_header->h_len * 4 + sizeof(ICMPHeader)) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: short header", 0);
+			Log(L"rawping error: short header");
 			continue;
 		}
 
 		if (reply->id != (USHORT)GetCurrentProcessId()) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: wrong ID...cycling", 0);
+			Log(L"rawping error: wrong ID...cycling");
 			continue;
 		}
 
 		if (reply->type != PT_ICMP_ECHO_REPLY && reply->type != PT_ICMP_SOURCE_QUENCH) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: wrong type...cycling", 0);
+			Log(L"rawping error: wrong type...cycling");
 			continue;
 		}
 
 		//if(reply->seq < seq_no) continue;
 		//if(reply->seq > seq_no) return -1;
 		if (reply->seq != seq_no) {
-			if (options.logging)
-				CallService(MODULENAME "/Log", (WPARAM)L"rawping error: wrong sequence number...cycling", 0);
+			Log(L"rawping error: wrong sequence number...cycling");
 			continue;
 		}
 
@@ -206,16 +195,15 @@ extern int raw_ping(char *host, int timeout)
 			ticks.QuadPart = hr_current_time.QuadPart - hr_send_time.QuadPart;
 			return (int)(ticks.QuadPart * 1000 / hr_freq.QuadPart);
 		}
-		else
-			return current_time - send_time;
-	}
-	if (options.logging)
-		CallService(MODULENAME "/Log", (WPARAM)L"rawping error: timeout", 0);
 
+		return current_time - send_time;
+	}
+
+	Log(L"rawping error: timeout");
 	return -1;
 }
 
-extern int cleanup_raw_ping()
+int cleanup_raw_ping()
 {
 	if (inited) {
 		closesocket(sd);

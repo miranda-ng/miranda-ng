@@ -75,28 +75,28 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				CallService(MODULENAME "/ViewLogData", 0, 0);
 				break;
 			case IDC_BTN_LOGBROWSE:
-			{
-				wchar_t filter[MAX_PATH];
-				mir_snwprintf(filter, L"%s%c*.txt%c%s%c*.*%c", TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
-				OPENFILENAME ofn = { 0 };
-				ofn.lStructSize = sizeof(ofn);
-				ofn.lpstrFile = options.log_filename;
-				ofn.hwndOwner = hwndDlg;
-				ofn.nMaxFile = _countof(options.log_filename);
-				ofn.lpstrTitle = TranslateT("Open log file");
-				ofn.lpstrFilter = filter;
-				ofn.nFilterIndex = 1;
-				ofn.lpstrFileTitle = nullptr;
-				ofn.nMaxFileTitle = 0;
-				ofn.lpstrInitialDir = nullptr;
-				ofn.Flags = OFN_PATHMUSTEXIST;
+				{
+					wchar_t filter[MAX_PATH];
+					mir_snwprintf(filter, L"%s%c*.txt%c%s%c*.*%c", TranslateT("Text Files (*.txt)"), 0, 0, TranslateT("All Files"), 0, 0);
+					OPENFILENAME ofn = { 0 };
+					ofn.lStructSize = sizeof(ofn);
+					ofn.lpstrFile = options.log_filename;
+					ofn.hwndOwner = hwndDlg;
+					ofn.nMaxFile = _countof(options.log_filename);
+					ofn.lpstrTitle = TranslateT("Open log file");
+					ofn.lpstrFilter = filter;
+					ofn.nFilterIndex = 1;
+					ofn.lpstrFileTitle = nullptr;
+					ofn.nMaxFileTitle = 0;
+					ofn.lpstrInitialDir = nullptr;
+					ofn.Flags = OFN_PATHMUSTEXIST;
 
-				if (GetOpenFileName(&ofn) == TRUE) {
-					SetDlgItemText(hwndDlg, IDC_ED_FILENAME, ofn.lpstrFile);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					if (GetOpenFileName(&ofn) == TRUE) {
+						SetDlgItemText(hwndDlg, IDC_ED_FILENAME, ofn.lpstrFile);
+						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					}
 				}
-			}
-			break;
+				break;
 			}
 			break;
 		}
@@ -145,8 +145,10 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 			RefreshWindow(0, 0);
 
-			if (options.logging) CallService(MODULENAME "/Log", (WPARAM)L"options changed", 0);
-			if (hWakeEvent) SetEvent(hWakeEvent);
+			Log(L"options changed");
+			
+			if (hWakeEvent)
+				SetEvent(hWakeEvent);
 			return TRUE;
 		}
 		break;
@@ -159,7 +161,8 @@ PINGLIST temp_list;
 PINGADDRESS add_edit_addr;
 
 // host edit
-INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) {
+INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+{
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
@@ -204,6 +207,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 		// ? doesn't work? ?
 		SetFocus(GetDlgItem(hwndDlg, IDC_ED_DESTLAB));
 		return FALSE;
+	
 	case WM_COMMAND:
 		if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_COMBO_DESTPROTO) {
 			int sel = SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0);
@@ -213,21 +217,19 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 			}
 		}
 
-		if (HIWORD(wParam) == BN_CLICKED)
-		{
-			switch (LOWORD(wParam))
-			{
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
 			case IDC_CHK_DESTTCP:
 				EnableWindow(GetDlgItem(hwndDlg, IDC_ED_DESTPORT), IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP));
 				break;
+			
 			case IDOK:
 				GetDlgItemText(hwndDlg, IDC_ED_DESTADDR, add_edit_addr.pszName, _countof(add_edit_addr.pszName));
 				GetDlgItemText(hwndDlg, IDC_ED_DESTLAB, add_edit_addr.pszLabel, _countof(add_edit_addr.pszLabel));
 				GetDlgItemText(hwndDlg, IDC_ED_COMMAND, add_edit_addr.pszCommand, _countof(add_edit_addr.pszCommand));
 				GetDlgItemText(hwndDlg, IDC_ED_PARAMS, add_edit_addr.pszParams, _countof(add_edit_addr.pszParams));
 
-				if (SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1)
-				{
+				if (SendDlgItemMessage(hwndDlg, IDC_COMBO_DESTPROTO, CB_GETCURSEL, 0, 0) != -1) {
 					GetDlgItemTextA(hwndDlg, IDC_COMBO_DESTPROTO, add_edit_addr.pszProto, _countof(add_edit_addr.pszProto));
 					if (!mir_strcmp(add_edit_addr.pszProto, Translate("<none>")))
 						add_edit_addr.pszProto[0] = '\0';
@@ -241,22 +243,20 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 							add_edit_addr.get_status = ID_STATUS_OFFLINE + sel;
 					}
 				}
-				else
-					add_edit_addr.pszProto[0] = '\0';
+				else add_edit_addr.pszProto[0] = '\0';
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP))
-				{
+				if (IsDlgButtonChecked(hwndDlg, IDC_CHK_DESTTCP)) {
 					BOOL tr;
 					int port = GetDlgItemInt(hwndDlg, IDC_ED_DESTPORT, &tr, FALSE);
 					if (tr) add_edit_addr.port = port;
 					else add_edit_addr.port = -1;
 				}
-				else
-					add_edit_addr.port = -1;
+				else add_edit_addr.port = -1;
 
 				EndDialog(hwndDlg, IDOK);
 				RefreshWindow(0, 0);
 				break;
+			
 			case IDCANCEL:
 				EndDialog(hwndDlg, IDCANCEL);
 				break;
@@ -271,8 +271,7 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM) 
 bool Edit(HWND hwnd, PINGADDRESS &addr)
 {
 	add_edit_addr = addr;
-	if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK)
-	{
+	if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK) {
 		addr = add_edit_addr;
 		return true;
 	}
@@ -285,26 +284,22 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-	{
 		TranslateDialogDefault(hwndDlg);
-
-		mir_cslock lck(data_list_cs);
-		temp_list = data_list;
-
-		for (pinglist_it i = temp_list.begin(); i != temp_list.end(); ++i)
 		{
-			int index = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i->pszLabel);
-			SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, index, (LPARAM)&(*i));
+			mir_cslock lck(data_list_cs);
+			temp_list = data_list;
+
+			for (pinglist_it i = temp_list.begin(); i != temp_list.end(); ++i) {
+				int index = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)i->pszLabel);
+				SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, index, (LPARAM) & (*i));
+			}
 		}
-	}
-	return TRUE;
+		return TRUE;
 
 	case WM_COMMAND:
-		if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_DEST)
-		{
+		if (HIWORD(wParam) == LBN_SELCHANGE && LOWORD(wParam) == IDC_LST_DEST) {
 			int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
-			if (sel != LB_ERR)
-			{
+			if (sel != LB_ERR) {
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
 
@@ -314,38 +309,34 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 		}
 
-		if (HIWORD(wParam) == BN_CLICKED)
-		{
-			switch (LOWORD(wParam))
-			{
+		if (HIWORD(wParam) == BN_CLICKED) {
+			switch (LOWORD(wParam)) {
 			case IDC_BTN_DESTEDIT:
-			{
-				int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
-				if (sel != LB_ERR)
 				{
-					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
-					PINGADDRESS temp = *item;
-					if (Edit(hwndDlg, temp))
-					{
-						*item = temp;
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)sel, 0);
+					int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
+					if (sel != LB_ERR) {
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
+						PINGADDRESS temp = *item;
+						if (Edit(hwndDlg, temp)) {
+							*item = temp;
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)sel, 0);
 
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), sel > 0);
-						int count = SendDlgItemMessage(hwndDlg, IDC_BTN_DESTDOWN, LB_GETCOUNT, 0, 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel < count - 1));
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), sel > 0);
+							int count = SendDlgItemMessage(hwndDlg, IDC_BTN_DESTDOWN, LB_GETCOUNT, 0, 0);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel < count - 1));
 
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						}
 					}
 				}
-			}
-			break;
-			case IDC_BTN_DESTADD:
+				break;
 
+			case IDC_BTN_DESTADD:
 				memset(&add_edit_addr, 0, sizeof(add_edit_addr));
 				add_edit_addr.cbSize = sizeof(add_edit_addr);
 				add_edit_addr.port = -1;
@@ -355,13 +346,12 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				add_edit_addr.item_id = 0;
 				add_edit_addr.index = (int)temp_list.size();
 
-				if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK)
-				{
+				if (DialogBox(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG3), hwndDlg, DlgProcDestEdit) == IDOK) {
 					temp_list.push_back(add_edit_addr);
 
 					int index = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)add_edit_addr.pszLabel);
 					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)index, 0);
-					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)index, (LPARAM)&(temp_list.back()));
+					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)index, (LPARAM) & (temp_list.back()));
 
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), TRUE);
 					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), TRUE);
@@ -373,110 +363,108 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
-
 				break;
+
 			case IDC_BTN_DESTREM:
-			{
-				int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
-				if (sel != LB_ERR) {
-					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
-					SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
-					temp_list.remove(*item);
+				{
+					int sel = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
+					if (sel != LB_ERR) {
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel, 0);
+						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel, 0);
+						temp_list.remove(*item);
+					}
+
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), FALSE);
+
+					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+					RefreshWindow(0, 0);
 				}
-
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTREM), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTEDIT), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), FALSE);
-
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				RefreshWindow(0, 0);
 				break;
-			}
+
 			case IDC_BTN_DESTDOWN:
-			{
-				int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
-				if (sel2 != LB_ERR) {
-					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
-						*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 + 1, 0);
-					if (item && item2)
-					{
-						add_edit_addr = *item;
-						*item = *item2;
-						*item2 = add_edit_addr;
+				{
+					int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
+					if (sel2 != LB_ERR) {
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
+							*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 + 1, 0);
+						if (item && item2) {
+							add_edit_addr = *item;
+							*item = *item2;
+							*item2 = add_edit_addr;
 
-						// keep indexes the same, as they're used for sorting the binary tree
-						int index = item->index, index2 = item2->index;
-						item->index = index2;
-						item2->index = index;
+							// keep indexes the same, as they're used for sorting the binary tree
+							int index = item->index, index2 = item2->index;
+							item->index = index2;
+							item2->index = index;
 
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 + 1), 0);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 + 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
 
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 + 1 > 0));
-						int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 + 1 < count - 1));
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 + 1 > 0));
+							int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 + 1 < count - 1));
 
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						}
 					}
 				}
-			}
-			break;
+				break;
+
 			case IDC_BTN_DESTUP:
-			{
-				int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
-				if (sel2 != LB_ERR) {
-					PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
-						*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 - 1, 0);
+				{
+					int sel2 = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCURSEL, 0, 0);
+					if (sel2 != LB_ERR) {
+						PINGADDRESS *item = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2, 0),
+							*item2 = (PINGADDRESS *)SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETITEMDATA, sel2 - 1, 0);
 
-					if (item && item2)
-					{
-						add_edit_addr = *item;
-						*item = *item2;
-						*item2 = add_edit_addr;
+						if (item && item2) {
+							add_edit_addr = *item;
+							*item = *item2;
+							*item2 = add_edit_addr;
 
-						// keep indexes the same, as they're used for sorting the binary tree
-						int index = item->index, index2 = item2->index;
-						item->index = index2;
-						item2->index = index;
+							// keep indexes the same, as they're used for sorting the binary tree
+							int index = item->index, index2 = item2->index;
+							item->index = index2;
+							item2->index = index;
 
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)sel2, 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
 
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 - 1), 0);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_DELETESTRING, (WPARAM)(sel2 - 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
 
-						SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
+							SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
 
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 - 1 > 0));
-						int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 - 1 < count - 1));
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTUP), (sel2 - 1 > 0));
+							int count = SendDlgItemMessage(hwndDlg, IDC_LST_DEST, LB_GETCOUNT, 0, 0);
+							EnableWindow(GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN), (sel2 - 1 < count - 1));
 
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+						}
 					}
 				}
-			}
 
-			break;
+				break;
 			}
 		}
 		if (LOWORD(wParam) == IDC_BGCOL
-			|| LOWORD(wParam) == IDC_SP_INDENT || LOWORD(wParam) == IDC_SP_ROWHEIGHT)
-		{
+			|| LOWORD(wParam) == IDC_SP_INDENT || LOWORD(wParam) == IDC_SP_ROWHEIGHT) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY)
-		{
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
 			CallService(MODULENAME "/SetAndSavePingList", (WPARAM)&temp_list, 0);
 			CallService(MODULENAME "/GetPingList", 0, (LPARAM)&temp_list);
 			// the following will be affected due to list rebuild event
@@ -508,7 +496,8 @@ int PingOptInit(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-void LoadOptions() {
+void LoadOptions()
+{
 	options.ping_period = g_plugin.getDword("PingPeriod", DEFAULT_PING_PERIOD);
 
 	options.ping_timeout = g_plugin.getDword("PingTimeout", DEFAULT_PING_TIMEOUT);
@@ -525,7 +514,7 @@ void LoadOptions() {
 
 	options.retries = g_plugin.getDword("Retries", 0);
 
-	CallService(MODULENAME "/GetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
+	GetLogFilename(options.log_filename, _countof(options.log_filename));
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 
@@ -533,7 +522,8 @@ void LoadOptions() {
 	options.log_csv = (g_plugin.getByte("LogCSV", 0) == 1);
 }
 
-void SaveOptions() {
+void SaveOptions()
+{
 	g_plugin.setDword("PingPeriod", options.ping_period);
 	g_plugin.setDword("PingTimeout", options.ping_timeout);
 	CallService(MODULENAME "/SetPingTimeout", (WPARAM)options.ping_timeout, 0);
@@ -548,8 +538,7 @@ void SaveOptions() {
 	g_plugin.setWord("RowHeight", options.row_height);
 
 	g_plugin.setDword("Retries", (uint32_t)options.retries);
-
-	CallService(MODULENAME "/SetLogFilename", (WPARAM)MAX_PATH, (LPARAM)options.log_filename);
+	g_plugin.setWString("LogFilename", options.log_filename);
 
 	ICMP::get_instance()->set_timeout(options.ping_timeout * 1000);
 

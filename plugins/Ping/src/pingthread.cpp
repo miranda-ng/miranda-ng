@@ -31,8 +31,7 @@ static int transparentFocus = 1;
 bool get_thread_finished()
 {
 	mir_cslock lck(thread_finished_cs);
-	bool retval = thread_finished;
-	return retval;
+	return thread_finished;
 }
 
 void set_thread_finished(bool f)
@@ -65,7 +64,7 @@ void SetProtoStatus(wchar_t *pszLabel, char *pszProto, int if_status, int new_st
 			if (options.logging) {
 				wchar_t buf[1024];
 				mir_snwprintf(buf, TranslateT("%s - setting status of protocol '%S' (%d)"), pszLabel, pszProto, new_status);
-				CallService(MODULENAME "/Log", (WPARAM)buf, 0);
+				Log(buf);
 			}
 			CallProtoService(pszProto, PS_SETSTATUS, new_status, 0);
 		}
@@ -191,7 +190,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					if (pa.miss_count == -1 - options.retries && options.logging) {
 						wchar_t buf[512];
 						mir_snwprintf(buf, TranslateT("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
-						CallService(MODULENAME "/Log", (WPARAM)buf, 0);
+						Log(buf);
 					}
 					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
 				}
@@ -205,7 +204,7 @@ void __cdecl sttCheckStatusThreadProc(void*)
 					if (pa.miss_count == 1 + options.retries && options.logging) {
 						wchar_t buf[512];
 						mir_snwprintf(buf, TranslateT("%s - timeout"), pa.pszLabel);
-						CallService(MODULENAME "/Log", (WPARAM)buf, 0);
+						Log(buf);
 					}
 				}
 
@@ -234,8 +233,7 @@ bool FrameIsFloating()
 
 int FillList(WPARAM, LPARAM)
 {
-	if (options.logging)
-		CallService(MODULENAME "/Log", (WPARAM)L"ping address list reload", 0);
+	Log(L"ping address list reload");
 
 	PINGLIST pl;
 	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
@@ -680,7 +678,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						if (options.logging) {
 							wchar_t buf[1024];
 							mir_snwprintf(buf, L"%s - %s", pItemData->pszLabel, (wake ? TranslateT("enabled") : TranslateT("double clicked")));
-							CallService(MODULENAME "/Log", (WPARAM)buf, 0);
+							Log(buf);
 						}
 					}
 				}
@@ -913,6 +911,8 @@ void DeinitList()
 
 	SetEvent(hWakeEvent);
 	if (status_update_thread) {
+		set_thread_finished(true);
+
 		WaitForSingleObject(status_update_thread, INFINITE);
 		status_update_thread = nullptr;
 	}

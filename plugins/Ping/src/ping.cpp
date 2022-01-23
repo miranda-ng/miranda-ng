@@ -46,10 +46,7 @@ static void CreatePluginServices()
 	reload_event_handle = CreateHookableEvent(MODULENAME "/ListReload");
 
 	//log
-	CreateServiceFunction(MODULENAME "/Log", Log);
 	CreateServiceFunction(MODULENAME "/ViewLogData", ViewLogData);
-	CreateServiceFunction(MODULENAME "/GetLogFilename", GetLogFilename);
-	CreateServiceFunction(MODULENAME "/SetLogFilename", SetLogFilename);
 
 	// menu
 	CreateServiceFunction(MODULENAME "/DisableAll", PingDisableAll);
@@ -102,9 +99,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	graphs_init();
 
-	if (options.logging)
-		CallService(MODULENAME "/Log", (WPARAM)L"start", 0);
-
+	Log(L"start");
 	return 0;
 }
 
@@ -146,8 +141,6 @@ int CMPlugin::Unload()
 {
 	SavePingList(0, 0);
 
-	if (options.logging)
-		CallService(MODULENAME "/Log", (WPARAM)L"stop", 0);
-
+	Log(L"stop");
 	return 0;
 }

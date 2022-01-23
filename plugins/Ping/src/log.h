@@ -1,9 +1,8 @@
 #ifndef _PING_LOG
 #define _PING_LOG
 
-INT_PTR Log(WPARAM wParam, LPARAM lParam);
-INT_PTR GetLogFilename(WPARAM wParam, LPARAM lParam);
-INT_PTR SetLogFilename(WPARAM wParam, LPARAM lParam);
+void Log(const wchar_t *pwszText);
+void GetLogFilename(wchar_t *pBuf, size_t cbLen);
 INT_PTR ViewLogData(WPARAM wParam, LPARAM lParam);
 
 #endif
