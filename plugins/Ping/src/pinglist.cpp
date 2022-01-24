@@ -62,7 +62,7 @@ void write_ping_addresses()
 {
 	int index = 0;
 	for (auto &it : list_items) {
-		it.index = index;
+		it.index = index++;
 		write_ping_address(it);
 	}
 
@@ -88,7 +88,8 @@ bool read_ping_address(PINGADDRESS &pa)
 	mir_snprintf(buff, "PING_DEST_%d", index);
 
 	// return if not more contacts, or only deleted contacts remaining
-	if ((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)	return false;
+	if ((pa.item_id = db_get_dw(0, buff, "Id", 0)) == 0)
+		return false;
 
 	DBVARIANT dbv;
 	if (!db_get_ws(0, buff, "Address", &dbv)) {
@@ -118,14 +119,13 @@ bool read_ping_address(PINGADDRESS &pa)
 		mir_wstrncpy(pa.pszCommand, dbv.pwszVal, _countof(pa.pszCommand));
 		db_free(&dbv);
 	}
-	else
-		pa.pszCommand[0] = '\0';
+	else pa.pszCommand[0] = '\0';
+
 	if (!db_get_ws(0, buff, "CommandParams", &dbv)) {
 		mir_wstrncpy(pa.pszParams, dbv.pwszVal, _countof(pa.pszParams));
 		db_free(&dbv);
 	}
-	else
-		pa.pszParams[0] = '\0';
+	else pa.pszParams[0] = '\0';
 
 	pa.set_status = db_get_w(0, buff, "SetStatus", ID_STATUS_ONLINE);
 	pa.get_status = db_get_w(0, buff, "GetStatus", ID_STATUS_OFFLINE);
