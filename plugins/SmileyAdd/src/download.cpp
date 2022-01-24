@@ -226,9 +226,9 @@ int FolderChanged(WPARAM, LPARAM)
 void DownloadInit(void)
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = MODULENAME;
+	nlu.szDescriptiveName.a = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	hFolderPacks = FoldersRegisterCustomPathW(LPGEN("SmileyAdd"), LPGEN("Smiley packs' folder"), L"%miranda_path%");

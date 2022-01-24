@@ -131,7 +131,7 @@ YAMN_PROTOREGISTRATION POP3ProtocolRegistration =
 
 static wchar_t *FileName = nullptr;
 
-HANDLE RegisterNLClient(const char *name);
+HANDLE RegisterNLClient(char *name);
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------

@@ -210,8 +210,8 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	// Netlib register
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;
-	nlu.szDescriptiveName.w = __PLUGIN_NAME;
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
+	nlu.szDescriptiveName.a = __PLUGIN_NAME;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;			//|NUF_NOHTTPSOPTION;
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// load my button class / or use UInfoEx

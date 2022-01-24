@@ -31,7 +31,7 @@ void __stdcall	SSL_DebugLog(const char *fmt, ...)
 	va_end(vararg);
 }
 
-HANDLE RegisterNLClient(const char *name)
+HANDLE RegisterNLClient(char *name)
 {
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<Register PROXY support>");

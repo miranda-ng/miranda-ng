@@ -32,8 +32,8 @@ bool IsMyContact(MCONTACT hContact)
 void NetlibInit()
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = MODULENAME;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
+	nlu.szDescriptiveName.a = MODULENAME;
 	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 }

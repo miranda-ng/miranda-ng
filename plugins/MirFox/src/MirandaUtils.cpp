@@ -30,9 +30,9 @@ void MirandaUtils::netlibLog_int(const wchar_t* szText) {
 void MirandaUtils::netlibRegister() {
 	// Register netlib user for logging function
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_UNICODE | NUF_NOOPTIONS;
+	nlu.flags = NUF_NOOPTIONS;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = MODULENAME;
+	nlu.szDescriptiveName.a = MODULENAME;
 
 	netlibHandle = Netlib_RegisterUser(&nlu);
 }

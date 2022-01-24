@@ -80,9 +80,9 @@ bool CHTTPSession::Init()
 		Miranda_WaitOnHandle(waitStub);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = MODULENAME;
+	nlu.szDescriptiveName.a = MODULENAME;
 	g_hNetLib = Netlib_RegisterUser(&nlu);
 	return (nullptr != g_hNetLib);
 }

@@ -48,8 +48,8 @@ CMPlugin::CMPlugin() :
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = __PLUGIN_NAME;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.szDescriptiveName.a = __PLUGIN_NAME;
 	nlu.szSettingsModule = __PLUGIN_NAME;
 	ghNetlibUser = Netlib_RegisterUser(&nlu);
 

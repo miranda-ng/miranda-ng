@@ -89,9 +89,9 @@ int CMPlugin::Load()
 	HookEvent(ME_CLIST_DOUBLECLICKED, OpenBrowser);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = MODULENAME;
+	nlu.szDescriptiveName.a = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	CreateProtoServiceFunction(MODULENAME, PS_GETCAPS, GetCaps);
