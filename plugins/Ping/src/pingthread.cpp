@@ -105,20 +105,25 @@ void __cdecl sttCheckStatusThreadProc(void *)
 			{
 				mir_cslock lck(data_list_cs);
 				size_t c = 0;
-				for (pinglist_it i = data_list.begin(); i != data_list.end() && c <= index; ++i, c++) {
+				for (auto &it : data_list) {
+					if (c > index)
+						break;
+
 					if (c == index) {
 						// copy just what we need - i.e. not history, not command
-						pa.get_status = i->get_status;
-						pa.item_id = i->item_id;
-						pa.miss_count = i->miss_count;
-						pa.port = i->port;
-						mir_wstrncpy(pa.pszLabel, i->pszLabel, _countof(pa.pszLabel));
-						mir_wstrncpy(pa.pszName, i->pszName, _countof(pa.pszName));
-						mir_strncpy(pa.pszProto, i->pszProto, _countof(pa.pszProto));
-						pa.set_status = i->set_status;
-						pa.status = i->status;
+						pa.get_status = it.get_status;
+						pa.item_id = it.item_id;
+						pa.miss_count = it.miss_count;
+						pa.port = it.port;
+						mir_wstrncpy(pa.pszLabel, it.pszLabel, _countof(pa.pszLabel));
+						mir_wstrncpy(pa.pszName, it.pszName, _countof(pa.pszName));
+						mir_strncpy(pa.pszProto, it.pszProto, _countof(pa.pszProto));
+						pa.set_status = it.set_status;
+						pa.status = it.status;
 						break;
 					}
+					
+					c++;
 				}
 			}
 
@@ -128,9 +133,9 @@ void __cdecl sttCheckStatusThreadProc(void *)
 			if (pa.status != PS_DISABLED) {
 				if (!options.no_test_icon) {
 					mir_cslock lck(data_list_cs);
-					for (pinglist_it i = data_list.begin(); i != data_list.end(); ++i)
-						if (i->item_id == pa.item_id)
-							i->status = PS_TESTING;
+					for (auto &it : data_list)
+						if (it.item_id == pa.item_id)
+							it.status = PS_TESTING;
 
 					InvalidateRect(list_hwnd, nullptr, FALSE);
 				}
@@ -143,17 +148,17 @@ void __cdecl sttCheckStatusThreadProc(void *)
 				{
 					mir_cslock lck(data_list_cs);
 
-					for (pinglist_it i = data_list.begin(); i != data_list.end(); ++i) {
-						if (i->item_id == pa.item_id) {
-							i->responding = pa.responding;
-							i->round_trip_time = pa.round_trip_time;
-							history_entry.first = i->round_trip_time;
+					for (auto &it : data_list) {
+						if (it.item_id == pa.item_id) {
+							it.responding = pa.responding;
+							it.round_trip_time = pa.round_trip_time;
+							history_entry.first = it.round_trip_time;
 							history_entry.second = time(0);
-							history_map[i->item_id].push_back(history_entry);
+							history_map[it.item_id].push_back(history_entry);
 							// maintain history (-1 represents no response)
-							while (history_map[i->item_id].size() >= MAX_HISTORY)
-								//history_map[i->item_id].pop_front();
-								history_map[i->item_id].remove(history_map[i->item_id].begin().val());
+							while (history_map[it.item_id].size() >= MAX_HISTORY)
+								//history_map[it.item_id].pop_front();
+								history_map[it.item_id].remove(history_map[it.item_id].begin().val());
 
 							if (pa.responding) {
 								if (pa.miss_count > 0)
@@ -170,9 +175,8 @@ void __cdecl sttCheckStatusThreadProc(void *)
 								pa.status = PS_NOTRESPONDING;
 							}
 
-							i->miss_count = pa.miss_count;
-							i->status = pa.status;
-
+							it.miss_count = pa.miss_count;
+							it.status = pa.status;
 							break;
 						}
 					}
@@ -237,7 +241,7 @@ int FillList(WPARAM, LPARAM)
 	Log(L"ping address list reload");
 
 	PINGLIST pl;
-	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
+	GetPingList(pl);
 
 	SendMessage(list_hwnd, WM_SETREDRAW, FALSE, 0);
 	{
@@ -622,7 +626,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 						if (Edit(hwnd, itemData)) {
 							mir_cslock lck(data_list_cs);
 							*temp = itemData;
-							CallService(MODULENAME "/SetAndSavePingList", (WPARAM)&data_list, 0);
+							SetAndSavePingList(data_list);
 						}
 					}
 				}
@@ -730,14 +734,13 @@ int ReloadFont(WPARAM, LPARAM)
 	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, TRUE);
 
 	bk_col = Colour_GetW(bk_col_id);
-	RefreshWindow(0, 0);
+	RefreshWindow();
 	return 0;
 }
 
-int RefreshWindow(WPARAM, LPARAM)
+int RefreshWindow()
 {
-	InvalidateRect(list_hwnd, nullptr, TRUE);
-	InvalidateRect(hpwnd, nullptr, TRUE);
+	SendMessageW(hpwnd, WM_SIZE, 0, 0);
 	return 0;
 }
 

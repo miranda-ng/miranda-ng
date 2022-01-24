@@ -26,8 +26,8 @@ LRESULT CALLBACK GraphWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			bool found = false;
 			mir_cslock lck(data_list_cs);
-			for (pinglist_it i = data_list.begin(); i != data_list.end(); ++i) {
-				if (i->item_id == wd->item_id) {
+			for (auto &it : data_list) {
+				if (it.item_id == wd->item_id) {
 					wd->list = history_map[wd->item_id];
 					found = true;
 					break;
@@ -284,7 +284,7 @@ INT_PTR ShowGraph(WPARAM wParam, LPARAM lParam)
 // save window positions, close windows
 void graphs_cleanup()
 {
-	int list_size = GetListSize(0, 0);
+	int list_size = GetListSize();
 	char buff[64];
 	HWND hwnd;
 
@@ -303,15 +303,17 @@ void graphs_cleanup()
 void graphs_init()
 {
 	PINGLIST pl;
-	char buff[64];
-	CallService(MODULENAME "/GetPingList", 0, (LPARAM)&pl);
-	for (pinglist_it i = pl.begin(); i != pl.end(); ++i) {
-		mir_snprintf(buff, "WindowHandle%d", i->item_id); // clean up from possible crash
+	GetPingList(pl);
+
+	for (auto &it : pl) {
+		char buff[64];
+		mir_snprintf(buff, "WindowHandle%d", it.item_id); // clean up from possible crash
 		g_plugin.setDword(buff, 0);
-		mir_snprintf(buff, "WindowWasOpen%d", i->item_id); // restore windows that were open on shutdown
+
+		mir_snprintf(buff, "WindowWasOpen%d", it.item_id); // restore windows that were open on shutdown
 		if (g_plugin.getByte(buff, 0)) {
 			g_plugin.setByte(buff, 0);
-			ShowGraph((WPARAM)i->item_id, (LPARAM)i->pszLabel);
+			ShowGraph(it.item_id, (LPARAM)it.pszLabel);
 		}
 	}
 }

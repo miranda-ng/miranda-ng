@@ -36,13 +36,6 @@ static void CreatePluginServices()
 	CreateServiceFunction(MODULENAME "/DblClick", DblClick);
 
 	// list
-	CreateServiceFunction(MODULENAME "/ClearPingList", ClearPingList);
-	CreateServiceFunction(MODULENAME "/GetPingList", GetPingList);
-	CreateServiceFunction(MODULENAME "/SetPingList", SetPingList);
-	CreateServiceFunction(MODULENAME "/SetAndSavePingList", SetAndSavePingList);
-	CreateServiceFunction(MODULENAME "/LoadPingList", LoadPingList);
-	CreateServiceFunction(MODULENAME "/SavePingList", SavePingList);
-
 	reload_event_handle = CreateHookableEvent(MODULENAME "/ListReload");
 
 	//log
@@ -95,7 +88,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 	InitList();
 
-	CallService(MODULENAME "/LoadPingList", 0, 0);
+	LoadPingList();
 
 	graphs_init();
 
@@ -139,7 +132,7 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
-	SavePingList(0, 0);
+	SavePingList();
 
 	Log(L"stop");
 	return 0;

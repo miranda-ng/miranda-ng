@@ -3,7 +3,7 @@
 
 int FillList(WPARAM wParam, LPARAM lParam);
 
-int RefreshWindow(WPARAM wParam, LPARAM lParam);
+int RefreshWindow();
 
 void UpdateFrame();
 void AttachToClist(bool attach);

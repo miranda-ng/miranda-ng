@@ -28,26 +28,6 @@ const bool PINGADDRESS::operator<(const PINGADDRESS &b) const
 	return index < b.index;
 }
 
-// lParam is address of pointer to a std::list<PINGADDRESS> 
-// copies data into this structure
-INT_PTR GetPingList(WPARAM, LPARAM lParam)
-{
-	PINGLIST *pa = (PINGLIST *)lParam;
-
-	mir_cslock lck(list_cs);
-	*pa = list_items;
-
-	return 0;
-}
-
-INT_PTR GetListSize(WPARAM, LPARAM)
-{
-	INT_PTR ret = 0;
-	mir_cslock lck(list_cs);
-	ret = list_items.size();
-	return ret;
-}
-
 void write_ping_address(PINGADDRESS &i)
 {
 	char buff[16];
@@ -81,9 +61,9 @@ void write_ping_address(PINGADDRESS &i)
 void write_ping_addresses()
 {
 	int index = 0;
-	for (pinglist_it i = list_items.begin(); i != list_items.end(); ++i, index++) {
-		i->index = index;
-		write_ping_address(*i);
+	for (auto &it : list_items) {
+		it.index = index;
+		write_ping_address(it);
 	}
 
 	// mark further destinations in the DB as invalid
@@ -177,59 +157,60 @@ void read_ping_addresses()
 	}
 }
 
-INT_PTR LoadPingList(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+// copies data into this structure
+
+void GetPingList(PINGLIST &list)
 {
 	mir_cslock lck(list_cs);
-	read_ping_addresses();
-	NotifyEventHooks(reload_event_handle, 0, 0);
-	return 0;
+	list = list_items;
 }
 
-// wParam is zero
-// lParam is zero
-INT_PTR SavePingList(WPARAM, LPARAM)
+int GetListSize()
+{
+	mir_cslock lck(list_cs);
+	return (int)list_items.size();
+}
+
+void LoadPingList()
+{
+	{	mir_cslock lck(list_cs);
+		read_ping_addresses();
+	}
+	
+	NotifyEventHooks(reload_event_handle, 0, 0);
+}
+
+void SavePingList()
 {
 	mir_cslock lck(list_cs);
 	write_ping_addresses();
-
-	return 0;
 }
 
-// wParam is address of a PINGLIST structure to replace the current one
-// lParam is zero
-INT_PTR SetPingList(WPARAM wParam, LPARAM)
+void SetPingList(const PINGLIST &list)
 {
-	PINGLIST *pli = (PINGLIST *)wParam;
+	{	mir_cslock lck(list_cs);
+		list_items = list;
+	}
 
-	mir_cslock lck(list_cs);
-	list_items = *pli;
 	NotifyEventHooks(reload_event_handle, 0, 0);
-
-	return 0;
 }
 
-// wParam is address of a PINGLIST structure to replace the current one
-// lParam is zero
-INT_PTR SetAndSavePingList(WPARAM wParam, LPARAM)
+void SetAndSavePingList(const PINGLIST &list)
 {
-	PINGLIST *pli = (PINGLIST *)wParam;
-
-	mir_cslock lck(list_cs);
-
-	// set new list
-	list_items = *pli;
-	write_ping_addresses();
+	{	mir_cslock lck(list_cs);
+		list_items = list;
+		write_ping_addresses();
+	}
 
 	NotifyEventHooks(reload_event_handle, 0, 0);
-
-	return 0;
 }
 
-INT_PTR ClearPingList(WPARAM, LPARAM)
+void ClearPingList()
 {
-	mir_cslock lck(list_cs);
-	list_items.clear();
+	{	mir_cslock lck(list_cs);
+		list_items.clear();
+	}
 
 	NotifyEventHooks(reload_event_handle, 0, 0);
-	return 0;
 }
