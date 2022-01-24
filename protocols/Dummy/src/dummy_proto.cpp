@@ -17,6 +17,36 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+const ttemplate templates[DUMMY_PROTO_COUNT] =
+{
+	{ LPGEN("Custom"), "", "" },
+	{ "AIM", "SN", LPGEN("Screen name") },
+	{ "Discord", "id", LPGEN("Discord ID") },
+	{ "EmLAN", "Nick", LPGEN("User name") },
+	{ "Facebook", "ID", LPGEN("Facebook ID") },
+	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
+	{ "ICQ", "UIN", LPGEN("User ID") },
+	{ "ICQCorp", "UIN", LPGEN("ICQ number") },
+	{ "IRC", "Nick", LPGEN("Nickname") },
+	{ "Jabber", "jid", LPGEN("JID") },
+	{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
+	{ "MRA", "e-mail", LPGEN("E-mail address") },
+	{ "MSN", "wlid", LPGEN("Live ID") },
+	{ "Omegle", "nick", LPGEN("Visible name") },
+	{ "Sametime", "stid", LPGEN("ID") },
+	{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
+	{ "Skype (Classic)", "Username", LPGEN("Skype name") },
+	{ "Skype (Web)", "Username", LPGEN("Skype name") },
+	{ "Steam", "SteamID", LPGEN("Steam ID") },
+	{ "Tlen", "jid", LPGEN("Tlen login") },
+	{ "Tox", "ToxID", LPGEN("Tox ID") },
+	{ "Twitter", "Username", LPGEN("Username") },
+	{ "VK", "ID", LPGEN("VKontakte ID") },
+	{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
+	{ "XFire", "Username", LPGEN("Username") },
+	{ "Yahoo", "yahoo_id", LPGEN("ID") },
+};
+
 void CDummyProto::SearchIdAckThread(void *targ)
 {
 	PROTOSEARCHRESULT psr = { 0 };
@@ -61,11 +91,16 @@ CDummyProto::~CDummyProto()
 
 int CDummyProto::getTemplateId()
 {
-	int id = this->getByte(DUMMY_ID_TEMPLATE, 0);
-	if (id < 0 || id >= _countof(templates))
-		return 0;
+	int id = this->getByte(DUMMY_ID_TEMPLATE, -1);
+	if (id >= 0 && id < _countof(templates))
+		return id;
 	
-	return id;
+	CMStringA szProto(getMStringA("AM_BaseProto"));
+	for (auto &it : templates)
+		if (!stricmp(it.name, szProto))
+			return int(&it - templates);
+
+	return 0;
 }
 
 INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
@@ -92,9 +127,9 @@ INT_PTR CDummyProto::GetCaps(int type, MCONTACT)
 	case PFLAG_UNIQUEIDTEXT:
 		if (uniqueIdSetting[0] == '\0') {
 			int id = getTemplateId();
-			ptrA setting(id > 0 ? mir_strdup(Translate(templates[id].text)) : getStringA(DUMMY_ID_TEXT));
+			ptrW setting(id > 0 ? mir_a2u(Translate(templates[id].text)) : getWStringA(DUMMY_ID_TEXT));
 			if (setting != NULL)
-				strncpy_s(uniqueIdSetting, setting, _TRUNCATE);
+				wcsncpy_s(uniqueIdSetting, setting, _TRUNCATE);
 		}
 		return (INT_PTR)uniqueIdSetting;
 	}
@@ -146,7 +181,7 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 		Contact_Hide(hContact, false);
 		Contact_PutOnList(hContact);
 	}
-	setWString(hContact, uniqueIdSetting, psr->id.w);
+	setWString(hContact, _T2A(uniqueIdSetting), psr->id.w);
 	setWString(hContact, "Nick", psr->id.w);
 
 	return hContact;

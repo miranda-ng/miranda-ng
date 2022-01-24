@@ -45,7 +45,7 @@ struct CDummyProto : public PROTO<CDummyProto>
 	void __cdecl SearchIdAckThread(void*);
 	
 	char uniqueIdText[100];
-	char uniqueIdSetting[100];
+	wchar_t uniqueIdSetting[100];
 
 	int getTemplateId();
 

@@ -49,19 +49,10 @@ CMPlugin::CMPlugin() :
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// OnModulesLoaded - execute some code when all plugins are initialized
-
-static int OnModulesLoaded(WPARAM, LPARAM)
-{
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // OnLoad - initialize the plugin instance
 
 int CMPlugin::Load()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	return 0;
 }
 

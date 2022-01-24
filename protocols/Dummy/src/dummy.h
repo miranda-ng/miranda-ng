@@ -31,35 +31,8 @@ struct ttemplate
 	const char *text;
 };
 
-static const ttemplate templates[] =
-{
-	{ LPGEN("Custom"), "", "" },
-	{ "AIM", "SN", LPGEN("Screen name") },
-	{ "Discord", "id", LPGEN("Discord ID") },
-	{ "EmLAN", "Nick", LPGEN("User name") },
-	{ "Facebook", "ID", LPGEN("Facebook ID") },
-	{ "GG", "UIN", LPGEN("Gadu-Gadu number") },
-	{ "ICQ", "UIN", LPGEN("User ID") },
-	{ "ICQCorp", "UIN", LPGEN("ICQ number") },
-	{ "IRC", "Nick", LPGEN("Nickname") },
-	{ "Jabber", "jid", LPGEN("JID") },
-	{ "MinecraftDynmap", "Nick", LPGEN("Visible name") },
-	{ "MRA", "e-mail", LPGEN("E-mail address") },
-	{ "MSN", "wlid", LPGEN("Live ID") },
-	{ "Omegle", "nick", LPGEN("Visible name") },
-	{ "Sametime", "stid", LPGEN("ID") },
-	{ "Skype (SkypeKit)", "sid", LPGEN("Skype name") },
-	{ "Skype (Classic)", "Username", LPGEN("Skype name") },
-	{ "Skype (Web)", "Username", LPGEN("Skype name") },
-	{ "Steam", "SteamID", LPGEN("Steam ID") },
-	{ "Tlen", "jid", LPGEN("Tlen login") },
-	{ "Tox", "ToxID", LPGEN("Tox ID") },
-	{ "Twitter", "Username", LPGEN("Username") },
-	{ "VK", "ID", LPGEN("VKontakte ID") },
-	{ "WhatsApp", "ID", LPGEN("WhatsApp ID") },
-	{ "XFire", "Username", LPGEN("Username") },
-	{ "Yahoo", "yahoo_id", LPGEN("ID") },
-};
+#define DUMMY_PROTO_COUNT 26
+extern const ttemplate templates[DUMMY_PROTO_COUNT];
 
 struct CMPlugin : public ACCPROTOPLUGIN<CDummyProto>
 {
