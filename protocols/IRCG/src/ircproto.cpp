@@ -182,7 +182,7 @@ void CIrcProto::OnModulesLoaded()
 	char szTemp2[256];
 	mir_snprintf(szTemp2, "%s DCC", m_szModuleName);
 	nlu.szSettingsModule = szTemp2;
-	mir_snwprintf(name, TranslateT("%s client-to-client connections"), m_tszUserName);
+	mir_snwprintf(name, TranslateT("%s (client-to-client)"), m_tszUserName);
 	nlu.szDescriptiveName.w = name;
 	hNetlibDCC = Netlib_RegisterUser(&nlu);
 

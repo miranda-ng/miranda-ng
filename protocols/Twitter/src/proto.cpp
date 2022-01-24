@@ -80,7 +80,7 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	char module[512];
 	mir_snprintf(module, "%sAv", m_szModuleName);
 	nlu.szSettingsModule = module;
-	mir_snwprintf(descr, TranslateT("%s avatar connection"), m_tszUserName);
+	mir_snwprintf(descr, TranslateT("%s (avatar)"), m_tszUserName);
 	nlu.szDescriptiveName.w = descr;
 	hAvatarNetlib_ = Netlib_RegisterUser(&nlu);
 	if (hAvatarNetlib_ == nullptr) {

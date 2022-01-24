@@ -54,9 +54,7 @@ begin
 
   //-- network (for proxy)
   FillChar(nlu,SizeOf(nlu),0);
-  StrCopy(szTemp,Translate('%s (server)'));
-  StrReplace(szTemp,'%s',PluginName);
-  nlu.szDescriptiveName.a:=szTemp;
+  nlu.szDescriptiveName.a:=PluginName;
   nlu.flags              :=NUF_HTTPCONNS or NUF_NOHTTPSOPTION or NUF_OUTGOING;
   nlu.szSettingsModule   :=PluginName;
   hNetLib:=Netlib_RegisterUser(@nlu);

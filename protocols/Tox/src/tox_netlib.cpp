@@ -2,12 +2,9 @@
 
 void CToxProto::InitNetlib()
 {
-	wchar_t name[128];
-	mir_snwprintf(name, TranslateT("%s connection"), m_tszUserName);
-
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = name;
+	nlu.szDescriptiveName.w = m_tszUserName;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 

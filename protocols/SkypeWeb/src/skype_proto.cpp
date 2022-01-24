@@ -33,9 +33,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	wstrPlace(this, "Place", L"")
 {
 	NETLIBUSER nlu = {};
-	CMStringW name(FORMAT, TranslateT("%s connection"), m_tszUserName);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = name.GetBuffer();
+	nlu.szDescriptiveName.w = m_tszUserName;
 	nlu.szSettingsModule = m_szModuleName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 

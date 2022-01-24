@@ -61,11 +61,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 int CMPlugin::Load()
 {
-	CMStringA szDescr(FORMAT, "%s", protoName);
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING;
 	nlu.szSettingsModule = protoName;
-	nlu.szDescriptiveName.a = szDescr.GetBuffer();
+	nlu.szDescriptiveName.a = protoName;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	LoadServices();

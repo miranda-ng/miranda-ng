@@ -108,13 +108,10 @@ int CMPlugin::Load()
 	InitialiseGlobals();
 
 	// register netlib handle
-   char tempNdesc[50];
-	mir_snprintf(tempNdesc, "%s connection settings", MODULENAME);
-
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.a = tempNdesc;
+	nlu.szDescriptiveName.a = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	//protocol services

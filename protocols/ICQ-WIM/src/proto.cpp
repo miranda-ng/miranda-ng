@@ -89,12 +89,10 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	Chat_Register(&gcr);
 
 	// netlib handle
-	CMStringW descr(FORMAT, TranslateT("%s (server)"), m_tszUserName);
-
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nlu.szDescriptiveName.w = descr.GetBuffer();
+	nlu.szDescriptiveName.w = m_tszUserName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// this was previously an old ICQ account

@@ -228,7 +228,7 @@ void DownloadInit(void)
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_NOHTTPSOPTION | NUF_UNICODE;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.w = TranslateT("SmileyAdd");
+	nlu.szDescriptiveName.w = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	hFolderPacks = FoldersRegisterCustomPathW(LPGEN("SmileyAdd"), LPGEN("Smiley packs' folder"), L"%miranda_path%");

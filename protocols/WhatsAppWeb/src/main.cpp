@@ -82,7 +82,7 @@ int CMPlugin::Load()
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = "WhatsApp";
-	nlu.szDescriptiveName.w = TranslateT("WhatsApp HTTP connections");
+	nlu.szDescriptiveName.w = TranslateT("WhatsApp (HTTP)");
 	hAvatarUser = Netlib_RegisterUser(&nlu);
 
 	//////////////////////////////////////////////////////////////////////////////////////

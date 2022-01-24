@@ -40,13 +40,10 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	InitializeCriticalSection(&sessions_mutex);
 
 	// Register m_hNetlibUser user
-	wchar_t name[128];
-	mir_snwprintf(name, TranslateT("%s"), m_tszUserName);
-
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = m_szModuleName;
-	nlu.szDescriptiveName.w = name;
+	nlu.szDescriptiveName.w = m_tszUserName;
 
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 

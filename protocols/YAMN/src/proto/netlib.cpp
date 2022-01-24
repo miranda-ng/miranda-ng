@@ -33,17 +33,13 @@ void __stdcall	SSL_DebugLog(const char *fmt, ...)
 
 HANDLE RegisterNLClient(const char *name)
 {
-	char desc[128];
-
-	mir_snprintf(desc, Translate("%s connection"), name);
-
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<Register PROXY support>");
 	#endif
 
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
-	nlu.szDescriptiveName.a = desc;
+	nlu.szDescriptiveName.a = name;
 	nlu.szSettingsModule = (char *)name;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 

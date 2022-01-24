@@ -194,7 +194,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 	}
 
 	//Register new pop3 user in netlib
-	if (nullptr == (hNetLib = RegisterNLClient("YAMN-POP3")))
+	if (nullptr == (hNetLib = RegisterNLClient("YAMN (POP3)")))
 	{
 		UnLoadPOP3(nullptr); return 0;
 	}

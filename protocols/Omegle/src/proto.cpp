@@ -42,12 +42,10 @@ OmegleProto::OmegleProto(const char* proto_name, const wchar_t* username) :
 	HookProtoEvent(ME_GC_EVENT, &OmegleProto::OnChatEvent);
 
 	// Create standard network connection
-	wchar_t descr[512];
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
-	mir_snwprintf(descr, TranslateT("%s (server)"), m_tszUserName);
-	nlu.szDescriptiveName.w = descr;
+	nlu.szDescriptiveName.w = m_tszUserName;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 	if (m_hNetlibUser == nullptr) {
 		wchar_t error[200];
