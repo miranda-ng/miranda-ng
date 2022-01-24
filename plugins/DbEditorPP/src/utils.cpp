@@ -90,9 +90,9 @@ int WriteBlobFromString(MCONTACT hContact, const char *szModule, const char *szS
 wchar_t* DBVType(uint8_t type)
 {
 	switch (type) {
-	case DBVT_BYTE:     return L"uint8_t";
-	case DBVT_WORD:     return L"uint16_t";
-	case DBVT_DWORD:    return L"uint32_t";
+	case DBVT_BYTE:     return L"BYTE";
+	case DBVT_WORD:     return L"WORD";
+	case DBVT_DWORD:    return L"DWORD";
 	case DBVT_ASCIIZ:   return L"STRING";
 	case DBVT_WCHAR:
 	case DBVT_UTF8:     return L"UNICODE";
