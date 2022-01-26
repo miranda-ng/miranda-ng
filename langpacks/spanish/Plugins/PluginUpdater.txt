@@ -190,8 +190,6 @@ Servicios
 Buscar actualizaciones de plugin
 [Plugin info]
 Información del plugin
-[Plugin Updater HTTP connections]
-
 [Available components list]
 Mostrar lista de plugins completa
 [Update failed]

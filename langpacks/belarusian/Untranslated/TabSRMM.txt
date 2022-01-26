@@ -17,6 +17,7 @@
 [On the button bar]
 [Sent OK]
 [Suspended]
+[tabSRMM internal log]
 [Message In]
 [Message Out]
 [Group In (Start)]

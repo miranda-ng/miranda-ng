@@ -111,8 +111,6 @@ Omegle гэта новы спосаб сяброўства!
 [You both speak the same language.]
 Вы абодва гавораце на адной мове.
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
-Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
 [Stranger is typing]

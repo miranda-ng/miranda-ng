@@ -21,7 +21,6 @@
 [Backup database before update]
 [Stable version (incompatible with current development version)]
 [Change platform to 64-bit]
-[Plugin Updater HTTP connections]
 [Update failed]
 [Update completed]
 [Updates are temporarily disabled, try again later.]

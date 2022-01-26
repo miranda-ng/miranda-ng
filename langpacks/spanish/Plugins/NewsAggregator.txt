@@ -159,6 +159,3 @@ Red
 Avatares
 [Enable/disable auto update]
 
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-

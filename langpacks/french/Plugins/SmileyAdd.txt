@@ -56,8 +56,6 @@ Fenêtre style IEView
 [Show smiley selection window]
 Voir la fenêtre de sélection des smileys
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd HTTP connections]
-Connexions HTTP de SmileyAdd
 [SmileyAdd]
 
 [Smiley packs' folder]

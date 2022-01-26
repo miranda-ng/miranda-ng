@@ -6,6 +6,7 @@
 [Visible name of unique identifier of contacts]
 [Restart is required to apply these changes.]
 [Allow sending messages to contacts]
+[Discord ID]
 [Facebook ID]
 [Live ID]
 [Skype name]

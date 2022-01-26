@@ -1909,9 +1909,6 @@ Détails Jabber : Éditer le numéro de téléphone
 Contacts
 [Note]
 
-;file \protocols\JabberG\src\jabber_ws.cpp
-[%s connection]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

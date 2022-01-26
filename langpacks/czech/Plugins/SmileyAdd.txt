@@ -56,8 +56,6 @@ Horizontální řazení
 [Show smiley selection window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd HTTP connections]
-SmileyAdd - spojení pomocí protokolu HTTP
 [SmileyAdd]
 Smajlíky
 [Smiley packs' folder]

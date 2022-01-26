@@ -390,9 +390,6 @@ Todos los archivos
 
 [Error when obtaining data: %s]
 
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Nombre

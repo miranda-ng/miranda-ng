@@ -224,8 +224,6 @@ Importovat
 ;file \protocols\CurrencyRates\src\HTTPSession.cpp
 [This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
 
-[CurrencyRates HTTP connections]
-CurrencyRates - spojení pomocí protokolu HTTP
 ;file \protocols\CurrencyRates\src\ImportExport.cpp
 [XML File (*.xml)]
 XML soubory (*.xml)

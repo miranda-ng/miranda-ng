@@ -122,8 +122,6 @@ Fehler
 Aus Zwischenablage einfugen
 [Paste from file]
 Aus Datei einfügen
-[Paste It HTTP connections]
-Paste-It-HTTP-Verbindungen
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Sie können nur eine Datei einfügen.

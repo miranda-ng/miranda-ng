@@ -7,7 +7,6 @@
 ;============================================================
 [This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
 Дава възможност за бързо търсене на прякори, малки имена, фамилии, имейл, UIN в списъка с контакти.
-
 ;file \plugins\QuickSearch\res\resource.rc
 [Reload]
 Обновяване

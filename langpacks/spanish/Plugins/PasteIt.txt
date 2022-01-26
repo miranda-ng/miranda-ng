@@ -122,8 +122,6 @@ Error
 
 [Paste from file]
 
-[Paste It HTTP connections]
-
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 

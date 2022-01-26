@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ Effacer les contacts provisoires en fermant
 
 [Automatically split long messages (experimental, use with care)]
 Couper automatiquement les longs messages (expérimental, utiliser avec précaution)
-[Log status changes]
-
 [Use the same splitter height for all sessions]
 
 [Automatically copy selected text]
@@ -1578,6 +1576,8 @@ Afficher les dates dans l'horodatage
 Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
 [Draw grid lines]
 Afficher les lignes horizontales
+[Log status changes]
+
 [Use incoming/outgoing icons]
 Utiliser icônes entrantes/sortantes
 [Use message grouping]
@@ -1815,6 +1815,9 @@ Il y a des messages non lus en attente de confirmation.\nSi vous fermer cette fe
 [Advanced layout with avatars]
 
 [Advanced with avatars, vertical orientation]
+
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]

@@ -130,8 +130,6 @@ Služby
 Tlačítko 'Ano'
 ['No' Button]
 Tlačítko 'Ne'
-[Pack Updater HTTP connections]
-Pack Updater - spojení pomocí protokolu HTTP
 [URL for checking updates not found.]
 
 [Downloading version info...]

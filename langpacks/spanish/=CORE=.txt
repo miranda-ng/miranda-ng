@@ -798,8 +798,8 @@ La importación ha completado a partir de
 &Reciclar
 [&Delete]
 &Borrar
-[&Move/Rename]
-&Mover/Renombrar
+[&Move]
+&Mover
 [&Leave]
 &Dejar
 [Netlib log options]
@@ -1746,6 +1746,9 @@ El contacto dejó de escribir
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 
@@ -2157,7 +2160,7 @@ El perfil no se puede colocar en la carpeta raíz de Miranda.\nPor favor, mueva 
 Base de datos
 [Database compaction failed]
 
-[Compact]
+[Compact database]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda no puede abrir '%s', ya que no tiene ningún tipo de plugin instalado perfil.\nNecesita instalar dbx_mdbx.dll
@@ -2193,6 +2196,8 @@ Este cambio se sabe que es seguro.
 Este cambio se sabe es son potencialmente peligroso.
 [This change is not known to be safe.]
 Este cambio no se sabe que es seguro
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Tipo de establecimiento no válido para '% s'. El primer carácter de cada valor debe ser b, w, d, l, s, e, u, g, h o n.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ Mapas de bits JPEG
 Mapas de bits GIF
 [PNG bitmaps]
 Mapas de bits PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <Sin especificar>
 ;file \include\m_message.h

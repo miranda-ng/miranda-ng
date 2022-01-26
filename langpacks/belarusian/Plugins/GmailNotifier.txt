@@ -68,7 +68,7 @@
 Іншае
 [Gmail: New thread(s)]
 
-[Gmail Notifier connection]
+[Gmail Notifier]
 
 [&Check all Gmail inboxes]
 

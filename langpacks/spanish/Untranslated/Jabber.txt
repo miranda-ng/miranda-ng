@@ -778,7 +778,6 @@
 [Jabber vCard: Edit Email Address]
 [Jabber vCard: Edit Phone Number]
 [Note]
-[%s connection]
 [<advanced status slot>]
 [Afraid]
 [Amazed]

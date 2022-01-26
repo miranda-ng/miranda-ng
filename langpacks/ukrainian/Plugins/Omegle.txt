@@ -111,8 +111,6 @@ Omegle - чудовий спосіб знайти нових друзів!
 [You both speak the same language.]
 Ви говорите однією мовою.
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
-З'єднання з сервером %s
 [Unable to initialize Netlib for %s.]
 Не вдається встановити з'єднання Netlib для %s.
 [Stranger is typing]

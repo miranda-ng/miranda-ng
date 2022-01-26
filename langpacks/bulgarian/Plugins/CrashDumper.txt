@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@
 Копиране в клипборда
 [To File]
 Във файл
-[Support for vi.miranda-ng.org]
-Поддръжка на vi.miranda-ng.org
-[Username]
-Потребител
-[Password]
-Парола
-[Upload automatically when changed]
-Автоматично качване при промяна
 [Crash reports]
 Доклади за сривове
 [Generate crash reports]
@@ -55,8 +47,6 @@
 Копиране на информация за версията във файл
 [Show Version Information]
 Показване на информация за версията
-[Upload Version Information]
-Качване на информация за версията
 [Version Information]
 Информация за версията
 [Copy to clipboard]
@@ -67,19 +57,17 @@
 Показване
 [Show with DLLs]
 Показване и на DLLи
-[Upload]
-Качване
-[Copy link to clipboard]
-Копиране на връзката в клипборда
 [Open crash report directory]
 Отваряне на директорията за доклади
-[Open online Version Info]
-
 [Copy Version Info to clipboard]
 Копира информация за версията в клипборда
 [Show Version Info]
 Показва информация за версията
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Качване
+[Copy link to clipboard]
+Копиране на връзката в клипборда
 [Crash Dumper]
 Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda се срина. Можете да намерите доклад за с
 Показване на информация за версията (с DLL файлове)
 [Services]
 Услуги
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Информация за версията бе успешно качена.
-[Cannot upload Version Info. Incorrect username or password]
-Качването на информация за версията е невъзможно. Грешно потребителско име или парола.
-[Cannot upload Version Info. User is banned]
-Качването на информация за версията е невъзможно. Потребителят е забранен.
-[Cannot upload Version Info. Daily upload limit exceeded]
-Качването на информация за версията е невъзможно. Достигнат е лимита за качвания за 1 ден.
-[Cannot upload Version Info. Unknown error]
-Качването на информация за версията е невъзможно поради неизвестна грешка.
-[Cannot upload Version Info. Host unreachable.]
-Качването на информация за версията е невъзможно. Не е възможно достигането на хоста.
-[Crash Dumper HTTP connections]
-HTTP връзки на Crash Dumper

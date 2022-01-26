@@ -681,3 +681,5 @@ Příchozí události
 Odchozí události
 [Unused]
 
+[Can not apply default toolbar configuration.]
+

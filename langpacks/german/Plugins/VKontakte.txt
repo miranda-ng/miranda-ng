@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.4
+;  Version: 0.1.13.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -554,8 +554,6 @@ VKontakte-Protokoll
 [This message has been deleted by sender in %s:\n]
 Diese Nachricht wurde vom Absender um %s gelöscht:\n
 ;file \protocols\VKontakte\src\vk_proto.cpp
-[%s server connection]
-%s Serververbindung
 [Newsfeed & notification event]
 Newsfeed- und Benachrichtigungsereignis
 [Mark messages as read]

@@ -111,8 +111,6 @@ Der Fremde verwendet die mobile Webseite von Omegle (omegle.com auf Phone oder T
 [You both speak the same language.]
 Sie sprechen beide die selbe Sprache.
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
 [Stranger is typing]

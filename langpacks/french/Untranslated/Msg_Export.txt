@@ -9,6 +9,7 @@
 [Failed to open file]
 [Save as RTF]
 [History was saved successfully in file\r\n]
+[Export history]
 [Reading database information (Phase 1 of 2)]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [User ID]

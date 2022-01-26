@@ -42,6 +42,7 @@
 [Image tag]
 [Deferred]
 [Message window warning]
+[tabSRMM internal log]
 [Message In]
 [Message Out]
 [Group In (Start)]

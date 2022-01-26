@@ -798,8 +798,8 @@
 Ви&користати знову
 [&Delete]
 &Видалити
-[&Move/Rename]
-&Перемістити/Перейменувати
+[&Move]
+&Перемістити
 [&Leave]
 &Залишити
 [Netlib log options]
@@ -1746,6 +1746,9 @@ UIN, E-mail тощо
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невідома помилка.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Приклад
@@ -2157,8 +2160,8 @@ Miranda намагається оновити вашу структуру збе
 База даних
 [Database compaction failed]
 
-[Compact]
-Стиснути
+[Compact database]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda не може відкрити "%s", оскільки не встановлено жодного драйвера бази.\nНеобхідно встановити dbx_mdbx.dll або його аналог.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2193,6 +2196,8 @@ Miranda не може зрозуміти цей профіль
 Ця зміна налаштувань може бути небезпечною
 [This change is not known to be safe.]
 Невідомо, чи є ця зміна налаштувань безпечною.
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Неправильний тип налаштувань для '%s'. Першою літерою будь-якого значения має бути b, w, d, l, s, e, u, g, h або n.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ ANSI-плагін
 Зображення GIF
 [PNG bitmaps]
 Зображення PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <не вказано>
 ;file \include\m_message.h

@@ -200,8 +200,6 @@
 
 [Could not create main dialog.]
 Немагчыма стварыць галоўны дыялог.
-[SendSS HTTP connections]
-HTTP далучэнне SendSS
 [SendSS]
 Адправіць скрыншот
 [Screenshots]

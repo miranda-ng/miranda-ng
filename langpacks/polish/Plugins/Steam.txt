@@ -91,8 +91,6 @@ Protokoły
 Ikona protokołu
 [Gaming icon]
 Ikona grania
-[%s connection]
-Połączenie %s
 [You cannot send messages when you are offline.]
 Nie można wysłać wiadomości, gdy jesteś offline.
 ;file \protocols\Steam\src\steam_utils.cpp

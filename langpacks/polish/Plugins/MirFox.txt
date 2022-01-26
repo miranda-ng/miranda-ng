@@ -53,8 +53,6 @@ Kontakty
 [Accounts]
 Konta
 ;file \plugins\MirFox\src\MirandaUtils.cpp
-[MirFox log]
-MirFox log
 [Message sent to %s]
 Wiadomość wysłana do %s
 [Message sent to %s (%s)]

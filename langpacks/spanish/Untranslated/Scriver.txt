@@ -150,3 +150,4 @@
 [Quote]
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 [Sending in progress: %d message(s) left...]
+[Scriver internal log]

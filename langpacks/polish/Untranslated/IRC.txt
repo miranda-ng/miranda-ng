@@ -1,4 +1,5 @@
 [Host]
 [Op]
 [Halfop]
+[%s (server)]
 [Event: Connect]

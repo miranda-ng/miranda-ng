@@ -165,3 +165,4 @@
 [Always RTL]
 [Always LTR]
 [Unused]
+[Can not apply default toolbar configuration.]

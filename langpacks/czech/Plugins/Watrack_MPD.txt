@@ -14,9 +14,6 @@ MPD hostitel
 Port
 [Password]
 Heslo
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-Watrack MPD připojení
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Sledování hudby

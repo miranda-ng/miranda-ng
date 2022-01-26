@@ -200,8 +200,6 @@ BBCode
 
 [Could not create main dialog.]
 
-[SendSS HTTP connections]
-SendSS - spojení pomocí protokolu HTTP
 [SendSS]
 
 [Screenshots]

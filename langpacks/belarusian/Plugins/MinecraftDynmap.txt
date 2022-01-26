@@ -30,8 +30,6 @@
 [Protocol icon]
 Абразок пратаколу
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-Далучэнне да сервера %s
 [Unable to initialize Netlib for %s.]
 Немагчыма стварыць злучэнне Netlib для %s.
 [Visible name]

@@ -23,7 +23,6 @@
 [Hosts...]
 [Ping]
 [Hosts]
-[Ping Plugin]
 [Responding]
 [Not Responding]
 [Testing]

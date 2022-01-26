@@ -178,8 +178,6 @@ Błędy
 [Calls]
 Rozmowy
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-Połączenie %s
 [Incoming call canceled]
 
 [Skypename]

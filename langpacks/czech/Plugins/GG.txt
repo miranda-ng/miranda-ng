@@ -264,8 +264,6 @@ Za&blokovat
 [Contact list]
 Seznam kontaktů
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-%s - spojení se serverem
 [Images]
 Obrázky
 [Gadu-Gadu Number]

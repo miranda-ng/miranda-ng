@@ -160,7 +160,6 @@
 [HTTP Error %i]
 [<Enter city name here>]
 [Error when obtaining data: %s]
-[Weather HTTP connections]
 [Author]
 [File Version]
 [INI Version]

@@ -390,9 +390,6 @@ Błąd HTTP %i
 <Wpisz nazwę miasta tutaj>
 [Error when obtaining data: %s]
 Błąd podczas odczytywania danych: %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-Połączenie HTTP Weather
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Nazwa

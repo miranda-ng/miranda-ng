@@ -122,8 +122,6 @@ Erreur
 Coller à partir du presse-papiers
 [Paste from file]
 Coller à partir du fichier
-[Paste It HTTP connections]
-Connexions HTTP de Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Vous pouver coller 1 seul fichier

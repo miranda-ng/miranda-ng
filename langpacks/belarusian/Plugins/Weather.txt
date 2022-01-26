@@ -390,9 +390,6 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 <Увядзіце назву горада>
 [Error when obtaining data: %s]
 Памылка пры атрыманні дадзеных: %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-HTTP далучэнне Weather
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Імя

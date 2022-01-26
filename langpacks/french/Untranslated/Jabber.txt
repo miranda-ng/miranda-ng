@@ -488,7 +488,6 @@
 [Set mood...]
 [Set activity...]
 [Note]
-[%s connection]
 [<advanced status slot>]
 [Set Mood]
 [Mood: %s]

@@ -159,6 +159,3 @@ Protokoły
 Awatary
 [Enable/disable auto update]
 Włącz/wyłącz autoaktualizacje
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-Połączenie HTTP NewsAggregator

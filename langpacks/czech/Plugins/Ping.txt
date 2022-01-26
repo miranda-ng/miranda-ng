@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -102,23 +102,21 @@ Hostitelé...
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<žádný>
+[<all>]
+<všechny>
 [Text Files (*.txt)]
 Textové soubory (*.txt)
 [All Files]
 Všechny soubory
 [Open log file]
 Zobrazit záznam
-[<none>]
-<žádný>
-[<all>]
-<všechny>
 [Settings]
 Nastavení
 [Hosts]
 Hostitelé
 ;file \plugins\Ping\src\ping.cpp
-[Ping Plugin]
-Ping doplněk
 [Responding]
 Odpovídá
 [Not Responding]

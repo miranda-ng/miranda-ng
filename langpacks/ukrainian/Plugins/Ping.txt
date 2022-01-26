@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -102,23 +102,21 @@ TCP-з'єднання
 [Ping]
 Пінг
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<немає>
+[<all>]
+<усі>
 [Text Files (*.txt)]
 Текстові файли (*.txt)
 [All Files]
 Усі файли
 [Open log file]
 Відкрити журнал
-[<none>]
-<немає>
-[<all>]
-<усі>
 [Settings]
 Налаштування
 [Hosts]
 Хости
 ;file \plugins\Ping\src\ping.cpp
-[Ping Plugin]
-Плагін Ping
 [Responding]
 Відповідає
 [Not Responding]

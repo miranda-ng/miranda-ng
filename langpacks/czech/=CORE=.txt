@@ -798,8 +798,8 @@ Co chcete udělat s tímto souborem?
 Př&esunout do koše
 [&Delete]
 &Smazat
-[&Move/Rename]
-Přesunout/Přej&menovat
+[&Move]
+Přesunout
 [&Leave]
 Ode&jít
 [Netlib log options]
@@ -1746,6 +1746,9 @@ Kontakt přestal psát
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Neznámá chyba.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Příklad
@@ -2157,7 +2160,7 @@ Profil nemůže být umístěn v kořenové složce Mirandy.\nProsím přesuňte
 Databáze
 [Database compaction failed]
 
-[Compact]
+[Compact database]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Profil '%s' nelze otevřít. Není nainstalovaný odpovídající doplněk.\nNainstalujte si dbx_mdbx.dll.
@@ -2193,6 +2196,8 @@ Tato úprava se obecně považuje za bezpečnou.
 Tato úprava se považuje za potenciálně nebezpečnou.
 [This change is not known to be safe.]
 Neznámý druh úpravy; nelze považovat za bezpečné.
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Neplatný typ nastavení pro '%s'. První znak hodnoty musí být b, w, d, l, s, e, u, g, h nebo n.]
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ Obrázky typu JPEG
 Obrázky typu GIF
 [PNG bitmaps]
 Obrázky typu PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <neurčeno>
 ;file \include\m_message.h

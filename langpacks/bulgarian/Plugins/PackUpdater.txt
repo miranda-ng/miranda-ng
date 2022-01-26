@@ -130,8 +130,6 @@ Pack Updater
 Бутон "Да"
 ['No' Button]
 Бутон "не"
-[Pack Updater HTTP connections]
-HTTP връзки на Pack Updater
 [URL for checking updates not found.]
 Не е открит URL за актуализиране.
 [Downloading version info...]

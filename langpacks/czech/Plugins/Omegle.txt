@@ -111,8 +111,6 @@ Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu
 [You both speak the same language.]
 Oba mluvíte stejnou řečí.
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
-%s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
 [Stranger is typing]

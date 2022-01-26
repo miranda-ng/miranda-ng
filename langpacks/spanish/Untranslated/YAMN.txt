@@ -75,7 +75,6 @@
 [Delete confirmation]
 [Translate header error]
 [Part]
-[%s connection]
 [Disconnected]
 [POP3 protocol (internal)]
 [Found new version of account book, not compatible with this version of YAMN.]

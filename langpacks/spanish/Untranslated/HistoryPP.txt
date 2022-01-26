@@ -315,3 +315,4 @@
 [Incoming events]
 [Outgoing events]
 [Unused]
+[Can not apply default toolbar configuration.]

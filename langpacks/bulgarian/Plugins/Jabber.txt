@@ -1909,9 +1909,6 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
-;file \protocols\JabberG\src\jabber_ws.cpp
-[%s connection]
-%s връзка
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

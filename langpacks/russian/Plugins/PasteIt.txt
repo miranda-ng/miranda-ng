@@ -122,8 +122,6 @@ Web-страница
 Разместить из буфера
 [Paste from file]
 Разместить из файла
-[Paste It HTTP connections]
-HTTP-подключения Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Вы можете разместить только 1 файл

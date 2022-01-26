@@ -158,7 +158,7 @@
 [Please enter the reply]
 [Failed to connect to]
 [DCC ERROR: Unable to bind local port for passive file transfer]
-[%s client-to-client connections]
+[%s (client-to-client)]
 [DCC ERROR: No valid files specified]
 [DCC reversed file transfer request sent to %s [%s]]
 [DCC file transfer request sent to %s [%s]]

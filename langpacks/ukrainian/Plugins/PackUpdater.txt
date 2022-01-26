@@ -130,8 +130,6 @@
 Кнопка "Так"
 ['No' Button]
 Кнопка "Ні"
-[Pack Updater HTTP connections]
-HTTP-з'єднання PackUpdater
 [URL for checking updates not found.]
 Посилання для перевірки оновлень не знайдено.
 [Downloading version info...]

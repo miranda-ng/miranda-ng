@@ -68,8 +68,8 @@ Nie można pobrać kanału RSS!
 Inne
 [Gmail: New thread(s)]
 Gmail: Nowy wątek(ki)
-[Gmail Notifier connection]
-Połączenia Gmail Notifier
+[Gmail Notifier]
+GmailNotifier
 [&Check all Gmail inboxes]
 Sprawdź wszystkie skrzynki Gmail
 [&Check Gmail inbox]

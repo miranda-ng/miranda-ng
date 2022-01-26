@@ -99,9 +99,6 @@ ID и версия клиента
 Уведомление
 [Error]
 Ошибка
-;file \protocols\Sametime\src\sametime_proto.cpp
-[%s connection]
-Соединение %s
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Сообщение администратора Sametime

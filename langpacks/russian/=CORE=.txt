@@ -2160,8 +2160,8 @@ Miranda не смогла загрузить встроенную систему
 База данных
 [Database compaction failed]
 Не удалось сжать базу
-[Compact]
-Сжать
+[Compact database]
+Сжать базу
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda не может открыть '%s', так как плагины для поддержки профилей не установлены.\nНеобходимо установить плагин dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]

@@ -681,3 +681,5 @@ Préc
 Élements envoyés
 [Unused]
 
+[Can not apply default toolbar configuration.]
+

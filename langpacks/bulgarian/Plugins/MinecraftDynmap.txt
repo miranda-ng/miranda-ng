@@ -30,8 +30,6 @@
 [Protocol icon]
 Икона на протокола
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s връзка със сървъра
 [Unable to initialize Netlib for %s.]
 
 [Visible name]

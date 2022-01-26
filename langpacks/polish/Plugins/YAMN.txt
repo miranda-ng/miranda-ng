@@ -230,9 +230,6 @@ Potwierdzenie usunięcia
 Błąd tłumaczenia nagłówka
 [Part]
 Część
-;file \protocols\YAMN\src\proto\netlib.cpp
-[%s connection]
-Połączenie %s
 ;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Rozłączony

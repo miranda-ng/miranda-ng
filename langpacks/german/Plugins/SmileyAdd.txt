@@ -56,8 +56,6 @@ Horizontal sortieren
 [Show smiley selection window]
 Smiley-Auswahlfenster anzeigen
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd HTTP connections]
-SmileyAdd-Plugin HTTP-Verbindungen
 [SmileyAdd]
 SmileyAdd
 [Smiley packs' folder]

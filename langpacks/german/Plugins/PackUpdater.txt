@@ -130,8 +130,6 @@ Paket-Aktualisierungs-Verzeichnis löschen
 'Ja'-Schaltfläche
 ['No' Button]
 'Nein'-Schaltfläche
-[Pack Updater HTTP connections]
-Pack-Updater-HTTP-Verbindung
 [URL for checking updates not found.]
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]

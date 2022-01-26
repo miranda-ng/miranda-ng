@@ -264,8 +264,6 @@ Nieznany błąd HTTP
 [Contact list]
 Lista kontaktów
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-Połączenie %s
 [Images]
 Obrazki
 [Gadu-Gadu Number]

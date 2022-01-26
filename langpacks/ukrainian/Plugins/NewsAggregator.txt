@@ -159,6 +159,3 @@ URL сторінки з коментарями до новини.
 Аватари
 [Enable/disable auto update]
 Увімк./вимк. автооновлення
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-HTTP-з'єднання NewsAggregator

@@ -200,8 +200,6 @@ BBCode
 Не удалось создать папку для скриншотов (код ошибки: %d):\n%s\nУ вас точно есть права на запись?
 [Could not create main dialog.]
 Невозможно создать главный диалог.
-[SendSS HTTP connections]
-HTTP-подключения SendSS
 [SendSS]
 Отправить скриншот
 [Screenshots]

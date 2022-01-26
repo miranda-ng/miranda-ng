@@ -3,4 +3,5 @@
 [Clear message area]
 [Use the same splitter height for all sessions]
 [Do nothing (ignore Esc key)]
+[tabSRMM internal log]
 [Save file|Unable to save temporary file]

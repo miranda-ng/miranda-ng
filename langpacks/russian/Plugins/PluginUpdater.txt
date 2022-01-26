@@ -190,8 +190,6 @@
 Проверить обновления
 [Plugin info]
 Информация о плагинах
-[Plugin Updater HTTP connections]
-HTTP-подключения Plugin Updater
 [Available components list]
 Установка компонентов...
 [Update failed]

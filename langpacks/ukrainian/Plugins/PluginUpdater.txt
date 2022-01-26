@@ -190,8 +190,6 @@
 Перевірити оновлення
 [Plugin info]
 Інформація
-[Plugin Updater HTTP connections]
-HTTP-з'єднання Plugin Updater
 [Available components list]
 Встановити компоненти
 [Update failed]

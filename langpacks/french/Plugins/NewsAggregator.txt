@@ -159,6 +159,3 @@ Réseau
 Avatars
 [Enable/disable auto update]
 
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-Connexions HTTP de NewsAggregator

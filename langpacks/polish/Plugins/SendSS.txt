@@ -200,8 +200,6 @@ Strzałka w dół
 Nie udało się stworzyć folderu zrzutów ekranu (kod błędu: %d):\n%s\nCzy posiadasz uprawnienia do zapisu?
 [Could not create main dialog.]
 Nie można utworzyć głównego okna.
-[SendSS HTTP connections]
-Połączenie HTTP SendSS
 [SendSS]
 Wyślij zrzut ekranu
 [Screenshots]

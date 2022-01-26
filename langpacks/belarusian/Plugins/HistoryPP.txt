@@ -681,3 +681,5 @@ Wiki-старонка дадатковых параметраў
 Выходныя падзеі
 [Unused]
 
+[Can not apply default toolbar configuration.]
+

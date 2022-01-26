@@ -390,9 +390,6 @@ HTTP грешка: %i
 <Въведете името на града тук>
 [Error when obtaining data: %s]
 Грешка при добиването на информация: %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-HTTP връзки на метео протокола
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Име

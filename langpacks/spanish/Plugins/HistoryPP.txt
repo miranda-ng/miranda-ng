@@ -681,3 +681,5 @@ Menú del usuario
 
 [Unused]
 
+[Can not apply default toolbar configuration.]
+

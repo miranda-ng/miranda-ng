@@ -35,7 +35,6 @@
 [Create password]
 [Action]
 [You cannot send when you are offline.]
-[%s connection]
 [Tox profile]
 [Select Tox profile]
 [Save Tox profile]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -102,23 +102,21 @@ Hosts...
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<keine>
+[<all>]
+<alle>
 [Text Files (*.txt)]
 Textdokumente (*.txt)
 [All Files]
 Alle Dateien
 [Open log file]
 Logdatei öffnen
-[<none>]
-<keine>
-[<all>]
-<alle>
 [Settings]
 Einstellungen
 [Hosts]
 Hosts
 ;file \plugins\Ping\src\ping.cpp
-[Ping Plugin]
-Ping-Plugin
 [Responding]
 Antwortet
 [Not Responding]

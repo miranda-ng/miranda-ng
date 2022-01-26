@@ -14,9 +14,6 @@ HostMPD
 Port
 [Password]
 Hasło:
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-Połączenie Watrack MPD
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Utwór w Winampie

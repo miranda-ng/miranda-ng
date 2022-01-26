@@ -200,8 +200,6 @@ Flèche bas
 
 [Could not create main dialog.]
 
-[SendSS HTTP connections]
-Connexions HTTP de SendSS
 [SendSS]
 
 [Screenshots]

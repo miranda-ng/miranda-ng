@@ -1,1 +1,1 @@
-[Gmail Notifier connection]
+[Gmail Notifier]

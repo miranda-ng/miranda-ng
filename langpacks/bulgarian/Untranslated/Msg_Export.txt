@@ -9,6 +9,7 @@
 [Miranda database contains %d events]
 [Failed to open file]
 [Syntax highlight]
+[Export history]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [User ID]
 [Export accounts]

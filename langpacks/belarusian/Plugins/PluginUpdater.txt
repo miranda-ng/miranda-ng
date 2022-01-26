@@ -190,8 +190,6 @@
 Праверыць абнаўленні
 [Plugin info]
 Пра плагін
-[Plugin Updater HTTP connections]
-HTTP далучэнне Plugin Updater
 [Available components list]
 Увесь спіс плагінаў
 [Update failed]

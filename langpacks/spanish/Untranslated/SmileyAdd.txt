@@ -19,7 +19,6 @@
 [IEView style window]
 [Horizontal sorting]
 [Show smiley selection window]
-[SmileyAdd HTTP connections]
 [SmileyAdd]
 [Smiley packs' folder]
 [Smiley cache]

@@ -554,8 +554,6 @@ ID получателя ошибочен или неизвестен
 [This message has been deleted by sender in %s:\n]
 Отправитель удалил это сообщение в %s:\n
 ;file \protocols\VKontakte\src\vk_proto.cpp
-[%s server connection]
-Подключение к серверу %s
 [Newsfeed & notification event]
 Новости и уведомления
 [Mark messages as read]

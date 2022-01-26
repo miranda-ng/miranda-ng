@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -102,23 +102,21 @@ Désactiver tous les pings
 [Ping]
 Ping
 ;file \plugins\Ping\src\options.cpp
+[<none>]
+<aucun>
+[<all>]
+<tout>
 [Text Files (*.txt)]
 Fichier texte (*.txt)
 [All Files]
 Tous les fichiers
 [Open log file]
 
-[<none>]
-<aucun>
-[<all>]
-<tout>
 [Settings]
 Paramètres
 [Hosts]
 
 ;file \plugins\Ping\src\ping.cpp
-[Ping Plugin]
-
 [Responding]
 Réponse en cours
 [Not Responding]

@@ -130,8 +130,6 @@
 Кнопка 'Да'
 ['No' Button]
 Кнопка 'Нет'
-[Pack Updater HTTP connections]
-HTTP-подключения Pack Updater
 [URL for checking updates not found.]
 Ссылка для проверки обновлений не найдена.
 [Downloading version info...]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@
 Капіяваць у буфер
 [To File]
 У файл
-[Support for vi.miranda-ng.org]
-Падтрымка vi.miranda-ng.org
-[Username]
-Імя карыстача
-[Password]
-Пароль
-[Upload automatically when changed]
-Загружаць аўтаматычна пры зменах
 [Crash reports]
 
 [Generate crash reports]
@@ -55,8 +47,6 @@
 Версіі ў файл
 [Show Version Information]
 Паказаць версіі
-[Upload Version Information]
-Загрузіць версіі
 [Version Information]
 Версіі
 [Copy to clipboard]
@@ -67,19 +57,17 @@
 Паказаць
 [Show with DLLs]
 З бібліятэкамі
-[Upload]
-Загрузіць
-[Copy link to clipboard]
-Капіяваць спасылку ў буфер
 [Open crash report directory]
 Тэчка захавання справаздач
-[Open online Version Info]
-
 [Copy Version Info to clipboard]
 Капіяваць версіі ў буфер абмену
 [Show Version Info]
 Паказаць версіі
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Загрузіць
+[Copy link to clipboard]
+Капіяваць спасылку ў буфер
 [Crash Dumper]
 Справаздача пра памылкі
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda NG была завершана аварыйна. Справаздача 
 Інфармацыя пра версіі(з бібліятэкамі)
 [Services]
 Службы
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Версіі паспяхова загружаны.
-[Cannot upload Version Info. Incorrect username or password]
-Нельга загрузіць інфармацыю пра версіі. Няслушнае імя карыстача ці пароль
-[Cannot upload Version Info. User is banned]
-Нельга загрузіць інфармацыю пра версіі. Кантакт забанены
-[Cannot upload Version Info. Daily upload limit exceeded]
-Нельга загрузіць інфармацыю пра версіі. Дзённы ліміт загрузак вычарпаны
-[Cannot upload Version Info. Unknown error]
-Нельга загрузіць інфармацыю пра версіі. Невядомая памылка
-[Cannot upload Version Info. Host unreachable.]
-Нельга загрузіць інфармацыю пра версіі. Хост недасяжны
-[Crash Dumper HTTP connections]
-HTTP далучэнне Crash Dumper

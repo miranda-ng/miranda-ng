@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@
 Копіювати в буфер
 [To File]
 У файл
-[Support for vi.miranda-ng.org]
-Підтримка vi.miranda-ng.org
-[Username]
-Ім'я користувача
-[Password]
-Пароль
-[Upload automatically when changed]
-Завантажувати автоматично при змінах
 [Crash reports]
 Звіти про помилки
 [Generate crash reports]
@@ -55,8 +47,6 @@
 Версії в файл
 [Show Version Information]
 Показати версії
-[Upload Version Information]
-Завантажити
 [Version Information]
 Версії
 [Copy to clipboard]
@@ -67,19 +57,17 @@
 Показати
 [Show with DLLs]
 З бібліотеками
-[Upload]
-Завантажити
-[Copy link to clipboard]
-Копіювати посилання в буфер обміну
 [Open crash report directory]
 Папка збереження звітів
-[Open online Version Info]
-Відкрити звіт про версії онлайн
 [Copy Version Info to clipboard]
 Копіювати версії в буфер обміну
 [Show Version Info]
 Показати версії
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Завантажити
+[Copy link to clipboard]
+Копіювати посилання в буфер обміну
 [Crash Dumper]
 Звіти про помилки і версії
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda NG була завершена аварійно. Звіт збереже
 Інформація про версії (з бібліотеками)
 [Services]
 Служби
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Інформацію про версії успішно завантажено.
-[Cannot upload Version Info. Incorrect username or password]
-Неможливо завантажити інформацію про версії. Неправильне ім'я користувача або пароль.
-[Cannot upload Version Info. User is banned]
-Неможливо завантажити інформацію про версії. Користувач забанений.
-[Cannot upload Version Info. Daily upload limit exceeded]
-Неможливо завантажити інформацію про версії. Денний ліміт завантажень вичерпано.
-[Cannot upload Version Info. Unknown error]
-Неможливо завантажити інформацію про версії. Невідома помилка.
-[Cannot upload Version Info. Host unreachable.]
-Неможливо завантажити інформацію про версії. Хост недоступний.
-[Crash Dumper HTTP connections]
-HTTP-з'єднання CrashDumper

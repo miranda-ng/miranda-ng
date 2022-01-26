@@ -178,8 +178,6 @@ Chyby
 [Calls]
 Hovory
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-%s - spojení se serverem
 [Incoming call canceled]
 
 [Skypename]

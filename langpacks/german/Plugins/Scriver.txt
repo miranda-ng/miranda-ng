@@ -691,6 +691,9 @@ Letzte Nachricht am %s um %s erhalten.
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
+
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Immer im Vordergrund

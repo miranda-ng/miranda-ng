@@ -1,3 +1,2 @@
 [Crash Dumper and Version Information for Miranda NG.]
 [Display popups about successful actions]
-[Open online Version Info]

@@ -33,6 +33,7 @@
 [Font...]
 [Syntax highlight]
 [History was saved successfully in file\r\n]
+[Export history]
 [Open E&xported History]
 [Reading database information (Phase 1 of 2)]
 [Sorting and writing database information (Phase 2 of 2)]

@@ -2,6 +2,7 @@
 [Protocol template:]
 [Allow sending messages to contacts]
 [Screen name]
+[Discord ID]
 [Facebook ID]
 [User ID]
 [Visible name]

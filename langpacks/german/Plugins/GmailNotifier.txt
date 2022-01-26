@@ -68,8 +68,8 @@ Kann RSS Feed nicht empfangen!
 Sonstige
 [Gmail: New thread(s)]
 Gmail: Neue Themen
-[Gmail Notifier connection]
-Gmail-Notifier-Verbindung
+[Gmail Notifier]
+GmailNotifier
 [&Check all Gmail inboxes]
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]

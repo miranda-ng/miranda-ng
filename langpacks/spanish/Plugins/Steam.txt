@@ -91,8 +91,6 @@ Protocolos
 
 [Gaming icon]
 
-[%s connection]
-
 [You cannot send messages when you are offline.]
 No puede enviar mensajes cuando no esté conectado.
 ;file \protocols\Steam\src\steam_utils.cpp

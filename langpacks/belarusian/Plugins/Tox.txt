@@ -104,9 +104,6 @@
 Дзеянне
 [You cannot send when you are offline.]
 
-;file \protocols\Tox\src\tox_netlib.cpp
-[%s connection]
-Злучэнне %s
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 

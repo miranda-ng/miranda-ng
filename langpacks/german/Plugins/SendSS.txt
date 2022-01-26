@@ -200,8 +200,6 @@ Pfeil runter
 Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?
 [Could not create main dialog.]
 Kann Hauptfenster nicht öffnen.
-[SendSS HTTP connections]
-SendSS-HTTP-Verbindungen
 [SendSS]
 SendSS
 [Screenshots]

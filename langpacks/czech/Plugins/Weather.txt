@@ -390,9 +390,6 @@ HTTP chyba %i
 <zde zadejte město>
 [Error when obtaining data: %s]
 Chyba při stahování dat: %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-Weather - spojení pomocí protokolu HTTP
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Jméno

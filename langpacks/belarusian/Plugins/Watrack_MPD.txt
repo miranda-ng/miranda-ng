@@ -14,9 +14,6 @@ MPD Хост
 Порт
 [Password]
 Пароль
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-Watrack MPD злучэнне
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Зараз слухаю (WATrack)

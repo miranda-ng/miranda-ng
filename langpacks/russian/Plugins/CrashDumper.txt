@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@
 Копировать в буфер
 [To File]
 В файл
-[Support for vi.miranda-ng.org]
-Поддержка vi.miranda-ng.org
-[Username]
-Имя пользователя
-[Password]
-Пароль
-[Upload automatically when changed]
-Загружать автоматически при изменениях
 [Crash reports]
 Отчёты о проблемах
 [Generate crash reports]
@@ -55,8 +47,6 @@
 Версии в файл
 [Show Version Information]
 Показать версии
-[Upload Version Information]
-Загрузить версии
 [Version Information]
 Версии
 [Copy to clipboard]
@@ -67,19 +57,17 @@
 Показать
 [Show with DLLs]
 Показать с библиотеками
-[Upload]
-Загрузить
-[Copy link to clipboard]
-Копировать ссылку в буфер обмена
 [Open crash report directory]
 Папка сохранения отчётов
-[Open online Version Info]
-Открыть онлайн информацию о версиях
 [Copy Version Info to clipboard]
 Копировать версии в буфер обмена
 [Show Version Info]
 Показать версии
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Загрузить
+[Copy link to clipboard]
+Копировать ссылку в буфер обмена
 [Crash Dumper]
 Отчёты о проблемах и версии
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda NG была завершена аварийно. Отчёт сохран
 Информация о версиях (с библиотеками)
 [Services]
 Службы
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Версии успешно загружены.
-[Cannot upload Version Info. Incorrect username or password]
-Нельзя загрузить информацию о версиях. Неправильное имя пользователя или пароль
-[Cannot upload Version Info. User is banned]
-Нельзя загрузить информацию о версиях. Пользователь забанен
-[Cannot upload Version Info. Daily upload limit exceeded]
-Нельзя загрузить информацию о версиях. Исчерпано дневное ограничение количества загрузок
-[Cannot upload Version Info. Unknown error]
-Нельзя загрузить информацию о версиях. Неизвестная ошибка
-[Cannot upload Version Info. Host unreachable.]
-Нельзя загрузить информацию о версиях. Хост недоступен
-[Crash Dumper HTTP connections]
-HTTP-подключения Crash Dumper

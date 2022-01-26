@@ -30,8 +30,6 @@ Server-Adresse zum Verbinden angeben
 [Protocol icon]
 Protokoll-Icon
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
 [Visible name]

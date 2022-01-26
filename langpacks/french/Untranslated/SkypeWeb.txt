@@ -57,6 +57,5 @@
 [Unknown error!]
 [Network error!]
 [Calls]
-[%s connection]
 [Incoming call canceled]
 [Skypename]

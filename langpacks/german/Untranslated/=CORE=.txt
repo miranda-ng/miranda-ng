@@ -1,0 +1,3 @@
+[StdMsg internal log]
+[Compact database]
+[File names must be different]

@@ -798,8 +798,8 @@
 Вярнуць
 [&Delete]
 Выдаліць
-[&Move/Rename]
-Перасунуць/пераназваць
+[&Move]
+Перасунуць
 [&Leave]
 Пакінуць
 [Netlib log options]
@@ -1746,6 +1746,9 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Невядомая памылка.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Прыклад
@@ -2157,7 +2160,7 @@ Miranda не здолела загрузіць убудаваную сістэм
 Профіль
 [Database compaction failed]
 
-[Compact]
+[Compact database]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda не можа адкрыць '%s', бо плагіны для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_mdbx.dll
@@ -2193,6 +2196,8 @@ Miranda не можа распазнаць гэты профіль
 Гэта змена патэнцыйна небяспечна.
 [This change is not known to be safe.]
 Невядома, ці будзе змена бяспечнай.
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Наслушны тып налады для '%s'. Першы знак любога значэння павінен быць b, w, d, l, s, e, u, g, h ці n.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ BMP
 Выявы GIF
 [PNG bitmaps]
 Выявы PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <не пазначана>
 ;file \include\m_message.h

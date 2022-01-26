@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ Latin I
 Разрешаване форматиране на изходящите съобщения с BBCode
 [Automatically split long messages (experimental, use with care)]
 Автоматично разделяне на дългите съобщения (експериментално - използвайте внимателно)
-[Log status changes]
-Запис на промените на състоянията
 [Use the same splitter height for all sessions]
 
 [Automatically copy selected text]
@@ -1578,6 +1576,8 @@ Latin I
 Ползване на часовия пояс на потребителя (ако е наличен)
 [Draw grid lines]
 Добавяне на решетка
+[Log status changes]
+Запис на промените на състоянията
 [Use incoming/outgoing icons]
 Ползване на входящи/изходящи икони
 [Use message grouping]
@@ -1816,6 +1816,9 @@ Latin I
 Хоризонтални бутони с аватари
 [Advanced with avatars, vertical orientation]
 Вертикални бутони с аватари
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
+
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Миниатюрите не са налични при ползване на приставката History++ за изобразяване на дневника

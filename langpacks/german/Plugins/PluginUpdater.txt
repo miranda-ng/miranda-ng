@@ -190,8 +190,6 @@ Dienste
 Auf Aktualisierungen prüfen
 [Plugin info]
 Plugininfo
-[Plugin Updater HTTP connections]
-Plugin-Updater-HTTP-Verbindung
 [Available components list]
 Liste verfügbarer Komponenten
 [Update failed]

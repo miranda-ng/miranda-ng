@@ -798,8 +798,8 @@ Co chcesz zrobić z plikiem?
 &Odzyskaj
 [&Delete]
 &Usuń
-[&Move/Rename]
-&Przenieś/zmień nazwę
+[&Move]
+&Przenieś
 [&Leave]
 &Pozostaw
 [Netlib log options]
@@ -1746,6 +1746,9 @@ Kontakt przestał pisać
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Nieznany błąd.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Przykład
@@ -2157,8 +2160,8 @@ Baza danych została skompresowana pomyślnie
 Profil
 [Database compaction failed]
 Kompresja bazy danych nie powiodła się
-[Compact]
-Kompresuj
+[Compact database]
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda nie może otworzyć "%s", ponieważ nie masz zainstalowanej wtyczki do obsługi profili.\nMusisz zainstalować dbx_mdbx.dll
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2193,6 +2196,8 @@ Ta zmiana wydaje się być bezpieczna.
 Ta zmiana wydaje się być potencjalnie ryzykowna.
 [This change is not known to be safe.]
 Ta zmiana wydaje się być niebezpieczna.
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Nieprawidłowe ustawienie typu dla "%s". Pierwszym znakiem każdej wartości musi być b, w, d, l, s, e, u, g, h lub n.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ Mapa bitowa JPEG
 Mapa bitowa GIF
 [PNG bitmaps]
 Mapa bitowa PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <nieokreślony>
 ;file \include\m_message.h

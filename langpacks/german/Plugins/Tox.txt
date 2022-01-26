@@ -104,9 +104,6 @@ Passwort erstellen
 Aktion
 [You cannot send when you are offline.]
 Sie können keine Nachricht versenden, so lange Sie offline sind.
-;file \protocols\Tox\src\tox_netlib.cpp
-[%s connection]
-%s-Verbindung
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Tox-Profil

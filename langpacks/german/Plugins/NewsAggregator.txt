@@ -159,6 +159,3 @@ Netzwerk
 Avatare
 [Enable/disable auto update]
 Auto-Update de-/aktivieren
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-News-Aggregator-HTTP-Verbindung

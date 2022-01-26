@@ -30,8 +30,6 @@ Vy
 [Protocol icon]
 Ikona protokolu
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
 [Visible name]

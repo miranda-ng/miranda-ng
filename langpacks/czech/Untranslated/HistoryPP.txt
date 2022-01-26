@@ -55,3 +55,4 @@
 [%0.1n h]
 [%d min]
 [Unused]
+[Can not apply default toolbar configuration.]

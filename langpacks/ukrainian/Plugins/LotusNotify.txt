@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.23.0
+;  Version: 0.1.23.1
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -89,6 +89,13 @@ notes.ini модифіковано коректно. Необхідно пере
 Триває перевірка Lotus, повторіть спробу пізніше
 [Attachments: %d bytes]
 Вкладення: %d байт
+[&Check Lotus]
+&Перевірити Lotus
+[Lotus Notify]
+Повідомлення Lotus
+[New Lotus document detected]
+Виявлено новий документ Lotus
+;file \protocols\LotusNotify\src\options.cpp
 [Status]
 Статус
 [Plugins]
@@ -99,9 +106,3 @@ notes.ini модифіковано коректно. Необхідно пере
 Спливаючі вікна
 [Miscellaneous]
 Інше
-[&Check Lotus]
-&Перевірити Lotus
-[Lotus Notify]
-Повідомлення Lotus
-[New Lotus document detected]
-Виявлено новий документ Lotus

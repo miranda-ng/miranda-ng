@@ -51,8 +51,6 @@
 [Account]
 Конт
 ;file \protocols\Facebook\src\proto.cpp
-[%s server connection]
-Далучэнне да сервера %s
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Facebook\src\server.cpp

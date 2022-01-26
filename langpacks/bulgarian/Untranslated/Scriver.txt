@@ -12,3 +12,4 @@
 [Unused]
 [Miranda could not load the built-in message module, Msftedit.dll is missing. If you are using WINE, please make sure you have Msftedit.dll installed. Press 'Yes' to continue loading Miranda.]
 [The message send timed out.]
+[Scriver internal log]

@@ -99,9 +99,6 @@ Oznámení
 Oznámení
 [Error]
 Chyba
-;file \protocols\Sametime\src\sametime_proto.cpp
-[%s connection]
-%s - spojení se serverem
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 

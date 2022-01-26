@@ -53,8 +53,6 @@ MirFox/Error
 [Accounts]
 Конты
 ;file \plugins\MirFox\src\MirandaUtils.cpp
-[MirFox log]
-MirFox log
 [Message sent to %s]
 паведамленне для %s адпраўлена
 [Message sent to %s (%s)]

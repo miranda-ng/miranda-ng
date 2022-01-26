@@ -28,7 +28,6 @@
 [HTTP failed resolving]
 [&Unblock]
 [&Block]
-[%s connection]
 [Images]
 [Participants]
 [Protocol icon]

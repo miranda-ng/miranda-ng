@@ -230,9 +230,6 @@ Löschen bestätigen
 Fehler beim Übersetzen der Kopfzeile
 [Part]
 Teil
-;file \protocols\YAMN\src\proto\netlib.cpp
-[%s connection]
-%s-Verbindung
 ;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Verbindung getrennt

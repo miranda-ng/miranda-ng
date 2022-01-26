@@ -122,8 +122,6 @@ Paste It - Абраць файл
 Уставіць з буфера
 [Paste from file]
 Уставіць з файла
-[Paste It HTTP connections]
-HTTP далучэнне Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Вы можаце змесцаваць толькі 1 файл

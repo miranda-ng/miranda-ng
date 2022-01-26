@@ -178,8 +178,6 @@
 [Calls]
 Дзвінки
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-З'єднання %s
 [Incoming call canceled]
 Вхідний дзвінок скасовано
 [Skypename]

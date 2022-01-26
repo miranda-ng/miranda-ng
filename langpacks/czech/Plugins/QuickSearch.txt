@@ -34,7 +34,6 @@ Modul:
 Nastavení:
 [Info type:]
 Typ inf.:
-
 [Save]
 Uložit
 [Tool Window Style]

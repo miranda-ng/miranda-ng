@@ -51,8 +51,6 @@ Réseau
 [Account]
 Compte
 ;file \protocols\Facebook\src\proto.cpp
-[%s server connection]
-%s serveur connexion
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Facebook\src\server.cpp

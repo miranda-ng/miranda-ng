@@ -390,9 +390,6 @@ Erreur HTTP %i
 <Entrez la ville ici>
 [Error when obtaining data: %s]
 Erreur à l'obtention des données : %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-Connexions HTTP de Weather
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Nom

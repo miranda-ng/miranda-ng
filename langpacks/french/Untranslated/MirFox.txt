@@ -14,7 +14,6 @@
 [just send message]
 [send message and open message window]
 [show message window with pasted message]
-[MirFox log]
 [Message sent to %s]
 [Message sent to %s (%s)]
 [Message sent]

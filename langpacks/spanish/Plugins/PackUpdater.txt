@@ -130,8 +130,6 @@ Servicios
 Botón 'Sí'
 ['No' Button]
 Botón 'No'
-[Pack Updater HTTP connections]
-
 [URL for checking updates not found.]
 
 [Downloading version info...]

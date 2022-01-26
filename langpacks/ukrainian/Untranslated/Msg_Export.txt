@@ -2,6 +2,7 @@
 [Select none]
 [Miranda database contains %d events]
 [History was saved successfully in file\r\n]
+[Export history]
 [Max line width must be at least %d. Or use 0 for no limit.]
 [Export accounts]
 [Miranda NG (Message Export Plugin)]

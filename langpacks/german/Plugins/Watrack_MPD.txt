@@ -14,9 +14,6 @@ MPD-Host
 Port
 [Password]
 Passwort
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-Watrack MPD Verbindung
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Winamp Track

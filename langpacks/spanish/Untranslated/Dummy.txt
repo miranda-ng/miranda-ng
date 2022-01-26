@@ -7,6 +7,7 @@
 [Restart is required to apply these changes.]
 [Allow sending messages to contacts]
 [Screen name]
+[Discord ID]
 [User name]
 [Facebook ID]
 [Gadu-Gadu number]

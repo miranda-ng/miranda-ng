@@ -230,9 +230,6 @@
 Перавесці памылак загалоўка
 [Part]
 Частка
-;file \protocols\YAMN\src\proto\netlib.cpp
-[%s connection]
-Злучэнне %s
 ;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Адключаны

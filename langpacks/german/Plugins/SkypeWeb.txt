@@ -178,8 +178,6 @@ Fehler
 [Calls]
 Aufrufe
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
-%s-Verbindung
 [Incoming call canceled]
 Eingehender Anruf abgebrochen
 [Skypename]

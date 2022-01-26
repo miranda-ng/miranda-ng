@@ -23,5 +23,4 @@
 [Join to game]
 [Protocol icon]
 [Gaming icon]
-[%s connection]
 [closed chat session]

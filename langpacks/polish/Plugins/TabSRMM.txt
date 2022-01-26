@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ Włącz "Wklej i wyślij" za pomocą Ctrl+D
 Zezwól na formatowanie BBCode w wiadomościach wychodzących
 [Automatically split long messages (experimental, use with care)]
 Automatycznie rozdzielaj długie wiadomości (eksperymentalne, używaj ostrożnie)
-[Log status changes]
-Pokazuj zmiany statusu
 [Use the same splitter height for all sessions]
 Użyj tej samej wysokości separatora dla wszystkich sesji
 [Automatically copy selected text]
@@ -1578,6 +1576,8 @@ Pokaż sekundy w czasie
 Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
 [Draw grid lines]
 Rysuj linie dzielące zdarzenia w dzienniku
+[Log status changes]
+Pokazuj zmiany statusu
 [Use incoming/outgoing icons]
 Użyj ikon dla przychodzących/wychodzących
 [Use message grouping]
@@ -1816,6 +1816,9 @@ Układ kompaktowy, poziome przyciski
 Zaawansowany układ awatarów
 [Advanced with avatars, vertical orientation]
 Zaawansowany układ awatarów, orientacja pionowa
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
+
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Podglądy niedostępne, gdy History++ jest używany do wyświetlania dziennika wiadomości.

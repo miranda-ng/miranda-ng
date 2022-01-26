@@ -56,8 +56,6 @@
 [Show smiley selection window]
 Показати вікно вибору смайлів
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd HTTP connections]
-HTTP-з'єднання SmileyAdd
 [SmileyAdd]
 Смайли
 [Smiley packs' folder]

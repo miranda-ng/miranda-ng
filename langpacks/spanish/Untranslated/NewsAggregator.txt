@@ -57,4 +57,3 @@
 [Enter message format]
 [Feed]
 [Enable/disable auto update]
-[NewsAggregator HTTP connections]

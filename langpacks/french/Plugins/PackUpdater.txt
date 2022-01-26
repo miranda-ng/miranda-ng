@@ -130,8 +130,6 @@ Services
 Bouton 'Oui'
 ['No' Button]
 Bouton 'Non'
-[Pack Updater HTTP connections]
-Connexions HTTP de Pack Updater
 [URL for checking updates not found.]
 
 [Downloading version info...]

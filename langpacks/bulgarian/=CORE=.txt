@@ -798,8 +798,8 @@ Miranda NG - диспечер на профили
 
 [&Delete]
 Изтриване
-[&Move/Rename]
-Преместване/Преименуване
+[&Move]
+Преместване
 [&Leave]
 Излизане
 [Netlib log options]
@@ -1746,6 +1746,9 @@ Google Translate
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Възникна непозната грешка.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Пример
@@ -2157,7 +2160,7 @@ Popups са изключени
 База данни
 [Database compaction failed]
 
-[Compact]
+[Compact database]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Отварянето на '%s' е невъзможно, защото липсва приставка за профили.\nНеобходимо е да инсталирате dbx_mdbx.dll
@@ -2193,6 +2196,8 @@ Popups са изключени
 Тази промяна е известна като потенциален риск.
 [This change is not known to be safe.]
 Тази команда не е известна като сигурна.
+[File names must be different]
+
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Невалиден тип настройка за "%s". Първият знак на всяка стойност трябва да бъде b, w, d, l, s, e, u, g, h или n.
 ;file \src\mir_app\src\db_upgrade.cpp
@@ -3334,7 +3339,7 @@ JPEG изображения
 GIF изображения
 [PNG bitmaps]
 PNG изображения
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <неуточнено>
 ;file \include\m_message.h

@@ -104,9 +104,6 @@ Utwórz hasło
 Działanie
 [You cannot send when you are offline.]
 Nie możesz wysyłać będąc rozłączonym.
-;file \protocols\Tox\src\tox_netlib.cpp
-[%s connection]
-Połączenie %s
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Profil Tox

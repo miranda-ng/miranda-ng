@@ -104,9 +104,6 @@ IPv6 адрес (необязательно)
 Действие
 [You cannot send when you are offline.]
 Вы не можете отправлять сообщения без подключения к сети.
-;file \protocols\Tox\src\tox_netlib.cpp
-[%s connection]
-%s подключение
 ;file \protocols\Tox\src\tox_options.cpp
 [Tox profile]
 Профиль Tox

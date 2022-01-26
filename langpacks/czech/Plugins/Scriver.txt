@@ -691,6 +691,9 @@ Poslední zpráva přijata %s v %s.
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
+
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Vždy navrchu

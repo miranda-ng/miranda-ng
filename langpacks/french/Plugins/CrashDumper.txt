@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -15,14 +15,6 @@ Fermer
 [Copy To Clipboard]
 Copier dans le Presse-Papiers
 [To File]
-
-[Support for vi.miranda-ng.org]
-
-[Username]
-ID
-[Password]
-Mot de passe
-[Upload automatically when changed]
 
 [Crash reports]
 
@@ -55,8 +47,6 @@ Tout &sélectionner
 
 [Show Version Information]
 
-[Upload Version Information]
-
 [Version Information]
 
 [Copy to clipboard]
@@ -67,19 +57,17 @@ Copier dans le Presse-Papiers
 Afficher
 [Show with DLLs]
 
-[Upload]
-
-[Copy link to clipboard]
-Copier l'URL vers le presse-papier
 [Open crash report directory]
-
-[Open online Version Info]
 
 [Copy Version Info to clipboard]
 
 [Show Version Info]
 
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+
+[Copy link to clipboard]
+Copier l'URL vers le presse-papier
 [Crash Dumper]
 
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Copier l'URL vers le presse-papier
 
 [Services]
 Services
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-
-[Cannot upload Version Info. Incorrect username or password]
-
-[Cannot upload Version Info. User is banned]
-
-[Cannot upload Version Info. Daily upload limit exceeded]
-
-[Cannot upload Version Info. Unknown error]
-
-[Cannot upload Version Info. Host unreachable.]
-
-[Crash Dumper HTTP connections]
-Connexions HTTP de Crash Dumper

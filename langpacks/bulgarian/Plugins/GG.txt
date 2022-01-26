@@ -264,8 +264,6 @@ Gadu-Gadu номер:
 [Contact list]
 Списък с контакти
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-%s връзка
 [Images]
 
 [Gadu-Gadu Number]

@@ -9,6 +9,7 @@
 [Group chat logs root]
 [Use the same splitter height for all sessions]
 [Do nothing (ignore Esc key)]
+[tabSRMM internal log]
 [Save file|Unable to save temporary file]
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 [File transfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibility list.]

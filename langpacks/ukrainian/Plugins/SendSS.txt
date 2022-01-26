@@ -200,8 +200,6 @@ BBCode ([b][i][u])
 Не вдалося створити папку знімків екрану (код помилки: %d):\n%s\nУ вас є права на запис?
 [Could not create main dialog.]
 Неможливо створити головний діалог.
-[SendSS HTTP connections]
-HTTP-з'єднання SendSS
 [SendSS]
 Надіслати скріншот
 [Screenshots]

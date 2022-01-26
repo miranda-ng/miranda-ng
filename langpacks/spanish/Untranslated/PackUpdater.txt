@@ -17,7 +17,6 @@
 [Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 [Clear pack updates folder]
-[Pack Updater HTTP connections]
 [URL for checking updates not found.]
 [Downloading version info...]
 [Name of Update's file is not supported.]

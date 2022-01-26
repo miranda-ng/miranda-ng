@@ -159,6 +159,3 @@ URL страницы с комментариями к новости.
 Аватары
 [Enable/disable auto update]
 Вкл/Выкл автообновление
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-HTTP-подключения каналов новостей

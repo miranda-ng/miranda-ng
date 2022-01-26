@@ -14,9 +14,6 @@ Servidor MPD
 Puerto
 [Password]
 Contraseña
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-Conexión MPD Watrack
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 Pista Winamp

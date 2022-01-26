@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ Cerrar la ventana de mensaje al enviar
 
 [Automatically split long messages (experimental, use with care)]
 
-[Log status changes]
-
 [Use the same splitter height for all sessions]
 
 [Automatically copy selected text]
@@ -1577,6 +1575,8 @@ Cerrar la ventana de mensaje al enviar
 [Use contacts local time (if timezone info available)]
 
 [Draw grid lines]
+
+[Log status changes]
 
 [Use incoming/outgoing icons]
 
@@ -1815,6 +1815,9 @@ Contacto
 [Advanced layout with avatars]
 
 [Advanced with avatars, vertical orientation]
+
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
 
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]

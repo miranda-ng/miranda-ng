@@ -159,6 +159,3 @@ Sítě
 Avatary
 [Enable/disable auto update]
 Povolit/zakázat automatickou aktualizaci
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-NewsAggregator - spojení pomocí protokolu HTTP

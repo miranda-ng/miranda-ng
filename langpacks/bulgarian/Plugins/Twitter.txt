@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.3
+;  Version: 1.3.1.6
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -77,14 +77,14 @@
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 
 ;file \protocols\Twitter\src\proto.cpp
-[%s server connection]
-%s връзка със сървъра
+[%s (server)]
+%s (сървър)
 [Unable to initialize Netlib for %s.]
 
-[%s avatar connection]
-%s връзки за аватари
+[%s (avatar)]
+%s (аватар)
 [Twitter (avatars)]
-
+Twitter (аватари)
 [User name]
 Потребителско име
 [Send Tweet...]

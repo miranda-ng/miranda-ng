@@ -1909,9 +1909,6 @@ Jabber vCard: Edytuj numer telefonu
 Kontakty
 [Note]
 Uwagi
-;file \protocols\JabberG\src\jabber_ws.cpp
-[%s connection]
-Połączenie %s
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <miejsce zaawansowanego statusu>

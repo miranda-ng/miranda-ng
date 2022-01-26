@@ -264,8 +264,6 @@ Avanzado
 [Contact list]
 Lista de contactos
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-
 [Images]
 
 [Gadu-Gadu Number]

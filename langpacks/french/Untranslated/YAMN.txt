@@ -23,7 +23,6 @@
 [Date]
 [Translate header error]
 [Part]
-[%s connection]
 [POP3 protocol (internal)]
 [Executables]
 [Dialog box error]

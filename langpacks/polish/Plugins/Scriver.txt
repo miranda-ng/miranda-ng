@@ -691,6 +691,9 @@ Ostatnia wiadomość %s o %s.
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
+;file \plugins\Scriver\src\srmm.cpp
+[Scriver internal log]
+
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Zawsze na wierzchu

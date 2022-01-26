@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@ Zamknij
 Kopiuj do schowka
 [To File]
 Do pliku
-[Support for vi.miranda-ng.org]
-Wsparcie dla vi.miranda-ng.org
-[Username]
-Użytkownik:
-[Password]
-Hasło:
-[Upload automatically when changed]
-Wyślij automatycznie kiedy nastąpi zmiana
 [Crash reports]
 Raporty o błędach
 [Generate crash reports]
@@ -55,8 +47,6 @@ Kopiuj do schowka
 Zapisz do pliku
 [Show Version Information]
 Pokaż wersję programu
-[Upload Version Information]
-Wyślij informacje o wersji
 [Version Information]
 Informacje o wersji
 [Copy to clipboard]
@@ -67,19 +57,17 @@ Zapisz do pliku
 Pokaż
 [Show with DLLs]
 Pokaż z bibliotekami
-[Upload]
-Wyślij
-[Copy link to clipboard]
-Kopiuj link do schowka
 [Open crash report directory]
 Otwórz folder z raportami
-[Open online Version Info]
-Otwórz informację o wersji online
 [Copy Version Info to clipboard]
 Kopiuj informacje o wersji do schowka
 [Show Version Info]
 Pokaż Informacje o wersji
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Wyślij
+[Copy link to clipboard]
+Kopiuj link do schowka
 [Crash Dumper]
 Raporty błędów
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Wystąpił błąd Mirandy. Raport błędów zachowany w folderze:\n %s\n\n Czy z
 Pokaż Informacje o wersji (z bibliotekami)
 [Services]
 Usługi
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Wysyłanie informacji o wersji ukończone pomyślnie.
-[Cannot upload Version Info. Incorrect username or password]
-Nie można wysłać informacji o wersji. Niepoprawna nazwa użytkownika lub hasło.
-[Cannot upload Version Info. User is banned]
-Nie można wysłać informacji o wersji. Użytkownik jest zbanowany.
-[Cannot upload Version Info. Daily upload limit exceeded]
-Nie można wysłać informacji o wersji. Przekroczono dzienny limit wysyłania.
-[Cannot upload Version Info. Unknown error]
-Nie można wysłać informacji o wersji. Nieznany błąd.
-[Cannot upload Version Info. Host unreachable.]
-Nie można wysłać informacji o wersji. Host nieosiągalny.
-[Crash Dumper HTTP connections]
-Połączenie HTTP Crash Dumper

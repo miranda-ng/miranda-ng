@@ -51,8 +51,6 @@
 [Account]
 Обліковий запис
 ;file \protocols\Facebook\src\proto.cpp
-[%s server connection]
-З'єднання з сервером %s
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Facebook\src\server.cpp

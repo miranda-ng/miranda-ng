@@ -798,8 +798,8 @@ Que voulez-vous désormais faire avec le fichier ?
 &Recycler
 [&Delete]
 &Effacer
-[&Move/Rename]
-&Déplacer/Renommer
+[&Move]
+&Déplacer
 [&Leave]
 &Quitter
 [Netlib log options]
@@ -1746,6 +1746,9 @@ Entrant (nouvelle session)
 ;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occurred.]
 Une erreur inconnue s'est produite.
+;file \src\core\stdmsg\src\srmm.cpp
+[StdMsg internal log]
+
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Exemple
@@ -2157,7 +2160,7 @@ Le profil ne peut être placé dans le dossier racine de Miranda.\nVeuillez dép
 
 [Database compaction failed]
 
-[Compact]
+[Compact database]
 
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda est incapable d'ouvrir '% s' parce que vous n'avez pas de plugins de profil installés.\nVous devez installer dbx_mdbx.dll
@@ -2192,6 +2195,8 @@ Ce changement est connu pour être sûr.
 [This change is known to be potentially hazardous.]
 Ce changement est connu pour être potentiellement dangereux.
 [This change is not known to be safe.]
+
+[File names must be different]
 
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 
@@ -3334,7 +3339,7 @@ Images JPEG
 Images GIF
 [PNG bitmaps]
 Images PNG
-;file \src\mir_core\src\timezones.cpp
+;file \src\mir_core\src\Windows\timezones.cpp
 [<unspecified>]
 <non spécifié>
 ;file \include\m_message.h

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ Povolit funkci "Vložit a poslat"
 Povolit formátování pomocí BBCode v odchozích zprávách
 [Automatically split long messages (experimental, use with care)]
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
-[Log status changes]
-Zaznamenávat změny stavu
 [Use the same splitter height for all sessions]
 
 [Automatically copy selected text]
@@ -1578,6 +1576,8 @@ Zobrazit sekundy v časovém údaji
 Použít lokální čas kontaktu (je-li dostupná informace o zóně)
 [Draw grid lines]
 Zobrazit mřížku
+[Log status changes]
+Zaznamenávat změny stavu
 [Use incoming/outgoing icons]
 Použít příchozí a odchozí ikony
 [Use message grouping]
@@ -1816,6 +1816,9 @@ Kompaktní rozvržení, horizontální orientace
 Rozšířené rozvržení s avatary, horizontální orientace
 [Advanced with avatars, vertical orientation]
 Rozšířené rozvržení s avatary, vertikální orientace
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
+
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Náhled není dostupný při použití pluginu History++ pro zobrazení záznamu zpráv.

@@ -1,4 +1,0 @@
-[Enable guilds (servers)]
-[%s gateway connection]
-[Connection failed.\n%s (%s).]
-[Embed]

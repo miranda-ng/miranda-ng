@@ -390,9 +390,6 @@ INI файл погоды для этой станции не найден (20)
 <Введите название города>
 [Error when obtaining data: %s]
 Ошибка при получении данных: %s
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
-HTTP-подключения Weather
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 Имя

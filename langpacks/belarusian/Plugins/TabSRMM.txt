@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -1548,8 +1548,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Дазволіць BB-коды для выходных паведамленняў
 [Automatically split long messages (experimental, use with care)]
 Аўтаматычна падзяляць доўгія паведамленні (эксперыментальна)
-[Log status changes]
-Запісваць змены статусаў
 [Use the same splitter height for all sessions]
 
 [Automatically copy selected text]
@@ -1578,6 +1576,8 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Лакальны час кантакту (калі даступны гадзінны пояс)
 [Draw grid lines]
 Маляваць лініі сеткі
+[Log status changes]
+Запісваць змены статусаў
 [Use incoming/outgoing icons]
 Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
 [Use message grouping]
@@ -1816,6 +1816,9 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Пашыранае месцаванне з аватарамі
 [Advanced with avatars, vertical orientation]
 Пашыранае месцаванне з аватарамі, вертыкальная арыентацыя
+;file \plugins\TabSRMM\src\srmm.cpp
+[tabSRMM internal log]
+
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Прадпрагляд недаступны пры выкарыстанні History++ у якасці лога паведамленняў.

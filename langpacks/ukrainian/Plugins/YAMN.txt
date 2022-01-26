@@ -230,9 +230,6 @@
 Помилка перекладу заголовка
 [Part]
 Частина
-;file \protocols\YAMN\src\proto\netlib.cpp
-[%s connection]
-З'єднання %s
 ;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Вимкнено

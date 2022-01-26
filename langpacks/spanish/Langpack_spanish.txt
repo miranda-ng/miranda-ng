@@ -759,8 +759,6 @@ La importación ha completado a partir de
 &Reciclar
 [&Delete]
 &Borrar
-[&Move/Rename]
-&Mover/Renombrar
 [&Leave]
 &Dejar
 [Netlib log options]
@@ -3850,7 +3848,7 @@ Global
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.11
+;  Version: 0.9.1.12
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -4904,17 +4902,13 @@ Menú del usuario
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Close]
 Cerrar
 [Copy To Clipboard]
 Copiar al portapapeles
-[Username]
-Nombre de usuario
-[Password]
-Contraseña
 [&Copy]
 &Copiar
 [Co&py All]
@@ -5157,44 +5151,11 @@ horas
 minutos
 [Variables]
 Variables
-#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
-;============================================================
-;  File: Discord.dll
-;  Plugin: Discord protocol
-;  Version: 0.6.2.10
-;  Authors: George Hazan
-;============================================================
-[User details]
-Información del usuario
-[E-mail:]
-E-mail:
-[Password:]
-Contraseña:
-[Contacts]
-Contactos
-[Default group:]
-Grupo predeterminado:
-[Nick:]
-Nick:
-[Main icon]
-Icono principal
-[Group chats]
-Grupo de chats
-[Network]
-Red
-[Account]
-Cuenta
-[%s server connection]
-%s conexión al servidor
-[User ID]
-ID de usuario
-[Preview]
-Previsualizar
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Custom]
@@ -5320,8 +5281,6 @@ Cancelar
 Red
 [Account]
 Cuenta
-[%s server connection]
-%s conexión al servidor
 [URL]
 URL
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
@@ -5856,7 +5815,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.1.7
 ;  Authors: George Hazan
 ;============================================================
 [Password:]
@@ -5877,8 +5836,6 @@ Red
 General
 [Advanced]
 Avanzado
-[%s server connection]
-%s conexión al servidor
 [Name]
 Nombre
 [Rename]
@@ -6044,7 +6001,7 @@ Todos los archivos
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.3
+;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
 [Password]
@@ -6099,8 +6056,6 @@ Voz
 Desconocido
 [Ignore]
 Ignorar
-[%s server connection]
-%s conexión al servidor
 [Nickname]
 Apodo
 [Main]
@@ -6587,7 +6542,7 @@ General
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.23.0
+;  Version: 0.1.23.1
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Password:]
@@ -6673,8 +6628,6 @@ Enviando...
 Servidor:
 [Normal]
 Normal
-[%s server connection]
-%s conexión al servidor
 #muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
 ;============================================================
 ;  File: MirandaG15.dll
@@ -6852,7 +6805,7 @@ Mensaje con asterisco
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.7
+;  Version: 3.1.2.8
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Browse]
@@ -7544,8 +7497,6 @@ Servidor:
 Normal
 [Connecting...]
 Conectando...
-[%s server connection]
-%s conexión al servidor
 [Network]
 Red
 [Account]
@@ -7692,7 +7643,7 @@ Error
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Timeout]
@@ -7721,12 +7672,12 @@ Contacto
 Protocolos
 [Enable]
 Habilitar
+[<none>]
+<Nada>
 [Text Files (*.txt)]
 Archivos de texto (*.txt)
 [All Files]
 Todos los archivos
-[<none>]
-<Nada>
 [Settings]
 Ajustes
 [Disabled]
@@ -9583,7 +9534,7 @@ Avanzado
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -9789,7 +9740,7 @@ Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
 [Messaging]
-Mensajería
+Sesiones de mensaje
 [Nick list background]
 Fondo de lista de usuarios
 [Appearance and functionality of chat room windows]
@@ -10251,7 +10202,7 @@ Invertir Caso de Último / Seleccionado
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.3
+;  Version: 1.3.1.6
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Default group:]
@@ -10288,8 +10239,6 @@ Permanente
 Previsualizar
 [Normal]
 Normal
-[%s server connection]
-%s conexión al servidor
 [Network]
 Red
 [Popups]
@@ -10525,7 +10474,7 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.4
+;  Version: 0.1.13.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -10596,8 +10545,6 @@ Introduzca el texto que aparece
 Red
 [Account]
 Cuenta
-[%s server connection]
-%s conexión al servidor
 [Errors]
 Errores
 [Notifications]
@@ -10641,8 +10588,6 @@ Servidor MPD
 Puerto
 [Password]
 Contraseña
-[Watrack MPD connection]
-Conexión MPD Watrack
 [Winamp Track]
 Pista Winamp
 [Plugins]

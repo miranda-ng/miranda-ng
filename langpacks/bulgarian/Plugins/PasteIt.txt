@@ -122,8 +122,6 @@ Paste It - Избиране на файл
 Поставяне от клипборда
 [Paste from file]
 Поставяне от файл
-[Paste It HTTP connections]
-HTTP връзки на Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Можете да поставите само 1 файл

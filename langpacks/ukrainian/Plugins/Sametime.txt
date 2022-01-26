@@ -99,9 +99,6 @@ ID та версія клієнта
 Сповіщення
 [Error]
 Помилка
-;file \protocols\Sametime\src\sametime_proto.cpp
-[%s connection]
-З'єднання %s
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 Повідомлення адміністратора Sametime

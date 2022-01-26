@@ -122,8 +122,6 @@
 Розмістити з буфера обміну
 [Paste from file]
 Розмістити з файлу
-[Paste It HTTP connections]
-HTTP-з'єднання Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Ви можете розмістити тільки 1 файл

@@ -77,12 +77,12 @@
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 В базе отсутствует настройка "Nick". Это не страшно, но чревато некоторыми ошибками (вы заметите самого себя в списке, отсутствие подсветки исходящих сообщений в групповых чатах). Чтобы это исправить, добавьте недостающую настройку самостоятельно или пересоздайте свою учётную запись в Miranda NG
 ;file \protocols\Twitter\src\proto.cpp
-[%s server connection]
-%s подключение к серверу
+[%s (server)]
+%s (сервер)
 [Unable to initialize Netlib for %s.]
 Невозможно создать подключение Netlib для %s.
-[%s avatar connection]
-%s подключение аватаров
+[%s (avatar)]
+%s (аватар)
 [Twitter (avatars)]
 Twitter (аватары)
 [User name]

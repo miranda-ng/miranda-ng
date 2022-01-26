@@ -796,8 +796,6 @@ Co chcete udělat s tímto souborem?
 Př&esunout do koše
 [&Delete]
 &Smazat
-[&Move/Rename]
-Přesunout/Přej&menovat
 [&Leave]
 Ode&jít
 [Netlib log options]
@@ -5575,7 +5573,7 @@ Globální
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.11
+;  Version: 0.9.1.12
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -7457,7 +7455,7 @@ Odeslat kontakty pro
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -7470,14 +7468,6 @@ Zavřít
 Kopírovat do schránky
 [To File]
 Do souboru
-[Support for vi.miranda-ng.org]
-Podpora pro vi.miranda-ng.org
-[Username]
-Uživatel
-[Password]
-Heslo
-[Upload automatically when changed]
-Nahrát na server automaticky při změně
 [Crash reports]
 Výpisy chyb
 [Generate crash reports]
@@ -7506,8 +7496,6 @@ Informace o verzi do schránky
 Informace o verzi do souboru
 [Show Version Information]
 Zobrazit Informace o verzi
-[Upload Version Information]
-Informace o verzi nahrát na server
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
@@ -7518,18 +7506,16 @@ Uložit do souboru
 Zobrazit
 [Show with DLLs]
 Zobrazit s DLL knihovnami
-[Upload]
-Nahrát na server
-[Copy link to clipboard]
-Zkopírovat odkaz do schránky
 [Open crash report directory]
 Otevřít složku s výpisem chyb
-[Open online Version Info]
-Otevřít informace o verzi online
 [Copy Version Info to clipboard]
 Zkopírovat informace o verzi do schránky
 [Show Version Info]
 Zobrazit informace o verzi
+[Upload]
+Nahrát na server
+[Copy link to clipboard]
+Zkopírovat odkaz do schránky
 [Crash Dumper]
 Crash Dumper
 [Crash Report write location is not available]
@@ -7540,20 +7526,6 @@ Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit
 Zobrazit informace o verzi (s DLL knihovnami)
 [Services]
 Služby
-[Version Info upload successful.]
-Informace o verzi: úspěšně nahráno.
-[Cannot upload Version Info. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
-[Cannot upload Version Info. User is banned]
-Informace o verzi: nelze nahrát na server\nUživatel zablokován
-[Cannot upload Version Info. Daily upload limit exceeded]
-Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání překročen
-[Cannot upload Version Info. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
-[Cannot upload Version Info. Host unreachable.]
-Informace o verzi: nelze nahrát na server\nServer nedostupný
-[Crash Dumper HTTP connections]
-Crash Dumper - spojení pomocí protokolu HTTP
 #muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
@@ -7795,8 +7767,6 @@ Ikona protokolu
 Exportovat
 [Import]
 Importovat
-[CurrencyRates HTTP connections]
-CurrencyRates - spojení pomocí protokolu HTTP
 [XML File (*.xml)]
 XML soubory (*.xml)
 [All files (*.*)]
@@ -8081,7 +8051,7 @@ Aktualizovat seznam sledovaných
 [Copy module "%s"]
 Zkopírovat modul "%s"
 [Are you sure you want to delete module "%S"?]
-Opravdu chcete smazat modul '%s'?
+Opravdu chcete smazat modul '%S'?
 [Delete module from database]
 Smazat modul z databáze
 [Delete module from database... Loading]
@@ -8350,58 +8320,11 @@ Chyba při vytváření složky pro zálohování
 Vyberte složku pro zálohování profilů
 [Miranda NG [%s] database backup]
 Miranda NG [%s] záloha databáze
-#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
-;============================================================
-;  File: Discord.dll
-;  Plugin: Discord protocol
-;  Version: 0.6.2.10
-;  Authors: George Hazan
-;============================================================
-[User details]
-Informace o uživateli
-[E-mail:]
-E-mail:
-[Password:]
-Heslo:
-[Contacts]
-Kontakty
-[Default group:]
-Výchozí skupina:
-[Do not open chat windows on creation]
-Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
-[Nick:]
-Přezdívka:
-[Change &nickname]
-Změ&nit přezdívku
-[Main icon]
-Hlavní ikona
-[Group chats]
-Skupinové rozhovory
-[Call]
-Volat
-[Call ended]
-Hovor ukončen
-[Network]
-Sítě
-[Account]
-Účet
-[Incoming call]
-Příchozí hovor
-[%s server connection]
-%s - spojení se serverem
-[User ID]
-Identifikátor
-[Owners]
-Vlastníci
-[Participants]
-Účastníci
-[Preview]
-Náhled
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -8595,8 +8518,6 @@ Pozvat už&ivatele
 Sítě
 [Account]
 Účet
-[%s server connection]
-%s - spojení se serverem
 [Participant]
 Účastník
 [URL]
@@ -9415,8 +9336,6 @@ Od&blokovat
 Za&blokovat
 [Contact list]
 Seznam kontaktů
-[%s connection]
-%s - spojení se serverem
 [Images]
 Obrázky
 [Gadu-Gadu Number]
@@ -9662,6 +9581,8 @@ Nelze přečíst kanál RSS!
 Ostatní
 [Gmail: New thread(s)]
 Gmail: Nové vlákno/a
+[Gmail Notifier]
+Gmail Notifier
 [&Check all Gmail inboxes]
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]
@@ -11041,7 +10962,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.1.7
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11088,8 +11009,6 @@ Sítě
 Obecné
 [Advanced]
 Extra
-[%s server connection]
-%s - spojení se serverem
 [Name]
 Jméno
 [Rename]
@@ -11525,7 +11444,7 @@ Dokončit
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.3
+;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -11536,6 +11455,8 @@ Server
 Adresa hostitele
 [Port range]
 Rozsah portů
+[SSL/TLS]
+SSL/TLS
 [Enable SASL]
 Zapnout SASL
 [Password]
@@ -11882,10 +11803,6 @@ Chyba DCC: Nelze navázat spojení na požadovaném portu
 Vstupní příkaz
 [Please enter the reply]
 Zadejte prosím odpověď
-[%s server connection]
-%s - spojení se serverem
-[%s client-to-client connections]
-%s - přímé spojení mezi klienty
 [Nickname]
 Přezdívka
 [DCC ERROR: No valid files specified]
@@ -13533,8 +13450,6 @@ Jabber vCard: Upravit telefonní číslo
 Kontakty
 [Note]
 Poznámka
-[%s connection]
-%s - spojení se serverem
 [<advanced status slot>]
 <slot rozšířeného stavu>
 [Afraid]
@@ -14386,7 +14301,7 @@ Přijímač poslechu hudby pro Mirandu
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.23.0
+;  Version: 0.1.23.1
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Database:]
@@ -14576,8 +14491,6 @@ Normální
 Vy
 [Protocol icon]
 Ikona protokolu
-[%s server connection]
-%s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
 [Visible name]
@@ -15121,7 +15034,7 @@ Zpráva s hvězdičkou
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.7
+;  Version: 3.1.2.8
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -15948,8 +15861,6 @@ Sítě
 Avatary
 [Enable/disable auto update]
 Povolit/zakázat automatickou aktualizaci
-[NewsAggregator HTTP connections]
-NewsAggregator - spojení pomocí protokolu HTTP
 #muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
 ;============================================================
 ;  File: NewStory.dll
@@ -17081,8 +16992,6 @@ Náhodný
 Cizinec používá mobilní stránky Omegle (omegle.com na telefonu nebo tabletu)
 [You both speak the same language.]
 Oba mluvíte stejnou řečí.
-[%s server connection]
-%s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
 [Stranger is typing]
@@ -17228,8 +17137,6 @@ Služby
 Tlačítko 'Ano'
 ['No' Button]
 Tlačítko 'Ne'
-[Pack Updater HTTP connections]
-Pack Updater - spojení pomocí protokolu HTTP
 [Downloading version info...]
 Načítání informací...
 [No updates found.]
@@ -17313,8 +17220,6 @@ Domácí stránka
 Všechny soubory (*.*)
 [Error]
 Chyba
-[Paste It HTTP connections]
-Paste It - spojení pomocí protokolu HTTP
 [Are You sure?]
 Opravdu chcete pokračovat?
 [Never]
@@ -17327,7 +17232,7 @@ Nikdy
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -17424,22 +17329,20 @@ Možnosti...
 Hostitelé...
 [Ping]
 Ping
+[<none>]
+<žádný>
+[<all>]
+<všechny>
 [Text Files (*.txt)]
 Textové soubory (*.txt)
 [All Files]
 Všechny soubory
 [Open log file]
 Zobrazit záznam
-[<none>]
-<žádný>
-[<all>]
-<všechny>
 [Settings]
 Nastavení
 [Hosts]
 Hostitelé
-[Ping Plugin]
-Ping doplněk
 [Responding]
 Odpovídá
 [Not Responding]
@@ -17667,8 +17570,6 @@ Služby
 Zjistit aktualizace
 [Plugin info]
 Informace
-[Plugin Updater HTTP connections]
-Plugin Updater - spojení pomocí protokolu HTTP
 [Available components list]
 Komponenty ke stažení...
 [Update failed]
@@ -18244,6 +18145,8 @@ Typ dat:
 Modul:
 [Setting:]
 Nastavení:
+[Info type:]
+Typ inf.:
 [Save]
 Uložit
 [Tool Window Style]
@@ -18320,8 +18223,12 @@ Ostatní
 Metakontakt
 [Title]
 Název
+[Module/Info type]
+Modul/Typ inf
 [Setting]
 Nastavení
+[Database setting]
+DB nastavení
 [Byte]
 Byte
 [Word]
@@ -18388,6 +18295,8 @@ Dom. stránka
 Informace
 [Age]
 Věk
+[First name/Last name]
+Jméno/Příjmení
 [Unique ID]
 Identifikátor
 [Fax]
@@ -18413,7 +18322,7 @@ Země
 [Company homepage]
 Domovská stránka
 [Unknown]
-neznámý
+Neznámý
 [Stay on Top]
 Vždy navrchu
 [Do you really want to delete selected contacts?]
@@ -18431,7 +18340,7 @@ Aktivní
 [Online]
 Online
 [All]
-všechno
+Všechno
 [&Delete]
 &Smazat
 [&Copy]
@@ -18567,8 +18476,6 @@ Oznámení
 Oznámení
 [Error]
 Chyba
-[%s connection]
-%s - spojení se serverem
 [Name]
 Jméno
 [Description]
@@ -19979,8 +19886,6 @@ Aktualizovat
 BBCode
 [Down arrow]
 Šipka dolů
-[SendSS HTTP connections]
-SendSS - spojení pomocí protokolu HTTP
 [Buttons]
 Tlačítka
 [Send screenshot]
@@ -20663,8 +20568,6 @@ Upozornění
 Chyby
 [Calls]
 Hovory
-[%s connection]
-%s - spojení se serverem
 [Skypename]
 Skype jméno
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
@@ -20720,8 +20623,6 @@ Vzhled okna nastavit dle IEView
 Horizontální řazení
 [Show smiley selection window]
 Zobrazit okno s výběrem smajlíků
-[SmileyAdd HTTP connections]
-SmileyAdd - spojení pomocí protokolu HTTP
 [SmileyAdd]
 Smajlíky
 [Smiley cache]
@@ -21574,8 +21475,6 @@ Protokoly
 Ikona protokolu
 [Gaming icon]
 Herní ikona
-[%s connection]
-%s - spojení se serverem
 [You cannot send messages when you are offline.]
 Ve stavu offline nelze odesílat zprávy.
 [closed chat session]
@@ -21702,7 +21601,7 @@ Extra
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -22594,7 +22493,7 @@ Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
 [Messaging]
-Rozhovor
+Komunikace
 [Group chat windows]
 Okna skupinových rozhovorů
 [Group chat log]
@@ -23209,8 +23108,6 @@ Povolit funkci "Vložit a poslat"
 Povolit formátování pomocí BBCode v odchozích zprávách
 [Automatically split long messages (experimental, use with care)]
 Automaticky rozdělovat příliš dlouhé zprávy (experimentální fce)
-[Log status changes]
-Zaznamenávat změny stavu
 [Automatically copy selected text]
 Automaticky kopírovat vybraný text
 [Test contact]
@@ -23237,6 +23134,8 @@ Zobrazit sekundy v časovém údaji
 Použít lokální čas kontaktu (je-li dostupná informace o zóně)
 [Draw grid lines]
 Zobrazit mřížku
+[Log status changes]
+Zaznamenávat změny stavu
 [Use incoming/outgoing icons]
 Použít příchozí a odchozí ikony
 [Use message grouping]
@@ -23505,6 +23404,8 @@ Poloprůhledný s vlastními barvami
 Stříbrný stín
 [Custom (use own gradient colors)]
 Uživatelský (vlastní barvy gradientu)
+[Custom 2 (use own gradient colors)]
+Uživatelský 2 (vlastní barvy gradientu)
 [All message containers need to close before the skin can be changed\nProceed?]
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]
@@ -24536,8 +24437,6 @@ Heslo
 Akce
 [You cannot send when you are offline.]
 Nemůžete odesílat zprávy ve stavu offline.
-[%s connection]
-%s - spojení se serverem
 [Tox profile]
 Tox profil
 [All files]
@@ -24738,7 +24637,7 @@ Invertovat velikost posledního / vybraného
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.3
+;  Version: 1.3.1.6
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Default group:]
@@ -24779,8 +24678,6 @@ Trvale
 Náhled
 [Normal]
 Normální
-[%s server connection]
-%s - spojení se serverem
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
 [User name]
@@ -26208,7 +26105,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.4
+;  Version: 0.1.13.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -26377,8 +26274,6 @@ při odpovězení
 při psaní
 [These changes will take effect after Miranda NG restart.\nWould you like to restart it now?]
 Provedené změny se projeví až po restartu Mirandy NG.\nPřejete si ji nyní restartovat?
-[%s server connection]
-%s - spojení se serverem
 [Errors]
 Chyby
 [Notifications]
@@ -26860,8 +26755,6 @@ MPD hostitel
 Port
 [Password]
 Heslo
-[Watrack MPD connection]
-Watrack MPD připojení
 [Winamp Track]
 Sledování hudby
 [Plugins]
@@ -27318,8 +27211,6 @@ HTTP chyba %i
 <zde zadejte město>
 [Error when obtaining data: %s]
 Chyba při stahování dat: %s
-[Weather HTTP connections]
-Weather - spojení pomocí protokolu HTTP
 [Name]
 Jméno
 [Author]
@@ -29434,8 +29325,6 @@ Datum
 Počet vybraných zpráv: %d. Opravdu je chcete smazat?
 [Delete confirmation]
 Potvrzení smazání
-[%s connection]
-%s - spojení se serverem
 [Disconnected]
 Odpojen od serveru
 [Found new version of account book, not compatible with this version of YAMN.]

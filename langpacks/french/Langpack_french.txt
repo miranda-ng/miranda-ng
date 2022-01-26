@@ -765,8 +765,6 @@ Que voulez-vous désormais faire avec le fichier ?
 &Recycler
 [&Delete]
 &Effacer
-[&Move/Rename]
-&Déplacer/Renommer
 [&Leave]
 &Quitter
 [Netlib log options]
@@ -4270,7 +4268,7 @@ Général
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.11
+;  Version: 0.9.1.12
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -5876,17 +5874,13 @@ Menu Contact
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Close]
 Fermer
 [Copy To Clipboard]
 Copier dans le Presse-Papiers
-[Username]
-ID
-[Password]
-Mot de passe
 [&Copy]
 &Copier
 [Co&py All]
@@ -5901,8 +5895,6 @@ Afficher
 Copier l'URL vers le presse-papier
 [Services]
 Services
-[Crash Dumper HTTP connections]
-Connexions HTTP de Crash Dumper
 #muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
@@ -5990,8 +5982,6 @@ Heures
 Actualiser
 [Network]
 Réseau
-[CurrencyRates HTTP connections]
-Connexions HTTP de CurrencyRates
 [All files (*.*)]
 Tous les fichiers (*.*)
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
@@ -6174,7 +6164,7 @@ Fenêtre de surveillance
 [Reload watch list]
 Actualiser la liste
 [Are you sure you want to delete module "%S"?]
-Voulez-vous vraiment supprimer le module "%s" ?
+Voulez-vous vraiment supprimer le module "%S" ?
 [Delete module from database]
 Supprime le module de la base de données
 [Delete module from database... Loading]
@@ -6315,40 +6305,11 @@ minutes
 Erreur à la création du répertoire de sauvegarde
 [Select backup folder]
 Sélectionner le répertoire de sauvegarde
-#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
-;============================================================
-;  File: Discord.dll
-;  Plugin: Discord protocol
-;  Version: 0.6.2.10
-;  Authors: George Hazan
-;============================================================
-[User details]
-Détails du contact
-[E-mail:]
-Courriel :
-[Password:]
-Passe :
-[Contacts]
-Contacts
-[Default group:]
-Groupes :
-[Nick:]
-Pseudo :
-[Group chats]
-Groupe chats
-[Network]
-Réseau
-[Account]
-Compte
-[%s server connection]
-%s serveur connexion
-[Preview]
-Aperçu
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Custom]
@@ -6444,8 +6405,6 @@ Annuler
 Réseau
 [Account]
 Compte
-[%s server connection]
-%s serveur connexion
 [URL]
 Lien
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
@@ -7818,7 +7777,7 @@ Apparence
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.1.7
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -7857,8 +7816,6 @@ Réseau
 Général
 [Advanced]
 Avancé
-[%s server connection]
-%s serveur connexion
 [Name]
 Nom
 [Rename]
@@ -8116,7 +8073,7 @@ Profil Miranda-NG/mContacts
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.3
+;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -8127,6 +8084,8 @@ Serveur
 Adresse d'hôte
 [Port range]
 Ports
+[SSL/TLS]
+SSL/TLS
 [Password]
 Mot de passe
 [User info - Required]
@@ -8455,10 +8414,6 @@ Saisir commande
 Veuillez saisir la réponse
 [Failed to connect to]
 N'a pas pu se connecter à
-[%s server connection]
-%s serveur connexion
-[%s client-to-client connections]
-%s client-to-client connexions
 [Nickname]
 Pseudo
 [DCC ERROR: No valid files specified]
@@ -10115,7 +10070,7 @@ Lecteurs
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.23.0
+;  Version: 0.1.23.1
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Database:]
@@ -10199,8 +10154,6 @@ Serveur :
 Serveur
 [Normal]
 Normale
-[%s server connection]
-%s serveur connexion
 #muuid {798221e1-e47a-4dc8-9077-1e576f9c4307}
 ;============================================================
 ;  File: MirandaG15.dll
@@ -10380,7 +10333,7 @@ Popups
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.7
+;  Version: 3.1.2.8
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Export directory]
@@ -10885,8 +10838,6 @@ Flux
 Réseau
 [Avatars]
 Avatars
-[NewsAggregator HTTP connections]
-Connexions HTTP de NewsAggregator
 #muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
 ;============================================================
 ;  File: NewStory.dll
@@ -11576,8 +11527,6 @@ Normale
 Étranger
 [Connecting...]
 Connexion en cours...
-[%s server connection]
-%s serveur connexion
 [Network]
 Réseau
 [Account]
@@ -11681,8 +11630,6 @@ Services
 Bouton 'Oui'
 ['No' Button]
 Bouton 'Non'
-[Pack Updater HTTP connections]
-Connexions HTTP de Pack Updater
 [No updates found.]
 Aucune mises à jour trouvée.
 [Update checking already started!]
@@ -11806,8 +11753,6 @@ Erreur
 Coller à partir du presse-papiers
 [Paste from file]
 Coller à partir du fichier
-[Paste It HTTP connections]
-Connexions HTTP de Paste It
 [You can only paste 1 file]
 Vous pouver coller 1 seul fichier
 [Cannot get data from clipboard]
@@ -11846,7 +11791,7 @@ Jamais
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Delay between pings (secs):]
@@ -11921,14 +11866,14 @@ Activer tous les pings
 Désactiver tous les pings
 [Ping]
 Ping
-[Text Files (*.txt)]
-Fichier texte (*.txt)
-[All Files]
-Tous les fichiers
 [<none>]
 <aucun>
 [<all>]
 <tout>
+[Text Files (*.txt)]
+Fichier texte (*.txt)
+[All Files]
+Tous les fichiers
 [Settings]
 Paramètres
 [Responding]
@@ -12084,8 +12029,6 @@ Services
 Vérifier la présence de mises à jour
 [Plugin info]
 Informations sur le plugin
-[Plugin Updater HTTP connections]
-Connexions HTTP de Plugin Updater
 [Available components list]
 Montrer la liste complète des plugins
 [An error occurred while checking for new updates.]
@@ -12491,6 +12434,8 @@ Téléphone
 Page web
 [About]
 À propos
+[First name/Last name]
+Prénom/Nom
 [Unique ID]
 ID unique
 [Fax]
@@ -13412,8 +13357,6 @@ Suivant
 Mise à jour
 [Down arrow]
 Flèche bas
-[SendSS HTTP connections]
-Connexions HTTP de SendSS
 [Take a screenshot]
 Prendre un screenshot
 [Send screenshot]
@@ -13697,8 +13640,6 @@ Se référer au 1ier smiley afin de définir la taille de sélection
 Fenêtre style IEView
 [Show smiley selection window]
 Voir la fenêtre de sélection des smileys
-[SmileyAdd HTTP connections]
-Connexions HTTP de SmileyAdd
 [Button smiley]
 Bouton Smiley
 [Assign smiley category]
@@ -14101,7 +14042,7 @@ Avancé
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Show these events]
@@ -14671,7 +14612,7 @@ Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
 [Messaging]
-Envoi de message
+Sessions de message
 [Half operators]
 demi OP
 [Channel operators]
@@ -15641,7 +15582,7 @@ Effacer la valeur courante (maintenant)
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.3
+;  Version: 1.3.1.6
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -15680,8 +15621,6 @@ Défini
 Aperçu
 [Normal]
 Normale
-[%s server connection]
-%s serveur connexion
 [User name]
 Utilisateur
 [Network]
@@ -16339,7 +16278,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.4
+;  Version: 0.1.13.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16426,8 +16365,6 @@ Finnois
 Allemand
 [Italian]
 Italien
-[%s server connection]
-%s serveur connexion
 [Errors]
 Erreurs
 [Notifications]
@@ -17087,8 +17024,6 @@ Erreur HTTP %i
 <Entrez la ville ici>
 [Error when obtaining data: %s]
 Erreur à l'obtention des données : %s
-[Weather HTTP connections]
-Connexions HTTP de Weather
 [Name]
 Nom
 [Items]

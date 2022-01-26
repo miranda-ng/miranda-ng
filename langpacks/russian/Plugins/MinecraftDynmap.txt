@@ -30,8 +30,6 @@
 [Protocol icon]
 Значок протокола
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s подключение к серверу
 [Unable to initialize Netlib for %s.]
 Невозможно создать подключение Netlib для %s.
 [Visible name]

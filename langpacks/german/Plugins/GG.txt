@@ -264,8 +264,6 @@ Blockieren a&ufheben
 [Contact list]
 Kontaktliste
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-%s-Verbindung
 [Images]
 Bilder
 [Gadu-Gadu Number]

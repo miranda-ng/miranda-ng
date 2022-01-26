@@ -53,8 +53,6 @@ MirFox/Помилка
 [Accounts]
 Облікові записи
 ;file \plugins\MirFox\src\MirandaUtils.cpp
-[MirFox log]
-Журнал MirFox
 [Message sent to %s]
 Повідомлення для %s надіслано
 [Message sent to %s (%s)]

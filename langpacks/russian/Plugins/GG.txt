@@ -264,8 +264,6 @@ HTTP неизвестная ошибка
 [Contact list]
 Список контактов
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-%s подключение
 [Images]
 Изображения
 [Gadu-Gadu Number]

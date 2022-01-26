@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@ Zavřít
 Kopírovat do schránky
 [To File]
 Do souboru
-[Support for vi.miranda-ng.org]
-Podpora pro vi.miranda-ng.org
-[Username]
-Uživatel
-[Password]
-Heslo
-[Upload automatically when changed]
-Nahrát na server automaticky při změně
 [Crash reports]
 Výpisy chyb
 [Generate crash reports]
@@ -55,8 +47,6 @@ Informace o verzi do schránky
 Informace o verzi do souboru
 [Show Version Information]
 Zobrazit Informace o verzi
-[Upload Version Information]
-Informace o verzi nahrát na server
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
@@ -67,19 +57,17 @@ Uložit do souboru
 Zobrazit
 [Show with DLLs]
 Zobrazit s DLL knihovnami
-[Upload]
-Nahrát na server
-[Copy link to clipboard]
-Zkopírovat odkaz do schránky
 [Open crash report directory]
 Otevřít složku s výpisem chyb
-[Open online Version Info]
-Otevřít informace o verzi online
 [Copy Version Info to clipboard]
 Zkopírovat informace o verzi do schránky
 [Show Version Info]
 Zobrazit informace o verzi
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Nahrát na server
+[Copy link to clipboard]
+Zkopírovat odkaz do schránky
 [Crash Dumper]
 Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit
 Zobrazit informace o verzi (s DLL knihovnami)
 [Services]
 Služby
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Informace o verzi: úspěšně nahráno.
-[Cannot upload Version Info. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
-[Cannot upload Version Info. User is banned]
-Informace o verzi: nelze nahrát na server\nUživatel zablokován
-[Cannot upload Version Info. Daily upload limit exceeded]
-Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání překročen
-[Cannot upload Version Info. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
-[Cannot upload Version Info. Host unreachable.]
-Informace o verzi: nelze nahrát na server\nServer nedostupný
-[Crash Dumper HTTP connections]
-Crash Dumper - spojení pomocí protokolu HTTP

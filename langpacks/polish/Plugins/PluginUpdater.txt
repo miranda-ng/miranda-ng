@@ -190,8 +190,6 @@ Usługi
 Sprawdź aktualizacje
 [Plugin info]
 Informacje o wtyczkach
-[Plugin Updater HTTP connections]
-Połączenia HTTP Plugin Updater
 [Available components list]
 Pobierz komponenty
 [Update failed]

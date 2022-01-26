@@ -68,7 +68,7 @@ Popup приставка
 Друго
 [Gmail: New thread(s)]
 Gmail: Нови писма
-[Gmail Notifier connection]
+[Gmail Notifier]
 
 [&Check all Gmail inboxes]
 Проверка на всички кутии

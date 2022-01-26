@@ -681,3 +681,5 @@ Przychodzące zdarzenia
 Wychodzące zdarzenia
 [Unused]
 Nie używany
+[Can not apply default toolbar configuration.]
+

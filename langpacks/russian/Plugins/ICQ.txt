@@ -85,8 +85,6 @@ UIN/почта:
 [You have %d unread emails]
 Непрочитанных писем: %d
 ;file \protocols\ICQ-WIM\src\proto.cpp
-[%s server connection]
-%s подключение к серверу
 [Synchronize server groups]
 Синхронизировать группы с сервером
 [Name]

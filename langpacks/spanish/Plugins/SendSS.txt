@@ -200,8 +200,6 @@ Flecha abajo
 
 [Could not create main dialog.]
 
-[SendSS HTTP connections]
-
 [SendSS]
 
 [Screenshots]

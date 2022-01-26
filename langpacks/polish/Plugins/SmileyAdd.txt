@@ -56,8 +56,6 @@ Sortowanie poziome
 [Show smiley selection window]
 Pokaż okno wyboru emotikon
 ;file \plugins\SmileyAdd\src\download.cpp
-[SmileyAdd HTTP connections]
-Połączenie HTTP SmileyAdd
 [SmileyAdd]
 Emotikony
 [Smiley packs' folder]

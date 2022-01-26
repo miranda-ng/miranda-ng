@@ -802,8 +802,6 @@ Was wollen Sie mit der Datei jetzt tun?
 Wiede&rherstellen
 [&Delete]
 &Löschen
-[&Move/Rename]
-Verschieben/U&mbenennen
 [&Leave]
 Ver&lassen
 [Netlib log options]
@@ -2110,8 +2108,6 @@ Datenbank wurde erfolgreich komprimiert
 Datenbank
 [Database compaction failed]
 Komprimierung der Datenbank fehlgeschlagen
-[Compact]
-Komprimieren
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2716,8 +2712,12 @@ Verlaufsbetrachter
 Suche nach '%s'
 [No word to look up]
 Kein Wort zum Nachschlagen
+[Are you sure to remove all events from history?]
+Möchten Sie wirklich alle Ereignisse aus dem Verlauf entfernen?
 [Empty history]
-Leere Verlauf
+Verlauf leeren
+[Empty system history]
+Systemverlauf leeren
 [<Separator>]
 <Trennlinie>
 [Toolbar]
@@ -6177,7 +6177,7 @@ Global
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Modern contact list
-;  Version: 0.9.1.11
+;  Version: 0.9.1.12
 ;  Authors: Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven
 ;============================================================
 [Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation.]
@@ -8331,7 +8331,7 @@ Sende Kontakte an
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -8344,14 +8344,6 @@ Schließen
 In Zwischenablage kopieren
 [To File]
 In Datei
-[Support for vi.miranda-ng.org]
-Upload bei vi.miranda-ng.org
-[Username]
-Benutzername
-[Password]
-Passwort
-[Upload automatically when changed]
-Bei Änderungen automatisch hochladen
 [Crash reports]
 Absturzberichte
 [Generate crash reports]
@@ -8382,8 +8374,6 @@ Versionsinformation in Zwischenablage
 Versionsinformation in Datei
 [Show Version Information]
 Versionsinformation anzeigen
-[Upload Version Information]
-Versionsinformation hochladen
 [Version Information]
 Versionsinformation
 [Copy to clipboard]
@@ -8394,18 +8384,16 @@ In Datei speichern
 Zeige
 [Show with DLLs]
 Zeige mit DLLs
-[Upload]
-Hochladen
-[Copy link to clipboard]
-Link in Zwischenablage kopieren
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
-[Open online Version Info]
-Online-Versionsinfo öffnen
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
 Version-Info anzeigen
+[Upload]
+Hochladen
+[Copy link to clipboard]
+Link in Zwischenablage kopieren
 [Crash Dumper]
 Crash Dumper
 [Crash Report write location is not available]
@@ -8416,20 +8404,6 @@ Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzei
 Miranda-Versionsinfo anzeigen (mit DLLs)
 [Services]
 Dienste
-[Version Info upload successful.]
-Versionsinfo erfolgreich hochgeladen.
-[Cannot upload Version Info. Incorrect username or password]
-Kann Versionsinfo nicht hochladen: Falscher Nutzername oder Passwort!
-[Cannot upload Version Info. User is banned]
-Kann Versionsinfo nicht hochladen: Nutzer ist gebannt!
-[Cannot upload Version Info. Daily upload limit exceeded]
-Kann Versionsinfo nicht hochladen: Tägliches Upload-Limit wurde überschritten!
-[Cannot upload Version Info. Unknown error]
-Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
-[Cannot upload Version Info. Host unreachable.]
-Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
-[Crash Dumper HTTP connections]
-Crash-Dumper-HTTP-Verbindungen
 #muuid {3613F2D9-C040-4361-A44F-DF7B5AAACF6E}
 ;============================================================
 ;  File: CryptoPP.dll
@@ -8675,6 +8649,8 @@ Währungskurs
 Quelle der Information
 [Rate value]
 Ratenwerte
+[Rate delta]
+Ratendelta
 [Previous rate value]
 Vorheriger Ratenwert
 [Fetch time]
@@ -8683,6 +8659,8 @@ Abrufszeit
 Abrufsdatum
 [Fetch time and date]
 Abrufszeit und -datum
+[Percent character (%)]
+Prozentzeichen (%)
 [Tabulation]
 Tabulator
 [Left slash (\\)]
@@ -8753,8 +8731,6 @@ Buttons vertauschen
 Importieren
 [This plugin requires a personal key. Press Yes to obtain it at the site and then enter the result in the Options dialog, otherwise this plugin will fail.]
 Dieses Plugin benötigt einen persönlichen Schlüssel. Klicken Sie Ja, um ihn auf der Seite zu erhalten, und tragen Sie ihn dann im Einstellungsdialog ein, sonst wird dieses Plugin nicht funktionieren.
-[CurrencyRates HTTP connections]
-Currency-Rates-HTTP-Verbindungen
 [XML File (*.xml)]
 XML-Datei (*.xml)
 [All files (*.*)]
@@ -8805,6 +8781,8 @@ Einstellungen anpassen und mit der Überprüfung fortfahren.
 Dateiname:
 [Mark all events as read]
 Alle Ereignisse als gelesen markieren
+[Fix UTF-8 encoding in old events]
+UTF-8-Kodierung in alten Ereignissen korrigieren
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -9051,7 +9029,7 @@ Beobachtungsliste aktualisieren
 [Copy module "%s"]
 Modul "%s" kopieren
 [Are you sure you want to delete module "%S"?]
-Soll Modul "%s" wirklich gelöscht werden?
+Soll Modul "%S" wirklich gelöscht werden?
 [Delete module from database]
 Modul aus der Datenbank löschen
 [Delete module from database... Loading]
@@ -9350,120 +9328,11 @@ Nächste Sicherung geplant am
 Backup-Verzeichnis auswählen
 [Miranda NG [%s] database backup]
 Miranda NG [%s] Datenbanksicherung
-#muuid {88928401-2ce8-4568-aaa7-226141870cbf}
-;============================================================
-;  File: Discord.dll
-;  Plugin: Discord protocol
-;  Version: 0.6.2.10
-;  Authors: George Hazan
-;============================================================
-[Discord support for Miranda NG.]
-Unterstützung für Discord in Miranda NG.
-[User details]
-Kontaktprofil
-[E-mail:]
-E-Mail:
-[Password:]
-Passwort:
-[Contacts]
-Kontakte
-[Default group:]
-Standardgruppe:
-[Do not open chat windows on creation]
-Chatfenster bei der Erzeugung nicht öffnen
-[Use subgroups for server channels (requires restart)]
-Untergruppen für Server-Kanäle benutzen (Neustart erforderlich)
-[Delete messages in Miranda when they are deleted from server]
-Nachrichten in Miranda löschen, wenn sie vom Server gelöscht werden
-[Nick:]
-Nick:
-[edited at]
-bearbeitet am
-[Change &nickname]
-&Nickname ändern
-[Channel control]
-Channel kontrollieren
-[Change &topic]
-&Thema ändern
-[&Rename channel]
-Channel &umbenennen
-[&Destroy channel]
-Channel &zerstören
-[Do you really want to destroy this channel? This action is non-revertable.]
-Möchten Sie diesen Channel wirklich zerstören? Diese Aktion kann nicht rückgängig gemacht werden.
-[Enter new channel name:]
-Neuen Channelnamen eingeben:
-[Enter new topic:]
-Neues Thema eingeben:
-[Enter your new nick name:]
-Geben Sie Ihren neuen Nicknamen ein:
-[Main icon]
-Haupticon
-[Group chats]
-Gruppenchats
-[Call]
-Anrufen
-[Call ended]
-Anruf beendet
-[Enter channel name]
-Channelname eingeben
-[Enter invitation code you received]
-Geben Sie den empfangenen Einladungscode ein
-[Do you really want to leave the guild?]
-Möchten Sie diese Gilde wirklich verlassen?
-[Disable sync]
-Synchronisierung deaktivieren
-[Enable sync]
-Synchronisierung aktivieren
-[Join guild]
-Gilde beitreten
-[Copy my Discord ID]
-Meine Discord-ID kopieren
-[Leave guild]
-Gilde verlassen
-[Create new channel]
-Neuen Channel erstellen
-[Copy Discord ID]
-Discord-ID kopieren
-[Enable guild sync]
-Gilden-Synchronisierung aktivieren
-[Network]
-Netzwerk
-[Account]
-Konto
-[Incoming call]
-Eingehender Anruf
-[%s server connection]
-%s Serververbindung
-[%s gateway connection]
-%s Gatewayverbindung
-[Discord voice call]
-Discord-Sprachanruf
-[User ID]
-Nutzer-ID
-[Message send failed]
-Nachricht konnte nicht gesendet werden
-[Protocol is offline or user isn't authorized yet]
-Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
-[The server requires you to enter the captcha. Miranda will redirect you to a browser now]
-Der Server erfordert, dass Sie ein Captcha eingeben. Miranda wird Sie nun an einen Browser weiterleiten.
-[Owners]
-Besitzer
-[Participants]
-Teilnehmer
-[Attachment]
-Anhang
-[Embed]
-Eingebettet
-[Preview]
-Vorschau
-[Call ended, %d seconds long]
-Anruf beendet, dauerte %d Sekunden
 #muuid {2a1081d1-aee3-4091-b70d-ae46d09f9a7f}
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -9667,10 +9536,10 @@ Benutzer &kicken
 Netzwerk
 [Account]
 Konto
-[%s server connection]
-%s Serververbindung
 [Protocol is offline or user isn't authorized yet]
 Protokoll ist offline oder Benutzer ist noch nicht autorisiert.
+[Connection failed with error code %d]
+Verbindung fehlgeschlagen mit Fehlercode %d
 [Participant]
 Teilnehmer
 [Sticker received]
@@ -10777,8 +10646,6 @@ Blockieren a&ufheben
 &Blockieren
 [Contact list]
 Kontaktliste
-[%s connection]
-%s-Verbindung
 [Images]
 Bilder
 [Gadu-Gadu Number]
@@ -11024,8 +10891,6 @@ Kann RSS Feed nicht empfangen!
 Sonstige
 [Gmail: New thread(s)]
 Gmail: Neue Themen
-[Gmail Notifier connection]
-Gmail-Notifier-Verbindung
 [&Check all Gmail inboxes]
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
@@ -12921,7 +12786,7 @@ Hardware-Hotkeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.4
+;  Version: 0.96.1.7
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -12998,8 +12863,6 @@ Erweitert
 Sie haben eine E-Mail von %s erhalten: %s
 [You have %d unread emails]
 Sie haben %d ungelesene E-Mails
-[%s server connection]
-%s Serververbindung
 [Synchronize server groups]
 Servergruppen synchronisieren
 [Name]
@@ -13014,6 +12877,10 @@ Neuen Gruppennamen eingeben
 UIN/E-Mail/Telefon
 [SmileyAdd plugin required to support stickers]
 Zur Unterstützung von Stickern wird das Plugin SmileyAdd benötigt
+[You have not entered a login or password.\nConfigure this in Options -> Network -> ICQ and try again.]
+Sie haben keinen Anmeldenamen oder Password eingegeben.\nGeben Sie dies unter Einstellungen > Netzwerk > ICQ ein und versuchen Sie es nochmal.
+[Connection failed.\nYour login or password was rejected (%d).]
+Verbindung fehlgeschlagen.\nDer Anmeldename oder das Password wurden abgelehnt (%d).
 [Connection failed.\nThe server is temporarily unavailable (%d).]
 Verbindung fehlgeschlagen.\nDer Server ist temporär nicht verfügbar (%d).
 [Connection failed.\nUnknown error during sign on: %d]
@@ -13513,7 +13380,7 @@ Ende
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.3
+;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -13524,6 +13391,8 @@ Server
 Host-Adresse
 [Port range]
 Portbereich
+[SSL/TLS]
+SSL/TLS
 [Enable SASL]
 SASL aktivieren
 [Password]
@@ -13886,10 +13755,6 @@ Bitte Antwort eingeben
 Konnte nicht verbinden mit
 [DCC ERROR: Unable to bind local port for passive file transfer]
 DCC-FEHLER: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
-[%s server connection]
-%s Serververbindung
-[%s client-to-client connections]
-%s Client-to-Client-Verbindungen
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]
@@ -15667,6 +15532,8 @@ Autorisierungsanfragen automatisch akzeptieren
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
+[Display popups with errors]
+Fehler mit Popups anzeigen
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]
@@ -16127,8 +15994,6 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
-[%s connection]
-%s-Verbindung
 [<advanced status slot>]
 <erweiterter Statusslot>
 [Afraid]
@@ -16984,7 +16849,7 @@ Miranda ListeningTo WMP Empfänger
 ;============================================================
 ;  File: LotusNotify.dll
 ;  Plugin: LotusNotify
-;  Version: 0.1.23.0
+;  Version: 0.1.23.1
 ;  Authors: MaKaRSoFT - http://maciej.wycik.pl/miranda
 ;============================================================
 [Notify about new mail in Lotus Database]
@@ -17069,6 +16934,12 @@ notes.ini scheint in Ordnung zu sein.
 Prüfe jetzt Lotus, versuchen Sie es später nochmal.
 [Attachments: %d bytes]
 Anhänge: %d Bytes
+[&Check Lotus]
+Lotus prüfen
+[Lotus Notify]
+Lotus Benachrichtigungen
+[New Lotus document detected]
+Neues Lotus-Dokument erkannt
 [Status]
 Status
 [Plugins]
@@ -17079,12 +16950,6 @@ Verbindung
 Popup
 [Miscellaneous]
 Sonstiges
-[&Check Lotus]
-Lotus prüfen
-[Lotus Notify]
-Lotus Benachrichtigungen
-[New Lotus document detected]
-Neues Lotus-Dokument erkannt
 #muuid {08c01613-24c8-486f-bdae-2c3ddcaf9347}
 ;============================================================
 ;  File: MagneticWindows.dll
@@ -17272,8 +17137,6 @@ Nachricht wurde nicht gesendet. Vermutlich senden Sie sie zu schnell oder Chat i
 Server-Adresse zum Verbinden angeben
 [Protocol icon]
 Protokoll-Icon
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
 [Visible name]
@@ -17532,8 +17395,6 @@ Einstellungen
 Kontakte
 [Accounts]
 Konten
-[MirFox log]
-MirFox-Protokoll
 [Message sent to %s]
 Nachricht an %s gesendet
 [Message sent to %s (%s)]
@@ -18137,7 +17998,7 @@ Nachricht mit Information
 ;============================================================
 ;  File: Msg_Export.dll
 ;  Plugin: Message export
-;  Version: 3.1.2.7
+;  Version: 3.1.2.8
 ;  Authors: Kennet Nielsen, mod by ring0
 ;============================================================
 [Exports every message, URL or file you receive to a text file.]
@@ -19088,8 +18949,6 @@ Netzwerk
 Avatare
 [Enable/disable auto update]
 Auto-Update de-/aktivieren
-[NewsAggregator HTTP connections]
-News-Aggregator-HTTP-Verbindung
 #muuid {1ad11c86-caab-4372-a0a4-8b1168d51b9e}
 ;============================================================
 ;  File: NewStory.dll
@@ -20969,8 +20828,6 @@ Zufall
 Der Fremde verwendet die mobile Webseite von Omegle (omegle.com auf Phone oder Tablet)
 [You both speak the same language.]
 Sie sprechen beide die selbe Sprache.
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
 [Stranger is typing]
@@ -21144,8 +21001,6 @@ Paket-Aktualisierungs-Verzeichnis löschen
 'Ja'-Schaltfläche
 ['No' Button]
 'Nein'-Schaltfläche
-[Pack Updater HTTP connections]
-Pack-Updater-HTTP-Verbindung
 [URL for checking updates not found.]
 URL für die zu prüfenden Updates wurden nicht gefunden.
 [Downloading version info...]
@@ -21281,8 +21136,6 @@ Fehler
 Aus Zwischenablage einfugen
 [Paste from file]
 Aus Datei einfügen
-[Paste It HTTP connections]
-Paste-It-HTTP-Verbindungen
 [You can only paste 1 file]
 Sie können nur eine Datei einfügen.
 [Cannot get data from clipboard]
@@ -21321,7 +21174,7 @@ Niemals
 ;============================================================
 ;  File: Ping.dll
 ;  Plugin: Ping
-;  Version: 0.9.1.1
+;  Version: 0.9.1.2
 ;  Authors: Scott Ellis
 ;============================================================
 [Ping labelled IP addresses or domain names.]
@@ -21418,22 +21271,20 @@ Einstellungen...
 Hosts...
 [Ping]
 Ping
+[<none>]
+<keine>
+[<all>]
+<alle>
 [Text Files (*.txt)]
 Textdokumente (*.txt)
 [All Files]
 Alle Dateien
 [Open log file]
 Logdatei öffnen
-[<none>]
-<keine>
-[<all>]
-<alle>
 [Settings]
 Einstellungen
 [Hosts]
 Hosts
-[Ping Plugin]
-Ping-Plugin
 [Responding]
 Antwortet
 [Not Responding]
@@ -21667,8 +21518,6 @@ Dienste
 Auf Aktualisierungen prüfen
 [Plugin info]
 Plugininfo
-[Plugin Updater HTTP connections]
-Plugin-Updater-HTTP-Verbindung
 [Available components list]
 Liste verfügbarer Komponenten
 [Update failed]
@@ -22326,6 +22175,8 @@ Nachrichtensitzungen
 ;  Version: 1.5.0.4
 ;  Authors: Bethoven, Awkward
 ;============================================================
+[This plugin allows you to quick search for nickname, firstname, lastname, email, uin in your contact list.]
+Dieses Plugin ermöglicht es Ihnen, in Ihrer Kontaktliste nach Nicknamen, Namen, Vornamen, UIN usw. zu suchen.
 [Reload]
 Neu laden
 [New]
@@ -22350,6 +22201,8 @@ Datentyp:
 Modul:
 [Setting:]
 Einstellung:
+[Info type:]
+Infotyp:
 [Save]
 Speichern
 [Tool Window Style]
@@ -22374,12 +22227,14 @@ Offlinekontakte anzeigen
 Einfärben
 [Quick Search]
 Schnellsuche
+[Open Quick Search window]
+Schnellsuche-Fenster öffnen
 [New Column]
 Neue Spalte
 [Column Up]
-Spalte auf bewegen
+Spalte hoch
 [Column Down]
-Spalte ab bewegen
+Spalte runter
 [Delete Column]
 Spalte löschen
 [Male]
@@ -22426,8 +22281,12 @@ Sonstige
 Metakontakt
 [Title]
 Titel
+[Module/Info type]
+Modul/Infotyp
 [Setting]
 Einstellung
+[Database setting]
+Datenbank-Einstellung
 [Byte]
 Byte
 [Word]
@@ -22435,7 +22294,7 @@ Word
 [Dword]
 DWord
 [Signed]
-Mit Vorzeichen
+Vorzeichenbehaftet
 [Hexadecimal]
 Hexadezimal
 [String]
@@ -22482,6 +22341,8 @@ Online seit
 Kontakt hinzugefügt am
 [Nick]
 Nick
+[Custom nick]
+Eigener Nick
 [City]
 Stadt
 [State]
@@ -22496,30 +22357,54 @@ Homepage
 Über
 [Age]
 Alter
+[First name/Last name]
+Vorname/Nachname
 [Unique ID]
 Unique ID
 [Fax]
 Fax
 [Cellular]
 Mobiltelefon
+[Time zone]
+Zeitzone
+[My notes]
+Meine Notizen
+[Birth day]
+Geburtstag
+[Birth month]
+Geburtsmonat
+[Birth year]
+Geburtsjahr
 [Street]
 Straße
+[ZIP code]
+PLZ
+[Language #1]
+Sprache #1
+[Language #2]
+Sprache #2
+[Language #3]
+Sprache #3
 [Company name]
-Firmenname
+Firma Name
 [Company department]
-Abteilung
+Firma Abteilung
 [Company position]
-Position
+Firma Position
 [Company street]
-Straße
+Firma Straße
 [Company city]
-Stadt
+Firma Stadt
 [Company state]
-Region
+Firma Region
+[Company ZIP]
+Firma PLZ
 [Company country]
-Land
+Firma Land
 [Company homepage]
-Firmenhomepage
+Firma Homepage
+[Display ID]
+Angezeigte ID
 [Unknown]
 Unbekannt
 [Stay on Top]
@@ -22540,8 +22425,14 @@ aktiv
 Online
 [All]
 Alle
+[Editing of column %s]
+Spalte %s bearbeiten
+[Enter new cell value]
+Neuen Wert in Zelle eingeben
 [Change setting through QS]
 Einstellung durch QS ändern
+[Selected %d contacts]
+%d Kontakte ausgewählt
 [&Delete]
 &Löschen
 [&Copy]
@@ -22554,6 +22445,8 @@ Zu &Tab-Container anheften
 In Gruppe verschieben
 [Some of selected contacts in different metacontacts already]
 Einige der ausgewählten Kontakte gehören bereits zu anderen Metakontakten
+[One or more contacts already belong to the same metacontact. Try to convert anyway?]
+Ein oder mehrere Kontakte gehören bereits zum selben Metakontakt. Trotzdem versuchen umzuwandeln?
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;============================================================
 ;  File: Rate.dll
@@ -22733,8 +22626,6 @@ Ansagen
 Benachrichtigung
 [Error]
 Fehler
-[%s connection]
-%s-Verbindung
 [Sametime administrator message]
 Sametime-Administratornachricht
 [Session announcement - from '%s']
@@ -24565,8 +24456,6 @@ Pfeil runter
 Kann Screenshot-Verzeichnis nicht erstellen (Fehlercode: %d):\n%s\nHaben Sie Schreibberechtigungen?
 [Could not create main dialog.]
 Kann Hauptfenster nicht öffnen.
-[SendSS HTTP connections]
-SendSS-HTTP-Verbindungen
 [SendSS]
 SendSS
 [Screenshots]
@@ -25275,8 +25164,6 @@ Benachrichtigungen
 Fehler
 [Calls]
 Aufrufe
-[%s connection]
-%s-Verbindung
 [Incoming call canceled]
 Eingehender Anruf abgebrochen
 [Skypename]
@@ -25336,8 +25223,6 @@ IEView-Auswahlfenster
 Horizontal sortieren
 [Show smiley selection window]
 Smiley-Auswahlfenster anzeigen
-[SmileyAdd HTTP connections]
-SmileyAdd-Plugin HTTP-Verbindungen
 [SmileyAdd]
 SmileyAdd
 [Smiley packs' folder]
@@ -26326,8 +26211,6 @@ Protokolle
 Protokollicon
 [Gaming icon]
 Spiel-Icon
-[%s connection]
-%s-Verbindung
 [You cannot send messages when you are offline.]
 Nachrichten senden ist nicht möglich, wenn Sie offline sind.
 [closed chat session]
@@ -26502,7 +26385,7 @@ Erweitert
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.5
+;  Version: 3.6.1.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -27396,7 +27279,7 @@ Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
 [Messaging]
-Nachrichten
+Nachrichtensitzungen
 [Group chat windows]
 Gruppenchat-Fenster
 [Group chat log]
@@ -28027,8 +27910,6 @@ Temporäre Kontakte beim Schließen löschen
 BBCode-Formatierung in ausgehenden Nachrichten erlauben
 [Automatically split long messages (experimental, use with care)]
 Lange Nachrichten automatisch trennen (experimentell, Vorsicht)
-[Log status changes]
-Statuswechsel aufzeichnen
 [Use the same splitter height for all sessions]
 Selbe Trennerhöhe für alle Sitzungen verwenden
 [Automatically copy selected text]
@@ -28057,6 +27938,8 @@ Sekunden im Zeitstempel anzeigen
 Lokale Kontaktzeit verwenden (falls Zeitzone bekannt)
 [Draw grid lines]
 Gitterlinien zeigen
+[Log status changes]
+Statuswechsel aufzeichnen
 [Use incoming/outgoing icons]
 Verschiedene Icons für ein- und ausgehende Nachrichten
 [Use message grouping]
@@ -28327,6 +28210,8 @@ Halbtransparent, benutzerdefinierte Farben
 Silberner Schatten
 [Custom (use own gradient colors)]
 Benutzerdefiniert (benutze eigenen Farbverl.)
+[Custom 2 (use own gradient colors)]
+Benutzerdefiniert 2 (benutze eigenen Farbverl.)
 [All message containers need to close before the skin can be changed\nProceed?]
 Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert werden kann.\nFortsetzen?
 [Change skin]
@@ -29386,8 +29271,6 @@ Passwort erstellen
 Aktion
 [You cannot send when you are offline.]
 Sie können keine Nachricht versenden, so lange Sie offline sind.
-[%s connection]
-%s-Verbindung
 [Tox profile]
 Tox-Profil
 [All files]
@@ -29654,7 +29537,7 @@ Letzte / ausgewählte umkehren
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.3
+;  Version: 1.3.1.6
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -29725,12 +29608,8 @@ OAuth-Variablen sind in der falschen Reihenfolge, sie wurden zurückgesetzt. Bit
 Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen Sie es erneut. Wenn dies häufiger geschieht, überprüfen Sie Ihre Internetverbindung.
 [You're missing the Nick key in the database. This isn't really a big deal, but you'll notice some minor quirks (self contact in list, no group chat outgoing message highlighting, etc). To fix it either add it manually or recreate your Miranda Twitter account]
 Ihnen fehlt der Nick-Eintrag in der Datenbank. Das ist nicht weiter schlimm, aber Sie werden einige kleinere Probleme bemerken (eigener Kontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder erstellen Sie Ihr Twitterkonto in den Konteinstellungen neu.
-[%s server connection]
-%s Serververbindung
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
-[%s avatar connection]
-%s Avatarverbindung
 [Twitter (avatars)]
 Twitter (Avatare)
 [User name]
@@ -31318,7 +31197,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.12.4
+;  Version: 0.1.13.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31859,8 +31738,6 @@ Diese Änderungen werden erst nach einem Neustart von Miranda NG wirksam.\nMöch
 VKontakte-Protokoll
 [This message has been deleted by sender in %s:\n]
 Diese Nachricht wurde vom Absender um %s gelöscht:\n
-[%s server connection]
-%s Serververbindung
 [Newsfeed & notification event]
 Newsfeed- und Benachrichtigungsereignis
 [Mark messages as read]
@@ -32628,8 +32505,6 @@ MPD-Host
 Port
 [Password]
 Passwort
-[Watrack MPD connection]
-Watrack MPD Verbindung
 [Winamp Track]
 Winamp Track
 [Plugins]
@@ -33086,8 +32961,6 @@ HTTP-Fehler %i
 <Stadt-Name hier eingeben>
 [Error when obtaining data: %s]
 Fehler beim Datenerhalt: %s
-[Weather HTTP connections]
-Weather-HTTP-Verbindungen
 [Name]
 Name
 [Author]
@@ -33392,10 +33265,14 @@ Hoch
 Leichter Regen und Schauer
 [Low]
 Gering
+[Moon phase]
+Mondphase
 [Moonrise]
 Mondaufgang
 [Moonset]
 Monduntergang
+[Precipitation]
+Niederschlag
 [Rain Showers]
 Regenschauer
 [Temperature]
@@ -36000,8 +35877,6 @@ Löschen bestätigen
 Fehler beim Übersetzen der Kopfzeile
 [Part]
 Teil
-[%s connection]
-%s-Verbindung
 [Disconnected]
 Verbindung getrennt
 [POP3 protocol (internal)]

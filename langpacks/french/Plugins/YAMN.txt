@@ -230,9 +230,6 @@ Confirmer la suppression
 
 [Part]
 
-;file \protocols\YAMN\src\proto\netlib.cpp
-[%s connection]
-
 ;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 Déconnecté

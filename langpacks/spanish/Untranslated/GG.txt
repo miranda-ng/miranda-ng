@@ -92,7 +92,6 @@
 [Unknown HTTP error]
 [&Unblock]
 [&Block]
-[%s connection]
 [Images]
 [Gadu-Gadu Number]
 [Open &conference...]

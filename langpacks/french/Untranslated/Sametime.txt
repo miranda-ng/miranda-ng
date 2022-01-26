@@ -30,7 +30,6 @@
 [Protocol icon]
 [Announce]
 [Notification]
-[%s connection]
 [Sametime administrator message]
 [Session announcement - from '%s']
 [Unknown user status: %d]

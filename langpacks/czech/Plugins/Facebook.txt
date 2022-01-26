@@ -51,8 +51,6 @@ Sítě
 [Account]
 Účet
 ;file \protocols\Facebook\src\proto.cpp
-[%s server connection]
-%s - spojení se serverem
 [Protocol is offline or user isn't authorized yet]
 
 ;file \protocols\Facebook\src\server.cpp

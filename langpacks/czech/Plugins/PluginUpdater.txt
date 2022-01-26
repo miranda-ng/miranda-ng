@@ -190,8 +190,6 @@ Služby
 Zjistit aktualizace
 [Plugin info]
 Informace
-[Plugin Updater HTTP connections]
-Plugin Updater - spojení pomocí protokolu HTTP
 [Available components list]
 Komponenty ke stažení...
 [Update failed]

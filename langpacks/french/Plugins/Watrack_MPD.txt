@@ -14,9 +14,6 @@
 Port
 [Password]
 Mot de passe
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
-
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 

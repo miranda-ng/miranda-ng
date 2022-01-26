@@ -200,8 +200,6 @@
 
 [Could not create main dialog.]
 
-[SendSS HTTP connections]
-HTTP връзки на SendSS
 [SendSS]
 
 [Screenshots]

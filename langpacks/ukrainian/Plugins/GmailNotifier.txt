@@ -68,7 +68,7 @@
 Інше
 [Gmail: New thread(s)]
 Gmail: нова пошта
-[Gmail Notifier connection]
+[Gmail Notifier]
 
 [&Check all Gmail inboxes]
 Перевірити всі скриньки Gmail

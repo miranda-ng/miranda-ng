@@ -190,8 +190,6 @@ Plugin Updater
 Проверява за актуализации
 [Plugin info]
 Инф. за приставката
-[Plugin Updater HTTP connections]
-HTTP връзки на Plugin Updater
 [Available components list]
 Пълният списък с приставки
 [Update failed]

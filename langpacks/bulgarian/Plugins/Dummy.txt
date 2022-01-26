@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Dummy.dll
 ;  Plugin: Dummy protocol
-;  Version: 0.2.0.0
+;  Version: 0.2.0.1
 ;  Authors: Robert Pösel
 ;============================================================
 [Dummy protocol for Miranda NG. Could be used for holding contacts and history from deprecated protocols or for creating virtual contacts.]
@@ -22,10 +22,12 @@
 За да бъдат приложени промените е необходимо да рестартирате.
 [Allow sending messages to contacts]
 
-;file \protocols\Dummy\src\dummy.h
+;file \protocols\Dummy\src\dummy_proto.cpp
 [Custom]
 Избор
 [Screen name]
+
+[Discord ID]
 
 [User name]
 Потребителско име
@@ -59,6 +61,5 @@ Live ID
 
 [WhatsApp ID]
 
-;file \protocols\Dummy\src\dummy_proto.cpp
 [This Dummy account has disabled sending messages. Enable it in account options.]
 

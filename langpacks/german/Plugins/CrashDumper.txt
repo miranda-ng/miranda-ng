@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: Crash dumper
-;  Version: 0.1.0.4
+;  Version: 0.2.0.1
 ;  Authors: borkra
 ;============================================================
 [Crash Dumper and Version Information for Miranda NG.]
@@ -16,14 +16,6 @@ Schließen
 In Zwischenablage kopieren
 [To File]
 In Datei
-[Support for vi.miranda-ng.org]
-Upload bei vi.miranda-ng.org
-[Username]
-Benutzername
-[Password]
-Passwort
-[Upload automatically when changed]
-Bei Änderungen automatisch hochladen
 [Crash reports]
 Absturzberichte
 [Generate crash reports]
@@ -55,8 +47,6 @@ Versionsinformation in Zwischenablage
 Versionsinformation in Datei
 [Show Version Information]
 Versionsinformation anzeigen
-[Upload Version Information]
-Versionsinformation hochladen
 [Version Information]
 Versionsinformation
 [Copy to clipboard]
@@ -67,19 +57,17 @@ In Datei speichern
 Zeige
 [Show with DLLs]
 Zeige mit DLLs
-[Upload]
-Hochladen
-[Copy link to clipboard]
-Link in Zwischenablage kopieren
 [Open crash report directory]
 Absturzberichte-Verzeichnis öffnen
-[Open online Version Info]
-Online-Versionsinfo öffnen
 [Copy Version Info to clipboard]
 Version-Info in Zwischenablage kopieren
 [Show Version Info]
 Version-Info anzeigen
 ;file \plugins\CrashDumper\src\crshdmp_icons.cpp
+[Upload]
+Hochladen
+[Copy link to clipboard]
+Link in Zwischenablage kopieren
 [Crash Dumper]
 Crash Dumper
 ;file \plugins\CrashDumper\src\exhndlr.cpp
@@ -92,18 +80,3 @@ Miranda ist abgestürzt.\nSie finden alle wichtigen Informationen dazu im Verzei
 Miranda-Versionsinfo anzeigen (mit DLLs)
 [Services]
 Dienste
-;file \plugins\CrashDumper\src\upload.cpp
-[Version Info upload successful.]
-Versionsinfo erfolgreich hochgeladen.
-[Cannot upload Version Info. Incorrect username or password]
-Kann Versionsinfo nicht hochladen: Falscher Nutzername oder Passwort!
-[Cannot upload Version Info. User is banned]
-Kann Versionsinfo nicht hochladen: Nutzer ist gebannt!
-[Cannot upload Version Info. Daily upload limit exceeded]
-Kann Versionsinfo nicht hochladen: Tägliches Upload-Limit wurde überschritten!
-[Cannot upload Version Info. Unknown error]
-Kann Versionsinfo nicht hochladen: Unbekannter Fehler!
-[Cannot upload Version Info. Host unreachable.]
-Kann Versionsinfo nicht hochladen: Der Host ist nicht erreichbar!
-[Crash Dumper HTTP connections]
-Crash-Dumper-HTTP-Verbindungen

@@ -159,6 +159,3 @@ URL адрес на страницата за коментари към нови
 Аватари
 [Enable/disable auto update]
 Вкл / Изкл на автоматично обновяване
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]
-HTTP връзки на NewsAggregator

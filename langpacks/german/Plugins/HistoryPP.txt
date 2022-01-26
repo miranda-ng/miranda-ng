@@ -681,3 +681,5 @@ Eingehende Ereignisse
 Ausgehende Ereignisse
 [Unused]
 Ungenutzt
+[Can not apply default toolbar configuration.]
+

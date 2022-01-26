@@ -264,8 +264,6 @@ Erreur HTTP inconnue
 [Contact list]
 Liste de contacts
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
-[%s connection]
-
 [Images]
 
 [Gadu-Gadu Number]

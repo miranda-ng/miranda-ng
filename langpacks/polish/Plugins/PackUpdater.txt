@@ -130,8 +130,6 @@ Wyczyść folder aktualizacji paczek
 Przycisk "Tak"
 ['No' Button]
 Przycisk "Nie"
-[Pack Updater HTTP connections]
-Połączenie HTTP Plugin Updater
 [URL for checking updates not found.]
 Link do sprawdzania aktualizacji nie został odnaleziony.
 [Downloading version info...]

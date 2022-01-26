@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: IRC.dll
 ;  Plugin: IRC protocol
-;  Version: 0.96.1.3
+;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
@@ -383,10 +383,10 @@ Konnte nicht verbinden mit
 [DCC ERROR: Unable to bind local port for passive file transfer]
 DCC-FEHLER: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
 ;file \protocols\IRCG\src\ircproto.cpp
-[%s server connection]
-%s Serververbindung
-[%s client-to-client connections]
-%s Client-to-Client-Verbindungen
+[%s (server)]
+
+[%s (client-to-client)]
+
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]

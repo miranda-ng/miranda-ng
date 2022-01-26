@@ -111,8 +111,6 @@ Connexion en cours...
 [You both speak the same language.]
 
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
-%s serveur connexion
 [Unable to initialize Netlib for %s.]
 
 [Stranger is typing]

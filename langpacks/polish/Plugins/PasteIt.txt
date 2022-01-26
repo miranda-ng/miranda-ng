@@ -122,8 +122,6 @@ Błąd
 Wklej ze schowka
 [Paste from file]
 Wklej z pliku
-[Paste It HTTP connections]
-Połączenie HTTP Paste It
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 Możesz wkleić tylko 1 plik

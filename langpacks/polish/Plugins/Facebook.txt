@@ -51,8 +51,6 @@ Protokoły
 [Account]
 Konto
 ;file \protocols\Facebook\src\proto.cpp
-[%s server connection]
-Połączenie %s
 [Protocol is offline or user isn't authorized yet]
 Protokół jest rozłączony lub użytkownik nie jest jeszcze autoryzowany
 ;file \protocols\Facebook\src\server.cpp

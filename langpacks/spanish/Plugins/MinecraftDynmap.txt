@@ -30,8 +30,6 @@ Normal
 [Protocol icon]
 
 ;file \protocols\MinecraftDynmap\src\proto.cpp
-[%s server connection]
-%s conexión al servidor
 [Unable to initialize Netlib for %s.]
 
 [Visible name]

@@ -681,3 +681,5 @@ History++ Предупреждение
 Изходящи събития
 [Unused]
 
+[Can not apply default toolbar configuration.]
+
