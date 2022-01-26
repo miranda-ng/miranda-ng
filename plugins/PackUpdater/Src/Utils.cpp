@@ -1,4 +1,4 @@
-/*
+ /*
 Copyright (C) 2011-22 Mataes
 
 This is free software; you can redistribute it and/or
@@ -49,8 +49,8 @@ void IcoLibInit()
 BOOL NetlibInit()
 {
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
-	nlu.szDescriptiveName.a = MODULENAME;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("Pack Updater");
 	nlu.szSettingsModule = MODULENAME;
 	hNetlibUser = Netlib_RegisterUser(&nlu);
 

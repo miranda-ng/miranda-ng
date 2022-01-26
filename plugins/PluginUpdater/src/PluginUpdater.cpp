@@ -96,8 +96,8 @@ int CMPlugin::Load()
 
 	// Netlib initialization
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS;
-	nlu.szDescriptiveName.a = MODULENAME;
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = TranslateT("Plugin Updater");
 	nlu.szSettingsModule = MODULENAME;
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 

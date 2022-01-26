@@ -71,7 +71,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	NETLIBUSER nl_user = {};
 	nl_user.szSettingsModule = MODULENAME;
 	nl_user.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;
-	nl_user.szDescriptiveName.w = TranslateT("Ping Plugin");
+	nl_user.szDescriptiveName.w = TranslateT("Ping");
 	hNetlibUser = Netlib_RegisterUser(&nl_user);
 
 	InitUtils();

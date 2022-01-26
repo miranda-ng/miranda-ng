@@ -352,9 +352,9 @@ int CMPlugin::Load()
 	g_plugin.registerIcon(LPGEN("Paste It"), iconList);
 
 	NETLIBUSER nlu = {};
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;
+	nlu.flags = NUF_UNICODE | NUF_OUTGOING | NUF_HTTPCONNS;
 	nlu.szSettingsModule = MODULENAME;
-	nlu.szDescriptiveName.a = MODULENAME;
+	nlu.szDescriptiveName.w = TranslateT("Paste It");
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	pasteToWebs[0] = new PasteToWeb1();
