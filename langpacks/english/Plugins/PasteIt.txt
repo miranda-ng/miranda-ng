@@ -65,7 +65,6 @@
 [Error]
 [Paste from clipboard]
 [Paste from file]
-[Paste It HTTP connections]
 ;file \plugins\PasteIt\src\PasteToWeb.cpp
 [You can only paste 1 file]
 [Cannot get data from clipboard]

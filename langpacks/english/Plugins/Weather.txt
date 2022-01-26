@@ -201,8 +201,6 @@
 ;file \protocols\Weather\src\weather_data.cpp
 [<Enter city name here>]
 [Error when obtaining data: %s]
-;file \protocols\Weather\src\weather_http.cpp
-[Weather HTTP connections]
 ;file \protocols\Weather\src\weather_info.cpp
 [Name]
 [Author]

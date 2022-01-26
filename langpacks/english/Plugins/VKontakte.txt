@@ -285,7 +285,6 @@
 ;file \protocols\VKontakte\src\vk_pollserver.cpp
 [This message has been deleted by sender in %s:\n]
 ;file \protocols\VKontakte\src\vk_proto.cpp
-[%s server connection]
 [Newsfeed & notification event]
 [Mark messages as read]
 [Send message to user's wall]

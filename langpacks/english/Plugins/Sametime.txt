@@ -55,8 +55,6 @@
 [Announce]
 [Notification]
 [Error]
-;file \protocols\Sametime\src\sametime_proto.cpp
-[%s connection]
 ;file \protocols\Sametime\src\sametime_session.cpp
 [Sametime administrator message]
 [Session announcement - from '%s']

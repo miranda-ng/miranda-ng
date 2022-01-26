@@ -31,7 +31,6 @@
 [Contacts]
 [Accounts]
 ;file \plugins\MirFox\src\MirandaUtils.cpp
-[MirFox log]
 [Message sent to %s]
 [Message sent to %s (%s)]
 [Message sent]

@@ -48,7 +48,6 @@
 [You received e-mail from %s: %s]
 [You have %d unread emails]
 ;file \protocols\ICQ-WIM\src\proto.cpp
-[%s server connection]
 [Synchronize server groups]
 [Name]
 [Rename]

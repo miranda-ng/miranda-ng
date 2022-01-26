@@ -61,7 +61,6 @@
 [Stranger is using Omegle's mobile Web site (omegle.com on a phone or tablet)]
 [You both speak the same language.]
 ;file \protocols\Omegle\src\proto.cpp
-[%s server connection]
 [Unable to initialize Netlib for %s.]
 [Stranger is typing]
 [Stranger stopped typing]

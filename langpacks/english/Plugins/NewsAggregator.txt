@@ -86,5 +86,3 @@
 ;file \protocols\NewsAggregator\Src\Services.cpp
 [Avatars]
 [Enable/disable auto update]
-;file \protocols\NewsAggregator\Src\Utils.cpp
-[NewsAggregator HTTP connections]

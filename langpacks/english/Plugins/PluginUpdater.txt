@@ -101,7 +101,6 @@
 ;file \plugins\PluginUpdater\src\PluginUpdater.cpp
 [Check for updates]
 [Plugin info]
-[Plugin Updater HTTP connections]
 [Available components list]
 [Update failed]
 [Update completed]

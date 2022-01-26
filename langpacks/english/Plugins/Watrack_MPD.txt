@@ -10,8 +10,6 @@
 [MPD Host]
 [Port]
 [Password]
-;file \plugins\Watrack_MPD\src\init.cpp
-[Watrack MPD connection]
 ;file \plugins\Watrack_MPD\src\options.cpp
 [Winamp Track]
 [Plugins]

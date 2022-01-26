@@ -1112,7 +1112,7 @@
 [Database was compacted successfully]
 [Database]
 [Database compaction failed]
-[Compact]
+[Compact database]
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 [Miranda was unable to open '%s', it's in an unknown format.]
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]

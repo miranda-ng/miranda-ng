@@ -71,7 +71,6 @@
 ;file \plugins\PackUpdater\Src\Utils.cpp
 ['Yes' Button]
 ['No' Button]
-[Pack Updater HTTP connections]
 [URL for checking updates not found.]
 [Downloading version info...]
 [Name of Update's file is not supported.]

@@ -98,6 +98,5 @@
 [Errors]
 [Calls]
 ;file \protocols\SkypeWeb\src\skype_proto.cpp
-[%s connection]
 [Incoming call canceled]
 [Skypename]
