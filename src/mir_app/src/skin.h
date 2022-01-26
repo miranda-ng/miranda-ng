@@ -42,7 +42,7 @@ struct THotkeyItem
 	char        *pszService, *pszName; // pszName is valid _only_ for "root" hotkeys
 	wchar_t     *pwszSection, *pwszDescription;
 	LPARAM       lParam;
-	uint16_t         DefHotkey, Hotkey;
+	uint16_t     DefHotkey, Hotkey;
 	bool         Enabled;
 	HPLUGIN      pPlugin;
 	ATOM         idHotkey;
@@ -52,7 +52,7 @@ struct THotkeyItem
 	bool         allowSubHotkeys;
 
 	bool         OptChanged, OptDeleted, OptNew;
-	uint16_t         OptHotkey;
+	uint16_t     OptHotkey;
 	THotkeyType  OptType;
 	bool         OptEnabled;
 
