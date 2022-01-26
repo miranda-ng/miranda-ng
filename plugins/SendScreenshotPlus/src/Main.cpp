@@ -8,8 +8,8 @@ Copyright (c) 2000-09 Miranda ICQ/IM project,
 This file is part of Send Screenshot Plus, a Miranda IM plugin.
 Copyright (c) 2010 Ing.U.Horn
 
-Parts of this file based on original sorce code
-(c) 2004-2006 S�rgio Vieira Rolanski (portet from Borland C++)
+Parts of this file based on original source code
+(c) 2004-2006 Sérgio Vieira Rolanski (ported from Borland C++)
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -210,8 +210,8 @@ int hook_ModulesLoaded(WPARAM, LPARAM)
 	// Netlib register
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = __PLUGIN_NAME;
-	nlu.szDescriptiveName.a = __PLUGIN_NAME;
-	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS;			//|NUF_NOHTTPSOPTION;
+	nlu.szDescriptiveName.w = TranslateT("SendSS");
+	nlu.flags = NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;			//|NUF_NOHTTPSOPTION;
 	g_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// load my button class / or use UInfoEx
