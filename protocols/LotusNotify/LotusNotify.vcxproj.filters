@@ -14,6 +14,9 @@
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\debug.h">

@@ -35,3 +35,26 @@
 #include "cnotesapi/include/extmgr.h"
 #include "cnotesapi/include/bsafeerr.h"
 #include "cnotesapi/include/nsferr.h"
+
+BOOL checkNotesIniFile(BOOL bInfo);
+void decodeServer(char *tmp);
+void deleteElements();
+void LoadSettings();
+void ErMsgByLotusCode(STATUS erno);
+
+#define MAX_SETTING_STR 512
+#define MAX_FIELD 256
+#define STATUS_COUNT 9
+
+#define MODULENAME "LotusNotify"
+
+extern char settingServer[MAX_SETTING_STR], settingServerSec[MAX_SETTING_STR], settingDatabase[MAX_SETTING_STR];
+extern char settingCommand[MAX_SETTING_STR], settingParameters[MAX_SETTING_STR], settingPassword[MAX_SETTING_STR];
+extern wchar_t settingFilterSubject[MAX_SETTING_STR], settingFilterSender[MAX_SETTING_STR], settingFilterTo[MAX_SETTING_STR];
+
+extern COLORREF settingBgColor, settingFgColor;
+extern int settingInterval, settingInterval1;
+extern uint32_t settingNewestID;
+extern uint8_t settingSetColours, settingShowError, settingIniAnswer, settingIniCheck;
+extern uint8_t settingOnceOnly, settingNonClickedOnly, settingNewest, settingEvenNonClicked, settingKeepConnection;
+extern BOOL settingStatus[STATUS_COUNT];
