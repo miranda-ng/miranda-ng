@@ -304,9 +304,9 @@ void CJabberProto::FormatMirVer(const pResourceStatus &resource, CMStringA &res)
 		// unknown software
 		const char *szDefaultName = GetSoftName(pCaps->GetNode());
 		res = (szDefaultName == nullptr) ? pCaps->GetSoft() : szDefaultName;
-		if (pCaps->GetSoftVer())
+		if (mir_strlen(pCaps->GetSoftVer()))
 			res.AppendFormat(" %s", pCaps->GetSoftVer());
-		if (pCaps->GetSoftMir())
+		if (mir_strlen(pCaps->GetSoftMir()))
 			res.AppendFormat(" %s", pCaps->GetSoftMir());
 	}
 
