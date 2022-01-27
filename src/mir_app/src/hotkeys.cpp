@@ -69,7 +69,7 @@ static void sttWordToModAndVk(uint16_t w, uint8_t *mod, uint8_t *vk)
 
 static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == WM_HOTKEY) {
+	if (msg == WM_HOTKEY && g_hwndHkOptions == nullptr) {
 		for (auto &p : hotkeys) {
 			if (p->type != HKT_GLOBAL || !p->Enabled)
 				continue;
@@ -88,9 +88,8 @@ static LRESULT CALLBACK sttHotkeyHostWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 static LRESULT CALLBACK sttKeyboardProc(int code, WPARAM wParam, LPARAM lParam)
 {
-	if (code == HC_ACTION && !(HIWORD(lParam) & KF_UP)) {
+	if (code == HC_ACTION && !(HIWORD(lParam) & KF_UP) && g_hwndHkOptions == nullptr) {
 		uint8_t mod = 0, vk = wParam;
-
 		if (vk) {
 			if (GetAsyncKeyState(VK_CONTROL)) mod |= MOD_CONTROL;
 			if (GetAsyncKeyState(VK_MENU)) mod |= MOD_ALT;
