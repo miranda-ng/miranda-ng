@@ -57,4 +57,10 @@
     <ResourceCompile Include="res\ping.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\green.ico" />
+    <Image Include="res\grey.ico" />
+    <Image Include="res\red.ico" />
+    <Image Include="res\yellow.ico" />
+  </ItemGroup>
 </Project>

@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -55,9 +53,13 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_ICON_DISABLED       ICON                    "grey.ico"
+
 IDI_ICON_NOTRESPONDING  ICON                    "red.ico"
+
 IDI_ICON_RESPONDING     ICON                    "green.ico"
+
 IDI_ICON_TESTING        ICON                    "yellow.ico"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -113,32 +115,32 @@ BEGIN
     PUSHBUTTON      "Down",IDC_BTN_DESTDOWN,218,172,38,15,WS_DISABLED
 END
 
-IDD_DIALOG3 DIALOGEX  0, 0, 263, 291
-STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_DIALOG3 DIALOGEX 0, 0, 263, 291
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Edit Host"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,78,270,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,134,270,50,14
+    GROUPBOX        "Contact",IDC_STATIC,7,7,249,86
     LTEXT           "Address:",IDC_STATIC,24,34,37,8
-    LTEXT           "Label:",IDC_STATIC,31,49,30,8
     EDITTEXT        IDC_ED_DESTADDR,67,30,154,12,ES_AUTOHSCROLL | ES_WANTRETURN
+    LTEXT           "Label:",IDC_STATIC,31,49,30,8
     EDITTEXT        IDC_ED_DESTLAB,67,48,154,12,ES_AUTOHSCROLL | ES_WANTRETURN
     CONTROL         "TCP Connect",IDC_CHK_DESTTCP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,72,69,71,10
-    LTEXT           "Port:",IDC_STATIC,151,69,25,8
-    EDITTEXT        IDC_ED_DESTPORT,181,66,40,12,ES_RIGHT | ES_AUTOHSCROLL | ES_WANTRETURN | ES_NUMBER | WS_DISABLED
+    LTEXT           "Port:",IDC_STATIC,151,70,25,8
+    EDITTEXT        IDC_ED_DESTPORT,181,69,40,12,ES_RIGHT | ES_AUTOHSCROLL | ES_WANTRETURN | ES_NUMBER | WS_DISABLED
+    GROUPBOX        "Protocols",IDC_STATIC,7,97,249,166
     CTEXT           "Control Protocol:",IDC_STATIC,84,106,92,8
     COMBOBOX        IDC_COMBO_DESTPROTO,83,119,97,30,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
-    COMBOBOX        IDC_COMBO_DESTSTAT,156,158,76,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Set my status to:",IDC_STATIC,151,143,87,8
     LTEXT           "On success, if my status is:",IDC_STATIC,25,143,115,8
     COMBOBOX        IDC_COMBO_DESTSTAT2,33,158,90,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_ED_COMMAND,34,197,195,14,ES_AUTOHSCROLL
+    LTEXT           "Set my status to:",IDC_STATIC,151,143,87,8
+    COMBOBOX        IDC_COMBO_DESTSTAT,156,158,76,30,CBS_DROPDOWNLIST | WS_DISABLED | WS_VSCROLL | WS_TABSTOP
     CTEXT           "Execute the following command on double-click:",IDC_STATIC,28,182,207,8
-    GROUPBOX        "Contact",IDC_STATIC,7,7,249,86
-    GROUPBOX        "Protocols",IDC_STATIC,7,97,249,166
-    EDITTEXT        IDC_ED_PARAMS,33,236,195,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_ED_COMMAND,34,197,195,14,ES_AUTOHSCROLL
     CTEXT           "(Optional) Command Parameters:",IDC_STATIC,27,219,207,8
+    EDITTEXT        IDC_ED_PARAMS,33,236,195,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,78,270,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,134,270,50,14
 END
 
 
@@ -148,7 +150,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG1, DIALOG
     BEGIN
@@ -182,7 +184,7 @@ END
 // Menu
 //
 
-IDR_MENU1 MENU 
+IDR_MENU1 MENU
 BEGIN
     POPUP "Menu"
     BEGIN
@@ -198,7 +200,18 @@ BEGIN
     END
 END
 
-#endif    // English (U.S.) resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_DIALOG3 AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

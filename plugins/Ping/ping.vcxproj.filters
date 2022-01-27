@@ -85,4 +85,18 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\grey.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\red.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\green.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\yellow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
