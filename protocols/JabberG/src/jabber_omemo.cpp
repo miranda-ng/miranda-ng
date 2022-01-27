@@ -557,17 +557,16 @@ complete:
 		proto->setString("OmemoSignedPreKeySignature", signature);
 
 		// generate and save pre keys set
-		signal_protocol_key_helper_pre_key_list_node *keys_root, *it;
+		signal_protocol_key_helper_pre_key_list_node *keys_root;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 100, global_context);
-		it = keys_root;
-		char setting_name[64], setting_name2[64];
-		for (; it; it = signal_protocol_key_helper_key_list_next(it)) {
+		CMStringA setting_name, setting_name2;
+		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
 			{
 				signal_buffer *serialized_pre_key;
 				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
+				setting_name2.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
 				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
 				SIGNAL_UNREF(serialized_pre_key);
 			}
@@ -575,14 +574,12 @@ complete:
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
-			SIGNAL_UNREF(public_key);
 
-			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
+			setting_name.Format("OmemoPreKey%uPublic", pre_key_id);
 			proto->setString(setting_name, ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
 			signal_buffer_free(key_buf);
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
-
 	}
 
 	// signal_protocol_session_store callbacks follow
