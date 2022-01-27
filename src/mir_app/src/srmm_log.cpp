@@ -29,12 +29,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct LoggerClass
 {
-	LoggerClass(const char *p1, const wchar_t *p2, pfnSrmmLogCreator p3) :
-		szShortName(mir_strdup(p1)),
-		wszScreenName(mir_wstrdup(p2)),
-		pfnBuilder(p3)
+	LoggerClass(CMPlugin *p1, const char *p2, const wchar_t *p3, pfnSrmmLogCreator p4) :
+		pPlugin(p1),
+		szShortName(mir_strdup(p2)),
+		wszScreenName(mir_wstrdup(p3)),
+		pfnBuilder(p4)
 	{}
 
+	CMPlugin *pPlugin;
 	ptrA szShortName;
 	ptrW wszScreenName;
 	pfnSrmmLogCreator pfnBuilder;
@@ -123,7 +125,7 @@ public:
 		ptrA szCurr(db_get_sa(0, "SRMM", "Logger", "built-in"));
 
 		for (auto &it : g_arLogClasses) {
-			int idx = m_list.AddString(it->wszScreenName, LPARAM(it));
+			int idx = m_list.AddString(TranslateW_LP(it->wszScreenName, it->pPlugin), LPARAM(it));
 			if (!mir_strcmp(szCurr, it->szShortName))
 				m_list.SetCurSel(idx);
 		}
@@ -172,12 +174,12 @@ void SrmmLogOptionsInit(WPARAM wParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder)
+MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder)
 {
 	if (!pszShortName || !pwszScreenName || !fnBuilder)
 		return nullptr;
 
-	auto *p = new LoggerClass(pszShortName, pwszScreenName, fnBuilder);
+	auto *p = new LoggerClass(pPlugin, pszShortName, pwszScreenName, fnBuilder);
 	g_arLogClasses.insert(p);
 
 	if (pDialog)

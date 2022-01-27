@@ -65,7 +65,7 @@ int CMPlugin::Load()
 {
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(lfDefault), &lfDefault, FALSE);
 
-	hLogger = RegisterSrmmLog("built-in", LPGENW("tabSRMM internal log"), &logBuilder);
+	hLogger = RegisterSrmmLog(this, "built-in", LPGENW("tabSRMM internal log"), &logBuilder);
 	
 	Chat_Load();
 

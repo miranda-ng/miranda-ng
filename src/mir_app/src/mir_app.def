@@ -715,7 +715,7 @@ UnregisterHppLogger @786
 ?ScrollToBottom@CRtfLogWindow@@UAEXXZ @802 NONAME
 ?UpdateOptions@CSrmmLogWindow@@UAEXXZ @803 NONAME
 ?WndProc@CRtfLogWindow@@UAEHIIJ@Z @804 NONAME
-_RegisterSrmmLog@12 @805 NONAME
+_RegisterSrmmLog@16 @805 NONAME
 _UnregisterSrmmLog@4 @806 NONAME
 ?GetType@CRtfLogWindow@@UAEHXZ @807 NONAME
 _WebSocket_InitHeader@12 @809 NONAME

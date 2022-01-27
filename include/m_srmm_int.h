@@ -138,7 +138,7 @@ public:
 
 typedef CSrmmLogWindow *(MIR_CDECL *pfnSrmmLogCreator)(CMsgDialog &pDlg);
 
-EXTERN_C MIR_APP_DLL(HANDLE) RegisterSrmmLog(const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
+EXTERN_C MIR_APP_DLL(HANDLE) RegisterSrmmLog(CMPlugin *pPlugin, const char *pszShortName, const wchar_t *pwszScreenName, pfnSrmmLogCreator fnBuilder);
 EXTERN_C MIR_APP_DLL(void) UnregisterSrmmLog(HANDLE);
 
 /////////////////////////////////////////////////////////////////////////////////////////

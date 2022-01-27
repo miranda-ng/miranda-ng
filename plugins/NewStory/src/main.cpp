@@ -96,7 +96,7 @@ int CMPlugin::Load()
 	bDrawEdge = g_bOptDrawEdge;
 	bMsgGrouping = g_bOptGrouping;
 
-	m_log = RegisterSrmmLog(MODULETITLE, _T(MODULENAME), NewStory_Stub);
+	m_log = RegisterSrmmLog(this, MODULETITLE, _T(MODULENAME), NewStory_Stub);
 
 	HookEvent(ME_OPT_INITIALISE, OptionsInitialize);
 	HookEvent(ME_SYSTEM_MODULESLOADED, evtModulesLoaded);
