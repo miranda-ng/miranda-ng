@@ -1172,6 +1172,9 @@ void CIcqProto::OnSearchResults(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 	psr.flags = PSR_UNICODE;
 	for (auto &it : results["persons"]) {
 		CMStringW wszId = it["sn"].as_mstring();
+		if (wszId == m_szOwnId)
+			continue;
+
 		CMStringW wszNick = it["friendly"].as_mstring();
 		CMStringW wszFirst = it["firstName"].as_mstring();
 		CMStringW wszLast = it["lastName"].as_mstring();
