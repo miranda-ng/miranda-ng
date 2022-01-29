@@ -345,14 +345,16 @@ int MAnnivDate::DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPC
 {
 	ZeroDate();
 
-	uint16_t wtmp = db_get_w(hContact, pszModule, szYear, 0);
+	int wtmp = db_get_w(hContact, pszModule, szYear);
+	if (wtmp <= 1900)
+		wtmp = 0;
 	Year(wtmp);
 
-	wtmp = db_get_w(hContact, pszModule, szMonth, 0);
+	wtmp = db_get_w(hContact, pszModule, szMonth);
 	if (wtmp > 0 && wtmp < 13) {
 		Month(wtmp);
 
-		wtmp = db_get_w(hContact, pszModule, szDay, 0);
+		wtmp = db_get_w(hContact, pszModule, szDay);
 		if (wtmp > 0 && wtmp <= DaysInMonth(Month())) {
 			Day(wtmp);
 			// date was correctly read from db

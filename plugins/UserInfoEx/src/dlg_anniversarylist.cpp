@@ -704,7 +704,7 @@ class CAnnivList
 	{
 		MAnnivDate ad;
 		int i = 0;
-		uint32_t age = 0;
+		int totalAge = 0;
 		int wDaysBefore = g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 		int numMale = 0;
 		int numFemale = 0;
@@ -738,8 +738,10 @@ class CAnnivList
 			}
 
 			if (!ad.DBGetBirthDate(hContact, pszProto)) {
-				age += ad.Age(&mtNow);
-				numBirthContacts++;
+				if (int age = ad.Age(&mtNow)) {
+					totalAge += age;
+					numBirthContacts++;
+				}
 
 				// add birthday
 				if ((_filter.bFilterIndex != FILTER_ANNIV) && (!_filter.pszProto || !_strcmpi(pszProto, _filter.pszProto)))
@@ -761,7 +763,7 @@ class CAnnivList
 		SetDlgItemInt(_hDlg, TXT_NUMCONTACT, numContacts, FALSE);
 		SetDlgItemInt(_hDlg, TXT_FEMALE, numFemale, FALSE);
 		SetDlgItemInt(_hDlg, TXT_MALE, numMale, FALSE);
-		SetDlgItemInt(_hDlg, TXT_AGE, numBirthContacts > 0 ? (age - (age % numBirthContacts)) / numBirthContacts : 0, FALSE);
+		SetDlgItemInt(_hDlg, TXT_AGE, numBirthContacts > 0 ? totalAge / numBirthContacts : 0, FALSE);
 	}
 
 	// This method deletes all items from the listview
