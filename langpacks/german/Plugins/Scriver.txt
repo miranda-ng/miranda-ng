@@ -693,7 +693,7 @@ Letzte Nachricht am %s um %s erhalten.
 Timeout beim Nachrichtenversand
 ;file \plugins\Scriver\src\srmm.cpp
 [Scriver internal log]
-
+Scriver interner Verlauf
 ;file \plugins\Scriver\src\tabs.cpp
 [Always on top]
 Immer im Vordergrund

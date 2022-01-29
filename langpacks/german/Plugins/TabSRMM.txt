@@ -1818,7 +1818,7 @@ Erweitertes Layout mit Avataren
 Erweitert mit Avataren, vertikale Ausrichtung
 ;file \plugins\TabSRMM\src\srmm.cpp
 [tabSRMM internal log]
-
+tabSRMM interner Verlauf
 ;file \plugins\TabSRMM\src\taskbar.cpp
 [Previews not available when using History++ plugin for message log display.]
 Vorschau nicht verfügbar, wenn History++ benutzt wird.

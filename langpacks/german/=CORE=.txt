@@ -1748,7 +1748,7 @@ Kontakt tippt nicht mehr
 Ein unbekannter Fehler ist aufgetreten.
 ;file \src\core\stdmsg\src\srmm.cpp
 [StdMsg internal log]
-
+StdMsg interner Verlauf
 ;file \src\core\stdpopup\src\options.cpp
 [Example]
 Beispiel
@@ -2161,7 +2161,7 @@ Datenbank
 [Database compaction failed]
 Komprimierung der Datenbank fehlgeschlagen
 [Compact database]
-
+Datenbank komprimieren
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_mdbx.dll]
 Miranda kann Profil '%s' nicht öffnen, da kein Profil-Plugin installiert ist.\nEs muss das Plugin dbx_mdbx.dll oder ein vergleichbares Plugin installiert sein.
 [Miranda was unable to open '%s', it's in an unknown format.]
@@ -2197,7 +2197,7 @@ Diese Änderung ist bekannt dafür, dass sie potenziell gefährlich ist.
 [This change is not known to be safe.]
 Diese Veränderung ist nicht bekannt dafür, sicher zu sein.
 [File names must be different]
-
+Dateinamen müssen verschieden sein
 [Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
 Ungültiger Einstellungs-Typ für '%s'. Das erste Zeichen für jeden String muss b, w, d, l, s, e, u, g, h oder n sein.
 ;file \src\mir_app\src\db_upgrade.cpp

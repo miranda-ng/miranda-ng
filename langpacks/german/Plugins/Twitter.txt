@@ -78,11 +78,11 @@ Konnte Twitter-Zugriffstoken nicht holen, bitte gehen Sie offline und versuchen 
 Ihnen fehlt der Nick-Eintrag in der Datenbank. Das ist nicht weiter schlimm, aber Sie werden einige kleinere Probleme bemerken (eigener Kontakt in der Liste, keine Hervorhebung ausgehender Nachrichten im Gruppenchat usw.). Um dies zu beheben, fügen Sie ihn entweder manuell hinzu oder erstellen Sie Ihr Twitterkonto in den Konteinstellungen neu.
 ;file \protocols\Twitter\src\proto.cpp
 [%s (server)]
-
+%s (Server)
 [Unable to initialize Netlib for %s.]
 Kann Netlib-Verbindung für %s nicht initialisieren.
 [%s (avatar)]
-
+%s (Avatar)
 [Twitter (avatars)]
 Twitter (Avatare)
 [User name]

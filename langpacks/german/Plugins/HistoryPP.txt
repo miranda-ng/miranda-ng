@@ -682,4 +682,4 @@ Ausgehende Ereignisse
 [Unused]
 Ungenutzt
 [Can not apply default toolbar configuration.]
-
+Standard-Toolbar-Einstellungen konnten nicht angewendet werden.

@@ -384,9 +384,9 @@ Konnte nicht verbinden mit
 DCC-FEHLER: Konnte den lokalen Port für passiven Dateitransfer nicht einbinden
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s (server)]
-
+%s (Server)
 [%s (client-to-client)]
-
+%s (Client zu Client)
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]

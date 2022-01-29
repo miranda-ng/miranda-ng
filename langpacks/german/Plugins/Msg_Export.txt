@@ -97,7 +97,7 @@ Syntaxhervorhebung
 Verlauf wurde erfolgreich gespeichert in Datei\r\n
 ;file \plugins\Msg_Export\src\main.cpp
 [Export history]
-
+Verlauf exportieren
 [Open E&xported History]
 &Exportierten Verlauf öffnen
 ;file \plugins\Msg_Export\src\options.cpp
