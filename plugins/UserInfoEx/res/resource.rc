@@ -302,7 +302,7 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.",IDC_HEADERBAR,
                     "MHeaderbarCtrl",0x0,0,0,355,25
-    CONTROL         "",EDIT_ANNIVERSARY_DATE,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,3,69,347,128
+    CONTROL         "",EDIT_ANNIVERSARY_DATE,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,3,69,347,128
     GROUPBOX        "Statistics:",GROUP_STATS,3,28,348,35,0,WS_EX_TRANSPARENT
     CONTROL         "with birthday:",IDC_STATIC,"Static",SS_SIMPLE | WS_GROUP,21,49,61,8,WS_EX_RIGHT
     CONTROL         "0",TXT_NUMBIRTH,"Static",SS_SIMPLE | WS_GROUP,86,49,14,8,WS_EX_RIGHT

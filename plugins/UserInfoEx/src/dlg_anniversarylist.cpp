@@ -367,21 +367,6 @@ class CAnnivList
 					}
 					break;
 
-				// resort the list
-				case LVN_COLUMNCLICK:
-					{
-						LPNMLISTVIEW pnmv = (LPNMLISTVIEW)lParam;
-
-						if (pDlg->_sortHeader == pnmv->iSubItem)
-							pDlg->_sortOrder *= -1;
-						else {
-							pDlg->_sortOrder = 1;
-							pDlg->_sortHeader = pnmv->iSubItem;
-						}
-						ListView_SortItemsEx(pDlg->_hList, (CMPPROC)cmpProc, pDlg);
-					}
-					break;
-
 				// show contact menu
 				case NM_RCLICK:
 					{
