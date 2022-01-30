@@ -906,6 +906,8 @@ INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
  * loading and unloading module
  ***********************************************************************************************************/
 
+#define MOD_MBIRTHDAY "mBirthday"
+
 void DlgAnniversaryListLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_REMINDER_LIST, DlgAnniversaryListShow);
@@ -916,4 +918,17 @@ void DlgAnniversaryListLoadModule()
 	hk.szDescription.a = LPGEN("Popup anniversary list");
 	hk.pszService = MS_USERINFO_REMINDER_LIST;
 	g_plugin.addHotkey(&hk);
+
+	if (!g_plugin.getByte("Bug3001")) {
+		// walk through all the contacts stored in the DB
+		MAnnivDate mdb;
+		for (auto &hContact : Contacts()) {
+			if (!mdb.DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
+				mdb.DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+				mdb.DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+			}
+		}
+
+		g_plugin.setByte("Bug3001", 1);
+	}
 }

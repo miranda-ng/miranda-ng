@@ -30,16 +30,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define UPCOMING_TIMER_ID 1002
 
 const wchar_t *szShowAgeMode[] = { LPGENW("Upcoming age"), LPGENW("Current age") };
-const int cShowAgeMode = sizeof(szShowAgeMode) / sizeof(szShowAgeMode[0]);
 
-const wchar_t *szSaveModule[] = { LPGENW("UserInfo module"), LPGENW("Protocol module"), LPGENW("mBirthday module") };
-const int cSaveModule = sizeof(szSaveModule) / sizeof(szSaveModule[0]);
+const wchar_t *szSaveModule[] = { LPGENW("UserInfo module"), LPGENW("Protocol module") };
 
 const wchar_t *szPopupClick[] = { LPGENW("Nothing"), LPGENW("Dismiss"), LPGENW("Message window") };
-const int cPopupClick = sizeof(szPopupClick) / sizeof(szPopupClick[0]);
 
 const wchar_t *szNotifyFor[] = { LPGENW("All contacts"), LPGENW("All contacts except hidden ones"), LPGENW("All contacts except ignored ones"), LPGENW("All contacts except hidden and ignored ones") };
-const int cNotifyFor = sizeof(szNotifyFor) / sizeof(szNotifyFor[0]);
 
 #define MIN_BIRTHDAYS_WIDTH 200
 #define MIN_BIRTHDAYS_HEIGHT 200
@@ -98,18 +94,18 @@ int AddInfoToComboBoxes(HWND hWnd)
 {
 	int i;
 
-	for (i = 0; i < cShowAgeMode; i++)
+	for (i = 0; i < _countof(szShowAgeMode); i++)
 		SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_ADDSTRING, 0, (LPARAM)TranslateW(szShowAgeMode[i]));
 
-	for (i = 0; i < cSaveModule; i++)
+	for (i = 0; i < _countof(szSaveModule); i++)
 		SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
 
-	for (i = 0; i < cPopupClick; i++) {
+	for (i = 0; i < _countof(szPopupClick); i++) {
 		SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
 		SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
 	}
 
-	for (i = 0; i < cNotifyFor; i++)
+	for (i = 0; i < _countof(szNotifyFor); i++)
 		SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_ADDSTRING, 0, (LPARAM)TranslateW(szNotifyFor[i]));
 
 	return i;
@@ -399,7 +395,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 		Window_SetIcon_IcoLib(hWnd, hAddBirthdayContact);
 
-		for (int i = 0; i < cSaveModule; i++)
+		for (int i = 0; i < _countof(szSaveModule); i++)
 			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
 		SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
 		break;
@@ -428,11 +424,6 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			else DateTime_SetSystemtime(hDate, GDT_NONE, NULL);
 
 			switch (loc) {
-			case DOB_MBIRTHDAY:
-				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_MBIRTHDAY);
-				szCurrentModuleTooltip = L"mBirthday";
-				break;
-
 			case DOB_PROTOCOL:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
 				mir_snwprintf(buffer, TranslateT("%S protocol"), szProto);
@@ -513,7 +504,6 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 wchar_t* GetBirthdayModule(int module, MCONTACT)
 {
 	switch (module) {
-	case DOB_MBIRTHDAY:        return L"mBirthday";
 	case DOB_PROTOCOL:         return TranslateT("Protocol module");
 	case DOB_BIRTHDAYREMINDER: return L"Birthday Reminder";
 	case DOB_USERINFO:         return L"UserInfo";

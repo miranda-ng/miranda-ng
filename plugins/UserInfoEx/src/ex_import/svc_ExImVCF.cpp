@@ -1234,13 +1234,13 @@ uint8_t CVCardFileVCF::Import()
 
 					memcpy(buf, _clVal.GetBuffer(), 4);
 					buf[4] = 0;
-					db_set_w(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHYEAR, (uint16_t)strtol(buf, nullptr, 10));
+					db_set_w(_hContact, USERINFO, SET_CONTACT_BIRTHYEAR, (uint16_t)strtol(buf, nullptr, 10));
 					memcpy(buf, _clVal.GetBuffer() + 4, 2);
 					buf[2] = 0;
-					db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHMONTH, (uint8_t)strtol(buf, nullptr, 10));
+					db_set_b(_hContact, USERINFO, SET_CONTACT_BIRTHMONTH, (uint8_t)strtol(buf, nullptr, 10));
 					memcpy(buf, _clVal.GetBuffer() + 6, 2);
 					buf[2] = 0;
-					db_set_b(_hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, (uint8_t)strtol(buf, nullptr, 10));
+					db_set_b(_hContact, USERINFO, SET_CONTACT_BIRTHDAY, (uint8_t)strtol(buf, nullptr, 10));
 				}
 			}
 			continue;

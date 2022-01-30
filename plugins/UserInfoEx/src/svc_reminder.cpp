@@ -645,7 +645,7 @@ static int OnContactSettingChanged(MCONTACT hContact, DBCONTACTWRITESETTING* pdb
 		CEvent evt;
 		MTime now;
 		now.GetLocalTime();
-		if (!mir_strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule())) {
+		if (!mir_strcmp(pdbcws->szModule, USERINFO)) {
 			uint16_t LastAnswer = IDNONE;
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
 		}
@@ -711,19 +711,6 @@ static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
 		MsgBoxService(NULL, (LPARAM)&mBox);
 	}
 	return 0;
-}
-
-/**
-* This function returns a constant pointer to the module the date should be saved to
-*
-* @param	none
-*
-* @return	module to write birthday information to, MOD_MBIRTHDAY by default
-**/
-
-LPCSTR SvcReminderGetMyBirthdayModule()
-{
-	return ((g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE) == 1) ? USERINFO : MOD_MBIRTHDAY);
 }
 
 /***********************************************************************************************************

@@ -21,9 +21,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #pragma once
 
-#define ANID_LAST		0xFFFC
-#define ANID_BIRTHDAY	0xFFFE
-#define ANID_NONE		0xFFFF
+#define ANID_LAST     0xFFFC
+#define ANID_BIRTHDAY 0xFFFE
+#define ANID_NONE     0xFFFF
 
 struct MZodiac {
 	HICON	hIcon;
@@ -43,13 +43,14 @@ public:
 	} EFlags;
 
 private:
-	uint16_t	_wID;			// index to anniversary in database or ANID_BIRTHDAY
-	wstring	_strDesc;		// descripes the anniversary (e.g. birthday)
-	string	_strModule;		// the module the anniversary has been read from
-	uint16_t	_wFlags;		// the flags
-	uint8_t	_bRemind;		// per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
-	uint16_t	_wDaysEarlier;	// number of days to the anniversary the user wants to be reminded of this anniversary
+	uint16_t _wID;          // index to anniversary in database or ANID_BIRTHDAY
+	wstring _strDesc;       // descripes the anniversary (e.g. birthday)
+	string _strModule;      // the module the anniversary has been read from
+	uint16_t _wFlags;       // the flags
+	uint8_t _bRemind;       // per user setting for reminder (0 - disabled, 1 - use local offset, 2 - use global offset)
+	uint16_t _wDaysEarlier; // number of days to the anniversary the user wants to be reminded of this anniversary
 
+public:
 	int DBWriteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
 	int DBDeleteDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear) const;
 
@@ -58,39 +59,39 @@ public:
 	MAnnivDate(MAnnivDate &mda);
 
 	// basic access to attributes
-	__inline LPCTSTR	Description() const				{ return _strDesc.c_str(); };
-	__inline void		Description(LPCTSTR pszDesc)	{ if (pszDesc) _strDesc = pszDesc; };
-	__inline LPCSTR		Module() const					{ return _strModule.c_str(); };
-	__inline void		Module(LPCSTR pszModule)		{ if (pszModule) _strModule = pszModule; else _strModule.clear(); };
-	__inline uint8_t		RemindOption() const			{ return _bRemind; };
-	__inline void		RemindOption(uint8_t bRemind)		{ if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
-	__inline uint16_t		RemindOffset() const			{ return _wDaysEarlier; };
-	__inline void		RemindOffset(uint16_t wOffset)		{ _wDaysEarlier = wOffset; };
-	__inline uint16_t		Id() const						{ return _wID; };
-	__inline void		Id(uint16_t wId)					{ if (_wID == ANID_NONE) _wID = wId; };
+	__inline LPCTSTR  Description() const            { return _strDesc.c_str(); };
+	__inline void     Description(LPCTSTR pszDesc)   { if (pszDesc) _strDesc = pszDesc; };
+	__inline LPCSTR   Module() const                 { return _strModule.c_str(); };
+	__inline void     Module(LPCSTR pszModule)       { if (pszModule) _strModule = pszModule; else _strModule.clear(); };
+	__inline uint8_t  RemindOption() const           { return _bRemind; };
+	__inline void     RemindOption(uint8_t bRemind)  { if (bRemind <= BST_INDETERMINATE) _bRemind = bRemind; };
+	__inline uint16_t RemindOffset() const           { return _wDaysEarlier; };
+	__inline void     RemindOffset(uint16_t wOffset) { _wDaysEarlier = wOffset; };
+	__inline uint16_t Id() const                     { return _wID; };
+	__inline void     Id(uint16_t wId)               { if (_wID == ANID_NONE) _wID = wId; };
 	
-	uint32_t				DateStamp() const;
-	void				DateStamp(const uint32_t dwStamp);
+	uint32_t DateStamp() const;
+	void     DateStamp(const uint32_t dwStamp);
 	
 	// basic checks
 	__inline uint8_t IsValid() const;
-	__inline uint8_t IsChanged() const						{ return (_wFlags & MADF_CHANGED); };
-	__inline uint8_t IsReminderChanged() const				{ return (_wFlags & MADF_REMINDER_CHANGED); };
+	__inline uint8_t IsChanged() const               { return (_wFlags & MADF_CHANGED); };
+	__inline uint8_t IsReminderChanged() const       { return (_wFlags & MADF_REMINDER_CHANGED); };
 	__inline uint8_t IsEqual(const MAnnivDate &mda) const	{ return IsEqual(mda.SystemTime()); };
 	uint8_t	IsEqual(const SYSTEMTIME &st) const;
 
 	// handling flags
-	__inline uint16_t	Flags() const			{ return _wFlags; };
-	__inline void	Flags(uint16_t wFlags)		{ _wFlags = wFlags; };
-	__inline void	SetFlags(uint16_t wFlag)	{ _wFlags |= wFlag; };
-	__inline void	RemoveFlags(uint16_t wFlag)	{ _wFlags &= ~wFlag; };
+	__inline uint16_t	Flags() const                  { return _wFlags; };
+	__inline void	Flags(uint16_t wFlags)            { _wFlags = wFlags; };
+	__inline void	SetFlags(uint16_t wFlag)          { _wFlags |= wFlag; };
+	__inline void	RemoveFlags(uint16_t wFlag)       { _wFlags &= ~wFlag; };
 
 	// return diffence of days, ignoring the date
-	int	CompareDays(MTime mt) const;
+	int CompareDays(MTime mt) const;
 	
-	MZodiac	Zodiac();
-	int		Age(MTime *pNow = nullptr);
-	void	Clear();
+	MZodiac Zodiac();
+	int     Age(MTime *pNow = nullptr);
+	void    Clear();
 
 	// read date from database
 	int DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPCSTR szMonth, LPCSTR szYear);
@@ -108,7 +109,6 @@ public:
 	// delete date from database
 	int DBDeleteBirthDate(MCONTACT hContact);
 
-	int DBMoveBirthDate(MCONTACT hContact, uint8_t bOld, uint8_t bNew);
 	int BackupBirthday (MCONTACT hContact, LPSTR pszProto = nullptr, const uint8_t bDontIgnoreAnything = FALSE, PWORD lastAnswer = nullptr);
 
 	// setting values

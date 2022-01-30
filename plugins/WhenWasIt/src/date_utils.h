@@ -25,16 +25,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define SAVE_MODE_STANDARD  0
 #define SAVE_MODE_PROTOCOL  1
-#define SAVE_MODE_MBIRTHDAY 2
 
-#define DOB_UNKNOWN							100
-#define DOB_USERINFO						101
-#define DOB_MBIRTHDAY						102
-#define DOB_PROTOCOL						103
-#define DOB_BIRTHDAYREMINDER                104
-#define DOB_MICQBIRTHDAY                    105
+#define DOB_UNKNOWN          100
+#define DOB_USERINFO         101
+#define DOB_PROTOCOL         103
+#define DOB_BIRTHDAYREMINDER 104
+#define DOB_MICQBIRTHDAY     105
 
-#define SAVE_MODE_DELETEALL 100
+#define SAVE_MODE_DELETEALL  100
 
 time_t Today();
 bool IsLeapYear(int year);

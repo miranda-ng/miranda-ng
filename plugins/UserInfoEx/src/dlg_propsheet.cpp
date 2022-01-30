@@ -1087,7 +1087,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				// update the windowtitle
 				DlgProc(hDlg, HM_SETWINDOWTITLE, NULL, lParam);
 			}
-			else if (!strcmp(pdbcws->szModule, USERINFO) || !strcmp(pdbcws->szModule, pPs->pszProto) || !strcmp(pdbcws->szModule, MOD_MBIRTHDAY)) {
+			else if (!strcmp(pdbcws->szModule, USERINFO) || !strcmp(pdbcws->szModule, pPs->pszProto)) {
 				// force the update of all propertysheetpages
 				DlgProc(hDlg, PSM_FORCECHANGED, NULL, NULL);
 			}

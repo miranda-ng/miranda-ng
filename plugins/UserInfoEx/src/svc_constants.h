@@ -36,7 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define MAXUID       260 // maximum character count for a uin
 
 // most important modules
-#define MOD_MBIRTHDAY "mBirthday"
 #define MOD_CLIST     "CList"
 
 // database settings (propertysheet)

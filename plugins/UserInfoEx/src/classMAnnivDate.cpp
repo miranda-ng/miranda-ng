@@ -469,7 +469,6 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 
 	// try to get birthday from any custom module
 	if (	!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
-			!DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
 			!DBGetDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
 			!DBGetDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY))
 	{
@@ -518,42 +517,6 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 }
 
 /**
- * name:	DBMoveBirthDate
- * class:	MAnnivDate
- * desc:	keep the database clean
- * param:	hContact		- handle to a contact to read the date from
- *			bOld			- byte RemindBirthModule src
- *			bNew			- byte RemindBirthModule dest
- * return:	0 on success, 1 otherwise
- **/
-
-int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, uint8_t bOld, uint8_t)
-{
-	Clear();
-	switch(bOld) {
-	case 0:		//MOD_MBIRTHDAY
-		if (!DBGetDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
-			if (DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-				return 1;
-			DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-			db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
-		}
-		break;
-	case 1:		//USERINFO
-		if (!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)) {
-			if (DBWriteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-				return 1;
-			db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
-			DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-		}
-		break;
-	default:
-		return 1;
-	}
-	return 0;
-}
-
-/**
  * name:	DBWriteBirthDate
  * class:	MAnnivDate
  * desc:	write birthday date to desired module
@@ -564,13 +527,8 @@ int MAnnivDate::DBMoveBirthDate(MCONTACT hContact, uint8_t bOld, uint8_t)
 
 int MAnnivDate::DBWriteBirthDate(MCONTACT hContact)
 {
-	LPCSTR pszModule = SvcReminderGetMyBirthdayModule();
-
-	int rc = DBWriteDate(hContact, pszModule, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
+	int rc = DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
 	if (!rc) {
-		if (!mir_strcmp(pszModule, MOD_MBIRTHDAY))
-			db_set_b(hContact, MOD_MBIRTHDAY, "BirthMode", 2);
-
 		if (
 				// only delete values from current contact's custom modules
 				!(_wFlags & (MADF_HASPROTO|MADF_HASMETA)) &&
@@ -578,14 +536,6 @@ int MAnnivDate::DBWriteBirthDate(MCONTACT hContact)
 				g_plugin.getByte(SET_REMIND_SECUREBIRTHDAY, TRUE))
 		{
 			// keep the database clean
-
-			if (mir_strcmp(pszModule, MOD_MBIRTHDAY) != 0) {
-				DBDeleteDate(hContact, MOD_MBIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-				db_unset(hContact, MOD_MBIRTHDAY, "BirthMode");
-			}
-			else if (mir_strcmp(pszModule, USERINFO) != 0)
-				DBDeleteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-
 			DBDeleteDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
 			DBDeleteDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY);
 		}

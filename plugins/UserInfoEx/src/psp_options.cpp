@@ -566,10 +566,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));			
 			ComboBox_AddString(hCtrl, TranslateT("Everything"));
 		}
-		if (hCtrl = GetDlgItem(hDlg, EDIT_BIRTHMODULE)) {
-			ComboBox_AddString(hCtrl, TranslateT("mBirthday"));
-			ComboBox_AddString(hCtrl, TranslateT("UserInfo (default)"));
-		}
 
 		bInitialized = 0;
 		{
@@ -588,8 +584,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 			SetDlgItemInt(hDlg, EDIT_REMIND, g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
 			SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
 			SetDlgItemInt(hDlg, EDIT_REMIND2, g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
-
-			SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
 
 			MTime mtLast;
 			wchar_t szTime[MAX_PATH];
@@ -620,19 +614,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				DBWriteEditWord(hDlg, EDIT_REMIND2, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
 				bReminderCheck = DBWriteEditWord(hDlg, EDIT_REMIND, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
 
-				// save primary birthday module
-				uint8_t bOld = g_plugin.getByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);  //    = 1
-				uint8_t bNew = (uint8_t)ComboBox_GetCurSel(GetDlgItem(hDlg, EDIT_BIRTHMODULE));
-				if (bOld != bNew) {
-					// keep the database clean
-					DBWriteComboByte(hDlg, EDIT_BIRTHMODULE, SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE);
-					
-					// walk through all the contacts stored in the DB
-					MAnnivDate mdb;
-					for (auto &hContact : Contacts())
-						mdb.DBMoveBirthDate(hContact, bOld, bNew);
-				}
-
 				// update current reminder state
 				uint8_t bNewVal = (uint8_t)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
 				if (g_plugin.getByte(SET_REMIND_ENABLED, 1) != bNewVal) {
@@ -661,19 +642,14 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				int bEnabled = ComboBox_GetCurSel((HWND)lParam) > 0;
 				const int idCtrl[] = {
 					CHECK_REMIND_MI, EDIT_REMIND, EDIT_REMIND2, SPIN_REMIND, SPIN_REMIND2, TXT_REMIND,
-					TXT_REMIND2, TXT_REMIND3, TXT_REMIND4, TXT_REMIND6, TXT_REMIND7, TXT_REMIND8, TXT_REMIND9,
-					TXT_REMIND_LASTCHECK, CHECK_REMIND_FLASHICON, EDIT_BIRTHMODULE, CHECK_REMIND_VISIBLEONLY,
+					TXT_REMIND2, TXT_REMIND3, TXT_REMIND4, TXT_REMIND6, TXT_REMIND8, TXT_REMIND9,
+					TXT_REMIND_LASTCHECK, CHECK_REMIND_FLASHICON, CHECK_REMIND_VISIBLEONLY,
 					CHECK_REMIND_SECURED, CHECK_REMIND_STARTUP, EDIT_REMIND_SOUNDOFFSET, SPIN_REMIND_SOUNDOFFSET
 				};
 
 				EnableControls(hDlg, idCtrl, _countof(idCtrl), bEnabled);
 			}
 			__fallthrough;
-
-		case EDIT_BIRTHMODULE:
-			if (bInitialized && HIWORD(wParam) == CBN_SELCHANGE)
-				NotifyParentOfChange(hDlg);
-			break;
 
 		case CHECK_REMIND_MI:
 		case CHECK_REMIND_FLASHICON:

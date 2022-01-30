@@ -21,58 +21,57 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _SVCREMINDER_H_
 #define _SVCREMINDER_H_
 
-#define POPUP_TYPE_BIRTHDAY		1
-#define POPUP_TYPE_ANNIVERSARY	2
-
-// for PopupDelayType
-#define POPUP_DELAY_DEFAULT		3
-#define POPUP_DELAY_CUSTOM		4
-#define POPUP_DELAY_PERMANENT	5
-
-// for PopupColorType
-#define POPUP_COLOR_DEFAULT		6
-#define POPUP_COLOR_WINDOWS		7
-#define POPUP_COLOR_CUSTOM		8
-
-#define SOUND_BIRTHDAY_TODAY				"Birthday"
-#define SOUND_BIRTHDAY_SOON					"BirthdayComing"
-#define SOUND_ANNIVERSARY					"Anniversary"
-
-// databbase settings
-#define SET_REMIND_LASTCHECK				"RemindLastCheck"
-#define SET_REMIND_ENABLED					"RemindEnabled"
-#define SET_REMIND_OFFSET					"RemindOffset"
-#define SET_REMIND_CHECKVISIBLE				"RemindCheckVisible"
-#define SET_REMIND_NOTIFYINTERVAL			"RemindNotifyInterval"
-#define SET_REMIND_FLASHICON				"RemindFlashIcon"
-#define SET_REMIND_EXTRAICON				"RemindExtraIcon"
-#define SET_REMIND_BIRTHMODULE				"RemindBirthModule"
-#define SET_REMIND_MENUENABLED				"RemindMenuEnabled"
-#define SET_REMIND_BIRTHDAY_ENABLED			"RemindBirthday"
-#define SET_REMIND_BIRTHDAY_OFFSET			"RemindBirthdayOffset"
-#define SET_REMIND_CHECKON_STARTUP			"RemindStartupCheck"
-#define SET_REMIND_SECUREBIRTHDAY			"RemindSecureBirthday"
-#define SET_REMIND_BIRTHDAY_IGNORED			"RemindSecureIgnored"
-#define SET_REMIND_SOUNDOFFSET				"RemindSoundOffset"
-#define SET_POPUP_ENABLED					"PopupEnabled"
-#define SET_POPUP_BIRTHDAY_COLORTYPE		"PopupBirthClrType"
-#define SET_POPUP_BIRTHDAY_COLOR_TEXT		"PopupBirthClrBirthText"
-#define SET_POPUP_BIRTHDAY_COLOR_BACK		"PopupBirthClrBirthBack"
-#define SET_POPUP_ANNIVERSARY_COLORTYPE		"PopupAnnivClrType"
-#define SET_POPUP_ANNIVERSARY_COLOR_TEXT	"PopupAnnivClrText"
-#define SET_POPUP_ANNIVERSARY_COLOR_BACK	"PopupAnnivClrBack"
-#define SET_POPUP_DELAY						"PopupDelay"
+#define POPUP_TYPE_BIRTHDAY              1
+#define POPUP_TYPE_ANNIVERSARY           2
+											        
+// for PopupDelayType				        
+#define POPUP_DELAY_DEFAULT              3
+#define POPUP_DELAY_CUSTOM               4
+#define POPUP_DELAY_PERMANENT            5
+											        
+// for PopupColorType				        
+#define POPUP_COLOR_DEFAULT              6
+#define POPUP_COLOR_WINDOWS              7
+#define POPUP_COLOR_CUSTOM               8
+											        
+#define SOUND_BIRTHDAY_TODAY             "Birthday"
+#define SOUND_BIRTHDAY_SOON              "BirthdayComing"
+#define SOUND_ANNIVERSARY                "Anniversary"
+											        
+// databbase settings				        
+#define SET_REMIND_LASTCHECK             "RemindLastCheck"
+#define SET_REMIND_ENABLED               "RemindEnabled"
+#define SET_REMIND_OFFSET                "RemindOffset"
+#define SET_REMIND_CHECKVISIBLE          "RemindCheckVisible"
+#define SET_REMIND_NOTIFYINTERVAL        "RemindNotifyInterval"
+#define SET_REMIND_FLASHICON             "RemindFlashIcon"
+#define SET_REMIND_EXTRAICON             "RemindExtraIcon"
+#define SET_REMIND_MENUENABLED           "RemindMenuEnabled"
+#define SET_REMIND_BIRTHDAY_ENABLED      "RemindBirthday"
+#define SET_REMIND_BIRTHDAY_OFFSET       "RemindBirthdayOffset"
+#define SET_REMIND_CHECKON_STARTUP       "RemindStartupCheck"
+#define SET_REMIND_SECUREBIRTHDAY        "RemindSecureBirthday"
+#define SET_REMIND_BIRTHDAY_IGNORED      "RemindSecureIgnored"
+#define SET_REMIND_SOUNDOFFSET           "RemindSoundOffset"
+#define SET_POPUP_ENABLED                "PopupEnabled"
+#define SET_POPUP_BIRTHDAY_COLORTYPE     "PopupBirthClrType"
+#define SET_POPUP_BIRTHDAY_COLOR_TEXT    "PopupBirthClrBirthText"
+#define SET_POPUP_BIRTHDAY_COLOR_BACK    "PopupBirthClrBirthBack"
+#define SET_POPUP_ANNIVERSARY_COLORTYPE  "PopupAnnivClrType"
+#define SET_POPUP_ANNIVERSARY_COLOR_TEXT "PopupAnnivClrText"
+#define SET_POPUP_ANNIVERSARY_COLOR_BACK "PopupAnnivClrBack"
+#define SET_POPUP_DELAY                  "PopupDelay"
 
 // default values
-#define DEFVAL_REMIND_ENABLED				REMIND_ALL
-#define DEFVAL_REMIND_MENUENABLED			1
-#define DEFVAL_REMIND_OFFSET				9
-#define DEFVAL_REMIND_SOUNDOFFSET			3
-#define DEFVAL_REMIND_NOTIFYINTERVAL		12
-#define DEFVAL_REMIND_BIRTHMODULE			1
-#define DEFVAL_POPUP_ENABLED				1
-#define DEFVAL_REMIND_CHECKVISIBLE			0
-#define HM_OPENMSG							(WM_USER+1)
+#define DEFVAL_REMIND_ENABLED            REMIND_ALL
+#define DEFVAL_REMIND_MENUENABLED        1
+#define DEFVAL_REMIND_OFFSET             9
+#define DEFVAL_REMIND_SOUNDOFFSET        3
+#define DEFVAL_REMIND_NOTIFYINTERVAL     12
+#define DEFVAL_POPUP_ENABLED             1
+#define DEFVAL_REMIND_CHECKVISIBLE       0
+
+#define HM_OPENMSG (WM_USER+1)
 
 /**
  * typedefs:
@@ -96,7 +95,6 @@ enum ENotify
  * Global functions:
  **/
 void   SvcReminderCheckAll(const ENotify notify);
-LPCSTR SvcReminderGetMyBirthdayModule(void);
 
 void   SvcReminderOnTopToolBarLoaded(void);
 void   SvcReminderOnModulesLoaded(void);

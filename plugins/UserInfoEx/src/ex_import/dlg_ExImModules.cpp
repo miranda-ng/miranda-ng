@@ -245,7 +245,6 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 					// insert essential items (modul from UIEX)
 					ExportTree_AddItem(hTree, hItemEssential, USERINFO, bImagesLoaded, 0);
-					ExportTree_AddItem(hTree, hItemEssential, MOD_MBIRTHDAY, bImagesLoaded, 0);
 
 					/*Filter/ protocol module is ignored for owner contact
 					if (pDat->hContact != NULL) {
@@ -303,7 +302,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 
 											// add optional module, which is valid for at least one contact
 											/*/Filter/*/
-											if (mir_strcmpi(p, USERINFO) && mir_strcmpi(p, MOD_MBIRTHDAY) && mir_strcmpi(p, META_PROTO)) {
+											if (mir_strcmpi(p, USERINFO) && mir_strcmpi(p, META_PROTO)) {
 												ExportTree_AddItem(hTree, hItemOptional, p, bImagesLoaded, 1);
 												break;
 											}
@@ -312,16 +311,10 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								} // end TRUE = All Contacts
 
 								// module must exist in the selected contact
-								else if (
-									/*Filter/*/
-									!DB::Module::IsEmpty(pDat->ExImContact->hContact, p) &&
-									(!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) &&
-									//mir_strcmpi(p, "Protocol") &&
-									mir_strcmpi(p, USERINFO) &&
-									mir_strcmpi(p, MOD_MBIRTHDAY)) {
+								else if (!DB::Module::IsEmpty(pDat->ExImContact->hContact, p) && (!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) && mir_strcmpi(p, USERINFO)) {
 									ExportTree_AddItem(hTree, hItemOptional, (LPSTR)p, bImagesLoaded, 1);
 								}
-							} // end 
+							}
 						}
 					}
 				}

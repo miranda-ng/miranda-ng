@@ -152,7 +152,6 @@ int CExImContactXML::ExportContact(DB::CEnumList *pModules)
 		}
 		else {
 			ExportModule(USERINFO);
-			ExportModule(MOD_MBIRTHDAY);
 		}
 	}
 

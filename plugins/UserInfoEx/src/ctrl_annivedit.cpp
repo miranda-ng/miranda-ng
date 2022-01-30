@@ -322,8 +322,8 @@ INT_PTR CAnnivEditCtrl::DBWriteBirthDay(MCONTACT hContact)
 	if ((pmdb = FindDateById(ANID_BIRTHDAY)) == nullptr)
 		return 1;
 		
+	// save birthday
 	if (pmdb->IsChanged()) {
-		// save birthday, to mBirthday module by default
 		if (pmdb->Flags() & pmdb->MADF_HASCUSTOM)
 			pmdb->DBWriteBirthDate(hContact);
 		else

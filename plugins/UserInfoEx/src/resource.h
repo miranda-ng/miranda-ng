@@ -77,7 +77,6 @@
 #define TXT_OPT_CLR_USER                1128
 #define TXT_REMIND_LASTCHECK            1128
 #define TXT_OPT_CLR_BOTH                1129
-#define TXT_REMIND7                     1129
 #define TXT_OPT_CLR_CHANGED             1130
 #define TXT_REMIND8                     1130
 #define TXT_OPT_POPUP_CLR_BACK          1131
@@ -156,7 +155,6 @@
 #define EDIT_METASUBCONTACTS            1506
 #define EDIT_HISTORY_GROUPING           1506
 #define COMBO_VIEW                      1506
-#define EDIT_BIRTHMODULE                1507
 #define EDIT_PATH                       1512
 #define BTN_BROWSE                      1513
 #define BTN_CHECK                       1514
