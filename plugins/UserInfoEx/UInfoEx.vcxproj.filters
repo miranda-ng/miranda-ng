@@ -293,5 +293,21 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\main.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\default.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\flags.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\dragcopy.cur">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
   <Import Project="$(ProjectDir)..\..\build\vc.common\common.filters" />
 </Project>

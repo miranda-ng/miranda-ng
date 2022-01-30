@@ -153,4 +153,12 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\default.ico" />
+    <Image Include="res\flags.png" />
+    <Image Include="res\main.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\dragcopy.cur" />
+  </ItemGroup>
 </Project>

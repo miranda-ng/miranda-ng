@@ -245,7 +245,6 @@
 #define RADIO_OPT_MI_ACCOUNT_NONE       1662
 #define RADIO_OPT_MI_ACCOUNT_ALL        1663
 #define RADIO_OPT_MI_ACCOUNT_EXIMPORT   1664
-#define CHECK_OPT_MI_RESTART            1690
 #define BTN_UPDATE                      40001
 #define BTN_ADD                         40002
 #define BTN_IMPORT                      40002
