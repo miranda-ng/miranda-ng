@@ -24,11 +24,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define PSM_ENABLE_TABITEM	(WM_USER+106)
 
 static MenuOptionsList ctrl_Menu[] = {
-	{ SET_MI_MAIN,		CHECK_OPT_MI_MAIN,		RADIO_OPT_MI_MAIN_NONE,		RADIO_OPT_MI_MAIN_ALL,		RADIO_OPT_MI_MAIN_EXIMPORT },
-	{ SET_MI_CONTACT,	CHECK_OPT_MI_CONTACT,	RADIO_OPT_MI_CONTACT_NONE,	RADIO_OPT_MI_CONTACT_ALL,	RADIO_OPT_MI_CONTACT_EXIMPORT },
-	{ SET_MI_GROUP,		CHECK_OPT_MI_GROUP,		RADIO_OPT_MI_GROUP_NONE,	RADIO_OPT_MI_GROUP_ALL,		RADIO_OPT_MI_GROUP_EXIMPORT },
-	{ SET_MI_SUBGROUP,	CHECK_OPT_MI_SUBGROUP,	RADIO_OPT_MI_SUBGROUP_NONE,	RADIO_OPT_MI_SUBGROUP_ALL,	RADIO_OPT_MI_SUBGROUP_EXIMPORT },
-	{ SET_MI_ACCOUNT,	CHECK_OPT_MI_ACCOUNT,	RADIO_OPT_MI_ACCOUNT_NONE,	RADIO_OPT_MI_ACCOUNT_ALL,	RADIO_OPT_MI_ACCOUNT_EXIMPORT },
+	{ SET_MI_MAIN,     CHECK_OPT_MI_MAIN,     RADIO_OPT_MI_MAIN_NONE,     RADIO_OPT_MI_MAIN_ALL,     RADIO_OPT_MI_MAIN_EXIMPORT     },
+	{ SET_MI_CONTACT,  CHECK_OPT_MI_CONTACT,  RADIO_OPT_MI_CONTACT_NONE,  RADIO_OPT_MI_CONTACT_ALL,  RADIO_OPT_MI_CONTACT_EXIMPORT  },
+	{ SET_MI_GROUP,    CHECK_OPT_MI_GROUP,    RADIO_OPT_MI_GROUP_NONE,    RADIO_OPT_MI_GROUP_ALL,    RADIO_OPT_MI_GROUP_EXIMPORT    },
+	{ SET_MI_SUBGROUP, CHECK_OPT_MI_SUBGROUP, RADIO_OPT_MI_SUBGROUP_NONE, RADIO_OPT_MI_SUBGROUP_ALL, RADIO_OPT_MI_SUBGROUP_EXIMPORT },
+	{ SET_MI_ACCOUNT,  CHECK_OPT_MI_ACCOUNT,  RADIO_OPT_MI_ACCOUNT_NONE,  RADIO_OPT_MI_ACCOUNT_ALL,  RADIO_OPT_MI_ACCOUNT_EXIMPORT  },
 };
 
 static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
@@ -39,7 +39,6 @@ static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
 static int FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	int nItemIndex;
-
 	for (nItemIndex = ComboBox_GetCount(hCombo); (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); nItemIndex--);
 	return nItemIndex;
 }
@@ -258,7 +257,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
-		ShowWindow(GetDlgItem(hDlg, CHECK_OPT_ZODIACAVATAR), SW_HIDE);
 		bInitialized = 0;
 
 		// menu item settings
@@ -279,9 +277,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		// extra icon settings
 		CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
-
-		// misc
-		DBGetCheckBtn(hDlg, CHECK_OPT_ZODIACAVATAR, SET_ZODIAC_AVATARS, FALSE);
 
 		bInitialized = 1;
 		return TRUE;
@@ -321,11 +316,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				ExtraIcon_SetAll();
 			if (FlagsMsgWndChange)
 				UpdateStatusIcons();
-
-			// misc
-			uint8_t bEnabled = IsDlgButtonChecked(hDlg, CHECK_OPT_ZODIACAVATAR);
-			g_plugin.setByte(SET_ZODIAC_AVATARS, bEnabled);
-			NServices::NAvatar::Enable(bEnabled);
 		}
 		break;
 
@@ -364,7 +354,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 		case RADIO_OPT_MI_ACCOUNT_EXIMPORT:
 		case CHECK_OPT_FLAGSUNKNOWN:
 		case CHECK_OPT_FLAGSMSGSTATUS:
-		case CHECK_OPT_ZODIACAVATAR:
 			if (bInitialized)
 				NotifyParentOfChange(hDlg);
 		}

@@ -285,7 +285,6 @@
 #define CHECK_OPT_GROUPS                40110
 #define CHECK_OPT_SORTTREE              40111
 #define CHECK_OPT_READONLY              40112
-#define CHECK_OPT_ZODIACAVATAR          40112
 #define CHECK_OPT_CHANGEMYDETAILS       40113
 #define CHECK_OPT_METACPY               40114
 #define CHECK_OPT_AEROADAPTION          40114

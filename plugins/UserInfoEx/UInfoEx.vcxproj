@@ -91,7 +91,6 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\svc_avatar.cpp" />
     <ClCompile Include="src\svc_constants.cpp" />
     <ClCompile Include="src\svc_email.cpp" />
     <ClCompile Include="src\svc_gender.cpp" />
@@ -120,7 +119,6 @@
     <ClInclude Include="src\psp_options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />
-    <ClInclude Include="src\svc_avatar.h" />
     <ClInclude Include="src\svc_constants.h" />
     <ClInclude Include="src\svc_email.h" />
     <ClInclude Include="src\svc_gender.h" />

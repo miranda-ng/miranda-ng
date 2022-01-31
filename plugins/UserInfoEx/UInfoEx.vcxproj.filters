@@ -99,9 +99,6 @@
     <ClCompile Include="src\stdafx.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\svc_avatar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\svc_constants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -186,9 +183,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\svc_avatar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\svc_constants.h">

@@ -68,7 +68,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_CLIST_EXTRAICON_EMAIL     "cliEmail"
 #define SET_CLIST_EXTRAICON_PHONE     "cliPhone"
 #define SET_OPT_AUTOTIMEZONE          "AutoTimezone"
-#define SET_ZODIAC_AVATARS            "ZodicAvatars"
 #define SET_META_SCAN                 "MetaScan"
 
 // database   settings (general psp)

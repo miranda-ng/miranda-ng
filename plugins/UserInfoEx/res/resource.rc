@@ -444,13 +444,11 @@ BEGIN
     CONTROL         "Export/import items",RADIO_OPT_MI_ACCOUNT_EXIMPORT,
                     "Button",BS_AUTORADIOBUTTON,212,84,80,10
     GROUPBOX        "Misc",GROUP_OPT_EXTRAICONS2,6,105,298,72
-    CONTROL         "Use zodiac as default avatar",CHECK_OPT_ZODIACAVATAR,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,119,131,10
     LTEXT           "Country flags",TXT_OPT_FLAGS,13,134,288,8
     CONTROL         "Use &unknown flag if country cannot be determined",CHECK_OPT_FLAGSUNKNOWN,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,147,286,11
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,119,286,11
     CONTROL         "Show country flag as &status icon on message window",CHECK_OPT_FLAGSMSGSTATUS,
-                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,161,290,9
+                    "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,13,133,290,9
 END
 
 IDD_CONTACT_ANNIVERSARY DIALOGEX 0, 0, 300, 169

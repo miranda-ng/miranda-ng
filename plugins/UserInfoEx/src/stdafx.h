@@ -108,7 +108,6 @@ using namespace std;
 #include "../IconPacks/default/src/icons.h"
 #include "../IconPacks/ice/src/icons.h"
 #include "svc_constants.h"
-#include "svc_avatar.h"
 #include "svc_email.h"
 #include "svc_homepage.h"
 #include "svc_gender.h"
