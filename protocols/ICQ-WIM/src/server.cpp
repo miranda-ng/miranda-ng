@@ -462,6 +462,19 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 
 	int iMsgTime = (bLocalTime) ? time(0) : it["time"].as_int();
 	bool bIsOutgoing = it["outgoing"].as_bool(), bIsFileTransfer = false;
+	IcqFileInfo *pFileInfo = nullptr;
+
+	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
+		pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
+		if (!pFileInfo)
+			return;
+
+		for (auto &jt : it["parts"]) {
+			CMStringW wszDescr(jt["captionedContent"]["caption"].as_mstring());
+			if (!wszDescr.IsEmpty())
+				pFileInfo->wszDescr = wszDescr;
+		}
+	}
 
 	if (isChatRoom(hContact)) {
 		CMStringA reqId(it["reqId"].as_mstring());
@@ -470,15 +483,11 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		CMStringW wszSender(it["chat"]["sender"].as_mstring());
 		CMStringW wszChatId(getMStringW(hContact, "ChatRoomID"));
 
-		if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-			auto *pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
-			if (!pFileInfo)
-				return;
-
-			if (bIsFileTransfer) {
-				wszText = pFileInfo->szUrl;
-				delete pFileInfo;
-			}
+		if (bIsFileTransfer) {
+			wszText = pFileInfo->szUrl;
+			if (!pFileInfo->wszDescr)
+				wszText.AppendFormat(L"\r\n%s", pFileInfo->wszDescr.c_str());
+			delete pFileInfo;
 		}
 
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
@@ -506,30 +515,23 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		return;
 	}
 
-	// filter out file transfers
-	if (!bCreateRead && !bIsOutgoing && wszText.Left(26) == L"https://files.icq.net/get/") {
-		auto *pFileInfo = CheckFile(hContact, wszText, bIsFileTransfer);
-		if (!pFileInfo)
-			return;
+	// convert a file info into Miranda's file transfer
+	if (bIsFileTransfer) {
+		auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
+		ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
+		ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
 
-		if (bIsFileTransfer) {
-			// convert a file info into Miranda's file transfer
-			auto *ft = new IcqFileTransfer(hContact, pFileInfo->szUrl);
-			ft->pfts.totalBytes = ft->pfts.currentFileSize = pFileInfo->dwFileSize;
-			ft->pfts.szCurrentFile.w = ft->m_wszFileName.GetBuffer();
+		PROTORECVFILE pre = {};
+		pre.dwFlags = PRFF_UNICODE;
+		pre.fileCount = 1;
+		pre.timestamp = iMsgTime;
+		pre.files.w = &ft->m_wszShortName;
+		pre.descr.w = pFileInfo->wszDescr;
+		pre.lParam = (LPARAM)ft;
+		ProtoChainRecvFile(hContact, &pre);
 
-			PROTORECVFILE pre = {};
-			pre.dwFlags = PRFF_UNICODE;
-			pre.fileCount = 1;
-			pre.timestamp = iMsgTime;
-			pre.files.w = &ft->m_wszShortName;
-			pre.descr.w = pFileInfo->wszDescr;
-			pre.lParam = (LPARAM)ft;
-			ProtoChainRecvFile(hContact, &pre);
-
-			delete pFileInfo;
-			return;
-		}
+		delete pFileInfo;
+		return;
 	}
 
 	// suppress notifications for already loaded/processed messages
