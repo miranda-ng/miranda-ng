@@ -3,23 +3,13 @@
  * Copyright © 2013 Tox project.
  */
 
-/*
+/**
  * LAN discovery implementation.
  */
 #ifndef C_TOXCORE_TOXCORE_LAN_DISCOVERY_H
 #define C_TOXCORE_TOXCORE_LAN_DISCOVERY_H
 
 #include "DHT.h"
-
-#ifndef DHT_DEFINED
-#define DHT_DEFINED
-typedef struct DHT DHT;
-#endif /* DHT_DEFINED */
-
-#ifndef IP_DEFINED
-#define IP_DEFINED
-typedef struct IP IP;
-#endif /* IP_DEFINED */
 
 /**
  * Interval in seconds between LAN discovery packet sending.
@@ -28,8 +18,10 @@ typedef struct IP IP;
 
 /**
  * Send a LAN discovery pcaket to the broadcast address with port port.
+ *
+ * @return true on success, false on failure.
  */
-int32_t lan_discovery_send(uint16_t port, DHT *dht);
+bool lan_discovery_send(Networking_Core *net, const uint8_t *dht_pk, uint16_t port);
 
 /**
  * Sets up packet handlers.
@@ -44,13 +36,13 @@ void lan_discovery_kill(DHT *dht);
 /**
  * Is IP a local ip or not.
  */
-bool ip_is_local(IP ip);
+bool ip_is_local(const IP *ip);
 
 /**
  * Checks if a given IP isn't routable.
  *
  * @return true if ip is a LAN ip, false if it is not.
  */
-bool ip_is_lan(IP ip);
+bool ip_is_lan(const IP *ip);
 
 #endif // C_TOXCORE_TOXCORE_LAN_DISCOVERY_H

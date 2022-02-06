@@ -1,15 +1,11 @@
 /* SPDX-License-Identifier: GPL-3.0-or-later
  * Copyright © 2016-2018 The TokTok team.
- * Copyright © 2013,2015 Tox project.
+ * Copyright © 2013-2015 Tox project.
  */
 
-/*
+/**
  * Text logging abstraction.
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "logger.h"
 
 #include <assert.h>
@@ -62,9 +58,10 @@ static const Logger logger_stderr = {
 };
 #endif
 
-/**
+/*
  * Public Functions
  */
+
 Logger *logger_new(void)
 {
     return (Logger *)calloc(1, sizeof(Logger));
@@ -102,7 +99,7 @@ void logger_write(const Logger *log, Logger_Level level, const char *file, int l
     // The full path may contain PII of the person compiling toxcore (their
     // username and directory layout).
     const char *filename = strrchr(file, '/');
-    file = filename ? filename + 1 : file;
+    file = filename != nullptr ? filename + 1 : file;
 #if defined(_WIN32) || defined(__CYGWIN__)
     // On Windows, the path separator *may* be a backslash, so we look for that
     // one too.

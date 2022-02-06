@@ -4,13 +4,9 @@
  * Copyright © 2013 plutooo
  */
 
-/*
+/**
  * Utilities.
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #ifndef _XOPEN_SOURCE
 #define _XOPEN_SOURCE 600
 #endif
@@ -24,7 +20,7 @@
 #include "crypto_core.h" /* for CRYPTO_PUBLIC_KEY_SIZE */
 
 
-/* id functions */
+/** id functions */
 bool id_equal(const uint8_t *dest, const uint8_t *src)
 {
     return public_key_cmp(dest, src) == 0;

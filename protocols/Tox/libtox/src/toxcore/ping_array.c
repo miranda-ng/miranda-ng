@@ -3,13 +3,9 @@
  * Copyright © 2014 Tox project.
  */
 
-/*
+/**
  * Implementation of an efficient array to store that we pinged something.
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "ping_array.h"
 
 #include <stdlib.h>
@@ -20,7 +16,7 @@
 #include "util.h"
 
 typedef struct Ping_Array_Entry {
-    void *data;
+    uint8_t *data;
     uint32_t length;
     uint64_t time;
     uint64_t ping_id;
@@ -89,7 +85,7 @@ void ping_array_kill(Ping_Array *array)
     free(array);
 }
 
-/* Clear timed out entries.
+/** Clear timed out entries.
  */
 static void ping_array_clear_timedout(Ping_Array *array, const Mono_Time *mono_time)
 {
@@ -116,7 +112,7 @@ uint64_t ping_array_add(Ping_Array *array, const Mono_Time *mono_time, const uin
         clear_entry(array, index);
     }
 
-    array->entries[index].data = malloc(length);
+    array->entries[index].data = (uint8_t *)malloc(length);
 
     if (array->entries[index].data == nullptr) {
         return 0;

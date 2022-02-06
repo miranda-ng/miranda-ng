@@ -3,15 +3,11 @@
  * Copyright © 2014 Tox project.
  */
 
-/*
+/**
  * Simple struct with functions to create a list which associates ids with data
  * -Allows for finding ids associated with data such as IPs or public keys in a short time
  * -Should only be used if there are relatively few add/remove calls to the list
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "list.h"
 
 #include <stdbool.h>
@@ -20,7 +16,7 @@
 
 #include "ccompat.h"
 
-/* Basically, the elements in the list are placed in order so that they can be searched for easily
+/** Basically, the elements in the list are placed in order so that they can be searched for easily
  * -each element is seen as a big-endian integer when ordering them
  * -the ids array is maintained so that each id always matches
  * -the search algorithm cuts down the time to find the id associated with a piece of data
@@ -37,7 +33,7 @@ list_index(uint32_t i)
     return ~i;
 }
 
-/* Find data in list
+/** Find data in list
  *
  * return value:
  *  >= 0 : index of data in array
@@ -78,7 +74,7 @@ static int find(const BS_List *list, const uint8_t *data)
                 return list_index(i);
             }
 
-            delta = (delta) / 2;
+            delta = delta / 2;
 
             if (delta == 0) {
                 delta = 1;
@@ -94,7 +90,7 @@ static int find(const BS_List *list, const uint8_t *data)
             // move up
             i -= delta;
 
-            delta = (delta) / 2;
+            delta = delta / 2;
 
             if (delta == 0) {
                 delta = 1;

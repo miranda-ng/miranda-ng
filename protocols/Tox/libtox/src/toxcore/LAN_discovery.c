@@ -3,16 +3,40 @@
  * Copyright © 2013 Tox project.
  */
 
-/*
+/**
  * LAN discovery implementation.
  */
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
 #include "LAN_discovery.h"
 
 #include <string.h>
+
+#if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
+// The mingw32/64 Windows library warns about including winsock2.h after
+// windows.h even though with the above it's a valid thing to do. So, to make
+// mingw32 headers happy, we include winsock2.h first.
+#include <winsock2.h>
+
+#include <windows.h>
+#include <ws2tcpip.h>
+
+#include <iphlpapi.h>
+#endif
+
+#if defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
+#include <netinet/in.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <unistd.h>
+#endif
+
+#ifdef __linux__
+#include <linux/netdevice.h>
+#endif
+
+#if defined(__FreeBSD__) || defined(__DragonFly__)
+#include <net/if.h>
+#endif
 
 #include "util.h"
 
@@ -28,16 +52,6 @@ static IP_Port broadcast_ip_ports[MAX_INTERFACES];
 //!TOKSTYLE+
 
 #if defined(_WIN32) || defined(__WIN32__) || defined(WIN32)
-
-// The mingw32/64 Windows library warns about including winsock2.h after
-// windows.h even though with the above it's a valid thing to do. So, to make
-// mingw32 headers happy, we include winsock2.h first.
-#include <winsock2.h>
-
-#include <windows.h>
-#include <ws2tcpip.h>
-
-#include <iphlpapi.h>
 
 static void fetch_broadcast_info(uint16_t port)
 {
@@ -106,21 +120,7 @@ static void fetch_broadcast_info(uint16_t port)
     }
 }
 
-#elif defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__)
-
-#include <netinet/in.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-#ifdef __linux__
-#include <linux/netdevice.h>
-#endif
-
-#if defined(__FreeBSD__) || defined(__DragonFly__)
-#include <net/if.h>
-#endif
+#elif !defined(FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION) && (defined(__linux__) || defined(__FreeBSD__) || defined(__DragonFly__))
 
 static void fetch_broadcast_info(uint16_t port)
 {
@@ -173,7 +173,7 @@ static void fetch_broadcast_info(uint16_t port)
             continue;
         }
 
-        struct sockaddr_in *sock4 = (struct sockaddr_in *)(void *)&i_faces[i].ifr_broadaddr;
+        const struct sockaddr_in *sock4 = (const struct sockaddr_in *)(void *)&i_faces[i].ifr_broadaddr;
 
         if (count >= MAX_INTERFACES) {
             break;
@@ -208,12 +208,13 @@ static void fetch_broadcast_info(uint16_t port)
 }
 
 #endif
-/* Send packet to all IPv4 broadcast addresses
+
+/** Send packet to all IPv4 broadcast addresses
  *
  *  return 1 if sent to at least one broadcast target.
  *  return 0 on failure to find any valid broadcast target.
  */
-static uint32_t send_broadcasts(Networking_Core *net, uint16_t port, const uint8_t *data, uint16_t length)
+static uint32_t send_broadcasts(const Networking_Core *net, uint16_t port, const uint8_t *data, uint16_t length)
 {
     /* fetch only once? on every packet? every X seconds?
      * old: every packet, new: once */
@@ -226,13 +227,13 @@ static uint32_t send_broadcasts(Networking_Core *net, uint16_t port, const uint8
     }
 
     for (int i = 0; i < broadcast_count; ++i) {
-        sendpacket(net, broadcast_ip_ports[i], data, length);
+        sendpacket(net, &broadcast_ip_ports[i], data, length);
     }
 
     return 1;
 }
 
-/* Return the broadcast ip. */
+/** Return the broadcast ip. */
 static IP broadcast_ip(Family family_socket, Family family_broadcast)
 {
     IP ip;
@@ -259,103 +260,103 @@ static IP broadcast_ip(Family family_socket, Family family_broadcast)
     return ip;
 }
 
-static bool ip4_is_local(IP4 ip4)
+static bool ip4_is_local(const IP4 *ip4)
 {
     /* Loopback. */
-    return ip4.uint8[0] == 127;
+    return ip4->uint8[0] == 127;
 }
 
-/* Is IP a local ip or not. */
-bool ip_is_local(IP ip)
+/**
+ * Is IP a local ip or not.
+ */
+bool ip_is_local(const IP *ip)
 {
-    if (net_family_is_ipv4(ip.family)) {
-        return ip4_is_local(ip.ip.v4);
+    if (net_family_is_ipv4(ip->family)) {
+        return ip4_is_local(&ip->ip.v4);
     }
 
     /* embedded IPv4-in-IPv6 */
-    if (ipv6_ipv4_in_v6(ip.ip.v6)) {
+    if (ipv6_ipv4_in_v6(&ip->ip.v6)) {
         IP4 ip4;
-        ip4.uint32 = ip.ip.v6.uint32[3];
-        return ip4_is_local(ip4);
+        ip4.uint32 = ip->ip.v6.uint32[3];
+        return ip4_is_local(&ip4);
     }
 
     /* localhost in IPv6 (::1) */
-    if (ip.ip.v6.uint64[0] == 0 && ip.ip.v6.uint32[2] == 0 && ip.ip.v6.uint32[3] == net_htonl(1)) {
+    if (ip->ip.v6.uint64[0] == 0 && ip->ip.v6.uint32[2] == 0 && ip->ip.v6.uint32[3] == net_htonl(1)) {
         return true;
     }
 
     return false;
 }
 
-static bool ip4_is_lan(IP4 ip4)
+static bool ip4_is_lan(const IP4 *ip4)
 {
     /* 10.0.0.0 to 10.255.255.255 range. */
-    if (ip4.uint8[0] == 10) {
+    if (ip4->uint8[0] == 10) {
         return true;
     }
 
     /* 172.16.0.0 to 172.31.255.255 range. */
-    if (ip4.uint8[0] == 172 && ip4.uint8[1] >= 16 && ip4.uint8[1] <= 31) {
+    if (ip4->uint8[0] == 172 && ip4->uint8[1] >= 16 && ip4->uint8[1] <= 31) {
         return true;
     }
 
     /* 192.168.0.0 to 192.168.255.255 range. */
-    if (ip4.uint8[0] == 192 && ip4.uint8[1] == 168) {
+    if (ip4->uint8[0] == 192 && ip4->uint8[1] == 168) {
         return true;
     }
 
     /* 169.254.1.0 to 169.254.254.255 range. */
-    if (ip4.uint8[0] == 169 && ip4.uint8[1] == 254 && ip4.uint8[2] != 0
-            && ip4.uint8[2] != 255) {
+    if (ip4->uint8[0] == 169 && ip4->uint8[1] == 254 && ip4->uint8[2] != 0
+            && ip4->uint8[2] != 255) {
         return true;
     }
 
     /* RFC 6598: 100.64.0.0 to 100.127.255.255 (100.64.0.0/10)
      * (shared address space to stack another layer of NAT) */
-    if ((ip4.uint8[0] == 100) && ((ip4.uint8[1] & 0xC0) == 0x40)) {
+    if ((ip4->uint8[0] == 100) && ((ip4->uint8[1] & 0xC0) == 0x40)) {
         return true;
     }
 
     return false;
 }
 
-bool ip_is_lan(IP ip)
+bool ip_is_lan(const IP *ip)
 {
     if (ip_is_local(ip)) {
         return true;
     }
 
-    if (net_family_is_ipv4(ip.family)) {
-        return ip4_is_lan(ip.ip.v4);
+    if (net_family_is_ipv4(ip->family)) {
+        return ip4_is_lan(&ip->ip.v4);
     }
 
-    if (net_family_is_ipv6(ip.family)) {
+    if (net_family_is_ipv6(ip->family)) {
         /* autogenerated for each interface: `FE80::*` (up to `FEBF::*`)
          * `FF02::1` is - according to RFC 4291 - multicast all-nodes link-local */
-        if (((ip.ip.v6.uint8[0] == 0xFF) && (ip.ip.v6.uint8[1] < 3) && (ip.ip.v6.uint8[15] == 1)) ||
-                ((ip.ip.v6.uint8[0] == 0xFE) && ((ip.ip.v6.uint8[1] & 0xC0) == 0x80))) {
+        if (((ip->ip.v6.uint8[0] == 0xFF) && (ip->ip.v6.uint8[1] < 3) && (ip->ip.v6.uint8[15] == 1)) ||
+                ((ip->ip.v6.uint8[0] == 0xFE) && ((ip->ip.v6.uint8[1] & 0xC0) == 0x80))) {
             return true;
         }
 
         /* embedded IPv4-in-IPv6 */
-        if (ipv6_ipv4_in_v6(ip.ip.v6)) {
+        if (ipv6_ipv4_in_v6(&ip->ip.v6)) {
             IP4 ip4;
-            ip4.uint32 = ip.ip.v6.uint32[3];
-            return ip4_is_lan(ip4);
+            ip4.uint32 = ip->ip.v6.uint32[3];
+            return ip4_is_lan(&ip4);
         }
     }
 
     return false;
 }
 
-static int handle_LANdiscovery(void *object, IP_Port source, const uint8_t *packet, uint16_t length, void *userdata)
+static int handle_LANdiscovery(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
+                               void *userdata)
 {
     DHT *dht = (DHT *)object;
 
-    char ip_str[IP_NTOA_LEN] = { 0 };
-    ip_ntoa(&source.ip, ip_str, sizeof(ip_str));
-
-    if (!ip_is_lan(source.ip)) {
+    if (!ip_is_lan(&source->ip)) {
         return 1;
     }
 
@@ -368,35 +369,35 @@ static int handle_LANdiscovery(void *object, IP_Port source, const uint8_t *pack
 }
 
 
-int lan_discovery_send(uint16_t port, DHT *dht)
+bool lan_discovery_send(Networking_Core *net, const uint8_t *dht_pk, uint16_t port)
 {
     uint8_t data[CRYPTO_PUBLIC_KEY_SIZE + 1];
     data[0] = NET_PACKET_LAN_DISCOVERY;
-    id_copy(data + 1, dht_get_self_public_key(dht));
+    id_copy(data + 1, dht_pk);
 
-    send_broadcasts(dht_get_net(dht), port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE);
+    send_broadcasts(net, port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE);
 
-    int res = -1;
+    bool res = false;
     IP_Port ip_port;
     ip_port.port = port;
 
     /* IPv6 multicast */
-    if (net_family_is_ipv6(net_family(dht_get_net(dht)))) {
+    if (net_family_is_ipv6(net_family(net))) {
         ip_port.ip = broadcast_ip(net_family_ipv6, net_family_ipv6);
 
         if (ip_isset(&ip_port.ip)) {
-            if (sendpacket(dht_get_net(dht), ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE) > 0) {
-                res = 1;
+            if (sendpacket(net, &ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE) > 0) {
+                res = true;
             }
         }
     }
 
     /* IPv4 broadcast (has to be IPv4-in-IPv6 mapping if socket is IPv6 */
-    ip_port.ip = broadcast_ip(net_family(dht_get_net(dht)), net_family_ipv4);
+    ip_port.ip = broadcast_ip(net_family(net), net_family_ipv4);
 
     if (ip_isset(&ip_port.ip)) {
-        if (sendpacket(dht_get_net(dht), ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE)) {
-            res = 1;
+        if (sendpacket(net, &ip_port, data, 1 + CRYPTO_PUBLIC_KEY_SIZE)) {
+            res = true;
         }
     }
 

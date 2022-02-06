@@ -40,9 +40,6 @@
     <ClCompile Include="src\toxcore\crypto_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\toxcore\crypto_core_mem.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\toxcore\DHT.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -97,6 +94,9 @@
     <ClCompile Include="src\toxcore\TCP_client.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_common.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\TCP_connection.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -116,13 +116,11 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClInclude Include="src\toxcore\ccompat.h" />
-    <ClInclude Include="src\toxcore\crypto_core.api.h" />
     <ClInclude Include="src\toxcore\crypto_core.h" />
     <ClInclude Include="src\toxcore\DHT.h" />
     <ClInclude Include="src\toxcore\friend_connection.h" />
     <ClInclude Include="src\toxcore\friend_requests.h" />
     <ClInclude Include="src\toxcore\group.h" />
-    <ClInclude Include="src\toxcore\LAN_discovery.api.h" />
     <ClInclude Include="src\toxcore\LAN_discovery.h" />
     <ClInclude Include="src\toxcore\list.h" />
     <ClInclude Include="src\toxcore\logger.h" />
@@ -133,15 +131,13 @@
     <ClInclude Include="src\toxcore\onion.h" />
     <ClInclude Include="src\toxcore\onion_announce.h" />
     <ClInclude Include="src\toxcore\onion_client.h" />
-    <ClInclude Include="src\toxcore\ping.api.h" />
     <ClInclude Include="src\toxcore\ping.h" />
-    <ClInclude Include="src\toxcore\ping_array.api.h" />
     <ClInclude Include="src\toxcore\ping_array.h" />
     <ClInclude Include="src\toxcore\state.h" />
     <ClInclude Include="src\toxcore\TCP_client.h" />
+    <ClInclude Include="src\toxcore\TCP_common.h" />
     <ClInclude Include="src\toxcore\TCP_connection.h" />
     <ClInclude Include="src\toxcore\TCP_server.h" />
-    <ClInclude Include="src\toxcore\tox.api.h" />
     <ClInclude Include="src\toxcore\tox.h" />
     <ClInclude Include="src\toxcore\tox_private.h" />
     <ClInclude Include="src\toxcore\util.h" />

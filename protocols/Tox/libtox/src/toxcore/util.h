@@ -4,7 +4,7 @@
  * Copyright © 2013 plutooo
  */
 
-/*
+/**
  * Utilities.
  */
 #ifndef C_TOXCORE_TOXCORE_UTIL_H
@@ -20,11 +20,11 @@
 extern "C" {
 #endif
 
-/* id functions */
+/** id functions */
 bool id_equal(const uint8_t *dest, const uint8_t *src);
 uint32_t id_copy(uint8_t *dest, const uint8_t *src); /* return value is CLIENT_ID_SIZE */
 
-/* Returns -1 if failed or 0 if success */
+/** Returns -1 if failed or 0 if success */
 int create_recursive_mutex(pthread_mutex_t *mutex);
 
 // Safe min/max functions with specific types. This forces the conversion to the

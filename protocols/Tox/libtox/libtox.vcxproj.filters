@@ -18,9 +18,6 @@
     <ClCompile Include="src\toxcore\crypto_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\toxcore\crypto_core_mem.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\toxcore\DHT.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,6 +72,9 @@
     <ClCompile Include="src\toxcore\TCP_client.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\toxcore\TCP_common.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\toxcore\TCP_connection.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -98,9 +98,6 @@
     <ClInclude Include="src\toxcore\ccompat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\toxcore\crypto_core.api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\toxcore\crypto_core.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -114,9 +111,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\group.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\toxcore\LAN_discovery.api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\LAN_discovery.h">
@@ -149,13 +143,7 @@
     <ClInclude Include="src\toxcore\onion_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\toxcore\ping.api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\toxcore\ping.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\toxcore\ping_array.api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\ping_array.h">
@@ -167,13 +155,13 @@
     <ClInclude Include="src\toxcore\TCP_client.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\toxcore\TCP_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\toxcore\TCP_connection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\TCP_server.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\toxcore\tox.api.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\tox.h">

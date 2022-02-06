@@ -1,11 +1,19 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright © 2016-2021 The TokTok team.
+ */
 #include "tox.h"
-
-#include "ccompat.h"
 
 #include <stdlib.h>
 #include <string.h>
 
-#define SET_ERROR_PARAMETER(param, x) do { if (param) { *param = x; } } while (0)
+#include "ccompat.h"
+
+#define SET_ERROR_PARAMETER(param, x) \
+    do {                              \
+        if (param) {                  \
+            *param = x;               \
+        }                             \
+    } while (0)
 
 //!TOKSTYLE-
 
@@ -90,7 +98,7 @@ void tox_options_default(struct Tox_Options *options)
 
 struct Tox_Options *tox_options_new(Tox_Err_Options_New *error)
 {
-    struct Tox_Options *options = (struct Tox_Options *)malloc(sizeof(struct Tox_Options));
+    struct Tox_Options *options = (struct Tox_Options *)calloc(1, sizeof(struct Tox_Options));
 
     if (options) {
         tox_options_default(options);
