@@ -791,3 +791,4 @@ _Netlib_SslWrite@12 @877 NONAME
 ?setTyping@CSrmmBaseDialog@@QAEXHPBUUSERINFO@@@Z @879 NONAME
 ?SafeRecycleBin@PU@@YGHPB_W@Z @880 NONAME
 ?IsMirandaFolderWritable@PU@@YG_NXZ @881 NONAME
+?IsDuplicateEvent@DB@@YG_NIAAUDBEVENTINFO@@@Z @882 NONAME

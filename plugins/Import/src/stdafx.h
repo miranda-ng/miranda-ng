@@ -308,8 +308,6 @@ public:
 	CImportPattern *m_pPattern;
 };
 
-bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO dbei);
-
 int CreateGroup(const wchar_t *name, MCONTACT hContact);
 
 uint32_t RLInteger(const uint8_t *p);

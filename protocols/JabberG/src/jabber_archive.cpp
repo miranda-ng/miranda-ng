@@ -78,138 +78,6 @@ void CJabberProto::OnIqResultGetCollectionList(const TiXmlElement *iqNode, CJabb
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static uint32_t dwPreviousTimeStamp = -1;
-static MCONTACT hPreviousContact = INVALID_CONTACT_ID;
-static MEVENT hPreviousDbEvent = 0;
-
-// Returns TRUE if the event already exist in the database
-bool IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO& dbei)
-{
-	// get last event
-	MEVENT hExistingDbEvent = db_event_last(hContact);
-	if (!hExistingDbEvent)
-		return false;
-
-	DBEVENTINFO dbeiExisting = {};
-	db_event_get(hExistingDbEvent, &dbeiExisting);
-	uint32_t dwEventTimeStamp = dbeiExisting.timestamp;
-
-	// compare with last timestamp
-	if (dbei.timestamp > dwEventTimeStamp) {
-		// remember event
-		hPreviousDbEvent = hExistingDbEvent;
-		dwPreviousTimeStamp = dwEventTimeStamp;
-		return false;
-	}
-
-	if (hContact != hPreviousContact) {
-		hPreviousContact = hContact;
-		// remember event
-		hPreviousDbEvent = hExistingDbEvent;
-		dwPreviousTimeStamp = dwEventTimeStamp;
-
-		// get first event
-		if (!(hExistingDbEvent = db_event_first(hContact)))
-			return false;
-
-		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		db_event_get(hExistingDbEvent, &dbeiExisting);
-		dwEventTimeStamp = dbeiExisting.timestamp;
-
-		// compare with first timestamp
-		if (dbei.timestamp <= dwEventTimeStamp) {
-			// remember event
-			dwPreviousTimeStamp = dwEventTimeStamp;
-			hPreviousDbEvent = hExistingDbEvent;
-
-			if (dbei.timestamp != dwEventTimeStamp)
-				return false;
-		}
-	}
-
-	// check for equal timestamps
-	if (dbei.timestamp == dwPreviousTimeStamp) {
-		memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-		db_event_get(hPreviousDbEvent, &dbeiExisting);
-
-		if (dbei == dbeiExisting)
-			return true;
-
-		// find event with another timestamp
-		hExistingDbEvent = db_event_next(hContact, hPreviousDbEvent);
-		while (hExistingDbEvent != 0) {
-			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			db_event_get(hExistingDbEvent, &dbeiExisting);
-
-			if (dbeiExisting.timestamp != dwPreviousTimeStamp) {
-				// use found event
-				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				break;
-			}
-
-			hPreviousDbEvent = hExistingDbEvent;
-			hExistingDbEvent = db_event_next(hContact, hExistingDbEvent);
-		}
-	}
-
-	hExistingDbEvent = hPreviousDbEvent;
-
-	if (dbei.timestamp <= dwPreviousTimeStamp) {
-		// look back
-		while (hExistingDbEvent != 0) {
-			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			db_event_get(hExistingDbEvent, &dbeiExisting);
-
-			if (dbei.timestamp > dbeiExisting.timestamp) {
-				// remember event
-				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return false;
-			}
-
-			// Compare event with import candidate
-			if (dbei == dbeiExisting) {
-				// remember event
-				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return true;
-			}
-
-			// Get previous event in chain
-			hExistingDbEvent = db_event_prev(hContact, hExistingDbEvent);
-		}
-	}
-	else {
-		// look forward
-		while (hExistingDbEvent != 0) {
-			memset(&dbeiExisting, 0, sizeof(dbeiExisting));
-			db_event_get(hExistingDbEvent, &dbeiExisting);
-
-			if (dbei.timestamp < dbeiExisting.timestamp) {
-				// remember event
-				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return false;
-			}
-
-			// Compare event with import candidate
-			if (dbei == dbeiExisting) {
-				// remember event
-				hPreviousDbEvent = hExistingDbEvent;
-				dwPreviousTimeStamp = dbeiExisting.timestamp;
-				return true;
-			}
-
-			// Get next event in chain
-			hExistingDbEvent = db_event_next(hContact, hExistingDbEvent);
-		}
-	}
-	// reset last event
-	hPreviousContact = INVALID_CONTACT_ID;
-	return false;
-}
-
 void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
 	if (mir_strcmp(XmlGetAttr(iqNode, "type"), "result"))
@@ -259,7 +127,7 @@ void CJabberProto::OnIqResultGetCollection(const TiXmlElement *iqNode, CJabberIq
 		dbei.flags = DBEF_READ + DBEF_UTF + from;
 		dbei.pBlob = (uint8_t*)tszBody;
 		dbei.timestamp = tmStart + atol(tszSecs);
-		if (!IsDuplicateEvent(hContact, dbei))
+		if (!DB::IsDuplicateEvent(hContact, dbei))
 			db_event_add(hContact, &dbei);
 
 		tmStart = dbei.timestamp;

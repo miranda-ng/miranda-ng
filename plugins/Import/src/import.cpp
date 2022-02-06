@@ -951,7 +951,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 				continue;
 
 			// check for duplicate entries
-			if ((m_iOptions & IOPT_CHECKDUPS) != 0 && IsDuplicateEvent(hDst, dbei)) {
+			if ((m_iOptions & IOPT_CHECKDUPS) != 0 && DB::IsDuplicateEvent(hDst, dbei)) {
 				nDupes++;
 				continue;
 			}

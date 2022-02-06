@@ -669,6 +669,7 @@ __inline uint32_t DBGetContactSettingRangedDword(MCONTACT hContact, const char *
 
 namespace DB
 {
+	MIR_APP_DLL(bool) IsDuplicateEvent(MCONTACT hContact, DBEVENTINFO &dbei);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	// Helper to free event contents automatically
