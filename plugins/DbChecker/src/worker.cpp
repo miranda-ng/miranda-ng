@@ -64,7 +64,7 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 	uint32_t sp = 0;
 
 	if (opts->bMarkRead || opts->bCheckUtf) {
-		int nCount = 0, nUtfCount = 0;
+		int nCount = 0, nUtfCount = 0, nDups = 0;
 
 		for (auto &cc : Contacts()) {
 			DB::ECPTR pCursor(DB::Events(cc));
@@ -86,6 +86,11 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 						nUtfCount++;
 					}
 				}
+
+				if (opts->bCheckDups && DB::IsDuplicateEvent(cc, dbei)) {
+					pCursor.DeleteEvent();
+					nDups++;
+				}
 			}
 		}
 
@@ -94,6 +99,9 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 		if (nUtfCount)
 			AddToStatus(STATUS_MESSAGE, TranslateT("UTF-8 encoding fixed in %d events"), nUtfCount);
+
+		if (nDups)
+			AddToStatus(STATUS_MESSAGE, TranslateT("%d duplicate events removed"), nDups);
 	}
 
 	DBCHeckCallback callback;

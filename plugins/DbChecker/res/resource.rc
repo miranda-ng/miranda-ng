@@ -48,6 +48,7 @@ BEGIN
     PUSHBUTTON      "...",IDC_OPENFILE,243,49,15,13
     CONTROL         "Mark all events as read",IDC_MARKREAD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,69,248,10
     CONTROL         "Fix UTF-8 encoding in old events",IDC_FIX_UTF8,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,83,248,10
+    CONTROL         "Remove duplicate events",IDC_REMOVE_DUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,97,248,10
 END
 
 IDD_OPENERROR DIALOGEX 0, 0, 262, 143
