@@ -13,7 +13,6 @@
 #define IDD_YAMNOPT                     126
 #define IDI_BADCONNECT                  131
 #define IDI_ICOTTBUP                    138
-#define IDD_PLUGINOPT                   141
 #define IDI_NEWMAIL                     159
 #define IDD_CHOOSESTATUSMODES           310
 #define IDD_OPTIONS                     311
@@ -86,11 +85,6 @@
 #define IDC_GBNONEWMAIL                 1095
 #define IDC_GBBADCONNECT                1096
 #define IDC_STSTATUS                    1102
-#define IDC_COMBOPLUGINS                1104
-#define IDC_STWWW                       1111
-#define IDC_STCOPY                      1114
-#define IDC_STDESC                      1115
-#define IDC_STVER                       1116
 #define IDC_CHECKTTB                    1117
 #define IDC_CHECKSSL                    1117
 #define IDC_CHECKNMSGP                  1118
