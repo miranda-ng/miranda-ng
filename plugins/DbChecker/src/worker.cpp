@@ -55,6 +55,21 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 	return true;
 }
 
+static bool CompareContents(const DBEVENTINFO &ev1, const DBEVENTINFO &ev2)
+{
+	if (ev1.cbBlob == 0 && ev2.cbBlob == 0)
+		return true;
+
+	if (ev1.cbBlob == 0 && ev2.cbBlob != 0 || ev1.cbBlob != 0 && ev2.cbBlob == 0)
+		return false;
+
+	// both blobs should be compared
+	if (ev1.pBlob == 0 && ev2.pBlob == 0)
+		return false;
+
+	return !memcmp(ev1.pBlob, ev2.pBlob, ev1.cbBlob);
+}
+
 void __cdecl WorkerThread(DbToolOptions *opts)
 {
 	time_t ts = time(nullptr);
@@ -63,14 +78,15 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 
 	uint32_t sp = 0;
 
-	if (opts->bMarkRead || opts->bCheckUtf) {
+	if (opts->bMarkRead || opts->bCheckUtf || opts->bCheckDups) {
 		int nCount = 0, nUtfCount = 0, nDups = 0;
 
 		for (auto &cc : Contacts()) {
 			DB::ECPTR pCursor(DB::Events(cc));
+			DBEVENTINFO dboldev = {};
 			while (MEVENT hEvent = pCursor.FetchNext()) {
 				DB::EventInfo dbei;
-				if (opts->bCheckUtf) // read also event's body
+				if (opts->bCheckUtf || opts->bCheckDups) // read also event's body
 					dbei.cbBlob = -1;
 				if (db_event_get(hEvent, &dbei))
 					continue;
@@ -87,11 +103,23 @@ void __cdecl WorkerThread(DbToolOptions *opts)
 					}
 				}
 
-				if (opts->bCheckDups && DB::IsDuplicateEvent(cc, dbei)) {
-					pCursor.DeleteEvent();
-					nDups++;
+				if (opts->bCheckDups) {
+					if (dbei == dboldev && CompareContents(dbei, dboldev)) {
+						pCursor.DeleteEvent();
+						nDups++;
+					}
+					else {
+						mir_free(dboldev.pBlob);
+						dboldev = dbei;
+						if (dboldev.cbBlob) {
+							dboldev.pBlob = (uint8_t *)mir_alloc(dboldev.cbBlob);
+							memcpy(dboldev.pBlob, dbei.pBlob, dboldev.cbBlob);
+						}
+						else dboldev.pBlob = nullptr;
+					}
 				}
 			}
+			mir_free(dboldev.pBlob);
 		}
 
 		if (nCount)
