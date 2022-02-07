@@ -301,15 +301,15 @@ public:
 		pd.flags = PDF_UNICODE;
 
 		pd.pwszTitle = TranslateT("Example");
-		pd.pwszText = TranslateT("The quick brown fox jumped over the lazy dog.");
+		pd.pwszText = TranslateT("The quick brown fox jumps over the lazy dog.");
 		ShowPopup(pd);
 
 		pd.pwszTitle = TranslateT("Example With a Long Title");
-		pd.pwszText = TranslateT("The quick brown fox jumped over the lazy dog.");
+		pd.pwszText = TranslateT("The quick brown fox jumps over the lazy dog.");
 		ShowPopup(pd);
 
 		pd.pwszTitle = TranslateT("Example");
-		pd.pwszText = TranslateT("Thequickbrownfoxjumpedoverthelazydog.");
+		pd.pwszText = TranslateT("Thequickbrownfoxjumpsoverthelazydog.");
 		ShowPopup(pd);
 
 		for (auto &hContact : Contacts()) {
