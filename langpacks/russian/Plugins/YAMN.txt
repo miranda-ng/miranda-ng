@@ -2,22 +2,12 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Уведомления о новой почте и её просмотр в Miranda NG. Поддерживает протокол POP3.
 ;file \protocols\YAMN\res\YAMN.rc
-[Installed plugins]
-Установленные дополнительные плагины
-[Version:]
-Версия:
-[Description:]
-Описание:
-[Copyright:]
-Авторские права:
-[Homepage:]
-Сайт:
 [Account]
 Учётная запись
 [Name:]
@@ -308,16 +298,6 @@ OpenSSL не загружен.
 [Error %d-%d-%d-%d:]
 Ошибка %d-%d-%d-%d:
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
-[Network]
-Сеть
-[Accounts]
-Учётные записи
-[General]
-Общее
-[Plugins]
-Плагины
-[Popups]
-Всплывающие окна
 [No account selected]
 Не выбрана учётная запись
 [Time left to next check [s]: %d]
@@ -358,3 +338,11 @@ OpenSSL не загружен.
 Проверка (ошибка)
 [Connection failed message]
 Сообщение о неудачном подключении
+[Network]
+Сеть
+[Accounts]
+Учётные записи
+[General]
+Общее
+[Popups]
+Всплывающие окна

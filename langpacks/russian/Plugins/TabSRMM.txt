@@ -1556,6 +1556,14 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Тестовый контакт
 [Template set editor]
 Редактор шаблонов
+[is now offline (was online)]
+не в сети (был в сети)
+[The quick brown fox jumps over the lazy dog.]
+Съешь же ещё этих мягких французских булок, да выпей йаду.
+[Sample error message]
+Пример сообщения об ошибке
+[My Nickname]
+Собственное имя
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Удаление всех шаблонов и сброс на шаблоны по умолчанию. Вы уверены, что хотите этого?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]

@@ -1750,16 +1750,6 @@ Miranda не смогла загрузить встроенную систему
 [StdMsg internal log]
 Встроенный журнал StdMsg
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Пример
-[The quick brown fox jumped over the lazy dog.]
-Съешь же ещё этих мягких французских булок да выпей йаду!
-[Example With a Long Title]
-Пример с длинным заголовком
-[Thequickbrownfoxjumpedoverthelazydog.]
-Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду!
-[An avatar.]
-С аватаром
 [Bottom right]
 Внизу справа
 [Bottom left]
@@ -1796,6 +1786,16 @@ Miranda не смогла загрузить встроенную систему
 Вертикальная анимация
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Невозможно установить длительность, равную 0. Значение было сброшено.
+[Example]
+Пример
+[The quick brown fox jumps over the lazy dog.]
+Съешь же ещё этих мягких французских булок, да выпей йаду.
+[Example With a Long Title]
+Пример с длинным заголовком
+[Thequickbrownfoxjumpedoverthelazydog.]
+Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду.
+[An avatar.]
+С аватаром
 [Settings]
 Настройки
 [Classes]
