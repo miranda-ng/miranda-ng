@@ -725,14 +725,16 @@ public:
 			edtText.GetText(tSet->szTemplates[m_iCurrIdx], TEMPLATE_LENGTH);
 		}
 
+		T2Utf szText((iIndex == 6) ? TranslateT("is now offline (was online)") : TranslateT("The quick brown fox jumps over the lazy dog."));
+
 		DBEVENTINFO dbei = {};
 		dbei.szModule = m_szProto;
 		dbei.timestamp = time(0);
 		dbei.eventType = (iIndex == 6) ? EVENTTYPE_STATUSCHANGE : EVENTTYPE_MESSAGE;
 		dbei.eventType = (iIndex == 7) ? EVENTTYPE_ERRMSG : dbei.eventType;
 		if (dbei.eventType == EVENTTYPE_ERRMSG)
-			dbei.szModule = (char *)L"Sample error message";
-		dbei.pBlob = (iIndex == 6) ? (uint8_t *)"is now offline (was online)" : (uint8_t *)"The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy dog.";
+			dbei.szModule = (char *)TranslateT("Sample error message");
+		dbei.pBlob = (uint8_t *)szText.get();
 		dbei.cbBlob = (int)mir_strlen((char *)dbei.pBlob) + 1;
 		dbei.flags = (iIndex == 1 || iIndex == 3 || iIndex == 5) ? DBEF_SENT : 0;
 		dbei.flags |= (m_bRtl ? DBEF_RTL : 0);
@@ -741,7 +743,7 @@ public:
 		m_dwFlags = MWF_LOG_ALL;
 		m_dwFlags = (m_bRtl ? m_dwFlags | MWF_LOG_RTL : m_dwFlags & ~MWF_LOG_RTL);
 		m_dwFlags = (iIndex == 0 || iIndex == 1) ? m_dwFlags & ~MWF_LOG_GROUPMODE : m_dwFlags | MWF_LOG_GROUPMODE;
-		mir_snwprintf(m_wszMyNickname, L"My Nickname");
+		mir_snwprintf(m_wszMyNickname, TranslateT("My Nickname"));
 		LOG()->LogEvents(0, 1, false, &dbei);
 		if (m_bFirstUse) {
 			if (m_bRtl)
