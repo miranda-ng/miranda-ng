@@ -44,7 +44,7 @@ wchar_t* GetContactID(MCONTACT hContact)
 
 static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 {
-	struct FileSendData fsd;
+	FileSendData fsd;
 	fsd.hContact = hContact;
 	fsd.ppFiles = nullptr;
 	return (INT_PTR)CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILESEND), NULL, DlgProcSendFile, (LPARAM)&fsd);

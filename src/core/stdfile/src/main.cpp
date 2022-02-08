@@ -60,8 +60,9 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SRFILE
 
 int CMPlugin::Load()
 {
-	if ( IsWinVer7Plus())
-		CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface);
+	if (IsWinVer7Plus())
+		if (FAILED(CoCreateInstance(CLSID_TaskbarList, nullptr, CLSCTX_ALL, IID_ITaskbarList3, (void**)&pTaskbarInterface)))
+			pTaskbarInterface = nullptr;
 
 	LoadSendRecvFileModule();
 	return 0;

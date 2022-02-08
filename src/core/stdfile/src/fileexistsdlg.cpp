@@ -204,7 +204,7 @@ INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			wchar_t szSize[64];
 			struct _stati64 statbuf;
-			struct TDlgProcFileExistsParam *dat = (struct TDlgProcFileExistsParam *)lParam;
+			auto *dat = (TDlgProcFileExistsParam *)lParam;
 
 			SetPropA(hwndDlg, "Miranda.Preshutdown", HookEventMessage(ME_SYSTEM_PRESHUTDOWN, hwndDlg, M_PRESHUTDOWN));
 			SetPropA(hwndDlg, "Miranda.ParentWnd", dat->hwndParent);

@@ -46,13 +46,17 @@ struct FileSendData
 };
 
 #define BYTESRECVEDHISTORYCOUNT  10   //the number of bytes recved is sampled once a second and the last 10 are used to get the transfer speed
-struct FileDlgData
+
+struct FileDlgData : public MZeroedObject
 {
+	~FileDlgData();
+
 	HWND hwndTransfer;
 	HANDLE fs;
 	MCONTACT hContact;
 	MEVENT hDbEvent;
 	HANDLE hNotifyEvent;
+	HICON hIcon, hIconFolder;
 	wchar_t **files;
 	int send;
 	int closeIfFileChooseCancelled;
@@ -67,7 +71,6 @@ struct FileDlgData
 
 	wchar_t szSavePath[MAX_PATH];
 	wchar_t szMsg[450], szFilenames[1024];
-	HICON hIcon, hIconFolder;
 };
 
 //file.c
@@ -115,9 +118,7 @@ int FileOptInitialise(WPARAM wParam, LPARAM lParam);
 
 HWND FtMgr_Show(bool bForceActivate, bool bFromMenu);
 void FtMgr_Destroy();
-HWND FtMgr_AddTransfer(FileDlgData *dat);
-
-void FreeFileDlgData(FileDlgData* dat);
+void FtMgr_AddTransfer(FileDlgData *dat);
 
 wchar_t *GetContactID(MCONTACT hContact);
 

@@ -67,7 +67,7 @@ static void SetFileListAndSizeControls(HWND hwndDlg, FileDlgData *dat)
 	EnableWindow(GetDlgItem(hwndDlg, IDOK), fileCount || dirCount);
 }
 
-static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *buf)
+static void FilenameToFileList(HWND hwndDlg, FileDlgData *dat, const wchar_t *buf)
 {
 	// Make sure that the file matrix is empty (the user may select files several times)
 	FreeFilesMatrix(&dat->files);
@@ -109,7 +109,7 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 			dat->files[nTemp] = (wchar_t*)mir_alloc(sizeof(wchar_t)*(fileOffset + cbFileNameLen + 1));
 
 			// Add path to filename and copy into array
-			memcpy(dat->files[nTemp], buf, (fileOffset - 1)*sizeof(wchar_t));
+			memcpy(dat->files[nTemp], buf, (fileOffset - 1) * sizeof(wchar_t));
 			dat->files[nTemp][fileOffset - 1] = '\\';
 			mir_wstrcpy(dat->files[nTemp] + fileOffset - (buf[fileOffset - 2] == '\\' ? 1 : 0), pBuf);
 
@@ -134,12 +134,12 @@ static void FilenameToFileList(HWND hwndDlg, FileDlgData* dat, const wchar_t *bu
 }
 
 #define M_FILECHOOSEDONE  (WM_USER+100)
-void __cdecl ChooseFilesThread(void* param)
+void __cdecl ChooseFilesThread(void *param)
 {
 	HWND hwndDlg = (HWND)param;
-	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	FileDlgData *dat = (FileDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t) * 32767);
+	wchar_t *buf = (wchar_t *)mir_alloc(sizeof(wchar_t) * 32767);
 	if (buf == nullptr) {
 		PostMessage(hwndDlg, M_FILECHOOSEDONE, 0, NULL);
 		return;
@@ -160,7 +160,7 @@ void __cdecl ChooseFilesThread(void* param)
 	ofn.lpstrFile = buf; *buf = 0;
 	ofn.nMaxFile = 32767;
 	ofn.Flags = OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST | OFN_EXPLORER | OFN_HIDEREADONLY | OFN_DONTADDTORECENT;
-	
+
 	char *szProto = Proto_GetBaseAccountName(dat->hContact);
 	if (!(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_SINGLEFILEONLY))
 		ofn.Flags |= OFN_ALLOWMULTISELECT;
@@ -200,14 +200,14 @@ static LRESULT CALLBACK SendEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	FileDlgData *dat = (FileDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	FileDlgData *dat = (FileDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			struct FileSendData *fsd = (struct FileSendData*)lParam;
+			FileSendData *fsd = (FileSendData *)lParam;
 
-			dat = (FileDlgData*)mir_calloc(sizeof(FileDlgData));
+			dat = new FileDlgData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = fsd->hContact;
 			dat->send = 1;
@@ -228,7 +228,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			if (fsd->ppFiles != nullptr && fsd->ppFiles[0] != nullptr) {
 				int totalCount, i;
 				for (totalCount = 0; fsd->ppFiles[totalCount]; totalCount++);
-				dat->files = (wchar_t**)mir_alloc(sizeof(wchar_t*)*(totalCount + 1)); // Leaks
+				dat->files = (wchar_t **)mir_alloc(sizeof(wchar_t *) * (totalCount + 1)); // Leaks
 				for (i = 0; i < totalCount; i++)
 					dat->files[i] = mir_wstrdup(fsd->ppFiles[i]);
 				dat->files[totalCount] = nullptr;
@@ -270,8 +270,8 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 	case M_FILECHOOSEDONE:
 		if (lParam != 0) {
-			FilenameToFileList(hwndDlg, dat, (wchar_t*)lParam);
-			mir_free((wchar_t*)lParam);
+			FilenameToFileList(hwndDlg, dat, (wchar_t *)lParam);
+			mir_free((wchar_t *)lParam);
 			dat->closeIfFileChooseCancelled = 0;
 		}
 		else if (dat->closeIfFileChooseCancelled)
@@ -300,7 +300,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, _countof(dat->szSavePath));
 			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, _countof(dat->szFilenames));
 			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, _countof(dat->szMsg));
-			dat->hwndTransfer = FtMgr_AddTransfer(dat);
+			FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			DestroyWindow(hwndDlg);
 			return TRUE;
@@ -336,7 +336,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_HISTORY);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 
-		FreeFileDlgData(dat);
+		delete dat;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		return TRUE;
 	}

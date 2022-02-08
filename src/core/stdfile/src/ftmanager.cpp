@@ -257,7 +257,7 @@ static INT_PTR CALLBACK FtMgrPageDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct TFtMgrData *dat = (struct TFtMgrData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+	auto *dat = (TFtMgrData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	HWND hwndTab = GetDlgItem(hwnd, IDC_TABS);
 
 	switch (msg) {
@@ -266,7 +266,7 @@ static INT_PTR CALLBACK FtMgrDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			TranslateDialogDefault(hwnd);
 			Window_SetSkinIcon_IcoLib(hwnd, SKINICON_EVENT_FILE);
 
-			dat = (struct TFtMgrData *)mir_calloc(sizeof(struct TFtMgrData));
+			dat = (TFtMgrData *)mir_calloc(sizeof(struct TFtMgrData));
 
 			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)dat);
 
@@ -498,17 +498,17 @@ void FtMgr_ShowPage(int page)
 		SendMessage(hwndFtMgr, WM_FT_SELECTPAGE, page, 0);
 }
 
-HWND FtMgr_AddTransfer(FileDlgData *fdd)
+void FtMgr_AddTransfer(FileDlgData *fdd)
 {
 	bool bForceActivate = fdd->send || !g_plugin.bAutoAccept;
 	TFtMgrData *dat = (TFtMgrData *)GetWindowLongPtr(FtMgr_Show(bForceActivate, false), GWLP_USERDATA);
 	if (dat == nullptr)
-		return nullptr;
+		return;
 
 	HWND hwndBox = fdd->send ? dat->hwndOutgoing : dat->hwndIncoming;
 	HWND hwndFt = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILETRANSFERINFO), hwndBox, DlgProcFileTransfer, (LPARAM)fdd);
 	ShowWindow(hwndFt, SW_SHOWNA);
 	SendMessage(hwndBox, WM_FT_ADD, 0, (LPARAM)hwndFt);
 	FtMgr_ShowPage(fdd->send ? 1 : 0);
-	return hwndFt;
+	fdd->hwndTransfer = hwndFt;
 }

@@ -187,7 +187,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			wchar_t szPath[450];
 			CLISTEVENT* cle = (CLISTEVENT*)lParam;
 
-			dat = (FileDlgData*)mir_calloc(sizeof(FileDlgData));
+			dat = new FileDlgData();
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->hContact = cle->hContact;
 			dat->hDbEvent = cle->hDbEvent;
@@ -326,7 +326,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			GetDlgItemText(hwndDlg, IDC_FILEDIR, dat->szSavePath, _countof(dat->szSavePath));
 			GetDlgItemText(hwndDlg, IDC_FILE, dat->szFilenames, _countof(dat->szFilenames));
 			GetDlgItemText(hwndDlg, IDC_MSG, dat->szMsg, _countof(dat->szMsg));
-			dat->hwndTransfer = FtMgr_AddTransfer(dat);
+			FtMgr_AddTransfer(dat);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			//check for auto-minimize here to fix BUG#647620
 			if (g_plugin.bAutoAccept && g_plugin.bAutoMin) {
@@ -397,7 +397,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_HISTORY);
 		Button_FreeIcon_IcoLib(hwndDlg, IDC_USERMENU);
 
-		FreeFileDlgData(dat);
+		delete dat;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
