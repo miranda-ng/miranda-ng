@@ -62,7 +62,6 @@ struct EventData
 	COLORREF	color;
 	MAllStrings szNick;     // Nick, usage depends on type of event
 	MAllStrings szText;     // Text, usage depends on type of event
-	MAllStrings szText2;    // Text, usage depends on type of event
 	uint32_t	time;
 	uint32_t	eventType;
 	BOOL  custom;

@@ -170,7 +170,7 @@ public:
 				}
 				ied.dwData |= g_Settings->bShowTime ? IEEDD_GC_SHOW_TIME : 0;
 				ied.dwData |= IEEDD_GC_SHOW_ICON;
-				ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
+				ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 				CallService(MS_HPP_EG_EVENT, 0, (LPARAM) & event);
 			}
 

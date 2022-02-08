@@ -55,7 +55,6 @@ struct IEVIEWWINDOW
 #define IEEDF_UNICODE        0x00000001  // if set pszText is a pointer to wchar_t string instead of char string
 #define IEEDF_UNICODE_TEXT   0x00000001  // if set pszText is a pointer to wchar_t string instead of char string
 #define IEEDF_UNICODE_NICK   0x00000002  // if set pszNick is a pointer to wchar_t string instead of char string
-#define IEEDF_UNICODE_TEXT2  0x00000004  // if set pszText2 is a pointer to wchar_t string instead of char string
 
 /* The following flags are valid only for message events (IEED_EVENT_MESSAGE) */
 #define IEEDF_FORMAT_FONT    0x00000100  // if set pszFont (font name) is valid and should be used
@@ -125,7 +124,6 @@ struct IEVIEWEVENTDATA
 	BOOL         bIsMe;             // TRUE if the event is related to the user
 	DWORD        time;              // Time of the event
 	IEVIEWEVENTDATA *next;
-	MAllCStrings szText2;
 };
 
 /* IEView events */

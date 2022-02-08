@@ -60,7 +60,6 @@ public:
 		STATUSMSG,
 		NICKIN,
 		NICKOUT,
-		FILEDESC,
 	};
 
 	Token(int, const char *, int);

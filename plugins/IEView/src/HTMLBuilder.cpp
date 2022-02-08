@@ -216,13 +216,13 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 		}
 	
 		IEVIEWEVENTDATA *eventData = new IEVIEWEVENTDATA;
-		eventData->dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2 |
+		eventData->dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK |
 			(dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
 		if (event->dwFlags & IEEF_RTL)
 			eventData->dwFlags |= IEEDF_RTL;
 
 		eventData->time = dbei.timestamp;
-		eventData->szNick.a = eventData->szText.a = eventData->szText2.a = nullptr;
+		eventData->szNick.a = eventData->szText.a = nullptr;
 		if (dbei.flags & DBEF_SENT) {
 			eventData->szNick.w = getContactName(NULL, szProto);
 			eventData->bIsMe = TRUE;
@@ -243,8 +243,11 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 			char* filename = ((char *)dbei.pBlob) + sizeof(uint32_t);
 			char* descr = filename + mir_strlen(filename) + 1;
 			eventData->szText.w = DbEvent_GetString(&dbei, filename);
-			if (*descr != '\0')
-				eventData->szText2.w = DbEvent_GetString(&dbei, descr);
+			if (*descr != '\0') {
+				CMStringW tmp(FORMAT, L"%s (%s)", eventData->szText.w, ptrW(DbEvent_GetString(&dbei, descr)).get());
+				mir_free((void*)eventData->szText.w);
+				eventData->szText.w = tmp.Detach();
+			}
 			eventData->iType = IEED_EVENT_FILE;
 		}
 		else if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
@@ -279,7 +282,6 @@ void HTMLBuilder::appendEventOld(IEView *view, IEVIEWEVENT *event)
 	for (IEVIEWEVENTDATA* eventData2 = newEvent.eventData; eventData2 != nullptr;) {
 		IEVIEWEVENTDATA *eventData = eventData2->next;
 		mir_free((void*)eventData2->szText.w);
-		mir_free((void*)eventData2->szText2.w);
 		mir_free((void*)eventData2->szNick.w);
 		delete eventData2;
 		eventData2 = eventData;

@@ -302,7 +302,7 @@ IEVIEWEVENTDATA *CreateAndFillEventData(PopupHistoryData *popupItem)
 	IEVIEWEVENTDATA *eventData = (IEVIEWEVENTDATA *)mir_calloc(sizeof(IEVIEWEVENTDATA));
 	if (eventData) {
 		eventData->iType = IEED_EVENT_MESSAGE;
-		eventData->dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT | IEEDF_UNICODE_TEXT2;
+		eventData->dwFlags = IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT;
 		eventData->szNick.w = popupItem->titleW;
 		eventData->szText.w = popupItem->messageW;
 

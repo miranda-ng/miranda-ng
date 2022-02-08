@@ -163,7 +163,7 @@ public:
 			}
 
 			ied.dwData |= IEEDD_GC_SHOW_TIME | IEEDD_GC_SHOW_ICON;
-			ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
+			ied.dwFlags = IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 			HandleIEEvent(0, LPARAM(&event));
 
 			pLog = pLog->prev;

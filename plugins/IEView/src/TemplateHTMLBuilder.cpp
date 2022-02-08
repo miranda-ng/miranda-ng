@@ -385,7 +385,7 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 			tmpltName[1] = nullptr;
 			groupTemplate = nullptr;
 
-			char *szName = nullptr, *szText = nullptr, *szFileDesc = nullptr;
+			char *szName = nullptr, *szText = nullptr;
 			if (event->eventData->dwFlags & IEEDF_UNICODE_NICK)
 				szName = encodeUTF8(event->hContact, eventData->szNick.w, ENF_NAMESMILEYS, true);
 			else
@@ -395,11 +395,6 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 				szText = encodeUTF8(event->hContact, eventData->szText.w, ENF_ALL, isSent);
 			else
 				szText = encodeUTF8(event->hContact, eventData->szText.a, event->codepage, ENF_ALL, isSent);
-
-			if (eventData->dwFlags & IEEDF_UNICODE_TEXT2)
-				szFileDesc = encodeUTF8(event->hContact, eventData->szText2.w, 0, isSent);
-			else
-				szFileDesc = encodeUTF8(event->hContact, eventData->szText2.a, event->codepage, 0, isSent);
 
 			if (eventData->iType == IEED_EVENT_MESSAGE) {
 				if (!isRTL) {
@@ -523,9 +518,6 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 					case Token::NICKOUT:
 						tokenVal = szNickOut;
 						break;
-					case Token::FILEDESC:
-						tokenVal = szFileDesc;
-						break;
 					}
 					if (tokenVal != nullptr) {
 						if (token->getEscape())
@@ -540,7 +532,6 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 
 			mir_free(szName);
 			mir_free(szText);
-			mir_free(szFileDesc);
 
 			view->write(str);
 		}

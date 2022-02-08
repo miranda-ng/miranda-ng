@@ -97,7 +97,7 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 
 	evt->eventType = dbei.eventType;
 	evt->dwFlags = (dbei.flags & DBEF_READ ? IEEDF_READ : 0) | (dbei.flags & DBEF_SENT ? IEEDF_SENT : 0) | (dbei.flags & DBEF_RTL ? IEEDF_RTL : 0);
-	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
+	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 
 	if (m_bUseRtl)
 		evt->dwFlags |= IEEDF_RTL;
@@ -113,8 +113,11 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 		char *filename = ((char*)dbei.pBlob) + sizeof(uint32_t);
 		char *descr = filename + mir_strlen(filename) + 1;
 		evt->szText.w = DbEvent_GetString(&dbei, filename);
-		if (*descr != 0)
-			evt->szText2.w = DbEvent_GetString(&dbei, descr);
+		if (*descr != 0) {
+			ptrW wszDescr(DbEvent_GetString(&dbei, descr));
+			CMStringW tmp(FORMAT, L"%s (%s)", evt->szText.w, wszDescr.get());
+			replaceStrW(evt->szText.w, tmp.Detach());
+		}
 	}
 	else evt->szText.w = DbEvent_GetTextW(&dbei, CP_UTF8);
 
@@ -129,7 +132,7 @@ static EventData* GetTestEvent(uint32_t flags)
 	EventData *evt = (EventData *)mir_calloc(sizeof(EventData));
 	evt->eventType = EVENTTYPE_MESSAGE;
 	evt->dwFlags = IEEDF_READ | flags;
-	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK | IEEDF_UNICODE_TEXT2;
+	evt->dwFlags |= IEEDF_UNICODE_TEXT | IEEDF_UNICODE_NICK;
 	evt->time = time(0);
 	return evt;
 }
@@ -165,7 +168,6 @@ static void freeEvent(EventData *evt)
 {
 	mir_free(evt->szNick.w);
 	mir_free(evt->szText.w);
-	mir_free(evt->szText2.w);
 	mir_free(evt);
 }
 
@@ -516,16 +518,8 @@ char* CMsgDialog::CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, Lo
 			else
 				AppendAnsiToBuffer(buf, evt->szText.a);
 		}
-
-		if (evt->szText2.w != nullptr) {
-			AppendUnicodeToBuffer(buf, L" (");
-			if (evt->dwFlags & IEEDF_UNICODE_TEXT2)
-				AppendUnicodeToBuffer(buf, evt->szText2.w);
-			else
-				AppendAnsiToBuffer(buf, evt->szText2.a);
-			AppendUnicodeToBuffer(buf, L")");
-		}
 		break;
+
 	default:
 		if (gdat->flags.bMsgOnNewline && showColon)
 			buf.Append("\\line");
@@ -534,6 +528,7 @@ char* CMsgDialog::CreateRTFFromEvent(EventData *evt, GlobalMessageData *gdat, Lo
 		AppendWithCustomLinks(evt, style, buf);
 		break;
 	}
+
 	if (m_isMixed)
 		buf.Append("\\par");
 

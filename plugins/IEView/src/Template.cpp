@@ -123,7 +123,6 @@ static TokenDef tokenNames[] = {
 	TokenDef("%nickIn%", Token::NICKIN, 0),
 	TokenDef("%nickOut%", Token::NICKOUT, 1),
 	TokenDef("%statusMsg%", Token::STATUSMSG, 0),
-	TokenDef("%fileDesc%", Token::FILEDESC, 0),
 
 	TokenDef("%\\name%", Token::INAME, 1),
 	TokenDef("%\\time%", Token::TIME, 1),
@@ -143,7 +142,6 @@ static TokenDef tokenNames[] = {
 	TokenDef("%\\nickIn%", Token::NICKIN, 1),
 	TokenDef("%\\nickOut%", Token::NICKOUT, 1),
 	TokenDef("%\\statusMsg%", Token::STATUSMSG, 1),
-	TokenDef("%\\fileDesc%", Token::FILEDESC, 1)
 };
 
 void Template::tokenize()
