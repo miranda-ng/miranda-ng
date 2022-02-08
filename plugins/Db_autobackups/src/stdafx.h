@@ -37,6 +37,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	bool bCloudFilePresent = false;
 	HANDLE hevBackup;
 	wchar_t folder[MAX_PATH];
 

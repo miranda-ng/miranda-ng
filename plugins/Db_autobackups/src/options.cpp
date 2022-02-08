@@ -29,7 +29,7 @@ class COptionsDlg : public CDlgBase
 		m_period.Enable(bEnabled);
 		m_periodType.Enable(bEnabled);
 		m_backupProfile.Enable(bEnabled);
-		m_useCloudFile.Enable(bEnabled);
+		m_useCloudFile.Enable(g_plugin.bCloudFilePresent && bEnabled);
 
 		if (!bEnabled) {
 			m_cloudFileService.Disable();
@@ -207,7 +207,7 @@ public:
 			CreateToolTip(tszTooltipText, TranslateT("Variables"));
 		}
 
-		m_useCloudFile.Enable(ServiceExists(MS_CLOUDFILE_UPLOAD));
+		m_useCloudFile.Enable(g_plugin.bCloudFilePresent);
 		if (ServiceExists(MS_CLOUDFILE_ENUMSERVICES)) {
 			m_cloudFileService.Enable();
 			CallService(MS_CLOUDFILE_ENUMSERVICES, (WPARAM)&COptionsDlg::EnumCloudFileServices, (LPARAM)&m_cloudFileService);

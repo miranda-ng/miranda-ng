@@ -98,8 +98,16 @@ static INT_PTR OnTogglePopups(WPARAM, LPARAM)
 	return 0;
 }
 
+static int PluginLoaded(WPARAM, LPARAM)
+{
+	g_plugin.bCloudFilePresent = ServiceExists(MS_CLOUDFILE_UPLOAD);
+	return 0;
+}
+
 static int ModulesLoad(WPARAM, LPARAM)
 {
+	PluginLoaded(0, 0);
+
 	CMenuItem mi(&g_plugin);
 	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Database"), 500000000);
 
@@ -167,6 +175,8 @@ int CMPlugin::Load()
 
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoad);
+	HookEvent(ME_SYSTEM_MODULELOAD, PluginLoaded);
+	HookEvent(ME_SYSTEM_MODULEUNLOAD, PluginLoaded);
 
 	g_plugin.registerIcon(LPGEN("Database") "/" LPGEN("Database backups"), iconList);
 
