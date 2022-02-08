@@ -1021,7 +1021,7 @@ LBL_Error:
 	ft->pfts.currentFileProgress += pReply->dataLength;
 	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, ft, (LPARAM)&ft->pfts);
 
-	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft, 0);
+	ProtoBroadcastAck(ft->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ft);
 	delete ft;
 }
 

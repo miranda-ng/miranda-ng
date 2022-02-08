@@ -1056,7 +1056,7 @@ retry:
 			if (dcc7->type == GG_SESSION_DCC7_SEND)
 			{
 				debugLogA("mainthread() (%x): File transfer denied by client %d (reason = %d).", this, dcc7->peer_uin, e->event.dcc7_reject.reason);
-				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
+				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7);
 
 				// Remove from watches and free
 				gg_EnterCriticalSection(&ft_mutex, "mainthread", 21, "ft_mutex", 1);
@@ -1116,7 +1116,7 @@ retry:
 			}
 
 			if (dcc7->contact)
-				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
+				ProtoBroadcastAck((UINT_PTR)dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7);
 
 			// Free dcc
 			gg_dcc7_free(dcc7);

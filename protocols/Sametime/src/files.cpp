@@ -26,7 +26,7 @@ void mwFileTransfer_offered(mwFileTransfer* ft)
 		hContact = proto->AddContact(stuser, (proto->options.add_contacts ? false : true));
 	}
 
-	proto->ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)ft, 0);
+	proto->ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)ft);
 
 	const char *filename = mwFileTransfer_getFileName(ft);
 	const char* message = mwFileTransfer_getMessage(ft);
@@ -98,7 +98,7 @@ void __cdecl SendThread(mwFileTransfer* ft)
 		SleepEx(500,TRUE);
 	}
 
-	proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt, 0);
+	proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt);
 
 	mwFileTransfer_removeClientData(ft);
 	if (ftcd->save_path) free(ftcd->save_path);
@@ -145,9 +145,9 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 			}
 
 			if (code == mwFileTransfer_REJECTED)
-				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ftcd->hFt, 0);
+				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_DENIED, ftcd->hFt);
 			else
-				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt, 0);
+				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt);
 
 			if (ftcd->sending) {
 				FileTransferClientData* ftcd_next = ftcd->next;
@@ -181,12 +181,12 @@ void mwFileTransfer_closed(mwFileTransfer* ft, guint32 code)
 			if (ftcd->sending) {
 				// check if we have more files to send...
 				if (ftcd->next) {
-					proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftcd->hFt, 0);
+					proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, ftcd->hFt);
 					mwFileTransfer_offer(ftcd->next->ft);
 				}
 			}
 			else {
-				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt, 0);
+				proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt);
 
 				mwFileTransfer_removeClientData(ft);
 				if (ftcd->save_path)
@@ -212,7 +212,7 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 	if (!WriteFile(ftcd->hFile, data->data, data->len, &bytes_written, nullptr)) {
 		proto->debugLogW(L"mwFileTransfer_recv() !WriteFile");
 		mwFileTransfer_cancel(ft);
-		proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt, 0);
+		proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ftcd->hFt);
 		proto->debugLogW(L"mwFileTransfer_recv() ACKRESULT_FAILED");
 	}
 	else {
@@ -239,7 +239,7 @@ void mwFileTransfer_recv(mwFileTransfer* ft, struct mwOpaque* data)
 		proto->debugLogW(L"mwFileTransfer_recv() ACKRESULT_DATA");
 
 		if (mwFileTransfer_isDone(ft)) {
-			proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt, 0);
+			proto->ProtoBroadcastAck(ftcd->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, ftcd->hFt);
 			proto->debugLogW(L"mwFileTransfer_recv() ACKRESULT_SUCCESS");
 		}
 	}

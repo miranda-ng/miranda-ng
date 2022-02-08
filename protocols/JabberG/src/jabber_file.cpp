@@ -508,8 +508,10 @@ int filetransfer::create()
 		fileId = _wopen(std.szCurrentFile.w, _O_BINARY | _O_CREAT | _O_TRUNC | _O_WRONLY, _S_IREAD | _S_IWRITE);
 	}
 
-	if (fileId == -1)
+	if (fileId == -1) {
+		ppro->ProtoBroadcastAck(std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, this);
 		ppro->debugLogW(L"Cannot create file '%s' during a file transfer", filefull);
+	}
 	else if (std.currentFileSize != 0)
 		_chsize(fileId, std.currentFileSize);
 

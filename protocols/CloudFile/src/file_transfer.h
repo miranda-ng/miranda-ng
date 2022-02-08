@@ -43,7 +43,7 @@ public:
 		pfts.szWorkingDir.w = NULL;
 		pfts.szCurrentFile.w = NULL;
 
-		ProtoBroadcastAck(MODULENAME, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)id, 0);
+		ProtoBroadcastAck(MODULENAME, pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (HANDLE)id);
 	}
 
 	~FileTransferParam()
@@ -237,7 +237,7 @@ public:
 		pfts.currentFileProgress = 0;
 		pfts.szCurrentFile.w = wcsrchr(pfts.pszFiles.w[pfts.currentFileNumber], '\\') + 1;
 		if (pfts.hContact)
-			ProtoBroadcastAck(MODULENAME, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id, 0);
+			ProtoBroadcastAck(MODULENAME, pfts.hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)id);
 
 		OpenCurrentFile();
 		CheckCurrentFile();

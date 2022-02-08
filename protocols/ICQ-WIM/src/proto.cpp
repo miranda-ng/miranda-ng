@@ -447,7 +447,7 @@ HANDLE CIcqProto::FileAllow(MCONTACT, HANDLE hTransfer, const wchar_t *pwszSaveP
 
 int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 {
-	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, hTransfer, 0);
+	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, hTransfer);
 
 	auto *ft = (IcqFileTransfer *)hTransfer;
 	delete ft;

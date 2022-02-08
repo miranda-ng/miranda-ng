@@ -721,9 +721,9 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 	if (di->iType == DCC_SEND) {
 		// ack SUCCESS or FAILURE
 		if (dwTotal == di->dwSize)
-			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, (void *)di, 0);
+			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, di);
 		else
-			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
+			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, di);
 	}
 
 	if (di->iType == DCC_CHAT) {
@@ -1021,8 +1021,8 @@ void __cdecl CDccSession::ThreadProc(void *pparam)
 void CDccSession::DoSendFile()
 {
 	// initialize the filetransfer dialog
-	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (void *)di, 0);
-	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (void *)di, 0);
+	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, di);
+	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, di);
 
 	uint16_t wPacketSize = m_proto->getWord("DCCPacketSize", 1024 * 4);
 
@@ -1052,7 +1052,7 @@ void CDccSession::DoSendFile()
 			}
 
 			// initial ack to set the 'percentage-ready meter' to the correct value
-			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 
 			tLastActivity = time(0);
 
@@ -1129,7 +1129,7 @@ void CDccSession::DoSendFile()
 					tLastPercentageUpdate = time(0);
 					pfts.totalProgress = dwTotal;
 					pfts.currentFileProgress = dwTotal;
-					ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+					ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 				}
 
 				// close the connection once the whole file has been sent an completely ack'ed
@@ -1150,12 +1150,12 @@ void CDccSession::DoSendFile()
 			tLastActivity = time(0);
 			pfts.totalProgress = dwTotal;
 			pfts.currentFileProgress = dwTotal;
-			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 
 			_close(hFile);
 		}
 		else { // file was not possible to open for reading
-			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
+			ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, di);
 			if (con) {
 				Netlib_CloseHandle(con);
 				con = nullptr;
@@ -1171,12 +1171,12 @@ void CDccSession::DoSendFile()
 void CDccSession::DoReceiveFile()
 {
 	// initialize the filetransfer dialog
-	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, (void *)di, 0);
+	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, di);
 
 	uint8_t chBuf[1024 * 32 + 1];
 
 	// do some stupid thing so  the filetransfer dialog shows the right thing
-	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (void *)di, 0);
+	ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, di);
 
 	// open the file for writing (and reading in case it is a resume)
 	int hFile = _wopen(di->sFileAndPath.c_str(),
@@ -1196,7 +1196,7 @@ void CDccSession::DoReceiveFile()
 		}
 
 		// send an initial ack for the percentage-ready meter
-		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 
 		// the while loop will spin around till the connection is dropped, locally or by the remote computer.
 		while (con) {
@@ -1226,7 +1226,7 @@ void CDccSession::DoReceiveFile()
 				tLastPercentageUpdate = time(0);
 				pfts.totalProgress = dwTotal;
 				pfts.currentFileProgress = dwTotal;
-				ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+				ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 			}
 
 			// if file size is known and everything is received then disconnect 
@@ -1239,11 +1239,11 @@ void CDccSession::DoReceiveFile()
 
 		pfts.totalProgress = dwTotal;
 		pfts.currentFileProgress = dwTotal;
-		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (void *)di, (LPARAM)&pfts);
+		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_DATA, di, (LPARAM)&pfts);
 		_close(hFile);
 	}
 	else {
-		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (void *)di, 0);
+		ProtoBroadcastAck(m_proto->m_szModuleName, di->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, di);
 		if (con) { // file not possible to open for writing so we ack FAILURE and close the handle
 			Netlib_CloseHandle(con);
 			con = nullptr;

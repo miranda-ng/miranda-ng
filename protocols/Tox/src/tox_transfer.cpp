@@ -94,7 +94,7 @@ int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int action, const wchar_
 
 	if (action == FILERESUME_SKIP) {
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer);
 		transfers.Remove(transfer);
 		return 0;
 	}
@@ -107,7 +107,7 @@ int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int action, const wchar_
 	if (!transfer->Resume()) {
 		debugLogA(__FUNCTION__": failed to open file (%d) from %s (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		transfers.Remove(transfer);
 		return 0;
 	}
@@ -117,7 +117,7 @@ int CToxProto::OnFileResume(Tox *tox, HANDLE hTransfer, int action, const wchar_
 	if (!tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_RESUME, &error)) {
 		debugLogA(__FUNCTION__": failed to start receiving of file (%d) from %s (%d) cause (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber, error);
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		transfers.Remove(transfer);
 	}
 
@@ -154,7 +154,7 @@ void CToxProto::OnDataReceiving(Tox *tox, uint32_t friendNumber, uint32_t fileNu
 	if (filePos != position && !_fseeki64(transfer->hFile, position, SEEK_SET)) {
 		proto->debugLogA(__FUNCTION__": failed seek into file (%d)", fileNumber);
 		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -162,7 +162,7 @@ void CToxProto::OnDataReceiving(Tox *tox, uint32_t friendNumber, uint32_t fileNu
 	if (fwrite(data, sizeof(uint8_t), length, transfer->hFile) != length) {
 		proto->debugLogA(__FUNCTION__": failed write to file (%d)", fileNumber);
 		tox_file_control(proto->m_tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -185,7 +185,7 @@ void CToxProto::OnTransferCompleted(Tox *tox, FileTransferParam *transfer)
 		return;
 	}
 
-	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
+	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer);
 	transfers.Remove(transfer);
 }
 
@@ -204,7 +204,7 @@ void CToxProto::OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumb
 	MCONTACT hContact = proto->GetContact(tox, friendNumber);
 	if (hContact == NULL) {
 		proto->debugLogA(__FUNCTION__": cannot find contact %s (%d)", (const char*)pubKey, friendNumber);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -220,14 +220,14 @@ void CToxProto::OnFileRequest(Tox *tox, uint32_t friendNumber, uint32_t fileNumb
 		if (!transfer->Resume()) {
 			proto->debugLogA(__FUNCTION__": failed to resume file (%d) from %s (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
 			tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+			proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 			proto->transfers.Remove(transfer);
 		}
 		break;
 
 	case TOX_FILE_CONTROL_CANCEL:
 		proto->debugLogA(__FUNCTION__": received ask to cancel the transfer of file (%d) from %s (%d)", transfer->fileNumber, (const char*)pubKey, transfer->friendNumber);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		break;
 	}
@@ -299,7 +299,7 @@ void CToxProto::OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNum
 		bool isFullyTransfered = transfer->pfts.currentFileProgress == transfer->pfts.currentFileSize;
 		if (!isFullyTransfered)
 			proto->debugLogA(__FUNCTION__": file (%d) is not completely transferred to %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, isFullyTransfered ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -308,7 +308,7 @@ void CToxProto::OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNum
 	if (sentBytes != position && !_fseeki64(transfer->hFile, position, SEEK_SET)) {
 		proto->debugLogA(__FUNCTION__": failed seek into file (%d)", fileNumber);
 		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -316,9 +316,9 @@ void CToxProto::OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNum
 	mir_ptr<uint8_t> data((uint8_t*)mir_alloc(length));
 	if (fread(data, sizeof(uint8_t), length, transfer->hFile) != length) {
 		proto->debugLogA(__FUNCTION__": failed to read from file (%d) to %s (%d)", fileNumber, (const char*)pubKey, friendNumber);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -329,7 +329,7 @@ void CToxProto::OnFileSendData(Tox *tox, uint32_t friendNumber, uint32_t fileNum
 			return;
 		proto->debugLogA(__FUNCTION__": failed to send file chunk (%d) to %s (%d) cause (%d)", fileNumber, (const char*)pubKey, friendNumber, error);
 		tox_file_control(tox, friendNumber, fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer, 0);
+		proto->ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, (HANDLE)transfer);
 		proto->transfers.Remove(transfer);
 		return;
 	}
@@ -394,7 +394,7 @@ void CToxProto::CancelAllTransfers(Tox *tox)
 	for (size_t i = 0; i < transfers.Count(); i++) {
 		FileTransferParam *transfer = transfers.GetAt(i);
 		tox_file_control(tox, transfer->friendNumber, transfer->fileNumber, TOX_FILE_CONTROL_CANCEL, nullptr);
-		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer, 0);
+		ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DENIED, (HANDLE)transfer);
 		transfers.Remove(transfer);
 	}
 }
