@@ -51,6 +51,44 @@ MIR_CORE_DLL(int) db_delete_module(MCONTACT hContact, const char *szModuleName)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static int CheckIfModuleIsEmptyProc(const char *, void *)
+{
+	return 1;
+}
+
+MIR_CORE_DLL(bool) db_is_module_empty(MCONTACT hContact, const char *szModule)
+{
+	return (g_pCurrDb) ? g_pCurrDb->EnumContactSettings(hContact, CheckIfModuleIsEmptyProc, szModule, 0) < 0 : true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct EnumProcParam
+{
+	MCONTACT hContact;
+	LPCSTR szModule, szNewModule;
+};
+
+static int EnumProc(const char *szSetting, void *lParam)
+{
+	EnumProcParam *param = (EnumProcParam *)lParam;
+
+	DBVARIANT dbv;
+	if (!db_get(param->hContact, param->szModule, szSetting, &dbv)) {
+		db_set(param->hContact, param->szNewModule, szSetting, &dbv);
+		db_free(&dbv);
+	}
+	return 0;
+}
+
+MIR_CORE_DLL(int) db_copy_module(const char *szModule, const char *szNewModule, MCONTACT hContact)
+{
+	EnumProcParam param = { hContact, szModule, szNewModule };
+	return db_enum_settings(hContact, EnumProc, szModule, &param);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // contact functions
 
 MIR_CORE_DLL(MCONTACT) db_add_contact(void)
@@ -93,7 +131,7 @@ MIR_CORE_DLL(int) db_enum_residents(DBMODULEENUMPROC pFunc, void *param)
 	return (g_pCurrDb) ? g_pCurrDb->EnumResidentSettings(pFunc, param) : 0;
 }
 
-EXTERN_C MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pFunc, const char *szModule, void *param)
+MIR_CORE_DLL(int) db_enum_settings(MCONTACT hContact, DBSETTINGENUMPROC pFunc, const char *szModule, void *param)
 {
 	return (g_pCurrDb) ? g_pCurrDb->EnumContactSettings(hContact, pFunc, szModule, param) : 0;
 }

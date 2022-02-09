@@ -3,7 +3,7 @@
 int renameModule(MCONTACT hContact, const char *oldName, const char *newName)
 {
 	ModuleSettingLL settinglist;
-	if (IsModuleEmpty(hContact, oldName) || !EnumSettings(hContact, oldName, &settinglist))
+	if (db_is_module_empty(hContact, oldName) || !EnumSettings(hContact, oldName, &settinglist))
 		return 0;
 
 	int cnt = 0;

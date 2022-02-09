@@ -419,8 +419,8 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							db_unset(0, "SkinIcons", s);
 
 				// delete global settings
-				DB::Module::Delete(NULL, USERINFO"Ex");
-				DB::Module::Delete(NULL, USERINFO"ExW");
+				db_delete_module(NULL, USERINFO"Ex");
+				db_delete_module(NULL, USERINFO"ExW");
 
 				// delete old contactsettings
 				for (auto &hContact : Contacts()) {
@@ -434,8 +434,8 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 					db_unset(hContact, USERINFO, "RemindDaysErlier");
 					db_unset(hContact, USERINFO, "vCardPath");
 
-					DB::Module::Delete(hContact, USERINFO"Ex");
-					DB::Module::Delete(hContact, USERINFO"ExW");
+					db_delete_module(hContact, USERINFO"Ex");
+					db_delete_module(hContact, USERINFO"ExW");
 				}
 
 				SendMessage(GetParent(hDlg), PSM_FORCECHANGED, NULL, NULL);

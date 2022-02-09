@@ -274,7 +274,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								{
 									for (auto &hContact: Contacts()) {
 										// ignore empty modules
-										if (!DB::Module::IsEmpty(hContact, p)) {
+										if (!db_is_module_empty(hContact, p)) {
 											pszProto = Proto_GetBaseAccountName(hContact);
 											// Filter by mode
 											switch (pDat->ExImContact->Typ) {
@@ -311,7 +311,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 								} // end TRUE = All Contacts
 
 								// module must exist in the selected contact
-								else if (!DB::Module::IsEmpty(pDat->ExImContact->hContact, p) && (!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) && mir_strcmpi(p, USERINFO)) {
+								else if (!db_is_module_empty(pDat->ExImContact->hContact, p) && (!pDat->ExImContact->hContact || mir_strcmpi(p, pszProto)) && mir_strcmpi(p, USERINFO)) {
 									ExportTree_AddItem(hTree, hItemOptional, (LPSTR)p, bImagesLoaded, 1);
 								}
 							}

@@ -75,7 +75,7 @@ int CMainDlg::doContacts(HTREEITEM contactsRoot, ModuleSettingLL *modlist, MCONT
 
 		if (hSelectedContact == hContact) {
 			for (ModSetLinkLinkItem *module = modlist->first; module && g_pMainWindow; module = module->next) {
-				if (!module->name[0] || IsModuleEmpty(hContact, module->name))
+				if (!module->name[0] || db_is_module_empty(hContact, module->name))
 					continue;
 				insertItem(hContact, module->name, contact);
 			}
@@ -127,7 +127,7 @@ void CMainDlg::doItems(ModuleSettingLL *modlist, int count)
 		SetCaption(percent);
 
 		for (ModSetLinkLinkItem *module = modlist->first; module && g_pMainWindow; module = module->next) {
-			if (!module->name[0] || IsModuleEmpty(hContact, module->name))
+			if (!module->name[0] || db_is_module_empty(hContact, module->name))
 				continue;
 
 			insertItem(hContact, module->name, item.hItem);
@@ -396,7 +396,7 @@ void __cdecl CMainDlg::PopulateModuleTreeThreadFunc(void *param)
 
 		MCONTACT hContact = 0;
 		for (ModSetLinkLinkItem *module = modlist.first; module && g_pMainWindow; module = module->next) {
-			if (!module->name[0] || IsModuleEmpty(hContact, module->name))
+			if (!module->name[0] || db_is_module_empty(hContact, module->name))
 				continue;
 			g_pMainWindow->insertItem(hContact, module->name, contact);
 		}

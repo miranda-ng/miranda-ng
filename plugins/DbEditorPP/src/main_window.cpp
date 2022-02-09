@@ -530,7 +530,7 @@ void CMainDlg::onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev)
 
 			ModSetLinkLinkItem *module = modlist.first;
 			while (module && g_pMainWindow) {
-				if (module->name[0] && !IsModuleEmpty(hContact, module->name))
+				if (module->name[0] && !db_is_module_empty(hContact, module->name))
 					insertItem(hContact, module->name, ev->nmtv->itemNew.hItem);
 
 				module = (ModSetLinkLinkItem *)module->next;

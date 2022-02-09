@@ -52,7 +52,7 @@ void exportModule(MCONTACT hContact, const char *module, FILE *file)
 	ModuleSettingLL settinglist;
 	ModSetLinkLinkItem *setting;
 
-	if (IsModuleEmpty(hContact, module) || !EnumSettings(hContact, module, &settinglist))
+	if (db_is_module_empty(hContact, module) || !EnumSettings(hContact, module, &settinglist))
 		return;
 
 	// print the module header..
@@ -165,7 +165,7 @@ void exportDB(MCONTACT hContact, const char *module)
 				fprintf(file, "SETTINGS:\n");
 				mod = modlist.first;
 				while (mod) {
-					if (IsModuleEmpty(NULL, mod->name)) {
+					if (db_is_module_empty(NULL, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}
@@ -192,7 +192,7 @@ void exportDB(MCONTACT hContact, const char *module)
 				{
 					mod = modlist.first;
 					while (mod) {
-						if (IsModuleEmpty(cc, mod->name)) {
+						if (db_is_module_empty(cc, mod->name)) {
 							mod = (ModSetLinkLinkItem *)mod->next;
 							continue;
 						}
@@ -218,7 +218,7 @@ void exportDB(MCONTACT hContact, const char *module)
 
 				mod = modlist.first;
 				while (mod) {
-					if (IsModuleEmpty(hContact, mod->name)) {
+					if (db_is_module_empty(hContact, mod->name)) {
 						mod = (ModSetLinkLinkItem *)mod->next;
 						continue;
 					}

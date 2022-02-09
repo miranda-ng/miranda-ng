@@ -331,7 +331,6 @@ void popupWatchedVar(MCONTACT hContact, const char *module, const char *setting)
 int EnumModules(ModuleSettingLL *msll);
 int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll);
 void FreeModuleSettingLL(ModuleSettingLL *msll);
-int IsModuleEmpty(MCONTACT hContact, const char *module);
 int LoadResidentSettings();
 void FreeResidentSettings();
 int IsResidentSetting(const char *module, const char *setting);

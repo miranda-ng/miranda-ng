@@ -335,7 +335,7 @@ void CMainDlg::PopulateSettings(MCONTACT hContact, const char *module)
 	mir_strncpy(m_module, tmp, _countof(m_module));
 
 	ModuleSettingLL setlist;
-	if (IsModuleEmpty(m_hContact, m_module) || !EnumSettings(m_hContact, m_module, &setlist))
+	if (db_is_module_empty(m_hContact, m_module) || !EnumSettings(m_hContact, m_module, &setlist))
 		return;
 
 	for (ModSetLinkLinkItem *setting = setlist.first; setting; setting = setting->next)

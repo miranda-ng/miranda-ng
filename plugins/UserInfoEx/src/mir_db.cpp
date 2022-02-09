@@ -56,21 +56,6 @@ uint32_t	WhenAdded(uint32_t dwUIN, LPCSTR)
 namespace Module {
 
 /**
-* Deletes all settings in the module.
-* @param	hContact	- handle to the contact
-* @param	pszModule	- the module to delete the setting from (e.g. USERINFO)
-* return:	nothing
-**/
-
-void	Delete(MCONTACT hContact, LPCSTR pszModule)
-{
-	CEnumList Settings;
-	if (!Settings.EnumSettings(hContact, pszModule))
-		for (auto &it : Settings)
-			db_unset(hContact, pszModule, it);
-}
-
-/**
 * Enum Proc for DBModule_IsEmpty
 * @param	pszSetting	- the setting
 * @param	lParam		- DBCONTACTENUMSETTINGS - (LPARAM)&dbces
@@ -80,19 +65,6 @@ void	Delete(MCONTACT hContact, LPCSTR pszModule)
 static int IsEmptyEnumProc(LPCSTR, void*)
 {
 	return 1;
-}
-
-/**
-* This function tests, whether a module is empty for the given contact or not
-* @param	hContact	- handle to the contact
-* @param	pszModule	- the module to read the setting from (e.g. USERINFO)
-* @retval	TRUE		- the module is empty
-* @retval	FALSE		- the module contains settings
-**/
-
-bool IsEmpty(MCONTACT hContact, LPCSTR pszModule)
-{
-	return 0 > db_enum_settings(hContact, IsEmptyEnumProc, pszModule);
 }
 
 /**

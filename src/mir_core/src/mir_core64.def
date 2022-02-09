@@ -1511,3 +1511,5 @@ TimeZone_GetSystemTime @1692
 ?IsPrefixHex@XMLUtil@tinyxml2@@SA_NPEBD@Z @1733 NONAME
 ?PrepareForNewNode@XMLPrinter@tinyxml2@@AEAAX_N@Z @1734 NONAME
 ?QueryAttribute@XMLElement@tinyxml2@@QEBA?AW4XMLError@2@PEBDPEAPEBD@Z @1735 NONAME
+db_copy_module @1736
+?db_is_module_empty@@YA_NIPEBD@Z @1737 NONAME

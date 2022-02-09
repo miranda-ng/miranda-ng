@@ -103,40 +103,15 @@ void PopupPreview()
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-struct EnumProcParam
-{
-	LPCSTR szModule, szNewModule;
-};
-
-static int EnumProc(const char *szSetting, void *lParam)
-{
-	EnumProcParam* param = (EnumProcParam*)lParam;
-
-	DBVARIANT dbv;
-	if (!db_get(NULL, param->szModule, szSetting, &dbv)) {
-		db_set(NULL, param->szNewModule, szSetting, &dbv);
-		db_free(&dbv);
-	}
-	return 0;
-}
-
-static void CopyModule(const char *szModule, const char *szNewModule)
-{
-	EnumProcParam param = { szModule, szNewModule };
-	db_enum_settings(NULL, EnumProc, szModule, &param);
-
-	db_delete_module(0, szModule);
-}
-
 void UpgradeDb()
 {
 	if (db_get_b(0, "Compatibility", "Popup+ Opts", 0) == 1)
 		return;
 
-	CopyModule("PopUp", "Popup");
-	CopyModule("PopUpCLASS", "PopupCLASS");
-	CopyModule("PopUpActions", "PopupActions");
-	CopyModule("PopUpNotifications", "PopupNotifications");
+	db_copy_module("PopUp", "Popup");
+	db_copy_module("PopUpCLASS", "PopupCLASS");
+	db_copy_module("PopUpActions", "PopupActions");
+	db_copy_module("PopUpNotifications", "PopupNotifications");
 
 	db_set_b(0, "Compatibility", "Popup+ Opts", 1);
 }

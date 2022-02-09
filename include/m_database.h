@@ -59,6 +59,14 @@ EXTERN_C MIR_CORE_DLL(void) db_set_safety_mode(BOOL bNewMode);
 
 EXTERN_C MIR_CORE_DLL(int) db_get_contact_count(void);
 
+// Checks if a module doesn't contain any settings (for the contact given)
+
+MIR_CORE_DLL(bool) db_is_module_empty(MCONTACT hContact, const char *module);
+
+// Copies a module to another module for the contact given (0 by default)
+
+EXTERN_C MIR_CORE_DLL(int) db_copy_module(const char *szModule, const char *szNewModule, MCONTACT hContact = 0);
+
 // Removes all settings for the specified module.
 // hContact is 0 for global settings or matches the concrete contact
 

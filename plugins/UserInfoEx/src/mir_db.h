@@ -33,8 +33,6 @@ namespace Contact {
 } /* namespace Contact */
 
 namespace Module {
-	void	Delete(MCONTACT hContact, LPCSTR pszModule);
-	bool  IsEmpty(MCONTACT hContact, LPCSTR pszModule);
 	bool  IsMeta(LPCSTR pszModule);
 	bool  IsMetaAndScan(LPCSTR pszModule);
 

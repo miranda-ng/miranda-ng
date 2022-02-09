@@ -187,7 +187,7 @@ class CFindWindowDlg : public CDlgBase
 
 			for (module = ModuleList.first; module; module = module->next) {
 
-				if (IsModuleEmpty(hContact, module->name))
+				if (db_is_module_empty(hContact, module->name))
 					continue;
 
 				if (fi->options & (F_SETVAL | F_SETNAME)) {

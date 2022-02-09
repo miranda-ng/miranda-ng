@@ -5,7 +5,7 @@ static HWND hwnd2Delete = nullptr;
 
 int deleteModule(HWND hwndParent, MCONTACT hContact, const char *module, int confirm)
 {
-	if (!module || IsModuleEmpty(hContact, module))
+	if (!module || db_is_module_empty(hContact, module))
 		return 0;
 
 	 if (confirm && g_plugin.bWarnOnDelete) {
@@ -40,7 +40,7 @@ void __cdecl PopulateModuleDropListThreadFunc(void *param)
 	while (module && working) {
 		moduleEmpty = 1;
 		// check the null
-		if (!IsModuleEmpty(NULL, module->name)) {
+		if (!db_is_module_empty(NULL, module->name)) {
 			SendDlgItemMessageA(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
 			moduleEmpty = 0;
 			module = module->next;
@@ -48,7 +48,7 @@ void __cdecl PopulateModuleDropListThreadFunc(void *param)
 		}
 
 		for (auto &hContact : Contacts()) {
-			if (!IsModuleEmpty(hContact, module->name)) {
+			if (!db_is_module_empty(hContact, module->name)) {
 				SendDlgItemMessageA(hwnd, IDC_CONTACTS, CB_ADDSTRING, 0, (LPARAM)module->name);
 				moduleEmpty = 0;
 				break;

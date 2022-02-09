@@ -71,15 +71,7 @@ int EnumSettings(MCONTACT hContact, const char *module, ModuleSettingLL *msll)
 	return 1;
 }
 
-int CheckIfModuleIsEmptyProc(const char*, void*)
-{
-	return 1;
-}
-
-int IsModuleEmpty(MCONTACT hContact, const char *module)
-{
-	return 0 > db_enum_settings(hContact, CheckIfModuleIsEmptyProc, module);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int stringCompare(const char *p1, const char *p2)
 {
@@ -162,7 +154,7 @@ int fixResidentSettings()
 
 	for (auto &hContact : Contacts()) {
 		for (ModSetLinkLinkItem *module = ModuleList.first; module; module = module->next) {
-			if (IsModuleEmpty(hContact, module->name))
+			if (db_is_module_empty(hContact, module->name))
 				continue;
 
 			ModuleSettingLL SettingList;

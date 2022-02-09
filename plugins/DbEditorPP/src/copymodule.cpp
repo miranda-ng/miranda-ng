@@ -3,7 +3,7 @@
 void copyModule(const char *module, MCONTACT hContactFrom, MCONTACT hContactTo)
 {
 	ModuleSettingLL msll;
-	if (IsModuleEmpty(hContactFrom, module) || !EnumSettings(hContactFrom, module, &msll))
+	if (db_is_module_empty(hContactFrom, module) || !EnumSettings(hContactFrom, module, &msll))
 		return;
 
 	DBVARIANT dbv;
