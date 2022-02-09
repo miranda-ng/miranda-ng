@@ -87,6 +87,7 @@ Plugins\ICQ.dll
 Plugins\Import.dll
 Plugins\IRC.dll
 Plugins\Jabber.dll
+Plugins\NewEventNotify.dll
 Plugins\PluginUpdater.dll
 Plugins\TabSRMM.dll
 Plugins\TopToolBar.dll
