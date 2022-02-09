@@ -428,13 +428,6 @@ bool CMsgDialog::OnInitDialog()
 			CustomizeButton(GetDlgItem(m_hwnd, it));
 	}
 
-	// show a popup if wanted...
-	if (m_bWantPopup) {
-		DBEVENTINFO dbei = {};
-		m_bWantPopup = false;
-		db_event_get(m_hDbEventFirst, &dbei);
-		tabSRMM_ShowPopup(m_hContact, m_hDbEventFirst, dbei.eventType, 0, nullptr, m_hwnd, m_cache->getActiveProto());
-	}
 	m_hDbEventFirst = 0;
 
 	if (m_szProto != nullptr) {
@@ -828,7 +821,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		m_si->pMI->idleTimeStamp = time(0);
 		UpdateStatusBar();
 		if (m_pContainer)
-			if (fSound && !nen_options.iNoSounds && !m_pContainer->m_flags.m_bNoSound)
+			if (fSound && !NEN::bNoSounds && !m_pContainer->m_flags.m_bNoSound)
 				Skin_PlaySound("SendMsg");
 	}
 	else {
@@ -891,7 +884,6 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 		if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON)
 			DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 
-		DeletePopupsForContact(m_hContact, PU_REMOVE_ON_SEND);
 		sendQueue->addTo(this, memRequired, flags);
 	}
 
@@ -2618,7 +2610,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				KillTimer(m_hwnd, wParam);
 				mir_snwprintf(job->szErrorMsg, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
 				job->iStatus = SendQueue::SQ_ERROR;
-				if (!nen_options.iNoSounds && !m_pContainer->m_flags.m_bNoSound)
+				if (!NEN::bNoSounds && !m_pContainer->m_flags.m_bNoSound)
 					Skin_PlaySound("SendError");
 				if (!m_bErrorState)
 					sendQueue->handleError(this, iIndex);

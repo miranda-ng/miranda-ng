@@ -101,7 +101,7 @@ static void ShowPage(HWND hwndDlg, int iPage, BOOL fShow)
 		else
 			SetDlgItemText(hwndDlg, IDC_DESC, L"");
 	}
-	Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, (iPage == 3 && nen_options.bWindowCheck) ? SW_SHOW : SW_HIDE);
+	Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, (iPage == 3 && NEN::bWindowCheck) ? SW_SHOW : SW_HIDE);
 
 	if (iPage == 8 && !IsWinVer7Plus())
 		Utils::showDlgControl(hwndDlg, IDC_AVATARSONTASKBAR, SW_HIDE);
@@ -415,15 +415,15 @@ do_apply: Utils::enableDlgControl(hwndDlg, IDC_APPLY, true);
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_SETPOS, TRUE, (LPARAM)LOWORD(dwTransparency));
 			SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_SETPOS, TRUE, (LPARAM)HIWORD(dwTransparency));
 
-			Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, !nen_options.bWindowCheck);
-			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, !nen_options.bWindowCheck);
-			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, !nen_options.bWindowCheck);
-			Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, !nen_options.bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_O_DONTREPORT, !NEN::bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTUNFOCUSED2, !NEN::bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_DONTREPORTFOCUSED2, !NEN::bWindowCheck);
+			Utils::enableDlgControl(hwndDlg, IDC_ALWAYSPOPUPSINACTIVE, !NEN::bWindowCheck);
 
 			SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_SETCURSEL, (WPARAM)cs->avatarMode, 0);
 			SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_SETCURSEL, (WPARAM)cs->ownAvatarMode, 0);
 
-			Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, nen_options.bWindowCheck ? SW_SHOW : SW_HIDE);
+			Utils::showDlgControl(hwndDlg, IDC_O_EXPLAINGLOBALNOTIFY, NEN::bWindowCheck ? SW_SHOW : SW_HIDE);
 
 			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETRANGE, 0, MAKELONG(1000, 0));
 			SendDlgItemMessage(hwndDlg, IDC_AUTOCLOSETABSPIN, UDM_SETPOS, 0, (LPARAM)cs->autoCloseSeconds);

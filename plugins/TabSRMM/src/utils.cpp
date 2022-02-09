@@ -754,7 +754,7 @@ bool CMsgDialog::MustPlaySound() const
 	if (m_pContainer->m_bHidden)		// hidden container is treated as closed, so play the sound
 		return true;
 
-	if (m_pContainer->m_flags.m_bNoSound || nen_options.iNoSounds)
+	if (m_pContainer->m_flags.m_bNoSound || NEN::bNoSounds)
 		return false;
 
 	// window minimized, check if sound has to be played

@@ -2239,7 +2239,7 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 
 		if (szProto) {
 			int dwStatus = Proto_GetStatus(szProto);
-			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & dwStatusMask))           // should never happen, but...
+			if (dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE)
 				bAllowAutoCreate = true;
 		}
 	}
@@ -2287,8 +2287,6 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 		cle.pszService = MS_MSG_READMESSAGE;
 		cle.szTooltip.w = toolTip;
 		g_clistApi.pfnAddEvent(&cle);
-
-		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 	}
 }
 

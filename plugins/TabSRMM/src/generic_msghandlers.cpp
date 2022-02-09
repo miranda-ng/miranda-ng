@@ -801,8 +801,6 @@ void CMsgDialog::DM_ThemeChanged()
 
 void CMsgDialog::DM_NotifyTyping(int mode)
 {
-	DeletePopupsForContact(m_hContact, PU_REMOVE_ON_TYPE);
-
 	const char *szProto = m_cache->getActiveProto();
 	MCONTACT hContact = m_cache->getActiveContact();
 
@@ -1046,7 +1044,7 @@ void CMsgDialog::DM_AddDivider()
 /////////////////////////////////////////////////////////////////////////////////////////
 // incoming event handler
 
-void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
+void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 {
 	MEVENT hDbEvent = (MEVENT)lParam;
 
@@ -1087,8 +1085,7 @@ void CMsgDialog::DM_EventAdded(WPARAM hContact, LPARAM lParam)
 			else if (m_pContainer->m_hwndActive != m_hwnd)
 				DM_AddDivider();
 		}
-		if (!bDisableNotify)
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, m_pContainer->m_bHidden ? 0 : 1, m_pContainer, m_hwnd, m_cache->getActiveProto());
+
 		if (IsWindowVisible(m_pContainer->m_hwnd))
 			m_pContainer->m_bHidden = false;
 	}

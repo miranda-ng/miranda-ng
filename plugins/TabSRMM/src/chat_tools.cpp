@@ -55,7 +55,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			if (si) {
-				if (nen_options.maskActL & MASK_OPEN)
+				if (NEN::ActionLeft & MASK_OPEN)
 					CallFunctionAsync(ShowRoomFromPopup, si);
 				else
 					CallFunctionAsync(Chat_DismissPopup, si);
@@ -67,7 +67,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 	case WM_CONTEXTMENU:
 		if (si && si->hContact) {
-			if (nen_options.maskActR & MASK_OPEN)
+			if (NEN::ActionRight & MASK_OPEN)
 				CallFunctionAsync(ShowRoomFromPopup, si);
 			else
 				CallFunctionAsync(Chat_DismissPopup, si);
@@ -145,20 +145,19 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	}
 	else bbStart = bbEnd = L"";
 
-	if (nen_options.iMUCDisable)                          // no popups at all. Period
+	if (NEN::bMUCDisabled)                          // no popups at all. Period
 		return 0;
 
 	// check the status mode against the status mask
 	char *szProto = dat ? dat->m_szProto : si->pszModule;
-	if (nen_options.dwStatusMask != -1) {
-		if (szProto != nullptr) {
-			int dwStatus = Proto_GetStatus(szProto);
-			if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE || ((1 << (dwStatus - ID_STATUS_ONLINE)) & nen_options.dwStatusMask)))            // should never happen, but...
-				return 0;
-		}
+	if (szProto != nullptr) {
+		int dwStatus = Proto_GetStatus(szProto);
+		if (!(dwStatus == 0 || dwStatus <= ID_STATUS_OFFLINE))
+			return 0;
 	}
+
 	if (dat && pContainer != nullptr) {                // message window is open, need to check the container config if we want to see a popup nonetheless
-		if (nen_options.bWindowCheck) {                  // no popups at all for open windows... no exceptions
+		if (NEN::bWindowCheck) {                  // no popups at all for open windows... no exceptions
 			if (!PluginConfig.m_bHideOnClose)
 				return 0;
 			if (pContainer->m_bHidden)
@@ -225,7 +224,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			DoTrayIcon(si, gce);
 		}
 
-		if (dat || !nen_options.iMUCDisable)
+		if (dat || !NEN::bMUCDisabled)
 			if (iMuteMode != CHATMODE_MUTE)
 				DoPopup(si, gce);
 
@@ -255,7 +254,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		// stupid thing to not create multiple popups for a QUIT event for instance
 		if (bManyFix == 0) {
 			// do popups
-			if (dat || !nen_options.iMUCDisable)
+			if (dat || !NEN::bMUCDisabled)
 				if (iMuteMode != CHATMODE_MUTE)
 					DoPopup(si, gce);
 

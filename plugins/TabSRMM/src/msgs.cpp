@@ -31,7 +31,6 @@
 
 #define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
-NEN_OPTIONS nen_options;
 static HANDLE hUserPrefsWindowLis = nullptr;
 HMODULE g_hMsftedit;
 
@@ -687,10 +686,14 @@ int LoadSendRecvMessageModule(void)
 	Win7Taskbar = new CTaskbarInteract;
 	Win7Taskbar->updateMetrics();
 
-	memset(&nen_options, 0, sizeof(nen_options));
 	PluginConfig.hUserPrefsWindowList = WindowList_Create();
 	sendQueue = new SendQueue;
 	Skin = new CSkin;
+
+	if (!db_is_module_empty(0, NEN_OLD_MODULE)) {
+		db_copy_module(NEN_OLD_MODULE, NEN_MODULE);
+		db_delete_module(0, NEN_OLD_MODULE);
+	}
 
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
@@ -698,7 +701,6 @@ int LoadSendRecvMessageModule(void)
 
 	PluginConfig.reloadSystemStartup();
 	ReloadTabConfig();
-	NEN_ReadOptions(&nen_options);
 
 	LoadDefaultTemplates();
 	return 0;

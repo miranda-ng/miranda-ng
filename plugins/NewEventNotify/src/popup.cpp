@@ -26,35 +26,29 @@
 
 extern int g_IsServiceAvail;
 
-static int PopupCount = 0;
+static LIST<PLUGIN_DATA> arPopupList(10, NumericKeySortT);
 
-PLUGIN_DATA* PopupList[MAX_POPUPS];
-
-int NumberPopupData(MCONTACT hContact, int eventType)
+PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType)
 {
-	for (int n = 0; n < MAX_POPUPS; n++) {
-		if (!PopupList[n] && !hContact && eventType == -1)
-			return n;
+	for (auto &it : arPopupList)
+		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
+			return it;
 
-		if (PopupList[n] && (PopupList[n]->hContact == hContact) && (PopupList[n]->iLock == 0) && (eventType == -1 || PopupList[n]->eventType == (UINT)eventType))
-			return n;
-	}
-	return -1;
+	return nullptr;
 }
 
-static int FindPopupData(PLUGIN_DATA* pdata)
+int NumberPopupData(MCONTACT hContact, UINT eventType)
 {
-	for (int n = 0; n < MAX_POPUPS; n++)
-		if (PopupList[n] == pdata)
-			return n;
+	for (auto &it : arPopupList)
+		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
+			return arPopupList.indexOf(&it);
 
 	return -1;
 }
 
-static void FreePopupEventData(PLUGIN_DATA* pdata)
+static void FreePopupEventData(PLUGIN_DATA *pdata)
 {
-	pdata->iLock = 1;
-	EVENT_DATA_EX* eventData = pdata->firstEventData;
+	EVENT_DATA_EX *eventData = pdata->firstEventData;
 	while (eventData) {
 		if (eventData->next) {
 			eventData = eventData->next;
@@ -66,19 +60,26 @@ static void FreePopupEventData(PLUGIN_DATA* pdata)
 			eventData = nullptr;
 		}
 	}
-	pdata->lastEventData = pdata->firstEventData = pdata->firstShowEventData = nullptr;
-	// remove from popup list if present
-	if (FindPopupData(pdata) != -1)
-		PopupList[FindPopupData(pdata)] = nullptr;
 }
 
-int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
+static void DoDefaultHandling(PLUGIN_DATA *pdata)
+{
+	if (pdata->hContact == 0)
+		return;
+
+	auto *pDlg = Srmm_FindDialog(pdata->hContact);
+	if (pDlg && IsWindow(pDlg->GetHwnd()))
+		CallService(MS_MSG_SENDMESSAGE, pdata->hContact, 0);
+	else
+		Clist_ContactDoubleClicked(pdata->hContact);
+}
+
+int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 {
 	if (mask & MASK_OPEN) {
 		if (pdata) {
-			// do MS_MSG_SENDMESSAGE instead if wanted to reply and not read!
 			if (g_plugin.bMsgReplyWindow && pdata->eventType == EVENTTYPE_MESSAGE)
-				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pdata->hContact, 0); // JK, use core (since 0.3.3+)
+				DoDefaultHandling(pdata);
 			else {
 				EVENT_DATA_EX *eventData = pdata->firstEventData;
 				if (eventData == nullptr)
@@ -86,8 +87,10 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 
 				for (int idx = 0;; idx++) {
 					CLISTEVENT *cle = g_clistApi.pfnGetEvent(pdata->hContact, idx);
-					if (cle == nullptr)
+					if (cle == nullptr) {
+						DoDefaultHandling(pdata);
 						break;
+					}
 
 					if (cle->hDbEvent == eventData->hEvent) {
 						if (ServiceExists(cle->pszService))
@@ -102,7 +105,6 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 	if (mask & MASK_REMOVE) {
 		if (pdata) {
 			EVENT_DATA_EX *eventData = pdata->firstEventData;
-			pdata->iLock = 1;
 			while (eventData) {
 				g_clistApi.pfnRemoveEvent(pdata->hContact, eventData->hEvent);
 				db_event_markRead(pdata->hContact, eventData->hEvent);
@@ -123,10 +125,12 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PUGetPluginData(hWnd);
+	auto *pdata = (PLUGIN_DATA*)PUGetPluginData(hWnd);
 	if (pdata == nullptr)
 		return FALSE;
 
+	RECT rc;
+	POINT	pt;
 	switch (message) {
 	case WM_COMMAND:
 		PopupAct(hWnd, g_plugin.maskActL, pdata);
@@ -135,12 +139,12 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		PopupAct(hWnd, g_plugin.maskActR, pdata);
 		break;
 	case UM_FREEPLUGINDATA:
-		PopupCount--;
 		mir_free(pdata);
 		return TRUE;
 	case UM_INITPOPUP:
 		pdata->hWnd = hWnd;
-		SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
+		if (pdata->iSeconds > 0)
+			SetTimer(hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
 		break;
 	case WM_MOUSEWHEEL:
 		if ((short)HIWORD(wParam) > 0 && pdata->firstShowEventData->prev &&
@@ -160,10 +164,44 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	case WM_TIMER:
 		if (wParam != TIMER_TO_ACTION)
 			break;
+
+		GetCursorPos(&pt);
+		GetWindowRect(hWnd, &rc);
+		if (PtInRect(&rc, pt))
+			break;
+
+		if (pdata->iSeconds > 0)
+			KillTimer(hWnd, TIMER_TO_ACTION);
 		PopupAct(hWnd, g_plugin.maskActTE, pdata);
 		break;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static wchar_t *ShortenPreview(DBEVENTINFO *dbe)
+{
+	bool	fAddEllipsis = false;
+	size_t iPreviewLimit = g_plugin.iLimitPreview;
+	if (iPreviewLimit > 500 || iPreviewLimit == 0)
+		iPreviewLimit = 500;
+
+	wchar_t *buf = DbEvent_GetTextW(dbe, CP_ACP);
+	if (mir_wstrlen(buf) > iPreviewLimit) {
+		fAddEllipsis = true;
+		size_t iIndex = iPreviewLimit;
+		size_t iWordThreshold = 20;
+		while (iIndex && buf[iIndex] != ' ' && iWordThreshold--)
+			buf[iIndex--] = 0;
+
+		buf[iIndex] = 0;
+	}
+	if (fAddEllipsis) {
+		buf = (wchar_t *)mir_realloc(buf, (mir_wstrlen(buf) + 5) * sizeof(wchar_t));
+		mir_wstrcat(buf, L"...");
+	}
+	return buf;
 }
 
 static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
@@ -171,32 +209,25 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 	wchar_t *comment1 = nullptr;
 	wchar_t *comment2 = nullptr;
 	char *commentFix = nullptr;
+	char *pBlob = (char *)dbei->pBlob;
 
 	// now get text
 	switch (dbei->eventType) {
 	case EVENTTYPE_MESSAGE:
-		if (dbei->pBlob) {
-			if (dbei->flags & DBEF_UTF) {
-				// utf-8 in blob
-				comment1 = mir_utf8decodeW((char*)dbei->pBlob);
-			}
-			else if (dbei->cbBlob == (mir_wstrlen((wchar_t *)dbei->pBlob) + 1)*(sizeof(wchar_t) + 1)) {
-				// wchar in blob (the old hack)
-				comment1 = mir_wstrdup((wchar_t*)dbei->pBlob);
-			}
-			else comment1 = mir_a2u((char *)dbei->pBlob);
-		}
+		if (pBlob)
+			comment1 = ShortenPreview(dbei);
 		commentFix = POPUP_COMMENT_MESSAGE;
 		break;
 
 	case EVENTTYPE_FILE:
-		if (dbei->pBlob) {
-			char *p = (char*)dbei->pBlob + sizeof(uint32_t);
+		if (pBlob) {
+			char *p = pBlob + sizeof(uint32_t);
 			// filenames
-			comment2 = (dbei->flags & DBEF_UTF) ? mir_utf8decodeW(p) : mir_a2u(p);
-			p += mir_strlen(p) + 1;
+			comment2 = DbEvent_GetString(dbei, p);
 			// description
-			comment1 = (dbei->flags & DBEF_UTF) ? mir_utf8decodeW(p) : mir_a2u(p);
+			p += mir_strlen(p) + 1;
+			if (*p)
+				comment1 = DbEvent_GetString(dbei, p);
 		}
 		commentFix = POPUP_COMMENT_FILE;
 		break;
@@ -205,10 +236,10 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		// blob format is:
 		// ASCIIZ    nick
 		// ASCIIZ    UID
-		if (dbei->pBlob) {
+		if (pBlob) {
 			// count contacts in event
-			char* pcBlob = (char *)dbei->pBlob;
-			char* pcEnd = (char *)(dbei->pBlob + dbei->cbBlob);
+			char* pcBlob = pBlob;
+			char* pcEnd = pBlob + dbei->cbBlob;
 			int nContacts;
 			wchar_t szBuf[512];
 
@@ -235,16 +266,16 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		// ASCIIZ    first name
 		// ASCIIZ    last name
 		// ASCIIZ    email (or YID)
-		if (dbei->pBlob) {
+		if (pBlob) {
 			char szUin[16];
 			wchar_t szBuf[2048];
 			wchar_t* szNick = nullptr;
-			char *pszNick = (char *)dbei->pBlob + 8;
+			char *pszNick = pBlob + 8;
 			char *pszFirst = pszNick + mir_strlen(pszNick) + 1;
 			char *pszLast = pszFirst + mir_strlen(pszFirst) + 1;
 			char *pszEmail = pszLast + mir_strlen(pszLast) + 1;
 
-			mir_snprintf(szUin, "%d", *((uint32_t*)dbei->pBlob));
+			mir_snprintf(szUin, "%d", *((uint32_t*)pBlob));
 			if (mir_strlen(pszNick) > 0) {
 				if (dbei->flags & DBEF_UTF)
 					szNick = mir_utf8decodeW(pszNick);
@@ -257,7 +288,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 				else
 					szNick = mir_a2u(pszEmail);
 			}
-			else if (*((uint32_t*)dbei->pBlob) > 0)
+			else if (*((uint32_t*)pBlob) > 0)
 				szNick = mir_a2u(szUin);
 
 			if (szNick) {
@@ -271,7 +302,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		break;
 
 	case EVENTTYPE_AUTHREQUEST:
-		if (dbei->pBlob) {
+		if (pBlob) {
 			DB::AUTH_BLOB blob(dbei->pBlob);
 
 			wchar_t *szNick = nullptr;
@@ -293,7 +324,7 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 	default:
 		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei->szModule, dbei->eventType);
 		// support for custom database event types
-		if (pei && dbei->pBlob) {
+		if (pBlob) {
 			comment1 = DbEvent_GetTextW(dbei, CP_ACP);
 			commentFix = pei->descr;
 		}
@@ -317,10 +348,6 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 {
 	wchar_t *sampleEvent;
 	long iSeconds;
-
-	// there has to be a maximum number of popups shown at the same time
-	if (PopupCount >= MAX_POPUPS)
-		return 2;
 
 	// check if we should report this kind of event
 	// get the prefered icon as well
@@ -380,7 +407,6 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->countEvent = 1;
-	pdata->iLock = 0;
 	pdata->iSeconds = (iSeconds > 0) ? iSeconds : g_plugin.iDelayDefault;
 	pdata->firstEventData = pdata->firstShowEventData = pdata->lastEventData = eventData;
 
@@ -399,13 +425,11 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		wcsncpy(pudw.lpwzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 
-	PopupCount++;
+	arPopupList.insert(pdata);
 
-	PopupList[NumberPopupData(NULL, -1)] = pdata;
 	// send data to popup plugin
-
-	// popup creation failed, release popupdata
 	if (PUAddPopupW(&pudw) < 0) {
+		// popup creation failed, release popupdata
 		FreePopupEventData(pdata);
 		mir_free(pdata);
 	}
@@ -417,7 +441,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 {
 	// merge only message popups
-	PLUGIN_DATA *pdata = (PLUGIN_DATA*)PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
+	PLUGIN_DATA *pdata = arPopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
 
 	if (hEvent) {
 		pdata->countEvent++;

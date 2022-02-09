@@ -416,7 +416,6 @@ int CGlobals::PreshutdownSendRecv(WPARAM, LPARAM)
 	for (auto &hContact : Contacts())
 		db_set_dw(hContact, SRMSGMOD_T, "messagecount", 0);
 
-	::NEN_WriteOptions(&nen_options);
 	::DestroyWindow(PluginConfig.g_hwndHotkeyHandler);
 
 	::UnregisterClass(L"TSStatusBarClass", g_plugin.getInst());

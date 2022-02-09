@@ -212,12 +212,12 @@ struct CSendLaterJob : public MZeroedObject
 					/*
 					* use message settings (timeout/colors) for success popups
 					*/
-					ppd.colorText = fFailed ? RGB(255, 245, 225) : nen_options.colTextMsg;
-					ppd.colorBack = fFailed ? RGB(191, 0, 0) : nen_options.colBackMsg;
+					ppd.colorText = fFailed ? RGB(255, 245, 225) : NEN::colTextMsg;
+					ppd.colorBack = fFailed ? RGB(191, 0, 0) : NEN::colBackMsg;
 					ppd.PluginWindowProc = Utils::PopupDlgProcError;
 					ppd.lchIcon = fFailed ? PluginConfig.g_iconErr : PluginConfig.g_IconMsgEvent;
 					ppd.PluginData = nullptr;
-					ppd.iSeconds = fFailed ? -1 : nen_options.iDelayMsg;
+					ppd.iSeconds = fFailed ? -1 : NEN::iDelayMsg;
 					PUAddPopupW(&ppd);
 				}
 			}

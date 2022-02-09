@@ -1654,9 +1654,6 @@ int OptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pDialog = new CTabConfigDlg();
 	g_plugin.addOptions(wParam, &odp);
 
-	// popup options
-	Popup_Options(wParam);
-
 	// group chats
 	Chat_Options(wParam);
 	return 0;

@@ -461,7 +461,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWMULTISENDCONTACTLIST, dat->m_sendMode & SMODE_MULTIPLE);
 		MY_CheckMenu(hMenu, ID_VIEW_STAYONTOP, f.m_bSticky);
 
-		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (nen_options.bWindowCheck ? MF_GRAYED : MF_ENABLED));
+		::EnableMenuItem(hMenu, 2, MF_BYPOSITION | (NEN::bWindowCheck ? MF_GRAYED : MF_ENABLED));
 		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_DISABLEALLEVENTPOPUPS, !f.m_bDontReport && !f.m_bDontReportUnfocused && !f.m_bDontReportFocused && !f.m_bAlwaysReportInactive);
 		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSIFWINDOWISMINIMIZED, f.m_bDontReport);
 		MY_CheckMenu(hMenu, ID_EVENTPOPUPS_SHOWPOPUPSFORALLINACTIVESESSIONS, f.m_bAlwaysReportInactive);

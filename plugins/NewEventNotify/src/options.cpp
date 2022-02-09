@@ -28,42 +28,49 @@ BOOL bWmNotify;
 
 void CMPlugin::OptionsRead(void)
 {
-	bDisable = getByte(OPT_DISABLE, FALSE);
-	bPreview = getByte(OPT_PREVIEW, TRUE);
-	bMenuitem = getByte(OPT_MENUITEM, FALSE);
-	bDefaultColorMsg = getByte(OPT_COLDEFAULT_MESSAGE, FALSE);
-	bDefaultColorFile = getByte(OPT_COLDEFAULT_FILE, FALSE);
-	bDefaultColorOthers = getByte(OPT_COLDEFAULT_OTHERS, FALSE);
+	bDisable = getBool(OPT_DISABLE, false);
+	bMUCDisable = getBool(OPT_MUCDISABLE, false);
+
+	bPreview = getBool(OPT_PREVIEW, true);
+	bMenuitem = getBool(OPT_MENUITEM, false);
+	bMergePopup = getBool(OPT_MERGEPOPUP, true);
+	bMsgWindowCheck = getBool(OPT_MSGWINDOWCHECK, true);
+	bMsgReplyWindow = getBool(OPT_MSGREPLYWINDOW, false);
+	bDefaultColorMsg = getBool(OPT_COLDEFAULT_MESSAGE, false);
+	bDefaultColorFile = getBool(OPT_COLDEFAULT_FILE, false);
+	bDefaultColorOthers = getBool(OPT_COLDEFAULT_OTHERS, false);
+
 	colBackMsg = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
 	colTextMsg = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
 	colBackFile = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
 	colTextFile = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
 	colBackOthers = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
 	colTextOthers = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
+	
 	maskNotify = getByte(OPT_MASKNOTIFY, DEFAULT_MASKNOTIFY);
 	maskActL = getByte(OPT_MASKACTL, DEFAULT_MASKACTL);
 	maskActR = getByte(OPT_MASKACTR, DEFAULT_MASKACTR);
 	maskActTE = getByte(OPT_MASKACTTE, DEFAULT_MASKACTE);
-	bMsgWindowCheck = getByte(OPT_MSGWINDOWCHECK, TRUE);
-	bMsgReplyWindow = getByte(OPT_MSGREPLYWINDOW, FALSE);
-	bMergePopup = getByte(OPT_MERGEPOPUP, TRUE);
+	
 	iDelayMsg = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
 	iDelayFile = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
 	iDelayOthers = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
 	iDelayDefault = DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
-	bShowDate = getByte(OPT_SHOW_DATE, TRUE);
-	bShowTime = getByte(OPT_SHOW_TIME, TRUE);
-	bShowHeaders = getByte(OPT_SHOW_HEADERS, TRUE);
-	iNumberMsg = getByte(OPT_NUMBER_MSG, TRUE);
-	bShowON = getByte(OPT_SHOW_ON, TRUE);
-	bHideSend = getByte(OPT_HIDESEND, TRUE);
-	bNoRSS = getByte(OPT_NORSS, FALSE);
-	bReadCheck = getByte(OPT_READCHECK, FALSE);
+
+	bShowDate = getBool(OPT_SHOW_DATE, true);
+	bShowTime = getBool(OPT_SHOW_TIME, true);
+	bShowHeaders = getBool(OPT_SHOW_HEADERS, false);
+	iNumberMsg = getByte(OPT_NUMBER_MSG, 1);
+	bShowON = getBool(OPT_SHOW_ON, true);
+	bHideSend = getBool(OPT_HIDESEND, true);
+	bNoRSS = getBool(OPT_NORSS, false);
+	bReadCheck = getBool(OPT_READCHECK, false);
 }
 
 void CMPlugin::OptionsWrite(void)
 {
 	setByte(OPT_DISABLE, bDisable);
+	setByte(OPT_MUCDISABLE, bMUCDisable);
 	setByte(OPT_PREVIEW, bPreview);
 	setByte(OPT_MENUITEM, bMenuitem);
 	setByte(OPT_COLDEFAULT_MESSAGE, bDefaultColorMsg);
@@ -75,6 +82,7 @@ void CMPlugin::OptionsWrite(void)
 	setDword(OPT_COLTEXT_FILE, colTextFile);
 	setDword(OPT_COLBACK_OTHERS, colBackOthers);
 	setDword(OPT_COLTEXT_OTHERS, colTextOthers);
+	setDword(OPT_LIMITPREVIEW, iLimitPreview);
 	setByte(OPT_MASKNOTIFY, (uint8_t)maskNotify);
 	setByte(OPT_MASKACTL, (uint8_t)maskActL);
 	setByte(OPT_MASKACTR, (uint8_t)maskActR);

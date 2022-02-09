@@ -45,14 +45,6 @@ void RegisterFontServiceFonts();
 LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 /*
- * nen / event popup stuff
- */
-
-int   TSAPI NEN_ReadOptions(NEN_OPTIONS *options);
-int   TSAPI NEN_WriteOptions(NEN_OPTIONS *options);
-void  TSAPI DeletePopupsForContact(MCONTACT hContact, uint32_t dwMask);
-
-/*
  * gneric msgwindow functions(creation, container management etc.)
  */
 

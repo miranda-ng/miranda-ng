@@ -1197,21 +1197,17 @@ void CMsgDialog::NotifyDeliveryFailure() const
 	if (!Popup_Enabled())
 		return;
 
-	POPUPDATAW ppd;
+	POPUPDATAW ppd = {};
 	ppd.lchContact = m_hContact;
-	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
-	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
-
-	if (!(BOOL)db_get_b(0, MODULE, OPT_COLDEFAULT_ERR, TRUE)) {
-		ppd.colorText = (COLORREF)db_get_dw(0, MODULE, OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
-		ppd.colorBack = (COLORREF)db_get_dw(0, MODULE, OPT_COLBACK_ERR, DEFAULT_COLBACK);
-	}
-	else ppd.colorText = ppd.colorBack = 0;
-
 	ppd.PluginWindowProc = Utils::PopupDlgProcError;
 	ppd.lchIcon = PluginConfig.g_iconErr;
-	ppd.PluginData = nullptr;
-	ppd.iSeconds = (int)db_get_dw(0, MODULE, OPT_DELAY_ERR, (uint32_t)DEFAULT_DELAY);
+	ppd.iSeconds = NEN::iDelayErr;
+	if (!NEN::bColDefaultErr) {
+		ppd.colorText = NEN::colTextErr;
+		ppd.colorBack = NEN::colBackErr;
+	}
+	wcsncpy_s(ppd.lpwzContactName, m_cache->getNick(), _TRUNCATE);
+	wcsncpy_s(ppd.lpwzText, TranslateT("A message delivery has failed.\nClick to open the message window."), _TRUNCATE);
 	PUAddPopupW(&ppd);
 }
 
@@ -2456,9 +2452,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 
 		m_pContainer->m_pMenuBar->configureMenu();
 		g_arUnreadWindows.remove(HANDLE(m_hContact));
-
-		if (m_pContainer->m_hwndActive == m_hwnd)
-			DeletePopupsForContact(m_hContact, PU_REMOVE_ON_FOCUS);
 
 		m_pPanel.Invalidate();
 

@@ -450,20 +450,15 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		switch (dbei.eventType) {
 		case EVENTTYPE_AUTHREQUEST:
 		case EVENTTYPE_ADDED:
-			return 0;
-
 		case EVENTTYPE_FILE:
-			tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 			return 0;
 		}
 	}
 
-	// if no window is open, we are not interested in anything else but unread message events
-	// new message
-	if (!nen_options.iNoSounds)
+	if (!NEN::bNoSounds)
 		Skin_PlaySound("AlertMsg");
 
-	if (nen_options.iNoAutoPopup)
+	if (NEN::bNoAutoPopup)
 		goto nowindowcreate;
 
 	PostMessage(PluginConfig.g_hwndHotkeyHandler, DM_CREATECONTAINER, hContact, hDbEvent);
@@ -486,8 +481,6 @@ nowindowcreate:
 		cle.pszService = MS_MSG_READMESSAGE;
 		cle.szTooltip.w = toolTip;
 		g_clistApi.pfnAddEvent(&cle);
-
-		tabSRMM_ShowPopup(hContact, hDbEvent, dbei.eventType, 0, nullptr, nullptr, dbei.szModule);
 	}
 	return 0;
 }

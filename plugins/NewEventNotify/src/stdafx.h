@@ -37,6 +37,7 @@
 #include <m_langpack.h>
 #include <m_popup.h>
 #include <m_skin.h>
+#include <m_srmm_int.h>
 #include <m_clistint.h>
 #include <m_protosvc.h>
 #include <m_message.h>
@@ -55,7 +56,6 @@
 //---Definitions
 
 #define MODULENAME "NewEventNotify"
-#define MAX_POPUPS 20
 
 #define DEFAULT_COLBACK RGB(255,255,128)
 #define DEFAULT_COLTEXT RGB(0,0,0)
@@ -86,8 +86,10 @@
 
 //Entries in the database, don't translate
 #define OPT_DISABLE "Disabled"
+#define OPT_MUCDISABLE "MUCDisabled"
 #define OPT_PREVIEW "Preview"
 #define OPT_MENUITEM "MenuItem"
+#define OPT_LIMITPREVIEW "LimitPreview"
 #define OPT_COLDEFAULT_MESSAGE "DefaultColorMsg"
 #define OPT_COLBACK_MESSAGE "ColorBackMsg"
 #define OPT_COLTEXT_MESSAGE "ColorTextMsg"
@@ -143,36 +145,45 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	void OptionsRead(void);
 	void OptionsWrite(void);
 
-	BOOL bDisable;
-	BOOL bPreview;
-	BOOL bMenuitem;
-	BOOL bDefaultColorMsg;
-	BOOL bDefaultColorFile;
-	BOOL bDefaultColorOthers;
+	bool bDisable;
+	bool bMUCDisable;
+	bool bPreview;
+	bool bMenuitem;
+	bool bDefaultColorMsg;
+	bool bDefaultColorFile;
+	bool bDefaultColorOthers;
+	bool bDisableNonMessage;
+	bool bMsgWindowCheck;
+	bool bMsgReplyWindow;
+	bool bMergePopup;
+	bool bShowDate;
+	bool bShowTime;
+	bool bShowHeaders;
+	bool bShowON;
+	bool bHideSend;
+	bool bNoRSS;
+	bool iNoSounds;
+	bool bReadCheck;
+	bool bWindowCheck;
+
 	COLORREF colBackMsg;
 	COLORREF colTextMsg;
 	COLORREF colBackFile;
 	COLORREF colTextFile;
 	COLORREF colBackOthers;
 	COLORREF colTextOthers;
+	
 	UINT maskNotify;
 	UINT maskActL;
 	UINT maskActR;
 	UINT maskActTE;
-	BOOL bMsgWindowCheck;
-	BOOL bMsgReplyWindow;
+
 	int iDelayMsg;
 	int iDelayFile;
 	int iDelayOthers;
 	int iDelayDefault;
-	BOOL bMergePopup;
-	BOOL bShowDate;
-	BOOL bShowTime;
-	BOOL bShowHeaders;
-	BOOL bShowON;
-	BOOL bHideSend;
-	BOOL bNoRSS;
-	BOOL bReadCheck;
+	int iLimitPreview;
+
 	uint8_t iNumberMsg;
 };
 
@@ -186,15 +197,14 @@ struct EVENT_DATA_EX
 
 struct PLUGIN_DATA
 {
-	UINT eventType;
 	MCONTACT hContact;
+	UINT eventType;
 	HWND hWnd;
 	struct EVENT_DATA_EX* firstEventData;
 	struct EVENT_DATA_EX* firstShowEventData;
 	struct EVENT_DATA_EX* lastEventData;
 	long countEvent;
 	long iSeconds;
-	int iLock;
 };
 
 //---------------------------
@@ -208,5 +218,7 @@ int OptionsAdd(WPARAM addInfo, LPARAM);
 int Opt_DisableNEN(BOOL Status);
 int MenuitemInit(BOOL bStatus);
 int MenuitemUpdate(BOOL bStatus);
-int NumberPopupData(MCONTACT hContact, int eventType);
+int NumberPopupData(MCONTACT hContact, UINT eventType);
 int CheckMsgWnd(MCONTACT hContact);
+
+PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType);

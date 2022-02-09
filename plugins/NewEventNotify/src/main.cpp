@@ -24,8 +24,6 @@
 
 #include "stdafx.h"
 
-extern PLUGIN_DATA* PopupList[20];
-
 //---------------------------
 //---Some global variables for the plugin
 
@@ -86,8 +84,8 @@ int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 	if (dbe.flags & DBEF_SENT) {
 		// JK, only message event, do not influence others
 		if (g_plugin.bHideSend && NumberPopupData(hContact, EVENTTYPE_MESSAGE) != -1) {
-			PLUGIN_DATA *pdata = PopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
-			PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
+			if (auto *pdata = PU_GetByContact(hContact, EVENTTYPE_MESSAGE))
+				PopupAct(pdata->hWnd, MASK_DISMISS, pdata); // JK, only dismiss, i.e. do not kill event (e.g. file transfer)
 		}		
 		return 0; 
 	}

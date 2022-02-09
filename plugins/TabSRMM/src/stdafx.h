@@ -214,7 +214,6 @@ typedef struct _BP_PAINTPARAMS
 #undef _USE_32BIT_TIME_T
 #endif
 
-extern NEN_OPTIONS nen_options;
 extern CSkinItem SkinItems[];
 extern TContainerData *pFirstContainer, *pLastActiveContainer;
 extern ButtonSet g_ButtonSet;
@@ -237,7 +236,6 @@ int  LoadSendRecvMessageModule(void);
 int  SplitmsgShutdown(void);
 int  Chat_Load(), Chat_Unload();
 void Chat_Options(WPARAM);
-void Popup_Options(WPARAM);
 void FreeLogFonts();
 
 INT_PTR SendMessageCommand(WPARAM, LPARAM);
