@@ -1513,3 +1513,4 @@ TimeZone_GetSystemTime @1692
 ?QueryAttribute@XMLElement@tinyxml2@@QBE?AW4XMLError@2@PBDPAPBD@Z @1735 NONAME
 db_copy_module @1736
 ?db_is_module_empty@@YG_NIPBD@Z @1737 NONAME
+?AddOption@CCtrlTreeOpts@@QAEXPB_W0AA_N@Z @1738 NONAME

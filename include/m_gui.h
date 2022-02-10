@@ -1352,6 +1352,8 @@ public:
 	~CCtrlTreeOpts();
 
 	void AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option);
+	void AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, bool &option);
+	void AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, uint32_t &option, uint32_t mask);
 
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 	void OnDestroy() override;
@@ -1363,16 +1365,26 @@ protected:
 	{
 		const wchar_t *m_pwszSection, *m_pwszName;
 
-		CMOption<bool> *m_option;
+		union
+		{
+			CMOption<bool> *m_option;
+			bool *m_pBool;
+			struct
+			{
+				uint32_t *m_pDword;
+				uint32_t m_mask;
+			};
+		};
 
 		HTREEITEM m_hItem = nullptr;
+		enum OptionItemType { CMOPTION = 1, BOOL = 2, MASK = 3 };
+		OptionItemType m_type;
 
-		COptionsItem(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option) :
+		COptionsItem(const wchar_t *pwszSection, const wchar_t *pwszName, OptionItemType type) :
 			m_pwszSection(pwszSection),
 			m_pwszName(pwszName),
-			m_option(&option)
-		{
-		}
+			m_type(type)
+		{}
 	};
 
 	OBJLIST<COptionsItem> m_options;

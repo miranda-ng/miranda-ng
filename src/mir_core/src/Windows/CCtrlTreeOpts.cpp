@@ -36,7 +36,24 @@ CCtrlTreeOpts::~CCtrlTreeOpts()
 
 void CCtrlTreeOpts::AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, CMOption<bool> &option)
 {
-	m_options.insert(new COptionsItem(pwszSection, pwszName, option), m_options.getCount());
+	auto *p = new COptionsItem(pwszSection, pwszName, COptionsItem::CMOPTION);
+	p->m_option = &option;
+	m_options.insert(p, m_options.getCount());
+}
+
+void CCtrlTreeOpts::AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, bool &option)
+{
+	auto *p = new COptionsItem(pwszSection, pwszName, COptionsItem::BOOL);
+	p->m_pBool = &option;
+	m_options.insert(p, m_options.getCount());
+}
+
+void CCtrlTreeOpts::AddOption(const wchar_t *pwszSection, const wchar_t *pwszName, uint32_t &option, uint32_t mask)
+{
+	auto *p = new COptionsItem(pwszSection, pwszName, COptionsItem::MASK);
+	p->m_pDword = &option;
+	p->m_mask = mask;
+	m_options.insert(p, m_options.getCount());
 }
 
 BOOL CCtrlTreeOpts::OnNotify(int idCtrl, NMHDR *pnmh)
@@ -104,6 +121,21 @@ void CCtrlTreeOpts::OnInit()
 				hSection = InsertItem(&tvis);
 			}
 
+			bool bValue;
+			switch (it->m_type) {
+			case COptionsItem::CMOPTION:
+				bValue = *it->m_option;
+				break;
+			case COptionsItem::BOOL:
+				bValue = *it->m_pBool;
+				break;
+			case COptionsItem::MASK:
+				bValue = (*it->m_pDword & it->m_mask) != 0;
+				break;
+			default:
+				continue;
+			}
+
 			TVINSERTSTRUCT tvis = {};
 			tvis.hParent = hSection;
 			tvis.hInsertAfter = TVI_LAST;
@@ -111,7 +143,7 @@ void CCtrlTreeOpts::OnInit()
 			tvis.item.pszText = (LPWSTR)it->m_pwszName;
 			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
 			tvis.item.lParam = m_options.indexOf(&it);
-			tvis.item.iImage = tvis.item.iSelectedImage = (*it->m_option) ? IMG_CHECK : IMG_NOCHECK;
+			tvis.item.iImage = tvis.item.iSelectedImage = (bValue) ? IMG_CHECK : IMG_NOCHECK;
 
 			it->m_hItem = InsertItem(&tvis);
 		}
@@ -134,7 +166,22 @@ bool CCtrlTreeOpts::OnApply()
 	for (auto &it : m_options) {
 		TVITEMEX tvi;
 		GetItem(it->m_hItem, &tvi);
-		*it->m_option = (tvi.iImage == IMG_CHECK) ? 1 : 0;
+		
+		bool bValue = (tvi.iImage == IMG_CHECK);
+		switch (it->m_type) {
+		case COptionsItem::CMOPTION:
+			*it->m_option = bValue;
+			break;
+		case COptionsItem::BOOL:
+			*it->m_pBool = bValue;
+			break;
+		case COptionsItem::MASK:
+			if (bValue)
+				*it->m_pDword |= it->m_mask;
+			else
+				*it->m_pDword &= ~it->m_mask;
+			break;
+		}
 	}
 	return true;
 }
