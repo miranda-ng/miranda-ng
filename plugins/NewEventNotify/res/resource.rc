@@ -13,125 +13,73 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_OPT DIALOGEX 0, 0, 314, 252
+IDD_OPT_MAIN DIALOGEX 0, 0, 314, 238
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "General options",IDC_STATIC,6,2,199,43
-    CONTROL         "Show entry in the Popups menu",IDC_CHKMENUITEM,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,11,190,10
-    CONTROL         "Temporarily disable event popups",IDC_CHKDISABLE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,21,190,10
-    CONTROL         "Show preview of event in popup",IDC_CHKPREVIEW,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,31,190,10
-    GROUPBOX        "Popup options",IDC_STATIC,6,45,199,75
-    LTEXT           "Message",IDC_STATIC,11,65,44,13
-    LTEXT           "File",IDC_STATIC,11,91,44,13
-    LTEXT           "Others",IDC_STATIC,12,104,44,13
-    LTEXT           "Text",IDC_STATIC,56,54,23,8
-    CONTROL         "",IDC_COLTEXT_MESSAGE,"ColourPicker",WS_TABSTOP,56,65,
-                    24,13
-    CONTROL         "",IDC_COLTEXT_FILE,"ColourPicker",WS_TABSTOP,56,89,24,
-                    13
-    CONTROL         "",IDC_COLTEXT_OTHERS,"ColourPicker",WS_TABSTOP,56,101,
-                    24,13
-    LTEXT           "Background",IDC_STATIC,86,54,44,8
-    CONTROL         "",IDC_COLBACK_MESSAGE,"ColourPicker",WS_TABSTOP,86,65,
-                    24,13
-    CONTROL         "",IDC_COLBACK_FILE,"ColourPicker",WS_TABSTOP,86,89,24,
-                    13
-    CONTROL         "",IDC_COLBACK_OTHERS,"ColourPicker",WS_TABSTOP,86,101,
-                    24,13
-    CONTROL         "",IDC_CHKDEFAULTCOL_MESSAGE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,133,65,11,10
-    CONTROL         "",IDC_CHKDEFAULTCOL_FILE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,133,91,11,10
-    CONTROL         "",IDC_CHKDEFAULTCOL_OTHERS,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,133,103,11,10
-    CTEXT           "Timeout",IDC_STATIC,144,52,56,10
-    EDITTEXT        IDC_DELAY_MESSAGE,155,62,26,13,ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    EDITTEXT        IDC_DELAY_FILE,155,88,26,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_DELAY_OTHERS,155,101,26,13,ES_AUTOHSCROLL | 
-                    ES_NUMBER
-    CONTROL         "",IDC_CHKINFINITE_MESSAGE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,185,65,11,10
-    CONTROL         "",IDC_CHKINFINITE_FILE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,185,91,11,10
-    CONTROL         "",IDC_CHKINFINITE_OTHERS,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,185,103,11,10
-    GROUPBOX        "Notify me of...",IDC_STATIC,208,2,100,56
-    CONTROL         "Message",IDC_CHKNOTIFY_MESSAGE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,11,90,10
-    CONTROL         "File",IDC_CHKNOTIFY_FILE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,33,90,10
-    CONTROL         "Others",IDC_CHKNOTIFY_OTHER,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,44,90,10
-    GROUPBOX        "Left click actions",IDC_STATIC,208,58,100,44
-    CONTROL         "Dismiss popup",IDC_CHKACTL_DISMISS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,67,90,10
-    CONTROL         "Open event",IDC_CHKACTL_OPEN,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,78,90,10
-    CONTROL         "Dismiss event",IDC_CHKACTL_REMOVE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,89,90,10
-    GROUPBOX        "Right click actions",IDC_STATIC,208,102,100,44
-    CONTROL         "Dismiss popup",IDC_CHKACTR_DISMISS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,111,90,10
-    CONTROL         "Open event",IDC_CHKACTR_OPEN,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,122,90,10
-    CONTROL         "Dismiss event",IDC_CHKACTR_REMOVE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,133,90,10
-    GROUPBOX        "Timeout actions",IDC_STATIC,208,147,100,44
-    CONTROL         "Dismiss popup",IDC_CHKACTTE_DISMISS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,156,90,10
-    CONTROL         "Open event",IDC_CHKACTTE_OPEN,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,212,167,90,10
-    CONTROL         "Dismiss event",IDC_CHKACTTE_REMOVE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,212,178,90,10
-    GROUPBOX        "Message event only",IDC_STATIC,6,120,199,131
-    CONTROL         "Don't show popup when message dialog is already open",
-                    IDC_CHKWINDOWCHECK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    10,129,192,10
+    CONTROL         "",IDC_OPT_TREE,"SysTreeView32",TVS_DISABLEDRAGDROP | WS_BORDER | WS_HSCROLL | WS_TABSTOP,10,0,298,138
+    GROUPBOX        "Popup options",IDC_STATIC,7,139,298,79
+    LTEXT           "Text",IDC_STATIC,93,145,23,8
+    LTEXT           "Background",IDC_STATIC,142,145,44,8
+    CTEXT           "Timeout",IDC_STATIC,200,145,56,8
+    LTEXT           "Message",IDC_STATIC,13,158,44,8
+    CONTROL         "",IDC_COLTEXT_MESSAGE,"ColourPicker",WS_TABSTOP,93,157,39,11
+    CONTROL         "",IDC_COLBACK_MESSAGE,"ColourPicker",WS_TABSTOP,142,157,39,11
+    CONTROL         "",IDC_CHKDEFAULTCOL_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,158,11,10
+    EDITTEXT        IDC_DELAY_MESSAGE,212,155,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHKINFINITE_MESSAGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,258,158,11,10
+    LTEXT           "File",IDC_STATIC,13,172,44,8
+    CONTROL         "",IDC_COLTEXT_FILE,"ColourPicker",WS_TABSTOP,93,171,39,11
+    CONTROL         "",IDC_COLBACK_FILE,"ColourPicker",WS_TABSTOP,142,171,39,11
+    CONTROL         "",IDC_CHKDEFAULTCOL_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,172,11,10
+    EDITTEXT        IDC_DELAY_FILE,212,170,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHKINFINITE_FILE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,258,172,11,10
+    LTEXT           "Errors",IDC_STATIC,13,185,44,8
+    CONTROL         "",IDC_COLTEXT_ERR,"ColourPicker",WS_TABSTOP,93,185,39,11
+    CONTROL         "",IDC_COLBACK_ERR,"ColourPicker",WS_TABSTOP,142,185,39,11
+    CONTROL         "",IDC_CHKDEFAULTCOL_ERR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,186,11,10
+    EDITTEXT        IDC_DELAY_ERR,212,184,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHKINFINITE_ERR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,258,186,11,10
+    LTEXT           "Others",IDC_STATIC,13,200,44,8
+    CONTROL         "",IDC_COLTEXT_OTHERS,"ColourPicker",WS_TABSTOP,93,199,39,11
+    CONTROL         "",IDC_COLBACK_OTHERS,"ColourPicker",WS_TABSTOP,142,199,39,11
+    CONTROL         "",IDC_CHKDEFAULTCOL_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,190,200,11,10
+    EDITTEXT        IDC_DELAY_OTHERS,212,198,26,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHKINFINITE_OTHERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,258,200,11,10
+    PUSHBUTTON      "Preview",IDC_PREVIEW,245,222,60,12
+END
+
+IDD_OPT_MESSAGE DIALOGEX 0, 0, 314, 252
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "Don't show popup when message dialog is already open",IDC_CHKWINDOWCHECK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,8,297,10
     CONTROL         "Hide popup when sending new message",IDC_CHKHIDESEND,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,138,192,10
-    CONTROL         "Open reply dialog instead of reading the message",
-                    IDC_CHKREPLYWINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    10,147,192,10
-    CONTROL         "Merge popups from one user",IDC_CHKMERGEPOPUP,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,157,192,10
-    PUSHBUTTON      "Preview",IDC_PREVIEW,228,204,60,12
-    CONTROL         "Show date",IDC_CHKSHOWDATE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,20,166,84,10
-    CONTROL         "Show time",IDC_CHKSHOWTIME,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,20,176,84,10
-    CONTROL         "Show headers",IDC_CHKSHOWHEADERS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,20,186,84,10
-    LTEXT           "Number of begin shown messages",IDC_LBNUMBERMSG,20,195,
-                    143,8
-    EDITTEXT        IDC_NUMBERMSG,171,192,26,13,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Last message display first",IDC_RDNEW,"Button",
-                    BS_AUTORADIOBUTTON,19,205,107,9
-    CONTROL         "Last message display last",IDC_RDOLD,"Button",
-                    BS_AUTORADIOBUTTON,19,216,111,9
-    PUSHBUTTON      "Edit",IDC_CMDEDITHEADERS,107,185,36,11
-    CONTROL         "No popups for RSS contacts",IDC_SUPRESSRSS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,227,192,10
-    CONTROL         "No popups for read messages",IDC_READCHECK,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,10,237,192,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,20,297,10
+    CONTROL         "Open reply dialog instead of reading the message",IDC_CHKREPLYWINDOW,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,32,297,11
+    CONTROL         "Merge popups from one user",IDC_CHKMERGEPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,63,295,10
+    CONTROL         "Show date",IDC_CHKSHOWDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,74,227,10
+    CONTROL         "Show time",IDC_CHKSHOWTIME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,85,214,10
+    CONTROL         "Show headers",IDC_CHKSHOWHEADERS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,96,220,10
+    LTEXT           "Number of begin shown messages",IDC_LBNUMBERMSG,15,109,143,8
+    EDITTEXT        IDC_NUMBERMSG,166,107,48,13,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Last message display first",IDC_RDNEW,"Button",BS_AUTORADIOBUTTON,14,120,253,9
+    CONTROL         "Last message display last",IDC_RDOLD,"Button",BS_AUTORADIOBUTTON,14,131,285,9
 END
 
 
@@ -161,20 +109,76 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
-    IDD_OPT, DIALOG
+    IDD_OPT_MAIN, DIALOG
     BEGIN
-        LEFTMARGIN, 0
-        RIGHTMARGIN, 308
-        VERTGUIDE, 10
-        TOPMARGIN, 0
-        BOTTOMMARGIN, 252
-        HORZGUIDE, 250
+    END
+
+    IDD_OPT_MESSAGE, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+
 /////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_MAIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPT_MESSAGE AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United Kingdom) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // English (United Kingdom) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
 

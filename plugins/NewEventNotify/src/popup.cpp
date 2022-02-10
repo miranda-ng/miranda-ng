@@ -359,27 +359,27 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	case EVENTTYPE_MESSAGE:
 		if (!(g_plugin.maskNotify & MASK_MESSAGE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		pudw.colorBack = g_plugin.bDefaultColorMsg ? 0 : g_plugin.colBackMsg;
-		pudw.colorText = g_plugin.bDefaultColorMsg ? 0 : g_plugin.colTextMsg;
-		iSeconds = g_plugin.iDelayMsg;
+		pudw.colorBack = g_plugin.msg.bDefault ? 0 : g_plugin.msg.backColor;
+		pudw.colorText = g_plugin.msg.bDefault ? 0 : g_plugin.msg.textColor;
+		iSeconds = g_plugin.msg.iDelay;
 		sampleEvent = TranslateT("This is a sample message event :-)");
 		break;
 
 	case EVENTTYPE_FILE:
 		if (!(g_plugin.maskNotify & MASK_FILE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		pudw.colorBack = g_plugin.bDefaultColorFile ? 0 : g_plugin.colBackFile;
-		pudw.colorText = g_plugin.bDefaultColorFile ? 0 : g_plugin.colTextFile;
-		iSeconds = g_plugin.iDelayFile;
+		pudw.colorBack = g_plugin.file.bDefault ? 0 : g_plugin.file.backColor;
+		pudw.colorText = g_plugin.file.bDefault ? 0 : g_plugin.file.textColor;
+		iSeconds = g_plugin.file.iDelay;
 		sampleEvent = TranslateT("This is a sample file event :-D");
 		break;
 
 	default:
 		if (!(g_plugin.maskNotify & MASK_OTHER)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-		pudw.colorBack = g_plugin.bDefaultColorOthers ? 0 : g_plugin.colBackOthers;
-		pudw.colorText = g_plugin.bDefaultColorOthers ? 0 : g_plugin.colTextOthers;
-		iSeconds = g_plugin.iDelayOthers;
+		pudw.colorBack = g_plugin.other.bDefault ? 0 : g_plugin.other.backColor;
+		pudw.colorText = g_plugin.other.bDefault ? 0 : g_plugin.other.textColor;
+		iSeconds = g_plugin.other.iDelay;
 		sampleEvent = TranslateT("This is a sample other event ;-D");
 		break;
 	}
@@ -516,13 +516,5 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 		mir_snwprintf(lpzText, L"%s\n...", lpzText);
 
 	PUChangeTextW(pdata->hWnd, lpzText);
-	return 0;
-}
-
-int PopupPreview()
-{
-	PopupShow(0, 0, EVENTTYPE_MESSAGE);
-	PopupShow(0, 0, EVENTTYPE_FILE);
-	PopupShow(0, 0, -1);
 	return 0;
 }

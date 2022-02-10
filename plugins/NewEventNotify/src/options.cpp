@@ -24,8 +24,6 @@
 
 #include "stdafx.h"
 
-BOOL bWmNotify;
-
 void CMPlugin::OptionsRead(void)
 {
 	bDisable = getBool(OPT_DISABLE, false);
@@ -36,25 +34,32 @@ void CMPlugin::OptionsRead(void)
 	bMergePopup = getBool(OPT_MERGEPOPUP, true);
 	bMsgWindowCheck = getBool(OPT_MSGWINDOWCHECK, true);
 	bMsgReplyWindow = getBool(OPT_MSGREPLYWINDOW, false);
-	bDefaultColorMsg = getBool(OPT_COLDEFAULT_MESSAGE, false);
-	bDefaultColorFile = getBool(OPT_COLDEFAULT_FILE, false);
-	bDefaultColorOthers = getBool(OPT_COLDEFAULT_OTHERS, false);
 
-	colBackMsg = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
-	colTextMsg = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
-	colBackFile = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
-	colTextFile = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
-	colBackOthers = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
-	colTextOthers = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
-	
+	msg.bDefault = getBool(OPT_COLDEFAULT_MESSAGE, false);
+	msg.backColor = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
+	msg.textColor = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
+	msg.iDelay = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
+
+	file.bDefault = getBool(OPT_COLDEFAULT_FILE, false);
+	file.backColor = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
+	file.textColor = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
+	file.iDelay = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
+
+	err.bDefault = getBool(OPT_COLDEFAULT_ERR, false);
+	err.backColor = getDword(OPT_COLBACK_ERR, DEFAULT_COLBACK);
+	err.textColor = getDword(OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
+	err.iDelay = getDword(OPT_DELAY_ERR, DEFAULT_DELAY);
+
+	other.bDefault = getBool(OPT_COLDEFAULT_OTHERS, false);
+	other.backColor = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
+	other.textColor = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
+	other.iDelay = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
+
 	maskNotify = getByte(OPT_MASKNOTIFY, DEFAULT_MASKNOTIFY);
 	maskActL = getByte(OPT_MASKACTL, DEFAULT_MASKACTL);
 	maskActR = getByte(OPT_MASKACTR, DEFAULT_MASKACTR);
 	maskActTE = getByte(OPT_MASKACTTE, DEFAULT_MASKACTE);
 	
-	iDelayMsg = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
-	iDelayFile = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
-	iDelayOthers = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
 	iDelayDefault = DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 
 	bShowDate = getBool(OPT_SHOW_DATE, true);
@@ -71,28 +76,40 @@ void CMPlugin::OptionsWrite(void)
 {
 	setByte(OPT_DISABLE, bDisable);
 	setByte(OPT_MUCDISABLE, bMUCDisable);
+
 	setByte(OPT_PREVIEW, bPreview);
 	setByte(OPT_MENUITEM, bMenuitem);
-	setByte(OPT_COLDEFAULT_MESSAGE, bDefaultColorMsg);
-	setByte(OPT_COLDEFAULT_FILE, bDefaultColorFile);
-	setByte(OPT_COLDEFAULT_OTHERS, bDefaultColorOthers);
-	setDword(OPT_COLBACK_MESSAGE, colBackMsg);
-	setDword(OPT_COLTEXT_MESSAGE, colTextMsg);
-	setDword(OPT_COLBACK_FILE, colBackFile);
-	setDword(OPT_COLTEXT_FILE, colTextFile);
-	setDword(OPT_COLBACK_OTHERS, colBackOthers);
-	setDword(OPT_COLTEXT_OTHERS, colTextOthers);
+	setByte(OPT_MERGEPOPUP, bMergePopup);
+	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
+	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
+
+	setByte(OPT_COLDEFAULT_MESSAGE, msg.bDefault);
+	setDword(OPT_COLBACK_MESSAGE, msg.backColor);
+	setDword(OPT_COLTEXT_MESSAGE, msg.textColor);
+	setDword(OPT_DELAY_MESSAGE, msg.iDelay);
+
+	setByte(OPT_COLDEFAULT_FILE, file.bDefault);
+	setDword(OPT_COLBACK_FILE, file.backColor);
+	setDword(OPT_COLTEXT_FILE, file.textColor);
+	setDword(OPT_DELAY_FILE, file.iDelay);
+
+	setByte(OPT_COLDEFAULT_ERR, err.bDefault);
+	setDword(OPT_COLBACK_ERR, err.backColor);
+	setDword(OPT_COLTEXT_ERR, err.textColor);
+	setDword(OPT_DELAY_ERR, err.iDelay);
+
+	setByte(OPT_COLDEFAULT_OTHERS, other.bDefault);
+	setDword(OPT_COLBACK_OTHERS, other.backColor);
+	setDword(OPT_COLTEXT_OTHERS, other.textColor);
+	setDword(OPT_DELAY_OTHERS, other.iDelay);
+
 	setDword(OPT_LIMITPREVIEW, iLimitPreview);
+
 	setByte(OPT_MASKNOTIFY, (uint8_t)maskNotify);
 	setByte(OPT_MASKACTL, (uint8_t)maskActL);
 	setByte(OPT_MASKACTR, (uint8_t)maskActR);
 	setByte(OPT_MASKACTTE, (uint8_t)maskActTE);
-	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
-	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
-	setByte(OPT_MERGEPOPUP, bMergePopup);
-	setDword(OPT_DELAY_MESSAGE, iDelayMsg);
-	setDword(OPT_DELAY_FILE, iDelayFile);
-	setDword(OPT_DELAY_OTHERS, iDelayOthers);
+
 	setByte(OPT_SHOW_DATE, bShowDate);
 	setByte(OPT_SHOW_TIME, bShowTime);
 	setByte(OPT_SHOW_HEADERS, bShowHeaders);
@@ -103,180 +120,290 @@ void CMPlugin::OptionsWrite(void)
 	setByte(OPT_READCHECK, bReadCheck);
 }
 
-static void SetCheckBoxState(HWND hWnd, int iCtrl, BOOL bState)
-{
-	CheckDlgButton(hWnd, iCtrl, bState ? BST_CHECKED : BST_UNCHECKED);
-}
-
 static void EnableDlgItem(HWND hWnd, int iCtrl, BOOL bEnable)
 {
 	EnableWindow(GetDlgItem(hWnd, iCtrl), bEnable);
 }
 
-static void UpdateOptionsDlgItemsState(HWND hWnd)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionsBaseDlg : public CDlgBase
 {
-	//disable color picker when using default colors
-	EnableDlgItem(hWnd, IDC_COLBACK_MESSAGE, !g_plugin.bDefaultColorMsg);
-	EnableDlgItem(hWnd, IDC_COLTEXT_MESSAGE, !g_plugin.bDefaultColorMsg);
-	EnableDlgItem(hWnd, IDC_COLBACK_FILE, !g_plugin.bDefaultColorFile);
-	EnableDlgItem(hWnd, IDC_COLTEXT_FILE, !g_plugin.bDefaultColorFile);
-	EnableDlgItem(hWnd, IDC_COLBACK_OTHERS, !g_plugin.bDefaultColorOthers);
-	EnableDlgItem(hWnd, IDC_COLTEXT_OTHERS, !g_plugin.bDefaultColorOthers);
-	//disable merge messages options when is not using
-	EnableDlgItem(hWnd, IDC_CHKSHOWDATE, g_plugin.bMergePopup);
-	EnableDlgItem(hWnd, IDC_CHKSHOWTIME, g_plugin.bMergePopup);
-	EnableDlgItem(hWnd, IDC_CHKSHOWHEADERS, g_plugin.bMergePopup);
-	EnableDlgItem(hWnd, IDC_CMDEDITHEADERS, g_plugin.bMergePopup && g_plugin.bShowHeaders);
-	EnableDlgItem(hWnd, IDC_NUMBERMSG, g_plugin.bMergePopup);
-	EnableDlgItem(hWnd, IDC_LBNUMBERMSG, g_plugin.bMergePopup);
-	EnableDlgItem(hWnd, IDC_RDNEW, g_plugin.bMergePopup && g_plugin.iNumberMsg);
-	EnableDlgItem(hWnd, IDC_RDOLD, g_plugin.bMergePopup && g_plugin.iNumberMsg);
-	//disable delay textbox when infinite is checked
-	EnableDlgItem(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1);
-	EnableDlgItem(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1);
-}
-
-static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	switch (message) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		//make dialog represent the current options
-		bWmNotify = TRUE;
-		SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colBackMsg);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_SETCOLOUR, 0, g_plugin.colTextMsg);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_SETCOLOUR, 0, g_plugin.colBackFile);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_SETCOLOUR, 0, g_plugin.colTextFile);
-		SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colBackOthers);
-		SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_SETCOLOUR, 0, g_plugin.colTextOthers);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_MESSAGE, g_plugin.bDefaultColorMsg);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_FILE, g_plugin.bDefaultColorFile);
-		SetCheckBoxState(hWnd, IDC_CHKDEFAULTCOL_OTHERS, g_plugin.bDefaultColorOthers);
-		SetCheckBoxState(hWnd, IDC_CHKMENUITEM, g_plugin.bMenuitem);
-		SetCheckBoxState(hWnd, IDC_CHKDISABLE, g_plugin.bDisable);
-		SetCheckBoxState(hWnd, IDC_CHKPREVIEW, g_plugin.bPreview);
-		SetCheckBoxState(hWnd, IDC_CHKMERGEPOPUP, g_plugin.bMergePopup);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_MESSAGE, g_plugin.maskNotify & MASK_MESSAGE);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_FILE, g_plugin.maskNotify & MASK_FILE);
-		SetCheckBoxState(hWnd, IDC_CHKNOTIFY_OTHER, g_plugin.maskNotify & MASK_OTHER);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_DISMISS, g_plugin.maskActL & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_OPEN, g_plugin.maskActL & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTL_REMOVE, g_plugin.maskActL & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_DISMISS, g_plugin.maskActR & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_OPEN, g_plugin.maskActR & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTR_REMOVE, g_plugin.maskActR & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_DISMISS, g_plugin.maskActTE & MASK_DISMISS);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_OPEN, g_plugin.maskActTE & MASK_OPEN);
-		SetCheckBoxState(hWnd, IDC_CHKACTTE_REMOVE, g_plugin.maskActTE & MASK_REMOVE);
-		SetCheckBoxState(hWnd, IDC_CHKWINDOWCHECK, g_plugin.bMsgWindowCheck);
-		SetCheckBoxState(hWnd, IDC_CHKREPLYWINDOW, g_plugin.bMsgReplyWindow);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWDATE, g_plugin.bShowDate);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWTIME, g_plugin.bShowTime);
-		SetCheckBoxState(hWnd, IDC_CHKSHOWHEADERS, g_plugin.bShowHeaders);
-		SetCheckBoxState(hWnd, IDC_RDNEW, !g_plugin.bShowON);
-		SetCheckBoxState(hWnd, IDC_RDOLD, g_plugin.bShowON);
-		SetCheckBoxState(hWnd, IDC_CHKHIDESEND, g_plugin.bHideSend);
-		SetCheckBoxState(hWnd, IDC_SUPRESSRSS, g_plugin.bNoRSS);
-		SetCheckBoxState(hWnd, IDC_READCHECK, g_plugin.bReadCheck);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_MESSAGE, g_plugin.iDelayMsg == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_FILE, g_plugin.iDelayFile == -1);
-		SetCheckBoxState(hWnd, IDC_CHKINFINITE_OTHERS, g_plugin.iDelayOthers == -1);
-		SetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, g_plugin.iDelayMsg != -1 ? g_plugin.iDelayMsg : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_FILE, g_plugin.iDelayFile != -1 ? g_plugin.iDelayFile : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_DELAY_OTHERS, g_plugin.iDelayOthers != -1 ? g_plugin.iDelayOthers : 0, TRUE);
-		SetDlgItemInt(hWnd, IDC_NUMBERMSG, g_plugin.iNumberMsg, FALSE);
-		//update items' states 
-		UpdateOptionsDlgItemsState(hWnd);
-		bWmNotify = FALSE;
-		return TRUE;
-
-	case WM_COMMAND:
-		if (!bWmNotify) {
-			switch (LOWORD(wParam)) {
-			case IDC_PREVIEW:
-				PopupPreview();
-				break;
-			default:
-				//update options
-				g_plugin.maskNotify = (IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_MESSAGE) ? MASK_MESSAGE : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_FILE) ? MASK_FILE : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKNOTIFY_OTHER) ? MASK_OTHER : 0);
-				g_plugin.maskActL = (IsDlgButtonChecked(hWnd, IDC_CHKACTL_DISMISS) ? MASK_DISMISS : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTL_OPEN) ? MASK_OPEN : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTL_REMOVE) ? MASK_REMOVE : 0);
-				g_plugin.maskActR = (IsDlgButtonChecked(hWnd, IDC_CHKACTR_DISMISS) ? MASK_DISMISS : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTR_OPEN) ? MASK_OPEN : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTR_REMOVE) ? MASK_REMOVE : 0);
-				g_plugin.maskActTE = (IsDlgButtonChecked(hWnd, IDC_CHKACTTE_DISMISS) ? MASK_DISMISS : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_OPEN) ? MASK_OPEN : 0) |
-					(IsDlgButtonChecked(hWnd, IDC_CHKACTTE_REMOVE) ? MASK_REMOVE : 0);
-				g_plugin.bDefaultColorMsg = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_MESSAGE);
-				g_plugin.bDefaultColorFile = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_FILE);
-				g_plugin.bDefaultColorOthers = IsDlgButtonChecked(hWnd, IDC_CHKDEFAULTCOL_OTHERS);
-				g_plugin.bMenuitem = IsDlgButtonChecked(hWnd, IDC_CHKMENUITEM);
-				g_plugin.bDisable = IsDlgButtonChecked(hWnd, IDC_CHKDISABLE);
-				g_plugin.bPreview = IsDlgButtonChecked(hWnd, IDC_CHKPREVIEW);
-				g_plugin.iDelayMsg = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
-				g_plugin.iDelayFile = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_FILE) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_FILE, nullptr, FALSE);
-				g_plugin.iDelayOthers = IsDlgButtonChecked(hWnd, IDC_CHKINFINITE_OTHERS) ? -1 : (uint32_t)GetDlgItemInt(hWnd, IDC_DELAY_OTHERS, nullptr, FALSE);
-				g_plugin.bMergePopup = IsDlgButtonChecked(hWnd, IDC_CHKMERGEPOPUP);
-				g_plugin.bMsgWindowCheck = IsDlgButtonChecked(hWnd, IDC_CHKWINDOWCHECK);
-				g_plugin.bMsgReplyWindow = IsDlgButtonChecked(hWnd, IDC_CHKREPLYWINDOW);
-				g_plugin.bShowDate = IsDlgButtonChecked(hWnd, IDC_CHKSHOWDATE);
-				g_plugin.bShowTime = IsDlgButtonChecked(hWnd, IDC_CHKSHOWTIME);
-				g_plugin.bShowHeaders = IsDlgButtonChecked(hWnd, IDC_CHKSHOWHEADERS);
-				g_plugin.bShowON = IsDlgButtonChecked(hWnd, IDC_RDOLD);
-				g_plugin.bShowON = BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_RDNEW);
-				g_plugin.bHideSend = IsDlgButtonChecked(hWnd, IDC_CHKHIDESEND);
-				g_plugin.iNumberMsg = GetDlgItemInt(hWnd, IDC_NUMBERMSG, nullptr, FALSE);
-				g_plugin.bNoRSS = IsDlgButtonChecked(hWnd, IDC_SUPRESSRSS);
-				g_plugin.bReadCheck = IsDlgButtonChecked(hWnd, IDC_READCHECK);
-				//update items' states
-				UpdateOptionsDlgItemsState(hWnd);
-				if (HIWORD(wParam) == CPN_COLOURCHANGED) {
-					g_plugin.colBackMsg = SendDlgItemMessage(hWnd, IDC_COLBACK_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colTextMsg = SendDlgItemMessage(hWnd, IDC_COLTEXT_MESSAGE, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colBackFile = SendDlgItemMessage(hWnd, IDC_COLBACK_FILE, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colTextFile = SendDlgItemMessage(hWnd, IDC_COLTEXT_FILE, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
-					g_plugin.colTextOthers = SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
-				}
-				//send changes to mi
-				MenuitemUpdate(!g_plugin.bDisable);
-				//enable "Apply" button
-				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-				break;
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			g_plugin.OptionsWrite();
-			break;
-
-		case PSN_RESET:
-			g_plugin.OptionsRead();
-
-			//maybe something changed with the mi
-			MenuitemUpdate(!g_plugin.bDisable);
-			break;
-		}
-		break;
+	void OnFinish(CDlgBase *)
+	{
+		g_plugin.OptionsWrite();
+		MenuitemUpdate(!g_plugin.bDisable);
 	}
-	return FALSE;
-}
+
+public:
+	COptionsBaseDlg(int iDlg) :
+		CDlgBase(g_plugin, iDlg)
+	{
+		m_OnFinishWizard = Callback(this, &COptionsBaseDlg::OnFinish);
+	}
+
+	void OnReset() override
+	{
+		g_plugin.OptionsRead();
+
+		// maybe something changed with the mi
+		MenuitemUpdate(!g_plugin.bDisable);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionsMainDlg : public COptionsBaseDlg
+{
+	CCtrlCheck chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
+	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
+	CCtrlButton btnPreview;
+	CCtrlTreeOpts m_opts;
+
+	void GrabData()
+	{
+		m_opts.OnApply();
+
+		// update options
+		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
+		g_plugin.msg.backColor = clrBackMessage.GetColor();
+		g_plugin.msg.textColor = clrTextMessage.GetColor();
+		g_plugin.msg.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
+
+		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
+		g_plugin.file.backColor = clrBackFile.GetColor();
+		g_plugin.file.textColor = clrBackFile.GetColor();
+		g_plugin.file.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_FILE) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_FILE, nullptr, FALSE);
+
+		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
+		g_plugin.err.backColor = clrBackErr.GetColor();
+		g_plugin.err.textColor = clrTextErr.GetColor();
+		g_plugin.err.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_ERR) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_ERR, nullptr, FALSE);
+
+		g_plugin.other.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
+		g_plugin.other.backColor = clrBackOther.GetColor();
+		g_plugin.other.textColor = clrTextOther.GetColor();
+		g_plugin.other.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_OTHERS) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_OTHERS, nullptr, FALSE);
+	}
+
+public:
+	COptionsMainDlg() :
+		COptionsBaseDlg(IDD_OPT_MAIN),
+		m_opts(this, IDC_OPT_TREE),
+		btnPreview(this, IDC_PREVIEW),
+		clrBackMessage(this, IDC_COLBACK_MESSAGE),
+		clrTextMessage(this, IDC_COLTEXT_MESSAGE),
+		clrBackFile(this, IDC_COLBACK_FILE),
+		clrTextFile(this, IDC_COLTEXT_FILE),
+		clrBackErr(this, IDC_COLBACK_ERR),
+		clrTextErr(this, IDC_COLTEXT_ERR),
+		clrBackOther(this, IDC_COLBACK_OTHERS),
+		clrTextOther(this, IDC_COLTEXT_OTHERS),
+		chkDefaultColorMsg(this, IDC_CHKDEFAULTCOL_MESSAGE),
+		chkDefaultColorFile(this, IDC_CHKDEFAULTCOL_FILE),
+		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
+		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS)
+	{
+		auto *pwszSection = TranslateT("General options");
+		m_opts.AddOption(pwszSection, TranslateT("Show entry in the Popups menu"), g_plugin.bMenuitem);
+		m_opts.AddOption(pwszSection, TranslateT("Temporarily disable event popups"), g_plugin.bDisable);
+		m_opts.AddOption(pwszSection, TranslateT("Show preview of event in popup"), g_plugin.bPreview);
+
+		pwszSection = TranslateT("Notify me of...");
+		m_opts.AddOption(pwszSection, TranslateT("Message"), g_plugin.maskNotify, MASK_MESSAGE);
+		m_opts.AddOption(pwszSection, TranslateT("File"), g_plugin.maskNotify, MASK_FILE);
+		m_opts.AddOption(pwszSection, TranslateT("Others"), g_plugin.maskNotify, MASK_OTHER);
+
+		pwszSection = TranslateT("Left click actions");
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActL, MASK_DISMISS);
+		m_opts.AddOption(pwszSection, TranslateT("Open event"), g_plugin.maskActL, MASK_OPEN);
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActL, MASK_REMOVE);
+
+		pwszSection = TranslateT("Right click actions");
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActL, MASK_DISMISS);
+		m_opts.AddOption(pwszSection, TranslateT("Open event"), g_plugin.maskActL, MASK_OPEN);
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActL, MASK_REMOVE);
+
+		pwszSection = TranslateT("Timeout actions");
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActTE, MASK_DISMISS);
+		m_opts.AddOption(pwszSection, TranslateT("Open event"), g_plugin.maskActTE, MASK_OPEN);
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActTE, MASK_REMOVE);
+
+		pwszSection = TranslateT("Misc options");
+		m_opts.AddOption(pwszSection, TranslateT("No popups for RSS contacts"), g_plugin.bNoRSS);
+		m_opts.AddOption(pwszSection, TranslateT("No popups for read messages"), g_plugin.bReadCheck);
+
+		btnPreview.OnClick = Callback(this, &COptionsMainDlg::onClick_Preview);
+
+		chkDefaultColorMsg.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultMsg);
+		chkDefaultColorFile.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultFile);
+		chkDefaultColorErr.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultErr);
+		chkDefaultColorOthers.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultOther);
+	}
+
+	bool OnInitDialog() override
+	{
+		// make dialog represent the current options
+		clrBackMessage.SetColor(g_plugin.msg.backColor);
+		clrTextMessage.SetColor(g_plugin.msg.textColor);
+		clrBackFile.SetColor(g_plugin.file.backColor);
+		clrTextFile.SetColor(g_plugin.file.textColor);
+		clrBackErr.SetColor(g_plugin.err.backColor);
+		clrTextErr.SetColor(g_plugin.err.textColor);
+		clrBackOther.SetColor(g_plugin.other.backColor);
+		clrTextOther.SetColor(g_plugin.other.textColor);
+
+		chkDefaultColorMsg.SetState(g_plugin.msg.bDefault);
+		chkDefaultColorFile.SetState(g_plugin.file.bDefault);
+		chkDefaultColorErr.SetState(g_plugin.err.bDefault);
+		chkDefaultColorOthers.SetState(g_plugin.other.bDefault);
+
+		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_MESSAGE, g_plugin.msg.iDelay == -1);
+		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_FILE, g_plugin.file.iDelay == -1);
+		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_ERR, g_plugin.err.iDelay == -1);
+		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_OTHERS, g_plugin.other.iDelay == -1);
+
+		SetDlgItemInt(m_hwnd, IDC_DELAY_MESSAGE, g_plugin.msg.iDelay != -1 ? g_plugin.msg.iDelay : 0, TRUE);
+		SetDlgItemInt(m_hwnd, IDC_DELAY_FILE, g_plugin.file.iDelay != -1 ? g_plugin.file.iDelay : 0, TRUE);
+		SetDlgItemInt(m_hwnd, IDC_DELAY_ERR, g_plugin.err.iDelay != -1 ? g_plugin.err.iDelay : 0, TRUE);
+		SetDlgItemInt(m_hwnd, IDC_DELAY_OTHERS, g_plugin.other.iDelay != -1 ? g_plugin.other.iDelay : 0, TRUE);
+	
+		OnChange();
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		GrabData();
+		return true;
+	}
+
+	void OnChange() override
+	{
+		GrabData();
+
+		// disable delay textbox when infinite is checked
+		EnableDlgItem(m_hwnd, IDC_DELAY_MESSAGE, g_plugin.msg.iDelay != -1);
+		EnableDlgItem(m_hwnd, IDC_DELAY_FILE, g_plugin.file.iDelay != -1);
+		EnableDlgItem(m_hwnd, IDC_DELAY_ERR, g_plugin.err.iDelay != -1);
+		EnableDlgItem(m_hwnd, IDC_DELAY_OTHERS, g_plugin.other.iDelay != -1);
+	}
+
+	void onClick_Preview(CCtrlButton *)
+	{
+		GrabData();
+		PopupShow(0, 0, EVENTTYPE_MESSAGE);
+		PopupShow(0, 0, EVENTTYPE_FILE);
+		PopupShow(0, 0, -1);
+	}
+
+	void onChange_DefaultMsg(CCtrlCheck *)
+	{
+		bool bEnabled = chkDefaultColorMsg.GetState();
+		clrBackMessage.Enable(!bEnabled);
+		clrTextMessage.Enable(!bEnabled);
+	}
+
+	void onChange_DefaultFile(CCtrlCheck *)
+	{
+		bool bEnabled = chkDefaultColorFile.GetState();
+		clrBackFile.Enable(!bEnabled);
+		clrTextFile.Enable(!bEnabled);
+	}
+
+	void onChange_DefaultErr(CCtrlCheck *)
+	{
+		bool bEnabled = chkDefaultColorErr.GetState();
+		clrBackErr.Enable(!bEnabled);
+		clrTextErr.Enable(!bEnabled);
+	}
+
+	void onChange_DefaultOther(CCtrlCheck *)
+	{
+		bool bEnabled = chkDefaultColorOthers.GetState();
+		clrBackOther.Enable(!bEnabled);
+		clrTextOther.Enable(!bEnabled);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionsMessageDlg : public COptionsBaseDlg
+{
+	void GrabData()
+	{
+		g_plugin.bMergePopup = IsDlgButtonChecked(m_hwnd, IDC_CHKMERGEPOPUP);
+		g_plugin.bMsgWindowCheck = IsDlgButtonChecked(m_hwnd, IDC_CHKWINDOWCHECK);
+		g_plugin.bMsgReplyWindow = IsDlgButtonChecked(m_hwnd, IDC_CHKREPLYWINDOW);
+		g_plugin.bShowDate = IsDlgButtonChecked(m_hwnd, IDC_CHKSHOWDATE);
+		g_plugin.bShowTime = IsDlgButtonChecked(m_hwnd, IDC_CHKSHOWTIME);
+		g_plugin.bShowHeaders = IsDlgButtonChecked(m_hwnd, IDC_CHKSHOWHEADERS);
+		g_plugin.bShowON = IsDlgButtonChecked(m_hwnd, IDC_RDOLD);
+		g_plugin.bShowON = BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_RDNEW);
+		g_plugin.bHideSend = IsDlgButtonChecked(m_hwnd, IDC_CHKHIDESEND);
+		g_plugin.iNumberMsg = GetDlgItemInt(m_hwnd, IDC_NUMBERMSG, nullptr, FALSE);
+	}
+
+public:
+	COptionsMessageDlg() :
+		COptionsBaseDlg(IDD_OPT_MESSAGE)
+	{}
+
+	bool OnInitDialog() override
+	{
+		CheckDlgButton(m_hwnd, IDC_CHKMERGEPOPUP, g_plugin.bMergePopup);
+		CheckDlgButton(m_hwnd, IDC_CHKWINDOWCHECK, g_plugin.bMsgWindowCheck);
+		CheckDlgButton(m_hwnd, IDC_CHKREPLYWINDOW, g_plugin.bMsgReplyWindow);
+		CheckDlgButton(m_hwnd, IDC_CHKSHOWDATE, g_plugin.bShowDate);
+		CheckDlgButton(m_hwnd, IDC_CHKSHOWTIME, g_plugin.bShowTime);
+		CheckDlgButton(m_hwnd, IDC_CHKSHOWHEADERS, g_plugin.bShowHeaders);
+		CheckDlgButton(m_hwnd, IDC_RDNEW, !g_plugin.bShowON);
+		CheckDlgButton(m_hwnd, IDC_RDOLD, g_plugin.bShowON);
+		CheckDlgButton(m_hwnd, IDC_CHKHIDESEND, g_plugin.bHideSend);
+		SetDlgItemInt(m_hwnd, IDC_NUMBERMSG, g_plugin.iNumberMsg, FALSE);
+
+		OnChange();
+		return true;
+	}
+	
+	void OnChange() override
+	{
+		GrabData();
+
+		// disable merge messages options when is not using
+		EnableDlgItem(m_hwnd, IDC_CHKSHOWDATE, g_plugin.bMergePopup);
+		EnableDlgItem(m_hwnd, IDC_CHKSHOWTIME, g_plugin.bMergePopup);
+		EnableDlgItem(m_hwnd, IDC_CHKSHOWHEADERS, g_plugin.bMergePopup);
+		EnableDlgItem(m_hwnd, IDC_CMDEDITHEADERS, g_plugin.bMergePopup && g_plugin.bShowHeaders);
+		EnableDlgItem(m_hwnd, IDC_NUMBERMSG, g_plugin.bMergePopup);
+		EnableDlgItem(m_hwnd, IDC_LBNUMBERMSG, g_plugin.bMergePopup);
+		EnableDlgItem(m_hwnd, IDC_RDNEW, g_plugin.bMergePopup && g_plugin.iNumberMsg);
+		EnableDlgItem(m_hwnd, IDC_RDOLD, g_plugin.bMergePopup && g_plugin.iNumberMsg);
+	}
+
+	bool OnApply() override
+	{
+		GrabData();
+		return true;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
 
 int OptionsAdd(WPARAM addInfo, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = LPGEN("Event Notify");
 	odp.szGroup.a = LPGEN("Popups");
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = OptionsDlgProc;
+
+	odp.szTab.a = LPGEN("Main");
+	odp.pDialog = new COptionsMainDlg();
+	g_plugin.addOptions(addInfo, &odp);
+
+	odp.szTab.a = LPGEN("Message events");
+	odp.pDialog = new COptionsMessageDlg();
 	g_plugin.addOptions(addInfo, &odp);
 	return 0;
 }

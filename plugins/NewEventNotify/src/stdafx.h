@@ -90,15 +90,27 @@
 #define OPT_PREVIEW "Preview"
 #define OPT_MENUITEM "MenuItem"
 #define OPT_LIMITPREVIEW "LimitPreview"
+
 #define OPT_COLDEFAULT_MESSAGE "DefaultColorMsg"
 #define OPT_COLBACK_MESSAGE "ColorBackMsg"
 #define OPT_COLTEXT_MESSAGE "ColorTextMsg"
+#define OPT_DELAY_MESSAGE "DelayMessage"
+
 #define OPT_COLDEFAULT_FILE "DefaultColorFile"
 #define OPT_COLBACK_FILE "ColorBackFile"
 #define OPT_COLTEXT_FILE "ColorTextFile"
+#define OPT_DELAY_FILE "DelayFile"
+
+#define OPT_COLDEFAULT_ERR "DefaultColorErr"
+#define OPT_COLBACK_ERR "ColorBackErr"
+#define OPT_COLTEXT_ERR "ColorTextErr"
+#define OPT_DELAY_ERR "DelayErr"
+
 #define OPT_COLDEFAULT_OTHERS "DefaultColorOthers"
 #define OPT_COLBACK_OTHERS "ColorBackOthers"
 #define OPT_COLTEXT_OTHERS "ColorTextOthers"
+#define OPT_DELAY_OTHERS "DelayOthers"
+
 #define OPT_MASKNOTIFY "Notify"
 #define OPT_MASKACTL "ActionLeft"
 #define OPT_MASKACTR "ActionRight"
@@ -106,9 +118,6 @@
 #define OPT_MSGWINDOWCHECK "WindowCheck"
 #define OPT_MSGREPLYWINDOW "ReplyWindow"
 #define OPT_MERGEPOPUP "MergePopup"
-#define OPT_DELAY_MESSAGE "DelayMessage"
-#define OPT_DELAY_FILE "DelayFile"
-#define OPT_DELAY_OTHERS "DelayOthers"
 #define OPT_SHOW_DATE "ShowDate"
 #define OPT_SHOW_TIME "ShowTime"
 #define OPT_SHOW_HEADERS "ShowHeaders"
@@ -149,9 +158,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	bool bMUCDisable;
 	bool bPreview;
 	bool bMenuitem;
-	bool bDefaultColorMsg;
-	bool bDefaultColorFile;
-	bool bDefaultColorOthers;
 	bool bDisableNonMessage;
 	bool bMsgWindowCheck;
 	bool bMsgReplyWindow;
@@ -166,21 +172,19 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	bool bReadCheck;
 	bool bWindowCheck;
 
-	COLORREF colBackMsg;
-	COLORREF colTextMsg;
-	COLORREF colBackFile;
-	COLORREF colTextFile;
-	COLORREF colBackOthers;
-	COLORREF colTextOthers;
-	
-	UINT maskNotify;
-	UINT maskActL;
-	UINT maskActR;
-	UINT maskActTE;
+	struct
+	{
+		COLORREF backColor, textColor;
+		int iDelay;
+		bool bDefault;
 
-	int iDelayMsg;
-	int iDelayFile;
-	int iDelayOthers;
+	} msg, file, err, other;
+
+	uint32_t maskNotify;
+	uint32_t maskActL;
+	uint32_t maskActR;
+	uint32_t maskActTE;
+
 	int iDelayDefault;
 	int iLimitPreview;
 
@@ -212,7 +216,6 @@ struct PLUGIN_DATA
 
 int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType);
 int PopupUpdate(MCONTACT hContact, MEVENT hEvent);
-int PopupPreview();
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata);
 int OptionsAdd(WPARAM addInfo, LPARAM);
 int Opt_DisableNEN(BOOL Status);
