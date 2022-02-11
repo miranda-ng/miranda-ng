@@ -195,18 +195,20 @@ struct EVENT_DATA_EX
 {
 	MEVENT hEvent;
 	int number;
-	struct EVENT_DATA_EX* next;
-	struct EVENT_DATA_EX* prev;
+	EVENT_DATA_EX *next;
+	EVENT_DATA_EX *prev;
 };
 
-struct PLUGIN_DATA
+struct PLUGIN_DATA : public MZeroedObject
 {
+	~PLUGIN_DATA();
+
 	MCONTACT hContact;
 	UINT eventType;
 	HWND hWnd;
-	struct EVENT_DATA_EX* firstEventData;
-	struct EVENT_DATA_EX* firstShowEventData;
-	struct EVENT_DATA_EX* lastEventData;
+	EVENT_DATA_EX *firstEventData;
+	EVENT_DATA_EX *firstShowEventData;
+	EVENT_DATA_EX *lastEventData;
 	long countEvent;
 	long iSeconds;
 };
@@ -215,13 +217,12 @@ struct PLUGIN_DATA
 //---External Procedure Definitions
 
 int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType);
-int PopupUpdate(MCONTACT hContact, MEVENT hEvent);
+int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent);
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata);
 int OptionsAdd(WPARAM addInfo, LPARAM);
 int Opt_DisableNEN(BOOL Status);
 int MenuitemInit(BOOL bStatus);
 int MenuitemUpdate(BOOL bStatus);
-int NumberPopupData(MCONTACT hContact, UINT eventType);
 int CheckMsgWnd(MCONTACT hContact);
 
 PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType);

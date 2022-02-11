@@ -26,29 +26,12 @@
 
 extern int g_IsServiceAvail;
 
-static LIST<PLUGIN_DATA> arPopupList(10, NumericKeySortT);
+static mir_cs csPopupList;
+static OBJLIST<PLUGIN_DATA> arPopupList(10, PtrKeySortT);
 
-PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType)
+PLUGIN_DATA::~PLUGIN_DATA()
 {
-	for (auto &it : arPopupList)
-		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
-			return it;
-
-	return nullptr;
-}
-
-int NumberPopupData(MCONTACT hContact, UINT eventType)
-{
-	for (auto &it : arPopupList)
-		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
-			return arPopupList.indexOf(&it);
-
-	return -1;
-}
-
-static void FreePopupEventData(PLUGIN_DATA *pdata)
-{
-	EVENT_DATA_EX *eventData = pdata->firstEventData;
+	EVENT_DATA_EX *eventData = firstEventData;
 	while (eventData) {
 		if (eventData->next) {
 			eventData = eventData->next;
@@ -60,6 +43,15 @@ static void FreePopupEventData(PLUGIN_DATA *pdata)
 			eventData = nullptr;
 		}
 	}
+}
+
+PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType)
+{
+	for (auto &it : arPopupList)
+		if (it->hContact == hContact && (eventType == -1 || it->eventType == (UINT)eventType))
+			return it;
+
+	return nullptr;
 }
 
 static void DoDefaultHandling(PLUGIN_DATA *pdata)
@@ -110,13 +102,11 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata)
 				db_event_markRead(pdata->hContact, eventData->hEvent);
 				eventData = eventData->next;
 			}
-			FreePopupEventData(pdata);
 		}
 	}
 
 	if (mask & MASK_DISMISS) {
 		KillTimer(hWnd, TIMER_TO_ACTION);
-		FreePopupEventData(pdata);
 		PUDeletePopup(hWnd);
 	}
 
@@ -139,7 +129,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		PopupAct(hWnd, g_plugin.maskActR, pdata);
 		break;
 	case UM_FREEPLUGINDATA:
-		mir_free(pdata);
+		{
+			mir_cslock lck(csPopupList);
+			arPopupList.remove(pdata);
+		}
 		return TRUE;
 	case UM_INITPOPUP:
 		pdata->hWnd = hWnd;
@@ -150,12 +143,12 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		if ((short)HIWORD(wParam) > 0 && pdata->firstShowEventData->prev &&
 			(g_plugin.bShowON || pdata->firstShowEventData->number >= g_plugin.iNumberMsg)) {
 			pdata->firstShowEventData = pdata->firstShowEventData->prev;
-			PopupUpdate(pdata->hContact, NULL);
+			PopupUpdate(*pdata, NULL);
 		}
 		if ((short)HIWORD(wParam) < 0 && pdata->firstShowEventData->next &&
 			(!g_plugin.bShowON || pdata->countEvent - pdata->firstShowEventData->number >= g_plugin.iNumberMsg)) {
 			pdata->firstShowEventData = pdata->firstShowEventData->next;
-			PopupUpdate(pdata->hContact, NULL);
+			PopupUpdate(*pdata, NULL);
 		}
 		break;
 	case WM_SETCURSOR:
@@ -180,7 +173,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static wchar_t *ShortenPreview(DBEVENTINFO *dbe)
+static wchar_t* ShortenPreview(DBEVENTINFO *dbe)
 {
 	bool	fAddEllipsis = false;
 	size_t iPreviewLimit = g_plugin.iLimitPreview;
@@ -403,7 +396,7 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		hContact = DbGetAuthEventContact(&dbe);
 
 	// set plugin_data ... will be usable within PopupDlgProc
-	PLUGIN_DATA *pdata = (PLUGIN_DATA*)mir_calloc(sizeof(PLUGIN_DATA));
+	PLUGIN_DATA *pdata = new PLUGIN_DATA();
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->countEvent = 1;
@@ -425,51 +418,45 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		wcsncpy(pudw.lpwzText, ptrW(GetEventPreview(&dbe)), MAX_SECONDLINE);
 	}
 
-	arPopupList.insert(pdata);
-
 	// send data to popup plugin
-	if (PUAddPopupW(&pudw) < 0) {
-		// popup creation failed, release popupdata
-		FreePopupEventData(pdata);
-		mir_free(pdata);
-	}
+	if (PUAddPopupW(&pudw) < 0)
+		delete pdata;
 
+	mir_cslock lck(csPopupList);
+	arPopupList.insert(pdata);
 	return 0;
 }
 
 
-int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
+int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent)
 {
-	// merge only message popups
-	PLUGIN_DATA *pdata = arPopupList[NumberPopupData(hContact, EVENTTYPE_MESSAGE)];
-
 	if (hEvent) {
-		pdata->countEvent++;
+		pdata.countEvent++;
 
-		pdata->lastEventData->next = (EVENT_DATA_EX *)mir_alloc(sizeof(EVENT_DATA_EX));
-		pdata->lastEventData->next->prev = pdata->lastEventData;
-		pdata->lastEventData = pdata->lastEventData->next;
-		pdata->lastEventData->hEvent = hEvent;
-		pdata->lastEventData->number = pdata->lastEventData->prev->number + 1;
-		pdata->lastEventData->next = nullptr;
-		if (!g_plugin.bShowON && pdata->countEvent > g_plugin.iNumberMsg && g_plugin.iNumberMsg)
-			pdata->firstShowEventData = pdata->firstShowEventData->next;
+		pdata.lastEventData->next = (EVENT_DATA_EX *)mir_alloc(sizeof(EVENT_DATA_EX));
+		pdata.lastEventData->next->prev = pdata.lastEventData;
+		pdata.lastEventData = pdata.lastEventData->next;
+		pdata.lastEventData->hEvent = hEvent;
+		pdata.lastEventData->number = pdata.lastEventData->prev->number + 1;
+		pdata.lastEventData->next = nullptr;
+		if (!g_plugin.bShowON && pdata.countEvent > g_plugin.iNumberMsg && g_plugin.iNumberMsg)
+			pdata.firstShowEventData = pdata.firstShowEventData->next;
 		// re-init timer delay
-		KillTimer(pdata->hWnd, TIMER_TO_ACTION);
-		SetTimer(pdata->hWnd, TIMER_TO_ACTION, pdata->iSeconds * 1000, nullptr);
+		KillTimer(pdata.hWnd, TIMER_TO_ACTION);
+		SetTimer(pdata.hWnd, TIMER_TO_ACTION, pdata.iSeconds * 1000, nullptr);
 	}
 
 	wchar_t lpzText[MAX_SECONDLINE * 2] = L"\0\0";
 	if (g_plugin.bShowHeaders)
-		mir_snwprintf(lpzText, TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata->countEvent);
+		mir_snwprintf(lpzText, TranslateT("[b]Number of new message(s): %d[/b]\n"), pdata.countEvent);
 
 	int doReverse = g_plugin.bShowON;
 
-	if ((pdata->firstShowEventData != pdata->firstEventData && doReverse) || (pdata->firstShowEventData != pdata->lastEventData && !doReverse))
+	if ((pdata.firstShowEventData != pdata.firstEventData && doReverse) || (pdata.firstShowEventData != pdata.lastEventData && !doReverse))
 		mir_snwprintf(lpzText, L"%s...\n", lpzText);
 
 	// take the active event as starting one
-	EVENT_DATA_EX *eventData = pdata->firstShowEventData;
+	EVENT_DATA_EX *eventData = pdata.firstShowEventData;
 
 	int iEvent = 0;
 	while (true) {
@@ -515,6 +502,6 @@ int PopupUpdate(MCONTACT hContact, MEVENT hEvent)
 	if ((doReverse && eventData->next) || (!doReverse && eventData->prev))
 		mir_snwprintf(lpzText, L"%s\n...", lpzText);
 
-	PUChangeTextW(pdata->hWnd, lpzText);
+	PUChangeTextW(pdata.hWnd, lpzText);
 	return 0;
 }
