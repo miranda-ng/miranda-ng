@@ -186,10 +186,17 @@ BOOL CDbxSQLite::Backup(LPCWSTR profile)
 
 BOOL CDbxSQLite::Compact()
 {
+	mir_cslock lck(m_csDbAccess);
 	int rc = sqlite3_exec(m_db, "pragma optimize;", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
+	rc = sqlite3_exec(m_db, "commit;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+
 	rc = sqlite3_exec(m_db, "vacuum;", nullptr, nullptr, nullptr);
+	logError(rc, __FILE__, __LINE__);
+
+	rc = sqlite3_exec(m_db, "begin transaction;", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 	return 0;
 }
