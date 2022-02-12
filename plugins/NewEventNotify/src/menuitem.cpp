@@ -48,8 +48,6 @@ int MenuitemUpdate(BOOL bStatus)
 
 int MenuitemInit(BOOL bStatus)
 {
-	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
-
 	HGENMENU hRoot = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
 
 	CMenuItem mi(&g_plugin);
@@ -57,9 +55,11 @@ int MenuitemInit(BOOL bStatus)
 	mi.root = hRoot;
 	mi.position = 1;
 	mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	mi.pszService = MS_NEN_MENUNOTIFY;
+	mi.pszService = "NewEventNotify/MenuitemNotifyCommand";
 	mi.flags = 0;
 	hMenuitemNotify = Menu_AddMainMenuItem(&mi);
+
+	CreateServiceFunction(mi.pszService, MenuitemNotifyCmd);
 
 	bNotify = bStatus;
 	MenuitemUpdate(bNotify);

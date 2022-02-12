@@ -48,10 +48,6 @@
 #include "resource.h"
 #include "version.h"
 
-//VERY_PUBLIC Begin ... will be moved to m_neweventnotify.h
-#define MS_NEN_MENUNOTIFY "NewEventNotify/MenuitemNotifyCommand"
-//VERY_PUBLIC End
-
 //---------------------------
 //---Definitions
 
@@ -59,13 +55,12 @@
 
 #define DEFAULT_COLBACK RGB(255,255,128)
 #define DEFAULT_COLTEXT RGB(0,0,0)
-#define DEFAULT_MASKNOTIFY (MASK_MESSAGE|MASK_FILE|MASK_OTHER)
-#define DEFAULT_MASKACTL (MASK_OPEN|MASK_REMOVE|MASK_DISMISS)
-#define DEFAULT_MASKACTR (MASK_REMOVE|MASK_DISMISS)
-#define DEFAULT_MASKACTE (MASK_DISMISS)
-#define DEFAULT_DELAY -1
+#define DEFAULT_DELAY   -1
+
+#define EVENTTYPE_ERRMSG 25366
 
 #define MASK_MESSAGE    0x0001
+#define MASK_ERROR      0x0002
 #define MASK_FILE       0x0004
 #define MASK_OTHER      0x0008
 

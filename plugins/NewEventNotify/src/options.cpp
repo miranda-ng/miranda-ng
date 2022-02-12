@@ -55,10 +55,10 @@ void CMPlugin::OptionsRead(void)
 	other.textColor = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
 	other.iDelay = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
 
-	maskNotify = getByte(OPT_MASKNOTIFY, DEFAULT_MASKNOTIFY);
-	maskActL = getByte(OPT_MASKACTL, DEFAULT_MASKACTL);
-	maskActR = getByte(OPT_MASKACTR, DEFAULT_MASKACTR);
-	maskActTE = getByte(OPT_MASKACTTE, DEFAULT_MASKACTE);
+	maskNotify = getByte(OPT_MASKNOTIFY, MASK_MESSAGE | MASK_ERROR | MASK_FILE | MASK_OTHER);
+	maskActL = getByte(OPT_MASKACTL, MASK_OPEN | MASK_REMOVE | MASK_DISMISS);
+	maskActR = getByte(OPT_MASKACTR, MASK_REMOVE | MASK_DISMISS);
+	maskActTE = getByte(OPT_MASKACTTE, MASK_DISMISS);
 	
 	iDelayDefault = DBGetContactSettingRangedWord(NULL, "Popup", "Seconds", SETTING_LIFETIME_DEFAULT, SETTING_LIFETIME_MIN, SETTING_LIFETIME_MAX);
 
@@ -211,6 +211,7 @@ public:
 
 		pwszSection = TranslateT("Notify me of...");
 		m_opts.AddOption(pwszSection, TranslateT("Message"), g_plugin.maskNotify, MASK_MESSAGE);
+		m_opts.AddOption(pwszSection, TranslateT("Error"), g_plugin.maskNotify, MASK_ERROR);
 		m_opts.AddOption(pwszSection, TranslateT("File"), g_plugin.maskNotify, MASK_FILE);
 		m_opts.AddOption(pwszSection, TranslateT("Others"), g_plugin.maskNotify, MASK_OTHER);
 
@@ -293,6 +294,7 @@ public:
 	{
 		GrabData();
 		PopupShow(0, 0, EVENTTYPE_MESSAGE);
+		PopupShow(0, 0, EVENTTYPE_ERRMSG);
 		PopupShow(0, 0, EVENTTYPE_FILE);
 		PopupShow(0, 0, -1);
 	}

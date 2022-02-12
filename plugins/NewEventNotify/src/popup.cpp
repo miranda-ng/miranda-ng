@@ -367,6 +367,15 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 		sampleEvent = TranslateT("This is a sample file event :-D");
 		break;
 
+	case EVENTTYPE_ERRMSG:
+		if (!(g_plugin.maskNotify & MASK_ERROR)) return 1;
+		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
+		pudw.colorBack = g_plugin.err.bDefault ? 0 : g_plugin.err.backColor;
+		pudw.colorText = g_plugin.err.bDefault ? 0 : g_plugin.err.textColor;
+		iSeconds = g_plugin.err.iDelay;
+		sampleEvent = TranslateT("This is a sample error event :-D");
+		break;
+
 	default:
 		if (!(g_plugin.maskNotify & MASK_OTHER)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
