@@ -22,7 +22,8 @@ Miranda NG - мессенджер для Windows — [Miranda IM][1] с подд
 - Twitter
 - VKontakte
 
-## Supported operating systems | Поддержиываемые операционные системы ##
+## Supported operating systems 
+Поддерживаемые операционные системы ##
 
 Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
 
