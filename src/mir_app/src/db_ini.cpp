@@ -421,8 +421,16 @@ LBL_NewLine:
 		case 'l':
 		case 'L':
 		case '-':
-			if (szValue[1] == '*')
-				db_delete_module(0, szSection);
+			if (szValue[1] == '*') {
+				LIST<char> arSettings(1);
+				ESFDParam param = { &arSettings, szName };
+				db_enum_settings(0, EnumSettingsForDeletion, szSection, &param);
+			
+				for (auto &it : arSettings) {
+					db_unset(0, szSection, it);
+					mir_free(it);
+				}
+			}
 			db_unset(0, szSection, szName);
 			break;
 		case 'e':
