@@ -126,7 +126,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bRosterSync(this, "RosterSync", false),
 	m_bSavePassword(this, "SavePassword", true),
 	m_bShowForeignResourceInMirVer(this, "ShowForeignResourceInMirVer", false),
-	m_bShowOSVersion(this, "ShowOSVersion", true),
+	m_bShowOSVersion(this, "ShowOSVersion", false),
 	m_bShowTransport(this, "ShowTransport", true),
 	m_bUseDomainLogin(this, "UseDomainLogin", false),
 	m_bUseHttpUpload(this, "UseHttpUpload", false),
