@@ -352,7 +352,6 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlButton		m_btnRegister;
 	CCtrlButton		m_btnUnregister;
 	CCtrlButton		m_btnChangePassword;
-	CCtrlHyperlink	m_lnkServers;
 
 public:
 	CDlgOptAccount(CJabberProto *proto) :
@@ -379,7 +378,7 @@ public:
 		m_btnUnregister(this, IDC_UNREGISTER),
 		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD),
 		m_gotservers(false),
-		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "https://xmpp.net/directory.php")
+		m_lnkServers("") //
 	{
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
