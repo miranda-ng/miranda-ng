@@ -41,7 +41,7 @@ bool CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
 	query << XCHILD("name", "Miranda NG Jabber");
 	query << XCHILD("version", szCoreVersion);
 
-	if (m_bShowOSVersion) {
+	if (m_bShowOSVersion == true) {
 		char os[256];
 		if (!OS_GetDisplayString(os, _countof(os)))
 			mir_strncpy(os, "Microsoft Windows", _countof(os));
