@@ -78,7 +78,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	m_bAcceptHttpAuth(this, "m_bAcceptHttpAuth", true),
 	m_bAcceptNotes(this, "AcceptNotes", true),
-	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", true),
+	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", false),
 	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", false),
 	m_bAutoAcceptMUC(this, "AutoAcceptMUC", false),
 	m_bAutoAdd(this, "AutoAdd", true),
@@ -126,7 +126,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bRosterSync(this, "RosterSync", false),
 	m_bSavePassword(this, "SavePassword", true),
 	m_bShowForeignResourceInMirVer(this, "ShowForeignResourceInMirVer", false),
-	m_bShowOSVersion(this, "ShowOSVersion", true),
+	m_bShowOSVersion(this, "ShowOSVersion", false),
 	m_bShowTransport(this, "ShowTransport", true),
 	m_bUseDomainLogin(this, "UseDomainLogin", false),
 	m_bUseHttpUpload(this, "UseHttpUpload", false),
