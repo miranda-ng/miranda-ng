@@ -394,7 +394,7 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 
 		CJabberClientPartialCaps *pCaps = g_clientCapsManager.GetPartialCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc);
 		if (pCaps) {
-			if (m_bShowOSVersion) {
+			if (m_bShowOSVersion == true) {
 				form << XCHILD("field") << XATTR("var", "os") << XCHILD("value", pCaps->GetOs());
 				form << XCHILD("field") << XATTR("var", "os_version") << XCHILD("value", pCaps->GetOsVer());
 			}
