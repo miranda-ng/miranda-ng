@@ -378,7 +378,7 @@ public:
 		m_btnUnregister(this, IDC_UNREGISTER),
 		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD),
 		m_gotservers(false),
-		m_lnkServers("") //
+
 	{
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
