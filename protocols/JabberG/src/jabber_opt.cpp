@@ -323,9 +323,9 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 {
 }
 
-static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
+static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlEfit &textServer)
 {
-	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()).get(), ptrW(cbServer.GetText()).get()));
+	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()).get(), ptrW(txtServer.GetText()).get()));
 }
 
 class CDlgOptAccount : public CJabberDlgBase
@@ -398,7 +398,6 @@ public:
 		CreateLink(m_chkAutoDeleteContacts, proto->m_bRosterSync);
 
 		// Bind events
-		m_cbServer.OnDropdown = Callback(this, &CDlgOptAccount::cbServer_OnDropdown);
 		m_chkManualHost.OnChange = Callback(this, &CDlgOptAccount::chkManualHost_OnChange);
 		m_chkUseHostnameAsResource.OnChange = Callback(this, &CDlgOptAccount::chkUseHostnameAsResource_OnChange);
 		m_chkUseDomainLogin.OnChange = Callback(this, &CDlgOptAccount::chkUseDomainLogin_OnChange);
@@ -685,7 +684,7 @@ private:
 	{
 		m_gotservers = node != nullptr;
 
-		wchar_t *server = m_c.GetText();
+		wchar_t *server = m_cbServer.GetText();
 		bool bDropdown = m_cbServer.GetDroppedState();
 		if (bDropdown) m_cbServer.ShowDropdown(false);
 
@@ -974,7 +973,6 @@ public:
 
 		// Bind events
 		m_cbType.OnChange = Callback(this, &CJabberDlgAccMgrUI::cbType_OnChange);
-		m_cbServer.OnDropdown = Callback(this, &CJabberDlgAccMgrUI::cbServer_OnDropdown);
 		m_chkManualHost.OnChange = Callback(this, &CJabberDlgAccMgrUI::chkManualHost_OnChange);
 		m_chkUseDomainLogin.OnChange = Callback(this, &CJabberDlgAccMgrUI::chkUseDomainLogin_OnChange);
 
@@ -1390,14 +1388,42 @@ private:
 		m_txtPort.Disable();
 		m_btnRegister.Enable();
 	}
+	
+	void setupBasicPreset() // This collected all same strings from other setups
+	{
+		m_canregister = false;
+		m_gotservers = true;
+		m_txtServer.ResetContent();
+
+		m_chkManualHost.SetState(BST_CHECKED);
+		
+		bool readyToUse = false;
+		if (readyToUse == true)
+		{
+			m_txtPort.SetInt(443); // 5222, 5223
+			bool Case = false
+			if (Case == false)
+			{
+				m_txtServer.Disable();
+			}
+			else
+			{
+				m_txtServer.Enable();
+			}
+		}
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_btnRegister.Disable();
+	}	
+/* Tempopary solution, to avoid many errors
 
 	void setupGoogle()
 	{
 		m_canregister = false;
 		m_gotservers = true;
 		m_cbServer.ResetContent();
-		// m_cbServer.AddStringA("gmail.com");
-		//m_cbServer.AddStringA("googlemail.com");
+		m_cbServer.AddStringA("gmail.com");
+		m_cbServer.AddStringA("googlemail.com");
 		m_cbServer.SetTextA("gmail.com");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("talk.google.com");
@@ -1552,7 +1578,7 @@ private:
 		m_txtPort.Disable();
 		m_btnRegister.Disable();
 	}
-
+*/
 	void RefreshServers(TiXmlElement *node)
 	{
 		m_gotservers = node != nullptr;
