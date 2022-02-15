@@ -114,12 +114,14 @@ void CJabberProto::AddDefaultCaps()
 		if (it.Valid())
 			myCaps |= it.jcbCap;
 
-	char szOsBuffer[256];
-	OS_GetDisplayString(szOsBuffer, _countof(szOsBuffer));
-
 	CJabberClientPartialCaps *pCaps = g_clientCapsManager.SetClientCaps(JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc, __VERSION_STRING_DOTS, myCaps);
-	pCaps->SetOs("Microsoft Windows");
-	pCaps->SetOsVer(szOsBuffer);
+	if (m_bShowOSVersion) {
+		char szOsBuffer[256];
+		OS_GetDisplayString(szOsBuffer, _countof(szOsBuffer));
+
+		pCaps->SetOs("Microsoft Windows");
+		pCaps->SetOsVer(szOsBuffer);
+	}
 	pCaps->SetSoft("Miranda NG Jabber Protocol");
 	pCaps->SetSoftMir(szCoreVersion);
 }
