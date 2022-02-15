@@ -339,7 +339,8 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlCombo		m_cbResource;
 	CCtrlCheck		m_chkUseHostnameAsResource;
 	CCtrlCheck		m_chkUseDomainLogin;
-	CCtrlCombo		m_cbServer;
+	CCtrlEdit		m_txtServer; // "Domain/server" input
+	CCtrlCombo		m_cbServer; // Stay it here to don't get many errors
 	CCtrlEdit		m_txtPort;
 	CCtrlCheck		m_chkUseSsl;
 	CCtrlCheck		m_chkUseTls;
@@ -364,7 +365,7 @@ public:
 		m_chkUseHostnameAsResource(this, IDC_HOSTNAME_AS_RESOURCE),
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_cbMam(this, IDC_MAM_MODE),
-		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkUseSsl(this, IDC_USE_SSL),
 		m_chkUseTls(this, IDC_USE_TLS),
@@ -386,7 +387,7 @@ public:
 		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_chkUseHostnameAsResource, proto->m_bHostNameAsResource);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
-		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
+		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseSsl, proto->m_bUseSSL);
 		CreateLink(m_chkUseTls, proto->m_bUseTLS);
@@ -421,8 +422,6 @@ protected:
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
-
-		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
@@ -496,11 +495,11 @@ protected:
 		if (m_cbMam.Enabled() && m_cbMam.GetCurSel() != m_proto->m_iMamMode)
 			m_proto->MamSetMode(m_cbMam.GetCurSel());
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_txtUsername.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_cbServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
+				m_txtServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
 				m_txtManualHost.IsChanged() || m_txtManualPort.IsChanged() || m_cbLocale.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("These changes will take effect the next time you connect to the Jabber network."),
@@ -547,7 +546,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -666,7 +665,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -686,7 +685,7 @@ private:
 	{
 		m_gotservers = node != nullptr;
 
-		wchar_t *server = m_cbServer.GetText();
+		wchar_t *server = m_c.GetText();
 		bool bDropdown = m_cbServer.GetDroppedState();
 		if (bDropdown) m_cbServer.ShowDropdown(false);
 
@@ -938,7 +937,8 @@ class CJabberDlgAccMgrUI : public CJabberDlgBase
 
 	CCtrlCombo		m_cbType;
 	CCtrlEditJid	m_txtUsername;
-	CCtrlCombo		m_cbServer;
+	CCtrlCombo		m_cbServer; // stay to don't get errors
+	CCtrlEdit		m_txtServer; // "Domain/server" input
 	CCtrlEdit		m_txtPassword;
 	CCtrlCheck		m_chkSavePassword;
 	CCtrlCheck		m_chkUseDomainLogin;
@@ -957,7 +957,7 @@ public:
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_chkSavePassword(this, IDC_SAVEPASSWORD),
 		m_cbResource(this, IDC_COMBO_RESOURCE),
-		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkManualHost(this, IDC_MANUAL),
 		m_txtManualHost(this, IDC_HOST),
@@ -968,7 +968,7 @@ public:
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
-		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
+		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
 
@@ -995,8 +995,6 @@ protected:
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
-
-		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
@@ -1031,7 +1029,7 @@ protected:
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		char server[256], manualServer[256] = { 0 };
-		m_cbServer.GetTextA(server, _countof(server));
+		m_txtServer.GetTextA(server, _countof(server));
 		ptrA dbManualServer(db_get_sa(0, m_proto->m_szModuleName, "ManualHost"));
 		if (dbManualServer != nullptr)
 			mir_strncpy(manualServer, dbManualServer, _countof(manualServer));
@@ -1193,7 +1191,7 @@ protected:
 		char server[256];
 		char manualServer[256];
 
-		m_cbServer.GetTextA(server, _countof(server));
+		m_txtServer.GetTextA(server, _countof(server));
 		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
 
 		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
@@ -1209,11 +1207,11 @@ protected:
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_cbType.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_cbServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged()) {
+				m_txtServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("Some changes will take effect the next time you connect to the Jabber network."),
 					TranslateT("Jabber Protocol Option"), MB_OK | MB_SETFOREGROUND);
@@ -1249,7 +1247,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = (uint16_t)m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1294,7 +1292,7 @@ private:
 
 		if (chk->GetState() == BST_CHECKED) {
 			char buf[256];
-			m_cbServer.GetTextA(buf, _countof(buf));
+			m_txtServer.GetTextA(buf, _countof(buf));
 			m_txtManualHost.SetTextA(buf);
 			m_txtPort.SetInt(5222);
 
@@ -1317,7 +1315,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1356,7 +1354,7 @@ private:
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1371,7 +1369,7 @@ private:
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1386,7 +1384,7 @@ private:
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1398,8 +1396,8 @@ private:
 		m_canregister = false;
 		m_gotservers = true;
 		m_cbServer.ResetContent();
-		m_cbServer.AddStringA("gmail.com");
-		m_cbServer.AddStringA("googlemail.com");
+		// m_cbServer.AddStringA("gmail.com");
+		//m_cbServer.AddStringA("googlemail.com");
 		m_cbServer.SetTextA("gmail.com");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("talk.google.com");
