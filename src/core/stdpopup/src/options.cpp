@@ -365,6 +365,8 @@ public:
 
 		m_list.OnSelChange = Callback(this, &CClassesOptDlg::onSelChange_List);
 
+		btnPreview.OnClick = Callback(this, &CClassesOptDlg::onClick_Preview);
+
 		chkTimeout.OnChange = Callback(this, &CClassesOptDlg::onCheck_Timeout);
 		edtTimeout.OnChange = Callback(this, &CClassesOptDlg::onChange_Timeout);
 		m_backColor.OnChange = Callback(this, &CClassesOptDlg::onChange_BackColor);
