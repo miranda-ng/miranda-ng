@@ -662,8 +662,7 @@ void TContainerData::Resize(bool bRestored, int newWidth)
 	for (int i = 0; i < nCount; i++) {
 		HWND hDlg = GetTabWindow(m_hwndTabs, i);
 		if (hDlg == m_hwndActive) {
-			SetWindowPos(hDlg, nullptr, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top),
-				SWP_NOSENDCHANGING | SWP_NOACTIVATE/*|SWP_NOCOPYBITS*/);
+			SetWindowPos(hDlg, nullptr, rcClient.left, rcClient.top, (rcClient.right - rcClient.left), (rcClient.bottom - rcClient.top), SWP_NOSENDCHANGING | SWP_NOACTIVATE);
 			if (!m_bSizingLoop && sizeChanged) {
 				auto *dat = (CMsgDialog *)GetWindowLongPtr(m_hwndActive, GWLP_USERDATA);
 				if (dat)

@@ -33,8 +33,6 @@
 #ifndef __THEMES_H
 #define __THEMES_H
 
-HBITMAP IMG_LoadLogo(const wchar_t *szName);
-
 class CSideBarButton;
 
 struct TSButtonCtrl : public MButtonCtrl
@@ -118,18 +116,18 @@ void CustomizeButton(HWND hwndButton);
 
 struct AeroEffect
 {
-	wchar_t    tszName[40];
-	uint32_t    m_baseColor;
-	uint32_t    m_gradientColor;
-	uint8_t     m_baseAlpha;
-	uint8_t     m_finalAlpha;
-	uint8_t     m_cornerType;
-	uint8_t     m_gradientType;
-	uint32_t    m_cornerRadius;
-	uint32_t    m_glowSize;
+	wchar_t  tszName[40];
+	uint32_t m_baseColor;
+	uint32_t m_gradientColor;
+	uint8_t  m_baseAlpha;
+	uint8_t  m_finalAlpha;
+	uint8_t  m_cornerType;
+	uint8_t  m_gradientType;
+	uint32_t m_cornerRadius;
+	uint32_t m_glowSize;
 	COLORREF m_clrBack, m_clrToolbar, m_clrToolbar2;
 
-	void (TSAPI	*pfnEffectRenderer)(const HDC hdc, const RECT *rc, int iEffectArea);
+	void (TSAPI *pfnEffectRenderer)(const HDC hdc, const RECT *rc, int iEffectArea);
 };
 /**
  * CImageItem implementes image-based skin items. These items are loaded
@@ -143,7 +141,7 @@ public:
 	{
 		memset(this, 0, sizeof(CImageItem));
 	}
-	CImageItem(const CImageItem& From)
+	CImageItem(const CImageItem &From)
 	{
 		*this = From;
 		m_nextItem = nullptr;
@@ -156,7 +154,7 @@ public:
 	}
 
 	CImageItem(uint8_t bottom, uint8_t left, uint8_t top, uint8_t right, HDC hdc, HBITMAP hbm, uint32_t dwFlags,
-		HBRUSH brush, uint8_t alpha, LONG inner_height, LONG inner_width, LONG height, LONG width)
+		HBRUSH brush, uint8_t alpha, int inner_height, int inner_width, int height, int width)
 	{
 		m_bBottom = bottom;
 		m_bLeft = left;
@@ -181,24 +179,24 @@ public:
 		Free();
 	}
 
-	void			Clear()
+	void Clear()
 	{
 		m_hdc = nullptr; m_hbm = nullptr; m_hbmOld = nullptr;
 		m_fillBrush = nullptr;
 	}
 
-	void			setBitmap(const HBITMAP hbm)
+	void setBitmap(const HBITMAP hbm)
 	{
 		m_hbm = hbm;
 	}
 
-	void			setAlphaFormat(const uint8_t bFormat, const uint8_t bConstantAlpha)
+	void setAlphaFormat(const uint8_t bFormat, const uint8_t bConstantAlpha)
 	{
 		m_bf.AlphaFormat = bFormat;
 		m_bf.SourceConstantAlpha = bConstantAlpha;
 	}
 
-	void			setMetrics(const LONG width, const LONG height)
+	void setMetrics(const LONG width, const LONG height)
 	{
 		m_height = height;
 		m_width = width;
@@ -209,19 +207,16 @@ public:
 			m_bStretch = IMAGE_STRETCH_B;
 	}
 
-	void			Free();
-	CImageItem*		getNextItem() const { return(m_nextItem); }
-	void			setNextItem(CImageItem *item) { m_nextItem = item; }
-	HBITMAP			getHbm() const { return(m_hbm); }
-	uint32_t			getFlags() const { return(m_dwFlags); }
-	HDC				getDC() const { return(m_hdc); }
-	const BLENDFUNCTION&	getBF() const
-	{
-		const BLENDFUNCTION &bf = m_bf;
-		return(bf);
-	}
-	const wchar_t*      getName() const { return (m_szName); }
-	wchar_t*            Read(const wchar_t *szFilename);
+	const BLENDFUNCTION &getBF() const { return m_bf; }
+
+	void              Free();
+	CImageItem*       getNextItem() const { return(m_nextItem); }
+	void              setNextItem(CImageItem *item) { m_nextItem = item; }
+	HBITMAP           getHbm() const { return(m_hbm); }
+	uint32_t          getFlags() const { return(m_dwFlags); }
+	HDC               getDC() const { return(m_hdc); }
+	const wchar_t*    getName() const { return (m_szName); }
+	wchar_t*          Read(const wchar_t *szFilename);
 	void              Create(const wchar_t *szImageFile);
 	void __fastcall   Render(const HDC hdc, const RECT *rc, bool fIgnoreGlyph) const;
 	static void TSAPI	PreMultiply(HBITMAP hBitmap, int mode);
@@ -229,47 +224,49 @@ public:
 	static void TSAPI	Colorize(HBITMAP hBitmap, uint8_t dr, uint8_t dg, uint8_t db, uint8_t alpha = 0);
 
 public:
-	bool			m_fValid;									// verified item, indicates that all parameters are valid
+	bool m_fValid; // verified item, indicates that all parameters are valid
+
 private:
-	wchar_t 		 	m_szName[40];								// everything wants a name, an image item doesn't need one though
-	HBITMAP 		m_hbm;										// the bitmap handle
-	uint8_t    		m_bLeft, m_bRight, m_bTop, m_bBottom;      	// sizing margins for the outer 8 image parts
-	uint8_t    		m_alpha;									// constant alpha for the entire image, applied via m_bf. sums with perpixel alpha
-	uint32_t   		m_dwFlags;									// flags
-	HDC     		m_hdc;										// *can* hold a pre-created hdc to speed up rendering
-	HBITMAP 		m_hbmOld;									// old bitmap, needs to be selected into m_hdc before destroying it
-	LONG    		m_inner_height, m_inner_width;				// dimensions of the inner image part
-	LONG    		m_width, m_height;							// width and height of the image, in pixels
-	BLENDFUNCTION 	m_bf;										// for AlphaBlend()
-	uint8_t    		m_bStretch;									// stretch mode (unused in tabSRMM
-	HBRUSH  		m_fillBrush;								// brush to fill the inner part (faster) dwFlags & IMAGE_FILLSOLID must be set
-	LONG    		m_glyphMetrics[4];							// these coordinates point into the glyph image (if IMAGE_GLYPH is set)
-	CImageItem*		m_nextItem;									// next item in a set of image items (usually the skin set)
+	wchar_t  m_szName[40];                         // everything wants a name, an image item doesn't need one though
+	HBITMAP  m_hbm;                                // the bitmap handle
+	uint8_t  m_bLeft, m_bRight, m_bTop, m_bBottom; // sizing margins for the outer 8 image parts
+	uint8_t  m_alpha;                              // constant alpha for the entire image, applied via m_bf. sums with perpixel alpha
+	uint32_t m_dwFlags;                            // flags
+	HDC      m_hdc;                                // *can* hold a pre-created hdc to speed up rendering
+	HBITMAP  m_hbmOld;                             // old bitmap, needs to be selected into m_hdc before destroying it
+	int      m_inner_height, m_inner_width;        // dimensions of the inner image part
+	int      m_width, m_height;                    // width and height of the image, in pixels
+	uint8_t  m_bStretch;                           // stretch mode (unused in tabSRMM
+	HBRUSH   m_fillBrush;                          // brush to fill the inner part (faster) dwFlags & IMAGE_FILLSOLID must be set
+	LONG     m_glyphMetrics[4];                    // these coordinates point into the glyph image (if IMAGE_GLYPH is set)
+
+	CImageItem* m_nextItem;                        // next item in a set of image items (usually the skin set)
+	BLENDFUNCTION m_bf;                            // for AlphaBlend()
 };
 
 
-struct CSkinItem {
-	wchar_t szName[40];
-	char szDBname[40];
-	int statusID;
+struct CSkinItem
+{
+	wchar_t  szName[40];
+	char     szDBname[40];
+	int      statusID;
 
-	uint8_t GRADIENT;
-	uint8_t CORNER;
+	uint8_t  GRADIENT;
+	uint8_t  CORNER;
 
 	uint32_t COLOR;
 	uint32_t COLOR2;
 
-	uint8_t COLOR2_TRANSPARENT;
+	uint8_t  COLOR2_TRANSPARENT;
 
 	uint32_t TEXTCOLOR;
 
-	int ALPHA;
-
-	int MARGIN_LEFT;
-	int MARGIN_TOP;
-	int MARGIN_RIGHT;
-	int MARGIN_BOTTOM;
-	uint8_t IGNORED;
+	int      ALPHA;
+	int      MARGIN_LEFT;
+	int      MARGIN_TOP;
+	int      MARGIN_RIGHT;
+	int      MARGIN_BOTTOM;
+	uint8_t  IGNORED;
 	uint32_t BORDERSTYLE;
 	CImageItem *imageItem;
 };
@@ -278,10 +275,12 @@ struct CSkinItem {
  * Implements the skinning engine. There is only one instance of this class and
  * it always holds the currently loaded skin (if any).
  */
+
 class CSkin
 {
 public:
-	enum {
+	enum
+	{
 		AERO_EFFECT_NONE = 0,
 		AERO_EFFECT_MILK = 1,
 		AERO_EFFECT_CARBON = 2,
@@ -291,7 +290,8 @@ public:
 		AERO_EFFECT_CUSTOM2 = 6,
 		AERO_EFFECT_LAST = 7
 	};
-	enum {
+	enum
+	{
 		AERO_EFFECT_AREA_MENUBAR = 0,
 		AERO_EFFECT_AREA_STATUSBAR = 1,
 		AERO_EFFECT_AREA_INFOPANEL = 2,
@@ -304,14 +304,16 @@ public:
 		AERO_EFFECT_AREA_TAB_BOTTOM = 0x2000
 	};
 
-	enum {
+	enum
+	{
 		DEFAULT_GLOW_SIZE = 10
 	};
 
 	/*
 	 * avatar border types (skinned mode only)
 	 */
-	enum {
+	enum
+	{
 		AVBORDER_NONE = 0,
 		AVBORDER_NORMAL = 1,
 		AVBORDER_ROUNDED = 2
@@ -367,40 +369,39 @@ public:
 	/*
 	 * static member functions
 	 */
-	static void    TSAPI	SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget);
-	static void    TSAPI	SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget);
-	static void    TSAPI	DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, uint8_t alpha);
-	static uint32_t   TSAPI HexStringToLong(const wchar_t *szSource);
-	static UINT    TSAPI	DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
-	static UINT    TSAPI	NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
-	static HBITMAP TSAPI CreateAeroCompatibleBitmap(const RECT &rc, HDC dc);
-	static int     TSAPI	RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, uint32_t dtFlags, const int iGlowSize = DEFAULT_GLOW_SIZE, COLORREF clr = 0, bool fForceAero = false);
-	static void    TSAPI	MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc);
-	static void    TSAPI	ApplyAeroEffect(const HDC hdc, const RECT* rc, int iEffectArea);
-	static void    TSAPI	setAeroEffect(const LRESULT effect);
-	static void    TSAPI	initAeroEffect();
-	static HANDLE  TSAPI	InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut);
-	static void    TSAPI	FinalizeBufferedPaint(HANDLE hbp, RECT *rc);
-	static bool    TSAPI DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item);
-	static void    TSAPI	FillBack(const HDC hdc, RECT* rc);
-	static bool    TSAPI	IsThemed(void);
+	static void     TSAPI SkinDrawBGFromDC(HWND hwndClient, HWND hwnd, RECT *rcClient, HDC hdcTarget);
+	static void     TSAPI SkinDrawBG(HWND hwndClient, HWND hwnd, TContainerData *pContainer, RECT *rcClient, HDC hdcTarget);
+	static void     TSAPI DrawDimmedIcon(HDC hdc, LONG left, LONG top, LONG dx, LONG dy, HICON hIcon, uint8_t alpha);
+	static uint32_t TSAPI HexStringToLong(const wchar_t *szSource);
+	static UINT     TSAPI DrawRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
+	static UINT     TSAPI NcCalcRichEditFrame(HWND hwnd, const CMsgDialog *mwdat, UINT skinID, UINT msg, WPARAM wParam, LPARAM lParam, WNDPROC OldWndProc);
+	static HBITMAP  TSAPI CreateAeroCompatibleBitmap(const RECT &rc, HDC dc);
+	static int      TSAPI RenderText(HDC hdc, HANDLE hTheme, const wchar_t *szText, RECT *rc, uint32_t dtFlags, const int iGlowSize = DEFAULT_GLOW_SIZE, COLORREF clr = 0, bool fForceAero = false);
+	static void     TSAPI MapClientToParent(HWND hwndClient, HWND hwndParent, RECT &rc);
+	static void     TSAPI ApplyAeroEffect(const HDC hdc, const RECT* rc, int iEffectArea);
+	static void     TSAPI setAeroEffect(const LRESULT effect);
+	static void     TSAPI initAeroEffect();
+	static HANDLE   TSAPI InitiateBufferedPaint(const HDC hdcSrc, RECT& rc, HDC& hdcOut);
+	static void     TSAPI FinalizeBufferedPaint(HANDLE hbp, RECT *rc);
+	static bool     TSAPI DrawItem(const HDC hdc, const RECT *rc, const CSkinItem *item);
+	static void     TSAPI FillBack(const HDC hdc, RECT* rc);
+	static bool     TSAPI IsThemed(void);
 
 public:
-	static bool		m_DisableScrollbars, m_bClipBorder;
+	static bool     m_DisableScrollbars, m_bClipBorder;
 	static char     m_SkinnedFrame_left, m_SkinnedFrame_right, m_SkinnedFrame_bottom, m_SkinnedFrame_caption;
 	static char     m_realSkinnedFrame_left, m_realSkinnedFrame_right, m_realSkinnedFrame_bottom, m_realSkinnedFrame_caption;
 	static HPEN     m_SkinLightShadowPen, m_SkinDarkShadowPen;
-	static int 		m_titleBarLeftOff, m_titleButtonTopOff, m_captionOffset, m_captionPadding,
-		m_titleBarRightOff, m_sidebarTopOffset, m_sidebarBottomOffset, m_bRoundedCorner;
-	static SIZE		m_titleBarButtonSize;
-	static int		m_bAvatarBorderType;
+	static int      m_titleBarLeftOff, m_titleButtonTopOff, m_captionOffset, m_captionPadding, m_titleBarRightOff, m_sidebarTopOffset, m_sidebarBottomOffset, m_bRoundedCorner;
+	static SIZE     m_titleBarButtonSize;
+	static int      m_bAvatarBorderType;
 	static COLORREF m_avatarBorderClr, m_tmp_tb_low, m_tmp_tb_high;
 	static COLORREF m_sideBarContainerBG;
 	static COLORREF m_ContainerColorKey, m_DefaultFontColor;
-	static HBRUSH 	m_ContainerColorKeyBrush, m_MenuBGBrush;
-	static bool		m_skinEnabled;
-	static bool		m_frameSkins;
-	static HICON	m_closeIcon, m_minIcon, m_maxIcon;
+	static HBRUSH   m_ContainerColorKeyBrush, m_MenuBGBrush;
+	static bool     m_skinEnabled;
+	static bool     m_frameSkins;
+	static HICON    m_closeIcon, m_minIcon, m_maxIcon;
 	static BLENDFUNCTION m_default_bf;										// general purpose bf, dynamically modified when needed
 
 	/*
@@ -414,35 +415,34 @@ public:
 	 * controls the aero effect. Set by initAeroEffect()
 	 */
 
-	static UINT			m_aeroEffect;										// effect id, initAeroEffect() is using it to set
-	// the parameters below.
-	static AeroEffect	m_aeroEffects[AERO_EFFECT_LAST];
-	static AeroEffect	m_currentAeroEffect;
-	static AeroEffect*	m_pCurrentAeroEffect;
-	static uint32_t		m_glowSize;
-	static HBRUSH		m_BrushBack, m_BrushFill;
+	static UINT			 m_aeroEffect; // effect id, initAeroEffect() is using it to set the parameters below.
+	static AeroEffect	 m_aeroEffects[AERO_EFFECT_LAST];
+	static AeroEffect	 m_currentAeroEffect;
+	static AeroEffect* m_pCurrentAeroEffect;
+	static uint32_t    m_glowSize;
+	static HBRUSH      m_BrushBack, m_BrushFill;
 
-	static COLORREF		m_dwmColorRGB;
+	static COLORREF    m_dwmColorRGB;
 
-	static CImageItem *m_switchBarItem, *m_tabTop, *m_tabBottom, *m_tabGlowTop, *m_tabGlowBottom;
-	static bool			m_fAeroSkinsValid;
+	static CImageItem* m_switchBarItem, *m_tabTop, *m_tabBottom, *m_tabGlowTop, *m_tabGlowBottom;
+	static bool        m_fAeroSkinsValid;
 
 private:
-	wchar_t			m_tszFileName[MAX_PATH];				// full path and filename of the currently loaded skin
-	CSkinItem*		m_SkinItems;
-	CImageItem*		m_ImageItems;							// the list of image item objects
-	CImageItem		m_glyphItem;
+	wchar_t            m_tszFileName[MAX_PATH];				// full path and filename of the currently loaded skin
+	CSkinItem*         m_SkinItems;
+	CImageItem*        m_ImageItems;							// the list of image item objects
+	CImageItem         m_glyphItem;
 
-	bool			m_fLoadOnStartup;						// load the skin on plugin initialization.
-	bool			m_fHaveGlyph;
-	void 			SkinCalcFrameWidth();
-	TIconDescW		*m_skinIcons;
-	int				m_nrSkinIcons;
-	uint32_t			m_dwmColor;
+	bool               m_fLoadOnStartup;						// load the skin on plugin initialization.
+	bool               m_fHaveGlyph;
+	void               SkinCalcFrameWidth();
+	TIconDescW*        m_skinIcons;
+	int                m_nrSkinIcons;
+	uint32_t           m_dwmColor;
 
-	static	void TSAPI AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea);
-	static	void TSAPI AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffectArea);
-	static	void TSAPI AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea);
+	static void TSAPI AeroEffectCallback_Milk(const HDC hdc, const RECT *rc, int iEffectArea);
+	static void TSAPI AeroEffectCallback_Carbon(const HDC hdc, const RECT *rc, int iEffectArea);
+	static void TSAPI AeroEffectCallback_Solid(const HDC hdc, const RECT *rc, int iEffectArea);
 };
 
 extern CSkin *Skin;
@@ -451,33 +451,35 @@ extern CSkin *Skin;
 * data structs
 */
 
-struct ButtonItem {
-	wchar_t   szName[40];
-	HWND    hWnd;
-	LONG    xOff, yOff;
-	LONG    width, height;
+struct ButtonItem
+{
+	wchar_t     szName[40];
+	HWND        hWnd;
+	LONG        xOff, yOff;
+	LONG        width, height;
 	CImageItem *imgNormal, *imgPressed, *imgHover;
-	LONG_PTR normalGlyphMetrics[4];
-	LONG_PTR hoverGlyphMetrics[4];
-	LONG_PTR pressedGlyphMetrics[4];
-	uint32_t   dwFlags, dwStockFlags;
-	uint32_t   uId;
-	wchar_t szTip[256];
-	char    szService[256];
-	char    szModule[256], szSetting[256];
-	uint8_t    bValuePush[256], bValueRelease[256];
-	uint32_t   type;
-	void(*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
-	void(*pfnCallback)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
-	wchar_t   tszLabel[40];
-	ButtonItem* nextItem;
-	HANDLE  hContact;
+	LONG_PTR    normalGlyphMetrics[4];
+	LONG_PTR    hoverGlyphMetrics[4];
+	LONG_PTR    pressedGlyphMetrics[4];
+	uint32_t    dwFlags, dwStockFlags;
+	uint32_t    uId;
+	wchar_t     szTip[256];
+	char        szService[256];
+	char        szModule[256], szSetting[256];
+	uint8_t     bValuePush[256], bValueRelease[256];
+	uint32_t    type;
+	void        (*pfnAction)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
+	void        (*pfnCallback)(ButtonItem *item, HWND hwndDlg, CMsgDialog *dat, HWND hwndItem);
+	wchar_t     tszLabel[40];
+	ButtonItem *nextItem;
+	HANDLE      hContact;
 	CMsgDialog *dat;
 };
 
-typedef struct _tagButtonSet {
-	ButtonItem  *items;
+struct ButtonSet
+{
+	ButtonItem *items;
 	LONG        left, top, right, bottom;               // client area offsets, calculated from button layout
-} ButtonSet;
+};
 
 #endif /* __THEMES_H */
