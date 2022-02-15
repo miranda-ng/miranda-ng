@@ -28,3 +28,7 @@ vsbuild.cmd
 
 #Langpacks Tools Template
 langpacks/tool/VersionInfo.txt
+
+# WhatsApp generated protobuf descriptions
+protocols/WhatsAppWeb/src/pmsg.pb.cc
+protocols/WhatsAppWeb/src/pmsg.pb.h
