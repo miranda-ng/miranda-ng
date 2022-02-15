@@ -2,10 +2,8 @@
 
 ### English
 Miranda NG is a successor of a multi-protocol instant messenger for Windows — [Miranda IM][1]. Very light and extremely fast.
-### Russian
-Miranda NG - мессенджер для Windows — [Miranda IM][1] с поддержкой множества протоколов. Очень легкий и невероятно быстрый.
 
-## Protocol support | Протоколы
+## Protocol support
 
 - Em-LAN
 - Facebook
@@ -22,7 +20,7 @@ Miranda NG - мессенджер для Windows — [Miranda IM][1] с подд
 - Twitter
 - VKontakte
 
-## Supported operating systems | Поддерживаемые операционные системы 
+## Supported operating systems
 
 Windows 2003 / XP / Vista / 7 / 8 / 10 / 11
 
