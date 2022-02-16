@@ -141,7 +141,7 @@ static int CB_InitDefaultButtons(WPARAM, LPARAM)
 
 void CMsgDialog::BB_InitDlgButtons()
 {
-	uint8_t gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
+	uint8_t gap = DPISCALEX_S(Srmm_GetButtonGap());
 
 	RECT rcSplitter;
 	GetWindowRect(GetDlgItem(m_hwnd, IDC_SPLITTERY), &rcSplitter);
@@ -203,7 +203,7 @@ BOOL CMsgDialog::BB_SetButtonsPos()
 	if (!m_hwnd || !IsWindowVisible(m_hwnd))
 		return 0;
 
-	uint8_t gap = DPISCALEX_S(g_plugin.getByte("ButtonsBarGap", 1));
+	uint8_t gap = DPISCALEX_S(Srmm_GetButtonGap());
 	bool showToolbar = !m_pContainer->m_flags.m_bHideToolbar;
 	bool bBottomToolbar = m_pContainer->m_flags.m_bBottomToolbar;
 

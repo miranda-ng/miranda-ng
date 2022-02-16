@@ -412,7 +412,7 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 	else yPos = 2;
 
 	GetClientRect(hwndDlg, &rc);
-	int iLeftX = 2, iRightX = rc.right - 2;
+	int iLeftX = 2, iRightX = rc.right - 2, iGap = Srmm_GetButtonGap();
 
 	CustomButtonData *cbd;
 	for (int i = 0; cbd = Srmm_GetNthButton(i); i++) {
@@ -421,12 +421,12 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 			continue;
 
 		if (cbd->m_bRSided) {
-			iRightX -= g_dat.iGap + cbd->m_iButtonWidth;
+			iRightX -= iGap + cbd->m_iButtonWidth;
 			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iRightX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
 		}
 		else {
 			hdwp = DeferWindowPos(hdwp, hwndButton, nullptr, iLeftX, yPos, 0, 0, SWP_NOZORDER | SWP_NOSIZE);
-			iLeftX += g_dat.iGap + cbd->m_iButtonWidth;
+			iLeftX += iGap + cbd->m_iButtonWidth;
 		}
 	}
 

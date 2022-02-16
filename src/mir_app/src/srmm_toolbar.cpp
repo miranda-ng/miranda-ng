@@ -32,6 +32,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static double g_DPIscaleX, g_DPIscaleY;
 
+static CMOption<uint8_t> g_iButtonGap(BB_MODULE_NAME, "ButtonsBarGap", 1);
+
 static int SortButtons(const CustomButtonData *p1, const CustomButtonData *p2)
 {
 	if (p1->m_bRSided != p2->m_bRSided)
@@ -77,6 +79,11 @@ MIR_APP_DLL(CustomButtonData*) Srmm_GetNthButton(int i)
 MIR_APP_DLL(int) Srmm_GetButtonCount(void)
 {
 	return arButtonsList.getCount();
+}
+
+MIR_APP_DLL(int) Srmm_GetButtonGap()
+{
+	return g_iButtonGap;
 }
 
 MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
@@ -624,7 +631,7 @@ public:
 		m_btnChat.Disable();
 		m_btnHidden.Disable();
 
-		m_gap.SetPosition(db_get_b(0, BB_MODULE_NAME, "ButtonsBarGap", 1));
+		m_gap.SetPosition(g_iButtonGap);
 		return true;
 	}
 
@@ -641,9 +648,9 @@ public:
 		CB_ReInitCustomButtons();
 
 		uint16_t newGap = m_gap.GetPosition();
-		if (newGap != db_get_b(0, BB_MODULE_NAME, "ButtonsBarGap", 1)) {
+		if (newGap != g_iButtonGap) {
+			g_iButtonGap = newGap;
 			WindowList_BroadcastAsync(g_hWindowList, WM_SIZE, 0, 0);
-			db_set_b(0, BB_MODULE_NAME, "ButtonsBarGap", newGap);
 		}
 
 		BuildMenuObjectsTree();

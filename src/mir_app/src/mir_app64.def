@@ -792,3 +792,4 @@ Netlib_SslWrite @877 NONAME
 ?SafeRecycleBin@PU@@YAHPEB_W@Z @880 NONAME
 ?IsMirandaFolderWritable@PU@@YA_NXZ @881 NONAME
 ?IsDuplicateEvent@DB@@YA_NIAEAUDBEVENTINFO@@@Z @882 NONAME
+Srmm_GetButtonGap @883

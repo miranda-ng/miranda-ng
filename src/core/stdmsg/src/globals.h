@@ -60,7 +60,6 @@ struct GlobalMessageData
 	CMOption<uint32_t> popupFlags;
 	CMOption<uint32_t> msgTimeout;
 	CMOption<uint32_t> nFlashMax;
-	CMOption<uint8_t>  iGap;
 
 	CMOption<uint8_t>  iLoadHistory;
 	CMOption<uint16_t>  nLoadCount, nLoadTime;

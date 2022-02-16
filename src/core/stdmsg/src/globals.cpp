@@ -136,7 +136,6 @@ GlobalMessageData::GlobalMessageData() :
 
 	popupFlags(SRMMMOD, "PopupFlags", 0),
 	nFlashMax(SRMMMOD, "FlashMax", 5),
-	iGap(SRMSGMOD, "ButtonsBarGap", 1),
 
 	msgTimeout(SRMMMOD, "MessageTimeout", 65000),
 

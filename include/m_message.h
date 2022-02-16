@@ -251,6 +251,9 @@ EXTERN_C MIR_APP_DLL(int) Srmm_ModifyButton(BBButton *bbdi);
 // returns 0 on success and nonzero value otherwise
 EXTERN_C MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi);
 
+// gets a gab between buttons in a toolbar
+EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonGap();
+
 // retrieves data from a toolbar button to a structure
 // returns 0 on success and nonzero value otherwise
 EXTERN_C MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi);
