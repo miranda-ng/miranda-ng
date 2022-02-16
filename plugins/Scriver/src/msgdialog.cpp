@@ -887,8 +887,10 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				replaceStrW(m_wszSearchResult, nullptr);
 			}
 
-			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+			if (wParam == 0x46 && isCtrl && !isAlt) { // ctrl-f (toggle filter)
+				m_btnFilter.Click();
 				return TRUE;
+			}
 
 			if (wParam == 0x4e && isCtrl && !isAlt) { // ctrl-n (nicklist)
 				if (m_btnNickList.Enabled())
@@ -906,6 +908,9 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 					m_btnChannelMgr.Click();
 				return TRUE;
 			}
+
+			if (ProcessHotkeys(wParam, isShift, isCtrl, isAlt))
+				return TRUE;
 		}
 		break;
 

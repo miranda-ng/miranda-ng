@@ -1407,14 +1407,14 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 
 		switch (mim_hotkey_check) {
 		case TABSRMM_HK_CHANNELMGR:
-			onClick_ChanMgr(&m_btnChannelMgr);
+			m_btnChannelMgr.Click();
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_FILTERTOGGLE:
-			onClick_Filter(&m_btnFilter);
+			m_btnFilter.Click();
 			InvalidateRect(m_btnFilter.GetHwnd(), nullptr, TRUE);
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_LISTTOGGLE:
-			onClick_ShowNickList(&m_btnNickList);
+			m_btnNickList.Click();
 			return _dlgReturn(m_hwnd, 1);
 		case TABSRMM_HK_MUC_SHOWSERVER:
 			if (m_si->iType != GCW_SERVER)
