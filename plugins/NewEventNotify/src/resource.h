@@ -5,6 +5,9 @@
 #define IDD_OPT_MAIN                    101
 #define IDD_OPT_MESSAGE                 102
 #define IDC_PREVIEW                     1000
+#define IDC_LIMITPREVIEW                1001
+#define IDC_MESSAGEPREVIEWLIMIT         1002
+#define IDC_MESSAGEPREVIEWLIMITSPIN     1003
 #define IDC_CHKWINDOWCHECK              1013
 #define IDC_CHKREPLYWINDOW              1014
 #define IDC_DELAY_ERR                   1015

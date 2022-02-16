@@ -155,7 +155,8 @@ public:
 
 class COptionsMainDlg : public COptionsBaseDlg
 {
-	CCtrlCheck chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
+	CCtrlSpin spinLimit;
+	CCtrlCheck chkLimit, chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
 	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
 	CCtrlButton btnPreview;
 	CCtrlTreeOpts m_opts;
@@ -163,6 +164,8 @@ class COptionsMainDlg : public COptionsBaseDlg
 	void GrabData()
 	{
 		m_opts.OnApply();
+
+		g_plugin.iLimitPreview = (chkLimit.GetState()) ? spinLimit.GetPosition() : 0;
 
 		// update options
 		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
@@ -172,7 +175,7 @@ class COptionsMainDlg : public COptionsBaseDlg
 
 		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
 		g_plugin.file.backColor = clrBackFile.GetColor();
-		g_plugin.file.textColor = clrBackFile.GetColor();
+		g_plugin.file.textColor = clrTextFile.GetColor();
 		g_plugin.file.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_FILE) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_FILE, nullptr, FALSE);
 
 		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
@@ -202,12 +205,15 @@ public:
 		chkDefaultColorMsg(this, IDC_CHKDEFAULTCOL_MESSAGE),
 		chkDefaultColorFile(this, IDC_CHKDEFAULTCOL_FILE),
 		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
-		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS)
+		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
+		chkLimit(this, IDC_LIMITPREVIEW),
+		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 1000)
 	{
 		auto *pwszSection = TranslateT("General options");
 		m_opts.AddOption(pwszSection, TranslateT("Show entry in the Popups menu"), g_plugin.bMenuitem);
-		m_opts.AddOption(pwszSection, TranslateT("Temporarily disable event popups"), g_plugin.bDisable);
 		m_opts.AddOption(pwszSection, TranslateT("Show preview of event in popup"), g_plugin.bPreview);
+		m_opts.AddOption(pwszSection, TranslateT("Disable event notifications for instant messages"), g_plugin.bDisable);
+		m_opts.AddOption(pwszSection, TranslateT("Disable event notifications for group chats"), g_plugin.bMUCDisable);
 
 		pwszSection = TranslateT("Notify me of...");
 		m_opts.AddOption(pwszSection, TranslateT("Message"), g_plugin.maskNotify, MASK_MESSAGE);
@@ -221,9 +227,9 @@ public:
 		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActL, MASK_REMOVE);
 
 		pwszSection = TranslateT("Right click actions");
-		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActL, MASK_DISMISS);
-		m_opts.AddOption(pwszSection, TranslateT("Open event"), g_plugin.maskActL, MASK_OPEN);
-		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActL, MASK_REMOVE);
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActR, MASK_DISMISS);
+		m_opts.AddOption(pwszSection, TranslateT("Open event"), g_plugin.maskActR, MASK_OPEN);
+		m_opts.AddOption(pwszSection, TranslateT("Dismiss event"), g_plugin.maskActR, MASK_REMOVE);
 
 		pwszSection = TranslateT("Timeout actions");
 		m_opts.AddOption(pwszSection, TranslateT("Dismiss popup"), g_plugin.maskActTE, MASK_DISMISS);
@@ -236,6 +242,7 @@ public:
 
 		btnPreview.OnClick = Callback(this, &COptionsMainDlg::onClick_Preview);
 
+		chkLimit.OnChange = Callback(this, &COptionsMainDlg::onChange_Limit);
 		chkDefaultColorMsg.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultMsg);
 		chkDefaultColorFile.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultFile);
 		chkDefaultColorErr.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultErr);
@@ -253,6 +260,9 @@ public:
 		clrTextErr.SetColor(g_plugin.err.textColor);
 		clrBackOther.SetColor(g_plugin.other.backColor);
 		clrTextOther.SetColor(g_plugin.other.textColor);
+
+		chkLimit.SetState(g_plugin.iLimitPreview > 0);
+		spinLimit.SetPosition(g_plugin.iLimitPreview);
 
 		chkDefaultColorMsg.SetState(g_plugin.msg.bDefault);
 		chkDefaultColorFile.SetState(g_plugin.file.bDefault);
@@ -297,6 +307,13 @@ public:
 		PopupShow(0, 0, EVENTTYPE_ERRMSG);
 		PopupShow(0, 0, EVENTTYPE_FILE);
 		PopupShow(0, 0, -1);
+	}
+
+	void onChange_Limit(CCtrlCheck *)
+	{
+		bool bEnabled = chkLimit.GetState();
+		spinLimit.Enable(bEnabled);
+		EnableDlgItem(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, bEnabled);
 	}
 
 	void onChange_DefaultMsg(CCtrlCheck *)
