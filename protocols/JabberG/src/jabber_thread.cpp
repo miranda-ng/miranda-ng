@@ -1311,11 +1311,16 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				msgTime = JabberIsoToUnixTime(ptszTimeStamp);
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
-			auto *url = XmlGetChildText(xNode, "url");
-			if (url != nullptr) {
+			if (auto *url = XmlGetChildText(xNode, "url")) {
 				if (!szMessage.IsEmpty())
 					szMessage.Append("\r\n");
 				szMessage.Append(url);
+			}
+
+			if (auto *descr = XmlGetChildText(xNode, "description")) {
+				if (!szMessage.IsEmpty())
+					szMessage.Append("\r\n");
+				szMessage.AppendFormat("%s: %s", TranslateU("Description"), descr);
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
