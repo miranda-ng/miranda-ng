@@ -1317,7 +1317,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				szMessage.Append(url);
 			}
 
-			if (auto *descr = XmlGetChildText(xNode, "description")) {
+			if (auto *descr = XmlGetChildText(xNode, "desc")) {
 				if (!szMessage.IsEmpty())
 					szMessage.Append("\r\n");
 				szMessage.AppendFormat("%s: %s", TranslateU("Description"), descr);
