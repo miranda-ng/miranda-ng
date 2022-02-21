@@ -39,8 +39,19 @@ static BOOL dialoginit = TRUE;
 
 struct WindowData
 {
+	WindowData(MCONTACT _1, HWND hwndDlg) :
+		hContact(_1)
+	{
+		hHook = HookEventMessage(ME_AV_AVATARCHANGED, hwndDlg, DM_AVATARCHANGED);
+	}
+
+	~WindowData()
+	{
+		UnhookEvent(hHook);
+	}
+
 	MCONTACT hContact;
-	HANDLE hHook;
+	HANDLE hHook = nullptr;
 };
 
 static void RemoveProtoPic(protoPicCacheEntry *pce)
@@ -481,8 +492,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		dat = (WindowData*)malloc(sizeof(WindowData));
-		dat->hContact = hContact = lParam;
+		dat = new WindowData(hContact = lParam, hwndDlg);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
 		TranslateDialogDefault(hwndDlg);
@@ -504,7 +514,6 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
 
 		LoadTransparentData(hwndDlg, GetContactThatHaveTheAvatar(hContact));
-		dat->hHook = HookEventMessage(ME_AV_AVATARCHANGED, hwndDlg, DM_AVATARCHANGED);
 		SendMessage(hwndDlg, WM_SETICON, IMAGE_ICON, (LPARAM)g_hIcon);
 		return TRUE;
 
@@ -691,10 +700,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		break;
 
 	case WM_NCDESTROY:
-		if (dat) {
-			UnhookEvent(dat->hHook);
-			free(dat);
-		}
+		delete dat;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
@@ -734,8 +740,7 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 
 	switch (msg) {
 	case WM_INITDIALOG:
-		dat = (WindowData*)malloc(sizeof(WindowData));
-		dat->hContact = hContact = lParam;
+		dat = new WindowData(hContact = lParam, hwndDlg);
 		{
 			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
 			SendMessage(protopic, AVATAR_SETCONTACT, 0, (LPARAM)hContact);
@@ -862,8 +867,12 @@ static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wPa
 		ChangeAvatar(hContact, true);
 		break;
 
+	case DM_AVATARCHANGED:
+		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
+		break;
+
 	case WM_NCDESTROY:
-		free(dat);
+		delete dat;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 		break;
 	}
