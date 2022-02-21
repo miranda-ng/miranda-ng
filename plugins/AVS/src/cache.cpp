@@ -223,6 +223,7 @@ int SetAvatarAttribute(MCONTACT hContact, uint32_t attrib, int mode)
 void PicLoader(LPVOID)
 {
 	Thread_SetName("AVS: PicLoader");
+	MThreadLock threadLock(hLoaderThread);
 
 	uint32_t dwDelay = g_plugin.getDword("picloader_sleeptime", 80);
 

@@ -41,6 +41,7 @@ ACKRESULT_STATUS. This thread only requests the avatar (and maybe add it to the 
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
+static HANDLE hRequestThread;
 static void RequestThread(void *vParam);
 
 extern void MakePathRelative(MCONTACT hContact, wchar_t *path);
@@ -67,6 +68,9 @@ void InitPolls()
 
 void UninitPolls()
 {
+	if (hRequestThread)
+		WaitForSingleObject(hRequestThread, INFINITE);
+
 	queue.destroy();
 }
 
@@ -206,6 +210,7 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 static void RequestThread(void *)
 {
 	Thread_SetName("AVS: RequestThread");
+	MThreadLock threadLock(hRequestThread);
 
 	while (!g_shutDown) {
 		mir_cslockfull lck(cs);

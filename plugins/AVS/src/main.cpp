@@ -35,7 +35,7 @@ HWND     hwndSetMyAvatar = nullptr;
 
 HANDLE   hMyAvatarsFolder;
 HANDLE   hGlobalAvatarFolder;
-HANDLE   hLoaderEvent, hShutdownEvent;
+HANDLE   hLoaderEvent, hLoaderThread, hShutdownEvent;
 HANDLE   hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 char *g_szMetaName = nullptr;
@@ -209,7 +209,6 @@ static int ShutdownProc(WPARAM, LPARAM)
 	g_shutDown = true;
 	SetEvent(hLoaderEvent);
 	SetEvent(hShutdownEvent);
-	CloseHandle(hShutdownEvent); hShutdownEvent = nullptr;
 	return 0;
 }
 
@@ -376,6 +375,8 @@ int CMPlugin::Load()
 
 int CMPlugin::Unload()
 {
+	UnregisterClassW(AVATAR_CONTROL_CLASS, 0);
+
 	UninitPolls();
 	UnloadCache();
 
@@ -383,7 +384,10 @@ int CMPlugin::Unload()
 	DestroyHookableEvent(hEventContactAvatarChanged);
 	DestroyHookableEvent(hMyAvatarChanged);
 
+	if (hLoaderThread)
+		WaitForSingleObject(hLoaderThread, INFINITE);
+
 	CloseHandle(hLoaderEvent);
-	UnregisterClassW(AVATAR_CONTROL_CLASS, 0);
+	CloseHandle(hShutdownEvent);
 	return 0;
 }

@@ -132,7 +132,7 @@ extern HWND  hwndSetMyAvatar;
 
 extern HANDLE hMyAvatarsFolder;
 extern HANDLE hGlobalAvatarFolder;
-extern HANDLE hLoaderEvent, hShutdownEvent;
+extern HANDLE hLoaderEvent, hLoaderThread, hShutdownEvent;
 extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
 int   GetFileHash(wchar_t* filename);
