@@ -94,7 +94,6 @@
 #define IDC_EDIT_LOGIN_SERVER           1003
 #define IDC_PORT                        1004
 #define IDC_BUTTON_CHANGE_PASSWORD      1005
-#define IDC_LINK_PUBLIC_SERVER          1009
 #define IDC_NAME                        1009
 #define IDC_PROGRESS_REG                1011
 #define IDC_NEXT                        1025

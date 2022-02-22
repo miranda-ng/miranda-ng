@@ -323,7 +323,7 @@ CCtrlEditJid::CCtrlEditJid(CDlgBase* dlg, int ctrlId):
 {
 }
 
-static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlCombo &cbServer)
+static void sttStoreJidFromUI(CJabberProto *ppro, CCtrlEdit &txtUsername, CCtrlEdit &cbServer)
 {
 	ppro->setWString("jid", CMStringW(FORMAT, L"%s@%s", ptrW(txtUsername.GetText()).get(), ptrW(cbServer.GetText()).get()));
 }
@@ -339,7 +339,7 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlCombo		m_cbResource;
 	CCtrlCheck		m_chkUseHostnameAsResource;
 	CCtrlCheck		m_chkUseDomainLogin;
-	CCtrlCombo		m_cbServer;
+	CCtrlEdit		m_txtServer;
 	CCtrlEdit		m_txtPort;
 	CCtrlCheck		m_chkUseSsl;
 	CCtrlCheck		m_chkUseTls;
@@ -352,7 +352,6 @@ class CDlgOptAccount : public CJabberDlgBase
 	CCtrlButton		m_btnRegister;
 	CCtrlButton		m_btnUnregister;
 	CCtrlButton		m_btnChangePassword;
-	CCtrlHyperlink	m_lnkServers;
 
 public:
 	CDlgOptAccount(CJabberProto *proto) :
@@ -365,7 +364,7 @@ public:
 		m_chkUseHostnameAsResource(this, IDC_HOSTNAME_AS_RESOURCE),
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_cbMam(this, IDC_MAM_MODE),
-		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkUseSsl(this, IDC_USE_SSL),
 		m_chkUseTls(this, IDC_USE_TLS),
@@ -377,9 +376,7 @@ public:
 		m_cbLocale(this, IDC_MSGLANG),
 		m_btnRegister(this, IDC_BUTTON_REGISTER),
 		m_btnUnregister(this, IDC_UNREGISTER),
-		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD),
-		m_gotservers(false),
-		m_lnkServers(this, IDC_LINK_PUBLIC_SERVER, "https://xmpp.net/directory.php")
+		m_btnChangePassword(this, IDC_BUTTON_CHANGE_PASSWORD)
 	{
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_txtPriority, "Priority", DBVT_DWORD, 0);
@@ -387,7 +384,7 @@ public:
 		CreateLink(m_cbResource, "Resource", L"Miranda");
 		CreateLink(m_chkUseHostnameAsResource, proto->m_bHostNameAsResource);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
-		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
+		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseSsl, proto->m_bUseSSL);
 		CreateLink(m_chkUseTls, proto->m_bUseTLS);
@@ -398,7 +395,6 @@ public:
 		CreateLink(m_chkAutoDeleteContacts, proto->m_bRosterSync);
 
 		// Bind events
-		m_cbServer.OnDropdown = Callback(this, &CDlgOptAccount::cbServer_OnDropdown);
 		m_chkManualHost.OnChange = Callback(this, &CDlgOptAccount::chkManualHost_OnChange);
 		m_chkUseHostnameAsResource.OnChange = Callback(this, &CDlgOptAccount::chkUseHostnameAsResource_OnChange);
 		m_chkUseDomainLogin.OnChange = Callback(this, &CDlgOptAccount::chkUseDomainLogin_OnChange);
@@ -422,8 +418,6 @@ protected:
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
-
-		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
@@ -488,7 +482,7 @@ protected:
 		else
 			m_proto->delSetting("Password");
 
-		char *szLanguageCode = (char*)m_cbLocale.GetCurData();
+		char *szLanguageCode = (char *)m_cbLocale.GetCurData();
 		if (szLanguageCode && szLanguageCode != INVALID_HANDLE_VALUE) {
 			m_proto->setString("XmlLang", szLanguageCode);
 			replaceStr(m_proto->m_tszSelectedLang, szLanguageCode);
@@ -497,11 +491,11 @@ protected:
 		if (m_cbMam.Enabled() && m_cbMam.GetCurSel() != m_proto->m_iMamMode)
 			m_proto->MamSetMode(m_cbMam.GetCurSel());
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_txtUsername.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_cbServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
+				m_txtServer.IsChanged() || m_chkUseHostnameAsResource.IsChanged() || m_txtPort.IsChanged() ||
 				m_txtManualHost.IsChanged() || m_txtManualPort.IsChanged() || m_cbLocale.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("These changes will take effect the next time you connect to the Jabber network."),
@@ -513,15 +507,10 @@ protected:
 		return true;
 	}
 
-	void OnChange(CCtrlBase*)
+	void OnChange(CCtrlBase *)
 	{
 		if (m_bInitialized)
 			CheckRegistration();
-	}
-
-	void OnProtoRefresh(WPARAM, LPARAM lParam) override
-	{
-		RefreshServers((TiXmlElement *)lParam);
 	}
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
@@ -536,9 +525,7 @@ protected:
 	}
 
 private:
-	bool m_gotservers;
-
-	void btnRegister_OnClick(CCtrlButton*)
+	void btnRegister_OnClick(CCtrlButton *)
 	{
 		PSHNOTIFY pshn = {};
 		pshn.hdr.code = PSN_APPLY;
@@ -548,7 +535,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -564,7 +551,7 @@ private:
 		}
 	}
 
-	void btnUnregister_OnClick(CCtrlButton*)
+	void btnUnregister_OnClick(CCtrlButton *)
 	{
 		int res = MessageBox(nullptr,
 			TranslateT("This operation will kill your account, roster and all other information stored at the server. Are you ready to do that?"),
@@ -572,11 +559,11 @@ private:
 
 		if (res == IDYES)
 			m_proto->m_ThreadInfo->send(
-			XmlNodeIq("set", m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
-			<< XCHILD("remove"));
+				XmlNodeIq("set", m_proto->SerialNext(), m_proto->m_szJabberJID) << XQUERY(JABBER_FEAT_REGISTER)
+				<< XCHILD("remove"));
 	}
 
-	void btnChangePassword_OnClick(CCtrlButton*)
+	void btnChangePassword_OnClick(CCtrlButton *)
 	{
 		if (!m_proto->m_bJabberOnline) {
 			MessageBox(nullptr,
@@ -586,12 +573,6 @@ private:
 		}
 
 		m_proto->OnMenuHandleChangePassword(0, 0);
-	}
-
-	void cbServer_OnDropdown(CCtrlCombo*)
-	{
-		if (!m_gotservers)
-			mir_forkThread<CDlgOptAccount>(QueryServerListThread, this);
 	}
 
 	void chkManualHost_OnChange(CCtrlData *sender)
@@ -638,7 +619,7 @@ private:
 		}
 	}
 
-	void chkUseSsl_OnChange(CCtrlData*)
+	void chkUseSsl_OnChange(CCtrlData *)
 	{
 		BOOL bManualHost = m_chkManualHost.GetState() == BST_CHECKED;
 		if (m_chkUseSsl.GetState() == BST_CHECKED) {
@@ -654,7 +635,7 @@ private:
 		}
 	}
 
-	void chkUseTls_OnChange(CCtrlData*)
+	void chkUseTls_OnChange(CCtrlData *)
 	{
 		if (m_chkUseTls.GetState() == BST_CHECKED)
 			m_chkUseSsl.Disable();
@@ -667,7 +648,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		if (m_chkManualHost.GetState() == BST_CHECKED) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -681,60 +662,6 @@ private:
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), TRUE);
 		else
 			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), FALSE);
-	}
-
-	void RefreshServers(TiXmlElement *node)
-	{
-		m_gotservers = node != nullptr;
-
-		wchar_t *server = m_cbServer.GetText();
-		bool bDropdown = m_cbServer.GetDroppedState();
-		if (bDropdown) m_cbServer.ShowDropdown(false);
-
-		m_cbServer.ResetContent();
-		if (node)
-			for (auto *n : TiXmlFilter(node, "item"))
-				if (const char *jid = XmlGetAttr(n, "jid")) {
-					Utf2T wszJid(jid);
-					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
-						m_cbServer.AddString(wszJid);
-				}
-
-		m_cbServer.SetText(server);
-
-		if (bDropdown) m_cbServer.ShowDropdown();
-		mir_free(server);
-	}
-
-	static void __cdecl QueryServerListThread(CDlgOptAccount *wnd)
-	{
-		Thread_SetName("Jabber: QueryServerListThread");
-
-		HWND hwnd = wnd->GetHwnd();
-		bool bIsError = true;
-
-		if (!IsWindow(hwnd)) return;
-
-		NETLIBHTTPREQUEST request = { 0 };
-		request.cbSize = sizeof(request);
-		request.requestType = REQUEST_GET;
-		request.flags = NLHRF_REDIRECT | NLHRF_HTTP11;
-		request.szUrl = JABBER_SERVER_URL;
-
-		NLHR_PTR result(Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request));
-		if (result) {
-			if (result->resultCode == 200 && result->dataLength && result->pData) {
-				TiXmlDocument doc;
-				if (0 == doc.Parse(result->pData)) {
-					TiXmlElement *queryNode = doc.FirstChildElement("query");
-					SendMessage(hwnd, WM_PROTO_REFRESH, 0, (LPARAM)queryNode);
-					bIsError = false;
-				}
-			}
-		}
-
-		if (bIsError)
-			SendMessage(hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 };
 
@@ -939,7 +866,7 @@ class CJabberDlgAccMgrUI : public CJabberDlgBase
 
 	CCtrlCombo		m_cbType;
 	CCtrlEditJid	m_txtUsername;
-	CCtrlCombo		m_cbServer;
+	CCtrlEdit		m_txtServer;
 	CCtrlEdit		m_txtPassword;
 	CCtrlCheck		m_chkSavePassword;
 	CCtrlCheck		m_chkUseDomainLogin;
@@ -958,7 +885,7 @@ public:
 		m_chkUseDomainLogin(this, IDC_USEDOMAINLOGIN),
 		m_chkSavePassword(this, IDC_SAVEPASSWORD),
 		m_cbResource(this, IDC_COMBO_RESOURCE),
-		m_cbServer(this, IDC_EDIT_LOGIN_SERVER),
+		m_txtServer(this, IDC_EDIT_LOGIN_SERVER),
 		m_txtPort(this, IDC_PORT),
 		m_chkManualHost(this, IDC_MANUAL),
 		m_txtManualHost(this, IDC_HOST),
@@ -969,13 +896,12 @@ public:
 		CreateLink(m_txtUsername, "LoginName", L"");
 		CreateLink(m_chkSavePassword, proto->m_bSavePassword);
 		CreateLink(m_cbResource, "Resource", L"Miranda");
-		CreateLink(m_cbServer, "LoginServer", L"jabber.org");
+		CreateLink(m_txtServer, "LoginServer", L"jabber.org");
 		CreateLink(m_txtPort, "Port", DBVT_WORD, 5222);
 		CreateLink(m_chkUseDomainLogin, proto->m_bUseDomainLogin);
 
 		// Bind events
 		m_cbType.OnChange = Callback(this, &CJabberDlgAccMgrUI::cbType_OnChange);
-		m_cbServer.OnDropdown = Callback(this, &CJabberDlgAccMgrUI::cbServer_OnDropdown);
 		m_chkManualHost.OnChange = Callback(this, &CJabberDlgAccMgrUI::chkManualHost_OnChange);
 		m_chkUseDomainLogin.OnChange = Callback(this, &CJabberDlgAccMgrUI::chkUseDomainLogin_OnChange);
 
@@ -989,15 +915,11 @@ protected:
 	{
 		CSuper::OnInitDialog();
 
-		m_gotservers = false;
-
 		wchar_t *passw = m_proto->getWStringA(0, "Password");
 		if (passw) {
 			m_txtPassword.SetText(passw);
 			mir_free(passw);
 		}
-
-		m_cbServer.AddString(TranslateT("Loading..."));
 
 		// fill predefined resources
 		wchar_t *szResources[] = { L"Home", L"Work", L"Office", L"Miranda" };
@@ -1032,7 +954,7 @@ protected:
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		char server[256], manualServer[256] = { 0 };
-		m_cbServer.GetTextA(server, _countof(server));
+		m_txtServer.GetTextA(server, _countof(server));
 		ptrA dbManualServer(db_get_sa(0, m_proto->m_szModuleName, "ManualHost"));
 		if (dbManualServer != nullptr)
 			mir_strncpy(manualServer, dbManualServer, _countof(manualServer));
@@ -1194,7 +1116,7 @@ protected:
 		char server[256];
 		char manualServer[256];
 
-		m_cbServer.GetTextA(server, _countof(server));
+		m_txtServer.GetTextA(server, _countof(server));
 		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
 
 		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
@@ -1210,11 +1132,11 @@ protected:
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
 
-		sttStoreJidFromUI(m_proto, m_txtUsername, m_cbServer);
+		sttStoreJidFromUI(m_proto, m_txtUsername, m_txtServer);
 
 		if (m_proto->m_bJabberOnline) {
 			if (m_cbType.IsChanged() || m_txtPassword.IsChanged() || m_cbResource.IsChanged() ||
-				m_cbServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged()) {
+				m_txtServer.IsChanged() || m_txtPort.IsChanged() || m_txtManualHost.IsChanged()) {
 				MessageBox(m_hwnd,
 					TranslateT("Some changes will take effect the next time you connect to the Jabber network."),
 					TranslateT("Jabber Protocol Option"), MB_OK | MB_SETFOREGROUND);
@@ -1231,13 +1153,7 @@ protected:
 			CheckRegistration();
 	}
 
-	void OnProtoRefresh(WPARAM, LPARAM lParam) override
-	{
-		RefreshServers((TiXmlElement*)lParam);
-	}
-
 private:
-	bool m_gotservers;
 	bool m_canregister;
 
 	void btnRegister_OnClick(CCtrlButton*)
@@ -1250,7 +1166,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = (uint16_t)m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1259,12 +1175,6 @@ private:
 
 		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
 			CJabberDlgRegister(m_proto, m_hwnd, &regInfo).DoModal();
-	}
-
-	void cbServer_OnDropdown(CCtrlCombo*)
-	{
-		if (!m_gotservers)
-			mir_forkThread<CJabberDlgAccMgrUI>(QueryServerListThread, this);
 	}
 
 	void cbType_OnChange(CCtrlData *sender)
@@ -1295,7 +1205,7 @@ private:
 
 		if (chk->GetState() == BST_CHECKED) {
 			char buf[256];
-			m_cbServer.GetTextA(buf, _countof(buf));
+			m_txtServer.GetTextA(buf, _countof(buf));
 			m_txtManualHost.SetTextA(buf);
 			m_txtPort.SetInt(5222);
 
@@ -1318,7 +1228,7 @@ private:
 		JABBER_CONN_DATA regInfo;
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
-		m_cbServer.GetTextA(regInfo.server, _countof(regInfo.server));
+		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = m_txtPort.GetInt();
 		if (m_chkManualHost.GetState() == BST_CHECKED)
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
@@ -1352,12 +1262,11 @@ private:
 	void setupPublic()
 	{
 		m_canregister = true;
-		m_gotservers = false;
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1367,12 +1276,11 @@ private:
 	void setupSecure()
 	{
 		m_canregister = true;
-		m_gotservers = false;
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1382,12 +1290,11 @@ private:
 	void setupSecureSSL()
 	{
 		m_canregister = true;
-		m_gotservers = false;
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Enable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1397,16 +1304,12 @@ private:
 	void setupGoogle()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.AddStringA("gmail.com");
-		m_cbServer.AddStringA("googlemail.com");
-		m_cbServer.SetTextA("gmail.com");
+		m_txtServer.SetTextA("gmail.com");
 		m_chkManualHost.SetState(BST_CHECKED);
 		m_txtManualHost.SetTextA("talk.google.com");
 		m_txtPort.SetInt(443);
 
-		m_cbServer.Enable();
+		m_txtServer.Enable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_btnRegister.Disable();
@@ -1415,15 +1318,12 @@ private:
 	void setupHipchat()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("chat.hipchat.com");
-		m_cbServer.AddStringA("chat.hipchat.com");
+		m_txtServer.SetTextA("chat.hipchat.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1433,15 +1333,12 @@ private:
 	void setupLJ()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("livejournal.com");
-		m_cbServer.AddStringA("livejournal.com");
+		m_txtServer.SetTextA("livejournal.com");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1451,15 +1348,12 @@ private:
 	void setupLOLEN()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("pvp.net");
-		m_cbServer.AddStringA("pvp.net");
+		m_txtServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("chat.eun1.lol.riotgames.com");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1469,15 +1363,12 @@ private:
 	void setupLOLEW()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("pvp.net");
-		m_cbServer.AddStringA("pvp.net");
+		m_txtServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("chat.euw1.lol.riotgames.com");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1487,15 +1378,12 @@ private:
 	void setupLOLOC()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("pvp.net");
-		m_cbServer.AddStringA("pvp.net");
+		m_txtServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("chat.oc1.lol.riotgames.com");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1505,15 +1393,12 @@ private:
 	void setupLOLUS()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("pvp.net");
-		m_cbServer.AddStringA("pvp.net");
+		m_txtServer.SetTextA("pvp.net");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
 		m_txtPort.SetInt(5223);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1523,15 +1408,12 @@ private:
 	void setupOK()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("xmpp.odnoklassniki.ru");
-		m_cbServer.AddStringA("xmpp.odnoklassniki.ru");
+		m_txtServer.SetTextA("xmpp.odnoklassniki.ru");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
@@ -1541,71 +1423,16 @@ private:
 	void setupSMS()
 	{
 		m_canregister = false;
-		m_gotservers = true;
-		m_cbServer.ResetContent();
-		m_cbServer.SetTextA("S.ms");
-		m_cbServer.AddStringA("S.ms");
+		m_txtServer.SetTextA("S.ms");
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("");
 		m_txtPort.SetInt(5222);
 
-		m_cbServer.Disable();
+		m_txtServer.Disable();
 		m_chkManualHost.Disable();
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
 		m_btnRegister.Disable();
-	}
-
-	void RefreshServers(TiXmlElement *node)
-	{
-		m_gotservers = node != nullptr;
-
-		wchar_t *server = m_cbServer.GetText();
-		bool bDropdown = m_cbServer.GetDroppedState();
-		if (bDropdown) m_cbServer.ShowDropdown(false);
-
-		m_cbServer.ResetContent();
-		if (node)
-			for (auto *n : TiXmlFilter(node, "item"))
-				if (const char *jid = XmlGetAttr(n, "jid")) {
-					Utf2T wszJid(jid);
-					if (m_cbServer.FindString(wszJid, -1, true) == CB_ERR)
-						m_cbServer.AddString(wszJid);
-				}
-
-		m_cbServer.SetText(server);
-
-		if (bDropdown) m_cbServer.ShowDropdown();
-		mir_free(server);
-	}
-
-	static void __cdecl QueryServerListThread(CJabberDlgAccMgrUI *wnd)
-	{
-		HWND hwnd = wnd->GetHwnd();
-		bool bIsError = true;
-
-		NETLIBHTTPREQUEST request = { 0 };
-		request.cbSize = sizeof(request);
-		request.requestType = REQUEST_GET;
-		request.flags = NLHRF_HTTP11;
-		request.szUrl = JABBER_SERVER_URL;
-
-		NLHR_PTR result(Netlib_HttpTransaction(wnd->GetProto()->m_hNetlibUser, &request));
-		if (result && IsWindow(hwnd)) {
-			if ((result->resultCode == 200) && result->dataLength && result->pData) {
-				TiXmlDocument doc;
-				if (0 == doc.Parse(result->pData)) {
-					const TiXmlElement *queryNode = doc.FirstChildElement("query");
-					if (queryNode && IsWindow(hwnd)) {
-						SendMessage(hwnd, WM_PROTO_REFRESH, 0, (LPARAM)queryNode);
-						bIsError = false;
-					}
-				}
-			}
-		}
-
-		if (bIsError)
-			SendMessage(hwnd, WM_PROTO_REFRESH, 0, 0);
 	}
 };
 
