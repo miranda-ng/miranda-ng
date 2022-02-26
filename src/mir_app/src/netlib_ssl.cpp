@@ -337,19 +337,9 @@ MIR_APP_DLL(int) Netlib_SslWrite(HSSL ssl, const char *buf, int num)
 MIR_APP_DLL(void) Netlib_SslShutdown(HSSL ssl)
 {
 	if (ssl && ssl->session) {
-		while (true) {
-			int ret = SSL_shutdown(ssl->session);
-			if (ret < 0) {
-				switch (SSL_get_error(ssl->session, ret)) {
-				case SSL_ERROR_WANT_READ:
-				case SSL_ERROR_WANT_WRITE:
-				case SSL_ERROR_WANT_ASYNC:
-				case SSL_ERROR_WANT_ASYNC_JOB:
-					continue;
-				}
-			}
-			break;
-		};
+		SOCKET s = SSL_get_fd(ssl->session);
+		if (s != -1)
+			shutdown(s, SD_BOTH);
 	}
 }
 
@@ -437,6 +427,7 @@ bool OpenSsl_Init(void)
 
 		// SSL_read/write should transparently handle renegotiations
 		SSL_CTX_ctrl(g_ctx, SSL_CTRL_MODE, SSL_MODE_AUTO_RETRY, nullptr);
+		// SSL_CTX_set_quiet_shutdown(g_ctx, TRUE);
 
 		RAND_screen();
 
