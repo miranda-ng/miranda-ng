@@ -68,7 +68,7 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic);
 void Plugin_Uninit(pluginEntry *p);
 bool Plugin_UnloadDyn(pluginEntry *p);
 
-typedef BOOL (*SCAN_PLUGINS_CALLBACK) (struct WIN32_FIND_DATA *fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
+typedef BOOL (*SCAN_PLUGINS_CALLBACK) (WIN32_FIND_DATA *fd, wchar_t *path, WPARAM wParam, LPARAM lParam);
 void enumPlugins(SCAN_PLUGINS_CALLBACK cb, WPARAM wParam, LPARAM lParam);
 
 struct MuuidReplacement
