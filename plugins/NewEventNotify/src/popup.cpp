@@ -427,21 +427,24 @@ int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent)
 
 	// take the active event as starting one
 	for (size_t i = iStart; i < iEnd; i++) {
+		if (!wszText.IsEmpty())
+			wszText.AppendChar('\n');
+
 		// get DBEVENTINFO with pBlob if preview is needed (when is test then is off)
 		DB::EventInfo dbe;
 		if (g_plugin.bPreview)
 			dbe.cbBlob = -1;
 		db_event_get(pdata.events[i], &dbe);
 
-		if (g_plugin.bShowDate || g_plugin.bShowTime) {
+		CMStringW wszFormat;
+		if (g_plugin.bShowDate)
+			wszFormat.Append(L"%Y.%m.%d ");
+		if (g_plugin.bShowTime)
+			wszFormat.Append(L"%H:%M");
+		if (!wszFormat.IsEmpty()) {
 			wchar_t timestamp[MAX_DATASIZE];
-			wchar_t formatTime[MAX_DATASIZE];
-			if (g_plugin.bShowDate)
-				wcsncpy(formatTime, L"%Y.%m.%d", _countof(formatTime));
-			else if (g_plugin.bShowTime)
-				mir_wstrncat(formatTime, L" %H:%M", _countof(formatTime) - mir_wstrlen(formatTime));
 			time_t localTime = dbe.timestamp;
-			wcsftime(timestamp, _countof(timestamp), formatTime, localtime(&localTime));
+			wcsftime(timestamp, _countof(timestamp), wszFormat, localtime(&localTime));
 			wszText.AppendFormat(L"[b][i]%s[/i][/b]\n", timestamp);
 		}
 
