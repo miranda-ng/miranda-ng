@@ -349,8 +349,12 @@ public:
 
 class COptionsMessageDlg : public COptionsBaseDlg
 {
+	CCtrlSpin spinMsgNumber;
+
 	void GrabData()
 	{
+		g_plugin.iNumberMsg = spinMsgNumber.GetPosition();
+
 		g_plugin.bMergePopup = IsDlgButtonChecked(m_hwnd, IDC_CHKMERGEPOPUP);
 		g_plugin.bMsgWindowCheck = IsDlgButtonChecked(m_hwnd, IDC_CHKWINDOWCHECK);
 		g_plugin.bMsgReplyWindow = IsDlgButtonChecked(m_hwnd, IDC_CHKREPLYWINDOW);
@@ -360,16 +364,18 @@ class COptionsMessageDlg : public COptionsBaseDlg
 		g_plugin.bShowON = IsDlgButtonChecked(m_hwnd, IDC_RDOLD);
 		g_plugin.bShowON = BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_RDNEW);
 		g_plugin.bHideSend = IsDlgButtonChecked(m_hwnd, IDC_CHKHIDESEND);
-		g_plugin.iNumberMsg = GetDlgItemInt(m_hwnd, IDC_NUMBERMSG, nullptr, FALSE);
 	}
 
 public:
 	COptionsMessageDlg() :
-		COptionsBaseDlg(IDD_OPT_MESSAGE)
+		COptionsBaseDlg(IDD_OPT_MESSAGE),
+		spinMsgNumber(this, IDC_SPIN_MSGNUMBER, 10, 1)
 	{}
 
 	bool OnInitDialog() override
 	{
+		spinMsgNumber.SetPosition(g_plugin.iNumberMsg);
+
 		CheckDlgButton(m_hwnd, IDC_CHKMERGEPOPUP, g_plugin.bMergePopup);
 		CheckDlgButton(m_hwnd, IDC_CHKWINDOWCHECK, g_plugin.bMsgWindowCheck);
 		CheckDlgButton(m_hwnd, IDC_CHKREPLYWINDOW, g_plugin.bMsgReplyWindow);
@@ -379,7 +385,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_RDNEW, !g_plugin.bShowON);
 		CheckDlgButton(m_hwnd, IDC_RDOLD, g_plugin.bShowON);
 		CheckDlgButton(m_hwnd, IDC_CHKHIDESEND, g_plugin.bHideSend);
-		SetDlgItemInt(m_hwnd, IDC_NUMBERMSG, g_plugin.iNumberMsg, FALSE);
 
 		OnChange();
 		return true;
