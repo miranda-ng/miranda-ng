@@ -218,6 +218,7 @@ MIR_APP_DLL(wchar_t*) DbEvent_GetTextW(DBEVENTINFO *dbei, int codepage)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+#ifdef _WINDOWS
 MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 {
 	DBEVENTTYPEDESCR *et = DbEvent_GetType(dbei->szModule, dbei->eventType);
@@ -250,6 +251,7 @@ MIR_APP_DLL(HICON) DbEvent_GetIcon(DBEVENTINFO *dbei, int flags)
 
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

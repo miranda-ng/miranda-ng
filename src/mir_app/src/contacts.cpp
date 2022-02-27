@@ -24,8 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define NAMEORDERCOUNT 9
-static wchar_t* nameOrderDescr[ NAMEORDERCOUNT ] =
+static wchar_t* nameOrderDescr[] =
 {
 	LPGENW("My custom name (not movable)"),
 	LPGENW("Nick"),
@@ -38,7 +37,7 @@ static wchar_t* nameOrderDescr[ NAMEORDERCOUNT ] =
 	LPGENW("'(Unknown contact)' (not movable)")
 };
 
-uint8_t nameOrder[NAMEORDERCOUNT];
+uint8_t nameOrder[_countof(nameOrderDescr)];
 
 static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szProto, const char *szSetting)
 {
@@ -181,8 +180,8 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 
 	case CNF_DISPLAYNC:
 	case CNF_DISPLAY:
-		for (int i = 0; i < NAMEORDERCOUNT; i++) {
-			switch (nameOrder[i]) {
+		for (auto &it : nameOrder) {
+			switch (it) {
 			case 0: // custom name
 				// make sure we aren't in CNF_DISPLAYNC mode
 				// don't get custom name for nullptr contact
@@ -226,9 +225,9 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 
 			case 6: // first + last name
 			case 7: // last + first name
-				if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "FirstName" : "LastName", &dbv)) {
+				if (!db_get_ws(hContact, szProto, it == 6 ? "FirstName" : "LastName", &dbv)) {
 					DBVARIANT dbv2;
-					if (!db_get_ws(hContact, szProto, nameOrder[i] == 6 ? "LastName" : "FirstName", &dbv2)) {
+					if (!db_get_ws(hContact, szProto, it == 6 ? "LastName" : "FirstName", &dbv2)) {
 						size_t len = mir_wstrlen(dbv.pwszVal) + mir_wstrlen(dbv2.pwszVal) + 2;
 						wchar_t *buf = (wchar_t*)mir_alloc(sizeof(wchar_t)*len);
 						if (buf != nullptr)
@@ -379,7 +378,7 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 
 int LoadContactsModule(void)
 {
-	for (uint8_t i = 0; i < NAMEORDERCOUNT; i++)
+	for (uint8_t i = 0; i < _countof(nameOrder); i++)
 		nameOrder[i] = i;
 
 	DBVARIANT dbv;

@@ -48,6 +48,7 @@ using namespace std;
 #define SW_HIDE 0
 #define SW_SHOW 5
 #define MAX_PATH 260
+#define LR_SHARED 0x8000
 #define LF_FACESIZE 32
 #define _TRUNCATE size_t(-1)
 #define INVALID_HANDLE_VALUE HANDLE(-1)
@@ -84,6 +85,7 @@ struct LOGFONTW;
 #define _Pre_notnull_
 #define _Always_(x)
 #define _Printf_format_string_
+#define _countof(array) (sizeof(array) / sizeof(array[0]))
 #define __forceinline inline __attribute__ ((always_inline))
 
 #define InterlockedIncrement(x) __sync_fetch_and_add(x, 1)
