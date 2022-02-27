@@ -32,6 +32,8 @@
 #include <windows.h>
 #include <time.h>
 
+#include <vector>
+
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_langpack.h>
@@ -186,25 +188,12 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	uint8_t iNumberMsg;
 };
 
-struct EVENT_DATA_EX
-{
-	MEVENT hEvent;
-	int number;
-	EVENT_DATA_EX *next;
-	EVENT_DATA_EX *prev;
-};
-
 struct PLUGIN_DATA : public MZeroedObject
 {
-	~PLUGIN_DATA();
-
 	MCONTACT hContact;
 	UINT eventType;
 	HWND hWnd;
-	EVENT_DATA_EX *firstEventData;
-	EVENT_DATA_EX *firstShowEventData;
-	EVENT_DATA_EX *lastEventData;
-	long countEvent;
+	std::vector<MEVENT> events;
 	long iSeconds;
 };
 
