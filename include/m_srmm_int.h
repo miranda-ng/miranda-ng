@@ -279,7 +279,9 @@ class CMsgDialog : public CSrmmBaseDialog {};
 /////////////////////////////////////////////////////////////////////////////////////////
 // receives LOGSTREAMDATA* as the first parameter
 
+#ifdef _WINDOWS
 EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, uint8_t *pbBuff, LONG cb, LONG *pcb);
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a message to all SRMM windows

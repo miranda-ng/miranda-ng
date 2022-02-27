@@ -23,12 +23,12 @@ struct TTBButton
 		char *pszService;
 		wchar_t *program;
 	};
-	DWORD dwFlags;
-	LPARAM lParamUp;
-	WPARAM wParamUp;
-	LPARAM lParamDown;
-	WPARAM wParamDown;
-	char *name;
+	uint32_t dwFlags;
+	LPARAM   lParamUp;
+	WPARAM   wParamUp;
+	LPARAM   lParamDown;
+	WPARAM   wParamDown;
+	char*    name;
 	union {
 		HICON hIconUp;
 		HANDLE hIconHandleUp;

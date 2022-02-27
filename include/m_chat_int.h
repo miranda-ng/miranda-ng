@@ -84,7 +84,7 @@ struct USERINFO : public MZeroedObject, public MNonCopyable
 	wchar_t* pszNick;
 	uint16_t Status;
 	int      iStatusEx;
-	WORD     ContactStatus;
+	uint16_t ContactStatus;
 };
 
 struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyable

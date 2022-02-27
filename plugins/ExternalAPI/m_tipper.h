@@ -29,9 +29,9 @@ Boston, MA 02111-1307, USA.
 typedef wchar_t* (TranslateFunc)(MCONTACT hContact, const char *module, const char *setting_or_prefix, wchar_t *buff, int bufflen);
 
 typedef struct {
-	TranslateFunc *transFunc;	// address of your translation function (see typedef above)
-	const wchar_t *swzName;		// make sure this is unique, and DO NOT translate it
-	DWORD id;				// will be overwritten by Tipper - do not use
+	TranslateFunc *transFunc;   // address of your translation function (see typedef above)
+	const wchar_t *swzName;     // make sure this is unique, and DO NOT translate it
+	uint32_t id;                // will be overwritten by Tipper - do not use
 } DBVTranslation;
 
 // add a translation to tipper

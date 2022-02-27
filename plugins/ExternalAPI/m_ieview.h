@@ -36,15 +36,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct IEVIEWWINDOW
 {
-	int    iType;           // one of IEW_* values
-	DWORD  dwMode;          // compatibility mode - one of IEWM_* values
-	DWORD  dwFlags;         // flags, one of IEWF_* values
-	HWND   parent;          // parent window HWND
-	HWND   hwnd;            // IEW_CREATE returns WebBrowser control's HWND here
-	int    x;               // IE control horizontal position
-	int    y;               // IE control vertical position
-	int    cx;              // IE control horizontal size
-	int    cy;              // IE control vertical size
+	int      iType;                 // one of IEW_* values
+	uint32_t dwMode;                // compatibility mode - one of IEWM_* values
+	uint32_t dwFlags;               // flags, one of IEWF_* values
+	HWND     parent;                // parent window HWND
+	HWND     hwnd;                  // IEW_CREATE returns WebBrowser control's HWND here
+	int      x;                     // IE control horizontal position
+	int      y;                     // IE control vertical position
+	int      cx;                    // IE control horizontal size
+	int      cy;                    // IE control vertical size
 };
 
 #define MS_IEVIEW_WINDOW   "IEVIEW/NewWindow"
@@ -113,16 +113,16 @@ struct IEVIEWWINDOW
 struct IEVIEWEVENTDATA
 {
 	int          iType;             // Event type, one of MUCC_EVENT_* values
-	DWORD        dwFlags;           // Event flags - IEEF_*
+	uint32_t     dwFlags;           // Event flags - IEEF_*
 	const char  *fontName;          // Text font name
 	int          fontSize;          // Text font size (in pixels)
 	int          fontStyle;         // Text font style (combination of IE_FONT_* flags)
-	COLORREF	    color;             // Text color
+	COLORREF     color;             // Text color
 	MAllCStrings szNick;            // Nick, usage depends on type of event
 	MAllCStrings szText;            // Text, usage depends on type of event
-	DWORD        dwData;            // DWORD data e.g. status see IEEDD_* values
-	BOOL         bIsMe;             // TRUE if the event is related to the user
-	DWORD        time;              // Time of the event
+	uint32_t     dwData;            // DWORD data e.g. status see IEEDD_* values
+	int          bIsMe;             // TRUE if the event is related to the user
+	uint32_t     time;              // Time of the event
 	IEVIEWEVENTDATA *next;
 };
 
@@ -140,7 +140,7 @@ struct IEVIEWEVENTDATA
 struct IEVIEWEVENT
 {
 	int      iType;                 // one of IEE_* values
-	DWORD    dwFlags;               // one of IEEF_* values
+	uint32_t dwFlags;               // one of IEEF_* values
 	HWND     hwnd;                  // HWND returned by IEW_CREATE
 	MCONTACT hContact;              // contact
 	union {
@@ -157,14 +157,14 @@ struct IEVIEWEVENT
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #define IEN_NAVIGATE 1             // navigate to the given destination
-#define IENF_UNICODE	1             // if set urlW is used instead of urlW
+#define IENF_UNICODE 1             // if set urlW is used instead of urlW
 
 struct IEVIEWNAVIGATE
 {
-	int iType;                      // one of IEN_* values
-	DWORD dwFlags;                  // one of IEEF_* values
-	HWND hwnd;                      // HWND returned by IEW_CREATE
-	MAllCStrings url;               // Text, usage depends on type of event
+	int          iType;            // one of IEN_* values
+	uint32_t     dwFlags;          // one of IEEF_* values
+	HWND         hwnd;             // HWND returned by IEW_CREATE
+	MAllCStrings url;              // Text, usage depends on type of event
 };
 
 #define MS_IEVIEW_NAVIGATE "IEVIEW/Navigate"
