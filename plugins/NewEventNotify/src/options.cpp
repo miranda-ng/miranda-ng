@@ -422,7 +422,7 @@ int OptionsAdd(WPARAM addInfo, LPARAM)
 	odp.szTitle.a = LPGEN("Event Notify");
 	odp.szGroup.a = LPGEN("Popups");
 
-	odp.szTab.a = LPGEN("Main");
+	odp.szTab.a = LPGEN("Main options");
 	odp.pDialog = new COptionsMainDlg();
 	g_plugin.addOptions(addInfo, &odp);
 
