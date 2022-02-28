@@ -56,8 +56,6 @@
 Приоритет:
 [Use hostname as resource]
 Имя хоста в качестве ресурса
-[List of public servers]
-Публичные серверы
 [Port:]
 Порт:
 [Use SSL]
@@ -1778,6 +1776,8 @@ XML (кодировка UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Не удалось расшифровать копию зашифрованного входящего сообщения
+[Description]
+Описание
 [Registration canceled]
 Регистрация отменена
 [Sending registration information...]

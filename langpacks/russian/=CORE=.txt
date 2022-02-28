@@ -1792,7 +1792,7 @@ Miranda не смогла загрузить встроенную систему
 Съешь же ещё этих мягких французских булок, да выпей йаду.
 [Example With a Long Title]
 Пример с длинным заголовком
-[Thequickbrownfoxjumpedoverthelazydog.]
+[Thequickbrownfoxjumpsoverthelazydog.]
 Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду.
 [An avatar.]
 С аватаром
