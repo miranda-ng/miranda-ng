@@ -38,9 +38,8 @@
 ;file \protocols\GmailNotifier\src\main.cpp
 [Other]
 [Gmail: New thread(s)]
-[Gmail Notifier]
+[GmailNotifier]
 [&Check all Gmail inboxes]
 [&Check Gmail inbox]
 ;file \protocols\GmailNotifier\src\options.cpp
-[GmailNotifier]
 [Network]

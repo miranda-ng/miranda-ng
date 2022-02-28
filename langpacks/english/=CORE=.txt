@@ -895,11 +895,6 @@
 ;file \src\core\stdmsg\src\srmm.cpp
 [StdMsg internal log]
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-[The quick brown fox jumped over the lazy dog.]
-[Example With a Long Title]
-[Thequickbrownfoxjumpedoverthelazydog.]
-[An avatar.]
 [Bottom right]
 [Bottom left]
 [Top right]
@@ -918,6 +913,11 @@
 [Horizontal animate]
 [Vertical animate]
 [You cannot set a default timeout of 0.\nValue has been reset.]
+[Example]
+[The quick brown fox jumps over the lazy dog.]
+[Example With a Long Title]
+[Thequickbrownfoxjumpsoverthelazydog.]
+[An avatar.]
 [Settings]
 [Classes]
 ;file \src\core\stdpopup\src\services.cpp

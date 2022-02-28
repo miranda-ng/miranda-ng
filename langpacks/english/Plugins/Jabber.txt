@@ -31,7 +31,6 @@
 [Change password]
 [Priority:]
 [Use hostname as resource]
-[List of public servers]
 [Port:]
 [Use SSL]
 [Use TLS]
@@ -908,6 +907,7 @@
 [Authentication failed for %s@%s.]
 [Message redirected from: %s\r\n]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
+[Description]
 [Registration canceled]
 [Sending registration information...]
 ;file \protocols\JabberG\src\jabber_userinfo.cpp

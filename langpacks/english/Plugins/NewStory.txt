@@ -107,6 +107,7 @@
 [Reset to default]
 [Variables help]
 [Test contact]
+[The quick brown fox jumps over the lazy dog.]
 [simply % character]
 [a "hard" line break (cr/lf - will break indent)]
 [my nickname]
