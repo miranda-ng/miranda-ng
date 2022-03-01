@@ -155,7 +155,7 @@ public:
 
 class COptionsMainDlg : public COptionsBaseDlg
 {
-	CCtrlSpin spinLimit;
+	CCtrlSpin spinLimit, spinMessage, spinFile, spinErr, spinOther;
 	CCtrlCheck chkLimit, chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
 	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
 	CCtrlButton btnPreview;
@@ -171,22 +171,22 @@ class COptionsMainDlg : public COptionsBaseDlg
 		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
 		g_plugin.msg.backColor = clrBackMessage.GetColor();
 		g_plugin.msg.textColor = clrTextMessage.GetColor();
-		g_plugin.msg.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_MESSAGE) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_MESSAGE, nullptr, FALSE);
+		g_plugin.msg.iDelay = spinMessage.GetPosition();
 
 		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
 		g_plugin.file.backColor = clrBackFile.GetColor();
 		g_plugin.file.textColor = clrTextFile.GetColor();
-		g_plugin.file.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_FILE) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_FILE, nullptr, FALSE);
+		g_plugin.file.iDelay = spinFile.GetPosition();
 
 		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
 		g_plugin.err.backColor = clrBackErr.GetColor();
 		g_plugin.err.textColor = clrTextErr.GetColor();
-		g_plugin.err.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_ERR) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_ERR, nullptr, FALSE);
+		g_plugin.err.iDelay = spinErr.GetPosition();
 
 		g_plugin.other.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
 		g_plugin.other.backColor = clrBackOther.GetColor();
 		g_plugin.other.textColor = clrTextOther.GetColor();
-		g_plugin.other.iDelay = IsDlgButtonChecked(m_hwnd, IDC_CHKINFINITE_OTHERS) ? -1 : (uint32_t)GetDlgItemInt(m_hwnd, IDC_DELAY_OTHERS, nullptr, FALSE);
+		g_plugin.other.iDelay = spinOther.GetPosition();
 	}
 
 public:
@@ -207,7 +207,11 @@ public:
 		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
 		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
 		chkLimit(this, IDC_LIMITPREVIEW),
-		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 1000)
+		spinErr(this, IDC_SPIN_ERR, 1000, -1),
+		spinFile(this, IDC_SPIN_FILE, 1000, -1),
+		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 1000),
+		spinOther(this, IDC_SPIN_OTHERS, 1000, -1),
+		spinMessage(this, IDC_SPIN_MESSAGE, 1000, -1)
 	{
 		auto *pwszSection = TranslateT("General options");
 		m_opts.AddOption(pwszSection, TranslateT("Show entry in the Popups menu"), g_plugin.bMenuitem);
@@ -269,16 +273,11 @@ public:
 		chkDefaultColorErr.SetState(g_plugin.err.bDefault);
 		chkDefaultColorOthers.SetState(g_plugin.other.bDefault);
 
-		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_MESSAGE, g_plugin.msg.iDelay == -1);
-		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_FILE, g_plugin.file.iDelay == -1);
-		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_ERR, g_plugin.err.iDelay == -1);
-		CheckDlgButton(m_hwnd, IDC_CHKINFINITE_OTHERS, g_plugin.other.iDelay == -1);
+		spinMessage.SetPosition(g_plugin.msg.iDelay);
+		spinFile.SetPosition(g_plugin.file.iDelay);
+		spinErr.SetPosition(g_plugin.err.iDelay);
+		spinOther.SetPosition(g_plugin.other.iDelay);
 
-		SetDlgItemInt(m_hwnd, IDC_DELAY_MESSAGE, g_plugin.msg.iDelay != -1 ? g_plugin.msg.iDelay : 0, TRUE);
-		SetDlgItemInt(m_hwnd, IDC_DELAY_FILE, g_plugin.file.iDelay != -1 ? g_plugin.file.iDelay : 0, TRUE);
-		SetDlgItemInt(m_hwnd, IDC_DELAY_ERR, g_plugin.err.iDelay != -1 ? g_plugin.err.iDelay : 0, TRUE);
-		SetDlgItemInt(m_hwnd, IDC_DELAY_OTHERS, g_plugin.other.iDelay != -1 ? g_plugin.other.iDelay : 0, TRUE);
-	
 		OnChange();
 		return true;
 	}
@@ -287,17 +286,6 @@ public:
 	{
 		GrabData();
 		return true;
-	}
-
-	void OnChange() override
-	{
-		GrabData();
-
-		// disable delay textbox when infinite is checked
-		EnableDlgItem(m_hwnd, IDC_DELAY_MESSAGE, g_plugin.msg.iDelay != -1);
-		EnableDlgItem(m_hwnd, IDC_DELAY_FILE, g_plugin.file.iDelay != -1);
-		EnableDlgItem(m_hwnd, IDC_DELAY_ERR, g_plugin.err.iDelay != -1);
-		EnableDlgItem(m_hwnd, IDC_DELAY_OTHERS, g_plugin.other.iDelay != -1);
 	}
 
 	void onClick_Preview(CCtrlButton *)
