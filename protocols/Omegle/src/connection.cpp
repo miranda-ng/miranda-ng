@@ -56,10 +56,6 @@ void OmegleProto::SignOff(void*)
 	delSetting("LogonTS");
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, m_iStatus);
-
-	if (facy.hEventsConnection)
-		Netlib_CloseHandle(facy.hEventsConnection);
-	facy.hEventsConnection = nullptr;
 }
 
 void OmegleProto::StopChat(bool disconnect)
@@ -165,5 +161,12 @@ void OmegleProto::EventsLoop(void *)
 	}
 
 	ResetEvent(events_loop_lock_);
+
+	Netlib_CloseHandle(facy.hConnection);
+	facy.hConnection = nullptr;
+
+	Netlib_CloseHandle(facy.hEventsConnection);
+	facy.hEventsConnection = nullptr;
+
 	debugLogA("<<<<< Exiting OmegleProto::EventsLoop[%d]", tim);
 }

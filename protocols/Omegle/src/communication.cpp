@@ -425,29 +425,10 @@ bool Omegle_client::stop()
 
 	http::response resp = flap(OMEGLE_REQUEST_STOP, &data);
 
-	if (hConnection)
-		Netlib_CloseHandle(hConnection);
-	hConnection = nullptr;
+	Netlib_Shutdown(hConnection);
+	Netlib_Shutdown(hEventsConnection);
 
-	if (hEventsConnection)
-		Netlib_CloseHandle(hEventsConnection);
-	hEventsConnection = nullptr;
-
-	if (resp.data == "win") {
-		return HANDLE_SUCCESS;
-	}
-	else {
-		return HANDLE_ERROR(false);
-	}
-
-	/*	switch ( resp.code )
-		{
-		case HTTP_CODE_OK:
-		case HTTP_CODE_FOUND:
-
-		default:
-
-		}*/
+	return (resp.data == "win") ? HANDLE_SUCCESS : HANDLE_ERROR(false);
 }
 
 bool Omegle_client::events()
