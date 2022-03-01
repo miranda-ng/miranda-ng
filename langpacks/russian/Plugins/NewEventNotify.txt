@@ -21,13 +21,13 @@
 [Timeout]
 Время задержки
 [Message]
-Сообщении
+Сообщение
 [File]
-Файле
+Файл
 [Errors]
-Ошибки
+Ошибка
 [Others]
-Другом
+Другое
 [Preview]
 Тест
 [Don't show popup when message dialog is already open]
