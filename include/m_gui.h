@@ -887,18 +887,18 @@ class MIR_CORE_EXPORT CCtrlSpin : public CCtrlData
 {
 	typedef CCtrlData CSuper;
 
-	uint16_t m_wMin, m_wMax, m_wCurr;
+	int16_t m_wMin, m_wMax, m_wCurr;
 
 	BOOL OnNotify(int, NMHDR*) override;
 
 public:
-	CCtrlSpin(CDlgBase *dlg, int ctrlId, uint16_t max = 100, uint16_t min = 0);
+	CCtrlSpin(CDlgBase *dlg, int ctrlId, int16_t max = 100, int16_t min = 0);
 
 	bool OnApply() override;
 	void OnReset() override;
 
-	uint16_t GetPosition();
-	void SetPosition(uint16_t pos);
+	int16_t GetPosition();
+	void SetPosition(int16_t pos);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -950,7 +950,7 @@ db_get_contact_count @1158
 db_is_contact @1159
 db_set_safety_mode @1160
 db_delete_module @1161
-??0CCtrlSpin@@QAE@PAVCDlgBase@@HGG@Z @1163 NONAME
+??0CCtrlSpin@@QAE@PAVCDlgBase@@HFF@Z @1163 NONAME
 ??1CCtrlSpin@@UAE@XZ @1164 NONAME
 ??_7CCtrlSpin@@6B@ @1166 NONAME
 ?SetMaxLength@CCtrlEdit@@QAEXI@Z @1167 NONAME
@@ -977,8 +977,8 @@ CallFunctionSync @1170
 ?GetItemRect@CCtrlListBox@@QBEHHPAUtagRECT@@@Z @1193 NONAME
 ?SetItemHeight@CCtrlListBox@@QAEXHH@Z @1194 NONAME
 ?UseSystemColors@CCtrlBase@@QAEXXZ @1195 NONAME
-?SetPosition@CCtrlSpin@@QAEXG@Z @1196 NONAME
-?GetPosition@CCtrlSpin@@QAEGXZ @1197 NONAME
+?GetPosition@CCtrlSpin@@QAEFXZ @1196 NONAME
+?SetPosition@CCtrlSpin@@QAEXF@Z @1197 NONAME
 ?OnNotify@CCtrlSpin@@EAEHHPAUtagNMHDR@@@Z @1198 NONAME
 ?GetCount@CCtrlPages@@QAEHXZ @1199 NONAME
 ?GetActivePage@CCtrlPages@@QBEPAVCDlgBase@@XZ @1200 NONAME
