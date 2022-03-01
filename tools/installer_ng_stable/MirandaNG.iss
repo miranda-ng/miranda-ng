@@ -876,7 +876,6 @@ begin
     ExpandConstant('{cm:SoundsDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsFbDescription}') + ';' +
-    ExpandConstant('{cm:ProtocolsGGDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsICQDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsIRCDescription}') + ';' +
     ExpandConstant('{cm:ProtocolsJabberDescription}') + ';' +
