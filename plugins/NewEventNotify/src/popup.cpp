@@ -374,7 +374,11 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	pdata->eventType = eventType;
 	pdata->hContact = hContact;
 	pdata->events.push_back(hEvent);
-	pdata->iSeconds = (iSeconds > 0) ? iSeconds : g_plugin.iDelayDefault;
+	switch (iSeconds) {
+	case -1: pdata->iSeconds = 65535; break; // kinda forrever
+	case 0:  pdata->iSeconds = g_plugin.iDelayDefault; break;
+	default: pdata->iSeconds = iSeconds; break;
+	}
 
 	// finally create the popup
 	pudw.lchContact = hContact;
