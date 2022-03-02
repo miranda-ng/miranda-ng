@@ -65,11 +65,13 @@ void LoadOptions()
 	opt.PopupConnectionTimeout = g_plugin.getDword("PopupConnectionTimeout", 15);
 	opt.LeftClickAction = g_plugin.getByte("LeftClickAction", 5);
 	opt.RightClickAction = g_plugin.getByte("RightClickAction", 1);
+	
 	// IDD_OPT_XPOPUP
 	opt.PXOnConnect = g_plugin.getByte("PXOnConnect", 0);
 	opt.PXDisableForMusic = g_plugin.getByte("PXDisableForMusic", 1);
 	opt.PXMsgTruncate = g_plugin.getByte("PXMsgTruncate", 0);
 	opt.PXMsgLen = g_plugin.getDword("PXMsgLen", 64);
+	
 	// IDD_OPT_GENERAL
 	opt.FromOffline = g_plugin.getByte("FromOffline", 1);
 	opt.AutoDisable = g_plugin.getByte("AutoDisable", 0);
@@ -79,10 +81,12 @@ void LoadOptions()
 	opt.BlinkIcon_Status = g_plugin.getByte("BlinkIcon_Status", 0);
 	opt.BlinkIcon_ForMsgs = g_plugin.getByte("BlinkIcon_ForMsgs", 0);
 	DBGetStringDefault(0, "LogFilePath", opt.LogFilePath, MAX_PATH, L"");
+	
 	// IDD_AUTODISABLE
 	opt.OnlyGlobalChanges = g_plugin.getByte("OnlyGlobalChanges", 0);
 	opt.DisablePopupGlobally = g_plugin.getByte("DisablePopupGlobally", 0);
 	opt.DisableSoundGlobally = g_plugin.getByte("DisableSoundGlobally", 0);
+	
 	// IDD_OPT_LOG
 	opt.LogToFile = g_plugin.getByte("LogToFile", 0);
 	opt.LogToDB = g_plugin.getByte("LogToDB", 0);
@@ -93,16 +97,19 @@ void LoadOptions()
 	opt.SMsgLogToDB = g_plugin.getByte("SMsgLogToDB", 0);
 	opt.SMsgLogToDB_WinOpen = g_plugin.getByte("SMsgLogToDB_WinOpen", 1);
 	opt.SMsgLogToDB_Remove = g_plugin.getByte("SMsgLogToDB_Remove", 0);
+	
 	// IDD_OPT_XLOG
 	opt.XLogToFile = g_plugin.getByte("XLogToFile", 0);
 	opt.XLogToDB = g_plugin.getByte("XLogToDB", 0);
 	opt.XLogToDB_WinOpen = g_plugin.getByte("XLogToDB_WinOpen", 1);
 	opt.XLogToDB_Remove = g_plugin.getByte("XLogToDB_Remove", 0);
 	opt.XLogDisableForMusic = g_plugin.getByte("XLogDisableForMusic", 1);
+	
 	// IDD_OPT_SMPOPUP
 	opt.PSMsgOnConnect = g_plugin.getByte("PSMsgOnConnect", 0);
 	opt.PSMsgTruncate = g_plugin.getByte("PSMsgTruncate", 0);
 	opt.PSMsgLen = g_plugin.getDword("PSMsgLen", 64);
+	
 	// OTHER
 	opt.TempDisabled = g_plugin.getByte("TempDisable", 0);
 	opt.EnableLastSeen = g_plugin.getByte("EnableLastSeen", 0);

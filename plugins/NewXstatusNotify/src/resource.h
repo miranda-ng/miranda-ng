@@ -140,6 +140,8 @@
 #define IDC_XLOGTODB_WINOPEN            2039
 #define IDC_CHK_PREVENTIDENTICAL        2040
 #define IDC_XLOGTODB                    2040
+#define IDC_CHK_FROMOFFLINE             2041
+
 #define IDC_CHK_OFFLINE                 40071
 #define IDC_CHK_ONLINE                  40072
 #define IDC_CHK_AWAY                    40073
@@ -150,7 +152,7 @@
 #define IDC_CHK_INVISIBLE               40078
 #define IDC_CHK_XSTATUS                 40081
 #define IDC_CHK_STATUS_MESSAGE          40082
-#define IDC_CHK_FROMOFFLINE             40083
+
 #define IDC_OFFLINE_TX                  41071
 #define IDC_ONLINE_TX                   41072
 #define IDC_AWAY_TX                     41073
@@ -161,23 +163,25 @@
 #define IDC_INVISIBLE_TX                41078
 #define IDC_XSTATUS_TX                  41081
 #define IDC_STATUSMSG_TX                41082
+
+#define IDC_CHK_ONLINE2                 42072
+#define IDC_CHK_AWAY2                   42073
+#define IDC_CHK_DND2                    42074
+#define IDC_CHK_NA2                     42075
+#define IDC_CHK_OCCUPIED2               42076
+#define IDC_CHK_FREECHAT2               42077
+#define IDC_CHK_INVISIBLE2              42078
+
 #define IDC_OFFLINE_BG                  42071
 #define IDC_ONLINE_BG                   42072
-#define IDC_CHK_ONLINE2                 42072
 #define IDC_AWAY_BG                     42073
-#define IDC_CHK_AWAY2                   42073
 #define IDC_DND_BG                      42074
-#define IDC_CHK_DND2                    42074
 #define IDC_NA_BG                       42075
-#define IDC_CHK_NA2                     42075
 #define IDC_OCCUPIED_BG                 42076
-#define IDC_CHK_OCCUPIED2               42076
 #define IDC_FREEFORCHAT_BG              42077
-#define IDC_CHK_FREECHAT2               42077
 #define IDC_INVISIBLE_BG                42078
-#define IDC_CHK_INVISIBLE2              42078
-#define IDC_XSTATUS_BG                  42079
-#define IDC_STATUSMSG_BG                42080
+#define IDC_XSTATUS_BG                  42081
+#define IDC_STATUSMSG_BG                42082
 
 // Next default values for new objects
 // 

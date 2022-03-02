@@ -24,7 +24,8 @@
 
 #define DEFAULT_LOGFILE	"NewStatusNotify.log"
 
-typedef struct tagOPTIONS {
+struct OPTIONS
+{
 	// IDD_OPT_POPUP
 	uint8_t Colors;
 	uint8_t ShowGroup;
@@ -36,11 +37,13 @@ typedef struct tagOPTIONS {
 	UINT PopupConnectionTimeout;
 	uint8_t LeftClickAction;
 	uint8_t RightClickAction;
+
 	// IDD_OPT_XPOPUP
 	uint8_t PXOnConnect;
 	uint8_t PXDisableForMusic;
 	uint8_t PXMsgTruncate;
 	uint32_t PXMsgLen;
+
 	// IDD_OPT_GENERAL
 	uint8_t FromOffline;
 	uint8_t AutoDisable;
@@ -50,10 +53,12 @@ typedef struct tagOPTIONS {
 	uint8_t BlinkIcon_Status;
 	uint8_t BlinkIcon_ForMsgs;
 	wchar_t LogFilePath[MAX_PATH];
+
 	// IDD_AUTODISABLE
 	uint8_t OnlyGlobalChanges;
 	uint8_t DisableSoundGlobally;
 	uint8_t DisablePopupGlobally;
+
 	// IDD_OPT_LOG
 	uint8_t LogToFile;
 	uint8_t LogToDB;
@@ -64,24 +69,28 @@ typedef struct tagOPTIONS {
 	uint8_t SMsgLogToDB;
 	uint8_t SMsgLogToDB_WinOpen;
 	uint8_t SMsgLogToDB_Remove;
+
 	// IDD_OPT_XLOG
 	uint8_t XLogToFile;
 	uint8_t XLogToDB;
 	uint8_t XLogToDB_WinOpen;
 	uint8_t XLogToDB_Remove;
 	uint8_t XLogDisableForMusic;
+
 	// IDD_OPT_SMPOPUP
 	uint8_t PSMsgOnConnect;
 	uint8_t PSMsgTruncate;
 	uint32_t PSMsgLen;
+
 	// OTHER
 	uint8_t TempDisabled;
 	uint8_t PopupAutoDisabled;
 	uint8_t SoundAutoDisabled;
 	uint8_t EnableLastSeen;
-} OPTIONS;
+};
 
-typedef struct tagTEMPLATES {
+struct TEMPLATES
+{
 	uint8_t PopupXFlags;
 	uint8_t PopupSMsgFlags;
 	uint8_t LogXFlags;
@@ -98,7 +107,7 @@ typedef struct tagTEMPLATES {
 	wchar_t LogSMsgChanged[256];
 	wchar_t LogSMsgRemoved[256];
 	wchar_t LogSMsgOpening[256];
-} TEMPLATES;
+};
 
 int OptionsInitialize(WPARAM wParam, LPARAM lParam);
 void LoadOptions();
