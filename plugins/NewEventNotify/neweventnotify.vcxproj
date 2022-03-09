@@ -27,7 +27,6 @@
   </ImportGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\menuitem.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popup.cpp" />
     <ClCompile Include="src\stdafx.cxx">

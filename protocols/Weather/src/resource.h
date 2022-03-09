@@ -15,8 +15,6 @@
 #define IDI_S                           211
 #define IDI_MAP                         212
 #define IDR_PMENU                       213
-#define IDI_POPUP                       214
-#define IDI_NOPOPUP                     215
 #define IDD_TEXTOPT                     216
 #define IDD_BRIEF                       217
 #define IDD_SETUP                       218

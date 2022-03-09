@@ -77,7 +77,8 @@ static const PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPopups(MODULENAME, "UsePopup", true)
 {
 	opt.NoProtoCondition = g_plugin.getByte("NoStatus", true);
 	RegisterProtocol((opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL);
@@ -151,8 +152,6 @@ static IconItem iconList[] =
 	{	LPGEN("View Complete"),      "read",      IDI_READ       },
 	{	LPGEN("Weather Update"),     "update",    IDI_UPDATE     },
 	{	LPGEN("Weather Map"),        "map",       IDI_MAP        },
-	{	LPGEN("Popup"),              "popup",     IDI_POPUP      },
-	{	LPGEN("No Popup"),           "nopopup",   IDI_NOPOPUP    },
 	{	LPGEN("Edit Settings"),      "edit",      IDI_EDIT       },
 };
 
@@ -198,8 +197,11 @@ int CMPlugin::Load()
 	InitServices();
 
 	// add sound event
-	g_plugin.addSound("weatherupdated", _A2W(MODULENAME), LPGENW("Condition Changed"));
-	g_plugin.addSound("weatheralert", _A2W(MODULENAME), LPGENW("Alert Issued"));
+	addSound("weatherupdated", _A2W(MODULENAME), LPGENW("Condition Changed"));
+	addSound("weatheralert", _A2W(MODULENAME), LPGENW("Alert Issued"));
+
+	// popup initialization
+	addPopupOption(LPGEN("Weather notifications"), bPopups);
 
 	// window needed for popup commands
 	wchar_t SvcFunc[100];

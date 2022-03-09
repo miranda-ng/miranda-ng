@@ -27,7 +27,7 @@ void EnablePopupOptDlgControls()
 {
 	int I;
 	g_PopupOptPage.PageToMem();
-	bool UsePopups = g_PopupOptPage.GetValue(IDC_POPUPOPTDLG_POPUPNOTIFY) != 0;
+	bool UsePopups = g_plugin.bPopups;
 	for (I = 0; I < g_PopupOptPage.Items.GetSize(); I++) {
 		switch (g_PopupOptPage.Items[I]->GetParam()) {
 		case IDC_POPUPOPTDLG_POPUPNOTIFY:

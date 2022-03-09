@@ -37,7 +37,7 @@ static MCONTACT hPopupContact;
 // Type can either be SM_WARNING, SM_NOTIFY, or SM_WEATHERALERT
 int WeatherError(WPARAM wParam, LPARAM lParam)
 {
-	if (!opt.UsePopup)
+	if (!g_plugin.bPopups)
 		return 0;
 
 	wchar_t* tszMsg = (wchar_t*)wParam;
@@ -125,7 +125,7 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 int WeatherPopup(WPARAM hContact, LPARAM lParam)
 {
 	// determine if the popup should display or not
-	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) && !g_plugin.getByte(hContact, "DPopUp")) {
+	if (g_plugin.bPopups && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) && !g_plugin.getByte(hContact, "DPopUp")) {
 		WEATHERINFO winfo = LoadWeatherInfo(hContact);
 
 		// setup the popup
@@ -235,7 +235,6 @@ void ReadPopupOpt(HWND hdlg)
 
 	// other options
 	opt.UseWinColors = (uint8_t)IsDlgButtonChecked(hdlg, IDC_USEWINCOLORS);
-	opt.UsePopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_E);
 	opt.UpdatePopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP1);
 	opt.AlertPopup = (uint8_t)IsDlgButtonChecked(hdlg, IDC_POP2);
 	opt.PopupOnChange = (uint8_t)IsDlgButtonChecked(hdlg, IDC_CH);
@@ -268,7 +267,7 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		DestroyMenu(hMenu);
 
 		// other options
-		CheckDlgButton(hdlg, IDC_E, opt.UsePopup ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_E, g_plugin.bPopups ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_POP2, opt.AlertPopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_POP1, opt.UpdatePopup ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CH, opt.PopupOnChange ? BST_CHECKED : BST_UNCHECKED);
@@ -435,7 +434,6 @@ INT_PTR CALLBACK DlgPopupOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 			// save the options, and update main menu
 			SaveOptions();
-			UpdatePopupMenu(opt.UsePopup);
 			return TRUE;
 		}
 		break;

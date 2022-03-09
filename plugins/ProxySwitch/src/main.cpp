@@ -24,10 +24,11 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPopups(MODULENAME, "PopupEnabled", true)
+{
+}
 
-HGENMENU hEnableDisablePopupMenu = 0;
 HGENMENU hMenuRoot;
 
 OBJLIST<ACTIVE_CONNECTION> g_arConnections(10, PtrKeySortT);
@@ -42,7 +43,6 @@ wchar_t opt_useProxy[MAX_IPLIST_LENGTH];
 wchar_t opt_noProxy[MAX_IPLIST_LENGTH];
 wchar_t opt_hideIntf[MAX_IPLIST_LENGTH];
 UINT opt_defaultColors;
-UINT opt_popups;
 UINT opt_showProxyState;
 UINT opt_miranda;
 UINT opt_ie;
@@ -55,7 +55,6 @@ COLORREF opt_txtColor;
 
 static HANDLE hEventConnect = NULL;
 static HANDLE hEventDisconnect = NULL;
-static HANDLE hSvcPopupSwitch = NULL;
 static HANDLE hSvcProxyDisable = NULL;
 static HANDLE hSvcProxyEnable = NULL;
 static HANDLE hSvcShowMyIP = NULL;
@@ -154,32 +153,6 @@ void UpdateInterfacesMenu(void)
 
 /* ################################################################################ */
 
-void UpdatePopupMenu(BOOL State)
-{
-	if (!hEnableDisablePopupMenu)
-		return;
-
-	// popup is now disabled
-	if (State == FALSE) {
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &IP change notification"));
-		// mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_0));
-	}
-	else {
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &IP change notification"));
-		// mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_NOTIF_1));
-	}
-}
-
-static INT_PTR PopupSwitch(WPARAM, LPARAM)
-{
-	opt_popups = !opt_popups;
-	UpdatePopupMenu(opt_popups);
-	SaveSettings();
-	return 0;
-}
-
-/* ################################################################################ */
-
 int CMPlugin::Load()
 {
 	char proxy = -1;
@@ -189,6 +162,8 @@ int CMPlugin::Load()
 	opt_not_restarted = FALSE;
 
 	LoadSettings();
+
+	addPopupOption(LPGEN("IP change notification"), bPopups);
 
 	Create_NIF_List_Ex(&g_arNIF);
 
@@ -273,15 +248,6 @@ int Init(WPARAM, LPARAM)
 	}
 
 	UpdateInterfacesMenu();
-
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0xC0000000);
-	mi.name.w = LPGENW("IP change notification");
-	mi.hIcon = LoadIcon(g_plugin.getInst(), MAKEINTRESOURCE(IDI_LOGO));
-	mi.pszService = MS_PROXYSWITCH_POPUPSWITCH;
-	hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
-	hSvcPopupSwitch = CreateServiceFunction(mi.pszService, PopupSwitch);
-
-	UpdatePopupMenu(opt_popups);
 	return 0;
 }
 

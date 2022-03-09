@@ -29,7 +29,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 typedef struct _IMAGELIST* HIMAGELIST;
 #endif
 
-#include <m_core.h>
+#include <m_gui.h>
 #include <m_database.h>
 #include <m_protocols.h>
 
@@ -212,6 +212,7 @@ public:
 
 	int addFrame(const struct CLISTFrame*);
 	int addHotkey(const struct HOTKEYDESC*);
+	int addPopupOption(const char *pszDescr, CMOption<bool> &pVar);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
 	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
 

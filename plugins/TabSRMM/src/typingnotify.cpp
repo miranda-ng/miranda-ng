@@ -1,24 +1,24 @@
 #include "stdafx.h"
 
+static CMOption<bool> g_bPopups(TypigModule, "TypingPopup", true);
+
 static HGENMENU hDisableMenu = nullptr;
 
 static MWindowList hPopupsList = nullptr;
 
-static uint8_t   OnePopup;
-static uint8_t   ShowMenu;
-static uint8_t   StartDisabled;
-static uint8_t   StopDisabled;
-static uint8_t   Disabled;
-static uint8_t   ColorMode;
-static uint8_t   TimeoutMode;
-static uint8_t   TimeoutMode2;
-static int    Timeout;
-static int    Timeout2;
-static int    newTimeout;
-static int    newTimeout2;
-static uint8_t   newTimeoutMode;
-static uint8_t   newTimeoutMode2;
-static uint8_t   newColorMode;
+static uint8_t OnePopup;
+static uint8_t StartDisabled;
+static uint8_t StopDisabled;
+static uint8_t ColorMode;
+static uint8_t TimeoutMode;
+static uint8_t TimeoutMode2;
+static int     Timeout;
+static int     Timeout2;
+static int     newTimeout;
+static int     newTimeout2;
+static uint8_t newTimeoutMode;
+static uint8_t newTimeoutMode2;
+static uint8_t newColorMode;
 
 static HANDLE hntfStarted = nullptr;
 static HANDLE hntfStopped = nullptr;
@@ -36,21 +36,6 @@ static colorPicker[4] =
 	{ IDC_TYPEOFF_BG, "OFF_BG", RGB(255, 255, 255) },
 	{ IDC_TYPEOFF_TX, "OFF_TX", RGB(0, 0, 0) }
 };
-
-static void UpdateMenuItems()
-{
-	if (!Disabled)
-		Menu_ModifyItem(hDisableMenu, LPGENW("Disable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_POPUP));
-	else
-		Menu_ModifyItem(hDisableMenu, LPGENW("Enable &typing notification"), Skin_LoadIcon(SKINICON_OTHER_NOPOPUP));
-}
-
-static INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
-{
-	Disabled = !Disabled;
-	UpdateMenuItems();
-	return 0;
-}
 
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -84,7 +69,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (Contact_IsHidden(hContact) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
-	if (Disabled)
+	if (!g_bPopups)
 		return;
 
 	wchar_t *szContactName = Clist_GetContactDisplayName(hContact);
@@ -211,7 +196,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		CheckDlgButton(hwndDlg, IDC_STOP, (StopDisabled) ? BST_UNCHECKED : BST_CHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_ONEPOPUP, (OnePopup) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWMENU, (ShowMenu) ? BST_CHECKED : BST_UNCHECKED);
 
 		newTimeout = Timeout;
 		newTimeoutMode = TimeoutMode;
@@ -276,7 +260,6 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case IDC_ONEPOPUP:
 		case IDC_CLIST:
 		case IDC_DISABLED:
-		case IDC_SHOWMENU:
 		case IDC_START:
 		case IDC_STOP:
 		case IDC_WOCL:
@@ -455,16 +438,11 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				Timeout2 = newTimeout2; TimeoutMode2 = newTimeoutMode2;
 				ColorMode = newColorMode;
 
-				if (Disabled != IsDlgButtonChecked(hwndDlg, IDC_DISABLED))
-					EnableDisableMenuCommand(0, 0);
-
 				StartDisabled = IsDlgButtonChecked(hwndDlg, IDC_START) ? 0 : 2;
 				StopDisabled = IsDlgButtonChecked(hwndDlg, IDC_STOP) ? 0 : 4;
 				OnePopup = IsDlgButtonChecked(hwndDlg, IDC_ONEPOPUP);
-				ShowMenu = IsDlgButtonChecked(hwndDlg, IDC_SHOWMENU);
 
 				db_set_b(0, TypigModule, SET_ONEPOPUP, OnePopup);
-				db_set_b(0, TypigModule, SET_SHOWDISABLEMENU, ShowMenu);
 				db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
 				db_set_b(0, TypigModule, SET_COLOR_MODE, ColorMode);
 				db_set_b(0, TypigModule, SET_TIMEOUT_MODE, TimeoutMode);
@@ -497,10 +475,10 @@ int TN_ModuleInit()
 	hPopupsList = WindowList_Create();
 
 	OnePopup = db_get_b(0, TypigModule, SET_ONEPOPUP, DEF_ONEPOPUP);
-	ShowMenu = db_get_b(0, TypigModule, SET_SHOWDISABLEMENU, DEF_SHOWDISABLEMENU);
 
 	int i = db_get_b(0, TypigModule, SET_DISABLED, DEF_DISABLED);
-	Disabled = i & 1;
+	if (i & 1)
+		g_bPopups = false;
 	StartDisabled = i & 2;
 	StopDisabled = i & 4;
 
@@ -514,15 +492,7 @@ int TN_ModuleInit()
 		for (auto &it : colorPicker)
 			it.color = db_get_dw(0, TypigModule, it.desc, 0);
 
-	if (ShowMenu) {
-		CMenuItem mi(&g_plugin);
-		SET_UID(mi, 0xe18fd2cf, 0xcf90, 0x459e, 0xb6, 0xe6, 0x70, 0xec, 0xad, 0xc6, 0x73, 0xef);
-		mi.pszService = "TypingNotify/EnableDisableMenuCommand";
-		mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-		hDisableMenu = Menu_AddMainMenuItem(&mi);
-		UpdateMenuItems();
-		CreateServiceFunction(mi.pszService, EnableDisableMenuCommand);
-	}
+	g_plugin.addPopupOption(LPGEN("Typing notifications"), g_bPopups);
 
 	g_plugin.addSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
 	g_plugin.addSound("TNStop", LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
@@ -532,6 +502,6 @@ int TN_ModuleInit()
 int TN_ModuleDeInit()
 {
 	WindowList_Destroy(hPopupsList);
-	db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(Disabled | StartDisabled | StopDisabled));
+	db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
 	return 0;
 }

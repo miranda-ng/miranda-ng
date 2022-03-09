@@ -49,7 +49,6 @@
 
 struct WUMF_OPTIONS
 {
-	BOOL     PopupsEnabled;
 	BOOL     UseWinColor;
 	BOOL     UseDefColor;
 	BOOL     SelectColor;
@@ -109,6 +108,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bPopups;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -132,5 +133,4 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info);
 void printError(uint32_t res);
 
 #define msg(X) MessageBox(NULL, X, L"WUMF", MB_OK|MB_ICONSTOP)
-#define MS_WUMF_SWITCHPOPUP 	"WUMF/SwitchPopup"
 #define MS_WUMF_CONNECTIONSSHOW "WUMF/ShowConnections"

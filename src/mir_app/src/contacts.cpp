@@ -373,7 +373,8 @@ static int ContactOptInit(WPARAM wParam, LPARAM)
 	odp.pDialog = new CContactOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
-	return 0;
+
+	return PopupOptionsInit(wParam);
 }
 
 int LoadContactsModule(void)

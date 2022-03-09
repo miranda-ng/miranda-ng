@@ -232,7 +232,7 @@ static int Backup(wchar_t *backup_filename)
 			bZip = true;
 	}
 	
-	if (!g_plugin.disable_popups)
+	if (g_plugin.bPopups)
 		ShowPopup(dbname, TranslateT("Backup in progress"), nullptr);
 
 	HWND progress_dialog = nullptr;
@@ -276,7 +276,7 @@ static int Backup(wchar_t *backup_filename)
 
 		wchar_t *pd = wcsrchr(dest_file, '\\');
 
-		if (!g_plugin.disable_popups) {
+		if (g_plugin.bPopups) {
 			CMStringW puText;
 
 			if (pd && mir_wstrlen(dest_file) > 50) {

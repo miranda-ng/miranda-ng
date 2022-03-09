@@ -111,7 +111,6 @@ void LoadOptions()
 	opt.PSMsgLen = g_plugin.getDword("PSMsgLen", 64);
 	
 	// OTHER
-	opt.TempDisabled = g_plugin.getByte("TempDisable", 0);
 	opt.EnableLastSeen = g_plugin.getByte("EnableLastSeen", 0);
 
 	LoadTemplates();

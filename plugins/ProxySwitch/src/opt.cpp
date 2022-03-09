@@ -45,14 +45,14 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		SetDlgItemText(hdlg, IDC_EDIT_HIDEINTF, opt_hideIntf);
 		SendDlgItemMessage(hdlg, IDC_BGCOLOR, CPM_SETCOLOUR, 0, opt_bgColor);
 		SendDlgItemMessage(hdlg, IDC_TEXTCOLOR, CPM_SETCOLOUR, 0, opt_txtColor);
-		CheckDlgButton(hdlg, IDC_CHECK_POPUPS, opt_popups ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hdlg, IDC_CHECK_POPUPS, g_plugin.bPopups ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_DEFAULTCOLORS, opt_defaultColors ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hdlg, IDC_CHECK_SHOWPROXYSTATUS, opt_showProxyState ? BST_CHECKED : BST_UNCHECKED);
 		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_FIREFOX), Firefox_Installed());
-		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOR), opt_popups && !opt_defaultColors);
-		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), opt_popups && !opt_defaultColors);
-		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), opt_popups);
-		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWPROXYSTATUS), opt_popups);
+		EnableWindow(GetDlgItem(hdlg, IDC_BGCOLOR), g_plugin.bPopups && !opt_defaultColors);
+		EnableWindow(GetDlgItem(hdlg, IDC_TEXTCOLOR), g_plugin.bPopups && !opt_defaultColors);
+		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_DEFAULTCOLORS), g_plugin.bPopups);
+		EnableWindow(GetDlgItem(hdlg, IDC_CHECK_SHOWPROXYSTATUS), g_plugin.bPopups);
 		ShowWindow(GetDlgItem(hdlg, IDC_RESTARTREQUIRED), opt_not_restarted ? SW_SHOW : SW_HIDE);
 		TranslateDialogDefault(hdlg);
 		opt_startup = FALSE;
@@ -69,13 +69,12 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			opt_ie = IsDlgButtonChecked(hdlg, IDC_CHECK_IE);
 			opt_firefox = IsDlgButtonChecked(hdlg, IDC_CHECK_FIREFOX);
 			opt_alwayReconnect = IsDlgButtonChecked(hdlg, IDC_CHECK_ALWAY_RECONNECT);
-			opt_popups = IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS);
+			g_plugin.bPopups = IsDlgButtonChecked(hdlg, IDC_CHECK_POPUPS);
 			opt_defaultColors = IsDlgButtonChecked(hdlg, IDC_CHECK_DEFAULTCOLORS);
 			opt_showProxyState = IsDlgButtonChecked(hdlg, IDC_CHECK_SHOWPROXYSTATUS);
 			opt_bgColor = SendDlgItemMessage(hdlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
 			opt_txtColor = SendDlgItemMessage(hdlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
 			SaveSettings();
-			UpdatePopupMenu(opt_popups);
 			return 1;
 		}
 		break;
@@ -161,7 +160,6 @@ void LoadSettings(void)
 	opt_ie = g_plugin.getByte("ManageIEProxy", FALSE);
 	opt_firefox = g_plugin.getByte("ManageFirefoxProxy", FALSE) && Firefox_Installed();
 	opt_alwayReconnect = g_plugin.getByte("AlwaysReconnect", FALSE);
-	opt_popups = g_plugin.getByte("PopupEnabled", TRUE);
 	opt_defaultColors = g_plugin.getByte("PopupDefaultColors", TRUE);
 	opt_showProxyState = g_plugin.getByte("ShowProxyStatus", TRUE);
 	opt_bgColor = g_plugin.getDword("PopupBgColor", GetSysColor(COLOR_BTNFACE));
@@ -177,7 +175,6 @@ void SaveSettings(void)
 	g_plugin.setByte("ManageIEProxy", (uint8_t)opt_ie);
 	g_plugin.setByte("ManageFirefoxProxy", (uint8_t)opt_firefox);
 	g_plugin.setByte("AlwaysReconnect", (uint8_t)opt_alwayReconnect);
-	g_plugin.setByte("PopupEnabled", (uint8_t)opt_popups);
 	g_plugin.setByte("PopupDefaultColors", (uint8_t)opt_defaultColors);
 	g_plugin.setByte("ShowProxyStatus", (uint8_t)opt_showProxyState);
 	g_plugin.setDword("PopupBgColor", (uint32_t)opt_bgColor);

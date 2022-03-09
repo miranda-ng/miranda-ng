@@ -346,8 +346,6 @@ END
 // remains consistent on all systems.
 IDI_RESET               ICON                    "reset.ico"
 IDI_SOUND               ICON                    "sound.ico"
-IDI_NOTIFICATION_OFF    ICON                    "main_off.ico"
-IDI_NOTIFICATION_ON     ICON                    "main_on.ico"
 IDI_XSTATUS             ICON                    "xstatus.ico"
 IDI_DISABLEALL          ICON                    "disable_all.ico"
 IDI_ENABLEALL           ICON                    "enable_all.ico"

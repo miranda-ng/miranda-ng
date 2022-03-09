@@ -793,3 +793,4 @@ _Netlib_SslWrite@12 @877 NONAME
 ?IsMirandaFolderWritable@PU@@YG_NXZ @881 NONAME
 ?IsDuplicateEvent@DB@@YG_NIAAUDBEVENTINFO@@@Z @882 NONAME
 Srmm_GetButtonGap @883
+?addPopupOption@CMPluginBase@@QAEHPBDAAV?$CMOption@_N@@@Z @884 NONAME

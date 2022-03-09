@@ -136,9 +136,6 @@
 
 #define MENUITEM_NAME LPGEN("Notify of new events")
 
-#define MENUITEM_ENABLE LPGENW("Enable new event notification")
-#define MENUITEM_DISABLE LPGENW("Disable new event notification")
-
 //---------------------------
 //---Structures
 
@@ -151,10 +148,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	void OptionsRead(void);
 	void OptionsWrite(void);
 
-	bool bDisable;
+	CMOption<bool> bPopups;
+
 	bool bMUCDisable;
 	bool bPreview;
-	bool bMenuitem;
 	bool bDisableNonMessage;
 	bool bMsgWindowCheck;
 	bool bMsgReplyWindow;
@@ -204,9 +201,6 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType);
 int PopupUpdate(PLUGIN_DATA &pdata, MEVENT hEvent);
 int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA *pdata);
 int OptionsAdd(WPARAM addInfo, LPARAM);
-int Opt_DisableNEN(BOOL Status);
-int MenuitemInit(BOOL bStatus);
-int MenuitemUpdate(BOOL bStatus);
 int CheckMsgWnd(MCONTACT hContact);
 
 PLUGIN_DATA* PU_GetByContact(MCONTACT hContact, UINT eventType);

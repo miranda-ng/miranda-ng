@@ -83,7 +83,6 @@ struct OPTIONS
 	uint32_t PSMsgLen;
 
 	// OTHER
-	uint8_t TempDisabled;
 	uint8_t PopupAutoDisabled;
 	uint8_t SoundAutoDisabled;
 	uint8_t EnableLastSeen;

@@ -380,8 +380,6 @@ IDI_S                   ICON                    "brief.ico"
 IDI_LOG                 ICON                    "log.ico"
 IDI_EDIT                ICON                    "edit.ico"
 IDI_MAP                 ICON                    "map.ico"
-IDI_POPUP               ICON                    "popup.ico"
-IDI_NOPOPUP             ICON                    "popup_no.ico"
 IDI_UPDATE2             ICON                    "update2.ico"
 IDI_DISABLED            ICON                    "disabled.ico"
 

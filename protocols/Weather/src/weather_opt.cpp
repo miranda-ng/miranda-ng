@@ -108,7 +108,6 @@ void LoadOptions(void)
 	opt.DisCondIcon = g_plugin.getByte("DisableConditionIcon", false);
 
 	// popup options
-	opt.UsePopup = g_plugin.getByte("UsePopUp", true);
 	opt.UpdatePopup = g_plugin.getByte("UpdatePopup", true);
 	opt.AlertPopup = g_plugin.getByte("AlertPopup", true);
 	opt.PopupOnChange = g_plugin.getByte("PopUpOnChange", true);
@@ -161,7 +160,6 @@ void SaveOptions(void)
 	g_plugin.setByte("DisableConditionIcon", (uint8_t)opt.DisCondIcon);
 	
 	// popup options
-	g_plugin.setByte("UsePopUp", (uint8_t)opt.UsePopup);
 	g_plugin.setByte("UpdatePopup", (uint8_t)opt.UpdatePopup);
 	g_plugin.setByte("AlertPopup", (uint8_t)opt.AlertPopup);
 	g_plugin.setByte("PopUpOnChange", (uint8_t)opt.PopupOnChange);

@@ -375,13 +375,13 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	if (opt.PXDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)
 		bEnableSound = bEnablePopup = false;
 
-	if (bEnablePopup && g_plugin.getByte(xsc->hContact, "EnablePopups", 1) && !opt.TempDisabled)
+	if (bEnablePopup && g_plugin.getByte(xsc->hContact, "EnablePopups", 1) && g_plugin.bPopups)
 		ShowXStatusPopup(xsc);
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", 1) && g_plugin.getByte(xsc->hContact, "EnableSounds", 1) && !opt.TempDisabled)
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", 1) && g_plugin.getByte(xsc->hContact, "EnableSounds", 1) && g_plugin.bPopups)
 		PlayXStatusSound(xsc->hContact, xsc->action);
 
-	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled)
+	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && g_plugin.bPopups)
 		BlinkXStatusIcon(xsc);
 
 	if (opt.XLogDisableForMusic && xsc->type == TYPE_ICQ_XSTATUS && xstatusID == XSTATUS_MUSIC)

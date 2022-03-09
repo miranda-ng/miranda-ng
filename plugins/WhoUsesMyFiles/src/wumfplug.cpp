@@ -23,8 +23,10 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPopups(MODULENAME, POPUPS_ENABLED, true)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,10 +41,7 @@ void LoadOptions()
 		wcsncpy(WumfOptions.LogFile, dbv.pwszVal, 255);
 		db_free(&dbv);
 	}
-	else
-		WumfOptions.LogFile[0] = '\0';
-
-	WumfOptions.PopupsEnabled = g_plugin.getByte(POPUPS_ENABLED, TRUE);
+	else WumfOptions.LogFile[0] = '\0';
 
 	WumfOptions.UseDefColor = g_plugin.getByte(COLOR_DEF, TRUE);
 	WumfOptions.UseWinColor = g_plugin.getByte(COLOR_WIN, FALSE);
@@ -179,21 +178,6 @@ static INT_PTR WumfShowConnections(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR WumfMenuCommand(WPARAM, LPARAM)
-{
-	if (WumfOptions.PopupsEnabled == TRUE) {
-		WumfOptions.PopupsEnabled = FALSE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Enable WUMF popups"), Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
-	}
-	else {
-		WumfOptions.PopupsEnabled = TRUE;
-		Menu_ModifyItem(hMenuItem, LPGENW("Disable WUMF popups"), Skin_GetIconHandle(SKINICON_OTHER_POPUP));
-	}
-
-	g_plugin.setByte(POPUPS_ENABLED, (uint8_t)WumfOptions.PopupsEnabled);
-	return 0;
-}
-
 int InitTopToolbar(WPARAM, LPARAM)
 {
 	TTBButton ttb = {};
@@ -211,22 +195,11 @@ int CMPlugin::Load()
 {
 	LoadOptions();
 
-	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
 
 	CMenuItem mi(&g_plugin);
 
-	SET_UID(mi, 0xcfce6487, 0x907b, 0x4822, 0xb0, 0x49, 0x18, 0x4e, 0x47, 0x17, 0x0, 0x69);
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 1999990000);
-	if (WumfOptions.PopupsEnabled == FALSE) {
-		mi.name.a = LPGEN("Enable WUMF popups");
-		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_NOPOPUP);
-	}
-	else {
-		mi.name.a = LPGEN("Disable WUMF popups");
-		mi.hIcolibItem = Skin_LoadIcon(SKINICON_OTHER_POPUP);
-	}
-	mi.pszService = MS_WUMF_SWITCHPOPUP;
+	addPopupOption(LPGEN("WUMF popups"), bPopups);
 	hMenuItem = Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xbf93984c, 0xaa05, 0x447c, 0xbd, 0x5c, 0x5f, 0x43, 0x60, 0x92, 0x6a, 0x12);

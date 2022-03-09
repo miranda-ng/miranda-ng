@@ -71,6 +71,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bPopups;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -108,8 +110,6 @@ enum
 {
 	ICO_RESET,
 	ICO_SOUND,
-	ICO_NOTIFICATION_OFF,
-	ICO_NOTIFICATION_ON,
 	ICO_XSTATUS,
 	ICO_DISABLEALL,
 	ICO_ENABLEALL,

@@ -26,7 +26,6 @@ building/changing the weather menu items.
 
 #include "stdafx.h"
 
-static HGENMENU hEnableDisablePopupMenu;
 static HGENMENU hEnableDisableMenu;
 
 extern VARSW g_pwszIconsName;
@@ -302,29 +301,10 @@ void UpdateMenu(BOOL State)
 	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : 0);
 }
 
-void UpdatePopupMenu(BOOL State)
-{
-	// update option setting
-	opt.UsePopup = State;
-	g_plugin.setByte("UsePopup", (uint8_t)opt.UsePopup);
-
-	if (State) // to enable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Disable &weather notification"), g_plugin.getIconHandle(IDI_POPUP));
-	else // to disable popup
-		Menu_ModifyItem(hEnableDisablePopupMenu, LPGENW("Enable &weather notification"), g_plugin.getIconHandle(IDI_NOPOPUP));
-}
-
 // update the weather auto-update menu item when click on it
 INT_PTR EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
-	return 0;
-}
-
-// update the weather popup menu item when click on it
-INT_PTR MenuitemNotifyCmd(WPARAM, LPARAM)
-{
-	UpdatePopupMenu(!opt.UsePopup);
 	return 0;
 }
 
@@ -419,16 +399,6 @@ void AddMenuItems(void)
 	mi.name.a = LPGEN("Remove Old Data then Update All");
 	mi.pszService = MS_WEATHER_REFRESHALL;
 	Menu_AddMainMenuItem(&mi);
-
-	SET_UID(mi, 0xdc5411cb, 0xb7c7, 0x443b, 0x88, 0x5a, 0x90, 0x24, 0x43, 0xde, 0x54, 0x3e);
-	CreateServiceFunction(MODULENAME "/PopupMenu", MenuitemNotifyCmd);
-	mi.name.a = LPGEN("Weather Notification");
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_POPUP);
-	mi.position = 0;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-	mi.pszService = MODULENAME "/PopupMenu";
-	hEnableDisablePopupMenu = Menu_AddMainMenuItem(&mi);
-	UpdatePopupMenu(opt.UsePopup);
 
 	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		SET_UID(mi, 0xe193fe9b, 0xf6ad, 0x41ac, 0x95, 0x29, 0x45, 0x4, 0x44, 0xb1, 0xeb, 0x5d);

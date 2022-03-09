@@ -30,7 +30,5 @@
 #define DEF_COLOR_MODE       COLOR_OWN
 #define SET_ICON_SETID       "IconSet"
 #define DEF_ICON_SETID       0
-#define SET_SHOWDISABLEMENU  "ShowDisableMenu"
-#define DEF_SHOWDISABLEMENU  1
 #define SET_ONEPOPUP         "OnePopup"
 #define DEF_ONEPOPUP         1

@@ -30,6 +30,7 @@
 #define IDD_AUTHREQ                     121
 #define IDD_SELECT_CRYPTOPROVIDER       122
 #define IDD_LOGIN                       123
+#define IDD_OPT_POPUPOPTION             124
 #define IDD_DETAILS                     125
 #define IDD_OPT_DATABASE                126
 #define IDD_HISTORY                     127
@@ -592,6 +593,7 @@
 #define IDC_LOGROTATE                   1749
 #define IDC_RIGHTCLICK                  1751
 #define IDC_FILTER_SEARCH               1752
+#define IDC_TREE                        1753
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889
@@ -698,9 +700,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        334
+#define _APS_NEXT_RESOURCE_VALUE        335
 #define _APS_NEXT_COMMAND_VALUE         40018
-#define _APS_NEXT_CONTROL_VALUE         1753
+#define _APS_NEXT_CONTROL_VALUE         1755
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

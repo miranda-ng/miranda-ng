@@ -46,7 +46,8 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPopups(MODULENAME, "Popups", true)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -59,7 +60,7 @@ CMPlugin::CMPlugin() :
 int HookedNewEvent(WPARAM hContact, LPARAM hDbEvent)
 {
 	//are popups currently enabled?
-	if (g_plugin.bDisable)
+	if (!g_plugin.bPopups)
 		return 0;
 
 	//get DBEVENTINFO without pBlob
@@ -113,8 +114,6 @@ int HookedInit(WPARAM, LPARAM)
 	if (ServiceExists("PluginSweeper/Add"))
 		CallService("PluginSweeper/Add", (WPARAM)MODULENAME, (LPARAM)MODULENAME);
 
-	if (g_plugin.bMenuitem)
-		MenuitemInit(!g_plugin.bDisable);
 	return 0;
 }
 
@@ -122,10 +121,17 @@ int HookedInit(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	if (getBool(OPT_DISABLE)) {
+		bPopups = false;
+		delSetting(OPT_DISABLE);
+	}
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
 	HookEvent(ME_OPT_INITIALISE, OptionsAdd);
 
-	g_plugin.OptionsRead();
+	addPopupOption(LPGEN("New event notifications"), bPopups);
+
+	OptionsRead();
 	return 0;
 }
 

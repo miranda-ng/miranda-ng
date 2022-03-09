@@ -205,7 +205,6 @@ struct MYOPTIONS
 	uint8_t DisCondIcon;
 
 	// popup options
-	uint8_t UsePopup;
 	uint8_t UpdatePopup;
 	uint8_t AlertPopup;
 	uint8_t PopupOnChange;
@@ -526,7 +525,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	HINSTANCE hIconsDll;
+	HINSTANCE hIconsDll = nullptr;
+	CMOption<bool> bPopups;
 
 	int Load() override;
 	int Unload() override;

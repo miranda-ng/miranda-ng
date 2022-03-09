@@ -38,20 +38,20 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMPlugin();
 
 	bool bCloudFilePresent = false;
-	HANDLE hevBackup;
+	HANDLE hevBackup = nullptr;
 	wchar_t folder[MAX_PATH];
 
 	CMOption<uint8_t>	    backup_types;
-	CMOption<uint16_t>	    period;
+	CMOption<uint16_t>    period;
 	CMOption<uint8_t>	    period_type;
-	CMOption<wchar_t*> file_mask;
-	CMOption<uint16_t>	    num_backups;
+	CMOption<wchar_t*>    file_mask;
+	CMOption<uint16_t>    num_backups;
 	CMOption<uint8_t>	    disable_progress;
-	CMOption<uint8_t>	    disable_popups;
+	CMOption<bool>        bPopups;
 	CMOption<uint8_t>	    use_zip;
 	CMOption<uint8_t>	    backup_profile;
 	CMOption<uint8_t>	    use_cloudfile;
-	CMOption<char*>    cloudfile_service;
+	CMOption<char*>       cloudfile_service;
 
 	int Load() override;
 };

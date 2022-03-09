@@ -661,7 +661,6 @@
 #define IDC_WO                          31617
 #define IDC_TIMEOUT_PERMANENT1          31618
 #define IDC_TIMEOUT_PERMANENT           31618
-#define IDC_SHOWMENU                    31619
 #define IDC_DISABLED                    31620
 #define IDC_ONEPOPUP                    31621
 #define IDC_WOCL                        31622

@@ -2,7 +2,6 @@
 
 CMPlugin g_plugin;
 
-HGENMENU g_hPopupMenu;
 HANDLE hFolder;
 char g_szMirVer[100];
 
@@ -35,22 +34,13 @@ CMPlugin::CMPlugin() :
 	num_backups(MODULENAME, "NumBackups", 3),
 	file_mask(MODULENAME, "FileMask", L"%miranda_profilename%_%currtime%_%compname%"),
 	disable_progress(MODULENAME, "NoProgress", 0),
-	disable_popups(MODULENAME, "NoPopups", 0),
+	bPopups(MODULENAME, "Popups", 1),
 	use_zip(MODULENAME, "UseZip", 0),
 	backup_profile(MODULENAME, "BackupProfile", 0),
 	use_cloudfile(MODULENAME, "UseCloudFile", 0),
 	cloudfile_service(MODULENAME, "CloudFileService", nullptr)
 {
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static void UpdateMenuIcons()
-{
-	if (g_plugin.disable_popups)
-		Menu_ModifyItem(g_hPopupMenu, LPGENW("Enable &AutoBackups notification"), Skin_GetIconHandle(SKINICON_OTHER_NOPOPUP));
-	else
-		Menu_ModifyItem(g_hPopupMenu, LPGENW("Disable &AutoBackups notification"), Skin_GetIconHandle(SKINICON_OTHER_POPUP));
+	folder[0] = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -91,13 +81,6 @@ static int FoldersGetBackupPath(WPARAM, LPARAM)
 	return 0;
 }
 
-static INT_PTR OnTogglePopups(WPARAM, LPARAM)
-{
-	g_plugin.disable_popups = !g_plugin.disable_popups;
-	UpdateMenuIcons();
-	return 0;
-}
-
 static int PluginLoaded(WPARAM, LPARAM)
 {
 	g_plugin.bCloudFilePresent = ServiceExists(MS_CLOUDFILE_UPLOAD);
@@ -125,15 +108,6 @@ static int ModulesLoad(WPARAM, LPARAM)
 	mi.hIcolibItem = iconList[1].hIcolib;
 	mi.position = 500100001;
 	Menu_AddMainMenuItem(&mi);
-
-	// Popup menu item
-	SET_UID(mi, 0xe9250a75, 0x30da, 0x42f2, 0x85, 0x27, 0x54, 0x24, 0x62, 0x59, 0x9e, 0xae);
-	mi.position = 0;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-	mi.pszService = "DbAutoBackup/EnableDisableMenuCommand";
-	g_hPopupMenu = Menu_AddMainMenuItem(&mi);
-	UpdateMenuIcons();
-	CreateServiceFunction(mi.pszService, &OnTogglePopups);
 
 	if (hFolder = FoldersRegisterCustomPathW(LPGEN("Database backups"), LPGEN("Backup folder"), DIR SUB_DIR)) {
 		HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
@@ -171,6 +145,11 @@ static int OkToExit(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	if (getBool("NoPopups")) {
+		bPopups = false;
+		delSetting("NoPopups");
+	}
+
 	Miranda_GetVersionText(g_szMirVer, sizeof(g_szMirVer));
 
 	HookEvent(ME_SYSTEM_OKTOEXIT, OkToExit);
@@ -178,7 +157,9 @@ int CMPlugin::Load()
 	HookEvent(ME_SYSTEM_MODULELOAD, PluginLoaded);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, PluginLoaded);
 
-	g_plugin.registerIcon(LPGEN("Database") "/" LPGEN("Database backups"), iconList);
+	addPopupOption(LPGEN("AutoBackups notifications"), bPopups);
+
+	registerIcon(LPGEN("Database") "/" LPGEN("Database backups"), iconList);
 
 	CreateServiceFunction(MS_AB_BACKUP, ABService);
 	CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);

@@ -40,8 +40,6 @@ IconItem iconList[ICO_MAXID] =
 {
 	{ LPGEN("Reset"),                  "reset",                  IDI_RESET },
 	{ LPGEN("Sounds"),                 "sound",                  IDI_SOUND },
-	{ LPGEN("Notification enabled"),   "notification_off",       IDI_NOTIFICATION_OFF },
-	{ LPGEN("Notification disabled"),  "notification_on",        IDI_NOTIFICATION_ON },
 	{ LPGEN("Extra status notify"),    "xstatus",                IDI_XSTATUS },
 	{ LPGEN("Disable all"),            "disable_all",            IDI_DISABLEALL },
 	{ LPGEN("Enable all"),             "enable_all",             IDI_ENABLEALL },
@@ -68,8 +66,10 @@ PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
-{}
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPopups(MODULENAME, "Popups", true)
+{
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -422,7 +422,7 @@ int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStat
 		bEnablePopup = g_plugin.getByte(statusIDp, 1) ? FALSE : TRUE;
 	}
 
-	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && !opt.TempDisabled) {
+	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && g_plugin.bPopups) {
 		int wStatus = Proto_GetStatus(szProto);
 		wchar_t str[MAX_SECONDLINE] = { 0 };
 		if (opt.ShowStatus)
@@ -439,14 +439,14 @@ int ContactStatusChanged(MCONTACT hContact, uint16_t oldStatus, uint16_t newStat
 		ShowChangePopup(hContact, Skin_LoadProtoIcon(szProto, newStatus), newStatus, str, pdp);
 	}
 
-	if (opt.BlinkIcon && !opt.TempDisabled) {
+	if (opt.BlinkIcon && g_plugin.bPopups) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, newStatus) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		wchar_t str[256];
 		mir_snwprintf(str, TranslateT("%s is now %s"), Clist_GetContactDisplayName(hContact), StatusList[Index(newStatus)].lpzStandardText);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && !opt.TempDisabled) {
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && g_plugin.bPopups) {
 		if (oldStatus == ID_STATUS_OFFLINE)
 			PlayChangeSound(hContact, StatusListEx[ID_STATUS_FROMOFFLINE].lpzSkinSoundName);
 		else
@@ -679,7 +679,7 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 	if (g_plugin.getByte(szProto, 1) == 0 && !opt.PSMsgOnConnect)
 		bEnablePopup = false;
 
-	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && !opt.TempDisabled) {
+	if (bEnablePopup && g_plugin.getByte(hContact, "EnablePopups", 1) && g_plugin.bPopups) {
 		// cut message if needed
 		wchar_t *copyText = nullptr;
 		if (opt.PSMsgTruncate && (opt.PSMsgLen > 0) && smi.newstatusmsg && (mir_wstrlen(smi.newstatusmsg) > opt.PSMsgLen)) {
@@ -729,14 +729,14 @@ int ProcessStatusMessage(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		}
 	}
 
-	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && !opt.TempDisabled) {
+	if (opt.BlinkIcon && opt.BlinkIcon_ForMsgs && g_plugin.bPopups) {
 		HICON hIcon = opt.BlinkIcon_Status ? Skin_LoadProtoIcon(szProto, db_get_w(hContact, szProto, "Status", ID_STATUS_ONLINE)) : Skin_LoadIcon(SKINICON_OTHER_USERONLINE);
 		wchar_t str[256];
 		mir_snwprintf(str, TranslateT("%s changed status message to %s"), Clist_GetContactDisplayName(hContact), smi.newstatusmsg);
 		BlinkIcon(hContact, hIcon, str);
 	}
 
-	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && !opt.TempDisabled) {
+	if (bEnableSound && db_get_b(0, "Skin", "UseSound", TRUE) && g_plugin.getByte(hContact, "EnableSounds", 1) && g_plugin.bPopups) {
 		if (smi.compare == COMPARE_DEL)
 			PlayChangeSound(hContact, StatusListEx[ID_STATUS_SMSGREMOVED].lpzSkinSoundName);
 		else
@@ -1026,32 +1026,6 @@ int ProtoAck(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR EnableDisableMenuCommand(WPARAM, LPARAM)
-{
-	g_plugin.setByte("TempDisable", opt.TempDisabled = !opt.TempDisabled);
-
-	if (opt.TempDisabled)
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Enable status notification"), iconList[ICO_NOTIFICATION_OFF].hIcolib);
-	else
-		Menu_ModifyItem(hEnableDisableMenu, LPGENW("Disable status notification"), iconList[ICO_NOTIFICATION_ON].hIcolib);
-
-	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hToolbarButton, opt.TempDisabled ? 0 : TTBST_PUSHED);
-	return 0;
-}
-
-void InitMainMenuItem()
-{
-	CMenuItem mi(&g_plugin);
-	SET_UID(mi, 0x22b7b4db, 0xa9a1, 0x4d43, 0x88, 0x80, 0x4c, 0x23, 0x20, 0x31, 0xc6, 0xa0);
-	mi.flags = CMIF_UNICODE;
-	mi.root = g_plugin.addRootMenu(MO_MAIN, LPGENW("Popups"), 0);
-	mi.pszService = MS_STATUSCHANGE_MENUCOMMAND;
-	hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
-
-	opt.TempDisabled = !opt.TempDisabled;
-	EnableDisableMenuCommand(0, 0);
-}
-
 static void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
@@ -1061,28 +1035,10 @@ static void InitSound()
 		g_plugin.addSound(StatusListEx[i].lpzSkinSoundName, LPGENW("Status Notify"), StatusListEx[i].lpzSkinSoundDesc);
 }
 
-static int InitTopToolbar(WPARAM, LPARAM)
-{
-	TTBButton tbb = {};
-	tbb.pszService = MS_STATUSCHANGE_MENUCOMMAND;
-	tbb.dwFlags = (opt.TempDisabled ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON;
-	tbb.name = LPGEN("Toggle status notification");
-	tbb.hIconHandleUp = iconList[ICO_NOTIFICATION_OFF].hIcolib;
-	tbb.hIconHandleDn = iconList[ICO_NOTIFICATION_ON].hIcolib;
-	tbb.pszTooltipUp = LPGEN("Enable status notification");
-	tbb.pszTooltipDn = LPGEN("Disable status notification");
-	hToolbarButton = g_plugin.addTTB(&tbb);
-
-	return 0;
-}
-
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	InitMainMenuItem();
-
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInitialise);
 	HookEvent(ME_MSG_WINDOWEVENT, OnWindowEvent);
-	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);
 
 	SecretWnd = CreateWindowEx(WS_EX_TOOLWINDOW, L"static", L"ConnectionTimerWindow", 0,
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, HWND_DESKTOP,
@@ -1105,7 +1061,14 @@ static int OnShutdown(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
-	g_plugin.registerIcon(LPGEN("New Status Notify"), iconList, MODULENAME);
+	if (getByte("TempDisable")) {
+		bPopups = false;
+		delSetting("TempDisable");
+	}
+
+	addPopupOption(LPGEN("Status notifications"), bPopups);
+
+	registerIcon(LPGEN("New Status Notify"), iconList, MODULENAME);
 
 	//"Service" Hook, used when the DB settings change: we'll monitor the "status" setting.
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ContactSettingChanged);
@@ -1137,11 +1100,9 @@ int CMPlugin::Load()
 	evtype.module = MODULENAME;
 	evtype.eventType = EVENTTYPE_STATUSCHANGE;
 	evtype.descr = LPGEN("Status change");
-	evtype.eventIcon = iconList[ICO_NOTIFICATION_OFF].hIcolib;
+	evtype.eventIcon = iconList[ICO_XSTATUS].hIcolib;
 	evtype.flags = DETF_HISTORY | DETF_MSGWINDOW;
 	DbEvent_RegisterType(&evtype);
-
-	CreateServiceFunction(MS_STATUSCHANGE_MENUCOMMAND, EnableDisableMenuCommand);
 	return 0;
 }
 

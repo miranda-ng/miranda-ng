@@ -19,8 +19,6 @@
 #define IDI_XSTATUS                     120
 #define IDI_DISABLEALL                  121
 #define IDI_ENABLEALL                   122
-#define IDI_NOTIFICATION_OFF            123
-#define IDI_NOTIFICATION_ON             124
 #define IDI_STATUS_MESSAGE              125
 #define IDC_STATUS_STATIC_INFINITE      1002
 #define IDC_STATUS_STATIC_DEFAULT       1003

@@ -38,6 +38,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<bool> bPopups;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -96,7 +98,6 @@ extern wchar_t opt_useProxy[MAX_IPLIST_LENGTH];
 extern wchar_t opt_noProxy[MAX_IPLIST_LENGTH];
 extern wchar_t opt_hideIntf[MAX_IPLIST_LENGTH];
 extern UINT opt_defaultColors;
-extern UINT opt_popups;
 extern UINT opt_showProxyState;
 extern UINT opt_miranda;
 extern UINT opt_ie;
@@ -117,7 +118,6 @@ void PopupMyIPAddrs(const wchar_t *msg);
 int OptInit(WPARAM wParam, LPARAM lParam);
 int Init(WPARAM wParam, LPARAM lParam);
 void UpdateInterfacesMenu(void);
-void UpdatePopupMenu(BOOL State);
 
 /**** Network ******************************************************************************/
 

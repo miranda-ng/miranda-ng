@@ -49,14 +49,18 @@
 #include "m_genmenu.h"
 #include "m_metacontacts.h"
 #include "m_netlib.h"
+#include "m_gui.h"
 
 #include "m_fingerprint.h"
+#include "m_variables.h"
 
 #include <pcre.h>
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> bPopups;
 
 	int Load() override;
 };
@@ -115,10 +119,6 @@ extern BOOL bFingerprintExists;
 
 extern COptPage g_PopupOptPage;
 extern COptPage *g_PreviewOptPage;
-
-#define MS_VARS_FORMATSTRING "Vars/FormatString"
-#define MS_CCN_TOGGLEPOPUPS "ClientChangeNotify/TogglePopups"
-
 
 static __inline CString LogMessage(const char *Format, ...)
 {

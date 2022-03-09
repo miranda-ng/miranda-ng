@@ -200,7 +200,7 @@ void process_file(SESSION_INFO_1 s_info, FILE_INFO_3 f_info)
 		if (!add_cell(&list, w))
 			msg(TranslateT("Error memory allocation"));
 
-		if (WumfOptions.PopupsEnabled) ShowWumfPopup(w);
+		if (g_plugin.bPopups) ShowWumfPopup(w);
 		if (WumfOptions.LogToFile) LogWumf(w);
 	}
 	else w->mark = FALSE;

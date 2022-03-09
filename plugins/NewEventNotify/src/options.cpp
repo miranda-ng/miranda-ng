@@ -26,11 +26,9 @@
 
 void CMPlugin::OptionsRead(void)
 {
-	bDisable = getBool(OPT_DISABLE, false);
 	bMUCDisable = getBool(OPT_MUCDISABLE, false);
 
 	bPreview = getBool(OPT_PREVIEW, true);
-	bMenuitem = getBool(OPT_MENUITEM, false);
 	bMergePopup = getBool(OPT_MERGEPOPUP, true);
 	bMsgWindowCheck = getBool(OPT_MSGWINDOWCHECK, true);
 	bMsgReplyWindow = getBool(OPT_MSGREPLYWINDOW, false);
@@ -74,11 +72,9 @@ void CMPlugin::OptionsRead(void)
 
 void CMPlugin::OptionsWrite(void)
 {
-	setByte(OPT_DISABLE, bDisable);
 	setByte(OPT_MUCDISABLE, bMUCDisable);
 
 	setByte(OPT_PREVIEW, bPreview);
-	setByte(OPT_MENUITEM, bMenuitem);
 	setByte(OPT_MERGEPOPUP, bMergePopup);
 	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
 	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
@@ -132,7 +128,6 @@ class COptionsBaseDlg : public CDlgBase
 	void OnFinish(CDlgBase *)
 	{
 		g_plugin.OptionsWrite();
-		MenuitemUpdate(!g_plugin.bDisable);
 	}
 
 public:
@@ -145,9 +140,6 @@ public:
 	void OnReset() override
 	{
 		g_plugin.OptionsRead();
-
-		// maybe something changed with the mi
-		MenuitemUpdate(!g_plugin.bDisable);
 	}
 };
 
@@ -214,9 +206,8 @@ public:
 		spinMessage(this, IDC_SPIN_MESSAGE, 1000, -1)
 	{
 		auto *pwszSection = TranslateT("General options");
-		m_opts.AddOption(pwszSection, TranslateT("Show entry in the Popups menu"), g_plugin.bMenuitem);
 		m_opts.AddOption(pwszSection, TranslateT("Show preview of event in popup"), g_plugin.bPreview);
-		m_opts.AddOption(pwszSection, TranslateT("Disable event notifications for instant messages"), g_plugin.bDisable);
+		m_opts.AddOption(pwszSection, TranslateT("Enable event notifications for instant messages"), g_plugin.bPopups);
 		m_opts.AddOption(pwszSection, TranslateT("Disable event notifications for group chats"), g_plugin.bMUCDisable);
 
 		pwszSection = TranslateT("Notify me of...");
@@ -417,12 +408,5 @@ int OptionsAdd(WPARAM addInfo, LPARAM)
 	odp.szTab.a = LPGEN("Message events");
 	odp.pDialog = new COptionsMessageDlg();
 	g_plugin.addOptions(addInfo, &odp);
-	return 0;
-}
-
-int Opt_DisableNEN(BOOL Status)
-{
-	g_plugin.bDisable = Status;
-	g_plugin.OptionsWrite(); // JK: really necessary to write everything here ????
 	return 0;
 }
