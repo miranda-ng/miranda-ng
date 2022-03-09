@@ -53,11 +53,15 @@ extern bool g_bModulesLoadedFired, g_bMirandaTerminated;
 char* GetPluginNameByInstance(HINSTANCE hInstance);
 int   LoadStdPlugins(void);
 int   LaunchServicePlugin(pluginEntry *p);
-int   PopupOptionsInit(WPARAM);
 
 /**** path.cpp *************************************************************************/
 
 void InitPathVar(void);
+
+/**** popupOptions.cpp *****************************************************************/
+
+int   PopupOptionsInit(WPARAM);
+void  KillModulePopups(HPLUGIN);
 
 /**** srmm.cpp *************************************************************************/
 

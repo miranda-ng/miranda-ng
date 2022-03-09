@@ -794,3 +794,4 @@ Netlib_SslWrite @877 NONAME
 ?IsDuplicateEvent@DB@@YA_NIAEAUDBEVENTINFO@@@Z @882 NONAME
 Srmm_GetButtonGap @883
 ?addPopupOption@CMPluginBase@@QEAAHPEBDAEAV?$CMOption@_N@@@Z @884 NONAME
+?addPopupOption@CMPluginBase@@QEAAHPEB_WAEAV?$CMOption@_N@@@Z @885 NONAME

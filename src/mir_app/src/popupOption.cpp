@@ -27,9 +27,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct MPopupOption
 {
-	const char *m_descr;
+	MPopupOption(CMPluginBase *pPlugin, const char *pszDescr, CMOption<bool> &pVal) :
+		m_plugin(pPlugin),
+		m_val(pVal),
+		m_descr(pszDescr)
+	{}
+
+	MPopupOption(CMPluginBase *pPlugin, const wchar_t *pwszDescr, CMOption<bool> &pVal) :
+		m_plugin(pPlugin),
+		m_val(pVal),
+		m_descr(pwszDescr)
+	{}
+
 	CMPluginBase *m_plugin;
-	CMOption<bool> &pVal;
+	CMOption<bool> &m_val;
+	CMStringW m_descr;
 };
 
 static OBJLIST<MPopupOption> g_arOptions(1);
@@ -38,9 +50,21 @@ static OBJLIST<MPopupOption> g_arOptions(1);
 
 int CMPluginBase::addPopupOption(const char *pszDescr, CMOption<bool> &pVal)
 {
-	MPopupOption tmp = { pszDescr, this, pVal };
-	g_arOptions.insert(new MPopupOption(tmp));
+	g_arOptions.insert(new MPopupOption(this, pszDescr, pVal));
 	return 0;
+}
+
+int CMPluginBase::addPopupOption(const wchar_t *pwszDescr, CMOption<bool> &pVal)
+{
+	g_arOptions.insert(new MPopupOption(this, pwszDescr, pVal));
+	return 0;
+}
+
+void KillModulePopups(HPLUGIN pPlugin)
+{
+	for (auto &it : g_arOptions.rev_iter())
+		if (it->m_plugin == pPlugin)
+			g_arOptions.remove(g_arOptions.indexOf(&it));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -64,12 +88,11 @@ public:
 		lvi.iSubItem = 0;
 
 		for (auto &it : g_arOptions) {
-			_A2T tmp(it->m_descr);
-			lvi.pszText = TranslateW_LP(tmp, it->m_plugin);
+			lvi.pszText = TranslateW_LP(it->m_descr, it->m_plugin);
 			lvi.lParam = LPARAM(it);
 	
 			int iRow = m_tree.InsertItem(&lvi);
-			m_tree.SetItemState(iRow, it->pVal ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
+			m_tree.SetItemState(iRow, it->m_val ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 		}
 
 		return true;
@@ -85,7 +108,7 @@ public:
 			m_tree.GetItem(&lvi);
 
 			auto *p = (MPopupOption *)lvi.lParam;
-			p->pVal = lvi.state == 0x2000;
+			p->m_val = lvi.state == 0x2000;
 		}
 		return true;
 	}

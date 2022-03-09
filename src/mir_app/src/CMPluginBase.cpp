@@ -110,6 +110,7 @@ static void wipePluginData(CMPluginBase *pPlugin)
 	KillModuleEffects(pPlugin);
 	KillModuleIcons(pPlugin);
 	KillModuleHotkeys(pPlugin);
+	KillModulePopups(pPlugin);
 	KillModuleSounds(pPlugin);
 	KillModuleExtraIcons(pPlugin);
 	KillModuleSrmmIcons(pPlugin);

@@ -236,6 +236,8 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	if ((m_tszSelectedLang = getUStringA("XmlLang")) == nullptr)
 		m_tszSelectedLang = mir_strdup("en");
+
+	g_plugin.addPopupOption(CMStringW(FORMAT, L"%s error notifications", m_tszUserName), m_bUsePopups);
 }
 
 CJabberProto::~CJabberProto()

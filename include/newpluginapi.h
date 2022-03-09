@@ -210,9 +210,11 @@ public:
 	int addEffect(struct EffectID *pEffect);
 	int addEffect(struct EffectIDW *pEffect);
 
+	int addPopupOption(const char *pszDescr, CMOption<bool> &pVar);
+	int addPopupOption(const wchar_t *pwszDescr, CMOption<bool> &pVal);
+
 	int addFrame(const struct CLISTFrame*);
 	int addHotkey(const struct HOTKEYDESC*);
-	int addPopupOption(const char *pszDescr, CMOption<bool> &pVar);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
 	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
 
