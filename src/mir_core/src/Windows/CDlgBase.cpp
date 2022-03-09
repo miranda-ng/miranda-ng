@@ -115,6 +115,11 @@ void CDlgBase::EndModal(INT_PTR nResult)
 	::EndDialog(m_hwnd, nResult);
 }
 
+HINSTANCE CDlgBase::GetInst() const
+{
+	return m_pPlugin.getInst();
+}
+
 void CDlgBase::NotifyChange(void)
 {
 	if (!m_bInitialized)

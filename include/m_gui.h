@@ -348,7 +348,8 @@ public:
 	void SetDraw(bool bEnable);
 	void NotifyChange(void); // sends a notification to a parent window
 
-	__forceinline HINSTANCE GetInst() const { return m_pPlugin.getInst(); }
+	HINSTANCE GetInst() const;
+
 	__forceinline HWND GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_bInitialized; }
