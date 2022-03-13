@@ -941,7 +941,6 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 			OmemoHandleDeviceList(from, itemsNode);
 			return;
 		}
-		//TODO:handle omemo device list
 	}
 
 	if (m_bEnableUserTune)
@@ -1570,6 +1569,16 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 				return;
 			}
 			hContact = DBCreateContact(from, nick, true, true);
+		}
+		if (hContact && m_bUseOMEMO)
+		{
+			char szBareJid[JABBER_MAX_JID_LEN];
+			XmlNodeIq iq("get", SerialNext());
+			iq << XATTR("from", m_ThreadInfo->fullJID);
+			iq << XATTR("to", from);
+			iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
+				<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
+			m_ThreadInfo->send(iq);
 		}
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
 			debugLogA("Receive presence online from %s (who is not in my roster)", from);

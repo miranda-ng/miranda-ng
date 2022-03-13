@@ -919,7 +919,6 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 
 	// omemo enabled in options, omemo enabled for contact
 	if (m_bUseOMEMO && OmemoIsEnabled(hContact) && !mir_strcmp(msgType, "chat")) {
-		// TODO: check if message encrypted for at least one session and return error if not
 		if (!OmemoEncryptMessage(m, pszSrc, hContact)) {
 			ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, 0, (LPARAM)TranslateT("No valid OMEMO session exists"));
 			return 0;
