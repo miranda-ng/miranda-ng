@@ -566,6 +566,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultSetPassword(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo* pInfo);
 	void       OnProcessLoginRq(ThreadData *info, uint32_t rq);
 	void       OnLoggedIn(void);
 
