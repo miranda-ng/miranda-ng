@@ -3,12 +3,9 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
-    <File Name="src/db_util.cpp"/>
-    <File Name="src/db_intf.cpp"/>
-    <File Name="src/db_ini.cpp"/>
-    <File Name="src/db_events.cpp"/>
     <File Name="src/database.cpp"/>
-    <File Name="src/contacts.cpp"/>
+    <File Name="src/db_intf.cpp"/>
+    <File Name="src/db_events.cpp"/>
     <File Name="src/contact.cpp"/>
     <File Name="src/CMPluginBase.cpp"/>
     <File Name="src/addcontact.cpp"/>

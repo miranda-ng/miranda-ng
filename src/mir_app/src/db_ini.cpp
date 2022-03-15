@@ -84,7 +84,7 @@ protected:
 	void ViewIni_OnClick(CCtrlBase*)
 	{
 		ptrW szPath(m_iniName.GetText());
-		#ifdef _WINDOWS_
+		#ifdef _WINDOWS
 			ShellExecute(m_hwnd, L"open", szPath, nullptr, nullptr, SW_SHOW);
 		#endif
 	}

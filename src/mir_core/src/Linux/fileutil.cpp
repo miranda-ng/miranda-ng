@@ -16,8 +16,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "../stdafx.h"
+#include <unistd.h>
 
 MIR_CORE_DLL(FILE*) _wfopen(const wchar_t *pwszFileName, const wchar_t *pwszMode)
 {
 	return fopen(T2Utf(pwszFileName), T2Utf(pwszMode));
+}
+
+MIR_CORE_DLL(int) _wchdir(const wchar_t *pwszPath)
+{
+	return chdir(T2Utf(pwszPath));
 }

@@ -165,7 +165,7 @@ static INT_PTR DbEventGetTextWorker(DBEVENTINFO *dbei, int codepage, int datatyp
 		char *buf = LPSTR(dbei->pBlob) + sizeof(uint32_t);
 		ptrW tszFileName(getEventString(dbei, buf));
 		ptrW tszDescription(getEventString(dbei, buf));
-		CMStringW wszText(tszFileName);
+		CMStringW wszText(tszFileName.get());
 		if (mir_wstrlen(tszDescription) > 0) {
 			wszText.Append(L": ");
 			wszText.Append(tszDescription);

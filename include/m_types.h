@@ -53,6 +53,29 @@ using namespace std;
 #define _TRUNCATE size_t(-1)
 #define INVALID_HANDLE_VALUE HANDLE(-1)
 
+#define MB_OK              0x00000000L
+#define MB_OKCANCEL        0x00000001L
+#define MB_YESNOCANCEL     0x00000003L
+#define MB_YESNO           0x00000004L
+#define MB_RETRYCANCEL     0x00000005L
+
+#define MB_ICONSTOP        0x00000010L
+#define MB_ICONERROR       0x00000010L
+#define MB_ICONQUESTION    0x00000020L
+#define MB_ICONEXCLAMATION 0x00000030L
+#define MB_ICONWARNING     0x00000030L
+#define MB_ICONINFORMATION 0x00000040L
+
+#define IDABORT    3
+#define IDCANCEL   2
+#define IDCONTINUE 11
+#define IDIGNORE   5
+#define IDNO       7
+#define IDOK       1
+#define IDRETRY    4
+#define IDTRYAGAIN 10
+#define IDYES      6
+
 typedef void          *HANDLE;
 typedef int            BOOL, SOCKET;
 typedef uint32_t       UINT, COLORREF;
@@ -70,6 +93,7 @@ struct SIZE { int width, height; };
 struct MSG;
 struct LOGFONTA;
 struct LOGFONTW;
+struct WIN32_FIND_DATA;
 
 #define MIR_EXPORT __attribute__((__visibility__("default")))
 #define MIR_IMPORT
@@ -87,6 +111,7 @@ struct LOGFONTW;
 #define _Printf_format_string_
 #define _countof(array) (sizeof(array) / sizeof(array[0]))
 #define __forceinline inline __attribute__ ((always_inline))
+#define __fallthrough
 
 #define InterlockedIncrement(x) __sync_fetch_and_add(x, 1)
 #define InterlockedDecrement(x) __sync_fetch_and_add(x, -1)

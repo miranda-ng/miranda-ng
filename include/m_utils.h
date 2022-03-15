@@ -228,11 +228,12 @@ EXTERN_C MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc);
 
 #define WNDCLASS_COLOURPICKER  "ColourPicker"
 
-#define CPM_SETCOLOUR		   0x1000	  //lParam = new colour
-#define CPM_GETCOLOUR		   0x1001	  //returns colour
-#define CPM_SETDEFAULTCOLOUR   0x1002	  //lParam = default, used as first custom colour
-#define CPM_GETDEFAULTCOLOUR   0x1003	  //returns colour
-#define CPN_COLOURCHANGED	   1		  //sent through WM_COMMAND
+#define CPM_SETCOLOUR           0x1000	  //lParam = new colour
+#define CPM_GETCOLOUR           0x1001	  //returns colour
+#define CPM_SETDEFAULTCOLOUR    0x1002	  //lParam = default, used as first custom colour
+#define CPM_GETDEFAULTCOLOUR    0x1003	  //returns colour
+
+#define CPN_COLOURCHANGED 1 //sent through WM_COMMAND
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Gets the filter strings for use in the open file dialog
@@ -242,6 +243,50 @@ EXTERN_C MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc);
 
 EXTERN_C MIR_CORE_DLL(HBITMAP) Bitmap_Load(const wchar_t *ptszFileName);
 EXTERN_C MIR_CORE_DLL(void) Bitmap_GetFilter(wchar_t *dest, size_t destLen);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Path class
+
+class MIR_CORE_EXPORT MFilePath : public CMStringW
+{
+	class MIR_CORE_EXPORT MFileIterator
+	{
+		class iterator
+		{
+			const MFileIterator &ptr;
+			int code = 0;
+
+		public:
+			__inline iterator(const MFileIterator &_p, int code) : ptr(_p) {}
+			iterator operator++();
+			__inline bool operator!=(const iterator &p) { return p.code == code; }
+			__inline operator const MFileIterator*() const { return &ptr; }
+		};
+
+	public:
+		MFileIterator(const wchar_t*);
+		~MFileIterator();
+
+		wchar_t m_path[MAX_PATH];
+		bool isDir() const;
+
+		__inline iterator begin() const;
+		__inline iterator end() const { return iterator(*this, 0); }
+	};
+
+public:
+	MFilePath(): CMStringW() {}
+	MFilePath(const wchar_t *init) : CMStringW(init) {}
+	MFilePath& operator=(const wchar_t *pszSrc) {
+		*this = pszSrc;
+		return *this;
+	}
+
+	bool isExist() const;
+	bool move(const wchar_t *pwszDest);
+
+	MFileIterator search();
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Converts a path to a relative path
@@ -376,6 +421,15 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Utils_ReplaceVarsW(const wchar_t *szData, MCONTAC
 			ptrW(Utils_ReplaceVarsW(str))
 		{}
 	};
+#endif
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// compatibility functions
+
+#ifndef _WINDOWS
+MIR_CORE_DLL(int) GetShortPathNameW(const wchar_t*, wchar_t*, int);
+MIR_CORE_DLL(int) MessageBoxW(HWND, const wchar_t*, const wchar_t*, int);
+MIR_CORE_DLL(int) WritePrivateProfileString(const wchar_t*, const wchar_t*, const wchar_t*, const wchar_t*);
 #endif
 
 /////////////////////////////////////////////////////////////////////////////////////////

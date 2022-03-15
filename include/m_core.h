@@ -633,6 +633,7 @@ inline int mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Siz
 	#endif
 #else
 	MIR_CORE_DLL(FILE*) _wfopen(const wchar_t *pwszFileName, const wchar_t *pwszMode);
+	MIR_CORE_DLL(int) _wchdir(const wchar_t *pwszPath);
 
 	template <size_t _Size>
 	inline wchar_t* wcsncpy_s(wchar_t(&buffer)[_Size], const wchar_t *src, size_t len)
