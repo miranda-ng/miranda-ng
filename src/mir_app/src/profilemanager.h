@@ -26,13 +26,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct PROFILEMANAGERDATA
 {
-	wchar_t *ptszProfile;     // in/out
-	wchar_t *ptszProfileDir;  // in/out
-	BOOL noProfiles;      // in
+	PROFILEMANAGERDATA(MFilePath &str) :
+		m_profile(str)
+	{}
+
+	MFilePath &m_profile;     // in/out
+	bool noProfiles = false;  // in
 	
-	BOOL bRun;            // out
-	BOOL newProfile;      // out
-	DATABASELINK *dblink; // out
+	bool bRun = false;        // out
+	bool newProfile = false;  // out
+	DATABASELINK *dblink = 0; // out
 };
 
 char* makeFileName(const wchar_t *tszOriginalName);
@@ -40,7 +43,7 @@ int touchDatabase(const wchar_t *tszProfile, DATABASELINK **pDblink);
 int getProfileManager(PROFILEMANAGERDATA *pd);
 int getProfilePath(wchar_t *buf, size_t cch);
 int isValidProfileName(const wchar_t *name);
-bool shouldAutoCreate(wchar_t *szProfile);
+bool shouldAutoCreate(const MFilePath &szProfile);
 
 extern wchar_t g_profileDir[MAX_PATH], g_profileName[MAX_PATH], g_shortProfileName[MAX_PATH];
 extern bool  g_bDbCreated;

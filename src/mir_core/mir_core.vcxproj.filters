@@ -176,6 +176,9 @@
     <ClCompile Include="src\Windows\winver.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\Windows\fileutil.cpp">
+      <Filter>Source Files\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\miranda.h">

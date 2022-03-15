@@ -251,36 +251,37 @@ class MIR_CORE_EXPORT MFilePath : public CMStringW
 {
 	class MIR_CORE_EXPORT MFileIterator
 	{
+		#ifdef _WINDOWS
+			WIN32_FIND_DATAW m_data;
+			HANDLE m_hFind = INVALID_HANDLE_VALUE;
+		#endif
+
 		class iterator
 		{
-			const MFileIterator &ptr;
-			int code = 0;
+			MFileIterator *ptr;
 
 		public:
-			__inline iterator(const MFileIterator &_p, int code) : ptr(_p) {}
+			__inline iterator(MFileIterator *_p) : ptr(_p) {}
 			iterator operator++();
-			__inline bool operator!=(const iterator &p) { return p.code == code; }
-			__inline operator const MFileIterator*() const { return &ptr; }
+			__inline bool operator!=(const iterator &p) { return p.ptr != ptr; }
+			__inline operator const MFileIterator*() const { return ptr; }
 		};
 
 	public:
 		MFileIterator(const wchar_t*);
 		~MFileIterator();
 
-		wchar_t m_path[MAX_PATH];
+		__inline const wchar_t* getPath() const { return m_data.cFileName; }
+
 		bool isDir() const;
 
-		__inline iterator begin() const;
-		__inline iterator end() const { return iterator(*this, 0); }
+		__inline iterator begin();
+		__inline iterator end() { return iterator(nullptr); }
 	};
 
 public:
 	MFilePath(): CMStringW() {}
 	MFilePath(const wchar_t *init) : CMStringW(init) {}
-	MFilePath& operator=(const wchar_t *pszSrc) {
-		*this = pszSrc;
-		return *this;
-	}
 
 	bool isExist() const;
 	bool move(const wchar_t *pwszDest);

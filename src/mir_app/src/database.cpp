@@ -184,7 +184,7 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 {
 	MFilePath pfd, path, path2;
 	if (isRootDir)
-		pfd = VARSW(L"%miranda_path%\\*.dat");
+		pfd = VARSW(L"%miranda_path%\\*.dat").get();
 	else
 		pfd.Format(L"%s\\*.dat", profiledir);
 
@@ -193,7 +193,7 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 		if (idx != -1)
 			pfd.Trim(idx);
 
-		auto *wszFileName = NEWWSTR_ALLOCA(it.m_path);
+		auto *wszFileName = NEWWSTR_ALLOCA(it.getPath());
 		auto *c = wcsrchr(wszFileName, '.'); if (c) *c = 0;
 
 		path.Format(L"%s\\%s", pfd.c_str(), wszFileName);
@@ -205,14 +205,14 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 			wchar_t buf[512];
 			mir_snwprintf(buf,
 				TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s\nBecause profile with this name already exists. Please resolve the issue manually."),
-				path, path2);
+				path.c_str(), path2.c_str());
 			MessageBoxW(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 		}
 		else if (!path.move(path2)) {
 			wchar_t buf[512];
 			mir_snwprintf(buf,
 				TranslateT("Miranda is trying to upgrade your profile structure.\nIt cannot move profile %s to the new location %s automatically\nMost likely this is due to insufficient privileges. Please move profile manually."),
-				path, path2);
+				path.c_str(), path2.c_str());
 			MessageBoxW(nullptr, buf, L"Miranda NG", MB_ICONERROR | MB_OK);
 			break;
 		}
@@ -220,7 +220,7 @@ static void moveProfileDirProfiles(const wchar_t *profiledir, bool isRootDir)
 }
 
 // returns 1 if a single profile (full path) is found within the profile dir
-static int getProfile1(MFilePath &szProfile, wchar_t *profiledir, BOOL * noProfiles)
+static int getProfile1(MFilePath &szProfile, wchar_t *profiledir, bool *noProfiles)
 {
 	int found = 0;
 
@@ -241,11 +241,11 @@ static int getProfile1(MFilePath &szProfile, wchar_t *profiledir, BOOL * noProfi
 
 		for (auto &it: searchspec.search()) {
 			// make sure the first hit is actually a *.dat file
-			if (!it.isDir())
+			if (!it.isDir() || !wcscmp(it.getPath(), L".") || !wcscmp(it.getPath(), L".."))
 				continue;
 
 			MFilePath newProfile;
-			newProfile.Format(L"%s\\%s\\%s.dat", profiledir, it.m_path, it.m_path);
+			newProfile.Format(L"%s\\%s\\%s.dat", profiledir, it.getPath(), it.getPath());
 			if (!newProfile.isExist())
 				continue;
 
@@ -308,14 +308,13 @@ static int getProfile(MFilePath &szProfile)
 		return 0;
 	}
 
-	PROFILEMANAGERDATA pd = {};
+	PROFILEMANAGERDATA pd(szProfile);
 	if (CmdLine_GetOption(L"ForceShowPM")) {
 LBL_Show:
-		pd.ptszProfile = szProfile.GetBuffer();
-		pd.ptszProfileDir = g_profileDir;
 		if (!getProfileManager(&pd))
 			return 0;
 
+		szProfile = pd.m_profile;
 		return 1;
 	}
 
