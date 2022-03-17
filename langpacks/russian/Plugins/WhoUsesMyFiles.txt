@@ -11,9 +11,9 @@
 [WUMF: Current connections]
 WUMF: Текущие соединения
 [Popup delay settings]
-Настройки показа Popup
+Длительность всплывающих окон
 [Timeout (seconds)]
-Задержка (секунд)
+Длительность (секунд)
 [Background color]
 Цвет фона
 [Text color]
@@ -27,7 +27,7 @@ WUMF: Текущие соединения
 [Custom]
 Настроить
 [Popup color settings]
-Настройки цвета Popup
+Цвета всплывающих окон
 [Use Windows colors]
 Цвета Windows
 [Use default colors]
@@ -69,13 +69,9 @@ WUMF: Текущие соединения
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Ошибка создания меню
-[Enable WUMF popups]
-Включить окна WUMF
-[Disable WUMF popups]
-Выключить окна WUMF
 [Show connections list]
 Показать список подключений
-[Popups]
-Всплывающие окна
+[WUMF popups]
+Всплывающие окна WUMF
 [WUMF: Show connections]
 WUMF: Показать подключения

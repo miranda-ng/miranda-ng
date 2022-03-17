@@ -518,8 +518,8 @@
 Текст
 [Background]
 Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
+[(0 means default setting and -1 means indefinite time)]
+(0 — значение по умолчанию, -1 — бесконечно)
 [Message]
 Сообщение
 [Undo]
@@ -2607,6 +2607,9 @@ xСтатус
 Перезапустить программу сейчас?
 [Plugins]
 Плагины
+;file \src\mir_app\src\popupOption.cpp
+[Enabled items]
+
 ;file \src\mir_app\src\profilemanager.cpp
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.

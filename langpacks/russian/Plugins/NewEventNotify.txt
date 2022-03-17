@@ -18,8 +18,8 @@
 Текст
 [Background]
 Фон
-[Timeout]
-Время задержки
+[Timeout, secs]
+Длительность, сек.
 [Message]
 Сообщение
 [File]
@@ -30,6 +30,8 @@
 Другое
 [Preview]
 Тест
+[(timeout -1 means forever, 0 - default)]
+(-1 - бесконечно, 0 - значение по умолчанию)
 [Don't show popup when message dialog is already open]
 Не показывать, если открыто окно
 [Hide popup when sending new message]
@@ -50,18 +52,16 @@
 Последнее первым
 [Last message display last]
 Последнее последним
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Всплывающие окна
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Уведомления о новых событиях
 ;file \plugins\NewEventNotify\src\options.cpp
 [General options]
 Общие параметры
-[Show entry in the Popups menu]
-Пункт в меню "Всплывающие окна"
 [Show preview of event in popup]
 Предпросмотр события в окне
-[Disable event notifications for instant messages]
-Выключить уведомления о событиях сообщений
+[Enable event notifications for instant messages]
+Включить уведомления о событиях сообщений
 [Disable event notifications for group chats]
 Выключить уведомления о событиях групповых чатов
 [Notify me of...]
@@ -88,7 +88,9 @@
 Выключить для прочтённых
 [Event Notify]
 События
-[Main]
+[Popups]
+Всплывающие окна
+[Main options]
 Основные настройки
 [Message events]
 Сообщения
@@ -122,7 +124,3 @@
 Неизвестное событие
 [Notify of new events]
 Уведомлять о новых событиях
-[Enable new event notification]
-Вкл. уведомления о событиях
-[Disable new event notification]
-Выкл. уведомления о событиях

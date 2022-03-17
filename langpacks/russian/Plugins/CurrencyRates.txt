@@ -71,7 +71,7 @@
 [Text color]
 Цвет текста
 [Timeout]
-Задержка
+Длительность
 [Default]
 По умолчанию
 [Custom]

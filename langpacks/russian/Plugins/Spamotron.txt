@@ -99,7 +99,7 @@
 [Background]
 Фон
 [Timeout (sec)]
-Время (сек)
+Длительность (сек)
 [Contact blocked]
 Контакт заблокирован
 [Contact approved]
@@ -111,7 +111,7 @@
 [Use Windows colors]
 Цвета Windows
 [Default timeout]
-Время по умолчанию
+Длительность по умолчанию
 [Preview]
 Предпросмотр
 ;file \plugins\Spamotron\src\bayes.cpp

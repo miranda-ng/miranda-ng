@@ -60,10 +60,6 @@
 Резервировать базу данных
 [Save profile as...]
 Сохранить профиль как...
-[Enable &AutoBackups notification]
-Включить уведомления о &резервном копировании
-[Disable &AutoBackups notification]
-Выключить уведомления о &резервном копировании
 [Miranda NG databases]
 Базы данных Miranda NG
 [Compressed Miranda NG databases]
@@ -72,12 +68,12 @@
 Все файлы
 [Database]
 База данных
-[Popups]
-Всплывающие окна
 [Database backups]
 Резервирование базы данных
 [Backup folder]
 Папка резервирования
+[AutoBackups notifications]
+Уведомления о резервном копировании
 ;file \plugins\Db_autobackups\src\options.cpp
 [days]
 дней

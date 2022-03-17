@@ -58,10 +58,8 @@
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 Текущий IP-адрес
-[Enable &IP change notification]
-Включить уведомление об изменении &IP-адреса
-[Disable &IP change notification]
-Отключить уведомление об изменении &IP-адреса
+[IP change notification]
+Уведомление об изменении IP-адреса
 [Show my &IP addresses]
 Показать мои &IP-адреса
 [Proxy settings && interfaces]
@@ -70,10 +68,6 @@
 Отключить прокси
 [Enable proxy]
 Включить прокси
-[Popups]
-Всплывающие окна
-[IP change notification]
-Уведомление об изменении IP-адреса
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 Службы

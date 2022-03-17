@@ -11,9 +11,9 @@
 [Delay between pings (secs):]
 Задержка между пингами (сек):
 [Timeout]
-Таймаут
+Время истекло
 [Ping timeout (secs):]
-Таймаут пингов (сек):
+Время ожидания (сек):
 [Logging]
 История
 [Log to File]
@@ -148,9 +148,9 @@ TCP соединение
 [%s - reply, %d]
 %s - ответ, %d
 [Ping Timeout]
-Таймаут пингов
+Время истекло
 [%s - timeout]
-%s - таймаут
+%s - время истекло
 [Disable]
 Выключить
 [enabled]

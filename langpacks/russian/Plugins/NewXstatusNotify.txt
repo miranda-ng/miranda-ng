@@ -111,7 +111,7 @@ xСтатус
 [Read status message]
 Читать статусное сообщение
 [Timeout]
-Таймаут
+Длительность
 [Sec]
 с
 [Connection timeout]
@@ -229,10 +229,6 @@ xСтатус
 [(default sound)]
 (по умолчанию)
 ;file \plugins\NewXstatusNotify\src\main.cpp
-[Notification enabled]
-Уведомление включено
-[Notification disabled]
-Уведомление выключено
 [<no status message>]
 <нет сообщения статуса>
 [Contact]
@@ -329,12 +325,8 @@ xСтатус удалён
 xСтатус изменён
 [Extra status message removed]
 Удалено сообщение xСтатуса
-[Enable status notification]
-Включить уведомления о смене статуса
-[Disable status notification]
-Выключить уведомления о смене статуса
-[Toggle status notification]
-Вкл/Выкл уведомления о смене статуса
+[Status notifications]
+Уведомления о смене статуса
 [New Status Notify]
 Смена статуса
 [Status change]

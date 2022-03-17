@@ -85,7 +85,7 @@
 [On right click]
 Правый щелчок
 [Timeout]
-Таймаут
+Длительность
 [0 = Default]
 0=Умолчание
 [-1 = Infinite]

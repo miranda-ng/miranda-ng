@@ -55,7 +55,7 @@
 [Text]
 Текст
 [Timeout]
-Задержка
+Длительность
 [Permanent]
 Постоянно
 [Custom]

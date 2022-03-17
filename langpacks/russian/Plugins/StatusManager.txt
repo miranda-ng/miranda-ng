@@ -123,7 +123,7 @@ Cтатус-профиль
 [Set after]
 через
 [Timeout]
-Таймаут
+Длительность
 [s]
 с
 [Set window location]
@@ -207,7 +207,7 @@ Cтатус-профиль
 [Check interval (secs)]
 Интервал проверки (сек)
 [Confirm dialog timeout (secs)]
-Интервал подтверждения (сек)
+Длительность подтверждения (сек)
 [Monitor keyboard activity]
 Следить за активностью клавиатуры
 [Monitor mouse activity]

@@ -53,7 +53,7 @@
 [Dialog]
 Диалог
 [Timeout:]
-Таймаут:
+Длительность:
 [seconds]
 секунд
 [Notify for]

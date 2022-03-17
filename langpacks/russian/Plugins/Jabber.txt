@@ -1434,8 +1434,6 @@ OMEMO: Новая сессия
 Исправлять время во входящих сообщениях
 [Disable frame]
 Выключить фрейм
-[Display popups with errors]
-Показывать всплывающие окна с ошибками
 [Enable XMPP link processing (requires AssocMgr)]
 Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
 [Embrace picture URLs with [img]]

@@ -23,9 +23,9 @@
 [Preview]
 Тест
 [Timeout]
-Таймаут
+Длительность
 [Special values of the "Timeout":\n -1 - infinity, 0 - use default timeout value]
-Специальные значения "таймаута":\n -1 - постоянно, 0 - значение по умолчанию
+-1 - постоянно, 0 - значение по умолчанию
 [Emit a sound]
 Играть звук
 ;file \plugins\MsgPopup\src\main.cpp

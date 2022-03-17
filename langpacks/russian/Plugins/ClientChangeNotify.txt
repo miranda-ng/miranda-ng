@@ -33,7 +33,7 @@
 [On right click]
 Правый щелчок
 [Timeout]
-Задержка
+Длительность
 [Sec]
 сек.
 [0 = Default]
@@ -61,14 +61,10 @@
 поменял(а) клиент на %s
 [%s (was %s)]
 %s (был %s)
-[Disable c&lient change notification]
-Выключить уведомления о смене к&лиента
-[Enable c&lient change notification]
-Включить уведомления о смене к&лиента
+[Client change notifications]
+Уведомления о смене клиента
 [ClientChangeNotify: Client changed]
 Уведомление о смене клиента: Клиент изменился
-[Popups]
-Всплывающие окна
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Ошибка #%d
@@ -89,5 +85,7 @@
 Открыть историю контакта
 [Do nothing]
 Ничего не делать
+[Popups]
+Всплывающие окна
 [ClientChangeNotify]
 Уведомление о смене клиента

@@ -149,9 +149,9 @@ URL доп. информации
 [Right Click]
 Правая
 [Popup timeout]
-Задержка окна
+Длительность всплывающих окон
 [Timeout]
-Задержка
+Длительность
 [seconds]
 секунд
 [Default]
@@ -328,16 +328,14 @@ INI файл погоды для этой станции не найден (20)
 Полный прогноз
 [Weather Update]
 Обновление прогноза
-[Popup]
-Всплывающее окно
-[No Popup]
-Без окон
 [Edit Settings]
 Изменить настройки
 [Condition Changed]
 Погода изменилась
 [Alert Issued]
 Погодное предупреждение
+[Weather notifications]
+Погодные уведомления
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Текущая информация о погоде для %s.
@@ -480,10 +478,6 @@ INI файл погоды для этой станции не найден (20)
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID города
-[Disable &weather notification]
-Выключить уведомления о смене &погоды
-[Enable &weather notification]
-Включить уведомления о смене &погоды
 [Update Weather]
 Обновить погоду
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ ID города
 Обновить погоду
 [Remove Old Data then Update All]
 Удалить данные и обновить всё
-[Weather Notification]
-Уведомление о погоде
 [Display in a frame]
 Показывать во фрейме
 ;file \protocols\Weather\src\weather_update.cpp

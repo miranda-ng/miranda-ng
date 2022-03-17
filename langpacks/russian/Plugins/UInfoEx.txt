@@ -133,7 +133,7 @@
 [Use default colors]
 Цвета по умолчанию
 [Timeout]
-Задержка
+Длительность
 [Default]
 По умолчанию
 [Custom]

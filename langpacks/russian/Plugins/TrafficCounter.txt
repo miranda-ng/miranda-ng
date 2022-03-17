@@ -31,7 +31,7 @@
 [Reset to default]
 Сброс на умолчания
 [Popup timeout]
-Длительность окна
+Длительность
 [Default]
 По умолчанию
 [Custom]

@@ -131,9 +131,9 @@ URL:
 [Save as raw data]
 
 [Popup timeout]
-Задержка окна
+Длительность всплывающих окон
 [Timeout]
-Задержка
+Длительность
 [Default]
 По умолчанию
 [Permanent]
