@@ -35,3 +35,13 @@ copy libcrypto-1_1.mir %MIRANDA_DEV_ROOT%\bin16\Debug64\Libs
 copy libcrypto-1_1.pdb %MIRANDA_DEV_ROOT%\bin16\Debug64\Libs
 copy libssl-1_1.mir    %MIRANDA_DEV_ROOT%\bin16\Debug64\Libs
 copy libssl-1_1.pdb    %MIRANDA_DEV_ROOT%\bin16\Debug64\Libs
+
+copy libcrypto-1_1.mir %MIRANDA_DEV_ROOT%\bin17\Release64\Libs
+copy libcrypto-1_1.pdb %MIRANDA_DEV_ROOT%\bin17\Release64\Libs
+copy libssl-1_1.mir    %MIRANDA_DEV_ROOT%\bin17\Release64\Libs
+copy libssl-1_1.pdb    %MIRANDA_DEV_ROOT%\bin17\Release64\Libs
+
+copy libcrypto-1_1.mir %MIRANDA_DEV_ROOT%\bin17\Debug64\Libs
+copy libcrypto-1_1.pdb %MIRANDA_DEV_ROOT%\bin17\Debug64\Libs
+copy libssl-1_1.mir    %MIRANDA_DEV_ROOT%\bin17\Debug64\Libs
+copy libssl-1_1.pdb    %MIRANDA_DEV_ROOT%\bin17\Debug64\Libs
