@@ -2608,7 +2608,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (iIndex < SendQueue::NR_SENDJOBS) { // single sendjob timer
 				SendJob *job = sendQueue->getJobByIndex(iIndex);
 				KillTimer(m_hwnd, wParam);
-				job->wszErrorMsg.Format(TranslateT("Delivery failure: %s"), TranslateT("The message send timed out"));
+
+				replaceStrW(job->pwszErrorMsg, CMStringW(FORMAT, TranslateT("Delivery failure: %s"), TranslateT("The message send timed out")));
 				job->iStatus = SendQueue::SQ_ERROR;
 				if (!NEN::bNoSounds && !m_pContainer->m_flags.m_bNoSound)
 					Skin_PlaySound("SendError");

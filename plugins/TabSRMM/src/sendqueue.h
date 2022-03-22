@@ -47,7 +47,7 @@ struct SendJob
 	MCONTACT  hContact;
 	HWND      hOwnerWnd;
 	unsigned  iStatus;
-	CMStringW wszErrorMsg;
+	wchar_t*  pwszErrorMsg;
 	uint32_t  dwFlags;
 	int       iAcksNeeded;
 	HANDLE    hEventSplit;
@@ -66,7 +66,7 @@ public:
 
 	SendQueue()
 	{
-		memset(m_jobs, 0, (sizeof(SendJob) * NR_SENDJOBS));
+		memset(m_jobs, 0, sizeof(m_jobs));
 		m_currentIndex = 0;
 	}
 
@@ -75,8 +75,10 @@ public:
 
 	~SendQueue()
 	{
-		for (int i = 0; i < NR_SENDJOBS; i++)
-			mir_free(m_jobs[i].szSendBuffer);
+		for (auto &it : m_jobs) {
+			mir_free(it.pwszErrorMsg);
+			mir_free(it.szSendBuffer);
+		}
 	}
 
 	SendJob *getJobByIndex(const int index) { return(&m_jobs[index]); }

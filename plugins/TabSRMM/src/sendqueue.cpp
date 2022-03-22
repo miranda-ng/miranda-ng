@@ -50,7 +50,7 @@ void SendQueue::handleError(CMsgDialog *dat, const int iEntry) const
 	if (!dat) return;
 
 	dat->m_iCurrentQueueError = iEntry;
-	logError(dat, iEntry, m_jobs[iEntry].wszErrorMsg);
+	logError(dat, iEntry, m_jobs[iEntry].pwszErrorMsg);
 	recallFailed(dat, iEntry);
 	showErrorControls(dat, TRUE);
 	::HandleIconFeedback(dat, PluginConfig.g_iconErr);
@@ -437,7 +437,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 			if (!NEN::bNoSounds && !dat->m_pContainer->m_flags.m_bNoSound)
 				Skin_PlaySound("SendError");
 
-			job.wszErrorMsg.Format(TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam);
+			replaceStrW(job.pwszErrorMsg, CMStringW(FORMAT, TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam));
 			job.iStatus = SQ_ERROR;
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
 			if (!dat->m_bErrorState)
