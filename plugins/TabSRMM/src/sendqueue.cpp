@@ -49,11 +49,8 @@ void SendQueue::handleError(CMsgDialog *dat, const int iEntry) const
 {
 	if (!dat) return;
 
-	wchar_t szErrorMsg[500];
-
 	dat->m_iCurrentQueueError = iEntry;
-	wcsncpy_s(szErrorMsg, m_jobs[iEntry].szErrorMsg, _TRUNCATE);
-	logError(dat, iEntry, szErrorMsg);
+	logError(dat, iEntry, m_jobs[iEntry].wszErrorMsg);
 	recallFailed(dat, iEntry);
 	showErrorControls(dat, TRUE);
 	::HandleIconFeedback(dat, PluginConfig.g_iconErr);
@@ -413,15 +410,14 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 
-	TContainerData *m_pContainer = nullptr;
-	if (dat)
-		m_pContainer = dat->m_pContainer;
-
 	int iFound = (int)(LOWORD(wParam));
+	if (iFound < 0 || iFound > _countof(m_jobs))
+		return 0;
+
 	SendJob &job = m_jobs[iFound];
 
 	if (job.iStatus == SQ_ERROR) { // received ack for a job which is already in error state...
-		if (dat) {                  // window still open
+		if (dat) {
 			if (dat->m_iCurrentQueueError == iFound) {
 				dat->m_iCurrentQueueError = -1;
 				showErrorControls(dat, FALSE);
@@ -438,10 +434,10 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		if (dat) {
 			// "hard" errors are handled differently in multisend. There is no option to retry - once failed, they
 			// are discarded and the user is notified with a small log message.
-			if (!NEN::bNoSounds && !m_pContainer->m_flags.m_bNoSound)
+			if (!NEN::bNoSounds && !dat->m_pContainer->m_flags.m_bNoSound)
 				Skin_PlaySound("SendError");
 
-			mir_snwprintf(job.szErrorMsg, TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam);
+			job.wszErrorMsg.Format(TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam);
 			job.iStatus = SQ_ERROR;
 			KillTimer(dat->GetHwnd(), TIMERID_MSGSEND + iFound);
 			if (!dat->m_bErrorState)
@@ -480,8 +476,8 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	job.szSendBuffer = (char*)dbei.pBlob;
 	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
 
-	if (m_pContainer)
-		if (!NEN::bNoSounds && !m_pContainer->m_flags.m_bNoSound)
+	if (dat)
+		if (!NEN::bNoSounds && !dat->m_pContainer->m_flags.m_bNoSound)
 			Skin_PlaySound("SendMsg");
 
 	Srmm_Broadcast(DM_APPENDMCEVENT, job.hContact, hNewEvent);

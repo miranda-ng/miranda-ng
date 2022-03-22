@@ -40,19 +40,19 @@
 
 struct SendJob
 {
-	int      iSendId;
-	char    *szSendBuffer;
-	size_t   iSendLength;	// length of message in utf-8 octets (used to check maxlen)
-	int      sendCount;
-	MCONTACT hContact;
-	HWND     hOwnerWnd;
-	unsigned iStatus;
-	wchar_t    szErrorMsg[128];
-	uint32_t    dwFlags;
-	int      iAcksNeeded;
-	HANDLE   hEventSplit;
-	int      chunkSize;
-	uint32_t    dwTime;
+	int       iSendId;
+	char*     szSendBuffer;
+	size_t    iSendLength;	// length of message in utf-8 octets (used to check maxlen)
+	int       sendCount;
+	MCONTACT  hContact;
+	HWND      hOwnerWnd;
+	unsigned  iStatus;
+	CMStringW wszErrorMsg;
+	uint32_t  dwFlags;
+	int       iAcksNeeded;
+	HANDLE    hEventSplit;
+	int       chunkSize;
+	uint32_t  dwTime;
 };
 
 class SendQueue {
