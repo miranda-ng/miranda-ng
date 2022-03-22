@@ -33,8 +33,6 @@ struct PROFILEMANAGERDATA
 	MFilePath &m_profile;     // in/out
 	bool noProfiles = false;  // in
 	
-	bool bRun = false;        // out
-	bool newProfile = false;  // out
 	DATABASELINK *dblink = 0; // out
 };
 

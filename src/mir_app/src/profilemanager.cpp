@@ -269,13 +269,10 @@ public:
 
 		// profile placed in "profile_name" subfolder
 		m_pd->m_profile.Format(L"%s\\%s\\%s.dat", g_profileDir, szName.get(), szName.get());
-		m_pd->newProfile = 1;
 		m_pd->dblink = (DATABASELINK *)m_driverList.GetItemData(curSel);
 
 		if (CreateProfile(m_pd->m_profile, m_pd->dblink) == 0)
 			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-		else
-			m_pd->bRun = true;
 		return true;
 	}
 };
@@ -351,12 +348,10 @@ class CChooseProfileDlg : public CDlgBase
 
 		case 2:
 			m_btnOk.SetText(TranslateT("&Convert"));
-			m_pd->bRun = false;
 			break;
 
 		default:
 			m_btnOk.SetText(TranslateT("&Run"));
-			m_pd->bRun = true;
 		}
 
 		// profile is placed in "profile_name" subfolder
