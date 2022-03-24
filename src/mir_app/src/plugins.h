@@ -76,8 +76,8 @@ struct MuuidReplacement
 	MUUID uuid;  // default interface plugin
 	wchar_t* stdplugname;
 	pluginEntry* pImpl; // replacement plugin
-};
 
-bool LoadCorePlugin(MuuidReplacement&);
+	bool Load();
+};
 
 MUUID* GetPluginInterfaces(const wchar_t *ptszFileName, bool &bIsPlugin);

@@ -168,17 +168,35 @@ int getDefaultPluginIdx(const MUUID &muuid)
 	return -1;
 }
 
-int LoadStdPlugins()
+bool MuuidReplacement::Load()
 {
-	for (auto &it : pluginDefault) {
-		if (it.pImpl)
-			continue;
+	wchar_t exe[MAX_PATH], tszPlugName[MAX_PATH];
+	GetModuleFileName(nullptr, exe, _countof(exe));
+	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
 
-		if (!LoadCorePlugin(it))
-			return 1;
+	mir_snwprintf(tszPlugName, L"%s.dll", stdplugname);
+	pluginEntry *ppe = OpenPlugin(tszPlugName, L"Core", exe);
+	if (ppe == nullptr) {
+LBL_Error:
+		Plugin_UnloadDyn(ppe);
+		pImpl = nullptr;
+		return false;
 	}
 
-	return 0;
+	ppe->bIsCore = true;
+
+	if (!TryLoadPlugin(ppe, true))
+		goto LBL_Error;
+
+	CMPluginBase *ppb = ppe->m_pPlugin;
+	if (g_bModulesLoadedFired) {
+		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
+			goto LBL_Error;
+
+		NotifyEventHooks(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
+	}
+	pImpl = ppe;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -281,6 +299,19 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	if (p == nullptr)
 		return true;
 
+	// mark default plugins to be loaded
+	if (!p->bIsCore)
+		for (auto &it : pluginDefault)
+			if (it.pImpl == p)
+				if (!it.Load()) {
+					MessageBoxW(nullptr, 
+						CMStringW(FORMAT, TranslateT("Plugin %S cannot be unloaded because the core plugin is missing"), p->pluginname), 
+						L"Miranda", MB_ICONERROR | MB_OK);
+					it.pImpl = p;
+					return false;
+				}
+
+	// if plugin has active resources, kill them forcibly
 	CMPluginBase *ppb = p->m_pPlugin;
 	if (ppb != nullptr) {
 		if (HINSTANCE hInst = ppb->getInst()) {
@@ -301,12 +332,6 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 
 		NotifyFastHook(hevUnloadModule, (WPARAM)&ppb, (LPARAM)ppb->getInst());
 	}
-
-	// mark default plugins to be loaded
-	if (!p->bIsCore)
-		for (auto &it : pluginDefault)
-			if (it.pImpl == p)
-				it.pImpl = nullptr;
 
 	Plugin_Uninit(p);
 	return true;
@@ -502,44 +527,6 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Core plugins support
-
-static wchar_t tszCoreErr[] = LPGENW("Core plugin '%s' cannot be loaded or missing. Miranda will exit now");
-
-bool LoadCorePlugin(MuuidReplacement &mr)
-{
-	wchar_t exe[MAX_PATH], tszPlugName[MAX_PATH];
-	GetModuleFileName(nullptr, exe, _countof(exe));
-	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
-
-	mir_snwprintf(tszPlugName, L"%s.dll", mr.stdplugname);
-	pluginEntry* ppe = OpenPlugin(tszPlugName, L"Core", exe);
-	if (ppe == nullptr) {
-LBL_Error:
-		MessageBox(nullptr, CMStringW(FORMAT, TranslateW(tszCoreErr), mr.stdplugname), TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
-
-		Plugin_UnloadDyn(ppe);
-		mr.pImpl = nullptr;
-		return false;
-	}
-
-	ppe->bIsCore = true;
-
-	if (!TryLoadPlugin(ppe, true))
-		goto LBL_Error;
-
-	CMPluginBase *ppb = ppe->m_pPlugin;
-	if (g_bModulesLoadedFired) {
-		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
-			goto LBL_Error;
-
-		NotifyEventHooks(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
-	}
-	mr.pImpl = ppe;
-	return true;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Contact list plugins support
 
 static bool loadClistModule(wchar_t *exe, pluginEntry *p)
@@ -586,7 +573,7 @@ static pluginEntry* getCListModule(wchar_t *exe)
 	}
 
 	MuuidReplacement &stdClist = pluginDefault[0];
-	if (LoadCorePlugin(stdClist)) {
+	if (stdClist.Load()) {
 		mir_snwprintf(tszFullPath, L"%s\\Core\\%s.dll", exe, stdClist.stdplugname);
 		if (loadClistModule(tszFullPath, stdClist.pImpl))
 			return stdClist.pImpl;
@@ -629,7 +616,7 @@ int LaunchServicePlugin(pluginEntry *p)
 	if (res != CALLSERVICE_NOTFOUND)
 		return res;
 
-	MessageBox(nullptr, TranslateT("Unable to load plugin in service mode!"), _A2T(p->pluginname), MB_ICONSTOP);
+	MessageBoxW(nullptr, TranslateT("Unable to load plugin in service mode!"), _A2T(p->pluginname), MB_ICONSTOP);
 	Plugin_Uninit(p);
 	return SERVICE_FAILED;
 }
@@ -711,9 +698,9 @@ int LoadNewPluginsModule(void)
 	if (plugin_clist == nullptr) {
 		// result = 0, no clist_* can be found
 		if (clistPlugins.getCount())
-			MessageBox(nullptr, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), L"Miranda NG", MB_OK | MB_ICONERROR);
+			MessageBoxW(nullptr, TranslateT("Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any."), L"Miranda NG", MB_OK | MB_ICONERROR);
 		else
-			MessageBox(nullptr, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin."), L"Miranda NG", MB_OK | MB_ICONERROR);
+			MessageBoxW(nullptr, TranslateT("Can't find a contact list plugin! You need StdClist or any other contact list plugin."), L"Miranda NG", MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
@@ -735,6 +722,26 @@ int LoadNewPluginsModule(void)
 			Plugin_Uninit(it);
 
 	HookEvent(ME_OPT_INITIALISE, PluginOptionsInit);
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// loads all standard plugins.
+
+int LoadStdPlugins()
+{
+	for (auto &it : pluginDefault) {
+		if (it.pImpl)
+			continue;
+
+		if (!it.Load()) {
+			MessageBoxW(nullptr, 
+				CMStringW(FORMAT, LPGENW("Core plugin '%s' cannot be loaded or missing. Miranda will exit now"), it.stdplugname),
+				TranslateT("Fatal error"), MB_OK | MB_ICONSTOP);
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
@@ -763,7 +770,7 @@ int LoadNewPluginsModuleInfos(void)
 	enumPlugins(scanPluginsDir, 0, 0);
 
 	MuuidReplacement stdCrypt = { MIID_CRYPTO, L"stdcrypt", nullptr };
-	if (!LoadCorePlugin(stdCrypt))
+	if (!stdCrypt.Load())
 		return 1;
 
 	SetServiceModePlugin(_T2A(CmdLine_GetOption(L"svc")));

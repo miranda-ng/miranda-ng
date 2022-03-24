@@ -394,8 +394,10 @@ public:
 					}
 					else { // disabling plugin
 						if (dat->bWasLoaded) {
-							if (!dat->bRequiresRestart)
-								UnloadPluginDynamically(dat);
+							if (!dat->bRequiresRestart) {
+								if (!UnloadPluginDynamically(dat))
+									m_plugList.SetItemState(iRow, 0x2000, LVIS_STATEIMAGEMASK);
+							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
 								needRestart = true;
@@ -413,7 +415,7 @@ public:
 		if (needRestart) {
 			bufRestart.AppendChar('\n');
 			bufRestart.Append(TranslateT("Do you want to restart it now?"));
-			if (MessageBox(m_hwnd, bufRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
+			if (MessageBoxW(m_hwnd, bufRestart, L"Miranda NG", MB_ICONWARNING | MB_YESNO) == IDYES)
 				CallService(MS_SYSTEM_RESTART, 1, 0);
 		}
 		return true;
