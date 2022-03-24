@@ -66,7 +66,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 
 	char *szProto = Proto_GetBaseAccountName(hSub);
 	if (szProto == nullptr) {
-		MessageBox(nullptr, TranslateT("Could not retrieve contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Could not retrieve contact protocol"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
@@ -74,19 +74,19 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	const char *field = Proto_GetUniqueId(szProto);
 	DBVARIANT dbv;
 	if (db_get(hSub, szProto, field, &dbv)) {
-		MessageBox(nullptr, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Could not get unique ID of contact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
 
 	// Check that is is 'on the list'
 	if (!Contact_OnList(hSub)) {
-		MessageBox(nullptr, TranslateT("Contact is 'not on list' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Contact is 'not on list' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
 
 	if (ccDest->nSubs >= MAX_CONTACTS) {
-		MessageBox(nullptr, TranslateT("Metacontact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Metacontact is full"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -95,7 +95,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	char buffer[512];
 	mir_snprintf(buffer, "Protocol%d", ccDest->nSubs);
 	if (db_set_s(hMeta, META_PROTO, buffer, szProto)) {
-		MessageBox(nullptr, TranslateT("Could not write contact protocol to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Could not write contact protocol to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -103,7 +103,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	// write the login
 	mir_snprintf(buffer, "Login%d", ccDest->nSubs);
 	if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
-		MessageBox(nullptr, TranslateT("Could not write unique ID of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+		MessageBoxW(nullptr, TranslateT("Could not write unique ID of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
 	}
@@ -115,7 +115,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 		// write the nickname
 		mir_snprintf(buffer, "Nick%d", ccDest->nSubs);
 		if (db_set(hMeta, META_PROTO, buffer, &dbv)) {
-			MessageBox(nullptr, TranslateT("Could not write nickname of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
+			MessageBoxW(nullptr, TranslateT("Could not write nickname of contact to metacontact"), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 			db_free(&dbv);
 			return FALSE;
 		}

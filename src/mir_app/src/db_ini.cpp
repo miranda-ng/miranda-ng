@@ -501,7 +501,7 @@ LBL_NewLine:
 		default:
 			wchar_t buf[250];
 			mir_snwprintf(buf, TranslateT("Invalid setting type for '%s'. The first character of every value must be b, w, d, l, s, e, u, g, h or n."), _A2T(szName).get());
-			MessageBox(nullptr, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
+			MessageBoxW(nullptr, buf, TranslateT("Install database settings"), MB_ICONWARNING | MB_OK);
 			break;
 		}
 	}

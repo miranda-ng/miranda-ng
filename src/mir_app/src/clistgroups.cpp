@@ -202,7 +202,7 @@ MIR_APP_DLL(int) Clist_GroupDelete(MGROUP hGroup)
 	if (Clist::ConfirmDelete) {
 		wchar_t szQuestion[256 + 100];
 		mir_snwprintf(szQuestion, TranslateT("Are you sure you want to delete group '%s'? This operation cannot be undone."), pGroup->groupName+1);
-		if (MessageBox(g_clistApi.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
+		if (MessageBoxW(g_clistApi.hwndContactList, szQuestion, TranslateT("Delete group"), MB_YESNO | MB_ICONQUESTION) == IDNO)
 			return 1;
 	}
 
@@ -326,7 +326,7 @@ MIR_APP_DLL(int) Clist_GroupMoveBefore(MGROUP hGroup, MGROUP hGroupBefore)
 static int RenameGroupWithMove(int groupId, const wchar_t *szName, int move)
 {
 	if (GroupNameExists(szName, groupId)) {
-		MessageBox(nullptr, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
+		MessageBoxW(nullptr, TranslateT("You already have a group with that name. Please enter a unique name for the group."), TranslateT("Rename group"), MB_ICONERROR | MB_OK);
 		return 1;
 	}
 

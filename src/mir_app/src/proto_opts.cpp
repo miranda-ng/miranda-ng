@@ -449,7 +449,7 @@ public:
 			if (pa->iRealStatus >= ID_STATUS_ONLINE) {
 				wchar_t buf[200];
 				mir_snwprintf(buf, TranslateT("Account %s is being disabled"), pa->tszAccountName);
-				if (IDNO == ::MessageBox(m_hwnd, TranslateT("Account is online. Disable account?"), buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
+				if (IDNO == ::MessageBoxW(m_hwnd, TranslateT("Account is online. Disable account?"), buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
 					return; // stay enabled
 			}
 
@@ -529,11 +529,11 @@ public:
 		wchar_t buf[200];
 		mir_snwprintf(buf, TranslateT("Account %s is being deleted"), pa->tszAccountName);
 		if (pa->bOldProto) {
-			MessageBox(m_hwnd, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
+			MessageBoxW(m_hwnd, TranslateT("You need to disable plugin to delete this account"), buf, MB_ICONERROR | MB_OK);
 			return;
 		}
 		
-		if (IDYES != MessageBox(m_hwnd, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
+		if (IDYES != MessageBoxW(m_hwnd, errMsg, buf, MB_ICONWARNING | MB_DEFBUTTON2 | MB_YESNO))
 			return;
 
 		// lock controls to avoid changes during remove process
@@ -859,7 +859,7 @@ bool CAccountFormDlg::OnApply()
 	m_accName.GetText(tszAccName, _countof(tszAccName));
 	rtrimw(tszAccName);
 	if (tszAccName[0] == 0) {
-		MessageBox(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+		MessageBoxW(m_hwnd, TranslateT("Account name must be filled."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 		return false;
 	}
 
@@ -867,7 +867,7 @@ bool CAccountFormDlg::OnApply()
 		char buf[200];
 		m_internalName.GetTextA(buf, _countof(buf));
 		if (FindAccountByName(rtrim(buf))) {
-			MessageBox(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
+			MessageBoxW(m_hwnd, TranslateT("Account name has to be unique. Please enter unique name."), TranslateT("Account error"), MB_ICONERROR | MB_OK);
 			return false;
 		}
 	}

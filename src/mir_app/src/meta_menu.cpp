@@ -72,7 +72,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	// Assign the contact to the MetaContact just created (and make default).
 	if (!Meta_Assign(wParam, hMetaContact, true)) {
-		MessageBox(nullptr, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
+		MessageBoxW(nullptr, TranslateT("There was a problem in assigning the contact to the metacontact"), TranslateT("Error"), MB_ICONEXCLAMATION);
 		db_delete_contact(hMetaContact);
 		return 0;
 	}
@@ -189,7 +189,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 	if (cc->IsMeta()) {
 		// check from recursion - see second half of this function
 		if (!bSkipQuestion && IDYES != 
-			MessageBox(g_clistApi.hwndContactList,
+			MessageBoxW(g_clistApi.hwndContactList,
 				TranslateT("This will remove the metacontact permanently.\n\nProceed anyway?"),
 				TranslateT("Are you sure?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2))
 			return 0;
@@ -205,7 +205,7 @@ INT_PTR Meta_Delete(WPARAM hContact, LPARAM bSkipQuestion)
 			return 2;
 
 		if (cc->nSubs == 1) {
-			if (IDYES == MessageBox(nullptr, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
+			if (IDYES == MessageBoxW(nullptr, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1))
 				Meta_Delete(cc->contactID, 1);
 
 			return 0;

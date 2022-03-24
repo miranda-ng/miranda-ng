@@ -154,13 +154,13 @@ class CCreateProfileDlg : public CDlgBase
 			mir_snwprintf(buf,
 				TranslateT("The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted."),
 				file);
-			if (MessageBox(m_hwnd, buf, TranslateT("The profile already exists"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
+			if (MessageBoxW(m_hwnd, buf, TranslateT("The profile already exists"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON2) != IDYES)
 				return 0;
 
 			// move the file
 			if (DeleteDirectoryTreeW(profile, true) != 0) {
 				mir_snwprintf(buf, TranslateT("Couldn't move '%s' to the Recycle Bin. Please select another profile name."), file);
-				MessageBox(m_hwnd, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION | MB_OK);
+				MessageBoxW(m_hwnd, buf, TranslateT("Problem moving profile"), MB_ICONINFORMATION | MB_OK);
 				return 0;
 			}
 			// now the file should be gone!
@@ -169,7 +169,7 @@ class CCreateProfileDlg : public CDlgBase
 		CreatePathToFileW(profile);
 		if ((err = link->makeDatabase(profile)) != ERROR_SUCCESS) {
 			mir_snwprintf(buf, TranslateT("Unable to create the profile '%s', the error was %x"), file, err);
-			MessageBox(m_hwnd, buf, TranslateT("Problem creating profile"), MB_ICONERROR | MB_OK);
+			MessageBoxW(m_hwnd, buf, TranslateT("Problem creating profile"), MB_ICONERROR | MB_OK);
 			return 0;
 		}
 

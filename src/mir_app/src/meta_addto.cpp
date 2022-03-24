@@ -138,14 +138,14 @@ bool CMetaSelectDlg::OnInitDialog()
 		return false;
 
 	if (cc->IsMeta()) {
-		MessageBox(GetHwnd(),
+		MessageBoxW(GetHwnd(),
 			TranslateT("This contact is a metacontact.\nYou can't add a metacontact to another metacontact.\n\nPlease choose another."),
 			TranslateT("Metacontact conflict"), MB_ICONERROR);
 		return false;
 	}
 
 	if (cc->IsSub()) {
-		MessageBox(GetHwnd(),
+		MessageBoxW(GetHwnd(),
 			TranslateT("This contact is already associated to a metacontact.\nYou cannot add a contact to multiple metacontacts."),
 			TranslateT("Multiple metacontacts"), MB_ICONERROR);
 		return false;
@@ -157,7 +157,7 @@ bool CMetaSelectDlg::OnInitDialog()
 	CheckDlgButton(GetHwnd(), IDC_ONLYAVAIL, BST_CHECKED); // Initially checked; display all metacontacts is only an option
 														 // Besides, we can check if there is at least one metacontact to add the contact to.
 	if (BuildList(GetDlgItem(GetHwnd(), IDC_METALIST), FALSE) <= 0) {
-		if (MessageBox(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+		if (MessageBoxW(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
 		return false;
 	}
@@ -179,13 +179,13 @@ bool CMetaSelectDlg::OnApply()
 {
 	int item = m_metaList.GetCurSel();
 	if (item == -1) {
-		BOOL result = IDOK == MessageBox(GetHwnd(), TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
+		BOOL result = IDOK == MessageBoxW(GetHwnd(), TranslateT("Please select a metacontact"), TranslateT("No metacontact selected"), MB_ICONHAND);
 		EndModal(result);
 	}
 
 	MCONTACT hMeta = (MCONTACT)m_metaList.GetItemData(item);
 	if (!Meta_Assign(m_hContact, hMeta, false))
-		MessageBox(GetHwnd(), TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
+		MessageBoxW(GetHwnd(), TranslateT("Assignment to the metacontact failed."), TranslateT("Assignment failure"), MB_ICONERROR);
 	return true;
 }
 
@@ -207,7 +207,7 @@ void CMetaSelectDlg::SortCheck_OnChange(CCtrlCheck*)
 {
 	SetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE, GetWindowLongPtr(m_metaList.GetHwnd(), GWL_STYLE) ^ LBS_SORT);
 	if (BuildList(m_metaList.GetHwnd(), m_sortCheck.GetState() ? TRUE : FALSE) <= 0) {
-		if (MessageBox(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
+		if (MessageBoxW(GetHwnd(), TranslateW(szConvMsg), TranslateT("No suitable metacontact found"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1) == IDYES)
 			Meta_Convert(m_hContact, 0);
 		Close();
 	}

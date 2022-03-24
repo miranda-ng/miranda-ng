@@ -158,7 +158,7 @@ static BOOL ExportSettings(HWND hwndDlg, const wchar_t *filename, OBJLIST<FontIn
 {
 	FILE *out = _wfopen(filename, L"w");
 	if (out == nullptr) {
-		MessageBox(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
+		MessageBoxW(hwndDlg, filename, TranslateT("Failed to create file"), MB_ICONWARNING | MB_OK);
 		return FALSE;
 	}
 
@@ -1116,7 +1116,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				if (GetSaveFileName(&ofn) == TRUE)
 					if (!ExportSettings(hwndDlg, ofn.lpstrFile, font_id_list, colour_id_list, effect_id_list))
-						MessageBox(hwndDlg, TranslateT("Error writing file"), TranslateT("Error"), MB_ICONWARNING | MB_OK);
+						MessageBoxW(hwndDlg, TranslateT("Error writing file"), TranslateT("Error"), MB_ICONWARNING | MB_OK);
 			}
 			return TRUE;
 

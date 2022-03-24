@@ -689,7 +689,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemText(hwndDlg, IDC_PROTOID, str, _countof(str));
 					rtrimw(str);
 					if (str[0] == 0)
-						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
+						MessageBoxW(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
 						BeginSearch(hwndDlg, dat, szProto, PS_BASICSEARCH, PF1_BASICSEARCH, str);
 				}
@@ -698,7 +698,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					GetDlgItemText(hwndDlg, IDC_EMAIL, str, _countof(str));
 					rtrimw(str);
 					if (str[0] == 0)
-						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
+						MessageBoxW(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
 						BeginSearch(hwndDlg, dat, szProto, PS_SEARCHBYEMAIL, PF1_SEARCHBYEMAIL, str);
 				}
@@ -712,13 +712,13 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					psbn.pszLastName = last;
 					psbn.pszNick = nick;
 					if (nick[0] == 0 && first[0] == 0 && last[0] == 0)
-						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
+						MessageBoxW(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
 						BeginSearch(hwndDlg, dat, szProto, PS_SEARCHBYNAME, PF1_SEARCHBYNAME, &psbn);
 				}
 				else if (IsDlgButtonChecked(hwndDlg, IDC_BYADVANCED)) {
 					if (dat->hwndAdvSearch == nullptr)
-						MessageBox(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
+						MessageBoxW(hwndDlg, sttErrMsg, sttErrTitle, MB_ICONERROR | MB_OK);
 					else
 						BeginSearch(hwndDlg, dat, szProto, PS_SEARCHBYADVANCED, PF1_EXTSEARCHUI, dat->hwndAdvSearch);
 				}

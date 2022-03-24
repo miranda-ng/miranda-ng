@@ -293,7 +293,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			switch (LOWORD(wParam)) {
 			case IDC_VALIDATE: // Apply changes, if there is still one contact attached to the metacontact.
 				if (g_data.num_contacts == 0) { // Otherwise, delete the metacontact.
-					if (IDYES == MessageBox(hwndDlg, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+					if (IDYES == MessageBoxW(hwndDlg, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 						Meta_Delete(g_data.hMeta, 0);
 						DestroyWindow(hwndDlg);
 					}
@@ -308,7 +308,7 @@ static INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wPara
 			case IDOK:
 				if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_VALIDATE))) { // If there are changes that could be made,
 					if (g_data.num_contacts == 0) { // do the work that would have be done if the 'Apply' button was clicked.
-						if (IDYES == MessageBox(hwndDlg, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
+						if (IDYES == MessageBoxW(hwndDlg, TranslateW(szDelMsg), TranslateT("Delete metacontact?"), MB_ICONQUESTION | MB_YESNO | MB_DEFBUTTON1)) {
 							Meta_Delete(g_data.hMeta, 0);
 							DestroyWindow(hwndDlg);
 						}
