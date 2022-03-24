@@ -178,9 +178,6 @@ int LoadStdPlugins()
 			return 1;
 	}
 
-	if (pluginDefault[1].pImpl == nullptr)
-		MessageBox(nullptr, TranslateT("No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, \"StdMsg.dll\""), L"Miranda NG", MB_OK | MB_ICONWARNING);
-
 	return 0;
 }
 
