@@ -91,16 +91,11 @@ MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescr
 	g_pszHotkeySection = pszSection;
 
 	uint16_t wHotKey = HOTKEYCODE(0, VK_RETURN);
-	if (db_get_b(0, SRMM_MODULE, "SendOnCtrlEnter")) {
-		db_unset(0, SRMM_MODULE, "SendOnCtrlEnter");
+	if (db_get_b(0, SRMM_MODULE, "SendOnCtrlEnter"))
 		wHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_RETURN);
-	}
 
-	if (db_get_b(0, SRMM_MODULE, "SendOnEnter"))
-		db_unset(0, SRMM_MODULE, "SendOnEnter");
-
-	if (db_get_b(0, SRMM_MODULE, "SendOnDblEnter"))
-		db_unset(0, SRMM_MODULE, "SendOnDblEnter");
+	if (db_get_b(0, "Tab_SRMsg", "sendonshiftenter"))
+		wHotKey = HOTKEYCODE(HOTKEYF_SHIFT, VK_RETURN);
 
 	HOTKEYDESC hd = { "tabsrmm_send", pszDescription, pszSection, 0, wHotKey, 0, 100 };
 	Hotkey_Register(&hd, g_pChatPlugin);
