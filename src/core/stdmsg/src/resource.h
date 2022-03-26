@@ -75,12 +75,9 @@
 #define IDC_LOADCOUNTSPIN               1040
 #define IDC_SHOWBUTTONLINE              1042
 #define IDC_LOADUNREAD                  1043
-#define IDC_SENDONENTER                 1043
 #define IDC_LOADCOUNT                   1044
-#define IDC_SENDONDBLENTER              1044
 #define IDC_LOADTIMEN                   1045
 #define IDC_LOADTIMESPIN                1046
-#define IDC_SENDONCTRLENTER             1046
 #define IDC_LOADTIME                    1047
 #define IDC_STMINSOLD                   1048
 #define IDC_SPIN1                       1049

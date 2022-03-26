@@ -79,9 +79,6 @@ public:
 	// dynamic options, need reload when options change
 	int         m_iTabNameLimit;
 	bool        m_bAllowTab;
-	bool        m_bSendOnShiftEnter;
-	bool        m_bSendOnEnter;
-	bool        m_bSendOnDblEnter;
 	bool        m_bAutoSwitchTabs;
 	bool        m_bCutContactNameOnTabs;
 	bool        m_bHideOnClose;

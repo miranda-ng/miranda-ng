@@ -205,7 +205,7 @@ static void ShowRoom(SESSION_INFO *si)
 
 int OnCheckPlugins(WPARAM, LPARAM)
 {
-	g_dat.bSmileyInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
+	g_plugin.bSmileyInstalled = ServiceExists(MS_SMILEYADD_REPLACESMILEYS);
 	return 0;
 }
 
@@ -224,6 +224,8 @@ void Load_ChatModule()
 	g_chatApi.OnFlashWindow = OnFlashWindow;
 	g_chatApi.OnFlashHighlight = OnFlashHighlight;
 	g_chatApi.ShowRoom = ShowRoom;
+
+	Srmm_CreateHotkey(LPGEN("Messaging"), LPGEN("Send message"));
 
 	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
 	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;

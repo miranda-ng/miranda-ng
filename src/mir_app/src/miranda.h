@@ -65,6 +65,8 @@ void  KillModulePopups(HPLUGIN);
 
 /**** srmm.cpp *************************************************************************/
 
+#define SRMM_MODULE "SRMsg"
+
 void KillModuleSrmmIcons(HPLUGIN);
 void KillModuleToolbarIcons(HPLUGIN);
 

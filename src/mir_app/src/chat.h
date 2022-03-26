@@ -47,6 +47,8 @@ extern GlobalLogSettingsBase *g_Settings;
 
 extern CMOption<bool> g_bChatTrayInactive, g_bChatPopupInactive;
 
+extern const char *g_pszHotkeySection;
+
 // log.c
 void          LoadMsgLogBitmaps(void);
 void          FreeMsgLogBitmaps(void);

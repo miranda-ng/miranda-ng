@@ -159,6 +159,8 @@ int Chat_Load()
 	g_chatApi.OnFlashHighlight = OnFlashHighlight;
 	g_chatApi.ShowRoom = ShowRoom;
 
+	Srmm_CreateHotkey(LPGEN("Messaging"), LPGEN("Action: Send message"));
+
 	oldDoPopup = g_chatApi.DoPopup; g_chatApi.DoPopup = DoPopup;
 	oldDoTrayIcon = g_chatApi.DoTrayIcon; g_chatApi.DoTrayIcon = DoTrayIcon;
 	g_chatApi.ReloadSettings();

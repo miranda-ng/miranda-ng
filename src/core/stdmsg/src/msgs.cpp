@@ -77,7 +77,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* does a window for the contact exist? */
 	HWND hwnd = Srmm_FindWindow(hContact);
 	if (hwnd) {
-		if (!g_dat.bDoNotStealFocus) {
+		if (!g_plugin.bDoNotStealFocus) {
 			ShowWindow(hwnd, SW_RESTORE);
 			SetWindowPos(hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetForegroundWindow(hwnd);
@@ -94,9 +94,9 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 	/* new message */
 	Skin_PlaySound("AlertMsg");
 
-	if (!g_dat.bDoNotStealFocus) {
+	if (!g_plugin.bDoNotStealFocus) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
-		if (szProto && (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
+		if (szProto && (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))) {
 			GetContainer()->AddPage(hContact);
 			return 0;
 		}
@@ -170,7 +170,7 @@ static INT_PTR ReadMessageCommand(WPARAM, LPARAM lParam)
 
 static int TypingMessage(WPARAM hContact, LPARAM lParam)
 {
-	if (!g_dat.bShowTyping)
+	if (!g_plugin.bShowTyping)
 		return 0;
 
 	hContact = db_mc_tryMeta(hContact);
@@ -180,11 +180,11 @@ static int TypingMessage(WPARAM hContact, LPARAM lParam)
 	auto *pDlg = Srmm_FindDialog(hContact);
 	if (pDlg)
 		pDlg->UserTyping(lParam);
-	else if (lParam && g_dat.bShowTypingTray) {
+	else if (lParam && g_plugin.bShowTypingTray) {
 		wchar_t szTip[256];
 		mir_snwprintf(szTip, TranslateT("%s is typing a message"), Clist_GetContactDisplayName(hContact));
 
-		if (g_dat.bShowTypingClist) {
+		if (g_plugin.bShowTypingClist) {
 			g_clistApi.pfnRemoveEvent(hContact, 1);
 
 			CLISTEVENT cle = {};
@@ -269,7 +269,7 @@ static void RestoreUnreadMessageAlerts(void)
 				if (szProto == nullptr)
 					continue;
 
-				if (g_dat.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))
+				if (g_plugin.popupFlags & SRMMStatusToPf2(Proto_GetStatus(szProto)))
 					autoPopup = true;
 
 				if (autoPopup && !windowAlreadyExists)

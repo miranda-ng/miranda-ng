@@ -37,7 +37,6 @@ LIST<CMsgDialog> g_arDialogs(10, PtrKeySortT);
 
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 	CSuper(g_plugin, IDD_MSG),
-	m_btnOk(this, IDOK),
 	m_avatar(this, IDC_AVATAR),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
@@ -50,7 +49,6 @@ CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact) :
 
 CMsgDialog::CMsgDialog(CTabbedWindow *pOwner, SESSION_INFO *si) :
 	CSuper(g_plugin, IDD_MSG, si),
-	m_btnOk(this, IDOK),
 	m_avatar(this, IDC_AVATAR),
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
@@ -77,7 +75,7 @@ void CMsgDialog::Init()
 	m_szTabSave[0] = 0;
 	m_autoClose = 0;
 	m_forceResizable = true;
-	m_bNoActivate = g_dat.bDoNotStealFocus;
+	m_bNoActivate = g_plugin.bDoNotStealFocus;
 
 	g_arDialogs.insert(this);
 
@@ -112,7 +110,7 @@ bool CMsgDialog::OnInitDialog()
 	}
 
 	// avatar stuff
-	m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
+	m_limitAvatarH = g_plugin.bLimitAvatarHeight ? g_plugin.iAvatarHeight : 0;
 
 	if (m_hContact && m_szProto != nullptr) {
 		m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
@@ -128,7 +126,7 @@ bool CMsgDialog::OnInitDialog()
 	timerType.Start(1000);
 
 	GetWindowRect(m_message.GetHwnd(), &m_minEditInit);
-	m_iSplitterY = g_plugin.getDword(g_dat.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
+	m_iSplitterY = g_plugin.getDword(g_plugin.bSavePerContact ? m_hContact : 0, "splitterPos", m_minEditInit.bottom - m_minEditInit.top);
 	UpdateSizeBar();
 
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
@@ -154,9 +152,9 @@ bool CMsgDialog::OnInitDialog()
 		{
 			DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
 
-			switch (g_dat.iLoadHistory) {
+			switch (g_plugin.iLoadHistory) {
 			case LOADHISTORY_COUNT:
-				for (int i = g_dat.nLoadCount; i--;) {
+				for (int i = g_plugin.nLoadCount; i--;) {
 					MEVENT hPrevEvent = pCursor.FetchNext();
 					if (hPrevEvent == 0)
 						break;
@@ -176,7 +174,7 @@ bool CMsgDialog::OnInitDialog()
 				else
 					db_event_get(m_hDbEventFirst, &dbei);
 
-				uint32_t firstTime = dbei.timestamp - 60 * g_dat.nLoadTime;
+				uint32_t firstTime = dbei.timestamp - 60 * g_plugin.nLoadTime;
 				while (MEVENT hPrevEvent = pCursor.FetchNext()) {
 					dbei.cbBlob = 0;
 					db_event_get(hPrevEvent, &dbei);
@@ -258,7 +256,7 @@ void CMsgDialog::OnDestroy()
 		mir_free(it);
 	m_cmdList.destroy();
 
-	MCONTACT hContact = (g_dat.bSavePerContact) ? m_hContact : 0;
+	MCONTACT hContact = (g_plugin.bSavePerContact) ? m_hContact : 0;
 	g_plugin.setDword(hContact ? m_hContact : 0, "splitterPos", m_iSplitterY);
 
 	if (m_hFont) {
@@ -287,7 +285,7 @@ void CMsgDialog::OnDestroy()
 	CSuper::OnDestroy();
 
 	// a temporary contact should be destroyed after removing window from the window list to prevent recursion
-	if (m_hContact && g_dat.bDeleteTempCont)
+	if (m_hContact && g_plugin.bDeleteTempCont)
 		if (!Contact_OnList(m_hContact))
 			db_delete_contact(m_hContact);
 }
@@ -385,9 +383,9 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 			m_message.SetText(L"");
 
 			if (!g_Settings.bTabsEnable) {
-				if (g_dat.bAutoClose)
+				if (g_plugin.bAutoClose)
 					::PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
-				else if (g_dat.bAutoMin)
+				else if (g_plugin.bAutoMin)
 					::ShowWindow(m_hwndParent, SW_MINIMIZE);
 			}
 		}
@@ -416,7 +414,7 @@ void CMsgDialog::onChange_Text(CCtrlEdit*)
 void CMsgDialog::OnFlash(CTimer *)
 {
 	FixTabIcons();
-	if (!g_dat.nFlashMax || m_nFlash < 2 * g_dat.nFlashMax)
+	if (!g_plugin.nFlashMax || m_nFlash < 2 * g_plugin.nFlashMax)
 		FlashWindow(m_pOwner->GetHwnd(), TRUE);
 	m_nFlash++;
 }
@@ -435,7 +433,7 @@ void CMsgDialog::OnType(CTimer*)
 		}
 		else {
 			UpdateLastMessage();
-			if (g_dat.bShowTypingWin)
+			if (g_plugin.bShowTypingWin)
 				FixTabIcons();
 			m_bShowTyping = false;
 		}
@@ -451,7 +449,7 @@ void CMsgDialog::OnType(CTimer*)
 
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, 0, (LPARAM)szBuf);
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETICON, 0, (LPARAM)hTyping);
-			if (g_dat.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
+			if (g_plugin.bShowTypingWin && GetForegroundWindow() != m_pOwner->GetHwnd()) {
 				HICON hIcon = (HICON)SendMessage(m_hwnd, WM_GETICON, ICON_SMALL, 0);
 				SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hTyping);
 				IcoLib_ReleaseIcon(hIcon);
@@ -466,8 +464,8 @@ void CMsgDialog::OnType(CTimer*)
 int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 {
 	if (isChat()) {
-		bool bToolbar = g_dat.bShowButtons;
-		bool bSend = g_dat.bSendButton;
+		bool bToolbar = g_plugin.bShowButtons;
+		bool bSend = g_plugin.bSendButton;
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 		switch (urc->wId) {
@@ -520,7 +518,7 @@ LBL_CalcBottom:
 	else {
 		switch (urc->wId) {
 		case IDC_SRMM_LOG:
-			if (!g_dat.bShowButtons)
+			if (!g_plugin.bShowButtons)
 				urc->rcItem.top = 2;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
 			m_rcLog = urc->rcItem;
@@ -532,8 +530,8 @@ LBL_CalcBottom:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 		case IDC_SRMM_MESSAGE:
-			urc->rcItem.right = (g_dat.bSendButton) ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
-			if (g_dat.bShowAvatar && m_avatarPic)
+			urc->rcItem.right = (g_plugin.bSendButton) ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
+			if (g_plugin.bShowAvatar && m_avatarPic)
 				urc->rcItem.left = m_avatarWidth + 4;
 
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
@@ -614,7 +612,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		if (!IsIconic(m_hwnd)) {
 
 			if (isChat()) {
-				bool bSend = g_dat.bSendButton;
+				bool bSend = g_plugin.bSendButton;
 				bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 				m_btnOk.Show(bSend);
@@ -647,7 +645,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
 			RedrawWindow(m_message.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 			RedrawWindow(m_btnOk.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
-			if (g_dat.bShowAvatar && m_avatarPic)
+			if (g_plugin.bShowAvatar && m_avatarPic)
 				RedrawWindow(m_avatar.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 		}
 		return TRUE;
@@ -722,7 +720,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			if (dis->CtlType == ODT_MENU)
 				return Menu_DrawItem(lParam);
 
-			if (dis->CtlID == IDC_AVATAR && m_avatarPic && g_dat.bShowAvatar) {
+			if (dis->CtlID == IDC_AVATAR && m_avatarPic && g_plugin.bShowAvatar) {
 				HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
 				HPEN hOldPen = (HPEN)SelectObject(dis->hDC, hPen);
 				Rectangle(dis->hDC, 0, 0, m_avatarWidth, m_avatarHeight);
@@ -949,16 +947,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		ProcessFileDrop((HDROP)wParam, m_hContact);
 		return FALSE;
 
-	case WM_MOUSEWHEEL:
-	case WM_LBUTTONDOWN:
-	case WM_RBUTTONDOWN:
-	case WM_MBUTTONDOWN:
-	case WM_KILLFOCUS:
-		m_iLastEnterTime = 0;
-		break;
-
 	case WM_SYSCHAR:
-		m_iLastEnterTime = 0;
 		if ((wParam == 's' || wParam == 'S') && GetKeyState(VK_MENU) & 0x8000) {
 			m_btnOk.Click();
 			return 0;
@@ -1080,28 +1069,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
 		bool isAlt = (GetKeyState(VK_MENU) & 0x8000) != 0;
 
-		if (wParam == VK_RETURN) {
-			if (!isShift && !isCtrl && g_dat.bSendOnEnter) {
-				m_btnOk.Click();
-				return 0;
-			}
-			if (!isShift && isCtrl && g_dat.bSendOnCtrlEnter) {
-				m_btnOk.Click();
-				return 0;
-			}
-			if (g_dat.bSendOnDblEnter) {
-				if (m_iLastEnterTime + ENTERCLICKTIME < GetTickCount())
-					m_iLastEnterTime = GetTickCount();
-				else {
-					m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
-					m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-					m_btnOk.Click();
-					return 0;
-				}
-			}
-		}
-		else m_iLastEnterTime = 0;
-
 		if (g_Settings.bTabsEnable) {
 			if (wParam <= '9' && wParam >= '1' && isCtrl && !isAlt) { // CTRL + 1 -> 9 (switch tab)
 				m_pOwner->SwitchTab(wParam - '1');
@@ -1164,12 +1131,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			if (wParam == VK_NEXT || wParam == VK_PRIOR) {
 				((CLogWindow *)m_pLog)->WndProc(msg, wParam, lParam);
-				m_iLastEnterTime = 0;
 				return TRUE;
 			}
 		}
 
-		if (isCtrl && g_dat.bCtrlSupport && m_cmdList.getCount()) {
+		if (isCtrl && g_plugin.bCtrlSupport && m_cmdList.getCount()) {
 			if (wParam == VK_UP && m_cmdListInd != 0) {
 				if (m_cmdListInd < 0)
 					m_cmdListInd = m_cmdList.getCount() - 1;
@@ -1311,7 +1277,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 			continue;
 
 		bool bShow = false;
-		if (m_hContact && g_dat.bShowButtons) {
+		if (m_hContact && g_plugin.bShowButtons) {
 			if (cbd->m_dwButtonCID == IDC_ADD) {
 				bShow = !Contact_OnList(m_hContact);
 				cbd->m_bHidden = !bShow;
@@ -1324,10 +1290,10 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
 	m_splitterY.Show();
 	
-	m_btnOk.Show(g_dat.bSendButton);
+	m_btnOk.Show(g_plugin.bSendButton);
 	m_btnOk.Enable(GetWindowTextLength(m_message.GetHwnd()) != 0);
 	
-	if (m_avatarPic == nullptr || !g_dat.bShowAvatar)
+	if (m_avatarPic == nullptr || !g_plugin.bShowAvatar)
 		m_avatar.Hide();
 	
 	UpdateIcon(0);
@@ -1341,7 +1307,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 	m_avatarPic = nullptr;
 	m_limitAvatarH = 0;
 	if (CallProtoService(m_szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_AVATARS)
-		m_limitAvatarH = g_dat.bLimitAvatarHeight ? g_dat.iAvatarHeight : 0;
+		m_limitAvatarH = g_plugin.bLimitAvatarHeight ? g_plugin.iAvatarHeight : 0;
 
 	if (bUpdateAvatar)
 		UpdateAvatar();
@@ -1390,7 +1356,7 @@ void CMsgDialog::onSplitterY(CSplitter *pSplitter)
 	m_iSplitterY = rc.bottom - pSplitter->GetPos() + 1;
 
 	int toplimit = 63;
-	if (!g_dat.bShowButtons)
+	if (!g_plugin.bShowButtons)
 		toplimit += 22;
 
 	if (m_iSplitterY < m_minEditBoxSize.cy)
@@ -1421,7 +1387,7 @@ void CMsgDialog::NotifyTyping(int mode)
 	// Don't send to protocols that are offline
 	// Don't send to users who are not visible and
 	// Don't send to users who are not on the visible list when you are in invisible mode.
-	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_dat.bTypingNew))
+	if (!g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew))
 		return;
 
 	if (!m_szProto)
@@ -1447,7 +1413,7 @@ void CMsgDialog::NotifyTyping(int mode)
 		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 			return;
 
-		if (!g_dat.bTypingUnknown && !Contact_OnList(m_hContact))
+		if (!g_plugin.bTypingUnknown && !Contact_OnList(m_hContact))
 			return;
 
 		// End user check
@@ -1463,7 +1429,7 @@ void CMsgDialog::RemakeLog()
 
 void CMsgDialog::ShowAvatar()
 {
-	if (g_dat.bShowAvatar) {
+	if (g_plugin.bShowAvatar) {
 		AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, getActiveContact(), 0);
 		if (ace && (INT_PTR)ace != CALLSERVICE_NOTFOUND && (ace->dwFlags & AVS_BITMAP_VALID) && !(ace->dwFlags & AVS_HIDEONCLIST))
 			m_avatarPic = ace->hbmPic;
@@ -1486,7 +1452,7 @@ void CMsgDialog::ShowTime(bool bForce)
 	if (m_wMinute != st.wMinute || bForce) {
 		if (m_pOwner->m_tab.GetActivePage() == this) {
 			wchar_t buf[32];
-			unsigned i = g_dat.bShowReadChar ? 2 : 1;
+			unsigned i = g_plugin.bShowReadChar ? 2 : 1;
 
 			TimeZone_PrintDateTime(m_hTimeZone, L"t", buf, _countof(buf), 0);
 			SendMessage(m_pOwner->m_hwndStatus, SB_SETTEXT, i, (LPARAM)buf);
@@ -1505,11 +1471,11 @@ void CMsgDialog::SetupStatusBar()
 	int cx = rc.right - rc.left;
 
 	if (m_hTimeZone) {
-		if (g_dat.bShowReadChar)
+		if (g_plugin.bShowReadChar)
 			statwidths[i++] = cx - SB_TIME_WIDTH - SB_CHAR_WIDTH - icons_width;
 		statwidths[i++] = cx - SB_TIME_WIDTH - icons_width;
 	}
-	else if (g_dat.bShowReadChar)
+	else if (g_plugin.bShowReadChar)
 		statwidths[i++] = cx - SB_CHAR_WIDTH - icons_width;
 
 	statwidths[i++] = cx - icons_width;
@@ -1550,7 +1516,7 @@ void CMsgDialog::UpdateIcon(WPARAM wParam)
 	}
 
 	if (!cws || bIsStatus)
-		if (g_dat.bUseStatusWinIcon)
+		if (g_plugin.bUseStatusWinIcon)
 			FixTabIcons();
 }
 
@@ -1571,7 +1537,7 @@ void CMsgDialog::UpdateLastMessage()
 
 void CMsgDialog::UpdateReadChars()
 {
-	if (g_dat.bShowReadChar) {
+	if (g_plugin.bShowReadChar) {
 		wchar_t buf[32];
 		int len = GetWindowTextLength(m_message.GetHwnd());
 
@@ -1584,8 +1550,8 @@ void CMsgDialog::UpdateSizeBar()
 {
 	m_minEditBoxSize.cx = m_minEditInit.right - m_minEditInit.left;
 	m_minEditBoxSize.cy = m_minEditInit.bottom - m_minEditInit.top;
-	if (g_dat.bShowAvatar) {
-		if (m_avatarPic == nullptr || !g_dat.bShowAvatar) {
+	if (g_plugin.bShowAvatar) {
+		if (m_avatarPic == nullptr || !g_plugin.bShowAvatar) {
 			m_avatarWidth = 50;
 			m_avatarHeight = 50;
 			m_avatar.Hide();
@@ -1640,7 +1606,7 @@ void CMsgDialog::UpdateTitle()
 			m_wStatus = db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE);
 			wchar_t *contactName = Clist_GetContactDisplayName(m_hContact);
 
-			if (g_dat.bUseStatusWinIcon)
+			if (g_plugin.bUseStatusWinIcon)
 				mir_snwprintf(newtitle, L"%s - %s", contactName, TranslateT("Message session"));
 			else {
 				wchar_t *szStatus = Clist_GetStatusModeDescription(m_szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(m_hContact, m_szProto, "Status", ID_STATUS_OFFLINE), 0);

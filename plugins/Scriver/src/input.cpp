@@ -112,36 +112,6 @@ void InputAreaContextMenu(HWND hwnd, WPARAM, LPARAM lParam, MCONTACT hContact)
 	DestroyMenu(hMenu);
 }
 
-bool CMsgDialog::CheckSend()
-{
-	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;
-	BOOL isCtrl = GetKeyState(VK_CONTROL) & 0x8000;
-
-	if (!isShift && !isCtrl && g_dat.sendMode == SEND_ON_ENTER) {
-		PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-		return true;
-	}
-	if (!isShift && isCtrl && g_dat.sendMode == SEND_ON_CTRL_ENTER) {
-		PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-		return true;
-	}
-	if (isShift && !isCtrl && g_dat.sendMode == SEND_ON_SHIFT_ENTER) {
-		PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-		return true;
-	}
-
-	if (g_dat.sendMode == SEND_ON_DBL_ENTER) {
-		if (m_iLastEnterTime + 1000 < GetTickCount())
-			m_iLastEnterTime = GetTickCount();
-		else {
-			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-			return true;
-		}
-	}
-
-	return false;
-}
-
 int CMsgDialog::InputAreaShortcuts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL isShift = GetKeyState(VK_SHIFT) & 0x8000;

@@ -210,7 +210,6 @@ protected:
 	CCtrlRichEdit m_message;
 	SESSION_INFO *m_si;
 	COLORREF m_clrInputBG, m_clrInputFG;
-	time_t m_iLastEnterTime;
 
 	// user typing support;
 	uint32_t m_nLastTyping = 0;
@@ -219,7 +218,7 @@ protected:
 	const USERINFO* m_pUserTyping = nullptr;
 
 	CCtrlListBox m_nickList;
-	CCtrlButton m_btnColor, m_btnBkColor;
+	CCtrlButton m_btnColor, m_btnBkColor, m_btnOk;
 	CCtrlButton m_btnBold, m_btnItalic, m_btnUnderline;
 	CCtrlButton m_btnHistory, m_btnChannelMgr, m_btnNickList, m_btnFilter;
 
@@ -287,6 +286,11 @@ EXTERN_C MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, 
 // sends a message to all SRMM windows
 
 EXTERN_C MIR_APP_DLL(void) Srmm_Broadcast(UINT, WPARAM, LPARAM);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// creates plugin-specific hot key for sending messages
+
+EXTERN_C MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescription);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // finds a SRMM window using hContact

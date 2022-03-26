@@ -371,6 +371,8 @@ int Chat_Load()
 	g_chatApi.ShowRoom = stubShowRoom;
 	g_chatApi.OnLoadSettings = OnLoadSettings;
 
+	Srmm_CreateHotkey(TABSRMM_HK_SECTION_GENERIC, LPGEN("Send Message"));
+
 	// this operation is unsafe, that's why we restore the old pci state on exit
 	g_chatApi.DoSoundsFlashPopupTrayStuff = DoSoundsFlashPopupTrayStuff;
 	g_chatApi.IsHighlighted = IsHighlighted;

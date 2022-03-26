@@ -56,6 +56,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_contacts.h>
 #include <m_userinfo.h>
 #include <m_history.h>
+#include <m_hotkeys.h>
 #include <m_chat_int.h>
 #include <m_message.h>
 #include <m_file.h>
@@ -131,7 +132,6 @@ struct LOGSTREAMDATA : public GCLogStreamDataBase {};
 
 #include "cmdlist.h"
 #include "msgs.h"
-#include "globals.h"
 #include "version.h"
 
 #define EM_ACTIVATE   (WM_USER+0x102)
@@ -156,6 +156,43 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 	HANDLE hLogger;
 
+	CMOption<bool> bShowButtons;
+	CMOption<bool> bSendButton;
+	CMOption<bool> bShowTyping;
+	CMOption<bool> bShowTypingWin;
+	CMOption<bool> bShowTypingTray;
+	CMOption<bool> bShowTypingClist;
+	CMOption<bool> bShowIcons;
+	CMOption<bool> bShowTime;
+	CMOption<bool> bShowDate;
+	CMOption<bool> bShowAvatar;
+	CMOption<bool> bShowNames;
+	CMOption<bool> bShowSecs;
+	CMOption<bool> bShowReadChar;
+	CMOption<bool> bAutoClose;
+	CMOption<bool> bAutoMin;
+	CMOption<bool> bTypingNew;
+	CMOption<bool> bTypingUnknown;
+	CMOption<bool> bCtrlSupport;
+	CMOption<bool> bShowFormat;
+	CMOption<bool> bSavePerContact;
+	CMOption<bool> bDoNotStealFocus;
+	CMOption<bool> bCascade;
+	CMOption<bool> bDeleteTempCont;
+	CMOption<bool> bUseStatusWinIcon;
+
+	CMOption<bool> bLimitAvatarHeight;
+	CMOption<uint16_t> iAvatarHeight;
+
+	CMOption<uint32_t> popupFlags;
+	CMOption<uint32_t> msgTimeout;
+	CMOption<uint32_t> nFlashMax;
+
+	CMOption<uint8_t>  iLoadHistory;
+	CMOption<uint16_t>  nLoadCount, nLoadTime;
+
+	bool bSmileyInstalled = false;
+
 	int Load() override;
 	int Unload() override;
 };
@@ -169,6 +206,9 @@ extern HMENU g_hMenu;
 void LoadIcons(void);
 void Unload_ChatModule(void);
 void Load_ChatModule(void);
+
+// globals.cpp
+void InitGlobals(void);
 
 // log.cpp
 char* Log_CreateRtfHeader(void);

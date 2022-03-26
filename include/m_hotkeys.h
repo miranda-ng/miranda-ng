@@ -35,8 +35,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct HOTKEYDESC
 {
 	const char *pszName;          // name to refer to hotkey when playing and in db
-	MAllStrings szDescription;    // description for options dialog
-	MAllStrings szSection;        // section name used to group sounds (NULL is acceptable)
+	MAllCStrings szDescription;   // description for options dialog
+	MAllCStrings szSection;       // section name used to group sounds (NULL is acceptable)
 	const char *pszService;       // Service to call when HotKey Pressed
 	uint16_t DefHotKey;           // default hot key for action
 	uint32_t dwFlags;             // one of HKD_* constants

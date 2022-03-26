@@ -97,64 +97,13 @@ static int AvatarChanged(WPARAM hContact, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-GlobalMessageData g_dat;
-
-GlobalMessageData::GlobalMessageData() :
-	bShowDate(SRMMMOD, "ShowDate", false),
-	bShowTime(SRMMMOD, "ShowTime", true),
-	bShowSecs(SRMMMOD, "ShowSeconds", true),
-	bShowIcons(SRMMMOD, "ShowLogIcon", true),
-	bShowAvatar(SRMMMOD, "AvatarEnable", true),
-	bShowButtons(SRMMMOD, "ShowButtonLine", true),
-
-	bTypingNew(SRMMMOD, "DefaultTyping", true),
-	bTypingUnknown(SRMMMOD, "UnknownTyping", false),
-
-	bShowTyping(SRMMMOD, "ShowTyping", true),
-	bShowTypingWin(SRMMMOD, "ShowTypingWin", true),
-	bShowTypingTray(SRMMMOD, "ShowTypingTray", false),
-	bShowTypingClist(SRMMMOD, "ShowTypingClist", true),
-
-	bCascade(SRMMMOD, "Cascade", true),
-	bAutoMin(SRMMMOD, "AutoMin", false),
-	bAutoClose(SRMMMOD, "AutoClose", false),
-	bShowNames(SRMMMOD, "ShowNames", false),
-	bShowFormat(SRMMMOD, "ShowFormatting", true),
-	bSendButton(SRMMMOD, "UseSendButton", false),
-	bSendOnEnter(SRMMMOD, "SendOnEnter", true),
-	bCtrlSupport(SRMMMOD, "SupportCtrlUpDn", true),
-	bShowReadChar(SRMMMOD, "ShowCharCount", false),
-	bSendOnDblEnter(SRMMMOD, "SendOnDblEnter", false),
-	bSendOnCtrlEnter(SRMMMOD, "SendOnCtrlEnter", false),
-	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
-	bSavePerContact(SRMMMOD, "SavePerContact", false),
-	bDoNotStealFocus(SRMMMOD, "DoNotStealFocus", false),
-	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", true),
-
-	bLimitAvatarHeight(SRMMMOD, "AvatarLimitHeight", true),
-	iAvatarHeight(SRMMMOD, "AvatarHeight", 60),
-
-	popupFlags(SRMMMOD, "PopupFlags", 0),
-	nFlashMax(SRMMMOD, "FlashMax", 5),
-
-	msgTimeout(SRMMMOD, "MessageTimeout", 65000),
-
-	iLoadHistory(SRMMMOD, "LoadHistory", LOADHISTORY_UNREAD),
-	nLoadCount(SRMMMOD, "LoadCount", 10),
-	nLoadTime(SRMMMOD, "LoadTime", 10)
-{
-}
-
 void InitGlobals()
 {
 	int iOldValue = g_plugin.getByte("HideNames", -1);
 	if (iOldValue != -1) {
-		g_dat.bShowNames = !iOldValue;
+		g_plugin.bShowNames = !iOldValue;
 		g_plugin.delSetting("HideNames");
 	}
-
-	if (!g_dat.bSendOnEnter && !g_dat.bSendOnDblEnter)
-		g_dat.bSendOnCtrlEnter = true;
 
 	HookEvent(ME_DB_EVENT_ADDED, dbaddedevent);
 	HookEvent(ME_DB_EVENT_EDITED, dbaddedevent);

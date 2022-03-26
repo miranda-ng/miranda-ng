@@ -49,7 +49,6 @@ static HOTKEYDESC _hotkeydescs[] = {
 	{ "tabsrmm_clear", LPGEN("Clear message area"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'K'), 0, TABSRMM_HK_CLEARMSG },
 	{ "tabsrmm_sendlater", LPGEN("Toggle send later"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'S'), 0, TABSRMM_HK_TOGGLESENDLATER },
 
-	{ "tabsrmm_send", LPGEN("Send message"), TABSRMM_HK_SECTION_GENERIC, nullptr, 0, 0, TABSRMM_HK_SEND },
 	{ "tabsrmm_hist", LPGEN("Show message history"), TABSRMM_HK_SECTION_GENERIC, nullptr, HOTKEYCODE(HOTKEYF_ALT, 'H'), 0, TABSRMM_HK_HISTORY },
 	{ "tabsrmm_sendmenu", LPGEN("Show send menu"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'S'), 0, TABSRMM_HK_SENDMENU },
 	{ "tabsrmm_protomenu", LPGEN("Show protocol menu"), TABSRMM_HK_SECTION_IM, nullptr, HOTKEYCODE(HOTKEYF_CONTROL, 'P'), 0, TABSRMM_HK_PROTOMENU },

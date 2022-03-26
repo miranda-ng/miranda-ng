@@ -135,13 +135,6 @@ bool CMsgDialog::DM_GenericHotkeysCheck(MSG *message)
 		m_pContainer->OptionsDialog();
 		return true;
 
-	case TABSRMM_HK_SEND:
-		if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
-			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-			return true;
-		}
-		break;
-
 	case TABSRMM_HK_TOGGLEINFOPANEL:
 		m_pPanel.setActive(!m_pPanel.isActive());
 		m_pPanel.showHide();

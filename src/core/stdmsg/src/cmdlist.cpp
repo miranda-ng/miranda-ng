@@ -34,7 +34,7 @@ static VOID CALLBACK MsgTimer(HWND, UINT, UINT_PTR, DWORD dwTime)
 		mir_cslock lck(csMsgQueue);
 
 		for (auto &it : msgQueue.rev_iter())
-			if (dwTime - it->ts > g_dat.msgTimeout) {
+			if (dwTime - it->ts > g_plugin.msgTimeout) {
 				arTimedOut.insert(it);
 				msgQueue.removeItem(&it);
 			}

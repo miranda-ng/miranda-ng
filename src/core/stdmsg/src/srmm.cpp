@@ -41,7 +41,47 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(SRMMMOD, pluginInfoEx)
+	PLUGIN<CMPlugin>(SRMMMOD, pluginInfoEx),
+
+	bShowDate(SRMMMOD, "ShowDate", false),
+	bShowTime(SRMMMOD, "ShowTime", true),
+	bShowSecs(SRMMMOD, "ShowSeconds", true),
+	bShowIcons(SRMMMOD, "ShowLogIcon", true),
+	bShowAvatar(SRMMMOD, "AvatarEnable", true),
+	bShowButtons(SRMMMOD, "ShowButtonLine", true),
+
+	bTypingNew(SRMMMOD, "DefaultTyping", true),
+	bTypingUnknown(SRMMMOD, "UnknownTyping", false),
+
+	bShowTyping(SRMMMOD, "ShowTyping", true),
+	bShowTypingWin(SRMMMOD, "ShowTypingWin", true),
+	bShowTypingTray(SRMMMOD, "ShowTypingTray", false),
+	bShowTypingClist(SRMMMOD, "ShowTypingClist", true),
+
+	bCascade(SRMMMOD, "Cascade", true),
+	bAutoMin(SRMMMOD, "AutoMin", false),
+	bAutoClose(SRMMMOD, "AutoClose", false),
+	bShowNames(SRMMMOD, "ShowNames", false),
+	bShowFormat(SRMMMOD, "ShowFormatting", true),
+	bSendButton(SRMMMOD, "UseSendButton", false),
+	bCtrlSupport(SRMMMOD, "SupportCtrlUpDn", true),
+	bShowReadChar(SRMMMOD, "ShowCharCount", false),
+	bDeleteTempCont(SRMMMOD, "DeleteTempCont", false),
+	bSavePerContact(SRMMMOD, "SavePerContact", false),
+	bDoNotStealFocus(SRMMMOD, "DoNotStealFocus", false),
+	bUseStatusWinIcon(SRMMMOD, "UseStatusWinIcon", true),
+
+	bLimitAvatarHeight(SRMMMOD, "AvatarLimitHeight", true),
+	iAvatarHeight(SRMMMOD, "AvatarHeight", 60),
+
+	popupFlags(SRMMMOD, "PopupFlags", 0),
+	nFlashMax(SRMMMOD, "FlashMax", 5),
+
+	msgTimeout(SRMMMOD, "MessageTimeout", 65000),
+
+	iLoadHistory(SRMMMOD, "LoadHistory", LOADHISTORY_UNREAD),
+	nLoadCount(SRMMMOD, "LoadCount", 10),
+	nLoadTime(SRMMMOD, "LoadTime", 10)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

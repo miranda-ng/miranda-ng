@@ -154,7 +154,7 @@ MIR_APP_DLL(int) Hotkey_Register(const HOTKEYDESC *desc, HPLUGIN pPlugin)
 		p->Enabled = !db_get_b(0, DBMODULENAME "Off", p->pszName, 0);
 	}
 
-	p->pszService = desc->pszService ? mir_strdup(desc->pszService) : nullptr;
+	p->pszService = mir_strdup(desc->pszService);
 	p->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
 	p->Hotkey = db_get_w(0, DBMODULENAME, p->pszName, p->DefHotkey);
 	p->type = p->pszService ?

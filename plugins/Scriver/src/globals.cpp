@@ -269,22 +269,6 @@ void InitGlobals()
 	memset(&g_dat, 0, sizeof(struct GlobalMessageData));
 	g_dat.hParentWindowList = WindowList_Create();
 
-	if (!db_get_b(0, "Compatibility", "Scriver", 0)) {
-		if (g_plugin.getByte("SendOnEnter"))
-			g_dat.sendMode = SEND_ON_ENTER;
-		else if (g_plugin.getByte("SendOnDblEnter"))
-			g_dat.sendMode = SEND_ON_DBL_ENTER;
-		else if (g_plugin.getByte("SendOnCtrlEnter"))
-			g_dat.sendMode = SEND_ON_CTRL_ENTER;
-
-		g_plugin.setByte(SRMSGSET_SENDMODE, g_dat.sendMode);
-
-		g_plugin.delSetting("SendOnEnter");
-		g_plugin.delSetting("SendOnDblEnter");
-		g_plugin.delSetting("SendOnCtrlEnter");
-		db_set_b(0, "Compatibility", "Scriver", 1);
-	}
-
 	HookEvent(ME_PROTO_ACK, ackevent);
 	ReloadGlobals();
 	g_dat.lastParent = nullptr;
@@ -346,7 +330,6 @@ void ReloadGlobals()
 	g_dat.flags.bSaveDrafts = g_plugin.bSaveDrafts;
 	g_dat.flags.bDelTemp = g_plugin.bDelTemp;
 
-	g_dat.sendMode = (SendMode)g_plugin.getByte(SRMSGSET_SENDMODE, SRMSGDEFSET_SENDMODE);
 	g_dat.openFlags = g_plugin.iPopFlags;
 	g_dat.indentSize = g_plugin.iIndentSize;
 	g_dat.logLineColour = g_plugin.getDword(SRMSGSET_LINECOLOUR, SRMSGDEFSET_LINECOLOUR);

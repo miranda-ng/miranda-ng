@@ -98,7 +98,6 @@
 #define IDC_LOADCOUNTSPIN               1040
 #define IDC_SHOWSTATUSBAR               1041
 #define IDC_SHOWTOOLBAR                 1042
-#define IDC_SENDMODE                    1043
 #define IDC_LOADTIMEN                   1045
 #define IDC_LOADTIMESPIN                1046
 #define IDC_LOADTIME                    1047

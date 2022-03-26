@@ -23,18 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef SRMM_GLOBALS_H
 #define SRMM_GLOBALS_H
 
-typedef struct ImageListUsageEntry_tag
+struct ImageListUsageEntry
 {
 	int index;
 	int used;
-} ImageListUsageEntry;
-
-enum SendMode
-{
-	SEND_ON_ENTER,
-	SEND_ON_DBL_ENTER,
-	SEND_ON_CTRL_ENTER,
-	SEND_ON_SHIFT_ENTER
 };
 
 struct WindowFlags
@@ -99,11 +91,10 @@ struct GlobalMessageData
 		TabFlags flags2;
 	};
 
-	uint32_t      openFlags;
-	uint32_t      limitNamesLength;
+	uint32_t   openFlags;
+	uint32_t   limitNamesLength;
 	int        activeAlpha;
 	int        inactiveAlpha;
-	SendMode   sendMode;
 	int        tabIconListUsageSize;
 	int        smileyAddInstalled;
 	int        limitTabsNum;
@@ -116,7 +107,7 @@ struct GlobalMessageData
 	HBRUSH     hInfobarBrush;
 	int        toolbarPosition;
 	HWND       hFocusWnd;
-	uint32_t      logLineColour;
+	uint32_t   logLineColour;
 	int        logPixelSX;
 	int        logPixelSY;
 	HICON      hMsgIcon;

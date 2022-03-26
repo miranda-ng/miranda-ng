@@ -49,9 +49,6 @@
     <ClInclude Include="src\cmdlist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\globals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\msgs.h">
       <Filter>Header Files</Filter>
     </ClInclude>

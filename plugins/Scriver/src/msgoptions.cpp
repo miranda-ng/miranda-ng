@@ -244,7 +244,6 @@ class CMainOptionsDlg : public CBaseOptionDlg
 	CCtrlSpin spinTimeout;
 	CCtrlCheck chkAutoMin, chkAutoPopup, chkCascade, chkSavePerContact, chkStayMinimized;
 	CCtrlCheck chkSaveDrafts, chkDelTemp, chkHideContainer;
-	CCtrlCombo cmbSendMode;
 	CCtrlTreeView m_tree;
 
 public:
@@ -255,7 +254,6 @@ public:
 		chkAutoMin(this, IDC_AUTOMIN),
 		chkCascade(this, IDC_CASCADE),
 		chkDelTemp(this, IDC_DELTEMP),
-		cmbSendMode(this, IDC_SENDMODE),
 		chkAutoPopup(this, IDC_AUTOPOPUP),
 		chkSaveDrafts(this, IDC_SAVEDRAFTS),
 		chkHideContainer(this, IDC_HIDECONTAINERS),
@@ -280,20 +278,12 @@ public:
 	{
 		SetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE, (GetWindowLongPtr(m_tree.GetHwnd(), GWL_STYLE) & ~WS_BORDER) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		FillCheckBoxTree(statusValues, _countof(statusValues), g_plugin.iPopFlags);
-
-		cmbSendMode.AddString(TranslateT("Enter"));
-		cmbSendMode.AddString(TranslateT("Double 'Enter'"));
-		cmbSendMode.AddString(TranslateT("Ctrl+Enter"));
-		cmbSendMode.AddString(TranslateT("Shift+Enter"));
-		cmbSendMode.SetCurSel(g_dat.sendMode);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		g_plugin.iPopFlags = MakeCheckBoxTreeFlags();
-
-		g_plugin.setByte(SRMSGSET_SENDMODE, cmbSendMode.GetCurSel());
 		return true;
 	}
 

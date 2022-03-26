@@ -105,7 +105,6 @@ CMsgDialog::CMsgDialog(MCONTACT hContact, bool bIncoming) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 
-	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnDetails(this, IDC_DETAILS),
@@ -126,7 +125,6 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 	m_splitterX(this, IDC_SPLITTERX),
 	m_splitterY(this, IDC_SPLITTERY),
 
-	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnDetails(this, IDC_DETAILS),
@@ -858,12 +856,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg) {
 	case WM_KEYDOWN:
-		if (wParam == VK_RETURN) {
-			if (CheckSend())
-				return 0;
-		}
-		else m_iLastEnterTime = 0;
-
 		if (isChat()) {
 			bool isShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
 			bool isCtrl = (GetKeyState(VK_CONTROL) & 0x8000) != 0;
@@ -918,16 +910,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 		SetActiveWindow(m_hwnd);
 		break;
 
-	case WM_MOUSEWHEEL:
-	case WM_LBUTTONDOWN:
-	case WM_RBUTTONDOWN:
-	case WM_MBUTTONDOWN:
-	case WM_KILLFOCUS:
-		m_iLastEnterTime = 0;
-		break;
-
 	case WM_SYSCHAR:
-		m_iLastEnterTime = 0;
 		if ((wParam == 's' || wParam == 'S') && (GetKeyState(VK_MENU) & 0x8000)) {
 			PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 			return 0;

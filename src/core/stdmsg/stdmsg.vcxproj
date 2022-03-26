@@ -43,7 +43,6 @@
     </ClCompile>
     <ClCompile Include="src\tabs.cpp" />
     <ClInclude Include="src\cmdlist.h" />
-    <ClInclude Include="src\globals.h" />
     <ClInclude Include="src\msgs.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\statusicon.h" />

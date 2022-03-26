@@ -182,7 +182,7 @@ void CTabbedWindow::OnDestroy()
 
 	SaveWindowPosition(true);
 
-	Utils_SaveWindowPosition(m_hwnd, g_dat.bSavePerContact ? ((m_pEmbed == nullptr) ? 0 : m_pEmbed->m_hContact) : 0, CHAT_MODULE, "room");
+	Utils_SaveWindowPosition(m_hwnd, g_plugin.bSavePerContact ? ((m_pEmbed == nullptr) ? 0 : m_pEmbed->m_hContact) : 0, CHAT_MODULE, "room");
 
 	if (m_pEmbed == nullptr)
 		g_pTabDialog = nullptr;
@@ -305,7 +305,7 @@ void CTabbedWindow::FixTabIcons(CMsgDialog *pDlg)
 	// set the container's icon only if we're processing the current page
 	if (pDlg == CurrPage()) {
 		Window_FreeIcon_IcoLib(m_hwnd);
-		if (g_dat.bUseStatusWinIcon)
+		if (g_plugin.bUseStatusWinIcon)
 			Window_SetProtoIcon_IcoLib(m_hwnd, pDlg->m_szProto, pDlg->m_wStatus);
 		else if (pDlg->isChat())
 			Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_CHANMGR));
@@ -392,15 +392,15 @@ void CTabbedWindow::SetWindowPosition()
 	}
 
 	int flag = m_pEmbed->m_bNoActivate ? RWPF_HIDDEN : 0;
-	if (Utils_RestoreWindowPosition(m_hwnd, g_dat.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room", flag)) {
-		if (g_dat.bSavePerContact) {
+	if (Utils_RestoreWindowPosition(m_hwnd, g_plugin.bSavePerContact ? m_pEmbed->m_hContact : 0, CHAT_MODULE, "room", flag)) {
+		if (g_plugin.bSavePerContact) {
 			if (Utils_RestoreWindowPosition(m_hwnd, 0, CHAT_MODULE, "room", flag | RWPF_NOMOVE))
 				SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 		}
 		else SetWindowPos(m_hwnd, nullptr, 0, 0, 550, 400, SWP_NOZORDER | SWP_NOMOVE | SWP_SHOWWINDOW);
 	}
 
-	if (!g_dat.bSavePerContact && g_dat.bCascade) {
+	if (!g_plugin.bSavePerContact && g_plugin.bCascade) {
 		RECT rc, rcMax = {};
 		CTabbedWindow *pMaxTab = nullptr;
 

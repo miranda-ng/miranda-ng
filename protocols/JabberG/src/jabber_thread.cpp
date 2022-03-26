@@ -1570,9 +1570,8 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			}
 			hContact = DBCreateContact(from, nick, true, true);
 		}
-		if (hContact && m_bUseOMEMO)
-		{
-			char szBareJid[JABBER_MAX_JID_LEN];
+		
+		if (hContact && m_bUseOMEMO) {
 			XmlNodeIq iq("get", SerialNext());
 			iq << XATTR("from", m_ThreadInfo->fullJID);
 			iq << XATTR("to", from);

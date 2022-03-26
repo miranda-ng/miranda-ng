@@ -67,7 +67,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	static INT_PTR CALLBACK FilterWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 	CCtrlBase m_avatar;
-	CCtrlButton m_btnOk;
 	
 	void OnFlash(CTimer *);
 	void OnType(CTimer *);

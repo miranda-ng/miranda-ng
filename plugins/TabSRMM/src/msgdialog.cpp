@@ -313,7 +313,6 @@ CMsgDialog::CMsgDialog(int iDlgId, MCONTACT hContact) :
 	CSuper(g_plugin, iDlgId),
 	m_pPanel(this),
 	timerAwayMsg(this, 4),
-	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)
@@ -331,7 +330,6 @@ CMsgDialog::CMsgDialog(SESSION_INFO *si) :
 	CSuper(g_plugin, IDD_CHANNEL, si),
 	m_pPanel(this),
 	timerAwayMsg(this, 4),
-	m_btnOk(this, IDOK),
 	m_btnAdd(this, IDC_ADD),
 	m_btnQuote(this, IDC_QUOTE),
 	m_btnCancelAdd(this, IDC_CANCELADD)
@@ -1505,6 +1503,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE | RDW_ERASE | RDW_UPDATENOW | RDW_ALLCHILDREN);
 			return _dlgReturn(m_hwnd, 1);
 		}
+		
 		if (DM_GenericHotkeysCheck(&message)) {
 			m_bkeyProcessed = true;
 			return _dlgReturn(m_hwnd, 1);
@@ -1786,8 +1785,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_MOUSEWHEEL:
 		if (DM_MouseWheelHandler(wParam, lParam) == 0)
 			return 0;
-
-		m_iLastEnterTime = 0;
 		break;
 
 	case EM_PASTESPECIAL:
@@ -1857,47 +1854,11 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			replaceStrW(m_wszSearchResult, nullptr);
 		}
 
-		if (wParam == VK_RETURN) {
-			if (m_bEditNotesActive)
-				break;
-
-			if (isShift) {
-				if (PluginConfig.m_bSendOnShiftEnter) {
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-					return 0;
-				}
-				else break;
-			}
-			if ((isCtrl && !isShift) ^ (0 != PluginConfig.m_bSendOnEnter)) {
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-				return 0;
-			}
-			if (PluginConfig.m_bSendOnEnter || PluginConfig.m_bSendOnDblEnter) {
-				if (isCtrl)
-					break;
-
-				if (PluginConfig.m_bSendOnDblEnter) {
-					if (m_iLastEnterTime + 2 < time(0)) {
-						m_iLastEnterTime = time(0);
-						break;
-					}
-					else {
-						m_message.SendMsg(WM_KEYDOWN, VK_BACK, 0);
-						m_message.SendMsg(WM_KEYUP, VK_BACK, 0);
-						PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-						return 0;
-					}
-				}
-				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-				return 0;
-			}
-			else break;
-		}
-		else m_iLastEnterTime = 0;
+		if (wParam == VK_RETURN && m_bEditNotesActive)
+			break;
 
 		if (isCtrl && !isAlt && !isShift) {
 			if (wParam == VK_UP || wParam == VK_DOWN) {          // input history scrolling (ctrl-up / down)
-				m_iLastEnterTime = 0;
 				m_cache->inputHistoryEvent(wParam);
 				return 0;
 			}
@@ -1912,7 +1873,6 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			case VK_END:
 				WPARAM wp = 0;
 
-				m_iLastEnterTime = 0;
 				if (wParam == VK_UP)
 					wp = MAKEWPARAM(SB_LINEUP, 0);
 				else if (wParam == VK_PRIOR)

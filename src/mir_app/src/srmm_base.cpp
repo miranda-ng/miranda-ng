@@ -36,6 +36,7 @@ CSrmmBaseDialog::CSrmmBaseDialog(CMPluginBase &pPlugin, int idDialog, SESSION_IN
 	m_message(this, IDC_SRMM_MESSAGE),
 	m_nickList(this, IDC_SRMM_NICKLIST),
 
+	m_btnOk(this, IDOK),
 	m_btnFilter(this, IDC_SRMM_FILTER),
 	m_btnHistory(this, IDC_SRMM_HISTORY),
 	m_btnNickList(this, IDC_SRMM_SHOWNICKLIST),
@@ -202,6 +203,17 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 		}
+
+		{
+			MSG tmp = { m_hwnd, msg, wParam, lParam };
+			if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
+				if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
+					m_btnOk.Click();
+					return true;
+				}
+			}
+		}
+
 		__fallthrough;
 
 	case WM_SYSKEYDOWN:

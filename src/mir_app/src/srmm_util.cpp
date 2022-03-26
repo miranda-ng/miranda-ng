@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "chat.h"
 
+const char *g_pszHotkeySection;
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
@@ -80,6 +82,28 @@ MIR_APP_DLL(int) Srmm_GetWindowData(MCONTACT hContact, MessageWindowData &mwd)
 MIR_APP_DLL(void) Srmm_Broadcast(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WindowList_Broadcast(g_hWindowList, msg, wParam, lParam);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_APP_DLL(void) Srmm_CreateHotkey(const char *pszSection, const char *pszDescription)
+{
+	g_pszHotkeySection = pszSection;
+
+	uint16_t wHotKey = HOTKEYCODE(0, VK_RETURN);
+	if (db_get_b(0, SRMM_MODULE, "SendOnCtrlEnter")) {
+		db_unset(0, SRMM_MODULE, "SendOnCtrlEnter");
+		wHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_RETURN);
+	}
+
+	if (db_get_b(0, SRMM_MODULE, "SendOnEnter"))
+		db_unset(0, SRMM_MODULE, "SendOnEnter");
+
+	if (db_get_b(0, SRMM_MODULE, "SendOnDblEnter"))
+		db_unset(0, SRMM_MODULE, "SendOnDblEnter");
+
+	HOTKEYDESC hd = { "tabsrmm_send", pszDescription, pszSection, 0, wHotKey, 0, 100 };
+	Hotkey_Register(&hd, g_pChatPlugin);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

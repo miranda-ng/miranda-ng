@@ -83,7 +83,7 @@ static void AppendToBufferWithRTF(CMStringA &buf, const wchar_t *line)
 			buf.AppendChar('\\');
 			buf.AppendChar(*line);
 		}
-		else if (*line == '[' && (g_dat.bShowFormat)) {
+		else if (*line == '[' && (g_plugin.bShowFormat)) {
 			int i, found = 0;
 			for (i = 0; i < _countof(bbcodes); ++i) {
 				if (line[1] == bbcodes[i][1]) {
@@ -237,7 +237,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 			buf.Append("\\rtlch\\ltrch");
 	}
 
-	if (g_dat.bShowIcons) {
+	if (g_plugin.bShowIcons) {
 		int i = ((dbei.eventType == EVENTTYPE_MESSAGE) ? ((dbei.flags & DBEF_SENT) ? LOGICON_MSG_OUT : LOGICON_MSG_IN): LOGICON_MSG_NOTICE);
 		
 		buf.Append("\\f0\\fs14");
@@ -245,14 +245,14 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 	}
 
 	int showColon = 0;
-	if (g_dat.bShowTime) {
+	if (g_plugin.bShowTime) {
 		const wchar_t* szFormat;
 		wchar_t str[64];
 
-		if (g_dat.bShowSecs)
-			szFormat = g_dat.bShowDate ? L"d s" : L"s";
+		if (g_plugin.bShowSecs)
+			szFormat = g_plugin.bShowDate ? L"d s" : L"s";
 		else
-			szFormat = g_dat.bShowDate ? L"d t" : L"t";
+			szFormat = g_plugin.bShowDate ? L"d t" : L"t";
 
 		TimeZone_PrintTimeStamp(nullptr, dbei.timestamp, szFormat, str, _countof(str), 0);
 
@@ -261,7 +261,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		showColon = 1;
 	}
 
-	if (g_dat.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
+	if (g_plugin.bShowNames && dbei.eventType != EVENTTYPE_JABBER_CHATSTATES && dbei.eventType != EVENTTYPE_JABBER_PRESENCE) {
 		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {
@@ -516,7 +516,7 @@ void CLogWindow::LogEvents(MEVENT hDbEventFirst, int count, bool bAppend)
 		m_rtf.SendMsg(EM_SETSCROLLPOS, 0, (LPARAM)&scrollPos);
 	}
 
-	if (g_dat.bSmileyInstalled) {
+	if (g_plugin.bSmileyInstalled) {
 		SMADD_RICHEDIT3 smre;
 		smre.cbSize = sizeof(SMADD_RICHEDIT3);
 		smre.hwndRichEditControl = m_rtf.GetHwnd();

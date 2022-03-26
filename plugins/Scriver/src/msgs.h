@@ -87,7 +87,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend struct ParentWindowData;
 	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	bool   CheckSend(void);
 	void   ClearLog(void);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
@@ -145,7 +144,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	wchar_t *m_wszSearchQuery, *m_wszSearchResult;
 	SESSION_INFO *m_pLastSession;
 
-	CCtrlButton m_btnOk, m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
+	CCtrlButton m_btnAdd, m_btnUserMenu, m_btnQuote, m_btnDetails;
 	CSplitter m_splitterX, m_splitterY;
 
 public:

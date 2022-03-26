@@ -476,9 +476,6 @@ static TOptionListGroup lvGroupsMsg[] =
 
 static TOptionListItem lvItemsMsg[] =
 {
-	{ 0, LPGENW("Send on Shift+Enter"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendonshiftenter", 1 },
-	{ 0, LPGENW("Send message on 'Enter'"), SRMSGDEFSET_SENDONENTER, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_SENDONENTER, 1 },
-	{ 0, LPGENW("Send message on double 'Enter'"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SendOnDblEnter", 1 },
 	{ 0, LPGENW("Minimize the message window on send"), SRMSGDEFSET_AUTOMIN, LOI_TYPE_SETTING, (UINT_PTR)SRMSGSET_AUTOMIN, 1 },
 	{ 0, LPGENW("Close the message window on send"), 0, LOI_TYPE_SETTING, (UINT_PTR)"AutoClose", 1 },
 	{ 0, LPGENW("Always flash contact list and tray icon for new messages"), 0, LOI_TYPE_SETTING, (UINT_PTR)"flashcl", 0 },

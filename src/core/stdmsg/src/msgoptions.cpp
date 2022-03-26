@@ -25,15 +25,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int ChatOptionsInitialize(WPARAM);
 
-struct FontOptionsList
+struct
 {
-	const wchar_t* szDescr;
-	COLORREF     defColour;
-	const wchar_t* szDefFace;
-	uint8_t         defStyle;
-	char         defSize;
+	wchar_t* szDescr;
+	COLORREF defColour;
+	wchar_t* szDefFace;
+	uint8_t  defStyle;
+	char     defSize;
 }
-static const fontOptionsList[] =
+static fontOptionsList[] =
 {
 	{ LPGENW("Outgoing messages"), RGB(106, 106, 106), L"Arial",    0, -12},
 	{ LPGENW("Incoming messages"), RGB(0, 0, 0),       L"Arial",    0, -12},
@@ -126,20 +126,20 @@ void RegisterSRMMFonts(void)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct CheckBoxValues_t
+struct
 {
-	uint32_t  style;
+	uint32_t style;
 	wchar_t* szDescr;
 }
-statusValues[] =
+static statusValues[] =
 {
 	{ MODEF_OFFLINE, LPGENW("Offline") },
-	{ PF2_ONLINE, LPGENW("Online") },
+	{ PF2_ONLINE,    LPGENW("Online") },
 	{ PF2_SHORTAWAY, LPGENW("Away") },
-	{ PF2_LONGAWAY, LPGENW("Not available") },
-	{ PF2_LIGHTDND, LPGENW("Occupied") },
-	{ PF2_HEAVYDND, LPGENW("Do not disturb") },
-	{ PF2_FREECHAT, LPGENW("Free for chat") },
+	{ PF2_LONGAWAY,  LPGENW("Not available") },
+	{ PF2_LIGHTDND,  LPGENW("Occupied") },
+	{ PF2_HEAVYDND,  LPGENW("Do not disturb") },
+	{ PF2_FREECHAT,  LPGENW("Free for chat") },
 	{ PF2_INVISIBLE, LPGENW("Invisible") }
 };
 
@@ -149,7 +149,7 @@ class COptionMainDlg : public CDlgBase
 	CCtrlCheck chkAutoMin, chkAutoClose, chkSavePerContact, chkDoNotStealFocus, chkStatusWin;
 	CCtrlCheck chkDelTemp, chkCascade, chkCharCount, chkCtrlSupport;
 	CCtrlCheck chkAvatar, chkLimitAvatar;
-	CCtrlCheck chkSendOnEnter, chkSendOnDblEnter, chkSendOnCtrlEnter, chkShowSend, chkShowButtons;
+	CCtrlCheck chkShowSend, chkShowButtons;
 
 	CCtrlTreeView tree;
 
@@ -202,9 +202,6 @@ public:
 		chkLimitAvatar(this, IDC_LIMITAVATARH),
 		chkShowButtons(this, IDC_SHOWBUTTONLINE),
 		chkCtrlSupport(this, IDC_CTRLSUPPORT),
-		chkSendOnEnter(this, IDC_SENDONENTER),
-		chkSendOnDblEnter(this, IDC_SENDONDBLENTER),
-		chkSendOnCtrlEnter(this, IDC_SENDONCTRLENTER),
 		chkSavePerContact(this, IDC_SAVEPERCONTACT),
 		chkDoNotStealFocus(this, IDC_DONOTSTEALFOCUS)
 	{
@@ -216,48 +213,45 @@ public:
 		chkLimitAvatar.OnChange = Callback(this, &COptionMainDlg::onChange_LimitAvatar);
 		chkSavePerContact.OnChange = Callback(this, &COptionMainDlg::onChange_SavePerContact);
 
-		CreateLink(edtNFlash, g_dat.nFlashMax);
-		CreateLink(edtAvatarH, g_dat.iAvatarHeight);
+		CreateLink(edtNFlash, g_plugin.nFlashMax);
+		CreateLink(edtAvatarH, g_plugin.iAvatarHeight);
 
-		CreateLink(chkAvatar, g_dat.bShowAvatar);
-		CreateLink(chkLimitAvatar, g_dat.bLimitAvatarHeight);
+		CreateLink(chkAvatar, g_plugin.bShowAvatar);
+		CreateLink(chkLimitAvatar, g_plugin.bLimitAvatarHeight);
 
-		CreateLink(chkDelTemp, g_dat.bDeleteTempCont);
-		CreateLink(chkCascade, g_dat.bCascade);
-		CreateLink(chkAutoMin, g_dat.bAutoMin);
-		CreateLink(chkAutoClose, g_dat.bAutoClose);
-		CreateLink(chkShowSend, g_dat.bSendButton);
-		CreateLink(chkCharCount, g_dat.bShowReadChar);
-		CreateLink(chkStatusWin, g_dat.bUseStatusWinIcon);
-		CreateLink(chkShowButtons, g_dat.bShowButtons);
-		CreateLink(chkCtrlSupport, g_dat.bCtrlSupport);
-		CreateLink(chkSendOnEnter, g_dat.bSendOnEnter);
-		CreateLink(chkSendOnDblEnter, g_dat.bSendOnDblEnter);
-		CreateLink(chkSendOnCtrlEnter, g_dat.bSendOnCtrlEnter);
-		CreateLink(chkSavePerContact, g_dat.bSavePerContact);
-		CreateLink(chkDoNotStealFocus, g_dat.bDoNotStealFocus);
+		CreateLink(chkDelTemp, g_plugin.bDeleteTempCont);
+		CreateLink(chkCascade, g_plugin.bCascade);
+		CreateLink(chkAutoMin, g_plugin.bAutoMin);
+		CreateLink(chkAutoClose, g_plugin.bAutoClose);
+		CreateLink(chkShowSend, g_plugin.bSendButton);
+		CreateLink(chkCharCount, g_plugin.bShowReadChar);
+		CreateLink(chkStatusWin, g_plugin.bUseStatusWinIcon);
+		CreateLink(chkShowButtons, g_plugin.bShowButtons);
+		CreateLink(chkCtrlSupport, g_plugin.bCtrlSupport);
+		CreateLink(chkSavePerContact, g_plugin.bSavePerContact);
+		CreateLink(chkDoNotStealFocus, g_plugin.bDoNotStealFocus);
 	}
 
 	bool OnInitDialog() override
 	{
-		FillCheckBoxTree(g_dat.popupFlags);
+		FillCheckBoxTree(g_plugin.popupFlags);
 
-		uint32_t msgTimeout = g_dat.msgTimeout;
+		uint32_t msgTimeout = g_plugin.msgTimeout;
 		edtSecs.SetInt((msgTimeout >= 5000) ? msgTimeout / 1000 : 5);
 		
-		chkCascade.Enable(!g_dat.bSavePerContact);
-		chkCtrlSupport.Enable(!g_dat.bAutoClose);
+		chkCascade.Enable(!g_plugin.bSavePerContact);
+		chkCtrlSupport.Enable(!g_plugin.bAutoClose);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		g_dat.popupFlags = MakeCheckBoxTreeFlags();
+		g_plugin.popupFlags = MakeCheckBoxTreeFlags();
 
 		uint32_t msgTimeout = edtSecs.GetInt() * 1000;
 		if (msgTimeout < 5000)
 			msgTimeout = 5000;
-		g_dat.msgTimeout = msgTimeout;
+		g_plugin.msgTimeout = msgTimeout;
 
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
 		return true;
@@ -327,17 +321,17 @@ public:
 		chkTime.OnChange = Callback(this, &COptionLogDlg::onChange_Time);
 		chkLoadUnread.OnChange = chkLoadCount.OnChange = chkLoadTime.OnChange = Callback(this, &COptionLogDlg::onChange_Load);
 
-		CreateLink(chkSecs, g_dat.bShowSecs);
-		CreateLink(chkDate, g_dat.bShowDate);
-		CreateLink(chkTime, g_dat.bShowTime);
-		CreateLink(chkIcons, g_dat.bShowIcons);
-		CreateLink(chkFormat, g_dat.bShowFormat);
-		CreateLink(chkShowNames, g_dat.bShowNames);
+		CreateLink(chkSecs, g_plugin.bShowSecs);
+		CreateLink(chkDate, g_plugin.bShowDate);
+		CreateLink(chkTime, g_plugin.bShowTime);
+		CreateLink(chkIcons, g_plugin.bShowIcons);
+		CreateLink(chkFormat, g_plugin.bShowFormat);
+		CreateLink(chkShowNames, g_plugin.bShowNames);
 	}
 	
 	bool OnInitDialog() override
 	{
-		switch (g_dat.iLoadHistory) {
+		switch (g_plugin.iLoadHistory) {
 		case LOADHISTORY_UNREAD:
 			chkLoadUnread.SetState(true);
 			break;
@@ -354,21 +348,21 @@ public:
 			break;
 		}
 
-		spinCount.SetPosition(g_dat.nLoadCount);
-		spinTime.SetPosition(g_dat.nLoadTime);
+		spinCount.SetPosition(g_plugin.nLoadCount);
+		spinTime.SetPosition(g_plugin.nLoadTime);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		if (chkLoadCount.GetState())
-			g_dat.iLoadHistory = LOADHISTORY_COUNT;
+			g_plugin.iLoadHistory = LOADHISTORY_COUNT;
 		else if (chkLoadTime.GetState())
-			g_dat.iLoadHistory = LOADHISTORY_TIME;
+			g_plugin.iLoadHistory = LOADHISTORY_TIME;
 		else
-			g_dat.iLoadHistory = LOADHISTORY_UNREAD;
-		g_dat.nLoadCount = spinCount.GetPosition();
-		g_dat.nLoadTime = spinTime.GetPosition();
+			g_plugin.iLoadHistory = LOADHISTORY_UNREAD;
+		g_plugin.nLoadCount = spinCount.GetPosition();
+		g_plugin.nLoadTime = spinTime.GetPosition();
 
 		FreeMsgLogIcons();
 		LoadMsgLogIcons();
@@ -423,10 +417,10 @@ public:
 		chkType.OnChange = Callback(this, &COptionTypingDlg::onChange_ShowNotify);
 		chkTypeTray.OnChange = Callback(this, &COptionTypingDlg::onChange_Tray);
 
-		CreateLink(chkType, g_dat.bShowTyping);
-		CreateLink(chkTypeWin, g_dat.bShowTypingWin);
-		CreateLink(chkTypeTray, g_dat.bShowTypingTray);
-		CreateLink(chkTypeClist, g_dat.bShowTypingClist);
+		CreateLink(chkType, g_plugin.bShowTyping);
+		CreateLink(chkTypeWin, g_plugin.bShowTypingWin);
+		CreateLink(chkTypeTray, g_plugin.bShowTypingTray);
+		CreateLink(chkTypeClist, g_plugin.bShowTypingClist);
 	}
 
 	void ResetCList(CCtrlClc::TEventInfo* = nullptr)
@@ -437,11 +431,11 @@ public:
 
 	void RebuildList(CCtrlClc::TEventInfo* = nullptr)
 	{
-		uint8_t defType = g_dat.bTypingNew;
+		uint8_t defType = g_plugin.bTypingNew;
 		if (hItemNew && defType)
 			clist.SetCheck(hItemNew, 1);
 
-		if (hItemUnknown && g_dat.bTypingUnknown)
+		if (hItemUnknown && g_plugin.bTypingUnknown)
 			clist.SetCheck(hItemUnknown, 1);
 
 		for (auto &hContact : Contacts()) {
@@ -454,10 +448,10 @@ public:
 	void SaveList()
 	{
 		if (hItemNew)
-			g_dat.bTypingNew = clist.GetCheck(hItemNew);
+			g_plugin.bTypingNew = clist.GetCheck(hItemNew);
 
 		if (hItemUnknown)
-			g_dat.bTypingUnknown = clist.GetCheck(hItemUnknown);
+			g_plugin.bTypingUnknown = clist.GetCheck(hItemUnknown);
 
 		for (auto &hContact : Contacts()) {
 			HANDLE hItem = clist.FindContact(hContact);
