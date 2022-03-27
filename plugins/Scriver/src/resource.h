@@ -38,7 +38,6 @@
 #define IDD_OPTIONS1                    402
 #define IDD_OPTIONS2                    403
 #define IDD_FILTER                      405
-#define IDD_OPTIONSPOPUP                406
 #define IDI_BUNDERLINE                  420
 #define IDI_BBOLD                       421
 #define IDI_BITALICS                    422
@@ -173,7 +172,6 @@
 #define IDC_CHAT_CHECKBOXES             5021
 #define IDC_CHAT_NICKROW                5024
 #define IDC_CHAT_LOGLIMIT               5024
-#define IDC_CHAT_SPIN1                  5028
 #define IDC_CHAT_SPIN2                  5029
 #define IDC_CHAT_SPIN3                  5030
 #define IDC_CHAT_HIGHLIGHTWORDS         5040
@@ -185,12 +183,6 @@
 #define IDC_CHAT_LIMIT                  5050
 #define IDC_CHAT_LOGTIMESTAMP           5051
 #define IDC_CHAT_GROUP                  5057
-#define IDC_CHAT_RADIO1                 5061
-#define IDC_CHAT_RADIO2                 5062
-#define IDC_CHAT_RADIO3                 5063
-#define IDC_CHAT_TEXT                   5064
-#define IDC_CHAT_BKG                    5065
-#define IDC_CHAT_TIMEOUT                5067
 #define IDC_CHAT_HIGHLIGHT              5068
 #define IDC_CHAT_TEXTO                  5069
 #define IDC_CHAT_LOGGING                5069

@@ -963,6 +963,24 @@ BEGIN
     PUSHBUTTON      "Set password",IDC_USERPASS1,200,153,111,17
 END
 
+IDD_OPTIONSPOPUP DIALOGEX 0, 0, 277, 177
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "Group chats",IDC_STATIC,0,0,277,174
+    CONTROL         "Use same style as in the message log",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,33,29,225,10
+    CONTROL         "Use default colors",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,33,62,217,10
+    CONTROL         "Use custom colors",IDC_RADIO3,"Button",BS_AUTORADIOBUTTON,33,95,105,10
+    CONTROL         "",IDC_TEXT,"ColourPicker",WS_TABSTOP,141,93,50,14,WS_EX_NOACTIVATE | 0x10000000L
+    CONTROL         "",IDC_BKG,"ColourPicker",WS_TABSTOP,201,93,50,14,WS_EX_NOACTIVATE | 0x10000000L
+    EDITTEXT        IDC_TIMEOUT,132,134,38,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,169,135,11,14
+    LTEXT           "Timeout (s)",IDC_STATIC,33,138,92,8
+    LTEXT           "Text",IDC_STATIC,141,83,49,8
+    LTEXT           "Background",IDC_STATIC,201,83,67,8
+    LTEXT           "(Setting timeout to 0 means default setting and -1 means indefinite time)",IDC_STATIC,33,151,207,17
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //

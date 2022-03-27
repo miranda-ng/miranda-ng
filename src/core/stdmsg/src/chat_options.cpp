@@ -478,73 +478,6 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Popup options
-
-class COptPopupDlg : public CDlgBase
-{
-	CCtrlCheck chkRadio1, chkRadio2, chkRadio3;
-	CCtrlColor clrBack, clrText;
-
-public:
-	COptPopupDlg() :
-		CDlgBase(g_plugin, IDD_OPTIONSPOPUP),
-		clrBack(this, IDC_BKG),
-		clrText(this, IDC_TEXT),
-		chkRadio1(this, IDC_RADIO1),
-		chkRadio2(this, IDC_RADIO2),
-		chkRadio3(this, IDC_RADIO3)
-	{
-		chkRadio1.OnChange = chkRadio2.OnChange = chkRadio3.OnChange = Callback(this, &COptPopupDlg::onChange_Radio);
-	}
-
-	bool OnInitDialog() override
-	{
-		clrBack.SetColor(g_Settings.crPUBkgColour);
-		clrText.SetColor(g_Settings.crPUTextColour);
-
-		if (g_Settings.iPopupStyle == 2)
-			CheckDlgButton(m_hwnd, IDC_RADIO2, BST_CHECKED);
-		else if (g_Settings.iPopupStyle == 3)
-			CheckDlgButton(m_hwnd, IDC_RADIO3, BST_CHECKED);
-		else
-			CheckDlgButton(m_hwnd, IDC_RADIO1, BST_CHECKED);
-		onChange_Radio(0);
-
-		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETRANGE, 0, MAKELONG(100, -1));
-		SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_SETPOS, 0, MAKELONG(g_Settings.iPopupTimeout, 0));
-		return true;
-	}
-
-	bool OnApply() override
-	{
-		int iLen;
-		if (IsDlgButtonChecked(m_hwnd, IDC_RADIO2) == BST_CHECKED)
-			iLen = 2;
-		else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO3) == BST_CHECKED)
-			iLen = 3;
-		else
-			iLen = 1;
-		g_Settings.iPopupStyle = iLen;
-		db_set_b(0, CHAT_MODULE, "PopupStyle", (uint8_t)iLen);
-
-		iLen = SendDlgItemMessage(m_hwnd, IDC_SPIN1, UDM_GETPOS, 0, 0);
-		g_Settings.iPopupTimeout = iLen;
-		db_set_w(0, CHAT_MODULE, "PopupTimeout", (uint16_t)iLen);
-
-		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings.crPUBkgColour = clrBack.GetColor());
-		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings.crPUTextColour = clrText.GetColor());
-		return true;
-	}
-	
-	void onChange_Radio(CCtrlCheck*)
-	{
-		bool bStatus = chkRadio3.GetState();
-		clrBack.Enable(bStatus);
-		clrText.Enable(bStatus);
-	}
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Module init procedure
 
 int ChatOptionsInitialize(WPARAM wParam)
@@ -562,13 +495,6 @@ int ChatOptionsInitialize(WPARAM wParam)
 	odp.position = 910000001;
 	odp.szTab.a = LPGEN("Chat log");
 	odp.pDialog = new COptLogDlg();
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.position = 910000002;
-	odp.szTitle.a = LPGEN("Chat");
-	odp.szGroup.a = LPGEN("Popups");
-	odp.szTab.a = nullptr;
-	odp.pDialog = new COptPopupDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

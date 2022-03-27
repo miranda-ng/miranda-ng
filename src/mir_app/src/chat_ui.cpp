@@ -133,6 +133,73 @@ public:
 	void onClick_Log(CCtrlButton *) { InvertColumn(IDC_L1); }
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup options
+
+class COptPopupDlg : public CDlgBase
+{
+	CCtrlSpin  spinTimeout;
+	CCtrlCheck chkRadio1, chkRadio2, chkRadio3;
+	CCtrlColor clrBack, clrText;
+
+public:
+	COptPopupDlg() :
+		CDlgBase(g_plugin, IDD_OPTIONSPOPUP),
+		clrBack(this, IDC_BKG),
+		clrText(this, IDC_TEXT),
+		chkRadio1(this, IDC_RADIO1),
+		chkRadio2(this, IDC_RADIO2),
+		chkRadio3(this, IDC_RADIO3),
+		spinTimeout(this, IDC_SPIN1, 100, -1)
+	{
+		chkRadio1.OnChange = chkRadio2.OnChange = chkRadio3.OnChange = Callback(this, &COptPopupDlg::onChange_Radio);
+	}
+
+	bool OnInitDialog() override
+	{
+		clrBack.SetColor(g_Settings->crPUBkgColour);
+		clrText.SetColor(g_Settings->crPUTextColour);
+
+		if (g_Settings->iPopupStyle == 2)
+			CheckDlgButton(m_hwnd, IDC_RADIO2, BST_CHECKED);
+		else if (g_Settings->iPopupStyle == 3)
+			CheckDlgButton(m_hwnd, IDC_RADIO3, BST_CHECKED);
+		else
+			CheckDlgButton(m_hwnd, IDC_RADIO1, BST_CHECKED);
+		onChange_Radio(0);
+
+		spinTimeout.SetPosition(g_Settings->iPopupTimeout);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (IsDlgButtonChecked(m_hwnd, IDC_RADIO2) == BST_CHECKED)
+			g_Settings->iPopupStyle = 2;
+		else if (IsDlgButtonChecked(m_hwnd, IDC_RADIO3) == BST_CHECKED)
+			g_Settings->iPopupStyle = 3;
+		else
+			g_Settings->iPopupStyle = 1;
+		db_set_b(0, CHAT_MODULE, "PopupStyle", g_Settings->iPopupStyle);
+
+		db_set_w(0, CHAT_MODULE, "PopupTimeout", g_Settings->iPopupTimeout = spinTimeout.GetPosition());
+		db_set_dw(0, CHAT_MODULE, "PopupColorBG", g_Settings->crPUBkgColour = clrBack.GetColor());
+		db_set_dw(0, CHAT_MODULE, "PopupColorText", g_Settings->crPUTextColour = clrText.GetColor());
+		return true;
+	}
+
+	void onChange_Radio(CCtrlCheck *)
+	{
+		bool bStatus = chkRadio3.GetState();
+		clrBack.Enable(bStatus);
+		clrText.Enable(bStatus);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void ChatOptionsInit(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
@@ -142,5 +209,12 @@ void ChatOptionsInit(WPARAM wParam)
 	odp.szTitle.a = LPGEN("Group chats");
 	odp.szTab.a = LPGEN("Events and filters");
 	odp.pDialog = new CChatEventOptionDlg();
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.position = 910000002;
+	odp.szTitle.a = LPGEN("Group chats");
+	odp.szGroup.a = LPGEN("Popups");
+	odp.szTab.a = nullptr;
+	odp.pDialog = new COptPopupDlg();
 	g_plugin.addOptions(wParam, &odp);
 }

@@ -43,6 +43,7 @@
 #define IDD_OPT_SOUND                   134
 #define IDR_LOGMENU                     135
 #define IDI_RECVMSG                     136
+#define IDD_OPTIONSPOPUP                137
 #define IDI_URL                         138
 #define IDI_MCMENUOFF                   144
 #define IDI_MCMENU                      145
@@ -232,6 +233,7 @@
 #define IDC_MYNOTES                     1033
 #define IDC_TRAYONLYFORINACTIVE         1034
 #define IDC_POPUPONLYFORINACTIVE        1035
+#define IDC_TIMEOUT                     1036
 #define IDC_URLS                        1037
 #define IDC_COLORTEXT                   1038
 #define IDC_REPLY                       1039
@@ -591,9 +593,12 @@
 #define IDC_LANGUAGES                   1747
 #define IDC_GENMENU_MODULE              1748
 #define IDC_LOGROTATE                   1749
+#define IDC_RADIO3                      1750
 #define IDC_RIGHTCLICK                  1751
 #define IDC_FILTER_SEARCH               1752
 #define IDC_TREE                        1753
+#define IDC_BKG                         1754
+#define IDC_TEXT                        1755
 #define IDC_EFFECT_COLOUR_TEXT1         1853
 #define IDC_EFFECT_COLOUR_SPIN1         1854
 #define IDC_EXTRAORDER                  1889

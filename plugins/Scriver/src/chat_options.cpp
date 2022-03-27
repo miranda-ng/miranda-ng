@@ -554,82 +554,6 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, 
 	return FALSE;
 }
 
-static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_SETCOLOUR, 0, g_Settings.crPUBkgColour);
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_SETCOLOUR, 0, g_Settings.crPUTextColour);
-
-		if (g_Settings.iPopupStyle == 2)
-			CheckDlgButton(hwndDlg, IDC_CHAT_RADIO2, BST_CHECKED);
-		else if (g_Settings.iPopupStyle == 3)
-			CheckDlgButton(hwndDlg, IDC_CHAT_RADIO3, BST_CHECKED);
-		else
-			CheckDlgButton(hwndDlg, IDC_CHAT_RADIO1, BST_CHECKED);
-
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKG), IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO3) == BST_CHECKED ? TRUE : FALSE);
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_TEXT), IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO3) == BST_CHECKED ? TRUE : FALSE);
-
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN1, UDM_SETRANGE, 0, MAKELONG(100, -1));
-		SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN1, UDM_SETPOS, 0, MAKELONG(g_Settings.iPopupTimeout, 0));
-		break;
-
-	case WM_COMMAND:
-		if ((LOWORD(wParam) == IDC_CHAT_TIMEOUT) && (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))
-			return 0;
-
-		if (lParam)
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-
-		switch (LOWORD(wParam)) {
-		case IDC_CHAT_RADIO1:
-		case IDC_CHAT_RADIO2:
-		case IDC_CHAT_RADIO3:
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_BKG), IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO3) == BST_CHECKED ? TRUE : FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHAT_TEXT), IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO3) == BST_CHECKED ? TRUE : FALSE);
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				int iLen;
-				if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO2) == BST_CHECKED)
-					iLen = 2;
-				else if (IsDlgButtonChecked(hwndDlg, IDC_CHAT_RADIO3) == BST_CHECKED)
-					iLen = 3;
-				else
-					iLen = 1;
-
-				g_Settings.iPopupStyle = iLen;
-				db_set_b(0, CHAT_MODULE, "PopupStyle", (uint8_t)iLen);
-
-				iLen = SendDlgItemMessage(hwndDlg, IDC_CHAT_SPIN1, UDM_GETPOS, 0, 0);
-				g_Settings.iPopupTimeout = iLen;
-				db_set_w(0, CHAT_MODULE, "PopupTimeout", (uint16_t)iLen);
-
-				g_Settings.crPUBkgColour = SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(0, CHAT_MODULE, "PopupColorBG", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_CHAT_BKG, CPM_GETCOLOUR, 0, 0));
-				g_Settings.crPUTextColour = SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_GETCOLOUR, 0, 0);
-				db_set_dw(0, CHAT_MODULE, "PopupColorText", (uint32_t)SendDlgItemMessage(hwndDlg, IDC_CHAT_TEXT, CPM_GETCOLOUR, 0, 0));
-			}
-			return TRUE;
-		}
-		break;
-
-	case UM_CHECKSTATECHANGE:
-		PostMessage(hwndDlg, OPT_FIXHEADINGS, 0, 0);
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		break;
-	}
-	return FALSE;
-}
-
 void ChatOptInitialize(WPARAM wParam)
 {
 	OPTIONSDIALOGPAGE odp = {};
@@ -646,13 +570,5 @@ void ChatOptInitialize(WPARAM wParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS2);
 	odp.pfnDlgProc = DlgProcOptions2;
 	odp.szTab.a = LPGEN("Log formatting");
-	g_plugin.addOptions(wParam, &odp);
-
-	////////////////////////////////////////////////////////////////////////////////////////
-	odp.position = 910000002;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
-	odp.szGroup.a = LPGEN("Popups");
-	odp.szTitle.a = LPGEN("Messaging");
-	odp.pfnDlgProc = DlgProcOptionsPopup;
 	g_plugin.addOptions(wParam, &odp);
 }
