@@ -36,11 +36,11 @@ struct FontOptionsList
 	wchar_t *szDescr;
 	COLORREF defColour;
 	wchar_t *szDefFace;
-	uint8_t     defCharset, defStyle;
+	uint8_t  defCharset, defStyle;
 	char     defSize;
 	COLORREF colour;
 	wchar_t  szFace[LF_FACESIZE];
-	uint8_t     charset, style;
+	uint8_t  charset, style;
 	char     size;
 };
 

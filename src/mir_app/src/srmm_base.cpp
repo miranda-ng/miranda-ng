@@ -208,7 +208,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			MSG tmp = { m_hwnd, msg, wParam, lParam };
 			if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
 				if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
-					m_btnOk.Click();
+					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
 					return true;
 				}
 			}
