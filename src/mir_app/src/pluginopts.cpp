@@ -369,9 +369,8 @@ public:
 		for (int iRow = 0; iRow != -1;) {
 			wchar_t buf[1024];
 			m_plugList.GetItemText(iRow, 0, buf, _countof(buf));
-			int iState = m_plugList.GetItemState(iRow, LVIS_STATEIMAGEMASK);
-			SetPluginOnWhiteList(_T2A(buf), (iState & 0x2000) != 0);
 
+			int iState = m_plugList.GetItemState(iRow, LVIS_STATEIMAGEMASK);
 			if (iState != 0x3000) {
 				LVITEM lvi = { 0 };
 				lvi.mask = LVIF_IMAGE | LVIF_PARAM;
@@ -396,7 +395,7 @@ public:
 						if (dat->bWasLoaded) {
 							if (!dat->bRequiresRestart) {
 								if (!UnloadPluginDynamically(dat))
-									m_plugList.SetItemState(iRow, 0x2000, LVIS_STATEIMAGEMASK);
+									m_plugList.SetItemState(iRow, iState = 0x2000, LVIS_STATEIMAGEMASK);
 							}
 							else {
 								bufRestart.AppendFormat(L" - %s\n", buf);
@@ -406,6 +405,7 @@ public:
 					}
 				}
 			}
+			SetPluginOnWhiteList(_T2A(buf), (iState & 0x2000) != 0);
 
 			iRow = m_plugList.GetNextItem(iRow, LVNI_ALL);
 		}
