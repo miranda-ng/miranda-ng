@@ -168,34 +168,42 @@ int getDefaultPluginIdx(const MUUID &muuid)
 	return -1;
 }
 
-bool MuuidReplacement::Load()
+bool MuuidReplacement::Preload()
 {
-	wchar_t exe[MAX_PATH], tszPlugName[MAX_PATH];
-	GetModuleFileName(nullptr, exe, _countof(exe));
-	wchar_t *p = wcsrchr(exe, '\\'); if (p) *p = 0;
-
+	wchar_t tszPlugName[MAX_PATH];
 	mir_snwprintf(tszPlugName, L"%s.dll", stdplugname);
-	pluginEntry *ppe = OpenPlugin(tszPlugName, L"Core", exe);
+
+	pluginEntry *ppe = OpenPlugin(tszPlugName, L"Core", VARSW(L"%miranda_path%"));
 	if (ppe == nullptr) {
-LBL_Error:
-		Plugin_UnloadDyn(ppe);
 		pImpl = nullptr;
 		return false;
 	}
 
 	ppe->bIsCore = true;
+	pImpl = ppe;
+	return true;
+}
 
-	if (!TryLoadPlugin(ppe, true))
-		goto LBL_Error;
+bool MuuidReplacement::Load()
+{
+	if (pImpl == nullptr)
+		if (!Preload())
+			return false;
 
-	CMPluginBase *ppb = ppe->m_pPlugin;
+	if (!TryLoadPlugin(pImpl, true)) {
+LBL_Error:
+		Plugin_UnloadDyn(pImpl);
+		pImpl = nullptr;
+		return false;
+	}
+
+	CMPluginBase *ppb = pImpl->m_pPlugin;
 	if (g_bModulesLoadedFired) {
 		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
 			goto LBL_Error;
 
 		NotifyEventHooks(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
 	}
-	pImpl = ppe;
 	return true;
 }
 
@@ -299,17 +307,22 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	if (p == nullptr)
 		return true;
 
+	MuuidReplacement *stdPlugin = nullptr;
+
 	// mark default plugins to be loaded
 	if (!p->bIsCore)
 		for (auto &it : pluginDefault)
-			if (it.pImpl == p)
-				if (!it.Load()) {
-					MessageBoxW(nullptr, 
-						CMStringW(FORMAT, TranslateT("Plugin %S cannot be unloaded because the core plugin is missing"), p->pluginname), 
+			if (it.pImpl == p) {
+				if (!it.Preload()) {
+					MessageBoxW(nullptr,
+						CMStringW(FORMAT, TranslateT("Plugin %S cannot be unloaded because the core plugin is missing"), p->pluginname),
 						L"Miranda", MB_ICONERROR | MB_OK);
 					it.pImpl = p;
 					return false;
 				}
+
+				stdPlugin = &it;
+			}
 
 	// if plugin has active resources, kill them forcibly
 	CMPluginBase *ppb = p->m_pPlugin;
@@ -334,6 +347,9 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	}
 
 	Plugin_Uninit(p);
+
+	if (stdPlugin)
+		stdPlugin->Load();
 	return true;
 }
 

@@ -77,6 +77,7 @@ struct MuuidReplacement
 	wchar_t* stdplugname;
 	pluginEntry* pImpl; // replacement plugin
 
+	bool Preload();
 	bool Load();
 };
 
