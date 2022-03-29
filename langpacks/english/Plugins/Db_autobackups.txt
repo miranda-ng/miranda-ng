@@ -34,15 +34,13 @@
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup profile]
 [Save profile as...]
-[Enable &AutoBackups notification]
-[Disable &AutoBackups notification]
 [Miranda NG databases]
 [Compressed Miranda NG databases]
 [All files]
 [Database]
-[Popups]
 [Database backups]
 [Backup folder]
+[AutoBackups notifications]
 ;file \plugins\Db_autobackups\src\options.cpp
 [days]
 [hours]

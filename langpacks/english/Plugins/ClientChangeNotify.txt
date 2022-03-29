@@ -34,10 +34,8 @@
 [changed client to %s (was %s)]
 [changed client to %s]
 [%s (was %s)]
-[Disable c&lient change notification]
-[Enable c&lient change notification]
+[Client change notifications]
 [ClientChangeNotify: Client changed]
-[Popups]
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 [Can't open log file ]
@@ -49,4 +47,5 @@
 [Open contact menu]
 [Open contact history]
 [Do nothing]
+[Popups]
 [ClientChangeNotify]

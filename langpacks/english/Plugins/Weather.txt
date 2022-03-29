@@ -168,11 +168,10 @@
 [View Brief]
 [View Complete]
 [Weather Update]
-[Popup]
-[No Popup]
 [Edit Settings]
 [Condition Changed]
 [Alert Issued]
+[Weather notifications]
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
@@ -249,8 +248,6 @@
 [%[..]\tcustom variables]
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
-[Disable &weather notification]
-[Enable &weather notification]
 [Update Weather]
 [Remove Old Data then Update]
 [Brief Information]
@@ -259,7 +256,6 @@
 [Enable/Disable Weather Update]
 [Update All Weather]
 [Remove Old Data then Update All]
-[Weather Notification]
 [Display in a frame]
 ;file \protocols\Weather\src\weather_update.cpp
 [Unable to retrieve weather information for %s]

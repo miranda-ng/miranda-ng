@@ -39,8 +39,6 @@
 [Error memory allocation]
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
-[Enable WUMF popups]
-[Disable WUMF popups]
 [Show connections list]
-[Popups]
+[WUMF popups]
 [WUMF: Show connections]

@@ -24,9 +24,9 @@
 [An error has occurred. The protocol reported the following error:]
 [Try again]
 [Popup]
-[Add to List]
+[Add to list]
 [User details]
-[Send Message]
+[Send message]
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 [Contacts]

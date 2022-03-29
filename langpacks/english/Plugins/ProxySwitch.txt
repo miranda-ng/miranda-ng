@@ -33,14 +33,11 @@
 [disconnected]
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
-[Enable &IP change notification]
-[Disable &IP change notification]
+[IP change notification]
 [Show my &IP addresses]
 [Proxy settings && interfaces]
 [Disable proxy]
 [Enable proxy]
-[Popups]
-[IP change notification]
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 [ProxySwitch]
