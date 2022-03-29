@@ -1639,6 +1639,8 @@ S.ms
 [List Editor...]
 Редактор списков...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+Уведомления об ошибках %s
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [No valid OMEMO session exists]

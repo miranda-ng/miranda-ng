@@ -30,8 +30,6 @@
 Сообщать, если сообщение не удалось отправить за
 [seconds]
 секунд
-[Send message on:]
-Отправлять по:
 [Tabs]
 Вкладки
 [Enable tabs]
@@ -216,22 +214,6 @@
 Лимит
 [KB]
 КБ
-[Group chat]
-Комната чата
-[Use same style as in the message log]
-Тот же стиль, что и в журнале
-[Use default colors]
-Цвета по умолчанию
-[Use custom colors]
-Задать цвета
-[Text]
-Текст
-[Background]
-Фон
-[Timeout (s)]
-Длительность (с)
-[(0 means default setting, -1 means indefinite time)]
-0 = стандартные значения, -1 = бесконечное время
 [Message]
 Сообщение
 [Undo]
@@ -261,6 +243,8 @@
 Сообщения
 [Group chats]
 Чаты
+[Action: Send message]
+Действие: отправить сообщение
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Мигать, когда кто-то говорит
@@ -356,8 +340,6 @@ ID текущего контакта (если определён). Наприм
 Общее
 [Log formatting]
 Формат журнала
-[Popups]
-Всплывающие окна
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Добавить контакт
@@ -559,6 +541,8 @@ consectetur adipisicing elit
 Фон инфо-панели
 [Info bar status message]
 Инфо-панель: cтатусное сообщение
+[Background]
+Фон
 [Line between messages]
 Линии между сообщениями
 [Offline]
@@ -577,14 +561,6 @@ consectetur adipisicing elit
 Готов болтать
 [Invisible]
 Невидимый
-[Enter]
-Enter
-[Double 'Enter']
-двойному "Enter"
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** Новые контакты **
 [** Unknown contacts **]

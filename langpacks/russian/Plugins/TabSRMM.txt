@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.1
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@
 Подробнее о дополнительных настройках
 [Revert to (safe) defaults]
 Настройки по умолчанию
-[Event notify options]
-Настройки уведомлений
-[Limit message preview to]
-Ограничить предпросмотр
-[characters]
-символами
-[Only show event notifications when my status is...]
-Показывать уведомления о событиях, когда мой статус...
-[Popup options]
-Всплывающие окна
-[Text]
-Текст
-[Background]
-Фон
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Длительность (сек., 0=по умолчанию, -1=удержание)
-[Message]
-Сообщение
-[Use default colors]
-Цвета по умолчанию
-[Others]
-Другое
-[Preview]
-Тест
-[Group chats]
-Чаты
-[Errors]
-Ошибки
-[Use the message log color theme for group chat popups]
-Использовать цвета журнала сообщений для вспл. окон чатов
 [Dialog]
 Диалог
 [Cancel]
@@ -348,6 +318,8 @@ RTL шаблоны...
 Cтатусы для автоматического создания вкладок...
 [Limit nicknames on tabs to]
 Ограничить длину ников во вкладках
+[characters]
+символами
 [Esc key behavior]
 Поведение при нажатии Esc
 [Select container]
@@ -398,6 +370,10 @@ Cтатусы для автоматического создания вклад�
 ...набирает &текст
 [...stopped t&yping]
 ...закончил на&бирать
+[Background]
+Фон
+[Text]
+Текст
 [Use &default colors]
 Цвета &по умолчанию
 [Use &Windows colors]
@@ -416,6 +392,8 @@ Cтатусы для автоматического создания вклад�
 Указать
 [...stopped typing]
 ...закончил набирать текст
+[Preview]
+Тест
 [Timeout]
 Длительность
 [Templates]
@@ -754,6 +732,10 @@ BBCode ([b][i][u])
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Беседы
+[Group chats]
+Чаты
+[Send message]
+Отправить
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон поля ввода текста
@@ -1182,8 +1164,6 @@ TabSRMM: набор текста
 Очистить область сообщений
 [Toggle send later]
 Вкл/выкл отправку с задержкой
-[Send message]
-Отправить
 [Show message history]
 Показать историю сообщений
 [Show send menu]
@@ -1310,10 +1290,6 @@ TabSRMM: набор текста
 Отправить позже
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Вы редактируете заметки о пользователе. Нажмите на кнопку ещё раз или используйте горячую клавишу (по умолчанию: Alt+N), чтобы сохранить заметки и вернуться в нормальный режим набора ообщений
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Нельзя включить фильтр, т.к. не выбран ни один тип событий, как глобально так и для этого чата
-[Event filter error]
-Ошибка фильтра событий
 [Selection copied to clipboard]
 Выделенный текст скопирован в буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1463,12 +1439,6 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Поведение окна сообщений
 [Sending messages]
 Отправка сообщений
-[Send on Shift+Enter]
-Отправлять по Shift+Enter
-[Send message on 'Enter']
-Отправлять по "Enter"
-[Send message on double 'Enter']
-Отправлять по двойному "Enter"
 [Minimize the message window on send]
 Сворачивать окно после отправки
 [Close the message window on send]

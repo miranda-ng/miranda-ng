@@ -394,12 +394,6 @@
 Показывать счётчик символов
 [Show toolbar buttons on top row]
 Показывать кнопки в верхней строке
-[Send message on double 'Enter']
-Отправлять по двойному "Enter"
-[Send message on 'Enter']
-Отправлять по "Enter"
-[Send message on 'Ctrl+Enter']
-Отправлять по "Ctrl+Enter"
 [Show warning when message has not been received after]
 Сообщать, если сообщение не удалось отправить за
 [Send error]
@@ -504,22 +498,6 @@
 Добавлять комнаты чата в группу:
 [Nick list row distance (pixels):]
 Расстояние между строками (пикселей):
-[Use same style as in the message log]
-Тот же стиль, что и в журнале
-[Use default colors]
-Цвета по умолчанию
-[Use custom colors]
-Задать цвета
-[Popups for the StdMsg plugin]
-Всплывающие окна чата
-[Timeout (s)]
-Длительность (с)
-[Text]
-Текст
-[Background]
-Фон
-[(0 means default setting and -1 means indefinite time)]
-(0 — значение по умолчанию, -1 — бесконечно)
 [Message]
 Сообщение
 [Undo]
@@ -1214,6 +1192,22 @@ UIN, E-mail и т.д.
 Шифрование всех строковых настроек и событий истории. Замедляет работу программы, а в случае утери пароля создаёт риск потери всего сохранённого в базе.
 [Set password]
 Установить пароль
+[Group chats]
+Чаты
+[Use same style as in the message log]
+Тот же стиль, что и в журнале
+[Use default colors]
+Цвета по умолчанию
+[Use custom colors]
+Задать цвета
+[Timeout (s)]
+Длительность (с)
+[Text]
+Текст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Установка таймаута в 0 = значение по умолчанию, -1 = бесконечно)
 [&Hide/Show]
 С&крыть/Показать
 [E&xit]
@@ -1500,6 +1494,10 @@ Google Карты
 Цвета линий в списке пользователей
 [Nick list background (selected)]
 Заливка списка пользователей (выбрано)
+[Messaging]
+Сообщения
+[Send message]
+Отправить сообщение
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Мигать окном, если есть новое сообщение
@@ -1609,10 +1607,6 @@ Google Карты
 Выделить (10х10)
 [Information (10x10)]
 Информация (10х10)
-[Messaging]
-Сообщения
-[Group chats]
-Чаты
 [Group chats log]
 Журналы чатов
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Google Карты
 Значки журнала сообщений
 [Chat log]
 Журнал чата
-[Chat]
-Чат
-[Popups]
-Всплывающие окна
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Таймаут отправки сообщения
@@ -1796,6 +1786,8 @@ Miranda не смогла загрузить встроенную систему
 Съешьжеещёэтихмягкихфранцузскихбулокдавыпеййаду.
 [An avatar.]
 С аватаром
+[Popups]
+Всплывающие окна
 [Settings]
 Настройки
 [Classes]
@@ -2564,22 +2556,22 @@ xСтатус
 [Host we are connecting to is not the one certificate was issued for]
 Выданный сертификат не соответствует имени сервера, к которому производится подключение
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Не найден плагин окна сообщений. Пожалуйста установите/задействуйте один из подобных плагинов, например "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+Невозможно выгрузить плагин %S, поскольку отсутствует плагин ядра
 ['%S' is disabled, re-enable?]
 '%S' отключён, включить?
 [Re-enable Miranda plugin?]
 Включить плагин?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
-[Fatal error]
-Фатальная ошибка
 [Unable to load plugin in service mode!]
 Невозможно загрузить плагин в служебном режиме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Невозможно загрузить ни один из установленных плагинов списка контактов. Не удалось загрузить даже отключённые плагины.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не найден плагин списка контактов! Вам нужен StdClist.dll или один из плагинов clist_*.dll.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагин ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
+[Fatal error]
+Фатальная ошибка
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <все модули>
@@ -2609,8 +2601,12 @@ xСтатус
 Плагины
 ;file \src\mir_app\src\popupOption.cpp
 [Enabled items]
-
+Нужные элементы
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<Используется>
+[<Unknown format>]
+<Неизвестный формат>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профиль '%s" уже существует. Хотите переместить его в корзину?\n\nВНИМАНИЕ: Профиль будет удалён, если корзина отключена\nВНИМАНИЕ: Профиль может содержать конфиденциальную информацию и должен быть правильно удалён.
 [The profile already exists]
@@ -2625,10 +2621,6 @@ xСтатус
 Проблема с созданием профиля
 [&Create]
 &Создать
-[<In use>]
-<Используется>
-[<Unknown format>]
-<Неизвестный формат>
 [Are you sure you want to remove profile "%s"?]
 Вы уверены, что хотите удалить профиль "%s"?
 [&Convert]

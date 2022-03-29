@@ -42,12 +42,12 @@
 Ещё раз
 [Popup]
 Всплывающее окно
-[Add to List]
-Добавить
+[Add to list]
+Добавить в список
 [User details]
 О пользователе
-[Send Message]
-Отправить
+[Send message]
+Отправить сообщение
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 Приняты контакты от
