@@ -989,12 +989,7 @@ void CMsgDialog::onClick_Filter(CCtrlButton *pButton)
 	if (!pButton->Enabled())
 		return;
 
-	if (m_iLogFilterFlags == 0 && !m_bFilterEnabled) {
-		MessageBox(nullptr, TranslateT("The filter cannot be enabled, because there are no event types selected either global or for this chat room"), TranslateT("Event filter error"), MB_OK);
-		m_bFilterEnabled = false;
-	}
-	else m_bFilterEnabled = !m_bFilterEnabled;
-
+	m_bFilterEnabled = !m_bFilterEnabled;
 	m_btnFilter.SendMsg(BUTTONSETOVERLAYICON, (LPARAM)(m_bFilterEnabled ? PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled), 0);
 
 	if (m_bFilterEnabled && !g_chatApi.bRightClickFilter) 
