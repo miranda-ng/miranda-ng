@@ -104,10 +104,10 @@ IDR_CONTACTMENU MENUEX
 BEGIN
     POPUP "Popup",                          0,MFT_STRING,MFS_ENABLED
     BEGIN
-        MENUITEM "Add to List",                 111,MFT_STRING,MFS_ENABLED
+        MENUITEM "Add to list",                 111,MFT_STRING,MFS_ENABLED
         MENUITEM "User details",                113,MFT_STRING,MFS_ENABLED | MFS_UNCHECKED | MFS_UNHILITE | MFS_DEFAULT
         MENUITEM MFT_SEPARATOR
-        MENUITEM "Send Message",                112,MFT_STRING,MFS_ENABLED
+        MENUITEM "Send message",                112,MFT_STRING,MFS_ENABLED
     END
 END
 
