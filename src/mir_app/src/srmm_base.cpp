@@ -182,6 +182,15 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return 1;
 			break;
 		}
+
+	case WM_KEYDOWN:
+		MSG tmp = { m_hwnd, msg, wParam, lParam };
+		if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
+			if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
+				PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+				return true;
+			}
+		}
 	}
 
 	LRESULT res = mir_callNextSubclass(m_message.GetHwnd(), stubMessageProc, msg, wParam, lParam);
@@ -201,16 +210,6 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			if (IsClipboardFormatAvailable(CF_HDROP)) {
 				m_message.SendMsg(WM_PASTE, 0, 0);
 				return 0;
-			}
-		}
-
-		{
-			MSG tmp = { m_hwnd, msg, wParam, lParam };
-			if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
-				if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
-					PostMessage(m_hwnd, WM_COMMAND, IDOK, 0);
-					return true;
-				}
 			}
 		}
 
