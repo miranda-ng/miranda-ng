@@ -38,14 +38,22 @@ bool CJabberProto::OnIqRequestVersion(const TiXmlElement*, CJabberIqInfo *pInfo)
 
 	XmlNodeIq iq("result", pInfo);
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_VERSION);
-	query << XCHILD("name", "Miranda NG Jabber");
-	query << XCHILD("version", szCoreVersion);
+	
+	CMStringA szName(getMStringA("Identity")); // hidden setting to be entered from dbeditor++
+	if (!szName.IsEmpty()) {
+		query << XCHILD("name", szName);
+		query << XCHILD("version", "0.1");
+	}
+	else {
+		query << XCHILD("name", "Miranda NG Jabber");
+		query << XCHILD("version", szCoreVersion);
 
-	if (m_bShowOSVersion) {
-		char os[256];
-		if (!OS_GetDisplayString(os, _countof(os)))
-			mir_strncpy(os, "Microsoft Windows", _countof(os));
-		query << XCHILD("os", os);
+		if (m_bShowOSVersion) {
+			char os[256];
+			if (!OS_GetDisplayString(os, _countof(os)))
+				mir_strncpy(os, "Microsoft Windows", _countof(os));
+			query << XCHILD("os", os);
+		}
 	}
 
 	m_ThreadInfo->send(iq);
