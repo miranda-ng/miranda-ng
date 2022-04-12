@@ -46,21 +46,20 @@ static int GetUpdateMode()
 wchar_t* GetDefaultUrl()
 {
 	int bits = g_plugin.bChangePlatform ? DEFAULT_OPP_BITS : DEFAULT_BITS;
-	const wchar_t *pwszProto = g_plugin.bUseHttps ? L"https" : L"http";
 
 	wchar_t url[MAX_PATH];
 	switch (GetUpdateMode()) {
 	case UPDATE_MODE_STABLE:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL, pwszProto, bits);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL, bits);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_STABLE_SYMBOLS:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, pwszProto, bits);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, bits);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_TRUNK:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK, pwszProto, bits);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK, bits);
 		return mir_wstrdup(url);
 	case UPDATE_MODE_TRUNK_SYMBOLS:
-		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, pwszProto, bits);
+		mir_snwprintf(url, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, bits);
 		return mir_wstrdup(url);
 	default:
 		return g_plugin.getWStringA(DB_SETTING_UPDATE_URL);
@@ -72,15 +71,10 @@ wchar_t* GetDefaultUrl()
 
 class COptionsDlg : public CDlgBase
 {
-	CCtrlSpin spinBackups;
+	CCtrlSpin spinBackups, spinPeriod;
 	CCtrlCombo cmbPeriod;
 	CCtrlCheck chkPeriod, chkStable, chkStableSym, chkTrunk, chkTrunkSym, chkCustom;
-	CCtrlCheck chkHttps, chkPlatform, chkStartup, chkAutoRestart, chkOnlyOnce, chkBackup, chkSilent;
-
-	const wchar_t* GetHttps()
-	{
-		return chkHttps.GetState() ? L"https" : L"http";
-	}
+	CCtrlCheck chkPlatform, chkStartup, chkAutoRestart, chkOnlyOnce, chkBackup, chkSilent;
 
 	int GetBits()
 	{
@@ -91,19 +85,19 @@ class COptionsDlg : public CDlgBase
 	{
 		wchar_t defurl[MAX_PATH];
 		if (chkStable.GetState()) {
-			mir_snwprintf(defurl, DEFAULT_UPDATE_URL, GetHttps(), GetBits());
+			mir_snwprintf(defurl, DEFAULT_UPDATE_URL, GetBits());
 			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
 		}
 		else if (chkStableSym.GetState()) {
-			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetHttps(), GetBits());
+			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_STABLE_SYMBOLS, GetBits());
 			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
 		}
 		else if (chkTrunk.GetState()) {
-			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK, GetHttps(), GetBits());
+			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK, GetBits());
 			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
 		}
 		else if (chkTrunkSym.GetState()) {
-			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, GetHttps(), GetBits());
+			mir_snwprintf(defurl, DEFAULT_UPDATE_URL_TRUNK_SYMBOLS, GetBits());
 			SetDlgItemText(m_hwnd, IDC_CUSTOMURL, defurl);
 		}
 	}
@@ -112,7 +106,6 @@ public:
 	COptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_UPDATENOTIFY),
 		cmbPeriod(this, IDC_PERIODMEASURE),
-		chkHttps(this, IDC_USE_HTTPS),
 		chkBackup(this, IDC_BACKUP),
 		chkSilent(this, IDC_SILENTMODE),
 		chkPeriod(this, IDC_UPDATEONPERIOD),
@@ -127,9 +120,9 @@ public:
 		chkStableSym(this, IDC_STABLE_SYMBOLS),
 		chkCustom(this, IDC_CUSTOM),
 
+		spinPeriod(this, IDC_PERIODSPIN, 99, 1),
 		spinBackups(this, IDC_BACKUPS_SPIN, 10, 1)
 	{
-		CreateLink(chkHttps, g_plugin.bUseHttps);
 		CreateLink(chkBackup, g_plugin.bBackup);
 		CreateLink(chkPeriod, g_plugin.bUpdateOnPeriod);
 		CreateLink(chkSilent, g_plugin.bSilentMode);
@@ -138,7 +131,7 @@ public:
 		CreateLink(chkAutoRestart, g_plugin.bAutoRestart);
 		CreateLink(spinBackups, g_plugin.iNumberBackups);
 
-		chkPlatform.OnChange = chkHttps.OnChange = Callback(this, &COptionsDlg::onChange_Url);
+		chkPlatform.OnChange = Callback(this, &COptionsDlg::onChange_Url);
 		chkPeriod.OnChange = Callback(this, &COptionsDlg::onChange_Period);
 		chkStartup.OnChange = Callback(this, &COptionsDlg::onChange_Startup);
 
@@ -156,8 +149,7 @@ public:
 		if (g_plugin.getByte(DB_SETTING_NEED_RESTART, 0))
 			ShowWindow(GetDlgItem(m_hwnd, IDC_NEEDRESTARTLABEL), SW_SHOW);
 
-		SendDlgItemMessage(m_hwnd, IDC_PERIODSPIN, UDM_SETRANGE, 0, MAKELONG(99, 1));
-		SendDlgItemMessage(m_hwnd, IDC_PERIODSPIN, UDM_SETPOS, 0, (LPARAM)g_plugin.iPeriod);
+		spinPeriod.SetPosition(g_plugin.iPeriod);
 
 		if (ServiceExists(MS_AB_BACKUP)) {
 			chkBackup.Enable();
@@ -175,7 +167,6 @@ public:
 				g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
 			chkStable.SetText(LPGENW("Stable version (incompatible with current development version)"));
 		}
-		TranslateDialogDefault(m_hwnd);
 
 		cmbPeriod.AddString(TranslateT("hours"), 0);
 		cmbPeriod.AddString(TranslateT("days"), 1);
@@ -224,10 +215,7 @@ public:
 	bool OnApply() override
 	{
 		g_plugin.iPeriodMeasure = cmbPeriod.GetCurData();
-
-		wchar_t buffer[3] = { 0 };
-		Edit_GetText(GetDlgItem(m_hwnd, IDC_PERIOD), buffer, _countof(buffer));
-		g_plugin.iPeriod = _wtoi(buffer);
+		g_plugin.iPeriod = spinPeriod.GetPosition();
 
 		g_plugin.InitTimer(0);
 

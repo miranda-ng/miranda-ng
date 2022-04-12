@@ -49,7 +49,6 @@ CMPlugin::CMPlugin() :
 
 	// common settings
 	bBackup(MODULENAME, "Backup", false),
-	bUseHttps(MODULENAME, "UseHttps", true),
 	bSilentMode(MODULENAME, "SilentMode", false),
 	bAutoRestart(MODULENAME, "AutoRestart", false),
 	bOnlyOnceADay(MODULENAME, "OnlyOnceADay", true),

@@ -96,10 +96,10 @@ struct FILEINFO
 
 typedef OBJLIST<FILEINFO> FILELIST;
 
-#define DEFAULT_UPDATE_URL                L"%s://miranda-ng.org/distr/stable/x%d"
-#define DEFAULT_UPDATE_URL_TRUNK          L"%s://miranda-ng.org/distr/x%d"
-#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  L"%s://miranda-ng.org/distr/pdb_x%d"
-#define DEFAULT_UPDATE_URL_STABLE_SYMBOLS L"%s://miranda-ng.org/distr/stable/pdb_x%d"
+#define DEFAULT_UPDATE_URL                L"https://miranda-ng.org/distr/stable/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK          L"https://miranda-ng.org/distr/x%d"
+#define DEFAULT_UPDATE_URL_TRUNK_SYMBOLS  L"https://miranda-ng.org/distr/pdb_x%d"
+#define DEFAULT_UPDATE_URL_STABLE_SYMBOLS L"https://miranda-ng.org/distr/stable/pdb_x%d"
 
 #define FILENAME_X64 L"miranda64.exe"
 #define FILENAME_X32 L"miranda32.exe"
@@ -180,7 +180,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	bool bForceRedownload = false, bSilent; // not a db options
 
 	// common options
-	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bUseHttps, bAutoRestart;
+	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bAutoRestart;
 	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
 	CMOption<uint32_t> dwLastUpdate;
 

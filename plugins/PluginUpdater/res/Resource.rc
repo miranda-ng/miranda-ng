@@ -56,7 +56,7 @@ BEGIN
     PUSHBUTTON      "Select &none",IDC_SELNONE,175,218,60,14,NOT WS_TABSTOP
 END
 
-IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 259
+IDD_OPT_UPDATENOTIFY DIALOGEX 0, 0, 301, 248
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -75,7 +75,7 @@ BEGIN
     LTEXT           "Number of backups to keep:",IDC_STATIC,12,84,184,8
     EDITTEXT        IDC_NUMBER_BACKUPS,204,82,40,14,ES_AUTOHSCROLL
     CONTROL         "",IDC_BACKUPS_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,243,82,11,14
-    GROUPBOX        "Files source",IDC_STATIC,2,103,285,132
+    GROUPBOX        "Files source",IDC_STATIC,2,103,285,121
     CONTROL         "Stable version",IDC_STABLE,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,116,267,10
     CONTROL         "Stable version with debug symbols",IDC_STABLE_SYMBOLS,
                     "Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,130,267,10
@@ -85,8 +85,7 @@ BEGIN
     CONTROL         "Custom version",IDC_CUSTOM,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,12,172,267,10
     EDITTEXT        IDC_CUSTOMURL,12,187,267,16,ES_AUTOHSCROLL | WS_DISABLED
     CONTROL         "Change platform to 32-bit",IDC_CHANGE_PLATFORM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,208,267,10
-    CONTROL         "Use HTTPS",IDC_USE_HTTPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,221,267,10
-    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,238,267,15,NOT WS_VISIBLE
+    CTEXT           "Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.",IDC_NEEDRESTARTLABEL,11,227,267,15,NOT WS_VISIBLE
 END
 
 IDD_POPUP DIALOGEX 0, 0, 316, 174
@@ -183,6 +182,10 @@ BEGIN
     BEGIN
         LEFTMARGIN, 1
         RIGHTMARGIN, 294
+    END
+
+    IDD_POPUP, DIALOG
+    BEGIN
     END
 
     IDD_MISSINGPLUGINS, DIALOG
