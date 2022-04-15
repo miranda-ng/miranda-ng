@@ -49,20 +49,17 @@ HNETLIBCONN CJabberProto::WsConnect(char* host, uint16_t port)
 int CJabberProto::WsSend(HNETLIBCONN hConn, char* data, int datalen, int flags)
 {
 	m_lastTicks = ::GetTickCount();
-	int len;
-
-	if ((len = Netlib_Send(hConn, data, datalen, flags)) == SOCKET_ERROR || len != datalen) {
+	int ret = Netlib_Send(hConn, data, datalen, flags);
+	if (ret == SOCKET_ERROR || ret != datalen) {
 		debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 		return SOCKET_ERROR;
 	}
-	return len;
+	return ret;
 }
 
 int CJabberProto::WsRecv(HNETLIBCONN hConn, char* data, long datalen, int flags)
 {
-	int ret;
-
-	ret = Netlib_Recv(hConn, data, datalen, flags);
+	int ret = Netlib_Recv(hConn, data, datalen, flags);
 	if (ret == SOCKET_ERROR) {
 		debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 		return 0;

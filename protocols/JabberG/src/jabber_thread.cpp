@@ -1992,25 +1992,15 @@ void ThreadData::shutdown(void)
 		Netlib_Shutdown(s);
 }
 
-int ThreadData::recvws(char* buf, size_t len, int flags)
+int ThreadData::recv(char* buf, size_t len)
 {
 	if (this == nullptr)
 		return 0;
 
-	return proto->WsRecv(s, buf, (int)len, flags);
-}
-
-int ThreadData::recv(char* buf, size_t len)
-{
 	if (useZlib)
 		return zlibRecv(buf, (long)len);
 
-	return recvws(buf, len, MSG_DUMPASTEXT);
-}
-
-int ThreadData::sendws(char* buf, size_t bufsize, int flags)
-{
-	return proto->WsSend(s, buf, (int)bufsize, flags);
+	return proto->WsRecv(s, buf, len, MSG_DUMPASTEXT);
 }
 
 int ThreadData::send(char* buf, int bufsize)
@@ -2027,7 +2017,10 @@ int ThreadData::send(char* buf, int bufsize)
 	if (useZlib)
 		result = zlibSend(buf, bufsize);
 	else
-		result = sendws(buf, bufsize, MSG_DUMPASTEXT);
+		result = proto->WsSend(s, buf, bufsize, MSG_DUMPASTEXT);
+
+	if (result == SOCKET_ERROR)
+		close();
 
 	ReleaseMutex(iomutex);
 

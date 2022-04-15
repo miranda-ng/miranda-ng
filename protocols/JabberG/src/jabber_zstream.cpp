@@ -54,7 +54,7 @@ void ThreadData::zlibUninit(void)
 
 int ThreadData::zlibSend(char* data, int datalen)
 {
-	char send_data[ ZLIB_CHUNK_SIZE ];
+	char send_data[ZLIB_CHUNK_SIZE];
 	int bytesOut = 0;
 
 	zStreamOut.avail_in = datalen;
@@ -71,11 +71,11 @@ int ThreadData::zlibSend(char* data, int datalen)
 			case Z_MEM_ERROR:  proto->debugLogA("Deflate: Z_MEM_ERROR");  break;
 		}
 
-		int len, send_datalen = ZLIB_CHUNK_SIZE - zStreamOut.avail_out;
-
-		if ((len = sendws(send_data, send_datalen, MSG_NODUMP)) == SOCKET_ERROR || len != send_datalen) {
+		int send_datalen = ZLIB_CHUNK_SIZE - zStreamOut.avail_out;
+		int len = proto->WsSend(s, send_data, send_datalen, MSG_NODUMP);
+		if (len == SOCKET_ERROR || len != send_datalen) {
 			proto->debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
-			return FALSE;
+			return SOCKET_ERROR;
 		}
 
 		bytesOut += len;
@@ -85,14 +85,14 @@ int ThreadData::zlibSend(char* data, int datalen)
 	if (db_get_b(0, "Netlib", "DumpSent", TRUE) == TRUE)
 		proto->debugLogA("(ZLIB) Data sent\n%s\n===OUT: %d(%d) bytes", data, datalen, bytesOut);
 
-	return TRUE;
+	return bytesOut;
 }
 
 int ThreadData::zlibRecv(char* data, long datalen)
 {
 	if (zRecvReady) {
 retry:
-		zRecvDatalen = recvws(zRecvData, ZLIB_CHUNK_SIZE, MSG_NODUMP);
+		zRecvDatalen = proto->WsRecv(s, zRecvData, ZLIB_CHUNK_SIZE, MSG_NODUMP);
 		if (zRecvDatalen == SOCKET_ERROR) {
 			proto->debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			return SOCKET_ERROR;

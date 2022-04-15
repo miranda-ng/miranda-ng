@@ -929,7 +929,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 private:
 	char      *m_szXmlStreamToBeInitialized;
 
-	uint32_t      m_lastTicks;
+	uint32_t   m_lastTicks;
 
 	HANDLE     m_hPopupClass;
 
@@ -945,9 +945,9 @@ private:
 	JabberFeatCapPairDynamic* FindFeature(const char *szFeature);
 
 public:
-	uint32_t      STDMETHODCALLTYPE GetFlags() const override;                      // Set of JIF_* flags.
+	uint32_t   STDMETHODCALLTYPE GetFlags() const override;                      // Set of JIF_* flags.
 	int        STDMETHODCALLTYPE GetVersion() const override;                    // Returns version of IJabberInterface.
-	uint32_t      STDMETHODCALLTYPE GetJabberVersion() const override;              // Returns Jabber plugin version.
+	uint32_t   STDMETHODCALLTYPE GetJabberVersion() const override;              // Returns Jabber plugin version.
 				  
 	MCONTACT   STDMETHODCALLTYPE ContactFromJID(const char *jid) override;       // Returns contact handle for given JID.
 	char*      STDMETHODCALLTYPE ContactToJID(MCONTACT hContact) override;       // Returns JID of hContact. You must free the result using mir_free().

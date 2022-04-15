@@ -1069,7 +1069,7 @@ void CJabberProto::OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		SendPresence(m_iStatus, false);
 	}
 }
-void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo* pInfo)
+void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo*)
 {
 	auto* itemsNode = XmlGetChildByTag(iqNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist");
 	auto from = XmlGetAttr(iqNode, "from");

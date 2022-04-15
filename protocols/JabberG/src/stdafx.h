@@ -386,9 +386,6 @@ struct ThreadData
 	int   send(char* buffer, int bufsize = -1);
 	int   send(TiXmlElement *node);
 	int   send_no_strm_mgmt(TiXmlElement *node);
-
-	int   recvws(char* buffer, size_t bufsize, int flags);
-	int   sendws(char* buffer, size_t bufsize, int flags);
 };
 
 struct JABBER_MODEMSGS
