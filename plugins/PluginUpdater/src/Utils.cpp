@@ -324,17 +324,22 @@ char* StrToLower(char *str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MFilePath InvertMirandaPlatform()
+{
+	MFilePath wszPath;
+	#ifdef _WIN64
+		wszPath.Format(L"%s\\miranda32.exe", g_mirandaPath.get());
+	#else
+		wszPath.Format(L"%s\\miranda64.exe", g_mirandaPath.get());
+	#endif
+	return wszPath;
+}
+
 void DoRestart()
 {
 	BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
-	if (g_plugin.bChangePlatform) {
-		MFilePath mirstartpath;
-#ifdef _WIN64
-		mirstartpath.Format(L"%s\\miranda32.exe", g_mirandaPath.get());
-#else
-		mirstartpath.Format(L"%s\\miranda64.exe", g_mirandaPath.get());
-#endif
-		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath.c_str());
-	}
-	else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
+	if (g_plugin.bChangePlatform)
+		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)InvertMirandaPlatform().c_str());
+	else
+		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
 }

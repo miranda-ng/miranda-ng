@@ -88,6 +88,9 @@ int CMPlugin::Load()
 	m_impl.m_timer.Start(60 * 1000);
 	InitTimer(0);
 
+	// just to be sure that no garbage remained after restart
+	DeleteFileW(InvertMirandaPlatform());
+
 	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
 
 	uint32_t dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
