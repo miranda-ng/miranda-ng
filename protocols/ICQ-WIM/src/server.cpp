@@ -305,9 +305,17 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		return si->hContact;
 	}
 
+	bool bIgnored = !m_isMra && buddy["userType"].as_string() != "icq";
 	if (hContact == INVALID_CONTACT_ID) {
+		if (bIgnored)
+			return INVALID_CONTACT_ID;
+
 		hContact = CreateContact(wszId, false);
 		FindContactByUIN(wszId)->m_bInList = true;
+	}
+	else if (bIgnored) {
+		db_delete_contact(hContact);
+		return INVALID_CONTACT_ID;
 	}
 
 	CMStringA szVer;
