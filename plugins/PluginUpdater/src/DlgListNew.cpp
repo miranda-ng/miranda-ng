@@ -285,8 +285,6 @@ public:
 		TFileName wszTempFolder, wszBackupFolder;
 		CreateWorkFolders(wszTempFolder, wszBackupFolder);
 
-		VARSW wszMirandaPath(L"%miranda_path%");
-
 		HNETLIBCONN nlc = nullptr;
 		int i = 0;
 		for (auto &p : *todo) {
@@ -300,7 +298,7 @@ public:
 
 				if (DownloadFile(&p->File, nlc) == ERROR_SUCCESS) {
 					m_list.SetItemText(i, 1, TranslateT("Succeeded."));
-					if (!unzip(p->File.wszDiskPath, wszMirandaPath, wszBackupFolder, false))
+					if (!unzip(p->File.wszDiskPath, g_mirandaPath, wszBackupFolder, false))
 						PU::SafeDeleteFile(p->File.wszDiskPath);  // remove .zip after successful update
 					db_unset(0, DB_MODULE_NEW_FILES, _T2A(p->wszOldName));
 				}
@@ -392,11 +390,10 @@ static void GetList(void *)
 	}
 
 	FILELIST *UpdateFiles = new FILELIST(20);
-	VARSW dirname(L"%miranda_path%");
 
 	for (auto &it : hashes) {
 		TFileName pwszPath;
-		mir_snwprintf(pwszPath, L"%s\\%s", dirname.get(), it->m_name);
+		mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), it->m_name);
 
 		if (GetFileAttributes(pwszPath) == INVALID_FILE_ATTRIBUTES) {
 			FILEINFO *FileInfo = ServerEntryToFileInfo(*it, baseUrl, pwszPath);
@@ -469,9 +466,8 @@ static INT_PTR ParseUriService(WPARAM, LPARAM lParam)
 	if (hash == nullptr)
 		return 0;
 
-	VARSW dirName(L"%miranda_path%");
 	TFileName pwszPath;
-	mir_snwprintf(pwszPath, L"%s\\%s", dirName.get(), hash->m_name);
+	mir_snwprintf(pwszPath, L"%s\\%s", g_mirandaPath.get(), hash->m_name);
 	FILEINFO *fileInfo = ServerEntryToFileInfo(*hash, baseUrl, pwszPath);
 
 	FILELIST *fileList = new FILELIST(1);

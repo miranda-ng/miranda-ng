@@ -22,6 +22,7 @@ Boston, MA 02111-1307, USA.
 CMPlugin g_plugin;
 
 TFileName g_wszRoot = {0}, g_wszTempPath;
+VARSW g_mirandaPath(L"%miranda_path%");
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

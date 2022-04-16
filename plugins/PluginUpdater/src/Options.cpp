@@ -260,17 +260,13 @@ public:
 
 		// if user selected update channel without symbols, remove PDBs
 		if (bNoSymbols) {
-			CMStringW wszPath(VARSW(L"%miranda_path%"));
-			wszPath.AppendChar('\\');
+			MFilePath wszPath;
+			wszPath.Format(L"%s\\*.pdb", g_mirandaPath.get());
 
-			WIN32_FIND_DATA ffd;
-			HANDLE hFind = FindFirstFile(wszPath + L"*.pdb", &ffd);
-			if (hFind != INVALID_HANDLE_VALUE) {
-				do {
-					DeleteFileW(wszPath + ffd.cFileName);
-				} while (FindNextFile(hFind, &ffd) != 0);
+			for (auto &it : wszPath.search()) {
+				wszPath.Format(L"%s\\%s", g_mirandaPath.get(), it.getPath());
+				DeleteFileW(wszPath);
 			}
-			FindClose(hFind);
 		}
 
 		if (PU::PrepareEscalation())

@@ -44,7 +44,6 @@ class CUpdateDLg : public CDlgBase
 			return;
 		}
 
-		VARSW wszMirandaPath(L"%miranda_path%");
 		{
 			ThreadWatch threadId(pDlg->dwThreadId);
 
@@ -88,7 +87,7 @@ class CUpdateDLg : public CDlgBase
 					if (it->bDeleteOnly) {
 						// we need only to backup the old file
 						TFileName wszBackFile;
-						mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(wszMirandaPath) + 1);
+						mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(g_mirandaPath) + 1);
 						if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
 LBL_Error:
 							RollbackChanges(wszBackupFolder);
@@ -104,13 +103,13 @@ LBL_Error:
 						// otherwise it would be replaced by unzip
 						if (_wcsicmp(it->wszOldName, it->wszNewName)) {
 							TFileName wszSrcPath, wszBackFile;
-							mir_snwprintf(wszSrcPath, L"%s\\%s", wszMirandaPath.get(), it->wszOldName);
+							mir_snwprintf(wszSrcPath, L"%s\\%s", g_mirandaPath.get(), it->wszOldName);
 							mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszOldName);
 							if (dwErrorCode = BackupFile(wszSrcPath, wszBackFile))
 								goto LBL_Error;
 						}
 
-						if (dwErrorCode = unzip(it->File.wszDiskPath, wszMirandaPath, wszBackupFolder, true))
+						if (dwErrorCode = unzip(it->File.wszDiskPath, g_mirandaPath, wszBackupFolder, true))
 							goto LBL_Error;
 
 						PU::SafeDeleteFile(it->File.wszDiskPath);  // remove .zip after successful update
@@ -408,13 +407,12 @@ static void DlgUpdateSilent(void *param)
 
 	// 3) Unpack all zips
 	uint32_t dwErrorCode;
-	VARSW wszMirandaPath(L"%miranda_path%");
 	for (auto &it : UpdateFiles) {
 		if (it->bEnabled) {
 			if (it->bDeleteOnly) {
 				// we need only to backup the old file
 				TFileName wszBackFile;
-				mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(wszMirandaPath) + 1);
+				mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszNewName + wcslen(g_mirandaPath) + 1);
 				if (dwErrorCode = BackupFile(it->wszNewName, wszBackFile)) {
 LBL_Error:
 					RollbackChanges(wszBackupFolder);
@@ -428,14 +426,14 @@ LBL_Error:
 				// otherwise it would be replaced by unzip
 				if (_wcsicmp(it->wszOldName, it->wszNewName)) {
 					TFileName wszSrcPath, wszBackFile;
-					mir_snwprintf(wszSrcPath, L"%s\\%s", wszMirandaPath.get(), it->wszOldName);
+					mir_snwprintf(wszSrcPath, L"%s\\%s", g_mirandaPath.get(), it->wszOldName);
 					mir_snwprintf(wszBackFile, L"%s\\%s", wszBackupFolder, it->wszOldName);
 					if (dwErrorCode = BackupFile(wszSrcPath, wszBackFile))
 						goto LBL_Error;
 				}
 
 				// remove .zip after successful update
-				if (dwErrorCode = unzip(it->File.wszDiskPath, wszMirandaPath, wszBackupFolder, true))
+				if (dwErrorCode = unzip(it->File.wszDiskPath, g_mirandaPath, wszBackupFolder, true))
 					goto LBL_Error;
 				PU::SafeDeleteFile(it->File.wszDiskPath);
 			}
@@ -580,18 +578,26 @@ static renameTable[] =
 
 // Checks if file needs to be renamed and copies it in pNewName
 // Returns true if smth. was copied
-static bool CheckFileRename(const wchar_t *pwszOldName, wchar_t *pNewName)
+static bool CheckFileRename(const wchar_t *pwszFolder, const wchar_t *pwszOldName, wchar_t *pNewName)
 {
+	MFilePath fullOldPath;
+	fullOldPath.Format(L"%s\\%s", pwszFolder, pwszOldName);
+
 	for (auto &it : renameTable) {
 		if (wildcmpiw(pwszOldName, it.oldName)) {
-			wchar_t *pwszDest = it.newName;
-			if (pwszDest == nullptr)
+			if (it.newName == nullptr)
 				*pNewName = 0;
 			else {
-				wcsncpy_s(pNewName, MAX_PATH, pwszDest, _TRUNCATE);
-				size_t cbLen = wcslen(pwszDest) - 1;
+				wcsncpy_s(pNewName, MAX_PATH, it.newName, _TRUNCATE);
+				size_t cbLen = wcslen(it.newName) - 1;
 				if (pNewName[cbLen] == '*')
 					wcsncpy_s(pNewName + cbLen, MAX_PATH - cbLen, pwszOldName, _TRUNCATE);
+
+				// don't try to rename a file to itself
+				MFilePath fullNewPath;
+				fullNewPath.Format(L"%s\\%s", g_mirandaPath.get(), pNewName);
+				if (fullNewPath == fullOldPath)
+					return false;
 			}
 			return true;
 		}
@@ -623,51 +629,46 @@ static bool isValidDirectory(const wchar_t *pwszDirName)
 
 static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t *pwszBaseUrl, SERVLIST &hashes, OBJLIST<FILEINFO> *UpdateFiles, int level = 0)
 {
-	TFileName wszBuf;
-	mir_snwprintf(wszBuf, L"%s\\*", pwszFolder);
-
-	WIN32_FIND_DATA ffd;
-	HANDLE hFind = FindFirstFile(wszBuf, &ffd);
-	if (hFind == INVALID_HANDLE_VALUE)
-		return 0;
-
 	Netlib_LogfW(g_hNetlibUser, L"Scanning folder %s", pwszFolder);
 
 	int count = 0;
-	do {
+
+	MFilePath wszBuf;
+	wszBuf.Format(L"%s\\*", pwszFolder);
+	for (auto &ff: wszBuf.search()) {
 		TFileName wszNewName;
 
-		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
+		if (ff.isDir()) {
 			// Scan recursively all subfolders
-			if (isValidDirectory(ffd.cFileName)) {
-				mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
+			if (isValidDirectory(ff.getPath())) {
+				wszBuf.Format(L"%s\\%s", pwszFolder, ff.getPath());
 				count += ScanFolder(wszBuf, cbBaseLen, pwszBaseUrl, hashes, UpdateFiles, level + 1);
 			}
 			continue;
 		}
 
 		// create full name of the current file
-		mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, ffd.cFileName);
+		wszBuf.Format(L"%s\\%s", pwszFolder, ff.getPath());
 
-		if (isValidExtension(ffd.cFileName)) {
+		if (isValidExtension(ff.getPath())) {
 			// calculate the current file's relative name and store it into wszNewName
-			if (CheckFileRename(ffd.cFileName, wszNewName)) {
+			if (CheckFileRename(pwszFolder, ff.getPath(), wszNewName)) {
 				if (wszNewName[0])
-					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf, wszNewName);
+					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be renamed to <%s>", wszBuf.c_str(), wszNewName);
 				else
-					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be deleted", wszBuf);
+					Netlib_LogfW(g_hNetlibUser, L"File <%s> will be deleted", wszBuf.c_str());
 			}
 			else {
 				if (level == 0) {
 					// Rename Miranda*.exe
-					wcsncpy_s(wszNewName, g_plugin.bChangePlatform && !mir_wstrcmpi(ffd.cFileName, OLD_FILENAME) ? NEW_FILENAME : ffd.cFileName, _TRUNCATE);
-					mir_snwprintf(wszBuf, L"%s\\%s", pwszFolder, wszNewName);
+					wcsncpy_s(wszNewName, g_plugin.bChangePlatform && !mir_wstrcmpi(ff.getPath(), OLD_FILENAME) ? NEW_FILENAME : ff.getPath(), _TRUNCATE);
+					wszBuf.Format(L"%s\\%s", pwszFolder, wszNewName);
 				}
-				else mir_snwprintf(wszNewName, L"%s\\%s", pwszFolder + cbBaseLen, ffd.cFileName);
+				else mir_snwprintf(wszNewName, L"%s\\%s", pwszFolder + cbBaseLen, ff.getPath());
 			}
 		}
 		else {
-			if (!wcsicmp(ffd.cFileName, L"libeay32.mir") || !wcsicmp(ffd.cFileName, L"ssleay32.mir")) // remove old OpenSSL modules
+			if (!wcsicmp(ff.getPath(), L"libeay32.mir") || !wcsicmp(ff.getPath(), L"ssleay32.mir")) // remove old OpenSSL modules
 				wszNewName[0] = 0;
 			else
 				continue; // skip all another files
@@ -685,7 +686,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 			if (item == nullptr) {
 				wchar_t *p = wcsrchr(wszNewName, '.');
 				if (p[-1] != 'w' && p[-1] != 'W') {
-					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ff.getPath());
 					continue;
 				}
 
@@ -693,7 +694,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 				int iPos = int(p - wszNewName) - 1;
 				strdelw(p - 1, 1);
 				if ((item = hashes.find((ServListEntry*)&pName)) == nullptr) {
-					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ffd.cFileName);
+					Netlib_LogfW(g_hNetlibUser, L"File %s: Not found on server, skipping", ff.getPath());
 					continue;
 				}
 
@@ -708,29 +709,29 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 					CalculateModuleHash(wszBuf, szMyHash);
 					// hashes are the same, skipping
 					if (strcmp(szMyHash, item->m_szHash) == 0) {
-						Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ffd.cFileName);
+						Netlib_LogfW(g_hNetlibUser, L"File %s: Already up-to-date, skipping", ff.getPath());
 						continue;
 					}
-					else Netlib_LogfW(g_hNetlibUser, L"File %s: Update available", ffd.cFileName);
+					else Netlib_LogfW(g_hNetlibUser, L"File %s: Update available", ff.getPath());
 				}
 				__except (EXCEPTION_EXECUTE_HANDLER)
 				{
 					// smth went wrong, reload a file from scratch
 				}
 			}
-			else Netlib_LogfW(g_hNetlibUser, L"File %s: Forcing redownload", ffd.cFileName);
+			else Netlib_LogfW(g_hNetlibUser, L"File %s: Forcing redownload", ff.getPath());
 
 			pwszUrl = item->m_name;
 			MyCRC = item->m_crc;
 		}
 		else {
 			// file was marked for deletion, add it to the list anyway
-			Netlib_LogfW(g_hNetlibUser, L"File %s: Marked for deletion", ffd.cFileName);
+			Netlib_LogfW(g_hNetlibUser, L"File %s: Marked for deletion", ff.getPath());
 			pwszUrl = L"";
 			MyCRC = 0;
 		}
 
-		CMStringA szSetting(wszBuf + cbBaseLen);
+		CMStringA szSetting(wszBuf.c_str() + cbBaseLen);
 		int bEnabled = db_get_b(0, DB_MODULE_FILES, StrToLower(szSetting.GetBuffer()), 1);
 		if (bEnabled == 2)  // hidden database setting to exclude a plugin from list
 			continue;
@@ -738,22 +739,23 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 		// Yeah, we've got new version.
 		FILEINFO *FileInfo = new FILEINFO;
 		// copy the relative old name
-		wcsncpy_s(FileInfo->wszOldName, wszBuf + cbBaseLen, _TRUNCATE);
+		wcsncpy_s(FileInfo->wszOldName, wszBuf.c_str() + cbBaseLen, _TRUNCATE);
 		FileInfo->bDeleteOnly = bDeleteOnly;
 		if (FileInfo->bDeleteOnly) // save the full old name for deletion
 			wcsncpy_s(FileInfo->wszNewName, wszBuf, _TRUNCATE);
 		else
 			wcsncpy_s(FileInfo->wszNewName, pwszUrl, _TRUNCATE);
 
-		wcsncpy_s(wszBuf, pwszUrl, _TRUNCATE);
-		wchar_t *p = wcsrchr(wszBuf, '.');
+		wchar_t buf[MAX_PATH];
+		wcsncpy_s(buf, pwszUrl, _TRUNCATE);
+		wchar_t *p = wcsrchr(buf, '.');
 		if (p) *p = 0;
-		p = wcsrchr(wszBuf, '\\');
-		p = (p) ? p + 1 : wszBuf;
+		p = wcsrchr(buf, '\\');
+		p = (p) ? p + 1 : buf;
 		_wcslwr(p);
 
 		mir_snwprintf(FileInfo->File.wszDiskPath, L"%s\\Temp\\%s.zip", g_wszRoot, p);
-		mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", pwszBaseUrl, wszBuf);
+		mir_snwprintf(FileInfo->File.wszDownloadURL, L"%s/%s.zip", pwszBaseUrl, buf);
 		for (p = wcschr(FileInfo->File.wszDownloadURL, '\\'); p != nullptr; p = wcschr(p, '\\'))
 			*p++ = '/';
 
@@ -767,9 +769,7 @@ static int ScanFolder(const wchar_t *pwszFolder, size_t cbBaseLen, const wchar_t
 		if (!g_plugin.bSilent || FileInfo->bEnabled)
 			count++;
 	}
-		while (FindNextFile(hFind, &ffd) != 0);
 
-	FindClose(hFind);
 	return count;
 }
 
@@ -793,8 +793,7 @@ static void CheckUpdates(void *)
 	bool success = ParseHashes(updateUrl, baseUrl, hashes);
 	if (success) {
 		FILELIST *UpdateFiles = new FILELIST(20);
-		VARSW dirname(L"%miranda_path%");
-		int count = ScanFolder(dirname, mir_wstrlen(dirname) + 1, baseUrl, hashes, UpdateFiles);
+		int count = ScanFolder(g_mirandaPath, mir_wstrlen(g_mirandaPath) + 1, baseUrl, hashes, UpdateFiles);
 		if (count == 0) {
 			if (!g_plugin.bSilent)
 				ShowPopup(TranslateT("Plugin Updater"), TranslateT("No updates found."), POPUP_TYPE_INFO);

@@ -150,7 +150,8 @@ enum
 using namespace std;
 
 extern uint32_t g_mirandaVersion;
-extern wchar_t g_wszRoot[MAX_PATH], g_wszTempPath[MAX_PATH];
+extern TFileName g_wszRoot, g_wszTempPath;
+extern VARSW g_mirandaPath;
 extern HNETLIBUSER g_hNetlibUser;
 
 struct CMPlugin : public PLUGIN<CMPlugin>

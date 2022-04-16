@@ -38,7 +38,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 		HookEvent(ME_FOLDERS_PATH_CHANGED, OnFoldersChanged);
 		OnFoldersChanged(0, 0);
 	}
-	else lstrcpyn(g_wszRoot, VARSW(L"%miranda_path%\\" DEFAULT_UPDATES_FOLDER), _countof(g_wszRoot));
+	else mir_snwprintf(g_wszRoot, L"%s\\%s", g_mirandaPath.get(), DEFAULT_UPDATES_FOLDER);
 
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE))
 		AssocMgr_AddNewUrlTypeW("mirpu:", TranslateT("Plugin updater URI scheme"), g_plugin.getInst(), IDI_PLGLIST, MODULENAME "/ParseUri", 0);

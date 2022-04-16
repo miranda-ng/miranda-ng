@@ -297,8 +297,7 @@ static void SafeMoveFolder(const wchar_t *wszSrc, const wchar_t *wszDest)
 
 void RollbackChanges(TFileName &pwszBackupFolder)
 {
-	VARSW dirname(L"%miranda_path%");
-	SafeMoveFolder(pwszBackupFolder, dirname);
+	SafeMoveFolder(pwszBackupFolder, g_mirandaPath);
 
 	PU::SafeDeleteDirectory(pwszBackupFolder);
 }
@@ -329,13 +328,11 @@ void DoRestart()
 {
 	BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
 	if (g_plugin.bChangePlatform) {
-		VARSW wszMirandaPath(L"%miranda_path%");
-
 		MFilePath mirstartpath;
 #ifdef _WIN64
-		mirstartpath.Format(L"%s\\miranda32.exe", wszMirandaPath.get());
+		mirstartpath.Format(L"%s\\miranda32.exe", g_mirandaPath.get());
 #else
-		mirstartpath.Format(L"%s\\miranda64.exe", wszMirandaPath.get());
+		mirstartpath.Format(L"%s\\miranda64.exe", g_mirandaPath.get());
 #endif
 		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath.c_str());
 	}
