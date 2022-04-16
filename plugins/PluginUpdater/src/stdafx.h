@@ -241,6 +241,8 @@ void  InitEvents();
 void  InitListNew();
 void  UnloadListNew();
 
+void  DoRestart(void);
+
 void  CALLBACK RestartPrompt(void *);
 void  CALLBACK CheckUpdateOnStartup(void);
 

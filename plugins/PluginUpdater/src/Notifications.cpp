@@ -74,7 +74,7 @@ void CALLBACK RestartPrompt(void *)
 			return;
 	}
 
-	CallService(MS_SYSTEM_RESTART, g_plugin.getBool("RestartCurrentProfile", true), 0);
+	DoRestart();
 }
 
 static LRESULT CALLBACK PopupDlgProcRestart(HWND hPopup, UINT uMsg, WPARAM wParam, LPARAM lParam)

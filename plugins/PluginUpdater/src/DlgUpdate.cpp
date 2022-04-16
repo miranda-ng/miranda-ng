@@ -148,17 +148,6 @@ LBL_Error:
 			}
 
 		pDlg->Close();
-		BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
-		if (g_plugin.bChangePlatform) {
-			TFileName mirstartpath;
-#ifdef _WIN64
-			mir_snwprintf(mirstartpath, L"%s\\miranda32.exe", wszMirandaPath.get());
-#else
-			mir_snwprintf(mirstartpath, L"%s\\miranda64.exe", wszMirandaPath.get());
-#endif
-			CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath);
-		}
-		else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
 	}
 
 	void ResizeVert(int yy)

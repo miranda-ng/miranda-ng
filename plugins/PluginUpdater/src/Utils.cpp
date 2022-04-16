@@ -322,3 +322,22 @@ char* StrToLower(char *str)
 
 	return str;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void DoRestart()
+{
+	BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
+	if (g_plugin.bChangePlatform) {
+		VARSW wszMirandaPath(L"%miranda_path%");
+
+		MFilePath mirstartpath;
+#ifdef _WIN64
+		mirstartpath.Format(L"%s\\miranda32.exe", wszMirandaPath.get());
+#else
+		mirstartpath.Format(L"%s\\miranda64.exe", wszMirandaPath.get());
+#endif
+		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)mirstartpath.c_str());
+	}
+	else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
+}
