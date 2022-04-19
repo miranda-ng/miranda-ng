@@ -147,6 +147,7 @@ LBL_Error:
 			}
 
 		pDlg->Close();
+		DoRestart();
 	}
 
 	void ResizeVert(int yy)
