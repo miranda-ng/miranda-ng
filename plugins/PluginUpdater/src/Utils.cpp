@@ -338,8 +338,9 @@ MFilePath InvertMirandaPlatform()
 void DoRestart()
 {
 	BOOL bRestartCurrentProfile = g_plugin.getBool("RestartCurrentProfile", true);
-	if (g_plugin.bChangePlatform)
+	if (g_plugin.bChangePlatform) {
 		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile, (LPARAM)InvertMirandaPlatform().c_str());
-	else
-		CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
+		g_plugin.bChangePlatform.Delete();
+	}
+	else CallServiceSync(MS_SYSTEM_RESTART, bRestartCurrentProfile);
 }

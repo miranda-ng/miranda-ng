@@ -122,21 +122,6 @@ LBL_Error:
 
 			if (g_plugin.bBackup)
 				CallService(MS_AB_BACKUP, 0, 0);
-
-			if (g_plugin.bChangePlatform) {
-				TFileName mirandaPath;
-				GetModuleFileName(nullptr, mirandaPath, _countof(mirandaPath));
-				g_plugin.setWString("OldBin2", mirandaPath);
-
-				g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
-			}
-			else {
-				ptrW oldbin(g_plugin.getWStringA("OldBin2"));
-				if (oldbin) {
-					PU::SafeDeleteFile(oldbin);
-					g_plugin.delSetting("OldBin2");
-				}
-			}
 		}
 
 		// 5) Prepare Restart
@@ -447,9 +432,8 @@ LBL_Error:
 	Skin_PlaySound("updatecompleted");
 
 	g_plugin.bForceRedownload = false;
-	g_plugin.bChangePlatform = false;
-	g_plugin.delSetting(DB_SETTING_CHANGEPLATFORM);
-	g_plugin.setByte(DB_SETTING_NEED_RESTART, 1);
+	g_plugin.bNeedRestart = true;
+	g_plugin.bChangePlatform.Delete();
 
 	if (g_plugin.bBackup)
 		CallService(MS_AB_BACKUP, 0, 0);

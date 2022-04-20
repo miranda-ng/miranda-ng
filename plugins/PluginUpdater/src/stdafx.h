@@ -134,9 +134,7 @@ enum
 
 #define DB_SETTING_UPDATE_MODE           "UpdateMode"
 #define DB_SETTING_UPDATE_URL            "UpdateURL"
-#define DB_SETTING_NEED_RESTART          "NeedRestart"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE "DontSwitchToStable"
-#define DB_SETTING_CHANGEPLATFORM        "ChangePlatform"
 
 #define DB_MODULE_FILES     MODULENAME "Files"
 #define DB_MODULE_NEW_FILES MODULENAME "NewFiles"
@@ -181,7 +179,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	bool bForceRedownload = false, bSilent; // not a db options
 
 	// common options
-	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bAutoRestart;
+	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bAutoRestart, bNeedRestart;
 	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
 	CMOption<uint32_t> dwLastUpdate;
 

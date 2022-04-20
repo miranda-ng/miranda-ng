@@ -146,7 +146,7 @@ public:
 	{
 		chkPlatform.SetState(g_plugin.bChangePlatform);
 
-		if (g_plugin.getByte(DB_SETTING_NEED_RESTART, 0))
+		if (g_plugin.bNeedRestart)
 			ShowWindow(GetDlgItem(m_hwnd, IDC_NEEDRESTARTLABEL), SW_SHOW);
 
 		spinPeriod.SetPosition(g_plugin.iPeriod);
@@ -254,9 +254,9 @@ public:
 
 		if (chkPlatform.GetState()) {
 			g_plugin.bForceRedownload = bStartUpdate = true;
-			g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 1);
+			g_plugin.bChangePlatform = true;
 		}
-		else g_plugin.setByte(DB_SETTING_CHANGEPLATFORM, g_plugin.bChangePlatform = 0);
+		else g_plugin.bChangePlatform = false;
 
 		// if user selected update channel without symbols, remove PDBs
 		if (bNoSymbols) {

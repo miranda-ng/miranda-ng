@@ -113,6 +113,10 @@ public:
 	__forceinline const char* GetDBModuleName() const { return m_szModuleName; }
 	__forceinline const char* GetDBSettingName() const { return m_szSetting; }
 
+	__forceinline void Delete() const 
+	{	db_unset(0, m_szModuleName, m_szSetting);
+	}
+
 protected:
 	__forceinline CMOptionBase(PROTO_INTERFACE *proto, const char *szSetting) :
 		m_szModuleName(proto->m_szModuleName), m_szSetting(szSetting)

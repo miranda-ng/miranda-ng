@@ -52,9 +52,10 @@ CMPlugin::CMPlugin() :
 	bBackup(MODULENAME, "Backup", false),
 	bSilentMode(MODULENAME, "SilentMode", false),
 	bAutoRestart(MODULENAME, "AutoRestart", false),
+	bNeedRestart(MODULENAME, "NeedRestart", false),
 	bOnlyOnceADay(MODULENAME, "OnlyOnceADay", true),
 	bUpdateOnPeriod(MODULENAME, "UpdateOnPeriod", false),
-	bChangePlatform(MODULENAME, DB_SETTING_CHANGEPLATFORM, false),
+	bChangePlatform(MODULENAME, "ChangePlatform", false),
 	bUpdateOnStartup(MODULENAME, "UpdateOnStartup", true),
 
 	// other settings
@@ -91,7 +92,7 @@ int CMPlugin::Load()
 	// just to be sure that no garbage remained after restart
 	DeleteFileW(InvertMirandaPlatform());
 
-	g_plugin.setByte(DB_SETTING_NEED_RESTART, 0);
+	g_plugin.bNeedRestart = false;
 
 	uint32_t dwLen = GetTempPath(_countof(g_wszTempPath), g_wszTempPath);
 	if (g_wszTempPath[dwLen-1] == '\\')
