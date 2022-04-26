@@ -1009,7 +1009,6 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 		resource = nullptr;
 
 	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
-		item->bChatLogging = true;
 		msgText = n->GetText();
 		if (msgText == nullptr || msgText[0] == '\0')
 			return;
@@ -1065,7 +1064,9 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (!msgTime || msgTime > now)
 		msgTime = now;
 
-	if (now - item->dwChatInitTime > 2)
+	// ugly hack to cut out group chat history: 2 seconds delay to skip all old messages
+	// unfortunately there's no other way to detect if that message came online or from history
+	if (now - item->iChatInitTime > 2)
 		item->bChatLogging = true;
 
 	if (resource != nullptr) {

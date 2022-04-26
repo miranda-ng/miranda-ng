@@ -181,11 +181,11 @@ struct JABBER_LIST_ITEM : public MZeroedObject
 	// LIST_CHATROOM
 	// jid = room JID
 	SESSION_INFO *si;
-	HWND  hwndGcListBan;
-	HWND  hwndGcListAdmin;
-	HWND  hwndGcListOwner;
-	int   iChatState;
-	uint32_t dwChatInitTime;
+	HWND   hwndGcListBan;
+	HWND   hwndGcListAdmin;
+	HWND   hwndGcListOwner;
+	int    iChatState;
+	time_t iChatInitTime;
 
 	// LIST_FILE
 	// jid = string representation of port number

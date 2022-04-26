@@ -148,7 +148,7 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 	}
 
 	item->bChatLogging = false;
-	item->dwChatInitTime = time(0);
+	item->iChatInitTime = time(0);
 
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
 		Chat_AddGroup(si, TranslateW(Utf2T(sttStatuses[i])));

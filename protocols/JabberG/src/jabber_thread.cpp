@@ -2000,7 +2000,7 @@ int ThreadData::recv(char* buf, size_t len)
 	if (useZlib)
 		return zlibRecv(buf, (long)len);
 
-	return proto->WsRecv(s, buf, len, MSG_DUMPASTEXT);
+	return proto->WsRecv(s, buf, (long)len, MSG_DUMPASTEXT);
 }
 
 int ThreadData::send(char* buf, int bufsize)
