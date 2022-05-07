@@ -111,7 +111,7 @@ INT_PTR GetVersionInfo(WPARAM wParam, LPARAM lParam)
 	return result;
 }
 
-INT_PTR OpenUrl(WPARAM wParam, LPARAM)
+INT_PTR OpenUrl(WPARAM, LPARAM)
 {
 	ShellExecute(nullptr, L"explore", CrashLogFolder, nullptr, nullptr, SW_SHOW);
 	return 0;

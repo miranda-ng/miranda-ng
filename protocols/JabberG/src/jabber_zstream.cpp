@@ -72,7 +72,7 @@ int ThreadData::zlibSend(char* data, int datalen)
 		}
 
 		int send_datalen = ZLIB_CHUNK_SIZE - zStreamOut.avail_out;
-		int len = proto->WsSend(s, send_data, send_datalen, MSG_NODUMP);
+		int len = Netlib_Send(s, send_data, send_datalen, MSG_NODUMP);
 		if (len == SOCKET_ERROR || len != send_datalen) {
 			proto->debugLogA("Netlib_Send() failed, error=%d", WSAGetLastError());
 			return SOCKET_ERROR;
@@ -92,13 +92,15 @@ int ThreadData::zlibRecv(char* data, long datalen)
 {
 	if (zRecvReady) {
 retry:
-		zRecvDatalen = proto->WsRecv(s, zRecvData, ZLIB_CHUNK_SIZE, MSG_NODUMP);
+		zRecvDatalen = Netlib_Recv(s, zRecvData, ZLIB_CHUNK_SIZE, MSG_NODUMP);
 		if (zRecvDatalen == SOCKET_ERROR) {
 			proto->debugLogA("Netlib_Recv() failed, error=%d", WSAGetLastError());
 			return SOCKET_ERROR;
 		}
-		if (zRecvDatalen == 0)
+		if (zRecvDatalen == 0) {
+			proto->debugLogA("Connection closed gracefully");
 			return 0;
+		}
 
 		zStreamIn.avail_in = zRecvDatalen;
 		zStreamIn.next_in = (Bytef*)zRecvData;

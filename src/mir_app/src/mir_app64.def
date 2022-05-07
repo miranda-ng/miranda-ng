@@ -795,3 +795,4 @@ Netlib_SslWrite @877 NONAME
 Srmm_GetButtonGap @883
 ?addPopupOption@CMPluginBase@@QEAAHPEBDAEAV?$CMOption@_N@@@Z @884 NONAME
 ?addPopupOption@CMPluginBase@@QEAAHPEB_WAEAV?$CMOption@_N@@@Z @885 NONAME
+Srmm_CreateHotkey @886 NONAME

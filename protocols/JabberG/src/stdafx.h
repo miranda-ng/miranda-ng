@@ -339,10 +339,10 @@ struct ThreadData
 
 	ptrA     szStreamId;
 	char*    buffer;
+	uint32_t lastWriteTime; // in ticks
 
 	// network support
 	HNETLIBCONN s;
-	HANDLE iomutex; // protects i/o operations
 	CJabberProto *proto;
 
 	// XEP-0138 (Compression support)
@@ -367,7 +367,7 @@ struct ThreadData
 	bool     bIsReg;
 	bool     reg_done, bIsSessionAvailable;
 	bool     bBookmarksLoaded;
-	uint32_t	   dwLoginRqs;
+	uint32_t	dwLoginRqs;
 
 	// connection & login data
 	JABBER_CONN_DATA conn;

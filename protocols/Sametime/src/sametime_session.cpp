@@ -358,11 +358,6 @@ void __cdecl CSametimeProto::KeepAliveThread(void*)
 	return;
 }
 
-int waitcallback(unsigned int*)
-{
-	return continue_connect ? 1 : 0;
-}
-
 void __cdecl CSametimeProto::SessionThread(LPVOID)
 {
 	debugLogW(L"SessionThread() start");
@@ -372,14 +367,7 @@ void __cdecl CSametimeProto::SessionThread(LPVOID)
 	BroadcastNewStatus(ID_STATUS_CONNECTING);
 
 	// setup
-	NETLIBOPENCONNECTION conn_data = { 0 };
-	conn_data.flags = NLOCF_V2;
-	conn_data.szHost = options.server_name;
-	conn_data.wPort = options.port;
-	conn_data.timeout = 20;
-	conn_data.waitcallback = waitcallback;
-	server_connection = Netlib_OpenConnection(m_hNetlibUser, &conn_data);
-
+	server_connection = Netlib_OpenConnection(m_hNetlibUser, options.server_name, options.port, 20);
 	if (!server_connection) {
 
 		BroadcastNewStatus(ID_STATUS_OFFLINE);

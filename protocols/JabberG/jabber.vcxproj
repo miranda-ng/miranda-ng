@@ -76,7 +76,6 @@
     <ClCompile Include="src\jabber_userinfo.cpp" />
     <ClCompile Include="src\jabber_util.cpp" />
     <ClCompile Include="src\jabber_vcard.cpp" />
-    <ClCompile Include="src\jabber_ws.cpp" />
     <ClCompile Include="src\jabber_xml.cpp" />
     <ClCompile Include="src\jabber_xstatus.cpp" />
     <ClCompile Include="src\jabber_zstream.cpp" />

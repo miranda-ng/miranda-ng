@@ -204,7 +204,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	IconsInit();
 	InitPopups();
 	GlobalMenuInit();
-	WsInit();
 
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
@@ -213,6 +212,13 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		db_set_resident(m_szModuleName, "OmemoSessionChecked");
 		OmemoInitDevice();
 	}
+
+	// network initialization
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;
+	nlu.szDescriptiveName.w = m_tszUserName;
+	nlu.szSettingsModule = m_szModuleName;
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
 	// group chats
 	GCREGISTER gcr = {};

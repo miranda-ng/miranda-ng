@@ -65,6 +65,12 @@ union SOCKADDR_INET_M
 	USHORT si_family;
 };
 
+struct NetlibUrl
+{
+	CMStringA szHost;
+	int flags = 0, port = 0;
+};
+
 struct NetlibConnection : public MZeroedObject
 {
 	NetlibConnection();
@@ -77,7 +83,8 @@ struct NetlibConnection : public MZeroedObject
 	bool termRequested;
 	
 	NetlibUser *nlu;
-	NETLIBOPENCONNECTION nloc;
+	NetlibUrl url;
+	int timeout;
 
 	char *szNewUrl;
 	

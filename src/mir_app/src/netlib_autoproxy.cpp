@@ -79,14 +79,14 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 	bool usingSsl = false;
 	char szUrl[1024];
 
-	if ((nlc->nloc.flags & NLOCF_HTTP) && (nlc->nloc.flags & NLOCF_SSL) || nlc->nloc.wPort == 443 || forceHttps) {
-		mir_snprintf(szUrl, "https://%s", nlc->nloc.szHost);
+	if ((nlc->url.flags & NLOCF_HTTP) && (nlc->url.flags & NLOCF_SSL) || nlc->url.port == 443 || forceHttps) {
+		mir_snprintf(szUrl, "https://%s", nlc->url.szHost.c_str());
 		usingSsl = true;
 	}
-	else if ((nlc->nloc.flags & NLOCF_HTTP))
-		mir_snprintf(szUrl, "http://%s", nlc->nloc.szHost);
+	else if ((nlc->url.flags & NLOCF_HTTP))
+		mir_snprintf(szUrl, "http://%s", nlc->url.szHost.c_str());
 	else {
-		strncpy_s(szUrl, nlc->nloc.szHost, _TRUNCATE);
+		strncpy_s(szUrl, nlc->url.szHost, _TRUNCATE);
 		noHttp = true;
 	}
 

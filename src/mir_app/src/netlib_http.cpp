@@ -143,7 +143,9 @@ static char* NetlibHttpFindAuthHeader(NETLIBHTTPREQUEST *nlhrReply, const char *
 	return nullptr;
 }
 
-void NetlibConnFromUrl(const char *szUrl, bool secur, NETLIBOPENCONNECTION &nloc)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void NetlibConnFromUrl(const char *szUrl, bool secur, NetlibUrl &url)
 {
 	secur = secur || _strnicmp(szUrl, "https", 5) == 0;
 	const char* phost = strstr(szUrl, "://");
@@ -153,48 +155,44 @@ void NetlibConnFromUrl(const char *szUrl, bool secur, NETLIBOPENCONNECTION &nloc
 	char* ppath = strchr(szHost, '/');
 	if (ppath) *ppath = '\0';
 
-	memset(&nloc, 0, sizeof(nloc));
-	nloc.szHost = szHost;
+	url.szHost = szHost;
 
 	char* pcolon = strrchr(szHost, ':');
 	if (pcolon) {
 		*pcolon = '\0';
-		nloc.wPort = (uint16_t)strtol(pcolon+1, nullptr, 10);
+		url.port = strtol(pcolon+1, nullptr, 10);
 	}
-	else nloc.wPort = secur ? 443 : 80;
-	nloc.flags = (secur ? NLOCF_SSL : 0);
+	else url.port = secur ? 443 : 80;
+	url.flags = (secur ? NLOCF_SSL : 0);
 }
 
 static NetlibConnection* NetlibHttpProcessUrl(NETLIBHTTPREQUEST *nlhr, NetlibUser *nlu, NetlibConnection *nlc, const char *szUrl = nullptr)
 {
-	NETLIBOPENCONNECTION nloc;
+	NetlibUrl url;
 
 	if (szUrl == nullptr)
-		NetlibConnFromUrl(nlhr->szUrl, (nlhr->flags & NLHRF_SSL) != 0, nloc);
+		NetlibConnFromUrl(nlhr->szUrl, (nlhr->flags & NLHRF_SSL) != 0, url);
 	else
-		NetlibConnFromUrl(szUrl, false, nloc);
+		NetlibConnFromUrl(szUrl, false, url);
 
-	nloc.flags |= NLOCF_HTTP;
-	if (nloc.flags & NLOCF_SSL)
+	url.flags |= NLOCF_HTTP;
+	if (url.flags & NLOCF_SSL)
 		nlhr->flags |= NLHRF_SSL;
 	else
 		nlhr->flags &= ~NLHRF_SSL;
 
 	if (nlc != nullptr) {
-		bool httpProxy = !(nloc.flags & NLOCF_SSL) && nlc->proxyType == PROXYTYPE_HTTP;
-		bool sameHost = mir_strcmp(nlc->nloc.szHost, nloc.szHost) == 0 && nlc->nloc.wPort == nloc.wPort;
+		bool httpProxy = !(url.flags & NLOCF_SSL) && nlc->proxyType == PROXYTYPE_HTTP;
+		bool sameHost = mir_strcmp(nlc->url.szHost, url.szHost) == 0 && nlc->url.port == url.port;
 
 		if (!httpProxy && !sameHost) {
 			NetlibDoCloseSocket(nlc);
 
-			mir_free((char*)nlc->nloc.szHost);
-			nlc->nloc = nloc;
+			nlc->url = url;
 			return NetlibDoConnect(nlc) ? nlc : nullptr;
 		}
 	}
-	else nlc = (NetlibConnection*)Netlib_OpenConnection(nlu, &nloc);
-
-	mir_free((char*)nloc.szHost);
+	else nlc = (NetlibConnection*)Netlib_OpenConnection(nlu, url.szHost, url.port, 0, url.flags);
 
 	return nlc;
 }
@@ -1145,7 +1143,7 @@ next:
 	}
 
 	if (close &&
-		(nlc->proxyType != PROXYTYPE_HTTP || nlc->nloc.flags & NLOCF_SSL) &&
+		(nlc->proxyType != PROXYTYPE_HTTP || nlc->url.flags & NLOCF_SSL) &&
 		(!isConnect || nlhrReply->resultCode != 200))
 		NetlibDoCloseSocket(nlc);
 

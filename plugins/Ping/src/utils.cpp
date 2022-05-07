@@ -52,14 +52,7 @@ INT_PTR PluginPing(WPARAM, LPARAM lParam)
 
 		clock_t start_tcp = clock();
 
-		//GetLocalTime(&systime);
-		NETLIBOPENCONNECTION conn = {};
-		conn.szHost = mir_u2a(pa->pszName);
-		conn.wPort = pa->port;
-		conn.timeout = options.ping_timeout;
-
-		HNETLIBCONN s = Netlib_OpenConnection(hNetlibUser, &conn);
-		mir_free((void *)conn.szHost);
+		HNETLIBCONN s = Netlib_OpenConnection(hNetlibUser, _T2A(pa->pszName), pa->port, options.ping_timeout);
 
 		clock_t end_tcp = clock();
 

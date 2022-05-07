@@ -141,16 +141,15 @@ void CJabberProto::JLoginFailed(int errorCode)
 
 void CJabberProto::CheckKeepAlive()
 {
-	if (GetTickCount() - m_lastTicks < m_iConnectionKeepAliveInterval)
-		return;
-
-	if (m_bKeepAlive && m_ThreadInfo) {
-		if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
-			CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, this);
-			pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
-			m_ThreadInfo->send(XmlNodeIq(pInfo) << XATTR("from", m_ThreadInfo->fullJID) << XCHILDNS("ping", JABBER_FEAT_PING));
+	if (m_ThreadInfo) {
+		if (m_bKeepAlive && ::GetTickCount() - m_ThreadInfo->lastWriteTime < m_iConnectionKeepAliveInterval) {
+			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
+				CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, this);
+				pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
+				m_ThreadInfo->send(XmlNodeIq(pInfo) << XATTR("from", m_ThreadInfo->fullJID) << XCHILDNS("ping", JABBER_FEAT_PING));
+			}
+			else m_ThreadInfo->send(" \t ");
 		}
-		else m_ThreadInfo->send(" \t ");
 	}
 
 	if (m_bEnableStreamMgmt)
@@ -192,7 +191,7 @@ void ThreadData::xmpp_client_query(void)
 			char* dnsHost = it->pNameTarget;
 
 			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", conn.server, dnsHost, dnsPort);
-			s = proto->WsConnect(dnsHost, dnsPort);
+			s = Netlib_OpenConnection(proto->m_hNetlibUser, dnsHost, dnsPort);
 			if (s) {
 				strncpy_s(conn.manualHost, dnsHost, _TRUNCATE);
 				conn.port = dnsPort;
@@ -375,10 +374,10 @@ LBL_FatalError:
 		info.xmpp_client_query();
 		if (info.s == nullptr) {
 			strncpy_s(info.conn.manualHost, info.conn.server, _TRUNCATE);
-			info.s = WsConnect(info.conn.manualHost, info.conn.port);
+			info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
 		}
 	}
-	else info.s = WsConnect(info.conn.manualHost, info.conn.port);
+	else info.s = Netlib_OpenConnection(m_hNetlibUser, info.conn.manualHost, info.conn.port);
 
 	debugLogA("Thread type=%d server='%s' port='%d'", info.bIsReg, info.conn.manualHost, info.conn.port);
 	if (info.s == nullptr) {
@@ -424,7 +423,7 @@ LBL_FatalError:
 		debugLogA("Entering main recv loop");
 		int datalen = 0;
 
-		// cache values
+		// main socket reading cycle
 		for (;;) {
 			int recvResult = info.recv(info.buffer + datalen, jabberNetworkBufferSize - datalen);
 			debugLogA("recvResult = %d", recvResult);
@@ -1958,7 +1957,7 @@ ThreadData::ThreadData(CJabberProto *_pro, JABBER_CONN_DATA *param)
 
 	resolveID = -1;
 	proto = _pro;
-	iomutex = CreateMutex(nullptr, FALSE, nullptr);
+	lastWriteTime = ::GetTickCount();
 
 	if (param != nullptr) {
 		bIsReg = true;
@@ -1974,8 +1973,6 @@ ThreadData::~ThreadData()
 	mir_free(gssapiHostName);
 	mir_free(zRecvData);
 	mir_free(buffer);
-
-	CloseHandle(iomutex);
 }
 
 void ThreadData::close(void)
@@ -1997,10 +1994,20 @@ int ThreadData::recv(char* buf, size_t len)
 	if (this == nullptr)
 		return 0;
 
+	// this select() is still required because shitty openssl is not thread safe
+	if (zRecvReady) {
+		NETLIBSELECT nls = {};
+		nls.dwTimeout = INFINITE;
+		nls.hReadConns[0] = s;
+		int nSelRes = Netlib_Select(&nls);
+		if (nSelRes == SOCKET_ERROR) // error
+			return SOCKET_ERROR;
+	}
+
 	if (useZlib)
 		return zlibRecv(buf, (long)len);
 
-	return proto->WsRecv(s, buf, (long)len, MSG_DUMPASTEXT);
+	return Netlib_Recv(s, buf, (long)len, MSG_DUMPASTEXT);
 }
 
 int ThreadData::send(char* buf, int bufsize)
@@ -2008,21 +2015,20 @@ int ThreadData::send(char* buf, int bufsize)
 	if (this == nullptr)
 		return 0;
 
+	lastWriteTime = ::GetTickCount();
 	if (bufsize == -1)
 		bufsize = (int)mir_strlen(buf);
 
-	WaitForSingleObject(iomutex, 6000);
+	mir_cslock lck(proto->m_csSocket);
 
 	int result;
 	if (useZlib)
 		result = zlibSend(buf, bufsize);
 	else
-		result = proto->WsSend(s, buf, bufsize, MSG_DUMPASTEXT);
+		result = Netlib_Send(s, buf, bufsize, MSG_DUMPASTEXT);
 
 	if (result == SOCKET_ERROR)
 		close();
-
-	ReleaseMutex(iomutex);
 
 	return result;
 }

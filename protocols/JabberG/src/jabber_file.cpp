@@ -36,10 +36,7 @@ void __cdecl CJabberProto::FileReceiveThread(filetransfer *ft)
 
 	ft->type = FT_OOB;
 
-	NETLIBOPENCONNECTION nloc = {};
-	nloc.szHost = ft->httpHostName;
-	nloc.wPort = ft->httpPort;
-	info.s = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+	info.s = Netlib_OpenConnection(m_hNetlibUser, ft->httpHostName, ft->httpPort);
 	if (info.s == nullptr) {
 		debugLogA("Connection failed (%d), thread ended", WSAGetLastError());
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft);
@@ -401,7 +398,7 @@ int CJabberProto::FileSendParse(HNETLIBCONN s, filetransfer *ft, char* buffer, i
 
 				char fileBuffer[2048];
 				int bytes = mir_snprintf(fileBuffer, "HTTP/1.1 200 OK\r\nContent-Length: %d\r\n\r\n", _filelength(fileId));
-				WsSend(s, fileBuffer, bytes, MSG_DUMPASTEXT);
+				Netlib_Send(s, fileBuffer, bytes, MSG_DUMPASTEXT);
 
 				ft->std.flags |= PFTS_SENDING;
 				ft->std.currentFileProgress = 0;

@@ -438,15 +438,9 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	char *szPort = jbt->szProxyPort;
 	char *szHost = jbt->szProxyHost;
 
-	uint16_t port = (uint16_t)atoi(szPort);
 	replaceStr(jbt->streamhostJID, jbt->szProxyJid);
 
-	NETLIBOPENCONNECTION nloc = {};
-	nloc.szHost = szHost;
-	nloc.wPort = port;
-
-	HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
-	mir_free((void*)nloc.szHost);
+	HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, szHost, atoi(szPort));
 
 	if (hConn != nullptr) {
 		jbt->hConn = hConn;
@@ -610,13 +604,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 					replaceStr(jbt->streamhostJID, str);
 
 					debugLogA("bytestream_recv connecting to %s:%d", szHost, port);
-					NETLIBOPENCONNECTION nloc = { 0 };
-					nloc.szHost = mir_strdup(szHost);
-					nloc.wPort = port;
-
-					HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
-					mir_free((void*)nloc.szHost);
-
+					HNETLIBCONN hConn = Netlib_OpenConnection(m_hNetlibUser, szHost, port);
 					if (hConn == nullptr) {
 						debugLogA("bytestream_recv_connection connection failed (%d), try next streamhost", WSAGetLastError());
 						continue;

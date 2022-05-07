@@ -109,28 +109,31 @@ bool RecvUntilTimeout(NetlibConnection *nlc, char *buf, int len, int flags, uint
 	return false;
 }
 
-static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static int NetlibInitSocks4Connection(NetlibConnection *nlc)
 {
 	//	http://www.socks.nec.com/protocol/socks4.protocol and http://www.socks.nec.com/protocol/socks4a.protocol
-	if (!nloc || !nloc->szHost || !nloc->szHost[0]) return 0;
+	NetlibUrl &url = nlc->url;
+	if (url.szHost.IsEmpty())
+		return 0;
 
-	size_t nHostLen = mir_strlen(nloc->szHost) + 1;
+	NetlibUser *nlu = nlc->nlu;
+	size_t nHostLen = mir_strlen(url.szHost) + 1;
 	size_t nUserLen = nlu->settings.szProxyAuthUser ? mir_strlen(nlu->settings.szProxyAuthUser) + 1 : 1;
 	size_t len = 8 + nUserLen;
 
 	char* pInit = (char*)alloca(len + nHostLen);
 	pInit[0] = 4;	// SOCKS4
 	pInit[1] = 1;	//connect
-	*(PWORD)&pInit[2] = htons(nloc->wPort);
+	*(PWORD)&pInit[2] = htons(url.port);
 
 	if (nUserLen <= 1) pInit[8] = 0;
 	else memcpy(&pInit[8], nlu->settings.szProxyAuthUser, nUserLen);
 
 	//if cannot resolve host, try resolving through proxy (requires SOCKS4a)
-	uint32_t ip = DnsLookup(nlu, nloc->szHost);
+	uint32_t ip = DnsLookup(nlu, url.szHost);
 	*(PDWORD)&pInit[4] = ip ? ip : 0x01000000;
 	if (!ip) {
-		memcpy(&pInit[len], nloc->szHost, nHostLen);
+		memcpy(&pInit[len], url.szHost, nHostLen);
 		len += nHostLen;
 	}
 
@@ -156,10 +159,11 @@ static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	return 0;
 }
 
-static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static int NetlibInitSocks5Connection(NetlibConnection *nlc)
 {
 	//rfc1928
 	uint8_t buf[258];
+	NetlibUser *nlu = nlc->nlu;
 
 	buf[0] = 5;  //yep, socks5
 	buf[1] = 1;  //one auth method
@@ -210,30 +214,31 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	size_t nHostLen;
 	uint32_t hostIP;
 
+	NetlibUrl &url = nlc->url;
 	if (nlc->dnsThroughProxy) {
-		hostIP = inet_addr(nloc->szHost);
-		nHostLen = (hostIP == INADDR_NONE) ? mir_strlen(nloc->szHost) + 1 : 4;
+		hostIP = inet_addr(url.szHost);
+		nHostLen = (hostIP == INADDR_NONE) ? mir_strlen(url.szHost) + 1 : 4;
 	}
 	else {
-		hostIP = DnsLookup(nlu, nloc->szHost);
+		hostIP = DnsLookup(nlu, url.szHost);
 		if (hostIP == 0)
 			return 0;
 		nHostLen = 4;
 	}
 	uint8_t *pInit = (uint8_t*)mir_alloc(6 + nHostLen);
 	pInit[0] = 5;   //SOCKS5
-	pInit[1] = nloc->flags & NLOCF_UDP ? 3 : 1; //connect or UDP
+	pInit[1] = url.flags & NLOCF_UDP ? 3 : 1; //connect or UDP
 	pInit[2] = 0;   //reserved
 	if (hostIP == INADDR_NONE) {		 //DNS lookup through proxy
 		pInit[3] = 3;
 		pInit[4] = uint8_t(nHostLen - 1);
-		memcpy(pInit + 5, nloc->szHost, nHostLen - 1);
+		memcpy(pInit + 5, url.szHost, nHostLen - 1);
 	}
 	else {
 		pInit[3] = 1;
 		*(PDWORD)(pInit + 4) = hostIP;
 	}
-	*(PWORD)(pInit + 4 + nHostLen) = htons(nloc->wPort);
+	*(PWORD)(pInit + 4 + nHostLen) = htons(url.port);
 	if (Netlib_Send(nlc, (char*)pInit, int(6 + nHostLen), MSG_DUMPPROXY) == SOCKET_ERROR) {
 		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "Netlib_Send", GetLastError());
 		mir_free(pInit);
@@ -291,16 +296,17 @@ static int NetlibInitSocks5Connection(NetlibConnection *nlc, NetlibUser *nlu, NE
 	return 1;
 }
 
-static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static bool NetlibInitHttpsConnection(NetlibConnection *nlc)
 {
 	// rfc2817
+	NetlibUrl &url = nlc->url;
 	CMStringA szUrl;
 	if (nlc->dnsThroughProxy)
-		szUrl.Format("%s:%u", nloc->szHost, nloc->wPort);
+		szUrl.Format("%s:%u", url.szHost.c_str(), url.port);
 	else {
-		uint32_t ip = DnsLookup(nlu, nloc->szHost);
+		uint32_t ip = DnsLookup(nlc->nlu, url.szHost);
 		if (ip == 0) return false;
-		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), nloc->wPort);
+		szUrl.Format("%s:%u", inet_ntoa(*(PIN_ADDR)&ip), url.port);
 	}
 
 	NETLIBHTTPREQUEST nlhrSend = { 0 };
@@ -320,11 +326,12 @@ static bool NetlibInitHttpsConnection(NetlibConnection *nlc, NetlibUser *nlu, NE
 		if (nlhrReply->resultCode == 403 && nlc->dnsThroughProxy) {
 			Netlib_FreeHttpRequest(nlhrReply);
 			nlc->dnsThroughProxy = 0;
-			return NetlibInitHttpsConnection(nlc, nlu, nloc);
+			return NetlibInitHttpsConnection(nlc);
 		}
 
 		NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
-		Netlib_Logf(nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
+		Netlib_Logf(nlc->nlu, "%s %d: %s request failed (%u %s)", __FILE__, __LINE__, 
+			nlc->nlu->settings.proxyType == PROXYTYPE_HTTP ? "HTTP" : "HTTPS", nlhrReply->resultCode, nlhrReply->szResultDescr);
 		Netlib_FreeHttpRequest(nlhrReply);
 		return 0;
 	}
@@ -342,160 +349,16 @@ static void FreePartiallyInitedConnection(NetlibConnection *nlc)
 	SetLastError(dwOriginalLastError);
 }
 
-static bool my_connectIPv4(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
+static bool my_connectIP(NetlibConnection *nlc)
 {
-	int rc = 0, retrycnt = 0;
-	u_long notblocking = 1;
-	uint32_t lasterr = 0;
-	static const TIMEVAL tv = { 1, 0 };
-	NetlibUser *nlu = nlc->nlu;
-
-	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
-	unsigned int dwTimeout = (nloc && (nloc->flags & NLOCF_V2) && (nloc->timeout > 0)) ? nloc->timeout : 30;
-
-	// this is for XP SP2 where there is a default connection attempt limit of 10/second
-	if (connectionTimeout) {
-		WaitForSingleObject(hConnectionOpenMutex, 10000);
-		int waitdiff = GetTickCount() - g_LastConnectionTick;
-		if (waitdiff < connectionTimeout) SleepEx(connectionTimeout, TRUE);
-		g_LastConnectionTick = GetTickCount();
-		ReleaseMutex(hConnectionOpenMutex);
-
-		// might of died in between the wait
-		if (Miranda_IsTerminated()) return false;
-	}
-
-	PHOSTENT he;
-	sockaddr_in sin = { 0 };
-	sin.sin_family = AF_INET;
-
-	if (nlc->proxyType) {
-		if (!nlc->szProxyServer) return false;
-
-		if (nloc)
-			Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
-		else
-			Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort);
-
-		sin.sin_port = htons(nlc->wProxyPort);
-		he = gethostbyname(nlc->szProxyServer);
-	}
-	else {
-		if (!nloc || !nloc->szHost || nloc->szHost[0] == '[' || strchr(nloc->szHost, ':')) return false;
-		Netlib_Logf(nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
-
-		sin.sin_port = htons(nloc->wPort);
-		he = gethostbyname(nloc->szHost);
-	}
-
-	for (char** har = he->h_addr_list; *har && !Miranda_IsTerminated(); ++har) {
-		sin.sin_addr.s_addr = *(u_long*)*har;
-
-		char *szIp = Netlib_AddressToString(&sin);
-		Netlib_Logf(nlu, "(%p) Connecting to ip %s ....", nlc, szIp);
-		mir_free(szIp);
-
-retry:
-		nlc->s = socket(AF_INET, nloc->flags & NLOCF_UDP ? SOCK_DGRAM : SOCK_STREAM, 0);
-		if (nlc->s == INVALID_SOCKET)
-			return false;
-
-		// return the socket to non blocking
-		if (ioctlsocket(nlc->s, FIONBIO, &notblocking) != 0)
-			return false;
-
-		if (nlu->settings.specifyOutgoingPorts && nlu->settings.szOutgoingPorts  && nlu->settings.szOutgoingPorts[0]) {
-			if (!BindSocketToPort(nlu->settings.szOutgoingPorts, nlc->s, INVALID_SOCKET, &nlu->inportnum))
-				Netlib_Logf(nlu, "Netlib connect: Not enough ports for outgoing connections specified");
-		}
-
-		// try a connect
-		if (connect(nlc->s, (LPSOCKADDR)&sin, sizeof(sin)) == 0) {
-			rc = 0;
-			break;
-		}
-
-		// didn't work, was it cos of nonblocking?
-		if (WSAGetLastError() != WSAEWOULDBLOCK) {
-			rc = SOCKET_ERROR;
-			closesocket(nlc->s);
-			nlc->s = INVALID_SOCKET;
-			continue;
-		}
-
-		while (true) {
-			fd_set r, w, e;
-			FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
-			FD_SET(nlc->s, &r);
-			FD_SET(nlc->s, &w);
-			FD_SET(nlc->s, &e);
-			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR)
-				break;
-
-			if (rc > 0) {
-				if (FD_ISSET(nlc->s, &w)) {
-					// connection was successful
-					rc = 0;
-				}
-				if (FD_ISSET(nlc->s, &r)) {
-					// connection was closed
-					rc = SOCKET_ERROR;
-					lasterr = WSAECONNRESET;
-				}
-				if (FD_ISSET(nlc->s, &e)) {
-					// connection failed.
-					int len = sizeof(lasterr);
-					rc = SOCKET_ERROR;
-					getsockopt(nlc->s, SOL_SOCKET, SO_ERROR, (char*)&lasterr, &len);
-					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2) {
-						closesocket(nlc->s);
-						goto retry;
-					}
-				}
-				break;
-			}
-			else if (Miranda_IsTerminated()) {
-				rc = SOCKET_ERROR;
-				lasterr = ERROR_TIMEOUT;
-				break;
-			}
-			else if (nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
-				rc = SOCKET_ERROR;
-				lasterr = ERROR_TIMEOUT;
-				break;
-			}
-			if (--dwTimeout == 0) {
-				rc = SOCKET_ERROR;
-				lasterr = ERROR_TIMEOUT;
-				break;
-			}
-		}
-
-		if (rc == 0) break;
-
-		closesocket(nlc->s);
-		nlc->s = INVALID_SOCKET;
-	}
-
-	notblocking = 0;
-	if (nlc->s != INVALID_SOCKET) ioctlsocket(nlc->s, FIONBIO, &notblocking);
-	if (rc && lasterr) SetLastError(lasterr);
-	return rc == 0;
-}
-
-static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
-{
-	if (!nloc)
-		return false;
-
 	NetlibUser *nlu = nlc->nlu;
 	int rc = SOCKET_ERROR, retrycnt = 0;
 	u_long notblocking = 1;
 	uint32_t lasterr = 0;
 	static const TIMEVAL tv = { 1, 0 };
-	unsigned int dwTimeout = (nloc->flags & NLOCF_V2) ? nloc->timeout : 0;
-	// if dwTimeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
-	if (dwTimeout == 0) dwTimeout = 30;
+	
+	// if timeout is zero then its an old style connection or new with a 0 timeout, select() will error quicker anyway
+	int timeout = (nlc->timeout <= 0) ? 30 : nlc->timeout;
 
 	// this is for XP SP2 where there is a default connection attempt limit of 10/second
 	if (connectionTimeout) {
@@ -505,8 +368,9 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		g_LastConnectionTick = GetTickCount();
 		ReleaseMutex(hConnectionOpenMutex);
 
-		// might of died in between the wait
-		if (Miranda_IsTerminated()) return false;
+		// might have died in between the wait
+		if (Miranda_IsTerminated())
+			return false;
 	}
 
 	char szPort[6];
@@ -514,7 +378,8 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 
 	hints.ai_family = AF_UNSPEC;
 
-	if (nloc->flags & NLOCF_UDP) {
+	NetlibUrl &url = nlc->url;
+	if (url.flags & NLOCF_UDP) {
 		hints.ai_socktype = SOCK_DGRAM;
 		hints.ai_protocol = IPPROTO_UDP;
 	}
@@ -527,7 +392,7 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		if (!nlc->szProxyServer)
 			return false;
 
-		Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, nloc->szHost, nloc->wPort);
+		Netlib_Logf(nlu, "(%p) Connecting to proxy %s:%d for %s:%d ....", nlc, nlc->szProxyServer, nlc->wProxyPort, url.szHost.c_str(), url.port);
 
 		_itoa(nlc->wProxyPort, szPort, 10);
 		if (GetAddrInfoA(nlc->szProxyServer, szPort, &hints, &air)) {
@@ -536,15 +401,15 @@ static bool my_connectIPv6(NetlibConnection *nlc, NETLIBOPENCONNECTION *nloc)
 		}
 	}
 	else {
-		if (!nloc->szHost)
+		if (url.szHost.IsEmpty())
 			return false;
 
-		Netlib_Logf(nlu, "(%p) Connecting to server %s:%d....", nlc, nloc->szHost, nloc->wPort);
+		Netlib_Logf(nlu, "(%p) Connecting to server %s:%d....", nlc, url.szHost.c_str(), url.port);
 
-		_itoa(nlc->nloc.wPort, szPort, 10);
+		_itoa(url.port, szPort, 10);
 
-		if (GetAddrInfoA(nlc->nloc.szHost, szPort, &hints, &air)) {
-			Netlib_Logf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", nlc->nloc.szHost, WSAGetLastError());
+		if (GetAddrInfoA(url.szHost, szPort, &hints, &air)) {
+			Netlib_Logf(nlu, "%s %d: %s() for host %s failed (%u)", __FILE__, __LINE__, "getaddrinfo", url.szHost.c_str(), WSAGetLastError());
 			return false;
 		}
 	}
@@ -623,12 +488,8 @@ retry:
 				lasterr = ERROR_TIMEOUT;
 				break;
 			}
-			else if (nloc->flags & NLOCF_V2 && nloc->waitcallback != nullptr && nloc->waitcallback(&dwTimeout) == 0) {
-				rc = SOCKET_ERROR;
-				lasterr = ERROR_TIMEOUT;
-				break;
-			}
-			if (--dwTimeout == 0) {
+
+			if (--timeout == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
@@ -649,17 +510,17 @@ retry:
 	return rc == 0;
 }
 
-static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
+static int NetlibHttpFallbackToDirect(NetlibConnection *nlc)
 {
 	NetlibDoCloseSocket(nlc, true);
 
-	Netlib_Logf(nlu, "Fallback to direct connection");
+	Netlib_Logf(nlc->nlu, "Fallback to direct connection");
 
 	nlc->proxyAuthNeeded = false;
 	nlc->proxyType = 0;
 	replaceStr(nlc->szProxyServer, nullptr);
-	if (!my_connectIPv6(nlc, nloc)) {
-		Netlib_Logf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
+	if (!my_connectIP(nlc)) {
+		Netlib_Logf(nlc->nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "connect", WSAGetLastError());
 		return false;
 	}
 	return true;
@@ -667,7 +528,6 @@ static int NetlibHttpFallbackToDirect(NetlibConnection *nlc, NetlibUser *nlu, NE
 
 bool NetlibDoConnect(NetlibConnection *nlc)
 {
-	NETLIBOPENCONNECTION *nloc = &nlc->nloc;
 	NetlibUser *nlu = nlc->nlu;
 
 	replaceStr(nlc->szProxyServer, nullptr);
@@ -686,7 +546,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		}
 	}
 
-	while (!my_connectIPv6(nlc, nloc)) {
+	while (!my_connectIP(nlc)) {
 		// if connection failed, the state of nlc might be unpredictable
 		if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
 			// Fallback to direct only when using HTTP proxy, as this is what used by companies
@@ -708,27 +568,27 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		return false;
 	}
 
-	if (usingProxy && !((nloc->flags & (NLOCF_HTTP | NLOCF_SSL)) == NLOCF_HTTP && (nlc->proxyType == PROXYTYPE_HTTP || nlc->proxyType == PROXYTYPE_HTTPS))) {
+	if (usingProxy && !((nlc->url.flags & (NLOCF_HTTP | NLOCF_SSL)) == NLOCF_HTTP && (nlc->proxyType == PROXYTYPE_HTTP || nlc->proxyType == PROXYTYPE_HTTPS))) {
 		if (!WaitUntilWritable(nlc->s, 30000))
 			return false;
 
 		switch (nlc->proxyType) {
 		case PROXYTYPE_SOCKS4:
-			if (!NetlibInitSocks4Connection(nlc, nlu, nloc))
+			if (!NetlibInitSocks4Connection(nlc))
 				return false;
 			break;
 
 		case PROXYTYPE_SOCKS5:
-			if (!NetlibInitSocks5Connection(nlc, nlu, nloc))
+			if (!NetlibInitSocks5Connection(nlc))
 				return false;
 			break;
 
 		case PROXYTYPE_HTTPS:
 		case PROXYTYPE_HTTP:
 			nlc->proxyAuthNeeded = true;
-			if (!NetlibInitHttpsConnection(nlc, nlu, nloc)) {
+			if (!NetlibInitHttpsConnection(nlc)) {
 				usingProxy = false;
-				if (!NetlibHttpFallbackToDirect(nlc, nlu, nloc))
+				if (!NetlibHttpFallbackToDirect(nlc))
 					return false;
 			}
 			break;
@@ -740,7 +600,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		}
 	}
 
-	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nloc->szHost, nloc->wPort);
+	Netlib_Logf(nlu, "(%d) Connected to %s:%d", nlc->s, nlc->url.szHost.c_str(), nlc->url.port);
 
 	if (GetSubscribersCount((THook*)hEventConnected)) {
 		NETLIBCONNECTIONEVENTINFO ncei = {};
@@ -752,8 +612,8 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 			size = sizeof(SOCKADDR_IN);
 			getpeername(nlc->s, (SOCKADDR *)&ncei.proxy, &size);
 			ncei.remote.sin_family = AF_INET;
-			ncei.remote.sin_port = htons((short)nloc->wPort);
-			ncei.remote.sin_addr.S_un.S_addr = DnsLookup(nlu, nloc->szHost);
+			ncei.remote.sin_port = htons(nlc->url.port);
+			ncei.remote.sin_addr.S_un.S_addr = DnsLookup(nlu, nlc->url.szHost);
 		}
 		else {
 			size = sizeof(SOCKADDR_IN);
@@ -762,7 +622,7 @@ bool NetlibDoConnect(NetlibConnection *nlc)
 		NotifyFastHook(hEventConnected, (WPARAM)&ncei, 0);
 	}
 
-	if (NLOCF_SSL & nloc->flags)
+	if (NLOCF_SSL & nlc->url.flags)
 		return Netlib_StartSsl(nlc, nullptr) != 0;
 
 	return true;
@@ -804,10 +664,9 @@ bool NetlibReconnect(NetlibConnection *nlc)
 	return true;
 }
 
-MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPENCONNECTION *nloc)
+MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const char *szHost, int port, int timeout, int flags)
 {
-	if (nloc == nullptr || nloc->szHost == nullptr || nloc->wPort == 0) {
-
+	if (szHost == nullptr || port == 0) {
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return nullptr;
 	}
@@ -815,12 +674,14 @@ MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(NetlibUser *nlu, const NETLIBOPEN
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_OUTGOING))
 		return nullptr;
 
-	Netlib_Logf(nlu, "Connection request to %s:%d (Flags %x)....", nloc->szHost, nloc->wPort, nloc->flags);
+	Netlib_Logf(nlu, "Connection request to %s:%d (Flags %x)....", szHost, port, flags);
 
 	NetlibConnection *nlc = new NetlibConnection();
 	nlc->nlu = nlu;
-	nlc->nloc = *nloc;
-	nlc->nloc.szHost = mir_strdup(nloc->szHost);
+	nlc->timeout = timeout;
+	nlc->url.szHost = szHost;
+	nlc->url.port = port;
+	nlc->url.flags = flags;
 	nlc->dnsThroughProxy = nlu->settings.dnsThroughProxy != 0;
 
 	if (!NetlibDoConnect(nlc)) {
@@ -858,8 +719,6 @@ NetlibConnection::~NetlibConnection()
 
 	mir_free(nlhpi.szHttpPostUrl);
 	mir_free(nlhpi.szHttpGetUrl);
-
-	mir_free((char*)nloc.szHost);
 
 	NetlibDeleteNestedCS(&ncsSend);
 	NetlibDeleteNestedCS(&ncsRecv);

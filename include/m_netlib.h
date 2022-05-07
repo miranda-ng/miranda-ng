@@ -310,22 +310,10 @@ EXTERN_C MIR_APP_DLL(HNETLIBBIND) Netlib_BindPort(HNETLIBUSER nlu, NETLIBBIND *n
 
 #define NLOCF_HTTP          0x0001 // this connection will be used for HTTP communications. If configured for an HTTP/HTTPS proxy the connection is opened as if there was no proxy.
 #define NLOCF_STICKYHEADERS 0x0002 // this connection should send the sticky headers associated with NetLib user apart of any HTTP request
-#define NLOCF_V2            0x0004 // this connection understands the newer structure, newer cbSize isnt enough
 #define NLOCF_UDP           0x0008 // this connection is UDP
 #define NLOCF_SSL           0x0010 // this connection is SSL
 
-struct NETLIBOPENCONNECTION
-{
-	const char *szHost;    // can contain the string representation of an IP
-	uint16_t wPort;        // host byte order
-	uint32_t flags;
-	unsigned int timeout;
-	/* optional, called in the context of the thread that issued the attempt, if it returns 0 the connection attempt is
-	stopped, the remaining timeout value can also be adjusted */
-	int (*waitcallback) (unsigned int *timeout);
-};
-
-EXTERN_C MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(HNETLIBUSER nlu, const NETLIBOPENCONNECTION *nloc);
+EXTERN_C MIR_APP_DLL(HNETLIBCONN) Netlib_OpenConnection(HNETLIBUSER nlu, const char *szHost, int port, int timeout = 0, int flags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Sets the required information for an HTTP proxy connection

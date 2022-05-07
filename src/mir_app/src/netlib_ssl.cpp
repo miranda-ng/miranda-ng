@@ -363,7 +363,7 @@ MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 
 	NetlibUser *nlu = nlc->nlu;
 	if (szHost == nullptr)
-		szHost = nlc->nloc.szHost;
+		szHost = nlc->url.szHost;
 	szHost = NEWSTR_ALLOCA(szHost);
 
 	Netlib_Logf(nlu, "(%d %s) Starting SSL/TLS negotiation", int(nlc->s), szHost);

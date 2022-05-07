@@ -402,11 +402,7 @@ LBL_Begin:
 	}
 
 	// connect to MQTT server
-	NETLIBOPENCONNECTION nloc = {};
-	nloc.szHost = "mqtt.facebook.com";
-	nloc.wPort = 443;
-	nloc.flags = NLOCF_SSL | NLOCF_V2;
-	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, &nloc);
+	m_mqttConn = Netlib_OpenConnection(m_hNetlibUser, "mqtt.facebook.com", 443, 0, NLOCF_SSL);
 	if (m_mqttConn == nullptr) {
 		debugLogA("connection failed, exiting");
 		ConnectionFailed();

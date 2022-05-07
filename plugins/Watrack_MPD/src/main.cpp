@@ -24,14 +24,8 @@ SONGINFO SongInfo = {};
 
 void Start(void*)
 {
-	NETLIBOPENCONNECTION nloc = {};
-	char *tmp = (char*)mir_u2a(gbHost);
-	nloc.szHost = tmp;
-	nloc.timeout = 5;
-	nloc.flags = NLOCF_V2;
-	nloc.wPort = gbPort;
 	Connected = FALSE;
-	ghConnection = Netlib_OpenConnection(ghNetlibUser, &nloc);
+	ghConnection = Netlib_OpenConnection(ghNetlibUser, _T2A(gbHost), gbPort, 5);
 	if (ghConnection)
 		ghPacketReciever = Netlib_CreatePacketReceiver(ghConnection, 2048);
 }

@@ -88,10 +88,7 @@ void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
 	DebugLog(CommFile, "<connect>\n");
 	#endif
 	try {
-		NETLIBOPENCONNECTION nloc = {};
-		nloc.szHost = servername;
-		nloc.wPort = port;
-		if (nullptr == (hConnection = Netlib_OpenConnection(hNetlibUser, &nloc))) {
+		if (nullptr == (hConnection = Netlib_OpenConnection(hNetlibUser, servername, port))) {
 			SystemError = WSAGetLastError();
 			throw NetworkError = (uint32_t)ENL_CONNECT;
 		}

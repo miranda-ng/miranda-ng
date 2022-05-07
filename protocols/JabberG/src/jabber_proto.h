@@ -76,6 +76,8 @@ struct CChatMark
 
 struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 {
+	friend struct ThreadData;
+
 	class CJabberProtoImpl
 	{
 		friend struct CJabberProto;
@@ -240,6 +242,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<uint32_t> m_iConnectionKeepAliveTimeout;
 
 	PVOID  m_sslCtx;
+	mir_cs m_csSocket; // protects i/o operations
 
 	HANDLE m_hThreadHandle;
 
@@ -883,14 +886,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName);
 	void       SaveVcardToDB(HWND hwndPage, int iPage);
 
-	//---- jabber_ws.c -------------------------------------------------
-
-	HNETLIBCONN WsConnect(char* host, uint16_t port);
-
-	bool       WsInit(void);
-	int        WsSend(HNETLIBCONN s, char* data, int datalen, int flags);
-	int        WsRecv(HNETLIBCONN s, char* data, long datalen, int flags);
-
 	//---- jabber_xml.c ------------------------------------------------------------------
 
 	void       OnConsoleProcessXml(const TiXmlElement *node, uint32_t flags);
@@ -928,8 +923,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 private:
 	char      *m_szXmlStreamToBeInitialized;
-
-	uint32_t   m_lastTicks;
 
 	HANDLE     m_hPopupClass;
 

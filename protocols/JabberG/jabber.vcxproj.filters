@@ -149,9 +149,6 @@
     <ClCompile Include="src\jabber_vcard.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_ws.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\jabber_xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
