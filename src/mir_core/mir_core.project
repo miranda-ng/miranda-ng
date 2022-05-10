@@ -3,6 +3,11 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <VirtualDirectory Name="UI">
+      <File Name="src/Linux/CDlgBase.cpp"/>
+      <File Name="src/Linux/CDbLink.cpp"/>
+      <File Name="src/Linux/CCtrlBase.cpp"/>
+    </VirtualDirectory>
     <File Name="src/Linux/strutil.cpp"/>
     <File Name="src/Linux/fileutil.cpp"/>
     <File Name="src/utils.cpp"/>
@@ -41,11 +46,12 @@
       <Compiler Options="-g;$(shell wx-config --cxxflags   --unicode=yes) -fPIC" C_Options="-g;$(shell wx-config --cxxflags   --unicode=yes) -fPIC" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="../../include"/>
+        <IncludePath Value="`pkg-config --cflags --libs elementary`"/>
       </Compiler>
       <Linker Options="$(shell wx-config   --libs --unicode=yes)" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(ProjectName)" IntermediateDirectory="$(WorkspacePath)/obj/debug/$(ProjectName)" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
-      <BuildSystem Name="CodeLite Make Generator"/>
+      <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -81,11 +87,12 @@
       <Compiler Options="-O2;$(shell wx-config --cxxflags --debug=no --unicode=yes) -fPIC" C_Options="-O2;$(shell wx-config --cxxflags --debug=no --unicode=yes) -fPIC" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" PCHFlags="" PCHFlagsPolicy="0">
         <IncludePath Value="."/>
         <IncludePath Value="../../include"/>
+        <IncludePath Value="`pkg-config --cflags --libs elementary`"/>
       </Compiler>
       <Linker Options="$(shell wx-config --debug=no --libs --unicode=yes);" Required="yes"/>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(ProjectName)" IntermediateDirectory="$(WorkspacePath)/obj/debug/$(ProjectName)" Command="$(WorkspacePath)/build-$(WorkspaceConfiguration)/bin/$(OutputFile)" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(WorkspacePath)/build-$(WorkspaceConfiguration)/lib" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
-      <BuildSystem Name="CodeLite Make Generator"/>
+      <BuildSystem Name="CodeLite Makefile Generator"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
