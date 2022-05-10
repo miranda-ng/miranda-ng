@@ -137,10 +137,6 @@ public:
 	CMSimpleStringT(const XCHAR* pchSrc, int nLength);
 	~CMSimpleStringT();
 
-	__forceinline operator CMSimpleStringT<BaseType>&()
-	{	return *(CMSimpleStringT<BaseType>*)this;
-	}
-
 	CMSimpleStringT& operator=(const CMSimpleStringT& strSrc);
 
 	__forceinline CMSimpleStringT& operator=(PCXSTR pszSrc)

@@ -267,9 +267,7 @@ mir_wstrcmpi                  @280
 ??4?$CMStringT@_WV?$ChTraitsCRT@_W@@@@QAEAAV0@_W@Z @342 NONAME
 ??A?$CMSimpleStringT@D@@QBEDH@Z @343 NONAME
 ??A?$CMSimpleStringT@_W@@QBE_WH@Z @344 NONAME
-??B?$CMSimpleStringT@D@@QAEAAV0@XZ @345 NONAME
 ??B?$CMSimpleStringT@D@@QBEPBDXZ @346 NONAME
-??B?$CMSimpleStringT@_W@@QAEAAV0@XZ @347 NONAME
 ??B?$CMSimpleStringT@_W@@QBEPB_WXZ @348 NONAME
 ??Y?$CMSimpleStringT@D@@QAEAAV0@ABV0@@Z @349 NONAME
 ??Y?$CMSimpleStringT@D@@QAEAAV0@D@Z @350 NONAME
