@@ -83,6 +83,42 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
+{
+	BITMAPINFO bmi = { 0 };
+	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+	bmi.bmiHeader.biPlanes = 1;
+	bmi.bmiHeader.biCompression = BI_RGB;
+	bmi.bmiHeader.biBitCount = 32;
+	bmi.bmiHeader.biWidth = g_iIconSX;
+	bmi.bmiHeader.biHeight = g_iIconSY;
+
+	HDC hdc = CreateCompatibleDC(nullptr);
+	HBITMAP hbmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
+	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
+
+	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
+	BP_PAINTPARAMS paintParams = { 0 };
+	paintParams.cbSize = sizeof(paintParams);
+	paintParams.dwFlags = BPPF_ERASE;
+	paintParams.pBlendFunction = &bfAlpha;
+
+	HDC hdcBuffer;
+	RECT rcIcon = { 0, 0, g_iIconSX, g_iIconSY };
+	HANDLE hPaintBuffer = beginBufferedPaint(hdc, &rcIcon, BPBF_DIB, &paintParams, &hdcBuffer);
+	if (hPaintBuffer) {
+		ImageList_Draw(hIml, iconId, hdc, 0, 0, ILD_TRANSPARENT);
+		endBufferedPaint(hPaintBuffer, TRUE);
+	}
+
+	SelectObject(hdc, hbmpOld);
+	DeleteDC(hdc);
+
+	return hbmp;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 TMO_IntMenuItem* MO_RecursiveWalkMenu(TMO_IntMenuItem *parent, pfnWalkFunc func, void* param)
 {
 	if (parent == nullptr)

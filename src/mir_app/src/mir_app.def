@@ -3,7 +3,6 @@ LIBRARY mir_app.mir
 EXPORTS
 Miranda_Close               @1 NONAME
 CallProtoService            @2
-Miranda_SetIdleCallback     @3 NONAME
 Skin_LoadProtoIcon          @4
 Skin_LoadIcon               @5
 Button_FreeIcon_IcoLib      @6

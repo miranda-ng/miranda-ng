@@ -120,9 +120,6 @@ EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 // Waits for a permission to exit and destroys contact list
 EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
 
-// Sets up a function pointer to be called after main loop iterations, suitable for idle processing
-EXTERN_C MIR_APP_DLL(void) Miranda_SetIdleCallback(void(MIR_CDECL *pfnCallback)(void));
-
 // returns the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
 EXTERN_C MIR_APP_DLL(uint32_t) Miranda_GetIdle(void);
 

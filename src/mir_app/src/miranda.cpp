@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "clc.h"
 
 #if defined(VLD_ENABLED)
-#include "msapi\vld.h"
+#include "msapi/vld.h"
 #endif
 
 #pragma comment(lib, "version.lib")
@@ -55,42 +55,6 @@ bool g_bModulesLoadedFired = false, g_bMirandaTerminated = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 CMPlugin g_plugin;
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
-{
-	BITMAPINFO bmi = { 0 };
-	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-	bmi.bmiHeader.biPlanes = 1;
-	bmi.bmiHeader.biCompression = BI_RGB;
-	bmi.bmiHeader.biBitCount = 32;
-	bmi.bmiHeader.biWidth = g_iIconSX;
-	bmi.bmiHeader.biHeight = g_iIconSY;
-
-	HDC hdc = CreateCompatibleDC(nullptr);
-	HBITMAP hbmp = CreateDIBSection(hdc, &bmi, DIB_RGB_COLORS, nullptr, nullptr, 0);
-	HBITMAP hbmpOld = (HBITMAP)SelectObject(hdc, hbmp);
-
-	BLENDFUNCTION bfAlpha = { AC_SRC_OVER, 0, 255, AC_SRC_ALPHA };
-	BP_PAINTPARAMS paintParams = { 0 };
-	paintParams.cbSize = sizeof(paintParams);
-	paintParams.dwFlags = BPPF_ERASE;
-	paintParams.pBlendFunction = &bfAlpha;
-
-	HDC hdcBuffer;
-	RECT rcIcon = { 0, 0, g_iIconSX, g_iIconSY };
-	HANDLE hPaintBuffer = beginBufferedPaint(hdc, &rcIcon, BPBF_DIB, &paintParams, &hdcBuffer);
-	if (hPaintBuffer) {
-		ImageList_Draw(hIml, iconId, hdc, 0, 0, ILD_TRANSPARENT);
-		endBufferedPaint(hPaintBuffer, TRUE);
-	}
-
-	SelectObject(hdc, hbmpOld);
-	DeleteDC(hdc);
-
-	return hbmp;
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -185,9 +149,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t dwReason, LPVOID)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-typedef LONG(WINAPI *pNtQIT)(HANDLE, LONG, PVOID, ULONG, PULONG);
-#define ThreadQuerySetWin32StartAddress 9
-
 static void __cdecl compactHeapsThread(void*)
 {
 	Thread_SetName("compactHeapsThread");
@@ -206,13 +167,6 @@ static void __cdecl compactHeapsThread(void*)
 			{}
 		}
 	}
-}
-
-void (*SetIdleCallback)(void) = nullptr;
-
-MIR_APP_DLL(void) Miranda_SetIdleCallback(void(__cdecl *pfnCallback)(void))
-{
-	SetIdleCallback = pfnCallback;
 }
 
 static uint32_t dwEventTime = 0;
@@ -418,8 +372,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
-					if (SetIdleCallback != nullptr)
-						SetIdleCallback();
 				}
 				else if (!dying) {
 					dying++;
