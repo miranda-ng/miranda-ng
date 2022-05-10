@@ -27,21 +27,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define INCL_WINSOCK_API_TYPEDEFS 1
 
 #ifdef _MSC_VER
-#include <winsock2.h>
-#include <ws2tcpip.h>
-#include <windows.h>
-#include <windowsx.h>
-#include <shlobj.h>
-#include <commctrl.h>
-#include <ShellAPI.h>
-#include <vssym32.h>
-#include <Uxtheme.h>
-#include <Richedit.h>
-#include <Wtsapi32.h>
+	#include <winsock2.h>
+	#include <ws2tcpip.h>
+	#include <windows.h>
+	#include <windowsx.h>
+	#include <shlobj.h>
+	#include <commctrl.h>
+	#include <ShellAPI.h>
+	#include <vssym32.h>
+	#include <Uxtheme.h>
+	#include <Richedit.h>
+	#include <Wtsapi32.h>
 
-#include <process.h>
-#include <io.h>
-#include <direct.h>
+	#include <process.h>
+	#include <io.h>
+	#include <direct.h>
+#else
+	#include <Elementary.h>
 #endif // _WINDOWS
 
 #include <malloc.h>

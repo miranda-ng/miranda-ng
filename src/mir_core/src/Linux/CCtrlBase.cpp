@@ -105,6 +105,7 @@ void CCtrlBase::NotifyChange()
 LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const
 {
 	// return ::SendMessage(m_hwnd, Msg, wParam, lParam);
+	return 0;
 }
 
 void CCtrlBase::SetText(const wchar_t *text)

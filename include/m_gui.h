@@ -325,6 +325,124 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlBase
+
+struct CContextMenuPos
+{
+	const class CCtrlBase *pCtrl;
+	POINT pt;
+	union {
+		int iCurr; // int for list boxes
+		HTREEITEM hItem;
+	};
+};
+
+class MIR_CORE_EXPORT CCtrlBase
+{
+	friend class CDlgBase;
+
+	__forceinline CCtrlBase(const CCtrlBase&) = delete;
+	__forceinline CCtrlBase& operator=(const CCtrlBase&) = delete;
+
+public:
+	CCtrlBase(CDlgBase *wnd, int idCtrl);
+	virtual ~CCtrlBase();
+
+	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline int GetCtrlId() const { return m_idCtrl; }
+	__forceinline CDlgBase *GetParent() const { return m_parentWnd; }
+	__forceinline bool IsChanged() const { return m_bChanged; }
+	__forceinline void SetSilent(bool bSilent = true) { m_bSilent = bSilent; }
+	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }
+
+	void Show(bool bShow = true);
+	__forceinline void Hide() { Show(false); }
+
+	void Enable(bool bIsEnable = true);
+	__forceinline void Disable() { Enable(false); }
+	bool Enabled(void) const;
+
+	void NotifyChange();
+	void SetDraw(bool bEnable);
+
+	LRESULT  SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
+
+	void     SetText(const wchar_t *text);
+	void     SetTextA(const char *text);
+	void     SetInt(int value);
+
+	wchar_t* GetText() const;
+	char*    GetTextA() const;
+	char*    GetTextU() const;
+
+	wchar_t* GetText(wchar_t *buf, size_t size) const;
+	char*    GetTextA(char *buf, size_t size) const;
+	char*    GetTextU(char *buf, size_t size) const;
+
+	int      GetInt() const;
+
+	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) { return FALSE; }
+	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
+
+	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDrawItem(DRAWITEMSTRUCT*) { return FALSE; }
+	virtual  BOOL OnDeleteItem(DELETEITEMSTRUCT*) { return FALSE; }
+
+	virtual  void OnInit();
+	virtual  void OnDestroy();
+
+	virtual  bool OnApply();
+	virtual  void OnReset();
+
+protected:
+	HWND m_hwnd = nullptr;  // must be the first data item
+	int m_idCtrl;
+	CDlgBase* m_parentWnd;
+	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false, m_bNotifiable = false;
+
+public:
+	CCallback<CCtrlBase> OnChange;
+	CCallback<CContextMenuPos> OnBuildMenu;
+
+protected:
+	virtual void GetCaretPos(CContextMenuPos&) const;
+	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
+
+	void Subclass();
+	void Unsubclass();
+
+private:
+	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CCtrlData - data access controls base class
+
+class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
+{
+	typedef CCtrlBase CSuper;
+
+public:
+	CCtrlData(CDlgBase *dlg, int ctrlId);
+	~CCtrlData();
+
+	void CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, uint32_t iValue);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
+	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
+
+	void OnInit() override;
+
+protected:
+	CDataLink *m_dbLink;
+
+	__inline uint8_t GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
+	__inline uint32_t LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
+	__inline void SaveInt(uint32_t value) { if (m_dbLink) m_dbLink->SaveInt(value); }
+	__inline const wchar_t *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
+	__inline void SaveText(wchar_t *value) { if (m_dbLink) m_dbLink->SaveText(value); }
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // CDlgBase - base dialog class
 
 class MIR_CORE_EXPORT CDlgBase
@@ -462,97 +580,6 @@ public:
 protected:
 	UINT_PTR  m_idEvent;
 	CDlgBase* m_wnd;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// CCtrlBase
-
-struct CContextMenuPos
-{
-	const CCtrlBase *pCtrl;
-	POINT pt;
-	union {
-		int iCurr; // int for list boxes
-		HTREEITEM hItem;
-	};
-};
-
-class MIR_CORE_EXPORT CCtrlBase
-{
-	friend class CDlgBase;
-
-	__forceinline CCtrlBase(const CCtrlBase&) = delete;
-	__forceinline CCtrlBase& operator=(const CCtrlBase&) = delete;
-
-public:
-	CCtrlBase(CDlgBase *wnd, int idCtrl);
-	virtual ~CCtrlBase();
-
-	__forceinline HWND GetHwnd() const { return m_hwnd; }
-	__forceinline int GetCtrlId() const { return m_idCtrl; }
-	__forceinline CDlgBase *GetParent() const { return m_parentWnd; }
-	__forceinline bool IsChanged() const { return m_bChanged; }
-	__forceinline void SetSilent(bool bSilent = true) { m_bSilent = bSilent; }
-	__forceinline void UseSystemColors() { m_bUseSystemColors = true; }
-
-	void Show(bool bShow = true);
-	__forceinline void Hide() { Show(false); }
-
-	void Enable(bool bIsEnable = true);
-	__forceinline void Disable() { Enable(false); }
-	bool Enabled(void) const;
-
-	void NotifyChange();
-	void SetDraw(bool bEnable);
-
-	LRESULT  SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const;
-
-	void     SetText(const wchar_t *text);
-	void     SetTextA(const char *text);
-	void     SetInt(int value);
-
-	wchar_t* GetText() const;
-	char*    GetTextA() const;
-	char*    GetTextU() const;
-
-	wchar_t* GetText(wchar_t *buf, size_t size) const;
-	char*    GetTextA(char *buf, size_t size) const;
-	char*    GetTextU(char *buf, size_t size) const;
-
-	int      GetInt() const;
-
-	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) { return FALSE; }
-	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
-
-	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
-	virtual  BOOL OnDrawItem(DRAWITEMSTRUCT*) { return FALSE; }
-	virtual  BOOL OnDeleteItem(DELETEITEMSTRUCT*) { return FALSE; }
-
-	virtual  void OnInit();
-	virtual  void OnDestroy();
-
-	virtual  bool OnApply();
-	virtual  void OnReset();
-
-protected:
-	HWND m_hwnd = nullptr;  // must be the first data item
-	int m_idCtrl;
-	CDlgBase* m_parentWnd;
-	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false, m_bNotifiable = false;
-
-public:
-	CCallback<CCtrlBase> OnChange;
-	CCallback<CContextMenuPos> OnBuildMenu;
-
-protected:
-	virtual void GetCaretPos(CContextMenuPos&) const;
-	virtual LRESULT CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam);
-
-	void Subclass();
-	void Unsubclass();
-
-private:
-	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -738,33 +765,6 @@ public:
 
 protected:
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// CCtrlData - data access controls base class
-
-class MIR_CORE_EXPORT CCtrlData : public CCtrlBase
-{
-	typedef CCtrlBase CSuper;
-
-public:
-	CCtrlData(CDlgBase *dlg, int ctrlId);
-	~CCtrlData();
-
-	void CreateDbLink(const char* szModuleName, const char* szSetting, uint8_t type, uint32_t iValue);
-	void CreateDbLink(const char* szModuleName, const char* szSetting, wchar_t* szValue);
-	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
-
-	void OnInit() override;
-
-protected:
-	CDataLink *m_dbLink;
-
-	__inline uint8_t GetDataType() { return m_dbLink ? m_dbLink->GetDataType() : DBVT_DELETED; }
-	__inline uint32_t LoadInt() { return m_dbLink ? m_dbLink->LoadInt() : 0; }
-	__inline void SaveInt(uint32_t value) { if (m_dbLink) m_dbLink->SaveInt(value); }
-	__inline const wchar_t *LoadText() { return m_dbLink ? m_dbLink->LoadText() : L""; }
-	__inline void SaveText(wchar_t *value) { if (m_dbLink) m_dbLink->SaveText(value); }
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

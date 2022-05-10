@@ -52,8 +52,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g $(pkg-config --cflags --libs elementary) -fPIC $(Preprocessors)
-CFLAGS   :=  -g $(pkg-config --cflags --libs elementary) -fPIC $(Preprocessors)
+CXXFLAGS :=  -g $(shell  pkg-config --cflags --libs elementary)  -fPIC $(Preprocessors)
+CFLAGS   :=  -g $(shell  pkg-config --cflags --libs elementary)  -fPIC $(Preprocessors)
 ASFLAGS  := 
 AS       := as
 
