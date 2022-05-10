@@ -239,9 +239,14 @@ public:
 	void   SetString(PCXSTR pszSrc, int nLength);
 
 public:
-	friend CMSimpleStringT operator+(const CMSimpleStringT& str1, const CMSimpleStringT& str2);
-	friend CMSimpleStringT operator+(const CMSimpleStringT& str1, PCXSTR psz2);
-	friend CMSimpleStringT operator+(PCXSTR psz1, const CMSimpleStringT& str2);
+	template <typename Basetype>
+	friend CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType> &str1, const CMSimpleStringT<BaseType> &str2);
+	
+	template <typename Basetype>
+	friend CMSimpleStringT<BaseType> operator+(const CMSimpleStringT<BaseType> &str1, PCXSTR psz2);
+	
+	template <typename Basetype>
+	friend CMSimpleStringT<BaseType> operator+(PCXSTR psz1, const CMSimpleStringT<BaseType> &str2);
 
 	static void MIR_SYSCALL CopyChars(XCHAR* pchDest, const XCHAR* pchSrc, int nChars);
 	static void MIR_SYSCALL CopyChars(XCHAR* pchDest, size_t nDestLen, const XCHAR* pchSrc, int nChars);
@@ -452,6 +457,7 @@ public:
 		#ifdef _MSC_VER
 			return _vscprintf(pszFormat, args);
 		#else
+			return 0; // !!!!!!!!!!
 		#endif
 	}
 
@@ -460,6 +466,7 @@ public:
 		#ifdef _MSC_VER
 			return vsprintf_s(pszBuffer, nlength, pszFormat, args);
 		#else
+			return 0; // !!!!!!!!!!
 		#endif
 	}
 
@@ -579,7 +586,9 @@ public:
 	{
 		#ifdef _MSC_VER
 			return ::GetEnvironmentVariableA(pszVar, pszBuffer, dwSize);
-		#endif // _MSC_VER
+		#else
+			return 0; // !!!!!!!!!!
+		#endif
 	}
 
 	static char* MirCopy(const char *pstrString, size_t size)
@@ -596,7 +605,9 @@ class ChTraitsCRT< wchar_t > : public ChTraitsBase< wchar_t >
 	{
 		#ifdef _MSC_VER
 			return ::GetEnvironmentVariableW(pszName, pszBuffer, nSize);
-		#endif // _MSC_VER
+		#else
+			return 0; // !!!!!!!!!!
+		#endif
 	}
 
 public:
