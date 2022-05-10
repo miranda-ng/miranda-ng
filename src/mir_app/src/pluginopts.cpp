@@ -218,7 +218,7 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 		goto LBL_Error;
 
 	CMPluginBase *ppb = pPlug->m_pPlugin;
-	if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
+	if (CallPluginEventHook(ppb->getInst(), ME_SYSTEM_MODULESLOADED, 0, 0) != 0)
 		goto LBL_Error;
 
 	// if dynamically loaded plugin contains protocols, initialize the corresponding accounts

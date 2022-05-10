@@ -101,7 +101,7 @@ MIR_APP_DLL(CMPluginBase&) GetPluginByInstance(HINSTANCE hInst)
 
 static void wipePluginData(CMPluginBase *pPlugin)
 {
-	if (g_bMirandaTerminated)
+	if (Miranda_IsTerminated())
 		return;
 
 	KillModuleMenus(pPlugin);

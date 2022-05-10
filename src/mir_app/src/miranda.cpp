@@ -36,16 +36,9 @@ int LoadDefaultModules(void);
 void UnloadNewPluginsModule(void);
 void UnloadDefaultModules(void);
 
-typedef HRESULT(STDAPICALLTYPE* pfnBufferedPaintInit)(void);
-pfnBufferedPaintInit bufferedPaintInit;
-
-typedef HRESULT(STDAPICALLTYPE* pfnBufferedPaintUninit)(void);
-pfnBufferedPaintUninit bufferedPaintUninit;
-
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
-HANDLE hShutdownEvent, hPreShutdownEvent;
 uint32_t hMainThreadId;
-bool g_bModulesLoadedFired = false, g_bMirandaTerminated = false;
+bool g_bModulesLoadedFired = false;
 int g_iIconX, g_iIconY, g_iIconSX, g_iIconSY;
 
 CMPlugin g_plugin;
@@ -67,57 +60,6 @@ static PLUGININFOEX pluginInfoEx = {
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-struct MWaitableObject
-{
-	MWaitableObject(MWaitableStub pFunc, HANDLE hEvent) :
-		m_bOwnsEvent(false),
-		m_hEvent(hEvent),
-		m_pFunc(pFunc),
-		m_pInfo(INVALID_HANDLE_VALUE)
-	{
-		if (hEvent == nullptr) {
-			m_hEvent = CreateEvent(nullptr, TRUE, TRUE, nullptr);
-			m_bOwnsEvent = true;
-		}
-	}
-
-	MWaitableObject(MWaitableStubEx pFunc, void *pInfo) :
-		m_bOwnsEvent(true),
-		m_hEvent(CreateEvent(nullptr, TRUE, TRUE, nullptr)),
-		m_pFuncEx(pFunc),
-		m_pInfo(pInfo)
-	{}
-
-	~MWaitableObject()
-	{	
-		if (m_bOwnsEvent)
-			::CloseHandle(m_hEvent);
-	}
-
-	HANDLE m_hEvent;
-	union {
-		MWaitableStub m_pFunc;
-		MWaitableStubEx m_pFuncEx;
-	};
-	void *m_pInfo;
-
-	bool m_bOwnsEvent;
-};
-
-static OBJLIST<MWaitableObject> arWaitableObjects(1, HandleKeySortT);
-
-MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent)
-{
-	arWaitableObjects.insert(new MWaitableObject(pFunc, hEvent));
-}
-
-MIR_APP_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *pInfo)
-{
-	arWaitableObjects.insert(new MWaitableObject(pFunc, pInfo));
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
@@ -142,42 +84,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t dwReason, LPVOID)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static void __cdecl compactHeapsThread(void*)
-{
-	Thread_SetName("compactHeapsThread");
-
-	while (!Miranda_IsTerminated()) {
-		SleepEx((1000 * 60) * 5, TRUE); // every 5 minutes
-
-		HANDLE hHeaps[256];
-		uint32_t hc = GetProcessHeaps(255, (PHANDLE)&hHeaps);
-		if (hc != 0 && hc < 256) {
-			__try {
-				for (uint32_t j = 0; j < hc; j++)
-					HeapCompact(hHeaps[j], 0);
-			}
-			__except (EXCEPTION_EXECUTE_HANDLER)
-			{}
-		}
-	}
-}
-
-static uint32_t dwEventTime = 0;
-void checkIdle(MSG * msg)
-{
-	switch (msg->message) {
-	case WM_MOUSEACTIVATE:
-	case WM_MOUSEMOVE:
-	case WM_CHAR:
-		dwEventTime = GetTickCount();
-	}
-}
-
-MIR_APP_DLL(uint32_t) Miranda_GetIdle()
-{
-	return dwEventTime;
-}
 
 static int SystemShutdownProc(WPARAM, LPARAM)
 {
@@ -265,59 +171,23 @@ static MSystemWindow *g_pSystemWindow;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void crtErrorHandler(const wchar_t*, const wchar_t*, const wchar_t*, unsigned, uintptr_t)
-{}
-
-static uint32_t myWait()
-{
-	HANDLE *hWaitObjects = (HANDLE*)_alloca(arWaitableObjects.getCount() * sizeof(HANDLE));
-	for (int i = 0; i < arWaitableObjects.getCount(); i++)
-		hWaitObjects[i] = arWaitableObjects[i].m_hEvent;
-
-	return MsgWaitForMultipleObjectsEx(arWaitableObjects.getCount(), hWaitObjects, INFINITE, QS_ALLINPUT, MWMO_ALERTABLE);
-}
-
 int WINAPI mir_main(LPTSTR cmdLine)
 {
 	hMainThreadId = GetCurrentThreadId();
-
-	_set_invalid_parameter_handler(&crtErrorHandler);
-#ifdef _DEBUG
-	_CrtSetReportMode(_CRT_ASSERT, 0);
-#endif
 
 	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");
 	setlocale(LC_NUMERIC, "C");
 
-#ifdef _DEBUG
-	if (CmdLine_GetOption(L"memdebug"))
-		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-#endif
-
-	HMODULE hThemeAPI;
-	if (IsWinVerVistaPlus()) {
-		hThemeAPI = LoadLibrary(L"uxtheme.dll");
-		if (hThemeAPI) {
-			bufferedPaintInit = (pfnBufferedPaintInit)GetProcAddress(hThemeAPI, "BufferedPaintInit");
-			bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
-		}
-	}
-	else hThemeAPI = nullptr;
-
-	if (bufferedPaintInit)
-		bufferedPaintInit();
-
-	OleInitialize(nullptr);
-
 	g_pSystemWindow = new MSystemWindow();
 	g_pSystemWindow->Create();
 
+	BeginMessageLoop();
+
 	int result = 0;
 	if (LoadDefaultModules()) {
-		g_bMirandaTerminated = true;
-		NotifyEventHooks(hPreShutdownEvent, 0, 0);
-		NotifyEventHooks(hShutdownEvent, 0, 0);
+		Miranda_SetTerminated();
+
 		UnloadDefaultModules();
 
 		result = 1;
@@ -333,78 +203,21 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		// ensure that the kernel hooks the SystemShutdownProc() after all plugins
 		HookEvent(ME_SYSTEM_SHUTDOWN, SystemShutdownProc);
 
-		mir_forkthread(compactHeapsThread);
-		dwEventTime = GetTickCount();
-		uint32_t myPid = GetCurrentProcessId();
-
-		bool messageloop = true;
-		while (messageloop) {
-			MSG msg;
-			BOOL dying = FALSE;
-			uint32_t rc = myWait();
-			if (rc < WAIT_OBJECT_0 + arWaitableObjects.getCount()) {
-				auto &pWait = arWaitableObjects[rc - WAIT_OBJECT_0];
-				if (pWait.m_pInfo == INVALID_HANDLE_VALUE)
-					(*pWait.m_pFunc)();
-				else
-					(*pWait.m_pFuncEx)(pWait.m_pInfo);
-
-				if (pWait.m_bOwnsEvent)
-					arWaitableObjects.remove(&pWait);
-			}
-
-			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-				if (msg.message != WM_QUIT) {
-					HWND h = GetForegroundWindow();
-					DWORD pid = 0;
-					checkIdle(&msg);
-					if (h != nullptr && GetWindowThreadProcessId(h, &pid) && pid == myPid && GetClassLongPtr(h, GCW_ATOM) == 32770)
-						if (h != nullptr && IsDialogMessage(h, &msg)) /* Wine fix. */
-							continue;
-
-					TranslateMessage(&msg);
-					DispatchMessage(&msg);
-				}
-				else if (!dying) {
-					dying++;
-					g_bMirandaTerminated = true;
-					NotifyEventHooks(hPreShutdownEvent, 0, 0);
-
-					// this spins and processes the msg loop, objects and APC.
-					Thread_Wait();
-					NotifyEventHooks(hShutdownEvent, 0, 0);
-					// if the hooks generated any messages, it'll get processed before the second WM_QUIT
-					PostQuitMessage(0);
-				}
-				else if (dying)
-					messageloop = false;
-			}
-		}
+		EnterMessageLoop();
 	}
 
 	UnloadNewPluginsModule();
 	UnloadCoreModule();
 
-	if (hThemeAPI)
-		FreeLibrary(hThemeAPI);
-
 	UninitTray();
 
 	delete g_pSystemWindow;
 
-	OleUninitialize();
-
-	if (bufferedPaintUninit)
-		bufferedPaintUninit();
+	LeaveMessageLoop();
 	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(bool) Miranda_IsTerminated()
-{
-	return g_bMirandaTerminated;
-}
 
 MIR_APP_DLL(bool) Miranda_OkToExit()
 {
@@ -493,8 +306,6 @@ extern HANDLE hOptionsInitEvent;
 
 int LoadSystemModule(void)
 {
-	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
-	hPreShutdownEvent = CreateHookableEvent(ME_SYSTEM_PRESHUTDOWN);
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent = CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);

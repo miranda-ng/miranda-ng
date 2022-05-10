@@ -269,8 +269,6 @@ Srmm_RedrawToolbarIcons @338
 Srmm_GetNthButton @339
 Srmm_GetButtonCount @340
 Srmm_ClickToolbarIcon @341
-Miranda_WaitOnHandle @342
-Miranda_IsTerminated @343
 Miranda_OkToExit @344
 Miranda_GetVersion @345
 Miranda_GetFileVersion @346
@@ -687,7 +685,6 @@ ImageList_AddSkinIcon @774
 Clist_GetGroup @775
 Clist_SetGroup @776
 ?ReportSelfAvatarChanged@PROTO_INTERFACE@@QEAAXXZ @777 NONAME
-Miranda_GetIdle @778 NONAME
 Ignore_Allow @779
 Ignore_Ignore @780
 Ignore_IsIgnored @781

@@ -542,7 +542,7 @@ static INT_PTR TTBSetCustomProc(WPARAM wParam, LPARAM lParam)
 
 int OnPluginLoad(WPARAM, LPARAM lParam)
 {
-	CallPluginEventHook((HINSTANCE)lParam, hTTBModuleLoaded, 0, 0);
+	CallPluginEventHook((HINSTANCE)lParam, ME_TTB_MODULELOADED, 0, 0);
 	if (g_ctrl->hWnd && g_ctrl->bOrderChanged)
 		PostMessage(g_ctrl->hWnd, TTB_UPDATEFRAMEVISIBILITY, 0, 0);
 	return 0;

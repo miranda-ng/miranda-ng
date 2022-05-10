@@ -1264,7 +1264,7 @@ static INT_PTR OpenOptionsDialog(WPARAM, LPARAM)
 static int OptDynamicLoadOptions(WPARAM, LPARAM hInstance)
 {
 	OptionsPageList arPages(1);
-	CallPluginEventHook((HINSTANCE)hInstance, hOptionsInitEvent, (WPARAM)&arPages, 0);
+	CallPluginEventHook((HINSTANCE)hInstance, ME_OPT_INITIALISE, (WPARAM)&arPages, 0);
 	return 0;
 }
 

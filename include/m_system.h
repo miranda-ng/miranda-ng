@@ -98,8 +98,8 @@ EXTERN_C MIR_APP_DLL(class CDlgBase *) Miranda_GetSystemWindow();
 typedef void (CALLBACK *MWaitableStub)(void);
 typedef void (CALLBACK *MWaitableStubEx)(void*);
 
-EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *pInfo);
+EXTERN_C MIR_CORE_DLL(void) Miranda_WaitOnHandle(MWaitableStub pFunc, HANDLE hEvent = nullptr);
+EXTERN_C MIR_CORE_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *pInfo);
 
 // wParam = 0 (ignored)
 // lParam = 0 (ignored)
@@ -110,7 +110,10 @@ EXTERN_C MIR_APP_DLL(void) Miranda_WaitOnHandleEx(MWaitableStubEx pFunc, void *p
 #define ME_SYSTEM_PRESHUTDOWN "Miranda/System/PShutdown"
 
 //	Returns true when Miranda has got WM_QUIT and is in the process of shutting down
-EXTERN_C MIR_APP_DLL(bool) Miranda_IsTerminated(void);
+EXTERN_C MIR_CORE_DLL(bool) Miranda_IsTerminated(void);
+
+// Enables termination flag
+EXTERN_C MIR_CORE_DLL(void) Miranda_SetTerminated(void);
 
 // Check if everyone is happy to exit
 // if everyone acknowleges OK to exit then returns true, otherwise false
@@ -121,7 +124,7 @@ EXTERN_C MIR_APP_DLL(bool) Miranda_OkToExit(void);
 EXTERN_C MIR_APP_DLL(void) Miranda_Close(void);
 
 // returns the last window tick where a monitored event was seen, currently WM_CHAR/WM_MOUSEMOVE
-EXTERN_C MIR_APP_DLL(uint32_t) Miranda_GetIdle(void);
+EXTERN_C MIR_CORE_DLL(uint32_t) Miranda_GetIdle(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -179,7 +179,7 @@ static void ResetSlots(BaseExtraIcon *extra, ExtraIconGroup *group, int iOldSlot
 			for (auto &hContact : Contacts())
 				Clist_SetExtraIcon(hContact, i, INVALID_HANDLE_VALUE);
 
-	if (!g_bMirandaTerminated) {
+	if (!Miranda_IsTerminated()) {
 		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 		eiOptionsRefresh();
 	}

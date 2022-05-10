@@ -43,10 +43,6 @@ typedef struct SslHandle *HSSL;
 	#include <process.h>
 #endif
 
-#ifdef _DEBUG
-#include <crtdbg.h>
-#endif
-
 #include <assert.h>
 #include <malloc.h>
 #include <stdio.h>

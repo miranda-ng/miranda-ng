@@ -199,7 +199,7 @@ LBL_Error:
 
 	CMPluginBase *ppb = pImpl->m_pPlugin;
 	if (g_bModulesLoadedFired) {
-		if (CallPluginEventHook(ppb->getInst(), hModulesLoadedEvent, 0, 0) != 0)
+		if (CallPluginEventHook(ppb->getInst(), ME_SYSTEM_MODULESLOADED, 0, 0) != 0)
 			goto LBL_Error;
 
 		NotifyEventHooks(hevLoadModule, (WPARAM)ppb, (LPARAM)ppb->getInst());
@@ -328,14 +328,14 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 	CMPluginBase *ppb = p->m_pPlugin;
 	if (ppb != nullptr) {
 		if (HINSTANCE hInst = ppb->getInst()) {
-			if (CallPluginEventHook(hInst, hOkToExitEvent, 0, 0) != 0)
+			if (CallPluginEventHook(hInst, ME_SYSTEM_OKTOEXIT, 0, 0) != 0)
 				return false;
 
 			KillModuleAccounts(hInst);
 			KillModuleSubclassing(hInst);
 
-			CallPluginEventHook(hInst, hPreShutdownEvent, 0, 0);
-			CallPluginEventHook(hInst, hShutdownEvent, 0, 0);
+			CallPluginEventHook(hInst, ME_SYSTEM_PRESHUTDOWN, 0, 0);
+			CallPluginEventHook(hInst, ME_SYSTEM_SHUTDOWN, 0, 0);
 
 			KillModuleEventHooks(hInst);
 			KillModuleServices(hInst);

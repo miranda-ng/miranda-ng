@@ -65,7 +65,7 @@ struct THookSubscriber
 
 struct THook : public MZeroedObject
 {
-	char name[ MAXMODULELABELLENGTH ];
+	char name[MAXMODULELABELLENGTH];
 	int  id;
 	int  subscriberCount;
 	THookSubscriber* subscriber;
@@ -80,6 +80,13 @@ extern LIST<CMPluginBase> pluginListAddr;
 // langpack.cpp
 
 char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const int W);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// miranda.cpp
+
+EXTERN_C MIR_CORE_DLL(void) BeginMessageLoop(void);
+EXTERN_C MIR_CORE_DLL(void) EnterMessageLoop(void);
+EXTERN_C MIR_CORE_DLL(void) LeaveMessageLoop(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // threads.cpp

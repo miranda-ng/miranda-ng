@@ -63,15 +63,14 @@ struct TService
 
 LIST<TService> services(100, NumericKeySortT);
 
-typedef struct
+struct TServiceToMainThreadItem
 {
 	HANDLE hDoneEvent;
 	WPARAM wParam;
 	LPARAM lParam;
 	int result;
 	const char *name;
-}
-TServiceToMainThreadItem;
+};
 
 // other static variables
 static BOOL bServiceMode = FALSE;
@@ -154,9 +153,13 @@ MIR_CORE_DLL(int) SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnH
 	return 0;
 }
 
-MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam, LPARAM lParam)
+MIR_CORE_DLL(int) CallPluginEventHook(HINSTANCE hInst, const char *pszEvent, WPARAM wParam, LPARAM lParam)
 {
-	THook *p = (THook*)hEvent;
+	int idx;
+	if ((idx = hooks.getIndex((THook *)pszEvent)) == -1)
+		return -1;
+
+	THook *p = hooks[idx];
 	if (p == nullptr || hInst == nullptr)
 		return -1;
 

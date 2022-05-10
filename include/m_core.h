@@ -110,7 +110,7 @@ typedef INT_PTR (*MIRANDASERVICEOBJPARAM)(void*, WPARAM, LPARAM, LPARAM);
 MIR_CORE_DLL(HANDLE)  CreateHookableEvent(const char *name);
 MIR_CORE_DLL(int)     DestroyHookableEvent(HANDLE hEvent);
 MIR_CORE_DLL(int)     SetHookDefaultForHookableEvent(HANDLE hEvent, MIRANDAHOOK pfnHook);
-MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
+MIR_CORE_DLL(int)     CallPluginEventHook(HINSTANCE hInst, const char *pszEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(int)     CallObjectEventHook(void *pObject, HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(int)     NotifyEventHooks(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);
 MIR_CORE_DLL(int)     NotifyFastHook(HANDLE hEvent, WPARAM wParam = 0, LPARAM lParam = 0);

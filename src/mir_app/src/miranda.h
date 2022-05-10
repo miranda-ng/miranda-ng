@@ -41,12 +41,16 @@ void UnloadIdleModule(void);
 
 /**** miranda.cpp **********************************************************************/
 
+EXTERN_C MIR_CORE_DLL(void) BeginMessageLoop(void);
+EXTERN_C MIR_CORE_DLL(void) EnterMessageLoop(void);
+EXTERN_C MIR_CORE_DLL(void) LeaveMessageLoop(void);
+
 extern uint32_t hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent;
 extern HANDLE hAccListChanged;
 extern wchar_t mirandabootini[MAX_PATH];
 extern struct pluginEntry *plugin_checker, *plugin_crshdmp, *plugin_service, *plugin_clist;
-extern bool g_bModulesLoadedFired, g_bMirandaTerminated;
+extern bool g_bModulesLoadedFired;
 
 /**** newplugins.cpp *******************************************************************/
 
@@ -96,7 +100,6 @@ int ImageList_ReplaceIcon_IconLibLoaded(HIMAGELIST hIml, int nIndex, HICON hIcon
 
 extern int hMainMenuObject, hContactMenuObject, hStatusMenuObject;
 extern HANDLE hPreBuildMainMenuEvent, hPreBuildContactMenuEvent;
-extern HANDLE hShutdownEvent, hPreShutdownEvent;
 extern HMENU hMainMenu, hStatusMenu;
 
 extern OBJLIST<CListEvent> g_cliEvents;
