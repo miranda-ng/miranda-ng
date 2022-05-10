@@ -42,12 +42,6 @@ pfnBufferedPaintInit bufferedPaintInit;
 typedef HRESULT(STDAPICALLTYPE* pfnBufferedPaintUninit)(void);
 pfnBufferedPaintUninit bufferedPaintUninit;
 
-typedef HANDLE(STDAPICALLTYPE* pfnBeginBufferedPaint)(HDC, RECT*, BP_BUFFERFORMAT, BP_PAINTPARAMS*, HDC*);
-pfnBeginBufferedPaint beginBufferedPaint;
-
-typedef HRESULT(STDAPICALLTYPE* pfnEndBufferedPaint)(HANDLE, BOOL);
-pfnEndBufferedPaint endBufferedPaint;
-
 HANDLE hOkToExitEvent, hModulesLoadedEvent;
 HANDLE hShutdownEvent, hPreShutdownEvent;
 uint32_t hMainThreadId;
@@ -307,8 +301,6 @@ int WINAPI mir_main(LPTSTR cmdLine)
 		if (hThemeAPI) {
 			bufferedPaintInit = (pfnBufferedPaintInit)GetProcAddress(hThemeAPI, "BufferedPaintInit");
 			bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
-			beginBufferedPaint = (pfnBeginBufferedPaint)GetProcAddress(hThemeAPI, "BeginBufferedPaint");
-			endBufferedPaint = (pfnEndBufferedPaint)GetProcAddress(hThemeAPI, "EndBufferedPaint");
 		}
 	}
 	else hThemeAPI = nullptr;
@@ -485,9 +477,9 @@ MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 	UINT blockSize;
 	VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\ProductVersion", (LPVOID*)&productVersion, &blockSize);
 	strncpy_s(pDest, cbSize, _T2A(productVersion), _TRUNCATE);
-#if defined(_WIN64)
-	strcat_s(pDest, cbSize, " x64");
-#endif
+	#if defined(_WIN64)
+		strcat_s(pDest, cbSize, " x64");
+	#endif
 }
 
 MIR_APP_DLL(CDlgBase *) Miranda_GetSystemWindow()

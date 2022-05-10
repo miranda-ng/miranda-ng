@@ -83,8 +83,20 @@ LPTSTR GetMenuItemText(TMO_IntMenuItem *pimi)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+typedef HANDLE(STDAPICALLTYPE* pfnBeginBufferedPaint)(HDC, RECT*, BP_BUFFERFORMAT, BP_PAINTPARAMS*, HDC*);
+static pfnBeginBufferedPaint beginBufferedPaint;
+
+typedef HRESULT(STDAPICALLTYPE* pfnEndBufferedPaint)(HANDLE, BOOL);
+static pfnEndBufferedPaint endBufferedPaint;
+
 HBITMAP ConvertIconToBitmap(HIMAGELIST hIml, int iconId)
 {
+	if (!beginBufferedPaint) {
+		HMODULE hThemeAPI = GetModuleHandleA("uxtheme.dll");
+		beginBufferedPaint = (pfnBeginBufferedPaint)GetProcAddress(hThemeAPI, "BeginBufferedPaint");
+		endBufferedPaint = (pfnEndBufferedPaint)GetProcAddress(hThemeAPI, "EndBufferedPaint");
+	}
+
 	BITMAPINFO bmi = { 0 };
 	bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	bmi.bmiHeader.biPlanes = 1;
