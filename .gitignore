@@ -16,6 +16,10 @@ ipch/
 *.map
 *.log
 
+#codelite files
+codelite/obj/
+compile_flags.txt
+
 # Keep predefined Miranda solutions
 !/bin*/*.sln
 /bin*/my.sln

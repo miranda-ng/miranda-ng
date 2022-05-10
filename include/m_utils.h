@@ -254,6 +254,9 @@ class MIR_CORE_EXPORT MFilePath : public CMStringW
 		#ifdef _WINDOWS
 			WIN32_FIND_DATAW m_data;
 			HANDLE m_hFind = INVALID_HANDLE_VALUE;
+		#else
+			wchar_t m_path[MAX_PATH];
+			int m_flags;
 		#endif
 
 		class iterator
@@ -271,7 +274,11 @@ class MIR_CORE_EXPORT MFilePath : public CMStringW
 		MFileIterator(const wchar_t*);
 		~MFileIterator();
 
-		__inline const wchar_t* getPath() const { return m_data.cFileName; }
+		#ifdef _WINDOWS
+			__inline const wchar_t* getPath() const { return m_data.cFileName; }
+		#else
+			__inline const wchar_t* getPath() const { return m_path; }
+		#endif
 
 		bool isDir() const;
 
