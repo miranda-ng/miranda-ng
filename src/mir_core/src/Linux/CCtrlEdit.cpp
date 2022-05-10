@@ -31,8 +31,8 @@ CCtrlEdit::CCtrlEdit(CDlgBase *dlg, int ctrlId)
 
 BOOL CCtrlEdit::OnCommand(HWND, uint16_t, uint16_t idCode)
 {
-	if (idCode == EN_CHANGE)
-		NotifyChange();
+	// if (idCode == EN_CHANGE)
+	// 	NotifyChange();
 	return TRUE;
 }
 
@@ -41,10 +41,10 @@ bool CCtrlEdit::OnApply()
 	CSuper::OnApply();
 
 	if (GetDataType() == DBVT_WCHAR) {
-		int len = GetWindowTextLength(m_hwnd) + 1;
-		wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
-		GetWindowText(m_hwnd, buf, len);
-		SaveText(buf);
+		// int len = GetWindowTextLength(m_hwnd) + 1;
+		// wchar_t *buf = (wchar_t *)_alloca(sizeof(wchar_t) * len);
+		// GetWindowText(m_hwnd, buf, len);
+		// SaveText(buf);
 	}
 	else if (GetDataType() != DBVT_DELETED) {
 		SaveInt(GetInt());
@@ -54,7 +54,7 @@ bool CCtrlEdit::OnApply()
 
 void CCtrlEdit::OnReset()
 {
-	m_bSilent = (GetWindowLong(m_hwnd, GWL_STYLE) & ES_READONLY) != 0;
+	// m_bSilent = (GetWindowLong(m_hwnd, GWL_STYLE) & ES_READONLY) != 0;
 
 	if (GetDataType() == DBVT_WCHAR)
 		SetText(LoadText());
@@ -64,5 +64,5 @@ void CCtrlEdit::OnReset()
 
 void CCtrlEdit::SetMaxLength(unsigned int len)
 {
-	SendMsg(EM_SETLIMITTEXT, len, 0);
+	// SendMsg(EM_SETLIMITTEXT, len, 0);
 }

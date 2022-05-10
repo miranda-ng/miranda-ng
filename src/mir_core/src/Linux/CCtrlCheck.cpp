@@ -54,15 +54,17 @@ void CCtrlCheck::OnReset()
 
 int CCtrlCheck::GetState() const
 {
-	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
+	// return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0);
+	return false;
 }
 
 void CCtrlCheck::SetState(int state)
 {
-	::SendMessage(m_hwnd, BM_SETCHECK, state, 0);
+	// ::SendMessage(m_hwnd, BM_SETCHECK, state, 0);
 }
 
 bool CCtrlCheck::IsChecked()
 {
-	return GetState() == BST_CHECKED;
+	// return GetState() == BST_CHECKED;
+	return false;
 }

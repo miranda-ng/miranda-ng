@@ -31,24 +31,25 @@ CCtrlButton::CCtrlButton(CDlgBase* wnd, int idCtrl)
 
 BOOL CCtrlButton::OnCommand(HWND, uint16_t, uint16_t idCode)
 {
-	if (idCode == BN_CLICKED)
-		OnClick(this);
+	// if (idCode == BN_CLICKED)
+	// 	OnClick(this);
 	return FALSE;
 }
 
 void CCtrlButton::Click()
 {
-	if (Enabled())
-		::SendMessage(m_parentWnd->GetHwnd(), WM_COMMAND, MAKELONG(m_idCtrl, BN_CLICKED), 0);
+	// if (Enabled())
+	//	::SendMessage(m_parentWnd->GetHwnd(), WM_COMMAND, MAKELONG(m_idCtrl, BN_CLICKED), 0);
 }
 
 bool CCtrlButton::IsPushed() const
 {
-	return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0) == BST_CHECKED;
+	// return ::SendMessage(m_hwnd, BM_GETCHECK, 0, 0) == BST_CHECKED;
+	return false;
 }
 
 void CCtrlButton::Push(bool bPushed)
 {
-	if (Enabled())
-		::SendMessage(m_hwnd, BM_SETCHECK, (bPushed) ? BST_CHECKED : BST_UNCHECKED, 0);
+	// if (Enabled())
+	// 	::SendMessage(m_hwnd, BM_SETCHECK, (bPushed) ? BST_CHECKED : BST_UNCHECKED, 0);
 }

@@ -28,4 +28,3 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 CCtrlLabel::CCtrlLabel(CDlgBase* wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl)
 {}
-

@@ -48,12 +48,13 @@ BOOL CTimer::OnTimer()
 
 void CTimer::Start(int elapse)
 {
-	::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
+	// ::SetTimer(m_wnd->GetHwnd(), m_idEvent, elapse, nullptr);
 }
 
 bool CTimer::Stop()
 {
-	return 0 != ::KillTimer(m_wnd->GetHwnd(), m_idEvent);
+	// return 0 != ::KillTimer(m_wnd->GetHwnd(), m_idEvent);
+	return false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +68,8 @@ struct TStartParam
 static INT_PTR CALLBACK stubStart(void *param)
 {
 	auto *p = (TStartParam *)param;
-	return ::SetTimer(p->pTimer->GetHwnd(), p->pTimer->GetEventId(), p->period, nullptr);
+	// return ::SetTimer(p->pTimer->GetHwnd(), p->pTimer->GetEventId(), p->period, nullptr);
+	return 0;
 }
 
 void CTimer::StartSafe(int elapse)
@@ -81,7 +83,8 @@ void CTimer::StartSafe(int elapse)
 static INT_PTR CALLBACK stubStop(void *param)
 {
 	auto *p = (CTimer*)param;
-	return ::KillTimer(p->GetHwnd(), p->GetEventId());
+	// return ::KillTimer(p->GetHwnd(), p->GetEventId());
+	return 0;
 }
 
 void CTimer::StopSafe()

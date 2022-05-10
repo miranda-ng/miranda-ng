@@ -4,6 +4,13 @@
   <Dependencies/>
   <VirtualDirectory Name="src">
     <VirtualDirectory Name="UI">
+      <File Name="src/Linux/CTimer.cpp"/>
+      <File Name="src/Linux/CCtrlLabel.cpp"/>
+      <File Name="src/Linux/CCtrlEdit.cpp"/>
+      <File Name="src/Linux/CCtrlData.cpp"/>
+      <File Name="src/Linux/CCtrlCombo.cpp"/>
+      <File Name="src/Linux/CCtrlCheck.cpp"/>
+      <File Name="src/Linux/CCtrlButton.cpp"/>
       <File Name="src/Linux/CDlgBase.cpp"/>
       <File Name="src/Linux/CDbLink.cpp"/>
       <File Name="src/Linux/CCtrlBase.cpp"/>
