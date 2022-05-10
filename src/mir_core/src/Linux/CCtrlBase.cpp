@@ -47,12 +47,12 @@ CCtrlBase::~CCtrlBase()
 
 void CCtrlBase::OnInit()
 {
-	m_hwnd = (m_idCtrl && m_parentWnd && m_parentWnd->GetHwnd()) ? GetDlgItem(m_parentWnd->GetHwnd(), m_idCtrl) : nullptr;
+	m_hwnd = nullptr;
 }
 
 void CCtrlBase::OnDestroy()
 {
-	PVOID bullshit[2];  // vfptr + hwnd
+	void *bullshit[2];  // vfptr + hwnd
 	bullshit[1] = m_hwnd;
 	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
 	if (pCtrl) {
@@ -70,21 +70,22 @@ bool CCtrlBase::OnApply()
 }
 
 void CCtrlBase::OnReset()
-{}
+{
+}
 
 void CCtrlBase::Show(bool bShow)
 {
-	::ShowWindow(m_hwnd, bShow ? SW_SHOW : SW_HIDE);
+	// ::ShowWindow(m_hwnd, bShow ? SW_SHOW : SW_HIDE);
 }
 
 void CCtrlBase::Enable(bool bIsEnable)
 {
-	::EnableWindow(m_hwnd, bIsEnable);
+	// ::EnableWindow(m_hwnd, bIsEnable);
 }
 
 bool CCtrlBase::Enabled() const
 {
-	return (m_hwnd) ? IsWindowEnabled(m_hwnd) != 0 : false;
+	return (m_hwnd != nullptr);
 }
 
 void CCtrlBase::NotifyChange()
@@ -103,49 +104,39 @@ void CCtrlBase::NotifyChange()
 
 LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam) const
 {
-	return ::SendMessage(m_hwnd, Msg, wParam, lParam);
+	// return ::SendMessage(m_hwnd, Msg, wParam, lParam);
 }
 
 void CCtrlBase::SetText(const wchar_t *text)
 {
-	::SetWindowText(m_hwnd, text);
+	// ::SetWindowText(m_hwnd, text);
 }
 
 void CCtrlBase::SetTextA(const char *text)
 {
-	::SetWindowTextA(m_hwnd, text);
+	// ::SetWindowTextA(m_hwnd, text);
 }
 
 void CCtrlBase::SetDraw(bool bEnable)
 {
-	::SendMessage(m_hwnd, WM_SETREDRAW, bEnable, 0);
+	// ::SendMessage(m_hwnd, WM_SETREDRAW, bEnable, 0);
 }
 
 void CCtrlBase::SetInt(int value)
 {
 	wchar_t buf[32] = { 0 };
 	mir_snwprintf(buf, L"%d", value);
-	SetWindowText(m_hwnd, buf);
+	SetText(buf);
 }
 
 wchar_t* CCtrlBase::GetText() const
 {
-	int length = GetWindowTextLengthW(m_hwnd);
-	wchar_t *result = (wchar_t *)mir_alloc((length+1) * sizeof(wchar_t));
-	if (length)
-		GetWindowTextW(m_hwnd, result, length+1);
-	result[length] = 0;
-	return result;
+	return mir_wstrdup(L"");
 }
 
 char* CCtrlBase::GetTextA() const
 {
-	int length = GetWindowTextLengthA(m_hwnd);
-	char *result = (char *)mir_alloc((length+1) * sizeof(char));
-	if (length)
-		GetWindowTextA(m_hwnd, result, length+1);
-	result[length] = 0;
-	return result;
+	return mir_strdup("");
 }
 
 char* CCtrlBase::GetTextU() const
@@ -155,14 +146,14 @@ char* CCtrlBase::GetTextU() const
 
 wchar_t* CCtrlBase::GetText(wchar_t *buf, size_t size) const
 {
-	GetWindowTextW(m_hwnd, buf, (int)size);
+	// GetWindowTextW(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
 
 char* CCtrlBase::GetTextA(char *buf, size_t size) const
 {
-	GetWindowTextA(m_hwnd, buf, (int)size);
+	// GetWindowTextA(m_hwnd, buf, (int)size);
 	buf[size - 1] = 0;
 	return buf;
 }
@@ -176,10 +167,11 @@ char* CCtrlBase::GetTextU(char *buf, size_t size) const
 
 int CCtrlBase::GetInt() const
 {
-	int length = GetWindowTextLengthW(m_hwnd) + 1;
-	wchar_t *result = (wchar_t *)_alloca(length * sizeof(wchar_t));
-	GetWindowTextW(m_hwnd, result, length);
-	return _wtoi(result);
+	// int length = GetWindowTextLengthW(m_hwnd) + 1;
+	// wchar_t *result = (wchar_t *)_alloca(length * sizeof(wchar_t));
+	// GetWindowTextW(m_hwnd, result, length);
+	// return _wtoi(result);
+	return 0;
 }
 
 void CCtrlBase::GetCaretPos(CContextMenuPos &pos) const
@@ -187,8 +179,8 @@ void CCtrlBase::GetCaretPos(CContextMenuPos &pos) const
 	pos.pCtrl = this;
 	pos.iCurr = -1;
 
-	if (pos.pt.x == 0 && pos.pt.y == 0)
-		GetCursorPos(&pos.pt);
+	// if (pos.pt.x == 0 && pos.pt.y == 0)
+	// 	GetCursorPos(&pos.pt);
 }
 
 LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)
@@ -196,23 +188,9 @@ LRESULT CCtrlBase::CustomWndProc(UINT, WPARAM, LPARAM)
 	return FALSE;
 }
 
-LRESULT CALLBACK CCtrlBase::GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	PVOID bullshit[2];  // vfptr + hwnd
-	bullshit[1] = hwnd;
-	CCtrlBase *pCtrl = arControls.find((CCtrlBase*)&bullshit);
-	if (pCtrl) {
-		LRESULT res = pCtrl->CustomWndProc(msg, wParam, lParam);
-		if (res != 0)
-			return res;
-	}
-
-	return mir_callNextSubclass(hwnd, GlobalSubclassWndProc, msg, wParam, lParam);
-}
-
 void CCtrlBase::Subclass()
 {
-	mir_subclassWindow(m_hwnd, GlobalSubclassWndProc);
+	// mir_subclassWindow(m_hwnd, GlobalSubclassWndProc);
 
 	mir_cslock lck(csCtrl);
 	arControls.insert(this);
@@ -220,5 +198,5 @@ void CCtrlBase::Subclass()
 
 void CCtrlBase::Unsubclass()
 {
-	mir_unsubclassWindow(m_hwnd, GlobalSubclassWndProc);
+	// mir_unsubclassWindow(m_hwnd, GlobalSubclassWndProc);
 }
