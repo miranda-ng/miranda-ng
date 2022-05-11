@@ -27,7 +27,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static BOOL bModuleInitialized = FALSE;
 
-HANDLE hConnectionHeaderMutex, hConnectionOpenMutex, hEventConnected = NULL, hEventDisconnected = NULL;
+mir_cs csConnectionHeader;
+HANDLE hConnectionOpenMutex, hEventConnected = NULL, hEventDisconnected = NULL;
 uint32_t g_LastConnectionTick;
 int connectionTimeout;
 HANDLE hSendEvent = nullptr, hRecvEvent = nullptr;
@@ -79,22 +80,22 @@ int NetlibEnterNestedCS(NetlibConnection *nlc, int which)
 {
 	NetlibNestedCriticalSection *nlncs;
 	uint32_t dwCurrentThreadId = GetCurrentThreadId();
+	{
+		mir_cslock lock(csConnectionHeader);
 
-	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	if (nlc == nullptr || nlc->handleType != NLH_CONNECTION) {
-		ReleaseMutex(hConnectionHeaderMutex);
-		SetLastError(ERROR_INVALID_PARAMETER);
-		return 0;
+		if (nlc == nullptr || nlc->handleType != NLH_CONNECTION) {
+			SetLastError(ERROR_INVALID_PARAMETER);
+			return 0;
+		}
+		nlncs = (which == NLNCS_SEND) ? &nlc->ncsSend : &nlc->ncsRecv;
+		if (nlncs->lockCount && nlncs->dwOwningThreadId == dwCurrentThreadId) {
+			nlncs->lockCount++;
+			return 1;
+		}
+		InterlockedIncrement(&nlc->dontCloseNow);
+		ResetEvent(nlc->hOkToCloseEvent);
 	}
-	nlncs = (which == NLNCS_SEND) ? &nlc->ncsSend : &nlc->ncsRecv;
-	if (nlncs->lockCount && nlncs->dwOwningThreadId == dwCurrentThreadId) {
-		nlncs->lockCount++;
-		ReleaseMutex(hConnectionHeaderMutex);
-		return 1;
-	}
-	InterlockedIncrement(&nlc->dontCloseNow);
-	ResetEvent(nlc->hOkToCloseEvent);
-	ReleaseMutex(hConnectionHeaderMutex);
+
 	WaitForSingleObject(nlncs->hMutex, INFINITE);
 	nlncs->dwOwningThreadId = dwCurrentThreadId;
 	nlncs->lockCount = 1;
@@ -285,25 +286,26 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 
 	switch (GetNetlibHandleType(hNetlib)) {
 	case NLH_USER:
-	{
-		NetlibUser *nlu = (NetlibUser*)hNetlib;
 		{
-			mir_cslock lck(csNetlibUser);
-			int i = netlibUser.getIndex(nlu);
-			if (i >= 0)
-				netlibUser.remove(i);
-		}
+			NetlibUser *nlu = (NetlibUser*)hNetlib;
+			{
+				mir_cslock lck(csNetlibUser);
+				int i = netlibUser.getIndex(nlu);
+				if (i >= 0)
+					netlibUser.remove(i);
+			}
 
-		NetlibFreeUserSettingsStruct(&nlu->settings);
-		mir_free(nlu->user.szSettingsModule);
-		mir_free(nlu->user.szDescriptiveName.a);
-		mir_free(nlu->szStickyHeaders);
-	}
-	break;
+			NetlibFreeUserSettingsStruct(&nlu->settings);
+			mir_free(nlu->user.szSettingsModule);
+			mir_free(nlu->user.szDescriptiveName.a);
+			mir_free(nlu->szStickyHeaders);
+		}
+		break;
 
 	case NLH_CONNECTION:
-		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		{
+			mir_cslockfull lock(csConnectionHeader);
+
 			NetlibConnection *nlc = (NetlibConnection*)hNetlib;
 			if (GetNetlibHandleType(nlc) == NLH_CONNECTION) {
 				if (nlc->s != INVALID_SOCKET)
@@ -312,12 +314,11 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 					closesocket(nlc->s2);
 				nlc->s2 = INVALID_SOCKET;
 
-				ReleaseMutex(hConnectionHeaderMutex);
+				lock.unlock();
 
-				HANDLE waitHandles[4] = { hConnectionHeaderMutex, nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
+				HANDLE waitHandles[] = { nlc->hOkToCloseEvent, nlc->ncsRecv.hMutex, nlc->ncsSend.hMutex };
 				uint32_t waitResult = WaitForMultipleObjects(_countof(waitHandles), waitHandles, TRUE, INFINITE);
 				if (waitResult >= WAIT_OBJECT_0 + _countof(waitHandles)) {
-					ReleaseMutex(hConnectionHeaderMutex);
 					SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
 					return 0;
 				}
@@ -326,7 +327,6 @@ MIR_APP_DLL(int) Netlib_CloseHandle(HANDLE hNetlib)
 				delete nlc;
 			}
 		}
-		ReleaseMutex(hConnectionHeaderMutex);
 		return 1;
 
 	case NLH_BOUNDPORT:
@@ -357,7 +357,8 @@ MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 		SetLastError(ERROR_INVALID_PARAMETER);
 	}
 	else {
-		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
+		mir_cslock lock(csConnectionHeader);
+
 		switch (GetNetlibHandleType(hConnection)) {
 		case NLH_CONNECTION:
 			s = ((NetlibConnection*)hConnection)->s;
@@ -370,7 +371,6 @@ MIR_APP_DLL(UINT_PTR) Netlib_GetSocket(HNETLIBCONN hConnection)
 			SetLastError(ERROR_INVALID_PARAMETER);
 			break;
 		}
-		ReleaseMutex(hConnectionHeaderMutex);
 	}
 	return s;
 }
@@ -396,10 +396,13 @@ MIR_APP_DLL(char*) Netlib_GetUserAgent()
 
 MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 {
-	if (h) {
-		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-		switch (GetNetlibHandleType(h)) {
-		case NLH_CONNECTION:
+	if (h == nullptr)
+		return;
+
+	mir_cslock lock(csConnectionHeader);
+
+	switch (GetNetlibHandleType(h)) {
+	case NLH_CONNECTION:
 		{
 			NetlibConnection *nlc = h;
 			if (!nlc->termRequested) {
@@ -411,19 +414,17 @@ MIR_APP_DLL(void) Netlib_Shutdown(HNETLIBCONN h)
 		}
 		break;
 
-		case NLH_BOUNDPORT:
-			NetlibBoundPort * nlb = (NetlibBoundPort*)h;
-			if (nlb->s != INVALID_SOCKET)
-				shutdown(nlb->s, SD_BOTH);
-			break;
-		}
-		ReleaseMutex(hConnectionHeaderMutex);
+	case NLH_BOUNDPORT:
+		NetlibBoundPort * nlb = (NetlibBoundPort*)h;
+		if (nlb->s != INVALID_SOCKET)
+			shutdown(nlb->s, SD_BOTH);
+		break;
 	}
 }
 
 void UnloadNetlibModule(void)
 {
-	if (!bModuleInitialized || hConnectionHeaderMutex == nullptr) return;
+	if (!bModuleInitialized) return;
 
 	NetlibUnloadIeProxy();
 	NetlibUPnPDestroy();
@@ -435,9 +436,6 @@ void UnloadNetlibModule(void)
 	for (auto &it : netlibUser.rev_iter())
 		Netlib_CloseHandle(it);
 
-	CloseHandle(hConnectionHeaderMutex);
-	if (hConnectionOpenMutex)
-		CloseHandle(hConnectionOpenMutex);
 	WSACleanup();
 	OpenSsl_Unload();
 }
@@ -452,7 +450,6 @@ int LoadNetlibModule(void)
 	if (!OpenSsl_Init())
 		return 1;
 
-	hConnectionHeaderMutex = CreateMutex(nullptr, FALSE, nullptr);
 	NetlibLogInit();
 
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);

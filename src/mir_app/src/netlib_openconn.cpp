@@ -26,7 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "netlib.h"
 
 extern mir_cs csNetlibUser;
-extern HANDLE hConnectionOpenMutex;
 extern uint32_t g_LastConnectionTick;
 extern int connectionTimeout;
 static int iUPnPCleanup = 0;

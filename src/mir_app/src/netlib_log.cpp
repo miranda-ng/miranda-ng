@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define MS_NETLIB_LOGWIN "Netlib/Log/Win"
 
-extern HANDLE hConnectionHeaderMutex;
-
 #define TIMEFORMAT_NONE         0
 #define TIMEFORMAT_HHMMSS       1
 #define TIMEFORMAT_MILLISECONDS 2
@@ -469,14 +467,15 @@ MIR_APP_DLL(void) Netlib_Dump(HNETLIBCONN nlc, const void *pBuf, size_t len, boo
 	if ((flags & MSG_DUMPSSL) && !logOptions.dumpSsl)
 		return;
 
+	NetlibUser *nlu;
 	CMStringA str;
+	{
+		mir_cslock lock(csConnectionHeader);
 
-	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	NetlibUser *nlu = nlc ? nlc->nlu : nullptr;
-
-	if (!(flags & MSG_NOTITLE))
-		str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? (int)nlc->s : 0, bIsSent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
-	ReleaseMutex(hConnectionHeaderMutex);
+		nlu = nlc ? nlc->nlu : nullptr;
+		if (!(flags & MSG_NOTITLE))
+			str.Format("(%p:%u) Data %s%s\r\n", nlc, nlc ? (int)nlc->s : 0, bIsSent ? "sent" : "received", flags & MSG_DUMPPROXY ? " (proxy)" : "");
+	}
 
 	// check filter settings
 	if (nlu == nullptr) {

@@ -149,8 +149,9 @@ void NetlibLeaveNestedCS(NetlibNestedCriticalSection *nlncs);
 extern mir_cs csNetlibUser;
 extern LIST<NetlibUser> netlibUser;
 
-extern HANDLE hEventConnected;
-extern HANDLE hEventDisconnected;
+extern HANDLE hEventConnected, hEventDisconnected;
+extern HANDLE hConnectionOpenMutex;
+extern mir_cs csConnectionHeader;
 
 // netlibautoproxy.cpp
 void NetlibLoadIeProxy(void);
@@ -165,7 +166,6 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn);
 // netlibhttp.cpp
 void NetlibHttpSetLastErrorUsingHttpResult(int result);
 NETLIBHTTPREQUEST* NetlibHttpRecv(NetlibConnection* nlc, uint32_t hflags, uint32_t dflags, bool isConnect = false);
-void NetlibConnFromUrl(const char* szUrl, bool secur, NETLIBOPENCONNECTION &nloc);
 
 // netliblog.cpp
 void NetlibLogShowOptions(void);

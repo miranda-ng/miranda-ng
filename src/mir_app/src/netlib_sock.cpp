@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "netlib.h"
 
-extern HANDLE hConnectionHeaderMutex, hSendEvent, hRecvEvent;
+extern HANDLE hSendEvent, hRecvEvent;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -107,15 +107,14 @@ MIR_APP_DLL(int) Netlib_Select(NETLIBSELECT *nls)
 
 	int pending = 0;
 	fd_set readfd, writefd, exceptfd;
-	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-	if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
-		 || !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
-		 || !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
 	{
-		ReleaseMutex(hConnectionHeaderMutex);
-		return SOCKET_ERROR;
+		mir_cslock lock(csConnectionHeader);
+		if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
+			|| !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
+			|| !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending)) {
+			return SOCKET_ERROR;
+		}
 	}
-	ReleaseMutex(hConnectionHeaderMutex);
 	if (pending)
 		return 1;
 
@@ -132,25 +131,25 @@ MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 		return SOCKET_ERROR;
 	}
 
+	int pending = 0;
+	fd_set readfd, writefd, exceptfd;
+
 	TIMEVAL tv;
 	tv.tv_sec = nls->dwTimeout / 1000;
 	tv.tv_usec = (nls->dwTimeout % 1000) * 1000;
-	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
-
-	int pending = 0;
-	fd_set readfd, writefd, exceptfd;
-	if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
-		|| !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
-		|| !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending))
 	{
-		ReleaseMutex(hConnectionHeaderMutex);
-		return SOCKET_ERROR;
+		mir_cslock lock(csConnectionHeader);
+
+		if (!ConnectionListToSocketList(nls->hReadConns, &readfd, pending)
+			|| !ConnectionListToSocketList(nls->hWriteConns, &writefd, pending)
+			|| !ConnectionListToSocketList(nls->hExceptConns, &exceptfd, pending)) {
+			return SOCKET_ERROR;
+		}
 	}
-	ReleaseMutex(hConnectionHeaderMutex);
 
 	int rc = (pending) ? pending : select(0, &readfd, &writefd, &exceptfd, nls->dwTimeout == INFINITE ? nullptr : &tv);
 
-	WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
+	mir_cslock lock(csConnectionHeader);
 	/* go thru each passed HCONN array and grab its socket handle, then give it to FD_ISSET()
 	to see if an event happened for that socket, if it has it will be returned as TRUE (otherwise not)
 	This happens for read/write/except */
@@ -176,7 +175,6 @@ MIR_APP_DLL(int) Netlib_SelectEx(NETLIBSELECTEX *nls)
 		if (conn == nullptr || conn == INVALID_HANDLE_VALUE) break;
 		nls->hExceptStatus[j] = FD_ISSET(conn->s, &exceptfd);
 	}
-	ReleaseMutex(hConnectionHeaderMutex);
 	return rc;
 }
 
