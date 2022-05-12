@@ -386,6 +386,9 @@ struct ThreadData
 	int   send(char* buffer, int bufsize = -1);
 	int   send(TiXmlElement *node);
 	int   send_no_strm_mgmt(TiXmlElement *node);
+
+private:
+	bool  bShutdown;
 };
 
 struct JABBER_MODEMSGS

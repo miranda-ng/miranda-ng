@@ -1987,6 +1987,7 @@ void ThreadData::shutdown(void)
 {
 	if (s)
 		Netlib_Shutdown(s);
+	bShutdown = true;
 }
 
 int ThreadData::recv(char* buf, size_t len)
@@ -2000,7 +2001,7 @@ int ThreadData::recv(char* buf, size_t len)
 		nls.dwTimeout = INFINITE;
 		nls.hReadConns[0] = s;
 		int nSelRes = Netlib_Select(&nls);
-		if (nSelRes == SOCKET_ERROR) // error
+		if (nSelRes == SOCKET_ERROR || bShutdown) // error
 			return SOCKET_ERROR;
 	}
 
