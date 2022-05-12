@@ -142,7 +142,7 @@ void CJabberProto::JLoginFailed(int errorCode)
 void CJabberProto::CheckKeepAlive()
 {
 	if (m_ThreadInfo) {
-		if (m_bKeepAlive && ::GetTickCount() - m_ThreadInfo->lastWriteTime < m_iConnectionKeepAliveInterval) {
+		if (m_bKeepAlive && ::GetTickCount() > m_ThreadInfo->lastWriteTime + m_iConnectionKeepAliveInterval) {
 			if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
 				CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, nullptr, this);
 				pInfo->SetTimeout(m_iConnectionKeepAliveTimeout);
