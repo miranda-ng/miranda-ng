@@ -1995,13 +1995,16 @@ int ThreadData::recv(char* buf, size_t len)
 	if (this == nullptr)
 		return 0;
 
+	if (bShutdown)
+		return SOCKET_ERROR;
+
 	// this select() is still required because shitty openssl is not thread safe
 	if (zRecvReady) {
 		NETLIBSELECT nls = {};
 		nls.dwTimeout = INFINITE;
 		nls.hReadConns[0] = s;
 		int nSelRes = Netlib_Select(&nls);
-		if (nSelRes == SOCKET_ERROR || bShutdown) // error
+		if (nSelRes == SOCKET_ERROR) // error
 			return SOCKET_ERROR;
 	}
 
@@ -2015,6 +2018,9 @@ int ThreadData::send(char* buf, int bufsize)
 {
 	if (this == nullptr)
 		return 0;
+
+	if (bShutdown)
+		return SOCKET_ERROR;
 
 	lastWriteTime = ::GetTickCount();
 	if (bufsize == -1)
