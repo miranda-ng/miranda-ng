@@ -1985,9 +1985,10 @@ void ThreadData::close(void)
 
 void ThreadData::shutdown(void)
 {
+	bShutdown = true;
+
 	if (s)
 		Netlib_Shutdown(s);
-	bShutdown = true;
 }
 
 int ThreadData::recv(char* buf, size_t len)
