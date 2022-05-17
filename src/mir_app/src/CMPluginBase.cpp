@@ -82,7 +82,7 @@ MIR_APP_DLL(int) IsPluginLoaded(const MUUID &uuid)
 	return false;
 }
 
-char* GetPluginNameByInstance(HINSTANCE hInst)
+const char* GetPluginNameByInstance(HINSTANCE hInst)
 {
 	HINSTANCE boo[2] = { 0, hInst };
 	CMPluginBase *pPlugin = g_arPlugins.find((CMPluginBase*)&boo);
