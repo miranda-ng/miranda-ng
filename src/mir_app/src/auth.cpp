@@ -66,6 +66,7 @@ public:
 			return false;
 
 		m_szProto = dbei.szModule;
+		PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
 
 		uint32_t uin = *(uint32_t*)dbei.pBlob;
 		m_hContact = DbGetAuthEventContact(&dbei);
@@ -86,34 +87,31 @@ public:
 		ptrW emailT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(email) : mir_a2u(email));
 		ptrW reasonT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(reason) : mir_a2u(reason));
 
-		CMStringW wszName;
+		CMStringW wszHeader;
 		if (firstT[0] && lastT[0])
-			wszName.Format(L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
+			wszHeader.Format(L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
 		else if (firstT[0])
-			wszName = firstT.get();
+			wszHeader = firstT.get();
 		else if (lastT[0])
-			wszName = lastT.get();
+			wszHeader = lastT.get();
 		
 		if (mir_wstrlen(nickT)) {
-			if (wszName.IsEmpty())
-				wszName = nickT.get();
+			if (wszHeader.IsEmpty())
+				wszHeader = nickT.get();
 			else
-				wszName.AppendFormat(L" %s", nickT.get());
+				wszHeader.AppendFormat(L" %s", nickT.get());
 		}
-		if (wszName.IsEmpty())
-			wszName = TranslateT("<Unknown>");
+		if (wszHeader.IsEmpty())
+			wszHeader = TranslateT("<Unknown>");
 
-		PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
-
-		wchar_t hdr[256];
 		if (uin && emailT[0])
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), wszName.c_str(), uin, (wchar_t*)emailT, acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%u (%s) on %s"), uin, emailT.get(), acc->tszAccountName);
 		else if (uin)
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u on %s"), wszName.c_str(), uin, acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%u on %s"), uin, acc->tszAccountName);
 		else
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), wszName.c_str(), emailT[0] ? (wchar_t*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%s on %s"), emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
+		fldHeader.SetText(wszHeader);
 
-		fldHeader.SetText(hdr);
 		fldReason.SetText(reasonT);
 
 		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
