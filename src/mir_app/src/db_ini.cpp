@@ -130,11 +130,11 @@ static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 struct warnSettingChangeInfo_t
 {
 	wchar_t *szIniPath;
-	char *szSection;
-	char *szSafeSections;
-	char *szUnsafeSections;
-	char *szName;
-	char *szValue;
+	const char *szSection;
+	const char *szSafeSections;
+	const char *szUnsafeSections;
+	const char *szName;
+	const char *szValue;
 	int warnNoMore, cancel;
 };
 
@@ -230,12 +230,14 @@ public:
 		m_iniPath.SetText(m_path);
 		m_newPath.SetText(m_path);
 
-		if (!PU::IsMirandaFolderWritable()) {
-			bool bIsElevated = PU::IsProcessElevated();
-			Button_SetElevationRequiredState(btnMove.GetHwnd(), !bIsElevated);
-			Button_SetElevationRequiredState(btnDelete.GetHwnd(), !bIsElevated);
-			Button_SetElevationRequiredState(btnRecycle.GetHwnd(), !bIsElevated);
-		}
+		#ifdef _WINDOWS
+			if (!PU::IsMirandaFolderWritable()) {
+				bool bIsElevated = PU::IsProcessElevated();
+				Button_SetElevationRequiredState(btnMove.GetHwnd(), !bIsElevated);
+				Button_SetElevationRequiredState(btnDelete.GetHwnd(), !bIsElevated);
+				Button_SetElevationRequiredState(btnRecycle.GetHwnd(), !bIsElevated);
+			}
+		#endif
 
 		return true;
 	}
@@ -244,7 +246,7 @@ public:
 	{
 		ptrW wszOldFile(m_iniPath.GetText()), wszNewFile(ptrW(m_newPath.GetText()));
 		if (!wcsicmp(wszOldFile, wszNewFile)) {
-			MessageBoxW(m_hwnd, TranslateT("File names must be different"), TranslateT("Error"), MB_ICONERROR | MB_OK);
+			// MessageBoxW(m_hwnd, TranslateT("File names must be different"), TranslateT("Error"), MB_ICONERROR | MB_OK);
 			return;
 		}
 
@@ -283,22 +285,6 @@ int SettingsEnumProc(const char *szSetting, void *)
 	return 0;
 }
 
-static void ConvertBackslashes(char *str, UINT fileCp)
-{
-	char *pstr;
-	for (pstr = str; *pstr; pstr = CharNextExA(fileCp, pstr, 0)) {
-		if (*pstr == '\\') {
-			switch (pstr[1]) {
-			case 'n': *pstr = '\n'; break;
-			case 't': *pstr = '\t'; break;
-			case 'r': *pstr = '\r'; break;
-			default:  *pstr = pstr[1]; break;
-			}
-			memmove(pstr + 1, pstr + 2, mir_strlen(pstr + 2) + 1);
-		}
-	}
-}
-
 struct ESFDParam
 {
 	LIST<char> *pList;
@@ -313,7 +299,7 @@ static int EnumSettingsForDeletion(const char *szSetting, void *param)
 	return 0;
 }
 
-static void ProcessIniFile(wchar_t* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
+static void ProcessIniFile(wchar_t* szIniPath, const char *szSafeSections, const char *szUnsafeSections, int secur, bool secFN)
 {
 	FILE *fp = _wfopen(szIniPath, L"rt");
 	if (fp == nullptr)
@@ -362,6 +348,7 @@ LBL_NewLine:
 				}
 				if (secFN) warnThisSection = 0;
 			}
+			
 			if (szLine[1] == '?' || szLine[1] == '-') {
 				mir_strncpy(szSection, szLine + 2, min(sizeof(szSection), (size_t)(szEnd - szLine - 1)));
 				db_enum_settings(0, SettingsEnumProc, szSection);
@@ -437,7 +424,15 @@ LBL_NewLine:
 			break;
 		case 'e':
 		case 'E':
-			ConvertBackslashes(szValue + 1, Langpack_GetDefaultCodePage());
+			{
+				CMStringA str(szValue + 1);
+				str.Replace("\\n", "\n");
+				str.Replace("\\t", "\t");
+				str.Replace("\\r", "\r");
+				str.Replace("\\\\", "\\");
+				db_set_s(0, szSection, szName, str);
+			}
+			break;
 		case 's':
 		case 'S':
 			db_set_s(0, szSection, szName, szValue + 1);
@@ -541,21 +536,17 @@ static void DoAutoExec(void)
 
 	PathToAbsoluteW(VARSW(szFindPath), szFindPath);
 
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(szFindPath, &fd);
-	if (hFind == INVALID_HANDLE_VALUE)
-		return;
-
+	MFilePath path(szFindPath);
 	wchar_t *str2 = wcsrchr(szFindPath, '\\');
 	if (str2 == nullptr)
 		szFindPath[0] = 0;
 	else
 		str2[1] = 0;
 
-	do {
-		bool secFN = mir_wstrcmpi(fd.cFileName, szOverrideSecurityFilename) == 0;
+	for (auto &it: path.search()) {
+		bool secFN = mir_wstrcmpi(it.getPath(), szOverrideSecurityFilename) == 0;
 
-		mir_snwprintf(szIniPath, L"%s%s", szFindPath, fd.cFileName);
+		mir_snwprintf(szIniPath, L"%s%s", szFindPath, it.getPath());
 		if (!mir_wstrcmpi(szUse, L"prompt") && !secFN) {
 			CInstallIniDlg dlg(szIniPath);
 			int result = dlg.DoModal();
@@ -578,7 +569,7 @@ static void DoAutoExec(void)
 			else if (!mir_wstrcmpi(szOnCompletion, L"rename")) {
 				wchar_t wszRenamePrefix[MAX_PATH], wszNewPath[MAX_PATH];
 				Profile_GetSetting(L"AutoExec/RenamePrefix", wszRenamePrefix, L"done_");
-				mir_snwprintf(wszNewPath, L"%s%s%s", szFindPath, wszRenamePrefix, fd.cFileName);
+				mir_snwprintf(wszNewPath, L"%s%s%s", szFindPath, wszRenamePrefix, it.getPath());
 				MyMoveFile(szIniPath, wszNewPath);
 			}
 			else if (!mir_wstrcmpi(szOnCompletion, L"ask")) {
@@ -586,15 +577,16 @@ static void DoAutoExec(void)
 				dlg.DoModal();
 			}
 		}
-	} while (FindNextFile(hFind, &fd));
-
-	FindClose(hFind);
+	}
 }
 
 static void CALLBACK CheckIniImportNow()
 {
 	DoAutoExec();
-	FindNextChangeNotification(hIniChangeNotification);
+
+	#ifdef _WINDOWS
+		FindNextChangeNotification(hIniChangeNotification);
+	#endif
 }
 
 static INT_PTR ImportINI(WPARAM wParam, LPARAM)
@@ -610,11 +602,13 @@ int InitIni(void)
 	CreateServiceFunction("DB/Ini/ImportFile", ImportINI);
 	DoAutoExec();
 
-	wchar_t szMirandaDir[MAX_PATH];
-	PathToAbsoluteW(L".", szMirandaDir);
-	hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
-	if (hIniChangeNotification != INVALID_HANDLE_VALUE)
-		Miranda_WaitOnHandle(CheckIniImportNow, hIniChangeNotification);
+	#ifdef _WINDOWS
+		wchar_t szMirandaDir[MAX_PATH];
+		PathToAbsoluteW(L".", szMirandaDir);
+		hIniChangeNotification = FindFirstChangeNotification(szMirandaDir, 0, FILE_NOTIFY_CHANGE_FILE_NAME);
+		if (hIniChangeNotification != INVALID_HANDLE_VALUE)
+			Miranda_WaitOnHandle(CheckIniImportNow, hIniChangeNotification);
+	#endif
 
 	return 0;
 }
@@ -624,5 +618,7 @@ void UninitIni(void)
 	if (!bModuleInitialized)
 		return;
 
-	FindCloseChangeNotification(hIniChangeNotification);
+	#ifdef _WINDOWS
+		FindCloseChangeNotification(hIniChangeNotification);
+	#endif
 }

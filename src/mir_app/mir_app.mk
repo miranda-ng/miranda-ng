@@ -62,7 +62,8 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) \
+	
 
 
 
@@ -94,6 +95,11 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix): src/db_ini.cpp 
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/db_ini.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_db_ini.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_db_ini.cpp$(PreprocessSuffix): src/db_ini.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_db_ini.cpp$(PreprocessSuffix) src/db_ini.cpp
+
 $(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix): src/auth.cpp 
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/auth.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_auth.cpp$(PreprocessSuffix): src/auth.cpp
