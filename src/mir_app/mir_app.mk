@@ -62,7 +62,7 @@ AS       := as
 ## User defined environment variables
 ##
 CodeLiteDir:=/usr/share/codelite
-Objects0=$(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_intf.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_db_events.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_database.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_contact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_CMPluginBase.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_addcontact.cpp$(ObjectSuffix) $(IntermediateDirectory)/src_stdafx.cxx$(ObjectSuffix) 
 
 
 
@@ -94,6 +94,11 @@ PreBuild:
 ##
 ## Objects
 ##
+$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix): src/auth.cpp 
+	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/auth.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_auth.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_auth.cpp$(PreprocessSuffix): src/auth.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_auth.cpp$(PreprocessSuffix) src/auth.cpp
+
 $(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix): src/miranda.cpp 
 	$(CXX) $(IncludePCH) $(SourceSwitch) "/home/ghazan/miranda-ng/src/mir_app/src/miranda.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_miranda.cpp$(ObjectSuffix) $(IncludePath)
 $(IntermediateDirectory)/src_miranda.cpp$(PreprocessSuffix): src/miranda.cpp

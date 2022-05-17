@@ -3,6 +3,7 @@
   <Description/>
   <Dependencies/>
   <VirtualDirectory Name="src">
+    <File Name="src/auth.cpp"/>
     <File Name="src/miranda.cpp"/>
     <File Name="src/database.cpp"/>
     <File Name="src/db_intf.cpp"/>

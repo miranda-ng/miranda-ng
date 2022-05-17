@@ -101,8 +101,8 @@ EXTERN_C MIR_APP_DLL(void) Contact_RemoveFromList(MCONTACT hContact);
 
 // passing hWnd == NULL will result in a dialog that is created modeless
 
-EXTERN_C MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent = nullptr);
+EXTERN_C MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, MWindow hwndParent = nullptr);
+EXTERN_C MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, MWindow hwndParent = nullptr);
+EXTERN_C MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, MWindow hwndParent = nullptr);
 
 #endif // M_CONTACTS_H__

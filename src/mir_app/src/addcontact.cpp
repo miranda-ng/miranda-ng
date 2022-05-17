@@ -182,7 +182,7 @@ MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
 	else (new CAddByContact(hContact))->Show();
 }
 
-MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, HWND hwndParent)
+MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, MWindow hwndParent)
 {
 	struct CAddByEvent : public CAddContactDlg
 	{
