@@ -29,7 +29,7 @@ CCtrlButton::CCtrlButton(CDlgBase* wnd, int idCtrl)
 	: CCtrlBase(wnd, idCtrl)
 {}
 
-BOOL CCtrlButton::OnCommand(HWND, uint16_t, uint16_t idCode)
+BOOL CCtrlButton::OnCommand(MWindow, uint16_t, uint16_t idCode)
 {
 	// if (idCode == BN_CLICKED)
 	// 	OnClick(this);

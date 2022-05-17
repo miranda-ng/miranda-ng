@@ -95,6 +95,8 @@ struct LOGFONTA;
 struct LOGFONTW;
 struct WIN32_FIND_DATA;
 
+#define GetCurrentThreadId pthread_self
+
 #define MIR_EXPORT __attribute__((__visibility__("default")))
 #define MIR_IMPORT
 #define MIR_SYSCALL
@@ -183,6 +185,12 @@ struct TVINSERTSTRUCT;
 struct TVSORTCB;
 struct _TREEITEM;
 
+#ifdef ELEMENTARY_H
+	typedef Evas_Object* MWindow;
+#else
+	typedef void *MWindow;
+#endif
+
 #else
 ///////////////////////////////////////////////////////////////////////////////
 // Windows
@@ -194,6 +202,8 @@ struct _TREEITEM;
 
 #define MIR_SYSCALL __stdcall
 #define MIR_CDECL   __cdecl
+
+typedef HWND MWindow;
 
 #endif
 
