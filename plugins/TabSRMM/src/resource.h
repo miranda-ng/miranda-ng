@@ -173,7 +173,6 @@
 #define IDC_CHKINFINITE_FILE            1084
 #define IDC_LOADCOUNT                   1085
 #define IDC_STATIC112                   1085
-#define IDC_SENDONDBLENTER              1086
 #define IDC_CHKINFINITE_OTHERS          1087
 #define IDC_LOADTIMEN                   1088
 #define IDC_LOADTIMESPIN                1089
