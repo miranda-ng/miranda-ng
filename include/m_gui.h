@@ -395,9 +395,9 @@ public:
 	virtual  void OnReset();
 
 protected:
+	MWindow m_hwnd = nullptr;  // must be the first data item
 	int m_idCtrl;
 	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false, m_bNotifiable = false;
-	MWindow m_hwnd = nullptr;  // must be the first data item
 	CDlgBase *m_parentWnd;
 
 public:
