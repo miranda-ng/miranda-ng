@@ -148,19 +148,17 @@ static char* NetlibHttpFindAuthHeader(NETLIBHTTPREQUEST *nlhrReply, const char *
 void NetlibConnFromUrl(const char *szUrl, bool secur, NetlibUrl &url)
 {
 	secur = secur || _strnicmp(szUrl, "https", 5) == 0;
+	
 	const char* phost = strstr(szUrl, "://");
+	url.szHost = phost ? phost + 3 : szUrl;
 
-	char* szHost = mir_strdup(phost ? phost + 3 : szUrl);
+	int idx = url.szHost.Find('/');
+	if (idx != -1)
+		url.szHost.Truncate(idx);
 
-	char* ppath = strchr(szHost, '/');
-	if (ppath) *ppath = '\0';
-
-	url.szHost = szHost;
-
-	char* pcolon = strrchr(szHost, ':');
-	if (pcolon) {
-		*pcolon = '\0';
-		url.port = strtol(pcolon+1, nullptr, 10);
+	if ((idx = url.szHost.Find(':') != -1)) {
+		url.port = strtol(url.szHost.c_str() + idx + 1, nullptr, 10);
+		url.szHost.Truncate(idx);
 	}
 	else url.port = secur ? 443 : 80;
 	url.flags = (secur ? NLOCF_SSL : 0);
