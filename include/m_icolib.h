@@ -99,17 +99,17 @@ MIR_APP_DLL(HANDLE) IcoLib_IsManaged(HICON hIcon);
 ///////////////////////////////////////////////////////////////////////////////
 // Helper to apply an icolib's icon to a button
 
-MIR_APP_DLL(void)   Button_SetIcon_IcoLib(HWND hDlg, int itemId, HANDLE hIcolib, const char *tooltip = nullptr);
-MIR_APP_DLL(void)   Button_SetSkin_IcoLib(HWND hDlg, int itemId, int skinIconId, const char *tooltip = nullptr);
-MIR_APP_DLL(void)   Button_FreeIcon_IcoLib(HWND hDlg, int itemId);
+MIR_APP_DLL(void)   Button_SetIcon_IcoLib(MWindow hDlg, int itemId, HANDLE hIcolib, const char *tooltip = nullptr);
+MIR_APP_DLL(void)   Button_SetSkin_IcoLib(MWindow hDlg, int itemId, int skinIconId, const char *tooltip = nullptr);
+MIR_APP_DLL(void)   Button_FreeIcon_IcoLib(MWindow hDlg, int itemId);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper to apply an icolib's icon to a window
 
-MIR_APP_DLL(void)   Window_SetIcon_IcoLib(HWND hWnd, HANDLE hIcolib);
-MIR_APP_DLL(void)   Window_SetSkinIcon_IcoLib(HWND hWnd, int iconId);
-MIR_APP_DLL(void)   Window_SetProtoIcon_IcoLib(HWND hWnd, const char *szProto, int iconId);
-MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(HWND hWnd);
+MIR_APP_DLL(void)   Window_SetIcon_IcoLib(MWindow hWnd, HANDLE hIcolib);
+MIR_APP_DLL(void)   Window_SetSkinIcon_IcoLib(MWindow hWnd, int iconId);
+MIR_APP_DLL(void)   Window_SetProtoIcon_IcoLib(MWindow hWnd, const char *szProto, int iconId);
+MIR_APP_DLL(void)   Window_FreeIcon_IcoLib(MWindow hWnd);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper to add an icolib's icon to a HIMAGELIST

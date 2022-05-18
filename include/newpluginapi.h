@@ -100,12 +100,12 @@ MIR_APP_DLL(void) SetPluginOnWhiteList(const char *szPluginName, bool bAllow);
 struct PLUGININFOEX
 {
 	int cbSize;
-	char *shortName;
+	const char *shortName;
 	uint32_t version;
-	char *description;
-	char *author;
-	char *copyright;
-	char *homepage;
+	const char *description;
+	const char *author;
+	const char *copyright;
+	const char *homepage;
 	uint8_t flags;	   // right now the only flag, UNICODE_AWARE, is recognized here
 	MUUID uuid;    // plugin's unique identifier
 };

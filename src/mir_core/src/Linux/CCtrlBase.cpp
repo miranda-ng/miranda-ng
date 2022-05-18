@@ -28,6 +28,7 @@ static int CompareControls(const CCtrlBase *p1, const CCtrlBase *p2)
 {
 	return (INT_PTR)p1->GetHwnd() - (INT_PTR)p2->GetHwnd();
 }
+
 static LIST<CCtrlBase> arControls(10, CompareControls);
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -60,6 +61,7 @@ void CCtrlBase::OnDestroy()
 		arControls.remove(pCtrl);
 	}
 
+	evas_object_del(m_hwnd);
 	m_hwnd = nullptr;
 }
 

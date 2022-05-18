@@ -61,6 +61,8 @@ CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(nullptr, pluginInfoEx)
 {}
 
+#ifdef _WINDOWS
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
 
@@ -82,6 +84,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, uint32_t dwReason, LPVOID)
 	}
 	return TRUE;
 }
+
+#endif
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -117,10 +121,13 @@ protected:
 	{
 		if (m_progress.Move() == MIRANDA_PROCESS_WAIT_STEPS)
 			EndModal(0);
-		if (WaitForSingleObject(m_hProcess, 1) != WAIT_TIMEOUT) {
-			m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
-			EndModal(0);
-		}
+
+		#ifdef _WINDOWS
+			if (WaitForSingleObject(m_hProcess, 1) != WAIT_TIMEOUT) {
+				m_progress.SetPosition(MIRANDA_PROCESS_WAIT_STEPS);
+				EndModal(0);
+			}
+		#endif
 	}
 
 	void Cancel_OnClick(CCtrlBase*)
@@ -145,12 +152,14 @@ INT_PTR CheckRestart()
 {
 	LPCTSTR tszPID = CmdLine_GetOption(L"restart");
 	if (tszPID) {
-		HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _wtol(tszPID));
-		if (hProcess) {
-			INT_PTR result = CWaitRestartDlg(hProcess).DoModal();
-			CloseHandle(hProcess);
-			return result;
-		}
+		#ifdef _WINDOWS
+			HANDLE hProcess = OpenProcess(SYNCHRONIZE, FALSE, _wtol(tszPID));
+			if (hProcess) {
+				INT_PTR result = CWaitRestartDlg(hProcess).DoModal();
+				CloseHandle(hProcess);
+				return result;
+			}
+		#endif
 	}
 	return 0;
 }
@@ -171,7 +180,7 @@ static MSystemWindow *g_pSystemWindow;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int WINAPI mir_main(LPTSTR cmdLine)
+int CALLBACK mir_main(LPTSTR cmdLine)
 {
 	hMainThreadId = GetCurrentThreadId();
 
@@ -227,15 +236,19 @@ MIR_APP_DLL(bool) Miranda_OkToExit()
 MIR_APP_DLL(void) Miranda_Close()
 {
 	while (!Miranda_OkToExit()) {
-		MSG msg;
-		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		Sleep(0);
+		#ifdef _WINDOWS
+			MSG msg;
+			while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			Sleep(0);
+		#endif
 	}
 
-	DestroyWindow(g_clistApi.hwndContactList);
+	#ifdef _WINDOWS
+		DestroyWindow(g_clistApi.hwndContactList);
+	#endif
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -243,53 +256,67 @@ MIR_APP_DLL(void) Miranda_Close()
 
 MIR_APP_DLL(uint32_t) Miranda_GetVersion()
 {
-	wchar_t filename[MAX_PATH];
-	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
+	#ifdef _WINDOWS
+		wchar_t filename[MAX_PATH];
+		GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
-	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	PVOID pVerInfo = _alloca(verInfoSize);
-	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+		DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+		PVOID pVerInfo = _alloca(verInfoSize);
+		GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 
-	UINT blockSize;
-	VS_FIXEDFILEINFO *vsffi;
-	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
-	return (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
-		((vsffi->dwProductVersionMS & 0xFF) << 16) |
-		(((vsffi->dwProductVersionLS >> 16) & 0xFF) << 8) |
-		(vsffi->dwProductVersionLS & 0xFF);
+		UINT blockSize;
+		VS_FIXEDFILEINFO *vsffi;
+		VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
+		return (((vsffi->dwProductVersionMS >> 16) & 0xFF) << 24) |
+			((vsffi->dwProductVersionMS & 0xFF) << 16) |
+			(((vsffi->dwProductVersionLS >> 16) & 0xFF) << 8) |
+			(vsffi->dwProductVersionLS & 0xFF);
+	#else
+		return MIRANDA_VERSION_DWORD;
+	#endif
 }
 
 MIR_APP_DLL(void) Miranda_GetFileVersion(MFileVersion *pVer)
 {
-	wchar_t filename[MAX_PATH];
-	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
+	#ifdef _WINDOWS
+		wchar_t filename[MAX_PATH];
+		GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
-	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	PVOID pVerInfo = _alloca(verInfoSize);
-	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+		DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+		PVOID pVerInfo = _alloca(verInfoSize);
+		GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 
-	UINT blockSize;
-	VS_FIXEDFILEINFO *vsffi;
-	VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
+		UINT blockSize;
+		VS_FIXEDFILEINFO *vsffi;
+		VerQueryValue(pVerInfo, L"\\", (PVOID*)&vsffi, &blockSize);
 
-	(*pVer)[0] = HIWORD(vsffi->dwProductVersionMS);
-	(*pVer)[1] = LOWORD(vsffi->dwProductVersionMS);
-	(*pVer)[2] = HIWORD(vsffi->dwProductVersionLS);
-	(*pVer)[3] = LOWORD(vsffi->dwProductVersionLS);
+		(*pVer)[0] = HIWORD(vsffi->dwProductVersionMS);
+		(*pVer)[1] = LOWORD(vsffi->dwProductVersionMS);
+		(*pVer)[2] = HIWORD(vsffi->dwProductVersionLS);
+		(*pVer)[3] = LOWORD(vsffi->dwProductVersionLS);
+	#else
+		uint16_t tmp[4] = { MIRANDA_VERSION_FILEVERSION };
+		memcpy(pVer, tmp, sizeof(tmp));
+	#endif
 }
 
 MIR_APP_DLL(void) Miranda_GetVersionText(char *pDest, size_t cbSize)
 {
-	wchar_t filename[MAX_PATH], *productVersion;
-	GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
+	#ifdef _WINDOWS
+		wchar_t filename[MAX_PATH], *productVersion;
+		GetModuleFileName(g_plugin.getInst(), filename, _countof(filename));
 
-	DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
-	PVOID pVerInfo = _alloca(verInfoSize);
-	GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
+		DWORD unused, verInfoSize = GetFileVersionInfoSize(filename, &unused);
+		PVOID pVerInfo = _alloca(verInfoSize);
+		GetFileVersionInfo(filename, 0, verInfoSize, pVerInfo);
 
-	UINT blockSize;
-	VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\ProductVersion", (LPVOID*)&productVersion, &blockSize);
-	strncpy_s(pDest, cbSize, _T2A(productVersion), _TRUNCATE);
+		UINT blockSize;
+		VerQueryValue(pVerInfo, L"\\StringFileInfo\\000004b0\\ProductVersion", (LPVOID*)&productVersion, &blockSize);
+		strncpy_s(pDest, cbSize, _T2A(productVersion), _TRUNCATE);
+	#else
+		strncpy_s(pDest, cbSize, "Miranda NG " MIRANDA_VERSION_DISPLAY, _TRUNCATE);
+	#endif
+
 	#if defined(_WIN64)
 		strcat_s(pDest, cbSize, " x64");
 	#endif

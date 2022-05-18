@@ -54,7 +54,8 @@ extern bool g_bModulesLoadedFired;
 
 /**** newplugins.cpp *******************************************************************/
 
-char* GetPluginNameByInstance(HINSTANCE hInstance);
+const char* GetPluginNameByInstance(HINSTANCE hInstance);
+
 int   LoadStdPlugins(void);
 int   LaunchServicePlugin(pluginEntry *p);
 

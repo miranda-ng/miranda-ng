@@ -30,7 +30,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __M_GUI_H
 
 #ifdef _MSC_VER
-#include <CommCtrl.h>
+	#include <CommCtrl.h>
 #endif // _WINDOWS
 
 #include <m_system.h>
@@ -348,7 +348,7 @@ public:
 	CCtrlBase(CDlgBase *wnd, int idCtrl);
 	virtual ~CCtrlBase();
 
-	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline MWindow GetHwnd() const { return m_hwnd; }
 	__forceinline int GetCtrlId() const { return m_idCtrl; }
 	__forceinline CDlgBase *GetParent() const { return m_parentWnd; }
 	__forceinline bool IsChanged() const { return m_bChanged; }
@@ -381,7 +381,7 @@ public:
 
 	int      GetInt() const;
 
-	virtual  BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) { return FALSE; }
+	virtual  BOOL OnCommand(MWindow /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) { return FALSE; }
 	virtual  BOOL OnNotify(int /*idCtrl*/, NMHDR* /*pnmh*/) { return FALSE; }
 
 	virtual  BOOL OnMeasureItem(MEASUREITEMSTRUCT*) { return FALSE; }
@@ -395,10 +395,10 @@ public:
 	virtual  void OnReset();
 
 protected:
-	HWND m_hwnd = nullptr;  // must be the first data item
 	int m_idCtrl;
-	CDlgBase* m_parentWnd;
 	bool m_bChanged = false, m_bSilent = false, m_bUseSystemColors = false, m_bNotifiable = false;
+	MWindow m_hwnd = nullptr;  // must be the first data item
+	CDlgBase *m_parentWnd;
 
 public:
 	CCallback<CCtrlBase> OnChange;
@@ -412,7 +412,7 @@ protected:
 	void Unsubclass();
 
 private:
-	static LRESULT CALLBACK GlobalSubclassWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK GlobalSubclassWndProc(MWindow hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -464,7 +464,7 @@ public:
 	void EndModal(INT_PTR nResult);
 
 	class CCtrlBase* FindControl(int idCtrl);
-	class CCtrlBase* FindControl(HWND hwnd);
+	class CCtrlBase* FindControl(MWindow hwnd);
 
 	void SetCaption(const wchar_t *ptszCaption);
 	void SetDraw(bool bEnable);
@@ -472,19 +472,19 @@ public:
 
 	HINSTANCE GetInst() const;
 
-	__forceinline HWND GetHwnd() const { return m_hwnd; }
+	__forceinline MWindow GetHwnd() const { return m_hwnd; }
 	__forceinline void Hide() { Show(SW_HIDE); }
 	__forceinline bool IsInitialized() const { return m_bInitialized; }
 	__forceinline void SetMinSize(int x, int y) { m_iMinWidth = x, m_iMinHeight = y; }
-	__forceinline void SetParent(HWND hwnd) { m_hwndParent = hwnd; }
+	__forceinline void SetParent(MWindow hwnd) { m_hwndParent = hwnd; }
 
 	__forceinline CCtrlBase* operator[](int iControlId) { return FindControl(iControlId); }
 
-	static CDlgBase* Find(HWND hwnd);
+	static CDlgBase* Find(MWindow hwnd);
 
 protected:
-	HWND    m_hwnd = nullptr;  // must be the first data item
-	HWND    m_hwndParent = nullptr;
+	MWindow m_hwnd = nullptr;  // must be the first data item
+	MWindow m_hwndParent = nullptr;
 	int     m_idDialog;
 
 	bool    m_isModal = false;
@@ -548,9 +548,9 @@ private:
 	CTimer* FindTimer(int idEvent);
 	int m_iMinWidth = -1, m_iMinHeight = -1;
 
-	static BOOL CALLBACK GlobalFieldEnum(HWND hwnd, LPARAM lParam);
-	static INT_PTR CALLBACK GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static int GlobalDlgResizer(HWND hwnd, LPARAM lParam, UTILRESIZECONTROL *urc);
+	static BOOL CALLBACK GlobalFieldEnum(MWindow hwnd, LPARAM lParam);
+	static INT_PTR CALLBACK GlobalDlgProc(MWindow hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static int GlobalDlgResizer(MWindow hwnd, LPARAM lParam, UTILRESIZECONTROL *urc);
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -565,7 +565,7 @@ public:
 	~CTimer();
 
 	__forceinline UINT_PTR GetEventId() const { return m_idEvent; }
-	__forceinline HWND GetHwnd() const { return m_wnd->GetHwnd(); }
+	__forceinline MWindow GetHwnd() const { return m_wnd->GetHwnd(); }
 
 	virtual BOOL OnTimer();
 
@@ -603,7 +603,7 @@ class MIR_CORE_EXPORT CCtrlButton : public CCtrlBase
 public:
 	CCtrlButton(CDlgBase *dlg, int ctrlId);
 
-	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
+	BOOL OnCommand(MWindow hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 	CCallback<CCtrlButton> OnClick;
 
@@ -663,7 +663,7 @@ class MIR_CORE_EXPORT CCtrlHyperlink : public CCtrlBase
 public:
 	CCtrlHyperlink(CDlgBase *dlg, int ctrlId, const char* url = nullptr);
 
-	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
+	BOOL OnCommand(MWindow hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 	CCallback<CCtrlHyperlink> OnClick;
 
@@ -718,7 +718,7 @@ public:
 	COLORREF   GetBkColor() const;
 	bool       GetCheck(HANDLE hItem) const;
 	int        GetCount() const;
-	HWND       GetEditControl() const;
+	MWindow    GetEditControl() const;
 	uint32_t   GetExStyle() const;
 	uint32_t   GetExpand(HANDLE hItem) const;
 	int        GetExtraColumns() const;
@@ -776,7 +776,7 @@ class MIR_CORE_EXPORT CCtrlCheck : public CCtrlData
 
 public:
 	CCtrlCheck(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
+	BOOL OnCommand(MWindow /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -796,7 +796,7 @@ class MIR_CORE_EXPORT CCtrlColor : public CCtrlData
 
 public:
 	CCtrlColor(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
+	BOOL OnCommand(MWindow /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t /*idCode*/) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -830,7 +830,7 @@ class MIR_CORE_EXPORT CCtrlEdit : public CCtrlData
 
 public:
 	CCtrlEdit(CDlgBase *dlg, int ctrlId);
-	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
+	BOOL OnCommand(MWindow /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
 
 	bool OnApply() override;
 	void OnReset() override;
@@ -873,7 +873,7 @@ class MIR_CORE_EXPORT CCtrlSlider : public CCtrlData
 	int m_wMin, m_wMax;
 
 protected:
-	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
+	BOOL OnCommand(MWindow hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 
 public:
 	CCtrlSlider(CDlgBase *dlg, int ctrlId, int max = 100, int min = 0);
@@ -943,7 +943,7 @@ public:
 	CCallback<CCtrlListBox>	OnSelChange;
 
 protected:
-	BOOL OnCommand(HWND hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
+	BOOL OnCommand(MWindow hwndCtrl, uint16_t idCtrl, uint16_t idCode) override;
 	void GetCaretPos(CContextMenuPos&) const override;
 };
 
@@ -957,7 +957,7 @@ class MIR_CORE_EXPORT CCtrlCombo : public CCtrlData
 public:
 	CCtrlCombo(CDlgBase *dlg, int ctrlId);
 
-	BOOL OnCommand(HWND /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
+	BOOL OnCommand(MWindow /*hwndCtrl*/, uint16_t /*idCtrl*/, uint16_t idCode) override;
 	void OnInit() override;
 	bool OnApply() override;
 	void OnReset() override;
@@ -1017,7 +1017,7 @@ public:
 	void       DeleteAllItems();
 	void       DeleteColumn(int iCol);
 	void       DeleteItem(int iItem);
-	HWND       EditLabel(int iItem);
+	MWindow    EditLabel(int iItem);
 	int        EnableGroupView(BOOL fEnable);
 	BOOL       EnsureVisible(int i, BOOL fPartialOK);
 	int        FindItem(int iStart, const LVFINDINFO *plvfi);
@@ -1029,7 +1029,7 @@ public:
 	void       GetColumnOrderArray(int iCount, int *lpiArray) const;
 	int        GetColumnWidth(int iCol) const;
 	int        GetCountPerPage() const;
-	HWND       GetEditControl() const;
+	MWindow    GetEditControl() const;
 	uint32_t   GetExtendedListViewStyle() const;
 	int        GetFocusedGroup() const;
 	int        GetGroupCount() const;
@@ -1037,7 +1037,7 @@ public:
 	void       GetGroupInfoByIndex(int iIndex, LVGROUP *pgrp) const;
 	void       GetGroupMetrics(LVGROUPMETRICS *pGroupMetrics) const;
 	UINT       GetGroupState(UINT dwGroupId, UINT dwMask) const;
-	HWND       GetHeader() const;
+	MWindow    GetHeader() const;
 	HCURSOR    GetHotCursor() const;
 	int        GetHotItem() const;
 	uint32_t   GetHoverTime() const;
@@ -1066,7 +1066,7 @@ public:
 	COLORREF   GetTextColor() const;
 	void       GetTileInfo(LVTILEINFO *plvtinfo) const;
 	void       GetTileViewInfo(LVTILEVIEWINFO *plvtvinfo) const;
-	HWND       GetToolTips() const;
+	MWindow       GetToolTips() const;
 	int        GetTopIndex() const;
 	BOOL       GetUnicodeFormat() const;
 	uint32_t   GetView() const;
@@ -1122,7 +1122,7 @@ public:
 	BOOL       SetTextColor(COLORREF clrText);
 	BOOL       SetTileInfo(LVTILEINFO *plvtinfo);
 	BOOL       SetTileViewInfo(LVTILEVIEWINFO *plvtvinfo);
-	HWND       SetToolTips(HWND ToolTip);
+	MWindow    SetToolTips(MWindow ToolTip);
 	BOOL       SetUnicodeFormat(BOOL fUnicode);
 	int        SetView(uint32_t iView);
 	void       SetWorkAreas(int nWorkAreas, RECT *lprc);
@@ -1214,7 +1214,7 @@ public:
 	HIMAGELIST CreateDragImage(HTREEITEM hItem);
 	void       DeleteAllItems();
 	void       DeleteItem(HTREEITEM hItem);
-	HWND       EditLabel(HTREEITEM hItem);
+	MWindow    EditLabel(HTREEITEM hItem);
 	void       EndEditLabelNow(BOOL cancel);
 	void       EnsureVisible(HTREEITEM hItem);
 	void       Expand(HTREEITEM hItem, uint32_t flag);
@@ -1223,7 +1223,7 @@ public:
 	HTREEITEM  GetChild(HTREEITEM hItem) const;
 	int        GetCount() const;
 	HTREEITEM  GetDropHilight() const;
-	HWND       GetEditControl() const;
+	MWindow    GetEditControl() const;
 	HTREEITEM  GetFirstVisible() const;
 	HIMAGELIST GetImageList(int iImage) const;
 	int        GetIndent() const;
@@ -1244,7 +1244,7 @@ public:
 	uint32_t   GetScrollTime() const;
 	HTREEITEM  GetSelection() const;
 	COLORREF   GetTextColor() const;
-	HWND       GetToolTips() const;
+	MWindow    GetToolTips() const;
 	BOOL       GetUnicodeFormat() const;
 	unsigned   GetVisibleCount() const;
 	HTREEITEM  HitTest(TVHITTESTINFO *hti) const;
@@ -1265,7 +1265,7 @@ public:
 	COLORREF   SetLineColor(COLORREF clLine);
 	void       SetScrollTime(UINT uMaxScrollTime);
 	COLORREF   SetTextColor(COLORREF clText);
-	HWND       SetToolTips(HWND hwndToolTips);
+	MWindow    SetToolTips(MWindow hwndToolTips);
 	BOOL       SetUnicodeFormat(BOOL fUnicode);
 	void       SortChildren(HTREEITEM hItem, BOOL fRecurse);
 	void       SortChildrenCB(TVSORTCB *cb, BOOL fRecurse);
@@ -1483,7 +1483,7 @@ public:
 
 protected:
 	PROTO_INTERFACE *m_proto_interface;
-	HWND m_hwndStatus = nullptr;
+	MWindow m_hwndStatus = nullptr;
 
 	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override;
 

@@ -41,6 +41,8 @@ typedef struct SslHandle *HSSL;
 	#include <io.h>
 	#include <direct.h>
 	#include <process.h>
+#else
+	#include <pthread.h>
 #endif
 
 #include <assert.h>

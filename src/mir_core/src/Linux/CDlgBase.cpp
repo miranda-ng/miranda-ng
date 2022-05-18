@@ -175,7 +175,7 @@ int CDlgBase::Resizer(UTILRESIZECONTROL*)
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 }
 
-BOOL CALLBACK CDlgBase::GlobalFieldEnum(HWND hwnd, LPARAM lParam)
+BOOL CALLBACK CDlgBase::GlobalFieldEnum(MWindow hwnd, LPARAM lParam)
 {
 	return TRUE;
 }
@@ -185,7 +185,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return FALSE;
 }
 
-int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
+int CDlgBase::GlobalDlgResizer(MWindow hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
 	CDlgBase *wnd = CDlgBase::Find(hwnd);
 	return (wnd == nullptr) ? 0 : wnd->Resizer(urc);
@@ -226,7 +226,7 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 	return m_controls.find(&search);
 }
 
-CCtrlBase* CDlgBase::FindControl(HWND hwnd)
+CCtrlBase* CDlgBase::FindControl(MWindow hwnd)
 {
 	for (auto &it : m_controls)
 		if (it->GetHwnd() == hwnd)
@@ -252,7 +252,7 @@ CTimer* CDlgBase::FindTimer(int idEvent)
 	return m_timers.find(&search);
 }
 
-CDlgBase* CDlgBase::Find(HWND hwnd)
+CDlgBase* CDlgBase::Find(MWindow hwnd)
 {
 	void *bullshit[2]; // vfptr + hwnd
 	bullshit[1] = hwnd;

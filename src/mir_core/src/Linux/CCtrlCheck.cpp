@@ -31,7 +31,7 @@ CCtrlCheck::CCtrlCheck(CDlgBase *dlg, int ctrlId)
 	m_bNotifiable = true;
 }
 
-BOOL CCtrlCheck::OnCommand(HWND, uint16_t, uint16_t)
+BOOL CCtrlCheck::OnCommand(MWindow, uint16_t, uint16_t)
 {
 	NotifyChange();
 	return TRUE;

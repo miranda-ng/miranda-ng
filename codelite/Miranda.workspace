@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CodeLite_Workspace Name="Miranda" Database="" Version="10000">
   <VirtualDirectory Name="Core">
-    <Project Name="mir_core" Path="../src/mir_core/mir_core.project" Active="Yes"/>
-    <Project Name="mir_app" Path="../src/mir_app/mir_app.project"/>
+    <Project Name="mir_core" Path="../src/mir_core/mir_core.project" Active="No"/>
+    <Project Name="mir_app" Path="../src/mir_app/mir_app.project" Active="Yes"/>
   </VirtualDirectory>
   <BuildMatrix>
     <WorkspaceConfiguration Name="Debug">

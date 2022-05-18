@@ -29,7 +29,7 @@ CCtrlEdit::CCtrlEdit(CDlgBase *dlg, int ctrlId)
 	: CCtrlData(dlg, ctrlId)
 {}
 
-BOOL CCtrlEdit::OnCommand(HWND, uint16_t, uint16_t idCode)
+BOOL CCtrlEdit::OnCommand(MWindow, uint16_t, uint16_t idCode)
 {
 	// if (idCode == EN_CHANGE)
 	// 	NotifyChange();

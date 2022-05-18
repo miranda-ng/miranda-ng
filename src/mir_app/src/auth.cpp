@@ -33,13 +33,19 @@ class CAuthReqDlg : public CDlgBase
 	MCONTACT m_hContact;
 	const char *m_szProto;
 
+	CCtrlBase fldHeader, fldReason;
+	CCtrlEdit edtReason;
 	CCtrlCheck chkAdd;
-	CCtrlButton btnDetails, btnLater;
+	CCtrlButton btnAdd, btnDetails, btnLater;
 
 public:
 	CAuthReqDlg(MEVENT hEvent) :
 		CDlgBase(g_plugin, IDD_AUTHREQ),
 		m_hDbEvent(hEvent),
+		fldHeader(this, IDC_HEADERBAR),
+		fldReason(this, IDC_REASON),
+		edtReason(this, IDC_DENYREASON),
+		btnAdd(this, IDC_ADD),
 		btnLater(this, IDC_DECIDELATER),
 		btnDetails(this, IDC_DETAILS),
 		chkAdd(this, IDC_ADDCHECK)
@@ -60,6 +66,7 @@ public:
 			return false;
 
 		m_szProto = dbei.szModule;
+		PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
 
 		uint32_t uin = *(uint32_t*)dbei.pBlob;
 		m_hContact = DbGetAuthEventContact(&dbei);
@@ -69,8 +76,10 @@ public:
 		char *email = last + mir_strlen(last) + 1;
 		char *reason = email + mir_strlen(email) + 1;
 
-		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+		#ifdef _WINDOWS
+			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
+			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+		#endif
 
 		ptrW lastT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(last) : mir_a2u(last));
 		ptrW firstT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(first) : mir_a2u(first));
@@ -78,43 +87,40 @@ public:
 		ptrW emailT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(email) : mir_a2u(email));
 		ptrW reasonT(dbei.flags & DBEF_UTF ? mir_utf8decodeW(reason) : mir_a2u(reason));
 
-		wchar_t name[128] = L"";
-		int off = 0;
+		CMStringW wszHeader;
 		if (firstT[0] && lastT[0])
-			off = mir_snwprintf(name, L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
+			wszHeader.Format(L"%s %s", (wchar_t*)firstT, (wchar_t*)lastT);
 		else if (firstT[0])
-			off = mir_snwprintf(name, L"%s", (wchar_t*)firstT);
+			wszHeader = firstT.get();
 		else if (lastT[0])
-			off = mir_snwprintf(name, L"%s", (wchar_t*)lastT);
+			wszHeader = lastT.get();
+		
 		if (mir_wstrlen(nickT)) {
-			if (off)
-				mir_snwprintf(name + off, _countof(name) - off, L" (%s)", (wchar_t*)nickT);
+			if (wszHeader.IsEmpty())
+				wszHeader = nickT.get();
 			else
-				wcsncpy_s(name, nickT, _TRUNCATE);
+				wszHeader.AppendFormat(L" %s", nickT.get());
 		}
-		if (!name[0])
-			wcsncpy_s(name, TranslateT("<Unknown>"), _TRUNCATE);
+		if (wszHeader.IsEmpty())
+			wszHeader = TranslateT("<Unknown>");
 
-		PROTOACCOUNT *acc = Proto_GetAccount(dbei.szModule);
-
-		wchar_t hdr[256];
 		if (uin && emailT[0])
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u (%s) on %s"), name, uin, (wchar_t*)emailT, acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%u (%s) on %s"), uin, emailT.get(), acc->tszAccountName);
 		else if (uin)
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%u on %s"), name, uin, acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%u on %s"), uin, acc->tszAccountName);
 		else
-			mir_snwprintf(hdr, TranslateT("%s requested authorization\n%s on %s"), name, emailT[0] ? (wchar_t*)emailT : TranslateT("(Unknown)"), acc->tszAccountName);
+			wszHeader.AppendFormat(TranslateT(" requested authorization\n%s on %s"), emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
+		fldHeader.SetText(wszHeader);
 
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, hdr);
-		SetDlgItemText(m_hwnd, IDC_REASON, reasonT);
+		fldReason.SetText(reasonT);
 
 		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
-			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
+			btnAdd.Hide();
 
-		SendDlgItemMessage(m_hwnd, IDC_DENYREASON, EM_LIMITTEXT, 255, 0);
+		edtReason.SetMaxLength(255);
 		if (CallProtoService(dbei.szModule, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_NOAUTHDENYREASON) {
-			EnableWindow(GetDlgItem(m_hwnd, IDC_DENYREASON), FALSE);
-			SetDlgItemText(m_hwnd, IDC_DENYREASON, TranslateT("Feature is not supported by protocol"));
+			edtReason.Disable();
+			edtReason.SetText(TranslateT("Feature is not supported by protocol"));
 		}
 
 		if (Contact_OnList(m_hContact)) {
@@ -137,18 +143,19 @@ public:
 	void OnDestroy() override
 	{
 		if (!m_bSucceeded) {
-			if (IsWindowEnabled(GetDlgItem(m_hwnd, IDC_DENYREASON))) {
-				wchar_t tszReason[256];
-				GetDlgItemText(m_hwnd, IDC_DENYREASON, tszReason, _countof(tszReason));
-				CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, (LPARAM)tszReason);
-			}
-			else CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, 0);
+			if (edtReason.Enabled())
+				CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, (LPARAM)ptrW(edtReason.GetText()));
+			else
+				CallProtoService(m_szProto, PS_AUTHDENY, m_hDbEvent, 0);
 		}
 
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+
+		#ifdef _WINDOWS
+			DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+			DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+		#endif
 	}
 
 	void onClick_Later(CCtrlButton*)
@@ -176,6 +183,7 @@ class CAddedDlg : public CDlgBase
 	MEVENT m_hDbEvent;
 	MCONTACT m_hContact;
 
+	CCtrlBase fldHeader;
 	CCtrlButton btnDetails, btnAdd;
 
 public:
@@ -183,7 +191,8 @@ public:
 		CDlgBase(g_plugin, IDD_ADDED),
 		m_hDbEvent(hEvent),
 		btnAdd(this, IDC_ADD),
-		btnDetails(this, IDC_DETAILS)
+		btnDetails(this, IDC_DETAILS),
+		fldHeader(this, IDC_HEADERBAR)
 	{
 		btnAdd.OnClick = Callback(this, &CAddedDlg::onClick_Add);
 		btnDetails.OnClick = Callback(this, &CAddedDlg::onClick_Details);
@@ -201,14 +210,16 @@ public:
 
 		m_hContact = DbGetAuthEventContact(&dbei);
 
-		uint32_t uin = *(PDWORD)dbei.pBlob;
+		uint32_t uin = *(uint32_t*)dbei.pBlob;
 		char* nick = (char*)dbei.pBlob + sizeof(uint32_t) * 2;
 		char* first = nick + mir_strlen(nick) + 1;
 		char* last = first + mir_strlen(first) + 1;
 		char* email = last + mir_strlen(last) + 1;
 
-		SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
-		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+		#ifdef _WINDOWS
+			SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0));
+			SendMessage(m_hwnd, WM_SETICON, ICON_BIG, CallProtoService(dbei.szModule, PS_LOADICON, PLI_PROTOCOL | PLIF_LARGE, 0));
+		#endif
 
 		PROTOACCOUNT* acc = Proto_GetAccount(dbei.szModule);
 
@@ -241,10 +252,10 @@ public:
 			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%u on %s"), name, uin, acc->tszAccountName);
 		else
 			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
-		SetDlgItemText(m_hwnd, IDC_HEADERBAR, hdr);
+		fldHeader.SetText(hdr);
 
 		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
-			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
+			btnAdd.Hide();
 		return true;
 	}
 
@@ -258,8 +269,11 @@ public:
 	{
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_ADD);
 		Button_FreeIcon_IcoLib(m_hwnd, IDC_DETAILS);
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
-		DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+		
+		#ifdef _WINDOWS
+			DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_BIG, 0));
+			DestroyIcon((HICON)SendMessage(m_hwnd, WM_SETICON, ICON_SMALL, 0));
+		#endif
 	}
 
 	void onClick_Add(CCtrlButton*)
@@ -267,7 +281,7 @@ public:
 		Contact_AddByEvent(m_hDbEvent, m_hwnd);
 
 		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
-			ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
+			btnAdd.Hide();
 	}
 
 	void onClick_Details(CCtrlButton*)
@@ -316,7 +330,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		if (szUid)
 			mir_snwprintf(szTooltip, TranslateT("%s requests authorization"), szUid.get());
 		else
-			mir_snwprintf(szTooltip, TranslateT("%u requests authorization"), *(PDWORD)dbei.pBlob);
+			mir_snwprintf(szTooltip, TranslateT("%u requests authorization"), *(uint32_t*)dbei.pBlob);
 
 		cle.hIcon = Skin_LoadIcon(SKINICON_AUTH_REQUEST);
 		cle.pszService = MS_AUTH_SHOWREQUEST;
@@ -327,7 +341,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 		if (szUid)
 			mir_snwprintf(szTooltip, TranslateT("%s added you to their contact list"), szUid.get());
 		else
-			mir_snwprintf(szTooltip, TranslateT("%u added you to their contact list"), *(PDWORD)dbei.pBlob);
+			mir_snwprintf(szTooltip, TranslateT("%u added you to their contact list"), *(uint32_t*)dbei.pBlob);
 
 		cle.hIcon = Skin_LoadIcon(SKINICON_AUTH_ADD);
 		cle.pszService = MS_AUTH_SHOWADDED;
