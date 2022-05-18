@@ -246,7 +246,7 @@ public:
 	{
 		ptrW wszOldFile(m_iniPath.GetText()), wszNewFile(ptrW(m_newPath.GetText()));
 		if (!wcsicmp(wszOldFile, wszNewFile)) {
-			// MessageBoxW(m_hwnd, TranslateT("File names must be different"), TranslateT("Error"), MB_ICONERROR | MB_OK);
+			MessageBoxW(m_hwnd, TranslateT("File names must be different"), TranslateT("Error"), MB_ICONERROR | MB_OK);
 			return;
 		}
 
