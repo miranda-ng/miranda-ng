@@ -274,7 +274,7 @@ struct OptionsPageData : public MZeroedObject
 
 		wchar_t pluginName[MAX_PATH];
 		GetPluginName(getInst(), pluginName, _countof(pluginName));
-		char *temp = GetPluginNameByInstance(getInst());
+		auto *temp = GetPluginNameByInstance(getInst());
 		GetDialogStrings(enableKeywordFiltering, key, pluginName, hWnd, getString(ptszGroup), getString(ptszTitle), getString(ptszTab), _A2T(temp));
 
 		if (enableKeywordFiltering && !current)
