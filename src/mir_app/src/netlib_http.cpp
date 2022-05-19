@@ -156,7 +156,7 @@ void NetlibConnFromUrl(const char *szUrl, bool secur, NetlibUrl &url)
 	if (idx != -1)
 		url.szHost.Truncate(idx);
 
-	if ((idx = url.szHost.Find(':') != -1)) {
+	if ((idx = url.szHost.Find(':')) != -1) {
 		url.port = strtol(url.szHost.c_str() + idx + 1, nullptr, 10);
 		url.szHost.Truncate(idx);
 	}
