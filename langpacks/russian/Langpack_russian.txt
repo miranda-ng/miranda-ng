@@ -1890,12 +1890,6 @@ Miranda не смогла загрузить встроенную систему
 Пожалуйста, разрешите добавить вас в мой список контактов.
 [<Unknown>]
 <Неизвестно>
-[%s requested authorization\n%u (%s) on %s]
-%s запросил(а) авторизацию\n%u (%s) в %s
-[%s requested authorization\n%u on %s]
-%s запросил(а) авторизацию\n%u в %s
-[%s requested authorization\n%s on %s]
-%s запросил(а) авторизацию\n%s в %s
 [(Unknown)]
 (Неизвестный)
 [Feature is not supported by protocol]
@@ -12736,7 +12730,7 @@ Hardware HotKeys
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.7
+;  Version: 0.96.1.8
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -15668,6 +15662,8 @@ S.ms
 Невозможно сохранить список, т.к. вы не в сети.
 [List Editor...]
 Редактор списков...
+[%s error notifications]
+Уведомления об ошибках %s
 [Protocol is offline or no JID]
 Протокол не в сети или нет JID
 [No valid OMEMO session exists]
@@ -21177,7 +21173,7 @@ TCP соединение
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21226,8 +21222,6 @@ TCP соединение
 Заданная пользователем версия
 [Change platform to 32-bit]
 Перейти на 32-битную версию
-[Use HTTPS]
-Использовать HTTPS
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]
@@ -26442,8 +26436,6 @@ RTL шаблоны...
 Уведомлять о наборе текста, когда окно беседы не открыто
 [Show balloon tooltip in the system tray]
 Показывать подсказки в трее
-[        Show popups when a user is typing]
-       Всплывающие окна, когда пользователь набирает текст
 [More about typing notifications]
 Дополнительная информация
 [Tab options]

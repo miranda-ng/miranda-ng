@@ -306,8 +306,8 @@ RTL шаблоны...
 Уведомлять о наборе текста, когда окно беседы не открыто
 [Show balloon tooltip in the system tray]
 Показывать подсказки в трее
-[        Show popups when a user is typing]
-       Всплывающие окна, когда пользователь набирает текст
+[Show popups when a user is typing]
+Всплывающие окна, когда пользователь набирает текст
 [More about typing notifications]
 Дополнительная информация
 [Tab options]
