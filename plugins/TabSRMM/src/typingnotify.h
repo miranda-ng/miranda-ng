@@ -12,7 +12,7 @@
 #define COLOR_WINDOWS        2
 #define COLOR_POPUP          3
 
-#define TypigModule "TypingNotify"
+#define TypingModule          "TypingNotify"
 
 #define SET_WO               "NotWhenFocused"
 #define DEF_WO               0

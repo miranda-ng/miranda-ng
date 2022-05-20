@@ -1005,7 +1005,7 @@ class COptTypingDlg : public CDlgBase
 
 	CCtrlClc m_clist;
 	CCtrlCheck chkWin, chkNoWin;
-	CCtrlCheck chkNotifyPopup, chkNotifyTray, chkShowNotify;
+	CCtrlCheck chkNotifyTray, chkShowNotify;
 	CCtrlHyperlink urlHelp;
 
 	void ResetCList(CCtrlClc* = nullptr)
@@ -1049,8 +1049,7 @@ public:
 		chkWin(this, IDC_TYPEWIN),
 		chkNoWin(this, IDC_TYPENOWIN),
 		chkNotifyTray(this, IDC_NOTIFYTRAY),
-		chkShowNotify(this, IDC_SHOWNOTIFY),
-		chkNotifyPopup(this, IDC_NOTIFYPOPUP)
+		chkShowNotify(this, IDC_SHOWNOTIFY)
 	{
 		m_clist.OnListRebuilt = Callback(this, &COptTypingDlg::RebuildList);
 		m_clist.OnOptionsChanged = Callback(this, &COptTypingDlg::ResetCList);
@@ -1059,7 +1058,6 @@ public:
 
 		chkNotifyTray.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyTray);
 		chkShowNotify.OnChange = Callback(this, &COptTypingDlg::onCheck_ShowNotify);
-		chkNotifyPopup.OnChange = Callback(this, &COptTypingDlg::onCheck_NotifyPopup);
 	}
 
 	bool OnInitDialog() override
@@ -1082,15 +1080,13 @@ public:
 		CheckDlgButton(m_hwnd, IDC_NOTIFYTRAY, g_plugin.getByte(SRMSGSET_SHOWTYPINGCLIST, SRMSGDEFSET_SHOWTYPINGCLIST) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_NOTIFYBALLOON, g_plugin.getByte("ShowTypingBalloon", 0));
 
-		CheckDlgButton(m_hwnd, IDC_NOTIFYPOPUP, g_plugin.getByte("ShowTypingPopup", 0) ? BST_CHECKED : BST_UNCHECKED);
-
 		Utils::enableDlgControl(m_hwnd, IDC_TYPEWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_TYPENOWIN, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) != 0);
 		Utils::enableDlgControl(m_hwnd, IDC_NOTIFYBALLOON, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY) &&
 			(IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN) || IsDlgButtonChecked(m_hwnd, IDC_TYPENOWIN)));
 
 		Utils::enableDlgControl(m_hwnd, IDC_TYPEFLASHWIN, IsDlgButtonChecked(m_hwnd, IDC_SHOWNOTIFY) != 0);
-		Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP) != 0);
+		Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, g_plugin.bPopups);
 
 		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
 		SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always, but no popup when window is focused"));
@@ -1109,15 +1105,17 @@ public:
 		g_plugin.setByte(SRMSGSET_SHOWTYPINGWINOPEN, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_TYPEWIN));
 		g_plugin.setByte(SRMSGSET_SHOWTYPINGCLIST, (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYTRAY));
 		g_plugin.setByte("ShowTypingBalloon", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYBALLOON));
-		g_plugin.setByte("ShowTypingPopup", (uint8_t)IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP));
 		db_set_b(0, SRMSGMOD_T, "MTN_PopupMode", (uint8_t)SendDlgItemMessage(m_hwnd, IDC_MTN_POPUPMODE, CB_GETCURSEL, 0, 0));
 		PluginConfig.reloadSettings();
 		return true;
 	}
 
-	void onCheck_NotifyPopup(CCtrlCheck*)
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
 	{
-		Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, IsDlgButtonChecked(m_hwnd, IDC_NOTIFYPOPUP) != 0);
+		if (msg == WM_SETFOCUS)
+			Utils::enableDlgControl(m_hwnd, IDC_MTN_POPUPMODE, g_plugin.bPopups);
+
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
 	void onCheck_NotifyTray(CCtrlCheck*)

@@ -272,8 +272,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,33,175,230,10
     CONTROL         "Show balloon tooltip in the system tray",IDC_NOTIFYBALLOON,
                     "Button",BS_AUTOCHECKBOX | WS_GROUP,44,188,206,10
-    GROUPBOX        "        Show popups when a user is typing",IDC_STATIC111,7,203,269,30
-    CONTROL         "",IDC_NOTIFYPOPUP,"Button",BS_AUTOCHECKBOX,16,202,12,12
+    GROUPBOX        "Show popups when a user is typing",IDC_STATIC,7,203,269,30
     COMBOBOX        IDC_MTN_POPUPMODE,32,216,230,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "More about typing notifications",IDC_MTN_HELP,"Hyperlink",WS_TABSTOP | 0x1,9,237,262,9
 END

@@ -226,7 +226,6 @@
 #define IDC_NOTIFYTRAY                  1153
 #define IDC_NOTIFYBALLOON               1154
 #define IDC_NOTIFYBALLOON2              1155
-#define IDC_NOTIFYPOPUP                 1155
 #define IDC_MathSubst                   1156
 #define IDC_INDENTAMOUNT                1158
 #define IDC_MSGTABS                     1159
@@ -408,7 +407,6 @@
 #define IDC_NRFLASHSPIN                 1326
 #define IDC_FLASHINTERVAL               1327
 #define IDC_USEKBDHOOK                  1328
-#define IDC_STATIC111                   1329
 #define IDC_TAB1                        1330
 #define IDC_ALWAYSFULLWIDTHTOOLBAR      1335
 #define IDC_FORMATWHOLEWORDSONLY        1337

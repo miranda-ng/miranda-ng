@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-static CMOption<bool> g_bPopups(TypigModule, "TypingPopup", true);
-
 static HGENMENU hDisableMenu = nullptr;
 
 static MWindowList hPopupsList = nullptr;
@@ -69,7 +67,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (Contact_IsHidden(hContact) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
-	if (!g_bPopups)
+	if (!g_plugin.bPopups)
 		return;
 
 	wchar_t *szContactName = Clist_GetContactDisplayName(hContact);
@@ -431,7 +429,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			case PSN_APPLY:
 				for (int i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++) {
 					colorPicker[i].color = SendDlgItemMessage(hwndDlg, colorPicker[i].res, CPM_GETCOLOUR, 0, 0);
-					db_set_dw(0, TypigModule, colorPicker[i].desc, colorPicker[i].color);
+					db_set_dw(0, TypingModule, colorPicker[i].desc, colorPicker[i].color);
 				}
 
 				Timeout = newTimeout;   TimeoutMode = newTimeoutMode;
@@ -442,13 +440,13 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				StopDisabled = IsDlgButtonChecked(hwndDlg, IDC_STOP) ? 0 : 4;
 				OnePopup = IsDlgButtonChecked(hwndDlg, IDC_ONEPOPUP);
 
-				db_set_b(0, TypigModule, SET_ONEPOPUP, OnePopup);
-				db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
-				db_set_b(0, TypigModule, SET_COLOR_MODE, ColorMode);
-				db_set_b(0, TypigModule, SET_TIMEOUT_MODE, TimeoutMode);
-				db_set_b(0, TypigModule, SET_TIMEOUT, (uint8_t)Timeout);
-				db_set_b(0, TypigModule, SET_TIMEOUT_MODE2, TimeoutMode2);
-				db_set_b(0, TypigModule, SET_TIMEOUT2, (uint8_t)Timeout2);
+				db_set_b(0, TypingModule, SET_ONEPOPUP, OnePopup);
+				db_set_b(0, TypingModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
+				db_set_b(0, TypingModule, SET_COLOR_MODE, ColorMode);
+				db_set_b(0, TypingModule, SET_TIMEOUT_MODE, TimeoutMode);
+				db_set_b(0, TypingModule, SET_TIMEOUT, (uint8_t)Timeout);
+				db_set_b(0, TypingModule, SET_TIMEOUT_MODE2, TimeoutMode2);
+				db_set_b(0, TypingModule, SET_TIMEOUT2, (uint8_t)Timeout2);
 				return TRUE;
 			}
 		}
@@ -474,25 +472,25 @@ int TN_ModuleInit()
 {
 	hPopupsList = WindowList_Create();
 
-	OnePopup = db_get_b(0, TypigModule, SET_ONEPOPUP, DEF_ONEPOPUP);
+	OnePopup = db_get_b(0, TypingModule, SET_ONEPOPUP, DEF_ONEPOPUP);
 
-	int i = db_get_b(0, TypigModule, SET_DISABLED, DEF_DISABLED);
+	int i = db_get_b(0, TypingModule, SET_DISABLED, DEF_DISABLED);
 	if (i & 1)
-		g_bPopups = false;
+		g_plugin.bPopups = false;
 	StartDisabled = i & 2;
 	StopDisabled = i & 4;
 
-	ColorMode = db_get_b(0, TypigModule, SET_COLOR_MODE, DEF_COLOR_MODE);
-	TimeoutMode = db_get_b(0, TypigModule, SET_TIMEOUT_MODE, DEF_TIMEOUT_MODE);
-	Timeout = db_get_b(0, TypigModule, SET_TIMEOUT, DEF_TIMEOUT);
-	TimeoutMode2 = db_get_b(0, TypigModule, SET_TIMEOUT_MODE2, DEF_TIMEOUT_MODE2);
-	Timeout2 = db_get_b(0, TypigModule, SET_TIMEOUT2, DEF_TIMEOUT2);
+	ColorMode = db_get_b(0, TypingModule, SET_COLOR_MODE, DEF_COLOR_MODE);
+	TimeoutMode = db_get_b(0, TypingModule, SET_TIMEOUT_MODE, DEF_TIMEOUT_MODE);
+	Timeout = db_get_b(0, TypingModule, SET_TIMEOUT, DEF_TIMEOUT);
+	TimeoutMode2 = db_get_b(0, TypingModule, SET_TIMEOUT_MODE2, DEF_TIMEOUT_MODE2);
+	Timeout2 = db_get_b(0, TypingModule, SET_TIMEOUT2, DEF_TIMEOUT2);
 
-	if (!(db_get_dw(0, TypigModule, colorPicker[0].desc, 1) && !db_get_dw(0, TypigModule, colorPicker[0].desc, 0)))
+	if (!(db_get_dw(0, TypingModule, colorPicker[0].desc, 1) && !db_get_dw(0, TypingModule, colorPicker[0].desc, 0)))
 		for (auto &it : colorPicker)
-			it.color = db_get_dw(0, TypigModule, it.desc, 0);
+			it.color = db_get_dw(0, TypingModule, it.desc, 0);
 
-	g_plugin.addPopupOption(LPGEN("Typing notifications"), g_bPopups);
+	g_plugin.addPopupOption(LPGEN("Typing notifications"), g_plugin.bPopups);
 
 	g_plugin.addSound("TNStart", LPGENW("Instant messages"), LPGENW("Contact started typing"));
 	g_plugin.addSound("TNStop", LPGENW("Instant messages"), LPGENW("Contact stopped typing"));
@@ -502,6 +500,6 @@ int TN_ModuleInit()
 int TN_ModuleDeInit()
 {
 	WindowList_Destroy(hPopupsList);
-	db_set_b(0, TypigModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
+	db_set_b(0, TypingModule, SET_DISABLED, (uint8_t)(StartDisabled | StopDisabled));
 	return 0;
 }

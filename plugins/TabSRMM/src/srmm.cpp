@@ -52,7 +52,8 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx)
+	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx),
+	bPopups(TypingModule, "TypingPopup", true)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

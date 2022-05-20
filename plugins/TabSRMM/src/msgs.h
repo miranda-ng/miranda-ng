@@ -1074,6 +1074,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE hLogger;
 
+	CMOption<bool> bPopups;
+
 	CMPlugin();
 
 	int Load() override;
