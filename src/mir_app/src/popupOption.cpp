@@ -71,17 +71,17 @@ void KillModulePopups(HPLUGIN pPlugin)
 
 class CPopupOptionsDlg : public CDlgBase
 {
-	CCtrlListView m_tree;
+	CCtrlListView m_list;
 
 public:
 	CPopupOptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_POPUPOPTION),
-		m_tree(this, IDC_TREE)
+		m_list(this, IDC_TREE)
 	{}
 
 	bool OnInitDialog() override
 	{
-		m_tree.SetExtendedListViewStyleEx(0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
+		m_list.SetExtendedListViewStyleEx(0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT);
 
 		LVITEM lvi;
 		lvi.mask = LVIF_TEXT | LVIF_PARAM;
@@ -91,8 +91,8 @@ public:
 			lvi.pszText = TranslateW_LP(it->m_descr, it->m_plugin);
 			lvi.lParam = LPARAM(it);
 	
-			int iRow = m_tree.InsertItem(&lvi);
-			m_tree.SetItemState(iRow, it->m_val ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
+			int iRow = m_list.InsertItem(&lvi);
+			m_list.SetItemState(iRow, it->m_val ? 0x2000 : 0x1000, LVIS_STATEIMAGEMASK);
 		}
 
 		return true;
@@ -100,15 +100,11 @@ public:
 
 	bool OnApply() override
 	{
-		int iRows = m_tree.GetItemCount();
-		for (int i = 0; i < iRows; i++) {
-			LVITEM lvi;
-			lvi.iItem = i;
-			lvi.mask = LVIF_STATE | LVIF_PARAM;
-			m_tree.GetItem(&lvi);
+		int iRows = m_list.GetItemCount();
 
-			auto *p = (MPopupOption *)lvi.lParam;
-			p->m_val = lvi.state == 0x2000;
+		for (int i = 0; i < iRows; i++) {
+			auto *p = (MPopupOption *)m_list.GetItemData(i);
+			p->m_val = m_list.GetItemState(i, LVIS_STATEIMAGEMASK) == 0x2000;
 		}
 		return true;
 	}
