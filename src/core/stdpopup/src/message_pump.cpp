@@ -1,19 +1,16 @@
 #include "stdafx.h"
 
-unsigned message_pump_thread_id = 0;
-int num_popups = 0;
+static int num_popups = 0;
 
-HANDLE hMPEvent;
+static HANDLE hMPThread;
+unsigned message_pump_thread_id = 0;
 
 #define MUM_FINDWINDOW		(WM_USER + 0x050)
 
 #define MAX_POPUPS	100
 
-unsigned __stdcall MessagePumpThread(void *param)
+unsigned __stdcall MessagePumpThread(void *)
 {
-	if (param)
-		SetEvent((HANDLE)param);
-
 	MSG hwndMsg = {};
 	while (GetMessage(&hwndMsg, nullptr, 0, 0) > 0 && !bShutdown) {
 		if (hwndMsg.hwnd != nullptr && IsDialogMessage(hwndMsg.hwnd, &hwndMsg)) /* Wine fix. */
@@ -88,13 +85,13 @@ void InitMessagePump()
 
 	InitServices();
 
-	hMPEvent = CreateEvent(nullptr, TRUE, 0, nullptr);
-	CloseHandle(mir_forkthreadex(MessagePumpThread, hMPEvent, &message_pump_thread_id));
-	WaitForSingleObject(hMPEvent, INFINITE);
-	CloseHandle(hMPEvent);
+	hMPThread = mir_forkthreadex(MessagePumpThread, 0, &message_pump_thread_id);
 }
 
 void DeinitMessagePump()
 {
 	PostMPMessage(WM_QUIT, 0, 0);
+
+	WaitForSingleObject(hMPThread, INFINITE);
+	CloseHandle(hMPThread);
 }
