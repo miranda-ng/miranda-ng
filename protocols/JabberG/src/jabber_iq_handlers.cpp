@@ -106,12 +106,14 @@ int GetGMTOffset(void)
 // entity time (XEP-0202) support
 bool CJabberProto::OnIqRequestTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
-	wchar_t stime[100];
-	wchar_t szTZ[10];
+	if (!m_bAllowTimeReplies)
+		return false;
 
+	wchar_t stime[100];
 	TimeZone_PrintDateTime(UTC_TIME_HANDLE, L"I", stime, _countof(stime), 0);
 
 	int nGmtOffset = GetGMTOffset();
+	wchar_t szTZ[10];
 	mir_snwprintf(szTZ, L"%+03d:%02d", nGmtOffset / 60, nGmtOffset % 60);
 
 	XmlNodeIq iq("result", pInfo);
@@ -128,17 +130,20 @@ bool CJabberProto::OnIqRequestTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 
 bool CJabberProto::OnIqProcessIqOldTime(const TiXmlElement*, CJabberIqInfo *pInfo)
 {
-	struct tm *gmt;
-	time_t ltime;
-	char stime[100], *dtime;
+	if (!m_bAllowTimeReplies)
+		return false;
 
 	_tzset();
+	time_t ltime;
 	time(&ltime);
-	gmt = gmtime(&ltime);
+	
+	struct tm *gmt = gmtime(&ltime);
+	
+	char stime[100];
 	mir_snprintf(stime, "%.4i%.2i%.2iT%.2i:%.2i:%.2i",
 		gmt->tm_year + 1900, gmt->tm_mon + 1,
 		gmt->tm_mday, gmt->tm_hour, gmt->tm_min, gmt->tm_sec);
-	dtime = ctime(&ltime);
+	char *dtime = ctime(&ltime);
 	dtime[24] = 0;
 
 	XmlNodeIq iq("result", pInfo);

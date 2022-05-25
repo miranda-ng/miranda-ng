@@ -78,6 +78,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	m_bAcceptHttpAuth(this, "m_bAcceptHttpAuth", true),
 	m_bAcceptNotes(this, "AcceptNotes", true),
+	m_bAllowTimeReplies(this, "AllowTimeReplies", true),
 	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", true),
 	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", false),
 	m_bAutoAcceptMUC(this, "AutoAcceptMUC", false),

@@ -364,6 +364,8 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 	if (m_bUseOMEMO)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
 
+	if (!m_bAllowTimeReplies)
+		jcb &= ~JABBER_CAPS_ENTITY_TIME;
 	if (!m_bAllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
 
@@ -427,6 +429,8 @@ void CJabberProto::UpdateFeatHash()
 	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
 	for (auto &it : m_lstJabberFeatCapPairsDynamic)
 		jcb |= it->jcbCap;
+	if (!m_bAllowTimeReplies)
+		jcb &= ~JABBER_CAPS_ENTITY_TIME;
 	if (!m_bAllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
 
