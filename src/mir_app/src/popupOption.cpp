@@ -115,7 +115,7 @@ int PopupOptionsInit(WPARAM wParam)
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = -1000000000;
 	odp.szGroup.a = LPGEN("Popups");
-	odp.szTitle.a = LPGEN("Enabled items");
+	odp.szTitle.a = LPGEN("Events");
 	odp.pDialog = new CPopupOptionsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);

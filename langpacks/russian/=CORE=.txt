@@ -2600,8 +2600,8 @@ xСтатус
 [Plugins]
 Плагины
 ;file \src\mir_app\src\popupOption.cpp
-[Enabled items]
-Нужные элементы
+[Events]
+События
 ;file \src\mir_app\src\profilemanager.cpp
 [<In use>]
 <Используется>
