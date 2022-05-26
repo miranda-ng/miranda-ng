@@ -452,7 +452,7 @@ protected:
 				m_cbLocale.SetCurSel(iItem);
 		}
 
-		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), m_chkUseHostnameAsResource.GetState() != BST_CHECKED);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_COMBO_RESOURCE), !m_chkUseHostnameAsResource.GetState());
 		EnableWindow(GetDlgItem(m_hwnd, IDC_UNREGISTER), m_proto->m_bJabberOnline);
 
 		m_chkUseTls.Enable(!m_proto->m_bDisable3920auth && (m_proto->m_bUseSSL ? false : true));
@@ -477,7 +477,7 @@ protected:
 		// clear saved password
 		m_proto->m_savedPassword = nullptr;
 
-		if (m_chkSavePassword.GetState() == BST_CHECKED)
+		if (m_chkSavePassword.GetState())
 			m_proto->setWString("Password", ptrW(m_txtPassword.GetText()));
 		else
 			m_proto->delSetting("Password");
@@ -507,7 +507,7 @@ protected:
 		return true;
 	}
 
-	void OnChange(CCtrlBase *)
+	void OnChange() override
 	{
 		if (m_bInitialized)
 			CheckRegistration();
@@ -536,7 +536,7 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		if (m_chkManualHost.GetState() == BST_CHECKED) {
+		if (m_chkManualHost.GetState()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
@@ -545,7 +545,7 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0])) {
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0])) {
 			CJabberDlgRegister dlg(m_proto, m_hwnd, &regInfo);
 			dlg.DoModal();
 		}
@@ -579,7 +579,7 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		if (chk->GetState() == BST_CHECKED) {
+		if (chk->GetState()) {
 			m_txtManualHost.Enable();
 			m_txtManualPort.Enable();
 			m_txtPort.Disable();
@@ -595,8 +595,8 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		m_cbResource.Enable(chk->GetState() != BST_CHECKED);
-		if (chk->GetState() == BST_CHECKED) {
+		m_cbResource.Enable(!chk->GetState());
+		if (chk->GetState()) {
 			wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
 			DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
 			if (GetComputerName(szCompName, &dwCompNameLength))
@@ -607,12 +607,12 @@ private:
 	void chkUseDomainLogin_OnChange(CCtrlData *sender)
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
-		BOOL checked = chk->GetState() == BST_CHECKED;
+		bool bChecked = chk->GetState();
 
-		m_txtPassword.Enable(!checked);
-		m_txtUsername.Enable(!checked);
-		m_chkSavePassword.Enable(!checked);
-		if (checked) {
+		m_txtPassword.Enable(!bChecked);
+		m_txtUsername.Enable(!bChecked);
+		m_chkSavePassword.Enable(!bChecked);
+		if (bChecked) {
 			m_txtPassword.SetText(L"");
 			m_txtUsername.SetText(L"");
 			m_chkSavePassword.SetState(BST_CHECKED);
@@ -621,8 +621,8 @@ private:
 
 	void chkUseSsl_OnChange(CCtrlData *)
 	{
-		BOOL bManualHost = m_chkManualHost.GetState() == BST_CHECKED;
-		if (m_chkUseSsl.GetState() == BST_CHECKED) {
+		bool bManualHost = m_chkManualHost.GetState();
+		if (m_chkUseSsl.GetState()) {
 			m_chkUseTls.Disable();
 			if (!bManualHost)
 				m_txtPort.SetInt(5223);
@@ -637,7 +637,7 @@ private:
 
 	void chkUseTls_OnChange(CCtrlData *)
 	{
-		if (m_chkUseTls.GetState() == BST_CHECKED)
+		if (m_chkUseTls.GetState())
 			m_chkUseSsl.Disable();
 		else
 			m_chkUseSsl.Enable();
@@ -649,7 +649,7 @@ private:
 		m_txtUsername.GetTextU(regInfo.username, _countof(regInfo.username));
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
-		if (m_chkManualHost.GetState() == BST_CHECKED) {
+		if (m_chkManualHost.GetState()) {
 			regInfo.port = (uint16_t)m_txtManualPort.GetInt();
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		}
@@ -658,10 +658,10 @@ private:
 			regInfo.manualHost[0] = '\0';
 		}
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), TRUE);
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
+			m_btnRegister.Enable();
 		else
-			EnableWindow(GetDlgItem(m_hwnd, IDC_BUTTON_REGISTER), FALSE);
+			m_btnRegister.Disable();
 	}
 };
 
@@ -778,8 +778,8 @@ public:
 
 	void chkDirect_OnChange(CCtrlData *)
 	{
-		if (m_chkDirect.GetState() == BST_CHECKED) {
-			if (m_chkDirectManual.GetState() == BST_CHECKED)
+		if (m_chkDirect.GetState()) {
+			if (m_chkDirectManual.GetState())
 				m_txtDirect.Enable();
 			else
 				m_txtDirect.Disable();
@@ -1058,7 +1058,7 @@ protected:
 		}
 		m_proto->m_bHostNameAsResource = bUseHostnameAsResource;
 
-		if (m_chkSavePassword.GetState() == BST_CHECKED) {
+		if (m_chkSavePassword.GetState()) {
 			wchar_t *text = m_txtPassword.GetText();
 			m_proto->setWString("Password", text);
 			mir_free(text);
@@ -1119,7 +1119,7 @@ protected:
 		m_txtServer.GetTextA(server, _countof(server));
 		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
 
-		if ((m_chkManualHost.GetState() == BST_CHECKED) && mir_strcmp(server, manualServer)) {
+		if ((m_chkManualHost.GetState()) && mir_strcmp(server, manualServer)) {
 			m_proto->m_bManualConnect = true;
 			m_proto->setString("ManualHost", manualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
@@ -1147,7 +1147,7 @@ protected:
 		return true;
 	}
 
-	void OnChange(CCtrlBase*)
+	void OnChange() override
 	{
 		if (m_bInitialized)
 			CheckRegistration();
@@ -1168,12 +1168,12 @@ private:
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = (uint16_t)m_txtPort.GetInt();
-		if (m_chkManualHost.GetState() == BST_CHECKED)
+		if (m_chkManualHost.GetState())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		else
 			regInfo.manualHost[0] = '\0';
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
 			CJabberDlgRegister(m_proto, m_hwnd, &regInfo).DoModal();
 	}
 
@@ -1187,12 +1187,12 @@ private:
 	void chkUseDomainLogin_OnChange(CCtrlData *sender)
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
-		BOOL checked = chk->GetState() == BST_CHECKED;
+		bool bChecked = chk->GetState();
 
-		m_txtPassword.Enable(!checked);
-		m_txtUsername.Enable(!checked);
-		m_chkSavePassword.Enable(!checked);
-		if (checked) {
+		m_txtPassword.Enable(!bChecked);
+		m_txtUsername.Enable(!bChecked);
+		m_chkSavePassword.Enable(!bChecked);
+		if (bChecked) {
 			m_txtPassword.SetText(L"");
 			m_txtUsername.SetText(L"");
 			m_chkSavePassword.SetState(BST_CHECKED);
@@ -1203,7 +1203,7 @@ private:
 	{
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
-		if (chk->GetState() == BST_CHECKED) {
+		if (chk->GetState()) {
 			char buf[256];
 			m_txtServer.GetTextA(buf, _countof(buf));
 			m_txtManualHost.SetTextA(buf);
@@ -1230,12 +1230,12 @@ private:
 		m_txtPassword.GetTextU(regInfo.password, _countof(regInfo.password));
 		m_txtServer.GetTextA(regInfo.server, _countof(regInfo.server));
 		regInfo.port = m_txtPort.GetInt();
-		if (m_chkManualHost.GetState() == BST_CHECKED)
+		if (m_chkManualHost.GetState())
 			m_txtManualHost.GetTextA(regInfo.manualHost, _countof(regInfo.manualHost));
 		else
 			regInfo.manualHost[0] = '\0';
 
-		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && ((m_chkManualHost.GetState() != BST_CHECKED) || regInfo.manualHost[0]))
+		if (regInfo.username[0] && regInfo.password[0] && regInfo.server[0] && regInfo.port > 0 && (!m_chkManualHost.GetState() || regInfo.manualHost[0]))
 			m_btnRegister.Enable();
 		else
 			m_btnRegister.Disable();
