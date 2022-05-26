@@ -541,8 +541,8 @@ complete:
 
 			signal_buffer *serialized_signed_pre_key;
 			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
-			CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
-			db_set_blob(0, proto->m_szModuleName, setting_name, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
+			CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+			db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
 		}
 
 		// TODO: store signed_pre_key for libsignal data backend too
@@ -559,15 +559,15 @@ complete:
 		// generate and save pre keys set
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 100, global_context);
-		CMStringA setting_name, setting_name2;
+		CMStringA szSetting;
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
 			{
 				signal_buffer *serialized_pre_key;
 				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				setting_name2.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
-				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
+				szSetting.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
+				db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
 				SIGNAL_UNREF(serialized_pre_key);
 			}
 
@@ -575,8 +575,8 @@ complete:
 			public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
 
-			setting_name.Format("OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(setting_name, ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
+			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
+			proto->setString(szSetting, ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
 			signal_buffer_free(key_buf);
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
@@ -827,14 +827,13 @@ complete:
 		* @retval SG_ERR_INVALID_KEY_ID if the key could not be found
 		*/
 
-		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
+		auto *data = (signal_store_backend_user_data*)user_data;
 
-		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
-		mir_free(setting_name);
+		db_get(0, data->proto->m_szModuleName, szSetting, &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load prekey SG_ERR_INVALID_KEY_ID");
@@ -856,42 +855,29 @@ complete:
 		* @return 0 on success, negative on failure
 		*/
 
-		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
+		auto *data = (signal_store_backend_user_data*)user_data;
 
-		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+		db_set_blob(0, data->proto->m_szModuleName, szSetting, record, (unsigned int)record_len); //TODO: check return value
 		{ //store base64 encoded keys for bundle (private key does not required ?)
 			session_pre_key *prekey = nullptr;
 			session_pre_key_deserialize(&prekey, record, record_len, global_context); //TODO: handle error
 			if (prekey) {
-				ec_public_key *public_key = nullptr;
-				//ec_private_key *private_key = nullptr;
 				ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
 				signal_buffer *key_buf = nullptr;
-				char *key = nullptr;
-				public_key = ec_key_pair_get_public(pre_key_pair);
+				ec_public_key *public_key = ec_key_pair_get_public(pre_key_pair);
 				ec_public_key_serialize(&key_buf, public_key);
 				SIGNAL_UNREF(public_key);
-				key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
-				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPublic", pre_key_id);
-				data->proto->setString(setting_name, key);
+				
+				char *key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
+				szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
+				data->proto->setString(szSetting, key);
 				mir_free(key);
 				signal_buffer_free(key_buf);
-/*				private_key = ec_key_pair_get_private(pre_key_pair);
-				ec_private_key_serialize(&key_buf, private_key);
-				SIGNAL_UNREF(private_key);
-				key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
-				mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "OmemoPreKey%uPrivate", pre_key_id);
-				data->proto->setString(setting_name, key);
-				mir_free(key);
-				signal_buffer_free(key_buf); */
-
 			}
 		}
-		mir_free(setting_name);
-		//TODO: resend bundle ?
 
+		//TODO: resend bundle ?
 		return 0;
 	}
 
@@ -905,14 +891,12 @@ complete:
 		* @return 1 if the store has a record for the PreKey ID, 0 otherwise
 		*/
 
-		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
+		auto *data = (signal_store_backend_user_data*)user_data;
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 
-		char *setting_name = (char*)mir_alloc(strlen("OmemoSignalPreKey_") + 32);
-		mir_snprintf(setting_name, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
-		mir_free(setting_name);
+		db_get(0, data->proto->m_szModuleName, szSetting, &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			return 0;
@@ -933,13 +917,14 @@ complete:
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
 
-		CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-		db_unset(0, data->proto->m_szModuleName, setting_name);
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalPreKey_", data->proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, szSetting);
 
-		setting_name.Format("OmemoPreKey%uPublic", pre_key_id);
-		db_unset(0, data->proto->m_szModuleName, setting_name);
-		setting_name.Format("OmemoPreKey%uPrivate", pre_key_id);
-		db_unset(0, data->proto->m_szModuleName, setting_name);
+		szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, szSetting);
+		
+		szSetting.Format("OmemoPreKey%uPrivate", pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, szSetting);
 		return 0;
 	}
 
@@ -959,10 +944,10 @@ complete:
 		*/
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
-		CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
+		db_get(0, data->proto->m_szModuleName, szSetting, &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			data->proto->debugLogA("Jabber OMEMO: libsignal data backend impl: failed to load signed prekey SG_ERR_INVALID_KEY_ID");
@@ -987,8 +972,8 @@ complete:
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
 
-		CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
-		db_set_blob(0, data->proto->m_szModuleName, setting_name, record, (unsigned int)record_len); //TODO: check return value
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+		db_set_blob(0, data->proto->m_szModuleName, szSetting, record, (unsigned int)record_len); //TODO: check return value
 		return 0;
 	}
 
@@ -1004,10 +989,10 @@ complete:
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
 
-		CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
 		DBVARIANT dbv = { 0 };
 		dbv.type = DBVT_BLOB;
-		db_get(0, data->proto->m_szModuleName, setting_name, &dbv);
+		db_get(0, data->proto->m_szModuleName, szSetting, &dbv);
 		if (!dbv.cpbVal) {
 			db_free(&dbv);
 			return 0;
@@ -1027,8 +1012,8 @@ complete:
 		*/
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
-		CMStringA setting_name(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
-		db_unset(0, data->proto->m_szModuleName, setting_name);
+		CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", data->proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
+		db_unset(0, data->proto->m_szModuleName, szSetting);
 		return 0;
 	}
 
@@ -1105,14 +1090,13 @@ complete:
 		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
 		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
-		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
+
+		CMStringA szSetting(FORMAT, "%s%s", "OmemoSignalIdentity_", id_str);
 		mir_free(id_str);
 		if (key_data != nullptr)
-			db_set_blob(data->hContact, data->proto->m_szModuleName, setting_name, key_data, (unsigned int)key_len); //TODO: check return value
+			db_set_blob(data->hContact, data->proto->m_szModuleName, szSetting, key_data, (unsigned int)key_len); //TODO: check return value
 		else
-			db_unset(data->hContact, data->proto->m_szModuleName, setting_name);
-		mir_free(setting_name);
+			db_unset(data->hContact, data->proto->m_szModuleName, szSetting);
 
 		return 0;
 	}
@@ -1295,28 +1279,22 @@ complete:
 			char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf2) * 2) + 1);
 			bin2hex(signal_buffer_data(key_buf2), signal_buffer_len(key_buf2), fingerprint);
 
-			const size_t setting_name_len = strlen("OmemoFingerprintTrusted_") + strlen(fingerprint) + 1;
-			char *fp_setting_name = (char*)mir_alloc(setting_name_len);
-			mir_snprintf(fp_setting_name, setting_name_len, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
-			char val = proto->getByte(hContact, fp_setting_name, -1);
+			CMStringA szSetting(FORMAT, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
+			char val = proto->getByte(hContact, szSetting, -1);
 			if (val == 1)
 				fp_trusted = true;
 			if (val == -1) {
-				const size_t msg_len = strlen(Translate("Do you want to create OMEMO session with new device:")) + strlen("\n\n\t") + strlen(fingerprint) + 1;
-				char *msg = (char*)mir_alloc(msg_len);
-				mir_snprintf(msg, msg_len, "%s%s%s", Translate("Do you want to create OMEMO session with new device:"), "\n\n\t", fingerprint);
-
-				int ret = MessageBoxA(nullptr, msg, Translate("OMEMO: New session"), MB_YESNO);
+				CMStringA szMsg(FORMAT, "%s%s%s", Translate("Do you want to create OMEMO session with new device:"), "\n\n\t", fingerprint);
+				int ret = MessageBoxA(nullptr, szMsg, Translate("OMEMO: New session"), MB_YESNO);
 				if (ret == IDYES) {
-					proto->setByte(hContact, fp_setting_name, 1);
+					proto->setByte(hContact, szSetting, 1);
 					fp_trusted = true;
 				}
 				else if (ret == IDNO)
-					proto->setByte(hContact, fp_setting_name, 0);
-				mir_free(msg);
+					proto->setByte(hContact, szSetting, 0);
 			}
-			mir_free(fp_setting_name);
 		}
+
 		if (!fp_trusted) {
 			proto->debugLogA("Jabber OMEMO: untrusted key, session build failure");
 			return false; //TODO: cleanup here
@@ -1361,33 +1339,33 @@ complete:
 	void OmemoRefreshUsedPreKey(CJabberProto *proto, pre_key_signal_message *psm)
 	{
 		uint32_t id = pre_key_signal_message_get_pre_key_id(psm);
-		//generate and save pre keys set
 
-		ec_public_key *public_key = nullptr;
-		signal_buffer *key_buf = nullptr;
-		char *key = nullptr;
-		signal_protocol_key_helper_pre_key_list_node *keys_root, *it;
+		// generate and save pre keys set
+		signal_protocol_key_helper_pre_key_list_node *keys_root;
 		signal_protocol_key_helper_generate_pre_keys(&keys_root, id, 1, global_context);
-		it = keys_root;
-		char setting_name[64], setting_name2[64];
-		for (; it; it = signal_protocol_key_helper_key_list_next(it)) {
+		
+		CMStringA szSetting;
+		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
 			{
 				signal_buffer *serialized_pre_key;
 				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				mir_snprintf(setting_name2, strlen("OmemoSignalPreKey_") + 31, "%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-				db_set_blob(0, proto->m_szModuleName, setting_name2, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
+				szSetting.Format("%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+				db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
 				SIGNAL_UNREF(serialized_pre_key);
 			}
 
+			signal_buffer *key_buf;
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			public_key = ec_key_pair_get_public(pre_key_pair);
+			ec_public_key *public_key = ec_key_pair_get_public(pre_key_pair);
 			ec_public_key_serialize(&key_buf, public_key);
 			SIGNAL_UNREF(public_key);
-			key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
-			mir_snprintf(setting_name, "OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(setting_name, key);
+			
+			char *key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
+			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
+			proto->setString(szSetting, key);
+
 			mir_free(key);
 			signal_buffer_free(key_buf);
 		}
@@ -1694,6 +1672,8 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <list> node");
 		return;
 	}
+
+	CMStringA szSetting;
 	bool own_jid = false;
 	if (strstr(m_ThreadInfo->fullJID, from))
 		own_jid = true;
@@ -1702,45 +1682,43 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 		//check if our device exist
 		bool own_device_listed = false;
 		uint32_t own_id = m_omemo.GetOwnDeviceId();
-		char setting_name[64];
 		int i = 0;
 		for (auto *list_item : TiXmlFilter(node, "device")) {
 			uint32_t current_id = list_item->IntAttribute("id");
 			if (current_id == own_id)
 				own_device_listed = true;
-			mir_snprintf(setting_name, "OmemoDeviceId%d", i++);
-			setDword(setting_name, current_id);
+			szSetting.Format("OmemoDeviceId%d", i++);
+			setDword(szSetting, current_id);
 		}
 
 		uint32_t val = 0;
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		val = getDword(setting_name, 0);
+		szSetting.Format("OmemoDeviceId%d", i);
+		val = getDword(szSetting, 0);
 		while (val) {
-			delSetting(setting_name);
+			delSetting(szSetting);
 			i++;
-			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-			val = getDword(setting_name, 0);
+			szSetting.Format("OmemoDeviceId%d", i);
+			val = getDword(szSetting, 0);
 		}
 		if (!own_device_listed)
 			OmemoAnnounceDevice();
 	}
 	else {
 		// store device id's
-		char setting_name[64];
 		int i = 0;
 		for (auto *list_item : TiXmlFilter(node, "device")) {
 			uint32_t current_id = list_item->IntAttribute("id");
-			mir_snprintf(setting_name, "OmemoDeviceId%d", i++);
-			setDword(hContact, setting_name, current_id);
+			szSetting.Format("OmemoDeviceId%d", i++);
+			setDword(hContact, szSetting, current_id);
 		}
 
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		uint32_t val = getDword(hContact, setting_name, 0);
+		szSetting.Format("OmemoDeviceId%d", i);
+		uint32_t val = getDword(hContact, szSetting, 0);
 		while (val) {
-			delSetting(hContact, setting_name);
+			delSetting(hContact, szSetting);
 			i++;
-			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-			val = getDword(hContact, setting_name, 0);
+			szSetting.Format("OmemoDeviceId%d", i);
+			val = getDword(hContact, szSetting, 0);
 		}
 	}
 }
@@ -1750,10 +1728,10 @@ void CJabberProto::OmemoAnnounceDevice()
 	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
 	unsigned int own_id = m_omemo.GetOwnDeviceId();
 
-	char setting_name[64];
+	CMStringA szSetting;
 	for (int i = 0;; ++i) {
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		uint32_t val = getDword(setting_name);
+		szSetting.Format("OmemoDeviceId%d", i);
+		uint32_t val = getDword(szSetting);
 		if (val == 0)
 			break;
 		if (val == own_id)
@@ -1771,8 +1749,8 @@ void CJabberProto::OmemoAnnounceDevice()
 		<< XCHILDNS("list", JABBER_FEAT_OMEMO);
 
 	for (int i = 0; ; ++i) {
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		uint32_t val = getDword(setting_name);
+		szSetting.Format("OmemoDeviceId%d", i);
+		uint32_t val = getDword(szSetting);
 		if (val == 0)
 			break;
 
@@ -1850,10 +1828,11 @@ void CJabberProto::OmemoSendBundle()
 	}
 	ud->settings.clear();
 	delete ud;
-	char setting_name[64];
+	
+	CMStringA szSetting;
 	for (int i = 0;; i++) {
-		mir_snprintf(setting_name, "OmemoPreKey%dPublic", i);
-		ptrA val(getUStringA(setting_name));
+		szSetting.Format("OmemoPreKey%dPublic", i);
+		ptrA val(getUStringA(szSetting));
 		if (val == nullptr)
 			break;
 
@@ -1877,16 +1856,14 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 		return true;
 	
 	bool pending_check = false;
-	char setting_name[64], setting_name2[64];
-	unsigned int id = 0;
-	bool checked = false;
+	CMStringA szSetting;
 	int i = 0;
 
-	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-	mir_snprintf(setting_name2, "%sChecked", setting_name);
-	db_set_resident(m_szModuleName, setting_name2);
-	id = getDword(hContact, setting_name, 0);
-	checked = getBool(hContact, setting_name2);
+	szSetting.Format("OmemoDeviceId%d", i);
+	db_set_resident(m_szModuleName, szSetting + "Checked");
+	
+	unsigned id = getDword(hContact, szSetting, 0);
+	bool checked = getBool(hContact, szSetting + "Checked");
 	while (id) {
 		if (!checked) {
 			pending_check = true;
@@ -1901,18 +1878,17 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			iq << XATTR("to", jid);
 			
 			TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
-			char bundle[64];
-			mir_snprintf(bundle, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", id);
-			XmlAddAttr(items, "node", bundle);
+			CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", id);
+			XmlAddAttr(items, "node", szBundle);
 			m_ThreadInfo->send(iq);
 			mir_free(jid);
 			break;
 		}
+
 		i++;
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		mir_snprintf(setting_name2, "%sChecked", setting_name);
-		id = getDword(hContact, setting_name, 0);
-		checked = getBool(hContact, setting_name2);
+		szSetting.Format("OmemoDeviceId%d", i);
+		id = getDword(hContact, szSetting, 0);
+		checked = getBool(hContact, szSetting + "Checked");
 	}
 
 	if (!pending_check) {
@@ -1937,25 +1913,24 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 	if (mir_strcmp(type, "result")) {
 		// failed to get bundle, do not try to build session
 		unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
-		char setting_name[64], setting_name2[64];
-		uint32_t id = 0;
 		int i = 0;
 
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		mir_snprintf(setting_name2, "%sChecked", setting_name);
-		db_set_resident(m_szModuleName, setting_name2);
-		id = getDword(hContact, setting_name, 0);
+		CMStringA szSetting(FORMAT, "OmemoDeviceId%d", i);
+		db_set_resident(m_szModuleName, szSetting + "Checked");
+
+		uint32_t id = getDword(hContact, szSetting, 0);
 		while (id) {
 			if (id == *dev_id) {
-				setByte(hContact, setting_name2, 1);
+				setByte(hContact, szSetting + "Checked", 1);
 				break;
 			}
+			
 			i++;
-			mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-			mir_snprintf(setting_name2, "%sChecked", setting_name);
-			db_set_resident(m_szModuleName, setting_name2);
-			id = getDword(hContact, setting_name, 0);
+			szSetting.Format("OmemoDeviceId%d", i);
+			db_set_resident(m_szModuleName, szSetting + "Checked");
+			id = getDword(hContact, szSetting, 0);
 		}
+
 		debugLogA("Jabber OMEMO: error: failed to get bundle for device, this may be due to absent data on server or due to our bug (incorrect device id in request)");
 		return;
 	}
@@ -2032,25 +2007,22 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 	}
 
 	unsigned int *dev_id = (unsigned int*)pInfo->GetUserData();
-	char setting_name[64], setting_name2[64];
-	uint32_t id = 0;
 	int i = 0;
 
-	mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-	mir_snprintf(setting_name2, "%sChecked", setting_name);
-	db_set_resident(m_szModuleName, setting_name2);
-	id = getDword(hContact, setting_name, 0);
+	CMStringA szSetting(FORMAT, "OmemoDeviceId%d", i);
+	db_set_resident(m_szModuleName, szSetting + "Checked");
+	uint32_t id = getDword(hContact, szSetting, 0);
 	while (id) {
 		if (id == *dev_id) {
-			setByte(hContact, setting_name2, 1);
+			setByte(hContact, szSetting + "Checked", 1);
 			delete dev_id;
 			break;
 		}
+		
 		i++;
-		mir_snprintf(setting_name, "OmemoDeviceId%d", i);
-		mir_snprintf(setting_name2, "%sChecked", setting_name);
-		db_set_resident(m_szModuleName, setting_name2);
-		id = getDword(hContact, setting_name, 0);
+		szSetting.Format("OmemoDeviceId%d", i);
+		db_set_resident(m_szModuleName, szSetting + "Checked");
+		id = getDword(hContact, szSetting, 0);
 	}
 
 	OmemoCheckSession(hContact);
