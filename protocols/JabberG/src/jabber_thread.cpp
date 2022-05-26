@@ -1571,9 +1571,9 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 		}
 		
 		if (hContact && m_bUseOMEMO) {
-			XmlNodeIq iq("get", SerialNext());
-			iq << XATTR("from", m_ThreadInfo->fullJID);
-			iq << XATTR("to", from);
+			XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetOmemodevicelist, JABBER_IQ_TYPE_GET));
+			iq << XATTR("from", szBareOurJid);
+			iq << XATTR("to", szBareFrom);
 			iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
 				<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
 			m_ThreadInfo->send(

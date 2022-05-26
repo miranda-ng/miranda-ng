@@ -1069,14 +1069,13 @@ void CJabberProto::OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 		SendPresence(m_iStatus, false);
 	}
 }
+
 void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo*)
 {
-	auto* itemsNode = XmlGetChildByTag(iqNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist");
-	auto from = XmlGetAttr(iqNode, "from");
-	if (itemsNode) {
-		OmemoHandleDeviceList(from, itemsNode);
-		return;
-	}
+	if (const char *from = XmlGetAttr(iqNode, "from"))
+		if (auto *pubsubNode = XmlGetChildByTag(iqNode, "pubsub", "xmlns", JABBER_FEAT_PUBSUB))
+			if (auto *itemsNode = XmlGetChildByTag(pubsubNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist"))
+				OmemoHandleDeviceList(from, itemsNode);
 }
 
 void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
