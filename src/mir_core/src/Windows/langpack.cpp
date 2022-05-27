@@ -489,7 +489,7 @@ char* LangPackTranslateString(const MUUID *pUuid, const char *szEnglish, const i
 	// try to find the exact match, otherwise the first entry will be returned
 	if (pUuid) {
 		for (LangPackEntry *p = entry->pNext; p != nullptr; p = p->pNext) {
-			if (*p->pMuuid == *pUuid) {
+			if (p->pMuuid && *p->pMuuid == *pUuid) {
 				entry = p;
 				break;
 			}
