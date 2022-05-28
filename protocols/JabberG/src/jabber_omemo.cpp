@@ -1034,17 +1034,15 @@ complete:
 		*/
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
-		char *pub_key = data->proto->getStringA("OmemoDevicePublicKey");
-		char *priv_key = data->proto->getStringA("OmemoDevicePrivateKey");
+		ptrA pub_key(data->proto->getStringA("OmemoDevicePublicKey"));
+		ptrA priv_key(data->proto->getStringA("OmemoDevicePrivateKey"));
+
 		size_t pub_key_len = 0, priv_key_len = 0;
-		char *pub_key_buf = (char*)mir_base64_decode(pub_key, &pub_key_len);
-		mir_free(pub_key);
-		char *priv_key_buf = (char*)mir_base64_decode(priv_key, &priv_key_len);
-		mir_free(priv_key);
-		*public_data = signal_buffer_create((uint8_t*)pub_key_buf, pub_key_len);
-		*private_data = signal_buffer_create((uint8_t*)priv_key_buf, priv_key_len);
-		mir_free(priv_key_buf);
-		mir_free(pub_key_buf);
+		ptrA pub_key_buf((char *)mir_base64_decode(pub_key, &pub_key_len));
+		ptrA priv_key_buf((char *)mir_base64_decode(priv_key, &priv_key_len));
+
+		*public_data = signal_buffer_create((uint8_t*)pub_key_buf.get(), pub_key_len);
+		*private_data = signal_buffer_create((uint8_t*)priv_key_buf.get(), priv_key_len);
 		return 0;
 	}
 
@@ -1083,21 +1081,17 @@ complete:
 		*/
 
 		signal_store_backend_user_data *data = (signal_store_backend_user_data*)user_data;
-		char *id_buf = (char*)mir_alloc(address->name_len + sizeof(int32_t));
-		memcpy(id_buf, address->name, address->name_len);
-		char *id_buf_ptr = id_buf;
-		id_buf_ptr += address->name_len;
-		memcpy(id_buf_ptr, &address->device_id, sizeof(int32_t));
-		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
-		mir_free(id_buf);
+		ptrA id_buf((char *)mir_alloc(address->name_len + sizeof(int32_t)));
+		memcpy(id_buf.get(), address->name, address->name_len);
+		memcpy(id_buf.get() + address->name_len, &address->device_id, sizeof(int32_t));
 
-		CMStringA szSetting(FORMAT, "%s%s", "OmemoSignalIdentity_", id_str);
-		mir_free(id_str);
+		CMStringA szSetting("OmemoSignalIdentity_");
+		szSetting.Append(ptrA(mir_base64_encode(id_buf, address->name_len + sizeof(int32_t))));
+
 		if (key_data != nullptr)
 			db_set_blob(data->hContact, data->proto->m_szModuleName, szSetting, key_data, (unsigned int)key_len); //TODO: check return value
 		else
 			db_unset(data->hContact, data->proto->m_szModuleName, szSetting);
-
 		return 0;
 	}
 
