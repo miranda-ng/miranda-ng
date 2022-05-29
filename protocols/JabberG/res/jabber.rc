@@ -47,9 +47,9 @@ BEGIN
     LTEXT           "Type:",IDC_STATIC,0,0,53,12,SS_CENTERIMAGE
     COMBOBOX        IDC_CB_TYPE,61,0,124,100,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "User:",IDC_STATIC,0,16,53,12,SS_CENTERIMAGE
-    EDITTEXT        IDC_EDIT_USERNAME,61,16,124,12,ES_AUTOHSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_USERNAME,61,16,124,12,ES_AUTOHSCROLL
     LTEXT           "Domain/Server:",IDC_STATIC,0,31,60,12,SS_CENTERIMAGE
-    EDITTEXT        IDC_EDIT_LOGIN_SERVER,61,31,124,12, ES_AUTOHSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_LOGIN_SERVER,61,31,124,12,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,0,46,53,12,SS_CENTERIMAGE
     EDITTEXT        IDC_EDIT_PASSWORD,61,46,124,12,ES_PASSWORD | ES_AUTOHSCROLL
     CONTROL         "Save password",IDC_SAVEPASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,61,61,124,10
@@ -112,7 +112,7 @@ BEGIN
     CONTROL         "Use hostname as resource",IDC_HOSTNAME_AS_RESOURCE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,73,138,9
     LTEXT           "Domain/Server:",IDC_STATIC,12,87,52,8
-    EDITTEXT        IDC_EDIT_LOGIN_SERVER,66,85,86,12,ES_AUTOHSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_LOGIN_SERVER,66,85,86,12,ES_AUTOHSCROLL
     LTEXT           "Port:",IDC_STATIC,12,101,45,8
     EDITTEXT        IDC_PORT,66,99,26,12,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Use SSL",IDC_USE_SSL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,100,100,82,10
@@ -321,6 +321,14 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,96,88,50,14
 END
 
+IDD_INFO_OMEMO DIALOGEX 0, 0, 222, 132
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,0,0,221,131
+END
+
 IDD_VCARD_PHOTO DIALOGEX 0, 0, 222, 132
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
@@ -389,7 +397,7 @@ EXSTYLE WS_EX_TOOLWINDOW | WS_EX_CONTROLPARENT
 CAPTION "JID List"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_NOLABELWRAP | LVS_AUTOARRANGE | LVS_SORTASCENDING | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,5,5,198,136
+    CONTROL         "",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SORTASCENDING | LVS_NOLABELWRAP | LVS_AUTOARRANGE | LVS_NOCOLUMNHEADER | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,5,5,198,136
     EDITTEXT        IDC_FILTER,5,147,161,12,ES_AUTOHSCROLL
     CONTROL         "Apply Filter",IDC_BTN_FILTERAPPLY,"MButtonClass",WS_TABSTOP,171,146,16,14
     CONTROL         "Reset Filter",IDC_BTN_FILTERRESET,"MButtonClass",WS_TABSTOP,187,146,16,14
@@ -736,6 +744,10 @@ BEGIN
         HORZGUIDE, 56
     END
 
+    IDD_INFO_OMEMO, DIALOG
+    BEGIN
+    END
+
     IDD_BOOKMARKS, DIALOG
     BEGIN
         RIGHTMARGIN, 295
@@ -777,54 +789,103 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_JABBER              ICON                    "jabber.ico"
+
 IDI_ARROW_DOWN          ICON                    "arrow_down.ico"
+
 IDI_ARROW_UP            ICON                    "arrow_up.ico"
+
 IDI_DISCO_PROGRESS      ICON                    "disco_in_progress.ico"
+
 IDI_NODE_RSS            ICON                    "rss.ico"
+
 IDI_NODE_SERVER         ICON                    "server.ico"
+
 IDI_NODE_STORE          ICON                    "store.ico"
+
 IDI_NODE_WEATHER        ICON                    "weather.ico"
+
 IDI_DISCO_OK            ICON                    "disco_ok.ico"
+
 IDI_DISCO_FAIL          ICON                    "disco_fail.ico"
+
 IDI_GROUP               ICON                    "group.ico"
+
 IDI_ADDCONTACT          ICON                    "addcontact.ico"
+
 IDI_AGENTS              ICON                    "roster.ico"
+
 IDI_VCARD               ICON                    "pages.ico"
+
 IDI_DELETE              ICON                    "delete.ico"
+
 IDI_EDIT                ICON                    "rename.ico"
+
 IDI_OPEN                ICON                    "open.ico"
+
 IDI_USER2ROOM           ICON                    "user2room.ico"
+
 IDI_SAVE                ICON                    "save.ico"
+
 IDI_LOGIN               ICON                    "login.ico"
+
 IDI_REFRESH             ICON                    "refresh.ico"
+
 IDI_COMMAND             ICON                    "command.ico"
+
 IDI_BOOKMARKS           ICON                    "bookmarks.ico"
+
 IDI_PRIVACY_LISTS       ICON                    "privacy_lists.ico"
+
 IDI_SERVICE_DISCOVERY   ICON                    "service_discovery.ico"
+
 IDI_VIEW_LIST           ICON                    "view_as_list.ico"
+
 IDI_VIEW_TREE           ICON                    "view_as_tree.ico"
+
 IDI_FILTER_APPLY        ICON                    "filter.ico"
+
 IDI_BROWSE              ICON                    "go.ico"
+
 IDI_NAV_HOME            ICON                    "home.ico"
+
 IDI_NAV_REFRESH         ICON                    "refresh_node.ico"
+
 IDI_FILTER_RESET        ICON                    "reset_filter.ico"
+
 IDI_CONSOLE             ICON                    "console.ico"
+
 IDI_PL_MSG_ALLOW        ICON                    "message_allow.ico"
+
 IDI_PL_MSG_DENY         ICON                    "message_deny.ico"
+
 IDI_PL_PRIN_ALLOW       ICON                    "presence_in_allow.ico"
+
 IDI_PL_PRIN_DENY        ICON                    "presence_in_deny.ico"
+
 IDI_PL_PROUT_ALLOW      ICON                    "presence_out_allow.ico"
+
 IDI_PL_PROUT_DENY       ICON                    "presence_out_deny.ico"
+
 IDI_PL_QUERY_ALLOW      ICON                    "query_allow.ico"
+
 IDI_PL_QUERY_DENY       ICON                    "query_deny.ico"
+
 IDI_PL_LIST_ACTIVE      ICON                    "plist_active.ico"
+
 IDI_PL_LIST_ANY         ICON                    "plist_any.ico"
+
 IDI_PL_LIST_DEFAULT     ICON                    "plist_default.ico"
+
 IDI_TRANSPORT           ICON                    "transport.ico"
+
 IDI_TRANSPORTL          ICON                    "transport_local.ico"
+
 IDI_HTTP_AUTH           ICON                    "openid.ico"
+
 IDI_NOTES               ICON                    "notes.ico"
+
 IDI_SEND_NOTE           ICON                    "send_note.ico"
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

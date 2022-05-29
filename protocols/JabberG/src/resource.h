@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\protocols\JabberG\res\jabber.rc
+// Used by C:\Users\georg\DiskW\miranda-ng\protocols\JabberG\res\jabber.rc
 //
 #define IDD_OPT_JABBER                  101
 #define IDI_JABBER                      102
@@ -24,6 +24,7 @@
 #define IDI_ADDCONTACT                  122
 #define IDI_DELETE                      123
 #define IDI_EDIT                        124
+#define IDD_INFO_OMEMO                  125
 #define IDD_VCARD_HOME                  126
 #define IDD_VCARD_PERSONAL              127
 #define IDD_VCARD_WORK                  128
@@ -292,6 +293,7 @@
 #define IDC_USEDOMAINLOGIN              1323
 #define IDC_TXT_ALTNICK                 1323
 #define IDC_SAVE_PERM                   1324
+#define IDC_LIST1                       1326
 #define IDC_BM_LIST                     3002
 #define IDC_ADD                         3004
 #define IDC_REMOVE                      3005
@@ -315,7 +317,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        235
 #define _APS_NEXT_COMMAND_VALUE         40017
-#define _APS_NEXT_CONTROL_VALUE         1325
+#define _APS_NEXT_CONTROL_VALUE         1327
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

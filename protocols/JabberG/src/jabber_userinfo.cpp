@@ -559,7 +559,7 @@ struct USER_PHOTO_INFO
 
 static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	USER_PHOTO_INFO *photoInfo = (USER_PHOTO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	auto *photoInfo = (USER_PHOTO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -751,6 +751,99 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// JabberUserPhotoDlgProc - Jabber photo dialog
+
+struct USER_OMEMO_INFO
+{
+	MCONTACT hContact;
+	CJabberProto *ppro;
+};
+
+static int EnumOmemoSessions(const char *szSetting, void *param)
+{
+	auto *pList = (LIST<char>*)param;
+
+	if (!memcmp(szSetting, omemo::IdentityPrefix, sizeof(omemo::IdentityPrefix) - 1)) 
+		pList->insert(mir_strdup(szSetting + sizeof(omemo::IdentityPrefix)));
+
+	return 0;
+}
+
+static INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+{
+	auto *pInfo = (USER_OMEMO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
+
+	switch (msg) {
+	case WM_INITDIALOG:
+		// lParam is hContact
+		TranslateDialogDefault(hwndDlg);
+		pInfo = (USER_OMEMO_INFO *)mir_alloc(sizeof(USER_OMEMO_INFO));
+		pInfo->hContact = lParam;
+		pInfo->ppro = nullptr;
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)pInfo);
+		{
+			LV_COLUMN lvc = {};
+			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
+
+			lvc.cx = 80;
+			lvc.pszText = TranslateT("Device ID");
+			ListView_InsertColumn(hwndList, 1, &lvc);
+
+			lvc.cx = 240;
+			lvc.pszText = TranslateT("Fingerprint");
+			ListView_InsertColumn(hwndList, 2, &lvc);
+		}
+		break;
+
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_INFOCHANGED:
+				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
+				break;
+
+			case PSN_PARAMCHANGED:
+				pInfo->ppro = (CJabberProto *)((PSHNOTIFY *)lParam)->lParam;
+				break;
+			}
+			break;
+		}
+		break;
+
+	case WM_PROTO_REFRESH:
+		ListView_DeleteAllItems(hwndList);
+
+		LIST<char> arSettings(1);
+		db_enum_settings(pInfo->hContact, EnumOmemoSessions, pInfo->ppro->m_szModuleName, &arSettings);
+		for (auto &it : arSettings) {
+			size_t len;
+			ptrA binVal((char*)mir_base64_decode(it, &len));
+
+			if (len <= sizeof(uint32_t))
+				continue;
+
+			uint32_t deviceId = *(uint32_t *)(binVal.get() + len - sizeof(uint32_t));
+			CMStringA szText(FORMAT, "%X", deviceId);
+
+			LVITEMA lvi = {};
+			lvi.mask = LVIF_TEXT;
+			lvi.pszText = szText.GetBuffer();
+			int idx = SendMessage(hwndList, LVM_INSERTITEMA, 0, LPARAM(&lvi));
+
+			szText.Truncate(int(len) * 2);
+			bin2hex(binVal, len - sizeof(uint32_t), szText.GetBuffer());
+			lvi.iSubItem = 1;
+			lvi.pszText = szText.GetBuffer();
+			SendMessage(hwndList, LVM_SETITEMTEXTA, idx, LPARAM(&lvi));
+		}
+		break;
+	}
+	return FALSE;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // OnInfoInit - initializes user info option dialogs
 
 int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
@@ -780,8 +873,16 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
 		odp.szTitle.a = LPGEN("Photo");
 		g_plugin.addUserInfo(wParam, &odp);
+
+		if (m_bUseOMEMO) {
+			odp.pfnDlgProc = JabberUserOmemoDlgProc;
+			odp.position = 2000000001;
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_OMEMO);
+			odp.szTitle.a = "OMEMO";
+			g_plugin.addUserInfo(wParam, &odp);
+		}
 	}
-	//TODO: add omemo dialog to userinfo
+
 	return 0;
 }
 

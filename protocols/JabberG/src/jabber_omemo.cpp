@@ -1085,7 +1085,7 @@ complete:
 		memcpy(id_buf.get(), address->name, address->name_len);
 		memcpy(id_buf.get() + address->name_len, &address->device_id, sizeof(int32_t));
 
-		CMStringA szSetting("OmemoSignalIdentity_");
+		CMStringA szSetting(omemo::IdentityPrefix);
 		szSetting.Append(ptrA(mir_base64_encode(id_buf, address->name_len + sizeof(int32_t))));
 
 		if (key_data != nullptr)
@@ -1126,7 +1126,7 @@ complete:
 		char *id_str = mir_base64_encode(id_buf, address->name_len + sizeof(int32_t));
 		mir_free(id_buf);
 		char *setting_name = (char*)mir_alloc(strlen(id_str) + 65);
-		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", "OmemoSignalIdentity_", id_str);
+		mir_snprintf(setting_name, strlen(id_str) + 64, "%s%s", omemo::IdentityPrefix, id_str);
 		mir_free(id_str);
 
 
