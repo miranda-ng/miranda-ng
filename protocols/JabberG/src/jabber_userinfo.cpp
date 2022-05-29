@@ -759,6 +759,17 @@ struct USER_OMEMO_INFO
 	CJabberProto *ppro;
 };
 
+static int EnumOwnSessions(const char *szSetting, void *param)
+{
+	auto *pList = (LIST<char>*)param;
+
+	if (!memcmp(szSetting, omemo::DevicePrefix, sizeof(omemo::DevicePrefix)-1))
+		if (szSetting[sizeof(omemo::DevicePrefix)] != 0)
+			pList->insert(mir_strdup(szSetting));
+
+	return 0;
+}
+
 static int EnumOmemoSessions(const char *szSetting, void *param)
 {
 	auto *pList = (LIST<char>*)param;
@@ -769,7 +780,19 @@ static int EnumOmemoSessions(const char *szSetting, void *param)
 	return 0;
 }
 
-static INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const CMStringA &pszStr2)
+{
+	LVITEMA lvi = {};
+	lvi.mask = LVIF_TEXT;
+	lvi.pszText = (char*)pszStr1.c_str();
+	int idx = SendMessage(hwndList, LVM_INSERTITEMA, 0, LPARAM(&lvi));
+
+	lvi.iSubItem = 1;
+	lvi.pszText = (char *)pszStr2.c_str();
+	SendMessage(hwndList, LVM_SETITEMTEXTA, idx, LPARAM(&lvi));
+}
+
+INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 {
 	auto *pInfo = (USER_OMEMO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
@@ -794,6 +817,9 @@ static INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, L
 			lvc.pszText = TranslateT("Fingerprint");
 			ListView_InsertColumn(hwndList, 2, &lvc);
 		}
+
+		if (lParam == 0)
+			PostMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
 		break;
 
 	case WM_NOTIFY:
@@ -815,28 +841,37 @@ static INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, L
 	case WM_PROTO_REFRESH:
 		ListView_DeleteAllItems(hwndList);
 
-		LIST<char> arSettings(1);
-		db_enum_settings(pInfo->hContact, EnumOmemoSessions, pInfo->ppro->m_szModuleName, &arSettings);
-		for (auto &it : arSettings) {
-			size_t len;
-			ptrA binVal((char*)mir_base64_decode(it, &len));
+		if (pInfo->hContact == 0) {
+			uint32_t ownDeviceId = pInfo->ppro->getDword("OmemoDeviceId");
+			CMStringA str1(FORMAT, "* %X", ownDeviceId);
+			CMStringA str2(pInfo->ppro->getMStringA("OmemoFingerprintOwn"));
+			AddListItem(hwndList, str1, str2);
 
-			if (len <= sizeof(uint32_t))
-				continue;
+			LIST<char> arSettings(1);
+			db_enum_settings(pInfo->hContact, EnumOwnSessions, pInfo->ppro->m_szModuleName, &arSettings);
 
-			uint32_t deviceId = *(uint32_t *)(binVal.get() + len - sizeof(uint32_t));
-			CMStringA szText(FORMAT, "%X", deviceId);
+			str2 = "";
+			for (auto &it : arSettings) {
+				str1.Format("%X", pInfo->ppro->getDword(it));
+				AddListItem(hwndList, str1, str2);
+			}
+		}
+		else {
+			LIST<char> arSettings(1);
+			db_enum_settings(pInfo->hContact, EnumOmemoSessions, pInfo->ppro->m_szModuleName, &arSettings);
+			for (auto &it : arSettings) {
+				size_t len;
+				ptrA binVal((char *)mir_base64_decode(it, &len));
 
-			LVITEMA lvi = {};
-			lvi.mask = LVIF_TEXT;
-			lvi.pszText = szText.GetBuffer();
-			int idx = SendMessage(hwndList, LVM_INSERTITEMA, 0, LPARAM(&lvi));
+				if (len <= sizeof(uint32_t))
+					continue;
 
-			szText.Truncate(int(len) * 2);
-			bin2hex(binVal, len - sizeof(uint32_t), szText.GetBuffer());
-			lvi.iSubItem = 1;
-			lvi.pszText = szText.GetBuffer();
-			SendMessage(hwndList, LVM_SETITEMTEXTA, idx, LPARAM(&lvi));
+				uint32_t deviceId = *(uint32_t *)(binVal.get() + len - sizeof(uint32_t));
+				CMStringA str1(FORMAT, "%X", deviceId), str2;
+				str2.Truncate(int(len) * 2);
+				bin2hex(binVal, len - sizeof(uint32_t), str2.GetBuffer());
+				AddListItem(hwndList, str1, str2);
+			}
 		}
 		break;
 	}

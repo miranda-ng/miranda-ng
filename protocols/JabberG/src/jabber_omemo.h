@@ -33,6 +33,7 @@ struct signal_crypto_provider;
 namespace omemo
 {
 	const char IdentityPrefix[] = "OmemoSignalIdentity_";
+	const char DevicePrefix[] = "OmemoDeviceId";
 
 	struct omemo_device;
 

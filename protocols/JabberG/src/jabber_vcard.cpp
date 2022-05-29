@@ -1174,6 +1174,8 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam);
+
 void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 {
 	m_vCardUpdates = 0;
@@ -1214,6 +1216,13 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_NOTE);
 	odp.szTab.w = LPGENW("Note");
 	g_plugin.addUserInfo(wParam, &odp);
+
+	if (m_bUseOMEMO) {
+		odp.pfnDlgProc = JabberUserOmemoDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_OMEMO);
+		odp.szTab.w = LPGENW("OMEMO");
+		g_plugin.addUserInfo(wParam, &odp);
+	}
 
 	SendGetVcard(0);
 }

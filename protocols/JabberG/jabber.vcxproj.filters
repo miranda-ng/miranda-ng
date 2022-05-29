@@ -244,4 +244,153 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\jabber.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\arrow_down.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\arrow_up.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\disco_in_progress.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\rss.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\server.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\store.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\weather.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\disco_ok.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\disco_fail.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\group.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\addcontact.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\roster.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\pages.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\delete.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\rename.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\open.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\user2room.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\save.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\login.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\refresh.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\command.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\bookmarks.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\privacy_lists.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\service_discovery.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\view_as_list.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\view_as_tree.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\filter.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\go.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\home.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\refresh_node.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\reset_filter.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\console.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\message_allow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\message_deny.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\presence_in_allow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\presence_in_deny.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\presence_out_allow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\presence_out_deny.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\query_allow.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\query_deny.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\plist_active.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\plist_any.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\plist_default.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\transport.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\transport_local.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\openid.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\notes.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\send_note.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
