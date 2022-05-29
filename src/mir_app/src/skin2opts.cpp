@@ -301,11 +301,10 @@ static void LoadSectionIcons(wchar_t *filename, SectionItem* sectionActive)
 			if (!hIcon)
 				continue;
 
-			replaceStrW(it->temp_file, nullptr);
 			SafeDestroyIcon(it->temp_icon);
-
-			it->temp_file = mir_wstrdup(path);
 			it->temp_icon = hIcon;
+
+			replaceStrW(it->temp_file, path);
 			it->temp_reset = FALSE;
 		}
 	}
