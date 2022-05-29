@@ -164,7 +164,7 @@ MIR_CORE_DLL(void*) mir_base64_decode(const char *input, size_t *outputLen)
 		return nullptr;
 
 	size_t length = strlen(input);
-	size_t nLength = (length / 4) * 3;
+	size_t nLength = ((length + 3) / 4) * 3;
 	const char *stop = input + length;
 
 	char *output = (char *)mir_alloc(nLength+1);
