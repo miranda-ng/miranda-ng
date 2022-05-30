@@ -2024,6 +2024,9 @@ void CJabberProto::OmemoOnIqResultGetBundle(const TiXmlElement *iqNode, CJabberI
 
 int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact)
 {
+	// a message for clients that do not support OMEMO
+	msg << XCHILD("body", "I sent you an OMEMO encrypted message but your client doesn’t seem to support that");
+
 	const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 	unsigned char key[16], iv[12], tag[16] /*, aad[48]*/;
 	Utils_GetRandom(key, _countof_portable(key));
