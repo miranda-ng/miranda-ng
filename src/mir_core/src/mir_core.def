@@ -1535,7 +1535,7 @@ db_copy_module @1736
 ?move@MFilePath@@QAE_NPB_W@Z @1755 NONAME
 ?search@MFilePath@@QAE?AVMFileIterator@1@XZ @1756 NONAME
 ??Eiterator@MFileIterator@MFilePath@@QAE?AV012@XZ @1757 NONAME
-Miranda_IsTerminated @1758 NONAME
-Miranda_SetTerminated @1759 NONAME
-Miranda_WaitOnHandle @1760 NONAME
-Miranda_WaitOnHandleEx @1761 NONAME
+Miranda_IsTerminated @1758
+Miranda_SetTerminated @1759
+Miranda_WaitOnHandle @1760
+Miranda_WaitOnHandleEx @1761

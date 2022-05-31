@@ -150,7 +150,7 @@ function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wPa
 type
   MWaitableStub = procedure; stdcall;
 
-procedure Miranda_WaitOnHandle(pFunc:MWaitableStub; hEvent:THANDLE); stdcall; external AppDll;
+procedure Miranda_WaitOnHandle(pFunc:MWaitableStub; hEvent:THANDLE); stdcall; external CoreDll;
 
 ///////////////////////////////////////////////////////////////////////////////
 // exceptions

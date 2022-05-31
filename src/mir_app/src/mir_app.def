@@ -571,7 +571,6 @@ Netlib_SetUserSettingsByName @659
 ?Backup@MDatabaseCommon@@UAGHPB_W@Z @660 NONAME
 ?addFrame@CMPluginBase@@QAEHPBUCLISTFrame@@@Z @661 NONAME
 Menu_SetVisible @662
-Miranda_WaitOnHandleEx @663
 ??1MDatabaseReadonly@@UAE@XZ @664 NONAME
 ?AddContact@MDatabaseReadonly@@UAGIXZ @665 NONAME
 ?AddEvent@MDatabaseReadonly@@UAGIIPBUDBEVENTINFO@@@Z @666 NONAME
