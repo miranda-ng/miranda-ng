@@ -92,45 +92,6 @@ const
 const
   ME_PROTO_ACK:PAnsiChar = 'Proto/Ack';
 
-{ v0.3.2+: When result is ACKRESULT_FAILED or ACKRESULT_DENIED, lParam can point to }
-{ a human readable string with an explanation. For example: "The message was too }
-{ long to be delivered". If no error message is specified, lParam must be NULL. }
-{ Right now only explanations from ACKTYPE_MESSAGE is shown. }
-{when type==ACKTYPE_FILE && (result==ACKRESULT_DATA || result==ACKRESULT_FILERESUME), }
-{lParam points to this }
-const
-  PFTS_RECEIVING = 0;
-  PFTS_SENDING   = 1;
-  PFTS_UNICODE   = 2;
-  PFTS_UTF       = 4;
-{
-type
-  PFNAMECHAR = ^FNAMECHAR;
-//#if MIRANDA_VER >= 0x0900
-  FNAMECHAR = TCHAR;
-//#else
-//  FNAMECHAR = AnsiChar;
-//#endif
-  TFNAMECHAR = FNAMECHAR;
-}
-type
-  // especially for Miranda 9.0+
-  PPROTOFILETRANSFERSTATUS = ^TPROTOFILETRANSFERSTATUS;
-  TPROTOFILETRANSFERSTATUS = record
-    hContact           : TMCONTACT;
-    flags              : dword;     // one of PFTS_* constants
-    files              : ^TCHAR;
-    totalFiles         : int;
-    currentFileNumber  : int;
-    totalBytes         : uint64;
-    totalProgress      : uint64;
-    workingDir         : TCHAR;
-    currentFile        : TCHAR;
-    currentFileSize    : uint64;
-    currentFileProgress: uint64;
-    currentFileTime    : uint64;   // as seconds since 1970
-  end;
-
 { Enumerate the currently running protocols
   wParam=(WPARAM)(int*)&numberOfProtocols
   lParam=(LPARAM)(PROTOCOLDESCRIPTOR***)&ppProtocolDescriptors
@@ -184,45 +145,6 @@ const
 
 function Proto_IsProtocolLoaded(protoName:PAnsiCHar) : PPROTOCOLDESCRIPTOR; stdcall; external AppDLL;
 
-{ determines whether the specified contact has the given protocol in its chain
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(const AnsiChar*)szName
-  Returns -1 if it is base protocol, positive number if it is filter and 0 if it doesn't }
-const
-  MS_PROTO_ISPROTOONCONTACT:PAnsiChar = 'Proto/IsProtoOnContact';
-
-  PROTOTYPE_SELFTYPING_OFF = 0;
-  PROTOTYPE_SELFTYPING_ON  = 1;
-{ This service is for notifying protocols that the user is typing a message v0.3.3+
-  in a message dialog.
-  This is typically sent by a message dialog when a user in the clist is typing.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(int)typing state
-  NOTE: Only protocols should generally call this service }
-  MS_PROTO_SELFISTYPING:PAnsiChar = 'Proto/SelfIsTyping';
-
-const
-  PROTOTYPE_CONTACTTYPING_OFF      = 0;
-  PROTOTYPE_CONTACTTYPING_INFINITE = $7FFFFFFF;
-{ This service is for notifying message dialogs/other plugins of a user typing. v0.3.3+
-  This is typically sent by a protocol when a user in the clist is typing.
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(int)time (secs)
-  NOTE: The time in seconds is used to tell a message dialog (or other plugin)
-  how long to display its notification.  If time is 0, then notification
-  of typing ends.
-  NOTE: Only protocols should generally call this service }
-  MS_PROTO_CONTACTISTYPING:PAnsiChar = 'Proto/ContactIsTyping';
-
-{ This hook notifies when a user is typing.  If a message dialog supports sending v0.3.3+
-  typing notifications it should hook this event and fire the
-  ProtoService PSS_USERISTYPING to the contacts protocol *after* verifying
-  that the hContact is not NULL and the the user wishes to send notifications
-  to this user (checked visibility, individual typing blocking, etc).
-  wParam=(WPARAM)(HANDLE)hContact
-  lParam=(LPARAM)(int)typing state }
-  ME_PROTO_CONTACTISTYPING:PAnsiChar = 'Proto/ContactIsTypingEvent';
-
 // -------------- accounts support --------------------- 0.8.0+
 
 type
@@ -249,36 +171,13 @@ procedure Proto_EnumAccounts(var nAccs:int; var pAccs:PPPROTOACCOUNT); stdcall; 
 
 procedure Proto_EnumProtocols(var nProtos:int; var pProtos:PPPROTOCOLDESCRIPTOR); stdcall; external AppDLL;
 
-type
-  PACC_CREATE = ^TACC_CREATE;
-  TACC_CREATE = record
-    pszBaseProto   :PAnsiChar;
-    pszInternal    :PAnsiChar;
-    ptszAccountName:PWideChar;
-  end;
-
-const
-// creates new account
-// wParam = 0
-// lParam = (LPARAM)(PACC_CREATE) account definition
-// return value = PROTOACCOUNT* or NULL
-  MS_PROTO_CREATEACCOUNT:PAnsiChar = 'Proto/CreateAccount';
-
 //retrieves an account's interface by its physical name (database module)
-//wParam=0
-//lParam=(LPARAM)(AnsiChar*)szAccountName
 //return value = PROTOACCOUNT* or NULL
 
 function Proto_GetAccount(proto:PAnsiChar) : PPROTOACCOUNT; stdcall; external AppDLL;
 
 // retrieves protocol status
 function Proto_GetStatus(proto:PAnsiChar) : int; stdcall; external AppDLL;
-
-(*
-__inline PROTOACCOUNT* ProtoGetAccount( const AnsiChar* accName )
-{  return (PROTOACCOUNT* )CallService( MS_PROTO_GETACCOUNT, 0, (LPARAM)accName );
-}
-*)
 
 //this event is fired when the accounts list gets changed
 //wParam = event type (1 - added, 2 - changed, 3 - deleted, 5 - enabled/disabled)
@@ -293,13 +192,6 @@ const
 //  PRAC_CONVERT  = 6;
 
   ME_PROTO_ACCLISTCHANGED:PAnsiChar = 'Proto/AccListChanged';
-{
-
-  displays the Account Manager
-  wParam=0
-  lParam=0
-}
-  MS_PROTO_SHOWACCMGR:PAnsiChar = 'Protos/ShowAccountManager';
 
 {
   gets the account associated with a contact
@@ -316,71 +208,5 @@ function Proto_GetBaseAccountName(hContact:TMCONTACT) : PAnsiChar; stdcall; exte
 
 function Proto_GetUniqueId(proto:PAnsiChar) : PAnsiChar; stdcall; external AppDLL;
 procedure Proto_SetUniqueId(proto, id:PAnsiChar); stdcall; external AppDLL;
-
-// -------------- avatar support ---------------------
-{
-  First a protocol must report it supports PF4_AVATARS via PS_GETCAPS, secondly
-  it will return the following acks for certain events, the protocol must use
-  ProtoBroadcastAck(), listeners must hook ME_PROTO_ACK, note that lParam = ACKDATA
-}
-{
-  The following ACKs MUST be sent in order of .result via ProtoBroadcastAck()
-
-  .szModule = protocol module
-  .hContact = contact the avatar is for, or 0 if its for the user
-  .type = ACKTYPE_AVATAR
-  .result = ACKRESULT_CONNECTING, ACKRESULT_CONNECTED, ACKRESULT_SENTREQUEST, ACKRESULT_DATA
-  .hProcess = protocol specific
-  .lParam = 0
-
-  Once the transfer is complete the following ACKs MUST be sent by the protocol
-
-  .result = ACKRESULT_SUCCESS or ACKRESULT_FAILED
-  .hProcess = (HANDLE) &PROTO_AVATAR_INFORMATION
-  .lParam = 0;
-
-  Anytime before or during the ack or series of acks ACKRESULT_STATUS maybe sent, this might
-  be sent a long while before anything else happens (or after anything happening) For avatars
-  it allows callers to identify status information to do with the avatar, including the time
-  before background transport has been created, so that you know an avatar will be exchanged
-  sometime in the future.
-
-  When ACKRESULT_STATUS, hProcess is the result code - the value of this is protocol dependent,
-  See protocol documentation to do with avatars for what codes are defined and what they mean.
-}
-
-const
-  PA_FORMAT_UNKNOWN = 0; // the protocol can not determine much about the "bitmap"
-  PA_FORMAT_PNG     = 1; // the image is PNG
-  PA_FORMAT_JPEG    = 2;
-  PA_FORMAT_ICON    = 3;
-  PA_FORMAT_BMP     = 4;
-  PA_FORMAT_GIF     = 5;
-  PA_FORMAT_SWF     = 6;
-  PA_FORMAT_XML     = 7;
-
-type
-  PPROTO_AVATAR_INFORMATION = ^TPROTO_AVATAR_INFORMATION;
-  TPROTO_AVATAR_INFORMATION = record
-    hContact: TMCONTACT; // this might have to be set by the caller too
-    format  : int;       // PA_FORMAT_*
-    // full path to filename which contains the avatar
-    filename: array[0..(MAX_PATH)-1] of WideChar;
-  end;
-
-const
-  GAIF_FORCE    = 1; // force an update of the avatar if there is none
-
-  GAIR_SUCCESS  = 0; // information about the avatar has been returned
-  GAIR_WAITFOR  = 1; // you must hook ME_PROTO_ACK and wait for replies about avatar status
-  GAIR_NOAVATAR = 2; // sorry, this contact has no avatars
-
-{
- wParam : GAIF_
- lParam : (LPARAM) &PROTO_AVATAR_INFORMATION
- Affect : Make a request to the protocol to return information about a hContact's avatar (or main user)
-      it can return information, tell you there is none, or if forced start requesting an avatar.
-}
-  PS_GETAVATARINFO  = '/GetAvatarInformation';
 
 {$ENDIF}
