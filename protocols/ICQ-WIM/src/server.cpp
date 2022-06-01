@@ -843,6 +843,12 @@ void CIcqProto::OnCheckPassword(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest*)
 void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
+	if (pTransfer->m_bCanceled) {
+LBL_Error:
+		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
+		delete pTransfer;
+		return;
+	}
 
 	switch (pReply->resultCode) {
 	case 200: // final ok
@@ -850,44 +856,42 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 		break;
 
 	default:
-		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
-		delete pTransfer;
-		return;
+		goto LBL_Error;
 	}
 
 	// file transfer succeeded?
 	if (pTransfer->pfts.currentFileProgress == pTransfer->pfts.currentFileSize) {
 		FileReply root(pReply);
-		if (root.error() == 200) {
-			ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, pTransfer);
+		if (root.error() != 200)
+			goto LBL_Error;
 
-			const JSONNode &data = root.data();
-			CMStringW wszUrl(data["static_url"].as_mstring());
+		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_SUCCESS, pTransfer);
 
-			JSONNode bundle, contents; contents.set_name("captionedContent");
-			contents << WCHAR_PARAM("caption", pTransfer->m_wszDescr) << WCHAR_PARAM("url", wszUrl);
-			bundle << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", "") << contents;
-			CMStringW wszParts(FORMAT, L"[%s]", ptrW(json_write(&bundle)).get());
+		const JSONNode &data = root.data();
+		CMStringW wszUrl(data["static_url"].as_mstring());
 
-			if (!pTransfer->m_wszDescr.IsEmpty())
-				wszUrl += L" " + pTransfer->m_wszDescr;
+		JSONNode bundle, contents; contents.set_name("captionedContent");
+		contents << WCHAR_PARAM("caption", pTransfer->m_wszDescr) << WCHAR_PARAM("url", wszUrl);
+		bundle << CHAR_PARAM("mediaType", "text") << CHAR_PARAM("text", "") << contents;
+		CMStringW wszParts(FORMAT, L"[%s]", ptrW(json_write(&bundle)).get());
 
-			int id = InterlockedIncrement(&m_msgId);
-			auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
+		if (!pTransfer->m_wszDescr.IsEmpty())
+			wszUrl += L" " + pTransfer->m_wszDescr;
 
-			auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId);
-			pReq->pUserInfo = pOwn;
-			{
-				mir_cslock lck(m_csOwnIds);
-				m_arOwnIds.insert(pOwn);
-			}
+		int id = InterlockedIncrement(&m_msgId);
+		auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_POST, ICQ_API_SERVER "/im/sendIM", &CIcqProto::OnSendMessage);
 
-			pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
-				<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
-			Push(pReq);
-
+		auto *pOwn = new IcqOwnMessage(pTransfer->pfts.hContact, id, pReq->m_reqId);
+		pReq->pUserInfo = pOwn;
+		{
+			mir_cslock lck(m_csOwnIds);
+			m_arOwnIds.insert(pOwn);
 		}
-		else ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
+
+		pReq << AIMSID(this) << CHAR_PARAM("a", m_szAToken) << CHAR_PARAM("k", appId()) << CHAR_PARAM("mentions", "") << WCHAR_PARAM("message", wszUrl)
+			<< CHAR_PARAM("offlineIM", "true") << WCHAR_PARAM("parts", wszParts) << WCHAR_PARAM("t", GetUserId(pTransfer->pfts.hContact)) << INT_PARAM("ts", TS());
+		Push(pReq);
+
 		delete pTransfer;
 		return;
 	}
@@ -909,15 +913,19 @@ void CIcqProto::OnFileContinue(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld
 void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 {
 	IcqFileTransfer *pTransfer = (IcqFileTransfer*)pOld->pUserInfo;
-
-	FileReply root(pReply);
-	if (root.error() != 200) {
+	if (pTransfer->m_bCanceled) {
+LBL_Error:
 		ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_FAILED, pTransfer);
 		delete pTransfer;
 		return;
 	}
 
+	FileReply root(pReply);
+	if (root.error() != 200)
+		goto LBL_Error;
+
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, pTransfer);
+	pTransfer->pfts.currentFileTime = time(0);
 
 	const JSONNode &data = root.data();
 	CMStringW wszHost(data["host"].as_mstring());
@@ -933,7 +941,6 @@ void CIcqProto::OnFileInit(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pOld)
 	pTransfer->FillHeaders(pReq);
 	Push(pReq);
 
-	pTransfer->pfts.currentFileTime = time(0);
 	ProtoBroadcastAck(pTransfer->pfts.hContact, ACKTYPE_FILE, ACKRESULT_DATA, pTransfer, (LPARAM)&pTransfer->pfts);
 }
 

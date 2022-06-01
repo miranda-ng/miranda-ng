@@ -450,7 +450,10 @@ int CIcqProto::FileCancel(MCONTACT hContact, HANDLE hTransfer)
 	ProtoBroadcastAck(hContact, ACKTYPE_FILE, ACKRESULT_FAILED, hTransfer);
 
 	auto *ft = (IcqFileTransfer *)hTransfer;
-	delete ft;
+	if (ft->pfts.currentFileTime != 0)
+		ft->m_bCanceled = true;
+	else
+		delete ft;
 	return 0;
 }
 

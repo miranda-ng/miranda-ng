@@ -182,6 +182,7 @@ struct IcqFileTransfer : public MZeroedObject
 			_close(m_fileId);
 	}
 
+	bool m_bCanceled = false, m_bStarted = false;
 	int m_fileId = -1;
 	CMStringA m_szHost;
 	CMStringW m_wszFileName, m_wszDescr;
