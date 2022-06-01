@@ -780,16 +780,18 @@ static int EnumOmemoSessions(const char *szSetting, void *param)
 	return 0;
 }
 
-static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const CMStringA &pszStr2)
+static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const wchar_t *pszStr2, const CMStringA &pszStr3)
 {
-	LVITEMA lvi = {};
+	LVITEM lvi = {};
 	lvi.mask = LVIF_TEXT;
-	lvi.pszText = (char*)pszStr1.c_str();
-	int idx = SendMessage(hwndList, LVM_INSERTITEMA, 0, LPARAM(&lvi));
+	lvi.pszText = mir_a2u(pszStr1);
+	int idx = ListView_InsertItem(hwndList, &lvi);
+	mir_free(lvi.pszText);
 
-	lvi.iSubItem = 1;
-	lvi.pszText = (char *)pszStr2.c_str();
-	SendMessage(hwndList, LVM_SETITEMTEXTA, idx, LPARAM(&lvi));
+	ListView_SetItemText(hwndList, idx, 1, (wchar_t *)pszStr2);
+
+	_A2T tmp(pszStr3.c_str());
+	ListView_SetItemText(hwndList, idx, 2, (wchar_t *)tmp.get());
 }
 
 INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -809,13 +811,17 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 			LV_COLUMN lvc = {};
 			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			lvc.cx = 80;
+			lvc.cx = 90;
 			lvc.pszText = TranslateT("Device ID");
 			ListView_InsertColumn(hwndList, 1, &lvc);
-
-			lvc.cx = 240;
-			lvc.pszText = TranslateT("Fingerprint");
+			
+			lvc.cx = 80;
+			lvc.pszText = TranslateT("Status");
 			ListView_InsertColumn(hwndList, 2, &lvc);
+
+			lvc.cx = 500;
+			lvc.pszText = TranslateT("Fingerprint");
+			ListView_InsertColumn(hwndList, 3, &lvc);
 		}
 
 		if (lParam == 0)
@@ -843,34 +849,58 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 
 		if (pInfo->hContact == 0) {
 			uint32_t ownDeviceId = pInfo->ppro->getDword("OmemoDeviceId");
-			CMStringA str1(FORMAT, "* %X", ownDeviceId);
+			CMStringA str1(FORMAT, "%d", ownDeviceId);
 			CMStringA str2(pInfo->ppro->getMStringA("OmemoFingerprintOwn"));
-			AddListItem(hwndList, str1, str2);
-
+			// AddListItem(hwndList, "Other devices", "Not implemented yet", "");
+			AddListItem(hwndList, str1, TranslateT("Own device"), str2.Mid(2));
+/*
 			LIST<char> arSettings(1);
 			db_enum_settings(pInfo->hContact, EnumOwnSessions, pInfo->ppro->m_szModuleName, &arSettings);
 
 			str2 = "";
 			for (auto &it : arSettings) {
-				str1.Format("%X", pInfo->ppro->getDword(it));
+				str1.Format("%d", pInfo->ppro->getDword(it));
 				AddListItem(hwndList, str1, str2);
-			}
+			}*/
 		}
 		else {
-			LIST<char> arSettings(1);
-			db_enum_settings(pInfo->hContact, EnumOmemoSessions, pInfo->ppro->m_szModuleName, &arSettings);
-			for (auto &it : arSettings) {
-				size_t len;
-				ptrA binVal((char *)mir_base64_decode(it, &len));
-
-				if (len <= sizeof(uint32_t))
+			for (int i=0;; i++) {
+				CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
+				uint32_t device_id = pInfo->ppro->getDword(pInfo->hContact, szSetting, 0);
+				if (device_id == 0)
+					break;
+				
+				char* jiddev = pInfo->ppro->getStringA(pInfo->hContact, "jid");
+				if (jiddev == 0)
 					continue;
+				
+				size_t len = strlen(jiddev);
+				jiddev = (char*)mir_realloc(jiddev, len + sizeof(int32_t));
+				memcpy(jiddev+len, &device_id, sizeof(int32_t));
+				
+				szSetting = omemo::IdentityPrefix;
+				szSetting.Append(ptrA(mir_base64_encode(jiddev, len + sizeof(int32_t))));
+				mir_free(jiddev);
 
-				uint32_t deviceId = *(uint32_t *)(binVal.get() + len - sizeof(uint32_t));
-				CMStringA str1(FORMAT, "%X", deviceId), str2;
-				str2.Truncate(int(len) * 2);
-				bin2hex(binVal, len - sizeof(uint32_t), str2.GetBuffer());
-				AddListItem(hwndList, str1, str2);
+				const wchar_t *pwszStatus = L"";
+				CMStringA fp_hex;
+				DBVARIANT dbv = { 0 };
+				dbv.type = DBVT_BLOB;
+				db_get(pInfo->hContact, pInfo->ppro->m_szModuleName, szSetting, &dbv);
+				if (dbv.cpbVal == 33) {
+					fp_hex.Truncate(33 * 2);
+					bin2hex(dbv.pbVal, 33, fp_hex.GetBuffer());
+					uint8_t trusted = pInfo->ppro->getByte(pInfo->hContact, "OmemoFingerprintTrusted_" + fp_hex);
+					pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
+					//TODO: 3 states Trusted, Untrusted, TOFU
+					fp_hex = fp_hex.Mid(2);
+				}
+				else if (dbv.cpbVal)
+					pwszStatus = TranslateT("Unknown");
+
+				db_free(&dbv);
+
+				AddListItem(hwndList, CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
 			}
 		}
 		break;
