@@ -17,8 +17,6 @@ const
   ShareOptText = 'ShareMusic';
 const
   IcoBtnContext:PAnsiChar='WATrack_Context';
-const
-  MenuUserInfoPos = 500050000;
 
 const
   wpRequest = 'WAT###0_';
