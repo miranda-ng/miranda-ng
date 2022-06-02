@@ -68,14 +68,12 @@ Kann RSS Feed nicht empfangen!
 Sonstige
 [Gmail: New thread(s)]
 Gmail: Neue Themen
-[Gmail Notifier]
+[GmailNotifier]
 GmailNotifier
 [&Check all Gmail inboxes]
 Alle &GMail-Posteingänge prüfen
 [&Check Gmail inbox]
 &GMail-Posteingang prüfen
 ;file \protocols\GmailNotifier\src\options.cpp
-[GmailNotifier]
-GmailNotifier
 [Network]
 Netzwerk

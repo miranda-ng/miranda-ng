@@ -2,22 +2,12 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 
 ;file \protocols\YAMN\res\YAMN.rc
-[Installed plugins]
-
-[Version:]
-Версия:
-[Description:]
-Описание:
-[Copyright:]
-Copyright:
-[Homepage:]
-Страница:
 [Account]
 Акаунт
 [Name:]
@@ -308,16 +298,6 @@ Copyright:
 [Error %d-%d-%d-%d:]
 
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
-[Network]
-Мрежа
-[Accounts]
-Акаунти
-[General]
-Основни
-[Plugins]
-Приставки
-[Popups]
-Рopups
 [No account selected]
 
 [Time left to next check [s]: %d]
@@ -358,3 +338,11 @@ Copyright:
 
 [Connection failed message]
 
+[Network]
+Мрежа
+[Accounts]
+Акаунти
+[General]
+Основни
+[Popups]
+Рopups

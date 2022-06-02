@@ -5,7 +5,6 @@
 [Backup database before update (requires Db_autobackups plugin)]
 [Number of backups to keep:]
 [Change platform to 32-bit]
-[Use HTTPS]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [Use defa&ult colors]
 [For "Restart" popup setting is always infinity]

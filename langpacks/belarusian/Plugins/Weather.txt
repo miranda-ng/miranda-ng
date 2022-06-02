@@ -328,16 +328,14 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 Поўны прагноз
 [Weather Update]
 Абнаўленне прагнозу
-[Popup]
-Вакно
-[No Popup]
-Без вокнаў
 [Edit Settings]
 Змяніць налады
 [Condition Changed]
 Надвор'е змянілася
 [Alert Issued]
 Заўвага
+[Weather notifications]
+Абвесткі пра змену надвор'я
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Бягучая інфармацыя пра надвор'е для %s
@@ -480,10 +478,6 @@ URL поўнага прагнозу надвор'я не ўсталяваны. �
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID гарады
-[Disable &weather notification]
-Выключыць абвесткі пра змену надвор'я
-[Enable &weather notification]
-Уключыць абвесткі пра змену надвор'я
 [Update Weather]
 Абнавіць надвор'е
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ ID гарады
 Абнавіць надвор'е
 [Remove Old Data then Update All]
 Выдаліць дадзеныя і абнавіць усё
-[Weather Notification]
-Напамінак пра надвор'е
 [Display in a frame]
 Паказваць у фрэйме
 ;file \protocols\Weather\src\weather_update.cpp

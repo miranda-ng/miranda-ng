@@ -69,13 +69,9 @@ Archivo
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 
-[Enable WUMF popups]
-
-[Disable WUMF popups]
-
 [Show connections list]
 
-[Popups]
-Ventanas emergentes
+[WUMF popups]
+
 [WUMF: Show connections]
 

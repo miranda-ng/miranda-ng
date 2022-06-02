@@ -30,8 +30,6 @@ Ventanas en cascada nueva
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [seconds]
 segundos
-[Send message on:]
-Enviar mensaje con:
 [Tabs]
 Pestañas
 [Enable tabs]
@@ -216,22 +214,6 @@ Localización
 
 [KB]
 
-[Group chat]
-
-[Use same style as in the message log]
-Usar mismo estilo que en el registro de mensajes
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Text]
-Texto
-[Background]
-Fondo
-[Timeout (s)]
-Tiempo de espera (s)
-[(0 means default setting, -1 means indefinite time)]
-
 [Message]
 Mensaje
 [Undo]
@@ -261,6 +243,8 @@ Limpiar
 Mensajería
 [Group chats]
 Grupo de chats
+[Action: Send message]
+
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 
@@ -356,8 +340,6 @@ Sesiones de mensaje
 General
 [Log formatting]
 
-[Popups]
-Ventanas emergentes
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Añadir contacto
@@ -559,6 +541,8 @@ Puntos de entrada
 
 [Info bar status message]
 
+[Background]
+Fondo
 [Line between messages]
 
 [Offline]
@@ -577,14 +561,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Enter]
-Intro
-[Double 'Enter']
-doble 'Intro'
-[Ctrl+Enter]
-Ctrl+Intro
-[Shift+Enter]
-Shift+Intro
 [** New contacts **]
 ** Nuevos contactos **
 [** Unknown contacts **]

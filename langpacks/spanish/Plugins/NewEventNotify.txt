@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
+[Limit message preview to]
 
-[Show entry in the Popups menu]
-
-[Temporarily disable event popups]
-
-[Show preview of event in popup]
+[characters]
 
 [Popup options]
-
-[Message]
-Mensaje
-[File]
-Archivo
-[Others]
 
 [Text]
 Texto
 [Background]
 Fondo
-[Timeout]
-Tiempo de espera
+[Timeout, secs]
+
+[Message]
+Mensaje
+[File]
+Archivo
+[Errors]
+Errores
+[Others]
+
+[Preview]
+Previsualizar
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+
+[Hide popup when sending new message]
+
+[Open reply dialog instead of reading the message]
+
+[Merge popups from one user]
+
+[Show date]
+
+[Show time]
+
+[Show headers]
+
+[Number of messages being shown]
+
+[Last message display first]
+
+[Last message display last]
+
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+
+[Show preview of event in popup]
+
+[Enable event notifications for instant messages]
+
+[Enable event notifications for group chats]
+
 [Notify me of...]
 
+[Error]
+Error
 [Left click actions]
 
 [Dismiss popup]
@@ -44,41 +80,19 @@ Tiempo de espera
 
 [Timeout actions]
 
-[Message event only]
+[Misc options]
 
-[Don't show popup when message dialog is already open]
-
-[Hide popup when sending new message]
-
-[Open reply dialog instead of reading the message]
-
-[Merge popups from one user]
-
-[Preview]
-Previsualizar
-[Show date]
-
-[Show time]
-
-[Show headers]
-
-[Number of begin shown messages]
-
-[Last message display first]
-
-[Last message display last]
-
-[Edit]
-Editar
 [No popups for RSS contacts]
 
 [No popups for read messages]
 
-;file \plugins\NewEventNotify\src\menuitem.cpp
+[Event Notify]
+
 [Popups]
 Ventanas emergentes
-;file \plugins\NewEventNotify\src\options.cpp
-[Event Notify]
+[Main options]
+
+[Message events]
 
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
@@ -90,6 +104,8 @@ Ventanas emergentes
 [This is a sample message event :-)]
 
 [This is a sample file event :-D]
+
+[This is a sample error event :-D]
 
 [This is a sample other event ;-D]
 
@@ -107,8 +123,4 @@ Contactos
 [Unknown Event]
 
 [Notify of new events]
-
-[Enable new event notification]
-
-[Disable new event notification]
 

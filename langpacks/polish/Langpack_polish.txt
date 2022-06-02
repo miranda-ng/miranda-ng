@@ -395,12 +395,6 @@ Pokaż przycisk "Wyślij"
 Pokazuj liczbę znaków
 [Show toolbar buttons on top row]
 Pokazuj pasek narzędzi u góry
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on 'Ctrl+Enter']
-Ctrl+Enter wysyła wiadomość
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [Send error]
@@ -505,22 +499,6 @@ Inne
 Dodaj nowe pokoje do grupy:
 [Nick list row distance (pixels):]
 Odstęp między wierszami (px):
-[Use same style as in the message log]
-Użyj takiego samego stylu, jak w dzienniku
-[Use default colors]
-Użyj domyślnych kolorów
-[Use custom colors]
-Użyj niestandardowych kolorów
-[Popups for the StdMsg plugin]
-Powiadomienia z wtyczki StdMsg
-[Timeout (s)]
-Opóźnienie (s)
-[Text]
-Tekst
-[Background]
-Tło
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
 [Undo]
@@ -795,6 +773,8 @@ Co chcesz zrobić z plikiem?
 &Odzyskaj
 [&Delete]
 &Usuń
+[&Move]
+&Przenieś
 [&Leave]
 &Pozostaw
 [Netlib log options]
@@ -1209,6 +1189,22 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
 Ustaw/zmień hasło
+[Group chats]
+Czaty
+[Use same style as in the message log]
+Użyj takiego samego stylu, jak w dzienniku
+[Use default colors]
+Użyj domyślnych kolorów
+[Use custom colors]
+Użyj niestandardowych kolorów
+[Timeout (s)]
+Opóźnienie (s)
+[Text]
+Tekst
+[Background]
+Tło
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 - domyślnie, -1 - nie chowaj)
 [&Hide/Show]
 &Pokaż/ukryj
 [E&xit]
@@ -1477,6 +1473,10 @@ Tło listy użytkowników
 Linie listy użytkowników
 [Nick list background (selected)]
 Tło listy użytkowników (zaznaczenie)
+[Messaging]
+Wiadomości
+[Send message]
+Wyślij wiadomość
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
 [Flash window when a word is highlighted]
@@ -1585,10 +1585,6 @@ Temat (10x10)
 Podświetlenie (10x10)
 [Information (10x10)]
 Informacja (10x10)
-[Messaging]
-Wiadomości
-[Group chats]
-Czaty
 [Group chats log]
 Dziennik czatu
 [Appearance and functionality of chat room windows]
@@ -1599,10 +1595,6 @@ Wygląd dziennika wiadomości
 Ikony wyświetlane w dzienniku wiadomości
 [Chat log]
 Dziennik czatu
-[Chat]
-Czat
-[Popups]
-Powiadomienia
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
 [Incoming message (10x10)]
@@ -1715,16 +1707,6 @@ Kontakt pisze wiadomość
 Kontakt przestał pisać
 [An unknown error has occurred.]
 Nieznany błąd.
-[Example]
-Przykład
-[The quick brown fox jumped over the lazy dog.]
-Szybki, brązowy lis przeskoczył nad leniwym psem.
-[Example With a Long Title]
-Przykład z długim tytułem
-[Thequickbrownfoxjumpedoverthelazydog.]
-Szybki,_brązowy_lis_przeskoczył_nad_leniwym_psem.
-[An avatar.]
-Na awatarze.
 [Bottom right]
 Dolny prawy róg
 [Bottom left]
@@ -1761,6 +1743,14 @@ Pozioma animacja
 Pionowa animacja
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Nie możesz ustawić domyślnego czasu oczekiwania 0.\nWartość została zresetowana.
+[Example]
+Przykład
+[Example With a Long Title]
+Przykład z długim tytułem
+[An avatar.]
+Na awatarze.
+[Popups]
+Powiadomienia
 [Settings]
 Ustawienia
 [Classes]
@@ -1885,12 +1875,6 @@ Dodaj %s
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 [<Unknown>]
 <Nieznany>
-[%s requested authorization\n%u (%s) on %s]
-%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
-[%s requested authorization\n%u on %s]
-%s poprosił(a) o autoryzację \n%u na koncie %s
-[%s requested authorization\n%s on %s]
-%s poprosił(a) o autoryzację\n%s na koncie %s
 [(Unknown)]
 (Nieznany)
 [Feature is not supported by protocol]
@@ -2467,22 +2451,20 @@ Protokoły
 Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wspiera szyfrowania SSL lub wymaga nie istniejącego pakietu bezpieczeństwa.
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
 ['%S' is disabled, re-enable?]
 "%S" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
-[Fatal error]
-Krytyczny błąd
 [Unable to load plugin in service mode!]
 Nie udało się załadować wtyczki w trybie serwisowym!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nie udało się znaleźć wtyczki listy kontaktów! Potrzebujesz StdClist lub jakiejkolwiek innej wtyczki listy kontaktów.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
+[Fatal error]
+Krytyczny błąd
 [<all modules>]
 <wszystkie>
 [<core modules>]
@@ -2507,6 +2489,10 @@ Miranda NG musi zostać uruchomiona ponownie aby wprowadzić zmiany:
 Czy chcesz uruchomić ponownie teraz?
 [Plugins]
 Wtyczki
+[<In use>]
+<W użyciu>
+[<Unknown format>]
+<Nieznany format>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil "%s" już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
 [The profile already exists]
@@ -2521,10 +2507,6 @@ Nie można utworzyć profilu "%s", wystąpił błąd %x
 Problem z utworzeniem profilu
 [&Create]
 &Utwórz
-[<In use>]
-<W użyciu>
-[<Unknown format>]
-<Nieznany format>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
 [&Convert]
@@ -4816,7 +4798,7 @@ Avatar History: Nie można utworzyć skrótu
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.3
+;  Version: 0.98.1.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -6011,14 +5993,8 @@ zmienił(a) klienta na %s (z %s)
 zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
-[Disable c&lient change notification]
-Wyłącz powiadomienia o zmianie k&lienta
-[Enable c&lient change notification]
-Włącz powiadomienia o zmianie k&lienta
 [ClientChangeNotify: Client changed]
 Zmiana klienta
-[Popups]
-Powiadomienia
 [Error #%d]
 Błąd #%d
 [Can't open log file ]
@@ -6037,6 +6013,8 @@ Otwórz menu kontaktu
 Otwórz historię kontaktu
 [Do nothing]
 Nic nie rób
+[Popups]
+Powiadomienia
 [ClientChangeNotify]
 Powiadomienia o zmianie klienta
 #muuid {53e095a3-2695-490a-9dad-d20479093831}
@@ -8298,11 +8276,11 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 Spróbuj ponownie
 [Popup]
 Powiadomienia
-[Add to List]
+[Add to list]
 Dodaj do listy
 [User details]
 Dane kontaktu
-[Send Message]
+[Send message]
 Wyślij wiadomość
 [Contacts received from]
 Otrzymano kontakty od
@@ -8765,7 +8743,7 @@ Dokonaj &transliteracji
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -9216,7 +9194,7 @@ Utracone zdarzenie z nieprawidłowym identyfikatorem zdarzenia %d:%08X, usuwanie
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -9271,10 +9249,6 @@ Tworzenie kopii zapasowej bazy danych w toku...
 Kopia zapasowa profilu
 [Save profile as...]
 Zapisz profil w...
-[Enable &AutoBackups notification]
-Włącz powiadomienia o &kopii zapasowej
-[Disable &AutoBackups notification]
-Wyłącz powiadomienia o &kopii zapasowej
 [Miranda NG databases]
 Bazy danych Mirandy NG
 [Compressed Miranda NG databases]
@@ -9283,8 +9257,6 @@ Skompresowane bazy danych Miranda NG
 Wszystkie pliki
 [Database]
 Profil
-[Popups]
-Powiadomienia
 [Database backups]
 Kopia zapasowa
 [Backup folder]
@@ -9348,6 +9320,8 @@ Zezwól wysyłać wiadomości do kontaktów
 Niestandardowe
 [Screen name]
 Wyświetlana nazwa
+[Discord ID]
+Discord ID
 [User name]
 Nazwa użytkownika
 [Facebook ID]
@@ -10882,12 +10856,12 @@ Nie można pobrać kanału RSS!
 Inne
 [Gmail: New thread(s)]
 Gmail: Nowy wątek(ki)
+[GmailNotifier]
+GmailNotifier
 [&Check all Gmail inboxes]
 Sprawdź wszystkie skrzynki Gmail
 [&Check Gmail inbox]
 Sprawdź skrzynkę Gmail
-[GmailNotifier]
-GmailNotifier
 [Network]
 Protokoły
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
@@ -12777,7 +12751,7 @@ Sprzętowe skróty klawiszowe
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.7
+;  Version: 0.96.1.9
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -12972,7 +12946,7 @@ Zobacz &historię
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.4
+;  Version: 1.6.0.5
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -13690,6 +13664,8 @@ Proszę wprowadzić odpowiedź
 Nie udało się połączyć z
 [DCC ERROR: Unable to bind local port for passive file transfer]
 Błąd DCC: nie udało się podpiąć portu lokalnego dla pasywnego transferu pliku
+[%s (client-to-client)]
+%s (Klient-do-Klienta)
 [Nickname]
 Nick
 [DCC ERROR: No valid files specified]
@@ -14109,8 +14085,6 @@ Zmień hasło
 Priorytet:
 [Use hostname as resource]
 Użyj nazwy hosta jako zasobu
-[List of public servers]
-Serwery publiczne
 [Port:]
 Port:
 [Use SSL]
@@ -15797,6 +15771,8 @@ Autoryzacja nieudana dla %s@%s.
 Wiadomość przekierowana z: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Nie można odszyfrować kopii wiadomości do zaszyfrowanej wiadomości wychodzącej
+[Description]
+Opis
 [Registration canceled]
 Rejestracja anulowana
 [Sending registration information...]
@@ -15865,6 +15841,10 @@ Nieznany format
 <Zdjęcie nie jest dostępne jeśli jesteś rozłączony>
 [<No photo>]
 <Brak zdjęcia>
+[Fingerprint]
+Ikony klientów
+[Unknown]
+Nieznany
 [Photo]
 Zdjęcie
 [Redirect]
@@ -17728,10 +17708,8 @@ Tasuj playlistę
 Pętla jednego utworu
 [Station Name]
 Nazwa stacji
-[Timeout, ms (5000)]
-Czas oczekiwania, ms (5000)
-[PreBuf, % (75%)]
-Bufor wstępny, % (75%)
+[Timeout, ms]
+Czas oczekiwania, ms
 [Hallway]
 Hangar
 [Mountains]
@@ -17744,8 +17722,6 @@ Pod wodą
 Link do stacji (wymagany)
 [To INI]
 Do pliku
-[Buffer, ms (5000)]
-Bufor, ms (5000)
 [Add station]
 Dodaj stacje
 [Add Station]
@@ -18622,35 +18598,57 @@ Wtyczka Variables nie jest zainstalowana
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Powiadamia o otrzymaniu wiadomości, linku, pliku itp.
-[General options]
-Ogólne
-[Show entry in the Popups menu]
-Pokaż wpis w menu powiadomienia
-[Temporarily disable event popups]
-Tymczasowo wyłącz powiadomienia zdarzeń
-[Show preview of event in popup]
-Pokaż podgląd zdarzenia w powiadomieniu
+[Limit message preview to]
+Limituj podgląd wiadomości do:
+[characters]
+znaków
 [Popup options]
 Opcje powiadomień
-[Message]
-Wiadomość
-[File]
-Plik
-[Others]
-Inne
 [Text]
 Tekst
 [Background]
 Tło
-[Timeout]
-Wyświetlaj
+[Message]
+Wiadomość
+[File]
+Plik
+[Errors]
+Błędy
+[Others]
+Inne
+[Preview]
+Podgląd
+[Don't show popup when message dialog is already open]
+Nie pokazuj powiadomień przy otwartym oknie rozmowy
+[Hide popup when sending new message]
+Ukryj powiadomienia przy wysyłaniu nowej wiadomości
+[Open reply dialog instead of reading the message]
+Otwórz okno odpowiedzi zamiast czytania wiadomości
+[Merge popups from one user]
+Połącz powiadomienia od jednego użytkownika
+[Show date]
+Pokaż datę
+[Show time]
+Pokaż czas
+[Show headers]
+Pokaż nagłówki
+[Last message display first]
+Ost. wiadomość na początku
+[Last message display last]
+Ost. wiadomość na końcu
+[General options]
+Ogólne
+[Show preview of event in popup]
+Pokaż podgląd zdarzenia w powiadomieniu
 [Notify me of...]
 Powiadom mnie o...
+[Error]
+Błąd
 [Left click actions]
 Akcja LPM
 [Dismiss popup]
@@ -18663,40 +18661,18 @@ Odrzuć zdarzenie
 Akcja PPM
 [Timeout actions]
 Po upływie czasu
-[Message event only]
-Powiadomienia o wiadomościach
-[Don't show popup when message dialog is already open]
-Nie pokazuj powiadomień przy otwartym oknie rozmowy
-[Hide popup when sending new message]
-Ukryj powiadomienia przy wysyłaniu nowej wiadomości
-[Open reply dialog instead of reading the message]
-Otwórz okno odpowiedzi zamiast czytania wiadomości
-[Merge popups from one user]
-Połącz powiadomienia od jednego użytkownika
-[Preview]
-Podgląd
-[Show date]
-Pokaż datę
-[Show time]
-Pokaż czas
-[Show headers]
-Pokaż nagłówki
-[Number of begin shown messages]
-Ilość pokazywanych wiadomości
-[Last message display first]
-Ost. wiadomość na początku
-[Last message display last]
-Ost. wiadomość na końcu
-[Edit]
-Edytuj
 [No popups for RSS contacts]
 Nie wyświetlaj powiadomień dla kanałów RSS
 [No popups for read messages]
 Nie wyświetlaj powiadomień dla przeczytanych wiadomości
-[Popups]
-Powiadomienia
 [Event Notify]
 Powiadomienia
+[Popups]
+Powiadomienia
+[Main options]
+Główne opcje
+[Message events]
+Zdarzenia wiadomości
 [Received %d contacts.]
 Otrzymano %d kontakty.
 [ added you to the contact list]
@@ -18723,10 +18699,6 @@ Prośba o twoją autoryzację
 Nieznane zdarzenie
 [Notify of new events]
 Powiadamiaj o nowych zdarzeniach
-[Enable new event notification]
-Włącz powiadomienia o nowych zdarzeniach
-[Disable new event notification]
-Wyłącz powiadomienia o nowych zdarzeniach
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
@@ -19410,10 +19382,6 @@ Plik dźwiękowy
 ** Wszystkie kontakty **
 [(default sound)]
 (domyślny dźwięk)
-[Notification enabled]
-Włączono powiadomienia
-[Notification disabled]
-Wyłączono powiadomienia
 [<no status message>]
 <brak opisu>
 [Contact]
@@ -19510,12 +19478,6 @@ xStatus: Zmiana opisu
 xStatus: Zmiana statusu
 [Extra status message removed]
 usunięto xStatus
-[Enable status notification]
-Włącz powiadomienie o statusie
-[Disable status notification]
-Wyłącz powiadomienia o statusach
-[Toggle status notification]
-Przełącz powiadomienia o statusie
 [New Status Notify]
 Status
 [Status change]
@@ -20654,7 +20616,7 @@ Potrząsanie oknem
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.3
+;  Version: 0.1.3.4
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -21160,8 +21122,8 @@ Do góry
 W dół
 [Edit Host]
 Edytuj Host
-[Cancel]
-Anuluj
+[Contact]
+Kontakt
 [Address:]
 Adres:
 [Label:]
@@ -21170,20 +21132,20 @@ Etykieta:
 Połączenie TCP
 [Port:]
 Port:
-[Control Protocol:]
-Kontroluj protokół:
-[Set my status to:]
-Ustaw mój status na:
-[On success, if my status is:]
-W przypadku powodzenia, jeśli mój status to:
-[Execute the following command on double-click:]
-Wykonaj polecenie po podwójnym kliknięciu:
-[Contact]
-Kontakt
 [Protocols]
 Protokoły
+[Control Protocol:]
+Kontroluj protokół:
+[On success, if my status is:]
+W przypadku powodzenia, jeśli mój status to:
+[Set my status to:]
+Ustaw mój status na:
+[Execute the following command on double-click:]
+Wykonaj polecenie po podwójnym kliknięciu:
 [(Optional) Command Parameters:]
 (Opcjonalnie) Parametry komend:
+[Cancel]
+Anuluj
 [Menu]
 Menu
 [Graph]
@@ -21266,7 +21228,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21315,8 +21277,6 @@ Wersja rozwojowa z symbolami debugowania
 Niestandardowa wersja
 [Change platform to 32-bit]
 Zmień platformę na 32-bit
-[Use HTTPS]
-Używaj HTTPS
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Niektóre komponenty zostały zaktualizowane.\nMusisz ponownie uruchomić program, aby zainstalować pobrane aktualizacje.
 [Notifications]
@@ -21898,18 +21858,12 @@ Proxy
 Rozłączony
 [Current IP address]
 Aktualny adres IP
-[Enable &IP change notification]
-Włącz powiadamianie o zmianie &adresu IP
-[Disable &IP change notification]
-Wyłącz powiadamianie o zmianie &adresu IP
 [Show my &IP addresses]
 Pokaż mój adres IP
 [Disable proxy]
 Wyłącz proxy
 [Enable proxy]
 Włącz proxy
-[Popups]
-Powiadomienia
 [Services]
 Usługi
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
@@ -22870,8 +22824,6 @@ Kasuj niezapisane kontakty przy zamykaniu
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
 s
-[Send message on:]
-Wysyła wiadomość:
 [Tabs]
 Karty
 [Enable tabs]
@@ -23056,22 +23008,6 @@ Miejsce
 Ogranicz do
 [KB]
 KB
-[Group chat]
-Czaty
-[Use same style as in the message log]
-Użyj takiego samego stylu, jak w dzienniku
-[Use default colors]
-Użyj domyślnych kolorów
-[Use custom colors]
-Użyj niestandardowych kolorów
-[Text]
-Tekst
-[Background]
-Tło
-[Timeout (s)]
-Opóźnienie (s)
-[(0 means default setting, -1 means indefinite time)]
-(0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
 [Undo]
@@ -23194,8 +23130,6 @@ Okno rozmowy
 Ogólne
 [Log formatting]
 Formatowanie dziennika
-[Popups]
-Powiadomienia
 [Add contact]
 Dodaj kontakt
 [User's details]
@@ -23392,6 +23326,8 @@ Nazwa kontaktu w pasku informacyjnym
 Tło paska informacyjnego
 [Info bar status message]
 Opis w pasku informacyjnym
+[Background]
+Tło
 [Line between messages]
 Linia pomiędzy wiadomościami
 [Offline]
@@ -23410,14 +23346,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[Enter]
-Enter
-[Double 'Enter']
-Podwójny 'Enter'
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]
@@ -26330,7 +26258,7 @@ Zaawansowane
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -26457,36 +26385,6 @@ wpisów
 Więcej o zaawansowanych ustawieniach
 [Revert to (safe) defaults]
 Przywróć domyślne (bezpieczne)
-[Event notify options]
-Opcje powiadomień o zdarzeniach
-[Limit message preview to]
-Limituj podgląd wiadomości do:
-[characters]
-znaków
-[Only show event notifications when my status is...]
-Pokaż powiadomienie o zdarzeniach tylko, gdy następujący status to...
-[Popup options]
-Opcje powiadomień
-[Text]
-Tekst
-[Background]
-Tło
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Wyświetlaj (sekund, 0 - domyślnie, -1 - nie chowaj)
-[Message]
-Wiadomość
-[Use default colors]
-Domyślne kolory
-[Others]
-Inne
-[Preview]
-Podgląd
-[Group chats]
-Czaty
-[Errors]
-Błędy
-[Use the message log color theme for group chat popups]
-Użyj koloru wiadomości skórki dla powiadomień z czatu
 [Dialog]
 Okno
 [Cancel]
@@ -26661,8 +26559,6 @@ Pokaż powiadomienie o pisaniu, kiedy okno rozmowy jest otwarte
 Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 [Show balloon tooltip in the system tray]
 Pokaż podpowiedź w chmurce w zasobniku systemowym
-[        Show popups when a user is typing]
-        Pokaż powiadomienia, kiedy użytkownik pisze
 [More about typing notifications]
 Więcej na temat powiadomień o pisaniu
 [Tab options]
@@ -26673,6 +26569,8 @@ Inne opcje
 Ustaw statusy dla automatycznego tworzenia kart...
 [Limit nicknames on tabs to]
 Limituj nicki na kartach do
+[characters]
+znaków
 [Esc key behavior]
 Opcje przycisku Esc
 [Select container]
@@ -26723,14 +26621,16 @@ Kolory
 ...&pisze wiadomość
 [...stopped t&yping]
 ...przestał p&isać
+[Background]
+Tło
+[Text]
+Tekst
 [Use &default colors]
 &Użyj domyślnych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Only &one popup for each contact]
 Tylko &jedno powiadomienie dla każdego kontaktu
-[Show &entry in the main menu]
-Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
 [Default]
@@ -26743,6 +26643,8 @@ Trwale
 Niestandardowo
 [...stopped typing]
 ...przestał pisać
+[Preview]
+Podgląd
 [Timeout]
 Wyświetlaj
 [Templates]
@@ -27079,6 +26981,10 @@ Włącz/wyłącz filtr zdarzeń (Ctrl+F)
 Kontroluj ten pokój (Ctrl + O)
 [Message sessions]
 Okno rozmowy
+[Group chats]
+Czaty
+[Send message]
+Wyślij wiadomość
 [Input area background]
 Tło obszaru pisania wiadomości
 [Log background]
@@ -27445,68 +27351,6 @@ włączone
 Wysyłanie powiadomienia o pisaniu jest %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Jedna z twoich akcji powiadomień jest ustawiona na Usuń Zdarzenie.\nUwaga, te opcje mogą powodować niechciane efekty uboczne jako że usuwają one zdarzenia z kolejki nieprzeczytanych.\nTo może prowadzić do niepokazywania zdarzeń jako nowe. Jeżeli nie chcesz takiego zachowania, przejrzyj ustawienia "Powiadomień o zdarzeniach"
-[TabSRMM warning message]
-Ostrzeżenie TabSRMM
-[Incoming file]
-Przychodzący plik
-[No description given]
-Brak opisu
-[Incoming file (invalid format)]
-Przychodzący plik (nieprawidłowy format)
-[Unknown event]
-Nieznane zdarzenie
-[New messages: ]
-Nowych wiadomości:\s
-[Unknown module or contact]
-Nieznany moduł lub kontakt
-[Show a preview of the event]
-Pokaż podgląd zdarzenia
-[Don't announce event when message dialog is open]
-Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
-[Don't announce events from RSS protocols]
-Nie ogłaszaj zdarzeń z protokołu RSS
-[Merge new events for the same contact into existing popup]
-Połącz nowe zdarzenia od tego samego w istniejącym powiadomieniu
-[Show headers]
-Pokaż nagłówki
-[Dismiss popup]
-Odrzuć powiadomienie
-[Open event]
-Pokaż zdarzenie
-[Dismiss event]
-Odrzuć zdarzenie
-[Disable event notifications for instant messages]
-Wyłącz powiadomienia dla wiadomości
-[Disable event notifications for group chats]
-Wyłącz powiadomienia dla czatów
-[Disable notifications for non-message events]
-Wyłącz powiadomienia dla innych zdarzeń
-[Remove popups for a contact when the message window is focused]
-Usuń powiadomienia dla kontaktu, gdy jego okno rozmowy jest aktywne
-[Remove popups for a contact when I start typing a reply]
-Usuń powiadomienia dla kontaktu, gdy zacznę pisać odpowiedź
-[Remove popups for a contact when I send a reply]
-Usuń powiadomienia dla kontaktu, gdy wyślę odpowiedź
-[Disable notifications]
-Wyłącz powiadomienia
-[System tray icon]
-Ikona w zasobniku
-[Left click actions (popups only)]
-Akcje LPM (tylko powiadomienia)
-[Right click actions (popups only)]
-Akcje PPM (tylko powiadomienia)
-[Timeout actions (popups only)]
-Akcje po upłynięciu czasu wyświetlania (tylko powiadomienia)
-[Combine notifications for the same contact]
-Kombinacja notyfikacji dla tego samego użytkownika
-[Remove popups under following conditions]
-Usuń powiadomienia w następujących przypadkach:
-[Event notifications]
-Zdarzenia
-[Popups]
-Powiadomienia
 [No status message]
 Kontakt nie ma opisu.
 [You cannot edit user notes when there are unsent messages]
@@ -27561,8 +27405,6 @@ Cytuj wiadomość
 Wyczyść pole wiadomości
 [Toggle send later]
 Pokaż wyślij później
-[Send message]
-Wyślij wiadomość
 [Show message history]
 Pokaż historię
 [Show send menu]
@@ -27685,10 +27527,6 @@ Gotowy
 Wyślij później
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: Alt+N), aby zapisać notatki i powrócić do normalnego trybu wiadomości
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nie może zostać włączony, ponieważ niewybrane zostały żadne zdarzenia, ani globalnie, ani dla tego pokoju.
-[Event filter error]
-Błąd filtru zdarzeń
 [Selection copied to clipboard]
 Zaznaczenie skopiowano do schowka
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -27835,12 +27673,6 @@ Załaduj skórkę
 Zachowanie okna rozmowy
 [Sending messages]
 Wysyłanie wiadomości
-[Send on Shift+Enter]
-Wyślij wiadomość po Shift+Enter
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
 [Close the message window on send]
@@ -27863,6 +27695,8 @@ Automatycznie kopiuj zaznaczony tekst
 Testowy kontakt
 [Template set editor]
 Edytor zbioru szablonów
+[My Nickname]
+moja nazwa
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -28161,14 +27995,14 @@ Niestandardowy 2 (użyj własnego koloru gradientu)
 Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuować?
 [Change skin]
 Zmień skórkę
-[Disable &typing notification]
-Wyłącz powiadomienia o &pisaniu
-[Enable &typing notification]
-Włącz powiadomienia o &pisaniu
 [...has stopped typing.]
 ...przestał pisać.
 [...is typing a message.]
 ...pisze wiadomość
+[Popups]
+Powiadomienia
+[Typing notifications]
+Powiadomienia o pisaniu
 [Contact started typing]
 Kontakt pisze wiadomość
 [Contact stopped typing]
@@ -28197,6 +28031,8 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
+[TabSRMM warning message]
+Ostrzeżenie TabSRMM
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -29581,7 +29417,7 @@ Odpowiedz...
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.1
+;  Version: 0.9.0.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -29694,8 +29530,6 @@ Włączony
 Sprawdzaj na starcie
 [Time of last check:]
 Czas ostatniego sprawdzenia:
-[Birthday compatibility mode:]
-Tryb kompatybilności urodzin:
 [Automatically backup and keep protocol based birthdays up to date]
 Automatycznie twórz kopie bezpieczeństwa i aktualizuj dane o urodzinach
 [Play sound]
@@ -29852,10 +29686,6 @@ Menu podgrupy
 Menu konta
 [Misc]
 Inne
-[Show 'Restart' menu item]
-Pokaż "Uruchom ponownie" w menu
-[Use zodiac as default avatar]
-Użyj znaku zodiaku jako awatara
 [Country flags]
 Flagi państw
 [Use &unknown flag if country cannot be determined]
@@ -30228,10 +30058,6 @@ Wszystkie ustawienia są teraz przywrócone do wartości domyślnych!
 Przypominanie wyłączone
 [Everything]
 Wszystko
-[mBirthday]
-mBirthday
-[UserInfo (default)]
-UserInfo (domyślny)
 [This is the reminder message]
 To jest wiadomość przypominająca
 [Contacts]
@@ -32788,10 +32614,6 @@ Pokaż krótko
 Pokaż całkowicie
 [Weather Update]
 Aktualizuj pogodę
-[Popup]
-Powiadomienia
-[No Popup]
-Brak powiadomień
 [Edit Settings]
 Edytuj ustawienia
 [Condition Changed]
@@ -32930,10 +32752,6 @@ Powiadomienia
 %[..]\twłasne zmienne
 [Station ID]
 ID stacji
-[Disable &weather notification]
-Wyłącz powiadomienie o &pogodzie
-[Enable &weather notification]
-Włącz powiadomienie o &pogodzie
 [Update Weather]
 Aktualizuj prognozę
 [Remove Old Data then Update]
@@ -32950,8 +32768,6 @@ Włącz/wyłącz aktualizacje pogodowe
 Aktualizuj całą pogodę
 [Remove Old Data then Update All]
 Usuń stare dane po aktualizacji
-[Weather Notification]
-Powiadomienie o pogodzie
 [Display in a frame]
 Ekran w ramce
 [Unable to retrieve weather information for %s]
@@ -35187,7 +35003,7 @@ Musisz podać nazwę kontaktu.
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.5
+;  Version: 0.3.3.6
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -35276,8 +35092,6 @@ Aktualny wiek
 Moduł UserInfo
 [Protocol module]
 Moduł protokołu
-[mBirthday module]
-Moduł mBirthday
 [Nothing]
 -Nic-
 [Dismiss]
@@ -35487,14 +35301,8 @@ Błąd otwierania pliku
 Błąd alokacji pamięci
 [Error creating menu]
 Błąd tworzenia menu
-[Enable WUMF popups]
-Włącz powiadomienia WUMF
-[Disable WUMF popups]
-Wyłącz powiadomienia WUMF
 [Show connections list]
 Pokaż listę połączeń
-[Popups]
-Powiadomienia
 [WUMF: Show connections]
 WUMF: Pokaż połączenia
 #muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
@@ -35667,21 +35475,11 @@ Indywidualny dźwięk kontaktu
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Powiadomienia o poczcie i przeglądarka dla Mirandy NG. Dołączona obsługa POP3.
-[Installed plugins]
-Zainstalowane wtyczki
-[Version:]
-Wersja:
-[Description:]
-Opis:
-[Copyright:]
-Własność:
-[Homepage:]
-WWW:
 [Account]
 Konto
 [Name:]
@@ -35964,16 +35762,6 @@ Nie można zapisać danych SSL.
 Nie można odczytać danych SSL.
 [Error %d-%d-%d-%d:]
 Błąd %d-%d-%d-%d:
-[Network]
-Protokoły
-[Accounts]
-Konta
-[General]
-Ogólne
-[Plugins]
-Wtyczki
-[Popups]
-Powiadomienia
 [No account selected]
 Nie zaznaczono konta
 [Time left to next check [s]: %d]
@@ -36014,6 +35802,14 @@ Masz N nowych wiadomości e-mail
 Test konta (nieudany)
 [Connection failed message]
 Wiadomość o nieudanym połączeniu
+[Network]
+Protokoły
+[Accounts]
+Konta
+[General]
+Ogólne
+[Popups]
+Powiadomienia
 #muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
 ;============================================================
 ;  File: YARelay.dll

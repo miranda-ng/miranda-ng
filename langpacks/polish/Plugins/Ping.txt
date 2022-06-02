@@ -60,8 +60,8 @@ Do góry
 W dół
 [Edit Host]
 Edytuj Host
-[Cancel]
-Anuluj
+[Contact]
+Kontakt
 [Address:]
 Adres:
 [Label:]
@@ -70,20 +70,20 @@ Etykieta:
 Połączenie TCP
 [Port:]
 Port:
-[Control Protocol:]
-Kontroluj protokół:
-[Set my status to:]
-Ustaw mój status na:
-[On success, if my status is:]
-W przypadku powodzenia, jeśli mój status to:
-[Execute the following command on double-click:]
-Wykonaj polecenie po podwójnym kliknięciu:
-[Contact]
-Kontakt
 [Protocols]
 Protokoły
+[Control Protocol:]
+Kontroluj protokół:
+[On success, if my status is:]
+W przypadku powodzenia, jeśli mój status to:
+[Set my status to:]
+Ustaw mój status na:
+[Execute the following command on double-click:]
+Wykonaj polecenie po podwójnym kliknięciu:
 [(Optional) Command Parameters:]
 (Opcjonalnie) Parametry komend:
+[Cancel]
+Anuluj
 [Menu]
 Menu
 [Graph]

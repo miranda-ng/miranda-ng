@@ -328,16 +328,14 @@ Erreur HTTP : délai d'attente de la passerelle dépassé (504)
 
 [Weather Update]
 
-[Popup]
-
-[No Popup]
-
 [Edit Settings]
 
 [Condition Changed]
 Conditions météo changées
 [Alert Issued]
 Alerte météo publiée
+[Weather notifications]
+
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Information météo en cours pour %s.
@@ -480,10 +478,6 @@ Popups
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifiant de la station
-[Disable &weather notification]
-Désactiver les notifications météo &Weather
-[Enable &weather notification]
-Activer les notifications météo &Weather
 [Update Weather]
 MAJ de Weather
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ Lire les prévisions au complet
 MAJ de tout Weather
 [Remove Old Data then Update All]
 Effacer les anciennes données lors d'une MAJ totale
-[Weather Notification]
-Notification de Weather
 [Display in a frame]
 
 ;file \protocols\Weather\src\weather_update.cpp

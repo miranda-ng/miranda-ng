@@ -45,10 +45,10 @@ Písničky v playlistu náhodně
 Přehrávat samostatné média ve smyčce
 [Station Name]
 Název stanice
-[Timeout, ms (5000)]
-Časový limit, ms (5000)
-[PreBuf, % (75%)]
-Naplnění paměti, % (75%)
+[Timeout, ms]
+Časový limit, ms
+[PreBuf, %]
+Naplnění paměti, %
 [Hallway]
 Hala
 [Mountains]
@@ -61,8 +61,8 @@ Pod vodou
 Adresa stanice (povinné)
 [To INI]
 Do INI
-[Buffer, ms (5000)]
-Vyrovnávací paměť, ms (5000)
+[Buffer, ms]
+Vyrovnávací paměť, ms
 [Add station]
 Přidat stanici
 [Add Station]

@@ -2,22 +2,12 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 
 ;file \protocols\YAMN\res\YAMN.rc
-[Installed plugins]
-Plugins installés
-[Version:]
-
-[Description:]
-Description :
-[Copyright:]
-Copyright :
-[Homepage:]
-Page web :
 [Account]
 Compte
 [Name:]
@@ -308,16 +298,6 @@ Lecture de données SSL impossible.
 [Error %d-%d-%d-%d:]
 Erreur %d-%d-%d-%d :
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
-[Network]
-Réseau
-[Accounts]
-Comptes
-[General]
-Général
-[Plugins]
-Plugins
-[Popups]
-Popups
 [No account selected]
 Aucun compte sélectionné
 [Time left to next check [s]: %d]
@@ -358,3 +338,11 @@ Vous avez N nouveaux e-mail
 Test du compte (erreur)
 [Connection failed message]
 Message, erreur de connexion
+[Network]
+Réseau
+[Accounts]
+Comptes
+[General]
+Général
+[Popups]
+Popups

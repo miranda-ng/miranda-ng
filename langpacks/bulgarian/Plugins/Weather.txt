@@ -328,15 +328,13 @@ HTTP грешка: Gateway timeout (504)
 Пълна прогноза
 [Weather Update]
 
-[Popup]
-Рopup
-[No Popup]
-Без Popup
 [Edit Settings]
 Редактиране на настройките
 [Condition Changed]
 Промяна на метеорологичните условия
 [Alert Issued]
+
+[Weather notifications]
 
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
@@ -480,10 +478,6 @@ INI версия
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID на станцията
-[Disable &weather notification]
-Изключване на метеоуведомяването
-[Enable &weather notification]
-Включване на метеоуведомяване
 [Update Weather]
 Обновяване на атм. условия
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ Weather
 Обновяване на всички станции
 [Remove Old Data then Update All]
 Премахване на старата информация и обновяване на всичко
-[Weather Notification]
-Метеоуведомяване
 [Display in a frame]
 Изобразяване в рамка
 ;file \protocols\Weather\src\weather_update.cpp

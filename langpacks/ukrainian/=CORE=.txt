@@ -394,12 +394,6 @@
 Показувати лічильник символів
 [Show toolbar buttons on top row]
 Кнопки у верхньому рядку
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Send message on 'Ctrl+Enter']
-Надсилати натисканням Ctrl+Enter
 [Show warning when message has not been received after]
 Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [Send error]
@@ -504,22 +498,6 @@
 Додавати кімнати до групи:
 [Nick list row distance (pixels):]
 Відстань між рядками (пікселі):
-[Use same style as in the message log]
-Використ. стиль журналу повідомлень
-[Use default colors]
-Стандартні кольори
-[Use custom colors]
-Вказати кольори
-[Popups for the StdMsg plugin]
-Спливаючі вікна чату
-[Timeout (s)]
-Затримка (с)
-[Text]
-Текст
-[Background]
-Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 = стандартне значення, -1 = безкінечно)
 [Message]
 Повідомлення
 [Undo]
@@ -1214,6 +1192,22 @@ UIN, E-mail тощо
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля.
 [Set password]
 Встановити пароль
+[Group chats]
+Групові чати
+[Use same style as in the message log]
+Використ. стиль журналу повідомлень
+[Use default colors]
+Стандартні кольори
+[Use custom colors]
+Вказати кольори
+[Timeout (s)]
+Затримка (с)
+[Text]
+Текст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 = стандартне значення, -1 = безкінечно)
 [&Hide/Show]
 С&ховати/Показати
 [E&xit]
@@ -1500,6 +1494,10 @@ UIN, E-mail тощо
 Лінії списку користувачів
 [Nick list background (selected)]
 Фон списку користувачів (вибране)
+[Messaging]
+Повідомлення
+[Send message]
+Відправити
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Блимання вікна, якщо є нове повідомлення
@@ -1609,10 +1607,6 @@ UIN, E-mail тощо
 Підсвічування (10x10)
 [Information (10x10)]
 Інформація (10x10)
-[Messaging]
-Повідомлення
-[Group chats]
-Групові чати
 [Group chats log]
 Журнал чатів
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ UIN, E-mail тощо
 Значки в журналі повідомлень
 [Chat log]
 Журнал чату
-[Chat]
-Чат
-[Popups]
-Спливаючі вікна
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Час надсилання повідомлення вичерпано.
@@ -1750,16 +1740,6 @@ UIN, E-mail тощо
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Приклад
-[The quick brown fox jumped over the lazy dog.]
-З'їж-но ще цих м'яких французьких булок та випий йаду!
-[Example With a Long Title]
-Приклад з довгим заголовком
-[Thequickbrownfoxjumpedoverthelazydog.]
-З'їжнощецихм'якихфранцузькихбулоктавипиййаду!
-[An avatar.]
-З аватаром
 [Bottom right]
 Внизу праворуч
 [Bottom left]
@@ -1796,6 +1776,18 @@ UIN, E-mail тощо
 Вертикальна анімація
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ви не можете встановити час очікування за замовчанням на 0.\nЗначення скинуто.
+[Example]
+Приклад
+[The quick brown fox jumps over the lazy dog.]
+З'їж-но ще цих м'яких французьких булок та випий йаду!
+[Example With a Long Title]
+Приклад з довгим заголовком
+[Thequickbrownfoxjumpsoverthelazydog.]
+З'їжнощецихм'якихфранцузькихбулоктавипиййаду!
+[An avatar.]
+З аватаром
+[Popups]
+Спливаючі вікна
 [Settings]
 Налаштування
 [Classes]
@@ -1930,12 +1922,12 @@ UIN, E-mail тощо
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <невідомо>
-[%s requested authorization\n%u (%s) on %s]
-%s запитав(ла) авторизацію\n%u (%s) о %s
-[%s requested authorization\n%u on %s]
-%s запитав(ла) авторизацію\n%u о %s
-[%s requested authorization\n%s on %s]
-%s запитав(ла) авторизацію\n%s о %s
+[ requested authorization\n%u (%s) on %s]
+ запитав(ла) авторизацію\n%u (%s) о %s
+[ requested authorization\n%u on %s]
+ запитав(ла) авторизацію\n%u о %s
+[ requested authorization\n%s on %s]
+ запитав(ла) авторизацію\n%s о %s
 [(Unknown)]
 (невідомий)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ xСтатус
 [Host we are connecting to is not the one certificate was issued for]
 Виданий сертифікат не відповідає імені сервера, з яким встановлюється з'єднання
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Не знайдено жодного плагіна вікна повідомлень. Встановіть/увімкніть один з них, наприклад, StdMsg.dll
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 "%S" вимкнений. Увімкнути?
 [Re-enable Miranda plugin?]
 Увімкнути плагін?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
-[Fatal error]
-Фатальна помилка
 [Unable to load plugin in service mode!]
 Неможливо запустити плагін у сервісному режимі!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Неможливо завантажити жоден із встановлених плагінів списку контактів. Не вдається завантажити навіть відключені плагіни.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не знайдено жодного плагіна списку контактів! Вам потрібен StdClist або clist_*.dll.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Не вдалося завантажити модуль ядра "%s" (можливо він відсутній). Программа змушена завершити работу.
+[Fatal error]
+Фатальна помилка
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <усі модулі>
@@ -2607,7 +2599,12 @@ xСтатус
 Перезапустити зараз?
 [Plugins]
 Плагіни
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+Використовується
+[<Unknown format>]
+<Невідомий формат>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль "%s" вже існує. Бажаєте перемістити його до смітника?\n\nУВАГА! Якщо смітник (кошик) вимкнено, то профіль буде безповоротно видалено.\nУВАГА! Профіль може містити конфіденційну інформцію і його потрібно видаляти належним чином.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ xСтатус
 Проблема створення профілю
 [&Create]
 Створити
-[<In use>]
-Використовується
-[<Unknown format>]
-<Невідомий формат>
 [Are you sure you want to remove profile "%s"?]
 Справді видалити профіль "%s"?
 [&Convert]

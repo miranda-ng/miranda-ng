@@ -45,10 +45,10 @@ Mische Playliste
 Wiederhole einzelnes Lied
 [Station Name]
 Stationsname:
-[Timeout, ms (5000)]
-Zeiüber., ms (5000)
-[PreBuf, % (75%)]
-PreBuf, % (75%)
+[Timeout, ms]
+Zeiüber., ms
+[PreBuf, %]
+PreBuf, %
 [Hallway]
 Flur
 [Mountains]
@@ -61,8 +61,8 @@ Unter Wasser
 Stations-URL (erforderlich)
 [To INI]
 Zur INI
-[Buffer, ms (5000)]
-Puffer, ms (5000)
+[Buffer, ms]
+Puffer, ms
 [Add station]
 Station hinzufügen
 [Add Station]

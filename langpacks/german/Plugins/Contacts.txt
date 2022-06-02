@@ -42,11 +42,11 @@ Es ist ein Fehler aufgetreten. Das Protokoll meldete folgenden Fehler:
 Erneut versuchen
 [Popup]
 Popup
-[Add to List]
+[Add to list]
 Zur Liste hinzufügen
 [User details]
 Kontaktprofil
-[Send Message]
+[Send message]
 Nachricht senden
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

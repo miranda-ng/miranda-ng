@@ -45,10 +45,10 @@
 Зацыкленне
 [Station Name]
 Імя станцыі
-[Timeout, ms (5000)]
-Затрымка, мс (5000)
-[PreBuf, % (75%)]
-PreBuf, % (75%)
+[Timeout, ms]
+Затрымка, мс
+[PreBuf, %]
+PreBuf, %
 [Hallway]
 Пярэдні пакой
 [Mountains]
@@ -61,8 +61,8 @@ PreBuf, % (75%)
 Спасылка на станцыю (патрабуецца)
 [To INI]
 У файл
-[Buffer, ms (5000)]
-Буфер, мс (5000)
+[Buffer, ms]
+Буфер, мс
 [Add station]
 Дадаць станцыю
 [Add Station]

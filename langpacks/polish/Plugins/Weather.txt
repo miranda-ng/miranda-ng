@@ -328,16 +328,14 @@ Pokaż krótko
 Pokaż całkowicie
 [Weather Update]
 Aktualizuj pogodę
-[Popup]
-Powiadomienia
-[No Popup]
-Brak powiadomień
 [Edit Settings]
 Edytuj ustawienia
 [Condition Changed]
 Warunki pogodowe uległy zmianie
 [Alert Issued]
 Ogłoszono alarm pogodowy
+[Weather notifications]
+Powiadomienie o pogodzie
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktualne informacje o pogodzie dla miejscowości %s.
@@ -480,10 +478,6 @@ Powiadomienia
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID stacji
-[Disable &weather notification]
-Wyłącz powiadomienie o &pogodzie
-[Enable &weather notification]
-Włącz powiadomienie o &pogodzie
 [Update Weather]
 Aktualizuj prognozę
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ Włącz/wyłącz aktualizacje pogodowe
 Aktualizuj całą pogodę
 [Remove Old Data then Update All]
 Usuń stare dane po aktualizacji
-[Weather Notification]
-Powiadomienie o pogodzie
 [Display in a frame]
 Ekran w ramce
 ;file \protocols\Weather\src\weather_update.cpp

@@ -60,8 +60,8 @@ Nahoru
 Dolů
 [Edit Host]
 Upravit hostitele
-[Cancel]
-Zrušit
+[Contact]
+Kontakt
 [Address:]
 Adresa:
 [Label:]
@@ -70,20 +70,20 @@ Popis:
 TCP Connect
 [Port:]
 Port:
-[Control Protocol:]
-Ovládaný protokol:
-[Set my status to:]
-Změnit stav na:
-[On success, if my status is:]
-Je-li vše v pořádku a stav:
-[Execute the following command on double-click:]
-Dvojím kliknutím spustit následující příkaz:
-[Contact]
-Kontakt
 [Protocols]
 Protokoly
+[Control Protocol:]
+Ovládaný protokol:
+[On success, if my status is:]
+Je-li vše v pořádku a stav:
+[Set my status to:]
+Změnit stav na:
+[Execute the following command on double-click:]
+Dvojím kliknutím spustit následující příkaz:
 [(Optional) Command Parameters:]
 Argumenty příkazu:
+[Cancel]
+Zrušit
 [Menu]
 Menu
 [Graph]

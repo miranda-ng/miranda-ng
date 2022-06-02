@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Сповіщає про отримання повідомлення, URL, файлу або іншої події, відображаючи інформацію в спливаючих вікнах.
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Загальне
-[Show entry in the Popups menu]
-Пункт меню "Сплив. вікна"
-[Temporarily disable event popups]
-Тимчасово заборонити сповіщення
-[Show preview of event in popup]
-Перегляд події у вікні
+[Limit message preview to]
+Обмежити перегляд до
+[characters]
+символів
 [Popup options]
 Спливаючі вікна
-[Message]
-Повідомлення
-[File]
-Файл
-[Others]
-Інше
 [Text]
 Текст
 [Background]
 Фон
-[Timeout]
-Тривалість
+[Timeout, secs]
+
+[Message]
+Повідомлення
+[File]
+Файл
+[Errors]
+Помилки
+[Others]
+Інше
+[Preview]
+Тест
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+Не показувати, якщо вікно відкрите
+[Hide popup when sending new message]
+Ховати при надсиланні нового повідомлення
+[Open reply dialog instead of reading the message]
+Діалог відповіді замість читання повідомлення
+[Merge popups from one user]
+Об'єднувати від одного користувача
+[Show date]
+Дата
+[Show time]
+Час
+[Show headers]
+Заголовки
+[Number of messages being shown]
+Кількість повідомлень для початку показу
+[Last message display first]
+Останнє першим
+[Last message display last]
+Останнє останнім
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Сповіщення про події
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Загальне
+[Show preview of event in popup]
+Перегляд події у вікні
+[Enable event notifications for instant messages]
+Увімкнути сповіщення про події бесід
+[Enable event notifications for group chats]
+Увімкнути сповіщення про події групових чатів
 [Notify me of...]
 Сповіщати мене про...
+[Error]
+Помилка
 [Left click actions]
 По лівому кліку
 [Dismiss popup]
@@ -44,42 +80,20 @@
 По правому кліку
 [Timeout actions]
 По закінченні часу
-[Message event only]
-Тільки для повідомлень
-[Don't show popup when message dialog is already open]
-Не показувати, якщо вікно відкрите
-[Hide popup when sending new message]
-Ховати при надсиланні нового повідомлення
-[Open reply dialog instead of reading the message]
-Діалог відповіді замість читання повідомлення
-[Merge popups from one user]
-Об'єднувати від одного користувача
-[Preview]
-Тест
-[Show date]
-Дата
-[Show time]
-Час
-[Show headers]
-Заголовки
-[Number of begin shown messages]
-Кількість повідомлень для початку показу
-[Last message display first]
-Останнє першим
-[Last message display last]
-Останнє останнім
-[Edit]
-Змінити
+[Misc options]
+
 [No popups for RSS contacts]
 Вимкнути для новин RSS
 [No popups for read messages]
 Вимкнути для прочитаних
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Спливаючі вікна
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Події
+[Popups]
+Спливаючі вікна
+[Main options]
+Основне
+[Message events]
+Повідомлення
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Отримано %d контактів.
@@ -91,6 +105,8 @@
 Це приклад повідомлення :-)
 [This is a sample file event :-D]
 Це приклад вхідного файлу :-D
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 Це приклад інших подій ;-D
 [Plugin Test]
@@ -108,7 +124,3 @@
 Невідома подія
 [Notify of new events]
 Сповіщати про нові події
-[Enable new event notification]
-Увімк. сповіщення про події
-[Disable new event notification]
-Вимк. сповіщення про події

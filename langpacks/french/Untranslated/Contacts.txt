@@ -1,7 +1,7 @@
 [Allows you to send and receive contacts.]
 [&Select All]
 [Popup]
-[Send Message]
+[Send message]
 [Contacts received from]
 [Contacts from]
 [Send Contacts to]

@@ -45,10 +45,10 @@ Tasuj playlistę
 Pętla jednego utworu
 [Station Name]
 Nazwa stacji
-[Timeout, ms (5000)]
-Czas oczekiwania, ms (5000)
-[PreBuf, % (75%)]
-Bufor wstępny, % (75%)
+[Timeout, ms]
+Czas oczekiwania, ms
+[PreBuf, %]
+Bufor wstępny, %
 [Hallway]
 Hangar
 [Mountains]
@@ -61,8 +61,8 @@ Pod wodą
 Link do stacji (wymagany)
 [To INI]
 Do pliku
-[Buffer, ms (5000)]
-Bufor, ms (5000)
+[Buffer, ms]
+Bufor, ms
 [Add station]
 Dodaj stacje
 [Add Station]

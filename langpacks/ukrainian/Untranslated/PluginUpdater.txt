@@ -1,6 +1,5 @@
 [Restart Miranda automatically]
 [Change platform to 32-bit]
-[Use HTTPS]
 [Unpack operation failed with error code=%d, update terminated]
 [Plugin updater URI scheme]
 [Change platform to 64-bit]

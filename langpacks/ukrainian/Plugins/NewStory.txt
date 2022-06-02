@@ -202,6 +202,8 @@
 Змінні...
 [Test contact]
 Тестовий контакт
+[The quick brown fox jumps over the lazy dog.]
+З'їж-но ще цих м'яких французьких булок та випий йаду!
 [simply % character]
 
 [a "hard" line break (cr/lf - will break indent)]

@@ -56,8 +56,6 @@
 Прыярытэт:
 [Use hostname as resource]
 Імя хаста ў якасці рэсурсу
-[List of public servers]
-Публічныя серверы
 [Port:]
 Порт:
 [Use SSL]
@@ -180,6 +178,8 @@ Jabber vCard: даданне тэлефона
 Відэа
 [Modem]
 Мадэм
+[(*) marks the current session]
+
 [Load]
 Запампаваць
 [Save]
@@ -1436,8 +1436,6 @@ Jabber Рэсурс
 Выпраўляць час ва ўваходных паведамленнях
 [Disable frame]
 Выключыць фрэйм
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Jabber Рэсурс
 
 [Security]
 Бяспека
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Адказваць на запыты пра версіі (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ S.ms
 [List Editor...]
 Рэдактар спісаў...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 Конт не далучаны ці няма JID.
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ XML (кадзіроўка UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+Апісанне
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ XML (кадзіроўка UTF-8)
 <Каб убачыць фота, трэба далучыцца>
 [<No photo>]
 <Няма фота>
+[Device ID]
+
+[Fingerprint]
+Адбітак
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Невядома
 [Photo]
 Фота
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
+[OMEMO]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

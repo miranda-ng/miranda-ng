@@ -394,12 +394,6 @@
 Паказваць лічыльнік знакаў
 [Show toolbar buttons on top row]
 Паказваць кнопкі ў верхнім радку
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on 'Ctrl+Enter']
-Пасылаць па "Ctrl+Enter"
 [Show warning when message has not been received after]
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [Send error]
@@ -504,22 +498,6 @@
 Дадаваць чаты ў гурт:
 [Nick list row distance (pixels):]
 Адлегласць паміж радкамі (пікс.):
-[Use same style as in the message log]
-Той жа стыль, што і ў логе
-[Use default colors]
-Колеры па змаўчанні
-[Use custom colors]
-Задаць колеры
-[Popups for the StdMsg plugin]
-Усплывальныя вокны чата
-[Timeout (s)]
-Працягласць (з)
-[Text]
-Тэкст
-[Background]
-Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-( 0 - па змаўчанні, -1 - бясконца)
 [Message]
 Паведамленне
 [Undo]
@@ -1214,6 +1192,22 @@ UIN, E-mail і г.д.
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль.
 [Set password]
 Усталяваць пароль
+[Group chats]
+Чаты
+[Use same style as in the message log]
+Той жа стыль, што і ў логе
+[Use default colors]
+Колеры па змаўчанні
+[Use custom colors]
+Задаць колеры
+[Timeout (s)]
+Працягласць (з)
+[Text]
+Тэкст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+( 0 - па змаўчанні, -1 - бясконца)
 [&Hide/Show]
 С&хаваць/паказаць
 [E&xit]
@@ -1500,6 +1494,10 @@ UIN, E-mail і г.д.
 Колер ліній спісу
 [Nick list background (selected)]
 Заліванне спісу (абрана)
+[Messaging]
+Паведамленні
+[Send message]
+Адправіць
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Міргаць вакном, пры новым паведамленні
@@ -1609,10 +1607,6 @@ UIN, E-mail і г.д.
 Вылучыць (10х10)
 [Information (10x10)]
 Інфармацыя (10х10)
-[Messaging]
-Паведамленні
-[Group chats]
-Чаты
 [Group chats log]
 Логі чатаў
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ UIN, E-mail і г.д.
 Абразкі лога паведамленняў
 [Chat log]
 Лог чата
-[Chat]
-Чат
-[Popups]
-Усплывальныя вокны
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Затрымка адпраўкі паведамлення
@@ -1750,16 +1740,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Прыклад
-[The quick brown fox jumped over the lazy dog.]
-
-[Example With a Long Title]
-Прыклад з доўгім загалоўкам
-[Thequickbrownfoxjumpedoverthelazydog.]
-
-[An avatar.]
-З аватарам.
 [Bottom right]
 Унізе справа
 [Bottom left]
@@ -1796,6 +1776,18 @@ Miranda не здолела загрузіць убудаваную сістэм
 Вертыкальна
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Вы не можаце ўсталяваць затрымку па змаўчанні 0.\nВернута значэнне па змаўчанні.
+[Example]
+Прыклад
+[The quick brown fox jumps over the lazy dog.]
+
+[Example With a Long Title]
+Прыклад з доўгім загалоўкам
+[Thequickbrownfoxjumpsoverthelazydog.]
+
+[An avatar.]
+З аватарам.
+[Popups]
+Усплывальныя вокны
 [Settings]
 Налады
 [Classes]
@@ -1930,12 +1922,12 @@ Miranda не здолела загрузіць убудаваную сістэм
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 Невядома
-[%s requested authorization\n%u (%s) on %s]
-%s запытаў(ла) аўтарызацыю\n%u (%s) у %s
-[%s requested authorization\n%u on %s]
-%s запытаў(ла) аўтарызацыю\n%u у %s
-[%s requested authorization\n%s on %s]
-%s запытаў(ла) аўтарызацыю\n%s у %s
+[ requested authorization\n%u (%s) on %s]
+ запытаў(ла) аўтарызацыю\n%u (%s) у %s
+[ requested authorization\n%u on %s]
+ запытаў(ла) аўтарызацыю\n%u у %s
+[ requested authorization\n%s on %s]
+ запытаў(ла) аўтарызацыю\n%s у %s
 [(Unknown)]
 (невядомы)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ xСтатус
 [Host we are connecting to is not the one certificate was issued for]
 Выдадзены сертыфікат не адпавядае хасту далчэння
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Няма загружаных плагінаў гутаркі. Калі ласка, усталюйце/уключыце адзін з плагінаў гутаркі,напрыклад, "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 '%S' адключаны, далучыць?
 [Re-enable Miranda plugin?]
 Уключыць плагін?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
-[Fatal error]
-Фатальная памылка
 [Unable to load plugin in service mode!]
 Немагчыма загрузіць плагін у службовым рэжыме!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Немагчыма загрузіць ніводны з усталяваных плагінаў спісу кантактаў. Нават адключаныя ў наладах не запускаюцца.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не знойдзены плагін спісу канактаў. Вам патрэбны StdClist ці Clist_*.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Плагін ядра '%s' не можа быць загружана ці адсутнічае. Праграма змушана завяршыць працу
+[Fatal error]
+Фатальная памылка
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <усе плагіны>
@@ -2607,7 +2599,12 @@ xСтатус
 Вы жадаеце перазагрузіць зараз?
 [Plugins]
 Плагіны
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<Выкарыстоўваецца>
+[<Unknown format>]
+<Невядомы фармат>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профіль '%s' ўжо існуе. Хочаце перамясціць яго ў Сметніцу?\n\nУвага: Профіль будзе выдалены, калі ён адключаны.\nУвага: Профіль можа ўтрымліваць канфідэнцыйную інфармацыю і павінен быць правільна выдалены.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ xСтатус
 Праблема са стварэннем профіля
 [&Create]
 Стварыць
-[<In use>]
-<Выкарыстоўваецца>
-[<Unknown format>]
-<Невядомы фармат>
 [Are you sure you want to remove profile "%s"?]
 Вы ўпэўнены, што хочаце выдаліць профіль "%s"?
 [&Convert]

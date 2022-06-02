@@ -61,14 +61,10 @@ zmienił(a) klienta na %s (z %s)
 zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
-[Disable c&lient change notification]
-Wyłącz powiadomienia o zmianie k&lienta
-[Enable c&lient change notification]
-Włącz powiadomienia o zmianie k&lienta
+[Client change notifications]
+Powiadomienia o zmianie klienta
 [ClientChangeNotify: Client changed]
 Zmiana klienta
-[Popups]
-Powiadomienia
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Błąd #%d
@@ -89,5 +85,7 @@ Otwórz menu kontaktu
 Otwórz historię kontaktu
 [Do nothing]
 Nic nie rób
+[Popups]
+Powiadomienia
 [ClientChangeNotify]
 Powiadomienia o zmianie klienta

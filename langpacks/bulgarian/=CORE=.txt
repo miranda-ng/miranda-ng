@@ -394,12 +394,6 @@
 Показване броя на знаците
 [Show toolbar buttons on top row]
 Лента с инструменти на горния ред
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on 'Ctrl+Enter']
-Изпращане на съобщение с "Ctrl+Enter"
 [Show warning when message has not been received after]
 Предупреждение, ако съобщение не е получено след
 [Send error]
@@ -504,22 +498,6 @@
 Добавяне на новите стаи към група:
 [Nick list row distance (pixels):]
 Височина на ред в списъка с прякори (пиксела):
-[Use same style as in the message log]
-Ползване на същия стил както в дневника за съобщения
-[Use default colors]
-Стандартни цветове
-[Use custom colors]
-Зададени цветове
-[Popups for the StdMsg plugin]
-Popup за приставката StdMsg
-[Timeout (s)]
-Времетраене (сек)
-[Text]
-Текст
-[Background]
-Фон
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-
 [Message]
 Съобщение
 [Undo]
@@ -1214,6 +1192,22 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
 [Set password]
 Задаване на парола
+[Group chats]
+Групови чатове
+[Use same style as in the message log]
+Ползване на същия стил както в дневника за съобщения
+[Use default colors]
+Стандартни цветове
+[Use custom colors]
+Зададени цветове
+[Timeout (s)]
+Времетраене (сек)
+[Text]
+Текст
+[Background]
+Фон
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+
 [&Hide/Show]
 Показване/Скриване
 [E&xit]
@@ -1500,6 +1494,10 @@ Google Translate
 Редове на списък с прякори
 [Nick list background (selected)]
 Фон на списъка с прякори (маркирано)
+[Messaging]
+Съобщения
+[Send message]
+Изпращане на съобщение
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Мигане на прозореца при ново съобщение
@@ -1609,10 +1607,6 @@ Google Translate
 Отличаване (10x10)
 [Information (10x10)]
 Информация (10х10)
-[Messaging]
-Съобщения
-[Group chats]
-Групови чатове
 [Group chats log]
 Дневник за груповите чатове
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Google Translate
 Икони за изобразяване в дневника за съобщения
 [Chat log]
 Чат дневник
-[Chat]
-
-[Popups]
-Рopups
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 
@@ -1750,16 +1740,6 @@ Google Translate
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Пример
-[The quick brown fox jumped over the lazy dog.]
-Бързата кафява лисица прескочи мързеливото куче.
-[Example With a Long Title]
-Пример с дълго заглавие
-[Thequickbrownfoxjumpedoverthelazydog.]
-Бързата.кафява.лисица.прескочи.мързеливото.куче.
-[An avatar.]
-Аватар.
 [Bottom right]
 Долу вдясно
 [Bottom left]
@@ -1796,6 +1776,18 @@ Google Translate
 Вертикално анимиране
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Времетраенето не може да бъде 0.\nСтойността е нулирана.
+[Example]
+Пример
+[The quick brown fox jumps over the lazy dog.]
+Бързата кафява лисица прескочи мързеливото куче.
+[Example With a Long Title]
+Пример с дълго заглавие
+[Thequickbrownfoxjumpsoverthelazydog.]
+Бързата.кафява.лисица.прескочи.мързеливото.куче.
+[An avatar.]
+Аватар.
+[Popups]
+Рopups
 [Settings]
 Настройки
 [Classes]
@@ -1930,12 +1922,12 @@ Popups са изключени
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <Неизвестно>
-[%s requested authorization\n%u (%s) on %s]
-%s изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
-[%s requested authorization\n%u on %s]
-%s изпрати молба за упълномощаване\n%u (Акаунт: %s)
-[%s requested authorization\n%s on %s]
-%s изпрати молба за упълномощаване\n%s (Акаунт: %s)
+[ requested authorization\n%u (%s) on %s]
+ изпрати молба за упълномощаване\n%u (%s) (Акаунт: %s)
+[ requested authorization\n%u on %s]
+ изпрати молба за упълномощаване\n%u (Акаунт: %s)
+[ requested authorization\n%s on %s]
+ изпрати молба за упълномощаване\n%s (Акаунт: %s)
 [(Unknown)]
 (Неизвестен)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ Win +\s
 [Host we are connecting to is not the one certificate was issued for]
 Хоста към който се свързвате не е този, за който е издаден сертификата
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Няма заредена приставка за съобщения. Моля, инсталирайте/включете една приставка, например "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 "%S" е изключена, желаете да бъде включена?
 [Re-enable Miranda plugin?]
 
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
-[Fatal error]
-Фатална грешка
 [Unable to load plugin in service mode!]
 Зареждането на приставката в сервизен режим е невъзможно!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Нито една от инсталираните приставки за списъка с контакти не може да бъде заредена.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Не е намерена приставка за списъка с контакти! Необходима е StdClist или всяка друга clist приставка.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Приставката "%s" от ядрото не може да бъде заредена. Miranda ще се изключи
+[Fatal error]
+Фатална грешка
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <всички модули>
@@ -2607,7 +2599,12 @@ Win +\s
 Желаете ли да бъде рестартирана сега?
 [Plugins]
 Приставки
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<В употреба>
+[<Unknown format>]
+<Неизвестен формат>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Профилът "%s" вече съществува. Желаете ли да бъде преместен в Кошчето?\n\nВНИМАНИЕ:Профилът ще бъде изтрит ако Кошчето е изключено.\nВНИМАНИЕ: Профилът може да съдържа поверителна и лична информация, затова е препоръчително да го изтриете по подходящ начин.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ Win +\s
 Проблем със създаването на профил
 [&Create]
 Създаване
-[<In use>]
-<В употреба>
-[<Unknown format>]
-<Неизвестен формат>
 [Are you sure you want to remove profile "%s"?]
 Наистина ли желаете профилът "%s" да бъде изтрит?
 [&Convert]

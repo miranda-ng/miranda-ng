@@ -69,13 +69,9 @@ Błąd alokacji pamięci
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Błąd tworzenia menu
-[Enable WUMF popups]
-Włącz powiadomienia WUMF
-[Disable WUMF popups]
-Wyłącz powiadomienia WUMF
 [Show connections list]
 Pokaż listę połączeń
-[Popups]
-Powiadomienia
+[WUMF popups]
+Powiadomienia WUMF
 [WUMF: Show connections]
 WUMF: Pokaż połączenia

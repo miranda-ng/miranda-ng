@@ -394,12 +394,6 @@ Voir le bouton "Envoyer"
 Décompte des caractères
 [Show toolbar buttons on top row]
 Voir boutons d'outils en haut
-[Send message on double 'Enter']
-Taper 2 fois "Entrée" pour envoyer
-[Send message on 'Enter']
-Taper 1 fois "Entrée" pour envoyer
-[Send message on 'Ctrl+Enter']
-
 [Show warning when message has not been received after]
 M'alerter quand le message n'a pas été reçu après
 [Send error]
@@ -504,22 +498,6 @@ Autre
 Ajouter salons au groupe :
 [Nick list row distance (pixels):]
 Écart entre rangs (pixels) :
-[Use same style as in the message log]
-Utiliser même style que la fenêtre
-[Use default colors]
-Couleurs par défaut
-[Use custom colors]
-Couleurs personnalisées
-[Popups for the StdMsg plugin]
-Popups pour le plugin StdMsg
-[Timeout (s)]
-Délai (s)
-[Text]
-Texte
-[Background]
-Arrière-plan
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-
 [Message]
 Message
 [Undo]
@@ -1214,6 +1192,22 @@ Changer le mot de passe
 
 [Set password]
 Mot de passe du profil
+[Group chats]
+Groupe chats
+[Use same style as in the message log]
+Utiliser même style que la fenêtre
+[Use default colors]
+Couleurs par défaut
+[Use custom colors]
+Couleurs personnalisées
+[Timeout (s)]
+Délai (s)
+[Text]
+Texte
+[Background]
+Arrière-plan
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+
 [&Hide/Show]
 &Afficher/Cacher
 [E&xit]
@@ -1500,6 +1494,10 @@ Fond de la liste
 Lignes de la liste
 [Nick list background (selected)]
 
+[Messaging]
+Envoi de message
+[Send message]
+
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Fenêtre clignotante quand quelqu'un parle
@@ -1609,10 +1607,6 @@ Sujet (10x10)
 Surligner (10x10)
 [Information (10x10)]
 Information (10x10)
-[Messaging]
-Envoi de message
-[Group chats]
-Groupe chats
 [Group chats log]
 
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Apparence du journal des messages
 Icônes à afficher dans le journal des messages
 [Chat log]
 Fenêtre de chat
-[Chat]
-
-[Popups]
-Popups
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Délai d'envoi du message expiré
@@ -1750,16 +1740,6 @@ Une erreur inconnue s'est produite.
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Exemple
-[The quick brown fox jumped over the lazy dog.]
-Le rapide renard brun a sauté par-dessus le chien paresseux.
-[Example With a Long Title]
-Exemple avec un long titre
-[Thequickbrownfoxjumpedoverthelazydog.]
-Lerapiderenardbrunasautépau-dessuslechienparesseux.
-[An avatar.]
-Un avatar.
 [Bottom right]
 
 [Bottom left]
@@ -1796,6 +1776,18 @@ Programme en plein écran
 
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
+[Example]
+Exemple
+[The quick brown fox jumps over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
+[Example With a Long Title]
+Exemple avec un long titre
+[Thequickbrownfoxjumpsoverthelazydog.]
+Lerapiderenardbrunasautépau-dessuslechienparesseux.
+[An avatar.]
+Un avatar.
+[Popups]
+Popups
 [Settings]
 Paramètres
 [Classes]
@@ -1930,11 +1922,11 @@ Veuillez autoriser ma demande et m'ajouter à votre liste de contact.
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <inconnu>
-[%s requested authorization\n%u (%s) on %s]
+[ requested authorization\n%u (%s) on %s]
 
-[%s requested authorization\n%u on %s]
+[ requested authorization\n%u on %s]
 
-[%s requested authorization\n%s on %s]
+[ requested authorization\n%s on %s]
 
 [(Unknown)]
 (Inconnu)
@@ -2564,22 +2556,22 @@ Réseau
 [Host we are connecting to is not the one certificate was issued for]
 
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Aucun plugin de messagerie chargés. S'il vous plaît installer/activer l'un des plugins de messagerie, par exemple, "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 '%S' est inactif, le réactiver ?
 [Re-enable Miranda plugin?]
 Réactiver le plugin ?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-
-[Fatal error]
-Erreur fatale
 [Unable to load plugin in service mode!]
 
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Impossible de lancer aucune des listes de contacts installées. Vos préférences d'affichage incompatibles ont dut être également ignoré.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Aucun plugin de liste de contact chargés. S'il vous plaît installer/activer l'un des plugins de liste de contact, par exemple, "StdClist.dll"
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+
+[Fatal error]
+Erreur fatale
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 < Tous les plugins >
@@ -2607,7 +2599,12 @@ Miranda NG doit être redémarré pour appliquer les modifications de ces plugin
 Voulez-vous redémarrer maintenant?
 [Plugins]
 Plugins
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+
+[<Unknown format>]
+
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Le profil '%s' existe déjà. Voulez-vous le déplacer vers la Corbeille?\n\nAVERTISSEMENT : Le profil sera supprimé si la corbeille est désactivé.\nAVERTISSEMENT : Un profil peut contenir des informations confidentielles et doit être correctement supprimé.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ Impossible de créer le profil '%s', l'erreur était %x
 Souci à la création de profil
 [&Create]
 &Créer
-[<In use>]
-
-[<Unknown format>]
-
 [Are you sure you want to remove profile "%s"?]
 Êtes-vous sûr que vous voulez supprimer le profil "%s"?
 [&Convert]

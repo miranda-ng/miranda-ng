@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Options générales
-[Show entry in the Popups menu]
-
-[Temporarily disable event popups]
-Désactiver les popups
-[Show preview of event in popup]
-Aperçu d'évènement dans popup
+[Limit message preview to]
+Aperçu des messages limité à
+[characters]
+caractères
 [Popup options]
+
+[Text]
+Texte
+[Background]
+Arrière-plan
+[Timeout, secs]
 
 [Message]
 Message
 [File]
 Fichier
+[Errors]
+Erreurs
 [Others]
 Autres
-[Text]
-Texte
-[Background]
-Arrière-plan
-[Timeout]
-Délai
+[Preview]
+Aperçu
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+Ne pas voir le popup quand le message est déjà ouvert
+[Hide popup when sending new message]
+Cacher le popup quand envoi d'un nouveau message
+[Open reply dialog instead of reading the message]
+Ouvrir la fenêtre de réponse au lieu de lire le message
+[Merge popups from one user]
+Fusionner les popups d'un contact
+[Show date]
+Voir la date
+[Show time]
+Voir l'heure
+[Show headers]
+Voir l'en-tête
+[Number of messages being shown]
+Nombre de messages affichés au début
+[Last message display first]
+Dernier message en premier
+[Last message display last]
+Dernier message en dernier
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Options générales
+[Show preview of event in popup]
+Aperçu d'évènement dans popup
+[Enable event notifications for instant messages]
+
+[Enable event notifications for group chats]
+
 [Notify me of...]
 Me notifier si...
+[Error]
+Erreur
 [Left click actions]
 Clic gauche
 [Dismiss popup]
@@ -44,42 +80,20 @@ Ferme l'évènement
 Clic droit
 [Timeout actions]
 Action après délai écoulé
-[Message event only]
+[Misc options]
 
-[Don't show popup when message dialog is already open]
-Ne pas voir le popup quand le message est déjà ouvert
-[Hide popup when sending new message]
-Cacher le popup quand envoi d'un nouveau message
-[Open reply dialog instead of reading the message]
-Ouvrir la fenêtre de réponse au lieu de lire le message
-[Merge popups from one user]
-Fusionner les popups d'un contact
-[Preview]
-Aperçu
-[Show date]
-Voir la date
-[Show time]
-Voir l'heure
-[Show headers]
-Voir l'en-tête
-[Number of begin shown messages]
-Nombre de messages affichés au début
-[Last message display first]
-Dernier message en premier
-[Last message display last]
-Dernier message en dernier
-[Edit]
-Éditer
 [No popups for RSS contacts]
 Pas de popup pour les contacts RSS
 [No popups for read messages]
 
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Popups
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Notification d'évènements
+[Popups]
+Popups
+[Main options]
+
+[Message events]
+
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 
@@ -91,6 +105,8 @@ Notification d'évènements
 Ceci est un exemple de message  :-)
 [This is a sample file event :-D]
 Ceci est un exemple de transfert de fichier  :-D
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 Ceci est un exemple d'évènement  ;-D
 [Plugin Test]
@@ -108,7 +124,3 @@ Demande votre autorisation
 Évènement inconnu
 [Notify of new events]
 Notification de nouveaux évènements
-[Enable new event notification]
-Activer la notification d'un nouvel évènement
-[Disable new event notification]
-Désactiver la notification d'un nouvel évènement

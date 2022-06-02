@@ -229,10 +229,6 @@ xСтатуси
 [(default sound)]
 (за замовчанням)
 ;file \plugins\NewXstatusNotify\src\main.cpp
-[Notification enabled]
-Сповіщення ввімкнено
-[Notification disabled]
-Сповіщення вимкнено
 [<no status message>]
 <немає повідомлення статусу>
 [Contact]
@@ -329,12 +325,8 @@ xСтатуси
 Змінено xСтатус
 [Extra status message removed]
 Видалено повідомлення xСтатусу
-[Enable status notification]
-Увімкнути сповіщення про зміну статусу
-[Disable status notification]
-Вимкнути сповіщення про зміну статусу
-[Toggle status notification]
-Увімк./вимк. сповіщення про зміну статусу
+[Status notifications]
+Сповіщення про зміну статусу
 [New Status Notify]
 Зміна статусу
 [Status change]

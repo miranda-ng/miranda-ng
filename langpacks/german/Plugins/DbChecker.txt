@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -24,6 +24,8 @@ Dateiname:
 Alle Ereignisse als gelesen markieren
 [Fix UTF-8 encoding in old events]
 UTF-8-Kodierung in alten Ereignissen korrigieren
+[Remove duplicate events]
+
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -61,6 +63,8 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 Datenbankverarbeitungsfunktion gestartet
 [%d events marked as read]
 %d Ereignisse wurden als gelesen markiert
+[%d duplicate events removed]
+
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]

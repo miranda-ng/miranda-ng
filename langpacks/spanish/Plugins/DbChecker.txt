@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -23,6 +23,8 @@ Cancelar
 [Mark all events as read]
 
 [Fix UTF-8 encoding in old events]
+
+[Remove duplicate events]
 
 [Error Opening Database]
 
@@ -60,6 +62,8 @@ Error
 [Database worker thread activated]
 
 [%d events marked as read]
+
+[%d duplicate events removed]
 
 [Processing aborted by user]
 

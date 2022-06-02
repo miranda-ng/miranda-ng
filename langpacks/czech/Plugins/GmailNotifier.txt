@@ -68,14 +68,12 @@ Nelze přečíst kanál RSS!
 Ostatní
 [Gmail: New thread(s)]
 Gmail: Nové vlákno/a
-[Gmail Notifier]
-Gmail Notifier
+[GmailNotifier]
+GmailNotifier
 [&Check all Gmail inboxes]
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]
 &Zkontrolovat účet (Gmail)
 ;file \protocols\GmailNotifier\src\options.cpp
-[GmailNotifier]
-GmailNotifier
 [Network]
 Sítě

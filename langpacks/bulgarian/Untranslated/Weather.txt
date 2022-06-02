@@ -2,6 +2,7 @@
 [Update with Clear]
 [Weather Update]
 [Alert Issued]
+[Weather notifications]
 [Weather condition was not logged.]
 [in]
 [Display Name]

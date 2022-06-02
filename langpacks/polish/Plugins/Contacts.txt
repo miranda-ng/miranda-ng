@@ -42,11 +42,11 @@ Wystąpił błąd. Protokół zwrócił następujący błąd:
 Spróbuj ponownie
 [Popup]
 Powiadomienia
-[Add to List]
+[Add to list]
 Dodaj do listy
 [User details]
 Dane kontaktu
-[Send Message]
+[Send message]
 Wyślij wiadomość
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

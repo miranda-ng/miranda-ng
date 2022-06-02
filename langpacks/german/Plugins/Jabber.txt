@@ -56,8 +56,6 @@ Passwort ändern
 Priorität:
 [Use hostname as resource]
 Computername als Standort verwenden
-[List of public servers]
-Liste öffentlicher Server
 [Port:]
 Port:
 [Use SSL]
@@ -180,6 +178,8 @@ Mobiltelefon
 Video
 [Modem]
 Modem
+[(*) marks the current session]
+
 [Load]
 Laden
 [Save]
@@ -1436,8 +1436,6 @@ Autorisierungsanfragen automatisch akzeptieren
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
 [Disable frame]
 Frame deaktivieren
-[Display popups with errors]
-Fehler mit Popups anzeigen
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Bild-URLs in [img] einschließen
 Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Servern das Abfragen der Version erlauben (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 [List Editor...]
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ Autorisierung fehlgeschlagen für %s@%s.
 Nachricht weitergeleitet von: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
+[Description]
+Übersicht
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ Unbekanntes Format
 <Foto im Offlinemodus nicht verfügbar>
 [<No photo>]
 <Kein Foto>
+[Device ID]
+
+[Fingerprint]
+t
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Unbekannt
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
+[OMEMO]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

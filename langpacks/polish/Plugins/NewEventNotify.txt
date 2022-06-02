@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Powiadamia o otrzymaniu wiadomości, linku, pliku itp.
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Ogólne
-[Show entry in the Popups menu]
-Pokaż wpis w menu powiadomienia
-[Temporarily disable event popups]
-Tymczasowo wyłącz powiadomienia zdarzeń
-[Show preview of event in popup]
-Pokaż podgląd zdarzenia w powiadomieniu
+[Limit message preview to]
+Limituj podgląd wiadomości do:
+[characters]
+znaków
 [Popup options]
 Opcje powiadomień
-[Message]
-Wiadomość
-[File]
-Plik
-[Others]
-Inne
 [Text]
 Tekst
 [Background]
 Tło
-[Timeout]
-Wyświetlaj
+[Timeout, secs]
+
+[Message]
+Wiadomość
+[File]
+Plik
+[Errors]
+Błędy
+[Others]
+Inne
+[Preview]
+Podgląd
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+Nie pokazuj powiadomień przy otwartym oknie rozmowy
+[Hide popup when sending new message]
+Ukryj powiadomienia przy wysyłaniu nowej wiadomości
+[Open reply dialog instead of reading the message]
+Otwórz okno odpowiedzi zamiast czytania wiadomości
+[Merge popups from one user]
+Połącz powiadomienia od jednego użytkownika
+[Show date]
+Pokaż datę
+[Show time]
+Pokaż czas
+[Show headers]
+Pokaż nagłówki
+[Number of messages being shown]
+Ilość pokazywanych wiadomości
+[Last message display first]
+Ost. wiadomość na początku
+[Last message display last]
+Ost. wiadomość na końcu
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Powiadomienia o nowych zdarzeniach
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Ogólne
+[Show preview of event in popup]
+Pokaż podgląd zdarzenia w powiadomieniu
+[Enable event notifications for instant messages]
+Włącz powiadomienia dla wiadomości
+[Enable event notifications for group chats]
+Włącz powiadomienia dla czatów
 [Notify me of...]
 Powiadom mnie o...
+[Error]
+Błąd
 [Left click actions]
 Akcja LPM
 [Dismiss popup]
@@ -44,42 +80,20 @@ Odrzuć zdarzenie
 Akcja PPM
 [Timeout actions]
 Po upływie czasu
-[Message event only]
-Powiadomienia o wiadomościach
-[Don't show popup when message dialog is already open]
-Nie pokazuj powiadomień przy otwartym oknie rozmowy
-[Hide popup when sending new message]
-Ukryj powiadomienia przy wysyłaniu nowej wiadomości
-[Open reply dialog instead of reading the message]
-Otwórz okno odpowiedzi zamiast czytania wiadomości
-[Merge popups from one user]
-Połącz powiadomienia od jednego użytkownika
-[Preview]
-Podgląd
-[Show date]
-Pokaż datę
-[Show time]
-Pokaż czas
-[Show headers]
-Pokaż nagłówki
-[Number of begin shown messages]
-Ilość pokazywanych wiadomości
-[Last message display first]
-Ost. wiadomość na początku
-[Last message display last]
-Ost. wiadomość na końcu
-[Edit]
-Edytuj
+[Misc options]
+
 [No popups for RSS contacts]
 Nie wyświetlaj powiadomień dla kanałów RSS
 [No popups for read messages]
 Nie wyświetlaj powiadomień dla przeczytanych wiadomości
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Powiadomienia
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Powiadomienia
+[Popups]
+Powiadomienia
+[Main options]
+Główne opcje
+[Message events]
+Zdarzenia wiadomości
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Otrzymano %d kontakty.
@@ -91,6 +105,8 @@ Otrzymano %d kontakty.
 To jest przykładowe powiadomienie o wiadomości :-)
 [This is a sample file event :-D]
 To jest przykładowe powiadomienie o pliku :-D
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 To jest przykładowe powiadomienie o innym zdarzeniu ;-D
 [Plugin Test]
@@ -108,7 +124,3 @@ Prośba o twoją autoryzację
 Nieznane zdarzenie
 [Notify of new events]
 Powiadamiaj o nowych zdarzeniach
-[Enable new event notification]
-Włącz powiadomienia o nowych zdarzeniach
-[Disable new event notification]
-Wyłącz powiadomienia o nowych zdarzeniach

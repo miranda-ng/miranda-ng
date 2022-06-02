@@ -385,7 +385,6 @@ Ignorar
 ;file \protocols\IRCG\src\ircproto.cpp
 [%s (server)]
 %s (servidor)
-
 [%s (client-to-client)]
 
 [Nickname]

@@ -42,11 +42,11 @@ Se ha producido un error. El protocolo reportó el siguiente error:
 Intentar de nuevo
 [Popup]
 Ventana emergente
-[Add to List]
+[Add to list]
 Añadir a la lista
 [User details]
 Información del usuario
-[Send Message]
+[Send message]
 Enviar mensaje
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

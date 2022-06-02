@@ -401,12 +401,6 @@ Mostrar botón 'Enviar'
 Mostrar recuento de caracteres
 [Show toolbar buttons on top row]
 Mostrar botones de barra de herramientas en la parte superior de la fila
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on 'Ctrl+Enter']
-Enviar mensaje con 'Ctrl+Intro'
 [Show warning when message has not been received after]
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [Send error]
@@ -511,22 +505,6 @@ Otro
 Añadir nuevas salas de grupo:
 [Nick list row distance (pixels):]
 Lista de usuarios distancia entre hileras (píxeles):
-[Use same style as in the message log]
-Usar mismo estilo que en el registro de mensajes
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Popups for the StdMsg plugin]
-Ventanas emergentes para el plugin de chat
-[Timeout (s)]
-Tiempo de espera (s)
-[Text]
-Texto
-[Background]
-Fondo
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
 [Message]
 Mensaje
 [Undo]
@@ -759,6 +737,8 @@ La importación ha completado a partir de
 &Reciclar
 [&Delete]
 &Borrar
+[&Move]
+&Mover
 [&Leave]
 &Dejar
 [Netlib log options]
@@ -1063,6 +1043,22 @@ Mostrar ventanas emergentes cuando el chat no está activo
 Mostrar menús del botón derecho cuando se hace clic en los botones
 [Change password]
 Cambiar contraseña
+[Group chats]
+Grupo de chats
+[Use same style as in the message log]
+Usar mismo estilo que en el registro de mensajes
+[Use default colors]
+Usar colores predeterminados
+[Use custom colors]
+Usar colores personalizados
+[Timeout (s)]
+Tiempo de espera (s)
+[Text]
+Texto
+[Background]
+Fondo
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1319,6 +1315,10 @@ Fondo de lista de usuarios
 Líneas de lista de usuarios
 [Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
+[Messaging]
+Mensajería
+[Send message]
+Enviar mensaje
 [Flash window when someone speaks]
 Parpadear ventana cuando alguien habla
 [Flash window when a word is highlighted]
@@ -1427,10 +1427,6 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[Messaging]
-Mensajería
-[Group chats]
-Grupo de chats
 [Group chats log]
 Registro de Grupo de Chats
 [Appearance and functionality of chat room windows]
@@ -1441,10 +1437,6 @@ Apariencia del registro de mensajes
 Iconos a mostrar en el registro de mensajes
 [Chat log]
 Registro de chat
-[Chat]
-Chat
-[Popups]
-Ventanas emergentes
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
 [Incoming message (10x10)]
@@ -1555,6 +1547,8 @@ El contacto ha comenzado a escribir
 El contacto dejó de escribir
 [An unknown error has occurred.]
 Se ha producido un error desconocido.
+[Popups]
+Ventanas emergentes
 [Settings]
 Ajustes
 [Outgoing message]
@@ -1629,12 +1623,6 @@ Añadir %s
 Por favor autorice mi petición y añadame a su lista de contactos.
 [<Unknown>]
 <Desconocido>
-[%s requested authorization\n%u (%s) on %s]
-%s autorización solicitada\n%u (%s) en %s
-[%s requested authorization\n%u on %s]
-%s autorización solicitada\n%u en %s
-[%s requested authorization\n%s on %s]
-%s autorización solicitada\n%s on %s
 [(Unknown)]
 (Desconocido)
 [Feature is not supported by protocol]
@@ -2007,22 +1995,20 @@ Red
 El cliente no puede decodificar mensajes de servidor. Posibles causas: El servidor no es compatible con SSL o no requiere paquete de seguridad existente
 [Host we are connecting to is not the one certificate was issued for]
 El servidor al que nos estamos conectando no es el del certificado emitido
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
 ['%S' is disabled, re-enable?]
 '%S' está deshabilitado, ¿volver a activar?
 [Re-enable Miranda plugin?]
 Volver a activar el plugin de Miranda?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Módulo básico '%s' no se puede cargar o falta.
-[Fatal error]
-Error fatal
 [Unable to load plugin in service mode!]
 ¡No se pueden cargar plugins en el modo de servicio!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 ¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Módulo básico '%s' no se puede cargar o falta.
+[Fatal error]
+Error fatal
 [<all modules>]
 <todos los módulos>
 [<core modules>]
@@ -2047,6 +2033,8 @@ Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
 ¿Desea reiniciar ahora?
 [Plugins]
 Plugins
+[<In use>]
+<En uso>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.
 [The profile already exists]
@@ -2061,8 +2049,6 @@ No se puede crear el perfil '%s', el error fue %x
 Problema al crear el perfil
 [&Create]
 &Crear
-[<In use>]
-<En uso>
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
 [Run]
@@ -3322,7 +3308,7 @@ Protocolo desconocido
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.3
+;  Version: 0.98.1.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Dialog]
@@ -3699,12 +3685,12 @@ Fondo
 Texto
 [Preview]
 Previsualizar
-[Popups]
-Ventanas emergentes
 [Close popup]
 Cerrar popup
 [Do nothing]
 No hacer nada
+[Popups]
+Ventanas emergentes
 #muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;============================================================
 ;  File: Clist_blind.dll
@@ -4872,11 +4858,11 @@ Se ha producido un error. El protocolo reportó el siguiente error:
 Intentar de nuevo
 [Popup]
 Ventana emergente
-[Add to List]
+[Add to list]
 Añadir a la lista
 [User details]
 Información del usuario
-[Send Message]
+[Send message]
 Enviar mensaje
 [Contacts received from]
 Contactos recibidos de
@@ -5033,7 +5019,7 @@ Reemplaza (sólo para los contactos seleccionados) las letras del cirílico en l
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 [Cancel]
@@ -5128,7 +5114,7 @@ Error
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Disabled]
@@ -5141,8 +5127,6 @@ Error
 Todos los archivos
 [Database]
 Base de datos
-[Popups]
-Ventanas emergentes
 [days]
 días
 [hours]
@@ -5815,7 +5799,7 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.7
+;  Version: 0.96.1.9
 ;  Authors: George Hazan
 ;============================================================
 [Password:]
@@ -5896,7 +5880,7 @@ Ver &historial
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.4
+;  Version: 1.6.0.5
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [Copy]
@@ -6056,6 +6040,8 @@ Voz
 Desconocido
 [Ignore]
 Ignorar
+[%s (server)]
+%s (servidor)
 [Nickname]
 Apodo
 [Main]
@@ -6137,8 +6123,6 @@ Cambiar contraseña
 Prioridad
 [Use hostname as resource]
 Nombre de host como recurso
-[List of public servers]
-Usar el nombre de host como recurso
 [Port:]
 Puerto:
 [Use SSL]
@@ -6385,6 +6369,8 @@ a
 ninguno
 [Copy]
 Copiar
+[Unknown]
+Desconocido
 [Photo]
 Foto
 [Unknown error]
@@ -7026,23 +7012,23 @@ Ventanas emergentes
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Message]
-Mensaje
-[File]
-Archivo
 [Text]
 Texto
 [Background]
 Fondo
-[Timeout]
-Tiempo de espera
+[Message]
+Mensaje
+[File]
+Archivo
+[Errors]
+Errores
 [Preview]
 Previsualizar
-[Edit]
-Editar
+[Error]
+Error
 [Popups]
 Ventanas emergentes
 [Contacts]
@@ -7488,7 +7474,7 @@ Eventos
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.3
+;  Version: 0.1.3.4
 ;  Authors: Robert Pösel
 ;============================================================
 [Server:]
@@ -7662,14 +7648,14 @@ Añadir
 Eliminar
 [Edit]
 Editar
-[Cancel]
-Cancelar
-[Port:]
-Puerto:
 [Contact]
 Contacto
+[Port:]
+Puerto:
 [Protocols]
 Protocolos
+[Cancel]
+Cancelar
 [Enable]
 Habilitar
 [<none>]
@@ -7692,7 +7678,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -7966,8 +7952,6 @@ Color de fondo
 Usar colores predeterminados
 [Cancel]
 Cancelar
-[Popups]
-Ventanas emergentes
 [Services]
 Servicios
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
@@ -8222,8 +8206,6 @@ Ventanas en cascada nueva
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [seconds]
 segundos
-[Send message on:]
-Enviar mensaje con:
 [Tabs]
 Pestañas
 [Show title bar]
@@ -8320,18 +8302,6 @@ Habilitar resaltando
 Palabras a resaltar (comodines permitidos)
 [Location]
 Localización
-[Use same style as in the message log]
-Usar mismo estilo que en el registro de mensajes
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Text]
-Texto
-[Background]
-Fondo
-[Timeout (s)]
-Tiempo de espera (s)
 [Message]
 Mensaje
 [Undo]
@@ -8374,8 +8344,6 @@ Seleccionar carpeta
 Sesiones de mensaje
 [General]
 General
-[Popups]
-Ventanas emergentes
 [Add contact]
 Añadir contacto
 [Send message]
@@ -8468,6 +8436,8 @@ Tiempo entrante
 Puntos de entrada
 [Message area]
 Área de mensaje
+[Background]
+Fondo
 [Offline]
 Fuera de línea
 [Online]
@@ -8484,14 +8454,6 @@ No molestar
 Libre para el chat
 [Invisible]
 Invisible
-[Enter]
-Intro
-[Double 'Enter']
-doble 'Intro'
-[Ctrl+Enter]
-Ctrl+Intro
-[Shift+Enter]
-Shift+Intro
 [** New contacts **]
 ** Nuevos contactos **
 [** Unknown contacts **]
@@ -9534,7 +9496,7 @@ Avanzado
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -9583,20 +9545,6 @@ Otro nombre
 &Añadir
 [seconds]
 segundos
-[Text]
-Texto
-[Background]
-Fondo
-[Message]
-Mensaje
-[Use default colors]
-Usar colores predeterminados
-[Preview]
-Previsualizar
-[Group chats]
-Grupo de chats
-[Errors]
-Errores
 [Dialog]
 Diálogo
 [Cancel]
@@ -9627,6 +9575,10 @@ Renombrar
 milisegundos
 [Colors]
 Colores
+[Background]
+Fondo
+[Text]
+Texto
 [Use &default colors]
 Usar colores predeterminados
 [Use &Windows colors]
@@ -9637,6 +9589,8 @@ Por defecto
 Permanente
 [Custom]
 Personalizado
+[Preview]
+Previsualizar
 [Timeout]
 Retardo
 [Templates]
@@ -9699,6 +9653,10 @@ Activar/desactivar el filtro de eventos (Ctrl+F)
 Controlar esta sala (Ctrl+O)
 [Message sessions]
 Sesiones de mensaje
+[Group chats]
+Grupo de chats
+[Send message]
+Enviar mensaje
 [Tabs]
 Pestañas
 [Nickname]
@@ -9781,14 +9739,6 @@ Mensaje de
 Notificaciones
 [disabled]
 desabilitado
-[Incoming file]
-Archivo entrante
-[System tray icon]
-Icono de la bandeja de sistema
-[Event notifications]
-Notificaciones de eventos
-[Popups]
-Ventanas emergentes
 [%s is typing a message...]
 %s está escribiendo un mensaje...
 [%s is typing a message]
@@ -9811,8 +9761,6 @@ Enviar mensaje de error
 Otro
 [Paste and send]
 Pegar y Enviar
-[Send message]
-Enviar mensaje
 [Copy to clipboard]
 Copiar al portapapeles
 [contact]
@@ -9833,10 +9781,6 @@ minutos
 %s: sesión de mensaje
 [%s: message session (%u users)]
 %s: sesión de mensaje (%u usuarios)
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
 [Minimize the message window on send]
 Minimizar la ventana de mensaje al enviar
 [Close the message window on send]
@@ -9869,6 +9813,8 @@ Registro de mensaje
 Error
 [Contact]
 Contacto
+[Popups]
+Ventanas emergentes
 [Contact started typing]
 El contacto ha comenzado a escribir
 [Contact stopped typing]
@@ -10239,6 +10185,8 @@ Permanente
 Previsualizar
 [Normal]
 Normal
+[%s (server)]
+%s (servidor)
 [Network]
 Red
 [Popups]
@@ -10247,7 +10195,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.1
+;  Version: 0.9.0.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Updating]
@@ -10710,8 +10658,6 @@ Lista de contactos
 Reiniciar
 [City:]
 Ciudad
-[Popup]
-Ventana emergente
 [Browse]
 Navegar
 [Reset to default]
@@ -11163,7 +11109,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.5
+;  Version: 0.3.3.6
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
@@ -11245,8 +11191,6 @@ Error
 Servicios
 [File]
 Archivo
-[Popups]
-Ventanas emergentes
 #muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
 ;  File: WinterSpeak.dll
@@ -11351,17 +11295,9 @@ Sonido de contacto personalizado
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-[Version:]
-Versión
-[Description:]
-Detalles:
-[Copyright:]
-Copyright:
-[Homepage:]
-Sitio web:
 [Account]
 Cuenta
 [Name:]
@@ -11418,20 +11354,18 @@ Seleccionar todo
 Sujeto
 [Size]
 Tamaño
+[New Account]
+Nueva cuenta
+[All Files]
+Todos los archivos
 [Network]
 Red
 [Accounts]
 Cuentas
 [General]
 General
-[Plugins]
-Plugins
 [Popups]
 Ventanas emergentes
-[New Account]
-Nueva cuenta
-[All Files]
-Todos los archivos
 #muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
 ;============================================================
 ;  File: YARelay.dll

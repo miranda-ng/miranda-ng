@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@
 Повече за допълнителните настройки
 [Revert to (safe) defaults]
 Стандартни настройки
-[Event notify options]
-Уведомяване за събития - настройки
-[Limit message preview to]
-Ограничаване текста в образеца до
-[characters]
-знака
-[Only show event notifications when my status is...]
-Уведомяване само когато състоянието ми е...
-[Popup options]
-Popup настройки
-[Text]
-Текст
-[Background]
-Фон
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Времетраене (сек, 0=стандарт, -1=безкрайно)
-[Message]
-Съобщение
-[Use default colors]
-Стандартни цветове
-[Others]
-Други
-[Preview]
-Образец
-[Group chats]
-Групови чатове
-[Errors]
-Грешки
-[Use the message log color theme for group chat popups]
-Ползване цветовете на дневника и за popups относно групови чатове
 [Dialog]
 Прозорец
 [Cancel]
@@ -336,8 +306,8 @@ ID на потребителя в лентата за състояние
 Уведомяване, ако няма отворен прозорец за съобщения
 [Show balloon tooltip in the system tray]
 Показване на балонни известия в системния трей
-[        Show popups when a user is typing]
-          Показване на popups, когато потребител пише съобщение
+[Show popups when a user is typing]
+
 [More about typing notifications]
 Информация за уведомяването при писане на съобщения
 [Tab options]
@@ -348,6 +318,8 @@ ID на потребителя в лентата за състояние
 Автосъздаване на табове, когато състояние ми е...
 [Limit nicknames on tabs to]
 Максимална дължина за име на таб:
+[characters]
+знака
 [Esc key behavior]
 Действие на клавиша Esc
 [Select container]
@@ -398,14 +370,16 @@ Windows Aero - настройки
 ...пише
 [...stopped t&yping]
 ... спря да пише
+[Background]
+Фон
+[Text]
+Текст
 [Use &default colors]
 Стандартни цветове
 [Use &Windows colors]
 Цветове от Windowsм
 [Only &one popup for each contact]
 По един popup на контакт
-[Show &entry in the main menu]
-Добавяне на елемент в главното меню
 [...is typing]
 ...пише съобщение
 [Default]
@@ -418,6 +392,8 @@ Windows Aero - настройки
 Избор
 [...stopped typing]
 ...спря да пише
+[Preview]
+Образец
 [Timeout]
 Времетраене
 [Templates]
@@ -756,6 +732,10 @@ Mаксимална ширина за лента с бутони
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Разговори
+[Group chats]
+Групови чатове
+[Send message]
+Изпращане на съобщение
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон на полето за въвеждане
@@ -1127,69 +1107,6 @@ UIN
 Изпращането на уведомяване при писане е %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Едно от зададените popup действия е затваряне на събитието.\nТази настройка може да има нежелан ефект - събитието се премахва от опашката непрочетени.\nВъзможно последствие е непоказване на новите събития като такива. Ако не желаете подобно действие, можете да го промените от таб Уведомявания.
-[TabSRMM warning message]
-TabSRMM предупреждение
-[Incoming file]
-Входящи файлове
-[No description given]
-Няма описание
-[Incoming file (invalid format)]
-Входящ файл (невалиден форма)
-[Unknown event]
-Неизвестно събитие
-[New messages: ]
-Нови съобщения:\s
-[Unknown module or contact]
-Непознат модул/контакт
-[Show a preview of the event]
-Представяне на образец на събитието
-[Don't announce event when message dialog is open]
-Без уведомяване за събития при отворен прозорец
-[Don't announce events from RSS protocols]
-Без уведомяване за събития от протокола RSS
-[Merge new events for the same contact into existing popup]
-Сливане на нови събития от един и същ контакт в съществуващ popup
-[Show headers]
-Показване на горните колонтитули
-[Dismiss popup]
-Затваряне на Popup
-[Open event]
-Отваряне на събитието
-[Dismiss event]
-Затваряне на събитието
-[Disable event notifications for instant messages]
-Без уведомяване за събития в разговори
-[Disable event notifications for group chats]
-Без уведомяване за събития в групови чатове
-[Disable notifications for non-message events]
-Без уведомяване за събития, които не са свързани със съобщение
-[Remove popups for a contact when the message window is focused]
-Премахване на popups за контакт, при фокусиране на прозореца за съобщения
-[Remove popups for a contact when I start typing a reply]
-Премахване на popups за контакт, при писане на отговор
-[Remove popups for a contact when I send a reply]
-Премахване на popups за контакт, след изпращане на отговор
-[Disable notifications]
-Без уведомяване
-[System tray icon]
-Икона в трея
-[Left click actions (popups only)]
-Действие на левия бутон (само за popups)
-[Right click actions (popups only)]
-Действие на десния бутон (само за popups)
-[Timeout actions (popups only)]
-Автоматично действие след изтичане на времетраенето (само за popups)
-[Combine notifications for the same contact]
-Обединяване на уведомявания за един и същ потребител
-[Remove popups under following conditions]
-Премахване на popup за събитие при:
-[Event notifications]
-Уведомявания за събития
-[Popups]
-Рopups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Няма текст за състоянието
@@ -1247,8 +1164,6 @@ TabSRMM: Писане
 
 [Toggle send later]
 Изпрати след време (Вкл./Изкл.)
-[Send message]
-Изпращане на съобщение
 [Show message history]
 Показване на историята
 [Show send menu]
@@ -1375,10 +1290,6 @@ TabSRMM
 Изпрати след време
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Редактирате бележките за потребителя. За запаметяване на промените и връщане към нормалния режим за писане/изпращане на съобщения натиснете отново бутона или клавишната комбинация, обикновено: Alt+N
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Филтърът не може да бъде зареден, защото няма избрани събития за показване общо или само чат стаята
-[Event filter error]
-Филтър на събития: грешка
 [Selection copied to clipboard]
 Маркираното бе копирано в клипборда
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ Latin I
 Поведение на прозореца за съобщения
 [Sending messages]
 Изпращане на съобщения
-[Send on Shift+Enter]
-Изпращане със Shift+Enter
-[Send message on 'Enter']
-Изпращане на съобщение с "Enter"
-[Send message on double 'Enter']
-Двукратно натискане на "Enter" изпраща съобщение
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ Latin I
 Тестови контакт
 [Template set editor]
 Редактор на шаблони
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+Бързата кафява лисица прескочи мързеливото куче.
+[Sample error message]
+
+[My Nickname]
+
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ще бъдат възстановени вградените стандартни шаблони. Наистина ли желаете това?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ Latin I
 [Change skin]
 Смяна на облика
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-Изключване на уведомяванията при писане
-[Enable &typing notification]
-Включване на уведомяванията при писане
 [...has stopped typing.]
 ...спря да пише.
 [...is typing a message.]
 ...пише съобщение.
+[Popups]
+Рopups
+[Typing notifications]
+Уведомяванията при писане
 [Contact started typing]
 Контакт започна да пише
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ TabSRMM съобщение (%s)
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
+[TabSRMM warning message]
+TabSRMM предупреждение

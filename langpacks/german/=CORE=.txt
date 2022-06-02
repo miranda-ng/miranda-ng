@@ -394,12 +394,6 @@ Avatarhöhe begrenzen auf
 Zeichenzähler anzeigen
 [Show toolbar buttons on top row]
 Toolbarbuttons oben anzeigen
-[Send message on double 'Enter']
-Doppel-'Eingabe' sendet Nachricht
-[Send message on 'Enter']
-'Eingabe' sendet Nachricht
-[Send message on 'Ctrl+Enter']
-'Ctrl+Eingabe' sendet Nachricht
 [Show warning when message has not been received after]
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [Send error]
@@ -504,22 +498,6 @@ Sonstige
 Gruppe für neue Räume:
 [Nick list row distance (pixels):]
 Vertikaler Abstand Benutzerliste:
-[Use same style as in the message log]
-Selben Stil wie im Verlaufsfenster verwenden
-[Use default colors]
-Standardfarben verwenden
-[Use custom colors]
-Benutzerdefinierte Farben
-[Popups for the StdMsg plugin]
-Popups für das Chatplugin
-[Timeout (s)]
-Zeitüberschreitung (s)
-[Text]
-Text
-[Background]
-Hintergrund
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
 [Message]
 Nachricht
 [Undo]
@@ -1214,6 +1192,22 @@ Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). 
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen.
 [Set password]
 Passwort setzen
+[Group chats]
+Gruppenchats
+[Use same style as in the message log]
+Selben Stil wie im Verlaufsfenster verwenden
+[Use default colors]
+Standardfarben verwenden
+[Use custom colors]
+Benutzerdefinierte Farben
+[Timeout (s)]
+Zeitüberschreitung (s)
+[Text]
+Text
+[Background]
+Hintergrund
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 = Standardwert vom Popup-Plugin, -1 = dauerhafte Anzeige)
 [&Hide/Show]
 Zeigen/&Ausblenden
 [E&xit]
@@ -1500,6 +1494,10 @@ Benutzerliste Hintergrund
 Benutzerliste Linien
 [Nick list background (selected)]
 Benutzerliste Hintergrund (ausgewählt)
+[Messaging]
+Nachrichten
+[Send message]
+Nachricht senden
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Fenster blinkt, wenn jemand schreibt
@@ -1609,10 +1607,6 @@ Thema (10x10)
 Hervorhebung (10x10)
 [Information (10x10)]
 Information (10x10)
-[Messaging]
-Nachrichten
-[Group chats]
-Gruppenchats
 [Group chats log]
 Gruppenchatverlauf
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Aussehen des Verlaufsfensters
 Folgende Icons im Verlaufsfenster anzeigen
 [Chat log]
 Chatverlauf
-[Chat]
-Chat
-[Popups]
-Popups
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Timeout beim Nachrichtenversand
@@ -1750,16 +1740,6 @@ Ein unbekannter Fehler ist aufgetreten.
 [StdMsg internal log]
 StdMsg interner Verlauf
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Beispiel
-[The quick brown fox jumped over the lazy dog.]
-Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
-[Example With a Long Title]
-Beispiel mit langem Titel
-[Thequickbrownfoxjumpedoverthelazydog.]
-FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
-[An avatar.]
-Ein Avatar.
 [Bottom right]
 Unten rechts
 [Bottom left]
@@ -1796,6 +1776,18 @@ Horizontale Animation
 Vertikale Animation
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Ein Timeout von 0 ist ungültig.\nWert wurde zurückgesetzt.
+[Example]
+Beispiel
+[The quick brown fox jumps over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+[Example With a Long Title]
+Beispiel mit langem Titel
+[Thequickbrownfoxjumpsoverthelazydog.]
+FranzjagtimkomplettverwahrlostenTaxiquerdurchBayern.
+[An avatar.]
+Ein Avatar.
+[Popups]
+Popups
 [Settings]
 Einstellungen
 [Classes]
@@ -1930,12 +1922,12 @@ Bitte autorisieren Sie mich und fügen Sie mich Ihrer Kontaktliste hinzu.
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <Unbekannt>
-[%s requested authorization\n%u (%s) on %s]
-%s fragt nach einer Autorisierung\n%u (%s) unter %s
-[%s requested authorization\n%u on %s]
-%s fragt nach einer Autorisierung\n%u unter %s
-[%s requested authorization\n%s on %s]
-%s fragt nach einer Autorisierung\n%s unter %s
+[ requested authorization\n%u (%s) on %s]
+ fragt nach einer Autorisierung\n%u (%s) unter %s
+[ requested authorization\n%u on %s]
+ fragt nach einer Autorisierung\n%u unter %s
+[ requested authorization\n%s on %s]
+ fragt nach einer Autorisierung\n%s unter %s
 [(Unknown)]
 (Unbekannt)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unte
 [Host we are connecting to is not the one certificate was issued for]
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Kein Nachrichtenfenster-Plugin gefunden. Bitte installieren/aktivieren Sie eines der Nachrichtenfenster-Plugins, z.B. StdMsg.dll.
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 '%S' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]
 Miranda-Plugin erneut aktivieren?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Kern-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
-[Fatal error]
-Fataler Fehler
 [Unable to load plugin in service mode!]
 Kann Plugin nicht im Service-Modus starten.
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Miranda kann keines der angegebenen Plugins für die Kontaktliste starten, die entsprechenden Einstellungen für die \nKontaktliste werden ebenfalls ignoriert.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Kann kein Kontaktlisten-Plugin finden!\nSie brauchen StdClist oder ein anderes Kontaktlisten-Plugin.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Kern-Plugin '%s' kann nicht geladen werden oder fehlt. Miranda wird nun beendet.
+[Fatal error]
+Fataler Fehler
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <Alle Module>
@@ -2607,7 +2599,12 @@ Miranda NG muss neu gestartet werden, um die Änderungen für folgende Plugins z
 Möchten Sie jetzt neu starten?
 [Plugins]
 Plugins
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<verwendet>
+[<Unknown format>]
+<unbekanntes Format>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Das Profil '%s' existiert bereits. Möchten Sie es in den Papierkorb verschieben?\n\nWARNUNG: Das Profil wird gelöscht wenn der Papierkorb deaktiviert ist\nWARNUNG: Ein Profil kann vertrauliche Informationen beinhalten und sollte sicher gelöscht werden.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ Beim Erstellen des Profils '%s' ist Fehler %x aufgetreten.
 Fehler beim Erstellen des Profils
 [&Create]
 &Erstellen
-[<In use>]
-<verwendet>
-[<Unknown format>]
-<unbekanntes Format>
 [Are you sure you want to remove profile "%s"?]
 Sind Sie sich sicher, dass Sie das Profil "%s" entfernen möchten?
 [&Convert]

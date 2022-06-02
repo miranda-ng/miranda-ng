@@ -58,10 +58,8 @@ getrennt
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 Aktuelle IP-Adresse
-[Enable &IP change notification]
-Benachrichtigungen bei &IP-Änderungen aktivieren
-[Disable &IP change notification]
-Benachrichtigungen bei &IP-Änderungen deaktivieren
+[IP change notification]
+Benachrichtigungen bei IP-Änderungen
 [Show my &IP addresses]
 Meine &IP-Adressen anzeigen
 [Proxy settings && interfaces]
@@ -70,10 +68,6 @@ Proxy-Einstellungen && Interfaces
 Proxy deaktivieren
 [Enable proxy]
 Proxy aktivieren
-[Popups]
-Popups
-[IP change notification]
-Benachrichtigung über IP-Änderungen
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 Dienste

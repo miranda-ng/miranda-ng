@@ -2,22 +2,12 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Сповіщення про нову пошту та її перегляд у Miranda NG. Підтримується протокол POP3.
 ;file \protocols\YAMN\res\YAMN.rc
-[Installed plugins]
-Встановлені додаткові плагіни
-[Version:]
-Версія:
-[Description:]
-Опис:
-[Copyright:]
-Права:
-[Homepage:]
-Сайт:
 [Account]
 Обліковий запис
 [Name:]
@@ -308,16 +298,6 @@ OpenSSL не завантажений.
 [Error %d-%d-%d-%d:]
 Помилка %d-%d-%d-%d:
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
-[Network]
-Мережа
-[Accounts]
-Облікові записи
-[General]
-Загальне
-[Plugins]
-Плагіни
-[Popups]
-Спливаючі вікна
 [No account selected]
 Не вибраний обліковий запис
 [Time left to next check [s]: %d]
@@ -358,3 +338,11 @@ OpenSSL не завантажений.
 Перевірка (помилка)
 [Connection failed message]
 Повідомлення про невдале підключення
+[Network]
+Мережа
+[Accounts]
+Облікові записи
+[General]
+Загальне
+[Popups]
+Спливаючі вікна

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -60,10 +60,6 @@ Erreur
 Sauvegarder votre profil
 [Save profile as...]
 
-[Enable &AutoBackups notification]
-
-[Disable &AutoBackups notification]
-
 [Miranda NG databases]
 
 [Compressed Miranda NG databases]
@@ -72,11 +68,11 @@ Sauvegarder votre profil
 Tous les fichiers
 [Database]
 
-[Popups]
-Popups
 [Database backups]
 Profil sauvegardé
 [Backup folder]
+
+[AutoBackups notifications]
 
 ;file \plugins\Db_autobackups\src\options.cpp
 [days]

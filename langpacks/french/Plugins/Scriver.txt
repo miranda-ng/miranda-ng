@@ -30,8 +30,6 @@ Supprimer les contacts temporaires à la fermeture
 M'alerter quand le message n'a pas été reçu après
 [seconds]
 secondes
-[Send message on:]
-
 [Tabs]
 Onglets
 [Enable tabs]
@@ -216,22 +214,6 @@ Lieu
 
 [KB]
 KB
-[Group chat]
-Discussion de groupe
-[Use same style as in the message log]
-Utiliser même style que la fenêtre
-[Use default colors]
-Couleurs par défaut
-[Use custom colors]
-Couleurs personnalisées
-[Text]
-Texte
-[Background]
-Arrière-plan
-[Timeout (s)]
-Délai (*)
-[(0 means default setting, -1 means indefinite time)]
-
 [Message]
 Message
 [Undo]
@@ -261,6 +243,8 @@ Effacer
 Envoi de message
 [Group chats]
 Groupe chats
+[Action: Send message]
+
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 
@@ -356,8 +340,6 @@ Sessions de message
 Général
 [Log formatting]
 
-[Popups]
-Popups
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Ajouter le contact
@@ -559,6 +541,8 @@ Zone de message
 
 [Info bar status message]
 
+[Background]
+Arrière-plan
 [Line between messages]
 
 [Offline]
@@ -577,14 +561,6 @@ Ne pas déranger
 OK pour un chat
 [Invisible]
 Invisible
-[Enter]
-
-[Double 'Enter']
-
-[Ctrl+Enter]
-
-[Shift+Enter]
-
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]

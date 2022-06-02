@@ -60,8 +60,8 @@
 Надолу
 [Edit Host]
 
-[Cancel]
-Отказ
+[Contact]
+Контакт
 [Address:]
 Адрес:
 [Label:]
@@ -70,20 +70,20 @@
 
 [Port:]
 Порт:
+[Protocols]
+Протоколи
 [Control Protocol:]
-
-[Set my status to:]
 
 [On success, if my status is:]
 
+[Set my status to:]
+
 [Execute the following command on double-click:]
 
-[Contact]
-Контакт
-[Protocols]
-Протоколи
 [(Optional) Command Parameters:]
 
+[Cancel]
+Отказ
 [Menu]
 Меню
 [Graph]

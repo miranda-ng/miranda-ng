@@ -396,12 +396,6 @@ Zobrazit tlačítko 'Poslat'
 Zobrazit počet napsaných znaků
 [Show toolbar buttons on top row]
 Zobrazit nahoře lištu s tlačítky
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým Enter
-[Send message on 'Enter']
-Odeslat zprávu klávesou Enter
-[Send message on 'Ctrl+Enter']
-Odeslat zprávu Ctrl+Enter
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Send error]
@@ -506,22 +500,6 @@ Ostatní
 Nové místnosti přidat do skupiny:
 [Nick list row distance (pixels):]
 Odstup účastníků v seznamu (v pix.):
-[Use same style as in the message log]
-Použít nastavení pro záznam komunikace
-[Use default colors]
-Použít výchozí barvy
-[Use custom colors]
-Použít vlastní barvy
-[Popups for the StdMsg plugin]
-Oznamovací okna
-[Timeout (s)]
-Prodleva (s)
-[Text]
-Text
-[Background]
-Pozadí
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [Message]
 Zpráva
 [Undo]
@@ -796,6 +774,8 @@ Co chcete udělat s tímto souborem?
 Př&esunout do koše
 [&Delete]
 &Smazat
+[&Move]
+Přesunout
 [&Leave]
 Ode&jít
 [Netlib log options]
@@ -1194,6 +1174,22 @@ Celkem
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná.
 [Set password]
 Nastavit heslo
+[Group chats]
+Skupinové rozhovory
+[Use same style as in the message log]
+Použít nastavení pro záznam komunikace
+[Use default colors]
+Použít výchozí barvy
+[Use custom colors]
+Použít vlastní barvy
+[Timeout (s)]
+Prodleva (s)
+[Text]
+Text
+[Background]
+Pozadí
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1462,6 +1458,10 @@ Pozadí seznamu účastníků
 Linky v seznamu účastníků
 [Nick list background (selected)]
 Pozadí seznamu účastníků (vybraný)
+[Messaging]
+Rozhovor
+[Send message]
+Poslat zprávu
 [Flash window when someone speaks]
 Zablikat oknem při přijetí zprávy
 [Flash window when a word is highlighted]
@@ -1570,10 +1570,6 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
-[Messaging]
-Rozhovor
-[Group chats]
-Skupinové rozhovory
 [Group chats log]
 Záznam rozhovorů
 [Appearance and functionality of chat room windows]
@@ -1584,10 +1580,6 @@ Nastavení vzhledu záznamu komunikace
 Možnosti zobrazení ikon v záznamu komunikace
 [Chat log]
 Záznam diskuse
-[Chat]
-Diskuse
-[Popups]
-Oznámení
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
 [Incoming message (10x10)]
@@ -1698,16 +1690,6 @@ Kontakt začal psát
 Kontakt přestal psát
 [An unknown error has occurred.]
 Neznámá chyba.
-[Example]
-Příklad
-[The quick brown fox jumped over the lazy dog.]
-Žluťoučký kůň úpěl ďábelské ódy.
-[Example With a Long Title]
-Příklad dlouhého záhlaví
-[Thequickbrownfoxjumpedoverthelazydog.]
-Žluťoučkýkůňúpělďábelskéódy.
-[An avatar.]
-avatar
 [Bottom right]
 Vpravo dole
 [Bottom left]
@@ -1744,6 +1726,18 @@ Horizontální animace
 Vertikální animace
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Nemůžete nastavit výchozí dobu zobrazení na 0.\nHodnota byla obnovena.
+[Example]
+Příklad
+[The quick brown fox jumps over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
+[Example With a Long Title]
+Příklad dlouhého záhlaví
+[Thequickbrownfoxjumpsoverthelazydog.]
+Žluťoučkýkůňúpělďábelskéódy.
+[An avatar.]
+avatar
+[Popups]
+Oznámení
 [Settings]
 Nastavení
 [Classes]
@@ -1866,12 +1860,12 @@ Mezi kontakty přidat: %s
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 [<Unknown>]
 <neznámý>
-[%s requested authorization\n%u (%s) on %s]
-%s žádá o autorizaci\n%u (%s) v síti %s
-[%s requested authorization\n%u on %s]
-%s žádá o autorizaci\n%u v síti %s
-[%s requested authorization\n%s on %s]
-%s žádá o autorizaci\n%s v síti %s
+[ requested authorization\n%u (%s) on %s]
+ žádá o autorizaci\n%u (%s) v síti %s
+[ requested authorization\n%u on %s]
+ žádá o autorizaci\n%u v síti %s
+[ requested authorization\n%s on %s]
+ žádá o autorizaci\n%s v síti %s
 [(Unknown)]
 (neznámý)
 [Feature is not supported by protocol]
@@ -2424,22 +2418,20 @@ Sítě
 Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepodporuje SSL nebo vyžaduje neexistující soubor zabezpečení
 [Host we are connecting to is not the one certificate was issued for]
 Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
 ['%S' is disabled, re-enable?]
 '%S' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
-[Fatal error]
-Závažná chyba
 [Unable to load plugin in service mode!]
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
+[Fatal error]
+Závažná chyba
 [<all modules>]
 1) všechny moduly
 [<core modules>]
@@ -2464,6 +2456,10 @@ Miranda NG bude restartována pro aplikování změn těchto pluginů:
 Přejete si ji nyní restartovat?
 [Plugins]
 Doplňky
+[<In use>]
+<používáno>
+[<Unknown format>]
+<neznámý formát>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
 [The profile already exists]
@@ -2478,10 +2474,6 @@ Profil '%s' nelze vytvořit. Chyba: %x
 Chyba při vytváření profilu
 [&Create]
 &Vytvořit
-[<In use>]
-<používáno>
-[<Unknown format>]
-<neznámý formát>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
 [&Convert]
@@ -4257,7 +4249,7 @@ Historie avatarů: Nelze vytvořit zástupce
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.3
+;  Version: 0.98.1.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -5402,14 +5394,10 @@ změnil klienta na %s (předtím %s)
 změnil klienta na %s
 [%s (was %s)]
 %s (předtím %s)
-[Disable c&lient change notification]
-Vypnout oznámení o změně klienta
-[Enable c&lient change notification]
-Zapnout oznámení o změně klienta
+[Client change notifications]
+Oznámení o změně klienta
 [ClientChangeNotify: Client changed]
 Změna klienta
-[Popups]
-Oznámení
 [Error #%d]
 Chyba č.%d
 [Can't open log file ]
@@ -5428,6 +5416,8 @@ Zobrazit nabídku kontaktu
 Zobrazit historii kontaktu
 [Do nothing]
 Nedělat nic
+[Popups]
+Oznámení
 [ClientChangeNotify]
 Změna klienta
 #muuid {53e095a3-2695-490a-9dad-d20479093831}
@@ -7417,11 +7407,11 @@ Došlo k chybě. Příslušný protokol zahlásil následující problém:
 Opakovat
 [Popup]
 Oznámení
-[Add to List]
+[Add to list]
 Přidat do seznamu
 [User details]
 Informace o uživateli
-[Send Message]
+[Send message]
 Odeslat zprávu
 [Contacts received from]
 Kontakty přijaty od
@@ -7798,7 +7788,7 @@ Nahrazuje (pouze pro zvolené kontakty) znaky azbuky v odchozích zprávách jej
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 [Miranda NG Database Checker.]
@@ -8223,7 +8213,7 @@ Umožňuje čtení a zápis dat do uživatelského profilu: globální nastaven�
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
@@ -8282,8 +8272,6 @@ Komprimované databáze Mirandy NG
 Všechny soubory
 [Database]
 Databáze
-[Popups]
-Oznámení
 [Database backups]
 Zálohování databáze
 [Backup folder]
@@ -8347,6 +8335,8 @@ Umožnit odesílání zpráv kontaktům
 Vlastní
 [Screen name]
 Identifikátor
+[Discord ID]
+Discord ID
 [User name]
 Uživatelské jméno
 [Facebook ID]
@@ -9581,14 +9571,12 @@ Nelze přečíst kanál RSS!
 Ostatní
 [Gmail: New thread(s)]
 Gmail: Nové vlákno/a
-[Gmail Notifier]
-Gmail Notifier
+[GmailNotifier]
+GmailNotifier
 [&Check all Gmail inboxes]
 &Zkontrolovat všechny účty (Gmail)
 [&Check Gmail inbox]
 &Zkontrolovat účet (Gmail)
-[GmailNotifier]
-GmailNotifier
 [Network]
 Sítě
 #muuid {b92282ac-686b-4541-a12d-6e9971a253b7}
@@ -10962,7 +10950,7 @@ Hardwarové klávesy
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.7
+;  Version: 0.96.1.9
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -11137,7 +11125,7 @@ Zobrazit &historii
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.4
+;  Version: 1.6.0.5
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [IE Based Chat Log.]
@@ -11803,6 +11791,10 @@ Chyba DCC: Nelze navázat spojení na požadovaném portu
 Vstupní příkaz
 [Please enter the reply]
 Zadejte prosím odpověď
+[%s (server)]
+%s (server)
+[%s (client-to-client)]
+%s (mezi klienty)
 [Nickname]
 Přezdívka
 [DCC ERROR: No valid files specified]
@@ -12096,8 +12088,6 @@ Změnit heslo
 Priorita:
 [Use hostname as resource]
 Jako prostředek použít název počítače
-[List of public servers]
-Seznam veř. serverů
 [Port:]
 Port:
 [Use SSL]
@@ -13362,6 +13352,8 @@ Chyba: Nelze navázat spojení se serverem
 Chyba: Spojení nečekaně ukončeno
 [Requesting registration instruction...]
 Požadavek na instrukce k registraci...
+[Description]
+Popis
 [Sending registration information...]
 Odesílání registračních údajů...
 [<not specified>]
@@ -13418,6 +13410,10 @@ neznámý formát
 <foto není ve stavu offline>
 [<No photo>]
 <foto není>
+[Fingerprint]
+Fingerprint
+[Unknown]
+Neznámý
 [Photo]
 Fotka
 [Not found]
@@ -14897,10 +14893,10 @@ Písničky v playlistu náhodně
 Přehrávat samostatné média ve smyčce
 [Station Name]
 Název stanice
-[Timeout, ms (5000)]
-Časový limit, ms (5000)
-[PreBuf, % (75%)]
-Naplnění paměti, % (75%)
+[Timeout, ms]
+Časový limit, ms
+[PreBuf, %]
+Naplnění paměti, %
 [Hallway]
 Hala
 [Mountains]
@@ -14913,8 +14909,8 @@ Pod vodou
 Adresa stanice (povinné)
 [To INI]
 Do INI
-[Buffer, ms (5000)]
-Vyrovnávací paměť, ms (5000)
+[Buffer, ms]
+Vyrovnávací paměť, ms
 [Add station]
 Přidat stanici
 [Add Station]
@@ -15647,35 +15643,65 @@ Doplněk Variables není nainstalován
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Zobrazí oznámení při přijetí zprávy, odkazu, souboru nebo při výskytu jiné události.
-[General options]
-Obecné možnosti
-[Show entry in the Popups menu]
-Zobrazit i v nabídce Oznámení
-[Temporarily disable event popups]
-Dočasně vypnout oznámení
-[Show preview of event in popup]
-Zobrazit náhled události
+[Limit message preview to]
+Omezit náhled zprávy na
+[characters]
+znaků
 [Popup options]
 Možnosti oznámení
-[Message]
-Zpráva
-[File]
-Soubor
-[Others]
-Ostatní
 [Text]
 Text
 [Background]
 Pozadí
-[Timeout]
-Expirace
+[Message]
+Zpráva
+[File]
+Soubor
+[Errors]
+Chyby
+[Others]
+Ostatní
+[Preview]
+Náhled
+[Don't show popup when message dialog is already open]
+Nezobrazit oznámení, je-li okno se zprávou otevřeno
+[Hide popup when sending new message]
+Skrýt oznámení po odeslání nové zprávy
+[Open reply dialog instead of reading the message]
+Otevřít okno pro odpověď namísto čtení zprávy
+[Merge popups from one user]
+Sloučit oznámení jednoho uživatele
+[Show date]
+Zobrazit datum
+[Show time]
+Zobrazit čas
+[Show headers]
+Zobrazit záhlaví
+[Number of messages being shown]
+Počet zobrazených zpráv
+[Last message display first]
+Poslední zprávu zobrazit první
+[Last message display last]
+Poslední zprávu zobrazit poslední
+[New event notifications]
+Oznámení nové události
+[General options]
+Obecné možnosti
+[Show preview of event in popup]
+Zobrazit náhled události
+[Enable event notifications for instant messages]
+Povolit oznámení událostí pro běžnou komunikaci
+[Enable event notifications for group chats]
+Povolit oznámení událostí pro skupinový chat
 [Notify me of...]
 Upozornění
+[Error]
+Chyba
 [Left click actions]
 Levé tlačítko myši
 [Dismiss popup]
@@ -15688,40 +15714,18 @@ Zrušit událost
 Pravé tlačítko myši
 [Timeout actions]
 Při časové expiraci
-[Message event only]
-Pouze pro zprávy
-[Don't show popup when message dialog is already open]
-Nezobrazit oznámení, je-li okno se zprávou otevřeno
-[Hide popup when sending new message]
-Skrýt oznámení po odeslání nové zprávy
-[Open reply dialog instead of reading the message]
-Otevřít okno pro odpověď namísto čtení zprávy
-[Merge popups from one user]
-Sloučit oznámení jednoho uživatele
-[Preview]
-Náhled
-[Show date]
-Zobrazit datum
-[Show time]
-Zobrazit čas
-[Show headers]
-Zobrazit záhlaví
-[Number of begin shown messages]
-Počet zobrazených zpráv
-[Last message display first]
-Poslední zprávu zobrazit první
-[Last message display last]
-Poslední zprávu zobrazit poslední
-[Edit]
-Upravit
 [No popups for RSS contacts]
 Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
 Neoznamovat přečtené zprávy
-[Popups]
-Oznámení
 [Event Notify]
 Oznámení události
+[Popups]
+Oznámení
+[Main options]
+Hlavní možnosti
+[Message events]
+Zprávy
 [Received %d contacts.]
 Přijato %d kontaktů
 [ added you to the contact list]
@@ -15748,10 +15752,6 @@ Byl jste přidán
 Neznámá událost
 [Notify of new events]
 Informovat o událostech
-[Enable new event notification]
-Zapnout oznámení nové události
-[Disable new event notification]
-Vypnout oznámení nové události
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
@@ -15988,6 +15988,8 @@ Obnovit výchozí
 Proměnné
 [Test contact]
 Testovací kontakt
+[The quick brown fox jumps over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
 [event count]
 Počet událostí
 [icon]
@@ -16279,10 +16281,6 @@ Zvukový soubor
 ** všechny kontakty **
 [(default sound)]
 (výchozí zvuk)
-[Notification enabled]
-Oznámení jsou zapnuty
-[Notification disabled]
-Oznámení jsou vypnuty
 [<no status message>]
 <zpráva není zadaná>
 [Contact]
@@ -16379,12 +16377,8 @@ Změna zprávy rozšířeného stavu
 Změna rozšířeného stavu
 [Extra status message removed]
 Zrušení zprávy rozšířeného stavu
-[Enable status notification]
-Zapnout oznámení stavu
-[Disable status notification]
-Vypnout oznámení stavu
-[Toggle status notification]
-Přepnout oznámení stavu
+[Status notifications]
+Oznámení stavu
 [New Status Notify]
 Oznámení stavu
 [Status change]
@@ -16889,7 +16883,7 @@ Zatřesení oknem
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.3
+;  Version: 0.1.3.4
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
@@ -17289,8 +17283,8 @@ Nahoru
 Dolů
 [Edit Host]
 Upravit hostitele
-[Cancel]
-Zrušit
+[Contact]
+Kontakt
 [Address:]
 Adresa:
 [Label:]
@@ -17299,20 +17293,20 @@ Popis:
 TCP Connect
 [Port:]
 Port:
-[Control Protocol:]
-Ovládaný protokol:
-[Set my status to:]
-Změnit stav na:
-[On success, if my status is:]
-Je-li vše v pořádku a stav:
-[Execute the following command on double-click:]
-Dvojím kliknutím spustit následující příkaz:
-[Contact]
-Kontakt
 [Protocols]
 Protokoly
+[Control Protocol:]
+Ovládaný protokol:
+[On success, if my status is:]
+Je-li vše v pořádku a stav:
+[Set my status to:]
+Změnit stav na:
+[Execute the following command on double-click:]
+Dvojím kliknutím spustit následující příkaz:
 [(Optional) Command Parameters:]
 Argumenty příkazu:
+[Cancel]
+Zrušit
 [Menu]
 Menu
 [Graph]
@@ -17395,7 +17389,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -18015,8 +18009,6 @@ Zrušit
 Přímo
 [disconnected]
 Odpojen od serveru
-[Popups]
-Oznámení
 [Services]
 Služby
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
@@ -18529,8 +18521,6 @@ Při zavření smazat dočasné kontakty
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
 sek.
-[Send message on:]
-Odeslat zprávu:
 [Tabs]
 Panely
 [Enable tabs]
@@ -18713,22 +18703,6 @@ Umístění
 Max.
 [KB]
 KB
-[Group chat]
-Skupinový rozhovor
-[Use same style as in the message log]
-Použít nastavení pro záznam komunikace
-[Use default colors]
-Použít výchozí barvy
-[Use custom colors]
-Použít vlastní barvy
-[Text]
-Text
-[Background]
-Pozadí
-[Timeout (s)]
-Prodleva (s)
-[(0 means default setting, -1 means indefinite time)]
-(0 = výchozí nastavení, -1 = vypnutí prodlevy)
 [Message]
 Zpráva
 [Undo]
@@ -18757,6 +18731,8 @@ Zavřít panel
 Rozhovor
 [Group chats]
 Skupinové rozhovory
+[Action: Send message]
+Odeslat zprávu
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
 [Flash when a word is highlighted]
@@ -18851,8 +18827,6 @@ Komunikace
 Obecné
 [Log formatting]
 Formátování záznamu
-[Popups]
-Oznámení
 [Add contact]
 Přidat kontakt
 [User's details]
@@ -19047,6 +19021,8 @@ Jméno v informační liště
 Pozadí informační lišty
 [Info bar status message]
 Stav v informační liště
+[Background]
+Pozadí
 [Line between messages]
 Oddělovač mezi zprávami
 [Offline]
@@ -19065,14 +19041,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Enter]
-klávesou Enter
-[Double 'Enter']
-dvojitým Enter
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]
@@ -21601,7 +21569,7 @@ Extra
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -21728,36 +21696,6 @@ položek
 Více o pokročilých úpravách
 [Revert to (safe) defaults]
 Obnovit výchozí hodnoty
-[Event notify options]
-Nastavení oznámení události
-[Limit message preview to]
-Omezit náhled zprávy na
-[characters]
-znaků
-[Only show event notifications when my status is...]
-Oznamovat události pouze ve stavu...
-[Popup options]
-Možnosti oznámení
-[Text]
-Text
-[Background]
-Pozadí
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Časový limit (sekundy, 0 = výchozí, -1 = bez limitu)
-[Message]
-Zpráva
-[Use default colors]
-Použít výchozí barvy
-[Others]
-Ostatní
-[Preview]
-Náhled
-[Group chats]
-Skupinové rozhovory
-[Errors]
-Chyby
-[Use the message log color theme for group chat popups]
-Použít barevné schéma záznamu komunikace pro skupinový chat
 [Dialog]
 Dialog
 [Cancel]
@@ -21932,8 +21870,8 @@ Upozorňovat na psaní když je komunikační okno otevřené
 Zobrazit upozornění i v případě, že není otevřeno okno
 [Show balloon tooltip in the system tray]
 Zobrazit bublinovou nápovědu v oznamovací oblasti
-[        Show popups when a user is typing]
-        Zobrazit oznámení pokud uživatel píše
+[Show popups when a user is typing]
+Zobrazit oznámení pokud uživatel píše
 [More about typing notifications]
 Více o oznamování psaní
 [Tab options]
@@ -21944,6 +21882,8 @@ Ostatní možnosti
 Vybrat stavy pro automatické vytváření panelů...
 [Limit nicknames on tabs to]
 Omezit délku přezdívky na panelu na
+[characters]
+znaků
 [Esc key behavior]
 Chování klávesy Esc
 [Select container]
@@ -21994,12 +21934,14 @@ Barvy
 ... píše zprá&vu
 [...stopped t&yping]
 ... &dopsal zprávu
+[Background]
+Pozadí
+[Text]
+Text
 [Use &Windows colors]
 Použít barvy &Windows
 [Only &one popup for each contact]
 Pouze jedn&o oznámení na kontakt
-[Show &entry in the main menu]
-Zobrazit položku v hlavním m&enu
 [...is typing]
 ... píše zprávu
 [Default]
@@ -22012,6 +21954,8 @@ Trvale
 Vlastní
 [...stopped typing]
 ... dopsal zprávu
+[Preview]
+Náhled
 [Timeout]
 Doba zobrazení
 [Templates]
@@ -22348,6 +22292,10 @@ Aktivuje/deaktivuje filtrování událostí (Ctrl+F)
 Možnosti řízení kanálu (Ctrl+O)
 [Message sessions]
 Komunikace
+[Group chats]
+Skupinové rozhovory
+[Send message]
+Poslat zprávu
 [Input area background]
 Pozadí psaní zprávy
 [Log background]
@@ -22710,68 +22658,6 @@ zapnuto
 Odesílání upozornění na psaní je %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
-[TabSRMM warning message]
-TabSRMM varování
-[Incoming file]
-Příchozí soubor
-[No description given]
-Bez popisu
-[Incoming file (invalid format)]
-Příchozí soubor (neplatný formát)
-[Unknown event]
-Neznámá událost
-[New messages: ]
-Nové zprávy:\s
-[Unknown module or contact]
-Neznámý modul nebo uživatel
-[Show a preview of the event]
-Zobrazit náhled události
-[Don't announce event when message dialog is open]
-Neoznamovat, je-li konverzační okno otevřeno
-[Don't announce events from RSS protocols]
-Neoznamovat události z RSS čtečky
-[Merge new events for the same contact into existing popup]
-Spojit nové události pro jeden kontakt do existujícího oznámení
-[Show headers]
-Zobrazit záhlaví ve sloučených oznámeních
-[Dismiss popup]
-Zavřít oznámení
-[Open event]
-Otevřít událost
-[Dismiss event]
-Označit událost jako zhlédnutou
-[Disable event notifications for instant messages]
-Zakázat oznámení událostí pro běžnou komunikaci
-[Disable event notifications for group chats]
-Zakázat oznámení událostí pro skupinový chat
-[Disable notifications for non-message events]
-Zakázat oznámení pro události nesouvisející se zprávami
-[Remove popups for a contact when the message window is focused]
-Odstranit oznámení kontaktu pokud je komunikační okno aktivní
-[Remove popups for a contact when I start typing a reply]
-Odstranit oznámení kontaktu jakmile začnu psát odpověď
-[Remove popups for a contact when I send a reply]
-Odstranit oznámení kontaktu jakmile pošlu odpověď
-[Disable notifications]
-Vypnout oznámení
-[System tray icon]
-Ikona v oznamovací oblasti
-[Left click actions (popups only)]
-Kliknutí levého tlačítka myši na oznámení
-[Right click actions (popups only)]
-Kliknutí pravého tlačítka myši na oznámení
-[Timeout actions (popups only)]
-Vypršení časového limitu oznámení
-[Combine notifications for the same contact]
-Kombinovat oznámení pro jeden kontakt
-[Remove popups under following conditions]
-Zavírat upozornění při těchto podmínkách:
-[Event notifications]
-Oznámení události
-[Popups]
-Oznámení
 [No status message]
 Žádná zpráva stavu
 [You cannot edit user notes when there are unsent messages]
@@ -22820,8 +22706,6 @@ Odeslat soubor
 Citovat zprávu
 [Toggle send later]
 Přepnout zpožděné odesílání
-[Send message]
-Poslat zprávu
 [Show message history]
 Zobrazit historii zpráv
 [Show send menu]
@@ -22938,10 +22822,6 @@ Znovu
 Poslat později
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
-[Event filter error]
-Chyba filtru událostí
 [Selection copied to clipboard]
 Výběr zkopírován do schránky
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -23088,12 +22968,6 @@ Nahrát vzhled
 Chování komunikačního okna
 [Sending messages]
 Odesílání zpráv
-[Send on Shift+Enter]
-Odeslat zprávu pomocí Shift+Enter
-[Send message on 'Enter']
-Odeslat zprávu klávesou Enter
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým Enter
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
 [Close the message window on send]
@@ -23114,6 +22988,8 @@ Automaticky kopírovat vybraný text
 Testovací kontakt
 [Template set editor]
 Editor sady šablon
+[The quick brown fox jumps over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -23410,14 +23286,12 @@ Uživatelský 2 (vlastní barvy gradientu)
 Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokračovat?
 [Change skin]
 Změnit skin
-[Disable &typing notification]
-Vypnout &upozornění na psaní
-[Enable &typing notification]
-Zapnout &upozornění na psaní
 [...has stopped typing.]
 ... dopsal zprávu.
 [...is typing a message.]
 ... píše zprávu.
+[Popups]
+Oznámení
 [Contact started typing]
 Kontakt začal psát
 [Contact stopped typing]
@@ -23440,6 +23314,8 @@ Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n
 Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí být po nahrání tématu toto okno zavřeno\\b1 a neuložené změny mohou být ztraceny\\b0 .\n\nPřejete si pokračovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
+[TabSRMM warning message]
+TabSRMM varování
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -24678,8 +24554,12 @@ Trvale
 Náhled
 [Normal]
 Normální
+[%s (server)]
+%s (server)
 [Unable to initialize Netlib for %s.]
 Nelze inicializovat síťovou komunikaci pro %s.
+[%s (avatar)]
+%s (avatar)
 [User name]
 uživatelské jméno
 [Network]
@@ -24694,7 +24574,7 @@ Oznámení
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.1
+;  Version: 0.9.0.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit contact information]
@@ -24803,8 +24683,6 @@ Zapnuto
 Kontrolovat při spuštění
 [Time of last check:]
 Naposledy zkontrolováno:
-[Birthday compatibility mode:]
-Režim kompatibility narozenin:
 [Automatically backup and keep protocol based birthdays up to date]
 Automaticky zálohovat a udržovat informace o narozeninách aktuální
 [Play sound]
@@ -24955,10 +24833,6 @@ Nabídka podskupiny
 Nabídka účtu
 [Misc]
 Různé
-[Show 'Restart' menu item]
-Zobrazit v nabídce položku 'Restart'
-[Use zodiac as default avatar]
-Použít znamení zvěrokruhu jako výchozí avatar
 [Country flags]
 Vlajky zemí
 [Use &unknown flag if country cannot be determined]
@@ -25327,10 +25201,6 @@ Všechna nastavení byla vynulována na výchozí hodnoty.
 Připomínky vypnuty
 [Everything]
 Vše
-[mBirthday]
-Narozeniny
-[UserInfo (default)]
-Detaily uživatele (výchozí)
 [This is the reminder message]
 Toto je zpráva s upozorněním
 [Contacts]
@@ -27153,16 +27023,14 @@ Stručná předpověď
 Úplná předpověď
 [Weather Update]
 Aktualizace předpovědi
-[Popup]
-Oznámení
-[No Popup]
-Oznámení vypnuto
 [Edit Settings]
 Upravit nastavení...
 [Condition Changed]
 Změna počasí
 [Alert Issued]
 Varování
+[Weather notifications]
+Oznámení počasí
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.
 [%s is now the default weather station]
@@ -27295,10 +27163,6 @@ Oznámení
 %[..]\tspeciální proměnné
 [Station ID]
 Identifikátor
-[Disable &weather notification]
-Vypnout oznámení &počasí
-[Enable &weather notification]
-Zapnout oznámení &počasí
 [Update Weather]
 Aktualizovat předpověď
 [Remove Old Data then Update]
@@ -27315,8 +27179,6 @@ Zapnout/Vypnout aktualizaci počasí
 Aktualizovat všechno
 [Remove Old Data then Update All]
 Aktualizovat vše včetně cache
-[Weather Notification]
-Předpověď počasí
 [Display in a frame]
 Zobrazit v rámečku
 [Unable to retrieve weather information for %s]
@@ -28734,7 +28596,7 @@ Dopl. PopUp
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.5
+;  Version: 0.3.3.6
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -28815,8 +28677,6 @@ současný věk
 UserInfo
 [Protocol module]
 protokolu
-[mBirthday module]
-mBirthday
 [Nothing]
 Nic
 [Dismiss]
@@ -28968,8 +28828,6 @@ Služby
 Uživatel
 [File]
 Soubor
-[Popups]
-Oznámení
 #muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}
 ;============================================================
 ;  File: WinterSpeak.dll
@@ -29140,19 +28998,9 @@ Vlastní zvuk kontaktu
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
-[Installed plugins]
-Nainstalované doplňky
-[Version:]
-Verze:
-[Description:]
-Popis:
-[Copyright:]
-Copyright:
-[Homepage:]
-WWW:
 [Account]
 Účet
 [Name:]
@@ -29351,16 +29199,6 @@ Mazání vybraných zpráv
 Mazání spamu
 [Error %d-%d-%d-%d:]
 Chyba %d-%d-%d-%d:
-[Network]
-Sítě
-[Accounts]
-Účty
-[General]
-Obecné
-[Plugins]
-Doplňky
-[Popups]
-Oznámení
 [No account selected]
 Není vybraný účet
 [Time left to next check [s]: %d]
@@ -29389,6 +29227,14 @@ Vyzkoušení účtu
 Vyzkoušení účtu (chyba)
 [Connection failed message]
 Chyba připojení k účtu
+[Network]
+Sítě
+[Accounts]
+Účty
+[General]
+Obecné
+[Popups]
+Oznámení
 #muuid {01202e6a-c1b3-42e5-838a-3e497b31f38e}
 ;============================================================
 ;  File: YARelay.dll

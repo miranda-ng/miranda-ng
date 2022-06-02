@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@ wpisów
 Więcej o zaawansowanych ustawieniach
 [Revert to (safe) defaults]
 Przywróć domyślne (bezpieczne)
-[Event notify options]
-Opcje powiadomień o zdarzeniach
-[Limit message preview to]
-Limituj podgląd wiadomości do:
-[characters]
-znaków
-[Only show event notifications when my status is...]
-Pokaż powiadomienie o zdarzeniach tylko, gdy następujący status to...
-[Popup options]
-Opcje powiadomień
-[Text]
-Tekst
-[Background]
-Tło
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Wyświetlaj (sekund, 0 - domyślnie, -1 - nie chowaj)
-[Message]
-Wiadomość
-[Use default colors]
-Domyślne kolory
-[Others]
-Inne
-[Preview]
-Podgląd
-[Group chats]
-Czaty
-[Errors]
-Błędy
-[Use the message log color theme for group chat popups]
-Użyj koloru wiadomości skórki dla powiadomień z czatu
 [Dialog]
 Okno
 [Cancel]
@@ -336,8 +306,8 @@ Pokaż powiadomienie o pisaniu, kiedy okno rozmowy jest otwarte
 Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 [Show balloon tooltip in the system tray]
 Pokaż podpowiedź w chmurce w zasobniku systemowym
-[        Show popups when a user is typing]
-        Pokaż powiadomienia, kiedy użytkownik pisze
+[Show popups when a user is typing]
+Pokaż powiadomienia, kiedy użytkownik pisze
 [More about typing notifications]
 Więcej na temat powiadomień o pisaniu
 [Tab options]
@@ -348,6 +318,8 @@ Inne opcje
 Ustaw statusy dla automatycznego tworzenia kart...
 [Limit nicknames on tabs to]
 Limituj nicki na kartach do
+[characters]
+znaków
 [Esc key behavior]
 Opcje przycisku Esc
 [Select container]
@@ -398,14 +370,16 @@ Kolory
 ...&pisze wiadomość
 [...stopped t&yping]
 ...przestał p&isać
+[Background]
+Tło
+[Text]
+Tekst
 [Use &default colors]
 &Użyj domyślnych kolorów
 [Use &Windows colors]
 Użyj kolorów &Windows
 [Only &one popup for each contact]
 Tylko &jedno powiadomienie dla każdego kontaktu
-[Show &entry in the main menu]
-Pokaż &wpis w menu głównym
 [...is typing]
 ...pisze
 [Default]
@@ -418,6 +392,8 @@ Trwale
 Niestandardowo
 [...stopped typing]
 ...przestał pisać
+[Preview]
+Podgląd
 [Timeout]
 Wyświetlaj
 [Templates]
@@ -756,6 +732,10 @@ Kontroluj ten pokój (Ctrl + O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Okno rozmowy
+[Group chats]
+Czaty
+[Send message]
+Wyślij wiadomość
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Tło obszaru pisania wiadomości
@@ -1127,69 +1107,6 @@ włączone
 Wysyłanie powiadomienia o pisaniu jest %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 %d, w trakcie wysyłania. Długość wiadomości: %d bajtów, limit długości wiadomości: %d bajtów\n\n%d wiadomości jest w kolejce do wysłania później
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Jedna z twoich akcji powiadomień jest ustawiona na Usuń Zdarzenie.\nUwaga, te opcje mogą powodować niechciane efekty uboczne jako że usuwają one zdarzenia z kolejki nieprzeczytanych.\nTo może prowadzić do niepokazywania zdarzeń jako nowe. Jeżeli nie chcesz takiego zachowania, przejrzyj ustawienia "Powiadomień o zdarzeniach"
-[TabSRMM warning message]
-Ostrzeżenie TabSRMM
-[Incoming file]
-Przychodzący plik
-[No description given]
-Brak opisu
-[Incoming file (invalid format)]
-Przychodzący plik (nieprawidłowy format)
-[Unknown event]
-Nieznane zdarzenie
-[New messages: ]
-Nowych wiadomości:\s
-[Unknown module or contact]
-Nieznany moduł lub kontakt
-[Show a preview of the event]
-Pokaż podgląd zdarzenia
-[Don't announce event when message dialog is open]
-Nie ogłaszaj zdarzenia, kiedy okno rozmowy jest otwarte
-[Don't announce events from RSS protocols]
-Nie ogłaszaj zdarzeń z protokołu RSS
-[Merge new events for the same contact into existing popup]
-Połącz nowe zdarzenia od tego samego w istniejącym powiadomieniu
-[Show headers]
-Pokaż nagłówki
-[Dismiss popup]
-Odrzuć powiadomienie
-[Open event]
-Pokaż zdarzenie
-[Dismiss event]
-Odrzuć zdarzenie
-[Disable event notifications for instant messages]
-Wyłącz powiadomienia dla wiadomości
-[Disable event notifications for group chats]
-Wyłącz powiadomienia dla czatów
-[Disable notifications for non-message events]
-Wyłącz powiadomienia dla innych zdarzeń
-[Remove popups for a contact when the message window is focused]
-Usuń powiadomienia dla kontaktu, gdy jego okno rozmowy jest aktywne
-[Remove popups for a contact when I start typing a reply]
-Usuń powiadomienia dla kontaktu, gdy zacznę pisać odpowiedź
-[Remove popups for a contact when I send a reply]
-Usuń powiadomienia dla kontaktu, gdy wyślę odpowiedź
-[Disable notifications]
-Wyłącz powiadomienia
-[System tray icon]
-Ikona w zasobniku
-[Left click actions (popups only)]
-Akcje LPM (tylko powiadomienia)
-[Right click actions (popups only)]
-Akcje PPM (tylko powiadomienia)
-[Timeout actions (popups only)]
-Akcje po upłynięciu czasu wyświetlania (tylko powiadomienia)
-[Combine notifications for the same contact]
-Kombinacja notyfikacji dla tego samego użytkownika
-[Remove popups under following conditions]
-Usuń powiadomienia w następujących przypadkach:
-[Event notifications]
-Zdarzenia
-[Popups]
-Powiadomienia
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Kontakt nie ma opisu.
@@ -1247,8 +1164,6 @@ Cytuj wiadomość
 Wyczyść pole wiadomości
 [Toggle send later]
 Pokaż wyślij później
-[Send message]
-Wyślij wiadomość
 [Show message history]
 Pokaż historię
 [Show send menu]
@@ -1375,10 +1290,6 @@ Gotowy
 Wyślij później
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Edytujesz notatki o użytkowniku. Użyj przycisku ponownie lub naciśnij skrót klawiszowy (domyślnie: Alt+N), aby zapisać notatki i powrócić do normalnego trybu wiadomości
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nie może zostać włączony, ponieważ niewybrane zostały żadne zdarzenia, ani globalnie, ani dla tego pokoju.
-[Event filter error]
-Błąd filtru zdarzeń
 [Selection copied to clipboard]
 Zaznaczenie skopiowano do schowka
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ Załaduj skórkę
 Zachowanie okna rozmowy
 [Sending messages]
 Wysyłanie wiadomości
-[Send on Shift+Enter]
-Wyślij wiadomość po Shift+Enter
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ Automatycznie kopiuj zaznaczony tekst
 Testowy kontakt
 [Template set editor]
 Edytor zbioru szablonów
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
+[Sample error message]
+
+[My Nickname]
+Moja nazwa
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ Wszystkie kontenery muszą zostać zamknięte przed zmianą skórki\nKontynuowa�
 [Change skin]
 Zmień skórkę
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-Wyłącz powiadomienia o &pisaniu
-[Enable &typing notification]
-Włącz powiadomienia o &pisaniu
 [...has stopped typing.]
 ...przestał pisać.
 [...is typing a message.]
 ...pisze wiadomość
+[Popups]
+Powiadomienia
+[Typing notifications]
+Powiadomienia o pisaniu
 [Contact started typing]
 Kontakt pisze wiadomość
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
+[TabSRMM warning message]
+Ostrzeżenie TabSRMM

@@ -42,11 +42,11 @@
 Повторити
 [Popup]
 Спливаюче вікно
-[Add to List]
+[Add to list]
 Додати
 [User details]
 Про користувача
-[Send Message]
+[Send message]
 Надіслати
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

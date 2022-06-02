@@ -69,13 +69,9 @@ WUMF: Бягучыя злучэнні
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Памылка стварэння меню
-[Enable WUMF popups]
-Уключыць WUMF вокны
-[Disable WUMF popups]
-Выключыць WUMF вокны
 [Show connections list]
 Паказаць спіс далучэнняў
-[Popups]
-Усплывальныя вокны
+[WUMF popups]
+WUMF вокны
 [WUMF: Show connections]
 WUMF: Паказаць падлучэнні

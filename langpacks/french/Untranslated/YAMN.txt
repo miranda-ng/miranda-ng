@@ -1,5 +1,4 @@
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-[Version:]
 [Only check when...]
 [New Mail]
 [Sound]

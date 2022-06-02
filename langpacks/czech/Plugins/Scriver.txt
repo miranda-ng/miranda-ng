@@ -30,8 +30,6 @@ Při zavření smazat dočasné kontakty
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds]
 sek.
-[Send message on:]
-Odeslat zprávu:
 [Tabs]
 Panely
 [Enable tabs]
@@ -216,22 +214,6 @@ Umístění
 Max.
 [KB]
 KB
-[Group chat]
-Skupinový rozhovor
-[Use same style as in the message log]
-Použít nastavení pro záznam komunikace
-[Use default colors]
-Použít výchozí barvy
-[Use custom colors]
-Použít vlastní barvy
-[Text]
-Text
-[Background]
-Pozadí
-[Timeout (s)]
-Prodleva (s)
-[(0 means default setting, -1 means indefinite time)]
-(0 = výchozí nastavení, -1 = vypnutí prodlevy)
 [Message]
 Zpráva
 [Undo]
@@ -261,6 +243,8 @@ Zavřít panel
 Rozhovor
 [Group chats]
 Skupinové rozhovory
+[Action: Send message]
+Odeslat zprávu
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Zablikat oknem při napsání zprávy
@@ -356,8 +340,6 @@ Komunikace
 Obecné
 [Log formatting]
 Formátování záznamu
-[Popups]
-Oznámení
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Přidat kontakt
@@ -559,6 +541,8 @@ Jméno v informační liště
 Pozadí informační lišty
 [Info bar status message]
 Stav v informační liště
+[Background]
+Pozadí
 [Line between messages]
 Oddělovač mezi zprávami
 [Offline]
@@ -577,14 +561,6 @@ Nerušit!
 Mám volno
 [Invisible]
 Neviditelný
-[Enter]
-klávesou Enter
-[Double 'Enter']
-dvojitým Enter
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** nové kontakty **
 [** Unknown contacts **]

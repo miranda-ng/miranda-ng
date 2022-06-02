@@ -229,10 +229,6 @@ Tous les fichiers
 [(default sound)]
 (son par défaut)
 ;file \plugins\NewXstatusNotify\src\main.cpp
-[Notification enabled]
-
-[Notification disabled]
-
 [<no status message>]
 <aucun message d'état>
 [Contact]
@@ -329,11 +325,7 @@ Contact : Ne pas déranger
 
 [Extra status message removed]
 
-[Enable status notification]
-
-[Disable status notification]
-
-[Toggle status notification]
+[Status notifications]
 
 [New Status Notify]
 

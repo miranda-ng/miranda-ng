@@ -68,14 +68,12 @@ Popup приставка
 Друго
 [Gmail: New thread(s)]
 Gmail: Нови писма
-[Gmail Notifier]
+[GmailNotifier]
 
 [&Check all Gmail inboxes]
 Проверка на всички кутии
 [&Check Gmail inbox]
 Проверка на Gmail кутията
 ;file \protocols\GmailNotifier\src\options.cpp
-[GmailNotifier]
-
 [Network]
 Мрежа

@@ -69,13 +69,9 @@ WUMF: Поточні з'єднання
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Помилка створення меню
-[Enable WUMF popups]
-Увімкнути вікна WUMF
-[Disable WUMF popups]
-Вимкнути вікна WUMF
 [Show connections list]
 Показати список підключень
-[Popups]
-Спливаючі вікна
+[WUMF popups]
+Вікна WUMF
 [WUMF: Show connections]
 WUMF: Показати підключення

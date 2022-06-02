@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@ položek
 Více o pokročilých úpravách
 [Revert to (safe) defaults]
 Obnovit výchozí hodnoty
-[Event notify options]
-Nastavení oznámení události
-[Limit message preview to]
-Omezit náhled zprávy na
-[characters]
-znaků
-[Only show event notifications when my status is...]
-Oznamovat události pouze ve stavu...
-[Popup options]
-Možnosti oznámení
-[Text]
-Text
-[Background]
-Pozadí
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Časový limit (sekundy, 0 = výchozí, -1 = bez limitu)
-[Message]
-Zpráva
-[Use default colors]
-Použít výchozí barvy
-[Others]
-Ostatní
-[Preview]
-Náhled
-[Group chats]
-Skupinové rozhovory
-[Errors]
-Chyby
-[Use the message log color theme for group chat popups]
-Použít barevné schéma záznamu komunikace pro skupinový chat
 [Dialog]
 Dialog
 [Cancel]
@@ -336,8 +306,8 @@ Upozorňovat na psaní když je komunikační okno otevřené
 Zobrazit upozornění i v případě, že není otevřeno okno
 [Show balloon tooltip in the system tray]
 Zobrazit bublinovou nápovědu v oznamovací oblasti
-[        Show popups when a user is typing]
-        Zobrazit oznámení pokud uživatel píše
+[Show popups when a user is typing]
+Zobrazit oznámení pokud uživatel píše
 [More about typing notifications]
 Více o oznamování psaní
 [Tab options]
@@ -348,6 +318,8 @@ Ostatní možnosti
 Vybrat stavy pro automatické vytváření panelů...
 [Limit nicknames on tabs to]
 Omezit délku přezdívky na panelu na
+[characters]
+znaků
 [Esc key behavior]
 Chování klávesy Esc
 [Select container]
@@ -398,14 +370,16 @@ Barvy
 ... píše zprá&vu
 [...stopped t&yping]
 ... &dopsal zprávu
+[Background]
+Pozadí
+[Text]
+Text
 [Use &default colors]
 
 [Use &Windows colors]
 Použít barvy &Windows
 [Only &one popup for each contact]
 Pouze jedn&o oznámení na kontakt
-[Show &entry in the main menu]
-Zobrazit položku v hlavním m&enu
 [...is typing]
 ... píše zprávu
 [Default]
@@ -418,6 +392,8 @@ Trvale
 Vlastní
 [...stopped typing]
 ... dopsal zprávu
+[Preview]
+Náhled
 [Timeout]
 Doba zobrazení
 [Templates]
@@ -756,6 +732,10 @@ Možnosti řízení kanálu (Ctrl+O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Komunikace
+[Group chats]
+Skupinové rozhovory
+[Send message]
+Poslat zprávu
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Pozadí psaní zprávy
@@ -1127,69 +1107,6 @@ zapnuto
 Odesílání upozornění na psaní je %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Počet zahájených odeslání: %d\nDélka zprávy: %d bytů\nLimit délky zprávy: %d bytů\nPočet zpráv zařazených k pozdějšímu doručení: %d
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Jedna z akcí pro oznámení je nastavena na ZAVŘÍT UDÁLOST.\nToto nastavení může mít nechtěné vedlejší účinky, neboť odstraňuje nepřečtené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Možnosti -> Komunikace -> Oznámení události.
-[TabSRMM warning message]
-TabSRMM varování
-[Incoming file]
-Příchozí soubor
-[No description given]
-Bez popisu
-[Incoming file (invalid format)]
-Příchozí soubor (neplatný formát)
-[Unknown event]
-Neznámá událost
-[New messages: ]
-Nové zprávy:\s
-[Unknown module or contact]
-Neznámý modul nebo uživatel
-[Show a preview of the event]
-Zobrazit náhled události
-[Don't announce event when message dialog is open]
-Neoznamovat, je-li konverzační okno otevřeno
-[Don't announce events from RSS protocols]
-Neoznamovat události z RSS čtečky
-[Merge new events for the same contact into existing popup]
-Spojit nové události pro jeden kontakt do existujícího oznámení
-[Show headers]
-Zobrazit záhlaví ve sloučených oznámeních
-[Dismiss popup]
-Zavřít oznámení
-[Open event]
-Otevřít událost
-[Dismiss event]
-Označit událost jako zhlédnutou
-[Disable event notifications for instant messages]
-Zakázat oznámení událostí pro běžnou komunikaci
-[Disable event notifications for group chats]
-Zakázat oznámení událostí pro skupinový chat
-[Disable notifications for non-message events]
-Zakázat oznámení pro události nesouvisející se zprávami
-[Remove popups for a contact when the message window is focused]
-Odstranit oznámení kontaktu pokud je komunikační okno aktivní
-[Remove popups for a contact when I start typing a reply]
-Odstranit oznámení kontaktu jakmile začnu psát odpověď
-[Remove popups for a contact when I send a reply]
-Odstranit oznámení kontaktu jakmile pošlu odpověď
-[Disable notifications]
-Vypnout oznámení
-[System tray icon]
-Ikona v oznamovací oblasti
-[Left click actions (popups only)]
-Kliknutí levého tlačítka myši na oznámení
-[Right click actions (popups only)]
-Kliknutí pravého tlačítka myši na oznámení
-[Timeout actions (popups only)]
-Vypršení časového limitu oznámení
-[Combine notifications for the same contact]
-Kombinovat oznámení pro jeden kontakt
-[Remove popups under following conditions]
-Zavírat upozornění při těchto podmínkách:
-[Event notifications]
-Oznámení události
-[Popups]
-Oznámení
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Žádná zpráva stavu
@@ -1247,8 +1164,6 @@ Citovat zprávu
 
 [Toggle send later]
 Přepnout zpožděné odesílání
-[Send message]
-Poslat zprávu
 [Show message history]
 Zobrazit historii zpráv
 [Show send menu]
@@ -1375,10 +1290,6 @@ Znovu
 Poslat později
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Editujete poznámky k uživateli. Klikněte na tlačítko znovu nebo použijte klávesovou zkratku (výchozí: Alt+N) pro uložení poznámek a návrat do normálního režimu
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nelze povolit, neboť nejsou vybrány žádné typy událostí, ať už globální, nebo pro tuto místnost.
-[Event filter error]
-Chyba filtru událostí
 [Selection copied to clipboard]
 Výběr zkopírován do schránky
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ Nahrát vzhled
 Chování komunikačního okna
 [Sending messages]
 Odesílání zpráv
-[Send on Shift+Enter]
-Odeslat zprávu pomocí Shift+Enter
-[Send message on 'Enter']
-Odeslat zprávu klávesou Enter
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým Enter
 [Minimize the message window on send]
 Minimalizovat okno kliknutím na 'Poslat'
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ Automaticky kopírovat vybraný text
 Testovací kontakt
 [Template set editor]
 Editor sady šablon
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
+[Sample error message]
+
+[My Nickname]
+
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Tato volba obnoví všechny šablony do původního stavu. Opravdu chcete pokračovat?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokr
 [Change skin]
 Změnit skin
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-Vypnout &upozornění na psaní
-[Enable &typing notification]
-Zapnout &upozornění na psaní
 [...has stopped typing.]
 ... dopsal zprávu.
 [...is typing a message.]
 ... píše zprávu.
+[Popups]
+Oznámení
+[Typing notifications]
+Upozornění na psaní
 [Contact started typing]
 Kontakt začal psát
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ Zavírání okna|Pokoušíte se zavřít okno s několika otevřenými panely.\n
 Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí být po nahrání tématu toto okno zavřeno\\b1 a neuložené změny mohou být ztraceny\\b0 .\n\nPřejete si pokračovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
+[TabSRMM warning message]
+TabSRMM varování

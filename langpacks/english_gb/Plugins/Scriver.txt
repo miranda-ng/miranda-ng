@@ -13,10 +13,6 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
-[Use default colors]
-Use default colours
-[Use custom colors]
-Use custom colours
 [Timestamp has same color as event]
 Timestamp has same colour as event
 [Strip colors from messages]

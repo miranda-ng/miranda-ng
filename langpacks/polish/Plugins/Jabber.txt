@@ -56,8 +56,6 @@ Zmień hasło
 Priorytet:
 [Use hostname as resource]
 Użyj nazwy hosta jako zasobu
-[List of public servers]
-Serwery publiczne
 [Port:]
 Port:
 [Use SSL]
@@ -180,6 +178,8 @@ Telefon komórkowy
 Wideo
 [Modem]
 Modem
+[(*) marks the current session]
+
 [Load]
 Wczytaj
 [Save]
@@ -1436,8 +1436,6 @@ Automatycznie akceptuj prośby o autoryzację
 Naprawiaj błędne czasy przychodzących wiadomości
 [Disable frame]
 Wyłącz ramkę
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagana wtyczka AssocMgr.dll)
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Uwzględnij adresy URL zdjęć za pomocą [img]
 Ignoruj roster serwera (grupy i nicki)
 [Security]
 Bezpieczeństwo
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Pozwól serwerowi na pytania o wersję (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ Nie można zapisać listy, ponieważ jesteś rozłączony.
 [List Editor...]
 Edytuj listy...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 Protokół jest Rozłączony lub brak JID
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ Autoryzacja nieudana dla %s@%s.
 Wiadomość przekierowana z: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Nie można odszyfrować kopii wiadomości do zaszyfrowanej wiadomości wychodzącej
+[Description]
+Opis
 [Registration canceled]
 Rejestracja anulowana
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ Nieznany format
 <Zdjęcie nie jest dostępne jeśli jesteś rozłączony>
 [<No photo>]
 <Brak zdjęcia>
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Nieznany
 [Photo]
 Zdjęcie
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: Edytuj numer telefonu
 Kontakty
 [Note]
 Uwagi
+[OMEMO]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <miejsce zaawansowanego statusu>

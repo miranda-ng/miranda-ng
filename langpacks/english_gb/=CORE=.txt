@@ -17,10 +17,6 @@ Use Windows colours
 Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
-[Use default colors]
-Use default colours
-[Use custom colors]
-Use custom colours
 [Text color:]
 Text colour:
 [Background color:]
@@ -47,6 +43,10 @@ Secondary colour:
 &Authorise
 [Add to contact list if authorized]
 Add to contact list if authorised
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
 [Canceled]
 Cancelled
 [This file transfer has been canceled by the other side]
@@ -69,12 +69,6 @@ Select a foreground colour for the text (Ctrl+K)
 Select a background colour for the text (Ctrl+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-[%s requested authorization\n%u (%s) on %s]
-%s requested authorisation\n%u (%s) on %s
-[%s requested authorization\n%u on %s]
-%s requested authorisation\n%u on %s
-[%s requested authorization\n%s on %s]
-%s requested authorisation\n%s on %s
 [%s requests authorization]
 %s requests authorisation
 [%u requests authorization]

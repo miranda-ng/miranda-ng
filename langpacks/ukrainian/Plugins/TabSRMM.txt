@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@
 Детальніше про додаткові налаштування
 [Revert to (safe) defaults]
 Налаштування за замовчанням
-[Event notify options]
-Налаштування сповіщень
-[Limit message preview to]
-Обмежити перегляд до
-[characters]
-символів
-[Only show event notifications when my status is...]
-Показувати сповіщення про події, коли мій статус...
-[Popup options]
-Спливаючі вікна
-[Text]
-Текст
-[Background]
-Фон
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Таймаут (с, 0=за замовчанням, -1=утримання)
-[Message]
-Повідомлення
-[Use default colors]
-Стандартні кольори
-[Others]
-Інше
-[Preview]
-Тест
-[Group chats]
-Чати
-[Errors]
-Помилки
-[Use the message log color theme for group chat popups]
-Використовувати кольори журналу повідомлень для сплив. вікон чатів
 [Dialog]
 Діалог
 [Cancel]
@@ -336,8 +306,8 @@ ID користувача в панелі статусу
 Сповіщати про набір тексту, коли вікно повідомлень закрите
 [Show balloon tooltip in the system tray]
 Показувати підказки в треї
-[        Show popups when a user is typing]
-        Спливаючі вікна, коли користувач друкує
+[Show popups when a user is typing]
+Спливаючі вікна, коли користувач друкує
 [More about typing notifications]
 Додаткова інформація
 [Tab options]
@@ -348,6 +318,8 @@ ID користувача в панелі статусу
 Статуси для автоматичного створення вкладок...
 [Limit nicknames on tabs to]
 Обмежити імена на вкладках до
+[characters]
+символів
 [Esc key behavior]
 Поведінка при натисканні Esc
 [Select container]
@@ -398,14 +370,16 @@ ID користувача в панелі статусу
 ...друкує повідомлення
 [...stopped t&yping]
 ...закінчив др&укувати
+[Background]
+Фон
+[Text]
+Текст
 [Use &default colors]
 &Стандартні кольори
 [Use &Windows colors]
 &Кольори Windows
 [Only &one popup for each contact]
 Тільки одне спливаюче вікно на контакт
-[Show &entry in the main menu]
-&Пункт у головному меню
 [...is typing]
 ...друкує повідомлення
 [Default]
@@ -418,6 +392,8 @@ ID користувача в панелі статусу
 Вказати
 [...stopped typing]
 ...закінчив друкувати
+[Preview]
+Тест
 [Timeout]
 Затримка
 [Templates]
@@ -756,6 +732,10 @@ BBCode ([b][i][u])
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Бесіди
+[Group chats]
+Чати
+[Send message]
+Надіслати
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон поля вводу
@@ -1127,69 +1107,6 @@ ID поточного контакту (якщо визначено). Напри
 Відправлення сповіщення про набір: %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Відправляється %d повідомлень. Довжина повідомлення: %d байт, обмеження довжини: %d байт\n\n%d повідомлень у черзі для подальшої доставки.
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Одна з дій спливаючих вікон налаштована на "Відхилити подію".\nЦе може спричинити небажаний ефект, бо події будуть позначатися прочитаними.\nЯк наслідок, події не будуть показані "новими". Якщо це не те, чого ви хотіли, перегляньте налаштування в розділі "Сповіщення".
-[TabSRMM warning message]
-Попередження TabSRMM
-[Incoming file]
-Вхідний файл
-[No description given]
-Без опису
-[Incoming file (invalid format)]
-Вхідний файл (неправильний формат)
-[Unknown event]
-Невідома подія
-[New messages: ]
-Нові повідомлення:\s
-[Unknown module or contact]
-Невідомий модуль або контакт
-[Show a preview of the event]
-Перегляд події
-[Don't announce event when message dialog is open]
-Не сповіщати, якщо вікно повідомлень відкрите
-[Don't announce events from RSS protocols]
-Не сповіщати про події в протоколі RSS
-[Merge new events for the same contact into existing popup]
-Додавати нові події в існуюче спливаюче вікно
-[Show headers]
-Показувати заголовки
-[Dismiss popup]
-Закрити
-[Open event]
-Відкрити подію
-[Dismiss event]
-Відхилити подію
-[Disable event notifications for instant messages]
-Вимкнути сповіщення про події бесід
-[Disable event notifications for group chats]
-Вимкнути сповіщення про події групових чатів
-[Disable notifications for non-message events]
-Вимкнути сповіщення для всіх подій, крім повідомлень
-[Remove popups for a contact when the message window is focused]
-Прибирати, коли вікно повідомлень виявляється у фокусі
-[Remove popups for a contact when I start typing a reply]
-Прибирати, коли я починаю друкувати відповідь
-[Remove popups for a contact when I send a reply]
-Прибирати, коли я надсилаю відповідь
-[Disable notifications]
-Вимкнути сповіщення
-[System tray icon]
-Значок у треї
-[Left click actions (popups only)]
-Дії по лівому кліку (спливаючі вікна)
-[Right click actions (popups only)]
-Дії по правому кліку (спливаючі вікна)
-[Timeout actions (popups only)]
-Дії по таймауту (спливаючі вікна)
-[Combine notifications for the same contact]
-Об'єднувати сповіщення від одного контакту
-[Remove popups under following conditions]
-Прибирати спливаючі вікна при умовах
-[Event notifications]
-Сповіщення
-[Popups]
-Спливаючі вікна
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Немає повідомлення статусу
@@ -1247,8 +1164,6 @@ TabSRMM: Набирає
 
 [Toggle send later]
 Увімк./вимк. відправлення із затримкою
-[Send message]
-Надіслати
 [Show message history]
 Показати історію повідомлень
 [Show send menu]
@@ -1375,10 +1290,6 @@ TabSRMM: Набирає
 Надіслати пізніше
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Ви знаходитесь в режимі редагування нотаток про користувача. Натисніть кнопку ще раз або використовуйте гарячу клавішу (за замовчанням: Alt+N), щоб зберегти нотатки і повернутися в нормальний режим набору повідомлень.
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Не можна ввімкнути фільтр, оскільки не вибрано жодного типу подій, як глобально, так і для цього чату
-[Event filter error]
-Помилка фільтру подій
 [Selection copied to clipboard]
 Виділений текст скопійований у буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Поведінка вікна повідомлень
 [Sending messages]
 Надсилання повідомлень
-[Send on Shift+Enter]
-Надсилати натисканням Shift+Enter
-[Send message on 'Enter']
-Надсилати натисканням Enter
-[Send message on double 'Enter']
-Надсилати подвійним натисканням Enter
 [Minimize the message window on send]
 Згортати вікно після надсилання
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 Тестовий контакт
 [Template set editor]
 Редактор шаблонів
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+З'їж-но ще цих м'яких французьких булок та випий йаду!
+[Sample error message]
+
+[My Nickname]
+
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Видалення всіх шаблонів і скидання на шаблони за замовчанням. Ви впевнені, що хочете цього?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ UID: %s (Shift+клік -> копіювати в буфер)\nКлік - Інф�
 [Change skin]
 Зміна скіна
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-Вимкнути сповіщення про &друк
-[Enable &typing notification]
-Увімкнути сповіщення про &друк
 [...has stopped typing.]
 ...закінчив друкувати
 [...is typing a message.]
 ...друкує.
+[Popups]
+Спливаючі вікна
+[Typing notifications]
+Сповіщення про друк
 [Contact started typing]
 Співрозмовник почав друкувати
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ TabSRMM: %s
 Закриття налаштувань|Щоб показати зміни, пов'язані з імпортом теми, у вікні налаштувань, воно повинно бути закрите після завантаження теми \\b1 і незбережені зміни можуть бути втрачені\\b0 .\n\nВи хочете продовжити?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Завантаження теми|Завантаження кольорів і шрифтів може змінити налаштування, встановлені вашим скіном.\n\nВи хочете продовжити?
+[TabSRMM warning message]
+Попередження TabSRMM

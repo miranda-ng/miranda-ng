@@ -56,8 +56,6 @@ Active Directory логін
 Пріоритет:
 [Use hostname as resource]
 Ім'я хоста як ресурс
-[List of public servers]
-Публічні сервери
 [Port:]
 Порт:
 [Use SSL]
@@ -180,6 +178,8 @@ Jabber vCard: додавання телефону
 Відео
 [Modem]
 Модем
+[(*) marks the current session]
+
 [Load]
 Завантажити
 [Save]
@@ -1436,8 +1436,6 @@ xHTML-формат повідомлень чату
 Виправляти час у вхідних повідомленнях
 [Disable frame]
 Вимкнути фрейм
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 Обробляти XMPP-посилання (потрібен плагін AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ xHTML-формат повідомлень чату
 
 [Security]
 Безпека
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Відповідати серверу на запити про версії (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ Hipchat
 [List Editor...]
 Редактор списків...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 Протокол не в мережі або JID немає
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ XML (кодування UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+Опис
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ XML (кодування UTF-8)
 <Фото недоступне без підключення до мережі>
 [<No photo>]
 <Немає фото>
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Невідомо
 [Photo]
 Фото
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: редагування телефону
 Контакти
 [Note]
 Нотатка
+[OMEMO]
+OMEMO
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <розширений статус>

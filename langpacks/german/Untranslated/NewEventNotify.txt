@@ -1,0 +1,4 @@
+[Timeout, secs]
+[(timeout -1 means forever, 0 - default)]
+[Misc options]
+[This is a sample error event :-D]

@@ -56,8 +56,6 @@ Cambiar contraseña
 Prioridad
 [Use hostname as resource]
 Nombre de host como recurso
-[List of public servers]
-Usar el nombre de host como recurso
 [Port:]
 Puerto:
 [Use SSL]
@@ -180,6 +178,8 @@ Celular
 Vídeo
 [Modem]
 Módem
+[(*) marks the current session]
+
 [Load]
 Cargar
 [Save]
@@ -1436,8 +1436,6 @@ Otro
 
 [Disable frame]
 
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 
 [Embrace picture URLs with [img]]
@@ -1445,6 +1443,8 @@ Otro
 [Ignore server roster (groups and nick names)]
 
 [Security]
+
+[Allow local time & timezone requests (XEP-0202)]
 
 [Allow servers to request version (XEP-0092)]
 
@@ -1643,6 +1643,8 @@ Mensaje
 [List Editor...]
 
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ Nick:
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ Copiar
 
 [<No photo>]
 
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Desconocido
 [Photo]
 Foto
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1908,6 +1924,8 @@ Femenino
 [Contacts]
 Contactos
 [Note]
+
+[OMEMO]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

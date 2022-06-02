@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.5
+;  Version: 0.3.3.6
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
@@ -93,8 +93,6 @@ Aktuelles Alter
 UserInfo-Modul
 [Protocol module]
 Protokollmodul
-[mBirthday module]
-mBirthday-Modul
 [Nothing]
 Nichts
 [Dismiss]

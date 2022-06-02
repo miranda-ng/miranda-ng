@@ -24,7 +24,6 @@
 [Current age]
 [UserInfo module]
 [Protocol module]
-[mBirthday module]
 [Nothing]
 [Dismiss]
 [Message window]

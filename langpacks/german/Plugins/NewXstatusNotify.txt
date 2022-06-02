@@ -229,10 +229,6 @@ Klangdatei
 [(default sound)]
 Standardton
 ;file \plugins\NewXstatusNotify\src\main.cpp
-[Notification enabled]
-Benachrichtigung aktiviert
-[Notification disabled]
-Benachrichtigung deaktiviert
 [<no status message>]
 <keine Statusnachricht>
 [Contact]
@@ -329,12 +325,8 @@ Zusatzstatusnachricht wurde geändert
 Zusatzstatus wurde geändert
 [Extra status message removed]
 Zusatzstatusnachricht wurde entfernt
-[Enable status notification]
-Statusbenachrichtigungen aktivieren
-[Disable status notification]
-Statusbenachrichtigung deaktivieren
-[Toggle status notification]
-Statusbenachrichtigungen (de)aktivieren
+[Status notifications]
+Statusbenachrichtigungen
 [New Status Notify]
 New Status Notify
 [Status change]

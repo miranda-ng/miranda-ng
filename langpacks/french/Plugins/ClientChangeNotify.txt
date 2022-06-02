@@ -61,14 +61,10 @@ Aperçu
 
 [%s (was %s)]
 
-[Disable c&lient change notification]
-
-[Enable c&lient change notification]
+[Client change notifications]
 
 [ClientChangeNotify: Client changed]
 
-[Popups]
-Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 
@@ -89,5 +85,7 @@ Popups
 
 [Do nothing]
 
+[Popups]
+Popups
 [ClientChangeNotify]
 

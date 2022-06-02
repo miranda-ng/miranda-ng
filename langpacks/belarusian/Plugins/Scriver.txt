@@ -30,8 +30,6 @@
 Паведамляць, калі паведамленне не атрымалася адправіць на працягу
 [seconds]
 секунд
-[Send message on:]
-Пасылаць па:
 [Tabs]
 Укладкі
 [Enable tabs]
@@ -216,22 +214,6 @@
 Ліміт
 [KB]
 KB
-[Group chat]
-Чат
-[Use same style as in the message log]
-Той жа стыль, што і ў логе
-[Use default colors]
-Колеры па змаўчанні
-[Use custom colors]
-Задаць колеры
-[Text]
-Тэкст
-[Background]
-Фон
-[Timeout (s)]
-Працягласць (з)
-[(0 means default setting, -1 means indefinite time)]
-0 = стандартныя значэнні, -1 = бясконцы час
 [Message]
 Паведамленне
 [Undo]
@@ -261,6 +243,8 @@ KB
 Паведамленні
 [Group chats]
 Чаты
+[Action: Send message]
+Дзеянне: Адправіць
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Міргаць, калі хтосьці кажа
@@ -356,8 +340,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Агульнае
 [Log formatting]
 Фармат лога
-[Popups]
-Усплывальныя вокны
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Дадаць кантакт
@@ -559,6 +541,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Фон інфопанэлі
 [Info bar status message]
 Інфа-Панэль: статуснае паведамленне
+[Background]
+Фон
 [Line between messages]
 
 [Offline]
@@ -577,14 +561,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Вольны
 [Invisible]
 Нябачны
-[Enter]
-Enter
-[Double 'Enter']
-падвойным "Enter"
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** Новыя кантакты **
 [** Unknown contacts **]

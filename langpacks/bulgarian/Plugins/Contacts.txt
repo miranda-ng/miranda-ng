@@ -42,11 +42,11 @@
 Опитай отново
 [Popup]
 Рopup
-[Add to List]
+[Add to list]
 Добавяне в списъка
 [User details]
 Подробности за потребителя
-[Send Message]
+[Send message]
 Изпращане на съобщение
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
