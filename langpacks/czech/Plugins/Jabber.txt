@@ -56,8 +56,6 @@ Změnit heslo
 Priorita:
 [Use hostname as resource]
 Jako prostředek použít název počítače
-[List of public servers]
-Seznam veř. serverů
 [Port:]
 Port:
 [Use SSL]
@@ -180,6 +178,8 @@ Mobil
 Video
 [Modem]
 Modem
+[(*) marks the current session]
+
 [Load]
 Načíst
 [Save]
@@ -1436,8 +1436,6 @@ Automaticky přijímat žádosti o autorizaci
 Opravovat neplatné datum příchozích zpráv
 [Disable frame]
 Vypnout zobrazení rámečku
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 
 [Security]
 Zabezpečení
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Povolit žádosti serveru o verzi (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ Aktivní ani výchozí seznam nelze odstranit.
 [List Editor...]
 Editor...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ Požadavek na instrukce k registraci...
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+Popis
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ neznámý formát
 <foto není ve stavu offline>
 [<No photo>]
 <foto není>
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Neznámý
 [Photo]
 Fotka
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: Upravit telefonní číslo
 Kontakty
 [Note]
 Poznámka
+[OMEMO]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <slot rozšířeného stavu>

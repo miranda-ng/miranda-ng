@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@ Einträge
 Hilfe zu den erweiterten Einstellungen
 [Revert to (safe) defaults]
 Zurücksetzen auf sichere Werte
-[Event notify options]
-Einstellungen für Ereignisbenachrichtigungen
-[Limit message preview to]
-Begrenze Nachrichtenvorschau auf
-[characters]
-Zeichen
-[Only show event notifications when my status is...]
-Zeige Ereignisbenachrichtigungen nur, wenn mein Status wie folgt ist...
-[Popup options]
-Einstellungen für Popups
-[Text]
-Text
-[Background]
-Hintergrund
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Zeitlimit (Sekunden, 0 = Standard, -1 = Kein Limit)
-[Message]
-Nachricht
-[Use default colors]
-Standardfarben verwenden
-[Others]
-Sonstiges
-[Preview]
-Vorschau
-[Group chats]
-Gruppenchats
-[Errors]
-Fehler
-[Use the message log color theme for group chat popups]
-Benutze das Farbschema des Nachrichtenverlaufs für Gruppenchat-Popups
 [Dialog]
 Dialog
 [Cancel]
@@ -336,8 +306,8 @@ Schreibhinweise anzeigen, wenn Nachrichtenfenster offen ist
 Benachrichtigungen anzeigen, wenn kein Nachrichtenfenster offen ist
 [Show balloon tooltip in the system tray]
 Ballon-Tooltip  im Systemtray anzeigen
-[        Show popups when a user is typing]
-          Zeige Popups, wenn ein Benutzer tippt
+[Show popups when a user is typing]
+Zeige Popups, wenn ein Benutzer tippt
 [More about typing notifications]
 Hilfe zu Tippbenachrichtigungen
 [Tab options]
@@ -348,6 +318,8 @@ Diverse Einstellungen
 Statusmodus für automatische Tab-/Fenstererzeugung...
 [Limit nicknames on tabs to]
 Begrenze Nicks im Tab auf
+[characters]
+Zeichen
 [Esc key behavior]
 Verhalten der Esc-Taste
 [Select container]
@@ -398,14 +370,16 @@ Farben
 ...&tippt gerade
 [...stopped t&yping]
 ...ti&ppt nicht mehr
+[Background]
+Hintergrund
+[Text]
+Text
 [Use &default colors]
 &Standardfarben verwenden
 [Use &Windows colors]
 &Windows-Farben verwenden
 [Only &one popup for each contact]
 Nur ein P&opup pro Kontakt
-[Show &entry in the main menu]
-&Eintrag im Hauptmenü anzeigen
 [...is typing]
 ...tippt gerade
 [Default]
@@ -418,6 +392,8 @@ Dauerhaft
 Benutzerdef.
 [...stopped typing]
 ...tippt nicht mehr
+[Preview]
+Vorschau
 [Timeout]
 Timeout
 [Templates]
@@ -756,6 +732,10 @@ Diesen Raum kontrollieren (Strg+O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Nachrichtensitzungen
+[Group chats]
+Gruppenchats
+[Send message]
+Nachricht senden
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Nachrichteneingabefeld Hintergrund
@@ -1127,69 +1107,6 @@ aktiviert
 Senden von Tippbenachrichtigungen ist %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Es stehen %d Nachrichten aus. Nachrichtenlänge: %d Byte, Nachrichtenlänge begrenzt auf: %d Byte\n\n%d Nachrichten werden für den späteren Versand verwaltet.
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Eine Ihrer Popupaktionen ist auf "Ereignis verwerfen" gesetzt.\nBeachten Sie, dass diese Option unerwünschte Nebeneffekte haben könnte, da sie das Ereignis aus der Ungelesen-Warteschlange ENTFERNT.\nDies kann dazu führen, dass Ereignisse nicht als "neu" angezeigt werden. Wenn Sie dieses Verhalten nicht wollen, überprüfen Sie bitte die Ereignisbenachrichtigungen-Einstellungen.
-[TabSRMM warning message]
-TabSRMM-Warnmeldung
-[Incoming file]
-Eingehende Datei
-[No description given]
-Keine Beschreibung vorhanden.
-[Incoming file (invalid format)]
-Eingehende Datei (falsches Format)
-[Unknown event]
-Unbekanntes Ereignis
-[New messages: ]
-Neue Nachrichten:\s
-[Unknown module or contact]
-Unbekanntes Modul oder Kontakt
-[Show a preview of the event]
-Vorschau des Ereignisses zeigen
-[Don't announce event when message dialog is open]
-Keine Benachrichtigung, wenn bereits ein Nachrichtenfenster geöffnet ist
-[Don't announce events from RSS protocols]
-Keine Benachrichtigung für Ereignisse von RSS-Protokollen
-[Merge new events for the same contact into existing popup]
-Behandle neue Benachrichtigungen für den gleichen Kontakt in einem existierenden Popup
-[Show headers]
-Kopfzeilen anzeigen
-[Dismiss popup]
-Popup schließen
-[Open event]
-Ereignis öffnen
-[Dismiss event]
-Ereignis löschen
-[Disable event notifications for instant messages]
-Benachrichtigungen für Sofortnachrichten deaktivieren
-[Disable event notifications for group chats]
-Benachrichtigungen für Gruppenchats deaktivieren
-[Disable notifications for non-message events]
-Benachrichtigungen für 'Nicht-Nachrichten'-Ereignisse deaktivieren
-[Remove popups for a contact when the message window is focused]
-Entferne Popups für einen Kontakt, wenn das Fenster fokusiert ist
-[Remove popups for a contact when I start typing a reply]
-Entferne Popups für einen Kontakt, wenn ich anfange, eine Nachricht zu tippen
-[Remove popups for a contact when I send a reply]
-Entferne Popups für einen Kontakt, wenn ich eine Antwort sende
-[Disable notifications]
-Benachrichtigungen deaktivieren
-[System tray icon]
-Systemtray-Icon
-[Left click actions (popups only)]
-Linksklick-Aktionen (nur für Popups)
-[Right click actions (popups only)]
-Rechtsklick-Aktionen (nur für Popups)
-[Timeout actions (popups only)]
-Zeitlimit-Aktionen (nur für Popups)
-[Combine notifications for the same contact]
-Kombiniere Benachrichtigungen für die gleichen Kontakte
-[Remove popups under following conditions]
-Entferne Popups unter den folgenden Bedingungen
-[Event notifications]
-Ereignisbenachrichtigungen
-[Popups]
-Popups
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Keine Statusnachricht
@@ -1247,8 +1164,6 @@ Nachricht zitieren
 Nachrichtenbereich leeren
 [Toggle send later]
 Später-Senden umschalten
-[Send message]
-Nachricht senden
 [Show message history]
 Nachrichtenverlauf anzeigen
 [Show send menu]
@@ -1375,10 +1290,6 @@ Wiederholen
 Später senden
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Sie editieren Benutzernotizen. Klicken Sie erneut auf die Taste oder verwenden Sie die Tastenkombination (Standard: Alt+N) zum Speichern der Notizen
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Ihr Filter kann nicht aktiviert werden, weil keine Ereignistypen global oder für diesen Chatraum ausgewählt wurden
-[Event filter error]
-Ereignisfilter-Fehler
 [Selection copied to clipboard]
 Auswahl in die Zwischenablage kopiert
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ Theme laden
 Verhalten des Nachrichtenfensters
 [Sending messages]
 Nachrichten senden
-[Send on Shift+Enter]
-Umschalt+Enter sendet Nachricht
-[Send message on 'Enter']
-'Enter' sendet Nachricht
-[Send message on double 'Enter']
-2-mal Enter sendet Nachricht
 [Minimize the message window on send]
 Nachrichtenfenster beim Senden minimieren
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ Markierten Text automatisch kopieren
 Test-Kontakt
 [Template set editor]
 Bearbeiten des Nachrichtenverlaufs
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
+[Sample error message]
+
+[My Nickname]
+Mein Nickname
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Dies wird alle Vorlagen auf die standardmäßig enthaltenen Vorlagen zurücksetzen, sind Sie sich sicher, dass Sie das tun wollen?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ Alle Nachrichtenfenster müssen geschlossen werden, damit der Skin geändert wer
 [Change skin]
 Skin ändern
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-&Tipphinweis deaktivieren
-[Enable &typing notification]
-&Tipphinweis aktivieren
 [...has stopped typing.]
 ...tippt nicht mehr.
 [...is typing a message.]
 ...tippt gerade eine Nachricht.
+[Popups]
+Popups
+[Typing notifications]
+Tipphinweis
 [Contact started typing]
 Kontakt beginnt zu tippen
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n
 Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes im Optionsdialog vorgenommen werden, zu übernehmen, muss der Dialog nach dem Laden eines Themes geschlossen werden \\b1und ungespeicherte Änderungen könnten verloren gehen\\b0.\n\nMöchten Sie den Vorgang fortsetzen?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
+[TabSRMM warning message]
+TabSRMM-Warnmeldung

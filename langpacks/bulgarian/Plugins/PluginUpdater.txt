@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -51,8 +51,6 @@
 [Custom version]
 Персонализирана версия
 [Change platform to 32-bit]
-
-[Use HTTPS]
 
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Някои компоненти са актуализирани.\nНеобхдимо е да рестартирате Miranda за да бъдат приложени актуализациите.

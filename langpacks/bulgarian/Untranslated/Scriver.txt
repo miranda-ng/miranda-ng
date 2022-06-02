@@ -1,4 +1,5 @@
 [You can use embedded variables here: %name% for contact's name, %status% for its status, %statusmsg% for its status message and %account% for its account's name]
+[Action: Send message]
 [user-defined account name of current contact (if defined).]
 [user ID of current contact (if defined). It is like UIN for ICQ, JID for Jabber, etc.]
 [will return parsed string %miranda_profilesdir%\\%miranda_profilename%]

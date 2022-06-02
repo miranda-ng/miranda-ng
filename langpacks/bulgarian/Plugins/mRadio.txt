@@ -45,9 +45,9 @@ mRadio Mod
 Повтаряне на една и съща медиа (файл)
 [Station Name]
 Име на станцията
-[Timeout, ms (5000)]
-Времетраене, ms (500)
-[PreBuf, % (75%)]
+[Timeout, ms]
+Времетраене, ms
+[PreBuf, %]
 
 [Hallway]
 Коридор
@@ -61,8 +61,8 @@ mRadio Mod
 Адрес на станцията (необходимо)
 [To INI]
 .INI файла
-[Buffer, ms (5000)]
-Буфер, ms (5000)
+[Buffer, ms]
+Буфер, ms
 [Add station]
 Добавяне на станцията в:
 [Add Station]

@@ -328,16 +328,14 @@ INI-файл погоди для цієї станції не знайдений
 Повний прогноз
 [Weather Update]
 Оновлення прогнозу
-[Popup]
-Спливаючі вікна
-[No Popup]
-Без вікон
 [Edit Settings]
 Змінити налаштування
 [Condition Changed]
 Погода змінилася
 [Alert Issued]
 Погодне попередження
+[Weather notifications]
+Сповіщення про зміну погоди
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Поточна інформація про погоду для %s.
@@ -480,10 +478,6 @@ INI-файл погоди для цієї станції не знайдений
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 ID міста
-[Disable &weather notification]
-Вимкнути сповіщення про зміну погоди
-[Enable &weather notification]
-Увімкнути сповіщення про зміну погоди
 [Update Weather]
 Оновити погоду
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ ID міста
 Оновити погоду
 [Remove Old Data then Update All]
 Видалити дані та оновити всі
-[Weather Notification]
-Сповіщення про погоду
 [Display in a frame]
 Показувати у фреймі
 ;file \protocols\Weather\src\weather_update.cpp

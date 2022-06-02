@@ -20,7 +20,6 @@
 [Current age]
 [UserInfo module]
 [Protocol module]
-[mBirthday module]
 [All contacts except hidden ones]
 [All contacts except ignored ones]
 [All contacts except hidden and ignored ones]

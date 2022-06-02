@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,36 +132,6 @@
 Падрабязней пра дадатковыя налады
 [Revert to (safe) defaults]
 Налады па змаўчанні
-[Event notify options]
-Налады абвестак
-[Limit message preview to]
-Ліміт прадпрагляду
-[characters]
-знакаў
-[Only show event notifications when my status is...]
-Паказваць абвесткі пра падзеі, калі мой статус...
-[Popup options]
-Налады ўсплывальных вокнаў
-[Text]
-Тэкст
-[Background]
-Фон
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-Затрымка (сек., 0=па змаўчанні, -1=утрыманне)
-[Message]
-Паведамленне
-[Use default colors]
-Колеры па змаўчанні
-[Others]
-Іншае
-[Preview]
-Прагляд
-[Group chats]
-Чаты
-[Errors]
-Памылкі
-[Use the message log color theme for group chat popups]
-Выкарыстоўваць колеры лога паведамленняў для успл. вокнаў чатаў
 [Dialog]
 Гутарка
 [Cancel]
@@ -336,8 +306,8 @@ RTL шаблоны
 Абвесціць пра набор тэксту, пры зачыненым вакне гутаркі
 [Show balloon tooltip in the system tray]
 Паказваць падказкі ў трэі
-[        Show popups when a user is typing]
-         Усплывальныя вокны, калі карыстач набірае тэкст
+[Show popups when a user is typing]
+
 [More about typing notifications]
 Дадатковая інфармацыя
 [Tab options]
@@ -348,6 +318,8 @@ RTL шаблоны
 Cтатусы для аўтаматычнага стварэння ўкладак
 [Limit nicknames on tabs to]
 Даўжыня мянушак ва ўкладках да
+[characters]
+знакаў
 [Esc key behavior]
 Паводзіны пры націску Esc
 [Select container]
@@ -398,14 +370,16 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 набірае &тэкст
 [...stopped t&yping]
 скончыў набіраць
+[Background]
+Фон
+[Text]
+Тэкст
 [Use &default colors]
 Колеры па змаўчанні
 [Use &Windows colors]
 Колеры Windows
 [Only &one popup for each contact]
 Толькі адно вакно на кантакт
-[Show &entry in the main menu]
-Пункт у галоўным меню
 [...is typing]
 ...піша
 [Default]
@@ -418,6 +392,8 @@ Cтатусы для аўтаматычнага стварэння ўклада�
 Наладзіць
 [...stopped typing]
 ...скончыў пісаць
+[Preview]
+Прагляд
 [Timeout]
 Затрымка
 [Templates]
@@ -756,6 +732,10 @@ RTL па змаўчанні
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Гутаркі
+[Group chats]
+Чаты
+[Send message]
+Адправіць
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон поля ўводу
@@ -1127,69 +1107,6 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Адпраўка абвесткі пра набор: %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 Адпраўляецца %d паведамленняў. Даўжыня паведамлення: %d байт, абмежаванне даўжыні: %d байт\n\n%d паведамленняў у чэргі для наступнай дастаўкі
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-Адно з дзеянняў усплываючых вокнаў наладжана на "Адмовіць падзею".\nГэта можа зрабіць нежаданы эфект, так як пазначае падзею прачытанай.\nЯк вынік, падзеі не будуць паказаны "новымі". Калі гэта не тое, што вы хацелі, перагледзьце налады ў раздзеле "Паведамленьні".
-[TabSRMM warning message]
-Заўвага TabSRMM
-[Incoming file]
-Уваходны файл
-[No description given]
-Без апісання
-[Incoming file (invalid format)]
-Уваходны файл (няслушны фармат)
-[Unknown event]
-Невядомая з'ява
-[New messages: ]
-Новыя паведамленні:\s
-[Unknown module or contact]
-Невядомы плагін ці кантакт
-[Show a preview of the event]
-Прадпрагляд падзеі
-[Don't announce event when message dialog is open]
-Не абвяшчаць, калі адчынена вакно гутаркі
-[Don't announce events from RSS protocols]
-Не абвяшчаць пра падзеі ў конце RSS
-[Merge new events for the same contact into existing popup]
-Дадаваць новыя падзеі ва ўжо існае ўсплывальнае вакно
-[Show headers]
-Паказаць загалоўкі
-[Dismiss popup]
-Зачыніць вакно
-[Open event]
-Адкрыць падзею
-[Dismiss event]
-Адхіліць падзею
-[Disable event notifications for instant messages]
-Выключыць абвесткі пра падзеі паведамленняў
-[Disable event notifications for group chats]
-Выключыць абвесткі пра падзеі чатаў
-[Disable notifications for non-message events]
-Выключыць абвесткі для ўсіх падзей, акрамя паведамленняў
-[Remove popups for a contact when the message window is focused]
-Прыбіраць, калі вакно гутаркі апынецца ў фокусе
-[Remove popups for a contact when I start typing a reply]
-Прыбіраць, калі я пачынаю набіраць адказ
-[Remove popups for a contact when I send a reply]
-Прыбіраць, калі я пасылаю адказ
-[Disable notifications]
-Выключыць абвесткі
-[System tray icon]
-Абразок у трэі
-[Left click actions (popups only)]
-Дзеянні па левай пстрычцы (усплывальныя вокны)
-[Right click actions (popups only)]
-Дзеянні па правай пстрычцы (усплывальныя вокны)
-[Timeout actions (popups only)]
-Дзеянні па затрымцы (усплывальныя вокны)
-[Combine notifications for the same contact]
-Злучаць абвесткі аднаго кантакту
-[Remove popups under following conditions]
-Прыбіраць усплывальныя вокны пры ўмовах
-[Event notifications]
-Абвесткі
-[Popups]
-Усплывальныя вокны
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Няма паведамлення статусу
@@ -1247,8 +1164,6 @@ TabSRMM: Набірае
 
 [Toggle send later]
 Укл/адкл адпраўку з затрымкай
-[Send message]
-Адправіць
 [Show message history]
 Паказаць гісторыю
 [Show send menu]
@@ -1375,10 +1290,6 @@ TabSRMM: Набірае
 Паслаць пазней
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
 Вы рэдагуеце нататкі пра кантакт. Націсніце на кнопку яшчэ раз ці скарыстайце гарачыя клавішы (па змаўчанні: Alt+N), каб захаваць нататкі і вярнуцца ў нармальны рэжым паведамленняў
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
-[Event filter error]
-Памылка фільтра падзей
 [Selection copied to clipboard]
 Вылучаны тэкст скапіяваны ў буфер
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
@@ -1528,12 +1439,6 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Паводзіны вакна паведамленняў
 [Sending messages]
 Адпраўка паведамленняў
-[Send on Shift+Enter]
-Пасылаць па Shift+Enter
-[Send message on 'Enter']
-Пасылаць па "Enter"
-[Send message on double 'Enter']
-Пасылаць па падвойным "Enter"
 [Minimize the message window on send]
 Згортваць вакно пасля адпраўкі
 [Close the message window on send]
@@ -1556,6 +1461,14 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 Тэставы кантакт
 [Template set editor]
 Рэдактар шаблонаў
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+
+[Sample error message]
+
+[My Nickname]
+
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Выдаленне ўсіх шаблонаў і скід на шаблоны па змаўчанні. Вы ўпэўнены, што жадаеце гэтага?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -1868,14 +1781,14 @@ UID: %s (Shift+клік -> капіяваць у буфер)\nКлік - Інф�
 [Change skin]
 Змяніць скін
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-Выключыць абвесткі пра набор тэксту
-[Enable &typing notification]
-Уключыць абвесткі пра набор тэксту
 [...has stopped typing.]
 ... скончыў(ла) набіраць тэкст.
 [...is typing a message.]
 ... набірае тэкст.
+[Popups]
+Усплывальныя вокны
+[Typing notifications]
+Набірае тэкст
 [Contact started typing]
 Кантакт пачаў набор паведамлення
 [Contact stopped typing]
@@ -1906,3 +1819,5 @@ TabSRMM: %s
 Зачыненне налад|Каб паказаць змены, злучаныя з імпартам схемы, у вакне налад, яно павінна быць зачынена пасля загрузкі схемы \\b1 і незахаваныя змены могуць быць страчаны\\b0 .\n\nВы жадаеце працягнуць?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка колераў і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
+[TabSRMM warning message]
+Заўвага TabSRMM

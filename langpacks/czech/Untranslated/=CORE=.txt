@@ -25,6 +25,7 @@
 [Chat mute mode]
 [Mute chat]
 [Do you really want to delete this menu item?]
+[Plugin %S cannot be unloaded because the core plugin is missing]
 [Check database]
 [Load server history]
 [Unselect all]

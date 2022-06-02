@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -131,36 +131,6 @@ segundos
 [More about advanced tweaks]
 
 [Revert to (safe) defaults]
-
-[Event notify options]
-
-[Limit message preview to]
-
-[characters]
-
-[Only show event notifications when my status is...]
-
-[Popup options]
-
-[Text]
-Texto
-[Background]
-Fondo
-[Timeout (seconds, 0 = default, -1 = no timeout)]
-
-[Message]
-Mensaje
-[Use default colors]
-Usar colores predeterminados
-[Others]
-
-[Preview]
-Previsualizar
-[Group chats]
-Grupo de chats
-[Errors]
-Errores
-[Use the message log color theme for group chat popups]
 
 [Dialog]
 Diálogo
@@ -336,7 +306,7 @@ Enviar notificaciones de escritura a los siguientes usuarios cuando se está esc
 Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
 [Show balloon tooltip in the system tray]
 
-[        Show popups when a user is typing]
+[Show popups when a user is typing]
 
 [More about typing notifications]
 
@@ -347,6 +317,8 @@ Mostrar notificación de escritura cuando no hay diálogo de mensaje abierto
 [Setup status modes for automatic tab creation...]
 
 [Limit nicknames on tabs to]
+
+[characters]
 
 [Esc key behavior]
 
@@ -398,13 +370,15 @@ Colores
 
 [...stopped t&yping]
 
+[Background]
+Fondo
+[Text]
+Texto
 [Use &default colors]
 Usar colores predeterminados
 [Use &Windows colors]
 Usar colores de Windows
 [Only &one popup for each contact]
-
-[Show &entry in the main menu]
 
 [...is typing]
 
@@ -418,6 +392,8 @@ Permanente
 Personalizado
 [...stopped typing]
 
+[Preview]
+Previsualizar
 [Timeout]
 Retardo
 [Templates]
@@ -756,6 +732,10 @@ Controlar esta sala (Ctrl+O)
 ;file \plugins\TabSRMM\src\chat_main.cpp
 [Message sessions]
 Sesiones de mensaje
+[Group chats]
+Grupo de chats
+[Send message]
+Enviar mensaje
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 
@@ -1127,69 +1107,6 @@ desabilitado
 
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
 
-;file \plugins\TabSRMM\src\eventpopups.cpp
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-
-[TabSRMM warning message]
-
-[Incoming file]
-Archivo entrante
-[No description given]
-
-[Incoming file (invalid format)]
-
-[Unknown event]
-
-[New messages: ]
-
-[Unknown module or contact]
-
-[Show a preview of the event]
-
-[Don't announce event when message dialog is open]
-
-[Don't announce events from RSS protocols]
-
-[Merge new events for the same contact into existing popup]
-
-[Show headers]
-
-[Dismiss popup]
-
-[Open event]
-
-[Dismiss event]
-
-[Disable event notifications for instant messages]
-
-[Disable event notifications for group chats]
-
-[Disable notifications for non-message events]
-
-[Remove popups for a contact when the message window is focused]
-
-[Remove popups for a contact when I start typing a reply]
-
-[Remove popups for a contact when I send a reply]
-
-[Disable notifications]
-
-[System tray icon]
-Icono de la bandeja de sistema
-[Left click actions (popups only)]
-
-[Right click actions (popups only)]
-
-[Timeout actions (popups only)]
-
-[Combine notifications for the same contact]
-
-[Remove popups under following conditions]
-
-[Event notifications]
-Notificaciones de eventos
-[Popups]
-Ventanas emergentes
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 
@@ -1247,8 +1164,6 @@ Pegar y Enviar
 
 [Toggle send later]
 
-[Send message]
-Enviar mensaje
 [Show message history]
 
 [Show send menu]
@@ -1374,10 +1289,6 @@ Escribiendo notificación
 [Send later]
 
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
-
-[The filter cannot be enabled, because there are no event types selected either global or for this chat room]
-
-[Event filter error]
 
 [Selection copied to clipboard]
 
@@ -1528,12 +1439,6 @@ minutos
 
 [Sending messages]
 
-[Send on Shift+Enter]
-
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
 [Minimize the message window on send]
 Minimizar la ventana de mensaje al enviar
 [Close the message window on send]
@@ -1555,6 +1460,14 @@ Cerrar la ventana de mensaje al enviar
 [Test contact]
 
 [Template set editor]
+
+[is now offline (was online)]
+
+[The quick brown fox jumps over the lazy dog.]
+
+[Sample error message]
+
+[My Nickname]
 
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 
@@ -1868,13 +1781,13 @@ Contacto
 [Change skin]
 
 ;file \plugins\TabSRMM\src\typingnotify.cpp
-[Disable &typing notification]
-
-[Enable &typing notification]
-
 [...has stopped typing.]
 
 [...is typing a message.]
+
+[Popups]
+Ventanas emergentes
+[Typing notifications]
 
 [Contact started typing]
 El contacto ha comenzado a escribir
@@ -1905,4 +1818,6 @@ El contacto dejó de escribir
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
+
+[TabSRMM warning message]
 

@@ -1,1 +1,3 @@
+[is now offline (was online)]
+[Sample error message]
 [tabSRMM internal log]

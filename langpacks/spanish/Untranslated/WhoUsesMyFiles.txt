@@ -18,7 +18,6 @@
 [Error opening file]
 [Error memory allocation]
 [Error creating menu]
-[Enable WUMF popups]
-[Disable WUMF popups]
 [Show connections list]
+[WUMF popups]
 [WUMF: Show connections]

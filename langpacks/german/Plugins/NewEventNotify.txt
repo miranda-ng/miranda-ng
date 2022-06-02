@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Benachrichtigt Sie per Popup, wenn Sie eine Nachricht, URL, Datei oder sontiges Ereignis empfangen
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Allgemeine Einstellungen
-[Show entry in the Popups menu]
-Eintrag in Hauptmenü -> Popups
-[Temporarily disable event popups]
-Ereignismeldungen deaktivieren
-[Show preview of event in popup]
-Vorschau des Ereignisses im Popup
+[Limit message preview to]
+Begrenze Nachrichtenvorschau auf
+[characters]
+Zeichen
 [Popup options]
 Popup-Einstellungen
-[Message]
-Nachricht
-[File]
-Datei
-[Others]
-Sonstiges
 [Text]
 Text
 [Background]
 Hintergrund
-[Timeout]
-Timeout
+[Timeout, secs]
+
+[Message]
+Nachricht
+[File]
+Datei
+[Errors]
+Fehler
+[Others]
+Sonstiges
+[Preview]
+Vorschau
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+Kein Popup zeigen, wenn Nachrichtenfenster offen ist
+[Hide popup when sending new message]
+Popup beim Versenden von Nachrichten ausblenden
+[Open reply dialog instead of reading the message]
+Nachrichtenf. öffnen, nicht nur als gelesen markieren
+[Merge popups from one user]
+Popups eines Kontaktes zusammenfügen
+[Show date]
+Datum anzeigen
+[Show time]
+Zeit anzeigen
+[Show headers]
+Titel anzeigen
+[Number of messages being shown]
+Nachrichten zusammenfassen ab Nachricht Nummer
+[Last message display first]
+Letzte Nachricht zuerst zeigen
+[Last message display last]
+Letzte Nachricht zuletzt zeigen
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Ereignismeldungen
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Allgemeine Einstellungen
+[Show preview of event in popup]
+Vorschau des Ereignisses im Popup
+[Enable event notifications for instant messages]
+Benachrichtigungen für Sofortnachrichten aktivieren
+[Enable event notifications for group chats]
+Benachrichtigungen für Gruppenchats aktivieren
 [Notify me of...]
 Diese Ereignisse zeigen...
+[Error]
+Fehler
 [Left click actions]
 Aktion bei Linksklick
 [Dismiss popup]
@@ -44,42 +80,20 @@ Ereignis löschen
 Bei Rechtsklick
 [Timeout actions]
 Anzeigedauer abgelaufen
-[Message event only]
-Nur Textnachrichten
-[Don't show popup when message dialog is already open]
-Kein Popup zeigen, wenn Nachrichtenfenster offen ist
-[Hide popup when sending new message]
-Popup beim Versenden von Nachrichten ausblenden
-[Open reply dialog instead of reading the message]
-Nachrichtenf. öffnen, nicht nur als gelesen markieren
-[Merge popups from one user]
-Popups eines Kontaktes zusammenfügen
-[Preview]
-Vorschau
-[Show date]
-Datum anzeigen
-[Show time]
-Zeit anzeigen
-[Show headers]
-Titel anzeigen
-[Number of begin shown messages]
-Nachrichten zusammenfassen ab Nachricht Nummer
-[Last message display first]
-Letzte Nachricht zuerst zeigen
-[Last message display last]
-Letzte Nachricht zuletzt zeigen
-[Edit]
-Bearbeiten
+[Misc options]
+
 [No popups for RSS contacts]
 Keine Popups für RSS-Feeds
 [No popups for read messages]
 Keine Popups für gelesene Nachrichten
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Popups
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Ereignismeldungen
+[Popups]
+Popups
+[Main options]
+Einstellungen
+[Message events]
+Nachrichten-Ereignisse
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 %d Kontakte empfangen.
@@ -91,6 +105,8 @@ Ereignismeldungen
 Dieses ist ein Beispiel-Popup für Nachrichten
 [This is a sample file event :-D]
 Dieses ist ein Beispiel-Popup für einen Dateitransfer
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 [Plugin Test]
@@ -108,7 +124,3 @@ Erbittet Ihre Autorisation
 Unbekanntes Ereignis
 [Notify of new events]
 Ereignis-Benachrichtigung
-[Enable new event notification]
-Ereignismeldungen aktivieren
-[Disable new event notification]
-Ereignismeldungen deaktivieren

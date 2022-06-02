@@ -2,7 +2,6 @@
 [Backup profile folder]
 [Use CloudFile]
 [Uploading to cloud failed]
-[Enable &AutoBackups notification]
-[Disable &AutoBackups notification]
+[AutoBackups notifications]
 [path to folder containing Miranda profiles]
 [Next backup is scheduled to]

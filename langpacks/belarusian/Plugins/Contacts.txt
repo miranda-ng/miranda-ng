@@ -42,11 +42,11 @@
 Яшчэ раз
 [Popup]
 Вакно
-[Add to List]
+[Add to list]
 Дадаць
 [User details]
 Пра кантакт
-[Send Message]
+[Send message]
 Адправіць
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

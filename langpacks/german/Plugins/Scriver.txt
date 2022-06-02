@@ -30,8 +30,6 @@ Temporäre Kontakte beim Schließen entfernen
 Warnung anzeigen, wenn Nachricht nicht zugestellt wurde nach
 [seconds]
 Sekunden
-[Send message on:]
-Nachricht senden mit:
 [Tabs]
 Tabs
 [Enable tabs]
@@ -216,22 +214,6 @@ Ort
 bis max.
 [KB]
 KB
-[Group chat]
-Gruppenchat
-[Use same style as in the message log]
-Selben Stil wie im Verlaufsfenster verwenden
-[Use default colors]
-Standardfarben verwenden
-[Use custom colors]
-Benutzerdefinierte Farben
-[Text]
-Text
-[Background]
-Hintergrund
-[Timeout (s)]
-Zeitüberschreitung (s)
-[(0 means default setting, -1 means indefinite time)]
-(0 ist die Standardeinstellung, -1 bedeutet unendlich)
 [Message]
 Nachricht
 [Undo]
@@ -261,6 +243,8 @@ Tab schließen
 Nachrichten
 [Group chats]
 Gruppenchats
+[Action: Send message]
+
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Blinken, wenn jemand schreibt
@@ -356,8 +340,6 @@ Nachrichtensitzungen
 Allgemein
 [Log formatting]
 Verlaufsformatierung
-[Popups]
-Popups
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Kontakt hinzufügen
@@ -559,6 +541,8 @@ Statusleisten Kontaktname
 Infoleiste Hintergrund
 [Info bar status message]
 Infoleiste Statusnachricht
+[Background]
+Hintergrund
 [Line between messages]
 Linie zwischen Nachrichten
 [Offline]
@@ -577,14 +561,6 @@ Bitte nicht stören
 Für Chat bereit
 [Invisible]
 Unsichtbar
-[Enter]
-Enter
-[Double 'Enter']
-Doppel-'Eingabe'
-[Ctrl+Enter]
-Strg+Eingabe
-[Shift+Enter]
-Umschalt+Eingabe
 [** New contacts **]
 ** Neue Kontakte **
 [** Unknown contacts **]

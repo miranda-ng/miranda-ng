@@ -68,14 +68,12 @@
 Інше
 [Gmail: New thread(s)]
 Gmail: нова пошта
-[Gmail Notifier]
-
+[GmailNotifier]
+Сповіщення про пошту Gmail
 [&Check all Gmail inboxes]
 Перевірити всі скриньки Gmail
 [&Check Gmail inbox]
 Перевірити скриньку Gmail
 ;file \protocols\GmailNotifier\src\options.cpp
-[GmailNotifier]
-Сповіщення про пошту Gmail
 [Network]
 Мережа

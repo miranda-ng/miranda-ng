@@ -30,8 +30,6 @@ Kasuj niezapisane kontakty przy zamykaniu
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [seconds]
 s
-[Send message on:]
-Wysyła wiadomość:
 [Tabs]
 Karty
 [Enable tabs]
@@ -216,22 +214,6 @@ Miejsce
 Ogranicz do
 [KB]
 KB
-[Group chat]
-Czaty
-[Use same style as in the message log]
-Użyj takiego samego stylu, jak w dzienniku
-[Use default colors]
-Użyj domyślnych kolorów
-[Use custom colors]
-Użyj niestandardowych kolorów
-[Text]
-Tekst
-[Background]
-Tło
-[Timeout (s)]
-Opóźnienie (s)
-[(0 means default setting, -1 means indefinite time)]
-(0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
 [Undo]
@@ -261,6 +243,8 @@ Zamknij kartę
 Wiadomości
 [Group chats]
 Czaty
+[Action: Send message]
+Akcja: Wysyła wiadomość
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
@@ -356,8 +340,6 @@ Okno rozmowy
 Ogólne
 [Log formatting]
 Formatowanie dziennika
-[Popups]
-Powiadomienia
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Dodaj kontakt
@@ -559,6 +541,8 @@ Nazwa kontaktu w pasku informacyjnym
 Tło paska informacyjnego
 [Info bar status message]
 Opis w pasku informacyjnym
+[Background]
+Tło
 [Line between messages]
 Linia pomiędzy wiadomościami
 [Offline]
@@ -577,14 +561,6 @@ Nie przeszkadzać
 Porozmawiajmy
 [Invisible]
 Niewidoczny
-[Enter]
-Enter
-[Double 'Enter']
-Podwójny 'Enter'
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]

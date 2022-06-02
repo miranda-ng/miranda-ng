@@ -202,6 +202,8 @@ Auf Standard zurücksetzen
 Hilfe zu Variablen
 [Test contact]
 Test-Kontakt
+[The quick brown fox jumps over the lazy dog.]
+Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
 [simply % character]
 Einfaches Prozentzeichen (%)
 [a "hard" line break (cr/lf - will break indent)]

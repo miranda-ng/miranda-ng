@@ -61,14 +61,10 @@ změnil klienta na %s (předtím %s)
 změnil klienta na %s
 [%s (was %s)]
 %s (předtím %s)
-[Disable c&lient change notification]
-Vypnout oznámení o změně klienta
-[Enable c&lient change notification]
-Zapnout oznámení o změně klienta
+[Client change notifications]
+Oznámení o změně klienta
 [ClientChangeNotify: Client changed]
 Změna klienta
-[Popups]
-Oznámení
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Chyba č.%d
@@ -89,5 +85,7 @@ Zobrazit nabídku kontaktu
 Zobrazit historii kontaktu
 [Do nothing]
 Nedělat nic
+[Popups]
+Oznámení
 [ClientChangeNotify]
 Změna klienta

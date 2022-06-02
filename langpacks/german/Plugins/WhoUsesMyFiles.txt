@@ -69,13 +69,9 @@ Fehler bei der Speicherzuweisung
 ;file \plugins\WhoUsesMyFiles\src\wumfplug.cpp
 [Error creating menu]
 Fehler beim Erstellen des Menus
-[Enable WUMF popups]
-WUMF-Popups aktivieren
-[Disable WUMF popups]
-WUMF-Popups deaktivieren
 [Show connections list]
 Verbindungsliste anzeigen
-[Popups]
-Popups
+[WUMF popups]
+WUMF-Popups
 [WUMF: Show connections]
 WUMF: Verbindungen anzeigen

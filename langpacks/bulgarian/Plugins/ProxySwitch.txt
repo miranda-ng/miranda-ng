@@ -58,9 +58,7 @@ Popup настройки
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 
-[Enable &IP change notification]
-
-[Disable &IP change notification]
+[IP change notification]
 
 [Show my &IP addresses]
 
@@ -69,10 +67,6 @@ Popup настройки
 [Disable proxy]
 
 [Enable proxy]
-
-[Popups]
-Рopups
-[IP change notification]
 
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]

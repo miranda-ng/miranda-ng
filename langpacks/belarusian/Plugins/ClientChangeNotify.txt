@@ -61,14 +61,10 @@
 змяніў кліент на %s
 [%s (was %s)]
 %s (быў %s)
-[Disable c&lient change notification]
-Выключыць абвесткі пра змену кліента
-[Enable c&lient change notification]
-Уключыць абвесткі пра змену кліента
+[Client change notifications]
+Абвесткі пра змену кліента
 [ClientChangeNotify: Client changed]
 Абвестка пра змену кліента: Кліент змяніўся
-[Popups]
-Усплывальныя вокны
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Памылка #%d
@@ -89,5 +85,7 @@
 Адкрыць гісторыю кантакту
 [Do nothing]
 Нічога не рабіць
+[Popups]
+Усплывальныя вокны
 [ClientChangeNotify]
 Абвестка пра змену кліента

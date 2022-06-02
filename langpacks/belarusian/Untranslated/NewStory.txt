@@ -36,6 +36,7 @@
 [User signed in]
 [Template group]
 [Cancel edit]
+[The quick brown fox jumps over the lazy dog.]
 [simply % character]
 [a "hard" line break (cr/lf - will break indent)]
 [my nickname]

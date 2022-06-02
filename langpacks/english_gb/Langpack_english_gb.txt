@@ -24,10 +24,6 @@ Use Windows colours
 Minimise the file transfer window
 [Minimize the message window on send]
 Minimise the message window on send
-[Use default colors]
-Use default colours
-[Use custom colors]
-Use custom colours
 [Text color:]
 Text colour:
 [Background color:]
@@ -54,6 +50,10 @@ Secondary colour:
 &Authorise
 [Add to contact list if authorized]
 Add to contact list if authorised
+[Use default colors]
+Use default colours
+[Use custom colors]
+Use custom colours
 [Canceled]
 Cancelled
 [This file transfer has been canceled by the other side]
@@ -76,12 +76,6 @@ Select a foreground colour for the text (Ctrl+K)
 Select a background colour for the text (Ctrl+L)
 [Please authorize my request and add me to your contact list.]
 Please authorise my request and add me to your contact list.
-[%s requested authorization\n%u (%s) on %s]
-%s requested authorisation\n%u (%s) on %s
-[%s requested authorization\n%u on %s]
-%s requested authorisation\n%u on %s
-[%s requested authorization\n%s on %s]
-%s requested authorisation\n%s on %s
 [%s requests authorization]
 %s requests authorisation
 [%u requests authorization]
@@ -187,7 +181,7 @@ Use default colours
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.3
+;  Version: 0.98.1.4
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Color difference allowed:]
@@ -448,7 +442,7 @@ Text colour
 ;============================================================
 ;  File: DbChecker.dll
 ;  Plugin: Database checker
-;  Version: 0.95.13.2
+;  Version: 0.95.13.3
 ;  Authors: George Hazan
 ;============================================================
 #muuid {a8a417ef-07aa-4f37-869f-7bfd74886534}
@@ -487,7 +481,7 @@ Text colour
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.5
+;  Version: 0.1.0.6
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Go to the "Options -> Customize -> Folders" to change settings]
@@ -722,7 +716,7 @@ Customise
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.7
+;  Version: 0.96.1.9
 ;  Authors: George Hazan
 ;============================================================
 ;#muuid for ICQCorp not found, please specify manually!
@@ -743,7 +737,7 @@ Customise
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
-;  Version: 1.6.0.4
+;  Version: 1.6.0.5
 ;  Authors: Piotr Piastucki, Francois Mean
 ;============================================================
 [ requested authorization]
@@ -997,7 +991,7 @@ When this checkbox is ticked, NewAwaySys counts "send times" starting from the l
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [ requested authorization]
@@ -1091,7 +1085,7 @@ Sticky Note Background Colour
 ;============================================================
 ;  File: Omegle.dll
 ;  Plugin: Omegle protocol
-;  Version: 0.1.3.3
+;  Version: 0.1.3.4
 ;  Authors: Robert Pösel
 ;============================================================
 [Connecting canceled.]
@@ -1147,7 +1141,7 @@ Use defa&ult colours
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.0.12
+;  Version: 0.2.1.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Colors]
@@ -1293,10 +1287,6 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
-[Use default colors]
-Use default colours
-[Use custom colors]
-Use custom colours
 [Timestamp has same color as event]
 Timestamp has same colour as event
 [Strip colors from messages]
@@ -1531,15 +1521,11 @@ Request authorisation from contacts which pass StopSpam test
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
 Customise the panel
-[Use default colors]
-Use default colours
-[Use the message log color theme for group chat popups]
-Use the message log colour theme for group chat popups
 [Vertical maximize]
 Vertical maximise
 [Enable popups if minimized]
@@ -1580,8 +1566,6 @@ Timestamp has same colour as the event
 Strip colours from messages in the log
 [Colorize user names in message log]
 Colourise user names in message log
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
 [Do not synchronize the panel height with IM windows]
 Do not synchronise the panel height with IM windows
 [Do not synchronize the panel height with group chat windows]
@@ -1706,7 +1690,7 @@ Unable to initialise Netlib for %s.
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.1
+;  Version: 0.9.0.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Enter your full e-mail address.\n(e.g., john.doe@provider.com)]
@@ -1864,7 +1848,7 @@ Use same colours as data window
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.5
+;  Version: 0.3.3.6
 ;  Authors: Cristian Libotean
 ;============================================================
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
@@ -1908,7 +1892,7 @@ Authorisation request
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Show long localized date]

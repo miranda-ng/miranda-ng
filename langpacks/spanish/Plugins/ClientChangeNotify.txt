@@ -61,14 +61,10 @@ Previsualizar
 
 [%s (was %s)]
 
-[Disable c&lient change notification]
-
-[Enable c&lient change notification]
+[Client change notifications]
 
 [ClientChangeNotify: Client changed]
 
-[Popups]
-Ventanas emergentes
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 
@@ -89,5 +85,7 @@ Cerrar popup
 
 [Do nothing]
 No hacer nada
+[Popups]
+Ventanas emergentes
 [ClientChangeNotify]
 

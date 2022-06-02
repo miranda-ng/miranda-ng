@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Основни настройки
-[Show entry in the Popups menu]
-
-[Temporarily disable event popups]
-
-[Show preview of event in popup]
-
+[Limit message preview to]
+Ограничаване текста в образеца до
+[characters]
+знака
 [Popup options]
 Popup настройки
-[Message]
-Съобщение
-[File]
-Файл
-[Others]
-Други
 [Text]
 Текст
 [Background]
 Фон
-[Timeout]
-Времетраене
+[Timeout, secs]
+
+[Message]
+Съобщение
+[File]
+Файл
+[Errors]
+Грешки
+[Others]
+Други
+[Preview]
+Образец
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+
+[Hide popup when sending new message]
+
+[Open reply dialog instead of reading the message]
+
+[Merge popups from one user]
+
+[Show date]
+Показване на дата
+[Show time]
+Показване на час
+[Show headers]
+Показване на горните колонтитули
+[Number of messages being shown]
+
+[Last message display first]
+
+[Last message display last]
+
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Основни настройки
+[Show preview of event in popup]
+
+[Enable event notifications for instant messages]
+
+[Enable event notifications for group chats]
+
 [Notify me of...]
 
+[Error]
+Грешка
 [Left click actions]
 
 [Dismiss popup]
@@ -44,42 +80,20 @@ Popup настройки
 
 [Timeout actions]
 
-[Message event only]
+[Misc options]
 
-[Don't show popup when message dialog is already open]
-
-[Hide popup when sending new message]
-
-[Open reply dialog instead of reading the message]
-
-[Merge popups from one user]
-
-[Preview]
-Образец
-[Show date]
-Показване на дата
-[Show time]
-Показване на час
-[Show headers]
-Показване на горните колонтитули
-[Number of begin shown messages]
-
-[Last message display first]
-
-[Last message display last]
-
-[Edit]
-Редактиране
 [No popups for RSS contacts]
 
 [No popups for read messages]
 
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Рopups
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 
+[Popups]
+Рopups
+[Main options]
+
+[Message events]
+Текстови събития
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 
@@ -91,6 +105,8 @@ Popup настройки
 Пример за текстово събитие :-)
 [This is a sample file event :-D]
 Пример за файлово събитие :-D
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 Пример за друго събитие ;-D
 [Plugin Test]
@@ -107,8 +123,4 @@ Popup настройки
 [Unknown Event]
 Неизвестно събитие
 [Notify of new events]
-
-[Enable new event notification]
-
-[Disable new event notification]
 

@@ -42,11 +42,11 @@ Došlo k chybě. Příslušný protokol zahlásil následující problém:
 Opakovat
 [Popup]
 Oznámení
-[Add to List]
+[Add to list]
 Přidat do seznamu
 [User details]
 Informace o uživateli
-[Send Message]
+[Send message]
 Odeslat zprávu
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

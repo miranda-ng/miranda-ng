@@ -394,12 +394,6 @@ Pokaż przycisk "Wyślij"
 Pokazuj liczbę znaków
 [Show toolbar buttons on top row]
 Pokazuj pasek narzędzi u góry
-[Send message on double 'Enter']
-Podwójny Enter wysyła wiadomość
-[Send message on 'Enter']
-Enter wysyła wiadomość
-[Send message on 'Ctrl+Enter']
-Ctrl+Enter wysyła wiadomość
 [Show warning when message has not been received after]
 Pokazuj ostrzeżenie jeśli wiadomość nie została odebrana po
 [Send error]
@@ -504,22 +498,6 @@ Inne
 Dodaj nowe pokoje do grupy:
 [Nick list row distance (pixels):]
 Odstęp między wierszami (px):
-[Use same style as in the message log]
-Użyj takiego samego stylu, jak w dzienniku
-[Use default colors]
-Użyj domyślnych kolorów
-[Use custom colors]
-Użyj niestandardowych kolorów
-[Popups for the StdMsg plugin]
-Powiadomienia z wtyczki StdMsg
-[Timeout (s)]
-Opóźnienie (s)
-[Text]
-Tekst
-[Background]
-Tło
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(0 - domyślnie, -1 - nie chowaj)
 [Message]
 Wiadomość
 [Undo]
@@ -1214,6 +1192,22 @@ Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
 Ustaw/zmień hasło
+[Group chats]
+Czaty
+[Use same style as in the message log]
+Użyj takiego samego stylu, jak w dzienniku
+[Use default colors]
+Użyj domyślnych kolorów
+[Use custom colors]
+Użyj niestandardowych kolorów
+[Timeout (s)]
+Opóźnienie (s)
+[Text]
+Tekst
+[Background]
+Tło
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(0 - domyślnie, -1 - nie chowaj)
 [&Hide/Show]
 &Pokaż/ukryj
 [E&xit]
@@ -1500,6 +1494,10 @@ Tło listy użytkowników
 Linie listy użytkowników
 [Nick list background (selected)]
 Tło listy użytkowników (zaznaczenie)
+[Messaging]
+Wiadomości
+[Send message]
+Wyślij wiadomość
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Migaj oknem, gdy ktoś mówi
@@ -1609,10 +1607,6 @@ Temat (10x10)
 Podświetlenie (10x10)
 [Information (10x10)]
 Informacja (10x10)
-[Messaging]
-Wiadomości
-[Group chats]
-Czaty
 [Group chats log]
 Dziennik czatu
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Wygląd dziennika wiadomości
 Ikony wyświetlane w dzienniku wiadomości
 [Chat log]
 Dziennik czatu
-[Chat]
-Czat
-[Popups]
-Powiadomienia
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Przekroczono czas wysyłania wiadomości.
@@ -1750,16 +1740,6 @@ Nieznany błąd.
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Przykład
-[The quick brown fox jumped over the lazy dog.]
-Szybki, brązowy lis przeskoczył nad leniwym psem.
-[Example With a Long Title]
-Przykład z długim tytułem
-[Thequickbrownfoxjumpedoverthelazydog.]
-Szybki,_brązowy_lis_przeskoczył_nad_leniwym_psem.
-[An avatar.]
-Na awatarze.
 [Bottom right]
 Dolny prawy róg
 [Bottom left]
@@ -1796,6 +1776,18 @@ Pozioma animacja
 Pionowa animacja
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Nie możesz ustawić domyślnego czasu oczekiwania 0.\nWartość została zresetowana.
+[Example]
+Przykład
+[The quick brown fox jumps over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
+[Example With a Long Title]
+Przykład z długim tytułem
+[Thequickbrownfoxjumpsoverthelazydog.]
+Szybki,_brązowy_lis_przeskoczył_nad_leniwym_psem.
+[An avatar.]
+Na awatarze.
+[Popups]
+Powiadomienia
 [Settings]
 Ustawienia
 [Classes]
@@ -1930,12 +1922,12 @@ Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <Nieznany>
-[%s requested authorization\n%u (%s) on %s]
-%s poprosił(a) o autoryzację\n%u (%s) na koncie %s
-[%s requested authorization\n%u on %s]
-%s poprosił(a) o autoryzację \n%u na koncie %s
-[%s requested authorization\n%s on %s]
-%s poprosił(a) o autoryzację\n%s na koncie %s
+[ requested authorization\n%u (%s) on %s]
+ poprosił(a) o autoryzację\n%u (%s) na koncie %s
+[ requested authorization\n%u on %s]
+ poprosił(a) o autoryzację \n%u na koncie %s
+[ requested authorization\n%s on %s]
+ poprosił(a) o autoryzację\n%s na koncie %s
 [(Unknown)]
 (Nieznany)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ Klient nie może zdekodować wiadomości hosta. Możliwe przyczyny: host nie wsp
 [Host we are connecting to is not the one certificate was issued for]
 Host, z którym się łączymy, nie jest tym, dla którego został wystawiony certyfikat.
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Wtyczka okna rozmowy nie została załadowana. Proszę zainstalować/włączyć jedną z wtyczek okna rozmowy, dla przykładu "StdMsg.dll".
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 "%S" jest wyłączony, włączyć?
 [Re-enable Miranda plugin?]
 Załadować ponownie wtyczkę?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
-[Fatal error]
-Krytyczny błąd
 [Unable to load plugin in service mode!]
 Nie udało się załadować wtyczki w trybie serwisowym!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nie można załadować żadnej z zainstalowanych list kontaktów, nawet po zignorowaniu ich ustawień.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nie udało się znaleźć wtyczki listy kontaktów! Potrzebujesz StdClist lub jakiejkolwiek innej wtyczki listy kontaktów.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Wtyczka rdzenia "%s" nie może zostać załadowana bądź jej brak. Miranda zostanie teraz zamknięta
+[Fatal error]
+Krytyczny błąd
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <wszystkie>
@@ -2607,7 +2599,12 @@ Miranda NG musi zostać uruchomiona ponownie aby wprowadzić zmiany:
 Czy chcesz uruchomić ponownie teraz?
 [Plugins]
 Wtyczki
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<W użyciu>
+[<Unknown format>]
+<Nieznany format>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil "%s" już istnieje. Czy chcesz, aby przenieść go do Kosza?\n\nUWAGA: Profil zostanie usunięty jeśli kosz jest wyłączony.\nUWAGA: Profil może zawierać informacje poufne i powinien być odpowiednio usunięty.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ Nie można utworzyć profilu "%s", wystąpił błąd %x
 Problem z utworzeniem profilu
 [&Create]
 &Utwórz
-[<In use>]
-<W użyciu>
-[<Unknown format>]
-<Nieznany format>
 [Are you sure you want to remove profile "%s"?]
 Czy na pewno chcesz usunąć profil "%s"?
 [&Convert]

@@ -1,4 +1,3 @@
 [Restart Miranda automatically]
-[Use HTTPS]
 [Unpack operation failed with error code=%d, update terminated]
 [Updates are temporarily disabled, try again later.]

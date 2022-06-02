@@ -328,16 +328,14 @@ Kurz-Information
 Komplette Vorhersage
 [Weather Update]
 Wetter-Update
-[Popup]
-Popup
-[No Popup]
-Kein Popup
 [Edit Settings]
 Einstellungen bearbeiten
 [Condition Changed]
 Wetterlage hat sich geändert
 [Alert Issued]
 Wetteralarm ausgelöst
+[Weather notifications]
+Wetter-Hinweis
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Momentane Wetter-Informationen für %s.
@@ -480,10 +478,6 @@ Popups
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 Stations-ID
-[Disable &weather notification]
-&Wetter-Hinweis deaktivieren
-[Enable &weather notification]
-&Wetter-Hinweis aktivieren
 [Update Weather]
 Wetter aktualisieren
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ Wetteraktualisierung (de-)aktivieren
 Alle Wetter-Stationen aktualisieren
 [Remove Old Data then Update All]
 Alte Daten entfernen und alle aktualisieren
-[Weather Notification]
-Wetter-Hinweis
 [Display in a frame]
 Als Frame anzeigen
 ;file \protocols\Weather\src\weather_update.cpp

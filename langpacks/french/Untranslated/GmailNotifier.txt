@@ -19,7 +19,6 @@
 [Wrong name or password!]
 [Can't get RSS feed!]
 [Gmail: New thread(s)]
-[Gmail Notifier]
+[GmailNotifier]
 [&Check all Gmail inboxes]
 [&Check Gmail inbox]
-[GmailNotifier]

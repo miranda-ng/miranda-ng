@@ -56,8 +56,6 @@
 Предимство:
 [Use hostname as resource]
 Името на хоста като източник
-[List of public servers]
-Публични сървъри
 [Port:]
 Порт:
 [Use SSL]
@@ -180,6 +178,8 @@ Jabber vCard: Добавяне на телефон
 Видео
 [Modem]
 Модем
+[(*) marks the current session]
+
 [Load]
 Зареди
 [Save]
@@ -1436,8 +1436,6 @@ Jabber източник
 Поправяне на грешните времеви марки във входящите съобщения
 [Disable frame]
 Без рамка
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 Асоцииране с XMPP връзки (изисква приставка AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Jabber източник
 
 [Security]
 Сигурност
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 Разрешаване на сървърите да заявяват инф. за версията (XEP-0092)
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ S.ms
 [List Editor...]
 Редактиране на списък...
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 Протоколът е "Извън линия" или няма JID
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ XML (кодиран с UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+Описание
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ XML (кодиран с UTF-8)
 <Снимката не е налична, когато сте "Извън линия">
 [<No photo>]
 <Няма снимка>
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Неизвестно
 [Photo]
 Снимка
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
+[OMEMO]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

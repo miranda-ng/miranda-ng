@@ -328,16 +328,14 @@ Stručná předpověď
 Úplná předpověď
 [Weather Update]
 Aktualizace předpovědi
-[Popup]
-Oznámení
-[No Popup]
-Oznámení vypnuto
 [Edit Settings]
 Upravit nastavení...
 [Condition Changed]
 Změna počasí
 [Alert Issued]
 Varování
+[Weather notifications]
+Oznámení počasí
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 Aktuální informace o počasí pro %s.
@@ -480,10 +478,6 @@ Oznámení
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 Identifikátor
-[Disable &weather notification]
-Vypnout oznámení &počasí
-[Enable &weather notification]
-Zapnout oznámení &počasí
 [Update Weather]
 Aktualizovat předpověď
 [Remove Old Data then Update]
@@ -500,8 +494,6 @@ Zapnout/Vypnout aktualizaci počasí
 Aktualizovat všechno
 [Remove Old Data then Update All]
 Aktualizovat vše včetně cache
-[Weather Notification]
-Předpověď počasí
 [Display in a frame]
 Zobrazit v rámečku
 ;file \protocols\Weather\src\weather_update.cpp

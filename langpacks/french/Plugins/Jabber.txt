@@ -56,8 +56,6 @@ Changer le passe
 Priorité :
 [Use hostname as resource]
 Utilisez le nom de l'ordinateur
-[List of public servers]
-Liste des serveurs publics
 [Port:]
 Port :
 [Use SSL]
@@ -180,6 +178,8 @@ Portable
 Video
 [Modem]
 Modem
+[(*) marks the current session]
+
 [Load]
 Charger
 [Save]
@@ -1436,8 +1436,6 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Disable frame]
 
-[Display popups with errors]
-
 [Enable XMPP link processing (requires AssocMgr)]
 
 [Embrace picture URLs with [img]]
@@ -1446,6 +1444,8 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Security]
 Sécurité
+[Allow local time & timezone requests (XEP-0202)]
+
 [Allow servers to request version (XEP-0092)]
 
 [Show information about operating system in version replies]
@@ -1643,6 +1643,8 @@ Aucune liste sélectionnée
 [List Editor...]
 
 ;file \protocols\JabberG\src\jabber_proto.cpp
+[%s error notifications]
+
 [Protocol is offline or no JID]
 
 [No valid OMEMO session exists]
@@ -1778,6 +1780,8 @@ Erreur : Connexion perdue
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
+[Description]
+
 [Registration canceled]
 
 [Sending registration information...]
@@ -1847,6 +1851,18 @@ Format inconnu
 <Photo non disponible si déconnecté>
 [<No photo>]
 <pas de photo>
+[Device ID]
+
+[Fingerprint]
+
+[Own device]
+
+[Trusted]
+
+[UNTRUSTED]
+
+[Unknown]
+Inconnu
 [Photo]
 Photo
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1908,6 +1924,8 @@ Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
 [Note]
+
+[OMEMO]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

@@ -178,6 +178,8 @@ Jabber vCard: добавление телефона
 Видео
 [Modem]
 Модем
+[(*) marks the current session]
+(*) - текущая сессия
 [Load]
 Загрузить
 [Save]
@@ -1442,6 +1444,8 @@ OMEMO: Новая сессия
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]
 Безопасность
+[Allow local time & timezone requests (XEP-0202)]
+Отвечать на запросы локального времени и часового пояса (XEP-0202)
 [Allow servers to request version (XEP-0092)]
 Отвечать серверу на запросы о версиях ПО (XEP-0092)
 [Show information about operating system in version replies]
@@ -1847,6 +1851,18 @@ XML (кодировка UTF-8)
 <Фото недоступно без подключения к сети>
 [<No photo>]
 <Нет фото>
+[Device ID]
+ID устройства
+[Fingerprint]
+Отпечаток
+[Own device]
+Это устройство
+[Trusted]
+Доверенное
+[UNTRUSTED]
+НЕДОВЕРЕННОЕ
+[Unknown]
+Неизвестно
 [Photo]
 Фото
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -1909,6 +1925,8 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
+[OMEMO]
+OMEMO
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>

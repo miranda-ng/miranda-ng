@@ -394,12 +394,6 @@ Mostrar botón 'Enviar'
 Mostrar recuento de caracteres
 [Show toolbar buttons on top row]
 Mostrar botones de barra de herramientas en la parte superior de la fila
-[Send message on double 'Enter']
-Enviar mensaje con doble 'Intro'
-[Send message on 'Enter']
-Enviar mensaje con 'Intro'
-[Send message on 'Ctrl+Enter']
-Enviar mensaje con 'Ctrl+Intro'
 [Show warning when message has not been received after]
 Mostrar aviso cuando el mensaje no se ha recibido después de
 [Send error]
@@ -504,22 +498,6 @@ Otro
 Añadir nuevas salas de grupo:
 [Nick list row distance (pixels):]
 Lista de usuarios distancia entre hileras (píxeles):
-[Use same style as in the message log]
-Usar mismo estilo que en el registro de mensajes
-[Use default colors]
-Usar colores predeterminados
-[Use custom colors]
-Usar colores personalizados
-[Popups for the StdMsg plugin]
-Ventanas emergentes para el plugin de chat
-[Timeout (s)]
-Tiempo de espera (s)
-[Text]
-Texto
-[Background]
-Fondo
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
 [Message]
 Mensaje
 [Undo]
@@ -1214,6 +1192,22 @@ Cambiar contraseña
 
 [Set password]
 
+[Group chats]
+Grupo de chats
+[Use same style as in the message log]
+Usar mismo estilo que en el registro de mensajes
+[Use default colors]
+Usar colores predeterminados
+[Use custom colors]
+Usar colores personalizados
+[Timeout (s)]
+Tiempo de espera (s)
+[Text]
+Texto
+[Background]
+Fondo
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Ajuste de tiempo de espera a 0 significa Ajuste predeterminado y -1 significa tiempo indefinido)
 [&Hide/Show]
 &Mostrar/Ocultar
 [E&xit]
@@ -1500,6 +1494,10 @@ Fondo de lista de usuarios
 Líneas de lista de usuarios
 [Nick list background (selected)]
 Fondo de lista de usuarios (seleccionado)
+[Messaging]
+Mensajería
+[Send message]
+Enviar mensaje
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Parpadear ventana cuando alguien habla
@@ -1609,10 +1607,6 @@ Tema (10x10)
 Resaltado (10x10)
 [Information (10x10)]
 Información (10x10)
-[Messaging]
-Mensajería
-[Group chats]
-Grupo de chats
 [Group chats log]
 Registro de Grupo de Chats
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Apariencia del registro de mensajes
 Iconos a mostrar en el registro de mensajes
 [Chat log]
 Registro de chat
-[Chat]
-Chat
-[Popups]
-Ventanas emergentes
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 El mensaje envia el tiempo de espera.
@@ -1750,16 +1740,6 @@ Se ha producido un error desconocido.
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-
-[The quick brown fox jumped over the lazy dog.]
-
-[Example With a Long Title]
-
-[Thequickbrownfoxjumpedoverthelazydog.]
-
-[An avatar.]
-
 [Bottom right]
 
 [Bottom left]
@@ -1796,6 +1776,18 @@ Se ha producido un error desconocido.
 
 [You cannot set a default timeout of 0.\nValue has been reset.]
 
+[Example]
+
+[The quick brown fox jumps over the lazy dog.]
+
+[Example With a Long Title]
+
+[Thequickbrownfoxjumpsoverthelazydog.]
+
+[An avatar.]
+
+[Popups]
+Ventanas emergentes
 [Settings]
 Ajustes
 [Classes]
@@ -1930,12 +1922,12 @@ Por favor autorice mi petición y añadame a su lista de contactos.
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <Desconocido>
-[%s requested authorization\n%u (%s) on %s]
-%s autorización solicitada\n%u (%s) en %s
-[%s requested authorization\n%u on %s]
-%s autorización solicitada\n%u en %s
-[%s requested authorization\n%s on %s]
-%s autorización solicitada\n%s on %s
+[ requested authorization\n%u (%s) on %s]
+ autorización solicitada\n%u (%s) en %s
+[ requested authorization\n%u on %s]
+ autorización solicitada\n%u en %s
+[ requested authorization\n%s on %s]
+ autorización solicitada\n%s on %s
 [(Unknown)]
 (Desconocido)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ El cliente no puede decodificar mensajes de servidor. Posibles causas: El servid
 [Host we are connecting to is not the one certificate was issued for]
 El servidor al que nos estamos conectando no es el del certificado emitido
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-No hay plugins de mensajería cargados. Por favor instale/active uno de los plugins de mensajería, por ejemplo, "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 '%S' está deshabilitado, ¿volver a activar?
 [Re-enable Miranda plugin?]
 Volver a activar el plugin de Miranda?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Módulo básico '%s' no se puede cargar o falta.
-[Fatal error]
-Error fatal
 [Unable to load plugin in service mode!]
 ¡No se pueden cargar plugins en el modo de servicio!
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 No se puede iniciar ninguno de los plugins instalados de lista de contactos, Incluso se ignoró sus preferencias para que la lista de contactos no pueda cargar cualquiera.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 ¡No se puede encontrar un complemento de lista de contactos! Necesitas StdClist o cualquier otro plugin de clist.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Módulo básico '%s' no se puede cargar o falta.
+[Fatal error]
+Error fatal
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 <todos los módulos>
@@ -2607,7 +2599,12 @@ Miranda NG se debe reiniciar para aplicar los cambios de estos plugins:
 ¿Desea reiniciar ahora?
 [Plugins]
 Plugins
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<En uso>
+[<Unknown format>]
+
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 El perfil '%s' ya existe. ¿Desea mover a la Papelera de reciclaje?\n\nADVERTENCIA: El perfil será borrado si la papelera de reciclaje está desactivada\nDVERTENCIA: Un perfil puede contener información confidencial y debe ser eliminado adecuadamente.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ No se puede crear el perfil '%s', el error fue %x
 Problema al crear el perfil
 [&Create]
 &Crear
-[<In use>]
-<En uso>
-[<Unknown format>]
-
 [Are you sure you want to remove profile "%s"?]
 ¿Está seguro que desea eliminar el perfil "%s"?
 [&Convert]

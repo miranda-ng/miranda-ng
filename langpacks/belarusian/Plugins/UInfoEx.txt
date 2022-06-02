@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.1
+;  Version: 0.9.0.2
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@
 Правяраць пры запуску
 [Time of last check:]
 Апош. праверка:
-[Birthday compatibility mode:]
-Рэжым сумяшчальнасці:
 [Automatically backup and keep protocol based birthdays up to date]
 Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
 [Play sound]
@@ -274,10 +272,6 @@
 Меню контаў
 [Misc]
 Іншае
-[Show 'Restart' menu item]
-Пункт меню "Перазапуск"
-[Use zodiac as default avatar]
-Знак задыяка замет аватара па змаўчанні
 [Country flags]
 Сцягі краін
 [Use &unknown flag if country cannot be determined]
@@ -666,10 +660,6 @@ E-Mail
 Напамінкі адключаны
 [Everything]
 Усе напамінкі
-[mBirthday]
-Дні нараджэння
-[UserInfo (default)]
-Асабістыя дадзеныя (па змаўчанні)
 [This is the reminder message]
 Паведамленне напамінку
 [Contacts]

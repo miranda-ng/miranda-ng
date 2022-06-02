@@ -45,9 +45,9 @@
 
 [Station Name]
 
-[Timeout, ms (5000)]
+[Timeout, ms]
 
-[PreBuf, % (75%)]
+[PreBuf, %]
 
 [Hallway]
 
@@ -61,7 +61,7 @@
 
 [To INI]
 
-[Buffer, ms (5000)]
+[Buffer, ms]
 
 [Add station]
 

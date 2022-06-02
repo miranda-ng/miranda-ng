@@ -14,7 +14,6 @@
 [Plugin WhoUsesMyFiles requires admin privileges in order to work.]
 [Error memory allocation]
 [Error creating menu]
-[Enable WUMF popups]
-[Disable WUMF popups]
 [Show connections list]
+[WUMF popups]
 [WUMF: Show connections]

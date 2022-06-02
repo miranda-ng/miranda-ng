@@ -42,11 +42,11 @@ Une erreur s'est produite. Le protocole a rapporté l'erreur suivante :
 Réessayer
 [Popup]
 
-[Add to List]
+[Add to list]
 Ajouter à ma liste
 [User details]
 Détails du contact
-[Send Message]
+[Send message]
 
 ;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]

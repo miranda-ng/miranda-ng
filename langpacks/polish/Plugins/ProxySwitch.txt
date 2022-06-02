@@ -58,10 +58,8 @@ Rozłączony
 ;file \plugins\ProxySwitch\src\main.cpp
 [Current IP address]
 Aktualny adres IP
-[Enable &IP change notification]
-Włącz powiadamianie o zmianie &adresu IP
-[Disable &IP change notification]
-Wyłącz powiadamianie o zmianie &adresu IP
+[IP change notification]
+Powiadamianie o zmianie adresu IP
 [Show my &IP addresses]
 Pokaż mój adres IP
 [Proxy settings && interfaces]
@@ -70,10 +68,6 @@ Pokaż mój adres IP
 Wyłącz proxy
 [Enable proxy]
 Włącz proxy
-[Popups]
-Powiadomienia
-[IP change notification]
-
 ;file \plugins\ProxySwitch\src\opt.cpp
 [Services]
 Usługi

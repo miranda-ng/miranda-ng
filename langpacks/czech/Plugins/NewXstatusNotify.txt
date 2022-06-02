@@ -229,10 +229,6 @@ Zvukový soubor
 [(default sound)]
 (výchozí zvuk)
 ;file \plugins\NewXstatusNotify\src\main.cpp
-[Notification enabled]
-Oznámení jsou zapnuty
-[Notification disabled]
-Oznámení jsou vypnuty
 [<no status message>]
 <zpráva není zadaná>
 [Contact]
@@ -329,12 +325,8 @@ Změna zprávy rozšířeného stavu
 Změna rozšířeného stavu
 [Extra status message removed]
 Zrušení zprávy rozšířeného stavu
-[Enable status notification]
-Zapnout oznámení stavu
-[Disable status notification]
-Vypnout oznámení stavu
-[Toggle status notification]
-Přepnout oznámení stavu
+[Status notifications]
+Oznámení stavu
 [New Status Notify]
 Oznámení stavu
 [Status change]

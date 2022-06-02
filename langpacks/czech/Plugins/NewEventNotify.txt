@@ -2,36 +2,72 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.4
+;  Version: 0.2.2.5
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
 Zobrazí oznámení při přijetí zprávy, odkazu, souboru nebo při výskytu jiné události.
 ;file \plugins\NewEventNotify\res\resource.rc
-[General options]
-Obecné možnosti
-[Show entry in the Popups menu]
-Zobrazit i v nabídce Oznámení
-[Temporarily disable event popups]
-Dočasně vypnout oznámení
-[Show preview of event in popup]
-Zobrazit náhled události
+[Limit message preview to]
+Omezit náhled zprávy na
+[characters]
+znaků
 [Popup options]
 Možnosti oznámení
-[Message]
-Zpráva
-[File]
-Soubor
-[Others]
-Ostatní
 [Text]
 Text
 [Background]
 Pozadí
-[Timeout]
-Expirace
+[Timeout, secs]
+
+[Message]
+Zpráva
+[File]
+Soubor
+[Errors]
+Chyby
+[Others]
+Ostatní
+[Preview]
+Náhled
+[(timeout -1 means forever, 0 - default)]
+
+[Don't show popup when message dialog is already open]
+Nezobrazit oznámení, je-li okno se zprávou otevřeno
+[Hide popup when sending new message]
+Skrýt oznámení po odeslání nové zprávy
+[Open reply dialog instead of reading the message]
+Otevřít okno pro odpověď namísto čtení zprávy
+[Merge popups from one user]
+Sloučit oznámení jednoho uživatele
+[Show date]
+Zobrazit datum
+[Show time]
+Zobrazit čas
+[Show headers]
+Zobrazit záhlaví
+[Number of messages being shown]
+Počet zobrazených zpráv
+[Last message display first]
+Poslední zprávu zobrazit první
+[Last message display last]
+Poslední zprávu zobrazit poslední
+;file \plugins\NewEventNotify\src\main.cpp
+[New event notifications]
+Oznámení nové události
+;file \plugins\NewEventNotify\src\options.cpp
+[General options]
+Obecné možnosti
+[Show preview of event in popup]
+Zobrazit náhled události
+[Enable event notifications for instant messages]
+Povolit oznámení událostí pro běžnou komunikaci
+[Enable event notifications for group chats]
+Povolit oznámení událostí pro skupinový chat
 [Notify me of...]
 Upozornění
+[Error]
+Chyba
 [Left click actions]
 Levé tlačítko myši
 [Dismiss popup]
@@ -44,42 +80,20 @@ Zrušit událost
 Pravé tlačítko myši
 [Timeout actions]
 Při časové expiraci
-[Message event only]
-Pouze pro zprávy
-[Don't show popup when message dialog is already open]
-Nezobrazit oznámení, je-li okno se zprávou otevřeno
-[Hide popup when sending new message]
-Skrýt oznámení po odeslání nové zprávy
-[Open reply dialog instead of reading the message]
-Otevřít okno pro odpověď namísto čtení zprávy
-[Merge popups from one user]
-Sloučit oznámení jednoho uživatele
-[Preview]
-Náhled
-[Show date]
-Zobrazit datum
-[Show time]
-Zobrazit čas
-[Show headers]
-Zobrazit záhlaví
-[Number of begin shown messages]
-Počet zobrazených zpráv
-[Last message display first]
-Poslední zprávu zobrazit první
-[Last message display last]
-Poslední zprávu zobrazit poslední
-[Edit]
-Upravit
+[Misc options]
+
 [No popups for RSS contacts]
 Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
 Neoznamovat přečtené zprávy
-;file \plugins\NewEventNotify\src\menuitem.cpp
-[Popups]
-Oznámení
-;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Oznámení události
+[Popups]
+Oznámení
+[Main options]
+Hlavní možnosti
+[Message events]
+Zprávy
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Přijato %d kontaktů
@@ -91,6 +105,8 @@ Přijato %d kontaktů
 Zkouška události Zpráva :-)
 [This is a sample file event :-D]
 Zkouška události Soubor :-D
+[This is a sample error event :-D]
+
 [This is a sample other event ;-D]
 Zkouška jiné události ;-D
 [Plugin Test]
@@ -108,7 +124,3 @@ Byl jste přidán
 Neznámá událost
 [Notify of new events]
 Informovat o událostech
-[Enable new event notification]
-Zapnout oznámení nové události
-[Disable new event notification]
-Vypnout oznámení nové události

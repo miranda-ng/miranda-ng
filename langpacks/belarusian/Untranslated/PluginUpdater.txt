@@ -3,7 +3,6 @@
 [Restart Miranda automatically]
 [Backup database before update (requires Db_autobackups plugin)]
 [Change platform to 32-bit]
-[Use HTTPS]
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 [For "Restart" popup setting is always infinity]
 [Unpack operation failed with error code=%d, update terminated]

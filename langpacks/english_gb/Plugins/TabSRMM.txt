@@ -2,15 +2,11 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.1.6
+;  Version: 3.6.2.2
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
 Customise the panel
-[Use default colors]
-Use default colours
-[Use the message log color theme for group chat popups]
-Use the message log colour theme for group chat popups
 [Vertical maximize]
 Vertical maximise
 [Enable popups if minimized]
@@ -51,8 +47,6 @@ Timestamp has same colour as the event
 Strip colours from messages in the log
 [Colorize user names in message log]
 Colourise user names in message log
-[One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behavior, please review the 'Event notifications' settings page.]
-One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the 'Event notifications' settings page.
 [Do not synchronize the panel height with IM windows]
 Do not synchronise the panel height with IM windows
 [Do not synchronize the panel height with group chat windows]

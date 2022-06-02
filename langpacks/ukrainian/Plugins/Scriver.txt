@@ -30,8 +30,6 @@
 Сповіщати, якщо повідомл. не вдалося надіслати протягом
 [seconds]
 секунд
-[Send message on:]
-Надсилати натисканням:
 [Tabs]
 Вкладки
 [Enable tabs]
@@ -216,22 +214,6 @@
 Ліміт
 [KB]
 КБ
-[Group chat]
-Чати
-[Use same style as in the message log]
-Той же стиль, що й у журналі
-[Use default colors]
-Кольори за замовчанням
-[Use custom colors]
-Вказати кольори
-[Text]
-Текст
-[Background]
-Фон
-[Timeout (s)]
-Тривалість (с)
-[(0 means default setting, -1 means indefinite time)]
-(0 = стандартне значення,\n-1 = безкінечно)
 [Message]
 Повідомлення
 [Undo]
@@ -261,6 +243,8 @@
 Бесіди
 [Group chats]
 Чати
+[Action: Send message]
+Дія: Надіслати
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Блимання вікна, якщо є нове повідомлення
@@ -356,8 +340,6 @@ ID поточного контакту (якщо визначено). Напри
 Загальне
 [Log formatting]
 Формат журналу
-[Popups]
-Спливаючі вікна
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
 Додати контакт
@@ -559,6 +541,8 @@ ID поточного контакту (якщо визначено). Напри
 Фон інфо-панелі
 [Info bar status message]
 Інфо-панель: статусне повідомлення
+[Background]
+Фон
 [Line between messages]
 Лінії між повідомленнями
 [Offline]
@@ -577,14 +561,6 @@ ID поточного контакту (якщо визначено). Напри
 Готовий до чату
 [Invisible]
 Невидимий
-[Enter]
-Enter
-[Double 'Enter']
-подвійним Enter
-[Ctrl+Enter]
-Ctrl+Enter
-[Shift+Enter]
-Shift+Enter
 [** New contacts **]
 ** Нові контакти **
 [** Unknown contacts **]

@@ -62,8 +62,8 @@
 Предпросмотр события в окне
 [Enable event notifications for instant messages]
 Включить уведомления о событиях сообщений
-[Disable event notifications for group chats]
-Выключить уведомления о событиях групповых чатов
+[Enable event notifications for group chats]
+Включить уведомления о событиях групповых чатов
 [Notify me of...]
 Уведомлять меня о...
 [Error]

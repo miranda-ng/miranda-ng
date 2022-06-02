@@ -394,12 +394,6 @@ Zobrazit tlačítko 'Poslat'
 Zobrazit počet napsaných znaků
 [Show toolbar buttons on top row]
 Zobrazit nahoře lištu s tlačítky
-[Send message on double 'Enter']
-Odeslat zprávu dvojitým Enter
-[Send message on 'Enter']
-Odeslat zprávu klávesou Enter
-[Send message on 'Ctrl+Enter']
-Odeslat zprávu Ctrl+Enter
 [Show warning when message has not been received after]
 Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [Send error]
@@ -504,22 +498,6 @@ Ostatní
 Nové místnosti přidat do skupiny:
 [Nick list row distance (pixels):]
 Odstup účastníků v seznamu (v pix.):
-[Use same style as in the message log]
-Použít nastavení pro záznam komunikace
-[Use default colors]
-Použít výchozí barvy
-[Use custom colors]
-Použít vlastní barvy
-[Popups for the StdMsg plugin]
-Oznamovací okna
-[Timeout (s)]
-Prodleva (s)
-[Text]
-Text
-[Background]
-Pozadí
-[(Setting timeout to 0 means default setting and -1 means indefinite time)]
-(Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [Message]
 Zpráva
 [Undo]
@@ -1214,6 +1192,22 @@ Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Vše
 
 [Set password]
 Nastavit heslo
+[Group chats]
+Skupinové rozhovory
+[Use same style as in the message log]
+Použít nastavení pro záznam komunikace
+[Use default colors]
+Použít výchozí barvy
+[Use custom colors]
+Použít vlastní barvy
+[Timeout (s)]
+Prodleva (s)
+[Text]
+Text
+[Background]
+Pozadí
+[(Setting timeout to 0 means default setting and -1 means indefinite time)]
+(Nastavení hodnoty 0 znamená výchozí nastavení a -1 znamená neomezený čas)
 [&Hide/Show]
 Skrýt/Zo&brazit
 [E&xit]
@@ -1500,6 +1494,10 @@ Pozadí seznamu účastníků
 Linky v seznamu účastníků
 [Nick list background (selected)]
 Pozadí seznamu účastníků (vybraný)
+[Messaging]
+Rozhovor
+[Send message]
+Poslat zprávu
 ;file \src\core\stdmsg\src\chat_options.cpp
 [Flash window when someone speaks]
 Zablikat oknem při přijetí zprávy
@@ -1609,10 +1607,6 @@ Téma (10x10)
 Zvýraznění (10x10)
 [Information (10x10)]
 Informace (10x10)
-[Messaging]
-Rozhovor
-[Group chats]
-Skupinové rozhovory
 [Group chats log]
 Záznam rozhovorů
 [Appearance and functionality of chat room windows]
@@ -1623,10 +1617,6 @@ Nastavení vzhledu záznamu komunikace
 Možnosti zobrazení ikon v záznamu komunikace
 [Chat log]
 Záznam diskuse
-[Chat]
-Diskuse
-[Popups]
-Oznámení
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
@@ -1750,16 +1740,6 @@ Neznámá chyba.
 [StdMsg internal log]
 
 ;file \src\core\stdpopup\src\options.cpp
-[Example]
-Příklad
-[The quick brown fox jumped over the lazy dog.]
-Žluťoučký kůň úpěl ďábelské ódy.
-[Example With a Long Title]
-Příklad dlouhého záhlaví
-[Thequickbrownfoxjumpedoverthelazydog.]
-Žluťoučkýkůňúpělďábelskéódy.
-[An avatar.]
-avatar
 [Bottom right]
 Vpravo dole
 [Bottom left]
@@ -1796,6 +1776,18 @@ Horizontální animace
 Vertikální animace
 [You cannot set a default timeout of 0.\nValue has been reset.]
 Nemůžete nastavit výchozí dobu zobrazení na 0.\nHodnota byla obnovena.
+[Example]
+Příklad
+[The quick brown fox jumps over the lazy dog.]
+Žluťoučký kůň úpěl ďábelské ódy.
+[Example With a Long Title]
+Příklad dlouhého záhlaví
+[Thequickbrownfoxjumpsoverthelazydog.]
+Žluťoučkýkůňúpělďábelskéódy.
+[An avatar.]
+avatar
+[Popups]
+Oznámení
 [Settings]
 Nastavení
 [Classes]
@@ -1930,12 +1922,12 @@ Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
 <neznámý>
-[%s requested authorization\n%u (%s) on %s]
-%s žádá o autorizaci\n%u (%s) v síti %s
-[%s requested authorization\n%u on %s]
-%s žádá o autorizaci\n%u v síti %s
-[%s requested authorization\n%s on %s]
-%s žádá o autorizaci\n%s v síti %s
+[ requested authorization\n%u (%s) on %s]
+ žádá o autorizaci\n%u (%s) v síti %s
+[ requested authorization\n%u on %s]
+ žádá o autorizaci\n%u v síti %s
+[ requested authorization\n%s on %s]
+ žádá o autorizaci\n%s v síti %s
 [(Unknown)]
 (neznámý)
 [Feature is not supported by protocol]
@@ -2564,22 +2556,22 @@ Klient nemůže dekódovat zprávu hostitele. Možné příčiny: Hostitel nepod
 [Host we are connecting to is not the one certificate was issued for]
 Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 ;file \src\mir_app\src\newplugins.cpp
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "StdMsg.dll"]
-Není načten doplněk pro komunikační okno. Prosím nainstalujte/povolte jeden z komunikačních doplňků, například "StdMsg.dll"
+[Plugin %S cannot be unloaded because the core plugin is missing]
+
 ['%S' is disabled, re-enable?]
 '%S' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
 Chcete znovu aktivovat tento doplněk?
-[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
-[Fatal error]
-Závažná chyba
 [Unable to load plugin in service mode!]
 Nelze načíst doplněk v nouzovém režimu
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 Nelze spustit žádný z nainstalovaných doplňků pro seznam kontaktů a to i přesto, že byla ignorována vaše volba konkrétního doplňku.
 [Can't find a contact list plugin! You need StdClist or any other contact list plugin.]
 Nelze nalézt doplněk pro seznam kontaktů! Potřebujete StdClist nebo jiný doplněk pro seznam kontaktů.
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+Doplněk jádra '%s' nelze načíst nebo neexistuje. Miranda bude ukončena
+[Fatal error]
+Závažná chyba
 ;file \src\mir_app\src\options.cpp
 [<all modules>]
 1) všechny moduly
@@ -2607,7 +2599,12 @@ Miranda NG bude restartována pro aplikování změn těchto pluginů:
 Přejete si ji nyní restartovat?
 [Plugins]
 Doplňky
+;file \src\mir_app\src\popupOption.cpp
 ;file \src\mir_app\src\profilemanager.cpp
+[<In use>]
+<používáno>
+[<Unknown format>]
+<neznámý formát>
 [The profile '%s' already exists. Do you want to move it to the Recycle Bin?\n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\nWARNING: A profile may contain confidential information and should be properly deleted.]
 Profil '%s' již existuje. Přejete si jej přesunout do koše?\n\nVAROVÁNÍ: Pokud je koš vypnut, profil bude rovnou smazán.\nVAROVÁNÍ: Profil může obsahovat důvěrné informace a měl by být řádně smazán.
 [The profile already exists]
@@ -2622,10 +2619,6 @@ Profil '%s' nelze vytvořit. Chyba: %x
 Chyba při vytváření profilu
 [&Create]
 &Vytvořit
-[<In use>]
-<používáno>
-[<Unknown format>]
-<neznámý formát>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
 [&Convert]

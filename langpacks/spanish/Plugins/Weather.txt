@@ -328,15 +328,13 @@ Ciudad
 
 [Weather Update]
 
-[Popup]
-Ventana emergente
-[No Popup]
-
 [Edit Settings]
 
 [Condition Changed]
 
 [Alert Issued]
+
+[Weather notifications]
 
 ;file \protocols\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
@@ -480,10 +478,6 @@ Ventanas emergentes
 ;file \protocols\Weather\src\weather_svcs.cpp
 [Station ID]
 
-[Disable &weather notification]
-
-[Enable &weather notification]
-
 [Update Weather]
 
 [Remove Old Data then Update]
@@ -499,8 +493,6 @@ Ventanas emergentes
 [Update All Weather]
 
 [Remove Old Data then Update All]
-
-[Weather Notification]
 
 [Display in a frame]
 

@@ -61,14 +61,10 @@ Folgende Clients ignorieren (durch Semikolon trennen):
 ändert Client zu %s
 [%s (was %s)]
 %s (war %s)
-[Disable c&lient change notification]
-C&lient Benachrichtigungen deaktivieren
-[Enable c&lient change notification]
-C&lient Benachrichtigungen aktivieren
+[Client change notifications]
+Client Benachrichtigungen
 [ClientChangeNotify: Client changed]
 ClientChangeNotify: Client geändert
-[Popups]
-Popups
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [Error #%d]
 Fehler #%d
@@ -89,5 +85,7 @@ Kontaktmenü öffnen
 Gesprächsverlauf öffnen
 [Do nothing]
 Nichts tun
+[Popups]
+Popups
 [ClientChangeNotify]
 ClientChangeNotify

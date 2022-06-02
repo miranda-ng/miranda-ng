@@ -202,6 +202,8 @@ Paramètres par défaut
 Aide (variables)
 [Test contact]
 Test : Contact
+[The quick brown fox jumps over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
 [simply % character]
 
 [a "hard" line break (cr/lf - will break indent)]

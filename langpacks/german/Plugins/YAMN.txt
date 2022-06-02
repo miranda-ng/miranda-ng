@@ -2,22 +2,12 @@
 ;============================================================
 ;  File: YAMN.dll
 ;  Plugin: Mail Notifier
-;  Version: 0.1.2.6
+;  Version: 0.1.2.7
 ;  Authors: y_b, tweety, majvan
 ;============================================================
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
 Mail-Benachrichtigung und -Browser für Miranda NG. Beinhaltet das POP3-Protokoll.
 ;file \protocols\YAMN\res\YAMN.rc
-[Installed plugins]
-Installierte Plugins
-[Version:]
-Version:
-[Description:]
-Beschreibung:
-[Copyright:]
-Copyright:
-[Homepage:]
-Homepage:
 [Account]
 Konto
 [Name:]
@@ -308,16 +298,6 @@ Kann SSL-Daten nicht lesen.
 [Error %d-%d-%d-%d:]
 Fehler %d-$d-%d-%d:
 ;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
-[Network]
-Netzwerk
-[Accounts]
-Konten
-[General]
-Allgemein
-[Plugins]
-Plugins
-[Popups]
-Popups
 [No account selected]
 Kein Konto ausgewählt
 [Time left to next check [s]: %d]
@@ -358,3 +338,11 @@ Sie haben N neue E-Mail(s)
 Kontentest (fehlgeschlagen)
 [Connection failed message]
 "Verbindung fehlgeschlagen"-Nachricht
+[Network]
+Netzwerk
+[Accounts]
+Konten
+[General]
+Allgemein
+[Popups]
+Popups

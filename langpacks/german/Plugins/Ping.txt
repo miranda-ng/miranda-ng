@@ -60,8 +60,8 @@ Auf
 Ab
 [Edit Host]
 Host bearbeiten
-[Cancel]
-Abbrechen
+[Contact]
+Kontakt
 [Address:]
 Adresse:
 [Label:]
@@ -70,20 +70,20 @@ Titel:
 TCP-Verbindung
 [Port:]
 Port:
-[Control Protocol:]
-Kontrollprotokoll:
-[Set my status to:]
-Wechsle meinen Status zu:
-[On success, if my status is:]
-Bei Erfolg, wenn mein Status ist:
-[Execute the following command on double-click:]
-Folgenden Befehl bei Doppelklick ausführen:
-[Contact]
-Kontakt
 [Protocols]
 Protokolle
+[Control Protocol:]
+Kontrollprotokoll:
+[On success, if my status is:]
+Bei Erfolg, wenn mein Status ist:
+[Set my status to:]
+Wechsle meinen Status zu:
+[Execute the following command on double-click:]
+Folgenden Befehl bei Doppelklick ausführen:
 [(Optional) Command Parameters:]
 Befehlsparameter (optional):
+[Cancel]
+Abbrechen
 [Menu]
 Menü
 [Graph]

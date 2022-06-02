@@ -8,5 +8,4 @@
 [Log unread threads into database (enable history)]
 [Can't send account data!]
 [Can't get RSS feed!]
-[Gmail Notifier]
 [GmailNotifier]
