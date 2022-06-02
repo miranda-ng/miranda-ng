@@ -43,7 +43,6 @@
 #define IDC_SPIN_FILE                   1036
 #define IDC_SPIN_OTHERS                 1037
 #define IDC_TESTFORREAD                 1038
-#define IDC_CMDEDITHEADERS              1030
 #define IDC_OPT_TREE                    1040
 #define IDC_SPIN_MSGNUMBER              1041
 

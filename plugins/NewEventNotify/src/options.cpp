@@ -373,7 +373,6 @@ public:
 		EnableDlgItem(m_hwnd, IDC_CHKSHOWDATE, g_plugin.bMergePopup);
 		EnableDlgItem(m_hwnd, IDC_CHKSHOWTIME, g_plugin.bMergePopup);
 		EnableDlgItem(m_hwnd, IDC_CHKSHOWHEADERS, g_plugin.bMergePopup);
-		EnableDlgItem(m_hwnd, IDC_CMDEDITHEADERS, g_plugin.bMergePopup && g_plugin.bShowHeaders);
 		EnableDlgItem(m_hwnd, IDC_NUMBERMSG, g_plugin.bMergePopup);
 		EnableDlgItem(m_hwnd, IDC_LBNUMBERMSG, g_plugin.bMergePopup);
 		EnableDlgItem(m_hwnd, IDC_RDNEW, g_plugin.bMergePopup && g_plugin.iNumberMsg);
