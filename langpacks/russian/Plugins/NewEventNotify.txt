@@ -87,7 +87,7 @@
 [No popups for read messages]
 Выключить для прочтённых
 [Event Notify]
-События
+Уведомления о событиях
 [Popups]
 Всплывающие окна
 [Main options]
