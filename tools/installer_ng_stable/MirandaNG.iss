@@ -98,6 +98,7 @@ Source: "Files\Plugins\CrashDumper.dll"; DestDir: "{app}\Plugins"; Components: p
 Source: "Files\Plugins\DbChecker.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Import.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\Import\*"; DestDir: "{app}\Plugins\Import"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
+Source: "Files\Plugins\NewEventNotify.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\Plugins\PluginUpdater.dll"; DestDir: "{app}\Plugins"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 Source: "Files\pu_stub.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion; AfterInstall: ShowPercent() 
 
