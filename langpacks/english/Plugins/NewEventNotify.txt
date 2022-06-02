@@ -35,7 +35,7 @@
 [General options]
 [Show preview of event in popup]
 [Enable event notifications for instant messages]
-[Disable event notifications for group chats]
+[Enable event notifications for group chats]
 [Notify me of...]
 [Error]
 [Left click actions]

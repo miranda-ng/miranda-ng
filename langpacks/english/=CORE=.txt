@@ -986,9 +986,9 @@
 [Please authorize my request and add me to your contact list.]
 ;file \src\mir_app\src\auth.cpp
 [<Unknown>]
-[%s requested authorization\n%u (%s) on %s]
-[%s requested authorization\n%u on %s]
-[%s requested authorization\n%s on %s]
+[ requested authorization\n%u (%s) on %s]
+[ requested authorization\n%u on %s]
+[ requested authorization\n%s on %s]
 [(Unknown)]
 [Feature is not supported by protocol]
 [%s added you to the contact list\n%u (%s) on %s]
@@ -1351,7 +1351,6 @@
 [Do you want to restart it now?]
 [Plugins]
 ;file \src\mir_app\src\popupOption.cpp
-[Enabled items]
 ;file \src\mir_app\src\profilemanager.cpp
 [<In use>]
 [<Unknown format>]
