@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\plugins\Scriver\res\resource.rc
+// Used by C:\Users\georg\DiskW\miranda-ng\plugins\Scriver\res\resource.rc
 //
 #define VS_VERSION_INFO                 1
 #define IDD_MSGWIN                      100
@@ -133,7 +133,7 @@
 #define IDC_ATRANSPARENCYPERC           1620
 #define IDC_ITRANSPARENCYVALUE          1621
 #define IDC_ITRANSPARENCYPERC           1622
-#define IDC_HIDEONETAB              1623
+#define IDC_HIDEONETAB                  1623
 #define IDC_SENDALL                     1624
 #define IDC_TRANSPARENCYTEXT1           1627
 #define IDC_TRANSPARENCYTEXT2           1628
@@ -221,7 +221,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1005
 #define _APS_NEXT_SYMED_VALUE           101
