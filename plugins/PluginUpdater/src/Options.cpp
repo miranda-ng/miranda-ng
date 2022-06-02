@@ -21,14 +21,14 @@ Boston, MA 02111-1307, USA.
 
 static int GetUpdateMode()
 {
-	int UpdateMode = g_plugin.getByte(DB_SETTING_UPDATE_MODE, -1);
+	int UpdateMode = g_plugin.iUpdateMode;
 
 	// Check if there is url for custom mode
 	if (UpdateMode == UPDATE_MODE_CUSTOM) {
 		ptrW url(g_plugin.getWStringA(DB_SETTING_UPDATE_URL));
 		if (url == NULL || !wcslen(url)) {
 			// No url for custom mode, reset that setting so it will be determined automatically
-			g_plugin.delSetting(DB_SETTING_UPDATE_MODE);
+			g_plugin.iUpdateMode.Delete();
 			UpdateMode = -1;
 		}
 	}
@@ -162,9 +162,8 @@ public:
 			chkStable.Disable();
 			
 			// Reset setting if needed
-			int UpdateMode = g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-			if (UpdateMode == UPDATE_MODE_STABLE)
-				g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+			if (g_plugin.iUpdateMode == UPDATE_MODE_STABLE)
+				g_plugin.iUpdateMode = UPDATE_MODE_TRUNK;
 			chkStable.SetText(LPGENW("Stable version (incompatible with current development version)"));
 		}
 
@@ -245,8 +244,8 @@ public:
 		bool bStartUpdate = false;
 
 		// Repository was changed, force recheck
-		if (g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE) != iNewMode) {
-			g_plugin.setByte(DB_SETTING_UPDATE_MODE, iNewMode);
+		if (g_plugin.iUpdateMode != iNewMode) {
+			g_plugin.iUpdateMode = iNewMode;
 			if (!bNoSymbols)
 				g_plugin.bForceRedownload = true;
 			bStartUpdate = true;

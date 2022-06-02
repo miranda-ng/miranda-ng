@@ -132,7 +132,6 @@ enum
 	UPDATE_MODE_MAX_VALUE // leave this variable last in the list
 };
 
-#define DB_SETTING_UPDATE_MODE           "UpdateMode"
 #define DB_SETTING_UPDATE_URL            "UpdateURL"
 #define DB_SETTING_DONT_SWITCH_TO_STABLE "DontSwitchToStable"
 
@@ -181,6 +180,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	// common options
 	CMOption<bool> bUpdateOnStartup, bUpdateOnPeriod, bOnlyOnceADay, bSilentMode, bBackup, bChangePlatform, bAutoRestart, bNeedRestart;
 	CMOption<int>  iPeriod, iPeriodMeasure, iNumberBackups;
+	CMOption<uint8_t> iUpdateMode;
 	CMOption<uint32_t> dwLastUpdate;
 
 	// popup options

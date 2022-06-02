@@ -113,9 +113,8 @@ bool ParseHashes(const wchar_t *pwszUrl, ptrW &baseUrl, SERVLIST &arHashes)
 	if (bDoNotSwitchToStable) {
 		g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 1);
 		// Reset setting if needed
-		int UpdateMode = g_plugin.getByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_STABLE);
-		if (UpdateMode == UPDATE_MODE_STABLE)
-			g_plugin.setByte(DB_SETTING_UPDATE_MODE, UPDATE_MODE_TRUNK);
+		if (g_plugin.iUpdateMode == UPDATE_MODE_STABLE)
+			g_plugin.iUpdateMode = UPDATE_MODE_TRUNK;
 	}
 	else g_plugin.setByte(DB_SETTING_DONT_SWITCH_TO_STABLE, 0);
 

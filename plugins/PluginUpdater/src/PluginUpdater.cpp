@@ -62,6 +62,7 @@ CMPlugin::CMPlugin() :
 	iPeriod(MODULENAME, "Period", 1),
 	iPeriodMeasure(MODULENAME, "PeriodMeasure", 1),
 	iNumberBackups(MODULENAME, "NumberOfBackups", 3),
+	iUpdateMode(MODULENAME, "UpdateMode", -1),
 	dwLastUpdate(MODULENAME, "LastUpdate", 0)
 {
 }
