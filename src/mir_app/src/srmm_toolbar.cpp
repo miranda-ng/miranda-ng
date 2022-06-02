@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DPISCALEX_S(argX) ((int)((double)(argX) * g_DPIscaleX))
 
 static double g_DPIscaleX, g_DPIscaleY;
+static class CSrmmToolbarOptions *g_pDialog = nullptr;
 
 static CMOption<uint8_t> g_iButtonGap(BB_MODULE_NAME, "ButtonsBarGap", 1);
 
@@ -84,82 +85,6 @@ MIR_APP_DLL(int) Srmm_GetButtonCount(void)
 MIR_APP_DLL(int) Srmm_GetButtonGap()
 {
 	return g_iButtonGap;
-}
-
-MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
-{
-	if (bbdi == nullptr)
-		return nullptr;
-
-	CustomButtonData *cbd = new CustomButtonData();
-	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
-	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
-	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
-
-	cbd->m_dwButtonID = bbdi->dwButtonID;
-	cbd->m_hIcon = bbdi->hIcon;
-	cbd->m_dwPosition = cbd->m_dwOrigPosition = bbdi->dwDefPos;
-	cbd->m_dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
-	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? cbd->m_dwButtonCID + 1 : 0;
-	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
-	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
-	
-	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
-	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;
-	cbd->m_pPlugin = _hLang;
-
-	cbd->m_dwOrigFlags.bit1 = cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
-	cbd->m_dwOrigFlags.bit2 = cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0; 
-	cbd->m_dwOrigFlags.bit3 = cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
-	cbd->m_dwOrigFlags.bit4 = cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
-
-	if (cbd->m_bSeparator)
-		cbd->m_iButtonWidth = DPISCALEX_S(10);
-	else if (bbdi->bbbFlags & BBBF_ISARROWBUTTON)
-		cbd->m_iButtonWidth = DPISCALEX_S(34);
-	else
-		cbd->m_iButtonWidth = DPISCALEX_S(22);
-
-	if (bbdi->pszHotkey) {
-		for (auto &p : hotkeys) {
-			if (!mir_strcmp(p->getName(), bbdi->pszHotkey)) {
-				cbd->m_hotkey = p;
-				break;
-			}
-		}
-	}
-
-	// download database settings
-	char SettingName[1024];
-	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName.get(), cbd->m_dwButtonID);
-
-	DBVARIANT dbv = { 0 };
-	if (!db_get_s(0, BB_MODULE_NAME, SettingName, &dbv)) {
-		// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
-		char *token = strtok(dbv.pszVal, "_");
-		cbd->m_dwPosition = (uint32_t)atoi(token);
-		token = strtok(nullptr, "_");
-		cbd->m_bIMButton = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		cbd->m_bChatButton = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		token = strtok(nullptr, "_");
-		cbd->m_bRSided = atoi(token) != 0;
-		token = strtok(nullptr, "_");
-		cbd->m_bCanBeHidden = atoi(token) != 0;
-
-		db_free(&dbv);
-	}
-
-	arButtonsList.insert(cbd);
-
-	if (cbd->m_dwButtonCID != cbd->m_dwButtonID)
-		LastCID++;
-	if (cbd->m_dwArrowCID == LastCID)
-		LastCID++;
-
-	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
-	return cbd;
 }
 
 MIR_APP_DLL(int) Srmm_GetButtonState(HWND hwndDlg, BBButton *bbdi)
@@ -216,27 +141,6 @@ MIR_APP_DLL(int) Srmm_SetButtonState(MCONTACT hContact, BBButton *bbdi)
 		EnableWindow(hwndBtn, !(bbdi->bbbFlags & BBSF_DISABLED));
 		Button_SetCheck(hwndBtn, (bbdi->bbbFlags & BBSF_PUSHED) != 0);
 		Button_SetCheck(hwndBtn, (bbdi->bbbFlags & BBSF_RELEASED) == 0);
-	}
-	return 0;
-}
-
-MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
-{
-	if (!bbdi)
-		return 1;
-
-	CustomButtonData *pFound = nullptr;
-	{
-		mir_cslock lck(csToolBar);
-
-		for (auto &cbd : arButtonsList.rev_iter())
-			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID)
-				pFound = arButtonsList.removeItem(&cbd);
-	}
-
-	if (pFound) {
-		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, pFound->m_dwButtonCID, (LPARAM)pFound);
-		delete pFound;
 	}
 	return 0;
 }
@@ -467,6 +371,7 @@ class CSrmmToolbarOptions : public CDlgBase
 	CCtrlCheck m_btnIM, m_btnChat, m_btnHidden;
 	CCtrlButton m_btnReset, m_btnSeparator;
 	CCtrlSpin m_gap;
+	CTimer timer;
 
 	HIMAGELIST m_hImgl;
 
@@ -495,7 +400,7 @@ class CSrmmToolbarOptions : public CDlgBase
 					continue;
 				}
 				CustomButtonData *cbd = (CustomButtonData*)tvi.lParam;
-				if (cbd) {
+				if (cbd && arButtonsList.indexOf(cbd) != -1) {
 					if (cbd->m_opFlags) {
 						cbd->m_bIMButton = (cbd->m_opFlags & BBSF_IMBUTTON) != 0;
 						cbd->m_bChatButton = (cbd->m_opFlags & BBSF_CHATBUTTON) != 0;
@@ -612,8 +517,11 @@ public:
 		m_btnReset(this, IDC_BBRESET),
 		m_btnHidden(this, IDC_CANBEHIDDEN),
 		m_btnSeparator(this, IDC_SEPARATOR),
-		m_hImgl(nullptr)
+		m_hImgl(nullptr),
+		timer(this, 1)
 	{
+		timer.OnEvent = Callback(this, &CSrmmToolbarOptions::OnTimer);
+
 		m_toolBar.SetFlags(MTREE_DND); // enable drag-n-drop
 		m_toolBar.OnSelChanged = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanged);
 		m_toolBar.OnSelChanging = Callback(this, &CSrmmToolbarOptions::OnTreeSelChanging);
@@ -625,6 +533,7 @@ public:
 	
 	bool OnInitDialog() override
 	{
+		g_pDialog = this;
 		BuildMenuObjectsTree();
 
 		m_btnIM.Disable();
@@ -637,6 +546,7 @@ public:
 
 	void OnDestroy() override
 	{
+		g_pDialog = nullptr;
 		ImageList_Destroy(m_toolBar.GetImageList(TVSIL_NORMAL));
 		ImageList_Destroy(m_toolBar.GetImageList(TVSIL_STATE));
 	}
@@ -771,6 +681,18 @@ public:
 		if (iNewState)
 			m_btnIM.SetState(true);
 	}
+
+	void OnTimer(CTimer *pTimer)
+	{
+		pTimer->Stop();
+		BuildMenuObjectsTree();
+	}
+
+	static void RereadButtons()
+	{
+		if (g_pDialog)
+			g_pDialog->timer.Start(100);
+	}
 };
 
 void SrmmLogOptionsInit(WPARAM wParam);
@@ -792,12 +714,118 @@ static int SrmmOptionsInit(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(HANDLE) Srmm_AddButton(const BBButton *bbdi, HPLUGIN _hLang)
+{
+	if (bbdi == nullptr)
+		return nullptr;
+
+	CustomButtonData *cbd = new CustomButtonData();
+	cbd->m_pszModuleName = mir_strdup(bbdi->pszModuleName);
+	cbd->m_pwszText = mir_wstrdup(bbdi->pwszText);
+	cbd->m_pwszTooltip = mir_wstrdup(bbdi->pwszTooltip);
+
+	cbd->m_dwButtonID = bbdi->dwButtonID;
+	cbd->m_hIcon = bbdi->hIcon;
+	cbd->m_dwPosition = cbd->m_dwOrigPosition = bbdi->dwDefPos;
+	cbd->m_dwButtonCID = (bbdi->bbbFlags & BBBF_CREATEBYID) ? bbdi->dwButtonID : LastCID;
+	cbd->m_dwArrowCID = (bbdi->bbbFlags & BBBF_ISARROWBUTTON) ? cbd->m_dwButtonCID + 1 : 0;
+	cbd->m_bHidden = (bbdi->bbbFlags & BBBF_HIDDEN) != 0;
+	cbd->m_bSeparator = (bbdi->bbbFlags & BBBF_ISSEPARATOR) != 0;
+
+	cbd->m_bDisabled = (bbdi->bbbFlags & BBBF_DISABLED) != 0;
+	cbd->m_bPushButton = (bbdi->bbbFlags & BBBF_ISPUSHBUTTON) != 0;
+	cbd->m_pPlugin = _hLang;
+
+	cbd->m_dwOrigFlags.bit1 = cbd->m_bRSided = (bbdi->bbbFlags & BBBF_ISRSIDEBUTTON) != 0;
+	cbd->m_dwOrigFlags.bit2 = cbd->m_bIMButton = (bbdi->bbbFlags & BBBF_ISIMBUTTON) != 0;
+	cbd->m_dwOrigFlags.bit3 = cbd->m_bChatButton = (bbdi->bbbFlags & BBBF_ISCHATBUTTON) != 0;
+	cbd->m_dwOrigFlags.bit4 = cbd->m_bCanBeHidden = (bbdi->bbbFlags & BBBF_CANBEHIDDEN) != 0;
+
+	if (cbd->m_bSeparator)
+		cbd->m_iButtonWidth = DPISCALEX_S(10);
+	else if (bbdi->bbbFlags & BBBF_ISARROWBUTTON)
+		cbd->m_iButtonWidth = DPISCALEX_S(34);
+	else
+		cbd->m_iButtonWidth = DPISCALEX_S(22);
+
+	if (bbdi->pszHotkey) {
+		for (auto &p : hotkeys) {
+			if (!mir_strcmp(p->getName(), bbdi->pszHotkey)) {
+				cbd->m_hotkey = p;
+				break;
+			}
+		}
+	}
+
+	// download database settings
+	char SettingName[1024];
+	mir_snprintf(SettingName, "%s_%d", cbd->m_pszModuleName.get(), cbd->m_dwButtonID);
+
+	DBVARIANT dbv = { 0 };
+	if (!db_get_s(0, BB_MODULE_NAME, SettingName, &dbv)) {
+		// modulename_buttonID, position_inIM_inCHAT_isLSide_isRSide_CanBeHidden
+		char *token = strtok(dbv.pszVal, "_");
+		cbd->m_dwPosition = (uint32_t)atoi(token);
+		token = strtok(nullptr, "_");
+		cbd->m_bIMButton = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		cbd->m_bChatButton = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		token = strtok(nullptr, "_");
+		cbd->m_bRSided = atoi(token) != 0;
+		token = strtok(nullptr, "_");
+		cbd->m_bCanBeHidden = atoi(token) != 0;
+
+		db_free(&dbv);
+	}
+
+	arButtonsList.insert(cbd);
+
+	if (cbd->m_dwButtonCID != cbd->m_dwButtonID)
+		LastCID++;
+	if (cbd->m_dwArrowCID == LastCID)
+		LastCID++;
+
+	WindowList_Broadcast(g_hWindowList, WM_CBD_UPDATED, 0, 0);
+	CSrmmToolbarOptions::RereadButtons();
+	return cbd;
+}
+
+MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
+{
+	if (!bbdi)
+		return 1;
+
+	CustomButtonData *pFound = nullptr;
+	{
+		mir_cslock lck(csToolBar);
+
+		for (auto &cbd : arButtonsList.rev_iter())
+			if (!mir_strcmp(cbd->m_pszModuleName, bbdi->pszModuleName) && cbd->m_dwButtonID == bbdi->dwButtonID)
+				pFound = arButtonsList.removeItem(&cbd);
+	}
+
+	if (pFound) {
+		CSrmmToolbarOptions::RereadButtons();
+		WindowList_Broadcast(g_hWindowList, WM_CBD_REMOVED, pFound->m_dwButtonCID, (LPARAM)pFound);
+		delete pFound;
+	}
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void KillModuleToolbarIcons(HPLUGIN pPlugin)
 {
+	int oldCount = arButtonsList.getCount();
+
 	auto T = arButtonsList.rev_iter();
 	for (auto &cbd : T)
 		if (cbd->m_pPlugin == pPlugin)
 			delete arButtonsList.removeItem(&cbd);
+
+	if (oldCount != arButtonsList.getCount())
+		CSrmmToolbarOptions::RereadButtons();
 }
 
 static INT_PTR BroadcastMessage(WPARAM, LPARAM lParam)
