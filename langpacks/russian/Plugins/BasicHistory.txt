@@ -201,7 +201,7 @@
 [Delete]
 Удалить
 [Send message]
-Отправить
+Отправить сообщение
 [Reply &quoted]
 Ответить с &цитатой
 [Delete group]

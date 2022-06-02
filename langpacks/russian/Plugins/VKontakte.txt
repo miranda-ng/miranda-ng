@@ -559,7 +559,7 @@ ID получателя ошибочен или неизвестен
 [Mark messages as read]
 Пометить сообщения прочитанными
 [Send message to user's wall]
-Сообщение на стене
+Отправить сообщение на стену пользователя
 [Add as friend]
 Добавить в друзья
 [Delete from friend list]

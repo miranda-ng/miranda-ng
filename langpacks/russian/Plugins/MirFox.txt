@@ -37,7 +37,7 @@ MirFox/Ошибка
 [just send message]
 просто отправить сообщение
 [send message and open message window]
-отправить и открыть окно сообщений
+отправить сообщение и открыть окно сообщений
 [show message window with pasted message]
 показать окно сообщений с вставленным сообщением
 [** All contacts **]

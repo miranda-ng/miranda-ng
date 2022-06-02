@@ -40,7 +40,7 @@
 [Show all contacts]
 Показать все контакты
 [Send message]
-Отправить
+Отправить сообщение
 [Send file]
 Отправить файл
 [Open user info]

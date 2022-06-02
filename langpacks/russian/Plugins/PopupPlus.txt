@@ -206,7 +206,7 @@ History++ для истории окон
 [Quick reply]
 Быстрый ответ
 [Send message]
-Отправить
+Отправить сообщение
 [User details]
 О пользователе
 [Contact menu]

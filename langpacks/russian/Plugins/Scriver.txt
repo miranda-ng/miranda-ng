@@ -348,7 +348,7 @@ ID текущего контакта (если определён). Наприм
 [User's history]
 История контакта
 [Send message]
-Отправить
+Отправить сообщение
 [Smiley button]
 Смайлы
 [User is typing]

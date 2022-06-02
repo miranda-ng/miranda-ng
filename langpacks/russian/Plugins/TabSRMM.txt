@@ -708,7 +708,7 @@ BBCode ([b][i][u])
 [Strike-through text]
 Перечёркнутый
 [Send message\nClick dropdown arrow for sending options]
-Отправить
+Отправить сообщение\nНажмите на стрелку, чтобы увидеть дополнительные варианты отправки
 [Close session]
 Закрыть вкладку
 [Quote last message OR selected text]
@@ -735,7 +735,7 @@ BBCode ([b][i][u])
 [Group chats]
 Чаты
 [Send message]
-Отправить
+Отправить сообщение
 ;file \plugins\TabSRMM\src\chat_options.cpp
 [Input area background]
 Фон поля ввода текста
