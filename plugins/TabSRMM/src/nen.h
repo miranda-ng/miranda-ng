@@ -52,7 +52,7 @@
 namespace NEN
 {
 	extern CMOption<int> ActionLeft, ActionRight;
-	extern CMOption<bool> bMUCDisabled, bWindowCheck, bNoSounds, bNoAutoPopup, bColDefaultErr;
+	extern CMOption<bool> bMucPopups, bWindowCheck, bNoSounds, bNoAutoPopup, bColDefaultErr;
 
 	extern CMOption<int> iDelayMsg, iDelayErr;
 	extern CMOption<DWORD> colTextMsg, colBackMsg;

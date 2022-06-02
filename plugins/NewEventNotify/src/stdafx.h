@@ -148,9 +148,8 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	void OptionsRead(void);
 	void OptionsWrite(void);
 
-	CMOption<bool> bPopups;
+	CMOption<bool> bPopups, bMucPopups;
 
-	bool bMUCDisable;
 	bool bPreview;
 	bool bDisableNonMessage;
 	bool bMsgWindowCheck;

@@ -39,7 +39,7 @@
 CMOption<int> NEN::ActionLeft(NEN_MODULE, "ActionLeft", MASK_OPEN | MASK_DISMISS);
 CMOption<int> NEN::ActionRight(NEN_MODULE, "ActionRight", MASK_DISMISS); 
 
-CMOption<bool> NEN::bMUCDisabled(NEN_MODULE, "MUCDisabled", false);
+CMOption<bool> NEN::bMucPopups(NEN_MODULE, "MucPopups", true);
 CMOption<bool> NEN::bWindowCheck(NEN_MODULE, "WindowCheck", false);
 CMOption<bool> NEN::bNoSounds(NEN_MODULE, "NoSounds", false);
 CMOption<bool> NEN::bNoAutoPopup(NEN_MODULE, "NoAutoPopup", false);

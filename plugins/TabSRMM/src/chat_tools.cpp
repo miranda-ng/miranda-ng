@@ -145,7 +145,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	}
 	else bbStart = bbEnd = L"";
 
-	if (NEN::bMUCDisabled)                          // no popups at all. Period
+	if (!NEN::bMucPopups)                          // no popups at all. Period
 		return 0;
 
 	// check the status mode against the status mask
@@ -224,7 +224,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			DoTrayIcon(si, gce);
 		}
 
-		if (dat || !NEN::bMUCDisabled)
+		if (dat || NEN::bMucPopups)
 			if (iMuteMode != CHATMODE_MUTE)
 				DoPopup(si, gce);
 
@@ -254,7 +254,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		// stupid thing to not create multiple popups for a QUIT event for instance
 		if (bManyFix == 0) {
 			// do popups
-			if (dat || !NEN::bMUCDisabled)
+			if (dat || NEN::bMucPopups)
 				if (iMuteMode != CHATMODE_MUTE)
 					DoPopup(si, gce);
 

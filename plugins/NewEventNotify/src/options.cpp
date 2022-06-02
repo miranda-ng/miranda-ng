@@ -26,8 +26,6 @@
 
 void CMPlugin::OptionsRead(void)
 {
-	bMUCDisable = getBool(OPT_MUCDISABLE, false);
-
 	bPreview = getBool(OPT_PREVIEW, true);
 	bMergePopup = getBool(OPT_MERGEPOPUP, true);
 	bMsgWindowCheck = getBool(OPT_MSGWINDOWCHECK, true);
@@ -72,8 +70,6 @@ void CMPlugin::OptionsRead(void)
 
 void CMPlugin::OptionsWrite(void)
 {
-	setByte(OPT_MUCDISABLE, bMUCDisable);
-
 	setByte(OPT_PREVIEW, bPreview);
 	setByte(OPT_MERGEPOPUP, bMergePopup);
 	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
@@ -208,7 +204,7 @@ public:
 		auto *pwszSection = TranslateT("General options");
 		m_opts.AddOption(pwszSection, TranslateT("Show preview of event in popup"), g_plugin.bPreview);
 		m_opts.AddOption(pwszSection, TranslateT("Enable event notifications for instant messages"), g_plugin.bPopups);
-		m_opts.AddOption(pwszSection, TranslateT("Disable event notifications for group chats"), g_plugin.bMUCDisable);
+		m_opts.AddOption(pwszSection, TranslateT("Enable event notifications for group chats"), g_plugin.bMucPopups);
 
 		pwszSection = TranslateT("Notify me of...");
 		m_opts.AddOption(pwszSection, TranslateT("Message"), g_plugin.maskNotify, MASK_MESSAGE);

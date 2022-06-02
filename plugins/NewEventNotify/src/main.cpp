@@ -47,7 +47,8 @@ PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
-	bPopups(MODULENAME, "Popups", true)
+	bPopups(MODULENAME, "Popups", true),
+	bMucPopups(MODULENAME, "MucPopups", true)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +125,11 @@ int CMPlugin::Load()
 	if (getBool(OPT_DISABLE)) {
 		bPopups = false;
 		delSetting(OPT_DISABLE);
+	}
+
+	if (getBool(OPT_MUCDISABLE, false)) {
+		bMucPopups = false;
+		delSetting(OPT_MUCDISABLE);
 	}
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, HookedInit);
