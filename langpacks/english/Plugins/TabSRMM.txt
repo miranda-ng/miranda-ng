@@ -157,7 +157,7 @@
 [Show typing notification when message dialog is open]
 [Show typing notification when no message dialog is open]
 [Show balloon tooltip in the system tray]
-[        Show popups when a user is typing]
+[Show popups when a user is typing]
 [More about typing notifications]
 [Tab options]
 [Miscellaneous options]
