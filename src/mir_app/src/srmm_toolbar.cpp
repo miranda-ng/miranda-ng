@@ -644,8 +644,9 @@ public:
 	bool OnApply() override
 	{
 		OnTreeSelChanging(nullptr);  // save latest changes
-		SaveTree();               // save the whole tree then
+		SaveTree();                  // save the whole tree then
 		CB_ReInitCustomButtons();
+		Chat_UpdateOptions();        // also restore chat windows
 
 		uint16_t newGap = m_gap.GetPosition();
 		if (newGap != g_iButtonGap) {
