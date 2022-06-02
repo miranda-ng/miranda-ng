@@ -510,7 +510,9 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 
 int OnSystemPreshutdown(WPARAM, LPARAM)
 {
-	Srmm_Broadcast(WM_CLOSE, 0, 0);
+	for (auto &it : g_arDialogs.rev_iter())
+		it->CloseTab();
+
 	WindowList_Broadcast(g_dat.hParentWindowList, WM_CLOSE, 0, 0);
 	return 0;
 }
