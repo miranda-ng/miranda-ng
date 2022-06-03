@@ -36,22 +36,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\libs\libsignal\src\session_cipher.h"
 #include "..\..\libs\libsignal\src\protocol.h"
 
-namespace utils {
-	// code from http://stackoverflow.com/questions/3368883/how-does-this-size-of-array-template-function-work
-	template <std::size_t N>
-	struct type_of_size
-	{
-		typedef char type[N];
-	};
-
-	template <typename T, std::size_t Size>
-	typename type_of_size<Size>::type& sizeof_array_helper(T(&)[Size]);
-
-	#define _countof_portable(pArray) sizeof(sizeof_array_helper(pArray))
-}
-
-using namespace utils;
-
 namespace omemo
 {
 	int random_func(uint8_t *data, size_t len, void * /*user_data*/)
@@ -1650,39 +1634,36 @@ bool CJabberProto::OmemoHandleMessage(const TiXmlElement *node, const char *jid,
 	return true;
 }
 
-void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *node)
+bool CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *node)
 {
 	if (!node)
-		return;
-	
-	MCONTACT hContact = HContactFromJID(from);
+		return false;
+
 	node = XmlFirstChild(node, "item"); //get <item> node
 	if (!node) {
 		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <item> node");
-		return;
+		return false;
 	}
 	node = XmlGetChildByTag(node, "list", "xmlns", JABBER_FEAT_OMEMO); //<list xmlns = 'urn:xmpp:omemo:0'>
 	if (!node) {
 		debugLogA("Jabber OMEMO: error: omemo devicelist does not have <list> node");
-		return;
+		return false;
 	}
 
 	CMStringA szSetting;
-	bool own_jid = false;
-	if (strstr(m_ThreadInfo->fullJID, from))
-		own_jid = true;
-
-	if (own_jid) {
+	if (from == nullptr) {
 		//check if our device exist
 		bool own_device_listed = false;
 		uint32_t own_id = m_omemo.GetOwnDeviceId();
 		int i = 0;
 		for (auto *list_item : TiXmlFilter(node, "device")) {
 			uint32_t current_id = list_item->IntAttribute("id");
-			if (current_id == own_id)
+			if (current_id == own_id) {
 				own_device_listed = true;
-			szSetting.Format("OmemoDeviceId%d", i++);
-			setDword(szSetting, current_id);
+			} else {
+				szSetting.Format("OmemoDeviceId%d", i++);
+				setDword(szSetting, current_id);
+			}
 		}
 
 		uint32_t val = 0;
@@ -1694,11 +1675,17 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 			szSetting.Format("OmemoDeviceId%d", i);
 			val = getDword(szSetting, 0);
 		}
-		if (!own_device_listed)
-			OmemoAnnounceDevice();
+		if (!own_device_listed) {
+			OmemoAnnounceDevice(true);
+			OmemoSendBundle();
+		}
 	}
 	else {
 		// store device id's
+		MCONTACT hContact = HContactFromJID(from);
+		if (!hContact)
+			return true; //unknown jid
+		
 		int i = 0;
 		for (auto *list_item : TiXmlFilter(node, "device")) {
 			uint32_t current_id = list_item->IntAttribute("id");
@@ -1715,45 +1702,39 @@ void CJabberProto::OmemoHandleDeviceList(const char *from, const TiXmlElement *n
 			val = getDword(hContact, szSetting, 0);
 		}
 	}
+	
+	return true;
 }
 
-void CJabberProto::OmemoAnnounceDevice()
+void CJabberProto::OmemoAnnounceDevice(bool include_cache)
 {
 	// check "OmemoDeviceId%d" for own id and send  updated list if not exist
 	unsigned int own_id = m_omemo.GetOwnDeviceId();
-
-	CMStringA szSetting;
-	for (int i = 0;; ++i) {
-		szSetting.Format("OmemoDeviceId%d", i);
-		uint32_t val = getDword(szSetting);
-		if (val == 0)
-			break;
-		if (val == own_id)
-			return; // nothing to do, list is fresh enough
-	}
 
 	// add own device id
 	// construct node
 	char szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq("set", SerialNext());
-	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
+	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
 		<< XCHILD("publish") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
 	TiXmlElement *list_node = publish_node << XCHILD("item") << XATTR ("id", "current")
 		<< XCHILDNS("list", JABBER_FEAT_OMEMO);
+	if (include_cache) { //use cache only if it is fresh
+		CMStringA szSetting;
+		for (int i = 0; ; ++i) {
+			szSetting.Format("OmemoDeviceId%d", i);
+			uint32_t val = getDword(szSetting);
+			if (val == 0)
+				break;
 
-	for (int i = 0; ; ++i) {
-		szSetting.Format("OmemoDeviceId%d", i);
-		uint32_t val = getDword(szSetting);
-		if (val == 0)
-			break;
-
-		list_node << XCHILD("device") << XATTRI64("id", val);
+			list_node << XCHILD("device") << XATTRI64("id", val);
+		}
 	}
 	list_node << XCHILD("device") << XATTRI64("id", own_id);
 
 	// send device list back
-	//TODOL handle response
+	// TODO handle response
 	m_ThreadInfo->send(iq);
 }
 
@@ -1779,7 +1760,7 @@ void CJabberProto::OmemoSendBundle()
 	// construct bundle node
 	char szBareJid[JABBER_MAX_JID_LEN];
 	XmlNodeIq iq("set", SerialNext());
-	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
+	iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 
 	TiXmlElement *publish_node = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("publish");
 	{
@@ -1838,12 +1819,6 @@ void CJabberProto::OmemoSendBundle()
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::OmemoPublishNodes()
-{
-	OmemoAnnounceDevice();
-	OmemoSendBundle();
-}
-
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 {
 	if (m_omemo.session_checked[hContact])
@@ -1866,7 +1841,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, _id));
 
 			char szBareJid[JABBER_MAX_JID_LEN];
-			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof_portable(szBareJid)));
+			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
 
 			char *jid = ContactToJID(hContact);
 			iq << XATTR("to", jid);
@@ -2029,18 +2004,18 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 
 	const EVP_CIPHER *cipher = EVP_aes_128_gcm();
 	unsigned char key[16], iv[12], tag[16] /*, aad[48]*/;
-	Utils_GetRandom(key, _countof_portable(key));
-	Utils_GetRandom(iv, _countof_portable(iv));
-	Utils_GetRandom(tag, _countof_portable(tag));
-	//Utils_GetRandom(aad, _countof_portable(aad));
+	Utils_GetRandom(key, _countof(key));
+	Utils_GetRandom(iv, _countof(iv));
+	Utils_GetRandom(tag, _countof(tag));
+	//Utils_GetRandom(aad, _countof(aad));
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof_portable(iv), nullptr);
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof(iv), nullptr);
 	EVP_EncryptInit(ctx, cipher, key, iv);
 	char *out;
 	const size_t inl = strlen(msg_text);
 	int tmp_len = 0, outl;
-	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof_portable(aad));
-	out = (char*)mir_alloc(inl + _countof_portable(key) - 1);
+	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
+	out = (char*)mir_alloc(inl + _countof(key) - 1);
 	for (;;) {
 		EVP_EncryptUpdate(ctx, (unsigned char*)(out + tmp_len), &outl, (unsigned char*)(msg_text + tmp_len), (int)(inl - tmp_len));
 		tmp_len += outl;
@@ -2050,7 +2025,7 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	
 	EVP_EncryptFinal(ctx, (unsigned char*)(msg_text + tmp_len), &outl);
 	tmp_len += outl;
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof_portable(tag), tag);
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof(tag), tag);
 	EVP_CIPHER_CTX_free(ctx);
 
 	TiXmlElement *encrypted = msg << XCHILDNS("encrypted", JABBER_FEAT_OMEMO);
@@ -2095,7 +2070,7 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	}
 
 	TiXmlElement *iv_node = header << XCHILD("iv");
-	iv_node->SetText(ptrA(mir_base64_encode(iv, _countof_portable(iv))).get());
+	iv_node->SetText(ptrA(mir_base64_encode(iv, _countof(iv))).get());
 
 	msg << XCHILDNS("store", "urn:xmpp:hints");
 	if (!session_count)

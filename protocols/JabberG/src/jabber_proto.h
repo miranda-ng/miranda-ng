@@ -713,11 +713,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char *pszSrc);
 	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
 	void       OmemoHandleMessageQueue();
-	void       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
+	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);
 	void       OmemoInitDevice();
-	void       OmemoAnnounceDevice();
+	void       OmemoAnnounceDevice(bool include_cache);
 	void       OmemoSendBundle();
-	void       OmemoPublishNodes();
 	bool       OmemoCheckSession(MCONTACT hContact);
 	int        OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTACT hContact);
 	bool       OmemoIsEnabled(MCONTACT hContact);

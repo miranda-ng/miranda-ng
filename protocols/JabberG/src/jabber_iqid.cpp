@@ -51,8 +51,14 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 		if (!mir_strcmp(tmp.category, "pubsub") && !mir_strcmp(tmp.type, "pep")) {
 			m_bPepSupported = true;
 
-			if (m_bUseOMEMO) // publish ndes, precreation is not required
-				OmemoPublishNodes();
+			if (m_bUseOMEMO) {
+				XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetOmemodevicelist, JABBER_IQ_TYPE_GET));
+				iq << XATTR("from", m_ThreadInfo->fullJID);
+				iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
+					<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
+
+				m_ThreadInfo->send(iq);
+			}
 
 			EnableMenuItems(true);
 			RebuildInfoFrame();
@@ -1072,51 +1078,63 @@ void CJabberProto::OnIqResultSetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 
 void CJabberProto::OnIqResultGetOmemodevicelist(const TiXmlElement* iqNode, CJabberIqInfo*)
 {
-	if (const char *from = XmlGetAttr(iqNode, "from"))
-		if (auto *pubsubNode = XmlGetChildByTag(iqNode, "pubsub", "xmlns", JABBER_FEAT_PUBSUB))
-			if (auto *itemsNode = XmlGetChildByTag(pubsubNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist"))
-				OmemoHandleDeviceList(from, itemsNode);
+	const char *from = XmlGetAttr(iqNode, "from"); //replies for our jid don't contain "from"
+	bool res = false;
+	if (auto *pubsubNode = XmlGetChildByTag(iqNode, "pubsub", "xmlns", JABBER_FEAT_PUBSUB))
+		if (auto *itemsNode = XmlGetChildByTag(pubsubNode, "items", "node", JABBER_FEAT_OMEMO ".devicelist"))
+			res = OmemoHandleDeviceList(from, itemsNode);
+
+	if (!from && !res) {
+		for (int i = 0;; i++) {
+			CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
+			if (!getDword(szSetting, 0))
+				break;
+
+			delSetting(szSetting);
+		}
+
+		OmemoAnnounceDevice(false); //Publish own device if we can't retrieve up to date list 
+		OmemoSendBundle();
+	}
 }
 
 void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const TiXmlElement *queryNode;
-	const char *type;
-	int id;
-
 	debugLogA("<iq/> iqIdGetSearch");
-	if ((type = XmlGetAttr(iqNode, "type")) == nullptr) return;
-	if ((id = JabberGetPacketID(iqNode)) == -1) return;
+
+	const char *type = XmlGetAttr(iqNode, "type");
+	int id = JabberGetPacketID(iqNode);
+	if (type == nullptr || id == -1)
+		return;
 
 	if (!mir_strcmp(type, "result")) {
-		if ((queryNode = XmlFirstChild(iqNode, "query")) == nullptr)
-			return;
+		if (auto *queryNode = XmlFirstChild(iqNode, "query")) {
+			PROTOSEARCHRESULT psr = {};
+			psr.cbSize = sizeof(psr);
+			for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
+				if (auto *jid = XmlGetAttr(itemNode, "jid")) {
+					psr.id.w = mir_utf8decodeW(jid);
+					debugLogA("Result jid = %s", jid);
+					if (auto *p = XmlGetChildText(itemNode, "nick"))
+						psr.nick.w = mir_utf8decodeW(p);
+					if (auto *p = XmlGetChildText(itemNode, "first"))
+						psr.firstName.w = mir_utf8decodeW(p);
+					if (auto *p = XmlGetChildText(itemNode, "last"))
+						psr.lastName.w = mir_utf8decodeW(p);
+					if (auto *p = XmlGetChildText(itemNode, "email"))
+						psr.email.w = mir_utf8decodeW(p);
+					ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
 
-		PROTOSEARCHRESULT psr = {};
-		psr.cbSize = sizeof(psr);
-		for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
-			if (auto *jid = XmlGetAttr(itemNode, "jid")) {
-				psr.id.w = mir_utf8decodeW(jid);
-				debugLogA("Result jid = %s", jid);
-				if (auto *p = XmlGetChildText(itemNode, "nick"))
-					psr.nick.w = mir_utf8decodeW(p);
-				if (auto *p = XmlGetChildText(itemNode, "first"))
-					psr.firstName.w = mir_utf8decodeW(p);
-				if (auto *p = XmlGetChildText(itemNode, "last"))
-					psr.lastName.w = mir_utf8decodeW(p);
-				if (auto *p = XmlGetChildText(itemNode, "email"))
-					psr.email.w = mir_utf8decodeW(p);
-				ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
-
-				replaceStrW(psr.id.w, 0);
-				replaceStrW(psr.nick.w, 0);
-				replaceStrW(psr.firstName.w, 0);
-				replaceStrW(psr.lastName.w, 0);
-				replaceStrW(psr.email.w, 0);
+					replaceStrW(psr.id.w, 0);
+					replaceStrW(psr.nick.w, 0);
+					replaceStrW(psr.firstName.w, 0);
+					replaceStrW(psr.lastName.w, 0);
+					replaceStrW(psr.email.w, 0);
+				}
 			}
-		}
 
-		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
+			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
+		}
 	}
 	else if (!mir_strcmp(type, "error"))
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);

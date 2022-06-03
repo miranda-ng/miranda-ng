@@ -785,6 +785,7 @@ static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const wchar_t *
 	LVITEM lvi = {};
 	lvi.mask = LVIF_TEXT;
 	lvi.pszText = mir_a2u(pszStr1);
+	lvi.iItem = 100500;
 	int idx = ListView_InsertItem(hwndList, &lvi);
 	mir_free(lvi.pszText);
 
@@ -848,61 +849,51 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 		ListView_DeleteAllItems(hwndList);
 
 		if (pInfo->hContact == 0) {
-			uint32_t ownDeviceId = pInfo->ppro->getDword("OmemoDeviceId");
-			CMStringA str1(FORMAT, "%d", ownDeviceId);
+			// GetOwnDeviceId() creates own keys if they don't exist
+			CMStringA str1(FORMAT, "%d", pInfo->ppro->m_omemo.GetOwnDeviceId());
 			CMStringA str2(pInfo->ppro->getMStringA("OmemoFingerprintOwn"));
-			// AddListItem(hwndList, "Other devices", "Not implemented yet", "");
 			AddListItem(hwndList, str1, TranslateT("Own device"), str2.Mid(2));
-/*
-			LIST<char> arSettings(1);
-			db_enum_settings(pInfo->hContact, EnumOwnSessions, pInfo->ppro->m_szModuleName, &arSettings);
-
-			str2 = "";
-			for (auto &it : arSettings) {
-				str1.Format("%d", pInfo->ppro->getDword(it));
-				AddListItem(hwndList, str1, str2);
-			}*/
 		}
-		else {
-			for (int i=0;; i++) {
-				CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
-				uint32_t device_id = pInfo->ppro->getDword(pInfo->hContact, szSetting, 0);
-				if (device_id == 0)
-					break;
-				
-				char* jiddev = pInfo->ppro->getStringA(pInfo->hContact, "jid");
-				if (jiddev == 0)
-					continue;
-				
-				size_t len = strlen(jiddev);
-				jiddev = (char*)mir_realloc(jiddev, len + sizeof(int32_t));
-				memcpy(jiddev+len, &device_id, sizeof(int32_t));
-				
-				szSetting = omemo::IdentityPrefix;
-				szSetting.Append(ptrA(mir_base64_encode(jiddev, len + sizeof(int32_t))));
-				mir_free(jiddev);
+		
+		for (int i=0;; i++) {
+			CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
+			uint32_t device_id = pInfo->ppro->getDword(pInfo->hContact, szSetting, 0);
+			if (device_id == 0)
+				break;
+			
+			char* jiddev = pInfo->ppro->getStringA(pInfo->hContact, "jid");
+			if (jiddev == 0)
+				continue;
+			
+			size_t len = strlen(jiddev);
+			jiddev = (char*)mir_realloc(jiddev, len + sizeof(int32_t));
+			memcpy(jiddev+len, &device_id, sizeof(int32_t));
+			
+			szSetting = omemo::IdentityPrefix;
+			szSetting.Append(ptrA(mir_base64_encode(jiddev, len + sizeof(int32_t))));
+			mir_free(jiddev);
 
-				const wchar_t *pwszStatus = L"";
-				CMStringA fp_hex;
-				DBVARIANT dbv = { 0 };
-				dbv.type = DBVT_BLOB;
-				db_get(pInfo->hContact, pInfo->ppro->m_szModuleName, szSetting, &dbv);
-				if (dbv.cpbVal == 33) {
-					fp_hex.Truncate(33 * 2);
-					bin2hex(dbv.pbVal, 33, fp_hex.GetBuffer());
-					uint8_t trusted = pInfo->ppro->getByte(pInfo->hContact, "OmemoFingerprintTrusted_" + fp_hex);
-					pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
-					//TODO: 3 states Trusted, Untrusted, TOFU
-					fp_hex = fp_hex.Mid(2);
-				}
-				else if (dbv.cpbVal)
-					pwszStatus = TranslateT("Unknown");
-
-				db_free(&dbv);
-
-				AddListItem(hwndList, CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
+			const wchar_t *pwszStatus = L"";
+			CMStringA fp_hex;
+			DBVARIANT dbv = { 0 };
+			dbv.type = DBVT_BLOB;
+			db_get(pInfo->hContact, pInfo->ppro->m_szModuleName, szSetting, &dbv);
+			if (dbv.cpbVal == 33) {
+				fp_hex.Truncate(33 * 2);
+				bin2hex(dbv.pbVal, 33, fp_hex.GetBuffer());
+				uint8_t trusted = pInfo->ppro->getByte(pInfo->hContact, "OmemoFingerprintTrusted_" + fp_hex);
+				pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
+				//TODO: 3 states Trusted, Untrusted, TOFU
+				fp_hex = fp_hex.Mid(2);
 			}
+			else if (dbv.cpbVal)
+				pwszStatus = TranslateT("Unknown");
+
+			db_free(&dbv);
+
+			AddListItem(hwndList, CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
 		}
+		
 		break;
 	}
 	return FALSE;
