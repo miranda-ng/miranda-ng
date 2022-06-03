@@ -1827,6 +1827,15 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	bool pending_check = false;
 	CMStringA szSetting;
 	int i = 0;
+	
+	ptrA jid(ContactToJID(hContact));
+	if (strchr(jid, '/')) {
+		int ret = MessageBoxW(nullptr, TranslateT("OMEMO can not encrypt private messages in public groupchats. Continue using plain text?"), _A2T(jid), MB_YESNO);
+		if (ret == IDYES)
+			setByte(hContact, "bDisableOmemo", 1);
+
+		return true;
+	}
 
 	szSetting.Format("OmemoDeviceId%d", i);
 	db_set_resident(m_szModuleName, szSetting + "Checked");
@@ -1841,16 +1850,12 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 			XmlNodeIq iq(AddIQ(&CJabberProto::OmemoOnIqResultGetBundle, JABBER_IQ_TYPE_GET, nullptr, _id));
 
 			char szBareJid[JABBER_MAX_JID_LEN];
-			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid)));
-
-			char *jid = ContactToJID(hContact);
-			iq << XATTR("to", jid);
+			iq << XATTR("from", JabberStripJid(m_ThreadInfo->fullJID, szBareJid, _countof(szBareJid))) << XATTR("to", jid);
 			
 			TiXmlElement *items = iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub") << XCHILD("items");
 			CMStringA szBundle(FORMAT, "%s%s%u", JABBER_FEAT_OMEMO, ".bundles:", id);
 			XmlAddAttr(items, "node", szBundle);
 			m_ThreadInfo->send(iq);
-			mir_free(jid);
 			break;
 		}
 
@@ -2081,5 +2086,5 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 
 bool CJabberProto::OmemoIsEnabled(MCONTACT hContact)
 {
-	return !getByte(hContact, "bDisableOmemo", 0);
+	return !getByte(hContact, "bDisableOmemo");
 }
