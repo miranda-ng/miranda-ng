@@ -1132,9 +1132,8 @@ void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo
 					replaceStrW(psr.email.w, 0);
 				}
 			}
-
-			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 		}
+		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 	}
 	else if (!mir_strcmp(type, "error"))
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
