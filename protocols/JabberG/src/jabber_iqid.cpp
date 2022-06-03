@@ -1141,58 +1141,54 @@ void CJabberProto::OnIqResultSetSearch(const TiXmlElement *iqNode, CJabberIqInfo
 
 void CJabberProto::OnIqResultExtSearch(const TiXmlElement *iqNode, CJabberIqInfo*)
 {
-	const TiXmlElement *queryNode;
-
 	debugLogA("<iq/> iqIdGetExtSearch");
-	const char *type = XmlGetAttr(iqNode, "type");
-	if (type == nullptr)
-		return;
 
+	const char *type = XmlGetAttr(iqNode, "type");
 	int id = JabberGetPacketID(iqNode);
-	if (id == -1)
+	if (type == nullptr || id == -1)
 		return;
 
 	if (!mir_strcmp(type, "result")) {
-		if ((queryNode = XmlFirstChild(iqNode, "query")) == nullptr) return;
-		if ((queryNode = XmlFirstChild(queryNode, "x")) == nullptr) return;
-		for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
-			PROTOSEARCHRESULT  psr = { 0 };
-			psr.cbSize = sizeof(psr);
-			psr.flags = PSR_UNICODE;
+		if (auto *queryNode = XmlFirstChild(iqNode, "query"))
+			if (queryNode = XmlFirstChild(queryNode, "x"))
+				for (auto *itemNode : TiXmlFilter(queryNode, "item")) {
+					PROTOSEARCHRESULT psr = {};
+					psr.cbSize = sizeof(psr);
+					psr.flags = PSR_UNICODE;
 
-			for (auto *fieldNode : TiXmlFilter(itemNode, "field")) {
-				const char *fieldName = XmlGetAttr(fieldNode, "var");
-				if (fieldName == nullptr)
-					continue;
+					for (auto *fieldNode : TiXmlFilter(itemNode, "field")) {
+						const char *fieldName = XmlGetAttr(fieldNode, "var");
+						if (fieldName == nullptr)
+							continue;
 
-				auto *n = XmlFirstChild(fieldNode, "value");
-				if (n == nullptr)
-					continue;
+						auto *n = XmlFirstChild(fieldNode, "value");
+						if (n == nullptr)
+							continue;
 
-				if (!mir_strcmp(fieldName, "jid")) {
-					psr.id.w = mir_utf8decodeW(n->GetText());
-					debugLogW(L"Result jid = %s", psr.id.w);
+						if (!mir_strcmp(fieldName, "jid")) {
+							psr.id.w = mir_utf8decodeW(n->GetText());
+							debugLogW(L"Result jid = %s", psr.id.w);
+						}
+						else if (!mir_strcmp(fieldName, "nickname"))
+							psr.nick.w = mir_utf8decodeW(n->GetText());
+						else if (!mir_strcmp(fieldName, "fn"))
+							psr.firstName.w = mir_utf8decodeW(n->GetText());
+						else if (!mir_strcmp(fieldName, "given"))
+							psr.firstName.w = mir_utf8decodeW(n->GetText());
+						else if (!mir_strcmp(fieldName, "family"))
+							psr.lastName.w = mir_utf8decodeW(n->GetText());
+						else if (!mir_strcmp(fieldName, "email"))
+							psr.email.w = mir_utf8decodeW(n->GetText());
+					}
+
+					ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
+
+					replaceStrW(psr.id.w, 0);
+					replaceStrW(psr.nick.w, 0);
+					replaceStrW(psr.firstName.w, 0);
+					replaceStrW(psr.lastName.w, 0);
+					replaceStrW(psr.email.w, 0);
 				}
-				else if (!mir_strcmp(fieldName, "nickname"))
-					psr.nick.w = mir_utf8decodeW(n->GetText());
-				else if (!mir_strcmp(fieldName, "fn"))
-					psr.firstName.w = mir_utf8decodeW(n->GetText());
-				else if (!mir_strcmp(fieldName, "given"))
-					psr.firstName.w = mir_utf8decodeW(n->GetText());
-				else if (!mir_strcmp(fieldName, "family"))
-					psr.lastName.w = mir_utf8decodeW(n->GetText());
-				else if (!mir_strcmp(fieldName, "email"))
-					psr.email.w = mir_utf8decodeW(n->GetText());
-			}
-
-			ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_DATA, (HANDLE)id, (LPARAM)&psr);
-
-			replaceStrW(psr.id.w, 0);
-			replaceStrW(psr.nick.w, 0);
-			replaceStrW(psr.firstName.w, 0);
-			replaceStrW(psr.lastName.w, 0);
-			replaceStrW(psr.email.w, 0);
-		}
 
 		ProtoBroadcastAck(0, ACKTYPE_SEARCH, ACKRESULT_SUCCESS, (HANDLE)id);
 	}
@@ -1221,9 +1217,6 @@ void CJabberProto::OnIqResultGetVCardAvatar(const TiXmlElement *iqNode, CJabberI
 	debugLogA("<iq/> OnIqResultGetVCardAvatar");
 
 	const char *from = XmlGetAttr(iqNode, "from");
-	if (from == nullptr)
-		return;
-
 	MCONTACT hContact = HContactFromJID(from);
 	if (hContact == 0)
 		return;
@@ -1252,9 +1245,6 @@ void CJabberProto::OnIqResultGetServerAvatar(const TiXmlElement *iqNode, CJabber
 	debugLogA("<iq/> iqIdResultGetServerAvatar");
 
 	const char *from = XmlGetAttr(iqNode, "from");
-	if (from == nullptr)
-		return;
-
 	MCONTACT hContact = HContactFromJID(from);
 	if (hContact == 0)
 		return;
