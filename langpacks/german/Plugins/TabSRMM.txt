@@ -1462,11 +1462,11 @@ Test-Kontakt
 [Template set editor]
 Bearbeiten des Nachrichtenverlaufs
 [is now offline (was online)]
-
+ist nun offline (war online)
 [The quick brown fox jumps over the lazy dog.]
 Franz jagt im komplett verwahrlosten Taxi quer durch Bayern.
 [Sample error message]
-
+Beispielnachricht für einen Fehler
 [My Nickname]
 Mein Nickname
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]

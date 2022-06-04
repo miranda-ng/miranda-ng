@@ -25,7 +25,7 @@ Alle Ereignisse als gelesen markieren
 [Fix UTF-8 encoding in old events]
 UTF-8-Kodierung in alten Ereignissen korrigieren
 [Remove duplicate events]
-
+Duplizierte Ereignisse entfernen
 [Error Opening Database]
 Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
@@ -64,7 +64,7 @@ Datenbankverarbeitungsfunktion gestartet
 [%d events marked as read]
 %d Ereignisse wurden als gelesen markiert
 [%d duplicate events removed]
-
+%d duplizierte Ereignisse wurden entfernt
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [Elapsed time: %d sec]

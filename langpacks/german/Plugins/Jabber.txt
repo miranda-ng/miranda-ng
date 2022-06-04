@@ -179,7 +179,7 @@ Video
 [Modem]
 Modem
 [(*) marks the current session]
-
+(*) markiert die aktuelle Auswahl
 [Load]
 Laden
 [Save]
@@ -1445,7 +1445,7 @@ Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
 [Allow local time & timezone requests (XEP-0202)]
-
+Abfragen der lokalen Zeit und Zeitzone erlauben (XEP-0202)
 [Allow servers to request version (XEP-0092)]
 Servern das Abfragen der Version erlauben (XEP-0092)
 [Show information about operating system in version replies]
@@ -1644,7 +1644,7 @@ Liste kann nicht gespeichert werden, weil Sie zurzeit offline sind.
 Liste bearbeiten...
 ;file \protocols\JabberG\src\jabber_proto.cpp
 [%s error notifications]
-
+%s Fehlerbenachrichtigungen
 [Protocol is offline or no JID]
 Protokoll ist offline oder keine JID
 [No valid OMEMO session exists]
@@ -1852,15 +1852,15 @@ Unbekanntes Format
 [<No photo>]
 <Kein Foto>
 [Device ID]
-
+Geräte-ID
 [Fingerprint]
-t
+Fingerabdruck
 [Own device]
-
+Eigenes Gerät
 [Trusted]
-
+Vertraut
 [UNTRUSTED]
-
+UNVERTRAUT
 [Unknown]
 Unbekannt
 [Photo]
@@ -1926,7 +1926,7 @@ Kontakte
 [Note]
 Hinweis
 [OMEMO]
-
+OMEMO
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

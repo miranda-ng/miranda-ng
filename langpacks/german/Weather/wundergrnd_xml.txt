@@ -23,7 +23,7 @@ Wahrscheinlichkeit von Regen, 70% Niederschlagswahrscheinlichkeit
 [Chance Of Rain 80% Chance Of Precipitation]
 Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
 [Chance Of Rain]
-
+Wahrscheinlichkeit von Regen
 [Chance Of Snow 20% Chance Of Precipitation]
 Wahrscheinlichkeit von Schnee, 20% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 30% Chance Of Precipitation]
@@ -39,7 +39,7 @@ Wahrscheinlichkeit von Schnee, 70% Niederschlagswahrscheinlichkeit
 [Chance Of Snow 80% Chance Of Precipitation]
 Wahrscheinlichkeit von Schnee, 80% Niederschlagswahrscheinlichkeit
 [Chance Of Snow]
-
+Wahrscheinlichkeit von Schnee
 [Chance Of T-Storms 20% Chance Of Precipitation]
 Wahrscheinlichkeit von Gewittern, 20% Niederschlagswahrscheinlichkeit
 [Chance Of T-Storms 30% Chance Of Precipitation]
@@ -65,7 +65,7 @@ Wahrscheinlichkeit von Regen, 80% Niederschlagswahrscheinlichkeit
 [Chance Rain 90% Chance Of Precipitation]
 Wahrscheinlichkeit von Regen, 90% Niederschlagswahrscheinlichkeit
 [Clear]
-Löschen
+Klar
 [Cloudy]
 Wolkig
 [Day Length Diff]
@@ -75,9 +75,9 @@ Tagesdauer
 [Drizzle Fog]
 Nieselregen Nebel
 [Drizzle Mist]
-Sprühregen Nebel
+Nieselregen Dunst
 [Drizzle]
-
+Nieselregen
 [ENE]
 ONO
 [ESE]
@@ -167,7 +167,7 @@ Vorhersage Tag 5 Text
 [Forecast Day 5]
 Vorhersage Tag 5
 [Freezing Drizzle Mist]
-
+Gefrierender Nieselregen Dunst
 [Freezing Drizzle]
 Gefrierender Niesel
 [Freezing Fog]
@@ -385,7 +385,7 @@ des Mondes ist beleuchtet
 [Overcast]
 trüb
 [Partial Fog]
-
+Teils neblig
 [Partly Cloudy]
 Teils wolkig
 [Partly Sunny]
@@ -475,7 +475,7 @@ Schnee, 70% Niederschlagswahrscheinlichkeit
 [Snow 80% Chance Of Precipitation]
 Schnee, 80% Niederschlagswahrscheinlichkeit
 [Snow 90% Chance Of Precipitation]
-Schnee, 60% Niederschlagswahrscheinlichkeit
+Schnee, 90% Niederschlagswahrscheinlichkeit
 [Snow Blowing Snow]
 Schnee,Schneesturm
 [Snow Freezing Rain Mist]
