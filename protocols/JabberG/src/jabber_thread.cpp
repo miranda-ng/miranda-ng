@@ -1059,10 +1059,9 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	pResourceStatus pFromResource(ResourceInfoFromJID(from));
 
 	// Message receipts delivery request. Reply here, before a call to HandleMessagePermanent() to make sure message receipts are handled for external plugins too.
-	bool bSendMark = false;
 	if (bEnableDelivery && (!type || mir_strcmpi(type, "error"))) {
 		bool bSendReceipt = XmlGetChildByTag(node, "request", "xmlns", JABBER_FEAT_MESSAGE_RECEIPTS) != 0;
-		bSendMark = XmlGetChildByTag(node, "markable", "xmlns", JABBER_FEAT_CHAT_MARKERS) != 0;
+		bool bSendMark = XmlGetChildByTag(node, "markable", "xmlns", JABBER_FEAT_CHAT_MARKERS) != 0;
 		if (bSendReceipt || bSendMark) {
 			XmlNode reply("message"); reply << XATTR("to", from) << XATTR("id", idStr);
 			if (bSendReceipt) {
