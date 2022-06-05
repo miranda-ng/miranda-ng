@@ -183,6 +183,7 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			break;
 		}
 
+	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
 		MSG tmp = { m_hwnd, msg, wParam, lParam };
 		if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
