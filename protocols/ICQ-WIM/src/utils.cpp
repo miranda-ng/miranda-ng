@@ -42,9 +42,13 @@ void CIcqProto::InitContactCache()
 			}
 		}
 
-		auto *pCache = new IcqCacheItem(GetUserId(it), it);
+		CMStringW wszId = GetUserId(it);
+		auto *pCache = FindContactByUIN(wszId);
+		if (pCache == nullptr) {
+			pCache = new IcqCacheItem(wszId, it);
+			m_arCache.insert(pCache);
+		}
 		pCache->m_iProcessedMsgId = getId(it, DB_KEY_LASTMSGID);
-		m_arCache.insert(pCache);
 	}
 }
 
