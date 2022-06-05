@@ -179,10 +179,10 @@ typedef enum _BP_BUFFERFORMAT
 
 typedef struct _BP_PAINTPARAMS
 {
-	uint32_t                       cbSize;
-	uint32_t                       dwFlags; // BPPF_ flags
-	const RECT            *     prcExclude;
-	const BLENDFUNCTION        * pBlendFunction;
+	uint32_t cbSize;
+	uint32_t dwFlags; // BPPF_ flags
+	const RECT *prcExclude;
+	const BLENDFUNCTION *pBlendFunction;
 } BP_PAINTPARAMS, *PBP_PAINTPARAMS;
 
 #define BPPF_ERASE               1

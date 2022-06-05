@@ -111,20 +111,20 @@ public:
 	COLORREF    crIncoming, crOutgoing, crOldIncoming, crOldOutgoing, crStatus;
 	BOOL        bUnicodeBuild;
 	HFONT       hFontCaption;
-	uint32_t       m_LangPackCP;
-	uint8_t        m_SmileyButtonOverride;
+	uint32_t    m_LangPackCP;
+	uint8_t     m_SmileyButtonOverride;
 	HICON       m_AnimTrayIcons[4];
 	BOOL        m_visualMessageSizeIndicator;
 	BOOL        m_autoSplit;
 	BOOL        m_FlashOnMTN;
-	uint32_t       dwThreadID;
+	uint32_t    dwThreadID;
 	MWindowList m_hMessageWindowList, hUserPrefsWindowList;
 	HMENU       m_MenuBar;
 	COLORREF    m_ipBackgroundGradient;
 	COLORREF    m_ipBackgroundGradientHigh;
 	COLORREF    m_tbBackgroundHigh, m_tbBackgroundLow, m_fillColor, m_cRichBorders, m_genericTxtColor;
 	HGENMENU    m_hMenuItem;
-	uint8_t        m_useAeroPeek;
+	uint8_t     m_useAeroPeek;
 
 	WINDOWPLACEMENT    m_GlobalContainerWpos;
 	NONCLIENTMETRICS   m_ncm;

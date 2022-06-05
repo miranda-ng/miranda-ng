@@ -144,7 +144,7 @@ public:
 	void                  showAll(int showCmd);
 
 	const LONG            getWidth() const { return(m_isVisible ? m_width + SIDEBAR_GAP : 0); }
-	const uint32_t           getFlags() const { return(m_dwFlags); }
+	const uint32_t        getFlags() const { return(m_dwFlags); }
 	const TContainerData* getContainer() const { return(m_pContainer); }
 	const UINT            getLayoutId() const { return(m_uLayout); }
 	const bool            isVisible() const { return(m_isVisible); }
@@ -191,7 +191,7 @@ private:
 	OBJLIST<CSideBarButton> m_buttonlist;                      // our list of buttons
 	TContainerData*       m_pContainer;                      // our master and commander...
 	LONG                  m_width;                           // required width of the bar (m_elementWidth + padding)
-	uint32_t                 m_dwFlags;
+	uint32_t              m_dwFlags;
 	CSideBarButton*       m_up, *m_down;                     // the scroller buttons (up down)
 	CSideBarButton*       m_activeItem;                      // active button item (for highlighting)
 	const CSideBarButton* m_hoveredClose;                    // item which must display an active close button

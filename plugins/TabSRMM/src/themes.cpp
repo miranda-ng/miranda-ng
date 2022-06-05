@@ -95,7 +95,7 @@ HPEN     CSkin::m_SkinLightShadowPen = nullptr, CSkin::m_SkinDarkShadowPen = nul
 HICON    CSkin::m_closeIcon = nullptr, CSkin::m_maxIcon = nullptr, CSkin::m_minIcon = nullptr;
 
 UINT     CSkin::m_aeroEffect = 0;
-uint32_t    CSkin::m_glowSize = 0;
+uint32_t CSkin::m_glowSize = 0;
 HBRUSH   CSkin::m_BrushBack = nullptr, CSkin::m_BrushFill = nullptr;
 
 HBITMAP  CSkin::m_tabCloseBitmap = nullptr, CSkin::m_tabCloseOldBitmap = nullptr;

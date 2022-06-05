@@ -189,8 +189,8 @@ struct TLogTheme
 	COLORREF  inbg, outbg, bg, oldinbg, oldoutbg, statbg, inputbg;
 	COLORREF  hgrid;
 	COLORREF  custom_colors[5];
-	uint32_t     dwFlags;
-	uint32_t     left_indent, right_indent;
+	uint32_t  dwFlags;
+	uint32_t  left_indent, right_indent;
 	LOGFONTW *logFonts;
 	COLORREF *fontColors;
 	char     *rtfFonts;
@@ -301,10 +301,10 @@ struct TContainerData : public MZeroedObject
 	BOOL     m_isCloned;
 	HWND     m_hwndStatus;
 	int      m_statusBarHeight;
-	uint32_t    m_dwLastActivity;
+	uint32_t m_dwLastActivity;
 	int      m_hIcon;               // current window icon stick indicator
 	HICON	   m_hIconTaskbarOverlay; // contains a "sticky" taskbar overlay (e.g. new message icon)
-	uint32_t    m_dwFlashingStarted;
+	uint32_t m_dwFlashingStarted;
 	HWND     m_hWndOptions;
 	BOOL     m_bSizingLoop;
 	HDC      m_cachedDC;
@@ -317,15 +317,15 @@ struct TContainerData : public MZeroedObject
 	HWND     m_hwndSaved;
 	RECT     m_rcSaved, m_rcLogSaved;
 	POINT	   m_ptLogSaved;
-	uint32_t    m_exFlags;
+	uint32_t m_exFlags;
 	BOOL	   m_fPrivateThemeChanged;
 	MARGINS  m_mOld;
 	HDC      m_cachedToolbarDC;
 	HBITMAP  m_hbmToolbarBG, m_oldhbmToolbarBG;
 	SIZE	   m_szOldToolbarSize;
 	SIZE     m_oldSize, m_preSIZE;
-	uint16_t	   m_avatarMode, m_ownAvatarMode;
-	uint8_t	   m_bTBRenderingMode;
+	uint16_t	m_avatarMode, m_ownAvatarMode;
+	uint8_t	m_bTBRenderingMode;
 	TLogTheme m_theme;
 	CMenuBar *m_pMenuBar;
 	CSideBar *m_pSideBar;

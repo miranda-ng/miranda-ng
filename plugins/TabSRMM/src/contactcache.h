@@ -59,8 +59,8 @@ class CContactCache : public MZeroedObject
 	wchar_t *m_szAccount;
 	wchar_t  m_szNick[80], m_szUIN[80];
 	wchar_t *m_szStatusMsg, *m_xStatusMsg, *m_ListeningInfo;
-	uint8_t     m_xStatus;
-	uint32_t    m_idleTS;
+	uint8_t  m_xStatus;
+	uint32_t m_idleTS;
 	bool     m_isMeta;
 	bool     m_isValid;
 	int      m_nMax;
@@ -89,7 +89,7 @@ public:
 	__forceinline LPCWSTR  getNick() const { return m_szNick; }
 	__forceinline MCONTACT getContact() const { return m_hContact; }
 	__forceinline MCONTACT getActiveContact() const { return (m_isMeta) ? m_hSub : m_hContact; }
-	__forceinline uint32_t    getIdleTS() const { return m_idleTS; }
+	__forceinline uint32_t getIdleTS() const { return m_idleTS; }
 	__forceinline LPCSTR   getProto() const { return cc->szProto; }
 	__forceinline LPCSTR   getActiveProto() const { return m_isMeta ? (m_szMetaProto ? m_szMetaProto : cc->szProto) : cc->szProto; }
 	
@@ -101,9 +101,9 @@ public:
 	__forceinline LPCWSTR  getStatusMsg() const { return m_szStatusMsg; }
 	__forceinline LPCWSTR  getXStatusMsg() const { return m_xStatusMsg; }
 	__forceinline LPCWSTR  getListeningInfo() const { return m_ListeningInfo; }
-	__forceinline uint8_t     getXStatusId() const { return m_xStatus; }
+	__forceinline uint8_t  getXStatusId() const { return m_xStatus; }
 
-	__forceinline uint32_t    getSessionStart() const { return m_stats->started; }
+	__forceinline uint32_t getSessionStart() const { return m_stats->started; }
 	__forceinline int      getSessionMsgCount() const { return (int)m_stats->messageCount; }
 
 	__forceinline CMsgDialog* getDat() const { return m_dat; }

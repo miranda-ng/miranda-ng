@@ -59,10 +59,10 @@ struct CSendLaterJob : public MZeroedObject
 	time_t   lastSent;            // time at which the delivery was initiated. used to handle timeouts
 	char    *sendBuffer;          // utf-8 send buffer
 	uint8_t *pBuf;                // conventional send buffer (for non-utf8 protocols)
-	uint32_t    dwFlags;
+	uint32_t dwFlags;
 	int      iSendCount;          // # of times we tried to send it...
 	bool     fSuccess, fFailed;
-	uint8_t     bCode;               // error/progress code (for the UI)
+	uint8_t  bCode;               // error/progress code (for the UI)
 
 	// returns true if this job is persistent (saved to the database).
 	// such a job will survive a restart of Miranda
