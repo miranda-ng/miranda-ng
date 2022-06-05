@@ -454,20 +454,22 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 					bct->hwndToolTips = ptt->hwnd;
 				}
 			}
-			TOOLINFO ti = {0};
+			TOOLINFO ti = {};
 			ti.cbSize = sizeof(ti);
 			ti.uFlags = TTF_IDISHWND;
 			ti.hwnd = bct->hwnd;
 			ti.uId = (UINT_PTR)bct->hwnd;
 			if (SendMessage(bct->hwndToolTips, TTM_GETTOOLINFO, 0, (LPARAM)&ti))
 				SendMessage(bct->hwndToolTips, TTM_DELTOOL, 0, (LPARAM)&ti);
-			ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS;
+
+			ti.uFlags = TTF_IDISHWND | TTF_SUBCLASS;
 			ti.uId = (UINT_PTR)bct->hwnd;
 			if (lParam & BATF_UNICODE)
 				ti.lpszText = mir_wstrdup(TranslateW((wchar_t*)wParam));
 			else
 				ti.lpszText = Langpack_PcharToTchar((char*)wParam);
 			SendMessage(bct->hwndToolTips, TTM_ADDTOOL, 0, (LPARAM)&ti);
+			SendMessage(bct->hwndToolTips, TTM_SETMAXTIPWIDTH, 0, 300);
 			mir_free(ti.lpszText);
 		}
 		break;
