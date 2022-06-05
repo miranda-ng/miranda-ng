@@ -19,7 +19,7 @@ Text
 [Background]
 Hintergrund
 [Timeout, secs]
-
+Anzeigedauer, Sek.
 [Message]
 Nachricht
 [File]
@@ -31,7 +31,7 @@ Sonstiges
 [Preview]
 Vorschau
 [(timeout -1 means forever, 0 - default)]
-
+(Anzeigedauer -1 meint endlos, 0 - Standard)
 [Don't show popup when message dialog is already open]
 Kein Popup zeigen, wenn Nachrichtenfenster offen ist
 [Hide popup when sending new message]
@@ -69,7 +69,7 @@ Diese Ereignisse zeigen...
 [Error]
 Fehler
 [Left click actions]
-Aktion bei Linksklick
+Aktionen bei Linksklick
 [Dismiss popup]
 Popup schließen
 [Open event]
@@ -77,11 +77,11 @@ Ereignis öffnen
 [Dismiss event]
 Ereignis löschen
 [Right click actions]
-Bei Rechtsklick
+Aktionen bei Rechtsklick
 [Timeout actions]
-Anzeigedauer abgelaufen
+Aktionen bei Anzeigedauer abgelaufen
 [Misc options]
-
+Sonstige Einstellungen
 [No popups for RSS contacts]
 Keine Popups für RSS-Feeds
 [No popups for read messages]
@@ -106,7 +106,7 @@ Dieses ist ein Beispiel-Popup für Nachrichten
 [This is a sample file event :-D]
 Dieses ist ein Beispiel-Popup für einen Dateitransfer
 [This is a sample error event :-D]
-
+Dieses ist ein Beispiel-Popup für einen Fehler
 [This is a sample other event ;-D]
 Dieses ist ein Beispiel-Popup für ein anderes Ereignis
 [Plugin Test]

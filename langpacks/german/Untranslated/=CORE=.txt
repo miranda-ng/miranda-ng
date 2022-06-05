@@ -1,1 +1,0 @@
-[Plugin %S cannot be unloaded because the core plugin is missing]

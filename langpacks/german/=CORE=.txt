@@ -2557,7 +2557,7 @@ Konnte die Hostnachricht nicht entschlüsseln. Mögliche Ursachen: Der Host unte
 Wir verbinden nicht zu dem Host, auf den das Zertiflikat ausgestellt ist.
 ;file \src\mir_app\src\newplugins.cpp
 [Plugin %S cannot be unloaded because the core plugin is missing]
-
+Plugin %S kann nicht entladen werden, da das Kern-Plugin fehlt.
 ['%S' is disabled, re-enable?]
 '%S' ist deaktiviert, erneut aktivieren?
 [Re-enable Miranda plugin?]

@@ -244,7 +244,7 @@ Nachrichten
 [Group chats]
 Gruppenchats
 [Action: Send message]
-
+Aktion: Nachricht senden
 ;file \plugins\Scriver\src\chat_options.cpp
 [Flash when someone speaks]
 Blinken, wenn jemand schreibt
