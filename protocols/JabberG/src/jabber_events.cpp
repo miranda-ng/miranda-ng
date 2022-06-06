@@ -170,10 +170,12 @@ int __cdecl CJabberProto::OnDbMarkedRead(WPARAM, LPARAM hDbEvent)
 
 	auto *pMark = m_arChatMarks.find((CChatMark *)&hDbEvent);
 	if (pMark) {
-		XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId) 
-			<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
-		m_ThreadInfo->send(reply);
-
+		if(m_bMsgAck) {
+			XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId) 
+				<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
+			m_ThreadInfo->send(reply);
+		}
+		
 		m_arChatMarks.remove(pMark);
 	}
 	return 0;

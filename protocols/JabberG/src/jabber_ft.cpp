@@ -800,8 +800,11 @@ bool CJabberProto::FtTryInlineFile(filetransfer *ft)
 	auto *nPara = nBody << XCHILD("p");
 	nPara << XCHILD("img") << XATTR("src", CMStringA(FORMAT, "cid:sha1+%s@bob.xmpp.org", szHash));
 
-	m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
-	m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
+	if(m_bMsgAck) {
+		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
+		m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);
+	}
+	
 	m_ThreadInfo->send(m);
 
 	// emulate a message for us
