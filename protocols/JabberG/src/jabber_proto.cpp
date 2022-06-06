@@ -951,8 +951,7 @@ int CJabberProto::SendMsg(MCONTACT hContact, int unused_unknown, const char *psz
 
 	m << XATTR("to", szClientJid);
 
-	bool bSendReceipt = m_bMsgAck && (jcb & (JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS));
-
+	bool bSendReceipt = IsSendAck(hContact) && (jcb & (JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS));
 	if (bSendReceipt) {
 		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
 		m << XCHILDNS("markable", JABBER_FEAT_CHAT_MARKERS);

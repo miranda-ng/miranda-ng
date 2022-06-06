@@ -890,6 +890,8 @@ bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime)
 	return msgTime != 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool CJabberProto::IsMyOwnJID(const char *szJID)
 {
 	if (m_ThreadInfo == nullptr)
@@ -913,6 +915,19 @@ bool CJabberProto::IsMyOwnJID(const char *szJID)
 
 	return mir_strcmp(szFrom, szTo) == 0;
 }
+
+bool CJabberProto::IsSendAck(MCONTACT hContact)
+{
+	if (getBool(hContact, "MsgAck"))
+		return true;
+
+	if (getBool(hContact, "MsgNoAck"))
+		return false;
+
+	return m_bMsgAck;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void __cdecl CJabberProto::LoadHttpAvatars(void* param)
 {

@@ -870,7 +870,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       ComboLoadRecentStrings(HWND hwndDlg, UINT idcCombo, char *param, int recentCount = JABBER_DEFAULT_RECENT_COUNT);
 	void       ComboAddRecentString(HWND hwndDlg, UINT idcCombo, char *param, const wchar_t *string, int recentCount = JABBER_DEFAULT_RECENT_COUNT);
 	BOOL       EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName=nullptr, int recentCount = JABBER_DEFAULT_RECENT_COUNT, int timeout = 0);
+	
 	bool       IsMyOwnJID(const char *szJID);
+	bool       IsSendAck(MCONTACT hContact);
 				 
 	void       __cdecl LoadHttpAvatars(void* param);
 

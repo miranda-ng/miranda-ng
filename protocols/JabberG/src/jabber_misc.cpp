@@ -475,9 +475,9 @@ static bool SaveBlobToFile(const wchar_t *pwszFileName, const CMStringA &body)
 
 void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 {
-	auto pMark = ((CChatMark *)pReq->GetUserData());
+	auto *pMark = ((CChatMark *)pReq->GetUserData());
 	if (pMark) {
-		if(m_bMsgAck) {
+		if (m_bMsgAck) {
 			XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId)
 				<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
 			m_ThreadInfo->send(reply);
