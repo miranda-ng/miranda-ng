@@ -791,8 +791,15 @@ static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const wchar_t *
 
 	ListView_SetItemText(hwndList, idx, 1, (wchar_t *)pszStr2);
 
-	_A2T tmp(pszStr3.c_str());
-	ListView_SetItemText(hwndList, idx, 2, (wchar_t *)tmp.get());
+	int i = 0;
+	CMStringW buf;
+	for (const char *p = pszStr3; *p; p++) {
+		buf.AppendChar(*p);
+		if (++i % 8 == 0)
+			buf.AppendChar(' ');
+	}
+	buf.MakeUpper();
+	ListView_SetItemText(hwndList, idx, 2, buf.GetBuffer());
 }
 
 INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
