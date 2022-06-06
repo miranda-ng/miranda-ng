@@ -185,7 +185,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_GETMORE)
-			Utils_OpenUrl("https://miranda-ng.org/p/SpellChecker/");
+			Utils_OpenUrl("https://miranda-ng.org/p/SpellChecker");
 
 		if (LOWORD(wParam) == IDC_DEF_LANG && (HIWORD(wParam) == CBN_SELCHANGE && (HWND)lParam == GetFocus())) {
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);

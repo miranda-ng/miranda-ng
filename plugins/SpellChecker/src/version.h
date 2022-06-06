@@ -9,5 +9,5 @@
 #define __FILENAME                "SpellChecker.dll"
 #define __DESCRIPTION             "Spell checker for the message windows. Uses Hunspell to do the checking."
 #define __AUTHOR                  "Ricardo Pescuma Domenecci, Wishmaster"
-#define __AUTHORWEB               "https://miranda-ng.org/p/SpellChecker/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/SpellChecker"
 #define __COPYRIGHT               "© 2006-2010 Ricardo Pescuma Domenecci"
