@@ -477,7 +477,7 @@ void CJabberProto::OnGetBob(const TiXmlElement *node, CJabberIqInfo *pReq)
 {
 	auto *pMark = ((CChatMark *)pReq->GetUserData());
 	if (pMark) {
-		if (m_bMsgAck) {
+		if (IsSendAck(HContactFromJID(pMark->szFrom))) {
 			XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId)
 				<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
 			m_ThreadInfo->send(reply);

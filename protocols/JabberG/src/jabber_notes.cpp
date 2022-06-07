@@ -686,7 +686,7 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	hXmlItem << XCHILD("text", T2Utf(pNote->GetText()));
 
 	// message receipts XEP priority
-	if (m_bMsgAck && (jcb & JABBER_CAPS_MESSAGE_RECEIPTS))
+	if (IsSendAck(HContactFromJID(pNote->GetFrom())) && (jcb & JABBER_CAPS_MESSAGE_RECEIPTS))
 		m << XCHILDNS("request", JABBER_FEAT_MESSAGE_RECEIPTS);
 	else
 		nMsgId = -1;
