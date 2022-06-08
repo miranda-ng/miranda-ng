@@ -35,6 +35,8 @@ namespace omemo
 	const char IdentityPrefix[] = "OmemoSignalIdentity_";
 	const char DevicePrefix[] = "OmemoDeviceId";
 
+	CMStringW FormatFingerprint(const char* pszHexString);
+
 	struct omemo_device;
 
 	struct omemo_impl

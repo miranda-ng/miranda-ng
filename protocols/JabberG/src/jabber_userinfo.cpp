@@ -790,16 +790,8 @@ static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const wchar_t *
 	mir_free(lvi.pszText);
 
 	ListView_SetItemText(hwndList, idx, 1, (wchar_t *)pszStr2);
-
-	int i = 0;
-	CMStringW buf;
-	for (const char *p = pszStr3; *p; p++) {
-		buf.AppendChar(*p);
-		if (++i % 8 == 0)
-			buf.AppendChar(' ');
-	}
-	buf.MakeUpper();
-	ListView_SetItemText(hwndList, idx, 2, buf.GetBuffer());
+	CMStringW fp = omemo::FormatFingerprint(pszStr3);
+	ListView_SetItemText(hwndList, idx, 2, fp.GetBuffer());
 }
 
 INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
@@ -827,7 +819,7 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 			lvc.pszText = TranslateT("Status");
 			ListView_InsertColumn(hwndList, 2, &lvc);
 
-			lvc.cx = 500;
+			lvc.cx = 550;
 			lvc.pszText = TranslateT("Fingerprint");
 			ListView_InsertColumn(hwndList, 3, &lvc);
 		}
@@ -859,7 +851,7 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 			// GetOwnDeviceId() creates own keys if they don't exist
 			CMStringA str1(FORMAT, "%d", pInfo->ppro->m_omemo.GetOwnDeviceId());
 			CMStringA str2(pInfo->ppro->getMStringA("OmemoFingerprintOwn"));
-			AddListItem(hwndList, str1, TranslateT("Own device"), str2.Mid(2));
+			AddListItem(hwndList, str1, TranslateT("Own device"), str2);
 		}
 		
 		for (int i=0;; i++) {
@@ -891,7 +883,6 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 				uint8_t trusted = pInfo->ppro->getByte(pInfo->hContact, "OmemoFingerprintTrusted_" + fp_hex);
 				pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
 				//TODO: 3 states Trusted, Untrusted, TOFU
-				fp_hex = fp_hex.Mid(2);
 			}
 			else if (dbv.cpbVal)
 				pwszStatus = TranslateT("Unknown");

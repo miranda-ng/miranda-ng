@@ -1262,8 +1262,8 @@ complete:
 			if (val == 1)
 				fp_trusted = true;
 			if (val == -1) {
-				CMStringA szMsg(FORMAT, "%s%s%s", Translate("Do you want to create OMEMO session with new device:"), "\n\n\t", fingerprint);
-				int ret = MessageBoxA(nullptr, szMsg, Translate("OMEMO: New session"), MB_YESNO);
+				CMStringW szMsg(FORMAT, L"%s\n\n", TranslateT("Do you want to create OMEMO session with new device:"));
+				int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), TranslateT("OMEMO: New session"), MB_YESNO);
 				if (ret == IDYES) {
 					proto->setByte(hContact, szSetting, 1);
 					fp_trusted = true;
@@ -1351,6 +1351,23 @@ complete:
 
 		//	proto->OmemoAnnounceDevice();
 		proto->OmemoSendBundle();
+	}
+
+	CMStringW FormatFingerprint(const char* pszHexString)
+	{
+		CMStringW buf;
+		if(pszHexString) {
+			int i = 0;
+			const char *p = pszHexString;
+			if(*p && *(p+1)) p+=2;
+			for (; *p; p++) {
+				buf.AppendChar(toupper(*p));
+				if (++i % 8 == 0)
+					buf.AppendChar(' ');
+			}
+		}
+
+		return buf;
 	}
 };
 
