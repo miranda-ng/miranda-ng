@@ -37,7 +37,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="..\mir_app\src\resource.h" />
+    <ClInclude Include="..\..\mir_app\src\resource.h" />
     <ClInclude Include="src\file.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />

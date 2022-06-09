@@ -40,7 +40,7 @@
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\mir_app\src\resource.h">
+    <ClInclude Include="..\..\mir_app\src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
