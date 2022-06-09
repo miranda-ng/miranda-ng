@@ -161,16 +161,19 @@
     <ClCompile Include="src\gopher.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\h2h3.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\hash.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\headers.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hmac.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hostasyn.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\hostcheck.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hostip.c">
@@ -260,16 +263,7 @@
     <ClCompile Include="src\netrc.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\non-ascii.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\nonblock.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\nwlib.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\nwos.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\openldap.c">
@@ -341,6 +335,9 @@
     <ClCompile Include="src\splay.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\timediff.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\version_win32.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -401,6 +398,9 @@
     <ClCompile Include="src\vtls\gtls.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vtls\hostcheck.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\vtls\keylog.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -408,9 +408,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls_threadlock.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\vtls\mesalink.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\vtls\nss.c">
@@ -434,13 +431,13 @@
     <ClCompile Include="src\vtls\wolfssl.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\vtls\x509asn1.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\warnless.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\wildcard.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\x509asn1.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClInclude Include="src\altsvc.h" />
@@ -455,9 +452,6 @@
     <ClInclude Include="src\config-os400.h" />
     <ClInclude Include="src\config-plan9.h" />
     <ClInclude Include="src\config-riscos.h" />
-    <ClInclude Include="src\config-symbian.h" />
-    <ClInclude Include="src\config-tpf.h" />
-    <ClInclude Include="src\config-vxworks.h" />
     <ClInclude Include="src\config-win32.h" />
     <ClInclude Include="src\config-win32ce.h" />
     <ClInclude Include="src\conncache.h" />
@@ -508,8 +502,9 @@
     <ClInclude Include="src\ftplistparser.h" />
     <ClInclude Include="src\getinfo.h" />
     <ClInclude Include="src\gopher.h" />
+    <ClInclude Include="src\h2h3.h" />
     <ClInclude Include="src\hash.h" />
-    <ClInclude Include="src\hostcheck.h" />
+    <ClInclude Include="src\headers.h" />
     <ClInclude Include="src\hostip.h" />
     <ClInclude Include="src\hsts.h" />
 	<ClInclude Include="src\http_aws_sigv4.h" />
@@ -531,7 +526,6 @@
     <ClInclude Include="src\multihandle.h" />
     <ClInclude Include="src\multiif.h" />
     <ClInclude Include="src\netrc.h" />
-    <ClInclude Include="src\non-ascii.h" />
     <ClInclude Include="src\nonblock.h" />
     <ClInclude Include="src\parsedate.h" />
     <ClInclude Include="src\pingpong.h" />
@@ -566,6 +560,7 @@
     <ClInclude Include="src\system_win32.h" />
     <ClInclude Include="src\telnet.h" />
     <ClInclude Include="src\tftp.h" />
+    <ClInclude Include="src\timediff.h" />
     <ClInclude Include="src\timeval.h" />
     <ClInclude Include="src\transfer.h" />
     <ClInclude Include="src\url.h" />
@@ -574,7 +569,6 @@
     <ClInclude Include="src\version_win32.h" />
     <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\wildcard.h" />
-    <ClInclude Include="src\x509asn1.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\strcase.c">
