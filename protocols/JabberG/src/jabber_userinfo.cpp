@@ -36,14 +36,6 @@ static MWindowList hUserInfoList = nullptr;
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserInfoDlgProc - main user info dialog
 
-struct JabberUserInfoDlgData
-{
-	MCONTACT hContact;
-	CJabberProto *ppro;
-	JABBER_LIST_ITEM *item;
-	int resourcesCount;
-};
-
 enum
 {
 	INFOLINE_DELETE = 0x80000000,
@@ -387,295 +379,256 @@ static void sttGetNodeText(HWND hwndTree, HTREEITEM hti, CMStringW &buf, int ind
 			sttGetNodeText(hwndTree, hti, buf, indent + 1);
 }
 
-static INT_PTR CALLBACK JabberUserInfoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class JabberUserInfoDlg : public CUserInfoPageDlg
 {
-	JabberUserInfoDlgData *dat = (JabberUserInfoDlgData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	RECT rc;
+	CJabberProto *ppro;
+	JABBER_LIST_ITEM *item = nullptr;
+	int resourcesCount = -1;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		// lParam is hContact
-		TranslateDialogDefault(hwndDlg);
+	CCtrlTreeView m_tree;
 
-		Window_SetSkinIcon_IcoLib(hwndDlg, SKINICON_OTHER_USERDETAILS);
+	UI_MESSAGE_MAP(JabberUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(WM_PROTO_CHECK_ONLINE, OnCheckOnline);
+		UI_MESSAGE(WM_SIZE, OnSize);
+	UI_MESSAGE_MAP_END();
 
-		dat = (JabberUserInfoDlgData *)mir_alloc(sizeof(JabberUserInfoDlgData));
-		memset(dat, 0, sizeof(JabberUserInfoDlgData));
-		dat->resourcesCount = -1;
-		dat->hContact = lParam;
-
-		GetClientRect(hwndDlg, &rc);
-		MoveWindow(GetDlgItem(hwndDlg, IDC_TV_INFO), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
-		{
-			HIMAGELIST himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
-			ImageList_AddSkinIcon(himl, SKINICON_OTHER_SMALLDOT);
-			TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TV_INFO), himl, TVSIL_NORMAL);
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			WindowList_Add(hUserInfoList, hwndDlg, dat->hContact);
-		}
-		break;
-
-	case WM_PROTO_CHECK_ONLINE:
-		if (dat && dat->ppro)
-			if (!dat->ppro->m_bJabberOnline) {
-				dat->item = nullptr;
-				break;
-			}
-		__fallthrough;
-
-	case WM_PROTO_REFRESH:
-		if (dat == nullptr) break;
-
-		if (dat->item == nullptr) {
-			ptrA jid(dat->ppro->getUStringA(dat->hContact, "jid"));
-			if (jid == nullptr)
-				break;
-
-			if (dat->ppro->m_bJabberOnline)
-				if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
-					dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
-
-			if (dat->item == nullptr) {
-				HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
-				TreeView_DeleteAllItems(hwndTree);
-				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, nullptr, IcoLib_GetIconByHandle(dat->ppro->m_hProtoIcon), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
-				sttFillInfoLine(hwndTree, htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Please switch online to see more details."));
-				break;
-			}
-		}
-		sttFillUserInfo(dat->ppro, GetDlgItem(hwndDlg, IDC_TV_INFO), dat->item);
-		break;
-
-	case WM_SIZE:
-		MoveWindow(GetDlgItem(hwndDlg, IDC_TV_INFO), 5, 5, LOWORD(lParam) - 10, HIWORD(lParam) - 10, TRUE);
-		break;
-
-	case WM_CONTEXTMENU:
-		if (GetWindowLongPtr((HWND)wParam, GWL_ID) == IDC_TV_INFO) {
-			HWND hwndTree = GetDlgItem(hwndDlg, IDC_TV_INFO);
-			POINT pt = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
-			HTREEITEM hItem = nullptr;
-
-			if ((pt.x == -1) && (pt.y == -1)) {
-				if (hItem = TreeView_GetSelection(hwndTree)) {
-					TreeView_GetItemRect(hwndTree, hItem, &rc, TRUE);
-					pt.x = rc.left;
-					pt.y = rc.bottom;
-					ClientToScreen(hwndTree, &pt);
-				}
-			}
-			else {
-				TVHITTESTINFO tvhti = { 0 };
-				tvhti.pt = pt;
-				ScreenToClient(hwndTree, &tvhti.pt);
-				TreeView_HitTest(hwndTree, &tvhti);
-				if (tvhti.flags & TVHT_ONITEM) {
-					hItem = tvhti.hItem;
-					TreeView_Select(hwndTree, hItem, TVGN_CARET);
-				}
-			}
-
-			if (hItem) {
-				HMENU hMenu = CreatePopupMenu();
-				AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, TranslateT("Copy"));
-				AppendMenu(hMenu, MF_STRING, (UINT_PTR)2, TranslateT("Copy only this value"));
-				AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
-				AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
-				int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
-				if (nReturnCmd == 1) {
-					CMStringW buf;
-					sttGetNodeText(hwndTree, hItem, buf);
-					JabberCopyText(hwndDlg, buf);
-				}
-				else if (nReturnCmd == 2) {
-					wchar_t szBuffer[1024];
-					TVITEMEX tvi = { 0 };
-					tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
-					tvi.hItem = hItem;
-					tvi.cchTextMax = _countof(szBuffer);
-					tvi.pszText = szBuffer;
-					if (TreeView_GetItem(hwndTree, &tvi)) {
-						if (wchar_t *str = wcsstr(szBuffer, L": "))
-							JabberCopyText(hwndDlg, str + 2);
-						else
-							JabberCopyText(hwndDlg, szBuffer);
-					}
-				}
-				DestroyMenu(hMenu);
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_INFOCHANGED:
-				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, ((LPPSHNOTIFY)lParam)->lParam); // hContact
-				break;
-
-			case PSN_PARAMCHANGED:
-				dat->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
-				if (dat->hContact != 0) {
-					ptrA jid(dat->ppro->getUStringA(dat->hContact, "jid"));
-					if (jid != nullptr)
-						if (!(dat->item = dat->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
-							dat->item = dat->ppro->ListGetItemPtr(LIST_ROSTER, jid);
-				}
-
-				dat->ppro->WindowSubscribe(hwndDlg);
-				break;
-			}
-		}
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		if (dat) {
-			dat->ppro->WindowUnsubscribe(hwndDlg);
-			mir_free(dat);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		}
-		WindowList_Remove(hUserInfoList, hwndDlg);
-		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_TV_INFO), nullptr, TVSIL_NORMAL));
-		Window_FreeIcon_IcoLib(hwndDlg);
-		break;
+	INT_PTR OnCheckOnline(UINT, WPARAM, LPARAM)
+	{
+		if (!ppro->m_bJabberOnline)
+			item = nullptr;
+		else
+			OnRefresh();
+		return 0;
 	}
-	return FALSE;
-}
+
+	INT_PTR OnSize(UINT, WPARAM, LPARAM lParam)
+	{
+		MoveWindow(GetDlgItem(m_hwnd, IDC_TV_INFO), 5, 5, LOWORD(lParam) - 10, HIWORD(lParam) - 10, TRUE);
+		return 0;
+	}
+
+public:
+	JabberUserInfoDlg(CJabberProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_JABBER),
+		ppro(_ppro),
+		m_tree(this, IDC_TV_INFO)
+	{
+		m_tree.OnBuildMenu = Callback(this, &JabberUserInfoDlg::onMenu_Tree);
+	}
+
+	bool OnInitDialog() override
+	{
+		ppro->WindowSubscribe(m_hwnd);
+		Window_SetSkinIcon_IcoLib(m_hwnd, SKINICON_OTHER_USERDETAILS);
+
+		RECT rc;
+		GetClientRect(m_hwnd, &rc);
+		MoveWindow(GetDlgItem(m_hwnd, IDC_TV_INFO), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
+
+		HIMAGELIST himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
+		ImageList_AddSkinIcon(himl, SKINICON_OTHER_SMALLDOT);
+		TreeView_SetImageList(GetDlgItem(m_hwnd, IDC_TV_INFO), himl, TVSIL_NORMAL);
+
+		WindowList_Add(hUserInfoList, m_hwnd, m_hContact);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		ppro->WindowUnsubscribe(m_hwnd);
+		WindowList_Remove(hUserInfoList, m_hwnd);
+		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(m_hwnd, IDC_TV_INFO), nullptr, TVSIL_NORMAL));
+		Window_FreeIcon_IcoLib(m_hwnd);
+	}
+
+	int Resizer(UTILRESIZECONTROL*) override
+	{
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+
+	bool OnRefresh() override
+	{
+		if (item == nullptr) {
+			ptrA jid(ppro->getUStringA(m_hContact, "jid"));
+			if (jid == nullptr)
+				return false;
+
+			if (ppro->m_bJabberOnline)
+				if (!(item = ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid)))
+					item = ppro->ListGetItemPtr(LIST_ROSTER, jid);
+
+			if (item == nullptr) {
+				HWND hwndTree = GetDlgItem(m_hwnd, IDC_TV_INFO);
+				TreeView_DeleteAllItems(hwndTree);
+				HTREEITEM htiRoot = sttFillInfoLine(hwndTree, nullptr, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
+				sttFillInfoLine(hwndTree, htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Please switch online to see more details."));
+				return false;
+			}
+		}
+		sttFillUserInfo(ppro, GetDlgItem(m_hwnd, IDC_TV_INFO), item);
+		return false;
+	}
+
+	void onMenu_Tree(CContextMenuPos *pos)
+	{
+		if (!pos->hItem)
+			return;
+
+		HMENU hMenu = CreatePopupMenu();
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)1, TranslateT("Copy"));
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)2, TranslateT("Copy only this value"));
+		AppendMenu(hMenu, MF_SEPARATOR, 0, nullptr);
+		AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
+		int nReturnCmd = TrackPopupMenu(hMenu, TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr);
+		if (nReturnCmd == 1) {
+			CMStringW buf;
+			sttGetNodeText(m_tree.GetHwnd(), pos->hItem, buf);
+			JabberCopyText(m_hwnd, buf);
+		}
+		else if (nReturnCmd == 2) {
+			wchar_t szBuffer[1024];
+			TVITEMEX tvi = { 0 };
+			tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
+			tvi.hItem = pos->hItem;
+			tvi.cchTextMax = _countof(szBuffer);
+			tvi.pszText = szBuffer;
+			if (m_tree.GetItem(&tvi)) {
+				if (wchar_t *str = wcsstr(szBuffer, L": "))
+					JabberCopyText(m_hwnd, str + 2);
+				else
+					JabberCopyText(m_hwnd, szBuffer);
+			}
+		}
+		DestroyMenu(hMenu);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserPhotoDlgProc - Jabber photo dialog
 
-struct USER_PHOTO_INFO
+class JabberUserPhotoDlg : public CUserInfoPageDlg
 {
-	MCONTACT hContact;
-	HBITMAP hBitmap;
+	HBITMAP hBitmap = nullptr;
 	CJabberProto *ppro;
-};
 
-static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	auto *photoInfo = (USER_PHOTO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CCtrlButton btnSave;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		// lParam is hContact
-		TranslateDialogDefault(hwndDlg);
-		photoInfo = (USER_PHOTO_INFO *)mir_alloc(sizeof(USER_PHOTO_INFO));
-		photoInfo->hContact = lParam;
-		photoInfo->ppro = nullptr;
-		photoInfo->hBitmap = nullptr;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)photoInfo);
-		Button_SetIcon_IcoLib(hwndDlg, IDC_SAVE, g_plugin.getIconHandle(IDI_SAVE));
-		ShowWindow(GetDlgItem(hwndDlg, IDC_LOAD), SW_HIDE);
-		ShowWindow(GetDlgItem(hwndDlg, IDC_DELETE), SW_HIDE);
-		break;
+	UI_MESSAGE_MAP(JabberUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(WM_PAINT, OnPaint);
+	UI_MESSAGE_MAP_END();
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_INFOCHANGED:
-				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
-				break;
+public:
+	JabberUserPhotoDlg(CJabberProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_VCARD_PHOTO),
+		ppro(_ppro),
+		btnSave(this, IDC_SAVE)
+	{
+		btnSave.OnClick = Callback(this, &JabberUserPhotoDlg::onClick_Save);
+	}
 
-			case PSN_PARAMCHANGED:
-				photoInfo->ppro = (CJabberProto*)((PSHNOTIFY*)lParam)->lParam;
-				break;
-			}
-			break;
+	bool OnInitDialog() override
+	{
+		Button_SetIcon_IcoLib(m_hwnd, IDC_SAVE, g_plugin.getIconHandle(IDI_SAVE));
+		ShowWindow(GetDlgItem(m_hwnd, IDC_LOAD), SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_DELETE), SW_HIDE);
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		Button_FreeIcon_IcoLib(m_hwnd, IDC_SAVE);
+
+		if (hBitmap) {
+			ppro->debugLogA("Delete bitmap");
+			DeleteObject(hBitmap);
 		}
-		break;
+	}
 
-	case WM_PROTO_REFRESH:
-		if (photoInfo->hBitmap) {
-			DeleteObject(photoInfo->hBitmap);
-			photoInfo->hBitmap = nullptr;
+	bool OnRefresh() override
+	{
+		if (hBitmap) {
+			DeleteObject(hBitmap);
+			hBitmap = nullptr;
 		}
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_HIDE);
 		{
-			ptrA jid(photoInfo->ppro->getUStringA(photoInfo->hContact, "jid"));
+			ptrA jid(ppro->getUStringA(m_hContact, "jid"));
 			if (jid != nullptr) {
-				JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
+				JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
 				if (item == nullptr)
-					item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid);
+					item = ppro->ListGetItemPtr(LIST_ROSTER, jid);
 				if (item != nullptr) {
 					if (item->photoFileName) {
-						photoInfo->ppro->debugLogA("Showing picture from %s", item->photoFileName);
-						photoInfo->hBitmap = Bitmap_Load(Utf2T(item->photoFileName));
-						FreeImage_Premultiply(photoInfo->hBitmap);
-						ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_SHOW);
+						ppro->debugLogA("Showing picture from %s", item->photoFileName);
+						hBitmap = Bitmap_Load(Utf2T(item->photoFileName));
+						FreeImage_Premultiply(hBitmap);
+						ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_SHOW);
 					}
 				}
 			}
 		}
-		InvalidateRect(hwndDlg, nullptr, TRUE);
-		UpdateWindow(hwndDlg);
-		break;
+		InvalidateRect(m_hwnd, nullptr, TRUE);
+		UpdateWindow(m_hwnd);
+		return true;
+	}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_SAVE:
-			static wchar_t szFilter[512];
+	void onClick_Save(CCtrlButton *)
+	{
+		wchar_t szFilter[512];
 
-			ptrA jid(photoInfo->ppro->getUStringA(photoInfo->hContact, "jid"));
-			if (jid == nullptr)
-				break;
+		ptrA jid(ppro->getUStringA(m_hContact, "jid"));
+		if (jid == nullptr)
+			return;
 
-			JABBER_LIST_ITEM *item = photoInfo->ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
-			if (item == nullptr)
-				if ((item = photoInfo->ppro->ListGetItemPtr(LIST_ROSTER, jid)) == nullptr)
-					break;
+		JABBER_LIST_ITEM *item = ppro->ListGetItemPtr(LIST_VCARD_TEMP, jid);
+		if (item == nullptr)
+			if ((item = ppro->ListGetItemPtr(LIST_ROSTER, jid)) == nullptr)
+				return;
 
-			switch (ProtoGetAvatarFileFormat(Utf2T(item->photoFileName))) {
-			case PA_FORMAT_BMP:
-				mir_snwprintf(szFilter, L"BMP %s (*.bmp)%c*.BMP", TranslateT("format"), 0);
-				break;
+		switch (ProtoGetAvatarFileFormat(Utf2T(item->photoFileName))) {
+		case PA_FORMAT_BMP:
+			mir_snwprintf(szFilter, L"BMP %s (*.bmp)%c*.BMP", TranslateT("format"), 0);
+			break;
 
-			case PA_FORMAT_GIF:
-				mir_snwprintf(szFilter, L"GIF %s (*.gif)%c*.GIF", TranslateT("format"), 0);
-				break;
+		case PA_FORMAT_GIF:
+			mir_snwprintf(szFilter, L"GIF %s (*.gif)%c*.GIF", TranslateT("format"), 0);
+			break;
 
-			case PA_FORMAT_JPEG:
-				mir_snwprintf(szFilter, L"JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG", TranslateT("format"), 0);
-				break;
+		case PA_FORMAT_JPEG:
+			mir_snwprintf(szFilter, L"JPEG %s (*.jpg;*.jpeg)%c*.JPG;*.JPEG", TranslateT("format"), 0);
+			break;
 
-			default:
-				mir_snwprintf(szFilter, L"%s (*.*)%c*.*", TranslateT("Unknown format"), 0);
-			}
-
-			wchar_t szFileName[MAX_PATH]; szFileName[0] = '\0';
-			OPENFILENAME ofn = { 0 };
-			ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
-			ofn.hwndOwner = hwndDlg;
-			ofn.lpstrFilter = szFilter;
-			ofn.lpstrFile = szFileName;
-			ofn.nMaxFile = _MAX_PATH;
-			ofn.Flags = OFN_OVERWRITEPROMPT;
-			if (GetSaveFileName(&ofn)) {
-				photoInfo->ppro->debugLogW(L"File selected is %s", szFileName);
-				CopyFile(Utf2T(item->photoFileName), szFileName, FALSE);
-			}
+		default:
+			mir_snwprintf(szFilter, L"%s (*.*)%c*.*", TranslateT("Unknown format"), 0);
 		}
-		break;
 
-	case WM_PAINT:
-		if (!photoInfo->ppro->m_bJabberOnline)
-			SetDlgItemText(hwndDlg, IDC_CANVAS, TranslateT("<Photo not available while offline>"));
-		else if (!photoInfo->hBitmap)
-			SetDlgItemText(hwndDlg, IDC_CANVAS, TranslateT("<No photo>"));
+		wchar_t szFileName[MAX_PATH]; szFileName[0] = '\0';
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
+		ofn.hwndOwner = m_hwnd;
+		ofn.lpstrFilter = szFilter;
+		ofn.lpstrFile = szFileName;
+		ofn.nMaxFile = _MAX_PATH;
+		ofn.Flags = OFN_OVERWRITEPROMPT;
+		if (GetSaveFileName(&ofn)) {
+			ppro->debugLogW(L"File selected is %s", szFileName);
+			CopyFile(Utf2T(item->photoFileName), szFileName, FALSE);
+		}
+	}
+
+	INT_PTR OnPaint(UINT, WPARAM, LPARAM)
+	{
+		if (!ppro->m_bJabberOnline)
+			SetDlgItemText(m_hwnd, IDC_CANVAS, TranslateT("<Photo not available while offline>"));
+		else if (!hBitmap)
+			SetDlgItemText(m_hwnd, IDC_CANVAS, TranslateT("<No photo>"));
 		else {
 			BITMAP bm;
 			POINT ptSize, ptOrg, pt, ptFitSize;
 			RECT rect;
 
-			SetDlgItemTextA(hwndDlg, IDC_CANVAS, "");
-			HBITMAP hBitmap = photoInfo->hBitmap;
-			HWND hwndCanvas = GetDlgItem(hwndDlg, IDC_CANVAS);
+			SetDlgItemTextA(m_hwnd, IDC_CANVAS, "");
+			HWND hwndCanvas = GetDlgItem(m_hwnd, IDC_CANVAS);
 			HDC hdcCanvas = GetDC(hwndCanvas);
 			HDC hdcMem = CreateCompatibleDC(hdcCanvas);
 			SelectObject(hdcMem, hBitmap);
@@ -697,12 +650,12 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 			else {
 				if (((float)(ptSize.x - rect.right)) / ptSize.x > ((float)(ptSize.y - rect.bottom)) / ptSize.y) {
 					ptFitSize.x = rect.right;
-					ptFitSize.y = (ptSize.y*rect.right) / ptSize.x;
+					ptFitSize.y = (ptSize.y * rect.right) / ptSize.x;
 					pt.x = 0;
 					pt.y = (rect.bottom - ptFitSize.y) / 2;
 				}
 				else {
-					ptFitSize.x = (ptSize.x*rect.bottom) / ptSize.y;
+					ptFitSize.x = (ptSize.x * rect.bottom) / ptSize.y;
 					ptFitSize.y = rect.bottom;
 					pt.x = (rect.right - ptFitSize.x) / 2;
 					pt.y = 0;
@@ -733,31 +686,12 @@ static INT_PTR CALLBACK JabberUserPhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 			DeleteDC(hdcMem);
 		}
-		break;
-
-	case WM_DESTROY:
-		Button_FreeIcon_IcoLib(hwndDlg, IDC_SAVE);
-		if (!photoInfo)
-			break;
-		if (photoInfo->hBitmap) {
-			photoInfo->ppro->debugLogA("Delete bitmap");
-			DeleteObject(photoInfo->hBitmap);
-		}
-		mir_free(photoInfo);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		break;
+		return FALSE;
 	}
-	return FALSE;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserPhotoDlgProc - Jabber photo dialog
-
-struct USER_OMEMO_INFO
-{
-	MCONTACT hContact;
-	CJabberProto *ppro;
-};
 
 static int EnumOwnSessions(const char *szSetting, void *param)
 {
@@ -780,94 +714,86 @@ static int EnumOmemoSessions(const char *szSetting, void *param)
 	return 0;
 }
 
-static void AddListItem(HWND hwndList, const CMStringA &pszStr1, const wchar_t *pszStr2, const CMStringA &pszStr3)
+class JabberUserOmemoDlg : public CUserInfoPageDlg
 {
-	LVITEM lvi = {};
-	lvi.mask = LVIF_TEXT;
-	lvi.pszText = mir_a2u(pszStr1);
-	lvi.iItem = 100500;
-	int idx = ListView_InsertItem(hwndList, &lvi);
-	mir_free(lvi.pszText);
+	CJabberProto *ppro;
 
-	ListView_SetItemText(hwndList, idx, 1, (wchar_t *)pszStr2);
-	CMStringW fp = omemo::FormatFingerprint(pszStr3);
-	ListView_SetItemText(hwndList, idx, 2, fp.GetBuffer());
-}
+	CCtrlListView m_list;
 
-INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
-{
-	auto *pInfo = (USER_OMEMO_INFO *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
+	void AddListItem(const CMStringA &pszStr1, const wchar_t *pszStr2, const CMStringA &pszStr3)
+	{
+		LVITEM lvi = {};
+		lvi.mask = LVIF_TEXT;
+		lvi.pszText = mir_a2u(pszStr1);
+		lvi.iItem = 100500;
+		int idx = m_list.InsertItem(&lvi);
+		mir_free(lvi.pszText);
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		// lParam is hContact
-		TranslateDialogDefault(hwndDlg);
-		pInfo = (USER_OMEMO_INFO *)mir_alloc(sizeof(USER_OMEMO_INFO));
-		pInfo->hContact = lParam;
-		pInfo->ppro = nullptr;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)pInfo);
-		{
-			LV_COLUMN lvc = {};
-			lvc.mask = LVCF_TEXT | LVCF_WIDTH;
+		m_list.SetItemText(idx, 1, (wchar_t *)pszStr2);
+		CMStringW fp = omemo::FormatFingerprint(pszStr3);
+		m_list.SetItemText(idx, 2, fp.GetBuffer());
+	}
 
-			lvc.cx = 90;
-			lvc.pszText = TranslateT("Device ID");
-			ListView_InsertColumn(hwndList, 1, &lvc);
-			
-			lvc.cx = 80;
-			lvc.pszText = TranslateT("Status");
-			ListView_InsertColumn(hwndList, 2, &lvc);
+public:
+	JabberUserOmemoDlg(CJabberProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_OMEMO),
+		ppro(_ppro),
+		m_list(this, IDC_LIST)
+	{
+	}
 
-			lvc.cx = 550;
-			lvc.pszText = TranslateT("Fingerprint");
-			ListView_InsertColumn(hwndList, 3, &lvc);
-		}
+	bool OnInitDialog() override
+	{
+		LV_COLUMN lvc = {};
+		lvc.mask = LVCF_TEXT | LVCF_WIDTH;
 
-		if (lParam == 0)
-			PostMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
-		break;
+		lvc.cx = 90;
+		lvc.pszText = TranslateT("Device ID");
+		m_list.InsertColumn(1, &lvc);
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_INFOCHANGED:
-				SendMessage(hwndDlg, WM_PROTO_REFRESH, 0, 0);
-				break;
+		lvc.cx = 80;
+		lvc.pszText = TranslateT("Status");
+		m_list.InsertColumn(2, &lvc);
 
-			case PSN_PARAMCHANGED:
-				pInfo->ppro = (CJabberProto *)((PSHNOTIFY *)lParam)->lParam;
-				break;
-			}
-			break;
-		}
-		break;
+		lvc.cx = 550;
+		lvc.pszText = TranslateT("Fingerprint");
+		m_list.InsertColumn(3, &lvc);
 
-	case WM_PROTO_REFRESH:
-		ListView_DeleteAllItems(hwndList);
+		if (m_hContact == 0)
+			OnRefresh();
+		return true;
+	}
 
-		if (pInfo->hContact == 0) {
+	int Resizer(UTILRESIZECONTROL*) override
+	{
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+
+	bool OnRefresh() override
+	{
+		m_list.DeleteAllItems();
+
+		if (m_hContact == 0) {
 			// GetOwnDeviceId() creates own keys if they don't exist
-			CMStringA str1(FORMAT, "%d", pInfo->ppro->m_omemo.GetOwnDeviceId());
-			CMStringA str2(pInfo->ppro->getMStringA("OmemoFingerprintOwn"));
-			AddListItem(hwndList, str1, TranslateT("Own device"), str2);
+			CMStringA str1(FORMAT, "%d", ppro->m_omemo.GetOwnDeviceId());
+			CMStringA str2(ppro->getMStringA("OmemoFingerprintOwn"));
+			AddListItem(str1, TranslateT("Own device"), str2);
 		}
-		
-		for (int i=0;; i++) {
+
+		for (int i = 0;; i++) {
 			CMStringA szSetting(FORMAT, "%s%d", omemo::DevicePrefix, i);
-			uint32_t device_id = pInfo->ppro->getDword(pInfo->hContact, szSetting, 0);
+			uint32_t device_id = ppro->getDword(m_hContact, szSetting, 0);
 			if (device_id == 0)
 				break;
-			
-			char* jiddev = pInfo->ppro->getStringA(pInfo->hContact, "jid");
+
+			char *jiddev = ppro->getStringA(m_hContact, "jid");
 			if (jiddev == 0)
 				continue;
-			
+
 			size_t len = strlen(jiddev);
-			jiddev = (char*)mir_realloc(jiddev, len + sizeof(int32_t));
-			memcpy(jiddev+len, &device_id, sizeof(int32_t));
-			
+			jiddev = (char *)mir_realloc(jiddev, len + sizeof(int32_t));
+			memcpy(jiddev + len, &device_id, sizeof(int32_t));
+
 			szSetting = omemo::IdentityPrefix;
 			szSetting.Append(ptrA(mir_base64_encode(jiddev, len + sizeof(int32_t))));
 			mir_free(jiddev);
@@ -876,11 +802,11 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 			CMStringA fp_hex;
 			DBVARIANT dbv = { 0 };
 			dbv.type = DBVT_BLOB;
-			db_get(pInfo->hContact, pInfo->ppro->m_szModuleName, szSetting, &dbv);
+			db_get(m_hContact, ppro->m_szModuleName, szSetting, &dbv);
 			if (dbv.cpbVal == 33) {
 				fp_hex.Truncate(33 * 2);
 				bin2hex(dbv.pbVal, 33, fp_hex.GetBuffer());
-				uint8_t trusted = pInfo->ppro->getByte(pInfo->hContact, "OmemoFingerprintTrusted_" + fp_hex);
+				uint8_t trusted = ppro->getByte(m_hContact, "OmemoFingerprintTrusted_" + fp_hex);
 				pwszStatus = trusted ? TranslateT("Trusted") : TranslateT("UNTRUSTED");
 				//TODO: 3 states Trusted, Untrusted, TOFU
 			}
@@ -889,13 +815,11 @@ INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM l
 
 			db_free(&dbv);
 
-			AddListItem(hwndList, CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
+			AddListItem(CMStringA(FORMAT, "%d", device_id), pwszStatus, fp_hex);
 		}
-		
-		break;
+		return false;
 	}
-	return FALSE;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnInfoInit - initializes user info option dialogs
@@ -913,31 +837,33 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
-		OPTIONSDIALOGPAGE odp = {};
-		odp.dwInitParam = (LPARAM)this;
+		USERINFOPAGE uip = {};
+		uip.dwInitParam = (LPARAM)this;
 
-		odp.pfnDlgProc = JabberUserInfoDlgProc;
-		odp.position = -2000000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_JABBER);
-		odp.szTitle.a = LPGEN("Account");
-		g_plugin.addUserInfo(wParam, &odp);
+		uip.pDialog = new JabberUserInfoDlg(this);
+		uip.position = -2000000000;
+		uip.szTitle.a = LPGEN("Account");
+		g_plugin.addUserInfo(wParam, &uip);
 
-		odp.pfnDlgProc = JabberUserPhotoDlgProc;
-		odp.position = 2000000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
-		odp.szTitle.a = LPGEN("Photo");
-		g_plugin.addUserInfo(wParam, &odp);
+		uip.pDialog = new JabberUserPhotoDlg(this);
+		uip.position = 2000000000;
+		uip.szTitle.a = LPGEN("Photo");
+		g_plugin.addUserInfo(wParam, &uip);
 
-		if (m_bUseOMEMO) {
-			odp.pfnDlgProc = JabberUserOmemoDlgProc;
-			odp.position = 2000000001;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_OMEMO);
-			odp.szTitle.a = "OMEMO";
-			g_plugin.addUserInfo(wParam, &odp);
-		}
+		CheckOmemoUserInfo(wParam, uip);
 	}
 
 	return 0;
+}
+
+void CJabberProto::CheckOmemoUserInfo(WPARAM wParam, USERINFOPAGE &uip)
+{
+	if (m_bUseOMEMO) {
+		uip.pDialog = new JabberUserOmemoDlg(this);
+		uip.position = 2000000001;
+		uip.szTitle.a = "OMEMO";
+		g_plugin.addUserInfo(wParam, &uip);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
