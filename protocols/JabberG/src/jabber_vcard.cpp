@@ -33,7 +33,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int CJabberProto::SendGetVcard(MCONTACT hContact)
 {
-	if (!m_bJabberOnline) return 0;
+	if (!m_bJabberOnline)
+		return 0;
 
 	CJabberIqInfo *pInfo;
 
@@ -66,248 +67,211 @@ static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char 
 		SetDlgItemTextA(hwndDlg, nDlgItem, "");
 }
 
-static INT_PTR CALLBACK PersonalDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class JabberVcardBaseDlg : public CUserInfoPageDlg
 {
-	const unsigned long iPageId = 0;
-	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	int iPageId;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (lParam) {
-			ppro = (CJabberProto*)lParam;
-			TranslateDialogDefault(hwndDlg);
-			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
-			SendDlgItemMessage(hwndDlg, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
-			ppro->WindowSubscribe(hwndDlg);
-		}
-		break;
+protected:
+	CJabberProto *ppro;
 
-	case WM_JABBER_REFRESH_VCARD:
-		SetDialogField(ppro, hwndDlg, IDC_FULLNAME, "FullName");
-		SetDialogField(ppro, hwndDlg, IDC_NICKNAME, "Nick");
-		SetDialogField(ppro, hwndDlg, IDC_FIRSTNAME, "FirstName");
-		SetDialogField(ppro, hwndDlg, IDC_MIDDLE, "MiddleName");
-		SetDialogField(ppro, hwndDlg, IDC_LASTNAME, "LastName");
-		SetDialogField(ppro, hwndDlg, IDC_BIRTH, "BirthDate");
-		SetDialogField(ppro, hwndDlg, IDC_GENDER, "GenderString", true);
-		SetDialogField(ppro, hwndDlg, IDC_OCCUPATION, "Role");
-		SetDialogField(ppro, hwndDlg, IDC_HOMEPAGE, "Homepage");
-		break;
+public:
+	JabberVcardBaseDlg(CJabberProto *_ppro, int dlgId, int pageId) :
+		CUserInfoPageDlg(g_plugin, dlgId),
+		ppro(_ppro),
+		iPageId(pageId)
+	{}
 
-	case WM_COMMAND:
-		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
-			((HWND)lParam == GetDlgItem(hwndDlg, IDC_GENDER) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE))) {
-			ppro->m_vCardUpdates |= (1UL << iPageId);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!ppro->m_vCardUpdates)
-					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
-				break;
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		ppro->WindowUnsubscribe(hwndDlg);
-		break;
+	bool OnInitDialog() override
+	{
+		ppro->WindowSubscribe(m_hwnd);
+		return true;
 	}
-	return FALSE;
-}
 
-static INT_PTR CALLBACK HomeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	const unsigned long iPageId = 1;
-	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	bool OnApply() override
+	{
+		ppro->SaveVcardToDB(m_hwnd, iPageId);
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (lParam) {
-			ppro = (CJabberProto*)lParam;
-			TranslateDialogDefault(hwndDlg);
-			for (int i = 0; i < g_cbCountries; i++) {
-				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					wchar_t *country = mir_a2u(g_countries[i].szName);
-					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
-					mir_free(country);
-				}
-			}
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
-			ppro->WindowSubscribe(hwndDlg);
-		}
-		break;
-
-	case WM_JABBER_REFRESH_VCARD:
-		SetDialogField(ppro, hwndDlg, IDC_ADDRESS1, "Street");
-		SetDialogField(ppro, hwndDlg, IDC_ADDRESS2, "Street2");
-		SetDialogField(ppro, hwndDlg, IDC_CITY, "City");
-		SetDialogField(ppro, hwndDlg, IDC_STATE, "State");
-		SetDialogField(ppro, hwndDlg, IDC_ZIP, "ZIP");
-		SetDialogField(ppro, hwndDlg, IDC_COUNTRY, "Country", true);
-		break;
-
-	case WM_COMMAND:
-		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
-			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE))) {
-			ppro->m_vCardUpdates |= (1UL << iPageId);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!ppro->m_vCardUpdates)
-					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
-				break;
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		ppro->WindowUnsubscribe(hwndDlg);
-		break;
+		ppro->m_vCardUpdates &= ~(1UL << iPageId);
+		if (!ppro->m_vCardUpdates)
+			ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
+		return true;
 	}
-	return FALSE;
-}
 
-static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	const unsigned long iPageId = 2;
-	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (lParam) { // proto info is available
-			ppro = (CJabberProto*)lParam;
-			TranslateDialogDefault(hwndDlg);
-			for (int i = 0; i < g_cbCountries; i++) {
-				if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-					wchar_t *country = mir_a2u(g_countries[i].szName);
-					SendDlgItemMessage(hwndDlg, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
-					mir_free(country);
-				}
-			}
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
-			ppro->WindowSubscribe(hwndDlg);
-		}
-		break;
-
-	case WM_JABBER_REFRESH_VCARD:
-		SetDialogField(ppro, hwndDlg, IDC_COMPANY, "Company");
-		SetDialogField(ppro, hwndDlg, IDC_DEPARTMENT, "CompanyDepartment");
-		SetDialogField(ppro, hwndDlg, IDC_TITLE, "CompanyPosition");
-		SetDialogField(ppro, hwndDlg, IDC_ADDRESS1, "CompanyStreet");
-		SetDialogField(ppro, hwndDlg, IDC_ADDRESS2, "CompanyStreet2");
-		SetDialogField(ppro, hwndDlg, IDC_CITY, "CompanyCity");
-		SetDialogField(ppro, hwndDlg, IDC_STATE, "CompanyState");
-		SetDialogField(ppro, hwndDlg, IDC_ZIP, "CompanyZIP");
-		SetDialogField(ppro, hwndDlg, IDC_COUNTRY, "CompanyCountry", true);
-		break;
-
-	case WM_COMMAND:
-		if (((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) ||
-			((HWND)lParam == GetDlgItem(hwndDlg, IDC_COUNTRY) && (HIWORD(wParam) == CBN_EDITCHANGE || HIWORD(wParam) == CBN_SELCHANGE))) {
-			ppro->m_vCardUpdates |= (1UL << iPageId);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!ppro->m_vCardUpdates)
-					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
-				break;
-			}
-		}
-		break;
-
-	case WM_DESTROY:
-		ppro->WindowUnsubscribe(hwndDlg);
-		break;
+	void OnDestroy() override
+	{
+		ppro->WindowUnsubscribe(m_hwnd);
 	}
-	return FALSE;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct PhotoDlgProcData
+struct JabberVcardPersonalDlg : public JabberVcardBaseDlg
 {
-	CJabberProto *ppro;
-	HBITMAP hBitmap;
+	JabberVcardPersonalDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_PERSONAL, 0)
+	{}
+
+	bool OnInitDialog() override
+	{
+		JabberVcardBaseDlg::OnInitDialog();
+		SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
+		SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		SetDialogField(ppro, m_hwnd, IDC_FULLNAME, "FullName");
+		SetDialogField(ppro, m_hwnd, IDC_NICKNAME, "Nick");
+		SetDialogField(ppro, m_hwnd, IDC_FIRSTNAME, "FirstName");
+		SetDialogField(ppro, m_hwnd, IDC_MIDDLE, "MiddleName");
+		SetDialogField(ppro, m_hwnd, IDC_LASTNAME, "LastName");
+		SetDialogField(ppro, m_hwnd, IDC_BIRTH, "BirthDate");
+		SetDialogField(ppro, m_hwnd, IDC_GENDER, "GenderString", true);
+		SetDialogField(ppro, m_hwnd, IDC_OCCUPATION, "Role");
+		SetDialogField(ppro, m_hwnd, IDC_HOMEPAGE, "Homepage");
+		return false;
+	}
 };
 
-static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Home vcard dialog
+
+struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 {
-	const unsigned long iPageId = 3;
+	JabberVcardHomeDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_HOME, 1)
+	{
+	}
 
-	wchar_t szAvatarFileName[MAX_PATH], szTempPath[MAX_PATH], szTempFileName[MAX_PATH];
-	PhotoDlgProcData *dat = (PhotoDlgProcData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (!lParam) break; // Launched from userinfo
-		TranslateDialogDefault(hwndDlg);
-		Button_SetIcon_IcoLib(hwndDlg, IDC_LOAD, g_plugin.getIconHandle(IDI_OPEN));
-		Button_SetIcon_IcoLib(hwndDlg, IDC_DELETE, g_plugin.getIconHandle(IDI_DELETE));
-		ShowWindow(GetDlgItem(hwndDlg, IDC_SAVE), SW_HIDE);
-		{
-			dat = new PhotoDlgProcData;
-			dat->ppro = (CJabberProto*)lParam;
-			dat->hBitmap = nullptr;
-			dat->ppro->m_bPhotoChanged = false;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-			dat->ppro->WindowSubscribe(hwndDlg);
+	bool OnInitDialog() override
+	{
+		JabberVcardBaseDlg::OnInitDialog();
+		for (int i = 0; i < g_cbCountries; i++) {
+			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
+				wchar_t *country = mir_a2u(g_countries[i].szName);
+				SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
+				mir_free(country);
+			}
 		}
-		SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
-		break;
+		return true;
+	}
 
-	case WM_JABBER_REFRESH_VCARD:
-		if (dat->hBitmap) {
-			DeleteObject(dat->hBitmap);
-			dat->hBitmap = nullptr;
-			DeleteFile(dat->ppro->m_szPhotoFileName);
-			dat->ppro->m_szPhotoFileName[0] = '\0';
+	bool OnRefresh() override
+	{
+		SetDialogField(ppro, m_hwnd, IDC_ADDRESS1, "Street");
+		SetDialogField(ppro, m_hwnd, IDC_ADDRESS2, "Street2");
+		SetDialogField(ppro, m_hwnd, IDC_CITY, "City");
+		SetDialogField(ppro, m_hwnd, IDC_STATE, "State");
+		SetDialogField(ppro, m_hwnd, IDC_ZIP, "ZIP");
+		SetDialogField(ppro, m_hwnd, IDC_COUNTRY, "Country", true);
+		return false;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Work vcard dialog
+
+struct JabberVcardWorkDlg : public JabberVcardBaseDlg
+{
+	JabberVcardWorkDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_WORK, 2)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		JabberVcardBaseDlg::OnInitDialog();
+
+		for (int i = 0; i < g_cbCountries; i++) {
+			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
+				wchar_t *country = mir_a2u(g_countries[i].szName);
+				SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
+				mir_free(country);
+			}
 		}
-		EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-		dat->ppro->GetAvatarFileName(0, szAvatarFileName, _countof(szAvatarFileName));
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		SetDialogField(ppro, m_hwnd, IDC_COMPANY, "Company");
+		SetDialogField(ppro, m_hwnd, IDC_DEPARTMENT, "CompanyDepartment");
+		SetDialogField(ppro, m_hwnd, IDC_TITLE, "CompanyPosition");
+		SetDialogField(ppro, m_hwnd, IDC_ADDRESS1, "CompanyStreet");
+		SetDialogField(ppro, m_hwnd, IDC_ADDRESS2, "CompanyStreet2");
+		SetDialogField(ppro, m_hwnd, IDC_CITY, "CompanyCity");
+		SetDialogField(ppro, m_hwnd, IDC_STATE, "CompanyState");
+		SetDialogField(ppro, m_hwnd, IDC_ZIP, "CompanyZIP");
+		SetDialogField(ppro, m_hwnd, IDC_COUNTRY, "CompanyCountry", true);
+		return false;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Photo vcard dialog
+
+class JabberVcardPhotoDlg : public JabberVcardBaseDlg
+{
+	HBITMAP hBitmap;
+
+	UI_MESSAGE_MAP(JabberVcardPhotoDlg, JabberVcardBaseDlg);
+		UI_MESSAGE(WM_PAINT, OnPaint);
+	UI_MESSAGE_MAP_END();
+
+public:
+	JabberVcardPhotoDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_PHOTO, 3)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		JabberVcardBaseDlg::OnInitDialog();
+
+		Button_SetIcon_IcoLib(m_hwnd, IDC_LOAD, g_plugin.getIconHandle(IDI_OPEN));
+		Button_SetIcon_IcoLib(m_hwnd, IDC_DELETE, g_plugin.getIconHandle(IDI_DELETE));
+		ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_HIDE);
+
+		ppro->m_bPhotoChanged = false;
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		JabberVcardBaseDlg::OnDestroy();
+
+		Button_FreeIcon_IcoLib(m_hwnd, IDC_LOAD);
+		Button_FreeIcon_IcoLib(m_hwnd, IDC_DELETE);
+		if (hBitmap) {
+			ppro->debugLogA("Delete bitmap");
+			DeleteObject(hBitmap);
+			DeleteFile(ppro->m_szPhotoFileName);
+		}
+	}
+
+	bool OnRefresh() override
+	{
+		if (hBitmap) {
+			DeleteObject(hBitmap);
+			hBitmap = nullptr;
+			DeleteFile(ppro->m_szPhotoFileName);
+			ppro->m_szPhotoFileName[0] = '\0';
+		}
+
+		wchar_t szAvatarFileName[MAX_PATH], szTempPath[MAX_PATH], szTempFileName[MAX_PATH];
+		EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), FALSE);
+		ppro->GetAvatarFileName(0, szAvatarFileName, _countof(szAvatarFileName));
 		if (_waccess(szAvatarFileName, 0) == 0) {
 			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
 				mir_wstrcpy(szTempPath, L".\\");
 			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
-				dat->ppro->debugLogW(L"Temp file = %s", szTempFileName);
+				ppro->debugLogW(L"Temp file = %s", szTempFileName);
 				if (CopyFile(szAvatarFileName, szTempFileName, FALSE) == TRUE) {
-					if ((dat->hBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
-						FreeImage_Premultiply(dat->hBitmap);
-						mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
+					if ((hBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
+						FreeImage_Premultiply(hBitmap);
+						mir_wstrcpy(ppro->m_szPhotoFileName, szTempFileName);
+						EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), TRUE);
 					}
 					else DeleteFile(szTempFileName);
 				}
@@ -315,226 +279,165 @@ static INT_PTR CALLBACK PhotoDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			}
 		}
 
-		dat->ppro->m_bPhotoChanged = false;
-		InvalidateRect(hwndDlg, nullptr, TRUE);
-		UpdateWindow(hwndDlg);
-		break;
+		ppro->m_bPhotoChanged = false;
+		InvalidateRect(m_hwnd, nullptr, TRUE);
+		UpdateWindow(m_hwnd);
+		return false;
+	}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_DELETE:
-			if (dat->hBitmap) {
-				DeleteObject(dat->hBitmap);
-				dat->hBitmap = nullptr;
-				DeleteFile(dat->ppro->m_szPhotoFileName);
-				dat->ppro->m_szPhotoFileName[0] = '\0';
-				dat->ppro->m_bPhotoChanged = true;
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-				InvalidateRect(hwndDlg, nullptr, TRUE);
-				UpdateWindow(hwndDlg);
-				dat->ppro->m_vCardUpdates |= (1UL << iPageId);
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+	void onClick_Delete(CCtrlButton *)
+	{
+		if (hBitmap == nullptr)
+			return;
+
+		DeleteObject(hBitmap);
+		hBitmap = nullptr;
+		DeleteFile(ppro->m_szPhotoFileName);
+		ppro->m_szPhotoFileName[0] = '\0';
+		ppro->m_bPhotoChanged = true;
+		EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), FALSE);
+		InvalidateRect(m_hwnd, nullptr, TRUE);
+		UpdateWindow(m_hwnd);
+		NotifyChange();
+	}
+
+	void onClick_Load(CCtrlButton *)
+	{
+		wchar_t szFilter[512], szFileName[MAX_PATH];
+		Bitmap_GetFilter(szFilter, _countof(szFilter));
+
+		OPENFILENAME ofn = { 0 };
+		ofn.lStructSize = sizeof(ofn);
+		ofn.hwndOwner = m_hwnd;
+		ofn.lpstrFilter = szFilter;
+		ofn.lpstrCustomFilter = nullptr;
+		ofn.lpstrFile = szFileName;
+		ofn.nMaxFile = MAX_PATH;
+		ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
+		szFileName[0] = '\0';
+		if (GetOpenFileName(&ofn)) {
+			struct _stat st;
+			HBITMAP hNewBitmap;
+
+			ppro->debugLogW(L"File selected is %s", szFileName);
+			if (_wstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
+				MessageBox(m_hwnd, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK | MB_SETFOREGROUND);
+				return;
 			}
-			break;
 
-		case IDC_LOAD:
-			wchar_t szFilter[512], szFileName[MAX_PATH];
-			Bitmap_GetFilter(szFilter, _countof(szFilter));
+			wchar_t szTempFileName[MAX_PATH], szTempPath[MAX_PATH];
+			if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
+				mir_wstrcpy(szTempPath, L".\\");
 
-			OPENFILENAME ofn = { 0 };
-			ofn.lStructSize = sizeof(ofn);
-			ofn.hwndOwner = hwndDlg;
-			ofn.lpstrFilter = szFilter;
-			ofn.lpstrCustomFilter = nullptr;
-			ofn.lpstrFile = szFileName;
-			ofn.nMaxFile = MAX_PATH;
-			ofn.Flags = OFN_FILEMUSTEXIST | OFN_DONTADDTORECENT;
-			szFileName[0] = '\0';
-			if (GetOpenFileName(&ofn)) {
-				struct _stat st;
-				HBITMAP hNewBitmap;
-
-				dat->ppro->debugLogW(L"File selected is %s", szFileName);
-				if (_wstat(szFileName, &st) < 0 || st.st_size > 40 * 1024) {
-					MessageBox(hwndDlg, TranslateT("Only JPG, GIF, and BMP image files smaller than 40 KB are supported."), TranslateT("Jabber vCard"), MB_OK | MB_SETFOREGROUND);
-					break;
-				}
-				if (GetTempPath(_countof(szTempPath), szTempPath) <= 0)
-					mir_wstrcpy(szTempPath, L".\\");
-				
-				if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
-					dat->ppro->debugLogW(L"Temp file = %s", szTempFileName);
-					if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
-						if ((hNewBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
-							if (dat->hBitmap) {
-								DeleteObject(dat->hBitmap);
-								DeleteFile(dat->ppro->m_szPhotoFileName);
-							}
-
-							dat->hBitmap = hNewBitmap;
-							mir_wstrcpy(dat->ppro->m_szPhotoFileName, szTempFileName);
-							dat->ppro->m_bPhotoChanged = true;
-							EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-							InvalidateRect(hwndDlg, nullptr, TRUE);
-							UpdateWindow(hwndDlg);
-							dat->ppro->m_vCardUpdates |= (1UL << iPageId);
-							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			if (GetTempFileName(szTempPath, L"jab", 0, szTempFileName) > 0) {
+				ppro->debugLogW(L"Temp file = %s", szTempFileName);
+				if (CopyFile(szFileName, szTempFileName, FALSE) == TRUE) {
+					if ((hNewBitmap = Bitmap_Load(szTempFileName)) != nullptr) {
+						if (hBitmap) {
+							DeleteObject(hBitmap);
+							DeleteFile(ppro->m_szPhotoFileName);
 						}
-						else DeleteFile(szTempFileName);
+
+						hBitmap = hNewBitmap;
+						mir_wstrcpy(ppro->m_szPhotoFileName, szTempFileName);
+						ppro->m_bPhotoChanged = true;
+						EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), TRUE);
+						InvalidateRect(m_hwnd, nullptr, TRUE);
+						UpdateWindow(m_hwnd);
+						NotifyChange();
 					}
 					else DeleteFile(szTempFileName);
 				}
-			}
-			break;
-		}
-		break;
-
-	case WM_PAINT:
-		if (dat->hBitmap) {
-			BITMAP bm;
-			POINT ptSize, ptOrg, pt, ptFitSize;
-			RECT rect;
-
-			HWND hwndCanvas = GetDlgItem(hwndDlg, IDC_CANVAS);
-			HDC hdcCanvas = GetDC(hwndCanvas);
-			HDC hdcMem = CreateCompatibleDC(hdcCanvas);
-			SelectObject(hdcMem, dat->hBitmap);
-			SetMapMode(hdcMem, GetMapMode(hdcCanvas));
-			GetObject(dat->hBitmap, sizeof(BITMAP), (LPVOID)&bm);
-			ptSize.x = bm.bmWidth;
-			ptSize.y = bm.bmHeight;
-			DPtoLP(hdcCanvas, &ptSize, 1);
-			ptOrg.x = ptOrg.y = 0;
-			DPtoLP(hdcMem, &ptOrg, 1);
-			GetClientRect(hwndCanvas, &rect);
-			InvalidateRect(hwndCanvas, nullptr, TRUE);
-			UpdateWindow(hwndCanvas);
-			if (ptSize.x <= rect.right && ptSize.y <= rect.bottom) {
-				pt.x = (rect.right - ptSize.x) / 2;
-				pt.y = (rect.bottom - ptSize.y) / 2;
-				ptFitSize = ptSize;
-			}
-			else {
-				if (((float)(ptSize.x - rect.right)) / ptSize.x > ((float)(ptSize.y - rect.bottom)) / ptSize.y) {
-					ptFitSize.x = rect.right;
-					ptFitSize.y = (ptSize.y * rect.right) / ptSize.x;
-					pt.x = 0;
-					pt.y = (rect.bottom - ptFitSize.y) / 2;
-				}
-				else {
-					ptFitSize.x = (ptSize.x * rect.bottom) / ptSize.y;
-					ptFitSize.y = rect.bottom;
-					pt.x = (rect.right - ptFitSize.x) / 2;
-					pt.y = 0;
-				}
-			}
-
-			RECT rc;
-			GetClientRect(hwndCanvas, &rc);
-			if (IsThemeActive())
-				DrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);
-			else
-				FillRect(hdcCanvas, &rc, (HBRUSH)GetSysColorBrush(COLOR_BTNFACE));
-
-			if (bm.bmBitsPixel == 32) {
-				BLENDFUNCTION bf = { 0 };
-				bf.AlphaFormat = AC_SRC_ALPHA;
-				bf.BlendOp = AC_SRC_OVER;
-				bf.SourceConstantAlpha = 255;
-				GdiAlphaBlend(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, bf);
-			}
-			else {
-				SetStretchBltMode(hdcCanvas, COLORONCOLOR);
-				StretchBlt(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, SRCCOPY);
-			}
-
-			DeleteDC(hdcMem);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-
-			case PSN_APPLY:
-				dat->ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				dat->ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!dat->ppro->m_vCardUpdates)
-					dat->ppro->SetServerVcard(dat->ppro->m_bPhotoChanged, dat->ppro->m_szPhotoFileName);
-				break;
+				else DeleteFile(szTempFileName);
 			}
 		}
-		break;
-
-	case WM_DESTROY:
-		Button_FreeIcon_IcoLib(hwndDlg, IDC_LOAD);
-		Button_FreeIcon_IcoLib(hwndDlg, IDC_DELETE);
-		dat->ppro->WindowUnsubscribe(hwndDlg);
-		if (dat->hBitmap) {
-			dat->ppro->debugLogA("Delete bitmap");
-			DeleteObject(dat->hBitmap);
-			DeleteFile(dat->ppro->m_szPhotoFileName);
-		}
-		delete dat;
-		break;
 	}
-	return FALSE;
-}
+
+	INT_PTR OnPaint(UINT, WPARAM, LPARAM)
+	{
+		if (hBitmap == nullptr)
+			return FALSE;
+
+		BITMAP bm;
+		POINT ptSize, ptOrg, pt, ptFitSize;
+		RECT rect;
+
+		HWND hwndCanvas = GetDlgItem(m_hwnd, IDC_CANVAS);
+		HDC hdcCanvas = GetDC(hwndCanvas);
+		HDC hdcMem = CreateCompatibleDC(hdcCanvas);
+		SelectObject(hdcMem, hBitmap);
+		SetMapMode(hdcMem, GetMapMode(hdcCanvas));
+		GetObject(hBitmap, sizeof(BITMAP), (LPVOID)&bm);
+		ptSize.x = bm.bmWidth;
+		ptSize.y = bm.bmHeight;
+		DPtoLP(hdcCanvas, &ptSize, 1);
+		ptOrg.x = ptOrg.y = 0;
+		DPtoLP(hdcMem, &ptOrg, 1);
+		GetClientRect(hwndCanvas, &rect);
+		InvalidateRect(hwndCanvas, nullptr, TRUE);
+		UpdateWindow(hwndCanvas);
+		if (ptSize.x <= rect.right && ptSize.y <= rect.bottom) {
+			pt.x = (rect.right - ptSize.x) / 2;
+			pt.y = (rect.bottom - ptSize.y) / 2;
+			ptFitSize = ptSize;
+		}
+		else {
+			if (((float)(ptSize.x - rect.right)) / ptSize.x > ((float)(ptSize.y - rect.bottom)) / ptSize.y) {
+				ptFitSize.x = rect.right;
+				ptFitSize.y = (ptSize.y * rect.right) / ptSize.x;
+				pt.x = 0;
+				pt.y = (rect.bottom - ptFitSize.y) / 2;
+			}
+			else {
+				ptFitSize.x = (ptSize.x * rect.bottom) / ptSize.y;
+				ptFitSize.y = rect.bottom;
+				pt.x = (rect.right - ptFitSize.x) / 2;
+				pt.y = 0;
+			}
+		}
+
+		RECT rc;
+		GetClientRect(hwndCanvas, &rc);
+		if (IsThemeActive())
+			DrawThemeParentBackground(hwndCanvas, hdcCanvas, &rc);
+		else
+			FillRect(hdcCanvas, &rc, (HBRUSH)GetSysColorBrush(COLOR_BTNFACE));
+
+		if (bm.bmBitsPixel == 32) {
+			BLENDFUNCTION bf = { 0 };
+			bf.AlphaFormat = AC_SRC_ALPHA;
+			bf.BlendOp = AC_SRC_OVER;
+			bf.SourceConstantAlpha = 255;
+			GdiAlphaBlend(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, bf);
+		}
+		else {
+			SetStretchBltMode(hdcCanvas, COLORONCOLOR);
+			StretchBlt(hdcCanvas, pt.x, pt.y, ptFitSize.x, ptFitSize.y, hdcMem, ptOrg.x, ptOrg.y, ptSize.x, ptSize.y, SRCCOPY);
+		}
+
+		DeleteDC(hdcMem);
+		return FALSE;
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Note vcard dialog
 
-static INT_PTR CALLBACK NoteDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+struct JabberVcardNoteDlg : public JabberVcardBaseDlg
 {
-	const unsigned long iPageId = 4;
-	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JabberVcardNoteDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_WORK, 4)
+	{}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (!lParam) break; // Launched from userinfo
-		ppro = (CJabberProto*)lParam;
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		SendMessage(hwndDlg, WM_JABBER_REFRESH_VCARD, 0, 0);
-		ppro->WindowSubscribe(hwndDlg);
-		break;
-
-	case WM_JABBER_REFRESH_VCARD:
-		SetDialogField(ppro, hwndDlg, IDC_DESC, "About");
-		break;
-
-	case WM_COMMAND:
-		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE) {
-			ppro->m_vCardUpdates |= (1UL << iPageId);
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0) {
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!ppro->m_vCardUpdates)
-					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
-				break;
-			}
-		}
-		break;
-	case WM_DESTROY:
-		ppro->WindowUnsubscribe(hwndDlg);
-		break;
+	bool OnRefresh() override
+	{
+		SetDialogField(ppro, m_hwnd, IDC_DESC, "About");
+		return false;
 	}
-	return FALSE;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Email vcard dialog
 
 struct EditDlgParam
 {
@@ -685,239 +588,202 @@ static INT_PTR CALLBACK EditPhoneDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	return FALSE;
 }
 
-#define M_REMAKELISTS  (WM_USER+1)
-static INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+class JabberVcardContactDlg : public JabberVcardBaseDlg
 {
-	const unsigned long iPageId = 5;
-	CJabberProto *ppro = (CJabberProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	CCtrlListView phones, emails;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		if (!lParam) break; // Launched from userinfo
-		ppro = (CJabberProto*)lParam;
-		{
-			LVCOLUMN lvc;
-			RECT rc;
-
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-			TranslateDialogDefault(hwndDlg);
-			GetClientRect(GetDlgItem(hwndDlg, IDC_EMAILS), &rc);
-			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-			lvc.mask = LVCF_WIDTH;
-			lvc.cx = 30;
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_EMAILS), 0, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PHONES), 0, &lvc);
-			lvc.cx = rc.right - 30 - 40;
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_EMAILS), 1, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PHONES), 1, &lvc);
-			lvc.cx = 20;
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_EMAILS), 2, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_EMAILS), 3, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PHONES), 2, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PHONES), 3, &lvc);
-			SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
-
-			ppro->WindowSubscribe(hwndDlg);
-		}
-		break;
-	case M_REMAKELISTS:
-		{
-			int i;
-			char idstr[33];
-			wchar_t number[20];
-
-			//e-mails
-			ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_EMAILS));
-
-			LVITEM lvi;
-			lvi.mask = LVIF_TEXT | LVIF_PARAM;
-			lvi.iSubItem = 0;
-			lvi.iItem = 0;
-			for (i=0;;i++) {
-				mir_snprintf(idstr, "e-mail%d", i);
-				ptrW email(ppro->getWStringA(idstr));
-				if (email == nullptr) break;
-
-				mir_snwprintf(number, L"%d", i + 1);
-				lvi.pszText = number;
-				lvi.lParam = (LPARAM)i;
-				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
-				ListView_SetItemText(GetDlgItem(hwndDlg, IDC_EMAILS), lvi.iItem, 1, email);
-				lvi.iItem++;
-			}
-			lvi.mask = LVIF_PARAM;
-			lvi.lParam = -1;
-			ListView_InsertItem(GetDlgItem(hwndDlg, IDC_EMAILS), &lvi);
-
-			//phones
-			ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_PHONES));
-			lvi.mask = LVIF_TEXT | LVIF_PARAM;
-			lvi.iSubItem = 0;
-			lvi.iItem = 0;
-			for (i=0;;i++) {
-				mir_snprintf(idstr, "Phone%d", i);
-				ptrW phone(ppro->getWStringA(idstr));
-				if (phone == nullptr) break;
-
-				mir_snwprintf(number, L"%d", i + 1);
-				lvi.pszText = number;
-				lvi.lParam = (LPARAM)i;
-				ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-				ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PHONES), lvi.iItem, 1, phone);
-				lvi.iItem++;
-			}
-			lvi.mask = LVIF_PARAM;
-			lvi.lParam = -1;
-			ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PHONES), &lvi);
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_PARAMCHANGED:
-				SendMessage(hwndDlg, WM_INITDIALOG, 0, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-
-			case PSN_APPLY:
-				ppro->m_vCardUpdates &= ~(1UL << iPageId);
-				ppro->SaveVcardToDB(hwndDlg, iPageId);
-				if (!ppro->m_vCardUpdates)
-					ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
-				break;
-			}
-			break;
-
-		case IDC_EMAILS:
-		case IDC_PHONES:
-			switch (((LPNMHDR)lParam)->code) {
-			case NM_CUSTOMDRAW:
-				{
-					NMLVCUSTOMDRAW *nm = (NMLVCUSTOMDRAW *)lParam;
-
-					switch (nm->nmcd.dwDrawStage) {
-					case CDDS_PREPAINT:
-					case CDDS_ITEMPREPAINT:
-						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_NOTIFYSUBITEMDRAW);
-						return TRUE;
-
-					case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
-						RECT rc;
-						HICON hIcon;
-
-						ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc);
-						if (nm->nmcd.lItemlParam == -1 && nm->iSubItem == 3)
-							hIcon = g_plugin.getIcon(IDI_ADDCONTACT);
-						else if (nm->iSubItem == 2 && nm->nmcd.lItemlParam != -1)
-							hIcon = g_plugin.getIcon(IDI_EDIT);
-						else if (nm->iSubItem == 3 && nm->nmcd.lItemlParam != -1)
-							hIcon = g_plugin.getIcon(IDI_DELETE);
-						else break;
-						DrawIconEx(nm->nmcd.hdc, (rc.left + rc.right - GetSystemMetrics(SM_CXSMICON)) / 2, (rc.top + rc.bottom - GetSystemMetrics(SM_CYSMICON)) / 2, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
-						SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, CDRF_SKIPDEFAULT);
-						return TRUE;
-					}
-				}
-				break;
-
-			case NM_CLICK:
-				NMLISTVIEW *nm = (NMLISTVIEW *)lParam;
-				if (nm->iSubItem < 2)
-					break;
-
-				const char *szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "Phone%d" : "e-mail%d";
-				const char *szFlagTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "PhoneFlag%d" : "e-mailFlag%d";
-
-				LVHITTESTINFO hti;
-				hti.pt.x = (short)LOWORD(GetMessagePos());
-				hti.pt.y = (short)HIWORD(GetMessagePos());
-				ScreenToClient(nm->hdr.hwndFrom, &hti.pt);
-				if (ListView_SubItemHitTest(nm->hdr.hwndFrom, &hti) == -1)
-					break;
-
-				LVITEM lvi;
-				lvi.mask = LVIF_PARAM;
-				lvi.iItem = hti.iItem;
-				lvi.iSubItem = 0;
-				ListView_GetItem(nm->hdr.hwndFrom, &lvi);
-				if (lvi.lParam == -1) {
-					if (hti.iSubItem == 3) {
-						//add
-						EditDlgParam param = { -1, ppro };
-						int res;
-						if (nm->hdr.idFrom == IDC_PHONES)
-							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
-						else
-							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
-						if (res != IDOK)
-							break;
-						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
-						ppro->m_vCardUpdates |= (1UL << iPageId);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-				else {
-					if (hti.iSubItem == 3) {
-						//delete
-						char idstr[33];
-
-						int i;
-						for (i = lvi.lParam;; i++) {
-							mir_snprintf(idstr, szIdTemplate, i + 1);
-							ptrA fieldVal(ppro->getStringA(idstr));
-							if (fieldVal == nullptr) break;
-							mir_snprintf(idstr, szIdTemplate, i);
-							ppro->setString(idstr, fieldVal);
-
-							mir_snprintf(idstr, szFlagTemplate, i + 1);
-							uint16_t nFlag = ppro->getWord(idstr, 0);
-							mir_snprintf(idstr, szFlagTemplate, i);
-							ppro->setWord(idstr, nFlag);
-						}
-						mir_snprintf(idstr, szIdTemplate, i);
-						ppro->delSetting(idstr);
-						mir_snprintf(idstr, szFlagTemplate, i);
-						ppro->delSetting(idstr);
-						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
-						ppro->m_vCardUpdates |= (1UL << iPageId);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-					else if (hti.iSubItem == 2) {
-						EditDlgParam param = { (int)lvi.lParam, ppro };
-						int res;
-						if (nm->hdr.idFrom == IDC_PHONES)
-							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), hwndDlg, EditPhoneDlgProc, (LPARAM)&param);
-						else
-							res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), hwndDlg, EditEmailDlgProc, (LPARAM)&param);
-						if (res != IDOK)
-							break;
-						SendMessage(hwndDlg, M_REMAKELISTS, 0, 0);
-						ppro->m_vCardUpdates |= (1UL << iPageId);
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-			}
-		}
-		break;
-
-	case WM_SETCURSOR:
-		if (LOWORD(lParam) != HTCLIENT) break;
-		if (GetForegroundWindow() == GetParent(hwndDlg)) {
-			POINT pt;
-			GetCursorPos(&pt);
-			ScreenToClient(hwndDlg, &pt);
-			SetFocus(ChildWindowFromPoint(hwndDlg, pt));	  //ugly hack because listviews ignore their first click
-		}
-		break;
-
-	case WM_DESTROY:
-		ppro->WindowUnsubscribe(hwndDlg);
-		break;
+public:
+	JabberVcardContactDlg(CJabberProto *_ppro) :
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_CONTACT, 5),
+		phones(this, IDC_PHONES),
+		emails(this, IDC_EMAILS)
+	{
+		phones.OnClick = emails.OnClick = Callback(this, &JabberVcardContactDlg::onClick_Lists);
+		phones.OnCustomDraw = emails.OnCustomDraw = Callback(this, &JabberVcardContactDlg::onDraw_Lists);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		JabberVcardBaseDlg::OnInitDialog();
+
+		RECT rc;
+		GetClientRect(emails.GetHwnd(), &rc);
+		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+
+		LVCOLUMN lvc;
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = 30;
+		emails.InsertColumn(0, &lvc);
+		phones.InsertColumn(0, &lvc);
+		lvc.cx = rc.right - 30 - 40;
+		emails.InsertColumn(1, &lvc);
+		phones.InsertColumn(1, &lvc);
+		lvc.cx = 20;
+		emails.InsertColumn(2, &lvc);
+		emails.InsertColumn(3, &lvc);
+		phones.InsertColumn(2, &lvc);
+		phones.InsertColumn(3, &lvc);
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		int i;
+		char idstr[33];
+		wchar_t number[20];
+
+		//e-mails
+		emails.DeleteAllItems();
+
+		LVITEM lvi;
+		lvi.mask = LVIF_TEXT | LVIF_PARAM;
+		lvi.iSubItem = 0;
+		lvi.iItem = 0;
+		for (i=0;;i++) {
+			mir_snprintf(idstr, "e-mail%d", i);
+			ptrW email(ppro->getWStringA(idstr));
+			if (email == nullptr) break;
+
+			mir_snwprintf(number, L"%d", i + 1);
+			lvi.pszText = number;
+			lvi.lParam = (LPARAM)i;
+			emails.InsertItem(&lvi);
+			emails.SetItemText(lvi.iItem, 1, email);
+			lvi.iItem++;
+		}
+		lvi.mask = LVIF_PARAM;
+		lvi.lParam = -1;
+		emails.InsertItem(&lvi);
+
+		//phones
+		phones.DeleteAllItems();
+
+		lvi.mask = LVIF_TEXT | LVIF_PARAM;
+		lvi.iSubItem = 0;
+		lvi.iItem = 0;
+		for (i=0;;i++) {
+			mir_snprintf(idstr, "Phone%d", i);
+			ptrW phone(ppro->getWStringA(idstr));
+			if (phone == nullptr) break;
+
+			mir_snwprintf(number, L"%d", i + 1);
+			lvi.pszText = number;
+			lvi.lParam = (LPARAM)i;
+			phones.InsertItem(&lvi);
+			phones.SetItemText(lvi.iItem, 1, phone);
+			lvi.iItem++;
+		}
+		lvi.mask = LVIF_PARAM;
+		lvi.lParam = -1;
+		phones.InsertItem(&lvi);
+		return false;
+	}
+
+	void onDraw_Lists(CCtrlListView::TEventInfo *ev)
+	{
+		NMLVCUSTOMDRAW *nm = ev->nmcd;
+
+		switch (nm->nmcd.dwDrawStage) {
+		case CDDS_PREPAINT:
+		case CDDS_ITEMPREPAINT:
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, CDRF_NOTIFYSUBITEMDRAW);
+			return;
+
+		case CDDS_SUBITEM | CDDS_ITEMPREPAINT:
+			RECT rc;
+			HICON hIcon;
+
+			ListView_GetSubItemRect(nm->nmcd.hdr.hwndFrom, nm->nmcd.dwItemSpec, nm->iSubItem, LVIR_LABEL, &rc);
+			if (nm->nmcd.lItemlParam == -1 && nm->iSubItem == 3)
+				hIcon = g_plugin.getIcon(IDI_ADDCONTACT);
+			else if (nm->iSubItem == 2 && nm->nmcd.lItemlParam != -1)
+				hIcon = g_plugin.getIcon(IDI_EDIT);
+			else if (nm->iSubItem == 3 && nm->nmcd.lItemlParam != -1)
+				hIcon = g_plugin.getIcon(IDI_DELETE);
+			else break;
+			DrawIconEx(nm->nmcd.hdc, (rc.left + rc.right - GetSystemMetrics(SM_CXSMICON)) / 2, (rc.top + rc.bottom - GetSystemMetrics(SM_CYSMICON)) / 2, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, nullptr, DI_NORMAL);
+			SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, CDRF_SKIPDEFAULT);
+		}
+	}
+
+	void onClick_Lists(CCtrlListView::TEventInfo *ev)
+	{
+		NMLISTVIEW *nm = ev->nmlv;
+		if (nm->iSubItem < 2)
+			return;
+
+		const char *szIdTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "Phone%d" : "e-mail%d";
+		const char *szFlagTemplate = (nm->hdr.idFrom == IDC_PHONES) ? "PhoneFlag%d" : "e-mailFlag%d";
+
+		LVHITTESTINFO hti;
+		hti.pt.x = (short)LOWORD(GetMessagePos());
+		hti.pt.y = (short)HIWORD(GetMessagePos());
+		ScreenToClient(nm->hdr.hwndFrom, &hti.pt);
+		if (ListView_SubItemHitTest(nm->hdr.hwndFrom, &hti) == -1)
+			return;
+
+		LVITEM lvi;
+		lvi.mask = LVIF_PARAM;
+		lvi.iItem = hti.iItem;
+		lvi.iSubItem = 0;
+		ListView_GetItem(nm->hdr.hwndFrom, &lvi);
+		if (lvi.lParam == -1) {
+			if (hti.iSubItem == 3) {
+				//add
+				EditDlgParam param = { -1, ppro };
+				int res;
+				if (nm->hdr.idFrom == IDC_PHONES)
+					res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), m_hwnd, EditPhoneDlgProc, (LPARAM)&param);
+				else
+					res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), m_hwnd, EditEmailDlgProc, (LPARAM)&param);
+				if (res != IDOK)
+					return;
+				OnRefresh();
+				NotifyChange();
+			}
+		}
+		else {
+			if (hti.iSubItem == 3) {
+				//delete
+				char idstr[33];
+
+				int i;
+				for (i = lvi.lParam;; i++) {
+					mir_snprintf(idstr, szIdTemplate, i + 1);
+					ptrA fieldVal(ppro->getStringA(idstr));
+					if (fieldVal == nullptr) break;
+					mir_snprintf(idstr, szIdTemplate, i);
+					ppro->setString(idstr, fieldVal);
+
+					mir_snprintf(idstr, szFlagTemplate, i + 1);
+					uint16_t nFlag = ppro->getWord(idstr, 0);
+					mir_snprintf(idstr, szFlagTemplate, i);
+					ppro->setWord(idstr, nFlag);
+				}
+				mir_snprintf(idstr, szIdTemplate, i);
+				ppro->delSetting(idstr);
+				mir_snprintf(idstr, szFlagTemplate, i);
+				ppro->delSetting(idstr);
+				OnRefresh();
+				NotifyChange();
+			}
+			else if (hti.iSubItem == 2) {
+				EditDlgParam param = { (int)lvi.lParam, ppro };
+				int res;
+				if (nm->hdr.idFrom == IDC_PHONES)
+					res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDPHONE), m_hwnd, EditPhoneDlgProc, (LPARAM)&param);
+				else
+					res = DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_VCARD_ADDEMAIL), m_hwnd, EditEmailDlgProc, (LPARAM)&param);
+				if (res != IDOK)
+					return;
+				OnRefresh();
+				NotifyChange();
+			}
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
 {
@@ -1174,55 +1040,40 @@ void CJabberProto::SetServerVcard(BOOL bPhotoChanged, wchar_t *szPhotoFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK JabberUserOmemoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam);
-
 void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 {
 	m_vCardUpdates = 0;
 	m_bPhotoChanged = false;
 	m_szPhotoFileName[0] = 0;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.dwInitParam = (LPARAM)this;
-	odp.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
-	odp.szTitle.w = m_tszUserName;
+	USERINFOPAGE uip = {};
+	uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+	uip.szGroup.w = m_tszUserName;
 
-	odp.pfnDlgProc = PersonalDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PERSONAL);
-	odp.szTab.w = LPGENW("General");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardPersonalDlg(this);
+	uip.szTitle.w = LPGENW("General");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = ContactDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_CONTACT);
-	odp.szTab.w = LPGENW("Contacts");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardContactDlg(this);
+	uip.szTitle.w = LPGENW("Contacts");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = HomeDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_HOME);
-	odp.szTab.w = LPGENW("Home");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardHomeDlg(this);
+	uip.szTitle.w = LPGENW("Home");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = WorkDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_WORK);
-	odp.szTab.w = LPGENW("Work");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardWorkDlg(this);
+	uip.szTitle.w = LPGENW("Work");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = PhotoDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
-	odp.szTab.w = LPGENW("Photo");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardPhotoDlg(this);
+	uip.szTitle.w = LPGENW("Photo");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = NoteDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_NOTE);
-	odp.szTab.w = LPGENW("Note");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new JabberVcardNoteDlg(this);
+	uip.szTitle.w = LPGENW("Note");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	if (m_bUseOMEMO) {
-		odp.pfnDlgProc = JabberUserOmemoDlgProc;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_OMEMO);
-		odp.szTab.w = LPGENW("OMEMO");
-		g_plugin.addUserInfo(wParam, &odp);
-	}
-
+	CheckOmemoUserInfo(wParam, uip);
 	SendGetVcard(0);
 }

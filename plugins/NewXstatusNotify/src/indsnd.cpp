@@ -21,44 +21,7 @@
 
 #include "stdafx.h"
 
-void PreviewSound(HWND hList)
-{
-	wchar_t buff[MAX_PATH], stzSoundPath[MAX_PATH];
-
-	LVITEM lvi = { 0 };
-	lvi.mask = LVIF_PARAM;
-	lvi.iItem = ListView_GetNextItem(hList, -1, LVNI_SELECTED);
-	ListView_GetItem(hList, &lvi);
-
-	int hlpStatus = lvi.lParam;
-
-	ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
-	if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
-		if (hlpStatus < ID_STATUS_MIN)
-			Skin_PlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
-		else
-			Skin_PlaySound(StatusList[Index(hlpStatus)].lpzSkinSoundName);
-	}
-	else {
-		PathToAbsoluteW(buff, stzSoundPath);
-		Skin_PlaySoundFile(stzSoundPath);
-	}
-}
-
-BOOL RemoveSoundFromList(HWND hList)
-{
-	int iSel = ListView_GetSelectionMark(hList);
-	if (iSel != -1) {
-		iSel = -1;
-		while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-			ListView_SetItemText(hList, iSel, 1, TranslateW(DEFAULT_SOUND));
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-wchar_t *SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
+wchar_t* SelectSound(HWND hwndDlg, wchar_t *buff, size_t bufflen)
 {
 	OPENFILENAME ofn = { 0 };
 
@@ -100,186 +63,6 @@ HIMAGELIST GetStatusIconsImgList(char *szProto)
 	}
 
 	return hList;
-}
-
-INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static MCONTACT hContact = NULL;
-	HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			hContact = lParam;
-			char *szProto = Proto_GetBaseAccountName(hContact);
-
-			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);
-			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
-
-			RECT rc = { 0 };
-			GetClientRect(hList, &rc);
-
-			LV_COLUMN lvc = { 0 };
-			lvc.mask = LVCF_WIDTH | LVCF_TEXT;
-			lvc.cx = STATUS_COLUMN;
-			lvc.pszText = TranslateT("Status");
-			ListView_InsertColumn(hList, 0, &lvc);
-
-			lvc.cx = rc.right - STATUS_COLUMN - GetSystemMetrics(SM_CXVSCROLL);
-			lvc.pszText = TranslateT("Sound file");
-			ListView_InsertColumn(hList, 1, &lvc);
-
-			if (szProto) {
-				DBVARIANT dbv;
-				wchar_t buff[MAX_PATH];
-
-				for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) {
-					int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
-					if (flags == 0)
-						flags = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
-
-					if ((flags & Proto_Status2Flag(i)) || i == ID_STATUS_OFFLINE) {
-						LV_ITEM lvi = { 0 };
-						lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-						lvi.iItem = 0;
-						lvi.iSubItem = 0;
-						lvi.iImage = Index(i);
-						lvi.lParam = (LPARAM)i;
-						lvi.pszText = TranslateW(StatusList[Index(i)].lpzSkinSoundDesc);
-						lvi.iItem = ListView_InsertItem(hList, &lvi);
-
-						if (!g_plugin.getWString(hContact, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
-							mir_wstrcpy(buff, dbv.pwszVal);
-							db_free(&dbv);
-						}
-						else mir_wstrcpy(buff, TranslateW(DEFAULT_SOUND));
-
-						ListView_SetItemText(hList, lvi.iItem, 1, buff);
-					}
-				}
-
-				for (int i = 0; i <= ID_STATUSEX_MAX; i++) {
-					LV_ITEM lvi = { 0 };
-					lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-					lvi.iItem = 0;
-					lvi.iSubItem = 0;
-					lvi.iImage = Index(ID_STATUS_MAX) + 1; // additional icon
-					lvi.lParam = (LPARAM)i;
-					lvi.pszText = TranslateW(StatusListEx[i].lpzSkinSoundDesc);
-					lvi.iItem = ListView_InsertItem(hList, &lvi);
-
-					if (!g_plugin.getWString(hContact, StatusList[i].lpzSkinSoundName, &dbv)) {
-						wcsncpy(buff, dbv.pwszVal, _countof(buff)-1);
-						db_free(&dbv);
-					}
-					else wcsncpy(buff, TranslateW(DEFAULT_SOUND), _countof(buff)-1);
-
-					ListView_SetItemText(hList, lvi.iItem, 1, buff);
-				}
-			}
-
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYSOUNDS, g_plugin.getByte(hContact, "EnableSounds", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CHECK_NOTIFYPOPUPS, g_plugin.getByte(hContact, "EnablePopups", 1) ? BST_CHECKED : BST_UNCHECKED);
-
-			ShowWindow(GetDlgItem(hwndDlg, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_CHANGE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_PREVIEW), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
-			ShowWindow(GetDlgItem(hwndDlg, IDC_DELETE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_PREVIEW:
-			if (ListView_GetSelectionMark(hList) != -1)
-				PreviewSound(hList);
-			break;
-		case IDC_CHANGE:
-			{
-				int iSel = ListView_GetNextItem(GetDlgItem(hwndDlg, IDC_INDSNDLIST), -1, LVNI_SELECTED);
-				if (iSel != -1) {
-					wchar_t stzFilePath[MAX_PATH];
-					if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != nullptr) {
-						iSel = -1;
-						while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-							ListView_SetItemText(hList, iSel, 1, stzFilePath);
-
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					}
-				}
-			}
-			break;
-		case IDC_DELETE:
-			if (ListView_GetSelectionMark(hList) != -1)
-				if (RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST)))
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		case IDC_CHECK_NOTIFYSOUNDS:
-			g_plugin.setByte(hContact, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
-			break;
-		case IDC_CHECK_NOTIFYPOPUPS:
-			g_plugin.setByte(hContact, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
-			break;
-		}
-		break;
-
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-			wchar_t buff[MAX_PATH];
-
-			LVITEM lvi = { 0 };
-			lvi.mask = LVIF_PARAM;
-			//Cycle through the list reading the text associated to each status.
-			for (lvi.iItem = ListView_GetItemCount(hList) - 1; lvi.iItem >= 0; lvi.iItem--) {
-				ListView_GetItem(hList, &lvi);
-				ListView_GetItemText(hList, lvi.iItem, 1, buff, _countof(buff));
-
-				if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
-					if (lvi.lParam < ID_STATUS_MIN)
-						g_plugin.delSetting(hContact, StatusListEx[lvi.lParam].lpzSkinSoundName);
-					else
-						g_plugin.delSetting(hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
-				}
-				else {
-					wchar_t stzSoundPath[MAX_PATH] = { 0 };
-					PathToRelativeW(buff, stzSoundPath);
-					if (lvi.lParam < ID_STATUS_MIN)
-						g_plugin.setWString(hContact, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
-					else
-						g_plugin.setWString(hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
-				}
-			}
-
-			return TRUE;
-		}
-
-		int hlpControlID = (int)wParam;
-		switch (hlpControlID) {
-		case IDC_INDSNDLIST:
-			if (((LPNMHDR)lParam)->code == NM_DBLCLK) {
-				wchar_t stzFilePath[MAX_PATH];
-				if (SelectSound(hwndDlg, stzFilePath, MAX_PATH - 1) != nullptr) {
-					int iSel = -1;
-					while ((iSel = ListView_GetNextItem(hList, iSel, LVNI_SELECTED)) != -1)
-						ListView_SetItemText(hList, iSel, 1, stzFilePath);
-
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-				return TRUE;
-			}
-			else if (((LPNMHDR)lParam)->code == LVN_KEYDOWN) {
-				LPNMLVKEYDOWN pnkd = (LPNMLVKEYDOWN)lParam;
-				if (pnkd->wVKey == VK_DELETE)
-					RemoveSoundFromList(GetDlgItem(hwndDlg, IDC_INDSNDLIST));
-			}
-
-			break;
-		}
-		break;
-	}
-	return FALSE;
 }
 
 void ResetListOptions(HWND hwndList)
@@ -592,15 +375,240 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// User info dialog
+
+class SoundUIPageDlg : public CUserInfoPageDlg
+{
+	CCtrlCheck chkSounds, chkPopups;
+	CCtrlButton btnPreview, btnChange, btnDelete;
+	CCtrlListView m_list;
+
+	void PreviewSound()
+	{
+		LVITEM lvi = { 0 };
+		lvi.mask = LVIF_PARAM;
+		lvi.iItem = m_list.GetNextItem(-1, LVNI_SELECTED);
+		m_list.GetItem(&lvi);
+
+		int hlpStatus = lvi.lParam;
+
+		wchar_t buff[MAX_PATH], stzSoundPath[MAX_PATH];
+		m_list.GetItemText(lvi.iItem, 1, buff, _countof(buff));
+		if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
+			if (hlpStatus < ID_STATUS_MIN)
+				Skin_PlaySound(StatusListEx[hlpStatus].lpzSkinSoundName);
+			else
+				Skin_PlaySound(StatusList[Index(hlpStatus)].lpzSkinSoundName);
+		}
+		else {
+			PathToAbsoluteW(buff, stzSoundPath);
+			Skin_PlaySoundFile(stzSoundPath);
+		}
+	}
+
+	BOOL RemoveSoundFromList()
+	{
+		int iSel = m_list.GetSelectionMark();
+		if (iSel != -1) {
+			iSel = -1;
+			while ((iSel = m_list.GetNextItem(iSel, LVNI_SELECTED)) != -1)
+				m_list.SetItemText(iSel, 1, TranslateW(DEFAULT_SOUND));
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+public:
+	SoundUIPageDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_SOUNDS),
+		m_list(this, IDC_INDSNDLIST),
+		chkPopups(this, IDC_CHECK_NOTIFYPOPUPS),
+		chkSounds(this, IDC_CHECK_NOTIFYSOUNDS),
+		btnChange(this, IDC_CHANGE),
+		btnDelete(this, IDC_DELETE),
+		btnPreview(this, IDC_PREVIEW)
+	{
+		m_list.OnDoubleClick = Callback(this, &SoundUIPageDlg::onDblClick_List);
+
+		chkPopups.OnChange = Callback(this, &SoundUIPageDlg::onChange_Popups);
+		chkSounds.OnChange = Callback(this, &SoundUIPageDlg::onChange_Sounds);
+
+		btnChange.OnClick = Callback(this, &SoundUIPageDlg::onClick_Change);
+		btnDelete.OnClick = Callback(this, &SoundUIPageDlg::onClick_Delete);
+		btnPreview.OnClick = Callback(this, &SoundUIPageDlg::onClick_Preview);
+	}
+
+	bool OnInitDialog() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+
+		m_list.SetImageList(GetStatusIconsImgList(szProto), LVSIL_SMALL);
+		m_list.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
+
+		RECT rc = { 0 };
+		GetClientRect(m_list.GetHwnd(), &rc);
+
+		LV_COLUMN lvc = { 0 };
+		lvc.mask = LVCF_WIDTH | LVCF_TEXT;
+		lvc.cx = STATUS_COLUMN;
+		lvc.pszText = TranslateT("Status");
+		m_list.InsertColumn(0, &lvc);
+
+		lvc.cx = rc.right - STATUS_COLUMN - GetSystemMetrics(SM_CXVSCROLL);
+		lvc.pszText = TranslateT("Sound file");
+		m_list.InsertColumn(1, &lvc);
+
+		if (szProto) {
+			DBVARIANT dbv;
+			wchar_t buff[MAX_PATH];
+
+			for (int i = ID_STATUS_MAX; i >= ID_STATUS_MIN; i--) {
+				int flags = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_2, 0);
+				if (flags == 0)
+					flags = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT;
+
+				if ((flags & Proto_Status2Flag(i)) || i == ID_STATUS_OFFLINE) {
+					LV_ITEM lvi = { 0 };
+					lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+					lvi.iItem = 0;
+					lvi.iSubItem = 0;
+					lvi.iImage = Index(i);
+					lvi.lParam = (LPARAM)i;
+					lvi.pszText = TranslateW(StatusList[Index(i)].lpzSkinSoundDesc);
+					lvi.iItem = m_list.InsertItem(&lvi);
+
+					if (!g_plugin.getWString(m_hContact, StatusList[Index(i)].lpzSkinSoundName, &dbv)) {
+						mir_wstrcpy(buff, dbv.pwszVal);
+						db_free(&dbv);
+					}
+					else mir_wstrcpy(buff, TranslateW(DEFAULT_SOUND));
+
+					m_list.SetItemText(lvi.iItem, 1, buff);
+				}
+			}
+
+			for (int i = 0; i <= ID_STATUSEX_MAX; i++) {
+				LV_ITEM lvi = { 0 };
+				lvi.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+				lvi.iItem = 0;
+				lvi.iSubItem = 0;
+				lvi.iImage = Index(ID_STATUS_MAX) + 1; // additional icon
+				lvi.lParam = (LPARAM)i;
+				lvi.pszText = TranslateW(StatusListEx[i].lpzSkinSoundDesc);
+				lvi.iItem = m_list.InsertItem(&lvi);
+
+				if (!g_plugin.getWString(m_hContact, StatusList[i].lpzSkinSoundName, &dbv)) {
+					wcsncpy(buff, dbv.pwszVal, _countof(buff) - 1);
+					db_free(&dbv);
+				}
+				else wcsncpy(buff, TranslateW(DEFAULT_SOUND), _countof(buff) - 1);
+
+				m_list.SetItemText(lvi.iItem, 1, buff);
+			}
+		}
+
+		chkSounds.SetState(g_plugin.getByte(m_hContact, "EnableSounds", 1));
+		chkPopups.SetState(g_plugin.getByte(m_hContact, "EnablePopups", 1));
+
+		ShowWindow(GetDlgItem(m_hwnd, IDC_INDSNDLIST), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_TEXT_ENABLE_IS), opt.UseIndSnd ? SW_HIDE : SW_SHOW);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_CHANGE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_PREVIEW), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
+		ShowWindow(GetDlgItem(m_hwnd, IDC_DELETE), opt.UseIndSnd ? SW_SHOW : SW_HIDE);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		wchar_t buff[MAX_PATH];
+
+		LVITEM lvi = { 0 };
+		lvi.mask = LVIF_PARAM;
+		//Cycle through the list reading the text associated to each status.
+		for (lvi.iItem = m_list.GetItemCount() - 1; lvi.iItem >= 0; lvi.iItem--) {
+			m_list.GetItem(&lvi);
+			m_list.GetItemText(lvi.iItem, 1, buff, _countof(buff));
+
+			if (!mir_wstrcmp(buff, TranslateW(DEFAULT_SOUND))) {
+				if (lvi.lParam < ID_STATUS_MIN)
+					g_plugin.delSetting(m_hContact, StatusListEx[lvi.lParam].lpzSkinSoundName);
+				else
+					g_plugin.delSetting(m_hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
+			}
+			else {
+				wchar_t stzSoundPath[MAX_PATH] = { 0 };
+				PathToRelativeW(buff, stzSoundPath);
+				if (lvi.lParam < ID_STATUS_MIN)
+					g_plugin.setWString(m_hContact, StatusListEx[lvi.lParam].lpzSkinSoundName, stzSoundPath);
+				else
+					g_plugin.setWString(m_hContact, StatusList[Index(lvi.lParam)].lpzSkinSoundName, stzSoundPath);
+			}
+		}
+
+		return true;
+	}
+
+	void onClick_Preview(CCtrlButton*)
+	{
+		if (m_list.GetSelectionMark() != -1)
+			PreviewSound();
+	}
+
+	void onClick_Change(CCtrlButton*)
+	{
+		int iSel = m_list.GetNextItem(-1, LVNI_SELECTED);
+		if (iSel != -1) {
+			wchar_t stzFilePath[MAX_PATH];
+			if (SelectSound(m_hwnd, stzFilePath, MAX_PATH - 1) != nullptr) {
+				iSel = -1;
+				while ((iSel = m_list.GetNextItem(iSel, LVNI_SELECTED)) != -1)
+					m_list.SetItemText(iSel, 1, stzFilePath);
+
+				NotifyChange();
+			}
+		}
+	}
+
+	void onClick_Delete(CCtrlButton*)
+	{
+		if (m_list.GetSelectionMark() != -1)
+			if (RemoveSoundFromList())
+				NotifyChange();
+	}
+
+	void onChange_Popups(CCtrlCheck*)
+	{
+		g_plugin.setByte(m_hContact, "EnableSounds", chkPopups.GetState());
+	}
+
+	void onChange_Sounds(CCtrlCheck*)
+	{
+		g_plugin.setByte(m_hContact, "EnablePopups", chkSounds.GetState());
+	}
+
+	void onDblClick_List(CCtrlListView::TEventInfo*)
+	{
+		wchar_t stzFilePath[MAX_PATH];
+		if (SelectSound(m_hwnd, stzFilePath, MAX_PATH - 1) != nullptr) {
+			int iSel = -1;
+			while ((iSel = m_list.GetNextItem(iSel, LVNI_SELECTED)) != -1)
+				m_list.SetItemText(iSel, 1, stzFilePath);
+
+			SendMessage(GetParent(m_hwnd), PSM_CHANGED, 0, 0);
+		}
+	}
+};
+
 int UserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam) {
-		OPTIONSDIALOGPAGE odp = {};
-		odp.position = 100000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SOUNDS);
-		odp.szTitle.a = LPGEN("Status Notify");
-		odp.pfnDlgProc = DlgProcSoundUIPage;
-		g_plugin.addUserInfo(wParam, &odp);
+		USERINFOPAGE uip = {};
+		uip.position = 100000000;
+		uip.szTitle.a = LPGEN("Status Notify");
+		uip.pDialog = new SoundUIPageDlg();
+		g_plugin.addUserInfo(wParam, &uip);
 	}
 	return 0;
 }

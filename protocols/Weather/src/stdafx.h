@@ -512,12 +512,26 @@ void removeWindow(MCONTACT hContact);
 
 // functions in weather_userinfo.c
 int UserInfoInit(WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #define WM_UPDATEDATA WM_USER + 2687
 
 int BriefInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
+
+///////////////////////////////////////////////////////////////////////////////
+// UI Classes
+
+class WeatherMyDetailsDlg : public CUserInfoPageDlg
+{
+	CCtrlButton btnReload;
+
+public:
+	WeatherMyDetailsDlg();
+
+	bool OnInitDialog() override;
+
+	void onClick_Reload(CCtrlButton *);
+};
 
 //============  Plugin Class ============
 

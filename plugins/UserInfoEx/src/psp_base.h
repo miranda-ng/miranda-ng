@@ -22,20 +22,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UI_PSP_BASE_INCLUDE_
 #define _UI_PSP_BASE_INCLUDE_
 
-INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
+/////////////////////////////////////////////////////////////////////////////////////////
+// Base page dialog class
 
-INT_PTR CALLBACK PSPProcAnniversary(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcCompany(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcContactHome(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcContactProfile(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcContactWork(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam, const CHAR* pszSetting);
-static FORCEINLINE INT_PTR CALLBACK PSPProcMyNotes(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{ return PSPProcEdit(hDlg, uMsg, wParam, lParam, SET_CONTACT_MYNOTES); }
-static FORCEINLINE INT_PTR CALLBACK PSPProcAbout(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{ return PSPProcEdit(hDlg, uMsg, wParam, lParam, SET_CONTACT_ABOUT); }
+class PSPBaseDlg : public CUserInfoPageDlg
+{
+	friend class CPsTreeItem;
+
+protected:
+	CCtrlList *m_ctrlList;
+
+	PSPBaseDlg(int idDialog);
+
+	virtual void OnIconsChanged() {}
+
+	bool OnInitDialog() override;
+	void OnDestroy() override;
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM, LPARAM) override;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void InitGeneralDlg(WPARAM wParam, USERINFOPAGE &uip);
+void InitContactDlg(WPARAM wParam, USERINFOPAGE &uip);
+void InitOriginDlg(WPARAM wParam, USERINFOPAGE &uip);
+void InitCompanyDlg(WPARAM wParam, USERINFOPAGE &uip);
+void InitAnniversaryDlg(WPARAM wParam, USERINFOPAGE &uip);
+void InitOriginDlg(WPARAM wParam, USERINFOPAGE &uip, bool bReadOnly);
+void InitProfileDlg(WPARAM wParam, USERINFOPAGE &uip);
 
 void UpDate_CountryIcon(HWND hCtrl, int countryID);
 

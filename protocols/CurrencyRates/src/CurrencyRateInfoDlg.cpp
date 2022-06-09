@@ -17,74 +17,57 @@ inline bool IsMyContact(MCONTACT hContact)
 	return nullptr != GetContactProviderPtr(hContact);
 }
 
-inline MCONTACT get_contact(HWND hWnd)
+/////////////////////////////////////////////////////////////////////////////////////////
+// User info dialog
+
+class CurrencyRateInfoDlg : public CUserInfoPageDlg
 {
-	return MCONTACT(GetWindowLongPtr(hWnd, GWLP_USERDATA));
-}
+	CCtrlHyperlink url;
 
-static bool get_fetch_time(time_t& rTime, MCONTACT hContact)
-{
-	rTime = g_plugin.getDword(hContact, DB_STR_CURRENCYRATE_FETCH_TIME, -1);
-	return (rTime != -1);
-}
-
-INT_PTR CALLBACK CurrencyRateInfoDlgProcImpl(MCONTACT hContact, HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		assert(hContact);
-
-		TranslateDialogDefault(hdlg);
-		{
-			::SetDlgItemTextW(hdlg, IDC_STATIC_CURRENCYRATE_NAME, GetContactName(hContact));
-
-			double dRate = 0.0;
-			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
-				wchar_t str[40];
-				swprintf_s(str, L"%.6lf", dRate);
-				::SetDlgItemTextW(hdlg, IDC_EDIT_PREVIOUS_RATE, str);
-			}
-
-			dRate = 0.0;
-			if (true == CurrencyRates_DBReadDouble(hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate)) {
-				wchar_t str[40];
-				swprintf_s(str, L"%.6lf", dRate);
-				::SetDlgItemTextW(hdlg, IDC_EDIT_RATE, str);
-			}
-
-			time_t nFetchTime;
-			if (true == get_fetch_time(nFetchTime, hContact)) {
-				wchar_t szTime[50] = { 0 };
-				if (0 == _tctime_s(szTime, 50, &nFetchTime)) {
-					::SetDlgItemTextW(hdlg, IDC_EDIT_RATE_FETCH_TIME, szTime);
-				}
-			}
-
-			const ICurrencyRatesProvider::CProviderInfo& pi = GetContactProviderPtr(hContact)->GetInfo();
-			CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
-			::SetDlgItemTextW(hdlg, IDC_SYSLINK_PROVIDER, provInfo);
-		}
-		return TRUE;
-
-	case WM_NOTIFY:
-		LPNMHDR pNMHDR = reinterpret_cast<LPNMHDR>(lParam);
-		switch (pNMHDR->code) {
-		case NM_CLICK:
-			if (IDC_SYSLINK_PROVIDER == wParam) {
-				PNMLINK pNMLink = reinterpret_cast<PNMLINK>(pNMHDR);
-				::ShellExecute(hdlg, L"open", pNMLink->item.szUrl, nullptr, nullptr, SW_SHOWNORMAL);
-			}
-			break;
-		}
-		break;
+public:
+	CurrencyRateInfoDlg(int idDialog) :
+		CUserInfoPageDlg(g_plugin, idDialog),
+		url(this, IDC_SYSLINK_PROVIDER)
+	{
 	}
-	return FALSE;
-}
 
-INT_PTR CALLBACK CurrencyRateInfoDlgProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	return CurrencyRateInfoDlgProcImpl(g_hContact, hdlg, msg, wParam, lParam);
-}
+	bool OnRefresh() override
+	{
+		::SetDlgItemTextW(m_hwnd, IDC_STATIC_CURRENCYRATE_NAME, GetContactName(m_hContact));
+
+		double dRate = 0.0;
+		if (true == CurrencyRates_DBReadDouble(m_hContact, MODULENAME, DB_STR_CURRENCYRATE_PREV_VALUE, dRate)) {
+			wchar_t str[40];
+			swprintf_s(str, L"%.6lf", dRate);
+			::SetDlgItemTextW(m_hwnd, IDC_EDIT_PREVIOUS_RATE, str);
+		}
+
+		dRate = 0.0;
+		if (true == CurrencyRates_DBReadDouble(m_hContact, MODULENAME, DB_STR_CURRENCYRATE_CURR_VALUE, dRate)) {
+			wchar_t str[40];
+			swprintf_s(str, L"%.6lf", dRate);
+			::SetDlgItemTextW(m_hwnd, IDC_EDIT_RATE, str);
+		}
+
+		time_t nFetchTime = g_plugin.getDword(m_hContact, DB_STR_CURRENCYRATE_FETCH_TIME, -1);
+		if (nFetchTime != -1) {
+			wchar_t szTime[50] = { 0 };
+			if (0 == _tctime_s(szTime, 50, &nFetchTime)) {
+				::SetDlgItemTextW(m_hwnd, IDC_EDIT_RATE_FETCH_TIME, szTime);
+			}
+		}
+
+		auto &pi = GetContactProviderPtr(m_hContact)->GetInfo();
+		CMStringW provInfo(FORMAT, L"%s <a href=\"%s\">%s</a>", TranslateT("Info provided by"), pi.m_sURL.c_str(), pi.m_sName.c_str());
+		::SetDlgItemTextW(m_hwnd, IDC_SYSLINK_PROVIDER, provInfo);
+		return false;
+	}
+
+	void onClick_Url(CCtrlHyperlink *pLink)
+	{
+		::ShellExecute(m_hwnd, L"open", ptrW(pLink->GetText()), nullptr, nullptr, SW_SHOWNORMAL);
+	}
+};
 
 int CurrencyRatesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM hContact)
 {
@@ -96,15 +79,65 @@ int CurrencyRatesEventFunc_OnUserInfoInit(WPARAM wp, LPARAM hContact)
 
 	g_hContact = hContact;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.pfnDlgProc = CurrencyRateInfoDlgProc;
-	odp.position = -2000000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG_CURRENCYRATE_INFO);
-	odp.szTitle.a = LPGEN("Currency Rate");
-	g_plugin.addUserInfo(wp, &odp);
+	USERINFOPAGE uip = {};
+	uip.position = -2000000000;
+	uip.pDialog = new CurrencyRateInfoDlg(IDD_DIALOG_CURRENCYRATE_INFO);
+	uip.szTitle.a = LPGEN("Currency Rate");
+	g_plugin.addUserInfo(wp, &uip);
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Additional info dialog
+
+struct CurrencyRateInfoDlg2 : public CurrencyRateInfoDlg
+{
+	CurrencyRateInfoDlg2(MCONTACT hContact) :
+		CurrencyRateInfoDlg(IDD_DIALOG_CURRENCYRATE_INFO_1)
+	{
+		m_hContact = hContact;
+	}
+
+	bool OnInitDialog() override
+	{
+		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
+		WindowList_Add(hWL, m_hwnd, m_hContact);
+
+		Utils_RestoreWindowPositionNoSize(m_hwnd, m_hContact, MODULENAME, WINDOW_PREFIX_INFO);
+		OnRefresh();
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
+		WindowList_Remove(hWL, m_hwnd);
+
+		Utils_SaveWindowPosition(m_hwnd, m_hContact, MODULENAME, WINDOW_PREFIX_INFO);
+	}
+};
+
+int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
+{
+	MCONTACT hContact = MCONTACT(wp);
+	if (GetContactProviderPtr(hContact)) {
+		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
+		assert(hWL);
+		HWND hWnd = WindowList_Find(hWL, hContact);
+		if (nullptr != hWnd) {
+			SetForegroundWindow(hWnd);
+			SetFocus(hWnd);
+		}
+		else if (true == IsMyContact(hContact))
+			(new CurrencyRateInfoDlg2(hContact))->Show();
+
+		return 1;
+	}
+
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CurrencyRatesMenu_EditSettings(WPARAM wp, LPARAM)
 {
@@ -148,72 +181,6 @@ INT_PTR CurrencyRatesMenu_RefreshContact(WPARAM wp, LPARAM)
 	return 0;
 }
 
-static INT_PTR CALLBACK CurrencyRateInfoDlgProc1(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	MCONTACT hContact = NULL;
-	MWindowList hWL;
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		hContact = MCONTACT(lParam);
-		hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
-		assert(hWL);
-		WindowList_Add(hWL, hdlg, hContact);
-
-		::SetWindowLongPtr(hdlg, GWLP_USERDATA, hContact);
-		Utils_RestoreWindowPositionNoSize(hdlg, hContact, MODULENAME, WINDOW_PREFIX_INFO);
-		::ShowWindow(hdlg, SW_SHOW);
-		break;
-
-	case WM_CLOSE:
-		DestroyWindow(hdlg);
-		return FALSE;
-
-	case WM_DESTROY:
-		hContact = get_contact(hdlg);
-		if (hContact) {
-			SetWindowLongPtr(hdlg, GWLP_USERDATA, 0);
-
-			hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, false);
-			assert(hWL);
-			WindowList_Remove(hWL, hdlg);
-			Utils_SaveWindowPosition(hdlg, hContact, MODULENAME, WINDOW_PREFIX_INFO);
-		}
-		return FALSE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK) {
-			::DestroyWindow(hdlg);
-			return FALSE;
-		}
-
-	default:
-		hContact = get_contact(hdlg);
-		break;
-	}
-
-	return CurrencyRateInfoDlgProcImpl(hContact, hdlg, msg, wParam, lParam);
-}
-
-int CurrencyRates_OnContactDoubleClick(WPARAM wp, LPARAM/* lp*/)
-{
-	MCONTACT hContact = MCONTACT(wp);
-	if (GetContactProviderPtr(hContact)) {
-		MWindowList hWL = CModuleInfo::GetWindowList(WINDOW_PREFIX_INFO, true);
-		assert(hWL);
-		HWND hWnd = WindowList_Find(hWL, hContact);
-		if (nullptr != hWnd) {
-			SetForegroundWindow(hWnd);
-			SetFocus(hWnd);
-		}
-		else if (true == IsMyContact(hContact))
-			CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DIALOG_CURRENCYRATE_INFO_1), nullptr, CurrencyRateInfoDlgProc1, LPARAM(hContact));
-
-		return 1;
-	}
-
-	return 0;
-}
 
 int CurrencyRates_PrebuildContactMenu(WPARAM wp, LPARAM)
 {
@@ -239,7 +206,7 @@ int CurrencyRates_PrebuildContactMenu(WPARAM wp, LPARAM)
 	CMStringW sLogFileName;
 	if (get_log_file(hContact, sLogFileName) && !sLogFileName.IsEmpty() && !_waccess(sLogFileName, 04)) {
 		#ifdef CHART_IMPLEMENT
-		Menu_EnableItem(g_hMenuChart, true);
+			Menu_EnableItem(g_hMenuChart, true);
 		#endif
 		Menu_EnableItem(g_hMenuOpenLogFile, true);
 	}

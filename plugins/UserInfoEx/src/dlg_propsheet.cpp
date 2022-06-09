@@ -304,18 +304,18 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr *pPsh = (CPsHdr *)wParam;
-	OPTIONSDIALOGPAGE *odp = (OPTIONSDIALOGPAGE *)lParam;
+	USERINFOPAGE *uip = (USERINFOPAGE*)lParam;
 
 	// check size of the handled structures
-	if (pPsh == nullptr || odp == nullptr)
+	if (pPsh == nullptr || uip == nullptr)
 		return 1;
 
 	// try to check whether the flag member is initialized or not
-	odp->flags = odp->flags > (ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_ICON | PSPF_PROTOPREPENDED) ? 0 : odp->flags;
+	uip->flags = uip->flags > (ODPF_UNICODE | ODPF_BOLDGROUPS | ODPF_ICON | PSPF_PROTOPREPENDED) ? 0 : uip->flags;
 
 	if (pPsh->_dwFlags & (PSF_PROTOPAGESONLY | PSF_PROTOPAGESONLY_INIT)) {
-		uint8_t bIsUnicode = (odp->flags & ODPF_UNICODE) == ODPF_UNICODE;
-		wchar_t *ptszTitle = bIsUnicode ? mir_wstrdup(odp->szTitle.w) : mir_a2u(odp->szTitle.a);
+		uint8_t bIsUnicode = (uip->flags & ODPF_UNICODE) == ODPF_UNICODE;
+		wchar_t *ptszTitle = bIsUnicode ? mir_wstrdup(uip->szTitle.w) : mir_a2u(uip->szTitle.a);
 
 		// avoid adding pages for a meta subcontact, which have been added for a metacontact.
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
@@ -334,7 +334,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	// create the new tree item
 	CPsTreeItem *pNew = new CPsTreeItem();
 	if (pNew) {
-		if (pNew->Create(pPsh, odp)) {
+		if (pNew->Create(pPsh, uip)) {
 			MIR_DELETE(pNew);
 			return 1;
 		}
@@ -384,79 +384,23 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
 		uint8_t bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
 		if (lParam || bChangeDetailsEnabled) {
-			OPTIONSDIALOGPAGE odp = {};
-			odp.flags = ODPF_ICON | ODPF_UNICODE;
-			odp.szGroup.w = IcoLib_GetDefaultIconFileName();
-			odp.pPlugin = &g_plugin;
+			USERINFOPAGE uip = {};
+			uip.flags = ODPF_ICON | ODPF_UNICODE;
+			uip.szGroup.w = IcoLib_GetDefaultIconFileName();
+			uip.pPlugin = &g_plugin;
 
 			if (lParam) {
 				// ignore common pages for weather contacts
 				if (!pPsh->_pszProto || _stricmp(pPsh->_pszProto, "weather")) {
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_GENERAL);
-					odp.position = 0x8000000;
-					odp.pfnDlgProc = PSPProcGeneral;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_GENERAL);
-					odp.szTitle.w = LPGENW("General");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-					odp.position = 0x8000001;
-					odp.pfnDlgProc = PSPProcContactHome;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
-					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Contact (private)");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ORIGIN);
-					odp.position = 0x8000002;
-					odp.pfnDlgProc = PSPProcOrigin;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_ADVANCED);
-					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Origin");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ANNIVERSARY);
-					odp.position = 0x8000003;
-					odp.pfnDlgProc = PSPProcAnniversary;
-					odp.dwInitParam = ICONINDEX(IDI_BIRTHDAY);
-					odp.szTitle.w = LPGENW("General") L"\\" LPGENW("Anniversaries");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_COMPANY);
-					odp.position = 0x8000004;
-					odp.pfnDlgProc = PSPProcCompany;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_COMPANY);
-					odp.szTitle.w = LPGENW("Work");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ADDRESS);
-					odp.position = 0x8000005;
-					odp.pfnDlgProc = PSPProcContactWork;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_ADDRESS);
-					odp.szTitle.w = LPGENW("Work") L"\\" LPGENW("Contact (work)");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
-					odp.position = 0x8000006;
-					odp.pfnDlgProc = PSPProcAbout;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_ABOUT);
-					odp.szTitle.w = LPGENW("About");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_PROFILE);
-					odp.position = 0x8000007;
-					odp.pfnDlgProc = PSPProcContactProfile;
-					odp.dwInitParam = ICONINDEX(IDI_TREE_PROFILE);
-					odp.szTitle.w = LPGENW("About") L"\\" LPGENW("Profile");
-					AddPage(wParam, (LPARAM)&odp);
-
-					odp.szTitle.w = LPGENW("About") L"\\" LPGENW("Notes");
+					InitGeneralDlg(wParam, uip);
+					InitContactDlg(wParam, uip);
+					InitOriginDlg(wParam, uip);
+					InitAnniversaryDlg(wParam, uip);
+					InitCompanyDlg(wParam, uip);
+					InitOriginDlg(wParam, uip, false);
+					InitProfileDlg(wParam, uip);
 				}
-				else odp.szTitle.w = LPGENW("Notes");
-
-				odp.pszTemplate = MAKEINTRESOURCEA(IDD_CONTACT_ABOUT);
-				odp.position = 0x8000008;
-				odp.pfnDlgProc = PSPProcMyNotes;
-				odp.dwInitParam = ICONINDEX(IDI_TREE_NOTES);
-				AddPage(wParam, (LPARAM)&odp);
+				else InitOriginDlg(wParam, uip, true);
 			}
 		}
 	}

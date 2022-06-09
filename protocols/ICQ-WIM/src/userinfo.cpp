@@ -20,32 +20,28 @@
 
 #include "stdafx.h"
 
-static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+struct IcqUserInfoDlg : public CUserInfoPageDlg
 {
-	switch(msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		break;
+	CIcqProto *ppro;
 
-	case WM_NOTIFY:
-		if (((LPNMHDR)lParam)->idFrom == 0 && ((LPNMHDR)lParam)->code == PSN_PARAMCHANGED) {
-			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			CIcqProto *ppro = (CIcqProto*)((PSHNOTIFY*)lParam)->lParam;
-
-			SetDlgItemTextW(hwndDlg, IDC_UIN, ppro->GetUserId(hContact));
-			SetDlgItemTextW(hwndDlg, IDC_NICK, ppro->getMStringW(hContact, DB_KEY_ICQNICK));
-
-			SetDlgItemTextA(hwndDlg, IDC_IDLETIME, time2text(ppro->getDword(hContact, DB_KEY_IDLE)));
-			SetDlgItemTextA(hwndDlg, IDC_LASTSEEN, time2text(ppro->getDword(hContact, DB_KEY_LASTSEEN)));
-			SetDlgItemTextA(hwndDlg, IDC_MEMBERSINCE, time2text(ppro->getDword(hContact, DB_KEY_MEMBERSINCE)));
-			SetDlgItemTextA(hwndDlg, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(hContact, DB_KEY_ONLINETS)));
-		}
-		break;
+	IcqUserInfoDlg(CIcqProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_ICQ),
+		ppro(_ppro)
+	{
 	}
 
-	return 0;
-}
+	bool OnRefresh() override
+	{
+		SetDlgItemTextW(m_hwnd, IDC_UIN, ppro->GetUserId(m_hContact));
+		SetDlgItemTextW(m_hwnd, IDC_NICK, ppro->getMStringW(m_hContact, DB_KEY_ICQNICK));
+
+		SetDlgItemTextA(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
+		SetDlgItemTextA(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
+		SetDlgItemTextA(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
+		SetDlgItemTextA(m_hwnd, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(m_hContact, DB_KEY_ONLINETS)));
+		return false;
+	}
+};
 
 int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
@@ -55,18 +51,16 @@ int CIcqProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 	if (isChatRoom(hContact))
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_UNICODE;
-	odp.dwInitParam = LPARAM(this);
+	USERINFOPAGE uip = {};
+	uip.flags = ODPF_UNICODE;
 	if (hContact == 0) {
-		odp.flags |= ODPF_DONTTRANSLATE;
-		odp.szTitle.w = m_tszUserName;
+		uip.flags |= ODPF_DONTTRANSLATE;
+		uip.szTitle.w = m_tszUserName;
 	}
-	else odp.szTitle.w = L"ICQ";
+	else uip.szTitle.w = L"ICQ";
 
-	odp.pfnDlgProc = IcqDlgProc;
-	odp.position = -1900000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQ);
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.position = -1900000000;
+	uip.pDialog = new IcqUserInfoDlg(this);
+	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }

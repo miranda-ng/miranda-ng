@@ -25,11 +25,34 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_USERINFO_H__
 #define M_USERINFO_H__ 1
 
-#ifndef M_CORE_H__
-#include <m_core.h>
-#endif
+#include <m_gui.h>
 
-#include "m_options.h"
+class MIR_APP_EXPORT CUserInfoPageDlg : public CDlgBase
+{
+protected:
+	MCONTACT m_hContact = INVALID_CONTACT_ID;
+
+public:
+	CUserInfoPageDlg(class CMPluginBase &pPlug, int idDialog);
+
+	__forceinline void SetContact(MCONTACT hContact) {
+		m_hContact = hContact;
+	}
+
+	virtual bool OnRefresh();
+};
+
+struct USERINFOPAGE
+{
+	MAllStrings szTitle, szGroup; // [TRANSLATED-BY-CORE]
+	HPLUGIN pPlugin;
+	uint32_t flags;
+	CUserInfoPageDlg *pDialog;
+
+	// used in UInfoEx only
+	int position;
+	INT_PTR dwInitParam;
+};
 
 //show the User Details dialog box
 //wParam = (MCONTACT)hContact
@@ -48,32 +71,5 @@ HookEvent() in your plugin's Load(void) function will fail if you specify this
 hook. Look up core/m_system.h:me_system_modulesloaded.
 */
 #define ME_USERINFO_INITIALISE   "UserInfo/Initialise"
-
-/* UserInfo/AddPage			  v0.1.2.0+
-Must only be called during an userinfo/initialise hook
-Adds a page to the details dialog
-wParam = addInfo
-lParam = (LPARAM)(OPTIONSDIALOGPAGE*)odp
-addInfo must have come straight from the wParam of userinfo/initialise
-Pages in the details dialog operate just like pages in property sheets. See the
-Microsoft documentation for info on how they operate.
-When the pages receive WM_INITDIALOG, lParam = (LPARAM)hContact
-Strings in the structure can be released as soon as the service returns, but
-icons must be kept around. This is not a problem if you're loading them from a
-resource
-The 3 'group' elements in the structure are ignored, and will always be ignored
-Unlike the options dialog, the details dialog does not resize to fit its
-largest page. Details dialog pages should be 222x132 dlus.
-The details dialog (currently) has no Cancel button. I'm waiting to see if it's
-sensible to have one.
-Pages will be sent PSN_INFOCHANGED through WM_NOTIFY (idFrom = 0) when a protocol
-ack is broadcast for the correct contact and with type = ACKTYPE_GETINFO.
-To help you out, PSN_INFOCHANGED will also be sent to each page just after it's
-created.
-All PSN_ WM_NOTIFY messages have PSHNOTIFY.lParam = (LPARAM)hContact
-*/
-#define PSN_INFOCHANGED   1
-#define PSN_PARAMCHANGED   2
-#define PSM_FORCECHANGED  (WM_USER+100)   //force-send a PSN_INFOCHANGED to all pages
 
 #endif // M_USERINFO_H__

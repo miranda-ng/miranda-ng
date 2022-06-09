@@ -239,98 +239,93 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
-// dialog process for the weather tab under user info
-// lParam = current contact
-static INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// User info dialog
+
+class WeatherUserInfoDlg : public CUserInfoPageDlg
 {
-	WEATHERINFO w;
-	wchar_t str[MAX_TEXT_SIZE];
+	CCtrlButton btnDetail;
 
-	MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		SendDlgItemMessage(hwndDlg, IDC_MOREDETAIL, BUTTONSETASFLATBTN, TRUE, 0);
-		// save the contact handle for later use
-		hContact = lParam;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)hContact);
+public:
+	WeatherUserInfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_USERINFO),
+		btnDetail(this, IDC_MOREDETAIL)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		SendDlgItemMessage(m_hwnd, IDC_MOREDETAIL, BUTTONSETASFLATBTN, TRUE, 0);
+
 		// load weather info for the contact
-		w = LoadWeatherInfo(lParam);
-		SetDlgItemText(hwndDlg, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
+		wchar_t str[MAX_TEXT_SIZE];
+		WEATHERINFO w = LoadWeatherInfo(m_hContact);
+		SetDlgItemText(m_hwnd, IDC_INFO1, GetDisplay(&w, TranslateT("Current condition for %n"), str));
 
-		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, (WPARAM)GetStatusIconBig(hContact), 0);
-		{
-			// bold and enlarge the current condition
-			LOGFONT lf;
-			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_GETFONT, 0, 0);
-			GetObject(hNormalFont, sizeof(lf), &lf);
-			lf.lfWeight = FW_BOLD;
-			lf.lfWidth = 7;
-			lf.lfHeight = 15;
-			SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
-		}
+		SendDlgItemMessage(m_hwnd, IDC_INFOICON, STM_SETICON, (WPARAM)GetStatusIconBig(m_hContact), 0);
+
+		// bold and enlarge the current condition
+		LOGFONT lf;
+		HFONT hNormalFont = (HFONT)SendDlgItemMessage(m_hwnd, IDC_INFO2, WM_GETFONT, 0, 0);
+		GetObject(hNormalFont, sizeof(lf), &lf);
+		lf.lfWeight = FW_BOLD;
+		lf.lfWidth = 7;
+		lf.lfHeight = 15;
+		SendDlgItemMessage(m_hwnd, IDC_INFO2, WM_SETFONT, (WPARAM)CreateFontIndirect(&lf), 0);
+
 		// set the text for displaying other current weather conditions data
 		GetDisplay(&w, L"%c     %t", str);
-		SetDlgItemText(hwndDlg, IDC_INFO2, str);
-		SetDlgItemText(hwndDlg, IDC_INFO3, w.feel);
-		SetDlgItemText(hwndDlg, IDC_INFO4, w.pressure);
+		SetDlgItemText(m_hwnd, IDC_INFO2, str);
+		SetDlgItemText(m_hwnd, IDC_INFO3, w.feel);
+		SetDlgItemText(m_hwnd, IDC_INFO4, w.pressure);
 		GetDisplay(&w, L"%i  %w", str);
-		SetDlgItemText(hwndDlg, IDC_INFO5, str);
-		SetDlgItemText(hwndDlg, IDC_INFO6, w.dewpoint);
-		SetDlgItemText(hwndDlg, IDC_INFO7, w.sunrise);
-		SetDlgItemText(hwndDlg, IDC_INFO8, w.sunset);
-		SetDlgItemText(hwndDlg, IDC_INFO9, w.high);
-		SetDlgItemText(hwndDlg, IDC_INFO10, w.low);
+		SetDlgItemText(m_hwnd, IDC_INFO5, str);
+		SetDlgItemText(m_hwnd, IDC_INFO6, w.dewpoint);
+		SetDlgItemText(m_hwnd, IDC_INFO7, w.sunrise);
+		SetDlgItemText(m_hwnd, IDC_INFO8, w.sunset);
+		SetDlgItemText(m_hwnd, IDC_INFO9, w.high);
+		SetDlgItemText(m_hwnd, IDC_INFO10, w.low);
 		GetDisplay(&w, TranslateT("Last update on:   %u"), str);
-		SetDlgItemText(hwndDlg, IDC_INFO11, str);
-		SetDlgItemText(hwndDlg, IDC_INFO12, w.humid);
-		SetDlgItemText(hwndDlg, IDC_INFO13, w.vis);
-		break;
-
-	case WM_DESTROY:
-		DestroyIcon((HICON)SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 0, 0));
-		DeleteObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_INFO2, WM_GETFONT, 0, 0));
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_MOREDETAIL:
-			HWND hMoreDataDlg = WindowList_Find(hDataWindowList, hContact);
-			if (hMoreDataDlg == nullptr)
-				hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, hContact);
-			else {
-				SetForegroundWindow(hMoreDataDlg);
-				SetFocus(hMoreDataDlg);
-			}
-			ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 0);
-			ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 1);
-		}
-		break;
+		SetDlgItemText(m_hwnd, IDC_INFO11, str);
+		SetDlgItemText(m_hwnd, IDC_INFO12, w.humid);
+		SetDlgItemText(m_hwnd, IDC_INFO13, w.vis);
+		return true;
 	}
-	return 0;
-}
 
-//============  CONTACT INFORMATION  ============
-//
-// initialize user info
-// lParam = current contact
+	void OnDestroy() override
+	{
+		DestroyIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_INFOICON, STM_SETICON, 0, 0));
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_INFO2, WM_GETFONT, 0, 0));
+	}
+
+	void onClick_Detail(CCtrlButton *)
+	{
+		HWND hMoreDataDlg = WindowList_Find(hDataWindowList, m_hContact);
+		if (hMoreDataDlg == nullptr)
+			hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, m_hContact);
+		else {
+			SetForegroundWindow(hMoreDataDlg);
+			SetFocus(hMoreDataDlg);
+		}
+		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 0);
+		ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 1);
+	}
+};
+
 int UserInfoInit(WPARAM wParam, LPARAM hContact)
 {
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 100000000;
-	odp.szTitle.a = MODULENAME;
+	USERINFOPAGE uip = {};
+	uip.szTitle.a = MODULENAME;
+	uip.position = 100000000;
 
 	if (hContact == 0) {
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO);
-		odp.pfnDlgProc = DlgProcINIPage;
-		g_plugin.addUserInfo(wParam, &odp);
+		uip.pDialog = new WeatherMyDetailsDlg();
+		g_plugin.addUserInfo(wParam, &uip);
 	}
 	else if (IsMyContact(hContact)) { // check if it is a weather contact
-		// register the contact info page
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
-		odp.pfnDlgProc = DlgProcUIPage;
-		odp.flags = ODPF_BOLDGROUPS;
-		g_plugin.addUserInfo(wParam, &odp);
+		uip.pDialog = new WeatherUserInfoDlg();
+		uip.flags = ODPF_BOLDGROUPS;
+		g_plugin.addUserInfo(wParam, &uip);
 	}
 	return 0;
 }

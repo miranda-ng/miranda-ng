@@ -40,4 +40,7 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\cursor_hyperlink.cur" />
+  </ItemGroup>
 </Project>

@@ -32,28 +32,27 @@ class CPsTree;
 
 class CPsTreeItem 
 {
-	int           _idDlg;      // resource id of the property page
-	LPDLGTEMPLATE _pTemplate;  // locked template for the property page
-	HINSTANCE     _hInst;      // instance handle of the owning plugin dll
-	DLGPROC       _pfnDlgProc; // dialog procedure for the property page
-	HWND          _hWnd;       // window handle for the property page if shown jet
-	uint32_t         _dwFlags;    // some flags
-	int           _iPosition;  // initiating position if custom (used for sorting)
-	LPARAM        _initParam;
-	MCONTACT      _hContact;   // contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
-	LPCSTR        _pszProto;   // protocol the page is accociated with (is the contact's protocol if _hContact is not NULL)
-	LPCSTR        _pszPrefix;  // pointer to the dialog owning contact's protocol
-
-	HTREEITEM     _hItem;      // handle to the treeview item if visible (NULL if this item is hidden)
-	int           _iParent;    // index of the owning tree item
-	int           _iImage;     // index of treeview item's image
-	uint8_t          _bState;     // initial state of this treeitem
-	LPSTR         _pszName;    // original name, given by plugin (not customized)
-	LPTSTR        _ptszLabel;  // string to setting in db holding information about this treeitem
+	int               _idDlg = 0;     // resource id of the property page
+	HINSTANCE         _hInst = 0;     // instance handle of the owning plugin dll
+	CUserInfoPageDlg *_pDialog = 0;   // pointer to a page dialog
+	HWND              _hWnd = 0;      // window handle for the property page if shown jet
+	uint32_t          _dwFlags = 0;   // some flags
+	int               _iPosition = 0; // initiating position if custom (used for sorting)
+	MCONTACT          _hContact = 0;  // contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
+	LPCSTR            _pszProto = 0;  // protocol the page is accociated with (is the contact's protocol if _hContact is not NULL)
+	LPCSTR            _pszPrefix = 0; // pointer to the dialog owning contact's protocol
+	INT_PTR           _initParam = 0;
+					      
+	HTREEITEM         _hItem = 0;     // handle to the treeview item if visible (NULL if this item is hidden)
+	int               _iParent = -1;  // index of the owning tree item
+	int               _iImage = -1;   // index of treeview item's image
+	uint8_t           _bState = 0;    // initial state of this treeitem
+	LPSTR             _pszName = 0;   // original name, given by plugin (not customized)
+	LPTSTR            _ptszLabel= 0;  // string to setting in db holding information about this treeitem
 
 	LPCSTR	GlobalName();
 
-	int Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIconsOnly);
+	int Icon(HIMAGELIST hIml, USERINFOPAGE *uip, uint8_t bInitIconsOnly);
 	int ItemLabel(const uint8_t bReadDBValue);
 	int Name(LPTSTR pszTitle, const uint8_t bIsUnicode);
 	HICON	ProtoIcon();
@@ -62,30 +61,31 @@ public:
 	CPsTreeItem();
 	~CPsTreeItem();
 
-	int Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp);
+	int Create(CPsHdr* pPsh, USERINFOPAGE *uip);
 	void Rename(const LPTSTR pszLabel);
 
-	__inline LPSTR Name() const { return _pszName; };
-	__inline LPCSTR Proto() const { return _pszProto; };
-	__inline LPTSTR Label() const { return _ptszLabel; };
-	__inline MCONTACT hContact() const { return _hContact; };
+	__inline LPSTR Name() const { return _pszName; }
+	__inline LPCSTR Proto() const { return _pszProto; }
+	__inline LPTSTR Label() const { return _ptszLabel; }
+	__inline MCONTACT hContact() const { return _hContact; }
 
-	__inline HWND Wnd() const { return _hWnd; };
-	__inline int DlgId() const { return _idDlg; };
-	__inline HINSTANCE Inst() const { return _hInst; };
+	__inline HWND Wnd() const { return _hWnd; }
+	__inline int DlgId() const { return _idDlg; }
+	__inline HINSTANCE Inst() const { return _hInst; }
+	__inline CUserInfoPageDlg* Dialog() const { return _pDialog; }
 
-	__inline int Image() const { return _iImage; };
-	__inline int Pos() const { return _iPosition; };
-	__inline uint8_t State() const { return _bState; };
-	__inline HTREEITEM Hti() const { return _hItem; };
-	__inline void Hti(HTREEITEM hti) { _hItem = hti; };
-	__inline int Parent() const { return _iParent; };
-	__inline void Parent(const int iParent) { _iParent = iParent; };
+	__inline int Image() const { return _iImage; }
+	__inline int Pos() const { return _iPosition; }
+	__inline uint8_t State() const { return _bState; }
+	__inline HTREEITEM Hti() const { return _hItem; }
+	__inline void Hti(HTREEITEM hti) { _hItem = hti; }
+	__inline int Parent() const { return _iParent; }
+	__inline void Parent(const int iParent) { _iParent = iParent; }
 
-	__inline uint32_t Flags() const { return _dwFlags; };
-	__inline void Flags(uint32_t dwFlags) { _dwFlags = dwFlags; };
-	__inline void AddFlags(uint32_t dwFlags) { _dwFlags |= dwFlags; };
-	__inline void RemoveFlags(uint32_t dwFlags) { _dwFlags &= ~dwFlags; };
+	__inline uint32_t Flags() const { return _dwFlags; }
+	__inline void Flags(uint32_t dwFlags) { _dwFlags = dwFlags; }
+	__inline void AddFlags(uint32_t dwFlags) { _dwFlags |= dwFlags; }
+	__inline void RemoveFlags(uint32_t dwFlags) { _dwFlags &= ~dwFlags; }
 
 	uint8_t HasName(const LPCSTR pszName) const;
 
@@ -246,7 +246,7 @@ struct TPropSheet
 {
 	// dialogs owner
 	MCONTACT	hContact;
-	CHAR pszProto[MAXMODULELABELLENGTH];
+	char pszProto[MAXMODULELABELLENGTH];
 
 	HANDLE hProtoAckEvent;  // eventhook for protocol acks
 	HANDLE hSettingChanged; // eventhook searching for changed contact information

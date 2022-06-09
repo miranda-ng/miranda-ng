@@ -41,6 +41,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <direct.h>
 #include <malloc.h>
 
+#include <map>
+
 #include <m_system.h>
 #include <m_core.h>
 #include <newpluginapi.h>
@@ -66,6 +68,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 #include "../../mir_app/src/resource.h"
+
+#define MODULENAME "UserInfo"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {

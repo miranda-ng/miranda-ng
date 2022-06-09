@@ -343,6 +343,41 @@ void CToxProto::OnConnectionStatusChanged(Tox *tox, uint32_t friendNumber, TOX_C
 	}
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// User info dialog
+
+class ToxUserInfoDlg : public CUserInfoPageDlg
+{
+	CToxProto *ppro;
+
+public:
+	ToxUserInfoDlg(CToxProto *_ppro) :
+		CUserInfoPageDlg(g_plugin, IDD_USER_INFO),
+		ppro(_ppro)
+	{
+	}
+
+	bool OnRefresh() override
+	{
+		char *szProto = (m_hContact == NULL) ? ppro->m_szModuleName : Proto_GetBaseAccountName(m_hContact);
+		if (szProto != nullptr)
+			SetDlgItemText(m_hwnd, IDC_DNS_ID, ptrW(ppro->getWStringA(m_hContact, TOX_SETTINGS_DNS)));
+		return false;
+	}
+
+	bool OnApply() override
+	{
+		char *szProto = (m_hContact == NULL) ? ppro->m_szModuleName : Proto_GetBaseAccountName(m_hContact);
+		if (szProto == nullptr)
+			return false;
+
+		wchar_t dnsId[MAX_PATH];
+		GetDlgItemText(m_hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
+		ppro->setWString(m_hContact, TOX_SETTINGS_DNS, dnsId);
+		return true;
+	}
+};
+
 int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 {
 	if (!Proto_IsProtocolLoaded(m_szModuleName))
@@ -350,68 +385,12 @@ int CToxProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
-		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
-		odp.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
-		odp.dwInitParam = (LPARAM)this;
-		odp.szTitle.w = m_tszUserName;
-
-		odp.pfnDlgProc = UserInfoProc;
-		odp.position = -2000000000;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_INFO);
-		g_plugin.addUserInfo(wParam, &odp);
+		USERINFOPAGE uip = {};
+		uip.flags = ODPF_UNICODE | ODPF_DONTTRANSLATE;
+		uip.szTitle.w = m_tszUserName;
+		uip.pDialog = new ToxUserInfoDlg(this);
+		g_plugin.addUserInfo(wParam, &uip);
 	}
 
 	return 0;
-}
-
-INT_PTR CToxProto::UserInfoProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-	CToxProto *proto = (CToxProto*)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		proto = (CToxProto*)lParam;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_INFOCHANGED:
-				{
-					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					char *szProto = (hContact == NULL) ? proto->m_szModuleName : Proto_GetBaseAccountName(hContact);
-					if (szProto != nullptr)
-						SetDlgItemText(hwnd, IDC_DNS_ID, ptrW(proto->getWStringA(hContact, TOX_SETTINGS_DNS)));
-				}
-				break;
-
-			case PSN_PARAMCHANGED:
-				SetWindowLongPtr(hwnd, GWLP_USERDATA, ((PSHNOTIFY*)lParam)->lParam);
-				break;
-
-			case PSN_APPLY:
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				char *szProto = (hContact == NULL) ? proto->m_szModuleName : Proto_GetBaseAccountName(hContact);
-				if (szProto == nullptr)
-					break;
-
-				wchar_t dnsId[MAX_PATH];
-				GetDlgItemText(hwnd, IDC_DNS_ID, dnsId, MAX_PATH);
-				proto->setWString(hContact, TOX_SETTINGS_DNS, dnsId);
-				break;
-			}
-			break;
-		}
-		break;
-
-	case WM_COMMAND:
-		if ((HWND)lParam == GetFocus() && HIWORD(wParam) == EN_CHANGE)
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-	}
-
-	return FALSE;
 }

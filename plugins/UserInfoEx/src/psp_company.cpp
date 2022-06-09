@@ -21,42 +21,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-/**
- * Dialog procedure for the company contact information propertysheetpage
- *
- * @param hDlg		- handle to the dialog window
- * @param uMsg		- the message to handle
- * @param wParam	- parameter
- * @param lParam	- parameter
- *
- * @return	different values
- **/
-INT_PTR CALLBACK PSPProcCompany(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+struct PSPCompanyDlg : public PSPBaseDlg
 {
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		{
-			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList) {
-				LPIDSTRLIST pList;
-				UINT nList;
-				HFONT hBoldFont;
-				PSGetBoldFont(hDlg, hBoldFont);
-				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
+	PSPCompanyDlg() :
+		PSPBaseDlg(IDD_CONTACT_COMPANY)
+	{}
 
-				TranslateDialogDefault(hDlg);
+	bool OnInitDialog() override
+	{
+		PSPBaseDlg::OnInitDialog();
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_COMPANY, SET_CONTACT_COMPANY, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DEPARTMENT, SET_CONTACT_COMPANY_DEPARTMENT, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_OFFICE, SET_CONTACT_COMPANY_OFFICE, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_POSITION, SET_CONTACT_COMPANY_POSITION, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SUPERIOR, SET_CONTACT_COMPANY_SUPERIOR, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ASSISTENT, SET_CONTACT_COMPANY_ASSISTENT, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_COMPANY, SET_CONTACT_COMPANY, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_DEPARTMENT, SET_CONTACT_COMPANY_DEPARTMENT, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_OFFICE, SET_CONTACT_COMPANY_OFFICE, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_POSITION, SET_CONTACT_COMPANY_POSITION, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_SUPERIOR, SET_CONTACT_COMPANY_SUPERIOR, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_ASSISTENT, SET_CONTACT_COMPANY_ASSISTENT, DBVT_WCHAR));
 
-				GetOccupationList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_OCCUPATION, SET_CONTACT_COMPANY_OCCUPATION, DBVT_WORD, pList, nList));
-			}
-		}
+		UINT nList;
+		LPIDSTRLIST pList;
+		GetOccupationList(&nList, &pList);
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_OCCUPATION, SET_CONTACT_COMPANY_OCCUPATION, DBVT_WORD, pList, nList));
+		return true;
 	}
-	return PSPBaseProc(hDlg, uMsg, wParam, lParam);
+};
+
+void InitCompanyDlg(WPARAM wParam, USERINFOPAGE &uip)
+{
+	uip.position = 0x8000004;
+	uip.pDialog = new PSPCompanyDlg();
+	uip.dwInitParam = ICONINDEX(IDI_TREE_COMPANY);
+	uip.szTitle.w = LPGENW("Work");
+	g_plugin.addUserInfo(wParam, &uip);
 }

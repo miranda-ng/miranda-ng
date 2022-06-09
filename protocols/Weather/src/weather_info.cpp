@@ -74,12 +74,12 @@ static void INIInfo(HWND hwndDlg)
 	SetDlgItemText(hwndDlg, IDC_MEMUSED, _ltow((long)memused, str, 10));
 }
 
-static const struct tag_Columns
+struct
 {
 	const wchar_t *name;
 	unsigned size;
 }
-columns[] =
+static columns[] =
 {
 	{ LPGENW("Name"), 70 },
 	{ LPGENW("Author"), 100 },
@@ -90,44 +90,37 @@ columns[] =
 	{ LPGENW("File Name"), 150 },
 };
 
-
-INT_PTR CALLBACK DlgProcINIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM)
+WeatherMyDetailsDlg::WeatherMyDetailsDlg() :
+	CUserInfoPageDlg(g_plugin, IDD_INFO),
+	btnReload(this, IDC_RELOADINI)
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			HWND hIniList = GetDlgItem(hwndDlg, IDC_INFOLIST);
-			LVCOLUMN lvc = {};
-
-			lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
-			lvc.fmt = LVCFMT_LEFT;
-			for (int i = 0; i < 7; ++i) {
-				lvc.iSubItem = i;
-				lvc.pszText = TranslateW(columns[i].name);
-				lvc.cx = columns[i].size;
-				ListView_InsertColumn(hIniList, i, &lvc);
-			}
-			INIInfo(hwndDlg);
-		}
-
-		break;
-
-	case WM_DESTROY:
-		break;
-
-	case WM_COMMAND:
-		if (HIWORD(wParam) == BN_CLICKED &&
-			LOWORD(wParam) == IDC_RELOADINI) {
-			DestroyWIList();
-			LoadWIData(true);
-			INIInfo(hwndDlg);
-		}
-		break;
-	}
-	return 0;
+	btnReload.OnClick = Callback(this, &WeatherMyDetailsDlg::onClick_Reload);
 }
 
+bool WeatherMyDetailsDlg::OnInitDialog()
+{
+	HWND hIniList = GetDlgItem(m_hwnd, IDC_INFOLIST);
+
+	LVCOLUMN lvc = {};
+	lvc.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
+	lvc.fmt = LVCFMT_LEFT;
+	for (auto &it : columns) {
+		lvc.iSubItem = int(&it - columns);
+		lvc.pszText = TranslateW(it.name);
+		lvc.cx = it.size;
+		ListView_InsertColumn(hIniList, lvc.iSubItem, &lvc);
+	}
+	
+	INIInfo(m_hwnd);
+	return true;
+}
+
+void WeatherMyDetailsDlg::onClick_Reload(CCtrlButton*)
+{
+	DestroyWIList();
+	LoadWIData(true);
+	INIInfo(m_hwnd);
+}
 
 // get the info of individual ini file
 // pszSvc = the internal name of the service to get the data

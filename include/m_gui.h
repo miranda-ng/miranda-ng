@@ -1401,7 +1401,6 @@ protected:
 // CCtrlPages
 
 #define PSN_INFOCHANGED    1
-#define PSN_PARAMCHANGED   2
 
 // force-send a PSN_INFOCHANGED to all pages
 #define PSM_FORCECHANGED  (WM_USER+100)

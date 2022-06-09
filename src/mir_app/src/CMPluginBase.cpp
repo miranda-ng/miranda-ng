@@ -257,10 +257,10 @@ HANDLE CMPluginBase::addTTB(const struct TTBButton *pButton)
 	return (HANDLE)CallService(MS_TTB_ADDBUTTON, (WPARAM)pButton, (LPARAM)this);
 }
 
-int CMPluginBase::addUserInfo(WPARAM wParam, OPTIONSDIALOGPAGE *odp)
+int CMPluginBase::addUserInfo(WPARAM wParam, USERINFOPAGE *uip)
 {
-	odp->pPlugin = this;
-	return CallService("UserInfo/AddPage", wParam, (LPARAM)odp);
+	uip->pPlugin = this;
+	return CallService("UserInfo/AddPage", wParam, (LPARAM)uip);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

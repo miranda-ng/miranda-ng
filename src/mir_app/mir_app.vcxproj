@@ -160,6 +160,7 @@
     <ClCompile Include="src\usedIcons.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\visibility.cpp" />
+    <ClCompile Include="W:\miranda-ng\src\mir_app\src\userInfo.cpp" />
     <ClInclude Include="src\chat.h" />
     <ClInclude Include="src\clc.h" />
     <ClInclude Include="src\database.h" />

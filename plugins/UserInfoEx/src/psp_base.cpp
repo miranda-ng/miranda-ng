@@ -29,64 +29,76 @@ void UpDate_CountryIcon(HWND hCtrl, int countryID)
 	IcoLib_ReleaseIcon(hOld);
 }
 
-// Default dialog procedure, which handles common functions
-INT_PTR CALLBACK PSPBaseProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+PSPBaseDlg::PSPBaseDlg(int idDialog) :
+	CUserInfoPageDlg(g_plugin, idDialog),
+	m_ctrlList(nullptr)
 {
-	CCtrlList *pCtrlList;
+}
 
-	pCtrlList = CCtrlList::GetObj(hDlg);
-	if (PtrIsValid(pCtrlList)) {
-		switch (uMsg) {
-		case WM_INITDIALOG:
-			return TRUE;
+bool PSPBaseDlg::OnInitDialog()
+{
+	m_ctrlList = CCtrlList::CreateObj(m_hwnd);
 
-		// set propertysheet page's background white in aero mode
-		case WM_CTLCOLORSTATIC:
-		case WM_CTLCOLORDLG:
-			if (IsAeroMode())
-				return (INT_PTR)GetStockBrush(WHITE_BRUSH);
-			break;
+	HFONT hBoldFont;
+	PSGetBoldFont(m_hwnd, hBoldFont);
+	SendDlgItemMessage(m_hwnd, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
+	return true;
+}
 
-		// Set text color of edit boxes according to the source of information they display.
-		case WM_CTLCOLOREDIT:
-			return pCtrlList->OnSetTextColour((HWND)lParam, (HDC)wParam);
+void PSPBaseDlg::OnDestroy()
+{
+	m_ctrlList->Release();
+}
 
-		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				LPSTR pszProto;
+// Default dialog procedure, which handles common functions
+INT_PTR PSPBaseDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	switch (uMsg) {
+	// set propertysheet page's background white in aero mode
+	case WM_CTLCOLORSTATIC:
+	case WM_CTLCOLORDLG:
+		if (IsAeroMode())
+			return (INT_PTR)GetStockBrush(WHITE_BRUSH);
+		break;
 
-				switch (((LPNMHDR)lParam)->code) {
-				case PSN_RESET:
-					pCtrlList->OnReset();
-					break;
+	// Set text color of edit boxes according to the source of information they display.
+	case WM_CTLCOLOREDIT:
+		if (m_ctrlList)
+			return m_ctrlList->OnSetTextColour((HWND)lParam, (HDC)wParam);
+		break;
 
-				case PSN_INFOCHANGED:
-					if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
-						BOOL bChanged = (GetWindowLongPtr(hDlg, DWLP_MSGRESULT)&PSP_CHANGED) | pCtrlList->OnInfoChanged(hContact, pszProto);
-						SetWindowLongPtr(hDlg, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
-					}
-					break;
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+			LPSTR pszProto;
 
-				case PSN_APPLY:
-					if (PSGetBaseProto(hDlg, pszProto) && *pszProto)
-						pCtrlList->OnApply(hContact, pszProto);
-					break;
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_RESET:
+				m_ctrlList->OnReset();
+				break;
+
+			case PSN_INFOCHANGED:
+				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto) {
+					BOOL bChanged = (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT)&PSP_CHANGED) | m_ctrlList->OnInfoChanged(hContact, pszProto);
+					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
 				}
+				break;
+
+			case PSN_APPLY:
+				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto)
+					m_ctrlList->OnApply(hContact, pszProto);
 				break;
 			}
 			break;
-
-		case WM_COMMAND:
-			if (!PspIsLocked(hDlg))
-				pCtrlList->OnChangedByUser(LOWORD(wParam), HIWORD(wParam));
-			break;
-
-		case WM_DESTROY:
-			// destroy all control objects and the list
-			pCtrlList->Release();
 		}
+		break;
+
+	case WM_COMMAND:
+		if (m_ctrlList && !PspIsLocked(m_hwnd))
+			m_ctrlList->OnChangedByUser(LOWORD(wParam), HIWORD(wParam));
+		break;
 	}
-	return 0;
+	
+	return CUserInfoPageDlg::DlgProc(uMsg, wParam, lParam);
 }

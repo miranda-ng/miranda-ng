@@ -21,83 +21,84 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-/**
- * Dialog procedure for the about/nodes information propertysheetpage
- *
- * @param	 hDlg	- handle to the dialog window
- * @param	 uMsg	- the message to handle
- * @param	 wParam	- parameter
- * @param	 lParam	- parameter
- *
- * @return	different values
- **/
-INT_PTR CALLBACK PSPProcEdit(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam, const CHAR *pszSetting)
+struct PSPEditDlg : public PSPBaseDlg
 {
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		{
-			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList) {
-				HFONT hBoldFont;
-				PSGetBoldFont(hDlg, hBoldFont);
-				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
+	const char *m_szSetting;
 
-				if (!mir_strcmp(pszSetting, SET_CONTACT_MYNOTES))
-					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENW("My notes:"));
-				else
-					SetDlgItemText(hDlg, IDC_PAGETITLE, LPGENW("About:"));
+	PSPEditDlg(const char *szSetting) :
+		PSPBaseDlg(IDD_CONTACT_ABOUT),
+		m_szSetting(szSetting)
+	{}
 
-				TranslateDialogDefault(hDlg);
-				
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ABOUT, pszSetting, DBVT_WCHAR));
+	bool OnInitDialog() override
+	{
+		PSPBaseDlg::OnInitDialog();
 
-				// remove static edge in aero mode
-				if (IsAeroMode())
-					SetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(hDlg, EDIT_ABOUT), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+		if (!mir_strcmp(m_szSetting, SET_CONTACT_MYNOTES))
+			SetDlgItemText(m_hwnd, IDC_PAGETITLE, TranslateT("My notes:"));
+		else
+			SetDlgItemText(m_hwnd, IDC_PAGETITLE, TranslateT("About:"));
 
-				SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_SETEVENTMASK, 0, /*ENM_KEYEVENTS | */ENM_LINK | ENM_CHANGE);
-				SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_AUTOURLDETECT, TRUE, NULL);
-				if (!lParam) SendDlgItemMessage(hDlg, EDIT_ABOUT, EM_LIMITTEXT, 1024, NULL);
-			}
-		}
-		break;
-		
-	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_ABOUT, m_szSetting, DBVT_WCHAR));
+
+		// remove static edge in aero mode
+		if (IsAeroMode())
+			SetWindowLongPtr(GetDlgItem(m_hwnd, EDIT_ABOUT), GWL_EXSTYLE, GetWindowLongPtr(GetDlgItem(m_hwnd, EDIT_ABOUT), GWL_EXSTYLE) & ~WS_EX_STATICEDGE);
+
+		SendDlgItemMessage(m_hwnd, EDIT_ABOUT, EM_SETEVENTMASK, 0, /*ENM_KEYEVENTS | */ENM_LINK | ENM_CHANGE);
+		SendDlgItemMessage(m_hwnd, EDIT_ABOUT, EM_AUTOURLDETECT, TRUE, NULL);
+		if (!m_hContact)
+			SendDlgItemMessage(m_hwnd, EDIT_ABOUT, EM_LIMITTEXT, 1024, NULL);
+		return true;
+	}
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		switch (uMsg) {
+		case WM_NOTIFY:
 			// notification handler for richedit control
+			switch (((LPNMHDR)lParam)->idFrom) {
 			case EDIT_ABOUT:
-				{
-					switch (((LPNMHDR)lParam)->code) {
-
-					// notification handler for a link within the richedit control
-					case EN_LINK:
-						return CEditCtrl::GetObj(((LPNMHDR)lParam)->hwndFrom)->LinkNotificationHandler((ENLINK *)lParam);
-					}
+				// notification handler for a link within the richedit control
+				switch (((LPNMHDR)lParam)->code) {
+				case EN_LINK:
+					return CEditCtrl::GetObj(((LPNMHDR)lParam)->hwndFrom)->LinkNotificationHandler((ENLINK *)lParam);
 				}
 				return FALSE;
 			}
-		}
-		break;
+			break;
 
-	case WM_COMMAND:
-		{
+		case WM_COMMAND:
 			switch (LOWORD(wParam)) {
 			case EDIT_ABOUT:
-				{
-					if (HIWORD(wParam) == EN_CHANGE)
-					{
-						CBaseCtrl *pResult;
-
-						pResult = CBaseCtrl::GetObj((HWND)lParam);
-						if (PtrIsValid(pResult) && (pResult->_cbSize == sizeof(CBaseCtrl)))
-							pResult->OnChangedByUser(HIWORD(wParam));
-					}
+				if (HIWORD(wParam) == EN_CHANGE) {
+					CBaseCtrl *pResult = CBaseCtrl::GetObj((HWND)lParam);
+					if (PtrIsValid(pResult) && (pResult->_cbSize == sizeof(CBaseCtrl)))
+						pResult->OnChangedByUser(HIWORD(wParam));
 				}
 			}
+			return FALSE;
 		}
-		return FALSE;
+
+		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
 	}
-	return PSPBaseProc(hDlg, uMsg, wParam, lParam);
+};
+
+void InitOriginDlg(WPARAM wParam, USERINFOPAGE &uip, bool bReadOnly)
+{
+	if (!bReadOnly) {
+		uip.position = 0x8000006;
+		uip.pDialog = new PSPEditDlg(SET_CONTACT_ABOUT);
+		uip.dwInitParam = ICONINDEX(IDI_TREE_ABOUT);
+		uip.szTitle.w = LPGENW("About");
+		g_plugin.addUserInfo(wParam, &uip);
+
+		uip.szTitle.w = LPGENW("About") L"\\" LPGENW("Notes");
+	}
+	else uip.szTitle.w = LPGENW("Notes");
+
+	uip.position = 0x8000008;
+	uip.pDialog = new PSPEditDlg(SET_CONTACT_MYNOTES);
+	uip.dwInitParam = ICONINDEX(IDI_TREE_NOTES);
+	g_plugin.addUserInfo(wParam, &uip);
 }

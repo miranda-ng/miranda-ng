@@ -29,12 +29,12 @@ namespace DB {
  **/
 namespace Contact {
 
-	uint32_t   WhenAdded(uint32_t dwUIN, LPCSTR szBaseProto);
+	uint32_t WhenAdded(uint32_t dwUIN, LPCSTR szBaseProto);
 } /* namespace Contact */
 
 namespace Module {
-	bool  IsMeta(LPCSTR pszModule);
-	bool  IsMetaAndScan(LPCSTR pszModule);
+	bool IsMeta(LPCSTR pszModule);
+	bool IsMetaAndScan(LPCSTR pszModule);
 
 } /* namespace Module */
 
@@ -43,7 +43,7 @@ namespace Module {
  **/
 namespace Setting {
 
-	uint8_t	Get(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t nType);
+	uint8_t Get(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv, const uint8_t nType);
 	static FORCEINLINE uint8_t GetAsIs(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
 	{ return Get(hContact, pszModule, pszSetting, dbv, 0); }
 	static FORCEINLINE uint8_t GetAString(MCONTACT hContact, LPCSTR pszModule, LPCSTR pszSetting, DBVARIANT *dbv)
@@ -76,11 +76,6 @@ namespace Setting {
 	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_WCHAR); }
 	static FORCEINLINE uint16_t	GetUStringCtrl(MCONTACT hContact, LPCSTR pszModule, LPCSTR szSubModule, LPCSTR szProto, LPCSTR pszSetting, DBVARIANT *dbv)
 	{ return GetCtrl(hContact, pszModule, szSubModule, szProto, pszSetting, dbv, DBVT_UTF8); }
-
-	#define GetTString     GetWString
-	#define GetTStringEx   GetWStringEx
-	#define GetTStringCtrl GetWStringCtrl
-	#define WriteTString   WriteWString
 
 	/**
 	 * misc operations

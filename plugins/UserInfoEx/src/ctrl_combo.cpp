@@ -149,7 +149,7 @@ BOOL CCombo::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		int iVal = CB_ERR;
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
-		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
+		_Flags.W |= DB::Setting::GetWStringCtrl(hContact, USERINFO, USERINFO, pszProto, _pszSetting, &dbv);
 		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0));
 
 		if (_Flags.B.hasCustom || _Flags.B.hasProto || _Flags.B.hasMeta) {

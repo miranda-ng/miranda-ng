@@ -21,162 +21,96 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-/**
- * Dialog procedure for the contact information propertysheetpage
- *
- * @param	 hDlg	- handle to the dialog window
- * @param	 uMsg	- the message to handle
- * @param	 wParam	- parameter
- * @param	 lParam	- parameter
- *
- * @return	different values
- **/
-INT_PTR CALLBACK PSPProcGeneral(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+struct PSPGeneralDlg : public PSPBaseDlg
 {
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		{
-			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList) {
-				LPIDSTRLIST pList;
-				UINT nList;
-				HFONT hBoldFont;
-				
-				PSGetBoldFont(hDlg, hBoldFont);
-				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
-				TranslateDialogDefault(hDlg);
-
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_TITLE, SET_CONTACT_TITLE, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_FIRSTNAME, SET_CONTACT_FIRSTNAME, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_SECONDNAME, SET_CONTACT_SECONDNAME, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_LASTNAME, SET_CONTACT_LASTNAME, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_NICK, SET_CONTACT_NICK, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_DISPLAYNAME, "CList", SET_CONTACT_MYHANDLE, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_PARTNER, SET_CONTACT_PARTNER, DBVT_WCHAR));
-
-				GetNamePrefixList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_PREFIX, SET_CONTACT_PREFIX, DBVT_BYTE, pList, nList));
-
-				// marital groupbox
-				GetMaritalList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_MARITAL, SET_CONTACT_MARITAL, DBVT_BYTE, pList, nList));
-
-				GetLanguageList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG1, SET_CONTACT_LANG1, DBVT_WCHAR, pList, nList));
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG2, SET_CONTACT_LANG2, DBVT_WCHAR, pList, nList));
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_LANG3, SET_CONTACT_LANG3, DBVT_WCHAR, pList, nList));
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				{
-					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					char* pszProto;
-
-					switch (((LPNMHDR)lParam)->code) {
-					case PSN_INFOCHANGED:
-						{
-							uint8_t bEnable;
-							DBVARIANT dbv;
-							CCtrlFlags Flags;
-		
-							if (PSGetBaseProto(hDlg, pszProto) && *pszProto) {
-								Flags.W = DB::Setting::GetTStringCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv);
-								if (Flags.B.hasCustom || Flags.B.hasProto || Flags.B.hasMeta) {
-									if (dbv.type == DBVT_BYTE) {
-										CheckDlgButton(hDlg, RADIO_FEMALE, (dbv.bVal == 'F') ? BST_CHECKED : BST_UNCHECKED);
-										CheckDlgButton(hDlg, RADIO_MALE, (dbv.bVal == 'M') ? BST_CHECKED : BST_UNCHECKED);
-
-										bEnable = !hContact || Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
-										EnableWindow(GetDlgItem(hDlg, RADIO_FEMALE), bEnable);
-										EnableWindow(GetDlgItem(hDlg, RADIO_MALE), bEnable);
-									}
-									else
-										db_free(&dbv);
-								}
-							}
-						}
-						break;
-
-					case PSN_APPLY:
-						{
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
-								break;
-
-							// gender
-							{
-								uint8_t gender
-									= IsDlgButtonChecked(hDlg, RADIO_FEMALE)
-									? 'F'
-									: IsDlgButtonChecked(hDlg, RADIO_MALE)
-									? 'M'
-									: 0;
-
-								if (gender)
-									db_set_b(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
-								else
-									db_unset(hContact, hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
-							}
-						}
-						break;
-
-					case PSN_ICONCHANGED:
-						{
-							const ICONCTRL idIcon[] = {
-								{ IDI_FEMALE,  STM_SETIMAGE, ICO_FEMALE  },
-								{ IDI_MALE,    STM_SETIMAGE, ICO_MALE    },
-								{ IDI_MARITAL, STM_SETIMAGE, ICO_MARITAL },
-							};
-							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
-						}
-					}
-				}
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		{
-			MCONTACT hContact;
-			LPCSTR pszProto;
-
-			switch (LOWORD(wParam)) {
-			case RADIO_FEMALE:
-				{
-					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED) {
-						DBVARIANT dbv;
-
-						PSGetContact(hDlg, hContact);
-						PSGetBaseProto(hDlg, pszProto);
-
-						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv)
-							|| dbv.type != DBVT_BYTE
-							|| (dbv.bVal != 'F' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL)))
-							SendMessage(GetParent(hDlg), PSM_CHANGED, NULL, NULL);
-					}
-				}
-				break;
-
-			case RADIO_MALE:
-				{
-					if (!PspIsLocked(hDlg) && HIWORD(wParam) == BN_CLICKED) {
-						DBVARIANT dbv;
-
-						PSGetContact(hDlg, hContact);
-						PSGetBaseProto(hDlg, pszProto);
-
-						if (!DB::Setting::GetAsIsCtrl(hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv)
-							|| dbv.type != DBVT_BYTE
-							|| (dbv.bVal != 'M' && SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL)))
-							SendMessage(GetParent(hDlg), PSM_CHANGED, NULL, NULL);
-					}
-				}
-			}
-		}
+	PSPGeneralDlg() :
+		PSPBaseDlg(IDD_CONTACT_GENERAL)
+	{
 	}
-	return PSPBaseProc(hDlg, uMsg, wParam, lParam);
+
+	bool OnInitDialog() override
+	{
+		PSPBaseDlg::OnInitDialog();
+
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_TITLE, SET_CONTACT_TITLE, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_FIRSTNAME, SET_CONTACT_FIRSTNAME, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_SECONDNAME, SET_CONTACT_SECONDNAME, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_LASTNAME, SET_CONTACT_LASTNAME, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_NICK, SET_CONTACT_NICK, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_DISPLAYNAME, "CList", SET_CONTACT_MYHANDLE, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_PARTNER, SET_CONTACT_PARTNER, DBVT_WCHAR));
+
+		UINT nList;
+		LPIDSTRLIST pList;
+		GetNamePrefixList(&nList, &pList);
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_PREFIX, SET_CONTACT_PREFIX, DBVT_BYTE, pList, nList));
+
+		// marital groupbox
+		GetMaritalList(&nList, &pList);
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_MARITAL, SET_CONTACT_MARITAL, DBVT_BYTE, pList, nList));
+
+		GetLanguageList(&nList, &pList);
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG1, SET_CONTACT_LANG1, DBVT_WCHAR, pList, nList));
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG2, SET_CONTACT_LANG2, DBVT_WCHAR, pList, nList));
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_LANG3, SET_CONTACT_LANG3, DBVT_WCHAR, pList, nList));
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		char *pszProto;
+		if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto) {
+			DBVARIANT dbv;
+			CCtrlFlags Flags;
+			Flags.W = DB::Setting::GetWStringCtrl(m_hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv);
+			if (Flags.B.hasCustom || Flags.B.hasProto || Flags.B.hasMeta) {
+				if (dbv.type == DBVT_BYTE) {
+					CheckDlgButton(m_hwnd, RADIO_FEMALE, (dbv.bVal == 'F') ? BST_CHECKED : BST_UNCHECKED);
+					CheckDlgButton(m_hwnd, RADIO_MALE, (dbv.bVal == 'M') ? BST_CHECKED : BST_UNCHECKED);
+
+					bool bEnable = !m_hContact || Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
+					EnableWindow(GetDlgItem(m_hwnd, RADIO_FEMALE), bEnable);
+					EnableWindow(GetDlgItem(m_hwnd, RADIO_MALE), bEnable);
+				}
+				else db_free(&dbv);
+			}
+		}
+		return false;
+	}
+
+	bool OnApply() override
+	{
+		char *pszProto;
+		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+			return false;
+
+		// gender
+		uint8_t gender = IsDlgButtonChecked(m_hwnd, RADIO_FEMALE) ? 'F' :
+			IsDlgButtonChecked(m_hwnd, RADIO_MALE) ? 'M' : 0;
+
+		if (gender)
+			db_set_b(m_hContact, m_hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
+		else
+			db_unset(m_hContact, m_hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
+		return true;
+	}
+
+	void OnIconsChanged() override
+	{
+		const ICONCTRL idIcon[] = {
+			{ IDI_FEMALE,  STM_SETIMAGE, ICO_FEMALE  },
+			{ IDI_MALE,    STM_SETIMAGE, ICO_MALE    },
+			{ IDI_MARITAL, STM_SETIMAGE, ICO_MARITAL },
+		};
+		IcoLib_SetCtrlIcons(m_hwnd, idIcon, _countof(idIcon));
+	}
+};
+
+void InitGeneralDlg(WPARAM wParam, USERINFOPAGE &uip)
+{
+	uip.position = 0x8000000;
+	uip.pDialog = new PSPGeneralDlg();
+	uip.dwInitParam = ICONINDEX(IDI_TREE_GENERAL);
+	uip.szTitle.w = LPGENW("General");
+	g_plugin.addUserInfo(wParam, &uip);
 }

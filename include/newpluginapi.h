@@ -216,7 +216,7 @@ public:
 	int addFrame(const struct CLISTFrame*);
 	int addHotkey(const struct HOTKEYDESC*);
 	int addSound(const char *name, const wchar_t *section, const wchar_t *description, const wchar_t *defaultFile = nullptr);
-	int addUserInfo(WPARAM wParam, struct OPTIONSDIALOGPAGE *odp);
+	int addUserInfo(WPARAM wParam, struct USERINFOPAGE *odp);
 
 	////////////////////////////////////////////////////////////////////////////////////////
 

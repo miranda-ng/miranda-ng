@@ -439,88 +439,66 @@ int OptionsInit(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 // UserInfo initalization
 
-INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+struct UserinfoDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
+	UserinfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_USERINFO)
+	{}
+
+	bool OnInitDialog() override
 	{
 		time_t tmpTime;
 		wchar_t tmpBuf[51] = { 0 };
-		tmpTime = getLastSeen((MCONTACT)lparam);
+		tmpTime = getLastSeen(m_hContact);
 		if (tmpTime == -1)
-			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
+			SetDlgItemTextW(m_hwnd, IDC_EDIT_LASTSEEN, TranslateT("not detected"));
 		else {
 			wcsftime(tmpBuf, 50, L"%#x, %#X", gmtime(&tmpTime));
-			SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);
+			SetDlgItemTextW(m_hwnd, IDC_EDIT_LASTSEEN, tmpBuf);
 		}
 
-		tmpTime = getLastInputMsg((MCONTACT)lparam);
+		tmpTime = getLastInputMsg(m_hContact);
 		if (tmpTime == -1)
-			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, TranslateT("not found"));
+			SetDlgItemTextW(m_hwnd, IDC_EDIT_LASTINPUT, TranslateT("not found"));
 		else {
 			wcsftime(tmpBuf, 50, L"%#x, %#X", gmtime(&tmpTime));
-			SetDlgItemText(hdlg, IDC_EDIT_LASTINPUT, tmpBuf);
+			SetDlgItemTextW(m_hwnd, IDC_EDIT_LASTINPUT, tmpBuf);
 		}
 
-		unsigned int AbsencePeriod = g_plugin.getDword(lparam, "iAbsencePeriod", options.iAbsencePeriod);
+		unsigned int AbsencePeriod = g_plugin.getDword(m_hContact, "iAbsencePeriod", options.iAbsencePeriod);
 
-		SendDlgItemMessage(hdlg, IDC_SPINABSENCE, UDM_SETRANGE, 0, MAKELONG(999, 1));
-		SetDlgItemInt(hdlg, IDC_EDITABSENCE, AbsencePeriod, FALSE);
+		SendDlgItemMessage(m_hwnd, IDC_SPINABSENCE, UDM_SETRANGE, 0, MAKELONG(999, 1));
+		SetDlgItemInt(m_hwnd, IDC_EDITABSENCE, AbsencePeriod, FALSE);
 
-		if (isContactGoneFor((MCONTACT)lparam, options.iAbsencePeriod2))
-			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
+		if (isContactGoneFor(m_hContact, options.iAbsencePeriod2))
+			SetDlgItemText(m_hwnd, IDC_EDIT_WILLNOTICE, TranslateT("This contact has been absent for an extended period of time."));
 		else
-			SetDlgItemText(hdlg, IDC_EDIT_WILLNOTICE, L"");
+			SetDlgItemText(m_hwnd, IDC_EDIT_WILLNOTICE, L"");
 
-		CheckDlgButton(hdlg, IDC_CHECK_MISSYOU, g_plugin.getByte(lparam, "MissYou") ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NOTIFYALWAYS, g_plugin.getByte(lparam, "MissYouNotifyAlways") ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hdlg, IDC_CHECK_NEVERHIDE, g_plugin.getByte(lparam, "NeverHide") ? BST_CHECKED : BST_UNCHECKED);
-
-		TranslateDialogDefault(hdlg);
-		return TRUE;
+		CheckDlgButton(m_hwnd, IDC_CHECK_MISSYOU, g_plugin.getByte(m_hContact, "MissYou") ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_CHECK_NOTIFYALWAYS, g_plugin.getByte(m_hContact, "MissYouNotifyAlways") ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_CHECK_NEVERHIDE, g_plugin.getByte(m_hContact, "NeverHide") ? BST_CHECKED : BST_UNCHECKED);
+		return true;
 	}
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lparam)->idFrom)
-		{
-		case 0:
-			switch (((LPNMHDR)lparam)->code)
-			{
-			case (PSN_APPLY) :
-			{
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lparam)->lParam;
-				if (hContact)
-				{
-					g_plugin.setDword(hContact, "iAbsencePeriod", GetDlgItemInt(hdlg, IDC_EDITABSENCE, nullptr, FALSE));
-					g_plugin.setByte(hContact, "MissYou", (IsDlgButtonChecked(hdlg, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
-					g_plugin.setByte(hContact, "MissYouNotifyAlways", (IsDlgButtonChecked(hdlg, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
-					g_plugin.setByte(hContact, "NeverHide", (IsDlgButtonChecked(hdlg, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
-				}
-				break;
-			}
-			}
-			break;
+	bool OnApply() override
+	{
+		if (m_hContact) {
+			g_plugin.setDword(m_hContact, "iAbsencePeriod", GetDlgItemInt(m_hwnd, IDC_EDITABSENCE, nullptr, FALSE));
+			g_plugin.setByte(m_hContact, "MissYou", (IsDlgButtonChecked(m_hwnd, IDC_CHECK_MISSYOU) == BST_CHECKED) ? 1 : 0);
+			g_plugin.setByte(m_hContact, "MissYouNotifyAlways", (IsDlgButtonChecked(m_hwnd, IDC_CHECK_NOTIFYALWAYS) == BST_CHECKED) ? 1 : 0);
+			g_plugin.setByte(m_hContact, "NeverHide", (IsDlgButtonChecked(m_hwnd, IDC_CHECK_NEVERHIDE) == BST_CHECKED) ? 1 : 0);
 		}
-		break;
-
-	case WM_COMMAND:
-		if (wparam == MAKEWPARAM(IDC_EDITABSENCE, EN_CHANGE))
-			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-		else if (LOWORD(wparam) == IDCANCEL)
-			SendMessage(GetParent(hdlg), msg, wparam, lparam);
-		break;
+		return true;
 	}
+};
 
-	return FALSE;
-}
-
-int UserinfoInit(WPARAM wparam, LPARAM lparam)
+int UserinfoInit(WPARAM wparam, LPARAM hContact)
 {
-	if (lparam > 0) {
-		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
-		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
+	if (hContact > 0) {
+		USERINFOPAGE uip = {};
 		uip.szTitle.a = LPGEN("Buddy Expectator");
-		uip.pfnDlgProc = UserinfoDlgProc;
+		uip.pDialog = new UserinfoDlg();
 		g_plugin.addUserInfo(wparam, &uip);
 	}
 	return 0;

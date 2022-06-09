@@ -111,7 +111,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		wchar_t szText[64];
 
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
-		_Flags.W |= DB::Setting::GetTStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
+		_Flags.W |= DB::Setting::GetWStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
 
 		EnableWindow(_hwnd,
 			!hContact || _Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0));

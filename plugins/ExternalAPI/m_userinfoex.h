@@ -44,7 +44,6 @@ called this message. Because UserinfoEx now looks for changes in the settings of
 shown inforamtion up to date.
 */
 #define PSP_CHANGED			2
-#define PSN_ICONCHANGED		2000
 
 /* PSM_GETBOLDFONT v0.1.0.3+
 wParam=NULL

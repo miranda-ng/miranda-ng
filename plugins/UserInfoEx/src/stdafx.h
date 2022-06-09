@@ -103,6 +103,14 @@ using namespace std;
 #define GetUserData(p)		GetWindowLongPtr((p), GWLP_USERDATA)
 #define SetUserData(p, l)	SetWindowLongPtr((p), GWLP_USERDATA, (LONG_PTR) (l))
 
+struct CMPlugin : public PLUGIN<CMPlugin>
+{
+	CMPlugin();
+
+	int Load() override;
+	int Unload() override;
+};
+
 #include "resource.h"
 #include "version.h"
 #include "../IconPacks/default/src/icons.h"
@@ -149,14 +157,6 @@ using namespace std;
 /***********************************************************************************************************
  * UserInfoEx global variables
  ***********************************************************************************************************/
-
-struct CMPlugin : public PLUGIN<CMPlugin>
-{
-	CMPlugin();
-
-	int Load() override;
-	int Unload() override;
-};
 
 typedef struct _MGLOBAL
 {

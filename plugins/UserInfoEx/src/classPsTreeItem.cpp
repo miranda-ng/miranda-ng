@@ -44,18 +44,7 @@ BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hWnd, LPARAM lParam)
  *			odp			- optiondialogpage structure with the info about the item to add
  * return: nothing
  **/
-CPsTreeItem::CPsTreeItem() : _idDlg(NULL), _pTemplate(nullptr), _hInst(nullptr), _pfnDlgProc(nullptr), _hWnd(nullptr), _dwFlags(NULL),
-	_hItem(nullptr), // handle to the treeview item
-	_iParent(-1), // index to the parent item
-	_iImage(-1), // index of treeview item's image
-	_bState(NULL), // initial state of this treeitem
-	_pszName(nullptr), // original name, given by plugin (not customized)
-	_ptszLabel(nullptr),
-	_pszProto(nullptr),
-	_pszPrefix(nullptr),
-	_hContact(NULL),
-	_iPosition(0),
-	_initParam(0)
+CPsTreeItem::CPsTreeItem()
 {
 }
 
@@ -245,7 +234,7 @@ int CPsTreeItem::ItemLabel(const uint8_t bReadDBValue)
 		mir_free(_ptszLabel);
 
 	// try to get custom label from database
-	if (!bReadDBValue || DB::Setting::GetTString(0, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.pwszVal) == nullptr) {
+	if (!bReadDBValue || DB::Setting::GetWString(0, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.pwszVal) == nullptr) {
 		// extract the name
 		LPSTR pszName = mir_strrchr(_pszName, '\\');
 		if (pszName && pszName[1])
@@ -294,14 +283,14 @@ HICON CPsTreeItem::ProtoIcon()
  * class:	CPsTreeItem
  * desc:	load the icon, add to icolib if required and add to imagelist of treeview
  * params:	hIml			- treeview's imagelist to add the icon to
- *			odp				- pointer to OPTIONSDIALOGPAGE providing the information about the icon to load
+ *			odp				- pointer to USERINFOPAGE providing the information about the icon to load
  *			hDefaultIcon	- default icon to use
  * return: nothing
  **/
-int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIconsOnly)
+int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, uint8_t bInitIconsOnly)
 {
 	// check parameter
-	if (!_pszName || !odp)
+	if (!_pszName || !uip)
 		return 1;
 
 	// load the icon if no icolib is installed or creating the required settingname failed
@@ -320,16 +309,16 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIcon
 		sid.section.w = pwszSection;
 
 		// the item to insert brings along an icon?
-		if (odp->flags & ODPF_ICON) {
+		if (uip->flags & ODPF_ICON) {
 			// is it uinfoex item?
-			if (odp->pPlugin == &g_plugin) {
+			if (uip->pPlugin == &g_plugin) {
 
 				// the pszGroup holds the iconfile for items added by uinfoex
-				sid.defaultFile.w = odp->szGroup.w;
+				sid.defaultFile.w = uip->szGroup.w;
 
 				// icon library exists?
 				if (sid.defaultFile.w)
-					sid.iDefaultIndex = odp->dwInitParam;
+					sid.iDefaultIndex = uip->dwInitParam;
 				// no valid icon library
 				else {
 					bNeedFree = true;
@@ -374,20 +363,20 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, uint8_t bInitIcon
  * class:	CPsTreeItem
  * desc:	inits the treeitem's attributes
  * params:	pPsh	- pointer to the property page's header structure
- *			odp		- OPTIONSDIALOGPAGE structure with the information about the page to add
+ *			odp		- USERINFOPAGE structure with the information about the page to add
  * return:	0 on success, 1 on failure
  **/
-int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
+int CPsTreeItem::Create(CPsHdr* pPsh, USERINFOPAGE *uip)
 {
 	int err;
 	wchar_t szTitle[ MAXSETTING ];
 
 	// check parameter
-	if (pPsh && odp && PtrIsValid(odp->pPlugin)) {
+	if (pPsh && uip && PtrIsValid(uip->pPlugin)) {
 		// instance value
-		_hInst = odp->pPlugin->getInst();
-		_dwFlags = odp->flags;
-		_initParam = odp->dwInitParam;
+		_hInst = uip->pPlugin->getInst();
+		_dwFlags = uip->flags;
+		_initParam = uip->dwInitParam;
 
 		// init page owning contact
 		_hContact = pPsh->_hContact;
@@ -398,15 +387,15 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_snwprintf(szTitle, L"%s %d\\%s", odp->szTitle.w, pPsh->_nSubContact+1, odp->szTab.w);
+				mir_snwprintf(szTitle, L"%s %d\\%s", uip->szTitle.w, pPsh->_nSubContact+1, uip->szGroup.w);
 			else
-				mir_snwprintf(szTitle, L"%s %d", odp->szTitle.w, pPsh->_nSubContact+1);
+				mir_snwprintf(szTitle, L"%s %d", uip->szTitle.w, pPsh->_nSubContact+1);
 		}
 		else {
 			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_snwprintf(szTitle, L"%s\\%s", odp->szTitle.w, odp->szTab.w);
+				mir_snwprintf(szTitle, L"%s\\%s", uip->szTitle.w, uip->szGroup.w);
 			else
-				mir_wstrcpy(szTitle, odp->szTitle.w);
+				mir_wstrcpy(szTitle, uip->szTitle.w);
 		}
 		// set the unique utf8 encoded name for the item
 		if (err = Name(szTitle, (_dwFlags & ODPF_UNICODE) == ODPF_UNICODE)) 
@@ -415,9 +404,10 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 		// read label from database or create it
 		else if (err = ItemLabel(TRUE)) 
 			MsgErr(nullptr, LPGENW("Creating the label for a page failed with %d and error code %d"), err, GetLastError());
+
 		else {
 			// load icon for the item
-			Icon(pPsh->_hImages, odp, (pPsh->_dwFlags & PSTVF_INITICONS) == PSTVF_INITICONS);
+			Icon(pPsh->_hImages, uip, (pPsh->_dwFlags & PSTVF_INITICONS) == PSTVF_INITICONS);
 			
 			// the rest is not needed if only icons are loaded
 			if (pPsh->_dwFlags & PSTVF_INITICONS)
@@ -425,33 +415,16 @@ int CPsTreeItem::Create(CPsHdr* pPsh, OPTIONSDIALOGPAGE *odp)
 
 			// load custom order
 			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) {
-				_iPosition = (int)g_plugin.getByte(PropertyKey(SET_ITEM_POS), odp->position);
+				_iPosition = g_plugin.getByte(PropertyKey(SET_ITEM_POS), uip->position);
 				if ((_iPosition < 0) || (_iPosition > 0x800000A))
 					_iPosition = 0;
 			}
 			// read visibility state
-			_bState =	g_plugin.getByte(PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
+			_bState = g_plugin.getByte(PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
 
-			// error for no longer supported dialog template type
-			if (((UINT_PTR)odp->pszTemplate & 0xFFFF0000)) 
-				MsgErr(nullptr, LPGENW("The dialog template type is no longer supported"));
-			else {
-				// fetch dialog resource id
-				_idDlg = (INT_PTR)odp->pszTemplate;
-				// dialog procedure
-				_pfnDlgProc = odp->pfnDlgProc;
-
-				// is dummy item?
-				if (!_idDlg	&& !_pfnDlgProc)
-					return 0;
-
-				if (_idDlg	&& _pfnDlgProc) {
-					// lock the property pages dialog resource
-					_pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(_hInst, FindResource(_hInst, (LPCTSTR)(UINT_PTR)_idDlg, RT_DIALOG)));
-					if (_pTemplate)
-						return 0;
-				}
-			}
+			// fetch dialog 
+			_pDialog = uip->pDialog;
+			return 0;
 		}
 	}
 	return 1;
@@ -501,20 +474,15 @@ uint16_t CPsTreeItem::DBSaveItemState(LPCSTR pszGroup, int iItemPosition, UINT i
  **/
 HWND CPsTreeItem::CreateWnd(LPPS pPs)
 {
-	if (pPs && !_hWnd && _pTemplate && _pfnDlgProc) {
-		_hWnd = CreateDialogIndirectParam(_hInst, _pTemplate, pPs->hDlg, _pfnDlgProc, (LPARAM)_hContact);
+	if (pPs && !_hWnd && _pDialog) {
+		_pDialog->SetParent(pPs->hDlg);
+		_pDialog->SetContact(_hContact);
+		_pDialog->Create();
+		_hWnd = _pDialog->GetHwnd();
 		if (_hWnd != nullptr) {
-			PSHNOTIFY pshn;
-			pshn.hdr.code = PSN_PARAMCHANGED;
-			pshn.hdr.hwndFrom = _hWnd;
-			pshn.hdr.idFrom = 0;
-			pshn.lParam = (LPARAM)_initParam;
-			SendMessage(_hWnd, WM_NOTIFY, 0, (LPARAM)&pshn);
-
 			// force child window (mainly for AIM property page)
 			SetWindowLongPtr(_hWnd, GWL_STYLE, (GetWindowLongPtr(_hWnd, GWL_STYLE) & ~(WS_POPUP|WS_MINIMIZEBOX|WS_MAXIMIZEBOX|WS_CAPTION|WS_SYSMENU|WS_THICKFRAME)) | WS_CHILD);
 			SetWindowLongPtr(_hWnd, GWL_EXSTYLE, GetWindowLongPtr(_hWnd, GWL_EXSTYLE) & ~(WS_EX_APPWINDOW|WS_EX_STATICEDGE|WS_EX_CLIENTEDGE));
-			SetParent(_hWnd, pPs->hDlg);
 
 			// move dialog into the display area
 			SetWindowPos(_hWnd, HWND_TOP, 
@@ -547,15 +515,8 @@ HWND CPsTreeItem::CreateWnd(LPPS pPs)
  **/
 void CPsTreeItem::OnInfoChanged()
 {
-	if (_hWnd) {
-		PSHNOTIFY pshn;
-		pshn.hdr.code = PSN_INFOCHANGED;
-		pshn.hdr.hwndFrom = _hWnd;
-		pshn.hdr.idFrom = 0;
-		pshn.lParam = (LPARAM)_hContact;
-		if (PSP_CHANGED != SendMessage(_hWnd, WM_NOTIFY, 0, (LPARAM)&pshn))
-			_dwFlags &= ~PSPF_CHANGED;
-	}
+	if (_hWnd)
+		_pDialog->OnRefresh();
 }
 
 /**
@@ -567,13 +528,9 @@ void CPsTreeItem::OnInfoChanged()
  **/
 void CPsTreeItem::OnPageIconsChanged()
 {
-	if (_hWnd) {
-		PSHNOTIFY pshn;
-		pshn.hdr.code = PSN_ICONCHANGED;
-		pshn.hdr.hwndFrom = _hWnd;
-		pshn.hdr.idFrom = 0;
-		pshn.lParam = (LPARAM)_hContact;
-		SendMessage(_hWnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+	if (_hWnd && _initParam) {
+		auto *pDlg = (PSPBaseDlg *)_pDialog;
+		pDlg->OnIconsChanged();
 	}
 }
 

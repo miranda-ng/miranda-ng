@@ -21,126 +21,109 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-/**
- * This is the dialog procedure for the advanced contact information propertysheetpage.
- *
- * @param		hDlg		- handle to the dialog window
- * @param		uMsg		- the message to handle
- * @param		wParam	- parameter
- * @param		lParam	- parameter
- *
- * @return	different values
- **/
-INT_PTR CALLBACK PSPProcOrigin(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class PSPOriginDlg : public PSPBaseDlg
 {
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		{
-			CCtrlList *pCtrlList = CCtrlList::CreateObj(hDlg);
-			if (pCtrlList) {
-				LPIDSTRLIST pList;
-				UINT nList;
+	CTimer timer;
 
-				HFONT hBoldFont;
-				PSGetBoldFont(hDlg, hBoldFont);
-				SendDlgItemMessage(hDlg, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
+public:
+	PSPOriginDlg() :
+		PSPBaseDlg(IDD_CONTACT_ORIGIN),
+		timer(this, 1)
+	{
+		timer.OnEvent = Callback(this, &PSPOriginDlg::onTimer);
+	}
 
-				TranslateDialogDefault(hDlg);
-				SetTimer(hDlg, 1, 5000, nullptr);
+	bool OnInitDialog() override
+	{
+		PSPBaseDlg::OnInitDialog();
 
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STREET, SET_CONTACT_ORIGIN_STREET, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_ZIP, SET_CONTACT_ORIGIN_ZIP, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_CITY, SET_CONTACT_ORIGIN_CITY, DBVT_WCHAR));
-				pCtrlList->insert(CEditCtrl::CreateObj(hDlg, EDIT_STATE, SET_CONTACT_ORIGIN_STATE, DBVT_WCHAR));
+		timer.Start(5000);
 
-				GetCountryList(&nList, &pList);
-				pCtrlList->insert(CCombo::CreateObj(hDlg, EDIT_COUNTRY, SET_CONTACT_ORIGIN_COUNTRY, DBVT_WORD, pList, nList));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_STREET, SET_CONTACT_ORIGIN_STREET, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_ZIP, SET_CONTACT_ORIGIN_ZIP, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_CITY, SET_CONTACT_ORIGIN_CITY, DBVT_WCHAR));
+		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_STATE, SET_CONTACT_ORIGIN_STATE, DBVT_WCHAR));
 
-				pCtrlList->insert(CTzCombo::CreateObj(hDlg, EDIT_TIMEZONE, nullptr));
-			}
+		UINT nList;
+		LPIDSTRLIST pList;
+		GetCountryList(&nList, &pList);
+		m_ctrlList->insert(CCombo::CreateObj(m_hwnd, EDIT_COUNTRY, SET_CONTACT_ORIGIN_COUNTRY, DBVT_WORD, pList, nList));
+
+		m_ctrlList->insert(CTzCombo::CreateObj(m_hwnd, EDIT_TIMEZONE, nullptr));
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		LPCSTR pszProto;
+		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+			return false;
+
+		if (!m_hContact)
+			return false;
+
+		MTime mt;
+		if (mt.DBGetStamp(m_hContact, USERINFO, SET_CONTACT_ADDEDTIME) && strstr(pszProto, "ICQ")) {
+			uint32_t dwStamp;
+
+			dwStamp = DB::Contact::WhenAdded(db_get_dw(m_hContact, pszProto, "UIN", 0), pszProto);
+			if (dwStamp > 0)
+				mt.FromStampAsUTC(dwStamp);
 		}
-		break;
+		if (mt.IsValid()) {
+			wchar_t szTime[MAX_PATH];
+			LPTSTR ptr;
 
-	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->idFrom) {
-			case 0:
-				{
-					MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-					LPCSTR pszProto;
-					
-					switch (((LPNMHDR) lParam)->code) {
-					case PSN_INFOCHANGED:
-						{
-							if (!PSGetBaseProto(hDlg, pszProto) || *pszProto == 0)
-								break;
+			mt.UTCToLocal();
+			mt.DateFormatLong(szTime, _countof(szTime));
 
-							if (hContact) {
-								MTime mt;
-								
-								if (mt.DBGetStamp(hContact, USERINFO, SET_CONTACT_ADDEDTIME) && strstr(pszProto, "ICQ")) {
-									uint32_t dwStamp;
-									
-									dwStamp = DB::Contact::WhenAdded(db_get_dw(hContact, pszProto, "UIN", 0), pszProto);
-									if (dwStamp > 0)
-										mt.FromStampAsUTC(dwStamp);
-								}
-								if (mt.IsValid()) {
-									wchar_t szTime[MAX_PATH];
-									LPTSTR ptr;
-									
-									mt.UTCToLocal();
-									mt.DateFormatLong(szTime, _countof(szTime));
-									
-									mir_wstrcat(szTime, L" - ");
-									ptr = szTime + mir_wstrlen(szTime);
-									mt.TimeFormat(ptr, _countof(szTime) - (ptr - szTime));
-									SetDlgItemText(hDlg, TXT_DATEADDED, szTime);
-								}
-							}
-						 
-							SetWindowLongPtr(hDlg, DWLP_MSGRESULT, 0);
-						}
-						break;
-				
-					case PSN_ICONCHANGED:
-						{
-							const ICONCTRL idIcon[] = {
-								{ IDI_TREE_ADDRESS, STM_SETIMAGE, ICO_ADDRESS },
-								{ IDI_CLOCK,        STM_SETIMAGE, ICO_CLOCK },
-							};
-
-							IcoLib_SetCtrlIcons(hDlg, idIcon, _countof(idIcon));
-						}
-					}
-				}
-			} /* switch (((LPNMHDR)lParam)->idFrom) */
+			mir_wstrcat(szTime, L" - ");
+			ptr = szTime + mir_wstrlen(szTime);
+			mt.TimeFormat(ptr, _countof(szTime) - (ptr - szTime));
+			SetDlgItemText(m_hwnd, TXT_DATEADDED, szTime);
 		}
-		break;
+		return false;
+	}
 
-	case WM_COMMAND:
-		{
+	void OnIconsChanged() override
+	{
+		const ICONCTRL idIcon[] = {
+			{ IDI_TREE_ADDRESS, STM_SETIMAGE, ICO_ADDRESS },
+			{ IDI_CLOCK,        STM_SETIMAGE, ICO_CLOCK },
+		};
+
+		IcoLib_SetCtrlIcons(m_hwnd, idIcon, _countof(idIcon));
+	}
+
+	void onTimer(CTimer *)
+	{
+		wchar_t szTime[32];
+		CTzCombo::GetObj(m_hwnd, EDIT_TIMEZONE)->GetTime(szTime, _countof(szTime));
+		SetDlgItemText(m_hwnd, TXT_TIME, szTime);
+	}
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (uMsg == WM_COMMAND) {
 			switch (LOWORD(wParam)) {
 			case EDIT_COUNTRY:
 				if (HIWORD(wParam) == CBN_SELCHANGE) {
 					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					UpDate_CountryIcon(GetDlgItem(hDlg, ICO_COUNTRY), pd->nID);
+					UpDate_CountryIcon(GetDlgItem(m_hwnd, ICO_COUNTRY), pd->nID);
 				}
 				break;
 			}
 		}
-		break;
-
-	case WM_TIMER:
-		{
-			wchar_t szTime[32];
-			CTzCombo::GetObj(hDlg, EDIT_TIMEZONE)->GetTime(szTime, _countof(szTime));
-			SetDlgItemText(hDlg, TXT_TIME, szTime);
-			break;
-		}
-
-	case WM_DESTROY:
-		KillTimer(hDlg, 1);
+	
+		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
 	}
-	return PSPBaseProc(hDlg, uMsg, wParam, lParam);
+};
+
+void InitOriginDlg(WPARAM wParam, USERINFOPAGE &uip)
+{
+	uip.position = 0x8000002;
+	uip.pDialog = new PSPOriginDlg();
+	uip.dwInitParam = ICONINDEX(IDI_TREE_ADVANCED);
+	uip.szTitle.w = LPGENW("General") L"\\" LPGENW("Origin");
+	g_plugin.addUserInfo(wParam, &uip);
 }

@@ -732,154 +732,173 @@ int OptInit(WPARAM wParam, LPARAM)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// User info dialog
 
-static INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class AvatarUserInfoDlg : public CUserInfoPageDlg
 {
-	WindowData *dat = (WindowData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-	MCONTACT hContact = (dat) ? dat->hContact : INVALID_CONTACT_ID;
+	HANDLE hHook = nullptr;
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		dat = new WindowData(hContact = lParam, hwndDlg);
-		{
-			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
-			SendMessage(protopic, AVATAR_SETCONTACT, 0, (LPARAM)hContact);
-			SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
-			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("Contact has no avatar"));
-			SendMessage(protopic, AVATAR_RESPECTHIDDEN, 0, (LPARAM)FALSE);
-			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
-		}
+	CCtrlCheck chkTransparent;
+	CCtrlButton btnHide, btnChange, btnDefaults, btnProtect, btnReset, btnDelete;
 
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
-		TranslateDialogDefault(hwndDlg);
-		SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, Contact_IsHidden(hContact) ? BST_CHECKED : BST_UNCHECKED);
-
-		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
-		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
-
-		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), 0);
-		SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
-
-		LoadTransparentData(hwndDlg, GetContactThatHaveTheAvatar(hContact));
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case ID_USE_DEFAULTS:
-			hContact = GetContactThatHaveTheAvatar(hContact);
-
-			db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
-			db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
-			db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
-
-			LoadTransparentData(hwndDlg, hContact);
-
-			SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
-			break;
-
-		case IDC_CHANGE:
-			SetAvatar(hContact, 0);
-			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-			break;
-
-		case IDC_HIDEAVATAR:
-			{
-				bool hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) != 0;
-				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != Contact_IsHidden(hContact))
-					Contact_Hide(hContact, hidden);
-			}
-			break;
-
-		case IDC_PROTECTAVATAR:
-			{
-				BOOL locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR);
-				SaveTransparentData(hwndDlg, hContact, locked);
-				ProtectAvatar(hContact, locked ? 1 : 0);
-			}
-			break;
-
-		case IDC_BKG_NUM_POINTS:
-		case IDC_BKG_COLOR_DIFFERENCE:
-			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())
-				break;
-
-		case IDC_MAKETRANSPBKG:
-			{
-				BOOL enable = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), enable);
-			}
-			SendMessage(hwndDlg, DM_REALODAVATAR, 0, 0);
-			break;
-		case IDC_RESET:
-			ProtectAvatar(hContact, 0);
-			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-				DBVARIANT dbv = { 0 };
-				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
-					DeleteFile(dbv.pwszVal);
-					db_free(&dbv);
-				}
-			}
-			db_unset(hContact, "ContactPhoto", "Locked");
-			db_unset(hContact, "ContactPhoto", "Backup");
-			db_unset(hContact, "ContactPhoto", "RFile");
-			db_unset(hContact, "ContactPhoto", "File");
-			db_unset(hContact, "ContactPhoto", "Format");
-			{
-				char *szProto = Proto_GetBaseAccountName(hContact);
-				db_unset(hContact, szProto, "AvatarHash");
-				DeleteAvatarFromCache(hContact, FALSE);
-
-				QueueAdd(hContact);
-			}
-			break;
-
-		case IDC_DELETE:
-			ProtectAvatar(hContact, 0);
-			if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
-				DBVARIANT dbv = { 0 };
-				if (!db_get_ws(hContact, "ContactPhoto", "File", &dbv)) {
-					DeleteFile(dbv.pwszVal);
-					db_free(&dbv);
-				}
-			}
-			db_unset(hContact, "ContactPhoto", "Locked");
-			db_unset(hContact, "ContactPhoto", "Backup");
-			db_unset(hContact, "ContactPhoto", "RFile");
-			db_unset(hContact, "ContactPhoto", "File");
-			db_unset(hContact, "ContactPhoto", "Format");
-			DeleteAvatarFromCache(hContact, FALSE);
-			SendMessage(hwndDlg, DM_SETAVATARNAME, 0, 0);
-			break;
-		}
-		break;
-
-	case DM_REALODAVATAR:
-		SaveTransparentData(hwndDlg, hContact, IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR));
-		ChangeAvatar(hContact, true);
-		break;
-
-	case DM_AVATARCHANGED:
-		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, TRUE);
-		break;
-
-	case WM_NCDESTROY:
-		delete dat;
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
-		break;
+	void ReloadAvatar()
+	{
+		SaveTransparentData(m_hwnd, m_hContact, IsDlgButtonChecked(m_hwnd, IDC_PROTECTAVATAR));
+		ChangeAvatar(m_hContact, true);
 	}
-	return FALSE;
-}
+
+	INT_PTR OnChangeAvatar(UINT, WPARAM, LPARAM)
+	{
+		InvalidateRect(GetDlgItem(m_hwnd, IDC_PROTOPIC), nullptr, TRUE);
+		return 0;
+	}
+
+	UI_MESSAGE_MAP(AvatarUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(DM_AVATARCHANGED, OnChangeAvatar);
+	UI_MESSAGE_MAP_END();
+
+public:
+	AvatarUserInfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_USER_AVATAR),
+		btnHide(this, IDC_HIDEAVATAR),
+		btnReset(this, IDC_RESET),
+		btnChange(this, IDC_CHANGE),
+		btnDelete(this, IDC_DELETE),
+		btnProtect(this, IDC_PROTECTAVATAR),
+		btnDefaults(this, ID_USE_DEFAULTS),
+		chkTransparent(this, IDC_MAKETRANSPBKG)
+	{
+		btnHide.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_Hide);
+		btnReset.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_Reset);
+		btnChange.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_Change);
+		btnDelete.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_Delete);
+		btnProtect.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_Protect);
+		btnDefaults.OnClick = Callback(this, &AvatarUserInfoDlg::onClick_UseDefaults);
+
+		chkTransparent.OnChange = Callback(this, &AvatarUserInfoDlg::onChange_Transparent);
+	}
+
+	bool OnInitDialog() override
+	{
+		hHook = HookEventMessage(ME_AV_AVATARCHANGED, m_hwnd, DM_AVATARCHANGED);
+
+		HWND protopic = GetDlgItem(m_hwnd, IDC_PROTOPIC);
+		SendMessage(protopic, AVATAR_SETCONTACT, 0, m_hContact);
+		SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
+		SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("Contact has no avatar"));
+		SendMessage(protopic, AVATAR_RESPECTHIDDEN, 0, (LPARAM)FALSE);
+		SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
+
+		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
+		CheckDlgButton(m_hwnd, IDC_PROTECTAVATAR, db_get_b(m_hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_HIDEAVATAR, Contact_IsHidden(m_hContact) ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(m_hwnd, IDC_BKG_NUM_POINTS), 0);
+		SendDlgItemMessage(m_hwnd, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
+
+		SendDlgItemMessage(m_hwnd, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(m_hwnd, IDC_BKG_COLOR_DIFFERENCE), 0);
+		SendDlgItemMessage(m_hwnd, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETRANGE, 0, MAKELONG(100, 0));
+
+		LoadTransparentData(m_hwnd, GetContactThatHaveTheAvatar(m_hContact));
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		UnhookEvent(hHook);
+	}
+
+	void onClick_UseDefaults(CCtrlButton *)
+	{
+		m_hContact = GetContactThatHaveTheAvatar(m_hContact);
+
+		db_unset(m_hContact, "ContactPhoto", "MakeTransparentBkg");
+		db_unset(m_hContact, "ContactPhoto", "TranspBkgNumPoints");
+		db_unset(m_hContact, "ContactPhoto", "TranspBkgColorDiff");
+
+		LoadTransparentData(m_hwnd, m_hContact);
+		ReloadAvatar();
+	}
+
+	void onClick_Change(CCtrlButton *)
+	{
+		SetAvatar(m_hContact, 0);
+		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
+		CheckDlgButton(m_hwnd, IDC_PROTECTAVATAR, db_get_b(m_hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	void onClick_Hide(CCtrlButton *)
+	{
+		bool hidden = IsDlgButtonChecked(m_hwnd, IDC_HIDEAVATAR) != 0;
+		SetAvatarAttribute(m_hContact, AVS_HIDEONCLIST, hidden);
+		if (hidden != Contact_IsHidden(m_hContact))
+			Contact_Hide(m_hContact, hidden);
+	}
+
+	void onClick_Protect(CCtrlButton *)
+	{
+		BOOL locked = IsDlgButtonChecked(m_hwnd, IDC_PROTECTAVATAR);
+		SaveTransparentData(m_hwnd, m_hContact, locked);
+		ProtectAvatar(m_hContact, locked ? 1 : 0);
+	}
+
+	void onChange_Transparent(CCtrlCheck *)
+	{
+		BOOL enable = IsDlgButtonChecked(m_hwnd, IDC_MAKETRANSPBKG);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_NUM_POINTS_L), enable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_NUM_POINTS_SPIN), enable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_NUM_POINTS), enable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_COLOR_DIFFERENCE_L), enable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_COLOR_DIFFERENCE_SPIN), enable);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BKG_COLOR_DIFFERENCE), enable);
+		ReloadAvatar();
+	}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		ProtectAvatar(m_hContact, 0);
+		if (MessageBox(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			DBVARIANT dbv = { 0 };
+			if (!db_get_ws(m_hContact, "ContactPhoto", "File", &dbv)) {
+				DeleteFile(dbv.pwszVal);
+				db_free(&dbv);
+			}
+		}
+		db_unset(m_hContact, "ContactPhoto", "Locked");
+		db_unset(m_hContact, "ContactPhoto", "Backup");
+		db_unset(m_hContact, "ContactPhoto", "RFile");
+		db_unset(m_hContact, "ContactPhoto", "File");
+		db_unset(m_hContact, "ContactPhoto", "Format");
+
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		db_unset(m_hContact, szProto, "AvatarHash");
+		DeleteAvatarFromCache(m_hContact, FALSE);
+
+		QueueAdd(m_hContact);
+	}
+
+	void onClick_Delete(CCtrlButton *)
+	{
+		ProtectAvatar(m_hContact, 0);
+		if (MessageBoxW(nullptr, TranslateT("Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?"), TranslateT("Reset contact picture"), MB_YESNO) == IDYES) {
+			DBVARIANT dbv = { 0 };
+			if (!db_get_ws(m_hContact, "ContactPhoto", "File", &dbv)) {
+				DeleteFile(dbv.pwszVal);
+				db_free(&dbv);
+			}
+		}
+		db_unset(m_hContact, "ContactPhoto", "Locked");
+		db_unset(m_hContact, "ContactPhoto", "Backup");
+		db_unset(m_hContact, "ContactPhoto", "RFile");
+		db_unset(m_hContact, "ContactPhoto", "File");
+		db_unset(m_hContact, "ContactPhoto", "Format");
+		DeleteAvatarFromCache(m_hContact, FALSE);
+		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Protocol avatar dialog
 
 static char* GetSelectedProtocol(HWND hwndDlg)
 {
@@ -982,143 +1001,145 @@ static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
 	}
 }
 
-static INT_PTR CALLBACK DlgProcAvatarProtoInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class AvatarProtoInfoDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			HWND protopic = GetDlgItem(hwndDlg, IDC_PROTOPIC);
-			SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
-			SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("No avatar"));
-			SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
+	CCtrlCheck chkPerProto;
+	CCtrlButton btnChange, btnDelete;
+	CCtrlListView protocols;
 
-			HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
-			ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_SUBITEMIMAGES);
+public:
+	AvatarProtoInfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_PROTO_AVATARS),
+		protocols(this, IDC_PROTOCOLS),
+		btnChange(this, IDC_CHANGE),
+		btnDelete(this, IDC_DELETE),
+		chkPerProto(this, IDC_PER_PROTO)
+	{
+		btnChange.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Change);
+		btnDelete.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Delete);
 
-			HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
-			ListView_SetImageList(hwndList, hIml, LVSIL_SMALL);
+		chkPerProto.OnChange = Callback(this, &AvatarProtoInfoDlg::onChange_PerProto);
+	}
 
-			LVCOLUMN lvc = { 0 };
-			lvc.mask = LVCF_FMT;
-			lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
-			ListView_InsertColumn(hwndList, 0, &lvc);
+	bool OnInitDialog() override
+	{
+		HWND protopic = GetDlgItem(m_hwnd, IDC_PROTOPIC);
+		SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
+		SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("No avatar"));
+		SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
 
-			LVITEM item = { 0 };
-			item.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
-			item.iItem = 1000;
+		protocols.SetExtendedListViewStyleEx(0, LVS_EX_SUBITEMIMAGES);
 
-			// List protocols
-			int num = 0;
-			for (auto &it : Accounts()) {
-				if (!ProtoServiceExists(it->szModuleName, PS_GETMYAVATAR))
-					continue;
+		HIMAGELIST hIml = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 4, 0);
+		protocols.SetImageList(hIml, LVSIL_SMALL);
 
-				if (!Proto_IsAvatarsEnabled(it->szModuleName))
-					continue;
+		LVCOLUMN lvc = { 0 };
+		lvc.mask = LVCF_FMT;
+		lvc.fmt = LVCFMT_IMAGE | LVCFMT_LEFT;
+		protocols.InsertColumn(0, &lvc);
 
-				ImageList_AddIcon(hIml, Skin_LoadProtoIcon(it->szModuleName, ID_STATUS_ONLINE));
-				item.pszText = it->tszAccountName;
-				item.iImage = num;
-				item.lParam = (LPARAM)it->szModuleName;
+		LVITEM item = { 0 };
+		item.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
+		item.iItem = 1000;
 
-				ListView_InsertItem(hwndList, &item);
-				num++;
-			}
+		// List protocols
+		int num = 0;
+		for (auto &it : Accounts()) {
+			if (!ProtoServiceExists(it->szModuleName, PS_GETMYAVATAR))
+				continue;
 
-			ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
-			ListView_Arrange(hwndList, LVA_ALIGNLEFT | LVA_ALIGNTOP);
+			if (!Proto_IsAvatarsEnabled(it->szModuleName))
+				continue;
 
-			// Check if should show per protocol avatars
-			CheckDlgButton(hwndDlg, IDC_PER_PROTO, g_plugin.getByte("PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
-			EnableDisableProtocols(hwndDlg, TRUE);
+			ImageList_AddIcon(hIml, Skin_LoadProtoIcon(it->szModuleName, ID_STATUS_ONLINE));
+			item.pszText = it->tszAccountName;
+			item.iImage = num;
+			item.lParam = (LPARAM)it->szModuleName;
+			protocols.InsertItem(&item);
+			num++;
 		}
-		break;
 
-	case WM_NOTIFY:
-		{
-			LPNMHDR nm = (LPNMHDR)lParam;
-			switch (nm->idFrom) {
-			case IDC_PROTOCOLS:
-				switch (nm->code) {
-				case LVN_ITEMCHANGED:
-					LPNMLISTVIEW li = (LPNMLISTVIEW)nm;
-					if (li->uNewState & LVIS_SELECTED) {
-						SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, li->lParam);
-						EnableDisableControls(hwndDlg, (char*)li->lParam);
-					}
-				}
-				break;
+		protocols.SetColumnWidth(0, LVSCW_AUTOSIZE);
+		protocols.Arrange(LVA_ALIGNLEFT | LVA_ALIGNTOP);
 
-			case IDC_PROTOPIC:
-				if (nm->code == NM_AVATAR_CHANGED) {
-					EnableDisableControls(hwndDlg, GetSelectedProtocol(hwndDlg));
-					break;
-				}
-			}
+		// Check if should show per protocol avatars
+		CheckDlgButton(m_hwnd, IDC_PER_PROTO, g_plugin.getByte("PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
+		EnableDisableProtocols(m_hwnd, TRUE);
+		return true;
+	}
+
+	void onItemChanged_List(CCtrlListView::TEventInfo *ev)
+	{
+		LPNMLISTVIEW li = ev->nmlv;
+		if (li->uNewState & LVIS_SELECTED) {
+			SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, li->lParam);
+			EnableDisableControls(m_hwnd, (char*)li->lParam);
 		}
-		break;
+	}
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CHANGE:
-			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO))
-				SetMyAvatar(NULL, NULL);
-			else {
-				char *proto = GetSelectedProtocol(hwndDlg);
-				if (proto != nullptr)
-					SetMyAvatar((WPARAM)proto, NULL);
-			}
-			break;
+	INT_PTR DlgProc(UINT msg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (msg == WM_NOTIFY) {
+			LPNMHDR hdr = (LPNMHDR)lParam;
+			if (hdr->idFrom == IDC_PROTOPIC && hdr->code == NM_AVATAR_CHANGED)
+				EnableDisableControls(m_hwnd, GetSelectedProtocol(m_hwnd));
+		}
+		return CDlgBase::DlgProc(msg, wParam, lParam);
+	}
 
-		case IDC_DELETE:
-			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
-				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
-					SetMyAvatar(NULL, (LPARAM)L"");
-			}
-			else {
-				char *proto = GetSelectedProtocol(hwndDlg);
-				if (proto == nullptr)
-					break;
+	void onClick_Change(CCtrlButton *)
+	{
+		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO))
+			SetMyAvatar(NULL, NULL);
+		else {
+			char *proto = GetSelectedProtocol(m_hwnd);
+			if (proto != nullptr)
+				SetMyAvatar((WPARAM)proto, NULL);
+		}
+	}
 
+	void onClick_Delete(CCtrlButton *)
+	{
+		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO)) {
+			if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
+				SetMyAvatar(NULL, (LPARAM)L"");
+		}
+		else {
+			if (char *proto = GetSelectedProtocol(m_hwnd)) {
 				char description[256];
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
 				wchar_t *descr = mir_a2u(description);
-				if (MessageBox(hwndDlg, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
+				if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), descr, MB_YESNO) == IDYES)
 					SetMyAvatar((WPARAM)proto, (LPARAM)L"");
 				mir_free(descr);
 			}
-			break;
-
-		case IDC_PER_PROTO:
-			g_plugin.setByte("PerProtocolUserAvatars", IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO) ? 1 : 0);
-			EnableDisableProtocols(hwndDlg, FALSE);
-			break;
 		}
-		break;
 	}
-	return FALSE;
-}
+
+	void onChange_PerProto(CCtrlCheck*)
+	{
+		g_plugin.setByte("PerProtocolUserAvatars", IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO) ? 1 : 0);
+		EnableDisableProtocols(m_hwnd, FALSE);
+	}
+};
 
 int OnDetailsInit(WPARAM wParam, LPARAM hContact)
 {
-	OPTIONSDIALOGPAGE odp = {};
-	odp.szTitle.a = LPGEN("Avatar");
+	USERINFOPAGE uip = {};
+	uip.szTitle.a = LPGEN("Avatar");
 
 	if (hContact == NULL) {
 		// User dialog
-		odp.pfnDlgProc = DlgProcAvatarProtoInfo;
-		odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO_AVATARS);
-		g_plugin.addUserInfo(wParam, &odp);
+		uip.pDialog = new AvatarProtoInfoDlg();
+		g_plugin.addUserInfo(wParam, &uip);
 	}
 	else {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr || g_plugin.getByte(szProto, 1)) {
 			// Contact dialog
-			odp.pfnDlgProc = DlgProcAvatarUserInfo;
-			odp.position = -2000000000;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_USER_AVATAR);
-			g_plugin.addUserInfo(wParam, &odp);
+			uip.position = -2000000000;
+			uip.pDialog = new AvatarUserInfoDlg();
+			g_plugin.addUserInfo(wParam, &uip);
 		}
 	}
 	return 0;

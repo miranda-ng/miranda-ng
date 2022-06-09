@@ -1292,7 +1292,7 @@ int CtrlContactAddItemFromDB(
 
 	cbi.pszVal = nullptr;
 	cbi.dwID = mir_hashstr(szSettingVal);
-	cbi.wFlags = CBEXIF_CATREADONLY | DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
+	cbi.wFlags = CBEXIF_CATREADONLY | DB::Setting::GetWStringCtrl(hContact, pszModule, pszModule, pszProto, szSettingVal, &dbv);
 	if (dbv.type >= DBVT_WCHAR) {
 		// no value read from database
 		if (cbi.wFlags == CBEXIF_CATREADONLY)
@@ -1352,7 +1352,7 @@ int CtrlContactAddMyItemsFromDB(
 
 	for (i = 0;
 		SUCCEEDED(mir_snprintf(pszSetting, szFormatVal, i)) &&
-		(cbi.wFlags = DB::Setting::GetTStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
+		(cbi.wFlags = DB::Setting::GetWStringCtrl(hContact, pszModule, pszModule, pszProto, pszSetting, &dbv));
 		i++) {
 		// read value
 		cbi.dwID = mir_hashstr(pszSetting);
@@ -1363,12 +1363,12 @@ int CtrlContactAddMyItemsFromDB(
 		// read category
 		if (SUCCEEDED(mir_snprintf(pszSetting, szFormatCat, i))) {
 			if (cbi.wFlags & CTRLF_HASCUSTOM) {
-				if (DB::Setting::GetTString(hContact, pszModule, pszSetting, &dbv))
+				if (DB::Setting::GetWString(hContact, pszModule, pszSetting, &dbv))
 					dbv.type = DBVT_DELETED;
 			}
 			else
 				if (cbi.wFlags & CTRLF_HASPROTO) {
-					if (DB::Setting::GetTString(hContact, pszProto, pszSetting, &dbv))
+					if (DB::Setting::GetWString(hContact, pszProto, pszSetting, &dbv))
 						dbv.type = DBVT_DELETED;
 				}
 

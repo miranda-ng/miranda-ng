@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-LRESULT CALLBACK EditProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK EditProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	switch (msg) {
 	case WM_SETCURSOR:
@@ -30,47 +30,43 @@ LRESULT CALLBACK EditProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 	return mir_callNextSubclass(hdlg, EditProc, msg, wparam, lparam);
 }
 
-INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
+struct UserinfoDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		mir_subclassWindow(GetDlgItem(hdlg, IDC_INFOTEXT), EditProc);
-		WindowList_Add(g_pUserInfo, hdlg, lparam);
-		SendMessage(hdlg, WM_REFRESH_UI, lparam, 0);
-		break;
+	UserinfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_USERINFO)
+	{}
 
-	case WM_REFRESH_UI:
-		{
-			ptrW szout(g_plugin.getWStringA("UserStamp"));
-			CMStringW str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, wparam);
-			SetDlgItemText(hdlg, IDC_INFOTEXT, str);
-
-			if (!mir_wstrcmp(str, TranslateT("<unknown>")))
-				EnableWindow(GetDlgItem(hdlg, IDC_INFOTEXT), FALSE);
-		}
-		break;
-
-	case WM_COMMAND:
-		if (HIWORD(wparam) == EN_SETFOCUS)
-			SetFocus(GetParent(hdlg));
-		break;
-
-	case WM_DESTROY:
-		WindowList_Remove(g_pUserInfo, hdlg);
-		break;
+	bool OnInitDialog() override
+	{
+		mir_subclassWindow(GetDlgItem(m_hwnd, IDC_INFOTEXT), EditProc);
+		WindowList_Add(g_pUserInfo, m_hwnd, m_hContact);
+		return true;
 	}
 
-	return 0;
-}
+	bool OnRefresh() override
+	{
+		ptrW szout(g_plugin.getWStringA("UserStamp"));
+		CMStringW str = ParseString((szout != NULL) ? szout : DEFAULT_USERSTAMP, m_hContact);
+		SetDlgItemText(m_hwnd, IDC_INFOTEXT, str);
+
+		if (!mir_wstrcmp(str, TranslateT("<unknown>")))
+			EnableWindow(GetDlgItem(m_hwnd, IDC_INFOTEXT), FALSE);
+		return false;
+	}
+
+	void OnDestroy() override
+	{
+		WindowList_Remove(g_pUserInfo, m_hwnd);
+	}
+};
 
 int UserinfoInit(WPARAM wparam, LPARAM hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (IsWatchedProtocol(szProto) && !db_get_b(hContact, szProto, "ChatRoom", false)) {
-		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
-		uip.pszTemplate = MAKEINTRESOURCEA(IDD_USERINFO);
+		USERINFOPAGE uip = {};
 		uip.szTitle.a = LPGEN("Last seen");
-		uip.pfnDlgProc = UserinfoDlgProc;
+		uip.pDialog = new UserinfoDlg();
 		g_plugin.addUserInfo(wparam, &uip);
 	}
 	return 0;

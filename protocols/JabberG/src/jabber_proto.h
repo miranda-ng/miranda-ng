@@ -849,6 +849,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 		        
 	bool       ProcessCaptcha(const TiXmlElement *node, const TiXmlElement *parentNode, ThreadData *info);
 		        
+	//---- jabber_userinfo.c -------------------------------------------------------------
+
+	void       CheckOmemoUserInfo(WPARAM, USERINFOPAGE&);
+
 	//---- jabber_util.c -----------------------------------------------------------------
 	pResourceStatus ResourceInfoFromJID(const char *jid);
 

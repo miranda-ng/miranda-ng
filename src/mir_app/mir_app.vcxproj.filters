@@ -398,6 +398,9 @@
     <ClCompile Include="src\pluginopts.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
+    <ClCompile Include="W:\miranda-ng\src\mir_app\src\userInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\filter.h">

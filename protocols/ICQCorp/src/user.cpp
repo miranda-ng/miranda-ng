@@ -100,49 +100,36 @@ static void setTextValue(HWND hWnd, int id, const wchar_t *value)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK icqUserInfoDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+struct UserInfoDlg : public CUserInfoPageDlg
 {
-	LPNMHDR hdr;
+	UserInfoDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_ICQCORP)
+	{}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		return TRUE;
+	bool OnRefresh() override
+	{
+		wchar_t buffer[64];
+		unsigned long ip, port;
 
-	case WM_NOTIFY:
-		hdr = (LPNMHDR)lParam;
-		if (hdr->idFrom == 0 && hdr->code == PSN_INFOCHANGED) {
-			wchar_t buffer[64];
-			unsigned long ip, port;
-			MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
+		_itow(g_plugin.getDword(m_hContact, "UIN", 0), buffer, 10);
+		setTextValue(m_hwnd, IDC_INFO_UIN, buffer);
 
-			_itow(g_plugin.getDword(hContact, "UIN", 0), buffer, 10);
-			setTextValue(hWnd, IDC_INFO_UIN, buffer);
+		ip = g_plugin.getDword(m_hContact, "IP", 0);
+		setTextValue(m_hwnd, IDC_INFO_IP, ip ? _A2T(iptoa(ip)) : nullptr);
 
-			ip = g_plugin.getDword(hContact, "IP", 0);
-			setTextValue(hWnd, IDC_INFO_IP, ip ? _A2T(iptoa(ip)) : nullptr);
+		ip = g_plugin.getDword(m_hContact, "RealIP", 0);
+		setTextValue(m_hwnd, IDC_INFO_REALIP, ip ? _A2T(iptoa(ip)) : nullptr);
 
-			ip = g_plugin.getDword(hContact, "RealIP", 0);
-			setTextValue(hWnd, IDC_INFO_REALIP, ip ? _A2T(iptoa(ip)) : nullptr);
+		port = g_plugin.getWord(m_hContact, "Port", 0);
+		_itow(port, buffer, 10);
+		setTextValue(m_hwnd, IDC_INFO_PORT, port ? buffer : nullptr);
 
-			port = g_plugin.getWord(hContact, "Port", 0);
-			_itow(port, buffer, 10);
-			setTextValue(hWnd, IDC_INFO_PORT, port ? buffer : nullptr);
-
-			setTextValue(hWnd, IDC_INFO_VERSION, nullptr);
-			setTextValue(hWnd, IDC_INFO_MIRVER, nullptr);
-			setTextValue(hWnd, IDC_INFO_PING, nullptr);
-		}
-		break;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDCANCEL) SendMessage(GetParent(hWnd), msg, wParam, lParam);
-		break;
+		setTextValue(m_hwnd, IDC_INFO_VERSION, nullptr);
+		setTextValue(m_hwnd, IDC_INFO_MIRVER, nullptr);
+		setTextValue(m_hwnd, IDC_INFO_PING, nullptr);
+		return false;
 	}
-	return FALSE;
-}
-
-///////////////////////////////////////////////////////////////////////////////
+};
 
 int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 {
@@ -150,11 +137,10 @@ int icqUserInfoInitialise(WPARAM wParam, LPARAM lParam)
 	if ((proto == nullptr || mir_strcmp(proto, protoName)) && lParam)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = -1900000000;
-	odp.szTitle.a = protoName;
-	odp.pfnDlgProc = icqUserInfoDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_ICQCORP);
-	g_plugin.addUserInfo(wParam, &odp);
+	USERINFOPAGE uip = {};
+	uip.position = -1900000000;
+	uip.szTitle.a = protoName;
+	uip.pDialog = new UserInfoDlg();
+	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }

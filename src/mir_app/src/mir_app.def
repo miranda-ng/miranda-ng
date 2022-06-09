@@ -535,7 +535,7 @@ Contact_GetStatus @609
 ?addSound@CMPluginBase@@QAEHPBDPB_W11@Z @623 NONAME
 GetInstByAddress @625
 GetPluginByInstance @626
-?addUserInfo@CMPluginBase@@QAEHIPAUOPTIONSDIALOGPAGE@@@Z @627 NONAME
+?addUserInfo@CMPluginBase@@QAEHIPAUUSERINFOPAGE@@@Z @627 NONAME
 ?addOptions@CMPluginBase@@QAEHIPAUOPTIONSDIALOGPAGE@@@Z @628 NONAME
 ?openOptions@CMPluginBase@@QAEXPB_W00@Z @629 NONAME
 ?openOptionsPage@CMPluginBase@@QAEXPB_W00@Z @630 NONAME
@@ -791,3 +791,10 @@ Srmm_GetButtonGap @883
 ?addPopupOption@CMPluginBase@@QAEHPBDAAV?$CMOption@_N@@@Z @884 NONAME
 ?addPopupOption@CMPluginBase@@QAEHPB_WAAV?$CMOption@_N@@@Z @885 NONAME
 Srmm_CreateHotkey @886 NONAME
+??0CUserInfoPageDlg@@QAE@$$QAV0@@Z @887 NONAME
+??0CUserInfoPageDlg@@QAE@AAVCMPluginBase@@H@Z @888 NONAME
+??0CUserInfoPageDlg@@QAE@ABV0@@Z @889 NONAME
+??1CUserInfoPageDlg@@UAE@XZ @890 NONAME
+??_7CUserInfoPageDlg@@6B@ @891 NONAME
+?OnRefresh@CUserInfoPageDlg@@UAE_NXZ @892 NONAME
+?SetContact@CUserInfoPageDlg@@QAEXI@Z @893 NONAME

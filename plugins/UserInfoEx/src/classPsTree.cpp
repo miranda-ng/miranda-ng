@@ -115,12 +115,12 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 	psh._pszProto = _pPs->pszProto;
 	psh._hImages = _hImages;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.flags = ODPF_UNICODE;
-	odp.szTitle.w = mir_utf8decodeW(pszGroup);
+	USERINFOPAGE uip = {};
+	uip.flags = ODPF_UNICODE;
+	uip.szTitle.w = mir_utf8decodeW(pszGroup);
 
 	auto *p = new CPsTreeItem();
-	p->Create(&psh, &odp);
+	p->Create(&psh, &uip);
 	_pages.insert(p);
 	
 	return _pages.indexOf(&p);
@@ -810,21 +810,17 @@ void CPsTree::OnIconsChanged()
 
 uint8_t CPsTree::OnInfoChanged()
 {
-	PSHNOTIFY pshn;
 	uint8_t bChanged = 0;
 
-	pshn.hdr.idFrom = 0;
-	pshn.hdr.code = PSN_INFOCHANGED;
 	for (auto &it : _pages) {
-		pshn.hdr.hwndFrom = it->Wnd();
-		if (pshn.hdr.hwndFrom != nullptr) {
-			pshn.lParam = (LPARAM)it->hContact();
-			SendMessage(pshn.hdr.hwndFrom, WM_NOTIFY, 0, (LPARAM)&pshn);
-			if (PSP_CHANGED == GetWindowLongPtr(pshn.hdr.hwndFrom, DWLP_MSGRESULT))
-				bChanged |= 1;
-			else
-				it->RemoveFlags(PSPF_CHANGED);
-		}
+		if (it->Wnd() == nullptr)
+			continue;
+
+		it->Dialog()->SetContact(it->hContact());
+		if (it->Dialog()->OnRefresh())
+			bChanged |= 1;
+		else
+			it->RemoveFlags(PSPF_CHANGED);
 	}
 	return bChanged;
 }

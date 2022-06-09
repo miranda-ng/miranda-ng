@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
 #define SVS_NORMAL        0
 #define SVS_GENDER        1
 #define SVS_ZEROISUNSPEC  2
@@ -36,7 +34,7 @@ INT_PTR CALLBACK ContactDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 #define SVS_TIMEZONE      7
 #define SVS_MARITAL    	  8
 
-static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
+static void SetValue(HWND m_hwnd, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
 {
 	char *pstr = nullptr;
 	wchar_t *pwstr = nullptr, wstr[80];
@@ -162,7 +160,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 		case DBVT_UTF8:
 			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
 			if (!unspecified) {
-				SetDlgItemTextW(hwndDlg, idCtrl, TranslateW(ptrW(mir_utf8decodeW(dbv.pszVal))));
+				SetDlgItemTextW(m_hwnd, idCtrl, TranslateW(ptrW(mir_utf8decodeW(dbv.pszVal))));
 				goto LBL_Exit;
 			}
 
@@ -178,398 +176,362 @@ static void SetValue(HWND hwndDlg, int idCtrl, MCONTACT hContact, char *szModule
 	}
 
 	if (unspecified)
-		SetDlgItemText(hwndDlg, idCtrl, TranslateT("<not specified>"));
+		SetDlgItemText(m_hwnd, idCtrl, TranslateT("<not specified>"));
 	else if (pwstr != nullptr)
-		SetDlgItemText(hwndDlg, idCtrl, pwstr);
+		SetDlgItemText(m_hwnd, idCtrl, pwstr);
 	else
-		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
+		SetDlgItemTextA(m_hwnd, idCtrl, pstr);
 
 LBL_Exit:
-	EnableWindow(GetDlgItem(hwndDlg, idCtrl), !unspecified);
+	EnableWindow(GetDlgItem(m_hwnd, idCtrl), !unspecified);
 	db_free(&dbv);
 }
 
-static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Summary dlg page
+
+class CSummaryDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		break;
+	CCtrlHyperlink m_email;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (hContact != NULL) {
-					char *szProto = Proto_GetBaseAccountName(hContact);
-					if (szProto == nullptr)
-						break;
-
-					SetValue(hwndDlg, IDC_NICK, hContact, szProto, "Nick", 0);
-					SetValue(hwndDlg, IDC_FIRSTNAME, hContact, szProto, "FirstName", 0);
-					SetValue(hwndDlg, IDC_LASTNAME, hContact, szProto, "LastName", 0);
-					SetValue(hwndDlg, IDC_EMAIL, hContact, szProto, "e-mail", 0);
-					SetValue(hwndDlg, IDC_AGE, hContact, szProto, "Age", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_GENDER, hContact, szProto, "Gender", SVS_GENDER);
-					SetValue(hwndDlg, IDC_DOBDAY, hContact, szProto, "BirthDay", 0);
-					SetValue(hwndDlg, IDC_DOBMONTH, hContact, szProto, "BirthMonth", SVS_MONTH);
-					SetValue(hwndDlg, IDC_DOBYEAR, hContact, szProto, "BirthYear", 0);
-					SetValue(hwndDlg, IDC_MARITAL, hContact, szProto, "MaritalStatus", SVS_MARITAL);
-				}
-			}
-			break;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-			break;
-		case IDC_EMAIL:
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_EMAIL))) {
-				wchar_t szExec[264], szEmail[256];
-				GetDlgItemText(hwndDlg, IDC_EMAIL, szEmail, _countof(szEmail));
-				mir_snwprintf(szExec, L"mailto:%s", szEmail);
-				ShellExecute(hwndDlg, L"open", szExec, NULL, NULL, SW_SHOW);
-			}
-			break;
-		}
-		break;
+public:
+	CSummaryDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_SUMMARY),
+		m_email(this, IDC_EMAIL)
+	{
+		m_email.OnClick = Callback(this, &CSummaryDlg::onClick_Email);
 	}
-	return FALSE;
-}
 
-static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+	bool OnRefresh() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		if (szProto == nullptr)
+			return false;
+
+		SetValue(m_hwnd, IDC_NICK, m_hContact, szProto, "Nick", 0);
+		SetValue(m_hwnd, IDC_FIRSTNAME, m_hContact, szProto, "FirstName", 0);
+		SetValue(m_hwnd, IDC_LASTNAME, m_hContact, szProto, "LastName", 0);
+		SetValue(m_hwnd, IDC_EMAIL, m_hContact, szProto, "e-mail", 0);
+		SetValue(m_hwnd, IDC_AGE, m_hContact, szProto, "Age", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_GENDER, m_hContact, szProto, "Gender", SVS_GENDER);
+		SetValue(m_hwnd, IDC_DOBDAY, m_hContact, szProto, "BirthDay", 0);
+		SetValue(m_hwnd, IDC_DOBMONTH, m_hContact, szProto, "BirthMonth", SVS_MONTH);
+		SetValue(m_hwnd, IDC_DOBYEAR, m_hContact, szProto, "BirthYear", 0);
+		SetValue(m_hwnd, IDC_MARITAL, m_hContact, szProto, "MaritalStatus", SVS_MARITAL);
+		return false;
+	}
+
+	void onClick_Email(CCtrlHyperlink *pLink)
+	{
+		if (IsWindowEnabled(pLink->GetHwnd())) {
+			wchar_t szExec[264];
+			mir_snwprintf(szExec, L"mailto:%s", ptrW(m_email.GetText()).get());
+			ShellExecute(m_hwnd, L"open", szExec, NULL, NULL, SW_SHOW);
+		}
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Location dlg page
+
+class CLocationDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
+	CTimer m_timer;
+	CCtrlCombo cmbTimezone;
 
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		TranslateDialogDefault(hwndDlg);
-		SetTimer(hwndDlg, 1, 1000, nullptr);
+public:
+	CLocationDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_LOCATION),
+		m_timer(this, 1),
+		cmbTimezone(this, IDC_TIMEZONESELECT)
+	{
+		m_timer.OnEvent = Callback(this, &CLocationDlg::onTimer);
 
-		TimeZone_PrepareList(lParam, NULL, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
-		SendMessage(hwndDlg, WM_TIMER, 0, 0);
-		break;
-
-	case WM_TIMER:
-		{
-			MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (hContact != NULL) {
-				wchar_t szTime[80];
-				if (printDateTimeByContact(hContact, L"s", szTime, _countof(szTime), TZF_KNOWNONLY)) {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), FALSE);
-					SetDlgItemText(hwndDlg, IDC_LOCALTIME, TranslateT("<not specified>"));
-				}
-				else {
-					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), TRUE);
-					SetDlgItemText(hwndDlg, IDC_LOCALTIME, szTime);
-				}
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (hContact != NULL) {
-					char *szProto = Proto_GetBaseAccountName(hContact);
-					if (szProto == nullptr)
-						break;
-
-					SetValue(hwndDlg, IDC_STREET, hContact, szProto, "Street", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_CITY, hContact, szProto, "City", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_STATE, hContact, szProto, "State", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "ZIP", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "Country", SVS_COUNTRY);
-					SetValue(hwndDlg, IDC_LANGUAGE1, hContact, szProto, "Language1", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_LANGUAGE2, hContact, szProto, "Language2", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_LANGUAGE3, hContact, szProto, "Language3", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_TIMEZONE, hContact, szProto, "Timezone", SVS_TIMEZONE);
-				}
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-			break;
-
-		case IDC_TIMEZONESELECT:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				MCONTACT hContact = (MCONTACT)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				TimeZone_StoreListResult(hContact, NULL, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
-			}
-		}
-		break;
+		cmbTimezone.OnSelChanged = Callback(this, &CLocationDlg::onSelChange_Timezone);
 	}
-	return FALSE;
-}
 
-static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+	bool OnInitDialog() override
+	{
+		m_timer.Start(1000);
+
+		TimeZone_PrepareList(m_hContact, NULL, cmbTimezone.GetHwnd(), TZF_PLF_CB);
+		onTimer(0);
+		return true;
+	}
+
+	void onTimer(CTimer *)
+	{
+		if (m_hContact == 0)
+			return;
+
+		wchar_t szTime[80];
+		if (printDateTimeByContact(m_hContact, L"s", szTime, _countof(szTime), TZF_KNOWNONLY)) {
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOCALTIME), FALSE);
+			SetDlgItemText(m_hwnd, IDC_LOCALTIME, TranslateT("<not specified>"));
+		}
+		else {
+			EnableWindow(GetDlgItem(m_hwnd, IDC_LOCALTIME), TRUE);
+			SetDlgItemText(m_hwnd, IDC_LOCALTIME, szTime);
+		}
+	}
+
+	bool OnRefresh() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		if (szProto == nullptr)
+			return false;
+
+		SetValue(m_hwnd, IDC_STREET, m_hContact, szProto, "Street", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_CITY, m_hContact, szProto, "City", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_STATE, m_hContact, szProto, "State", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_ZIP, m_hContact, szProto, "ZIP", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_COUNTRY, m_hContact, szProto, "Country", SVS_COUNTRY);
+		SetValue(m_hwnd, IDC_LANGUAGE1, m_hContact, szProto, "Language1", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_LANGUAGE2, m_hContact, szProto, "Language2", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_LANGUAGE3, m_hContact, szProto, "Language3", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_TIMEZONE, m_hContact, szProto, "Timezone", SVS_TIMEZONE);
+		return false;
+	}
+
+	void onSelChange_Timezone(CCtrlCombo *)
+	{
+		TimeZone_StoreListResult(m_hContact, NULL, cmbTimezone.GetHwnd(), TZF_PLF_CB);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Work dlg page
+
+class CWorkDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		break;
+	CCtrlHyperlink m_url;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (hContact != NULL) {
-					char *szProto = Proto_GetBaseAccountName(hContact);
-					if (szProto == nullptr) break;
-					SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_POSITION, hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_STREET, hContact, szProto, "CompanyStreet", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_CITY, hContact, szProto, "CompanyCity", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_STATE, hContact, szProto, "CompanyState", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
-					SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "CompanyCountry", SVS_COUNTRY);
-					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
-				}
-			}
-			break;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-			break;
-
-		case IDC_WEBPAGE:
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
-				char szPage[256];
-				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, _countof(szPage));
-				Utils_OpenUrl(szPage);
-			}
-		}
-		break;
+public:
+	CWorkDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_WORK),
+		m_url(this, IDC_WEBPAGE)
+	{
+		m_url.OnClick = Callback(this, &CWorkDlg::onClick_Page);
 	}
-	return FALSE;
-}
+
+	bool OnRefresh() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		if (szProto == nullptr)
+			return false;
+
+		SetValue(m_hwnd, IDC_COMPANY, m_hContact, szProto, "Company", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_DEPARTMENT, m_hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_POSITION, m_hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_STREET, m_hContact, szProto, "CompanyStreet", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_CITY, m_hContact, szProto, "CompanyCity", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_STATE, m_hContact, szProto, "CompanyState", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_ZIP, m_hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, IDC_COUNTRY, m_hContact, szProto, "CompanyCountry", SVS_COUNTRY);
+		SetValue(m_hwnd, IDC_WEBPAGE, m_hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
+		return false;
+	}
+
+	void onClick_Page(CCtrlHyperlink *pLink)
+	{
+		if (IsWindowEnabled(pLink->GetHwnd()))
+			Utils_OpenUrl(ptrA(pLink->GetTextA()));
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Work dlg page
 
 // Resizes all columns in a listview (report style)
 // to make all text visible
-void ResizeColumns(HWND hwndLV)
+void ResizeColumns(CCtrlListView &ctrl)
 {
-	int nCol = 0; LVCOLUMN lvCol;
-	lvCol.mask = LVCF_WIDTH;
-	while (ListView_GetColumn(hwndLV, nCol++, &lvCol))
-		ListView_SetColumnWidth(hwndLV, nCol - 1, LVSCW_AUTOSIZE);
+	ctrl.SetColumnWidth(0, LVSCW_AUTOSIZE);
+	ctrl.SetColumnWidth(1, LVSCW_AUTOSIZE);
 }
 
-static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+class CBackgroundDlg : public CUserInfoPageDlg
 {
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			RECT rc;
-			GetClientRect(GetDlgItem(hwndDlg, IDC_PAST), &rc);
-			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+	CCtrlHyperlink m_link;
+	CCtrlListView m_past, m_interest;
 
-			LVCOLUMN lvc;
-			lvc.mask = LVCF_WIDTH;
-			lvc.cx = rc.right / 3;
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PAST), 0, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_INTERESTS), 0, &lvc);
-
-			lvc.cx = rc.right - rc.right / 3;
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_PAST), 1, &lvc);
-			ListView_InsertColumn(GetDlgItem(hwndDlg, IDC_INTERESTS), 1, &lvc);
-		}
-		ListView_SetExtendedListViewStyleEx(GetDlgItem(hwndDlg, IDC_PAST), LVS_EX_LABELTIP, LVS_EX_LABELTIP);
-		ListView_SetExtendedListViewStyleEx(GetDlgItem(hwndDlg, IDC_INTERESTS), LVS_EX_LABELTIP, LVS_EX_LABELTIP);
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
-				LVITEM lvi;
-				char idstr[33];
-				MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (hContact != NULL) {
-					char *szProto = Proto_GetBaseAccountName(hContact);
-					if (szProto == nullptr)
-						break;
-
-					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
-
-					// past
-					ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_PAST));
-					lvi.mask = LVIF_TEXT;
-					lvi.iSubItem = 0;
-					lvi.iItem = 0;
-					for (int i = 0;; i++) {
-						mir_snprintf(idstr, "Past%d", i);
-						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
-						if (tszColText == NULL)
-							break;
-						mir_snprintf(idstr, "Past%dText", i);
-						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
-						if (tszText == NULL)
-							break;
-
-						lvi.pszText = tszColText;
-						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PAST), &lvi);
-						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PAST), lvi.iItem, 1, tszText);
-						lvi.iItem++;
-					}
-
-					// affiliation
-					for (int i = 0;; i++) {
-						mir_snprintf(idstr, "Affiliation%d", i);
-						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
-						if (tszColText == NULL)
-							break;
-						mir_snprintf(idstr, "Affiliation%dText", i);
-						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
-						if (tszText == NULL)
-							break;
-
-						lvi.pszText = tszColText;
-						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_PAST), &lvi);
-						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_PAST), lvi.iItem, 1, tszText);
-						lvi.iItem++;
-					}
-
-					ResizeColumns(GetDlgItem(hwndDlg, IDC_PAST));
-
-					// interests
-					ListView_DeleteAllItems(GetDlgItem(hwndDlg, IDC_INTERESTS));
-					lvi.mask = LVIF_TEXT;
-					lvi.iSubItem = 0;
-					lvi.iItem = 0;
-					for (int i = 0;; i++) {
-						mir_snprintf(idstr, "Interest%dCat", i);
-						ptrW tszColText(db_get_wsa(hContact, szProto, idstr));
-						if (tszColText == NULL)
-							break;
-						mir_snprintf(idstr, "Interest%dText", i);
-						ptrW tszText(db_get_wsa(hContact, szProto, idstr));
-						if (tszText == NULL)
-							break;
-
-						lvi.pszText = tszColText;
-						ListView_InsertItem(GetDlgItem(hwndDlg, IDC_INTERESTS), &lvi);
-						ListView_SetItemText(GetDlgItem(hwndDlg, IDC_INTERESTS), lvi.iItem, 1, tszText);
-						lvi.iItem++;
-					}
-					ResizeColumns(GetDlgItem(hwndDlg, IDC_INTERESTS));
-				}
-			}
-			break;
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDCANCEL:
-			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-			break;
-		case IDC_WEBPAGE:
-			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
-				char szPage[256];
-				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, _countof(szPage));
-				Utils_OpenUrl(szPage);
-			}
-			break;
-		}
-		break;
+public:
+	CBackgroundDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_BACKGROUND),
+		m_link(this, IDC_WEBPAGE),
+		m_past(this, IDC_PAST),
+		m_interest(this, IDC_INTERESTS)
+	{
+		m_link.OnClick = Callback(this, &CBackgroundDlg::onClick_Url);
 	}
-	return FALSE;
-}
 
-static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	MCONTACT hContact;
+	bool OnInitDialog() override
+	{
+		RECT rc;
+		GetClientRect(m_past.GetHwnd(), &rc);
+		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			HDC hDC = GetDC(hwndDlg);
-			LOGFONT lf;
-			lf.lfHeight = -MulDiv(10, GetDeviceCaps(hDC, LOGPIXELSY), 72);
-			ReleaseDC(hwndDlg, hDC);
-			lf.lfWidth = 0;
-			lf.lfEscapement = 0;
-			lf.lfOrientation = 0;
-			lf.lfWeight = FW_NORMAL;
-			lf.lfItalic = 0;
-			lf.lfUnderline = 0;
-			lf.lfStrikeOut = 0;
-			lf.lfOutPrecision = OUT_DEFAULT_PRECIS;
-			lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
-			lf.lfQuality = DEFAULT_QUALITY;
-			lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
-			mir_wstrcpy(lf.lfFaceName, L"Courier New");
-			lf.lfCharSet = DEFAULT_CHARSET;
-			HFONT hFont = CreateFontIndirect(&lf);
-			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
+		LVCOLUMN lvc;
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = rc.right / 3;
+		m_past.InsertColumn(0, &lvc);
+		m_interest.InsertColumn(0, &lvc);
 
-			ptrW szNotes(g_plugin.getWStringA(lParam, "MyNotes"));
-			if (szNotes != nullptr)
-				SetDlgItemText(hwndDlg, IDC_MYNOTES, szNotes);
-		}
-		SendDlgItemMessage(hwndDlg, IDC_MYNOTES, EM_LIMITTEXT, 2048, 0);
-		break;
+		lvc.cx = rc.right - rc.right / 3;
+		m_past.InsertColumn(1, &lvc);
+		m_interest.InsertColumn(1, &lvc);
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_INFOCHANGED:
-				hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (hContact != NULL) {
-					char *szProto = Proto_GetBaseAccountName(hContact);
-					if (szProto != NULL)
-						SetValue(hwndDlg, IDC_ABOUT, hContact, szProto, "About", 0);
-				}
+		m_past.SetExtendedListViewStyleEx(LVS_EX_LABELTIP, LVS_EX_LABELTIP);
+		m_interest.SetExtendedListViewStyleEx(LVS_EX_LABELTIP, LVS_EX_LABELTIP);
+		return true;
+	}
+
+	bool OnRefresh() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		if (szProto == nullptr)
+			return false;
+
+		SetValue(m_hwnd, IDC_WEBPAGE, m_hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
+
+		// past
+		m_past.DeleteAllItems();
+
+		char idstr[33];
+		LVITEM lvi;
+		lvi.mask = LVIF_TEXT;
+		lvi.iSubItem = 0;
+		lvi.iItem = 0;
+		for (int i = 0;; i++) {
+			mir_snprintf(idstr, "Past%d", i);
+			ptrW tszColText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszColText == NULL)
+				break;
+			mir_snprintf(idstr, "Past%dText", i);
+			ptrW tszText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszText == NULL)
 				break;
 
-			case PSN_APPLY:
-				hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
-				if (GetWindowTextLength(GetDlgItem(hwndDlg, IDC_MYNOTES))) {
-					wchar_t text[2048];
-					GetDlgItemText(hwndDlg, IDC_MYNOTES, text, _countof(text));
-					g_plugin.setWString(hContact, "MyNotes", text);
-				}
-				else g_plugin.delSetting(hContact, "MyNotes");
-				break;
-			}
-			break;
+			lvi.pszText = tszColText;
+			m_past.InsertItem(&lvi);
+			m_past.SetItemText(lvi.iItem, 1, tszText);
+			lvi.iItem++;
 		}
-		break;
 
-	case WM_COMMAND:
-		if (wParam == MAKEWPARAM(IDC_MYNOTES, EN_CHANGE))
-			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		else if (LOWORD(wParam) == IDCANCEL)
-			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-		break;
+		// affiliation
+		for (int i = 0;; i++) {
+			mir_snprintf(idstr, "Affiliation%d", i);
+			ptrW tszColText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszColText == NULL)
+				break;
+			mir_snprintf(idstr, "Affiliation%dText", i);
+			ptrW tszText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszText == NULL)
+				break;
 
-	case WM_DESTROY:
-		DeleteObject((HFONT)SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_GETFONT, 0, 0));
-		break;
+			lvi.pszText = tszColText;
+			m_past.InsertItem(&lvi);
+			m_past.SetItemText(lvi.iItem, 1, tszText);
+			lvi.iItem++;
+		}
+
+		ResizeColumns(m_past);
+
+		// interests
+		m_interest.DeleteAllItems();
+		
+		lvi.mask = LVIF_TEXT;
+		lvi.iSubItem = 0;
+		lvi.iItem = 0;
+		for (int i = 0;; i++) {
+			mir_snprintf(idstr, "Interest%dCat", i);
+			ptrW tszColText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszColText == NULL)
+				break;
+			mir_snprintf(idstr, "Interest%dText", i);
+			ptrW tszText(db_get_wsa(m_hContact, szProto, idstr));
+			if (tszText == NULL)
+				break;
+
+			lvi.pszText = tszColText;
+			m_interest.InsertItem(&lvi);
+			m_interest.SetItemText(lvi.iItem, 1, tszText);
+			lvi.iItem++;
+		}
+		ResizeColumns(m_interest);
+		return false;
 	}
-	return FALSE;
-}
+
+	void onClick_Url(CCtrlHyperlink *pLink)
+	{
+		if (IsWindowEnabled(pLink->GetHwnd()))
+			Utils_OpenUrl(ptrA(pLink->GetTextA()));
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Notes dlg page
+
+class CNotesDlg : public CUserInfoPageDlg
+{
+	CCtrlEdit mynotes;
+
+public:
+	CNotesDlg() :
+		CUserInfoPageDlg(g_plugin, IDD_INFO_NOTES),
+		mynotes(this, IDC_MYNOTES)
+	{
+	}
+
+	bool OnInitDialog() override
+	{
+		HDC hDC = GetDC(m_hwnd);
+		LOGFONT lf = {};
+		lf.lfHeight = -MulDiv(10, GetDeviceCaps(hDC, LOGPIXELSY), 72);
+		ReleaseDC(m_hwnd, hDC);
+		lf.lfCharSet = DEFAULT_CHARSET;
+		lf.lfWeight = FW_NORMAL;
+		mir_wstrcpy(lf.lfFaceName, L"Courier New");
+		HFONT hFont = CreateFontIndirect(&lf);
+		SendDlgItemMessage(m_hwnd, IDC_ABOUT, WM_SETFONT, (WPARAM)hFont, MAKELPARAM(TRUE, 0));
+
+		ptrW szNotes(g_plugin.getWStringA(m_hContact, "MyNotes"));
+		if (szNotes != nullptr)
+			mynotes.SetText(szNotes);
+
+		mynotes.SetMaxLength(2048);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		ptrW wszText(mynotes.GetText());
+		if (mir_wstrlen(wszText))
+			g_plugin.setWString(m_hContact, "MyNotes", wszText);
+		else
+			g_plugin.delSetting(m_hContact, "MyNotes");
+
+		return true;
+	}
+
+	void OnDestroy() override
+	{
+		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_ABOUT, WM_GETFONT, 0, 0));
+	}
+
+	bool OnRefresh() override
+	{
+		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		if (szProto != NULL)
+			SetValue(m_hwnd, IDC_ABOUT, m_hContact, szProto, "About", 0);
+		return false;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
+void InitContactInfo(WPARAM, USERINFOPAGE &uip);
 
 int DetailsInit(WPARAM wParam, LPARAM lParam)
 {
@@ -579,41 +541,28 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (Proto_GetBaseAccountName(lParam) == nullptr)
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {};
-	odp.pfnDlgProc = SummaryDlgProc;
-	odp.position = -2100000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SUMMARY);
-	odp.szTitle.a = LPGEN("Summary");
-	g_plugin.addUserInfo(wParam, &odp);
+	USERINFOPAGE uip = {};
+	uip.pDialog = new CSummaryDlg();
+	uip.szGroup.a = LPGEN("General");
+	uip.szTitle.a = LPGEN("Summary");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = ContactDlgProc;
-	odp.position = -1800000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_CONTACT);
-	odp.szTitle.a = LPGEN("Contact");
-	g_plugin.addUserInfo(wParam, &odp);
+	InitContactInfo(wParam, uip);
 
-	odp.pfnDlgProc = LocationDlgProc;
-	odp.position = -1500000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_LOCATION);
-	odp.szTitle.a = LPGEN("Location");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new CLocationDlg();
+	uip.szTitle.a = LPGEN("Location");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = WorkDlgProc;
-	odp.position = -1200000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_WORK);
-	odp.szTitle.a = LPGEN("Work");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new CWorkDlg();
+	uip.szTitle.a = LPGEN("Work");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = BackgroundDlgProc;
-	odp.position = -900000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_BACKGROUND);
-	odp.szTitle.a = LPGEN("Background info");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new CBackgroundDlg();
+	uip.szTitle.a = LPGEN("Background info");
+	g_plugin.addUserInfo(wParam, &uip);
 
-	odp.pfnDlgProc = NotesDlgProc;
-	odp.position = 0;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_NOTES);
-	odp.szTitle.a = LPGEN("Notes");
-	g_plugin.addUserInfo(wParam, &odp);
+	uip.pDialog = new CNotesDlg();
+	uip.szTitle.a = LPGEN("Notes");
+	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }
