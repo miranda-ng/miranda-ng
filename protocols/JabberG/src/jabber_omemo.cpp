@@ -1271,6 +1271,7 @@ complete:
 				else if (ret == IDNO)
 					proto->setByte(hContact, szSetting, 0);
 			}
+			mir_free(fingerprint);
 		}
 
 		if (!fp_trusted) {
@@ -1838,8 +1839,8 @@ void CJabberProto::OmemoSendBundle()
 
 bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 {
-	if (m_omemo.session_checked[hContact])
-		return true;
+	//if (m_omemo.session_checked[hContact])
+	//	return true;
 	
 	bool pending_check = false;
 	CMStringA szSetting;
@@ -1861,6 +1862,7 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	bool checked = getBool(hContact, szSetting + "Checked");
 	while (id) {
 		if (!checked) {
+			m_omemo.session_checked[hContact] = false;
 			pending_check = true;
 			unsigned int* _id = new unsigned int;
 			*_id = id;
@@ -1883,8 +1885,10 @@ bool CJabberProto::OmemoCheckSession(MCONTACT hContact)
 	}
 
 	if (!pending_check) {
-		m_omemo.session_checked[hContact] = true;
-		OmemoHandleMessageQueue();
+		if(!m_omemo.session_checked[hContact]) {
+			m_omemo.session_checked[hContact] = true;
+			OmemoHandleMessageQueue();
+		}
 		return true;
 	}
 
