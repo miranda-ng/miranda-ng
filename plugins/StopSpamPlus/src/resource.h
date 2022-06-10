@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\StopSpamPlus\res\stopspam.rc
+// Used by C:\Users\georg\DiskW\miranda-ng\plugins\StopSpamPlus\res\stopspam.rc
 //
 #define IDD_MESSAGES                    101
 #define IDD_MAIN                        102
@@ -26,7 +26,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        104
+#define _APS_NEXT_RESOURCE_VALUE        105
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1018
 #define _APS_NEXT_SYMED_VALUE           101

@@ -132,7 +132,7 @@ public:
 			item.lParam = (LPARAM)pa->szModuleName;
 			item.pszText = pa->tszAccountName;
 			int idx = m_accounts.InsertItem(&item);
-			m_accounts.SetCheckState(idx, g_sets.ProtoDisabled(pa->szModuleName));
+			m_accounts.SetCheckState(idx, !g_sets.ProtoDisabled(pa->szModuleName));
 		}
 		return true;
 	}
@@ -149,7 +149,7 @@ public:
 			if (!m_accounts.GetItem(&item))
 				continue;
 
-			if (m_accounts.GetCheckState(i) != 0)
+			if (m_accounts.GetCheckState(i) == 0)
 				out << (char*)item.lParam << " ";
 		}
 
