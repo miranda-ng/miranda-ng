@@ -170,7 +170,7 @@ class CRosterEditorDlg : public CJabberDlgBase
 
 		m_list.SetItemText(index, 1, Utf2T(nick));
 		m_list.SetItemText(index, 2, Utf2T(group));
-		m_list.SetItemText(index, 3, Utf2T(subscr));
+		m_list.SetItemText(index, 3, TranslateW(Utf2T(subscr)));
 		return index;
 	}
 
