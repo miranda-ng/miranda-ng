@@ -134,16 +134,19 @@
     <ClCompile Include="src\gopher.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\h2h3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\hash.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\headers.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hmac.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hostasyn.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\hostcheck.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hostip.c">
@@ -233,16 +236,7 @@
     <ClCompile Include="src\netrc.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\non-ascii.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\nonblock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nwlib.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\nwos.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\openldap.c">
@@ -314,6 +308,9 @@
     <ClCompile Include="src\splay.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\timediff.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\version_win32.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -371,13 +368,13 @@
     <ClCompile Include="src\vtls\gtls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vtls\hostcheck.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\vtls\mbedtls.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\mbedtls_threadlock.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\vtls\mesalink.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\vtls\nss.c">
@@ -401,13 +398,13 @@
     <ClCompile Include="src\vtls\wolfssl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\vtls\x509asn1.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\warnless.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\wildcard.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\x509asn1.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\strcase.c">
@@ -488,15 +485,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\config-riscos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\config-symbian.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\config-tpf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\config-vxworks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\config-win32.h">
@@ -646,10 +634,13 @@
     <ClInclude Include="src\gopher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\h2h3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\hash.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\hostcheck.h">
+    <ClInclude Include="src\headers.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\hostip.h">
@@ -713,9 +704,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\netrc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\non-ascii.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\nonblock.h">
@@ -820,6 +808,9 @@
     <ClInclude Include="src\tftp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\timediff.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\timeval.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -842,9 +833,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\wildcard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\x509asn1.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dynbuf.h">
