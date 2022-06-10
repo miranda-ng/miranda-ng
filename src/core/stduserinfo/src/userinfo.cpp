@@ -99,7 +99,7 @@ class CUserInfoDlg : public CDlgBase
 		ptrW ptszLastTab(g_plugin.getWStringA("LastTab"));
 		m_pCurrent = nullptr;
 
-		std::map<const wchar_t*, HTREEITEM> parents;
+		std::map<std::wstring, HTREEITEM> parents;
 
 		for (auto &it : m_pages) {
 			wchar_t *pwszGroup = (it->getGroup() == nullptr) ? TranslateT("General") : it->getGroup();
@@ -110,7 +110,8 @@ class CUserInfoDlg : public CDlgBase
 				TVINSERTSTRUCT tvis = {};
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.lParam = (LPARAM)it;
-				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
 				tvis.item.pszText = pwszGroup;
 				hParent = parents[pwszGroup] = m_tree.InsertItem(&tvis);
 			}
@@ -522,15 +523,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 static int PageSortProc(const DetailsPageData *item1, const DetailsPageData *item2)
 {
 	wchar_t *s1 = item1->getGroup(), *s2 = item2->getGroup();
-	if (s1 && !s2) return -1;
-	if (!s1 && s2) return 1;
-	if (!s1 && !s2) return 0;
+	if (int res = mir_wstrcmp(s1, s2))
+		return res;
 
 	s1 = item1->getTitle(), s2 = item2->getTitle();
 	if (!mir_wstrcmp(s1, TranslateT("Summary"))) return -1;
 	if (!mir_wstrcmp(s2, TranslateT("Summary"))) return 1;
-	if (int res = mir_wstrcmp(s1, s2)) return res;
-
 	return mir_wstrcmp(s1, s2);
 }
 

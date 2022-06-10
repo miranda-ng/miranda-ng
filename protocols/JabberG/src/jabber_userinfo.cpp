@@ -455,7 +455,7 @@ public:
 			buf.AppendChar('\t');
 
 		wchar_t wszText[256];
-		TVITEMEX tvi = { 0 };
+		TVITEMEX tvi = {};
 		tvi.mask = TVIF_HANDLE | TVIF_TEXT | TVIF_STATE;
 		tvi.hItem = hti;
 		tvi.cchTextMax = _countof(wszText);
@@ -841,15 +841,17 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM hContact)
 	if (szProto != nullptr && !mir_strcmp(szProto, m_szModuleName)) {
 		USERINFOPAGE uip = {};
 		uip.dwInitParam = (LPARAM)this;
+		uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB;
+		uip.szGroup.w = m_tszUserName;
 
 		uip.pDialog = new JabberUserInfoDlg(this);
 		uip.position = -2000000000;
-		uip.szTitle.a = LPGEN("Account");
+		uip.szTitle.w = LPGENW("Account");
 		g_plugin.addUserInfo(wParam, &uip);
 
 		uip.pDialog = new JabberUserPhotoDlg(this);
 		uip.position = 2000000000;
-		uip.szTitle.a = LPGEN("Photo");
+		uip.szTitle.w = LPGENW("Photo");
 		g_plugin.addUserInfo(wParam, &uip);
 
 		CheckOmemoUserInfo(wParam, uip);
@@ -863,7 +865,7 @@ void CJabberProto::CheckOmemoUserInfo(WPARAM wParam, USERINFOPAGE &uip)
 	if (m_bUseOMEMO) {
 		uip.pDialog = new JabberUserOmemoDlg(this);
 		uip.position = 2000000001;
-		uip.szTitle.a = "OMEMO";
+		uip.szTitle.w = L"OMEMO";
 		g_plugin.addUserInfo(wParam, &uip);
 	}
 }

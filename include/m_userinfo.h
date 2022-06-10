@@ -46,7 +46,7 @@ struct USERINFOPAGE
 {
 	MAllStrings szTitle, szGroup; // [TRANSLATED-BY-CORE]
 	HPLUGIN pPlugin;
-	uint32_t flags;
+	uint32_t flags;               // ODPF_*, look at m_options.h
 	CUserInfoPageDlg *pDialog;
 
 	// used in UInfoEx only
