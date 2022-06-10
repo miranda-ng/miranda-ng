@@ -132,15 +132,14 @@ void CPsTree::Remove(HINSTANCE hInst)
 
 	for (auto &it : _pages.rev_iter()) {
 		if (it->Inst() == hInst) {
-			if (!bRemoved) {
-				TreeView_DeleteAllItems(_hWndTree);
-				bRemoved = true;
-			}
+			bRemoved = true;
 			_pages.removeItem(&it);
 		}
 	}
 
 	if (bRemoved) {
+		TreeView_DeleteAllItems(_hWndTree);
+
 		for (auto &it : _pages)
 			it->Hti(nullptr);
 

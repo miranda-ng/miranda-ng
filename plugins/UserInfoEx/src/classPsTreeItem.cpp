@@ -528,7 +528,7 @@ void CPsTreeItem::OnInfoChanged()
  **/
 void CPsTreeItem::OnPageIconsChanged()
 {
-	if (_hWnd && _initParam) {
+	if (_hWnd && _hInst == g_plugin.getInst()) {
 		auto *pDlg = (PSPBaseDlg *)_pDialog;
 		pDlg->OnIconsChanged();
 	}
