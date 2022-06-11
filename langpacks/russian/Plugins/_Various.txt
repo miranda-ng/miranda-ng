@@ -205,7 +205,7 @@
 [Color frame]
 Цветная рамка
 [Color text background]
-Цветной текст заголовка
+Цветной фон текста
 [Color logo & clocks]
 Цветные логотип и часы
 [Color text]

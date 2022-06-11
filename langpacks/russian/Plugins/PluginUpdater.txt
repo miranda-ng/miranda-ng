@@ -51,7 +51,7 @@
 [Custom version]
 Заданная пользователем версия
 [Change platform to 32-bit]
-Перейти на 32-битную версию
+Перейти на 32-разрядную версию
 [Some component(s) was updated.\nYou need to restart your Miranda to apply installed updates.]
 Некоторые компоненты были обновлены.\nПрименение обновлений произойдёт после перезапуска программы.
 [Notifications]

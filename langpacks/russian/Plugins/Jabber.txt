@@ -970,7 +970,7 @@ Jabber ошибка
 [From]
 От
 [Both]
-в обе стороны
+В обе стороны
 [Errors]
 Ошибки
 ;file \protocols\JabberG\src\jabber_notes.cpp
