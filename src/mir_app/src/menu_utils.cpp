@@ -187,11 +187,13 @@ MIR_APP_DLL(BOOL) Menu_DrawItem(LPARAM lParam)
 	if (dis == nullptr)
 		return FALSE;
 
-	mir_cslock lck(csMenuHook);
-
-	TMO_IntMenuItem *pimi = MO_GetIntMenuItem((HGENMENU)dis->itemData);
-	if (pimi == nullptr || pimi->iconId == -1)
-		return FALSE;
+	TMO_IntMenuItem *pimi;
+	{
+		mir_cslock lck(csMenuHook);
+		pimi = MO_GetIntMenuItem((HGENMENU)dis->itemData);
+		if (pimi == nullptr || pimi->iconId == -1)
+			return FALSE;
+	}
 
 	int y = (dis->rcItem.bottom - dis->rcItem.top - g_iIconSY) / 2 + 1;
 	if (dis->itemState & ODS_SELECTED) {
@@ -240,10 +242,13 @@ EXTERN_C MIR_APP_DLL(BOOL) Menu_ProcessHotKey(int hMenuObject, int key)
 	if (!bIsGenMenuInited)
 		return -1;
 
-	mir_cslock lck(csMenuHook);
-	TIntMenuObject *pmo = GetMenuObjbyId(hMenuObject);
-	if (pmo == nullptr)
-		return FALSE;
+	TIntMenuObject *pmo;
+	{
+		mir_cslock lck(csMenuHook);
+		pmo = GetMenuObjbyId(hMenuObject);
+		if (pmo == nullptr)
+			return FALSE;
+	}
 
 	for (TMO_IntMenuItem *pimi = pmo->m_items.first; pimi != nullptr; pimi = pimi->next) {
 		if (pimi->hotKey == 0) continue;
@@ -490,7 +495,6 @@ MIR_APP_DLL(BOOL) Menu_ProcessCommandById(int command, LPARAM lParam)
 	if (!bIsGenMenuInited)
 		return false;
 
-	mir_cslock lck(csMenuHook);
 	for (auto &p : g_menus)
 		if (TMO_IntMenuItem *pimi = MO_RecursiveWalkMenu(p->m_items.first, FindMenuByCommand, &command))
 			return Menu_ProcessCommand(pimi, lParam);
