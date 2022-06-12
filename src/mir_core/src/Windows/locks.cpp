@@ -36,7 +36,8 @@ mir_cs::~mir_cs()
 
 void mir_cs::Lock()
 {
-	::EnterCriticalSection(&m_cs);
+	while (::TryEnterCriticalSection(&m_cs) == 0)
+		SleepEx(50, TRUE);
 }
 
 void mir_cs::Unlock()
