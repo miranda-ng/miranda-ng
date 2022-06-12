@@ -241,22 +241,15 @@ public:
 		if (hHandCursor == nullptr)
 			hHandCursor = LoadCursor(nullptr, IDC_HAND);
 
-		RECT rc;
-		GetClientRect(m_emails.GetHwnd(), &rc);
-		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-
 		LVCOLUMN lvc;
 		lvc.mask = LVCF_WIDTH;
 		m_emails.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 		m_phones.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
-		lvc.cx = rc.right / 4;
+		lvc.cx = 50;
 		m_emails.InsertColumn(0, &lvc);
 		m_phones.InsertColumn(0, &lvc);
-		lvc.cx = rc.right - rc.right / 4 - 40;
 		m_emails.InsertColumn(1, &lvc);
-		lvc.cx = rc.right - rc.right / 4 - 90;
 		m_phones.InsertColumn(1, &lvc);
-		lvc.cx = 50;
 		m_phones.InsertColumn(2, &lvc);
 		lvc.cx = 20;
 		m_emails.InsertColumn(2, &lvc);
@@ -264,6 +257,17 @@ public:
 		m_phones.InsertColumn(3, &lvc);
 		m_phones.InsertColumn(4, &lvc);
 		return true;
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_EMAILS:
+		case IDC_PHONES:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		}
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
 	bool OnRefresh() override
@@ -524,7 +528,21 @@ public:
 			}
 		}
 
-		return CDlgBase::DlgProc(msg, wParam, lParam);
+		INT_PTR res = CDlgBase::DlgProc(msg, wParam, lParam);
+
+		if (msg == WM_SIZE) {
+			RECT rc;
+			GetClientRect(m_emails.GetHwnd(), &rc);
+			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+
+			m_emails.SetColumnWidth(0, rc.right / 4);
+			m_emails.SetColumnWidth(1, rc.right - rc.right / 4 - 40);
+
+			m_phones.SetColumnWidth(0, rc.right / 4);
+			m_phones.SetColumnWidth(1, rc.right - rc.right / 4 - 90);
+		}
+
+		return res;
 	}
 };
 

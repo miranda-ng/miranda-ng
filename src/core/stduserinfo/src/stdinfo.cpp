@@ -386,6 +386,17 @@ public:
 		return true;
 	}
 
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_PAST:
+		case IDC_INTERESTS:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+		}
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
+	}
+
 	bool OnRefresh() override
 	{
 		char *szProto = Proto_GetBaseAccountName(m_hContact);
@@ -517,6 +528,19 @@ public:
 	void OnDestroy() override
 	{
 		DeleteObject((HFONT)SendDlgItemMessage(m_hwnd, IDC_ABOUT, WM_GETFONT, 0, 0));
+	}
+
+	int Resizer(UTILRESIZECONTROL *urc) override
+	{
+		switch (urc->wId) {
+		case IDC_ABOUT:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
+
+		case IDC_MYNOTES:
+			return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+		}
+
+		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
 	bool OnRefresh() override
