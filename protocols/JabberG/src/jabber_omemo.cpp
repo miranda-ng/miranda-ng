@@ -1363,8 +1363,11 @@ complete:
 			if(*p && *(p+1)) p+=2;
 			for (; *p; p++) {
 				buf.AppendChar(toupper(*p));
-				if (++i % 8 == 0)
+				i++;
+				if (i % 8 == 0)
 					buf.AppendChar(' ');
+				if (i % 32 == 0)
+					buf.AppendChar('\n');
 			}
 		}
 
