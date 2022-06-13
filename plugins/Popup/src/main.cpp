@@ -233,10 +233,6 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	if (ServiceExists("PluginSweeper/Add"))
 		CallService("PluginSweeper/Add", (WPARAM)Translate(MODULENAME), (LPARAM)MODULENAME);
 
-	// load fonts / create hook
-	InitFonts();
-	HookEvent(ME_FONT_RELOAD, FontsChanged);
-
 	// load actions and notifications
 	LoadActions();
 	LoadNotifications();
@@ -377,12 +373,17 @@ int CMPlugin::Load()
 
 	CreateServiceFunction("Popup/LoadSkin", Popup_LoadSkin);
 
+	// load fonts / create hook
+	InitFonts();
+	HookEvent(ME_FONT_RELOAD, FontsChanged);
+	Miranda_WaitOnHandle(ReloadFonts);
+
 	// load icons / create hook
 	InitIcons();
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
+
 	// add menu items
 	InitMenuItems();
-
 	return 0;
 }
 

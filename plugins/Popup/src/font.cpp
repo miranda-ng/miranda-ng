@@ -81,43 +81,41 @@ void InitFonts()
 	ReloadFonts();
 }
 
+///////////////////////////////////////////////////////////////////////////////
 
-void ReloadFonts()
+static void ReplaceFont(HFONT &hFont, LOGFONTW &lf)
 {
-	if (fonts.title)		DeleteObject(fonts.title);
-	if (fonts.clock)		DeleteObject(fonts.clock);
-	if (fonts.text)			DeleteObject(fonts.text);
-	if (fonts.action)		DeleteObject(fonts.action);
-	if (fonts.actionHover)	DeleteObject(fonts.actionHover);
+	if (hFont)
+		DeleteObject(hFont);
+	hFont = CreateFontIndirectW(&lf);
+}
 
-	LOGFONT lf = { 0 };
+void CALLBACK ReloadFonts()
+{
+	LOGFONT lf;
 	fonts.clTitle = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_TITLE), &lf);
-	fonts.title = CreateFontIndirect(&lf);
+	ReplaceFont(fonts.title, lf);
 
 	fonts.clClock = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_CLOCK), &lf);
-	fonts.clock = CreateFontIndirect(&lf);
+	ReplaceFont(fonts.clock, lf);
 
 	fonts.clText = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_TEXT), &lf);
-	fonts.text = CreateFontIndirect(&lf);
+	ReplaceFont(fonts.text, lf);
 
 	fonts.clAction = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_ACTION), &lf);
-	fonts.action = CreateFontIndirect(&lf);
+	ReplaceFont(fonts.action, lf);
 
 	fonts.clActionHover = Font_GetW(_A2W(PU_FNT_AND_COLOR), _A2W(PU_FNT_NAME_HOVERED_ACTION), &lf);
-	fonts.actionHover = CreateFontIndirect(&lf);
+	ReplaceFont(fonts.actionHover, lf);
 
 	fonts.clBack = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_BACK_NAME);
 	fonts.clAvatarBorder = Colour_GetW(_A2W(PU_FNT_AND_COLOR), PU_COL_AVAT_NAME);
 
-	// update class popups (only temp at this point, must rework)
-	char setting[256];
+	// update class popups
 	for (auto &it : gTreeData) {
 		if (it->typ == 2) {
-			mir_snprintf(setting, "%s/TextCol", it->pupClass.pszName);
-			it->colorText = it->pupClass.colorText = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (uint32_t)fonts.clText);
-			
-			mir_snprintf(setting, "%s/BgCol", it->pupClass.pszName);
-			it->colorBack = it->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (uint32_t)fonts.clBack/*pc->colorBack*/);
+			it->pupClass.colorText = Font_GetW(it->fid, &lf);
+			it->pupClass.colorBack = Colour_GetW(it->cid);
 		}
 	}
 }

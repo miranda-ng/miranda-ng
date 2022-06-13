@@ -465,7 +465,7 @@ public:
 			POPUPCLASS pc = *p;
 			pc.PluginWindowProc = nullptr;
 
-			POPUPDATACLASS d = { sizeof(d) };
+			POPUPDATACLASS d = {};
 			d.pszClassName = pc.pszName;
 			if (p->flags & PCF_UNICODE) {
 				d.szTitle.w = TranslateT("Preview");

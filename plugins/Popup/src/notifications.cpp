@@ -25,8 +25,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HANDLE g_hntfError, g_hntfWarning, g_hntfNotification;
 
-#define PopupNotificationData_SIGNATURE		0x11BEDA1A
-
 int TreeDataSortFunc(const POPUPTREEDATA *p1, const POPUPTREEDATA *p2)
 {
 	if (int cmp = mir_wstrcmp(p1->pszTreeRoot, p2->pszTreeRoot))

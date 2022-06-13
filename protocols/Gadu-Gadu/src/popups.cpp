@@ -75,8 +75,7 @@ void GaduProto::initpopups()
 	wchar_t szDescr[256];
 	char  szName[256];
 
-	POPUPCLASS puc = { 0 };
-	puc.cbSize = sizeof(puc);
+	POPUPCLASS puc = {};
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_UNICODE;
 	puc.pszName = szName;
@@ -113,7 +112,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	else
 		mir_snprintf(szName, "%s_%s", gg->m_szModuleName, "Notify");
 
-	POPUPDATACLASS ppd = { sizeof(ppd) };
+	POPUPDATACLASS ppd = {};
 	ppd.szTitle.w = puData->title;
 	ppd.szText.w = puData->text;
 	ppd.PluginData = puData;

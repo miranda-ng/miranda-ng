@@ -266,7 +266,7 @@ void InitUtils()
 	hIconTesting = IcoLib_GetIcon("ping_testing");
 	hIconDisabled = IcoLib_GetIcon("ping_disabled");
 
-	POPUPCLASS test = { sizeof(test) };
+	POPUPCLASS test = {};
 	test.flags = PCF_UNICODE;
 	test.hIcon = hIconResponding;
 	test.iSeconds = -1;

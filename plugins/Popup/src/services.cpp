@@ -285,7 +285,7 @@ INT_PTR Popup_RegisterActions(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Popup_RegisterNotification(WPARAM wParam, LPARAM)
 {
-	return (INT_PTR)RegisterNotification((LPPOPUPNOTIFICATION)wParam);
+	return (INT_PTR)RegisterNotification((POPUPNOTIFICATION*)wParam);
 }
 
 
@@ -324,13 +324,15 @@ INT_PTR Popup_RegisterVfx(WPARAM, LPARAM lParam)
 //===== Popup/RegisterClass		(for core class api support)
 INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 {
-	char setting[256];
 	POPUPCLASS *pc = (POPUPCLASS *)lParam;
 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_calloc(sizeof(POPUPTREEDATA));
-	ptd->cbSize = sizeof(POPUPTREEDATA);
-	ptd->signature = 0/*PopupNotificationData_SIGNATURE*/;
+	ptd->signature = PopupNotificationData_SIGNATURE;
 	ptd->typ = 2;
 	memcpy(&ptd->pupClass, pc, sizeof(POPUPCLASS));
+	if (pc->colorText == 0) // default text color
+		ptd->pupClass.colorText = fonts.clText;
+	if (pc->colorBack == 0) // default back color
+		ptd->pupClass.colorBack = fonts.clBack;
 	ptd->pszTreeRoot = mir_a2u(pc->pszName);
 	ptd->pupClass.pszName = mir_strdup(pc->pszName);
 	if (pc->flags & PCF_UNICODE) {
@@ -343,35 +345,25 @@ INT_PTR Popup_RegisterPopupClass(WPARAM, LPARAM lParam)
 	}
 	LoadClassSettings(ptd, PU_MODULCLASS);
 
-	// we ignore pc->colorText and use fonts.text as default (if no setting found in DB)
-	mir_snprintf(setting, "%s/TextCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorText = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, fonts.clText/*pc->colorText*/);
-	
-	FontIDW fid = {};
-	mir_snwprintf(fid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
-	strncpy_s(fid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
-	fid.flags = FIDF_DEFAULTVALID;
-	fid.deffontsettings.charset = DEFAULT_CHARSET;
-	fid.deffontsettings.size = -11;
-	wcsncpy_s(fid.deffontsettings.szFace, L"Verdana", _TRUNCATE);
-	wcsncpy_s(fid.name, _A2W(PU_FNT_NAME_TEXT), _TRUNCATE);
-	strncpy_s(fid.setting, setting, _TRUNCATE);
-	mir_snprintf(fid.setting, "%s/Text", ptd->pupClass.pszName);  // result is "%s/TextCol"
-	fid.deffontsettings.style = 0;
-	fid.deffontsettings.colour = fonts.clText;
-	g_plugin.addFont(&fid);
+	// text & back colors
+	mir_snwprintf(ptd->fid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
+	strncpy_s(ptd->fid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
+	ptd->fid.flags = FIDF_DEFAULTVALID;
+	ptd->fid.deffontsettings.charset = DEFAULT_CHARSET;
+	ptd->fid.deffontsettings.size = -11;
+	wcsncpy_s(ptd->fid.deffontsettings.szFace, L"Verdana", _TRUNCATE);
+	wcsncpy_s(ptd->fid.name, _A2W(PU_FNT_NAME_TEXT), _TRUNCATE);
+	mir_snprintf(ptd->fid.setting, "%s/TextCol", ptd->pupClass.pszName);  // result is "%s/TextCol"
+	ptd->fid.deffontsettings.style = 0;
+	ptd->fid.deffontsettings.colour = ptd->pupClass.colorText;
+	g_plugin.addFont(&ptd->fid);
 
-	// we ignore pc->colorBack and use fonts.clBack as default (if no setting found in DB)
-	mir_snprintf(setting, "%s/BgCol", ptd->pupClass.pszName);
-	ptd->pupClass.colorBack = (COLORREF)db_get_dw(0, PU_MODULCLASS, setting, (uint32_t)fonts.clBack/*pc->colorBack*/);
-	
-	ColourIDW cid = {};
-	mir_snwprintf(cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
-	wcsncpy_s(cid.name, PU_COL_BACK_NAME, _TRUNCATE);
-	strncpy_s(cid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
-	mir_snprintf(cid.setting, "%s/BgCol", ptd->pupClass.pszName);
-	cid.defcolour = fonts.clBack;
-	g_plugin.addColor(&cid);
+	mir_snwprintf(ptd->cid.group, L"%S/%s", PU_FNT_AND_COLOR, ptd->pszDescription);
+	wcsncpy_s(ptd->cid.name, PU_COL_BACK_NAME, _TRUNCATE);
+	strncpy_s(ptd->cid.dbSettingsGroup, PU_MODULCLASS, _TRUNCATE);
+	mir_snprintf(ptd->cid.setting, "%s/BgCol", ptd->pupClass.pszName);
+	ptd->cid.defcolour = ptd->pupClass.colorBack;
+	g_plugin.addColor(&ptd->cid);
 
 	gTreeData.insert(ptd);
 	num_classes++;
@@ -398,7 +390,7 @@ INT_PTR Popup_UnregisterPopupClass(WPARAM, LPARAM lParam)
 INT_PTR Popup_CreateClassPopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if (!pdc || (pdc->cbSize != sizeof(POPUPDATACLASS)))
+	if (!pdc)
 		return 1;
 
 	POPUPCLASS *pc;

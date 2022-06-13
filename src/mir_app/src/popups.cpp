@@ -114,7 +114,7 @@ MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count)
 	return (int)CallService(MS_POPUP_REGISTERACTIONS, (WPARAM)actions, (LPARAM)count);
 }
 
-MIR_APP_DLL(HANDLE) PURegisterNotification(LPPOPUPNOTIFICATION notification)
+MIR_APP_DLL(HANDLE) PURegisterNotification(POPUPNOTIFICATION *notification)
 {
 	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
 }
@@ -140,7 +140,7 @@ MIR_APP_DLL(HWND) Popup_AddClass(POPUPDATACLASS *pData)
 
 MIR_APP_DLL(HWND) ShowClassPopup(const char *name, const char *title, const char *text)
 {
-	POPUPDATACLASS d = { sizeof(d) };
+	POPUPDATACLASS d = {};
 	d.pszClassName = name;
 	d.szTitle.a = title;
 	d.szText.a = text;
@@ -149,7 +149,7 @@ MIR_APP_DLL(HWND) ShowClassPopup(const char *name, const char *title, const char
 
 MIR_APP_DLL(HWND) ShowClassPopupW(const char *name, const wchar_t *title, const wchar_t *text)
 {
-	POPUPDATACLASS d = { sizeof(d) };
+	POPUPDATACLASS d = {};
 	d.pszClassName = name;
 	d.szTitle.w = title;
 	d.szText.w = text;

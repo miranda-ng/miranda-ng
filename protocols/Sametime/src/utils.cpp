@@ -34,7 +34,7 @@ void CSametimeProto::RegisterPopups()
 
 	debugLogW(L"CSametimeProto::RegisterPopups()");
 
-	POPUPCLASS puc = { sizeof(puc) };
+	POPUPCLASS puc = {};
 	puc.PluginWindowProc = PopupWindowProc;
 	puc.flags = PCF_UNICODE;
 	puc.pszName = szName;
@@ -45,8 +45,6 @@ void CSametimeProto::RegisterPopups()
 	puc.hIcon = CopyIcon(g_plugin.getIcon(IDI_ICON_NOTIFY));
 	g_plugin.releaseIcon(IDI_ICON_NOTIFY);
 	puc.iSeconds = 8;
-	puc.colorBack = GetSysColor(COLOR_BTNFACE);
-	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	hPopupNotify = Popup_RegisterClass(&puc);
 
 	mir_snprintf(szName, "%s_%s", m_szModuleName, "Error");
@@ -54,11 +52,8 @@ void CSametimeProto::RegisterPopups()
 	puc.hIcon = CopyIcon(g_plugin.getIcon(IDI_ICON_ERROR, FALSE));
 	g_plugin.releaseIcon(IDI_ICON_ERROR);
 	puc.iSeconds = 10;
-	puc.colorBack = GetSysColor(COLOR_BTNFACE);
-	puc.colorText = GetSysColor(COLOR_WINDOWTEXT);
 	hPopupError = Popup_RegisterClass(&puc);
 }
-
 
 void CSametimeProto::UnregisterPopups()
 {
@@ -77,7 +72,7 @@ void CALLBACK sttMainThreadCallback(PVOID dwParam)
 	ErrorDisplay disp = proto->options.err_method;
 
 	if (disp == ED_POP) {
-		POPUPDATACLASS ppd = { sizeof(ppd) };
+		POPUPDATACLASS ppd = {};
 		char szName[256];
 		ppd.szTitle.w = puData->title;
 		ppd.szText.w = puData->text;

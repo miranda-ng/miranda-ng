@@ -63,7 +63,7 @@ static int OnShutdown(WPARAM, LPARAM)
 
 void InitScheduler()
 {
-	POPUPCLASS test = { sizeof(test) };
+	POPUPCLASS test = {};
 	test.flags = PCF_UNICODE;
 	test.hIcon = Skin_LoadIcon(SKINICON_OTHER_HISTORY);
 	test.iSeconds = 10;

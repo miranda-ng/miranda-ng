@@ -403,15 +403,15 @@ void CJabberProto::SetContactOfflineStatus(MCONTACT hContact)
 void CJabberProto::InitPopups(void)
 {
 	char name[256];
-	wchar_t desc[256];
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
 
-	POPUPCLASS ppc = { sizeof(ppc) };
+	wchar_t desc[256];
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
+
+	POPUPCLASS ppc = {};
 	ppc.flags = PCF_UNICODE;
 	ppc.pszName = name;
 	ppc.pszDescription.w = desc;
-
-	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
-	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
 	ppc.hIcon = IcoLib_GetIconByHandle(m_hProtoIcon);
 	ppc.colorBack = RGB(191, 0, 0); //Red
 	ppc.colorText = RGB(255, 245, 225); //Yellow
@@ -435,7 +435,7 @@ void CJabberProto::MsgPopup(MCONTACT hContact, const wchar_t *szMsg, const wchar
 		wszTitle.Insert(0, m_tszUserName);
 	}
 
-	POPUPDATACLASS ppd = { sizeof(ppd) };
+	POPUPDATACLASS ppd = {};
 	ppd.szTitle.w = wszTitle;
 	ppd.szText.w = szMsg;
 	ppd.pszClassName = name;

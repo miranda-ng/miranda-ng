@@ -88,8 +88,7 @@ static int __cdecl onContactSettingChanged(WPARAM hContact, LPARAM lParam)
 static int onModulesLoaded(WPARAM, LPARAM)
 {
 	//init popup classes
-	POPUPCLASS puc = { 0 };
-	puc.cbSize = sizeof(puc);
+	POPUPCLASS puc = {};
 	puc.flags = PCF_UNICODE;
 
 	puc.pszName = "MirFox_Notify";

@@ -254,7 +254,7 @@ EXTERN_C MIR_APP_DLL(int) PURegisterActions(POPUPACTION *actions, int count);
 #define POPUP_ACTION_NOTHING	LPGEN("Do nothing")
 #define POPUP_ACTION_DISMISS	LPGEN("Dismiss popup")
 
-typedef struct
+struct POPUPNOTIFYACTION
 {
 	char lpzTitle[64];
 	uint32_t dwFlags;
@@ -275,11 +275,11 @@ typedef struct
 			void(*pfnCallback)(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam, uint32_t cookie);
 		};
 	};
-} POPUPNOTIFYACTION, *LPPOPUPNOTIFYACTION;
+};
 
 #define PNF_CONTACT				0x01
 
-typedef struct
+struct POPUPNOTIFICATION
 {
 	int cbSize;
 	uint32_t dwFlags;			// set of PNF_* flags
@@ -290,16 +290,16 @@ typedef struct
 	COLORREF colorText;		// this will be registered in fontservice
 	int iSeconds;			// default timeout
 	int actionCount;		// for unified action comboboxes
-	LPPOPUPNOTIFYACTION lpActions;
+	POPUPNOTIFYACTION *lpActions;
 	char *lpzLAction;
 	char *lpzRAction;
 	char *pszReserved1;		// reserved for future use
 	#ifdef _WINDOWS
 		DLGPROC pfnReserved2;	// reserved for future use
 	#endif
-} POPUPNOTIFICATION, *LPPOPUPNOTIFICATION;
+};
 
-EXTERN_C MIR_APP_DLL(HANDLE) PURegisterNotification(LPPOPUPNOTIFICATION notification);
+EXTERN_C MIR_APP_DLL(HANDLE) PURegisterNotification(POPUPNOTIFICATION *notification);
 
 /* Popup/UnhookEventAsync
 Using of "UnhookEvent" inside PluginWindowProc in conjunction with HookEventMessage
@@ -410,11 +410,10 @@ EXTERN_C MIR_APP_DLL(int) PUShowMessageW(const wchar_t *lpwzText, uint32_t kind)
 
 struct POPUPCLASS
 {
-	int cbSize;
+	char *pszName;
 	int flags;      // PCF_* constants
 	int iSeconds;
 	COLORREF colorBack, colorText;
-	char *pszName;
 	MAllStrings pszDescription;
 	HICON hIcon;
 	#ifdef _WINDOWS
@@ -431,7 +430,6 @@ EXTERN_C MIR_APP_DLL(void) Popup_UnregisterClass(HANDLE ppc);
 
 struct POPUPDATACLASS 
 {
-	int cbSize;
 	MCONTACT hContact;
 	const char *pszClassName;
 	MAllCStrings szTitle;

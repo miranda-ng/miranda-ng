@@ -69,7 +69,7 @@ extern PopupFonts fonts;
 
 void InitFonts();
 
-void ReloadFonts();
+void CALLBACK ReloadFonts();
 
 
 #endif // __font_h__

@@ -24,9 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef __notifications_h__
 #define __notifications_h__
 
+#define PopupNotificationData_SIGNATURE 0x11BEDA1A
+
 struct POPUPTREEDATA
 {
-	int cbSize;
 	uint32_t signature;
 	LPTSTR pszTreeRoot;
 	LPTSTR pszDescription;
@@ -41,8 +42,9 @@ struct POPUPTREEDATA
 	char leftAction[MAXMODULELABELLENGTH];
 	char rightAction[MAXMODULELABELLENGTH];
 	HANDLE hIcoLib;
-	COLORREF colorBack;			//really needed ??
-	COLORREF colorText;			//really needed ??
+
+	FontIDW fid;
+	ColourIDW cid;
 };
 
 extern LIST<POPUPTREEDATA> gTreeData;

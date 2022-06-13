@@ -333,8 +333,8 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						ppd.szTitle.w = ptd->pszDescription;
 						ppd.szText.w = TranslateT("Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!");
 						ppd.iSeconds = ptd->timeoutValue;
-						ppd.colorBack = ptd->colorBack;
-						ppd.colorText = ptd->colorText;
+						ppd.colorBack = ptd->pupClass.colorBack;
+						ppd.colorText = ptd->pupClass.colorText;
 						POPUPTREEDATA *ptdPrev = nullptr;
 						if (ptd->typ == 1) {
 							// we work with a copy for preview

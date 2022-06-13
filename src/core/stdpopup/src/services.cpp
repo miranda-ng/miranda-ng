@@ -337,7 +337,6 @@ static INT_PTR UnregisterPopupClass(WPARAM, LPARAM lParam)
 static INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 {
 	POPUPDATACLASS *pdc = (POPUPDATACLASS *)lParam;
-	if (pdc->cbSize < sizeof(POPUPDATACLASS)) return 1;
 
 	POPUPCLASS *pc = nullptr;
 	if (wParam)

@@ -203,8 +203,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	AddDefaultCaps();
 
 	IconsInit();
-	InitPopups();
-	GlobalMenuInit();
 
 	m_pepServices.insert(new CPepMood(this));
 	m_pepServices.insert(new CPepActivity(this));
@@ -294,6 +292,8 @@ void CJabberProto::OnModulesLoaded()
 	m_pepServices.InitGui();
 
 	InitInfoFrame();
+	InitPopups();
+	GlobalMenuInit();
 
 	StatusIconData sid = {};
 	sid.szModule = m_szModuleName;

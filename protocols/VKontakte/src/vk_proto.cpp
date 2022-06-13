@@ -426,7 +426,7 @@ void CVkProto::InitPopups(void)
 	wchar_t desc[256];
 	char name[256];
 
-	POPUPCLASS ppc = { sizeof(ppc) };
+	POPUPCLASS ppc = {};
 	ppc.flags = PCF_UNICODE;
 	ppc.pszName = name;
 	ppc.pszDescription.w = desc;
@@ -454,7 +454,7 @@ void CVkProto::MsgPopup(MCONTACT hContact, const wchar_t *wszMsg, const wchar_t 
 {
 	char name[256];
 
-	POPUPDATACLASS ppd = { sizeof(ppd) };
+	POPUPDATACLASS ppd = {};
 	ppd.szTitle.w = wszTitle;
 	ppd.szText.w = wszMsg;
 	ppd.pszClassName = name;

@@ -217,13 +217,11 @@ static int OnShutdown(WPARAM, LPARAM)
 
 void LoadPopupClass()
 {
-	POPUPCLASS ppc = { sizeof(ppc) };
+	POPUPCLASS ppc = {};
+	ppc.flags = PCF_UNICODE;
 	ppc.pszName = "Nudge";
-	ppc.pszDescription.a = LPGEN("Show Nudge");
+	ppc.pszDescription.w = TranslateT("Show Nudge");
 	ppc.hIcon = IcoLib_GetIconByHandle(iconList[0].hIcolib);
-	ppc.colorBack = NULL;
-	ppc.colorText = NULL;
-	ppc.iSeconds = 0;
 	ppc.PluginWindowProc = NudgePopupProc;
 	if (hPopupClass = Popup_RegisterClass(&ppc))
 		HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
@@ -272,8 +270,7 @@ void Nudge_ShowPopup(CNudgeElement*, MCONTACT hContact, wchar_t * Message)
 	hContact = db_mc_tryMeta(hContact);
 	wchar_t *lpzContactName = Clist_GetContactDisplayName(hContact);
 
-	POPUPDATACLASS NudgePopup = { 0 };
-	NudgePopup.cbSize = sizeof(NudgePopup);
+	POPUPDATACLASS NudgePopup = {};
 	NudgePopup.hContact = hContact;
 	NudgePopup.szText.w = Message;
 	NudgePopup.szTitle.w = lpzContactName;
