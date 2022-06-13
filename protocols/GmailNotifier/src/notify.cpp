@@ -13,7 +13,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 	char lpPathBuffer[1024];
 
 	if (GetBrowser(lpPathBuffer)) {
-		if (opt.AutoLogin == 0) {
+		if (!g_plugin.AutoLogin == 0) {
 			if (curAcc->hosted[0]) {
 				mir_strcat(lpPathBuffer, "https://mail.google.com/a/");
 				mir_strcat(lpPathBuffer, curAcc->hosted);
@@ -48,7 +48,7 @@ static void __cdecl Login_ThreadFunc(Account *curAcc)
 			else {
 				mir_strcat(lpPathBuffer, LINK);
 				mir_strcat(lpPathBuffer, mir_urlEncode(curAcc->name));
-				if (opt.AutoLogin == 1)
+				if (g_plugin.AutoLogin == 1)
 					mir_strcat(lpPathBuffer, "&PersistentCookie=yes");
 			}
 		}
@@ -140,7 +140,7 @@ void NotifyUser(Account *curAcc)
 	default:
 		g_plugin.setWord(curAcc->hContact, "Status", ID_STATUS_OCCUPIED);
 		int newMails = (curAcc->oldResults_num == -1) ? (curAcc->results_num) : (curAcc->results_num - curAcc->oldResults_num);
-		if (opt.LogThreads&&newMails > 0) {
+		if (g_plugin.bLogThreads && newMails > 0) {
 			DBEVENTINFO dbei = {};
 			dbei.eventType = EVENTTYPE_MESSAGE;
 			dbei.flags = DBEF_READ;
@@ -155,7 +155,7 @@ void NotifyUser(Account *curAcc)
 				prst = prst->next;
 			}
 		}
-		if (opt.notifierOnTray&&newMails > 0) {
+		if (g_plugin.bNotifierOnTray && newMails > 0) {
 			g_clistApi.pfnRemoveEvent(curAcc->hContact, 1);
 
 			CLISTEVENT cle = {};
@@ -168,7 +168,7 @@ void NotifyUser(Account *curAcc)
 			g_clistApi.pfnAddEvent(&cle);
 		}
 
-		if (opt.notifierOnPop&&newMails > 0) {
+		if (g_plugin.bNotifierOnPop && newMails > 0) {
 			POPUPDATA ppd;
 			ppd.lchContact = curAcc->hContact;
 			ppd.lchIcon = Skin_LoadProtoIcon(MODULENAME, ID_STATUS_OCCUPIED);
@@ -179,11 +179,11 @@ void NotifyUser(Account *curAcc)
 				mir_strcat(ppd.lpzText, "\n");
 				prst = prst->next;
 			}
-			ppd.colorBack = opt.popupBgColor;
-			ppd.colorText = opt.popupTxtColor;
+			ppd.colorBack = g_plugin.popupBgColor;
+			ppd.colorText = g_plugin.popupTxtColor;
 			ppd.PluginWindowProc = PopupDlgProc;
 			ppd.PluginData = nullptr;
-			ppd.iSeconds = opt.popupDuration;
+			ppd.iSeconds = g_plugin.popupDuration;
 			PUDeletePopup(curAcc->popUpHwnd);
 			PUAddPopup(&ppd);
 		}

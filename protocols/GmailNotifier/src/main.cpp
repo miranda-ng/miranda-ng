@@ -15,7 +15,6 @@ CMPlugin	g_plugin;
 UINT hTimer;
 HNETLIBUSER hNetlibUser;
 NOTIFYICONDATA niData;
-optionSettings opt;
 
 OBJLIST<Account> g_accs(1);
 BOOL optionWindowIsOpen = FALSE;
@@ -38,7 +37,18 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	circleTime(MODULENAME, "circleTime", 30),
+	bNotifierOnTray(MODULENAME, "bNotifierOnTray", true),
+	bNotifierOnPop(MODULENAME, "bNotifierOnPop", true),
+	popupDuration(MODULENAME, "popupDuration", -1),
+	popupBgColor(MODULENAME, "popupBgColor", RGB(173, 206, 247)),
+	popupTxtColor(MODULENAME, "popupTxtColor", RGB(0, 0, 0)),
+	OpenUsePrg(MODULENAME, "OpenUsePrg", 0),
+	bShowCustomIcon(MODULENAME, "bShowCustomIcon", false),
+	bUseOnline(MODULENAME, "bUseOnline", false),
+	AutoLogin(MODULENAME, "AutoLogin", true),
+	bLogThreads(MODULENAME, "bLogThreads", false)
 {
 	RegisterProtocol(PROTOTYPE_VIRTUAL);
 }
@@ -47,7 +57,7 @@ CMPlugin::CMPlugin() :
 
 INT_PTR GetCaps(WPARAM wParam, LPARAM)
 {
-	if (wParam == PFLAGNUM_2 && opt.ShowCustomIcon)
+	if (wParam == PFLAGNUM_2 && g_plugin.bShowCustomIcon)
 		return PF2_ONLINE | PF2_LIGHTDND | PF2_SHORTAWAY;
 
 	return 0;
@@ -99,18 +109,6 @@ int CMPlugin::Load()
 	CreateProtoServiceFunction(MODULENAME, PS_GETNAME, GetName);
 	CreateServiceFunction("GmailMNotifier/Notifying", Notifying);
 
-	opt.circleTime = g_plugin.getDword("circleTime", 30);
-	opt.notifierOnTray = g_plugin.getDword("notifierOnTray", TRUE);
-	opt.notifierOnPop = g_plugin.getDword("notifierOnPop", TRUE);
-	opt.popupDuration = g_plugin.getDword("popupDuration", -1);
-	opt.popupBgColor = g_plugin.getDword("popupBgColor", RGB(173, 206, 247));
-	opt.popupTxtColor = g_plugin.getDword("popupTxtColor", RGB(0, 0, 0));
-	opt.OpenUsePrg = g_plugin.getDword("OpenUsePrg", 0);
-	opt.ShowCustomIcon = g_plugin.getDword("ShowCustomIcon", FALSE);
-	opt.UseOnline = g_plugin.getDword("UseOnline", FALSE);
-	opt.AutoLogin = g_plugin.getDword("AutoLogin", TRUE);
-	opt.LogThreads = g_plugin.getDword("LogThreads", FALSE);
-
 	DBVARIANT dbv;
 	if (db_get_s(0, "SkinIcons", "core_status_" MODULENAME "4", &dbv)) {
 		db_set_s(0, "SkinIcons", "core_status_" MODULENAME "0", "plugins\\GmailNotifier.dll,2");
@@ -121,11 +119,11 @@ int CMPlugin::Load()
 	else db_free(&dbv);
 
 	BuildList();
-	ID_STATUS_NONEW = opt.UseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
+	ID_STATUS_NONEW = g_plugin.bUseOnline ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 	for (auto &it : g_accs)
 		db_set_dw(it->hContact, MODULENAME, "Status", ID_STATUS_NONEW);
 
-	hTimer = SetTimer(nullptr, 0, opt.circleTime * 60000, TimerProc);
+	hTimer = SetTimer(nullptr, 0, g_plugin.circleTime * 60000, TimerProc);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnMirandaStart);
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 

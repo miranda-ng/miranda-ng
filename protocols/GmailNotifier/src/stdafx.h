@@ -55,27 +55,11 @@ struct Account : public MZeroedObject
 	bool IsChecking;
 };
 
-struct optionSettings
-{
-	int circleTime;
-	BOOL notifierOnTray;
-	BOOL notifierOnPop;
-	int popupDuration;
-	COLORREF popupTxtColor;
-	COLORREF popupBgColor;
-	int OpenUsePrg;
-	BOOL ShowCustomIcon;
-	BOOL UseOnline;
-	int AutoLogin;
-	BOOL LogThreads;
-};
-
-extern OBJLIST<Account> g_accs;
-extern optionSettings opt;
 extern HNETLIBUSER hNetlibUser;
 extern UINT hTimer;
 extern short ID_STATUS_NONEW;
 extern BOOL optionWindowIsOpen;
+extern OBJLIST<Account> g_accs;
 
 INT_PTR Notifying(WPARAM, LPARAM);
 INT_PTR PluginMenuCommand(WPARAM, LPARAM);
@@ -93,6 +77,10 @@ Account* GetAccountByContact(MCONTACT hContact);
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<bool> bNotifierOnTray, bNotifierOnPop;
+	CMOption<bool> bShowCustomIcon, bUseOnline, bLogThreads;
+	CMOption<uint32_t> AutoLogin, OpenUsePrg, circleTime, popupDuration, popupBgColor, popupTxtColor;
+
 	CMPlugin();
 
 	int Load() override;

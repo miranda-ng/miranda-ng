@@ -35,9 +35,9 @@ BOOL GetBrowser(char *str)
 	char strDefault[] = "https\\shell\\open\\command";
 	DBVARIANT dbv;
 
-	if (opt.OpenUsePrg == 1)
+	if (g_plugin.OpenUsePrg == 1)
 		strKey = strIE;
-	else if (opt.OpenUsePrg == 0)
+	else if (g_plugin.OpenUsePrg == 0)
 		strKey = strDefault;
 	else {
 		if (!g_plugin.getString("OpenUsePrgPath", &dbv)) {
