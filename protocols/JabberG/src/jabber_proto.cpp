@@ -76,10 +76,10 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_uEnabledFeatCapsDynamic(0),
 	m_StrmMgmt(this),
 
-	m_bAcceptHttpAuth(this, "m_bAcceptHttpAuth", true),
+	m_bAcceptHttpAuth(this, "AcceptHttpAuth", true),
 	m_bAcceptNotes(this, "AcceptNotes", true),
 	m_bAllowTimeReplies(this, "AllowTimeReplies", true),
-	m_bAllowVersionRequests(this, "m_bAllowVersionRequests", true),
+	m_bAllowVersionRequests(this, "AllowVersionRequests", true),
 	m_bAutoAcceptAuthorization(this, "AutoAcceptAuthorization", false),
 	m_bAutoAcceptMUC(this, "AutoAcceptMUC", false),
 	m_bAutoAdd(this, "AutoAdd", true),
