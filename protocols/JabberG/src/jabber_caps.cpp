@@ -109,7 +109,13 @@ void CJabberProto::AddDefaultCaps()
 	JabberCapsBits myCaps = JABBER_CAPS_MIRANDA_ALL;
 	if (m_bUseOMEMO)
 		myCaps |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-	
+	if (!m_bAllowTimeReplies)
+		myCaps &= ~JABBER_CAPS_ENTITY_TIME;
+	if (!m_bAllowVersionRequests)
+		myCaps &= ~JABBER_CAPS_VERSION;
+	if (!m_bMsgAck)
+		myCaps &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
+
 	for (auto &it : g_JabberFeatCapPairsExt)
 		if (it.Valid())
 			myCaps |= it.jcbCap;
@@ -368,6 +374,8 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 		jcb &= ~JABBER_CAPS_ENTITY_TIME;
 	if (!m_bAllowVersionRequests)
 		jcb &= ~JABBER_CAPS_VERSION;
+	if (!m_bMsgAck)
+		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
 
 	XmlNodeIq iq("result", pInfo);
 
@@ -436,6 +444,8 @@ void CJabberProto::UpdateFeatHash()
 
 	if (m_bUseOMEMO)
 		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+	if (!m_bMsgAck)
+		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
 
 	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
 	for (auto &it : g_JabberFeatCapPairs)
