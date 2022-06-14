@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
 #include "../stdafx.h"
+#include "diatheme.h"
 
 static mir_cs csDialogs;
 
@@ -101,13 +102,16 @@ void CDlgBase::Close()
 
 void CDlgBase::Create()
 {
-	CreateDialogParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
+	mir_ptr<DLGTEMPLATE> pDlgTemplate(LoadThemedDialogTemplate(MAKEINTRESOURCE(m_idDialog), GetInst()));
+	CreateDialogIndirectParam(GetInst(),pDlgTemplate,m_hwndParent,GlobalDlgProc,(LPARAM)this);
 }
 
 int CDlgBase::DoModal()
 {
 	m_isModal = true;
-	return DialogBoxParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
+	
+	mir_ptr<DLGTEMPLATE> pDlgTemplate(LoadThemedDialogTemplate(MAKEINTRESOURCE(m_idDialog), GetInst()));
+	return DialogBoxIndirectParam(GetInst(), pDlgTemplate, m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
 void CDlgBase::EndModal(INT_PTR nResult)

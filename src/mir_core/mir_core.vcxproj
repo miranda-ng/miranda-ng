@@ -185,10 +185,14 @@
     <ClCompile Include="src\Windows\winver.cpp">
       <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Windows\diatheme.cpp">
+      <PrecompiledHeaderFile>../stdafx.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClInclude Include="src\miranda.h" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\tinyxml2.h" />
     <ClInclude Include="src\Windows\miranda.h" />
+    <ClInclude Include="src\Windows\diatheme.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\version.rc" />
