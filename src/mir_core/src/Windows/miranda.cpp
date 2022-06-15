@@ -47,6 +47,7 @@ HANDLE hShutdownEvent, hPreShutdownEvent;
 uint32_t mir_tls = 0;
 
 static bool g_bMirandaTerminated = false;
+bool g_bEnableDpiAware = false;
 
 MIR_CORE_DLL(bool) Miranda_IsTerminated()
 {
@@ -252,6 +253,17 @@ MIR_CORE_DLL(void) BeginMessageLoop()
 	if (hThemeAPI) {
 		bufferedPaintInit = (pfnBufferedPaintInit)GetProcAddress(hThemeAPI, "BufferedPaintInit");
 		bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
+	}
+
+	wchar_t wszIniPath[MAX_PATH];
+	PathToAbsoluteW(L"mirandaboot.ini", wszIniPath);
+	if (GetPrivateProfileIntW(L"Interface", L"DpiAware", 0, wszIniPath) == 1) {
+		typedef BOOL (WINAPI *pfnSetProcessDPIAware_t)(void);
+		auto *pFunc = (pfnSetProcessDPIAware_t)GetProcAddress(GetModuleHandleW(L"user32"), "SetProcessDPIAware");
+		if (pFunc != nullptr)
+			pFunc();
+
+		g_bEnableDpiAware = true;
 	}
 
 	if (bufferedPaintInit)

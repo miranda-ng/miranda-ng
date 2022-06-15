@@ -774,7 +774,6 @@ static BOOL scanPluginsDir(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM)
 int LoadNewPluginsModuleInfos(void)
 {
 	bModuleInitialized = true;
-	DeleteFile(L"mir_core.dll");
 
 	hevLoadModule = CreateHookableEvent(ME_SYSTEM_MODULELOAD);
 	hevUnloadModule = CreateHookableEvent(ME_SYSTEM_MODULEUNLOAD);

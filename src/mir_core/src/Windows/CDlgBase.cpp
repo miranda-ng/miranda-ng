@@ -46,10 +46,11 @@ static int CompareTimerId(const CTimer *t1, const CTimer *t2)
 	return t1->GetEventId() - t2->GetEventId();
 }
 
-CDlgBase::CDlgBase(CMPluginBase &pPlug, int idDialog)
-	: m_controls(1, CompareControlId),
+CDlgBase::CDlgBase(CMPluginBase &pPlug, int idDialog) :
+	m_controls(1, CompareControlId),
 	m_timers(1, CompareTimerId),
-	m_pPlugin(pPlug)
+	m_pPlugin(pPlug),
+	m_bFixedSize(!g_bEnableDpiAware)
 {
 	m_idDialog = idDialog;
 	m_autoClose = CLOSE_ON_OK | CLOSE_ON_CANCEL;

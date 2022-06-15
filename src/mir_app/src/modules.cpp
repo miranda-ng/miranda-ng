@@ -90,13 +90,6 @@ int LoadDefaultModules(void)
 	// load database drivers & service plugins without executing their Load()
 	if (LoadNewPluginsModuleInfos()) return 1;
 
-	if (GetPrivateProfileInt(L"Interface", L"DpiAware", 0, mirandabootini) == 1) {
-		typedef BOOL (WINAPI *SetProcessDPIAware_t)(void);
-		SetProcessDPIAware_t pfn = (SetProcessDPIAware_t)GetProcAddress(GetModuleHandleW(L"user32"), "SetProcessDPIAware");
-		if (pfn != nullptr)
-			pfn();
-	}
-	
 	// the database will select which db plugin to use, or fail if no profile is selected
 	if (LoadDatabaseModule()) return 1;
 	if (LoadNetlibModule()) return 1;
