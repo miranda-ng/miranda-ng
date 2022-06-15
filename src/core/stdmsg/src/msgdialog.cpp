@@ -472,9 +472,10 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		switch (urc->wId) {
 		case IDOK:
 			urc->rcItem.left = bSend ? urc->dlgNewSize.cx - 64 + 2 : urc->dlgNewSize.cx;
+			urc->rcItem.right = urc->dlgNewSize.cx;
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 28;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
-			return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 		case IDC_SRMM_LOG:
 			urc->rcItem.top = 2;
@@ -541,7 +542,7 @@ LBL_CalcBottom:
 
 		case IDOK:
 			urc->rcItem.left = bSend ? urc->dlgNewSize.cx - 64 + 2 : urc->dlgNewSize.cx - 1;
-			urc->rcItem.right =  urc->dlgNewSize.cx - 1;
+			urc->rcItem.right =  urc->dlgNewSize.cx;
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
