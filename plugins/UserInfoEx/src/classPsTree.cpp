@@ -51,8 +51,7 @@ CPsTree::CPsTree(LPPS pPs) :
  **/
 CPsTree::~CPsTree()
 {
-	if (_hLabelEdit)
-	{
+	if (_hLabelEdit) {
 		DestroyWindow(_hLabelEdit);
 		_hLabelEdit = nullptr;
 	}
@@ -105,10 +104,10 @@ uint8_t CPsTree::Create(HWND hWndTree, CPsHdr* pPsh)
  * return:	index of the new item or -1 if failed to add
  **/
 
-int CPsTree::AddDummyItem(LPCSTR pszGroup)
+CPsTreeItem* CPsTree::AddDummyItem(const char *pszGroup)
 {
 	if (!mir_strcmpi(pszGroup, TREE_ROOTITEM))
-		return -1;
+		return nullptr;
 		
 	CPsHdr psh;
 	psh._hContact = _pPs->hContact;
@@ -118,12 +117,13 @@ int CPsTree::AddDummyItem(LPCSTR pszGroup)
 	USERINFOPAGE uip = {};
 	uip.flags = ODPF_UNICODE;
 	uip.szTitle.w = mir_utf8decodeW(pszGroup);
+	uip.pPlugin = &g_plugin;
 
 	auto *p = new CPsTreeItem();
 	p->Create(&psh, &uip);
 	_pages.insert(p);
 	
-	return _pages.indexOf(&p);
+	return p;
 }
 
 void CPsTree::Remove(HINSTANCE hInst)
@@ -171,16 +171,17 @@ uint8_t CPsTree::InitTreeItems(LPWORD needWidth)
 		SetWindowLongPtr(_hWndTree, GWL_STYLE, GetWindowLongPtr(_hWndTree, GWL_STYLE) | TVS_HASBUTTONS);
 
 		// init the iParent member for all the items
-		for (auto &it : _pages) {
-			LPSTR pszGroup = it->ParentItemName();
+		for (int i = 0; i < _pages.getCount(); i++) {
+			auto &it = _pages[i];
+			char *pszGroup = it.ParentItemName();
 			if (pszGroup != nullptr) {
-				int iParent = FindItemIndexByName(pszGroup);
+				auto *pParent = FindItemByName(pszGroup);
 
 				// need to add an empty parent item
-				if (iParent == -1)
-					iParent = AddDummyItem(pszGroup);
+				if (pParent == nullptr)
+					pParent = AddDummyItem(pszGroup);
 
-				it->Parent(iParent);
+				it.Parent(pParent);
 				mir_free(pszGroup);
 			}
 		}
@@ -192,7 +193,7 @@ uint8_t CPsTree::InitTreeItems(LPWORD needWidth)
 	ShowWindow(_hWndTree, SW_HIDE);
 	for (auto &it : _pages)
 		if (it->State() != DBTVIS_INVISIBLE)
-			ShowItem(_pages.indexOf(&it), needWidth);
+			ShowItem(it, needWidth);
 
 	ShowWindow(_hWndTree, SW_SHOW);
 	return TRUE;
@@ -335,52 +336,45 @@ void CPsTree::HideItem(const int iPageIndex)
  *			needWidth	- gives and takes the width, the treeview must have to show all items properly
  * return:	TRUE if item was added successfully, FALSE otherwise
  **/
-HTREEITEM CPsTree::ShowItem(const int iPageIndex, LPWORD needWidth)
+HTREEITEM CPsTree::ShowItem(CPsTreeItem *pti, LPWORD needWidth)
 {
 	TVINSERTSTRUCT tvii;
-	CPsTreeItem *pti;
 
 	// check parameters
-	if (!_hWndTree || 
-		!IsIndexValid(iPageIndex) || 
-		!(pti = &_pages[iPageIndex]) ||
-		!pti->Name() ||
-		!pti->Label())
-	{
+	if (!_hWndTree || !pti->Name() || !pti->Label()) {
 		MsgErr(GetParent(_hWndTree), LPGENW("Due to a parameter error, one of the treeitems can't be added!"));
 		return nullptr;
 	}	
+	
 	// item is visible at the moment
-	if ((tvii.itemex.hItem = pti->Hti()) == nullptr)
-	{
-		RECT rc;
-		const int iParent = pti->Parent();
+	if ((tvii.itemex.hItem = pti->Hti()) == nullptr) {
+		auto *pParent = pti->Parent();
 		
 		// init the rest of the treeitem
-		tvii.hParent = IsIndexValid(iParent) ? ShowItem(iParent, needWidth) : nullptr;
-		tvii.hInsertAfter		= (_dwFlags & PSTVF_SORTTREE) ? TVI_SORT : TVI_LAST;
-		tvii.itemex.mask		= TVIF_TEXT|TVIF_PARAM|TVIF_STATE;
-		tvii.itemex.pszText		= pti->Label();
-		tvii.itemex.state		= pti->State() == DBTVIS_EXPANDED ? TVIS_EXPANDED : 0;
-		tvii.itemex.stateMask	= TVIS_EXPANDED;
-		tvii.itemex.lParam		= iPageIndex;
+		tvii.hParent = (pParent) ? ShowItem(pParent, needWidth) : nullptr;
+		tvii.hInsertAfter	= (_dwFlags & PSTVF_SORTTREE) ? TVI_SORT : TVI_LAST;
+		tvii.itemex.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+		tvii.itemex.pszText = pti->Label();
+		tvii.itemex.state = pti->State() == DBTVIS_EXPANDED ? TVIS_EXPANDED : 0;
+		tvii.itemex.stateMask = TVIS_EXPANDED;
+		tvii.itemex.lParam = _pages.indexOf(pti);
+		
 		// set images
 		if ((tvii.itemex.iImage = tvii.itemex.iSelectedImage = pti->Image()) != -1)
-		{
-			tvii.itemex.mask |= TVIF_IMAGE|TVIF_SELECTEDIMAGE;
-		}
+			tvii.itemex.mask |= TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+
 		// insert item into tree if set visible
-		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == nullptr) 
-		{
+		if ((tvii.itemex.hItem = TreeView_InsertItem(_hWndTree, &tvii)) == nullptr) {
 			MsgErr(GetParent(_hWndTree), LPGENW("A fatal error occurred on adding a property sheet page!\nDialog creation aborted!"));
 			return nullptr;
 		}
+		
 		pti->Hti(tvii.itemex.hItem);
+
 		// calculate width of treeview
+		RECT rc;
 		if (needWidth && TreeView_GetItemRect(_hWndTree, pti->Hti(), &rc, TRUE) && rc.right > *needWidth)
-		{
 			*needWidth = (uint16_t)rc.right;
-		}
 	}
 	return tvii.itemex.hItem;
 }
@@ -457,7 +451,7 @@ HTREEITEM CPsTree::MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, uint8_t bAs
 	// update handle pointer in the page structure
 	pItem.Hti(hNewItem);
 	// get the index of the parent
-	pItem.Parent(FindItemIndexByHandle(tvis.hParent));
+	pItem.Parent(FindItemByHandle(tvis.hParent));
 	// move children
 	hInsertAfter = hNewItem;
 	while (hChild = TreeView_GetChild(_hWndTree, hItem))
@@ -524,7 +518,7 @@ void CPsTree::SaveState()
 			if (!it->Hti()) {
 				LPSTR pszGroup;
 
-				if (!IsIndexValid(it->Parent()) || !(pszGroup = _pages[it->Parent()].Name()))
+				if (!it->Parent() || !(pszGroup = it->Parent()->Name()))
 					pszGroup = TREE_ROOTITEM;
 				numErrors += it->DBSaveItemState(pszGroup, iItem++, DBTVIS_INVISIBLE, _dwFlags);
 			}
@@ -775,7 +769,7 @@ void CPsTree::PopupMenu()
 		DBResetState();
 		break;
 	default: // show a hidden item
-		if ((iItem -= 100) >= 0 && ShowItem(iItem, nullptr))
+		if ((iItem -= 100) >= 0 && ShowItem(&_pages[iItem], nullptr))
 			AddFlags(PSTVF_STATE_CHANGED | PSTVF_POS_CHANGED);
 		break;
 	}

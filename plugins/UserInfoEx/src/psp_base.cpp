@@ -33,6 +33,7 @@ PSPBaseDlg::PSPBaseDlg(int idDialog) :
 	CUserInfoPageDlg(g_plugin, idDialog),
 	m_ctrlList(nullptr)
 {
+	m_bFixedSize = true;
 }
 
 bool PSPBaseDlg::OnInitDialog()

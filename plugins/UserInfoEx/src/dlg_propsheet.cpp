@@ -335,7 +335,7 @@ static INT_PTR AddPage(WPARAM wParam, LPARAM lParam)
 	CPsTreeItem *pNew = new CPsTreeItem();
 	if (pNew) {
 		if (pNew->Create(pPsh, uip)) {
-			MIR_DELETE(pNew);
+			delete pNew;
 			return 1;
 		}
 

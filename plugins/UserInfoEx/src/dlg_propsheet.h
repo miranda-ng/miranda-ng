@@ -39,22 +39,22 @@ class CPsTreeItem
 	uint32_t          _dwFlags = 0;   // some flags
 	int               _iPosition = 0; // initiating position if custom (used for sorting)
 	MCONTACT          _hContact = 0;  // contact the page is accociated with (may be a meta subcontact if details dialog is shown for a meta contact)
-	LPCSTR            _pszProto = 0;  // protocol the page is accociated with (is the contact's protocol if _hContact is not NULL)
-	LPCSTR            _pszPrefix = 0; // pointer to the dialog owning contact's protocol
+	const char*       _pszProto = 0;  // protocol the page is accociated with (is the contact's protocol if _hContact is not NULL)
+	const char*       _pszPrefix = 0; // pointer to the dialog owning contact's protocol
 	INT_PTR           _initParam = 0;
 					      
 	HTREEITEM         _hItem = 0;     // handle to the treeview item if visible (NULL if this item is hidden)
-	int               _iParent = -1;  // index of the owning tree item
+	CPsTreeItem*      _pParent = 0;   // owning tree item
 	int               _iImage = -1;   // index of treeview item's image
 	uint8_t           _bState = 0;    // initial state of this treeitem
-	LPSTR             _pszName = 0;   // original name, given by plugin (not customized)
-	LPTSTR            _ptszLabel= 0;  // string to setting in db holding information about this treeitem
+	char*             _pszName = 0;   // original name, given by plugin (not customized)
+	wchar_t*          _ptszLabel = 0; // string to setting in db holding information about this treeitem
 
-	LPCSTR	GlobalName();
+	LPCSTR GlobalName();
 
-	int Icon(HIMAGELIST hIml, USERINFOPAGE *uip, uint8_t bInitIconsOnly);
-	int ItemLabel(const uint8_t bReadDBValue);
-	int Name(LPTSTR pszTitle, const uint8_t bIsUnicode);
+	int Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly);
+	int ItemLabel(bool bReadDBValue);
+	int Name(const wchar_t *pszTitle, bool bIsUnicode);
 	HICON	ProtoIcon();
 
 public:
@@ -79,8 +79,8 @@ public:
 	__inline uint8_t State() const { return _bState; }
 	__inline HTREEITEM Hti() const { return _hItem; }
 	__inline void Hti(HTREEITEM hti) { _hItem = hti; }
-	__inline int Parent() const { return _iParent; }
-	__inline void Parent(const int iParent) { _iParent = iParent; }
+	__inline CPsTreeItem* Parent() const { return _pParent; }
+	__inline void Parent(CPsTreeItem *pParent) { _pParent = pParent; }
 
 	__inline uint32_t Flags() const { return _dwFlags; }
 	__inline void Flags(uint32_t dwFlags) { _dwFlags = dwFlags; }
@@ -172,13 +172,13 @@ public:
 	__inline int CurrentItemIndex() const { return _curItem; };
 	__inline CPsTreeItem* CurrentItem() const { return TreeItem(CurrentItemIndex()); };
 
-	int  AddDummyItem(LPCSTR pszGroup);
+	CPsTreeItem* AddDummyItem(const char *pszGroup);
 	uint8_t Create(HWND hWndTree, CPsHdr *pPsh);
 	uint8_t InitTreeItems(LPWORD needWidth);
 	void Remove(HINSTANCE);
 
 	void HideItem(const int iPageIndex);
-	HTREEITEM ShowItem(const int iPageIndex, LPWORD needWidth);
+	HTREEITEM ShowItem(CPsTreeItem *pti, LPWORD needWidth);
 
 	HTREEITEM MoveItem(HTREEITEM hItem, HTREEITEM hInsertAfter, uint8_t bAsChild = FALSE);
 	void SaveState();

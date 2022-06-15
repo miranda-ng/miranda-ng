@@ -159,19 +159,16 @@ LPSTR CPsTreeItem::ParentItemName()
  *			bIsUnicode		- if TRUE the title is unicode
  * return:	0 on success, 1 to 4 indicating the failed operation
  **/
-int CPsTreeItem::Name(LPTSTR ptszTitle, const uint8_t bIsUnicode)
+int CPsTreeItem::Name(const wchar_t *ptszTitle, bool bIsUnicode)
 {
 	// convert title to utf8
 	_pszName = (bIsUnicode) ? mir_utf8encodeW((LPWSTR)ptszTitle) : mir_utf8encode((LPSTR)ptszTitle);
-	if (_pszName)
-	{
+	if (_pszName) {
 		// convert disallowed characters
-		for (uint32_t i = 0; _pszName[i] != 0; i++) 
-		{
-			switch (_pszName[i]) 
-			{
-				case '{': _pszName[i] = '('; break;
-				case '}': _pszName[i] = ')'; break;
+		for (uint32_t i = 0; _pszName[i] != 0; i++) {
+			switch (_pszName[i]) {
+			case '{': _pszName[i] = '('; break;
+			case '}': _pszName[i] = ')'; break;
 			}
 		}
 	}
@@ -225,28 +222,21 @@ void CPsTreeItem::Rename(const LPTSTR pszLabel)
  * param:	pszName		- uniquely identifiing string for a propertypage encoded with utf8 (e.g.: {group\item})
  * return:	Label in a newly allocated piece of memory
  **/
-int CPsTreeItem::ItemLabel(const uint8_t bReadDBValue)
+int CPsTreeItem::ItemLabel(bool bReadDBValue)
 {
-	DBVARIANT dbv;
-
-	// clear existing
-	if (_ptszLabel)
-		mir_free(_ptszLabel);
-
 	// try to get custom label from database
+	DBVARIANT dbv;
 	if (!bReadDBValue || DB::Setting::GetWString(0, MODULENAME, GlobalPropertyKey(SET_ITEM_LABEL), &dbv) || (_ptszLabel = dbv.pwszVal) == nullptr) {
 		// extract the name
-		LPSTR pszName = mir_strrchr(_pszName, '\\');
+		char *pszName = mir_strrchr(_pszName, '\\');
 		if (pszName && pszName[1])
 			pszName++;
 		else
 			pszName = _pszName;
 
-		LPTSTR ptszLabel = mir_utf8decodeW(pszName);
-		if (ptszLabel) {
-			_ptszLabel = mir_wstrdup(TranslateW(ptszLabel));
-			mir_free(ptszLabel);
-		}
+		ptrW ptszLabel(mir_utf8decodeW(pszName));
+		if (ptszLabel)
+			replaceStrW(_ptszLabel, TranslateW(ptszLabel));
 	}
 	// return nonezero if label is invalid
 	return _ptszLabel == nullptr;
@@ -287,7 +277,7 @@ HICON CPsTreeItem::ProtoIcon()
  *			hDefaultIcon	- default icon to use
  * return: nothing
  **/
-int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, uint8_t bInitIconsOnly)
+int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 {
 	// check parameter
 	if (!_pszName || !uip)
@@ -366,68 +356,65 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, uint8_t bInitIconsOnly
  *			odp		- USERINFOPAGE structure with the information about the page to add
  * return:	0 on success, 1 on failure
  **/
-int CPsTreeItem::Create(CPsHdr* pPsh, USERINFOPAGE *uip)
+int CPsTreeItem::Create(CPsHdr *pPsh, USERINFOPAGE *uip)
 {
-	int err;
-	wchar_t szTitle[ MAXSETTING ];
-
 	// check parameter
-	if (pPsh && uip && PtrIsValid(uip->pPlugin)) {
-		// instance value
-		_hInst = uip->pPlugin->getInst();
-		_dwFlags = uip->flags;
-		_initParam = uip->dwInitParam;
+	if (!pPsh || !uip || !PtrIsValid(uip->pPlugin))
+		return 1;
 
-		// init page owning contact
-		_hContact = pPsh->_hContact;
-		_pszProto = mir_strdup(pPsh->_pszProto);
+	// instance value
+	_hInst = uip->pPlugin->getInst();
+	_dwFlags = uip->flags;
+	_initParam = uip->dwInitParam;
 
-		// global settings prefix for current contact (is dialog owning contact's protocol by default)
-		_pszPrefix = (pPsh->_pszPrefix) ? pPsh->_pszPrefix : "Owner";
+	// init page owning contact
+	_hContact = pPsh->_hContact;
+	_pszProto = mir_strdup(pPsh->_pszProto);
 
-		if (pPsh->_dwFlags & PSF_PROTOPAGESONLY) {
-			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_snwprintf(szTitle, L"%s %d\\%s", uip->szTitle.w, pPsh->_nSubContact+1, uip->szGroup.w);
-			else
-				mir_snwprintf(szTitle, L"%s %d", uip->szTitle.w, pPsh->_nSubContact+1);
-		}
-		else {
-			if (_dwFlags & ODPF_USERINFOTAB)
-				mir_snwprintf(szTitle, L"%s\\%s", uip->szTitle.w, uip->szGroup.w);
-			else
-				mir_wstrcpy(szTitle, uip->szTitle.w);
-		}
-		// set the unique utf8 encoded name for the item
-		if (err = Name(szTitle, (_dwFlags & ODPF_UNICODE) == ODPF_UNICODE)) 
-			MsgErr(nullptr, LPGENW("Creating unique name for a page failed with %d and error code %d"), err, GetLastError());
+	// global settings prefix for current contact (is dialog owning contact's protocol by default)
+	_pszPrefix = (pPsh->_pszPrefix) ? pPsh->_pszPrefix : "Owner";
 
-		// read label from database or create it
-		else if (err = ItemLabel(TRUE)) 
-			MsgErr(nullptr, LPGENW("Creating the label for a page failed with %d and error code %d"), err, GetLastError());
-
-		else {
-			// load icon for the item
-			Icon(pPsh->_hImages, uip, (pPsh->_dwFlags & PSTVF_INITICONS) == PSTVF_INITICONS);
-			
-			// the rest is not needed if only icons are loaded
-			if (pPsh->_dwFlags & PSTVF_INITICONS)
-				return 0;
-
-			// load custom order
-			if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) {
-				_iPosition = g_plugin.getByte(PropertyKey(SET_ITEM_POS), uip->position);
-				if ((_iPosition < 0) || (_iPosition > 0x800000A))
-					_iPosition = 0;
-			}
-			// read visibility state
-			_bState = g_plugin.getByte(PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
-
-			// fetch dialog 
-			_pDialog = uip->pDialog;
-			return 0;
-		}
+	CMStringW wszTitle;
+	if (_dwFlags & ODPF_USERINFOTAB) {
+		wszTitle.Append(uip->szGroup.w);
+		wszTitle.AppendChar('\\');
 	}
-	return 1;
+
+	wszTitle.Append(uip->szTitle.w);
+	if (pPsh->_dwFlags & PSF_PROTOPAGESONLY)
+		wszTitle.AppendFormat(L" %d", pPsh->_nSubContact + 1);
+
+	// set the unique utf8 encoded name for the item
+	if (int err = Name(wszTitle, (_dwFlags & ODPF_UNICODE) == ODPF_UNICODE)) {
+		MsgErr(nullptr, LPGENW("Creating unique name for a page failed with %d and error code %d"), err, GetLastError());
+		return 1;
+	}
+
+	// read label from database or create it
+	if (int err = ItemLabel(TRUE)) {
+		MsgErr(nullptr, LPGENW("Creating the label for a page failed with %d and error code %d"), err, GetLastError());
+		return 1;
+	}
+
+	// load icon for the item
+	Icon(pPsh->_hImages, uip, (pPsh->_dwFlags & PSTVF_INITICONS) == PSTVF_INITICONS);
+			
+	// the rest is not needed if only icons are loaded
+	if (pPsh->_dwFlags & PSTVF_INITICONS)
+		return 0;
+
+	// load custom order
+	if (!(pPsh->_dwFlags & PSTVF_SORTTREE)) {
+		_iPosition = g_plugin.getByte(PropertyKey(SET_ITEM_POS), uip->position);
+		if ((_iPosition < 0) || (_iPosition > 0x800000A))
+			_iPosition = 0;
+	}
+	// read visibility state
+	_bState = g_plugin.getByte(PropertyKey(SET_ITEM_STATE), DBTVIS_EXPANDED);
+
+	// fetch dialog 
+	_pDialog = uip->pDialog;
+	return 0;
 }
 
 /**
