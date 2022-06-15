@@ -71,7 +71,6 @@ INT_PTR PSPBaseDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			MCONTACT hContact = (MCONTACT)((LPPSHNOTIFY)lParam)->lParam;
 			LPSTR pszProto;
 
 			switch (((LPNMHDR)lParam)->code) {
@@ -81,14 +80,14 @@ INT_PTR PSPBaseDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 			case PSN_INFOCHANGED:
 				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto) {
-					BOOL bChanged = (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT)&PSP_CHANGED) | m_ctrlList->OnInfoChanged(hContact, pszProto);
+					BOOL bChanged = (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT)&PSP_CHANGED) | m_ctrlList->OnInfoChanged(m_hContact, pszProto);
 					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
 				}
 				break;
 
 			case PSN_APPLY:
 				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto)
-					m_ctrlList->OnApply(hContact, pszProto);
+					m_ctrlList->OnApply(m_hContact, pszProto);
 				break;
 			}
 			break;
