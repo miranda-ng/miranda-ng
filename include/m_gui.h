@@ -490,6 +490,7 @@ protected:
 	bool    m_isModal = false;
 	bool    m_bInitialized = false;
 	bool    m_forceResizable = false;
+	bool    m_bFixedSize = false;
 	bool    m_bSucceeded = false; // was IDOK pressed or not
 	bool    m_bExiting = false; // window received WM_CLOSE and gonna die soon
 

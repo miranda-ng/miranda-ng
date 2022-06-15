@@ -102,14 +102,20 @@ void CDlgBase::Close()
 
 void CDlgBase::Create()
 {
-	mir_ptr<DLGTEMPLATE> pDlgTemplate(LoadThemedDialogTemplate(MAKEINTRESOURCE(m_idDialog), GetInst()));
-	CreateDialogIndirectParam(GetInst(),pDlgTemplate,m_hwndParent,GlobalDlgProc,(LPARAM)this);
+	if (!m_bFixedSize) {
+		mir_ptr<DLGTEMPLATE> pDlgTemplate(LoadThemedDialogTemplate(MAKEINTRESOURCE(m_idDialog), GetInst()));
+		CreateDialogIndirectParam(GetInst(), pDlgTemplate, m_hwndParent, GlobalDlgProc, (LPARAM)this);
+	}
+	else CreateDialogParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
 
 int CDlgBase::DoModal()
 {
 	m_isModal = true;
 	
+	if (m_bFixedSize)
+		return DialogBoxParam(GetInst(), MAKEINTRESOURCE(m_idDialog), m_hwndParent, GlobalDlgProc, (LPARAM)this);
+		
 	mir_ptr<DLGTEMPLATE> pDlgTemplate(LoadThemedDialogTemplate(MAKEINTRESOURCE(m_idDialog), GetInst()));
 	return DialogBoxIndirectParam(GetInst(), pDlgTemplate, m_hwndParent, GlobalDlgProc, (LPARAM)this);
 }
