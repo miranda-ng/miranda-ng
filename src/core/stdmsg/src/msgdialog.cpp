@@ -463,15 +463,16 @@ void CMsgDialog::OnType(CTimer*)
 
 int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 {
+	bool bToolbar = g_plugin.bShowButtons;
+	bool bSend = g_plugin.bSendButton;
+
 	if (isChat()) {
-		bool bToolbar = g_plugin.bShowButtons;
-		bool bSend = g_plugin.bSendButton;
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
 		switch (urc->wId) {
 		case IDOK:
-			urc->rcItem.left = bSend ? 315 : urc->dlgNewSize.cx;
-			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 23;
+			urc->rcItem.left = bSend ? urc->dlgNewSize.cx - 64 + 2 : urc->dlgNewSize.cx;
+			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 28;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 			return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
 
@@ -510,7 +511,7 @@ LBL_CalcBottom:
 
 		case IDC_SRMM_MESSAGE:
 			urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
-			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 22;
+			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 28;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 			return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
 		}
@@ -530,7 +531,7 @@ LBL_CalcBottom:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 		case IDC_SRMM_MESSAGE:
-			urc->rcItem.right = (g_plugin.bSendButton) ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
+			urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx - 1;
 			if (g_plugin.bShowAvatar && m_avatarPic)
 				urc->rcItem.left = m_avatarWidth + 4;
 
@@ -538,11 +539,12 @@ LBL_CalcBottom:
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
-		case IDCANCEL:
 		case IDOK:
+			urc->rcItem.left = bSend ? urc->dlgNewSize.cx - 64 + 2 : urc->dlgNewSize.cx - 1;
+			urc->rcItem.right =  urc->dlgNewSize.cx - 1;
 			urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 3;
 			urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
-			return RD_ANCHORX_RIGHT | RD_ANCHORY_CUSTOM;
+			return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 		case IDC_AVATAR:
 			urc->rcItem.top = urc->rcItem.bottom - (m_avatarHeight + 2);
@@ -610,13 +612,9 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 
 	case WM_SIZE:
 		if (!IsIconic(m_hwnd)) {
-
 			if (isChat()) {
-				bool bSend = g_plugin.bSendButton;
-				bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
-
-				m_btnOk.Show(bSend);
-				m_splitterX.Show(bNick);
+				m_btnOk.Show(g_plugin.bSendButton);
+				m_splitterX.Show(m_si->iType != GCW_SERVER && m_bNicklistEnabled);
 				if (m_si->iType != GCW_SERVER)
 					m_nickList.Show(m_bNicklistEnabled);
 				else
@@ -1287,7 +1285,6 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 		ShowWindow(hwndButton, (bShow) ? SW_SHOW : SW_HIDE);
 	}
 
-	ShowWindow(GetDlgItem(m_hwnd, IDCANCEL), SW_HIDE);
 	m_splitterY.Show();
 	
 	m_btnOk.Show(g_plugin.bSendButton);
