@@ -21,24 +21,58 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Home contact info
-
-struct PSPContactHomeDlg : public PSPBaseDlg
+class PSPContactDlgBase : public PSPBaseDlg
 {
-	PSPContactHomeDlg() :
-		PSPBaseDlg(IDD_CONTACT_ADDRESS)
-	{}
+	CCtrlEdit homePage;
+	CCtrlCombo cmbCountry;
+	CCtrlButton btnGoto;
+
+public:
+	PSPContactDlgBase() :
+		PSPBaseDlg(IDD_CONTACT_ADDRESS),
+		btnGoto(this, BTN_GOTO),
+		homePage(this, EDIT_HOMEPAGE),
+		cmbCountry(this, EDIT_COUNTRY)
+	{
+		btnGoto.OnClick = Callback(this, &PSPContactDlgBase::onClick_Goto);
+		homePage.OnChange = Callback(this, &PSPContactDlgBase::onChange_HomePage);
+		cmbCountry.OnSelChanged = Callback(this, &PSPContactDlgBase::onSelChanged_Country);
+	}
 
 	bool OnInitDialog() override
 	{
-		PSPBaseDlg::OnInitDialog();
+		btnGoto.SendMsg(BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
+		return PSPBaseDlg::OnInitDialog();
+	}
+
+	void onClick_Goto(CCtrlButton *)
+	{
+		Utils_OpenUrlW(ptrW(homePage.GetText()));
+	}
+
+	void onChange_HomePage(CCtrlEdit *)
+	{
+		btnGoto.Enable(mir_wstrlen(ptrW(homePage.GetText())) > 0);
+	}
+
+	void onSelChanged_Country(CCtrlCombo *)
+	{
+		UpdateCountryIcon(cmbCountry);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Home contact info
+
+struct PSPContactHomeDlg : public PSPContactDlgBase
+{
+	bool OnInitDialog() override
+	{
+		PSPContactDlgBase::OnInitDialog();
 
 		wchar_t szAddr[MAX_PATH];
 		mir_snwprintf(szAddr, L"%s (%s)", TranslateT("Address"), TranslateT("home"));
 		SetDlgItemText(m_hwnd, IDC_PAGETITLE, szAddr);
-
-		SendDlgItemMessage(m_hwnd, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
 
 		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_STREET, SET_CONTACT_STREET, DBVT_WCHAR));
 		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_CITY, SET_CONTACT_CITY, DBVT_WCHAR));
@@ -117,51 +151,20 @@ struct PSPContactHomeDlg : public PSPBaseDlg
 		SendDlgItemMessage(m_hwnd, EDIT_PHONE, WM_SETICON, NULL, NULL);
 		SendDlgItemMessage(m_hwnd, EDIT_EMAIL, WM_SETICON, NULL, NULL);
 	}
-
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (uMsg == WM_COMMAND) {
-			switch (LOWORD(wParam)) {
-			case EDIT_HOMEPAGE:
-				if (HIWORD(wParam) == EN_UPDATE)
-					EnableWindow(GetDlgItem(m_hwnd, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
-				break;
-
-			case BTN_GOTO:
-				CEditCtrl::GetObj(m_hwnd, EDIT_HOMEPAGE)->OpenUrl();
-				break;
-
-			case EDIT_COUNTRY:
-				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					UpDate_CountryIcon(GetDlgItem(m_hwnd, ICO_COUNTRY), pd->nID);
-				}
-				break;
-			}
-		}
-
-		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
-	}
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Work contact info
 
-struct PSPContactWorkDlg : public PSPBaseDlg
+struct PSPContactWorkDlg : public PSPContactDlgBase
 {
-	PSPContactWorkDlg() :
-		PSPBaseDlg(IDD_CONTACT_ADDRESS)
-	{}
-
 	bool OnInitDialog() override
 	{
-		PSPBaseDlg::OnInitDialog();
+		PSPContactDlgBase::OnInitDialog();
 
 		wchar_t szAddr[MAX_PATH];
 		mir_snwprintf(szAddr, L"%s (%s)", TranslateT("Address and contact"), TranslateT("company"));
 		SetDlgItemText(m_hwnd, IDC_PAGETITLE, szAddr);
-		SendDlgItemMessage(m_hwnd, BTN_GOTO, BUTTONADDTOOLTIP, (WPARAM)TranslateT("Open in browser"), MBBF_TCHAR);
-		TranslateDialogDefault(m_hwnd);
 
 		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_STREET, SET_CONTACT_COMPANY_STREET, DBVT_WCHAR));
 		m_ctrlList->insert(CEditCtrl::CreateObj(m_hwnd, EDIT_CITY, SET_CONTACT_COMPANY_CITY, DBVT_WCHAR));
@@ -239,31 +242,6 @@ struct PSPContactWorkDlg : public PSPBaseDlg
 
 		SendDlgItemMessage(m_hwnd, EDIT_PHONE, WM_SETICON, NULL, NULL);
 		SendDlgItemMessage(m_hwnd, EDIT_EMAIL, WM_SETICON, NULL, NULL);
-	}
-	
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (uMsg == WM_COMMAND) {
-			switch (LOWORD(wParam)) {
-			case EDIT_HOMEPAGE:
-				if (HIWORD(wParam) == EN_UPDATE) 
-					EnableWindow(GetDlgItem(m_hwnd, BTN_GOTO), GetWindowTextLength((HWND)lParam) > 0);
-				break;
-
-			case BTN_GOTO:
-				CEditCtrl::GetObj(m_hwnd, EDIT_HOMEPAGE)->OpenUrl();
-				break;
-
-			case EDIT_COUNTRY:
-				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					UpDate_CountryIcon(GetDlgItem(m_hwnd, ICO_COUNTRY), pd->nID);
-				}
-				break;
-			}
-		}
-
-		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
 	}
 };
 

@@ -268,31 +268,6 @@ void CEditCtrl::OnChangedByUser(uint16_t wChangedMsg)
 	}
 }
 
-/**
- * Opens the url given in a editbox in the users default browser
- **/
-void CEditCtrl::OpenUrl()
-{
-	int lenUrl = 1 + Edit_GetTextLength(_hwnd);
-	LPTSTR szUrl;
-	uint8_t need_free = 0;
-
-	__try {
-		szUrl = (LPTSTR)alloca((8 + lenUrl) * sizeof(wchar_t));
-	}
-	__except (EXCEPTION_EXECUTE_HANDLER)
-	{
-		szUrl = (LPTSTR)mir_alloc((8 + lenUrl) * sizeof(wchar_t));
-		need_free = 1;
-	}
-
-	if (szUrl && (GetWindowText(_hwnd, szUrl, lenUrl) > 0))
-		Utils_OpenUrlW(szUrl);
-
-	if (need_free)
-		MIR_FREE(szUrl);
-}
-
 LRESULT CEditCtrl::LinkNotificationHandler(ENLINK* lnk)
 {
 	if (lnk == nullptr)

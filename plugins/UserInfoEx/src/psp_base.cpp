@@ -21,14 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-void UpDate_CountryIcon(HWND hCtrl, int countryID)
-{
-	HICON hIcon = LoadFlagIcon(countryID);
-	HICON hOld  = Static_SetIcon(hCtrl, hIcon);
-	ShowWindow(hCtrl, hIcon ? SW_SHOW : SW_HIDE);
-	IcoLib_ReleaseIcon(hOld);
-}
-
 PSPBaseDlg::PSPBaseDlg(int idDialog) :
 	CUserInfoPageDlg(g_plugin, idDialog),
 	m_ctrlList(nullptr)
@@ -47,7 +39,7 @@ bool PSPBaseDlg::OnInitDialog()
 bool PSPBaseDlg::OnRefresh()
 {
 	if (auto *pszProto = GetBaseProto())		
-		return (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT) & PSP_CHANGED) | m_ctrlList->OnInfoChanged(m_hContact, pszProto);
+		return m_ctrlList->OnInfoChanged(m_hContact, pszProto);
 
 	return false;
 }
@@ -111,4 +103,17 @@ const char *PSPBaseDlg::GetBaseProto() const
 {
 	const char *res = "";
 	return (SendMessage(m_hwndParent, PSM_GETBASEPROTO, INDEX_CURPAGE, LPARAM(&res)) && *res) ? res : nullptr;
+}
+
+void PSPBaseDlg::UpdateCountryIcon(CCtrlCombo &pCombo)
+{
+	LPIDSTRLIST pd = (LPIDSTRLIST)pCombo.GetCurData();
+	if (pd == nullptr)
+		return;
+
+	auto *pCtrl = FindControl(ICO_COUNTRY);
+	HICON hIcon = LoadFlagIcon(pd->nID);
+	HICON hOld = Static_SetIcon(pCtrl->GetHwnd(), hIcon);
+	pCtrl->Show(hIcon != 0);
+	IcoLib_ReleaseIcon(hOld);
 }

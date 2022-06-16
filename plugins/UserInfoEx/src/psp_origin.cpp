@@ -24,13 +24,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 class PSPOriginDlg : public PSPBaseDlg
 {
 	CTimer timer;
+	CCtrlCombo cmbCountry;
 
 public:
 	PSPOriginDlg() :
 		PSPBaseDlg(IDD_CONTACT_ORIGIN),
-		timer(this, 1)
+		timer(this, 1),
+		cmbCountry(this, EDIT_COUNTRY)
 	{
 		timer.OnEvent = Callback(this, &PSPOriginDlg::onTimer);
+		cmbCountry.OnSelChanged = Callback(this, &PSPOriginDlg::onSelChanged_Country);
 	}
 
 	bool OnInitDialog() override
@@ -100,20 +103,9 @@ public:
 		SetDlgItemText(m_hwnd, TXT_TIME, szTime);
 	}
 
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	void onSelChanged_Country(CCtrlCombo *)
 	{
-		if (uMsg == WM_COMMAND) {
-			switch (LOWORD(wParam)) {
-			case EDIT_COUNTRY:
-				if (HIWORD(wParam) == CBN_SELCHANGE) {
-					LPIDSTRLIST pd = (LPIDSTRLIST)ComboBox_GetItemData((HWND)lParam, ComboBox_GetCurSel((HWND)lParam));
-					UpDate_CountryIcon(GetDlgItem(m_hwnd, ICO_COUNTRY), pd->nID);
-				}
-				break;
-			}
-		}
-	
-		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
+		UpdateCountryIcon(cmbCountry);
 	}
 };
 

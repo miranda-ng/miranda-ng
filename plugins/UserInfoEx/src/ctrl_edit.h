@@ -61,7 +61,6 @@ public:
 	virtual void OnApply(MCONTACT hContact, LPCSTR pszProto);
 	virtual void OnChangedByUser(uint16_t wChangedMsg);
 
-	void		OpenUrl();
 	LRESULT LinkNotificationHandler(ENLINK* lnk);
 	
 };

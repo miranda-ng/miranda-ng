@@ -43,6 +43,8 @@ protected:
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM, LPARAM) override;
 
+	void UpdateCountryIcon(CCtrlCombo &pCombo);
+
 	HFONT GetBoldFont() const;
 	MCONTACT GetContact() const;
 	const char* GetBaseProto() const;
@@ -57,7 +59,5 @@ void InitCompanyDlg(WPARAM wParam, USERINFOPAGE &uip);
 void InitAnniversaryDlg(WPARAM wParam, USERINFOPAGE &uip);
 void InitOriginDlg(WPARAM wParam, USERINFOPAGE &uip, bool bReadOnly);
 void InitProfileDlg(WPARAM wParam, USERINFOPAGE &uip);
-
-void UpDate_CountryIcon(HWND hCtrl, int countryID);
 
 #endif /* _UI_PSP_BASE_INCLUDE_ */
