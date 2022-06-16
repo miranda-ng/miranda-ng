@@ -117,12 +117,11 @@ void CheckMailInbox(Account *curAcc)
 			(nlr.resultCode == 401) ? Translate("Wrong name or password!") : Translate("Can't get RSS feed!"));
 
 		curAcc->results_num = -1;
-		curAcc->IsChecking = false;
-		return;
 	}
-
-	curAcc->results_num = ParsePage(nlu->pData, &curAcc->results);
-	mir_snprintf(curAcc->results.content, "%s [%d]", szNick.get(), curAcc->results_num);
+	else {
+		curAcc->results_num = ParsePage(nlu->pData, &curAcc->results);
+		mir_snprintf(curAcc->results.content, "%s [%d]", szNick.get(), curAcc->results_num);
+	}
 
 	curAcc->IsChecking = false;
 }
