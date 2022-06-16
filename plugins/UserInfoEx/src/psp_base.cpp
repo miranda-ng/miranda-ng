@@ -38,8 +38,9 @@ bool PSPBaseDlg::OnInitDialog()
 
 bool PSPBaseDlg::OnRefresh()
 {
-	if (auto *pszProto = GetBaseProto())		
-		return m_ctrlList->OnInfoChanged(m_hContact, pszProto);
+	if (auto *pszProto = GetBaseProto())
+		if (m_ctrlList)
+			return m_ctrlList->OnInfoChanged(m_hContact, pszProto);
 
 	return false;
 }
@@ -48,6 +49,7 @@ bool PSPBaseDlg::OnApply()
 {
 	if (auto *pszProto = GetBaseProto())		
 		m_ctrlList->OnApply(m_hContact, pszProto);
+	
 	return true;
 }
 

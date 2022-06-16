@@ -177,14 +177,12 @@ CCtrlList::CCtrlList(HWND hOwnerDlg) :
  **/
 CCtrlList::~CCtrlList()
 {
-	INT_PTR i;
-
 	SetUserData(_hOwnerDlg, NULL);
+
 	// delete data
-	for (i = 0 ; i < count; i++)
-	{
+	for (int i = 0 ; i < count; i++)
 		delete (*this)[i];
-	}
+
 	// delete the list
 	LIST<CBaseCtrl>::destroy();
 }
@@ -204,15 +202,9 @@ void CCtrlList::Release()
  **/
 void CCtrlList::OnReset()
 {
-	INT_PTR i;
-
-	for (i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++)
 		if (items[i]) 
-		{
 			items[i]->OnReset();
-		}
-	}
 }
 
 /**
@@ -222,15 +214,11 @@ void CCtrlList::OnReset()
 BOOL CCtrlList::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 {
 	BOOL bChanged = 0;
-	INT_PTR i;
 
-	for (i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++)
 		if (PtrIsValid(items[i]))
-		{
 			bChanged |= items[i]->OnInfoChanged(hContact, pszProto);
-		}
-	}
+
 	return bChanged;
 }
 
@@ -240,15 +228,9 @@ BOOL CCtrlList::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
  **/
 void CCtrlList::OnApply(MCONTACT hContact, LPCSTR pszProto)
 {
-	INT_PTR i;
-
-	for (i = 0; i < count; i++)
-	{
+	for (int i = 0; i < count; i++)
 		if (PtrIsValid(items[i]))
-		{
 			items[i]->OnApply(hContact, pszProto);
-		}
-	}
 }
 
 /**
@@ -258,18 +240,13 @@ void CCtrlList::OnApply(MCONTACT hContact, LPCSTR pszProto)
 void CCtrlList::OnChangedByUser(uint16_t idCtrl, uint16_t wChangedMsg)
 {
 	// prefilter messages to avoid unessesary search operations
-	switch (wChangedMsg)
-	{
+	switch (wChangedMsg) {
 	case EN_UPDATE:
 	case EN_CHANGE:
 	case CBN_SELCHANGE:
-		{
-			CBaseCtrl *pResult = CBaseCtrl::GetObj(_hOwnerDlg, idCtrl);
-			if (PtrIsValid(pResult) && (pResult->_cbSize == sizeof(CBaseCtrl)))
-			{
-				pResult->OnChangedByUser(wChangedMsg);
-			}
-		}
+		CBaseCtrl *pResult = CBaseCtrl::GetObj(_hOwnerDlg, idCtrl);
+		if (PtrIsValid(pResult) && (pResult->_cbSize == sizeof(CBaseCtrl)))
+			pResult->OnChangedByUser(wChangedMsg);
 	}
 }
 
@@ -279,13 +256,10 @@ void CCtrlList::OnChangedByUser(uint16_t idCtrl, uint16_t wChangedMsg)
  **/
 INT_PTR CCtrlList::OnSetTextColour(HWND hCtrl, HDC hdc)
 {
-	if (IsWindow(hCtrl) && myGlobals.ShowPropsheetColours)
-	{
+	if (IsWindow(hCtrl) && myGlobals.ShowPropsheetColours) {
 		CBaseCtrl* pCtrl = CBaseCtrl::GetObj(hCtrl);
 		if (PtrIsValid(pCtrl) && (pCtrl->_cbSize == sizeof(CBaseCtrl)))
-		{
 			return pCtrl->OnSetTextColour(hdc);
-		}
 	}
 	return FALSE;
 }
