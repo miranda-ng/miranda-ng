@@ -60,7 +60,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, "SRMFont%dSize", i);
-		lf->lfHeight = (char)g_plugin.getByte(str, fontOptionsList[i].defSize);
+		lf->lfHeight = Utils_CorrectFontSize(g_plugin.getByte(str, fontOptionsList[i].defSize));
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
@@ -106,7 +106,7 @@ void RegisterSRMMFonts(void)
 		fontid.flags |= (fontOptionsList[i].defStyle == DBFONTF_BOLD) ? FIDF_CLASSHEADER : FIDF_CLASSGENERAL;
 
 		fontid.deffontsettings.colour = fontOptionsList[i].defColour;
-		fontid.deffontsettings.size = fontOptionsList[i].defSize;
+		fontid.deffontsettings.size = Utils_CorrectFontSize(fontOptionsList[i].defSize);
 		fontid.deffontsettings.style = fontOptionsList[i].defStyle;
 		wcsncpy_s(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = DEFAULT_CHARSET;

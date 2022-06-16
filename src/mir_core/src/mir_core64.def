@@ -1539,3 +1539,4 @@ Miranda_IsTerminated @1758
 Miranda_SetTerminated @1759
 Miranda_WaitOnHandle @1760
 Miranda_WaitOnHandleEx @1761
+Utils_CorrectFontSize @1762 NONAME

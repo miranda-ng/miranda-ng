@@ -68,7 +68,7 @@ static FontOptionsList fontOptionsList[] =
 	{ LPGENW("User disables status for ..."), RGB(150, 70, 70),   lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("Action message"),               RGB(160, 90, 160),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("Highlighted message"),          RGB(180, 150, 80),  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
-	{ L"",                                 0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
+	{ L"",                                    0,                  lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("Nick list members (online)"),   RGB(0, 0, 0),       lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 },
 	{ LPGENW("Nick list members (away)"),     RGB(170, 170, 170), lfDefault.lfFaceName, DEFAULT_CHARSET, 0, -12 }
 };
@@ -106,7 +106,7 @@ void LoadMsgDlgFont(int i, LOGFONT *lf, COLORREF *colour)
 	}
 	if (lf) {
 		mir_snprintf(str, "Font%dSize", i);
-		lf->lfHeight = (char)db_get_b(0, CHATFONT_MODULE, str, FO.defSize);
+		lf->lfHeight = db_get_b(0, CHATFONT_MODULE, str, Utils_CorrectFontSize(FO.defSize));
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;
@@ -175,7 +175,7 @@ void RegisterFonts(void)
 		wcsncpy_s(fontid.deffontsettings.szFace, FO.szDefFace, _TRUNCATE);
 		fontid.deffontsettings.charset = FO.defCharset;
 		fontid.deffontsettings.colour = FO.defColour;
-		fontid.deffontsettings.size = FO.defSize;
+		fontid.deffontsettings.size = Utils_CorrectFontSize(FO.defSize);
 		fontid.deffontsettings.style = FO.defStyle;
 		Font_RegisterW(&fontid, g_pChatPlugin);
 	}

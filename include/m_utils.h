@@ -224,6 +224,11 @@ __forceinline int Utils_RestoreWindowPositionNoMove(HWND hwnd, MCONTACT hContact
 
 EXTERN_C MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc);
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// corrects font size according to the DPI settings
+
+EXTERN_C MIR_CORE_DLL(int) Utils_CorrectFontSize(int iFontSize);
+
 /************************ Colour Picker Control (0.1.2.1+) **********************/
 
 #define WNDCLASS_COLOURPICKER  "ColourPicker"

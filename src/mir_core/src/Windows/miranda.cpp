@@ -183,6 +183,11 @@ static void LoadCoreModule(void)
 	InitTimeZones();
 	InitialiseModularEngine();
 
+	wchar_t wszIniPath[MAX_PATH];
+	PathToAbsoluteW(L"mirandaboot.ini", wszIniPath);
+	if (GetPrivateProfileIntW(L"Interface", L"DpiAware", 0, wszIniPath) == 1)
+		g_bEnableDpiAware = true;
+
 	CreateServiceFunction(MS_SYSTEM_RESTART, RestartMiranda);
 
 	hShutdownEvent = CreateHookableEvent(ME_SYSTEM_SHUTDOWN);
@@ -255,15 +260,11 @@ MIR_CORE_DLL(void) BeginMessageLoop()
 		bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
 	}
 
-	wchar_t wszIniPath[MAX_PATH];
-	PathToAbsoluteW(L"mirandaboot.ini", wszIniPath);
-	if (GetPrivateProfileIntW(L"Interface", L"DpiAware", 0, wszIniPath) == 1) {
+	if (g_bEnableDpiAware) {
 		typedef BOOL (WINAPI *pfnSetProcessDPIAware_t)(void);
 		auto *pFunc = (pfnSetProcessDPIAware_t)GetProcAddress(GetModuleHandleW(L"user32"), "SetProcessDPIAware");
 		if (pFunc != nullptr)
 			pFunc();
-
-		g_bEnableDpiAware = true;
 	}
 
 	if (bufferedPaintInit)
