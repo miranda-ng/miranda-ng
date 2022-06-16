@@ -286,9 +286,9 @@ static wchar_t* GetEventPreview(DBEVENTINFO *dbei)
 		break;
 
 	default:
-		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei->szModule, dbei->eventType);
 		// support for custom database event types
-		if (pBlob) {
+		DBEVENTTYPEDESCR *pei = DbEvent_GetType(dbei->szModule, dbei->eventType);
+		if (pei && pBlob) {
 			comment1 = DbEvent_GetTextW(dbei, CP_ACP);
 			commentFix = pei->descr;
 		}
