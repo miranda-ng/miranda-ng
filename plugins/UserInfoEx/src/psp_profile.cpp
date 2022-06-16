@@ -986,6 +986,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		PSPBaseDlg::OnInitDialog();
+
 		Ctrl_InitTextColours();
 
 		// init info structure
@@ -1004,10 +1006,6 @@ public:
 		// insert columns into the listboxes
 		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT);
 
-		HFONT hFont;
-		PSGetBoldFont(m_hwnd, hFont);
-		SendDlgItemMessage(m_hwnd, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hFont, 0);
-
 		// set listfont
 		pList->hFont = (HFONT)m_list.SendMsg(WM_GETFONT, 0, 0);
 		pList->wFlags |= LVF_EDITLABEL;
@@ -1015,7 +1013,7 @@ public:
 		LOGFONT lf;
 		GetObject(pList->hFont, sizeof(lf), &lf);
 		lf.lfHeight -= 6;
-		hFont = CreateFontIndirect(&lf);
+		HFONT hFont = CreateFontIndirect(&lf);
 		m_list.SendMsg(WM_SETFONT, (WPARAM)hFont, 0);
 
 		RECT rc;
@@ -1058,10 +1056,10 @@ public:
 			CHAR pszSetting[MAXSETTING];
 			LPLCITEM pItem;
 			int iItem;
-			LPSTR pszModule = USERINFO;
+			const char *pszModule = USERINFO;
 
 			if (!m_hContact)
-				PSGetBaseProto(m_hwnd, pszModule);
+				pszModule = GetBaseProto();
 
 			*szGroup = 0;
 
@@ -1121,15 +1119,16 @@ public:
 
 			pList->wFlags &= ~CTRLF_CHANGED;
 		}
-		return true;
+		
+		return PSPBaseDlg::OnApply();
 	}
 
 	bool OnRefresh() override
 	{
 		int iItem = 0, iGrp = 0, numProtoItems, numUserItems;
 
-		LPCSTR pszProto;
-		if (!(pList->wFlags & CTRLF_CHANGED) && PSGetBaseProto(m_hwnd, pszProto) && *pszProto != 0) {
+		auto *pszProto = GetBaseProto();
+		if (!(pList->wFlags & CTRLF_CHANGED) && pszProto) {
 			ProfileList_Clear(m_list.GetHwnd());
 
 			// insert the past information
@@ -1173,7 +1172,7 @@ public:
 				}
 			}
 		}
-		return false;
+		return PSPBaseDlg::OnRefresh();
 	}
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
@@ -1275,12 +1274,10 @@ public:
 						case CDDS_ITEMPREPAINT:
 							ListView_GetItemRect(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec, &rc, LVIR_BOUNDS);
 							if (!PtrIsValid(pItem)) {
-								HFONT hBold, hFont;
-								wchar_t szText[MAX_PATH];
-
-								PSGetBoldFont(m_hwnd, hBold);
-								hFont = (HFONT)SelectObject(cd->nmcd.hdc, hBold);
+								HFONT hFont = (HFONT)SelectObject(cd->nmcd.hdc, GetBoldFont());
 								SetTextColor(cd->nmcd.hdc, GetSysColor(COLOR_3DSHADOW));
+
+								wchar_t szText[MAX_PATH];
 								ProfileList_GetItemText(cd->nmcd.hdr.hwndFrom, cd->nmcd.dwItemSpec, 0, szText, MAX_PATH);
 								rc.left += 6;
 								DrawText(cd->nmcd.hdc, TranslateW(szText), -1, &rc, DT_NOCLIP | DT_NOPREFIX | DT_SINGLELINE | DT_VCENTER);

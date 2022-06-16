@@ -40,10 +40,28 @@ bool PSPBaseDlg::OnInitDialog()
 {
 	m_ctrlList = CCtrlList::CreateObj(m_hwnd);
 
-	HFONT hBoldFont;
-	PSGetBoldFont(m_hwnd, hBoldFont);
-	SendDlgItemMessage(m_hwnd, IDC_PAGETITLE, WM_SETFONT, (WPARAM)hBoldFont, 0);
+	SendDlgItemMessage(m_hwnd, IDC_PAGETITLE, WM_SETFONT, (WPARAM)GetBoldFont(), 0);
 	return true;
+}
+
+bool PSPBaseDlg::OnRefresh()
+{
+	if (auto *pszProto = GetBaseProto())		
+		return (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT) & PSP_CHANGED) | m_ctrlList->OnInfoChanged(m_hContact, pszProto);
+
+	return false;
+}
+
+bool PSPBaseDlg::OnApply()
+{
+	if (auto *pszProto = GetBaseProto())		
+		m_ctrlList->OnApply(m_hContact, pszProto);
+	return true;
+}
+
+void PSPBaseDlg::OnReset()
+{
+	m_ctrlList->OnReset();
 }
 
 void PSPBaseDlg::OnDestroy()
@@ -68,32 +86,6 @@ INT_PTR PSPBaseDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			return m_ctrlList->OnSetTextColour((HWND)lParam, (HDC)wParam);
 		break;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			LPSTR pszProto;
-
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_RESET:
-				m_ctrlList->OnReset();
-				break;
-
-			case PSN_INFOCHANGED:
-				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto) {
-					BOOL bChanged = (GetWindowLongPtr(m_hwnd, DWLP_MSGRESULT)&PSP_CHANGED) | m_ctrlList->OnInfoChanged(m_hContact, pszProto);
-					SetWindowLongPtr(m_hwnd, DWLP_MSGRESULT, bChanged ? PSP_CHANGED : 0);
-				}
-				break;
-
-			case PSN_APPLY:
-				if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto)
-					m_ctrlList->OnApply(m_hContact, pszProto);
-				break;
-			}
-			break;
-		}
-		break;
-
 	case WM_COMMAND:
 		if (m_ctrlList && !PspIsLocked(m_hwnd))
 			m_ctrlList->OnChangedByUser(LOWORD(wParam), HIWORD(wParam));
@@ -101,4 +93,22 @@ INT_PTR PSPBaseDlg::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	}
 	
 	return CUserInfoPageDlg::DlgProc(uMsg, wParam, lParam);
+}
+
+HFONT PSPBaseDlg::GetBoldFont() const
+{
+	HFONT res = nullptr;
+	return SendMessage(m_hwndParent, PSM_GETBOLDFONT, INDEX_CURPAGE, LPARAM(&res)) ? res : nullptr;
+}
+
+MCONTACT PSPBaseDlg::GetContact() const
+{
+	MCONTACT res = 0;
+	return SendMessage(m_hwndParent, PSM_GETCONTACT, INDEX_CURPAGE, LPARAM(&res)) ? res : 0;
+}
+
+const char *PSPBaseDlg::GetBaseProto() const
+{
+	const char *res = "";
+	return (SendMessage(m_hwndParent, PSM_GETBASEPROTO, INDEX_CURPAGE, LPARAM(&res)) && *res) ? res : nullptr;
 }

@@ -55,11 +55,8 @@ public:
 
 	bool OnRefresh() override
 	{
-		LPCSTR pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
-			return false;
-
-		if (!m_hContact)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto || !m_hContact)
 			return false;
 
 		MTime mt;
@@ -82,7 +79,8 @@ public:
 			mt.TimeFormat(ptr, _countof(szTime) - (ptr - szTime));
 			SetDlgItemText(m_hwnd, TXT_DATEADDED, szTime);
 		}
-		return false;
+		
+		return PSPBaseDlg::OnRefresh();
 	}
 
 	void OnIconsChanged() override

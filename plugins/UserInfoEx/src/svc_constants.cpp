@@ -398,7 +398,7 @@ void SvcConstantsLoadModule(void)
 	GetNamePrefixList(&nListSize, &pList);
 }
 
-static void FORCEINLINE SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList)
+static void __forceinline SvcConstantsClearList(UINT pnListSize, LPIDSTRLIST pList)
 {
 	if (pList) 
 		for (UINT i = 0; i < pnListSize; i++)

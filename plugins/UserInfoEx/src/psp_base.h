@@ -35,11 +35,17 @@ protected:
 	PSPBaseDlg(int idDialog);
 
 	virtual void OnIconsChanged() {}
-
 	bool OnInitDialog() override;
+	bool OnApply() override;
+	bool OnRefresh() override;
+	void OnReset() override;
 	void OnDestroy() override;
 
 	INT_PTR DlgProc(UINT uMsg, WPARAM, LPARAM) override;
+
+	HFONT GetBoldFont() const;
+	MCONTACT GetContact() const;
+	const char* GetBaseProto() const;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

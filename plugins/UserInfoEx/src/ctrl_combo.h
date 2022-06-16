@@ -53,9 +53,9 @@ public:
 	 *
 	 *
 	 **/
-	static FORCEINLINE CCombo* GetObj(HWND hCtrl) 
+	static __forceinline CCombo* GetObj(HWND hCtrl) 
 		{ return (CCombo*) GetUserData(hCtrl); }
-	static FORCEINLINE CCombo* GetObj(HWND hDlg, uint16_t idCtrl)
+	static __forceinline CCombo* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
 	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t bDBDataType, LPIDSTRLIST pList, int nListCount);

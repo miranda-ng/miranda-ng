@@ -201,19 +201,19 @@ extern struct CountryListEntry *countries;
  * UserInfoEx common used functions
  ***********************************************************************************************************/
 
-static FORCEINLINE BOOL IsProtoOnline(LPSTR pszProto)
+bool __forceinline IsProtoOnline(LPSTR pszProto)
 {
 	return pszProto && pszProto[0] && Proto_GetStatus(pszProto) >= ID_STATUS_ONLINE;
 }
 
-static FORCEINLINE BOOL IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
+bool __forceinline IsProtoAccountEnabled(PROTOACCOUNT *pAcc)
 {
 	return (pAcc->bIsEnabled && Proto_GetAccount(pAcc->szModuleName));
 }
 
 typedef HRESULT (STDAPICALLTYPE *pfnDwmIsCompositionEnabled)(BOOL *);
 extern pfnDwmIsCompositionEnabled dwmIsCompositionEnabled;
-static FORCEINLINE uint8_t IsAeroMode()
+bool __forceinline IsAeroMode()
 {
 	BOOL result;
 	return myGlobals.WantAeroAdaption && dwmIsCompositionEnabled && (dwmIsCompositionEnabled(&result) == S_OK) && result;

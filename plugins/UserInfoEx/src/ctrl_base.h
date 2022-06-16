@@ -113,21 +113,21 @@ public:
 	 *
 	 *
 	 **/
-	static FORCEINLINE CBaseCtrl* GetObj(HWND hCtrl) 
+	static __forceinline CBaseCtrl* GetObj(HWND hCtrl) 
 		{ return (CBaseCtrl*) GetUserData(hCtrl); }
 
 	/**
 	 *
 	 *
 	 **/
-	static FORCEINLINE CBaseCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
+	static __forceinline CBaseCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 	
 	/**
 	 *
 	 *
 	 **/
-	FORCEINLINE CCtrlFlags Flags() const { return _Flags; }
+	__forceinline CCtrlFlags Flags() const { return _Flags; }
 
 	/**
 	 * This is a pure virtual method, which is the common interface 
@@ -202,7 +202,7 @@ public:
 	
 	static CCtrlList* CreateObj(HWND hOwnerDlg);
 
-	static FORCEINLINE CCtrlList* GetObj(HWND hDlg) 
+	static __forceinline CCtrlList* GetObj(HWND hDlg) 
 		{ return (CCtrlList*)GetUserData(hDlg); }
 
 	void		Release();

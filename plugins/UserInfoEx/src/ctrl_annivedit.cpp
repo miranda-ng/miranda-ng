@@ -141,7 +141,6 @@ void CAnnivEditCtrl::EnableCurrentItem()
 
 	if (pCurrent) {
 		MCONTACT hContact;
-	
 		PSGetContact(_hwndDlg, hContact);
 
 		const uint8_t bEnabled

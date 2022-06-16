@@ -550,7 +550,7 @@ uint32_t	TimeOf(MEVENT hEvent)
 * @retval	FALSE			- The two structure's events differ from each other.
 **/
 
-static FORCEINLINE bool IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
+bool __forceinline IsEqual(const DBEVENTINFO *d1, const DBEVENTINFO *d2, bool Data)
 {
 	bool res = d1 && d2 && 
 				(d1->timestamp == d2->timestamp) && 

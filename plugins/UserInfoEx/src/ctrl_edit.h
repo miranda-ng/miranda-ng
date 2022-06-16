@@ -47,19 +47,19 @@ public:
 	 *
 	 *
 	 **/
-	static FORCEINLINE CEditCtrl* GetObj(HWND hCtrl) 
+	static __forceinline CEditCtrl* GetObj(HWND hCtrl) 
 		{ return (CEditCtrl*) GetUserData(hCtrl); }
-	static FORCEINLINE CEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
+	static __forceinline CEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
 	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting, uint8_t dbType);
 	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszModule, LPCSTR pszSetting, uint8_t dbType);
 
-	virtual void	Release();
-	virtual void	OnReset();
-	virtual BOOL	OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnApply(MCONTACT hContact, LPCSTR pszProto);
-	virtual void	OnChangedByUser(uint16_t wChangedMsg);
+	virtual void Release();
+	virtual void OnReset();
+	virtual BOOL OnInfoChanged(MCONTACT hContact, LPCSTR pszProto);
+	virtual void OnApply(MCONTACT hContact, LPCSTR pszProto);
+	virtual void OnChangedByUser(uint16_t wChangedMsg);
 
 	void		OpenUrl();
 	LRESULT LinkNotificationHandler(ENLINK* lnk);

@@ -58,8 +58,7 @@ struct PSPGeneralDlg : public PSPBaseDlg
 
 	bool OnRefresh() override
 	{
-		char *pszProto;
-		if (PSGetBaseProto(m_hwnd, pszProto) && *pszProto) {
+		if (auto *pszProto = GetBaseProto()) {
 			DBVARIANT dbv;
 			CCtrlFlags Flags;
 			Flags.W = DB::Setting::GetWStringCtrl(m_hContact, USERINFO, USERINFO, pszProto, SET_CONTACT_GENDER, &dbv);
@@ -75,13 +74,14 @@ struct PSPGeneralDlg : public PSPBaseDlg
 				else db_free(&dbv);
 			}
 		}
-		return false;
+		
+		return PSPBaseDlg::OnRefresh();
 	}
 
 	bool OnApply() override
 	{
-		char *pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto)
 			return false;
 
 		// gender
@@ -92,7 +92,8 @@ struct PSPGeneralDlg : public PSPBaseDlg
 			db_set_b(m_hContact, m_hContact ? USERINFO : pszProto, SET_CONTACT_GENDER, gender);
 		else
 			db_unset(m_hContact, m_hContact ? USERINFO : pszProto, SET_CONTACT_GENDER);
-		return true;
+		
+		return PSPBaseDlg::OnApply();
 	}
 
 	void OnIconsChanged() override

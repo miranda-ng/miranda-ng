@@ -42,7 +42,7 @@ typedef struct _MSGPOPUPDATA
  *
  * @return	nothing
  **/
-static FORCEINLINE void MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, int dh)
+void __forceinline MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, int dh)
 {
 	RECT ws;
 	HWND hCtrl = GetDlgItem(hDlg, idCtrl);

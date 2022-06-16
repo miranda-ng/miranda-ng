@@ -55,8 +55,8 @@ struct PSPContactHomeDlg : public PSPBaseDlg
 
 	bool OnRefresh() override
 	{
-		LPCSTR pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto)
 			return false;
 
 		uint8_t bChanged = 0;
@@ -76,13 +76,15 @@ struct PSPContactHomeDlg : public PSPBaseDlg
 		bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Tertiary e-mail"), m_hContact, USERINFO, pszProto, SET_CONTACT_EMAIL1);
 		bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_EMAIL, 0, m_hContact, USERINFO, pszProto, SET_CONTACT_MYEMAIL_CAT, SET_CONTACT_MYEMAIL_VAL);
 		SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
+
+		PSPBaseDlg::OnRefresh();
 		return bChanged != 0;
 	}
 
 	bool OnApply() override
 	{
-		LPCSTR pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto)
 			return false;
 
 		HWND hCtrl = GetDlgItem(m_hwnd, EDIT_PHONE);
@@ -98,7 +100,8 @@ struct PSPContactHomeDlg : public PSPBaseDlg
 		CtrlContactWriteItemToDB(hCtrl, m_hContact, USERINFO, pszProto, SET_CONTACT_EMAIL1);
 		CtrlContactWriteMyItemsToDB(hCtrl, 3, m_hContact, USERINFO, pszProto, SET_CONTACT_MYEMAIL_CAT, SET_CONTACT_MYEMAIL_VAL);
 		SendMessage(hCtrl, CBEXM_RESETCHANGED, NULL, NULL);
-		return true;
+		
+		return PSPBaseDlg::OnApply();
 	}
 
 	void OnIconsChanged() override
@@ -175,8 +178,8 @@ struct PSPContactWorkDlg : public PSPBaseDlg
 
 	bool OnApply() override
 	{
-		LPCSTR pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto)
 			return false;
 
 		HWND hCtrl = GetDlgItem(m_hwnd, EDIT_PHONE);
@@ -192,13 +195,14 @@ struct PSPContactWorkDlg : public PSPBaseDlg
 		CtrlContactWriteItemToDB(hCtrl, m_hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL1);
 		CtrlContactWriteMyItemsToDB(hCtrl, 3, m_hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYEMAIL_CAT, SET_CONTACT_COMPANY_MYEMAIL_VAL);
 		SendMessage(hCtrl, CBEXM_RESETCHANGED, NULL, NULL);
-		return true;
+		
+		return PSPBaseDlg::OnApply();
 	}
 
 	bool OnRefresh() override
 	{
-		LPCSTR pszProto;
-		if (!PSGetBaseProto(m_hwnd, pszProto) || *pszProto == 0)
+		auto *pszProto = GetBaseProto();
+		if (!pszProto)
 			return false;
 
 		uint8_t bChanged = 0;
@@ -218,6 +222,8 @@ struct PSPContactWorkDlg : public PSPBaseDlg
 		bChanged |= CtrlContactAddItemFromDB(hCtrl, IDI_BTN_EMAIL, TranslateT("Tertiary e-mail"), m_hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_EMAIL1);
 		bChanged |= CtrlContactAddMyItemsFromDB(hCtrl, IDI_BTN_EMAIL, 0, m_hContact, USERINFO, pszProto, SET_CONTACT_COMPANY_MYEMAIL_CAT, SET_CONTACT_COMPANY_MYEMAIL_VAL);
 		SendMessage(hCtrl, CBEXM_SETCURSEL, (WPARAM)-1, TRUE);
+
+		PSPBaseDlg::OnRefresh();
 		return bChanged != 0;
 	}
 

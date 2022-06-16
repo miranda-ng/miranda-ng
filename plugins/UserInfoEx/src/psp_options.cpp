@@ -31,24 +31,24 @@ static MenuOptionsList ctrl_Menu[] = {
 	{ SET_MI_ACCOUNT,  CHECK_OPT_MI_ACCOUNT,  RADIO_OPT_MI_ACCOUNT_NONE,  RADIO_OPT_MI_ACCOUNT_ALL,  RADIO_OPT_MI_ACCOUNT_EXIMPORT  },
 };
 
-static FORCEINLINE void NotifyParentOfChange(HWND hDlg)
+void __forceinline NotifyParentOfChange(HWND hDlg)
 {
 	SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 }
 
-static int FORCEINLINE ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
+int __forceinline ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	int nItemIndex;
 	for (nItemIndex = ComboBox_GetCount(hCombo); (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); nItemIndex--);
 	return nItemIndex;
 }
 
-static void FORCEINLINE ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
+void __forceinline ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
 {
 	ComboBox_SetCurSel(hCombo, ComboBox_FindByItemDataPtr(hCombo, pData));
 }
 
-static void FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
+void __forceinline ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
 {
 	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateW(ptszText)), pData);
 }

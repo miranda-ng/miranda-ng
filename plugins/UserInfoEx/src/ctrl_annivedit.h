@@ -79,9 +79,9 @@ public:
 	/**
 	 * CBaseCtrl interface:
 	 **/
-	static FORCEINLINE CAnnivEditCtrl* GetObj(HWND hCtrl) 
+	static __forceinline CAnnivEditCtrl* GetObj(HWND hCtrl) 
 		{ return (CAnnivEditCtrl*) GetUserData(hCtrl); }
-	static FORCEINLINE CAnnivEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
+	static __forceinline CAnnivEditCtrl* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
 	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);

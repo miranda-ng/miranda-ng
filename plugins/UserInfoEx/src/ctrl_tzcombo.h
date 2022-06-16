@@ -36,9 +36,9 @@ class CTzCombo : public CBaseCtrl
 
 public:
 
-	static FORCEINLINE CTzCombo* GetObj(HWND hCtrl) 
+	static __forceinline CTzCombo* GetObj(HWND hCtrl) 
 		{ return (CTzCombo*) GetUserData(hCtrl); }
-	static FORCEINLINE CTzCombo* GetObj(HWND hDlg, uint16_t idCtrl)
+	static __forceinline CTzCombo* GetObj(HWND hDlg, uint16_t idCtrl)
 		{ return GetObj(GetDlgItem(hDlg, idCtrl)); }
 
 	static CBaseCtrl* CreateObj(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting);
