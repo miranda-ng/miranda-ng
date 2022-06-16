@@ -216,8 +216,9 @@ MIR_CORE_DLL(HANDLE) TimeZone_CreateByName(LPCTSTR tszName, uint32_t dwFlags)
 	if (tszName == nullptr)
 		return (dwFlags & (TZF_DIFONLY | TZF_KNOWNONLY)) ? nullptr : &myInfo.myTZ;
 
-	if (mir_wstrcmp(myInfo.myTZ.tszName, tszName) == 0)
-		return (dwFlags & TZF_DIFONLY) ? nullptr : &myInfo.myTZ;
+	if (!(dwFlags & TZF_PLF_CB)) 
+		if (mir_wstrcmp(myInfo.myTZ.tszName, tszName) == 0)
+			return (dwFlags & TZF_DIFONLY) ? nullptr : &myInfo.myTZ;
 
 	MIM_TIMEZONE tzsearch;
 	tzsearch.hash = mir_hashstrT(tszName);

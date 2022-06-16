@@ -77,20 +77,20 @@ __forceinline	int printTimeStampByContact(MCONTACT hContact, mir_time ts, LPCTST
 }
 
 #ifdef _MSC_VER
-__forceinline LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact)
+__forceinline LPTIME_ZONE_INFORMATION getTziByContact(MCONTACT hContact, uint32_t dwFlags = 0)
 {
-	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, nullptr, 0));
+	return TimeZone_GetInfo(TimeZone_CreateByContact(hContact, nullptr, dwFlags));
 }
 
-__forceinline int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st)
+__forceinline int getTimeZoneTimeByContact(MCONTACT hContact, SYSTEMTIME *st, uint32_t dwFlags = 0)
 {
-	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, nullptr, 0), st);
+	return TimeZone_GetTimeZoneTime(TimeZone_CreateByContact(hContact, nullptr, dwFlags), st);
 }
 #endif
 
-__forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts)
+__forceinline mir_time timeStampToTimeZoneTimeStampByContact(MCONTACT hContact, mir_time ts, uint32_t dwFlags = 0)
 {
-	return TimeZone_UtcToLocal(TimeZone_CreateByContact(hContact, nullptr, 0), ts);
+	return TimeZone_UtcToLocal(TimeZone_CreateByContact(hContact, nullptr, dwFlags), ts);
 }
 
 #endif

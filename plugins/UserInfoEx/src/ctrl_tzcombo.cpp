@@ -75,12 +75,12 @@ CTzCombo::CTzCombo(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
  **/
 int CTzCombo::Find(LPTIME_ZONE_INFORMATION pTimeZone) const
 {
-	int nItemIndex;
 	int nItemCount = ComboBox_GetCount(_hwnd);
 
-	for (nItemIndex = 0; nItemIndex < nItemCount; nItemIndex++) {
-		if (pTimeZone == TimeZone_GetInfo((HANDLE)ComboBox_GetItemData(_hwnd, nItemIndex)))
-			return nItemIndex;
+	for (int i = 0; i < nItemCount; i++) {
+		HANDLE pItemData = (HANDLE)ComboBox_GetItemData(_hwnd, i);
+		if (pItemData && pTimeZone == TimeZone_GetInfo(pItemData))
+			return i;
 	}
 	return CB_ERR;
 }
@@ -110,7 +110,7 @@ BOOL CTzCombo::OnInfoChanged(MCONTACT hContact, LPCSTR)
 {
 	if (!_Flags.B.hasChanged) {
 		LPTIME_ZONE_INFORMATION pTimeZone;
-		pTimeZone = getTziByContact(hContact);
+		pTimeZone = getTziByContact(hContact, TZF_PLF_CB);
 		ComboBox_SetCurSel(_hwnd, Find(pTimeZone));
 		_curSel = ComboBox_GetCurSel(_hwnd);
 		SendMessage(GetParent(_hwnd), WM_TIMER, 0, 0);
