@@ -129,5 +129,5 @@ MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 	if (!g_lfDefault.lfWeight)
 		SystemParametersInfoW(SPI_GETICONTITLELOGFONT, sizeof(g_lfDefault), &g_lfDefault, FALSE);
 
-	return size * g_lfDefault.lfWeight / -12;
+	return size * g_lfDefault.lfHeight / -12;
 }
