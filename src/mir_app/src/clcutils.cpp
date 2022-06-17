@@ -661,7 +661,11 @@ void fnGetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
 {
 	SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), lf, FALSE);
 	*colour = GetSysColor(COLOR_WINDOWTEXT);
-	lf->lfHeight = 8;
+
+	HDC hdc = GetDC(nullptr);
+	lf->lfHeight = -MulDiv(lf->lfHeight, 72, GetDeviceCaps(hdc, LOGPIXELSY));
+	ReleaseDC(nullptr, hdc);
+
 	switch (i) {
 	case FONTID_GROUPS:
 		lf->lfWeight = FW_BOLD;

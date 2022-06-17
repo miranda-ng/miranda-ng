@@ -110,10 +110,8 @@ static void GetDefaultFontSetting(LOGFONT *lf, COLORREF *colour)
 	if (colour)
 		*colour = GetSysColor(COLOR_WINDOWTEXT);
 
-	lf->lfHeight = 10;
-
 	HDC hdc = GetDC(nullptr);
-	lf->lfHeight = -MulDiv(lf->lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
+	lf->lfHeight = -MulDiv(lf->lfHeight, 72, GetDeviceCaps(hdc, LOGPIXELSY));
 	ReleaseDC(nullptr, hdc);
 }
 
