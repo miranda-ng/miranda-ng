@@ -60,7 +60,7 @@ bool LoadMsgDlgFont(int i, LOGFONT* lf, COLORREF * colour)
 	}
 	if (lf) {
 		mir_snprintf(str, "SRMFont%dSize", i);
-		lf->lfHeight = Utils_CorrectFontSize(g_plugin.getByte(str, fontOptionsList[i].defSize));
+		lf->lfHeight = (char)g_plugin.getByte(str, Utils_CorrectFontSize(fontOptionsList[i].defSize));
 		lf->lfWidth = 0;
 		lf->lfEscapement = 0;
 		lf->lfOrientation = 0;

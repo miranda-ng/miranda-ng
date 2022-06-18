@@ -119,14 +119,14 @@ MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LOGFONTW g_lfDefault;
+static LOGFONTW g_lfDefault = {0};
 
 MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 {
 	if (!g_bEnableDpiAware)
 		return size;
 
-	if (!g_lfDefault.lfWeight)
+	if (!g_lfDefault.lfHeight)
 		SystemParametersInfoW(SPI_GETICONTITLELOGFONT, sizeof(g_lfDefault), &g_lfDefault, FALSE);
 
 	return size * g_lfDefault.lfHeight / -12;
