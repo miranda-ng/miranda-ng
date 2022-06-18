@@ -119,15 +119,17 @@ MIR_CORE_DLL(int) Utils_AssertInsideScreen(RECT *rc)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static LOGFONTW g_lfDefault = {0};
+static NONCLIENTMETRICSW ncm = {};
 
 MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 {
 	if (!g_bEnableDpiAware)
 		return size;
 
-	if (!g_lfDefault.lfHeight)
-		SystemParametersInfoW(SPI_GETICONTITLELOGFONT, sizeof(g_lfDefault), &g_lfDefault, FALSE);
+	if (!ncm.cbSize) {
+		ncm.cbSize = sizeof(ncm);
+		SystemParametersInfoW(SPI_GETNONCLIENTMETRICS, sizeof(ncm), &ncm, FALSE);
+	}
 
-	return size * g_lfDefault.lfHeight / -12;
+	return size * ncm.lfMessageFont.lfHeight / -12;
 }
