@@ -478,30 +478,26 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 
 	const wchar_t *tszUin = m_dat->m_cache->getUIN();
 	if (tszUin[0]) {
-		wchar_t szBuf[256];
+		CMStringW str;
 
 		if (m_dat->m_idle) {
 			time_t diff = time(0) - m_dat->m_idle;
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
-			mir_snwprintf(szBuf, TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
+			str.Format(TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
 		}
-		else wcscpy_s(szBuf, 256, tszUin);
+		else str = tszUin;
 
 		if (M.GetByte("ShowClientDescription", 1)) {
-			wchar_t	temp[256];
 			ptrW szVersion(db_get_wsa(m_dat->m_cache->getActiveContact(), m_dat->m_cache->getActiveProto(), "MirVer"));
 			if (szVersion)
-				mir_snwprintf(temp, TranslateT("  Client: %s"), szVersion.get());
-			else
-				mir_snwprintf(temp, TranslateT("  Client not cached yet"));
-			wcscat_s(szBuf, 256, temp);
+				str.AppendFormat(TranslateT("  Client: %s"), szVersion.get());
 		}
 
 		SIZE sUIN;
-		::GetTextExtentPoint32(hdc, szBuf, (int)mir_wstrlen(szBuf), &sUIN);
+		::GetTextExtentPoint32(hdc, str, str.GetLength(), &sUIN);
 		mapRealRect(rcItem, m_rcUIN, sUIN);
-		CSkin::RenderText(hdc, m_dat->m_hThemeIP, szBuf, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
+		CSkin::RenderText(hdc, m_dat->m_hThemeIP, str, &rcItem, DT_SINGLELINE | DT_VCENTER, CSkin::m_glowSize, clr);
 	}
 	if (m_hoverFlags & HOVER_UIN)
 		::DeleteObject(::SelectObject(hdc, m_ipConfig.hFonts[IPFONTID_UIN]));
