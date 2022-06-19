@@ -645,9 +645,11 @@ LBL_Fail:
 	if (auto *slotNode = XmlFirstChild(iqNode, "slot")) {
 		if (auto *putNode = XmlFirstChild(slotNode, "put")) {
 			const char *szXmlns = slotNode->Attribute("xmlns"), *szUrl = nullptr;
+			uint8_t version = 0;
 			if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD)) {
 				szUrl = putNode->GetText();
 				debugLogA("%s: setting url to %s", szXmlns, szUrl);
+				version = 1;
 			}
 			else if (!mir_strcmp(szXmlns, JABBER_FEAT_UPLOAD0)) {
 				szUrl = putNode->Attribute("url");
@@ -709,7 +711,7 @@ LBL_Fail:
 
 				// this parameter is optional, if not specified we simply use upload URL
 				CMStringA szMessage;
-				if (auto *szGetUrl = XmlGetAttr(XmlFirstChild(slotNode, "get"), "url"))
+				if (auto *szGetUrl = version ?  XmlGetChildText(slotNode, "get") : XmlGetAttr(XmlFirstChild(slotNode, "get"), "url"))
 					szMessage = szGetUrl;
 				else
 					szMessage = szUrl;
