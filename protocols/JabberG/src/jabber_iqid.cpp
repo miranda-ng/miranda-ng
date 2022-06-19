@@ -29,6 +29,71 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_caps.h"
 #include "jabber_privacy.h"
 
+void CJabberProto::OnIqResultServerItemsInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+{
+	if (iqNode == nullptr)
+		return;
+
+	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
+		return;
+
+	const char *from = XmlGetAttr(iqNode, "from");
+	if (!from)
+		return;
+
+	// HTTP Upload
+	auto query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
+
+	if (XmlGetChildByTag(query, "feature", "var", JABBER_FEAT_UPLOAD) || XmlGetChildByTag(query, "feature", "var", JABBER_FEAT_UPLOAD0)) {
+		for (auto *x : TiXmlFilter(query, "x")) {
+			if (mir_strcmp(XmlGetAttr(x, "type"), "result"))
+				continue;
+			if (mir_strcmp(XmlGetAttr(x, "xmlns"), JABBER_FEAT_DATA_FORMS))
+				continue;
+
+			int iVersion = -1, iMaxSize = -1;
+			for (auto *field : TiXmlFilter(x, "field")) {
+				const char *var = XmlGetAttr(field, "var");
+				const char *value = XmlGetChildText(field, "value");
+				if (!mir_strcmp(var, "FORM_TYPE")) {
+					if (!mir_strcmp(value, JABBER_FEAT_UPLOAD0))
+						iVersion = 0;
+					if (!mir_strcmp(value, JABBER_FEAT_UPLOAD))
+						iVersion = 1;
+				}
+
+				if (!mir_strcmp(var, "max-file-size"))
+					iMaxSize = atoi(value);
+			}
+
+			if (iVersion > 0) {
+				m_bUseHttpUpload = true;
+				setString("HttpUpload", from);
+				setByte("HttpUploadVer", iVersion);
+				if (iMaxSize > 0)
+					setDword("HttpUploadMaxSize", iMaxSize);
+				break;
+			}
+		}
+	}
+}
+
+void CJabberProto::OnIqResultServerDiscoItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
+{
+	if (iqNode == nullptr)
+		return;
+
+	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
+		for (auto *item : TiXmlFilter(XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_ITEMS), "item")) {
+			const char *szJid = XmlGetAttr(item, "jid");
+
+			XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultServerItemsInfo, JABBER_IQ_TYPE_GET));
+			iq << XATTR("from", m_ThreadInfo->fullJID) << XATTR("to", szJid) << XQUERY(JABBER_FEAT_DISCO_INFO);
+			m_ThreadInfo->send(iq);
+		}
+	}
+}
+
 void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
 	if (iqNode == nullptr)
@@ -94,6 +159,15 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 		m_ThreadInfo->jabberServerCaps |= jcb;
 
 	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
+
+	// http upload autodetect
+	if ((char)getByte("HttpUploadVer", -1) == -1) {
+		setByte("HttpUploadVer", 0); // not to call autodetect twice
+
+		XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultServerDiscoItems, JABBER_IQ_TYPE_GET));
+		iq << XATTR("from", m_ThreadInfo->fullJID) << XATTR("to", m_ThreadInfo->conn.server) << XCHILDNS("query", JABBER_FEAT_DISCO_ITEMS);
+		m_ThreadInfo->send(iq);
+	}
 }
 
 void CJabberProto::OnIqResultNestedRosterGroups(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)

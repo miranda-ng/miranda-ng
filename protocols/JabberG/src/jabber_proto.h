@@ -564,6 +564,8 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       OnIqResultMucGetVoiceList(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultNestedRosterGroups(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultNotes(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqResultServerDiscoItems(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
+	void       OnIqResultServerItemsInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSession(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetAuth(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 	void       OnIqResultSetBookmarks(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
