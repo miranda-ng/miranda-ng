@@ -46,7 +46,11 @@ void CJabberProto::OnIqResultServerItemsInfo(const TiXmlElement *iqNode, CJabber
 		if (!mir_strcmp(var, JABBER_FEAT_UPLOAD))
 			hul_ver = 1;
 		
-		// TODO: SOCKS5 Proxy
+		// SOCKS5 Proxy
+		if (!mir_strcmp(var, JABBER_FEAT_BYTESTREAMS)) {
+			m_bBsProxyManual = true;
+			setString("BsProxyServer", from);
+		}
 	}
 
 	if (hul_ver >= 0) {
