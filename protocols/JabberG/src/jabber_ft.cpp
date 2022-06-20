@@ -129,7 +129,8 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 
 			uint32_t maxsize = getDword("HttpUploadMaxSize");
 			if (maxsize && st.st_size > maxsize) {
-				MsgPopup(ft->std.hContact, CMStringW(FORMAT, TranslateT("%s is too large. Maximum size supported by the service is %d KB"), ft->std.szCurrentFile.w, maxsize), L"HTTP Upload");
+				MsgPopup(ft->std.hContact, CMStringW(FORMAT, TranslateT("%s is too large. Maximum size supported by the service is %d KB"),
+					ft->std.szCurrentFile.w, maxsize / 1024), L"HTTP Upload");
 				goto LBL_Error;
 			}
 

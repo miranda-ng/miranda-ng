@@ -1575,17 +1575,16 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			iq << XATTR("to", szBareFrom);
 			iq << XCHILDNS("pubsub", "http://jabber.org/protocol/pubsub")
 				<< XCHILD("items") << XATTR("node", JABBER_FEAT_OMEMO ".devicelist");
-			m_ThreadInfo->send(
-				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultGetRoster, JABBER_IQ_TYPE_GET))
-				<< XCHILDNS("query", JABBER_FEAT_IQ_ROSTER));
-
 			m_ThreadInfo->send(iq);
 		}
+
 		if (!ListGetItemPtr(LIST_ROSTER, from)) {
 			debugLogA("Receive presence online from %s (who is not in my roster)", from);
 			ListAdd(LIST_ROSTER, from, hContact);
 		}
+
 		DBCheckIsTransportedContact(from, hContact);
+
 		int status = ID_STATUS_ONLINE;
 		if (auto *show = XmlGetChildText(node, "show")) {
 			if (!mir_strcmp(show, "away")) status = ID_STATUS_AWAY;
