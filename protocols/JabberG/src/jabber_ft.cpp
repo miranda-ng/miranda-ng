@@ -127,6 +127,12 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 			struct _stat64 st;
 			_wstat64(ft->std.szCurrentFile.w, &st);
 
+			uint32_t maxsize = getDword("HttpUploadMaxSize");
+			if (maxsize && st.st_size > maxsize) {
+				MsgPopup(ft->std.hContact, CMStringW(FORMAT, TranslateT("%s is too large. Maximum size supported by the service is %d KB"), ft->std.szCurrentFile.w, maxsize), L"HTTP Upload");
+				goto LBL_Error;
+			}
+
 			auto *pwszContentType = ProtoGetAvatarMimeType(ProtoGetAvatarFileFormat(ft->std.szCurrentFile.w));
 			if (pwszContentType == nullptr)
 				pwszContentType = "application/octet-stream";
