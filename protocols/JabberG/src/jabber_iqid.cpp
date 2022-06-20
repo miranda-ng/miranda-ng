@@ -61,7 +61,7 @@ void CJabberProto::OnIqResultServerItemsInfo(const TiXmlElement *iqNode, CJabber
 			if (auto *field = XmlGetChildByTag(x, "field", "var", "FORM_TYPE"))
 				if (!mir_strcmp(XmlGetChildText(field, "value"), hul_ver ? JABBER_FEAT_UPLOAD : JABBER_FEAT_UPLOAD0))
 					if (auto *sfield = XmlGetChildByTag(x, "field", "var", "max-file-size"))
-						setDword("HttpUploadMaxSize", atoi(XmlGetChildText(sfield, "value")));
+						setDword("HttpUploadMaxSize", XmlGetChildInt(sfield, "value"));
 		}
 	}
 }
