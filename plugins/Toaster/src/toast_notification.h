@@ -4,10 +4,12 @@ typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification
 typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_Windows__CUI__CNotifications__CToastDismissedEventArgs ToastDismissHandler;
 typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification_Windows__CUI__CNotifications__CToastFailedEventArgs ToastFailHandler;
 
+#define TOAST_SIGNATURE 0xABBABABA
+
 class ToastNotification
 {
 private:
-
+	uint32_t _signature = TOAST_SIGNATURE;
 	MCONTACT _hContact;
 
 	WNDPROC _pfnPopupProc;

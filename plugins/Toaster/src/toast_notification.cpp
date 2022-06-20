@@ -28,6 +28,7 @@ ToastNotification::ToastNotification(
 
 ToastNotification::~ToastNotification()
 {
+	_signature = 0;
 	if (_pvPopupData != nullptr)
 		CallPopupProc(UM_FREEPLUGINDATA);
 	notifier->Hide(notification.Get());
@@ -92,17 +93,20 @@ HRESULT ToastNotification::OnActivate(_In_ ABI::Windows::UI::Notifications::IToa
 
 HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs *e)
 {
-	ABI::Windows::UI::Notifications::ToastDismissalReason tdr;
-	CHECKHR(e->get_Reason(&tdr));
-	if (tdr == ABI::Windows::UI::Notifications::ToastDismissalReason_UserCanceled)
-		CallPopupProc(WM_CONTEXTMENU);
-	Destroy();
+	if (_signature == TOAST_SIGNATURE) {
+		ABI::Windows::UI::Notifications::ToastDismissalReason tdr;
+		CHECKHR(e->get_Reason(&tdr));
+		if (tdr == ABI::Windows::UI::Notifications::ToastDismissalReason_UserCanceled)
+			CallPopupProc(WM_CONTEXTMENU);
+		Destroy();
+	}
 	return S_OK;
 }
 
 HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*)
 {
-	Destroy();
+	if (_signature == TOAST_SIGNATURE)
+		Destroy();
 	return S_OK;
 }
 
