@@ -216,11 +216,13 @@ static int IsOverEmail(HWND hwndDlg, wchar_t *szEmail, int cchEmail)
 
 class CContactPage : public CUserInfoPageDlg
 {
+	typedef CUserInfoPageDlg CSuper;
+
 	CCtrlListView m_emails, m_phones;
 
 public:
 	CContactPage() :
-		CUserInfoPageDlg(g_plugin, IDD_INFO_CONTACT),
+		CSuper(g_plugin, IDD_INFO_CONTACT),
 		m_emails(this, IDC_EMAILS),
 		m_phones(this, IDC_PHONES)
 	{
@@ -257,6 +259,21 @@ public:
 		m_phones.InsertColumn(3, &lvc);
 		m_phones.InsertColumn(4, &lvc);
 		return true;
+	}
+
+	void OnResize() override
+	{
+		CSuper::OnResize();
+
+		RECT rc;
+		GetClientRect(m_emails.GetHwnd(), &rc);
+		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+
+		m_emails.SetColumnWidth(0, rc.right / 4);
+		m_emails.SetColumnWidth(1, rc.right - rc.right / 4 - 40);
+
+		m_phones.SetColumnWidth(0, rc.right / 4);
+		m_phones.SetColumnWidth(1, rc.right - rc.right / 4 - 90);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
@@ -528,21 +545,7 @@ public:
 			}
 		}
 
-		INT_PTR res = CDlgBase::DlgProc(msg, wParam, lParam);
-
-		if (msg == WM_SIZE) {
-			RECT rc;
-			GetClientRect(m_emails.GetHwnd(), &rc);
-			rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-
-			m_emails.SetColumnWidth(0, rc.right / 4);
-			m_emails.SetColumnWidth(1, rc.right - rc.right / 4 - 40);
-
-			m_phones.SetColumnWidth(0, rc.right / 4);
-			m_phones.SetColumnWidth(1, rc.right - rc.right / 4 - 90);
-		}
-
-		return res;
+		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 };
 

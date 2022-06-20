@@ -79,7 +79,6 @@ class JabberUserInfoDlg : public CUserInfoPageDlg
 
 	UI_MESSAGE_MAP(JabberUserInfoDlg, CUserInfoPageDlg);
 		UI_MESSAGE(WM_PROTO_CHECK_ONLINE, OnCheckOnline);
-		UI_MESSAGE(WM_SIZE, OnSize);
 	UI_MESSAGE_MAP_END();
 
 	INT_PTR OnCheckOnline(UINT, WPARAM, LPARAM)
@@ -88,12 +87,6 @@ class JabberUserInfoDlg : public CUserInfoPageDlg
 			item = nullptr;
 		else
 			OnRefresh();
-		return 0;
-	}
-
-	INT_PTR OnSize(UINT, WPARAM, LPARAM lParam)
-	{
-		MoveWindow(GetDlgItem(m_hwnd, IDC_TV_INFO), 5, 5, LOWORD(lParam) - 10, HIWORD(lParam) - 10, TRUE);
 		return 0;
 	}
 
@@ -400,11 +393,11 @@ public:
 
 		RECT rc;
 		GetClientRect(m_hwnd, &rc);
-		MoveWindow(GetDlgItem(m_hwnd, IDC_TV_INFO), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
+		MoveWindow(m_tree.GetHwnd(), 5, 5, rc.right - 10, rc.bottom - 10, TRUE);
 
 		HIMAGELIST himl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
 		ImageList_AddSkinIcon(himl, SKINICON_OTHER_SMALLDOT);
-		TreeView_SetImageList(GetDlgItem(m_hwnd, IDC_TV_INFO), himl, TVSIL_NORMAL);
+		TreeView_SetImageList(m_tree.GetHwnd(), himl, TVSIL_NORMAL);
 
 		WindowList_Add(hUserInfoList, m_hwnd, m_hContact);
 		return true;
@@ -414,7 +407,7 @@ public:
 	{
 		ppro->WindowUnsubscribe(m_hwnd);
 		WindowList_Remove(hUserInfoList, m_hwnd);
-		ImageList_Destroy(TreeView_SetImageList(GetDlgItem(m_hwnd, IDC_TV_INFO), nullptr, TVSIL_NORMAL));
+		ImageList_Destroy(m_tree.SetImageList(nullptr, TVSIL_NORMAL));
 		Window_FreeIcon_IcoLib(m_hwnd);
 	}
 
@@ -435,8 +428,7 @@ public:
 					item = ppro->ListGetItemPtr(LIST_ROSTER, jid);
 
 			if (item == nullptr) {
-				HWND hwndTree = GetDlgItem(m_hwnd, IDC_TV_INFO);
-				TreeView_DeleteAllItems(hwndTree);
+				m_tree.DeleteAllItems();
 				HTREEITEM htiRoot = FillInfoLine(nullptr, IcoLib_GetIconByHandle(ppro->m_hProtoIcon), L"JID", jid, sttInfoLineId(0, INFOLINE_NAME), true);
 				FillInfoLine(htiRoot, g_plugin.getIcon(IDI_VCARD), nullptr, TranslateU("Please switch online to see more details."));
 				return false;

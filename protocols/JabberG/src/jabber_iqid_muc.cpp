@@ -225,16 +225,13 @@ public:
 		m_proto->GetMucDlg(m_info->type) = nullptr;
 	}
 
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	void OnResize() override
 	{
-		INT_PTR ret = CSuper::DlgProc(uMsg, wParam, lParam);
-		if (uMsg == WM_SIZE) {
-			RECT rc;
-			GetClientRect(m_list.GetHeader(), &rc);
-			m_list.SetColumnWidth(0, rc.right - rc.left);
-		}
+		CSuper::OnResize();
 
-		return ret;
+		RECT rc;
+		GetClientRect(m_list.GetHeader(), &rc);
+		m_list.SetColumnWidth(0, rc.right - rc.left);
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override

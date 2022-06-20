@@ -510,6 +510,7 @@ protected:
 
 	// miranda-related stuff
 	virtual int Resizer(UTILRESIZECONTROL *urc);
+	virtual void OnResize();
 	virtual void OnReset();
 	virtual void OnChange();
 
@@ -1256,7 +1257,7 @@ public:
 	void       SelectSetFirstVisible(HTREEITEM hItem);
 	COLORREF   SetBkColor(COLORREF clBack);
 	void       SetCheckState(HTREEITEM hItem, uint32_t state);
-	void       SetImageList(HIMAGELIST hIml, int iImage);
+	HIMAGELIST SetImageList(HIMAGELIST hIml, int iImage);
 	void       SetIndent(int iIndent);
 	void       SetInsertMark(HTREEITEM hItem, BOOL fAfter);
 	COLORREF   SetInsertMarkColor(COLORREF clMark);

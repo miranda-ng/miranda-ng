@@ -180,6 +180,18 @@ void CDlgBase::CreateLink(CCtrlData& ctrl, const char *szSetting, wchar_t *szVal
 /////////////////////////////////////////////////////////////////////////////////////////
 // virtual methods
 
+int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
+{
+	CDlgBase *wnd = CDlgBase::Find(hwnd);
+	return (wnd == nullptr) ? 0 : wnd->Resizer(urc);
+}
+
+void CDlgBase::OnResize()
+{
+	if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_THICKFRAME))
+		Utils_ResizeDialog(m_hwnd, m_pPlugin.getInst(), MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
+}
+
 int CDlgBase::Resizer(UTILRESIZECONTROL*)
 {
 	return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
@@ -383,8 +395,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_SIZE:
-		if (m_forceResizable || (GetWindowLongPtr(m_hwnd, GWL_STYLE) & WS_THICKFRAME))
-			Utils_ResizeDialog(m_hwnd, m_pPlugin.getInst(), MAKEINTRESOURCEA(m_idDialog), GlobalDlgResizer);
+		OnResize();
 		return TRUE;
 
 	case WM_TIMER:
@@ -439,12 +450,6 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 	else wnd = CDlgBase::Find(hwnd);
 
 	return (wnd == nullptr) ? FALSE : wnd->DlgProc(msg, wParam, lParam);
-}
-
-int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
-{
-	CDlgBase *wnd = CDlgBase::Find(hwnd);
-	return (wnd == nullptr) ? 0 : wnd->Resizer(urc);
 }
 
 void CDlgBase::ThemeDialogBackground(BOOL tabbed)

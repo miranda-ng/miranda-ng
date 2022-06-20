@@ -808,7 +808,7 @@ mir_wstrcmpi                  @280
 ?SetHoverTime@CCtrlListView@@QAEXI@Z @1000 NONAME
 ?SetIconSpacing@CCtrlListView@@QAEIHH@Z @1001 NONAME
 ?SetImageList@CCtrlListView@@QAEPAU_IMAGELIST@@PAU2@H@Z @1002 NONAME
-?SetImageList@CCtrlTreeView@@QAEXPAU_IMAGELIST@@H@Z @1003 NONAME
+?SetImageList@CCtrlTreeView@@QAEPAU_IMAGELIST@@PAU2@H@Z @1003 NONAME
 ?SetIndent@CCtrlTreeView@@QAEXH@Z @1005 NONAME
 ?SetInfoTip@CCtrlListView@@QAEHPAUtagLVSETINFOTIP@@@Z @1006 NONAME
 ?SetInsertMark@CCtrlListView@@QAEHPAULVINSERTMARK@@@Z @1007 NONAME
@@ -1540,3 +1540,4 @@ Miranda_SetTerminated @1759
 Miranda_WaitOnHandle @1760
 Miranda_WaitOnHandleEx @1761
 _Utils_CorrectFontSize@4 @1762 NONAME
+?OnResize@CDlgBase@@MAEXXZ @1763 NONAME

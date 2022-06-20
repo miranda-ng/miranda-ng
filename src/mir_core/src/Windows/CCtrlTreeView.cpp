@@ -760,8 +760,8 @@ void CCtrlTreeView::SetCheckState(HTREEITEM hItem, uint32_t state)
 {	TreeView_SetCheckState(m_hwnd, hItem, state);
 }
 
-void CCtrlTreeView::SetImageList(HIMAGELIST hIml, int iImage)
-{	TreeView_SetImageList(m_hwnd, hIml, iImage);
+HIMAGELIST CCtrlTreeView::SetImageList(HIMAGELIST hIml, int iImage)
+{	return TreeView_SetImageList(m_hwnd, hIml, iImage);
 }
 
 void CCtrlTreeView::SetIndent(int iIndent)

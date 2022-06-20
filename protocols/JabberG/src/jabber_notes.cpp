@@ -239,8 +239,8 @@ class CCtrlNotebookList : public CCtrlListBox
 	HFONT m_hfntNormal, m_hfntSmall, m_hfntBold;
 
 public:
-	CCtrlNotebookList(CDlgBase* dlg, int ctrlId)
-		: CCtrlListBox(dlg, ctrlId),
+	CCtrlNotebookList(CDlgBase* dlg, int ctrlId) :
+		CCtrlListBox(dlg, ctrlId),
 		m_adding(false)
 	{
 		m_hfntNormal = m_hfntSmall = m_hfntBold = nullptr;
@@ -266,7 +266,8 @@ public:
 		mis.itemID = idx;
 		mis.itemData = data;
 		OnMeasureItem(&mis);
-		if (mis.itemHeight) SendMessage(m_hwnd, LB_SETITEMHEIGHT, idx, mis.itemHeight);
+		if (mis.itemHeight)
+			SendMessage(m_hwnd, LB_SETITEMHEIGHT, idx, mis.itemHeight);
 		return idx;
 	}
 
@@ -288,7 +289,8 @@ public:
 				mis.itemID = idx;
 				mis.itemData = GetItemData(idx);
 				OnMeasureItem(&mis);
-				if (mis.itemHeight) SendMessage(m_hwnd, LB_SETITEMHEIGHT, idx, mis.itemHeight);
+				if (mis.itemHeight)
+					SendMessage(m_hwnd, LB_SETITEMHEIGHT, idx, mis.itemHeight);
 			}
 			SendMessage(m_hwnd, WM_SETREDRAW, TRUE, 0);
 			RedrawWindow(m_hwnd, nullptr, nullptr, RDW_INVALIDATE);

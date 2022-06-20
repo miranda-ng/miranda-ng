@@ -188,6 +188,21 @@ void CTabbedWindow::OnDestroy()
 		g_pTabDialog = nullptr;
 }
 
+void CTabbedWindow::OnResize()
+{
+	CDlgBase::OnResize();
+
+	SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
+
+	if (m_pEmbed) {
+		RECT rc;
+		GetClientRect(m_tab.GetHwnd(), &rc);
+		MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
+	}
+
+	SaveWindowPosition(false);
+}
+
 int CTabbedWindow::Resizer(UTILRESIZECONTROL *urc)
 {
 	if (urc->wId == IDC_TAB) {
@@ -639,17 +654,7 @@ INT_PTR CTabbedWindow::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	LRESULT res = CDlgBase::DlgProc(msg, wParam, lParam);
-	if (msg == WM_SIZE) {
-		SendMessage(m_hwndStatus, WM_SIZE, 0, 0);
-		if (m_pEmbed) {
-			GetClientRect(m_tab.GetHwnd(), &rc);
-			MoveWindow(m_pEmbed->GetHwnd(), 0, 0, rc.right - rc.left, rc.bottom - rc.top, FALSE);
-		}
-		SaveWindowPosition(false);
-	}
-
-	return res;
+	return CDlgBase::DlgProc(msg, wParam, lParam);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
