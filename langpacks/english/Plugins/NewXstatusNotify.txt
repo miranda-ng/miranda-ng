@@ -113,9 +113,9 @@
 [Sound files]
 [All files]
 [Wave files]
+[** All contacts **]
 [Status]
 [Sound file]
-[** All contacts **]
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 ;file \plugins\NewXstatusNotify\src\main.cpp

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -954,6 +954,7 @@
 [Mobile]
 [Work phone]
 [Work fax]
+[Contact]
 ;file \src\core\stduserinfo\src\stdinfo.cpp
 [Male]
 [Female]
@@ -970,7 +971,6 @@
 [It's complicated]
 [In a civil union]
 [Summary]
-[Contact]
 [Location]
 [Work]
 [Background info]

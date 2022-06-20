@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -185,7 +185,6 @@
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Creating unique name for a page failed with %d and error code %d]
 [Creating the label for a page failed with %d and error code %d]
-[The dialog template type is no longer supported]
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 [Delete an existing anniversary]
@@ -228,14 +227,6 @@
 [Could not find contact's protocol. Maybe it is not active!]
 [No pages have been added. Canceling dialog creation!]
 [Details dialog failed to be created. Returning error is %d.]
-[General]
-[Contact (private)]
-[Anniversaries]
-[Work]
-[Contact (work)]
-[About]
-[Profile]
-[Notes]
 [Export to file]
 [Import from file]
 [Owner]
@@ -321,18 +312,27 @@
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My notes:]
 [About:]
+[About]
+[Notes]
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 [No valid date selected for editing!]
 [Do you really want to delete the %s?]
+[General]
+[Anniversaries]
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
 [Open in browser]
+[home]
 [Primary e-mail]
 [Secondary e-mail]
 [Tertiary e-mail]
 [Address and contact]
 [company]
+[Contact (private)]
+[Contact (work)]
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -346,16 +346,18 @@
 [Advanced]
 [Details dialog]
 [Popups]
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 [Affiliation]
 [Interest]
-[Sorry, but there is a problem with adding a new item of type "%s"]
 [<empty>]
+[Sorry, but there is a problem with adding a new item of type "%s"]
 [Edit category]
 [Edit value]
 [Delete an entry]
 [Do you really want to delete this entry?]
+[Profile]
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 [Albanian]

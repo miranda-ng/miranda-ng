@@ -609,7 +609,6 @@
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [%s    Idle: %dh,%02dm]
 [  Client: %s]
-[  Client not cached yet]
 [Topic is: %s]
 [no topic set.]
 [Open user details...]
