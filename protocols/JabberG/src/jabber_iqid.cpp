@@ -31,49 +31,37 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void CJabberProto::OnIqResultServerItemsInfo(const TiXmlElement *iqNode, CJabberIqInfo *pInfo)
 {
-	if (iqNode == nullptr)
-		return;
-
-	if (pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
-		return;
-
 	const char *from = XmlGetAttr(iqNode, "from");
-	if (!from)
+	if (from == nullptr || pInfo->GetIqType() != JABBER_IQ_TYPE_RESULT)
 		return;
 
-	// HTTP Upload
+	int hul_ver = -1;
 	auto query = XmlGetChildByTag(iqNode, "query", "xmlns", JABBER_FEAT_DISCO_INFO);
+	for (auto *feature : TiXmlFilter(query, "feature")) {
+		auto *var = XmlGetAttr(feature, "var");
 
-	if (XmlGetChildByTag(query, "feature", "var", JABBER_FEAT_UPLOAD) || XmlGetChildByTag(query, "feature", "var", JABBER_FEAT_UPLOAD0)) {
+		// HTTP Upload
+		if (!mir_strcmp(var, JABBER_FEAT_UPLOAD0) && hul_ver < 0)
+			hul_ver = 0;
+		if (!mir_strcmp(var, JABBER_FEAT_UPLOAD))
+			hul_ver = 1;
+		
+		// TODO: SOCKS5 Proxy
+	}
+
+	if (hul_ver >= 0) {
+		m_bUseHttpUpload = true;
+		setString("HttpUpload", from);
+		setByte("HttpUploadVer", hul_ver);
+
 		for (auto *x : TiXmlFilter(query, "x")) {
-			if (mir_strcmp(XmlGetAttr(x, "type"), "result"))
+			if (mir_strcmp(XmlGetAttr(x, "type"), "result") || mir_strcmp(XmlGetAttr(x, "xmlns"), JABBER_FEAT_DATA_FORMS))
 				continue;
-			if (mir_strcmp(XmlGetAttr(x, "xmlns"), JABBER_FEAT_DATA_FORMS))
-				continue;
-
-			int iVersion = -1, iMaxSize = -1;
-			for (auto *field : TiXmlFilter(x, "field")) {
-				const char *var = XmlGetAttr(field, "var");
-				const char *value = XmlGetChildText(field, "value");
-				if (!mir_strcmp(var, "FORM_TYPE")) {
-					if (!mir_strcmp(value, JABBER_FEAT_UPLOAD0))
-						iVersion = 0;
-					if (!mir_strcmp(value, JABBER_FEAT_UPLOAD))
-						iVersion = 1;
-				}
-
-				if (!mir_strcmp(var, "max-file-size"))
-					iMaxSize = atoi(value);
-			}
-
-			if (iVersion > 0) {
-				m_bUseHttpUpload = true;
-				setString("HttpUpload", from);
-				setByte("HttpUploadVer", iVersion);
-				if (iMaxSize > 0)
-					setDword("HttpUploadMaxSize", iMaxSize);
-				break;
-			}
+			
+			if (auto *field = XmlGetChildByTag(x, "field", "var", "FORM_TYPE"))
+				if (!mir_strcmp(XmlGetChildText(field, "value"), hul_ver ? JABBER_FEAT_UPLOAD : JABBER_FEAT_UPLOAD0))
+					if (auto *sfield = XmlGetChildByTag(x, "field", "var", "max-file-size"))
+						setDword("HttpUploadMaxSize", atoi(XmlGetChildText(sfield, "value")));
 		}
 	}
 }
