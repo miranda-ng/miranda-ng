@@ -724,7 +724,7 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
 
-		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time & timezone requests (XEP-0202)"), m_proto->m_bAllowTimeReplies); 
+		m_options.AddOption(LPGENW("Security"), LPGENW("Allow local time and timezone requests (XEP-0202)"), m_proto->m_bAllowTimeReplies); 
 		m_options.AddOption(LPGENW("Security"), LPGENW("Allow servers to request version (XEP-0092)"), m_proto->m_bAllowVersionRequests);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Show information about operating system in version replies"), m_proto->m_bShowOSVersion);
 		m_options.AddOption(LPGENW("Security"), LPGENW("Accept only in band incoming filetransfers (don't disclose own IP)"), m_proto->m_bBsOnlyIBB);
