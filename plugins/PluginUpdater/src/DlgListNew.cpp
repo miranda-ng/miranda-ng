@@ -52,6 +52,8 @@ static int ImageList_AddIconFromIconLib(HIMAGELIST hIml, int i)
 
 class CMissingPLuginsDlg : public CDlgBase
 {
+	typedef CDlgBase CSuper;
+
 	bool m_bFillingList = false;
 	CMStringW m_wszFilter;
 	OBJLIST<FILEINFO> *todo;
@@ -102,7 +104,7 @@ class CMissingPLuginsDlg : public CDlgBase
 
 public:
 	CMissingPLuginsDlg(OBJLIST<FILEINFO> *param) :
-		CDlgBase(g_plugin, IDD_MISSINGPLUGINS),
+		CSuper(g_plugin, IDD_MISSINGPLUGINS),
 		todo(param),
 		btnOk(this, IDOK),
 		btnNone(this, IDC_SELNONE),
@@ -207,6 +209,15 @@ public:
 			return RD_ANCHORX_CENTRE;
 		}
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP | RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+
+	void OnResize() override
+	{
+		CSuper::OnResize();
+
+		RECT rc;
+		GetClientRect(m_list.GetHeader(), &rc);
+		m_list.SetColumnWidth(0, rc.right - rc.left - m_list.GetColumnWidth(1));
 	}
 
 	void onClick_List(CCtrlListView::TEventInfo *ev)
