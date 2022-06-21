@@ -231,3 +231,18 @@ INT_PTR __cdecl CVkProto::SvcSetListeningTo(WPARAM, LPARAM lParam)
 	RetrieveStatusMusic(wszListeningTo);
 	return 0;
 }
+
+HANDLE CVkProto::GetAwayMsg(MCONTACT hContact)
+{
+	ForkThread(&CVkProto::GetAwayMsgThread, (void *)hContact);
+	return (HANDLE)1;
+}
+
+void CVkProto::GetAwayMsgThread(void* p)
+{
+	Sleep(100);
+
+	MCONTACT hContact = (DWORD_PTR)p;
+	ptrW wszStatus(db_get_wsa(hContact, "CList", "StatusMsg"));
+	ProtoBroadcastAck(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, wszStatus);
+}

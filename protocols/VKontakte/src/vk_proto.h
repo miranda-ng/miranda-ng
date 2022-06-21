@@ -58,6 +58,7 @@ struct CVkProto : public PROTO<CVkProto>
 	int      AuthRequest(MCONTACT hContact, const wchar_t *szMessage) override;
 	INT_PTR  GetCaps(int type, MCONTACT hContact = 0) override;
 	int      GetInfo(MCONTACT hContact, int infoType) override;
+	HANDLE   GetAwayMsg(MCONTACT hContact) override;
 	HANDLE   SearchBasic(const wchar_t *id) override;
 	HANDLE   SearchByEmail(const wchar_t *email) override;
 	HANDLE   SearchByName(const wchar_t *nick, const wchar_t *firstName, const wchar_t *lastName) override;
@@ -413,6 +414,7 @@ private:
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 	CVkChatInfo* GetChatById(LPCWSTR pwszId);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
+	void __cdecl GetAwayMsgThread(void* p);
 };
 
 struct CMPlugin : public ACCPROTOPLUGIN<CVkProto>
