@@ -270,7 +270,7 @@ bool CJabberProto::OnIqRequestOOB(const TiXmlElement*, CJabberIqInfo *pInfo)
 	if (!pszUrl)
 		return true;
 
-	if (m_bBsOnlyIBB) {
+	if (!m_bBsDirect) {
 		// reject
 		XmlNodeIq iq("error", pInfo);
 		TiXmlElement *e = XmlAddChildA(iq, "error", "File transfer refused"); e->SetAttribute("code", 406);

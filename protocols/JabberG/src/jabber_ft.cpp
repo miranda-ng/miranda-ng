@@ -175,10 +175,10 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 		jcb = GetResourceCapabilities(ft->pItem->jid);
 	}
 
-	// fix for very smart clients, like gajim
-	if (!m_bBsDirect && !m_bBsProxyManual) {
-		// disable bytestreams
-		jcb &= ~JABBER_CAPS_BYTESTREAMS;
+	if (!m_bBsDirect) {
+		jcb &= ~JABBER_CAPS_OOB;
+		if(!m_bBsProxyManual) // disable bytestreams
+			jcb &= ~JABBER_CAPS_BYTESTREAMS;
 	}
 
 	// if only JABBER_CAPS_SI_FT feature set (without BS or IBB), disable JABBER_CAPS_SI_FT
@@ -415,7 +415,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 			(xNode = XmlGetChildByTag(featureNode, "x", "xmlns", JABBER_FEAT_DATA_FORMS)) != nullptr &&
 			(fieldNode = XmlGetChildByTag(xNode, "field", "var", "stream-method")) != nullptr) {
 
-			BOOL bIbbOnly = m_bBsOnlyIBB;
+			BOOL bIbbOnly = !m_bBsDirect;
 			const TiXmlElement *optionNode = nullptr;
 			JABBER_FT_TYPE ftType = FT_OOB;
 
@@ -515,7 +515,7 @@ bool CJabberProto::FtHandleBytestreamRequest(const TiXmlElement *iqNode, CJabber
 
 	const char *sid = XmlGetAttr(queryNode, "sid");
 	JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_FTRECV, sid);
-	if (sid && item) {
+	if (sid && item && m_bBsDirect) {
 		// Start Bytestream session
 		JABBER_BYTE_TRANSFER *jbt = new JABBER_BYTE_TRANSFER;
 		jbt->iqNode = iqNode->DeepClone(&jbt->doc)->ToElement();

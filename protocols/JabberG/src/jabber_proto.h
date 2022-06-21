@@ -191,7 +191,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bAutosaveNotes;
 	CMOption<bool> m_bBsDirect;
 	CMOption<bool> m_bBsDirectManual;
-	CMOption<bool> m_bBsOnlyIBB;
 	CMOption<bool> m_bBsProxyManual;
 	CMOption<bool> m_bDisable3920auth;
 	CMOption<bool> m_bDisableFrame;

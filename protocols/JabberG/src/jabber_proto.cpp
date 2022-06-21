@@ -89,7 +89,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bAutosaveNotes(this, "AutosaveNotes", false),
 	m_bBsDirect(this, "BsDirect", true),
 	m_bBsDirectManual(this, "BsDirectManual", false),
-	m_bBsOnlyIBB(this, "BsOnlyIBB", false),
 	m_bBsProxyManual(this, "BsProxyManual", false),
 	m_bDisable3920auth(this, "Disable3920auth", false),
 	m_bDisableFrame(this, "DisableFrame", true),
