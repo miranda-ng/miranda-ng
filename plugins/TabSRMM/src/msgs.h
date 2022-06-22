@@ -836,11 +836,6 @@ struct TIconDescW
 #define SRMSGDEFSET_BKGOUTCOLOUR   RGB(245,245,255)
 
 #define SRMSGSET_TYPING             "SupportTyping"
-#define SRMSGSET_TYPINGNEW          "DefaultTyping"
-#define SRMSGDEFSET_TYPINGNEW       1
-
-#define SRMSGSET_TYPINGUNKNOWN      "UnknownTyping"
-#define SRMSGDEFSET_TYPINGUNKNOWN   0
 
 #define SRMSGSET_SHOWTYPING         "ShowTyping"
 #define SRMSGDEFSET_SHOWTYPING      1
@@ -1075,6 +1070,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	HANDLE hLogger;
 
 	CMOption<bool> bPopups;
+	CMOption<bool> bTypingNew, bTypingUnknown;
 
 	CMPlugin();
 

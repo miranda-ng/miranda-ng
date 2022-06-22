@@ -67,6 +67,9 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 	if (Contact_IsHidden(hContact) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
+	if (!Contact_OnList(hContact) && !g_plugin.bTypingUnknown)
+		return;
+
 	if (!g_plugin.bPopups)
 		return;
 

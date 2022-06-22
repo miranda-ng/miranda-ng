@@ -1016,11 +1016,11 @@ class COptTypingDlg : public CDlgBase
 
 	void RebuildList(CCtrlClc* = nullptr)
 	{
-		uint8_t defType = g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW);
+		bool defType = g_plugin.bTypingNew;
 		if (hItemNew && defType)
 			m_clist.SetCheck(hItemNew, true);
 
-		if (hItemUnknown && g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		if (hItemUnknown && g_plugin.bTypingUnknown)
 			m_clist.SetCheck(hItemUnknown, true);
 
 		for (auto &hContact : Contacts())
@@ -1031,10 +1031,10 @@ class COptTypingDlg : public CDlgBase
 	void SaveList()
 	{
 		if (hItemNew)
-			g_plugin.setByte(SRMSGSET_TYPINGNEW, m_clist.GetCheck(hItemNew));
+			g_plugin.bTypingNew = m_clist.GetCheck(hItemNew);
 
 		if (hItemUnknown)
-			g_plugin.setByte(SRMSGSET_TYPINGUNKNOWN, m_clist.GetCheck(hItemUnknown));
+			g_plugin.bTypingUnknown = m_clist.GetCheck(hItemUnknown);
 
 		for (auto &hContact : Contacts())
 			if (HANDLE hItem = m_clist.FindContact(hContact))

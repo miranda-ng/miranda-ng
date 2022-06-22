@@ -961,7 +961,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 							pContainer->m_flags.m_bNoSound ? TranslateT("disabled") : TranslateT("enabled"));
 					}
 					else if (sid->dwId == MSG_ICON_UTN && dat->AllowTyping()) {
-						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);
 						mir_snwprintf(wBuf, TranslateT("Sending typing notifications is %s."),
 							mtnStatus ? TranslateT("enabled") : TranslateT("disabled"));
 					}

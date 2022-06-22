@@ -468,7 +468,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_SELFTYPING:
 		if (AllowTyping()) {
-			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW));
+			int iCurrentTypingMode = g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);
 			if (m_nTypeMode == PROTOTYPE_SELFTYPING_ON && iCurrentTypingMode) {
 				DM_NotifyTyping(PROTOTYPE_SELFTYPING_OFF);
 				m_nTypeMode = PROTOTYPE_SELFTYPING_OFF;
@@ -802,7 +802,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 		return;
 
 	// allow supression of sending out TN for the contact (NOTE: for metacontacts, do NOT use the subcontact handle)
-	if (!g_plugin.getByte(hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)))
+	if (!g_plugin.getByte(hContact, SRMSGSET_TYPING, g_plugin.bTypingNew))
 		return;
 
 	if (szProto == nullptr) // should not, but who knows...
@@ -833,7 +833,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 
 		// don't send to contacts which are not permanently added to the contact list,
 		// unless the option to ignore added status is set.
-		if (!Contact_OnList(m_hContact) && !g_plugin.getByte(SRMSGSET_TYPINGUNKNOWN, SRMSGDEFSET_TYPINGUNKNOWN))
+		if (!Contact_OnList(m_hContact) && !g_plugin.bTypingUnknown)
 			return;
 
 		// End user check
@@ -1223,7 +1223,7 @@ void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				if (AllowTyping()) {
 					DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-					DrawIconEx(hDC, x, y, g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.getByte(SRMSGSET_TYPINGNEW, SRMSGDEFSET_TYPINGNEW)) ?
+					DrawIconEx(hDC, x, y, g_plugin.getByte(m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew) ?
 						PluginConfig.g_iconOverlayEnabled : PluginConfig.g_iconOverlayDisabled, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 				}
 				else CSkin::DrawDimmedIcon(hDC, x, y, PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING], 50);
