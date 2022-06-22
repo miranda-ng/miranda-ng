@@ -1372,7 +1372,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	}
 
 	// we ignore messages without server id either if MAM is enabled
-	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_iMamMode != 0 && szMsgId == nullptr) {
+	if ((info->jabberServerCaps & JABBER_CAPS_MAM) && m_bEnableMam && m_iMamMode != 0 && szMsgId == nullptr) {
 		debugLogA("MAM is enabled, but there's no stanza-id: ignoting a message");
 		return;
 	}
