@@ -65,7 +65,7 @@ void CMPlugin::OptionsRead(void)
 	bShowON = getBool(OPT_SHOW_ON, true);
 	bHideSend = getBool(OPT_HIDESEND, true);
 	bNoRSS = getBool(OPT_NORSS, false);
-	bReadCheck = getBool(OPT_READCHECK, false);
+	bReadCheck = getBool(OPT_READCHECK, true);
 }
 
 void CMPlugin::OptionsWrite(void)

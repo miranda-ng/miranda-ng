@@ -145,12 +145,9 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	Contact_RemoveFromList(hContact);
 	Contact_Hide(hContact);
 
-	// save message from contact
+	// mark message as read and allow to insert it into the history
 	dbei->flags |= DBEF_READ;
-	db_event_add(hContact, dbei);
-
-	// reject processing of the event
-	return 1;
+	return 0;
 }
 
 int OnDbContactSettingchanged(WPARAM hContact, LPARAM l)
