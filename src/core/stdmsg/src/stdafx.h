@@ -144,9 +144,6 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 	int iX, iY;
 	int iSplitterX, iSplitterY;
 	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;
-
-	HFONT MessageAreaFont;
-	COLORREF MessageAreaColor;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

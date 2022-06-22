@@ -110,13 +110,6 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
-	if (g_Settings.MessageAreaFont)
-		DeleteObject(g_Settings.MessageAreaFont);
-
-	LOGFONT lf;
-	g_chatApi.LoadMsgDlgFont(17, &lf, &g_Settings.MessageAreaColor);
-	g_Settings.MessageAreaFont = CreateFontIndirect(&lf);
-
 	g_Settings.iX = db_get_dw(0, CHAT_MODULE, "roomx", -1);
 	g_Settings.iY = db_get_dw(0, CHAT_MODULE, "roomy", -1);
 
@@ -245,7 +238,5 @@ void Unload_ChatModule()
 	db_set_dw(0, CHAT_MODULE, "roomwidth", g_Settings.iWidth);
 	db_set_dw(0, CHAT_MODULE, "roomheight", g_Settings.iHeight);
 
-	if (g_Settings.MessageAreaFont)
-		DeleteObject(g_Settings.MessageAreaFont);
 	DestroyMenu(g_hMenu);
 }

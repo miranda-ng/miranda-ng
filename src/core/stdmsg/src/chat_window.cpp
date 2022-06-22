@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void CMsgDialog::LoadSettings()
 {
 	m_clrInputBG = db_get_dw(0, CHAT_MODULE, "ColorMessageBG", GetSysColor(COLOR_WINDOW));
-	m_clrInputFG = g_Settings.MessageAreaColor;
+	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, nullptr, &m_clrInputFG);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -63,17 +63,6 @@ void CMsgDialog::UpdateOptions()
 	Window_SetIcon_IcoLib(m_pOwner->GetHwnd(), g_plugin.getIconHandle(IDI_CHANMGR));
 
 	m_pLog->UpdateOptions();
-
-	CHARFORMAT2 cf;
-	cf.cbSize = sizeof(CHARFORMAT2);
-	cf.dwMask = CFM_COLOR | CFM_BOLD | CFM_UNDERLINE | CFM_BACKCOLOR;
-	cf.dwEffects = 0;
-	cf.crTextColor = g_Settings.MessageAreaColor;
-	cf.crBackColor = m_clrInputBG;
-	
-	m_message.SendMsg(EM_SETBKGNDCOLOR, 0, m_clrInputBG);
-	m_message.SendMsg(WM_SETFONT, (WPARAM)g_Settings.MessageAreaFont, MAKELPARAM(TRUE, 0));
-	m_message.SendMsg(EM_SETCHARFORMAT, SCF_ALL, (LPARAM)&cf);
 
 	// nicklist
 	int ih = Chat_GetTextPixelSize(L"AQGglo", g_Settings.UserListFont, FALSE);
