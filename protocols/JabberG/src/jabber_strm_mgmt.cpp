@@ -198,7 +198,8 @@ void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
 
 	m_nStrmMgmtLocalSCount++;
 	NodeCache.push_back(pNodeCopy);
-	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize)
+	if ((m_nStrmMgmtLocalSCount - m_nStrmMgmtSrvHCount) >= m_nStrmMgmtCacheSize
+		|| m_nStrmMgmtLocalSCount % 3 == 0)
 		RequestAck();
 }
 
@@ -213,14 +214,20 @@ void strm_mgmt::ResetState()
 	m_sStrmMgmtResumeId.clear();
 }
 
-void strm_mgmt::HandleIncommingNode(const TiXmlElement *node)
+bool strm_mgmt::HandleIncommingNode(const TiXmlElement *node)
 {
-	if (m_bStrmMgmtEnabled && mir_strcmp(node->Name(), "r") && mir_strcmp(node->Name(), "a")) //TODO: something better
-		m_nStrmMgmtLocalHCount++;
-	else if (!mir_strcmp(node->Name(), "r"))
+	if (!m_bStrmMgmtEnabled)
+		return false;
+
+	if (!mir_strcmp(node->Name(), "r"))
 		OnProcessSMr(node);
 	else if (!mir_strcmp(node->Name(), "a"))
 		OnProcessSMa(node);
+	else {
+		m_nStrmMgmtLocalHCount++;
+		return false;
+	}
+	return true;
 }
 
 void strm_mgmt::EnableStrmMgmt()

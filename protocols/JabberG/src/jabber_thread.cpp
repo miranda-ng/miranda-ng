@@ -152,9 +152,6 @@ void CJabberProto::CheckKeepAlive()
 		}
 	}
 
-	if (m_bEnableStreamMgmt)
-		m_StrmMgmt.RequestAck();
-
 	// check expired iq requests
 	m_iqManager.CheckExpired();
 
@@ -836,7 +833,9 @@ void CJabberProto::OnProcessProtocol(const TiXmlElement *node, ThreadData *info)
 	OnConsoleProcessXml(node, JCPF_IN);
 
 	if (m_bEnableStreamMgmt)
-		m_StrmMgmt.HandleIncommingNode(node);
+		if(m_StrmMgmt.HandleIncommingNode(node))
+			return;
+
 	if (!mir_strcmp(node->Name(), "proceed"))
 		OnProcessProceed(node, info);
 	else if (!mir_strcmp(node->Name(), "compressed"))

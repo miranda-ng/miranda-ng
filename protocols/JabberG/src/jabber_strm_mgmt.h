@@ -48,7 +48,7 @@ public:
 	strm_mgmt(CJabberProto *proto);
 	void EnableStrmMgmt();
 	void HandleOutgoingNode(TiXmlElement *node);
-	void HandleIncommingNode(const TiXmlElement *node);
+	bool HandleIncommingNode(const TiXmlElement *node);
 	void OnProcessEnabled(const TiXmlElement *node, ThreadData *info);
 	void OnProcessResumed(const TiXmlElement *node, ThreadData *info);
 	void OnProcessFailed(const TiXmlElement *node, ThreadData * info);
