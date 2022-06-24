@@ -196,6 +196,13 @@ HRESULT CFormattedTextDraw::Create()
 
 HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *Height)
 {
+	if (hdcDraw == 0)
+		return S_FALSE;
+
+	int iCaps = GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
+	if (iCaps == 0)
+		return S_FALSE;
+
 	LOGFONT lf;
 	GetObject(GetCurrentObject((HDC)hdcDraw, OBJ_FONT), sizeof(lf), &lf);
 
@@ -210,7 +217,7 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 	cf.dwEffects = CFE_BOLD | CFE_ITALIC | CFE_STRIKEOUT | CFE_UNDERLINE;
 	cf.crTextColor = GetTextColor((HDC)hdcDraw);
 	cf.bCharSet = lf.lfCharSet;
-	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
+	cf.yHeight = 1440 * abs(lf.lfHeight) / iCaps;
 	wcsncpy_s(cf.szFaceName, lf.lfFaceName, _TRUNCATE);
 
 	if (!m_spTextServices)
