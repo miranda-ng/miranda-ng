@@ -3,12 +3,12 @@
 using namespace Microsoft::WRL;
 
 ToastNotification::ToastNotification(
-	_In_ wchar_t* text,
-	_In_ wchar_t* caption, 
-	_In_ wchar_t* imagePath,
+	_In_ wchar_t *text,
+	_In_ wchar_t *caption,
+	_In_ wchar_t *imagePath,
 	MCONTACT hContact,
 	WNDPROC pWndProc,
-	void *pData )
+	void *pData)
 	: _text(text), _caption(caption), _imagePath(imagePath), _hContact(hContact), _pfnPopupProc(pWndProc), _pvPopupData(pData)
 {
 	{
@@ -34,8 +34,7 @@ ToastNotification::~ToastNotification()
 	notifier->Hide(notification.Get());
 }
 
-
-HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument** xml)
+HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument **xml)
 {
 	ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocumentIO> xmlDocument;
 	CHECKHR(Windows::Foundation::ActivateInstance(StringReferenceWrapper(RuntimeClass_Windows_Data_Xml_Dom_XmlDocument).Get(), &xmlDocument));
@@ -50,7 +49,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 
 	TiXmlElement *xmlBindingNode = doc.NewElement("binding"); xmlVisualNode->InsertEndChild(xmlBindingNode);
 	xmlBindingNode->SetAttribute("template", "ToastImageAndText02");
-	
+
 	if (_imagePath) {
 		TiXmlElement *xmlImageNode = doc.NewElement("image"); xmlBindingNode->InsertEndChild(xmlImageNode);
 		xmlImageNode->SetAttribute("id", 1);
@@ -59,7 +58,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 
 	TiXmlElement *xmlTitleNode = doc.NewElement("text"); xmlBindingNode->InsertEndChild(xmlTitleNode);
 	xmlTitleNode->SetAttribute("id", 1); xmlTitleNode->SetText(_caption != nullptr ? _caption : L"Miranda NG");
-	
+
 	if (_text) {
 		TiXmlElement *xmlTextNode = doc.NewElement("text"); xmlBindingNode->InsertEndChild(xmlTextNode);
 		xmlTextNode->SetAttribute("id", 2); xmlTextNode->SetText(_text);
@@ -73,7 +72,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	return xmlDocument.CopyTo(xml);
 }
 
-HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification** _notification)
+HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToastNotification **_notification)
 {
 	ComPtr<ABI::Windows::Data::Xml::Dom::IXmlDocument> xml;
 	CHECKHR(CreateXml(&xml));
@@ -84,14 +83,14 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 	return factory->CreateToastNotification(xml.Get(), _notification);
 }
 
-HRESULT ToastNotification::OnActivate(_In_ ABI::Windows::UI::Notifications::IToastNotification*, IInspectable*)
+HRESULT ToastNotification::OnActivate(_In_ ABI::Windows::UI::Notifications::IToastNotification *, IInspectable *)
 {
 	CallPopupProc(WM_COMMAND);
 	Destroy();
 	return S_OK;
 }
 
-HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs *e)
+HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification *, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs *e)
 {
 	if (_signature == TOAST_SIGNATURE) {
 		ABI::Windows::UI::Notifications::ToastDismissalReason tdr;
@@ -103,7 +102,7 @@ HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToas
 	return S_OK;
 }
 
-HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*)
+HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification *, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs *)
 {
 	if (_signature == TOAST_SIGNATURE)
 		Destroy();

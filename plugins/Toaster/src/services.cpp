@@ -5,7 +5,7 @@ OBJLIST<ToastNotification> lstNotifications(2, PtrKeySortT);
 std::map<std::string, ClassData*> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
 
-void __stdcall ShowToastNotification(void* p)
+void __stdcall ShowToastNotification(void *p)
 {
 	std::unique_ptr<ToastData> td((ToastData*)p);
 
@@ -78,13 +78,11 @@ static INT_PTR CreatePopup2(WPARAM wParam, LPARAM)
 	POPUPDATA2 *ppd = (POPUPDATA2*)wParam;
 
 	ptrW text, title;
-	if (ppd->flags & PU2_UNICODE)
-	{
+	if (ppd->flags & PU2_UNICODE) {
 		text = mir_wstrdup(ppd->szText.w);
 		title = mir_wstrdup(ppd->szTitle.w);
 	}
-	else
-	{
+	else {
 		text = mir_a2u(ppd->szText.a);
 		title = mir_a2u(ppd->szTitle.a);
 	}
@@ -120,8 +118,7 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 	POPUPDATACLASS *ppc = (POPUPDATACLASS*)lParam;
 
 	auto it = mp_Classes.find(ppc->pszClassName);
-	if (it != mp_Classes.end())
-	{
+	if (it != mp_Classes.end()) {
 		ToastData *td;
 		if (it->second->iFlags & PCF_UNICODE)
 			td = new ToastData(ppc->hContact, ppc->szTitle.w, ppc->szText.w, it->second->hIcon);
@@ -139,10 +136,8 @@ static INT_PTR CreateClassPopup(WPARAM, LPARAM lParam)
 
 static INT_PTR UnRegisterPopupClass(WPARAM, LPARAM lParam)
 {
-	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++)
-	{
-		if (it->second == (void*)lParam)
-		{
+	for (auto it = mp_Classes.begin(); it != mp_Classes.end(); it++) {
+		if (it->second == (void *)lParam) {
 			delete it->second;
 			mp_Classes.erase(it);
 			break;
@@ -161,8 +156,7 @@ void CleanupClasses()
 static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon = nullptr;
-	switch (lParam)
-	{
+	switch (lParam) {
 	case SM_WARNING:
 		hIcon = Skin_LoadIcon(SKINICON_WARNING, 1);
 		break;
@@ -174,7 +168,7 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 		break;
 	}
 
-	ToastData *td = new ToastData(NULL, nullptr, (wchar_t*)wParam, hIcon);
+	ToastData *td = new ToastData(NULL, nullptr, (wchar_t *)wParam, hIcon);
 	CallFunctionAsync(ShowToastNotification, td);
 
 	return 0;
@@ -182,19 +176,20 @@ static INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 {
-	ptrW tszText(mir_utf8decodeW((char*)wParam));
+	ptrW tszText(mir_utf8decodeW((char *)wParam));
 	return ShowMessageW(tszText, lParam);
 }
 
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
-	ToastNotification* pNotification = reinterpret_cast<ToastNotification*>(lParam);
+	ToastNotification *pNotification = reinterpret_cast<ToastNotification *>(lParam);
 	mir_cslock lck(csNotifications);
 	if (lstNotifications.getIndex(pNotification) != -1)
 		lstNotifications.remove(pNotification);
 	return 0;
 }
-void __stdcall HideAllToasts(void*)
+
+void HideAllToasts()
 {
 	mir_cslock lck(csNotifications);
 	while (lstNotifications.getCount())

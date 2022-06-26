@@ -54,7 +54,7 @@ extern OBJLIST<ToastNotification> lstNotifications;
 
 void CleanupClasses();
 void InitServices();
-void __stdcall HideAllToasts(void*);
+void HideAllToasts();
 
 int OnOptionsInitialized(WPARAM wParam, LPARAM);
 

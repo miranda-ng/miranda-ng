@@ -28,9 +28,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_POPUP,
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnPreShutdown(WPARAM, LPARAM)
+static int OnShutdown(WPARAM, LPARAM)
 {
 	CleanupClasses();
+	HideAllToasts();
 	DeleteDirectoryTreeW(wszTempDir);
 	return 0;
 }
@@ -43,7 +44,7 @@ int CMPlugin::Load()
 	}
 
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialized);
-	HookEvent(ME_SYSTEM_PRESHUTDOWN, &OnPreShutdown);
+	HookEvent(ME_SYSTEM_SHUTDOWN, &OnShutdown);
 
 	InitServices();
 
