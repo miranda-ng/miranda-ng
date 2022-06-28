@@ -28,10 +28,15 @@ ToastNotification::ToastNotification(
 
 ToastNotification::~ToastNotification()
 {
+	if (_signature != TOAST_SIGNATURE)
+		return;
+
 	_signature = 0;
 	if (_pvPopupData != nullptr)
 		CallPopupProc(UM_FREEPLUGINDATA);
-	notifier->Hide(notification.Get());
+
+	if (notification)
+		notifier->Hide(notification.Get());
 }
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument **xml)
