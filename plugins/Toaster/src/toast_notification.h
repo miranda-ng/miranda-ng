@@ -37,7 +37,7 @@ public:
 	HRESULT OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
 	HRESULT OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
 
-	void Hide();
+	void Destroy();
 
 	__forceinline bool IsValid() const
 	{	return _signature == TOAST_SIGNATURE;

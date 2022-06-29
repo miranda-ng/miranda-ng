@@ -356,7 +356,13 @@ MIR_CORE_DLL(void) EnterMessageLoop()
 
 MIR_CORE_DLL(void) LeaveMessageLoop()
 {
-	OleUninitialize();
+	// Dragons live there...
+	__try {
+		OleUninitialize();
+	}
+	__except (EXCEPTION_EXECUTE_HANDLER)
+	{
+	}
 
 	if (bufferedPaintUninit) {
 		bufferedPaintUninit();
