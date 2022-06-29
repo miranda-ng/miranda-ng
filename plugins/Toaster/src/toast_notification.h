@@ -37,6 +37,8 @@ public:
 	HRESULT OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
 	HRESULT OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
 
+	void Hide();
+
 	__forceinline bool IsValid() const
 	{	return _signature == TOAST_SIGNATURE;
 	}
@@ -52,6 +54,4 @@ public:
 	__forceinline LRESULT CallPopupProc(UINT uMsg)
 	{	return (_pfnPopupProc ? _pfnPopupProc((HWND)this, uMsg, 0, 0) : 0);
 	}
-
-	void Destroy();
 };

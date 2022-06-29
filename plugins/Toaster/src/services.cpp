@@ -181,7 +181,8 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
 	auto *pNotification = (ToastNotification*)lParam;
-	pNotification->Destroy();
+	if (pNotification)
+		pNotification->Hide();
 	return 0;
 }
 

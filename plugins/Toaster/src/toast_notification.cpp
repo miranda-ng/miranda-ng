@@ -46,9 +46,6 @@ ToastNotification::~ToastNotification()
 	_signature = 0;
 	if (_pvPopupData != nullptr)
 		CallPopupProc(UM_FREEPLUGINDATA);
-
-	if (notification)
-		notifier->Hide(notification.Get());
 }
 
 HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXmlDocument **xml)
@@ -103,7 +100,11 @@ HRESULT ToastNotification::Create(_Outptr_ ABI::Windows::UI::Notifications::IToa
 HRESULT ToastNotification::OnActivate(_In_ ABI::Windows::UI::Notifications::IToastNotification *, IInspectable *)
 {
 	CallPopupProc(WM_COMMAND);
-	Destroy();
+	{
+		mir_cslock lck(csNotifications);
+		lstNotifications.remove(this);
+	}
+	delete this;
 	return S_OK;
 }
 
@@ -114,7 +115,7 @@ HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToas
 		CHECKHR(e->get_Reason(&tdr));
 		if (tdr == ABI::Windows::UI::Notifications::ToastDismissalReason_UserCanceled)
 			CallPopupProc(WM_CONTEXTMENU);
-		Destroy();
+		Hide();
 	}
 	return S_OK;
 }
@@ -122,14 +123,12 @@ HRESULT ToastNotification::OnDismiss(_In_ ABI::Windows::UI::Notifications::IToas
 HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification *, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs *)
 {
 	if (_signature == TOAST_SIGNATURE)
-		Destroy();
+		Hide();
 	return S_OK;
 }
 
-void ToastNotification::Destroy()
+void ToastNotification::Hide()
 {
-	{	mir_cslock lck(csNotifications);
-		lstNotifications.remove(this);
-	}
-	delete this;
+	if (notification)
+		notifier->Hide(notification.Get());
 }
