@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-mir_cs csNotifications;
-OBJLIST<ToastNotification> lstNotifications(2, PtrKeySortT);
 std::map<std::string, ClassData*> mp_Classes;
 wchar_t wszTempDir[MAX_PATH];
 
@@ -182,18 +180,9 @@ static INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR HideToast(WPARAM, LPARAM lParam)
 {
-	ToastNotification *pNotification = reinterpret_cast<ToastNotification *>(lParam);
-	mir_cslock lck(csNotifications);
-	if (lstNotifications.getIndex(pNotification) != -1)
-		lstNotifications.remove(pNotification);
+	auto *pNotification = (ToastNotification*)lParam;
+	pNotification->Destroy();
 	return 0;
-}
-
-void HideAllToasts()
-{
-	mir_cslock lck(csNotifications);
-	while (lstNotifications.getCount())
-		lstNotifications.remove(0);
 }
 
 void InitServices()

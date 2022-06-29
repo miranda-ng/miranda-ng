@@ -8,7 +8,6 @@ typedef __FITypedEventHandler_2_Windows__CUI__CNotifications__CToastNotification
 
 class ToastNotification
 {
-private:
 	uint32_t _signature = TOAST_SIGNATURE;
 	MCONTACT _hContact;
 
@@ -38,14 +37,19 @@ public:
 	HRESULT OnDismiss(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastDismissedEventArgs*);
 	HRESULT OnFail(_In_ ABI::Windows::UI::Notifications::IToastNotification*, _In_ ABI::Windows::UI::Notifications::IToastFailedEventArgs*);
 
-	inline void* GetPluginData()
+	__forceinline bool IsValid() const
+	{	return _signature == TOAST_SIGNATURE;
+	}
+
+	__forceinline void* GetPluginData() const
 	{	return _pvPopupData;
 	}
-	inline MCONTACT GetContact()
+	
+	__forceinline MCONTACT GetContact() const
 	{	return _hContact;
 	}
 
-	inline LRESULT CallPopupProc(UINT uMsg)
+	__forceinline LRESULT CallPopupProc(UINT uMsg)
 	{	return (_pfnPopupProc ? _pfnPopupProc((HWND)this, uMsg, 0, 0) : 0);
 	}
 

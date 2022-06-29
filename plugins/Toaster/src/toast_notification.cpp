@@ -2,6 +2,21 @@
 #include <wrl.h>
 using namespace Microsoft::WRL;
 
+static mir_cs csNotifications;
+static LIST<ToastNotification> lstNotifications(10, PtrKeySortT);
+
+void HideAllToasts()
+{
+	mir_cslock lck(csNotifications);
+	for (auto &it : lstNotifications.rev_iter())
+		if (it->IsValid())
+			delete it;
+
+	lstNotifications.destroy();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 ToastNotification::ToastNotification(
 	_In_ wchar_t *text,
 	_In_ wchar_t *caption,
@@ -28,9 +43,6 @@ ToastNotification::ToastNotification(
 
 ToastNotification::~ToastNotification()
 {
-	if (_signature != TOAST_SIGNATURE)
-		return;
-
 	_signature = 0;
 	if (_pvPopupData != nullptr)
 		CallPopupProc(UM_FREEPLUGINDATA);
@@ -72,7 +84,7 @@ HRESULT ToastNotification::CreateXml(_Outptr_ ABI::Windows::Data::Xml::Dom::IXml
 	tinyxml2::XMLPrinter printer(0, true);
 	doc.Print(&printer);
 	Utf2T xtmp(printer.CStr());
-	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, mir_wstrlen(xtmp)).Get()));
+	CHECKHR(xmlDocument->LoadXml(StringReferenceWrapper(xtmp, (UINT32)mir_wstrlen(xtmp)).Get()));
 
 	return xmlDocument.CopyTo(xml);
 }
@@ -116,6 +128,8 @@ HRESULT ToastNotification::OnFail(_In_ ABI::Windows::UI::Notifications::IToastNo
 
 void ToastNotification::Destroy()
 {
-	mir_cslock lck(csNotifications);
-	lstNotifications.remove(this);
+	{	mir_cslock lck(csNotifications);
+		lstNotifications.remove(this);
+	}
+	delete this;
 }

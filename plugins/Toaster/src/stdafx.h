@@ -41,10 +41,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Load() override;
 };
 
-class ToastNotification;
-extern mir_cs csNotifications;
 extern wchar_t wszTempDir[MAX_PATH];
-extern OBJLIST<ToastNotification> lstNotifications;
 
 #include "string_reference_wrapper.h"
 #include "utils.h"
