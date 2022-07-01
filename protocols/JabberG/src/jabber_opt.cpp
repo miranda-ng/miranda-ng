@@ -908,7 +908,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_GTALK, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
 
 	bool OnInitDialog() override
 	{
@@ -942,7 +942,6 @@ protected:
 		m_cbType.AddString(TranslateT("Public XMPP Network"), ACC_PUBLIC);
 		m_cbType.AddString(TranslateT("Secure XMPP Network"), ACC_TLS);
 		m_cbType.AddString(TranslateT("Secure XMPP Network (old style)"), ACC_SSL);
-		m_cbType.AddString(TranslateT("Google Talk!"), ACC_GTALK);
 		m_cbType.AddString(TranslateT("Hipchat"), ACC_HIPCHAT);
 		m_cbType.AddString(TranslateT("LiveJournal Talk"), ACC_LJTALK);
 		m_cbType.AddString(TranslateT("League Of Legends (EU Nordic)"), ACC_LOL_EN);
@@ -959,11 +958,7 @@ protected:
 			mir_strncpy(manualServer, dbManualServer, _countof(manualServer));
 
 		m_canregister = true;
-		if (!mir_strcmp(manualServer, "talk.google.com")) {
-			m_cbType.SetCurSel(ACC_GTALK);
-			m_canregister = false;
-		}
-		else if (!mir_strcmp(server, "chat.hipchat.com")) {
+		if (!mir_strcmp(server, "chat.hipchat.com")) {
 			m_cbType.SetCurSel(ACC_HIPCHAT);
 			m_canregister = false;
 		}
@@ -1067,21 +1062,6 @@ protected:
 		switch (m_cbType.GetItemData(m_cbType.GetCurSel())) {
 		case ACC_PUBLIC:
 			m_proto->m_bUseSSL = m_proto->m_bUseTLS = false;
-			break;
-
-		case ACC_GTALK:
-			m_proto->setDword("Priority", 24);
-			{
-				int port = m_txtPort.GetInt();
-				if (port == 443 || port == 5223) {
-					m_proto->m_bUseSSL = true;
-					m_proto->m_bUseTLS = false;
-				}
-				else if (port == 5222) {
-					m_proto->m_bUseSSL = false;
-					m_proto->m_bUseTLS = true;
-				}
-			}
 			break;
 
 		case ACC_OK:
@@ -1246,7 +1226,6 @@ private:
 		case ACC_PUBLIC: setupPublic(); break;
 		case ACC_TLS: setupSecure(); break;
 		case ACC_SSL: setupSecureSSL(); break;
-		case ACC_GTALK: setupGoogle(); break;
 		case ACC_HIPCHAT: setupHipchat(); break;
 		case ACC_LJTALK: setupLJ(); break;
 		case ACC_LOL_EN: setupLOLEN(); break;
@@ -1298,20 +1277,6 @@ private:
 		m_txtManualHost.Disable();
 		m_txtPort.Disable();
 		m_btnRegister.Enable();
-	}
-
-	void setupGoogle()
-	{
-		m_canregister = false;
-		m_txtServer.SetTextA("gmail.com");
-		m_chkManualHost.SetState(BST_CHECKED);
-		m_txtManualHost.SetTextA("talk.google.com");
-		m_txtPort.SetInt(443);
-
-		m_txtServer.Enable();
-		m_chkManualHost.Disable();
-		m_txtManualHost.Disable();
-		m_btnRegister.Disable();
 	}
 
 	void setupHipchat()
