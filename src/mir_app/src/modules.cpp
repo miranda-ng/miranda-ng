@@ -95,7 +95,6 @@ int LoadDefaultModules(void)
 	if (LoadNetlibModule()) return 1;
 
 	// database is available here
-	InitIni();
 	if (LoadButtonModule()) return 1;
 	if (LoadIcoLibModule()) return 1;
 	if (LoadSkinIcons()) return 1;
@@ -119,6 +118,7 @@ int LoadDefaultModules(void)
 		plugin_service = nullptr;
 	}
 
+	InitIni();
 	if (LoadSkinSounds()) return 1;
 	if (LoadSkinHotkeys()) return 1;
 	if (LoadFontserviceModule()) return 1;
