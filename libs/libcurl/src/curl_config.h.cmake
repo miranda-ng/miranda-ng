@@ -18,6 +18,8 @@
  * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
  * KIND, either express or implied.
  *
+ * SPDX-License-Identifier: curl
+ *
  ***************************************************************************/
 /* lib/curl_config.h.in.  Generated somehow by cmake.  */
 
@@ -156,6 +158,9 @@
 
 /* Define to 1 if you have the <assert.h> header file. */
 #cmakedefine HAVE_ASSERT_H 1
+
+/* Define to 1 if you have the `fchmod' function. */
+#cmakedefine HAVE_FCHMOD 1
 
 /* Define to 1 if you have the `basename' function. */
 #cmakedefine HAVE_BASENAME 1
@@ -382,6 +387,12 @@
 
 /* Define to 1 if you have the `socket' library (-lsocket). */
 #cmakedefine HAVE_LIBSOCKET 1
+
+/* Define to 1 if you have the `psl' library (-lpsl). */
+#cmakedefine HAVE_LIBPSL 1
+
+/* Define to 1 if you have the <libpsl.h> header file. */
+#cmakedefine HAVE_LIBPSL_H 1
 
 /* Define to 1 if you have the `ssh2' library (-lssh2). */
 #cmakedefine HAVE_LIBSSH2 1
@@ -914,6 +925,9 @@ ${SIZEOF_TIME_T_CODE}
 
 /* if libSSH2 is in use */
 #cmakedefine USE_LIBSSH2 1
+
+/* if libPSL is in use */
+#cmakedefine USE_LIBPSL 1
 
 /* If you want to build curl with the built-in manual */
 #cmakedefine USE_MANUAL 1

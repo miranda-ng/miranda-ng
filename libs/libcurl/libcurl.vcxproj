@@ -143,6 +143,9 @@
     <ClCompile Include="src\fileinfo.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\fopen.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\formdata.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -493,10 +496,12 @@
     <ClInclude Include="src\dotdot.h" />
     <ClInclude Include="src\dynbuf.h" />
     <ClInclude Include="src\easyif.h" />
+    <ClInclude Include="src\easy_lock.h" />
     <ClInclude Include="src\easyoptions.h" />
     <ClInclude Include="src\escape.h" />
     <ClInclude Include="src\file.h" />
     <ClInclude Include="src\fileinfo.h" />
+    <ClInclude Include="src\fopen.h" />
     <ClInclude Include="src\formdata.h" />
     <ClInclude Include="src\ftp.h" />
     <ClInclude Include="src\ftplistparser.h" />

@@ -18,6 +18,8 @@
 # This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
 # KIND, either express or implied.
 #
+# SPDX-License-Identifier: curl
+#
 ###########################################################################
 
 LIB_VAUTH_CFILES =      \
@@ -135,6 +137,7 @@ LIB_CFILES =         \
   escape.c           \
   file.c             \
   fileinfo.c         \
+  fopen.c            \
   formdata.c         \
   ftp.c              \
   ftplistparser.c    \
@@ -262,11 +265,13 @@ LIB_HFILES =         \
   doh.h              \
   dotdot.h           \
   dynbuf.h           \
+  easy_lock.h        \
   easyif.h           \
   easyoptions.h      \
   escape.h           \
   file.h             \
   fileinfo.h         \
+  fopen.h            \
   formdata.h         \
   ftp.h              \
   ftplistparser.h    \

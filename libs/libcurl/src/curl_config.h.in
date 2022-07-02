@@ -42,6 +42,9 @@
 /* to disable Gopher */
 #undef CURL_DISABLE_GOPHER
 
+/* disable headers-api */
+#undef CURL_DISABLE_HEADERS_API
+
 /* disable alt-svc */
 #undef CURL_DISABLE_HSTS
 
@@ -150,6 +153,9 @@
 /* Define to 1 if you have the <assert.h> header file. */
 #undef HAVE_ASSERT_H
 
+/* Define to 1 if you have _Atomic support. */
+#undef HAVE_ATOMIC
+
 /* Define to 1 if you have the basename function. */
 #undef HAVE_BASENAME
 
@@ -198,6 +204,9 @@
 
 /* Define to 1 if you have the <err.h> header file. */
 #undef HAVE_ERR_H
+
+/* Define to 1 if you have the `fchmod' function. */
+#undef HAVE_FCHMOD
 
 /* Define to 1 if you have the fcntl function. */
 #undef HAVE_FCNTL
@@ -461,6 +470,9 @@
 /* Define to 1 if you have the <netinet/tcp.h> header file. */
 #undef HAVE_NETINET_TCP_H
 
+/* Define to 1 if you have the <netinet/udp.h> header file. */
+#undef HAVE_NETINET_UDP_H
+
 /* Define to 1 if you have the <net/if.h> header file. */
 #undef HAVE_NET_IF_H
 
@@ -550,11 +562,17 @@
 /* Define to 1 if you have the <rsa.h> header file. */
 #undef HAVE_RSA_H
 
+/* Define to 1 if you have the `sched_yield' function. */
+#undef HAVE_SCHED_YIELD
+
 /* Define to 1 if you have the select function. */
 #undef HAVE_SELECT
 
 /* Define to 1 if you have the send function. */
 #undef HAVE_SEND
+
+/* Define to 1 if you have the `sendmsg' function. */
+#undef HAVE_SENDMSG
 
 /* Define to 1 if you have the <setjmp.h> header file. */
 #undef HAVE_SETJMP_H
@@ -941,9 +959,6 @@
 
 /* GSASL support enabled */
 #undef USE_GSASL
-
-/* enable headers-api */
-#undef USE_HEADERS_API
 
 /* if hyper is in use */
 #undef USE_HYPER

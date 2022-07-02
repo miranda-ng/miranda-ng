@@ -34,6 +34,8 @@
 # This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
 # KIND, either express or implied.
 #
+# SPDX-License-Identifier: curl
+#
 ###########################################################################
 
 VPATH = @srcdir@
@@ -203,7 +205,7 @@ am__objects_1 = libcurl_la-altsvc.lo libcurl_la-amigaos.lo \
 	libcurl_la-doh.lo libcurl_la-dotdot.lo libcurl_la-dynbuf.lo \
 	libcurl_la-easy.lo libcurl_la-easygetopt.lo \
 	libcurl_la-easyoptions.lo libcurl_la-escape.lo \
-	libcurl_la-file.lo libcurl_la-fileinfo.lo \
+	libcurl_la-file.lo libcurl_la-fileinfo.lo libcurl_la-fopen.lo \
 	libcurl_la-formdata.lo libcurl_la-ftp.lo \
 	libcurl_la-ftplistparser.lo libcurl_la-getenv.lo \
 	libcurl_la-getinfo.lo libcurl_la-gopher.lo libcurl_la-h2h3.lo \
@@ -292,23 +294,23 @@ am__objects_9 = libcurlu_la-altsvc.lo libcurlu_la-amigaos.lo \
 	libcurlu_la-easy.lo libcurlu_la-easygetopt.lo \
 	libcurlu_la-easyoptions.lo libcurlu_la-escape.lo \
 	libcurlu_la-file.lo libcurlu_la-fileinfo.lo \
-	libcurlu_la-formdata.lo libcurlu_la-ftp.lo \
-	libcurlu_la-ftplistparser.lo libcurlu_la-getenv.lo \
-	libcurlu_la-getinfo.lo libcurlu_la-gopher.lo \
-	libcurlu_la-h2h3.lo libcurlu_la-hash.lo libcurlu_la-headers.lo \
-	libcurlu_la-hmac.lo libcurlu_la-hostasyn.lo \
-	libcurlu_la-hostip.lo libcurlu_la-hostip4.lo \
-	libcurlu_la-hostip6.lo libcurlu_la-hostsyn.lo \
-	libcurlu_la-hsts.lo libcurlu_la-http.lo libcurlu_la-http2.lo \
-	libcurlu_la-http_chunks.lo libcurlu_la-http_digest.lo \
-	libcurlu_la-http_negotiate.lo libcurlu_la-http_ntlm.lo \
-	libcurlu_la-http_proxy.lo libcurlu_la-http_aws_sigv4.lo \
-	libcurlu_la-idn_win32.lo libcurlu_la-if2ip.lo \
-	libcurlu_la-imap.lo libcurlu_la-inet_ntop.lo \
-	libcurlu_la-inet_pton.lo libcurlu_la-krb5.lo \
-	libcurlu_la-ldap.lo libcurlu_la-llist.lo libcurlu_la-md4.lo \
-	libcurlu_la-md5.lo libcurlu_la-memdebug.lo libcurlu_la-mime.lo \
-	libcurlu_la-mprintf.lo libcurlu_la-mqtt.lo \
+	libcurlu_la-fopen.lo libcurlu_la-formdata.lo \
+	libcurlu_la-ftp.lo libcurlu_la-ftplistparser.lo \
+	libcurlu_la-getenv.lo libcurlu_la-getinfo.lo \
+	libcurlu_la-gopher.lo libcurlu_la-h2h3.lo libcurlu_la-hash.lo \
+	libcurlu_la-headers.lo libcurlu_la-hmac.lo \
+	libcurlu_la-hostasyn.lo libcurlu_la-hostip.lo \
+	libcurlu_la-hostip4.lo libcurlu_la-hostip6.lo \
+	libcurlu_la-hostsyn.lo libcurlu_la-hsts.lo libcurlu_la-http.lo \
+	libcurlu_la-http2.lo libcurlu_la-http_chunks.lo \
+	libcurlu_la-http_digest.lo libcurlu_la-http_negotiate.lo \
+	libcurlu_la-http_ntlm.lo libcurlu_la-http_proxy.lo \
+	libcurlu_la-http_aws_sigv4.lo libcurlu_la-idn_win32.lo \
+	libcurlu_la-if2ip.lo libcurlu_la-imap.lo \
+	libcurlu_la-inet_ntop.lo libcurlu_la-inet_pton.lo \
+	libcurlu_la-krb5.lo libcurlu_la-ldap.lo libcurlu_la-llist.lo \
+	libcurlu_la-md4.lo libcurlu_la-md5.lo libcurlu_la-memdebug.lo \
+	libcurlu_la-mime.lo libcurlu_la-mprintf.lo libcurlu_la-mqtt.lo \
 	libcurlu_la-multi.lo libcurlu_la-netrc.lo \
 	libcurlu_la-nonblock.lo libcurlu_la-openldap.lo \
 	libcurlu_la-parsedate.lo libcurlu_la-pingpong.lo \
@@ -411,6 +413,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurl_la-escape.Plo \
 	./$(DEPDIR)/libcurl_la-file.Plo \
 	./$(DEPDIR)/libcurl_la-fileinfo.Plo \
+	./$(DEPDIR)/libcurl_la-fopen.Plo \
 	./$(DEPDIR)/libcurl_la-formdata.Plo \
 	./$(DEPDIR)/libcurl_la-ftp.Plo \
 	./$(DEPDIR)/libcurl_la-ftplistparser.Plo \
@@ -528,6 +531,7 @@ am__depfiles_remade = ./$(DEPDIR)/libcurl_la-altsvc.Plo \
 	./$(DEPDIR)/libcurlu_la-escape.Plo \
 	./$(DEPDIR)/libcurlu_la-file.Plo \
 	./$(DEPDIR)/libcurlu_la-fileinfo.Plo \
+	./$(DEPDIR)/libcurlu_la-fopen.Plo \
 	./$(DEPDIR)/libcurlu_la-formdata.Plo \
 	./$(DEPDIR)/libcurlu_la-ftp.Plo \
 	./$(DEPDIR)/libcurlu_la-ftplistparser.Plo \
@@ -968,6 +972,8 @@ top_srcdir = @top_srcdir@
 # This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
 # KIND, either express or implied.
 #
+# SPDX-License-Identifier: curl
+#
 ###########################################################################
 AUTOMAKE_OPTIONS = foreign nostdinc
 CMAKE_DIST = CMakeLists.txt curl_config.h.cmake
@@ -1130,6 +1136,7 @@ LIB_CFILES = \
   escape.c           \
   file.c             \
   fileinfo.c         \
+  fopen.c            \
   formdata.c         \
   ftp.c              \
   ftplistparser.c    \
@@ -1257,11 +1264,13 @@ LIB_HFILES = \
   doh.h              \
   dotdot.h           \
   dynbuf.h           \
+  easy_lock.h        \
   easyif.h           \
   easyoptions.h      \
   escape.h           \
   file.h             \
   fileinfo.h         \
+  fopen.h            \
   formdata.h         \
   ftp.h              \
   ftplistparser.h    \
@@ -1680,6 +1689,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-escape.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-fileinfo.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-fopen.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-formdata.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-ftp.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurl_la-ftplistparser.Plo@am__quote@ # am--include-marker
@@ -1800,6 +1810,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-escape.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-file.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-fileinfo.Plo@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-fopen.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-formdata.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-ftp.Plo@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/libcurlu_la-ftplistparser.Plo@am__quote@ # am--include-marker
@@ -2256,6 +2267,13 @@ libcurl_la-fileinfo.lo: fileinfo.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='fileinfo.c' object='libcurl_la-fileinfo.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-fileinfo.lo `test -f 'fileinfo.c' || echo '$(srcdir)/'`fileinfo.c
+
+libcurl_la-fopen.lo: fopen.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-fopen.lo -MD -MP -MF $(DEPDIR)/libcurl_la-fopen.Tpo -c -o libcurl_la-fopen.lo `test -f 'fopen.c' || echo '$(srcdir)/'`fopen.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurl_la-fopen.Tpo $(DEPDIR)/libcurl_la-fopen.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='fopen.c' object='libcurl_la-fopen.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -c -o libcurl_la-fopen.lo `test -f 'fopen.c' || echo '$(srcdir)/'`fopen.c
 
 libcurl_la-formdata.lo: formdata.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurl_la_CPPFLAGS) $(CPPFLAGS) $(libcurl_la_CFLAGS) $(CFLAGS) -MT libcurl_la-formdata.lo -MD -MP -MF $(DEPDIR)/libcurl_la-formdata.Tpo -c -o libcurl_la-formdata.lo `test -f 'formdata.c' || echo '$(srcdir)/'`formdata.c
@@ -3349,6 +3367,13 @@ libcurlu_la-fileinfo.lo: fileinfo.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-fileinfo.lo `test -f 'fileinfo.c' || echo '$(srcdir)/'`fileinfo.c
 
+libcurlu_la-fopen.lo: fopen.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-fopen.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-fopen.Tpo -c -o libcurlu_la-fopen.lo `test -f 'fopen.c' || echo '$(srcdir)/'`fopen.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-fopen.Tpo $(DEPDIR)/libcurlu_la-fopen.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='fopen.c' object='libcurlu_la-fopen.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -c -o libcurlu_la-fopen.lo `test -f 'fopen.c' || echo '$(srcdir)/'`fopen.c
+
 libcurlu_la-formdata.lo: formdata.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(libcurlu_la_CPPFLAGS) $(CPPFLAGS) $(libcurlu_la_CFLAGS) $(CFLAGS) -MT libcurlu_la-formdata.lo -MD -MP -MF $(DEPDIR)/libcurlu_la-formdata.Tpo -c -o libcurlu_la-formdata.lo `test -f 'formdata.c' || echo '$(srcdir)/'`formdata.c
 @am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/libcurlu_la-formdata.Tpo $(DEPDIR)/libcurlu_la-formdata.Plo
@@ -4353,6 +4378,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-fileinfo.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-fopen.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-formdata.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ftp.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ftplistparser.Plo
@@ -4473,6 +4499,7 @@ distclean: distclean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-fileinfo.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-fopen.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-formdata.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ftp.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ftplistparser.Plo
@@ -4710,6 +4737,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurl_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-fileinfo.Plo
+	-rm -f ./$(DEPDIR)/libcurl_la-fopen.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-formdata.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ftp.Plo
 	-rm -f ./$(DEPDIR)/libcurl_la-ftplistparser.Plo
@@ -4830,6 +4858,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f ./$(DEPDIR)/libcurlu_la-escape.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-file.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-fileinfo.Plo
+	-rm -f ./$(DEPDIR)/libcurlu_la-fopen.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-formdata.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ftp.Plo
 	-rm -f ./$(DEPDIR)/libcurlu_la-ftplistparser.Plo

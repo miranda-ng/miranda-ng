@@ -116,6 +116,9 @@
     <ClCompile Include="src\fileinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\fopen.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\formdata.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -607,6 +610,9 @@
     <ClInclude Include="src\easyif.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\easy_lock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\easyoptions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -617,6 +623,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\fileinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\fopen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\formdata.h">
