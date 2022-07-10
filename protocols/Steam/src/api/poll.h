@@ -5,7 +5,7 @@ class PollRequest : public HttpRequest
 {
 public:
 	PollRequest(CSteamProto *ppro) :
-		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v1")
+		HttpRequest(HttpPost, STEAM_API_URL "/ISteamWebUserPresenceOAuth/Poll/v0001")
 	{
 		timeout = (STEAM_API_TIMEOUT + 5) * 1000;
 		// flags |= NLHRF_PERSISTENT;
@@ -16,8 +16,7 @@ public:
 			<< CHAR_PARAM("access_token", ppro->getMStringA("TokenSecret"))
 			<< CHAR_PARAM("umqid", ppro->getMStringA("UMQID"))
 			<< INT64_PARAM("message", ppro->getDword("MessageID"))
-			<< INT_PARAM("secidletime", ppro->IdleSeconds())
-			<< INT_PARAM("sectimeout", STEAM_API_TIMEOUT);
+			<< INT_PARAM("secidletime", ppro->IdleSeconds());
 	}
 
 	//{
