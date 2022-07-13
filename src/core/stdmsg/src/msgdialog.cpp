@@ -382,7 +382,15 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 
 			m_message.SetText(L"");
 
-			if (!g_Settings.bTabsEnable) {
+			if (g_Settings.bTabsEnable) {
+				if (g_plugin.bAutoClose) {
+					m_pOwner->RemoveTab(this);
+					m_autoClose = CLOSE_ON_OK;
+				}
+				else if (g_plugin.bAutoMin)
+					::ShowWindow(GetParent(m_hwndParent), SW_MINIMIZE);
+			}
+			else {
 				if (g_plugin.bAutoClose)
 					::PostMessage(m_hwndParent, WM_CLOSE, 0, 0);
 				else if (g_plugin.bAutoMin)

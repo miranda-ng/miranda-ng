@@ -259,13 +259,15 @@ public:
 
 	void onChange_AutoMin(CCtrlCheck*)
 	{
-		chkAutoClose.SetState(false);
+		if (m_bInitialized)
+			chkAutoClose.SetState(false);
 		chkCtrlSupport.Enable(!chkAutoClose.GetState());
 	}
 
 	void onChange_AutoClose(CCtrlCheck*)
 	{
-		chkAutoMin.SetState(false);
+		if (m_bInitialized)
+			chkAutoMin.SetState(false);
 		chkCtrlSupport.Enable(!chkAutoClose.GetState());
 	}
 
