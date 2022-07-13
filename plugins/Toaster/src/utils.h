@@ -40,7 +40,7 @@ public:
 	wchar_t* Save()
 	{
 		wchar_t wszSavePath[MAX_PATH];
-		mir_snwprintf(wszSavePath, L"%s\\MirandaToaster.%s.png", wszTempDir, tszId);
+		mir_snwprintf(wszSavePath, L"%s\\MirandaToaster.%s.png", wszTempDir, tszId.get());
 
 		if (!(GetFileAttributes(wszSavePath) < 0xFFFFFFF)) {
 			IMGSRVC_INFO isi = { sizeof(isi) };
