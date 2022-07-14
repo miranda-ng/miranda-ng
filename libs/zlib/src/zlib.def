@@ -1,4 +1,5 @@
 ; zlib data compression library
+LIBRARY zlib.mir
 EXPORTS
 ; basic functions
     zlibVersion
@@ -95,3 +96,23 @@ EXPORTS
     inflateResetKeep
     deflateResetKeep
     gzopen_w
+; minizip functions
+    zipOpen2
+    zipOpenNewFileInZip4_64
+    zipWriteInFileInZip
+    zipCloseFileInZip
+    zipClose
+    unzOpen2
+    unzClose
+    unzGoToNextFile
+    unzGetCurrentFileInfo
+    unzOpenCurrentFilePassword
+    unzCloseCurrentFile
+    unzReadCurrentFile
+    fill_win32_filefunc
+    unzGetCurrentFileInfo64
+    unzOpenCurrentFile
+    fill_fopen64_filefunc
+    unzOpen2_64
+    zipOpen2_64
+    zipOpenNewFileInZip
