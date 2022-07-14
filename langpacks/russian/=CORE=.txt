@@ -59,7 +59,7 @@
 [Yes]
 Да
 [Hide from list only, in order to keep their history and ignore/visibility settings]
-Скрыть из списка (останутся история и настройки видимости)
+Скрыть из списка (останутся история и настройки)
 [Use Options -> Contacts -> Ignore to unhide contacts.]
 Управление отображением контактов осуществляется в разделе "Настройки -> Контакты -> Игнорировать".
 [Are you sure you want to delete %s?]
