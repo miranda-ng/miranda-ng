@@ -1943,14 +1943,14 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);
 			RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
 
-			EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | (m_si->pMI->bBold ? MF_ENABLED : MF_GRAYED));
+			EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_si->pMI->bBold ? MF_ENABLED : MF_GRAYED);
 			TranslateMenu(hSubMenu);
 
 			CHARRANGE sel, all = { 0, -1 };
 			m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin == sel.cpMax) {
-				EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-				EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
+				EnableMenuItem(hSubMenu, IDM_COPY, MF_GRAYED);
+				EnableMenuItem(hSubMenu, IDM_CUT, MF_GRAYED);
 			}
 
 			MessageWindowPopupData mwpd = { sizeof(mwpd) };

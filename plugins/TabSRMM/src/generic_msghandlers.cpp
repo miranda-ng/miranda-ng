@@ -249,16 +249,16 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 			GetWindowRect(GetDlgItem(m_hwnd, IDC_PROTOCOL), &rc);
 
-			CheckMenuItem(submenu, ID_MODE_GLOBAL, MF_BYCOMMAND | (!m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_MODE_PRIVATE, MF_BYCOMMAND | (m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_MODE_GLOBAL, !m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_MODE_PRIVATE, m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
 
 			// formatting menu..
-			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, MF_BYCOMMAND | ((PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_GLOBAL_OFF, MF_BYCOMMAND | ((PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, (PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_GLOBAL_OFF, (PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
 
-			CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, MF_BYCOMMAND | ((iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, MF_BYCOMMAND | ((iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED));
-			CheckMenuItem(submenu, ID_THISCONTACT_OFF, MF_BYCOMMAND | ((iLocalFormat == -1) ? MF_CHECKED : MF_UNCHECKED));
+			CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, (iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, (iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_THISCONTACT_OFF, (iLocalFormat == -1) ? MF_CHECKED : MF_UNCHECKED);
 
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);
 			switch (iSelection) {
@@ -329,11 +329,11 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 3);
 
 		GetWindowRect(GetDlgItem(m_hwnd, IDOK), &rc);
-		CheckMenuItem(submenu, ID_SENDMENU_SENDTOMULTIPLEUSERS, MF_BYCOMMAND | (m_sendMode & SMODE_MULTIPLE ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(submenu, ID_SENDMENU_SENDDEFAULT, MF_BYCOMMAND | (m_sendMode == 0 ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(submenu, ID_SENDMENU_SENDTOCONTAINER, MF_BYCOMMAND | (m_sendMode & SMODE_CONTAINER ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, MF_BYCOMMAND | (m_sendMode & SMODE_SENDLATER ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, MF_BYCOMMAND | (m_sendMode & SMODE_NOACK ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDTOMULTIPLEUSERS, (m_sendMode & SMODE_MULTIPLE) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_SENDMENU_SENDDEFAULT, m_sendMode == 0 ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_SENDMENU_SENDTOCONTAINER, (m_sendMode & SMODE_CONTAINER) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, (m_sendMode & SMODE_SENDLATER) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, (m_sendMode & SMODE_NOACK) ? MF_CHECKED : MF_UNCHECKED));
 
 		if (lParam)
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);

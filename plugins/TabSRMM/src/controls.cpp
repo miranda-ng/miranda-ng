@@ -438,7 +438,7 @@ void CMenuBar::Cancel(void)
 
 static void MY_CheckMenu(const HMENU hMenu, int id, uint32_t key)
 {
-	::CheckMenuItem(hMenu, id, MF_BYCOMMAND | (key ? MF_CHECKED : MF_UNCHECKED));
+	::CheckMenuItem(hMenu, id, key ? MF_CHECKED : MF_UNCHECKED);
 }
 
 void CMenuBar::updateState(const HMENU hMenu) const

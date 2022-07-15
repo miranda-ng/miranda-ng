@@ -1032,7 +1032,7 @@ int CMsgDialog::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 	bool bInfoPanel = m_pPanel.isActive();
 
 	if (menuID == MENU_TABCONTEXT) {
-		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (isChat() && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_DISABLED);
+		EnableMenuItem(submenu, ID_TABMENU_LEAVECHATROOM, (isChat() && ProtoServiceExists(m_szProto, PS_LEAVECHAT)) ? MF_ENABLED : MF_GRAYED);
 		EnableMenuItem(submenu, ID_TABMENU_ATTACHTOCONTAINER, (M.GetByte("useclistgroups", 0) || M.GetByte("singlewinmode", 0)) ? MF_GRAYED : MF_ENABLED);
 		EnableMenuItem(submenu, ID_TABMENU_CLEARSAVEDTABPOSITION, (M.GetDword(m_hContact, "tabindex", -1) != -1) ? MF_ENABLED : MF_GRAYED);
 	}
@@ -1046,21 +1046,21 @@ int CMsgDialog::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_STRING;
 
-		EnableMenuItem(submenu, ID_PICMENU_SAVETHISPICTUREAS, MF_BYCOMMAND | (picValid ? MF_ENABLED : MF_GRAYED));
+		EnableMenuItem(submenu, ID_PICMENU_SAVETHISPICTUREAS, picValid ? MF_ENABLED : MF_GRAYED);
 
-		CheckMenuItem(visMenu, ID_VISIBILITY_DEFAULT, MF_BYCOMMAND | (avOverride == -1 ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 0 ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 1 ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(visMenu, ID_VISIBILITY_DEFAULT, avOverride == -1 ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, avOverride == 0 ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, avOverride == 1 ? MF_CHECKED : MF_UNCHECKED);
 
-		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, MF_BYCOMMAND | (PluginConfig.m_bAlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_PICMENU_ALWAYSKEEPTHEBUTTONBARATFULLWIDTH, PluginConfig.m_bAlwaysFullToolbarWidth ? MF_CHECKED : MF_UNCHECKED);
 		if (!bInfoPanel) {
-			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
+			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED);
 			szText = TranslateT("Contact picture settings...");
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_ENABLED);
 		}
 		else {
 			EnableMenuItem(submenu, 0, MF_BYPOSITION | MF_GRAYED);
-			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | ((ServiceExists(MS_AV_SETMYAVATARW) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(m_cache->getActiveProto()), 0)) ? MF_ENABLED : MF_GRAYED));
+			EnableMenuItem(submenu, ID_PICMENU_SETTINGS, (ServiceExists(MS_AV_SETMYAVATARW) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(m_cache->getActiveProto()), 0)) ? MF_ENABLED : MF_GRAYED);
 			szText = TranslateT("Set your avatar...");
 		}
 		mii.dwTypeData = szText;
@@ -1071,12 +1071,12 @@ int CMsgDialog::MsgWindowUpdateMenu(HMENU submenu, int menuID)
 		HMENU visMenu = GetSubMenu(submenu, 0);
 		char  avOverride = (char)M.GetByte(m_hContact, "hideavatar", -1);
 
-		CheckMenuItem(visMenu, ID_VISIBILITY_DEFAULT, MF_BYCOMMAND | (avOverride == -1 ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 0 ? MF_CHECKED : MF_UNCHECKED));
-		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, MF_BYCOMMAND | (avOverride == 1 ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(visMenu, ID_VISIBILITY_DEFAULT, avOverride == -1 ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(visMenu, ID_VISIBILITY_HIDDENFORTHISCONTACT, avOverride == 0 ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(visMenu, ID_VISIBILITY_VISIBLEFORTHISCONTACT, avOverride == 1 ? MF_CHECKED : MF_UNCHECKED);
 
-		EnableMenuItem(submenu, ID_PICMENU_SETTINGS, MF_BYCOMMAND | (ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED));
-		EnableMenuItem(submenu, ID_PANELPICMENU_SAVETHISPICTUREAS, MF_BYCOMMAND | ((m_ace && m_ace->hbmPic && m_ace->hbmPic != PluginConfig.g_hbmUnknown) ? MF_ENABLED : MF_GRAYED));
+		EnableMenuItem(submenu, ID_PICMENU_SETTINGS, ServiceExists(MS_AV_GETAVATARBITMAP) ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(submenu, ID_PANELPICMENU_SAVETHISPICTUREAS, (m_ace && m_ace->hbmPic && m_ace->hbmPic != PluginConfig.g_hbmUnknown) ? MF_ENABLED : MF_GRAYED);
 	}
 	return 0;
 }
@@ -1641,23 +1641,23 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		hSubMenu = GetSubMenu(hMenu, 0);
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
-		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, MF_BYCOMMAND | (m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED));
-		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, MF_BYCOMMAND | (PluginConfig.m_PasteAndSend ? MF_ENABLED : MF_GRAYED));
-		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED));
-		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, MF_BYCOMMAND | (m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED));
+		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, PluginConfig.m_PasteAndSend ? MF_ENABLED : MF_GRAYED);
+		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
+		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
 	}
 	TranslateMenu(hSubMenu);
 	pCtrl.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
 	if (sel.cpMin == sel.cpMax) {
-		EnableMenuItem(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_GRAYED);
-		EnableMenuItem(hSubMenu, IDM_QUOTE, MF_BYCOMMAND | MF_GRAYED);
+		EnableMenuItem(hSubMenu, IDM_COPY, MF_GRAYED);
+		EnableMenuItem(hSubMenu, IDM_QUOTE, MF_GRAYED);
 		if (pCtrl.GetCtrlId() == IDC_SRMM_MESSAGE)
-			EnableMenuItem(hSubMenu, IDM_CUT, MF_BYCOMMAND | MF_GRAYED);
+			EnableMenuItem(hSubMenu, IDM_CUT, MF_GRAYED);
 	}
 
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG) {
 		InsertMenuA(hSubMenu, 6, MF_BYPOSITION | MF_SEPARATOR, 0, nullptr);
-		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, MF_BYCOMMAND | (m_bScrollingDisabled ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, m_bScrollingDisabled ? MF_CHECKED : MF_UNCHECKED);
 	}
 
 	MessageWindowPopupData mwpd;

@@ -252,9 +252,9 @@ void TContainerData::Configure()
 
 	HMENU hSysmenu = GetSystemMenu(m_hwnd, FALSE);
 	if (!CSkin::m_frameSkins)
-		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_flags.m_bNoTitle) ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_flags.m_bNoTitle) ? MF_CHECKED : MF_UNCHECKED);
 
-	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_flags.m_bSticky ? MF_BYCOMMAND | MF_CHECKED : MF_BYCOMMAND | MF_UNCHECKED);
+	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_flags.m_bSticky ? MF_CHECKED : MF_UNCHECKED);
 	SetWindowPos(m_hwnd, (m_flags.m_bSticky) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (ws != wsold) {
 		RECT rc;
@@ -1740,7 +1740,7 @@ panel_found:
 		switch (wParam) {
 		case IDM_STAYONTOP:
 			SetWindowPos(hwndDlg, (pContainer->m_flags.m_bSticky) ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->m_flags.m_bSticky) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->m_flags.m_bSticky) ? MF_UNCHECKED : MF_CHECKED);
 
 			pContainer->m_flags.m_bSticky = !pContainer->m_flags.m_bSticky;
 			pContainer->ApplySetting();
@@ -1749,7 +1749,7 @@ panel_found:
 			pContainer->m_oldSize.cx = 0;
 			pContainer->m_oldSize.cy = 0;
 
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->m_flags.m_bNoTitle) ? MF_BYCOMMAND | MF_UNCHECKED : MF_BYCOMMAND | MF_CHECKED);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->m_flags.m_bNoTitle) ? MF_UNCHECKED : MF_CHECKED);
 
 			pContainer->m_flags.m_bNoTitle = !pContainer->m_flags.m_bNoTitle;
 			pContainer->ApplySetting(true);
@@ -2318,7 +2318,7 @@ HMENU TSAPI BuildContainerMenu()
 		i++;
 	}
 
-	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_BYCOMMAND | MF_POPUP, (UINT_PTR)hMenu, TranslateT("Attach to"));
+	InsertMenu(PluginConfig.g_hMenuContext, ID_TABMENU_ATTACHTOCONTAINER, MF_POPUP, (UINT_PTR)hMenu, TranslateT("Attach to"));
 	PluginConfig.g_hMenuContainer = hMenu;
 	return hMenu;
 }
