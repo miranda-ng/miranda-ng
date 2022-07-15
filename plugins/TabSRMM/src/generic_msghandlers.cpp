@@ -333,7 +333,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 		CheckMenuItem(submenu, ID_SENDMENU_SENDDEFAULT, m_sendMode == 0 ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(submenu, ID_SENDMENU_SENDTOCONTAINER, (m_sendMode & SMODE_CONTAINER) ? MF_CHECKED : MF_UNCHECKED);
 		CheckMenuItem(submenu, ID_SENDMENU_SENDLATER, (m_sendMode & SMODE_SENDLATER) ? MF_CHECKED : MF_UNCHECKED);
-		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, (m_sendMode & SMODE_NOACK) ? MF_CHECKED : MF_UNCHECKED));
+		CheckMenuItem(submenu, ID_SENDMENU_SENDWITHOUTTIMEOUTS, (m_sendMode & SMODE_NOACK) ? MF_CHECKED : MF_UNCHECKED);
 
 		if (lParam)
 			iSelection = TrackPopupMenu(submenu, TPM_RETURNCMD, rc.left, rc.bottom, 0, m_hwnd, nullptr);

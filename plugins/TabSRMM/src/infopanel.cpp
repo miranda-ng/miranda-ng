@@ -710,7 +710,7 @@ HMENU CInfoPanel::constructContextualMenu() const
 		else {
 			::AppendMenu(m, MF_STRING, IDC_SRMM_CHANMGR, TranslateT("Room settings..."));
 			if (GCW_SERVER & m_dat->m_si->iType)
-				::EnableMenuItem(m, IDC_SRMM_CHANMGR, MF_BYCOMMAND | MF_GRAYED);
+				::EnableMenuItem(m, IDC_SRMM_CHANMGR, MF_GRAYED);
 		}
 		::AppendMenu(m, MF_SEPARATOR, 1000, nullptr);
 		Utils::addMenuItem(m, mii, PluginConfig.g_buttonBarIcons[6], TranslateT("Close session"), IDC_CLOSE, 4);
