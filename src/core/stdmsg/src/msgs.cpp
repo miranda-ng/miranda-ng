@@ -403,13 +403,10 @@ void SetButtonsPos(HWND hwndDlg, bool bIsChat)
 
 	int yPos;
 	RECT rc;
-	if (bIsChat) {
-		GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
-		POINT pt = { 0, rc.top };
-		ScreenToClient(hwndDlg, &pt);
-		yPos = pt.y;
-	}
-	else yPos = 2;
+	GetWindowRect(GetDlgItem(hwndDlg, IDC_SPLITTERY), &rc);
+	POINT pt = { 0, rc.top };
+	ScreenToClient(hwndDlg, &pt);
+	yPos = pt.y;
 
 	GetClientRect(hwndDlg, &rc);
 	int iLeftX = 2, iRightX = rc.right - 2, iGap = Srmm_GetButtonGap();

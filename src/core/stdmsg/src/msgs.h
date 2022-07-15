@@ -99,6 +99,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	uint16_t m_wStatus = ID_STATUS_OFFLINE, m_wOldStatus = ID_STATUS_OFFLINE;
 	uint16_t m_wMinute = 0;
 	bool m_bIsMeta = false, m_bWindowCascaded = false, m_bNoActivate = false;
+	int m_iBBarHeight = 28;
 
 public:
 	CMsgDialog(CTabbedWindow *pOwner, MCONTACT hContact);
