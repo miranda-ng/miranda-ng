@@ -184,7 +184,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hStopItem, false);
 
 	const char *proto = Proto_GetBaseAccountName(hContact);
-	if (!proto || db_get_b(hContact, proto, "ChatRoom", 0) == 1)
+	if (!proto || Contact_IsGroupChat(hContact, proto))
 		return 0;
 
 	if (proto && mir_strcmp(proto, META_PROTO) == 0) {

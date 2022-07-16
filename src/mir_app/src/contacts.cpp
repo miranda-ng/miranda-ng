@@ -280,9 +280,22 @@ MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+MIR_APP_DLL(bool) Contact_IsGroupChat(MCONTACT hContact, const char *szProto)
+{
+	if (szProto == nullptr) {
+		szProto = Proto_GetBaseAccountName(hContact);
+		if (szProto == nullptr)
+			return false;
+	}
+
+	return db_get_b(hContact, szProto, "ChatRoom") != 0;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact)
 {
-	return db_get_b(hContact, "CList", "Hidden", 0) != 0;
+	return db_get_b(hContact, "CList", "Hidden") != 0;
 }
 
 MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden)

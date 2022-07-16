@@ -20,6 +20,7 @@
 
 #include <newpluginapi.h>
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_langpack.h>
 #include <m_netlib.h>
 #include <m_xml.h>

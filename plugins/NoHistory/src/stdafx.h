@@ -8,6 +8,7 @@
 #include <m_database.h>
 #include <m_clist.h>
 #include <m_clc.h>
+#include <m_contacts.h>
 #include <m_gui.h>
 #include <m_langpack.h>
 #include <m_protocols.h>

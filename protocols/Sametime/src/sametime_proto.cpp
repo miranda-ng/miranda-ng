@@ -129,7 +129,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 	// GetInfo - retrieves a contact info
 	debugLogW(L"CSametimeProto::GetInfo()  hContact=[%x], infoType=[%d]", hContact, infoType);
 
-	if (getByte(hContact, "ChatRoom", 0))
+	if (Contact_IsGroupChat(hContact))
 		return 1;
 
 	if (!session)

@@ -34,6 +34,7 @@ Boston, MA 02111-1307, USA.
 #include <m_clistint.h>
 #include <m_clc.h>
 #include <m_cluiframes.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>

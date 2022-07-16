@@ -318,7 +318,7 @@ int CSametimeProto::GcEventHook(WPARAM, LPARAM lParam) {
 
 int CSametimeProto::ChatDeleted(MCONTACT hContact) {
 	
-	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)
+	if (!Contact_IsGroupChat(hContact, m_szModuleName))
 		return 0;
 
 	debugLogW(L"CSametimeProto::ChatDeleted() hContact=[%x]", hContact);
@@ -379,7 +379,7 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM)
 	MCONTACT hContact = (MCONTACT)wParam;
 	debugLogW(L"CSametimeProto::PrebuildContactMenu() hContact=[%x]", hContact);
 
-	Menu_ShowItem(hLeaveChatMenuItem, db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 1);
+	Menu_ShowItem(hLeaveChatMenuItem, Contact_IsGroupChat(hContact, m_szModuleName));
 
 	// if user is already in our meeting, 
 	bool not_present = true;
@@ -400,7 +400,7 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM)
 		db_free(&dbv);
 	}
 
-	Menu_ShowItem(hCreateChatMenuItem, db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 && not_present);
+	Menu_ShowItem(hCreateChatMenuItem, !Contact_IsGroupChat(hContact, m_szModuleName) && not_present);
 	return 0;
 }
 

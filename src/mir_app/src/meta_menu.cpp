@@ -318,7 +318,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	}
 	else {
 		// The contact is neutral
-		bool bHideChat = db_get_b(hMeta, cc->szProto, "ChatRoom", 0) == 0;
+		bool bHideChat = !Contact_IsGroupChat(hMeta, cc->szProto);
 		Menu_ShowItem(hMenuAdd, bHideChat);
 		Menu_ShowItem(hMenuConvert, bHideChat);
 		Menu_ShowItem(hMenuEdit, false);

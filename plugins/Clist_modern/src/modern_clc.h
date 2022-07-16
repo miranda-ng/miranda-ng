@@ -200,7 +200,7 @@ struct ClcContact : public ClcContactBase
 	{	return (style & CLS_CHECKBOXES && type == CLCIT_CONTACT) || (style & CLS_GROUPCHECKBOXES && type == CLCIT_GROUP) || (type == CLCIT_INFO && flags & CLCIIF_CHECKBOX);
 	}
 	__forceinline bool isChat() const
-	{	return (type == CLCIT_CONTACT) && (db_get_b(hContact, pce->szProto, "ChatRoom", 0) != 0);
+	{	return (type == CLCIT_CONTACT) && Contact_IsGroupChat(hContact, pce->szProto);
 	}
 };
 

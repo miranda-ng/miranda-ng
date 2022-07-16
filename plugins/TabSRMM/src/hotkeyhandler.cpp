@@ -249,7 +249,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						SendMessage(pDlg->GetHwnd(), WM_CLOSE, 0, 1);
 
 					char *szProto = Proto_GetBaseAccountName(lParam);
-					if (szProto != nullptr && db_get_b(lParam, szProto, "ChatRoom", 0))
+					if (szProto != nullptr && Contact_IsGroupChat(lParam, szProto))
 						ShowRoom((TContainerData*)wParam, SM_FindSessionByHCONTACT(lParam));
 					else
 						CreateNewTabForContact((TContainerData*)wParam, lParam, true, true, false);

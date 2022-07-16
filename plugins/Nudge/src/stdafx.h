@@ -11,6 +11,7 @@
 
 #include <newpluginapi.h>
 #include <m_clistint.h>
+#include <m_contacts.h>
 #include <m_langpack.h>	
 #include <m_popup.h>	
 #include <m_message.h>

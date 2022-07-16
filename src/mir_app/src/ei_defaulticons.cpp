@@ -45,14 +45,13 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 
 	HANDLE hExtraIcon, hIcolib = nullptr;
 
-	if (db_get_b(hContact, proto, "ChatRoom", 0)) {
-		// Is chat
+	// Is chat
+	if (Contact_IsGroupChat(hContact, proto)) {
 		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			hIcolib = IcoLib_GetIconHandle("ChatActivity");
 	}
-	else {
-		// Not chat
+	else { // Not chat
 		hExtraIcon = hExtraVisibility;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			hIcolib = Skin_GetIconHandle(SKINICON_OTHER_INVISIBLE_ALL);

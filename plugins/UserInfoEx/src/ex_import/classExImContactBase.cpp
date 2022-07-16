@@ -107,7 +107,7 @@ uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 	}
 
 	// unique id (for ChatRoom)
-	if (isChatRoom = db_get_b(_hContact, pszProto, "ChatRoom", 0)) {
+	if (isChatRoom = Contact_IsGroupChat(_hContact, pszProto)) {
 		uidSetting = "ChatRoomID";
 		_pszUIDKey = mir_strdup(uidSetting);
 		if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {

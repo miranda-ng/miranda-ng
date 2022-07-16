@@ -373,7 +373,7 @@ int CSametimeProto::ContactDeleted(MCONTACT hContact)
 {
 	mwAwareIdBlock id_block;
 
-	if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0))
+	if (Contact_IsGroupChat(hContact, m_szModuleName))
 		return 0;
 
 	debugLogW(L"CSametimeProto::ContactDeleted()");
@@ -586,7 +586,7 @@ void CSametimeProto::UserListCreate()
 	GList *gl = nullptr;
 
 	for (auto &hContact : AccContacts()) {
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0 /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
+		if (!Contact_IsGroupChat(hContact, m_szModuleName) /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
 			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 				if (dbv.pszVal) {
 					if (GetAwareIdFromContact(hContact, &id_block)) {

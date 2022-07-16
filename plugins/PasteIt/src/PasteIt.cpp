@@ -109,7 +109,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 	else if (hContact != NULL && pasteToWeb->szFileLink[0] != 0) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) {
-			BOOL isChat = db_get_b(hContact, szProto, "ChatRoom", 0);
+			bool isChat = Contact_IsGroupChat(hContact, szProto);
 			if (Options::instance->autoSend) {
 				if (!isChat) {
 					DBEVENTINFO dbei = {};
@@ -323,7 +323,7 @@ static int WindowEvent(WPARAM, MessageWindowEventData* lParam)
 	if (lParam->uType == MSG_WINDOW_EVT_OPEN) {
 		char *szProto = Proto_GetBaseAccountName(lParam->hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) {
-			if (db_get_b(lParam->hContact, szProto, "ChatRoom", 0)) {
+			if (Contact_IsGroupChat(lParam->hContact, szProto)) {
 				(*contactWindows)[lParam->hContact] = lParam->hwndInput;
 			}
 		}

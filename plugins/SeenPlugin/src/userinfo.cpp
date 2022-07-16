@@ -63,7 +63,7 @@ struct UserinfoDlg : public CUserInfoPageDlg
 int UserinfoInit(WPARAM wparam, LPARAM hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (IsWatchedProtocol(szProto) && !db_get_b(hContact, szProto, "ChatRoom", false)) {
+	if (IsWatchedProtocol(szProto) && !Contact_IsGroupChat(hContact, szProto)) {
 		USERINFOPAGE uip = {};
 		uip.szTitle.a = LPGEN("Last seen");
 		uip.pDialog = new UserinfoDlg();

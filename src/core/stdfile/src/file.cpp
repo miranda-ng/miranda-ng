@@ -35,7 +35,7 @@ static HGENMENU hSRFileMenuItem;
 wchar_t* GetContactID(MCONTACT hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
+	if (Contact_IsGroupChat(hContact, szProto))
 		if (wchar_t *theValue = db_get_wsa(hContact, szProto, "ChatRoomID"))
 			return theValue;
 
@@ -288,7 +288,7 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	bool bEnabled = false;
 	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (szProto != nullptr) {
-		bool isChat = db_get_b(wParam, szProto, "ChatRoom", false) != 0;
+		bool isChat = Contact_IsGroupChat(wParam, szProto);
 		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1, 0) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;

@@ -555,7 +555,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			g_plugin.setByte(hContact, "Offline", 0);
 		}
 	}
-	else if (hContact && IsWatchedProtocol(cws->szModule) && !db_get_b(hContact, cws->szModule, "ChatRoom", false)) {
+	else if (hContact && IsWatchedProtocol(cws->szModule) && !Contact_IsGroupChat(hContact, cws->szModule)) {
 		// here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if (Proto_GetStatus(cws->szModule) > ID_STATUS_OFFLINE) {
 			mir_cslock lck(csContacts);

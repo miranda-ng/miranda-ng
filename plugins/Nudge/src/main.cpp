@@ -413,10 +413,8 @@ static int ContactWindowOpen(WPARAM, LPARAM lParam)
 static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto != nullptr) {
-		bool isChat = db_get_b(hContact, szProto, "ChatRoom", false) != 0;
-		NudgeShowMenu((WPARAM)szProto, !isChat);
-	}
+	if (szProto != nullptr)
+		NudgeShowMenu((WPARAM)szProto, !Contact_IsGroupChat(hContact, szProto));
 
 	return 0;
 }

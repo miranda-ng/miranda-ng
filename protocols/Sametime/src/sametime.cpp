@@ -103,7 +103,7 @@ int CSametimeProto::OnWindowEvent(WPARAM, LPARAM lParam)
 {
 	MessageWindowEventData *mwed = (MessageWindowEventData*)lParam;
 
-	if ((mwed == nullptr) || db_get_b(mwed->hContact, m_szModuleName, "ChatRoom", 0))
+	if ((mwed == nullptr) || Contact_IsGroupChat(mwed->hContact, m_szModuleName))
 		return 0;
 
 	if ((mwed->uType == MSG_WINDOW_EVT_CLOSING) || (mwed->uType == MSG_WINDOW_EVT_CLOSE))
@@ -140,7 +140,7 @@ void CSametimeProto::SetAllOffline()
 	debugLogW(L"SetAllOffline() start");
 
 	for (auto &hContact : AccContacts()) {
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0)) {
+		if (Contact_IsGroupChat(hContact, m_szModuleName)) {
 			db_delete_contact(hContact);
 			continue;
 		}

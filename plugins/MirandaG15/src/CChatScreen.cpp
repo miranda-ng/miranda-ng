@@ -251,7 +251,7 @@ void CChatScreen::LoadHistory()
 
 	char *szProto = Proto_GetBaseAccountName(m_hContact);
 
-	if (m_bIRCProtocol && db_get_b(m_hContact, szProto, "ChatRoom", 0) != 0) {
+	if (m_bIRCProtocol && Contact_IsGroupChat(m_hContact, szProto)) {
 		if (!CAppletManager::GetInstance()->IsIRCHookEnabled()) {
 			time_t now;
 			tm tm_now;
@@ -615,7 +615,7 @@ void CChatScreen::OnEventReceived(CEvent *pEvent)
 		// contact is set to hidden
 		if (pEvent->iValue == 1) {
 			// Close the chat screen if the contact is an irc chatroom
-			if (!(m_bIRCProtocol && db_get_b(pEvent->hContact, toNarrowString(m_strProto).c_str(), "ChatRoom", 0) != 0))
+			if (!(m_bIRCProtocol && Contact_IsGroupChat(pEvent->hContact, toNarrowString(m_strProto).c_str())))
 				break;
 		}
 		else

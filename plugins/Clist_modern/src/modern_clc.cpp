@@ -1658,7 +1658,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 	if (ack->type == ACKTYPE_AWAYMSG) {
 		if (ack->result == ACKRESULT_SUCCESS && ack->lParam) {
 			if (ack->szModule != nullptr)
-				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
+				if (Contact_IsGroupChat(ack->hContact, ack->szModule))
 					return 0;
 
 			g_plugin.setWString(ack->hContact, "StatusMsg", (const wchar_t *)ack->lParam);
@@ -1666,7 +1666,7 @@ int ClcDoProtoAck(ACKDATA *ack)
 		}
 		else {
 			if (ack->szModule != nullptr)
-				if (db_get_b(ack->hContact, ack->szModule, "ChatRoom", 0) != 0)
+				if (Contact_IsGroupChat(ack->hContact, ack->szModule))
 					return 0;
 
 			if (ack->hContact) {

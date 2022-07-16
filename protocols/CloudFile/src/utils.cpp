@@ -66,7 +66,7 @@ bool CanSendToContact(MCONTACT hContact)
 void SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == TRUE) {
+	if (Contact_IsGroupChat(hContact, szProto)) {
 		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
 		Chat_SendUserMessage(szProto, tszChatRoom, data);
 		return;

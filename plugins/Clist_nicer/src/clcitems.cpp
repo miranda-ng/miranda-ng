@@ -329,7 +329,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 		return;
 
 	p->valid = TRUE;
-	p->isChatRoom = db_get_b(contact->hContact, contact->pce->szProto, "ChatRoom", 0);
+	p->isChatRoom = Contact_IsGroupChat(contact->hContact, contact->pce->szProto);
 }
 
 void LoadSkinItemToCache(TExtraCache *cEntry)

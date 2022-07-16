@@ -180,7 +180,7 @@ bool isChatRoom(MCONTACT hContact)
 	if (!p || !p->proto || !p->proto->inspecting)
 		return false;
 
-	return db_get_b(hContact, p->proto->name, "ChatRoom", 0) != 0;
+	return Contact_IsGroupChat(hContact, p->proto->name);
 }
 
 bool isFileExist(LPCSTR filename)

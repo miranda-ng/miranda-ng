@@ -66,7 +66,7 @@ void CSend::SetContact(MCONTACT hContact)
 	m_hContact = hContact;
 	if (hContact) {
 		m_pszProto = Proto_GetBaseAccountName(hContact);
-		m_ChatRoom = db_get_b(hContact, m_pszProto, "ChatRoom", 0);
+		m_ChatRoom = Contact_IsGroupChat(hContact, m_pszProto);
 	}
 }
 

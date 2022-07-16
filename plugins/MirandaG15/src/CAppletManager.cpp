@@ -644,7 +644,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 			CIRCConnection *pIRCCon = GetIRCConnection(strProto);
 
 			// Only add the message to the history if the contact isn't an irc chatroom
-			if (!(pIRCCon && db_get_b(pJob->hContact, szProto, "ChatRoom", 0) != 0)) {
+			if (!(pIRCCon && Contact_IsGroupChat(pJob->hContact, szProto))) {
 				// Add the message to the database
 				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
@@ -738,7 +738,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
 
-	if (pIRCCon && db_get_b(hContact, szProto, "ChatRoom", 0) != 0) {
+	if (pIRCCon && Contact_IsGroupChat(hContact, szProto)) {
 		ptrW wszNick(db_get_wsa(hContact, szProto, "Nick"));
 		if (wszNick == NULL)
 			return NULL;
@@ -1408,7 +1408,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			Event.bNotification = true;
 
 		Event.eType = EVENT_SIGNED_ON;
-		if (pIRCCon && db_get_b(Event.hContact, szProto, "ChatRoom", 0) != 0) {
+		if (pIRCCon && Contact_IsGroupChat(Event.hContact, szProto)) {
 			Event.strDescription = TranslateString(L"Joined %s", strName.c_str());
 
 			DBVARIANT dbv;
@@ -1426,7 +1426,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			Event.bNotification = true;
 
 		Event.eType = EVENT_SIGNED_OFF;
-		if (pIRCCon &&  db_get_b(Event.hContact, szProto, "ChatRoom", 0) != 0) {
+		if (pIRCCon && Contact_IsGroupChat(Event.hContact, szProto)) {
 			Event.strDescription = TranslateString(L"Left %s", strName.c_str());
 			// delete IRC-Channel history
 			CAppletManager::GetInstance()->DeleteIRCHistory(Event.hContact);

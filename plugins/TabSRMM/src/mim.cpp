@@ -351,7 +351,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM hContact, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// leave this menu item hidden for chats
-		if (!db_get_b(hContact, szProto, "ChatRoom", 0))
+		if (!Contact_IsGroupChat(hContact, szProto))
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 				bEnabled = true;
 	}

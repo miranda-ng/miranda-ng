@@ -478,7 +478,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, MCONTACT hContact)
 		return 0;
 
 	// we don't want to be notified if new chatroom comes online
-	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1)
+	if (Contact_IsGroupChat(hContact, szProto))
 		return 0;
 
 	uint16_t oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "LastStatus", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);

@@ -8,10 +8,8 @@ int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
 	if (mir_strcmp(sicd->szModule, MODULENAME) == 0) {
-		char *proto = Proto_GetBaseAccountName(hContact);
-		if (proto && db_get_b(hContact, proto, "ChatRoom", 0))
-			return 0;
-		ShowOTRMenu(hContact, sicd->clickLocation);
+		if (!Contact_IsGroupChat(hContact))
+			ShowOTRMenu(hContact, sicd->clickLocation);
 	}
 
 	return 0;
@@ -20,8 +18,7 @@ int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 // set SRMM icon status, if applicable
 void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 {
-	char *proto = Proto_GetBaseAccountName(hContact);
-	bool chat_room = (proto && db_get_b(hContact, proto, "ChatRoom", 0));
+	bool chat_room = Contact_IsGroupChat(hContact);
 
 	BBButton button = OTRButton;
 	int flags1 = MBF_HIDDEN, flags2 = MBF_HIDDEN;
@@ -85,13 +82,11 @@ int SVC_ButtonsBarLoaded(WPARAM, LPARAM)
 int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)l;
+	
 	if (cbcd->dwButtonId == 0 && !mir_strcmp(cbcd->pszModule, MODULENAME)) {
 		MCONTACT hContact = (MCONTACT)w;
-	
-		char *proto = Proto_GetBaseAccountName(hContact);
-		if(proto && db_get_b(hContact, proto, "ChatRoom", 0))
-			return 0;
-		ShowOTRMenu(hContact, cbcd->pt);
+		if (!Contact_IsGroupChat(hContact))
+			ShowOTRMenu(hContact, cbcd->pt);
 
 	}
 	return 0;

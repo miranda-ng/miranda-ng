@@ -83,6 +83,11 @@ EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
 EXTERN_C MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// if contact is a group chat
+
+MIR_APP_DLL(bool) Contact_IsGroupChat(MCONTACT hContact, const char *szProto = nullptr);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // gets / sets hidden status for a contact
 
 EXTERN_C MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact);

@@ -150,7 +150,7 @@ static BOOL CheckAllContactsOffline(void)
 	for (auto &hContact : Contacts()) {
 		char *pszProto = Proto_GetBaseAccountName(hContact);
 		if (pszProto != nullptr && Proto_GetStatus(pszProto) != ID_STATUS_OFFLINE) {
-			if (db_get_b(hContact, pszProto, "ChatRoom", 0)) continue;
+			if (Contact_IsGroupChat(hContact, pszProto)) continue;
 			if (db_get_w(hContact, pszProto, "Status", 0) != ID_STATUS_OFFLINE) {
 				if (fSmartCheck) {
 					if (Contact_IsHidden(hContact)) continue;

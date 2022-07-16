@@ -138,14 +138,13 @@ INT_PTR service_SendDesktop(WPARAM wParam, LPARAM)
 		delete frmMain;
 		return -1;
 	}
+
 	MCONTACT hContact = (MCONTACT)wParam;
-	char *pszProto = Proto_GetBaseAccountName(hContact);
-	bool bChatRoom = db_get_b(hContact, pszProto, "ChatRoom", 0) != 0;
 	frmMain->m_opt_chkTimed = false;
 	frmMain->m_opt_tabCapture = 1;
 	frmMain->m_opt_cboxDesktop = 0;
 	frmMain->m_opt_chkEditor = false;
-	frmMain->m_opt_cboxSendBy = bChatRoom ? SS_IMAGESHACK : SS_FILESEND;
+	frmMain->m_opt_cboxSendBy = Contact_IsGroupChat(hContact) ? SS_IMAGESHACK : SS_FILESEND;
 	frmMain->Init(pszPath, hContact);		// this method create the window hidden.
 	mir_free(pszPath);
 	frmMain->btnCaptureClick();				// this method will call Close()

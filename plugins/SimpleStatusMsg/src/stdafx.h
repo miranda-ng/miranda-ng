@@ -27,6 +27,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_clistint.h>
+#include <m_contacts.h>
 #include <m_skin.h>
 #include <m_options.h>
 #include <m_langpack.h>

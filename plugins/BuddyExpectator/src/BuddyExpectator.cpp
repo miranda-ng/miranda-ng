@@ -435,7 +435,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	else
 		Menu_ModifyItem(hContactMenu, LPGENW("Enable Miss You"), iconList[2].hIcolib);
 
-	Menu_ShowItem(hContactMenu, !db_get_b(hContact, proto, "ChatRoom", 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
+	Menu_ShowItem(hContactMenu, !Contact_IsGroupChat(hContact, proto) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
 	return 0;
 }
 
@@ -460,8 +460,7 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	char *proto = Proto_GetBaseAccountName(hContact);
-	if (proto == nullptr || (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
-		|| !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
+	if (proto == nullptr || Contact_IsGroupChat(hContact, proto) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
 	int currentStatus = inf->value.wVal;
@@ -539,7 +538,10 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (auto &hContact : Contacts()) {
 		char *proto = Proto_GetBaseAccountName(hContact);
-		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (g_plugin.getByte(hContact, "StillAbsentNotified", 0) == 0))
+		if (proto && !Contact_IsGroupChat(hContact, proto) 
+			&& (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) 
+			&& isContactGoneFor(hContact, options.iAbsencePeriod2) 
+			&& (g_plugin.getByte(hContact, "StillAbsentNotified", 0) == 0))
 		{
 			g_plugin.setByte(hContact, "StillAbsentNotified", 1);
 			Skin_PlaySound("buddyExpectatorStillAbsent");

@@ -98,7 +98,7 @@ MCONTACT CImportBatch::HContactFromID(const char *pszProtoName, const char *pszS
 MCONTACT CImportBatch::HContactFromChatID(const char *pszProtoName, const wchar_t *pszChatID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
-		if (!db_get_b(hContact, pszProtoName, "ChatRoom", 0))
+		if (!Contact_IsGroupChat(hContact, pszProtoName))
 			continue;
 
 		ptrW wszChatId(db_get_wsa(hContact, pszProtoName, "ChatRoomID"));
