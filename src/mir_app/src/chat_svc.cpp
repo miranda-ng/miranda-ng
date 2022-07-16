@@ -755,15 +755,25 @@ static INT_PTR JoinChat(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR LeaveChat(WPARAM hContact, LPARAM lParam)
+static INT_PTR LeaveChat(WPARAM hContact, LPARAM)
 {
 	if (hContact) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto)
-			CallProtoService(szProto, PS_LEAVECHAT, hContact, lParam);
+			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
 	}
 	return 0;
 }
+
+static int OnContactDeleted(WPARAM hContact, LPARAM)
+{
+	char *szProto = Proto_GetBaseAccountName(hContact);
+	if (szProto && Contact_IsGroupChat(hContact, szProto))
+		if (Contact_GetStatus(hContact) != ID_STATUS_OFFLINE)
+			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
+
+	return 0;
+}	
 
 static INT_PTR MuteChat(WPARAM hContact, LPARAM param)
 {
@@ -781,7 +791,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// display this menu item only for chats
-		if (db_get_b(hContact, szProto, "ChatRoom", 0)) {
+		if (Contact_IsGroupChat(hContact, szProto)) {
 			bIsChat = true;
 			// still hide it for offline protos
 			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {
@@ -892,6 +902,7 @@ int LoadChatModule(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_FONT_RELOAD, FontsChanged);
 
