@@ -309,7 +309,7 @@ static void ProcessIniFile(wchar_t* szIniPath, const char *szSafeSections, const
 	char szSection[128]; szSection[0] = 0;
 
 	while (!feof(fp)) {
-		char szLine[2048];
+		char szLine[16384];
 		if (fgets(szLine, sizeof(szLine), fp) == nullptr)
 			break;
 LBL_NewLine:
