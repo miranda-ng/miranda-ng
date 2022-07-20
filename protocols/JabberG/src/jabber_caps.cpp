@@ -106,15 +106,7 @@ const int g_cJabberFeatCapPairsExt = _countof(g_JabberFeatCapPairsExt);
 
 void CJabberProto::AddDefaultCaps()
 {
-	JabberCapsBits myCaps = JABBER_CAPS_MIRANDA_ALL;
-	if (m_bUseOMEMO)
-		myCaps |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-	if (!m_bAllowTimeReplies)
-		myCaps &= ~JABBER_CAPS_ENTITY_TIME;
-	if (!m_bAllowVersionRequests)
-		myCaps &= ~JABBER_CAPS_VERSION;
-	if (!m_bMsgAck)
-		myCaps &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
+	JabberCapsBits myCaps = GetOwnCaps(false);
 
 	for (auto &it : g_JabberFeatCapPairsExt)
 		if (it.Valid())
@@ -322,66 +314,13 @@ JabberCapsBits CJabberProto::GetResourceCapabilities(const char *jid, pResourceS
 
 bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pInfo, const char *szNode)
 {
-	JabberCapsBits jcb = 0;
-
-	if (szNode) {
-		char szExtCap[512], szExtCapWHash[560];
-		mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc.c_str());
-		if (!mir_strcmp(szExtCap, szNode)) {
-			szNode = nullptr;
-			goto LBL_All;
-		}
-
-		for (auto &it : g_JabberFeatCapPairsExt) {
-			if (!it.Valid())
-				continue;
-
-			// TODO: something better here
-			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it.szFeature);
-			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
-			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
-				jcb = it.jcbCap;
-				break;
-			}
-		}
-
-		// check features registered through IJabberNetInterface::RegisterFeature() and IJabberNetInterface::AddFeatures()
-		for (auto &it : m_lstJabberFeatCapPairsDynamic) {
-			// TODO: something better here
-			mir_snprintf(szExtCap, "%s#%s", JABBER_CAPS_MIRANDA_NODE, it->szExt);
-			mir_snprintf(szExtCapWHash, "%s %s", szExtCap, m_szFeaturesCrc.c_str());
-			if (!mir_strcmp(szNode, szExtCap) || !mir_strcmp(szNode, szExtCapWHash)) {
-				jcb = it->jcbCap;
-				break;
-			}
-		}
-
-		// unknown node, not XEP-0115 request
-		if (!jcb)
-			return false;
-	}
-	else {
-	LBL_All:
-		jcb = JABBER_CAPS_MIRANDA_ALL;
-		for (auto &it : m_lstJabberFeatCapPairsDynamic)
-			jcb |= it->jcbCap;
-	}
-
-	if (m_bUseOMEMO)
-		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-
-	if (!m_bAllowTimeReplies)
-		jcb &= ~JABBER_CAPS_ENTITY_TIME;
-	if (!m_bAllowVersionRequests)
-		jcb &= ~JABBER_CAPS_VERSION;
-	if (!m_bMsgAck)
-		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
-
 	XmlNodeIq iq("result", pInfo);
 
 	TiXmlElement *query = iq << XQUERY(JABBER_FEAT_DISCO_INFO);
-	if (szNode)
-		query << XATTR("node", szNode);
+	if (szNode){
+		CMStringA szExtCap(FORMAT, "%s#%s", JABBER_CAPS_MIRANDA_NODE, m_szFeaturesCrc.c_str());
+		query << XATTR("node", szExtCap);
+	}
 
 	CMStringA szName(getMStringA("Identity")); // hidden setting to be entered from dbeditor++
 	if (szName.IsEmpty()) {
@@ -391,13 +330,9 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 	}
 	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
 
-	for (auto &it : g_JabberFeatCapPairs)
-		if (jcb & it.jcbCap)
-			query << XCHILD("feature") << XATTR("var", it.szFeature);
-
-	for (auto &it : m_lstJabberFeatCapPairsDynamic)
-		if (jcb & it->jcbCap)
-			query << XCHILD("feature") << XATTR("var", it->szFeature);
+	for (auto &it : GetSortedFeatStrings(GetOwnCaps())) {
+		query << XCHILD("feature") << XATTR("var", it);
+	}
 
 	if (m_bAllowVersionRequests && !szNode) {
 		TiXmlElement *form = query << XCHILDNS("x", JABBER_FEAT_DATA_FORMS) << XATTR("type", "result");
@@ -420,6 +355,40 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 	return true;
 }
 
+JabberCapsBits CJabberProto::GetOwnCaps(bool IncludeDynamic)
+{
+	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
+
+	if (IncludeDynamic)
+		for (auto &it : m_lstJabberFeatCapPairsDynamic)
+			jcb |= it->jcbCap;
+
+	if (!m_bAllowTimeReplies)
+		jcb &= ~JABBER_CAPS_ENTITY_TIME;
+	if (!m_bAllowVersionRequests)
+		jcb &= ~JABBER_CAPS_VERSION;
+	if (m_bUseOMEMO)
+		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
+	if (!m_bMsgAck)
+		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
+
+	return jcb;
+}
+
+LIST<char> CJabberProto::GetSortedFeatStrings(JabberCapsBits jcb)
+{
+	LIST<char> feats(10, strcmp);
+	for (auto &it : g_JabberFeatCapPairs)
+		if (jcb & it.jcbCap)
+			feats.insert((char*)it.szFeature);
+
+	for (auto &it : m_lstJabberFeatCapPairsDynamic)
+		if (jcb & it->jcbCap)
+			feats.insert(it->szFeature);
+
+	return feats;
+}
+
 void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const char *fullJid)
 {
 	CJabberIqInfo *pInfo = AddIQ(&CJabberProto::OnIqResultCapsDiscoInfo, JABBER_IQ_TYPE_GET, fullJid);
@@ -434,31 +403,13 @@ void CJabberProto::UpdateFeatHash()
 {
 	m_szFeaturesCrc.Empty();
 
-	JabberCapsBits jcb = JABBER_CAPS_MIRANDA_ALL;
-	for (auto &it : m_lstJabberFeatCapPairsDynamic)
-		jcb |= it->jcbCap;
-	if (!m_bAllowTimeReplies)
-		jcb &= ~JABBER_CAPS_ENTITY_TIME;
-	if (!m_bAllowVersionRequests)
-		jcb &= ~JABBER_CAPS_VERSION;
+	ptrA szName(getStringA("Identity", "Miranda")); // hidden setting to be entered from dbeditor++
+	CMStringA feat_buf(FORMAT, "client/pc//%s<", szName.get());
 
-	if (m_bUseOMEMO)
-		jcb |= JABBER_CAPS_OMEMO_DEVICELIST_NOTIFY;
-	if (!m_bMsgAck)
-		jcb &= ~(JABBER_CAPS_CHAT_MARKERS | JABBER_CAPS_MESSAGE_RECEIPTS);
-
-	CMStringA feat_buf(FORMAT, "client/pc//Miranda %d.%d.%d.%d<", __MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM);
-	for (auto &it : g_JabberFeatCapPairs)
-		if (jcb & it.jcbCap) {
-			feat_buf.Append(it.szFeature);
-			feat_buf.AppendChar('<');
-		}
-
-	for (auto &it : m_lstJabberFeatCapPairsDynamic)
-		if (jcb & it->jcbCap) {
-			feat_buf.Append(it->szFeature);
-			feat_buf.AppendChar('<');
-		}
+	for (auto &it : GetSortedFeatStrings(GetOwnCaps())) {
+		feat_buf.Append(it);
+		feat_buf.AppendChar('<');
+	}
 
 	feat_buf.Append("software_version"); feat_buf.AppendChar('<');
 	feat_buf.Append(__VERSION_STRING_DOTS); feat_buf.AppendChar('<');

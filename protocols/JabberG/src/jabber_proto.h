@@ -431,6 +431,9 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	JabberCapsBits GetResourceCapabilities(const char *jid);
 	JabberCapsBits GetResourceCapabilities(const char *jid, pResourceStatus &r);
 
+	LIST<char> GetSortedFeatStrings(JabberCapsBits jcb);
+	JabberCapsBits GetOwnCaps(bool IncludeDynamic = true);
+
 	//---- jabber_captcha.cpp ------------------------------------------------------------
 
 	void       sendCaptchaResult(char* buf, ThreadData *info, const char *from, const char *challenge, const char *fromjid, const char *sid);
