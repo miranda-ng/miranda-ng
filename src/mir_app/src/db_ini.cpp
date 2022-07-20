@@ -301,7 +301,7 @@ static int EnumSettingsForDeletion(const char *szSetting, void *param)
 
 static void ProcessIniFile(wchar_t* szIniPath, const char *szSafeSections, const char *szUnsafeSections, int secur, bool secFN)
 {
-	FILE *fp = _wfopen(szIniPath, L"rt");
+	FILE *fp = _wfopen(szIniPath, L"rb");
 	if (fp == nullptr)
 		return;
 
