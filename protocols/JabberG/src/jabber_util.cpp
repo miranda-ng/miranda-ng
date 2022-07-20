@@ -416,10 +416,10 @@ void CJabberProto::SendPresenceTo(int status, const char *to, const TiXmlElement
 		p += extra;
 
 	// XEP-0115:Entity Capabilities
+	TiXmlElement *c = p << XCHILDNS("c", JABBER_FEAT_ENTITY_CAPS) << XATTR("hash", "sha-1")
+		<< XATTR("node", JABBER_CAPS_MIRANDA_NODE) << XATTR("ver", m_szFeaturesCrc);
+	
 	if (m_bAllowVersionRequests) {
-		TiXmlElement *c = p << XCHILDNS("c", JABBER_FEAT_ENTITY_CAPS) << XATTR("hash", "sha-1") 
-			<< XATTR("node", JABBER_CAPS_MIRANDA_NODE) << XATTR("ver", m_szFeaturesCrc);
-
 		LIST<char> arrExtCaps(5);
 		if (g_plugin.bSecureIM)
 			arrExtCaps.insert(JABBER_EXT_SECUREIM);

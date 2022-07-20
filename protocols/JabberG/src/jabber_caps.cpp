@@ -401,8 +401,6 @@ void CJabberProto::RequestOldCapsInfo(pResourceStatus &r, const char *fullJid)
 
 void CJabberProto::UpdateFeatHash()
 {
-	m_szFeaturesCrc.Empty();
-
 	ptrA szName(getStringA("Identity", "Miranda")); // hidden setting to be entered from dbeditor++
 	CMStringA feat_buf(FORMAT, "client/pc//%s<", szName.get());
 
