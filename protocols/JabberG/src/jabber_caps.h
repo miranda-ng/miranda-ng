@@ -203,6 +203,7 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_IDLE                        "urn:xmpp:idle:1"
 #define JABBER_FEAT_SERVER_AVATAR               "storage:client:avatar"
 #define JABBER_FEAT_SID                         "urn:xmpp:sid:0"
+#define JABBER_FEAT_SOFTWARE_INFO               "urn:xmpp:dataforms:softwareinfo"
 #define JABBER_FEAT_UPLOAD                      "urn:xmpp:http:upload"
 #define JABBER_FEAT_UPLOAD0                     "urn:xmpp:http:upload:0"
 

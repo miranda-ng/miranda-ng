@@ -199,7 +199,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_adhocManager.FillDefaultNodes();
 
 	UpdateFeatHash();
-	AddDefaultCaps();
 
 	IconsInit();
 

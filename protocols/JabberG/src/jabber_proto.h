@@ -422,7 +422,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	CMStringA  m_szFeaturesCrc;
 
-	void       AddDefaultCaps();
 	bool       HandleCapsInfoRequest(const TiXmlElement *iqNode, CJabberIqInfo *pInfo, const char *szNode);
 	void       RequestOldCapsInfo(pResourceStatus &r, const char *fullJid);
 	void       UpdateFeatHash();
