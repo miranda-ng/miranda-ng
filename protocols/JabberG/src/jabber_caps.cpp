@@ -304,7 +304,7 @@ bool CJabberProto::HandleCapsInfoRequest(const TiXmlElement *, CJabberIqInfo *pI
 
 	CMStringA szName(getMStringA("Identity", "Miranda")); // hidden setting to be entered from dbeditor++
 	if (m_bAllowVersionRequests)
-		szName.Append(" " __VERSION_STRING_DOTS);
+		szName.AppendFormat(" %s", __VERSION_STRING_DOTS);
 	query << XCHILD("identity") << XATTR("category", "client") << XATTR("type", "pc") << XATTR("name", szName);
 
 	for (auto &it : GetSortedFeatStrings(GetOwnCaps())) {
