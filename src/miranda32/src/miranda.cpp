@@ -37,6 +37,8 @@ const wchar_t wszQuestion[] = L"Miranda NG needs the Visual Studio runtime libra
 
 int WINAPI wWinMain(HINSTANCE, HINSTANCE, LPTSTR cmdLine, int)
 {
+	DeleteFileW(L"libmdbx.mir"); // just to be sure
+
 	int retVal;
 	HINSTANCE hMirApp = LoadLibraryW(L"mir_app.mir");
 	if (hMirApp == nullptr) {
