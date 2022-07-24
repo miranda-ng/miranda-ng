@@ -147,7 +147,7 @@ MIR_APP_DLL(bool) PU::PrepareEscalation()
 	if (hFile != INVALID_HANDLE_VALUE) {
 		// we are admins or UAC is disable, cool
 		CloseHandle(hFile);
-		DeleteFile(szPath);
+		DeleteFileW(szPath);
 		return true;
 	}
 
@@ -276,7 +276,7 @@ MIR_APP_DLL(int) PU::SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst)
 MIR_APP_DLL(int) PU::SafeDeleteFile(const wchar_t *pwszFile)
 {
 	if (g_hPipe == nullptr)
-		return DeleteFile(pwszFile);
+		return DeleteFileW(pwszFile);
 
 	return TransactPipe(3, pwszFile, nullptr);
 }

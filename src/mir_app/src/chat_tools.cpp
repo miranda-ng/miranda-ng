@@ -594,8 +594,8 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 				fclose(hFile);
 				hFile = nullptr;
 				if (!PathFileExists(tszNewName))
-					CopyFile(si->pszLogFileName, tszNewName, TRUE);
-				DeleteFile(si->pszLogFileName);
+					CopyFileW(si->pszLogFileName, tszNewName, TRUE);
+				DeleteFileW(si->pszLogFileName);
 			}
 		}
 	}
