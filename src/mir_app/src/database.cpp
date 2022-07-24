@@ -492,6 +492,11 @@ int LoadDatabaseModule(void)
 	PathToAbsoluteW(L".", tmp);
 	_wchdir(tmp);
 
+	while (!_waccess(L"libmdbx.mir", 0)) {
+		DeleteFileW(L"libmdbx.mir"); // just to be sure
+		SleepEx(50, TRUE);
+	}
+
 	// find out which profile to load
 	MFilePath szProfile;
 	if (!getProfile(szProfile))
