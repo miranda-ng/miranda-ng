@@ -79,5 +79,11 @@ int LoadDbintfModule()
 	g_hevEventEdited = CreateHookableEvent(ME_DB_EVENT_EDITED);
 	g_hevEventDeleted = CreateHookableEvent(ME_DB_EVENT_DELETED);
 	g_hevEventFiltered = CreateHookableEvent(ME_DB_EVENT_FILTER_ADD);
+
+	while (!_waccess(L"libmdbx.mir", 0)) {
+		DeleteFileW(L"libmdbx.mir"); // just to be sure
+		SleepEx(50, TRUE);
+	}
+
 	return 0;
 }
