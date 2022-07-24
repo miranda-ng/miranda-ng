@@ -1219,7 +1219,7 @@ public:
 		m_btnAddJid(this, IDC_ADDJID, g_plugin.getIcon(IDI_ADDCONTACT), LPGEN("Add JID")),
 		m_btnActivate(this, IDC_ACTIVATE, g_plugin.getIcon(IDI_PL_LIST_ACTIVE), LPGEN("Activate")),
 		m_btnSetDefault(this, IDC_SET_DEFAULT, g_plugin.getIcon(IDI_PL_LIST_DEFAULT), LPGEN("Set default")),
-		m_btnEditRule(this, IDC_EDIT_RULE, SKINICON_OTHER_RENAME, LPGEN("Edit rule")),
+		m_btnEditRule(this, IDC_EDIT_RULE, SKINICON_OTHER_EDIT, LPGEN("Edit rule")),
 		m_btnAddRule(this, IDC_ADD_RULE, SKINICON_OTHER_ADDCONTACT, LPGEN("Add rule")),
 		m_btnRemoveRule(this, IDC_REMOVE_RULE, SKINICON_OTHER_DELETE, LPGEN("Delete rule")),
 		m_btnUpRule(this, IDC_UP_RULE, g_plugin.getIcon(IDI_ARROW_UP), LPGEN("Move rule up")),

@@ -484,7 +484,7 @@ public:
 	CJabberDlgNotes(CJabberProto *proto) :
 		CSuper(proto, IDD_NOTEBOOK),
 		m_btnAdd(this, IDC_ADD, SKINICON_OTHER_ADDCONTACT, LPGEN("Add")),
-		m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_RENAME, LPGEN("Edit")),
+		m_btnEdit(this, IDC_EDIT, SKINICON_OTHER_EDIT, LPGEN("Edit")),
 		m_btnRemove(this, IDC_REMOVE, SKINICON_OTHER_DELETE, LPGEN("Remove")),
 		m_lstNotes(this, IDC_LST_NOTES),
 		m_tvFilter(this, IDC_TV_FILTER),

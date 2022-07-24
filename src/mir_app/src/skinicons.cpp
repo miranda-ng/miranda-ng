@@ -94,6 +94,7 @@ static struct StandardIconDescription mainIcons[] =
 	{ SKINICON_ERROR,                 LPGEN("Error"),                 -IDI_MERROR,         0, nullptr }, // 53
 	{ SKINICON_WARNING,               LPGEN("Warning"),               -IDI_MWARNING,       0, nullptr }, // 54
 	{ SKINICON_INFORMATION,           LPGEN("Information"),           -IDI_MINFO,          0, nullptr }, // 55
+	{ SKINICON_OTHER_EDIT,            LPGEN("Edit"),                  -IDI_TYPING,         0, nullptr }, // 56
 	
 	{ SKINICON_OTHER_VISIBLE_ALL,     LPGEN("Always visible"),        -IDI_ALWAYSVIS,     0, LPGEN("Contact list") },
 	{ SKINICON_OTHER_INVISIBLE_ALL,   LPGEN("Always invisible"),      -IDI_NEVERVIS,      0, LPGEN("Contact list") },
