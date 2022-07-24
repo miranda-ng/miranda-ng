@@ -17,7 +17,8 @@ typedef int onion_recv_1_cb(void *object, const IP_Port *dest, const uint8_t *da
 
 typedef struct Onion {
     const Logger *log;
-    Mono_Time *mono_time;
+    const Mono_Time *mono_time;
+    const Random *rng;
     DHT *dht;
     Networking_Core *net;
     uint8_t secret_symmetric_key[CRYPTO_SYMMETRIC_KEY_SIZE];
@@ -68,7 +69,7 @@ typedef struct Onion_Path {
     uint32_t path_num;
 } Onion_Path;
 
-/** Create a new onion path.
+/** @brief Create a new onion path.
  *
  * Create a new onion path out of nodes (nodes is a list of ONION_PATH_LENGTH nodes)
  *
@@ -77,16 +78,18 @@ typedef struct Onion_Path {
  * return -1 on failure.
  * return 0 on success.
  */
-int create_onion_path(const DHT *dht, Onion_Path *new_path, const Node_format *nodes);
+non_null()
+int create_onion_path(const Random *rng, const DHT *dht, Onion_Path *new_path, const Node_format *nodes);
 
-/** Dump nodes in onion path to nodes of length num_nodes.
+/** @brief Dump nodes in onion path to nodes of length num_nodes.
  *
  * return -1 on failure.
  * return 0 on success.
  */
+non_null()
 int onion_path_to_nodes(Node_format *nodes, unsigned int num_nodes, const Onion_Path *path);
 
-/** Create a onion packet.
+/** @brief Create a onion packet.
  *
  * Use Onion_Path path to create packet for data of length to dest.
  * Maximum length of data is ONION_MAX_DATA_SIZE.
@@ -95,11 +98,13 @@ int onion_path_to_nodes(Node_format *nodes, unsigned int num_nodes, const Onion_
  * return -1 on failure.
  * return length of created packet on success.
  */
-int create_onion_packet(uint8_t *packet, uint16_t max_packet_length, const Onion_Path *path, const IP_Port *dest,
+non_null()
+int create_onion_packet(const Random *rng, uint8_t *packet, uint16_t max_packet_length,
+                        const Onion_Path *path, const IP_Port *dest,
                         const uint8_t *data, uint16_t length);
 
 
-/** Create a onion packet to be sent over tcp.
+/** @brief Create a onion packet to be sent over tcp.
  *
  * Use Onion_Path path to create packet for data of length to dest.
  * Maximum length of data is ONION_MAX_DATA_SIZE.
@@ -108,30 +113,22 @@ int create_onion_packet(uint8_t *packet, uint16_t max_packet_length, const Onion
  * return -1 on failure.
  * return length of created packet on success.
  */
-int create_onion_packet_tcp(uint8_t *packet, uint16_t max_packet_length, const Onion_Path *path, const IP_Port *dest,
+non_null()
+int create_onion_packet_tcp(const Random *rng, uint8_t *packet, uint16_t max_packet_length,
+                            const Onion_Path *path, const IP_Port *dest,
                             const uint8_t *data, uint16_t length);
 
-/** Create and send a onion packet.
- *
- * Use Onion_Path path to send data of length to dest.
- * Maximum length of data is ONION_MAX_DATA_SIZE.
- *
- * return -1 on failure.
- * return 0 on success.
- */
-int send_onion_packet(const Networking_Core *net, const Onion_Path *path, const IP_Port *dest, const uint8_t *data,
-                      uint16_t length);
-
-/** Create and send a onion response sent initially to dest with.
+/** @brief Create and send a onion response sent initially to dest with.
  * Maximum length of data is ONION_RESPONSE_MAX_DATA_SIZE.
  *
  * return -1 on failure.
  * return 0 on success.
  */
+non_null()
 int send_onion_response(const Networking_Core *net, const IP_Port *dest, const uint8_t *data, uint16_t length,
                         const uint8_t *ret);
 
-/** Function to handle/send received decrypted versions of the packet sent with send_onion_packet.
+/** @brief Function to handle/send received decrypted versions of the packet created by create_onion_packet.
  *
  * return 0 on success.
  * return 1 on failure.
@@ -141,14 +138,17 @@ int send_onion_response(const Networking_Core *net, const IP_Port *dest, const u
  * Source family must be set to something else than TOX_AF_INET6 or TOX_AF_INET so that the callback gets called
  * when the response is received.
  */
+non_null()
 int onion_send_1(const Onion *onion, const uint8_t *plain, uint16_t len, const IP_Port *source, const uint8_t *nonce);
 
-/** Set the callback to be called when the dest ip_port doesn't have TOX_AF_INET6 or TOX_AF_INET as the family.
- */
+/** Set the callback to be called when the dest ip_port doesn't have TOX_AF_INET6 or TOX_AF_INET as the family. */
+non_null(1) nullable(2, 3)
 void set_callback_handle_recv_1(Onion *onion, onion_recv_1_cb *function, void *object);
 
-Onion *new_onion(const Logger *log, Mono_Time *mono_time, DHT *dht);
+non_null()
+Onion *new_onion(const Logger *log, const Mono_Time *mono_time, const Random *rng, DHT *dht);
 
+nullable(1)
 void kill_onion(Onion *onion);
 
 

@@ -17,6 +17,7 @@ struct TCP_Priority_List {
     uint8_t *data;
 };
 
+nullable(1)
 void wipe_priority_list(TCP_Priority_List *p);
 
 #define NUM_RESERVED_PORTS 16
@@ -32,6 +33,8 @@ void wipe_priority_list(TCP_Priority_List *p);
 #define TCP_PACKET_OOB_RECV 7
 #define TCP_PACKET_ONION_REQUEST  8
 #define TCP_PACKET_ONION_RESPONSE 9
+#define TCP_PACKET_FORWARD_REQUEST 10
+#define TCP_PACKET_FORWARDING 11
 
 #define TCP_HANDSHAKE_PLAIN_SIZE (CRYPTO_PUBLIC_KEY_SIZE + CRYPTO_NONCE_SIZE)
 #define TCP_SERVER_HANDSHAKE_SIZE (CRYPTO_NONCE_SIZE + TCP_HANDSHAKE_PLAIN_SIZE + CRYPTO_MAC_SIZE)
@@ -45,6 +48,8 @@ void wipe_priority_list(TCP_Priority_List *p);
 #define MAX_PACKET_SIZE 2048
 
 typedef struct TCP_Connection {
+    const Random *rng;
+    const Network *ns;
     Socket sock;
     IP_Port ip_port;  // for debugging.
     uint8_t sent_nonce[CRYPTO_NONCE_SIZE]; /* Nonce of sent packets. */
@@ -57,41 +62,48 @@ typedef struct TCP_Connection {
     TCP_Priority_List *priority_queue_end;
 } TCP_Connection;
 
-/** return 0 if pending data was sent completely
- * return -1 if it wasn't
+/**
+ * @retval 0 if pending data was sent completely
+ * @retval -1 if it wasn't
  */
+non_null()
 int send_pending_data_nonpriority(const Logger *logger, TCP_Connection *con);
 
-/** return 0 if pending data was sent completely
- * return -1 if it wasn't
+/**
+ * @retval 0 if pending data was sent completely
+ * @retval -1 if it wasn't
  */
+non_null()
 int send_pending_data(const Logger *logger, TCP_Connection *con);
 
-/** return 0 on failure (only if calloc fails)
- * return 1 on success
+/**
+ * @retval 1 on success.
+ * @retval 0 if could not send packet.
+ * @retval -1 on failure (connection must be killed).
  */
-bool add_priority(TCP_Connection *con, const uint8_t *packet, uint16_t size, uint16_t sent);
+non_null()
+int write_packet_TCP_secure_connection(
+        const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
+        bool priority);
 
-/** return 1 on success.
- * return 0 if could not send packet.
- * return -1 on failure (connection must be killed).
- */
-int write_packet_TCP_secure_connection(const Logger *logger, TCP_Connection *con, const uint8_t *data, uint16_t length,
-                                       bool priority);
-
-/** Read length bytes from socket.
+/** @brief Read length bytes from socket.
  *
  * return length on success
  * return -1 on failure/no data in buffer.
  */
-int read_TCP_packet(const Logger *logger, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port);
+non_null()
+int read_TCP_packet(
+        const Logger *logger, const Network *ns, Socket sock, uint8_t *data, uint16_t length, const IP_Port *ip_port);
 
-/** return length of received packet on success.
- * return 0 if could not read any packet.
- * return -1 on failure (connection must be killed).
+/**
+ * @return length of received packet on success.
+ * @retval 0 if could not read any packet.
+ * @retval -1 on failure (connection must be killed).
  */
-int read_packet_TCP_secure_connection(const Logger *logger, Socket sock, uint16_t *next_packet_length,
-                                      const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
-                                      uint16_t max_len, const IP_Port *ip_port);
+non_null()
+int read_packet_TCP_secure_connection(
+        const Logger *logger, const Network *ns, Socket sock, uint16_t *next_packet_length,
+        const uint8_t *shared_key, uint8_t *recv_nonce, uint8_t *data,
+        uint16_t max_len, const IP_Port *ip_port);
 
 #endif

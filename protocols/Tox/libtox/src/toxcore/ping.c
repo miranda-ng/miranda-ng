@@ -13,6 +13,7 @@
 #include <string.h>
 
 #include "DHT.h"
+#include "ccompat.h"
 #include "mono_time.h"
 #include "network.h"
 #include "ping_array.h"
@@ -29,6 +30,7 @@
 
 struct Ping {
     const Mono_Time *mono_time;
+    const Random *rng;
     DHT *dht;
 
     Ping_Array  *ping_array;
@@ -47,7 +49,7 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     int       rc;
     uint64_t  ping_id;
 
-    if (id_equal(public_key, dht_get_self_public_key(ping->dht))) {
+    if (pk_equal(public_key, dht_get_self_public_key(ping->dht))) {
         return;
     }
 
@@ -57,9 +59,9 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     dht_get_shared_key_sent(ping->dht, shared_key, public_key);
     // Generate random ping_id.
     uint8_t data[PING_DATA_SIZE];
-    id_copy(data, public_key);
+    pk_copy(data, public_key);
     memcpy(data + CRYPTO_PUBLIC_KEY_SIZE, ipp, sizeof(IP_Port));
-    ping_id = ping_array_add(ping->ping_array, ping->mono_time, data, sizeof(data));
+    ping_id = ping_array_add(ping->ping_array, ping->mono_time, ping->rng, data, sizeof(data));
 
     if (ping_id == 0) {
         crypto_memzero(shared_key, sizeof(shared_key));
@@ -71,8 +73,8 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     memcpy(ping_plain + 1, &ping_id, sizeof(ping_id));
 
     pk[0] = NET_PACKET_PING_REQUEST;
-    id_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
-    random_nonce(pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
+    pk_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
+    random_nonce(ping->rng, pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
 
 
     rc = encrypt_data_symmetric(shared_key,
@@ -90,12 +92,13 @@ void ping_send_request(Ping *ping, const IP_Port *ipp, const uint8_t *public_key
     sendpacket(dht_get_net(ping->dht), ipp, pk, sizeof(pk));
 }
 
+non_null()
 static int ping_send_response(const Ping *ping, const IP_Port *ipp, const uint8_t *public_key,
                               uint64_t ping_id, const uint8_t *shared_encryption_key)
 {
     uint8_t pk[DHT_PING_SIZE];
 
-    if (id_equal(public_key, dht_get_self_public_key(ping->dht))) {
+    if (pk_equal(public_key, dht_get_self_public_key(ping->dht))) {
         return 1;
     }
 
@@ -104,8 +107,8 @@ static int ping_send_response(const Ping *ping, const IP_Port *ipp, const uint8_
     memcpy(ping_plain + 1, &ping_id, sizeof(ping_id));
 
     pk[0] = NET_PACKET_PING_RESPONSE;
-    id_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
-    random_nonce(pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
+    pk_copy(pk + 1, dht_get_self_public_key(ping->dht));     // Our pubkey
+    random_nonce(ping->rng, pk + 1 + CRYPTO_PUBLIC_KEY_SIZE); // Generate new nonce
 
     // Encrypt ping_id using recipient privkey
     const int rc = encrypt_data_symmetric(shared_encryption_key,
@@ -120,6 +123,7 @@ static int ping_send_response(const Ping *ping, const IP_Port *ipp, const uint8_
     return sendpacket(dht_get_net(ping->dht), ipp, pk, sizeof(pk));
 }
 
+non_null()
 static int handle_ping_request(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
                                void *userdata)
 {
@@ -131,7 +135,7 @@ static int handle_ping_request(void *object, const IP_Port *source, const uint8_
 
     Ping *ping = dht_get_ping(dht);
 
-    if (id_equal(packet + 1, dht_get_self_public_key(ping->dht))) {
+    if (pk_equal(packet + 1, dht_get_self_public_key(ping->dht))) {
         return 1;
     }
 
@@ -167,6 +171,7 @@ static int handle_ping_request(void *object, const IP_Port *source, const uint8_
     return 0;
 }
 
+non_null()
 static int handle_ping_response(void *object, const IP_Port *source, const uint8_t *packet, uint16_t length,
                                 void *userdata)
 {
@@ -179,7 +184,7 @@ static int handle_ping_response(void *object, const IP_Port *source, const uint8
 
     Ping *ping = dht_get_ping(dht);
 
-    if (id_equal(packet + 1, dht_get_self_public_key(ping->dht))) {
+    if (pk_equal(packet + 1, dht_get_self_public_key(ping->dht))) {
         return 1;
     }
 
@@ -214,7 +219,7 @@ static int handle_ping_response(void *object, const IP_Port *source, const uint8
         return 1;
     }
 
-    if (!id_equal(packet + 1, data)) {
+    if (!pk_equal(packet + 1, data)) {
         return 1;
     }
 
@@ -229,16 +234,17 @@ static int handle_ping_response(void *object, const IP_Port *source, const uint8
     return 0;
 }
 
-/** Check if public_key with ip_port is in the list.
+/** @brief Check if public_key with ip_port is in the list.
  *
- * return 1 if it is.
- * return 0 if it isn't.
+ * return true if it is.
+ * return false if it isn't.
  */
-static int in_list(const Client_data *list, uint16_t length, const Mono_Time *mono_time, const uint8_t *public_key,
-                   const IP_Port *ip_port)
+non_null()
+static bool in_list(const Client_data *list, uint16_t length, const Mono_Time *mono_time, const uint8_t *public_key,
+                    const IP_Port *ip_port)
 {
     for (unsigned int i = 0; i < length; ++i) {
-        if (id_equal(list[i].public_key, public_key)) {
+        if (pk_equal(list[i].public_key, public_key)) {
             const IPPTsPng *ipptp;
 
             if (net_family_is_ipv4(ip_port->ip.family)) {
@@ -249,23 +255,23 @@ static int in_list(const Client_data *list, uint16_t length, const Mono_Time *mo
 
             if (!mono_time_is_timeout(mono_time, ipptp->timestamp, BAD_NODE_TIMEOUT)
                     && ipport_equal(&ipptp->ip_port, ip_port)) {
-                return 1;
+                return true;
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
-/** Add nodes to the to_ping list.
+/** @brief Add nodes to the to_ping list.
  * All nodes in this list are pinged every TIME_TO_PING seconds
  * and are then removed from the list.
  * If the list is full the nodes farthest from our public_key are replaced.
  * The purpose of this list is to enable quick integration of new nodes into the
  * network while preventing amplification attacks.
  *
- *  return 0 if node was added.
- *  return -1 if node was not added.
+ * @retval 0 if node was added.
+ * @retval -1 if node was not added.
  */
 int32_t ping_add(Ping *ping, const uint8_t *public_key, const IP_Port *ip_port)
 {
@@ -295,7 +301,7 @@ int32_t ping_add(Ping *ping, const uint8_t *public_key, const IP_Port *ip_port)
             return 0;
         }
 
-        if (public_key_cmp(ping->to_ping[i].public_key, public_key) == 0) {
+        if (pk_equal(ping->to_ping[i].public_key, public_key)) {
             return -1;
         }
     }
@@ -308,7 +314,7 @@ int32_t ping_add(Ping *ping, const uint8_t *public_key, const IP_Port *ip_port)
 }
 
 
-/** Ping all the valid nodes in the to_ping list every TIME_TO_PING seconds.
+/** @brief Ping all the valid nodes in the to_ping list every TIME_TO_PING seconds.
  * This function must be run at least once every TIME_TO_PING seconds.
  */
 void ping_iterate(Ping *ping)
@@ -342,7 +348,7 @@ void ping_iterate(Ping *ping)
 }
 
 
-Ping *ping_new(const Mono_Time *mono_time, DHT *dht)
+Ping *ping_new(const Mono_Time *mono_time, const Random *rng, DHT *dht)
 {
     Ping *ping = (Ping *)calloc(1, sizeof(Ping));
 
@@ -358,6 +364,7 @@ Ping *ping_new(const Mono_Time *mono_time, DHT *dht)
     }
 
     ping->mono_time = mono_time;
+    ping->rng = rng;
     ping->dht = dht;
     networking_registerhandler(dht_get_net(ping->dht), NET_PACKET_PING_REQUEST, &handle_ping_request, dht);
     networking_registerhandler(dht_get_net(ping->dht), NET_PACKET_PING_RESPONSE, &handle_ping_response, dht);

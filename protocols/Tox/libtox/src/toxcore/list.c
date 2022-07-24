@@ -5,8 +5,8 @@
 
 /**
  * Simple struct with functions to create a list which associates ids with data
- * -Allows for finding ids associated with data such as IPs or public keys in a short time
- * -Should only be used if there are relatively few add/remove calls to the list
+ * - Allows for finding ids associated with data such as IPs or public keys in a short time
+ * - Should only be used if there are relatively few add/remove calls to the list
  */
 #include "list.h"
 
@@ -16,15 +16,16 @@
 
 #include "ccompat.h"
 
-/** Basically, the elements in the list are placed in order so that they can be searched for easily
- * -each element is seen as a big-endian integer when ordering them
- * -the ids array is maintained so that each id always matches
- * -the search algorithm cuts down the time to find the id associated with a piece of data
+/**
+ * Basically, the elements in the list are placed in order so that they can be searched for easily
+ * - each element is seen as a big-endian integer when ordering them
+ * - the ids array is maintained so that each id always matches
+ * - the search algorithm cuts down the time to find the id associated with a piece of data
  *   at the cost of slow add/remove functions for large lists
- * -Starts at 1/2 of the array, compares the element in the array with the data,
- *   then moves +/- 1/4 of the array depending on whether the value is greater or lower,
- *   then +- 1/8, etc, until the value is matched or its position where it should be in the array is found
- * -some considerations since the array size is never perfect
+ * - Starts at `1/2` of the array, compares the element in the array with the data,
+ *   then moves `+/- 1/4` of the array depending on whether the value is greater or lower,
+ *   then `+- 1/8`, etc, until the value is matched or its position where it should be in the array is found
+ * - some considerations since the array size is never perfect
  */
 
 static int32_t
@@ -33,13 +34,13 @@ list_index(uint32_t i)
     return ~i;
 }
 
-/** Find data in list
+/** @brief Find data in list
  *
- * return value:
- *  >= 0 : index of data in array
- *  < 0  : no match, returns index (return value is list_index(index)) where
- *         the data should be inserted
+ * @retval >=0 index of data in array
+ * @retval <0  no match, returns index (return value is `list_index(index)`) where
+ *   the data should be inserted
  */
+non_null()
 static int find(const BS_List *list, const uint8_t *data)
 {
     // should work well, but could be improved
@@ -50,15 +51,15 @@ static int find(const BS_List *list, const uint8_t *data)
     uint32_t i = list->n / 2; // current position in the array
     uint32_t delta = i / 2;   // how much we move in the array
 
-    if (!delta) {
+    if (delta == 0) {
         delta = 1;
     }
 
     int d = -1; // used to determine if closest match is found
     // closest match is found if we move back to where we have already been
 
-    while (1) {
-        int r = memcmp(data, list->data + list->element_size * i, list->element_size);
+    while (true) {
+        const int r = memcmp(data, list->data + list->element_size * i, list->element_size);
 
         if (r == 0) {
             return i;
@@ -105,6 +106,7 @@ static int find(const BS_List *list, const uint8_t *data)
  *
  * @return true on success.
  */
+non_null()
 static bool resize(BS_List *list, uint32_t new_size)
 {
     if (new_size == 0) {
@@ -114,7 +116,7 @@ static bool resize(BS_List *list, uint32_t new_size)
 
     uint8_t *data = (uint8_t *)realloc(list->data, list->element_size * new_size);
 
-    if (!data) {
+    if (data == nullptr) {
         return false;
     }
 
@@ -122,7 +124,7 @@ static bool resize(BS_List *list, uint32_t new_size)
 
     int *ids = (int *)realloc(list->ids, sizeof(int) * new_size);
 
-    if (!ids) {
+    if (ids == nullptr) {
         return false;
     }
 
@@ -154,6 +156,10 @@ int bs_list_init(BS_List *list, uint32_t element_size, uint32_t initial_capacity
 
 void bs_list_free(BS_List *list)
 {
+    if (list == nullptr) {
+        return;
+    }
+
     // free both arrays
     free(list->data);
     list->data = nullptr;
@@ -164,7 +170,7 @@ void bs_list_free(BS_List *list)
 
 int bs_list_find(const BS_List *list, const uint8_t *data)
 {
-    int r = find(list, data);
+    const int r = find(list, data);
 
     // return only -1 and positive values
     if (r < 0) {
@@ -174,7 +180,7 @@ int bs_list_find(const BS_List *list, const uint8_t *data)
     return list->ids[r];
 }
 
-int bs_list_add(BS_List *list, const uint8_t *data, int id)
+bool bs_list_add(BS_List *list, const uint8_t *data, int id)
 {
     // find where the new element should be inserted
     // see: return value of find()
@@ -182,7 +188,7 @@ int bs_list_add(BS_List *list, const uint8_t *data, int id)
 
     if (i >= 0) {
         // already in list
-        return 0;
+        return false;
     }
 
     i = ~i;
@@ -193,7 +199,7 @@ int bs_list_add(BS_List *list, const uint8_t *data, int id)
         const uint32_t new_capacity = list->n + list->n / 2 + 1;
 
         if (!resize(list, new_capacity)) {
-            return 0;
+            return false;
         }
 
         list->capacity = new_capacity;
@@ -211,20 +217,20 @@ int bs_list_add(BS_List *list, const uint8_t *data, int id)
     // increase n
     ++list->n;
 
-    return 1;
+    return true;
 }
 
-int bs_list_remove(BS_List *list, const uint8_t *data, int id)
+bool bs_list_remove(BS_List *list, const uint8_t *data, int id)
 {
-    int i = find(list, data);
+    const int i = find(list, data);
 
     if (i < 0) {
-        return 0;
+        return false;
     }
 
     if (list->ids[i] != id) {
         // this should never happen
-        return 0;
+        return false;
     }
 
     // decrease the size of the arrays if needed
@@ -242,5 +248,5 @@ int bs_list_remove(BS_List *list, const uint8_t *data, int id)
             (list->n - i) * list->element_size);
     memmove(&list->ids[i], &list->ids[i + 1], (list->n - i) * sizeof(int));
 
-    return 1;
+    return true;
 }

@@ -223,8 +223,8 @@ bool tox_pass_decrypt(const uint8_t *ciphertext, size_t ciphertext_len, const ui
  *
  * A pass-key and a password are two different concepts: a password is given
  * by the user in plain text. A pass-key is the generated symmetric key used
- * for encryption and decryption. It is derived from a salt and the user-
- * provided password.
+ * for encryption and decryption. It is derived from a salt and the
+ * user-provided password.
  *
  * The Tox_Pass_Key structure is hidden in the implementation. It can be created
  * using tox_pass_key_derive or tox_pass_key_derive_with_salt and must be deallocated using tox_pass_key_free.
@@ -235,10 +235,10 @@ typedef struct Tox_Pass_Key Tox_Pass_Key;
 #endif /* TOX_PASS_KEY_DEFINED */
 
 /**
- * Deallocate a Tox_Pass_Key. This function behaves like free(), so NULL is an
+ * Deallocate a Tox_Pass_Key. This function behaves like `free()`, so NULL is an
  * acceptable argument value.
  */
-void tox_pass_key_free(struct Tox_Pass_Key *key);
+void tox_pass_key_free(Tox_Pass_Key *key);
 
 /**
  * Generates a secret symmetric key from the given passphrase.
@@ -253,9 +253,9 @@ void tox_pass_key_free(struct Tox_Pass_Key *key);
  * @param passphrase The user-provided password. Can be empty.
  * @param passphrase_len The length of the password.
  *
- * @return true on success.
+ * @return new symmetric key on success, NULL on failure.
  */
-struct Tox_Pass_Key *tox_pass_key_derive(const uint8_t *passphrase, size_t passphrase_len,
+Tox_Pass_Key *tox_pass_key_derive(const uint8_t *passphrase, size_t passphrase_len,
         Tox_Err_Key_Derivation *error);
 
 /**
@@ -265,9 +265,9 @@ struct Tox_Pass_Key *tox_pass_key_derive(const uint8_t *passphrase, size_t passp
  * @param passphrase_len The length of the password.
  * @param salt An array of at least TOX_PASS_SALT_LENGTH bytes.
  *
- * @return true on success.
+ * @return new symmetric key on success, NULL on failure.
  */
-struct Tox_Pass_Key *tox_pass_key_derive_with_salt(const uint8_t *passphrase, size_t passphrase_len,
+Tox_Pass_Key *tox_pass_key_derive_with_salt(const uint8_t *passphrase, size_t passphrase_len,
         const uint8_t *salt, Tox_Err_Key_Derivation *error);
 
 /**
@@ -282,7 +282,7 @@ struct Tox_Pass_Key *tox_pass_key_derive_with_salt(const uint8_t *passphrase, si
  *
  * @return true on success.
  */
-bool tox_pass_key_encrypt(const struct Tox_Pass_Key *key, const uint8_t *plaintext, size_t plaintext_len,
+bool tox_pass_key_encrypt(const Tox_Pass_Key *key, const uint8_t *plaintext, size_t plaintext_len,
                           uint8_t *ciphertext, Tox_Err_Encryption *error);
 
 /**
@@ -295,7 +295,7 @@ bool tox_pass_key_encrypt(const struct Tox_Pass_Key *key, const uint8_t *plainte
  *
  * @return true on success.
  */
-bool tox_pass_key_decrypt(const struct Tox_Pass_Key *key, const uint8_t *ciphertext, size_t ciphertext_len,
+bool tox_pass_key_decrypt(const Tox_Pass_Key *key, const uint8_t *ciphertext, size_t ciphertext_len,
                           uint8_t *plaintext, Tox_Err_Decryption *error);
 
 typedef enum Tox_Err_Get_Salt {

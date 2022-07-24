@@ -8,9 +8,9 @@
 #ifndef C_TOXCORE_TOXCORE_CCOMPAT_H
 #define C_TOXCORE_TOXCORE_CCOMPAT_H
 
-#include <stdbool.h>
+#include <stddef.h>  // NULL, size_t
 
-bool unused_for_tokstyle(void);
+#include "attributes.h"
 
 //!TOKSTYLE-
 
@@ -25,7 +25,7 @@ bool unused_for_tokstyle(void);
 // you may run out of stack space.
 #if !defined(DISABLE_VLA) && !defined(_MSC_VER) && defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
 // C99 VLAs.
-#define VLA(type, name, size) type name[size]
+#define ALLOC_VLA(type, name, size) type name[size]
 #define SIZEOF_VLA sizeof
 #else
 
@@ -46,19 +46,35 @@ bool unused_for_tokstyle(void);
 #endif
 #endif
 
-#define VLA(type, name, size)                           \
-  const size_t name##_size = (size) * sizeof(type);     \
-  type *const name = (type *)alloca(name##_size)
-#define SIZEOF_VLA(name) name##_size
+#define ALLOC_VLA(type, name, size)                       \
+    const size_t name##_vla_size = (size) * sizeof(type); \
+    type *const name = (type *)alloca(name##_vla_size)
+#define SIZEOF_VLA(name) name##_vla_size
 
+#endif
+
+#ifdef MAX_VLA_SIZE
+#include <assert.h>
+#define VLA(type, name, size)    \
+    ALLOC_VLA(type, name, size); \
+    assert((size_t)(size) * sizeof(type) <= MAX_VLA_SIZE)
+#else
+#define VLA ALLOC_VLA
 #endif
 
 #if !defined(__cplusplus) || __cplusplus < 201103L
 #define nullptr NULL
 #ifndef static_assert
-#define static_assert(cond, msg) extern const int unused_for_static_assert
-#endif
-#endif
+#ifdef __GNUC__
+// We'll just assume gcc and clang support C11 _Static_assert.
+#define static_assert _Static_assert
+#else // !__GNUC__
+#define STATIC_ASSERT_(cond, msg, line) typedef int static_assert_##line[(cond) ? 1 : -1]
+#define STATIC_ASSERT(cond, msg, line) STATIC_ASSERT_(cond, msg, line)
+#define static_assert(cond, msg) STATIC_ASSERT(cond, msg, __LINE__)
+#endif // !__GNUC__
+#endif // !static_assert
+#endif // !__cplusplus
 
 #ifdef __GNUC__
 #define GNU_PRINTF(f, a) __attribute__((__format__(__printf__, f, a)))

@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "ccompat.h"
 
 struct Logger {
     logger_cb *callback;
@@ -21,7 +22,7 @@ struct Logger {
     void *userdata;
 };
 
-#ifdef USE_STDERR_LOGGER
+#ifndef NDEBUG
 static const char *logger_level_name(Logger_Level level)
 {
     switch (level) {
@@ -43,12 +44,18 @@ static const char *logger_level_name(Logger_Level level)
 
     return "<unknown>";
 }
+#endif
 
+non_null(1, 3, 5, 6) nullable(7)
 static void logger_stderr_handler(void *context, Logger_Level level, const char *file, int line, const char *func,
                                   const char *message, void *userdata)
 {
+#ifndef NDEBUG
     // GL stands for "global logger".
     fprintf(stderr, "[GL] %s %s:%d(%s): %s\n", logger_level_name(level), file, line, func, message);
+    fprintf(stderr, "Default stderr logger triggered; aborting program\n");
+    abort();
+#endif
 }
 
 static const Logger logger_stderr = {
@@ -56,7 +63,6 @@ static const Logger logger_stderr = {
     nullptr,
     nullptr,
 };
-#endif
 
 /*
  * Public Functions
@@ -82,16 +88,11 @@ void logger_callback_log(Logger *log, logger_cb *function, void *context, void *
 void logger_write(const Logger *log, Logger_Level level, const char *file, int line, const char *func,
                   const char *format, ...)
 {
-    if (!log) {
-#ifdef USE_STDERR_LOGGER
+    if (log == nullptr) {
         log = &logger_stderr;
-#else
-        fprintf(stderr, "NULL logger not permitted.\n");
-        abort();
-#endif
     }
 
-    if (!log->callback) {
+    if (log->callback == nullptr) {
         return;
     }
 
@@ -104,7 +105,7 @@ void logger_write(const Logger *log, Logger_Level level, const char *file, int l
     // On Windows, the path separator *may* be a backslash, so we look for that
     // one too.
     const char *windows_filename = strrchr(file, '\\');
-    file = windows_filename ? windows_filename + 1 : file;
+    file = windows_filename != nullptr ? windows_filename + 1 : file;
 #endif
 
     // Format message

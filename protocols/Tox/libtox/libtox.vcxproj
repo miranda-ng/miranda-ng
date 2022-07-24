@@ -37,10 +37,91 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\toxcore\announce.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\bin_pack.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\bin_unpack.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\ccompat.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\crypto_core.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\DHT.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_connected.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_invite.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_message.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_peer_list_changed.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_peer_name.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\conference_title.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\events_alloc.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_chunk_request.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv_chunk.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\file_recv_control.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_connection_status.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_lossless_packet.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_lossy_packet.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_message.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_name.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_read_receipt.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_request.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_status.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_status_message.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\friend_typing.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\events\self_connection_status.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\forwarding.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\friend_connection.c">
@@ -50,6 +131,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\group.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_announce.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_moderation.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\LAN_discovery.c">
@@ -103,10 +190,25 @@
     <ClCompile Include="src\toxcore\TCP_server.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\toxcore\timed_auth.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\toxcore\tox.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\tox_api.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_dispatch.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_events.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_private.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_unpack.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\toxcore\util.c">
@@ -115,12 +217,20 @@
     <ClCompile Include="src\toxencryptsave\toxencryptsave.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="src\toxcore\announce.h" />
+    <ClInclude Include="src\toxcore\attributes.h" />
+    <ClInclude Include="src\toxcore\bin_pack.h" />
+    <ClInclude Include="src\toxcore\bin_unpack.h" />
     <ClInclude Include="src\toxcore\ccompat.h" />
     <ClInclude Include="src\toxcore\crypto_core.h" />
     <ClInclude Include="src\toxcore\DHT.h" />
+    <ClInclude Include="src\toxcore\events\events_alloc.h" />
+    <ClInclude Include="src\toxcore\forwarding.h" />
     <ClInclude Include="src\toxcore\friend_connection.h" />
     <ClInclude Include="src\toxcore\friend_requests.h" />
     <ClInclude Include="src\toxcore\group.h" />
+    <ClInclude Include="src\toxcore\group_announce.h" />
+    <ClInclude Include="src\toxcore\group_moderation.h" />
     <ClInclude Include="src\toxcore\LAN_discovery.h" />
     <ClInclude Include="src\toxcore\list.h" />
     <ClInclude Include="src\toxcore\logger.h" />
@@ -138,8 +248,13 @@
     <ClInclude Include="src\toxcore\TCP_common.h" />
     <ClInclude Include="src\toxcore\TCP_connection.h" />
     <ClInclude Include="src\toxcore\TCP_server.h" />
+    <ClInclude Include="src\toxcore\timed_auth.h" />
     <ClInclude Include="src\toxcore\tox.h" />
+    <ClInclude Include="src\toxcore\tox_dispatch.h" />
+    <ClInclude Include="src\toxcore\tox_events.h" />
     <ClInclude Include="src\toxcore\tox_private.h" />
+    <ClInclude Include="src\toxcore\tox_struct.h" />
+    <ClInclude Include="src\toxcore\tox_unpack.h" />
     <ClInclude Include="src\toxcore\util.h" />
   </ItemGroup>
   <ItemGroup>

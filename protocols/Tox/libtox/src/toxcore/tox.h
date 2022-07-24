@@ -108,6 +108,8 @@
 extern "C" {
 #endif
 
+/** @{ @namespace tox */
+
 #ifndef TOX_DEFINED
 #define TOX_DEFINED
 /**
@@ -156,14 +158,14 @@ uint32_t tox_version_minor(void);
  * Incremented when bugfixes are applied without changing any functionality or
  * API or ABI.
  */
-#define TOX_VERSION_PATCH              15
+#define TOX_VERSION_PATCH              18
 
 uint32_t tox_version_patch(void);
 
 //!TOKSTYLE-
 /**
  * @brief A macro to check at preprocessing time whether the client code is
- * compatible with the installed version of Tox.
+ *   compatible with the installed version of Tox.
  *
  * Leading zeros in the version number are  ignored. E.g. 0.1.5 is to 0.1.4
  * what 1.5 is to 1.4, that is: it can add new features, but can't break the
@@ -187,13 +189,13 @@ uint32_t tox_version_patch(void);
 
 /**
  * @brief Return whether the compiled library version is compatible with the
- * passed version numbers.
+ *   passed version numbers.
  */
 bool tox_version_is_compatible(uint32_t major, uint32_t minor, uint32_t patch);
 
 /**
  * @brief A convenience macro to call tox_version_is_compatible with the
- * currently compiling API version.
+ *   currently compiling API version.
  */
 #define TOX_VERSION_IS_ABI_COMPATIBLE()                         \
   tox_version_is_compatible(TOX_VERSION_MAJOR, TOX_VERSION_MINOR, TOX_VERSION_PATCH)
@@ -374,7 +376,7 @@ typedef enum Tox_User_Status {
 
 /**
  * @brief Represents message types for tox_friend_send_message and conference
- * messages.
+ *   messages.
  */
 typedef enum Tox_Message_Type {
 
@@ -465,12 +467,12 @@ typedef enum Tox_Log_Level {
     TOX_LOG_LEVEL_INFO,
 
     /**
-     * Warnings about internal inconsistency or logic errors.
+     * Warnings about events_alloc inconsistency or logic errors.
      */
     TOX_LOG_LEVEL_WARNING,
 
     /**
-     * Severe unexpected errors caused by external or internal inconsistency.
+     * Severe unexpected errors caused by external or events_alloc inconsistency.
      */
     TOX_LOG_LEVEL_ERROR,
 
@@ -478,7 +480,7 @@ typedef enum Tox_Log_Level {
 
 
 /**
- * @brief This event is triggered when the toxcore library logs an internal message.
+ * @brief This event is triggered when the toxcore library logs an events_alloc message.
  *
  * This is mostly useful for debugging. This callback can be called from any
  * function, not just tox_iterate. This means the user data lifetime must at
@@ -500,6 +502,16 @@ typedef void tox_log_cb(Tox *tox, Tox_Log_Level level, const char *file, uint32_
 
 
 /**
+ * @brief Operating system functions used by Tox.
+ *
+ * This struct is opaque and generally shouldn't be used in clients, but in
+ * combination with tox_private.h, it allows tests to inject non-IO (hermetic)
+ * versions of low level network, RNG, and time keeping functions.
+ */
+typedef struct Tox_System Tox_System;
+
+
+/**
  * @brief This struct contains all the startup options for Tox.
  *
  * You must tox_options_new to allocate an object of this type.
@@ -509,9 +521,10 @@ typedef void tox_log_cb(Tox *tox, Tox_Log_Level level, const char *file, uint32_
  * directly, as it *will* break binary compatibility frequently.
  *
  * @deprecated The memory layout of this struct (size, alignment, and field
- * order) is not part of the ABI. To remain compatible, prefer to use tox_options_new to
- * allocate the object and accessor functions to set the members. The struct
- * will become opaque (i.e. the definition will become private) in v0.3.0.
+ *   order) is not part of the ABI. To remain compatible, prefer to use
+ *   tox_options_new to allocate the object and accessor functions to set the
+ *   members. The struct will become opaque (i.e. the definition will become
+ *   private) in v0.3.0.
  */
 struct Tox_Options {
 
@@ -545,6 +558,13 @@ struct Tox_Options {
      */
     bool local_discovery_enabled;
 
+
+    /**
+     * Enable storing DHT announcements and forwarding corresponding requests.
+     *
+     * Disabling this will cause Tox to ignore the relevant packets.
+     */
+    bool dht_announcements_enabled;
 
     /**
      * Pass communications through a proxy.
@@ -663,6 +683,12 @@ struct Tox_Options {
      */
     bool experimental_thread_safety;
 
+    /**
+     * Low level operating system functionality such as send/recv and random
+     * number generation.
+     */
+    const Tox_System *operating_system;
+
 };
 
 
@@ -677,6 +703,10 @@ void tox_options_set_udp_enabled(struct Tox_Options *options, bool udp_enabled);
 bool tox_options_get_local_discovery_enabled(const struct Tox_Options *options);
 
 void tox_options_set_local_discovery_enabled(struct Tox_Options *options, bool local_discovery_enabled);
+
+bool tox_options_get_dht_announcements_enabled(const struct Tox_Options *options);
+
+void tox_options_set_dht_announcements_enabled(struct Tox_Options *options, bool dht_announcements_enabled);
 
 Tox_Proxy_Type tox_options_get_proxy_type(const struct Tox_Options *options);
 
@@ -728,7 +758,11 @@ void tox_options_set_log_user_data(struct Tox_Options *options, void *user_data)
 
 bool tox_options_get_experimental_thread_safety(const struct Tox_Options *options);
 
-void tox_options_set_experimental_thread_safety(struct Tox_Options *options, bool thread_safety);
+void tox_options_set_experimental_thread_safety(struct Tox_Options *options, bool experimental_thread_safety);
+
+const Tox_System *tox_options_get_operating_system(const struct Tox_Options *options);
+
+void tox_options_set_operating_system(struct Tox_Options *options, const Tox_System *operating_system);
 
 /**
  * @brief Initialises a Tox_Options object with the default options.
@@ -760,7 +794,7 @@ typedef enum Tox_Err_Options_New {
 
 /**
  * @brief Allocates a new Tox_Options object and initialises it with the default
- * options.
+ *   options.
  *
  * This function can be used to preserve long term ABI compatibility by
  * giving the responsibility of allocation and deallocation to the Tox library.
@@ -800,7 +834,7 @@ typedef enum Tox_Err_New {
     TOX_ERR_NEW_NULL,
 
     /**
-     * The function was unable to allocate enough memory to store the internal
+     * The function was unable to allocate enough memory to store the events_alloc
      * structures for the Tox object.
      */
     TOX_ERR_NEW_MALLOC,
@@ -870,7 +904,7 @@ Tox *tox_new(const struct Tox_Options *options, Tox_Err_New *error);
 
 /**
  * @brief Releases all resources associated with the Tox instance and
- * disconnects from the network.
+ *   disconnects from the network.
  *
  * After calling this function, the Tox pointer becomes invalid. No other
  * functions can be called, and the pointer value can no longer be read.
@@ -879,7 +913,7 @@ void tox_kill(Tox *tox);
 
 /**
  * @brief Calculates the number of bytes required to store the tox instance with
- * tox_get_savedata.
+ *   tox_get_savedata.
  *
  * This function cannot fail. The result is always greater than 0.
  *
@@ -916,8 +950,9 @@ typedef enum Tox_Err_Bootstrap {
     TOX_ERR_BOOTSTRAP_NULL,
 
     /**
-     * The hostname could not be resolved to an IP address, or the IP address
-     * passed was invalid.
+     * The hostname could not be resolved to an IP address, the IP address
+     * passed was invalid, or the function failed to send the initial request
+     * packet to the bootstrap node or TCP relay.
      */
     TOX_ERR_BOOTSTRAP_BAD_HOST,
 
@@ -930,8 +965,8 @@ typedef enum Tox_Err_Bootstrap {
 
 
 /**
- * @brief Sends a "get nodes" request to the given bootstrap node with IP, port, and
- * public key to setup connections.
+ * @brief Sends a "get nodes" request to the given bootstrap node with IP, port,
+ *   and public key to setup connections.
  *
  * This function will attempt to connect to the node using UDP. You must use
  * this function even if Tox_Options.udp_enabled was set to false.
@@ -968,28 +1003,32 @@ bool tox_add_tcp_relay(Tox *tox, const char *host, uint16_t port, const uint8_t 
 typedef enum Tox_Connection {
 
     /**
-     * There is no connection. This instance, or the friend the state change is
-     * about, is now offline.
+     * @brief There is no connection.
+     *
+     * This instance, or the friend the state change is about, is now offline.
      */
     TOX_CONNECTION_NONE,
 
     /**
-     * A TCP connection has been established. For the own instance, this means it
-     * is connected through a TCP relay, only. For a friend, this means that the
-     * connection to that particular friend goes through a TCP relay.
+     * @brief A TCP connection has been established.
+     *
+     * For the own instance, this means it is connected through a TCP relay,
+     * only. For a friend, this means that the connection to that particular
+     * friend goes through a TCP relay.
      */
     TOX_CONNECTION_TCP,
 
     /**
-     * A UDP connection has been established. For the own instance, this means it
-     * is able to send UDP packets to DHT nodes, but may still be connected to
-     * a TCP relay. For a friend, this means that the connection to that
-     * particular friend was built using direct UDP packets.
+     * @brief A UDP connection has been established.
+     *
+     * For the own instance, this means it is able to send UDP packets to DHT
+     * nodes, but may still be connected to a TCP relay. For a friend, this
+     * means that the connection to that particular friend was built using
+     * direct UDP packets.
      */
     TOX_CONNECTION_UDP,
 
 } Tox_Connection;
-
 
 /**
  * @brief Return whether we are connected to the DHT.
@@ -998,7 +1037,7 @@ typedef enum Tox_Connection {
  * `self_connection_status` callback.
  *
  * @deprecated This getter is deprecated. Use the event and store the status
- * in the client state.
+ *   in the client state.
  */
 Tox_Connection tox_self_get_connection_status(const Tox *tox);
 
@@ -1024,14 +1063,14 @@ typedef void tox_self_connection_status_cb(Tox *tox, Tox_Connection connection_s
 void tox_callback_self_connection_status(Tox *tox, tox_self_connection_status_cb *callback);
 
 /**
- * @brief Return the time in milliseconds before tox_iterate() should be called again
- * for optimal performance.
+ * @brief Return the time in milliseconds before `tox_iterate()` should be called again
+ *   for optimal performance.
  */
 uint32_t tox_iteration_interval(const Tox *tox);
 
 /**
- * @brief The main loop that needs to be run in intervals of tox_iteration_interval()
- * milliseconds.
+ * @brief The main loop that needs to be run in intervals of `tox_iteration_interval()`
+ *   milliseconds.
  */
 void tox_iterate(Tox *tox, void *user_data);
 
@@ -1096,7 +1135,7 @@ void tox_self_get_secret_key(const Tox *tox, uint8_t *secret_key);
 
 /**
  * @brief Common error codes for all functions that set a piece of user-visible
- * client information.
+ *   client information.
  */
 typedef enum Tox_Err_Set_Info {
 
@@ -1652,10 +1691,10 @@ bool tox_friend_get_typing(const Tox *tox, uint32_t friend_number, Tox_Err_Frien
 /**
  * @param friend_number The friend number of the friend who started or stopped
  *   typing.
- * @param is_typing The result of calling tox_friend_get_typing on the passed
+ * @param typing The result of calling tox_friend_get_typing on the passed
  *   friend_number.
  */
-typedef void tox_friend_typing_cb(Tox *tox, uint32_t friend_number, bool is_typing, void *user_data);
+typedef void tox_friend_typing_cb(Tox *tox, uint32_t friend_number, bool typing, void *user_data);
 
 
 /**
@@ -1845,7 +1884,7 @@ void tox_callback_friend_message(Tox *tox, tox_friend_message_cb *callback);
  * If hash is NULL or data is NULL while length is not 0 the function returns false,
  * otherwise it returns true.
  *
- * This function is a wrapper to internal message-digest functions.
+ * This function is a wrapper to events_alloc message-digest functions.
  *
  * @param hash A valid memory location the hash data. It must be at least
  *   TOX_HASH_LENGTH bytes in size.
@@ -2147,8 +2186,8 @@ typedef enum Tox_Err_File_Send {
  * should generally just be a file name, not a path with directory names.
  *
  * If a non-UINT64_MAX file size is provided, it can be used by both sides to
- * determine the sending progress. File size can be set to UINT64_MAX for streaming
- * data of unknown size.
+ * determine the sending progress. File size can be set to UINT64_MAX for
+ * streaming data of unknown size.
  *
  * File transmission occurs in chunks, which are requested through the
  * `file_chunk_request` event.
@@ -2163,12 +2202,11 @@ typedef enum Tox_Err_File_Send {
  * - If the file size was increased
  *   - and sending mode was streaming (file_size = UINT64_MAX), the behaviour
  *     will be as expected.
- *   - and sending mode was file (file_size != UINT64_MAX), the
- *     file_chunk_request callback will receive length = 0 when Core thinks
- *     the file transfer has finished. If the client remembers the file size as
- *     it was when sending the request, it will terminate the transfer normally.
- *     If the client re-reads the size, it will think the friend cancelled the
- *     transfer.
+ *   - and sending mode was file (file_size != UINT64_MAX), the file_chunk_request
+ *     callback will receive length = 0 when Core thinks the file transfer has
+ *     finished. If the client remembers the file size as it was when sending the
+ *     request, it will terminate the transfer normally. If the client re-reads the
+ *     size, it will think the friend cancelled the transfer.
  * - If the file size was decreased
  *   - and sending mode was streaming, the behaviour is as expected.
  *   - and sending mode was file, the callback will return 0 at the new
@@ -2189,7 +2227,7 @@ typedef enum Tox_Err_File_Send {
  *   unknown or streaming.
  * @param file_id A file identifier of length TOX_FILE_ID_LENGTH that can be used to
  *   uniquely identify file transfers across core restarts. If NULL, a random one will
- *   be generated by core. It can then be obtained by using tox_file_get_file_id().
+ *   be generated by core. It can then be obtained by using `tox_file_get_file_id()`.
  * @param filename Name of the file. Does not need to be the actual name. This
  *   name will be sent along with the file send request.
  * @param filename_length Size in bytes of the filename.
@@ -2442,7 +2480,8 @@ typedef void tox_conference_connected_cb(Tox *tox, uint32_t conference_number, v
 void tox_callback_conference_connected(Tox *tox, tox_conference_connected_cb *callback);
 
 /**
- * @param conference_number The conference number of the conference the message is intended for.
+ * @param conference_number The conference number of the conference the message
+ *   is intended for.
  * @param peer_number The ID of the peer who sent the message.
  * @param type The type of message (normal, action, ...).
  * @param message The message data.
@@ -2462,7 +2501,8 @@ typedef void tox_conference_message_cb(Tox *tox, uint32_t conference_number, uin
 void tox_callback_conference_message(Tox *tox, tox_conference_message_cb *callback);
 
 /**
- * @param conference_number The conference number of the conference the title change is intended for.
+ * @param conference_number The conference number of the conference the title
+ *   change is intended for.
  * @param peer_number The ID of the peer who changed the title.
  * @param title The title data.
  * @param length The title length.
@@ -2663,7 +2703,8 @@ size_t tox_conference_offline_peer_get_name_size(const Tox *tox, uint32_t confer
 /**
  * @brief Copy the name of offline_peer_number who is in conference_number to name.
  *
- * Call tox_conference_offline_peer_get_name_size to determine the allocation size for the `name` parameter.
+ * Call tox_conference_offline_peer_get_name_size to determine the allocation
+ * size for the `name` parameter.
  *
  * @param name A valid memory region large enough to store the peer's name.
  *
@@ -2845,7 +2886,8 @@ typedef enum Tox_Err_Conference_Send_Message {
  * must be split by the client and sent as separate messages. Other clients can
  * then reassemble the fragments.
  *
- * @param conference_number The conference number of the conference the message is intended for.
+ * @param conference_number The conference number of the conference the message
+ *   is intended for.
  * @param type Message type (normal, action, ...).
  * @param message A non-NULL pointer to the first element of a byte array
  *   containing the message text.
@@ -3222,6 +3264,8 @@ uint16_t tox_self_get_udp_port(const Tox *tox, Tox_Err_Get_Port *error);
  * This is only relevant if the instance is acting as a TCP relay.
  */
 uint16_t tox_self_get_tcp_port(const Tox *tox, Tox_Err_Get_Port *error);
+
+/** @} */
 
 /** @} */
 

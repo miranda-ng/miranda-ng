@@ -12,20 +12,33 @@
 
 #include <pthread.h>
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdint.h>
 
-#include "logger.h"
+#include "attributes.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-/** id functions */
-bool id_equal(const uint8_t *dest, const uint8_t *src);
-uint32_t id_copy(uint8_t *dest, const uint8_t *src); /* return value is CLIENT_ID_SIZE */
+bool is_power_of_2(uint64_t x);
+
+/** @brief Frees all pointers in a uint8_t pointer array, as well as the array itself. */
+nullable(1)
+void free_uint8_t_pointer_array(uint8_t **ary, size_t n_items);
 
 /** Returns -1 if failed or 0 if success */
-int create_recursive_mutex(pthread_mutex_t *mutex);
+non_null() int create_recursive_mutex(pthread_mutex_t *mutex);
+
+/**
+ * @brief Checks whether two buffers are the same length and contents.
+ *
+ * Calls `memcmp` after checking the sizes are equal.
+ *
+ * @retval true if sizes and contents are equal.
+ * @retval false otherwise.
+ */
+non_null() bool memeq(const uint8_t *a, size_t a_size, const uint8_t *b, size_t b_size);
 
 // Safe min/max functions with specific types. This forces the conversion to the
 // desired type before the comparison expression, giving the choice of
@@ -46,6 +59,20 @@ uint64_t max_u64(uint64_t a, uint64_t b);
 uint16_t min_u16(uint16_t a, uint16_t b);
 uint32_t min_u32(uint32_t a, uint32_t b);
 uint64_t min_u64(uint64_t a, uint64_t b);
+
+/** @brief Returns a 32-bit hash of key of size len */
+non_null()
+uint32_t jenkins_one_at_a_time_hash(const uint8_t *key, size_t len);
+
+/** @brief Computes a checksum of a byte array.
+ *
+ * @param data The byte array used to compute the checksum.
+ * @param length The length in bytes of the passed data.
+ *
+ * @retval The resulting checksum.
+ */
+non_null()
+uint16_t data_checksum(const uint8_t *data, uint32_t length);
 
 #ifdef __cplusplus
 }  // extern "C"

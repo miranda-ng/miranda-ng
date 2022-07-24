@@ -15,10 +15,91 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\toxcore\announce.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\bin_pack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\bin_unpack.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\ccompat.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\toxcore\crypto_core.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\DHT.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_connected.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_invite.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_message.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_peer_list_changed.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_peer_name.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\conference_title.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\events_alloc.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\file_chunk_request.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\file_recv.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\file_recv_chunk.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\file_recv_control.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_connection_status.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_lossless_packet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_lossy_packet.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_message.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_name.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_read_receipt.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_request.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_status.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_status_message.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\friend_typing.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\self_connection_status.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\forwarding.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\friend_connection.c">
@@ -28,6 +109,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\group.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_announce.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\group_moderation.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\LAN_discovery.c">
@@ -81,10 +168,25 @@
     <ClCompile Include="src\toxcore\TCP_server.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\toxcore\timed_auth.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\toxcore\tox.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\tox_api.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_dispatch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_events.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_private.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\toxcore\tox_unpack.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\toxcore\util.c">
@@ -95,6 +197,18 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\toxcore\announce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\attributes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\bin_pack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\bin_unpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\toxcore\ccompat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -104,6 +218,12 @@
     <ClInclude Include="src\toxcore\DHT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\toxcore\events\events_alloc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\forwarding.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\toxcore\friend_connection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -111,6 +231,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\group.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\group_announce.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\group_moderation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\LAN_discovery.h">
@@ -164,10 +290,25 @@
     <ClInclude Include="src\toxcore\TCP_server.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\toxcore\timed_auth.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\toxcore\tox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\toxcore\tox_dispatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\tox_events.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\toxcore\tox_private.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\tox_struct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\toxcore\tox_unpack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\toxcore\util.h">
