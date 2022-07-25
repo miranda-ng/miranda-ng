@@ -217,12 +217,16 @@ bool CMsgDialog::OnInitDialog()
 			}
 		}
 
+		uint32_t dwFlags = SWP_NOMOVE | SWP_NOSIZE;
+		if (!g_Settings.bTabsEnable)
+			dwFlags |= SWP_SHOWWINDOW;
+
 		if (m_bNoActivate) {
-			SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
+			SetWindowPos(m_hwnd, HWND_BOTTOM, 0, 0, 0, 0, dwFlags | SWP_NOACTIVATE);
 			StartFlash();
 		}
 		else {
-			SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			SetWindowPos(m_hwnd, HWND_TOP, 0, 0, 0, 0, dwFlags);
 			SetForegroundWindow(m_hwnd);
 			SetFocus(m_message.GetHwnd());
 		}
