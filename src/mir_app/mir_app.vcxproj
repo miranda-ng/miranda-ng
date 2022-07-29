@@ -219,9 +219,6 @@
     <None Include="src\mir_app64.def" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="..\docs\contributors.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="res\addgroup.ico" />
     <Image Include="res\always_visible.ico" />
     <Image Include="res\auth_add.ico" />

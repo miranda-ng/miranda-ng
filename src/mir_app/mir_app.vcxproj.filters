@@ -398,7 +398,7 @@
     <ClCompile Include="src\pluginopts.cpp">
       <Filter>Source Files\Plugins</Filter>
     </ClCompile>
-    <ClCompile Include="W:\miranda-ng\src\mir_app\src\userInfo.cpp">
+    <ClCompile Include="src\userInfo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -484,9 +484,6 @@
     <None Include="res\cursor_drop_user.cur">
       <Filter>Resource Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\docs\contributors.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Source Files\SRMM">
