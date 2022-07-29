@@ -184,6 +184,8 @@ class CThumbBase;
 
 #define STICK_ICON_MSG 10
 
+#define CONTAINER_PREFIX "CNTW_"
+
 struct TLogTheme
 {
 	COLORREF  inbg, outbg, bg, oldinbg, oldoutbg, statbg, inputbg;
@@ -343,6 +345,7 @@ struct TContainerData : public MZeroedObject
 	void BroadCastContainer(UINT message, WPARAM wParam, LPARAM lParam) const;
 	void CloseTabByMouse(POINT *);
 	void Configure();
+	void ContainerToSettings();
 	void FlashContainer(int iMode, int iCount);
 	void InitDialog(HWND);
 	void InitRedraw(void);
@@ -351,12 +354,15 @@ struct TContainerData : public MZeroedObject
 	void OptionsDialog(void);
 	void QueryClientArea(RECT &rc);
 	void QueryPending(void);
+	void ReadPrivateSettings(bool fForce);
 	void ReflashContainer(void);
 	void Resize(bool, int newWidth);
 	void RestoreWindowPos(void);
+	void SaveSettings(const char *szSetting);
 	void SelectTab(int iCommand, int idx = 0);
 	void SetAeroMargins(void);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
+	void SettingsToContainer();
 	void UpdateTabs(void);
 	void UpdateTitle(MCONTACT, CMsgDialog* = nullptr);
 

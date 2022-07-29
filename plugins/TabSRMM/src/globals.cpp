@@ -430,7 +430,7 @@ int CGlobals::OkToExit(WPARAM, LPARAM)
 	CMimAPI::m_shutDown = true;
 
 	PluginConfig.globalContainerSettings.fPrivate = false;
-	Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings, nullptr);
+	Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings);
 	return 0;
 }
 

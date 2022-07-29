@@ -58,12 +58,8 @@ namespace Utils
 	void     RTF_ColorAdd(const wchar_t *tszColname);
 	int      ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
 	int      WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSettings *cs, const char *szKey = nullptr);
-	void     SettingsToContainer(TContainerData *pContainer);
-	void     ContainerToSettings(TContainerData *pContainer);
-	void     ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce = false);
-	void     SaveContainerSettings(TContainerData *pContainer, const char *szSetting);
 
-	uint32_t    CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
+	uint32_t CALLBACK StreamOut(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb);
 
 	void     addMenuItem(const HMENU& m, MENUITEMINFO& mii, HICON hIcon, const wchar_t *szText, UINT uID, UINT pos);
 	void     enableDlgControl(const HWND hwnd, UINT id, bool fEnable = true);
@@ -153,12 +149,12 @@ public:
 	LRESULT ShowDialog() const;
 
 private:
-	ptrW  m_szTitle, m_szText;
-	UINT  m_uId;
-	HFONT m_hFontCaption;
+	ptrW     m_szTitle, m_szText;
+	UINT     m_uId;
+	HFONT    m_hFontCaption;
 	uint32_t m_dwFlags;
-	HWND  m_hwnd = nullptr;
-	bool  m_fIsModal;
+	HWND     m_hwnd = nullptr;
+	bool     m_fIsModal;
 
 	INT_PTR CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK	stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);

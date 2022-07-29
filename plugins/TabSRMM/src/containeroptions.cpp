@@ -37,7 +37,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 {
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
 		if (!p->m_pSettings->fPrivate) {
-			Utils::SettingsToContainer(p);
+			p->SettingsToContainer();
 			if (fForceReconfig)
 				p->Configure();
 			else
@@ -52,7 +52,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 
 void TContainerData::ApplySetting(bool fForceResize)
 {
-	Utils::ContainerToSettings(this);
+	ContainerToSettings();
 
 	if (m_pSettings->fPrivate)
 		Configure();
@@ -203,7 +203,7 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 		switch (LOWORD(wParam)) {
 		case IDC_CNTPRIVATE:
 			if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
-				Utils::ReadPrivateContainerSettings(pContainer, true);
+				pContainer->ReadPrivateSettings(true);
 				pContainer->m_pSettings->fPrivate = true;
 			}
 			else {
@@ -302,23 +302,20 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 				pContainer->m_fPrivateThemeChanged = TRUE;
 			}
 
-			Utils::SettingsToContainer(pContainer);
+			pContainer->SettingsToContainer();
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 				ReloadGlobalContainerSettings(true);
-				Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings, nullptr);
+				Utils::WriteContainerSettingsToDB(0, &PluginConfig.globalContainerSettings);
 			}
-			else {
-				char *szSetting = "CNTW_";
-				Utils::SaveContainerSettings(pContainer, szSetting);
-			}
+			else pContainer->SaveSettings(CONTAINER_PREFIX);
 
 			pContainer->Configure();
 			pContainer->BroadCastContainer(DM_SETINFOPANEL, 0, 0);
 
 			ShowWindow(pContainer->m_hwnd, SW_HIDE);
 			{
-				RECT	rc;
+				RECT rc;
 				GetWindowRect(pContainer->m_hwnd, &rc);
 				SetWindowPos(pContainer->m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left) - 1, (rc.bottom - rc.top) - 1, SWP_NOZORDER | SWP_DRAWFRAME | SWP_FRAMECHANGED);
 				SetWindowPos(pContainer->m_hwnd, nullptr, rc.left, rc.top, (rc.right - rc.left), (rc.bottom - rc.top), SWP_NOZORDER | SWP_DRAWFRAME | SWP_SHOWWINDOW);

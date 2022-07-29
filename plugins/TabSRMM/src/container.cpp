@@ -31,7 +31,6 @@
 
 #define CONTAINER_KEY "TAB_ContainersW"
 #define CONTAINER_SUBKEY "containerW"
-#define CONTAINER_PREFIX "CNTW_"
 
 static bool fForceOverlayIcons = false;
 
@@ -57,7 +56,7 @@ static TContainerData *AppendToContainerList(TContainerData *pContainer)
 	return p;
 }
 
-static TContainerData *RemoveContainerFromList(TContainerData *pContainer)
+static TContainerData* RemoveContainerFromList(TContainerData *pContainer)
 {
 	if (pContainer == pFirstContainer) {
 		if (pContainer->pNext != nullptr)
@@ -306,6 +305,14 @@ void TContainerData::Configure()
 	BroadCastContainer(DM_CONFIGURETOOLBAR, 0, 1);
 }
 
+void TContainerData::ContainerToSettings()
+{
+	m_pSettings->flags = m_flags;
+	m_pSettings->flagsEx = m_flagsEx;
+	m_pSettings->avatarMode = m_avatarMode;
+	m_pSettings->ownAvatarMode = m_ownAvatarMode;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // flashes the container
 // iMode != 0: turn on flashing
@@ -546,6 +553,56 @@ void TContainerData::QueryPending()
 		NMHDR nmhdr;
 		nmhdr.code = TCN_SELCHANGE;
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// read settings for a container with private settings enabled.
+//
+// @param pContainer	container window info struct
+// @param fForce		true -> force them private, even if they were not marked as private in the db
+
+void TContainerData::ReadPrivateSettings(bool fForce)
+{
+	char szCname[50];
+	TContainerSettings csTemp;
+	memcpy(&csTemp, &PluginConfig.globalContainerSettings, sizeof(csTemp));
+
+	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, m_iContainerIndex);
+	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
+	if (csTemp.fPrivate || fForce) {
+		if (m_pSettings == nullptr || m_pSettings == &PluginConfig.globalContainerSettings)
+			m_pSettings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
+		memcpy(m_pSettings, &csTemp, sizeof(csTemp));
+		m_pSettings->fPrivate = true;
+	}
+	else m_pSettings = &PluginConfig.globalContainerSettings;
+}
+
+void TContainerData::SaveSettings(const char *szSetting)
+{
+	char szCName[50];
+
+	auto &f = m_flags;
+	f.m_bDeferredConfigure = f.m_bCreateMinimized = f.m_bDeferredResize = f.m_bCreateCloned = false;
+
+	if (m_pSettings->fPrivate) {
+		mir_snprintf(szCName, "%s%d", szSetting, m_iContainerIndex);
+		Utils::WriteContainerSettingsToDB(0, m_pSettings, szCName);
+	}
+	else Utils::WriteContainerSettingsToDB(0, m_pSettings, nullptr);
+
+	mir_snprintf(szCName, "%s%d_theme", szSetting, m_iContainerIndex);
+	if (mir_wstrlen(m_szRelThemeFile) > 1) {
+		if (m_fPrivateThemeChanged == TRUE) {
+			PathToRelativeW(m_szRelThemeFile, m_szAbsThemeFile, M.getDataPath());
+			db_set_ws(0, SRMSGMOD_T, szCName, m_szAbsThemeFile);
+			m_fPrivateThemeChanged = FALSE;
+		}
+	}
+	else {
+		::db_unset(0, SRMSGMOD_T, szCName);
+		m_fPrivateThemeChanged = FALSE;
 	}
 }
 
@@ -862,6 +919,14 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 	if (nullptr != hIconBig && reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) != hIconBig)
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, LPARAM(hIconBig));
 	m_hIcon = (hIcon == hIconMsg) ? STICK_ICON_MSG : 0;
+}
+
+void TContainerData::SettingsToContainer()
+{
+	m_flags = m_pSettings->flags;
+	m_flagsEx = m_pSettings->flagsEx;
+	m_avatarMode = m_pSettings->avatarMode;
+	m_ownAvatarMode = m_pSettings->ownAvatarMode;
 }
 
 void TContainerData::UpdateTabs()
@@ -1937,14 +2002,14 @@ panel_found:
 					szThemeName = dbv.pwszVal;
 			}
 			else {
-				Utils::ReadPrivateContainerSettings(pContainer);
+				pContainer->ReadPrivateSettings(false);
 				if (szThemeName == nullptr) {
 					mir_snprintf(szCname, "%s%d_theme", CONTAINER_PREFIX, pContainer->m_iContainerIndex);
 					if (!db_get_ws(0, SRMSGMOD_T, szCname, &dbv))
 						szThemeName = dbv.pwszVal;
 				}
 			}
-			Utils::SettingsToContainer(pContainer);
+			pContainer->SettingsToContainer();
 
 			if (szThemeName != nullptr) {
 				PathToAbsoluteW(szThemeName, pContainer->m_szAbsThemeFile, M.getDataPath());
@@ -2127,7 +2192,7 @@ panel_found:
 					}
 				}
 			}
-			else Utils::SaveContainerSettings(pContainer, CONTAINER_PREFIX);
+			else pContainer->SaveSettings(CONTAINER_PREFIX);
 			DestroyWindow(hwndDlg);
 		}
 	}

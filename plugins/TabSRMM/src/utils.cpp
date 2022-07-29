@@ -494,8 +494,6 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 				cs->flagsEx.dw = oldBin.dwFlagsEx;
 				cs->dwTransparency = oldBin.dwTransparency;
 				cs->panelheight = oldBin.panelheight;
-				if (szKey == nullptr)
-					cs->iSplitterX = db_get_dw(0, CHAT_MODULE, "SplitterX", 150);
 				cs->iSplitterY = oldBin.iSplitterY;
 				cs->iSplitterX = 35;
 				wcsncpy_s(cs->szTitleFormat, oldBin.szTitleFormat, _TRUNCATE);
@@ -503,7 +501,7 @@ int Utils::ReadContainerSettingsFromDB(const MCONTACT hContact, TContainerSettin
 				cs->ownAvatarMode = oldBin.ownAvatarMode;
 				cs->autoCloseSeconds = oldBin.autoCloseSeconds;
 				cs->fPrivate = oldBin.fPrivate != 0;
-				WriteContainerSettingsToDB(hContact, cs, szKey);
+				Utils::WriteContainerSettingsToDB(hContact, cs, szKey);
 				db_unset(hContact, SRMSGMOD_T, szSetting);
 				::db_free(&dbv);
 				return 0;
@@ -543,70 +541,6 @@ int Utils::WriteContainerSettingsToDB(const MCONTACT hContact, TContainerSetting
 	db_set_w(hContact, SRMSGMOD_T, szSetting + "_AutoCloseSecs", cs->autoCloseSeconds);
 	db_set_b(hContact, SRMSGMOD_T, szSetting + "_Private", cs->fPrivate);
 	return 0;
-}
-
-void Utils::SettingsToContainer(TContainerData *pContainer)
-{
-	pContainer->m_flags = pContainer->m_pSettings->flags;
-	pContainer->m_flagsEx = pContainer->m_pSettings->flagsEx;
-	pContainer->m_avatarMode = pContainer->m_pSettings->avatarMode;
-	pContainer->m_ownAvatarMode = pContainer->m_pSettings->ownAvatarMode;
-}
-
-void Utils::ContainerToSettings(TContainerData *pContainer)
-{
-	pContainer->m_pSettings->flags = pContainer->m_flags;
-	pContainer->m_pSettings->flagsEx = pContainer->m_flagsEx;
-	pContainer->m_pSettings->avatarMode = pContainer->m_avatarMode;
-	pContainer->m_pSettings->ownAvatarMode = pContainer->m_ownAvatarMode;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// read settings for a container with private settings enabled.
-//
-// @param pContainer	container window info struct
-// @param fForce		true -> force them private, even if they were not marked as private in the db
-
-void Utils::ReadPrivateContainerSettings(TContainerData *pContainer, bool fForce)
-{
-	char szCname[50];
-	TContainerSettings csTemp;
-	memcpy(&csTemp, &PluginConfig.globalContainerSettings, sizeof(csTemp));
-
-	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->m_iContainerIndex);
-	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
-	if (csTemp.fPrivate || fForce) {
-		if (pContainer->m_pSettings == nullptr || pContainer->m_pSettings == &PluginConfig.globalContainerSettings)
-			pContainer->m_pSettings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
-		memcpy(pContainer->m_pSettings, &csTemp, sizeof(csTemp));
-		pContainer->m_pSettings->fPrivate = true;
-	}
-	else pContainer->m_pSettings = &PluginConfig.globalContainerSettings;
-}
-
-void Utils::SaveContainerSettings(TContainerData *pContainer, const char *szSetting)
-{
-	char szCName[50];
-
-	auto &f = pContainer->m_flags;
-	f.m_bDeferredConfigure = f.m_bCreateMinimized = f.m_bDeferredResize = f.m_bCreateCloned = false;
-
-	if (pContainer->m_pSettings->fPrivate) {
-		mir_snprintf(szCName, "%s%d", szSetting, pContainer->m_iContainerIndex);
-		WriteContainerSettingsToDB(0, pContainer->m_pSettings, szCName);
-	}
-	mir_snprintf(szCName, "%s%d_theme", szSetting, pContainer->m_iContainerIndex);
-	if (mir_wstrlen(pContainer->m_szRelThemeFile) > 1) {
-		if (pContainer->m_fPrivateThemeChanged == TRUE) {
-			PathToRelativeW(pContainer->m_szRelThemeFile, pContainer->m_szAbsThemeFile, M.getDataPath());
-			db_set_ws(0, SRMSGMOD_T, szCName, pContainer->m_szAbsThemeFile);
-			pContainer->m_fPrivateThemeChanged = FALSE;
-		}
-	}
-	else {
-		::db_unset(0, SRMSGMOD_T, szCName);
-		pContainer->m_fPrivateThemeChanged = FALSE;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
