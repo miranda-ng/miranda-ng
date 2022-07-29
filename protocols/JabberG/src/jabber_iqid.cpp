@@ -118,7 +118,6 @@ void CJabberProto::OnIqResultServerDiscoInfo(const TiXmlElement *iqNode, CJabber
 			}
 
 			EnableMenuItems(true);
-			RebuildInfoFrame();
 			continue;
 		}
 
@@ -551,7 +550,6 @@ void CJabberProto::OnIqResultGetRoster(const TiXmlElement *iqNode, CJabberIqInfo
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
 
 	OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_ROSTER);
-	RebuildInfoFrame();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

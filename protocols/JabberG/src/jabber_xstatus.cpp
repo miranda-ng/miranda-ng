@@ -706,9 +706,6 @@ void CPepMood::UpdateMenuView()
 	}
 
 	UpdateMenuItem(hIcon, title);
-
-	if (m_proto->m_pInfoFrame)
-		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", hIcon, title);
 }
 
 void ClearMoodIcons()
@@ -1088,8 +1085,6 @@ void CPepActivity::UpdateMenuView()
 	}
 
 	UpdateMenuItem(hIcon, title);
-	if (m_proto->m_pInfoFrame)
-		m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", hIcon, title);
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1257,19 +1252,6 @@ INT_PTR __cdecl CJabberProto::OnSetListeningTo(WPARAM, LPARAM lParam)
 		mir_free(szTrack);
 	}
 	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// process InfoFrame clicks
-
-void CJabberProto::InfoFrame_OnUserMood(CJabberInfoFrame_Event*)
-{
-	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_MOOD))->LaunchSetGui();
-}
-
-void CJabberProto::InfoFrame_OnUserActivity(CJabberInfoFrame_Event*)
-{
-	((CPepGuiService *)m_pepServices.Find(JABBER_FEAT_USER_ACTIVITY))->LaunchSetGui();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

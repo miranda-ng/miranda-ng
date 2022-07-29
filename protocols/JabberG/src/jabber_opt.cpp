@@ -677,16 +677,13 @@ class CDlgOptAdvanced : public CJabberDlgBase
 	CCtrlEdit		m_txtDirect;
 	CCtrlTreeOpts	m_options;
 
-	bool m_oldFrameValue;
-
 public:
 	CDlgOptAdvanced(CJabberProto *proto) :
 		CJabberDlgBase(proto, IDD_OPT_JABBER2),
 		m_chkDirect(this, IDC_DIRECT),
 		m_chkDirectManual(this, IDC_DIRECT_MANUAL),
 		m_txtDirect(this, IDC_DIRECT_ADDR),
-		m_options(this, IDC_OPTTREE),
-		m_oldFrameValue(proto->m_bDisableFrame)
+		m_options(this, IDC_OPTTREE)
 	{
 		CreateLink(m_chkDirect, proto->m_bBsDirect);
 		CreateLink(m_chkDirectManual, proto->m_bBsDirectManual);
@@ -719,7 +716,6 @@ public:
 		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically add contact when accept authorization"), m_proto->m_bAutoAdd);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Automatically accept authorization requests"), m_proto->m_bAutoAcceptAuthorization);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Fix incorrect timestamps in incoming messages"), m_proto->m_bFixIncorrectTimestamps);
-		m_options.AddOption(LPGENW("Other"), LPGENW("Disable frame"), m_proto->m_bDisableFrame);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Enable XMPP link processing (requires AssocMgr)"), m_proto->m_bProcessXMPPLinks);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Embrace picture URLs with [img]"), m_proto->m_bEmbraceUrls);
 		m_options.AddOption(LPGENW("Other"), LPGENW("Ignore server roster (groups and nick names)"), m_proto->m_bIgnoreRoster);
@@ -741,11 +737,6 @@ public:
 
 	bool OnApply() override
 	{
-		if (m_proto->m_bDisableFrame != m_oldFrameValue) {
-			m_proto->InitInfoFrame(); // create or destroy a frame
-			m_oldFrameValue = m_proto->m_bDisableFrame;
-		}
-
 		BOOL bChecked = m_proto->m_bShowTransport;
 		LISTFOREACH(index, m_proto, LIST_ROSTER)
 		{

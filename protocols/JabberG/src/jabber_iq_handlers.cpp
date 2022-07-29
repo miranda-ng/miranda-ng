@@ -257,7 +257,6 @@ bool CJabberProto::OnRosterPushRequest(const TiXmlElement*, CJabberIqInfo *pInfo
 	}
 
 	UI_SAFE_NOTIFY(m_pDlgServiceDiscovery, WM_JABBER_TRANSPORT_REFRESH);
-	RebuildInfoFrame();
 	return true;
 }
 

@@ -41,7 +41,6 @@
     <ClCompile Include="src\jabber_events.cpp" />
     <ClCompile Include="src\jabber_file.cpp" />
     <ClCompile Include="src\jabber_form.cpp" />
-    <ClCompile Include="src\jabber_frame.cpp" />
     <ClCompile Include="src\jabber_ft.cpp" />
     <ClCompile Include="src\jabber_groupchat.cpp" />
     <ClCompile Include="src\jabber_ibb.cpp" />

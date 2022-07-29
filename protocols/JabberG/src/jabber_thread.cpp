@@ -491,7 +491,6 @@ recvRest:
 			m_bJabberOnline = false;
 			info.zlibUninit();
 			EnableMenuItems(false);
-			RebuildInfoFrame();
 			if (m_hwndJabberChangePassword)
 				// Since this is a different thread, simulate the click on the cancel button instead
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
@@ -1726,7 +1725,6 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 					}
 				}
 			}
-			RebuildInfoFrame();
 		}
 		else {
 			debugLogA("%s (%s) requests authorization", szNick.get(), from);

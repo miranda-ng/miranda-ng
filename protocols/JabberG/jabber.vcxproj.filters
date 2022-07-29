@@ -47,9 +47,6 @@
     <ClCompile Include="src\jabber_form.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\jabber_frame.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\jabber_ft.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
