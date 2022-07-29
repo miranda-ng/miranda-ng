@@ -104,9 +104,9 @@ static void OnLoadSettings()
 	g_Settings.bContactStatusFirst = M.GetBool(CHAT_MODULE, "ContactStatusFirst", false);
 
 	g_Settings.bNewLineAfterNames = M.GetBool(CHAT_MODULE, "NewlineAfterNames", false);
-	g_Settings.bUseCommaAsColon = M.GetBool(CHAT_MODULE, "UseCommaAsColon", false);
 
 	replaceStrW(g_Settings.pszLogDir, M.getChatLogPath());
+	replaceStrW(g_Settings.pwszAutoText, db_get_wsa(0, CHAT_MODULE, "TextAutocomplete"));
 
 	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 
@@ -350,6 +350,15 @@ static SESSION_INFO* SM_CreateSession()
 // load the module
 int Chat_Load()
 {
+	if (M.GetBool(CHAT_MODULE, "UseCommaAsColon", false)) {
+		db_unset(0, CHAT_MODULE, "UseCommaAsColon");
+		db_set_ws(0, CHAT_MODULE, "TextAutocomplete", L",");
+	}
+	if (M.GetBool(CHAT_MODULE, "AddColonToAutoComplete", false)) {
+		db_unset(0, CHAT_MODULE, "AddColonToAutoComplete");
+		db_set_ws(0, CHAT_MODULE, "TextAutocomplete", L":");
+	}
+
 	CheckUpdate();
 	Utils::RTF_CTableInit();
 

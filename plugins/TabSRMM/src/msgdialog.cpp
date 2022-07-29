@@ -1030,8 +1030,8 @@ void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
 	if (g_Settings.bDoubleClick4Privat ? bShift : !bShift) {
 		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
 		CMStringW tszName(ui->pszNick);
-		if (selStart == 0)
-			tszName.AppendChar(g_Settings.bUseCommaAsColon ? ',' : ':');
+		if (selStart == 0 && mir_wstrlen(g_Settings.pwszAutoText))
+			tszName.Append(g_Settings.pwszAutoText);
 		tszName.AppendChar(' ');
 
 		m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszName.GetString());
@@ -2422,10 +2422,8 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 											buf.Insert(0, ' ');
 									}
 									else {// in the beginning of the message window
-										if (g_Settings.bUseCommaAsColon)
-											buf.AppendChar(',');
-										else if (g_Settings.bAddColonToAutoComplete)
-											buf.AppendChar(':');
+										if (mir_wstrlen(g_Settings.pwszAutoText))
+											buf.Append(g_Settings.pwszAutoText);
 									}
 
 									if (chr.cpMax != -1) {

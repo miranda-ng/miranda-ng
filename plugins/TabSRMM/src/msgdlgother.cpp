@@ -1924,10 +1924,8 @@ LBL_SkipEnd:
 			CMStringW szReplace;
 			if (!isRoom && !isTopic && start == 0) {
 				szReplace = pszName;
-				if (g_Settings.bUseCommaAsColon)
-					szReplace.AppendChar(',');
-				else if (g_Settings.bAddColonToAutoComplete)
-					szReplace.AppendChar(':');
+				if (mir_wstrlen(g_Settings.pwszAutoText))
+					szReplace.Append(g_Settings.pwszAutoText);
 				szReplace.AppendChar(' ');
 				m_wszSearchResult = szReplace.Detach();
 				pszName = m_wszSearchResult;
