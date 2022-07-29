@@ -1870,15 +1870,11 @@ bool CMsgDialog::TabAutoComplete()
 		return false;
 
 	bool isTopic = false, isRoom = false;
-	wchar_t *pszName = nullptr;
 	wchar_t *pszText = (wchar_t *)mir_calloc((iLen + 10) * sizeof(wchar_t));
 
 	gt.flags = GT_DEFAULT;
 	gt.cb = (iLen + 9) * sizeof(wchar_t);
 	m_message.SendMsg(EM_GETTEXTEX, (WPARAM)& gt, (LPARAM)pszText);
-
-	if (start > 1 && pszText[start - 1] == ' ' && pszText[start - 2] == ':')
-		start -= 2;
 
 	if (m_wszSearchResult != nullptr) {
 		int cbResult = (int)mir_wstrlen(m_wszSearchResult);
@@ -1904,11 +1900,14 @@ LBL_SkipEnd:
 		if (topicStart > 5 && wcsstr(&pszText[topicStart - 6], L"/topic") == &pszText[topicStart - 6])
 			isTopic = true;
 	}
+	
 	if (m_wszSearchQuery == nullptr) {
 		m_wszSearchQuery = mir_wstrndup(pszText + start, end - start);
 		m_wszSearchResult = mir_wstrdup(m_wszSearchQuery);
 		m_pLastSession = nullptr;
 	}
+
+	const wchar_t *pszName = nullptr;
 	if (isTopic)
 		pszName = m_si->ptszTopic;
 	else if (isRoom) {
@@ -1921,18 +1920,25 @@ LBL_SkipEnd:
 	replaceStrW(m_wszSearchResult, nullptr);
 
 	if (pszName != nullptr) {
-		m_wszSearchResult = mir_wstrdup(pszName);
 		if (end != start) {
-			ptrW szReplace;
-			if (!isRoom && !isTopic && g_Settings.bAddColonToAutoComplete && start == 0) {
-				szReplace = (wchar_t *)mir_alloc((mir_wstrlen(pszName) + 4) * sizeof(wchar_t));
-				mir_wstrcpy(szReplace, pszName);
-				mir_wstrcat(szReplace, g_Settings.bUseCommaAsColon ? L", " : L": ");
-				pszName = szReplace;
+			CMStringW szReplace;
+			if (!isRoom && !isTopic && start == 0) {
+				szReplace = pszName;
+				if (g_Settings.bUseCommaAsColon)
+					szReplace.AppendChar(',');
+				else if (g_Settings.bAddColonToAutoComplete)
+					szReplace.AppendChar(':');
+				szReplace.AppendChar(' ');
+				m_wszSearchResult = szReplace.Detach();
+				pszName = m_wszSearchResult;
 			}
+			else m_wszSearchResult = mir_wstrdup(pszName);
+
 			m_message.SendMsg(EM_SETSEL, start, end);
 			m_message.SendMsg(EM_REPLACESEL, TRUE, (LPARAM)pszName);
 		}
+		else m_wszSearchResult = mir_wstrdup(pszName);
+
 		return true;
 	}
 
