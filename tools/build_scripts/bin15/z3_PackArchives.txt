@@ -89,6 +89,7 @@ Plugins\IRC.dll
 Plugins\Jabber.dll
 Plugins\NewEventNotify.dll
 Plugins\PluginUpdater.dll
+Plugins\StatusManager.dll
 Plugins\TabSRMM.dll
 Plugins\TopToolBar.dll
 Plugins\Import\*.ini

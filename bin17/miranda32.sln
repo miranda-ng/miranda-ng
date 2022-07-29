@@ -134,6 +134,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pcre16", "..\libs\Pcre16\pc
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StatusManager", "..\plugins\StatusManager\StatusManager.vcxproj", "{D2EF305F-5255-49E8-A738-D4206D62D2B8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -486,6 +488,14 @@ Global
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|Win32.Build.0 = Release|Win32
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.ActiveCfg = Release|x64
 		{A2E9DA24-95E4-4414-94AF-488A382E276A}.Release|x64.Build.0 = Release|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|Win32.Build.0 = Debug|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|x64.ActiveCfg = Debug|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Debug|x64.Build.0 = Debug|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|Win32.ActiveCfg = Release|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|Win32.Build.0 = Release|Win32
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.ActiveCfg = Release|x64
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -533,6 +543,7 @@ Global
 		{44298314-7DD4-4EF7-B576-30E503257223} = {949AF443-676D-4B48-B21E-9B6FC3A4808D}
 		{6124E997-426E-4A0B-9617-D6D577D5E7D7} = {52282CDE-49DF-4662-B582-CCF971A9FEC2}
 		{A2E9DA24-95E4-4414-94AF-488A382E276A} = {30B05A85-FD7F-49CD-BBA9-0B7CE5825D52}
+		{D2EF305F-5255-49E8-A738-D4206D62D2B8} = {6221EF9E-F53A-4381-B760-4C0208E5D597}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5A4CD630-DD83-4096-AA4D-7A141E43E853}
