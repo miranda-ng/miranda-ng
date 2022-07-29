@@ -2407,42 +2407,38 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 									CHARRANGE chr;
 									m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&chr);
 
-									wchar_t tszAplTmpl[] = L"%s:";
-									size_t bufSize = mir_wstrlen(tr.lpstrText) + mir_wstrlen(tszAplTmpl) + 3;
-									wchar_t *tszTmp = (wchar_t *)mir_alloc(bufSize * sizeof(wchar_t)), *tszAppeal = tszTmp;
+									CMStringW buf(tr.lpstrText);
 
+									wchar_t str[2] = { 0, 0 };
 									TEXTRANGE tr2;
-									tr2.lpstrText = (LPTSTR)mir_alloc(sizeof(wchar_t) * 2);
+									tr2.lpstrText = str;
+
 									if (chr.cpMin) {
 										// prepend nick with space if needed
 										tr2.chrg.cpMin = chr.cpMin - 1;
 										tr2.chrg.cpMax = chr.cpMin;
 										m_message.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr2);
 										if (!iswspace(*tr2.lpstrText))
-											*tszTmp++ = ' ';
-										mir_wstrcpy(tszTmp, tr.lpstrText);
+											buf.Insert(0, ' ');
 									}
-									else // in the beginning of the message window
-										mir_snwprintf(tszAppeal, bufSize, tszAplTmpl, tr.lpstrText);
+									else {// in the beginning of the message window
+										if (g_Settings.bUseCommaAsColon)
+											buf.AppendChar(',');
+										else if (g_Settings.bAddColonToAutoComplete)
+											buf.AppendChar(':');
+									}
 
-									size_t st = mir_wstrlen(tszAppeal);
 									if (chr.cpMax != -1) {
 										tr2.chrg.cpMin = chr.cpMax;
 										tr2.chrg.cpMax = chr.cpMax + 1;
 										// if there is no space after selection,
 										// or there is nothing after selection at all...
-										if (!m_message.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || !iswspace(*tr2.lpstrText)) {
-											tszAppeal[st++] = ' ';
-											tszAppeal[st++] = '\0';
-										}
+										if (!m_message.SendMsg(EM_GETTEXTRANGE, 0, (LPARAM)&tr2) || !iswspace(*tr2.lpstrText))
+											buf.AppendChar(' ');
 									}
-									else {
-										tszAppeal[st++] = ' ';
-										tszAppeal[st++] = '\0';
-									}
-									m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)tszAppeal);
-									mir_free((void *)tr2.lpstrText);
-									mir_free((void *)tszAppeal);
+									else buf.AppendChar(' ');
+
+									m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)buf.c_str());
 								}
 							}
 							SetFocus(m_message.GetHwnd());
