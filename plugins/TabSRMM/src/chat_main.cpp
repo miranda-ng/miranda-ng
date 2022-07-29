@@ -106,7 +106,7 @@ static void OnLoadSettings()
 	g_Settings.bNewLineAfterNames = M.GetBool(CHAT_MODULE, "NewlineAfterNames", false);
 
 	replaceStrW(g_Settings.pszLogDir, M.getChatLogPath());
-	replaceStrW(g_Settings.pwszAutoText, db_get_wsa(0, CHAT_MODULE, "TextAutocomplete"));
+	replaceStrW(g_Settings.pwszAutoText, db_get_wsa(0, CHAT_MODULE, "TextAutocomplete", L":"));
 
 	g_Settings.LogIconSize = (g_Settings.bScaleIcons) ? 12 : 16;
 

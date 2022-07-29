@@ -511,8 +511,6 @@ static TOptionListItem lvItemsChat[] =
 	{ 0, LPGENW("Timestamp has same color as the event"), 0, LOI_TYPE_SETTING, (UINT_PTR)"TimeStampEventColour", 1 },
 	{ 0, LPGENW("Indent the second line of a message"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogIndentEnabled", 1 },
 	{ 0, LPGENW("Limit user names in the message log to 20 characters"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogLimitNames", 1 },
-	{ 0, LPGENW("Add a colon (:) to auto-completed user names"), 1, LOI_TYPE_SETTING, (UINT_PTR)"AddColonToAutoComplete", 1 },
-	{ 0, LPGENW("Add a comma instead of a colon to auto-completed user names"), 0, LOI_TYPE_SETTING, (UINT_PTR)"UseCommaAsColon", 1 },
 	{ 0, LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"DoubleClick4Privat", 1 },
 	{ 0, LPGENW("Strip colors from messages in the log"), 0, LOI_TYPE_SETTING, (UINT_PTR)"StripFormatting", 1 },
 	{ 0, LPGENW("Enable the 'event filter' for new rooms"), 0, LOI_TYPE_SETTING, (UINT_PTR)"FilterEnabled", 1 },
