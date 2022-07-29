@@ -531,12 +531,13 @@ class CChatSettingsDlg : public CChatBaseOptionDlg
 	HTREEITEM hListHeading2 = nullptr;
 
 	CCtrlTreeView treeCheck;
-	CCtrlEdit edtGroup;
+	CCtrlEdit edtGroup, edtAutocomplete;
 
 public:
 	CChatSettingsDlg() :
 		CChatBaseOptionDlg(IDD_OPTIONS1),
 		edtGroup(this, IDC_GROUP),
+		edtAutocomplete(this, IDC_AUTOCOMPLETE),
 		treeCheck(this, IDC_CHECKBOXES)
 	{}
 
@@ -546,6 +547,9 @@ public:
 
 		TreeViewInit(treeCheck, lvGroupsChat, lvItemsChat, CHAT_MODULE);
 
+		if (mir_wstrlen(g_Settings.pwszAutoText))
+			edtAutocomplete.SetText(g_Settings.pwszAutoText);
+
 		edtGroup.SetText(ptrW(Chat_GetGroup()));
 		return true;
 	}
@@ -553,6 +557,12 @@ public:
 	bool OnApply() override
 	{
 		Chat_SetGroup(ptrW(edtGroup.GetText()));
+
+		replaceStrW(g_Settings.pwszAutoText, edtAutocomplete.GetText());
+		if (mir_wstrlen(g_Settings.pwszAutoText))
+			db_set_ws(0, CHAT_MODULE, "TextAutocomplete", g_Settings.pwszAutoText);
+		else
+			db_unset(0, CHAT_MODULE, "TextAutocomplete");
 
 		TreeViewToDB(treeCheck, lvItemsChat, CHAT_MODULE, nullptr);
 		return true;

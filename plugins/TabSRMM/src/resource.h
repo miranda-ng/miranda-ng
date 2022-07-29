@@ -128,6 +128,7 @@
 #define IDC_GROUP                       1057
 #define IDC_CHKMERGEPOPUP               1058
 #define IDC_IMGTAG                      1058
+#define IDC_AUTOCOMPLETE                1058
 #define IDC_SHOWURLS                    1059
 #define IDC_ANIAVATAR                   1059
 #define IDC_SCROLLFIX                   1060
@@ -155,7 +156,6 @@
 #define IDC_LOADCOUNTN                  1074
 #define IDC_TEXTO5                      1074
 #define IDC_LOADCOUNTSPIN               1076
-#define IDC_STATIC_ADD                  1077
 #define IDC_SHOWINFOLINE                1078
 #define IDC_STATIC_ULIST                1078
 #define IDC_STATIC_OTHER                1079
@@ -792,7 +792,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        105
+#define _APS_NEXT_RESOURCE_VALUE        106
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1000
 #define _APS_NEXT_SYMED_VALUE           101

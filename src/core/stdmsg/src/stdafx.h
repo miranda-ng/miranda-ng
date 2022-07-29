@@ -143,7 +143,9 @@ struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	int iX, iY;
 	int iSplitterX, iSplitterY;
+	
 	bool bTabsEnable, bTabsAtBottom, bTabCloseOnDblClick;
+	bool bAddColonToAutoComplete;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

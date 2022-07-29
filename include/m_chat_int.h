@@ -211,7 +211,6 @@ struct GlobalLogSettingsBase
 	bool     bSoundsFocus;
 	bool     bPopupInactiveOnly;
 	bool     bTrayIconInactiveOnly;
-	bool     bAddColonToAutoComplete;
 	bool     bLogLimitNames;
 	bool     bTimeStampEventColour;
 	bool		bShowContactStatus;

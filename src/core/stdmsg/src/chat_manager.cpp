@@ -116,6 +116,7 @@ static void OnLoadSettings()
 	g_Settings.bTabsEnable = db_get_b(0, CHAT_MODULE, "Tabs", 1) != 0;
 	g_Settings.bTabsAtBottom = db_get_b(0, CHAT_MODULE, "TabBottom", 0) != 0;
 	g_Settings.bTabCloseOnDblClick = db_get_b(0, CHAT_MODULE, "TabCloseOnDblClick", 0) != 0;
+	g_Settings.bAddColonToAutoComplete = db_get_b(0, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
 
 	g_Settings.iSplitterX = db_get_w(0, CHAT_MODULE, "SplitterX", 105);
 	if (g_Settings.iSplitterX <= 50)

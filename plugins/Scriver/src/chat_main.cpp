@@ -113,6 +113,8 @@ static BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 static void OnLoadSettings()
 {
+	g_Settings.bAddColonToAutoComplete = db_get_b(0, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
+
 	if (g_Settings.MessageBoxFont)
 		DeleteObject(g_Settings.MessageBoxFont);
 

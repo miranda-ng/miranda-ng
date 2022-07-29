@@ -225,7 +225,6 @@ void LoadGlobalSettings(void)
 	g_Settings->bStripFormat = db_get_b(0, CHAT_MODULE, "StripFormatting", 0) != 0;
 	g_Settings->bTrayIconInactiveOnly = g_bChatTrayInactive;
 	g_Settings->bPopupInactiveOnly = g_bChatPopupInactive;
-	g_Settings->bAddColonToAutoComplete = db_get_b(0, CHAT_MODULE, "AddColonToAutoComplete", 1) != 0;
 	g_Settings->iPopupStyle = db_get_b(0, CHAT_MODULE, "PopupStyle", 1);
 	g_Settings->iPopupTimeout = db_get_w(0, CHAT_MODULE, "PopupTimeout", 3);
 	g_Settings->crPUBkgColour = db_get_dw(0, CHAT_MODULE, "PopupColorBG", GetSysColor(COLOR_WINDOW));

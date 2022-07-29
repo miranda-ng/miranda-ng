@@ -62,6 +62,8 @@ struct SESSION_INFO : public GCSessionInfoBase
 struct GlobalLogSettings : public GlobalLogSettingsBase
 {
 	HFONT MessageBoxFont;
+	bool bAddColonToAutoComplete;
+
 };
 extern GlobalLogSettings g_Settings;
 
