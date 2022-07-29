@@ -36,8 +36,7 @@ static void MY_CheckDlgButton(HWND hWnd, UINT id, int iCheck)
 static void ReloadGlobalContainerSettings(bool fForceReconfig)
 {
 	for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-		if (!p->m_pSettings->fPrivate) {
-			p->SettingsToContainer();
+		if (!p->cfg.fPrivate) {
 			if (fForceReconfig)
 				p->Configure();
 			else
@@ -52,9 +51,7 @@ static void ReloadGlobalContainerSettings(bool fForceReconfig)
 
 void TContainerData::ApplySetting(bool fForceResize)
 {
-	ContainerToSettings();
-
-	if (m_pSettings->fPrivate)
+	if (cfg.fPrivate)
 		Configure();
 	else
 		ReloadGlobalContainerSettings(fForceResize);
@@ -128,7 +125,7 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 			mir_snwprintf(szNewTitle, L"%s", !mir_wstrcmp(pContainer->m_wszName, L"default") ? TranslateT("Default container") : pContainer->m_wszName);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, szNewTitle);
 			Utils::enableDlgControl(hwndDlg, IDC_O_HIDETITLE, !CSkin::m_frameSkins);
-			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->m_pSettings->fPrivate ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CNTPRIVATE, pContainer->cfg.fPrivate ? BST_CHECKED : BST_UNCHECKED);
 
 			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the top"));
 			SendDlgItemMessage(hwndDlg, IDC_TABMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Tabs at the bottom"));
@@ -147,11 +144,11 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 				SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_INSERTSTRING, -1, (LPARAM)TranslateW(sblayouts[i].szName));
 
 			/* bits 24 - 31 of dwFlagsEx hold the side bar layout id */
-			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->m_pSettings->flagsEx.dw & 0xff000000) >> 24), 0);
+			SendDlgItemMessage(hwndDlg, IDC_SBARLAYOUT, CB_SETCURSEL, (WPARAM)((pContainer->cfg.flagsEx.dw & 0xff000000) >> 24), 0);
 
-			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->m_pSettings);
+			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)&pContainer->cfg);
 			SendDlgItemMessage(hwndDlg, IDC_TITLEFORMAT, EM_LIMITTEXT, TITLE_FORMATLEN - 1, 0);
-			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->m_pSettings->szTitleFormat);
+			SetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->cfg.szTitleFormat);
 			SetDlgItemText(hwndDlg, IDC_THEME, pContainer->m_szRelThemeFile);
 			for (int i = 0; i < _countof(o_pages); i++) {
 				tvis.hParent = nullptr;
@@ -204,19 +201,18 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 		case IDC_CNTPRIVATE:
 			if (IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 				pContainer->ReadPrivateSettings(true);
-				pContainer->m_pSettings->fPrivate = true;
+				pContainer->cfg.fPrivate = true;
 			}
 			else {
-				if (pContainer->m_pSettings != &PluginConfig.globalContainerSettings) {
+				if (pContainer->cfg.fPrivate) {
 					char szCname[40];
 					mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, pContainer->m_iContainerIndex);
-					Utils::WriteContainerSettingsToDB(0, pContainer->m_pSettings, szCname);
-					mir_free(pContainer->m_pSettings);
+					Utils::WriteContainerSettingsToDB(0, &pContainer->cfg, szCname);
 				}
-				pContainer->m_pSettings = &PluginConfig.globalContainerSettings;
-				pContainer->m_pSettings->fPrivate = false;
+				pContainer->cfg = PluginConfig.globalContainerSettings;
+				pContainer->cfg.fPrivate = false;
 			}
-			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)pContainer->m_pSettings);
+			SendMessage(hwndDlg, DM_SC_INITDIALOG, 0, (LPARAM)&pContainer->cfg);
 			goto do_apply;
 
 		case IDC_TRANSPARENCY:
@@ -269,16 +265,16 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 
 		case IDOK:
 		case IDC_APPLY:
-			SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, (LPARAM)pContainer->m_pSettings);
+			SendMessage(hwndDlg, DM_SC_BUILDLIST, 0, (LPARAM)&pContainer->cfg);
 
-			pContainer->m_pSettings->dwTransparency = MAKELONG((uint16_t)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_GETPOS, 0, 0),
+			pContainer->cfg.dwTransparency = MAKELONG((uint16_t)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_ACTIVE, TBM_GETPOS, 0, 0),
 				(uint16_t)SendDlgItemMessage(hwndDlg, IDC_TRANSPARENCY_INACTIVE, TBM_GETPOS, 0, 0));
 
-			pContainer->m_pSettings->avatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_GETCURSEL, 0, 0);
-			pContainer->m_pSettings->ownAvatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_GETCURSEL, 0, 0);
+			pContainer->cfg.avatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_AVATARMODE, CB_GETCURSEL, 0, 0);
+			pContainer->cfg.ownAvatarMode = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_OWNAVATARMODE, CB_GETCURSEL, 0, 0);
 
-			GetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->m_pSettings->szTitleFormat, TITLE_FORMATLEN);
-			pContainer->m_pSettings->szTitleFormat[TITLE_FORMATLEN - 1] = 0;
+			GetDlgItemText(hwndDlg, IDC_TITLEFORMAT, pContainer->cfg.szTitleFormat, TITLE_FORMATLEN);
+			pContainer->cfg.szTitleFormat[TITLE_FORMATLEN - 1] = 0;
 
 			pContainer->m_szRelThemeFile[0] = pContainer->m_szAbsThemeFile[0] = 0;
 
@@ -301,8 +297,6 @@ static INT_PTR CALLBACK DlgProcContainerOptions(HWND hwndDlg, UINT msg, WPARAM w
 				pContainer->m_szRelThemeFile[0] = 0;
 				pContainer->m_fPrivateThemeChanged = TRUE;
 			}
-
-			pContainer->SettingsToContainer();
 
 			if (BST_UNCHECKED == IsDlgButtonChecked(hwndDlg, IDC_CNTPRIVATE)) {
 				ReloadGlobalContainerSettings(true);

@@ -319,9 +319,9 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 
 	case IDC_TOGGLETOOLBAR:
 		if (lParam == 1)
-			m_pContainer->m_flags.m_bNoMenuBar = !m_pContainer->m_flags.m_bNoMenuBar;
+			m_pContainer->cfg.flags.m_bNoMenuBar = !m_pContainer->cfg.flags.m_bNoMenuBar;
 		else
-			m_pContainer->m_flags.m_bHideToolbar = !m_pContainer->m_flags.m_bHideToolbar;
+			m_pContainer->cfg.flags.m_bHideToolbar = !m_pContainer->cfg.flags.m_bHideToolbar;
 		m_pContainer->ApplySetting(true);
 		break;
 
@@ -633,7 +633,7 @@ void CMsgDialog::DM_ScrollToBottom(WPARAM wParam, LPARAM lParam)
 
 void CMsgDialog::DM_RecalcPictureSize()
 {
-	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->m_avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = ((m_pPanel.isActive()) && m_pContainer->cfg.avatarMode != 3) ? m_hOwnPic : (m_ace ? m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	if (hbm) {
 		BITMAP bminfo;
 		GetObject(hbm, sizeof(bminfo), &bminfo);
@@ -661,12 +661,12 @@ void CMsgDialog::DM_UpdateLastMessage() const
 	else {
 		SendMessage(m_pContainer->m_hwndStatus, SB_SETICON, 0, 0);
 
-		if (m_pContainer->m_flags.m_bUinStatusBar)
+		if (m_pContainer->cfg.flags.m_bUinStatusBar)
 			mir_snwprintf(szBuf, L"UID: %s", m_cache->getUIN());
 		else if (m_lastMessage) {
 			wchar_t date[64], time[64];
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"d", date, _countof(date), 0);
-			if (m_pContainer->m_flags.m_bUinStatusBar && mir_wstrlen(date) > 6)
+			if (m_pContainer->cfg.flags.m_bUinStatusBar && mir_wstrlen(date) > 6)
 				date[mir_wstrlen(date) - 5] = 0;
 			TimeZone_PrintTimeStamp(nullptr, m_lastMessage, L"t", time, _countof(time), 0);
 			mir_snwprintf(szBuf, TranslateT("Last received: %s at %s"), date, time);
@@ -853,7 +853,7 @@ void CMsgDialog::DM_OptionsApplied(bool bRemakeLog)
 	LoadLocalFlags();
 	m_hTimeZone = TimeZone_CreateByContact(m_hContact, nullptr, TZF_KNOWNONLY);
 
-	m_bShowUIElements = (m_pContainer->m_flags.m_bHideToolbar) == 0;
+	m_bShowUIElements = (m_pContainer->cfg.flags.m_bHideToolbar) == 0;
 	m_bSplitterOverride = M.GetByte(m_hContact, "splitoverride", 0) != 0;
 	m_pPanel.getVisibility();
 
@@ -915,7 +915,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 				m_pContainer->UpdateTitle(0);
 			else
 				m_pContainer->UpdateTitle(0, dat_active);
-			if (!m_pContainer->m_flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
+			if (!m_pContainer->cfg.flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
 				m_pContainer->ReflashContainer();
 		}
 	}
@@ -939,8 +939,8 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 		}
 		if (IsIconic(hwndContainer) || !IsActive()) {
 			SetWindowText(hwndContainer, m_wszStatusBar);
-			m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
-			if (!m_pContainer->m_flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
+			m_pContainer->cfg.flags.m_bNeedsUpdateTitle = true;
+			if (!m_pContainer->cfg.flags.m_bNoFlash && PluginConfig.m_FlashOnMTN)
 				m_pContainer->ReflashContainer();
 		}
 
@@ -951,7 +951,7 @@ void CMsgDialog::DM_Typing(bool fForceOff)
 		}
 		else { // active tab may show icon if status bar is disabled
 			if (!hwndStatus) {
-				if (TabCtrl_GetItemCount(m_hwndParent) > 1 || !m_pContainer->m_flags.m_bHideTabs)
+				if (TabCtrl_GetItemCount(m_hwndParent) > 1 || !m_pContainer->cfg.flags.m_bHideTabs)
 					HandleIconFeedback(this, PluginConfig.g_IconTypingEvent);
 			}
 		}
@@ -971,7 +971,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 {
 	CMsgDialog *srcDat = PluginConfig.lastSPlitterPos.pSrcDat;
 	TContainerData *srcCnt = PluginConfig.lastSPlitterPos.pSrcContainer;
-	bool fCntGlobal = (!m_pContainer->m_pSettings->fPrivate ? true : false);
+	bool fCntGlobal = (!m_pContainer->cfg.fPrivate ? true : false);
 
 	if (m_bIsAutosizingInput)
 		return 0;
@@ -994,7 +994,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 			newPos = 0;
 
 		if (this == srcDat) {
-			m_pContainer->m_pSettings->iSplitterY = m_iSplitterY;
+			m_pContainer->cfg.iSplitterY = m_iSplitterY;
 			if (fCntGlobal)
 				SaveSplitter();
 			return 0;
@@ -1002,7 +1002,7 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 		if (!fCntGlobal && m_pContainer != srcCnt)
 			return 0;
-		if (srcCnt->m_pSettings->fPrivate && m_pContainer != srcCnt)
+		if (srcCnt->cfg.fPrivate && m_pContainer != srcCnt)
 			return 0;
 
 		// for inactive sessions, delay the splitter repositioning until they become
@@ -1122,7 +1122,7 @@ void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 					ShowWindow(m_pContainer->m_hwndActive, SW_HIDE);
 					m_pContainer->m_hwndActive = m_hwnd;
 					m_pContainer->UpdateTitle(m_hContact);
-					m_pContainer->m_flags.m_bDeferredTabSelect = true;
+					m_pContainer->cfg.flags.m_bDeferredTabSelect = true;
 				}
 			}
 		}
@@ -1131,10 +1131,10 @@ void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 	// flash window if it is not focused
 	if (!bDisableNotify && !bIsStatusChangeEvent)
 		if (!IsActive() && !(dbei.flags & DBEF_SENT)) {
-			if (!m_pContainer->m_flags.m_bNoFlash && !m_pContainer->IsActive())
+			if (!m_pContainer->cfg.flags.m_bNoFlash && !m_pContainer->IsActive())
 				m_pContainer->FlashContainer(1, 0);
 			m_pContainer->SetIcon(this, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
-			m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
+			m_pContainer->cfg.flags.m_bNeedsUpdateTitle = true;
 		}
 
 	// play a sound
@@ -1174,7 +1174,7 @@ void CMsgDialog::DM_HandleAutoSizeRequest(REQRESIZE* rr)
 		iNewHeight = (cy - panelHeight) / 2;
 
 	m_dynaSplitter = iNewHeight - DPISCALEY_S(2);
-	if (m_pContainer->m_flags.m_bBottomToolbar)
+	if (m_pContainer->cfg.flags.m_bBottomToolbar)
 		m_dynaSplitter += DPISCALEY_S(22);
 	m_iSplitterY = m_dynaSplitter + DPISCALEY_S(34);
 	DM_RecalcPictureSize();
@@ -1215,7 +1215,7 @@ void CMsgDialog::DrawStatusIcons(HDC hDC, const RECT &rc, int gap)
 				DrawIconEx(hDC, x, y, PluginConfig.g_buttonBarIcons[ICON_DEFAULT_SOUNDS],
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 
-				DrawIconEx(hDC, x, y, m_pContainer->m_flags.m_bNoSound ?
+				DrawIconEx(hDC, x, y, m_pContainer->cfg.flags.m_bNoSound ?
 					PluginConfig.g_iconOverlayDisabled : PluginConfig.g_iconOverlayEnabled,
 					PluginConfig.m_smcxicon, PluginConfig.m_smcyicon, 0, nullptr, DI_NORMAL);
 			}
@@ -1265,12 +1265,12 @@ void CMsgDialog::CheckStatusIconClick(POINT pt, const RECT &rc, int gap, int cod
 		if (sid->dwId == MSG_ICON_SOUND && code != NM_RCLICK) {
 			if (GetKeyState(VK_SHIFT) & 0x8000) {
 				for (TContainerData *p = pFirstContainer; p; p = p->pNext) {
-					p->m_flags.m_bNoSound = m_pContainer->m_flags.m_bNoSound;
+					p->cfg.flags.m_bNoSound = m_pContainer->cfg.flags.m_bNoSound;
 					InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 				}
 			}
 			else {
-				m_pContainer->m_flags.m_bNoSound = !m_pContainer->m_flags.m_bNoSound;
+				m_pContainer->cfg.flags.m_bNoSound = !m_pContainer->cfg.flags.m_bNoSound;
 				InvalidateRect(m_pContainer->m_hwndStatus, nullptr, TRUE);
 			}
 		}

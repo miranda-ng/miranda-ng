@@ -164,14 +164,14 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 				goto passed;
 			return 0;
 		}
-		if (pContainer->m_flags.m_bDontReport && IsIconic(pContainer->m_hwnd))        // in tray counts as "minimised"
+		if (pContainer->cfg.flags.m_bDontReport && IsIconic(pContainer->m_hwnd))        // in tray counts as "minimised"
 			goto passed;
-		if (pContainer->m_flags.m_bDontReportUnfocused) {
+		if (pContainer->cfg.flags.m_bDontReportUnfocused) {
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				goto passed;
 		}
-		if (pContainer->m_flags.m_bAlwaysReportInactive) {
-			if (pContainer->m_flags.m_bDontReportFocused)
+		if (pContainer->cfg.flags.m_bAlwaysReportInactive) {
+			if (pContainer->cfg.flags.m_bDontReportFocused)
 				goto passed;
 
 			if (pContainer->m_hwndActive == si->pDlg->GetHwnd())
@@ -324,14 +324,14 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 					ShowWindow(dat->m_pContainer->m_hwndActive, SW_HIDE);
 					dat->m_pContainer->m_hwndActive = dat->GetHwnd();
 					dat->m_pContainer->UpdateTitle(dat->m_hContact);
-					dat->m_pContainer->m_flags.m_bDeferredTabSelect = true;
+					dat->m_pContainer->cfg.flags.m_bDeferredTabSelect = true;
 				}
 			}
 		}
 
 		// flash window if it is not focused
 		if (bMustFlash && bInactive)
-			if (!dat->m_pContainer->m_flags.m_bNoFlash)
+			if (!dat->m_pContainer->cfg.flags.m_bNoFlash)
 				dat->m_pContainer->FlashContainer(1, 0);
 
 		if (hNotifyIcon && bInactive && ((gce->iType & si->iLogTrayFlags) || bForcedIcon)) {
@@ -349,7 +349,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			HICON hIcon = (HICON)SendMessage(dat->m_pContainer->m_hwnd, WM_GETICON, ICON_BIG, 0);
 			if (hNotifyIcon == hIconHighlight || (hIcon != hIconMessage && hIcon != hIconHighlight)) {
 				dat->m_pContainer->SetIcon(dat, hNotifyIcon);
-				dat->m_pContainer->m_flags.m_bNeedsUpdateTitle = true;
+				dat->m_pContainer->cfg.flags.m_bNeedsUpdateTitle = true;
 			}
 		}
 

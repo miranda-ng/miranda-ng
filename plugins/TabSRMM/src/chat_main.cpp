@@ -296,7 +296,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 	item.lParam = (LPARAM)hwndNew;
 	TabCtrl_SetItem(pContainer->m_hwndTabs, iTabId, &item);
 
-	if (pContainer->m_flags.m_bSideBar)
+	if (pContainer->cfg.flags.m_bSideBar)
 		pContainer->m_pSideBar->addSession(pDlg, pContainer->m_iTabIndex);
 
 	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);

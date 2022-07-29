@@ -147,7 +147,7 @@ const SIZE& CSideBarButton::measureItem()
 		SIZE sz;
 		::GetTextExtentPoint32(dc, tszLabel, (int)mir_wstrlen(tszLabel), &sz);
 		sz.cx += 28;
-		if (m_dat->m_pContainer->m_flagsEx.m_bTabCloseButton)
+		if (m_dat->m_pContainer->cfg.flagsEx.m_bTabCloseButton)
 			sz.cx += 20;
 
 		if (m_sideBarLayout->dwFlags & CSideBar::SIDEBARLAYOUT_VERTICALORIENTATION)
@@ -247,7 +247,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 	HICON	hIcon = m_dat->m_cache->getIcon(iSize);
 	RECT	rc = *rcItem;
 
-	if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !pContainer->m_flagsEx.m_bTabFlashIcon) {
+	if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !pContainer->cfg.flagsEx.m_bTabFlashIcon) {
 		uint32_t ix = rc.left + 4;
 		uint32_t iy = (rc.bottom + rc.top - iSize) / 2;
 		if (m_dat->m_bIsIdle && PluginConfig.m_bIdleDetect)
@@ -259,7 +259,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 	rc.left += (iSize + 7);
 
 	// draw the close button if enabled
-	if (m_sideBar->getContainer()->m_flagsEx.m_bTabCloseButton) {
+	if (m_sideBar->getContainer()->cfg.flagsEx.m_bTabCloseButton) {
 		if (m_sideBar->getHoveredClose() != this)
 			CSkin::m_default_bf.SourceConstantAlpha = 150;
 
@@ -271,7 +271,7 @@ void CSideBarButton::renderIconAndNick(const HDC hdc, const RECT *rcItem) const
 
 	::SetBkMode(hdc, TRANSPARENT);
 
-	if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !pContainer->m_flagsEx.m_bTabFlashLabel) {
+	if (!m_dat->m_bCanFlashTab || (m_dat->m_bCanFlashTab == TRUE && m_dat->m_bTabFlash) || !pContainer->cfg.flagsEx.m_bTabFlashLabel) {
 		bool fIsActive = (m_sideBar->getActiveItem() == this);
 		
 		COLORREF clr;
@@ -297,7 +297,7 @@ int CSideBarButton::testCloseButton() const
 	if (m_id == IDC_SIDEBARUP || m_id == IDC_SIDEBARDOWN)							// scroller buttons don't have a close button
 		return -1;
 
-	if (m_sideBar->getContainer()->m_flagsEx.m_bTabCloseButton && !(getLayout()->dwFlags & CSideBar::SIDEBARLAYOUT_NOCLOSEBUTTONS)) {
+	if (m_sideBar->getContainer()->cfg.flagsEx.m_bTabCloseButton && !(getLayout()->dwFlags & CSideBar::SIDEBARLAYOUT_NOCLOSEBUTTONS)) {
 		POINT pt;
 		::GetCursorPos(&pt);
 		::ScreenToClient(m_hwnd, &pt);
@@ -373,17 +373,17 @@ void CSideBar::Init()
 	m_firstVisibleOffset = 0;
 	m_totalItemHeight = 0;
 
-	m_uLayout = (m_pContainer->m_flagsEx.dw & 0xff000000) >> 24;
+	m_uLayout = (m_pContainer->cfg.flagsEx.dw & 0xff000000) >> 24;
 	m_uLayout = ((m_uLayout < NR_LAYOUTS) ? m_uLayout : 0);
 
 	m_currentLayout = &m_layouts[m_uLayout];
 
 	m_dwFlags = m_currentLayout->dwFlags;
 
-	m_dwFlags = (m_pContainer->m_flagsEx.m_bTabSBarLeft ? m_dwFlags | SIDEBARORIENTATION_LEFT : m_dwFlags & ~SIDEBARORIENTATION_LEFT);
-	m_dwFlags = (m_pContainer->m_flagsEx.m_bTabSBarRight ? m_dwFlags | SIDEBARORIENTATION_RIGHT : m_dwFlags & ~SIDEBARORIENTATION_RIGHT);
+	m_dwFlags = (m_pContainer->cfg.flagsEx.m_bTabSBarLeft ? m_dwFlags | SIDEBARORIENTATION_LEFT : m_dwFlags & ~SIDEBARORIENTATION_LEFT);
+	m_dwFlags = (m_pContainer->cfg.flagsEx.m_bTabSBarRight ? m_dwFlags | SIDEBARORIENTATION_RIGHT : m_dwFlags & ~SIDEBARORIENTATION_RIGHT);
 
-	if (m_pContainer->m_flags.m_bSideBar) {
+	if (m_pContainer->cfg.flags.m_bSideBar) {
 		if (m_hwndScrollWnd == nullptr)
 			m_hwndScrollWnd = ::CreateWindowEx(0, L"TS_SideBarClass", L"", WS_CLIPCHILDREN | WS_CLIPSIBLINGS | WS_VISIBLE | WS_CHILD,
 			0, 0, m_width, 40, m_pContainer->m_hwnd, reinterpret_cast<HMENU>(5000), g_plugin.getInst(), this);

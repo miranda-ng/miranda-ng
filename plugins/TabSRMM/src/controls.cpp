@@ -137,7 +137,7 @@ void CMenuBar::releaseHook()
 
 LONG CMenuBar::getHeight() const
 {
-	return (m_pContainer->m_flags.m_bNoMenuBar) ? 0 : m_size_y;
+	return (m_pContainer->cfg.flags.m_bNoMenuBar) ? 0 : m_size_y;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +186,7 @@ LONG_PTR CMenuBar::processMsg(const UINT msg, const WPARAM, const LPARAM lParam)
 		}
 	}
 	else if (msg == WM_LBUTTONDOWN) {
-		if (m_pContainer->m_flags.m_bNoTitle) {
+		if (m_pContainer->cfg.flags.m_bNoTitle) {
 			POINT	pt;
 			::GetCursorPos(&pt);
 			return ::SendMessage(m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
@@ -445,7 +445,7 @@ void CMenuBar::updateState(const HMENU hMenu) const
 {
 	CMsgDialog *dat = (CMsgDialog*)GetWindowLongPtr(m_pContainer->m_hwndActive, GWLP_USERDATA);
 	if (dat) {
-		auto f = m_pContainer->m_flags;
+		auto f = m_pContainer->cfg.flags;
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWMENUBAR, !f.m_bNoMenuBar && !m_mustAutoHide);
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWSTATUSBAR, !f.m_bNoStatusBar);
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWAVATAR, dat->m_bShowAvatar);
@@ -501,8 +501,8 @@ void CMenuBar::configureMenu() const
 
 void CMenuBar::autoShow(const int showcmd)
 {
-	if (m_mustAutoHide && !m_pContainer->m_flags.m_bNoMenuBar) {
-		m_pContainer->m_flags.m_bNoMenuBar = true;
+	if (m_mustAutoHide && !m_pContainer->cfg.flags.m_bNoMenuBar) {
+		m_pContainer->cfg.flags.m_bNoMenuBar = true;
 		m_mustAutoHide = false;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 		releaseHook();
@@ -513,9 +513,9 @@ void CMenuBar::autoShow(const int showcmd)
 		return;
 	}
 
-	if (m_pContainer->m_flags.m_bNoMenuBar) {
+	if (m_pContainer->cfg.flags.m_bNoMenuBar) {
 		m_mustAutoHide = true;
-		m_pContainer->m_flags.m_bNoMenuBar = false;
+		m_pContainer->cfg.flags.m_bNoMenuBar = false;
 		::SendMessage(m_pContainer->m_hwnd, WM_SIZE, 0, 1);
 	}
 	else // do nothing, already visible
@@ -921,7 +921,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 		rcLastStatusBarClick.top = pt.y - 2;
 		rcLastStatusBarClick.bottom = pt.y + 2;
 
-		if (pContainer->m_flags.m_bNoTitle) {
+		if (pContainer->cfg.flags.m_bNoTitle) {
 			POINT	pt1 = pt;
 			ScreenToClient(hWnd, &pt1);
 
@@ -958,7 +958,7 @@ LONG_PTR CALLBACK CMsgDialog::StatusBarSubclassProc(HWND hWnd, UINT msg, WPARAM 
 				if (!mir_strcmp(sid->szModule, MSG_ICON_MODULE)) {
 					if (sid->dwId == MSG_ICON_SOUND) {
 						mir_snwprintf(wBuf, TranslateT("Sounds are %s. Click to toggle status, hold Shift and click to set for all open containers"),
-							pContainer->m_flags.m_bNoSound ? TranslateT("disabled") : TranslateT("enabled"));
+							pContainer->cfg.flags.m_bNoSound ? TranslateT("disabled") : TranslateT("enabled"));
 					}
 					else if (sid->dwId == MSG_ICON_UTN && dat->AllowTyping()) {
 						int mtnStatus = g_plugin.getByte(dat->m_hContact, SRMSGSET_TYPING, g_plugin.bTypingNew);

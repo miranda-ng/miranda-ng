@@ -224,7 +224,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 			hIcon = dat->m_hTabIcon;
 	}
 
-	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->m_flagsEx.m_bTabFlashIcon) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->cfg.flagsEx.m_bTabFlashIcon) {
 		uint32_t ix = rcItem->left + tabdat->xpad - 1;
 		uint32_t iy = (rcItem->bottom + rcItem->top - iSize) / 2;
 		if (dat->m_bIsIdle && PluginConfig.m_bIdleDetect)
@@ -246,7 +246,7 @@ static void DrawItem(TabControlData *tabdat, HDC dc, RECT *rcItem, int nHint, in
 		CSkin::m_default_bf.SourceConstantAlpha = 255;
 	}
 
-	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->m_flagsEx.m_bTabFlashLabel) {
+	if (!dat->m_bCanFlashTab || (dat->m_bCanFlashTab == TRUE && dat->m_bTabFlash) || !dat->m_pContainer->cfg.flagsEx.m_bTabFlashLabel) {
 		uint32_t dwTextFlags = DT_SINGLELINE | DT_VCENTER;
 		HFONT oldFont = (HFONT)SelectObject(dc, (HFONT)SendMessage(tabdat->hwnd, WM_GETFONT, 0, 0));
 		if (tabdat->dwStyle & TCS_BUTTONS || !(tabdat->dwStyle & TCS_MULTILINE)) {
@@ -640,7 +640,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	tabdat->iHoveredTabIndex = hotItem;
 
 	tabdat->bAeroTabs = CSkin::m_fAeroSkinsValid && (isAero || PluginConfig.m_fillColor);
-	tabdat->bCloseButton = tabdat->pContainer->m_flagsEx.m_bTabCloseButton;
+	tabdat->bCloseButton = tabdat->pContainer->cfg.flagsEx.m_bTabCloseButton;
 	tabdat->helperDat = nullptr;
 
 	if (tabdat->bAeroTabs) {
@@ -661,7 +661,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 	// switchbar is active, don't paint a single pixel, the tab control won't be visible at all
 	// same when we have only ONE tab and do not want it to be visible because of the container
 	// option "Show tab bar only when needed".
-	if ((tabdat->pContainer->m_flags.m_bSideBar) || (nCount == 1 && tabdat->pContainer->m_flags.m_bHideTabs)) {
+	if ((tabdat->pContainer->cfg.flags.m_bSideBar) || (nCount == 1 && tabdat->pContainer->cfg.flags.m_bHideTabs)) {
 		if (nCount == 0)
 			FillRect(hdcreal, &ps.rcPaint, GetSysColorBrush(COLOR_3DFACE)); // avoid flickering/ugly black background during container creation
 		EndPaint(hwnd, &ps);
@@ -690,7 +690,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		bmpOld = (HBITMAP)SelectObject(hdc, bmpMem);
 	}
 
-	if (nCount == 1 && tabdat->pContainer->m_flags.m_bHideTabs)
+	if (nCount == 1 && tabdat->pContainer->cfg.flags.m_bHideTabs)
 		rctClip = rctPage;
 
 	if (CSkin::m_skinEnabled)
@@ -722,7 +722,7 @@ static void PaintWorker(HWND hwnd, TabControlData *tabdat)
 		}
 	}
 
-	if (nCount > 1 || !(tabdat->pContainer->m_flags.m_bHideTabs)) {
+	if (nCount > 1 || !(tabdat->pContainer->cfg.flags.m_bHideTabs)) {
 		rctClip = rctPage;
 		InflateRect(&rctClip, -tabdat->pContainer->m_tBorder, -tabdat->pContainer->m_tBorder);
 	}
@@ -850,7 +850,7 @@ page_done:
 			pt.y = rcLog.bottom;
 			pt.x = rcLog.left;
 			ScreenToClient(hwnd, &pt);
-			rcPage.top = pt.y + ((nCount > 1 || !(tabdat->helperDat->m_pContainer->m_flags.m_bHideTabs)) ? tabdat->helperDat->m_pContainer->m_tBorder : 0);
+			rcPage.top = pt.y + ((nCount > 1 || !(tabdat->helperDat->m_pContainer->cfg.flags.m_bHideTabs)) ? tabdat->helperDat->m_pContainer->m_tBorder : 0);
 			FillRect(hdc, &rcPage, CSkin::m_BrushBack);
 			rcPage.top = 0;
 		}
@@ -1102,7 +1102,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			tabdat->bTipActive = false;
 		}
 		KillTimer(hwnd, TIMERID_HOVER_T);
-		if (tabdat->pContainer && (!tabdat->pContainer->m_pSideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->m_flags.m_bHideTabs))))
+		if (tabdat->pContainer && (!tabdat->pContainer->m_pSideBar->isActive() && (TabCtrl_GetItemCount(hwnd) > 1 || !(tabdat->pContainer->cfg.flags.m_bHideTabs))))
 			SetTimer(hwnd, TIMERID_HOVER_T, 750, nullptr);
 		break;
 
@@ -1111,7 +1111,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			int iTabs = TabCtrl_GetItemCount(hwnd);
 
 			if (!(tabdat->dwStyle & TCS_MULTILINE)) {
-				if (iTabs > (tabdat->pContainer->m_flags.m_bHideTabs ? 1 : 0)) {
+				if (iTabs > (tabdat->pContainer->cfg.flags.m_bHideTabs ? 1 : 0)) {
 					RECT rcClient, rc;
 					GetClientRect(hwnd, &rcClient);
 					TabCtrl_GetItemRect(hwnd, iTabs - 1, &rc);
@@ -1139,7 +1139,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		break;
 
 	case WM_LBUTTONDBLCLK:
-		if (!tabdat->pContainer->m_pSettings->flagsEx.m_bTabCloseButton) {
+		if (!tabdat->pContainer->cfg.flagsEx.m_bTabCloseButton) {
 			GetCursorPos(&pt);
 			tabdat->pContainer->CloseTabByMouse(&pt);
 		}

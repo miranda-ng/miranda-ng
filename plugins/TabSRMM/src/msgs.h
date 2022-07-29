@@ -268,12 +268,12 @@ struct TContainerSettings
 
 	uint32_t   dwTransparency;
 	uint32_t   panelheight;
-	int     iSplitterX, iSplitterY;
-	wchar_t szTitleFormat[TITLE_FORMATLEN + 2];
-	uint16_t    avatarMode;
-	uint16_t    ownAvatarMode;
-	uint16_t    autoCloseSeconds;
-	bool    fPrivate;
+	int        iSplitterX, iSplitterY;
+	wchar_t    szTitleFormat[TITLE_FORMATLEN + 2];
+	uint16_t   avatarMode;
+	uint16_t   ownAvatarMode;
+	uint16_t   autoCloseSeconds;
+	bool       fPrivate;
 };
 
 struct ButtonItem;
@@ -284,8 +284,6 @@ struct TContainerData : public MZeroedObject
 	~TContainerData();
 
 	TContainerData *pNext;
-	TContainerFlags m_flags;
-	TContainerFlagsEx m_flagsEx;
 
 	HWND     m_hwndActive; // active message window
 	HWND     m_hwnd;       // the container handle
@@ -326,7 +324,6 @@ struct TContainerData : public MZeroedObject
 	HBITMAP  m_hbmToolbarBG, m_oldhbmToolbarBG;
 	SIZE	   m_szOldToolbarSize;
 	SIZE     m_oldSize, m_preSIZE;
-	uint16_t	m_avatarMode, m_ownAvatarMode;
 	uint8_t	m_bTBRenderingMode;
 	TLogTheme m_theme;
 	CMenuBar *m_pMenuBar;
@@ -334,7 +331,7 @@ struct TContainerData : public MZeroedObject
 	ButtonItem *m_buttonItems;
 	TTemplateSet *m_ltr_templates, *m_rtl_templates;
 	CTaskbarInteract *m_pTaskBar;
-	TContainerSettings *m_pSettings;
+	TContainerSettings cfg;
 
 	wchar_t m_wszName[CONTAINER_NAMELEN + 4];		// container name
 	wchar_t m_szRelThemeFile[MAX_PATH], m_szAbsThemeFile[MAX_PATH];
@@ -345,7 +342,6 @@ struct TContainerData : public MZeroedObject
 	void BroadCastContainer(UINT message, WPARAM wParam, LPARAM lParam) const;
 	void CloseTabByMouse(POINT *);
 	void Configure();
-	void ContainerToSettings();
 	void FlashContainer(int iMode, int iCount);
 	void InitDialog(HWND);
 	void InitRedraw(void);
@@ -362,7 +358,6 @@ struct TContainerData : public MZeroedObject
 	void SelectTab(int iCommand, int idx = 0);
 	void SetAeroMargins(void);
 	void SetIcon(CMsgDialog *pDlg, HICON hIcon);
-	void SettingsToContainer();
 	void UpdateTabs(void);
 	void UpdateTitle(MCONTACT, CMsgDialog* = nullptr);
 

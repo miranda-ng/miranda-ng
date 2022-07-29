@@ -370,7 +370,7 @@ void CProxyWindow::sendPreview()
 	}
 	else pt.x = pt.y = 0;
 
-	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->m_pContainer->m_flags.m_bCreateMinimized ? 0 : DWM_SIT_DISPLAYFRAME);
+	CMimAPI::m_pfnDwmSetIconicLivePreviewBitmap(m_hwndProxy, hbm, &pt, m_dat->m_pContainer->cfg.flags.m_bCreateMinimized ? 0 : DWM_SIT_DISPLAYFRAME);
 	::ReleaseDC(m_dat->GetHwnd(), dc);
 	::DeleteObject(hbm);
 }

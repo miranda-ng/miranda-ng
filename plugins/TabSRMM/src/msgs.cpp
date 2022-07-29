@@ -78,16 +78,16 @@ int TSAPI MessageWindowOpened(MCONTACT hContact, CMsgDialog *pDlg)
 
 	TContainerData *pContainer = pDlg->m_pContainer;
 	if (pContainer) {
-		if (pContainer->m_flags.m_bDontReport) {
+		if (pContainer->cfg.flags.m_bDontReport) {
 			if (IsIconic(pContainer->m_hwnd))
 				return 0;
 		}
-		if (pContainer->m_flags.m_bDontReportUnfocused) {
+		if (pContainer->cfg.flags.m_bDontReportUnfocused) {
 			if (!IsIconic(pContainer->m_hwnd) && !pContainer->IsActive())
 				return 0;
 		}
-		if (pContainer->m_flags.m_bAlwaysReportInactive) {
-			if (pContainer->m_flags.m_bDontReportFocused)
+		if (pContainer->cfg.flags.m_bAlwaysReportInactive) {
+			if (pContainer->cfg.flags.m_bDontReportFocused)
 				return 0;
 
 			return pContainer->m_hwndActive == pDlg->GetHwnd();
@@ -329,7 +329,7 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 	pWindow->Create();
 
 	// switchbar support
-	if (pContainer->m_flags.m_bSideBar)
+	if (pContainer->cfg.flags.m_bSideBar)
 		pContainer->m_pSideBar->addSession(pWindow, pContainer->m_iTabIndex);
 
 	SendMessage(pContainer->m_hwnd, WM_SIZE, 0, 0);
@@ -341,7 +341,7 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 			SetFocus(pContainer->m_hwndActive);
 		}
 		else {
-			if (pContainer->m_flags.m_bNoFlash)
+			if (pContainer->cfg.flags.m_bNoFlash)
 				pContainer->SetIcon(0, Skin_LoadIcon(SKINICON_EVENT_MESSAGE));
 			else
 				pContainer->FlashContainer(1, 0);

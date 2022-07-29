@@ -252,7 +252,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM nSecs)
 	}
 	else fShowOnClist = false;
 
-	if ((!foundWin || !pContainer->m_flags.m_bNoSound) && preTyping != (nSecs != 0))
+	if ((!foundWin || !pContainer->cfg.flags.m_bNoSound) && preTyping != (nSecs != 0))
 		Skin_PlaySound(nSecs ? "TNStart" : "TNStop");
 
 	if (g_plugin.bPopups) {

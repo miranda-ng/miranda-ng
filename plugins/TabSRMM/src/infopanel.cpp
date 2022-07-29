@@ -79,8 +79,8 @@ void CInfoPanel::loadHeight()
 	m_height = M.GetDword(m_dat->m_hContact, "panelheight", -1);
 
 	if (m_height == -1 || HIWORD(m_height) == 0) {
-		if (m_dat->m_pContainer->m_pSettings->fPrivate)
-			m_height = m_dat->m_pContainer->m_pSettings->panelheight;
+		if (m_dat->m_pContainer->cfg.fPrivate)
+			m_height = m_dat->m_pContainer->cfg.panelheight;
 		else
 			m_height = bSync ? m_defaultHeight : (m_isChat ? m_defaultMUCHeight : m_defaultHeight);
 		m_fPrivateHeight = false;
@@ -106,8 +106,8 @@ void CInfoPanel::saveHeight(bool fFlush)
 	if (m_height < 110 && m_height >= MIN_PANELHEIGHT) {          // only save valid panel splitter positions
 		if (!m_fPrivateHeight) {
 			if (!m_isChat || bSync) {
-				if (m_dat->m_pContainer->m_pSettings->fPrivate)
-					m_dat->m_pContainer->m_pSettings->panelheight = m_height;
+				if (m_dat->m_pContainer->cfg.fPrivate)
+					m_dat->m_pContainer->cfg.panelheight = m_height;
 				else {
 					PluginConfig.m_panelHeight = m_height;
 					m_defaultHeight = m_height;
@@ -116,8 +116,8 @@ void CInfoPanel::saveHeight(bool fFlush)
 				}
 			}
 			else if (m_isChat && !bSync) {
-				if (m_dat->m_pContainer->m_pSettings->fPrivate)
-					m_dat->m_pContainer->m_pSettings->panelheight = m_height;
+				if (m_dat->m_pContainer->cfg.fPrivate)
+					m_dat->m_pContainer->cfg.panelheight = m_height;
 				else {
 					PluginConfig.m_MUCpanelHeight = m_height;
 					m_defaultMUCHeight = m_height;
@@ -147,7 +147,7 @@ void CInfoPanel::setHeight(LONG newHeight, bool fBroadcast)
 
 	if (fBroadcast) {
 		if (!m_fPrivateHeight) {
-			if (!m_dat->m_pContainer->m_pSettings->fPrivate)
+			if (!m_dat->m_pContainer->cfg.fPrivate)
 				Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
 			else
 				m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)newHeight);
@@ -163,7 +163,7 @@ void CInfoPanel::Configure() const
 
 void CInfoPanel::showHide() const
 {
-	HBITMAP hbm = (m_active && m_dat->m_pContainer->m_avatarMode != 3) ? m_dat->m_hOwnPic : (m_dat->m_ace ? m_dat->m_ace->hbmPic : PluginConfig.g_hbmUnknown);
+	HBITMAP hbm = (m_active && m_dat->m_pContainer->cfg.avatarMode != 3) ? m_dat->m_hOwnPic : (m_dat->m_ace ? m_dat->m_ace->hbmPic : PluginConfig.g_hbmUnknown);
 	HWND hwndDlg = m_dat->GetHwnd();
 
 	if (!m_isChat) {
@@ -218,7 +218,7 @@ void CInfoPanel::showHide() const
 
 bool CInfoPanel::getVisibility()
 {
-	uint8_t bDefault = (m_dat->m_pContainer->m_flags.m_bInfoPanel) ? 1 : 0;
+	uint8_t bDefault = (m_dat->m_pContainer->cfg.flags.m_bInfoPanel) ? 1 : 0;
 	uint8_t bContact = M.GetByte(m_dat->m_hContact, "infopanel", 0);
 
 	uint8_t visible = (bContact == 0 ? bDefault : (bContact == (uint8_t)-1 ? 0 : 1));
@@ -1069,7 +1069,7 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 			::CheckDlgButton(hwnd, IDC_NOSYNC, M.GetByte("syncAllPanels", 0) ? BST_UNCHECKED : BST_CHECKED);
 
-			Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->m_pContainer->m_pSettings->fPrivate ? SW_SHOW : SW_HIDE);
+			Utils::showDlgControl(hwnd, IDC_IPCONFIG_PRIVATECONTAINER, m_dat->m_pContainer->cfg.fPrivate ? SW_SHOW : SW_HIDE);
 
 			if (!m_isChat) {
 				v = db_get_b(m_dat->m_hContact, SRMSGMOD_T, "hideavatar", -1);
@@ -1184,13 +1184,13 @@ INT_PTR CALLBACK CInfoPanel::ConfigDlgProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				db_set_b(0, SRMSGMOD_T, "syncAllPanels", ::IsDlgButtonChecked(hwnd, IDC_NOSYNC) ? 0 : 1);
 				if (BST_UNCHECKED == IsDlgButtonChecked(hwnd, IDC_NOSYNC)) {
 					loadHeight();
-					if (!m_dat->m_pContainer->m_pSettings->fPrivate)
+					if (!m_dat->m_pContainer->cfg.fPrivate)
 						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 					else
 						m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, (LPARAM)m_defaultHeight);
 				}
 				else {
-					if (!m_dat->m_pContainer->m_pSettings->fPrivate)
+					if (!m_dat->m_pContainer->cfg.fPrivate)
 						Srmm_Broadcast(DM_SETINFOPANEL, (WPARAM)m_dat, 0);
 					else
 						m_dat->m_pContainer->BroadCastContainer(DM_SETINFOPANEL, (WPARAM)m_dat, 0);

@@ -434,7 +434,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		if (dat) {
 			// "hard" errors are handled differently in multisend. There is no option to retry - once failed, they
 			// are discarded and the user is notified with a small log message.
-			if (!NEN::bNoSounds && !dat->m_pContainer->m_flags.m_bNoSound)
+			if (!NEN::bNoSounds && !dat->m_pContainer->cfg.flags.m_bNoSound)
 				Skin_PlaySound("SendError");
 
 			replaceStrW(job.pwszErrorMsg, CMStringW(FORMAT, TranslateT("Delivery failure: %s"), (wchar_t*)ack->lParam));
@@ -477,7 +477,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
 
 	if (dat)
-		if (!NEN::bNoSounds && !dat->m_pContainer->m_flags.m_bNoSound)
+		if (!NEN::bNoSounds && !dat->m_pContainer->cfg.flags.m_bNoSound)
 			Skin_PlaySound("SendMsg");
 
 	Srmm_Broadcast(DM_APPENDMCEVENT, job.hContact, hNewEvent);

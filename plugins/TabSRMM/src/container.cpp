@@ -89,8 +89,6 @@ TContainerData::~TContainerData()
 {
 	delete m_pMenuBar;
 	delete m_pSideBar;
-	if (m_pSettings != &PluginConfig.globalContainerSettings)
-		mir_free(m_pSettings);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -103,10 +101,10 @@ void TContainerData::ActivateExistingTab(CMsgDialog *dat)
 
 	NMHDR nmhdr = {};
 	nmhdr.code = TCN_SELCHANGE;
-	if (TabCtrl_GetItemCount(m_hwndTabs) > 1 && !m_flags.m_bDeferredTabSelect) {
+	if (TabCtrl_GetItemCount(m_hwndTabs) > 1 && !cfg.flags.m_bDeferredTabSelect) {
 		TabCtrl_SetCurSel(m_hwndTabs, GetTabIndexFromHWND(m_hwndTabs, dat->GetHwnd()));
 		SendMessage(m_hwnd, WM_NOTIFY, 0, (LPARAM)&nmhdr);	// just select the tab and let WM_NOTIFY do the rest
-		if (m_flags.m_bSideBar)
+		if (cfg.flags.m_bSideBar)
 			m_pSideBar->setActiveItem(dat, true);
 	}
 	if (!dat->isChat())
@@ -152,7 +150,7 @@ void TContainerData::AdjustTabClientRect(RECT &rc)
 
 	RECT rcTab, rcTabOrig;
 	GetClientRect(m_hwndTabs, &rcTab);
-	if (!m_flags.m_bSideBar && (m_iChilds > 1 || !m_flags.m_bHideTabs)) {
+	if (!cfg.flags.m_bSideBar && (m_iChilds > 1 || !cfg.flags.m_bHideTabs)) {
 		rcTabOrig = rcTab;
 		TabCtrl_AdjustRect(m_hwndTabs, FALSE, &rcTab);
 		uint32_t dwTopPad = rcTab.top - rcTabOrig.top;
@@ -161,7 +159,7 @@ void TContainerData::AdjustTabClientRect(RECT &rc)
 		rc.right -= m_tBorder;
 
 		if (dwStyle & TCS_BUTTONS) {
-			if (m_flags.m_bTabsBottom) {
+			if (cfg.flags.m_bTabsBottom) {
 				int nCount = TabCtrl_GetItemCount(m_hwndTabs);
 				if (nCount > 0) {
 					RECT rcItem;
@@ -175,7 +173,7 @@ void TContainerData::AdjustTabClientRect(RECT &rc)
 			}
 		}
 		else {
-			if (m_flags.m_bTabsBottom)
+			if (cfg.flags.m_bTabsBottom)
 				rc.bottom = rcTab.bottom + 2;
 			else {
 				rc.top += (dwTopPad - 2);
@@ -225,7 +223,7 @@ void TContainerData::Configure()
 {
 	uint32_t wsold, ws = wsold = GetWindowLong(m_hwnd, GWL_STYLE);
 	if (!CSkin::m_frameSkins) {
-		ws = (m_flags.m_bNoTitle) ?
+		ws = (cfg.flags.m_bNoTitle) ?
 			((IsWindowVisible(m_hwnd) ? WS_VISIBLE : 0) | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_CLIPCHILDREN | WS_THICKFRAME | (CSkin::m_frameSkins ? WS_SYSMENU : WS_SYSMENU | WS_SIZEBOX)) :
 			ws | WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN;
 		SetWindowLong(m_hwnd, GWL_STYLE, ws);
@@ -241,20 +239,20 @@ void TContainerData::Configure()
 	BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
 	uint32_t ex = GetWindowLong(m_hwnd, GWL_EXSTYLE);
-	ex = (m_flags.m_bTransparent && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
+	ex = (cfg.flags.m_bTransparent && (!CSkin::m_skinEnabled || fTransAllowed)) ? (ex | WS_EX_LAYERED) : (ex & ~WS_EX_LAYERED);
 	SetWindowLong(m_hwnd, GWL_EXSTYLE, ex);
 
-	if (m_flags.m_bTransparent && fTransAllowed) {
-		uint32_t trans = LOWORD(m_pSettings->dwTransparency);
-		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (uint8_t)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (m_flags.m_bTransparent ? LWA_ALPHA : 0));
+	if (cfg.flags.m_bTransparent && fTransAllowed) {
+		uint32_t trans = LOWORD(cfg.dwTransparency);
+		SetLayeredWindowAttributes(m_hwnd, Skin->getColorKey(), (uint8_t)trans, (/* m_bSkinned ? LWA_COLORKEY : */ 0) | (cfg.flags.m_bTransparent ? LWA_ALPHA : 0));
 	}
 
 	HMENU hSysmenu = GetSystemMenu(m_hwnd, FALSE);
 	if (!CSkin::m_frameSkins)
-		CheckMenuItem(hSysmenu, IDM_NOTITLE, (m_flags.m_bNoTitle) ? MF_CHECKED : MF_UNCHECKED);
+		CheckMenuItem(hSysmenu, IDM_NOTITLE, (cfg.flags.m_bNoTitle) ? MF_CHECKED : MF_UNCHECKED);
 
-	CheckMenuItem(hSysmenu, IDM_STAYONTOP, m_flags.m_bSticky ? MF_CHECKED : MF_UNCHECKED);
-	SetWindowPos(m_hwnd, (m_flags.m_bSticky) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
+	CheckMenuItem(hSysmenu, IDM_STAYONTOP, cfg.flags.m_bSticky ? MF_CHECKED : MF_UNCHECKED);
+	SetWindowPos(m_hwnd, (cfg.flags.m_bSticky) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_NOREDRAW | SWP_NOCOPYBITS);
 	if (ws != wsold) {
 		RECT rc;
 		GetWindowRect(m_hwnd, &rc);
@@ -268,11 +266,11 @@ void TContainerData::Configure()
 		}
 	}
 
-	m_flags.m_bSideBar = m_flagsEx.m_bTabSBarLeft || m_flagsEx.m_bTabSBarRight;
+	cfg.flags.m_bSideBar = cfg.flagsEx.m_bTabSBarLeft || cfg.flagsEx.m_bTabSBarRight;
 	m_pSideBar->Init();
 
 	ws = wsold = GetWindowLong(m_hwndTabs, GWL_STYLE);
-	if (m_flags.m_bTabsBottom)
+	if (cfg.flags.m_bTabsBottom)
 		ws |= TCS_BOTTOM;
 	else
 		ws &= ~TCS_BOTTOM;
@@ -281,7 +279,7 @@ void TContainerData::Configure()
 		RedrawWindow(m_hwndTabs, nullptr, nullptr, RDW_INVALIDATE);
 	}
 
-	if (m_flags.m_bNoStatusBar) {
+	if (cfg.flags.m_bNoStatusBar) {
 		if (m_hwndStatus) {
 			DestroyWindow(m_hwndStatus);
 			m_hwndStatus = nullptr;
@@ -305,14 +303,6 @@ void TContainerData::Configure()
 	BroadCastContainer(DM_CONFIGURETOOLBAR, 0, 1);
 }
 
-void TContainerData::ContainerToSettings()
-{
-	m_pSettings->flags = m_flags;
-	m_pSettings->flagsEx = m_flagsEx;
-	m_pSettings->avatarMode = m_avatarMode;
-	m_pSettings->ownAvatarMode = m_ownAvatarMode;
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // flashes the container
 // iMode != 0: turn on flashing
@@ -320,7 +310,7 @@ void TContainerData::ContainerToSettings()
 
 void TContainerData::FlashContainer(int iMode, int iCount)
 {
-	if (m_flags.m_bNoFlash)                  // container should never flash
+	if (cfg.flags.m_bNoFlash)                  // container should never flash
 		return;
 
 	FLASHWINFO fwi;
@@ -329,7 +319,7 @@ void TContainerData::FlashContainer(int iMode, int iCount)
 
 	if (iMode) {
 		fwi.dwFlags = FLASHW_ALL;
-		if (m_flags.m_bFlashAlways)
+		if (cfg.flags.m_bFlashAlways)
 			fwi.dwFlags |= FLASHW_TIMER;
 		else
 			fwi.uCount = (iCount == 0) ? M.GetByte("nrflash", 4) : iCount;
@@ -348,21 +338,21 @@ void TContainerData::InitDialog(HWND hwndDlg)
 	m_hwnd = hwndDlg;
 	m_hwndTabs = ::GetDlgItem(hwndDlg, IDC_MSGTABS);
 	{
-		uint32_t dwCreateFlags = m_flags.dw;
-		m_isCloned = m_flags.m_bCreateCloned;
+		uint32_t dwCreateFlags = cfg.flags.dw;
+		m_isCloned = cfg.flags.m_bCreateCloned;
 		m_fPrivateThemeChanged = FALSE;
 
 		::SendMessage(hwndDlg, DM_OPTIONSAPPLIED, 0, 0); // set options...
-		m_flags.dw |= dwCreateFlags;
+		cfg.flags.dw |= dwCreateFlags;
 
 		LoadOverrideTheme();
 		uint32_t ws = ::GetWindowLong(m_hwndTabs, GWL_STYLE);
-		if (m_flagsEx.m_bTabFlat)
+		if (cfg.flagsEx.m_bTabFlat)
 			ws |= TCS_BUTTONS;
 
 		ClearMargins();
 
-		if (m_flagsEx.m_bTabSingleRow) {
+		if (cfg.flagsEx.m_bTabSingleRow) {
 			ws &= ~TCS_MULTILINE;
 			ws |= TCS_SINGLELINE;
 			ws |= TCS_FIXEDWIDTH;
@@ -377,7 +367,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 
 		m_buttonItems = g_ButtonSet.items;
 
-		m_flags.m_bSideBar = m_flagsEx.m_bTabSBarLeft || m_flagsEx.m_bTabSBarRight;
+		cfg.flags.m_bSideBar = cfg.flagsEx.m_bTabSBarLeft || cfg.flagsEx.m_bTabSBarRight;
 		m_pSideBar = new CSideBar(this);
 		m_pMenuBar = new CMenuBar(this);
 
@@ -402,11 +392,11 @@ void TContainerData::InitDialog(HWND hwndDlg)
 		ws = ::GetWindowLong(m_hwndTabs, GWL_EXSTYLE);
 		::SetWindowLong(m_hwndTabs, GWL_EXSTYLE, ws | WS_EX_CONTROLPARENT);
 
-		LONG x_pad = M.GetByte("x-pad", 3) + (m_flagsEx.m_bTabCloseButton ? 7 : 0);
-		LONG y_pad = M.GetByte("y-pad", 3) + ((m_flags.m_bTabsBottom) ? 1 : 0);
+		LONG x_pad = M.GetByte("x-pad", 3) + (cfg.flagsEx.m_bTabCloseButton ? 7 : 0);
+		LONG y_pad = M.GetByte("y-pad", 3) + ((cfg.flags.m_bTabsBottom) ? 1 : 0);
 
-		if (m_flagsEx.m_bTabFlat)
-			y_pad++; //(m_flags.m_bTabsBottom ? 1 : 2);
+		if (cfg.flagsEx.m_bTabFlat)
+			y_pad++; //(cfg.flags.m_bTabsBottom ? 1 : 2);
 
 		TabCtrl_SetPadding(m_hwndTabs, x_pad, y_pad);
 
@@ -426,7 +416,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 		}
 		else m_hwndTip = nullptr;
 
-		if (m_flags.m_bCreateMinimized) {
+		if (cfg.flags.m_bCreateMinimized) {
 			SetWindowLongPtr(hwndDlg, GWL_STYLE, GetWindowLongPtr(hwndDlg, GWL_STYLE) & ~WS_VISIBLE);
 			::ShowWindow(hwndDlg, SW_SHOWMINNOACTIVE);
 			RestoreWindowPos();
@@ -571,26 +561,27 @@ void TContainerData::ReadPrivateSettings(bool fForce)
 	mir_snprintf(szCname, "%s%d", CNT_BASEKEYNAME, m_iContainerIndex);
 	Utils::ReadContainerSettingsFromDB(0, &csTemp, szCname);
 	if (csTemp.fPrivate || fForce) {
-		if (m_pSettings == nullptr || m_pSettings == &PluginConfig.globalContainerSettings)
-			m_pSettings = (TContainerSettings *)mir_alloc(sizeof(csTemp));
-		memcpy(m_pSettings, &csTemp, sizeof(csTemp));
-		m_pSettings->fPrivate = true;
+		cfg = csTemp;
+		cfg.fPrivate = true;
 	}
-	else m_pSettings = &PluginConfig.globalContainerSettings;
+	else cfg = PluginConfig.globalContainerSettings;
 }
 
 void TContainerData::SaveSettings(const char *szSetting)
 {
 	char szCName[50];
 
-	auto &f = m_flags;
+	auto &f = cfg.flags;
 	f.m_bDeferredConfigure = f.m_bCreateMinimized = f.m_bDeferredResize = f.m_bCreateCloned = false;
 
-	if (m_pSettings->fPrivate) {
+	if (cfg.fPrivate) {
 		mir_snprintf(szCName, "%s%d", szSetting, m_iContainerIndex);
-		Utils::WriteContainerSettingsToDB(0, m_pSettings, szCName);
+		Utils::WriteContainerSettingsToDB(0, &cfg, szCName);
 	}
-	else Utils::WriteContainerSettingsToDB(0, m_pSettings, nullptr);
+	else {
+		PluginConfig.globalContainerSettings = cfg;
+		Utils::WriteContainerSettingsToDB(0, &cfg, nullptr);
+	}
 
 	mir_snprintf(szCName, "%s%d_theme", szSetting, m_iContainerIndex);
 	if (mir_wstrlen(m_szRelThemeFile) > 1) {
@@ -611,12 +602,12 @@ void TContainerData::ReflashContainer()
 	if (IsActive()) // dont care about active windows
 		return;
 
-	if (m_flags.m_bNoFlash || m_dwFlashingStarted == 0)
+	if (cfg.flags.m_bNoFlash || m_dwFlashingStarted == 0)
 		return;                                                                                 // dont care about containers which should never flash
 
 	uint32_t dwStartTime = m_dwFlashingStarted;
 
-	if (m_flags.m_bFlashAlways)
+	if (cfg.flags.m_bFlashAlways)
 		FlashContainer(1, 0);
 	else {
 		// recalc the remaining flashes
@@ -637,7 +628,7 @@ void TContainerData::ReflashContainer()
 // retrieve the container window geometry information from the database.
 void TContainerData::RestoreWindowPos()
 {
-	if (m_isCloned && m_hContactFrom != 0 && !m_flags.m_bGlobalSize) {
+	if (m_isCloned && m_hContactFrom != 0 && !cfg.flags.m_bGlobalSize) {
 		if (Utils_RestoreWindowPosition(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split")) {
 			if (Utils_RestoreWindowPositionNoMove(m_hwnd, m_hContactFrom, SRMSGMOD_T, "split"))
 				if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
@@ -646,7 +637,7 @@ void TContainerData::RestoreWindowPos()
 		}
 	}
 	else {
-		if (m_flags.m_bGlobalSize) {
+		if (cfg.flags.m_bGlobalSize) {
 			if (Utils_RestoreWindowPosition(m_hwnd, 0, SRMSGMOD_T, "split"))
 				if (Utils_RestoreWindowPositionNoMove(m_hwnd, 0, SRMSGMOD_T, "split"))
 					SetWindowPos(m_hwnd, nullptr, 50, 50, 450, 300, SWP_NOZORDER | SWP_NOACTIVATE);
@@ -687,7 +678,7 @@ void TContainerData::Resize(bool bRestored, int newWidth)
 
 	m_pMenuBar->Resize(newWidth);
 	LONG rebarHeight = m_pMenuBar->getHeight();
-	m_pMenuBar->Show((m_flags.m_bNoMenuBar) ? SW_HIDE : SW_SHOW);
+	m_pMenuBar->Show((cfg.flags.m_bNoMenuBar) ? SW_HIDE : SW_SHOW);
 
 	LONG sbarWidth = m_pSideBar->getWidth();
 	LONG sbarWidth_left = m_pSideBar->getFlags() & CSideBar::SIDEBARORIENTATION_LEFT ? sbarWidth : 0;
@@ -831,7 +822,7 @@ void TContainerData::SetAeroMargins()
 
 	LONG sbar_left, sbar_right;
 	if (!m_pSideBar->isActive()) {
-		pt.y = rcWnd.bottom + ((m_iChilds > 1 || !m_flags.m_bHideTabs) ? m_tBorder : 0);
+		pt.y = rcWnd.bottom + ((m_iChilds > 1 || !cfg.flags.m_bHideTabs) ? m_tBorder : 0);
 		sbar_left = 0, sbar_right = 0;
 	}
 	else {
@@ -878,7 +869,7 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 				pDlg->m_hTaskbarIcon = nullptr;
 			}
 
-			if (pDlg->m_pContainer->m_flags.m_bAvatarsOnTaskbar)
+			if (pDlg->m_pContainer->cfg.flags.m_bAvatarsOnTaskbar)
 				pDlg->m_hTaskbarIcon = pDlg->IconFromAvatar();
 
 			if (pDlg->m_hTaskbarIcon) {
@@ -911,7 +902,7 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 	if (hIcon == hIconMsg)
 		hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 
-	if (m_hIcon == STICK_ICON_MSG && hIcon != hIconMsg && m_flags.m_bNeedsUpdateTitle) {
+	if (m_hIcon == STICK_ICON_MSG && hIcon != hIconMsg && cfg.flags.m_bNeedsUpdateTitle) {
 		hIcon = hIconMsg;
 		hIconBig = Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 	}
@@ -919,14 +910,6 @@ void TContainerData::SetIcon(CMsgDialog *pDlg, HICON hIcon)
 	if (nullptr != hIconBig && reinterpret_cast<HICON>(CALLSERVICE_NOTFOUND) != hIconBig)
 		SendMessage(m_hwnd, WM_SETICON, ICON_BIG, LPARAM(hIconBig));
 	m_hIcon = (hIcon == hIconMsg) ? STICK_ICON_MSG : 0;
-}
-
-void TContainerData::SettingsToContainer()
-{
-	m_flags = m_pSettings->flags;
-	m_flagsEx = m_pSettings->flagsEx;
-	m_avatarMode = m_pSettings->avatarMode;
-	m_ownAvatarMode = m_pSettings->ownAvatarMode;
 }
 
 void TContainerData::UpdateTabs()
@@ -969,7 +952,7 @@ void TContainerData::UpdateTitle(MCONTACT hContact, CMsgDialog *pDlg)
 	if (pDlg) {
 		SetIcon(pDlg, pDlg->m_hXStatusIcon ? pDlg->m_hXStatusIcon : pDlg->m_hTabStatusIcon);
 		CMStringW szTitle;
-		if (pDlg->FormatTitleBar(m_pSettings->szTitleFormat, szTitle))
+		if (pDlg->FormatTitleBar(cfg.szTitleFormat, szTitle))
 			SetWindowText(m_hwnd, szTitle);
 	}
 }
@@ -1095,7 +1078,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			int height = rcClient.bottom - rcClient.top;
 			if (width != pContainer->m_oldDCSize.cx || height != pContainer->m_oldDCSize.cy) {
 				CSkinItem *sbaritem = &SkinItems[ID_EXTBKSTATUSBAR];
-				BOOL statusBarSkinnd = !pContainer->m_flags.m_bNoStatusBar && !sbaritem->IGNORED;
+				BOOL statusBarSkinnd = !pContainer->cfg.flags.m_bNoStatusBar && !sbaritem->IGNORED;
 				LONG sbarDelta = statusBarSkinnd ? pContainer->m_statusBarHeight : 0;
 
 				pContainer->m_oldDCSize.cx = width;
@@ -1262,7 +1245,7 @@ static LRESULT CALLBACK ContainerWndProc(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		break;
 
 	case WM_NCHITTEST:
-		if (pContainer && (pContainer->m_flags.m_bNoTitle)) {
+		if (pContainer && (pContainer->cfg.flags.m_bNoTitle)) {
 			RECT r;
 			GetWindowRect(hwndDlg, &r);
 
@@ -1339,7 +1322,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 	case WM_SIZE:
 		if (IsIconic(hwndDlg))
-			pContainer->m_flags.m_bDeferredResize = true;
+			pContainer->cfg.flags.m_bDeferredResize = true;
 		else
 			pContainer->Resize(wParam == SIZE_RESTORED, LOWORD(lParam));
 		break;
@@ -1497,9 +1480,9 @@ panel_found:
 			pContainer->m_pMenuBar->Cancel();
 
 			dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
-			uint32_t dwOldFlags = pContainer->m_flags.dw;
+			uint32_t dwOldFlags = pContainer->cfg.flags.dw;
 
-			auto &f = pContainer->m_flags;
+			auto &f = pContainer->cfg.flags;
 
 			if (dat) {
 				if (fProcessContactMenu)
@@ -1744,7 +1727,7 @@ panel_found:
 			if (pContainer->m_hwndActive)
 				mmi->ptMinTrackSize.y = pContainer->m_uChildMinHeight + (pContainer->m_hwndActive ? ((rcWindow.bottom - rcWindow.top) - rcClient.bottom) : 0);
 
-			if (pContainer->m_flags.m_bVerticalMax || (GetKeyState(VK_CONTROL) & 0x8000)) {
+			if (pContainer->cfg.flags.m_bVerticalMax || (GetKeyState(VK_CONTROL) & 0x8000)) {
 				RECT rcDesktop = { 0 };
 				BOOL fDesktopValid = FALSE;
 				int monitorXOffset = 0;
@@ -1783,9 +1766,9 @@ panel_found:
 
 	case WM_TIMER:
 		if (wParam == TIMERID_HEARTBEAT) {
-			if (GetForegroundWindow() != hwndDlg && (pContainer->m_pSettings->autoCloseSeconds > 0) && !pContainer->m_bHidden) {
+			if (GetForegroundWindow() != hwndDlg && (pContainer->cfg.autoCloseSeconds > 0) && !pContainer->m_bHidden) {
 				BOOL fResult = TRUE;
-				pContainer->BroadCastContainer(DM_CHECKAUTOHIDE, (WPARAM)pContainer->m_pSettings->autoCloseSeconds, (LPARAM)&fResult);
+				pContainer->BroadCastContainer(DM_CHECKAUTOHIDE, (WPARAM)pContainer->cfg.autoCloseSeconds, (LPARAM)&fResult);
 
 				if (fResult && nullptr == pContainer->m_hWndOptions)
 					PostMessage(hwndDlg, WM_CLOSE, 1, 0);
@@ -1804,19 +1787,19 @@ panel_found:
 	case WM_SYSCOMMAND:
 		switch (wParam) {
 		case IDM_STAYONTOP:
-			SetWindowPos(hwndDlg, (pContainer->m_flags.m_bSticky) ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->m_flags.m_bSticky) ? MF_UNCHECKED : MF_CHECKED);
+			SetWindowPos(hwndDlg, (pContainer->cfg.flags.m_bSticky) ? HWND_NOTOPMOST : HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_STAYONTOP, (pContainer->cfg.flags.m_bSticky) ? MF_UNCHECKED : MF_CHECKED);
 
-			pContainer->m_flags.m_bSticky = !pContainer->m_flags.m_bSticky;
+			pContainer->cfg.flags.m_bSticky = !pContainer->cfg.flags.m_bSticky;
 			pContainer->ApplySetting();
 			break;
 		case IDM_NOTITLE:
 			pContainer->m_oldSize.cx = 0;
 			pContainer->m_oldSize.cy = 0;
 
-			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->m_flags.m_bNoTitle) ? MF_UNCHECKED : MF_CHECKED);
+			CheckMenuItem(GetSystemMenu(hwndDlg, FALSE), IDM_NOTITLE, (pContainer->cfg.flags.m_bNoTitle) ? MF_UNCHECKED : MF_CHECKED);
 
-			pContainer->m_flags.m_bNoTitle = !pContainer->m_flags.m_bNoTitle;
+			pContainer->cfg.flags.m_bNoTitle = !pContainer->cfg.flags.m_bNoTitle;
 			pContainer->ApplySetting(true);
 			break;
 		case IDM_MOREOPTIONS:
@@ -1847,7 +1830,7 @@ panel_found:
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (pContainer->m_flags.m_bNoTitle) {
+		if (pContainer->cfg.flags.m_bNoTitle) {
 			GetCursorPos(&pt);
 			return SendMessage(hwndDlg, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
@@ -1869,8 +1852,8 @@ panel_found:
 		if (LOWORD(wParam == WA_INACTIVE) && (HWND)lParam != PluginConfig.g_hwndHotkeyHandler && GetParent((HWND)lParam) != hwndDlg) {
 			BOOL fTransAllowed = !CSkin::m_skinEnabled || IsWinVerVistaPlus();
 
-			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)HIWORD(pContainer->m_pSettings->dwTransparency), (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
+			if (pContainer->cfg.flags.m_bTransparent && fTransAllowed) {
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)HIWORD(pContainer->cfg.dwTransparency), (pContainer->cfg.flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
 		}
 		pContainer->m_hwndSaved = nullptr;
@@ -1890,24 +1873,24 @@ panel_found:
 			pContainer->FlashContainer(0, 0);
 			pContainer->m_dwFlashingStarted = 0;
 			pLastActiveContainer = pContainer;
-			if (pContainer->m_flags.m_bDeferredTabSelect) {
-				pContainer->m_flags.m_bDeferredTabSelect = false;
+			if (pContainer->cfg.flags.m_bDeferredTabSelect) {
+				pContainer->cfg.flags.m_bDeferredTabSelect = false;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
 
 				NMHDR nmhdr = { pContainer->m_hwndTabs, IDC_MSGTABS, TCN_SELCHANGE };
 				SendMessage(hwndDlg, WM_NOTIFY, 0, (LPARAM)&nmhdr);     // do it via a WM_NOTIFY / TCN_SELCHANGE to simulate user-activation
 			}
-			if (pContainer->m_flags.m_bDeferredResize) {
-				pContainer->m_flags.m_bDeferredResize = false;
+			if (pContainer->cfg.flags.m_bDeferredResize) {
+				pContainer->cfg.flags.m_bDeferredResize = false;
 				SendMessage(hwndDlg, WM_SIZE, 0, 0);
 			}
 
-			if (pContainer->m_flags.m_bTransparent && fTransAllowed) {
-				uint32_t trans = LOWORD(pContainer->m_pSettings->dwTransparency);
-				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)trans, (pContainer->m_flags.m_bTransparent ? LWA_ALPHA : 0));
+			if (pContainer->cfg.flags.m_bTransparent && fTransAllowed) {
+				uint32_t trans = LOWORD(pContainer->cfg.dwTransparency);
+				SetLayeredWindowAttributes(hwndDlg, Skin->getColorKey(), (uint8_t)trans, (pContainer->cfg.flags.m_bTransparent ? LWA_ALPHA : 0));
 			}
-			if (pContainer->m_flags.m_bNeedsUpdateTitle) {
-				pContainer->m_flags.m_bNeedsUpdateTitle = false;
+			if (pContainer->cfg.flags.m_bNeedsUpdateTitle) {
+				pContainer->cfg.flags.m_bNeedsUpdateTitle = false;
 				if (pContainer->m_hwndActive) {
 					hContact = 0;
 					SendMessage(pContainer->m_hwndActive, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
@@ -1917,8 +1900,8 @@ panel_found:
 			}
 			
 			HWND hDlg = GetTabWindow(pContainer->m_hwndTabs, TabCtrl_GetCurSel(pContainer->m_hwndTabs));
-			if (pContainer->m_flags.m_bDeferredConfigure && hDlg) {
-				pContainer->m_flags.m_bDeferredConfigure = false;
+			if (pContainer->cfg.flags.m_bDeferredConfigure && hDlg) {
+				pContainer->cfg.flags.m_bDeferredConfigure = false;
 				pContainer->m_hwndActive = hDlg;
 				SendMessage(hwndDlg, WM_SYSCOMMAND, SC_RESTORE, 0);
 				if (pContainer->m_hwndActive != nullptr && IsWindow(pContainer->m_hwndActive)) {
@@ -1994,7 +1977,7 @@ panel_found:
 			szTitleFormat[0] = 0;
 
 			if (pContainer->m_isCloned && pContainer->m_hContactFrom != 0) {
-				pContainer->m_pSettings = &PluginConfig.globalContainerSettings;
+				pContainer->cfg = PluginConfig.globalContainerSettings;
 
 				pContainer->m_szRelThemeFile[0] = pContainer->m_szAbsThemeFile[0] = 0;
 				mir_snprintf(szCname, "%s_theme", CONTAINER_PREFIX);
@@ -2009,7 +1992,6 @@ panel_found:
 						szThemeName = dbv.pwszVal;
 				}
 			}
-			pContainer->SettingsToContainer();
 
 			if (szThemeName != nullptr) {
 				PathToAbsoluteW(szThemeName, pContainer->m_szAbsThemeFile, M.getDataPath());
@@ -2037,7 +2019,7 @@ panel_found:
 	case WM_DRAWITEM:
 		{
 			DRAWITEMSTRUCT *dis = (DRAWITEMSTRUCT *)lParam;
-			if (dis->hwndItem == pContainer->m_hwndStatus && !pContainer->m_flags.m_bNoStatusBar) {
+			if (dis->hwndItem == pContainer->m_hwndStatus && !pContainer->cfg.flags.m_bNoStatusBar) {
 				dat = (CMsgDialog*)GetWindowLongPtr(pContainer->m_hwndActive, GWLP_USERDATA);
 				if (dat)
 					dat->DrawStatusIcons(dis->hDC, dis->rcItem, 2);
@@ -2052,7 +2034,7 @@ panel_found:
 	case WM_MOUSEWHEEL:
 		GetCursorPos(&pt);
 
-		if (pContainer->m_flags.m_bSideBar) {
+		if (pContainer->cfg.flags.m_bSideBar) {
 			RECT rc1;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SIDEBARUP), &rc);
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SIDEBARDOWN), &rc1);
@@ -2134,7 +2116,7 @@ panel_found:
 			}
 
 			// save geometry information to the database...
-			if (!pContainer->m_flags.m_bGlobalSize) {
+			if (!pContainer->cfg.flags.m_bGlobalSize) {
 				WINDOWPLACEMENT wp = { 0 };
 				wp.length = sizeof(wp);
 				if (GetWindowPlacement(hwndDlg, &wp) != 0) {
@@ -2171,7 +2153,7 @@ panel_found:
 
 			// clear temp flags which should NEVER be saved...
 			if (pContainer->m_isCloned && pContainer->m_hContactFrom != 0) {
-				pContainer->m_flags.m_bDeferredConfigure = pContainer->m_flags.m_bCreateMinimized = pContainer->m_flags.m_bDeferredResize = pContainer->m_flags.m_bCreateCloned = false;
+				pContainer->cfg.flags.m_bDeferredConfigure = pContainer->cfg.flags.m_bCreateMinimized = pContainer->cfg.flags.m_bDeferredResize = pContainer->cfg.flags.m_bCreateCloned = false;
 				for (int i = 0; i < TabCtrl_GetItemCount(pContainer->m_hwndTabs); i++) {
 					if (HWND hDlg = GetTabWindow(pContainer->m_hwndTabs, i)) {
 						SendMessage(hDlg, DM_QUERYHCONTACT, 0, (LPARAM)&hContact);
@@ -2252,10 +2234,10 @@ TContainerData* TSAPI CreateContainer(const wchar_t *name, int iTemp, MCONTACT h
 	}
 
 	if (iTemp & CNT_CREATEFLAG_MINIMIZED)
-		pContainer->m_flags.m_bCreateMinimized = true;
+		pContainer->cfg.flags.m_bCreateMinimized = true;
 
 	if (iTemp & CNT_CREATEFLAG_CLONED) {
-		pContainer->m_flags.m_bCreateCloned = true;
+		pContainer->cfg.flags.m_bCreateCloned = true;
 		pContainer->m_hContactFrom = hContactFrom;
 	}
 

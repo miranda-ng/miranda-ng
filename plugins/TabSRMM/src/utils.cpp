@@ -688,21 +688,21 @@ bool CMsgDialog::MustPlaySound() const
 	if (m_pContainer->m_bHidden)		// hidden container is treated as closed, so play the sound
 		return true;
 
-	if (m_pContainer->m_flags.m_bNoSound || NEN::bNoSounds)
+	if (m_pContainer->cfg.flags.m_bNoSound || NEN::bNoSounds)
 		return false;
 
 	// window minimized, check if sound has to be played
 	if (::IsIconic(m_pContainer->m_hwnd))
-		return m_pContainer->m_flagsEx.m_bSoundMinimized;
+		return m_pContainer->cfg.flagsEx.m_bSoundMinimized;
 
 	// window in foreground
 	if (m_pContainer->m_hwnd != ::GetForegroundWindow())
-		return m_pContainer->m_flagsEx.m_bSoundUnfocused;
+		return m_pContainer->cfg.flagsEx.m_bSoundUnfocused;
 
 	if (m_pContainer->m_hwndActive == GetHwnd())
-		return m_pContainer->m_flagsEx.m_bSoundFocused;
+		return m_pContainer->cfg.flagsEx.m_bSoundFocused;
 	
-	return m_pContainer->m_flagsEx.m_bSoundInactive;
+	return m_pContainer->cfg.flagsEx.m_bSoundInactive;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
