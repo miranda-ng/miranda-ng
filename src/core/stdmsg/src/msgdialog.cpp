@@ -588,7 +588,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_CBD_UPDATED:
-		SetButtonsPos(m_hwnd, false);
+		SetButtonsPos();
 		break;
 
 	case WM_CTLCOLORLISTBOX:
@@ -622,7 +622,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 
 			CSuper::DlgProc(uMsg, wParam, lParam); // call built-in resizer
-			SetButtonsPos(m_hwnd, isChat());
+			SetButtonsPos();
 			m_pLog->Resize();
 
 			InvalidateRect(m_pOwner->m_hwndStatus, nullptr, true);
