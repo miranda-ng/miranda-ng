@@ -64,6 +64,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	CMOption<uint32_t> foreground, background;
+	CMOption<bool> bUsePopups, bUseDialog, bIgnoreSubcontacts, bNoBirthdaysPopup, bOncePerDay, bOpenInBackground;
+	CMOption<uint16_t> checkInterval, daysInAdvance, popupTimeout, popupTimeoutToday, cDlgTimeout, daysAfter;
+	CMOption<uint8_t> cShowAgeMode, cSoundNearDays, cDefaultModule;
+	CMOption<uint8_t> lPopupClick, rPopupClick, notifyFor;
+
 	CMPlugin();
 
 	int Load() override;
@@ -73,30 +79,5 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 extern HWND hBirthdaysDlg;
 extern HWND hUpcomingDlg;
 extern MWindowList hAddBirthdayWndsList;
-
-struct CommonData{
-	uint32_t foreground;
-	uint32_t background;
-	int checkInterval;
-	int daysInAdvance;
-	int popupTimeout;
-	int popupTimeoutToday;
-	int bUsePopups;
-	int bUseDialog;
-	int bIgnoreSubcontacts;
-	int cShowAgeMode;
-	int bNoBirthdaysPopup;
-	int cSoundNearDays;
-	int cDefaultModule;
-	int lPopupClick;
-	int rPopupClick;
-	int bOncePerDay;
-	int cDlgTimeout;
-	int notifyFor;
-	int daysAfter;
-	int bOpenInBackground;
-};
-
-extern CommonData commonData;
 
 #endif //M_WWI_COMMONHEADERS_H

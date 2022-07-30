@@ -29,356 +29,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define UPCOMING_TIMER_ID 1002
 
-const wchar_t *szShowAgeMode[] = { LPGENW("Upcoming age"), LPGENW("Current age") };
-
-const wchar_t *szSaveModule[] = { LPGENW("UserInfo module"), LPGENW("Protocol module") };
-
-const wchar_t *szPopupClick[] = { LPGENW("Nothing"), LPGENW("Dismiss"), LPGENW("Message window") };
-
-const wchar_t *szNotifyFor[] = { LPGENW("All contacts"), LPGENW("All contacts except hidden ones"), LPGENW("All contacts except ignored ones"), LPGENW("All contacts except hidden and ignored ones") };
-
 #define MIN_BIRTHDAYS_WIDTH 200
 #define MIN_BIRTHDAYS_HEIGHT 200
 
-#include "commctrl.h"
-void CreateToolTip(HWND target, wchar_t* tooltip, LPARAM width)
-{
-	HWND hwndToolTip = CreateWindow(TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
-		CW_USEDEFAULT, CW_USEDEFAULT, target, nullptr, nullptr, nullptr);
-	if (hwndToolTip) {
-		TOOLINFO ti = { 0 };
-		ti.cbSize = sizeof(ti);
-		ti.uFlags = TTF_TRANSPARENT | TTF_SUBCLASS;
-		ti.hwnd = target;
-		ti.uId = 0;
-		ti.hinst = nullptr;
-		ti.lpszText = tooltip;
-		GetClientRect(target, &ti.rect);
-		SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
-		SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, width);
-		SendMessage(hwndToolTip, TTM_SETDELAYTIME, TTDT_AUTOPOP, 20000);
-	}
-}
-
-int EnablePopupsGroup(HWND hWnd, int enable)
-{
-	EnableWindow(GetDlgItem(hWnd, IDC_POPUPS_STATIC), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_FOREGROUND), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_BACKGROUND), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_NOBIRTHDAYS_POPUP), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_IGNORE_SUBCONTACTS), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_PREVIEW), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_LEFT_CLICK), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_RIGHT_CLICK), enable);
-
-	return enable;
-}
-
-int EnableClistGroup(HWND hWnd, int enable)
-{
-	EnableWindow(GetDlgItem(hWnd, IDC_CLIST_STATIC), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_ADVANCED_ICON), enable);
-	return enable;
-}
-
-int EnableDialogGroup(HWND hWnd, int enable)
-{
-	EnableWindow(GetDlgItem(hWnd, IDC_DLG_TIMEOUT), enable);
-	EnableWindow(GetDlgItem(hWnd, IDC_OPENINBACKGROUND), enable);
-
-	return enable;
-}
-
-int AddInfoToComboBoxes(HWND hWnd)
-{
-	int i;
-
-	for (i = 0; i < _countof(szShowAgeMode); i++)
-		SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_ADDSTRING, 0, (LPARAM)TranslateW(szShowAgeMode[i]));
-
-	for (i = 0; i < _countof(szSaveModule); i++)
-		SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
-
-	for (i = 0; i < _countof(szPopupClick); i++) {
-		SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
-		SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_ADDSTRING, 0, (LPARAM)TranslateW(szPopupClick[i]));
-	}
-
-	for (i = 0; i < _countof(szNotifyFor); i++)
-		SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_ADDSTRING, 0, (LPARAM)TranslateW(szNotifyFor[i]));
-
-	return i;
-}
-
-SIZE GetControlTextSize(HWND hCtrl)
-{
-	HDC hDC = GetDC(hCtrl);
-	HFONT font = (HFONT)SendMessage(hCtrl, WM_GETFONT, 0, 0);
-	HFONT oldFont = (HFONT)SelectObject(hDC, font);
-	const size_t maxSize = 2048;
-	wchar_t buffer[maxSize];
-	SIZE size;
-	GetWindowText(hCtrl, buffer, _countof(buffer));
-	GetTextExtentPoint32(hDC, buffer, (int)mir_wstrlen(buffer), &size);
-	SelectObject(hDC, oldFont);
-	ReleaseDC(hCtrl, hDC);
-	return size;
-}
-
-int EnlargeControl(HWND hCtrl, HWND, SIZE oldSize)
-{
-	SIZE size = GetControlTextSize(hCtrl);
-	RECT rect;
-	GetWindowRect(hCtrl, &rect);
-	int offset = (rect.right - rect.left) - oldSize.cx;
-	SetWindowPos(hCtrl, HWND_TOP, 0, 0, size.cx + offset, oldSize.cy, SWP_NOMOVE);
-	SetWindowPos(hCtrl, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	return 0;
-}
-
-wchar_t *strtrim(wchar_t *str)
-{
-	size_t i = 0;
-	size_t len = mir_wstrlen(str);
-	while ((i < len) && (str[i] == ' ')) { i++; }
-	if (i) {
-		memmove(str, str + i, len - i + 1);
-		len -= i;
-	}
-
-	while ((len > 0) && (str[--len] == ' '))
-		str[len] = 0;
-
-	return str;
-}
-
-INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static int bInitializing = 0;
-	switch (msg) {
-	case WM_INITDIALOG:
-		{
-			bInitializing = 1;
-
-			SIZE oldPopupsSize = GetControlTextSize(GetDlgItem(hWnd, IDC_USE_POPUPS));
-			SIZE oldClistIconSize = GetControlTextSize(GetDlgItem(hWnd, IDC_USE_CLISTICON));
-			SIZE oldDialogSize = GetControlTextSize(GetDlgItem(hWnd, IDC_USE_DIALOG));
-
-			TranslateDialogDefault(hWnd);
-
-			EnlargeControl(GetDlgItem(hWnd, IDC_USE_POPUPS), GetDlgItem(hWnd, IDC_POPUPS_STATIC), oldPopupsSize);
-			EnlargeControl(GetDlgItem(hWnd, IDC_USE_CLISTICON), GetDlgItem(hWnd, IDC_CLIST_STATIC), oldClistIconSize);
-			EnlargeControl(GetDlgItem(hWnd, IDC_USE_DIALOG), GetDlgItem(hWnd, IDC_DIALOG_STATIC), oldDialogSize);
-
-			AddInfoToComboBoxes(hWnd);
-
-			SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_SETDEFAULTCOLOUR, 0, FOREGROUND_COLOR);
-			SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_SETDEFAULTCOLOUR, 0, BACKGROUND_COLOR);
-
-			SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_SETCOLOUR, 0, commonData.foreground);
-			SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_SETCOLOUR, 0, commonData.background);
-
-			SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_SETCURSEL, commonData.cDefaultModule, 0);
-			SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_SETCURSEL, commonData.lPopupClick, 0);
-			SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_SETCURSEL, commonData.rPopupClick, 0);
-			SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_SETCURSEL, commonData.notifyFor, 0);
-
-			CreateToolTip(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), TranslateT("Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]"), 400);
-
-			wchar_t buffer[1024];
-			_itow(commonData.daysInAdvance, buffer, 10);
-			SetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer);
-			_itow(commonData.checkInterval, buffer, 10);
-			SetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer);
-			mir_snwprintf(buffer, L"%d|%d", commonData.popupTimeout, commonData.popupTimeoutToday);
-			SetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer);
-			_itow(commonData.cSoundNearDays, buffer, 10);
-			SetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer);
-			_itow(commonData.cDlgTimeout, buffer, 10);
-			SetDlgItemText(hWnd, IDC_DLG_TIMEOUT, buffer);
-			_itow(commonData.daysAfter, buffer, 10);
-			SetDlgItemText(hWnd, IDC_DAYS_AFTER, buffer);
-
-			CheckDlgButton(hWnd, IDC_OPENINBACKGROUND, (commonData.bOpenInBackground) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hWnd, IDC_NOBIRTHDAYS_POPUP, (commonData.bNoBirthdaysPopup) ? BST_CHECKED : BST_UNCHECKED);
-			SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_SETCURSEL, commonData.cShowAgeMode, 0);
-
-			CheckDlgButton(hWnd, IDC_IGNORE_SUBCONTACTS, (commonData.bIgnoreSubcontacts) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hWnd, IDC_ONCE_PER_DAY, (commonData.bOncePerDay) ? BST_CHECKED : BST_UNCHECKED);
-			EnableWindow(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), !commonData.bOncePerDay);
-
-			CheckDlgButton(hWnd, IDC_USE_DIALOG, (commonData.bUseDialog) ? BST_CHECKED : BST_UNCHECKED);
-			EnableDialogGroup(hWnd, commonData.bUseDialog);
-
-			CheckDlgButton(hWnd, IDC_USE_POPUPS, commonData.bUsePopups ? BST_CHECKED : BST_UNCHECKED);
-			EnablePopupsGroup(hWnd, commonData.bUsePopups);
-
-			CheckDlgButton(hWnd, IDC_USE_CLISTICON, BST_CHECKED);
-			EnableWindow(GetDlgItem(hWnd, IDC_USE_CLISTICON), FALSE);
-			EnableClistGroup(hWnd, FALSE);
-		}
-		bInitializing = 0;
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_CHECK_INTERVAL:
-		case IDC_POPUP_TIMEOUT:
-		case IDC_DAYS_IN_ADVANCE:
-		case IDC_DLG_TIMEOUT:
-		case IDC_SOUND_NEAR_DAYS_EDIT:
-		case IDC_DAYS_AFTER:
-			if ((HIWORD(wParam) == EN_CHANGE) && (!bInitializing))// || (HIWORD(wParam) == CBN_SELENDOK))
-				SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-
-		case IDC_USE_POPUPS:
-		case IDC_USE_CLISTICON:
-		case IDC_USE_DIALOG:
-			EnablePopupsGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_POPUPS));
-			EnableClistGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_CLISTICON));
-			EnableDialogGroup(hWnd, IsDlgButtonChecked(hWnd, IDC_USE_DIALOG));
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_POPUPS), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_CLISTICON), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
-			RedrawWindow(GetDlgItem(hWnd, IDC_USE_DIALOG), nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE);
-			//fallthrough
-
-		case IDC_FOREGROUND:
-		case IDC_BACKGROUND:
-		case IDC_ADVANCED_ICON:
-		case IDC_IGNORE_SUBCONTACTS:
-		case IDC_AGE_COMBOBOX:
-		case IDC_NOBIRTHDAYS_POPUP:
-		case IDC_DEFAULT_MODULE:
-		case IDC_LEFT_CLICK:
-		case IDC_RIGHT_CLICK:
-		case IDC_ONCE_PER_DAY:
-		case IDC_NOTIFYFOR:
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			EnableWindow(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), BST_UNCHECKED == IsDlgButtonChecked(hWnd, IDC_ONCE_PER_DAY));
-			break;
-
-		case IDC_PREVIEW:
-			{
-				MCONTACT hContact = db_find_first();
-				int dtb = rand() % 11; //0..10
-				int age = rand() % 50 + 1; //1..50
-				PopupNotifyBirthday(hContact, dtb, age);
-				break;
-			}
-		}
-		break;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				commonData.foreground = SendDlgItemMessage(hWnd, IDC_FOREGROUND, CPM_GETCOLOUR, 0, 0);
-				commonData.background = SendDlgItemMessage(hWnd, IDC_BACKGROUND, CPM_GETCOLOUR, 0, 0);
-				commonData.popupTimeout = POPUP_TIMEOUT;
-				commonData.popupTimeoutToday = POPUP_TIMEOUT;
-				commonData.bUsePopups = IsDlgButtonChecked(hWnd, IDC_USE_POPUPS);
-				commonData.bUseDialog = IsDlgButtonChecked(hWnd, IDC_USE_DIALOG);
-				commonData.bIgnoreSubcontacts = IsDlgButtonChecked(hWnd, IDC_IGNORE_SUBCONTACTS);
-				commonData.bNoBirthdaysPopup = IsDlgButtonChecked(hWnd, IDC_NOBIRTHDAYS_POPUP);
-				commonData.cShowAgeMode = SendDlgItemMessage(hWnd, IDC_AGE_COMBOBOX, CB_GETCURSEL, 0, 0);
-				commonData.cDefaultModule = SendDlgItemMessage(hWnd, IDC_DEFAULT_MODULE, CB_GETCURSEL, 0, 0);
-				commonData.lPopupClick = SendDlgItemMessage(hWnd, IDC_LEFT_CLICK, CB_GETCURSEL, 0, 0);
-				commonData.rPopupClick = SendDlgItemMessage(hWnd, IDC_RIGHT_CLICK, CB_GETCURSEL, 0, 0);
-				commonData.bOncePerDay = IsDlgButtonChecked(hWnd, IDC_ONCE_PER_DAY);
-				commonData.notifyFor = SendDlgItemMessage(hWnd, IDC_NOTIFYFOR, CB_GETCURSEL, 0, 0);
-				commonData.bOpenInBackground = IsDlgButtonChecked(hWnd, IDC_OPENINBACKGROUND);
-				{
-					const int maxSize = 1024;
-					wchar_t buffer[maxSize];
-
-					GetDlgItemText(hWnd, IDC_DAYS_IN_ADVANCE, buffer, _countof(buffer));
-					wchar_t *stop = nullptr;
-					commonData.daysInAdvance = wcstol(buffer, &stop, 10);
-
-					if (*stop) { commonData.daysInAdvance = DAYS_TO_NOTIFY; }
-
-					GetDlgItemText(hWnd, IDC_DAYS_AFTER, buffer, _countof(buffer));
-					commonData.daysAfter = wcstol(buffer, &stop, 10);
-
-					if (*stop) { commonData.daysAfter = DAYS_TO_NOTIFY_AFTER; }
-
-					GetDlgItemText(hWnd, IDC_CHECK_INTERVAL, buffer, _countof(buffer));
-					commonData.checkInterval = _wtol(buffer);
-					if (!commonData.checkInterval) { commonData.checkInterval = CHECK_INTERVAL; }
-
-					GetDlgItemText(hWnd, IDC_POPUP_TIMEOUT, buffer, _countof(buffer));
-					wchar_t *pos;
-					pos = wcschr(buffer, '|');
-					if (pos) {
-						wchar_t tmp[128];
-						*pos = 0;
-						mir_wstrcpy(tmp, buffer);
-						strtrim(tmp);
-						commonData.popupTimeout = _wtol(tmp);
-
-						mir_wstrcpy(tmp, pos + 1);
-						strtrim(tmp);
-						commonData.popupTimeoutToday = _wtol(tmp);
-
-					}
-					else commonData.popupTimeout = commonData.popupTimeoutToday = _wtol(buffer);
-
-					GetDlgItemText(hWnd, IDC_SOUND_NEAR_DAYS_EDIT, buffer, _countof(buffer));
-					//cSoundNearDays = _wtol(buffer);
-					commonData.cSoundNearDays = wcstol(buffer, &stop, 10);
-					if (*stop) { commonData.cSoundNearDays = BIRTHDAY_NEAR_DEFAULT_DAYS; }
-
-					GetDlgItemText(hWnd, IDC_DLG_TIMEOUT, buffer, _countof(buffer));
-					commonData.cDlgTimeout = wcstol(buffer, &stop, 10);
-					if (*stop) { commonData.cDlgTimeout = POPUP_TIMEOUT; }
-
-					g_plugin.setByte("IgnoreSubcontacts", commonData.bIgnoreSubcontacts);
-					g_plugin.setByte("UsePopups", commonData.bUsePopups);
-					g_plugin.setByte("UseDialog", commonData.bUseDialog);
-					g_plugin.setWord("CheckInterval", commonData.checkInterval);
-					g_plugin.setWord("DaysInAdvance", commonData.daysInAdvance);
-					g_plugin.setWord("DaysAfter", commonData.daysAfter);
-					g_plugin.setWord("PopupTimeout", commonData.popupTimeout);
-					g_plugin.setWord("PopupTimeoutToday", commonData.popupTimeoutToday);
-
-					g_plugin.setByte("ShowCurrentAge", commonData.cShowAgeMode);
-					g_plugin.setByte("NoBirthdaysPopup", commonData.bNoBirthdaysPopup);
-
-					g_plugin.setByte("OpenInBackground", commonData.bOpenInBackground);
-
-					g_plugin.setByte("SoundNearDays", commonData.cSoundNearDays);
-
-					g_plugin.setByte("DefaultModule", commonData.cDefaultModule);
-
-					g_plugin.setByte("PopupLeftClick", commonData.lPopupClick);
-					g_plugin.setByte("PopupRightClick", commonData.rPopupClick);
-
-					g_plugin.setDword("Foreground", commonData.foreground);
-					g_plugin.setDword("Background", commonData.background);
-
-					g_plugin.setByte("OncePerDay", commonData.bOncePerDay);
-
-					g_plugin.setWord("DlgTimeout", commonData.cDlgTimeout);
-
-					g_plugin.setByte("NotifyFor", commonData.notifyFor);
-
-					RefreshAllContactListIcons();
-
-					UpdateTimers(); //interval might get changed
-				}
-				bInitializing = 0;
-			}
-			break;
-		}
-		break;
-	}
-	return 0;
-}
+extern const wchar_t* szSaveModule[2];
 
 INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -397,7 +51,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 		for (int i = 0; i < _countof(szSaveModule); i++)
 			SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_ADDSTRING, 0, (LPARAM)TranslateW(szSaveModule[i]));
-		SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, commonData.cDefaultModule, 0);
+		SendDlgItemMessage(hWnd, IDC_COMPATIBILITY, CB_SETCURSEL, g_plugin.cDefaultModule, 0);
 		break;
 
 	case WM_SHOWWINDOW:
@@ -689,7 +343,7 @@ int LoadBirthdays(HWND hWnd, int bShowAll)
 
 	int count = 0;
 	for (auto &hContact : Contacts())
-		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1);
+		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, g_plugin.cShowAgeMode, 1);
 
 	SetBirthdaysCount(hWnd);
 	return 0;
@@ -755,9 +409,9 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			fi.lParam = (LPARAM)hContact;
 			int idx = ListView_FindItem(hList, -1, &fi);
 			if (-1 == idx)
-				UpdateBirthdayEntry(hList, hContact, ListView_GetItemCount(hList), IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 1);
+				UpdateBirthdayEntry(hList, hContact, ListView_GetItemCount(hList), IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), g_plugin.cShowAgeMode, 1);
 			else
-				UpdateBirthdayEntry(hList, hContact, idx, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 0);
+				UpdateBirthdayEntry(hList, hContact, idx, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), g_plugin.cShowAgeMode, 0);
 			SetBirthdaysCount(hWnd);
 		}
 		break;
@@ -834,7 +488,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		TranslateDialogDefault(hWnd);
 		Window_SetIcon_IcoLib(hWnd, hListMenu);
 		{
-			timeout = commonData.cDlgTimeout;
+			timeout = g_plugin.cDlgTimeout;
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 
 			mir_subclassWindow(hList, BirthdaysListSubclassProc);
@@ -976,13 +630,13 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_COMMAND:
 		switch (HIWORD(wParam)) {
 		case STN_CLICKED:
-			HandlePopupClick(hWnd, commonData.lPopupClick);
+			HandlePopupClick(hWnd, g_plugin.lPopupClick);
 			break;
 		}
 		break;
 
 	case WM_CONTEXTMENU:
-		HandlePopupClick(hWnd, commonData.rPopupClick);
+		HandlePopupClick(hWnd, g_plugin.rPopupClick);
 		break;
 	}
 

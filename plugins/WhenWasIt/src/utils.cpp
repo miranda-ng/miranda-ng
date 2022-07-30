@@ -235,3 +235,22 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 
 	return rChild;
 }
+
+void CreateToolTip(HWND target, wchar_t* tooltip, LPARAM width)
+{
+	HWND hwndToolTip = CreateWindow(TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
+		CW_USEDEFAULT, CW_USEDEFAULT, target, nullptr, nullptr, nullptr);
+	if (hwndToolTip) {
+		TOOLINFO ti = { 0 };
+		ti.cbSize = sizeof(ti);
+		ti.uFlags = TTF_TRANSPARENT | TTF_SUBCLASS;
+		ti.hwnd = target;
+		ti.uId = 0;
+		ti.hinst = nullptr;
+		ti.lpszText = tooltip;
+		GetClientRect(target, &ti.rect);
+		SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
+		SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, width);
+		SendMessage(hwndToolTip, TTM_SETDELAYTIME, TTDT_AUTOPOP, 20000);
+	}
+}

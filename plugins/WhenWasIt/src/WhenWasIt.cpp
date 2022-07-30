@@ -26,8 +26,6 @@ MWindowList hAddBirthdayWndsList = nullptr;
 
 CMPlugin g_plugin;
 
-CommonData commonData = { 0 };
-
 /////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfoEx = {
@@ -44,7 +42,27 @@ PLUGININFOEX pluginInfoEx = {
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	foreground(MODULENAME, "Foreground", FOREGROUND_COLOR),
+	background(MODULENAME, "Background", BACKGROUND_COLOR),
+	checkInterval(MODULENAME, "CheckInterval", CHECK_INTERVAL),
+	daysInAdvance(MODULENAME, "DaysInAdvance", DAYS_TO_NOTIFY),
+	daysAfter(MODULENAME, "DaysAfter", DAYS_TO_NOTIFY_AFTER),
+	popupTimeout(MODULENAME, "PopupTimeout", POPUP_TIMEOUT),
+	popupTimeoutToday(MODULENAME, "PopupTimeoutToday", POPUP_TIMEOUT),
+	bUsePopups(MODULENAME, "UsePopups", true),
+	bUseDialog(MODULENAME, "UseDialog", true),
+	bIgnoreSubcontacts(MODULENAME, "IgnoreSubcontacts", false),
+	cShowAgeMode(MODULENAME, "ShowCurrentAge", false),
+	bNoBirthdaysPopup(MODULENAME, "NoBirthdaysPopup", false),
+	bOpenInBackground(MODULENAME, "OpenInBackground", false),
+	cSoundNearDays(MODULENAME, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS),
+	cDefaultModule(MODULENAME, "DefaultModule", 0),
+	lPopupClick(MODULENAME, "PopupLeftClick", 2),
+	rPopupClick(MODULENAME, "PopupRightClick", 1),
+	bOncePerDay(MODULENAME, "OncePerDay", false),
+	cDlgTimeout(MODULENAME, "DlgTimeout", POPUP_TIMEOUT),
+	notifyFor(MODULENAME, "NotifyFor", 0)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

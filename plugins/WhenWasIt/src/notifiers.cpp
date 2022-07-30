@@ -22,10 +22,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void FillPopupData(POPUPDATAW &ppd, int dtb)
 {
-	int popupTimeout = (dtb == 0) ? commonData.popupTimeoutToday : commonData.popupTimeout;
+	int popupTimeout = (dtb == 0) ? g_plugin.popupTimeoutToday : g_plugin.popupTimeout;
 
-	ppd.colorBack = commonData.background;
-	ppd.colorText = commonData.foreground;
+	ppd.colorBack = g_plugin.background;
+	ppd.colorText = g_plugin.foreground;
 	ppd.iSeconds = popupTimeout;
 }
 
@@ -66,7 +66,7 @@ wchar_t *BuildDABText(int dab, wchar_t *name, wchar_t *text, int size)
 
 int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
-	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
+	if (g_plugin.bIgnoreSubcontacts && db_mc_isSub(hContact))
 		return 0;
 
 	wchar_t *name = Clist_GetContactDisplayName(hContact);
@@ -110,7 +110,7 @@ int PopupNotifyBirthday(MCONTACT hContact, int dtb, int age)
 
 int PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 {
-	if (commonData.bIgnoreSubcontacts && db_mc_isSub(hContact))
+	if (g_plugin.bIgnoreSubcontacts && db_mc_isSub(hContact))
 		return 0;
 
 	wchar_t *name = Clist_GetContactDisplayName(hContact);
@@ -155,7 +155,7 @@ int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 	BuildDTBText(dtb, name, text, _countof(text));
 	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UPCOMING), nullptr, DlgProcUpcoming);
-		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
+		ShowWindow(hUpcomingDlg, g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
 	TUpcomingBirthday data = { 0 };
@@ -177,7 +177,7 @@ int DialogNotifyMissedBirthday(MCONTACT hContact, int dab, int age)
 	BuildDABText(dab, name, text, _countof(text));
 	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_UPCOMING), nullptr, DlgProcUpcoming);
-		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
+		ShowWindow(hUpcomingDlg, g_plugin.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
 
 	TUpcomingBirthday data = { 0 };
@@ -195,7 +195,7 @@ int SoundNotifyBirthday(int dtb)
 {
 	if (dtb == 0)
 		Skin_PlaySound(BIRTHDAY_TODAY_SOUND);
-	else if (dtb <= commonData.cSoundNearDays)
+	else if (dtb <= g_plugin.cSoundNearDays)
 		Skin_PlaySound(BIRTHDAY_NEAR_SOUND);
 
 	return 0;

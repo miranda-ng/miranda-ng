@@ -29,27 +29,6 @@ int InitServices()
 {
 	Log("%s", "Entering function " __FUNCTION__);
 
-	commonData.foreground = g_plugin.getDword("Foreground", FOREGROUND_COLOR);
-	commonData.background = g_plugin.getDword("Background", BACKGROUND_COLOR);
-	commonData.checkInterval = g_plugin.getWord("CheckInterval", CHECK_INTERVAL);
-	commonData.daysInAdvance = g_plugin.getWord("DaysInAdvance", DAYS_TO_NOTIFY);
-	commonData.daysAfter = g_plugin.getWord("DaysAfter", DAYS_TO_NOTIFY_AFTER);
-	commonData.popupTimeout = g_plugin.getWord("PopupTimeout", POPUP_TIMEOUT);
-	commonData.popupTimeoutToday = g_plugin.getWord("PopupTimeoutToday", commonData.popupTimeout);
-	commonData.bUsePopups = g_plugin.getByte("UsePopups", TRUE);
-	commonData.bUseDialog = g_plugin.getByte("UseDialog", TRUE);
-	commonData.bIgnoreSubcontacts = g_plugin.getByte("IgnoreSubcontacts", FALSE);
-	commonData.cShowAgeMode = g_plugin.getByte("ShowCurrentAge", FALSE);
-	commonData.bNoBirthdaysPopup = g_plugin.getByte("NoBirthdaysPopup", FALSE);
-	commonData.bOpenInBackground = g_plugin.getByte("OpenInBackground", FALSE);
-	commonData.cSoundNearDays = g_plugin.getByte("SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
-	commonData.cDefaultModule = g_plugin.getByte("DefaultModule", 0);
-	commonData.lPopupClick = g_plugin.getByte("PopupLeftClick", 2);
-	commonData.rPopupClick = g_plugin.getByte("PopupRightClick", 1);
-	commonData.bOncePerDay = g_plugin.getByte("OncePerDay", 0);
-	commonData.cDlgTimeout = g_plugin.getWord("DlgTimeout", POPUP_TIMEOUT);
-	commonData.notifyFor = g_plugin.getByte("NotifyFor", 0);
-
 	CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
 	CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
 	CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
@@ -112,23 +91,23 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	int daysAfter = DaysAfterBirthday(Today(), lcYear, lcMonth, lcDay); //get difference between last checked date and today
 	int savedDaysAfter = 0;
 
-	savedDaysAfter = commonData.daysAfter; //save value
+	savedDaysAfter = g_plugin.daysAfter; //save value
 
-	if ((daysAfter > commonData.daysAfter) && (commonData.daysAfter > 0))//check for passed birthdays
-		commonData.daysAfter = daysAfter; //bigger values of the two
+	if ((daysAfter > g_plugin.daysAfter) && (g_plugin.daysAfter > 0))//check for passed birthdays
+		g_plugin.daysAfter = daysAfter; //bigger values of the two
 
-	if ((lParam) && (commonData.bOncePerDay)) //if force check then we don't take OncePerDay into account
+	if ((lParam) && (g_plugin.bOncePerDay)) //if force check then we don't take OncePerDay into account
 		if (lcDay == today.wDay && lcMonth == today.wMonth && lcYear == today.wYear)
 			return 0; //already checked today
 
 	bShouldCheckBirthdays = 1;
 	RefreshAllContactListIcons();
-	if ((!bBirthdayFound) && (commonData.bNoBirthdaysPopup))
+	if ((!bBirthdayFound) && (g_plugin.bNoBirthdaysPopup))
 		PopupNotifyNoBirthdays();
 
 	bShouldCheckBirthdays = 0;
 
-	commonData.daysAfter = savedDaysAfter; //restore previous value
+	g_plugin.daysAfter = savedDaysAfter; //restore previous value
 
 	if (lParam) //if not forced - i.e. timer check
 		g_plugin.setDword("LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
@@ -160,8 +139,8 @@ void ShowPopupMessage(const wchar_t *title, const wchar_t *message, HANDLE icon)
 	ppd.lchIcon = IcoLib_GetIconByHandle(icon);
 	wcsncpy_s(ppd.lpwzContactName, title, _TRUNCATE);
 	wcsncpy_s(ppd.lpwzText, message, _TRUNCATE);
-	ppd.colorText = commonData.foreground;
-	ppd.colorBack = commonData.background;
+	ppd.colorText = g_plugin.foreground;
+	ppd.colorBack = g_plugin.background;
 	PUAddPopupW(&ppd);
 }
 
@@ -249,7 +228,7 @@ int DoImport(wchar_t *fileName)
 		return 1;
 	}
 
-	int mode = commonData.cDefaultModule;
+	int mode = g_plugin.cDefaultModule;
 
 	while (!feof(fin)) {
 		wchar_t buffer[4096];

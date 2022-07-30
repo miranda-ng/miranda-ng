@@ -33,6 +33,7 @@
     <ClCompile Include="src\hooked_events.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\notifiers.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>

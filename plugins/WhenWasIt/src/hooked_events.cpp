@@ -40,19 +40,6 @@ static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
-static int OnOptionsInitialise(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {};
-	odp.position = 100000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
-	odp.szTitle.w = LPGENW("Birthdays");
-	odp.szGroup.w = LPGENW("Contacts");
-	odp.flags = ODPF_BOLDGROUPS | ODPF_UNICODE;
-	odp.pfnDlgProc = DlgProcOptions;
-	g_plugin.addOptions(wParam, &odp);
-	return 0;
-}
-
 static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *)lParam;
@@ -95,22 +82,22 @@ int RefreshContactListIcons(MCONTACT hContact)
 	int ignored = db_get_dw(hContact, "Ignore", "Mask1", 0);
 	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
 	int ok = 1;
-	if (commonData.notifyFor & EXCLUDE_HIDDEN)
+	if (g_plugin.notifyFor & EXCLUDE_HIDDEN)
 		ok &= (hidden == 0);
 
-	if (commonData.notifyFor & EXCLUDE_IGNORED)
+	if (g_plugin.notifyFor & EXCLUDE_IGNORED)
 		ok &= (ignored == 0);
 
 	time_t today = Today();
 
-	int dtb = NotifyContactBirthday(hContact, today, commonData.daysInAdvance);
-	int dab = NotifyMissedContactBirthday(hContact, today, commonData.daysAfter);
+	int dtb = NotifyContactBirthday(hContact, today, g_plugin.daysInAdvance);
+	int dab = NotifyMissedContactBirthday(hContact, today, g_plugin.daysAfter);
 
 	if (ok && (dtb >= 0 || dab > 0)) {
 		int age = GetContactAge(hContact);
 		db_set_b(hContact, "UserInfo", "Age", age);
 
-		if ((bShouldCheckBirthdays) && (commonData.bUsePopups))
+		if ((bShouldCheckBirthdays) && (g_plugin.bUsePopups))
 		{
 			if (dtb >= 0) {
 				bBirthdayFound = 1; //only set it if we're called from our CheckBirthdays service
@@ -124,7 +111,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 			if (dtb >= 0)
 				SoundNotifyBirthday(dtb);
 
-		if ((bShouldCheckBirthdays) && (commonData.bUseDialog)) {
+		if ((bShouldCheckBirthdays) && (g_plugin.bUseDialog)) {
 			if (dtb >= 0)
 				DialogNotifyBirthday(hContact, dtb, age);
 			else if (dab > 0)
