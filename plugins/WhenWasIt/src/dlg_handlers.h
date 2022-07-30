@@ -38,8 +38,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM);
 
-INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+class CBasicListDlg : public CDlgBase
+{
+protected:
+	CCtrlListView m_list;
+
+	CBasicListDlg(int dlgId);
+
+	void Sort(int iCol);
+
+	void onDblClick_List(CCtrlListView::TEventInfo*);
+	void onMenu_List(CContextMenuPos *pos);
+};
+
 INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

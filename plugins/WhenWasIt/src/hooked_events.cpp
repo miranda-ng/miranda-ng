@@ -28,6 +28,7 @@ UINT_PTR hCheckTimer = NULL;
 UINT_PTR hDateChangeTimer = NULL;
 static int currentDay = 0;
 
+void CloseUpcoming();
 
 static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
 {
@@ -49,7 +50,19 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	return 0;
 }
 
-int OnModulesLoaded(WPARAM, LPARAM)
+static int OnShutdown(WPARAM, LPARAM)
+{
+	if (hBirthdaysDlg)
+		SendMessage(hBirthdaysDlg, WM_CLOSE, 0, 0);
+
+	CloseUpcoming();
+
+	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
+	WindowList_Destroy(hAddBirthdayWndsList);
+	return 0;
+}
+
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
@@ -60,6 +73,7 @@ int OnModulesLoaded(WPARAM, LPARAM)
 
 int HookEvents()
 {
+	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	return 0;

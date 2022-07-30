@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 
 HWND hBirthdaysDlg = nullptr;
-HWND hUpcomingDlg = nullptr;
 MWindowList hAddBirthdayWndsList = nullptr;
 
 CMPlugin g_plugin;
@@ -157,15 +156,6 @@ int CMPlugin::Load()
 int CMPlugin::Unload()
 {
 	Log("%s", "Entering function " __FUNCTION__);
-
-	if (hBirthdaysDlg)
-		SendMessage(hBirthdaysDlg, WM_CLOSE, 0, 0);
-
-	if (hUpcomingDlg)
-		SendMessage(hUpcomingDlg, WM_CLOSE, 0, 0);
-
-	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
-	WindowList_Destroy(hAddBirthdayWndsList);
 
 	Log("%s", "Unhooking events ...");
 	UnhookEvents();

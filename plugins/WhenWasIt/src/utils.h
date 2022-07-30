@@ -49,6 +49,6 @@ wchar_t* GetContactID(MCONTACT hContact, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, wchar_t *szProto);
 
-void CreateToolTip(HWND target, wchar_t *tooltip, LPARAM width);
+void CreateToolTip(HWND target, const wchar_t *tooltip, LPARAM width);
 
 #endif

@@ -77,7 +77,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 };
 
 extern HWND hBirthdaysDlg;
-extern HWND hUpcomingDlg;
 extern MWindowList hAddBirthdayWndsList;
 
 #endif //M_WWI_COMMONHEADERS_H

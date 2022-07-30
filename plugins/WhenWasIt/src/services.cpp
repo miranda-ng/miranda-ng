@@ -115,23 +115,8 @@ INT_PTR CheckBirthdaysService(WPARAM, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR ShowListService(WPARAM, LPARAM)
-{
-	if (!hBirthdaysDlg)
-		hBirthdaysDlg = CreateDialog(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BIRTHDAYS), nullptr, DlgProcBirthdays);
-
-	ShowWindow(hBirthdaysDlg, SW_SHOW);
-	return 0;
-}
-
-INT_PTR AddBirthdayService(WPARAM hContact, LPARAM)
-{
-	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, hContact);
-	if (!hWnd)
-		hWnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), nullptr, DlgProcAddBirthday, hContact);
-
-	return ShowWindow(hWnd, SW_SHOW);
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Refresh users' details thread
 
 void ShowPopupMessage(const wchar_t *title, const wchar_t *message, HANDLE icon)
 {
@@ -167,6 +152,9 @@ INT_PTR RefreshUserDetailsService(WPARAM, LPARAM)
 	return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Birthdays import
+
 INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 {
 	wchar_t fileName[1024] = { 0 };
@@ -191,6 +179,9 @@ INT_PTR ImportBirthdaysService(WPARAM, LPARAM)
 
 	return 0;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Birthdays export
 
 INT_PTR ExportBirthdaysService(WPARAM, LPARAM)
 {

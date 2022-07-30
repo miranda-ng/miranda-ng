@@ -26,6 +26,7 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
+    <ClCompile Include="src\add_birthday.cpp" />
     <ClCompile Include="src\birthdays.cpp" />
     <ClCompile Include="src\date_utils.cpp" />
     <ClCompile Include="src\dlg_handlers.cpp" />

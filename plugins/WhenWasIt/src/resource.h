@@ -37,7 +37,6 @@
 #define IDC_CLIST_STATIC                1012
 #define IDC_BACKGROUND                  1014
 #define IDC_FOREGROUND                  1015
-#define IDC_CLOSE                       1015
 #define IDC_BIRTHDAYS_LIST              1016
 #define IDC_SHOW_ALL                    1017
 #define IDC_DATE                        1020

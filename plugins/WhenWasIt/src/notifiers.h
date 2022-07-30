@@ -29,16 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define DUMMY_MODULE MODULENAME
 #define DUMMY_SETTING "refreshIconsDummyVal"
 
-struct TUpcomingBirthday{
-	MCONTACT hContact;
-	wchar_t *name;
-	wchar_t *message;
-	int dtb;
-	int age;
-};
-
-typedef TUpcomingBirthday *PUpcomingBirthday;
-
 void PopupNotifyNoBirthdays();
 int  PopupNotifyBirthday(MCONTACT hContact, int dtb, int age);
 int  PopupNotifyMissedBirthday(MCONTACT hContact, int dab, int age);

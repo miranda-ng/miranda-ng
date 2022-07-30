@@ -236,7 +236,7 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	return rChild;
 }
 
-void CreateToolTip(HWND target, wchar_t* tooltip, LPARAM width)
+void CreateToolTip(HWND target, const wchar_t* tooltip, LPARAM width)
 {
 	HWND hwndToolTip = CreateWindow(TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
 		CW_USEDEFAULT, CW_USEDEFAULT, target, nullptr, nullptr, nullptr);
@@ -247,7 +247,7 @@ void CreateToolTip(HWND target, wchar_t* tooltip, LPARAM width)
 		ti.hwnd = target;
 		ti.uId = 0;
 		ti.hinst = nullptr;
-		ti.lpszText = tooltip;
+		ti.lpszText = (LPWSTR)tooltip;
 		GetClientRect(target, &ti.rect);
 		SendMessage(hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
 		SendMessage(hwndToolTip, TTM_SETMAXTIPWIDTH, 0, width);
