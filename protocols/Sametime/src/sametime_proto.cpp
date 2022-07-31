@@ -129,7 +129,7 @@ int CSametimeProto::GetInfo(MCONTACT hContact, int infoType)
 	// GetInfo - retrieves a contact info
 	debugLogW(L"CSametimeProto::GetInfo()  hContact=[%x], infoType=[%d]", hContact, infoType);
 
-	if (Contact_IsGroupChat(hContact))
+	if (Contact::IsGroupChat(hContact))
 		return 1;
 
 	if (!session)
@@ -167,8 +167,8 @@ int CSametimeProto::RecvFile(MCONTACT hContact, PROTORECVFILE* pre)
 {
 	debugLogW(L"CSametimeProto::RecvFile()  hContact=[%x]", hContact);
 
-	Contact_Hide(hContact, false);
-	Contact_PutOnList(hContact);
+	Contact::Hide(hContact, false);
+	Contact::PutOnList(hContact);
 
 	return CSuper::RecvFile(hContact, pre);
 }
@@ -177,8 +177,8 @@ MEVENT CSametimeProto::RecvMsg(MCONTACT hContact, PROTORECVEVENT* pre)
 {
 	debugLogW(L"CSametimeProto::RecvMsg() hContact=[%x]", hContact);
 
-	Contact_Hide(hContact, false);
-	Contact_PutOnList(hContact);
+	Contact::Hide(hContact, false);
+	Contact::PutOnList(hContact);
 
 	return CSuper::RecvMsg(hContact, pre);
 }

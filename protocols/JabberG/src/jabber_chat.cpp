@@ -317,7 +317,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM *item, int code, const TiXmlElement *
 	else
 		Chat_Control(m_szModuleName, wszRoomJid, SESSION_OFFLINE);
 
-	Contact_Hide(item->hContact, false);
+	Contact::Hide(item->hContact, false);
 	item->si = nullptr;
 	item->bChatLogging = false;
 
@@ -1158,7 +1158,7 @@ static void sttNickListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK* 
 			if (auto *tmp = wcschr(psr.id.w, '/'))
 				*tmp = 0;
 			psr.nick.w = psr.id.w;
-			Contact_AddBySearch(ppro->m_szModuleName, &psr, g_clistApi.hwndContactList);
+			Contact::AddBySearch(ppro->m_szModuleName, &psr, g_clistApi.hwndContactList);
 		}
 		break;
 	}
@@ -1301,7 +1301,7 @@ static void sttSendPrivateMessage(CJabberProto *ppro, JABBER_LIST_ITEM *item, co
 		if (r)
 			ppro->setWord(hContact, "Status", r->m_iStatus);
 
-		Contact_Hide(hContact);
+		Contact::Hide(hContact);
 		ppro->setUString(hContact, "Nick", nick);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 		CallService(MS_MSG_SENDMESSAGE, hContact, 0);

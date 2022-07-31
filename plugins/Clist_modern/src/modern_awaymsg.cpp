@@ -144,7 +144,7 @@ void amRequestAwayMsg(MCONTACT hContact)
 		return;
 
 	//Do not re-ask for chat rooms
-	if (!Contact_IsGroupChat(hContact))
+	if (!Contact::IsGroupChat(hContact))
 		amAddHandleToChain(hContact);
 }
 

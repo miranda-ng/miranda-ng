@@ -704,7 +704,7 @@ BOOL CAccountListCtrl::OnDrawItem(DRAWITEMSTRUCT *lps)
 			if (wszIdName == nullptr || (UINT_PTR)wszIdName == CALLSERVICE_NOTFOUND)
 				wszIdName = TranslateT("Account ID");
 			
-			ptrW tszUniqueID(Contact_GetInfo(CNF_UNIQUEID, 0, acc->szModuleName));
+			ptrW tszUniqueID(Contact::GetInfo(CNF_UNIQUEID, 0, acc->szModuleName));
 			if (tszUniqueID != nullptr)
 				text.Format(L"%s: %s", wszIdName, tszUniqueID.get());
 			else

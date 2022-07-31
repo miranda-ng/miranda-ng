@@ -72,7 +72,7 @@ static wchar_t* ProcessDatabaseValueDefault(MCONTACT hContact, const char *szPro
 	return nullptr;
 }
 
-MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *szProto)
+MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *szProto)
 {
 	if (hContact == 0 && szProto == nullptr)
 		return nullptr;
@@ -266,7 +266,7 @@ MIR_APP_DLL(wchar_t*) Contact_GetInfo(int type, MCONTACT hContact, const char *s
 	return nullptr;
 }
 
-MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact)
+MIR_APP_DLL(int) Contact::GetStatus(MCONTACT hContact)
 {
 	if (hContact == 0)
 		return ID_STATUS_OFFLINE;
@@ -280,7 +280,7 @@ MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(bool) Contact_IsGroupChat(MCONTACT hContact, const char *szProto)
+MIR_APP_DLL(bool) Contact::IsGroupChat(MCONTACT hContact, const char *szProto)
 {
 	if (szProto == nullptr) {
 		szProto = Proto_GetBaseAccountName(hContact);
@@ -293,12 +293,12 @@ MIR_APP_DLL(bool) Contact_IsGroupChat(MCONTACT hContact, const char *szProto)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact)
+MIR_APP_DLL(bool) Contact::IsHidden(MCONTACT hContact)
 {
 	return db_get_b(hContact, "CList", "Hidden") != 0;
 }
 
-MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden)
+MIR_APP_DLL(void) Contact::Hide(MCONTACT hContact, bool bHidden)
 {
 	if (bHidden)
 		db_set_b(hContact, "CList", "Hidden", 1);
@@ -308,17 +308,17 @@ MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(bool) Contact_OnList(MCONTACT hContact)
+MIR_APP_DLL(bool) Contact::OnList(MCONTACT hContact)
 {
 	return db_get_b(hContact, "CList", "NotOnList", 0) == 0;
 }
 
-MIR_APP_DLL(void) Contact_PutOnList(MCONTACT hContact)
+MIR_APP_DLL(void) Contact::PutOnList(MCONTACT hContact)
 {
 	db_unset(hContact, "CList", "NotOnList");
 }
 
-MIR_APP_DLL(void) Contact_RemoveFromList(MCONTACT hContact)
+MIR_APP_DLL(void) Contact::RemoveFromList(MCONTACT hContact)
 {
 	db_set_b(hContact, "CList", "NotOnList", 1);
 }

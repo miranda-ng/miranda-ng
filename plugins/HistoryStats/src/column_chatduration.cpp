@@ -98,18 +98,18 @@ void ColChatDuration::impl_columnDataAfterOmit()
 	// AFTER, i.e. contacts are trimmed to what user will see
 
 	if (m_bGraph) {
-		static uint32_t (Contact::*getChatDurX[4])() const = {
-			&Contact::getChatDurMin,
-			&Contact::getChatDurAvg,
-			&Contact::getChatDurMax,
-			&Contact::getChatDurSum,
+		static uint32_t (CContact::*getChatDurX[4])() const = {
+			&CContact::getChatDurMin,
+			&CContact::getChatDurAvg,
+			&CContact::getChatDurMax,
+			&CContact::getChatDurSum,
 		};
 
 		m_nMaxForGraph = 1;
 
 		upto_each_(i, getStatistic()->countContacts())
 		{
-			const Contact& cur = getStatistic()->getContact(i);
+			const CContact& cur = getStatistic()->getContact(i);
 
 			if (cur.isChatDurValid())
 				m_nMaxForGraph = max(m_nMaxForGraph, (cur.*getChatDurX[m_nVisMode])());
@@ -125,13 +125,13 @@ void ColChatDuration::impl_columnDataAfterOmit()
 	}
 }
 
-void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColChatDuration::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display)
 {
-	static uint32_t (Contact::*getChatDurX[4])() const = {
-		&Contact::getChatDurMin,
-		&Contact::getChatDurAvg,
-		&Contact::getChatDurMax,
-		&Contact::getChatDurSum,
+	static uint32_t (CContact::*getChatDurX[4])() const = {
+		&CContact::getChatDurMin,
+		&CContact::getChatDurAvg,
+		&CContact::getChatDurMax,
+		&CContact::getChatDurSum,
 	};
 
 	// begin output

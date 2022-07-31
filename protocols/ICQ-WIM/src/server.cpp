@@ -362,7 +362,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 	if (buddy["deleted"].as_bool()) {
 		setByte(hContact, "IcqDeleted", 1);
-		Contact_PutOnList(hContact);
+		Contact::PutOnList(hContact);
 	}
 
 	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
@@ -775,11 +775,11 @@ void CIcqProto::OnAddBuddy(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 			Popup.iSeconds = 20;
 			PUAddPopupW(&Popup);
 
-			// Contact_RemoveFromList(pReq->hContact);
+			// Contact::RemoveFromList(pReq->hContact);
 		}
 
 		RetrieveUserInfo(pReq->hContact);
-		Contact_PutOnList(pReq->hContact);
+		Contact::PutOnList(pReq->hContact);
 	}
 }
 

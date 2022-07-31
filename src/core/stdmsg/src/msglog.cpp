@@ -265,7 +265,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 		wchar_t *szName;
 
 		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, 0, dbei.szModule))
+			if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule))
 				szName = NEWWSTR_ALLOCA(p);
 			else
 				szName = TranslateT("Me");
@@ -285,7 +285,7 @@ static bool CreateRTFFromDbEvent(LogStreamData *dat)
 	case EVENTTYPE_JABBER_CHATSTATES:
 	case EVENTTYPE_JABBER_PRESENCE:
 		if (dbei.flags & DBEF_SENT) {
-			if (wchar_t *p = Contact_GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
+			if (wchar_t *p = Contact::GetInfo(CNF_DISPLAY, 0, dbei.szModule)) {
 				szName = NEWWSTR_ALLOCA(p);
 				mir_free(p);
 			}

@@ -94,7 +94,7 @@ static BOOL PollContactCanHaveAvatar(MCONTACT hContact, const char *szProto)
 {
 	int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 	return (Proto_IsFetchingWhenContactOfflineAllowed(szProto) || status != ID_STATUS_OFFLINE)
-		&& Contact_OnList(hContact) && db_get_b(hContact, "CList", "ApparentMode", 0) != ID_STATUS_OFFLINE;
+		&& Contact::OnList(hContact) && db_get_b(hContact, "CList", "ApparentMode", 0) != ID_STATUS_OFFLINE;
 }
 
 // Return true if this contact has to be checked

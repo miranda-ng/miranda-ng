@@ -244,7 +244,7 @@ void ThumbInfo::ResizeThumb()
 	ImageList_GetIconSize_my(himlMiranda, sizeIcon);
 
 	HDC hdc = GetWindowDC(hwnd);
-	if (Contact_OnList(hContact)) {
+	if (Contact::OnList(hContact)) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
 			int nStatus = Proto_GetStatus(szProto);
@@ -572,7 +572,7 @@ void ThumbInfo::UpdateContent()
 
 	oldBkMode = SetBkMode(hdcDraw, TRANSPARENT);
 
-	if (Contact_OnList(hContact)) {
+	if (Contact::OnList(hContact)) {
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (nullptr != szProto) {
 			int nStatus = Proto_GetStatus(szProto);

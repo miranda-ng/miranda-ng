@@ -202,14 +202,14 @@ int CTooltipNotify::ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 		idle = true;
 	else return 0;
 
-	if (Contact_IsHidden(hContact))
+	if (Contact::IsHidden(hContact))
 		return 0;
 
 	const char *pszProto = cws->szModule;
 	if (g_plugin.getByte(pszProto, ProtoUserBit | ProtoIntBit) != (ProtoUserBit | ProtoIntBit))
 		return 0;
 
-	if (!Contact_OnList(hContact) && m_sOptions.bIgnoreUnknown)
+	if (!Contact::OnList(hContact) && m_sOptions.bIgnoreUnknown)
 		return 0;
 
 	if (g_plugin.getByte(hContact, CONTACT_IGNORE_TTNOTIFY, m_sOptions.bIgnoreNew))

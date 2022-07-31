@@ -12,7 +12,7 @@
 #include "settings.h"
 #include "message.h"
 
-class Contact; // forward declaration instead of #include "contact.h"
+class CContact; // forward declaration instead of #include "contact.h"
 
 class Statistic
 	: private pattern::NotCopyable<Statistic>
@@ -51,8 +51,8 @@ public:
 		etWATError            = EVENTTYPE_WAT_ERROR,
 	};
 
-	typedef std::vector<Contact*> ContactList;
-	typedef std::vector<const Contact*> ContactListC;
+	typedef std::vector<CContact*> ContactList;
+	typedef std::vector<const CContact*> ContactListC;
 	typedef std::pair<ext::string, ext::string> ConflictingFile; // (desired, temp)
 	typedef std::list<ConflictingFile> ConflictingFiles;
 	typedef std::map<Canvas::Digest, ext::string> ImageMap;
@@ -76,8 +76,8 @@ private:
 	ContactList m_Contacts;
 
 	// special 'contacts': omitted, totals
-	Contact* m_pTotals;
-	Contact* m_pOmitted;
+	CContact* m_pTotals;
+	CContact* m_pOmitted;
 
 	bool
 		m_bActuallyOmitted,  // did we really omit something
@@ -122,17 +122,17 @@ private:
 private:
 	// contact handling
 	void prepareColumns();
-	void prepareContactData(Contact& contact);
-	void freeContactData(Contact& contact);
-	void mergeContactData(Contact& contact, const Contact& include);
-	void transformContactData(Contact& contact);
-	Contact& addContact(const ext::string& nick, const ext::string& protoDisplayName, const ext::string& groupName, int nSources);
+	void prepareContactData(CContact& contact);
+	void freeContactData(CContact& contact);
+	void mergeContactData(CContact& contact, const CContact& include);
+	void transformContactData(CContact& contact);
+	CContact& addContact(const ext::string& nick, const ext::string& protoDisplayName, const ext::string& groupName, int nSources);
 
 	// misc routines
 	uint32_t getTimeStarted() { return m_TimeStarted; }
 	bool shouldTerminate() { return (WaitForSingleObject(m_hCancelEvent, 0) == WAIT_OBJECT_0) || bool_(Miranda_IsTerminated()); }
-	void handleAddMessage(Contact& contact, Message& msg);
-	void handleAddChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
+	void handleAddMessage(CContact& contact, Message& msg);
+	void handleAddChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 
 	// progress dialog handling
 	static INT_PTR CALLBACK staticProgressProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -167,9 +167,9 @@ public:
 	static void run(const Settings& settings, InvocationSource invokedFrom, HINSTANCE hInst, HWND hWndParent = nullptr);
 
 	int countContacts() const { return m_Contacts.size(); }
-	const Contact& getContact(int index) const;
-	const Contact& getTotals() const { assert(m_pTotals); return *m_pTotals; }
-	const Contact& getOmitted() const { assert(m_pOmitted); return *m_pOmitted; }
+	const CContact& getContact(int index) const;
+	const CContact& getTotals() const { assert(m_pTotals); return *m_pTotals; }
+	const CContact& getOmitted() const { assert(m_pOmitted); return *m_pOmitted; }
 	bool hasTotals() const { return (m_pTotals != nullptr) && m_Settings.m_CalcTotals; } // MEMO: only makes sense after 'calc totals'-step
 	bool hasOmitted() const { return (m_pOmitted != nullptr) && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted; } // MEMO: only makes sense after 'omit'-step
 	uint32_t getFirstTime(); // MEMO: only makes sense after 'calc totals'-step

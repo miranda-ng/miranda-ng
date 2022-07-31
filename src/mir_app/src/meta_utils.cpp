@@ -41,7 +41,7 @@ POINT menuMousePoint;
 
 int Meta_SetNick(char *szProto)
 {
-	ptrW tszNick(Contact_GetInfo(CNF_DISPLAY, 0, szProto));
+	ptrW tszNick(Contact::GetInfo(CNF_DISPLAY, 0, szProto));
 	if (tszNick == nullptr)
 		return 1;
 
@@ -79,7 +79,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	}
 
 	// Check that is is 'on the list'
-	if (!Contact_OnList(hSub)) {
+	if (!Contact::OnList(hSub)) {
 		MessageBoxW(nullptr, TranslateT("Contact is 'not on list' - please add the contact to your contact list before assigning."), TranslateT("Assignment error"), MB_OK | MB_ICONWARNING);
 		db_free(&dbv);
 		return FALSE;
@@ -181,7 +181,7 @@ BOOL Meta_Assign(MCONTACT hSub, MCONTACT hMeta, bool set_as_default)
 	g_pCurrDb->MetaMergeHistory(ccDest, ccSub);
 
 	// hide sub finally
-	Contact_Hide(ccSub->contactID);
+	Contact::Hide(ccSub->contactID);
 
 	NotifyEventHooks(hSubcontactsChanged, hMeta, 0);
 	return TRUE;
@@ -391,7 +391,7 @@ int Meta_HideMetaContacts(bool bHide)
 		else
 			continue;
 
-		Contact_Hide(hContact, bSet);
+		Contact::Hide(hContact, bSet);
 	}
 
 	if (bHide) {

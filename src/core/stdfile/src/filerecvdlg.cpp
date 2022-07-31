@@ -244,10 +244,10 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			TimeZone_PrintTimeStamp(NULL, dbei.timestamp, L"t d", datetimestr, _countof(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
 
-			ptrW info(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
+			ptrW info(Contact::GetInfo(CNF_UNIQUEID, dat->hContact));
 			SetDlgItemText(hwndDlg, IDC_NAME, (info) ? info : contactName);
 
-			if (!Contact_OnList(dat->hContact)) {
+			if (!Contact::OnList(dat->hContact)) {
 				RECT rcBtn1, rcBtn2, rcDateCtrl;
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_ADD), &rcBtn1);
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_USERMENU), &rcBtn2);
@@ -258,7 +258,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				//don't check auto-min here to fix BUG#647620
 				PostMessage(hwndDlg, WM_COMMAND, MAKEWPARAM(IDOK, BN_CLICKED), (LPARAM)GetDlgItem(hwndDlg, IDOK));
 			}
-			if (Contact_OnList(dat->hContact))
+			if (Contact::OnList(dat->hContact))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 		}
 		return TRUE;
@@ -343,9 +343,9 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			break;
 
 		case IDC_ADD:
-			Contact_Add(dat->hContact, hwndDlg);
+			Contact::Add(dat->hContact, hwndDlg);
 
-			if (Contact_OnList(dat->hContact))
+			if (Contact::OnList(dat->hContact))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), SW_HIDE);
 			break;
 

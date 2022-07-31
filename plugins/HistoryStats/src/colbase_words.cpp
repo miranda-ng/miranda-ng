@@ -297,13 +297,13 @@ void ColBaseWords::impl_contactDataBeginAcquire()
 	}
 }
 
-void ColBaseWords::impl_contactDataPrepare(Contact& contact) const
+void ColBaseWords::impl_contactDataPrepare(CContact& contact) const
 {
 	WordMap* pData = new WordMap;
 	contact.setSlot(contactDataSlotGet(), pData);
 }
 
-void ColBaseWords::impl_contactDataFree(Contact& contact) const
+void ColBaseWords::impl_contactDataFree(CContact& contact) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 	if (pData) {
@@ -312,7 +312,7 @@ void ColBaseWords::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColBaseWords::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
+void ColBaseWords::impl_contactDataAcquireMessage(CContact& contact, Message& msg)
 {
 	if (m_nSource == 2 || m_nSource == 1 && msg.isOutgoing() || m_nSource == 0 && !msg.isOutgoing()) {
 		WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
@@ -320,7 +320,7 @@ void ColBaseWords::impl_contactDataAcquireMessage(Contact& contact, Message& msg
 	}
 }
 
-void ColBaseWords::impl_contactDataMerge(Contact& contact, const Contact& include) const
+void ColBaseWords::impl_contactDataMerge(CContact& contact, const CContact& include) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 	const WordMap* pIncData = reinterpret_cast<const WordMap*>(include.getSlot(contactDataSlotGet()));

@@ -414,7 +414,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr)
-		NudgeShowMenu((WPARAM)szProto, !Contact_IsGroupChat(hContact, szProto));
+		NudgeShowMenu((WPARAM)szProto, !Contact::IsGroupChat(hContact, szProto));
 
 	return 0;
 }

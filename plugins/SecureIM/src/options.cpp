@@ -434,7 +434,7 @@ static void ResetGeneralDlg(HWND hDlg)
 
 		LV_SetItemText(hLV, itemNum, 1, pa->tszAccountName);
 
-		ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+		ptrW uid(Contact::GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
 		LV_SetItemText(hLV, itemNum, 2, uid);
 
 		setListViewMode(hLV, itemNum, ptr->tmode);
@@ -505,7 +505,7 @@ static void RefreshGeneralDlg(HWND hDlg, BOOL iInit)
 
 			LV_SetItemText(hLV, itemNum, 1, pa->tszAccountName);
 
-			ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+			ptrW uid(Contact::GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
 			LV_SetItemText(hLV, itemNum, 2, uid);
 
 			setListViewMode(hLV, itemNum, ptr->tmode);

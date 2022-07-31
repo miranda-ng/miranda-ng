@@ -202,12 +202,12 @@ bool CContactList::IsVisible(CContactListEntry *pEntry)
 		return true;
 
 	if (CConfig::GetBoolSetting(CLIST_USEIGNORE)) {
-		if (Contact_IsHidden(pEntry->hHandle))
+		if (Contact::IsHidden(pEntry->hHandle))
 			return false;
 
 		if (db_mc_isSub(pEntry->hHandle)) {
 			MCONTACT hMetaContact = db_mc_getMeta(pEntry->hHandle);
-			if (Contact_IsHidden(hMetaContact))
+			if (Contact::IsHidden(hMetaContact))
 				return false;
 		}
 	}

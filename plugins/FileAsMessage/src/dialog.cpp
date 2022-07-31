@@ -405,7 +405,7 @@ void FILEECHO::incomeRequest(char *param)
 
 	Skin_PlaySound("RecvFile");
 	int AutoMin = db_get_b(0, "SRFile", "AutoMin", 0);
-	if (db_get_b(0, "SRFile", "AutoAccept", 0) && Contact_OnList(hContact)) {
+	if (db_get_b(0, "SRFile", "AutoAccept", 0) && Contact::OnList(hContact)) {
 		PostMessage(hDlg, WM_COMMAND, IDC_PLAY, 0);
 		if (AutoMin)
 			ShowWindow(hDlg, SW_SHOWMINIMIZED);

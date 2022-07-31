@@ -625,7 +625,7 @@ INT_PTR CSkypeProto::ParseSkypeUriService(WPARAM, LPARAM lParam)
 			psr.id.w = mir_wstrdup(szJid);
 			psr.nick.w = mir_wstrdup(szJid);
 			psr.flags = PSR_UNICODE;
-			Contact_AddBySearch(m_szModuleName, &psr);
+			Contact::AddBySearch(m_szModuleName, &psr);
 		}
 		return 0;
 	}

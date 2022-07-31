@@ -475,7 +475,7 @@ public:
 			sItem.pszText = pa->tszAccountName;
 			listUsers.SetItem(&sItem);
 
-			ptrW wszUin(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+			ptrW wszUin(Contact::GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
 			if (wszUin) {
 				sItem.iSubItem = 3;
 				sItem.pszText = wszUin;

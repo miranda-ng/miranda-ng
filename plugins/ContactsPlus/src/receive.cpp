@@ -352,7 +352,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			case ID_POPUP_ADDUSER:
 				hContact = CreateTemporaryContactForItem(hwndDlg, wndData, wndData->iPopupItem);
 				if (hContact)
-					Contact_Add(hContact, hwndDlg);
+					Contact::Add(hContact, hwndDlg);
 				break;
 
 			case ID_POPUP_USERDETAILS:
@@ -386,7 +386,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 
 			case IDC_ADD:
-				Contact_Add(wndData->mhContact, hwndDlg);
+				Contact::Add(wndData->mhContact, hwndDlg);
 				break;
 			}
 		}

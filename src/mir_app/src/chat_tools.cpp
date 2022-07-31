@@ -379,8 +379,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
-		if (Contact_IsHidden(si->hContact))
-			Contact_Hide(si->hContact, false);
+		if (Contact::IsHidden(si->hContact))
+			Contact::Hide(si->hContact, false);
 	}
 
 	// do blinking icons in tray

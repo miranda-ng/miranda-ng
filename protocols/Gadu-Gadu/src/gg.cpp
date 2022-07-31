@@ -217,7 +217,7 @@ static int gg_prebuildcontactmenu(WPARAM hContact, LPARAM)
 	if (gg == nullptr)
 		return 0;
 
-	if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || !Contact_OnList(hContact))
+	if (gg->getDword(hContact, GG_KEY_UIN, 0) == gg->getByte(GG_KEY_UIN, 0) || gg->isChatRoom(hContact) || !Contact::OnList(hContact))
 		Menu_ShowItem(gg->hBlockMenuItem, false);
 	else
 		Menu_ModifyItem(gg->hBlockMenuItem, gg->getByte(hContact, GG_KEY_BLOCK, 0) ? LPGENW("&Unblock") : LPGENW("&Block"));

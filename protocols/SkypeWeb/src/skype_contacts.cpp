@@ -96,7 +96,7 @@ MCONTACT CSkypeProto::AddContact(const char *skypeId, const char *nick, bool isT
 	setByte(hContact, "Grant", 1);
 
 	if (isTemporary)
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 	return hContact;
 }
 
@@ -258,7 +258,7 @@ void CSkypeProto::OnBlockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest *
 {
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
 	if (response != nullptr)
-		Contact_Hide(hContact);
+		Contact::Hide(hContact);
 }
 
 INT_PTR CSkypeProto::UnblockContact(WPARAM hContact, LPARAM)
@@ -273,6 +273,6 @@ void CSkypeProto::OnUnblockContact(NETLIBHTTPREQUEST *response, AsyncHttpRequest
 		return;
 
 	MCONTACT hContact = (DWORD_PTR)pRequest->pUserInfo;
-	Contact_Hide(hContact, false);
+	Contact::Hide(hContact, false);
 	delSetting(hContact, "IsBlocked");
 }

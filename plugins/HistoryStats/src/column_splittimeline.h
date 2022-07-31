@@ -67,10 +67,10 @@ private:
 	}
 
 	SplitParams getParams() const;
-	void addToSlot(Contact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd);
+	void addToSlot(CContact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd);
 
-	void outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType display);
-	void outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType display);
+	void outputRenderRowInOut(ext::ostream& tos, const CContact& contact, DisplayType display);
+	void outputRenderRowRatio(ext::ostream& tos, const CContact& contact, DisplayType display);
 
 public:
 	explicit ColSplitTimeline();
@@ -88,14 +88,14 @@ protected:
 	virtual int impl_configGetRestrictions(ext::string*) const { return crPNGFull; }
 	virtual ext::string impl_contactDataGetUID() const;
 	virtual void impl_contactDataBeginAcquire();
-	virtual void impl_contactDataPrepare(Contact& contact) const;
-	virtual void impl_contactDataFree(Contact& contact) const;
-	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg);
-	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
-	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const;
+	virtual void impl_contactDataPrepare(CContact& contact) const;
+	virtual void impl_contactDataFree(CContact& contact) const;
+	virtual void impl_contactDataAcquireMessage(CContact& contact, Message& msg);
+	virtual void impl_contactDataAcquireChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
+	virtual void impl_contactDataMerge(CContact& contact, const CContact& include) const;
 	virtual void impl_columnDataAfterOmit();
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_SPLITTIMELINE_H

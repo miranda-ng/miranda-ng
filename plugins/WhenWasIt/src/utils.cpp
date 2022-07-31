@@ -145,7 +145,7 @@ wchar_t* GetContactID(MCONTACT hContact)
 
 wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
-	ptrW res(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	ptrW res(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 	return (res) ? wcsdup(res) : nullptr;
 }
 

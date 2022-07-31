@@ -120,20 +120,20 @@ void ColInOut::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	}
 }
 
-void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColInOut::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	if (m_bAbsolute)
 	{
-		static int (Contact::*getData[])() const = {
-			&Contact::getInBytes,
-			&Contact::getOutBytes,
-			&Contact::getTotalBytes,
-			&Contact::getInMessages,
-			&Contact::getOutMessages,
-			&Contact::getTotalMessages,
-			&Contact::getInChats,
-			&Contact::getOutChats,
-			&Contact::getTotalChats,
+		static int (CContact::*getData[])() const = {
+			&CContact::getInBytes,
+			&CContact::getOutBytes,
+			&CContact::getTotalBytes,
+			&CContact::getInMessages,
+			&CContact::getOutMessages,
+			&CContact::getTotalMessages,
+			&CContact::getInChats,
+			&CContact::getOutChats,
+			&CContact::getTotalChats,
 		};
 
 		tos << L"<td class=\"num\">"
@@ -142,16 +142,16 @@ void ColInOut::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, D
 	}
 	else
 	{
-		static double (Contact::*getData[])() const = {
-			&Contact::getInBytesAvg,
-			&Contact::getOutBytesAvg,
-			&Contact::getTotalBytesAvg,
-			&Contact::getInMessagesAvg,
-			&Contact::getOutMessagesAvg,
-			&Contact::getTotalMessagesAvg,
-			&Contact::getInChatsAvg,
-			&Contact::getOutChatsAvg,
-			&Contact::getTotalChatsAvg,
+		static double (CContact::*getData[])() const = {
+			&CContact::getInBytesAvg,
+			&CContact::getOutBytesAvg,
+			&CContact::getTotalBytesAvg,
+			&CContact::getInMessagesAvg,
+			&CContact::getOutMessagesAvg,
+			&CContact::getTotalMessagesAvg,
+			&CContact::getInChatsAvg,
+			&CContact::getOutChatsAvg,
+			&CContact::getTotalChatsAvg,
 		};
 
 		static const double avgFactor[] = {

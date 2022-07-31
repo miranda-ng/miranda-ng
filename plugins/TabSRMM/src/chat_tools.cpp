@@ -216,8 +216,8 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 	if (bHighlight) {
 		gce->iType |= GC_EVENT_HIGHLIGHT;
-		if (Contact_IsHidden(si->hContact) != 0)
-			Contact_Hide(si->hContact, false);
+		if (Contact::IsHidden(si->hContact) != 0)
+			Contact::Hide(si->hContact, false);
 		
 		if (bInactive) {
 			bFlagUnread = true;

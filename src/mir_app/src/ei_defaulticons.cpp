@@ -46,7 +46,7 @@ static void SetVisibility(MCONTACT hContact, int apparentMode, bool clear)
 	HANDLE hExtraIcon, hIcolib = nullptr;
 
 	// Is chat
-	if (Contact_IsGroupChat(hContact, proto)) {
+	if (Contact::IsGroupChat(hContact, proto)) {
 		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			hIcolib = IcoLib_GetIconHandle("ChatActivity");

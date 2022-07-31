@@ -55,7 +55,7 @@ void CIcqProto::ProcessPermissions(const JSONNode &ev)
 			p = FindContactByUIN(wszId);
 		}
 		p->m_iApparentMode = ID_STATUS_OFFLINE;
-		Contact_Hide(p->m_hContact);
+		Contact::Hide(p->m_hContact);
 		m_bIgnoreListEmpty = false;
 	}
 

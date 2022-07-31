@@ -167,7 +167,7 @@ void ColSplit::impl_contactDataBeginAcquire()
 	}
 }
 
-void ColSplit::impl_contactDataPrepare(Contact& contact) const
+void ColSplit::impl_contactDataPrepare(CContact& contact) const
 {
 	SplitParams params = getParams();
 
@@ -181,7 +181,7 @@ void ColSplit::impl_contactDataPrepare(Contact& contact) const
 	contact.setSlot(contactDataSlotGet(), pData);
 }
 
-void ColSplit::impl_contactDataFree(Contact& contact) const
+void ColSplit::impl_contactDataFree(CContact& contact) const
 {
 	int* pData = reinterpret_cast<int*>(contact.getSlot(contactDataSlotGet()));
 
@@ -192,7 +192,7 @@ void ColSplit::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColSplit::addToSlot(Contact& contact, uint32_t localTimestamp, int toAdd)
+void ColSplit::addToSlot(CContact& contact, uint32_t localTimestamp, int toAdd)
 {
 	if (toAdd > 0)
 	{
@@ -202,7 +202,7 @@ void ColSplit::addToSlot(Contact& contact, uint32_t localTimestamp, int toAdd)
 	}
 }
 
-void ColSplit::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
+void ColSplit::impl_contactDataAcquireMessage(CContact& contact, Message& msg)
 {
 	if (!msg.isOutgoing() && m_nSourceType == 0 || msg.isOutgoing() && m_nSourceType == 1 || m_nSourceType == 2)
 	{
@@ -217,7 +217,7 @@ void ColSplit::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
+void ColSplit::impl_contactDataAcquireChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
 {
 	if (m_nSource == 2 && (!bOutgoing && m_nSourceType == 0 || bOutgoing && m_nSourceType == 1 || m_nSourceType == 2))
 	{
@@ -225,7 +225,7 @@ void ColSplit::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uin
 	}
 }
 
-void ColSplit::impl_contactDataMerge(Contact& contact, const Contact& include) const
+void ColSplit::impl_contactDataMerge(CContact& contact, const CContact& include) const
 {
 	SplitParams params = getParams();
 
@@ -340,7 +340,7 @@ ColSplit::SplitParams ColSplit::getParams() const
 	return params;
 }
 
-void ColSplit::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColSplit::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	SplitParams params = getParams();
 

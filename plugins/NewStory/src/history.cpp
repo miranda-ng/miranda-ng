@@ -633,7 +633,7 @@ public:
 			for (int i = 0; i < subcount; i++) {
 				MCONTACT hSubContact = db_mc_getSub(m_hContact, i);
 				char *subproto = Proto_GetBaseAccountName(hSubContact);
-				ptrW subid(Contact_GetInfo(CNF_UNIQUEID, hSubContact, subproto));
+				ptrW subid(Contact::GetInfo(CNF_UNIQUEID, hSubContact, subproto));
 				if (FirstTime)
 					SubContactsList.Append(subid);
 				else
@@ -645,8 +645,8 @@ public:
 			return;
 		}
 		char* proto = Proto_GetBaseAccountName(m_hContact);
-		ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, proto));
-		ptrW nick(Contact_GetInfo(CNF_DISPLAY, m_hContact, proto));
+		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, proto));
+		ptrW nick(Contact::GetInfo(CNF_DISPLAY, m_hContact, proto));
 		const char* uid = Proto_GetUniqueId(proto);
 
 		OPENFILENAME ofn = { 0 };

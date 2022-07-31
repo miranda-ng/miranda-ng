@@ -212,7 +212,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 	if (!hContactOrMeta)
 		hContactOrMeta = hContact;
 
-	if (hContact && Contact_IsHidden(hContactOrMeta))
+	if (hContact && Contact::IsHidden(hContactOrMeta))
 		return 0;
 
 	int PerContactSetting = hContact ? g_plugin.getByte(hContact, DB_CCN_NOTIFY, NOTIFY_USEGLOBAL) : NOTIFY_ALWAYS; // NOTIFY_ALWAYS for preview

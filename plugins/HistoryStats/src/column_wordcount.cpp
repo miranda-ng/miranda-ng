@@ -63,7 +63,7 @@ void ColWordCount::impl_configFromUI(OptionsCtrl& Opt)
 	m_bDetail  = Opt.isItemChecked  (m_hDetail );
 }
 
-void ColWordCount::impl_contactDataFree(Contact& contact) const
+void ColWordCount::impl_contactDataFree(CContact& contact) const
 {
 	ColBaseWords::impl_contactDataFree(contact);
 
@@ -76,7 +76,7 @@ void ColWordCount::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColWordCount::impl_contactDataTransform(Contact& contact) const
+void ColWordCount::impl_contactDataTransform(CContact& contact) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 	size_t* pTrData = new size_t[2];
@@ -95,7 +95,7 @@ void ColWordCount::impl_contactDataTransform(Contact& contact) const
 	pTrData[1] = pData->size();
 }
 
-void ColWordCount::impl_contactDataTransformCleanup(Contact& contact) const
+void ColWordCount::impl_contactDataTransformCleanup(CContact& contact) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 
@@ -132,7 +132,7 @@ void ColWordCount::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSp
 	}
 }
 
-void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColWordCount::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	const size_t* pWordCount = reinterpret_cast<const size_t*>(contact.getSlot(contactDataTransformSlotGet()));
 

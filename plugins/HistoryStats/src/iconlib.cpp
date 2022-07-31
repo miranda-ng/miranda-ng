@@ -11,7 +11,7 @@ IconLib::IconInfo IconLib::m_IconInfo[] = {
 	{ IDI_HISTORYSTATS  , "main_menu"     , nullptr,                   LPGENW("Create statistics (main menu)")     },
 	{ IDI_HISTORYSTATS  , "menu_show"     , nullptr,                   LPGENW("Show statistics (main menu)")       },
 	{ IDI_HISTORYSTATS  , "menu_config"   , nullptr,                   LPGENW("Configure... (main menu)")          },
-	{ IDI_HISTORYSTATS  , "contact_menu"  , nullptr,                   LPGENW("Contact menu")                      },
+	{ IDI_HISTORYSTATS  , "contact_menu"  , nullptr,                   LPGENW("CContact menu")                      },
 	{ IDI_EXCLUDE_NO    , "exclude_no"    , nullptr,                   LPGENW("Unexcluded contacts")               },
 	{ IDI_EXCLUDE_YES   , "exclude_yes"   , nullptr,                   LPGENW("Excluded contacts")                 },
 	{ IDI_TREE_CHECK1   , "tree_check1"   , LPGENW("Options tree"), LPGENW("Checkbox")                          },

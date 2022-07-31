@@ -165,7 +165,7 @@ void ColWords::impl_configFromUI(OptionsCtrl& Opt)
 	utils::ensureRange(m_nNum, 1, 1000, 10);
 }
 
-void ColWords::impl_contactDataFree(Contact& contact) const
+void ColWords::impl_contactDataFree(CContact& contact) const
 {
 	ColBaseWords::impl_contactDataFree(contact);
 
@@ -178,7 +178,7 @@ void ColWords::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColWords::impl_contactDataTransform(Contact& contact) const
+void ColWords::impl_contactDataTransform(CContact& contact) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 	WordList* pTrData = new WordList;
@@ -188,7 +188,7 @@ void ColWords::impl_contactDataTransform(Contact& contact) const
 	generateWords(pData, pTrData);
 }
 
-void ColWords::impl_contactDataTransformCleanup(Contact& contact) const
+void ColWords::impl_contactDataTransformCleanup(CContact& contact) const
 {
 	WordMap* pData = reinterpret_cast<WordMap*>(contact.getSlot(contactDataSlotGet()));
 
@@ -238,7 +238,7 @@ void ColWords::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	}
 }
 
-void ColWords::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColWords::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	const WordList* pWords = reinterpret_cast<const WordList*>(contact.getSlot(contactDataTransformSlotGet()));
 

@@ -73,7 +73,7 @@ void DlgOption::SubInput::onWMInitDialog()
 	m_hChatSessionTimeout = m_Options.insertEdit(hTemp, TranslateT("Time between two chat sessions (seconds)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hAverageMinTime = m_Options.insertEdit(hTemp, TranslateT("Minimum time to assume when calculating average (days)"), L"", OptionsCtrl::OCF_NUMBER);
 	m_hWordDelimiters = m_Options.insertEdit(hTemp, TranslateT("Word delimiting characters"));
-	hTemp = m_Options.insertGroup(nullptr, TranslateT("Contact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	hTemp = m_Options.insertGroup(nullptr, TranslateT("CContact filtering"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 	m_hProtocols = m_Options.insertGroup(hTemp, TranslateT("Ignore all contacts with protocol..."));
 
 	hTemp2 = m_Options.insertGroup(hTemp, TranslateT("History read mode for metacontacts"), 0);

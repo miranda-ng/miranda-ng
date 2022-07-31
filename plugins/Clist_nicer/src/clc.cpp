@@ -131,7 +131,7 @@ static int ClcSettingChanged(WPARAM hContact, LPARAM lParam)
 			if (!__strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
 				if (!__strcmp(cws->szSetting, "Status")) {
-					if (!Contact_IsHidden(hContact))
+					if (!Contact::IsHidden(hContact))
 						if (cws->value.wVal == ID_STATUS_OFFLINE)
 							if (Clist::HideOffline)
 								return 0;

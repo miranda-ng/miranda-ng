@@ -123,7 +123,7 @@ public:
 		if (iGroup >= 0)
 			Clist_ContactChangeGroup(hContact, iGroup);
 
-		Contact_PutOnList(hContact);
+		Contact::PutOnList(hContact);
 
 		if (m_chkAuth.GetState()) {
 			uint32_t flags = CallProtoServiceInt(0, m_szProto, PS_GETCAPS, PFLAGNUM_4, 0);
@@ -159,7 +159,7 @@ public:
 	}
 };
 
-MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
+MIR_APP_DLL(void) Contact::Add(MCONTACT hContact, HWND hwndParent)
 {
 	if (hContact == 0)
 		return;
@@ -182,7 +182,7 @@ MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, HWND hwndParent)
 	else (new CAddByContact(hContact))->Show();
 }
 
-MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, MWindow hwndParent)
+MIR_APP_DLL(void) Contact::AddByEvent(MEVENT hEvent, MWindow hwndParent)
 {
 	struct CAddByEvent : public CAddContactDlg
 	{
@@ -214,7 +214,7 @@ MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, MWindow hwndParent)
 	else (new CAddByEvent(hEvent))->Show();
 }
 
-MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent)
+MIR_APP_DLL(void) Contact::AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, HWND hwndParent)
 {
 	struct CAddBySearch : public CAddContactDlg
 	{

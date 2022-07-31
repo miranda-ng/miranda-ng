@@ -244,7 +244,7 @@ void CSteamProto::ContactIsFriend(MCONTACT hContact)
 	delSetting(hContact, "AuthAsked");
 	delSetting(hContact, "Auth");
 	delSetting(hContact, "Grant");
-	Contact_PutOnList(hContact);
+	Contact::PutOnList(hContact);
 
 	// Check if this contact was removed someday and if so, notify he's back
 	if (getDword(hContact, "DeletedTS", 0) && !getByte(hContact, "Auth", 0)) {
@@ -340,7 +340,7 @@ MCONTACT CSteamProto::AddContact(const char *steamId, const wchar_t *nick, bool 
 
 	if (isTemporary) {
 		debugLogA("Contact %d added as a temporary one");
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 	}
 
 	setByte(hContact, "Auth", 1);

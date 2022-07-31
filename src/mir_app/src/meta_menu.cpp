@@ -79,7 +79,7 @@ INT_PTR Meta_Convert(WPARAM wParam, LPARAM)
 
 	// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
 	if (!db_mc_isEnabled())
-		Contact_Hide(hMetaContact);
+		Contact::Hide(hMetaContact);
 
 	return hMetaContact;
 }
@@ -96,7 +96,7 @@ void Meta_RemoveContactNumber(DBCachedContact *ccMeta, int number, bool bUpdateI
 	DBCachedContact *ccSub = g_pCurrDb->getCache()->GetCachedContact(Meta_GetContactHandle(ccMeta, number));
 	if (ccSub != nullptr)
 		if (ccSub->parentID == ccMeta->contactID)
-			Contact_Hide(ccSub->contactID, false);
+			Contact::Hide(ccSub->contactID, false);
 
 	// each contact from 'number' upwards will be moved down one
 	// and the last one will be deleted
@@ -318,7 +318,7 @@ int Meta_ModifyMenu(WPARAM hMeta, LPARAM)
 	}
 	else {
 		// The contact is neutral
-		bool bHideChat = !Contact_IsGroupChat(hMeta, cc->szProto);
+		bool bHideChat = !Contact::IsGroupChat(hMeta, cc->szProto);
 		Menu_ShowItem(hMenuAdd, bHideChat);
 		Menu_ShowItem(hMenuConvert, bHideChat);
 		Menu_ShowItem(hMenuEdit, false);

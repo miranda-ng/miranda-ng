@@ -265,7 +265,7 @@ int Protocol::GetNickMaxLength()
 
 wchar_t* Protocol::GetNick()
 {
-	ptrW nick(Contact_GetInfo(CNF_DISPLAY, NULL, name));
+	ptrW nick(Contact::GetInfo(CNF_DISPLAY, NULL, name));
 	lcopystr(nickname, (nick != NULL) ? nick : L"", _countof(nickname));
 	return nickname;
 }

@@ -154,7 +154,7 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 
 	SendGetVcard(hContact);
 
-	Contact_Hide(hContact, false);
+	Contact::Hide(hContact, false);
 }
 
 int __cdecl CJabberProto::OnDbMarkedRead(WPARAM, LPARAM hDbEvent)

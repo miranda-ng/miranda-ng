@@ -186,7 +186,7 @@ BOOL IsUrlContains(wchar_t * Str)
 wstring GetContactUid(MCONTACT hContact, wstring Protocol)
 {
 	char *szProto = mir_utf8encodeW(Protocol.c_str());
-	ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, hContact, szProto));
+	ptrW uid(Contact::GetInfo(CNF_DISPLAYUID, hContact, szProto));
 	return (uid) ? uid : L"";
 }
 
@@ -249,7 +249,7 @@ void __cdecl CleanProtocolTmpThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (!Contact_OnList(hContact) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
+		if (!Contact::OnList(hContact) || (L"Not In List" == DBGetContactSettingStringPAN(hContact, "CList", "Group", L"")))
 			contacts.push_back(hContact);
 
 	Sleep(5000);
@@ -279,7 +279,7 @@ void __cdecl CleanProtocolExclThread(void *param)
 
 	std::list<MCONTACT> contacts;
 	for (auto &hContact : Contacts(szProto))
-		if (!Contact_OnList(hContact) && g_plugin.getByte(hContact, "Excluded"))
+		if (!Contact::OnList(hContact) && g_plugin.getByte(hContact, "Excluded"))
 			contacts.push_back(hContact);
 
 	Sleep(5000);

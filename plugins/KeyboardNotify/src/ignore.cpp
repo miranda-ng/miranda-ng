@@ -32,7 +32,7 @@ static uint32_t GetMask(MCONTACT hContact)
 		if(hContact == NULL)
 			mask=0;
 		else {
-			if (Contact_IsHidden(hContact) || !Contact_OnList(hContact))
+			if (Contact::IsHidden(hContact) || !Contact::OnList(hContact))
 				mask = g_plugin.getDword("Mask1", 0);
 			else
 				mask = g_plugin.getDword("Default1", 0);

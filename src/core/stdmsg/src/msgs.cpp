@@ -488,7 +488,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto) {
 			// leave this menu item hidden for chats
-			if (!Contact_IsGroupChat(hContact, szProto))
+			if (!Contact::IsGroupChat(hContact, szProto))
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 					bEnabled = true;
 		}

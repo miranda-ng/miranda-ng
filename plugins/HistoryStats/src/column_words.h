@@ -72,12 +72,12 @@ protected:
 	virtual void impl_configWrite(SettingsTree& settings) const;
 	virtual void impl_configToUI(OptionsCtrl& Opt, OptionsCtrl::Item hGroup);
 	virtual void impl_configFromUI(OptionsCtrl& Opt);
-	virtual void impl_contactDataFree(Contact& contact) const;
-	virtual void impl_contactDataTransform(Contact& contact) const;
-	virtual void impl_contactDataTransformCleanup(Contact& contact) const;
+	virtual void impl_contactDataFree(CContact& contact) const;
+	virtual void impl_contactDataTransform(CContact& contact) const;
+	virtual void impl_contactDataTransformCleanup(CContact& contact) const;
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_WORDS_H

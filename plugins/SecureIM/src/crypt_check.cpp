@@ -96,7 +96,7 @@ bool isProtoSmallPackets(MCONTACT hContact)
 
 bool isContactInvisible(MCONTACT hContact)
 {
-	if (!db_mc_isSub(hContact) && Contact_IsHidden(hContact))
+	if (!db_mc_isSub(hContact) && Contact::IsHidden(hContact))
 		return true;
 
 	pUinKey p = findUinKey(hContact);
@@ -116,7 +116,7 @@ bool isContactInvisible(MCONTACT hContact)
 
 bool isNotOnList(MCONTACT hContact)
 {
-	return !Contact_OnList(hContact);
+	return !Contact::OnList(hContact);
 }
 
 bool isContactNewPG(MCONTACT hContact)
@@ -180,7 +180,7 @@ bool isChatRoom(MCONTACT hContact)
 	if (!p || !p->proto || !p->proto->inspecting)
 		return false;
 
-	return Contact_IsGroupChat(hContact, p->proto->name);
+	return Contact::IsGroupChat(hContact, p->proto->name);
 }
 
 bool isFileExist(LPCSTR filename)
@@ -193,7 +193,7 @@ bool isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM)
 	if (!bAIP) return false;
 	if (!ptr->proto->inspecting) return false;
 
-	if (bNOL && !Contact_OnList(ptr->hContact))
+	if (bNOL && !Contact::OnList(ptr->hContact))
 		return false;
 
 	bool isSecureIM = false;

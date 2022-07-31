@@ -98,7 +98,7 @@ MCONTACT CToxProto::AddContact(const char *address, const wchar_t *nick, const w
 		setByte(hContact, "Grant", 1);
 	}
 	else
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 
 	return hContact;
 }
@@ -167,7 +167,7 @@ INT_PTR CToxProto::OnRequestAuth(WPARAM hContact, LPARAM lParam)
 		return addFriendResult;
 	}
 
-	Contact_PutOnList(hContact);
+	Contact::PutOnList(hContact);
 	delSetting(hContact, "Grant");
 
 	/*uint8_t nick[TOX_MAX_NAME_LENGTH] = { 0 };
@@ -193,7 +193,7 @@ INT_PTR CToxProto::OnGrantAuth(WPARAM hContact, LPARAM)
 		return error;
 	}
 
-	Contact_PutOnList(hContact);
+	Contact::PutOnList(hContact);
 	delSetting(hContact, "Grant");
 
 	SaveToxProfile(m_tox);

@@ -39,7 +39,7 @@ CRowItem::CRowItem(MCONTACT _1, QSMainDlg *pDlg) :
 	if (bAccDel || bAccOff)
 		status = ID_STATUS_OFFLINE;
 	else
-		status = Contact_GetStatus(hContact);
+		status = Contact::GetStatus(hContact);
 
 	if (int nCount = g_plugin.m_columns.getCount()) {
 		pValues = new Val[nCount];
@@ -131,7 +131,7 @@ void CRowItem::Val::LoadOneItem(MCONTACT hContact, const ColumnItem &pCol, QSMai
 		break;
 
 	case QST_CONTACTINFO:
-		text = Contact_GetInfo(pCol.cnftype, hContact);
+		text = Contact::GetInfo(pCol.cnftype, hContact);
 		if (text)
 			data = _wtoi(text);
 		break;

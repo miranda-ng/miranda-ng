@@ -114,7 +114,7 @@ void vfGlobal(int, TemplateVars *vars, MCONTACT hContact, ItemData *)
 
 	// %S: my nick (not for messages)
 	char* proto = Proto_GetBaseAccountName(hContact);
-	ptrW nick(Contact_GetInfo(CNF_DISPLAY, 0, proto));
+	ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
 	vars->SetVar('S', nick, false);
 }
 
@@ -149,7 +149,7 @@ void vfEvent(int, TemplateVars *vars, MCONTACT, ItemData *item)
 	//  %N: Nickname
 	if (item->dbe.flags & DBEF_SENT) {
 		char *proto = Proto_GetBaseAccountName(item->hContact);
-		ptrW nick(Contact_GetInfo(CNF_DISPLAY, 0, proto));
+		ptrW nick(Contact::GetInfo(CNF_DISPLAY, 0, proto));
 		vars->SetVar('N', nick, false);
 	}
 	else {

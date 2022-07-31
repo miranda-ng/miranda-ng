@@ -137,7 +137,7 @@ INT_PTR ServiceClear(WPARAM hContact, LPARAM)
 int PrebuildContactMenu(WPARAM hContact, LPARAM)
 {
 	bool remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
-	bool chat_room = Contact_IsGroupChat(hContact);
+	bool chat_room = Contact::IsGroupChat(hContact);
 
 	if (chat_room)
 		Menu_ShowItem(hMenuToggle, false);
@@ -174,7 +174,7 @@ int WindowEvent(WPARAM, LPARAM lParam)
 		break;
 
 	case MSG_WINDOW_EVT_OPEN:
-		bool chat_room = Contact_IsGroupChat(hContact);
+		bool chat_room = Contact::IsGroupChat(hContact);
 		int remove = g_plugin.getByte(hContact, DBSETTING_REMOVE) != 0;
 
 		for (int i = 0; i < 2; ++i)
@@ -193,7 +193,7 @@ int IconPressed(WPARAM hContact, LPARAM lParam)
 	if (sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
 	if (mir_strcmp(sicd->szModule, MODULENAME) != 0) return 0; // not our event
 
-	if (!Contact_IsGroupChat(hContact))
+	if (!Contact::IsGroupChat(hContact))
 		ServiceToggle(hContact, 0);
 
 	return 0;

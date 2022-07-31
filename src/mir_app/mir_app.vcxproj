@@ -54,7 +54,7 @@
     <ClCompile Include="src\cluiservices.cpp" />
     <ClCompile Include="src\CMPluginBase.cpp" />
     <ClCompile Include="src\colorchooser.cpp" />
-    <ClCompile Include="src\contact.cpp" />
+    <ClCompile Include="src\clccontact.cpp" />
     <ClCompile Include="src\contacts.cpp" />
     <ClCompile Include="src\database.cpp" />
     <ClCompile Include="src\db_events.cpp" />

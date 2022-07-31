@@ -430,8 +430,8 @@ MCONTACT CVkProto::SetContactInfo(const JSONNode &jnItem, bool flag, VKContactTy
 		return 0;
 
 	if (vkContactType == VKContactType::vkContactMUCUser) {
-		Contact_Hide(hContact);
-		Contact_RemoveFromList(hContact);
+		Contact::Hide(hContact);
+		Contact::RemoveFromList(hContact);
 		db_set_dw(hContact, "Ignore", "Mask1", 0);
 	}
 

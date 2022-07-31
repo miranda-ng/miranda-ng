@@ -1256,8 +1256,8 @@ ICQUser* ICQ::addUser(unsigned int uin, bool persistent)
 		u = icqUsers[i];
 		if (u->dwUIN == uin) {
 			if (persistent) {
-				Contact_PutOnList(u->hContact);
-				Contact_Hide(u->hContact, false);
+				Contact::PutOnList(u->hContact);
+				Contact::Hide(u->hContact, false);
 			}
 			return u;
 		}
@@ -1274,8 +1274,8 @@ ICQUser* ICQ::addUser(unsigned int uin, bool persistent)
 	if (persistent)
 		getUserInfo(u, true);
 	else {
-		Contact_RemoveFromList(u->hContact);
-		Contact_Hide(u->hContact);
+		Contact::RemoveFromList(u->hContact);
+		Contact::Hide(u->hContact);
 	}
 
 	updateContactList();

@@ -158,7 +158,7 @@ bool CContactCache::updateUIN()
 	m_szUIN[0] = 0;
 
 	if (m_isValid) {
-		ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
+		ptrW uid(Contact::GetInfo(CNF_DISPLAYUID, getActiveContact(), getActiveProto()));
 		if (uid != nullptr)
 			wcsncpy_s(m_szUIN, uid, _TRUNCATE);
 	}

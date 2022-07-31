@@ -77,7 +77,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// Pass-through if event is from a contact that is already in the list. 
-	if (!Contact_OnList(hContact)) // Already in the list
+	if (!Contact::OnList(hContact)) // Already in the list
 		return 0;
 
 	// Pass-through if event is from a contact that is already in the server-side contact list
@@ -93,7 +93,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 		if (g_plugin.getByte("ApproveOnMsgOut", 0)) {
 			g_plugin.setByte(hContact, "Verified", 1);
 			if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
-				Contact_PutOnList(hContact);
+				Contact::PutOnList(hContact);
 			db_unset(hContact, "CList", "Delete");
 		}
 		return 0;
@@ -101,7 +101,7 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 
 	// Hide the contact until verified if option set.
 	if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-		Contact_Hide(hContact);
+		Contact::Hide(hContact);
 
 	// Fetch the incoming message body
 	char *msgblob;
@@ -145,9 +145,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			if (bCorrectResponse) {
 				g_plugin.setByte(hContact, "Verified", 1);
 				if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-					Contact_Hide(hContact, false);
+					Contact::Hide(hContact, false);
 				if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
-					Contact_PutOnList(hContact);
+					Contact::PutOnList(hContact);
 				db_unset(hContact, "CList", "Delete");
 				if (g_plugin.getByte("ReplyOnSuccess", defaultReplyOnSuccess) && (g_plugin.getByte(hContact, "MsgSent", 0))) {
 					T2Utf response(_getOptS(buf, buflen, "SuccessResponse", defaultSuccessResponse));
@@ -210,9 +210,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 	{
 		g_plugin.setByte(hContact, "Verified", 1);
 		if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-			Contact_Hide(hContact, false);
+			Contact::Hide(hContact, false);
 		if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
-			Contact_PutOnList(hContact);
+			Contact::PutOnList(hContact);
 		db_unset(hContact, "CList", "Delete");
 		db_unset(hContact, "CList", "ResponseNum");
 		if (g_plugin.getByte("ReplyOnSuccess", defaultReplyOnSuccess)) {
@@ -311,9 +311,9 @@ int OnDBEventFilterAdd(WPARAM wParam, LPARAM lParam)
 			_notify(hContact, POPUP_APPROVED, TranslateT("Contact %s approved."), message);
 			g_plugin.setByte(hContact, "Verified", 1);
 			if (g_plugin.getByte("HideUnverified", defaultHideUnverified))
-				Contact_Hide(hContact, false);
+				Contact::Hide(hContact, false);
 			if (g_plugin.getByte("AddPermanently", defaultAddPermanently))
-				Contact_PutOnList(hContact);
+				Contact::PutOnList(hContact);
 			db_unset(hContact, "CList", "Delete");
 			if (bayesEnabled && 
 				g_plugin.getByte("BayesAutolearnApproved", defaultBayesAutolearnApproved) &&
@@ -481,7 +481,7 @@ void RemoveNotOnListSettings()
 			mir_strcat(protoName, dbv.pszVal);
 			if (g_plugin.getByte(protoName, 0) != 0) {
 				if (db_get_b(hContact, "CList", "Delete", 0) == 1) {
-					Contact_PutOnList(hContact);
+					Contact::PutOnList(hContact);
 				}
 			}
 			db_free(&dbv);

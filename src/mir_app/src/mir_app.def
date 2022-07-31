@@ -190,7 +190,7 @@ Clist_GroupGetName @257
 Clist_GroupRename @258
 Clist_EndRebuild @259
 Clist_GroupAdded @260
-Contact_GetInfo @261
+?GetInfo@Contact@@YGPA_WHIPBD@Z @261 NONAME
 Clist_ContactToHItem @262
 Clist_ContactToItemHandle @263
 Window_SetSkinIcon_IcoLib @264
@@ -362,8 +362,8 @@ Chat_UpdateOptions @418 NONAME
 ?onDblClick_List@CSrmmBaseDialog@@IAEXPAVCCtrlListBox@@@Z @440 NONAME
 ?OnDestroy@CSrmmBaseDialog@@MAEXXZ @441 NONAME
 Chat_AddMenuItems @442 NONAME
-Contact_IsHidden @443
-Contact_Hide @444
+?Hide@Contact@@YGXI_N@Z @443 NONAME
+?IsHidden@Contact@@YG_NI@Z @444 NONAME
 Chat_DoEventHook @445 NONAME
 _stubLogProc@16 @446 NONAME
 _stubMessageProc@16 @447 NONAME
@@ -408,9 +408,9 @@ Clist_SetStatusMode @464
 ?EnumResidentSettings@MDatabaseCommon@@UAGHP6AHPBDPAX@Z1@Z @494 NONAME
 KillModuleOptions @495
 Srmm_GetColorTable @496
-Contact_Add @497
-Contact_AddByEvent @498
-Contact_AddBySearch @499
+?Add@Contact@@YGXIPAUHWND__@@@Z @497 NONAME
+?AddByEvent@Contact@@YGXIPAUHWND__@@@Z @498 NONAME
+?AddBySearch@Contact@@YGXPBDPAUPROTOSEARCHRESULT@@PAUHWND__@@@Z @499 NONAME
 ?setAllContactStatuses@PROTO_INTERFACE@@QAEXH_N@Z @500 NONAME
 ??0PROTO_INTERFACE@@QAE@PBDPB_W@Z @501 NONAME
 ??1PROTO_INTERFACE@@QAE@XZ @502 NONAME
@@ -518,7 +518,7 @@ Proto_GetStatus @601
 ?IsReadyToExit@PROTO_INTERFACE@@UAE_NXZ @606 NONAME
 ?OnModulesLoaded@PROTO_INTERFACE@@UAEXXZ @607 NONAME
 ?OnShutdown@PROTO_INTERFACE@@UAEXXZ @608 NONAME
-Contact_GetStatus @609
+?GetStatus@Contact@@YGHI@Z @609 NONAME
 ?OnContactDeleted@PROTO_INTERFACE@@UAEXI@Z @610 NONAME
 ?OnBuildProtoMenu@PROTO_INTERFACE@@UAEXXZ @611 NONAME
 ?OnErase@PROTO_INTERFACE@@UAEXXZ @612 NONAME
@@ -687,9 +687,9 @@ Clist_SetGroup @776
 Ignore_Allow @779
 Ignore_Ignore @780
 Ignore_IsIgnored @781
-Contact_OnList @782
-Contact_PutOnList @783
-Contact_RemoveFromList @784
+?OnList@Contact@@YG_NI@Z @782 NONAME
+?PutOnList@Contact@@YGXI@Z @783 NONAME
+?RemoveFromList@Contact@@YGXI@Z @784 NONAME
 RegisterHppLogger @785
 UnregisterHppLogger @786
 ??0CRtfLogWindow@@QAE@AAVCMsgDialog@@@Z @787 NONAME
@@ -798,4 +798,4 @@ Srmm_CreateHotkey @886 NONAME
 ??_7CUserInfoPageDlg@@6B@ @891 NONAME
 ?OnRefresh@CUserInfoPageDlg@@UAE_NXZ @892 NONAME
 ?SetContact@CUserInfoPageDlg@@QAEXI@Z @893 NONAME
-?Contact_IsGroupChat@@YG_NIPBD@Z @894 NONAME
+?IsGroupChat@Contact@@YG_NIPBD@Z @894 NONAME

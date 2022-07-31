@@ -502,7 +502,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	// don't log them if WE are logging off
-	if (Proto_GetStatus(c->getProto()) == ID_STATUS_OFFLINE || Contact_IsGroupChat(hContact, c->getProto()))
+	if (Proto_GetStatus(c->getProto()) == ID_STATUS_OFFLINE || Contact::IsGroupChat(hContact, c->getProto()))
 		return;
 
 	uint16_t wStatus = LOWORD(wParam);

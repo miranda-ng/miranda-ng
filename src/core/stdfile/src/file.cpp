@@ -35,11 +35,11 @@ static HGENMENU hSRFileMenuItem;
 wchar_t* GetContactID(MCONTACT hContact)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (Contact_IsGroupChat(hContact, szProto))
+	if (Contact::IsGroupChat(hContact, szProto))
 		if (wchar_t *theValue = db_get_wsa(hContact, szProto, "ChatRoomID"))
 			return theValue;
 
-	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
+	return Contact::GetInfo(CNF_UNIQUEID, hContact, szProto);
 }
 
 static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
@@ -101,7 +101,7 @@ void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
-	if (g_plugin.bAutoAccept && Contact_OnList(hContact)) {
+	if (g_plugin.bAutoAccept && Contact::OnList(hContact)) {
 		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
 	}
 	else {
@@ -288,7 +288,7 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	bool bEnabled = false;
 	char *szProto = Proto_GetBaseAccountName(wParam);
 	if (szProto != nullptr) {
-		bool isChat = Contact_IsGroupChat(wParam, szProto);
+		bool isChat = Contact::IsGroupChat(wParam, szProto);
 		if (CallProtoService(szProto, PS_GETCAPS, isChat ? PFLAGNUM_4 : PFLAGNUM_1, 0) & (isChat ? PF4_GROUPCHATFILES : PF1_FILESEND)) {
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
 				bEnabled = true;

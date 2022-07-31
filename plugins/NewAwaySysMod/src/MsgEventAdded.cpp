@@ -181,7 +181,7 @@ int MsgEventAdded(WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	MCONTACT hContactForSettings = hContact; // used to take into account not-on-list contacts when getting contact settings, but at the same time allows to get correct contact info for contacts that are in the DB
-	if (hContactForSettings != INVALID_CONTACT_ID && !Contact_OnList(hContactForSettings))
+	if (hContactForSettings != INVALID_CONTACT_ID && !Contact::OnList(hContactForSettings))
 		hContactForSettings = INVALID_CONTACT_ID; // INVALID_HANDLE_VALUE means the contact is not-on-list
 
 	if (!CContactSettings(iMode, hContactForSettings).Autoreply.IncludingParents(szProto) || CContactSettings(iMode, hContactForSettings).Ignore)

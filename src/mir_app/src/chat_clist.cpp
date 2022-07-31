@@ -80,7 +80,7 @@ BOOL SetAllOffline(BOOL, const char *pszModule)
 		if (!MM_FindModule(szProto))
 			continue;
 		
-		if (Contact_IsGroupChat(hContact, szProto)) {
+		if (Contact::IsGroupChat(hContact, szProto)) {
 			db_set_w(hContact, szProto, "ApparentMode", 0);
 			db_set_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 		}
@@ -97,7 +97,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (MM_FindModule(szProto) == nullptr)
 		return 0;
-	if (!Contact_IsGroupChat(hContact, szProto))
+	if (!Contact::IsGroupChat(hContact, szProto))
 		return 0;
 
 	ptrW roomid(db_get_wsa(hContact, szProto, "ChatRoomID"));
@@ -118,7 +118,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
 {
 	for (auto &hContact : Contacts(pszModule)) {
-		if (!Contact_IsGroupChat(hContact, pszModule))
+		if (!Contact::IsGroupChat(hContact, pszModule))
 			continue;
 
 		ptrW roomid(db_get_wsa(hContact, pszModule, "ChatRoomID"));

@@ -21,7 +21,7 @@
 	range_each_(index_var, 0, _countof(array_var))
 
 #define vector_each_(index_var, vector_var) \
-	for (int index_var = 0; index_var != (vector_var).size(); ++index_var)
+	for (size_t index_var = 0; index_var != (vector_var).size(); ++index_var)
 
 #define iter_each_(cont_type, iter_var, cont_var) \
 	for (cont_type::iterator iter_var = (cont_var).begin(); iter_var != (cont_var).end(); ++iter_var)

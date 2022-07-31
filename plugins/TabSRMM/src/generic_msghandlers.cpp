@@ -833,7 +833,7 @@ void CMsgDialog::DM_NotifyTyping(int mode)
 
 		// don't send to contacts which are not permanently added to the contact list,
 		// unless the option to ignore added status is set.
-		if (!Contact_OnList(m_hContact) && !g_plugin.bTypingUnknown)
+		if (!Contact::OnList(m_hContact) && !g_plugin.bTypingUnknown)
 			return;
 
 		// End user check

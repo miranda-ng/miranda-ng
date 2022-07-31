@@ -114,7 +114,7 @@ public:
 
 		fldReason.SetText(reasonT);
 
-		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
+		if (m_hContact == INVALID_CONTACT_ID || Contact::OnList(m_hContact))
 			btnAdd.Hide();
 
 		edtReason.SetMaxLength(255);
@@ -123,7 +123,7 @@ public:
 			edtReason.SetText(TranslateT("Feature is not supported by protocol"));
 		}
 
-		if (Contact_OnList(m_hContact)) {
+		if (Contact::OnList(m_hContact)) {
 			chkAdd.Disable();
 			chkAdd.SetState(false);
 		}
@@ -136,7 +136,7 @@ public:
 		CallProtoService(m_szProto, PS_AUTHALLOW, m_hDbEvent, 0);
 
 		if (chkAdd.GetState())
-			Contact_AddByEvent(m_hDbEvent, m_hwnd);
+			Contact::AddByEvent(m_hDbEvent, m_hwnd);
 		return true;
 	}
 
@@ -254,14 +254,14 @@ public:
 			mir_snwprintf(hdr, TranslateT("%s added you to the contact list\n%s on %s"), name, emailT[0] ? emailT.get() : TranslateT("(Unknown)"), acc->tszAccountName);
 		fldHeader.SetText(hdr);
 
-		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
+		if (m_hContact == INVALID_CONTACT_ID || Contact::OnList(m_hContact))
 			btnAdd.Hide();
 		return true;
 	}
 
 	bool OnApply()
 	{
-		Contact_AddByEvent(m_hDbEvent, m_hwnd);
+		Contact::AddByEvent(m_hDbEvent, m_hwnd);
 		return true;
 	}
 
@@ -278,9 +278,9 @@ public:
 
 	void onClick_Add(CCtrlButton*)
 	{
-		Contact_AddByEvent(m_hDbEvent, m_hwnd);
+		Contact::AddByEvent(m_hDbEvent, m_hwnd);
 
-		if (m_hContact == INVALID_CONTACT_ID || Contact_OnList(m_hContact))
+		if (m_hContact == INVALID_CONTACT_ID || Contact::OnList(m_hContact))
 			btnAdd.Hide();
 	}
 
@@ -323,7 +323,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	cle.lParam = lParam;
 	cle.hDbEvent = hDbEvent;
 
-	ptrW szUid(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	ptrW szUid(Contact::GetInfo(CNF_UNIQUEID, hContact));
 
 	if (dbei.eventType == EVENTTYPE_AUTHREQUEST) {
 		Skin_PlaySound("AuthRequest");

@@ -1698,7 +1698,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 		hContact, wszType.c_str(),
 		(int)m_vkOptions.bShowVkDeactivateEvents,
 		(int)getBool(hContact, "ShowVkDeactivateEvents", true),
-		(int)(!Contact_IsHidden(hContact)));
+		(int)(!Contact::IsHidden(hContact)));
 
 	CVKDeactivateEvent vkDeactivateEvent[] = {
 		{ L"", Translate("User restored control over own page") },
@@ -1727,7 +1727,7 @@ void CVkProto::AddVkDeactivateEvent(MCONTACT hContact, CMStringW&  wszType)
 		(
 			m_vkOptions.bShowVkDeactivateEvents
 			&& getBool(hContact, "ShowVkDeactivateEvents", true)
-			&& (!Contact_IsHidden(hContact))
+			&& (!Contact::IsHidden(hContact))
 		) ? 0 : DBEF_READ);
 	db_event_add(hContact, &dbei);
 }

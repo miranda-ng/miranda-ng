@@ -187,7 +187,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	switch (action) {
 	case IDC_HIDE: // Archive contact
-		Contact_Hide(wParam);
+		Contact::Hide(wParam);
 		break;
 
 	case IDYES: // Delete contact
@@ -217,7 +217,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR MenuItem_AddContactToList(WPARAM hContact, LPARAM)
 {
-	Contact_Add(hContact);
+	Contact::Add(hContact);
 	return 0;
 }
 

@@ -48,7 +48,7 @@ void CJabberProto::AddContactToRoster(const char *jid, const char *nick, const c
 void CJabberProto::DBAddAuthRequest(const char *jid, const char *nick)
 {
 	MCONTACT hContact = DBCreateContact(jid, nick, true, true);
-	Contact_Hide(hContact, false);
+	Contact::Hide(hContact, false);
 
 	DB::AUTH_BLOB blob(hContact, nick, nullptr, nullptr, jid, nullptr);
 
@@ -89,7 +89,7 @@ MCONTACT CJabberProto::DBCreateContact(const char *jid, const char *nick, bool t
 		setUString(hNewContact, "Nick", ptrA(JabberNickFromJID(szJid)));
 
 	if (temporary)
-		Contact_RemoveFromList(hNewContact);
+		Contact::RemoveFromList(hNewContact);
 	else
 		SendGetVcard(hNewContact);
 	

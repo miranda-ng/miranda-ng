@@ -492,7 +492,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			i = -1;
 			break;
 		case 'F':
-			ptszName = Contact_GetInfo(CNF_FIRSTNAME, hContact);
+			ptszName = Contact::GetInfo(CNF_FIRSTNAME, hContact);
 			if (ptszName == nullptr)
 				break;
 			NameLenght = (int)mir_wstrlen(ptszName);
@@ -518,7 +518,7 @@ wchar_t* ParseString(MCONTACT hContact, wchar_t* ptszQValIn, wchar_t* ptszText, 
 			i = -1;
 			break;
 		case 'L':
-			ptszName = Contact_GetInfo(CNF_LASTNAME, hContact);
+			ptszName = Contact::GetInfo(CNF_LASTNAME, hContact);
 			if (ptszName == nullptr)
 				break;
 

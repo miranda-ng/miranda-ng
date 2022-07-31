@@ -505,7 +505,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 		ShowWindow(hwndDlg, SW_SHOWNORMAL);
 		InvalidateRect(GetDlgItem(hwndDlg, IDC_PROTOPIC), nullptr, FALSE);
 		CheckDlgButton(hwndDlg, IDC_PROTECTAVATAR, db_get_b(hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, Contact_IsHidden(hContact) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEAVATAR, Contact::IsHidden(hContact) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -536,8 +536,8 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				bool locked = IsDlgButtonChecked(hwndDlg, IDC_PROTECTAVATAR) != 0;
 				bool hidden = IsDlgButtonChecked(hwndDlg, IDC_HIDEAVATAR) != 0;
 				SetAvatarAttribute(hContact, AVS_HIDEONCLIST, hidden);
-				if (hidden != Contact_IsHidden(hContact))
-					Contact_Hide(hContact, hidden);
+				if (hidden != Contact::IsHidden(hContact))
+					Contact::Hide(hContact, hidden);
 
 				if (!locked && db_get_b(hContact, "ContactPhoto", "NeedUpdate", 0))
 					QueueAdd(hContact);
@@ -791,7 +791,7 @@ public:
 
 		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
 		CheckDlgButton(m_hwnd, IDC_PROTECTAVATAR, db_get_b(m_hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_HIDEAVATAR, Contact_IsHidden(m_hContact) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_HIDEAVATAR, Contact::IsHidden(m_hContact) ? BST_CHECKED : BST_UNCHECKED);
 
 		SendDlgItemMessage(m_hwnd, IDC_BKG_NUM_POINTS_SPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(m_hwnd, IDC_BKG_NUM_POINTS), 0);
 		SendDlgItemMessage(m_hwnd, IDC_BKG_NUM_POINTS_SPIN, UDM_SETRANGE, 0, MAKELONG(8, 2));
@@ -831,8 +831,8 @@ public:
 	{
 		bool hidden = IsDlgButtonChecked(m_hwnd, IDC_HIDEAVATAR) != 0;
 		SetAvatarAttribute(m_hContact, AVS_HIDEONCLIST, hidden);
-		if (hidden != Contact_IsHidden(m_hContact))
-			Contact_Hide(m_hContact, hidden);
+		if (hidden != Contact::IsHidden(m_hContact))
+			Contact::Hide(m_hContact, hidden);
 	}
 
 	void onClick_Protect(CCtrlButton *)

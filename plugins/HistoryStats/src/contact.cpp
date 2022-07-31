@@ -5,7 +5,7 @@
 #include <queue>
 #include <cmath>
 
-Contact::Contact(Statistic* pStatistic, int nSlots, const ext::string& nick, const ext::string& protocol, const ext::string& group, int nContacts, int nSubcontacts) :
+CContact::CContact(Statistic* pStatistic, int nSlots, const ext::string& nick, const ext::string& protocol, const ext::string& group, int nContacts, int nSubcontacts) :
 	m_Nick(nick),
 	m_Protocol(protocol),
 	m_Group(group),
@@ -27,7 +27,7 @@ Contact::Contact(Statistic* pStatistic, int nSlots, const ext::string& nick, con
 	m_Slots.resize(nSlots, NULL);
 }
 
-void Contact::updateTime(uint32_t msgTime)
+void CContact::updateTime(uint32_t msgTime)
 {
 	if (!m_bFirstLastTimeValid) {
 		m_FirstTime = msgTime;
@@ -40,7 +40,7 @@ void Contact::updateTime(uint32_t msgTime)
 	}
 }
 
-void Contact::updateChatDur(uint32_t timeDelta)
+void CContact::updateChatDur(uint32_t timeDelta)
 {
 	m_bChatDurValid = true;
 
@@ -50,7 +50,7 @@ void Contact::updateChatDur(uint32_t timeDelta)
 	m_ChatDurMax = max(m_ChatDurMax, timeDelta);
 }
 
-double Contact::getAvg(int nTotal) const
+double CContact::getAvg(int nTotal) const
 {
 	uint32_t dwHistTime = m_pStatistic->getLastTime() - getFirstTime();
 	if (dwHistTime < m_pStatistic->getAverageMinTime())
@@ -59,7 +59,7 @@ double Contact::getAvg(int nTotal) const
 	return dwHistTime ? (0.0 + nTotal) / dwHistTime : 0.0;
 }
 
-void Contact::addMessage(Message& msg)
+void CContact::addMessage(Message& msg)
 {
 	if (msg.isOutgoing()) {
 		m_Bytes.out += msg.getLength();
@@ -73,7 +73,7 @@ void Contact::addMessage(Message& msg)
 	updateTime(msg.getTimestamp());
 }
 
-void Contact::addChat(bool bOutgoing, uint32_t, uint32_t duration)
+void CContact::addChat(bool bOutgoing, uint32_t, uint32_t duration)
 {
 	if (bOutgoing)
 		m_Chats.out++;
@@ -83,7 +83,7 @@ void Contact::addChat(bool bOutgoing, uint32_t, uint32_t duration)
 	updateChatDur(duration);
 }
 
-void Contact::addEvent(uint16_t eventType, bool bOutgoing)
+void CContact::addEvent(uint16_t eventType, bool bOutgoing)
 {
 	InOut* pIO = nullptr;
 
@@ -102,7 +102,7 @@ void Contact::addEvent(uint16_t eventType, bool bOutgoing)
 		pIO->in++;
 }
 
-void Contact::merge(const Contact& other)
+void CContact::merge(const CContact& other)
 {
 	if (m_Nick != other.m_Nick)
 		m_Nick = TranslateT("(multiple)");

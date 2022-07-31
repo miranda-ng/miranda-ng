@@ -201,7 +201,7 @@ ClcContact* fnAddContactToGroup(ClcData *dat, ClcGroup *group, MCONTACT hContact
 		cc->flags |= CONTACTF_VISTO;
 	else if (apparentMode)
 		cc->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-	if (!Contact_OnList(hContact))
+	if (!Contact::OnList(hContact))
 		cc->flags |= CONTACTF_NOTONLIST;
 	uint32_t idleMode = szProto != nullptr ? db_get_dw(hContact, szProto, "IdleTS", 0) : 0;
 	if (idleMode)
@@ -342,7 +342,7 @@ MIR_APP_DLL(void) Clist_DeleteItemFromTree(HWND hwnd, MCONTACT hItem)
 
 int fnGetContactHiddenStatus(MCONTACT hContact, char*, ClcData*)
 {
-	return Contact_IsHidden(hContact);
+	return Contact::IsHidden(hContact);
 }
 
 void fnRebuildEntireList(HWND hwnd, ClcData *dat)

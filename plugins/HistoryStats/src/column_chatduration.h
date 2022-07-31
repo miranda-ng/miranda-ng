@@ -40,7 +40,7 @@ protected:
 	virtual void impl_columnDataAfterOmit();
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_CHATDURATION_H

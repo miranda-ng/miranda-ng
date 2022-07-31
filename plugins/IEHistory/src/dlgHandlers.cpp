@@ -70,7 +70,7 @@ void LoadName(HWND hWnd)
 	}
 
 	wchar_t buffer[1024];
-	mir_snwprintf(buffer, L"'%s' - IEHistory", ptrW(Contact_GetInfo(CNF_DISPLAY, data->contact)).get());
+	mir_snwprintf(buffer, L"'%s' - IEHistory", ptrW(Contact::GetInfo(CNF_DISPLAY, data->contact)).get());
 	SetWindowText(hWnd, buffer);
 }
 

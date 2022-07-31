@@ -428,7 +428,7 @@ void UnloadContactListModule()
 	if (Clist::RemoveTempContacts) {
 		for (MCONTACT hContact = db_find_first(); hContact != 0; ) {
 			MCONTACT hNext = db_find_next(hContact);
-			if (!Contact_OnList(hContact))
+			if (!Contact::OnList(hContact))
 				db_delete_contact(hContact);
 			hContact = hNext;
 		}

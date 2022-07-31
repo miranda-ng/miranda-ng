@@ -34,14 +34,14 @@ int OnDbEventAdded(WPARAM hContact, LPARAM hDbEvent)
 			MCONTACT hcntct = DbGetAuthEventContact(&dbei);
 
 			// if request is from unknown or not marked Answered contact
-			int a = !Contact_OnList(hcntct);
+			int a = !Contact::OnList(hcntct);
 			int b = !g_plugin.getByte(hcntct, "Answered");
 
 			if (a && b) {
 				// ...send message
 
 				if (gbHideContacts)
-					Contact_Hide(hcntct);
+					Contact::Hide(hcntct);
 				if (gbSpecialGroup)
 					Clist_SetGroup(hcntct, gbSpammersGroup.c_str());
 				uint8_t msg = 1;
@@ -82,7 +82,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		return 0;
 
 	if (g_plugin.getByte(hContact, "Excluded")) {
-		if (Contact_OnList(hContact))
+		if (Contact::OnList(hContact))
 			g_plugin.delSetting(hContact, "Excluded");
 		return 0;
 	}
@@ -92,14 +92,14 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		return 0; // ...let the event go its way
 	
 	// mark contact which we trying to contact for exclude from check
-	if ((dbei->flags & DBEF_SENT) && !Contact_OnList(hContact)
+	if ((dbei->flags & DBEF_SENT) && !Contact::OnList(hContact)
 		&& (!gbMaxQuestCount || g_plugin.getDword(hContact, "QuestionCount") < gbMaxQuestCount) && gbExclude) {
 		g_plugin.setByte(hContact, "Excluded", 1);
 		return 0;
 	}
 	
 	// if message is from known or marked Answered contact
-	if (Contact_OnList(hContact))
+	if (Contact::OnList(hContact))
 		return 0; // ...let the event go its way
 	
 	// if message is corrupted or empty it cannot be an answer.
@@ -153,7 +153,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 	
 	if (answered) {
 		// unhide contact
-		Contact_Hide(hContact, false);
+		Contact::Hide(hContact, false);
 
 		g_plugin.delSetting(hContact, "MathAnswer");
 
@@ -162,7 +162,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 
 		//add contact permanently
 		if (gbAddPermanent) //do not use this )
-			Contact_PutOnList(hContact);
+			Contact::PutOnList(hContact);
 
 		// send congratulation
 		if (bSendMsg) {
@@ -181,7 +181,7 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 				// add contact to server list and local group
 				if (gbAutoAddToServerList) {
 					Clist_SetGroup(hContact, gbAutoAuthGroup.c_str());
-					Contact_PutOnList(hContact);
+					Contact::PutOnList(hContact);
 				}
 				
 				// auto auth. request with send congratulation
@@ -267,10 +267,10 @@ int OnDbEventFilterAdd(WPARAM hContact, LPARAM l)
 		}
 	}
 	if (gbHideContacts)
-		Contact_Hide(hContact);
+		Contact::Hide(hContact);
 	if (gbSpecialGroup)
 		Clist_SetGroup(hContact, gbSpammersGroup.c_str());
-	Contact_RemoveFromList(hContact);
+	Contact::RemoveFromList(hContact);
 
 	// save first message from contact
 	if (g_plugin.getDword(hContact, "QuestionCount") < 2) {

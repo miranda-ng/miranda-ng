@@ -15,11 +15,11 @@
 #include "statistic.h"
 
 /*
- * Contact
+ * CContact
  */
 
-class Contact
-	: private pattern::NotCopyable<Contact>
+class CContact
+	: private pattern::NotCopyable<CContact>
 {
 private:
 	ext::string m_Nick;
@@ -48,7 +48,7 @@ private:
 	double getAvg(int nTotal) const;
 
 public:
-	explicit Contact(Statistic* pStatistic, int nSlots, const ext::string& nick, const ext::string& protocol, const ext::string& group, int nContacts, int nSubcontacts);
+	explicit CContact(Statistic* pStatistic, int nSlots, const ext::string& nick, const ext::string& protocol, const ext::string& group, int nContacts, int nSubcontacts);
 	
 	// basic contact info
 	const ext::string& getNick() const { return m_Nick; }
@@ -107,7 +107,7 @@ public:
 	void addMessage(Message& msg);
 	void addChat(bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
 	void addEvent(uint16_t eventType, bool bOutgoing);
-	void merge(const Contact& other);
+	void merge(const CContact& other);
 
 	// slot stuff
 	int countSlot() const { return m_Slots.size(); }
@@ -126,7 +126,7 @@ protected:
 	bool m_bAsc;
 
 public:
-	virtual bool cmp(const Contact&, const Contact&) { return m_bAsc; }
+	virtual bool cmp(const CContact&, const CContact&) { return m_bAsc; }
 	void setDir(bool bAsc) { m_bAsc = bAsc; }
 	explicit ContactCompareBase() : m_bAsc(true) { }
 };
@@ -140,11 +140,11 @@ class ContactCompare
 	: public ContactCompareBase
 {
 private:
-	T_ (Contact::*m_getData)() const;
+	T_ (CContact::*m_getData)() const;
 	ContactCompareBase* m_pNextCmp;
 
 public:
-	virtual bool cmp(const Contact& first, const Contact& second)
+	virtual bool cmp(const CContact& first, const CContact& second)
 	{
 		T_ firstVal = (first.*m_getData)();
 		T_ secondVal = (second.*m_getData)();
@@ -160,7 +160,7 @@ public:
 	}
 
 public:
-	explicit ContactCompare(ContactCompareBase* pNextCmp, T_ (Contact::*getData)() const)
+	explicit ContactCompare(ContactCompareBase* pNextCmp, T_ (CContact::*getData)() const)
 		: m_pNextCmp(pNextCmp)
 	{
 		m_getData = getData;
@@ -175,11 +175,11 @@ class ContactCompareStr
 	: public ContactCompareBase
 {
 private:
-	const ext::string& (Contact::*m_getData)() const;
+	const ext::string& (CContact::*m_getData)() const;
 	ContactCompareBase* m_pNextCmp;
 
 public:
-	virtual bool cmp(const Contact& first, const Contact& second)
+	virtual bool cmp(const CContact& first, const CContact& second)
 	{
 		const ext::string& firstVal = (first.*m_getData)();
 		const ext::string& secondVal = (second.*m_getData)();
@@ -198,7 +198,7 @@ public:
 	}
 
 public:
-	explicit ContactCompareStr(ContactCompareBase* pNextCmp, const ext::string& (Contact::*getData)() const)
+	explicit ContactCompareStr(ContactCompareBase* pNextCmp, const ext::string& (CContact::*getData)() const)
 		: m_pNextCmp(pNextCmp)
 	{
 		m_getData = getData;
@@ -215,7 +215,7 @@ private:
 	ContactCompareBase* m_pCmp;
 
 public:
-	bool operator ()(const Contact* first, const Contact* second) { return m_pCmp->cmp(*first, *second); }
+	bool operator ()(const CContact* first, const CContact* second) { return m_pCmp->cmp(*first, *second); }
 	explicit ContactCompareOp(ContactCompareBase* pCmp) : m_pCmp(pCmp) { }
 };
 

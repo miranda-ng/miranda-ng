@@ -672,9 +672,9 @@ HICON CMsgDialog::GetMyContactIcon(LPCSTR szSetting)
 
 void CMsgDialog::GetMyNick()
 {
-	ptrW tszNick(Contact_GetInfo(CNF_CUSTOMNICK, 0, m_cache->getActiveProto()));
+	ptrW tszNick(Contact::GetInfo(CNF_CUSTOMNICK, 0, m_cache->getActiveProto()));
 	if (tszNick == nullptr)
-		tszNick = Contact_GetInfo(CNF_NICK, 0, m_cache->getActiveProto());
+		tszNick = Contact::GetInfo(CNF_NICK, 0, m_cache->getActiveProto());
 	if (tszNick != nullptr) {
 		if (mir_wstrlen(tszNick) == 0 || !mir_wstrcmp(tszNick, TranslateT("'(Unknown contact)'")))
 			wcsncpy_s(m_wszMyNickname, (m_myUin[0] ? m_myUin : TranslateT("'(Unknown contact)'")), _TRUNCATE);
@@ -690,7 +690,7 @@ void CMsgDialog::GetMyNick()
 
 void CMsgDialog::GetMYUIN()
 {
-	ptrW uid(Contact_GetInfo(CNF_DISPLAYUID, 0, m_cache->getActiveProto()));
+	ptrW uid(Contact::GetInfo(CNF_DISPLAYUID, 0, m_cache->getActiveProto()));
 	if (uid != nullptr)
 		wcsncpy_s(m_myUin, uid, _TRUNCATE);
 	else

@@ -218,7 +218,7 @@ LBL_noData:
 			break;
 
 		case 'N':
-			if (info = Contact_GetInfo(CNF_NICK, hcontact, szProto)) {
+			if (info = Contact::GetInfo(CNF_NICK, hcontact, szProto)) {
 				res.Append(info);
 				break;
 			}
@@ -233,7 +233,7 @@ LBL_noData:
 			break;
 
 		case 'u':
-			if (info = Contact_GetInfo(CNF_UNIQUEID, hcontact, szProto)) {
+			if (info = Contact::GetInfo(CNF_UNIQUEID, hcontact, szProto)) {
 				res.Append(info);
 				break;
 			}
@@ -407,7 +407,7 @@ void ShowPopup(MCONTACT hcontact, const char * lpzProto, int newStatus)
 	if (Ignore_IsIgnored(hcontact, IGNOREEVENT_USERONLINE))
 		return;
 
-	if (!g_plugin.bUsePopups || Contact_IsHidden(hcontact))
+	if (!g_plugin.bUsePopups || Contact::IsHidden(hcontact))
 		return;
 
 	char szSetting[10];
@@ -555,7 +555,7 @@ int UpdateValues(WPARAM hContact, LPARAM lparam)
 			g_plugin.setByte(hContact, "Offline", 0);
 		}
 	}
-	else if (hContact && IsWatchedProtocol(cws->szModule) && !Contact_IsGroupChat(hContact, cws->szModule)) {
+	else if (hContact && IsWatchedProtocol(cws->szModule) && !Contact::IsGroupChat(hContact, cws->szModule)) {
 		// here we will come when <User>/<module>/Status is changed or it is idle event and if <module> is watched
 		if (Proto_GetStatus(cws->szModule) > ID_STATUS_OFFLINE) {
 			mir_cslock lck(csContacts);

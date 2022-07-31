@@ -12,7 +12,7 @@ INT_PTR IsContactPassed(WPARAM hContact, LPARAM /*lParam*/)
 	if (g_plugin.getByte(hContact, DB_KEY_ANSWERED))
 		return CS_PASSED;
 
-	if (Contact_OnList(hContact) && db_get_w(hContact, szProto, "SrvGroupId", -1) != 1)
+	if (Contact::OnList(hContact) && db_get_w(hContact, szProto, "SrvGroupId", -1) != 1)
 		return CS_PASSED;
 
 	if (IsExistMyMessage(hContact))
@@ -27,7 +27,7 @@ INT_PTR RemoveTempContacts(WPARAM, LPARAM lParam)
 		MCONTACT hNext = db_find_next(hContact);
 		ptrW szGroup(Clist_GetGroup(hContact));
 
-		if (!Contact_OnList(hContact) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
+		if (!Contact::OnList(hContact) || (szGroup != NULL && (wcsstr(szGroup, L"Not In List") || wcsstr(szGroup, TranslateT("Not In List"))))) {
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			if (szProto != nullptr) {
 				// Check if protocol uses server side lists

@@ -68,12 +68,12 @@ void ColEvents::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan)
 	}
 }
 
-void ColEvents::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColEvents::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
-	static int (Contact::*getData[3])() const = {
-		&Contact::getInFiles,
-		&Contact::getOutFiles,
-		&Contact::getTotalFiles,
+	static int (CContact::*getData[3])() const = {
+		&CContact::getInFiles,
+		&CContact::getOutFiles,
+		&CContact::getTotalFiles,
 	};
 
 	tos << L"<td class=\"num\">"

@@ -393,7 +393,7 @@ std::wstring HistoryEventList::GetContactName()
 
 std::wstring HistoryEventList::GetMyName()
 {
-	ptrW name(Contact_GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(m_hContact)));
+	ptrW name(Contact::GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(m_hContact)));
 	return (name == NULL) ? TranslateT("Me") : name;
 }
 
@@ -426,13 +426,13 @@ std::string HistoryEventList::GetBaseProtocol()
 
 std::wstring HistoryEventList::GetMyId()
 {
-	ptrW id(Contact_GetInfo(CNF_DISPLAYUID, NULL, Proto_GetBaseAccountName(m_hContact)));
+	ptrW id(Contact::GetInfo(CNF_DISPLAYUID, NULL, Proto_GetBaseAccountName(m_hContact)));
 	return (id == NULL) ? L"" : id;
 }
 
 inline std::wstring GetContactId(MCONTACT hContact)
 {
-	ptrW id(Contact_GetInfo(CNF_DISPLAYUID, hContact));
+	ptrW id(Contact::GetInfo(CNF_DISPLAYUID, hContact));
 	return (id == NULL) ? L"" : id;
 }
 

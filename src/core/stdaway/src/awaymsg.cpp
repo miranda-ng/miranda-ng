@@ -131,7 +131,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto != nullptr) {
-		if (!Contact_IsGroupChat(hContact, szProto)) {
+		if (!Contact::IsGroupChat(hContact, szProto)) {
 			int status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {

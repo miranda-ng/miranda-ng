@@ -203,6 +203,6 @@ void getContactUin(MCONTACT hContact, LPWSTR szUIN)
 	if (pa == nullptr)
 		return;
 
-	ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
+	ptrW uid(Contact::GetInfo(CNF_UNIQUEID, hContact, pa->szModuleName));
 	mir_snwprintf(szUIN, NAMSIZE, L"%s [%s]", uid.get(), pa->tszAccountName);
 }

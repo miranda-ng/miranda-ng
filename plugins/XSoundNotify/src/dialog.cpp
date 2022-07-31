@@ -43,7 +43,7 @@ public:
 		WindowList_Add(hChangeSoundDlgList, m_hwnd, pData->hContact);
 		Utils_RestoreWindowPositionNoSize(m_hwnd, pData->hContact, MODULENAME, "ChangeSoundDlg");
 
-		ptrW uid(Contact_GetInfo(CNF_UNIQUEID, pData->hContact));
+		ptrW uid(Contact::GetInfo(CNF_UNIQUEID, pData->hContact));
 		wchar_t value[100];
 		mir_snwprintf(value, TranslateT("Custom sound for %s (%s)"), Clist_GetContactDisplayName(pData->hContact), uid.get());
 		SetWindowText(m_hwnd, value);

@@ -110,7 +110,7 @@ wchar_t* GetContactFolder(wchar_t *fn, MCONTACT hContact)
 	GetProtocolFolder(fn, proto);
 
 	wchar_t uin[MAX_PATH];
-	ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, proto));
+	ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, proto));
 	wcsncpy_s(uin, (id == NULL) ? TranslateT("Unknown UIN") : id, _TRUNCATE);
 	ConvertToFilename(uin, MAX_PATH); //added so that weather id's like "yw/CI0000" work
 	mir_snwprintf(fn, MAX_PATH, L"%s\\%s", fn, uin);

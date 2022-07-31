@@ -100,7 +100,7 @@ MCONTACT CIcqProto::CreateContact(const CMStringW &wszId, bool bTemporary)
 	RetrieveUserInfo(hContact);
 
 	if (bTemporary)
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 
 	return hContact;
 }
@@ -137,7 +137,7 @@ void CIcqProto::Json2string(MCONTACT hContact, const JSONNode &node, const char 
 		CMStringW wszStr(var.as_mstring());
 		if (wszStr == L"[deleted]") {
 			setByte(hContact, "IcqDeleted", 1);
-			Contact_PutOnList(hContact);
+			Contact::PutOnList(hContact);
 		}
 		else setWString(hContact, szSetting, wszStr);
 	}

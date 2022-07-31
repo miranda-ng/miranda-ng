@@ -137,7 +137,7 @@ int GetStringFromDatabase(char *szSettingName, wchar_t *szError, wchar_t *szResu
 #pragma warning (disable: 4312)
 wchar_t* GetContactName(MCONTACT hContact, char *szProto)
 {
-	return Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
+	return Contact::GetInfo(CNF_DISPLAY, hContact, szProto);
 }
 
 void Proto_GetBaseAccountName(MCONTACT hContact, char *szProto, size_t size)
@@ -147,7 +147,7 @@ void Proto_GetBaseAccountName(MCONTACT hContact, char *szProto, size_t size)
 
 wchar_t* GetContactID(MCONTACT hContact, char *szProto)
 {
-	return Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
+	return Contact::GetInfo(CNF_UNIQUEID, hContact, szProto);
 }
 
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto)

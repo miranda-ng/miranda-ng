@@ -199,7 +199,7 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 
 	// contact may have been deleted here already, since function may be called after deleting
 	// contact so the handle may be invalid, therefore db_get_b shall return 0
-	if (si->hContact && Contact_IsGroupChat(si->hContact, si->pszModule)) {
+	if (si->hContact && Contact::IsGroupChat(si->hContact, si->pszModule)) {
 		g_chatApi.SetOffline(si->hContact, (si->iType == GCW_CHATROOM || si->iType == GCW_PRIVMESS) ? TRUE : FALSE);
 		db_set_s(si->hContact, si->pszModule, "Topic", "");
 		db_set_s(si->hContact, si->pszModule, "StatusBar", "");

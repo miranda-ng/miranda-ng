@@ -88,7 +88,7 @@ void otrl_privkey_hash_to_humanT(wchar_t human[45], const unsigned char hash[20]
 
 char* contact_get_id(MCONTACT hContact)
 {
-	ptrW pszUniqueID(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	ptrW pszUniqueID(Contact::GetInfo(CNF_UNIQUEID, hContact));
 	if (!pszUniqueID)
 		pszUniqueID = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 
@@ -110,7 +110,7 @@ char* GetDlgItemTextUtf(HWND hwndDlg, int ctrlId)
 
 wchar_t* ProtoGetNickname(const char* proto)
 {
-	wchar_t *p = Contact_GetInfo(CNF_NICK, NULL, proto);
+	wchar_t *p = Contact::GetInfo(CNF_NICK, NULL, proto);
 	return (p != nullptr) ? p : mir_wstrdup(L"");
 }
 

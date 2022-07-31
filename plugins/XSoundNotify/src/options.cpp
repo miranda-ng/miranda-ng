@@ -118,7 +118,7 @@ public:
 		comboUser.AddString(TranslateT("All contacts"), -1);
 
 		for (auto &hContact : Contacts(pa->szModuleName)) {
-			ptrW uid(Contact_GetInfo(CNF_UNIQUEID, hContact));
+			ptrW uid(Contact::GetInfo(CNF_UNIQUEID, hContact));
 			CMStringW value(FORMAT, L"%s (%s)", Clist_GetContactDisplayName(hContact), uid.get());
 			comboUser.AddString(value, hContact);
 		}

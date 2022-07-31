@@ -57,7 +57,7 @@ int OnDatabaseEventPreAdd(WPARAM hContact, LPARAM lParam)
 	const char *proto = Proto_GetBaseAccountName(hContact);
 	if (!proto)
 		return 0;
-	if (Contact_IsGroupChat(hContact, proto))
+	if (Contact::IsGroupChat(hContact, proto))
 		return 0;
 
 	if (mir_strcmp(proto, META_PROTO) == 0) {

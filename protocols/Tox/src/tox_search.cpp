@@ -91,7 +91,7 @@ HWND CToxProto::OnSearchAdvanced(HWND owner)
 		PROTOSEARCHRESULT psr = { sizeof(psr) };
 		psr.flags = PSR_UTF8;
 		psr.id.a = mir_strdup(query.c_str());
-		Contact_AddBySearch(m_szModuleName, &psr, owner);
+		Contact::AddBySearch(m_szModuleName, &psr, owner);
 
 		ProtoBroadcastAsync(NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1);
 	}

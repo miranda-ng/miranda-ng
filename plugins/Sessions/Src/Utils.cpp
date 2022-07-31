@@ -123,7 +123,7 @@ void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy)
 
 int CheckContactVisibility(MCONTACT hContact)
 {
-	return db_mc_isSub(hContact) || !Contact_IsHidden(hContact);
+	return db_mc_isSub(hContact) || !Contact::IsHidden(hContact);
 }
 
 void RenameUserDefSession(int ses_count, wchar_t* ptszNewName)

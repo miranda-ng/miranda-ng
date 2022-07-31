@@ -43,7 +43,7 @@ private:
 
 private:
 	SplitParams getParams() const;
-	void addToSlot(Contact& contact, uint32_t localTimestamp, int toAdd);
+	void addToSlot(CContact& contact, uint32_t localTimestamp, int toAdd);
 
 public:
 	explicit ColSplit();
@@ -61,14 +61,14 @@ protected:
 	virtual int impl_configGetRestrictions(ext::string* pDetails) const;
 	virtual ext::string impl_contactDataGetUID() const;
 	virtual void impl_contactDataBeginAcquire();
-	virtual void impl_contactDataPrepare(Contact& contact) const;
-	virtual void impl_contactDataFree(Contact& contact) const;
-	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg);
-	virtual void impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
-	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const;
+	virtual void impl_contactDataPrepare(CContact& contact) const;
+	virtual void impl_contactDataFree(CContact& contact) const;
+	virtual void impl_contactDataAcquireMessage(CContact& contact, Message& msg);
+	virtual void impl_contactDataAcquireChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration);
+	virtual void impl_contactDataMerge(CContact& contact, const CContact& include) const;
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_SPLIT_H

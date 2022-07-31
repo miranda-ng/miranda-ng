@@ -99,14 +99,14 @@ ext::string ColTimeline::impl_contactDataGetUID() const
 	return ext::str(ext::format(L"timeline-|") % m_nSource);
 }
 
-void ColTimeline::impl_contactDataPrepare(Contact& contact) const
+void ColTimeline::impl_contactDataPrepare(CContact& contact) const
 {
 	TimelineMap* pData = new TimelineMap;
 
 	contact.setSlot(contactDataSlotGet(), pData);
 }
 
-void ColTimeline::impl_contactDataFree(Contact& contact) const
+void ColTimeline::impl_contactDataFree(CContact& contact) const
 {
 	TimelineMap* pData = reinterpret_cast<TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 
@@ -117,7 +117,7 @@ void ColTimeline::impl_contactDataFree(Contact& contact) const
 	}
 }
 
-void ColTimeline::addToSlot(Contact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd)
+void ColTimeline::addToSlot(CContact& contact, bool bOutgoing, uint32_t localTimestamp, int toAdd)
 {
 	if (toAdd > 0)
 	{
@@ -129,7 +129,7 @@ void ColTimeline::addToSlot(Contact& contact, bool bOutgoing, uint32_t localTime
 	}
 }
 
-void ColTimeline::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
+void ColTimeline::impl_contactDataAcquireMessage(CContact& contact, Message& msg)
 {
 	if (m_nSource == 0)
 	{
@@ -141,7 +141,7 @@ void ColTimeline::impl_contactDataAcquireMessage(Contact& contact, Message& msg)
 	}
 }
 
-void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
+void ColTimeline::impl_contactDataAcquireChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t)
 {
 	if (m_nSource == 2)
 	{
@@ -149,7 +149,7 @@ void ColTimeline::impl_contactDataAcquireChat(Contact& contact, bool bOutgoing, 
 	}
 }
 
-void ColTimeline::impl_contactDataMerge(Contact& contact, const Contact& include) const
+void ColTimeline::impl_contactDataMerge(CContact& contact, const CContact& include) const
 {
 	TimelineMap* pData = reinterpret_cast<TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 	const TimelineMap* pIncData = reinterpret_cast<const TimelineMap*>(include.getSlot(contactDataSlotGet()));
@@ -230,7 +230,7 @@ void ColTimeline::impl_columnDataAfterOmit()
 	m_nTimelineWidth = 3 * (1 + (m_nLastDay - m_nFirstDay) / m_nDays);
 }
 
-void ColTimeline::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColTimeline::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display)
 {
 	if (m_nSourceType != 3)
 	{
@@ -242,7 +242,7 @@ void ColTimeline::impl_outputRenderRow(ext::ostream& tos, const Contact& contact
 	}
 }
 
-void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 
@@ -381,7 +381,7 @@ void ColTimeline::outputRenderRowInOut(ext::ostream& tos, const Contact& contact
 	}
 }
 
-void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColTimeline::outputRenderRowRatio(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	const TimelineMap* pData = reinterpret_cast<const TimelineMap*>(contact.getSlot(contactDataSlotGet()));
 

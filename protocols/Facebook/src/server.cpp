@@ -101,7 +101,7 @@ FacebookUser* FacebookProto::AddContact(const CMStringW &wszId, bool bTemp)
 	Proto_AddToContact(hContact, m_szModuleName);
 	Clist_SetGroup(hContact, m_wszDefaultGroup);
 	if (bTemp)
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 
 	return FindUser(_wtoi64(wszId));
 }
@@ -180,7 +180,7 @@ int FacebookProto::RefreshContacts()
 					pUser = AddContact(wszId, false);
 				}
 				else if (!bIsFriend)
-					Contact_RemoveFromList(pUser->hContact); // adios!
+					Contact::RemoveFromList(pUser->hContact); // adios!
 
 				hContact = pUser->hContact;
 			}

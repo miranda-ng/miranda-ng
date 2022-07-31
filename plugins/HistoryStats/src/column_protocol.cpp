@@ -11,7 +11,7 @@ void ColProtocol::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpa
 		writeRowspanTD(tos, getCustomTitle(TranslateT("Protocol"), TranslateT("Protocol")), row, 1, rowSpan);
 }
 
-void ColProtocol::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColProtocol::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display)
 {
 	if (display == asContact)
 		tos << L"<td>" << utils::htmlEscape(contact.getProtocol()) << L"</td>" << ext::endl;

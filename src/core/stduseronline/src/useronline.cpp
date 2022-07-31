@@ -36,7 +36,7 @@ static int UserOnlineSettingChanged(WPARAM hContact, LPARAM lParam)
 	int oldStatus = g_plugin.getWord(hContact, "OldStatus", ID_STATUS_OFFLINE);
 	g_plugin.setWord(hContact, "OldStatus", (uint16_t)newStatus);
 	if (Ignore_IsIgnored(hContact, IGNOREEVENT_USERONLINE)) return 0;
-	if (Contact_IsHidden(hContact)) return 0;
+	if (Contact::IsHidden(hContact)) return 0;
 	if (newStatus == ID_STATUS_OFFLINE && oldStatus != ID_STATUS_OFFLINE) {
 		// Remove the event from the queue if it exists since they are now offline
 		MEVENT lastEvent = g_plugin.getDword(hContact, "LastEvent");

@@ -259,7 +259,7 @@ void SetButtonsPos(HWND hwndDlg, MCONTACT hContact, bool bShow)
 			continue;
 
 		if (cbd->m_dwButtonCID == IDC_ADD)
-			if (Contact_OnList(hContact)) {
+			if (Contact::OnList(hContact)) {
 				ShowWindow(hwndButton, SW_HIDE);
 				continue;
 			}

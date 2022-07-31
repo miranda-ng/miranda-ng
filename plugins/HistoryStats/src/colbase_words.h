@@ -47,10 +47,10 @@ protected:
 	virtual int impl_configGetRestrictions(ext::string*) const { return crHTMLFull; }
 	virtual ext::string impl_contactDataGetUID() const;
 	virtual void impl_contactDataBeginAcquire();
-	virtual void impl_contactDataPrepare(Contact& contact) const;
-	virtual void impl_contactDataFree(Contact& contact) const;
-	virtual void impl_contactDataAcquireMessage(Contact& contact, Message& msg);
-	virtual void impl_contactDataMerge(Contact& contact, const Contact& include) const;
+	virtual void impl_contactDataPrepare(CContact& contact) const;
+	virtual void impl_contactDataFree(CContact& contact) const;
+	virtual void impl_contactDataAcquireMessage(CContact& contact, Message& msg);
+	virtual void impl_contactDataMerge(CContact& contact, const CContact& include) const;
 
 public:
 	const ColFilterSet& getFilterWords() const { return m_FilterWords; }

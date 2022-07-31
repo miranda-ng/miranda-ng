@@ -329,7 +329,7 @@ void GetExtendedInfo(ClcContact *contact, ClcData *dat)
 		return;
 
 	p->valid = TRUE;
-	p->isChatRoom = Contact_IsGroupChat(contact->hContact, contact->pce->szProto);
+	p->isChatRoom = Contact::IsGroupChat(contact->hContact, contact->pce->szProto);
 }
 
 void LoadSkinItemToCache(TExtraCache *cEntry)
@@ -373,7 +373,7 @@ void LoadSkinItemToCache(TExtraCache *cEntry)
 
 int CLVM_GetContactHiddenStatus(MCONTACT hContact, char *szProto, struct ClcData *dat)
 {
-	int dbHidden = Contact_IsHidden(hContact); // default hidden state, always respect it.
+	int dbHidden = Contact::IsHidden(hContact); // default hidden state, always respect it.
 
 	// always hide subcontacts (but show them on embedded contact lists)
 	if (dat != nullptr && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && db_mc_isSub(hContact))

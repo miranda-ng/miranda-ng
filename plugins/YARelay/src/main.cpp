@@ -142,7 +142,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM hDBEvent)
 		case 'i':
 		case 'I':
 			{
-				ptrW id(Contact_GetInfo(CNF_UNIQUEID, NULL));
+				ptrW id(Contact::GetInfo(CNF_UNIQUEID, NULL));
 				if (id != NULL)
 					wcsncpy_s(buf, id, _TRUNCATE);
 				else

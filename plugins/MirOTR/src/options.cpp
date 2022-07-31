@@ -523,7 +523,7 @@ class CContactOptionsDlg : public CDlgBase
 
 		for (auto &hContact : Contacts()) {
 			const char *proto = Proto_GetBaseAccountName(hContact);
-			if (proto && !Contact_IsGroupChat(hContact, proto) // ignore chatrooms
+			if (proto && !Contact::IsGroupChat(hContact, proto) // ignore chatrooms
 				&& Proto_IsProtoOnContact(hContact, MODULENAME)
 				&& mir_strcmp(proto, META_PROTO) != 0) // and MetaContacts
 			{

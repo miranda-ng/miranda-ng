@@ -349,7 +349,7 @@ bool ProcessFileDrop(HDROP hDrop, MCONTACT hContact)
 	if (!(pcaps & PF1_FILESEND))
 		return false;
 
-	if (Contact_GetStatus(hContact) == ID_STATUS_OFFLINE) {
+	if (Contact::GetStatus(hContact) == ID_STATUS_OFFLINE) {
 		pcaps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 		if (!(pcaps & PF4_OFFLINEFILES))
 			return false;

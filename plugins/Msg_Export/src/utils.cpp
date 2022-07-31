@@ -448,7 +448,7 @@ void ReplaceAllNoColon(wstring &sSrc, const wchar_t *pszReplace, wstring &sNew)
 
 static wstring GetUniqueId(MCONTACT hContact, const char *szProto)
 {
-	ptrW uniqueId(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+	ptrW uniqueId(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 	return (uniqueId == nullptr) ? L"(null)" : uniqueId;
 }
 
@@ -688,7 +688,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				pInfo.push_back(JSONNode("user", T2Utf(sRemoteUser.c_str()).get()));
 				pInfo.push_back(JSONNode("proto", szProto));
 
-				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
 					pInfo.push_back(JSONNode("uin", T2Utf(id).get()));
 
@@ -732,7 +732,7 @@ static bool ExportDBEventInfo(MCONTACT hContact, HANDLE hFile, const wstring &sF
 				output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User"), sRemoteUser.c_str());
 				output.AppendFormat(L"%-10s: %S\r\n", TranslateT("Account"), szProto);
 
-				ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact, szProto));
+				ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 				if (id != NULL)
 					output.AppendFormat(L"%-10s: %s\r\n", TranslateT("User ID"), id.get());
 
@@ -1112,6 +1112,6 @@ int nContactDeleted(WPARAM hContact, LPARAM)
 
 wchar_t* GetMyOwnNick(MCONTACT hContact)
 {
-	wchar_t *p = Contact_GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(hContact));
+	wchar_t *p = Contact::GetInfo(CNF_DISPLAY, NULL, Proto_GetBaseAccountName(hContact));
 	return (p != nullptr) ? p : mir_wstrdup(TranslateT("No_Nick"));
 }

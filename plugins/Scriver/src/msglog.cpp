@@ -105,7 +105,7 @@ EventData* CMsgDialog::GetEventFromDB(MCONTACT hContact, MEVENT hDbEvent)
 	evt->time = dbei.timestamp;
 	evt->szNick.w = nullptr;
 	if (evt->dwFlags & IEEDF_SENT)
-		evt->szNick.w = Contact_GetInfo(CNF_DISPLAY, 0, m_szProto);
+		evt->szNick.w = Contact::GetInfo(CNF_DISPLAY, 0, m_szProto);
 	else
 		evt->szNick.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 

@@ -344,7 +344,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	mir_snprintf(buff, "%d", ID_STATUS_EXTRASTATUS);
 	if ((g_plugin.getByte(buff, 1) == 0)
 		|| (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
-		|| (!opt.HiddenContactsToo && Contact_IsHidden(xsc->hContact))
+		|| (!opt.HiddenContactsToo && Contact::IsHidden(xsc->hContact))
 		|| (Proto_GetStatus(xsc->szProto) == ID_STATUS_OFFLINE))
 	{
 		FreeXSC(xsc);

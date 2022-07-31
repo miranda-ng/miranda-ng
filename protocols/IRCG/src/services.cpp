@@ -671,7 +671,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 				psr.flags = PSR_UNICODE;
 				psr.id.w = gch->ptszUID;
 				psr.nick.w = gch->ptszUID;
-				Contact_AddBySearch(m_szModuleName, &psr);
+				Contact::AddBySearch(m_szModuleName, &psr);
 			}
 			break;
 		case 31:	//slap
@@ -778,7 +778,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 				CONTACT user = { (wchar_t*)gcmi->pszUID, nullptr, nullptr, false, false, false };
 				MCONTACT hContact = CList_FindContact(&user);
 
-				BOOL bIsInList = hContact && Contact_OnList(hContact);
+				BOOL bIsInList = hContact && Contact::OnList(hContact);
 				nickItems[_countof(nickItems)-1].bDisabled = bIsInList;
 
 				unsigned long ulAdr = 0;

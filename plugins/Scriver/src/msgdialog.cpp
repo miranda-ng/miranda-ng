@@ -371,7 +371,7 @@ void CMsgDialog::OnDestroy()
 	if (m_hContact && g_dat.flags.bDelTemp) {
 		m_hContact = INVALID_CONTACT_ID; // to prevent recursion
 
-		if (!Contact_OnList(m_hContact))
+		if (!Contact::OnList(m_hContact))
 			db_delete_contact(m_hContact);
 	}
 
@@ -457,7 +457,7 @@ void CMsgDialog::onClick_Ok(CCtrlButton *pButton)
 void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
 {
 	if (GetKeyState(VK_SHIFT) & 0x8000) { // copy user name
-		ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
+		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
 		if (!OpenClipboard(m_hwnd) || !mir_wstrlen(id))
 			return;
 
@@ -512,9 +512,9 @@ void CMsgDialog::onClick_Quote(CCtrlButton*)
 
 void CMsgDialog::onClick_Add(CCtrlButton*)
 {
-	Contact_Add(m_hContact, m_hwnd);
+	Contact::Add(m_hContact, m_hwnd);
 
-	if (Contact_OnList(m_hContact))
+	if (Contact::OnList(m_hContact))
 		ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), SW_HIDE);
 }
 
@@ -1075,7 +1075,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (wParam == m_hContact && m_hContact && m_szProto) {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
 			wchar_t buf[128];
-			mir_snwprintf(buf, TranslateT("User menu - %s"), ptrW(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto)).get());
+			mir_snwprintf(buf, TranslateT("User menu - %s"), ptrW(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto)).get());
 			SendDlgItemMessage(m_hwnd, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)buf, BATF_UNICODE);
 
 			if (cws && !mir_strcmp(cws->szModule, m_szProto) && !mir_strcmp(cws->szSetting, "Status"))

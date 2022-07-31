@@ -107,7 +107,7 @@ uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 	}
 
 	// unique id (for ChatRoom)
-	if (isChatRoom = Contact_IsGroupChat(_hContact, pszProto)) {
+	if (isChatRoom = Contact::IsGroupChat(_hContact, pszProto)) {
 		uidSetting = "ChatRoomID";
 		_pszUIDKey = mir_strdup(uidSetting);
 		if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {
@@ -297,7 +297,7 @@ void CExImContactBase::toIni(FILE *file, int modCount)
 		}
 		else {
 			// Proto loaded - GetContactName(hContact,pszProto,0)
-			ptrW pszCI(Contact_GetInfo(CNF_DISPLAY, _hContact, _pszProto));
+			ptrW pszCI(Contact::GetInfo(CNF_DISPLAY, _hContact, _pszProto));
 			ptrA pszUID(uid2String(FALSE));
 			if (_pszUIDKey && pszUID)
 				mir_snprintf(name, "%S *(%s)*<%s>*{%s}*", pszCI.get(), _pszProto, _pszUIDKey, pszUID.get());

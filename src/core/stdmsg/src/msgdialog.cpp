@@ -290,7 +290,7 @@ void CMsgDialog::OnDestroy()
 
 	// a temporary contact should be destroyed after removing window from the window list to prevent recursion
 	if (m_hContact && g_plugin.bDeleteTempCont)
-		if (!Contact_OnList(m_hContact))
+		if (!Contact::OnList(m_hContact))
 			db_delete_contact(m_hContact);
 }
 
@@ -771,7 +771,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		switch (LOWORD(wParam)) {
 		case IDC_USERMENU:
 			if (GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
-				ptrW id(Contact_GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
+				ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
 				if (id != nullptr && OpenClipboard(m_hwnd)) {
 					HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(id) * sizeof(wchar_t) + 1);
 					if (hData) {
@@ -796,9 +796,9 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 			break;
 
 		case IDC_ADD:
-			Contact_Add(m_hContact, m_hwnd);
+			Contact::Add(m_hContact, m_hwnd);
 
-			if (Contact_OnList(m_hContact))
+			if (Contact::OnList(m_hContact))
 				ShowWindow(GetDlgItem(m_hwnd, IDC_ADD), FALSE);
 			break;
 		}
@@ -1262,7 +1262,7 @@ void CMsgDialog::OnOptionsApplied(bool bUpdateAvatar)
 		bool bShow = false;
 		if (m_hContact && g_plugin.bShowButtons) {
 			if (cbd->m_dwButtonCID == IDC_ADD) {
-				bShow = !Contact_OnList(m_hContact);
+				bShow = !Contact::OnList(m_hContact);
 				cbd->m_bHidden = !bShow;
 			}
 			else bShow = true;
@@ -1395,7 +1395,7 @@ void CMsgDialog::NotifyTyping(int mode)
 		if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 			return;
 
-		if (!g_plugin.bTypingUnknown && !Contact_OnList(m_hContact))
+		if (!g_plugin.bTypingUnknown && !Contact::OnList(m_hContact))
 			return;
 
 		// End user check

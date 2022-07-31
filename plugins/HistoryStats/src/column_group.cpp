@@ -13,7 +13,7 @@ void ColGroup::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) 
 	}
 }
 
-void ColGroup::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColGroup::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display)
 {
 	if (display == asContact)
 	{

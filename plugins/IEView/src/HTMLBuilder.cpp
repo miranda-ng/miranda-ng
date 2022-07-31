@@ -150,20 +150,20 @@ void HTMLBuilder::getUINs(MCONTACT hContact, char *&uinIn, char *&uinOut)
 {
 	hContact = getRealContact(hContact);
 
-	ptrW id(Contact_GetInfo(CNF_UNIQUEID, hContact));
+	ptrW id(Contact::GetInfo(CNF_UNIQUEID, hContact));
 	uinIn = mir_utf8encodeW(id ? id.get() : L"");
 
-	id = Contact_GetInfo(CNF_UNIQUEID, NULL);
+	id = Contact::GetInfo(CNF_UNIQUEID, NULL);
 	uinOut = mir_utf8encodeW(id ? id.get() : L"");
 }
 
 wchar_t* HTMLBuilder::getContactName(MCONTACT hContact, const char *szProto)
 {
-	wchar_t *str = Contact_GetInfo(CNF_DISPLAY, hContact, szProto);
+	wchar_t *str = Contact::GetInfo(CNF_DISPLAY, hContact, szProto);
 	if (str != nullptr)
 		return str;
 
-	str = Contact_GetInfo(CNF_UNIQUEID, hContact, szProto);
+	str = Contact::GetInfo(CNF_UNIQUEID, hContact, szProto);
 	if (str != nullptr)
 		return str;
 

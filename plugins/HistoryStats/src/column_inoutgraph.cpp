@@ -168,20 +168,20 @@ void ColInOutGraph::impl_outputRenderHeader(ext::ostream& tos, int row, int rowS
 	}
 }
 
-void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType)
+void ColInOutGraph::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType)
 {
 	// fetch absolute values
-	static int (Contact::*getOut[3])() const = { &Contact::getOutBytes, &Contact::getOutMessages, &Contact::getOutChats };
-	static int (Contact::*getIn[3])() const = { &Contact::getInBytes, &Contact::getInMessages, &Contact::getInChats };
+	static int (CContact::*getOut[3])() const = { &CContact::getOutBytes, &CContact::getOutMessages, &CContact::getOutChats };
+	static int (CContact::*getIn[3])() const = { &CContact::getInBytes, &CContact::getInMessages, &CContact::getInChats };
 
 	int numOut = (contact.*getOut[m_nSource])();
 	int numIn = (contact.*getIn[m_nSource])();
 	int numTotal = numOut + numIn;
 
 	// fetch average values
-	static double (Contact::*getAvgOut[3])() const = { &Contact::getOutBytesAvg, &Contact::getOutMessagesAvg, &Contact::getOutChatsAvg };
-	static double (Contact::*getAvgIn[3])() const = { &Contact::getInBytesAvg, &Contact::getInMessagesAvg, &Contact::getInChatsAvg };
-	static double (Contact::*getAvgTotal[3])() const = { &Contact::getTotalBytesAvg, &Contact::getTotalMessagesAvg, &Contact::getTotalChatsAvg };
+	static double (CContact::*getAvgOut[3])() const = { &CContact::getOutBytesAvg, &CContact::getOutMessagesAvg, &CContact::getOutChatsAvg };
+	static double (CContact::*getAvgIn[3])() const = { &CContact::getInBytesAvg, &CContact::getInMessagesAvg, &CContact::getInChatsAvg };
+	static double (CContact::*getAvgTotal[3])() const = { &CContact::getTotalBytesAvg, &CContact::getTotalMessagesAvg, &CContact::getTotalChatsAvg };
 
 	static const double avgFactor[] = {
 		60.0 * 60.0 * 24.0,

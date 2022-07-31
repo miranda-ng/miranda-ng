@@ -442,7 +442,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI(WPARAM, LPARAM lParam)
 			psr.flags = PSR_UNICODE;
 			psr.nick.w = szJid;
 			psr.id.w = szJid;
-			Contact_AddBySearch(m_szModuleName, &psr);
+			Contact::AddBySearch(m_szModuleName, &psr);
 		}
 		return 0;
 	}

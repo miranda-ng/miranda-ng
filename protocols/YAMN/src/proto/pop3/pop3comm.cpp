@@ -289,10 +289,10 @@ int RegisterPOP3Plugin(WPARAM, LPARAM)
 					g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_ONLINE);
 					db_set_s(Finder->hContact, "CList", "StatusMsg", Translate("No new mail message"));
 					if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT))
-						Contact_Hide(Finder->hContact, false);
+						Contact::Hide(Finder->hContact, false);
 
 					if (!(Finder->Flags & YAMN_ACC_ENA) || !(Finder->NewMailN.Flags & YAMN_ACC_CONT))
-						Contact_Hide(Finder->hContact);
+						Contact::Hide(Finder->hContact);
 				}
 				db_free(&dbv);
 			}

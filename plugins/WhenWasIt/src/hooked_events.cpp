@@ -92,7 +92,7 @@ int RefreshContactListIcons(MCONTACT hContact)
 	if (hContact == 0)
 		return 0;
 
-	bool hidden = Contact_IsHidden(hContact);
+	bool hidden = Contact::IsHidden(hContact);
 	int ignored = db_get_dw(hContact, "Ignore", "Mask1", 0);
 	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
 	int ok = 1;

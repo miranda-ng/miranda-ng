@@ -19,7 +19,7 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 
 		// if request is from unknown or not marked Answered contact
 		//and if I don't sent message to this contact
-		if (!Contact_OnList(hcntct) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
+		if (!Contact::OnList(hcntct) && !g_plugin.getByte(hcntct, DB_KEY_ANSWERED) && !IsExistMyMessage(hcntct)) {
 			if (!g_sets.HandleAuthReq) {
 				char *buf = mir_utf8encodeW(variables_parse(g_sets.getReply(), hcntct).c_str());
 				ProtoChainSend(hcntct, PSS_MESSAGE, 0, (LPARAM)buf);
@@ -29,8 +29,8 @@ int OnDbEventAdded(WPARAM, LPARAM lParam)
 			// ...send message
 			CallProtoService(dbei.szModule, PS_AUTHDENY, hDbEvent, (LPARAM)_T2A(variables_parse(g_sets.getReply(), hcntct).c_str()));
 
-			Contact_RemoveFromList(hcntct);
-			Contact_Hide(hcntct);
+			Contact::RemoveFromList(hcntct);
+			Contact::Hide(hcntct);
 			if (!g_sets.HistLog)
 				db_event_delete(hDbEvent);
 			return 1;
@@ -63,7 +63,7 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 
 	// checking if message from self-added contact
 	//Contact in Not in list icq group
-	if (Contact_OnList(hContact) && db_get_w(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
+	if (Contact::OnList(hContact) && db_get_w(hContact, dbei->szModule, "SrvGroupId", -1) != 1)
 		return 0;
 
 	//if I sent message to this contact
@@ -101,14 +101,14 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 			// if message equal right answer...
 			if (g_sets.AnswNotCaseSens ? !mir_wstrcmpi(message.c_str(), answer.c_str()) : !mir_wstrcmp(message.c_str(), answer.c_str())) {
 				// unhide contact
-				Contact_Hide(hContact, false);
+				Contact::Hide(hContact, false);
 
 				// mark contact as Answered
 				g_plugin.setByte(hContact, DB_KEY_ANSWERED, 1);
 
 				//add contact permanently
 				if (g_sets.AddPermanent)
-					Contact_PutOnList(hContact);
+					Contact::PutOnList(hContact);
 
 				// send congratulation
 
@@ -142,8 +142,8 @@ int OnDbEventFilterAdd(WPARAM w, LPARAM l)
 	}
 
 	// hide contact from contact list
-	Contact_RemoveFromList(hContact);
-	Contact_Hide(hContact);
+	Contact::RemoveFromList(hContact);
+	Contact::Hide(hContact);
 
 	// mark message as read and allow to insert it into the history
 	dbei->flags |= DBEF_READ;

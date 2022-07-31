@@ -64,7 +64,7 @@ class CDlgOptionsDlg : public CDlgBase
 	void SetAllContactIcons()
 	{
 		for (auto &hContact : Contacts()) {
-			if (!Contact_IsGroupChat(hContact)) {
+			if (!Contact::IsGroupChat(hContact)) {
 				HANDLE hItem = clist.FindContact(hContact);
 				if (hItem) {
 					bool disabled = (g_plugin.getByte(hContact, DBSETTING_REMOVE) == 1);
@@ -126,7 +126,7 @@ public:
 		g_plugin.bEnabledForNew = clist.GetExtraImage(hItemNew, 0);
 
 		for (auto &hContact : Contacts()) {
-			if (!Contact_IsGroupChat(hContact)) {
+			if (!Contact::IsGroupChat(hContact)) {
 				HANDLE hItem = clist.FindContact(hContact);
 				if (hItem) {
 					int iImage = clist.GetExtraImage(hItem, 0);

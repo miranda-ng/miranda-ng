@@ -67,7 +67,7 @@ bool CheckContactType(MCONTACT hContact, const DISPLAYITEM &di)
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
-		if (Contact_IsGroupChat(hContact, szProto))
+		if (Contact::IsGroupChat(hContact, szProto))
 			return di.type == DIT_CHATS;
 		else
 			return di.type == DIT_CONTACTS;

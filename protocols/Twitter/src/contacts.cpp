@@ -211,7 +211,7 @@ bool CTwitterProto::IsMyContact(MCONTACT hContact, bool include_chat)
 MCONTACT CTwitterProto::UsernameToHContact(const char *name)
 {
 	for (auto &hContact : AccContacts()) {
-		if (Contact_IsGroupChat(hContact))
+		if (Contact::IsGroupChat(hContact))
 			continue;
 
 		if (getMStringA(hContact, TWITTER_KEY_UN) == name)
@@ -224,7 +224,7 @@ MCONTACT CTwitterProto::UsernameToHContact(const char *name)
 MCONTACT CTwitterProto::FindContactById(const char *id)
 {
 	for (auto &hContact : AccContacts()) {
-		if (Contact_IsGroupChat(hContact))
+		if (Contact::IsGroupChat(hContact))
 			continue;
 
 		if (getMStringA(hContact, TWITTER_KEY_ID) == id)

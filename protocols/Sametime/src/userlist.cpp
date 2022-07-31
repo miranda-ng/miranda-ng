@@ -69,8 +69,8 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 		new_contact = true;
 	}
 	else if (!temporary) {
-		Contact_PutOnList(hContact);
-		Contact_Hide(hContact, false);
+		Contact::PutOnList(hContact);
+		Contact::Hide(hContact, false);
 	}
 
 
@@ -104,12 +104,12 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 	}
 
 	if (temporary) {
-		Contact_RemoveFromList(hContact);
-		Contact_Hide(hContact);
+		Contact::RemoveFromList(hContact);
+		Contact::Hide(hContact);
 	}
 	else {
-		Contact_PutOnList(hContact);
-		Contact_Hide(hContact, false);
+		Contact::PutOnList(hContact);
+		Contact::Hide(hContact, false);
 	}
 
 	return hContact;
@@ -373,7 +373,7 @@ int CSametimeProto::ContactDeleted(MCONTACT hContact)
 {
 	mwAwareIdBlock id_block;
 
-	if (Contact_IsGroupChat(hContact, m_szModuleName))
+	if (Contact::IsGroupChat(hContact, m_szModuleName))
 		return 0;
 
 	debugLogW(L"CSametimeProto::ContactDeleted()");
@@ -586,7 +586,7 @@ void CSametimeProto::UserListCreate()
 	GList *gl = nullptr;
 
 	for (auto &hContact : AccContacts()) {
-		if (!Contact_IsGroupChat(hContact, m_szModuleName) /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
+		if (!Contact::IsGroupChat(hContact, m_szModuleName) /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
 			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
 				if (dbv.pszVal) {
 					if (GetAwareIdFromContact(hContact, &id_block)) {

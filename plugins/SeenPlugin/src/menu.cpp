@@ -37,7 +37,7 @@ INT_PTR MenuitemClicked(WPARAM hContact, LPARAM)
 int BuildContactMenu(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (!IsWatchedProtocol(szProto) || Contact_IsGroupChat(hContact, szProto) || !g_plugin.getByte("MenuItem", 1)) {
+	if (!IsWatchedProtocol(szProto) || Contact::IsGroupChat(hContact, szProto) || !g_plugin.getByte("MenuItem", 1)) {
 		Menu_ShowItem(hmenuitem, false);
 		return 0;
 	}

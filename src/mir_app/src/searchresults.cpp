@@ -344,7 +344,7 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	int commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, x, y, 0, hwndDlg, nullptr);
 	switch (commandId) {
 	case IDC_ADD:
-		Contact_AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
+		Contact::AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
 		break;
 
 	case IDC_DETAILS:

@@ -8,7 +8,7 @@ int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 	StatusIconClickData *sicd = (StatusIconClickData *)lParam;
 
 	if (mir_strcmp(sicd->szModule, MODULENAME) == 0) {
-		if (!Contact_IsGroupChat(hContact))
+		if (!Contact::IsGroupChat(hContact))
 			ShowOTRMenu(hContact, sicd->clickLocation);
 	}
 
@@ -18,7 +18,7 @@ int SVC_IconPressed(WPARAM hContact, LPARAM lParam)
 // set SRMM icon status, if applicable
 void SetEncryptionStatus(MCONTACT hContact, TrustLevel level)
 {
-	bool chat_room = Contact_IsGroupChat(hContact);
+	bool chat_room = Contact::IsGroupChat(hContact);
 
 	BBButton button = OTRButton;
 	int flags1 = MBF_HIDDEN, flags2 = MBF_HIDDEN;
@@ -85,7 +85,7 @@ int SVC_ButtonsBarPressed(WPARAM w, LPARAM l)
 	
 	if (cbcd->dwButtonId == 0 && !mir_strcmp(cbcd->pszModule, MODULENAME)) {
 		MCONTACT hContact = (MCONTACT)w;
-		if (!Contact_IsGroupChat(hContact))
+		if (!Contact::IsGroupChat(hContact))
 			ShowOTRMenu(hContact, cbcd->pt);
 
 	}

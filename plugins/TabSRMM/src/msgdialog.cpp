@@ -111,7 +111,7 @@ static void ShowMultipleControls(HWND hwndDlg, const UINT *controls, int cContro
 
 void CMsgDialog::SetDialogToType()
 {
-	if (!Contact_OnList(m_hContact)) {
+	if (!Contact::OnList(m_hContact)) {
 		m_bNotOnList = true;
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_SHOW);
 		Utils::showDlgControl(m_hwnd, IDC_LOGFROZENTEXT, SW_SHOW);
@@ -677,7 +677,7 @@ void CMsgDialog::OnDestroy()
 		m_pContainer->m_pSideBar->removeSession(this);
 
 	if (M.GetByte("deletetemp", 0))
-		if (!Contact_OnList(m_hContact))
+		if (!Contact::OnList(m_hContact))
 			db_delete_contact(m_hContact);
 
 	if (m_hwndContactPic)
@@ -890,9 +890,9 @@ void CMsgDialog::onClick_Ok(CCtrlButton *)
 
 void CMsgDialog::onClick_Add(CCtrlButton*)
 {
-	Contact_Add(m_hContact, m_hwnd);
+	Contact::Add(m_hContact, m_hwnd);
 
-	if (Contact_OnList(m_hContact)) {
+	if (Contact::OnList(m_hContact)) {
 		m_bNotOnList = false;
 		ShowMultipleControls(m_hwnd, addControls, _countof(addControls), SW_HIDE);
 		if (!m_bScrollingDisabled)

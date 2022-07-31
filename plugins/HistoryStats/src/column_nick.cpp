@@ -56,7 +56,7 @@ void ColNick::impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) c
 	}
 }
 
-void ColNick::impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display)
+void ColNick::impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display)
 {
 	tos << L"<td";
 

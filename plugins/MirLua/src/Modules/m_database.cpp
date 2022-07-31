@@ -119,7 +119,7 @@ static int db_GetContactInfo(lua_State *L)
 		luaL_argerror(L, 2, luaL_typename(L, 2));
 	}
 
-	ptrW value(Contact_GetInfo(type, hContact));
+	ptrW value(Contact::GetInfo(type, hContact));
 	if (value)
 		lua_pushstring(L, ptrA(mir_utf8encodeW(value)));
 	else

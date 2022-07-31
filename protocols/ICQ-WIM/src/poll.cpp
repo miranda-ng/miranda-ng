@@ -71,7 +71,7 @@ void CIcqProto::ProcessBuddyList(const JSONNode &ev)
 
 	for (auto &it : m_arCache)
 		if (!it->m_bInList && !getBool(it->m_hContact, "IcqDeleted"))
-			Contact_RemoveFromList(it->m_hContact);
+			Contact::RemoveFromList(it->m_hContact);
 
 	RetrieveUserInfo();
 }

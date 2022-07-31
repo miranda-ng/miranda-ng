@@ -62,8 +62,8 @@ int CSendEmail::Send()
 	mir_free(m_pszFileA);
 	m_pszFileA = mir_u2a(m_pszFile);
 
-	m_Email = mir_u2a(ptrW(Contact_GetInfo(CNF_EMAIL, m_hContact, m_pszProto)));
-	m_FriendlyName = mir_u2a(ptrW(Contact_GetInfo(CNF_DISPLAY, m_hContact, m_pszProto)));
+	m_Email = mir_u2a(ptrW(Contact::GetInfo(CNF_EMAIL, m_hContact, m_pszProto)));
+	m_FriendlyName = mir_u2a(ptrW(Contact::GetInfo(CNF_DISPLAY, m_hContact, m_pszProto)));
 	m_Subject = mir_u2a(m_pszFileDesc);
 
 	// SendByEmail(m_pszFileA, "", m_FriendlyName, m_Email, m_Subject);

@@ -183,13 +183,13 @@ public:
 	ext::string contactDataGetUID() const { return impl_contactDataGetUID(); }
 	void contactDataBeginAcquire() { impl_contactDataBeginAcquire(); }
 	void contactDataEndAcquire() { impl_contactDataEndAcquire(); }
-	void contactDataPrepare(Contact& contact) const { impl_contactDataPrepare(contact); }
-	void contactDataFree(Contact& contact) const { impl_contactDataFree(contact); }
-	void contactDataAcquireMessage(Contact& contact, Message& msg) { impl_contactDataAcquireMessage(contact, msg); }
-	void contactDataAcquireChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration) { impl_contactDataAcquireChat(contact, bOutgoing, localTimestampStarted, duration); }
-	void contactDataMerge(Contact& contact, const Contact& include) const { impl_contactDataMerge(contact, include); }
-	void contactDataTransform(Contact& contact) const { impl_contactDataTransform(contact); }
-	void contactDataTransformCleanup(Contact& contact) const { impl_contactDataTransformCleanup(contact); }
+	void contactDataPrepare(CContact& contact) const { impl_contactDataPrepare(contact); }
+	void contactDataFree(CContact& contact) const { impl_contactDataFree(contact); }
+	void contactDataAcquireMessage(CContact& contact, Message& msg) { impl_contactDataAcquireMessage(contact, msg); }
+	void contactDataAcquireChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration) { impl_contactDataAcquireChat(contact, bOutgoing, localTimestampStarted, duration); }
+	void contactDataMerge(CContact& contact, const CContact& include) const { impl_contactDataMerge(contact, include); }
+	void contactDataTransform(CContact& contact) const { impl_contactDataTransform(contact); }
+	void contactDataTransformCleanup(CContact& contact) const { impl_contactDataTransformCleanup(contact); }
 	void columnDataBeforeOmit() { impl_columnDataBeforeOmit(); }
 	void columnDataAfterOmit() { impl_columnDataAfterOmit(); }
 	StyleList outputGetAdditionalStyles(IDProvider& idp) { return impl_outputGetAdditionalStyles(idp); }
@@ -197,7 +197,7 @@ public:
 	void outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const { impl_outputRenderHeader(tos, row, rowSpan); }
 	void outputBegin();
 	void outputEnd() { impl_outputEnd(); }
-	void outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display) { impl_outputRenderRow(tos, contact, display); }
+	void outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display) { impl_outputRenderRow(tos, contact, display); }
 
 protected:
 	/*** VIRTUAL/ABSTRACT *** GLOBAL ***/
@@ -287,28 +287,28 @@ protected:
 	 * data for given contact. Works on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataPrepare(Contact&) const { }
+	virtual void impl_contactDataPrepare(CContact&) const { }
 
 	/*
 	 * Frees all data structures associated with this column for the
 	 * given contact. Works on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataFree(Contact&) const { }
+	virtual void impl_contactDataFree(CContact&) const { }
 
 	/*
 	 * Acquires data for this column and for the given contact. Works
 	 * on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataAcquireMessage(Contact&, Message&) { }
+	virtual void impl_contactDataAcquireMessage(CContact&, Message&) { }
 
 	/*
 	 * Acquires data for this column and for the given contact. Works
 	 * on previously defined slot.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataAcquireChat(Contact&, bool, uint32_t, uint32_t) { }
+	virtual void impl_contactDataAcquireChat(CContact&, bool, uint32_t, uint32_t) { }
 
 	/*** VIRTUAL/ABSTRACT *** DATA POSTPROCESSING ***/
 
@@ -317,20 +317,20 @@ protected:
 	 * column doesn't acquire any data.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataMerge(Contact&, const Contact&) const { }
+	virtual void impl_contactDataMerge(CContact&, const CContact&) const { }
 
 	/*
 	 * Perform any post processing for additional per-contact data. Will
 	 * be called after merge but before sort.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataTransform(Contact&) const { }
+	virtual void impl_contactDataTransform(CContact&) const { }
 
 	/*
 	 * Perform cleanup after post processing.
 	 * [virtual/default: do nothing]
 	 */
-	virtual void impl_contactDataTransformCleanup(Contact&) const { }
+	virtual void impl_contactDataTransformCleanup(CContact&) const { }
 
 	/*** VIRTUAL/ABSTRACT *** COLUMN SPECIFIC GLOBAL DATA ***/
 
@@ -385,7 +385,7 @@ protected:
 	 * modfies rendering depending on value in "display".
 	 * [virtual/abstract]
 	 */
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display) = 0;
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display) = 0;
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_H

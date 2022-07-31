@@ -184,7 +184,7 @@ int SVC_PrebuildContactMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hStopItem, false);
 
 	const char *proto = Proto_GetBaseAccountName(hContact);
-	if (!proto || Contact_IsGroupChat(hContact, proto))
+	if (!proto || Contact::IsGroupChat(hContact, proto))
 		return 0;
 
 	if (proto && mir_strcmp(proto, META_PROTO) == 0) {

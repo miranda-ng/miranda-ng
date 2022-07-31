@@ -64,10 +64,10 @@ static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 void TN_TypingMessage(MCONTACT hContact, int iMode)
 {
 	// hidden & ignored contacts check
-	if (Contact_IsHidden(hContact) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
+	if (Contact::IsHidden(hContact) || (db_get_dw(hContact, "Ignore", "Mask1", 0) & 1)) // 9 - online notification
 		return;
 
-	if (!Contact_OnList(hContact) && !g_plugin.bTypingUnknown)
+	if (!Contact::OnList(hContact) && !g_plugin.bTypingUnknown)
 		return;
 
 	if (!g_plugin.bPopups)

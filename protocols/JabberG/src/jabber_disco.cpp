@@ -1167,7 +1167,7 @@ public:
 				case SD_ACT_ROSTER:
 					{
 						MCONTACT hContact = m_proto->DBCreateContact(pNode->GetJid(), pNode->GetName(), false, false);
-						Contact_PutOnList(hContact);
+						Contact::PutOnList(hContact);
 						JABBER_LIST_ITEM *item = m_proto->ListAdd(LIST_VCARD_TEMP, pNode->GetJid(), hContact);
 						item->bUseResource = true;
 					}

@@ -360,7 +360,7 @@ static wchar_t* parseProtoInfo(ARGUMENTSINFO *ai)
 			return nullptr;
 	}
 	else if (!mir_wstrcmp(ai->argv.w[2], _A2W(STR_PINICK)))
-		wszRes = Contact_GetInfo(CNF_DISPLAY, NULL, szProto);
+		wszRes = Contact::GetInfo(CNF_DISPLAY, NULL, szProto);
 
 	if (szRes == nullptr && wszRes == nullptr)
 		return nullptr;

@@ -768,8 +768,8 @@ static INT_PTR LeaveChat(WPARAM hContact, LPARAM)
 static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto && Contact_IsGroupChat(hContact, szProto))
-		if (Contact_GetStatus(hContact) != ID_STATUS_OFFLINE)
+	if (szProto && Contact::IsGroupChat(hContact, szProto))
+		if (Contact::GetStatus(hContact) != ID_STATUS_OFFLINE)
 			CallProtoService(szProto, PS_LEAVECHAT, hContact, 0);
 
 	return 0;
@@ -791,7 +791,7 @@ static int PrebuildContactMenu(WPARAM hContact, LPARAM)
 	char *szProto = Proto_GetBaseAccountName(hContact);
 	if (szProto) {
 		// display this menu item only for chats
-		if (Contact_IsGroupChat(hContact, szProto)) {
+		if (Contact::IsGroupChat(hContact, szProto)) {
 			bIsChat = true;
 			// still hide it for offline protos
 			if (Proto_GetStatus(szProto) != ID_STATUS_OFFLINE) {

@@ -644,7 +644,7 @@ void CAppletManager::FinishMessageJob(SMessageJob *pJob)
 			CIRCConnection *pIRCCon = GetIRCConnection(strProto);
 
 			// Only add the message to the history if the contact isn't an irc chatroom
-			if (!(pIRCCon && Contact_IsGroupChat(pJob->hContact, szProto))) {
+			if (!(pIRCCon && Contact::IsGroupChat(pJob->hContact, szProto))) {
 				// Add the message to the database
 				DBEVENTINFO dbei = {};
 				dbei.eventType = EVENTTYPE_MESSAGE;
@@ -720,7 +720,7 @@ void CAppletManager::SendTypingNotification(MCONTACT hContact, bool bEnable)
 		return;
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(hContact, szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return;
-	if (!Contact_OnList(hContact) && !db_get_b(0, "SRMsg", "UnknownTyping", 1))
+	if (!Contact::OnList(hContact) && !db_get_b(0, "SRMsg", "UnknownTyping", 1))
 		return;
 	// End user check
 	CallService(MS_PROTO_SELFISTYPING, hContact, bEnable ? PROTOTYPE_SELFTYPING_ON : PROTOTYPE_SELFTYPING_OFF);
@@ -738,7 +738,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 
 	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(strProto);
 
-	if (pIRCCon && Contact_IsGroupChat(hContact, szProto)) {
+	if (pIRCCon && Contact::IsGroupChat(hContact, szProto)) {
 		ptrW wszNick(db_get_wsa(hContact, szProto, "Nick"));
 		if (wszNick == NULL)
 			return NULL;
@@ -1107,7 +1107,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gce->pszID.w != nullptr && Contact_IsHidden(Event.hContact)) {
+	if (gce->pszID.w != nullptr && Contact::IsHidden(Event.hContact)) {
 		if (gce->iType == GC_EVENT_JOIN && pHistory)
 			pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 
@@ -1408,7 +1408,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			Event.bNotification = true;
 
 		Event.eType = EVENT_SIGNED_ON;
-		if (pIRCCon && Contact_IsGroupChat(Event.hContact, szProto)) {
+		if (pIRCCon && Contact::IsGroupChat(Event.hContact, szProto)) {
 			Event.strDescription = TranslateString(L"Joined %s", strName.c_str());
 
 			DBVARIANT dbv;
@@ -1426,7 +1426,7 @@ int CAppletManager::HookStatusChanged(WPARAM wParam, LPARAM lParam)
 			Event.bNotification = true;
 
 		Event.eType = EVENT_SIGNED_OFF;
-		if (pIRCCon && Contact_IsGroupChat(Event.hContact, szProto)) {
+		if (pIRCCon && Contact::IsGroupChat(Event.hContact, szProto)) {
 			Event.strDescription = TranslateString(L"Left %s", strName.c_str());
 			// delete IRC-Channel history
 			CAppletManager::GetInstance()->DeleteIRCHistory(Event.hContact);
@@ -1629,7 +1629,7 @@ int CAppletManager::HookSettingChanged(WPARAM hContact, LPARAM lParam)
 	else if (!strcmp(dbcws->szModule, "CList")) {
 		if (!strcmp(dbcws->szSetting, "Hidden")) {
 			Event.eType = EVENT_CONTACT_HIDDEN;
-			Event.iValue = Contact_IsHidden(hContact);
+			Event.iValue = Contact::IsHidden(hContact);
 		}
 		else if (!strcmp(dbcws->szSetting, "Group")) {
 			Event.eType = EVENT_CONTACT_GROUP;

@@ -114,7 +114,7 @@ bool CMsgDialog::IsTypingNotificationEnabled()
 	if (protoCaps & PF1_INVISLIST && protoStatus == ID_STATUS_INVISIBLE && db_get_w(m_hContact, m_szProto, "ApparentMode", 0) != ID_STATUS_ONLINE)
 		return FALSE;
 
-	if (!Contact_OnList(m_hContact) && !g_plugin.bTypingUnknown)
+	if (!Contact::OnList(m_hContact) && !g_plugin.bTypingUnknown)
 		return FALSE;
 	return TRUE;
 }

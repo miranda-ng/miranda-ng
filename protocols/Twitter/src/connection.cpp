@@ -576,7 +576,7 @@ void CTwitterProto::UpdateMessages(bool pre_read)
 		MCONTACT hContact = FindContactById(sender.c_str());
 		if (hContact == INVALID_CONTACT_ID) {
 			hContact = AddToClientList(sender.c_str(), "");
-			Contact_RemoveFromList(hContact);
+			Contact::RemoveFromList(hContact);
 		}
 
 		std::string text = msgCreate["message_data"]["text"].as_string();

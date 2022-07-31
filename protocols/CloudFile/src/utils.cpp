@@ -56,7 +56,7 @@ bool CanSendToContact(MCONTACT hContact)
 	if (!isProtoOnline)
 		return false;
 
-	bool isContactOnline = Contact_GetStatus(hContact) > ID_STATUS_OFFLINE;
+	bool isContactOnline = Contact::GetStatus(hContact) > ID_STATUS_OFFLINE;
 	if (isContactOnline)
 		return true;
 
@@ -66,7 +66,7 @@ bool CanSendToContact(MCONTACT hContact)
 void SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (Contact_IsGroupChat(hContact, szProto)) {
+	if (Contact::IsGroupChat(hContact, szProto)) {
 		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
 		Chat_SendUserMessage(szProto, tszChatRoom, data);
 		return;

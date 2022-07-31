@@ -433,7 +433,7 @@ void RefreshContact(void)
 	CAccount *Finder;
 	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		if (Finder->hContact != NULL) {
-			Contact_Hide(Finder->hContact, !(Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT));
+			Contact::Hide(Finder->hContact, !(Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT));
 		}
 		else if ((Finder->Flags & YAMN_ACC_ENA) && (Finder->NewMailN.Flags & YAMN_ACC_CONT)) {
 			Finder->hContact = db_add_contact();

@@ -969,7 +969,7 @@ void ExportGpGKeysFunc(int type)
 			if (key.IsEmpty())
 				continue;
 
-			ptrW wszLogin(Contact_GetInfo(CNF_UNIQUEID, 0, Proto_GetBaseAccountName(hContact))), wszContact(Contact_GetInfo(CNF_UNIQUEID, hContact));
+			ptrW wszLogin(Contact::GetInfo(CNF_UNIQUEID, 0, Proto_GetBaseAccountName(hContact))), wszContact(Contact::GetInfo(CNF_UNIQUEID, hContact));
 			if (wszLogin == nullptr || wszContact == nullptr)
 				continue;
 
@@ -1058,7 +1058,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 			
 			PROTOACCOUNT *pFoundAcc = nullptr;
 			for (auto &pa : Accounts()) {
-				ptrW wszUniqueId(Contact_GetInfo(CNF_UNIQUEID, 0, pa->szModuleName));
+				ptrW wszUniqueId(Contact::GetInfo(CNF_UNIQUEID, 0, pa->szModuleName));
 				if (wszUniqueId == nullptr)
 					continue;
 
@@ -1072,7 +1072,7 @@ INT_PTR ImportGpGKeys(WPARAM, LPARAM)
 				continue;
 
 			for (auto &hContact : Contacts(pFoundAcc->szModuleName)) {
-				ptrW wszUniqueId(Contact_GetInfo(CNF_UNIQUEID, hContact, pFoundAcc->szModuleName));
+				ptrW wszUniqueId(Contact::GetInfo(CNF_UNIQUEID, hContact, pFoundAcc->szModuleName));
 				if (wszUniqueId == nullptr)
 					continue;
 

@@ -294,7 +294,7 @@ static int AwayMsgPreBuildMenu(WPARAM hContact, LPARAM)
 	Menu_ShowItem(hAwayMsgMenuItem, false);
 
 	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (szProto == nullptr || Contact_IsGroupChat(hContact, szProto))
+	if (szProto == nullptr || Contact::IsGroupChat(hContact, szProto))
 		return 0;
 
 	int iStatus = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);

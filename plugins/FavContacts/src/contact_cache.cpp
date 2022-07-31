@@ -116,7 +116,7 @@ float CContactCache::getWeight(int rate)
 
 static bool AppendInfo(wchar_t *buf, int size, MCONTACT hContact, int info)
 {
-	ptrW str(Contact_GetInfo(info, hContact));
+	ptrW str(Contact::GetInfo(info, hContact));
 	if (str != NULL) {
 		mir_wstrncpy(buf, str, size);
 		return true;

@@ -173,13 +173,13 @@ void TemplateHTMLBuilder::buildHeadTemplate(IEView *view, IEVIEWEVENT *event, Pr
 		db_free(&dbv);
 	}
 
-	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szRealProto));
+	ptrW tszNick(Contact::GetInfo(CNF_NICK, event->hContact, szRealProto));
 	if (tszNick != nullptr)
 		szNickIn = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
-	tszNick = Contact_GetInfo(CNF_CUSTOMNICK, 0, szRealProto);
+	tszNick = Contact::GetInfo(CNF_CUSTOMNICK, 0, szRealProto);
 	if (tszNick == nullptr)
-		Contact_GetInfo(CNF_NICK, 0, szRealProto);
+		Contact::GetInfo(CNF_NICK, 0, szRealProto);
 	if (tszNick != nullptr)
 		szNickOut = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
@@ -347,13 +347,13 @@ void TemplateHTMLBuilder::appendEventTemplate(IEView *view, IEVIEWEVENT *event, 
 		}
 	}
 
-	ptrW tszNick(Contact_GetInfo(CNF_NICK, event->hContact, szProto));
+	ptrW tszNick(Contact::GetInfo(CNF_NICK, event->hContact, szProto));
 	if (tszNick != nullptr)
 		szNickIn = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 
-	tszNick = Contact_GetInfo(CNF_CUSTOMNICK, 0, szProto);
+	tszNick = Contact::GetInfo(CNF_CUSTOMNICK, 0, szProto);
 	if (tszNick == nullptr)
-		tszNick = Contact_GetInfo(CNF_NICK, 0, szProto);
+		tszNick = Contact::GetInfo(CNF_NICK, 0, szProto);
 	if (tszNick != nullptr)
 		szNickOut = encodeUTF8(event->hContact, tszNick, ENF_NAMESMILEYS, true);
 

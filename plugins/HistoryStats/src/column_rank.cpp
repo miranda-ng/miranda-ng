@@ -16,7 +16,7 @@ void ColRank::impl_outputBegin()
 	m_nNextRank = 1;
 }
 
-void ColRank::impl_outputRenderRow(ext::ostream& tos, const Contact&, DisplayType display)
+void ColRank::impl_outputRenderRow(ext::ostream& tos, const CContact&, DisplayType display)
 {
 	if (display == asContact)
 		tos << L"<td class=\"num\">"

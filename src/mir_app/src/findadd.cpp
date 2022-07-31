@@ -749,7 +749,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				lvi.iItem = ListView_GetNextItem(hwndList, -1, LVNI_ALL | LVNI_SELECTED);
 				ListView_GetItem(hwndList, &lvi);
 				ListSearchResult *lsr = (ListSearchResult*)lvi.lParam;
-				Contact_AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
+				Contact::AddBySearch(lsr->szProto, &lsr->psr, hwndDlg);
 			}
 			else {
 				wchar_t str[256];
@@ -764,7 +764,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				psr.cbSize = sizeof(psr);
 				psr.flags = PSR_UNICODE;
 				psr.id.w = str;
-				Contact_AddBySearch(szProto, &psr, hwndDlg);
+				Contact::AddBySearch(szProto, &psr, hwndDlg);
 			}
 			break;
 

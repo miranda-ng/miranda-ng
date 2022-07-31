@@ -70,7 +70,7 @@ void fnCheckCacheItem(ClcCacheEntry *p)
 		p->szProto = Proto_GetBaseAccountName(p->hContact);
 
 	if (p->bIsHidden == -1)
-		p->bIsHidden = Contact_IsHidden(p->hContact);
+		p->bIsHidden = Contact::IsHidden(p->hContact);
 }
 
 void fnFreeCacheItem(ClcCacheEntry *p)
@@ -125,7 +125,7 @@ MIR_APP_DLL(wchar_t*) Clist_GetContactDisplayName(MCONTACT hContact, int mode)
 			return cacheEntry->tszName;
 	}
 
-	ptrW tszDisplayName(Contact_GetInfo((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY, hContact));
+	ptrW tszDisplayName(Contact::GetInfo((mode == GCDNF_NOMYHANDLE) ? CNF_DISPLAYNC : CNF_DISPLAY, hContact));
 	if (tszDisplayName != nullptr) {
 		if (cacheEntry != nullptr)
 			replaceStrW(cacheEntry->tszName, tszDisplayName);
@@ -208,7 +208,7 @@ int ContactSettingChanged(WPARAM hContact, LPARAM lParam)
 			g_clistApi.pfnCheckCacheItem(pdnce);
 		}
 		else if (!strcmp(cws->szSetting, "Status")) {
-			if (!Contact_IsHidden(hContact))
+			if (!Contact::IsHidden(hContact))
 				Clist_ChangeContactIcon(hContact, g_clistApi.pfnIconFromStatusMode(cws->szModule, cws->value.wVal, hContact));
 		}
 	}

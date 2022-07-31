@@ -11,9 +11,6 @@
     <ClCompile Include="src\button.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\contact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\contacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -400,6 +397,9 @@
     </ClCompile>
     <ClCompile Include="src\userInfo.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\clccontact.cpp">
+      <Filter>Source Files\Contact list</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

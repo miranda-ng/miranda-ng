@@ -21,7 +21,7 @@ protected:
 	virtual int impl_configGetRestrictions(ext::string*) const { return crHTMLFull; }
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
 	virtual void impl_outputBegin();
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_RANK_H

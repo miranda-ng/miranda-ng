@@ -65,7 +65,7 @@ void Statistic::prepareColumns()
 	}
 }
 
-void Statistic::prepareContactData(Contact& contact)
+void Statistic::prepareContactData(CContact& contact)
 {
 	iter_each_(std::vector<Column*>, i, m_AcquireCols)
 	{
@@ -73,7 +73,7 @@ void Statistic::prepareContactData(Contact& contact)
 	}
 }
 
-void Statistic::freeContactData(Contact& contact)
+void Statistic::freeContactData(CContact& contact)
 {
 	iter_each_(std::vector<Column*>, i, m_AcquireCols)
 	{
@@ -86,7 +86,7 @@ void Statistic::freeContactData(Contact& contact)
 	}
 }
 
-void Statistic::mergeContactData(Contact& contact, const Contact& include)
+void Statistic::mergeContactData(CContact& contact, const CContact& include)
 {
 	iter_each_(std::vector<Column*>, i, m_AcquireCols)
 	{
@@ -94,7 +94,7 @@ void Statistic::mergeContactData(Contact& contact, const Contact& include)
 	}
 }
 
-void Statistic::transformContactData(Contact& contact)
+void Statistic::transformContactData(CContact& contact)
 {
 	iter_each_(std::vector<Column*>, i, m_TransformCols)
 	{
@@ -102,9 +102,9 @@ void Statistic::transformContactData(Contact& contact)
 	}
 }
 
-Contact& Statistic::addContact(const ext::string& nick, const ext::string& protoDisplayName, const ext::string& groupName, int nSources)
+CContact& Statistic::addContact(const ext::string& nick, const ext::string& protoDisplayName, const ext::string& groupName, int nSources)
 {
-	Contact* pContact = new Contact(this, m_nNextSlot, nick, protoDisplayName, groupName, 1, nSources);
+	CContact* pContact = new CContact(this, m_nNextSlot, nick, protoDisplayName, groupName, 1, nSources);
 	prepareContactData(*pContact);
 
 	m_Contacts.push_back(pContact);
@@ -112,7 +112,7 @@ Contact& Statistic::addContact(const ext::string& nick, const ext::string& proto
 	return *pContact;
 }
 
-const Contact& Statistic::getContact(int index) const
+const CContact& Statistic::getContact(int index) const
 {
 	assert(index >= 0 && index < m_Contacts.size());
 
@@ -243,7 +243,7 @@ bool Statistic::newFilePNG(Canvas& canvas, ext::string& finalURL)
 	return true;
 }
 
-void Statistic::handleAddMessage(Contact& contact, Message& msg)
+void Statistic::handleAddMessage(CContact& contact, Message& msg)
 {
 	contact.addMessage(msg);
 
@@ -253,7 +253,7 @@ void Statistic::handleAddMessage(Contact& contact, Message& msg)
 	}
 }
 
-void Statistic::handleAddChat(Contact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration)
+void Statistic::handleAddChat(CContact& contact, bool bOutgoing, uint32_t localTimestampStarted, uint32_t duration)
 {
 	if (duration >= m_Settings.m_ChatSessionMinDur) {
 		contact.addChat(bOutgoing, localTimestampStarted, duration);
@@ -385,7 +385,7 @@ bool Statistic::stepReadDB()
 
 		setProgressLabel(true, hisContact.getNick());
 
-		Contact& curContact = addContact(hisContact.getNick(), hisContact.getProtocol(), hisContact.getGroup(), hisContact.getSources().size());
+		CContact& curContact = addContact(hisContact.getNick(), hisContact.getProtocol(), hisContact.getGroup(), hisContact.getSources().size());
 
 		// signal begin of history for this contact
 		hisContact.beginRead();
@@ -498,7 +498,7 @@ bool Statistic::stepRemoveContacts()
 	vector_each_(i, m_Contacts)
 	{
 		bool bRemove = false;
-		Contact* pCur = m_Contacts[i];
+		CContact* pCur = m_Contacts[i];
 
 		if (!bRemove && m_Settings.m_RemoveEmptyContacts)
 			bRemove = (pCur->getTotalMessages() == 0);
@@ -527,7 +527,7 @@ bool Statistic::stepSortContacts()
 		return false;
 
 	ContactCompareBase cmpLast;
-	ContactCompareStr cmpName(&cmpLast, &Contact::getNick);
+	ContactCompareStr cmpName(&cmpLast, &CContact::getNick);
 
 	int cmpDepth = 3;
 
@@ -547,111 +547,111 @@ bool Statistic::stepSortContacts()
 	for (int i = cmpDepth - 1; i >= 0; --i) {
 		switch (m_Settings.m_Sort[i].by) {
 		case Settings::skNick:
-			pCmp = new ContactCompareStr(pPrev, &Contact::getNick);
+			pCmp = new ContactCompareStr(pPrev, &CContact::getNick);
 			break;
 
 		case Settings::skProtocol:
-			pCmp = new ContactCompareStr(pPrev, &Contact::getProtocol);
+			pCmp = new ContactCompareStr(pPrev, &CContact::getProtocol);
 			break;
 
 		case Settings::skGroup:
-			pCmp = new ContactCompareStr(pPrev, &Contact::getGroup);
+			pCmp = new ContactCompareStr(pPrev, &CContact::getGroup);
 			break;
 
 		case Settings::skBytesOut:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getOutBytes);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getOutBytes);
 			break;
 
 		case Settings::skBytesIn:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getInBytes);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getInBytes);
 			break;
 
 		case Settings::skBytesTotal:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getTotalBytes);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getTotalBytes);
 			break;
 
 		case Settings::skMessagesOut:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getOutMessages);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getOutMessages);
 			break;
 
 		case Settings::skMessagesIn:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getOutMessages);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getOutMessages);
 			break;
 
 		case Settings::skMessagesTotal:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getTotalMessages);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getTotalMessages);
 			break;
 
 		case Settings::skChatsOut:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getOutChats);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getOutChats);
 			break;
 
 		case Settings::skChatsIn:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getInChats);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getInChats);
 			break;
 
 		case Settings::skChatsTotal:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getTotalChats);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getTotalChats);
 			break;
 
 		case Settings::skChatDurationTotal:
-			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getChatDurSum);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &CContact::getChatDurSum);
 			break;
 
 		case Settings::skTimeOfFirstMessage:
-			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getFirstTime);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &CContact::getFirstTime);
 			break;
 
 		case Settings::skTimeOfLastMessage:
-			pCmp = new ContactCompare<uint32_t>(pPrev, &Contact::getLastTime);
+			pCmp = new ContactCompare<uint32_t>(pPrev, &CContact::getLastTime);
 			break;
 
 		case Settings::skBytesOutAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getOutBytesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getOutBytesAvg);
 			break;
 
 		case Settings::skBytesInAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getInBytesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getInBytesAvg);
 			break;
 
 		case Settings::skBytesTotalAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getTotalBytesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getTotalBytesAvg);
 			break;
 
 		case Settings::skMessagesOutAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getOutMessagesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getOutMessagesAvg);
 			break;
 
 		case Settings::skMessagesInAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getOutMessagesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getOutMessagesAvg);
 			break;
 
 		case Settings::skMessagesTotalAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getTotalMessagesAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getTotalMessagesAvg);
 			break;
 
 		case Settings::skChatsOutAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getOutChatsAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getOutChatsAvg);
 			break;
 
 		case Settings::skChatsInAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getInChatsAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getInChatsAvg);
 			break;
 
 		case Settings::skChatsTotalAvg:
-			pCmp = new ContactCompare<double>(pPrev, &Contact::getTotalChatsAvg);
+			pCmp = new ContactCompare<double>(pPrev, &CContact::getTotalChatsAvg);
 			break;
 
 		case Settings::skChatDurationMin:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurMinForSort);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getChatDurMinForSort);
 			break;
 
 		case Settings::skChatDurationAvg:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurAvgForSort);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getChatDurAvgForSort);
 			break;
 
 		case Settings::skChatDurationMax:
-			pCmp = new ContactCompare<int>(pPrev, &Contact::getChatDurMaxForSort);
+			pCmp = new ContactCompare<int>(pPrev, &CContact::getChatDurMaxForSort);
 			break;
 		}
 
@@ -694,7 +694,7 @@ bool Statistic::stepOmitContacts()
 	if (shouldTerminate())
 		return false;
 
-	m_pOmitted = new Contact(this, m_nNextSlot, L"", L"", L"", 0, 0);
+	m_pOmitted = new CContact(this, m_nNextSlot, L"", L"", L"", 0, 0);
 	prepareContactData(*m_pOmitted);
 
 	// omit depending on some value
@@ -703,36 +703,36 @@ bool Statistic::stepOmitContacts()
 		{
 			int type; // 0 = int, 1 = double, 2 = uint32_t
 			double factor; // factor to multiply function output with
-			int (Contact::*int_fn)() const;
-			double (Contact::*double_fn)() const;
-			uint32_t(Contact::*DWORD_fn)() const;
+			int (CContact::*int_fn)() const;
+			double (CContact::*double_fn)() const;
+			uint32_t(CContact::*DWORD_fn)() const;
 		} valueMap[] = {
-			{ 0, 1.0, &Contact::getInBytes, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getOutBytes, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getTotalBytes, nullptr, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getInBytesAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getOutBytesAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getTotalBytesAvg, nullptr },
-			{ 0, 1.0, &Contact::getInMessages, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getOutMessages, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getTotalMessages, nullptr, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getInMessagesAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getOutMessagesAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getTotalMessagesAvg, nullptr },
-			{ 0, 1.0, &Contact::getInChats, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getOutChats, nullptr, nullptr },
-			{ 0, 1.0, &Contact::getTotalChats, nullptr, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getInChatsAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getOutChatsAvg, nullptr },
-			{ 1, 604800.0, nullptr, &Contact::getTotalChatsAvg, nullptr },
-			{ 2, 1 / 3600.0, nullptr, nullptr, &Contact::getChatDurSum },
+			{ 0, 1.0, &CContact::getInBytes, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getOutBytes, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getTotalBytes, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getInBytesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getOutBytesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getTotalBytesAvg, nullptr },
+			{ 0, 1.0, &CContact::getInMessages, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getOutMessages, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getTotalMessages, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getInMessagesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getOutMessagesAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getTotalMessagesAvg, nullptr },
+			{ 0, 1.0, &CContact::getInChats, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getOutChats, nullptr, nullptr },
+			{ 0, 1.0, &CContact::getTotalChats, nullptr, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getInChatsAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getOutChatsAvg, nullptr },
+			{ 1, 604800.0, nullptr, &CContact::getTotalChatsAvg, nullptr },
+			{ 2, 1 / 3600.0, nullptr, nullptr, &CContact::getChatDurSum },
 		};
 
 		int valueKey = m_Settings.m_OmitByValueData;
 		double fLimit = static_cast<double>(m_Settings.m_OmitByValueLimit) / valueMap[valueKey].factor;
 
 		for (int i = m_Contacts.size() - 1; i >= 0; --i) {
-			Contact& cur = *m_Contacts[i];
+			CContact& cur = *m_Contacts[i];
 
 			bool bDoOmit = false;
 
@@ -772,7 +772,7 @@ bool Statistic::stepOmitContacts()
 	// omit depending on message time
 	if (m_Settings.m_OmitByTime) {
 		for (int i = m_Contacts.size() - 1; i >= 0; --i) {
-			Contact& cur = *m_Contacts[i];
+			CContact& cur = *m_Contacts[i];
 
 			if (!cur.isFirstLastTimeValid() || (getTimeStarted() > cur.getLastTime() && getTimeStarted() - cur.getLastTime() > m_Settings.m_OmitByTimeDays * 86400)) {
 				if (m_Settings.m_OmittedInTotals && m_Settings.m_CalcTotals || m_Settings.m_OmittedInExtraRow) {
@@ -796,7 +796,7 @@ bool Statistic::stepOmitContacts()
 	// omit depending on rank
 	if (m_Settings.m_OmitByRank) {
 		while (m_Contacts.size() > m_Settings.m_OmitNumOnTop) {
-			Contact& cur = *m_Contacts.back();
+			CContact& cur = *m_Contacts.back();
 
 			if (m_Settings.m_OmittedInTotals && m_Settings.m_CalcTotals || m_Settings.m_OmittedInExtraRow) {
 				m_pOmitted->merge(cur);
@@ -826,7 +826,7 @@ bool Statistic::stepCalcTotals()
 	if (shouldTerminate())
 		return false;
 
-	m_pTotals = new Contact(this, m_nNextSlot, L"", L"", L"", 0, 0);
+	m_pTotals = new CContact(this, m_nNextSlot, L"", L"", L"", 0, 0);
 	prepareContactData(*m_pTotals);
 
 	setProgressMax(true, m_Contacts.size() + 1);
@@ -834,7 +834,7 @@ bool Statistic::stepCalcTotals()
 	// normal contacts
 	vector_each_(i, m_Contacts)
 	{
-		Contact &curContact = *m_Contacts[i];
+		CContact &curContact = *m_Contacts[i];
 
 		setProgressLabel(true, curContact.getNick());
 
@@ -883,7 +883,7 @@ bool Statistic::stepTransformData()
 	// normal contacts
 	vector_each_(i, m_Contacts)
 	{
-		Contact& curContact = *m_Contacts[i];
+		CContact& curContact = *m_Contacts[i];
 
 		setProgressLabel(true, curContact.getNick());
 		transformContactData(curContact);
@@ -1022,7 +1022,7 @@ bool Statistic::stepWriteHTML()
 		{
 			tos << L"<tr>" << ext::endl;
 
-			const Contact& curContact = getContact(i);
+			const CContact& curContact = getContact(i);
 
 			setProgressLabel(true, curContact.getNick());
 
@@ -1065,7 +1065,7 @@ bool Statistic::stepWriteHTML()
 	if (!bInterrupted && m_Settings.m_OmitContacts && m_Settings.m_OmittedInExtraRow && m_bActuallyOmitted) {
 		setProgressLabel(true, TranslateT("Writing omitted contacts"));
 
-		const Contact& omittedContact = getOmitted();
+		const CContact& omittedContact = getOmitted();
 
 		tos << L"<tr class=\"omitted\">" << ext::endl;
 
@@ -1090,7 +1090,7 @@ bool Statistic::stepWriteHTML()
 	if (!bInterrupted && m_Settings.m_CalcTotals) {
 		setProgressLabel(true, TranslateT("Writing totals"));
 
-		const Contact& totalsContact = getTotals();
+		const CContact& totalsContact = getTotals();
 
 		tos << L"<tr class=\"totals\">" << ext::endl;
 

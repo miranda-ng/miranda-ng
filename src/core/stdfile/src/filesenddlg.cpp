@@ -238,7 +238,7 @@ INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			wchar_t *contactName = Clist_GetContactDisplayName(dat->hContact);
 			SetDlgItemText(hwndDlg, IDC_TO, contactName);
 
-			ptrW id(Contact_GetInfo(CNF_UNIQUEID, dat->hContact));
+			ptrW id(Contact::GetInfo(CNF_UNIQUEID, dat->hContact));
 			SetDlgItemText(hwndDlg, IDC_NAME, (id) ? id : contactName);
 
 			if (fsd->ppFiles == nullptr) {

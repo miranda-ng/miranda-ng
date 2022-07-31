@@ -369,7 +369,7 @@ INT_PTR CALLBACK SendDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case IDC_ADD:
-			Contact_Add(wndData->hContact, hwndDlg);
+			Contact::Add(wndData->hContact, hwndDlg);
 			break;
 		}
 		break;

@@ -560,7 +560,7 @@ INT_PTR QSMainDlg::OnStatusChanged(UINT, WPARAM hContact, LPARAM lParam)
 		return 0;
 
 	int oldStatus = pRow->status;
-	int newStatus = Contact_GetStatus(hContact);
+	int newStatus = Contact::GetStatus(hContact);
 	pRow->status = newStatus;
 
 	if (oldStatus != ID_STATUS_OFFLINE && newStatus != ID_STATUS_OFFLINE)

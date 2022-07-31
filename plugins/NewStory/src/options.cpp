@@ -84,8 +84,8 @@ public:
 
 		m_hContact = db_add_contact();
 		Proto_AddToContact(m_hContact, META_PROTO);
-		Contact_Hide(m_hContact);
-		Contact_RemoveFromList(m_hContact);
+		Contact::Hide(m_hContact);
+		Contact::RemoveFromList(m_hContact);
 		db_set_ws(m_hContact, META_PROTO, "Nick", TranslateT("Test contact"));
 
 		DBEVENTINFO dbei = {};

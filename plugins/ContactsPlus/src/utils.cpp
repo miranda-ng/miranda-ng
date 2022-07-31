@@ -131,7 +131,7 @@ void UpdateDialogTitle(HWND hwndDlg, MCONTACT hContact, wchar_t *pszTitleStart)
 
 void UpdateDialogAddButton(HWND hwndDlg, MCONTACT hContact)
 {
-	int bVisible = !Contact_OnList(hContact);
+	int bVisible = !Contact::OnList(hContact);
 	ShowWindow(GetDlgItem(hwndDlg, IDC_ADD), bVisible ? SW_SHOW : SW_HIDE);
 }
 

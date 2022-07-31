@@ -174,12 +174,12 @@ MCONTACT CDummyProto::AddToList(int flags, PROTOSEARCHRESULT* psr)
 	Proto_AddToContact(hContact, m_szModuleName);
 
 	if (flags & PALF_TEMPORARY) {
-		Contact_Hide(hContact);
-		Contact_RemoveFromList(hContact);
+		Contact::Hide(hContact);
+		Contact::RemoveFromList(hContact);
 	}
-	else if (!Contact_OnList(hContact)) {
-		Contact_Hide(hContact, false);
-		Contact_PutOnList(hContact);
+	else if (!Contact::OnList(hContact)) {
+		Contact::Hide(hContact, false);
+		Contact::PutOnList(hContact);
 	}
 	setWString(hContact, _T2A(uniqueIdSetting), psr->id.w);
 	setWString(hContact, "Nick", psr->id.w);

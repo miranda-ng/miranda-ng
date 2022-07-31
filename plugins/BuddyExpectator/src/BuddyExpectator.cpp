@@ -99,7 +99,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	switch (message) {
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
-			Contact_Hide(PUGetContact(hWnd));
+			Contact::Hide(PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -111,7 +111,7 @@ LRESULT CALLBACK HidePopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 	case UM_POPUPACTION:
 		if (wParam == 2) {
-			Contact_Hide(PUGetContact(hWnd));
+			Contact::Hide(PUGetContact(hWnd));
 			PUDeletePopup(hWnd);
 		}
 		if (wParam == 3) {
@@ -222,7 +222,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 	if (options.hideInactive)
 		if (daysSinceMessage >= options.iSilencePeriod)
-			if (!Contact_IsHidden(hContact) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
+			if (!Contact::IsHidden(hContact) && !g_plugin.getByte(hContact, "NeverHide", 0)) {
 				POPUPDATAW ppd;
 				ppd.lchContact = hContact;
 				ppd.lchIcon = IcoLib_GetIcon("enabled_icon");
@@ -251,7 +251,7 @@ bool isContactGoneFor(MCONTACT hContact, int days)
 
 void ReturnNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (!Contact_OnList(hContact) || Contact_IsHidden(hContact))
+	if (!Contact::OnList(hContact) || Contact::IsHidden(hContact))
 		return;
 
 	Skin_PlaySound("buddyExpectatorReturn");
@@ -290,7 +290,7 @@ void ReturnNotify(MCONTACT hContact, wchar_t *message)
 
 void GoneNotify(MCONTACT hContact, wchar_t *message)
 {
-	if (!Contact_OnList(hContact) || Contact_IsHidden(hContact))
+	if (!Contact::OnList(hContact) || Contact::IsHidden(hContact))
 		return;
 
 	if (options.iShowPopup2 > 0) {
@@ -435,7 +435,7 @@ int onPrebuildContactMenu(WPARAM hContact, LPARAM)
 	else
 		Menu_ModifyItem(hContactMenu, LPGENW("Enable Miss You"), iconList[2].hIcolib);
 
-	Menu_ShowItem(hContactMenu, !Contact_IsGroupChat(hContact, proto) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
+	Menu_ShowItem(hContactMenu, !Contact::IsGroupChat(hContact, proto) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND));
 	return 0;
 }
 
@@ -456,11 +456,11 @@ int SettingChanged(WPARAM hContact, LPARAM lParam)
 	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0)
 		return 0;
 
-	if (!Contact_OnList(hContact))
+	if (!Contact::OnList(hContact))
 		return 0;
 
 	char *proto = Proto_GetBaseAccountName(hContact);
-	if (proto == nullptr || Contact_IsGroupChat(hContact, proto) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
+	if (proto == nullptr || Contact::IsGroupChat(hContact, proto) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
 	int currentStatus = inf->value.wVal;
@@ -538,7 +538,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 {
 	for (auto &hContact : Contacts()) {
 		char *proto = Proto_GetBaseAccountName(hContact);
-		if (proto && !Contact_IsGroupChat(hContact, proto) 
+		if (proto && !Contact::IsGroupChat(hContact, proto) 
 			&& (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) 
 			&& isContactGoneFor(hContact, options.iAbsencePeriod2) 
 			&& (g_plugin.getByte(hContact, "StillAbsentNotified", 0) == 0))

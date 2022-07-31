@@ -48,7 +48,7 @@ protected:
 	virtual StyleList impl_outputGetAdditionalStyles(IDProvider& idp);
 	virtual SIZE impl_outputMeasureHeader() const;
 	virtual void impl_outputRenderHeader(ext::ostream& tos, int row, int rowSpan) const;
-	virtual void impl_outputRenderRow(ext::ostream& tos, const Contact& contact, DisplayType display);
+	virtual void impl_outputRenderRow(ext::ostream& tos, const CContact& contact, DisplayType display);
 };
 
 #endif // HISTORYSTATS_GUARD_COLUMN_INOUTGRAPH_H

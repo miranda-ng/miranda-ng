@@ -1671,7 +1671,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			ListRemoveResource(LIST_ROSTER, from);
 
 			hContact = HContactFromJID(from);
-			if (hContact && !Contact_OnList(hContact)) {
+			if (hContact && !Contact::OnList(hContact)) {
 				// remove selfcontact, if where is no more another resources
 				if (item->arResources.getCount() == 1 && ResourceInfoFromJID(info->fullJID))
 					ListRemoveResource(LIST_ROSTER, info->fullJID);
@@ -1721,7 +1721,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 						if (item)
 							item->hContact = hContact;
 						setUString(hContact, "Nick", szNick);
-						Contact_PutOnList(hContact);
+						Contact::PutOnList(hContact);
 					}
 				}
 			}

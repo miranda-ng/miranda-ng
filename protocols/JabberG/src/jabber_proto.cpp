@@ -366,7 +366,7 @@ MCONTACT CJabberProto::AddToListByJID(const char *newJid, uint32_t flags)
 
 	MCONTACT hContact = DBCreateContact(newJid, nullptr, true, false);
 	if (flags & PALF_TEMPORARY)
-		Contact_Hide(hContact);
+		Contact::Hide(hContact);
 
 	return hContact;
 }
@@ -426,7 +426,7 @@ int CJabberProto::Authorize(MEVENT hDbEvent)
 			if (MCONTACT hContact = AddToListByJID(blob.get_email(), 0)) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
-				Contact_PutOnList(hContact);
+				Contact::PutOnList(hContact);
 			}
 		}
 	}

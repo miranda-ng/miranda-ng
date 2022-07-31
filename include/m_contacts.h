@@ -71,43 +71,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // Same as CNF_DISPLAY except the custom handle is not used
 #define CNF_DISPLAYNC	17
 
-// Get contact information
-// Returns NULL on failure to retrieve the info or a string on success.
-// If successful, this string must be freed using mir_free
+namespace Contact
+{
+	// Get contact information
+	// Returns NULL on failure to retrieve the info or a string on success.
+	// If successful, this string must be freed using mir_free
 
-EXTERN_C MIR_APP_DLL(wchar_t*) Contact_GetInfo(
-	int type,                    // one of the CNF_* constants
-	MCONTACT hContact,           // contact id or NULL for the global data
-	const char *szProto = nullptr); // protocol for global data. if skipped, grabbed from hContact
+	MIR_APP_DLL(wchar_t *) GetInfo(
+		int type,                    // one of the CNF_* constants
+		MCONTACT hContact,           // contact id or NULL for the global data
+		const char *szProto = nullptr); // protocol for global data. if skipped, grabbed from hContact
 
-EXTERN_C MIR_APP_DLL(int) Contact_GetStatus(MCONTACT hContact);
+	MIR_APP_DLL(int) GetStatus(MCONTACT hContact);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// if contact is a group chat
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// if contact is a group chat
 
-MIR_APP_DLL(bool) Contact_IsGroupChat(MCONTACT hContact, const char *szProto = nullptr);
+	MIR_APP_DLL(bool) IsGroupChat(MCONTACT hContact, const char *szProto = nullptr);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// gets / sets hidden status for a contact
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// gets / sets hidden status for a contact
 
-EXTERN_C MIR_APP_DLL(bool) Contact_IsHidden(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(void) Contact_Hide(MCONTACT hContact, bool bHidden = true);
+	MIR_APP_DLL(bool) IsHidden(MCONTACT hContact);
+	MIR_APP_DLL(void) Hide(MCONTACT hContact, bool bHidden = true);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// checks / adds / removes a contact from list of contacts
-// removed contacts would be physically deleted after restart
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// checks / adds / removes a contact from list of contacts
+	// removed contacts would be physically deleted after restart
 
-EXTERN_C MIR_APP_DLL(bool) Contact_OnList(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(void) Contact_PutOnList(MCONTACT hContact);
-EXTERN_C MIR_APP_DLL(void) Contact_RemoveFromList(MCONTACT hContact);
+	MIR_APP_DLL(bool) OnList(MCONTACT hContact);
+	MIR_APP_DLL(void) PutOnList(MCONTACT hContact);
+	MIR_APP_DLL(void) RemoveFromList(MCONTACT hContact);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// Add contact's dialog
+	/////////////////////////////////////////////////////////////////////////////////////////
+	// Add contact's dialog
 
-// passing hWnd == NULL will result in a dialog that is created modeless
+	// passing hWnd == NULL will result in a dialog that is created modeless
 
-EXTERN_C MIR_APP_DLL(void) Contact_Add(MCONTACT hContact, MWindow hwndParent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Contact_AddByEvent(MEVENT hEvent, MWindow hwndParent = nullptr);
-EXTERN_C MIR_APP_DLL(void) Contact_AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, MWindow hwndParent = nullptr);
+	MIR_APP_DLL(void) Add(MCONTACT hContact, MWindow hwndParent = nullptr);
+	MIR_APP_DLL(void) AddByEvent(MEVENT hEvent, MWindow hwndParent = nullptr);
+	MIR_APP_DLL(void) AddBySearch(const char *szProto, struct PROTOSEARCHRESULT *psr, MWindow hwndParent = nullptr);
+};
 
 #endif // M_CONTACTS_H__
