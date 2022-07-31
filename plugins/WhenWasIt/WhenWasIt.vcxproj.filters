@@ -88,4 +88,57 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\check.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\list.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb1.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb9.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb2.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb3.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb4.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb5.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb6.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb7.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb8.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtb0.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\dtbX.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\add.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\refresh.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\import.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\export.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

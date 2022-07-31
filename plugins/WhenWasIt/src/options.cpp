@@ -22,8 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 const wchar_t* szShowAgeMode[] = { LPGENW("Upcoming age"), LPGENW("Current age") };
 
-const wchar_t* szSaveModule[] = { LPGENW("UserInfo module"), LPGENW("Protocol module") };
-
 const wchar_t* szPopupClick[] = { LPGENW("Nothing"), LPGENW("Dismiss"), LPGENW("Message window") };
 
 const wchar_t* szNotifyFor[] = { LPGENW("All contacts"), LPGENW("All contacts except hidden ones"), LPGENW("All contacts except ignored ones"), LPGENW("All contacts except hidden and ignored ones") };
@@ -74,7 +72,7 @@ class COptionsDlg : public CDlgBase
 {
 	CCtrlButton btnPreview;
 	CCtrlCheck chkPopups, chkClistIcon, chkDialog, chkOncePerDay;
-	CCtrlCombo cmbModule, cmbAge, cmbLClick, cmbRClick, cmbNotify;
+	CCtrlCombo cmbAge, cmbLClick, cmbRClick, cmbNotify;
 	CCtrlColor clrFore, clrBack;
 
 public:
@@ -84,7 +82,6 @@ public:
 		clrFore(this, IDC_FOREGROUND),
 		clrBack(this, IDC_BACKGROUND),
 		cmbAge(this, IDC_AGE_COMBOBOX),
-		cmbModule(this, IDC_DEFAULT_MODULE),
 		cmbNotify(this, IDC_NOTIFYFOR),
 		cmbLClick(this, IDC_LEFT_CLICK),
 		cmbRClick(this, IDC_RIGHT_CLICK),
@@ -117,9 +114,6 @@ public:
 		for (auto &it : szShowAgeMode)
 			cmbAge.AddString(TranslateW(it));
 
-		for (auto &it : szSaveModule)
-			cmbModule.AddString(TranslateW(it));
-
 		for (auto &it : szPopupClick) {
 			cmbLClick.AddString(TranslateW(it));
 			cmbRClick.AddString(TranslateW(it));
@@ -128,7 +122,6 @@ public:
 		for (auto &it : szNotifyFor)
 			cmbNotify.AddString(TranslateW(it));
 
-		cmbModule.SetCurSel(g_plugin.cDefaultModule);
 		cmbLClick.SetCurSel(g_plugin.lPopupClick);
 		cmbRClick.SetCurSel(g_plugin.rPopupClick);
 		cmbNotify.SetCurSel(g_plugin.notifyFor);
@@ -176,7 +169,6 @@ public:
 		g_plugin.bUseDialog = IsDlgButtonChecked(m_hwnd, IDC_USE_DIALOG);
 		g_plugin.bIgnoreSubcontacts = IsDlgButtonChecked(m_hwnd, IDC_IGNORE_SUBCONTACTS);
 		g_plugin.bNoBirthdaysPopup = IsDlgButtonChecked(m_hwnd, IDC_NOBIRTHDAYS_POPUP);
-		g_plugin.cDefaultModule = cmbModule.GetCurSel();
 		g_plugin.cShowAgeMode = cmbAge.GetCurSel();
 		g_plugin.lPopupClick = cmbLClick.GetCurSel();
 		g_plugin.rPopupClick = cmbRClick.GetCurSel();

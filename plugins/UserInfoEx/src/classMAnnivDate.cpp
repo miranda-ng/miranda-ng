@@ -468,9 +468,7 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 	Clear();
 
 	// try to get birthday from any custom module
-	if (	!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
-			!DBGetDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR) ||
-			!DBGetDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY))
+	if (!DBGetDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
 	{
 		SetFlags(MADF_HASCUSTOM);
 	}
@@ -528,20 +526,9 @@ int MAnnivDate::DBGetBirthDate(MCONTACT hContact, LPSTR pszProto)
 int MAnnivDate::DBWriteBirthDate(MCONTACT hContact)
 {
 	int rc = DBWriteDate(hContact, USERINFO, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-	if (!rc) {
-		if (
-				// only delete values from current contact's custom modules
-				!(_wFlags & (MADF_HASPROTO|MADF_HASMETA)) &&
-				// check whether user wants this feature
-				g_plugin.getByte(SET_REMIND_SECUREBIRTHDAY, TRUE))
-		{
-			// keep the database clean
-			DBDeleteDate(hContact, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR);
-			DBDeleteDate(hContact, USERINFO, SET_CONTACT_DOBD, SET_CONTACT_DOBM, SET_CONTACT_DOBY);
-		}
-
+	if (!rc)
 		rc = db_set_w(hContact, USERINFO, SET_CONTACT_AGE, Age());
-	}
+
 	return rc;
 }
 

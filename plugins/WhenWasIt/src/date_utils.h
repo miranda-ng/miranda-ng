@@ -23,16 +23,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "errno.h"
 
-#define SAVE_MODE_STANDARD  0
-#define SAVE_MODE_PROTOCOL  1
+#define SAVE_MODE_STANDARD   0
+#define SAVE_MODE_DELETEALL  100
 
 #define DOB_UNKNOWN          100
 #define DOB_USERINFO         101
 #define DOB_PROTOCOL         103
-#define DOB_BIRTHDAYREMINDER 104
-#define DOB_MICQBIRTHDAY     105
-
-#define SAVE_MODE_DELETEALL  100
 
 time_t Today();
 bool IsLeapYear(int year);
@@ -41,7 +37,7 @@ bool IsDOBValid(int year, int month, int day);
 unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay);
 int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay);
 int GetContactAge(MCONTACT hContact);
-int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day);
+int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int module = DOB_UNKNOWN);
 char GetContactGender(MCONTACT hContact);
 
 int SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode);

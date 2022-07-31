@@ -219,8 +219,6 @@ int DoImport(wchar_t *fileName)
 		return 1;
 	}
 
-	int mode = g_plugin.cDefaultModule;
-
 	while (!feof(fin)) {
 		wchar_t buffer[4096];
 		fgetws(buffer, _countof(buffer), fin);
@@ -244,7 +242,7 @@ int DoImport(wchar_t *fileName)
 
 					int year, month, day;
 					swscanf(delAccount, L" : %02d/%02d/%04d", &day, &month, &year);
-					SaveBirthday(hContact, year, month, day, mode);
+					SaveBirthday(hContact, year, month, day, SAVE_MODE_STANDARD);
 				}
 				else {
 					CMStringW msg(FORMAT, TranslateT("Could not find UID '%s [%S]' in current database, skipping"), szHandle, szProto);

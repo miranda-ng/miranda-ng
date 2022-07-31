@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define SVS_TIMEZONE      7
 #define SVS_MARITAL    	  8
 
-static void SetValue(HWND m_hwnd, int idCtrl, MCONTACT hContact, char *szModule, char *szSetting, int special)
+static void SetValue(HWND m_hwnd, int idCtrl, MCONTACT hContact, const char *szModule, char *szSetting, int special)
 {
 	char *pstr = nullptr;
 	wchar_t *pwstr = nullptr, wstr[80];
@@ -204,7 +204,7 @@ public:
 
 	bool OnRefresh() override
 	{
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
+		const char *szProto = Proto_GetBaseAccountName(m_hContact);
 		if (szProto == nullptr)
 			return false;
 
@@ -214,10 +214,12 @@ public:
 		SetValue(m_hwnd, IDC_EMAIL, m_hContact, szProto, "e-mail", 0);
 		SetValue(m_hwnd, IDC_AGE, m_hContact, szProto, "Age", SVS_ZEROISUNSPEC);
 		SetValue(m_hwnd, IDC_GENDER, m_hContact, szProto, "Gender", SVS_GENDER);
-		SetValue(m_hwnd, IDC_DOBDAY, m_hContact, szProto, "BirthDay", 0);
-		SetValue(m_hwnd, IDC_DOBMONTH, m_hContact, szProto, "BirthMonth", SVS_MONTH);
-		SetValue(m_hwnd, IDC_DOBYEAR, m_hContact, szProto, "BirthYear", 0);
 		SetValue(m_hwnd, IDC_MARITAL, m_hContact, szProto, "MaritalStatus", SVS_MARITAL);
+
+		const char *szModule = (-1 == db_get_dw(m_hContact, "UserInfo", "BirthDay", -1)) ? szProto : "UserInfo";
+		SetValue(m_hwnd, IDC_DOBDAY, m_hContact, szModule, "BirthDay", 0);
+		SetValue(m_hwnd, IDC_DOBMONTH, m_hContact, szModule, "BirthMonth", SVS_MONTH);
+		SetValue(m_hwnd, IDC_DOBYEAR, m_hContact, szModule, "BirthYear", 0);
 		return false;
 	}
 

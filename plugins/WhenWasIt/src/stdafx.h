@@ -67,7 +67,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	CMOption<uint32_t> foreground, background;
 	CMOption<bool> bUsePopups, bUseDialog, bIgnoreSubcontacts, bNoBirthdaysPopup, bOncePerDay, bOpenInBackground;
 	CMOption<uint16_t> checkInterval, daysInAdvance, popupTimeout, popupTimeoutToday, cDlgTimeout, daysAfter;
-	CMOption<uint8_t> cShowAgeMode, cSoundNearDays, cDefaultModule;
+	CMOption<uint8_t> cShowAgeMode, cSoundNearDays;
 	CMOption<uint8_t> lPopupClick, rPopupClick, notifyFor;
 
 	CMPlugin();

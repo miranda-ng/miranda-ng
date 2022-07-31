@@ -106,9 +106,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_CONTACT_BIRTHDAY          "BirthDay"
 #define SET_CONTACT_BIRTHMONTH        "BirthMonth"
 #define SET_CONTACT_BIRTHYEAR         "BirthYear"
-#define SET_CONTACT_DOBD              "DOBd"
-#define SET_CONTACT_DOBM              "DOBm"
-#define SET_CONTACT_DOBY              "DOBy"
 
 // database settings (company psp)
 #define SET_CONTACT_COMPANY_POSITION    "CompanyPosition"

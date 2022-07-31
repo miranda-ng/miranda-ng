@@ -26,19 +26,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define COLOR_MICQBIRTHDAY RGB(88, 88, 240)
 #define COLOR_PROTOCOL RGB(255, 153, 153)
 
-extern const wchar_t* szSaveModule[2];
-
 class CAddBirthdayDlg : public CDlgBase
 {
 	MCONTACT m_hContact;
 
-	CCtrlCombo cmbCompat;
-
 public:
 	CAddBirthdayDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_ADD_BIRTHDAY),
-		m_hContact(hContact),
-		cmbCompat(this, IDC_COMPATIBILITY)
+		m_hContact(hContact)
 	{
 	}
 
@@ -49,19 +44,13 @@ public:
 
 		Window_SetIcon_IcoLib(m_hwnd, hAddBirthdayContact);
 
-		for (auto &it : szSaveModule)
-			cmbCompat.AddString(TranslateW(it));
-		cmbCompat.SetCurSel(g_plugin.cDefaultModule);
-
-		wchar_t *szTooltipText = TranslateT("Please select the module where you want the date of birth to be saved.\r\n\"UserInfo\" is the default location.\r\nUse \"Protocol module\" to make the data visible in User Details.\n\"mBirthday module\" uses the same module as mBirthday plugin.");
-
 		CMStringW buf(FORMAT, TranslateT("Set birthday for %s:"), Clist_GetContactDisplayName(m_hContact));
 		SetCaption(buf);
 
 		HWND hDate = GetDlgItem(m_hwnd, IDC_DATE);
 
 		int year, month, day;
-		int loc = GetContactDOB(m_hContact, year, month, day);
+		GetContactDOB(m_hContact, year, month, day);
 		if (IsDOBValid(year, month, day)) {
 			SYSTEMTIME st = { 0 };
 			st.wDay = day;
@@ -71,37 +60,7 @@ public:
 		}
 		else DateTime_SetSystemtime(hDate, GDT_NONE, NULL);
 
-		const wchar_t *szCurrentModuleTooltip;
-		switch (loc) {
-		case DOB_PROTOCOL:
-			DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
-			buf.Format(TranslateT("%S protocol"), Proto_GetBaseAccountName(m_hContact));
-			szCurrentModuleTooltip = buf;
-			break;
-
-		case DOB_BIRTHDAYREMINDER:
-			DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_BIRTHDAYREMINDER);
-			szCurrentModuleTooltip = L"Birthday Reminder";
-			break;
-
-		case DOB_USERINFO:
-			DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_USERINFO);
-			szCurrentModuleTooltip = L"UserInfo";
-			break;
-
-		case DOB_MICQBIRTHDAY:
-			DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_MICQBIRTHDAY);
-			szCurrentModuleTooltip = L"mICQBirthday";
-			break;
-
-		default:
-			szCurrentModuleTooltip = nullptr;
-			break;
-		}
-
-		CreateToolTip(cmbCompat.GetHwnd(), szTooltipText, 500);
-		if (szCurrentModuleTooltip)
-			CreateToolTip(hDate, szCurrentModuleTooltip, 400);
+		DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_USERINFO);
 		return true;
 	}
 
@@ -110,7 +69,7 @@ public:
 		HWND hDate = GetDlgItem(m_hwnd, IDC_DATE);
 		SYSTEMTIME st;
 		if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID)
-			SaveBirthday(m_hContact, st.wYear, st.wMonth, st.wDay, cmbCompat.GetCurSel());
+			SaveBirthday(m_hContact, st.wYear, st.wMonth, st.wDay, SAVE_MODE_STANDARD);
 		else
 			SaveBirthday(m_hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
 

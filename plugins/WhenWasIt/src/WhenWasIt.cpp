@@ -56,7 +56,6 @@ CMPlugin::CMPlugin() :
 	bNoBirthdaysPopup(MODULENAME, "NoBirthdaysPopup", false),
 	bOpenInBackground(MODULENAME, "OpenInBackground", false),
 	cSoundNearDays(MODULENAME, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS),
-	cDefaultModule(MODULENAME, "DefaultModule", 0),
 	lPopupClick(MODULENAME, "PopupLeftClick", 2),
 	rPopupClick(MODULENAME, "PopupRightClick", 1),
 	bOncePerDay(MODULENAME, "OncePerDay", false),
@@ -82,6 +81,8 @@ int CMPlugin::Load()
 
 	Log("%s", "Hooking events ...");
 	HookEvents();
+
+	CheckConvert();
 
 	hAddBirthdayWndsList = WindowList_Create();
 

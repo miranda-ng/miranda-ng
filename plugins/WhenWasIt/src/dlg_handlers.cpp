@@ -27,9 +27,7 @@ wchar_t* GetBirthdayModule(int module, MCONTACT)
 {
 	switch (module) {
 	case DOB_PROTOCOL:         return TranslateT("Protocol module");
-	case DOB_BIRTHDAYREMINDER: return L"Birthday Reminder";
 	case DOB_USERINFO:         return L"UserInfo";
-	case DOB_MICQBIRTHDAY:     return L"mICQBirthday";
 	}
 	return NA;
 }
@@ -140,13 +138,15 @@ class CBirthdaysDlg : public CBasicListDlg
 		SetCaption(CMStringW(FORMAT, TranslateT("Birthday list (%d)"), m_list.GetItemCount()));
 	}
 
-	int LoadBirthdays(int bShowAll)
+	int LoadBirthdays()
 	{
 		m_list.DeleteAllItems();
 
 		int count = 0;
-		for (auto &hContact : Contacts())
-			count = UpdateBirthdayEntry(hContact, count, bShowAll, g_plugin.cShowAgeMode, 1);
+		for (auto &hContact : Contacts()) {
+			count = UpdateBirthdayEntry(hContact, count, 1, DOB_USERINFO);
+			count = UpdateBirthdayEntry(hContact, count, 1, DOB_PROTOCOL);
+		}
 
 		SetBirthdaysCount();
 		return 0;
@@ -156,23 +156,24 @@ class CBirthdaysDlg : public CBasicListDlg
 	{
 		LVFINDINFO fi = { 0 };
 		fi.flags = LVFI_PARAM;
-		fi.lParam = hContact;
+		fi.lParam = -hContact;
 		int idx = m_list.FindItem(-1, &fi);
 		if (-1 == idx)
-			UpdateBirthdayEntry(hContact, m_list.GetItemCount(), IsDlgButtonChecked(m_hwnd, IDC_SHOW_ALL), g_plugin.cShowAgeMode, 1);
+			UpdateBirthdayEntry(hContact, m_list.GetItemCount(), 1, DOB_USERINFO);
 		else
-			UpdateBirthdayEntry(hContact, idx, IsDlgButtonChecked(m_hwnd, IDC_SHOW_ALL), g_plugin.cShowAgeMode, 0);
+			UpdateBirthdayEntry(hContact, idx, 0, DOB_USERINFO);
 		SetBirthdaysCount();
 		return 0;
 	}
 
 	//only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
-	int UpdateBirthdayEntry(MCONTACT hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
+	int UpdateBirthdayEntry(MCONTACT hContact, int entry, int bAdd, int module)
 	{
 		int currentMonth, currentDay;
 		int res = entry;
+		bool bShowAll = chkShowAll.GetState();
 
-		if (bShowCurrentAge) {
+		if (g_plugin.cShowAgeMode) {
 			time_t now = Today();
 			struct tm *today = gmtime(&now);
 			currentDay = today->tm_mday + 1;
@@ -180,13 +181,13 @@ class CBirthdaysDlg : public CBasicListDlg
 		}
 		else currentMonth = currentDay = 0;
 
-		int year, month, day;
-		int module = GetContactDOB(hContact, year, month, day);
+		int year = 0, month = 0, day = 0;
+		GetContactDOB(hContact, year, month, day, module);
 		if (bShowAll || IsDOBValid(year, month, day)) {
 			lastColumn = -1; //list isn't sorted anymore
 			int dtb = DaysToBirthday(Today(), year, month, day);
 			int age = GetContactAge(hContact);
-			if (bShowCurrentAge)
+			if (g_plugin.cShowAgeMode)
 				if (month > currentMonth || (month == currentMonth) && (day > currentDay)) // birthday still to come
 					age--;
 
@@ -197,7 +198,7 @@ class CBirthdaysDlg : public CBasicListDlg
 			LVITEM item = { 0 };
 			item.mask = LVIF_TEXT | LVIF_PARAM;
 			item.iItem = entry;
-			item.lParam = hContact;
+			item.lParam = (module == DOB_PROTOCOL) ? hContact : -hContact;
 			item.pszText = ptszAccName;
 
 			if (bAdd)
@@ -281,7 +282,7 @@ public:
 		col.cx = 108;
 		m_list.InsertColumn(5, &col);
 
-		LoadBirthdays(0);
+		LoadBirthdays();
 		int column = g_plugin.getByte("SortColumn", 0);
 		Sort(column);
 
@@ -310,9 +311,9 @@ public:
 		lastColumn = -1;
 	}
 
-	void onChange_ShowAll(CCtrlCheck *pCheck)
+	void onChange_ShowAll(CCtrlCheck*)
 	{
-		LoadBirthdays(pCheck->GetState());
+		LoadBirthdays();
 	}
 
 	void onColumnClick(CCtrlListView::TEventInfo *ev)

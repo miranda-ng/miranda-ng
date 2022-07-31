@@ -35,20 +35,13 @@ int LogInit();
 int Log(char *format, ...);
 int Info(char *title, char *format, ...);
 
-char *BinToHex(int size, uint8_t *data);
-void HexToBin(char *inData, ULONG &size, uint8_t *&outData);
-
-void ScreenToClient(HWND hWnd, LPRECT rect);
-void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors);
-RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors);
-
-int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, int size);
-
 wchar_t* GetContactID(MCONTACT hContact);
 wchar_t* GetContactID(MCONTACT hContact, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, char *szProto);
 MCONTACT GetContactFromID(wchar_t *szID, wchar_t *szProto);
 
 void CreateToolTip(HWND target, const wchar_t *tooltip, LPARAM width);
+
+void CheckConvert(void);
 
 #endif
