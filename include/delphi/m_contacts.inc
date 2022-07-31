@@ -74,6 +74,6 @@ const
   CNF_DISPLAYNC = 17;
 
 // result must be freed using mir_free
-function Contact_GetInfo(iType:Integer; hContact:TMCONTACT; proto:PAnsiChar=nil) : PWideChar; stdcall; external AppDLL;
+function Contact_GetInfo(iType:Integer; hContact:TMCONTACT; proto:PAnsiChar=nil) : PWideChar; stdcall; external AppDLL index 261;
 
 {$ENDIF}
