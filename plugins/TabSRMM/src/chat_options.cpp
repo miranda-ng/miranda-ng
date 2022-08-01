@@ -557,10 +557,7 @@ public:
 		Chat_SetGroup(ptrW(edtGroup.GetText()));
 
 		replaceStrW(g_Settings.pwszAutoText, edtAutocomplete.GetText());
-		if (mir_wstrlen(g_Settings.pwszAutoText))
-			db_set_ws(0, CHAT_MODULE, "TextAutocomplete", g_Settings.pwszAutoText);
-		else
-			db_unset(0, CHAT_MODULE, "TextAutocomplete");
+		db_set_ws(0, CHAT_MODULE, "TextAutocomplete", g_Settings.pwszAutoText);
 
 		TreeViewToDB(treeCheck, lvItemsChat, CHAT_MODULE, nullptr);
 		return true;
