@@ -28,6 +28,7 @@ UINT_PTR hCheckTimer = NULL;
 UINT_PTR hDateChangeTimer = NULL;
 static int currentDay = 0;
 
+void CloseBirthdayList();
 void CloseUpcoming();
 
 static int OnTopToolBarModuleLoaded(WPARAM, LPARAM)
@@ -52,9 +53,7 @@ static int OnContactSettingChanged(WPARAM hContact, LPARAM lParam)
 
 static int OnShutdown(WPARAM, LPARAM)
 {
-	if (hBirthdaysDlg)
-		SendMessage(hBirthdaysDlg, WM_CLOSE, 0, 0);
-
+	CloseBirthdayList();
 	CloseUpcoming();
 
 	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);

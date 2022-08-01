@@ -76,7 +76,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	int Unload() override;
 };
 
-extern HWND hBirthdaysDlg;
 extern MWindowList hAddBirthdayWndsList;
 
 #endif //M_WWI_COMMONHEADERS_H

@@ -33,13 +33,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CLIST_ICON 4
 
-#define WWIM_UPDATE_BIRTHDAY (WM_USER + 101)
 #define WWIM_ADD_UPCOMING_BIRTHDAY (WM_USER + 102)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM);
 
 class CBasicListDlg : public CDlgBase
 {
+	MCONTACT SelectedItem();
+
 protected:
 	CCtrlListView m_list;
 

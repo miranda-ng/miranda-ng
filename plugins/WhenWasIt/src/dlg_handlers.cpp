@@ -23,10 +23,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define NA TranslateT("N/A")
 
-wchar_t* GetBirthdayModule(int module, MCONTACT)
+wchar_t* GetBirthdayModule(int iModule, MCONTACT)
 {
-	switch (module) {
-	case DOB_PROTOCOL:         return TranslateT("Protocol module");
+	switch (iModule) {
+	case DOB_PROTOCOL:         return TranslateT("Protocol iModule");
 	case DOB_USERINFO:         return L"UserInfo";
 	}
 	return NA;
@@ -79,7 +79,7 @@ CBasicListDlg::CBasicListDlg(int dlgId) :
 	m_list.OnBuildMenu = Callback(this, &CBasicListDlg::onMenu_List);
 }
 
-void CBasicListDlg::onDblClick_List(CCtrlListView::TEventInfo*)
+MCONTACT CBasicListDlg::SelectedItem()
 {
 	int count = m_list.GetItemCount();
 
@@ -89,29 +89,27 @@ void CBasicListDlg::onDblClick_List(CCtrlListView::TEventInfo*)
 		if (m_list.GetItemState(i, LVIS_SELECTED)) {
 			item.iItem = i;
 			m_list.GetItem(&item);
-			CallService(MS_WWI_ADD_BIRTHDAY, (MCONTACT)item.lParam, 0);
-			break;
+
+			int res = item.lParam;
+			return (res < 0) ? -res : res;
 		}
 	}
+	return 0;
+}
+
+void CBasicListDlg::onDblClick_List(CCtrlListView::TEventInfo*)
+{
+	if (MCONTACT hContact = SelectedItem())
+		CallService(MS_WWI_ADD_BIRTHDAY, hContact, 0);
 }
 
 void CBasicListDlg::onMenu_List(CContextMenuPos *pos)
 {
-	int count = m_list.GetItemCount();
-
-	LVITEM item = {};
-	item.mask = LVIF_PARAM;
-	for (int i = 0; i < count; i++) {
-		if (m_list.GetItemState(i, LVIS_SELECTED)) {
-			item.iItem = i;
-			m_list.GetItem(&item);
-
-			HMENU hMenu = Menu_BuildContactMenu((MCONTACT)item.lParam);
-			if (hMenu != nullptr) {
-				Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_list.GetHwnd(), nullptr), MPCF_CONTACTMENU, (MCONTACT)item.lParam);
-				DestroyMenu(hMenu);
-			}
-			break;
+	if (MCONTACT hContact = SelectedItem()) {
+		HMENU hMenu = Menu_BuildContactMenu(hContact);
+		if (hMenu != nullptr) {
+			Clist_MenuProcessCommand(TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pos->pt.x, pos->pt.y, 0, m_list.GetHwnd(), nullptr), MPCF_CONTACTMENU, hContact);
+			DestroyMenu(hMenu);
 		}
 	}
 }
@@ -127,12 +125,10 @@ void CBasicListDlg::Sort(int iCol)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Birthday list dialog
 
+static class CBirthdaysDlg *g_pDialog;
+
 class CBirthdaysDlg : public CBasicListDlg
 {
-	UI_MESSAGE_MAP(CBirthdaysDlg, CBasicListDlg);
-		UI_MESSAGE(WWIM_UPDATE_BIRTHDAY, OnUpdateContact);
-	UI_MESSAGE_MAP_END();
-
 	void SetBirthdaysCount()
 	{
 		SetCaption(CMStringW(FORMAT, TranslateT("Birthday list (%d)"), m_list.GetItemCount()));
@@ -152,44 +148,18 @@ class CBirthdaysDlg : public CBasicListDlg
 		return 0;
 	}
 
-	INT_PTR OnUpdateContact(UINT, WPARAM hContact, LPARAM)
+	// only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
+	int UpdateBirthdayEntry(MCONTACT hContact, int entry, int bAdd, int iModule)
 	{
-		LVFINDINFO fi = { 0 };
-		fi.flags = LVFI_PARAM;
-		fi.lParam = -hContact;
-		int idx = m_list.FindItem(-1, &fi);
-		if (-1 == idx)
-			UpdateBirthdayEntry(hContact, m_list.GetItemCount(), 1, DOB_USERINFO);
-		else
-			UpdateBirthdayEntry(hContact, idx, 0, DOB_USERINFO);
-		SetBirthdaysCount();
-		return 0;
-	}
-
-	//only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
-	int UpdateBirthdayEntry(MCONTACT hContact, int entry, int bAdd, int module)
-	{
-		int currentMonth, currentDay;
 		int res = entry;
 		bool bShowAll = chkShowAll.GetState();
 
-		if (g_plugin.cShowAgeMode) {
-			time_t now = Today();
-			struct tm *today = gmtime(&now);
-			currentDay = today->tm_mday + 1;
-			currentMonth = today->tm_mon + 1;
-		}
-		else currentMonth = currentDay = 0;
-
 		int year = 0, month = 0, day = 0;
-		GetContactDOB(hContact, year, month, day, module);
+		GetContactDOB(hContact, year, month, day, iModule);
 		if (bShowAll || IsDOBValid(year, month, day)) {
 			lastColumn = -1; //list isn't sorted anymore
 			int dtb = DaysToBirthday(Today(), year, month, day);
-			int age = GetContactAge(hContact);
-			if (g_plugin.cShowAgeMode)
-				if (month > currentMonth || (month == currentMonth) && (day > currentDay)) // birthday still to come
-					age--;
+			int age = GetContactAge(year, month, day);
 
 			char *szProto = Proto_GetBaseAccountName(hContact);
 			PROTOACCOUNT *pAcc = Proto_GetAccount(szProto);
@@ -198,7 +168,7 @@ class CBirthdaysDlg : public CBasicListDlg
 			LVITEM item = { 0 };
 			item.mask = LVIF_TEXT | LVIF_PARAM;
 			item.iItem = entry;
-			item.lParam = (module == DOB_PROTOCOL) ? hContact : -hContact;
+			item.lParam = (iModule == DOB_PROTOCOL) ? hContact : -hContact;
 			item.pszText = ptszAccName;
 
 			if (bAdd)
@@ -227,7 +197,7 @@ class CBirthdaysDlg : public CBasicListDlg
 				mir_snwprintf(buffer, NA);
 			m_list.SetItemText(entry, 4, buffer);
 
-			m_list.SetItemText(entry, 5, GetBirthdayModule(module, hContact));
+			m_list.SetItemText(entry, 5, GetBirthdayModule(iModule, hContact));
 			res++;
 		}
 		else if (!bShowAll && !bAdd)
@@ -252,6 +222,7 @@ public:
 
 	bool OnInitDialog() override
 	{
+		g_pDialog = this;
 		Window_SetIcon_IcoLib(m_hwnd, hListMenu);
 
 		m_list.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
@@ -305,7 +276,7 @@ public:
 
 	void OnDestroy() override
 	{
-		hBirthdaysDlg = nullptr;
+		g_pDialog = nullptr;
 		Utils_SaveWindowPosition(m_hwnd, NULL, MODULENAME, "BirthdayList");
 		Window_FreeIcon_IcoLib(m_hwnd);
 		lastColumn = -1;
@@ -324,15 +295,48 @@ public:
 		
 		lastColumn = (column == lastColumn) ? -1 : column;
 	}
+
+	void UpdateContact(MCONTACT hContact)
+	{
+		LVFINDINFO fi = { 0 };
+		fi.flags = LVFI_PARAM;
+		fi.lParam = hContact;
+		int idx = m_list.FindItem(-1, &fi);
+
+		int iModule;
+		if ((int)hContact < 0) {
+			iModule = DOB_USERINFO;
+			hContact = -hContact;
+		}
+		else iModule = DOB_PROTOCOL;
+
+		if (-1 == idx)
+			UpdateBirthdayEntry(hContact, m_list.GetItemCount(), 1, iModule);
+		else
+			UpdateBirthdayEntry(hContact, idx, 0, iModule);
+		SetBirthdaysCount();
+	}
 };
 
 INT_PTR ShowListService(WPARAM, LPARAM)
 {
-	if (!hBirthdaysDlg)
+	if (!g_pDialog)
 		(new CBirthdaysDlg())->Show();
 	else
-		ShowWindow(hBirthdaysDlg, SW_SHOW);
+		ShowWindow(g_pDialog->GetHwnd(), SW_SHOW);
 	return 0;
+}
+
+void UpdateBirthday(MCONTACT hContact)
+{
+	if (g_pDialog)
+		g_pDialog->UpdateContact(hContact);
+}
+
+void CloseBirthdayList()
+{
+	if (g_pDialog)
+		g_pDialog->Close();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

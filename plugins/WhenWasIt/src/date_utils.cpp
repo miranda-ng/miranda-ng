@@ -33,15 +33,15 @@ bool IsDOBValid(int, int month, int day)
 	return (month != 0 && day != 0);
 }
 
-int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int module)
+int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int iModule)
 {
-	if (module != DOB_PROTOCOL) {
+	if (iModule != DOB_PROTOCOL) {
 		year = db_get_w(hContact, "UserInfo", "BirthYear", 0);
 		month = db_get_b(hContact, "UserInfo", "BirthMonth", 0);
 		day = db_get_b(hContact, "UserInfo", "BirthDay", 0);
 		if (IsDOBValid(year, month, day))
 			return DOB_USERINFO;
-		if (module == DOB_USERINFO)
+		if (iModule == DOB_USERINFO)
 			return DOB_UNKNOWN;
 	}
 
@@ -55,17 +55,30 @@ int GetContactDOB(MCONTACT hContact, int &year, int &month, int &day, int module
 	return DOB_UNKNOWN;
 }
 
+int GetContactAge(int year, int month, int day)
+{
+	if (year == 0)
+		return 0;
+
+	time_t now = Today();
+	struct tm *today = gmtime(&now);
+	int currentDay = today->tm_mday + 1;
+	int currentMonth = today->tm_mon + 1;
+
+	int age = (today->tm_year + 1900) - year;
+	
+	if (g_plugin.cShowAgeMode)
+		if (month > currentMonth|| (month == currentMonth) && (day > currentDay)) // birthday still to come
+			age--;
+
+	return age;
+}
+
 int GetContactAge(MCONTACT hContact)
 {
 	int year, month, day;
-	time_t tNow;
-	time(&tNow);
-	struct tm *now = localtime(&tNow);
 	GetContactDOB(hContact, year, month, day);
-	if (year == 0)
-		return 0;
-	else
-		return (now->tm_year + 1900) - year;
+	return GetContactAge(year, month, day);
 }
 
 char GetContactGender(MCONTACT hContact)
@@ -151,17 +164,18 @@ int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
 	return -1;
 }
 
-int SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
+void DeleteBirthday(MCONTACT hContact)
 {
-	if (mode == SAVE_MODE_DELETEALL) {
-		db_unset(hContact, "UserInfo", "BirthYear");
-		db_unset(hContact, "UserInfo", "BirthMonth");
-		db_unset(hContact, "UserInfo", "BirthDay");
-	}
-	else {
-		db_set_dw(hContact, "UserInfo", "BirthYear", year);
-		db_set_b(hContact, "UserInfo", "BirthMonth", month);
-		db_set_b(hContact, "UserInfo", "BirthDay", day);
-	}
-	return 0;
+	db_unset(hContact, "UserInfo", "BirthYear");
+	db_unset(hContact, "UserInfo", "BirthMonth");
+	db_unset(hContact, "UserInfo", "BirthDay");
+}
+
+void SaveBirthday(MCONTACT hContact, int year, int month, int day, int mode)
+{
+	const char *szModule = (mode == DOB_PROTOCOL) ? Proto_GetBaseAccountName(hContact) : "UserInfo";
+
+	db_set_dw(hContact, szModule, "BirthYear", year);
+	db_set_b(hContact, szModule, "BirthMonth", month);
+	db_set_b(hContact, szModule, "BirthDay", day);
 }

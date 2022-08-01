@@ -26,15 +26,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define COLOR_MICQBIRTHDAY RGB(88, 88, 240)
 #define COLOR_PROTOCOL RGB(255, 153, 153)
 
+void UpdateBirthday(MCONTACT);
+
 class CAddBirthdayDlg : public CDlgBase
 {
 	MCONTACT m_hContact;
+	int m_saveMethod;
 
 public:
 	CAddBirthdayDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_ADD_BIRTHDAY),
 		m_hContact(hContact)
 	{
+		if ((int)m_hContact < 0) {
+			m_saveMethod = DOB_USERINFO;
+			m_hContact = -m_hContact;
+		}
+		else m_saveMethod = DOB_PROTOCOL;
 	}
 
 	bool OnInitDialog() override
@@ -50,7 +58,7 @@ public:
 		HWND hDate = GetDlgItem(m_hwnd, IDC_DATE);
 
 		int year, month, day;
-		GetContactDOB(m_hContact, year, month, day);
+		GetContactDOB(m_hContact, year, month, day, m_saveMethod);
 		if (IsDOBValid(year, month, day)) {
 			SYSTEMTIME st = { 0 };
 			st.wDay = day;
@@ -69,12 +77,11 @@ public:
 		HWND hDate = GetDlgItem(m_hwnd, IDC_DATE);
 		SYSTEMTIME st;
 		if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID)
-			SaveBirthday(m_hContact, st.wYear, st.wMonth, st.wDay, SAVE_MODE_STANDARD);
+			SaveBirthday(m_hContact, st.wYear, st.wMonth, st.wDay, m_saveMethod);
 		else
-			SaveBirthday(m_hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
+			DeleteBirthday(m_hContact);
 
-		if (hBirthdaysDlg != nullptr)
-			SendMessage(hBirthdaysDlg, WWIM_UPDATE_BIRTHDAY, m_hContact, NULL);
+		UpdateBirthday((m_saveMethod == DOB_PROTOCOL) ? m_hContact : -m_hContact);
 		return true;
 	}
 
