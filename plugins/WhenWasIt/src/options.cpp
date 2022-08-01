@@ -71,9 +71,22 @@ static wchar_t* strtrim(wchar_t *str)
 class COptionsDlg : public CDlgBase
 {
 	CCtrlButton btnPreview;
-	CCtrlCheck chkPopups, chkClistIcon, chkDialog, chkOncePerDay;
+	CCtrlCheck chkPopups, chkDialog, chkOncePerDay;
 	CCtrlCombo cmbAge, cmbLClick, cmbRClick, cmbNotify;
 	CCtrlColor clrFore, clrBack;
+
+	SIZE oldPopupsSize, oldDialogSize;
+
+	UI_MESSAGE_MAP(COptionsDlg, CDlgBase);
+		UI_MESSAGE(WM_INITDIALOG, OnInitWindow);
+	UI_MESSAGE_MAP_END();
+
+	INT_PTR OnInitWindow(UINT, WPARAM, LPARAM)
+	{
+		oldPopupsSize = GetControlTextSize(GetDlgItem(m_hwnd, IDC_USE_POPUPS));
+		oldDialogSize = GetControlTextSize(GetDlgItem(m_hwnd, IDC_USE_DIALOG));
+		return FALSE;
+	}
 
 public:
 	COptionsDlg() :
@@ -87,7 +100,6 @@ public:
 		cmbRClick(this, IDC_RIGHT_CLICK),
 		chkPopups(this, IDC_USE_POPUPS),
 		chkDialog(this, IDC_USE_DIALOG),
-		chkClistIcon(this, IDC_USE_CLISTICON),
 		chkOncePerDay(this, IDC_ONCE_PER_DAY)
 	{
 		CreateLink(clrFore, g_plugin.foreground);
@@ -97,18 +109,12 @@ public:
 
 		chkPopups.OnChange = Callback(this, &COptionsDlg::onChange_Popups);
 		chkDialog.OnChange = Callback(this, &COptionsDlg::onChange_Dialog);
-		chkClistIcon.OnChange = Callback(this, &COptionsDlg::onChange_ClistIcon);
 		chkOncePerDay.OnChange = Callback(this, &COptionsDlg::onChange_OncePerDay);
 	}
 
 	bool OnInitDialog() override
 	{
-		SIZE oldPopupsSize = GetControlTextSize(chkPopups.GetHwnd());
-		SIZE oldClistIconSize = GetControlTextSize(chkClistIcon.GetHwnd());
-		SIZE oldDialogSize = GetControlTextSize(GetDlgItem(m_hwnd, IDC_USE_DIALOG));
-
 		EnlargeControl(chkPopups.GetHwnd(), GetDlgItem(m_hwnd, IDC_POPUPS_STATIC), oldPopupsSize);
-		EnlargeControl(chkClistIcon.GetHwnd(), GetDlgItem(m_hwnd, IDC_CLIST_STATIC), oldClistIconSize);
 		EnlargeControl(GetDlgItem(m_hwnd, IDC_USE_DIALOG), GetDlgItem(m_hwnd, IDC_DIALOG_STATIC), oldDialogSize);
 
 		for (auto &it : szShowAgeMode)
@@ -155,9 +161,6 @@ public:
 		CheckDlgButton(m_hwnd, IDC_USE_DIALOG, (g_plugin.bUseDialog) ? BST_CHECKED : BST_UNCHECKED);
 
 		chkPopups.SetState(g_plugin.bUsePopups);
-
-		chkClistIcon.SetState(true);
-		chkClistIcon.Disable();
 		return true;
 	}
 
@@ -218,13 +221,6 @@ public:
 		clrBack.Enable(bEnable);
 		cmbLClick.Enable(bEnable);
 		cmbRClick.Enable(bEnable);
-	}
-
-	void onChange_ClistIcon(CCtrlCheck *pCheck)
-	{
-		bool bEnable = pCheck->GetState();
-		EnableWindow(GetDlgItem(m_hwnd, IDC_CLIST_STATIC), bEnable);
-		EnableWindow(GetDlgItem(m_hwnd, IDC_ADVANCED_ICON), bEnable);
 	}
 
 	void onChange_Dialog(CCtrlCheck *pCheck)

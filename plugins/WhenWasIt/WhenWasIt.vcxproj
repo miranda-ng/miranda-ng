@@ -58,23 +58,4 @@
     <ResourceCompile Include="res\version.rc" />
     <ResourceCompile Include="res\WhenWasIt.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\add.ico" />
-    <Image Include="res\check.ico" />
-    <Image Include="res\dtb0.ico" />
-    <Image Include="res\dtb1.ico" />
-    <Image Include="res\dtb2.ico" />
-    <Image Include="res\dtb3.ico" />
-    <Image Include="res\dtb4.ico" />
-    <Image Include="res\dtb5.ico" />
-    <Image Include="res\dtb6.ico" />
-    <Image Include="res\dtb7.ico" />
-    <Image Include="res\dtb8.ico" />
-    <Image Include="res\dtb9.ico" />
-    <Image Include="res\dtbX.ico" />
-    <Image Include="res\export.ico" />
-    <Image Include="res\import.ico" />
-    <Image Include="res\list.ico" />
-    <Image Include="res\refresh.ico" />
-  </ItemGroup>
 </Project>
