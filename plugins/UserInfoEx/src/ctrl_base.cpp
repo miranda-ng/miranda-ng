@@ -33,11 +33,11 @@ COLORREF clrMeta = -1;
 
 void Ctrl_InitTextColours()
 {
-	clrBoth = g_plugin.getDword(SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
-	clrChanged = g_plugin.getDword(SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
-	clrCustom = g_plugin.getDword(SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
-	clrNormal = g_plugin.getDword(SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
-	clrMeta = g_plugin.getDword(SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
+	clrBoth = g_plugin.clrBoth;
+	clrChanged = g_plugin.clrChanged;
+	clrCustom = g_plugin.clrCustom;
+	clrNormal = g_plugin.clrNormal;
+	clrMeta = g_plugin.clrMeta;
 }
 
 INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, uint16_t wFlags)
@@ -55,7 +55,7 @@ INT_PTR CALLBACK Ctrl_SetTextColour(HDC hdc, uint16_t wFlags)
 
 INT_PTR CALLBACK Ctrl_SetTextColour(HWND hCtrl, HDC hdc)
 {
-	if (hCtrl && g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, 1)) 
+	if (hCtrl && g_plugin.bShowColours) 
 	{
 		LPCTRL pCtrl = (LPCTRL)GetUserData(hCtrl);
 		if (PtrIsValid(pCtrl))

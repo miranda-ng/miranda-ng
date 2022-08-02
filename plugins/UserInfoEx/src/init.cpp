@@ -46,12 +46,27 @@ static PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 
+	// Propsheet options
+	bAero(MODULENAME, "AeroAdaption", true),
+	bReadOnly(MODULENAME, "PBCIReadOnly", false),
+	bSortTree(MODULENAME, "TreeSortItems", false),
+	bTreeGroups(MODULENAME, "TreeGroups", true),
+	bShowColours(MODULENAME, "ShowColours", true),
+	bChangeDetails(MODULENAME, "ChangeMyDetails", false),
+
+	clrBoth(MODULENAME, "colourBoth", RGB(0, 160, 10)),
+	clrMeta(MODULENAME, "colourMeta", RGB(120, 40, 130)),
+	clrCustom(MODULENAME, "colourUser", RGB(0, 10, 130)),
+	clrNormal(MODULENAME, "colourNormal", RGB(90, 90, 90)),
+	clrChanged(MODULENAME, "colourChanged", RGB(190, 0, 0)),
+
 	// Reminder options
 	bRemindExtraIcon(MODULENAME, "RemindExtraIcon", true),
 	bRemindFlashIcon(MODULENAME, "RemindFlashIcon", false),
 	bRemindMenuEnabled(MODULENAME, "RemindMenuEnabled", true),
 	bRemindStartupCheck(MODULENAME, "RemindStartupCheck", false),
 	bRemindCheckVisible(MODULENAME, "RemindCheckVisible", false),
+
 	iRemindState(MODULENAME, "RemindEnabled", REMIND_ALL),
 	wRemindOffset(MODULENAME, "RemindOffset", 9),
 	wRemindSoundOffset(MODULENAME, "RemindSoundOffset", 3),
@@ -61,9 +76,11 @@ CMPlugin::CMPlugin() :
 	bPopupEnabled(MODULENAME, "PopupEnabled", true),
 	bPopupMsgbox(MODULENAME, "PopupMsgBox", false),
 	bPopupProgress(MODULENAME, "PopupProgress", false),
+
 	iPopupDelay(MODULENAME, "PopupDelay", 0),
 	iAnnivClrType(MODULENAME, "PopupAnnivClrType", POPUP_COLOR_CUSTOM),
 	iBirthClrType(MODULENAME, "PopupBirthClrType", POPUP_COLOR_CUSTOM),
+
 	clrAback(MODULENAME, "PopupAnnivClrBack", RGB(90, 190, 130)),
 	clrAtext(MODULENAME, "PopupAnnivClrText", RGB(0, 0, 0)),
 	clrBback(MODULENAME, "PopupBirthClrBirthBack", RGB(192, 180, 30)),

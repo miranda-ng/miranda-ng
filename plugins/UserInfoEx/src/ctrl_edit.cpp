@@ -113,8 +113,7 @@ BOOL CEditCtrl::OnInfoChanged(MCONTACT hContact, LPCSTR pszProto)
 		_Flags.B.hasCustom = _Flags.B.hasProto = _Flags.B.hasMeta = false;
 		_Flags.W |= DB::Setting::GetWStringCtrl(hContact, _pszModule, _pszModule, pszProto, _pszSetting, &dbv);
 
-		EnableWindow(_hwnd,
-			!hContact || _Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0));
+		EnableWindow(_hwnd, !hContact || _Flags.B.hasCustom || !g_plugin.bReadOnly);
 
 		MIR_FREE(_pszValue);
 		switch (dbv.type) {

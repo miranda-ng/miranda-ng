@@ -205,8 +205,8 @@ static int SortProc(CPsTreeItem **item1, CPsTreeItem **item2)
 static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 {
 	// update some cached settings
-	myGlobals.ShowPropsheetColours = g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, TRUE);
-	myGlobals.WantAeroAdaption = g_plugin.getByte(SET_PROPSHEET_AEROADAPTION, TRUE);
+	myGlobals.ShowPropsheetColours = g_plugin.bShowColours;
+	myGlobals.WantAeroAdaption = g_plugin.bAero;
 
 	// allow only one dialog per user
 	if (HWND hWnd = WindowList_Find(g_hWindowList, wParam)) {
@@ -220,9 +220,9 @@ static INT_PTR ShowDialog(WPARAM wParam, LPARAM)
 	bool bScanMetaSubContacts = false;
 
 	// init the treeview options
-	if (g_plugin.getByte(SET_PROPSHEET_SORTITEMS, FALSE))
+	if (g_plugin.bSortTree)
 		psh._dwFlags |= PSTVF_SORTTREE;
-	if (g_plugin.getByte(SET_PROPSHEET_GROUPS, TRUE))
+	if (g_plugin.bTreeGroups)
 		psh._dwFlags |= PSTVF_GROUPS;
 
 	// create imagelist
@@ -382,7 +382,7 @@ static int InitDetails(WPARAM wParam, LPARAM lParam)
 {
 	CPsHdr *pPsh = (CPsHdr *)wParam;
 	if (!(pPsh->_dwFlags & PSF_PROTOPAGESONLY)) {
-		uint8_t bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
+		bool bChangeDetailsEnabled = myGlobals.CanChangeDetails && g_plugin.bChangeDetails;
 		if (lParam || bChangeDetailsEnabled) {
 			USERINFOPAGE uip = {};
 			uip.flags = ODPF_ICON | ODPF_UNICODE;
@@ -1215,7 +1215,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				g_clistApi.pfnInvalidateDisplayNameCacheEntry(pPs->hContact);
 
 				// need to upload owners settings
-				if (!pPs->hContact && myGlobals.CanChangeDetails && g_plugin.getByte(SET_PROPSHEET_CHANGEMYDETAILS, FALSE)) {
+				if (!pPs->hContact && myGlobals.CanChangeDetails && g_plugin.bChangeDetails) {
 					if (pPs->pUpload = new CPsUpload(pPs, LOWORD(wParam) == IDOK)) {
 						if (pPs->pUpload->UploadFirst() == CPsUpload::UPLOAD_CONTINUE)
 							break;

@@ -39,19 +39,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define MOD_CLIST     "CList"
 
 // database settings (propertysheet)
-#define SET_PROPSHEET_PCBIREADONLY    "PBCIReadOnly"
 #define SET_PROPSHEET_READONLYLABEL   "TILReadonly"
-#define SET_PROPSHEET_AEROADAPTION    "AeroAdaption"
-#define SET_PROPSHEET_SHOWCOLOURS     "ShowColours"
-#define SET_PROPSHEET_CLRNORMAL       "colourNormal"
-#define SET_PROPSHEET_CLRCUSTOM       "colourUser"
-#define SET_PROPSHEET_CLRBOTH         "colourBoth"
-#define SET_PROPSHEET_CLRCHANGED      "colourChanged"
-#define SET_PROPSHEET_CLRMETA         "colourMeta"
+
 #define SET_PROPSHEET_SAVEVCARD       "vCardOnExit"
-#define SET_PROPSHEET_GROUPS          "TreeGroups"
-#define SET_PROPSHEET_SORTITEMS       "TreeSortItems"
-#define SET_PROPSHEET_CHANGEMYDETAILS "ChangeMyDetails"
 #define SET_ABOUT_ACTIVEWINDOW        "AboutActiveWin"
 #define SET_MI_MAIN                   "miMenu"
 #define SET_MI_CONTACT                "miContact"

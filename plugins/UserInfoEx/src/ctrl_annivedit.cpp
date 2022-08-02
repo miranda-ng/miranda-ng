@@ -143,12 +143,7 @@ void CAnnivEditCtrl::EnableCurrentItem()
 		MCONTACT hContact;
 		PSGetContact(_hwndDlg, hContact);
 
-		const uint8_t bEnabled
-			= !hContact ||
-				(pCurrent->Flags() & CTRLF_HASCUSTOM) || 
-				!(pCurrent->Flags() & (CTRLF_HASPROTO|CTRLF_HASMETA)) ||
-				!g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
-
+		const uint8_t bEnabled = !hContact || (pCurrent->Flags() & CTRLF_HASCUSTOM) || !(pCurrent->Flags() & (CTRLF_HASPROTO|CTRLF_HASMETA)) || !g_plugin.bReadOnly;
 		EnableWindow(_hBtnEdit, bEnabled);
 		EnableWindow(_hBtnDel, bEnabled);
 		EnableWindow(_hwndDate, bEnabled);

@@ -566,7 +566,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			* return:	a brush
 			**/
 	case WM_CTLCOLOREDIT:
-		if (!g_plugin.getByte(SET_PROPSHEET_SHOWCOLOURS, 1) || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0)
+		if (!g_plugin.bShowColours || (HWND)lParam != cbex->hEdit || !cbex->pItems || cbex->iSelectedItem < 0)
 			break;
 		return Ctrl_SetTextColour((HDC)wParam, cbex->pItems[cbex->iSelectedItem].wFlags);
 
@@ -1137,7 +1137,7 @@ static LRESULT CALLBACK CtrlContactWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			bEnabled = !hContact ||
 				(cbex->pItems[cbex->iSelectedItem].wFlags & CTRLF_HASCUSTOM) ||
 				!(cbex->pItems[cbex->iSelectedItem].wFlags & (CTRLF_HASPROTO | CTRLF_HASMETA)) ||
-				!g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
+				!g_plugin.bReadOnly;
 
 			EnableWindow(cbex->hBtnEdit, bEnabled);
 			EnableWindow(cbex->hBtnDel, bEnabled && GetWindowTextLength(cbex->hEdit) > 0);

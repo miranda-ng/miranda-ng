@@ -381,84 +381,57 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 /////////////////////////////////////////////////////////////////////////////////////////
 // Details options dialog
 
-static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CDetailsOptsDlg : public CDlgBase
 {
-	static uint8_t bInitialized = 0;
+	CCtrlCheck chkClr, chkGroups, chkSortTree, chkAero, chkReadonly, chkChange;
+	CCtrlColor clrNormal, clrCustom, clrBoth, clrChanged, clrMeta;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hDlg);
-		bInitialized = 0;
+public:
+	CDetailsOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_DETAILSDLG),
+		chkClr(this, CHECK_OPT_CLR),
+		chkAero(this, CHECK_OPT_AEROADAPTION),
+		chkGroups(this, CHECK_OPT_GROUPS),
+		chkChange(this, CHECK_OPT_CHANGEMYDETAILS),
+		chkReadonly(this, CHECK_OPT_READONLY),
+		chkSortTree(this, CHECK_OPT_SORTTREE),
+		
+		clrBoth(this, CLR_BOTH),
+		clrMeta(this, CLR_META),
+		clrNormal(this, CLR_NORMAL),
+		clrCustom(this, CLR_USER),
+		clrChanged(this, CLR_CHANGED)
+	{
+		CreateLink(chkClr, g_plugin.bShowColours);
+		CreateLink(chkAero, g_plugin.bAero);
+		CreateLink(chkGroups, g_plugin.bTreeGroups);
+		CreateLink(chkChange, g_plugin.bChangeDetails);
+		CreateLink(chkReadonly, g_plugin.bReadOnly);
+		CreateLink(chkSortTree, g_plugin.bSortTree);
 
-		// init colors
-		DBGetCheckBtn(hDlg, CHECK_OPT_CLR, SET_PROPSHEET_SHOWCOLOURS, TRUE);
-		SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_CLR, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_CLR));
-		DBGetColor(hDlg, CLR_NORMAL, SET_PROPSHEET_CLRNORMAL, RGB(90, 90, 90));
-		DBGetColor(hDlg, CLR_USER, SET_PROPSHEET_CLRCUSTOM, RGB(0, 10, 130));
-		DBGetColor(hDlg, CLR_BOTH, SET_PROPSHEET_CLRBOTH, RGB(0, 160, 10));
-		DBGetColor(hDlg, CLR_CHANGED, SET_PROPSHEET_CLRCHANGED, RGB(190, 0, 0));
-		DBGetColor(hDlg, CLR_META, SET_PROPSHEET_CLRMETA, RGB(120, 40, 130));
+		CreateLink(clrBoth, g_plugin.clrBoth);
+		CreateLink(clrMeta, g_plugin.clrMeta);
+		CreateLink(clrNormal, g_plugin.clrNormal);
+		CreateLink(clrCustom, g_plugin.clrCustom);
+		CreateLink(clrChanged, g_plugin.clrChanged);
 
-		// treeview options
-		DBGetCheckBtn(hDlg, CHECK_OPT_GROUPS, SET_PROPSHEET_GROUPS, TRUE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_SORTTREE, SET_PROPSHEET_SORTITEMS, FALSE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_AEROADAPTION, SET_PROPSHEET_AEROADAPTION, TRUE);
-
-		// common options
-		DBGetCheckBtn(hDlg, CHECK_OPT_READONLY, SET_PROPSHEET_PCBIREADONLY, FALSE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_CHANGEMYDETAILS, SET_PROPSHEET_CHANGEMYDETAILS, FALSE);
-		Button_Enable(GetDlgItem(hDlg, CHECK_OPT_CHANGEMYDETAILS), myGlobals.CanChangeDetails);
-
-		bInitialized = 1;
-		return TRUE;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			DBWriteCheckBtn(hDlg, CHECK_OPT_CLR, SET_PROPSHEET_SHOWCOLOURS);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_GROUPS, SET_PROPSHEET_GROUPS);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_SORTTREE, SET_PROPSHEET_SORTITEMS);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_READONLY, SET_PROPSHEET_PCBIREADONLY);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_AEROADAPTION, SET_PROPSHEET_AEROADAPTION);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_CHANGEMYDETAILS, SET_PROPSHEET_CHANGEMYDETAILS);
-
-			DBWriteColor(hDlg, CLR_NORMAL, SET_PROPSHEET_CLRNORMAL);
-			DBWriteColor(hDlg, CLR_USER, SET_PROPSHEET_CLRCUSTOM);
-			DBWriteColor(hDlg, CLR_BOTH, SET_PROPSHEET_CLRBOTH);
-			DBWriteColor(hDlg, CLR_CHANGED, SET_PROPSHEET_CLRCHANGED);
-			DBWriteColor(hDlg, CLR_META, SET_PROPSHEET_CLRMETA);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case CHECK_OPT_CLR:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				BOOL bChecked = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-				const int idCtrl[] = { CLR_NORMAL, CLR_USER, CLR_BOTH, CLR_CHANGED, CLR_META, TXT_OPT_CLR_NORMAL,
-					TXT_OPT_CLR_USER, TXT_OPT_CLR_BOTH, TXT_OPT_CLR_CHANGED, TXT_OPT_CLR_META };
-
-				EnableControls(hDlg, idCtrl, _countof(idCtrl), bChecked);
-			}
-			__fallthrough;
-
-		case CHECK_OPT_GROUPS:
-		case CHECK_OPT_SORTTREE:
-		case CHECK_OPT_AEROADAPTION:
-		case CHECK_OPT_READONLY:
-		case CHECK_OPT_CHANGEMYDETAILS:
-		case CHECK_OPT_MI_CONTACT:
-			if (bInitialized && HIWORD(wParam) == BN_CLICKED)
-				NotifyParentOfChange(hDlg);
-			break;
-
-		default:
-			if (bInitialized && HIWORD(wParam) == CPN_COLOURCHANGED)
-				NotifyParentOfChange(hDlg);
-		}
+		chkClr.OnChange = Callback(this, &CDetailsOptsDlg::onChange_Clr);
 	}
-	return FALSE;
-}
+
+	bool OnInitDialog() override
+	{
+		chkChange.Enable(myGlobals.CanChangeDetails);
+		return true;
+	}
+
+	void onChange_Clr(CCtrlCheck *pCheck)
+	{
+		const int idCtrl[] = { CLR_NORMAL, CLR_USER, CLR_BOTH, CLR_CHANGED, CLR_META, TXT_OPT_CLR_NORMAL,
+			TXT_OPT_CLR_USER, TXT_OPT_CLR_BOTH, TXT_OPT_CLR_CHANGED, TXT_OPT_CLR_META };
+
+		EnableControls(m_hwnd, idCtrl, _countof(idCtrl), pCheck->IsChecked());
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Reminder options dialog
@@ -487,7 +460,7 @@ public:
 		CreateLink(chkVisible, g_plugin.bRemindCheckVisible);
 
 		CreateLink(spin1, g_plugin.wRemindOffset);
-		CreateLink(spin1, g_plugin.wRemindNotifyInterval);
+		CreateLink(spin2, g_plugin.wRemindNotifyInterval);
 		CreateLink(spinOffset, g_plugin.wRemindSoundOffset);
 
 		cmbEnabled.OnSelChanged = Callback(this, &CReminderOptsDlg::onChange_Enabled);
@@ -776,14 +749,13 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 
 	// Details Dialog page
 	odp.szTab.a = LPGEN("Details dialog");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
-	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
+	odp.pszTemplate = 0;
+	odp.pfnDlgProc = 0;
+	odp.pDialog = new CDetailsOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	// Reminder page
 	odp.szTab.a = LPGEN("Reminder");
-	odp.pszTemplate = 0;
-	odp.pfnDlgProc = 0;
 	odp.pDialog = new CReminderOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 

@@ -67,7 +67,7 @@ struct PSPGeneralDlg : public PSPBaseDlg
 					CheckDlgButton(m_hwnd, RADIO_FEMALE, (dbv.bVal == 'F') ? BST_CHECKED : BST_UNCHECKED);
 					CheckDlgButton(m_hwnd, RADIO_MALE, (dbv.bVal == 'M') ? BST_CHECKED : BST_UNCHECKED);
 
-					bool bEnable = !m_hContact || Flags.B.hasCustom || !g_plugin.getByte(SET_PROPSHEET_PCBIREADONLY, 0);
+					bool bEnable = !m_hContact || Flags.B.hasCustom || !g_plugin.bReadOnly;
 					EnableWindow(GetDlgItem(m_hwnd, RADIO_FEMALE), bEnable);
 					EnableWindow(GetDlgItem(m_hwnd, RADIO_MALE), bEnable);
 				}

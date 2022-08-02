@@ -107,6 +107,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	// Prop sheet options
+	CMOption<bool> bShowColours, bTreeGroups, bSortTree, bReadOnly, bChangeDetails, bAero;
+	CMOption<uint32_t> clrNormal, clrCustom, clrBoth, clrChanged, clrMeta;
+
 	// Reminder options
 	CMOption<uint8_t> iRemindState;
 	CMOption<uint16_t> wRemindOffset, wRemindSoundOffset, wRemindNotifyInterval;

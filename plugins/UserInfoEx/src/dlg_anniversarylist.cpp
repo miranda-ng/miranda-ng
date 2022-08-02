@@ -894,7 +894,7 @@ public:
 INT_PTR DlgAnniversaryListShow(WPARAM, LPARAM)
 {
 	if (!gpDlg) {
-		myGlobals.WantAeroAdaption = g_plugin.getByte(SET_PROPSHEET_AEROADAPTION, TRUE);
+		myGlobals.WantAeroAdaption = g_plugin.bAero;
 		gpDlg = new CAnnivList();
 	} 
 	else gpDlg->BringToFront();
