@@ -297,6 +297,10 @@ void Plugin_Uninit(pluginEntry *p)
 	if (p == plugin_crshdmp)
 		plugin_crshdmp = nullptr;
 
+	for (auto &it : pluginDefault)
+		if (it.pImpl == p)
+			it.pImpl = nullptr;
+
 	servicePlugins.remove(p);
 	pluginList.remove(p);
 	mir_free(p);
@@ -322,6 +326,7 @@ bool Plugin_UnloadDyn(pluginEntry *p)
 				}
 
 				stdPlugin = &it;
+				break;
 			}
 
 	// if plugin has active resources, kill them forcibly
