@@ -449,10 +449,6 @@ static bool CheckBirthday(MCONTACT hContact, MTime &Now, CEvent &evt, uint8_t bN
 
 			mtb.DBGetReminderOpts(hContact);
 
-			// make backup of each protocol based birthday
-			if (g_plugin.getByte(SET_REMIND_SECUREBIRTHDAY, TRUE))
-				mtb.BackupBirthday(hContact, nullptr, 0, LastAnwer);
-
 			if (mtb.RemindOption() != BST_UNCHECKED) {
 				uint16_t wDaysEarlier = (mtb.RemindOption() == BST_CHECKED) ? mtb.RemindOffset() : -1;
 				if (wDaysEarlier == (uint16_t)-1)
@@ -674,45 +670,6 @@ static INT_PTR CheckService(WPARAM, LPARAM)
 	return 0;
 }
 
-/**
-* This is the service function for MS_USERINFO_REMINDER_AGGRASIVEBACKUP.
-*
-* @param	hContact		- handle to single contact or NULL to backup all
-* @param	lParam			- if 1, the messagebox will not be displayed
-*
-* return:	0
-**/
-
-static INT_PTR BackupBirthdayService(WPARAM hContact, LPARAM lParam)
-{
-	MAnnivDate mdb;
-
-	if (hContact) {
-		if (!mdb.DBGetBirthDate(hContact))
-			mdb.BackupBirthday(hContact, nullptr, TRUE);
-	}
-	else {
-		uint16_t a1 = 0;
-
-		// walk through all the contacts stored in the DB
-		for (auto &cc : Contacts())
-			if (!db_mc_isSub(cc) && !mdb.DBGetBirthDate(cc))
-				mdb.BackupBirthday(cc, nullptr, TRUE, &a1);
-	}
-
-	if (lParam != TRUE) {
-		MSGBOX mBox;
-		mBox.cbSize = sizeof(MSGBOX);
-		mBox.hParent = nullptr;
-		mBox.hiLogo = g_plugin.getIcon(IDI_BIRTHDAY);
-		mBox.uType = MB_ICON_INFO;
-		mBox.ptszTitle = TranslateT("Update custom birthday");
-		mBox.ptszMsg = TranslateT("Backing up and syncing all birthdays complete!");
-		MsgBoxService(NULL, (LPARAM)&mBox);
-	}
-	return 0;
-}
-
 /***********************************************************************************************************
  * timer stuff
  ***********************************************************************************************************/
@@ -850,7 +807,6 @@ void SvcReminderLoadModule(void)
 
 	// create service functions
 	CreateServiceFunction(MS_USERINFO_REMINDER_CHECK, CheckService);
-	CreateServiceFunction(MS_USERINFO_REMINDER_AGGRASIVEBACKUP, BackupBirthdayService);
 
 	// register hotkey
 	HOTKEYDESC hk = {};

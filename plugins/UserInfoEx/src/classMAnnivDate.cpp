@@ -617,110 +617,23 @@ int MAnnivDate::DBWriteAnniversaryDate(MCONTACT hContact, uint16_t wIndex)
 
 static uint16_t AskUser(MCONTACT hContact, MAnnivDate *pOldCustomDate, MAnnivDate *pNewProtoDate)
 {
-	MSGBOX	MB;
-	wchar_t	 szMsg[MAXDATASIZE];
-	wchar_t	 szDate[MAX_PATH];
-	wchar_t	 szoldDate[MAX_PATH];
-
+	wchar_t szDate[MAX_PATH], szoldDate[MAX_PATH];
 	pOldCustomDate->DateFormat(szoldDate, _countof(szoldDate));
 	pNewProtoDate->DateFormat(szDate, _countof(szDate));
 
+	wchar_t szMsg[MAXDATASIZE];
 	mir_snwprintf(szMsg,
 		TranslateT("%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?"),
 		Clist_GetContactDisplayName(hContact), szDate, szoldDate);
 
+	MSGBOX MB;
 	MB.cbSize = sizeof(MSGBOX);
 	MB.hParent = nullptr;
 	MB.hiLogo = g_plugin.getIcon(IDI_ANNIVERSARY);
 	MB.hiMsg = nullptr;
-	MB.uType = MB_YESALLNO|MB_ICON_QUESTION|MB_INFOBAR|MB_NOPOPUP;
+	MB.uType = MB_YESALLNO | MB_ICON_QUESTION | MB_INFOBAR | MB_NOPOPUP;
 	MB.ptszTitle = LPGENW("Update custom birthday");
 	MB.ptszInfoText = LPGENW("Keeps your custom birthday up to date.");
 	MB.ptszMsg = szMsg;
 	return MsgBoxService(NULL, (LPARAM)&MB);
-}
-
-/**
- * name:	BackupBirthday
- * class:	MAnnivDate
- * desc:	tries to read birthday date from protocol and compares it with the classes date
- * param:	hContact		- handle to a contact to read the date from
- *			pszProto		- basic protocol module
- * return:	0 if backup was done, 1 otherwise
- **/
-
-int MAnnivDate::BackupBirthday(MCONTACT hContact, LPSTR pszProto, const uint8_t bDontIgnoreAnything, PWORD lastAnswer)
-{
-	if (!hContact)
-		return 1;
-
-	// This birthday is a protocol based or metasubcontact's anniversary and no custom information exist,
-	// so directly back it up under all circumstances!
-	if ( _wFlags & (MADF_HASPROTO | MADF_HASMETA)) {
-		if (lastAnswer == nullptr) {
-			DBWriteDateStamp(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
-			DBWriteBirthDate(hContact);
-		}
-		return 1;
-	}
-
-	// A custom birthday was set by user before and is not to be ignored
-	if ((_wFlags & MADF_HASCUSTOM) && (bDontIgnoreAnything || !lastAnswer || (*lastAnswer != IDNONE))) {
-		if (!pszProto)
-			pszProto = Proto_GetBaseAccountName(hContact);
-
-		if (pszProto) {
-			uint8_t bIsMeta = DB::Module::IsMeta(pszProto);
-			uint8_t bIsMetaSub = !bIsMeta && db_mc_isSub(hContact);
-			MAnnivDate mdbNewProto;
-			MAnnivDate mdbIgnore;
-
-			const int nSubContactCount = (bIsMeta) ? db_mc_getSubCount(hContact) : 0;
-
-			uint8_t bWantBackup = !mdbNewProto.DBGetDate(hContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR)
-									&& !IsEqual(mdbNewProto.SystemTime())
-									&& (bDontIgnoreAnything || (db_get_dw(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbNewProto.DateStamp()))
-									&& !bIsMetaSub;
-
-			// allow backup only, if the custom setting differs from all meta subcontacts' protocol based settings, too.
-			for (int i = 0; (i < nSubContactCount) && bWantBackup && bIsMeta; i++) {
-				MCONTACT hSubContact = db_mc_getSub(hContact, i);
-				if (hSubContact && !mdbIgnore.DBGetDate(hSubContact, pszProto, SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-					bWantBackup = bWantBackup
-											&& !IsEqual(mdbIgnore.SystemTime())
-											&& (bDontIgnoreAnything || (db_get_dw(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED, 0) != mdbIgnore.DateStamp()));
-			}
-			if (bWantBackup) {
-				if (!lastAnswer || *lastAnswer != IDALL) {
-					uint16_t rc = AskUser(hContact, this, &mdbNewProto);
-					if (lastAnswer)
-						*lastAnswer = rc;
-
-					if (IDYES != rc && IDALL != rc) {
-						// special handling for metasubcontacts required?!
-						mdbNewProto.DBWriteDateStamp(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
-						bWantBackup = FALSE;
-					}
-				}
-				if (bWantBackup) {
-					Set(mdbNewProto);
-					DBWriteDateStamp(hContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
-					DBWriteBirthDate(hContact);
-
-					// update metasubcontacts
-					for (int i = 0; i < nSubContactCount; i++) {
-						MCONTACT hSubContact = db_mc_getSub(hContact, i);
-						if (hSubContact) {
-							if (!mdbIgnore.DBGetDate(hSubContact, Proto_GetBaseAccountName(hSubContact), SET_CONTACT_BIRTHDAY, SET_CONTACT_BIRTHMONTH, SET_CONTACT_BIRTHYEAR))
-								mdbIgnore.DBWriteDateStamp(hSubContact, USERINFO, SET_REMIND_BIRTHDAY_IGNORED);
-
-							DBWriteBirthDate(hSubContact);
-						}
-					}
-					return 0;
-				}
-			}
-		}
-	}
-	return 1;
 }

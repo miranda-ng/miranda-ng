@@ -224,19 +224,6 @@ wParam = lParam = not used
 #define MS_USERINFO_REMINDER_LIST	"UserInfo/Reminder/List"
 
 
-/* UserInfo/Reminder/Check v0.1.2.16+
-This service compares birthday date which is set by the protocol module of each contact
-to the first found custom set birthday date. If a difference is detected, the user is asked
-whether to update the custom set birthday by the one of the protocol or not.
-
-If no custom birthday is set yet and the protocol contains a valid birthday, it is copied to
-primary custom module (e.g.: mBirthday or UserInfo).
-wParam = handle to single contact or NULL to backup all
-lParam = not used
-*/
-#define MS_USERINFO_REMINDER_AGGRASIVEBACKUP "UserInfo/Reminder/AggrassiveBackup"
-
-
 /* UserInfo/Refresh v0.7.0.1+
 This service calls PSS_GETINFO for all contacts in the contact list
 wParam = not used

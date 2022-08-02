@@ -276,7 +276,6 @@
 #define CHECK_SMS                       40104
 #define CHECK_REMIND_STARTUP            40104
 #define CHECK_OPT_DETECTUTF             40105
-#define CHECK_REMIND_SECURED            40105
 #define CHECK_REMIND_HIDDEN             40106
 #define CHECK_REMIND_VISIBLEONLY        40106
 #define CHECK_OPT_ICOVERSION            40108

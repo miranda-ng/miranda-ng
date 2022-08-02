@@ -50,7 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_REMIND_BIRTHDAY_ENABLED      "RemindBirthday"
 #define SET_REMIND_BIRTHDAY_OFFSET       "RemindBirthdayOffset"
 #define SET_REMIND_CHECKON_STARTUP       "RemindStartupCheck"
-#define SET_REMIND_SECUREBIRTHDAY        "RemindSecureBirthday"
 #define SET_REMIND_BIRTHDAY_IGNORED      "RemindSecureIgnored"
 #define SET_REMIND_SOUNDOFFSET           "RemindSoundOffset"
 #define SET_POPUP_ENABLED                "PopupEnabled"

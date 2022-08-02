@@ -243,14 +243,6 @@ void RebuildMain()
 		g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED) &&
 		g_plugin.getByte(SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
 	if (bRemindMenus) {
-		// make backup of each protocol based birthday
-		SET_UID(mi, 0x67980bea, 0x8fca, 0x4642, 0x96, 0x78, 0x6a, 0xc0, 0xe3, 0x74, 0x4c, 0x2a);
-		mi.pszService = MS_USERINFO_REMINDER_AGGRASIVEBACKUP;
-		mi.name.a = LPGEN("Backup birthdays");
-		mi.position = 500253000;
-		mi.hIcolibItem = g_plugin.getIconHandle(IDI_BTN_BIRTHDAY_BACKUP);
-		hMenuItem[item++] = Menu_AddMainMenuItem(&mi);
-
 		// Check anniversaries
 		SET_UID(mi, 0xcc1c8aa1, 0x7d1, 0x4554, 0x9c, 0xfe, 0xc4, 0x1e, 0xb9, 0x5d, 0x4a, 0xf);
 		mi.pszService = MS_USERINFO_REMINDER_CHECK;
