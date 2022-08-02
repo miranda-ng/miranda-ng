@@ -23,36 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define PSM_ENABLE_TABITEM	(WM_USER+106)
 
-static MenuOptionsList ctrl_Menu[] = {
-	{ SET_MI_MAIN,     CHECK_OPT_MI_MAIN,     RADIO_OPT_MI_MAIN_NONE,     RADIO_OPT_MI_MAIN_ALL,     RADIO_OPT_MI_MAIN_EXIMPORT     },
-	{ SET_MI_CONTACT,  CHECK_OPT_MI_CONTACT,  RADIO_OPT_MI_CONTACT_NONE,  RADIO_OPT_MI_CONTACT_ALL,  RADIO_OPT_MI_CONTACT_EXIMPORT  },
-	{ SET_MI_GROUP,    CHECK_OPT_MI_GROUP,    RADIO_OPT_MI_GROUP_NONE,    RADIO_OPT_MI_GROUP_ALL,    RADIO_OPT_MI_GROUP_EXIMPORT    },
-	{ SET_MI_SUBGROUP, CHECK_OPT_MI_SUBGROUP, RADIO_OPT_MI_SUBGROUP_NONE, RADIO_OPT_MI_SUBGROUP_ALL, RADIO_OPT_MI_SUBGROUP_EXIMPORT },
-	{ SET_MI_ACCOUNT,  CHECK_OPT_MI_ACCOUNT,  RADIO_OPT_MI_ACCOUNT_NONE,  RADIO_OPT_MI_ACCOUNT_ALL,  RADIO_OPT_MI_ACCOUNT_EXIMPORT  },
-};
-
-void __forceinline NotifyParentOfChange(HWND hDlg)
-{
-	SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
-}
-
-int __forceinline ComboBox_FindByItemDataPtr(HWND hCombo, LPARAM pData)
-{
-	int nItemIndex;
-	for (nItemIndex = ComboBox_GetCount(hCombo); (nItemIndex >= 0) && (ComboBox_GetItemData(hCombo, nItemIndex) != pData); nItemIndex--);
-	return nItemIndex;
-}
-
-void __forceinline ComboBox_SetCurSelByItemDataPtr(HWND hCombo, LPARAM pData)
-{
-	ComboBox_SetCurSel(hCombo, ComboBox_FindByItemDataPtr(hCombo, pData));
-}
-
-void __forceinline ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM pData)
-{
-	ComboBox_SetItemData(hCombo, ComboBox_AddString(hCombo, TranslateW(ptszText)), pData);
-}
-
 /**
  * This function enables a dialog item
  *
@@ -66,27 +36,6 @@ void __forceinline ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, LPARAM
 static uint8_t EnableDlgItem(HWND hDlg, const int idCtrl, uint8_t bEnabled)
 {
 	return EnableWindow(GetDlgItem(hDlg, idCtrl), bEnabled);
-}
-
-/**
- * This function enables a list of dialog items, if they were enabled in the resource editor.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the array of dialog items' identifiers
- * @param	countCtrl		- the number of items in the array of dialog items
- * @param	bEnabled		- TRUE if the item should be enabled, FALSE if disabled
- *
- * @return	bEnabled
- **/
-static uint8_t InitialEnableControls(HWND hDlg, const int *idCtrl, int countCtrl, uint8_t bEnabled)
-{
-	HWND hCtrl;
-
-	while (countCtrl-- > 0) {
-		hCtrl = GetDlgItem(hDlg, idCtrl[countCtrl]);
-		EnableWindow(hCtrl, IsWindowEnabled(hCtrl) && bEnabled);
-	}
-	return bEnabled;
 }
 
 /**
@@ -123,169 +72,108 @@ static uint8_t DBGetCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uin
 	return val;
 }
 
-/**
- * This function writes a byte (flag = 1) to database according to the checkstate
- * of the dialog button identified by 'idCtrl'.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting to write the button state to
- *
- * @return	checkstate
- **/
-static uint8_t DBWriteCheckBtn(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
-{
-	uint8_t val = IsDlgButtonChecked(hDlg, idCtrl);
-	int Temp = g_plugin.getByte(pszSetting, 0);
-	Temp &= ~1;
-	g_plugin.setByte(pszSetting, Temp |= val);
-	return val;
-}
-
-/**
- * This function reads a uint32_t from database and interprets it as an color value
- * to set to the color control.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting from the database to use
- * @param	bDefault		- the default value to use, if no database setting exists
- *
- * @return	nothing
- **/
-static void DBGetColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint32_t bDefault)
-{
-	SendDlgItemMessage(hDlg, idCtrl, CPM_SETCOLOUR, 0, g_plugin.getDword(pszSetting, bDefault));
-}
-
-/**
- * This function writes a uint32_t to database according to the value
- * of the color control identified by 'idCtrl'.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting to write the button state to
- *
- * @return	nothing
- **/
-static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
-{
-	g_plugin.setDword(pszSetting, (uint32_t)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Common options dialog
 
-static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+struct
 {
-	static uint8_t bInitialized = 0;
+	LPCSTR pszKey;
+	int idCheckbox;
+	int idNONE;
+	int idALL;
+	int idEXIMPORT;
+}
+static ctrl_Menu[] = {
+	{ SET_MI_MAIN,     CHECK_OPT_MI_MAIN,     RADIO_OPT_MI_MAIN_NONE,     RADIO_OPT_MI_MAIN_ALL,     RADIO_OPT_MI_MAIN_EXIMPORT     },
+	{ SET_MI_CONTACT,  CHECK_OPT_MI_CONTACT,  RADIO_OPT_MI_CONTACT_NONE,  RADIO_OPT_MI_CONTACT_ALL,  RADIO_OPT_MI_CONTACT_EXIMPORT  },
+	{ SET_MI_GROUP,    CHECK_OPT_MI_GROUP,    RADIO_OPT_MI_GROUP_NONE,    RADIO_OPT_MI_GROUP_ALL,    RADIO_OPT_MI_GROUP_EXIMPORT    },
+	{ SET_MI_SUBGROUP, CHECK_OPT_MI_SUBGROUP, RADIO_OPT_MI_SUBGROUP_NONE, RADIO_OPT_MI_SUBGROUP_ALL, RADIO_OPT_MI_SUBGROUP_EXIMPORT },
+	{ SET_MI_ACCOUNT,  CHECK_OPT_MI_ACCOUNT,  RADIO_OPT_MI_ACCOUNT_NONE,  RADIO_OPT_MI_ACCOUNT_ALL,  RADIO_OPT_MI_ACCOUNT_EXIMPORT  },
+};
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hDlg);
-		bInitialized = 0;
+class CCommonOptsDlg : public CDlgBase
+{
+	CCtrlCheck chk1, chk2, chk3, chk4, chk5, chkFlagUnknown, chkStatusIcon;
 
+public:
+	CCommonOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_COMMON),
+		chk1(this, CHECK_OPT_MI_MAIN),
+		chk2(this, CHECK_OPT_MI_CONTACT),
+		chk3(this, CHECK_OPT_MI_GROUP),
+		chk4(this, CHECK_OPT_MI_SUBGROUP),
+		chk5(this, CHECK_OPT_MI_ACCOUNT),
+		chkStatusIcon(this, CHECK_OPT_FLAGSMSGSTATUS),
+		chkFlagUnknown(this, CHECK_OPT_FLAGSUNKNOWN)
+	{
+		CreateLink(chkStatusIcon, g_plugin.bShowStatusIconFlag);
+		CreateLink(chkFlagUnknown, g_plugin.bUseUnknownFlag);
+
+		chk1.OnChange = chk2.OnChange = chk3.OnChange = chk4.OnChange = chk5.OnChange = Callback(this, &CCommonOptsDlg::onChange_Root);
+	}
+
+	bool OnInitDialog() override
+	{
 		// menu item settings
 		for (auto &it : ctrl_Menu) {
 			int flag = g_plugin.getByte(it.pszKey, 2);
+
 			// check button and enable / disable control
-			int idEnable[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
-			EnableControls(hDlg, idEnable, _countof(idEnable), DBGetCheckBtn(hDlg, it.idCheckbox, it.pszKey, 0));
+			DBGetCheckBtn(m_hwnd, it.idCheckbox, it.pszKey, 0);
+
 			// set radio button state
 			int id = it.idNONE;	//default
 			if ((flag & 4) == 4)
 				id = it.idALL;
 			else if ((flag & 8) == 8)
 				id = it.idEXIMPORT;
-			CheckRadioButton(hDlg, it.idNONE, it.idEXIMPORT, id);
+			CheckRadioButton(m_hwnd, it.idNONE, it.idEXIMPORT, id);
 		}
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		// menu item settings
+		for (auto &it : ctrl_Menu) {
+			int flag = IsDlgButtonChecked(m_hwnd, it.idCheckbox);
+			flag |= IsDlgButtonChecked(m_hwnd, it.idNONE) ? 2 : 0;
+			flag |= IsDlgButtonChecked(m_hwnd, it.idALL) ? 4 : 0;
+			flag |= IsDlgButtonChecked(m_hwnd, it.idEXIMPORT) ? 8 : 0;
+			g_plugin.setByte(it.pszKey, (uint8_t)flag);
+		}
+
+		RebuildMenu();
 
 		// extra icon settings
-		CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN, g_bUseUnknownFlag ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS, g_bShowStatusIconFlag ? BST_CHECKED : BST_UNCHECKED);
+		bool FlagsClistChange = false, FlagsMsgWndChange = false;
 
-		bInitialized = 1;
-		return TRUE;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			// menu item settings
-			for (auto &it : ctrl_Menu) {
-				int flag = IsDlgButtonChecked(hDlg, it.idCheckbox);
-				flag |= IsDlgButtonChecked(hDlg, it.idNONE) ? 2 : 0;
-				flag |= IsDlgButtonChecked(hDlg, it.idALL) ? 4 : 0;
-				flag |= IsDlgButtonChecked(hDlg, it.idEXIMPORT) ? 8 : 0;
-				g_plugin.setByte(it.pszKey, (uint8_t)flag);
-			}
-
-			RebuildMenu();
-
-			// extra icon settings
-			bool FlagsClistChange = false, FlagsMsgWndChange = false;
-
-			bool valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSUNKNOWN) != 0;
-			if (g_bUseUnknownFlag != valNew) {
-				g_bUseUnknownFlag = valNew;
-				db_set_b(0, MODNAMEFLAGS, "UseUnknownFlag", valNew);
-				FlagsClistChange = true;
-				FlagsMsgWndChange = true;
-			}
-			valNew = IsDlgButtonChecked(hDlg, CHECK_OPT_FLAGSMSGSTATUS) != 0;
-			if (g_bShowStatusIconFlag != valNew) {
-				g_bShowStatusIconFlag = valNew;
-				db_set_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", valNew);
-				FlagsMsgWndChange = true;
-			}
-
-			if (FlagsClistChange)
-				ExtraIcon_SetAll();
-			if (FlagsMsgWndChange)
-				UpdateStatusIcons();
+		if (chkFlagUnknown.IsChanged()) {
+			FlagsClistChange = true;
+			FlagsMsgWndChange = true;
 		}
-		break;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case CHECK_OPT_MI_MAIN:
-		case CHECK_OPT_MI_CONTACT:
-		case CHECK_OPT_MI_GROUP:
-		case CHECK_OPT_MI_SUBGROUP:
-		case CHECK_OPT_MI_ACCOUNT:
-			for (auto &it : ctrl_Menu) {
-				if (it.idCheckbox == LOWORD(wParam)) {
-					const int idMenuItems[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
-					EnableControls(hDlg, idMenuItems, _countof(idMenuItems), Button_GetCheck((HWND)lParam));
-					break;
-				}
+		if (chkStatusIcon.IsChanged())
+			FlagsMsgWndChange = true;
+
+		if (FlagsClistChange)
+			ExtraIcon_SetAll();
+		if (FlagsMsgWndChange)
+			UpdateStatusIcons();
+		return true;
+	}
+
+	void onChange_Root(CCtrlCheck *pCheck)
+	{
+		for (auto &it : ctrl_Menu) {
+			if (it.idCheckbox == pCheck->GetCtrlId()) {
+				const int idMenuItems[] = { it.idCheckbox + 1, it.idNONE, it.idALL, it.idEXIMPORT };
+				EnableControls(m_hwnd, idMenuItems, _countof(idMenuItems), pCheck->IsChecked());
+				break;
 			}
-			if (bInitialized)
-				NotifyParentOfChange(hDlg);
-			break;
-
-		case RADIO_OPT_MI_MAIN_ALL:
-		case RADIO_OPT_MI_MAIN_NONE:
-		case RADIO_OPT_MI_MAIN_EXIMPORT:
-		case RADIO_OPT_MI_CONTACT_ALL:
-		case RADIO_OPT_MI_CONTACT_NONE:
-		case RADIO_OPT_MI_CONTACT_EXIMPORT:
-		case RADIO_OPT_MI_GROUP_ALL:
-		case RADIO_OPT_MI_GROUP_NONE:
-		case RADIO_OPT_MI_GROUP_EXIMPORT:
-		case RADIO_OPT_MI_SUBGROUP_ALL:
-		case RADIO_OPT_MI_SUBGROUP_NONE:
-		case RADIO_OPT_MI_SUBGROUP_EXIMPORT:
-		case RADIO_OPT_MI_ACCOUNT_ALL:
-		case RADIO_OPT_MI_ACCOUNT_NONE:
-		case RADIO_OPT_MI_ACCOUNT_EXIMPORT:
-		case CHECK_OPT_FLAGSUNKNOWN:
-		case CHECK_OPT_FLAGSMSGSTATUS:
-			if (bInitialized)
-				NotifyParentOfChange(hDlg);
 		}
 	}
-	return FALSE;
-}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options dialog
@@ -550,8 +438,8 @@ public:
 	{
 		// disable if popup plugin dos not sopport buttons inside popop
 		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
-			EnableDlgItem(m_hwnd, CHECK_OPT_POPUP_MSGBOX, FALSE);
-
+			chkMsgbox.Disable();
+		
 		// set colortype checkboxes and color controls
 		switch (g_plugin.iBirthClrType) {
 		case POPUP_COLOR_DEFAULT:
@@ -715,14 +603,11 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 
 	// Common page
 	odp.szTab.a = LPGEN("Common");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_COMMON);
-	odp.pfnDlgProc = DlgProc_CommonOpts;
+	odp.pDialog = new CCommonOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	// Advanced page
 	odp.szTab.a = LPGEN("Advanced");
-	odp.pszTemplate = 0;
-	odp.pfnDlgProc = 0;
 	odp.pDialog = new CAdvancedOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 

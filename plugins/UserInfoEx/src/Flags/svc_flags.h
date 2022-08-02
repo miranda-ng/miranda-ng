@@ -28,8 +28,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define EXTRAIMAGE_REFRESHDELAY		100		/* time for which setting changes are buffered */
 #define STATUSICON_REFRESHDELAY		100		/* time for which setting changes are buffered */
 
-extern bool g_bUseUnknownFlag, g_bShowStatusIconFlag;
-
 struct MsgWndData
 {
 	MCONTACT m_hContact;

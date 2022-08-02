@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 #define M_ENABLE_SUBCTLS			(WM_APP+1)
 
-bool g_bUseUnknownFlag = false, g_bShowStatusIconFlag = false;
-
 /* Misc */
 int		nCountriesCount;
 struct	CountryListEntry *countries;
@@ -69,7 +67,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry(lParam, 0);
-	ExtraIcon_SetIcon(hExtraIconSvc, lParam, (countryNumber != 0xFFFF || g_bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : nullptr);
+	ExtraIcon_SetIcon(hExtraIconSvc, lParam, (countryNumber != 0xFFFF || g_plugin.bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : nullptr);
 }
 
 static int OnCListApplyIcons(WPARAM wParam, LPARAM)
@@ -97,7 +95,7 @@ MsgWndData::~MsgWndData()
 
 void MsgWndData::FlagsIconSet()
 {
-	if (!g_bShowStatusIconFlag || (m_countryID == 0xFFFF && !g_bUseUnknownFlag))
+	if (!g_plugin.bShowStatusIconFlag || (m_countryID == 0xFFFF && !g_plugin.bUseUnknownFlag))
 		Srmm_SetIconFlags(m_hContact, MODNAMEFLAGS, 0, MBF_HIDDEN);
 	else {
 		char *szTooltip = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, m_countryID, 0);
@@ -197,10 +195,6 @@ void SvcFlagsLoadModule()
 	InitIcons();			/* load in iconlib */
 	
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY, ServiceDetectContactOriginCountry);
-	
-	// init settings
-	g_bUseUnknownFlag = db_get_b(0, MODNAMEFLAGS, "UseUnknownFlag", SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
-	g_bShowStatusIconFlag = db_get_b(0, MODNAMEFLAGS, "ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
 
 	HookEvent(ME_SKIN_ICONSCHANGED, OnStatusIconsChanged);
 
@@ -227,7 +221,7 @@ void SvcFlagsOnModulesLoaded()
 	/* Status Icon */
 	StatusIconData sid = {};
 	sid.szModule = MODNAMEFLAGS;
-	if (!g_bShowStatusIconFlag)
+	if (!g_plugin.bShowStatusIconFlag)
 		sid.flags = MBF_HIDDEN;
 	Srmm_AddIcon(&sid, &g_plugin);
 

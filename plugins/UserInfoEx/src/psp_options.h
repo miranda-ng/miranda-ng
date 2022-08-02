@@ -22,15 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _UINFOEX_OPTIONS_H_INCLUDED_
 #define _UINFOEX_OPTIONS_H_INCLUDED_
 
-struct MenuOptionsList
-{
-	LPCSTR pszKey;
-	int idCheckbox;
-	int idNONE;
-	int idALL;
-	int idEXIMPORT;
-};
-
 int OnInitOptions(WPARAM, LPARAM);
 
 #endif /* _UINFOEX_OPTIONS_H_INCLUDED_ */

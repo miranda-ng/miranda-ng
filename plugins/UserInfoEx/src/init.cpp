@@ -46,6 +46,10 @@ static PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 
+	// Common options
+	bUseUnknownFlag(MODULENAME, "UseUnknownFlag", true),
+	bShowStatusIconFlag(MODULENAME, "ShowStatusIconFlag", true),
+
 	// Advanced options
 	bCheckVersion(MODULENAME, "CheckIconPackVersion", true),
 	bMetaScan(MODULENAME, "MetaScan", true),

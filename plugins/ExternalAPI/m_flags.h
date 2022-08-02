@@ -79,9 +79,7 @@ or 0xFFFF on failure (MS_UTILS_GETCOUNTRYBYNUMBER returns "Unknown" for this).
 #define MS_FLAGS_GETCONTACTORIGINCOUNTRY "Flags/GetContactOriginCountry"	//for beta version 0.1.1.0
 
 #if !defined(FLAGS_NOSETTINGS)
-#define SETTING_SHOWSTATUSICONFLAG_DEFAULT    1
 #define SETTING_SHOWEXTRAIMGFLAG_DEFAULT      1
-#define SETTING_USEUNKNOWNFLAG_DEFAULT        1
 #define SETTING_USEIPTOCOUNTRY_DEFAULT        1
 #endif
 

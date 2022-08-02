@@ -107,6 +107,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	// Common options
+	CMOption<bool> bUseUnknownFlag, bShowStatusIconFlag;
+
 	// Advanced options
 	CMOption<bool> bCheckVersion, bMetaScan, bButtonIcons, bEmailService;
 
