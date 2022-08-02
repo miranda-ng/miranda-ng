@@ -322,7 +322,7 @@ class CAnnivList
 				}
 
 				// init reminder groups
-				pDlg->_bRemindEnable = g_plugin.iRemindEnabled != REMIND_OFF;
+				pDlg->_bRemindEnable = g_plugin.iRemindState != REMIND_OFF;
 				if (hCtrl = GetDlgItem(hDlg, CHECK_REMIND)) {
 					Button_SetCheck(hCtrl, pDlg->_bRemindEnable ? BST_INDETERMINATE : BST_UNCHECKED);
 					EnableWindow(hCtrl, pDlg->_bRemindEnable);

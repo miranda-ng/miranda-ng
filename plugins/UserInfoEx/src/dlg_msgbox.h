@@ -23,33 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #ifndef _SVC_DLG_INCLUDED_
 #define _SVC_DLG_INCLUDED_ 1
 
-#define SET_POPUPMSGBOX			"PopupMsgBox"
-#define DEFVAL_POPUPMSGBOX		FALSE
-
-/* UserInfo/MsgBox	v0.1.0.3+
-Some little changed message box for nicer look of miranda's messages or questions :-)
-wParam=hContact				- can be null
-lParam=(_MSGBOX*)pMsg	- structure that holds information about the look of the message dialog
-uType member of _MSGBOX can be a combination of the following values, where most of them are defined in winuser.h:
-MB_OK
-MB_OKCANCEL
-MB_YESALLNO
-MB_YESNO
-For valid icon values use one of the following MB_ICON_...
-Funktion returns: IDOK, IDYES, IDALL, IDNO or IDCANCEL
-*/
-
-/*
- Defined in winuser.h
- ********************
-
-#define MB_OK					0x00000000L
-#define MB_OKCANCEL				0x00000001L
-#define MB_ABORTRETRYIGNORE		0x00000002L
-#define MB_YESNOCANCEL			0x00000003L
-#define MB_YESNO				0x00000004L
-#define MB_RETRYCANCEL			0x00000005L
-*/
 #define MB_YESALLNO				0x00000007L
 #define MB_TYPE(p)				((p)&MB_TYPEMASK)
 
@@ -71,7 +44,7 @@ flags
 #define MB_NOPOPUP				0x00000200L
 #define MB_CUSTOMCOLOR			0x00000300L
 
-typedef struct _MSGBOX
+struct MSGBOX
 {
 	UINT     cbSize;        // size of this structure
 	UINT     uType;         // parameters
@@ -83,8 +56,7 @@ typedef struct _MSGBOX
 	HWND     hParent;	      // parent window for the messagebox
 	COLORREF colorBack;     // valid if MB_CUSTOMCOLOR is set
 	COLORREF colorText;     // valid if MB_CUSTOMCOLOR is set
-} MSGBOX, *LPMSGBOX;
-
+};
 
 INT_PTR CALLBACK	MsgBox(HWND hParent, UINT uType, LPCTSTR pszTitle, LPCTSTR pszInfo, LPCTSTR pszFormat, ...);
 INT_PTR CALLBACK	MsgErr(HWND hParent, LPCTSTR pszFormat, ...);

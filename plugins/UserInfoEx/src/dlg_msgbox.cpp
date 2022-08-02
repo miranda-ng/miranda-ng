@@ -59,7 +59,7 @@ void __forceinline MoveCtrl(HWND hDlg, int idCtrl, int dx, int dy, int dw, int d
 * @retval	HICON		- The function returns an icon to display with the message.
 * @retval	NULL		- There is no icon for the message.
 **/
-static HICON MsgLoadIcon(LPMSGBOX pMsgBox)
+static HICON MsgLoadIcon(MSGBOX *pMsgBox)
 {
 	HICON hIcon;
 
@@ -178,7 +178,7 @@ static INT_PTR CALLBACK MsgBoxProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM l
 	switch (uMsg) {
 	case WM_INITDIALOG:
 		{
-			LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
+			MSGBOX *pMsgBox = (MSGBOX*)lParam;
 			if (PtrIsValid(pMsgBox)) {
 				int icoWidth = 0;
 				int InfoBarHeight = 0;
@@ -485,7 +485,7 @@ static INT_PTR CALLBACK MsgBoxPop(HWND hDlg, UINT uMsg, WPARAM, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
-		LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
+		MSGBOX *pMsgBox = (MSGBOX*)lParam;
 
 		MoveWindow(hDlg, -10, -10, 0, 0, FALSE);
 		LPMSGPOPUPDATA pmpd = (LPMSGPOPUPDATA)mir_alloc(sizeof(MSGPOPUPDATA));
@@ -635,14 +635,14 @@ LRESULT CALLBACK PopupProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 **/
 INT_PTR MsgBoxService(WPARAM, LPARAM lParam)
 {
-	LPMSGBOX pMsgBox = (LPMSGBOX)lParam;
+	MSGBOX *pMsgBox = (MSGBOX*)lParam;
 
 	// check input
 	if (PtrIsValid(pMsgBox) && pMsgBox->cbSize == sizeof(MSGBOX)) {
 		// Shall the MessageBox displayed as popup?
 		if (!(pMsgBox->uType & (MB_INFOBAR | MB_NOPOPUP))				// message box can be a popup?
 			&& (db_get_dw(0, "Popup", "Actions", 0) & 1)				// popup++ actions on?
-			&& g_plugin.getByte(SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX))	// user likes popups?
+			&& g_plugin.bPopupMsgbox)	// user likes popups?
 			return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOXDUMMI), pMsgBox->hParent, MsgBoxPop, lParam);
 
 		return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_MSGBOX), pMsgBox->hParent, MsgBoxProc, lParam);

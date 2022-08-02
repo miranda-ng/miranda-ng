@@ -239,7 +239,7 @@ void RebuildMain()
 
 	// reminder
 	mi.root = mhRoot;
-	bool bRemindMenus = g_plugin.iRemindEnabled && g_plugin.bRemindMenuEnabled;
+	bool bRemindMenus = g_plugin.iRemindState && g_plugin.bRemindMenuEnabled;
 	if (bRemindMenus) {
 		// Check anniversaries
 		SET_UID(mi, 0xcc1c8aa1, 0x7d1, 0x4554, 0x9c, 0xfe, 0xc4, 0x1e, 0xb9, 0x5d, 0x4a, 0xf);

@@ -43,15 +43,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_REMIND_BIRTHDAY_ENABLED      "RemindBirthday"
 #define SET_REMIND_BIRTHDAY_OFFSET       "RemindBirthdayOffset"
 
-#define SET_POPUP_ENABLED                "PopupEnabled"
-#define SET_POPUP_BIRTHDAY_COLORTYPE     "PopupBirthClrType"
-#define SET_POPUP_BIRTHDAY_COLOR_TEXT    "PopupBirthClrBirthText"
-#define SET_POPUP_BIRTHDAY_COLOR_BACK    "PopupBirthClrBirthBack"
-#define SET_POPUP_ANNIVERSARY_COLORTYPE  "PopupAnnivClrType"
-#define SET_POPUP_ANNIVERSARY_COLOR_TEXT "PopupAnnivClrText"
-#define SET_POPUP_ANNIVERSARY_COLOR_BACK "PopupAnnivClrBack"
-#define SET_POPUP_DELAY                  "PopupDelay"
-
 #define HM_OPENMSG (WM_USER+1)
 
 /**

@@ -42,7 +42,7 @@ struct CEvent
 	uint8_t operator << (const CEvent& e);
 };
 
-typedef struct _REMINDEROPTIONS
+struct REMINDEROPTIONS
 {
 	uint16_t	wDaysEarlier;
 	uint8_t	bPopups;
@@ -51,8 +51,7 @@ typedef struct _REMINDEROPTIONS
 	uint8_t	bCheckVisibleOnly;
 	uint8_t	RemindState;
 	CEvent	evt;
-}
-REMINDEROPTIONS, *LPREMINDEROPTIONS;
+};
 
 static HANDLE ExtraIcon = INVALID_HANDLE_VALUE;
 
@@ -238,9 +237,9 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 	if (!gRemindOpts.bPopups)
 		return 1;
 
-	POPUPDATAW ppd;
+	POPUPDATAW ppd = {};
 	ppd.PluginWindowProc = PopupWindowProc;
-	ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
+	ppd.iSeconds = g_plugin.iPopupDelay;
 
 	if (hContact) {
 		ppd.lchContact = hContact;
@@ -254,29 +253,29 @@ static int NotifyWithPopup(MCONTACT hContact, CEvent::EType eventType, int DaysT
 
 	switch (eventType) {
 	case CEvent::BIRTHDAY:
-		switch (g_plugin.getByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+		switch (g_plugin.iBirthClrType) {
 		case POPUP_COLOR_WINDOWS:
 			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 			break;
 
 		case POPUP_COLOR_CUSTOM:
-			ppd.colorBack = g_plugin.getDword(SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
-			ppd.colorText = g_plugin.getDword(SET_POPUP_BIRTHDAY_COLOR_TEXT, 0);
+			ppd.colorBack = g_plugin.clrBback;
+			ppd.colorText = g_plugin.clrBtext;
 			break;
 		}
 		break;
 
 	case CEvent::ANNIVERSARY:
-		switch (g_plugin.getByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
+		switch (g_plugin.iAnnivClrType) {
 		case POPUP_COLOR_WINDOWS:
 			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
 			break;
 
 		case POPUP_COLOR_CUSTOM:
-			ppd.colorBack = g_plugin.getDword(SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
-			ppd.colorText = g_plugin.getDword(SET_POPUP_ANNIVERSARY_COLOR_TEXT, 0);
+			ppd.colorBack = g_plugin.clrAback;
+			ppd.colorText = g_plugin.clrAtext;
 			break;
 		}
 	}
@@ -751,12 +750,12 @@ void SvcReminderEnable(bool bEnable)
 			ghSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
 		// reinit reminder options
-		gRemindOpts.RemindState	= g_plugin.iRemindEnabled;
+		gRemindOpts.RemindState	= g_plugin.iRemindState;
 		gRemindOpts.wDaysEarlier = g_plugin.wRemindOffset;
 		gRemindOpts.bCListExtraIcon = g_plugin.bRemindExtraIcon;
 		gRemindOpts.bCheckVisibleOnly = g_plugin.bRemindCheckVisible;
 		gRemindOpts.bFlashCList = g_plugin.bRemindFlashIcon;
-		gRemindOpts.bPopups = g_plugin.getByte(SET_POPUP_ENABLED, TRUE);
+		gRemindOpts.bPopups = g_plugin.bPopupEnabled;
 
 		// init the timer
 		UpdateTimer(TRUE);
@@ -783,7 +782,7 @@ void SvcReminderOnModulesLoaded(void)
 	// init clist extra icon structure
 	OnCListRebuildIcons(0, 0);
 
-	SvcReminderEnable(g_plugin.iRemindEnabled != REMIND_OFF);
+	SvcReminderEnable(g_plugin.iRemindState != REMIND_OFF);
 }
 
 /**
@@ -808,7 +807,7 @@ void SvcReminderLoadModule(void)
 	hk.pszService = MS_USERINFO_REMINDER_CHECK;
 	g_plugin.addHotkey(&hk);
 
-	if (g_plugin.iRemindEnabled != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
+	if (g_plugin.iRemindState != REMIND_OFF && ExtraIcon == INVALID_HANDLE_VALUE)
 		ExtraIcon = ExtraIcon_RegisterIcolib("Reminder", LPGEN("Reminder (UInfoEx)"), g_plugin.getIconHandle(IDI_ANNIVERSARY));
 }
 

@@ -504,7 +504,7 @@ public:
 		cmbEnabled.AddString(TranslateT("Everything"));
 
 		// set reminder options
-		cmbEnabled.SetCurSel(g_plugin.iRemindEnabled);
+		cmbEnabled.SetCurSel(g_plugin.iRemindState);
 		
 		MTime mtLast;
 		wchar_t szTime[MAX_PATH];
@@ -521,8 +521,8 @@ public:
 	{
 		// update current reminder state
 		uint8_t bNewVal = (uint8_t)cmbEnabled.GetCurSel();
-		if (g_plugin.iRemindEnabled != bNewVal) {
-			g_plugin.iRemindEnabled = bNewVal;
+		if (g_plugin.iRemindState != bNewVal) {
+			g_plugin.iRemindState = bNewVal;
 			if (bNewVal == REMIND_OFF)
 				SvcReminderEnable(false);
 			else {
@@ -552,251 +552,195 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popup options dialog
 
-static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CPopupOptsDlg : public CDlgBase
 {
-	static uint8_t bInitialized = 0;
+	CCtrlCheck chkEnabled, chkMsgbox, chkDefClr, chkWinClr, chkADefClr, chkAWinClr, chkProgress;
+	CCtrlCheck chkDefault, chkCustom, chkPermanent;
+	CCtrlColor clrAback, clrAtext, clrBback, clrBtext;
+	CCtrlButton btnPreview;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hDlg);
-		bInitialized = 0;
-		{
-			DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX, DEFVAL_POPUPMSGBOX);
-			DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress", FALSE);
-			// disable if popup plugin dos not sopport buttons inside popop
-			if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
-				EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
+public:
+	CPopupOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_POPUP),
+		btnPreview(this, BTN_PREVIEW),
+		chkDefClr(this, CHECK_OPT_POPUP_DEFCLR),
+		chkWinClr(this, CHECK_OPT_POPUP_WINCLR),
+		chkADefClr(this, CHECK_OPT_POPUP_ADEFCLR),
+		chkAWinClr(this, CHECK_OPT_POPUP_AWINCLR),
+		chkEnabled(this, CHECK_OPT_POPUP_ENABLED),
+		chkMsgbox(this, CHECK_OPT_POPUP_MSGBOX),
+		chkProgress(this, CHECK_OPT_POPUP_PROGRESS),
+		chkCustom(this, RADIO_OPT_POPUP_CUSTOM),
+		chkDefault(this, RADIO_OPT_POPUP_DEFAULT),
+		chkPermanent(this, RADIO_OPT_POPUP_PERMANENT),
+		clrAback(this, CLR_ABACK),
+		clrAtext(this, CLR_ATEXT),
+		clrBback(this, CLR_BBACK),
+		clrBtext(this, CLR_BTEXT)
+	{
+		CreateLink(chkMsgbox, g_plugin.bPopupMsgbox);
+		CreateLink(chkEnabled, g_plugin.bPopupEnabled);
+		CreateLink(chkProgress, g_plugin.bPopupProgress);
 
-			// enable/disable popups
-			uint8_t isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, TRUE);
-			SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ENABLED, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_POPUP_ENABLED));
+		CreateLink(clrAback, g_plugin.clrAback);
+		CreateLink(clrAtext, g_plugin.clrAtext);
+		CreateLink(clrBback, g_plugin.clrBback);
+		CreateLink(clrBtext, g_plugin.clrBtext);
 
-			// set colortype checkboxes and color controls
-			DBGetColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK, RGB(192, 180, 30));
-			DBGetColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT, RGB(0, 0, 0));
-			switch (g_plugin.getByte(SET_POPUP_BIRTHDAY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
-			case POPUP_COLOR_DEFAULT:
-				CheckDlgButton(hDlg, CHECK_OPT_POPUP_DEFCLR, BST_CHECKED);
-				break;
+		btnPreview.OnClick = Callback(this, &CPopupOptsDlg::onClick_Preview);
 
-			case POPUP_COLOR_WINDOWS:
-				CheckDlgButton(hDlg, CHECK_OPT_POPUP_WINCLR, BST_CHECKED);
-			}
+		chkEnabled.OnChange = Callback(this, &CPopupOptsDlg::onChange_Enabled);
+		chkDefClr.OnChange = chkWinClr.OnChange = Callback(this, &CPopupOptsDlg::onChange_Clr);
+		chkADefClr.OnChange = chkAWinClr.OnChange = Callback(this, &CPopupOptsDlg::onChange_AnnivClr);
+		chkDefault.OnChange = chkCustom.OnChange = chkPermanent.OnChange = Callback(this, &CPopupOptsDlg::onChange_Delay);
+	}
 
-			DBGetColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK, RGB(90, 190, 130));
-			DBGetColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT, RGB(0, 0, 0));
-			switch (g_plugin.getByte(SET_POPUP_ANNIVERSARY_COLORTYPE, POPUP_COLOR_CUSTOM)) {
-			case POPUP_COLOR_DEFAULT:
-				CheckDlgButton(hDlg, CHECK_OPT_POPUP_ADEFCLR, BST_CHECKED);
-				break;
-			case POPUP_COLOR_WINDOWS:
-				CheckDlgButton(hDlg, CHECK_OPT_POPUP_AWINCLR, BST_CHECKED);
-			}
+	bool OnInitDialog() override
+	{
+		// disable if popup plugin dos not sopport buttons inside popop
+		if (!(db_get_dw(0, "Popup", "Actions", 0) & 1))
+			EnableDlgItem(m_hwnd, CHECK_OPT_POPUP_MSGBOX, FALSE);
 
-			if (isEnabled) {
-				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_DEFCLR, BN_CLICKED), NULL);
-				SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ADEFCLR, BN_CLICKED), NULL);
-			}
-			// set delay values
-			uint8_t bDelay = g_plugin.getByte(SET_POPUP_DELAY, 0);
-			switch (bDelay) {
-			case 0:
-				CheckDlgButton(hDlg, RADIO_OPT_POPUP_DEFAULT, BST_CHECKED);
-				if (isEnabled)
-					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-				break;
-
-			case 255:
-				CheckDlgButton(hDlg, RADIO_OPT_POPUP_PERMANENT, BST_CHECKED);
-				if (isEnabled)
-					EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-				break;
-
-			default:
-				CheckDlgButton(hDlg, RADIO_OPT_POPUP_CUSTOM, BST_CHECKED);
-				SetDlgItemInt(hDlg, EDIT_DELAY, bDelay, FALSE);
-			}
+		// set colortype checkboxes and color controls
+		switch (g_plugin.iBirthClrType) {
+		case POPUP_COLOR_DEFAULT:
+			chkDefClr.SetState(true);
+			break;
+		case POPUP_COLOR_WINDOWS:
+			chkWinClr.SetState(true);
 		}
-		bInitialized = TRUE;
-		return TRUE;
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			DBWriteCheckBtn(hDlg, CHECK_OPT_POPUP_MSGBOX, SET_POPUPMSGBOX);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_POPUP_PROGRESS, "PopupProgress");
-			DBWriteCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED);
-
-			// save popup style for birthdays
-			DBWriteColor(hDlg, CLR_BBACK, SET_POPUP_BIRTHDAY_COLOR_BACK);
-			DBWriteColor(hDlg, CLR_BTEXT, SET_POPUP_BIRTHDAY_COLOR_TEXT);
-			g_plugin.setByte(SET_POPUP_BIRTHDAY_COLORTYPE, 
-				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)
-				? POPUP_COLOR_DEFAULT
-				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)
-				? POPUP_COLOR_WINDOWS
-				: POPUP_COLOR_CUSTOM);
-
-			// save popup style for anniversaries
-			DBWriteColor(hDlg, CLR_ABACK, SET_POPUP_ANNIVERSARY_COLOR_BACK);
-			DBWriteColor(hDlg, CLR_ATEXT, SET_POPUP_ANNIVERSARY_COLOR_TEXT);
-			g_plugin.setByte(SET_POPUP_ANNIVERSARY_COLORTYPE, 
-				IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_ADEFCLR)
-				? POPUP_COLOR_DEFAULT
-				: IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_AWINCLR)
-				? POPUP_COLOR_WINDOWS
-				: POPUP_COLOR_CUSTOM);
-
-			// save delay
-			if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_PERMANENT))
-				g_plugin.setByte(SET_POPUP_DELAY, 255);
-			else if (IsDlgButtonChecked(hDlg, RADIO_OPT_POPUP_CUSTOM)) {
-				wchar_t szDelay[4];
-				GetDlgItemText(hDlg, EDIT_DELAY, szDelay, _countof(szDelay));
-				g_plugin.setByte(SET_POPUP_DELAY, (uint8_t)wcstol(szDelay, nullptr, 10));
-			}
-			else
-				g_plugin.delSetting(SET_POPUP_DELAY);
+		switch (g_plugin.iAnnivClrType) {
+		case POPUP_COLOR_DEFAULT:
+			chkADefClr.SetState(true);
+			break;
+		case POPUP_COLOR_WINDOWS:
+			chkAWinClr.SetState(true);
 		}
-		break;
 
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case BTN_PREVIEW:
-			{
-				POPUPDATAW ppd;
-				ppd.iSeconds = (int)g_plugin.getByte(SET_POPUP_DELAY, 0);
-				mir_wstrncpy(ppd.lpwzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
-
-				// Birthday
-				mir_wstrncpy(ppd.lpwzContactName, TranslateT("Birthday"), _countof(ppd.lpwzContactName));
-				ppd.lchIcon = g_plugin.getIcon(IDI_RMD_DTB0);
-				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
-					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				}
-				else if (BST_UNCHECKED == IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
-					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_BBACK, CPM_GETCOLOUR, 0, 0);
-					ppd.colorText = SendDlgItemMessage(hDlg, CLR_BTEXT, CPM_GETCOLOUR, 0, 0);
-				}
-				PUAddPopupW(&ppd);
-
-				// Anniversary
-				mir_wstrncpy(ppd.lpwzContactName, TranslateT("Anniversary"), _countof(ppd.lpwzContactName));
-				ppd.lchIcon = g_plugin.getIcon(IDI_RMD_DTAX);
-				if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR)) {
-					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
-					ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				}
-				else if (IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR)) {
-					ppd.colorBack = 0;
-					ppd.colorText = 0;
-				}
-				else {
-					ppd.colorBack = SendDlgItemMessage(hDlg, CLR_ABACK, CPM_GETCOLOUR, 0, 0);
-					ppd.colorText = SendDlgItemMessage(hDlg, CLR_ATEXT, CPM_GETCOLOUR, 0, 0);
-				}
-				PUAddPopupW(&ppd);
-			}
+		// set delay values
+		uint8_t bDelay = g_plugin.iPopupDelay;
+		switch (bDelay) {
+		case 0:
+			chkDefault.SetState(true);
 			break;
 
-		case CHECK_OPT_POPUP_MSGBOX:
-		case CHECK_OPT_POPUP_PROGRESS:
-			if (bInitialized)
-				NotifyParentOfChange(hDlg);
-			break;
-
-		case CHECK_OPT_POPUP_ENABLED:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				const BOOL bEnabled = SendMessage((HWND)lParam, BM_GETCHECK, NULL, NULL);
-				const int idCtrl[] = {
-					CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR,
-					CLR_BBACK, TXT_OPT_POPUP_CLR_BACK,
-					CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
-					CHECK_OPT_POPUP_ADEFCLR, CHECK_OPT_POPUP_AWINCLR,
-					CLR_ABACK, TXT_OPT_POPUP_CLR_ABACK,
-					CLR_ATEXT, TXT_OPT_POPUP_CLR_ATEXT,
-					RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM,
-					RADIO_OPT_POPUP_PERMANENT, EDIT_DELAY
-				};
-
-				EnableControls(hDlg, idCtrl, _countof(idCtrl), bEnabled);
-
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case CHECK_OPT_POPUP_DEFCLR:
-		case CHECK_OPT_POPUP_WINCLR:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				int bDefClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_DEFCLR);
-				int bWinClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_WINCLR);
-
-				EnableDlgItem(hDlg, CHECK_OPT_POPUP_DEFCLR, !bWinClr);
-				EnableDlgItem(hDlg, CHECK_OPT_POPUP_WINCLR, !bDefClr);
-				EnableDlgItem(hDlg, CLR_BBACK, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_BACK, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, CLR_BTEXT, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_TEXT, !(bDefClr || bWinClr));
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case CHECK_OPT_POPUP_ADEFCLR:
-		case CHECK_OPT_POPUP_AWINCLR:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				int bDefClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_ADEFCLR);
-				int bWinClr = IsDlgButtonChecked(hDlg, CHECK_OPT_POPUP_AWINCLR);
-
-				EnableDlgItem(hDlg, CHECK_OPT_POPUP_ADEFCLR, !bWinClr);
-				EnableDlgItem(hDlg, CHECK_OPT_POPUP_AWINCLR, !bDefClr);
-				EnableDlgItem(hDlg, CLR_ABACK, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ABACK, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, CLR_ATEXT, !(bDefClr || bWinClr));
-				EnableDlgItem(hDlg, TXT_OPT_POPUP_CLR_ATEXT, !(bDefClr || bWinClr));
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case RADIO_OPT_POPUP_DEFAULT:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case RADIO_OPT_POPUP_CUSTOM:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				EnableDlgItem(hDlg, EDIT_DELAY, TRUE);
-				if (bInitialized) 
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case RADIO_OPT_POPUP_PERMANENT:
-			if (HIWORD(wParam) == BN_CLICKED) {
-				EnableDlgItem(hDlg, EDIT_DELAY, FALSE);
-				if (bInitialized)
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		case EDIT_DELAY:
-			if (bInitialized && HIWORD(wParam) == EN_UPDATE)
-				NotifyParentOfChange(hDlg);
+		case 255:
+			chkPermanent.SetState(true);
 			break;
 
 		default:
-			if (bInitialized && HIWORD(wParam) == CPN_COLOURCHANGED)
-				NotifyParentOfChange(hDlg);
+			chkCustom.SetState(true);
+			SetDlgItemInt(m_hwnd, EDIT_DELAY, bDelay, FALSE);
 		}
+		return true;
 	}
-	return FALSE;
-}
+
+	bool OnApply() override
+	{
+		// save popup style for birthdays
+		g_plugin.iBirthClrType = chkDefClr.IsChecked() ? POPUP_COLOR_DEFAULT : (chkWinClr.IsChecked() ? POPUP_COLOR_WINDOWS : POPUP_COLOR_CUSTOM);
+
+		// save popup style for anniversaries
+		g_plugin.iAnnivClrType = chkADefClr.IsChecked() ? POPUP_COLOR_DEFAULT : (chkAWinClr.IsChecked() ? POPUP_COLOR_WINDOWS : POPUP_COLOR_CUSTOM);
+
+		// save delay
+		if (chkPermanent.IsChecked())
+			g_plugin.iPopupDelay = 255;
+		else if (chkCustom.IsChecked()) {
+			wchar_t szDelay[4];
+			GetDlgItemText(m_hwnd, EDIT_DELAY, szDelay, _countof(szDelay));
+			g_plugin.iPopupDelay = (uint8_t)wcstol(szDelay, nullptr, 10);
+		}
+		else g_plugin.iPopupDelay.Delete();
+
+		return true;
+	}
+
+	void onClick_Preview(CCtrlButton*)
+	{
+		POPUPDATAW ppd = {};
+		ppd.iSeconds = g_plugin.iPopupDelay;
+		mir_wstrncpy(ppd.lpwzText, TranslateT("This is the reminder message"), MAX_SECONDLINE);
+
+		// Birthday
+		mir_wstrncpy(ppd.lpwzContactName, TranslateT("Birthday"), _countof(ppd.lpwzContactName));
+		ppd.lchIcon = g_plugin.getIcon(IDI_RMD_DTB0);
+		if (chkWinClr.IsChecked()) {
+			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		}
+		else if (!chkDefClr.IsChecked()) {
+			ppd.colorBack = clrBback.GetColor();
+			ppd.colorText = clrBtext.GetColor();
+		}
+		PUAddPopupW(&ppd);
+
+		// Anniversary
+		mir_wstrncpy(ppd.lpwzContactName, TranslateT("Anniversary"), _countof(ppd.lpwzContactName));
+		ppd.lchIcon = g_plugin.getIcon(IDI_RMD_DTAX);
+		if (chkAWinClr.IsChecked()) {
+			ppd.colorBack = GetSysColor(COLOR_BTNFACE);
+			ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
+		}
+		else if (!chkDefClr.IsChecked()) {
+			ppd.colorBack = clrAback.GetColor();
+			ppd.colorText = clrAtext.GetColor();
+		}
+		PUAddPopupW(&ppd);
+	}
+
+	void onChange_Enabled(CCtrlCheck *pCheck)
+	{
+		const int idCtrl[] = {
+			CHECK_OPT_POPUP_DEFCLR, CHECK_OPT_POPUP_WINCLR,
+			CLR_BBACK, TXT_OPT_POPUP_CLR_BACK,
+			CLR_BTEXT, TXT_OPT_POPUP_CLR_TEXT,
+			CHECK_OPT_POPUP_ADEFCLR, CHECK_OPT_POPUP_AWINCLR,
+			CLR_ABACK, TXT_OPT_POPUP_CLR_ABACK,
+			CLR_ATEXT, TXT_OPT_POPUP_CLR_ATEXT,
+			RADIO_OPT_POPUP_DEFAULT, RADIO_OPT_POPUP_CUSTOM,
+			RADIO_OPT_POPUP_PERMANENT, EDIT_DELAY
+		};
+
+		EnableControls(m_hwnd, idCtrl, _countof(idCtrl), pCheck->GetState());
+	}
+
+	void onChange_Clr(CCtrlCheck *)
+	{
+		bool bDefClr = chkDefClr.IsChecked();
+		bool bWinClr = chkWinClr.IsChecked();
+
+		chkDefClr.Enable(!bWinClr);
+		chkWinClr.Enable(!bDefClr);
+
+		clrBback.Enable(!bDefClr && !bWinClr);
+		clrBtext.Enable(!bDefClr && !bWinClr);
+
+		EnableDlgItem(m_hwnd, TXT_OPT_POPUP_CLR_BACK, !(bDefClr || bWinClr));
+		EnableDlgItem(m_hwnd, TXT_OPT_POPUP_CLR_TEXT, !(bDefClr || bWinClr));
+	}
+
+	void onChange_AnnivClr(CCtrlCheck *)
+	{
+		int bDefClr = chkADefClr.IsChecked();
+		int bWinClr = chkAWinClr.IsChecked();
+
+		chkADefClr.Enable(!bWinClr);
+		chkAWinClr.Enable(!bDefClr);
+
+		clrAback.Enable(!bDefClr && !bWinClr);
+		clrAtext.Enable(!bDefClr && !bWinClr);
+
+		EnableDlgItem(m_hwnd, TXT_OPT_POPUP_CLR_ABACK, !(bDefClr || bWinClr));
+		EnableDlgItem(m_hwnd, TXT_OPT_POPUP_CLR_ATEXT, !(bDefClr || bWinClr));
+	}
+
+	void onChange_Delay(CCtrlCheck *)
+	{
+		EnableDlgItem(m_hwnd, EDIT_DELAY, chkCustom.IsChecked());
+	}
+};
 
 /**
 * This hook handler function is called on opening the options dialog
@@ -814,6 +758,7 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 
 	OPTIONSDIALOGPAGE odp = {};
 	odp.position = 95400;
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.szTitle.a = MODULELONGNAME;
 	odp.szGroup.a = LPGEN("Contacts");
 
@@ -821,21 +766,18 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 	odp.szTab.a = LPGEN("Common");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_COMMON);
 	odp.pfnDlgProc = DlgProc_CommonOpts;
-	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 
 	// Advanced page
 	odp.szTab.a = LPGEN("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = DlgProc_AdvancedOpts;
-	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 
 	// Details Dialog page
 	odp.szTab.a = LPGEN("Details dialog");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DETAILSDLG);
 	odp.pfnDlgProc = DlgProc_DetailsDlgOpts;
-	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 
 	// Reminder page
@@ -843,16 +785,12 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 	odp.pszTemplate = 0;
 	odp.pfnDlgProc = 0;
 	odp.pDialog = new CReminderOptsDlg();
-	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 
 	// Popups page
 	odp.szTitle.a = MODULELONGNAME;
 	odp.szGroup.a = LPGEN("Popups");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
-	odp.pfnDlgProc = DlgProc_Popups;
-	odp.pDialog = 0;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.pDialog = new CPopupOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return MIR_OK;
 }

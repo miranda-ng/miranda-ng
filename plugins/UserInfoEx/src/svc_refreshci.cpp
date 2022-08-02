@@ -634,7 +634,7 @@ public:
 				iWait += 5000;
 
 		if (Size() && !_pProgress) {
-			if (g_plugin.getByte("PopupProgress", FALSE))
+			if (g_plugin.bPopupProgress)
 				_pProgress = new CPopupUpdProgress(this);
 			else
 				_pProgress = new CDlgUpdProgress(this);

@@ -45,15 +45,29 @@ static PLUGININFOEX pluginInfoEx =
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+
+	// Reminder options
 	bRemindExtraIcon(MODULENAME, "RemindExtraIcon", true),
 	bRemindFlashIcon(MODULENAME, "RemindFlashIcon", false),
 	bRemindMenuEnabled(MODULENAME, "RemindMenuEnabled", true),
 	bRemindStartupCheck(MODULENAME, "RemindStartupCheck", false),
 	bRemindCheckVisible(MODULENAME, "RemindCheckVisible", false),
-	iRemindEnabled(MODULENAME, "RemindEnabled", REMIND_ALL),
+	iRemindState(MODULENAME, "RemindEnabled", REMIND_ALL),
 	wRemindOffset(MODULENAME, "RemindOffset", 9),
 	wRemindSoundOffset(MODULENAME, "RemindSoundOffset", 3),
-	wRemindNotifyInterval(MODULENAME, "RemindNotifyInterval", 12)
+	wRemindNotifyInterval(MODULENAME, "RemindNotifyInterval", 12),
+
+	// Popup options
+	bPopupEnabled(MODULENAME, "PopupEnabled", true),
+	bPopupMsgbox(MODULENAME, "PopupMsgBox", false),
+	bPopupProgress(MODULENAME, "PopupProgress", false),
+	iPopupDelay(MODULENAME, "PopupDelay", 0),
+	iAnnivClrType(MODULENAME, "PopupAnnivClrType", POPUP_COLOR_CUSTOM),
+	iBirthClrType(MODULENAME, "PopupBirthClrType", POPUP_COLOR_CUSTOM),
+	clrAback(MODULENAME, "PopupAnnivClrBack", RGB(90, 190, 130)),
+	clrAtext(MODULENAME, "PopupAnnivClrText", RGB(0, 0, 0)),
+	clrBback(MODULENAME, "PopupBirthClrBirthBack", RGB(192, 180, 30)),
+	clrBtext(MODULENAME, "PopupBirthClrBirthText", RGB(0, 0, 0))
 {}
 
 /*

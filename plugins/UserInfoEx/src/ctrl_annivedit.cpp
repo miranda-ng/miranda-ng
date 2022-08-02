@@ -41,7 +41,7 @@ CAnnivEditCtrl::CAnnivEditCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
 	_hBtnEdit = GetDlgItem(hDlg, BTN_EDIT);
 	_hBtnMenu = GetDlgItem(hDlg, BTN_MENU);
 	_hwndDate = GetDlgItem(hDlg, EDIT_ANNIVERSARY_DATE);
-	_ReminderEnabled = g_plugin.iRemindEnabled;
+	_ReminderEnabled = g_plugin.iRemindState;
 
 	_pDates = nullptr;
 	_curDate = 0;
