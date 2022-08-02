@@ -1337,6 +1337,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 
 void DlgContactInfoLoadModule()
 {
+	// this event is already created inside the core, don't destroy it
 	g_hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
 	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDialog);
@@ -1358,5 +1359,4 @@ void DlgContactInfoLoadModule()
 void DlgContactInfoUnLoadModule()
 {
 	WindowList_Destroy(g_hWindowList);
-	DestroyHookableEvent(g_hDetailsInitEvent);
 }

@@ -576,6 +576,7 @@ int LoadUserInfoModule(void)
 	CreateServiceFunction("UserInfo/AddPage", AddDetailsPage);
 	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDetailsDialogCommand);
 
+	// this event is already created inside the core, don't destroy it
 	hDetailsInitEvent = CreateHookableEvent(ME_USERINFO_INITIALISE);
 
 	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarLoaded);

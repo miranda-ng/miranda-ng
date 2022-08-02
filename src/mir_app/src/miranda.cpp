@@ -336,5 +336,8 @@ int LoadSystemModule(void)
 	hModulesLoadedEvent = CreateHookableEvent(ME_SYSTEM_MODULESLOADED);
 	hOkToExitEvent = CreateHookableEvent(ME_SYSTEM_OKTOEXIT);
 	hOptionsInitEvent = CreateHookableEvent(ME_OPT_INITIALISE);
+	
+	// this event is created inside the core not to lose its hooks when MIID_UIUSERINFO plugin reloads
+	CreateHookableEvent(ME_USERINFO_INITIALISE);
 	return 0;
 }
