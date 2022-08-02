@@ -38,20 +38,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SOUND_BIRTHDAY_SOON              "BirthdayComing"
 #define SOUND_ANNIVERSARY                "Anniversary"
 											        
-// databbase settings				        
+// database settings				        
 #define SET_REMIND_LASTCHECK             "RemindLastCheck"
-#define SET_REMIND_ENABLED               "RemindEnabled"
-#define SET_REMIND_OFFSET                "RemindOffset"
-#define SET_REMIND_CHECKVISIBLE          "RemindCheckVisible"
-#define SET_REMIND_NOTIFYINTERVAL        "RemindNotifyInterval"
-#define SET_REMIND_FLASHICON             "RemindFlashIcon"
-#define SET_REMIND_EXTRAICON             "RemindExtraIcon"
-#define SET_REMIND_MENUENABLED           "RemindMenuEnabled"
 #define SET_REMIND_BIRTHDAY_ENABLED      "RemindBirthday"
 #define SET_REMIND_BIRTHDAY_OFFSET       "RemindBirthdayOffset"
-#define SET_REMIND_CHECKON_STARTUP       "RemindStartupCheck"
-#define SET_REMIND_BIRTHDAY_IGNORED      "RemindSecureIgnored"
-#define SET_REMIND_SOUNDOFFSET           "RemindSoundOffset"
+
 #define SET_POPUP_ENABLED                "PopupEnabled"
 #define SET_POPUP_BIRTHDAY_COLORTYPE     "PopupBirthClrType"
 #define SET_POPUP_BIRTHDAY_COLOR_TEXT    "PopupBirthClrBirthText"
@@ -60,15 +51,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_POPUP_ANNIVERSARY_COLOR_TEXT "PopupAnnivClrText"
 #define SET_POPUP_ANNIVERSARY_COLOR_BACK "PopupAnnivClrBack"
 #define SET_POPUP_DELAY                  "PopupDelay"
-
-// default values
-#define DEFVAL_REMIND_ENABLED            REMIND_ALL
-#define DEFVAL_REMIND_MENUENABLED        1
-#define DEFVAL_REMIND_OFFSET             9
-#define DEFVAL_REMIND_SOUNDOFFSET        3
-#define DEFVAL_REMIND_NOTIFYINTERVAL     12
-#define DEFVAL_POPUP_ENABLED             1
-#define DEFVAL_REMIND_CHECKVISIBLE       0
 
 #define HM_OPENMSG (WM_USER+1)
 
@@ -95,10 +77,9 @@ enum ENotify
  **/
 void   SvcReminderCheckAll(const ENotify notify);
 
-void   SvcReminderOnTopToolBarLoaded(void);
 void   SvcReminderOnModulesLoaded(void);
 
-void   SvcReminderEnable(uint8_t bEnable);
+void   SvcReminderEnable(bool bEnable);
 void   SvcReminderLoadModule(void);
 void   SvcReminderUnloadModule(void);
 

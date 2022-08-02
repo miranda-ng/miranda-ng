@@ -107,6 +107,10 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	CMOption<uint8_t> iRemindEnabled;
+	CMOption<uint16_t> wRemindOffset, wRemindSoundOffset, wRemindNotifyInterval;
+	CMOption<bool> bRemindExtraIcon, bRemindCheckVisible, bRemindFlashIcon, bRemindStartupCheck, bRemindMenuEnabled;
+
 	int Load() override;
 	int Unload() override;
 };

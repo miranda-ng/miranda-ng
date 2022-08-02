@@ -44,7 +44,16 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bRemindExtraIcon(MODULENAME, "RemindExtraIcon", true),
+	bRemindFlashIcon(MODULENAME, "RemindFlashIcon", false),
+	bRemindMenuEnabled(MODULENAME, "RemindMenuEnabled", true),
+	bRemindStartupCheck(MODULENAME, "RemindStartupCheck", false),
+	bRemindCheckVisible(MODULENAME, "RemindCheckVisible", false),
+	iRemindEnabled(MODULENAME, "RemindEnabled", REMIND_ALL),
+	wRemindOffset(MODULENAME, "RemindOffset", 9),
+	wRemindSoundOffset(MODULENAME, "RemindSoundOffset", 3),
+	wRemindNotifyInterval(MODULENAME, "RemindNotifyInterval", 12)
 {}
 
 /*

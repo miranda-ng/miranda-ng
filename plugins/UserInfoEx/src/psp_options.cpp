@@ -173,82 +173,8 @@ static void DBWriteColor(HWND hDlg, const int idCtrl, LPCSTR pszSetting)
 	g_plugin.setDword(pszSetting, (uint32_t)SendDlgItemMessage(hDlg, idCtrl, CPM_GETCOLOUR, 0, 0));
 }
 
-/**
- * This function writes a uint8_t to database according to the value
- * read from the edit control identified by 'idCtrl'.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting to write the button state to
- * @param	defVal			- this is the default value used by the GetByte() function in order 
- *							  to check whether updating the value is required or not.
- *
- * @retval	TRUE			- the database value was updated
- * @retval	FALSE			- no database update needed
- **/
-static uint8_t DBWriteEditByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint8_t defVal)
-{
-	uint8_t v;
-	BOOL t;
-
-	v = (uint8_t)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != g_plugin.getByte(pszSetting, defVal))) {
-		g_plugin.setByte(pszSetting, v);
-		return true;
-	}
-	return FALSE;
-}
-
-/**
- * This function writes a uint16_t to database according to the value
- * read from the edit control identified by 'idCtrl'.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting to write the button state to
- * @param	defVal			- this is the default value used by the GetWord() function in order 
- *							  to check whether updating the value is required or not.
- *
- * @retval	TRUE			- the database value was updated
- * @retval	FALSE			- no database update needed
- **/
-static uint8_t DBWriteEditWord(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint16_t defVal)
-{
-	uint16_t v;
-	BOOL t;
-
-	v = (uint16_t)GetDlgItemInt(hDlg, idCtrl, &t, FALSE);
-	if (t && (v != g_plugin.getWord(pszSetting, defVal))) {
-		g_plugin.setWord(pszSetting, v);
-		return true;
-	}
-	return FALSE;
-}
-
-/**
- * This function writes a uint8_t to database according to the currently
- * selected item of a combobox identified by 'idCtrl'.
- *
- * @param	hWnd			- the dialog's window handle
- * @param	idCtrl			- the dialog item's identifier
- * @param	pszSetting		- the setting to write the button state to
- * @param	defVal			- this is the default value used by the GetByte() function in order 
- *							  to check whether updating the value is required or not.
- *
- * @retval	TRUE			- the database value was updated
- * @retval	FALSE			- no database update needed
- **/
-static uint8_t DBWriteComboByte(HWND hDlg, const int idCtrl, LPCSTR pszSetting, uint8_t defVal)
-{
-	uint8_t v;
-
-	v = (uint8_t)SendDlgItemMessage(hDlg, idCtrl, CB_GETCURSEL, NULL, NULL);
-	if (v != g_plugin.getByte(pszSetting, defVal)) {
-		g_plugin.setByte(pszSetting, v);
-		return true;
-	}
-	return FALSE;
-}
+/////////////////////////////////////////////////////////////////////////////////////////
+// Common options dialog
 
 static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -361,6 +287,9 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Advanced options dialog
+
 static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static uint8_t bInitialized = 0;
@@ -449,6 +378,9 @@ static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Details options dialog
+
 static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	static uint8_t bInitialized = 0;
@@ -528,155 +460,97 @@ static INT_PTR CALLBACK DlgProc_DetailsDlgOpts(HWND hDlg, UINT uMsg, WPARAM wPar
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Reminder options dialog
 
-static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CReminderOptsDlg : public CDlgBase
 {
-	static uint8_t bInitialized = 0;
+	CCtrlSpin spin1, spin2, spinOffset;
+	CCtrlCheck chkVisible, chkFlash, chkStartup, chkMenu;
+	CCtrlCombo cmbEnabled;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hDlg);
+public:
+	CReminderOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_REMINDER),
+		cmbEnabled(this, EDIT_REMIND_ENABLED),
+		chkMenu(this, CHECK_REMIND_MI),
+		chkFlash(this, CHECK_REMIND_FLASHICON),
+		chkStartup(this, CHECK_REMIND_STARTUP),
+		chkVisible(this, CHECK_REMIND_VISIBLEONLY),
+		spin1(this, SPIN_REMIND, 50),
+		spin2(this, SPIN_REMIND2, 8760, 1),
+		spinOffset(this, SPIN_REMIND_SOUNDOFFSET, 50)
+	{
+		CreateLink(chkMenu, g_plugin.bRemindMenuEnabled);
+		CreateLink(chkFlash, g_plugin.bRemindFlashIcon);
+		CreateLink(chkStartup, g_plugin.bRemindStartupCheck);
+		CreateLink(chkVisible, g_plugin.bRemindCheckVisible);
 
-		SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_ANNIVERSARY, true));
+		CreateLink(spin1, g_plugin.wRemindOffset);
+		CreateLink(spin1, g_plugin.wRemindNotifyInterval);
+		CreateLink(spinOffset, g_plugin.wRemindSoundOffset);
+
+		cmbEnabled.OnSelChanged = Callback(this, &CReminderOptsDlg::onChange_Enabled);
+	}
+
+	bool OnInitDialog() override
+	{
+		SendDlgItemMessage(m_hwnd, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_ANNIVERSARY, true));
 
 		// set colours			
-		SendDlgItemMessage(hDlg, EDIT_REMIND, EM_LIMITTEXT, 2, 0);
-		SendDlgItemMessage(hDlg, SPIN_REMIND, UDM_SETRANGE32, 0, 50);
-		SendDlgItemMessage(hDlg, EDIT_REMIND2, EM_LIMITTEXT, 4, 0);
-		SendDlgItemMessage(hDlg, SPIN_REMIND2, UDM_SETRANGE32, 1, 8760);
-		SendDlgItemMessage(hDlg, EDIT_REMIND_SOUNDOFFSET, EM_LIMITTEXT, 2, 0);
-		SendDlgItemMessage(hDlg, SPIN_REMIND_SOUNDOFFSET, UDM_SETRANGE32, 0, 50);
+		cmbEnabled.AddString(TranslateT("Reminder disabled"));
+		cmbEnabled.AddString(TranslateT("Birthdays only"));
+		cmbEnabled.AddString(TranslateT("Anniversaries only"));
+		cmbEnabled.AddString(TranslateT("Everything"));
 
-		HWND hCtrl;
-		if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) {
-			ComboBox_AddString(hCtrl, TranslateT("Reminder disabled"));
-			ComboBox_AddString(hCtrl, TranslateT("Birthdays only"));
-			ComboBox_AddString(hCtrl, TranslateT("Anniversaries only"));			
-			ComboBox_AddString(hCtrl, TranslateT("Everything"));
-		}
+		// set reminder options
+		cmbEnabled.SetCurSel(g_plugin.iRemindEnabled);
+		
+		MTime mtLast;
+		wchar_t szTime[MAX_PATH];
 
-		bInitialized = 0;
-		{
-			// set reminder options
-			uint8_t bEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
-			SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_SETCURSEL, bEnabled, NULL);
-			DlgProc_ReminderOpts(hDlg, WM_COMMAND, MAKEWPARAM(EDIT_REMIND_ENABLED, CBN_SELCHANGE),
-				(LPARAM)GetDlgItem(hDlg, EDIT_REMIND_ENABLED));
+		mtLast.DBGetStamp(0, MODULENAME, SET_REMIND_LASTCHECK);
+		mtLast.UTCToLocal();
+		mtLast.TimeFormat(szTime, _countof(szTime));
 
-			DBGetCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED, DEFVAL_REMIND_MENUENABLED);
-			DBGetCheckBtn(hDlg, CHECK_REMIND_FLASHICON, SET_REMIND_FLASHICON, FALSE);
-			DBGetCheckBtn(hDlg, CHECK_REMIND_VISIBLEONLY, SET_REMIND_CHECKVISIBLE, DEFVAL_REMIND_CHECKVISIBLE);
-			DBGetCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP, FALSE);
-
-			SetDlgItemInt(hDlg, EDIT_REMIND, g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
-			SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
-			SetDlgItemInt(hDlg, EDIT_REMIND2, g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
-
-			MTime mtLast;
-			wchar_t szTime[MAX_PATH];
-
-			mtLast.DBGetStamp(0, MODULENAME, SET_REMIND_LASTCHECK);
-			mtLast.UTCToLocal();
-			mtLast.TimeFormat(szTime, _countof(szTime));
-
-			SetDlgItemText(hDlg, TXT_REMIND_LASTCHECK, szTime);
-		}
-		bInitialized = 1;
-		return TRUE;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			{
-				uint8_t bReminderCheck = FALSE;
-
-				// save checkbox options
-				DBWriteCheckBtn(hDlg, CHECK_REMIND_MI, SET_REMIND_MENUENABLED);
-				DBWriteCheckBtn(hDlg, CHECK_REMIND_FLASHICON, SET_REMIND_FLASHICON);
-				DBWriteCheckBtn(hDlg, CHECK_REMIND_VISIBLEONLY, SET_REMIND_CHECKVISIBLE);
-				DBWriteCheckBtn(hDlg, CHECK_REMIND_STARTUP, SET_REMIND_CHECKON_STARTUP);
-
-				DBWriteEditByte(hDlg, EDIT_REMIND_SOUNDOFFSET, SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET);
-				DBWriteEditWord(hDlg, EDIT_REMIND2, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL);
-				bReminderCheck = DBWriteEditWord(hDlg, EDIT_REMIND, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET);
-
-				// update current reminder state
-				uint8_t bNewVal = (uint8_t)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
-				if (g_plugin.getByte(SET_REMIND_ENABLED, 1) != bNewVal) {
-					g_plugin.setByte(SET_REMIND_ENABLED, bNewVal);
-					if (bNewVal == REMIND_OFF) {
-						SvcReminderEnable(FALSE);
-						bReminderCheck = FALSE;
-					}
-					else bReminderCheck = TRUE;
-				}
-
-				// update all contact list extra icons
-				if (bReminderCheck) {
-					SvcReminderEnable(TRUE); // reinit reminder options from db
-					SvcReminderCheckAll(NOTIFY_CLIST); // notify
-				}
-				RebuildMain();
-			}
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case EDIT_REMIND_ENABLED:
-			if (HIWORD(wParam) == CBN_SELCHANGE) {
-				int bEnabled = ComboBox_GetCurSel((HWND)lParam) > 0;
-				const int idCtrl[] = {
-					CHECK_REMIND_MI, EDIT_REMIND, EDIT_REMIND2, SPIN_REMIND, SPIN_REMIND2, TXT_REMIND,
-					TXT_REMIND2, TXT_REMIND3, TXT_REMIND4, TXT_REMIND6, TXT_REMIND8, TXT_REMIND9,
-					TXT_REMIND_LASTCHECK, CHECK_REMIND_FLASHICON, CHECK_REMIND_VISIBLEONLY,
-					CHECK_REMIND_STARTUP, EDIT_REMIND_SOUNDOFFSET, SPIN_REMIND_SOUNDOFFSET
-				};
-
-				EnableControls(hDlg, idCtrl, _countof(idCtrl), bEnabled);
-			}
-			__fallthrough;
-
-		case CHECK_REMIND_MI:
-		case CHECK_REMIND_FLASHICON:
-		case CHECK_REMIND_VISIBLEONLY:
-		case CHECK_REMIND_STARTUP:
-			if (bInitialized && HIWORD(wParam) == BN_CLICKED)
-				NotifyParentOfChange(hDlg);
-			break;
-
-		// The user changes the number of days in advance of an anniversary to be notified by popups and clist extra icon.
-		case EDIT_REMIND:
-			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
-				BOOL t;
-				uint16_t v = (uint16_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != g_plugin.getWord(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET)))
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		// The user changes the number of days in advance of an anniversary to be notified by sound.
-		case EDIT_REMIND_SOUNDOFFSET:
-			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
-				BOOL t;
-				uint8_t v = (uint8_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != g_plugin.getByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET)))
-					NotifyParentOfChange(hDlg);
-			}
-			break;
-
-		// The user changes the notification interval
-		case EDIT_REMIND2:
-			if (bInitialized && HIWORD(wParam) == EN_UPDATE) {
-				BOOL t;
-				uint16_t v = (uint16_t)GetDlgItemInt(hDlg, LOWORD(wParam), &t, FALSE);
-				if (t && (v != g_plugin.getWord(SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL)))
-					NotifyParentOfChange(hDlg);
-			}
-		}
+		SetDlgItemText(m_hwnd, TXT_REMIND_LASTCHECK, szTime);
+		return true;
 	}
-	return FALSE;
-}
+
+	bool OnApply() override
+	{
+		// update current reminder state
+		uint8_t bNewVal = (uint8_t)cmbEnabled.GetCurSel();
+		if (g_plugin.iRemindEnabled != bNewVal) {
+			g_plugin.iRemindEnabled = bNewVal;
+			if (bNewVal == REMIND_OFF)
+				SvcReminderEnable(false);
+			else {
+				// update all contact list extra icons
+				SvcReminderEnable(true); // reinit reminder options from db
+				SvcReminderCheckAll(NOTIFY_CLIST); // notify
+			}
+		}
+
+		RebuildMain();
+		return true;
+	}
+
+	void onChange_Enabled(CCtrlCombo *pCombo)
+	{
+		const int idCtrl[] = {
+			CHECK_REMIND_MI, EDIT_REMIND, EDIT_REMIND2, SPIN_REMIND, SPIN_REMIND2, TXT_REMIND,
+			TXT_REMIND2, TXT_REMIND3, TXT_REMIND4, TXT_REMIND6, TXT_REMIND8, TXT_REMIND9,
+			TXT_REMIND_LASTCHECK, CHECK_REMIND_FLASHICON, CHECK_REMIND_VISIBLEONLY,
+			CHECK_REMIND_STARTUP, EDIT_REMIND_SOUNDOFFSET, SPIN_REMIND_SOUNDOFFSET
+		};
+
+		EnableControls(m_hwnd, idCtrl, _countof(idCtrl), pCombo->GetCurSel() > 0);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup options dialog
 
 static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -694,7 +568,7 @@ static INT_PTR CALLBACK DlgProc_Popups(HWND hDlg, UINT uMsg, WPARAM wParam, LPAR
 				EnableDlgItem(hDlg, CHECK_OPT_POPUP_MSGBOX, FALSE);
 
 			// enable/disable popups
-			uint8_t isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, DEFVAL_POPUP_ENABLED);
+			uint8_t isEnabled = DBGetCheckBtn(hDlg, CHECK_OPT_POPUP_ENABLED, SET_POPUP_ENABLED, TRUE);
 			SendMessage(hDlg, WM_COMMAND, MAKEWPARAM(CHECK_OPT_POPUP_ENABLED, BN_CLICKED), (LPARAM)GetDlgItem(hDlg, CHECK_OPT_POPUP_ENABLED));
 
 			// set colortype checkboxes and color controls
@@ -966,8 +840,9 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 
 	// Reminder page
 	odp.szTab.a = LPGEN("Reminder");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_REMINDER);
-	odp.pfnDlgProc = DlgProc_ReminderOpts;
+	odp.pszTemplate = 0;
+	odp.pfnDlgProc = 0;
+	odp.pDialog = new CReminderOptsDlg();
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 
@@ -976,6 +851,7 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 	odp.szGroup.a = LPGEN("Popups");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 	odp.pfnDlgProc = DlgProc_Popups;
+	odp.pDialog = 0;
 	odp.flags = ODPF_BOLDGROUPS;
 	g_plugin.addOptions(wParam, &odp);
 	return MIR_OK;

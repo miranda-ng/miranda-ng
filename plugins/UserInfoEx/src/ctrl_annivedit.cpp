@@ -41,7 +41,7 @@ CAnnivEditCtrl::CAnnivEditCtrl(HWND hDlg, uint16_t idCtrl, LPCSTR pszSetting)
 	_hBtnEdit = GetDlgItem(hDlg, BTN_EDIT);
 	_hBtnMenu = GetDlgItem(hDlg, BTN_MENU);
 	_hwndDate = GetDlgItem(hDlg, EDIT_ANNIVERSARY_DATE);
-	_ReminderEnabled = g_plugin.getByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);
+	_ReminderEnabled = g_plugin.iRemindEnabled;
 
 	_pDates = nullptr;
 	_curDate = 0;
@@ -537,7 +537,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 	{
 		if (IsDlgButtonChecked(_hwndDlg, RADIO_REMIND1))
 		{
-			_itow(g_plugin.getByte(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+			_itow(g_plugin.wRemindOffset, buf, 10);
 			EnableWindow(GetDlgItem(_hwndDlg, EDIT_REMIND), FALSE);
 			EnableWindow(GetDlgItem(_hwndDlg, SPIN_REMIND), FALSE);
 			state = BST_INDETERMINATE;
@@ -546,7 +546,7 @@ void CAnnivEditCtrl::OnReminderChecked()
 		{
 			if (pCurrent->RemindOffset() == (uint16_t)-1)
 			{
-				_itow(g_plugin.getByte(SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), buf, 10);
+				_itow(g_plugin.wRemindOffset, buf, 10);
 			}
 			else
 			{
