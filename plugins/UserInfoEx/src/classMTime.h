@@ -48,10 +48,10 @@ public:
 	LONG	Compare(const uint32_t dwTimeStamp) const;
 	
 	// get value from class
-	LARGE_INTEGER	LargeInt() const;
-	FILETIME    FileTime() const;
-	uint32_t       TimeStamp() const;
-	SYSTEMTIME  SystemTime() const { return _SysTime; }
+	LARGE_INTEGER LargeInt() const;
+	FILETIME   FileTime() const;
+	uint32_t   TimeStamp() const;
+	SYSTEMTIME SystemTime() const { return _SysTime; }
 	
 	uint16_t DaysInMonth(const uint16_t &wMonth) const;
 	uint16_t DaysInYear(uint8_t bIgnoreLeap = FALSE) const;

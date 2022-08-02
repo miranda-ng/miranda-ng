@@ -347,7 +347,7 @@ int MAnnivDate::DBGetDate(MCONTACT hContact, LPCSTR pszModule, LPCSTR szDay, LPC
 
 	int wtmp = db_get_w(hContact, pszModule, szYear);
 	if (wtmp <= 1900)
-		wtmp = 0;
+		wtmp = 1900;
 	Year(wtmp);
 
 	wtmp = db_get_w(hContact, pszModule, szMonth);

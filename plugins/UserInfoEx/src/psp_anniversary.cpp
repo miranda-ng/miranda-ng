@@ -128,7 +128,7 @@ struct PSPAnniversaryDlg : public PSPBaseDlg
 	{
 		CAnnivEditCtrl *pDateCtrl = CAnnivEditCtrl::GetObj(m_hwnd, EDIT_ANNIVERSARY_DATE);
 
-		switch(LOWORD(wParam)) {
+		switch(uMsg) {
 		case WM_NOTIFY:
 			switch (((LPNMHDR)lParam)->code) {
 			case EDIT_ANNIVERSARY_DATE:
