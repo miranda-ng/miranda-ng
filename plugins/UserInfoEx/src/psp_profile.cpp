@@ -1363,7 +1363,7 @@ public:
 			}
 			break;
 		}
-		return FALSE;
+		return PSPBaseDlg::DlgProc(uMsg, wParam, lParam);
 	}
 };
 
