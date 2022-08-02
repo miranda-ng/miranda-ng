@@ -88,7 +88,7 @@ bool IsMeta(LPCSTR pszModule)
 
 bool IsMetaAndScan(LPCSTR pszModule)
 {
-	return 0 != g_plugin.getByte(SET_META_SCAN, TRUE) && IsMeta(pszModule);
+	return 0 != g_plugin.bMetaScan && IsMeta(pszModule);
 }
 
 } /* namespace Module */

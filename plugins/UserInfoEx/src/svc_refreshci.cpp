@@ -225,7 +225,7 @@ class CDlgUpdProgress : public CUpdProgress
 					{ IDI_BTN_DOWNARROW,	BM_SETIMAGE,	IDSKIP   },
 					{ IDI_BTN_CLOSE,		BM_SETIMAGE,	IDCANCEL }
 				};
-				IcoLib_SetCtrlIcons(hWnd, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? 2 : 1);
+				IcoLib_SetCtrlIcons(hWnd, idIcon, g_plugin.bButtonIcons ? 2 : 1);
 
 				SendDlgItemMessage(hWnd, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);
 				SendDlgItemMessage(hWnd, IDSKIP, BUTTONTRANSLATE, NULL, NULL);

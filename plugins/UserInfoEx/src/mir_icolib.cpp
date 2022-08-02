@@ -154,7 +154,7 @@ wchar_t *IcoLib_GetDefaultIconFileName()
 
 static HINSTANCE IcoLib_CheckIconPackVersion(wchar_t *szIconPack)
 {
-	if (g_plugin.getByte(SET_ICONS_CHECKFILEVERSION, TRUE)) {
+	if (g_plugin.bCheckVersion) {
 		if (szIconPack) {
 			wchar_t szAbsolutePath[MAX_PATH];
 			PathToAbsoluteW(szIconPack, szAbsolutePath);

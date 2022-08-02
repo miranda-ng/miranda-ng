@@ -290,93 +290,71 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options dialog
 
-static INT_PTR CALLBACK DlgProc_AdvancedOpts(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
+class CAdvancedOptsDlg : public CDlgBase
 {
-	static uint8_t bInitialized = 0;
+	CCtrlCheck chkVersion, chkMetaScan, chkButtonIcons, chkEmail;
+	CCtrlButton btnReset;
 
-	switch (uMsg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hDlg);
-		bInitialized = 0;
+public:
+	CAdvancedOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_ADVANCED),
+		btnReset(this, BTN_OPT_RESET),
+		chkEmail(this, CHECK_OPT_SREMAIL_ENABLED),
+		chkVersion(this, CHECK_OPT_ICOVERSION),
+		chkMetaScan(this, CHECK_OPT_METASCAN),
+		chkButtonIcons(this, CHECK_OPT_BUTTONICONS)
+	{
+		CreateLink(chkEmail, g_plugin.bEmailService);
+		CreateLink(chkVersion, g_plugin.bCheckVersion);
+		CreateLink(chkMetaScan, g_plugin.bMetaScan);
+		CreateLink(chkButtonIcons, g_plugin.bButtonIcons);
 
-		DBGetCheckBtn(hDlg, CHECK_OPT_ICOVERSION, SET_ICONS_CHECKFILEVERSION, TRUE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS, TRUE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN, TRUE);
-		DBGetCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE, TRUE);
-		CheckDlgButton(hDlg, CHECK_OPT_AUTOTIMEZONE, BST_CHECKED);
-		EnableWindow(GetDlgItem(hDlg, CHECK_OPT_AUTOTIMEZONE), FALSE);
-
-		bInitialized = 1;
-		return TRUE;
-
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->code) {
-		case PSN_APPLY:
-			DBWriteCheckBtn(hDlg, CHECK_OPT_ICOVERSION, SET_ICONS_CHECKFILEVERSION);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_BUTTONICONS, SET_ICONS_BUTTONS);
-			DBWriteCheckBtn(hDlg, CHECK_OPT_METASCAN, SET_META_SCAN);
-
-			DBWriteCheckBtn(hDlg, CHECK_OPT_SREMAIL_ENABLED, SET_EXTENDED_EMAILSERVICE);
-		}
-		break;
-
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case CHECK_OPT_ICOVERSION:
-		case CHECK_OPT_BUTTONICONS:
-		case CHECK_OPT_METASCAN:
-		case CHECK_OPT_SREMAIL_ENABLED:
-		case CHECK_OPT_AUTOTIMEZONE:
-			if (bInitialized)
-				NotifyParentOfChange(hDlg);
-			break;
-
-		case BTN_OPT_RESET:
-			uint8_t WantReset = MsgBox(hDlg,
-				MB_ICON_WARNING | MB_YESNO,
-				LPGENW("Question"),
-				LPGENW("Reset factory defaults"),
-				LPGENW("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
-
-			if (WantReset) {
-				DB::CEnumList Settings;
-
-				// delete all skin icons
-				if (!Settings.EnumSettings(NULL, "SkinIcons"))
-					for (auto &s : Settings)
-						if (mir_strncmpi(s, "UserInfoEx", 10) == 0)
-							db_unset(0, "SkinIcons", s);
-
-				// delete global settings
-				db_delete_module(NULL, USERINFO"Ex");
-				db_delete_module(NULL, USERINFO"ExW");
-
-				// delete old contactsettings
-				for (auto &hContact : Contacts()) {
-					db_unset(hContact, USERINFO, "PListColWidth0");
-					db_unset(hContact, USERINFO, "PListColWidth1");
-					db_unset(hContact, USERINFO, "PListColWidth2");
-					db_unset(hContact, USERINFO, "EMListColWidth0");
-					db_unset(hContact, USERINFO, "EMListColWidth1");
-					db_unset(hContact, USERINFO, "BirthRemind");
-					db_unset(hContact, USERINFO, "RemindBirthday");
-					db_unset(hContact, USERINFO, "RemindDaysErlier");
-					db_unset(hContact, USERINFO, "vCardPath");
-
-					db_delete_module(hContact, USERINFO"Ex");
-					db_delete_module(hContact, USERINFO"ExW");
-				}
-
-				SendMessage(GetParent(hDlg), PSM_FORCECHANGED, NULL, NULL);
-				MsgBox(hDlg, MB_ICON_INFO,
-					LPGENW("Ready"),
-					LPGENW("Everything is done!"),
-					LPGENW("All settings are reset to default values now!"));
-			}
-		}
+		btnReset.OnClick = Callback(this, &CAdvancedOptsDlg::onClick_Reset);
 	}
-	return FALSE;
-}
+
+	void onClick_Reset(CCtrlButton *)
+	{
+		uint8_t WantReset = MsgBox(m_hwnd,
+			MB_ICON_WARNING | MB_YESNO,
+			LPGENW("Question"),
+			LPGENW("Reset factory defaults"),
+			LPGENW("This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?"));
+
+		if (!WantReset)
+			return;
+
+		DB::CEnumList Settings;
+
+		// delete all skin icons
+		if (!Settings.EnumSettings(NULL, "SkinIcons"))
+			for (auto &s : Settings)
+				if (mir_strncmpi(s, "UserInfoEx", 10) == 0)
+					db_unset(0, "SkinIcons", s);
+
+		// delete global settings
+		db_delete_module(NULL, USERINFO"Ex");
+		db_delete_module(NULL, USERINFO"ExW");
+
+		// delete old contactsettings
+		for (auto &hContact : Contacts()) {
+			db_unset(hContact, USERINFO, "PListColWidth0");
+			db_unset(hContact, USERINFO, "PListColWidth1");
+			db_unset(hContact, USERINFO, "PListColWidth2");
+			db_unset(hContact, USERINFO, "EMListColWidth0");
+			db_unset(hContact, USERINFO, "EMListColWidth1");
+			db_unset(hContact, USERINFO, "BirthRemind");
+			db_unset(hContact, USERINFO, "RemindBirthday");
+			db_unset(hContact, USERINFO, "RemindDaysErlier");
+			db_unset(hContact, USERINFO, "vCardPath");
+
+			db_delete_module(hContact, USERINFO"Ex");
+			db_delete_module(hContact, USERINFO"ExW");
+		}
+
+		SendMessage(m_hwndParent, PSM_FORCECHANGED, NULL, NULL);
+		MsgBox(m_hwnd, MB_ICON_INFO, LPGENW("Ready"), LPGENW("Everything is done!"), LPGENW("All settings are reset to default values now!"));
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Details options dialog
@@ -743,14 +721,13 @@ int OnInitOptions(WPARAM wParam, LPARAM)
 
 	// Advanced page
 	odp.szTab.a = LPGEN("Advanced");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
-	odp.pfnDlgProc = DlgProc_AdvancedOpts;
+	odp.pszTemplate = 0;
+	odp.pfnDlgProc = 0;
+	odp.pDialog = new CAdvancedOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 
 	// Details Dialog page
 	odp.szTab.a = LPGEN("Details dialog");
-	odp.pszTemplate = 0;
-	odp.pfnDlgProc = 0;
 	odp.pDialog = new CDetailsOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 

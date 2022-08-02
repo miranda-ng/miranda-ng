@@ -46,6 +46,12 @@ static PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
 
+	// Advanced options
+	bCheckVersion(MODULENAME, "CheckIconPackVersion", true),
+	bMetaScan(MODULENAME, "MetaScan", true),
+	bButtonIcons(MODULENAME, "ButtonIcons", true),
+	bEmailService(MODULENAME, "emailEx", true),
+
 	// Propsheet options
 	bAero(MODULENAME, "AeroAdaption", true),
 	bReadOnly(MODULENAME, "PBCIReadOnly", false),

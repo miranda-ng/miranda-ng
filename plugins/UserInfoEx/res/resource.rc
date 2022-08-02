@@ -339,7 +339,6 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,67,290,10
     CONTROL         "Enable extended 'send/receive e-mail' service (*)",CHECK_OPT_SREMAIL_ENABLED,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,91,275,10
-    CONTROL         "Use Windows timezone",CHECK_OPT_AUTOTIMEZONE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,106,275,10
     LTEXT           "(*) Requires Miranda to be restarted.",IDC_STATIC,11,207,167,8
     PUSHBUTTON      "Reset factory defaults",BTN_OPT_RESET,209,204,95,14
 END

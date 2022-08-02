@@ -29,9 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SECT_TREE             LPGEN("Extended user info") "/" LPGEN("Treeview")
 #define SECT_REMIND           LPGEN("Extended user info") "/" LPGEN("Reminder")
 
-#define SET_ICONS_CHECKFILEVERSION      "CheckIconPackVersion"
-#define SET_ICONS_BUTTONS            "ButtonIcons"
-
 #define ICONINDEX(id)	max((min((id), IDI_LASTICON)) - IDI_FIRST_ICON, 0)
 
 struct ICONCTRL

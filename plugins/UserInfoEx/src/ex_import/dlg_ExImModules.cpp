@@ -165,7 +165,7 @@ INT_PTR CALLBACK SelectModulesToExport_DlgProc(HWND hDlg, UINT uMsg, WPARAM wPar
 					{ IDI_EXPORT,    BM_SETIMAGE,  IDOK        },
 					{ IDI_BTN_CLOSE, BM_SETIMAGE,  IDCANCEL    }
 				};
-				const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2;
+				const int numIconsToSet = g_plugin.bButtonIcons ? _countof(idIcon) : 2;
 				IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
 				// create imagelist for treeview

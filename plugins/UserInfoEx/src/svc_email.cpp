@@ -134,7 +134,7 @@ static int OnPreBuildMenu(WPARAM wParam, LPARAM)
 
 void SvcEMailRebuildMenu()	
 {	
-	if (g_plugin.getByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {	
+	if (g_plugin.bEmailService) {	
 		if (!hPrebuildMenuHook) 	
 			hPrebuildMenuHook = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPreBuildMenu);	
 
@@ -166,7 +166,7 @@ void SvcEMailRebuildMenu()
 
 void SvcEMailLoadModule()	
 {	
-	if (g_plugin.getByte(SET_EXTENDED_EMAILSERVICE, TRUE)) {	
+	if (g_plugin.bEmailService) {	
 		// create own email send command	
 		DestroyServiceFunction(MS_EMAIL_SENDEMAIL);	
 		CreateServiceFunction(MS_EMAIL_SENDEMAIL, MenuCommand);	

@@ -152,7 +152,7 @@ static INT_PTR CALLBACK DlgProc_EMail(HWND hDlg, UINT msg, WPARAM wParam, LPARAM
 		SetUserData(hDlg, lParam);
 
 		SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)g_plugin.getIcon(IDI_DLG_EMAIL, true));
-		if (g_plugin.getByte(SET_ICONS_BUTTONS, 1)) {
+		if (g_plugin.bButtonIcons) {
 			SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_OK));
 			SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_CLOSE));
 		}
@@ -246,7 +246,7 @@ INT_PTR CALLBACK DlgProc_Phone(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam
 			SetUserData(hDlg, lParam);
 
 			SendDlgItemMessage(hDlg, IDC_HEADERBAR, WM_SETICON, 0, (LPARAM)g_plugin.getIcon(IDI_DLG_PHONE, TRUE));
-			if (g_plugin.getByte(SET_ICONS_BUTTONS, 1)) {
+			if (g_plugin.bButtonIcons) {
 				SendDlgItemMessage(hDlg, IDOK, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_OK));
 				SendDlgItemMessage(hDlg, IDCANCEL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)g_plugin.getIcon(IDI_BTN_CLOSE));
 			}

@@ -42,7 +42,7 @@ INT_PTR CALLBACK DlgProcProgress(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	switch (msg) {
 	case WM_INITDIALOG:
-		IcoLib_SetCtrlIcons(hDlg, idIcon, g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 2);
+		IcoLib_SetCtrlIcons(hDlg, idIcon, g_plugin.bButtonIcons ? _countof(idIcon) : 2);
 
 		TranslateDialogDefault(hDlg);
 		SendDlgItemMessage(hDlg, IDCANCEL, BUTTONTRANSLATE, NULL, NULL);

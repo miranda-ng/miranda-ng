@@ -854,7 +854,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 				{ IDI_BTN_APPLY,	BM_SETIMAGE,	IDAPPLY		}
 			};
 
-			const int numIconsToSet = g_plugin.getByte(SET_ICONS_BUTTONS, 1) ? _countof(idIcon) : 1;
+			const int numIconsToSet = g_plugin.bButtonIcons ? _countof(idIcon) : 1;
 
 			IcoLib_SetCtrlIcons(hDlg, idIcon, numIconsToSet);
 
@@ -954,7 +954,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			case ACKTYPE_GETINFO:
 				// is contact the owner of the dialog or any metasubcontact of the owner? skip handling otherwise!
 				if (ack->hContact != pPs->hContact) {
-					if (!g_plugin.getByte(SET_META_SCAN, TRUE))
+					if (!g_plugin.bMetaScan)
 						break;
 
 					for (i = 0; i < pPs->nSubContacts; i++) {
@@ -1021,7 +1021,7 @@ static INT_PTR CALLBACK DlgProc(HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			if (hContact != pPs->hContact) {
 				if (pPs->hContact != db_mc_getMeta(hContact))
 					break;
-				if (!g_plugin.getByte(SET_META_SCAN, TRUE))
+				if (!g_plugin.bMetaScan)
 					break;
 			}
 

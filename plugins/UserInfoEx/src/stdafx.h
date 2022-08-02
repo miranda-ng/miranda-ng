@@ -107,6 +107,9 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
+	// Advanced options
+	CMOption<bool> bCheckVersion, bMetaScan, bButtonIcons, bEmailService;
+
 	// Prop sheet options
 	CMOption<bool> bShowColours, bTreeGroups, bSortTree, bReadOnly, bChangeDetails, bAero;
 	CMOption<uint32_t> clrNormal, clrCustom, clrBoth, clrChanged, clrMeta;

@@ -50,7 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_MI_STATUS                 "miStatus"
 #define SET_MI_ACCOUNT                "miAccount"
 
-#define SET_EXTENDED_EMAILSERVICE     "emailEx"
 #define SET_CLIST_EXTRAICON_GENDER    "GenderColumn"
 #define SET_CLIST_EXTRAICON_GENDER2   "cliGender"
 #define SET_CLIST_EXTRAICON_COUNTRY   "CountryColumn"
@@ -58,7 +57,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #define SET_CLIST_EXTRAICON_EMAIL     "cliEmail"
 #define SET_CLIST_EXTRAICON_PHONE     "cliPhone"
 #define SET_OPT_AUTOTIMEZONE          "AutoTimezone"
-#define SET_META_SCAN                 "MetaScan"
 
 // database   settings (general psp)
 #define SET_ME_PASSWORD               "Password"
