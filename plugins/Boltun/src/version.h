@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME            "Boltun"
 #define __FILENAME               "Boltun.dll"
-#define __DESCRIPTION            "Boltun, the chat bot in the russian language."
+#define __DESCRIPTION            "Boltun, the chat bot in the Russian language."
 #define __AUTHOR                 "Alexander S. Kiselev, Valentin Pavlyuchenko"
 #define __AUTHORWEB              "https://miranda-ng.org/p/Boltun/"
 #define __COPYRIGHT              "© 2003-2008 Alexander S. Kiselev A.K.A. KAS, Valentin Pavlyuchenko"
