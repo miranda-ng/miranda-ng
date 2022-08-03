@@ -265,9 +265,9 @@
 [Add ':' to auto-completed names]
 Добавлять ":" к именам пользователей
 [Prefix all events with a timestamp]
-Подставлять время во все события
+Указывать время всех событий
 [Only prefix with timestamp if it has changed]
-Подставлять время, если есть изменения
+Указывать время, только если оно изменилось
 [Timestamp has same color as event]
 Время того же цвета, что и событие
 [Indent the second line of a message]

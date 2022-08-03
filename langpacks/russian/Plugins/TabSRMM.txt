@@ -47,7 +47,7 @@
 [Log directory]
 Папка журнала
 [Maximum size for log files (in KB)]
-Максимальный размер журнала (в КБ)
+Разбивать на файлы размером (в КБ)
 [Group chat log formatting]
 Форматирование журнала чатов
 [Your name]
@@ -942,9 +942,9 @@ IRC-стиль (текстовый) индикаторов ролей участ
 [Use alternative sorting method in member list]
 Альтернативная сортировка ников в списке
 [Prefix all events with a timestamp]
-Подставлять время во все события
-[Timestamp only when event time differs]
-Подставлять время, если есть изменения
+Указывать время всех событий
+[Only prefix with timestamp if it has changed]
+Указывать время, только если оно изменилось
 [Timestamp has same color as the event]
 Время того же цвета, что и событие
 [Indent the second line of a message]
