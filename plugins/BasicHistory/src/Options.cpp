@@ -1851,12 +1851,12 @@ INT_PTR CALLBACK Options::DlgProcOptsTask(HWND hwndDlg, UINT msg, WPARAM wParam,
 				ShowWindow(GetDlgItem(hwndDlg, IDC_IMPORT_TYPE), showImport);
 				std::wstring str;
 				wchar_t* compressText = TranslateT("Compress output files");
-				wchar_t* uploadText = TranslateT("Upload to FTP (WinSCP requred)");
+				wchar_t* uploadText = TranslateT("Upload to FTP (WinSCP required)");
 				wchar_t* typeText = TranslateT("Export to");
 				if (showFilter == SW_HIDE) {
 					str = TranslateT("** Use <ext> to insert extension, <contact> to insert contact name");
 					compressText = TranslateT("Input files are compressed");
-					uploadText = TranslateT("Download from FTP (WinSCP requred)");
+					uploadText = TranslateT("Download from FTP (WinSCP required)");
 					typeText = TranslateT("Import from");
 				}
 				else if (show == SW_HIDE)

@@ -221,7 +221,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,148,180,10
     EDITTEXT        IDC_PASSWORD,85,160,109,12, ES_AUTOHSCROLL | ES_PASSWORD | WS_TABSTOP
     LTEXT           "Password",IDC_PASSWORD_LABEL,10,163,73,8
-    CONTROL         "Upload to FTP (WinSCP requred)",IDC_UPLOAD,
+    CONTROL         "Upload to FTP (WinSCP required)",IDC_UPLOAD,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,178,180,10
     EDITTEXT        IDC_FTP,85,190,109,12,ES_AUTOHSCROLL | WS_TABSTOP
     LTEXT           "Session name",IDC_FTP_LABEL,10,193,73,8
