@@ -52,7 +52,7 @@ static struct branch_t branch2[] = {
 	GC_EVENT_KICK | GC_EVENT_NOTICE | GC_EVENT_NICK | GC_EVENT_INFORMATION | GC_EVENT_ADDSTATUS, 0, nullptr },
 	{ LPGENW("Prefix all events with a timestamp"), "ShowTimeStamp", 0, 1, nullptr },
 	{ LPGENW("Only prefix with timestamp if it has changed"), "ShowTimeStampIfChanged", 0, 0, nullptr },
-	{ LPGENW("Timestamp has same color as event"), "TimeStampEventColour", 0, 0, nullptr },
+	{ LPGENW("Timestamp has same color as the event"), "TimeStampEventColour", 0, 0, nullptr },
 	{ LPGENW("Indent the second line of a message"), "LogIndentEnabled", 0, 1, nullptr },
 	{ LPGENW("Limit user names to 20 characters"), "LogLimitNames", 0, 1, nullptr },
 	{ LPGENW("Strip colors from messages"), "StripFormatting", 0, 0, nullptr },
