@@ -195,6 +195,15 @@ typedef unsigned __int64 JabberCapsBits;
 #define JABBER_FEAT_BITS                        "urn:xmpp:bob"
 #define JABBER_CAPS_BITS                        ((JabberCapsBits)1<<50)
 
+#define JABBER_FEAT_JINGLE_ICEUDP               "urn:xmpp:jingle:transports:ice-udp:1"
+#define JABBER_CAPS_JINGLE_ICEUDP               ((JabberCapsBits)1<<51)
+#define JABBER_FEAT_JINGLE_RTP                  "urn:xmpp:jingle:apps:rtp:1"
+#define JABBER_CAPS_JINGLE_RTP                  ((JabberCapsBits)1<<52)
+#define JABBER_FEAT_JINGLE_DTLS                 "urn:xmpp:jingle:apps:dtls:0"
+#define JABBER_CAPS_JINGLE_DTLS                 ((JabberCapsBits)1<<53)
+#define JABBER_FEAT_JINGLE_RTPAUDIO             "urn:xmpp:jingle:apps:rtp:audio"
+#define JABBER_CAPS_JINGLE_RTPAUDIO             ((JabberCapsBits)1<<54)
+
 #define JABBER_FEAT_ARCHIVE                     "urn:xmpp:archive"
 #define JABBER_FEAT_BIND                        "urn:ietf:params:xml:ns:xmpp-bind"
 #define JABBER_FEAT_CAPTCHA                     "urn:xmpp:captcha"

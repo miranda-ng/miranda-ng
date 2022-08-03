@@ -203,6 +203,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bEnableUserActivity;
 	CMOption<bool> m_bEnableUserMood;
 	CMOption<bool> m_bEnableUserTune;
+	CMOption<bool> m_bEnableVOIP;
 	CMOption<bool> m_bEnableZlib;
 	CMOption<bool> m_bFixIncorrectTimestamps;
 	CMOption<bool> m_bGcLogAffiliations;
@@ -885,6 +886,21 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       AppendVcardFromDB(TiXmlElement *n, char* tag, char* key);
 	void       SetServerVcard(BOOL bPhotoChanged, wchar_t* szPhotoFileName);
 	void       SaveVcardToDB(HWND hwndPage, int iPage);
+
+	//---- jabber_voip.c -----------------------------------------------------------------
+
+	bool OnICECandidate(const TiXmlElement *Node, const char *from);
+	bool OnRTPDescription(const TiXmlElement *Node);
+	bool VOIPCreatePipeline();
+	bool VOIPTerminateSession();
+	bool VOIPCallAccept(const TiXmlElement *jingleNode, const char *from);
+	bool VOIPCallIinitiate(MCONTACT hContact);
+
+	CMStringA m_voipSession, m_voipPeerJid;
+	CMStringA m_voipICEPwd, m_voipICEUfrag, m_medianame;
+	bool m_isOutgoing;
+	struct _GstElement *m_pipe1 = NULL;
+	struct _GstElement *m_webrtc1 = NULL;
 
 	//---- jabber_xml.c ------------------------------------------------------------------
 

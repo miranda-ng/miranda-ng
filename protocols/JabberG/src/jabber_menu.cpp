@@ -126,6 +126,13 @@ static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	return(ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
 }
 
+static INT_PTR JabberVOIPCallIinitiate(WPARAM hContact, LPARAM)
+{
+	CJabberProto *ppro = CMPlugin::getInstance(hContact);
+	ppro->VOIPCallIinitiate(hContact);
+	return 0;
+}
+
 void g_MenuInit(void)
 {
 	hStatusMenuInit = CreateHookableEvent(ME_JABBER_MENUINIT);
@@ -245,6 +252,16 @@ void g_MenuInit(void)
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NODE_SERVER);
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER);
+
+	SET_UID(mi, 0x2fe60fc5, 0x6417, 0x4f37, 0xa0, 0xbe, 0xa0, 0x59, 0x94, 0x11, 0x1d, 0xd9);
+	mi.root = nullptr;
+	mi.flags = 0;
+	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NODE_RSS);
+	mi.name.a = LPGEN("Voice call");
+	mi.pszService = "Jabber/VOIPCallIinitiate";
+	mi.position = -1999902010;
+	Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService, JabberVOIPCallIinitiate);
 }
 
 void g_MenuUninit(void)

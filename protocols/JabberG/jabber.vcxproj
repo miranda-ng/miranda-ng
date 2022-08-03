@@ -25,6 +25,11 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\include\glib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\jabber.cpp" />
     <ClCompile Include="src\jabber_adhoc.cpp" />
@@ -75,6 +80,7 @@
     <ClCompile Include="src\jabber_userinfo.cpp" />
     <ClCompile Include="src\jabber_util.cpp" />
     <ClCompile Include="src\jabber_vcard.cpp" />
+    <ClCompile Include="src\jabber_voip.cpp" />
     <ClCompile Include="src\jabber_xml.cpp" />
     <ClCompile Include="src\jabber_xstatus.cpp" />
     <ClCompile Include="src\jabber_zstream.cpp" />
@@ -107,7 +113,8 @@
   </ItemGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>delayimp.lib;libcrypto.lib;libssl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <DelayLoadDLLs>glib-2.0-0.dll;gobject-2.0-0.dll;gstreamer-1.0-0.dll;gstrtp-1.0-0.dll;gstsdp-1.0-0.dll;gstwebrtc-1.0-0.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

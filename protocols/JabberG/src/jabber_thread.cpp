@@ -1770,41 +1770,78 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 	if (child) {
 		if ((type = XmlGetAttr(node, "type")) == nullptr)
 			return false;
+		const char *szAction = XmlGetAttr(child, "action");
+		const char *szSid = XmlGetAttr(child, "sid");
 
 		if ((!mir_strcmp(type, "get") || !mir_strcmp(type, "set"))) {
-			const char *szAction = XmlGetAttr(child, "action");
 			const char *idStr = XmlGetAttr(node, "id");
 			const char *from = XmlGetAttr(node, "from");
-			if (szAction && !mir_strcmp(szAction, "session-initiate")) {
-				// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
-				m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+			const char *szInitiator = XmlGetAttr(child, "initiator");
+			auto *content = XmlGetChildByTag(child, "content", "creator", "initiator");
 
-				XmlNodeIq iq("set", SerialNext(), from);
-				TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+			if (szAction && szSid) {
+				if (!mir_strcmp(szAction, "session-initiate")) {
+					// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
+					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
-				jingleNode << XATTR("action", "session-terminate");
-				const char *szInitiator = XmlGetAttr(child, "initiator");
-				if (szInitiator)
-					jingleNode << XATTR("initiator", szInitiator);
-				const char *szSid = XmlGetAttr(child, "sid");
-				if (szSid)
-					jingleNode << XATTR("sid", szSid);
+					const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
+					if (m_bEnableVOIP && m_voipSession == "" && descr) {
+						if (VOIPCallAccept(child, from)) {
+							m_voipSession = szSid;
+							m_voipPeerJid = from;
+							return true;
+						}
+					}
 
-				jingleNode << XCHILD("reason")
-					<< XCHILD("unsupported-applications");
-				m_ThreadInfo->send(iq);
-				return true;
+					XmlNodeIq iq("set", SerialNext(), from);
+					TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+					jingleNode << XATTR("action", "session-terminate");
+					if (szInitiator)
+						jingleNode << XATTR("initiator", szInitiator);
+					if (szSid)
+						jingleNode << XATTR("sid", szSid);
+					jingleNode << XCHILD("reason") << XCHILD("unsupported-applications");
+
+					m_ThreadInfo->send(iq);
+					return true;
+				}
+				else if (!mir_strcmp(szAction, "session-accept")) {
+					if (m_bEnableVOIP && m_voipSession == szSid) {
+						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+						OnRTPDescription(child);
+						return true;
+					}
+				}
+				else if (!mir_strcmp(szAction, "session-terminate")) {
+					if (m_bEnableVOIP && m_voipSession == szSid) {
+						// EndCall()
+						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+						VOIPTerminateSession();
+						m_voipSession.Empty();
+						m_voipPeerJid.Empty();
+						return true;
+					}
+				}
+				else if (!mir_strcmp(szAction, "transport-info")) {
+					auto *transport = XmlGetChildByTag(content, "transport", "xmlns", JABBER_FEAT_JINGLE_ICEUDP);
+					if (m_bEnableVOIP && m_voipSession == szSid && transport) {
+						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+						if (const TiXmlElement *candidate = XmlFirstChild(transport, "candidate")) {
+							OnICECandidate(candidate, from);
+							return true;
+						}
+					}
+				}
 			}
-			else {
-				// if it's something else than 'session-initiate' and noone processed it yet, reply with "unknown-session"
-				XmlNodeIq iq("error", idStr, from);
-				TiXmlElement *errNode = iq << XCHILD("error");
-				errNode << XATTR("type", "cancel");
-				errNode << XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas");
-				errNode << XCHILDNS("unknown-session", "urn:xmpp:jingle:errors:1");
-				m_ThreadInfo->send(iq);
-				return true;
-			}
+
+			// if it's something else than 'session-initiate' and noone processed it yet, reply with "unknown-session"
+			XmlNodeIq iq("error", idStr, from);
+			TiXmlElement *errNode = iq << XCHILD("error");
+			errNode << XATTR("type", "cancel");
+			errNode << XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas");
+			errNode << XCHILDNS("unknown-session", "urn:xmpp:jingle:errors:1");
+			m_ThreadInfo->send(iq);
+			return true;
 		}
 	}
 	return false;

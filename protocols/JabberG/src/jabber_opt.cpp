@@ -706,8 +706,9 @@ public:
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable server-side history (XEP-0136)"), m_proto->m_bEnableMsgArchive);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable Message Archive Management (XEP-0313)"), m_proto->m_bEnableMam);
 		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable carbon copies (XEP-0280)"), m_proto->m_bEnableCarbons);
-		m_options.AddOption(LPGENW("Messaging"), LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
+		m_options.AddOption(LPGENW("Messaging"), LPGENW("Enable VOIP(for developers)"), m_proto->m_bEnableVOIP);
 
+		m_options.AddOption(LPGENW("Server options"), LPGENW("Use Stream Management (XEP-0198) if possible (Testing)"), m_proto->m_bEnableStreamMgmt);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Disable SASL authentication (for old servers)"), m_proto->m_bDisable3920auth);
 		m_options.AddOption(LPGENW("Server options"), LPGENW("Enable stream compression (if possible)"), m_proto->m_bEnableZlib);
 
