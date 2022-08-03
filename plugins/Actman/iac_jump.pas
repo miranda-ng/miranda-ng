@@ -316,7 +316,7 @@ begin
 
   InsertString(wnd,cardinal(aeGT),'> greater');
   InsertString(wnd,cardinal(aeLT),'< lesser');
-  InsertString(wnd,cardinal(aeEQ),'= equ');
+  InsertString(wnd,cardinal(aeEQ),'= equal');
   InsertString(wnd,cardinal(aeXR),'^ xor');
   InsertString(wnd,cardinal(aeND),'& and');
 
@@ -332,7 +332,7 @@ begin
   SendMessage(wnd,CB_RESETCONTENT,0,0);
 
   InsertString(wnd,cardinal(aeEMP),'empty');
-  InsertString(wnd,cardinal(aeEQU),'= equ');
+  InsertString(wnd,cardinal(aeEQU),'equal');
   InsertString(wnd,cardinal(aeCON),'contains');
   InsertString(wnd,cardinal(aeSTR),'starts with');
   InsertString(wnd,cardinal(aeEND),'ends with');

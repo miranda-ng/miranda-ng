@@ -24,7 +24,7 @@ FONT 8, "MS Shell Dlg", 0, 0
   RTEXT           "Program path", -1, 1, 135, 160,  8
   EDITTEXT                        IDC_EDIT_PRGPATH, 1, 144, 148, 12, ES_AUTOHSCROLL
   PUSHBUTTON      "..."         , IDC_PROGRAM     , 151, 144,  16, 12
-  RTEXT           "Program args", -1, 1, 159, 160,  8
+  RTEXT           "Program arguments", -1, 1, 159, 160,  8
   EDITTEXT                        IDC_EDIT_PRGARGS, 1, 168, 166, 12, ES_AUTOHSCROLL
 }
 

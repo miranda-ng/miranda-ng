@@ -449,7 +449,7 @@ begin
         '^e - replaced by empty string'#13#10+
         '^v - paste text from Clipboard'#13#10+
         '^t - replaced by tabulation'#13#10+
-        '^l - replaced by last result as unicode'#13#10+
+        '^l - replaced by last result as Unicode'#13#10+
         '^h - replaced by last result as hex'#13#10+
         '^f(name[,str])'#13#10+
         '     paste line from text file.'#13#10+
