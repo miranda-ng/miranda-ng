@@ -497,7 +497,7 @@ static TOptionListItem lvItemsChat[] =
 	{ 0, LPGENW("Create tabs or windows for highlight events"), 0, LOI_TYPE_SETTING, (UINT_PTR)"CreateWindowOnHighlight", 0 },
 	{ 0, LPGENW("Activate chat window on highlight"), 0, LOI_TYPE_SETTING, (UINT_PTR)"AnnoyingHighlight", 0 },
 	{ 0, LPGENW("Show list of users in the chat room"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowNicklist", 0 },
-	{ 0, LPGENW("Colorize nicknames in member list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicks", 0 },
+	{ 0, LPGENW("Colorize nicknames in member list (you need to adjust colors)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicks", 0 },
 	{ 0, LPGENW("Show topic as status message on the contact list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"TopicOnClist", 0 },
 	{ 0, LPGENW("Do not pop up the window when joining a chat room"), 0, LOI_TYPE_SETTING, (UINT_PTR)"PopupOnJoin", 0 },
 	{ 0, LPGENW("Sync splitter position with standard IM sessions"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SyncSplitter", 0 },
