@@ -799,3 +799,4 @@ Srmm_CreateHotkey @886 NONAME
 ?OnRefresh@CUserInfoPageDlg@@UAE_NXZ @892 NONAME
 ?SetContact@CUserInfoPageDlg@@QAEXI@Z @893 NONAME
 ?IsGroupChat@Contact@@YG_NIPBD@Z @894 NONAME
+?IsEmpty@CUserInfoPageDlg@@UBE_NXZ @895 NONAME

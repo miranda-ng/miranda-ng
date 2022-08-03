@@ -22,6 +22,9 @@
     <ClInclude Include="src\stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\version.h">
       <Filter>Header Files</Filter>
     </ClInclude>

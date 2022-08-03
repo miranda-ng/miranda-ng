@@ -34,6 +34,7 @@
     <ClCompile Include="src\stdinfo.cpp" />
     <ClCompile Include="src\userinfo.cpp" />
     <ClInclude Include="src\stdafx.h" />
+    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\version.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>

@@ -39,6 +39,7 @@ public:
 		m_hContact = hContact;
 	}
 
+	virtual bool IsEmpty() const;
 	virtual bool OnRefresh();
 };
 

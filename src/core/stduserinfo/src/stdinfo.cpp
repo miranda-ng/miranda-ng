@@ -24,171 +24,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define SVS_NORMAL        0
-#define SVS_GENDER        1
-#define SVS_ZEROISUNSPEC  2
-#define SVS_IP            3
-#define SVS_COUNTRY       4
-#define SVS_MONTH         5
-#define SVS_SIGNED        6
-#define SVS_TIMEZONE      7
-#define SVS_MARITAL    	  8
-
-static void SetValue(HWND m_hwnd, int idCtrl, MCONTACT hContact, const char *szModule, char *szSetting, int special)
-{
-	char *pstr = nullptr;
-	wchar_t *pwstr = nullptr, wstr[80];
-
-	DBVARIANT dbv = { DBVT_DELETED };
-
-	int unspecified;
-	if (szModule == nullptr)
-		unspecified = 1;
-	else
-		unspecified = db_get_s(hContact, szModule, szSetting, &dbv, 0);
-
-	if (!unspecified) {
-		switch (dbv.type) {
-		case DBVT_BYTE:
-			if (special == SVS_GENDER) {
-				if (dbv.cVal == 'M') pwstr = TranslateT("Male");
-				else if (dbv.cVal == 'F') pwstr = TranslateT("Female");
-				else unspecified = 1;
-			}
-			else if (special == SVS_MONTH) {
-				if (dbv.bVal > 0 && dbv.bVal <= 12) {
-					pwstr = wstr;
-					GetLocaleInfoW(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1 - 1 + dbv.bVal, wstr, _countof(wstr));
-				}
-				else unspecified = 1;
-			}
-			else if (special == SVS_TIMEZONE) {
-				if (dbv.cVal == -100) unspecified = 1;
-				else {
-					pwstr = wstr;
-					mir_snwprintf(wstr, dbv.cVal ? L"UTC%+d:%02d" : L"UTC", -dbv.cVal / 2, (dbv.cVal & 1) * 30);
-				}
-			}
-			else if (special == SVS_MARITAL) {
-				switch (dbv.cVal) {
-				case 0:
-					pwstr = TranslateT("<not specified>");
-					break;
-				case 10:
-					pwstr = TranslateT("Single");
-					break;
-				case 11:
-					pwstr = TranslateT("Close relationships");
-					break;
-				case 12:
-					pwstr = TranslateT("Engaged");
-					break;
-				case 20:
-					pwstr = TranslateT("Married");
-					break;
-				case 30:
-					pwstr = TranslateT("Divorced");
-					break;
-				case 31:
-					pwstr = TranslateT("Separated");
-					break;
-				case 40:
-					pwstr = TranslateT("Widowed");
-					break;
-				case 50:
-					pwstr = TranslateT("Actively searching");
-					break;
-				case 60:
-					pwstr = TranslateT("In love");
-					break;
-				case 70:
-					pwstr = TranslateT("It's complicated");
-					break;
-				case 80:
-					pwstr = TranslateT("In a civil union");
-					break;
-				default:
-					unspecified = 1;
-				}
-			}
-			else {
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-				pwstr = _itow(special == SVS_SIGNED ? dbv.cVal : dbv.bVal, wstr, 10);
-			}
-			break;
-
-		case DBVT_WORD:
-			if (special == SVS_COUNTRY) {
-				uint16_t wSave = dbv.wVal;
-				if (wSave == (uint16_t)-1) {
-					char szSettingName[100];
-					mir_snprintf(szSettingName, "%sName", szSetting);
-					if (!db_get_ws(hContact, szModule, szSettingName, &dbv)) {
-						pwstr = dbv.pwszVal;
-						unspecified = false;
-						break;
-					}
-				}
-
-				pwstr = TranslateW(_A2T((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0)));
-				unspecified = pwstr == nullptr;
-			}
-			else {
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-				pwstr = _itow(special == SVS_SIGNED ? dbv.sVal : dbv.wVal, wstr, 10);
-			}
-			break;
-
-		case DBVT_DWORD:
-			unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
-			if (special == SVS_IP) {
-				struct in_addr ia;
-				ia.S_un.S_addr = htonl(dbv.dVal);
-				mir_wstrncpy(wstr, _A2T(inet_ntoa(ia)), _countof(wstr));
-				pwstr = wstr;
-				if (dbv.dVal == 0)
-					unspecified = 1;
-			}
-			else pwstr = _itow(special == SVS_SIGNED ? dbv.lVal : dbv.dVal, wstr, 10);
-			break;
-
-		case DBVT_ASCIIZ:
-			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-			pstr = dbv.pszVal;
-			break;
-
-		case DBVT_UTF8:
-			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-			if (!unspecified) {
-				SetDlgItemTextW(m_hwnd, idCtrl, TranslateW(ptrW(mir_utf8decodeW(dbv.pszVal))));
-				goto LBL_Exit;
-			}
-
-			pstr = dbv.pszVal;
-			mir_utf8decode(dbv.pszVal, nullptr);
-			break;
-
-		default:
-			pwstr = wstr;
-			mir_wstrcpy(wstr, L"???");
-			break;
-		}
-	}
-
-	if (unspecified)
-		SetDlgItemText(m_hwnd, idCtrl, TranslateT("<not specified>"));
-	else if (pwstr != nullptr)
-		SetDlgItemText(m_hwnd, idCtrl, pwstr);
-	else
-		SetDlgItemTextA(m_hwnd, idCtrl, pstr);
-
-LBL_Exit:
-	EnableWindow(GetDlgItem(m_hwnd, idCtrl), !unspecified);
-	db_free(&dbv);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Summary dlg page
+
+static DataItem itemsSummary1[] = {
+	{ "Nick",          IDC_NICK,      0 },
+	{ "FirstName",     IDC_FIRSTNAME, 0 },
+	{ "LastName",      IDC_LASTNAME,  0 },
+	{ "e-mail",        IDC_EMAIL,     0 },
+	{ "Age",           IDC_AGE,       SVS_ZEROISUNSPEC },
+	{ "Gender",        IDC_GENDER,    SVS_GENDER },
+	{ "MaritalStatus", IDC_MARITAL,   SVS_MARITAL },
+	{ "Nick",          IDC_NICK,      0 },
+};
+
+static DataItem itemsSummary2[] = {
+	{ "BirthDay",      IDC_DOBDAY,    0 },
+	{ "BirthMonth",    IDC_DOBMONTH,  SVS_MONTH },
+	{ "BirthYear",     IDC_DOBYEAR,   0 },
+};
 
 class CSummaryDlg : public CUserInfoPageDlg
 {
@@ -202,24 +56,26 @@ public:
 		m_email.OnClick = Callback(this, &CSummaryDlg::onClick_Email);
 	}
 
+	bool IsEmpty() const override
+	{
+		if (!IsEmptyValue(m_hContact, itemsSummary1))
+			return false;
+		
+		const char *szProto = Proto_GetBaseAccountName(m_hContact);
+		const char *szModule = (-1 == db_get_dw(m_hContact, "UserInfo", "BirthDay", -1)) ? szProto : "UserInfo";
+		return IsEmptyValue(m_hContact, itemsSummary2, szModule);
+	}
+
 	bool OnRefresh() override
 	{
 		const char *szProto = Proto_GetBaseAccountName(m_hContact);
 		if (szProto == nullptr)
 			return false;
 
-		SetValue(m_hwnd, IDC_NICK, m_hContact, szProto, "Nick", 0);
-		SetValue(m_hwnd, IDC_FIRSTNAME, m_hContact, szProto, "FirstName", 0);
-		SetValue(m_hwnd, IDC_LASTNAME, m_hContact, szProto, "LastName", 0);
-		SetValue(m_hwnd, IDC_EMAIL, m_hContact, szProto, "e-mail", 0);
-		SetValue(m_hwnd, IDC_AGE, m_hContact, szProto, "Age", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_GENDER, m_hContact, szProto, "Gender", SVS_GENDER);
-		SetValue(m_hwnd, IDC_MARITAL, m_hContact, szProto, "MaritalStatus", SVS_MARITAL);
+		SetValue(m_hwnd, m_hContact, itemsSummary1);
 
 		const char *szModule = (-1 == db_get_dw(m_hContact, "UserInfo", "BirthDay", -1)) ? szProto : "UserInfo";
-		SetValue(m_hwnd, IDC_DOBDAY, m_hContact, szModule, "BirthDay", 0);
-		SetValue(m_hwnd, IDC_DOBMONTH, m_hContact, szModule, "BirthMonth", SVS_MONTH);
-		SetValue(m_hwnd, IDC_DOBYEAR, m_hContact, szModule, "BirthYear", 0);
+		SetValue(m_hwnd, m_hContact, itemsSummary2, szModule);
 		return false;
 	}
 
@@ -235,6 +91,18 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Location dlg page
+
+static DataItem itemsLocation[] = {
+	{ "Street",    IDC_STREET,    SVS_ZEROISUNSPEC },
+	{ "City",      IDC_CITY,      SVS_ZEROISUNSPEC },
+	{ "State",     IDC_STATE,     SVS_ZEROISUNSPEC },
+	{ "ZIP",       IDC_ZIP,       SVS_ZEROISUNSPEC },
+	{ "Country",   IDC_COUNTRY,   SVS_COUNTRY      },
+	{ "Language1", IDC_LANGUAGE1, SVS_ZEROISUNSPEC },
+	{ "Language2", IDC_LANGUAGE2, SVS_ZEROISUNSPEC },
+	{ "Language3", IDC_LANGUAGE3, SVS_ZEROISUNSPEC },
+	{ "Timezone",  IDC_TIMEZONE,  SVS_TIMEZONE     },
+};
 
 class CLocationDlg : public CUserInfoPageDlg
 {
@@ -277,21 +145,14 @@ public:
 		}
 	}
 
+	bool IsEmpty() const override
+	{
+		return IsEmptyValue(m_hContact, itemsLocation);
+	}
+	
 	bool OnRefresh() override
 	{
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		if (szProto == nullptr)
-			return false;
-
-		SetValue(m_hwnd, IDC_STREET, m_hContact, szProto, "Street", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_CITY, m_hContact, szProto, "City", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_STATE, m_hContact, szProto, "State", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_ZIP, m_hContact, szProto, "ZIP", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_COUNTRY, m_hContact, szProto, "Country", SVS_COUNTRY);
-		SetValue(m_hwnd, IDC_LANGUAGE1, m_hContact, szProto, "Language1", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_LANGUAGE2, m_hContact, szProto, "Language2", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_LANGUAGE3, m_hContact, szProto, "Language3", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_TIMEZONE, m_hContact, szProto, "Timezone", SVS_TIMEZONE);
+		SetValue(m_hwnd, m_hContact, itemsLocation);
 		return false;
 	}
 
@@ -303,6 +164,18 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Work dlg page
+
+static DataItem itemsWork[] = {
+	{ "Company",           IDC_COMPANY,    SVS_ZEROISUNSPEC },
+	{ "CompanyDepartment", IDC_DEPARTMENT, SVS_ZEROISUNSPEC },
+	{ "CompanyPosition",   IDC_POSITION,   SVS_ZEROISUNSPEC },
+	{ "CompanyStreet",     IDC_STREET,     SVS_ZEROISUNSPEC },
+	{ "CompanyCity",       IDC_CITY,       SVS_ZEROISUNSPEC },
+	{ "CompanyState",      IDC_STATE,      SVS_ZEROISUNSPEC },
+	{ "CompanyZIP",        IDC_ZIP,        SVS_ZEROISUNSPEC },
+	{ "CompanyCountry",    IDC_COUNTRY,    SVS_COUNTRY      },
+	{ "CompanyHomepage",   IDC_WEBPAGE,    SVS_ZEROISUNSPEC },
+};
 
 class CWorkDlg : public CUserInfoPageDlg
 {
@@ -316,21 +189,14 @@ public:
 		m_url.OnClick = Callback(this, &CWorkDlg::onClick_Page);
 	}
 
+	bool IsEmpty() const override
+	{
+		return IsEmptyValue(m_hContact, itemsWork);
+	}
+
 	bool OnRefresh() override
 	{
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		if (szProto == nullptr)
-			return false;
-
-		SetValue(m_hwnd, IDC_COMPANY, m_hContact, szProto, "Company", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_DEPARTMENT, m_hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_POSITION, m_hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_STREET, m_hContact, szProto, "CompanyStreet", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_CITY, m_hContact, szProto, "CompanyCity", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_STATE, m_hContact, szProto, "CompanyState", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_ZIP, m_hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
-		SetValue(m_hwnd, IDC_COUNTRY, m_hContact, szProto, "CompanyCountry", SVS_COUNTRY);
-		SetValue(m_hwnd, IDC_WEBPAGE, m_hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, m_hContact, itemsWork);
 		return false;
 	}
 
@@ -343,6 +209,19 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Work dlg page
+
+static DataItem itemsBackground1[] = {
+	{ "Homepage", IDC_WEBPAGE, SVS_ZEROISUNSPEC },
+};
+
+static DataItem itemsBackground2[] = {
+	{ "Past0", 0, 0 },
+	{ "Past0Text", 0, 0 },
+	{ "Affiliation0", 0, 0 },
+	{ "Affiliation0Text", 0, 0 },
+	{ "Interest0Cat", 0, 0 },
+	{ "Interest%dText", 0, 0 },
+};
 
 // Resizes all columns in a listview (report style)
 // to make all text visible
@@ -399,13 +278,21 @@ public:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
+	bool IsEmpty() const override
+	{
+		if (!IsEmptyValue(m_hContact, itemsBackground1))
+			return false;
+
+		return IsEmptyValue(m_hContact, itemsBackground2);
+	}
+
 	bool OnRefresh() override
 	{
 		char *szProto = Proto_GetBaseAccountName(m_hContact);
 		if (szProto == nullptr)
 			return false;
 
-		SetValue(m_hwnd, IDC_WEBPAGE, m_hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
+		SetValue(m_hwnd, m_hContact, itemsBackground1, szProto);
 
 		// past
 		m_past.DeleteAllItems();
@@ -485,6 +372,10 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Notes dlg page
 
+static DataItem itemsNotes[] = {
+	{ "About", IDC_ABOUT, 0 },
+};
+
 class CNotesDlg : public CUserInfoPageDlg
 {
 	CCtrlEdit mynotes;
@@ -545,11 +436,14 @@ public:
 		return RD_ANCHORX_LEFT | RD_ANCHORY_TOP;
 	}
 
+	bool IsEmpty() const override
+	{
+		return IsEmptyValue(m_hContact, itemsNotes);
+	}
+
 	bool OnRefresh() override
 	{
-		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		if (szProto != NULL)
-			SetValue(m_hwnd, IDC_ABOUT, m_hContact, szProto, "About", 0);
+		SetValue(m_hwnd, m_hContact, itemsNotes);
 		return false;
 	}
 };

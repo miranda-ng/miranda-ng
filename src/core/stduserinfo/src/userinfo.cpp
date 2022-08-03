@@ -118,6 +118,15 @@ class CUserInfoDlg : public CDlgBase
 
 		LIST<DetailsPageData> items(1, PageSortProc);
 		NotifyEventHooks(hDetailsInitEvent, (WPARAM)&items, hContact);
+		
+		for (auto &it : items.rev_iter()) {
+			if (!it->pDialog->IsEmpty())
+				continue;
+
+			delete it;
+			items.remove(items.indexOf(&it));
+		}
+
 		if (items.getCount() == 0)
 			return;
 

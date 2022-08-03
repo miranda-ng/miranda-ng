@@ -33,6 +33,11 @@ CUserInfoPageDlg::CUserInfoPageDlg(class CMPluginBase &pPlug, int idDialog) :
 	m_forceResizable = true;
 }
 
+bool CUserInfoPageDlg::IsEmpty() const
+{
+	return false;
+}
+
 bool CUserInfoPageDlg::OnRefresh()
 {
 	return false;
