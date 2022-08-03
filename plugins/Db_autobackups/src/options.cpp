@@ -11,7 +11,7 @@ class COptionsDlg : public CDlgBase
 		auto *periodText = FindControl(IDC_ED_PERIOD);
 		auto *numBackupsText = FindControl(IDC_ED_NUMBACKUPS);
 
-		bool bEnabled = !m_disable.IsChecked();
+		bool bEnabled = m_enabled.IsChecked();
 		m_backupOnStart.Enable(bEnabled);
 		m_backupOnExit.Enable(bEnabled);
 		m_backupPeriodic.Enable(bEnabled);
@@ -23,7 +23,7 @@ class COptionsDlg : public CDlgBase
 		m_browseFolder.Enable(bEnabled);
 		m_filemask.Enable(bEnabled);
 		m_foldersPageLink.Enable(bEnabled);
-		m_disableProgress.Enable(bEnabled);
+		m_enableProgress.Enable(bEnabled);
 		m_useZip.Enable(bEnabled);
 		periodText->Enable(bEnabled);
 		m_period.Enable(bEnabled);
@@ -108,8 +108,8 @@ class COptionsDlg : public CDlgBase
 	CCtrlBase m_nextTime;
 	CCtrlEdit m_folder, m_filemask;
 	CCtrlSpin m_period, m_numBackups;
-	CCtrlCheck m_disable, m_backupOnStart, m_backupOnExit, m_backupPeriodic;
-	CCtrlCheck m_disableProgress, m_useZip, m_backupProfile, m_useCloudFile;
+	CCtrlCheck m_enabled, m_backupOnStart, m_backupOnExit, m_backupPeriodic;
+	CCtrlCheck m_enableProgress, m_useZip, m_backupProfile, m_useCloudFile;
 	CCtrlCombo m_periodType, m_cloudFileService;
 	CCtrlButton m_browseFolder, m_backup;
 	CCtrlHyperlink m_foldersPageLink;
@@ -130,7 +130,7 @@ class COptionsDlg : public CDlgBase
 public:
 	COptionsDlg() :
 		CDlgBase(g_plugin, IDD_OPTIONS),
-		m_disable(this, IDC_RAD_DISABLED),
+		m_enabled(this, IDC_RAD_ENABLED),
 		m_backupOnStart(this, IDC_RAD_START),
 		m_backupOnExit(this, IDC_RAD_EXIT),
 		m_backupPeriodic(this, IDC_RAD_PERIODIC),
@@ -144,20 +144,21 @@ public:
 		m_filemask(this, IDC_FILEMASK),
 		m_foldersPageLink(this, IDC_LNK_FOLDERS, nullptr),
 		m_numBackups(this, SPIN_NUMBACKUPS, 9999, 1),
-		m_disableProgress(this, IDC_CHK_NOPROG),
+		m_enableProgress(this, IDC_CHK_PROGRESS),
 		m_useZip(this, IDC_CHK_USEZIP),
 		m_useCloudFile(this, IDC_CLOUDFILE),
 		m_cloudFileService(this, IDC_CLOUDFILESEVICE)
 	{
 		CreateLink(m_period, g_plugin.period);
 		CreateLink(m_numBackups, g_plugin.num_backups);
-		CreateLink(m_disableProgress, g_plugin.disable_progress);
 		CreateLink(m_useZip, g_plugin.use_zip);
 		CreateLink(m_filemask, g_plugin.file_mask);
 		CreateLink(m_backupProfile, g_plugin.backup_profile);
 		CreateLink(m_useCloudFile, g_plugin.use_cloudfile);
 
-		m_disable.OnChange = Callback(this, &COptionsDlg::onChange_Disable);
+		m_enableProgress.SetState(!g_plugin.disable_progress);
+
+		m_enabled.OnChange = Callback(this, &COptionsDlg::onChange_Enabled);
 		m_backupOnStart.OnChange = m_backupOnExit.OnChange = m_backupPeriodic.OnChange = Callback(this, &COptionsDlg::onChange_BackupType);
 		m_useCloudFile.OnChange = Callback(this, &COptionsDlg::onChange_UseCloudFile);
 		m_useZip.OnChange = Callback(this, &COptionsDlg::onChange_UseZip);
@@ -172,7 +173,7 @@ public:
 	{
 		m_hEvent = HookEventMessage(ME_AUTOBACKUP_DONE, m_hwnd, WM_BACKUP_DONE);
 
-		m_disable.SetState(g_plugin.backup_types == BT_DISABLED);
+		m_enabled.SetState(g_plugin.backup_types != BT_DISABLED);
 		m_backupOnStart.SetState(g_plugin.backup_types & BT_START ? TRUE : FALSE);
 		m_backupOnExit.SetState(g_plugin.backup_types & BT_EXIT ? TRUE : FALSE);
 		m_backupPeriodic.SetState(g_plugin.backup_types & BT_PERIODIC ? TRUE : FALSE);
@@ -241,6 +242,7 @@ public:
 		SetBackupTimer();
 
 		g_plugin.period_type = m_periodType.GetCurSel();
+		g_plugin.disable_progress = !m_enableProgress.GetState();
 
 		ptrW folder(m_folder.GetText());
 
@@ -279,7 +281,7 @@ public:
 		}
 	}
 
-	void onChange_Disable(CCtrlBase*)
+	void onChange_Enabled(CCtrlBase*)
 	{
 		SetDialogState();
 	}
@@ -306,7 +308,7 @@ public:
 		m_nextTime.Enable(bEnabled);
 
 		if (!m_backupOnStart.IsChecked() && !m_backupOnExit.IsChecked() && !bEnabled) {
-			m_disable.SetState(true);
+			m_enabled.SetState(false);
 			SetDialogState();
 		}
 	}

@@ -9,7 +9,7 @@
 #define SPIN_NUMBACKUPS                 1370
 #define IDC_PT                          1371
 #define IDC_ED_PERIOD                   1658
-#define IDC_RAD_DISABLED                1660
+#define IDC_RAD_ENABLED                 1660
 #define IDC_RAD_START                   1663
 #define IDC_RAD_EXIT                    1664
 #define IDC_RAD_PERIODIC                1665
@@ -17,7 +17,7 @@
 #define IDC_ED_FOLDER                   1667
 #define IDC_BUT_BROWSE                  1668
 #define IDC_LNK_FOLDERS                 1669
-#define IDC_CHK_NOPROG                  1670
+#define IDC_CHK_PROGRESS                1670
 #define IDC_BUT_NOW                     1671
 #define IDC_CHK_USEZIP                  1673
 #define IDC_CLOUDFILE                   1674
