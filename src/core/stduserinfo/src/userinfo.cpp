@@ -120,6 +120,7 @@ class CUserInfoDlg : public CDlgBase
 		NotifyEventHooks(hDetailsInitEvent, (WPARAM)&items, hContact);
 		
 		for (auto &it : items.rev_iter()) {
+			it->pDialog->SetContact(hContact);
 			if (!it->pDialog->IsEmpty())
 				continue;
 
