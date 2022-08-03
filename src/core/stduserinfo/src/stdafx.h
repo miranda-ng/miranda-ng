@@ -44,31 +44,30 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <map>
 #include <string>
 
-#include <m_system.h>
-#include <m_core.h>
 #include <newpluginapi.h>
-#include <m_database.h>
-#include <m_gui.h>
-#include <m_netlib.h>
-#include <m_crypto.h>
-#include <m_langpack.h>
-#include <m_clist.h>
 #include <m_button.h>
+#include <m_clist.h>
+#include <m_contacts.h>
+#include <m_crypto.h>
+#include <m_database.h>
+#include <m_findadd.h>
+#include <m_gui.h>
+#include <m_icolib.h>
+#include <m_langpack.h>
+#include <m_message.h>
+#include <m_metacontacts.h>
+#include <m_netlib.h>
+#include <m_options.h>
 #include <m_protosvc.h>
 #include <m_protocols.h>
-#include <m_options.h>
 #include <m_skin.h>
-#include <m_contacts.h>
-#include <m_message.h>
-#include <m_userinfo.h>
-#include <m_findadd.h>
-#include <m_icolib.h>
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
+#include <m_userinfo.h>
 
 #include "version.h"
 
-#include "../../mir_app/src/resource.h"
+#include "resource.h"
 
 #define MODULENAME "UserInfo"
 

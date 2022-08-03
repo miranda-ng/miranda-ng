@@ -77,6 +77,7 @@ struct OPTIONSDIALOGPAGE
 	};
 };
 
+#define ODPF_ICON           2   // dwInitParam contains icon id
 #define ODPF_BOLDGROUPS     4   // give group box titles a bold font
 #define ODPF_UNICODE        8   // string fields in OPTIONSDIALOGPAGE are wchar_t*
 #define ODPF_USERINFOTAB    16  // options page is tabbed

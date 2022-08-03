@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\..\..\mir_app\src\resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -19,6 +19,19 @@
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+IDI_FOLDER              ICON                    "folder.ico"
+IDI_ITEM                ICON                    "item.ico"
+IDI_CONTACT             ICON                    "contact.ico"
+IDI_NOTES               ICON                    "notes.ico"
+IDI_SUMMARY             ICON                    "summary.ico"
+IDI_WORK                ICON                    "work.ico"
+IDI_LOCATION            ICON                    "location.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -288,7 +301,7 @@ END
 
 1 TEXTINCLUDE 
 BEGIN
-    "..\\..\\..\\mir_app\\src\\resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 

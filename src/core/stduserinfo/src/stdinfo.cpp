@@ -568,27 +568,34 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	USERINFOPAGE uip = {};
+	uip.flags = ODPF_ICON;
+
 	uip.pDialog = new CSummaryDlg();
 	uip.szGroup.a = LPGEN("General");
 	uip.szTitle.a = LPGEN("Summary");
+	uip.dwInitParam = IDI_SUMMARY;
 	g_plugin.addUserInfo(wParam, &uip);
 
 	InitContactInfo(wParam, uip);
 
 	uip.pDialog = new CLocationDlg();
 	uip.szTitle.a = LPGEN("Location");
+	uip.dwInitParam = IDI_LOCATION;
 	g_plugin.addUserInfo(wParam, &uip);
 
 	uip.pDialog = new CWorkDlg();
 	uip.szTitle.a = LPGEN("Work");
+	uip.dwInitParam = IDI_WORK;
 	g_plugin.addUserInfo(wParam, &uip);
 
 	uip.pDialog = new CBackgroundDlg();
 	uip.szTitle.a = LPGEN("Background info");
+	uip.dwInitParam = 0;
 	g_plugin.addUserInfo(wParam, &uip);
 
 	uip.pDialog = new CNotesDlg();
 	uip.szTitle.a = LPGEN("Notes");
+	uip.dwInitParam = IDI_NOTES;
 	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }

@@ -31,10 +31,12 @@ struct DetailsPageData : public MNonCopyable, public MZeroedObject
 	CUserInfoPageDlg *pDialog;
 	HWND              hwnd;
 	HTREEITEM         hItem;
+	MCONTACT          hContact;
 	HPLUGIN           pPlugin;
 	int               changed;
 	uint32_t          dwFlags;
 	wchar_t          *pwszTitle, *pwszGroup;
+	INT_PTR           lParam;
 
 	~DetailsPageData()
 	{
@@ -68,6 +70,18 @@ static void ThemeDialogBackground(HWND hwnd)
 	EnableThemeDialogTexture(hwnd, ETDT_ENABLETAB);
 }
 
+static int PageSortProc(const DetailsPageData *item1, const DetailsPageData *item2)
+{
+	wchar_t *s1 = item1->getGroup(), *s2 = item2->getGroup();
+	if (int res = mir_wstrcmp(s1, s2))
+		return res;
+
+	s1 = item1->getTitle(), s2 = item2->getTitle();
+	if (!mir_wstrcmp(s1, TranslateT("Summary"))) return -1;
+	if (!mir_wstrcmp(s2, TranslateT("Summary"))) return 1;
+	return mir_wstrcmp(s1, s2);
+}
+
 static int UserInfoContactDelete(WPARAM wParam, LPARAM)
 {
 	HWND hwnd = WindowList_Find(hWindowList, wParam);
@@ -81,55 +95,108 @@ static int UserInfoContactDelete(WPARAM wParam, LPARAM)
 
 class CUserInfoDlg : public CDlgBase
 {
-	MCONTACT  m_hContact;
-	HINSTANCE m_hInstIcmp = 0;
-	HFONT     m_hBoldFont = 0;
-	int       m_updateAnimFrame = 0;
-	wchar_t   m_szUpdating[64];
-	int      *m_infosUpdated = 0;
+	MCONTACT   m_hContact;
+	HINSTANCE  m_hInstIcmp = 0;
+	int        m_updateAnimFrame = 0;
+	wchar_t    m_szUpdating[64];
+	int       *m_infosUpdated = 0;
+	bool       m_bIsMeta;
 
-	HANDLE    m_hProtoAckEvent = 0;
-	HANDLE    m_hDllUnloadEvent = 0;
+	HANDLE     m_hProtoAckEvent = 0;
+	HANDLE     m_hDllUnloadEvent = 0;
+	HIMAGELIST m_imageList = 0;
 
 	OBJLIST<DetailsPageData> m_pages;
 	DetailsPageData *m_pCurrent = nullptr;
 
-	void BuildTree()
+	void PopulateContact(MCONTACT hContact, int iFolderImage)
 	{
 		ptrW ptszLastTab(g_plugin.getWStringA("LastTab"));
 		m_pCurrent = nullptr;
 
 		std::map<std::wstring, HTREEITEM> parents;
 
-		for (auto &it : m_pages) {
-			wchar_t *pwszGroup = (it->getGroup() == nullptr) ? TranslateT("General") : it->getGroup();
+		LIST<DetailsPageData> items(1, PageSortProc);
+		NotifyEventHooks(hDetailsInitEvent, (WPARAM)&items, hContact);
+		if (items.getCount() == 0)
+			return;
+
+		wchar_t *pwszGeneral = TranslateT("General");
+
+		for (auto &it : items) {
+			wchar_t *pwszGroup = it->getGroup();
+			wchar_t *pwszText = (pwszGroup == nullptr) ? pwszGeneral : pwszGroup;
 
 			HTREEITEM hParent;
-			auto p = parents.find(pwszGroup);
+			auto p = parents.find(pwszText);
 			if (p == parents.end()) {
 				TVINSERTSTRUCT tvis = {};
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.lParam = (LPARAM)it;
-				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+				tvis.item.iImage = tvis.item.iSelectedImage = iFolderImage;
+				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-				tvis.item.pszText = pwszGroup;
-				hParent = parents[pwszGroup] = m_tree.InsertItem(&tvis);
+				if (pwszGroup != nullptr) {
+					tvis.item.pszText = pwszGroup;
+					tvis.hParent = (m_bIsMeta) ? parents.find(pwszGeneral)->second : nullptr;
+				}
+				else tvis.item.pszText = pwszGeneral;
+
+				hParent = parents[pwszText] = m_tree.InsertItem(&tvis);
 			}
 			else hParent = p->second;
+
+			int iImage = 1;
+			if ((it->dwFlags & ODPF_ICON) && it->lParam) {
+				HICON hIcon = g_plugin.getIcon(it->lParam);
+				if (hIcon)
+					iImage = ImageList_AddIcon(m_imageList, hIcon);
+			}
 
 			TVINSERTSTRUCT tvis;
 			tvis.hParent = hParent;
 			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
+			tvis.item.iImage = tvis.item.iSelectedImage = iImage;
+			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 			tvis.item.lParam = (LPARAM)it;
 			tvis.item.pszText = it->getTitle();
 			if (ptszLastTab && !mir_wstrcmp(tvis.item.pszText, ptszLastTab))
 				m_pCurrent = it;
+
 			it->hItem = m_tree.InsertItem(&tvis);
+
+			it->hContact = hContact;
+			m_pages.insert(it);
 		}
 
 		if (!m_pCurrent)
 			m_pCurrent = &m_pages[0];
+	}
+
+	void BuildTree()
+	{
+		if (m_imageList)
+			ImageList_Destroy(m_imageList);
+		m_imageList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
+
+		ImageList_AddIcon(m_imageList, g_plugin.getIcon(IDI_FOLDER));
+		ImageList_AddIcon(m_imageList, g_plugin.getIcon(IDI_ITEM));
+
+		m_tree.SetImageList(m_imageList, TVSIL_NORMAL);
+
+		PopulateContact(m_hContact, 0);
+
+		if (m_bIsMeta) {
+			int nSubs = db_mc_getSubCount(m_hContact);
+
+			for (int i = 0; i < nSubs; i++) {
+				MCONTACT hSub = db_mc_getSub(m_hContact, i);
+				if (hSub > 0) {
+					auto *szProto = Proto_GetBaseAccountName(hSub);
+					PopulateContact(hSub, ImageList_AddIcon(m_imageList, IcoLib_GetIconByHandle(Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE))));
+				}
+			}
+		}
 	}
 
 	void CheckOnline()
@@ -138,7 +205,7 @@ class CUserInfoDlg : public CDlgBase
 			return;
 
 		char *szProto = Proto_GetBaseAccountName(m_hContact);
-		if (szProto == nullptr)
+		if (szProto == nullptr || m_bIsMeta)
 			btnUpdate.Disable();
 		else {
 			if (Proto_GetStatus(szProto) < ID_STATUS_ONLINE)
@@ -155,7 +222,7 @@ class CUserInfoDlg : public CDlgBase
 			return;
 
 		pDlg->SetParent(m_hwnd);
-		pDlg->SetContact(m_hContact);
+		pDlg->SetContact(ppg->hContact);
 		pDlg->Create();
 		ppg->hwnd = pDlg->GetHwnd();
 
@@ -175,25 +242,23 @@ class CUserInfoDlg : public CDlgBase
 		SetWindowPos(m_pCurrent->hwnd, HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, 0);
 	}
 
-	CCtrlBase m_white, m_place;
+	CCtrlBase m_place;
 	CCtrlButton btnUpdate;
 	CCtrlTreeView m_tree;
 	CTimer updateTimer;
 
 public:
-	CUserInfoDlg(MCONTACT hContact, const LIST<DetailsPageData> &items) :
+	CUserInfoDlg(MCONTACT hContact) :
 		CDlgBase(g_plugin, IDD_DETAILS),
 		m_hContact(hContact),
+		m_bIsMeta(db_mc_isMeta(hContact)),
 		m_pages(1),
 		m_tree(this, IDC_PAGETREE),
 		m_place(this, IDC_TABS),
-		m_white(this, IDC_WHITERECT),
 		btnUpdate(this, IDC_UPDATE),
 		updateTimer(this, 1)
 	{
 		SetMinSize(480, 382);
-
-		m_white.UseSystemColors();
 
 		m_tree.OnSelChanged = Callback(this, &CUserInfoDlg::onSelChanged_Tree);
 		m_tree.OnSelChanging = Callback(this, &CUserInfoDlg::onSelChanging);
@@ -201,9 +266,6 @@ public:
 		btnUpdate.OnClick = Callback(this, &CUserInfoDlg::onClick_Update);
 
 		updateTimer.OnEvent = Callback(this, &CUserInfoDlg::onTimer);
-
-		for (auto odp: items)
-			m_pages.insert(odp);
 	}
 
 	bool OnInitDialog() override
@@ -225,14 +287,6 @@ public:
 		GetWindowText(m_hwnd, oldTitle, _countof(oldTitle));
 		mir_snwprintf(newTitle, oldTitle, name);
 		SetWindowText(m_hwnd, newTitle);
-
-		//////////////////////////////////////////////////////////////////////
-		LOGFONT lf;
-		HFONT hNormalFont = (HFONT)SendDlgItemMessage(m_hwnd, IDC_NAME, WM_GETFONT, 0, 0);
-		GetObject(hNormalFont, sizeof(lf), &lf);
-		lf.lfWeight = FW_BOLD;
-		m_hBoldFont = CreateFontIndirect(&lf);
-		SendDlgItemMessage(m_hwnd, IDC_NAME, WM_SETFONT, (WPARAM)m_hBoldFont, 0);
 
 		BuildTree();
 
@@ -293,7 +347,6 @@ public:
 			return RD_ANCHORX_RIGHT | RD_ANCHORY_BOTTOM;
 
 		case IDC_HEADERBAR:
-		case IDC_WHITERECT:
 			return RD_ANCHORX_WIDTH | RD_ANCHORY_TOP;
 
 		case IDC_PAGETREE:
@@ -316,11 +369,12 @@ public:
 			g_plugin.setWString("LastTab", name);
 		}
 
+		if (m_imageList)
+			ImageList_Destroy(m_imageList);
+
 		Utils_SaveWindowPosition(m_hwnd, 0, MODULENAME, "main");
 
 		Window_FreeIcon_IcoLib(m_hwnd);
-		SendDlgItemMessage(m_hwnd, IDC_NAME, WM_SETFONT, SendDlgItemMessage(m_hwnd, IDC_WHITERECT, WM_GETFONT, 0, 0), 0);
-		DeleteObject(m_hBoldFont);
 		WindowList_Remove(hWindowList, m_hwnd);
 
 		UnhookEvent(m_hProtoAckEvent);
@@ -377,7 +431,10 @@ public:
 					CheckOnline();
 					break;
 				}
-				if (ack->hContact != m_hContact || ack->type != ACKTYPE_GETINFO)
+				
+				if (ack->type != ACKTYPE_GETINFO)
+					break;
+				if (ack->hContact != m_hContact && !(m_bIsMeta && db_mc_getMeta(ack->hContact) == m_hContact))
 					break;
 
 				SendMessage(m_hwnd, PSM_FORCECHANGED, 0, 0);
@@ -514,23 +571,12 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	}
 
 	pNew->dwFlags = uip->flags;
+	pNew->lParam = uip->dwInitParam;
 	pList->insert(pNew);
 	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static int PageSortProc(const DetailsPageData *item1, const DetailsPageData *item2)
-{
-	wchar_t *s1 = item1->getGroup(), *s2 = item2->getGroup();
-	if (int res = mir_wstrcmp(s1, s2))
-		return res;
-
-	s1 = item1->getTitle(), s2 = item2->getTitle();
-	if (!mir_wstrcmp(s1, TranslateT("Summary"))) return -1;
-	if (!mir_wstrcmp(s2, TranslateT("Summary"))) return 1;
-	return mir_wstrcmp(s1, s2);
-}
 
 static INT_PTR ShowDetailsDialogCommand(WPARAM hContact, LPARAM)
 {
@@ -540,12 +586,7 @@ static INT_PTR ShowDetailsDialogCommand(WPARAM hContact, LPARAM)
 		return 0;
 	}
 
-	LIST<DetailsPageData> items(1, PageSortProc);
-	NotifyEventHooks(hDetailsInitEvent, (WPARAM)&items, hContact);
-	if (items.getCount() == 0)
-		return 0;
-
-	auto *pDlg = new CUserInfoDlg(hContact, items);
+	auto *pDlg = new CUserInfoDlg(hContact);
 	pDlg->Show();
 	return 0;
 }
@@ -571,8 +612,22 @@ static int OnTopToolBarLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Folder"),   "folder",   IDI_FOLDER   },
+	{ LPGEN("Page"),     "page",     IDI_ITEM     },
+	{ LPGEN("Contact"),  "contact",  IDI_CONTACT  },
+	{ LPGEN("Location"), "location", IDI_LOCATION },
+	{ LPGEN("Notes"),    "notes",    IDI_NOTES    },
+	{ LPGEN("Page"),     "Page",     IDI_ITEM     },
+	{ LPGEN("Summary"),  "summary",  IDI_SUMMARY  },
+	{ LPGEN("Work"),     "work",     IDI_WORK     },
+};
+
 int LoadUserInfoModule(void)
 {
+	g_plugin.registerIcon(MODULENAME, iconList);
+
 	CreateServiceFunction("UserInfo/AddPage", AddDetailsPage);
 	CreateServiceFunction(MS_USERINFO_SHOWDIALOG, ShowDetailsDialogCommand);
 

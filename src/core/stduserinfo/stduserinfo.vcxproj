@@ -35,12 +35,10 @@
     <ClCompile Include="src\userinfo.cpp" />
     <ClInclude Include="src\stdafx.h" />
     <ClInclude Include="src\version.h" />
+    <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\cursor_hyperlink.cur" />
   </ItemGroup>
 </Project>
