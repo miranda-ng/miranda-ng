@@ -85,7 +85,7 @@ static IconItem iconList3[] =
 	{ LPGEN("Leave (10x10)"),          "log_part",        IDI_PART,     10}, //  7
 	{ LPGEN("Quit (10x10)"),           "log_quit",        IDI_QUIT,     10}, //  8
 	{ LPGEN("Kick (10x10)"),           "log_kick",        IDI_KICK,     10}, //  9
-	{ LPGEN("Nickchange (10x10)"),     "log_nick",        IDI_NICK,     10}, // 10
+	{ LPGEN("Nick change (10x10)"),     "log_nick",        IDI_NICK,     10}, // 10
 	{ LPGEN("Notice (10x10)"),         "log_notice",   IDI_CHAT_NOTICE, 10}, // 11
 	{ LPGEN("Topic (10x10)"),          "log_topic",       IDI_TOPIC,    10}, // 12
 	{ LPGEN("Highlight (10x10)"),      "log_highlight",   IDI_NOTICE,   10}, // 13

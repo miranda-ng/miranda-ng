@@ -197,7 +197,7 @@ static IconItem _logicons[] =
 	{ LPGEN("Quit (10x10)"), "chat_log_quit", IDI_QUIT },
 	{ LPGEN("Kick (10x10)"), "chat_log_kick", IDI_KICK },
 	{ LPGEN("Notice (10x10)"), "chat_log_notice", IDI_NOTICE },
-	{ LPGEN("Nickchange (10x10)"), "chat_log_nick", IDI_NICK },
+	{ LPGEN("Nick change (10x10)"), "chat_log_nick", IDI_NICK },
 	{ LPGEN("Topic (10x10)"), "chat_log_topic", IDI_TOPIC },
 	{ LPGEN("Highlight (10x10)"), "chat_log_highlight", IDI_HIGHLIGHT },
 	{ LPGEN("Information (10x10)"), "chat_log_info", IDI_INFO }

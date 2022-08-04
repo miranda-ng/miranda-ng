@@ -29,7 +29,7 @@ public:
 			TranslateT("Expands to your Miranda path (e.g., c:\\program files\\miranda ng)."),
 			TranslateT("Expands to your profile path - the value found in mirandaboot.ini,"),
 			TranslateT("ProfileDir section (usually inside Miranda's folder)."),
-			TranslateT("Expands to your current profile name without the extenstion."),
+			TranslateT("Expands to your current profile name without the extension."),
 			TranslateT("(e.g., default if your your profile is default.dat)."),
 			TranslateT("Environment variables"),
 			TranslateT("The plugin can also expand environment variables; the variables are specified like in any other"),

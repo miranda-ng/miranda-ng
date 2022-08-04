@@ -109,7 +109,7 @@ begin
       SetDlgItemTextW(Dialog,IDC_COVERFN,CoverPaths);
 
       MakeHint(Dialog,IDC_APPCOMMAND,
-        'Emulate multimedia keys presses to control palyer');
+        'Emulate multimedia keys presses to control player');
       CheckDlgButton(Dialog,IDC_APPCOMMAND,mmkeyemu);
 
       hCpCombo:=GetDlgItem(Dialog,IDC_CODEPAGE);
