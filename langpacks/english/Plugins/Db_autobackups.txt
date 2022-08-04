@@ -2,13 +2,13 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Automatic backups]
-[Disabled]
+[Enabled]
 [When Miranda starts]
 [When Miranda exits]
 [Every:]
@@ -19,7 +19,7 @@
 [Backup file mask:]
 [Compress backup to zip-archive]
 [Backup profile folder]
-[Disable progress bar]
+[Enable progress bar]
 [Use CloudFile]
 [Backup NOW]
 [Backup progress]

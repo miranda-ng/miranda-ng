@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -22,11 +22,12 @@
 [Popup]
 [Tray]
 [Options]
+[Text for autocomplete]
 [Add new rooms to group:]
 [Log files]
 [Enable logging to disk]
 [Log directory]
-[Maximum size for log files (in KB)]
+[Split into files (in KB)]
 [Group chat log formatting]
 [Your name]
 [Other name]
@@ -442,7 +443,7 @@
 [Quit (10x10)]
 [Kick (10x10)]
 [Notice (10x10)]
-[Nickchange (10x10)]
+[Nick change (10x10)]
 [Topic (10x10)]
 [Highlight (10x10)]
 [Information (10x10)]
@@ -468,7 +469,7 @@
 [Create tabs or windows for highlight events]
 [Activate chat window on highlight]
 [Show list of users in the chat room]
-[Colorize nicknames in member list]
+[Colorize nicknames in member list (you need to adjust colors)]
 [Show topic as status message on the contact list]
 [Do not pop up the window when joining a chat room]
 [Sync splitter position with standard IM sessions]
@@ -481,8 +482,6 @@
 [Timestamp has same color as the event]
 [Indent the second line of a message]
 [Limit user names in the message log to 20 characters]
-[Add a colon (:) to auto-completed user names]
-[Add a comma instead of a colon to auto-completed user names]
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 [Strip colors from messages in the log]
 [Enable the 'event filter' for new rooms]

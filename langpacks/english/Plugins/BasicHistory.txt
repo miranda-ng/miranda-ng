@@ -65,7 +65,7 @@
 [Export to]
 [Compress output files]
 [Password]
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 [Session name]
 [Path to file**]
 [Export imported messages]
@@ -202,7 +202,7 @@
 [Invalid '%s' value.\n%s]
 [** Use <ext> to insert extension, <contact> to insert contact name]
 [Input files are compressed]
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 [Import from]
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
 ;file \plugins\BasicHistory\src\Options.h

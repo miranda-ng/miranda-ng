@@ -108,9 +108,6 @@
 [You are logged in at another location]
 [Incoming image]
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-[Female]
-[<not specified>]
 [<Last Status>]
 [System tray icon]
 [Popup window]
@@ -122,6 +119,9 @@
 [General]
 [Conference]
 [Advanced]
+[Male]
+[Female]
+[<not specified>]
 [Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp

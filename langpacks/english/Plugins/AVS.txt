@@ -47,6 +47,7 @@
 [Avatars]
 [My Avatars]
 [My Global Avatar Cache]
+[Avatar]
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 [Global avatar]
@@ -58,9 +59,6 @@
 [Protocols]
 [Contact avatars]
 [Own avatars]
-[No avatar]
-[Are you sure you want to remove your avatar?]
-[Avatar]
 ;file \plugins\AVS\src\services.cpp
 [All files]
 [Windows bitmaps]
@@ -72,3 +70,6 @@
 [Grow avatar to fit max allowed protocol size]
 [Set my avatar]
 [Set my avatar for %s]
+;file \plugins\AVS\src\userInfo.cpp
+[No avatar]
+[Are you sure you want to remove your avatar?]
