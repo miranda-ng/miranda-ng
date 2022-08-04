@@ -19,7 +19,6 @@
 #define IDD_INFO_LOCATION               114
 #define IDD_INFO_WORK                   115
 #define IDI_LOCATION                    116
-
 #define IDC_COUNTRY                     1001
 #define IDC_AREA                        1002
 #define IDC_NUMBER                      1003
@@ -60,3 +59,14 @@
 #define IDC_COMPANY                     1038
 #define IDC_DEPARTMENT                  1039
 #define IDC_POSITION                    1040
+
+// Next default values for new objects
+// 
+#ifdef APSTUDIO_INVOKED
+#ifndef APSTUDIO_READONLY_SYMBOLS
+#define _APS_NEXT_RESOURCE_VALUE        101
+#define _APS_NEXT_COMMAND_VALUE         40001
+#define _APS_NEXT_CONTROL_VALUE         1000
+#define _APS_NEXT_SYMED_VALUE           101
+#endif
+#endif
