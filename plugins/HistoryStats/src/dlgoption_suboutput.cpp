@@ -98,7 +98,7 @@ void DlgOption::SubOutput::onWMInitDialog()
 	OptionsCtrl::Item hTemp;
 	OptionsCtrl::Item hTemp2;
 
-	hTemp                              = m_Options.insertGroup(nullptr, TranslateT("CContact filtering and totals"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
+	hTemp                              = m_Options.insertGroup(nullptr, TranslateT("Contact filtering and totals"), OptionsCtrl::OCF_ROOTGROUP | OptionsCtrl::OCF_NODISABLECHILDS);
 		m_hRemoveEmptyContacts          = m_Options.insertCheck(hTemp, TranslateT("Remove contacts with empty history"));
 		m_hRemoveOutChatsZero           = m_Options.insertCheck(hTemp, TranslateT("Remove contacts with only incoming chats"), OptionsCtrl::OCF_DISABLECHILDSONUNCHECK);
 			m_hRemoveOutBytesZero        = m_Options.insertCheck(m_hRemoveOutChatsZero, TranslateT("Remove only if you never answered"));
