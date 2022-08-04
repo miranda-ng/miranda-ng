@@ -121,8 +121,6 @@ void ShowHistory(MCONTACT hContact, uint8_t isAlert);
 void InitFileOutput(void);
 void UninitFileOutput(void);
 
-INT_PTR GetParsedFormat(WPARAM wParam, LPARAM lParam);
-
 struct logthread_info
 {
 	MCONTACT hContact;

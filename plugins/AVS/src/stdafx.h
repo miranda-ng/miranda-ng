@@ -124,6 +124,12 @@ struct SetMyAvatarHookData
 
 #define AVS_DEFAULT "Global avatar"
 
+#define DM_SETAVATARNAME (WM_USER + 10)
+#define DM_REALODAVATAR (WM_USER + 11)
+#define DM_AVATARCHANGED (WM_USER + 12)
+#define DM_PROTOCOLCHANGED (WM_USER + 13)
+#define DM_MYAVATARCHANGED (WM_USER + 21)
+
 void mir_sleep(int time);
 extern bool  g_shutDown;
 extern wchar_t g_szDataPath[];		// user datae path (read at startup only)
@@ -177,6 +183,9 @@ int  Proto_GetAvatarMaxFileSize(const char *proto);
 
 protoPicCacheEntry* GetProtoDefaultAvatar(MCONTACT hContact);
 
-int OnDetailsInit(WPARAM wParam, LPARAM lParam);
-int OptInit(WPARAM wParam, LPARAM lParam);
-void   InitServices();
+int  OnDetailsInit(WPARAM wParam, LPARAM lParam);
+int  OptInit(WPARAM wParam, LPARAM lParam);
+void InitServices();
+
+void LoadTransparentData(HWND hwndDlg, MCONTACT hContact);
+void SaveTransparentData(HWND hwndDlg, MCONTACT hContact, BOOL locked);

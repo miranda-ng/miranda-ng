@@ -570,6 +570,6 @@ void InitContactInfo(WPARAM wParam, USERINFOPAGE &uip)
 {
 	uip.pDialog = new CContactPage();
 	uip.szTitle.a = LPGEN("Contact");
-	uip.dwInitParam = IDI_CONTACT;
+	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_CONTACT);
 	g_plugin.addUserInfo(wParam, &uip);
 }

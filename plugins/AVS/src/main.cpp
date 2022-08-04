@@ -345,8 +345,15 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Avatar"), "main", IDI_AVATAR },
+};
+
 int CMPlugin::Load()
 {
+	registerIcon("AVS", iconList);
+
 	LoadACC();
 
 	hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);

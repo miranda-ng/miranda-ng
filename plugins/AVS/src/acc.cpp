@@ -24,15 +24,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-#define DM_AVATARCHANGED (WM_USER + 20)
-#define DM_MYAVATARCHANGED (WM_USER + 21)
-
 #define GIF_DISPOSAL_UNSPECIFIED	0
 #define GIF_DISPOSAL_LEAVE			1
 #define GIF_DISPOSAL_BACKGROUND		2
 #define GIF_DISPOSAL_PREVIOUS		3
 
-typedef struct
+struct ACCData
 {
 	MCONTACT hContact;
 	char proto[64];
@@ -71,8 +68,7 @@ typedef struct
 			int disposal_method;
 		} frame;
 	} ag;
-
-} ACCData;
+};
 
 
 BOOL AnimatedGifGetData(ACCData *data)

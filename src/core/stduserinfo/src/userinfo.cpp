@@ -158,9 +158,11 @@ class CUserInfoDlg : public CDlgBase
 
 			int iImage = 1;
 			if ((it->dwFlags & ODPF_ICON) && it->lParam) {
-				HICON hIcon = g_plugin.getIcon(it->lParam);
-				if (hIcon)
+				HICON hIcon = IcoLib_GetIconByHandle((HANDLE)it->lParam);
+				if (hIcon) {
 					iImage = ImageList_AddIcon(m_imageList, hIcon);
+					IcoLib_ReleaseIcon(hIcon);
+				}
 			}
 
 			TVINSERTSTRUCT tvis;

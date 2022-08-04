@@ -11,6 +11,8 @@
 #define IDD_USER_AVATAR                 106
 #define IDD_PROTO_AVATARS               107
 #define IDD_OPTIONS_AVATARS             108
+#define IDI_AVATAR                      109
+
 #define IDC_PROTOCOLS                   1001
 #define IDC_SHOWWARNINGS                1002
 #define IDC_SETPROTOPIC                 1003

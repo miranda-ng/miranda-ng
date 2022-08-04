@@ -467,19 +467,19 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	uip.pDialog = new CSummaryDlg();
 	uip.szGroup.a = LPGEN("General");
 	uip.szTitle.a = LPGEN("Summary");
-	uip.dwInitParam = IDI_SUMMARY;
+	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_SUMMARY);
 	g_plugin.addUserInfo(wParam, &uip);
 
 	InitContactInfo(wParam, uip);
 
 	uip.pDialog = new CLocationDlg();
 	uip.szTitle.a = LPGEN("Location");
-	uip.dwInitParam = IDI_LOCATION;
+	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_LOCATION);
 	g_plugin.addUserInfo(wParam, &uip);
 
 	uip.pDialog = new CWorkDlg();
 	uip.szTitle.a = LPGEN("Work");
-	uip.dwInitParam = IDI_WORK;
+	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_WORK);
 	g_plugin.addUserInfo(wParam, &uip);
 
 	uip.pDialog = new CBackgroundDlg();
@@ -489,7 +489,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 
 	uip.pDialog = new CNotesDlg();
 	uip.szTitle.a = LPGEN("Notes");
-	uip.dwInitParam = IDI_NOTES;
+	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_NOTES);
 	g_plugin.addUserInfo(wParam, &uip);
 	return 0;
 }

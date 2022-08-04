@@ -8,6 +8,7 @@
 #define IDD_USERDETAILS                 104
 #define IDD_HISTORY                     105
 #define IDD_POPUPS                      106
+#define IDI_CLOCK                       107
 #define IDC_SEENMENUITEM                1000
 #define IDC_MENUITEM                    1001
 #define IDC_UINFOTAB                    1002

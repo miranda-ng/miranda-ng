@@ -68,6 +68,18 @@ void UninitHistoryDialog(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+INT_PTR GetParsedFormat(WPARAM wParam, LPARAM)
+{
+	MCONTACT hContact = (MCONTACT)wParam;
+	ptrW wszStamp(g_plugin.getWStringA("MenuStamp"));
+
+	CMStringW wszRet(ParseString(wszStamp ? wszStamp : DEFAULT_MENUSTAMP, hContact));
+
+	return (INT_PTR)wszRet.Detach();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int MainInit(WPARAM, LPARAM)
 {
 	if (g_bFileActive = g_plugin.getByte("FileOutput", 0))
@@ -92,8 +104,15 @@ static int OnShutdown(WPARAM, LPARAM)
 	return 0;
 }
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Clock"), "clock", IDI_CLOCK },
+};
+
 int CMPlugin::Load()
 {
+	registerIcon(MODULENAME, iconList);
+	
 	g_pUserInfo = WindowList_Create();
 	g_hShutdownEvent = CreateEvent(nullptr, TRUE, FALSE, nullptr);
 
@@ -135,16 +154,4 @@ int CMPlugin::Unload()
 	CloseHandle(g_hShutdownEvent);
 	UninitHistoryDialog();
 	return 0;
-}
-
-
-INT_PTR GetParsedFormat(WPARAM wParam, LPARAM)
-{
-
-	MCONTACT hContact = (MCONTACT)wParam;
-	ptrW wszStamp(g_plugin.getWStringA("MenuStamp"));
-
-	CMStringW wszRet(ParseString(wszStamp ? wszStamp : DEFAULT_MENUSTAMP, hContact));
-
-	return (INT_PTR)wszRet.Detach();
 }
