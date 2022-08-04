@@ -177,7 +177,7 @@ ID и версия клиента
 [Not an owner]
 Не владелец
 [Invalid token]
-Неправильний токен
+Неправильный токен
 [Token expired]
 
 [Token mismatch]

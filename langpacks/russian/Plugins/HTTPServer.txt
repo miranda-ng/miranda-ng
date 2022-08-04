@@ -102,7 +102,7 @@ IP-адрес 2
 [Speed]
 Скорость
 [Current IP Address: ]
-Текущиий IP-адрес:\s
+Текущий IP-адрес:\s
 [Current Address: ]
 Текущий адрес:\s
 [IP Address: ]

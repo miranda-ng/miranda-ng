@@ -2059,7 +2059,7 @@ OMEMO
 [Relieved]
 Помогающий
 [Remorseful]
-Раскаянный
+Раскаивающийся
 [Restless]
 Беспокойный
 [Sad]

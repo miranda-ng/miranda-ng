@@ -168,7 +168,7 @@
 Отправка математического контрольного вопроса %s.
 ;file \plugins\Spamotron\src\stdafx.h
 [Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
-Cообщение временно заблокировано. Напишите "%response%" без кавычек.
+Сообщение временно заблокировано. Напишите "%response%" без кавычек.
 [Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
 Сообщение временно заблокировано. Сколько будет %mathexpr%?
 [Verified.]

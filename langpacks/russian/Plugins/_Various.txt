@@ -20,7 +20,7 @@
 [Happy New Year]
 С Новым Годом
 [Happy New Year to you!\nMay every great new day\nBring you sweet surprises -\nA happiness buffet.\n\nHappy New Year to you\nAnd when the new year's done\nMay the next year be even better\nFull of pleasure, joy and fun.]
-Прошёл ещё один прекрасный год,\nВ котором пелось и грустилось,\nА то, что в нем не уместилось,\nПусть в новом все произойдёт.\n\nИдут часы, проходят дни, -\nТакой закон природы,\nИ мы сегодня вас хотим\nПоздравить с Hовым Годом!\n\nЖелаем вам от всей души\nВ грядущем новом годе\nЗдоровья, счастья, новых сил,\nУспехов на работе.
+Прошёл ещё один прекрасный год,\nВ котором пелось и грустилось,\nА то, что в нем не уместилось,\nПусть в новом все произойдёт.\n\nИдут часы, проходят дни, -\nТакой закон природы,\nИ мы сегодня вас хотим\nПоздравить с Новым Годом!\n\nЖелаем вам от всей души\nВ грядущем новом годе\nЗдоровья, счастья, новых сил,\nУспехов на работе.
 [Some modules will not be able to work simultaneously in two or more advanced profiles. Continue?]
 Некоторые модули не смогут работать одновременно в двух и более запущенных профилях. Продолжить?
 [Show status message dialog]
@@ -94,7 +94,7 @@
 [No - while loading as usually will be opened profile manager]
 Нет — при загрузке как обычно будет открыто управление профилями
 [Autologin bookmarks and conferences enabled]
-Автовход в закладки и конференции включен
+Автовход в закладки и конференции включён
 [Autologin bookmarks and conferences disabled]
 Автовход в закладки и конференции выключен
 [Do you really want to close]
@@ -165,9 +165,9 @@
 [ &since]
  с
 [When he gets back, I'll tell him you've been here...]
-Когда он вернется, я ему передам, чтобы он с вами связался...
+Когда он вернётся, я ему передам, чтобы он с вами связался...
 [Been gone since]
-Отошел(а) в
+Отошёл(а) в
 [will be back later.]
 буду позже.
 [is reading your message]

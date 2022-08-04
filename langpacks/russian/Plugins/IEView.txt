@@ -80,7 +80,7 @@
  был добавлен.
 ;file \plugins\IEView\src\ieview_main.cpp
 [Code]
-Код	
+Код
 [RTL On]
 Вкл. RTL
 [RTL Off]

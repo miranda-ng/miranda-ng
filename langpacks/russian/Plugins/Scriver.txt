@@ -37,7 +37,7 @@
 [Only show tab bar when it's needed]
 Панель вкладок только когда требуется
 [Tabs at the bottom]
-Вкладки cнизу
+Вкладки снизу
 [Limit names on tabs to]
 Ограничить имена на вкладках
 [characters]
@@ -540,7 +540,7 @@ consectetur adipisicing elit
 [Info bar background]
 Фон инфо-панели
 [Info bar status message]
-Инфо-панель: cтатусное сообщение
+Инфо-панель: статусное сообщение
 [Background]
 Фон
 [Line between messages]

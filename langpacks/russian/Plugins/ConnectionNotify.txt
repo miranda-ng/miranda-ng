@@ -74,7 +74,7 @@
 [Application]
 Приложение
 [Internal socket]
-Внутренный сокет
+Внутренний сокет
 [External socket]
 Внешний сокет
 [Action]

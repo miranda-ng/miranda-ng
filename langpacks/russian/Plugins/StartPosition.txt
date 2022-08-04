@@ -25,7 +25,7 @@
 [Always start...]
 При запуске...
 [minimized to system tray]
-cкрывать в трей
+скрывать в трей
 [opened]
 открыть
 ;file \plugins\StartPosition\src\startposition.cpp

@@ -208,7 +208,7 @@
 [Protocol icon]
 Значок протокола
 [Currency Rate up]
-Курс вырос	
+Курс вырос
 [Currency Rate down]
 Курс упал
 [Currency Rate not changed]

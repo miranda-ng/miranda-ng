@@ -114,9 +114,9 @@ IPv6 адрес (необязательно)
 [Save Tox profile]
 Сохранить профиль Tox
 [Add node]
-Добавление ноды
+Добавление узла
 [Change node]
-Изменение ноды
+Изменение узла
 [Enter IPv4]
 Введите IPv4
 [Error]
@@ -126,19 +126,19 @@ IPv6 адрес (необязательно)
 [Enter public key]
 Введите открытый ключ
 [Common nodes]
-Общие ноды
+Общие узлы
 [User nodes]
-Ноды пользователя
+Узлы пользователя
 [Are you sure?]
 Вы уверены?
 [Node deleting]
-Удаление ноды
+Удаление узла
 [Network]
 Сеть
 [Account]
 Учётная запись
 [Nodes]
-Ноды
+Узлы
 ;file \protocols\Tox\src\tox_profile.cpp
 [Unable to open Tox profile]
 Невозможно открыть профиль

@@ -35,7 +35,7 @@
 [Enable auth. requests blocking]
 Блокировать запросы авторизации
 [Hide unanswered contacts and spammers from contact list]
-Скрыть неответившие контакты из списка контактов
+Скрыть не ответившие контакты из списка контактов
 [Ignore spammers (do not write messages to history)]
 Игнорировать спамеров (не писать сообщения в историю)
 [Log spam to file]

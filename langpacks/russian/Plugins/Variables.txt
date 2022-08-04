@@ -343,7 +343,7 @@ z, если y равно x, допустимы множественные арг
 [window title of first window of class x]
 заголовок первого окна класса x
 [shows files and directories of directory x, with filter y, separated by z (y and z optional)]
-показывает файлы и папки путя x, с фильтром y, разделённым z (y и z необязательны)
+показывает файлы и папки пути x, с фильтром y, разделённым z (y и z необязательны)
 [TRUE if process x is running]
 ПРАВДА, если процесс х запущен
 [value y from registry key x (REG_SZ (string) values only)]

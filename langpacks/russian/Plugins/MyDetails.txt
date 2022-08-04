@@ -23,7 +23,7 @@
 [Auto-resize frame]
 Выравнивать фрейм
 [Use contact list smileys]
-Смайлы спиcка контактов
+Смайлы списка контактов
 [Replace smileys]
 Заменять смайлы
 [Resize smileys]

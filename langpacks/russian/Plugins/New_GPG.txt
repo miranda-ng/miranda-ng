@@ -279,7 +279,7 @@ GPG не удалось расшифровать входящее сообщен
 [info]
 Инфо
 [Key removed from GPG keyring]
-Ключ удален из брелока GPG
+Ключ удалён из брелока GPG
 [Do you want to remove key from entire metacontact (all subcontacts)?]
 Вы хотите убрать ключ для метаконтакта (всех субконтактов)?
 [Export public key]
@@ -315,7 +315,7 @@ GPG не удалось расшифровать входящее сообщен
 [This is not public or private key]
 Это не публичный или приватный ключ
 [Key already in secret keyring.]
-Ключ уже в векретном брелоке.
+Ключ уже в секретном брелоке.
 [Set file containing GPG public key]
 Задать файл, содержащий открытый ключ GPG
 [GPG public key file]

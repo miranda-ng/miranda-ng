@@ -86,7 +86,7 @@ OTR Создание личного ключа
 [OTR private]
 Частный OTR
 [OTR unverified]
-OTR непроверен
+OTR не проверен
 [OTR finished]
 OTR завершён
 [OTR not secure]
@@ -107,7 +107,7 @@ OTR не является безопасным
 [OTR Encryption: Disabled]
 OTR-шифрование: отключено
 [OTR Encryption: UNVERIFIED]
-OTR-шифрование: непроверено
+OTR-шифрование: не проверено
 [OTR Encryption: Private]
 OTR-шифрование: частное
 [OTR Encryption: Finished]
@@ -203,11 +203,11 @@ OTR-Идентификация с: %s (%s)
 [Authenticating contact:\n%s (%s)]
 Идентификация контакта: \n%s (%s)
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a question only your partner can answer.]
-Шифрованная сессия с '%s' (непроверен).\nИспользуйте вопрос, на который может ответить только ваш собеседник.
+Шифрованная сессия с '%s' (не проверен).\nИспользуйте вопрос, на который может ответить только ваш собеседник.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a question only your partner can answer.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя вопрос, на который может ответить только ваш собеседник.
 [OTR encrypted session with '%s' (UNVERIFIED).\nUse a known password.]
-Шифрованная сессия с '%s' (непроверен).\nИспользуйте известный пароль.
+Шифрованная сессия с '%s' (не проверен).\nИспользуйте известный пароль.
 [OTR encrypted session with '%s' (VERIFIED).\nVerify the session again using a known password.]
 Шифрованная сессия с '%s' (проверен).\nПроверьте сессию снова, используя известный пароль.
 [Your contact '%s' wants to verify your identity with a question only you can answer.]

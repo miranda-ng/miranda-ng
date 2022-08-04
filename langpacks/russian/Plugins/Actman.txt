@@ -264,7 +264,7 @@
 ['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
 '<proto>' в названии службы будет заменяться именем протокола из параметров контакта
 [Service:]
-Cлужба:
+Служба:
 [In/Out]
 Ввод/Вывод
 [Clipboard]
@@ -636,7 +636,7 @@ JUMP
 [Station name]
 Название станции
 [wParam is Handle]
-wParam содержит хэндл
+wParam содержит хендл
 [wParam is Ansi station name]
 wParam содержит имя станции в кодировке Ansi
 [wParam is Unicode station name]

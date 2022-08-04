@@ -29,7 +29,7 @@
 [...on left side of name]
 ...слева от имени
 [Hide subcontacts]
-Прятать суб-контакты
+Прятать субконтакты
 [But keep subcontacts of protocols in above list if meta is hidden]
 Но показывать, если метаконтакт спрятан
 [Enter username:]

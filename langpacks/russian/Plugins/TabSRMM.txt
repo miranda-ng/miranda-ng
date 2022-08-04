@@ -315,7 +315,7 @@ RTL шаблоны...
 [Miscellaneous options]
 Другие параметры
 [Setup status modes for automatic tab creation...]
-Cтатусы для автоматического создания вкладок...
+Статусы для автоматического создания вкладок...
 [Limit nicknames on tabs to]
 Ограничить длину ников во вкладках
 [characters]
@@ -1106,7 +1106,7 @@ ID текущего контакта (если определён). Наприм
 [Sending typing notifications is %s.]
 Отправка уведомления о наборе: %s.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d cообщений в очереди для последующей доставки
+Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d сообщений в очереди для последующей доставки
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [No status message]
 Нет сообщения статуса

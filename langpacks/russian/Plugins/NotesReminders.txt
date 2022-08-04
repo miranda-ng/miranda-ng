@@ -278,7 +278,7 @@
 [Every]
 Каждые
 [Seconds]
-cекунд
+секунд
 [Never]
 Не использовать
 [Default]

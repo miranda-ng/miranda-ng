@@ -107,7 +107,7 @@ xСтатус
 [Use alternative descriptions]
 Использовать альтернативное описание
 [Show previous status too]
-Показывать предыдущий cтатус
+Показывать предыдущий статус
 [Read status message]
 Читать статусное сообщение
 [Timeout]
@@ -157,7 +157,7 @@ xСтатус
 [Disable globally]
 Отключить полностью
 [Disable when my status is:]
-Отключать, когда мой статсус:
+Отключать, когда мой статус:
 [Disable only if I change global status]
 Отключать, только при изменении глобального статуса
 [Cancel]
@@ -171,7 +171,7 @@ xСтатус
 [Only when message window is open]
 Только если открыто окно сообщений
 [Remove events from history when closing message window]
-Удалять события из истории после закрытыя окна сообщений
+Удалять события из истории после закрытия окна сообщений
 [Log when contact changes extra status]
 Записывать смены xСтатусов
 [Log when contact removes extra status]

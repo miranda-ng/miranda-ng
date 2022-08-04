@@ -111,7 +111,7 @@
 [Show CMDL]
 Ком. строка
 [Activate status profile]
-Cтатус-профиль
+Статус-профиль
 [Set docked]
 Парковать
 [Other]
