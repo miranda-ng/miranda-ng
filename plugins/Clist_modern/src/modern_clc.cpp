@@ -1094,7 +1094,7 @@ static LRESULT clcOnLButtonUp(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, 
 			if (contSour->isChat() || contDest->isChat())
 				break;
 
-			if (contSour->type == CLCIT_CONTACT) {
+			if (contSour->type == CLCIT_CONTACT && db_mc_isEnabled()) {
 				MCONTACT hcontact = contSour->hContact;
 				if (mir_strcmp(contSour->pce->szProto, META_PROTO)) {
 					wchar_t Wording[500];
