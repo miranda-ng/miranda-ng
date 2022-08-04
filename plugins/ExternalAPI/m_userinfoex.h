@@ -34,7 +34,6 @@ Otherwise the default icon is displayed for this treeitem.
 #ifndef ODPF_UNICODE
  #define ODPF_UNICODE		8	// string fields in OPTIONSDIALOGPAGE are WCHAR*
 #endif
-#define ODPF_ICON			64	// the hIcon member of the option dialog page is valid
 
 /* Handling notifications v0.1.0.4+
 A dialogbox should call SetWindowLongPtr(hDlg, DWLP_MSGRESULT, PSP_CHANGED) on a PSN_INFOCHANGED notification if

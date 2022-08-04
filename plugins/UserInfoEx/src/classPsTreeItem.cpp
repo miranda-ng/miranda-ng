@@ -285,6 +285,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 
 	// load the icon if no icolib is installed or creating the required settingname failed
 	LPCSTR pszIconName = IconKey();
+	HANDLE hIcoLib = nullptr;
 
 	// use icolib to handle icons
 	HICON hIcon = IcoLib_GetIcon(pszIconName);
@@ -302,7 +303,6 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 		if (uip->flags & ODPF_ICON) {
 			// is it uinfoex item?
 			if (uip->pPlugin == &g_plugin) {
-
 				// the pszGroup holds the iconfile for items added by uinfoex
 				sid.defaultFile.w = uip->szGroup.w;
 
@@ -316,11 +316,7 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 					sid.iDefaultIndex = -1;
 				}
 			}
-			// default icon is delivered by the page to add
-			else {
-				sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL), bNeedFree = true;
-				sid.iDefaultIndex = -1;
-			}
+			else hIcoLib = (HANDLE)uip->dwInitParam;
 		}
 		// no icon to add, use default
 		else {
@@ -330,10 +326,11 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 				sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL), bNeedFree = true;
 		}
 		// add file to icolib
-		g_plugin.addIcon(&sid);
+		if (!hIcoLib)
+			g_plugin.addIcon(&sid);
 
 		if (!bInitIconsOnly)
-			hIcon = IcoLib_GetIcon(pszIconName);
+			hIcon = (hIcoLib) ? IcoLib_GetIconByHandle(hIcoLib) : IcoLib_GetIcon(pszIconName);
 		if (bNeedFree)
 			DestroyIcon(sid.hDefaultIcon);
 	}
@@ -343,8 +340,10 @@ int CPsTreeItem::Icon(HIMAGELIST hIml, USERINFOPAGE *uip, bool bInitIconsOnly)
 		if (hIcon) return ((_iImage = ImageList_AddIcon(hIml, hIcon)) == -1);
 		_iImage = 0;
 	}
-	else
-		_iImage = -1;
+	else _iImage = -1;
+
+	if (hIcoLib)
+		IcoLib_ReleaseIcon(hIcon);
 	return 0;
 }
 
