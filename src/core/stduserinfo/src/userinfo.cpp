@@ -109,12 +109,10 @@ class CUserInfoDlg : public CDlgBase
 	OBJLIST<DetailsPageData> m_pages;
 	DetailsPageData *m_pCurrent = nullptr;
 
-	void PopulateContact(MCONTACT hContact, int iFolderImage)
+	void PopulateContact(MCONTACT hContact, int iFolderImage, wchar_t *pwszRoot)
 	{
 		ptrW ptszLastTab(g_plugin.getWStringA("LastTab"));
 		m_pCurrent = nullptr;
-
-		std::map<std::wstring, HTREEITEM> parents;
 
 		LIST<DetailsPageData> items(1, PageSortProc);
 		NotifyEventHooks(hDetailsInitEvent, (WPARAM)&items, hContact);
@@ -131,31 +129,19 @@ class CUserInfoDlg : public CDlgBase
 		if (items.getCount() == 0)
 			return;
 
-		wchar_t *pwszGeneral = TranslateT("General");
+		HTREEITEM hParent;
+		{
+			TVINSERTSTRUCT tvis = {};
+			tvis.hInsertAfter = TVI_LAST;
+			tvis.item.lParam = (LPARAM)items[0];
+			tvis.item.iImage = tvis.item.iSelectedImage = iFolderImage;
+			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
+			tvis.item.pszText = pwszRoot;
+			hParent = m_tree.InsertItem(&tvis);
+		}
 
 		for (auto &it : items) {
-			wchar_t *pwszGroup = it->getGroup();
-			wchar_t *pwszText = (pwszGroup == nullptr) ? pwszGeneral : pwszGroup;
-
-			HTREEITEM hParent;
-			auto p = parents.find(pwszText);
-			if (p == parents.end()) {
-				TVINSERTSTRUCT tvis = {};
-				tvis.hInsertAfter = TVI_LAST;
-				tvis.item.lParam = (LPARAM)it;
-				tvis.item.iImage = tvis.item.iSelectedImage = iFolderImage;
-				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-				if (pwszGroup != nullptr) {
-					tvis.item.pszText = pwszGroup;
-					tvis.hParent = (m_bIsMeta) ? parents.find(pwszGeneral)->second : nullptr;
-				}
-				else tvis.item.pszText = pwszGeneral;
-
-				hParent = parents[pwszText] = m_tree.InsertItem(&tvis);
-			}
-			else hParent = p->second;
-
 			int iImage = 1;
 			if ((it->dwFlags & ODPF_ICON) && it->lParam) {
 				HICON hIcon = IcoLib_GetIconByHandle((HANDLE)it->lParam);
@@ -196,7 +182,7 @@ class CUserInfoDlg : public CDlgBase
 
 		m_tree.SetImageList(m_imageList, TVSIL_NORMAL);
 
-		PopulateContact(m_hContact, 0);
+		PopulateContact(m_hContact, 0, TranslateT("General"));
 
 		if (m_bIsMeta) {
 			int nSubs = db_mc_getSubCount(m_hContact);
@@ -205,7 +191,10 @@ class CUserInfoDlg : public CDlgBase
 				MCONTACT hSub = db_mc_getSub(m_hContact, i);
 				if (hSub > 0) {
 					auto *szProto = Proto_GetBaseAccountName(hSub);
-					PopulateContact(hSub, ImageList_AddIcon(m_imageList, IcoLib_GetIconByHandle(Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE))));
+					auto *pa = Proto_GetAccount(szProto);
+					PopulateContact(hSub, 
+						ImageList_AddIcon(m_imageList, IcoLib_GetIconByHandle(Skin_GetProtoIcon(szProto, ID_STATUS_ONLINE))),
+						pa ? pa->tszAccountName : _A2T(szProto));
 				}
 			}
 		}

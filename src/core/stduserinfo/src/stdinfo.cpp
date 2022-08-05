@@ -465,7 +465,6 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	uip.flags = ODPF_ICON;
 
 	uip.pDialog = new CSummaryDlg();
-	uip.szGroup.a = LPGEN("General");
 	uip.szTitle.a = LPGEN("Summary");
 	uip.dwInitParam = (INT_PTR)g_plugin.getIconHandle(IDI_SUMMARY);
 	g_plugin.addUserInfo(wParam, &uip);
