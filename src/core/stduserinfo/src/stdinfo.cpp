@@ -438,7 +438,7 @@ public:
 
 	bool IsEmpty() const override
 	{
-		return IsEmptyValue(m_hContact, itemsNotes);
+		return IsEmptyValue(m_hContact, itemsNotes) && db_mc_isSub(m_hContact);
 	}
 
 	bool OnRefresh() override
