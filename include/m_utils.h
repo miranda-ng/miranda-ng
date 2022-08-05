@@ -486,7 +486,7 @@ namespace PU
 	MIR_APP_DLL(bool) IsProcessElevated();
 	
 	// Launches pu_stub.exe with elevated priviledges if needed
-	MIR_APP_DLL(bool) PrepareEscalation();
+	MIR_APP_DLL(bool) PrepareEscalation(const wchar_t *pwszFile = nullptr);
 	
 	MIR_APP_DLL(int) SafeCopyFile(const wchar_t *pSrc, const wchar_t *pDst);
 	MIR_APP_DLL(int) SafeMoveFile(const wchar_t *pSrc, const wchar_t *pDst);

@@ -738,7 +738,7 @@ Chat_CreateMenu @824 NONAME
 _Netlib_GetTlsUnique@12 @831 NONAME
 ?IsDirect@PU@@YG_NXZ @832 NONAME
 ?IsProcessElevated@PU@@YG_NXZ @833 NONAME
-?PrepareEscalation@PU@@YG_NXZ @834 NONAME
+?PrepareEscalation@PU@@YG_NPB_W@Z @834 NONAME
 ?SafeCopyFile@PU@@YGHPB_W0@Z @835 NONAME
 ?SafeCreateDirectory@PU@@YGHPB_W@Z @836 NONAME
 ?SafeCreateFilePath@PU@@YGHPB_W@Z @837 NONAME

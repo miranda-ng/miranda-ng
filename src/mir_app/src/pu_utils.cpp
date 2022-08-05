@@ -133,21 +133,27 @@ Cleanup:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches pu_stub.exe with elevated priviledges if needed
 
-MIR_APP_DLL(bool) PU::PrepareEscalation()
+MIR_APP_DLL(bool) PU::PrepareEscalation(const wchar_t *pwszFile)
 {
+	CMStringW wszFilePath;
 	// First try to create a file near Miranda32.exe
-	wchar_t szPath[MAX_PATH];
-	GetModuleFileName(nullptr, szPath, _countof(szPath));
-	wchar_t *ext = wcsrchr(szPath, '.');
-	if (ext != nullptr)
-		*ext = '\0';
-	wcscat(szPath, L".test");
+	if (pwszFile == nullptr) {
+		wchar_t szPath[MAX_PATH];
+		GetModuleFileName(nullptr, szPath, _countof(szPath));
+		wchar_t *ext = wcsrchr(szPath, '.');
+		if (ext != nullptr)
+			*ext = '\0';
+		wszFilePath = szPath;
+	}
+	else wszFilePath = pwszFile;
 
-	HANDLE hFile = CreateFile(szPath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+	wszFilePath.Append(L".test");
+
+	HANDLE hFile = CreateFileW(wszFilePath, GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if (hFile != INVALID_HANDLE_VALUE) {
 		// we are admins or UAC is disable, cool
 		CloseHandle(hFile);
-		DeleteFileW(szPath);
+		DeleteFileW(wszFilePath);
 		return true;
 	}
 
@@ -168,7 +174,8 @@ MIR_APP_DLL(bool) PU::PrepareEscalation()
 	}
 	else {
 		wchar_t cmdLine[100], *p;
-		GetModuleFileName(nullptr, szPath, ARRAYSIZE(szPath));
+		wchar_t szPath[MAX_PATH];
+		GetModuleFileName(nullptr, szPath, _countof(szPath));
 		if ((p = wcsrchr(szPath, '\\')) != nullptr)
 			wcscpy(p + 1, L"pu_stub.exe");
 		mir_snwprintf(cmdLine, L"%d", GetCurrentProcessId());

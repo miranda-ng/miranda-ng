@@ -30,19 +30,19 @@ static HANDLE hIniChangeNotification;
 
 static void MyMoveFile(const wchar_t *pwszFrom, const wchar_t *pwszTo)
 {
-	if (PU::PrepareEscalation())
+	if (PU::PrepareEscalation(pwszTo))
 		PU::SafeMoveFile(pwszFrom, pwszTo);
 }
 
 static void MyDeleteFile(const wchar_t *pwszFileName)
 {
-	if (PU::PrepareEscalation())
+	if (PU::PrepareEscalation(pwszFileName))
 		PU::SafeDeleteFile(pwszFileName);
 }
 
 static void ToRecycleBin(const wchar_t *pwszFileName)
 {
-	if (PU::PrepareEscalation())
+	if (PU::PrepareEscalation(pwszFileName))
 		PU::SafeRecycleBin(pwszFileName);
 }
 
