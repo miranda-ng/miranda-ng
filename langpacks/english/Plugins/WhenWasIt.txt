@@ -46,7 +46,7 @@
 [Set birthday for %s:]
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [N/A]
-[Protocol iModule]
+[Protocol Module]
 [Birthday list (%d)]
 [Unknown]
 [Protocol]

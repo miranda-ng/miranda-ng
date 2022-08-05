@@ -26,7 +26,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 wchar_t* GetBirthdayModule(int iModule, MCONTACT)
 {
 	switch (iModule) {
-	case DOB_PROTOCOL:         return TranslateT("Protocol iModule");
+	case DOB_PROTOCOL:         return TranslateT("Protocol Module");
 	case DOB_USERINFO:         return L"UserInfo";
 	}
 	return NA;
