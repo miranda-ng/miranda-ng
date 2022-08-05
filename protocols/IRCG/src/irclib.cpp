@@ -388,7 +388,8 @@ void CIrcProto::DoReceive()
 				ptrW ptszMsg;
 				if (codepage != CP_UTF8 && m_utfAutodetect && Utf8CheckString(pStart))
 					ptszMsg = mir_utf8decodeW(pStart);
-				else
+				
+				if (ptszMsg == nullptr)
 					ptszMsg = mir_a2u_cp(pStart, codepage);
 
 				CIrcMessage msg(this, ptszMsg, codepage, true);
