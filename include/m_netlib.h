@@ -777,7 +777,7 @@ EXTERN_C MIR_APP_DLL(void) Netlib_SslShutdown(HSSL ssl);
 EXTERN_C MIR_APP_DLL(void) Netlib_SslFree(HSSL ssl);
 
 // gets TLS channel binging data for a socket
-EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen);
+EXTERN_C MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen, int &tlsVer);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // WebSocket support

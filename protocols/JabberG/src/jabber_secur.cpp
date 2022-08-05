@@ -211,14 +211,14 @@ TScramAuth::TScramAuth(ThreadData *info, const char *pszMech, const EVP_MD *pMet
 	priority = iPriority;
 
 	if ((iPriority % 10) == 1) {
-		bindFlag = "p=tls-unique,,";
-
-		int cbLen;
-		void *pData = Netlib_GetTlsUnique(info->s, cbLen);
+		int cbLen, tlsVer;
+		void *pData = Netlib_GetTlsUnique(info->s, cbLen, tlsVer);
 		if (pData == nullptr)
 			bIsValid = false;
-		else
+		else {
+			bindFlag = (tlsVer == 13) ? "p=tls-exporter,," : "p=tls-unique,,";
 			bindData.append(pData, cbLen);
+		}
 	}
 	else bindFlag = "n,,";
 }

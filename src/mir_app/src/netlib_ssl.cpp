@@ -380,16 +380,31 @@ MIR_APP_DLL(int) Netlib_StartSsl(HNETLIBCONN hConnection, const char *szHost)
 /////////////////////////////////////////////////////////////////////////////////////////
 // gets TLS channel binging data for a socket
 
-MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen)
+static char TLS13_Label[] = "EXPORTER-Channel-Binding";
+
+MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen, int &tlsVer)
 {
 	if (nlc == nullptr || nlc->hSsl == nullptr)
 		return nullptr;
 
 	char buf[1000];
+	auto *pszVersion = SSL_get_version(nlc->hSsl->session);
+	if (!mir_strcmp(pszVersion, "TLSv1.3")) {
+		int res = SSL_export_keying_material(nlc->hSsl->session,
+			(uint8_t *)buf, 32, TLS13_Label, sizeof(TLS13_Label) - 1, 0, 0, 0);
+		if (res == 1) {
+			tlsVer = 13;
+			void *pBuf = mir_alloc(cbLen = 32);
+			memcpy(pBuf, buf, cbLen);
+			return pBuf;
+		}
+	}
+
 	size_t len = SSL_get_finished(nlc->hSsl->session, buf, sizeof(buf));
 	if (len == 0)
 		return nullptr;
 
+	tlsVer = 12;
 	cbLen = (int)len;
 	void *pBuf = mir_alloc(len);
 	memcpy(pBuf, buf, len);
