@@ -276,6 +276,9 @@ void dbgprint(const gchar *string)
 
 bool CJabberProto::VOIPCreatePipeline(void)
 {
+	if (!m_bEnableVOIP)
+		return false;
+
 	//gstreamer init
 	static bool gstinited = 0;
 	if (!gstinited) {
@@ -347,12 +350,11 @@ err:
 
 bool CJabberProto::VOIPTerminateSession()
 {
-	gst_print("Terminating session");
 	if (m_pipe1) {
 		gst_element_set_state(GST_ELEMENT(m_pipe1), GST_STATE_NULL);
 		g_clear_object(&m_pipe1);
-		gst_print("Pipeline stopped\n");
 		gst_object_unref(m_pipe1);
+		gst_print("Pipeline stopped\n");
 	}
 
 	m_voipICEPwd.Empty();
@@ -457,11 +459,14 @@ bool CJabberProto::OnICECandidate(const TiXmlElement *Node, const char *)
 
 bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 {
-	if (m_voipSession != "") {
+	if (!m_voipSession.IsEmpty()) {
 		VOIPTerminateSession();
 		MessageBoxA(0, "Terminated", NULL, 0);
 		return 0;
 	}
+
+	if (!m_bEnableVOIP)
+		return false;
 
 	CMStringA jid(ptrA(getUStringA(hContact, "jid")));
 	if (jid == "")

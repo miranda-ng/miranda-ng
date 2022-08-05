@@ -762,6 +762,10 @@ public:
 			m_proto->m_omemo.init();
 		else
 			m_proto->m_omemo.deinit();
+
+		if (!m_proto->m_bEnableVOIP)
+			m_proto->VOIPTerminateSession();
+
 		m_proto->UpdateFeatHash();
 		m_proto->SendPresence(m_proto->m_iStatus, true);
 		return true;
