@@ -43,6 +43,11 @@ struct UserinfoDlg : public CUserInfoPageDlg
 		return true;
 	}
 
+	int Resizer(UTILRESIZECONTROL*) override
+	{
+		return RD_ANCHORX_WIDTH | RD_ANCHORY_HEIGHT;
+	}
+
 	bool OnRefresh() override
 	{
 		ptrW szout(g_plugin.getWStringA("UserStamp"));
