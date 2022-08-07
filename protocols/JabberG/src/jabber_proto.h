@@ -236,6 +236,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bUsePopups;
 	CMOption<bool> m_bUseSSL;
 	CMOption<bool> m_bUseTLS;
+	CMOption<bool> m_bUseTlsExport;
 
 	CMOption<int>   m_iMamMode;
 	CMOption<uint32_t> m_iConnectionKeepAliveInterval;

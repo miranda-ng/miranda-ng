@@ -211,7 +211,7 @@ TScramAuth::TScramAuth(ThreadData *info, const char *pszMech, const EVP_MD *pMet
 	priority = iPriority;
 
 	if ((iPriority % 10) == 1) {
-		int cbLen, tlsVer;
+		int cbLen, tlsVer = info->proto->m_bUseTlsExport;
 		void *pData = Netlib_GetTlsUnique(info->s, cbLen, tlsVer);
 		if (pData == nullptr)
 			bIsValid = false;

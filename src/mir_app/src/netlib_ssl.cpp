@@ -389,7 +389,7 @@ MIR_APP_DLL(void*) Netlib_GetTlsUnique(HNETLIBCONN nlc, int &cbLen, int &tlsVer)
 
 	char buf[1000];
 	auto *pszVersion = SSL_get_version(nlc->hSsl->session);
-	if (!mir_strcmp(pszVersion, "TLSv1.3")) {
+	if (tlsVer && !mir_strcmp(pszVersion, "TLSv1.3")) {
 		int res = SSL_export_keying_material(nlc->hSsl->session,
 			(uint8_t *)buf, 32, TLS13_Label, sizeof(TLS13_Label) - 1, 0, 0, 0);
 		if (res == 1) {
