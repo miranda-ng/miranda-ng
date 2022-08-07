@@ -403,7 +403,7 @@ static bool IsCall(VoiceCall *call, const char *szModule, const char *id)
 		&& call->id != NULL && strcmp(call->id, id) == 0;
 }
 
-VoiceCall *FindVoiceCall(const char *szModule, const char *id, bool add)
+VoiceCall* FindVoiceCall(const char *szModule, const char *id, bool add)
 {
 	for (int i = 0; i < calls.getCount(); i++) {
 		if (IsCall(&calls[i], szModule, id)) {
@@ -487,7 +487,7 @@ bool IsFinalState(int state)
 	return state == VOICE_STATE_ENDED || state == VOICE_STATE_BUSY;
 }
 
-VoiceCall *GetTalkingCall()
+VoiceCall* GetTalkingCall()
 {
 	for (int i = 0; i < calls.getCount(); ++i) {
 		VoiceCall *call = &calls[i];

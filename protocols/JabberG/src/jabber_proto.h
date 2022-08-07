@@ -156,6 +156,10 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	INT_PTR  __cdecl SvcCreateAccMgrUI(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
 
+	INT_PTR  __cdecl JabberVOIP_call(WPARAM hContact, LPARAM);
+	INT_PTR  __cdecl JabberVOIP_answercall(WPARAM hContact, LPARAM);
+	INT_PTR  __cdecl JabberVOIP_dropcall(WPARAM hContact, LPARAM);
+
 	//====| Events |======================================================================
 	void __cdecl OnAddContactForever(MCONTACT hContact);
 	int  __cdecl OnDbMarkedRead(WPARAM, LPARAM);
@@ -900,6 +904,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMStringA m_voipSession, m_voipPeerJid;
 	CMStringA m_voipICEPwd, m_voipICEUfrag, m_medianame;
 	bool m_isOutgoing;
+	HANDLE m_hVoiceEvent;
 	struct _GstElement *m_pipe1 = NULL;
 	struct _GstElement *m_webrtc1 = NULL;
 

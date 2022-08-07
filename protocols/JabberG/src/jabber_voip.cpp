@@ -522,3 +522,21 @@ bool CJabberProto::VOIPCallAccept(const TiXmlElement *jingleNode, const char *fr
 	m_ThreadInfo->send(iq);
 	return true;
 }
+
+INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
+{
+	MessageBoxA(0,"CALL called", NULL,0);
+	return 0;
+}
+
+INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM hContact, LPARAM)
+{
+	MessageBoxA(0,"ANSWER called", NULL,0);
+	return 0;
+}
+
+INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM hContact, LPARAM)
+{
+	MessageBoxA(0,"DROP called", NULL,0);
+	return 0;
+}

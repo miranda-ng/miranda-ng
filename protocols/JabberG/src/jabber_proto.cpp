@@ -180,6 +180,12 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	CreateProtoService(JS_GETJABBERAPI, &CJabberProto::JabberGetApi);
 
+	// Voice 
+	m_hVoiceEvent = CreateProtoEvent(PE_VOICE_CALL_STATE);
+	CreateProtoService(PS_VOICE_CALL, &CJabberProto::JabberVOIP_call);
+	CreateProtoService(PS_VOICE_ANSWERCALL, &CJabberProto::JabberVOIP_answercall);
+	CreateProtoService(PS_VOICE_DROPCALL, &CJabberProto::JabberVOIP_dropcall);
+
 	// XEP-0224 support (Attention/Nudge)
 	CreateProtoService(PS_SEND_NUDGE, &CJabberProto::JabberSendNudge);
 
@@ -242,6 +248,17 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		m_tszSelectedLang = mir_strdup("en");
 
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
+
+	// Voip
+	if (m_bEnableVOIP) {
+		VOICE_MODULE vsr = {};
+		vsr.cbSize = sizeof(VOICE_MODULE);
+		vsr.description = L"XMPP/DTLS-SRTP";
+		vsr.name = m_szModuleName;
+		vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
+		vsr.flags = 3;
+		CallService(MS_VOICESERVICE_REGISTER, (WPARAM)&vsr, 0);
+	}
 }
 
 CJabberProto::~CJabberProto()
@@ -255,6 +272,7 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
+	DestroyHookableEvent(m_hVoiceEvent);
 
 	ListWipe();
 

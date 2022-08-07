@@ -1786,11 +1786,20 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 
 					const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
 					if (m_bEnableVOIP && m_voipSession == "" && descr) {
-						if (VOIPCallAccept(child, from)) {
+					/*	if (VOIPCallAccept(child, from)) {
 							m_voipSession = szSid;
 							m_voipPeerJid = from;
 							return true;
-						}
+						}*/
+						VOICE_CALL vc = {};
+						vc.cbSize = sizeof(VOICE_CALL);
+						vc.moduleName = m_szModuleName;
+						vc.id = "jvhvjvjbj";                // Protocol especific ID for this call
+						vc.flags = 0;
+						vc.hContact = HContactFromJID(from);       // Contact associated with the call (can be NULL)
+						vc.state = VOICE_STATE_RINGING;
+						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+						return true;
 					}
 
 					XmlNodeIq iq("set", SerialNext(), from);
