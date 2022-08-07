@@ -257,10 +257,10 @@ static gboolean check_plugins(void)
 	GstRegistry *registry = gst_registry_get();
 	gst_registry_scan_path(registry, "libs\\gst_plugins");
 	gboolean ret = TRUE;
-	for (int i = 0; needed[i]; i++) {
-		GstPlugin *plugin = gst_registry_find_plugin(registry, needed[i]);
+	for (auto &it : needed) {
+		GstPlugin *plugin = gst_registry_find_plugin(registry, it);
 		if (!plugin) {
-			gst_print("Required gstreamer plugin '%s' not found\n", needed[i]);
+			gst_print("Required gstreamer plugin '%s' not found\n", it);
 			ret = FALSE;
 		}
 		else gst_object_unref(plugin);
