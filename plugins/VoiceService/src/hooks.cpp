@@ -680,12 +680,14 @@ int ModulesLoaded(WPARAM, LPARAM)
 	CMenuItem mi(&g_plugin);
 	mi.position = -2000020000;
 
+	SET_UID(mi, 0x3da00738, 0x563, 0x43c9, 0x80, 0x6c, 0x69, 0x42, 0xaf, 0xe8, 0x91, 0x4b);
 	mi.name.a = actionIcons[0].szDescr;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ACTION_CALL);
 	mi.pszService = MS_VOICESERVICE_CM_CALL;
 	hCMCall = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, Service_Call);
 
+	SET_UID(mi, 0x646b9a8b, 0xf475, 0x4108, 0xb0, 0x57, 0x80, 0x76, 0xa4, 0xf2, 0x5e, 0x9b);
 	mi.position++;
 	mi.name.a = actionIcons[1].szDescr;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ACTION_ANSWER);
@@ -693,7 +695,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hCMAnswer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CMAnswer);
 
-	mi.position++;
+	SET_UID(mi, 0x654fadef, 0xb07b, 0x4619, 0x83, 0xc, 0xf7, 0x66, 0x57, 0x60, 0x2a, 0xc8);
 	mi.position++;
 	mi.name.a = actionIcons[2].szDescr;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ACTION_HOLD);
@@ -701,6 +703,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	hCMHold = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CMHold);
 
+	SET_UID(mi, 0x18fbd6d6, 0xe1ad, 0x48bd, 0xa8, 0xdb, 0xf, 0x5d, 0x87, 0xe3, 0x14, 0xfe);
 	mi.position++;
 	mi.name.a = actionIcons[3].szDescr;
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_ACTION_DROP);
