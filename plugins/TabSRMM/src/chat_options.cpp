@@ -507,7 +507,7 @@ static TOptionListItem lvItemsChat[] =
 	{ 0, LPGENW("Use alternative sorting method in member list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"AlternativeSorting", 0 },
 
 	{ 0, LPGENW("Prefix all events with a timestamp"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStamp", 1 },
-	{ 0, LPGENW("Timestamp only when event time differs"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStampIfChanged", 1 },
+	{ 0, LPGENW("Only prefix with timestamp if it has changed"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStampIfChanged", 1 },
 	{ 0, LPGENW("Timestamp has same color as the event"), 0, LOI_TYPE_SETTING, (UINT_PTR)"TimeStampEventColour", 1 },
 	{ 0, LPGENW("Indent the second line of a message"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogIndentEnabled", 1 },
 	{ 0, LPGENW("Limit user names in the message log to 20 characters"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogLimitNames", 1 },
