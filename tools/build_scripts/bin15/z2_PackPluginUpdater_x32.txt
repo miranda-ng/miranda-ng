@@ -148,6 +148,7 @@ Plugins\uinfoex.dll
 Plugins\userguide.dll
 Plugins\variables.dll
 Plugins\vkontakte.dll
+Plugins\voiceservice.dll
 Plugins\watrack.dll
 Plugins\watrack_mpd.dll
 Plugins\wbosd.dll
