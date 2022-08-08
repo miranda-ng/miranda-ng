@@ -59,14 +59,14 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Enable popups",IDC_POPUPS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,3,3,308,12
-    GROUPBOX        " Colours ",IDC_COLOURS_G,3,25,158,75
+    GROUPBOX        " Colors ",IDC_COLOURS_G,3,25,158,75
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,11,37,35,14
-    LTEXT           "Background colour",IDC_BGCOLOR_L,55,41,66,8
+    LTEXT           "Background color",IDC_BGCOLOR_L,55,41,66,8
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,11,55,35,14
-    LTEXT           "Text colour",IDC_TEXTCOLOR_L,55,59,66,8
-    CONTROL         "Use Windows colours",IDC_WINCOLORS,"Button",
+    LTEXT           "Text color",IDC_TEXTCOLOR_L,55,59,66,8
+    CONTROL         "Use Windows colors",IDC_WINCOLORS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,11,74,108,10
-    CONTROL         "Use default colours",IDC_DEFAULTCOLORS,"Button",
+    CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,11,84,107,10
     GROUPBOX        " Delay ",IDC_DELAY_G,166,25,145,75
     CONTROL         "From popup plugin",IDC_DELAYFROMPU,"Button",
