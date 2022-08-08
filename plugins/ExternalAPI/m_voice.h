@@ -51,7 +51,7 @@ struct VOICE_CALL
 {
 	int cbSize;              // Struct size
 	const char *moduleName;  // The name of the module (the same as VOICE_MODULE.name or the protocol szModule)
-	char *id;                // Protocol especific ID for this call
+	const char *id;          // Protocol specific ID for this call
 	int flags;               // VOICE_UNICODE to say the string is unicode or 0. VOICE_SECURE to say this is an encrypted call
 
 	// Either contact or number must be != NULL

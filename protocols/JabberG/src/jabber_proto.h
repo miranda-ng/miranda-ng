@@ -904,6 +904,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMStringA m_voipSession, m_voipPeerJid;
 	CMStringA m_voipICEPwd, m_voipICEUfrag, m_medianame;
 	bool m_isOutgoing;
+	TiXmlDocument m_offerDoc; const TiXmlElement *m_offerNode;
 	HANDLE m_hVoiceEvent;
 	struct _GstElement *m_pipe1 = NULL;
 	struct _GstElement *m_webrtc1 = NULL;

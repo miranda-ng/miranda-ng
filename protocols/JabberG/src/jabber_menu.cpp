@@ -47,7 +47,6 @@ static HGENMENU g_hMenuSendNote;
 static HGENMENU g_hMenuResourcesRoot;
 static HGENMENU g_hMenuResourcesActive;
 static HGENMENU g_hMenuResourcesServer;
-static HGENMENU g_hMenuVoiceCall;
 
 struct
 {
@@ -122,17 +121,9 @@ static int JabberPrebuildContactMenu(WPARAM hContact, LPARAM lParam)
 	Menu_ShowItem(g_hMenuAddBookmark, false);
 	Menu_ShowItem(g_hMenuResourcesRoot, false);
 	Menu_ShowItem(g_hMenuDirectPresence[0], false);
-	Menu_ShowItem(g_hMenuVoiceCall, false);
 
 	CJabberProto *ppro = CMPlugin::getInstance(hContact);
 	return(ppro) ? ppro->OnPrebuildContactMenu(hContact, lParam) : 0;
-}
-
-static INT_PTR JabberVOIPCallIinitiate(WPARAM hContact, LPARAM)
-{
-	CJabberProto *ppro = CMPlugin::getInstance(hContact);
-	ppro->VOIPCallIinitiate(hContact);
-	return 0;
 }
 
 void g_MenuInit(void)
@@ -254,16 +245,6 @@ void g_MenuInit(void)
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NODE_SERVER);
 	g_hMenuResourcesServer = Menu_AddContactMenuItem(&mi);
 	CreateServiceFunctionParam(mi.pszService, JabberMenuHandleResource, MENUITEM_SERVER);
-
-	SET_UID(mi, 0x2fe60fc5, 0x6417, 0x4f37, 0xa0, 0xbe, 0xa0, 0x59, 0x94, 0x11, 0x1d, 0xd9);
-	mi.root = nullptr;
-	mi.flags = 0;
-	mi.hIcolibItem = g_plugin.getIconHandle(IDI_NODE_RSS);
-	mi.name.a = LPGEN("Voice call");
-	mi.pszService = "Jabber/VOIPCallIinitiate";
-	mi.position = -1999902010;
-	g_hMenuVoiceCall = Menu_AddContactMenuItem(&mi);
-	CreateServiceFunction(mi.pszService, JabberVOIPCallIinitiate);
 }
 
 void g_MenuUninit(void)
@@ -314,9 +295,6 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(g_hMenuLogin, true);
 		Menu_ShowItem(g_hMenuRefresh, true);
 	}
-
-	if (m_bEnableVOIP)
-		Menu_ShowItem(g_hMenuVoiceCall, true);
 
 	ptrA jid(getUStringA(hContact, "jid"));
 	if (jid == nullptr)

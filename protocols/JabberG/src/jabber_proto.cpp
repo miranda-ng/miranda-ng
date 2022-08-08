@@ -269,11 +269,24 @@ CJabberProto::~CJabberProto()
 	if (m_hPopupClass)
 		Popup_UnregisterClass(m_hPopupClass);
 
+	// Events
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
 	DestroyHookableEvent(m_hVoiceEvent);
 
+	// Voice
+	VOIPTerminateSession();
+
+	VOICE_MODULE vsr = {};
+	vsr.cbSize = sizeof(VOICE_MODULE);
+	vsr.description = L"XMPP/DTLS-SRTP";
+	vsr.name = m_szModuleName;
+	vsr.icon = g_plugin.getIconHandle(IDI_NOTES);
+	vsr.flags = 3;
+	CallService(MS_VOICESERVICE_UNREGISTER, (WPARAM)&vsr, 0);
+
+	// Lists & strings
 	ListWipe();
 
 	mir_free(m_tszSelectedLang);

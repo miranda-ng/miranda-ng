@@ -1786,19 +1786,30 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 
 					const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
 					if (m_bEnableVOIP && m_voipSession == "" && descr) {
-					/*	if (VOIPCallAccept(child, from)) {
-							m_voipSession = szSid;
-							m_voipPeerJid = from;
-							return true;
-						}*/
+						m_voipSession = szSid;
+						m_voipPeerJid = from;
+						m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
+
+						//Make call GUI
 						VOICE_CALL vc = {};
 						vc.cbSize = sizeof(VOICE_CALL);
 						vc.moduleName = m_szModuleName;
-						vc.id = "jvhvjvjbj";                // Protocol especific ID for this call
-						vc.flags = 0;
-						vc.hContact = HContactFromJID(from);       // Contact associated with the call (can be NULL)
+						vc.id = szSid;                         // Protocol specific ID for this call
+						vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
 						vc.state = VOICE_STATE_RINGING;
 						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+
+						// ringing message
+						XmlNodeIq iq("set", SerialNext(), from);
+						TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+						rjNode << XATTR("action", "session-info");
+						if (szInitiator)
+							rjNode << XATTR("initiator", szInitiator);
+						if (szSid)
+							rjNode << XATTR("sid", szSid);
+						rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
+
+						m_ThreadInfo->send(iq);
 						return true;
 					}
 
@@ -1817,7 +1828,17 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 				else if (!mir_strcmp(szAction, "session-accept")) {
 					if (m_bEnableVOIP && m_voipSession == szSid) {
 						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
-						OnRTPDescription(child);
+						if(OnRTPDescription(child)) {
+							//Make call GUI
+							VOICE_CALL vc = {};
+							vc.cbSize = sizeof(VOICE_CALL);
+							vc.moduleName = m_szModuleName;
+							vc.id = szSid;
+							vc.flags = 0;
+							vc.hContact = HContactFromJID(from);
+							vc.state = VOICE_STATE_TALKING;
+							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+						}
 						return true;
 					}
 				}
@@ -1825,6 +1846,16 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 					if (m_bEnableVOIP && m_voipSession == szSid) {
 						// EndCall()
 						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+
+						VOICE_CALL vc = {};
+						vc.cbSize = sizeof(VOICE_CALL);
+						vc.moduleName = m_szModuleName;
+						vc.id = szSid;
+						vc.flags = 0;
+						vc.hContact = HContactFromJID(from);
+						vc.state = VOICE_STATE_ENDED;
+						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+
 						VOIPTerminateSession();
 						m_voipSession.Empty();
 						m_voipPeerJid.Empty();

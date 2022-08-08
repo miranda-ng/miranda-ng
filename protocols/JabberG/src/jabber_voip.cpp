@@ -251,8 +251,8 @@ void send_ice_candidate_message_cb(G_GNUC_UNUSED GstElement */*webrtcbin*/, guin
 
 static gboolean check_plugins(void)
 {
-	const gchar *needed[] = { "opus", "nice", "webrtc", "dtls", "srtp", "rtpmanager",
-		/*"vpx", "videotestsrc", "audiotestsrc",*/ NULL };
+	const gchar *needed[] = { "opus", "nice", "webrtc", "dtls", "srtp", "rtpmanager"
+		/*"vpx", "videotestsrc", "audiotestsrc",*/  };
 
 	GstRegistry *registry = gst_registry_get();
 	gst_registry_scan_path(registry, "libs\\gst_plugins");
@@ -506,37 +506,50 @@ bool CJabberProto::VOIPCallAccept(const TiXmlElement *jingleNode, const char *fr
 		return false;
 
 	OnRTPDescription(jingleNode);
-
-	// ringing message
-	XmlNodeIq iq("set", SerialNext(), from);
-	TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
-	rjNode << XATTR("action", "session-info");
-	const char *szInitiator = XmlGetAttr(jingleNode, "initiator");
-	if (szInitiator)
-		rjNode << XATTR("initiator", szInitiator);
-	const char *szSid = XmlGetAttr(jingleNode, "sid");
-	if (szSid)
-		rjNode << XATTR("sid", szSid);
-	rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
-
-	m_ThreadInfo->send(iq);
 	return true;
 }
 
 INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
 {
-	MessageBoxA(0,"CALL called", NULL,0);
+	if (VOIPCallIinitiate(hContact)) {
+		VOICE_CALL vc = {};
+		vc.cbSize = sizeof(VOICE_CALL);
+		vc.moduleName = m_szModuleName;
+		vc.id = m_voipSession;                // Protocol especific ID for this call
+		vc.flags = 0;
+		vc.hContact = hContact;       // Contact associated with the call (can be NULL)
+		vc.state = VOICE_STATE_CALLING;
+		NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+	}
+
 	return 0;
 }
 
-INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM hContact, LPARAM)
+INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM id, LPARAM)
 {
-	MessageBoxA(0,"ANSWER called", NULL,0);
+	VOICE_CALL vc = {};
+	vc.cbSize = sizeof(VOICE_CALL);
+	vc.moduleName = m_szModuleName;
+	vc.id = (char *)id;
+	vc.flags = 0;
+	vc.hContact = HContactFromJID(m_voipPeerJid);
+
+	vc.state = VOIPCallAccept(m_offerNode, m_voipPeerJid) ? VOICE_STATE_TALKING : VOICE_STATE_ENDED;
+	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 	return 0;
 }
 
-INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM hContact, LPARAM)
+INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM id, LPARAM)
 {
-	MessageBoxA(0,"DROP called", NULL,0);
+	VOICE_CALL vc = {};
+	vc.cbSize = sizeof(VOICE_CALL);
+	vc.moduleName = m_szModuleName;
+	vc.id = (char*)id;
+	vc.flags = 0;
+	vc.hContact = 0;//HContactFromJID(from);
+	vc.state = VOICE_STATE_ENDED;
+	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+
+	VOIPTerminateSession();
 	return 0;
 }
