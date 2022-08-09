@@ -1785,42 +1785,48 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
 					const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
-					if (m_bEnableVOIP && m_voipSession == "" && descr) {
-						m_voipSession = szSid;
-						m_voipPeerJid = from;
-						m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
+					const char *reason = NULL;
+					if (m_bEnableVOIP && descr) {
+						if (m_voipSession.IsEmpty()) {
+							m_voipSession = szSid;
+							m_voipPeerJid = from;
+							m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
 
-						//Make call GUI
-						VOICE_CALL vc = {};
-						vc.cbSize = sizeof(VOICE_CALL);
-						vc.moduleName = m_szModuleName;
-						vc.id = szSid;                         // Protocol specific ID for this call
-						vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
-						vc.state = VOICE_STATE_RINGING;
-						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+							//Make call GUI
+							VOICE_CALL vc = {};
+							vc.cbSize = sizeof(VOICE_CALL);
+							vc.moduleName = m_szModuleName;
+							vc.id = szSid;                         // Protocol specific ID for this call
+							vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
+							vc.state = VOICE_STATE_RINGING;
+							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 
-						// ringing message
-						XmlNodeIq iq("set", SerialNext(), from);
-						TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
-						rjNode << XATTR("action", "session-info");
-						if (szInitiator)
-							rjNode << XATTR("initiator", szInitiator);
-						if (szSid)
-							rjNode << XATTR("sid", szSid);
-						rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
+							// ringing message
+							XmlNodeIq iq("set", SerialNext(), from);
+							TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+							rjNode << XATTR("action", "session-info") << XATTR("sid", szSid);
+							if (szInitiator)
+								rjNode << XATTR("initiator", szInitiator);
+							rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
 
-						m_ThreadInfo->send(iq);
-						return true;
+							m_ThreadInfo->send(iq);
+							return true;
+						}
+
+						// Save this event to history
+						PROTORECVEVENT recv = {};
+						recv.timestamp = (uint32_t)time(0);
+						recv.szMessage = "** A call while we were busy **";
+						ProtoChainRecvMsg(HContactFromJID(from), &recv);
+						reason = "busy";
 					}
 
 					XmlNodeIq iq("set", SerialNext(), from);
 					TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
-					jingleNode << XATTR("action", "session-terminate");
+					jingleNode << XATTR("action", "session-terminate") << XATTR("sid", szSid);
 					if (szInitiator)
 						jingleNode << XATTR("initiator", szInitiator);
-					if (szSid)
-						jingleNode << XATTR("sid", szSid);
-					jingleNode << XCHILD("reason") << XCHILD("unsupported-applications");
+					jingleNode << XCHILD("reason") << XCHILD(reason ? reason : "unsupported-applications");
 
 					m_ThreadInfo->send(iq);
 					return true;
@@ -1828,13 +1834,12 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 				else if (!mir_strcmp(szAction, "session-accept")) {
 					if (m_bEnableVOIP && m_voipSession == szSid) {
 						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
-						if(OnRTPDescription(child)) {
+						if (OnRTPDescription(child)) {
 							//Make call GUI
 							VOICE_CALL vc = {};
 							vc.cbSize = sizeof(VOICE_CALL);
 							vc.moduleName = m_szModuleName;
 							vc.id = szSid;
-							vc.flags = 0;
 							vc.hContact = HContactFromJID(from);
 							vc.state = VOICE_STATE_TALKING;
 							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
@@ -1851,7 +1856,6 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 						vc.cbSize = sizeof(VOICE_CALL);
 						vc.moduleName = m_szModuleName;
 						vc.id = szSid;
-						vc.flags = 0;
 						vc.hContact = HContactFromJID(from);
 						vc.state = VOICE_STATE_ENDED;
 						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
