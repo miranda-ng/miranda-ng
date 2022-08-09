@@ -1255,7 +1255,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 			CMStringW wszFromNick, wszFromUrl;
 			MCONTACT hFromContact = FindUser(iFromId);
-			if (hFromContact || iFromId == m_msgId)
+			if (hFromContact || iFromId == m_myUserId)
 				wszFromNick = ptrW(db_get_wsa(hFromContact, m_szModuleName, "Nick"));
 			else
 				wszFromNick = TranslateT("(Unknown contact)");
@@ -1469,7 +1469,7 @@ CMStringW CVkProto::GetAttachmentDescr(const JSONNode &jnAttachments, BBCSupport
 
 CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUsers, OBJLIST<CVkUserInfo>& vkUsers, BBCSupport iBBC)
 {
-	UINT uid = jnMsg["from_id"].as_int();
+	LONG uid = jnMsg["from_id"].as_int();
 	CMStringW wszBody(jnMsg["text"].as_mstring());
 
 	CVkUserInfo* vkUser = vkUsers.find((CVkUserInfo*)&uid);
@@ -1481,7 +1481,7 @@ CMStringW CVkProto::GetFwdMessage(const JSONNode& jnMsg, const JSONNode& jnFUser
 	}
 	else {
 		MCONTACT hContact = FindUser(uid);
-		if (hContact || uid == m_msgId)
+		if (hContact || uid == m_myUserId)
 			wszNick = ptrW(db_get_wsa(hContact, m_szModuleName, "Nick"));
 		else
 			wszNick = TranslateT("(Unknown contact)");
