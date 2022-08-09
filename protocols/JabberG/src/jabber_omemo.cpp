@@ -1263,7 +1263,7 @@ complete:
 				fp_trusted = true;
 			if (val == -1) {
 				CMStringW szMsg(FORMAT, L"%s\n\n", TranslateT("Do you want to create OMEMO session with new device:"));
-				int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), TranslateT("OMEMO: New session"), MB_YESNO);
+				int ret = MessageBoxW(nullptr, szMsg + FormatFingerprint(fingerprint), _A2T(jid), MB_YESNO);
 				if (ret == IDYES) {
 					proto->setByte(hContact, szSetting, 1);
 					fp_trusted = true;
