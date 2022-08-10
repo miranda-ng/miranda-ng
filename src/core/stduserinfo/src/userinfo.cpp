@@ -620,7 +620,6 @@ static IconItem iconList[] =
 	{ LPGEN("Contact"),  "contact",  IDI_CONTACT  },
 	{ LPGEN("Location"), "location", IDI_LOCATION },
 	{ LPGEN("Notes"),    "notes",    IDI_NOTES    },
-	{ LPGEN("Page"),     "Page",     IDI_ITEM     },
 	{ LPGEN("Summary"),  "summary",  IDI_SUMMARY  },
 	{ LPGEN("Work"),     "work",     IDI_WORK     },
 };
