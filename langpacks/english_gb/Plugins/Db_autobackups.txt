@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Go to the "Options -> Customize -> Folders" to change settings]

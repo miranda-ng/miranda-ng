@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@ Popup
 Tray
 [Options]
 Einstellungen
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Gruppe für neue Räume:
 [Log files]
@@ -46,8 +48,8 @@ Verlaufsdateien
 Verlauf auf Festplatte speichern
 [Log directory]
 Verzeichnis für Verlaufsdateien
-[Maximum size for log files (in KB)]
-Maximale Größe der Verlaufsdateien (in KB)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Gruppenchat-Verlaufsformatierung
 [Your name]
@@ -873,7 +875,7 @@ Beenden (10x10)
 Kick (10x10)
 [Notice (10x10)]
 Notiz (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Nick ändern (10x10)
 [Topic (10x10)]
 Thema (10x10)
@@ -925,8 +927,8 @@ Tabs oder Fenster bei Hervorhebung aktivieren
 Chatfenster bei Hervorhebung aktivieren
 [Show list of users in the chat room]
 Benutzerliste im Chatfenster anzeigen
-[Colorize nicknames in member list]
-Nicknamen in der Nickliste färben
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
@@ -943,18 +945,14 @@ IRC-ähnliche Statusanzeigen in der Nickliste verwenden
 Alternative Sortierung in der Nickliste verwenden
 [Prefix all events with a timestamp]
 Zeitstempel bei allen Ereignissen als Präfix
-[Timestamp only when event time differs]
-Zeitstempel nur wenn Ereignis-Zeit abweicht
+[Only prefix with timestamp if it has changed]
+Zeitstempel nur bei Änderungen
 [Timestamp has same color as the event]
 Zeitstempel hat die selbe Farbe wie das Ereignis
 [Indent the second line of a message]
 Zweite Zeile einer Nachricht einziehen
 [Limit user names in the message log to 20 characters]
 Benutzername im Nachrichtenverlauf auf 20 Zeichen beschränken
-[Add a colon (:) to auto-completed user names]
-Doppelpunkt (:) zu automatisch vervollständigten Benutzernamen hinzufügen
-[Add a comma instead of a colon to auto-completed user names]
-Komma anstelle eines Doppelpunktes zu automatisch vervollständigten Benutzernamen hinzufügen
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Private Unterhaltung bei Doppelklick in Nickliste starten (fügt sonst Nick ein)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ Serverfenster anzeigen
 %s    Untätig: %dh,%02dm
 [  Client: %s]
   Client: %s
-[  Client not cached yet]
-  Client noch nicht bekannt
 [Topic is: %s]
 Thema ist: %s
 [no topic set.]

@@ -78,6 +78,8 @@ Historie změn stavu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Datum: %d.%m.%y(%Y) \n Popis data: %W - %w - %E - %e \n Čas: %H:%M:%S (%h-%p) \n Uživatel: %n - %u \n Stav: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
+[Clock]
+Čas
 [LastSeen]
 Naposledy spatřen
 [User status change]

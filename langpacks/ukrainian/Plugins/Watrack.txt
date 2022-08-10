@@ -497,7 +497,7 @@ VBR чи ні
 Перевіряє всі позначені плеєри на активність (запуск, відтворення) або зупиняється на першому знайденому
 [Check all players]
 Перевіряти всі плеєри
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 Емуляція натискань мультимедійних клавіш для керування плеєром
 [User music info text]
 Інформація про музику користувача

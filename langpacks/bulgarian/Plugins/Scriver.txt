@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,7 +268,7 @@ KB
 Времева марка като представка за всички събития
 [Only prefix with timestamp if it has changed]
 Представка (времева марка) само ако времето е различно
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Еднакъв цвят на времевата марка и събитието
 [Indent the second line of a message]
 Отстъп на втория ред от всяко съобщение
@@ -411,7 +411,7 @@ KB
 Изход (10x10)
 [Kick (10x10)]
 Изгонване (10х10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Промяна на прякор (10х10)
 [Topic (10x10)]
 Тема (10х10)

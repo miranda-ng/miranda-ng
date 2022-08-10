@@ -1,4 +1,5 @@
 [Database autobackuper plugin.]
+[Enabled]
 [Browse...]
 [Go to the "Options -> Customize -> Folders" to change settings]
 [Backup file mask:]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@ Zapnuto
 Kontrolovat při spuštění
 [Time of last check:]
 Naposledy zkontrolováno:
-[Automatically backup and keep protocol based birthdays up to date]
-Automaticky zálohovat a udržovat informace o narozeninách aktuální
 [Play sound]
 Přehrát zvuk
 [Use ignore list]
@@ -204,8 +202,6 @@ Metakontakty
 Vyhledat chybějící informace v podkontaktech
 [Enable extended 'send/receive e-mail' service (*)]
 Povolit rozšířenou službu 'poslat/přijmout e-mail' (*)
-[Use Windows timezone]
-Použít časové pásmo z Windows
 [(*) Requires Miranda to be restarted.]
 (*) Vyžaduje restart Mirandy
 [Reset factory defaults]
@@ -361,8 +357,6 @@ Obnovit výchozí
 Nepodařilo se vytvořit unikátní název stránky %d (chyba %d)
 [Creating the label for a page failed with %d and error code %d]
 Nepodařilo se vytvořit unikátní popisek stránky %d (chyba %d)
-[The dialog template type is no longer supported]
-Typ dialogových šablon již není podporován
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Přidat nové výročí
@@ -442,22 +436,6 @@ Nepodařilo se najít protokol kontaktu. Možná není aktivní.
 Nebyly přidány žádné stránky. Tvorba dialogu zrušena!
 [Details dialog failed to be created. Returning error is %d.]
 Nepodařilo se vytvořit dialog detailů. Návratový kód je %d
-[General]
-Obecné
-[Contact (private)]
-Kontakt (soukromý)
-[Anniversaries]
-Výročí
-[Work]
-Práce
-[Contact (work)]
-Kontakt (pracovní)
-[About]
-Informace
-[Profile]
-Profil
-[Notes]
-Poznámky
 [Export to file]
 Exportovat...
 [Import from file]
@@ -606,8 +584,6 @@ In&formace o sobě...
 Exportovat všechny kontakty
 [Import all contacts]
 Importovat všechny kontakty
-[Backup birthdays]
-Zazálohovat narozeniny
 [Export/import group]
 Export/import skupiny
 [&Export group]
@@ -623,6 +599,10 @@ Export/import skupiny
 Poznámky:
 [About:]
 Ostatní informace:
+[About]
+Informace
+[Notes]
+Poznámky
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Prosím zadejte nejdříve platný popis!
@@ -630,11 +610,18 @@ Prosím zadejte nejdříve platný popis!
 Nebylo vybráno platné datum pro úpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
+[General]
+Obecné
+[Anniversaries]
+Výročí
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Práce
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-domov
 [Open in browser]
 Otevřít v prohlížeči
+[home]
+domov
 [Primary e-mail]
 Primární e-mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@ Třetí e-mail
 Adresa a kontakt
 [company]
 Společnost:
+[Contact (private)]
+Kontakt (soukromý)
+[Contact (work)]
+Kontakt (pracovní)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Otázka
@@ -670,6 +662,7 @@ Extra
 Detaily
 [Popups]
 Oznámení
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Minulost
@@ -677,10 +670,10 @@ Minulost
 Členství
 [Interest]
 Zájem
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [<empty>]
 <neuvedeno>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [Edit category]
 Upravit kategorii
 [Edit value]
@@ -689,6 +682,8 @@ Upravit hodnotu
 Smazat záznam
 [Do you really want to delete this entry?]
 Chcete opravdu smazat tuto položku
+[Profile]
+Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 afrikánština
@@ -1113,8 +1108,6 @@ Přezdívka: %s, zbývá dnů: %d
 \nOna oslaví %d. narozeniny.
 [No anniversaries to remind of]
 Není co připomenout z výročí
-[Backing up and syncing all birthdays complete!]
-Zálohování a synchronizace všech narozenin hotova!
 [Reminders]
 
 [Birthday reminder]

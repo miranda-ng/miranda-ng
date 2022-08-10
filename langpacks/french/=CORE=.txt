@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Changer le mot de passe
 
 [Total]
 
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 
@@ -1863,13 +1863,35 @@ Portable
 Téléphone professionnel
 [Work fax]
 Fax professionnel
+[Contact]
+Contact
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<non spécifié>
+[Summary]
+Résumé
+[Location]
+Lieu
+[Work]
+Travail
+[Background info]
+Informations
+[Notes]
+Notes
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Propriétaire
+[Folder]
+
+[Page]
+
+[View/change my &details...]
+Voir/Changer mes &détails...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Homme
 [Female]
 Femme
-[<not specified>]
-<non spécifié>
 [Single]
 
 [Close relationships]
@@ -1892,23 +1914,6 @@ Amoureux
 
 [In a civil union]
 
-[Summary]
-Résumé
-[Contact]
-Contact
-[Location]
-Lieu
-[Work]
-Travail
-[Background info]
-Informations
-[Notes]
-Notes
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Propriétaire
-[View/change my &details...]
-Voir/Changer mes &détails...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s est en ligne
@@ -2659,14 +2664,14 @@ Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez conf
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]
 Nouveau compte
+[Rename]
+Renommer
 [Remove account]
 Effacer ce compte
 [Configure...]
 Configurer...
 [Upgrade account]
 Mettre à jour
-[Rename]
-Renommer
 [Configure]
 Configurer
 [Upgrade]

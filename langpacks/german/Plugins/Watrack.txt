@@ -497,7 +497,7 @@ Tunes
 Überprüft alle markierten Player darauf, ob sie gestartet sind und wiedergeben, oder stoppt bei dem ersten, der gefunden wird.
 [Check all players]
 Prüfe alle Player
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 Simuliert den Druck von Multimedia-Tasten, um einen Player aus dem WATrack-Frame heraus zu steuern.
 [User music info text]
 Musikinfo-Text des Nutzers

@@ -124,7 +124,7 @@ Exportiere als
 Ausgabe-Dateien komprimieren
 [Password]
 Passwort
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Mit FTP hochladen (benötigt WinSCP)
 [Session name]
 Sitzungsname
@@ -393,7 +393,7 @@ Ungültiger '%s'-Wert.\n%s
 ** Verwende Sie <ext> für Erweiterung, <contact> für Kontaktname
 [Input files are compressed]
 Eingabe-Dateien sind komprimiert
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Mit FTP herunterladen (benötigt WinSCP)
 [Import from]
 Importiere aus

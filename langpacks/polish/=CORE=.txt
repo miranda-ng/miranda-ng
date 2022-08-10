@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
@@ -1863,13 +1863,35 @@ Telefon komórkowy
 Telefon do pracy
 [Work fax]
 Faks do pracy
+[Contact]
+Kontakt
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+-
+[Summary]
+Podsumowanie
+[Location]
+Miejsce
+[Work]
+Praca
+[Background info]
+Inne informacje
+[Notes]
+Notatki
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Właściciel
+[Folder]
+Folder
+[Page]
+
+[View/change my &details...]
+Pokaż/zmień moje &dane...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Mężczyzna
 [Female]
 Kobieta
-[<not specified>]
--
 [Single]
 Singiel
 [Close relationships]
@@ -1892,23 +1914,6 @@ Zakochany
 Too.. skomplikowane
 [In a civil union]
 Małżeństwo cywilne
-[Summary]
-Podsumowanie
-[Contact]
-Kontakt
-[Location]
-Miejsce
-[Work]
-Praca
-[Background info]
-Inne informacje
-[Notes]
-Notatki
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Właściciel
-[View/change my &details...]
-Pokaż/zmień moje &dane...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s jest Dostępny
@@ -2659,14 +2664,14 @@ Witaj w menedżerze kont Mirandy NG.\nTutaj możesz skonfigurować konta w swoic
 Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
 [New account]
 Nowe konto
+[Rename]
+Zmień nazwę
 [Remove account]
 Usuń konto
 [Configure...]
 Skonfiguruj
 [Upgrade account]
 Aktualizuj konto
-[Rename]
-Zmień nazwę
 [Configure]
 Konfiguruj
 [Upgrade]

@@ -478,7 +478,7 @@
 [Use IRC style status indicators in the nick list]
 [Use alternative sorting method in member list]
 [Prefix all events with a timestamp]
-[Timestamp only when event time differs]
+[Only prefix with timestamp if it has changed]
 [Timestamp has same color as the event]
 [Indent the second line of a message]
 [Limit user names in the message log to 20 characters]

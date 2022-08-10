@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@ Notifications
 Tray
 [Options]
 Paramètres
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Ajouter salons au groupe :
 [Log files]
@@ -46,8 +48,8 @@ Ajouter salons au groupe :
 Sauvegarde du journal
 [Log directory]
 Répertoire
-[Maximum size for log files (in KB)]
-Taille maxi du journal (en KB)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 
 [Your name]
@@ -873,7 +875,7 @@ Quitter (10x10)
 Botter (10x10)
 [Notice (10x10)]
 Note (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Changer de pseudo (10x10)
 [Topic (10x10)]
 Sujet (10x10)
@@ -925,7 +927,7 @@ Fenêtre clignotante quand un mot est surligné
 
 [Show list of users in the chat room]
 Voir la liste des présents d'un salon
-[Colorize nicknames in member list]
+[Colorize nicknames in member list (you need to adjust colors)]
 
 [Show topic as status message on the contact list]
 
@@ -943,18 +945,14 @@ Synchroniser la position du séparateur avec les fenêtres standards
 
 [Prefix all events with a timestamp]
 Afficher date/heure pour tous les évènements
-[Timestamp only when event time differs]
-
+[Only prefix with timestamp if it has changed]
+N'afficher l'heure que si elle change
 [Timestamp has same color as the event]
 Date/heure de la même couleur que l'évènement
 [Indent the second line of a message]
 Mettre la deuxième ligne d'un message en retrait
 [Limit user names in the message log to 20 characters]
 Limiter les noms à 20 caractères dans la fenêtre de discussion
-[Add a colon (:) to auto-completed user names]
-
-[Add a comma instead of a colon to auto-completed user names]
-
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Démarrer une conversation sur double-clic dans la liste des noms (insère le nom si décoché)
 [Strip colors from messages in the log]
@@ -1198,8 +1196,6 @@ Masquer la liste de noms
 [%s    Idle: %dh,%02dm]
 
 [  Client: %s]
-
-[  Client not cached yet]
 
 [Topic is: %s]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@
 Трей
 [Options]
 Настройки
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Добавяне на новите стаи към група:
 [Log files]
@@ -46,8 +48,8 @@
 Запис на разговорите в дневник на диска
 [Log directory]
 Директория на дневника
-[Maximum size for log files (in KB)]
-Макс. размер на дневниците (в KБ)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Форматиране на дневника за групови чатове
 [Your name]
@@ -873,7 +875,7 @@ UIN
 Изгонване (10х10)
 [Notice (10x10)]
 Известие (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Промяна на прякор (10х10)
 [Topic (10x10)]
 Тема (10х10)
@@ -925,8 +927,8 @@ UIN
 Активиране на чат прозореца при отличаване
 [Show list of users in the chat room]
 Списък с потребители в чат стаята
-[Colorize nicknames in member list]
-Оцветяване на прякорите в списъка на членовете
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Показване на темата на стаята като текст за състояние в списъка с контакти
 [Do not pop up the window when joining a chat room]
@@ -943,7 +945,7 @@ UIN
 Алтернативно сортиране на списъка с прякори
 [Prefix all events with a timestamp]
 Времева марка като представка за всички събития
-[Timestamp only when event time differs]
+[Only prefix with timestamp if it has changed]
 Представка (времева марка) само ако времето е различно
 [Timestamp has same color as the event]
 Еднакъв цвят на времевата марка и събитието
@@ -951,10 +953,6 @@ UIN
 Отстъп на втория ред от всяко съобщение
 [Limit user names in the message log to 20 characters]
 Ограничаване на потребителските имена в дневника за съобщения до 20 знака
-[Add a colon (:) to auto-completed user names]
-Добавяне на ":" след автодовършените потребителски имена
-[Add a comma instead of a colon to auto-completed user names]
-
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Стартиране на разговор при двукратно натискане (вмъкване на прякора, ако не е отметнато)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ TabSRMM: Писане
 %s    Бездейства: %dч,%02dмин
 [  Client: %s]
   Клиент: %s
-[  Client not cached yet]
-  Клиентът не е кеширан, все още
 [Topic is: %s]
 Темата е: %s
 [no topic set.]

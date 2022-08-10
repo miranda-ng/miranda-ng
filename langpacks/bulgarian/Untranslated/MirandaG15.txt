@@ -53,7 +53,6 @@
 [Expand all groups]
 [Use two columns]
 [Fade out selection rectangle]
-[Typing notifications]
 [Show typing notifications]
 [Send typing notifications]
 [Maximizing]

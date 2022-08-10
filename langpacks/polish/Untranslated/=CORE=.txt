@@ -1,4 +1,5 @@
 [StdMsg internal log]
+[Page]
 [Compact database]
 [File names must be different]
 [Plugin %S cannot be unloaded because the core plugin is missing]

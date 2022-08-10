@@ -5,7 +5,7 @@
 ;  Version: 0.0.3.1
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
-[Boltun, the chat bot in the russian language.]
+[Boltun, the chat bot in the Russian language.]
 
 ;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
@@ -40,7 +40,7 @@ secondes
 
 [Reload]
 Recharger
-[Stay silent if have no good aswers]
+[Stay silent if have no good answers]
 
 [Start answers with a lowercase letter]
 

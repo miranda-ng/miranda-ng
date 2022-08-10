@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,8 +268,8 @@ KB
 Падстаўляць час ва ўсе падзеі
 [Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
-[Timestamp has same color as event]
-Час таго ж колеры, як і падзея
+[Timestamp has same color as the event]
+Паказваць час тым жа колерам што і падзею
 [Indent the second line of a message]
 Водступ другога радка паведамлення
 [Limit user names to 20 characters]
@@ -411,7 +411,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Выйсце (10х10)
 [Kick (10x10)]
 Выгнаць (10х10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Змена мянушкі (10х10)
 [Topic (10x10)]
 Тэма (10х10)

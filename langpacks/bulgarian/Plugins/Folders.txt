@@ -37,7 +37,7 @@
 
 [ProfileDir section (usually inside Miranda's folder).]
 
-[Expands to your current profile name without the extenstion.]
+[Expands to your current profile name without the extension.]
 
 [(e.g., default if your your profile is default.dat).]
 

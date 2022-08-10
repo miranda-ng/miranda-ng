@@ -207,12 +207,6 @@
 [Incoming image]
 Вхідне зображення
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-Чоловіча
-[Female]
-Жіноча
-[<not specified>]
-<не вказано>
 [<Last Status>]
 <Останній статус>
 [System tray icon]
@@ -227,10 +221,6 @@
 Ваш пароль буде надіслано на реєстраційний E-mail.\nПродовжити?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Для зміни налаштувань облікового запису необхідно відключитися.\nВідключитися зараз?
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
 [Network]
 Мережа
 [General]
@@ -239,6 +229,16 @@
 Конференція
 [Advanced]
 Додатково
+[Male]
+Чоловіча
+[Female]
+Жіноча
+[<not specified>]
+<не вказано>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

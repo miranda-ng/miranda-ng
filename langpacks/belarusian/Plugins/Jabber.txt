@@ -178,8 +178,6 @@ Jabber vCard: даданне тэлефона
 Відэа
 [Modem]
 Мадэм
-[(*) marks the current session]
-
 [Load]
 Запампаваць
 [Save]
@@ -522,6 +520,14 @@ xHTML фармат чат-паведамленняў
 
 [Supports message carbons (XEP-0280)]
 
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+
+[Jingle DTLS]
+
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Увядзіце тэкст, які бачыце
@@ -758,6 +764,8 @@ Jabber памылка
 [Items request error]
 
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+
 [No compatible file transfer mechanism exists]
 Не знойдзена ні аднаго дзейснага механізма перадачы файлаў
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -992,6 +1000,8 @@ Jabber Рэсурс
 [Do you want to create OMEMO session with new device:]
 
 [OMEMO: New session]
+
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1414,14 +1424,18 @@ Jabber Рэсурс
 
 [Enable carbon copies (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (Testing)]
+[Enable VOIP (experimental)]
 
 [Server options]
 Налады сервера
+[Use Stream Management (XEP-0198) if possible (experimental)]
+
 [Disable SASL authentication (for old servers)]
 Адключыць аўтэнтыфікацыю SASL (старыя серверы)
 [Enable stream compression (if possible)]
 Сціскаць струмень (калі магчыма)
+[Use TLS 1.3 bindings (if possible)]
+
 [Other]
 Іншае
 [Enable remote controlling (from another resource of same JID only)]
@@ -1434,8 +1448,6 @@ Jabber Рэсурс
 Аўтаматычна прымаць запыты аўтарызацыі
 [Fix incorrect timestamps in incoming messages]
 Выпраўляць час ва ўваходных паведамленнях
-[Disable frame]
-Выключыць фрэйм
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
 [Embrace picture URLs with [img]]
@@ -1444,17 +1456,15 @@ Jabber Рэсурс
 
 [Security]
 Бяспека
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 
 [Allow servers to request version (XEP-0092)]
 Адказваць на запыты пра версіі (XEP-0092)
 [Show information about operating system in version replies]
 Пасылаць інфармацыю пра аперацыйную сістэму ў запытах версіі
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 
 [General]
 Агульнае
@@ -1494,8 +1504,6 @@ Jabber Рэсурс
 Абароненае XMPP
 [Secure XMPP Network (old style)]
 Абароненае XMPP (стары стыль)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -1902,12 +1910,6 @@ XML (кадзіроўка UTF-8)
 Невядомая памылка
 [Unknown error message]
 Невядомая памылка паведамлення
-[Advanced Status]
-Пашыраны статус
-[Set mood...]
-Настрой...
-[Set activity...]
-Занятак...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужчынскі
@@ -1925,7 +1927,10 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
-[OMEMO]
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+
+[Incomig call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
@@ -2098,6 +2103,8 @@ Jabber vCard: рэдагаванне тэлефона
 Нерашучы
 [Worried]
 Заклапочаны
+[Set mood...]
+Настрой...
 [Set Mood]
 Настрой
 [Mood: %s]
@@ -2256,6 +2263,8 @@ Jabber vCard: рэдагаванне тэлефона
 вучуся
 [writing]
 пішу
+[Set activity...]
+Занятак...
 [Set Activity]
 Занятак
 [Activity: %s]

@@ -119,9 +119,9 @@
 параметр
 [structure]
 структура
-[Ansi message]
+[ANSI message]
 Сообщение ANSI
-[Ansi caption]
+[ANSI caption]
 Заголовок ANSI
 [Structure]
 Структура
@@ -183,7 +183,7 @@
 Имя
 [Plugin]
 Плагин
-[Descr]
+[Description]
 Описание
 [&Change]
 &Изменить
@@ -249,7 +249,7 @@
 Запуск развёрнутым
 [Program path]
 Путь
-[Program args]
+[Program arguments]
 Аргументы
 [Service]
 Вызов службы
@@ -297,8 +297,10 @@ NOP
 > больше
 [< lesser]
 < меньше
-[= equ]
+[= equal]
 = равно
+[^ xor]
+^ искл. "или" 
 [& and]
 & и
 [Text]
@@ -309,6 +311,8 @@ NOP
 Обратный порядок
 [empty]
 пусто
+[equal]
+равно
 [contains]
 включает
 [starts with]
@@ -323,8 +327,8 @@ NOP
 BREAK
 [JUMP]
 JUMP
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - выделенная (и заменённая) часть\r\n^e - заменено пустой строкой\r\n^v - вставить текст из буфера обмена\r\n^t - заменено табуляцией\r\n^l - заменено последним результатом, как юникод\r\n^h - заменено последним результатом, как шестнадцатеричное\r\n^f(имя[,str])\r\n     вставить строку из текстового файла.\r\n     содержимое внутри скобок не должно содержать пробелы
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - выделенная (и заменённая) часть\r\n^e - заменено пустой строкой\r\n^v - вставить текст из буфера обмена\r\n^t - заменено табуляцией\r\n^l - заменено последним результатом, как Юникод\r\n^h - заменено последним результатом, как шестнадцатеричное\r\n^f(имя[,str])\r\n     вставить строку из текстового файла.\r\n     содержимое внутри скобок не должно содержать пробелы
 [Process script after]
 Скрипт после макроса
 [MessageBox]
@@ -575,7 +579,7 @@ JUMP
 Целочисленное значение
 [Returns contact amount, excluding user account]
 Возвращает кол-во контактов за исключением учётной записи пользователя
-[Ansi Text]
+[ANSI Text]
 Текст ANSI
 [Removes all settings for the specified module]
 Удаляет все настройки, относящиеся к указанному модулю
@@ -637,8 +641,8 @@ JUMP
 Название станции
 [wParam is Handle]
 wParam содержит хендл
-[wParam is Ansi station name]
-wParam содержит имя станции в кодировке Ansi
+[wParam is ANSI station name]
+wParam содержит имя станции в кодировке ANSI
 [wParam is Unicode station name]
 wParam содержит имя станции в кодировке Unicode
 [Starting or stopping radio station]
@@ -701,9 +705,9 @@ StdPopup или Popup plus
 Показывает окно выбора контакта
 [filter text]
 текст фильтра
-[wParam is unicode]
+[wParam is Unicode]
 wParam в Unicode
-[wParam is Ansi]
+[wParam is ANSI]
 wParam в ANSI
 [Reserved]
 Зарезервировано
@@ -723,7 +727,7 @@ wParam в ANSI
 Отправляет контакту файл
 [Opens message window for contact with handle in wparam]
 Открывает окно беседы с контактом, хендл которого находится в wparam
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 Удаляет из базы все временные контакты
 [Call avatar option dialog for contact]
 Вызывает окно настроек аватара контакта
@@ -739,9 +743,9 @@ wParam в ANSI
 0 - Открывает ссылку в текущем окне
 [Open URL in default browser]
 Открывает ссылку в браузере по умолчанию
-[With formating]
+[With formatting]
 С форматированием
-[Don't use formating]
+[Don't use formatting]
 Без форматирования
 [Returns a string containing the versioninfo post]
 Возвращает строку, содержащую сообщение с информацией о версии

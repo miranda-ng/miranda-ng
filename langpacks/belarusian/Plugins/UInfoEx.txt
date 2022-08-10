@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@
 Правяраць пры запуску
 [Time of last check:]
 Апош. праверка:
-[Automatically backup and keep protocol based birthdays up to date]
-Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
 [Play sound]
 Прайграць гук
 [Use ignore list]
@@ -204,8 +202,6 @@
 Пошук адсутнай інфармацыі ў субкантактах
 [Enable extended 'send/receive e-mail' service (*)]
 Уключыць пашыраны плагін электроннай пошты (*)
-[Use Windows timezone]
-Гадзінны пояс Windows
 [(*) Requires Miranda to be restarted.]
 (*) Патрабуецца перазапуск Miranda.
 [Reset factory defaults]
@@ -361,8 +357,6 @@
 Памылка пры стварэнні імя для старонкі з %d, код памылкі %d
 [Creating the label for a page failed with %d and error code %d]
 Памылка пры стварэнні назвы для старонкі з %d, код памылкі %d
-[The dialog template type is no longer supported]
-Шаблон дыялога больш не падтрымліваецца
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Дадаць новае свята
@@ -442,22 +436,6 @@
 Старонкі не былі дададзены. Скасаванне стварэння дыялога!
 [Details dialog failed to be created. Returning error is %d.]
 Памылка стварэння дыялога Uinfoex. Памылка %d.
-[General]
-Агульнае
-[Contact (private)]
-Кантакт (асабісты)
-[Anniversaries]
-Святы
-[Work]
-Праца
-[Contact (work)]
-Кантакт (працоўны)
-[About]
-Інфармацыя
-[Profile]
-Профіль
-[Notes]
-Нататкі
 [Export to file]
 Экспарт
 [Import from file]
@@ -606,8 +584,6 @@ E-Mail
 Экспартаваць усе кантакты
 [Import all contacts]
 Імпартаваць усе кантакты
-[Backup birthdays]
-Рэзерваваць дні нараджэння
 [Export/import group]
 
 [&Export group]
@@ -623,6 +599,10 @@ E-Mail
 Мае нататкі:
 [About:]
 Інфармацыя:
+[About]
+Інфармацыя
+[Notes]
+Нататкі
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Спачатку ўвядзіце правільнае апісанне!
@@ -630,11 +610,18 @@ E-Mail
 Няма абранай даты для рэдагавання!
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
+[General]
+Агульнае
+[Anniversaries]
+Святы
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Праца
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-дома
 [Open in browser]
 Адкрыць у браўзары
+[home]
+дома
 [Primary e-mail]
 Асноўны e-mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@ E-Mail
 
 [company]
 Кампанія
+[Contact (private)]
+Кантакт (асабісты)
+[Contact (work)]
+Кантакт (працоўны)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Пытанне
@@ -670,6 +662,7 @@ E-Mail
 Дыялогі
 [Popups]
 Усплывальныя вокны
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Мінулае
@@ -677,10 +670,10 @@ E-Mail
 Прыналежнасць
 [Interest]
 Інтарэсы
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
 <пуста>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Памылка дадання новага элемента з тыпам "%s"
 [Edit category]
 Змяніць катэгорыю
 [Edit value]
@@ -689,6 +682,8 @@ E-Mail
 Выдаліць запіс
 [Do you really want to delete this entry?]
 Вы сапраўды жадаеце выдаліць гэта?
+[Profile]
+Профіль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Афрыкаанс
@@ -1113,8 +1108,6 @@ Web Дызайн
 \nЁй спаўняецца %d.
 [No anniversaries to remind of]
 Няма свят, пра якія трэба абвясціць
-[Backing up and syncing all birthdays complete!]
-Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
 [Reminders]
 Напамінкі
 [Birthday reminder]

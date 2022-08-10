@@ -73,7 +73,7 @@ Nieselregen Nebel
 [Drizzle Mist]
 Sprühregen Nebel
 [Drizzle]
-
+Nieselregen
 [ENE]
 ONO
 [ESE]
@@ -163,7 +163,7 @@ Vorhersage Tag 5 Text
 [Forecast Day 5]
 Vorhersage Tag 5
 [Freezing Drizzle Mist]
-
+Gefrierender Nieselregen Dunst
 [Freezing Drizzle]
 Gefrierender Niesel
 [Freezing Fog]
@@ -377,7 +377,7 @@ Nordwest
 [Overcast]
 trüb
 [Partial Fog]
-
+Teils neblig
 [Partly Cloudy]
 Teils wolkig
 [Partly Sunny]

@@ -119,10 +119,10 @@ Letztes Ergebnis
 Parameter
 [structure]
 Struktur
-[Ansi message]
-Ansi-Nachricht
-[Ansi caption]
-Ansi-Überschrift
+[ANSI message]
+ANSI-Nachricht
+[ANSI caption]
+ANSI-Überschrift
 [Structure]
 Struktur
 [Structure editor]
@@ -183,8 +183,8 @@ Strukturhilfe
 Name
 [Plugin]
 Plugin
-[Descr]
-Beschr.
+[Description]
+Beschreibung
 [&Change]
 Ändern
 [Result]
@@ -249,7 +249,7 @@ Minimiert starten
 Maximiert starten
 [Program path]
 Programmpfad
-[Program args]
+[Program arguments]
 Programmargumente
 [Service]
 Dienst
@@ -297,8 +297,10 @@ Mathe
 > größer
 [< lesser]
 < kleiner
-[= equ]
+[= equal]
 = gleich
+[^ xor]
+^ exkl. ODER
 [& and]
 & und
 [Text]
@@ -309,6 +311,8 @@ Groß-/Kleinschreibung beachten
 Umgekehrte Reihenfolge
 [empty]
 leer
+[equal]
+gleich
 [contains]
 beinhaltet
 [starts with]
@@ -323,7 +327,7 @@ Vorgang
 Abbruch
 [JUMP]
 Sprung
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - ausgewählter (und ersetzter) teil\r\n^e - durch leeren String ersetzt\r\n^v - Text aus zwischenablage einfügen\r\n^t - durch Tabulatoren ersetzt\r\n^l - durch letztes Ergebnis als Unicode ersetzt\r\n^h - durch letztes Ergebnis als Hex ersetzt\r\n^f(name[,str])\r\n     Zeile aus Textdatei einfügen.\r\n   Inhalt in Klammern ohne Leerzeichen.
 [Process script after]
 Skript ausführen nach
@@ -575,7 +579,7 @@ Zeigt oder versteckt Netlib-Konsolenfenster
 int Wert
 [Returns contact amount, excluding user account]
 Gibt Anzahl Kontakte, ohne Benutzerkonto, zurück
-[Ansi Text]
+[ANSI Text]
 Ansi-Text
 [Removes all settings for the specified module]
 Entfernt alle Einstellungen im angegebenen Modul
@@ -637,8 +641,8 @@ Startet Miranda neu
 Stationsname
 [wParam is Handle]
 wParam ist Handle
-[wParam is Ansi station name]
-wParam ist Stationsname (Ansi)
+[wParam is ANSI station name]
+wParam ist Stationsname (ANSI)
 [wParam is Unicode station name]
 wParam ist Stationsname (Unicode)
 [Starting or stopping radio station]
@@ -701,10 +705,10 @@ Zeigt den Kontenmanager an
 Zeigt den Dialog um einen Kontakt auszuwählen
 [filter text]
 Text filtern
-[wParam is unicode]
+[wParam is Unicode]
 wParam ist Unicode
-[wParam is Ansi]
-wParam ist Ansi
+[wParam is ANSI]
+wParam ist ANSI
 [Reserved]
 Reserviert
 [Open main QuickSearch window with text filter]
@@ -723,7 +727,7 @@ Gibt den Pfad für empfangene Dateien von einem Kontakt zurück.
 Datei an Kontakt senden.
 [Opens message window for contact with handle in wparam]
 Öffnet das nachrichtenfenster für den Kontakt mit Handle im wParam
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 Entfernt alle temporären Kontakte aus der Datenbank
 [Call avatar option dialog for contact]
 Ruft Avatareinstellungen für einen Kontakt auf.
@@ -739,9 +743,9 @@ Zeigt Eigenschaftsfenster des Kontaktes.
 0 - Öffnet URL in aktuellem Fenster
 [Open URL in default browser]
 Öffnet URL im Standardbrowser
-[With formating]
+[With formatting]
 Mit Formatierung
-[Don't use formating]
+[Don't use formatting]
 Keine Formatierung verwenden
 [Returns a string containing the versioninfo post]
 Gibt einen String zum Versionsinfobericht zurück

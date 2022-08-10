@@ -178,8 +178,6 @@ Celular
 Vídeo
 [Modem]
 Módem
-[(*) marks the current session]
-
 [Load]
 Cargar
 [Save]
@@ -522,6 +520,14 @@ Enlaces
 
 [Supports message carbons (XEP-0280)]
 
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+
+[Jingle DTLS]
+
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Introduzca el texto que aparece
@@ -758,6 +764,8 @@ Tipo
 [Items request error]
 
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+
 [No compatible file transfer mechanism exists]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -992,6 +1000,8 @@ Errores
 [Do you want to create OMEMO session with new device:]
 
 [OMEMO: New session]
+
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1414,13 +1424,17 @@ Mensajería
 
 [Enable carbon copies (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (Testing)]
+[Enable VOIP (experimental)]
 
 [Server options]
+
+[Use Stream Management (XEP-0198) if possible (experimental)]
 
 [Disable SASL authentication (for old servers)]
 
 [Enable stream compression (if possible)]
+
+[Use TLS 1.3 bindings (if possible)]
 
 [Other]
 Otro
@@ -1434,8 +1448,6 @@ Otro
 
 [Fix incorrect timestamps in incoming messages]
 
-[Disable frame]
-
 [Enable XMPP link processing (requires AssocMgr)]
 
 [Embrace picture URLs with [img]]
@@ -1444,17 +1456,15 @@ Otro
 
 [Security]
 
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 
 [Allow servers to request version (XEP-0092)]
 
 [Show information about operating system in version replies]
 
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-
 [Accept HTTP Authentication requests (XEP-0070)]
 
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 
 [General]
 General
@@ -1493,8 +1503,6 @@ Avanzado
 [Secure XMPP Network]
 
 [Secure XMPP Network (old style)]
-
-[Google Talk!]
 
 [Hipchat]
 
@@ -1902,12 +1910,6 @@ Foto
 Error desconocido
 [Unknown error message]
 
-[Advanced Status]
-
-[Set mood...]
-
-[Set activity...]
-
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Masculino
@@ -1925,7 +1927,10 @@ Femenino
 Contactos
 [Note]
 
-[OMEMO]
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+
+[Incomig call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
@@ -2098,6 +2103,8 @@ Me entristece
 
 [Worried]
 
+[Set mood...]
+
 [Set Mood]
 
 [Mood: %s]
@@ -2255,6 +2262,8 @@ en el teléfono
 [studying]
 
 [writing]
+
+[Set activity...]
 
 [Set Activity]
 

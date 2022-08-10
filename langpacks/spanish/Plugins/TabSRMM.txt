@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@ Ventana emergente
 Bandeja
 [Options]
 Opciones
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Añadir nuevas salas de grupo:
 [Log files]
@@ -46,7 +48,7 @@ Añadir nuevas salas de grupo:
 Habilitar registro en el disco
 [Log directory]
 Directorio de registro
-[Maximum size for log files (in KB)]
+[Split into files (in KB)]
 
 [Group chat log formatting]
 
@@ -873,7 +875,7 @@ Quitar (10x10)
 Sacar (10x10)
 [Notice (10x10)]
 Anuncio (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Cambio de apodo (10x10)
 [Topic (10x10)]
 Tema (10x10)
@@ -925,7 +927,7 @@ Parpadear ventana cuando se resalta una palabra
 
 [Show list of users in the chat room]
 Mostrar lista de usuarios en la sala de chat
-[Colorize nicknames in member list]
+[Colorize nicknames in member list (you need to adjust colors)]
 
 [Show topic as status message on the contact list]
 
@@ -943,18 +945,14 @@ No abrir la ventana al unirse a una sala de chat
 
 [Prefix all events with a timestamp]
 Prefijo de todos los eventos con una fecha y hora
-[Timestamp only when event time differs]
-
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
 [Timestamp has same color as the event]
 La marca de tiempo tiene mismo color que evento
 [Indent the second line of a message]
 Sangría de la segunda línea de un mensaje
 [Limit user names in the message log to 20 characters]
 Limitar los nombres de usuario en el registro de mensajes a 20 caracteres
-[Add a colon (:) to auto-completed user names]
-
-[Add a comma instead of a colon to auto-completed user names]
-
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 
 [Strip colors from messages in the log]
@@ -1198,8 +1196,6 @@ Pegar y Enviar
 [%s    Idle: %dh,%02dm]
 
 [  Client: %s]
-
-[  Client not cached yet]
 
 [Topic is: %s]
 

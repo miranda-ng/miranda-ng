@@ -151,7 +151,7 @@
 [Fade out selection rectangle]
 
 [Typing notifications]
-
+Уведомяванията при писане
 [Show typing notifications]
 
 [Send typing notifications]

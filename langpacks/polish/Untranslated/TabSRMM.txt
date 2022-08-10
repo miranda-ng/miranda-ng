@@ -1,3 +1,6 @@
+[Text for autocomplete]
+[Split into files (in KB)]
+[Colorize nicknames in member list (you need to adjust colors)]
 [is now offline (was online)]
 [Sample error message]
 [tabSRMM internal log]

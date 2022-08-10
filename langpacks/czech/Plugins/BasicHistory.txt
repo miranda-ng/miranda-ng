@@ -124,7 +124,7 @@ Exportovat do
 Komprimovat výstupní soubory
 [Password]
 Heslo
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Nahrát na FTP (vyžadováno WinSCP)
 [Session name]
 Název relace
@@ -393,7 +393,7 @@ Neplatná hodnota '%s'.\n%s
 ** Použijte <ext> pro vložení přípony, <contact> pro vložení jména kontaktu
 [Input files are compressed]
 Vstupní soubory jsou komprimovány
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Stáhnout z FTP (vyžadováno WinSCP)
 [Import from]
 Importovat z

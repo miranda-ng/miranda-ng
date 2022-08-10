@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,7 +268,7 @@
 Показувати час для всіх подій
 [Only prefix with timestamp if it has changed]
 Показувати час, якщо він змінився
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Час того ж кольору, що й подія
 [Indent the second line of a message]
 Відступ другого рядка повідомлення
@@ -411,7 +411,7 @@ ID поточного контакту (якщо визначено). Напри
 Відключитися (10x10)
 [Kick (10x10)]
 Стусани (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Зміна ніку (10x10)
 [Topic (10x10)]
 Тема (10х10)

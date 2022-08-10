@@ -78,6 +78,8 @@ Zuletzt gesehen-Verlauf
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Datum: %d.%m.%y(%Y) \n Beschr.: %W - %w - %E - %e \n Zeit: %H:%M:%S (%h-%p) \n Benutzer: %n - %u \n Status: %s \n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
+[Clock]
+Uhrzeit
 [LastSeen]
 Zuletzt gesehen
 [User status change]

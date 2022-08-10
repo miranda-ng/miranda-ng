@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@
 Трей
 [Options]
 Настройки
+[Text for autocomplete]
+Добавлять к именам пользователей при автозавершении
 [Add new rooms to group:]
 Добавлять комнаты чата в группу:
 [Log files]
@@ -46,7 +48,7 @@
 Запись журнала на диск
 [Log directory]
 Папка журнала
-[Maximum size for log files (in KB)]
+[Split into files (in KB)]
 Разбивать на файлы размером (в КБ)
 [Group chat log formatting]
 Форматирование журнала чатов
@@ -873,7 +875,7 @@ BBCode ([b][i][u])
 Выкинуть (10х10)
 [Notice (10x10)]
 Уведомление (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Смена псевдонима (10х10)
 [Topic (10x10)]
 Тема (10х10)
@@ -925,8 +927,8 @@ BBCode ([b][i][u])
 Активировать окно чата при подсвеченном событии
 [Show list of users in the chat room]
 Показывать список пользователей в комнате чата
-[Colorize nicknames in member list]
-Цветные ники в списке пользователей
+[Colorize nicknames in member list (you need to adjust colors)]
+Цветные ники в списке пользователей (требуется настроить цвета)
 [Show topic as status message on the contact list]
 Показать тему комнаты чата в списке контактов как сообщение статуса
 [Do not pop up the window when joining a chat room]
@@ -951,10 +953,6 @@ IRC-стиль (текстовый) индикаторов ролей участ
 Отступ второй строки сообщения
 [Limit user names in the message log to 20 characters]
 Ограничить имена в журнале 20 символами
-[Add a colon (:) to auto-completed user names]
-Добавлять к именам пользователей двоеточие (:) при автозавершении
-[Add a comma instead of a colon to auto-completed user names]
-Добавлять к именам пользователей запятую вместо двоеточия при автозавершении
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Приват при двойном щелчке в списке ников (иначе вставлять ник)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ TabSRMM: набор текста
 %s    Ожидание: %dч,%02dм
 [  Client: %s]
   Клиент: %s
-[  Client not cached yet]
-  Клиент не определён
 [Topic is: %s]
 Тема: %s
 [no topic set.]

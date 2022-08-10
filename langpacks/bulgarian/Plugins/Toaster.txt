@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]

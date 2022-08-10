@@ -1,5 +1,4 @@
 [Display name:]
-[Automatically backup and keep protocol based birthdays up to date]
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Make protocol based contact information read only]
 [Enable groups in details dialog's treeview]

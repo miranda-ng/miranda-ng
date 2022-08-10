@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -22,8 +22,8 @@
 Разделител:
 [Vars]
 Променливи
-[Disable protection for following accounts:]
-Изключване на защитата за следните акаунти:
+[Enable protection for following accounts:]
+Включване на защитата за следните акаунти:
 [Do not send more than]
 Не изпращай повече от
 [questions to one contact (0 - for no limit)]

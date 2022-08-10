@@ -1,0 +1,3 @@
+[Text for autocomplete]
+[Split into files (in KB)]
+[Colorize nicknames in member list (you need to adjust colors)]

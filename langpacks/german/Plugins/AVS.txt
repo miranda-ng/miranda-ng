@@ -86,6 +86,8 @@ Avatare
 Meine Avatare
 [My Global Avatar Cache]
 Mein globaler Avatar-Cache
+[Avatar]
+Avatar
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Globaler Avatar für %s-Konten
@@ -107,12 +109,6 @@ Protokolle
 Kontaktavatare
 [Own avatars]
 Eigene Avatare
-[No avatar]
-Kein Avatar
-[Are you sure you want to remove your avatar?]
-Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?
-[Avatar]
-Avatar
 ;file \plugins\AVS\src\services.cpp
 [All files]
 Alle Dateien
@@ -134,3 +130,8 @@ Avatargröße an maximale Protokollgröße anpassen
 Meinen Avatar setzen
 [Set my avatar for %s]
 Meinen Avatar für %s setzen
+;file \plugins\AVS\src\userInfo.cpp
+[No avatar]
+Kein Avatar
+[Are you sure you want to remove your avatar?]
+Sind Sie sich sicher, dass Sie Ihren Avatar entfernen wollen?

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -22,7 +22,7 @@ Restaurer les valeurs par défaut
 
 [Vars]
 
-[Disable protection for following accounts:]
+[Enable protection for following accounts:]
 
 [Do not send more than]
 

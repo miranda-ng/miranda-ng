@@ -124,7 +124,7 @@
 Сціснуць файлы
 [Password]
 Пароль
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Заліць на FTP (патрабуецца WinSCP)
 [Session name]
 Імя сесіі
@@ -393,7 +393,7 @@ Dat (мКантакты)
 ** Пішыце <ext> для ўстаўкі пашырэння, <contact> для ўстаўкі імя кантакту
 [Input files are compressed]
 Уваходныя файлы сціснуты
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Спампаваць з FTP (патрабуецца WinSCP)
 [Import from]
 Імпарт з:

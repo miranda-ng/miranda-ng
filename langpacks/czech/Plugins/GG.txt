@@ -207,12 +207,6 @@ Jste přihlášeni z jiného místa
 [Incoming image]
 Příchozí obrázek
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-muž
-[Female]
-žena
-[<not specified>]
-<neurčeno>
 [<Last Status>]
 <poslední stav>
 [System tray icon]
@@ -227,10 +221,6 @@ Nejdříve je nutné zadat registrační e-mail.
 Heslo bude odesláno na Váš e-mail.\nChcete pokračovat?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Před změnou nastavení účtu doporučujeme odpojení od sítě.\nChcete se odpojit od sítě Gadu-Gadu?
-[Your details has been uploaded to the public directory.]
-Vaše údaje byly nahrány na veřejného adresáře.
-[You have to be logged in before you can change your details.]
-Musíte být přihlášeni pro změnu vašich údajů.
 [Network]
 Sítě
 [General]
@@ -239,6 +229,16 @@ Obecné
 Konference
 [Advanced]
 Extra
+[Male]
+muž
+[Female]
+žena
+[<not specified>]
+<neurčeno>
+[Your details has been uploaded to the public directory.]
+Vaše údaje byly nahrány na veřejného adresáře.
+[You have to be logged in before you can change your details.]
+Musíte být přihlášeni pro změnu vašich údajů.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s

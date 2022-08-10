@@ -86,6 +86,8 @@ Avatary
 Osobní avatary
 [My Global Avatar Cache]
 Úložiště avatarů
+[Avatar]
+Avatar
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s
@@ -107,12 +109,6 @@ Protokoly
 Avatary kontaktů
 [Own avatars]
 Vlastní avatary
-[No avatar]
-Bez avataru
-[Are you sure you want to remove your avatar?]
-Opravdu chcete odstranit svůj avatar?
-[Avatar]
-Avatar
 ;file \plugins\AVS\src\services.cpp
 [All files]
 Všechny soubory
@@ -134,3 +130,8 @@ Upravit rozměry na max. velikost danou protokolem
 Nastavit avatar
 [Set my avatar for %s]
 Nastavit avatar pro %s
+;file \plugins\AVS\src\userInfo.cpp
+[No avatar]
+Bez avataru
+[Are you sure you want to remove your avatar?]
+Opravdu chcete odstranit svůj avatar?

@@ -178,8 +178,6 @@ Mobil
 Video
 [Modem]
 Modem
-[(*) marks the current session]
-
 [Load]
 Načíst
 [Save]
@@ -522,6 +520,14 @@ Podporuje přímé pozvánky do diskuzí (XEP-0249)
 
 [Supports message carbons (XEP-0280)]
 
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+
+[Jingle DTLS]
+
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Zadejte text, který vidíte
@@ -758,6 +764,8 @@ Podporované funkce
 [Items request error]
 
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+
 [No compatible file transfer mechanism exists]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -992,6 +1000,8 @@ Příchozí poznámka
 [Do you want to create OMEMO session with new device:]
 
 [OMEMO: New session]
+
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1414,14 +1424,18 @@ Povolit historii na serveru
 
 [Enable carbon copies (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (Testing)]
+[Enable VOIP (experimental)]
 
 [Server options]
 Možnosti serveru
+[Use Stream Management (XEP-0198) if possible (experimental)]
+
 [Disable SASL authentication (for old servers)]
 Vypnout ověření přes SASL (pro zastaralé servery)
 [Enable stream compression (if possible)]
 Povolit kompresi přenášených dat
+[Use TLS 1.3 bindings (if possible)]
+
 [Other]
 Ostatní
 [Enable remote controlling (from another resource of same JID only)]
@@ -1434,8 +1448,6 @@ Automaticky přidat kontakt po úspěšné autorizaci
 Automaticky přijímat žádosti o autorizaci
 [Fix incorrect timestamps in incoming messages]
 Opravovat neplatné datum příchozích zpráv
-[Disable frame]
-Vypnout zobrazení rámečku
 [Enable XMPP link processing (requires AssocMgr)]
 Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1444,17 +1456,15 @@ Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 
 [Security]
 Zabezpečení
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 
 [Allow servers to request version (XEP-0092)]
 Povolit žádosti serveru o verzi (XEP-0092)
 [Show information about operating system in version replies]
 S verzí zobrazit zároveň i informace o operačním systému
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Povolit přenos dat pouze přes server (pomalejší, ale anonymní)
 [Accept HTTP Authentication requests (XEP-0070)]
 Povolit ověření pomocí HTTP a XMPP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 
 [General]
 Obecné
@@ -1494,8 +1504,6 @@ XMPP (veřejná síť)
 XMPP (zabezpečená síť)
 [Secure XMPP Network (old style)]
 XMPP (zabezpečená síť, starší typ)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -1854,7 +1862,7 @@ neznámý formát
 [Device ID]
 
 [Fingerprint]
-
+Otisk
 [Own device]
 
 [Trusted]
@@ -1902,12 +1910,6 @@ Prozatím nefunguje
 Neznámá chyba
 [Unknown error message]
 Neznámé chybové hlášení
-[Advanced Status]
-Pokročilý stav
-[Set mood...]
-Zadat náladu...
-[Set activity...]
-Zadat činnost...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 muž
@@ -1925,7 +1927,10 @@ Jabber vCard: Upravit telefonní číslo
 Kontakty
 [Note]
 Poznámka
-[OMEMO]
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+
+[Incomig call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
@@ -2098,6 +2103,8 @@ nedefinováno
 oslabenost
 [Worried]
 obavy
+[Set mood...]
+Zadat náladu...
 [Set Mood]
 Zadání nalády
 [Mood: %s]
@@ -2256,6 +2263,8 @@ na poradě
 studuji
 [writing]
 píšu
+[Set activity...]
+Zadat činnost...
 [Set Activity]
 Zadání činnosti
 [Activity: %s]

@@ -119,10 +119,10 @@ ostatni wynik
 parametry
 [structure]
 struktura
-[Ansi message]
-Wiadomość Ansi
-[Ansi caption]
-Opis Ansi
+[ANSI message]
+Wiadomość ANSI
+[ANSI caption]
+Opis ANSI
 [Structure]
 Struktura
 [Structure editor]
@@ -183,7 +183,7 @@ Pomoc struktury
 Nazwa
 [Plugin]
 Wtyczka
-[Descr]
+[Description]
 Opis
 [&Change]
 &Zmień
@@ -249,7 +249,7 @@ Uruchom zminimalizowany
 Startuj zmaksymalizowany
 [Program path]
 Ścieżka programu
-[Program args]
+[Program arguments]
 Argumenty programu
 [Service]
 Usługa
@@ -297,8 +297,10 @@ Math
 > większe
 [< lesser]
 < mniejsze
-[= equ]
+[= equal]
 = równe
+[^ xor]
+
 [& and]
 & i
 [Text]
@@ -309,6 +311,8 @@ Wielkość liter ma znaczenie
 Odwrotny porządek
 [empty]
 pusty
+[equal]
+równe
 [contains]
 zawiera
 [starts with]
@@ -323,8 +327,8 @@ Operacja
 PRZERWA
 [JUMP]
 SKOCZ
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w Unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Process script after]
 Przetwarzaj skrypt za
 [MessageBox]
@@ -575,7 +579,7 @@ Pokaż lub ukryj okno konsoli netlog
 Wartość int
 [Returns contact amount, excluding user account]
 Zwraca ilość kontaktów z wyłączeniem konta użytkownika
-[Ansi Text]
+[ANSI Text]
 Tekst ANSI
 [Removes all settings for the specified module]
 Usuwa wszystkie ustawienia wskazanego modułu
@@ -637,8 +641,8 @@ Uruchamia ponownie Mirandę
 Nazwa stacji
 [wParam is Handle]
 wParam jest uchwytem
-[wParam is Ansi station name]
-wParam jest nazwą stacji w Ansi
+[wParam is ANSI station name]
+wParam jest nazwą stacji w ANSI
 [wParam is Unicode station name]
 wParam jest nazwą stacji w Unicode
 [Starting or stopping radio station]
@@ -701,10 +705,10 @@ wyświetla menedżer kont
 Pokaż okno wyboru kontaktu
 [filter text]
 filtruj tekst
-[wParam is unicode]
-wParam to unicode
-[wParam is Ansi]
-wParam to Ansi
+[wParam is Unicode]
+wParam to Unicode
+[wParam is ANSI]
+wParam to ANSI
 [Reserved]
 Zarezerwowany
 [Open main QuickSearch window with text filter]
@@ -723,7 +727,7 @@ Otwórz katalog otrzymanych plików kontaktu
 Wyślij plik do kontaktu
 [Opens message window for contact with handle in wparam]
 Otwiera okno rozmowy z kontaktem z uchwytem w wParam
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 usuń wszystkie tymczasowe kontakty z bazy danych
 [Call avatar option dialog for contact]
 Wywołaj okno opcji awatara kontaktu
@@ -739,9 +743,9 @@ Otwórz link w obecnym oknie
 0 - Otwórz link w obecnym oknie
 [Open URL in default browser]
 Otwórz link w domyślnej przeglądarce
-[With formating]
+[With formatting]
 z formatowaniem
-[Don't use formating]
+[Don't use formatting]
 Nie stosuj formatowania
 [Returns a string containing the versioninfo post]
 Zwraca ciąg zawierający post versioninfo

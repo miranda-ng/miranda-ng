@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@
 Проверять при запуске
 [Time of last check:]
 Посл. проверка:
-[Automatically backup and keep protocol based birthdays up to date]
-Автоматически сохранять и резервировать дни рождения из протокола
 [Play sound]
 Играть звук
 [Use ignore list]
@@ -204,8 +202,6 @@
 Поиск отсутствующей информации в субконтактах
 [Enable extended 'send/receive e-mail' service (*)]
 Включить расширенный сервис электронной почты (*)
-[Use Windows timezone]
-Часовой пояс Windows
 [(*) Requires Miranda to be restarted.]
 (*) Требуется перезапуск Miranda NG.
 [Reset factory defaults]
@@ -361,8 +357,6 @@
 Ошибка при создании имени для страницы с %d, код ошибки %d
 [Creating the label for a page failed with %d and error code %d]
 Ошибка при создании названия для страницы с %d, код ошибки %d
-[The dialog template type is no longer supported]
-Шаблон диалога больше не поддерживается
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Добавить новый праздник
@@ -442,22 +436,6 @@
 Страницы не были добавлены. Отмена создания диалога!
 [Details dialog failed to be created. Returning error is %d.]
 Ошибка создания диалога деталей. Ошибка %d.
-[General]
-Общее
-[Contact (private)]
-Контакт (личный)
-[Anniversaries]
-Праздники
-[Work]
-Работа
-[Contact (work)]
-Контакт (рабочий)
-[About]
-Информация
-[Profile]
-Профиль
-[Notes]
-Заметки
 [Export to file]
 Экспорт
 [Import from file]
@@ -606,8 +584,6 @@
 Экспортировать все контакты
 [Import all contacts]
 Импортировать все контакты
-[Backup birthdays]
-Резервировать дни рождения
 [Export/import group]
 Экспорт/Импорт группы
 [&Export group]
@@ -623,6 +599,10 @@
 Мои заметки:
 [About:]
 Информация:
+[About]
+Информация
+[Notes]
+Заметки
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Пожалуйста, введите правильное описание сначала!
@@ -630,11 +610,18 @@
 Нет выбранной даты для редактирования!
 [Do you really want to delete the %s?]
 Вы действительно хотите удалить %s?
+[General]
+Общее
+[Anniversaries]
+Праздники
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Работа
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-дом
 [Open in browser]
 Открыть в браузере
+[home]
+дом
 [Primary e-mail]
 Основной e-mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@
 Контакты
 [company]
 Компания
+[Contact (private)]
+Контакт (личный)
+[Contact (work)]
+Контакт (рабочий)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Вопрос
@@ -670,6 +662,7 @@
 Диалоги
 [Popups]
 Всплывающие окна
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Прошлое
@@ -677,10 +670,10 @@
 Принадлежность
 [Interest]
 Интересы
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Извините, ошибка добавления нового элемента с типом "%s"
 [<empty>]
 <нет>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Извините, ошибка добавления нового элемента с типом "%s"
 [Edit category]
 Изменить категорию
 [Edit value]
@@ -689,6 +682,8 @@
 Удалить запись
 [Do you really want to delete this entry?]
 Вы действительно хотите удалить это?
+[Profile]
+Профиль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Африкаанс
@@ -1113,8 +1108,6 @@ Web Дизайн
 \nЕй исполняется %d.
 [No anniversaries to remind of]
 Нет праздников, о которых надо уведомлять
-[Backing up and syncing all birthdays complete!]
-Резервирование и синхронизация всех дней рождений завершены!
 [Reminders]
 Напоминания
 [Birthday reminder]

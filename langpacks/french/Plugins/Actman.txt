@@ -119,9 +119,9 @@ contact actuel
 
 [structure]
 
-[Ansi message]
+[ANSI message]
 
-[Ansi caption]
+[ANSI caption]
 
 [Structure]
 
@@ -183,7 +183,7 @@ Données
 Nom
 [Plugin]
 Plugin
-[Descr]
+[Description]
 
 [&Change]
 
@@ -249,7 +249,7 @@ Programme
 
 [Program path]
 
-[Program args]
+[Program arguments]
 
 [Service]
 
@@ -297,7 +297,9 @@ Fenêtre de message
 
 [< lesser]
 
-[= equ]
+[= equal]
+
+[^ xor]
 
 [& and]
 
@@ -308,6 +310,8 @@ Respecter la casse
 [Opposite order]
 
 [empty]
+
+[equal]
 
 [contains]
 
@@ -323,7 +327,7 @@ Respecter la casse
 
 [JUMP]
 
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [Process script after]
 
@@ -575,7 +579,7 @@ Invisible
 
 [Returns contact amount, excluding user account]
 
-[Ansi Text]
+[ANSI Text]
 
 [Removes all settings for the specified module]
 
@@ -637,7 +641,7 @@ Ignorer ce contact
 
 [wParam is Handle]
 
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 
 [wParam is Unicode station name]
 
@@ -701,9 +705,9 @@ Vérifier la présence de mises à jour
 
 [filter text]
 
-[wParam is unicode]
+[wParam is Unicode]
 
-[wParam is Ansi]
+[wParam is ANSI]
 
 [Reserved]
 
@@ -723,7 +727,7 @@ Vérifier la présence de mises à jour
 
 [Opens message window for contact with handle in wparam]
 
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 
 [Call avatar option dialog for contact]
 
@@ -739,9 +743,9 @@ Vérifier la présence de mises à jour
 
 [Open URL in default browser]
 
-[With formating]
+[With formatting]
 
-[Don't use formating]
+[Don't use formatting]
 
 [Returns a string containing the versioninfo post]
 

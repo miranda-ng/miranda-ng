@@ -1,5 +1,3 @@
-[Drizzle]
-[Freezing Drizzle Mist]
 [Light Drizzle Fog]
 [Light Drizzle Mist Patches Fog]
 [Light Freezing Drizzle Light Snow Grains Mist]
@@ -18,7 +16,6 @@
 [Light Snow Low Drifting Snow]
 [Low Drifting Snow Mist]
 [Low Drifting Snow]
-[Partial Fog]
 [Patches Fog Mist]
 [Rain Mist]
 [Showers Snow Low Drifting Snow]

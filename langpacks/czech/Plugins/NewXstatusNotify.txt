@@ -219,12 +219,12 @@ Zvukové soubory
 Všechny soubory
 [Wave files]
 Soubory Wave
+[** All contacts **]
+** všechny kontakty **
 [Status]
 Stavy
 [Sound file]
 Zvukový soubor
-[** All contacts **]
-** všechny kontakty **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (výchozí zvuk)

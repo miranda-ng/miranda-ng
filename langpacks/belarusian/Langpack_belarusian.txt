@@ -8,7 +8,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 [Become idle if the following is left unattended:]
 Перайсці ў рэжым чакання, калі неактыўныя:
@@ -1160,7 +1160,7 @@ UIN, E-mail і г.д.
 Звычайны
 [Total]
 Агульна
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль.
@@ -1790,12 +1790,30 @@ Miranda не здолела загрузіць убудаваную сістэм
 Працоўны тэлефон
 [Work fax]
 Працоўны факс
+[Contact]
+Кантакт
+[<not specified>]
+<не паказана>
+[Summary]
+Рэзюмэ
+[Location]
+Месца
+[Work]
+Праца
+[Background info]
+Біяграфія
+[Notes]
+Нататкі
+[Owner]
+Уладальнік
+[Folder]
+Тэчка
+[View/change my &details...]
+Асабістыя дадзеныя
 [Male]
 Мужчынскі
 [Female]
 Жаночы
-[<not specified>]
-<не паказана>
 [Single]
 Самотны
 [Close relationships]
@@ -1812,22 +1830,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 Удавец/Удава
 [In love]
 У каханні
-[Summary]
-Рэзюмэ
-[Contact]
-Кантакт
-[Location]
-Месца
-[Work]
-Праца
-[Background info]
-Біяграфія
-[Notes]
-Нататкі
-[Owner]
-Уладальнік
-[View/change my &details...]
-Асабістыя дадзеныя
 [%s is online]
 %s далучаны
 [Alerts]
@@ -2438,14 +2440,14 @@ xСтатус
 Уліковы запіс адключаны. Уключыце для кіравання.
 [New account]
 Новы ўліковы запіс
+[Rename]
+Пераназваць
 [Remove account]
 Выдаліць ўліковы запіс
 [Configure...]
 Налада...
 [Upgrade account]
 Аднаўленне
-[Rename]
-Пераназваць
 [Configure]
 Наладзіць
 [Upgrade]
@@ -3247,7 +3249,7 @@ BMP
 Імя
 [Plugin]
 Плагін
-[Descr]
+[Description]
 Апісанне
 [&Change]
 Змяніць
@@ -3313,7 +3315,7 @@ BMP
 Запуск разгорнутым
 [Program path]
 Пуць
-[Program args]
+[Program arguments]
 Аргументы
 [Service]
 Служба
@@ -3359,7 +3361,7 @@ UTF16+сігнатура
 > больш
 [< lesser]
 < меньш
-[= equ]
+[= equal]
 = экв.
 [& and]
 & і
@@ -3371,6 +3373,8 @@ UTF16+сігнатура
 Зваротны парадак
 [empty]
 пуста
+[equal]
+экв.
 [contains]
 улучае
 [starts with]
@@ -3383,8 +3387,8 @@ UTF16+сігнатура
 Аперацыя
 [JUMP]
 Пераход
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як Юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
 [Process script after]
 Скрыпт пасля макраса
 [MessageBox]
@@ -3585,8 +3589,8 @@ UTF16+сігнатура
 Вольны
 [Invisible]
 Нябачны
-[Ansi Text]
-Тэкст Ansi
+[ANSI Text]
+Тэкст ANSI
 [Removes all settings for the specified module]
 Выдаляе ўсе налады пазначанага модуля
 [int 0]
@@ -4522,6 +4526,8 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Мае аватары
 [My Global Avatar Cache]
 Мой глабальны кэш аватараў
+[Avatar]
+Аватар
 [Global avatar for %s accounts]
 Аватар для ўсіх контаў %s
 [Global avatar]
@@ -4542,12 +4548,6 @@ Miranda NG аўтаматычна зачынецца праз %u секунд(ы
 Аватары кантактаў
 [Own avatars]
 Свае аватары
-[No avatar]
-Без аватара
-[Are you sure you want to remove your avatar?]
-Вы жадаеце выдаліць ваш аватар?
-[Avatar]
-Аватар
 [All files]
 Усе файлы
 [Windows bitmaps]
@@ -4568,6 +4568,10 @@ XML файлы
 Усталяваць мой аватар
 [Set my avatar for %s]
 Змяніць мой аватар для %s
+[No avatar]
+Без аватара
+[Are you sure you want to remove your avatar?]
+Вы жадаеце выдаліць ваш аватар?
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -4693,7 +4697,7 @@ XML файлы
 Сціснуць файлы
 [Password]
 Пароль
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Заліць на FTP (патрабуецца WinSCP)
 [Session name]
 Імя сесіі
@@ -4957,7 +4961,7 @@ Dat (мКантакты)
 ** Пішыце <ext> для ўстаўкі пашырэння, <contact> для ўстаўкі імя кантакту
 [Input files are compressed]
 Уваходныя файлы сціснуты
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Спампаваць з FTP (патрабуецца WinSCP)
 [Import from]
 Імпарт з:
@@ -5099,7 +5103,7 @@ FTP шлях павінен змяшчаць '/' замест '\\', а пачы�
 ;  Version: 0.0.3.1
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
-[Boltun, the chat bot in the russian language.]
+[Boltun, the chat bot in the Russian language.]
 Балбатун, чат-бот для рускай мовы.
 [Boltun]
 Балбатун
@@ -5133,7 +5137,7 @@ FTP шлях павінен змяшчаць '/' замест '\\', а пачы�
 База рэплік
 [Reload]
 Перагрузіць
-[Stay silent if have no good aswers]
+[Stay silent if have no good answers]
 Маўчаць, калі няма добрых адказаў
 [Start answers with a lowercase letter]
 Пачынаць адказы з маленькай літары.
@@ -8595,15 +8599,15 @@ INI файлы
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Плагін стварэння рэзервовых копій профілю.
 [Automatic backups]
 Аўтаматычнае рэзерваванне
-[Disabled]
-Выключаны
+[Enabled]
+Уключаны
 [When Miranda starts]
 Пры запуску Miranda
 [When Miranda exits]
@@ -8620,8 +8624,8 @@ INI файлы
 Адкрыйце "Тонкая налада -> Тэчкі" для змены налад
 [Compress backup to zip-archive]
 Сціск рэзервовай копіі ў архіў
-[Disable progress bar]
-Адключыць індыкатар выканання
+[Enable progress bar]
+Уключыць індыкатар выканання
 [Backup NOW]
 Захаваць ЦЯПЕР
 [Backup progress]
@@ -9172,7 +9176,7 @@ SecureIM
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and an IP-to-Country database.]
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
 Служба, якая дадае нацыянальныя сцягі як значкі, і IP-to-Country базу дадзеных.
 [Country Flags]
 Сцягі краін
@@ -9328,7 +9332,7 @@ SecureIM
 Вяртае шлях да вашага профілю - значэнне, знойдзенае ў mirandaboot.ini,
 [ProfileDir section (usually inside Miranda's folder).]
 Тэчка профіляў (звычайна ў тэчцы Міранды).
-[Expands to your current profile name without the extenstion.]
+[Expands to your current profile name without the extension.]
 Вяртае імя Вашага профіля без пашырэння.
 [(e.g., default if your your profile is default.dat).]
 (нпарыклад default, калі Ваш профіль default.dat).
@@ -9832,12 +9836,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Вы ўвайшлі з іншага месца
 [Incoming image]
 Уваходнае паведамленне
-[Male]
-Мужчынскі
-[Female]
-Жаночы
-[<not specified>]
-<не паказана>
 [<Last Status>]
 <Апошні статус>
 [System tray icon]
@@ -9852,10 +9850,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
-[Your details has been uploaded to the public directory.]
-Ваша інфармацыя была запісаная на агульным каталогу.
-[You have to be logged in before you can change your details.]
-Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 [Network]
 Сеціва
 [General]
@@ -9864,6 +9858,16 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Чат
 [Advanced]
 Дадаткова
+[Male]
+Мужчынскі
+[Female]
+Жаночы
+[<not specified>]
+<не паказана>
+[Your details has been uploaded to the public directory.]
+Ваша інфармацыя была запісаная на агульным каталогу.
+[You have to be logged in before you can change your details.]
+Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -14270,8 +14274,6 @@ Jabber Рэсурс
 Аўтаматычна прымаць запыты аўтарызацыі
 [Fix incorrect timestamps in incoming messages]
 Выпраўляць час ва ўваходных паведамленнях
-[Disable frame]
-Выключыць фрэйм
 [Enable XMPP link processing (requires AssocMgr)]
 Апрацоўваць XMPP спасылкі (патрабуецца плагін "AssocMgr")
 [Security]
@@ -14280,8 +14282,6 @@ Jabber Рэсурс
 Адказваць на запыты пра версіі (XEP-0092)
 [Show information about operating system in version replies]
 Пасылаць інфармацыю пра аперацыйную сістэму ў запытах версіі
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Дазваляць перадачу файлаў толькі унутры струменя (не расчыняць свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Прымаць запыты аўтэнтыфікацыі HTTP (XEP-0070)
 [General]
@@ -14320,8 +14320,6 @@ Jabber Рэсурс
 Абароненае XMPP
 [Secure XMPP Network (old style)]
 Абароненае XMPP (стары стыль)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -14620,12 +14618,6 @@ XML (кадзіроўка UTF-8)
 Невядомая памылка
 [Unknown error message]
 Невядомая памылка паведамлення
-[Advanced Status]
-Пашыраны статус
-[Set mood...]
-Настрой...
-[Set activity...]
-Занятак...
 [Male]
 Мужчынскі
 [Female]
@@ -14810,6 +14802,8 @@ Jabber vCard: рэдагаванне тэлефона
 Нерашучы
 [Worried]
 Заклапочаны
+[Set mood...]
+Настрой...
 [Set Mood]
 Настрой
 [Mood: %s]
@@ -14968,6 +14962,8 @@ Jabber vCard: рэдагаванне тэлефона
 вучуся
 [writing]
 пішу
+[Set activity...]
+Занятак...
 [Set Activity]
 Занятак
 [Activity: %s]
@@ -17230,6 +17226,8 @@ NewAwaySys: Уваходны запыт статуснага паведамле�
 Апошняе першым
 [Last message display last]
 Апошняе апошнім
+[New event notifications]
+Абвесткі пра падзеі
 [General options]
 Агульныя параметры
 [Show preview of event in popup]
@@ -17795,10 +17793,10 @@ ID навіны.
 Усе файлы
 [Wave files]
 Файлы Wave
-[Status]
-Статус
 [** All contacts **]
 ** Усе кантакты **
+[Status]
+Статус
 [(default sound)]
 (па змаўчанні)
 [<no status message>]
@@ -19337,7 +19335,7 @@ TCP злучэнне
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -19507,7 +19505,7 @@ TCP злучэнне
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -20422,7 +20420,7 @@ History++ для гісторыі вокнаў
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -20683,8 +20681,8 @@ KB
 Падстаўляць час ва ўсе падзеі
 [Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
-[Timestamp has same color as event]
-Час таго ж колеры, як і падзея
+[Timestamp has same color as the event]
+Паказваць час тым жа колерам што і падзею
 [Indent the second line of a message]
 Водступ другога радка паведамлення
 [Limit user names to 20 characters]
@@ -20819,7 +20817,7 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Выйсце (10х10)
 [Kick (10x10)]
 Выгнаць (10х10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Змена мянушкі (10х10)
 [Topic (10x10)]
 Тэма (10х10)
@@ -21507,6 +21505,8 @@ SecureIM выключаны! Вы павінны ўключыць яго для 
 гісторыя апошняй сустрэчы
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y) \nАдносная дата: %W - %w - %E - %e \nЧас: %H:%M:%S (%h-%p) \nкантакт: %n - %u \nСтатус: %s \nIP: %i - %r
+[Clock]
+Час
 [LastSeen]
 Апошняе з'яўленне
 [User status change]
@@ -23332,7 +23332,7 @@ Dial-up (эксперыментальна)
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.2
+;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -23379,7 +23379,7 @@ Dial-up (эксперыментальна)
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -23398,8 +23398,8 @@ Dial-up (эксперыментальна)
 Падзельнік:
 [Vars]
 Зменныя
-[Disable protection for following accounts:]
-Адключыць абарону для наступных контаў:
+[Enable protection for following accounts:]
+Уключыць абарону для наступных контаў:
 [Do not send more than]
 Не адпраўляць больш
 [questions to one contact (0 - for no limit)]
@@ -23545,7 +23545,7 @@ StopSpam: адпраўце паведамленне і адкажыце на п�
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -23588,8 +23588,6 @@ StopSpam: адпраўце паведамленне і адкажыце на п�
 Уключыць запіс лога
 [Log directory]
 Тэчка лога
-[Maximum size for log files (in KB)]
-Максімальны памер лога (у КБ)
 [Group chat log formatting]
 Фарматаванне лога чатаў
 [Your name]
@@ -24404,7 +24402,7 @@ RTL па змаўчанні
 Выгнаць (10х10)
 [Notice (10x10)]
 Абвестка (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Змена мянушкі (10х10)
 [Topic (10x10)]
 Тэма (10х10)
@@ -24452,8 +24450,6 @@ RTL па змаўчанні
 Актываваць вакно чата пры падсветленай падзеі
 [Show list of users in the chat room]
 Паказваць спіс удзельнікаў чата
-[Colorize nicknames in member list]
-Каляровыя мянушкі ў спісе
 [Show topic as status message on the contact list]
 Паказаць тэму чата ў спісе кантактаў як паведамленне статусу
 [Do not pop up the window when joining a chat room]
@@ -24470,7 +24466,7 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 Альтэрнатыўнае сартаванне мянушак у спісе
 [Prefix all events with a timestamp]
 Падстаўляць час ва ўсе падзеі
-[Timestamp only when event time differs]
+[Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
 [Timestamp has same color as the event]
 Час таго ж колеры, што і падзея
@@ -24478,8 +24474,6 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 Водступ другога радка паведамлення
 [Limit user names in the message log to 20 characters]
 Абмежаваць імёны ў логе 20-ю знакамі
-[Add a colon (:) to auto-completed user names]
-Дадаваць ":" да імёнаў карыстачоў
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Прыват пры падвойнай пстрычцы ў спісе мямнушак (інакш устаўляць мянушку)
 [Strip colors from messages in the log]
@@ -24702,8 +24696,6 @@ TabSRMM: Набірае
 %s    Чаканне: %dh,%02dm
 [  Client: %s]
   Кліент: %s
-[  Client not cached yet]
-  Невядомы кліент
 [Topic is: %s]
 Тэма: %s
 [no topic set.]
@@ -25967,7 +25959,7 @@ xСтатус: пустое імя ў імя па змаўчанні
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Preview]
@@ -26492,7 +26484,7 @@ Twitter (аватары)
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -26605,8 +26597,6 @@ Twitter (аватары)
 Правяраць пры запуску
 [Time of last check:]
 Апош. праверка:
-[Automatically backup and keep protocol based birthdays up to date]
-Аўтаматычна захоўваць і рэзерваваць дні нараджэння з пратаколу
 [Play sound]
 Прайграць гук
 [Use ignore list]
@@ -26693,8 +26683,6 @@ Twitter (аватары)
 Пошук адсутнай інфармацыі ў субкантактах
 [Enable extended 'send/receive e-mail' service (*)]
 Уключыць пашыраны плагін электроннай пошты (*)
-[Use Windows timezone]
-Гадзінны пояс Windows
 [(*) Requires Miranda to be restarted.]
 (*) Патрабуецца перазапуск Miranda.
 [Reset factory defaults]
@@ -26845,8 +26833,6 @@ Twitter (аватары)
 Памылка пры стварэнні імя для старонкі з %d, код памылкі %d
 [Creating the label for a page failed with %d and error code %d]
 Памылка пры стварэнні назвы для старонкі з %d, код памылкі %d
-[The dialog template type is no longer supported]
-Шаблон дыялога больш не падтрымліваецца
 [Add a new anniversary]
 Дадаць новае свята
 [Delete an existing anniversary]
@@ -26921,22 +26907,6 @@ Twitter (аватары)
 Старонкі не былі дададзены. Скасаванне стварэння дыялога!
 [Details dialog failed to be created. Returning error is %d.]
 Памылка стварэння дыялога Uinfoex. Памылка %d.
-[General]
-Агульнае
-[Contact (private)]
-Кантакт (асабісты)
-[Anniversaries]
-Святы
-[Work]
-Праца
-[Contact (work)]
-Кантакт (працоўны)
-[About]
-Інфармацыя
-[Profile]
-Профіль
-[Notes]
-Нататкі
 [Export to file]
 Экспарт
 [Import from file]
@@ -27081,8 +27051,6 @@ E-Mail
 Экспартаваць усе кантакты
 [Import all contacts]
 Імпартаваць усе кантакты
-[Backup birthdays]
-Рэзерваваць дні нараджэння
 [&Export group]
 Экспартаваць гурт
 [&Import group]
@@ -27091,16 +27059,26 @@ E-Mail
 Мае нататкі:
 [About:]
 Інфармацыя:
+[About]
+Інфармацыя
+[Notes]
+Нататкі
 [Please enter a valid description first!]
 Спачатку ўвядзіце правільнае апісанне!
 [No valid date selected for editing!]
 Няма абранай даты для рэдагавання!
 [Do you really want to delete the %s?]
 Вы сапраўды жадаеце выдаліць %s?
-[home]
-дома
+[General]
+Агульнае
+[Anniversaries]
+Святы
+[Work]
+Праца
 [Open in browser]
 Адкрыць у браўзары
+[home]
+дома
 [Primary e-mail]
 Асноўны e-mail
 [Secondary e-mail]
@@ -27109,6 +27087,10 @@ E-Mail
 Трэці e-mail
 [company]
 Кампанія
+[Contact (private)]
+Кантакт (асабісты)
+[Contact (work)]
+Кантакт (працоўны)
 [Question]
 Пытанне
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -27139,10 +27121,10 @@ E-Mail
 Прыналежнасць
 [Interest]
 Інтарэсы
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Памылка дадання новага элемента з тыпам "%s"
 [<empty>]
 <пуста>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Памылка дадання новага элемента з тыпам "%s"
 [Edit category]
 Змяніць катэгорыю
 [Edit value]
@@ -27151,6 +27133,8 @@ E-Mail
 Выдаліць запіс
 [Do you really want to delete this entry?]
 Вы сапраўды жадаеце выдаліць гэта?
+[Profile]
+Профіль
 [Afrikaans]
 Афрыкаанс
 [Albanian]
@@ -27551,8 +27535,6 @@ Web Дызайн
 \nЁй спаўняецца %d.
 [No anniversaries to remind of]
 Няма свят, пра якія трэба абвясціць
-[Backing up and syncing all birthdays complete!]
-Рэзерваванне і сінхранізацыя ўсіх Дзён нараджэнняў завершаны!
 [Reminders]
 Напамінкі
 [Birthday reminder]
@@ -28208,6 +28190,61 @@ x, і захоўвае y, як зменную з імем x
 Гульні
 [Quotes]
 Каціроўкі
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Enable popups]
+Уключыць усплывальныя вокны
+[ Colors ]
+ Колеры\s
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
+[Use Windows colors]
+Колеры Windows
+[Use default colors]
+Колеры па змаўчанні
+[Custom]
+Наладзіць
+[Permanent]
+Пастаянна
+[On right click:]
+Правая пстрычка:
+[On left click:]
+Левая пстрычка:
+[Preview]
+Прагляд
+[Frame]
+Фрэйм
+[Audio]
+Аўдыё
+[Voice Calls]
+Званкі
+[Main]
+Галоўны
+[Talking]
+Размаўляю
+[Background]
+Фон
+[Do nothing]
+Нічога не рабіць
+[Close popup]
+Зачыніць вакно
+[Test Contact]
+Тэставы кантакт
+[Test description]
+Тэставае апісанне
+[Popups]
+Усплывальныя вокны
+[General]
+Агульнае
+[Voice call]
+Званок
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -28707,7 +28744,7 @@ VBR ці няма
 Правярае ўсе абраныя плэеры на прадмет актыўнасці (запуску і прайграванні) ці спыняецца на першым знойдзеным
 [Check all players]
 Правяраць усе плэеры
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 Эмуляцыя націскаў мультымедыйных клавіш, для кіравання прайгравальнікам
 [User music info text]
 Інфармацыя пра музыку
@@ -31118,13 +31155,11 @@ T-навальніцы, 30% верагоднасць ападкаў
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.6
+;  Version: 0.4.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Абвестка пра дні нараджэння.
-[Notify of birthdays:]
-Паведаміць пра дзень нараджэння:
 [Popups]
 Усплывальныя вокны
 [Popup timeout:]
@@ -31157,10 +31192,6 @@ T-навальніцы, 30% верагоднасць ападкаў
 гадзін(ы)
 [Only notify once per day.]
 Нагадваць раз у дзень
-[By default use]
-Выкарыстоўваць
-[to save birthday data.]
-для захоўвання дадзеных.
 [Show]
 Паказаць
 [in birthday list window]
@@ -31199,42 +31230,16 @@ T-навальніцы, 30% верагоднасць ападкаў
 Выдаліць
 [Upcoming birthdays]
 Надыходзячыя дні нараджэння
-[Upcoming age]
-Будучы ўзрост
-[Current age]
-Бягучы ўзрост
-[UserInfo module]
-Плагін UserInfo
-[Protocol module]
-Плагін пратаколу
-[Nothing]
-Нічога
-[Dismiss]
-Прыбраць
-[Message window]
-Гутарка
-[All contacts]
-Усе кантакты
-[All contacts except hidden ones]
-Усё, акрамя ўтоеных
-[All contacts except ignored ones]
-Усё, акрамя ігнаруемых
-[All contacts except hidden and ignored ones]
-Усё, акрамя ўтоеных і ігнаруемых
-[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Устаноўвае затрымку абвесткі пра надыходзячыя інш.\n Фармат: затрымка па змаўчанні [ | затрымка для інш сёння]
-[Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
-Абярыце плагін захоўвання дзён нараджэнняў.\r\n"UserInfo" па змаўчанні.\r\n Выкарыстоўваць "Плагін пратаколу" каб бачыць дадзеныя ў дадзеных кантакту\n"mBirthday плагін" захоўвае таксама, як і плагін mBirthday
 [Set birthday for %s:]
 Дзень нараджэння %s
-[%S protocol]
-%S пратакол
 [N/A]
 Недаступны
-[Unknown]
-Невядома
+[Protocol Module]
+Плагін пратаколу
 [Birthday list (%d)]
 Спіс дзён нараджэння (%d)
+[Unknown]
+Невядома
 [Protocol]
 Пратакол
 [Contact]
@@ -31247,16 +31252,8 @@ T-навальніцы, 30% верагоднасць ападкаў
 Узрост
 [Module]
 Плагін
-[Closing in %d seconds]
-Закрыецца праз %d секунд...
-[Closing in %d second]
-Зачыненне праз %d секунд
 [Check for birthdays]
 Праверыць дні нараджэння
-[Birthdays]
-Дні нараджэння
-[Contacts]
-Кантакты
 [WhenWasIt]
 Дні нараджэння
 [Check birthdays menu item]
@@ -31307,6 +31304,34 @@ T-навальніцы, 30% верагоднасць ападкаў
 %s\n%s будзе %d .
 [%s\n%s just turned %d.]
 %s\n%s споўнілася %d
+[Closing in %d seconds]
+Закрыецца праз %d секунд...
+[Closing in %d second]
+Зачыненне праз %d секунд
+[Upcoming age]
+Будучы ўзрост
+[Current age]
+Бягучы ўзрост
+[Nothing]
+Нічога
+[Dismiss]
+Прыбраць
+[Message window]
+Гутарка
+[All contacts]
+Усе кантакты
+[All contacts except hidden ones]
+Усё, акрамя ўтоеных
+[All contacts except ignored ones]
+Усё, акрамя ігнаруемых
+[All contacts except hidden and ignored ones]
+Усё, акрамя ўтоеных і ігнаруемых
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
+Устаноўвае затрымку абвесткі пра надыходзячыя інш.\n Фармат: затрымка па змаўчанні [ | затрымка для інш сёння]
+[Birthdays]
+Дні нараджэння
+[Contacts]
+Кантакты
 [Starting to refresh user details]
 Пачатак абнаўлення інфармацыі пра кантакты
 [Done refreshing user details]
@@ -31339,10 +31364,6 @@ T-навальніцы, 30% верагоднасць ападкаў
 Не атрымалася адкрыць файл каб экспартаваць дні нараджэння
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
 Не трэба рэдагаваць гэты файл ўручную. Карыстайцеся функцыяй экспарту плагіна WhenWasIt.\n
-[Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
-Увага! Калі ласка, не путайзе Unicode і Ansi экспартуемых файлаў нараджэння. Выкарыстоўвайце тую ж версію (ANSI / Unicode) WhenWasIt.\n
-[This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
-Гэты файл быў экспартаваны з Unicode версіі WhenWasIt. Калі ласка, выкарыстоўвайце толькі Unicode версіі плагіна для імпарту дней нараджэння.\n
 [Birthdays (When Was It)]
 Дні нараджэння
 [Add/change user &birthday]

@@ -219,12 +219,12 @@ xСтатуси
 Усі файли
 [Wave files]
 Файли WAV
+[** All contacts **]
+** Усі контакти **
 [Status]
 Статус
 [Sound file]
 Звук
-[** All contacts **]
-** Усі контакти **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 (за замовчанням)

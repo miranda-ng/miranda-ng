@@ -1,0 +1,181 @@
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Provide services for protocols that support voice calls]
+
+;file \plugins\VoiceService\res\resource.rc
+[Enable popups]
+Уключыць усплывальныя вокны
+[ Colors ]
+ Колеры\s
+[Background color]
+Колер фону
+[Text color]
+Колер тэксту
+[Use Windows colors]
+Колеры Windows
+[Use default colors]
+Колеры па змаўчанні
+[ Delay ]
+
+[From popup plugin]
+
+[Custom]
+Наладзіць
+[Permanent]
+Пастаянна
+[ Actions ]
+
+[On right click:]
+Правая пстрычка:
+[On left click:]
+Левая пстрычка:
+[Preview]
+Прагляд
+[New Voice Call]
+
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
+
+[Answer]
+
+[Drop]
+
+[From now on, repeat this action for this contact]
+
+[Frame]
+Фрэйм
+[Auto-size frame]
+
+[Automatic Actions]
+
+[Auto accept this contact calls]
+
+[Auto drop this contacts calls]
+
+[Audio]
+Аўдыё
+[Input:]
+
+[Output:]
+
+[Echo cancelation]
+
+[Microphone boost]
+
+[Frame Popup]
+
+[Answer call]
+
+[Drop call]
+
+[Hold call]
+
+;file \plugins\VoiceService\src\frame.cpp
+[Show dialpad]
+
+[Make call]
+
+[Call with %s]
+
+[Voice Calls]
+Званкі
+;file \plugins\VoiceService\src\hooks.cpp
+[Main]
+Галоўны
+[Dialpad]
+
+[Secure]
+
+[Talking]
+Размаўляю
+[Ringing]
+
+[Calling]
+
+[On Hold]
+
+[Ended]
+
+[Busy]
+
+[Make Voice Call]
+
+[Answer Voice Call]
+
+[Hold Voice Call]
+
+[Drop Voice Call]
+
+[Started talking]
+
+[Calling a contact]
+
+[Put a call on Hold]
+
+[End of call]
+
+[Busy signal]
+
+[Call %s with %s]
+
+[Call]
+
+[%s with %s]
+
+[with %s]
+
+[Background]
+Фон
+[Dialpad press]
+
+;file \plugins\VoiceService\src\options.cpp
+[Do nothing]
+Нічога не рабіць
+[Close popup]
+Зачыніць вакно
+[Test Contact]
+Тэставы кантакт
+[Test description]
+Тэставае апісанне
+[Popups]
+Усплывальныя вокны
+[General]
+Агульнае
+[Auto actions]
+
+;file \plugins\VoiceService\src\services.cpp
+[%s wants to start a voice call with you. What you want to do?]
+
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
+
+;file \plugins\VoiceService\src\VoiceCall.cpp
+[Voice call started]
+
+[Voice call ringing]
+
+[Voice call]
+Званок
+[Voice call on hold]
+
+[Voice call ended]
+
+[Voice call busy]
+
+[Call from %s has started]
+
+[Call from %s is ringing]
+
+[Calling %s]
+
+[Call from %s is on hold]
+
+[Call from %s has ended]
+
+[%s is busy]
+
+[Unknown number]
+

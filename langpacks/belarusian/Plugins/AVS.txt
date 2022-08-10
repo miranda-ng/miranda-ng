@@ -86,6 +86,8 @@
 Мае аватары
 [My Global Avatar Cache]
 Мой глабальны кэш аватараў
+[Avatar]
+Аватар
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 Аватар для ўсіх контаў %s
@@ -107,12 +109,6 @@
 Аватары кантактаў
 [Own avatars]
 Свае аватары
-[No avatar]
-Без аватара
-[Are you sure you want to remove your avatar?]
-Вы жадаеце выдаліць ваш аватар?
-[Avatar]
-Аватар
 ;file \plugins\AVS\src\services.cpp
 [All files]
 Усе файлы
@@ -134,3 +130,8 @@ XML файлы
 Усталяваць мой аватар
 [Set my avatar for %s]
 Змяніць мой аватар для %s
+;file \plugins\AVS\src\userInfo.cpp
+[No avatar]
+Без аватара
+[Are you sure you want to remove your avatar?]
+Вы жадаеце выдаліць ваш аватар?

@@ -178,8 +178,6 @@ Portable
 Video
 [Modem]
 Modem
-[(*) marks the current session]
-
 [Load]
 Charger
 [Save]
@@ -522,6 +520,14 @@ Liens
 
 [Supports message carbons (XEP-0280)]
 
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+
+[Jingle DTLS]
+
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 
@@ -758,6 +764,8 @@ Catégorie
 [Items request error]
 
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+
 [No compatible file transfer mechanism exists]
 
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -992,6 +1000,8 @@ Etes-vous sûr?
 [Do you want to create OMEMO session with new device:]
 
 [OMEMO: New session]
+
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -1414,14 +1424,18 @@ Envoi de message
 
 [Enable carbon copies (XEP-0280)]
 
-[Use Stream Management (XEP-0198) if possible (Testing)]
+[Enable VOIP (experimental)]
 
 [Server options]
 Options du serveur
+[Use Stream Management (XEP-0198) if possible (experimental)]
+
 [Disable SASL authentication (for old servers)]
 Désactiver l'authentification SASL (pour les anciens serveurs)
 [Enable stream compression (if possible)]
 Activer la compression du Stream (si disponible)
+[Use TLS 1.3 bindings (if possible)]
+
 [Other]
 Autre
 [Enable remote controlling (from another resource of same JID only)]
@@ -1434,8 +1448,6 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Fix incorrect timestamps in incoming messages]
 
-[Disable frame]
-
 [Enable XMPP link processing (requires AssocMgr)]
 
 [Embrace picture URLs with [img]]
@@ -1444,17 +1456,15 @@ Ajouter auto. un contact après une autorisation acceptée
 
 [Security]
 Sécurité
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 
 [Allow servers to request version (XEP-0092)]
 
 [Show information about operating system in version replies]
 
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-
 [Accept HTTP Authentication requests (XEP-0070)]
 
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 
 [General]
 Général
@@ -1494,8 +1504,6 @@ Réseau XMPP publique
 Réseau XMPP sécurisé
 [Secure XMPP Network (old style)]
 
-[Google Talk!]
-Google Talk!
 [Hipchat]
 
 [LiveJournal Talk]
@@ -1902,12 +1910,6 @@ Délai du serveur distant dépassé
 Erreur inconnue
 [Unknown error message]
 Erreur de message inconnu
-[Advanced Status]
-
-[Set mood...]
-
-[Set activity...]
-
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Homme
@@ -1925,7 +1927,10 @@ Détails Jabber : Éditer le numéro de téléphone
 Contacts
 [Note]
 
-[OMEMO]
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+
+[Incomig call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
@@ -2098,6 +2103,8 @@ Non défini
 Faible
 [Worried]
 Inquiet
+[Set mood...]
+
 [Set Mood]
 
 [Mood: %s]
@@ -2256,6 +2263,8 @@ en réunion
 Étudie
 [writing]
 écrit
+[Set activity...]
+
 [Set Activity]
 Definir
 [Activity: %s]

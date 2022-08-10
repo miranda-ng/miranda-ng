@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ UIN, E-mail і г.д.
 Звычайны
 [Total]
 Агульна
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Толькі крытычныя дадзеныя шыфруюцца (паролі, маркеры бяспекі і г.д.). Ўсё налады і гісторыя застаецца ў незашыфраваным выглядзе.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Усе налады і ўсе падзеі ў гісторыі шыфруюцца. Гэта робіць Міранда вельмі марудней і стварае рызыку страты ўсё, што вы захоўваецца ў базе дадзеных ў выпадку згубы пароль.
@@ -1863,13 +1863,35 @@ Miranda не здолела загрузіць убудаваную сістэм
 Працоўны тэлефон
 [Work fax]
 Працоўны факс
+[Contact]
+Кантакт
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<не паказана>
+[Summary]
+Рэзюмэ
+[Location]
+Месца
+[Work]
+Праца
+[Background info]
+Біяграфія
+[Notes]
+Нататкі
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Уладальнік
+[Folder]
+Тэчка
+[Page]
+
+[View/change my &details...]
+Асабістыя дадзеныя
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Мужчынскі
 [Female]
 Жаночы
-[<not specified>]
-<не паказана>
 [Single]
 Самотны
 [Close relationships]
@@ -1892,23 +1914,6 @@ Miranda не здолела загрузіць убудаваную сістэм
 
 [In a civil union]
 
-[Summary]
-Рэзюмэ
-[Contact]
-Кантакт
-[Location]
-Месца
-[Work]
-Праца
-[Background info]
-Біяграфія
-[Notes]
-Нататкі
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Уладальнік
-[View/change my &details...]
-Асабістыя дадзеныя
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s далучаны
@@ -2659,14 +2664,14 @@ xСтатус
 Уліковы запіс адключаны. Уключыце для кіравання.
 [New account]
 Новы ўліковы запіс
+[Rename]
+Пераназваць
 [Remove account]
 Выдаліць ўліковы запіс
 [Configure...]
 Налада...
 [Upgrade account]
 Аднаўленне
-[Rename]
-Пераназваць
 [Configure]
 Наладзіць
 [Upgrade]

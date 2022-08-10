@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@ Powiadomienia
 Zasobnik
 [Options]
 Opcje
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Dodaj nowe pokoje do grupy:
 [Log files]
@@ -46,8 +48,8 @@ Dziennik plików
 Zapisuj dziennik na dysku
 [Log directory]
 Folder dziennika
-[Maximum size for log files (in KB)]
-Maksymalny rozmiar pliku z dziennikiem (w KB)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Formatowanie dziennika dla czatów
 [Your name]
@@ -873,7 +875,7 @@ Wyjście (10x10)
 Wyrzuć (10x10)
 [Notice (10x10)]
 Powiadomienie (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Topic (10x10)]
 Temat (10x10)
@@ -925,8 +927,8 @@ Utwórz kartę lub okno dla podświetlenia zdarzeń
 Aktywuj okno rozmowy przy podświetleniu
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
-[Colorize nicknames in member list]
-Koloruj nicki na liście
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Pokaż temat pokoju na liście kontaktów
 [Do not pop up the window when joining a chat room]
@@ -943,18 +945,14 @@ Używaj ircowych wskaźników na liście nicków
 Używaj alternatywnej metody sortowania listy nicków
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
-[Timestamp only when event time differs]
-Poprzedź czasem tylko, jeśli się różni
+[Only prefix with timestamp if it has changed]
+Dodawaj czas tylko jeśli uległ zmianie
 [Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
 [Limit user names in the message log to 20 characters]
 Ogranicz nazwy użytkowników do 20 znaków w dzienniku
-[Add a colon (:) to auto-completed user names]
-Dodaj (:) na końcu automatycznie uzupełnianych nicków
-[Add a comma instead of a colon to auto-completed user names]
-Dodaj przecinek zamiast dwukropka do automatycznie uzupełnianych nicków
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Rozpocznij rozmowę prywatną przez podwójne kliknięcie na liście nicków (wstaw nick, jeśli niezaznaczone)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ Pokaż okno serwera
 %s    Bezczynny: %dh,%02dm
 [  Client: %s]
   Klient: %s
-[  Client not cached yet]
-  Klient nie sprawdzony
 [Topic is: %s]
 Temat to: %s
 [no topic set.]

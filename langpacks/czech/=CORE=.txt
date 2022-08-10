@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Režim šifrování databáze
 Standardní
 [Total]
 Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 
@@ -1863,13 +1863,35 @@ Mobil
 Telefon (práce)
 [Work fax]
 Fax (práce)
+[Contact]
+Kontakt
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<neurčeno>
+[Summary]
+Souhrn
+[Location]
+Umístění
+[Work]
+Práce
+[Background info]
+Profil
+[Notes]
+Poznámky
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Něco o sobě
+[Folder]
+Složka
+[Page]
+
+[View/change my &details...]
+In&formace o sobě...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 muž
 [Female]
 žena
-[<not specified>]
-<neurčeno>
 [Single]
 svobodný/á
 [Close relationships]
@@ -1892,23 +1914,6 @@ zamilovaný/á
 je to komplikované
 [In a civil union]
 
-[Summary]
-Souhrn
-[Contact]
-Kontakt
-[Location]
-Umístění
-[Work]
-Práce
-[Background info]
-Profil
-[Notes]
-Poznámky
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Něco o sobě
-[View/change my &details...]
-In&formace o sobě...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s je online
@@ -2659,14 +2664,14 @@ Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nov�
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
 Zřídit účet
+[Rename]
+Přejmenovat
 [Remove account]
 Smazat účet
 [Configure...]
 Nastavit...
 [Upgrade account]
 Aktualizovat účet
-[Rename]
-Přejmenovat
 [Configure]
 Nastavit...
 [Upgrade]

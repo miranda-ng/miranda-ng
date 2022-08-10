@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,8 +268,8 @@ Autom. vervollständigten Namen ':' anfügen
 Zeitstempel bei allen Ereignissen
 [Only prefix with timestamp if it has changed]
 Zeitstempel nur bei Änderungen
-[Timestamp has same color as event]
-Zeitstempel hat dieselbe Farbe wie das Ereignis
+[Timestamp has same color as the event]
+Zeitstempel hat die gleiche Farbe wie das Ereignis
 [Indent the second line of a message]
 Zweite Zeile einer Nachricht einziehen
 [Limit user names to 20 characters]
@@ -411,7 +411,7 @@ Verlassen (10x10)
 Beenden (10x10)
 [Kick (10x10)]
 Kick (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Nick ändern (10x10)
 [Topic (10x10)]
 Thema (10x10)

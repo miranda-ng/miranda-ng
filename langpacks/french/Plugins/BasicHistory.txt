@@ -124,7 +124,7 @@ jour
 
 [Password]
 Mot de passe
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 
 [Session name]
 
@@ -393,7 +393,7 @@ Page de code invalide
 
 [Input files are compressed]
 
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 
 [Import from]
 

@@ -178,8 +178,6 @@ Jabber vCard: добавление телефона
 Видео
 [Modem]
 Модем
-[(*) marks the current session]
-(*) - текущая сессия
 [Load]
 Загрузить
 [Save]
@@ -522,6 +520,14 @@ xHTML формат чат сообщений
 Получение сведений об устройствах OMEMO
 [Supports message carbons (XEP-0280)]
 Поддержка копирования сообщений на все ресурсы (XEP-0280)
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+Jingle RTP
+[Jingle DTLS]
+Jingle DTLS
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Введите текст, который видите
@@ -758,6 +764,8 @@ Jabber ошибка
 [Items request error]
 
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+%s слишком велик. Сервис поддерживает файлы размером не более %d КБ
 [No compatible file transfer mechanism exists]
 Не найдено ни одного совместимого механизма передачи файлов
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -993,6 +1001,8 @@ Jabber ошибка
 Создать сессию OMEMO с новым устройством:
 [OMEMO: New session]
 OMEMO: Новая сессия
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+OMEMO не поддерживает шифрование приватных сообщений в публичных чатах. Продолжить без шифрования? 
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Афар
@@ -1414,14 +1424,18 @@ OMEMO: Новая сессия
 Включить архивацию сообщений на сервере (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Включить копирование сообщений на все ресурсы (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (Testing)]
-Включить Stream Management (XEP-0198), если возможно (Тестируется)
+[Enable VOIP (experimental)]
+Включить VOIP (экспериментальная возможность)
 [Server options]
 Настройки сервера
+[Use Stream Management (XEP-0198) if possible (experimental)]
+Включить Stream Management (XEP-0198), если возможно (экспериментальная возможность)
 [Disable SASL authentication (for old servers)]
 Отключить аутентификацию SASL (старые серверы)
 [Enable stream compression (if possible)]
 Сжимать поток (если возможно)
+[Use TLS 1.3 bindings (if possible)]
+
 [Other]
 Другое
 [Enable remote controlling (from another resource of same JID only)]
@@ -1434,8 +1448,6 @@ OMEMO: Новая сессия
 Автоматически принимать запросы авторизации
 [Fix incorrect timestamps in incoming messages]
 Исправлять время во входящих сообщениях
-[Disable frame]
-Выключить фрейм
 [Enable XMPP link processing (requires AssocMgr)]
 Обрабатывать XMPP ссылки (требуется плагин AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1444,18 +1456,16 @@ OMEMO: Новая сессия
 Игнорировать серверный ростер (группы и имена контактов)
 [Security]
 Безопасность
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 Отвечать на запросы локального времени и часового пояса (XEP-0202)
 [Allow servers to request version (XEP-0092)]
 Отвечать серверу на запросы о версиях ПО (XEP-0092)
 [Show information about operating system in version replies]
 Отправлять информацию об операционной системе в запросах версии
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Разрешать передачу файлов только внутри потока (не раскрывать свой IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Принимать запросы аутентификации HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
-Шифровать сообщения с помощью OMEMO, если возможно (XEP-0384) (Начальная поддержка, нет интерфейса)
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
+Шифровать сообщения с помощью OMEMO, если возможно (XEP-0384) (начальная поддержка, нет интерфейса)
 [General]
 Общее
 [Autoaccept multiuser chat invitations]
@@ -1494,8 +1504,6 @@ OMEMO: Новая сессия
 Защищённая сеть XMPP
 [Secure XMPP Network (old style)]
 Защищённая сеть XMPP (старый стиль)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -1902,12 +1910,6 @@ ID устройства
 Неизвестная ошибка
 [Unknown error message]
 Неизвестная ошибка
-[Advanced Status]
-Дополнительный статус
-[Set mood...]
-Настроение...
-[Set activity...]
-Занятие...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 Мужской
@@ -1925,8 +1927,11 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
-[OMEMO]
-OMEMO
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+Принять звонок от %S?\r\nВаш IP-адрес станет известен собеседнику и его серверу
+[Incomig call]
+Входящий звонок
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>
@@ -2098,6 +2103,8 @@ OMEMO
 Нерешительный
 [Worried]
 Озабоченный
+[Set mood...]
+Настроение...
 [Set Mood]
 Настроение
 [Mood: %s]
@@ -2256,6 +2263,8 @@ OMEMO
 учусь
 [writing]
 пишу
+[Set activity...]
+Занятие...
 [Set Activity]
 Занятие
 [Activity: %s]

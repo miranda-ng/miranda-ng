@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,7 +268,7 @@ Dodawaj ":" do automatycznie uzupełnianych nazw
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
 Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
@@ -411,7 +411,7 @@ Wyjdź (10x10)
 Wyjście (10x10)
 [Kick (10x10)]
 Wyrzuć (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Topic (10x10)]
 Temat (10x10)

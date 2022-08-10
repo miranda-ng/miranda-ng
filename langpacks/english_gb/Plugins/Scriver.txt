@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Behavior]
@@ -13,8 +13,8 @@ and stay minimised
 Minimise on send
 [Customize fonts and colors]
 Customise fonts and colours
-[Timestamp has same color as event]
-Timestamp has same colour as event
+[Timestamp has same color as the event]
+Timestamp has same colour as the event
 [Strip colors from messages]
 Strip colours from messages
 [Text color]

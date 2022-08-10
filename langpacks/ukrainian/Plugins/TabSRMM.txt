@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@
 Трей
 [Options]
 Налаштування
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Додавати кімнати до групи:
 [Log files]
@@ -46,8 +48,8 @@
 Записувати журнал на диск
 [Log directory]
 Папка журналу
-[Maximum size for log files (in KB)]
-Максимальний розмір журналу (КБ)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Форматування журналу чатів
 [Your name]
@@ -873,7 +875,7 @@ BBCode ([b][i][u])
 Стусани (10x10)
 [Notice (10x10)]
 Приватне повідомлення (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Зміна ніку (10x10)
 [Topic (10x10)]
 Тема (10x10)
@@ -925,8 +927,8 @@ BBCode ([b][i][u])
 Активувати вікно чату при підсвіченій події
 [Show list of users in the chat room]
 Показувати в кімнаті чату список користувачів
-[Colorize nicknames in member list]
-Кольорові ніки в списку користувачів
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Показувати тему чат-кімнати в списку контактів як повідомлення статусу
 [Do not pop up the window when joining a chat room]
@@ -943,7 +945,7 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 Альтернативне сортування ніків у списку
 [Prefix all events with a timestamp]
 Показувати час для всіх подій
-[Timestamp only when event time differs]
+[Only prefix with timestamp if it has changed]
 Показувати час, якщо він змінився
 [Timestamp has same color as the event]
 Час того ж кольору, що й подія
@@ -951,10 +953,6 @@ IRC-стиль (текстовий) індикаторів ролей учасн
 Відступ другого рядка повідомлення
 [Limit user names in the message log to 20 characters]
 Обмежити імена в журналі до 20 символів
-[Add a colon (:) to auto-completed user names]
-Додавати двокрапку (:) до імен користувачів при автозавершенні
-[Add a comma instead of a colon to auto-completed user names]
-Додавати кому (,) до імен користувачів при автозавершенні
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Приват при подвійному кліку в списку ніків (інакше вставляти нік)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ TabSRMM: Набирає
 %s    Очікування: %dгод,%02dхв
 [  Client: %s]
   Клієнт: %s
-[  Client not cached yet]
-  Клієнт не визначений
 [Topic is: %s]
 Тема: %s
 [no topic set.]

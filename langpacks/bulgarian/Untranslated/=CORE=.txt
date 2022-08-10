@@ -34,6 +34,7 @@
 [Miranda could not load the built-in message module, msftedit.dll is missing. Press 'Yes' to continue loading Miranda.]
 [StdMsg internal log]
 [Custom %d]
+[Page]
 [In a civil union]
 [Chat log symbols (Webdings)]
 [&Open/close chat window]

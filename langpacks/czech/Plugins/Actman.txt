@@ -119,9 +119,9 @@ poslední výsledek
 parametr
 [structure]
 struktura
-[Ansi message]
+[ANSI message]
 
-[Ansi caption]
+[ANSI caption]
 
 [Structure]
 Struktura
@@ -183,7 +183,7 @@ Nápověda pro strukturu
 Jméno
 [Plugin]
 Doplněk
-[Descr]
+[Description]
 Popis
 [&Change]
 Z&měnit...
@@ -249,7 +249,7 @@ Spustit minimalizovaný
 Spustit maximalizovaný
 [Program path]
 
-[Program args]
+[Program arguments]
 
 [Service]
 Služba
@@ -297,7 +297,9 @@ Podmínka
 
 [< lesser]
 
-[= equ]
+[= equal]
+
+[^ xor]
 
 [& and]
 
@@ -309,6 +311,8 @@ Rozlišovat malá a VELKÁ
 
 [empty]
 Prázdné
+[equal]
+
 [contains]
 
 [starts with]
@@ -323,7 +327,7 @@ Operace
 
 [JUMP]
 
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [Process script after]
 
@@ -575,7 +579,7 @@ Neviditelný
 
 [Returns contact amount, excluding user account]
 
-[Ansi Text]
+[ANSI Text]
 
 [Removes all settings for the specified module]
 
@@ -637,7 +641,7 @@ Zrušit ignorování kontaktu
 Název stanice
 [wParam is Handle]
 
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 
 [wParam is Unicode station name]
 
@@ -701,9 +705,9 @@ Zobrazit text
 
 [filter text]
 
-[wParam is unicode]
+[wParam is Unicode]
 
-[wParam is Ansi]
+[wParam is ANSI]
 
 [Reserved]
 Extra č.1
@@ -723,7 +727,7 @@ Extra č.1
 
 [Opens message window for contact with handle in wparam]
 
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 
 [Call avatar option dialog for contact]
 
@@ -739,9 +743,9 @@ Název souboru
 
 [Open URL in default browser]
 
-[With formating]
+[With formatting]
 
-[Don't use formating]
+[Don't use formatting]
 
 [Returns a string containing the versioninfo post]
 

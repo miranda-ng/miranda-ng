@@ -207,12 +207,6 @@ Gadu-Gadu номер:
 [Incoming image]
 Входящо изображение
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-Мъж
-[Female]
-Жена
-[<not specified>]
-<неуточнено>
 [<Last Status>]
 <Последно състояние>
 [System tray icon]
@@ -227,10 +221,6 @@ Gadu-Gadu номер:
 Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
-[Your details has been uploaded to the public directory.]
-Вашите подробности са качени в публичната директория.
-[You have to be logged in before you can change your details.]
-Трябва да се впишете преда да промените подробностите за себе си.
 [Network]
 Мрежа
 [General]
@@ -239,6 +229,16 @@ Gadu-Gadu номер:
 Конференция
 [Advanced]
 Разширени
+[Male]
+Мъж
+[Female]
+Жена
+[<not specified>]
+<неуточнено>
+[Your details has been uploaded to the public directory.]
+Вашите подробности са качени в публичната директория.
+[You have to be logged in before you can change your details.]
+Трябва да се впишете преда да промените подробностите за себе си.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

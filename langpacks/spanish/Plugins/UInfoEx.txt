@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@ horas
 
 [Time of last check:]
 
-[Automatically backup and keep protocol based birthdays up to date]
-
 [Play sound]
 Reproducir sonido
 [Use ignore list]
@@ -203,8 +201,6 @@ Iconos
 [Scan subcontacts for missing information]
 
 [Enable extended 'send/receive e-mail' service (*)]
-
-[Use Windows timezone]
 
 [(*) Requires Miranda to be restarted.]
 
@@ -361,8 +357,6 @@ Edad:
 
 [Creating the label for a page failed with %d and error code %d]
 
-[The dialog template type is no longer supported]
-
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 
@@ -442,22 +436,6 @@ Error
 
 [Details dialog failed to be created. Returning error is %d.]
 
-[General]
-General
-[Contact (private)]
-
-[Anniversaries]
-
-[Work]
-Trabajo
-[Contact (work)]
-
-[About]
-Acerca de...
-[Profile]
-Perfil
-[Notes]
-Notas
 [Export to file]
 Importar a archivo
 [Import from file]
@@ -606,8 +584,6 @@ Ver/Modificar mis datos...
 
 [Import all contacts]
 
-[Backup birthdays]
-
 [Export/import group]
 
 [&Export group]
@@ -623,6 +599,10 @@ Ver/Modificar mis datos...
 Mis notas:
 [About:]
 Acerca de:
+[About]
+Acerca de...
+[Notes]
+Notas
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 
@@ -630,11 +610,18 @@ Acerca de:
 
 [Do you really want to delete the %s?]
 
+[General]
+General
+[Anniversaries]
+
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Trabajo
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-inicio
 [Open in browser]
 
+[home]
+inicio
 [Primary e-mail]
 
 [Secondary e-mail]
@@ -645,6 +632,11 @@ inicio
 
 [company]
 
+[Contact (private)]
+
+[Contact (work)]
+
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 
@@ -670,6 +662,7 @@ Avanzado
 
 [Popups]
 Ventanas emergentes
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 
@@ -677,9 +670,9 @@ Ventanas emergentes
 
 [Interest]
 
-[Sorry, but there is a problem with adding a new item of type "%s"]
-
 [<empty>]
+
+[Sorry, but there is a problem with adding a new item of type "%s"]
 
 [Edit category]
 
@@ -689,6 +682,8 @@ Ventanas emergentes
 
 [Do you really want to delete this entry?]
 
+[Profile]
+Perfil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 
@@ -1112,8 +1107,6 @@ Enviar e-mail
 [\nShe becomes %d years old.]
 
 [No anniversaries to remind of]
-
-[Backing up and syncing all birthdays complete!]
 
 [Reminders]
 

@@ -9,7 +9,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 [Become idle if the following is left unattended:]
 Devient "Inactif" si inactivité de :
@@ -1589,8 +1589,12 @@ Programme en plein écran
 Vous ne pouvez pas régler le délai par défaut à 0.\nLa valeur a été resetée.
 [Example]
 Exemple
+[The quick brown fox jumps over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
 [Example With a Long Title]
 Exemple avec un long titre
+[Thequickbrownfoxjumpsoverthelazydog.]
+Lerapiderenardbrunasautépau-dessuslechienparesseux.
 [An avatar.]
 Un avatar.
 [Popups]
@@ -1647,18 +1651,12 @@ Portable
 Téléphone professionnel
 [Work fax]
 Fax professionnel
-[Male]
-Homme
-[Female]
-Femme
-[<not specified>]
-<non spécifié>
-[In love]
-Amoureux
-[Summary]
-Résumé
 [Contact]
 Contact
+[<not specified>]
+<non spécifié>
+[Summary]
+Résumé
 [Location]
 Lieu
 [Work]
@@ -1671,6 +1669,12 @@ Notes
 Propriétaire
 [View/change my &details...]
 Voir/Changer mes &détails...
+[Male]
+Homme
+[Female]
+Femme
+[In love]
+Amoureux
 [%s is online]
 %s est en ligne
 [Alerts]
@@ -2141,14 +2145,14 @@ Bienvenue dans le gestionnaire de comptes de Miranda NG!\nIci, vous pourrez conf
 Ce compte a été désactivé; Vous devez le réactiver afin d'accéder à ses options.
 [New account]
 Nouveau compte
+[Rename]
+Renommer
 [Remove account]
 Effacer ce compte
 [Configure...]
 Configurer...
 [Upgrade account]
 Mettre à jour
-[Rename]
-Renommer
 [Configure]
 Configurer
 [Upgrade]
@@ -3621,6 +3625,8 @@ Avatars
 Mon avatar
 [My Global Avatar Cache]
 Cache de l'avatar général
+[Avatar]
+Avatar
 [Global avatar]
 Avatar général
 [Set avatar options for %s]
@@ -3635,10 +3641,6 @@ Contact sans avatar
 Contacts
 [Protocols]
 Protocoles
-[Are you sure you want to remove your avatar?]
-Êtes-vous sûr de vouloir effacer cet avatar ?
-[Avatar]
-Avatar
 [All files]
 Tous les fichiers
 [Windows bitmaps]
@@ -3657,6 +3659,8 @@ Fichiers XML
 Changer mon avatar
 [Set my avatar for %s]
 Changer mon avatar pour %s
+[Are you sure you want to remove your avatar?]
+Êtes-vous sûr de vouloir effacer cet avatar ?
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -6248,13 +6252,11 @@ Panique dans la Base de données !
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Automatic backups]
 Sauvegardes automatiques
-[Disabled]
-Désactivé
 [When Miranda starts]
 Au démarrage de Miranda
 [When Miranda exits]
@@ -6265,8 +6267,6 @@ Tous les :
 Nombre de sauvegarde à conserver :
 [Backup to folder:]
 Dossier de sauvegarde :
-[Disable progress bar]
-Désactiver la barre de progression
 [Backup NOW]
 Sauvegarder
 [Cancel]
@@ -7057,12 +7057,6 @@ Liste importée avec succès.
 Liste effacée avec succès.
 [List export successful.]
 Liste exportée avec succès.
-[Male]
-Homme
-[Female]
-Femme
-[<not specified>]
-<non spécifié>
 [<Last Status>]
 <Dernier État>
 [System tray icon]
@@ -7081,6 +7075,12 @@ Général
 Chat
 [Advanced]
 Avancé
+[Male]
+Homme
+[Female]
+Femme
+[<not specified>]
+<non spécifié>
 [HTTP failed memory]
 Erreur HTTP : mémoire
 [HTTP failed connecting]
@@ -9363,8 +9363,6 @@ Avancé
 Réseau XMPP publique
 [Secure XMPP Network]
 Réseau XMPP sécurisé
-[Google Talk!]
-Google Talk!
 [S.ms]
 S.ms
 [Some changes will take effect the next time you connect to the Jabber network.]
@@ -10179,6 +10177,8 @@ Changements d'état
 Notifications
 [Hide offline users]
 Cacher les contacts hors ligne
+[Typing notifications]
+Notification de frappe
 [Appearance]
 Apparence
 [Notifications]
@@ -10727,6 +10727,8 @@ Voir la date
 Voir l'heure
 [Show headers]
 Voir l'en-tête
+[Number of messages being shown]
+Nombre de messages affichés au début
 [Last message display first]
 Dernier message en premier
 [Last message display last]
@@ -10929,6 +10931,8 @@ Paramètres par défaut
 Aide (variables)
 [Test contact]
 Test : Contact
+[The quick brown fox jumps over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
 [timestamp]
 Heure
 [month]
@@ -11042,10 +11046,10 @@ Comptes
 Fichiers son
 [All files]
 Tous les fichiers
-[Status]
-État
 [** All contacts **]
 ** Tous les contacts **
+[Status]
+État
 [(default sound)]
 (son par défaut)
 [<no status message>]
@@ -11894,7 +11898,7 @@ Inconnu
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -12034,7 +12038,7 @@ Ajoute une entrée dans le menu principal pour charger un nouveau profil ou red�
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Content and Style]
@@ -12549,7 +12553,7 @@ Erreur inconnue
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -12782,6 +12786,8 @@ Ne pas afficher automatiquement la fenêtre en joignant un salon
 Afficher date/heure pour tous les évènements
 [Only prefix with timestamp if it has changed]
 N'afficher l'heure que si elle change
+[Timestamp has same color as the event]
+Date/heure de la même couleur que l'évènement
 [Indent the second line of a message]
 Mettre la deuxième ligne d'un message en retrait
 [Appearance]
@@ -12856,7 +12862,7 @@ Partir (10x10)
 Quitter (10x10)
 [Kick (10x10)]
 Botter (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Changer de pseudo (10x10)
 [Topic (10x10)]
 Sujet (10x10)
@@ -13923,7 +13929,7 @@ Barre d'outils
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.2
+;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -13968,7 +13974,7 @@ session chat fermée
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Restore defaults]
@@ -14014,7 +14020,7 @@ Avancé
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Show these events]
@@ -14051,8 +14057,6 @@ Ajouter salons au groupe :
 Sauvegarde du journal
 [Log directory]
 Répertoire
-[Maximum size for log files (in KB)]
-Taille maxi du journal (en KB)
 [Your name]
 Votre nom
 [Other name]
@@ -14197,6 +14201,8 @@ Afficher la notification de frappe quand une fenêtre est ouverte
 Afficher une notification quand aucune fenêtre n'est ouverte
 [Show balloon tooltip in the system tray]
 Afficher une bulle d'info dans le Systray
+[Show popups when a user is typing]
+Afficher un popup quand le contact écrit
 [More about typing notifications]
 Plus d'info sur la notification de frappe (en anglais)
 [Tab options]
@@ -14557,7 +14563,7 @@ Quitter (10x10)
 Botter (10x10)
 [Notice (10x10)]
 Note (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Changer de pseudo (10x10)
 [Topic (10x10)]
 Sujet (10x10)
@@ -14595,6 +14601,8 @@ Ne pas afficher automatiquement la fenêtre en joignant un salon
 Synchroniser la position du séparateur avec les fenêtres standards
 [Prefix all events with a timestamp]
 Afficher date/heure pour tous les évènements
+[Only prefix with timestamp if it has changed]
+N'afficher l'heure que si elle change
 [Timestamp has same color as the event]
 Date/heure de la même couleur que l'évènement
 [Indent the second line of a message]
@@ -14803,6 +14811,8 @@ Copier le texte sélectionné
 Test : Contact
 [Template set editor]
 Éditeur de modèles
+[The quick brown fox jumps over the lazy dog.]
+Le rapide renard brun a sauté par-dessus le chien paresseux.
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 Ceci remettra tous vos modèles à l'état d'origine. Êtes-vous sûr de vouloir continuer ?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -14955,6 +14965,8 @@ Changer le skin
 ... vous écrit un message.
 [Popups]
 Popups
+[Typing notifications]
+Notification de frappe
 [TabSRMM message (%s)]
 Message TabSRMM (%s)
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
@@ -15232,7 +15244,7 @@ Homme
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Preview]
@@ -15553,7 +15565,7 @@ Popups
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit contact information]
@@ -15708,8 +15720,6 @@ Vérifier la version du Pack d'icône pour éviter tout défaut d'affichage
 Afficher des icônes sur chaque boite de dialogue
 [Scan subcontacts for missing information]
 Scanner les sous contacts pour les informations manquantes
-[Use Windows timezone]
-Fuseau horaire de Windows
 [(*) Requires Miranda to be restarted.]
 (*) Requiert un redémarrage de Miranda.
 [Reset factory defaults]
@@ -15850,22 +15860,6 @@ Erreur
 Mise à jour des détails
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
 Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin de mettre à jour les infos sur le serveur.\nVos changements ne seront que sauvegardés dans votre profil Miranda.
-[General]
-Général
-[Contact (private)]
-Contact (privé)
-[Anniversaries]
-Anniversaires
-[Work]
-Travail
-[Contact (work)]
-Contact (professionnel)
-[About]
-À propos
-[Profile]
-Profil
-[Notes]
-Notes
 [Export to file]
 Exporter vers un fichier
 [Import from file]
@@ -15928,16 +15922,30 @@ Importer tous les contacts
 Mes notes :
 [About:]
 À propos :
+[About]
+À propos
+[Notes]
+Notes
 [Please enter a valid description first!]
 Veuillez commencer par entrer une description valide !
 [Do you really want to delete the %s?]
 Voulez-vous vraiment effacer l'entrée \"%s\" ?
-[home]
-domicile
+[General]
+Général
+[Anniversaries]
+Anniversaires
+[Work]
+Travail
 [Open in browser]
 Ouvrir dans le navigateur
+[home]
+domicile
 [company]
 société
+[Contact (private)]
+Contact (privé)
+[Contact (work)]
+Contact (professionnel)
 [Question]
 Question
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -15966,6 +15974,8 @@ Modifier la catégorie
 Définir cette valeur
 [Do you really want to delete this entry?]
 Voulez-vous vraiment supprimer cette information ?
+[Profile]
+Profil
 [Afrikaans]
 Afrikaans
 [Albanian]
@@ -16291,6 +16301,51 @@ Intérêts
 Musique
 [Games]
 Jeux
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Background color]
+Couleur de fond
+[Text color]
+Couleur du texte
+[Use Windows colors]
+Utiliser les couleurs Windows
+[Use default colors]
+Couleurs par défaut
+[From popup plugin]
+Comme le plugin Popup
+[Custom]
+Défini
+[On right click:]
+Clic droit :
+[On left click:]
+Clic gauche :
+[Preview]
+Aperçu
+[Frame]
+Images
+[Audio]
+Audio
+[Voice Calls]
+Appels vocaux
+[Main]
+Principales
+[Talking]
+discute
+[Background]
+Arrière-plan
+[Test Contact]
+Test : Contact
+[Test description]
+Test : Description
+[Popups]
+Popups
+[General]
+Général
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -17135,7 +17190,7 @@ Popups
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.6
+;  Version: 0.4.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
@@ -17184,14 +17239,6 @@ Date :
 Sauver
 [Delete]
 Effacer
-[Nothing]
-Rien
-[Message window]
-Fenêtre de message
-[All contacts]
-tous les contacts
-[%S protocol]
-%S protocole
 [Unknown]
 Inconnu
 [Protocol]
@@ -17200,8 +17247,6 @@ Protocole
 Contact
 [Check for birthdays]
 Vérifier si anniversaire
-[Contacts]
-Contacts
 [Refresh user details]
 Rafraîchir les détails
 [Import birthdays]
@@ -17212,6 +17257,14 @@ Exporter vos anniversaires
 Anniversaire - %s
 [%s\n%s will be %d years old.]
 %s\n%s aura %d ans.
+[Nothing]
+Rien
+[Message window]
+Fenêtre de message
+[All contacts]
+tous les contacts
+[Contacts]
+Contacts
 [Starting to refresh user details]
 Début du rafraîchissement
 [Done refreshing user details]

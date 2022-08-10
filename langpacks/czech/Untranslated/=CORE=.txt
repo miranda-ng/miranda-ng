@@ -10,6 +10,7 @@
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 [View user's history (Ctrl+H)]
 [StdMsg internal log]
+[Page]
 [In a civil union]
 [&Open/close chat window]
 [&Mute chat]

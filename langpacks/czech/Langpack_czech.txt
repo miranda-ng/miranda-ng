@@ -12,7 +12,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
@@ -1170,7 +1170,7 @@ Režim šifrování databáze
 Standardní
 [Total]
 Celkem
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Pouze kritická data jsou šifrována (hesla, bezpečnostní tokeny, atd.). Všechna ostatní nastavení a historie zůstanou čitelná.
 [Set password]
 Nastavit heslo
@@ -1808,12 +1808,30 @@ Mobil
 Telefon (práce)
 [Work fax]
 Fax (práce)
+[Contact]
+Kontakt
+[<not specified>]
+<neurčeno>
+[Summary]
+Souhrn
+[Location]
+Umístění
+[Work]
+Práce
+[Background info]
+Profil
+[Notes]
+Poznámky
+[Owner]
+Něco o sobě
+[Folder]
+Složka
+[View/change my &details...]
+In&formace o sobě...
 [Male]
 muž
 [Female]
 žena
-[<not specified>]
-<neurčeno>
 [Single]
 svobodný/á
 [Close relationships]
@@ -1834,22 +1852,6 @@ aktivně hledám
 zamilovaný/á
 [It's complicated]
 je to komplikované
-[Summary]
-Souhrn
-[Contact]
-Kontakt
-[Location]
-Umístění
-[Work]
-Práce
-[Background info]
-Profil
-[Notes]
-Poznámky
-[Owner]
-Něco o sobě
-[View/change my &details...]
-In&formace o sobě...
 [%s is online]
 %s je online
 [Alerts]
@@ -2508,14 +2510,14 @@ Vítejte ve správci účtů programu Miranda NG!\nZde si můžete založit nov�
 Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
 Zřídit účet
+[Rename]
+Přejmenovat
 [Remove account]
 Smazat účet
 [Configure...]
 Nastavit...
 [Upgrade account]
 Aktualizovat účet
-[Rename]
-Přejmenovat
 [Configure]
 Nastavit...
 [Upgrade]
@@ -3281,7 +3283,7 @@ Nápověda pro strukturu
 Jméno
 [Plugin]
 Doplněk
-[Descr]
+[Description]
 Popis
 [&Change]
 Z&měnit...
@@ -4330,6 +4332,8 @@ Avatary
 Osobní avatary
 [My Global Avatar Cache]
 Úložiště avatarů
+[Avatar]
+Avatar
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s
 [Global avatar]
@@ -4350,12 +4354,6 @@ Protokoly
 Avatary kontaktů
 [Own avatars]
 Vlastní avatary
-[No avatar]
-Bez avataru
-[Are you sure you want to remove your avatar?]
-Opravdu chcete odstranit svůj avatar?
-[Avatar]
-Avatar
 [All files]
 Všechny soubory
 [Windows bitmaps]
@@ -4376,6 +4374,10 @@ Upravit rozměry na max. velikost danou protokolem
 Nastavit avatar
 [Set my avatar for %s]
 Nastavit avatar pro %s
+[No avatar]
+Bez avataru
+[Are you sure you want to remove your avatar?]
+Opravdu chcete odstranit svůj avatar?
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -4501,7 +4503,7 @@ Exportovat do
 Komprimovat výstupní soubory
 [Password]
 Heslo
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Nahrát na FTP (vyžadováno WinSCP)
 [Session name]
 Název relace
@@ -4765,7 +4767,7 @@ Neplatná hodnota '%s'.\n%s
 ** Použijte <ext> pro vložení přípony, <contact> pro vložení jména kontaktu
 [Input files are compressed]
 Vstupní soubory jsou komprimovány
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Stáhnout z FTP (vyžadováno WinSCP)
 [Import from]
 Importovat z
@@ -8213,15 +8215,15 @@ Umožňuje čtení a zápis dat do uživatelského profilu: globální nastaven�
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Doplněk pro zálohování databáze.
 [Automatic backups]
 Automatické zálohování
-[Disabled]
-Vypnuto
+[Enabled]
+Zapnuto
 [When Miranda starts]
 Při spuštění Mirandy
 [When Miranda exits]
@@ -8240,8 +8242,8 @@ Nastavení změníte v Možnosti -> Vlastní úpravy -> Složky
 Komprimovat zálohu do zip-archivu
 [Backup profile folder]
 Složka pro zálohy profilu
-[Disable progress bar]
-Vypnout ukazatel průběhu
+[Enable progress bar]
+Aktivovat ukazatel průběhu
 [Use CloudFile]
 Použít CloudFile
 [Backup NOW]
@@ -8776,7 +8778,7 @@ Ikony
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and an IP-to-Country database.]
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
 Doplněk umožňuje zjištění země podle IP adresy a zobrazení příslušné vlajky.
 [Country Flags]
 Vlajky zemí
@@ -9272,12 +9274,6 @@ Přihlásili jste se z jiného místa
 Jste přihlášeni z jiného místa
 [Incoming image]
 Příchozí obrázek
-[Male]
-muž
-[Female]
-žena
-[<not specified>]
-<neurčeno>
 [<Last Status>]
 <poslední stav>
 [System tray icon]
@@ -9292,10 +9288,6 @@ Nejdříve je nutné zadat registrační e-mail.
 Heslo bude odesláno na Váš e-mail.\nChcete pokračovat?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Před změnou nastavení účtu doporučujeme odpojení od sítě.\nChcete se odpojit od sítě Gadu-Gadu?
-[Your details has been uploaded to the public directory.]
-Vaše údaje byly nahrány na veřejného adresáře.
-[You have to be logged in before you can change your details.]
-Musíte být přihlášeni pro změnu vašich údajů.
 [Network]
 Sítě
 [General]
@@ -9304,6 +9296,16 @@ Obecné
 Konference
 [Advanced]
 Extra
+[Male]
+muž
+[Female]
+žena
+[<not specified>]
+<neurčeno>
+[Your details has been uploaded to the public directory.]
+Vaše údaje byly nahrány na veřejného adresáře.
+[You have to be logged in before you can change your details.]
+Musíte být přihlášeni pro změnu vašich údajů.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -13092,8 +13094,6 @@ Automaticky přidat kontakt po úspěšné autorizaci
 Automaticky přijímat žádosti o autorizaci
 [Fix incorrect timestamps in incoming messages]
 Opravovat neplatné datum příchozích zpráv
-[Disable frame]
-Vypnout zobrazení rámečku
 [Enable XMPP link processing (requires AssocMgr)]
 Povolit práci s odkazy (vyžaduje doplněk AssocMgr)
 [Security]
@@ -13102,8 +13102,6 @@ Zabezpečení
 Povolit žádosti serveru o verzi (XEP-0092)
 [Show information about operating system in version replies]
 S verzí zobrazit zároveň i informace o operačním systému
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Povolit přenos dat pouze přes server (pomalejší, ale anonymní)
 [Accept HTTP Authentication requests (XEP-0070)]
 Povolit ověření pomocí HTTP a XMPP (XEP-0070)
 [General]
@@ -13144,8 +13142,6 @@ XMPP (veřejná síť)
 XMPP (zabezpečená síť)
 [Secure XMPP Network (old style)]
 XMPP (zabezpečená síť, starší typ)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -13424,12 +13420,6 @@ Prozatím nefunguje
 Neznámá chyba
 [Unknown error message]
 Neznámé chybové hlášení
-[Advanced Status]
-Pokročilý stav
-[Set mood...]
-Zadat náladu...
-[Set activity...]
-Zadat činnost...
 [Male]
 muž
 [Female]
@@ -13616,6 +13606,8 @@ nedefinováno
 oslabenost
 [Worried]
 obavy
+[Set mood...]
+Zadat náladu...
 [Set Mood]
 Zadání nalády
 [Mood: %s]
@@ -13774,6 +13766,8 @@ na poradě
 studuji
 [writing]
 píšu
+[Set activity...]
+Zadat činnost...
 [Set Activity]
 Zadání činnosti
 [Activity: %s]
@@ -14534,6 +14528,8 @@ Poznámky
 znaků
 [Hide offline users]
 Skrýt uživatele offline
+[Typing notifications]
+Upozornění na psaní
 [Do nothing]
 Nedělat nic
 [Appearance]
@@ -16273,12 +16269,12 @@ Zvukové soubory
 Všechny soubory
 [Wave files]
 Soubory Wave
+[** All contacts **]
+** všechny kontakty **
 [Status]
 Stavy
 [Sound file]
 Zvukový soubor
-[** All contacts **]
-** všechny kontakty **
 [(default sound)]
 (výchozí zvuk)
 [<no status message>]
@@ -17389,7 +17385,7 @@ Neznámý
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -17595,7 +17591,7 @@ Databáze
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -18494,7 +18490,7 @@ Neznámá chyba
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -18755,7 +18751,7 @@ Přidat ':' k automaticky doplněným jménům
 Před každou událost přidat informaci o čase
 [Only prefix with timestamp if it has changed]
 Informaci o čase přidat pouze pokud se změní
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
@@ -18897,7 +18893,7 @@ Opustit (10x10)
 Ukončit (10x10)
 [Kick (10x10)]
 Vykopnout (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Změna přezdívky (10x10)
 [Topic (10x10)]
 Téma (10x10)
@@ -19551,6 +19547,8 @@ Odeslat zprávu
 Historie změn stavu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Datum: %d.%m.%y(%Y) \n Popis data: %W - %w - %E - %e \n Čas: %H:%M:%S (%h-%p) \n Uživatel: %n - %u \n Stav: %s \n IP: %i - %r
+[Clock]
+Čas
 [LastSeen]
 Naposledy spatřen
 [User status change]
@@ -21366,7 +21364,7 @@ Lišta tlačítek
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.2
+;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -21451,7 +21449,7 @@ ukončil komunikaci
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -21470,8 +21468,8 @@ Odpověď na žádost o autorizaci:
 Oddělovač:
 [Vars]
 Proměnné
-[Disable protection for following accounts:]
-Zakázat ochranu pro následující účty:
+[Enable protection for following accounts:]
+Aktivovat ochranu pro následující účty:
 [Do not send more than]
 Neposílat více než
 [questions to one contact (0 - for no limit)]
@@ -21569,7 +21567,7 @@ Extra
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -21612,8 +21610,6 @@ Soubory záznamů
 Aktivovat záznam
 [Log directory]
 Složka pro záznam
-[Maximum size for log files (in KB)]
-Maximální velikost souboru záznamu (v KB)
 [Group chat log formatting]
 Formát záznamu chatu
 [Your name]
@@ -22432,7 +22428,7 @@ Ukončit (10x10)
 Vykopnout (10x10)
 [Notice (10x10)]
 Poznámka (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Změna přezdívky (10x10)
 [Topic (10x10)]
 Téma (10x10)
@@ -22480,8 +22476,6 @@ Vytvořit panely nebo okna při zvýraznění
 Aktivovat okno chatu při zvýraznění
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
-[Colorize nicknames in member list]
-Obarvit přezdívky v seznamu uživatelů
 [Show topic as status message on the contact list]
 Zobrazit téma jako zprávu stavu v seznamu kontaktů
 [Do not pop up the window when joining a chat room]
@@ -22498,18 +22492,14 @@ Použít IRC indikátory stavu v seznamu účastníků
 Použít alternativní metodu třídění v seznamu uživatelů
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
-[Timestamp only when event time differs]
-Zobrazit časový údaj pouze pokud se liší
+[Only prefix with timestamp if it has changed]
+Časový údaj přidat pouze pokud se změní
 [Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
 [Limit user names in the message log to 20 characters]
 Omezit délku jmen v záznamu na 20 znaků
-[Add a colon (:) to auto-completed user names]
-Přidat dvojtečku za automaticky doplněné jméno
-[Add a comma instead of a colon to auto-completed user names]
-Přidat čárku místo dvojtečky za automaticky doplněné jméno
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
 [Strip colors from messages in the log]
@@ -22740,8 +22730,6 @@ Zobrazit okno serveru
 %s    Nečinný: %dh,%02dm
 [  Client: %s]
   Klient: %s
-[  Client not cached yet]
-  Klient není zjištěn
 [Topic is: %s]
 Téma je: %s
 [no topic set.]
@@ -23292,6 +23280,8 @@ Změnit skin
 ... píše zprávu.
 [Popups]
 Oznámení
+[Typing notifications]
+Upozornění na psaní
 [Contact started typing]
 Kontakt začal psát
 [Contact stopped typing]
@@ -24025,7 +24015,7 @@ BYTE na jazyk (ICQ)
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
@@ -24574,7 +24564,7 @@ Oznámení
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Edit contact information]
@@ -24683,8 +24673,6 @@ Zapnuto
 Kontrolovat při spuštění
 [Time of last check:]
 Naposledy zkontrolováno:
-[Automatically backup and keep protocol based birthdays up to date]
-Automaticky zálohovat a udržovat informace o narozeninách aktuální
 [Play sound]
 Přehrát zvuk
 [Use ignore list]
@@ -24769,8 +24757,6 @@ Metakontakty
 Vyhledat chybějící informace v podkontaktech
 [Enable extended 'send/receive e-mail' service (*)]
 Povolit rozšířenou službu 'poslat/přijmout e-mail' (*)
-[Use Windows timezone]
-Použít časové pásmo z Windows
 [(*) Requires Miranda to be restarted.]
 (*) Vyžaduje restart Mirandy
 [Reset factory defaults]
@@ -24917,8 +24903,6 @@ Obnovit výchozí
 Nepodařilo se vytvořit unikátní název stránky %d (chyba %d)
 [Creating the label for a page failed with %d and error code %d]
 Nepodařilo se vytvořit unikátní popisek stránky %d (chyba %d)
-[The dialog template type is no longer supported]
-Typ dialogových šablon již není podporován
 [Add a new anniversary]
 Přidat nové výročí
 [Delete an existing anniversary]
@@ -24991,22 +24975,6 @@ Nepodařilo se najít protokol kontaktu. Možná není aktivní.
 Nebyly přidány žádné stránky. Tvorba dialogu zrušena!
 [Details dialog failed to be created. Returning error is %d.]
 Nepodařilo se vytvořit dialog detailů. Návratový kód je %d
-[General]
-Obecné
-[Contact (private)]
-Kontakt (soukromý)
-[Anniversaries]
-Výročí
-[Work]
-Práce
-[Contact (work)]
-Kontakt (pracovní)
-[About]
-Informace
-[Profile]
-Profil
-[Notes]
-Poznámky
 [Export to file]
 Exportovat...
 [Import from file]
@@ -25151,8 +25119,6 @@ In&formace o sobě...
 Exportovat všechny kontakty
 [Import all contacts]
 Importovat všechny kontakty
-[Backup birthdays]
-Zazálohovat narozeniny
 [Export/import group]
 Export/import skupiny
 [&Export group]
@@ -25167,16 +25133,26 @@ Export/import skupiny
 Poznámky:
 [About:]
 Ostatní informace:
+[About]
+Informace
+[Notes]
+Poznámky
 [Please enter a valid description first!]
 Prosím zadejte nejdříve platný popis!
 [No valid date selected for editing!]
 Nebylo vybráno platné datum pro úpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
-[home]
-domov
+[General]
+Obecné
+[Anniversaries]
+Výročí
+[Work]
+Práce
 [Open in browser]
 Otevřít v prohlížeči
+[home]
+domov
 [Primary e-mail]
 Primární e-mail
 [Secondary e-mail]
@@ -25187,6 +25163,10 @@ Třetí e-mail
 Adresa a kontakt
 [company]
 Společnost:
+[Contact (private)]
+Kontakt (soukromý)
+[Contact (work)]
+Kontakt (pracovní)
 [Question]
 Otázka
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -25217,10 +25197,10 @@ Minulost
 Členství
 [Interest]
 Zájem
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [<empty>]
 <neuvedeno>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [Edit category]
 Upravit kategorii
 [Edit value]
@@ -25229,6 +25209,8 @@ Upravit hodnotu
 Smazat záznam
 [Do you really want to delete this entry?]
 Chcete opravdu smazat tuto položku
+[Profile]
+Profil
 [Afrikaans]
 afrikánština
 [Albanian]
@@ -25645,8 +25627,6 @@ Přezdívka: %s, zbývá dnů: %d
 \nOna oslaví %d. narozeniny.
 [No anniversaries to remind of]
 Není co připomenout z výročí
-[Backing up and syncing all birthdays complete!]
-Zálohování a synchronizace všech narozenin hotova!
 [Birthday reminder]
 Narozeniny
 [Birthday reminder: it's coming]
@@ -26158,6 +26138,131 @@ Zájmy
 Hudba
 [Games]
 Hry
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Enable popups]
+Povolit oznámení
+[ Colors ]
+ Barvy\s
+[Background color]
+Barva pozadí
+[Text color]
+Barva textu
+[Use Windows colors]
+Použít barvy Windows
+[Use default colors]
+Použít výchozí barvy
+[ Delay ]
+ Prodleva\s
+[From popup plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[ Actions ]
+ Akce 
+[On right click:]
+Pravé tlačítko
+[On left click:]
+Levé tlačítko
+[Preview]
+Náhled
+[New Voice Call]
+Nový hovor
+[Answer]
+Zvednout
+[Drop]
+Odmítnout
+[From now on, repeat this action for this contact]
+Pamatovat si volbu pro tento kontakt
+[Frame]
+Okno
+[Auto-size frame]
+Automatická velikost
+[Auto accept this contact calls]
+Automaticky přijmout volání
+[Auto drop this contacts calls]
+Automaticky odmítnout volání
+[Audio]
+Audio
+[Input:]
+Vstup:
+[Output:]
+Výstup:
+[Answer call]
+Zvednout
+[Drop call]
+Zavěsit
+[Hold call]
+Přidržet hovor
+[Voice Calls]
+Hovory
+[Main]
+Hlavní
+[Secure]
+Zabezpečeno
+[Talking]
+mluvím
+[Ringing]
+Vyzvánění
+[Calling]
+Volám
+[On Hold]
+Přidrženo
+[Ended]
+Zavěšeno
+[Answer Voice Call]
+Zvednout
+[Hold Voice Call]
+Přidržet
+[Drop Voice Call]
+Zavěsit
+[Started talking]
+Začátek hovoru
+[Calling a contact]
+Volání
+[Put a call on Hold]
+Přidržení hovoru
+[Call]
+Volat
+[Background]
+Pozadí
+[Do nothing]
+Nedělat nic
+[Close popup]
+Zavřít oznámení
+[Test Contact]
+Testovací kontakt
+[Test description]
+Testovací popis
+[Popups]
+Oznámení
+[General]
+Obecné
+[Auto actions]
+Akce
+[%s wants to start a voice call with you. What you want to do?]
+%s vám volá.
+[Voice call started]
+Hovor začal
+[Voice call]
+Hovor
+[Voice call on hold]
+Hovor je přidržen
+[Voice call ended]
+Hovor ukončen
+[Calling %s]
+Volám %s
+[Call from %s is on hold]
+Hovor s %s je přidržen
+[Call from %s has ended]
+Hovor s %s skončil
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -28596,13 +28701,11 @@ Dopl. PopUp
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.6
+;  Version: 0.4.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Přidává možnost upozornění na narozeniny.
-[Notify of birthdays:]
-Oznamovat narozeniny:
 [Popups]
 Oznámení
 [Popup timeout:]
@@ -28633,10 +28736,6 @@ Projít každých
 hod
 [Only notify once per day.]
 Upozornit jen jednou za den
-[By default use]
-Použít modul
-[to save birthday data.]
-k uložení data narození
 [Show]
 Zobrazit
 [in birthday list window]
@@ -28669,40 +28768,16 @@ Datum:
 Uložit
 [Delete]
 Smazat
-[Upcoming age]
-budoucí věk
-[Current age]
-současný věk
-[UserInfo module]
-UserInfo
-[Protocol module]
-protokolu
-[Nothing]
-Nic
-[Dismiss]
-Vyřízeno
-[Message window]
-Komunikační okno
-[All contacts]
-Všechny kontakty
-[All contacts except hidden ones]
-Všechny kontakty krom skrytých
-[All contacts except ignored ones]
-Všechny kontakty krom ignorovaných
-[All contacts except hidden and ignored ones]
-Všechny kontakty krom skrytých a ignorovaných
-[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Nastavit prodlevu oznámení při oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
 [Set birthday for %s:]
 Narozeniny: %s
-[%S protocol]
-%S protokol
 [N/A]
 <neuvedeno>
-[Unknown]
-neznámý
+[Protocol Module]
+protokolu
 [Birthday list (%d)]
 Seznam narozenin (%d)
+[Unknown]
+neznámý
 [Protocol]
 Protokol
 [Contact]
@@ -28717,10 +28792,6 @@ Věk
 Modul
 [Check for birthdays]
 Zjistit narozeniny
-[Birthdays]
-Narozeniny
-[Contacts]
-Kontakty
 [WhenWasIt]
 Kdy to bylo?
 [Refresh user details]
@@ -28765,6 +28836,30 @@ On/ona
 %s\nVěk (%s): %d let
 [%s\n%s just turned %d.]
 %s\nVěk (%s): %d let
+[Upcoming age]
+budoucí věk
+[Current age]
+současný věk
+[Nothing]
+Nic
+[Dismiss]
+Vyřízeno
+[Message window]
+Komunikační okno
+[All contacts]
+Všechny kontakty
+[All contacts except hidden ones]
+Všechny kontakty krom skrytých
+[All contacts except ignored ones]
+Všechny kontakty krom ignorovaných
+[All contacts except hidden and ignored ones]
+Všechny kontakty krom skrytých a ignorovaných
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
+Nastavit prodlevu oznámení při oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
+[Birthdays]
+Narozeniny
+[Contacts]
+Kontakty
 [Starting to refresh user details]
 Probíhá aktualizace informací o kontaktech
 [Done refreshing user details]

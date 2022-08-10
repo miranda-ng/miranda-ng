@@ -1,0 +1,181 @@
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Provide services for protocols that support voice calls]
+Предоставляет службы протоколам, поддерживающим голосовые вызовы
+;file \plugins\VoiceService\res\resource.rc
+[Enable popups]
+Включить всплывающие окна
+[ Colors ]
+ Цвета\s
+[Background color]
+Цвет фона
+[Text color]
+Цвет текста
+[Use Windows colors]
+Цвета Windows
+[Use default colors]
+Цвета по умолчанию
+[ Delay ]
+ Длительность/s
+[From popup plugin]
+По умолчанию
+[Custom]
+Настроить
+[Permanent]
+Постоянно
+[ Actions ]
+Действия по щелчку
+[On right click:]
+Правый щелчок:
+[On left click:]
+Левый щелчок:
+[Preview]
+Тест
+[New Voice Call]
+Новый вызов
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
+Вам звонит %s. Что вы хотите сделать?\n\nЕсли примете вызов, текущий вызов будет поставлен на удержание.
+[Answer]
+Ответить
+[Drop]
+Сбросить
+[From now on, repeat this action for this contact]
+Запомнить выбор для этого контакта
+[Frame]
+Фрейм
+[Auto-size frame]
+Автоматически выбирать размер фрейма
+[Automatic Actions]
+Автоматическое действие
+[Auto accept this contact calls]
+Всегда принимать вызовы от этого контакта
+[Auto drop this contacts calls]
+Всегда сбрасывать вызовы от этого контакта
+[Audio]
+Аудио
+[Input:]
+Вход:
+[Output:]
+Выход:
+[Echo cancelation]
+Подавление эха
+[Microphone boost]
+Усиление микрофона
+[Frame Popup]
+
+[Answer call]
+Ответить на вызов
+[Drop call]
+Сбросить вызов
+[Hold call]
+Удерживать вызов
+;file \plugins\VoiceService\src\frame.cpp
+[Show dialpad]
+Показать панель набора номера
+[Make call]
+Позвонить
+[Call with %s]
+Разговор с %s
+[Voice Calls]
+Вызовы
+;file \plugins\VoiceService\src\hooks.cpp
+[Main]
+Основной
+[Dialpad]
+Панель набора номера
+[Secure]
+Безопасность
+[Talking]
+Разговариваю
+[Ringing]
+Входящий вызов
+[Calling]
+Вызов
+[On Hold]
+На удержании
+[Ended]
+Завершён
+[Busy]
+Занят
+[Make Voice Call]
+Позвонить
+[Answer Voice Call]
+Ответить на вызов
+[Hold Voice Call]
+Удерживать вызов
+[Drop Voice Call]
+Сбросить вызов
+[Started talking]
+
+[Calling a contact]
+
+[Put a call on Hold]
+Поставить вызов на удержание
+[End of call]
+Завершить вызов
+[Busy signal]
+
+[Call %s with %s]
+
+[Call]
+Вызов
+[%s with %s]
+%s с %s
+[with %s]
+с %s
+[Background]
+Фон
+[Dialpad press]
+
+;file \plugins\VoiceService\src\options.cpp
+[Do nothing]
+Ничего не делать
+[Close popup]
+Закрыть всплывающее окно
+[Test Contact]
+Тестовый контакт
+[Test description]
+Тестовое описание
+[Popups]
+Всплывающие окна
+[General]
+Общее
+[Auto actions]
+Автоматическое действие
+;file \plugins\VoiceService\src\services.cpp
+[%s wants to start a voice call with you. What you want to do?]
+Вам звонит %s. Что вы хотите сделать?
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
+Вам звонит %s. Что вы хотите сделать?\n\nЕсли примете вызов, текущий вызов будет сброшен.
+;file \plugins\VoiceService\src\VoiceCall.cpp
+[Voice call started]
+Вызов принят
+[Voice call ringing]
+Входящий вызов
+[Voice call]
+Вызов
+[Voice call on hold]
+Вызов на удержании
+[Voice call ended]
+Вызов завершён
+[Voice call busy]
+Абонент занят
+[Call from %s has started]
+Вызов от %s принят
+[Call from %s is ringing]
+Входящий вызов от %s
+[Calling %s]
+Вызов от %s
+[Call from %s is on hold]
+Вызов от %s на удержании
+[Call from %s has ended]
+Вызов от %s завершён
+[%s is busy]
+%s занят
+[Unknown number]
+Неизвестный номер

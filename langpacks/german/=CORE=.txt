@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Datenbank-Verschlüsselungsmodus
 Standard
 [Total]
 Komplett
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen.
@@ -1863,13 +1863,35 @@ Mobiltelefon
 Arbeitstelefon
 [Work fax]
 Arbeitsfax
+[Contact]
+Kontakt
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<nicht angegeben>
+[Summary]
+Zusammenfassung
+[Location]
+Ort
+[Work]
+Arbeit
+[Background info]
+Hintergrund-Info
+[Notes]
+Notizen
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Inhaber
+[Folder]
+Ordner
+[Page]
+
+[View/change my &details...]
+Mein Profil än&dern...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 männlich
 [Female]
 weiblich
-[<not specified>]
-<nicht angegeben>
 [Single]
 Single
 [Close relationships]
@@ -1892,23 +1914,6 @@ Verliebt
 Es ist kompliziert
 [In a civil union]
 Eingetragene Partnerschaft
-[Summary]
-Zusammenfassung
-[Contact]
-Kontakt
-[Location]
-Ort
-[Work]
-Arbeit
-[Background info]
-Hintergrund-Info
-[Notes]
-Notizen
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Inhaber
-[View/change my &details...]
-Mein Profil än&dern...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s ist online
@@ -2659,14 +2664,14 @@ Willkommen in der Miranda-NG-Kontoverwaltung!\nHier können Sie Ihre IM-Konten e
 Konto ist deaktiviert. Bitte aktivieren Sie es, um auf die Kontoeinstellungen zugreifen zu können.
 [New account]
 Neues Konto
+[Rename]
+Umbenennen
 [Remove account]
 Konto entfernen
 [Configure...]
 Einstellungen...
 [Upgrade account]
 Konto aktualisieren
-[Rename]
-Umbenennen
 [Configure]
 Einstellungen
 [Upgrade]

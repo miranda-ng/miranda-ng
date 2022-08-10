@@ -78,6 +78,8 @@ Popup цветове
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 
 ;file \plugins\SeenPlugin\src\main.cpp
+[Clock]
+Час
 [LastSeen]
 
 [User status change]

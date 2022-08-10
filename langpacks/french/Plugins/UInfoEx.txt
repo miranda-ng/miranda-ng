@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@ Faire clignoter l'icône
 Lancer la vérification à chaque démarrage
 [Time of last check:]
 Dernière vérification :
-[Automatically backup and keep protocol based birthdays up to date]
-
 [Play sound]
 
 [Use ignore list]
@@ -204,8 +202,6 @@ Afficher des icônes sur chaque boite de dialogue
 Scanner les sous contacts pour les informations manquantes
 [Enable extended 'send/receive e-mail' service (*)]
 
-[Use Windows timezone]
-Fuseau horaire de Windows
 [(*) Requires Miranda to be restarted.]
 (*) Requiert un redémarrage de Miranda.
 [Reset factory defaults]
@@ -361,8 +357,6 @@ Voir les éléments :
 
 [Creating the label for a page failed with %d and error code %d]
 
-[The dialog template type is no longer supported]
-
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Ajouter un anniversaire
@@ -442,22 +436,6 @@ Vous n'êtes actuellement pas connecté à ICQ.\nVous devez être connecté afin
 
 [Details dialog failed to be created. Returning error is %d.]
 
-[General]
-Général
-[Contact (private)]
-Contact (privé)
-[Anniversaries]
-Anniversaires
-[Work]
-Travail
-[Contact (work)]
-Contact (professionnel)
-[About]
-À propos
-[Profile]
-Profil
-[Notes]
-Notes
 [Export to file]
 Exporter vers un fichier
 [Import from file]
@@ -606,8 +584,6 @@ Voir/Changer mes &détails...
 Exporter tous les contacts
 [Import all contacts]
 Importer tous les contacts
-[Backup birthdays]
-
 [Export/import group]
 
 [&Export group]
@@ -623,6 +599,10 @@ Importer tous les contacts
 Mes notes :
 [About:]
 À propos :
+[About]
+À propos
+[Notes]
+Notes
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Veuillez commencer par entrer une description valide !
@@ -630,11 +610,18 @@ Veuillez commencer par entrer une description valide !
 
 [Do you really want to delete the %s?]
 Voulez-vous vraiment effacer l'entrée \"%s\" ?
+[General]
+Général
+[Anniversaries]
+Anniversaires
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Travail
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-domicile
 [Open in browser]
 Ouvrir dans le navigateur
+[home]
+domicile
 [Primary e-mail]
 
 [Secondary e-mail]
@@ -645,6 +632,11 @@ Ouvrir dans le navigateur
 
 [company]
 société
+[Contact (private)]
+Contact (privé)
+[Contact (work)]
+Contact (professionnel)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Question
@@ -670,6 +662,7 @@ Avancé
 Détails de la fenêtre
 [Popups]
 Popups
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 
@@ -677,10 +670,10 @@ Popups
 
 [Interest]
 Centres d'intérêt
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Désolé, mais il y a un problème avec l'ajout d'élément de type "%s"
 [<empty>]
 
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Désolé, mais il y a un problème avec l'ajout d'élément de type "%s"
 [Edit category]
 Modifier la catégorie
 [Edit value]
@@ -689,6 +682,8 @@ Définir cette valeur
 
 [Do you really want to delete this entry?]
 Voulez-vous vraiment supprimer cette information ?
+[Profile]
+Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Afrikaans
@@ -1113,8 +1108,6 @@ un anniversaire
 
 [No anniversaries to remind of]
 Aucun anniversaire pour
-[Backing up and syncing all birthdays complete!]
-
 [Reminders]
 
 [Birthday reminder]

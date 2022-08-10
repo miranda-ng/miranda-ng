@@ -37,7 +37,7 @@
 Повертає шлях до вашого профілю - значення, знайдене в mirandaboot.ini,
 [ProfileDir section (usually inside Miranda's folder).]
 у секції ProfileDir (зазвичай знаходиться в папці Miranda NG).
-[Expands to your current profile name without the extenstion.]
+[Expands to your current profile name without the extension.]
 Повертає ім'я вашого профілю без розширення.
 [(e.g., default if your your profile is default.dat).]
 (наприклад, default, якщо ваш профіль default.dat).

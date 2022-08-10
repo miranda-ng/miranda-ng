@@ -207,12 +207,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 [Incoming image]
 Входящее изображение
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-Мужской
-[Female]
-Женский
-[<not specified>]
-<не указано>
 [<Last Status>]
 <Последний статус>
 [System tray icon]
@@ -227,10 +221,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-Вы должны войти в систему, прежде чем сможете изменить свои данные.
 [Network]
 Сеть
 [General]
@@ -239,6 +229,16 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Комната чата
 [Advanced]
 Дополнительно
+[Male]
+Мужской
+[Female]
+Женский
+[<not specified>]
+<не указано>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+Вы должны войти в систему, прежде чем сможете изменить свои данные.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

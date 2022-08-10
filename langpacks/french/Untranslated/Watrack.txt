@@ -101,7 +101,7 @@
 [Tunes]
 [Check all marked players for active (started and playing) or stop at first founded]
 [Check all players]
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 [User music info text]
 [(%artist%, %title%, %album% and %year% macros can be used only)]
 [Enable Plugin]

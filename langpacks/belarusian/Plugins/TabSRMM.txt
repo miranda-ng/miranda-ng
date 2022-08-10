@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@
 Трэй
 [Options]
 Налады
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Дадаваць чаты ў гурт:
 [Log files]
@@ -46,8 +48,8 @@
 Уключыць запіс лога
 [Log directory]
 Тэчка лога
-[Maximum size for log files (in KB)]
-Максімальны памер лога (у КБ)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Фарматаванне лога чатаў
 [Your name]
@@ -873,7 +875,7 @@ RTL па змаўчанні
 Выгнаць (10х10)
 [Notice (10x10)]
 Абвестка (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Змена мянушкі (10х10)
 [Topic (10x10)]
 Тэма (10х10)
@@ -925,8 +927,8 @@ RTL па змаўчанні
 Актываваць вакно чата пры падсветленай падзеі
 [Show list of users in the chat room]
 Паказваць спіс удзельнікаў чата
-[Colorize nicknames in member list]
-Каляровыя мянушкі ў спісе
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Паказаць тэму чата ў спісе кантактаў як паведамленне статусу
 [Do not pop up the window when joining a chat room]
@@ -943,7 +945,7 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 Альтэрнатыўнае сартаванне мянушак у спісе
 [Prefix all events with a timestamp]
 Падстаўляць час ва ўсе падзеі
-[Timestamp only when event time differs]
+[Only prefix with timestamp if it has changed]
 Падстаўляць час, калі ёсць змены
 [Timestamp has same color as the event]
 Час таго ж колеры, што і падзея
@@ -951,10 +953,6 @@ IRC-стыль (тэкставы) індыкатараў роляў удзель
 Водступ другога радка паведамлення
 [Limit user names in the message log to 20 characters]
 Абмежаваць імёны ў логе 20-ю знакамі
-[Add a colon (:) to auto-completed user names]
-Дадаваць ":" да імёнаў карыстачоў
-[Add a comma instead of a colon to auto-completed user names]
-
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Прыват пры падвойнай пстрычцы ў спісе мямнушак (інакш устаўляць мянушку)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ TabSRMM: Набірае
 %s    Чаканне: %dh,%02dm
 [  Client: %s]
   Кліент: %s
-[  Client not cached yet]
-  Невядомы кліент
 [Topic is: %s]
 Тэма: %s
 [no topic set.]

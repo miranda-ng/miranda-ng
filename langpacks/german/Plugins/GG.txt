@@ -207,12 +207,6 @@ Sie sind von einem anderen Ort aus angemeldet
 [Incoming image]
 Eingehendes Bild
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-männlich
-[Female]
-weiblich
-[<not specified>]
-<nicht angegeben>
 [<Last Status>]
 <Letzter Status>
 [System tray icon]
@@ -227,10 +221,6 @@ Fur die Anmeldung mussen Sie ihre registrierte E-Mail-Adresse erst angeben.
 Ihr Passwort wird zur Ihrer Registrierungs-E-Mail gesendet.\nMöchten Sie fortfahren?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Sie sollten die Verbindung trennen bevor sie permanente Änderungen mit ihrem Account vornehmen.\nWollen sie nun die Verbindung trennen?
-[Your details has been uploaded to the public directory.]
-Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
-[You have to be logged in before you can change your details.]
-Sie müssen sich einloggen bevor sie ihre Details ändern können.
 [Network]
 Netzwerk
 [General]
@@ -239,6 +229,16 @@ Allgemein
 Konferenz
 [Advanced]
 Erweitert
+[Male]
+männlich
+[Female]
+weiblich
+[<not specified>]
+<nicht angegeben>
+[Your details has been uploaded to the public directory.]
+Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
+[You have to be logged in before you can change your details.]
+Sie müssen sich einloggen bevor sie ihre Details ändern können.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s

@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ UIN, E-mail и т.д.
 Стандартный
 [Total]
 Полный
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Шифрование только критических данных (пароли, токены авторизации и т.п.). Остальные настройки и история остаются незашифрованными.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Шифрование всех строковых настроек и событий истории. Замедляет работу программы, а в случае утери пароля создаёт риск потери всего сохранённого в базе.
@@ -1863,13 +1863,35 @@ Miranda не смогла загрузить встроенную систему
 Рабочий телефон
 [Work fax]
 Рабочий факс
+[Contact]
+Контакт
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<не указано>
+[Summary]
+Резюме
+[Location]
+Место
+[Work]
+Работа
+[Background info]
+Биография
+[Notes]
+Заметки
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Владелец
+[Folder]
+Папка
+[Page]
+Страница
+[View/change my &details...]
+Личные &данные...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Мужской
 [Female]
 Женский
-[<not specified>]
-<не указано>
 [Single]
 В одиночестве
 [Close relationships]
@@ -1892,23 +1914,6 @@ Miranda не смогла загрузить встроенную систему
 Всё сложно
 [In a civil union]
 В незарегистрированном браке
-[Summary]
-Резюме
-[Contact]
-Контакт
-[Location]
-Место
-[Work]
-Работа
-[Background info]
-Биография
-[Notes]
-Заметки
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Владелец
-[View/change my &details...]
-Личные &данные...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s в сети
@@ -2659,14 +2664,14 @@ xСтатус
 Учётная запись отключена. Активируйте её для получения доступа к настройкам.
 [New account]
 Новая учётная запись
+[Rename]
+Переименовать
 [Remove account]
 Удалить
 [Configure...]
 Настройка...
 [Upgrade account]
 Модернизация
-[Rename]
-Переименовать
 [Configure]
 Настроить
 [Upgrade]

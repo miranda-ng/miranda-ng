@@ -497,7 +497,7 @@ xСъстояние
 Проверява всички маркирани плейъри за активност (стартирани и възпроизвеждащи) и спира при първия окрит
 [Check all players]
 Отметване на всички
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 Управление на плейъра чрез симулиране действието на мултимедийни клавиши
 [User music info text]
 

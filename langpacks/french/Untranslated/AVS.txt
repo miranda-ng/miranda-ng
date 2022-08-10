@@ -7,5 +7,5 @@
 [Global avatar for %s accounts]
 [Contact avatars]
 [Own avatars]
-[No avatar]
 [Grow avatar to fit max allowed protocol size]
+[No avatar]

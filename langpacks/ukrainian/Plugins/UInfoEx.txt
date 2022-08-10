@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@
 Перевіряти при запуску
 [Time of last check:]
 Ост. перевірка:
-[Automatically backup and keep protocol based birthdays up to date]
-Автоматично оновлювати та резервувати дні народження з протоколу
 [Play sound]
 Програвати звук
 [Use ignore list]
@@ -204,8 +202,6 @@
 Пошук відсутньої інформації в субконтактах
 [Enable extended 'send/receive e-mail' service (*)]
 Увімкнути розширений сервіс електронної пошти*
-[Use Windows timezone]
-Часовий пояс Windows
 [(*) Requires Miranda to be restarted.]
 * Потрібен перезапуск Miranda NG.
 [Reset factory defaults]
@@ -361,8 +357,6 @@
 Помилка %d при створенні імені для сторінки, код %d
 [Creating the label for a page failed with %d and error code %d]
 Помилка %d при створенні назви для сторінки, код %d
-[The dialog template type is no longer supported]
-Шаблон діалогу більше не підтримується
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Додати нове свято
@@ -442,22 +436,6 @@
 Сторінки не додані. Створення діалогу скасовано.
 [Details dialog failed to be created. Returning error is %d.]
 Помилка створення діалогу деталей. Помилка %d.
-[General]
-Загальне
-[Contact (private)]
-Контакт (особистий)
-[Anniversaries]
-Свята
-[Work]
-Робота
-[Contact (work)]
-Контакт (робочий)
-[About]
-Інформація
-[Profile]
-Профіль
-[Notes]
-Нотатки
 [Export to file]
 Експорт
 [Import from file]
@@ -606,8 +584,6 @@
 Експортувати всі контакти
 [Import all contacts]
 Імпортувати всі контакти
-[Backup birthdays]
-Резервувати дні народження
 [Export/import group]
 Експорт/Імпорт групи
 [&Export group]
@@ -623,6 +599,10 @@
 Мої нотатки:
 [About:]
 Інформація:
+[About]
+Інформація
+[Notes]
+Нотатки
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Будь ласка, введіть спочатку правильний опис.
@@ -630,11 +610,18 @@
 Немає вибраної дати для редагування.
 [Do you really want to delete the %s?]
 Ви дійсно хочете видалити %s?
+[General]
+Загальне
+[Anniversaries]
+Свята
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Робота
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-дім
 [Open in browser]
 Відкрити в браузері
+[home]
+дім
 [Primary e-mail]
 Основний E-mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@
 Контакти
 [company]
 Компанія
+[Contact (private)]
+Контакт (особистий)
+[Contact (work)]
+Контакт (робочий)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Запитання
@@ -670,6 +662,7 @@
 Діалоги
 [Popups]
 Спливаючі вікна
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Минуле
@@ -677,10 +670,10 @@
 Належність
 [Interest]
 Інтереси
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Помилка додавання нового елементу з типом "%s"
 [<empty>]
 <немає>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Помилка додавання нового елементу з типом "%s"
 [Edit category]
 Змінити категорію
 [Edit value]
@@ -689,6 +682,8 @@
 Видалити запис
 [Do you really want to delete this entry?]
 Ви дійсно хочете видалити це?
+[Profile]
+Профіль
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Африкаанс
@@ -1113,8 +1108,6 @@ Web-дизайн
 \nЇй виповнюється %d.
 [No anniversaries to remind of]
 Немає свят, про які треба нагадати
-[Backing up and syncing all birthdays complete!]
-Резервування і синхронізацію всіх днів народження завершено.
 [Reminders]
 Нагадування
 [Birthday reminder]

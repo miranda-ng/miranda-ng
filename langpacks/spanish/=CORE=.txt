@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Cambiar contraseña
 
 [Total]
 
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 
@@ -1863,13 +1863,35 @@ Móvil
 Teléfono de trabajo
 [Work fax]
 Fax de trabajo
+[Contact]
+Contacto
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<no especificado>
+[Summary]
+Resumen
+[Location]
+Localización
+[Work]
+Trabajo
+[Background info]
+Informacion de fondo
+[Notes]
+Notas
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Propietario
+[Folder]
+
+[Page]
+
+[View/change my &details...]
+Ver/cambiar mis &datos...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Masculino
 [Female]
 Femenino
-[<not specified>]
-<no especificado>
 [Single]
 
 [Close relationships]
@@ -1892,23 +1914,6 @@ Separado
 
 [In a civil union]
 
-[Summary]
-Resumen
-[Contact]
-Contacto
-[Location]
-Localización
-[Work]
-Trabajo
-[Background info]
-Informacion de fondo
-[Notes]
-Notas
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Propietario
-[View/change my &details...]
-Ver/cambiar mis &datos...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s está en línea
@@ -2659,14 +2664,14 @@ Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de M
 Cuenta deshabilitada. Active para acceder a las opciones.
 [New account]
 Nueva cuenta
+[Rename]
+Renombrar
 [Remove account]
 Eliminar cuenta
 [Configure...]
 Configurar...]
 [Upgrade account]
 Actualiza cuenta
-[Rename]
-Renombrar
 [Configure]
 Configurar
 [Upgrade]

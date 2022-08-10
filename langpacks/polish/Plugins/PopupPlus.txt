@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -247,7 +247,7 @@ Powiadomienia
 [Title]
 Tytuł
 [Clock]
-Zegar
+Czas
 [Text]
 Tekst
 [Hovered action]

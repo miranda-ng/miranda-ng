@@ -497,7 +497,7 @@ Utiliser xStatus
 
 [Check all players]
 
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 
 [User music info text]
 

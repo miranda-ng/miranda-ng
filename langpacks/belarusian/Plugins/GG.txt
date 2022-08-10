@@ -207,12 +207,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [Incoming image]
 Уваходнае паведамленне
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-Мужчынскі
-[Female]
-Жаночы
-[<not specified>]
-<не паказана>
 [<Last Status>]
 <Апошні статус>
 [System tray icon]
@@ -227,10 +221,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
-[Your details has been uploaded to the public directory.]
-Ваша інфармацыя была запісаная на агульным каталогу.
-[You have to be logged in before you can change your details.]
-Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 [Network]
 Сеціва
 [General]
@@ -239,6 +229,16 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Чат
 [Advanced]
 Дадаткова
+[Male]
+Мужчынскі
+[Female]
+Жаночы
+[<not specified>]
+<не паказана>
+[Your details has been uploaded to the public directory.]
+Ваша інфармацыя была запісаная на агульным каталогу.
+[You have to be logged in before you can change your details.]
+Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s

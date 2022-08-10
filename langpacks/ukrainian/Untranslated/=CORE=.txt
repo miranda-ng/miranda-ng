@@ -10,6 +10,7 @@
 [Select crypto provider]
 [Wikipedia (en)]
 [StdMsg internal log]
+[Page]
 [In a civil union]
 [&Open/close chat window]
 [&Mute chat]

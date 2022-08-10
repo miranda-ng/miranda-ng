@@ -7,7 +7,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 [Become idle if the following is left unattended:]
 Przejdź w bezczynność jeśli aktywności nie wykazuje:
@@ -1183,8 +1183,6 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
-Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
@@ -1745,8 +1743,12 @@ Pionowa animacja
 Nie możesz ustawić domyślnego czasu oczekiwania 0.\nWartość została zresetowana.
 [Example]
 Przykład
+[The quick brown fox jumps over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
 [Example With a Long Title]
 Przykład z długim tytułem
+[Thequickbrownfoxjumpsoverthelazydog.]
+Szybki,_brązowy_lis_przeskoczył_nad_leniwym_psem.
 [An avatar.]
 Na awatarze.
 [Popups]
@@ -1821,12 +1823,30 @@ Telefon komórkowy
 Telefon do pracy
 [Work fax]
 Faks do pracy
+[Contact]
+Kontakt
+[<not specified>]
+-
+[Summary]
+Podsumowanie
+[Location]
+Miejsce
+[Work]
+Praca
+[Background info]
+Inne informacje
+[Notes]
+Notatki
+[Owner]
+Właściciel
+[Folder]
+Folder
+[View/change my &details...]
+Pokaż/zmień moje &dane...
 [Male]
 Mężczyzna
 [Female]
 Kobieta
-[<not specified>]
--
 [Single]
 Singiel
 [Close relationships]
@@ -1849,22 +1869,6 @@ Zakochany
 Too.. skomplikowane
 [In a civil union]
 Małżeństwo cywilne
-[Summary]
-Podsumowanie
-[Contact]
-Kontakt
-[Location]
-Miejsce
-[Work]
-Praca
-[Background info]
-Inne informacje
-[Notes]
-Notatki
-[Owner]
-Właściciel
-[View/change my &details...]
-Pokaż/zmień moje &dane...
 [%s is online]
 %s jest Dostępny
 [Alerts]
@@ -1875,6 +1879,12 @@ Dodaj %s
 Proszę, autoryzuj mnie i dodaj do swojej listy kontaktów.
 [<Unknown>]
 <Nieznany>
+[ requested authorization\n%u (%s) on %s]
+ poprosił(a) o autoryzację\n%u (%s) na koncie %s
+[ requested authorization\n%u on %s]
+ poprosił(a) o autoryzację \n%u na koncie %s
+[ requested authorization\n%s on %s]
+ poprosił(a) o autoryzację\n%s na koncie %s
 [(Unknown)]
 (Nieznany)
 [Feature is not supported by protocol]
@@ -2545,14 +2555,14 @@ Witaj w menedżerze kont Mirandy NG.\nTutaj możesz skonfigurować konta w swoic
 Konto jest wyłączone. Proszę je aktywować, by pokazać jego opcje.
 [New account]
 Nowe konto
+[Rename]
+Zmień nazwę
 [Remove account]
 Usuń konto
 [Configure...]
 Skonfiguruj
 [Upgrade account]
 Aktualizuj konto
-[Rename]
-Zmień nazwę
 [Configure]
 Konfiguruj
 [Upgrade]
@@ -3332,9 +3342,9 @@ ostatni wynik
 parametry
 [structure]
 struktura
-[Ansi message]
+[ANSI message]
 Wiadomość Ansi
-[Ansi caption]
+[ANSI caption]
 Opis Ansi
 [Structure]
 Struktura
@@ -3396,7 +3406,7 @@ Pomoc struktury
 Nazwa
 [Plugin]
 Wtyczka
-[Descr]
+[Description]
 Opis
 [&Change]
 &Zmień
@@ -3462,8 +3472,6 @@ Uruchom zminimalizowany
 Startuj zmaksymalizowany
 [Program path]
 Ścieżka programu
-[Program args]
-Argumenty programu
 [Service]
 Usługa
 [Miranda service help]
@@ -3510,8 +3518,6 @@ Math
 > większe
 [< lesser]
 < mniejsze
-[= equ]
-= równe
 [& and]
 & i
 [Text]
@@ -3536,7 +3542,7 @@ Operacja
 PRZERWA
 [JUMP]
 SKOCZ
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Process script after]
 Przetwarzaj skrypt za
@@ -3788,7 +3794,7 @@ Pokaż lub ukryj okno konsoli netlog
 Wartość int
 [Returns contact amount, excluding user account]
 Zwraca ilość kontaktów z wyłączeniem konta użytkownika
-[Ansi Text]
+[ANSI Text]
 Tekst ANSI
 [Removes all settings for the specified module]
 Usuwa wszystkie ustawienia wskazanego modułu
@@ -3850,7 +3856,7 @@ Uruchamia ponownie Mirandę
 Nazwa stacji
 [wParam is Handle]
 wParam jest uchwytem
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 wParam jest nazwą stacji w Ansi
 [wParam is Unicode station name]
 wParam jest nazwą stacji w Unicode
@@ -3914,9 +3920,9 @@ wyświetla menedżer kont
 Pokaż okno wyboru kontaktu
 [filter text]
 filtruj tekst
-[wParam is unicode]
+[wParam is Unicode]
 wParam to unicode
-[wParam is Ansi]
+[wParam is ANSI]
 wParam to Ansi
 [Reserved]
 Zarezerwowany
@@ -3936,8 +3942,6 @@ Otwórz katalog otrzymanych plików kontaktu
 Wyślij plik do kontaktu
 [Opens message window for contact with handle in wparam]
 Otwiera okno rozmowy z kontaktem z uchwytem w wParam
-[remove all temporary contacts from db]
-usuń wszystkie tymczasowe kontakty z bazy danych
 [Call avatar option dialog for contact]
 Wywołaj okno opcji awatara kontaktu
 [Filename]
@@ -3952,10 +3956,6 @@ Otwórz link w obecnym oknie
 0 - Otwórz link w obecnym oknie
 [Open URL in default browser]
 Otwórz link w domyślnej przeglądarce
-[With formating]
-z formatowaniem
-[Don't use formating]
-Nie stosuj formatowania
 [Returns a string containing the versioninfo post]
 Zwraca ciąg zawierający post versioninfo
 [Show or save (call default action) Modules version Info]
@@ -4879,6 +4879,8 @@ Awatary
 Moje awatary
 [My Global Avatar Cache]
 Cache mojego głównego awataru
+[Avatar]
+Awatar
 [Global avatar for %s accounts]
 Awatar globalny dla konta %s
 [Global avatar]
@@ -4899,12 +4901,6 @@ Protokoły
 Awatary kontaktu
 [Own avatars]
 Twoje awatary
-[No avatar]
-Brak awatara
-[Are you sure you want to remove your avatar?]
-Czy na pewno chcesz usunąć swój awatar?
-[Avatar]
-Awatar
 [All files]
 Wszystkie pliki
 [Windows bitmaps]
@@ -4925,6 +4921,10 @@ Dopasuj awatar do maksymalnego dozwolonego rozmiaru protokołu
 Ustaw mój awatar
 [Set my avatar for %s]
 Ustaw mój awatar dla %s
+[No avatar]
+Brak awatara
+[Are you sure you want to remove your avatar?]
+Czy na pewno chcesz usunąć swój awatar?
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
@@ -5050,8 +5050,6 @@ Eksportuj jako
 Kompresuj plik wyjściowy
 [Password]
 Hasło:
-[Upload to FTP (WinSCP requred)]
-Wyślij na FTP (Wymagany WinSCP)
 [Session name]
 Nazwa sesji
 [Path to file**]
@@ -5314,8 +5312,6 @@ Nieprawidłowa wartość "%s".\n%s
 ** Użyj <ext> do umieszczania rozszerzenia, <contact> do umieszczania nazwy kontaktu
 [Input files are compressed]
 Skompresowany plik wyjściowy
-[Download from FTP (WinSCP requred)]
-Pobierz z FTP (Wymagany WinSCP)
 [Import from]
 Importuj z
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
@@ -5456,7 +5452,7 @@ Dźwięki wyłączone
 ;  Version: 0.0.3.1
 ;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
 ;============================================================
-[Boltun, the chat bot in the russian language.]
+[Boltun, the chat bot in the Russian language.]
 Chatbot w języku rosyjskim.
 [Boltun]
 Boltun
@@ -5490,8 +5486,6 @@ Silnik
 Baza odpowiedzi
 [Reload]
 Odśwież
-[Stay silent if have no good aswers]
-Nie odpowiadaj, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
 Zaczynaj odpowiedzi z małej litery
 [Don't use "I don't understand"-like answers]
@@ -5993,6 +5987,8 @@ zmienił(a) klienta na %s (z %s)
 zmienił(a) klienta na %s
 [%s (was %s)]
 %s (z %s)
+[Client change notifications]
+Powiadomienia o zmianie klienta
 [ClientChangeNotify: Client changed]
 Zmiana klienta
 [Error #%d]
@@ -9194,15 +9190,15 @@ Utracone zdarzenie z nieprawidłowym identyfikatorem zdarzenia %d:%08X, usuwanie
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
 [Database autobackuper plugin.]
 Wtyczka do automatycznego tworzenia kopii zapasowej profilu.
 [Automatic backups]
 Kopie zapasowe
-[Disabled]
-Wyłączone
+[Enabled]
+Włączony
 [When Miranda starts]
 Twórz podczas uruchamiania Mirandy
 [When Miranda exits]
@@ -9223,8 +9219,6 @@ Maska pliku kopii:
 Kompresuj kopię do archiwum zip
 [Backup profile folder]
 Kopia zapasowa folderu z profilem
-[Disable progress bar]
-Wyłącz okienko ze wskaźnikiem postępu kopiowania
 [Use CloudFile]
 Używaj CloudFile
 [Backup NOW]
@@ -9261,6 +9255,8 @@ Profil
 Kopia zapasowa
 [Backup folder]
 Folder kopii zapasowych
+[AutoBackups notifications]
+Powiadomienia o kopii zapasowej
 [days]
 dni
 [hours]
@@ -9895,8 +9891,6 @@ Ikony
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and an IP-to-Country database.]
-Usługa dodająca ikony flag państw i bazę danych IP-to-Country.
 [Country Flags]
 Flagi państw
 [Show country flag as &status icon on message window]
@@ -10053,8 +10047,6 @@ Rozwija się do ścieżki Mirandy (np. C:\Program Files\miranda ng).
 Rozwija się do ścieżki twojego profilu - wartość znaleziona w mirandaboot.ini
 [ProfileDir section (usually inside Miranda's folder).]
 w sekcji ProfileDir (zazwyczaj w folderze Mirandy).
-[Expands to your current profile name without the extenstion.]
-Rozwija się do nazwy obecnie załadowanego profilu bez rozszerzenia jego pliku.
 [(e.g., default if your your profile is default.dat).]
 (np. default, jeśli twój profil to default.dat).
 [Environment variables]
@@ -10557,12 +10549,6 @@ Właśnie zalogowałeś się w innym miejscu
 Jesteś zalogowany w innym miejscu
 [Incoming image]
 Przychodzący obrazek
-[Male]
-Mężczyzna
-[Female]
-Kobieta
-[<not specified>]
-<nieokreślone>
 [<Last Status>]
 <Ostatni status>
 [System tray icon]
@@ -10577,10 +10563,6 @@ Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
 Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami twojego konta.\nCzy chcesz się rozłączyć ?
-[Your details has been uploaded to the public directory.]
-Twoje dane zostały wysłane do katalogu publicznego.
-[You have to be logged in before you can change your details.]
-Musisz być zalogowany, żeby zmienić swoje dane.
 [Network]
 Protokoły
 [General]
@@ -10589,6 +10571,16 @@ Ogólne
 Konferencja
 [Advanced]
 Zaawansowane
+[Male]
+Mężczyzna
+[Female]
+Kobieta
+[<not specified>]
+<nieokreślone>
+[Your details has been uploaded to the public directory.]
+Twoje dane zostały wysłane do katalogu publicznego.
+[You have to be logged in before you can change your details.]
+Musisz być zalogowany, żeby zmienić swoje dane.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -15417,8 +15409,6 @@ Włącz historię po stronie serwera (XEP-0136)
 Włącz zarządzanie archiwum wiadomości (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Włącz kopie wiadomości do zasobów (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (Testing)]
-Użyj Stream Management (XEP-0198) gdy możliwe (Testowe)
 [Server options]
 Opcje serwera
 [Disable SASL authentication (for old servers)]
@@ -15437,8 +15427,6 @@ Automatycznie dodaj kontakt po autoryzacji
 Automatycznie akceptuj prośby o autoryzację
 [Fix incorrect timestamps in incoming messages]
 Naprawiaj błędne czasy przychodzących wiadomości
-[Disable frame]
-Wyłącz ramkę
 [Enable XMPP link processing (requires AssocMgr)]
 Włącz powiązanie XMPP (wymagana wtyczka AssocMgr.dll)
 [Embrace picture URLs with [img]]
@@ -15451,11 +15439,9 @@ Bezpieczeństwo
 Pozwól serwerowi na pytania o wersję (XEP-0092)
 [Show information about operating system in version replies]
 Wyświetlaj informacje o systemie w odpowiedzi nt. wersji
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Akceptuj tylko wewnętrzne transfery plików (nie ujawniaj adresu IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 Akceptuj prośby o autoryzację HTTP (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 Użyj szyfrowania OMEMO dla wiadomości jeżeli to możliwe (XEP-0384) (Podstawowa obsługa, bez GUI)
 [General]
 Ogólne
@@ -15495,8 +15481,6 @@ Publiczny serwer XMPP
 Bezpieczna sieć XMPP
 [Secure XMPP Network (old style)]
 Bezpieczna sieć XMPP (stary styl)
-[Google Talk!]
-Google Talk
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -15883,12 +15867,6 @@ Czas oczekiwania serwera
 Nieznany błąd
 [Unknown error message]
 Nieznany błąd
-[Advanced Status]
-Zaawansowany status
-[Set mood...]
-Ustaw nastrój...
-[Set activity...]
-Ustaw aktywność...
 [Male]
 Mężczyzna
 [Female]
@@ -16075,6 +16053,8 @@ Nieokreślony
 Słaby
 [Worried]
 Zmartwiony
+[Set mood...]
+Ustaw nastrój...
 [Set Mood]
 Wybierz nastrój
 [Mood: %s]
@@ -16233,6 +16213,8 @@ na spotkaniu
 studiowanie
 [writing]
 pisanie
+[Set activity...]
+Ustaw aktywność...
 [Set Activity]
 Wybierz aktywność
 [Activity: %s]
@@ -17710,6 +17692,8 @@ Pętla jednego utworu
 Nazwa stacji
 [Timeout, ms]
 Czas oczekiwania, ms
+[PreBuf, %]
+Bufor wstępny, %
 [Hallway]
 Hangar
 [Mountains]
@@ -17722,6 +17706,8 @@ Pod wodą
 Link do stacji (wymagany)
 [To INI]
 Do pliku
+[Buffer, ms]
+Bufor, ms
 [Add station]
 Dodaj stacje
 [Add Station]
@@ -18637,14 +18623,22 @@ Pokaż datę
 Pokaż czas
 [Show headers]
 Pokaż nagłówki
+[Number of messages being shown]
+Ilość pokazywanych wiadomości
 [Last message display first]
 Ost. wiadomość na początku
 [Last message display last]
 Ost. wiadomość na końcu
+[New event notifications]
+Powiadomienia o nowych zdarzeniach
 [General options]
 Ogólne
 [Show preview of event in popup]
 Pokaż podgląd zdarzenia w powiadomieniu
+[Enable event notifications for instant messages]
+Włącz powiadomienia dla wiadomości
+[Enable event notifications for group chats]
+Włącz powiadomienia dla czatów
 [Notify me of...]
 Powiadom mnie o...
 [Error]
@@ -19049,6 +19043,8 @@ Przywróć domyślne
 Pomoc o zmiennych
 [Test contact]
 Testowy kontakt
+[The quick brown fox jumps over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
 [simply % character]
 znak %
 [a "hard" line break (cr/lf - will break indent)]
@@ -19374,12 +19370,12 @@ Pliki dźwiękowe
 Wszystkie pliki
 [Wave files]
 Pliki WAV
+[** All contacts **]
+** Wszystkie kontakty **
 [Status]
 Status
 [Sound file]
 Plik dźwiękowy
-[** All contacts **]
-** Wszystkie kontakty **
 [(default sound)]
 (domyślny dźwięk)
 [<no status message>]
@@ -19478,6 +19474,8 @@ xStatus: Zmiana opisu
 xStatus: Zmiana statusu
 [Extra status message removed]
 usunięto xStatus
+[Status notifications]
+Powiadomienie o statusie
 [New Status Notify]
 Status
 [Status change]
@@ -21228,7 +21226,7 @@ Nieznany
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -21438,7 +21436,7 @@ Profil
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Provides popup notification services for different plugins.]
@@ -21858,6 +21856,8 @@ Proxy
 Rozłączony
 [Current IP address]
 Aktualny adres IP
+[IP change notification]
+Powiadamianie o zmianie adresu IP
 [Show my &IP addresses]
 Pokaż mój adres IP
 [Disable proxy]
@@ -22797,7 +22797,7 @@ Nieznany kod błędu
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -23036,6 +23036,8 @@ Zamknij kartę
 Wiadomości
 [Group chats]
 Czaty
+[Action: Send message]
+Akcja: Wysyła wiadomość
 [Flash when someone speaks]
 Migaj, kiedy ktoś pisze
 [Flash when a word is highlighted]
@@ -23058,7 +23060,7 @@ Dodawaj ":" do automatycznie uzupełnianych nazw
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
 Dodawaj czas tylko jeśli uległ zmianie
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
@@ -23200,7 +23202,7 @@ Wyjdź (10x10)
 Wyjście (10x10)
 [Kick (10x10)]
 Wyrzuć (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Topic (10x10)]
 Temat (10x10)
@@ -23932,6 +23934,8 @@ Wyślij szybką wiadomość
 Historia ostatnio widzianych
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s \n IP: %i - %r
+[Clock]
+Zegar
 [LastSeen]
 Ostatnio widziany
 [User status change]
@@ -26003,7 +26007,7 @@ Pasek narzędzi
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.2
+;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Steam protocol support for Miranda NG.]
@@ -26092,7 +26096,7 @@ rozmówca zakończył sesję rozmowy
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Anti-spam plugin for Miranda NG.]
@@ -26111,8 +26115,6 @@ Odpowiedź na pytanie o autoryzację:
 Separator:
 [Vars]
 Zmienne
-[Disable protection for following accounts:]
-Wyłącz ochronę dla następujących kont:
 [Do not send more than]
 Nie wysyłaj więcej niż
 [questions to one contact (0 - for no limit)]
@@ -26258,7 +26260,7 @@ Zaawansowane
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -26301,8 +26303,6 @@ Dziennik plików
 Zapisuj dziennik na dysku
 [Log directory]
 Folder dziennika
-[Maximum size for log files (in KB)]
-Maksymalny rozmiar pliku z dziennikiem (w KB)
 [Group chat log formatting]
 Formatowanie dziennika dla czatów
 [Your name]
@@ -26559,6 +26559,8 @@ Pokaż powiadomienie o pisaniu, kiedy okno rozmowy jest otwarte
 Pokaż powiadomienie, jeśli nie ma otwartych okien rozmowy
 [Show balloon tooltip in the system tray]
 Pokaż podpowiedź w chmurce w zasobniku systemowym
+[Show popups when a user is typing]
+Pokaż powiadomienia, kiedy użytkownik pisze
 [More about typing notifications]
 Więcej na temat powiadomień o pisaniu
 [Tab options]
@@ -27121,7 +27123,7 @@ Wyjście (10x10)
 Wyrzuć (10x10)
 [Notice (10x10)]
 Powiadomienie (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Zmiana nazwy (10x10)
 [Topic (10x10)]
 Temat (10x10)
@@ -27173,8 +27175,6 @@ Utwórz kartę lub okno dla podświetlenia zdarzeń
 Aktywuj okno rozmowy przy podświetleniu
 [Show list of users in the chat room]
 Pokaż listę użytkowników w pokoju
-[Colorize nicknames in member list]
-Koloruj nicki na liście
 [Show topic as status message on the contact list]
 Pokaż temat pokoju na liście kontaktów
 [Do not pop up the window when joining a chat room]
@@ -27191,18 +27191,14 @@ Używaj ircowych wskaźników na liście nicków
 Używaj alternatywnej metody sortowania listy nicków
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
-[Timestamp only when event time differs]
-Poprzedź czasem tylko, jeśli się różni
+[Only prefix with timestamp if it has changed]
+Dodawaj czas tylko jeśli uległ zmianie
 [Timestamp has same color as the event]
 Czas ma taki sam kolor jak zdarzenie
 [Indent the second line of a message]
 Wcinaj drugą linię wiadomości
 [Limit user names in the message log to 20 characters]
 Ogranicz nazwy użytkowników do 20 znaków w dzienniku
-[Add a colon (:) to auto-completed user names]
-Dodaj (:) na końcu automatycznie uzupełnianych nicków
-[Add a comma instead of a colon to auto-completed user names]
-Dodaj przecinek zamiast dwukropka do automatycznie uzupełnianych nicków
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Rozpocznij rozmowę prywatną przez podwójne kliknięcie na liście nicków (wstaw nick, jeśli niezaznaczone)
 [Strip colors from messages in the log]
@@ -27439,8 +27435,6 @@ Pokaż okno serwera
 %s    Bezczynny: %dh,%02dm
 [  Client: %s]
   Klient: %s
-[  Client not cached yet]
-  Klient nie sprawdzony
 [Topic is: %s]
 Temat to: %s
 [no topic set.]
@@ -27695,8 +27689,10 @@ Automatycznie kopiuj zaznaczony tekst
 Testowy kontakt
 [Template set editor]
 Edytor zbioru szablonów
+[The quick brown fox jumps over the lazy dog.]
+Szybki, brązowy lis przeskoczył nad leniwym psem.
 [My Nickname]
-moja nazwa
+Moja nazwa
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno chcesz to zrobić?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
@@ -28748,7 +28744,7 @@ BYTE dla języka (ICQ)
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Provides popup services based on Windows toast notification for different plugins.]
@@ -29417,7 +29413,7 @@ Odpowiedz...
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -29530,8 +29526,6 @@ Włączony
 Sprawdzaj na starcie
 [Time of last check:]
 Czas ostatniego sprawdzenia:
-[Automatically backup and keep protocol based birthdays up to date]
-Automatycznie twórz kopie bezpieczeństwa i aktualizuj dane o urodzinach
 [Play sound]
 Odtwarzaj dźwięk
 [Use ignore list]
@@ -29618,8 +29612,6 @@ Metakontakty
 Skanuj subkontakt w poszukiwaniu brakujących informacji
 [Enable extended 'send/receive e-mail' service (*)]
 Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
-[Use Windows timezone]
-Używaj strefy czasowej Windows
 [(*) Requires Miranda to be restarted.]
 (*) Miranda musi zostać uruchomiona ponownie.
 [Reset factory defaults]
@@ -29772,8 +29764,6 @@ Przywróć domyślne
 Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu %d
 [Creating the label for a page failed with %d and error code %d]
 Tworzenie etykiety strony nie powiodło się z %d oraz kodem błędu %d
-[The dialog template type is no longer supported]
-Typ szablonu okna nie jest już wspierany
 [Add a new anniversary]
 Dodaj nową rocznicę
 [Delete an existing anniversary]
@@ -29848,22 +29838,6 @@ Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 Żadne strony nie zostały dodane. Anulowanie tworzenia okna!
 [Details dialog failed to be created. Returning error is %d.]
 Nie udało się utworzyć okna szczegółów. Zwrócony błąd to %d.
-[General]
-Ogólne
-[Contact (private)]
-Kontakt (Prywatne)
-[Anniversaries]
-Rocznice
-[Work]
-Praca
-[Contact (work)]
-Kontakt (praca)
-[About]
-O kontakcie
-[Profile]
-Profil
-[Notes]
-Notatki
 [Export to file]
 Eksportuj do pliku
 [Import from file]
@@ -30008,8 +29982,6 @@ Pokaż/zmień moje &dane...
 Eksportuj wszystkie kontakty
 [Import all contacts]
 Importuj wszystkie kontakty
-[Backup birthdays]
-Kopia zapasowa urodzin
 [Export/import group]
 Eksportuj/importuj grupę
 [&Export group]
@@ -30024,16 +29996,26 @@ Eksportuj/importuj grupę
 Moje notatki:
 [About:]
 O sobie:
+[About]
+O kontakcie
+[Notes]
+Notatki
 [Please enter a valid description first!]
 Proszę najpierw wprowadzić prawidłowy opis!
 [No valid date selected for editing!]
 Nie wybrano prawidłowej daty do edycji!
 [Do you really want to delete the %s?]
 Czy na prawdę chcesz skasować %s?
-[home]
-Dom
+[General]
+Ogólne
+[Anniversaries]
+Rocznice
+[Work]
+Praca
 [Open in browser]
 Otwórz w przeglądarce
+[home]
+Dom
 [Primary e-mail]
 Pierwszy e-mail
 [Secondary e-mail]
@@ -30044,6 +30026,10 @@ Trzeci e-mail
 Adres i kontakt
 [company]
 Firma
+[Contact (private)]
+Kontakt (Prywatne)
+[Contact (work)]
+Kontakt (praca)
 [Question]
 Pytanie
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to proceed?]
@@ -30074,10 +30060,10 @@ Przeszłość
 Przynależność
 [Interest]
 Zainteresowanie
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [<empty>]
  <pusty>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [Edit category]
 Edytuj kategorię
 [Edit value]
@@ -30086,6 +30072,8 @@ Edytuj wartość
 Usuń rocznicę
 [Do you really want to delete this entry?]
 Czy na pewno chcesz usunąć te dane?
+[Profile]
+Profil
 [Afrikaans]
 Afrykanerski
 [Albanian]
@@ -30504,8 +30492,6 @@ Ona ma następujące rocznice:
 \nOna będzie mieć %d lat.
 [No anniversaries to remind of]
 Brak rocznic do przypomnienia
-[Backing up and syncing all birthdays complete!]
-Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
 [Reminders]
 Przypomnienia
 [Birthday reminder]
@@ -31545,6 +31531,61 @@ Czy jesteś pewien, że chcesz zbanować %s? %s%sKontynuować?
 \nTo także
 [Are you sure to report abuse on %s?]
 Czy na pewno chcesz zgłosić nadużycie przez %s?
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Enable popups]
+Włącz powiadomienia
+[Background color]
+Kolor tła
+[Text color]
+Kolor tekstu
+[Use Windows colors]
+Użyj kolorów Windows
+[Use default colors]
+Użyj domyślnych kolorów
+[Custom]
+Niestandardowe
+[Permanent]
+Trwale
+[On right click:]
+LPM:
+[On left click:]
+PPM:
+[Preview]
+Podgląd
+[Frame]
+Ramka
+[Audio]
+Audio
+[Voice Calls]
+Rozmowy głosowe
+[Main]
+Ogólne
+[Talking]
+Rozmowa
+[Call]
+Zadzwoń
+[Background]
+Tło
+[Do nothing]
+Nic nie rób
+[Close popup]
+Zamknij popup
+[Test Contact]
+Testowy kontakt
+[Test description]
+Testowy opis
+[Popups]
+Powiadomienia
+[General]
+Ogólne
+[Voice call]
+Rozmowa głosowa
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -32044,8 +32085,6 @@ Utwory
 Sprawdź aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierwszym znalezionym.
 [Check all players]
 Sprawdź wszystkie odtw.
-[Emulate multimedia keys presses to control palyer]
-Emuluje klawisze multimedialne do kontrolowania odtwarzaczem.
 [User music info text]
 Tekst informacji o muzyce
 [(%artist%, %title%, %album% and %year% macros can be used only)]
@@ -32620,6 +32659,8 @@ Edytuj ustawienia
 Warunki pogodowe uległy zmianie
 [Alert Issued]
 Ogłoszono alarm pogodowy
+[Weather notifications]
+Powiadomienie o pogodzie
 [Current weather information for %s.]
 Aktualne informacje o pogodzie dla miejscowości %s.
 [%s is now the default weather station]
@@ -35003,13 +35044,11 @@ Musisz podać nazwę kontaktu.
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.6
+;  Version: 0.4.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [Notifies you of upcoming birthdays.]
 Powiadomienia o nadchodzących urodzinach.
-[Notify of birthdays:]
-Powiadamiaj o urodzinach:
 [Popups]
 Powiadomienia
 [Popup timeout:]
@@ -35042,10 +35081,6 @@ Sprawdzaj co
 godziny
 [Only notify once per day.]
 Powiadamiaj tylko raz dziennie.
-[By default use]
-Domyślnie używaj
-[to save birthday data.]
-by zachować dane o urodzinach.
 [Show]
 Pokaż
 [in birthday list window]
@@ -35084,42 +35119,16 @@ Zapisz
 Usuń
 [Upcoming birthdays]
 Nadchodzące urodziny
-[Upcoming age]
-Nadchodzący wiek
-[Current age]
-Aktualny wiek
-[UserInfo module]
-Moduł UserInfo
-[Protocol module]
-Moduł protokołu
-[Nothing]
--Nic-
-[Dismiss]
-Odrzuć
-[Message window]
-Okno rozmowy
-[All contacts]
-Wszystkie kontakty
-[All contacts except hidden ones]
-Wszystkie kontakty poza ukrytymi
-[All contacts except ignored ones]
-Wszystkie kontakty poza ignorowanymi
-[All contacts except hidden and ignored ones]
-Wszystkie kontakty poza ukrytymi i ignorowanymi
-[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
-Ustaw opóźnienie powiadomienia, gdy zbliżają się urodziny.\nFormat: opóźnienie domyślne [ | opóźnienie dla urodzin mających miejsce dzisiaj]
-[Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
-Proszę wybrać moduł, w którym zapisana ma być data urodzin.\r\nDomyślną lokalizacją jest "UserInfo".\nUżyj modułu protokołu, aby data urodzin była widoczna w informacjach o użytkowniku.\r\nModuł mBirthday używa tego samego modułu co wtyczka mBirthday.
 [Set birthday for %s:]
 Ustaw urodziny dla %s:
-[%S protocol]
-Protokół %S
 [N/A]
 Niedostępny
-[Unknown]
-Nieznany
+[Protocol Module]
+Moduł protokołu
 [Birthday list (%d)]
 Lista urodzin (%d)
+[Unknown]
+Nieznany
 [Protocol]
 Protokół
 [Contact]
@@ -35132,16 +35141,8 @@ Urodziny
 Wiek
 [Module]
 Moduł
-[Closing in %d seconds]
-Zamykanie w %d sekund
-[Closing in %d second]
-Zamykanie w %d sekund
 [Check for birthdays]
 Sprawdź urodziny
-[Birthdays]
-Urodziny
-[Contacts]
-Kontakty
 [WhenWasIt]
 WhenWasIt
 [Check birthdays menu item]
@@ -35192,6 +35193,34 @@ On/Ona
 %s\n%s będzie miał(a) %d lat.
 [%s\n%s just turned %d.]
 %s\n%s właśnie powrócił %d.
+[Closing in %d seconds]
+Zamykanie w %d sekund
+[Closing in %d second]
+Zamykanie w %d sekund
+[Upcoming age]
+Nadchodzący wiek
+[Current age]
+Aktualny wiek
+[Nothing]
+-Nic-
+[Dismiss]
+Odrzuć
+[Message window]
+Okno rozmowy
+[All contacts]
+Wszystkie kontakty
+[All contacts except hidden ones]
+Wszystkie kontakty poza ukrytymi
+[All contacts except ignored ones]
+Wszystkie kontakty poza ignorowanymi
+[All contacts except hidden and ignored ones]
+Wszystkie kontakty poza ukrytymi i ignorowanymi
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occurring today]]
+Ustaw opóźnienie powiadomienia, gdy zbliżają się urodziny.\nFormat: opóźnienie domyślne [ | opóźnienie dla urodzin mających miejsce dzisiaj]
+[Birthdays]
+Urodziny
+[Contacts]
+Kontakty
 [Starting to refresh user details]
 Rozpoczęcie odświeżania danych kontaktu
 [Done refreshing user details]
@@ -35224,10 +35253,6 @@ Ostrzeżenie
 Nie udało się otworzyć pliku, do którego mają zostać wyeksportowane urodziny
 [Please do not edit this file by hand. Use the export function of WhenWasIt plugin.\n]
 Proszę nie edytować tego pliku ręcznie i zamiast tego użyć opcji eksportowania wtyczki WhenWasIt.
-[Warning! Please do not mix Unicode and Ansi exported birthday files. You should use the same version (Ansi/Unicode) of WhenWasIt that was used to export the info.\n]
-Ostrzeżenie! Proszę nie mieszać wyeksportowanych plików urodzin o kodowaniu Ansi i Unicode. Powinno się używać tej samej wersji (Ansi/Unicode) WhenWasIt, która została użyta do eksportu informacji.
-[This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
-Ten plik został wyeksportowany przy użyciu wersji Unicode WhenWasIt. Proszę używać tylko wersji Unicode do importu urodzin.
 [Birthdays (When Was It)]
 Urodziny (When Was It)
 [Add/change user &birthday]
@@ -35303,6 +35328,8 @@ Błąd alokacji pamięci
 Błąd tworzenia menu
 [Show connections list]
 Pokaż listę połączeń
+[WUMF popups]
+Powiadomienia WUMF
 [WUMF: Show connections]
 WUMF: Pokaż połączenia
 #muuid {81e189dc-c251-45f6-9edf-a0f3a05c4248}

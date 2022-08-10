@@ -207,12 +207,6 @@ Liste exportée avec succès.
 [Incoming image]
 
 ;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[Male]
-Homme
-[Female]
-Femme
-[<not specified>]
-<non spécifié>
 [<Last Status>]
 <Dernier État>
 [System tray icon]
@@ -227,10 +221,6 @@ Vous devez spécifier votre e-mail primaire d'enregistrement
 Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
 Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
 [Network]
 Réseau
 [General]
@@ -239,6 +229,16 @@ Général
 Chat
 [Advanced]
 Avancé
+[Male]
+Homme
+[Female]
+Femme
+[<not specified>]
+<non spécifié>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 

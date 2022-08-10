@@ -219,12 +219,12 @@
 Всички файлове
 [Wave files]
 
+[** All contacts **]
+** Всички контакти **
 [Status]
 Състояние
 [Sound file]
 
-[** All contacts **]
-** Всички контакти **
 ;file \plugins\NewXstatusNotify\src\indsnd.h
 [(default sound)]
 
@@ -327,7 +327,6 @@
 
 [Status notifications]
 Уведомяването за състояния
-
 [New Status Notify]
 
 [Status change]

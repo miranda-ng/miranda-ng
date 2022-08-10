@@ -119,9 +119,9 @@
 параметр
 [structure]
 структура
-[Ansi message]
+[ANSI message]
 
-[Ansi caption]
+[ANSI caption]
 
 [Structure]
 Структура
@@ -183,7 +183,7 @@
 Імя
 [Plugin]
 Плагін
-[Descr]
+[Description]
 Апісанне
 [&Change]
 Змяніць
@@ -249,7 +249,7 @@
 Запуск разгорнутым
 [Program path]
 Пуць
-[Program args]
+[Program arguments]
 Аргументы
 [Service]
 Служба
@@ -297,8 +297,10 @@ UTF16+сігнатура
 > больш
 [< lesser]
 < меньш
-[= equ]
+[= equal]
 = экв.
+[^ xor]
+
 [& and]
 & і
 [Text]
@@ -309,6 +311,8 @@ UTF16+сігнатура
 Зваротны парадак
 [empty]
 пуста
+[equal]
+экв.
 [contains]
 улучае
 [starts with]
@@ -323,8 +327,8 @@ UTF16+сігнатура
 
 [JUMP]
 Пераход
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - вылучаная (і замененая) частка\r\n^e - заменена пустым радком\r\n^v - уставіць тэкст з буфера абмену\r\n^t - заменена табуляцыяй\r\n^l - заменена апошнім вынікам, як Юнікод\r\n^h - заменена апошнім вынікам, як шаснаццатковае\r\n^f(імя[,str])\r\n     уставіць радок з тэкставага файла.\r\n     змесціва пасярод дужак абавязана быць без прабелаў
 [Process script after]
 Скрыпт пасля макраса
 [MessageBox]
@@ -575,8 +579,8 @@ UTF16+сігнатура
 
 [Returns contact amount, excluding user account]
 
-[Ansi Text]
-Тэкст Ansi
+[ANSI Text]
+Тэкст ANSI
 [Removes all settings for the specified module]
 Выдаляе ўсе налады пазначанага модуля
 [int 0]
@@ -637,7 +641,7 @@ UTF16+сігнатура
 Імя станцыі
 [wParam is Handle]
 
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 
 [wParam is Unicode station name]
 
@@ -701,9 +705,9 @@ UTF16+сігнатура
 
 [filter text]
 
-[wParam is unicode]
+[wParam is Unicode]
 
-[wParam is Ansi]
+[wParam is ANSI]
 
 [Reserved]
 
@@ -723,7 +727,7 @@ UTF16+сігнатура
 
 [Opens message window for contact with handle in wparam]
 
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 
 [Call avatar option dialog for contact]
 
@@ -739,9 +743,9 @@ UTF16+сігнатура
 
 [Open URL in default browser]
 
-[With formating]
+[With formatting]
 
-[Don't use formating]
+[Don't use formatting]
 
 [Returns a string containing the versioninfo post]
 

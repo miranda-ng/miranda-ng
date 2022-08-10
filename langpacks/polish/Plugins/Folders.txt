@@ -37,7 +37,7 @@ Rozwija się do ścieżki Mirandy (np. C:\Program Files\miranda ng).
 Rozwija się do ścieżki twojego profilu - wartość znaleziona w mirandaboot.ini
 [ProfileDir section (usually inside Miranda's folder).]
 w sekcji ProfileDir (zazwyczaj w folderze Mirandy).
-[Expands to your current profile name without the extenstion.]
+[Expands to your current profile name without the extension.]
 Rozwija się do nazwy obecnie załadowanego profilu bez rozszerzenia jego pliku.
 [(e.g., default if your your profile is default.dat).]
 (np. default, jeśli twój profil to default.dat).

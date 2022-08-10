@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ Miranda NG се рестартира.\nМоля, изчакайте...
 Стандартен
 [Total]
 Тотален
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Само критичните данни ще бъдат криптирани (като пароли). Всички други - настройки и историята остават некриптирани.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Всички настройки и събития в историята ще бъдат криптирани. Като резултат Miranda ще бъде значително по-бавна. Забравите ли паролата ще загубите цялата информация от базата от данни!
@@ -1863,13 +1863,35 @@ Popups са изключени
 Работен телефон
 [Work fax]
 Работен факс
+[Contact]
+Контакт
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<неуточнено>
+[Summary]
+Обобщение
+[Location]
+Местоположение
+[Work]
+Работа
+[Background info]
+Биографични данни
+[Notes]
+Бележки
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Собственик
+[Folder]
+Папка
+[Page]
+
+[View/change my &details...]
+Преглед/Промяна на личните данни
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Мъж
 [Female]
 Жена
-[<not specified>]
-<неуточнено>
 [Single]
 Необвързан(а)
 [Close relationships]
@@ -1892,23 +1914,6 @@ Popups са изключени
 Всичко е сложно
 [In a civil union]
 
-[Summary]
-Обобщение
-[Contact]
-Контакт
-[Location]
-Местоположение
-[Work]
-Работа
-[Background info]
-Биографични данни
-[Notes]
-Бележки
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Собственик
-[View/change my &details...]
-Преглед/Промяна на личните данни
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s е на линия
@@ -2659,14 +2664,14 @@ Win +\s
 Акаунтът е изключен. За достъп до настройките е необходимо да бъде включен.
 [New account]
 Нов акаунт
+[Rename]
+Преименуване
 [Remove account]
 Премахване на акаунта
 [Configure...]
 Настройване...
 [Upgrade account]
 Надграждане на акаунт
-[Rename]
-Преименуване
 [Configure]
 Настройване
 [Upgrade]

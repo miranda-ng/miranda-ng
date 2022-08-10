@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@ Aktiviert
 Bei jedem Start prüfen
 [Time of last check:]
 Letzte Überprüfung:
-[Automatically backup and keep protocol based birthdays up to date]
-Automatische Sicherung und Aktualisierung protokollbasierender Geburtsdaten
 [Play sound]
 Sound abspielen
 [Use ignore list]
@@ -204,8 +202,6 @@ Metakontakte
 Unterkontakte nach fehlenden Informationen durchsuchen
 [Enable extended 'send/receive e-mail' service (*)]
 Erweitertes "send/receive e-mail"-Modul aktivieren (*)
-[Use Windows timezone]
-Zeitzone auf der Basis der jeweiligen Windows-Zeitzone setzen
 [(*) Requires Miranda to be restarted.]
 (*) Erfordert einen Neustart von Miranda.
 [Reset factory defaults]
@@ -361,8 +357,6 @@ Zurücksetzen auf Standards
 Das Erstellen eines eindeutigen Namens für eine Seite fehlgeschlagen mit %d und dem Fehlercode %d
 [Creating the label for a page failed with %d and error code %d]
 Das Erstellen des Labels für eine Seite fehlgeschlagen mit %d und dem Fehlercode %d
-[The dialog template type is no longer supported]
-Das Dialog Template wird nicht langer unterstutzt.
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Füge einen neuen Jahrestag hinzu
@@ -442,22 +436,6 @@ Das Kontaktprotokoll konnte nicht gefunden werden. Vielleicht ist es nicht aktiv
 Es wurden keine Seiten hinzugefügt.\nDer Dialog wird nicht angezeigt!
 [Details dialog failed to be created. Returning error is %d.]
 Der Kontaktinformationsdialog konnte nicht erstellt werden.\nFehler %d.
-[General]
-Allgemein
-[Contact (private)]
-Kontakt (Privat)
-[Anniversaries]
-Jahrestage
-[Work]
-Arbeit
-[Contact (work)]
-Kontakt (Arbeit)
-[About]
-Über
-[Profile]
-Profil
-[Notes]
-Notizen
 [Export to file]
 Exportieren
 [Import from file]
@@ -606,8 +584,6 @@ Mein Profil än&dern...
 Alle Kontakte exportieren
 [Import all contacts]
 Alle Kontakte importieren
-[Backup birthdays]
-Sichere Geburtstage
 [Export/import group]
 Gruppe ex-/importieren
 [&Export group]
@@ -623,6 +599,10 @@ XML &importieren
 Meine Notizen:
 [About:]
 Über mich:
+[About]
+Über
+[Notes]
+Notizen
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Bitte geben Sie zuerst eine gültige Beschreibung ein!
@@ -630,11 +610,18 @@ Bitte geben Sie zuerst eine gültige Beschreibung ein!
 Es wurde kein gültiges Datum zum Bearbeiten gewählt
 [Do you really want to delete the %s?]
 Wollen Sie wirklich den %s löschen?
+[General]
+Allgemein
+[Anniversaries]
+Jahrestage
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Arbeit
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-Wohnort
 [Open in browser]
 Im Web-Browser öffnen
+[home]
+Wohnort
 [Primary e-mail]
 Erste E-Mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@ Dritte E-Mail
 Adresse und Kontakt
 [company]
 Unternehmen
+[Contact (private)]
+Kontakt (Privat)
+[Contact (work)]
+Kontakt (Arbeit)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Frage
@@ -670,6 +662,7 @@ Erweitert
 Kontaktinfo-Dialog
 [Popups]
 Popups
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Vergangenheit
@@ -677,10 +670,10 @@ Vergangenheit
 Mitgliedschaften
 [Interest]
 Interessen
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Entschuldigung, aber es gibt ein Problem mit dem Erstellen des neuen Artikels vom Typ "%s"
 [<empty>]
 <leer>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Entschuldigung, aber es gibt ein Problem mit dem Erstellen des neuen Artikels vom Typ "%s"
 [Edit category]
 Kategorie bearbeiten
 [Edit value]
@@ -689,6 +682,8 @@ Wert bearbeiten
 Einen Eintrag löschen
 [Do you really want to delete this entry?]
 Soll dieser Eintrag wirklich gelöscht werden?
+[Profile]
+Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Afrikaans
@@ -1113,8 +1108,6 @@ Sie hat folgende Jahrestage:
 \nSie wird %d Jahre alt.
 [No anniversaries to remind of]
 Es gibt keine Jahrestage in absehbarer Zeit.
-[Backing up and syncing all birthdays complete!]
-Sicherung und Synchronisation\nder Geburtsdaten fertiggestellt!
 [Reminders]
 Erinnerungen
 [Birthday reminder]

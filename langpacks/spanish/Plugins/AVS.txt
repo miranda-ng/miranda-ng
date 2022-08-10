@@ -86,6 +86,8 @@ Avatares
 
 [My Global Avatar Cache]
 
+[Avatar]
+
 ;file \plugins\AVS\src\options.cpp
 [Global avatar for %s accounts]
 
@@ -107,12 +109,6 @@ Protocolos
 
 [Own avatars]
 
-[No avatar]
-
-[Are you sure you want to remove your avatar?]
-
-[Avatar]
-
 ;file \plugins\AVS\src\services.cpp
 [All files]
 Todos los archivos
@@ -133,4 +129,9 @@ Mapas de bits PNG
 [Set my avatar]
 
 [Set my avatar for %s]
+
+;file \plugins\AVS\src\userInfo.cpp
+[No avatar]
+
+[Are you sure you want to remove your avatar?]
 

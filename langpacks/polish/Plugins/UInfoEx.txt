@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@ Włączony
 Sprawdzaj na starcie
 [Time of last check:]
 Czas ostatniego sprawdzenia:
-[Automatically backup and keep protocol based birthdays up to date]
-Automatycznie twórz kopie bezpieczeństwa i aktualizuj dane o urodzinach
 [Play sound]
 Odtwarzaj dźwięk
 [Use ignore list]
@@ -204,8 +202,6 @@ Metakontakty
 Skanuj subkontakt w poszukiwaniu brakujących informacji
 [Enable extended 'send/receive e-mail' service (*)]
 Włącz rozszerzoną usługę "wyślij/odbierz" e-mail(*)
-[Use Windows timezone]
-Używaj strefy czasowej Windows
 [(*) Requires Miranda to be restarted.]
 (*) Miranda musi zostać uruchomiona ponownie.
 [Reset factory defaults]
@@ -361,8 +357,6 @@ Przywróć domyślne
 Tworzenie unikalnej nazwy strony nie powiodło się z %d oraz kodem błędu %d
 [Creating the label for a page failed with %d and error code %d]
 Tworzenie etykiety strony nie powiodło się z %d oraz kodem błędu %d
-[The dialog template type is no longer supported]
-Typ szablonu okna nie jest już wspierany
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Dodaj nową rocznicę
@@ -442,22 +436,6 @@ Nie udało się znaleźć protokołu kontaktu. Być może nie jest aktywny!
 Żadne strony nie zostały dodane. Anulowanie tworzenia okna!
 [Details dialog failed to be created. Returning error is %d.]
 Nie udało się utworzyć okna szczegółów. Zwrócony błąd to %d.
-[General]
-Ogólne
-[Contact (private)]
-Kontakt (Prywatne)
-[Anniversaries]
-Rocznice
-[Work]
-Praca
-[Contact (work)]
-Kontakt (praca)
-[About]
-O kontakcie
-[Profile]
-Profil
-[Notes]
-Notatki
 [Export to file]
 Eksportuj do pliku
 [Import from file]
@@ -606,8 +584,6 @@ Pokaż/zmień moje &dane...
 Eksportuj wszystkie kontakty
 [Import all contacts]
 Importuj wszystkie kontakty
-[Backup birthdays]
-Kopia zapasowa urodzin
 [Export/import group]
 Eksportuj/importuj grupę
 [&Export group]
@@ -623,6 +599,10 @@ Eksportuj/importuj grupę
 Moje notatki:
 [About:]
 O sobie:
+[About]
+O kontakcie
+[Notes]
+Notatki
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Proszę najpierw wprowadzić prawidłowy opis!
@@ -630,11 +610,18 @@ Proszę najpierw wprowadzić prawidłowy opis!
 Nie wybrano prawidłowej daty do edycji!
 [Do you really want to delete the %s?]
 Czy na prawdę chcesz skasować %s?
+[General]
+Ogólne
+[Anniversaries]
+Rocznice
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Praca
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-Dom
 [Open in browser]
 Otwórz w przeglądarce
+[home]
+Dom
 [Primary e-mail]
 Pierwszy e-mail
 [Secondary e-mail]
@@ -645,6 +632,11 @@ Trzeci e-mail
 Adres i kontakt
 [company]
 Firma
+[Contact (private)]
+Kontakt (Prywatne)
+[Contact (work)]
+Kontakt (praca)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Pytanie
@@ -670,6 +662,7 @@ Zaawansowane
 Okno danych
 [Popups]
 Powiadomienia
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Przeszłość
@@ -677,10 +670,10 @@ Przeszłość
 Przynależność
 [Interest]
 Zainteresowanie
-[Sorry, but there is a problem with adding a new item of type "%s"]
-Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [<empty>]
  <pusty>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+Przepraszamy, ale wystąpił problem dodania nowego elementu typu "%s"
 [Edit category]
 Edytuj kategorię
 [Edit value]
@@ -689,6 +682,8 @@ Edytuj wartość
 Usuń rocznicę
 [Do you really want to delete this entry?]
 Czy na pewno chcesz usunąć te dane?
+[Profile]
+Profil
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 Afrykanerski
@@ -1113,8 +1108,6 @@ Ona ma następujące rocznice:
 \nOna będzie mieć %d lat.
 [No anniversaries to remind of]
 Brak rocznic do przypomnienia
-[Backing up and syncing all birthdays complete!]
-Wykonywanie kopii zapasowych i synchronizacji wszystkich rocznic kompletny!
 [Reminders]
 Przypomnienia
 [Birthday reminder]

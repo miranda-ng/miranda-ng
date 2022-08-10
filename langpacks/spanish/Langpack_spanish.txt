@@ -17,7 +17,7 @@ Last-Modified-Using: Miranda NG 0.96.1
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 [Become idle if the following is left unattended:]
 Pasar a reposo, si el siguiente queda desatendido:
@@ -1589,18 +1589,12 @@ Móvil
 Teléfono de trabajo
 [Work fax]
 Fax de trabajo
-[Male]
-Masculino
-[Female]
-Femenino
-[<not specified>]
-<no especificado>
-[Separated]
-Separado
-[Summary]
-Resumen
 [Contact]
 Contacto
+[<not specified>]
+<no especificado>
+[Summary]
+Resumen
 [Location]
 Localización
 [Work]
@@ -1613,6 +1607,12 @@ Notas
 Propietario
 [View/change my &details...]
 Ver/cambiar mis &datos...
+[Male]
+Masculino
+[Female]
+Femenino
+[Separated]
+Separado
 [%s is online]
 %s está en línea
 [Alerts]
@@ -1623,6 +1623,12 @@ Añadir %s
 Por favor autorice mi petición y añadame a su lista de contactos.
 [<Unknown>]
 <Desconocido>
+[ requested authorization\n%u (%s) on %s]
+ autorización solicitada\n%u (%s) en %s
+[ requested authorization\n%u on %s]
+ autorización solicitada\n%u en %s
+[ requested authorization\n%s on %s]
+ autorización solicitada\n%s on %s
 [(Unknown)]
 (Desconocido)
 [Feature is not supported by protocol]
@@ -2081,14 +2087,14 @@ Esta cuenta utiliza protocolo heredado de plugin. Use diálogos de opciones de M
 Cuenta deshabilitada. Active para acceder a las opciones.
 [New account]
 Nueva cuenta
+[Rename]
+Renombrar
 [Remove account]
 Eliminar cuenta
 [Configure...]
 Configurar...]
 [Upgrade account]
 Actualiza cuenta
-[Rename]
-Renombrar
 [Configure]
 Configurar
 [Upgrade]
@@ -2838,8 +2844,6 @@ Estructura de ayuda
 Nombre
 [Plugin]
 Plugin
-[Descr]
-Descr
 [Free memory]
 Memoria libre
 [Contact]
@@ -5114,11 +5118,9 @@ Error
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db autobackuper
-;  Version: 0.1.0.6
+;  Version: 0.1.0.7
 ;  Authors: chaos.persei, sje, Kildor, Billy_Bons
 ;============================================================
-[Disabled]
-Desabilitado
 [Cancel]
 Cancelar
 [Error]
@@ -5327,8 +5329,6 @@ Iconos
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and an IP-to-Country database.]
-Ofrece diversos servicios como iconos de bandera y Base de datos de IP a País.
 [Country Flags]
 Banderas de país
 [Show country flag as &status icon on message window]
@@ -5581,12 +5581,6 @@ a:
 Desconocido
 [Age:]
 Edad:
-[Male]
-Masculino
-[Female]
-Femenino
-[<not specified>]
-<no especificado>
 [System tray icon]
 Icono de la bandeja de sistema
 [Network]
@@ -5595,6 +5589,12 @@ Red
 General
 [Advanced]
 Avanzado
+[Male]
+Masculino
+[Female]
+Femenino
+[<not specified>]
+<no especificado>
 [Contact list]
 Lista de contactos
 [Text files]
@@ -7240,10 +7240,10 @@ Cuentas
 Archivos de sonido
 [All files]
 Todos los archivos
-[Status]
-Estado
 [** All contacts **]
 ** Todos los contactos **
+[Status]
+Estado
 [Contact]
 Contacto
 [<unknown>]
@@ -7678,7 +7678,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.2
+;  Version: 0.2.1.3
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -7840,7 +7840,7 @@ Base de datos
 ;============================================================
 ;  File: PopupPlus.dll
 ;  Plugin: Popup plus
-;  Version: 2.1.1.17
+;  Version: 2.1.2.0
 ;  Authors: MPK, Merlin_de (Luca Santarelli, Victor Pavlychko)
 ;============================================================
 [Miscellaneous]
@@ -8195,7 +8195,7 @@ Error desconocido
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Behavior]
@@ -8332,6 +8332,8 @@ No abrir la ventana al unirse a una sala de chat
 Prefijo de todos los eventos con una fecha y hora
 [Only prefix with timestamp if it has changed]
 Sólo prefijo de marca de tiempo si ha cambiado
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
 [Indent the second line of a message]
 Sangría de la segunda línea de un mensaje
 [Variables]
@@ -8400,7 +8402,7 @@ Dejar (10x10)
 Quitar (10x10)
 [Kick (10x10)]
 Sacar (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Cambio de apodo (10x10)
 [Topic (10x10)]
 Tema (10x10)
@@ -9421,7 +9423,7 @@ Barra de herramientas
 ;============================================================
 ;  File: Steam.dll
 ;  Plugin: Steam protocol
-;  Version: 0.95.12.2
+;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
 [Username:]
@@ -9458,7 +9460,7 @@ No puede enviar mensajes cuando no esté conectado.
 ;============================================================
 ;  File: StopSpam.dll
 ;  Plugin: StopSpam+
-;  Version: 0.1.0.2
+;  Version: 0.1.0.3
 ;  Authors: Roman Miklashevsky, A. Petkevich, Kosh&chka, persei
 ;============================================================
 [Divider:]
@@ -9496,7 +9498,7 @@ Avanzado
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -9689,7 +9691,7 @@ Quitar (10x10)
 Sacar (10x10)
 [Notice (10x10)]
 Anuncio (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Cambio de apodo (10x10)
 [Topic (10x10)]
 Tema (10x10)
@@ -9715,6 +9717,8 @@ Mostrar lista de usuarios en la sala de chat
 No abrir la ventana al unirse a una sala de chat
 [Prefix all events with a timestamp]
 Prefijo de todos los eventos con una fecha y hora
+[Only prefix with timestamp if it has changed]
+Sólo prefijo de marca de tiempo si ha cambiado
 [Timestamp has same color as the event]
 La marca de tiempo tiene mismo color que evento
 [Indent the second line of a message]
@@ -9920,7 +9924,7 @@ Masculino
 ;============================================================
 ;  File: Toaster.dll
 ;  Plugin: Toaster
-;  Version: 0.11.2.0
+;  Version: 0.11.2.1
 ;  Authors: Miranda NG team
 ;============================================================
 [Preview]
@@ -10195,7 +10199,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Updating]
@@ -10314,16 +10318,6 @@ No
 Ignorar
 [Error]
 Error
-[General]
-General
-[Work]
-Trabajo
-[About]
-Acerca de...
-[Profile]
-Perfil
-[Notes]
-Notas
 [Export to file]
 Importar a archivo
 [Import from file]
@@ -10362,6 +10356,14 @@ Ver/Modificar mis datos...
 Mis notas:
 [About:]
 Acerca de:
+[About]
+Acerca de...
+[Notes]
+Notas
+[General]
+General
+[Work]
+Trabajo
 [home]
 inicio
 [Contacts]
@@ -10370,6 +10372,8 @@ Contactos
 Avanzado
 [Popups]
 Ventanas emergentes
+[Profile]
+Perfil
 [Home]
 Inicio
 [Internet]
@@ -10497,6 +10501,39 @@ Cuenta
 Errores
 [Notifications]
 Notificaciones
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Background color]
+Color de fondo
+[Text color]
+Color de texto
+[Use Windows colors]
+Usar colores de Windows
+[Use default colors]
+Usar colores predeterminados
+[Custom]
+Personalizado
+[Permanent]
+Permanente
+[Preview]
+Previsualizar
+[Main]
+Principal
+[Background]
+Fondo
+[Do nothing]
+No hacer nada
+[Close popup]
+Cerrar popup
+[Popups]
+Ventanas emergentes
+[General]
+General
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -11109,7 +11146,7 @@ Ventanas emergentes
 ;============================================================
 ;  File: WhenWasIt.dll
 ;  Plugin: Birthday reminder
-;  Version: 0.3.3.6
+;  Version: 0.4.0.1
 ;  Authors: Cristian Libotean
 ;============================================================
 [Popups]
@@ -11146,8 +11183,6 @@ Fecha:
 Guardar
 [Delete]
 Eliminar
-[All contacts]
-Todos los contactos
 [Unknown]
 Desconocido
 [Protocol]
@@ -11156,6 +11191,8 @@ Protocolo
 Contacto
 [Age]
 Edad
+[All contacts]
+Todos los contactos
 [Contacts]
 Contactos
 [All Files]

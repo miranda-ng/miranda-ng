@@ -119,9 +119,9 @@ Unicode низ
 параметър
 [structure]
 структура
-[Ansi message]
+[ANSI message]
 
-[Ansi caption]
+[ANSI caption]
 
 [Structure]
 Структура
@@ -183,7 +183,7 @@ DWORD
 Име
 [Plugin]
 Приставка
-[Descr]
+[Description]
 Описание
 [&Change]
 Промяна
@@ -249,7 +249,7 @@ DWORD
 Максимизиране при стартиране
 [Program path]
 
-[Program args]
+[Program arguments]
 
 [Service]
 Услуга
@@ -297,8 +297,10 @@ DWORD
 > по-голямо
 [< lesser]
 < по-малко
-[= equ]
+[= equal]
 = равно
+[^ xor]
+
 [& and]
 
 [Text]
@@ -309,6 +311,8 @@ DWORD
 
 [empty]
 празно
+[equal]
+равно
 [contains]
 съдържа
 [starts with]
@@ -323,7 +327,7 @@ DWORD
 
 [JUMP]
 
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 
 [Process script after]
 
@@ -575,8 +579,8 @@ TopToolBar
 
 [Returns contact amount, excluding user account]
 
-[Ansi Text]
-Ansi текст
+[ANSI Text]
+ANSI текст
 [Removes all settings for the specified module]
 Премахва всички настройки от избрания модул
 [int 0]
@@ -637,7 +641,7 @@ Ansi текст
 Име на станцията
 [wParam is Handle]
 
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 
 [wParam is Unicode station name]
 
@@ -701,9 +705,9 @@ Unicode текст
 Показва прозорец за избор на контакт
 [filter text]
 
-[wParam is unicode]
+[wParam is Unicode]
 
-[wParam is Ansi]
+[wParam is ANSI]
 
 [Reserved]
 
@@ -723,7 +727,7 @@ Unicode текст
 Изпращане на файл до контакт
 [Opens message window for contact with handle in wparam]
 
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 
 [Call avatar option dialog for contact]
 
@@ -739,9 +743,9 @@ Unicode текст
 
 [Open URL in default browser]
 
-[With formating]
+[With formatting]
 
-[Don't use formating]
+[Don't use formatting]
 
 [Returns a string containing the versioninfo post]
 

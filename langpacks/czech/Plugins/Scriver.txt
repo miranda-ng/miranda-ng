@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,7 +268,7 @@ Přidat ':' k automaticky doplněným jménům
 Před každou událost přidat informaci o čase
 [Only prefix with timestamp if it has changed]
 Informaci o čase přidat pouze pokud se změní
-[Timestamp has same color as event]
+[Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
@@ -411,7 +411,7 @@ Opustit (10x10)
 Ukončit (10x10)
 [Kick (10x10)]
 Vykopnout (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Změna přezdívky (10x10)
 [Topic (10x10)]
 Téma (10x10)

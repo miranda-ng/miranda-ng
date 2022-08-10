@@ -5,7 +5,7 @@
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
-[Service offering misc country utilities as flag icons and an IP-to-Country database.]
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
 Dienst stellt verschiedene Länderdienste, wie Flaggen und eine IP-Zu-Land-Datenbank, zur Verfügung.
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]

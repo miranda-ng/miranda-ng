@@ -1,7 +1,7 @@
 ;============================================================
 ;  File: miranda32/64.exe
 ;  Module: Miranda Core
-;  Version: 0.96.1
+;  Version: 0.96.2
 ;============================================================
 ;file \src\core\stdautoaway\res\resource.rc
 [Become idle if the following is left unattended:]
@@ -1186,7 +1186,7 @@ UIN, E-mail тощо
 Стандартний
 [Total]
 Повний
-[Only critical data are encrypted (passwords, security tokens, etc). All other settings and history remains unencrypted.]
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
 Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля.
@@ -1863,13 +1863,35 @@ UIN, E-mail тощо
 Робочий телефон
 [Work fax]
 Робочий факс
+[Contact]
+Контакти
 ;file \src\core\stduserinfo\src\stdinfo.cpp
+[<not specified>]
+<не вказано>
+[Summary]
+Коротко
+[Location]
+Місце проживання
+[Work]
+Робота
+[Background info]
+Біографія
+[Notes]
+Нотатки
+;file \src\core\stduserinfo\src\userinfo.cpp
+[Owner]
+Власник
+[Folder]
+Папка
+[Page]
+
+[View/change my &details...]
+Особисті дані...
+;file \src\core\stduserinfo\src\utils.h
 [Male]
 Чоловіча
 [Female]
 Жіноча
-[<not specified>]
-<не вказано>
 [Single]
 Неодружений/Незаміжня
 [Close relationships]
@@ -1892,23 +1914,6 @@ UIN, E-mail тощо
 Усе складно
 [In a civil union]
 
-[Summary]
-Коротко
-[Contact]
-Контакти
-[Location]
-Місце проживання
-[Work]
-Робота
-[Background info]
-Біографія
-[Notes]
-Нотатки
-;file \src\core\stduserinfo\src\userinfo.cpp
-[Owner]
-Власник
-[View/change my &details...]
-Особисті дані...
 ;file \src\core\stduseronline\src\useronline.cpp
 [%s is online]
 %s в мережі
@@ -2659,14 +2664,14 @@ xСтатус
 Обліковий запис вимкнено. Активуйте його для доступу до налаштувань.
 [New account]
 Новий облік. запис
+[Rename]
+Перейменувати
 [Remove account]
 Видалити
 [Configure...]
 Налаштувати...
 [Upgrade account]
 Оновити обліковий запис
-[Rename]
-Перейменувати
 [Configure]
 Налаштувати
 [Upgrade]

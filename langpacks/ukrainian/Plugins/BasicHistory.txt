@@ -124,7 +124,7 @@
 Стиснути файли
 [Password]
 Пароль
-[Upload to FTP (WinSCP requred)]
+[Upload to FTP (WinSCP required)]
 Завантажити на FTP (необхідне WinSCP)
 [Session name]
 Ім'я сесії
@@ -393,7 +393,7 @@ dat (плагін mContacts)
 ** <ext> вставляє розширення, <contact> - ім'я контакту
 [Input files are compressed]
 Вхідні файли стиснуті
-[Download from FTP (WinSCP requred)]
+[Download from FTP (WinSCP required)]
 Скачати з FTP (необхідне WinSCP)
 [Import from]
 Імпорт з:

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: User info ext
-;  Version: 0.9.0.2
+;  Version: 0.9.0.3
 ;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 ;============================================================
 [Extended UserInfo module for Miranda NG. Provides interface to edit all contact information.]
@@ -116,8 +116,6 @@
 Проверка при всяко стартиране
 [Time of last check:]
 Последна проверка:
-[Automatically backup and keep protocol based birthdays up to date]
-
 [Play sound]
 Възпроизвеждане на звук
 [Use ignore list]
@@ -204,8 +202,6 @@ popup за годишнина
 Сканиране на подконтактите за липсваща информация
 [Enable extended 'send/receive e-mail' service (*)]
 Включване на разширената услуга 'send/receive email' (*)
-[Use Windows timezone]
-Ползване на Windows timezone (Часови пояси от Windows)
 [(*) Requires Miranda to be restarted.]
 (*) Изисква рестартиране на Miranda.
 [Reset factory defaults]
@@ -361,8 +357,6 @@ popup за годишнина
 
 [Creating the label for a page failed with %d and error code %d]
 
-[The dialog template type is no longer supported]
-Този тип шаблон вече не се поддържа
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 Добавяне на нова годишнина
@@ -442,22 +436,6 @@ popup за годишнина
 
 [Details dialog failed to be created. Returning error is %d.]
 Прозорецът с подробности не може да бъде създаден поради следната грешка: %d.
-[General]
-Основни
-[Contact (private)]
-Данни (Лични)
-[Anniversaries]
-Годишнини
-[Work]
-Работа
-[Contact (work)]
-Данни (работни)
-[About]
-Относно
-[Profile]
-Профил
-[Notes]
-Бележки
 [Export to file]
 Износ във файл
 [Import from file]
@@ -606,8 +584,6 @@ UserInfoEx
 Изнасяне на всички контакти
 [Import all contacts]
 Внасяне на всички контакти
-[Backup birthdays]
-Резервно копие на рождените дни
 [Export/import group]
 Износ/Внос на група
 [&Export group]
@@ -623,6 +599,10 @@ UserInfoEx
 Бележки:
 [About:]
 Относно:
+[About]
+Относно
+[Notes]
+Бележки
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid description first!]
 Първо трябва да въведете валидно описание!
@@ -630,11 +610,18 @@ UserInfoEx
 
 [Do you really want to delete the %s?]
 Наистина ли желаете да изтриете %s?
+[General]
+Основни
+[Anniversaries]
+Годишнини
+;file \plugins\UserInfoEx\src\psp_company.cpp
+[Work]
+Работа
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[home]
-дом
 [Open in browser]
 Отваряне в браузер
+[home]
+дом
 [Primary e-mail]
 Първа е-поща
 [Secondary e-mail]
@@ -645,6 +632,11 @@ UserInfoEx
 Адрес и контакт
 [company]
 компания
+[Contact (private)]
+Данни (Лични)
+[Contact (work)]
+Данни (работни)
+;file \plugins\UserInfoEx\src\psp_general.cpp
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 Въпрос
@@ -670,6 +662,7 @@ UserInfoEx
 Прозорец за подробности
 [Popups]
 Рopups
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 Минало
@@ -677,10 +670,10 @@ UserInfoEx
 Сдружение
 [Interest]
 Интереси
-[Sorry, but there is a problem with adding a new item of type "%s"]
-
 [<empty>]
 <празно>
+[Sorry, but there is a problem with adding a new item of type "%s"]
+
 [Edit category]
 Редактиране на категория
 [Edit value]
@@ -689,6 +682,8 @@ UserInfoEx
 Изтриване на елемент
 [Do you really want to delete this entry?]
 Наистина ли желаете елементът да бъде изтрит?
+[Profile]
+Профил
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 африкаанс (бурски)
@@ -1113,8 +1108,6 @@ Web дизайн
 \nТя навършва %d години.
 [No anniversaries to remind of]
 Няма годишнини за напомняне
-[Backing up and syncing all birthdays complete!]
-Синхронизирането и архивирането на рождените дни приключи!
 [Reminders]
 
 [Birthday reminder]

@@ -178,8 +178,6 @@ Mobiltelefon
 Video
 [Modem]
 Modem
-[(*) marks the current session]
-(*) markiert die aktuelle Auswahl
 [Load]
 Laden
 [Save]
@@ -522,6 +520,14 @@ Unterstützt direkte Chateinladungen (XEP-0249)
 Empfängt Informationen über OMEMO-Geräte
 [Supports message carbons (XEP-0280)]
 Unterstützt Nachrichtendurchschläge (XEP-0280)
+[Jingle ICE-UDP Transport]
+
+[Jingle RTP]
+
+[Jingle DTLS]
+
+[Jingle RTP Audio]
+
 ;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 Geben Sie den Text ein, den Sie sehen
@@ -758,6 +764,8 @@ Fehler beim Anfragen der Info
 [Items request error]
 Fehler beim Anfragen der Einträge
 ;file \protocols\JabberG\src\jabber_ft.cpp
+[%s is too large. Maximum size supported by the service is %d KB]
+
 [No compatible file transfer mechanism exists]
 Kein kompatibler Dateiübertragungsmechanismus vorhanden
 ;file \protocols\JabberG\src\jabber_groupchat.cpp
@@ -993,6 +1001,8 @@ Eingehende Notiz
 Möchten Sie eine OMEMO-Sitzung mit diesem neuen Gerät erzeugen:
 [OMEMO: New session]
 OMEMO: Neue Sitzung
+[OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
+
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
 Afarisch
@@ -1414,14 +1424,18 @@ Serverseitigen Verlauf aktivieren (XEP-0136)
 Message Archive Management unterstützen (XEP-0313)
 [Enable carbon copies (XEP-0280)]
 Durchschlagskopien aktivieren (XEP-0280)
-[Use Stream Management (XEP-0198) if possible (Testing)]
-Stream-Management verwenden wenn möglich (XEP-0198) (Testphase)
+[Enable VOIP (experimental)]
+
 [Server options]
 Servereinstellungen
+[Use Stream Management (XEP-0198) if possible (experimental)]
+
 [Disable SASL authentication (for old servers)]
 SASL-Authentifizierung deaktivieren (für ältere Server)
 [Enable stream compression (if possible)]
 Datenstromkompression aktivieren (falls möglich)
+[Use TLS 1.3 bindings (if possible)]
+
 [Other]
 Sonstige
 [Enable remote controlling (from another resource of same JID only)]
@@ -1434,8 +1448,6 @@ Kontakt bei akzeptierter Autorisierung automatisch hinzufügen
 Autorisierungsanfragen automatisch akzeptieren
 [Fix incorrect timestamps in incoming messages]
 Falsche Zeitangaben in empfangenen Nachrichten korrigieren
-[Disable frame]
-Frame deaktivieren
 [Enable XMPP link processing (requires AssocMgr)]
 XMPP-Linkverarbeitung aktivieren (benötigt AssocMgr)
 [Embrace picture URLs with [img]]
@@ -1444,17 +1456,15 @@ Bild-URLs in [img] einschließen
 Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
-[Allow local time & timezone requests (XEP-0202)]
+[Allow local time and timezone requests (XEP-0202)]
 Abfragen der lokalen Zeit und Zeitzone erlauben (XEP-0202)
 [Allow servers to request version (XEP-0092)]
 Servern das Abfragen der Version erlauben (XEP-0092)
 [Show information about operating system in version replies]
 Informationen über das Betriebssystem bei Versionsanfragen anzeigen
-[Accept only in band incoming filetransfers (don't disclose own IP)]
-Nur "In-Band"-Dateitransfers akzeptieren (enthüllt nicht die eigene IP)
 [Accept HTTP Authentication requests (XEP-0070)]
 HTTP-Authentifizierungs-Anfragen akzeptieren (XEP-0070)
-[Use OMEMO encryption for messages if possible (XEP-0384) (Basic support without GUI)]
+[Use OMEMO encryption for messages if possible (XEP-0384) (basic support without GUI)]
 OMEMO-Verschlüsselung für Nachrichten verwenden wenn möglich (XEP-0384) (Basis-Unterstützung ohne GUI)
 [General]
 Allgemein
@@ -1494,8 +1504,6 @@ Erweitert
 Sicheres XMPP-Netzwerk
 [Secure XMPP Network (old style)]
 Sicheres XMPP-Netzwerk (veraltet)
-[Google Talk!]
-Google Talk!
 [Hipchat]
 Hipchat
 [LiveJournal Talk]
@@ -1902,12 +1910,6 @@ Zeitüberschreitung beim Remoteserver
 Unbekannter Fehler
 [Unknown error message]
 Unbekannte Fehlernachricht
-[Advanced Status]
-Erweiterter Status
-[Set mood...]
-Stimmung setzen...
-[Set activity...]
-Aktivität setzen...
 ;file \protocols\JabberG\src\jabber_vcard.cpp
 [Male]
 männlich
@@ -1925,8 +1927,11 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
-[OMEMO]
-OMEMO
+;file \protocols\JabberG\src\jabber_voip.cpp
+[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
+
+[Incomig call]
+
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>
@@ -2098,6 +2103,8 @@ Irgendwie anders
 Kraftlos
 [Worried]
 Besorgt
+[Set mood...]
+Stimmung setzen...
 [Set Mood]
 Stimmung setzen
 [Mood: %s]
@@ -2256,6 +2263,8 @@ In einer Besprechung
 Lernen
 [writing]
 Schreiben
+[Set activity...]
+Aktivität setzen...
 [Set Activity]
 Aktivität setzen
 [Activity: %s]

@@ -78,6 +78,8 @@
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Дата: %d.%m.%y(%Y)\n Опис: %W - %w - %E - %e\n Час: %H:%M:%S (%h-%p)\n Користувач: %n - %u\n Статус: %s\n IP: %i - %r
 ;file \plugins\SeenPlugin\src\main.cpp
+[Clock]
+Час
 [LastSeen]
 Остання поява
 [User status change]

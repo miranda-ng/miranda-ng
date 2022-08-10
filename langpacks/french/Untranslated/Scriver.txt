@@ -13,7 +13,6 @@
 [Show contact statuses (if supported)]
 [Display contact status icon before role icon]
 [Add ':' to auto-completed names]
-[Timestamp has same color as event]
 [Limit user names to 20 characters]
 [Strip colors from messages]
 [Enable 'event filter' for new rooms]

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -38,6 +38,8 @@ Oznámení
 Oznamovací oblast
 [Options]
 Možnosti
+[Text for autocomplete]
+
 [Add new rooms to group:]
 Nové místnosti do skupiny:
 [Log files]
@@ -46,8 +48,8 @@ Soubory záznamů
 Aktivovat záznam
 [Log directory]
 Složka pro záznam
-[Maximum size for log files (in KB)]
-Maximální velikost souboru záznamu (v KB)
+[Split into files (in KB)]
+
 [Group chat log formatting]
 Formát záznamu chatu
 [Your name]
@@ -873,7 +875,7 @@ Ukončit (10x10)
 Vykopnout (10x10)
 [Notice (10x10)]
 Poznámka (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Změna přezdívky (10x10)
 [Topic (10x10)]
 Téma (10x10)
@@ -925,8 +927,8 @@ Vytvořit panely nebo okna při zvýraznění
 Aktivovat okno chatu při zvýraznění
 [Show list of users in the chat room]
 Zobrazit seznam uživatelů v místnosti
-[Colorize nicknames in member list]
-Obarvit přezdívky v seznamu uživatelů
+[Colorize nicknames in member list (you need to adjust colors)]
+
 [Show topic as status message on the contact list]
 Zobrazit téma jako zprávu stavu v seznamu kontaktů
 [Do not pop up the window when joining a chat room]
@@ -943,18 +945,14 @@ Použít IRC indikátory stavu v seznamu účastníků
 Použít alternativní metodu třídění v seznamu uživatelů
 [Prefix all events with a timestamp]
 Před každou událost přidat informaci o čase
-[Timestamp only when event time differs]
-Zobrazit časový údaj pouze pokud se liší
+[Only prefix with timestamp if it has changed]
+Časový údaj přidat pouze pokud se změní
 [Timestamp has same color as the event]
 Pro časový údaj použít stejnou barvu jakou má příslušná událost
 [Indent the second line of a message]
 Odsadit druhý řádek dlouhé zprávy
 [Limit user names in the message log to 20 characters]
 Omezit délku jmen v záznamu na 20 znaků
-[Add a colon (:) to auto-completed user names]
-Přidat dvojtečku za automaticky doplněné jméno
-[Add a comma instead of a colon to auto-completed user names]
-Přidat čárku místo dvojtečky za automaticky doplněné jméno
 [Start private conversation on double click in nick list (insert nick if unchecked)]
 Zahájit soukromý rozhovor dvojklikem v seznamu uživatelů (jinak vložit přezdívku)
 [Strip colors from messages in the log]
@@ -1199,8 +1197,6 @@ Zobrazit okno serveru
 %s    Nečinný: %dh,%02dm
 [  Client: %s]
   Klient: %s
-[  Client not cached yet]
-  Klient není zjištěn
 [Topic is: %s]
 Téma je: %s
 [no topic set.]

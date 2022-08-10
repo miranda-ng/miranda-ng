@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.2
+;  Version: 3.6.2.4
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Customize the panel]
@@ -39,8 +39,6 @@ Common colours
 Window fill colour
 [Generic text color (only when fill color is set)]
 Generic text colour (only when fill colour is set)
-[Colorize nicknames in member list]
-Colourise nicknames in member list
 [Timestamp has same color as the event]
 Timestamp has same colour as the event
 [Strip colors from messages in the log]

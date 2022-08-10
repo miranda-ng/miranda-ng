@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.2
+;  Version: 3.0.2.3
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -268,8 +268,8 @@ No abrir la ventana al unirse a una sala de chat
 Prefijo de todos los eventos con una fecha y hora
 [Only prefix with timestamp if it has changed]
 Sólo prefijo de marca de tiempo si ha cambiado
-[Timestamp has same color as event]
-
+[Timestamp has same color as the event]
+La marca de tiempo tiene mismo color que evento
 [Indent the second line of a message]
 Sangría de la segunda línea de un mensaje
 [Limit user names to 20 characters]
@@ -411,7 +411,7 @@ Dejar (10x10)
 Quitar (10x10)
 [Kick (10x10)]
 Sacar (10x10)
-[Nickchange (10x10)]
+[Nick change (10x10)]
 Cambio de apodo (10x10)
 [Topic (10x10)]
 Tema (10x10)

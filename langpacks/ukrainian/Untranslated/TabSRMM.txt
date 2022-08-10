@@ -1,5 +1,8 @@
+[Text for autocomplete]
+[Split into files (in KB)]
 [Selected nick list background]
 [Selected nick list text]
+[Colorize nicknames in member list (you need to adjust colors)]
 [Clear message area]
 [Use the same splitter height for all sessions]
 [is now offline (was online)]

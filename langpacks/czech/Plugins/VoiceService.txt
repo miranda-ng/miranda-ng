@@ -1,0 +1,181 @@
+#muuid {1bfc449d-8f6f-4080-8f35-f940b3de1284}
+;============================================================
+;  File: VoiceService.dll
+;  Plugin: Voice Service
+;  Version: 0.1.2.0
+;  Authors: Ricardo Pescuma Domenecci
+;============================================================
+[Provide services for protocols that support voice calls]
+
+;file \plugins\VoiceService\res\resource.rc
+[Enable popups]
+Povolit oznámení
+[ Colors ]
+ Barvy\s
+[Background color]
+Barva pozadí
+[Text color]
+Barva textu
+[Use Windows colors]
+Použít barvy Windows
+[Use default colors]
+Použít výchozí barvy
+[ Delay ]
+ Prodleva\s
+[From popup plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[ Actions ]
+ Akce 
+[On right click:]
+Pravé tlačítko
+[On left click:]
+Levé tlačítko
+[Preview]
+Náhled
+[New Voice Call]
+Nový hovor
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
+
+[Answer]
+Zvednout
+[Drop]
+Odmítnout
+[From now on, repeat this action for this contact]
+Pamatovat si volbu pro tento kontakt
+[Frame]
+Okno
+[Auto-size frame]
+Automatická velikost
+[Automatic Actions]
+
+[Auto accept this contact calls]
+Automaticky přijmout volání
+[Auto drop this contacts calls]
+Automaticky odmítnout volání
+[Audio]
+Audio
+[Input:]
+Vstup:
+[Output:]
+Výstup:
+[Echo cancelation]
+
+[Microphone boost]
+
+[Frame Popup]
+
+[Answer call]
+Zvednout
+[Drop call]
+Zavěsit
+[Hold call]
+Přidržet hovor
+;file \plugins\VoiceService\src\frame.cpp
+[Show dialpad]
+
+[Make call]
+
+[Call with %s]
+
+[Voice Calls]
+Hovory
+;file \plugins\VoiceService\src\hooks.cpp
+[Main]
+Hlavní
+[Dialpad]
+
+[Secure]
+Zabezpečeno
+[Talking]
+mluvím
+[Ringing]
+Vyzvánění
+[Calling]
+Volám
+[On Hold]
+Přidrženo
+[Ended]
+Zavěšeno
+[Busy]
+
+[Make Voice Call]
+
+[Answer Voice Call]
+Zvednout
+[Hold Voice Call]
+Přidržet
+[Drop Voice Call]
+Zavěsit
+[Started talking]
+Začátek hovoru
+[Calling a contact]
+Volání
+[Put a call on Hold]
+Přidržení hovoru
+[End of call]
+
+[Busy signal]
+
+[Call %s with %s]
+
+[Call]
+Volat
+[%s with %s]
+
+[with %s]
+
+[Background]
+Pozadí
+[Dialpad press]
+
+;file \plugins\VoiceService\src\options.cpp
+[Do nothing]
+Nedělat nic
+[Close popup]
+Zavřít oznámení
+[Test Contact]
+Testovací kontakt
+[Test description]
+Testovací popis
+[Popups]
+Oznámení
+[General]
+Obecné
+[Auto actions]
+Akce
+;file \plugins\VoiceService\src\services.cpp
+[%s wants to start a voice call with you. What you want to do?]
+%s vám volá.
+[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
+
+;file \plugins\VoiceService\src\VoiceCall.cpp
+[Voice call started]
+Hovor začal
+[Voice call ringing]
+
+[Voice call]
+Hovor
+[Voice call on hold]
+Hovor je přidržen
+[Voice call ended]
+Hovor ukončen
+[Voice call busy]
+
+[Call from %s has started]
+
+[Call from %s is ringing]
+
+[Calling %s]
+Volám %s
+[Call from %s is on hold]
+Hovor s %s je přidržen
+[Call from %s has ended]
+Hovor s %s skončil
+[%s is busy]
+
+[Unknown number]
+

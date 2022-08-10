@@ -497,7 +497,7 @@ Utwory
 Sprawdź aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierwszym znalezionym.
 [Check all players]
 Sprawdź wszystkie odtw.
-[Emulate multimedia keys presses to control palyer]
+[Emulate multimedia keys presses to control player]
 Emuluje klawisze multimedialne do kontrolowania odtwarzaczem.
 [User music info text]
 Tekst informacji o muzyce

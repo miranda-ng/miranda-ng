@@ -5,7 +5,7 @@
 [Congratulation:]
 [Auth. request reply:]
 [Vars]
-[Disable protection for following accounts:]
+[Enable protection for following accounts:]
 [Do not send more than]
 [questions to one contact (0 - for no limit)]
 [Enable StopSpam-StopSpam infinite talk protection]

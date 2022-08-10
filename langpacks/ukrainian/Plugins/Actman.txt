@@ -119,9 +119,9 @@
 параметр
 [structure]
 структура
-[Ansi message]
+[ANSI message]
 Повідомлення ANSI
-[Ansi caption]
+[ANSI caption]
 Заголовок ANSI
 [Structure]
 Структура
@@ -183,7 +183,7 @@
 Ім'я
 [Plugin]
 Плагін
-[Descr]
+[Description]
 Опис
 [&Change]
 &Змінити
@@ -249,7 +249,7 @@
 Запуск розгорнутим
 [Program path]
 Шлях
-[Program args]
+[Program arguments]
 Аргументи
 [Service]
 Виклик служби
@@ -297,8 +297,10 @@ UTF16+сигнатури
 > більше
 [< lesser]
 < меньше
-[= equ]
+[= equal]
 = дорівнює
+[^ xor]
+
 [& and]
 & і
 [Text]
@@ -309,6 +311,8 @@ UTF16+сигнатури
 Зворотний порядок
 [empty]
 порожній
+[equal]
+дорівнює
 [contains]
 містить
 [starts with]
@@ -323,7 +327,7 @@ UTF16+сигнатури
 
 [JUMP]
 Перейти
-[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
 ^s - виділювана (і замінювана) частина\r\n^e - замінюється порожнім рядком\r\n^v - вставити текст з буфера обміну\r\n^t - замінюється на табуляцію\r\n^l - замінюється останнім результатом в Unicode\r\n^h - замінюється останнім результатом в hex\r\n^f(name[,str])\r\n     вставка рядка з текстового файлу.\r\n     вміст дужок має бути без пробілів
 [Process script after]
 Скрипт після макроса
@@ -575,7 +579,7 @@ UTF16+сигнатури
 
 [Returns contact amount, excluding user account]
 Повертає кількість контактів (без облікового запису користувача)
-[Ansi Text]
+[ANSI Text]
 Текст ANSI
 [Removes all settings for the specified module]
 Видаляє всі налаштування вказаного модуля
@@ -637,7 +641,7 @@ UTF16+сигнатури
 Ім'я станції
 [wParam is Handle]
 
-[wParam is Ansi station name]
+[wParam is ANSI station name]
 wParam містить ім'я станції в ANSI
 [wParam is Unicode station name]
 wParam містить ім'я станції в Unicode
@@ -701,9 +705,9 @@ StdPopup або Popup plus
 Відкриває вікно вибору контакту
 [filter text]
 
-[wParam is unicode]
+[wParam is Unicode]
 wParam в Unicode
-[wParam is Ansi]
+[wParam is ANSI]
 wParam в ANSI
 [Reserved]
 
@@ -723,7 +727,7 @@ wParam в ANSI
 Відправляє контакту файл
 [Opens message window for contact with handle in wparam]
 Відкриває вікно повідомлень з контактом, handle якого знаходиться у wParam
-[remove all temporary contacts from db]
+[remove all temporary contacts from database]
 Видаляє з бази всі тимчасові контакти
 [Call avatar option dialog for contact]
 
@@ -739,9 +743,9 @@ wParam в ANSI
 0 - відкриває посилання в поточному вікні
 [Open URL in default browser]
 Відкриває посилання в браузері за замовчанням
-[With formating]
+[With formatting]
 з форматуванням
-[Don't use formating]
+[Don't use formatting]
 без форматування
 [Returns a string containing the versioninfo post]
 

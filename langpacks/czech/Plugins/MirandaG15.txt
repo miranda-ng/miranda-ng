@@ -151,7 +151,7 @@ Skrýt uživatele offline
 [Fade out selection rectangle]
 
 [Typing notifications]
-
+Upozornění na psaní
 [Show typing notifications]
 
 [Send typing notifications]
