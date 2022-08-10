@@ -60,9 +60,11 @@ void CJabberProto::OnIqResultPrivacyListModify(const TiXmlElement*, CJabberIqInf
 			mir_snwprintf(szText, TranslateT("Error occurred while applying changes"));
 		else
 			mir_snwprintf(szText, TranslateT("Privacy lists successfully saved"));
-		if (m_pDlgPrivacyLists)
+		if (m_pDlgPrivacyLists) {
 			m_pDlgPrivacyLists->SetStatusText(szText);
-		// FIXME: enable apply button
+			m_pDlgPrivacyLists->NotifyChange();
+		}
+
 		delete pParam;
 	}
 }
@@ -300,20 +302,21 @@ class CJabberDlgPrivacyRule : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlCombo	m_cbType, m_cbAction;
+	CCtrlCombo cmbType, cmbAction, cmbValue;
 
 public:
 	CPrivacyListRule *m_pRule;
 
 	CJabberDlgPrivacyRule(CJabberProto *proto, HWND hwndParent, CPrivacyListRule *pRule) :
 		CJabberDlgBase(proto, IDD_PRIVACY_RULE),
-		m_cbType(this, IDC_COMBO_TYPE),
-		m_cbAction(this, IDC_COMBO_ACTION)
+		cmbType(this, IDC_COMBO_TYPE),
+		cmbValue(this, IDC_COMBO_VALUE),
+		cmbAction(this, IDC_COMBO_ACTION)
 	{
 		SetParent(hwndParent);
 
 		m_pRule = pRule;
-		m_cbType.OnChange = Callback(this, &CJabberDlgPrivacyRule::cbType_OnChange);
+		cmbType.OnChange = Callback(this, &CJabberDlgPrivacyRule::cbType_OnChange);
 	}
 
 	bool OnInitDialog() override
@@ -328,22 +331,24 @@ public:
 		SendDlgItemMessage(m_hwnd, IDC_ICO_PRESENCEOUT, STM_SETICON, (WPARAM)g_plugin.getIcon(IDI_PL_PROUT_ALLOW), 0);
 
 		for (auto &it : initTypes) {
-			int iItem = m_cbType.AddString(it.name, it.value);
+			int iItem = cmbType.AddString(it.name, it.value);
 			if (m_pRule->GetType() == it.value)
-				m_cbType.SetCurSel(iItem);
+				cmbType.SetCurSel(iItem);
 		}
 		cbType_OnChange(0);
 
-		SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_RESETCONTENT, 0, 0);
-		wchar_t *szSubscriptions[] = { L"none", L"from", L"to", L"both" };
+		_A2T currValue(m_pRule->GetValue());
+		cmbValue.ResetContent();
+		wchar_t *szSubscriptions[] = { LPGENW("none"), LPGENW("from"), LPGENW("to"), LPGENW("both") };
 		for (auto &it : szSubscriptions) {
-			LRESULT nItem = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_ADDSTRING, 0, (LPARAM)TranslateW(it));
-			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETITEMDATA, nItem, (LPARAM)it);
+			int idx = cmbValue.AddString(TranslateW(it), (LPARAM)it);
+			if (!mir_wstrcmp(it, currValue))
+				cmbValue.SetCurSel(idx);
 		}
 
-		m_cbAction.AddString(TranslateT("Deny"));
-		m_cbAction.AddString(TranslateT("Allow"));
-		m_cbAction.SetCurSel(m_pRule->GetAction() ? 1 : 0);
+		cmbAction.AddString(TranslateT("Deny"));
+		cmbAction.AddString(TranslateT("Allow"));
+		cmbAction.SetCurSel(m_pRule->GetAction() ? 1 : 0);
 
 		uint32_t dwPackets = m_pRule->GetPackets();
 		if (!dwPackets)
@@ -364,20 +369,20 @@ public:
 
 	bool OnApply() override
 	{
-		int nCurSel, nItemData = m_cbType.GetCurData();
+		int nCurSel, nItemData = cmbType.GetCurData();
 
 		switch (nItemData) {
 		case Jid:
 		case Group:
 			wchar_t szText[512];
-			GetDlgItemText(m_hwnd, IDC_COMBO_VALUES, szText, _countof(szText));
+			cmbValue.GetText(szText, _countof(szText));
 			m_pRule->SetValue(T2Utf(szText));
 			break;
 
 		case Subscription:
-			nCurSel = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETCURSEL, 0, 0);
+			nCurSel = cmbValue.GetCurSel();
 			if (nCurSel != CB_ERR)
-				m_pRule->SetValue((char *)SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_GETITEMDATA, nCurSel, 0));
+				m_pRule->SetValue(_T2A((wchar_t*)cmbValue.GetItemData(nCurSel)));
 			else
 				m_pRule->SetValue("none");
 			break;
@@ -388,7 +393,7 @@ public:
 		}
 
 		m_pRule->SetType((PrivacyListRuleType)nItemData);
-		m_pRule->SetAction(m_cbAction.GetCurSel());
+		m_pRule->SetAction(cmbAction.GetCurSel());
 
 		uint32_t dwPackets = 0;
 		if (BST_CHECKED == IsDlgButtonChecked(m_hwnd, IDC_CHECK_MESSAGES))
@@ -419,7 +424,7 @@ public:
 	{
 		if (!m_pRule) return;
 
-		switch (m_cbType.GetCurData()) {
+		switch (cmbType.GetCurData()) {
 		case Jid:
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
 			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
@@ -1300,7 +1305,7 @@ public:
 		m_btnSimple.MakePush();
 		m_btnAdvanced.MakePush();
 
-		CLCINFOITEM cii = { 0 };
+		CLCINFOITEM cii = {};
 		cii.cbSize = sizeof(cii);
 		cii.flags = CLCIIF_GROUPFONT;
 
