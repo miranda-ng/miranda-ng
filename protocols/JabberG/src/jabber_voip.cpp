@@ -348,13 +348,23 @@ err:
 	return FALSE;
 }
 
-bool CJabberProto::VOIPTerminateSession()
+bool CJabberProto::VOIPTerminateSession(const char *reason)
 {
 	if (m_pipe1) {
 		gst_element_set_state(GST_ELEMENT(m_pipe1), GST_STATE_NULL);
 		g_clear_object(&m_pipe1);
 		gst_object_unref(m_pipe1);
 		gst_print("Pipeline stopped\n");
+	}
+
+	if (reason && !m_voipSession.IsEmpty() && !m_voipPeerJid.IsEmpty()) {
+		XmlNodeIq iq("set", SerialNext(), m_voipPeerJid);
+		TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+		jingleNode << XATTR("action", "session-terminate") << XATTR("sid", m_voipSession);
+		jingleNode << XATTR("initiator", m_isOutgoing ? m_ThreadInfo->fullJID : m_voipPeerJid);
+		jingleNode << XCHILD("reason") << XCHILD(reason);
+
+		m_ThreadInfo->send(iq);
 	}
 
 	m_voipICEPwd.Empty();

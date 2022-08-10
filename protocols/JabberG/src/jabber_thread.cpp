@@ -1860,9 +1860,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 						vc.state = VOICE_STATE_ENDED;
 						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 
-						VOIPTerminateSession();
-						m_voipSession.Empty();
-						m_voipPeerJid.Empty();
+						VOIPTerminateSession(nullptr);
 						return true;
 					}
 				}
