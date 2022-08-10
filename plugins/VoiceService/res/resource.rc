@@ -59,7 +59,7 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     CONTROL         "Enable popups",IDC_POPUPS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,3,3,308,12
-    GROUPBOX        " Colors ",IDC_COLOURS_G,3,25,158,75
+    GROUPBOX        "Colors",IDC_COLOURS_G,3,25,158,75
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,11,37,35,14
     LTEXT           "Background color",IDC_BGCOLOR_L,55,41,66,8
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,11,55,35,14
@@ -68,8 +68,8 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,11,74,108,10
     CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,11,84,107,10
-    GROUPBOX        " Delay ",IDC_DELAY_G,166,25,145,75
-    CONTROL         "From popup plugin",IDC_DELAYFROMPU,"Button",
+    GROUPBOX        "Timeout",IDC_DELAY_G,166,25,145,75
+    CONTROL         "Default",IDC_DELAYFROMPU,"Button",
                     BS_AUTORADIOBUTTON | WS_GROUP,175,38,122,10
     CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,175,
                     52,54,10
@@ -79,7 +79,7 @@ BEGIN
     CONTROL         "Spin1",IDC_DELAY_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
                     UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | 
                     UDS_HOTTRACK,268,51,11,11
-    GROUPBOX        " Actions ",IDC_ACTIONS_G,3,103,308,47
+    GROUPBOX        "Actions",IDC_ACTIONS_G,3,103,308,47
     RTEXT           "On right click:",IDC_RIGHT_ACTION_L,13,118,62,9
     COMBOBOX        IDC_RIGHT_ACTION,83,116,156,60,CBS_DROPDOWNLIST | 
                     WS_VSCROLL | WS_TABSTOP
