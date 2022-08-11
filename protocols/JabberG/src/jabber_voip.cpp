@@ -472,7 +472,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	if (!m_voipSession.IsEmpty()) {
 		VOIPTerminateSession();
 		MessageBoxA(0, "Terminated", NULL, 0);
-		return 0;
+		return false;
 	}
 
 	if (!m_bEnableVOIP)
@@ -480,7 +480,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 
 	CMStringA jid(ptrA(getUStringA(hContact, "jid")));
 	if (jid == "")
-		return 0;
+		return false;
 	ptrA szResource(GetBestResourceName(jid));
 	if (szResource)
 		jid = MakeJid(jid, szResource);
@@ -488,7 +488,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	CMStringA question(FORMAT, "Call %s?\r\n"
 		"It will disclose IP address to the peer and his server", jid.c_str());
 	if (MessageBoxA(0, question.c_str(), "Outgoing call", MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return 0;
+		return false;
 
 	unsigned char tmp[16];
 	Utils_GetRandom(tmp, sizeof(tmp));
@@ -498,7 +498,8 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	m_voipPeerJid = jid.c_str();
 
 	VOIPCreatePipeline();
-	return 0;
+
+	return true;
 }
 
 bool CJabberProto::VOIPCallAccept(const TiXmlElement *jingleNode, const char *from)
