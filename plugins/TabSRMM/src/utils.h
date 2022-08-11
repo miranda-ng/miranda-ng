@@ -158,7 +158,6 @@ private:
 
 	INT_PTR CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK	stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static __int64 getMask(); // get bit mask for disabled message classes
 
 private:
 	static MWindowList hWindowList;

@@ -1011,17 +1011,6 @@ LRESULT CWarning::ShowDialog() const
 	return ::DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_WARNING), nullptr, stubDlgProc, LPARAM(this));
 }
 
-__int64 CWarning::getMask()
-{
-	__int64 mask = 0;
-
-	uint32_t	dwLow = M.GetDword("cWarningsL", 0);
-	uint32_t	dwHigh = M.GetDword("cWarningsH", 0);
-
-	mask = ((((__int64)dwHigh) << 32) & 0xffffffff00000000) | dwLow;
-	return(mask);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // send cancel message to all open warning dialogs so they are destroyed
 // before TabSRMM is unloaded.
@@ -1073,7 +1062,7 @@ LRESULT CWarning::show(const int uId, uint32_t dwFlags, const wchar_t* tszTxt)
 
 	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != nullptr)) {
 		if (uId >= 0) {
-			mask = getMask();
+			mask = M.GetDword("cWarningsL", 0);
 			val = ((__int64)1L) << uId;
 		}
 		else mask = val = 0;
@@ -1124,19 +1113,15 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		m_hwnd = hwnd;
+
+		::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
+		::Window_SetSkinIcon_IcoLib(hwnd, SKINICON_OTHER_MIRANDA);
+		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
+		::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
+
+		TranslateDialogDefault(hwnd);
 		{
-			UINT uResId = 0;
-			HICON hIcon = nullptr;
-
-			m_hwnd = hwnd;
-
-			::SetWindowTextW(hwnd, TranslateT("TabSRMM warning message"));
-			::Window_SetSkinIcon_IcoLib(hwnd, SKINICON_OTHER_MIRANDA);
-			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_AUTOURLDETECT, TRUE, 0);
-			::SendDlgItemMessage(hwnd, IDC_WARNTEXT, EM_SETEVENTMASK, 0, ENM_LINK);
-
-			TranslateDialogDefault(hwnd);
-
 			CMStringW str(FORMAT, RTF_DEFAULT_HEADER, 0, 0, 0, 30 * 15);
 			str.Append(m_szText);
 			str.Append(L"}");
@@ -1158,6 +1143,8 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 				Utils::showDlgControl(hwnd, IDNO, SW_HIDE);
 				::SetFocus(::GetDlgItem(hwnd, IDOK));
 			}
+		
+			UINT uResId = 0;
 			if (m_dwFlags & MB_ICONERROR || m_dwFlags & MB_ICONHAND)
 				uResId = 32513;
 			else if (m_dwFlags & MB_ICONEXCLAMATION || m_dwFlags & MB_ICONWARNING)
@@ -1167,12 +1154,13 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			else if (m_dwFlags & MB_ICONQUESTION)
 				uResId = 32514;
 
+			HICON hIcon;
 			if (uResId)
 				hIcon = reinterpret_cast<HICON>(::LoadImage(nullptr, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
 			else
 				hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
-
 			::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
+
 			if (!(m_dwFlags & MB_YESNO || m_dwFlags & MB_YESNOCANCEL))
 				::ShowWindow(hwnd, SW_SHOWNORMAL);
 
@@ -1209,28 +1197,20 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDOK:
-		case IDCANCEL:
 		case IDYES:
 		case IDNO:
-			::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
-			delete this;
-			WindowList_Remove(hWindowList, hwnd);
+			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
+				uint32_t newVal = M.GetDword("cWarningsL", 0) | ((uint32_t)1L << m_uId);
+				db_set_dw(0, SRMSGMOD_T, "cWarningsL", newVal);
+			}
+			__fallthrough;
+
+		case IDCANCEL:
 			if (!m_fIsModal && (IDOK == LOWORD(wParam) || IDCANCEL == LOWORD(wParam))) // modeless dialogs can receive a IDCANCEL from destroyAll()
 				::DestroyWindow(hwnd);
 			else
 				::EndDialog(hwnd, LOWORD(wParam));
 			break;
-
-		case IDC_DONTSHOWAGAIN:
-			__int64 mask = getMask(), val64 = ((__int64)1L << m_uId), newVal = 0;
-			newVal = mask | val64;
-
-			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
-				uint32_t val = (uint32_t)(newVal & 0x00000000ffffffff);
-				db_set_dw(0, SRMSGMOD_T, "cWarningsL", val);
-				val = (uint32_t)((newVal >> 32) & 0x00000000ffffffff);
-				db_set_dw(0, SRMSGMOD_T, "cWarningsH", val);
-			}
 		}
 		break;
 
@@ -1251,6 +1231,10 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case WM_DESTROY:
+		::SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
+		delete this;
+
+		WindowList_Remove(hWindowList, hwnd);
 		Window_FreeIcon_IcoLib(hwnd);
 		break;
 	}
