@@ -67,6 +67,8 @@ using namespace std;
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
+	bool bFramesExist = false;
+
 	CMPlugin();
 
 	int Load() override;

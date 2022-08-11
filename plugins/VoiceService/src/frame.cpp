@@ -78,7 +78,7 @@ void ResizeFrame(int id, HWND hwnd)
 		GetWindowRect(hwnd, &r_window);
 
 		int diff = (parent_window.bottom - parent_window.top) - (parent_client.bottom - parent_client.top);
-		if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		if (g_plugin.bFramesExist)
 			diff += (r_window.top - parent_window.top);
 
 		SetWindowPos(parent, 0, 0, 0, parent_window.right - parent_window.left, height + diff, SWP_NOZORDER | SWP_NOMOVE | SWP_NOACTIVATE);
@@ -95,15 +95,17 @@ void ResizeFrame(int id, HWND hwnd)
 
 void ShowFrame(int id, HWND hwnd, int show)
 {
-	BOOL is_visible = IsWindowVisible(hwnd);
-	if ((is_visible && show == SW_SHOW) || (!is_visible && show == SW_HIDE))
-		return;
-
-	if (ServiceExists(MS_CLIST_FRAMES_SHFRAME) && id != -1)
-		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)id, 0);
-	else
+	if (!g_plugin.bFramesExist || id == -1) {
 		ShowWindow(GetParent(hwnd), show);
+		return;
+	}
+
+	BOOL bIsVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS) & F_VISIBLE;
+	if ((bIsVisible && show == SW_SHOW) || (!bIsVisible && show == SW_HIDE))
+		CallService(MS_CLIST_FRAMES_SHFRAME, id, 0);		
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 static int dialCtrls[] = {
 	IDC_DIALPAD, IDC_NUMBER, IDC_CALL,
@@ -715,7 +717,7 @@ static INT_PTR CALLBACK FrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 void InitFrames()
 {
-	if (ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+	if (g_plugin.bFramesExist) {
 		hwnd_frame = CreateDialogW(g_plugin.getInst(), MAKEINTRESOURCE(IDD_CALLS), g_clistApi.hwndContactList, FrameWndProc);
 
 		CLISTFrame Frame = {};
@@ -723,18 +725,16 @@ void InitFrames()
 		Frame.szName.w = TranslateT("Voice Calls");
 		Frame.hWnd = hwnd_frame;
 		Frame.align = alBottom;
-		Frame.Flags = F_VISIBLE | F_NOBORDER | F_LOCKED | F_UNICODE;
-		Frame.height = 0;
+		Frame.Flags = F_NOBORDER | F_LOCKED | F_UNICODE;
 		Frame.hIcon = g_plugin.getIcon(IDI_MAIN, true);
-
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 	}
 }
 
 void DeInitFrames()
 {
-	if (ServiceExists(MS_CLIST_FRAMES_REMOVEFRAME) && frame_id != -1)
-		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)frame_id, 0);
+	if (g_plugin.bFramesExist && frame_id != -1)
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME, frame_id, 0);
 
 	if (hwnd_frame != NULL)
 		DestroyWindow(hwnd_frame);

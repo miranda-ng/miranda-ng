@@ -633,6 +633,8 @@ static INT_PTR CMDrop(WPARAM wParam, LPARAM)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
+	g_plugin.bFramesExist = ServiceExists(MS_CLIST_FRAMES_ADDFRAME);
+
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)MODULE_NAME, 0);
 
