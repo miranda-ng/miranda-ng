@@ -348,11 +348,8 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	}
 
-	if (!bTextUsed && lin.ptszText) {
-		if (!wszText.IsEmpty())
-			wszText.Append(L": ");
+	if (!bTextUsed && lin.ptszText)
 		wszText.Append(RemoveFormatting(gce->pszText.w));
-	}
 
 	g_chatApi.ShowPopup(si->hContact, si, g_chatApi.getIcon(gce->iType), si->pszModule, si->ptszName, dwColor, L"%s", wszText.c_str());
 	return TRUE;
@@ -548,11 +545,8 @@ BOOL LogToFile(SESSION_INFO *si, GCEVENT *gce)
 		break;
 	}
 
-	if (!bTextUsed && lin.ptszText) {
-		if (!buf.IsEmpty())
-			buf.Append(L": ");
+	if (!bTextUsed && lin.ptszText)
 		buf.Append(RemoveFormatting(gce->pszText.w));
-	}
 
 	// formatting strings don't need to be translatable - changing them via language pack would
 	// only screw up the log format.
