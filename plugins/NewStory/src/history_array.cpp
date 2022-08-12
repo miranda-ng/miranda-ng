@@ -218,8 +218,11 @@ void HistoryArray::addChatEvent(SESSION_INFO *si, LOGINFO *lin)
 
 	CMStringW wszText;
 	bool bTextUsed = Chat_GetDefaultEventDescr(si, lin, wszText);
-	if (!bTextUsed && lin->ptszText)
+	if (!bTextUsed && lin->ptszText) {
+		if (!wszText.IsEmpty())
+			wszText.AppendChar(' ');
 		wszText.Append(g_chatApi.RemoveFormatting(lin->ptszText));
+	}
 
 	auto &p = allocateItem();
 	p.hContact = si->hContact;

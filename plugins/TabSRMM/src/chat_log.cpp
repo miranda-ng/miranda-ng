@@ -229,9 +229,11 @@ static void AddEventToBuffer(CMStringA &str, LOGSTREAMDATA *streamData)
 	bool bTextUsed = Chat_GetDefaultEventDescr(streamData->si, streamData->lin, wszCaption);
 	if (!wszCaption.IsEmpty())
 		Log_AppendRTF(streamData, !bTextUsed, str, wszCaption);
-
-	if (!bTextUsed && streamData->lin->ptszText)
+	if (!bTextUsed && streamData->lin->ptszText) {
+		if (!wszCaption.IsEmpty())
+			Log_AppendRTF(streamData, false, str, L" ");
 		Log_AppendRTF(streamData, false, str, streamData->lin->ptszText);
+	}
 }
 
 char* Log_CreateRtfHeader(void)

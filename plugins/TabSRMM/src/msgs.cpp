@@ -29,7 +29,7 @@
 
 #include "stdafx.h"
 
-#define IDI_CORE_LOAD 132 // icon id for the "connecting" icon
+#define IDI_CORE_LOAD	132					// icon id for the "connecting" icon
 
 static HANDLE hUserPrefsWindowLis = nullptr;
 HMODULE g_hMsftedit;
