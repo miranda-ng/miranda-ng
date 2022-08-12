@@ -100,8 +100,8 @@ void ShowFrame(int id, HWND hwnd, int show)
 		return;
 	}
 
-	BOOL bIsVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS) & F_VISIBLE;
-	if ((bIsVisible && show == SW_SHOW) || (!bIsVisible && show == SW_HIDE))
+	BOOL bIsVisible = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id)) & F_VISIBLE;
+	if ((bIsVisible && show == SW_HIDE) || (!bIsVisible && show == SW_SHOW))
 		CallService(MS_CLIST_FRAMES_SHFRAME, id, 0);		
 }
 
@@ -724,10 +724,14 @@ void InitFrames()
 		Frame.cbSize = sizeof(CLISTFrame);
 		Frame.szName.w = TranslateT("Voice Calls");
 		Frame.hWnd = hwnd_frame;
+		Frame.height = ICON_SIZE;
 		Frame.align = alBottom;
 		Frame.Flags = F_NOBORDER | F_LOCKED | F_UNICODE;
 		Frame.hIcon = g_plugin.getIcon(IDI_MAIN, true);
 		frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+
+		int flags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), 0);
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, frame_id), flags & ~F_VISIBLE);
 	}
 }
 
