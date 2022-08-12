@@ -533,7 +533,7 @@ public:
 	void onClick_Reset(CCtrlButton*)
 	{
 		db_set_dw(0, SRMSGMOD_T, "cWarningsL", 0);
-		db_set_dw(0, SRMSGMOD_T, "cWarningsH", 0);
+		db_set_dw(0, SRMSGMOD_T, "cWarningsV", 0);
 	}
 };
 
