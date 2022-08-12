@@ -1031,7 +1031,6 @@ void CWarning::destroyAll()
 LRESULT CWarning::show(const int uId, uint32_t dwFlags, const wchar_t* tszTxt)
 {
 	wchar_t*	separator_pos = nullptr;
-	__int64 	mask = 0, val = 0;
 
 	if (nullptr == hWindowList)
 		hWindowList = WindowList_Create();
@@ -1061,25 +1060,28 @@ LRESULT CWarning::show(const int uId, uint32_t dwFlags, const wchar_t* tszTxt)
 	}
 
 	if ((mir_wstrlen(_s) > 3) && ((separator_pos = wcschr(_s, '|')) != nullptr)) {
-		if (uId >= 0) {
-			mask = M.GetDword("cWarningsL", 0);
-			val = ((__int64)1L) << uId;
-		}
-		else mask = val = 0;
-
-		if (0 == (mask & val) || dwFlags & CWF_NOALLOWHIDE) {
-			ptrW s(mir_wstrdup(_s));
-			separator_pos = wcschr(s, '|');
-
-			if (separator_pos) {
-				*separator_pos = 0;
-
-				CWarning *w = new CWarning(s, separator_pos + 1, uId, dwFlags);
+		if (uId >= 0 && !(dwFlags & CWF_NOALLOWHIDE)) {
+			uint32_t val = M.GetDword("cWarningsL", 0);
+			uint32_t mask = ((__int64)1L) << uId;
+			if (mask & val) {
+				bool bResult = (M.GetDword("cWarningsV", 0xFFFFFFFF) & mask) != 0;
 				if (dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)
-					return w->ShowDialog();
-
-				w->ShowDialog();
+					return (bResult) ? IDYES : IDNO;
+				return IDOK;
 			}
+		}
+
+		ptrW s(mir_wstrdup(_s));
+		separator_pos = wcschr(s, '|');
+
+		if (separator_pos) {
+			*separator_pos = 0;
+
+			CWarning *w = new CWarning(s, separator_pos + 1, uId, dwFlags);
+			if (dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)
+				return w->ShowDialog();
+
+			w->ShowDialog();
 		}
 	}
 	return -1;
@@ -1202,6 +1204,10 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
 				uint32_t newVal = M.GetDword("cWarningsL", 0) | ((uint32_t)1L << m_uId);
 				db_set_dw(0, SRMSGMOD_T, "cWarningsL", newVal);
+			}
+			if (LOWORD(wParam) != IDNO) {
+				uint32_t newVal = M.GetDword("cWarningsV", 0) | ((uint32_t)1L << m_uId);
+				db_set_dw(0, SRMSGMOD_T, "cWarningsV", newVal);
 			}
 			__fallthrough;
 
