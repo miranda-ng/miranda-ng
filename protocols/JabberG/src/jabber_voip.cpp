@@ -508,7 +508,7 @@ bool CJabberProto::VOIPCallAccept(const TiXmlElement *jingleNode, const char *fr
 		return false;
 
 	CMStringW question(FORMAT, TranslateT("Accept call from %S?\r\nIt will disclose IP address to the peer and his server"), from);
-	if (MessageBoxW(0, question, TranslateT("Incomig call"), MB_YESNO | MB_ICONQUESTION) != IDYES)
+	if (MessageBoxW(0, question, TranslateT("Incoming call"), MB_YESNO | MB_ICONQUESTION) != IDYES)
 		return false;
 
 	m_isOutgoing = false;
