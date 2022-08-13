@@ -126,20 +126,16 @@ static int sttCompareCallingMethods(const CallingMethod *p1, const CallingMethod
 
 static void AddMethodsFrom(OBJLIST<CallingMethod> *list, MCONTACT hContact)
 {
-	for (int i = 0; i < modules.getCount(); i++) {
-		VoiceProvider *provider = &modules[i];
+	for (auto &provider: modules)
 		if (provider->CanCall(hContact))
 			list->insert(new CallingMethod(provider, hContact));
-	}
 }
 
 static void AddMethodsFrom(OBJLIST<CallingMethod> *list, MCONTACT hContact, const wchar_t *number)
 {
-	for (int i = 0; i < modules.getCount(); i++) {
-		VoiceProvider *provider = &modules[i];
+	for (auto &provider: modules)
 		if (provider->CanCall(number))
 			list->insert(new CallingMethod(provider, hContact, number));
-	}
 }
 
 static void BuildCallingMethodsList(OBJLIST<CallingMethod> *list, MCONTACT hContact)
@@ -362,14 +358,6 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int IconsChanged(WPARAM, LPARAM)
-{
-	if (hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
-
-	return 0;
-}
-
 static int ReloadColor(WPARAM, LPARAM)
 {
 	ColourIDW ci = { 0 };
@@ -382,17 +370,15 @@ static int ReloadColor(WPARAM, LPARAM)
 		DeleteObject(bk_brush);
 	bk_brush = CreateSolidBrush(bkg_color);
 
-	if (hwnd_frame != NULL)
-		InvalidateRect(hwnd_frame, NULL, TRUE);
-
+	RefreshFrame();
 	return 0;
 }
 
-VoiceProvider *FindModule(const char *szModule)
+VoiceProvider* FindModule(const char *szModule)
 {
-	for (int i = 0; i < modules.getCount(); i++)
-		if (strcmp(modules[i].name, szModule) == 0)
-			return &modules[i];
+	for (auto &it : modules)
+		if (strcmp(it->name, szModule) == 0)
+			return it;
 
 	return NULL;
 }
@@ -405,11 +391,9 @@ static bool IsCall(VoiceCall *call, const char *szModule, const char *id)
 
 VoiceCall* FindVoiceCall(const char *szModule, const char *id, bool add)
 {
-	for (int i = 0; i < calls.getCount(); i++) {
-		if (IsCall(&calls[i], szModule, id)) {
-			return &calls[i];
-		}
-	}
+	for (auto &call : calls)
+		if (IsCall(call, szModule, id))
+			return call;
 
 	if (add) {
 		VoiceProvider *module = FindModule(szModule);
@@ -421,63 +405,56 @@ VoiceCall* FindVoiceCall(const char *szModule, const char *id, bool add)
 		return tmp;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 VoiceCall* FindVoiceCall(MCONTACT hContact)
 {
-	for (int i = 0; i < calls.getCount(); i++) {
-		if (calls[i].state != VOICE_STATE_ENDED && calls[i].hContact == hContact) {
-			return &calls[i];
-		}
-	}
+	for (auto &call : calls)
+		if (call->state != VOICE_STATE_ENDED && call->hContact == hContact)
+			return call;
 
-	return NULL;
+	return nullptr;
 }
 
 static VOID CALLBACK ClearOldVoiceCalls(HWND, UINT, UINT_PTR, DWORD)
 {
 	DWORD now = GetTickCount();
-	BOOL refresh = FALSE;
-	for (int i = calls.getCount() - 1; i >= 0; --i) {
-		VoiceCall *call = &calls[i];
-
+	bool refresh = false;
+	for (auto &call : calls.rev_iter()) {
 		if (call->state == VOICE_STATE_ENDED && call->end_time + TIME_TO_SHOW_ENDED_CALL < now) {
-			calls.remove(i);
-			refresh = TRUE;
+			calls.remove(calls.indexOf(&call));
+			refresh = true;
 		}
 	}
 
-	if (refresh && hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
+	if (refresh)
+		RefreshFrame();
 }
 
 bool CanCall(MCONTACT hContact, BOOL now)
 {
-	for (int i = 0; i < modules.getCount(); i++) {
-		if (modules[i].CanCall(hContact, now))
+	for (auto &it : modules)
+		if (it->CanCall(hContact, now))
 			return true;
-	}
 
 	return false;
 }
 
 bool CanCall(const wchar_t *number)
 {
-	for (int i = 0; i < modules.getCount(); i++) {
-		if (modules[i].CanCall(number))
+	for (auto &it : modules)
+		if (it->CanCall(number))
 			return true;
-	}
 
 	return false;
 }
 
 bool CanCallNumber()
 {
-	for (int i = 0; i < modules.getCount(); i++) {
-		if (modules[i].flags & VOICE_CAPS_CALL_STRING)
+	for (auto &it : modules)
+		if (it->flags & VOICE_CAPS_CALL_STRING)
 			return true;
-	}
 
 	return false;
 }
@@ -489,21 +466,16 @@ bool IsFinalState(int state)
 
 VoiceCall* GetTalkingCall()
 {
-	for (int i = 0; i < calls.getCount(); ++i) {
-		VoiceCall *call = &calls[i];
-
+	for (auto &call : calls)
 		if (call->state == VOICE_STATE_TALKING)
 			return call;
-	}
 
 	return NULL;
 }
 
 void HoldOtherCalls(VoiceCall *call)
 {
-	for (int i = 0; i < calls.getCount(); ++i) {
-		VoiceCall *other = &calls[i];
-
+	for (auto &other: calls) {
 		if (other == call || other->state != VOICE_STATE_TALKING)
 			continue;
 
@@ -545,9 +517,7 @@ static int ReloadFont(WPARAM, LPARAM)
 		font_max_height = max(font_max_height, log_font.lfHeight);
 	}
 
-	if (hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
-
+	RefreshFrame();
 	return 0;
 }
 
@@ -642,8 +612,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 	g_plugin.registerIcon(LPGEN("Voice Calls"), mainIcons, "vc");
 	g_plugin.registerIcon(LPGEN("Voice Calls"), stateIcons, "vc");
 	g_plugin.registerIcon(LPGEN("Voice Calls"), actionIcons, "vca");
-
-	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 
 	// Init fonts
 	{
@@ -745,8 +713,7 @@ int ProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *)lParam;
 	if (ack->type == ACKTYPE_STATUS)
-		if (hwnd_frame != NULL)
-			PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
+		RefreshFrame();
 
 	return 0;
 }

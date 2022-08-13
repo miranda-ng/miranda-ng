@@ -181,8 +181,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool clist)
 		clistBlinking = true;
 	}
 
-	if (hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
+	RefreshFrame();
 }
 
 bool VoiceCall::IsFinished()

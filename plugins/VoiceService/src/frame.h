@@ -21,16 +21,9 @@ Boston, MA 02111-1307, USA.
 #ifndef __FRAME_H__
 # define __FRAME_H__
 
-
 void InitFrames();
 void DeInitFrames();
 
-
-extern HWND hwnd_frame;
-
-
-#define WMU_REFRESH (WM_USER + 25)
-#define WMU_RESIZE_FRAME (WM_USER + 26)
-
+void RefreshFrame();
 
 #endif // __FRAME_H__

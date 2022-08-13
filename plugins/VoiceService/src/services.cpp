@@ -126,9 +126,7 @@ INT_PTR VoiceRegister(WPARAM wParam, LPARAM)
 
 	modules.insert(new VoiceProvider(in->name, in->description, in->flags, in->icon));
 
-	if (hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
-
+	RefreshFrame();
 	return 0;
 }
 
@@ -142,22 +140,17 @@ INT_PTR VoiceUnregister(WPARAM wParam, LPARAM)
 	if (module == NULL)
 		return -2;
 
-	for (int i = calls.getCount() - 1; i >= 0; --i) {
-		VoiceCall *call = &calls[i];
-
+	for (auto &call: calls.rev_iter())
 		if (call->module == module) {
 			call->Drop();
 			call->SetState(VOICE_STATE_ENDED);
 
-			calls.remove(i);
+			calls.remove(calls.indexOf(&call));
 		}
-	}
 
 	modules.remove(module);
 
-	if (hwnd_frame != NULL)
-		PostMessage(hwnd_frame, WMU_REFRESH, 0, 0);
-
+	RefreshFrame();
 	return 0;
 }
 
