@@ -347,6 +347,7 @@ struct TContainerData : public MZeroedObject
 	void InitRedraw(void);
 	void LoadOverrideTheme(void);
 	void LoadThemeDefaults(void);
+	bool MustPlaySound(const CMsgDialog *dat) const;
 	void OptionsDialog(void);
 	void QueryClientArea(RECT &rc);
 	void QueryPending(void);
@@ -687,7 +688,6 @@ public:
 	void    KbdState(bool &isShift, bool &isControl, bool &isAlt);
 	void    LimitMessageText(int iLen);
 	int     LoadLocalFlags(void);
-	bool    MustPlaySound(void) const;
 	void    NotifyDeliveryFailure(void) const;
 	void    RemakeLog(void);
 	void    SaveSplitter(void);

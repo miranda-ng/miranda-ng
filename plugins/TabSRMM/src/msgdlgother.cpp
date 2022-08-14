@@ -509,6 +509,32 @@ void CMsgDialog::FindFirstEvent()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// returns != 0 when one of the installed keyboard layouts belongs to an rtl language
+// used to find out whether we need to configure the message input box for bidirectional mode
+
+int CMsgDialog::FindRTLLocale()
+{
+	int result = 0;
+
+	if (m_iHaveRTLLang == 0) {
+		HKL layouts[20];
+		memset(layouts, 0, sizeof(layouts));
+		GetKeyboardLayoutList(20, layouts);
+		for (int i = 0; i < 20 && layouts[i]; i++) {
+			uint16_t wCtype2[5];
+			LCID lcid = MAKELCID(LOWORD(layouts[i]), 0);
+			GetStringTypeA(lcid, CT_CTYPE2, "���", 3, wCtype2);
+			if (wCtype2[0] == C2_RIGHTTOLEFT || wCtype2[1] == C2_RIGHTTOLEFT || wCtype2[2] == C2_RIGHTTOLEFT)
+				result = 1;
+		}
+		m_iHaveRTLLang = (result ? 1 : -1);
+	}
+	else result = m_iHaveRTLLang == 1 ? 1 : 0;
+
+	return result;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 {
@@ -552,6 +578,277 @@ void CMsgDialog::FlashTab(bool bInvertMode)
 	TabCtrl_SetItem(m_hwndParent, m_iTabID, &item);
 	if (m_pContainer->cfg.flags.m_bSideBar)
 		m_pContainer->m_pSideBar->updateSession(this);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// this translates formatting tags into rtf sequences...
+// flags: loword = words only for simple  * /_ formatting
+//        hiword = bbcode support (strip bbcodes if 0)
+
+static wchar_t *w_bbcodes_begin[] = { L"[b]", L"[i]", L"[u]", L"[s]", L"[color=" };
+static wchar_t *w_bbcodes_end[] = { L"[/b]", L"[/i]", L"[/u]", L"[/s]", L"[/color]" };
+
+static wchar_t *formatting_strings_begin[] = { L"b1 ", L"i1 ", L"u1 ", L"s1 ", L"c1 " };
+static wchar_t *formatting_strings_end[] = { L"b0 ", L"i0 ", L"u0 ", L"s0 ", L"c0 " };
+
+void CMsgDialog::FormatRaw(CMStringW &msg, int flags, bool isSent)
+{
+	bool clr_was_added = false;
+	int beginmark = 0, endmark = 0, tempmark = 0;
+	int i, endindex;
+
+	if (m_dwFlags & MWF_LOG_BBCODE) {
+		beginmark = 0;
+		while (true) {
+			for (i = 0; i < _countof(w_bbcodes_begin); i++)
+				if ((tempmark = msg.Find(w_bbcodes_begin[i], 0)) != -1)
+					break;
+
+			if (i >= _countof(w_bbcodes_begin))
+				break;
+
+			beginmark = tempmark;
+			endindex = i;
+			endmark = msg.Find(w_bbcodes_end[i], beginmark);
+			if (endindex == 4) { // color
+				int closing = msg.Find(L"]", beginmark);
+				bool was_added = false;
+
+				if (closing == -1) {                      // must be an invalid [color=] tag w/o closing bracket
+					msg.SetAt(beginmark, ' ');
+					continue;
+				}
+
+				CMStringW colorname = msg.Mid(beginmark + 7, closing - beginmark - 7);
+search_again:
+				bool clr_found = false;
+				for (int ii = 0; ii < Utils::rtf_clrs.getCount(); ii++) {
+					auto &rtfc = Utils::rtf_clrs[ii];
+					if (!wcsicmp(colorname, rtfc.szName)) {
+						closing = beginmark + 7 + (int)mir_wstrlen(rtfc.szName);
+						if (endmark != -1) {
+							msg.Delete(endmark, 8);
+							msg.Insert(endmark, L"c0 ");
+						}
+						msg.Delete(beginmark, closing - beginmark + 1);
+
+						wchar_t szTemp[5];
+						msg.Insert(beginmark, L"cxxx ");
+						mir_snwprintf(szTemp, L"%02d", MSGDLGFONTCOUNT + 13 + ii);
+						msg.SetAt(beginmark + 3, szTemp[0]);
+						msg.SetAt(beginmark + 4, szTemp[1]);
+						clr_found = true;
+						if (was_added) {
+							wchar_t wszTemp[100];
+							mir_snwprintf(wszTemp, L"##col##%06u:%04u", endmark - closing, ii);
+							wszTemp[99] = 0;
+							msg.Insert(beginmark, wszTemp);
+						}
+						break;
+					}
+				}
+				if (!clr_found) {
+					int c_closing = colorname.Find(L"]");
+					if (c_closing == -1)
+						c_closing = colorname.GetLength();
+					const wchar_t *wszColname = colorname.c_str();
+					if (endmark != -1 && c_closing > 2 && c_closing <= 6 && iswalnum(colorname[0]) && iswalnum(colorname[c_closing - 1])) {
+						Utils::RTF_ColorAdd(wszColname);
+						if (!was_added) {
+							clr_was_added = was_added = true;
+							goto search_again;
+						}
+						else goto invalid_code;
+					}
+					else {
+invalid_code:
+						if (endmark != -1)
+							msg.Delete(endmark, 8);
+						if (closing != -1 && closing < endmark)
+							msg.Delete(beginmark, (closing - beginmark) + 1);
+						else
+							msg.SetAt(beginmark, ' ');
+					}
+				}
+				continue;
+			}
+
+			if (endmark != -1) {
+				msg.Delete(endmark, 4);
+				msg.Insert(endmark, formatting_strings_end[i]);
+			}
+			msg.Delete(beginmark, 3);
+			msg.Insert(beginmark, L" ");
+			msg.Insert(beginmark, formatting_strings_begin[i]);
+		}
+	}
+
+	if ((m_dwFlags & MWF_LOG_TEXTFORMAT) && msg.Find(L"://") == -1) {
+		while ((beginmark = msg.Find(L"*/_", beginmark)) != -1) {
+			wchar_t endmarker = msg[beginmark];
+			if (LOWORD(flags)) {
+				if (beginmark > 0 && !iswspace(msg[beginmark - 1]) && !iswpunct(msg[beginmark - 1])) {
+					beginmark++;
+					continue;
+				}
+
+				// search a corresponding endmarker which fulfills the criteria
+				INT_PTR mark = beginmark + 1;
+				while ((endmark = msg.Find(endmarker, mark)) != -1) {
+					if (iswpunct(msg[endmark + 1]) || iswspace(msg[endmark + 1]) || msg[endmark + 1] == 0 || wcschr(L"*/_", msg[endmark + 1]) != nullptr)
+						goto ok;
+					mark = endmark + 1;
+				}
+				break;
+			}
+			else {
+				if ((endmark = msg.Find(endmarker, beginmark + 1)) == -1)
+					break;
+			}
+ok:
+			if ((endmark - beginmark) < 2) {
+				beginmark++;
+				continue;
+			}
+			
+			int index = 0;
+			switch (endmarker) {
+			case '*':
+				index = 0;
+				break;
+			case '/':
+				index = 1;
+				break;
+			case '_':
+				index = 2;
+				break;
+			}
+
+			// check if the code enclosed by simple formatting tags is a valid smiley code and skip formatting if
+			// it really is one.
+			if (PluginConfig.g_SmileyAddAvail && (endmark > (beginmark + 1))) {
+				CMStringW smcode = msg.Mid(beginmark, (endmark - beginmark) + 1);
+
+				SMADD_BATCHPARSE2 smbp = {};
+				smbp.cbSize = sizeof(smbp);
+				smbp.Protocolname = m_cache->getActiveProto();
+				smbp.flag = SAFL_TCHAR | SAFL_PATH | (isSent ? SAFL_OUTGOING : 0);
+				smbp.str = (wchar_t*)smcode.c_str();
+				smbp.hContact = m_hContact;
+
+				SMADD_BATCHPARSERES *smbpr = (SMADD_BATCHPARSERES *)CallService(MS_SMILEYADD_BATCHPARSE, 0, (LPARAM)&smbp);
+				if (smbpr) {
+					CallService(MS_SMILEYADD_BATCHFREE, 0, (LPARAM)smbpr);
+					beginmark = endmark + 1;
+					continue;
+				}
+			}
+			msg.Delete(endmark, 1);
+			msg.Insert(endmark, formatting_strings_end[index]);
+			msg.Delete(beginmark, 1);
+			msg.Insert(beginmark, formatting_strings_begin[index]);
+		}
+	}
+
+	m_bClrAdded = clr_was_added;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// format the title bar string for IM chat sessions using placeholders.
+// the caller must mir_free() the returned string
+
+static wchar_t* Trunc500(wchar_t *str)
+{
+	if (mir_wstrlen(str) > 500)
+		str[500] = 0;
+	return str;
+}
+
+bool CMsgDialog::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
+{
+	for (const wchar_t *src = szFormat; *src; src++) {
+		if (*src != '%') {
+			dest.AppendChar(*src);
+			continue;
+		}
+
+		switch (*++src) {
+		case 'n':
+			dest.Append(m_cache->getNick());
+			break;
+
+		case 'p':
+		case 'a':
+			dest.Append(m_cache->getRealAccount());
+			break;
+
+		case 's':
+			dest.Append(m_wszStatus);
+			break;
+
+		case 'u':
+			dest.Append(m_cache->getUIN());
+			break;
+
+		case 'c':
+			dest.Append(!mir_wstrcmp(m_pContainer->m_wszName, L"default") ? TranslateT("Default container") : m_pContainer->m_wszName);
+			break;
+
+		case 'o':
+			{
+				const char *szProto = m_cache->getActiveProto();
+				if (szProto)
+					dest.Append(_A2T(szProto));
+			}
+			break;
+
+		case 'x':
+			{
+				uint8_t xStatus = m_cache->getXStatusId();
+				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
+					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
+				}
+			}
+			break;
+
+		case 'm':
+			{
+				uint8_t xStatus = m_cache->getXStatusId();
+				if (m_wStatus != ID_STATUS_OFFLINE && xStatus > 0 && xStatus <= 31) {
+					ptrW szXStatus(db_get_wsa(m_hContact, m_szProto, "XStatusName"));
+					dest.Append((szXStatus != nullptr) ? Trunc500(szXStatus) : xStatusDescr[xStatus - 1]);
+				}
+				else dest.Append(m_wszStatus[0] ? m_wszStatus : L"(undef)");
+			}
+			break;
+
+			// status message (%T will skip the "No status message" for empty messages)
+		case 't':
+		case 'T':
+			{
+				ptrW tszStatus(m_cache->getNormalizedStatusMsg(m_cache->getStatusMsg(), true));
+				if (tszStatus)
+					dest.Append(tszStatus);
+				else if (*src == 't')
+					dest.Append(TranslateT("No status message"));
+			}
+			break;
+
+		case 'g':
+			{
+				ptrW tszGroup(Clist_GetGroup(m_hContact));
+				if (tszGroup != nullptr)
+					dest.Append(tszGroup);
+			}
+			break;
+
+		case 0: // wrongly formed format string
+			return true;
+		}
+	}
+
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -746,6 +1043,64 @@ void CMsgDialog::HandlePasteAndSend()
 	m_message.SendMsg(EM_PASTESPECIAL, CF_UNICODETEXT, 0);
 	if (GetWindowTextLength(m_message.GetHwnd()) > 0)
 		SendMessage(m_hwnd, WM_COMMAND, IDOK, 0);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// convert the avatar bitmap to icon format so that it can be used on the task bar
+// tries to keep correct aspect ratio of the avatar image
+//
+// @param dat: _MessageWindowData* pointer to the window data
+// @return HICON: the icon handle
+
+HICON CMsgDialog::IconFromAvatar() const
+{
+	if (!ServiceExists(MS_AV_GETAVATARBITMAP))
+		return nullptr;
+
+	AVATARCACHEENTRY *ace = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, m_hContact, 0);
+	if (ace == nullptr || ace->hbmPic == nullptr)
+		return nullptr;
+
+	LONG lIconSize = Win7Taskbar->getIconSize();
+	double dNewWidth, dNewHeight;
+	Utils::scaleAvatarHeightLimited(ace->hbmPic, dNewWidth, dNewHeight, lIconSize);
+
+	// resize picture to fit it on the task bar, use an image list for converting it to
+	// 32bpp icon format. hTaskbarIcon will cache it until avatar is changed
+	HBITMAP hbmResized = ::Image_Resize(ace->hbmPic, RESIZEBITMAP_STRETCH, dNewWidth, dNewHeight);
+	HIMAGELIST hIml_c = ::ImageList_Create(lIconSize, lIconSize, ILC_COLOR32 | ILC_MASK, 1, 0);
+
+	RECT rc = { 0, 0, lIconSize, lIconSize };
+
+	HDC hdc = ::GetDC(m_pContainer->m_hwnd);
+	HDC dc = ::CreateCompatibleDC(hdc);
+	HDC dcResized = ::CreateCompatibleDC(hdc);
+
+	ReleaseDC(m_pContainer->m_hwnd, hdc);
+
+	HBITMAP hbmNew = CSkin::CreateAeroCompatibleBitmap(rc, dc);
+	HBITMAP hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(dc, hbmNew));
+	HBITMAP hbmOldResized = reinterpret_cast<HBITMAP>(::SelectObject(dcResized, hbmResized));
+
+	LONG ix = (lIconSize - (LONG)dNewWidth) / 2;
+	LONG iy = (lIconSize - (LONG)dNewHeight) / 2;
+	CSkin::m_default_bf.SourceConstantAlpha = M.GetByte("taskBarIconAlpha", 255);
+	GdiAlphaBlend(dc, ix, iy, (LONG)dNewWidth, (LONG)dNewHeight, dcResized, 0, 0, (LONG)dNewWidth, (LONG)dNewHeight, CSkin::m_default_bf);
+
+	CSkin::m_default_bf.SourceConstantAlpha = 255;
+	::SelectObject(dc, hbmOld);
+	::ImageList_Add(hIml_c, hbmNew, nullptr);
+	::DeleteObject(hbmNew);
+	::DeleteDC(dc);
+
+	::SelectObject(dcResized, hbmOldResized);
+	if (hbmResized != ace->hbmPic)
+		::DeleteObject(hbmResized);
+	::DeleteDC(dcResized);
+	HICON hIcon = ::ImageList_GetIcon(hIml_c, 0, ILD_NORMAL);
+	::ImageList_RemoveAll(hIml_c);
+	::ImageList_Destroy(hIml_c);
+	return hIcon;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1215,7 +1570,7 @@ void CMsgDialog::NotifyDeliveryFailure() const
 
 void CMsgDialog::PlayIncomingSound() const
 {
-	int iPlay = MustPlaySound();
+	int iPlay = m_pContainer->MustPlaySound(this);
 	if (iPlay) {
 		if (GetForegroundWindow() == m_pContainer->m_hwnd && m_pContainer->m_hwndActive == m_hwnd)
 			Skin_PlaySound("RecvMsgActive");

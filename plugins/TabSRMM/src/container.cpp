@@ -518,6 +518,32 @@ void TContainerData::QueryClientArea(RECT &rc)
 	AdjustTabClientRect(rc);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// return != 0 when the sound effect must be played for the given
+// session. Uses container sound settings
+
+bool TContainerData::MustPlaySound(const CMsgDialog *pDialog) const
+{
+	if (m_bHidden)		// hidden container is treated as closed, so play the sound
+		return true;
+
+	if (cfg.flags.m_bNoSound || NEN::bNoSounds)
+		return false;
+
+	// window minimized, check if sound has to be played
+	if (::IsIconic(m_hwnd))
+		return cfg.flagsEx.m_bSoundMinimized;
+
+	// window in foreground
+	if (m_hwnd != ::GetForegroundWindow())
+		return cfg.flagsEx.m_bSoundUnfocused;
+
+	if (m_hwndActive == pDialog->GetHwnd())
+		return cfg.flagsEx.m_bSoundFocused;
+
+	return cfg.flagsEx.m_bSoundInactive;
+}
+
 // search tab with either next or most recent unread message and select it
 void TContainerData::QueryPending()
 {

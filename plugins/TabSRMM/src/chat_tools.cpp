@@ -285,7 +285,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 		if (dat) {
 			bInactive = dat->m_pContainer->m_hwnd != GetForegroundWindow();
 			bActiveTab = (dat->m_pContainer->m_hwndActive == dat->GetHwnd());
-			if (sound && dat->MustPlaySound())
+			if (sound && dat->m_pContainer->MustPlaySound(dat))
 				Skin_PlaySound(sound);
 		}
 		else if (sound)
