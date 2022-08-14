@@ -119,11 +119,6 @@
 [General]
 [Conference]
 [Advanced]
-[Male]
-[Female]
-[<not specified>]
-[Your details has been uploaded to the public directory.]
-[You have to be logged in before you can change your details.]
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -140,6 +135,8 @@
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
 [Images]
 [Gadu-Gadu Number]
+[Female]
+[Male]
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 [&Clear ignored conferences]
@@ -226,6 +223,10 @@
 ;file \protocols\Gadu-Gadu\src\token.cpp
 [Token retrieval failed because of error:\n\t%s]
 [Could not load token image.]
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+[Your details has been uploaded to the public directory.]
+[You have to be logged in before you can change your details.]
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 [Registration rejected]

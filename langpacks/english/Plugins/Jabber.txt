@@ -306,6 +306,7 @@
 [&Room options]
 [View/change &topic]
 [Add to &bookmarks]
+[Change &avatar]
 [&Configure...]
 [&Destroy room]
 [Lin&ks]
@@ -514,7 +515,6 @@
 [Incoming note]
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-[OMEMO: New session]
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 ;file \protocols\JabberG\src\jabber_opt.cpp
 [Afar]
@@ -791,6 +791,10 @@
 [Privacy list %s set as default]
 [Default privacy list successfully declined]
 [Error occurred while setting default list]
+[none]
+[from]
+[to]
+[both]
 [Allow]
 [List has no rules, empty lists will be deleted then changes applied]
 [allow ]
@@ -933,10 +937,6 @@
 [Mood]
 [Activity]
 [Tune]
-[both]
-[to]
-[from]
-[none]
 [Last logoff time]
 [Uptime]
 [Logoff message]
@@ -986,7 +986,7 @@
 [Note]
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-[Incomig call]
+[Incoming call]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 [Afraid]
