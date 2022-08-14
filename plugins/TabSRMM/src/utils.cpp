@@ -680,7 +680,7 @@ LRESULT CWarning::show(const int uId, uint32_t dwFlags, const wchar_t* tszTxt)
 			uint32_t val = M.GetDword("cWarningsL", 0);
 			uint32_t mask = ((__int64)1L) << uId;
 			if (mask & val) {
-				bool bResult = (M.GetDword("cWarningsV", 0xFFFFFFFF) & mask) != 0;
+				bool bResult = (M.GetDword("cWarningsV", 0) & mask) != 0;
 				if (dwFlags & MB_YESNO || dwFlags & MB_YESNOCANCEL)
 					return (bResult) ? IDYES : IDNO;
 				return IDOK;
@@ -820,10 +820,11 @@ INT_PTR CALLBACK CWarning::dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			if (::IsDlgButtonChecked(hwnd, IDC_DONTSHOWAGAIN)) {
 				uint32_t newVal = M.GetDword("cWarningsL", 0) | ((uint32_t)1L << m_uId);
 				db_set_dw(0, SRMSGMOD_T, "cWarningsL", newVal);
-			}
-			if (LOWORD(wParam) != IDNO) {
-				uint32_t newVal = M.GetDword("cWarningsV", 0) | ((uint32_t)1L << m_uId);
-				db_set_dw(0, SRMSGMOD_T, "cWarningsV", newVal);
+			
+				if (LOWORD(wParam) != IDNO) {
+					newVal = M.GetDword("cWarningsV", 0) | ((uint32_t)1L << m_uId);
+					db_set_dw(0, SRMSGMOD_T, "cWarningsV", newVal);
+				}
 			}
 			__fallthrough;
 

@@ -695,6 +695,9 @@ int LoadSendRecvMessageModule(void)
 		db_delete_module(0, NEN_OLD_MODULE);
 	}
 
+	if (M.GetDword("cWarningsV", 0) == 0)
+		db_set_dw(0, SRMSGMOD_T, "cWarningsV", M.GetDword("cWarningsL", 0));
+
 	HookEvent(ME_OPT_INITIALISE, OptInitialise);
 
 	InitAPI();
