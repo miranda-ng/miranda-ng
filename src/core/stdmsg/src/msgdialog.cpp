@@ -110,6 +110,7 @@ bool CMsgDialog::OnInitDialog()
 	}
 
 	// avatar stuff
+	m_avatar.Disable();
 	m_limitAvatarH = g_plugin.bLimitAvatarHeight ? g_plugin.iAvatarHeight : 0;
 
 	if (m_hContact && m_szProto != nullptr) {
@@ -132,10 +133,9 @@ bool CMsgDialog::OnInitDialog()
 	m_message.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_CHANGE);
 
 	if (isChat()) {
-		m_avatar.Hide();
-
 		OnOptionsApplied(false);
 		OnActivate();
+		UpdateAvatar();
 		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
@@ -143,7 +143,6 @@ bool CMsgDialog::OnInitDialog()
 		NotifyEvent(MSG_WINDOW_EVT_OPEN);
 	}
 	else {
-		m_avatar.Disable();
 		m_nickList.Hide();
 		m_splitterX.Hide();
 
