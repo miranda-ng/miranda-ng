@@ -167,7 +167,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 	MakePathRelative(hContact, szFinalName);
 
 	// Fix cache
-	ChangeAvatar(hContact, true);
+	ChangeAvatar(hContact, false, false, ProtoGetAvatarFileFormat(szFinalName));
 	return 1;
 }
 

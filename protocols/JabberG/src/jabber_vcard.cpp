@@ -980,14 +980,12 @@ void CJabberProto::SetServerVcard(bool bPhotoChanged, wchar_t *szPhotoFileName)
 	m_ThreadInfo->send(iq);
 }
 
-void CJabberProto::AppendPhotoToVcard(TiXmlElement *v, bool bPhotoChanged, wchar_t *szPhotoFileName, MCONTACT hContact)
+void CJabberProto::AppendPhotoToVcard(TiXmlElement *v, bool bPhotoChanged, const wchar_t *szPhotoFileName, MCONTACT hContact)
 {
-	wchar_t szAvatarName[MAX_PATH], *szFileName;
+	wchar_t szAvatarName[MAX_PATH];
 	GetAvatarFileName(hContact, szAvatarName, _countof(szAvatarName));
-	if (bPhotoChanged)
-		szFileName = szPhotoFileName;
-	else
-		szFileName = szAvatarName;
+	
+	const wchar_t *szFileName = (bPhotoChanged) ? szPhotoFileName : szAvatarName;
 
 	// Set photo element, also update the global jabberVcardPhotoFileName to reflect the update
 	debugLogW(L"Before update, file name = %s", szFileName);

@@ -30,6 +30,7 @@ class CContactAvatarDlg : public CDlgBase
 	INT_PTR OnAvatarChanged(UINT, WPARAM, LPARAM)
 	{
 		InvalidateRect(GetDlgItem(m_hwnd, IDC_PROTOPIC), nullptr, TRUE);
+		return 0;
 	}
 
 	INT_PTR OnDrawItem(UINT, WPARAM, LPARAM lParam)

@@ -1203,6 +1203,10 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 			TiXmlElement *v = iq << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP);
 			ppro->AppendPhotoToVcard(v, true, wszAvaPath.GetBuffer(), gch->si->hContact);
 			ppro->m_ThreadInfo->send(iq);
+
+			wchar_t szAvatarName[MAX_PATH];
+			ppro->GetAvatarFileName(gch->si->hContact, szAvatarName, _countof(szAvatarName));
+			CallService(MS_AV_SETAVATARW, gch->si->hContact, (LPARAM)szAvatarName);
 		}
 		break;
 
