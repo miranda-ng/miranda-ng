@@ -678,10 +678,10 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
-static INT_PTR ContactOptions(WPARAM wParam, LPARAM)
+static INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam)
 {
 	if (wParam)
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AVATAROPTIONS), nullptr, DlgProcAvatarOptions, (LPARAM)wParam);
+		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AVATAROPTIONS), (HWND)lParam, DlgProcAvatarOptions, wParam);
 	return 0;
 }
 

@@ -1515,16 +1515,14 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 			break;
 
 		case ID_PICMENU_SETTINGS:
-			if (menuId == MENU_PANELPICMENU)
-				CallService(MS_AV_CONTACTOPTIONS, m_hContact, 0);
-			else if (menuId == MENU_PICMENU) {
+			if (menuId == MENU_PICMENU) {
 				if (m_pPanel.isActive()) {
 					if (ServiceExists(MS_AV_SETMYAVATARW) && CallService(MS_AV_CANSETMYAVATAR, (WPARAM)(m_cache->getActiveProto()), 0))
 						CallService(MS_AV_SETMYAVATARW, (WPARAM)(m_cache->getActiveProto()), 0);
+					return TRUE;
 				}
-				else
-					CallService(MS_AV_CONTACTOPTIONS, m_hContact, 0);
 			}
+			CallService(MS_AV_CONTACTOPTIONS, m_hContact, (LPARAM)m_hwnd);
 			return 1;
 		}
 	}
