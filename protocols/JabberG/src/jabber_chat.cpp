@@ -466,9 +466,9 @@ static gc_item sttListItems[] =
 	{ LPGENW("Copy in-room JID"), IDM_CPY_INROOMJID, MENU_ITEM }
 };
 
-static uint32_t sttModeratorItems[] = { IDM_LST_PARTICIPANT, IDM_AVATAR, 0 };
+static uint32_t sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
 static uint32_t sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
-static uint32_t sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
+static uint32_t sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, IDM_AVATAR, 0 };
 
 int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 {
@@ -1196,7 +1196,14 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 		break;
 
 	case IDM_AVATAR:
-		CallService(MS_AV_CONTACTOPTIONS, gch->si->hContact, LPARAM(gch->si->pDlg ? gch->si->pDlg->GetHwnd() : nullptr));
+		if (CallService(MS_AV_SETAVATARW, gch->si->hContact, 0) == 1) {
+			CMStringW wszAvaPath(db_get_wsm(gch->si->hContact, "ContactPhoto", "File"));
+			XmlNodeIq iq(ppro->AddIQ(nullptr, JABBER_IQ_TYPE_SET, roomJid));
+			
+			TiXmlElement *v = iq << XCHILDNS("vCard", JABBER_FEAT_VCARD_TEMP);
+			ppro->AppendPhotoToVcard(v, true, wszAvaPath.GetBuffer(), gch->si->hContact);
+			ppro->m_ThreadInfo->send(iq);
+		}
 		break;
 
 	case IDM_TOPIC:

@@ -230,7 +230,8 @@ bool CJabberIqManager::HandleIq(int nIqId, const TiXmlElement *pNode)
 		if (pInfo->m_dwParamsToParse & JABBER_IQ_PARSE_ID_STR)
 			pInfo->m_szId = XmlGetAttr(pNode, "id");
 
-		(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
+		if (pInfo->m_pHandler)
+			(ppro->*(pInfo->m_pHandler))(pNode, pInfo);
 		delete pInfo;
 	}
 	while ((pInfo = DetachInfo(nIqId)) != nullptr);

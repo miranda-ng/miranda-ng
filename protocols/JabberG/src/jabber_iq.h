@@ -56,9 +56,9 @@ protected:
 	JABBER_IQ_HANDLER m_pHandler;
 
 	int           m_nIqId;
-	uint32_t         m_dwParamsToParse;
-	uint32_t         m_dwRequestTime;
-	uint32_t         m_dwTimeout;
+	uint32_t      m_dwParamsToParse;
+	uint32_t      m_dwRequestTime;
+	uint32_t      m_dwTimeout;
 	char*         m_szReceiver;
 	int           m_iPriority;
 	void*         m_pUserData;
@@ -84,7 +84,7 @@ public:
 	__forceinline void SetTimeout(uint32_t dwTimeout) { m_dwTimeout = dwTimeout; }
 
 	__forceinline int         GetIqId() const { return m_nIqId; }
-	__forceinline uint32_t       GetRequestTime() const { return m_dwRequestTime; }
+	__forceinline uint32_t    GetRequestTime() const { return m_dwRequestTime; }
 	__forceinline int         GetIqType() const { return m_nIqType; }	
 	__forceinline void*       GetUserData() const {	return m_pUserData; }
 	__forceinline const char* GetFrom() const {	return m_szFrom; }
