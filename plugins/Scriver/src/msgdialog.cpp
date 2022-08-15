@@ -621,12 +621,63 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 	ParentWindowData *pdat = m_pParent;
 	HWND hwndLog = GetDlgItem(m_hwnd, IDC_SRMM_LOG);
 	bool bToolbar = pdat->flags2.bShowToolBar;
+	int toolbarHeight = (bToolbar) ? TOOLBAR_HEIGHT : 0;
 	int logY, logH;
+	int avatarWidth = 0, avatarHeight = 0;
+	int toolbarWidth = w;
+	int messageEditWidth = w - 2;
+	int hSplitterPos = pdat->iSplitterY;
+
+	if (!pdat->flags2.bShowInfoBar) {
+		if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
+			avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
+			avatarHeight = toolbarHeight + hSplitterPos - 2;
+			if (avatarHeight < BOTTOM_RIGHT_AVATAR_HEIGHT) {
+				avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
+				hSplitterPos = avatarHeight - toolbarHeight + 2;
+			}
+			else avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
+
+			avatarWidth = avatarHeight;
+			if (avatarWidth > BOTTOM_RIGHT_AVATAR_HEIGHT && avatarWidth > w / 4)
+				avatarWidth = w / 4;
+
+			if ((toolbarWidth - avatarWidth - 2) < 0)
+				avatarWidth = toolbarWidth - 2;
+
+			toolbarWidth -= avatarWidth + 2;
+			messageEditWidth -= avatarWidth + 1;
+		}
+	}
+
+	int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
+	int infobarHeight = INFO_BAR_HEIGHT;
+
+	if (!pdat->flags2.bShowInfoBar || m_si) {
+		infobarHeight = 0;
+		infobarInnerHeight = 0;
+	}
+
+	int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
+	if (hSplitterMinBottom < g_dat.minInputAreaHeight)
+		hSplitterMinBottom = g_dat.minInputAreaHeight;
+
+	if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
+		hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
+
+	if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
+		hSplitterPos = h - hSplitterMinTop - infobarHeight;
+
+	if (hSplitterPos < avatarHeight)
+		hSplitterPos = avatarHeight;
+
+	if (hSplitterPos < hSplitterMinBottom)
+		hSplitterPos = hSplitterMinBottom;
+
+	pdat->iSplitterY = hSplitterPos;
 
 	if (isChat()) {
 		bool bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
-		int  hSplitterMinTop = TOOLBAR_HEIGHT + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
-		int  toolbarHeight = bToolbar ? TOOLBAR_HEIGHT : 0;
 
 		if (h - pdat->iSplitterY < hSplitterMinTop)
 			pdat->iSplitterY = h - hSplitterMinTop;
@@ -652,75 +703,20 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		}
 		
 		logY = 0;
-		logH = h - pdat->iSplitterY;
-		if (bToolbar)
-			logH -= toolbarHeight;
+		logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight - SPLITTER_HEIGHT;
 
-		HDWP hdwp = BeginDeferWindowPos(5);
-		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : w - 2, logH, SWP_NOZORDER);
+		HDWP hdwp = BeginDeferWindowPos(6);
+		hdwp = DeferWindowPos(hdwp, hwndLog, nullptr, 1, 0, bNick ? w - pdat->iSplitterX - 1 : messageEditWidth, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_nickList.GetHwnd(), nullptr, w - pdat->iSplitterX + 2, 0, pdat->iSplitterX - 3, logH, SWP_NOZORDER);
 		hdwp = DeferWindowPos(hdwp, m_splitterX.GetHwnd(), nullptr, w - pdat->iSplitterX, 1, 2, logH, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - pdat->iSplitterY, w, SPLITTER_HEIGHT, SWP_NOZORDER);
-		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - pdat->iSplitterY + SPLITTER_HEIGHT, w - 2, pdat->iSplitterY - SPLITTER_HEIGHT - 1, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_message.GetHwnd(), nullptr, 1, h - hSplitterPos - 1, messageEditWidth, hSplitterPos, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, w - avatarWidth - 1, h - (avatarHeight + avatarWidth) / 2 - 1, avatarWidth, avatarWidth, SWP_NOZORDER);
+		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
-
-		m_pLog->Resize();
 
 		RedrawWindow(m_nickList.GetHwnd(), nullptr, nullptr, RDW_INVALIDATE);
 	}
 	else {
-		int hSplitterPos = pdat->iSplitterY, toolbarHeight = (bToolbar) ? TOOLBAR_HEIGHT : 0;
-		int hSplitterMinTop = toolbarHeight + m_minLogBoxHeight, hSplitterMinBottom = m_minEditBoxHeight;
-		int infobarInnerHeight = INFO_BAR_INNER_HEIGHT;
-		int infobarHeight = INFO_BAR_HEIGHT;
-		int avatarWidth = 0, avatarHeight = 0;
-		int toolbarWidth = w;
-		int messageEditWidth = w - 2;
-
-		if (hSplitterMinBottom < g_dat.minInputAreaHeight)
-			hSplitterMinBottom = g_dat.minInputAreaHeight;
-
-		if (!pdat->flags2.bShowInfoBar) {
-			infobarHeight = 0;
-			infobarInnerHeight = 0;
-		}
-
-		if (hSplitterPos > (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2)
-			hSplitterPos = (h - toolbarHeight - infobarHeight + SPLITTER_HEIGHT + 1) / 2;
-
-		if (h - hSplitterPos - infobarHeight < hSplitterMinTop)
-			hSplitterPos = h - hSplitterMinTop - infobarHeight;
-
-		if (hSplitterPos < avatarHeight)
-			hSplitterPos = avatarHeight;
-
-		if (hSplitterPos < hSplitterMinBottom)
-			hSplitterPos = hSplitterMinBottom;
-
-		if (!pdat->flags2.bShowInfoBar) {
-			if (m_hbmpAvatarPic && g_dat.flags.bShowAvatar) {
-				avatarWidth = BOTTOM_RIGHT_AVATAR_HEIGHT;
-				avatarHeight = toolbarHeight + hSplitterPos - 2;
-				if (avatarHeight < BOTTOM_RIGHT_AVATAR_HEIGHT) {
-					avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
-					hSplitterPos = avatarHeight - toolbarHeight + 2;
-				}
-				else avatarHeight = BOTTOM_RIGHT_AVATAR_HEIGHT;
-
-				avatarWidth = avatarHeight;
-				if (avatarWidth > BOTTOM_RIGHT_AVATAR_HEIGHT && avatarWidth > w / 4)
-					avatarWidth = w / 4;
-
-				if ((toolbarWidth - avatarWidth - 2) < 0)
-					avatarWidth = toolbarWidth - 2;
-
-				toolbarWidth -= avatarWidth + 2;
-				messageEditWidth -= avatarWidth + 1;
-			}
-		}
-
-		pdat->iSplitterY = hSplitterPos;
-
 		logY = infobarInnerHeight;
 		logH = h - hSplitterPos - toolbarHeight - infobarInnerHeight - SPLITTER_HEIGHT;
 
@@ -732,11 +728,12 @@ void CMsgDialog::MessageDialogResize(int w, int h)
 		hdwp = DeferWindowPos(hdwp, m_splitterY.GetHwnd(), nullptr, 0, h - hSplitterPos - SPLITTER_HEIGHT - 1, toolbarWidth, SPLITTER_HEIGHT, SWP_NOZORDER);
 		EndDeferWindowPos(hdwp);
 
-		m_pLog->Resize();
-
 		RefreshInfobar();
-		RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 	}
+
+	m_pLog->Resize();
+
+	RedrawWindow(GetDlgItem(m_hwnd, IDC_AVATAR), nullptr, nullptr, RDW_INVALIDATE);
 
 	SetButtonsPos(m_hwnd, m_hContact, bToolbar);
 
