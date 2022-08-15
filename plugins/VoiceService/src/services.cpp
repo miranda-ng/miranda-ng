@@ -96,6 +96,7 @@ static INT_PTR CALLBACK DlgProcNewCall(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 static INT_PTR CListDblClick(WPARAM, LPARAM lParam)
 {
+	return 0;
 	CLISTEVENT *ce = (CLISTEVENT *)lParam;
 
 	VoiceCall *call = (VoiceCall *)ce->lParam;

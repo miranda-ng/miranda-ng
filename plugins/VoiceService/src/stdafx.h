@@ -122,7 +122,7 @@ private:
 	HANDLE state_hook;
 };
 
-class VoiceCall 
+class VoiceCall : CDlgBase
 {
 public:
 	VoiceProvider *module;
@@ -165,6 +165,16 @@ private:
 
 	void RemoveNotifications();
 	void CreateDisplayName();
+	void OnCommand_Answer(CCtrlButton*);
+	void OnCommand_Drop(CCtrlButton*);
+	void OnCallTimer(CTimer*);
+	bool OnInitDialog() override;
+	
+	CCtrlButton m_btnAnswer;
+	CCtrlButton m_btnDrop;
+	CCtrlLabel m_lblStatus, m_lblContactName;
+	int m_nsec;
+	CTimer m_calltimer;
 
 };
 

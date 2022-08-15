@@ -40,8 +40,15 @@ static wchar_t *stateTexts[] = {
 /////////////////////////////////////////////////////////////////////////////////////////
 // VoiceCall class members
 
-VoiceCall::VoiceCall(VoiceProvider *module, const char *id)
-	: module(module), id(mir_strdup(id))
+VoiceCall::VoiceCall(VoiceProvider *module, const char *id)	: 
+	CDlgBase(g_plugin, IDD_VOICECALL),
+	module(module),
+	id(mir_strdup(id)), 
+	m_btnAnswer(this, IDC_ANSWERBTN),
+	m_btnDrop(this, IDC_DROPBTN),
+	m_lblStatus(this, IDC_STATUS),
+	m_calltimer(this, 1),
+	m_lblContactName(this, IDC_DESCR)
 {
 	hContact = NULL;
 	name[0] = 0;
@@ -53,7 +60,14 @@ VoiceCall::VoiceCall(VoiceProvider *module, const char *id)
 	incoming = false;
 	secure = false;
 	hwnd = NULL;
+	m_nsec = 0;
+
+	m_btnAnswer.OnClick = Callback(this, &VoiceCall::OnCommand_Answer);
+	m_btnDrop.OnClick = Callback(this, &VoiceCall::OnCommand_Drop);
+	m_calltimer.OnEvent = Callback(this, &VoiceCall::OnCallTimer);
+
 	CreateDisplayName();
+	Show();
 }
 
 VoiceCall::~VoiceCall()
@@ -61,6 +75,34 @@ VoiceCall::~VoiceCall()
 	RemoveNotifications();
 	mir_free(id);
 	id = NULL;
+}
+
+bool VoiceCall::OnInitDialog()
+{
+	return true;
+}
+
+void VoiceCall::OnCommand_Answer(CCtrlButton*)
+{
+	Answer();
+}
+
+void VoiceCall::OnCommand_Drop(CCtrlButton*)
+{
+	Drop();
+}
+
+void VoiceCall::OnCallTimer(CTimer*)
+{
+	m_nsec++;
+	wchar_t text[256], hrs[11];
+	hrs[0]=0;
+	int mins = m_nsec/60;
+	int hours = m_nsec/3600;
+	if(hours)
+		mir_snwprintf(hrs, _countof(hrs), L"%d:", hours);
+	mir_snwprintf(text, _countof(text), L"%s%d:%02d", hrs, (mins)%60, m_nsec%60);
+	m_lblStatus.SetText(text);
 }
 
 void VoiceCall::AppendCallerID(MCONTACT aHContact, const wchar_t *aName, const wchar_t *aNumber)
@@ -114,6 +156,7 @@ void VoiceCall::CreateDisplayName()
 	else {
 		lstrcpyn(displayName, TranslateT("Unknown number"), _countof(displayName));
 	}
+	m_lblContactName.SetText(displayName);
 }
 
 void VoiceCall::RemoveNotifications()
@@ -122,26 +165,64 @@ void VoiceCall::RemoveNotifications()
 		DestroyWindow(hwnd);
 		hwnd = NULL;
 	}
-
+/*
 	if (clistBlinking) {
-		g_clistApi.pfnRemoveEvent(hContact, (LPARAM)this);
+		g_clistApi.pfnRemoveEvent(hContact, MEVENT(0xBABABEDA));
 		clistBlinking = false;
-	}
+	}*/
 }
 
 void VoiceCall::SetState(int aState)
 {
 	if (state == aState)
 		return;
-
-	if (aState == VOICE_STATE_RINGING)
-		incoming = true;
-	else if (aState == VOICE_STATE_CALLING)
-		incoming = false;
+	state = aState;
 
 	RemoveNotifications();
-
-	state = aState;
+	
+	wchar_t text[512];
+	switch(state) {
+	case VOICE_STATE_TALKING:
+		m_calltimer.Start(1000);
+		m_lblStatus.SetText(L"0:00");
+		m_btnAnswer.Enable(false);
+		break;
+	case VOICE_STATE_RINGING:
+		incoming = true;
+		SetCaption(L"Incoming call");
+		m_btnAnswer.Enable(true);
+		m_lblStatus.SetText(L"Ringing");
+		BringWindowToTop(GetHwnd());
+		SetForegroundWindow(GetHwnd());
+		break;
+	case VOICE_STATE_CALLING:
+		incoming = false;
+		SetCaption(L"Outgoing call");
+		m_lblStatus.SetText(L"Calling");
+		m_btnAnswer.Enable(false);
+		break;
+	case VOICE_STATE_ON_HOLD:
+		m_lblStatus.SetText(L"Holded");
+		m_btnAnswer.Enable(true);
+		m_btnAnswer.SetText(L"Unhold");
+		break;
+	case VOICE_STATE_ENDED:
+		m_calltimer.Stop();
+		mir_snwprintf(text, _countof(text), L"Call ended %s", m_lblStatus.GetText());
+		m_lblStatus.SetText(text);
+		m_btnAnswer.Enable(true);
+		break;
+	case VOICE_STATE_BUSY:
+		m_lblStatus.SetText(L"Busy");
+		m_btnAnswer.Enable(true);
+		break;
+	default:
+		m_lblStatus.SetText(L"Unknown state");
+		break;
+	}
+	
+	if(state != VOICE_STATE_ON_HOLD)
+		m_nsec = 0;
 
 	if (IsFinished()) {
 		if (end_time == 0)
@@ -166,7 +247,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool clist)
 
 	if (sound)
 		Skin_PlaySound(g_sounds[state].szName);
-
+/*
 	if (clist && state == VOICE_STATE_RINGING) {
 		CLISTEVENT ce = {};
 		ce.hContact = hContact;
@@ -179,7 +260,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool clist)
 		IcoLib_ReleaseIcon(ce.hIcon);
 
 		clistBlinking = true;
-	}
+	}*/
 
 	RefreshFrame();
 }

@@ -1,5 +1,7 @@
 //Microsoft Developer Studio generated resource script.
 //
+#include <windows.h>
+#include <commctrl.h>
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -148,6 +150,26 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,11,64,275,12
 END
 
+IDD_VOICECALL DIALOGEX 0, 0, 180, 116
+STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
+CAPTION "Unknown call"
+FONT 8, "Ms Shell Dlg", 0, 0, 1
+{
+    LTEXT           "Call will disclose IP address to the peer and his server", 0, 27, 96, 147, 17, SS_LEFT, WS_EX_LEFT
+    ICON            32515, -1, 6, 96, 15, 15, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
+    CTEXT           "Established", IDC_STATUS, 6, 46, 168, 12, SS_CENTER | SS_CENTERIMAGE, WS_EX_TRANSPARENT
+    CONTROL         "", -1, WC_STATIC, WS_DISABLED | SS_ETCHEDHORZ, 1, 60, 179, 1, WS_EX_STATICEDGE
+    CONTROL         "", -1, WC_STATIC, SS_ETCHEDHORZ, 1, 45, 179, 1, WS_EX_LEFT
+    CONTROL         "", -1, WC_STATIC, SS_ETCHEDHORZ, 1, 93, 179, 1, WS_EX_LEFT
+    AUTOCHECKBOX    "M", IDC_MUTE, 138, 27, 15, 15, BS_PUSHLIKE, WS_EX_LEFT
+    AUTOCHECKBOX    "V", IDC_GGG, 159, 27, 15, 15, BS_PUSHLIKE, WS_EX_LEFT
+    ICON            "", IDC_VIDEO, 120, 27, 15, 15, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
+    LTEXT           "", IDC_DESCR, 45, 6, 129, 18, SS_LEFT, WS_EX_LEFT
+    ICON            "", IDC_ENCRYPTED, 102, 27, 15, 15, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
+    CONTROL         "", IDC_AVATAR, WC_STATIC, SS_BLACKFRAME, 6, 6, 33, 33, WS_EX_LEFT
+    PUSHBUTTON      "Drop", IDC_DROPBTN, 111, 69, 63, 15, 0, WS_EX_LEFT
+    DEFPUSHBUTTON   "Answer", IDC_ANSWERBTN, 6, 69, 63, 15, 0, WS_EX_LEFT
+}
 
 /////////////////////////////////////////////////////////////////////////////
 //

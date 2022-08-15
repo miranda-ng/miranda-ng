@@ -69,11 +69,23 @@
 #define IDC_RIGHT_ACTION_L              1073
 #define IDC_LEFT_ACTION_L               1074
 #define IDC_LIST                        1079
-#define IDC_ANSWER                      1204
-#define IDC_DROP                        1205
+#define IDC_ANSWERBTN                   1204
+#define IDC_DROPBTN                     1205
 #define ID_FRAMEPOPUP_ANSWERCALL        40001
 #define ID_FRAMEPOPUP_DROPCALL          40002
 #define ID_FRAMEPOPUP_HOLDCALL          40003
+
+#define IDD_VOICECALL                           40099
+#define IDC_STATUS                                40100
+#define IDC_MUTE                                  40101
+#define IDC_GGG                                   40102
+#define IDC_VIDEO                                 40103
+#define IDC_DESCR                                 40104
+#define IDC_ENCRYPTED                             40105
+#define IDC_AVATAR                                40106
+#define IDC_DROP                                  40107
+#define IDC_ANSWER                                40108
+
 
 // Next default values for new objects
 // 
