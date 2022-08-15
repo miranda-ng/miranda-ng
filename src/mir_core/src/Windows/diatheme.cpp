@@ -18,24 +18,55 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "../stdafx.h"
 #include "diatheme.h"
 
-// The following code was borrowed from Notepad++ sources and adapted for Miranda NG
+// The following code was borrowed from Notepad2 sources and adapted for Miranda NG
+
+typedef HTHEME (WINAPI *OTD)(HWND hwnd,LPCWSTR pszClassList);
+typedef HRESULT (WINAPI *GTSF)(HTHEME hTheme,int iFontId,LOGFONT *plf);
+typedef HRESULT (WINAPI *CTD)(HTHEME hTheme);
 
 BOOL GetThemedDialogFont(LPWSTR lpFaceName, WORD *wSize)
 {
+	BOOL bSucceed = FALSE;
+
 	HDC hDC = GetDC(nullptr);
 	int iLogPixelsY = GetDeviceCaps(hDC, LOGPIXELSY);
 	ReleaseDC(nullptr, hDC);
 
-	NONCLIENTMETRICS ncm;
-	ncm.cbSize = sizeof(NONCLIENTMETRICS);
-	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0);
-	if (ncm.lfMessageFont.lfHeight < 0)
-		ncm.lfMessageFont.lfHeight = -ncm.lfMessageFont.lfHeight;
-	*wSize = (WORD)MulDiv(ncm.lfMessageFont.lfHeight, 72, iLogPixelsY);
-	if (*wSize == 0)
-		*wSize = 8;
-	
-	wcsncpy_s(lpFaceName, LF_FACESIZE, ncm.lfMessageFont.lfFaceName, _TRUNCATE);
+	if (HMODULE hModUxTheme = GetModuleHandle(L"uxtheme.dll")) {
+		OTD _OpenThemeData = (OTD)GetProcAddress(hModUxTheme, "OpenThemeData");
+		GTSF _GetThemeSysFont = (GTSF)GetProcAddress(hModUxTheme, "GetThemeSysFont");
+		CTD _CloseThemeData = (CTD)GetProcAddress(hModUxTheme, "CloseThemeData");
+
+		if (_CloseThemeData && _GetThemeSysFont && _OpenThemeData) {
+			if (HTHEME hTheme = _OpenThemeData(NULL, L"WINDOWSTYLE;WINDOW")) {
+				LOGFONT lf;
+				if (S_OK == _GetThemeSysFont(hTheme,/*TMT_MSGBOXFONT*/805, &lf)) {
+					if (lf.lfHeight < 0)
+						lf.lfHeight = -lf.lfHeight;
+					*wSize = (WORD)MulDiv(lf.lfHeight, 72, iLogPixelsY);
+					if (*wSize == 0)
+						*wSize = 8;
+					wcsncpy_s(lpFaceName, LF_FACESIZE, lf.lfFaceName, _TRUNCATE);
+					bSucceed = TRUE;
+				}
+				_CloseThemeData(hTheme);
+			}
+		}
+	}
+
+	if (!bSucceed) {
+		NONCLIENTMETRICS ncm;
+		ncm.cbSize = sizeof(NONCLIENTMETRICS);
+		SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &ncm, 0);
+		if (ncm.lfMessageFont.lfHeight < 0)
+			ncm.lfMessageFont.lfHeight = -ncm.lfMessageFont.lfHeight;
+		*wSize = (WORD)MulDiv(ncm.lfMessageFont.lfHeight, 72, iLogPixelsY);
+		if (*wSize == 0)
+			*wSize = 8;
+			
+		wcsncpy_s(lpFaceName, LF_FACESIZE, ncm.lfMessageFont.lfFaceName, _TRUNCATE);
+	}
+
 	return TRUE;
 }
 
