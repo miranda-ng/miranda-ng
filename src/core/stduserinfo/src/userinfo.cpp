@@ -129,19 +129,22 @@ class CUserInfoDlg : public CDlgBase
 		if (items.getCount() == 0)
 			return;
 
-		HTREEITEM hParent;
-		{
-			TVINSERTSTRUCT tvis = {};
-			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.lParam = (LPARAM)items[0];
-			tvis.item.iImage = tvis.item.iSelectedImage = iFolderImage;
-			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
-			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
-			tvis.item.pszText = pwszRoot;
-			hParent = m_tree.InsertItem(&tvis);
-		}
+		HTREEITEM hParent = nullptr;
+		const wchar_t *pwszPrevGroup = nullptr;
 
 		for (auto &it : items) {
+			if (hParent == nullptr || (!hContact && mir_wstrcmp(pwszPrevGroup, it->pwszGroup))) {
+				TVINSERTSTRUCT tvis = {};
+				tvis.hInsertAfter = TVI_LAST;
+				tvis.item.lParam = (LPARAM)it;
+				tvis.item.iImage = tvis.item.iSelectedImage = iFolderImage;
+				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
+				tvis.item.pszText = (it->pwszGroup == 0) ? pwszRoot : it->pwszGroup;
+				hParent = m_tree.InsertItem(&tvis);
+				pwszPrevGroup = it->pwszGroup;
+			}
+
 			int iImage = 1;
 			if ((it->dwFlags & ODPF_ICON) && it->lParam) {
 				HICON hIcon = IcoLib_GetIconByHandle((HANDLE)it->lParam);
