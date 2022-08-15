@@ -145,6 +145,7 @@ struct AVATARDRAWREQUEST
 #define MS_AV_PROTECTAVATAR "SV_Avatars/ProtectAvatar"
 
 // set (and optionally protect) a local contact picture for the given hContact
+// returns TRUE on success & FALSE otherwise
 //
 // wParam = (HANDLE)hContact
 // lParam = either a full picture filename or NULL. If lParam == NULL, the service

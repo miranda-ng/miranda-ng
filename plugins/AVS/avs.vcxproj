@@ -38,6 +38,7 @@
     </ClCompile>
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\userInfo.cpp" />
+    <ClCompile Include="src\contact_ava.cpp" />
     <ClInclude Include="src\acc.h" />
     <ClInclude Include="src\image_utils.h" />
     <ClInclude Include="src\poll.h" />

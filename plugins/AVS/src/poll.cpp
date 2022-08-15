@@ -192,8 +192,7 @@ int FetchAvatarFor(MCONTACT hContact, char *szProto)
 
 	if (szProto != nullptr && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto)) {
 		// Can have avatar, but must request it?
-		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) || (PollCheckProtocol(szProto) && PollCheckContact(hContact)))
-		{
+		if ((g_AvatarHistoryAvail && CallService(MS_AVATARHISTORY_ENABLED, hContact, 0)) || (PollCheckProtocol(szProto) && PollCheckContact(hContact))) {
 			// Request it
 			PROTO_AVATAR_INFORMATION ai = { 0 };
 			ai.hContact = hContact;

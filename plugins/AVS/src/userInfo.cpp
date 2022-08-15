@@ -20,6 +20,53 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 BOOL ScreenToClient(HWND hWnd, LPRECT lpRect);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void LoadTransparentData(HWND hwndDlg, MCONTACT hContact)
+{
+	CheckDlgButton(hwndDlg, IDC_MAKETRANSPBKG, db_get_b(hContact, "ContactPhoto", "MakeTransparentBkg", g_plugin.getByte("MakeTransparentBkg", 0)) ? BST_CHECKED : BST_UNCHECKED);
+	SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgNumPoints", g_plugin.getWord("TranspBkgNumPoints", 5)));
+	SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_SETPOS, 0, (LPARAM)db_get_w(hContact, "ContactPhoto", "TranspBkgColorDiff", g_plugin.getWord("TranspBkgColorDiff", 10)));
+
+	BOOL transp_enabled = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_L), transp_enabled);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS_SPIN), transp_enabled);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_NUM_POINTS), transp_enabled);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_L), transp_enabled);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN), transp_enabled);
+	EnableWindow(GetDlgItem(hwndDlg, IDC_BKG_COLOR_DIFFERENCE), transp_enabled);
+}
+
+static void SaveTransparentData(HWND hwndDlg, MCONTACT hContact)
+{
+	BOOL transp = IsDlgButtonChecked(hwndDlg, IDC_MAKETRANSPBKG);
+	if (g_plugin.getByte("MakeTransparentBkg", 0) == transp)
+		db_unset(hContact, "ContactPhoto", "MakeTransparentBkg");
+	else
+		db_set_b(hContact, "ContactPhoto", "MakeTransparentBkg", transp);
+
+	uint16_t tmp = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_NUM_POINTS_SPIN, UDM_GETPOS, 0, 0);
+	if (g_plugin.getWord("TranspBkgNumPoints", 5) == tmp)
+		db_unset(hContact, "ContactPhoto", "TranspBkgNumPoints");
+	else
+		db_set_w(hContact, "ContactPhoto", "TranspBkgNumPoints", tmp);
+
+	tmp = (uint16_t)SendDlgItemMessage(hwndDlg, IDC_BKG_COLOR_DIFFERENCE_SPIN, UDM_GETPOS, 0, 0);
+	if (g_plugin.getWord("TranspBkgColorDiff", 10) == tmp)
+		db_unset(hContact, "ContactPhoto", "TranspBkgColorDiff");
+	else
+		db_set_w(hContact, "ContactPhoto", "TranspBkgColorDiff", tmp);
+}
+
+void SaveTransparentData(HWND hwndDlg, MCONTACT hContact, BOOL locked)
+{
+	SaveTransparentData(hwndDlg, hContact);
+
+	MCONTACT tmp = GetContactThatHaveTheAvatar(hContact, locked);
+	if (tmp != hContact)
+		SaveTransparentData(hwndDlg, tmp);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // User info dialog
 
 class AvatarUserInfoDlg : public CUserInfoPageDlg
@@ -81,12 +128,11 @@ public:
 	{
 		HWND protopic = GetDlgItem(m_hwnd, IDC_PROTOPIC);
 		SendMessage(protopic, AVATAR_SETCONTACT, 0, m_hContact);
-		SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, (LPARAM)GetSysColor(COLOR_BTNSHADOW));
+		SendMessage(protopic, AVATAR_SETAVATARBORDERCOLOR, 0, GetSysColor(COLOR_BTNSHADOW));
 		SendMessage(protopic, AVATAR_SETNOAVATARTEXT, 0, (LPARAM)LPGENW("Contact has no avatar"));
-		SendMessage(protopic, AVATAR_RESPECTHIDDEN, 0, (LPARAM)FALSE);
-		SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, (LPARAM)FALSE);
+		SendMessage(protopic, AVATAR_RESPECTHIDDEN, 0, FALSE);
+		SendMessage(protopic, AVATAR_SETRESIZEIFSMALLER, 0, FALSE);
 
-		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
 		CheckDlgButton(m_hwnd, IDC_PROTECTAVATAR, db_get_b(m_hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_HIDEAVATAR, Contact::IsHidden(m_hContact) ? BST_CHECKED : BST_UNCHECKED);
 		return false;
@@ -118,7 +164,6 @@ public:
 	void onClick_Change(CCtrlButton *)
 	{
 		SetAvatar(m_hContact, 0);
-		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
 		CheckDlgButton(m_hwnd, IDC_PROTECTAVATAR, db_get_b(m_hContact, "ContactPhoto", "Locked", 0) ? BST_CHECKED : BST_UNCHECKED);
 	}
 
@@ -188,7 +233,6 @@ public:
 		db_unset(m_hContact, "ContactPhoto", "File");
 		db_unset(m_hContact, "ContactPhoto", "Format");
 		DeleteAvatarFromCache(m_hContact, FALSE);
-		SendMessage(m_hwnd, DM_SETAVATARNAME, 0, 0);
 	}
 };
 

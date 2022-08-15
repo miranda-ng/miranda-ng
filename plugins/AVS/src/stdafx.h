@@ -124,10 +124,7 @@ struct SetMyAvatarHookData
 
 #define AVS_DEFAULT "Global avatar"
 
-#define DM_SETAVATARNAME (WM_USER + 10)
-#define DM_REALODAVATAR (WM_USER + 11)
 #define DM_AVATARCHANGED (WM_USER + 12)
-#define DM_PROTOCOLCHANGED (WM_USER + 13)
 #define DM_MYAVATARCHANGED (WM_USER + 21)
 
 void mir_sleep(int time);
@@ -141,11 +138,11 @@ extern HANDLE hGlobalAvatarFolder;
 extern HANDLE hLoaderEvent, hLoaderThread, hShutdownEvent;
 extern HANDLE hEventChanged, hEventContactAvatarChanged, hMyAvatarChanged;
 
-int   GetFileHash(wchar_t* filename);
+int GetFileHash(wchar_t* filename);
 uint32_t GetFileSize(wchar_t *szFilename);
-void  MakePathRelative(MCONTACT hContact);
-void  MakePathRelative(MCONTACT hContact, wchar_t *dest);
-void  MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
+void MakePathRelative(MCONTACT hContact);
+void MakePathRelative(MCONTACT hContact, wchar_t *dest);
+void MyPathToAbsolute(const wchar_t *ptszPath, wchar_t *ptszDest);
 
 void UnloadCache(void);
 int  CreateAvatarInCache(MCONTACT hContact, AVATARCACHEENTRY *ace, const char *szProto);
@@ -163,6 +160,7 @@ void PushAvatarRequest(CacheNode *cc);
 int  SetAvatarAttribute(MCONTACT hContact, uint32_t attrib, int mode);
 void SetIgnoreNotify(char *protocol, BOOL ignore);
 
+INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam);
 INT_PTR DrawAvatarPicture(WPARAM wParam, LPARAM lParam);
 INT_PTR GetAvatarBitmap(WPARAM wParam, LPARAM lParam);
 INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam);

@@ -34,7 +34,7 @@ enum {
 
 	IDM_ROLE, IDM_AFFLTN,
 
-	IDM_CONFIG, IDM_NICK, IDM_DESTROY, IDM_INVITE, IDM_BOOKMARKS, IDM_LEAVE, IDM_TOPIC,
+	IDM_CONFIG, IDM_NICK, IDM_AVATAR, IDM_DESTROY, IDM_INVITE, IDM_BOOKMARKS, IDM_LEAVE, IDM_TOPIC,
 	IDM_LST_PARTICIPANT, IDM_LST_MODERATOR,
 	IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN,
 
@@ -388,6 +388,7 @@ static gc_item sttLogListItems[] =
 	{ LPGENW("&Room options"), 0, MENU_NEWPOPUP },
 	{ LPGENW("View/change &topic"), IDM_TOPIC, MENU_POPUPITEM },
 	{ LPGENW("Add to &bookmarks"), IDM_BOOKMARKS, MENU_POPUPITEM },
+	{ LPGENW("Change &avatar"), IDM_AVATAR, MENU_POPUPITEM },
 	{ LPGENW("&Configure..."), IDM_CONFIG, MENU_POPUPITEM },
 	{ LPGENW("&Destroy room"), IDM_DESTROY, MENU_POPUPITEM },
 
@@ -465,6 +466,10 @@ static gc_item sttListItems[] =
 	{ LPGENW("Copy in-room JID"), IDM_CPY_INROOMJID, MENU_ITEM }
 };
 
+static uint32_t sttModeratorItems[] = { IDM_LST_PARTICIPANT, IDM_AVATAR, 0 };
+static uint32_t sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
+static uint32_t sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
+
 int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 {
 	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
@@ -488,10 +493,6 @@ int CJabberProto::JabberGcMenuHook(WPARAM, LPARAM lParam)
 
 	if (gcmi->Type == MENU_ON_LOG) {
 		static wchar_t url_buf[1024] = { 0 };
-
-		static uint32_t sttModeratorItems[] = { IDM_LST_PARTICIPANT, 0 };
-		static uint32_t sttAdminItems[] = { IDM_LST_MODERATOR, IDM_LST_MEMBER, IDM_LST_ADMIN, IDM_LST_OWNER, IDM_LST_BAN, 0 };
-		static uint32_t sttOwnerItems[] = { IDM_CONFIG, IDM_DESTROY, 0 };
 
 		sttSetupGcMenuItem(_countof(sttLogListItems), sttLogListItems, 0, FALSE);
 
@@ -1192,6 +1193,10 @@ static void sttLogListHook(CJabberProto *ppro, JABBER_LIST_ITEM *item, GCHOOK *g
 
 	case IDM_LST_OWNER:
 		ppro->AdminGet(roomJid, JABBER_FEAT_MUC_ADMIN, "affiliation", "owner", &CJabberProto::OnIqResultMucGetOwnerList, gch->si->pDlg);
+		break;
+
+	case IDM_AVATAR:
+		CallService(MS_AV_CONTACTOPTIONS, gch->si->hContact, LPARAM(gch->si->pDlg ? gch->si->pDlg->GetHwnd() : nullptr));
 		break;
 
 	case IDM_TOPIC:

@@ -117,19 +117,18 @@ UINT_PTR CALLBACK OpenFileSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 
 INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 {
-	wchar_t FileName[MAX_PATH];
-	wchar_t *szFinalName;
-	uint8_t locking_request;
-
 	if (hContact == NULL)
 		return 0;
 
 	int is_locked = db_get_b(hContact, "ContactPhoto", "Locked", 0);
 
-	wchar_t *tszPath = (wchar_t*)lParam;
+	wchar_t *tszPath = (wchar_t*)lParam, *szFinalName;
 	if (tszPath == nullptr) {
 		wchar_t filter[256];
 		Bitmap_GetFilter(filter, _countof(filter));
+
+		wchar_t FileName[MAX_PATH];
+		*FileName = '\0';
 
 		OPENFILENAME ofn = { 0 };
 		ofn.lStructSize = sizeof(ofn);
@@ -140,12 +139,11 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 		ofn.nMaxFileTitle = MAX_PATH;
 		ofn.Flags = OFN_FILEMUSTEXIST | OFN_ENABLETEMPLATE | OFN_EXPLORER | OFN_ENABLESIZING | OFN_ENABLEHOOK;
 		ofn.lpstrInitialDir = L".";
-		*FileName = '\0';
 		ofn.lpstrDefExt = L"";
 		ofn.hInstance = g_plugin.getInst();
 		ofn.lpTemplateName = MAKEINTRESOURCE(IDD_OPENSUBCLASS);
 		ofn.lpfnHook = OpenFileSubclass;
-		locking_request = is_locked;
+		uint8_t locking_request = is_locked;
 		ofn.lCustData = (LPARAM)&locking_request;
 		if (!GetOpenFileName(&ofn))
 			return 0;
@@ -170,7 +168,7 @@ INT_PTR SetAvatar(WPARAM hContact, LPARAM lParam)
 
 	// Fix cache
 	ChangeAvatar(hContact, true);
-	return 0;
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -672,17 +670,6 @@ INT_PTR SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		return InternalRemoveMyAvatar(protocol);
 
 	return InternalSetMyAvatar(protocol, szFinalName, data, allAcceptXML, allAcceptSWF);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-
-static INT_PTR ContactOptions(WPARAM wParam, LPARAM lParam)
-{
-	if (wParam)
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_AVATAROPTIONS), (HWND)lParam, DlgProcAvatarOptions, wParam);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
