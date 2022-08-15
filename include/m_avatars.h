@@ -171,6 +171,7 @@ struct AVATARDRAWREQUEST
 // Call avatar option dialog for contact
 //
 // wParam = (HANDLE)hContact
+// lParam = (HWND)hwndParent or 0
 
 #define MS_AV_CONTACTOPTIONS "SV_Avatars/ContactOptions"
 
