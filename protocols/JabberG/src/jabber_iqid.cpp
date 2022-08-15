@@ -616,9 +616,12 @@ void CJabberProto::OnIqResultGetVcardPhoto(const TiXmlElement *n, MCONTACT hCont
 		ReportSelfAvatarChanged();
 	}
 	else {
-		ptrA jid(getUStringA(hContact, "jid"));
+		ptrA jid(ContactToJID(hContact));
 		if (jid != nullptr) {
 			JABBER_LIST_ITEM *item = ListGetItemPtr(LIST_ROSTER, jid);
+			if (item == nullptr) 
+				item = ListGetItemPtr(LIST_CHATROOM, jid);
+
 			if (item == nullptr) {
 				item = ListAdd(LIST_VCARD_TEMP, jid); // adding to the temp list to store information about photo
 				if (item != nullptr)

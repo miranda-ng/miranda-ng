@@ -43,7 +43,7 @@ int CJabberProto::SendGetVcard(MCONTACT hContact)
 		pInfo = AddIQ(&CJabberProto::OnIqResultGetVcard, JABBER_IQ_TYPE_GET, m_szJabberJID);
 	}
 	else {
-		ptrA jid(getUStringA(hContact, "jid"));
+		ptrA jid(ContactToJID(hContact));
 		if (jid == nullptr)
 			return -1;
 

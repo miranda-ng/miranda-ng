@@ -1008,6 +1008,11 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (resource != nullptr && *++resource == '\0')
 		resource = nullptr;
 
+	for (auto *x : TiXmlFilter(node, "x"))
+		if (!mir_strcmp(XmlGetAttr(x, "xmlns"), JABBER_FEAT_MUC_USER))
+			if (XmlGetChildByTag(x, "status", "code", "104"))
+				SendGetVcard(item->hContact);
+
 	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
 		msgText = n->GetText();
 		if (msgText == nullptr || msgText[0] == '\0')
