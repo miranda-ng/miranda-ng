@@ -864,7 +864,7 @@ bool CMsgDialog::GetAvatarVisibility()
 	// infopanel visible, consider own avatar display
 	m_bShowAvatar = false;
 	if (m_si)
-		return false;
+		bAvatarMode = 1;
 
 	if (m_pPanel.isActive() && bAvatarMode != 3) {
 		if (!bOwnAvatarMode) {
