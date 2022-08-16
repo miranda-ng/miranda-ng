@@ -35,10 +35,10 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 		SetDlgItemTextW(m_hwnd, IDC_UIN, ppro->GetUserId(m_hContact));
 		SetDlgItemTextW(m_hwnd, IDC_NICK, ppro->getMStringW(m_hContact, DB_KEY_ICQNICK));
 
-		SetDlgItemTextA(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
-		SetDlgItemTextA(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
-		SetDlgItemTextA(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
-		SetDlgItemTextA(m_hwnd, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(m_hContact, DB_KEY_ONLINETS)));
+		SetDlgItemTextW(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
+		SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
+		SetDlgItemTextW(m_hwnd, IDC_MEMBERSINCE, time2text(ppro->getDword(m_hContact, DB_KEY_MEMBERSINCE)));
+		SetDlgItemTextW(m_hwnd, IDC_ONLINESINCE, time2text(time(0) - ppro->getDword(m_hContact, DB_KEY_ONLINETS)));
 		return false;
 	}
 };

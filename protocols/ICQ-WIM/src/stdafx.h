@@ -102,6 +102,6 @@
 bool IsChat(const CMStringW &aimid);
 
 void RefreshGroups(void);
-char* time2text(time_t time);
+wchar_t* time2text(time_t time);
 
 extern bool g_bSecureIM, g_bMessageState;

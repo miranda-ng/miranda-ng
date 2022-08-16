@@ -326,20 +326,14 @@ void CIcqProto::setId(MCONTACT hContact, const char *szSetting, __int64 iValue)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-char* time2text(time_t time)
+wchar_t* time2text(time_t ts)
 {
-	if (time == 0)
-		return "";
+	if (ts == 0)
+		return L"";
 
-	tm *local = localtime(&time);
-	if (local) {
-		if (char *str = asctime(local)) {
-			str[24] = '\0'; // remove new line
-			return str;
-		}
-	}
-
-	return "<invalid>";
+	static wchar_t buf[100];
+	TimeZone_PrintTimeStamp(NULL, ts, L"D t", buf, _countof(buf), 0);
+	return buf;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
