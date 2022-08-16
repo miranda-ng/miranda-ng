@@ -65,6 +65,22 @@ using namespace std;
 #include "frame.h"
 #include "popup.h"
 
+struct Timers
+{
+	Timers() :
+		m_timer(Miranda_GetSystemWindow(), (UINT_PTR)this)
+	{
+		m_timer.OnEvent = Callback(this, &Timers::ClearEvents);
+	}
+
+	CTimer m_timer;
+	void ClearEvents(CTimer *);
+};
+
+extern Timers g_timers;
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	bool bFramesExist = false;

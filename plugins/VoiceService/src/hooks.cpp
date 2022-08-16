@@ -76,8 +76,6 @@ static INT_PTR CMAnswer(WPARAM wParam, LPARAM lParam);
 static INT_PTR CMHold(WPARAM wParam, LPARAM lParam);
 static INT_PTR CMDrop(WPARAM wParam, LPARAM lParam);
 
-static VOID CALLBACK ClearOldVoiceCalls(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
-
 class CallingMethod
 {
 public:
@@ -417,7 +415,7 @@ VoiceCall* FindVoiceCall(MCONTACT hContact)
 	return nullptr;
 }
 
-static VOID CALLBACK ClearOldVoiceCalls(HWND, UINT, UINT_PTR, DWORD)
+void Timers::ClearEvents(CTimer*)
 {
 	DWORD now = GetTickCount();
 	bool refresh = false;
@@ -692,7 +690,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 		g_plugin.addSound(it.szName, LPGENW("Voice Calls"), it.wszDescr);
 	g_plugin.addSound("voice_dialpad", LPGENW("Voice Calls"), LPGENW("Dialpad press"));
 
-	SetTimer(NULL, 0, 1000, ClearOldVoiceCalls);
+	g_timers.m_timer.Start(1000);
 
 	// Accounts
 	for (auto *pa : Accounts())
@@ -704,6 +702,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int PreShutdown(WPARAM, LPARAM)
 {
+	g_timers.m_timer.Stop();
 	DeInitFrames();
 	DeInitOptions();
 	return 0;
