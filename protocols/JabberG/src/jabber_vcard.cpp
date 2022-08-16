@@ -1051,8 +1051,9 @@ void CJabberProto::OnUserInfoInit_VCard(WPARAM wParam, LPARAM)
 	m_szPhotoFileName[0] = 0;
 
 	USERINFOPAGE uip = {};
-	uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_DONTTRANSLATE;
+	uip.flags = ODPF_UNICODE | ODPF_USERINFOTAB | ODPF_ICON;
 	uip.szGroup.w = m_tszUserName;
+	uip.dwInitParam = (LPARAM)Skin_GetProtoIcon(m_szModuleName, ID_STATUS_ONLINE);
 
 	uip.pDialog = new JabberVcardPersonalDlg(this);
 	uip.szTitle.w = LPGENW("General");

@@ -466,6 +466,8 @@ int OnDetailsInit(WPARAM wParam, LPARAM hContact)
 {
 	USERINFOPAGE uip = {};
 	uip.szTitle.a = LPGEN("Avatar");
+	uip.flags = ODPF_ICON;
+	uip.dwInitParam = (LPARAM)g_plugin.getIconHandle(IDI_AVATAR);
 
 	if (hContact == NULL) {
 		// User dialog
@@ -476,10 +478,8 @@ int OnDetailsInit(WPARAM wParam, LPARAM hContact)
 		char *szProto = Proto_GetBaseAccountName(hContact);
 		if (szProto == nullptr || g_plugin.getByte(szProto, 1)) {
 			// Contact dialog
-			uip.flags = ODPF_ICON;
 			uip.position = -2000000000;
 			uip.pDialog = new AvatarUserInfoDlg();
-			uip.dwInitParam = (LPARAM)g_plugin.getIconHandle(IDI_AVATAR);
 			g_plugin.addUserInfo(wParam, &uip);
 		}
 	}
