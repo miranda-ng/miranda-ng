@@ -668,6 +668,9 @@ public:
 
 	void Refresh()
 	{
+		if (m_calls.GetCount() == calls.getCount())
+			return;
+
 		m_calls.SendMsg(WM_SETREDRAW, FALSE, 0);
 		m_calls.ResetContent();
 
