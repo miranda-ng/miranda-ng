@@ -2,16 +2,16 @@
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Provide services for protocols that support voice calls]
+[Provide services for protocols that support voice calls.]
 
 ;file \plugins\VoiceService\res\resource.rc
 [Enable popups]
 
-[ Colors ]
-
+[Colors]
+Colores
 [Background color]
 Color de fondo
 [Text color]
@@ -20,16 +20,16 @@ Color de texto
 Usar colores de Windows
 [Use default colors]
 Usar colores predeterminados
-[ Delay ]
-
-[From popup plugin]
-
+[Timeout]
+Retardo
+[Default]
+Por defecto
 [Custom]
 Personalizado
 [Permanent]
 Permanente
-[ Actions ]
-
+[Actions]
+Acciones
 [On right click:]
 
 [On left click:]
@@ -66,6 +66,16 @@ Previsualizar
 
 [Microphone boost]
 
+[Unknown call]
+
+[Call will disclose IP address to the peer and his server]
+
+[Established]
+
+[M]
+
+[V]
+
 [Frame Popup]
 
 [Answer call]
@@ -76,8 +86,6 @@ Previsualizar
 
 ;file \plugins\VoiceService\src\frame.cpp
 [Show dialpad]
-
-[Make call]
 
 [Call with %s]
 

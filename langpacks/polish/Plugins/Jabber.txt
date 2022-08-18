@@ -598,6 +598,8 @@ Opcje &pokoju
 Pokaż/zmień &temat
 [Add to &bookmarks]
 Dodaj do &zakładek
+[Change &avatar]
+
 [&Configure...]
 &Konfiguruj
 [&Destroy room]
@@ -999,8 +1001,6 @@ Przychodząca notatka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
 Czy chcesz utworzyć sesję OMEMO z nowym urządzeniem:
-[OMEMO: New session]
-OMEMO: Nowa sesja
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
 ;file \protocols\JabberG\src\jabber_opt.cpp
@@ -1550,6 +1550,14 @@ Lista prywatności %s została ustawiona jako domyślna
 Domyślna lista została wyłączona
 [Error occurred while setting default list]
 Wystąpił błąd w czasie ustawiania domyślnej listy
+[none]
+brak
+[from]
+od
+[to]
+do
+[both]
+obydwa
 [Allow]
 Zezwól
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ Nastrój
 Aktywność
 [Tune]
 Teraz odtwarzane
-[both]
-obydwa
-[to]
-do
-[from]
-od
-[none]
-brak
 [Last logoff time]
 Ostatnio wylogowany
 [Uptime]
@@ -1930,8 +1930,8 @@ Uwagi
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
-
+[Incoming call]
+Połączenie przychodzące
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <miejsce zaawansowanego statusu>

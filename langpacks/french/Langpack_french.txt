@@ -6267,6 +6267,8 @@ Tous les :
 Nombre de sauvegarde à conserver :
 [Backup to folder:]
 Dossier de sauvegarde :
+[Enable progress bar]
+Activer la barre de progression
 [Backup NOW]
 Sauvegarder
 [Cancel]
@@ -7075,12 +7077,6 @@ Général
 Chat
 [Advanced]
 Avancé
-[Male]
-Homme
-[Female]
-Femme
-[<not specified>]
-<non spécifié>
 [HTTP failed memory]
 Erreur HTTP : mémoire
 [HTTP failed connecting]
@@ -7095,6 +7091,10 @@ Erreur HTTP inconnue
 Liste de contacts
 [Gadu-Gadu Number]
 Numéro Gadu-Gadu :
+[Female]
+Femme
+[Male]
+Homme
 [Open &conference...]
 Ouvrir un &chat...
 [&Clear ignored conferences]
@@ -7179,6 +7179,8 @@ Erreurs
 WhoIs
 [Token retrieval failed because of error:\n\t%s]
 Une récupération a échoué. Erreur :\n\t%s
+[<not specified>]
+<non spécifié>
 [Cannot register new account because of error:\n\t%s]
 Enregistrement du nouveau compte impossible Erreur :\n\t%s
 [Registration rejected]
@@ -9371,6 +9373,14 @@ Certaines modifications prendront effet la prochaine fois que vous vous connecte
 Nouveau passe non fonctionnel
 [Current password is incorrect.]
 Le passe actuel est incorrect.
+[none]
+aucun
+[from]
+de
+[to]
+vers
+[both]
+les 2
 [Allow]
 Autoriser
 [allow ]
@@ -9485,14 +9495,6 @@ Système d'exploitation
 Version du système d'exploitation
 [Software version]
 Version du logiciel
-[both]
-les 2
-[to]
-vers
-[from]
-de
-[none]
-aucun
 [<no information available>]
 <aucune information disponible>
 [Copy]
@@ -12553,7 +12555,7 @@ Erreur inconnue
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -14020,7 +14022,7 @@ Avancé
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Show these events]
@@ -16202,7 +16204,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16305,9 +16307,11 @@ Jeux
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
+[Colors]
+Couleurs
 [Background color]
 Couleur de fond
 [Text color]
@@ -16316,10 +16320,14 @@ Couleur du texte
 Utiliser les couleurs Windows
 [Use default colors]
 Couleurs par défaut
-[From popup plugin]
-Comme le plugin Popup
+[Timeout]
+Délai du popup
+[Default]
+Défaut
 [Custom]
 Défini
+[Actions]
+Actions
 [On right click:]
 Clic droit :
 [On left click:]
@@ -16718,7 +16726,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Update]

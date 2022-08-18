@@ -1190,6 +1190,8 @@ Datenbank-Verschlüsselungsmodus
 Standard
 [Total]
 Komplett
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
+Nur kritische Daten werden verschlüsselt (Passwörter, Sicherheitstoken etc.). Alle anderen Einstellungen sowie der Verlauf bleiben unverschlüsselt.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Alle Strings sowie alle Ereignisse im Verlauf werden verschlüsselt. Dies macht Miranda aber sehr viel langsamer, und Sie riskieren es, alle Ihre Daten zu verlieren wenn Sie Ihr Passwort vergessen.
 [Set password]
@@ -3360,9 +3362,9 @@ Parameter
 [structure]
 Struktur
 [ANSI message]
-Ansi-Nachricht
+ANSI-Nachricht
 [ANSI caption]
-Ansi-Überschrift
+ANSI-Überschrift
 [Structure]
 Struktur
 [Structure editor]
@@ -3489,6 +3491,8 @@ Minimiert starten
 Maximiert starten
 [Program path]
 Programmpfad
+[Program arguments]
+Programmargumente
 [Service]
 Dienst
 [Miranda service help]
@@ -3535,6 +3539,8 @@ Mathe
 > größer
 [< lesser]
 < kleiner
+[= equal]
+= gleich
 [^ xor]
 ^ exkl. ODER
 [& and]
@@ -3878,7 +3884,7 @@ Stationsname
 [wParam is Handle]
 wParam ist Handle
 [wParam is ANSI station name]
-wParam ist Stationsname (Ansi)
+wParam ist Stationsname (ANSI)
 [wParam is Unicode station name]
 wParam ist Stationsname (Unicode)
 [Starting or stopping radio station]
@@ -3944,7 +3950,7 @@ Text filtern
 [wParam is Unicode]
 wParam ist Unicode
 [wParam is ANSI]
-wParam ist Ansi
+wParam ist ANSI
 [Reserved]
 Reserviert
 [Open main QuickSearch window with text filter]
@@ -3963,6 +3969,8 @@ Gibt den Pfad für empfangene Dateien von einem Kontakt zurück.
 Datei an Kontakt senden.
 [Opens message window for contact with handle in wparam]
 Öffnet das nachrichtenfenster für den Kontakt mit Handle im wParam
+[remove all temporary contacts from database]
+Entfernt alle temporären Kontakte aus der Datenbank
 [Call avatar option dialog for contact]
 Ruft Avatareinstellungen für einen Kontakt auf.
 [Filename]
@@ -3977,6 +3985,10 @@ Zeigt Eigenschaftsfenster des Kontaktes.
 0 - Öffnet URL in aktuellem Fenster
 [Open URL in default browser]
 Öffnet URL im Standardbrowser
+[With formatting]
+Mit Formatierung
+[Don't use formatting]
+Keine Formatierung verwenden
 [Returns a string containing the versioninfo post]
 Gibt einen String zum Versionsinfobericht zurück
 [Show or save (call default action) Modules version Info]
@@ -5071,6 +5083,8 @@ Exportiere als
 Ausgabe-Dateien komprimieren
 [Password]
 Passwort
+[Upload to FTP (WinSCP required)]
+Mit FTP hochladen (benötigt WinSCP)
 [Session name]
 Sitzungsname
 [Path to file**]
@@ -5333,6 +5347,8 @@ Ungültiger '%s'-Wert.\n%s
 ** Verwende Sie <ext> für Erweiterung, <contact> für Kontaktname
 [Input files are compressed]
 Eingabe-Dateien sind komprimiert
+[Download from FTP (WinSCP required)]
+Mit FTP herunterladen (benötigt WinSCP)
 [Import from]
 Importiere aus
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
@@ -5505,6 +5521,8 @@ Bedenkzeit:
 Sprachmodul
 [Reload]
 Neu laden
+[Stay silent if have no good answers]
+Ruhig bleiben, wenn keine gute Antwort einfällt
 [Start answers with a lowercase letter]
 Antworten mit einem Kleinbuchstaben beginnen
 [Don't use "I don't understand"-like answers]
@@ -9240,6 +9258,8 @@ Backup-Dateimaske:
 Sicherungen in Zip-Archiven komprimieren
 [Backup profile folder]
 Profilverzeichnis sichern
+[Enable progress bar]
+Fortschrittsanzeige aktivieren
 [Use CloudFile]
 CloudFile verwenden
 [Backup NOW]
@@ -9916,6 +9936,8 @@ Icons
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
+Dienst stellt verschiedene Länderdienste, wie Flaggen und eine IP-Zu-Land-Datenbank, zur Verfügung.
 [Country Flags]
 Länderflaggen
 [Show country flag as &status icon on message window]
@@ -10072,6 +10094,8 @@ wird erweitert zu Ihrem Miranda-Pfad (bspw. C:\\Programme\\Miranda NG).
 wird erweitert zu Ihrem Profilpfad - der Wert aus mirandaboot.ini,
 [ProfileDir section (usually inside Miranda's folder).]
 Abschnitt ProfileDir (normalerweise im Miranda-Verzeichnis).
+[Expands to your current profile name without the extension.]
+wird erweitert zum Namen Ihres aktuellen Profils ohne Dateiendung.
 [(e.g., default if your your profile is default.dat).]
 (z.B. standard, wenn Ihr Profil standard.dat ist).
 [Environment variables]
@@ -10596,16 +10620,6 @@ Allgemein
 Konferenz
 [Advanced]
 Erweitert
-[Male]
-männlich
-[Female]
-weiblich
-[<not specified>]
-<nicht angegeben>
-[Your details has been uploaded to the public directory.]
-Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
-[You have to be logged in before you can change your details.]
-Sie müssen sich einloggen bevor sie ihre Details ändern können.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -10632,6 +10646,10 @@ Kontaktliste
 Bilder
 [Gadu-Gadu Number]
 Gadu-Gadu-Nummer
+[Female]
+weiblich
+[Male]
+männlich
 [Open &conference...]
 &Konferenz öffnen...
 [&Clear ignored conferences]
@@ -10782,6 +10800,12 @@ Gleichzeitige &Sitzungen
 Zeichenabruf ist ggfs. fehlgeschlagen, Fehler:\n\t%s
 [Could not load token image.]
 Konnte kein 'Token'-Bild laden.
+[<not specified>]
+<nicht angegeben>
+[Your details has been uploaded to the public directory.]
+Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
+[You have to be logged in before you can change your details.]
+Sie müssen sich einloggen bevor sie ihre Details ändern können.
 [Cannot register new account because of error:\n\t%s]
 Es konnte kein neues Konto registriert werden, Fehler:\n\t%s
 [Registration rejected]
@@ -15074,8 +15098,6 @@ Sind Sie sich sicher?
 Eingehende Notiz
 [Do you want to create OMEMO session with new device:]
 Möchten Sie eine OMEMO-Sitzung mit diesem neuen Gerät erzeugen:
-[OMEMO: New session]
-OMEMO: Neue Sitzung
 [Afar]
 Afarisch
 [Abkhazian]
@@ -15522,6 +15544,8 @@ Bild-URLs in [img] einschließen
 Server-Roster ignorieren (Gruppen und Nicknamen)
 [Security]
 Sicherheit
+[Allow local time and timezone requests (XEP-0202)]
+Abfragen der lokalen Zeit und Zeitzone erlauben (XEP-0202)
 [Allow servers to request version (XEP-0092)]
 Servern das Abfragen der Version erlauben (XEP-0092)
 [Show information about operating system in version replies]
@@ -15612,6 +15636,14 @@ Privatsphäreliste %s als Standard gesetzt
 Standardprivatsphäreliste erfolgreich entfernt
 [Error occurred while setting default list]
 Fehler beim Setzen der Standardprivatsphäreliste
+[none]
+keine
+[from]
+von
+[to]
+an
+[both]
+beide
 [Allow]
 Erlauben
 [List has no rules, empty lists will be deleted then changes applied]
@@ -15882,14 +15914,6 @@ Stimmung
 Aktivität
 [Tune]
 Lied
-[both]
-beide
-[to]
-an
-[from]
-von
-[none]
-keine
 [Last logoff time]
 Zuletzt abgemeldet
 [Uptime]
@@ -15980,6 +16004,8 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
+[Incoming call]
+Eingehender Anruf
 [<advanced status slot>]
 <erweiterter Statusslot>
 [Afraid]
@@ -22920,7 +22946,7 @@ Unbekannter Fehlercode
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -26208,6 +26234,8 @@ Rückmeldung bei Authorisierungsanfragen:
 Trennung:
 [Vars]
 Vars
+[Enable protection for following accounts:]
+Schutz für folgende Konten aktivieren:
 [Do not send more than]
 Sende nicht mehr als
 [questions to one contact (0 - for no limit)]
@@ -26353,7 +26381,7 @@ Erweitert
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -31057,7 +31085,7 @@ Speichert nur Variable y als x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31698,13 +31726,13 @@ Wollen Sie wirklich Missbrauch durch %s melden?
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Provide services for protocols that support voice calls]
-Stellt die Anruf-Unterstützung für Protokolle bereit.
 [Enable popups]
 Popups aktivieren
+[Colors]
+Farben
 [Background color]
 Hintergrundfarbe
 [Text color]
@@ -31713,16 +31741,16 @@ Textfarbe
 Windowsfarben verwenden
 [Use default colors]
 Standardfarben verwenden
-[ Delay ]
- Verzogerung
-[From popup plugin]
-Vom Popup-Plugin
+[Timeout]
+Timeout
+[Default]
+Standard
 [Custom]
 Benutzerdef.
 [Permanent]
 Dauerhaft
-[ Actions ]
- Aktionen
+[Actions]
+Aktionen
 [On right click:]
 Bei Rechtsklick:
 [On left click:]
@@ -31757,6 +31785,10 @@ Ausgehend:
 Echo Reduzierung
 [Microphone boost]
 Mikrofon Boost
+[M]
+m
+[V]
+V
 [Answer call]
 Anruf annehmen
 [Drop call]
@@ -32326,6 +32358,8 @@ Tunes
 Überprüft alle markierten Player darauf, ob sie gestartet sind und wiedergeben, oder stoppt bei dem ersten, der gefunden wird.
 [Check all players]
 Prüfe alle Player
+[Emulate multimedia keys presses to control player]
+Simuliert den Druck von Multimedia-Tasten, um einen Player aus dem WATrack-Frame heraus zu steuern.
 [User music info text]
 Musikinfo-Text des Nutzers
 [(%artist%, %title%, %album% and %year% macros can be used only)]
@@ -32571,7 +32605,7 @@ Plugins
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

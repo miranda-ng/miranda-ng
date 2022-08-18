@@ -598,6 +598,8 @@ Na&stavení místnosti
 Zobrazit/změnit &téma
 [Add to &bookmarks]
 Při&dat do záložek
+[Change &avatar]
+
 [&Configure...]
 &Nastavit...
 [&Destroy room]
@@ -998,8 +1000,6 @@ Opravdu chcete pokračovat?
 Příchozí poznámka
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
-[OMEMO: New session]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
@@ -1550,6 +1550,14 @@ Seznam %s je výchozí
 Výchozí seznam úspěšně přepnut
 [Error occurred while setting default list]
 
+[none]
+---
+[from]
+od
+[to]
+do
+[both]
+oboje
 [Allow]
 Povolit
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ Nálada
 Činnost
 [Tune]
 Hudba
-[both]
-oboje
-[to]
-do
-[from]
-od
-[none]
----
 [Last logoff time]
 Doba posledního odhlášení
 [Uptime]
@@ -1930,8 +1930,8 @@ Poznámka
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
-
+[Incoming call]
+Příchozí hovor
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <slot rozšířeného stavu>

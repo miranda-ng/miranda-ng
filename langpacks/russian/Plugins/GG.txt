@@ -229,16 +229,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Комната чата
 [Advanced]
 Дополнительно
-[Male]
-Мужской
-[Female]
-Женский
-[<not specified>]
-<не указано>
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-Вы должны войти в систему, прежде чем сможете изменить свои данные.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -268,6 +258,10 @@ HTTP неизвестная ошибка
 Изображения
 [Gadu-Gadu Number]
 Номер Gadu-Gadu
+[Female]
+Женский
+[Male]
+Мужской
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Открыть &конференцию...
@@ -429,6 +423,13 @@ IP адрес
 Маркер не получен из-за ошибки\n\t%s
 [Could not load token image.]
 Не могу загрузить маркер.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<не указано>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+Вы должны войти в систему, прежде чем сможете изменить свои данные.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Невозможно зарегистрировать пользователя из-за ошибки:\n\t%s

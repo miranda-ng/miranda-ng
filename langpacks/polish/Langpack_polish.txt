@@ -1183,6 +1183,8 @@ Tryb szyfrowania bazy
 Standardowy
 [Total]
 Całkowity
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
+Tylko najważniejsze dane (hasła, tokeny bezpieczeństwa itp.) są zaszyfrowane. Inne ustawienia, historia itp. pozostają niezaszyfrowane.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Wszystkie wpisy ustawień oraz zdarzenia w bazie są zaszyfrowane. Sprawia to, że Miranda może działać wolniej oraz stwarza ryzyko utraty wszystkich danych zapisanych w profilu w przypadku utraty hasła.
 [Set password]
@@ -3343,9 +3345,9 @@ parametry
 [structure]
 struktura
 [ANSI message]
-Wiadomość Ansi
+Wiadomość ANSI
 [ANSI caption]
-Opis Ansi
+Opis ANSI
 [Structure]
 Struktura
 [Structure editor]
@@ -3472,6 +3474,8 @@ Uruchom zminimalizowany
 Startuj zmaksymalizowany
 [Program path]
 Ścieżka programu
+[Program arguments]
+Argumenty programu
 [Service]
 Usługa
 [Miranda service help]
@@ -3518,6 +3522,8 @@ Math
 > większe
 [< lesser]
 < mniejsze
+[= equal]
+= równe
 [& and]
 & i
 [Text]
@@ -3528,6 +3534,8 @@ Wielkość liter ma znaczenie
 Odwrotny porządek
 [empty]
 pusty
+[equal]
+równe
 [contains]
 zawiera
 [starts with]
@@ -3543,7 +3551,7 @@ PRZERWA
 [JUMP]
 SKOCZ
 [^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as Unicode\r\n^h - replaced by last result as hex\r\n^f(name[,str])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
-^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
+^s - część  wybrana (i zamieniona)\r\n^e -zamieniona przez pusty ciąg\r\n^v - wklej tekst ze schowka\r\n^t - zastąpiona przez tabulację\r\n^l - zastąpiona przez ostatni wynik w Unicode\r\n^h - zastąpiona przez ostatni wynik jako hex\r\n^a - na końcu: wyślij automatycznie\r\n^f(nazwa\[,str\])\r\n     wklej linię z pliku tekstowego.\r\n     zawartość nawiasów nie może zawierać spacji
 [Process script after]
 Przetwarzaj skrypt za
 [MessageBox]
@@ -3857,7 +3865,7 @@ Nazwa stacji
 [wParam is Handle]
 wParam jest uchwytem
 [wParam is ANSI station name]
-wParam jest nazwą stacji w Ansi
+wParam jest nazwą stacji w ANSI
 [wParam is Unicode station name]
 wParam jest nazwą stacji w Unicode
 [Starting or stopping radio station]
@@ -3921,9 +3929,9 @@ Pokaż okno wyboru kontaktu
 [filter text]
 filtruj tekst
 [wParam is Unicode]
-wParam to unicode
+wParam to Unicode
 [wParam is ANSI]
-wParam to Ansi
+wParam to ANSI
 [Reserved]
 Zarezerwowany
 [Open main QuickSearch window with text filter]
@@ -3942,6 +3950,8 @@ Otwórz katalog otrzymanych plików kontaktu
 Wyślij plik do kontaktu
 [Opens message window for contact with handle in wparam]
 Otwiera okno rozmowy z kontaktem z uchwytem w wParam
+[remove all temporary contacts from database]
+usuń wszystkie tymczasowe kontakty z bazy danych
 [Call avatar option dialog for contact]
 Wywołaj okno opcji awatara kontaktu
 [Filename]
@@ -3956,6 +3966,10 @@ Otwórz link w obecnym oknie
 0 - Otwórz link w obecnym oknie
 [Open URL in default browser]
 Otwórz link w domyślnej przeglądarce
+[With formatting]
+z formatowaniem
+[Don't use formatting]
+Nie stosuj formatowania
 [Returns a string containing the versioninfo post]
 Zwraca ciąg zawierający post versioninfo
 [Show or save (call default action) Modules version Info]
@@ -5050,6 +5064,8 @@ Eksportuj jako
 Kompresuj plik wyjściowy
 [Password]
 Hasło:
+[Upload to FTP (WinSCP required)]
+Wyślij na FTP (Wymagany WinSCP)
 [Session name]
 Nazwa sesji
 [Path to file**]
@@ -5312,6 +5328,8 @@ Nieprawidłowa wartość "%s".\n%s
 ** Użyj <ext> do umieszczania rozszerzenia, <contact> do umieszczania nazwy kontaktu
 [Input files are compressed]
 Skompresowany plik wyjściowy
+[Download from FTP (WinSCP required)]
+Pobierz z FTP (Wymagany WinSCP)
 [Import from]
 Importuj z
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
@@ -5486,6 +5504,8 @@ Silnik
 Baza odpowiedzi
 [Reload]
 Odśwież
+[Stay silent if have no good answers]
+Nie odpowiadaj, gdy nie ma dobrych odpowiedzi
 [Start answers with a lowercase letter]
 Zaczynaj odpowiedzi z małej litery
 [Don't use "I don't understand"-like answers]
@@ -9219,6 +9239,8 @@ Maska pliku kopii:
 Kompresuj kopię do archiwum zip
 [Backup profile folder]
 Kopia zapasowa folderu z profilem
+[Enable progress bar]
+Włącz okienko ze wskaźnikiem postępu kopiowania
 [Use CloudFile]
 Używaj CloudFile
 [Backup NOW]
@@ -9891,6 +9913,8 @@ Ikony
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
+Usługa dodająca ikony flag państw i bazę danych IP-to-Country.
 [Country Flags]
 Flagi państw
 [Show country flag as &status icon on message window]
@@ -10047,6 +10071,8 @@ Rozwija się do ścieżki Mirandy (np. C:\Program Files\miranda ng).
 Rozwija się do ścieżki twojego profilu - wartość znaleziona w mirandaboot.ini
 [ProfileDir section (usually inside Miranda's folder).]
 w sekcji ProfileDir (zazwyczaj w folderze Mirandy).
+[Expands to your current profile name without the extension.]
+Rozwija się do nazwy obecnie załadowanego profilu bez rozszerzenia jego pliku.
 [(e.g., default if your your profile is default.dat).]
 (np. default, jeśli twój profil to default.dat).
 [Environment variables]
@@ -10571,16 +10597,6 @@ Ogólne
 Konferencja
 [Advanced]
 Zaawansowane
-[Male]
-Mężczyzna
-[Female]
-Kobieta
-[<not specified>]
-<nieokreślone>
-[Your details has been uploaded to the public directory.]
-Twoje dane zostały wysłane do katalogu publicznego.
-[You have to be logged in before you can change your details.]
-Musisz być zalogowany, żeby zmienić swoje dane.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -10607,6 +10623,10 @@ Lista kontaktów
 Obrazki
 [Gadu-Gadu Number]
 Numer Gadu-Gadu
+[Female]
+Kobieta
+[Male]
+Mężczyzna
 [Open &conference...]
 Otwórz &konferencję...
 [&Clear ignored conferences]
@@ -10757,6 +10777,12 @@ Równoległe &sesje
 Nie można było pobrać tokena z powodu błędu:\n\t%s
 [Could not load token image.]
 Nie można było załadować obrazka z tokenem.
+[<not specified>]
+<nieokreślone>
+[Your details has been uploaded to the public directory.]
+Twoje dane zostały wysłane do katalogu publicznego.
+[You have to be logged in before you can change your details.]
+Musisz być zalogowany, żeby zmienić swoje dane.
 [Cannot register new account because of error:\n\t%s]
 Nie można zarejestrować konta z powodu błędu:\n\t%s
 [Registration rejected]
@@ -14987,8 +15013,6 @@ Jesteś pewien?
 Przychodząca notatka
 [Do you want to create OMEMO session with new device:]
 Czy chcesz utworzyć sesję OMEMO z nowym urządzeniem:
-[OMEMO: New session]
-OMEMO: Nowa sesja
 [Afar]
 Afar
 [Abkhazian]
@@ -15525,6 +15549,14 @@ Lista prywatności %s została ustawiona jako domyślna
 Domyślna lista została wyłączona
 [Error occurred while setting default list]
 Wystąpił błąd w czasie ustawiania domyślnej listy
+[none]
+brak
+[from]
+od
+[to]
+do
+[both]
+obydwa
 [Allow]
 Zezwól
 [List has no rules, empty lists will be deleted then changes applied]
@@ -15793,14 +15825,6 @@ Nastrój
 Aktywność
 [Tune]
 Teraz odtwarzane
-[both]
-obydwa
-[to]
-do
-[from]
-od
-[none]
-brak
 [Last logoff time]
 Ostatnio wylogowany
 [Uptime]
@@ -15826,7 +15850,7 @@ Nieznany format
 [<No photo>]
 <Brak zdjęcia>
 [Fingerprint]
-Ikony klientów
+Odcisk
 [Unknown]
 Nieznany
 [Photo]
@@ -15883,6 +15907,8 @@ Jabber vCard: Edytuj numer telefonu
 Kontakty
 [Note]
 Uwagi
+[Incoming call]
+Połączenie przychodzące
 [<advanced status slot>]
 <miejsce zaawansowanego statusu>
 [Afraid]
@@ -21676,7 +21702,7 @@ Powiadomienia
 [Title]
 Tytuł
 [Clock]
-Zegar
+Czas
 [Text]
 Tekst
 [Hovered action]
@@ -22797,7 +22823,7 @@ Nieznany kod błędu
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -23935,7 +23961,7 @@ Historia ostatnio widzianych
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 Data: %d.%m.%y(%Y) \n Opis daty: %W - %w - %E - %e \n Czas: %H:%M:%S (%h-%p) \n Użytkownik: %n - %u \n Status: %s \n IP: %i - %r
 [Clock]
-Zegar
+Czas
 [LastSeen]
 Ostatnio widziany
 [User status change]
@@ -26115,6 +26141,8 @@ Odpowiedź na pytanie o autoryzację:
 Separator:
 [Vars]
 Zmienne
+[Enable protection for following accounts:]
+Włącz ochronę dla następujących kont:
 [Do not send more than]
 Nie wysyłaj więcej niż
 [questions to one contact (0 - for no limit)]
@@ -26260,7 +26288,7 @@ Zaawansowane
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -30946,7 +30974,7 @@ przechowuje "y" jako zmienną o nazwie "x"
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -31535,11 +31563,13 @@ Czy na pewno chcesz zgłosić nadużycie przez %s?
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
 Włącz powiadomienia
+[Colors]
+Kolory
 [Background color]
 Kolor tła
 [Text color]
@@ -31548,10 +31578,16 @@ Kolor tekstu
 Użyj kolorów Windows
 [Use default colors]
 Użyj domyślnych kolorów
+[Timeout]
+Wyświetlaj
+[Default]
+Domyślny
 [Custom]
 Niestandardowe
 [Permanent]
 Trwale
+[Actions]
+Akcje
 [On right click:]
 LPM:
 [On left click:]
@@ -31562,6 +31598,10 @@ Podgląd
 Ramka
 [Audio]
 Audio
+[M]
+m
+[V]
+V
 [Voice Calls]
 Rozmowy głosowe
 [Main]
@@ -32085,6 +32125,8 @@ Utwory
 Sprawdź aktywność wszystkich zaznaczonych odtwarzaczy (rozpoczęcie odtwarzania) lub zatrzymuje na pierwszym znalezionym.
 [Check all players]
 Sprawdź wszystkie odtw.
+[Emulate multimedia keys presses to control player]
+Emuluje klawisze multimedialne do kontrolowania odtwarzaczem.
 [User music info text]
 Tekst informacji o muzyce
 [(%artist%, %title%, %album% and %year% macros can be used only)]
@@ -32330,7 +32372,7 @@ Wtyczki
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

@@ -229,16 +229,6 @@ Obecné
 Konference
 [Advanced]
 Extra
-[Male]
-muž
-[Female]
-žena
-[<not specified>]
-<neurčeno>
-[Your details has been uploaded to the public directory.]
-Vaše údaje byly nahrány na veřejného adresáře.
-[You have to be logged in before you can change your details.]
-Musíte být přihlášeni pro změnu vašich údajů.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
@@ -268,6 +258,10 @@ Seznam kontaktů
 Obrázky
 [Gadu-Gadu Number]
 Identifikátor
+[Female]
+žena
+[Male]
+muž
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Založit novou konferen&ci...
@@ -429,6 +423,13 @@ Zobrazit &relace...
 Chyba při stahování tokenu. Popis problému:\n\t%s
 [Could not load token image.]
 Nelze načíst obrázkový token.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<neurčeno>
+[Your details has been uploaded to the public directory.]
+Vaše údaje byly nahrány na veřejného adresáře.
+[You have to be logged in before you can change your details.]
+Musíte být přihlášeni pro změnu vašich údajů.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Nový účet nelze založit. Chyba:\n\t%s

@@ -598,6 +598,8 @@ xHTML фармат чат-паведамленняў
 Прагляд/змена тэмы
 [Add to &bookmarks]
 Дадаць у закладкі
+[Change &avatar]
+
 [&Configure...]
 &Наладзіць...
 [&Destroy room]
@@ -998,8 +1000,6 @@ Jabber Рэсурс
 Уваходная нататка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
-[OMEMO: New session]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
@@ -1550,6 +1550,14 @@ S.ms
 Стандартны спіс прыватнасці паспяхова адхілены
 [Error occurred while setting default list]
 Памылка пры ўсталёўцы па змаўчанні
+[none]
+няма
+[from]
+ад
+[to]
+у
+[both]
+у абодва бакі
 [Allow]
 Дазволіць
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ XML (кадзіроўка UTF-8)
 Занятак
 [Tune]
 Мелодыя
-[both]
-у абодва бакі
-[to]
-у
-[from]
-ад
-[none]
-няма
 [Last logoff time]
 Адключаны:
 [Uptime]
@@ -1930,7 +1930,7 @@ Jabber vCard: рэдагаванне тэлефона
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
+[Incoming call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

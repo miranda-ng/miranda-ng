@@ -2,6 +2,7 @@
 [Jingle RTP]
 [Jingle DTLS]
 [Jingle RTP Audio]
+[Change &avatar]
 [%s is too large. Maximum size supported by the service is %d KB]
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 [Enable VOIP (experimental)]
@@ -14,4 +15,3 @@
 [Trusted]
 [UNTRUSTED]
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-[Incomig call]

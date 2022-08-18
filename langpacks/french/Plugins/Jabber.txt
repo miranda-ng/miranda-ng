@@ -598,6 +598,8 @@ Modérateurs
 
 [Add to &bookmarks]
 
+[Change &avatar]
+
 [&Configure...]
 
 [&Destroy room]
@@ -998,8 +1000,6 @@ Etes-vous sûr?
 
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
-[OMEMO: New session]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
@@ -1550,6 +1550,14 @@ Le passe actuel est incorrect.
 
 [Error occurred while setting default list]
 
+[none]
+aucun
+[from]
+de
+[to]
+vers
+[both]
+les 2
 [Allow]
 Autoriser
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ Version du logiciel
 
 [Tune]
 
-[both]
-les 2
-[to]
-vers
-[from]
-de
-[none]
-aucun
 [Last logoff time]
 
 [Uptime]
@@ -1930,7 +1930,7 @@ Contacts
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
+[Incoming call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

@@ -9858,16 +9858,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Чат
 [Advanced]
 Дадаткова
-[Male]
-Мужчынскі
-[Female]
-Жаночы
-[<not specified>]
-<не паказана>
-[Your details has been uploaded to the public directory.]
-Ваша інфармацыя была запісаная на агульным каталогу.
-[You have to be logged in before you can change your details.]
-Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -9894,6 +9884,10 @@ HTTP невядомая памылка
 Выявы
 [Gadu-Gadu Number]
 Нумар Gadu-Gadu
+[Female]
+Жаночы
+[Male]
+Мужчынскі
 [Open &conference...]
 Адкрыць канферэнцыю...
 [&Clear ignored conferences]
@@ -10044,6 +10038,12 @@ IP Адрас
 Маркер не атрыманы з-за памылкі\n\t%s
 [Could not load token image.]
 Не магу загрузіць маркер.
+[<not specified>]
+<не паказана>
+[Your details has been uploaded to the public directory.]
+Ваша інфармацыя была запісаная на агульным каталогу.
+[You have to be logged in before you can change your details.]
+Вы павінны ўвайсці ў сістэму для пераўтварэння дадзеных.
 [Cannot register new account because of error:\n\t%s]
 Немагчыма зарэгістраваць карыстача з-за памылкі:\n\t%s
 [Registration rejected]
@@ -14354,6 +14354,14 @@ S.ms
 Стандартны спіс прыватнасці паспяхова адхілены
 [Error occurred while setting default list]
 Памылка пры ўсталёўцы па змаўчанні
+[none]
+няма
+[from]
+ад
+[to]
+у
+[both]
+у абодва бакі
 [Allow]
 Дазволіць
 [List has no rules, empty lists will be deleted then changes applied]
@@ -14548,14 +14556,6 @@ XML (кадзіроўка UTF-8)
 Занятак
 [Tune]
 Мелодыя
-[both]
-у абодва бакі
-[to]
-у
-[from]
-ад
-[none]
-няма
 [Last logoff time]
 Адключаны:
 [Uptime]
@@ -20420,7 +20420,7 @@ History++ для гісторыі вокнаў
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -23545,7 +23545,7 @@ StopSpam: адпраўце паведамленне і адкажыце на п�
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -27985,7 +27985,7 @@ x, і захоўвае y, як зменную з імем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -28194,13 +28194,13 @@ x, і захоўвае y, як зменную з імем x
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
 Уключыць усплывальныя вокны
-[ Colors ]
- Колеры\s
+[Colors]
+Колеры
 [Background color]
 Колер фону
 [Text color]
@@ -28209,10 +28209,16 @@ x, і захоўвае y, як зменную з імем x
 Колеры Windows
 [Use default colors]
 Колеры па змаўчанні
+[Timeout]
+Затрымка
+[Default]
+Змаўчанні
 [Custom]
 Наладзіць
 [Permanent]
 Пастаянна
+[Actions]
+Дзеянні
 [On right click:]
 Правая пстрычка:
 [On left click:]
@@ -28223,6 +28229,8 @@ x, і захоўвае y, як зменную з імем x
 Фрэйм
 [Audio]
 Аўдыё
+[M]
+м
 [Voice Calls]
 Званкі
 [Main]
@@ -28979,7 +28987,7 @@ Miranda NG цудоўная, а гэта - прыклад досыць доўг�
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

@@ -229,16 +229,6 @@ Ogólne
 Konferencja
 [Advanced]
 Zaawansowane
-[Male]
-Mężczyzna
-[Female]
-Kobieta
-[<not specified>]
-<nieokreślone>
-[Your details has been uploaded to the public directory.]
-Twoje dane zostały wysłane do katalogu publicznego.
-[You have to be logged in before you can change your details.]
-Musisz być zalogowany, żeby zmienić swoje dane.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
@@ -268,6 +258,10 @@ Lista kontaktów
 Obrazki
 [Gadu-Gadu Number]
 Numer Gadu-Gadu
+[Female]
+Kobieta
+[Male]
+Mężczyzna
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Otwórz &konferencję...
@@ -429,6 +423,13 @@ Równoległe &sesje
 Nie można było pobrać tokena z powodu błędu:\n\t%s
 [Could not load token image.]
 Nie można było załadować obrazka z tokenem.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<nieokreślone>
+[Your details has been uploaded to the public directory.]
+Twoje dane zostały wysłane do katalogu publicznego.
+[You have to be logged in before you can change your details.]
+Musisz być zalogowany, żeby zmienić swoje dane.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Nie można zarejestrować konta z powodu błędu:\n\t%s

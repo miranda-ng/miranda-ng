@@ -598,6 +598,8 @@ xHTML-формат повідомлень чату
 Перегляд/зміна &теми
 [Add to &bookmarks]
 Додати в &закладки
+[Change &avatar]
+
 [&Configure...]
 &Налаштувати...
 [&Destroy room]
@@ -998,8 +1000,6 @@ xHTML-формат повідомлень чату
 Вхідна нотатка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
-[OMEMO: New session]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
@@ -1550,6 +1550,14 @@ Hipchat
 Стандартний список приватності успішно відхилено
 [Error occurred while setting default list]
 Помилка при встановленні списку за замовчанням
+[none]
+немає
+[from]
+від
+[to]
+до
+[both]
+обидві
 [Allow]
 Дозволити
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ XML (кодування UTF-8)
 Заняття
 [Tune]
 Мелодія
-[both]
-обидві
-[to]
-до
-[from]
-від
-[none]
-немає
 [Last logoff time]
 Час виходу
 [Uptime]
@@ -1930,8 +1930,8 @@ Jabber vCard: редагування телефону
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
-
+[Incoming call]
+Вхідний дзвінок
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <розширений статус>

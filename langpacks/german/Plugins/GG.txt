@@ -229,16 +229,6 @@ Allgemein
 Konferenz
 [Advanced]
 Erweitert
-[Male]
-männlich
-[Female]
-weiblich
-[<not specified>]
-<nicht angegeben>
-[Your details has been uploaded to the public directory.]
-Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
-[You have to be logged in before you can change your details.]
-Sie müssen sich einloggen bevor sie ihre Details ändern können.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Kann Datei nicht übertragen. Fehler: %d: %s (dcc)\n%s
@@ -268,6 +258,10 @@ Kontaktliste
 Bilder
 [Gadu-Gadu Number]
 Gadu-Gadu-Nummer
+[Female]
+weiblich
+[Male]
+männlich
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 &Konferenz öffnen...
@@ -429,6 +423,13 @@ Gleichzeitige &Sitzungen
 Zeichenabruf ist ggfs. fehlgeschlagen, Fehler:\n\t%s
 [Could not load token image.]
 Konnte kein 'Token'-Bild laden.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<nicht angegeben>
+[Your details has been uploaded to the public directory.]
+Ihre Details wurden in das öffentliche Verzeichnis hochgeladen.
+[You have to be logged in before you can change your details.]
+Sie müssen sich einloggen bevor sie ihre Details ändern können.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Es konnte kein neues Konto registriert werden, Fehler:\n\t%s

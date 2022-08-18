@@ -598,6 +598,8 @@ Jingle DTLS
 Просмотр/смена &темы
 [Add to &bookmarks]
 Добавить в &закладки
+[Change &avatar]
+Изменить &аватар
 [&Configure...]
 &Настроить...
 [&Destroy room]
@@ -999,8 +1001,6 @@ Jabber ошибка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
 Создать сессию OMEMO с новым устройством:
-[OMEMO: New session]
-OMEMO: Новая сессия
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 OMEMO не поддерживает шифрование приватных сообщений в публичных чатах. Продолжить без шифрования? 
 ;file \protocols\JabberG\src\jabber_opt.cpp
@@ -1550,6 +1550,14 @@ S.ms
 Стандартный список приватности успешно отклонён
 [Error occurred while setting default list]
 Ошибка при установке списка по умолчанию
+[none]
+нет
+[from]
+от
+[to]
+в
+[both]
+в обе стороны
 [Allow]
 Разрешить
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ XML (кодировка UTF-8)
 Занятие
 [Tune]
 Мелодия
-[both]
-в обе стороны
-[to]
-в
-[from]
-от
-[none]
-нет
 [Last logoff time]
 Время выхода
 [Uptime]
@@ -1930,7 +1930,7 @@ Jabber vCard: редактирование телефона
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 Принять звонок от %S?\r\nВаш IP-адрес станет известен собеседнику и его серверу
-[Incomig call]
+[Incoming call]
 Входящий звонок
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

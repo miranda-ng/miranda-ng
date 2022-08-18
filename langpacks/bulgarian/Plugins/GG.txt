@@ -229,16 +229,6 @@ Gadu-Gadu номер:
 Конференция
 [Advanced]
 Разширени
-[Male]
-Мъж
-[Female]
-Жена
-[<not specified>]
-<неуточнено>
-[Your details has been uploaded to the public directory.]
-Вашите подробности са качени в публичната директория.
-[You have to be logged in before you can change your details.]
-Трябва да се впишете преда да промените подробностите за себе си.
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -268,6 +258,10 @@ Gadu-Gadu номер:
 
 [Gadu-Gadu Number]
 Gadu-Gadu номер
+[Female]
+Жена
+[Male]
+Мъж
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Отваряне на конференция...
@@ -429,6 +423,13 @@ IP адрес
 
 [Could not load token image.]
 
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<неуточнено>
+[Your details has been uploaded to the public directory.]
+Вашите подробности са качени в публичната директория.
+[You have to be logged in before you can change your details.]
+Трябва да се впишете преда да промените подробностите за себе си.
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 

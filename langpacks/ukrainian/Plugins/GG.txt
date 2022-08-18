@@ -229,16 +229,6 @@
 Конференція
 [Advanced]
 Додатково
-[Male]
-Чоловіча
-[Female]
-Жіноча
-[<not specified>]
-<не вказано>
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -268,6 +258,10 @@ HTTP невідома помилка
 Зображення
 [Gadu-Gadu Number]
 Номер Gadu-Gadu
+[Female]
+Жіноча
+[Male]
+Чоловіча
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 &Відкрити конференцію...
@@ -429,6 +423,13 @@ IP-адреса
 Маркер не отриманий через помилку\n\t%s
 [Could not load token image.]
 Не можу завантажити маркер.
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<не вказано>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
+
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]
 Неможливо зареєструвати користувача через помилку:\n\t%s

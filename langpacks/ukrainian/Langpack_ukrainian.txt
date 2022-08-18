@@ -1165,6 +1165,8 @@ UIN, E-mail тощо
 Стандартний
 [Total]
 Повний
+[Only critical data are encrypted (passwords, security tokens, etc.). All other settings and history remains unencrypted.]
+Шифрування тільки критичних даних (паролі, токени авторизації тощо). Інші налаштування, а також історія залишаються незашифрованими.
 [All string settings and all events in histories are encrypted. It also makes Miranda much slower and creates a risk of losing everything you've stored in a database in case of losing password.]
 Шифрування всіх налаштувань та подій історії. Уповільнює роботу програми, а також створює ризик втрати всього збереженого в бази в разі втрати пароля.
 [Set password]
@@ -3374,6 +3376,8 @@ ANSI-плагін
 Запуск розгорнутим
 [Program path]
 Шлях
+[Program arguments]
+Аргументи
 [Service]
 Виклик служби
 [Miranda service help]
@@ -3418,6 +3422,8 @@ UTF16+сигнатури
 > більше
 [< lesser]
 < меньше
+[= equal]
+= дорівнює
 [& and]
 & і
 [Text]
@@ -3428,6 +3434,8 @@ UTF16+сигнатури
 Зворотний порядок
 [empty]
 порожній
+[equal]
+дорівнює
 [contains]
 містить
 [starts with]
@@ -3774,6 +3782,8 @@ wParam в ANSI
 Відправляє контакту файл
 [Opens message window for contact with handle in wparam]
 Відкриває вікно повідомлень з контактом, handle якого знаходиться у wParam
+[remove all temporary contacts from database]
+Видаляє з бази всі тимчасові контакти
 [Filename]
 Ім'я файлу
 [Shows contact property window.]
@@ -3784,6 +3794,10 @@ wParam в ANSI
 0 - відкриває посилання в поточному вікні
 [Open URL in default browser]
 Відкриває посилання в браузері за замовчанням
+[With formatting]
+з форматуванням
+[Don't use formatting]
+без форматування
 [int 0, if unsuccessful]
 0 якщо невдало
 [Manage Jabber Bookmarks]
@@ -4842,6 +4856,8 @@ XML файли
 Стиснути файли
 [Password]
 Пароль
+[Upload to FTP (WinSCP required)]
+Завантажити на FTP (необхідне WinSCP)
 [Session name]
 Ім'я сесії
 [Path to file**]
@@ -5104,6 +5120,8 @@ dat (плагін mContacts)
 ** <ext> вставляє розширення, <contact> - ім'я контакту
 [Input files are compressed]
 Вхідні файли стиснуті
+[Download from FTP (WinSCP required)]
+Скачати з FTP (необхідне WinSCP)
 [Import from]
 Імпорт з:
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
@@ -5278,6 +5296,8 @@ FTP-шлях не може містити <date> в задачі імпорту.
 База реплік
 [Reload]
 Перезавантажити
+[Stay silent if have no good answers]
+Мовчати, якщо немає хороших відповідей
 [Start answers with a lowercase letter]
 Починати відповіді з маленької літери.
 [Don't use "I don't understand"-like answers]
@@ -8901,6 +8921,8 @@ ID користувача
 Стиснути резервну копію в zip-архів
 [Backup profile folder]
 Резервувати папку профілю
+[Enable progress bar]
+Увімкнути індикацію
 [Use CloudFile]
 Використовувати CloudFile
 [Backup NOW]
@@ -9537,6 +9559,8 @@ Gadu-Gadu v8 клієнт
 ;  Version: 0.1.0.4
 ;  Authors: H. Herkenrath
 ;============================================================
+[Service offering miscellaneous country utilities as flag icons and an IP-to-Country database.]
+Служба, яка додає значки національних прапорів і базу даних IP-to-Country.
 [Country Flags]
 Прапори країн
 [Show country flag as &status icon on message window]
@@ -9691,6 +9715,8 @@ Gadu-Gadu v8 клієнт
 Повертає шлях до вашого профілю - значення, знайдене в mirandaboot.ini,
 [ProfileDir section (usually inside Miranda's folder).]
 у секції ProfileDir (зазвичай знаходиться в папці Miranda NG).
+[Expands to your current profile name without the extension.]
+Повертає ім'я вашого профілю без розширення.
 [(e.g., default if your your profile is default.dat).]
 (наприклад, default, якщо ваш профіль default.dat).
 [Environment variables]
@@ -10199,12 +10225,6 @@ FTP-сервер 5
 Конференція
 [Advanced]
 Додатково
-[Male]
-Чоловіча
-[Female]
-Жіноча
-[<not specified>]
-<не вказано>
 [HTTP failed connecting]
 HTTP помилка з'єднання
 [HTTP failed resolving]
@@ -10225,6 +10245,10 @@ HTTP невідома помилка
 Зображення
 [Gadu-Gadu Number]
 Номер Gadu-Gadu
+[Female]
+Жіноча
+[Male]
+Чоловіча
 [Open &conference...]
 &Відкрити конференцію...
 [&Clear ignored conferences]
@@ -10375,6 +10399,8 @@ IP-адреса
 Маркер не отриманий через помилку\n\t%s
 [Could not load token image.]
 Не можу завантажити маркер.
+[<not specified>]
+<не вказано>
 [Cannot register new account because of error:\n\t%s]
 Неможливо зареєструвати користувача через помилку:\n\t%s
 [Registration rejected]
@@ -15001,6 +15027,14 @@ Hipchat
 Стандартний список приватності успішно відхилено
 [Error occurred while setting default list]
 Помилка при встановленні списку за замовчанням
+[none]
+немає
+[from]
+від
+[to]
+до
+[both]
+обидві
 [Allow]
 Дозволити
 [List has no rules, empty lists will be deleted then changes applied]
@@ -15241,14 +15275,6 @@ XML (кодування UTF-8)
 Заняття
 [Tune]
 Мелодія
-[both]
-обидві
-[to]
-до
-[from]
-від
-[none]
-немає
 [Last logoff time]
 Час виходу
 [Uptime]
@@ -15272,7 +15298,7 @@ XML (кодування UTF-8)
 [<No photo>]
 <Немає фото>
 [Fingerprint]
-Значки клієнтів
+Відбиток
 [Unknown]
 Невідомо
 [Photo]
@@ -15327,6 +15353,8 @@ Jabber vCard: редагування телефону
 Контакти
 [Note]
 Нотатка
+[Incoming call]
+Вхідний дзвінок
 [<advanced status slot>]
 <розширений статус>
 [Afraid]
@@ -21757,7 +21785,7 @@ IP токену не збігається
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -24967,6 +24995,8 @@ Upload Pie (1 тижд)
 Роздільник:
 [Vars]
 змін.
+[Enable protection for following accounts:]
+Увімкнути захист для наступних облікових записів:
 [Do not send more than]
 Не надсилати більше
 [questions to one contact (0 - for no limit)]
@@ -25112,7 +25142,7 @@ StopSpam: надішліть повідомлення і дайте відпов
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -29756,7 +29786,7 @@ X, і зберігає Y як змінну з ім'ям X
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -30331,11 +30361,13 @@ ID отримувача помилковий або невідомий
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
 Увімкнути спливаючі вікна
+[Colors]
+Кольори
 [Background color]
 Колір фону
 [Text color]
@@ -30344,10 +30376,16 @@ ID отримувача помилковий або невідомий
 Кольори Windows
 [Use default colors]
 Стандартні кольори
+[Timeout]
+Затримка
+[Default]
+Стандартний
 [Custom]
 Вказане
 [Permanent]
 Постійно
+[Actions]
+Дії
 [On right click:]
 Правий клік:
 [On left click:]
@@ -30358,6 +30396,10 @@ ID отримувача помилковий або невідомий
 Фрейм
 [Audio]
 Аудіо
+[M]
+м
+[V]
+Змін.
 [Voice Calls]
 Дзвінки
 [Main]
@@ -30881,6 +30923,8 @@ VBR чи ні
 Перевіряє всі позначені плеєри на активність (запуск, відтворення) або зупиняється на першому знайденому
 [Check all players]
 Перевіряти всі плеєри
+[Emulate multimedia keys presses to control player]
+Емуляція натискань мультимедійних клавіш для керування плеєром
 [User music info text]
 Інформація про музику користувача
 [(%artist%, %title%, %album% and %year% macros can be used only)]
@@ -31120,7 +31164,7 @@ Miranda NG чудова, а це - приклад довгого повідом�
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

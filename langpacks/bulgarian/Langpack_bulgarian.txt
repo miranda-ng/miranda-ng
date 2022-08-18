@@ -8792,16 +8792,6 @@ Gadu-Gadu номер:
 Конференция
 [Advanced]
 Разширени
-[Male]
-Мъж
-[Female]
-Жена
-[<not specified>]
-<неуточнено>
-[Your details has been uploaded to the public directory.]
-Вашите подробности са качени в публичната директория.
-[You have to be logged in before you can change your details.]
-Трябва да се впишете преда да промените подробностите за себе си.
 [Unknown HTTP error]
 Неизвестна HTTP грешка
 [&Unblock]
@@ -8812,6 +8802,10 @@ Gadu-Gadu номер:
 Списък с контакти
 [Gadu-Gadu Number]
 Gadu-Gadu номер
+[Female]
+Жена
+[Male]
+Мъж
 [Open &conference...]
 Отваряне на конференция...
 [&Clear ignored conferences]
@@ -8928,6 +8922,12 @@ IP адрес
 Кой е
 [Concurrent &sessions]
 Едновременни сесии
+[<not specified>]
+<неуточнено>
+[Your details has been uploaded to the public directory.]
+Вашите подробности са качени в публичната директория.
+[You have to be logged in before you can change your details.]
+Трябва да се впишете преда да промените подробностите за себе си.
 [Registration rejected]
 Регистрацията е отхвърлена
 [You have registered new account.\nPlease fill up your personal details in "Main menu -> View/change my details..."]
@@ -12966,6 +12966,14 @@ S.ms
 Стандартният списък за поверителност бе успешно отменен
 [Error occurred while setting default list]
 Възникна грешка при задаването на стандартен списък
+[none]
+няма
+[from]
+от
+[to]
+за
+[both]
+и двамата
 [Allow]
 Позволи
 [List has no rules, empty lists will be deleted then changes applied]
@@ -13150,14 +13158,6 @@ XML (кодиран с UTF-8)
 Настроение
 [Activity]
 Дейност
-[both]
-и двамата
-[to]
-за
-[from]
-от
-[none]
-няма
 [Last logoff time]
 Последно отписване на
 [Uptime]
@@ -13179,7 +13179,7 @@ XML (кодиран с UTF-8)
 [<No photo>]
 <Няма снимка>
 [Fingerprint]
-Fingerprint
+Отпечатък
 [Unknown]
 Неизвестно
 [Photo]
@@ -13228,6 +13228,8 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
+[Incoming call]
+Входящо обаждане
 [Afraid]
 Уплашен
 [Amazed]
@@ -17384,7 +17386,7 @@ ID на клиента
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -19719,7 +19721,7 @@ StopSpam: изпратете съобщение и отговорете на в�
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -23735,7 +23737,7 @@ x - y - ...
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -23922,13 +23924,13 @@ URL:
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
 Включване на Popups
-[ Colors ]
- Цветове\s
+[Colors]
+Цветове
 [Background color]
 Цвят на фона
 [Text color]
@@ -23937,10 +23939,16 @@ URL:
 Цветове от Windows
 [Use default colors]
 Стандартни цветове
+[Timeout]
+Времетраене
+[Default]
+Стандарт
 [Custom]
 Избор
 [Permanent]
 Постоянно
+[Actions]
+Действия
 [On right click:]
 Десен бутон:
 [On left click:]
@@ -23951,6 +23959,8 @@ URL:
 Рамка
 [Audio]
 Аудио
+[M]
+m
 [Voice Calls]
 Гласови разговори
 [Main]
@@ -24505,7 +24515,7 @@ WATrack състояние
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]

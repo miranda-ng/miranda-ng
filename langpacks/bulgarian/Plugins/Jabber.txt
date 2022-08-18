@@ -598,6 +598,8 @@ Jabber настроение
 Преглед/Промяна на темата
 [Add to &bookmarks]
 Добавяне в отметките
+[Change &avatar]
+
 [&Configure...]
 Настройване...
 [&Destroy room]
@@ -998,8 +1000,6 @@ Jabber източник
 Входяща бележка
 ;file \protocols\JabberG\src\jabber_omemo.cpp
 [Do you want to create OMEMO session with new device:]
-
-[OMEMO: New session]
 
 [OMEMO can not encrypt private messages in public groupchats. Continue using plain text?]
 
@@ -1550,6 +1550,14 @@ S.ms
 Стандартният списък за поверителност бе успешно отменен
 [Error occurred while setting default list]
 Възникна грешка при задаването на стандартен списък
+[none]
+няма
+[from]
+от
+[to]
+за
+[both]
+и двамата
 [Allow]
 Позволи
 [List has no rules, empty lists will be deleted then changes applied]
@@ -1827,14 +1835,6 @@ XML (кодиран с UTF-8)
 Дейност
 [Tune]
 
-[both]
-и двамата
-[to]
-за
-[from]
-от
-[none]
-няма
 [Last logoff time]
 Последно отписване на
 [Uptime]
@@ -1930,8 +1930,8 @@ Jabber vCard: Редактиране на телефонен номер
 ;file \protocols\JabberG\src\jabber_voip.cpp
 [Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 
-[Incomig call]
-
+[Incoming call]
+Входящо обаждане
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

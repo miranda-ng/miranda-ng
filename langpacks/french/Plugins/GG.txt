@@ -229,16 +229,6 @@ Général
 Chat
 [Advanced]
 Avancé
-[Male]
-Homme
-[Female]
-Femme
-[<not specified>]
-<non spécifié>
-[Your details has been uploaded to the public directory.]
-
-[You have to be logged in before you can change your details.]
-
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -268,6 +258,10 @@ Liste de contacts
 
 [Gadu-Gadu Number]
 Numéro Gadu-Gadu :
+[Female]
+Femme
+[Male]
+Homme
 ;file \protocols\Gadu-Gadu\src\groupchat.cpp
 [Open &conference...]
 Ouvrir un &chat...
@@ -428,6 +422,13 @@ WhoIs
 [Token retrieval failed because of error:\n\t%s]
 Une récupération a échoué. Erreur :\n\t%s
 [Could not load token image.]
+
+;file \protocols\Gadu-Gadu\src\userinfo.cpp
+[<not specified>]
+<non spécifié>
+[Your details has been uploaded to the public directory.]
+
+[You have to be logged in before you can change your details.]
 
 ;file \protocols\Gadu-Gadu\src\userutils.cpp
 [Cannot register new account because of error:\n\t%s]

@@ -9296,16 +9296,6 @@ Obecné
 Konference
 [Advanced]
 Extra
-[Male]
-muž
-[Female]
-žena
-[<not specified>]
-<neurčeno>
-[Your details has been uploaded to the public directory.]
-Vaše údaje byly nahrány na veřejného adresáře.
-[You have to be logged in before you can change your details.]
-Musíte být přihlášeni pro změnu vašich údajů.
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
 [Cannot create transfer file. ERROR: %d: %s (dcc7)\n%s]
@@ -9332,6 +9322,10 @@ Seznam kontaktů
 Obrázky
 [Gadu-Gadu Number]
 Identifikátor
+[Female]
+žena
+[Male]
+muž
 [Open &conference...]
 Založit novou konferen&ci...
 [&Clear ignored conferences]
@@ -9482,6 +9476,12 @@ Zobrazit &relace...
 Chyba při stahování tokenu. Popis problému:\n\t%s
 [Could not load token image.]
 Nelze načíst obrázkový token.
+[<not specified>]
+<neurčeno>
+[Your details has been uploaded to the public directory.]
+Vaše údaje byly nahrány na veřejného adresáře.
+[You have to be logged in before you can change your details.]
+Musíte být přihlášeni pro změnu vašich údajů.
 [Cannot register new account because of error:\n\t%s]
 Nový účet nelze založit. Chyba:\n\t%s
 [Registration rejected]
@@ -13166,6 +13166,14 @@ Chyba při aktivaci seznamu
 Seznam %s je výchozí
 [Default privacy list successfully declined]
 Výchozí seznam úspěšně přepnut
+[none]
+---
+[from]
+od
+[to]
+do
+[both]
+oboje
 [Allow]
 Povolit
 [List has no rules, empty lists will be deleted then changes applied]
@@ -13378,14 +13386,6 @@ Nálada
 Činnost
 [Tune]
 Hudba
-[both]
-oboje
-[to]
-do
-[from]
-od
-[none]
----
 [Last logoff time]
 Doba posledního odhlášení
 [Logoff message]
@@ -13407,7 +13407,7 @@ neznámý formát
 [<No photo>]
 <foto není>
 [Fingerprint]
-Fingerprint
+Otisk
 [Unknown]
 Neznámý
 [Photo]
@@ -13436,6 +13436,8 @@ Jabber vCard: Upravit telefonní číslo
 Kontakty
 [Note]
 Poznámka
+[Incoming call]
+Příchozí hovor
 [<advanced status slot>]
 <slot rozšířeného stavu>
 [Afraid]
@@ -18490,7 +18492,7 @@ Neznámá chyba
 ;============================================================
 ;  File: Scriver.dll
 ;  Plugin: Scriver
-;  Version: 3.0.2.3
+;  Version: 3.0.2.4
 ;  Authors: Miranda NG team
 ;============================================================
 [Scriver - send and receive instant messages.]
@@ -21567,7 +21569,7 @@ Extra
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.4
+;  Version: 3.6.2.5
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -25955,7 +25957,7 @@ pouze uloží y jako proměnnou x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.13.0
+;  Version: 0.1.14.0
 ;  Authors: Miranda NG team
 ;============================================================
 [Create new chat]
@@ -26142,13 +26144,13 @@ Hry
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.2.0
+;  Version: 0.1.3.0
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Enable popups]
 Povolit oznámení
-[ Colors ]
- Barvy\s
+[Colors]
+Barvy
 [Background color]
 Barva pozadí
 [Text color]
@@ -26157,16 +26159,16 @@ Barva textu
 Použít barvy Windows
 [Use default colors]
 Použít výchozí barvy
-[ Delay ]
- Prodleva\s
-[From popup plugin]
-Globální nastavení
+[Timeout]
+Doba zobrazení
+[Default]
+Výchozí
 [Custom]
 Vlastní
 [Permanent]
 Trvale
-[ Actions ]
- Akce 
+[Actions]
+Akce
 [On right click:]
 Pravé tlačítko
 [On left click:]
@@ -26195,6 +26197,10 @@ Audio
 Vstup:
 [Output:]
 Výstup:
+[M]
+m
+[V]
+v
 [Answer call]
 Zvednout
 [Drop call]
@@ -26805,7 +26811,7 @@ Doplňky
 ;============================================================
 ;  File: Weather.dll
 ;  Plugin: Weather
-;  Version: 0.4.0.7
+;  Version: 0.4.0.8
 ;  Authors: Miranda NG team
 ;============================================================
 [Retrieves weather information and displays it in your contact list.]
