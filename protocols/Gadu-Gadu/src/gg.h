@@ -73,6 +73,16 @@
 #include <openssl/sha.h>
 #pragma comment(lib, "libcrypto.lib")
 
+#define SVS_NORMAL       0
+#define SVS_GENDER       1
+#define SVS_ZEROISUNSPEC 2
+#define SVS_IP           3
+#define SVS_COUNTRY      4
+#define SVS_MONTH        5
+#define SVS_SIGNED       6
+#define SVS_TIMEZONE     7
+#define SVS_GGVERSION    9
+
 // libgadu headers
 #include "libgadu.h"
 #include "dynstuff.h"

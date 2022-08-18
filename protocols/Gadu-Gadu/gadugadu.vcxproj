@@ -103,6 +103,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\token.cpp" />
+    <ClCompile Include="src\userinfo.cpp" />
     <ClCompile Include="src\userutils.cpp" />
     <ClInclude Include="src\libgadu\compat.h" />
     <ClInclude Include="src\libgadu\debug.h" />
