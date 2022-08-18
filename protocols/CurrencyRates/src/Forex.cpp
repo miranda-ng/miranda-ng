@@ -26,14 +26,14 @@ static THandles g_ahThreads;
 static HGENMENU g_hEnableDisableMenu;
 static HANDLE g_hTBButton;
 
-static void UpdateMenu(bool bAutoUpdate)
+static void UpdateMenu()
 {
-	if (bAutoUpdate) // to enable auto-update
+	if (g_bAutoUpdate) // to enable auto-update
 		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Enabled"), g_plugin.getIconHandle(IDI_ICON_MAIN));
 	else // to disable auto-update
 		Menu_ModifyItem(g_hEnableDisableMenu, LPGENW("Auto Update Disabled"), g_plugin.getIconHandle(IDI_ICON_DISABLED));
 
-	CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), !bAutoUpdate ? TTBST_PUSHED : 0);
+	CallService(MS_TTB_SETBUTTONSTATE, reinterpret_cast<WPARAM>(g_hTBButton), g_bAutoUpdate ? 0 : TTBST_PUSHED);
 }
 
 static INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
@@ -45,7 +45,7 @@ static INT_PTR CurrencyRatesMenu_RefreshAll(WPARAM, LPARAM)
 
 static INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 {
-	g_bAutoUpdate = (g_bAutoUpdate) ? false : true;
+	g_bAutoUpdate = !g_bAutoUpdate;
 	g_plugin.setByte(DB_STR_AUTO_UPDATE, g_bAutoUpdate);
 
 	for (auto &pProvider : g_apProviders) {
@@ -54,7 +54,7 @@ static INT_PTR CurrencyRatesMenu_EnableDisable(WPARAM, LPARAM)
 			pProvider->RefreshAllContacts();
 	}
 
-	UpdateMenu(g_bAutoUpdate);
+	UpdateMenu();
 	return 0;
 }
 
@@ -72,7 +72,7 @@ void InitMenu()
 	mi.pszService = MS_FOREX_ENABLE;
 	g_hEnableDisableMenu = Menu_AddMainMenuItem(&mi);
 	CreateServiceFunction(mi.pszService, CurrencyRatesMenu_EnableDisable);
-	UpdateMenu(g_bAutoUpdate);
+	UpdateMenu();
 
 	SET_UID(mi, 0x91cbabf6, 0x5073, 0x4a78, 0x84, 0x8, 0x34, 0x61, 0xc1, 0x8a, 0x34, 0xd9);
 	mi.name.w = LPGENW("Refresh All Rates");
