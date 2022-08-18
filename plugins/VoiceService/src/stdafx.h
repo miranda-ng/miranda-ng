@@ -55,6 +55,7 @@ using namespace std;
 #include <m_metacontacts.h>
 #include <m_fontservice.h>
 #include <m_skin.h>
+#include <m_avatars.h>
 
 #include <m_voice.h>
 #include <m_voiceservice.h>
@@ -64,20 +65,6 @@ using namespace std;
 #include "options.h"
 #include "frame.h"
 #include "popup.h"
-
-struct Timers
-{
-	Timers() :
-		m_timer(Miranda_GetSystemWindow(), (UINT_PTR)this)
-	{
-		m_timer.OnEvent = Callback(this, &Timers::ClearEvents);
-	}
-
-	CTimer m_timer;
-	void ClearEvents(CTimer *);
-};
-
-extern Timers g_timers;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -185,10 +172,11 @@ private:
 	void OnCommand_Drop(CCtrlButton*);
 	void OnCallTimer(CTimer*);
 	bool OnInitDialog() override;
+	bool OnClose() override;
 	
 	CCtrlButton m_btnAnswer;
 	CCtrlButton m_btnDrop;
-	CCtrlLabel m_lblStatus, m_lblContactName;
+	CCtrlLabel m_lblStatus, m_lblContactName, m_lblAddress;
 	int m_nsec;
 	CTimer m_calltimer;
 

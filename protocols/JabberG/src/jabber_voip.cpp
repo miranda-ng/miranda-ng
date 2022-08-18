@@ -530,6 +530,7 @@ INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
 		vc.flags = 0;
 		vc.hContact = hContact;       // Contact associated with the call (can be NULL)
 		vc.state = VOICE_STATE_CALLING;
+		vc.szNumber.a = m_voipPeerJid;
 		NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 	}
 
@@ -546,6 +547,7 @@ INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM id, LPARAM)
 	vc.hContact = HContactFromJID(m_voipPeerJid);
 
 	vc.state = VOIPCallAccept(m_offerNode, m_voipPeerJid) ? VOICE_STATE_TALKING : VOICE_STATE_ENDED;
+	vc.szNumber.a = m_voipPeerJid;
 	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 	return 0;
 }

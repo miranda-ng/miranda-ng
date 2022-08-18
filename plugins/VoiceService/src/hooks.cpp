@@ -415,21 +415,6 @@ VoiceCall* FindVoiceCall(MCONTACT hContact)
 	return nullptr;
 }
 
-void Timers::ClearEvents(CTimer*)
-{
-	DWORD now = GetTickCount();
-	bool refresh = false;
-	for (auto &call : calls.rev_iter()) {
-		if (call->state == VOICE_STATE_ENDED && call->end_time + TIME_TO_SHOW_ENDED_CALL < now) {
-			calls.remove(calls.indexOf(&call));
-			refresh = true;
-		}
-	}
-
-	if (refresh)
-		RefreshFrame();
-}
-
 bool CanCall(MCONTACT hContact, BOOL now)
 {
 	for (auto &it : modules)
@@ -690,8 +675,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 		g_plugin.addSound(it.szName, LPGENW("Voice Calls"), it.wszDescr);
 	g_plugin.addSound("voice_dialpad", LPGENW("Voice Calls"), LPGENW("Dialpad press"));
 
-	g_timers.m_timer.Start(1000);
-
 	// Accounts
 	for (auto *pa : Accounts())
 		AddAccount(pa);
@@ -702,7 +685,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int PreShutdown(WPARAM, LPARAM)
 {
-	g_timers.m_timer.Stop();
 	DeInitFrames();
 	DeInitOptions();
 	return 0;

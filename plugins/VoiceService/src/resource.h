@@ -85,6 +85,7 @@
 #define IDC_AVATAR                                40106
 #define IDC_DROP                                  40107
 #define IDC_ANSWER                                40108
+#define IDC_ADDRESS                               40109
 
 
 // Next default values for new objects
