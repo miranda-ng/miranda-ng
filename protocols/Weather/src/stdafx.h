@@ -516,7 +516,6 @@ int UserInfoInit(WPARAM wParam, LPARAM lParam);
 #define WM_UPDATEDATA WM_USER + 2687
 
 int BriefInfo(WPARAM wParam, LPARAM lParam);
-INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam);
 
 ///////////////////////////////////////////////////////////////////////////////
 // UI Classes

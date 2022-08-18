@@ -302,10 +302,16 @@ void UpdateMenu(BOOL State)
 }
 
 // update the weather auto-update menu item when click on it
-INT_PTR EnableDisableCmd(WPARAM wParam, LPARAM lParam)
+static INT_PTR EnableDisableCmd(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
 	return 0;
+}
+
+// displays contact info dialog
+static INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam)
+{
+	return BriefInfo(wParam, lParam);
 }
 
 // adding weather contact menus

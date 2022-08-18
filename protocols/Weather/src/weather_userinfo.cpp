@@ -239,6 +239,27 @@ static INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
+// show brief information dialog
+// wParam = current contact
+int BriefInfo(WPARAM wParam, LPARAM)
+{
+	// make sure that the contact is actually a weather one
+	if (!IsMyContact(wParam))
+		return 0;
+
+	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
+	if (hMoreDataDlg != nullptr) {
+		SetForegroundWindow(hMoreDataDlg);
+		SetFocus(hMoreDataDlg);
+	}
+	else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
+
+	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
+	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
+	SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
+	return 1;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // User info dialog
 
@@ -317,6 +338,8 @@ int UserInfoInit(WPARAM wParam, LPARAM hContact)
 	USERINFOPAGE uip = {};
 	uip.szTitle.a = MODULENAME;
 	uip.position = 100000000;
+	uip.flags = ODPF_ICON;
+	uip.dwInitParam = LPARAM(g_plugin.getIconHandle(IDI_ICON));
 
 	if (hContact == 0) {
 		uip.pDialog = new WeatherMyDetailsDlg();
@@ -324,34 +347,8 @@ int UserInfoInit(WPARAM wParam, LPARAM hContact)
 	}
 	else if (IsMyContact(hContact)) { // check if it is a weather contact
 		uip.pDialog = new WeatherUserInfoDlg();
-		uip.flags = ODPF_BOLDGROUPS;
+		uip.flags |= ODPF_BOLDGROUPS;
 		g_plugin.addUserInfo(wParam, &uip);
 	}
 	return 0;
-}
-
-// show brief information dialog
-// wParam = current contact
-int BriefInfo(WPARAM wParam, LPARAM)
-{
-	// make sure that the contact is actually a weather one
-	if (!IsMyContact(wParam))
-		return 0;
-
-	HWND hMoreDataDlg = WindowList_Find(hDataWindowList, wParam);
-	if (hMoreDataDlg != nullptr) {
-		SetForegroundWindow(hMoreDataDlg);
-		SetFocus(hMoreDataDlg);
-	}
-	else hMoreDataDlg = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_BRIEF), nullptr, DlgProcMoreData, (LPARAM)wParam);
-
-	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_DATALIST), 0);
-	ShowWindow(GetDlgItem(hMoreDataDlg, IDC_MTEXT), 1);
-	SetDlgItemText(hMoreDataDlg, IDC_MTOGGLE, TranslateT("More Info"));
-	return 1;
-}
-
-INT_PTR BriefInfoSvc(WPARAM wParam, LPARAM lParam)
-{
-	return BriefInfo(wParam, lParam);
 }
