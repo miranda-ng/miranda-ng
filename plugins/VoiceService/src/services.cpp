@@ -126,8 +126,6 @@ INT_PTR VoiceRegister(WPARAM wParam, LPARAM)
 		return -3;
 
 	modules.insert(new VoiceProvider(in->name, in->description, in->flags, in->icon));
-
-	RefreshFrame();
 	return 0;
 }
 
@@ -150,8 +148,6 @@ INT_PTR VoiceUnregister(WPARAM wParam, LPARAM)
 		}
 
 	modules.remove(module);
-
-	RefreshFrame();
 	return 0;
 }
 

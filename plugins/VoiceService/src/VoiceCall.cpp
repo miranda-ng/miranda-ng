@@ -100,7 +100,6 @@ bool VoiceCall::OnClose()
 	Button_FreeIcon_IcoLib(m_hwnd, IDC_ANSWERBTN);
 
 	calls.remove(this);
-	RefreshFrame();
 	return false;
 }
 
@@ -296,8 +295,6 @@ void VoiceCall::Notify(bool popup, bool sound, bool /*clist*/)
 
 		clistBlinking = true;
 	}*/
-
-	RefreshFrame();
 }
 
 bool VoiceCall::IsFinished()

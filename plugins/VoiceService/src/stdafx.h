@@ -63,19 +63,15 @@ using namespace std;
 #include "resource.h"
 #include "version.h"
 #include "options.h"
-#include "frame.h"
 #include "popup.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
-	bool bFramesExist = false;
-
 	CMPlugin();
 
 	int Load() override;
-	int Unload() override;
 };
 
 #define MODULE_NAME "VoiceService"
@@ -90,12 +86,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define AUTO_NOTHING 0
 #define AUTO_ACCEPT 1
 #define AUTO_DROP 2
-
-extern HFONT fonts[NUM_STATES];
-extern COLORREF font_colors[NUM_STATES];
-extern int font_max_height;
-extern COLORREF bkg_color;
-extern HBRUSH bk_brush;
 
 class VoiceProvider
 {

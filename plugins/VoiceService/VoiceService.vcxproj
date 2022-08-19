@@ -26,7 +26,6 @@
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
   <ItemGroup>
-    <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="src\hooks.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\options.cpp" />
@@ -44,7 +43,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\frame.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\popup.h" />
     <ClInclude Include="src\resource.h" />

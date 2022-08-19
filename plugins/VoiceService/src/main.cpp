@@ -47,7 +47,6 @@ void CreateServices(void);
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam);
 int PreShutdown(WPARAM wParam, LPARAM lParam);
-int ProtoAck(WPARAM wParam, LPARAM lParam);
 
 int CMPlugin::Load()
 {
@@ -56,14 +55,5 @@ int CMPlugin::Load()
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	HookEvent(ME_PROTO_ACK, ProtoAck);
-	return 0;
-}
-
-int CMPlugin::Unload()
-{
-	if (bk_brush != NULL)
-		DeleteObject(bk_brush);
-
 	return 0;
 }

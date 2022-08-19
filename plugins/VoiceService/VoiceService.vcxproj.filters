@@ -44,48 +44,6 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-    <None Include="res\Busy.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Call.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Calling.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\dialpad.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Drop.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\ended.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Hold.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Main.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\On hold.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Rinning.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\secure.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\smalldot.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\Talking.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <ClInclude Include="src\frame.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\options.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -107,9 +65,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\utils\mir_options.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\hooks.cpp">

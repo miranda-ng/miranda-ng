@@ -61,13 +61,6 @@ static HGENMENU hCMHold = NULL;
 OBJLIST<VoiceProvider> modules(1, PtrKeySortT);
 OBJLIST<VoiceCall> calls(1, PtrKeySortT);
 
-HFONT fonts[NUM_STATES] = { 0 };
-COLORREF font_colors[NUM_STATES] = { 0 };
-int font_max_height;
-
-COLORREF bkg_color = { 0 };
-HBRUSH bk_brush = NULL;
-
 static INT_PTR CListDblClick(WPARAM wParam, LPARAM lParam);
 
 static INT_PTR Service_CanCall(WPARAM wParam, LPARAM lParam);
@@ -356,22 +349,6 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ReloadColor(WPARAM, LPARAM)
-{
-	ColourIDW ci = { 0 };
-	lstrcpyn(ci.group, TranslateT("Voice Calls"), _countof(ci.group));
-	lstrcpyn(ci.name, TranslateT("Background"), _countof(ci.name));
-
-	bkg_color = Colour_GetW(ci);
-
-	if (bk_brush != NULL)
-		DeleteObject(bk_brush);
-	bk_brush = CreateSolidBrush(bkg_color);
-
-	RefreshFrame();
-	return 0;
-}
-
 VoiceProvider* FindModule(const char *szModule)
 {
 	for (auto &it : modules)
@@ -482,28 +459,6 @@ void Answer(VoiceCall *call)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int ReloadFont(WPARAM, LPARAM)
-{
-	FontID fi = { 0 };
-	strncpy_s(fi.group, "Voice Calls", _TRUNCATE);
-
-	font_max_height = 0;
-	for (int i = 0; i < NUM_STATES; i++) {
-		if (fonts[i] != 0) DeleteObject(fonts[i]);
-
-		strncpy_s(fi.name, stateIcons[i].szName, _TRUNCATE);
-
-		LOGFONTA log_font = { 0 };
-		font_colors[i] = Font_Get(fi, &log_font);
-		fonts[i] = CreateFontIndirectA(&log_font);
-
-		font_max_height = max(font_max_height, log_font.lfHeight);
-	}
-
-	RefreshFrame();
-	return 0;
-}
-
 static INT_PTR Service_CanCall(WPARAM wParam, LPARAM)
 {
 	MCONTACT hContact = (MCONTACT)wParam;
@@ -586,8 +541,6 @@ static INT_PTR CMDrop(WPARAM wParam, LPARAM)
 
 int ModulesLoaded(WPARAM, LPARAM)
 {
-	g_plugin.bFramesExist = ServiceExists(MS_CLIST_FRAMES_ADDFRAME);
-
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM)MODULE_NAME, 0);
 
@@ -596,38 +549,7 @@ int ModulesLoaded(WPARAM, LPARAM)
 	g_plugin.registerIcon(LPGEN("Voice Calls"), stateIcons, "vc");
 	g_plugin.registerIcon(LPGEN("Voice Calls"), actionIcons, "vca");
 
-	// Init fonts
-	{
-		FontID fi = {};
-		strncpy_s(fi.group, LPGEN("Voice Calls"), _TRUNCATE);
-		strncpy_s(fi.dbSettingsGroup, MODULE_NAME, _TRUNCATE);
-
-		for (int i = 0; i < _countof(stateIcons); i++) {
-			fi.order = i;
-			strncpy_s(fi.name, stateIcons[i].szName, _TRUNCATE);
-			g_plugin.addFont(&fi);
-		}
-
-		ReloadFont(0, 0);
-		HookEvent(ME_FONT_RELOAD, ReloadFont);
-	}
-
-	// Init bkg color
-	{
-		ColourID ci = { 0 };
-		strncpy_s(ci.group, LPGEN("Voice Calls"), _TRUNCATE);
-		strncpy_s(ci.name, LPGEN("Background"), _TRUNCATE);
-		strncpy_s(ci.dbSettingsGroup, MODULE_NAME, _TRUNCATE);
-		strncpy_s(ci.setting, "BkgColor", _TRUNCATE);
-		ci.defcolour = GetSysColor(COLOR_BTNFACE);
-		g_plugin.addColor(&ci);
-
-		ReloadColor(0, 0);
-		HookEvent(ME_COLOUR_RELOAD, ReloadColor);
-	}
-
 	InitOptions();
-	InitFrames();
 
 	// Add menu items
 	CMenuItem mi(&g_plugin);
@@ -685,16 +607,6 @@ int ModulesLoaded(WPARAM, LPARAM)
 
 int PreShutdown(WPARAM, LPARAM)
 {
-	DeInitFrames();
 	DeInitOptions();
-	return 0;
-}
-
-int ProtoAck(WPARAM, LPARAM lParam)
-{
-	ACKDATA *ack = (ACKDATA *)lParam;
-	if (ack->type == ACKTYPE_STATUS)
-		RefreshFrame();
-
 	return 0;
 }
