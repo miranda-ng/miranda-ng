@@ -277,21 +277,21 @@ void dbgprint(const gchar *string)
 bool CJabberProto::VOIPCreatePipeline(void)
 {
 	if (!m_bEnableVOIP)
-		return false;
+		goto err;
 
 	//gstreamer init
 	static bool gstinited = 0;
 	if (!gstinited) {
 		if (!LoadLibrary(L"gstreamer-1.0-0.dll")) {
 			MessageBoxA(0, "Cannot load Gstreamer library!", 0, MB_OK | MB_ICONERROR);
-			return false;
+			goto err;
 		}
 		gst_init(NULL, NULL);
 		g_set_print_handler(dbgprint);
 		gst_print("preved medved");
 		if (!check_plugins()) {
 			MessageBoxA(0, "Gstreamer plugins not found!", 0, MB_OK | MB_ICONERROR);
-			return false;
+			goto err;
 		}
 		gstinited = 1;
 	}
@@ -316,7 +316,7 @@ bool CJabberProto::VOIPCreatePipeline(void)
 	m_webrtc1 = gst_bin_get_by_name(GST_BIN(m_pipe1), "sendrecv");
 	g_assert_nonnull(m_webrtc1);
 	if (!m_webrtc1)
-		MessageBoxA(0, "Epic fail", "cannot create m_webrtc1", MB_OK);
+		goto err;
 
 	GstElement *audiopay = gst_bin_get_by_name(GST_BIN(m_pipe1), "audiopay");
 	g_assert_nonnull(audiopay);
@@ -338,14 +338,12 @@ bool CJabberProto::VOIPCreatePipeline(void)
 	gst_object_unref(m_webrtc1);
 
 	gst_print("Starting pipeline\n");
-	if (gst_element_set_state(GST_ELEMENT(m_pipe1), GST_STATE_PLAYING) == GST_STATE_CHANGE_FAILURE)
-		goto err;
-
-	return true;
+	if (gst_element_set_state(GST_ELEMENT(m_pipe1), GST_STATE_PLAYING) != GST_STATE_CHANGE_FAILURE)
+		return true;
 
 err:
 	VOIPTerminateSession();
-	return FALSE;
+	return false;
 }
 
 bool CJabberProto::VOIPTerminateSession(const char *reason)
