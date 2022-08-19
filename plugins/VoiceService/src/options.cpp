@@ -29,15 +29,8 @@ HANDLE hOptHook = NULL;
 
 Options opts;
 
-static OptPageControl optionsControls[] =
-{
-	{ &opts.resize_frame, CONTROL_CHECKBOX,	IDC_FRAME_AUTOSIZE,	"FrameAutoSize", TRUE }
-};
-
-static OptPageControl devicesControls[] = {
-	{ NULL, CONTROL_CHECKBOX, IDC_ECHO,	"EchoCancelation", TRUE },
-	{ NULL, CONTROL_CHECKBOX, IDC_MIC_BOOST, "MicBoost", TRUE },
-};
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popup options
 
 static OptPageControl popupsControls[] = {
 	{ &opts.popup_enable,             CONTROL_CHECKBOX,  IDC_POPUPS,         "PopupsEnable", FALSE },
@@ -52,13 +45,6 @@ static OptPageControl popupsControls[] = {
 	{ &opts.popup_right_click_action, CONTROL_COMBO,     IDC_RIGHT_ACTION,   "PopupsRightClick", POPUP_ACTION_CLOSEPOPUP },
 	{ &opts.popup_left_click_action,  CONTROL_COMBO,     IDC_LEFT_ACTION,    "PopupsLeftClick", POPUP_ACTION_CLOSEPOPUP }
 };
-
-// Functions //////////////////////////////////////////////////////////////////////////////////////
-
-static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	return SaveOptsDlgProc(optionsControls, _countof(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
-}
 
 static void PopupsEnableDisableCtrls(HWND hwndDlg)
 {
@@ -84,13 +70,10 @@ static void PopupsEnableDisableCtrls(HWND hwndDlg)
 	EnableWindow(GetDlgItem(hwndDlg, IDC_TEXTCOLOR), enabled &&
 		!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) &&
 		!IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), enabled &&
-		!IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
-	EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), enabled &&
-		!IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_DEFAULTCOLORS), enabled && !IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_WINCOLORS), enabled && !IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS));
 
-	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), enabled &&
-		IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM));
+	EnableWindow(GetDlgItem(hwndDlg, IDC_DELAY), enabled && IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM));
 }
 
 static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -155,103 +138,7 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 	return SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
 
-static void SetAllContactIcons(HWND hwndList)
-{
-	for (auto &cc : Contacts()) {
-		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)cc, 0);
-		if (hItem) {
-			// Some Module can handle it?
-			if (!CanCall(cc, FALSE)) {
-				SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
-			}
-			else {
-				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(0, g_plugin.getWord(cc, "AutoAccept", AUTO_NOTHING) == AUTO_ACCEPT ? 1 : 0));
-				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(1, g_plugin.getWord(cc, "AutoAccept", AUTO_NOTHING) == AUTO_DROP ? 2 : 0));
-			}
-		}
-	}
-}
-
-
-static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
-{
-	int typeOfFirst;
-	int iconOn[2] = { 1,1 };
-	int childCount[2] = { 0,0 }, i;
-	int iImage;
-	HANDLE hItem, hChildItem;
-
-	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	//check groups
-	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
-	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
-	while (hItem) {
-		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hChildItem) SetListGroupIcons(hwndList, hChildItem, hItem, childCount);
-		for (i = 0; i < _countof(iconOn); i++)
-			if (iconOn[i] && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i) == 0) iconOn[i] = 0;
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
-	}
-	//check contacts
-	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
-	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
-	while (hItem) {
-		for (i = 0; i < _countof(iconOn); i++) {
-			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
-			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
-			if (iImage != 0xFF) childCount[i]++;
-		}
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
-	}
-	//set icons
-	if (hParentItem != NULL) {
-		for (i = 0; i < _countof(iconOn); i++) {
-			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i] ? (iconOn[i] ? i + 1 : 0) : 0xFF));
-			if (groupChildCount) groupChildCount[i] += childCount[i];
-		}
-	}
-}
-
-
-static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int iImage)
-{
-	int typeOfFirst, iOldIcon;
-	HANDLE hItem, hChildItem;
-
-	typeOfFirst = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hFirstItem, 0);
-	//check groups
-	if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
-	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hFirstItem);
-	while (hItem) {
-		hChildItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-		if (hChildItem) SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
-	}
-	//check contacts
-	if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
-	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
-	while (hItem) {
-		iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (iOldIcon != 0xFF && iOldIcon != iImage) SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
-		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
-	}
-}
-
-
-static void ResetListOptions(HWND hwndList)
-{
-	SendMessage(hwndList, CLM_SETBKCOLOR, GetSysColor(COLOR_WINDOW), 0);
-}
-
-
-int ImageList_AddIcon_NotShared(HIMAGELIST hIml, HINSTANCE hInstance, LPCTSTR szResource)
-{
-	HICON hIcon = LoadIcon(hInstance, szResource);
-	int res = ImageList_AddIcon(hIml, hIcon);
-	DestroyIcon(hIcon);
-	return res;
-}
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
 int ImageList_AddIcon_NotShared(HIMAGELIST hIml, int iconId)
 {
@@ -261,142 +148,192 @@ int ImageList_AddIcon_NotShared(HIMAGELIST hIml, int iconId)
 	return res;
 }
 
-
-static INT_PTR CALLBACK AutoDlgProc(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
+class CAutoOptsDlg : public CDlgBase
 {
-	static HICON hAnswerIcon, hDropIcon;
+	void ResetListOptions(CCtrlClc* = 0)
+	{
+		m_clist.SetBkColor(GetSysColor(COLOR_WINDOW));
+	}
 
-	switch (msg) {
-	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
-
-			HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
-
-			ImageList_AddIcon_NotShared(hIml, GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLDOT));
-			ImageList_AddIcon_NotShared(hIml, IDI_ACTION_ANSWER);
-			ImageList_AddIcon_NotShared(hIml, IDI_ACTION_DROP);
-			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
-
-			hAnswerIcon = ImageList_GetIcon(hIml, 1, ILD_NORMAL);
-			SendDlgItemMessage(hwndDlg, IDC_ANSWER, STM_SETICON, (WPARAM)hAnswerIcon, 0);
-
-			hDropIcon = ImageList_GetIcon(hIml, 2, ILD_NORMAL);
-			SendDlgItemMessage(hwndDlg, IDC_DROP, STM_SETICON, (WPARAM)hDropIcon, 0);
-
-			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
-			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 2, 0);
-
-			SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-			SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), NULL, NULL);
-			return TRUE;
-		}
-	case WM_SETFOCUS:
-		SetFocus(GetDlgItem(hwndDlg, IDC_LIST));
-		break;
-	case WM_NOTIFY:
-		switch (((LPNMHDR)lParam)->idFrom) {
-		case IDC_LIST:
-			switch (((LPNMHDR)lParam)->code) {
-			case CLN_NEWCONTACT:
-			case CLN_LISTREBUILT:
-				SetAllContactIcons(GetDlgItem(hwndDlg, IDC_LIST));
-				//fall through
-
-			case CLN_CONTACTMOVED:
-				SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), NULL, NULL);
-				break;
-
-			case CLN_OPTIONSCHANGED:
-				ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
-				break;
-
-			case NM_CLICK:
-				{
-					HANDLE hItem;
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-					DWORD hitFlags;
-					int iImage;
-					int itemType;
-
-					// Make sure we have an extra column
-					if (nm->iColumn == -1)
-						break;
-
-					// Find clicked item
-					hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
-					// Nothing was clicked
-					if (hItem == NULL) break;
-					// It was not a visbility icon
-					if (!(hitFlags & CLCHT_ONITEMEXTRA)) break;
-
-					// Get image in clicked column (0=none, 1=visible, 2=invisible)
-					iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
-					if (iImage == 0)
-						iImage = nm->iColumn + 1;
-					else
-						if (iImage == 1 || iImage == 2)
-							iImage = 0;
-
-					// Get item type (contact, group, etc...)
-					itemType = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
-
-					// Update list, making sure that the options are mutually exclusive
-					if (itemType == CLCIT_CONTACT) { // A contact
-						SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, iImage));
-						if (iImage && SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn ? 0 : 1, 0)) != 0xFF)
-							SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn ? 0 : 1, 0));
-					}
-					else if (itemType == CLCIT_GROUP) { // A group
-						hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
-						if (hItem) {
-							SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn, iImage);
-							if (iImage)
-								SetAllChildIcons(GetDlgItem(hwndDlg, IDC_LIST), hItem, nm->iColumn ? 0 : 1, 0);
-						}
-					}
-					// Update the all/none icons
-					SetListGroupIcons(GetDlgItem(hwndDlg, IDC_LIST), (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETNEXTITEM, CLGN_ROOT, 0), NULL, NULL);
-
-					// Activate Apply button
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-					break;
-				}
+	void SetAllContactIcons()
+	{
+		for (auto &cc : Contacts()) {
+			HANDLE hItem = m_clist.FindContact(cc);
+			if (hItem) {
+				// Some Module can handle it?
+				if (!CanCall(cc, FALSE))
+					m_clist.DeleteItem(hItem);
+				else
+					m_clist.SetExtraImage(hItem, 0, g_plugin.getWord(cc, "AutoAccept"));
 			}
-			break;
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				for (auto &cc : Contacts()) {
-					HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_FINDCONTACT, cc, 0);
-					if (hItem) {
-						int set = 0;
-						for (int i = 0; i < 2; i++) {
-							int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-							if (iImage == i + 1) {
-								g_plugin.setWord(cc, "AutoAccept", iImage == 1 ? AUTO_ACCEPT : AUTO_DROP);
-								set = 1;
-								break;
-							}
-						}
-						if (!set)
-							g_plugin.setWord(cc, "AutoAccept", AUTO_NOTHING);
-					}
-				}
-				return TRUE;
-			}
-			break;
 		}
-		break;
+	}
+
+	void SetListGroupIcons(HANDLE hFirstItem, HANDLE hParentItem, int *groupChildCount)
+	{
+		int iconOn[2] = { 1,1 };
+		int childCount[2] = { 0,0 };
+
+		int typeOfFirst = m_clist.GetItemType(hFirstItem);
+		
+		// check groups
+		HANDLE hItem;
+		if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
+		else hItem = m_clist.GetNextItem(hFirstItem, CLGN_NEXTGROUP);
+		while (hItem) {
+			HANDLE hChildItem = m_clist.GetNextItem(hItem, CLGN_CHILD);
+			if (hChildItem) SetListGroupIcons(hChildItem, hItem, childCount);
+			for (int i = 0; i < _countof(iconOn); i++)
+				if (iconOn[i] && m_clist.GetExtraImage(hItem, i) == 0)
+					iconOn[i] = 0;
+			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTGROUP);
+		}
+		
+		// check contacts
+		if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
+		else hItem = m_clist.GetNextItem(hFirstItem, CLGN_NEXTCONTACT);
+		while (hItem) {
+			for (int i = 0; i < _countof(iconOn); i++) {
+				int iImage = m_clist.GetExtraImage(hItem, i);
+				if (iconOn[i] && iImage == 0)
+					iconOn[i] = 0;
+				if (iImage != 0xFF) childCount[i]++;
+			}
+			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTCONTACT);
+		}
+		
+		// set icons
+		if (hParentItem != NULL) {
+			for (int i = 0; i < _countof(iconOn); i++) {
+				m_clist.GetExtraImage(hParentItem, MAKELPARAM(i, childCount[i] ? (iconOn[i] ? i + 1 : 0) : 0xFF));
+				if (groupChildCount)
+					groupChildCount[i] += childCount[i];
+			}
+		}
+	}
+
+	void SetAllChildIcons(HANDLE hFirstItem, int iColumn, int iImage)
+	{
+		HANDLE hItem;
+
+		int typeOfFirst = m_clist.GetItemType(hFirstItem);
+
+		// check groups
+		if (typeOfFirst == CLCIT_GROUP) hItem = hFirstItem;
+		else hItem = m_clist.GetNextItem(hFirstItem, CLGN_NEXTGROUP);
+		while (hItem) {
+			HANDLE hChildItem = m_clist.GetNextItem(hItem, CLGN_CHILD);
+			if (hChildItem)
+				SetAllChildIcons(hChildItem, iColumn, iImage);
+			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTGROUP);
+		}
+		
+		// check contacts
+		if (typeOfFirst == CLCIT_CONTACT) hItem = hFirstItem;
+		else hItem = m_clist.GetNextItem(hFirstItem, CLGN_NEXTCONTACT);
+		while (hItem) {
+			int iOldIcon = m_clist.GetExtraImage(hItem, iColumn);
+			if (iOldIcon != 0xFF && iOldIcon != iImage)
+				m_clist.SetExtraImage(hItem, iColumn, iImage);
+			hItem = m_clist.GetNextItem(hItem, CLGN_NEXTCONTACT);
+		}
+	}
 	
-case WM_DESTROY:
+	CCtrlClc m_clist;
+	HICON hAnswerIcon, hDropIcon;
+
+public:
+	CAutoOptsDlg() :
+		CDlgBase(g_plugin, IDD_OPT_AUTO),
+		m_clist(this, IDC_LIST)
+	{
+		m_clist.OnClick = Callback(this, &CAutoOptsDlg::onClick_List);
+		m_clist.OnNewContact = m_clist.OnListRebuilt = Callback(this, &CAutoOptsDlg::onListRebuilt);
+		m_clist.OnOptionsChanged = Callback(this, &CAutoOptsDlg::ResetListOptions);
+	}
+
+	bool OnInitDialog() override
+	{
+		HIMAGELIST hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 3, 3);
+		ImageList_AddIcon(hIml, Skin_LoadIcon(SKINICON_OTHER_SMALLDOT));
+		ImageList_AddIcon_NotShared(hIml, IDI_ACTION_ANSWER);
+		ImageList_AddIcon_NotShared(hIml, IDI_ACTION_DROP);
+		m_clist.SetExtraImageList(hIml);
+
+		hAnswerIcon = ImageList_GetIcon(hIml, 1, ILD_NORMAL);
+		SendDlgItemMessage(m_hwnd, IDC_ANSWER, STM_SETICON, (WPARAM)hAnswerIcon, 0);
+
+		hDropIcon = ImageList_GetIcon(hIml, 2, ILD_NORMAL);
+		SendDlgItemMessage(m_hwnd, IDC_DROP, STM_SETICON, (WPARAM)hDropIcon, 0);
+
+		ResetListOptions();
+		m_clist.SetExtraColumns(1);
+
+		onListRebuilt(0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		for (auto &cc : Contacts()) {
+			HANDLE hItem = m_clist.FindContact(cc);
+			if (hItem)
+				g_plugin.setWord(cc, "AutoAccept", m_clist.GetExtraImage(hItem, 0));
+		}
+		return true;
+	}
+
+	void OnDestroy() override
+	{
 		DestroyIcon(hAnswerIcon);
 		DestroyIcon(hDropIcon);
-		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0));
-		break;
+		ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(m_hwnd, IDC_LIST, CLM_GETEXTRAIMAGELIST, 0, 0));
 	}
-	return FALSE;
-}
+
+	void onListRebuilt(CCtrlClc *)
+	{
+		SetAllContactIcons();
+		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), 0, 0);
+	}
+
+	void onClick_List(CCtrlClc::TEventInfo *pInfo)
+	{
+		// Make sure we have an extra column
+		NMCLISTCONTROL *nm = pInfo->info;
+		if (nm->iColumn == -1)
+			return;
+
+		// Find clicked item
+		uint32_t hitFlags = 0;
+		HANDLE hItem = m_clist.HitTest(nm->pt.x, nm->pt.y, &hitFlags);
+		if (hItem == NULL || !(hitFlags & CLCHT_ONITEMEXTRA))
+			return;
+
+		// Get image in clicked column (0=none, 1=visible, 2=invisible)
+		int iImage = m_clist.GetExtraImage(hItem, nm->iColumn);
+		if (iImage == 2)
+			iImage = 0;
+		else
+			iImage++;
+
+		// Get item type (contact, group, etc...)
+		int itemType = m_clist.GetItemType(hItem);
+
+		// Update list, making sure that the options are mutually exclusive
+		if (itemType == CLCIT_CONTACT) { // A contact
+			m_clist.SetExtraImage(hItem, nm->iColumn, iImage);
+		}
+		else if (itemType == CLCIT_GROUP) { // A group
+			hItem = m_clist.GetNextItem(hItem, CLGN_CHILD);
+			if (hItem)
+				SetAllChildIcons(hItem, nm->iColumn, iImage);
+		}
+
+		// Update the all/none icons
+		SetListGroupIcons(m_clist.GetNextItem(0, CLGN_ROOT), 0, 0);
+		NotifyChange();
+	}
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -415,15 +352,8 @@ int InitOptionsCallback(WPARAM wParam, LPARAM)
 
 	ZeroMemory(&odp, sizeof(odp));
 	odp.szGroup.a = LPGEN("Voice Calls");
-	odp.szTitle.a = LPGEN("General");
-	odp.pfnDlgProc = OptionsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTS);
-	g_plugin.addOptions(wParam, &odp);
-
-	odp.szGroup.a = LPGEN("Voice Calls");
 	odp.szTitle.a = LPGEN("Auto actions");
-	odp.pfnDlgProc = AutoDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTO);
+	odp.pDialog = new CAutoOptsDlg();
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }
@@ -442,6 +372,5 @@ void DeInitOptions()
 
 void LoadOptions()
 {
-	LoadOpts(optionsControls, _countof(optionsControls), MODULE_NAME);
 	LoadOpts(popupsControls, _countof(popupsControls), MODULE_NAME);
 }

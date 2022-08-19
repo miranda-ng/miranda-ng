@@ -25,6 +25,11 @@
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
+  <ItemDefinitionGroup>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WINVER=0x0501;_UNICODE;UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\hooks.cpp" />
     <ClCompile Include="src\main.cpp" />
@@ -43,6 +48,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="res\resource.h" />
     <ClInclude Include="src\options.h" />
     <ClInclude Include="src\popup.h" />
     <ClInclude Include="src\resource.h" />

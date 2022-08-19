@@ -1068,7 +1068,7 @@ public:
 	COLORREF   GetTextColor() const;
 	void       GetTileInfo(LVTILEINFO *plvtinfo) const;
 	void       GetTileViewInfo(LVTILEVIEWINFO *plvtvinfo) const;
-	MWindow       GetToolTips() const;
+	MWindow    GetToolTips() const;
 	int        GetTopIndex() const;
 	BOOL       GetUnicodeFormat() const;
 	uint32_t   GetView() const;

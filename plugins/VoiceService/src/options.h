@@ -43,9 +43,6 @@ struct Options {
 	COLORREF popup_text_color;
 	WORD popup_left_click_action;
 	WORD popup_right_click_action;
-
-	// Frame 
-	BOOL resize_frame;
 };
 
 extern Options opts;

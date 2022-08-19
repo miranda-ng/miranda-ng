@@ -1,7 +1,5 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
-#include <windows.h>
-#include <commctrl.h>
 #include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
@@ -9,19 +7,17 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "winres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -29,17 +25,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_CALLS DIALOGEX 0, 0, 195, 225
-STYLE DS_FIXEDSYS | WS_CHILD | WS_CLIPCHILDREN
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPCHILDREN
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LISTBOX         IDC_CALLS,0,0,195,126,LBS_SORT | LBS_OWNERDRAWFIXED | 
-                    LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | NOT 
-                    WS_BORDER | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "",IDC_DIALPAD,"MButtonClass",0x0,0,126,20,14,
-                    0x18000000L
+    LISTBOX         IDC_CALLS,0,0,195,126,LBS_SORT | LBS_OWNERDRAWFIXED | LBS_HASSTRINGS | LBS_NOINTEGRALHEIGHT | LBS_NOSEL | NOT WS_BORDER | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "",IDC_DIALPAD,"MButtonClass",0x0,0,126,20,14,WS_EX_NOACTIVATE | 0x10000000L
     EDITTEXT        IDC_NUMBER,20,126,155,14,ES_AUTOHSCROLL
-    CONTROL         "",IDC_CALL,"MButtonClass",0x0,175,126,20,14,0x18000000L
+    CONTROL         "",IDC_CALL,"MButtonClass",0x0,175,126,20,14,WS_EX_NOACTIVATE | 0x10000000L
     PUSHBUTTON      "1",IDC_1,67,143,18,18
     PUSHBUTTON      "2",IDC_2,87,143,18,18
     PUSHBUTTON      "3",IDC_3,107,143,18,18
@@ -55,121 +48,101 @@ BEGIN
 END
 
 IDD_POPUPS DIALOGEX 0, 0, 314, 240
-STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Enable popups",IDC_POPUPS,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,3,3,308,12
+    CONTROL         "Enable popups",IDC_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,3,308,12
     GROUPBOX        "Colors",IDC_COLOURS_G,3,25,158,75
     CONTROL         "",IDC_BGCOLOR,"ColourPicker",WS_TABSTOP,11,37,35,14
     LTEXT           "Background color",IDC_BGCOLOR_L,55,41,66,8
     CONTROL         "",IDC_TEXTCOLOR,"ColourPicker",WS_TABSTOP,11,55,35,14
     LTEXT           "Text color",IDC_TEXTCOLOR_L,55,59,66,8
-    CONTROL         "Use Windows colors",IDC_WINCOLORS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,11,74,108,10
-    CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,11,84,107,10
+    CONTROL         "Use Windows colors",IDC_WINCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,74,108,10
+    CONTROL         "Use default colors",IDC_DEFAULTCOLORS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,84,107,10
     GROUPBOX        "Timeout",IDC_DELAY_G,166,25,145,75
-    CONTROL         "Default",IDC_DELAYFROMPU,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP,175,38,122,10
-    CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,175,
-                    52,54,10
-    CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",
-                    BS_AUTORADIOBUTTON,175,66,122,10
+    CONTROL         "Default",IDC_DELAYFROMPU,"Button",BS_AUTORADIOBUTTON | WS_GROUP,175,38,122,10
+    CONTROL         "Custom",IDC_DELAYCUSTOM,"Button",BS_AUTORADIOBUTTON,175,52,54,10
+    CONTROL         "Permanent",IDC_DELAYPERMANENT,"Button",BS_AUTORADIOBUTTON,175,66,122,10
     EDITTEXT        IDC_DELAY,233,50,31,14,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Spin1",IDC_DELAY_SPIN,"msctls_updown32",UDS_SETBUDDYINT | 
-                    UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | 
-                    UDS_HOTTRACK,268,51,11,11
+    CONTROL         "Spin1",IDC_DELAY_SPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,268,51,11,11
     GROUPBOX        "Actions",IDC_ACTIONS_G,3,103,308,47
     RTEXT           "On right click:",IDC_RIGHT_ACTION_L,13,118,62,9
-    COMBOBOX        IDC_RIGHT_ACTION,83,116,156,60,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_RIGHT_ACTION,83,116,156,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     RTEXT           "On left click:",IDC_LEFT_ACTION_L,13,132,62,9
-    COMBOBOX        IDC_LEFT_ACTION,83,132,156,60,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_LEFT_ACTION,83,132,156,60,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     PUSHBUTTON      "Preview",IDC_PREV,131,161,50,14
 END
 
-IDD_NEW_CALL DIALOG DISCARDABLE  0, 0, 229, 87
-STYLE DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | 
-    WS_SYSMENU
+IDD_NEW_CALL DIALOG 0, 0, 229, 87
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "New Voice Call"
 FONT 8, "MS Shell Dlg"
 BEGIN
-    CTEXT           "%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.",
-                    IDC_TEXT,7,7,215,36
+    CTEXT           "%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.",IDC_TEXT,7,7,215,36
     DEFPUSHBUTTON   "Answer",ID_ANSWER,58,47,50,14
     PUSHBUTTON      "Drop",ID_DROP,121,47,50,14
-    CONTROL         "From now on, repeat this action for this contact",
-                    IDC_AUTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,215,
-                    12
+    CONTROL         "From now on, repeat this action for this contact",IDC_AUTO,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,67,215,12
 END
 
 IDD_OPTS DIALOGEX 0, 0, 233, 41
-STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Frame",IDC_STATIC,3,3,227,30
-    CONTROL         "Auto-size frame",IDC_FRAME_AUTOSIZE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,11,15,214,12
+    CONTROL         "Auto-size frame",IDC_FRAME_AUTOSIZE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,15,214,12
 END
 
 IDD_OPT_AUTO DIALOGEX 0, 0, 313, 240
-STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Automatic Actions",IDC_STATIC,0,0,313,240
-    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1f0,8,14,297,
-                    183,WS_EX_CLIENTEDGE
-    ICON            IDI_ACTION_ANSWER,IDC_ANSWER,8,204,20,20
-    LTEXT           "Auto accept this contact calls",IDC_STATIC,26,205,279,8,
-                    SS_NOPREFIX | SS_CENTERIMAGE
-    ICON            IDI_ACTION_DROP,IDC_DROP,8,219,20,20
-    LTEXT           "Auto drop this contacts calls",IDC_STATIC,26,220,279,8,
-                    SS_NOPREFIX | SS_CENTERIMAGE
+    CONTROL         "",IDC_LIST,"CListControl",WS_TABSTOP | 0x1f0,8,14,297,183,WS_EX_CLIENTEDGE
+    LTEXT           "Auto accept this contact calls",IDC_STATIC,26,206,279,8,SS_NOPREFIX | SS_CENTERIMAGE
+    ICON            IDI_ACTION_ANSWER,IDC_ANSWER,5,205,16,16
+    LTEXT           "Auto drop this contacts calls",IDC_STATIC,26,224,279,8,SS_NOPREFIX | SS_CENTERIMAGE
+    ICON            IDI_ACTION_DROP,IDC_DROP,5,223,16,16
 END
 
 IDD_OPT_DEVICES DIALOGEX 0, 0, 295, 221
-STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Audio",IDC_STATIC,3,3,289,78
     LTEXT           "Input:",IDC_STATIC,11,16,42,12
-    COMBOBOX        IDC_INPUT,58,15,228,13,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_INPUT,58,15,228,13,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Output:",IDC_STATIC,11,33,42,12
-    COMBOBOX        IDC_OUTPUT,58,32,228,13,CBS_DROPDOWNLIST | CBS_SORT | 
-                    WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Echo cancelation",IDC_ECHO,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,11,49,275,12
-    CONTROL         "Microphone boost",IDC_MIC_BOOST,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,11,64,275,12
+    COMBOBOX        IDC_OUTPUT,58,32,228,13,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Echo cancelation",IDC_ECHO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,49,275,12
+    CONTROL         "Microphone boost",IDC_MIC_BOOST,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,64,275,12
 END
 
 IDD_VOICECALL DIALOGEX 0, 0, 160, 109
-STYLE DS_3DLOOK | DS_CENTER | DS_MODALFRAME | DS_SHELLFONT | WS_CAPTION | WS_VISIBLE | WS_POPUP | WS_SYSMENU
+STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
 CAPTION "Unknown call"
-FONT 8, "Ms Shell Dlg", 0, 0, 1
-{
-    LTEXT           "Call will disclose IP address to the peer and his server", -1, 25, 89, 130, 15, SS_LEFT, WS_EX_LEFT
-    ICON            32515, -1, 5, 89, 15, 15, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
-    CTEXT           "Established", IDC_STATUS, 6, 49, 148, 10, SS_CENTER | SS_CENTERIMAGE, WS_EX_LEFT
-    CONTROL         "", -1, WC_STATIC, SS_BLACKFRAME, 5, 48, 150, 12, WS_EX_LEFT
-    CONTROL         "", -1, WC_STATIC, SS_ETCHEDHORZ, 0, 85, 163, 1, WS_EX_LEFT
-    AUTOCHECKBOX    "M", IDC_MUTE, 128, 30, 12, 12, NOT WS_VISIBLE | BS_ICON | BS_PUSHLIKE, WS_EX_LEFT
-    AUTOCHECKBOX    "V", IDC_GGG, 143, 30, 12, 12, NOT WS_VISIBLE | BS_ICON | BS_PUSHLIKE, WS_EX_LEFT
-    ICON            "", IDC_VIDEO, 113, 30, 12, 12, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
-    LTEXT           "", IDC_DESCR, 45, 4, 115, 10, SS_LEFT | SS_WORDELLIPSIS, WS_EX_LEFT
-    LTEXT           "", IDC_ADDRESS, 45, 13, 115, 10, SS_LEFT | SS_WORDELLIPSIS, WS_EX_LEFT
-    ICON            "", IDC_ENCRYPTED, 98, 30, 12, 12, SS_ICON | SS_REALSIZECONTROL, WS_EX_LEFT
-    CONTROL         "", IDC_AVATAR, WC_STATIC, SS_BITMAP | SS_REALSIZECONTROL, 5, 6, 35, 35, WS_EX_LEFT
-    PUSHBUTTON      "Drop", IDC_DROPBTN, 90, 66, 65, 13, 0, WS_EX_LEFT
-    DEFPUSHBUTTON   "Answer", IDC_ANSWERBTN, 5, 66, 65, 13, 0, WS_EX_LEFT
-}
+FONT 8, "Ms Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "Call will disclose IP address to the peer and his server",-1,25,89,130,15
+    ICON            32515,-1,5,89,20,20,SS_REALSIZECONTROL
+    CTEXT           "Established",IDC_STATUS,6,49,148,10,SS_CENTERIMAGE
+    CONTROL         "",-1,"Static",SS_BLACKFRAME,5,48,150,12
+    CONTROL         "",-1,"Static",SS_ETCHEDHORZ,0,85,163,1
+    CONTROL         "M",IDC_MUTE,"Button",BS_AUTOCHECKBOX | BS_ICON | BS_PUSHLIKE | NOT WS_VISIBLE | WS_TABSTOP,128,30,12,12
+    CONTROL         "V",IDC_GGG,"Button",BS_AUTOCHECKBOX | BS_ICON | BS_PUSHLIKE | NOT WS_VISIBLE | WS_TABSTOP,143,30,12,12
+    ICON            "",IDC_VIDEO,113,30,20,20,SS_REALSIZECONTROL
+    LTEXT           "",IDC_DESCR,45,4,115,10,SS_WORDELLIPSIS
+    LTEXT           "",IDC_ADDRESS,45,13,115,10,SS_WORDELLIPSIS
+    ICON            "",IDC_ENCRYPTED,98,30,20,20,SS_REALSIZECONTROL
+    CONTROL         "",IDC_AVATAR,"Static",SS_BITMAP | SS_REALSIZECONTROL,5,6,35,35
+    PUSHBUTTON      "Drop",IDC_DROPBTN,90,66,65,13
+    DEFPUSHBUTTON   "Answer",IDC_ANSWERBTN,5,66,65,13
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -177,7 +150,7 @@ FONT 8, "Ms Shell Dlg", 0, 0, 1
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_POPUPS, DIALOG
     BEGIN
@@ -216,6 +189,10 @@ BEGIN
         TOPMARGIN, 3
         BOTTOMMARGIN, 218
     END
+
+    IDD_VOICECALL, DIALOG
+    BEGIN
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -225,7 +202,7 @@ END
 // Menu
 //
 
-IDR_MENUS MENU DISCARDABLE 
+IDR_MENUS MENU
 BEGIN
     POPUP "Frame Popup"
     BEGIN
@@ -243,21 +220,51 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_TALKING             ICON    DISCARDABLE     "res\\Talking.ico"
-IDI_RINGING             ICON    DISCARDABLE     "res\\Rinning.ico"
-IDI_ENDED               ICON    DISCARDABLE     "res\\ended.ico"
-IDI_BUSY                ICON    DISCARDABLE     "res\\Busy.ico"
-IDI_ON_HOLD             ICON    DISCARDABLE     "res\\On hold.ico"
-IDI_ACTION_CALL         ICON    DISCARDABLE     "res\\Call.ico"
-IDI_ACTION_ANSWER       ICON    DISCARDABLE     "res\\Answer.ico"
-IDI_ACTION_HOLD         ICON    DISCARDABLE     "res\\Hold.ico"
-IDI_ACTION_DROP         ICON    DISCARDABLE     "res\\Drop.ico"
-IDI_MAIN                ICON    DISCARDABLE     "res\\Main.ico"
-IDI_CALLING             ICON    DISCARDABLE     "res\\Calling.ico"
-IDI_DIALPAD             ICON    DISCARDABLE     "res\\dialpad.ico"
-IDI_SMALLDOT            ICON    DISCARDABLE     "res/smalldot.ico"
-IDI_SECURE              ICON    DISCARDABLE     "res\\secure.ico"
-#endif    // English (U.S.) resources
+IDI_TALKING             ICON                    "Talking.ico"
+
+IDI_RINGING             ICON                    "Rinning.ico"
+
+IDI_ENDED               ICON                    "ended.ico"
+
+IDI_BUSY                ICON                    "Busy.ico"
+
+IDI_ON_HOLD             ICON                    "On hold.ico"
+
+IDI_ACTION_CALL         ICON                    "Call.ico"
+
+IDI_ACTION_ANSWER       ICON                    "Answer.ico"
+
+IDI_ACTION_HOLD         ICON                    "Hold.ico"
+
+IDI_ACTION_DROP         ICON                    "Drop.ico"
+
+IDI_MAIN                ICON                    "Main.ico"
+
+IDI_CALLING             ICON                    "Calling.ico"
+
+IDI_DIALPAD             ICON                    "dialpad.ico"
+
+IDI_SMALLDOT            ICON                    "smalldot.ico"
+
+IDI_SECURE              ICON                    "secure.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_AUTO AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_VOICECALL AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -265,10 +272,8 @@ IDI_SECURE              ICON    DISCARDABLE     "res\\secure.ico"
 // Portuguese (Brazil) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_PTB)
-#ifdef _WIN32
 LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -276,18 +281,18 @@ LANGUAGE LANG_PORTUGUESE, SUBLANG_PORTUGUESE_BRAZILIAN
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
-    "#include ""afxres.h""\r\n"
+    "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
