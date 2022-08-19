@@ -1869,7 +1869,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 					if (m_bEnableVOIP && m_voipSession == szSid && transport) {
 						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 						if (const TiXmlElement *candidate = XmlFirstChild(transport, "candidate")) {
-							OnICECandidate(candidate, from);
+							OnICECandidate(candidate);
 							return true;
 						}
 					}

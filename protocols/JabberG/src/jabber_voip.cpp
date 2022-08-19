@@ -439,8 +439,11 @@ bool CJabberProto::OnRTPDescription(const TiXmlElement *jingleNode)
 	return true;
 }
 
-bool CJabberProto::OnICECandidate(const TiXmlElement *Node, const char *)
+bool CJabberProto::OnICECandidate(const TiXmlElement *Node)
 {
+	if (!m_bEnableVOIP)
+		return false;
+
 	CMStringA scandidate;
 	CMStringA proto(XmlGetAttr(Node, "protocol"));
 	proto.MakeUpper();
