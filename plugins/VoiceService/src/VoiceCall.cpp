@@ -76,12 +76,21 @@ VoiceCall::~VoiceCall()
 	RemoveNotifications();
 	mir_free(id);
 	id = NULL;
+	DeleteObject(hContactNameFont);
 }
 
 bool VoiceCall::OnInitDialog()
 {
 	Button_SetIcon_IcoLib(m_hwnd, IDC_DROPBTN, g_plugin.getIconHandle(IDI_ACTION_DROP));
 	Button_SetIcon_IcoLib(m_hwnd, IDC_ANSWERBTN, g_plugin.getIconHandle(IDI_ACTION_ANSWER));
+
+	HFONT hf = (HFONT) SendMessage(m_lblContactName.GetHwnd(), WM_GETFONT, 0,0);
+	LOGFONT lf;
+	GetObject(hf, sizeof(LOGFONT), &lf);
+	lf.lfWeight = FW_BOLD;
+	hContactNameFont = CreateFontIndirect(&lf);
+	SendMessage(m_lblContactName.GetHwnd(), WM_SETFONT, (WPARAM)hContactNameFont, 0);
+
 	return true;
 }
 

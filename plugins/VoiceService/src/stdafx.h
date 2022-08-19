@@ -179,7 +179,7 @@ private:
 	CCtrlLabel m_lblStatus, m_lblContactName, m_lblAddress;
 	int m_nsec;
 	CTimer m_calltimer;
-
+	HFONT hContactNameFont;
 };
 
 extern OBJLIST<VoiceProvider> modules;
