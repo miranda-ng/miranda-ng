@@ -120,6 +120,9 @@ public:
 	{
 		hHook = HookEventMessage(ME_AV_AVATARCHANGED, m_hwnd, DM_AVATARCHANGED);
 
+		if (m_hContact != 0)
+			btnDelete.Hide();
+
 		LoadTransparentData(m_hwnd, GetContactThatHaveTheAvatar(m_hContact));
 		return true;
 	}
