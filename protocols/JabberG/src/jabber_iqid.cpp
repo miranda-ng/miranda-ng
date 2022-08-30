@@ -682,7 +682,8 @@ void CJabberProto::OnIqResultGetVcard(const TiXmlElement *iqNode, CJabberIqInfo*
 	}
 	else {
 		if ((hContact = HContactFromJID(jid)) == 0)
-			return;
+			if ((hContact = ChatRoomHContactFromJID(jid)) == 0)
+				return;
 		debugLogA("Other user's vcard");
 	}
 
