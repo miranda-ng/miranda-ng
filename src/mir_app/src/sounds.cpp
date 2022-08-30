@@ -238,7 +238,7 @@ public:
 		if (GetModuleHandle(L"bass_interface.dll"))
 			mir_snwprintf(filter, L"%s (*.wav,*.mp3,*.ogg)%c*.wav;*.mp3;*.ogg%c%s (*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
 		else
-			mir_snwprintf(filter, L"%s (*.wav,*.mp3)%c*.wav;*.mp3%c%s (*)%c*%c", TranslateT("Sound files"), 0, 0, TranslateT("All files"), 0, 0);
+			mir_snwprintf(filter, L"%s (*.wav)%c*.wav%c%s (*)%c*%c", TranslateT("WAV files"), 0, 0, TranslateT("All files"), 0, 0);
 		ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 		ofn.hwndOwner = GetParent(m_hwnd);
 		ofn.hInstance = nullptr;

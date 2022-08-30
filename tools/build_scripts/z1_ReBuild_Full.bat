@@ -83,7 +83,7 @@ copy /V /Y ..\plugins\Boltun\src\Engine\boltun.mindw "Release%tp%\Plugins\"
 copy /V /Y ..\plugins\FavContacts\gadget\favcontacts.gadget "Release%tp%\Gadgets\"
 copy /V /Y ..\plugins\Import\ini\*.ini "Release%tp%\Plugins\Import\"
 copy /V /Y ..\plugins\ListeningTo\listeningto\*.dll "Release%tp%\Plugins\Listeningto\"
-copy /V /Y ..\plugins\Nudge\docs\Sounds\*.mp3 "Release%tp%\Sounds\"
+copy /V /Y ..\plugins\Nudge\docs\Sounds\*.wav "Release%tp%\Sounds\"
 copy /V /Y ..\plugins\RemovePersonalSettings\docs\RemovePersonalSettings.ini "Release%tp%\"
 copy /V /Y ..\plugins\Watrack\player.ini "Release%tp%\Plugins\"
 
