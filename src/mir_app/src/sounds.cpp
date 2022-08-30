@@ -113,7 +113,7 @@ public:
 		chkSounds(this, IDC_ENABLESOUNDS),
 		btnChange(this, IDC_CHANGE),
 		btnPreview(this, IDC_PREVIEW),
-		linkGetMore(this, IDC_GETMORE, "https://miranda-ng.org/addons/category/14")
+		linkGetMore(this, IDC_GETMORE, "https://miranda-ng.org/tags/sounds")
 	{
 		btnChange.OnClick = Callback(this, &CSoundOptionsDlg::onClick_Change);
 		btnPreview.OnClick = Callback(this, &CSoundOptionsDlg::onClick_Preview);
