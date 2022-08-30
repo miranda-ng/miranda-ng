@@ -1,7 +1,7 @@
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
- * Copyright (C) 2002-2017 Németh László
+ * Copyright (C) 2002-2022 Németh László
  *
  * The contents of this file are subject to the Mozilla Public License Version
  * 1.1 (the "License"); you may not use this file except in compliance with
@@ -78,6 +78,7 @@
 #include "hashmgr.hxx"
 #include "csutil.hxx"
 #include "atypes.hxx"
+#include "langnum.hxx"
 
 // build a hash table from a munched word list
 
@@ -182,13 +183,14 @@ int HashMgr::add_word(const std::string& in_word,
                       unsigned short* aff,
                       int al,
                       const std::string* in_desc,
-                      bool onlyupcase) {
+                      bool onlyupcase,
+                      int captype) {
   const std::string* word = &in_word;
   const std::string* desc = in_desc;
 
   std::string *word_copy = NULL;
   std::string *desc_copy = NULL;
-  if (!ignorechars.empty() || complexprefixes) {
+  if ((!ignorechars.empty() && !has_no_ignored_chars(in_word, ignorechars)) || complexprefixes) {
     word_copy = new std::string(in_word);
 
     if (!ignorechars.empty()) {
@@ -243,20 +245,119 @@ int HashMgr::add_word(const std::string& in_word,
   hp->astr = aff;
   hp->next = NULL;
   hp->next_homonym = NULL;
+  hp->var = (captype == INITCAP) ? H_OPT_INITCAP : 0;
 
   // store the description string or its pointer
   if (desc) {
-    hp->var = H_OPT;
+    hp->var |= H_OPT;
     if (aliasm) {
-      hp->var += H_OPT_ALIASM;
+      hp->var |= H_OPT_ALIASM;
       store_pointer(hpw + word->size() + 1, get_aliasm(atoi(desc->c_str())));
     } else {
       strcpy(hpw + word->size() + 1, desc->c_str());
     }
-    if (strstr(HENTRY_DATA(hp), MORPH_PHON))
-      hp->var += H_OPT_PHON;
-  } else
-    hp->var = 0;
+    if (strstr(HENTRY_DATA(hp), MORPH_PHON)) {
+      hp->var |= H_OPT_PHON;
+      // store ph: fields (pronounciation, misspellings, old orthography etc.)
+      // of a morphological description in reptable to use in REP replacements.
+      if (reptable.capacity() < (unsigned int)(tablesize/MORPH_PHON_RATIO))
+          reptable.reserve(tablesize/MORPH_PHON_RATIO);
+      std::string fields = HENTRY_DATA(hp);
+      std::string::const_iterator iter = fields.begin();
+      std::string::const_iterator start_piece = mystrsep(fields, iter);
+      while (start_piece != fields.end()) {
+        if (std::string(start_piece, iter).find(MORPH_PHON) == 0) {
+          std::string ph = std::string(start_piece, iter).substr(sizeof MORPH_PHON - 1);
+          if (ph.size() > 0) {
+            std::vector<w_char> w;
+            size_t strippatt;
+            std::string wordpart;
+            // dictionary based REP replacement, separated by "->"
+            // for example "pretty ph:prity ph:priti->pretti" to handle
+            // both prity -> pretty and pritier -> prettiest suggestions.
+            if (((strippatt = ph.find("->")) != std::string::npos) &&
+                    (strippatt > 0) && (strippatt < ph.size() - 2)) {
+                wordpart = ph.substr(strippatt + 2);
+                ph.erase(ph.begin() + strippatt, ph.end());
+            } else
+                wordpart = in_word;
+            // when the ph: field ends with the character *,
+            // strip last character of the pattern and the replacement
+            // to match in REP suggestions also at character changes,
+            // for example, "pretty ph:prity*" results "prit->prett"
+            // REP replacement instead of "prity->pretty", to get
+            // prity->pretty and pritiest->prettiest suggestions.
+            if (ph.at(ph.size()-1) == '*') {
+              strippatt = 1;
+              size_t stripword = 0;
+              if (utf8) {
+                while ((strippatt < ph.size()) &&
+                  ((ph.at(ph.size()-strippatt-1) & 0xc0) == 0x80))
+                     ++strippatt;
+                while ((stripword < wordpart.size()) &&
+                  ((wordpart.at(wordpart.size()-stripword-1) & 0xc0) == 0x80))
+                     ++stripword;
+              }
+              ++strippatt;
+              ++stripword;
+              if ((ph.size() > strippatt) && (wordpart.size() > stripword)) {
+                ph.erase(ph.size()-strippatt, strippatt);
+                wordpart.erase(in_word.size()-stripword, stripword);
+              }
+            }
+            // capitalize lowercase pattern for capitalized words to support
+            // good suggestions also for capitalized misspellings, eg.
+            // Wednesday ph:wendsay
+            // results wendsay -> Wednesday and Wendsay -> Wednesday, too.
+            if (captype==INITCAP) {
+              std::string ph_capitalized;
+              if (utf8) {
+                u8_u16(w, ph);
+                if (get_captype_utf8(w, langnum) == NOCAP) {
+                  mkinitcap_utf(w, langnum);
+                  u16_u8(ph_capitalized, w);
+                }
+              } else if (get_captype(ph, csconv) == NOCAP)
+                  mkinitcap(ph_capitalized, csconv);
+
+              if (ph_capitalized.size() > 0) {
+                // add also lowercase word in the case of German or
+                // Hungarian to support lowercase suggestions lowercased by
+                // compound word generation or derivational suffixes
+                // (for example by adjectival suffix "-i" of geographical
+                // names in Hungarian:
+                // Massachusetts ph:messzecsuzec
+                // messzecsuzeci -> massachusettsi (adjective)
+                // For lowercasing by conditional PFX rules, see
+                // tests/germancompounding test example or the
+                // Hungarian dictionary.)
+                if (langnum == LANG_de || langnum == LANG_hu) {
+                  std::string wordpart_lower(wordpart);
+                  if (utf8) {
+                    u8_u16(w, wordpart_lower);
+                    mkallsmall_utf(w, langnum);
+                    u16_u8(wordpart_lower, w);
+                  } else {
+                    mkallsmall(wordpart_lower, csconv);
+                  }
+                  reptable.push_back(replentry());
+                  reptable.back().pattern.assign(ph);
+                  reptable.back().outstrings[0].assign(wordpart_lower);
+                }
+                reptable.push_back(replentry());
+                reptable.back().pattern.assign(ph_capitalized);
+                reptable.back().outstrings[0].assign(wordpart);
+              }
+            }
+            reptable.push_back(replentry());
+            reptable.back().pattern.assign(ph);
+            reptable.back().outstrings[0].assign(wordpart);
+          }
+        }
+        start_piece = mystrsep(fields, iter);
+      }
+    }
+  }
 
   struct hentry* dp = tableptr[i];
   if (!dp) {
@@ -347,12 +448,12 @@ int HashMgr::add_hidden_capitalized_word(const std::string& word,
       mkallsmall_utf(w, langnum);
       mkinitcap_utf(w, langnum);
       u16_u8(st, w);
-      return add_word(st, wcl, flags2, flagslen + 1, dp, true);
+      return add_word(st, wcl, flags2, flagslen + 1, dp, true, INITCAP);
     } else {
       std::string new_word(word);
       mkallsmall(new_word, csconv);
       mkinitcap(new_word, csconv);
-      int ret = add_word(new_word, wcl, flags2, flagslen + 1, dp, true);
+      int ret = add_word(new_word, wcl, flags2, flagslen + 1, dp, true, INITCAP);
       return ret;
     }
   }
@@ -405,24 +506,8 @@ int HashMgr::remove_forbidden_flag(const std::string& word) {
   if (!dp)
     return 1;
   while (dp) {
-    if (dp->astr && TESTAFF(dp->astr, forbiddenword, dp->alen)) {
-      if (dp->alen == 1)
-        dp->alen = 0;  // XXX forbidden words of personal dic.
-      else {
-        unsigned short* flags2 =
-            (unsigned short*)malloc(sizeof(unsigned short) * (dp->alen - 1));
-        if (!flags2)
-          return 1;
-        int i, j = 0;
-        for (i = 0; i < dp->alen; i++) {
-          if (dp->astr[i] != forbiddenword)
-            flags2[j++] = dp->astr[i];
-        }
-        dp->alen--;
-        free(dp->astr);
-        dp->astr = flags2;  // XXX allowed forbidden words
-      }
-    }
+    if (dp->astr && TESTAFF(dp->astr, forbiddenword, dp->alen))
+      dp->alen = 0;  // XXX forbidden words of personal dic.
     dp = dp->next_homonym;
   }
   return 0;
@@ -435,7 +520,7 @@ int HashMgr::add(const std::string& word) {
     int al = 0;
     unsigned short* flags = NULL;
     int wcl = get_clen_and_captype(word, &captype);
-    add_word(word, wcl, flags, al, NULL, false);
+    add_word(word, wcl, flags, al, NULL, false, captype);
     return add_hidden_capitalized_word(word, wcl, flags, al, NULL,
                                        captype);
   }
@@ -450,14 +535,14 @@ int HashMgr::add_with_affix(const std::string& word, const std::string& example)
     int captype;
     int wcl = get_clen_and_captype(word, &captype);
     if (aliasf) {
-      add_word(word, wcl, dp->astr, dp->alen, NULL, false);
+      add_word(word, wcl, dp->astr, dp->alen, NULL, false, captype);
     } else {
       unsigned short* flags =
           (unsigned short*)malloc(dp->alen * sizeof(unsigned short));
       if (flags) {
         memcpy((void*)flags, (void*)dp->astr,
                dp->alen * sizeof(unsigned short));
-        add_word(word, wcl, flags, dp->alen, NULL, false);
+        add_word(word, wcl, flags, dp->alen, NULL, false, captype);
       } else
         return 1;
     }
@@ -605,7 +690,7 @@ int HashMgr::load_tables(const char* tpath, const char* key) {
     int wcl = get_clen_and_captype(ts, &captype, workbuf);
     const std::string *dp_str = dp.empty() ? NULL : &dp;
     // add the word and its index plus its capitalized form optionally
-    if (add_word(ts, wcl, flags, al, dp_str, false) ||
+    if (add_word(ts, wcl, flags, al, dp_str, false, captype) ||
         add_hidden_capitalized_word(ts, wcl, flags, al, dp_str, captype)) {
       delete dict;
       return 5;
@@ -697,7 +782,7 @@ int HashMgr::decode_flags(unsigned short** result, const std::string& flags, Fil
       *result = (unsigned short*)malloc(len * sizeof(unsigned short));
       if (!*result)
         return -1;
-      memcpy(*result, &w[0], len * sizeof(short));
+      memcpy(*result, w.data(), len * sizeof(short));
       break;
     }
     default: {  // Ispell's one-character flags (erfg -> e r f g)
@@ -768,7 +853,7 @@ bool HashMgr::decode_flags(std::vector<unsigned short>& result, const std::strin
       size_t len = w.size();
       size_t origsize = result.size();
       result.resize(origsize + len);
-      memcpy(&result[origsize], &w[0], len * sizeof(short));
+      memcpy(result.data() + origsize, w.data(), len * sizeof(short));
       break;
     }
     default: {  // Ispell's one-character flags (erfg -> e r f g)
@@ -799,7 +884,7 @@ unsigned short HashMgr::decode_flag(const char* f) const {
       std::vector<w_char> w;
       u8_u16(w, f);
       if (!w.empty())
-          memcpy(&s, &w[0], 1 * sizeof(short));
+          memcpy(&s, w.data(), 1 * sizeof(short));
       break;
     }
     default:
@@ -940,8 +1025,19 @@ int HashMgr::load_config(const char* affpath, const char* key) {
     if (line.compare(0, 15, "COMPLEXPREFIXES", 15) == 0)
       complexprefixes = 1;
 
+    /* parse in the typical fault correcting table */
+    if (line.compare(0, 3, "REP", 3) == 0) {
+      if (!parse_reptable(line, afflst)) {
+        delete afflst;
+        return 1;
+      }
+    }
+
+    // don't check the full affix file, yet
     if (((line.compare(0, 3, "SFX", 3) == 0) ||
-         (line.compare(0, 3, "PFX", 3) == 0)) && line.size() > 3 && isspace(line[3]))
+         (line.compare(0, 3, "PFX", 3) == 0)) &&
+            line.size() > 3 && isspace(line[3]) &&
+            !reptable.empty()) // (REP table is in the end of Afrikaans aff file)
       break;
   }
 
@@ -1015,43 +1111,41 @@ bool HashMgr::parse_aliasf(const std::string& line, FileMgr* af) {
   /* now parse the numaliasf lines to read in the remainder of the table */
   for (int j = 0; j < numaliasf; j++) {
     std::string nl;
-    if (!af->getline(nl))
-      return false;
-    mychomp(nl);
-    i = 0;
     aliasf[j] = NULL;
     aliasflen[j] = 0;
-    iter = nl.begin();
-    start_piece = mystrsep(nl, iter);
-    while (start_piece != nl.end()) {
-      switch (i) {
-        case 0: {
-          if (nl.compare(start_piece - nl.begin(), 2, "AF", 2) != 0) {
-            numaliasf = 0;
-            free(aliasf);
-            free(aliasflen);
-            aliasf = NULL;
-            aliasflen = NULL;
-            HUNSPELL_WARNING(stderr, "error: line %d: table is corrupt\n",
-                             af->getlinenum());
-            return false;
-          }
-          break;
-        }
-        case 1: {
-          std::string piece(start_piece, iter);
-          aliasflen[j] =
-              (unsigned short)decode_flags(&(aliasf[j]), piece, af);
-          std::sort(aliasf[j], aliasf[j] + aliasflen[j]);
-          break;
-        }
-        default:
-          break;
-      }
-      ++i;
+    i = 0;
+    if (af->getline(nl)) {
+      mychomp(nl);
+      iter = nl.begin();
       start_piece = mystrsep(nl, iter);
+      bool errored = false;
+      while (!errored && start_piece != nl.end()) {
+        switch (i) {
+          case 0: {
+            if (nl.compare(start_piece - nl.begin(), 2, "AF", 2) != 0) {
+              errored = true;
+              break;
+            }
+            break;
+          }
+          case 1: {
+            std::string piece(start_piece, iter);
+            aliasflen[j] =
+                (unsigned short)decode_flags(&(aliasf[j]), piece, af);
+            std::sort(aliasf[j], aliasf[j] + aliasflen[j]);
+            break;
+          }
+          default:
+            break;
+        }
+        ++i;
+        start_piece = mystrsep(nl, iter);
+      }
     }
     if (!aliasf[j]) {
+      for (int k = 0; k < j; ++k) {
+        free(aliasf[k]);
+      }
       free(aliasf);
       free(aliasflen);
       aliasf = NULL;
@@ -1130,47 +1224,47 @@ bool HashMgr::parse_aliasm(const std::string& line, FileMgr* af) {
   /* now parse the numaliasm lines to read in the remainder of the table */
   for (int j = 0; j < numaliasm; j++) {
     std::string nl;
-    if (!af->getline(nl))
-      return false;
-    mychomp(nl);
     aliasm[j] = NULL;
-    iter = nl.begin();
-    i = 0;
-    start_piece = mystrsep(nl, iter);
-    while (start_piece != nl.end()) {
-      switch (i) {
-        case 0: {
-          if (nl.compare(start_piece - nl.begin(), 2, "AM", 2) != 0) {
-            HUNSPELL_WARNING(stderr, "error: line %d: table is corrupt\n",
-                             af->getlinenum());
-            numaliasm = 0;
-            free(aliasm);
-            aliasm = NULL;
-            return false;
-          }
-          break;
-        }
-        case 1: {
-          // add the remaining of the line
-          std::string::const_iterator end = nl.end();
-          std::string chunk(start_piece, end);
-          if (complexprefixes) {
-            if (utf8)
-              reverseword_utf(chunk);
-            else
-              reverseword(chunk);
-          }
-          aliasm[j] = mystrdup(chunk.c_str());
-          break;
-        }
-        default:
-          break;
-      }
-      ++i;
+    if (af->getline(nl)) {
+      mychomp(nl);
+      iter = nl.begin();
+      i = 0;
       start_piece = mystrsep(nl, iter);
+      bool errored = false;
+      while (!errored && start_piece != nl.end()) {
+        switch (i) {
+          case 0: {
+            if (nl.compare(start_piece - nl.begin(), 2, "AM", 2) != 0) {
+              errored = true;
+              break;
+            }
+            break;
+          }
+          case 1: {
+            // add the remaining of the line
+            std::string::const_iterator end = nl.end();
+            std::string chunk(start_piece, end);
+            if (complexprefixes) {
+              if (utf8)
+                reverseword_utf(chunk);
+              else
+                reverseword(chunk);
+            }
+            aliasm[j] = mystrdup(chunk.c_str());
+            break;
+          }
+          default:
+            break;
+        }
+        ++i;
+        start_piece = mystrsep(nl, iter);
+      }
     }
     if (!aliasm[j]) {
       numaliasm = 0;
+      for (int k = 0; k < j; ++k) {
+        free(aliasm[k]);
+      }
       free(aliasm);
       aliasm = NULL;
       HUNSPELL_WARNING(stderr, "error: line %d: table is corrupt\n",
@@ -1190,4 +1284,103 @@ char* HashMgr::get_aliasm(int index) const {
     return aliasm[index - 1];
   HUNSPELL_WARNING(stderr, "error: bad morph. alias index: %d\n", index);
   return NULL;
+}
+
+/* parse in the typical fault correcting table */
+bool HashMgr::parse_reptable(const std::string& line, FileMgr* af) {
+  if (!reptable.empty()) {
+    HUNSPELL_WARNING(stderr, "error: line %d: multiple table definitions\n",
+                     af->getlinenum());
+    return false;
+  }
+  int numrep = -1;
+  int i = 0;
+  int np = 0;
+  std::string::const_iterator iter = line.begin();
+  std::string::const_iterator start_piece = mystrsep(line, iter);
+  while (start_piece != line.end()) {
+    switch (i) {
+      case 0: {
+        np++;
+        break;
+      }
+      case 1: {
+        numrep = atoi(std::string(start_piece, iter).c_str());
+        if (numrep < 1) {
+          HUNSPELL_WARNING(stderr, "error: line %d: incorrect entry number\n",
+                           af->getlinenum());
+          return false;
+        }
+        reptable.reserve(numrep);
+        np++;
+        break;
+      }
+      default:
+        break;
+    }
+    ++i;
+    start_piece = mystrsep(line, iter);
+  }
+  if (np != 2) {
+    HUNSPELL_WARNING(stderr, "error: line %d: missing data\n",
+                     af->getlinenum());
+    return false;
+  }
+
+  /* now parse the numrep lines to read in the remainder of the table */
+  for (int j = 0; j < numrep; ++j) {
+    std::string nl;
+    reptable.push_back(replentry());
+    int type = 0;
+    if (af->getline(nl)) {
+      mychomp(nl);
+      iter = nl.begin();
+      i = 0;
+      start_piece = mystrsep(nl, iter);
+      bool errored = false;
+      while (!errored && start_piece != nl.end()) {
+        switch (i) {
+          case 0: {
+            if (nl.compare(start_piece - nl.begin(), 3, "REP", 3) != 0) {
+              errored = true;
+              break;
+            }
+            break;
+          }
+          case 1: {
+            if (*start_piece == '^')
+              type = 1;
+            reptable.back().pattern.assign(start_piece + type, iter);
+            mystrrep(reptable.back().pattern, "_", " ");
+            if (!reptable.back().pattern.empty() && reptable.back().pattern[reptable.back().pattern.size() - 1] == '$') {
+              type += 2;
+              reptable.back().pattern.resize(reptable.back().pattern.size() - 1);
+            }
+            break;
+          }
+          case 2: {
+            reptable.back().outstrings[type].assign(start_piece, iter);
+            mystrrep(reptable.back().outstrings[type], "_", " ");
+            break;
+          }
+          default:
+            break;
+        }
+        ++i;
+        start_piece = mystrsep(nl, iter);
+      }
+    }
+    if (reptable.back().pattern.empty() || reptable.back().outstrings[type].empty()) {
+      HUNSPELL_WARNING(stderr, "error: line %d: table is corrupt\n",
+                       af->getlinenum());
+      reptable.clear();
+      return false;
+    }
+  }
+  return true;
+}
+
+// return replacing table
+const std::vector<replentry>& HashMgr::get_reptable() const {
+  return reptable;
 }

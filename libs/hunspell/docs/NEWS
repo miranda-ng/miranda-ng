@@ -1,3 +1,143 @@
+2022-08-22: Hunspell 1.7.1 release:
+  - Merge chromium fix for #714 OOB string write in hunspell
+  - Merge firefox fix for #756 various issues parsing incomplete aff files
+  - Fix #492 crash with hunspell -l -r
+  - Merge in weblate translations
+
+2018-11-12: Hunspell 1.7.0 release:
+
+  New features and bug fixes by László Németh, supported by FSF.hu Foundation:
+
+  - No annoying suggestion times any more, especially in languages with
+    compound word handling and complex morphology. By adding balanced
+    multi-level time limits, now the guaranteed suggestion time is there
+    within half a second, not seconds (nor dozen of seconds or more
+    in extreme cases) for longer misspellings, too.
+
+  - add SPELLML support for run-time dictionary extension with optional
+    affixation of user words. See new "Grammar By" feature of
+    language-specific user dictionaries of LibreOffice 6.0:
+
+    News: https://wiki.documentfoundation.org/ReleaseNotes/6.0#.E2.80.9CGrammar_By.E2.80.9D_spell_checking
+
+    Screencast with English example: https://www.youtube.com/watch?v=EsS3gaBTfOo
+
+    Screencast with German example: https://www.youtube.com/watch?v=aYVFDqCUb6I
+
+  - Improved, highly customizable suggestions on level of dictionary words:
+    Pronunciations and typical misspellings defined by optional "ph:" fields of
+    the dictionary words are used not only in n-gram suggestions, but as
+    elements of the REP replacement list getting the highest priority in normal
+    suggestions, also giving the best suggestions for short words, too.
+    More information: see "ph:" in man 5 hunspell.
+
+  - Handling multiple word suggestions is much more easier. Like in a
+    traditional spelling dictionary, for example, to get the correct suggestion
+    "a lot" for the typical misspelling "alot" at the first place, now it's
+    enough to put the following line to the dic(tionary) file:
+
+    a lot
+
+  - Limit compound overgeneration by dictionary based word pairs:
+    Now it's possible to filter bad compound words by listing
+    the correct word pairs with space in the dictionary, as in a traditional
+    spelling dictionary.
+
+  - clean-up suggestion:
+
+    - no n-gram and compound word suggestions, if "good" suggestion
+      exists, ie. uppercase, REP, ph: or dictionary word pair suggestions
+
+    - word pairs are always suggested, if they exist in the dic file
+
+    - word pairs have top priority in suggestions, and
+      these are the only suggestions if there is no other good suggestion.
+
+    - also dictionary word pairs separated by dash instead of space
+      are handled specially in two-word suggestion (depending from the
+      language)
+
+   - limit bad suggestions by improved n-gram suggestion rules:
+
+     don't suggest capitalized dictionary words for lower
+     case misspellings in n-gram suggestions, except
+
+     - PHONE usage, or
+     - in the case of German, where not only proper
+       nouns are capitalized, or
+     - the capitalized word has special pronunciation
+
+     and don't suggest if the difference of lengths of misspellings and
+     suggestions is 5 or more characters.
+
+  - Extend dotless i and dotted I rules to Crimean Tatar language
+    Allow dotted I in dictionary, and disable bad capitalization of i.
+
+  - BREAK: extended recursive word breaking algorithm to handle words or
+    words with suffixes when they already contain word break characters,
+    for example, "e-mail" is a dictionary word with a word break character, and
+    it wasn't accepted before in compounds in some languages.
+
+  - FORBIDDENWORD precedes BREAK: Now it's possible to forbid compound
+    forms recognized by BREAK word breaking by adding the bad compounds to
+    the dictionary with FORBIDDENWORD flags.
+
+  - lower limit for "doubletwochars" suggestion algorithm:
+    one of the typical misspellings recognized by Hunspell suggestion
+    mechanism is the syllable duplication. Along the old pattern
+    ABABA -> ABA, for example nutrITITIon -> nutrITIon, now also the
+    simpler ABAB -> AB pattern is recognized in non-starting position,
+    for example, regretTETEd -> regretTEd.
+
+  - lower limit for longswapchar and movechar: recognized only max.
+    4-character distances to avoid slow and bad suggestions.
+
+  - fix compound handling for new Hungarian orthography reform
+
+  - Allow suggestion search for prefix + *two suffixes*:
+    Remove artificial performance limit to get correct
+    suggestions for relatively simple misspellings in
+    Hungarian, etc., when the word form contains prefix
+    and both derivative and inflectional suffixes, too:
+
+    lefikszálása -> lefixálása
+
+  Improvements for command-line Hunspell:
+
+  - Remove false alarms during checking OpenDocument (ODF)
+    documents by ignoring <text:span> elements. (LibreOffice
+    creates a lot of <text:span> elements also within words
+    during text reediting, resulted often huge amount of broken
+    words before this fix.)
+
+  - List filenames during filtering multiple files in command-line:
+
+    Examples:
+
+    $ hunspell -l *.odt
+    a.odt: mispelling
+    b.odt: egzample
+
+    $ hunspell -l -G *.odt
+    a.odt: good
+    b.odt: words
+
+  - Dictionary search by option -D doesn't wait for the standard input
+    (fixed by Siva Mahadevan)
+
+  Other improvements:
+
+  - makealias dictionary compression: add option --minimize-diff
+    to reuse free positions of alias lists to create minimal and
+    readable diffs for alias compressed dictionaries stored in
+    revision control systems, as dictionaries of LibreOffice.
+
+  - Brazilian-Portuguese translation by Rafael Fontenelle
+
+  - Catalan translation by robert dot buj at gmail
+
+  - Minor bug fixes by several contributors, see git log
+
 2017-09-03: Hunspell 1.6.2 release:
   - Library changes: no. Same as 1.6.1.
   - Command line tool:
@@ -101,10 +241,10 @@
   # Accepting de facto replacements of the Romanian comma acuted letters
   SET UTF-8
   ICONV 4
-  ICONV Ğ•ÑŸ Ğ˜â„¢
-  ICONV Ğ•Ğˆ Ğ˜â€º
-  ICONV Ğ•Ñ› Ğ˜Â˜
-  ICONV Ğ•Ñ Ğ˜Ñ™
+  ICONV ÅŸ È™
+  ICONV Å£ È›
+  ICONV Å È˜
+  ICONV Å¢ Èš
 
     Typical usage of ICONV/OCONV is to manage an inner format for a segmental
     writing system, like the Ethiopic script of the Amharic language.
@@ -113,8 +253,8 @@
     sandhi feature of Telugu and other writing systems.
 
   - SIMPLIFIEDTRIPLE compound word feature: allow simplified Swedish and
-    Norwegian compound word forms, like tillĞ“Òta (till|lĞ“Òta) and
-    bussjĞ“ÒfĞ“Ñ‘r (buss|sjĞ“ÒfĞ“Ñ‘r)
+    Norwegian compound word forms, like tillÃ¥ta (till|lÃ¥ta) and
+    bussjÃ¥fÃ¸r (buss|sjÃ¥fÃ¸r)
 
   - wordforms: word generator script for dictionary developers (Hunspell
     version of unmunch).
@@ -232,7 +372,7 @@
   - portability fixes
 
 2007-08-23: Hunspell 1.1.10 release:
-  - pronounciation based suggestion using BjÑ†rn Jacke's original Aspell
+  - pronounciation based suggestion using Björn Jacke's original Aspell
     phonetic transcription algorithm (http://aspell.net), relicensed under
     GPL/LGPL/MPL tri-license with the permission of the author
 
@@ -278,7 +418,7 @@
     - -i option: custom input encoding
     - use locale data for default dictionary names. 
     - tools/hunspell.cxx: fix 8-bit tokenization (letters without
-      casing, like Ğ“ÑŸ or Hebrew characters now are handled well) 
+      casing, like ÃŸ or Hebrew characters now are handled well) 
     - dictionary search path (automatic detection of OpenOffice.org directories)
     - DICPATH environmental variable
     - -D option: show directory path of loaded dictionary
@@ -500,8 +640,8 @@ An example in a language with rich morphology:
 
 8. Misisipiben (instead of Mississippiben [`in Mississippi' in Hungarian]):
 
-O: MisikĞ¹dĞ¹iben, PisisedĞ¹iben, MisikĞ¹iĞ¹iben, PisisekĞ¹iben, MisikĞ¹iben,
-        MisikĞ¹idĞ¹iben, MisikĞ¹kĞ¹iben, MisikĞ¹ikĞ¹iben, MisikĞ¹imĞ¹iben, Mississippiiben
+O: Misikédéiben, Pisisedéiben, Misikéiéiben, Pisisekéiben, Misikéiben,
+        Misikéidéiben, Misikékéiben, Misikéikéiben, Misikéiméiben, Mississippiiben
 
 N: Mississippiben, Mississippiiben, Misiiben
 
@@ -610,29 +750,29 @@ SFX D   us          ech        [^ighk]os
 SFX D   us          y          [^i]os
 SFX Q   os          ech        [^ghk]es
 SFX M   o           ech        [^ghkei]a
-SFX J   Ğ¹m          ej         Ğ±m
-SFX J   Ğ¹m          ejme       Ğ±m
-SFX J   Ğ¹m          ejte       Ğ±m
-SFX A   ouÑ•it       up         oupit
-SFX A   ouÑ•it       upme       oupit
-SFX A   ouÑ•it       upte       oupit
-SFX A   nout        l          [aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼r][^aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼rl][^aeiouy
-SFX A   nout        l          [aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼r][^aeiouyĞ±Ğ¹Ğ½ÑƒÑŠÑÑ‰Ğ¼rl][^aeiouy
+SFX J   ém          ej         ám
+SFX J   ém          ejme       ám
+SFX J   ém          ejte       ám
+SFX A   ou¾it       up         oupit
+SFX A   ou¾it       upme       oupit
+SFX A   ou¾it       upte       oupit
+SFX A   nout        l          [aeiouyáéíóúıùìr][^aeiouyáéíóúıùìrl][^aeiouy
+SFX A   nout        l          [aeiouyáéíóúıùìr][^aeiouyáéíóúıùìrl][^aeiouy
 
 es_ES
 warning - incompatible stripping characters and condition:
-SFX W umar ÑŠse [ae]husar
-SFX W emir iÑĞ±is eÑir
+SFX W umar úse [ae]husar
+SFX W emir iñáis eñir
 
 es_NEW
 warning - incompatible stripping characters and condition:
-SFX I unan ÑŠnen unar
+SFX I unan únen unar
 
 es_MX
 warning - incompatible stripping characters and condition:
 SFX A a ote e
-SFX W umar ÑŠse [ae]husar
-SFX W emir iÑĞ±is eÑir
+SFX W umar úse [ae]husar
+SFX W emir iñáis eñir
 
 lt_LT
 warning - incompatible stripping characters and condition:
@@ -642,21 +782,21 @@ SFX U ti      siesi           tis
 SFX U ti      siesi           tis       
 SFX U ti      sis             tis       
 SFX U ti      sis             tis       
-SFX U ti      simĞ»s           tis       
-SFX U ti      simĞ»s           tis       
-SFX U ti      sitĞ»s           tis       
-SFX U ti      sitĞ»s           tis       
+SFX U ti      simës           tis       
+SFX U ti      simës           tis       
+SFX U ti      sitës           tis       
+SFX U ti      sitës           tis       
 
 nn_NO
 warning - incompatible stripping characters and condition:
 SFX D   ar  rar  [^fmk]er
-SFX U   Ğ¨re  orde  ere
-SFX U   Ğ¨re  ort  ere
+SFX U   Øre  orde  ere
+SFX U   Øre  ort  ere
 
 pt_PT
 warning - incompatible stripping characters and condition:
-SFX g   Ğ³os        oas        Ğ³o
-SFX g   Ğ³os        oas        Ğ³o
+SFX g   ãos        oas        ão
+SFX g   ãos        oas        ão
 
 ro_RO
 warning - bad field number:
@@ -672,22 +812,22 @@ SFX I   a          ei         [^cg] a
 
 sk_SK
 warning - incompatible stripping characters and condition:
-SFX T   ÂµaÂ»         olÑŠ        klaÂ»
-SFX T   ÂµaÂ»         olÑŠc       klaÂ»
-SFX T   sÂµaÂ»        â„–lÑŠ        slaÂ»
-SFX T   sÂµaÂ»        â„–lÑŠc       slaÂ»
-SFX R   ÂµcÂ»         lĞ¸iem      ĞµcÂ»
-SFX R   iĞ±sÂ»        Ğ´tie       miasÂ»
-SFX R   iezÂ»        iem        [^i]ezÂ»
-SFX R   iezÂ»        ieâ„–        [^i]ezÂ»
-SFX R   iezÂ»        ie         [^i]ezÂ»
-SFX R   iezÂ»        eme        [^i]ezÂ»
-SFX R   iezÂ»        ete        [^i]ezÂ»
-SFX R   iezÂ»        ÑŠ          [^i]ezÂ»
-SFX R   iezÂ»        ÑŠc         [^i]ezÂ»
-SFX R   iezÂ»        z          [^i]ezÂ»
-SFX R   iezÂ»        me         [^i]ezÂ»
-SFX R   iezÂ»        te         [^i]ezÂ»
+SFX T   µa»         olú        kla»
+SFX T   µa»         olúc       kla»
+SFX T   sµa»        ¹lú        sla»
+SFX T   sµa»        ¹lúc       sla»
+SFX R   µc»         lèiem      åc»
+SFX R   iás»        ätie       mias»
+SFX R   iez»        iem        [^i]ez»
+SFX R   iez»        ie¹        [^i]ez»
+SFX R   iez»        ie         [^i]ez»
+SFX R   iez»        eme        [^i]ez»
+SFX R   iez»        ete        [^i]ez»
+SFX R   iez»        ú          [^i]ez»
+SFX R   iez»        úc         [^i]ez»
+SFX R   iez»        z          [^i]ez»
+SFX R   iez»        me         [^i]ez»
+SFX R   iez»        te         [^i]ez»
 
 sv_SE
 warning - bad field number:

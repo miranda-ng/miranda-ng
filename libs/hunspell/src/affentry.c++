@@ -1,7 +1,7 @@
 /* ***** BEGIN LICENSE BLOCK *****
  * Version: MPL 1.1/GPL 2.0/LGPL 2.1
  *
- * Copyright (C) 2002-2017 Németh László
+ * Copyright (C) 2002-2022 Németh László
  *
  * The contents of this file are subject to the Mozilla Public License Version
  * 1.1 (the "License"); you may not use this file except in compliance with
@@ -146,7 +146,7 @@ inline int PfxEntry::test_condition(const char* st) {
         break;
       }
       case ']': {
-        if ((neg && ingroup) || (!neg && !ingroup))
+        if (bool(neg) == bool(ingroup))
           return 0;
         pos = NULL;
         p = nextchar(p);
@@ -224,7 +224,7 @@ struct hentry* PfxEntry::checkword(const char* word,
     // back any characters that would have been stripped
 
     std::string tmpword(strip);
-    tmpword.append(word + appnd.size());
+    tmpword.append(word + appnd.size(), tmpl);
 
     // now make sure all of the conditions on characters
     // are met.  Please see the appendix at the end of
@@ -399,28 +399,28 @@ std::string PfxEntry::check_morph(const char* word,
               ((!needflag) || TESTAFF(he->astr, needflag, he->alen) ||
                (contclass && TESTAFF(contclass, needflag, contclasslen)))) {
             if (morphcode) {
-              result.append(" ");
+              result.push_back(MSEP_FLD);
               result.append(morphcode);
             } else
               result.append(getKey());
             if (!HENTRY_FIND(he, MORPH_STEM)) {
-              result.append(" ");
+              result.push_back(MSEP_FLD);
               result.append(MORPH_STEM);
               result.append(HENTRY_WORD(he));
             }
             // store the pointer of the hash entry
             if (HENTRY_DATA(he)) {
-              result.append(" ");
+              result.push_back(MSEP_FLD);
               result.append(HENTRY_DATA2(he));
             } else {
               // return with debug information
               char* flag = pmyMgr->encode_flag(getFlag());
-              result.append(" ");
+              result.push_back(MSEP_FLD);
               result.append(MORPH_FLAG);
               result.append(flag);
               free(flag);
             }
-            result.append("\n");
+            result.push_back(MSEP_REC);
           }
           he = he->next_homonym;
         } while (he);
@@ -804,7 +804,7 @@ std::string SfxEntry::check_twosfx_morph(const char* word,
           if (!st.empty()) {
             if (ppfx->getMorph()) {
               result.append(ppfx->getMorph());
-              result.append(" ");
+              result.push_back(MSEP_FLD);
             }
             result.append(st);
             mychomp(result);
