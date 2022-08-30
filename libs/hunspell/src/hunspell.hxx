@@ -219,6 +219,7 @@ class LIBHUNSPELL_DLL_EXPORTED Hunspell {
 
   struct cs_info* get_csconv();
   
+  const char* get_try_string() const;
   const char* get_version() const;
   const std::string& get_version_cpp() const;
 

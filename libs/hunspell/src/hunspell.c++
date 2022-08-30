@@ -120,6 +120,7 @@ public:
   int generate(char*** slst, const char* word, const char* word2);
   int generate(char*** slst, const char* word, char** desc, int n);
   const char* get_wordchars() const;
+  const char* get_try_string() const { return pAMgr->get_try_string(); }
   const char* get_version() const;
   int input_conv(const char* word, char* dest, size_t destsize);
 
@@ -2154,6 +2155,10 @@ const char* Hunspell::get_wordchars() const {
 
 const char* Hunspell::get_version() const {
   return m_Impl->get_version();
+}
+
+const char* Hunspell::get_try_string() const {
+  return m_Impl->get_try_string();
 }
 
 int Hunspell::input_conv(const char* word, char* dest, size_t destsize) {
