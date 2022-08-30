@@ -477,6 +477,8 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	bool bToolbar = g_plugin.bShowButtons;
 	bool bSend = g_plugin.bSendButton;
 	bool bNick = false;
+	int underTB = urc->dlgNewSize.cy - m_iSplitterY;
+	underTB += bToolbar ? m_iBBarHeight : 2;
 
 	if (isChat()) bNick = m_si->iType != GCW_SERVER && m_bNicklistEnabled;
 
@@ -484,7 +486,7 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 	case IDOK:
 		urc->rcItem.left = bSend ? urc->dlgNewSize.cx - 64 + 2 : urc->dlgNewSize.cx;
 		urc->rcItem.right = urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + m_iBBarHeight;
+		urc->rcItem.top = underTB;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
@@ -493,8 +495,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.left = 0;
 		urc->rcItem.right = bNick ? urc->dlgNewSize.cx - m_iSplitterX : urc->dlgNewSize.cx;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
-		if (!bToolbar)
-			urc->rcItem.bottom += m_iBBarHeight - 4;
 		m_rcLog = urc->rcItem;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
@@ -504,8 +504,6 @@ int CMsgDialog::Resizer(UTILRESIZECONTROL *urc)
 		urc->rcItem.left = urc->dlgNewSize.cx - m_iSplitterX + 2;
 LBL_CalcBottom:
 		urc->rcItem.bottom = urc->dlgNewSize.cy - m_iSplitterY;
-		if (!bToolbar)
-			urc->rcItem.bottom += 20;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_SPLITTERX:
@@ -516,21 +514,19 @@ LBL_CalcBottom:
 
 	case IDC_SPLITTERY:
 		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY;
-		if (!bToolbar)
-			urc->rcItem.top += 20;
 		urc->rcItem.bottom = urc->rcItem.top + 2;
 		return RD_ANCHORX_WIDTH | RD_ANCHORY_CUSTOM;
 
 	case IDC_SRMM_MESSAGE:
 		urc->rcItem.right = bSend ? urc->dlgNewSize.cx - 64 : urc->dlgNewSize.cx;
-		urc->rcItem.top = urc->dlgNewSize.cy - m_iSplitterY + 28;
+		urc->rcItem.top = underTB;
 		urc->rcItem.bottom = urc->dlgNewSize.cy - 1;
 		if (g_plugin.bShowAvatar && m_avatarPic)
 			urc->rcItem.left = m_avatarWidth + 4;
 		return RD_ANCHORX_CUSTOM | RD_ANCHORY_CUSTOM;
 
 	case IDC_AVATAR:
-		urc->rcItem.top = urc->dlgNewSize.cy - (m_iSplitterY - m_iBBarHeight)/2 - m_avatarHeight/2 + 1;
+		urc->rcItem.top = underTB + (urc->dlgNewSize.cy - underTB - m_avatarHeight)/2;
 		urc->rcItem.bottom = urc->rcItem.top + m_avatarHeight + 2;
 		urc->rcItem.right = urc->rcItem.left + (m_avatarWidth + 2);
 		return RD_ANCHORX_LEFT | RD_ANCHORY_CUSTOM;
@@ -1337,11 +1333,12 @@ void CMsgDialog::onSplitterY(CSplitter *pSplitter)
 	m_iSplitterY = rc.bottom - pSplitter->GetPos() + 1;
 
 	int toplimit = 63;
-	if (!g_plugin.bShowButtons)
-		toplimit += m_iBBarHeight;
+	int min = m_minEditBoxSize.cy;
+	if (g_plugin.bShowButtons)
+		min += m_iBBarHeight;
 
-	if (m_iSplitterY < m_minEditBoxSize.cy)
-		m_iSplitterY = m_minEditBoxSize.cy;
+	if (m_iSplitterY < min)
+		m_iSplitterY = min;
 	if (m_iSplitterY > rc.bottom - rc.top - toplimit)
 		m_iSplitterY = rc.bottom - rc.top - toplimit;
 	g_Settings.iSplitterY = m_iSplitterY;
@@ -1551,7 +1548,7 @@ void CMsgDialog::UpdateSizeBar()
 		}
 
 		if (m_avatarPic && m_minEditBoxSize.cy <= m_avatarHeight) {
-			m_minEditBoxSize.cy = m_avatarHeight + 28;
+			m_minEditBoxSize.cy = m_avatarHeight;
 			if (m_iSplitterY < m_minEditBoxSize.cy) {
 				m_iSplitterY = m_minEditBoxSize.cy;
 				Resize();
