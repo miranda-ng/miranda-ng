@@ -68,7 +68,7 @@ VoiceCall::VoiceCall(VoiceProvider *module, const char *id)	:
 	m_calltimer.OnEvent = Callback(this, &VoiceCall::OnCallTimer);
 
 	CreateDisplayName();
-	Show();
+	Show(SW_SHOWNOACTIVATE);
 }
 
 VoiceCall::~VoiceCall()
