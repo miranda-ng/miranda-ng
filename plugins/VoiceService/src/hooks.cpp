@@ -82,7 +82,7 @@ public:
 		if (number == NULL)
 			this->number[0] = 0;
 		else
-			lstrcpyn(this->number, number, _countof(this->number));
+			wcsncpy_s(this->number, number, _TRUNCATE);
 	}
 
 	void Call()
@@ -142,7 +142,7 @@ static void BuildCallingMethodsList(OBJLIST<CallingMethod> *list, MCONTACT hCont
 
 	for (int i = 0; ; i++) {
 		char tmp[128];
-		mir_snprintf(tmp, _countof(tmp), "MyPhone%d", i);
+		mir_snprintf(tmp, "MyPhone%d", i);
 
 		CMStringW number(db_get_wsm(hContact, "UserInfo", tmp));
 		if (!number.IsEmpty())
@@ -203,7 +203,7 @@ static int AccListChanged(WPARAM wParam, LPARAM lParam)
 
 	case PRAC_CHANGED:
 		if (provider != NULL)
-			lstrcpyn(provider->description, acc->tszAccountName, _countof(provider->description));
+			wcsncpy_s(provider->description, acc->tszAccountName, _TRUNCATE);
 		break;
 
 	case PRAC_CHECKED:
@@ -277,10 +277,10 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 
 			wchar_t name[128];
 			if (!IsEmptyW(method->number))
-				mir_snwprintf(name, _countof(name), TranslateT("Call %s with %s"),
+				mir_snwprintf(name, TranslateT("Call %s with %s"),
 				method->number, method->provider->description);
 			else
-				mir_snwprintf(name, _countof(name), TranslateT("Call with %s"),
+				mir_snwprintf(name, TranslateT("Call with %s"),
 				method->provider->description);
 
 			Menu_ModifyItem(hCMCall, name);
@@ -297,14 +297,14 @@ static int PreBuildContactMenu(WPARAM wParam, LPARAM)
 
 				wchar_t name[128];
 				if (!IsEmptyW(method->number))
-					mir_snwprintf(name, _countof(name), TranslateT("%s with %s"),
+					mir_snwprintf(name, TranslateT("%s with %s"),
 					method->number, method->provider->description);
 				else
-					mir_snwprintf(name, _countof(name), TranslateT("with %s"),
+					mir_snwprintf(name, TranslateT("with %s"),
 					method->provider->description);
 
 				char service[128];
-				mir_snprintf(service, _countof(service), "VoiceService/ContactMenu/Call_%d", i);
+				mir_snprintf(service, "VoiceService/ContactMenu/Call_%d", i);
 
 				if (i == hCMCalls.size()) {
 					CreateServiceFunctionParam(service, Service_CallItem, i);

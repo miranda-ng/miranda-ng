@@ -80,12 +80,12 @@ void ShowPopupEx(MCONTACT hContact, const wchar_t *title, const wchar_t *descrip
 	ppd.lchIcon = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(174), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 
 	if (title != NULL)
-		lstrcpyn(ppd.lpwzContactName, title, _countof(ppd.lpwzContactName));
+		wcsncpy_s(ppd.lpwzContactName, title, _TRUNCATE);
 	else if (hContact != NULL)
-		lstrcpyn(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact, 0), _countof(ppd.lpwzContactName));
+		wcsncpy_s(ppd.lpwzContactName, Clist_GetContactDisplayName(hContact, 0), _TRUNCATE);
 
 	if (description != NULL)
-		lstrcpyn(ppd.lpwzText, description, _countof(ppd.lpwzText));
+		wcsncpy_s(ppd.lpwzText, description, _TRUNCATE);
 
 	if (type == POPUP_TYPE_NORMAL || type == POPUP_TYPE_TEST) {
 		if (op->popup_use_default_colors) {

@@ -68,7 +68,7 @@ VoiceCall::VoiceCall(VoiceProvider *module, const char *id)	:
 	m_calltimer.OnEvent = Callback(this, &VoiceCall::OnCallTimer);
 
 	CreateDisplayName();
-	Show(SW_SHOWNOACTIVATE);
+	Show(SW_SHOWNORMAL);
 }
 
 VoiceCall::~VoiceCall()
@@ -124,8 +124,8 @@ void VoiceCall::OnCallTimer(CTimer *)
 	int mins = m_nsec / 60;
 	int hours = m_nsec / 3600;
 	if (hours)
-		mir_snwprintf(hrs, _countof(hrs), L"%d:", hours);
-	mir_snwprintf(text, _countof(text), L"%s%d:%02d", hrs, (mins) % 60, m_nsec % 60);
+		mir_snwprintf(hrs, L"%d:", hours);
+	mir_snwprintf(text, L"%s%d:%02d", hrs, (mins) % 60, m_nsec % 60);
 	m_lblStatus.SetText(text);
 }
 
@@ -143,12 +143,12 @@ void VoiceCall::AppendCallerID(MCONTACT aHContact, const wchar_t *aName, const w
 	}
 
 	if (!IsEmptyW(aName)) {
-		lstrcpyn(name, aName, _countof(name));
+		wcsncpy_s(name, aName, _TRUNCATE);
 		changed = true;
 	}
 
 	if (!IsEmptyW(aNumber)) {
-		lstrcpyn(number, aNumber, _countof(number));
+		wcsncpy_s(number, aNumber, _TRUNCATE);
 		changed = true;
 	}
 
@@ -272,7 +272,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool /*clist*/)
 {
 	if (popup) {
 		wchar_t text[512];
-		mir_snwprintf(text, _countof(text), TranslateW(stateTexts[state]), displayName);
+		mir_snwprintf(text, TranslateW(stateTexts[state]), displayName);
 
 		ShowPopup(NULL, TranslateW(popupTitles[state]), text);
 	}

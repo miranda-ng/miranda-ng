@@ -77,17 +77,15 @@ static int VoiceState(WPARAM wParam, LPARAM)
 VoiceProvider::VoiceProvider(const char *name, const wchar_t *description, int flags, HANDLE pIcon) :
 	hIcolib(pIcon)
 {
-	strncpy(this->name, name, _countof(this->name));
-	this->name[_countof(this->name) - 1] = 0;
-
-	lstrcpyn(this->description, description, _countof(this->description));
+	strncpy_s(this->name, name, _TRUNCATE);
+	wcsncpy_s(this->description, description, _TRUNCATE);
 
 	this->flags = flags;
 	is_protocol = IsProtocol(name);
 	canHold = (ProtoServiceExists(name, PS_VOICE_HOLDCALL) != 0);
 
 	char str[MAXMODULELABELLENGTH];
-	mir_snprintf(str, _countof(str), "%s%s", name, PE_VOICE_CALL_STATE);
+	mir_snprintf(str, "%s%s", name, PE_VOICE_CALL_STATE);
 	state_hook = HookEvent(str, VoiceState);
 }
 

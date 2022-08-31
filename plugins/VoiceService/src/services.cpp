@@ -36,15 +36,15 @@ static INT_PTR CALLBACK DlgProcNewCall(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			VoiceCall *currentCall = GetTalkingCall();
 			if (currentCall == NULL) {
-				mir_snwprintf(text, _countof(text), TranslateT("%s wants to start a voice call with you. What you want to do?"),
+				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?"),
 					call->displayName);
 			}
 			else if (currentCall->CanHold()) {
-				mir_snwprintf(text, _countof(text), TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold."),
+				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold."),
 					call->displayName);
 			}
 			else {
-				mir_snwprintf(text, _countof(text), TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped."),
+				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped."),
 					call->displayName);
 			}
 
