@@ -168,21 +168,21 @@ void VoiceCall::CreateDisplayName()
 
 	if (contact != NULL) {
 		if (!IsEmptyW(number))
-			mir_snwprintf(displayName, _countof(displayName), _T("%s <%s>"), contact, number);
+			mir_snwprintf(displayName, _T("%s <%s>"), contact, number);
 		else
-			lstrcpyn(displayName, contact, _countof(displayName));
+			wcsncpy_s(displayName, contact, _TRUNCATE);
 	}
 	else if (!IsEmptyW(nameTmp) && !IsEmptyW(number)) {
-		mir_snwprintf(displayName, _countof(displayName), _T("%s <%s>"), name, number);
+		mir_snwprintf(displayName, _T("%s <%s>"), name, number);
 	}
 	else if (!IsEmptyW(nameTmp)) {
-		lstrcpyn(displayName, name, _countof(displayName));
+		wcsncpy_s(displayName, name, _TRUNCATE);
 	}
 	else if (!IsEmptyW(number)) {
-		lstrcpyn(displayName, number, _countof(displayName));
+		wcsncpy_s(displayName, number, _TRUNCATE);
 	}
 	else {
-		lstrcpyn(displayName, TranslateT("Unknown number"), _countof(displayName));
+		wcsncpy_s(displayName, TranslateT("Unknown number"), _TRUNCATE);
 	}
 
 	if (contact)
@@ -221,37 +221,37 @@ void VoiceCall::SetState(int aState)
 		break;
 	case VOICE_STATE_RINGING:
 		incoming = true;
-		SetCaption(L"Incoming call");
+		SetCaption(TranslateT("Incoming call"));
 		m_btnAnswer.Enable(true);
-		m_lblStatus.SetText(L"Ringing");
+		m_lblStatus.SetText(TranslateT("Ringing"));
 		SetWindowPos(GetHwnd(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		SetWindowPos(GetHwnd(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 		break;
 	case VOICE_STATE_CALLING:
 		incoming = false;
-		SetCaption(L"Outgoing call");
-		m_lblStatus.SetText(L"Calling");
+		SetCaption(TranslateT("Outgoing call"));
+		m_lblStatus.SetText(TranslateT("Calling"));
 		m_btnAnswer.Enable(false);
 		break;
 	case VOICE_STATE_ON_HOLD:
-		m_lblStatus.SetText(L"Holded");
+		m_lblStatus.SetText(TranslateT("Holded"));
 		m_btnAnswer.Enable(true);
-		m_btnAnswer.SetText(L"Unhold");
+		m_btnAnswer.SetText(TranslateT("Unhold"));
 		break;
 	case VOICE_STATE_ENDED:
 		m_calltimer.Stop();
-		mir_snwprintf(text, _countof(text), L"Call ended %s", m_lblStatus.GetText());
+		mir_snwprintf(text, _countof(text), TranslateT("Call ended %s"), m_lblStatus.GetText());
 		m_lblStatus.SetText(text);
 		m_btnAnswer.Enable(false);
-		m_btnDrop.SetText(L"Close");
+		m_btnDrop.SetText(TranslateT("Close"));
 		break;
 	case VOICE_STATE_BUSY:
-		m_lblStatus.SetText(L"Busy");
+		m_lblStatus.SetText(TranslateT("Busy"));
 		m_btnAnswer.Enable(false);
-		m_btnDrop.SetText(L"Close");
+		m_btnDrop.SetText(TranslateT("Close"));
 		break;
 	default:
-		m_lblStatus.SetText(L"Unknown state");
+		m_lblStatus.SetText(TranslateT("Unknown state"));
 		break;
 	}
 
