@@ -212,7 +212,6 @@ void VoiceCall::SetState(int aState)
 
 	RemoveNotifications();
 
-	wchar_t text[512];
 	switch (state) {
 	case VOICE_STATE_TALKING:
 		m_calltimer.Start(1000);
@@ -240,8 +239,7 @@ void VoiceCall::SetState(int aState)
 		break;
 	case VOICE_STATE_ENDED:
 		m_calltimer.Stop();
-		mir_snwprintf(text, _countof(text), TranslateT("Call ended %s"), m_lblStatus.GetText());
-		m_lblStatus.SetText(text);
+		m_lblStatus.SetText(TranslateT("Call ended"));
 		m_btnAnswer.Enable(false);
 		m_btnDrop.SetText(TranslateT("Close"));
 		break;
