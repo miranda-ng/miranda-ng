@@ -386,7 +386,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					break;
 
 				case IDC_GETSKINS:
-					Utils_OpenUrl("https://miranda-ng.org/addons/category/13");
+					Utils_OpenUrl("https://miranda-ng.org/tags/popup-plus/");
 					break;
 
 				case IDC_BTN_RELOAD:
@@ -400,7 +400,7 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					}
 					ListBox_SetCurSel(hCtrl, ListBox_FindString(hCtrl, 0, PopupOptions.SkinPack));
 
-					// make shure we have select skin (ListBox_SetCurSel may be fail)
+					// make sure we have select skin (ListBox_SetCurSel may be fail)
 					wchar_t szNewSkin[128];
 					ListBox_GetText(hCtrl, ListBox_GetCurSel(hCtrl), &szNewSkin);
 					if (mir_wstrcmp(pszOldSkin, szNewSkin) != 0) {

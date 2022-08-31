@@ -1837,7 +1837,7 @@ INT_PTR CALLBACK DlgProcOptsSkin(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			else if (LOWORD(wParam) == IDC_CHK_LOADPROPORTIONS)
 				opt.bLoadProportions = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOADPROPORTIONS) ? true : false;
 			else if (LOWORD(wParam) == IDC_BTN_GETSKINS)
-				Utils_OpenUrl("https://miranda-ng.org/addons/category/48");
+				Utils_OpenUrl("https://miranda-ng.org/tags/tipper/");
 
 			break;
 		}

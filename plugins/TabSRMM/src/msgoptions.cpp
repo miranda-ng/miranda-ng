@@ -257,7 +257,7 @@ public:
 	CSkinOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_SKIN),
 		m_timer(this, 1000),
-		m_link1(this, IDC_GETSKINS, "https://miranda-ng.org/addons/category/19"),
+		m_link1(this, IDC_GETSKINS, "https://miranda-ng.org/tags/tabsrmm/"),
 		m_link2(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins"),
 		cmbSkins(this, IDC_SKINNAME),
 		btnClose(this, IDC_SKIN_CLOSENOW),

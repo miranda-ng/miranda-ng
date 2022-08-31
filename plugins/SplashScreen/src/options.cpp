@@ -188,7 +188,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 		case IDC_GETSPLASHES:
-			Utils_OpenUrl("https://miranda-ng.org/addons/category/15");
+			Utils_OpenUrl("https://miranda-ng.org/tags/splash-screens/");
 			break;
 
 		case IDC_CHOOSESND:

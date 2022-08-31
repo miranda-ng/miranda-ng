@@ -570,7 +570,7 @@ static INT_PTR CALLBACK IEViewSRMMOptDlgProc(HWND hwndDlg, UINT msg, WPARAM wPar
 			MarkChanges(2, hwndDlg);
 			break;
 		case IDC_GETTEMPLATES:
-			Utils_OpenUrl("https://miranda-ng.org/addons/category/16");
+			Utils_OpenUrl("https://miranda-ng.org/tags/ieview-templates/");
 			break;
 		}
 		break;

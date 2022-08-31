@@ -158,7 +158,7 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		case IDC_GETSKINS:
 			if (HIWORD(wParam) == BN_CLICKED)
-				Utils_OpenUrl("https://miranda-ng.org/addons/category/17");
+				Utils_OpenUrl("https://miranda-ng.org/tags/modern-contact-list/");
 			break;
 
 

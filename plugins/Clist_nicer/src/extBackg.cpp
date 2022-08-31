@@ -1571,7 +1571,7 @@ static INT_PTR CALLBACK DlgProcSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 
 		case IDC_GETSKINS:
 			if (HIWORD(wParam) == BN_CLICKED)
-				Utils_OpenUrl("https://miranda-ng.org/addons/category/18");
+				Utils_OpenUrl("https://miranda-ng.org/tags/nicer-contact-list/");
 			break;
 
 		case IDC_SELECTSKINFILE:
