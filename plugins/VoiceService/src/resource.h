@@ -74,19 +74,17 @@
 #define ID_FRAMEPOPUP_ANSWERCALL        40001
 #define ID_FRAMEPOPUP_DROPCALL          40002
 #define ID_FRAMEPOPUP_HOLDCALL          40003
-
-#define IDD_VOICECALL                           40099
-#define IDC_STATUS                                40100
-#define IDC_MUTE                                  40101
-#define IDC_GGG                                   40102
-#define IDC_VIDEO                                 40103
-#define IDC_DESCR                                 40104
-#define IDC_ENCRYPTED                             40105
-#define IDC_AVATAR                                40106
-#define IDC_DROP                                  40107
-#define IDC_ANSWER                                40108
-#define IDC_ADDRESS                               40109
-
+#define IDD_VOICECALL                   40099
+#define IDC_STATUS                      40100
+#define IDC_MUTE                        40101
+#define IDC_GGG                         40102
+#define IDC_VIDEO                       40103
+#define IDC_DESCR                       40104
+#define IDC_ENCRYPTED                   40105
+#define IDC_AVATAR                      40106
+#define IDC_DROP                        40107
+#define IDC_ANSWER                      40108
+#define IDC_ADDRESS                     40109
 
 // Next default values for new objects
 // 
