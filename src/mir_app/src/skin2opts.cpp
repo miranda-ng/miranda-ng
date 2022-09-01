@@ -531,7 +531,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_ICOLIB),
 		m_preview(this, IDC_PREVIEW),
 		m_btnImport(this, IDC_IMPORT),
-		m_urlGetMore(this, IDC_GETMORE, "https://miranda-ng.org/"),
+		m_urlGetMore(this, IDC_GETMORE, "https://miranda-ng.org/tags/icons"),
 		m_btnLoadIcons(this, IDC_LOADICONS),
 		m_categoryList(this, IDC_CATEGORYLIST)
 	{
