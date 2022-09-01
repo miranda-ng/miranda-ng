@@ -214,6 +214,11 @@ void strm_mgmt::ResetState()
 	m_sStrmMgmtResumeId.clear();
 }
 
+void strm_mgmt::HandleConnectionLost()
+{
+	m_bStrmMgmtEnabled = false;
+}
+
 bool strm_mgmt::HandleIncommingNode(const TiXmlElement *node)
 {
 	if (!m_bStrmMgmtEnabled)

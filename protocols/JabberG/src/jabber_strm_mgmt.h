@@ -49,6 +49,7 @@ public:
 	void EnableStrmMgmt();
 	void HandleOutgoingNode(TiXmlElement *node);
 	bool HandleIncommingNode(const TiXmlElement *node);
+	void HandleConnectionLost();
 	void OnProcessEnabled(const TiXmlElement *node, ThreadData *info);
 	void OnProcessResumed(const TiXmlElement *node, ThreadData *info);
 	void OnProcessFailed(const TiXmlElement *node, ThreadData * info);

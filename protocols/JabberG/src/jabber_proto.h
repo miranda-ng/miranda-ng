@@ -814,6 +814,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       m_isSessionAvailable, m_isAuthAvailable;
 	
 	void       __cdecl ServerThread(JABBER_CONN_DATA *info);
+	bool       ServerThreadStub(ThreadData &info);
 		        
 	void       OnProcessFailure(const TiXmlElement *node, ThreadData *info);
 	void       OnProcessFailed(const TiXmlElement *node, ThreadData *info);

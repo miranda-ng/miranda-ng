@@ -234,11 +234,18 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 
 void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 {
-	ThreadData info(this, pParam);
-	ptrA tszValue;
-
-	debugLogA("Thread started: type=%d", info.bIsReg);
 	Thread_SetName("Jabber: ServerThread");
+
+	do {
+		ThreadData info(this, pParam);
+		if (!ServerThreadStub(info))
+			return;
+	} while (true);
+}
+
+bool CJabberProto::ServerThreadStub(ThreadData &info)
+{
+	debugLogA("Thread started: type=%d", info.bIsReg);
 
 	if (m_bManualConnect == TRUE) {
 		ptrA szManualHost(getStringA("ManualHost"));
@@ -256,13 +263,15 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 		// e.g. username, password, etc. from the database.
 		if (m_ThreadInfo != nullptr) {
 			debugLogA("Thread ended, another normal thread is running");
-			return;
+			return true;
 		}
 
 		m_ThreadInfo = &info;
 
-		if ((tszValue = getUStringA("LoginName")) != nullptr)
-			strncpy_s(info.conn.username, tszValue, _TRUNCATE);
+		if (char *pszValue = getUStringA("LoginName")) {
+			strncpy_s(info.conn.username, pszValue, _TRUNCATE);
+			mir_free(pszValue);
+		}
 
 		if (*rtrim(info.conn.username) == '\0') {
 			DWORD dwSize = _countof(info.conn.username);
@@ -281,7 +290,7 @@ LBL_FatalError:
 			int oldStatus = m_iStatus;
 			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-			return;
+			return true;
 		}
 
 		ptrA szValue(getStringA("LoginServer"));
@@ -299,7 +308,8 @@ LBL_FatalError:
 				strncpy_s(info.resource, "Miranda", _TRUNCATE);
 		}
 		else {
-			if ((tszValue = getUStringA("Resource")) != nullptr)
+			ptrA tszValue(getUStringA("Resource"));
+			if (tszValue != nullptr)
 				strncpy_s(info.resource, tszValue, _TRUNCATE);
 			else
 				mir_strcpy(info.resource, "Miranda");
@@ -356,7 +366,7 @@ LBL_FatalError:
 	}
 
 	int jabberNetworkBufferSize = 2048;
-	if ((info.buffer = (char*)mir_alloc(jabberNetworkBufferSize + 1)) == nullptr) {	// +1 is for '\0' when debug logging this buffer
+	if ((info.buffer = (char *)mir_alloc(jabberNetworkBufferSize + 1)) == nullptr) {	// +1 is for '\0' when debug logging this buffer
 		debugLogA("Cannot allocate network buffer, thread ended");
 		if (info.bIsReg)
 			info.conn.SetProgress(100, TranslateT("Error: Not enough memory"));
@@ -439,7 +449,7 @@ recvRest:
 				if (p) {
 					char *q = strchr(p + 15, '>');
 					if (q) {
-						CMStringA tmp(info.buffer, int(q - info.buffer)+1);
+						CMStringA tmp(info.buffer, int(q - info.buffer) + 1);
 						tmp.Append("</stream:stream>");
 
 						if (0 == root.Parse(tmp)) {
@@ -451,7 +461,7 @@ recvRest:
 					}
 				}
 			}
-			
+
 			if (bytesParsed == 0) {
 				if (0 == root.Parse(info.buffer)) {
 					for (auto *n : TiXmlEnum(&root))
@@ -471,7 +481,7 @@ recvRest:
 				//jabberNetworkBufferSize += 65536;
 				jabberNetworkBufferSize *= 2;
 				debugLogA("Increasing network buffer size to %d", jabberNetworkBufferSize);
-				if ((info.buffer = (char*)mir_realloc(info.buffer, jabberNetworkBufferSize + 1)) == nullptr) {
+				if ((info.buffer = (char *)mir_realloc(info.buffer, jabberNetworkBufferSize + 1)) == nullptr) {
 					debugLogA("Cannot reallocate more network buffer, go offline now");
 					break;
 				}
@@ -487,13 +497,23 @@ recvRest:
 
 		if (!info.bIsReg) {
 			m_impl.m_keepAlive.Stop();
-			m_iqManager.ExpireAll();
 			m_bJabberOnline = false;
 			info.zlibUninit();
 			EnableMenuItems(false);
 			if (m_hwndJabberChangePassword)
 				// Since this is a different thread, simulate the click on the cancel button instead
 				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
+
+			if (m_StrmMgmt.IsResumeIdPresent()) {
+				m_StrmMgmt.HandleConnectionLost();
+				int oldStatus = m_iStatus;
+				m_iStatus = ID_STATUS_CONNECTING;
+				ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+				return false;
+			}
+
+			m_iqManager.ExpireAll();
+			m_StrmMgmt.ResetState(); // fully reset strm_mgmt state
 
 			// Quit all chatrooms (will send quit message)
 			LISTFOREACH(i, this, LIST_CHATROOM)
@@ -513,11 +533,8 @@ recvRest:
 
 			// Set all contacts to offline
 			debugLogA("leaving worker thread");
-			if (!m_StrmMgmt.IsResumeIdPresent()) {
-				m_StrmMgmt.ResetState(); // fully reset strm_mgmt state
-				for (auto &hContact : AccContacts())
-					SetContactOfflineStatus(hContact);
-			}
+			for (auto &hContact : AccContacts())
+				SetContactOfflineStatus(hContact);
 
 			mir_free(m_szJabberJID);
 			m_szJabberJID = nullptr;
@@ -542,6 +559,7 @@ recvRest:
 
 	info.close();
 	debugLogA("Exiting ServerThread");
+	return true;
 }
 
 void CJabberProto::PerformRegistration(ThreadData *info)
@@ -2127,10 +2145,12 @@ int ThreadData::send(TiXmlElement *node)
 		node = parent->ToElement();
 	}
 
-	if (proto->m_bEnableStreamMgmt)
+	int res = send_no_strm_mgmt(node);
+
+	if (res > 0 && proto->m_bEnableStreamMgmt)
 		proto->m_StrmMgmt.HandleOutgoingNode(node); //TODO: is this a correct place ?, looks like some nodes does not goes here...
 
-	return send_no_strm_mgmt(node);
+	return res;
 }
 
 // this function required for send <r/>, <a/> and more important, for resend stuck nodes by strm_mgmt (xep-0198)
