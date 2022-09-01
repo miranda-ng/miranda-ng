@@ -37,7 +37,7 @@
 [Preview...]
 Просмотр...
 [Download more splash screens]
-Скачать всплывающие окна
+Скачать заставки
 ;file \plugins\SplashScreen\src\options.cpp
 [Graphic files]
 Графические файлы
