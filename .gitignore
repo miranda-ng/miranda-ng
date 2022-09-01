@@ -4,6 +4,7 @@ Debug64/
 Release/
 Release64/
 ipch/
+.idea/
 .vs/
 *.VC.db
 *.VC.VC.opendb
