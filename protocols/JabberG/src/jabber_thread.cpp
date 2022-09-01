@@ -238,7 +238,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 
 	do {
 		ThreadData info(this, pParam);
-		if (!ServerThreadStub(info))
+		if (ServerThreadStub(info))
 			return;
 	} while (true);
 }
