@@ -43,7 +43,10 @@ static OptPageControl popupsControls[] = {
 	{ NULL,                           CONTROL_RADIO,     IDC_DELAYPERMANENT, "PopupsDelayType", POPUP_DELAY_DEFAULT, POPUP_DELAY_PERMANENT },
 	{ &opts.popup_timeout,            CONTROL_SPIN,      IDC_DELAY,          "PopupsTimeout", 10, IDC_DELAY_SPIN, (WORD)1, (WORD)255 },
 	{ &opts.popup_right_click_action, CONTROL_COMBO,     IDC_RIGHT_ACTION,   "PopupsRightClick", POPUP_ACTION_CLOSEPOPUP },
-	{ &opts.popup_left_click_action,  CONTROL_COMBO,     IDC_LEFT_ACTION,    "PopupsLeftClick", POPUP_ACTION_CLOSEPOPUP }
+	{ &opts.popup_left_click_action,  CONTROL_COMBO,     IDC_LEFT_ACTION,    "PopupsLeftClick", POPUP_ACTION_CLOSEPOPUP },
+	
+	{ &opts.opt_bImmDialog, CONTROL_CHECKBOX,     IDC_IMMDIALOG,   "PopupsRightClick", FALSE },
+	{ &opts.opt_bImmDialogFocus,  CONTROL_CHECKBOX,     IDC_IMMDIALOG_FOCUS,    "PopupsLeftClick", FALSE }
 };
 
 static void PopupsEnableDisableCtrls(HWND hwndDlg)

@@ -71,6 +71,8 @@
 #define IDC_LIST                        1079
 #define IDC_ANSWERBTN                   1204
 #define IDC_DROPBTN                     1205
+#define IDC_IMMDIALOG					1206
+#define IDC_IMMDIALOG_FOCUS				1207
 #define ID_FRAMEPOPUP_ANSWERCALL        40001
 #define ID_FRAMEPOPUP_DROPCALL          40002
 #define ID_FRAMEPOPUP_HOLDCALL          40003

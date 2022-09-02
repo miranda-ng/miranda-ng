@@ -26,6 +26,7 @@ static wchar_t *popupTitles[] = {
 	LPGENW("Voice call on hold"),
 	LPGENW("Voice call ended"),
 	LPGENW("Voice call busy"),
+	LPGENW("Voice call ready"),
 };
 
 static wchar_t *stateTexts[] = {
@@ -35,6 +36,7 @@ static wchar_t *stateTexts[] = {
 	LPGENW("Call from %s is on hold"),
 	LPGENW("Call from %s has ended"),
 	LPGENW("%s is busy"),
+	LPGENW("Ready to call %s"),
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -68,7 +70,7 @@ VoiceCall::VoiceCall(VoiceProvider *module, const char *id)	:
 	m_calltimer.OnEvent = Callback(this, &VoiceCall::OnCallTimer);
 
 	CreateDisplayName();
-	Show(SW_SHOWNORMAL);
+	Create();
 }
 
 VoiceCall::~VoiceCall()
@@ -114,6 +116,8 @@ void VoiceCall::OnCommand_Drop(CCtrlButton *)
 		Close();
 	else
 		Drop();
+	if (state == VOICE_STATE_READY)
+		Close();
 }
 
 void VoiceCall::OnCallTimer(CTimer *)
@@ -197,11 +201,11 @@ void VoiceCall::RemoveNotifications()
 		DestroyWindow(hwnd);
 		hwnd = NULL;
 	}
-/*
+
 	if (clistBlinking) {
-		g_clistApi.pfnRemoveEvent(hContact, MEVENT(0xBABABEDA));
+		g_clistApi.pfnRemoveEvent(hContact, MEVENT(1001));
 		clistBlinking = false;
-	}*/
+	}
 }
 
 void VoiceCall::SetState(int aState)
@@ -223,8 +227,11 @@ void VoiceCall::SetState(int aState)
 		SetCaption(TranslateT("Incoming call"));
 		m_btnAnswer.Enable(true);
 		m_lblStatus.SetText(TranslateT("Ringing"));
-		SetWindowPos(GetHwnd(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-		SetWindowPos(GetHwnd(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+		if(opts.opt_bImmDialog) {
+			Show(opts.opt_bImmDialogFocus ? SW_SHOWNORMAL : SW_SHOWNOACTIVATE);
+			SetWindowPos(GetHwnd(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(GetHwnd(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+		}
 		break;
 	case VOICE_STATE_CALLING:
 		incoming = false;
@@ -248,6 +255,13 @@ void VoiceCall::SetState(int aState)
 		m_btnAnswer.Enable(false);
 		m_btnDrop.SetText(TranslateT("Close"));
 		break;
+	case VOICE_STATE_READY:
+		m_lblStatus.SetText(TranslateT("Ready"));
+		m_btnAnswer.Enable(true);
+		m_btnAnswer.SetText(TranslateT("Call"));
+		m_btnDrop.SetText(TranslateT("Close"));
+		Show();
+		break;
 	default:
 		m_lblStatus.SetText(TranslateT("Unknown state"));
 		break;
@@ -268,8 +282,16 @@ void VoiceCall::SetState(int aState)
 	Notify();
 }
 
-void VoiceCall::Notify(bool popup, bool sound, bool /*clist*/)
+void VoiceCall::SetStatus(const wchar_t *text)
 {
+	m_lblStatus.SetText(text);
+}
+
+void VoiceCall::Notify(bool popup, bool sound, bool clist)
+{
+	if(opts.opt_bImmDialog)
+		return;
+	
 	if (popup) {
 		wchar_t text[512];
 		mir_snwprintf(text, TranslateW(stateTexts[state]), displayName);
@@ -279,7 +301,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool /*clist*/)
 
 	if (sound)
 		Skin_PlaySound(g_sounds[state].szName);
-/*
+
 	if (clist && state == VOICE_STATE_RINGING) {
 		CLISTEVENT ce = {};
 		ce.hContact = hContact;
@@ -292,7 +314,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool /*clist*/)
 		IcoLib_ReleaseIcon(ce.hIcon);
 
 		clistBlinking = true;
-	}*/
+	}
 }
 
 bool VoiceCall::IsFinished()
@@ -317,7 +339,7 @@ void VoiceCall::Drop()
 
 bool VoiceCall::CanAnswer()
 {
-	return state == -1 || state == VOICE_STATE_RINGING || state == VOICE_STATE_ON_HOLD;
+	return state == -1 || state == VOICE_STATE_RINGING || state == VOICE_STATE_ON_HOLD || state == VOICE_STATE_READY;
 }
 
 void VoiceCall::Answer()

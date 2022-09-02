@@ -25,13 +25,14 @@ static IconItem mainIcons[] = {
 	{ LPGEN("Secure"),   "secure",  IDI_SECURE  },
 };
 
-static IconItem stateIcons[] = {
+static IconItem stateIcons[NUM_STATES] = {
 	{ LPGEN("Talking"),  "talking", IDI_TALKING },
 	{ LPGEN("Ringing"),  "ringing", IDI_RINGING },
 	{ LPGEN("Calling"),  "calling", IDI_CALLING },
 	{ LPGEN("On Hold"),  "onhold",  IDI_ON_HOLD },
 	{ LPGEN("Ended"),    "ended",   IDI_ENDED   },
 	{ LPGEN("Busy"),     "busy", 	  IDI_BUSY    },
+	{ LPGEN("Ready"),     "ready", 	  IDI_BUSY    },
 };
 
 static IconItem actionIcons[] = {
@@ -48,6 +49,7 @@ SoundDescr g_sounds[NUM_STATES] = {
 	{ "voice_holded",  LPGENW("Put a call on Hold") },
 	{ "voice_ended",   LPGENW("End of call") },
 	{ "voice_busy",    LPGENW("Busy signal") },
+	{ "voice_ready",   LPGENW("Ready") },
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

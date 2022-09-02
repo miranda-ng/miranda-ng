@@ -21,91 +21,12 @@ Boston, MA 02111-1307, USA.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CALLBACK DlgProcNewCall(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	VoiceCall *call = (VoiceCall *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
-		{
-			call = (VoiceCall *)lParam;
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-
-			wchar_t text[1024];
-
-			VoiceCall *currentCall = GetTalkingCall();
-			if (currentCall == NULL) {
-				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?"),
-					call->displayName);
-			}
-			else if (currentCall->CanHold()) {
-				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold."),
-					call->displayName);
-			}
-			else {
-				mir_snwprintf(text, TranslateT("%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped."),
-					call->displayName);
-			}
-
-			SendMessage(GetDlgItem(hwndDlg, IDC_TEXT), WM_SETTEXT, 0, (LPARAM)text);
-
-			HICON hIcon = g_plugin.getIcon(IDI_RINGING);
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-			IcoLib_ReleaseIcon(hIcon);
-
-			if (call->hContact == NULL)
-				ShowWindow(GetDlgItem(hwndDlg, IDC_AUTO), SW_HIDE);
-		}
-		return TRUE;
-
-	case WM_COMMAND:
-		switch (wParam) {
-		case ID_ANSWER:
-			if (call->hContact != NULL && IsDlgButtonChecked(hwndDlg, IDC_AUTO))
-				g_plugin.setWord(call->hContact, "AutoAccept", AUTO_ACCEPT);
-
-			Answer(call);
-
-			DestroyWindow(hwndDlg);
-			break;
-
-		case ID_DROP:
-			if (call->hContact != NULL && IsDlgButtonChecked(hwndDlg, IDC_AUTO))
-				g_plugin.setWord(call->hContact, "AutoAccept", AUTO_DROP);
-
-			call->Drop();
-
-			DestroyWindow(hwndDlg);
-			break;
-		}
-		break;
-
-	case WM_CLOSE:
-		call->Notify(false, false, true);
-		DestroyWindow(hwndDlg);
-		break;
-
-	case WM_DESTROY:
-		call->SetNewCallHWND(NULL);
-		break;
-	}
-
-	return FALSE;
-}
-
 static INT_PTR CListDblClick(WPARAM, LPARAM lParam)
 {
-	return 0;
 	CLISTEVENT *ce = (CLISTEVENT *)lParam;
 
-	VoiceCall *call = (VoiceCall *)ce->lParam;
-
-	HWND hwnd = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_NEW_CALL), NULL, DlgProcNewCall, (LPARAM)call);
-
-	ShowWindow(hwnd, SW_SHOWNORMAL);
-
-	call->SetNewCallHWND(hwnd);
+	auto *call = (VoiceCall *)ce->lParam;
+	call->Show(SW_SHOWNORMAL);
 	return 0;
 }
 

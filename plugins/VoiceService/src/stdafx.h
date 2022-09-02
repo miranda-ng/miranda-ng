@@ -81,7 +81,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 #define ACTION_HOLD 2
 #define ACTION_DROP 3
 
-#define NUM_STATES 6
+#define NUM_STATES 7
 
 #define AUTO_NOTHING 0
 #define AUTO_ACCEPT 1
@@ -115,7 +115,7 @@ private:
 	HANDLE state_hook;
 };
 
-class VoiceCall : CDlgBase
+class VoiceCall : public CDlgBase
 {
 public:
 	VoiceProvider *module;
@@ -135,6 +135,7 @@ public:
 	void AppendCallerID(MCONTACT hContact, const wchar_t *name, const wchar_t *number);
 
 	void SetState(int state);
+	void SetStatus(const wchar_t *text);
 
 	void Drop();
 	void Answer();

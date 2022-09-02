@@ -498,7 +498,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	m_voipSession = ptrA(mir_base64_encode(tmp, sizeof(tmp)));
 	m_voipPeerJid = jid.c_str();
 
-	VOIPCreatePipeline();
+	
 
 	return true;
 }
@@ -528,9 +528,8 @@ INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
 		vc.cbSize = sizeof(VOICE_CALL);
 		vc.moduleName = m_szModuleName;
 		vc.id = m_voipSession;                // Protocol especific ID for this call
-		vc.flags = 0;
 		vc.hContact = hContact;       // Contact associated with the call (can be NULL)
-		vc.state = VOICE_STATE_CALLING;
+		vc.state = VOICE_STATE_READY;
 		vc.szNumber.a = m_voipPeerJid;
 		NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 	}
@@ -540,15 +539,24 @@ INT_PTR CJabberProto::JabberVOIP_call(WPARAM hContact, LPARAM)
 
 INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM id, LPARAM)
 {
+	if(strcmp((const char *)id, m_voipSession))
+		return 0;
+
 	VOICE_CALL vc = {};
 	vc.cbSize = sizeof(VOICE_CALL);
 	vc.moduleName = m_szModuleName;
-	vc.id = (char *)id;
-	vc.flags = 0;
-	vc.hContact = HContactFromJID(m_voipPeerJid);
-
-	vc.state = VOIPCallAccept(m_offerNode, m_voipPeerJid) ? VOICE_STATE_TALKING : VOICE_STATE_ENDED;
+	vc.hContact = HContactFromJID(m_voipPeerJid);// Contact associated with the call (can be NULL)
 	vc.szNumber.a = m_voipPeerJid;
+
+	if (m_isOutgoing) {
+		VOIPCreatePipeline();
+		vc.id = m_voipSession;                // Protocol especific ID for this call
+		vc.state = VOICE_STATE_CALLING;
+	}
+	else {
+		vc.id = (char *)id;
+		vc.state = VOIPCallAccept(m_offerNode, m_voipPeerJid) ? VOICE_STATE_TALKING : VOICE_STATE_ENDED;
+	}
 	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 	return 0;
 }
@@ -559,8 +567,6 @@ INT_PTR CJabberProto::JabberVOIP_dropcall(WPARAM id, LPARAM)
 	vc.cbSize = sizeof(VOICE_CALL);
 	vc.moduleName = m_szModuleName;
 	vc.id = (char*)id;
-	vc.flags = 0;
-	vc.hContact = 0;//HContactFromJID(from);
 	vc.state = VOICE_STATE_ENDED;
 	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 

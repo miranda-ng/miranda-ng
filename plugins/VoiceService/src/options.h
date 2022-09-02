@@ -43,6 +43,9 @@ struct Options {
 	COLORREF popup_text_color;
 	WORD popup_left_click_action;
 	WORD popup_right_click_action;
+	
+	bool opt_bImmDialog;
+	bool opt_bImmDialogFocus;
 };
 
 extern Options opts;

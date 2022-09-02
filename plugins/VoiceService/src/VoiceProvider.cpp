@@ -45,6 +45,11 @@ static int VoiceState(WPARAM wParam, LPARAM)
 	VoiceCall *call = FindVoiceCall(in->moduleName, in->id, !IsFinalState(in->state));
 	if (call == NULL)
 		return 0;
+	
+	if(in->state == VOICE_STATE_SETSTATUS) {
+		call->SetStatus(in->szStatus);
+		return 0;
+	}
 
 	call->AppendCallerID(in->hContact,
 		(in->flags & VOICE_UNICODE) ? in->szName.w : _A2T(in->szName.a),

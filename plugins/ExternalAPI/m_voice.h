@@ -46,6 +46,8 @@ return: VOICE_CAPS_*
 #define VOICE_STATE_ON_HOLD 3
 #define VOICE_STATE_ENDED   4
 #define VOICE_STATE_BUSY    5
+#define VOICE_STATE_READY	6
+#define VOICE_STATE_SETSTATUS	7
 
 struct VOICE_CALL
 {
@@ -63,6 +65,7 @@ struct VOICE_CALL
 		                      // where no contact is associated and the caller has a name and a number.
 
 	int state;               // VOICE_STATE_*
+	const wchar_t *szStatus;
 };
 
 /*
