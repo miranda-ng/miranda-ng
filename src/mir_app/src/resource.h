@@ -438,7 +438,6 @@
 #define IDC_TINYEXTENDEDGROUP           1406
 #define IDC_RESETPROTOCOLDATA           1407
 #define IDC_BYCUSTOM                    1408
-#define IDC_PROTOCOLORDERWARNING        1409
 #define IDC_CHK_SUPPRESSSTATUS          1413
 #define IDC_RAD_UID                     1414
 #define IDC_RAD_DID                     1415
@@ -705,7 +704,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        335
+#define _APS_NEXT_RESOURCE_VALUE        336
 #define _APS_NEXT_COMMAND_VALUE         40018
 #define _APS_NEXT_CONTROL_VALUE         1755
 #define _APS_NEXT_SYMED_VALUE           101

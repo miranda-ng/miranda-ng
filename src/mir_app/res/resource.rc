@@ -489,11 +489,10 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CTEXT           "Show accounts in the following order,\ndrag to choose another order:",IDC_STATIC,78,11,150,25
+    CTEXT           "Show accounts in the following order,\ndrag to choose another order:",IDC_STATIC,8,11,298,17
     GROUPBOX        "Account order and visibility",IDC_STATIC,0,0,314,241,0,WS_EX_TRANSPARENT
-    CONTROL         "Tree1",IDC_PROTOCOLORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,78,37,151,153
-    PUSHBUTTON      "Reset",IDC_RESETPROTOCOLDATA,96,193,115,14,BS_NOTIFY
-    CTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_PROTOCOLORDERWARNING,13,216,280,16
+    CONTROL         "Tree1",IDC_PROTOCOLORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,78,32,151,185
+    PUSHBUTTON      "Reset",IDC_RESETPROTOCOLDATA,96,222,115,14,BS_NOTIFY
 END
 
 IDD_OPT_KEYBINDINGS DIALOGEX 0, 0, 316, 251
