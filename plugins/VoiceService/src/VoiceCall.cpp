@@ -19,7 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "stdafx.h"
 
-static wchar_t *popupTitles[] = {
+static wchar_t *popupTexts[] = {
 	LPGENW("Voice call started"),
 	LPGENW("Voice call ringing"),
 	LPGENW("Voice call"),
@@ -29,14 +29,19 @@ static wchar_t *popupTitles[] = {
 	LPGENW("Voice call ready"),
 };
 
-static wchar_t *stateTexts[] = {
-	LPGENW("Call from %s has started"),
-	LPGENW("Call from %s is ringing"),
-	LPGENW("Calling %s"),
-	LPGENW("Call from %s is on hold"),
-	LPGENW("Call from %s has ended"),
-	LPGENW("%s is busy"),
-	LPGENW("Ready to call %s"),
+struct {
+	wchar_t *status;
+	wchar_t *btn1text;
+	wchar_t *btn2text;
+}
+static stateTexts[NUM_STATES] = {
+	{ L"0:00",           L"Hold",   L"Drop"   },
+	{ L"Ringing",        L"Answer", L"Drop"   },
+	{ L"Calling",        nullptr,   L"Drop"   },
+	{ L"Holded",         L"Resume", L"Drop"   },
+	{ nullptr,           nullptr,   L"Close"  },
+	{ L"Callee is busy", nullptr,   L"Close"  },
+	{ L"Ready",          L"Call",   L"Cancel" },
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -53,17 +58,9 @@ VoiceCall::VoiceCall(VoiceProvider *module, const char *id)	:
 	m_lblContactName(this, IDC_DESCR),
 	m_lblAddress(this, IDC_ADDRESS)
 {
-	hContact = NULL;
 	name[0] = 0;
 	number[0] = 0;
 	displayName[0] = 0;
-	state = -1;
-	end_time = 0;
-	clistBlinking = false;
-	incoming = false;
-	secure = false;
-	hwnd = NULL;
-	m_nsec = 0;
 
 	m_btnAnswer.OnClick = Callback(this, &VoiceCall::OnCommand_Answer);
 	m_btnDrop.OnClick = Callback(this, &VoiceCall::OnCommand_Drop);
@@ -77,7 +74,7 @@ VoiceCall::~VoiceCall()
 {
 	RemoveNotifications();
 	mir_free(id);
-	id = NULL;
+	id = 0;
 	DeleteObject(hContactNameFont);
 }
 
@@ -116,8 +113,6 @@ void VoiceCall::OnCommand_Drop(CCtrlButton *)
 		Close();
 	else
 		Drop();
-	if (state == VOICE_STATE_READY)
-		Close();
 }
 
 void VoiceCall::OnCallTimer(CTimer *)
@@ -197,11 +192,6 @@ void VoiceCall::CreateDisplayName()
 
 void VoiceCall::RemoveNotifications()
 {
-	if (hwnd != NULL) {
-		DestroyWindow(hwnd);
-		hwnd = NULL;
-	}
-
 	if (clistBlinking) {
 		g_clistApi.pfnRemoveEvent(hContact, MEVENT(1001));
 		clistBlinking = false;
@@ -219,61 +209,41 @@ void VoiceCall::SetState(int aState)
 	switch (state) {
 	case VOICE_STATE_TALKING:
 		m_calltimer.Start(1000);
-		m_lblStatus.SetText(L"0:00");
-		m_btnAnswer.Enable(false);
 		break;
 	case VOICE_STATE_RINGING:
 		incoming = true;
-		SetCaption(TranslateT("Incoming call"));
-		m_btnAnswer.Enable(true);
-		m_lblStatus.SetText(TranslateT("Ringing"));
 		if(opts.opt_bImmDialog) {
-			Show(opts.opt_bImmDialogFocus ? SW_SHOWNORMAL : SW_SHOWNOACTIVATE);
-			SetWindowPos(GetHwnd(), HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			SetWindowPos(GetHwnd(), HWND_TOPMOST,   0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 			SetWindowPos(GetHwnd(), HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+			Show(opts.opt_bImmDialogFocus ? SW_SHOWNORMAL : SW_SHOWNOACTIVATE);
 		}
 		break;
 	case VOICE_STATE_CALLING:
 		incoming = false;
-		SetCaption(TranslateT("Outgoing call"));
-		m_lblStatus.SetText(TranslateT("Calling"));
-		m_btnAnswer.Enable(false);
-		break;
-	case VOICE_STATE_ON_HOLD:
-		m_lblStatus.SetText(TranslateT("Holded"));
-		m_btnAnswer.Enable(true);
-		m_btnAnswer.SetText(TranslateT("Unhold"));
 		break;
 	case VOICE_STATE_ENDED:
 		m_calltimer.Stop();
-		m_lblStatus.SetText(TranslateT("Call ended"));
-		m_btnAnswer.Enable(false);
-		m_btnDrop.SetText(TranslateT("Close"));
-		break;
-	case VOICE_STATE_BUSY:
-		m_lblStatus.SetText(TranslateT("Busy"));
-		m_btnAnswer.Enable(false);
-		m_btnDrop.SetText(TranslateT("Close"));
+		wchar_t text[100];
+		mir_snwprintf(text, TranslateT("Call is over %s"), m_nsec ? m_lblStatus.GetText() : L"");
+		m_lblStatus.SetText(text);
 		break;
 	case VOICE_STATE_READY:
-		m_lblStatus.SetText(TranslateT("Ready"));
-		m_btnAnswer.Enable(true);
-		m_btnAnswer.SetText(TranslateT("Call"));
-		m_btnDrop.SetText(TranslateT("Close"));
 		Show();
 		break;
-	default:
-		m_lblStatus.SetText(TranslateT("Unknown state"));
-		break;
 	}
+	
+	if(stateTexts[state].status)
+		m_lblStatus.SetText(stateTexts[state].status);
+	if(stateTexts[state].btn1text)
+		m_btnAnswer.SetText(stateTexts[state].btn1text);
+	m_btnDrop.SetText(stateTexts[state].btn2text);
+
+	m_btnAnswer.Enable(state == VOICE_STATE_TALKING ? CanHold() : (bool)stateTexts[state].btn1text);
 
 	if (state != VOICE_STATE_ON_HOLD)
 		m_nsec = 0;
 
 	if (IsFinished()) {
-		if (end_time == 0)
-			end_time = GetTickCount();
-
 		// Remove id because providers can re-use them
 		mir_free(id);
 		id = NULL;
@@ -289,18 +259,14 @@ void VoiceCall::SetStatus(const wchar_t *text)
 
 void VoiceCall::Notify(bool popup, bool sound, bool clist)
 {
-	if(opts.opt_bImmDialog)
-		return;
-	
-	if (popup) {
-		wchar_t text[512];
-		mir_snwprintf(text, TranslateW(stateTexts[state]), displayName);
-
-		ShowPopup(NULL, TranslateW(popupTitles[state]), text);
-	}
-
 	if (sound)
 		Skin_PlaySound(g_sounds[state].szName);
+
+	if(IsWindowVisible(GetHwnd()))
+		return;
+
+	if (popup)
+		ShowPopup(NULL, displayName, TranslateW(popupTexts[state]));
 
 	if (clist && state == VOICE_STATE_RINGING) {
 		CLISTEVENT ce = {};
@@ -378,12 +344,4 @@ void VoiceCall::SendDTMF(wchar_t c)
 		return;
 
 	CallProtoService(module->name, PS_VOICE_SEND_DTMF, (WPARAM)id, (LPARAM)c);
-}
-
-void VoiceCall::SetNewCallHWND(HWND _h)
-{
-	if (_h != NULL)
-		RemoveNotifications();
-
-	hwnd = _h;
 }

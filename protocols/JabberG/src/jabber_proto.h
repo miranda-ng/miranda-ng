@@ -900,7 +900,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool OnRTPDescription(const TiXmlElement *Node);
 	bool VOIPCreatePipeline();
 	bool VOIPTerminateSession(const char *reason = "cancel");
-	bool VOIPCallAccept(const TiXmlElement *jingleNode, const char *from);
 	bool VOIPCallIinitiate(MCONTACT hContact);
 
 	CMStringA m_voipSession, m_voipPeerJid;

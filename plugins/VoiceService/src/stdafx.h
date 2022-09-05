@@ -120,14 +120,12 @@ class VoiceCall : public CDlgBase
 public:
 	VoiceProvider *module;
 	char *id;					// Protocol especific ID for this call
-	MCONTACT hContact;
+	MCONTACT hContact = 0;
 	wchar_t name[256];
 	wchar_t number[256];
 	wchar_t displayName[256];
-	int state;
-	DWORD end_time;
-	bool incoming;
-	bool secure;
+	int state = -1;
+	bool incoming = false, secure = false, clistBlinking = false;
 
 	VoiceCall(VoiceProvider *module, const char *id);
 	~VoiceCall();
@@ -151,12 +149,8 @@ public:
 	bool IsFinished();
 
 	void Notify(bool popup = true, bool sound = true, bool clist = true);
-	void SetNewCallHWND(HWND hwnd);
 
 private:
-	HWND hwnd;
-	bool clistBlinking;
-
 	void RemoveNotifications();
 	void CreateDisplayName();
 	void OnCommand_Answer(CCtrlButton*);
@@ -168,7 +162,7 @@ private:
 	CCtrlButton m_btnAnswer;
 	CCtrlButton m_btnDrop;
 	CCtrlLabel m_lblStatus, m_lblContactName, m_lblAddress;
-	int m_nsec;
+	int m_nsec = 0;
 	CTimer m_calltimer;
 	HFONT hContactNameFont;
 };

@@ -1808,6 +1808,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 						if (m_voipSession.IsEmpty()) {
 							m_voipSession = szSid;
 							m_voipPeerJid = from;
+							m_isOutgoing = false;
 							m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
 
 							//Make call GUI
@@ -1817,6 +1818,7 @@ bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 							vc.id = szSid;                         // Protocol specific ID for this call
 							vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
 							vc.state = VOICE_STATE_RINGING;
+							vc.szNumber.a = m_voipPeerJid;
 							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 
 							// ringing message

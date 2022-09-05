@@ -377,6 +377,9 @@ bool CJabberProto::VOIPTerminateSession(const char *reason)
 
 bool CJabberProto::OnRTPDescription(const TiXmlElement *jingleNode)
 {
+	if (!jingleNode)
+		return false;
+
 	// process remote offer
 	auto *content = XmlGetChildByTag(jingleNode, "content", "creator", "initiator");
 	auto *transport = XmlGetChildByTag(content, "transport", "xmlns", "urn:xmpp:jingle:transports:ice-udp:1");
@@ -472,7 +475,7 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 {
 	if (!m_voipSession.IsEmpty()) {
 		VOIPTerminateSession();
-		MessageBoxA(0, "Terminated", NULL, 0);
+		MessageBoxA(0, "Something went wrong\r\nOld session terminated", NULL, 0);
 		return false;
 	}
 
@@ -480,16 +483,11 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 		return false;
 
 	CMStringA jid(ptrA(getUStringA(hContact, "jid")));
-	if (jid == "")
+	if (jid.IsEmpty())
 		return false;
 	ptrA szResource(GetBestResourceName(jid));
 	if (szResource)
 		jid = MakeJid(jid, szResource);
-
-	CMStringA question(FORMAT, "Call %s?\r\n"
-		"It will disclose IP address to the peer and his server", jid.c_str());
-	if (MessageBoxA(0, question.c_str(), "Outgoing call", MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return false;
 
 	unsigned char tmp[16];
 	Utils_GetRandom(tmp, sizeof(tmp));
@@ -498,26 +496,6 @@ bool CJabberProto::VOIPCallIinitiate(MCONTACT hContact)
 	m_voipSession = ptrA(mir_base64_encode(tmp, sizeof(tmp)));
 	m_voipPeerJid = jid.c_str();
 
-	
-
-	return true;
-}
-
-bool CJabberProto::VOIPCallAccept(const TiXmlElement *jingleNode, const char *from)
-{
-	if (!from || !jingleNode)
-		return false;
-
-	CMStringW question(FORMAT, TranslateT("Accept call from %S?\r\nIt will disclose IP address to the peer and his server"), from);
-	if (MessageBoxW(0, question, TranslateT("Incoming call"), MB_YESNO | MB_ICONQUESTION) != IDYES)
-		return false;
-
-	m_isOutgoing = false;
-
-	if (!VOIPCreatePipeline())
-		return false;
-
-	OnRTPDescription(jingleNode);
 	return true;
 }
 
@@ -542,22 +520,29 @@ INT_PTR CJabberProto::JabberVOIP_answercall(WPARAM id, LPARAM)
 	if(strcmp((const char *)id, m_voipSession))
 		return 0;
 
+/*	CMStringA question(FORMAT, "Proceed call with %s?\r\n"
+		"It will disclose IP address to the peer and his server", m_voipPeerJid.c_str());
+	if (MessageBoxA(0, question.c_str(), "Outgoing call", MB_YESNO | MB_ICONQUESTION) != IDYES)
+		return 0;*/
+
 	VOICE_CALL vc = {};
 	vc.cbSize = sizeof(VOICE_CALL);
 	vc.moduleName = m_szModuleName;
 	vc.hContact = HContactFromJID(m_voipPeerJid);// Contact associated with the call (can be NULL)
 	vc.szNumber.a = m_voipPeerJid;
+	vc.id = m_voipSession;
+	vc.state = VOICE_STATE_ENDED;
 
-	if (m_isOutgoing) {
-		VOIPCreatePipeline();
-		vc.id = m_voipSession;                // Protocol especific ID for this call
-		vc.state = VOICE_STATE_CALLING;
-	}
-	else {
-		vc.id = (char *)id;
-		vc.state = VOIPCallAccept(m_offerNode, m_voipPeerJid) ? VOICE_STATE_TALKING : VOICE_STATE_ENDED;
+	if (VOIPCreatePipeline()) {
+		if (m_isOutgoing)
+			vc.state = VOICE_STATE_CALLING;
+		else if (OnRTPDescription(m_offerNode))
+			vc.state = VOICE_STATE_TALKING;
+		else
+			VOIPTerminateSession();
 	}
 	NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+
 	return 0;
 }
 
