@@ -411,6 +411,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	
 	INT_PTR   __cdecl CreateAccMgrUI(WPARAM, LPARAM);
 	INT_PTR   __cdecl EditGroups(WPARAM, LPARAM);
+	INT_PTR   __cdecl EditProfile(WPARAM, LPARAM);
 	INT_PTR   __cdecl GetEmailCount(WPARAM, LPARAM);
 	INT_PTR   __cdecl GotoInbox(WPARAM, LPARAM);
 	INT_PTR   __cdecl UploadGroups(WPARAM, LPARAM);

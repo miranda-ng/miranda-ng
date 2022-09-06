@@ -197,6 +197,13 @@ void CIcqProto::OnBuildProtoMenu()
 	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUP);
 	Menu_AddProtoMenuItem(&mi, m_szModuleName);
 
+	mi.pszService = "/EditProfile";
+	CreateProtoService(mi.pszService, &CIcqProto::EditProfile);
+	mi.name.a = LPGEN("Edit my web profile");
+	mi.position = 210001;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_MIRANDAWEB);
+	Menu_AddProtoMenuItem(&mi, m_szModuleName);
+
 	Menu_ShowItem(m_hUploadGroups, false);
 }
 
@@ -296,6 +303,13 @@ CGroupEditDlg *CGroupEditDlg::pDlg = nullptr;
 INT_PTR CIcqProto::EditGroups(WPARAM, LPARAM)
 {
 	(new CGroupEditDlg(this))->Show();
+	return 0;
+}
+
+INT_PTR CIcqProto::EditProfile(WPARAM, LPARAM)
+{
+	if (mir_wstrlen(m_szOwnId))
+		Utils_OpenUrlW(CMStringW(FORMAT, L"https://icq.com/people/%s/edit/", (wchar_t*)m_szOwnId));
 	return 0;
 }
 
