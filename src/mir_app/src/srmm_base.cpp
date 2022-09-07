@@ -182,9 +182,14 @@ LRESULT CSrmmBaseDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 				return 1;
 			break;
 		}
+		break;
 
 	case WM_SYSKEYDOWN:
 	case WM_KEYDOWN:
+		if (wParam == VK_BACK)
+			if (m_message.GetRichTextLength() == 0)
+				return 1;
+
 		MSG tmp = { m_hwnd, msg, wParam, lParam };
 		if (Hotkey_Check(&tmp, g_pszHotkeySection) == 100) {
 			if (!(GetWindowLongPtr(m_message.GetHwnd(), GWL_STYLE) & ES_READONLY)) {
