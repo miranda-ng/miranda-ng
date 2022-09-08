@@ -268,9 +268,11 @@ void CIcqProto::ProcessImState(const JSONNode &ev)
 
 void CIcqProto::ProcessMyInfo(const JSONNode &ev)
 {
-	const JSONNode &var = ev["friendly"];
-	if (var)
+	if (auto &var = ev["friendly"])
 		setWString("Nick", var.as_mstring());
+
+	if (auto &var = ev["attachedPhoneNumber"])
+		setWString(DB_KEY_PHONE, var.as_mstring());
 
 	CheckAvatarChange(0, ev);
 }

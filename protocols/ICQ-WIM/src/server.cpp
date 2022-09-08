@@ -1130,9 +1130,7 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
 	m_aimsid = data["aimsid"].as_mstring();
 
-	CMStringW wszPhone(data["attachedPhoneNumber"].as_mstring());
-	if (!wszPhone.IsEmpty())
-		setWString(DB_KEY_PHONE, wszPhone);
+	ProcessMyInfo(data["myInfo"]);
 
 	int srvTS = data["ts"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;
