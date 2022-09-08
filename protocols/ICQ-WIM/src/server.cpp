@@ -367,8 +367,10 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
 	Json2string(hContact, buddy, "cellNumber", "Cellular", bIsPartial);
-	Json2string(hContact, buddy, "phoneNumber", DB_KEY_PHONE, bIsPartial);
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone", bIsPartial);
+
+	// we shall not remove existing phone number anyhow
+	Json2string(hContact, buddy, "phoneNumber", DB_KEY_PHONE, true);
 
 	Json2int(hContact, buddy, "official", "Official", bIsPartial);
 	Json2int(hContact, buddy, "onlineTime", DB_KEY_ONLINETS, bIsPartial);
