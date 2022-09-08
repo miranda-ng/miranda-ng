@@ -77,18 +77,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Icon
-//
-
-// Icon with lowest ID value placed first to ensure application icon
-// remains consistent on all systems.
-IDI_INBOX               ICON                    "Mail.ico"
-
-IDI_MAIL_NOTIFY         ICON                    "MailNotify.ico"
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Dialog
 //
 
@@ -181,6 +169,8 @@ BEGIN
     EDITTEXT        IDC_MEMBERSINCE,74,71,139,10,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     LTEXT           "Last seen:",IDC_STATIC,5,32,63,8
     EDITTEXT        IDC_LASTSEEN,74,32,139,10,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
+    LTEXT           "Phone number:",IDC_STATIC,5,84,63,8
+    EDITTEXT        IDC_PHONE,74,84,139,10,ES_AUTOHSCROLL | ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
 END
 
 IDD_LOGINPW DIALOGEX 0, 0, 157, 70
@@ -280,6 +270,18 @@ IDD_LOGINPW AFX_DIALOG_LAYOUT
 BEGIN
     0
 END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_INBOX               ICON                    "Mail.ico"
+
+IDI_MAIL_NOTIFY         ICON                    "MailNotify.ico"
 
 
 #ifdef APSTUDIO_INVOKED

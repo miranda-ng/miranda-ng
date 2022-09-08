@@ -84,6 +84,7 @@
 #define DB_KEY_ID "aimId"
 #define DB_KEY_IDLE "IdleTS"
 #define DB_KEY_ABOUT "About"
+#define DB_KEY_PHONE "Phone"
 #define DB_KEY_ATOKEN "AToken"
 #define DB_KEY_ICQNICK "IcqNick"
 #define DB_KEY_PHONEREG "PhoneReg"

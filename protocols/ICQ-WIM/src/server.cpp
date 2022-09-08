@@ -367,7 +367,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 	Json2string(hContact, buddy, "emailId", "Email", bIsPartial);
 	Json2string(hContact, buddy, "cellNumber", "Cellular", bIsPartial);
-	Json2string(hContact, buddy, "phoneNumber", "Phone", bIsPartial);
+	Json2string(hContact, buddy, "phoneNumber", DB_KEY_PHONE, bIsPartial);
 	Json2string(hContact, buddy, "workNumber", "CompanyPhone", bIsPartial);
 
 	Json2int(hContact, buddy, "official", "Official", bIsPartial);
@@ -1129,6 +1129,10 @@ void CIcqProto::OnStartSession(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *)
 	JSONNode &data = root.data();
 	m_fetchBaseURL = data["fetchBaseURL"].as_mstring();
 	m_aimsid = data["aimsid"].as_mstring();
+
+	CMStringW wszPhone(data["attachedPhoneNumber"].as_mstring());
+	if (!wszPhone.IsEmpty())
+		setWString(DB_KEY_PHONE, wszPhone);
 
 	int srvTS = data["ts"].as_int();
 	m_iTimeShift = (srvTS) ? time(0) - srvTS : 0;

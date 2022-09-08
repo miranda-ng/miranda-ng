@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\protocols\ICQ-WIM\res\resources.rc
+// Used by W:\miranda-ng\protocols\ICQ-WIM\res\resources.rc
 //
 #define IDD_OPTIONS_FULL                101
 #define IDD_OPTIONS_ACCMGR              102
@@ -28,6 +28,7 @@
 #define IDC_MEMBERSINCE                 1013
 #define IDC_LASTSEEN                    1014
 #define IDC_SAVEPASS                    1015
+#define IDC_MEMBERSINCE2                1015
 #define IDC_LIST                        1016
 #define IDC_DIFF1                       1017
 #define IDC_SPIN1                       1018

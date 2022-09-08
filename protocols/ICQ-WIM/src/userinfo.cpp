@@ -34,6 +34,7 @@ struct IcqUserInfoDlg : public CUserInfoPageDlg
 	{
 		SetDlgItemTextW(m_hwnd, IDC_UIN, ppro->GetUserId(m_hContact));
 		SetDlgItemTextW(m_hwnd, IDC_NICK, ppro->getMStringW(m_hContact, DB_KEY_ICQNICK));
+		SetDlgItemTextW(m_hwnd, IDC_PHONE, ppro->getMStringW(m_hContact, DB_KEY_PHONE));
 
 		SetDlgItemTextW(m_hwnd, IDC_IDLETIME, time2text(ppro->getDword(m_hContact, DB_KEY_IDLE)));
 		SetDlgItemTextW(m_hwnd, IDC_LASTSEEN, time2text(ppro->getDword(m_hContact, DB_KEY_LASTSEEN)));
