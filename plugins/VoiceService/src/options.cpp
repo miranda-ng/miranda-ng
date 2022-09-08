@@ -83,59 +83,51 @@ static INT_PTR CALLBACK PopupsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
+		SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
+
+		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
+		SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
+
+		// Needs to be called here in this case
 		{
-			SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
-			SendDlgItemMessage(hwndDlg, IDC_RIGHT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
-
-			SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Do nothing"));
-			SendDlgItemMessage(hwndDlg, IDC_LEFT_ACTION, CB_ADDSTRING, 0, (LPARAM)TranslateT("Close popup"));
-
-			// Needs to be called here in this case
 			BOOL ret = SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
-
 			PopupsEnableDisableCtrls(hwndDlg);
-
 			return ret;
 		}
+
 	case WM_COMMAND:
-		{
-			switch (LOWORD(wParam)) {
-			case IDC_POPUPS:
-			case IDC_WINCOLORS:
-			case IDC_DEFAULTCOLORS:
-			case IDC_DELAYFROMPU:
-			case IDC_DELAYPERMANENT:
-			case IDC_DELAYCUSTOM:
-				{
-					if (HIWORD(wParam) == BN_CLICKED)
-						PopupsEnableDisableCtrls(hwndDlg);
+		switch (LOWORD(wParam)) {
+		case IDC_POPUPS:
+		case IDC_WINCOLORS:
+		case IDC_DEFAULTCOLORS:
+		case IDC_DELAYFROMPU:
+		case IDC_DELAYPERMANENT:
+		case IDC_DELAYCUSTOM:
+			if (HIWORD(wParam) == BN_CLICKED)
+				PopupsEnableDisableCtrls(hwndDlg);
+			break;
 
-					break;
-				}
-			case IDC_PREV:
-				{
-					Options op = opts;
+		case IDC_PREV:
+			Options op = opts;
 
-					if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
-						op.popup_delay_type = POPUP_DELAY_DEFAULT;
-					else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM))
-						op.popup_delay_type = POPUP_DELAY_CUSTOM;
-					else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
-						op.popup_delay_type = POPUP_DELAY_PERMANENT;
+			if (IsDlgButtonChecked(hwndDlg, IDC_DELAYFROMPU))
+				op.popup_delay_type = POPUP_DELAY_DEFAULT;
+			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYCUSTOM))
+				op.popup_delay_type = POPUP_DELAY_CUSTOM;
+			else if (IsDlgButtonChecked(hwndDlg, IDC_DELAYPERMANENT))
+				op.popup_delay_type = POPUP_DELAY_PERMANENT;
 
-					op.popup_timeout = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
-					op.popup_bkg_color = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
-					op.popup_text_color = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
-					op.popup_use_win_colors = IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) != 0;
-					op.popup_use_default_colors = IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS) != 0;
+			op.popup_timeout = GetDlgItemInt(hwndDlg, IDC_DELAY, NULL, FALSE);
+			op.popup_bkg_color = SendDlgItemMessage(hwndDlg, IDC_BGCOLOR, CPM_GETCOLOUR, 0, 0);
+			op.popup_text_color = SendDlgItemMessage(hwndDlg, IDC_TEXTCOLOR, CPM_GETCOLOUR, 0, 0);
+			op.popup_use_win_colors = IsDlgButtonChecked(hwndDlg, IDC_WINCOLORS) != 0;
+			op.popup_use_default_colors = IsDlgButtonChecked(hwndDlg, IDC_DEFAULTCOLORS) != 0;
 
-					ShowTestPopup(TranslateT("Test Contact"), TranslateT("Test description"), &op);
-
-					break;
-				}
-			}
+			ShowTestPopup(TranslateT("Test Contact"), TranslateT("Test description"), &op);
 			break;
 		}
+		break;
 	}
 
 	return SaveOptsDlgProc(popupsControls, _countof(popupsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
@@ -340,24 +332,35 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static bool IsModuleEnabled()
+{
+	for (auto& cc : Contacts())
+		if (CanCall(cc, FALSE))
+			return true;
+	
+	return false;
+}
+
 int InitOptionsCallback(WPARAM wParam, LPARAM)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp, sizeof(odp));
-	odp.pPlugin = &g_plugin;
-	odp.flags = ODPF_BOLDGROUPS;
+	if (IsModuleEnabled()) {
+		OPTIONSDIALOGPAGE odp;
+		ZeroMemory(&odp, sizeof(odp));
+		odp.pPlugin = &g_plugin;
+		odp.flags = ODPF_BOLDGROUPS;
 
-	odp.szGroup.a = LPGEN("Popups");
-	odp.szTitle.a = LPGEN("Voice Calls");
-	odp.pfnDlgProc = PopupsDlgProc;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
-	g_plugin.addOptions(wParam, &odp);
+		odp.szGroup.a = LPGEN("Popups");
+		odp.szTitle.a = LPGEN("Voice Calls");
+		odp.pfnDlgProc = PopupsDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);
+		g_plugin.addOptions(wParam, &odp);
 
-	ZeroMemory(&odp, sizeof(odp));
-	odp.szGroup.a = LPGEN("Voice Calls");
-	odp.szTitle.a = LPGEN("Auto actions");
-	odp.pDialog = new CAutoOptsDlg();
-	g_plugin.addOptions(wParam, &odp);
+		ZeroMemory(&odp, sizeof(odp));
+		odp.szGroup.a = LPGEN("Voice Calls");
+		odp.szTitle.a = LPGEN("Auto actions");
+		odp.pDialog = new CAutoOptsDlg();
+		g_plugin.addOptions(wParam, &odp);
+	}
 	return 0;
 }
 
