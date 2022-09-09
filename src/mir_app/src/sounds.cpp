@@ -98,7 +98,6 @@ class CSoundOptionsDlg : public CDlgBase
 		ShowWindow(GetDlgItem(m_hwnd, IDC_LOCATION), iCommand);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_CHANGE), iCommand);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PREVIEW), iCommand);
-		ShowWindow(GetDlgItem(m_hwnd, IDC_GETMORE), iCommand);
 	}
 
 	CCtrlButton btnPreview, btnChange;
