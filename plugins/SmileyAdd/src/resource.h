@@ -3,7 +3,9 @@
 // Used by w:\miranda-ng\plugins\SmileyAdd\res\resource.rc
 //
 #define IDI_SMILINGICON                 124
-#define IDD_OPT_SMILEYS                 245
+#define IDD_OPT_GENERAL                 200
+#define IDD_OPT_CATEGORIES              201
+#define IDC_GETMORE                     1000
 #define IDC_CATEGORYLIST                1017
 #define IDC_INPUTSMILEYS                1020
 #define IDC_DCURSORSMILEY               1021

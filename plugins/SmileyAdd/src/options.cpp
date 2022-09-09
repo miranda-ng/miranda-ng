@@ -116,9 +116,90 @@ void OptionsType::WriteContactCategory(MCONTACT hContact, const CMStringW &cats)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// Init and de-init functions, called from main
+// Basic class for options
 
-class COptionsDialog : public CDlgBase
+class COptionsBaseDialog : public CDlgBase
+{
+	void OnFinish(CDlgBase*)
+	{
+		ProcessAllInputAreas(true);
+		CloseSmileys();
+
+		opt.Save();
+
+		NotifyEventHooks(hEvent1, 0, 0);
+		ProcessAllInputAreas(false);
+	}
+
+protected:
+	COptionsBaseDialog(int dlgId) :
+		CDlgBase(g_plugin, dlgId)
+	{
+		m_OnFinishWizard = Callback(this, &COptionsBaseDialog::OnFinish);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// General options page
+
+class CGeneralOptions : public COptionsBaseDialog
+{
+	CCtrlHyperlink linkGetMore;
+
+public:
+	CGeneralOptions() :
+		COptionsBaseDialog(IDD_OPT_GENERAL),
+		linkGetMore(this, IDC_GETMORE, "https://miranda-ng.org/tags/smileyadd/")
+	{}
+
+	bool OnInitDialog() override
+	{
+		CheckDlgButton(m_hwnd, IDC_SPACES, opt.EnforceSpaces ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SCALETOTEXTHEIGHT, opt.ScaleToTextheight ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_APPENDSPACES, opt.SurroundSmileyWithSpaces ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SCALEALLSMILEYS, opt.ScaleAllSmileys ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_IEVIEWSTYLE, opt.IEViewStyle ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_ANIMATESEL, opt.AnimateSel ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_ANIMATEDLG, opt.AnimateDlg ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_INPUTSMILEYS, opt.InputSmileys ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_DCURSORSMILEY, opt.DCursorSmiley ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(m_hwnd, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
+		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETPOS, 0, opt.MaxCustomSmileySize);
+		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSMSZ, EM_LIMITTEXT, 2, 0);
+
+		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETRANGE32, 0, 99);
+		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETPOS, 0, opt.MinSmileySize);
+		SendDlgItemMessage(m_hwnd, IDC_MINSMSZ, EM_LIMITTEXT, 2, 0);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		opt.EnforceSpaces = IsDlgButtonChecked(m_hwnd, IDC_SPACES) == BST_CHECKED;
+		opt.ScaleToTextheight = IsDlgButtonChecked(m_hwnd, IDC_SCALETOTEXTHEIGHT) == BST_CHECKED;
+		opt.SurroundSmileyWithSpaces = IsDlgButtonChecked(m_hwnd, IDC_APPENDSPACES) == BST_CHECKED;
+		opt.ScaleAllSmileys = IsDlgButtonChecked(m_hwnd, IDC_SCALEALLSMILEYS) == BST_CHECKED;
+		opt.IEViewStyle = IsDlgButtonChecked(m_hwnd, IDC_IEVIEWSTYLE) == BST_CHECKED;
+		opt.AnimateSel = IsDlgButtonChecked(m_hwnd, IDC_ANIMATESEL) == BST_CHECKED;
+		opt.AnimateDlg = IsDlgButtonChecked(m_hwnd, IDC_ANIMATEDLG) == BST_CHECKED;
+		opt.InputSmileys = IsDlgButtonChecked(m_hwnd, IDC_INPUTSMILEYS) == BST_CHECKED;
+		opt.DCursorSmiley = IsDlgButtonChecked(m_hwnd, IDC_DCURSORSMILEY) == BST_CHECKED;
+		opt.HQScaling = IsDlgButtonChecked(m_hwnd, IDC_HQSCALING) == BST_CHECKED;
+		opt.HorizontalSorting = IsDlgButtonChecked(m_hwnd, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
+
+		opt.MaxCustomSmileySize = GetDlgItemInt(m_hwnd, IDC_MAXCUSTSMSZ, nullptr, FALSE);
+		opt.MinSmileySize = GetDlgItemInt(m_hwnd, IDC_MINSMSZ, nullptr, FALSE);
+		return true;
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Categories options page
+
+class CGategoriesOptions : public COptionsBaseDialog
 {
 	SmileyCategoryListType tmpsmcat;
 	SmileyPackType smPack;
@@ -278,8 +359,8 @@ class COptionsDialog : public CDlgBase
 	CCtrlTreeView categories;
 
 public:
-	COptionsDialog() :
-		CDlgBase(g_plugin, IDD_OPT_SMILEYS),
+	CGategoriesOptions() :
+		COptionsBaseDialog(IDD_OPT_CATEGORIES), 
 		btnAdd(this, IDC_ADDCATEGORY),
 		btnBrowse(this, IDC_BROWSE),
 		btnDelete(this, IDC_DELETECATEGORY),
@@ -289,16 +370,16 @@ public:
 		categories(this, IDC_CATEGORYLIST),
 		edtFilename(this, IDC_FILENAME)
 	{
-		btnAdd.OnClick = Callback(this, &COptionsDialog::onClick_Add);
-		btnBrowse.OnClick = Callback(this, &COptionsDialog::onClick_Browse);
-		btnDelete.OnClick = Callback(this, &COptionsDialog::onClick_Delete);
-		btnPreview.OnClick = Callback(this, &COptionsDialog::onClick_Preview);
+		btnAdd.OnClick = Callback(this, &CGategoriesOptions::onClick_Add);
+		btnBrowse.OnClick = Callback(this, &CGategoriesOptions::onClick_Browse);
+		btnDelete.OnClick = Callback(this, &CGategoriesOptions::onClick_Delete);
+		btnPreview.OnClick = Callback(this, &CGategoriesOptions::onClick_Preview);
 
-		chkStdPack.OnChange = Callback(this, &COptionsDialog::onChange_StdPack);
-		chkUsePhys.OnChange = Callback(this, &COptionsDialog::onChange_UsePhys);
+		chkStdPack.OnChange = Callback(this, &CGategoriesOptions::onChange_StdPack);
+		chkUsePhys.OnChange = Callback(this, &CGategoriesOptions::onChange_UsePhys);
 
-		categories.OnSelChanged = Callback(this, &COptionsDialog::onSelectChange_Tree);
-		categories.OnItemChanged = Callback(this, &COptionsDialog::onChange_Filename);
+		categories.OnSelChanged = Callback(this, &CGategoriesOptions::onSelectChange_Tree);
+		categories.OnItemChanged = Callback(this, &CGategoriesOptions::onChange_Filename);
 	}
 
 	bool OnInitDialog() override
@@ -306,26 +387,6 @@ public:
 		chkStdPack.SetState(!opt.UseOneForAll);
 		chkUsePhys.SetState(opt.UsePhysProto);
 		chkUsePhys.Enable(!opt.UseOneForAll);
-
-		CheckDlgButton(m_hwnd, IDC_SPACES, opt.EnforceSpaces ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SCALETOTEXTHEIGHT, opt.ScaleToTextheight ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_APPENDSPACES, opt.SurroundSmileyWithSpaces ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SCALEALLSMILEYS, opt.ScaleAllSmileys ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_IEVIEWSTYLE, opt.IEViewStyle ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ANIMATESEL, opt.AnimateSel ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_ANIMATEDLG, opt.AnimateDlg ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_INPUTSMILEYS, opt.InputSmileys ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_DCURSORSMILEY, opt.DCursorSmiley ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(m_hwnd, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
-
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETPOS, 0, opt.MaxCustomSmileySize);
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSMSZ, EM_LIMITTEXT, 2, 0);
-
-		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETRANGE32, 0, 99);
-		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETPOS, 0, opt.MinSmileySize);
-		SendDlgItemMessage(m_hwnd, IDC_MINSMSZ, EM_LIMITTEXT, 2, 0);
 
 		// Create and populate image list
 		HIMAGELIST hImList = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
@@ -354,39 +415,11 @@ public:
 		return true;
 	}
 
-	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
-	{
-		if (uMsg == WM_COMMAND && LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) == EN_KILLFOCUS)
-			onChange_Filename(0);
-
-		return CDlgBase::DlgProc(uMsg, wParam, lParam);
-	}
-
 	bool OnApply() override
 	{
-		ProcessAllInputAreas(true);
-		CloseSmileys();
-
 		opt.UseOneForAll = !chkStdPack.GetState();
 		opt.UsePhysProto = chkUsePhys.GetState();
-
-		opt.EnforceSpaces = IsDlgButtonChecked(m_hwnd, IDC_SPACES) == BST_CHECKED;
-		opt.ScaleToTextheight = IsDlgButtonChecked(m_hwnd, IDC_SCALETOTEXTHEIGHT) == BST_CHECKED;
-		opt.SurroundSmileyWithSpaces = IsDlgButtonChecked(m_hwnd, IDC_APPENDSPACES) == BST_CHECKED;
-		opt.ScaleAllSmileys = IsDlgButtonChecked(m_hwnd, IDC_SCALEALLSMILEYS) == BST_CHECKED;
-		opt.IEViewStyle = IsDlgButtonChecked(m_hwnd, IDC_IEVIEWSTYLE) == BST_CHECKED;
-		opt.AnimateSel = IsDlgButtonChecked(m_hwnd, IDC_ANIMATESEL) == BST_CHECKED;
-		opt.AnimateDlg = IsDlgButtonChecked(m_hwnd, IDC_ANIMATEDLG) == BST_CHECKED;
-		opt.InputSmileys = IsDlgButtonChecked(m_hwnd, IDC_INPUTSMILEYS) == BST_CHECKED;
-		opt.DCursorSmiley = IsDlgButtonChecked(m_hwnd, IDC_DCURSORSMILEY) == BST_CHECKED;
-		opt.HQScaling = IsDlgButtonChecked(m_hwnd, IDC_HQSCALING) == BST_CHECKED;
-		opt.HorizontalSorting = IsDlgButtonChecked(m_hwnd, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
-
-		opt.MaxCustomSmileySize = GetDlgItemInt(m_hwnd, IDC_MAXCUSTSMSZ, nullptr, FALSE);
-		opt.MinSmileySize = GetDlgItemInt(m_hwnd, IDC_MINSMSZ, nullptr, FALSE);
-
-		opt.Save();
-
+	
 		// Cleanup database
 		CMStringW empty;
 		auto &smc = *g_SmileyCategories.GetSmileyCategoryList();
@@ -399,9 +432,6 @@ public:
 		g_SmileyCategories.ClearAndLoadAll();
 
 		smPack.LoadSmileyFile(tmpsmcat.GetSmileyCategory(GetSelProto())->GetFilename(), tmpsmcat.GetSmileyCategory(GetSelProto())->GetDisplayName(), false, true);
-
-		NotifyEventHooks(hEvent1, 0, 0);
-		ProcessAllInputAreas(false);
 		return true;
 	}
 
@@ -409,6 +439,14 @@ public:
 	{
 		HIMAGELIST hImList = categories.GetImageList(TVSIL_NORMAL);
 		ImageList_Destroy(hImList);
+	}
+
+	INT_PTR DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam) override
+	{
+		if (uMsg == WM_COMMAND && LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) == EN_KILLFOCUS)
+			onChange_Filename(0);
+
+		return COptionsBaseDialog::DlgProc(uMsg, wParam, lParam);
 	}
 
 	void onClick_Add(CCtrlButton*)
@@ -490,14 +528,23 @@ public:
 	}
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Module entry point
+
 int SmileysOptionsInitialize(WPARAM addInfo, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
+	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = 910000000;
 	odp.szTitle.a = LPGEN("Smileys");
 	odp.szGroup.a = LPGEN("Customize");
-	odp.pDialog = new COptionsDialog();
-	odp.flags = ODPF_BOLDGROUPS;
+
+	odp.szTab.a = LPGEN("General");
+	odp.pDialog = new CGeneralOptions();
+	g_plugin.addOptions(addInfo, &odp);
+
+	odp.szTab.a = LPGEN("Categories");
+	odp.pDialog = new CGategoriesOptions();
 	g_plugin.addOptions(addInfo, &odp);
 	return 0;
 }

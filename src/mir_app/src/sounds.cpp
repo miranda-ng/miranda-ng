@@ -100,10 +100,10 @@ class CSoundOptionsDlg : public CDlgBase
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PREVIEW), iCommand);
 	}
 
-	CCtrlButton btnPreview, btnChange;
 	CCtrlCheck chkSounds;
-	CCtrlHyperlink linkGetMore;
+	CCtrlButton btnPreview, btnChange;
 	CCtrlTreeView m_tree;
+	CCtrlHyperlink linkGetMore;
 
 public:
 	CSoundOptionsDlg() :
