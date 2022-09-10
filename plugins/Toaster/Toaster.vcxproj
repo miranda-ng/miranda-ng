@@ -48,12 +48,12 @@
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
   <PropertyGroup Condition="'$(Platform)'=='Win32'">
-    <IncludePath>$(VC_IncludePath);$(ProgramFiles)\Windows Kits\8.1\Include\um;$(ProgramFiles)\Windows Kits\8.1\Include\shared;$(ProgramFiles)\Windows Kits\8.1\Include\winrt;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(ProgramFiles)\Windows Kits\8.1\lib\winv6.3\um\x86;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK80Path)\Include\um;$(WindowsSDK80Path)\Include\shared;$(WindowsSDK80Path)\Include\winrt;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK80Path)\lib\winv6.3\um\x86;</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Platform)'=='x64'">
-    <IncludePath>$(VC_IncludePath);$(ProgramFiles)\Windows Kits\8.1\Include\um;$(ProgramFiles)\Windows Kits\8.1\Include\shared;$(ProgramFiles)\Windows Kits\8.1\Include\winrt;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(ProgramFiles)\Windows Kits\8.1\lib\winv6.3\um\x64;</LibraryPath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK80Path)\Include\um;$(WindowsSDK80Path)\Include\shared;$(WindowsSDK80Path)\Include\winrt;</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK80Path)\lib\winv6.3\um\x64;</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
