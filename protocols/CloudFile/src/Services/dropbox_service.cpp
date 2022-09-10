@@ -8,10 +8,10 @@ struct CMPluginDropbox : public PLUGIN<CMPluginDropbox>
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CDropboxService::Init, (pfnUninitProto)CDropboxService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, CDropboxService::Init, CDropboxService::UnInit);
 	}
 }
-g_pluginDropbox;
+	g_pluginDropbox;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -21,16 +21,16 @@ CDropboxService::CDropboxService(const char *protoName, const wchar_t *userName)
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_DROPBOX);
 }
 
-CDropboxService* CDropboxService::Init(const char *moduleName, const wchar_t *userName)
+PROTO_INTERFACE* CDropboxService::Init(const char *moduleName, const wchar_t *userName)
 {
 	CDropboxService *proto = new CDropboxService(moduleName, userName);
 	Services.insert(proto);
 	return proto;
 }
 
-int CDropboxService::UnInit(CDropboxService *proto)
+int CDropboxService::UnInit(PROTO_INTERFACE *proto)
 {
-	Services.remove(proto);
+	Services.remove((CDropboxService *)proto);
 	delete proto;
 	return 0;
 }

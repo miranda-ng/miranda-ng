@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-CCloudService::CCloudService(const char *protoName, const wchar_t *userName, HPLUGIN pPlugin)
-	: PROTO<CCloudService>(protoName, userName),
+CCloudService::CCloudService(const char *protoName, const wchar_t *userName, HPLUGIN pPlugin) :
+	PROTO<CCloudService>(protoName, userName),
 	m_pPlugin(pPlugin)
 {
 	NETLIBUSER nlu = {};
@@ -17,11 +17,6 @@ CCloudService::~CCloudService()
 {
 	Netlib_CloseHandle(m_hConnection);
 	m_hConnection = nullptr;
-}
-
-void CCloudService::OnErase()
-{
-	KillModuleMenus(m_pPlugin);
 }
 
 HPLUGIN CCloudService::GetId() const

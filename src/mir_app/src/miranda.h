@@ -63,17 +63,27 @@ int   LaunchServicePlugin(pluginEntry *p);
 
 void InitPathVar(void);
 
+/**** plugins.cpp **********************************************************************/
+
+void KillModuleAccounts(HINSTANCE);
+
+void KillModuleExtraIcons(CMPluginBase *pPlugin);
+void KillModuleFonts(CMPluginBase *pPlugin);
+void KillModuleHotkeys(CMPluginBase *pPlugin);
+void KillModuleIcons(CMPluginBase *pPlugin);
+void KillModuleMenus(CMPluginBase *pPlugin);
+void KillModulePopups(CMPluginBase *pPlugin);
+void KillModuleSounds(CMPluginBase *pPlugin);
+void KillModuleSrmmIcons(CMPluginBase *pPlugin);
+void KillModuleToolbarIcons(CMPluginBase *pPlugin);
+
 /**** popupOptions.cpp *****************************************************************/
 
 int   PopupOptionsInit(WPARAM);
-void  KillModulePopups(HPLUGIN);
 
 /**** srmm.cpp *************************************************************************/
 
 #define SRMM_MODULE "SRMsg"
-
-void KillModuleSrmmIcons(HPLUGIN);
-void KillModuleToolbarIcons(HPLUGIN);
 
 /**** utf.cpp **************************************************************************/
 
@@ -173,8 +183,6 @@ void LoadDbAccounts(void);
 void WriteDbAccounts(void);
 
 void InitStaticAccounts();
-
-void KillModuleAccounts(HINSTANCE);
 
 INT_PTR CallProtoServiceInt(MCONTACT hContact, const char* szModule, const char* szService, WPARAM wParam, LPARAM lParam);
 

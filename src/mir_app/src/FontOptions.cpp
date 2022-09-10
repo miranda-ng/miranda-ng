@@ -84,8 +84,9 @@ void notifyOptions()
 		SetTimer(hwndFontOptions, 1, 100, nullptr);
 }
 
-MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
+void KillModuleFonts(CMPluginBase *pPlugin)
 {
+	// kill fonts
 	for (auto &it : font_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
 			font_id_list.removeItem(&it);
@@ -99,10 +100,8 @@ MIR_APP_DLL(void) KillModuleFonts(HPLUGIN pPlugin)
 	for (auto &it : font_id_list_w3.rev_iter())
 		if (it->pPlugin == pPlugin)
 			font_id_list_w3.removeItem(&it);
-}
 
-MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
-{
+	// kill colors
 	for (auto &it : colour_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
 			colour_id_list.removeItem(&it);
@@ -116,10 +115,8 @@ MIR_APP_DLL(void) KillModuleColours(HPLUGIN pPlugin)
 	for (auto &it : colour_id_list_w3.rev_iter())
 		if (it->pPlugin == pPlugin)
 			colour_id_list_w3.removeItem(&it);
-}
 
-MIR_APP_DLL(void) KillModuleEffects(HPLUGIN pPlugin)
-{
+	// kill effects
 	for (auto &it : effect_id_list.rev_iter())
 		if (it->pPlugin == pPlugin) {
 			effect_id_list.removeItem(&it);

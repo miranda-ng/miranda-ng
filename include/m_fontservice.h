@@ -218,8 +218,4 @@ EXTERN_C MIR_APP_DLL(int) Effect_GetW(const wchar_t *wszGroup, const wchar_t *sz
 // wparam = lparam = 0
 #define ME_EFFECT_RELOAD      "Effect/Reload"
 
-EXTERN_C MIR_APP_DLL(void) KillModuleFonts(HPLUGIN);
-EXTERN_C MIR_APP_DLL(void) KillModuleColours(HPLUGIN);
-EXTERN_C MIR_APP_DLL(void) KillModuleEffects(HPLUGIN);
-
 #endif // _FONT_SERVICE_API_INC

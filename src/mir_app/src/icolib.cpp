@@ -607,7 +607,7 @@ MIR_APP_DLL(void) IcoLib_RemoveIconByHandle(HANDLE hIcoLib)
 	}
 }
 
-MIR_APP_DLL(void) KillModuleIcons(HPLUGIN pPlugin)
+void KillModuleIcons(CMPluginBase *pPlugin)
 {
 	if (!bModuleInitialized)
 		return;

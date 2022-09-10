@@ -282,7 +282,7 @@ void RegisterHotkeys()
 	}
 }
 
-MIR_APP_DLL(void) KillModuleHotkeys(HPLUGIN pPlugin)
+void KillModuleHotkeys(CMPluginBase *pPlugin)
 {
 	for (auto &it : hotkeys.rev_iter())
 		if (it->pPlugin == pPlugin)

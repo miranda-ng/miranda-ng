@@ -60,7 +60,7 @@ int CMPluginBase::addPopupOption(const wchar_t *pwszDescr, CMOption<bool> &pVal)
 	return 0;
 }
 
-void KillModulePopups(HPLUGIN pPlugin)
+void KillModulePopups(CMPluginBase *pPlugin)
 {
 	for (auto &it : g_arOptions.rev_iter())
 		if (it->m_plugin == pPlugin)

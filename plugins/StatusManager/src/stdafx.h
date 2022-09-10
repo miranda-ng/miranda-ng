@@ -40,7 +40,7 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
 
-	bool bMirandaLoaded;
+	bool bMirandaLoaded = false;
 
 	int Load() override;
 	int Unload() override;

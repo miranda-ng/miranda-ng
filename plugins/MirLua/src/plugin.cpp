@@ -76,11 +76,6 @@ void CMPlugin::UnloadLua()
 
 		lua_close(L);
 	}
-
-	KillModuleIcons(this);
-	KillModuleSounds(this);
-	KillModuleMenus(this);
-	KillModuleHotkeys(this);
 }
 
 void CMPlugin::ReloadLuaScripts()

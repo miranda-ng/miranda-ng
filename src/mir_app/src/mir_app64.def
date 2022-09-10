@@ -128,7 +128,6 @@ Proto_ChainSend @139
 Proto_IsProtoOnContact @140
 Proto_RegisterModule @141
 Proto_RemoveFromContact @142
-KillModuleMenus @198
 Utils_ReplaceVars @199
 Utils_ReplaceVarsW @200
 Menu_ShowItem @201
@@ -171,13 +170,6 @@ ExtraIcon_SetIconByName @238
 ExtraIcon_Clear @239
 ExtraIcon_RegisterCallback @240
 ExtraIcon_RegisterIcolib @241
-KillModuleIcons @242
-KillModuleColours @243 
-KillModuleEffects @244 
-KillModuleExtraIcons @245
-KillModuleFonts @246
-KillModuleHotkeys @247
-KillModuleSounds @248
 IsPluginLoaded @249
 Clist_GroupBuildMenu @250
 Clist_GroupCreate @251

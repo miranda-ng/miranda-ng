@@ -9,7 +9,7 @@ struct CMPluginGoogle : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CGDriveService::Init, (pfnUninitProto)CGDriveService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, CGDriveService::Init, CGDriveService::UnInit);
 	}
 }
 g_pluginGoogle;
@@ -22,16 +22,16 @@ CGDriveService::CGDriveService(const char *protoName, const wchar_t *userName) :
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_GDRIVE);
 }
 
-CGDriveService* CGDriveService::Init(const char *moduleName, const wchar_t *userName)
+PROTO_INTERFACE* CGDriveService::Init(const char *moduleName, const wchar_t *userName)
 {
 	CGDriveService *proto = new CGDriveService(moduleName, userName);
 	Services.insert(proto);
 	return proto;
 }
 
-int CGDriveService::UnInit(CGDriveService *proto)
+int CGDriveService::UnInit(PROTO_INTERFACE *proto)
 {
-	Services.remove(proto);
+	Services.remove((CGDriveService*)proto);
 	delete proto;
 	return 0;
 }

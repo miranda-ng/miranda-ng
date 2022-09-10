@@ -8,7 +8,7 @@ struct CMPluginOnedrive : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)COneDriveService::Init, (pfnUninitProto)COneDriveService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, COneDriveService::Init, COneDriveService::UnInit);
 	}
 }
 g_pluginOnedrive;
@@ -21,16 +21,16 @@ COneDriveService::COneDriveService(const char *protoName, const wchar_t *userNam
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_ONEDRIVE);
 }
 
-COneDriveService* COneDriveService::Init(const char *moduleName, const wchar_t *userName)
+PROTO_INTERFACE* COneDriveService::Init(const char *moduleName, const wchar_t *userName)
 {
 	COneDriveService *proto = new COneDriveService(moduleName, userName);
 	Services.insert(proto);
 	return proto;
 }
 
-int COneDriveService::UnInit(COneDriveService *proto)
+int COneDriveService::UnInit(PROTO_INTERFACE *proto)
 {
-	Services.remove(proto);
+	Services.remove((COneDriveService *)proto);
 	delete proto;
 	return 0;
 }

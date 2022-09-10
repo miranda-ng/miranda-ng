@@ -5,6 +5,7 @@
 extern PLUGININFOEX pluginInfoEx;
 
 EXTERN_C MIR_APP_DLL(void) RegisterPlugin(CMPluginBase *pPlugin);
+EXTERN_C MIR_APP_DLL(void) UnregisterPlugin(CMPluginBase *pPlugin);
 
 CMLuaEnvironment::CMLuaEnvironment(lua_State *L) :
 	CMPluginBase(nullptr, pluginInfoEx), L(L)
@@ -15,10 +16,7 @@ CMLuaEnvironment::CMLuaEnvironment(lua_State *L) :
 
 int CMLuaEnvironment::Unload()
 {
-	KillModuleIcons(this);
-	KillModuleSounds(this);
-	KillModuleMenus(this);
-	KillModuleHotkeys(this);
+	::UnregisterPlugin(this);
 
 	KillObjectEventHooks(this);
 	KillObjectServices(this);

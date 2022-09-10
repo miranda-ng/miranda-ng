@@ -122,10 +122,6 @@ MIR_APP_DLL(int) ImageList_AddProtoIcon(HIMAGELIST hIml, const char *szProto, in
 
 #define ME_SKIN_ICONSCHANGED "Skin/IconsChanged"
 
-///////////////////////////////////////////////////////////////////////////////
-
-MIR_APP_DLL(void)   KillModuleIcons(HPLUGIN pPlugin);
-
 #if defined(__cplusplus)
 }
 #endif

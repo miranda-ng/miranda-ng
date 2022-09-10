@@ -20,8 +20,8 @@ private:
 public:
 	CGDriveService(const char *protoName, const wchar_t *userName);
 
-	static CGDriveService* Init(const char *szModuleName, const wchar_t *szUserName);
-	static int UnInit(CGDriveService*);
+	static PROTO_INTERFACE* Init(const char *szModuleName, const wchar_t *szUserName);
+	static int UnInit(PROTO_INTERFACE*);
 
 	const char* GetModuleName() const override;
 

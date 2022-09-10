@@ -252,10 +252,5 @@ __forceinline int Menu_ConfigureItem(HGENMENU hMenu, int iSetting, LPCSTR pszVal
 
 EXTERN_C MIR_APP_DLL(HGENMENU) Menu_GetProtocolRoot(PROTO_INTERFACE *pThis);
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// kills all menu items & submenus that belong to the language id given
-
-EXTERN_C MIR_APP_DLL(void) KillModuleMenus(HPLUGIN pPlugin);
-
 #endif // M_GENMENU_H__
 

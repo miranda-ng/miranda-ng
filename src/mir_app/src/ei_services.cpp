@@ -185,7 +185,7 @@ static void ResetSlots(BaseExtraIcon *extra, ExtraIconGroup *group, int iOldSlot
 	}
 }
 
-MIR_APP_DLL(void) KillModuleExtraIcons(HPLUGIN pPlugin)
+void KillModuleExtraIcons(CMPluginBase *pPlugin)
 {
 	LIST<ExtraIcon> arIcons(1);
 

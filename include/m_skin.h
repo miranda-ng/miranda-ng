@@ -133,10 +133,6 @@ EXTERN_C MIR_APP_DLL(int) Skin_PlaySound(const char *name);
 EXTERN_C MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-EXTERN_C MIR_APP_DLL(void) KillModuleSounds(HPLUGIN);
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // wParam: 0 when playing sound (1 when sound is being previewed)
 // lParam: (wchar_t*) pszSoundFile
 // Affect: This hook is fired when the sound module needs to play a sound

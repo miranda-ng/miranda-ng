@@ -8,7 +8,7 @@ struct CMPluginYandex : public CMPluginBase
 	{
 		m_hInst = g_plugin.getInst();
 
-		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, (pfnInitProto)CYandexService::Init, (pfnUninitProto)CYandexService::UnInit);
+		RegisterProtocol(PROTOTYPE_PROTOWITHACCS, CYandexService::Init, CYandexService::UnInit);
 	}
 }
 g_pluginYandex;
@@ -21,16 +21,16 @@ CYandexService::CYandexService(const char *protoName, const wchar_t *userName) :
 	m_hProtoIcon = g_plugin.getIconHandle(IDI_YADISK);
 }
 
-CYandexService* CYandexService::Init(const char *moduleName, const wchar_t *userName)
+PROTO_INTERFACE* CYandexService::Init(const char *moduleName, const wchar_t *userName)
 {
 	CYandexService *proto = new CYandexService(moduleName, userName);
 	Services.insert(proto);
 	return proto;
 }
 
-int CYandexService::UnInit(CYandexService *proto)
+int CYandexService::UnInit(PROTO_INTERFACE *proto)
 {
-	Services.remove(proto);
+	Services.remove((CYandexService*)proto);
 	delete proto;
 	return 0;
 }

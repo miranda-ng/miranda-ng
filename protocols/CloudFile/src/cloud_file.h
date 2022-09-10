@@ -24,7 +24,6 @@ protected:
 	virtual void HandleHttpError(NETLIBHTTPREQUEST *response);
 	virtual void HandleJsonError(JSONNode &node) = 0;
 
-	void OnErase() override;
 	void OnModulesLoaded() override;
 
 	JSONNode GetJsonResponse(NETLIBHTTPREQUEST *response);

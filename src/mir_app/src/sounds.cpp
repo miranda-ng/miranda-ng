@@ -363,7 +363,7 @@ static int SkinOptionsInit(WPARAM wParam, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(void) KillModuleSounds(HPLUGIN pPlugin)
+void KillModuleSounds(CMPluginBase *pPlugin)
 {
 	bool bFound = false;
 

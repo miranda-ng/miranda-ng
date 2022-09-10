@@ -815,7 +815,7 @@ MIR_APP_DLL(int) Srmm_RemoveButton(BBButton *bbdi)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void KillModuleToolbarIcons(HPLUGIN pPlugin)
+void KillModuleToolbarIcons(CMPluginBase *pPlugin)
 {
 	int oldCount = arButtonsList.getCount();
 

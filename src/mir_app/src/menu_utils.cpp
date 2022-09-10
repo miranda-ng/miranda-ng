@@ -661,13 +661,13 @@ MIR_APP_DLL(int) Menu_RemoveItem(HGENMENU hMenuItem)
 
 struct KillMenuItemsParam
 {
-	KillMenuItemsParam(HPLUGIN _pPlugin) :
+	KillMenuItemsParam(CMPluginBase *_pPlugin) :
 		pPlugin(_pPlugin),
 		arItems(10)
 	{
 	}
 
-	HPLUGIN pPlugin;
+	CMPluginBase *pPlugin;
 	LIST<TMO_IntMenuItem> arItems;
 };
 
@@ -678,7 +678,7 @@ int KillMenuItems(TMO_IntMenuItem *pimi, KillMenuItemsParam* param)
 	return FALSE;
 }
 
-MIR_APP_DLL(void) KillModuleMenus(HPLUGIN pPlugin)
+void KillModuleMenus(CMPluginBase *pPlugin)
 {
 	if (!bIsGenMenuInited)
 		return;

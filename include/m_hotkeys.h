@@ -86,8 +86,4 @@ EXTERN_C MIR_APP_DLL(void) Hotkey_Unsubclass(HWND hwndEdit);
 
 #define ME_HOTKEYS_CHANGED "CoreHotkeys/Changed"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-EXTERN_C MIR_APP_DLL(void) KillModuleHotkeys(HPLUGIN pPlugin);
-
 #endif // M_HOTKEYS_H__
