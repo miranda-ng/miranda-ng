@@ -125,7 +125,7 @@ public:
 	wchar_t number[256];
 	wchar_t displayName[256];
 	int state = -1;
-	bool incoming = false, secure = false, clistBlinking = false;
+	bool incoming = false, secure = false, clistBlinking = false, soundActive = false;
 
 	VoiceCall(VoiceProvider *module, const char *id);
 	~VoiceCall();

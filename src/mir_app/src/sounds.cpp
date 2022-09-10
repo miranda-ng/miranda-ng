@@ -408,24 +408,29 @@ int CMPluginBase::addSound(const char *pszName, const wchar_t *pwszSection, cons
 static int Skin_PlaySoundDefault(WPARAM wParam, LPARAM lParam)
 {
 	wchar_t *pszFile = (wchar_t*)lParam;
-	if (pszFile && (db_get_b(0, "Skin", "UseSound", 0) || (int)wParam == 1))
-		PlaySound(pszFile, nullptr, SND_ASYNC | SND_FILENAME | SND_NOSTOP);
+	if (db_get_b(0, "Skin", "UseSound", 0) || (wParam & SPS_FORCEPLAY) != 0) {
+		int flags = SND_ASYNC | SND_FILENAME | SND_NOSTOP;
+		if (wParam & SPS_LOOP)
+			flags |= SND_LOOP;
+		PlaySoundW(pszFile, nullptr, flags);
+	}
 
 	return 0;
 }
 
-MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName)
+MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName, int flags)
 {
-	if (pwszFileName == nullptr)
-		return 1;
-
-	wchar_t tszFull[MAX_PATH];
-	PathToAbsoluteW(pwszFileName, tszFull);
-	NotifyEventHooks(hPlayEvent, 0, (LPARAM)tszFull);
+	if (pwszFileName) {
+		wchar_t tszFull[MAX_PATH];
+		PathToAbsoluteW(pwszFileName, tszFull);
+		NotifyEventHooks(hPlayEvent, flags, (LPARAM)tszFull);
+	}
+	else NotifyEventHooks(hPlayEvent, flags, 0);
+	
 	return 0;
 }
 
-MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName)
+MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName, int flags)
 {
 	if (pszSoundName == nullptr)
 		return 1;
@@ -441,7 +446,7 @@ MIR_APP_DLL(int) Skin_PlaySound(const char *pszSoundName)
 	if (wszFilePath == nullptr)
 		return 1;
 
-	Skin_PlaySoundFile(wszFilePath);
+	Skin_PlaySoundFile(wszFilePath, flags);
 	return 0;
 }
 

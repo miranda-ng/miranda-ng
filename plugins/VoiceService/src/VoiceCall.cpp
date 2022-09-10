@@ -196,6 +196,11 @@ void VoiceCall::RemoveNotifications()
 		g_clistApi.pfnRemoveEvent(hContact, MEVENT(1001));
 		clistBlinking = false;
 	}
+
+	if (soundActive) {
+		Skin_PlaySoundFile(nullptr);
+		soundActive = false;
+	}
 }
 
 void VoiceCall::SetState(int aState)
@@ -259,10 +264,12 @@ void VoiceCall::SetStatus(const wchar_t *text)
 
 void VoiceCall::Notify(bool popup, bool sound, bool clist)
 {
-	if (sound)
-		Skin_PlaySound(g_sounds[state].szName);
+	if (sound) {
+		soundActive = true;
+		Skin_PlaySound(g_sounds[state].szName, SPS_LOOP);
+	}
 
-	if(IsWindowVisible(GetHwnd()))
+	if (IsWindowVisible(GetHwnd()))
 		return;
 
 	if (popup)

@@ -124,13 +124,16 @@ EXTERN_C MIR_APP_DLL(HANDLE) Skin_GetProtoIcon(const char *szProto, int status);
 // plays a registered sound
 // returns 0 on success, nonzero otherwise
 
-EXTERN_C MIR_APP_DLL(int) Skin_PlaySound(const char *name);
+#define SPS_FORCEPLAY 0x0001  // play sound even if Options - Sounds - Enabled is unset
+#define SPS_LOOP      0x0002  // loop sound until Skin_PlaySoundFile(NULL) is called
+
+EXTERN_C MIR_APP_DLL(int) Skin_PlaySound(const char *name, int spsFlags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // plays the sound file (non-registered)
 // returns 0 on success, nonzero otherwise
 
-EXTERN_C MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName);
+EXTERN_C MIR_APP_DLL(int) Skin_PlaySoundFile(const wchar_t *pwszFileName, int spsFlags = 0);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // wParam: 0 when playing sound (1 when sound is being previewed)
