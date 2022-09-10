@@ -128,7 +128,7 @@ public:
 
 				HICON hIcon;
 				if (uResId)
-					hIcon = reinterpret_cast<HICON>(::LoadImage(nullptr, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED));
+					hIcon = reinterpret_cast<HICON>(::LoadImage(nullptr, MAKEINTRESOURCE(uResId), IMAGE_ICON, 0, 0, LR_SHARED | LR_DEFAULTSIZE));
 				else
 					hIcon = ::Skin_LoadIcon(SKINICON_EVENT_MESSAGE, true);
 				::SendDlgItemMessageW(hwnd, IDC_WARNICON, STM_SETICON, reinterpret_cast<WPARAM>(hIcon), 0);
