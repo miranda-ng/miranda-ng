@@ -68,6 +68,7 @@
     <ClCompile Include="src\typingnotify.cpp" />
     <ClCompile Include="src\userprefs.cpp" />
     <ClCompile Include="src\utils.cpp" />
+    <ClCompile Include="src\warning.cpp" />
     <ClInclude Include="src\chat.h" />
     <ClInclude Include="src\chat_resource.h" />
     <ClInclude Include="src\contactcache.h" />

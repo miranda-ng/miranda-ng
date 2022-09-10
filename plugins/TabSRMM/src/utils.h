@@ -114,7 +114,7 @@ __forceinline LRESULT _dlgReturn(HWND hWnd, LRESULT result)
 // implements a warning dialog with a "do not show this again" check
 // box
 
-struct CWarning
+namespace CWarning
 {
 	// warning IDs
 	enum
@@ -139,28 +139,8 @@ struct CWarning
 		CWF_NOALLOWHIDE = 0x00020000  // critical message, hide the "do not show this again" check box
 	};
 
-	CWarning(const wchar_t* tszTitle, const wchar_t* tszText, const UINT uId, const uint32_t dwFlags);
-	~CWarning();
-
-public:
-	// static function to construct and show the dialog, returns the user's choice
-	static LRESULT show(const int uId, uint32_t dwFlags = 0, const wchar_t* tszTxt = nullptr);
-	static void destroyAll();
-	LRESULT ShowDialog() const;
-
-private:
-	ptrW     m_szTitle, m_szText;
-	UINT     m_uId;
-	HFONT    m_hFontCaption;
-	uint32_t m_dwFlags;
-	HWND     m_hwnd = nullptr;
-	bool     m_fIsModal;
-
-	INT_PTR CALLBACK dlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK	stubDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-
-private:
-	static MWindowList hWindowList;
-};
+	LRESULT show(const int uId, uint32_t dwFlags = 0, const wchar_t *tszTxt = nullptr);
+	void destroyAll();
+}
 
 #endif /* __UTILS_H */
