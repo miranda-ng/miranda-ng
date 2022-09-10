@@ -176,6 +176,15 @@ class CUserInfoDlg : public CDlgBase
 
 	void BuildTree()
 	{
+		m_tree.SendMsg(WM_SETREDRAW, FALSE, 0);
+
+		if (m_pCurrent) {
+			SaveLocation();
+			m_tree.DeleteAllItems();
+			m_pages.destroy();
+			m_pCurrent = nullptr;
+		}
+
 		if (m_imageList)
 			ImageList_Destroy(m_imageList);
 		m_imageList = ImageList_Create(16, 16, ILC_MASK | ILC_COLOR32, 2, 1);
@@ -201,6 +210,10 @@ class CUserInfoDlg : public CDlgBase
 				}
 			}
 		}
+
+		m_tree.SendMsg(WM_SETREDRAW, TRUE, 0);
+		m_tree.SelectItem(m_pCurrent->hItem);
+		SetFocus(m_tree.GetHwnd());
 	}
 
 	void CheckOnline()
@@ -244,6 +257,20 @@ class CUserInfoDlg : public CDlgBase
 		ClientToScreen(m_hwnd, &pt);
 		OffsetRect(&rc, -pt.x, -pt.y);
 		SetWindowPos(m_pCurrent->hwnd, HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, 0);
+	}
+
+	void SaveLocation()
+	{
+		if (m_pCurrent) {
+			wchar_t name[128];
+			TVITEMEX tvi;
+			tvi.mask = TVIF_TEXT;
+			tvi.hItem = m_pCurrent->hItem;
+			tvi.pszText = name;
+			tvi.cchTextMax = _countof(name);
+			m_tree.GetItem(&tvi);
+			g_plugin.setWString("LastTab", name);
+		}
 	}
 
 	CCtrlBase m_place;
@@ -295,10 +322,6 @@ public:
 		BuildTree();
 
 		//////////////////////////////////////////////////////////////////////
-
-		m_tree.SelectItem(m_pCurrent->hItem);
-
-		//////////////////////////////////////////////////////////////////////
 		m_updateAnimFrame = 0;
 		GetDlgItemText(m_hwnd, IDC_UPDATING, m_szUpdating, _countof(m_szUpdating));
 		CheckOnline();
@@ -308,7 +331,6 @@ public:
 		}
 		else ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);
 
-		SetFocus(m_tree.GetHwnd());
 		return true;
 	}
 
@@ -362,16 +384,7 @@ public:
 
 	void OnDestroy() override
 	{
-		if (m_pCurrent) {
-			wchar_t name[128];
-			TVITEMEX tvi;
-			tvi.mask = TVIF_TEXT;
-			tvi.hItem = m_pCurrent->hItem;
-			tvi.pszText = name;
-			tvi.cchTextMax = _countof(name);
-			m_tree.GetItem(&tvi);
-			g_plugin.setWString("LastTab", name);
-		}
+		SaveLocation();
 
 		if (m_imageList)
 			ImageList_Destroy(m_imageList);
@@ -441,7 +454,11 @@ public:
 				if (ack->hContact != m_hContact && !(m_bIsMeta && db_mc_getMeta(ack->hContact) == m_hContact))
 					break;
 
+				if (ack->result == ACKRESULT_SUCCESS)
+					BuildTree();
+
 				SendMessage(m_hwnd, PSM_FORCECHANGED, 0, 0);
+
 				/* if they're not gonna send any more ACK's don't let that mean we should crash */
 				if (!ack->hProcess && !ack->lParam) {
 					ShowWindow(GetDlgItem(m_hwnd, IDC_UPDATING), SW_HIDE);

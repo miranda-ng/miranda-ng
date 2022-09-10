@@ -33,6 +33,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static MWindowList hUserInfoList = nullptr;
 
+class JabberBaseUserInfoDlg : public CUserInfoPageDlg
+{
+	INT_PTR DoRefresh(UINT, WPARAM, LPARAM)
+	{
+		OnRefresh();
+		return 0;
+	}
+
+protected:
+	UI_MESSAGE_MAP(JabberBaseUserInfoDlg, CUserInfoPageDlg);
+		UI_MESSAGE(WM_PROTO_REFRESH, DoRefresh);
+		UI_MESSAGE(WM_JABBER_REFRESH_VCARD, DoRefresh);
+	UI_MESSAGE_MAP_END();
+
+	CJabberProto *ppro;
+
+	JabberBaseUserInfoDlg(CJabberProto *_ppro, int dlgId) :
+		CUserInfoPageDlg(g_plugin, dlgId),
+		ppro(_ppro)
+	{}
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserInfoDlgProc - main user info dialog
 
@@ -69,15 +91,14 @@ __forceinline uint32_t sttInfoLineId(uint32_t res, uint32_t type, uint32_t line 
 		(line) & 0x00000fff;
 }
 
-class JabberUserInfoDlg : public CUserInfoPageDlg
+class JabberUserInfoDlg : public JabberBaseUserInfoDlg
 {
-	CJabberProto *ppro;
 	JABBER_LIST_ITEM *item = nullptr;
 	int resourcesCount = -1;
 
 	CCtrlTreeView m_tree;
 
-	UI_MESSAGE_MAP(JabberUserInfoDlg, CUserInfoPageDlg);
+	UI_MESSAGE_MAP(JabberUserInfoDlg, JabberBaseUserInfoDlg);
 		UI_MESSAGE(WM_PROTO_CHECK_ONLINE, OnCheckOnline);
 	UI_MESSAGE_MAP_END();
 
@@ -379,8 +400,7 @@ class JabberUserInfoDlg : public CUserInfoPageDlg
 
 public:
 	JabberUserInfoDlg(CJabberProto *_ppro) :
-		CUserInfoPageDlg(g_plugin, IDD_INFO_JABBER),
-		ppro(_ppro),
+		JabberBaseUserInfoDlg(_ppro, IDD_INFO_JABBER),
 		m_tree(this, IDC_TV_INFO)
 	{
 		m_tree.OnBuildMenu = Callback(this, &JabberUserInfoDlg::onMenu_Tree);
@@ -500,14 +520,13 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberUserPhotoDlgProc - Jabber photo dialog
 
-class JabberUserPhotoDlg : public CUserInfoPageDlg
+class JabberUserPhotoDlg : public JabberBaseUserInfoDlg
 {
 	HBITMAP hBitmap = nullptr;
-	CJabberProto *ppro;
 
 	CCtrlButton btnSave;
 
-	UI_MESSAGE_MAP(JabberUserInfoDlg, CUserInfoPageDlg);
+	UI_MESSAGE_MAP(JabberUserInfoDlg, JabberBaseUserInfoDlg);
 		UI_MESSAGE(WM_PAINT, OnPaint);
 	UI_MESSAGE_MAP_END();
 
@@ -527,8 +546,7 @@ class JabberUserPhotoDlg : public CUserInfoPageDlg
 
 public:
 	JabberUserPhotoDlg(CJabberProto *_ppro) :
-		CUserInfoPageDlg(g_plugin, IDD_VCARD_PHOTO),
-		ppro(_ppro),
+		JabberBaseUserInfoDlg(_ppro, IDD_VCARD_PHOTO),
 		btnSave(this, IDC_SAVE)
 	{
 		btnSave.OnClick = Callback(this, &JabberUserPhotoDlg::onClick_Save);
@@ -720,10 +738,8 @@ static int EnumOmemoSessions(const char *szSetting, void *param)
 	return 0;
 }
 
-class JabberUserOmemoDlg : public CUserInfoPageDlg
+class JabberUserOmemoDlg : public JabberBaseUserInfoDlg
 {
-	CJabberProto *ppro;
-
 	CCtrlListView m_list;
 
 	void AddListItem(const CMStringA &pszStr1, const wchar_t *pszStr2, const CMStringA &pszStr3)
@@ -742,8 +758,7 @@ class JabberUserOmemoDlg : public CUserInfoPageDlg
 
 public:
 	JabberUserOmemoDlg(CJabberProto *_ppro) :
-		CUserInfoPageDlg(g_plugin, IDD_INFO_OMEMO),
-		ppro(_ppro),
+		JabberBaseUserInfoDlg(_ppro, IDD_INFO_OMEMO),
 		m_list(this, IDC_LIST)
 	{
 	}
