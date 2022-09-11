@@ -257,7 +257,7 @@ public:
 		ShowWindow(GetDlgItem(m_hwnd, IDC_PROGRESS_REG), SW_SHOW);
 
 		m_regInfo->pDlg = this;
-		m_proto->ForkThread((CJabberProto::MyThreadFunc) & CJabberProto::ServerThread, m_regInfo);
+		m_proto->ForkThread((CJabberProto::MyThreadFunc)&CJabberProto::ServerThread, m_regInfo);
 
 		m_btnOk.SetText(TranslateT("Cancel"));
 		m_bProcessStarted = true;

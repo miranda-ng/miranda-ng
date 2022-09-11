@@ -50,22 +50,22 @@ struct JabberPasswordDlgParam
 {
 	CJabberProto *pro;
 
-	BOOL    saveOnlinePassword;
-	uint16_t    dlgResult;
-	wchar_t onlinePassword[128];
-	HANDLE  hEventPasswdDlg;
-	char   *pszJid;
+	BOOL     saveOnlinePassword;
+	uint16_t dlgResult;
+	wchar_t  onlinePassword[128];
+	HANDLE   hEventPasswdDlg;
+	char*    pszJid;
 };
 
 static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	JabberPasswordDlgParam* param = (JabberPasswordDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	JabberPasswordDlgParam *param = (JabberPasswordDlgParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 
-		param = (JabberPasswordDlgParam*)lParam;
+		param = (JabberPasswordDlgParam *)lParam;
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		wchar_t text[512];
@@ -236,11 +236,56 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 {
 	Thread_SetName("Jabber: ServerThread");
 
+	// registration? execute thread once and forget
+	if (pParam) {
+		ThreadData info(this, pParam);
+		ServerThreadStub(info);
+		return;
+	}
+
+	// normal server connection, we will fetch all connection parameters
+	// e.g. username, password, etc. from the database.
+	if (m_ThreadInfo != nullptr) {
+		debugLogA("Thread ended, another normal thread is running");
+		return;
+	}
+
 	do {
 		ThreadData info(this, pParam);
-		if (ServerThreadStub(info))
-			return;
-	} while (true);
+		if (!ServerThreadStub(info))
+			break;
+	} while (m_StrmMgmt.IsResumeIdPresent());
+
+	// fully reset strm_mgmt state
+	m_StrmMgmt.ResetState();
+
+	// quit all chatrooms (will send quit message)
+	LISTFOREACH(i, this, LIST_CHATROOM)
+		if (JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i))
+			GcQuit(item, 0, nullptr);
+
+	ListRemoveList(LIST_CHATROOM);
+	ListRemoveList(LIST_BOOKMARK);
+	UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_PROTO_CHECK_ONLINE);
+	WindowList_Broadcast(m_hWindowList, WM_PROTO_CHECK_ONLINE, 0, 0);
+
+	// Set status to offline
+	debugLogA("m_iDesiredStatus reset to (%d,%d) => %d", m_iStatus, m_iDesiredStatus, ID_STATUS_OFFLINE);
+	int oldStatus = m_iStatus;
+	m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
+	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+
+	// Set all contacts to offline
+	debugLogA("leaving worker thread");
+	for (auto &hContact : AccContacts())
+		SetContactOfflineStatus(hContact);
+
+	mir_free(m_szJabberJID);
+	m_szJabberJID = nullptr;
+	m_tmJabberLoggedInTime = 0;
+	ListWipe();
+
+	WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 }
 
 bool CJabberProto::ServerThreadStub(ThreadData &info)
@@ -259,13 +304,6 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 	info.conn.useSSL = m_bUseSSL;
 
 	if (!info.bIsReg) {
-		// Normal server connection, we will fetch all connection parameters
-		// e.g. username, password, etc. from the database.
-		if (m_ThreadInfo != nullptr) {
-			debugLogA("Thread ended, another normal thread is running");
-			return true;
-		}
-
 		m_ThreadInfo = &info;
 
 		if (char *pszValue = getUStringA("LoginName")) {
@@ -285,12 +323,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 			debugLogA("Thread ended, login name is not configured");
 			JLoginFailed(LOGINERR_BADUSERID);
 
-LBL_FatalError:
-			debugLogA("m_iDesiredStatus reset to (%d,%d) => %d", m_iStatus, m_iDesiredStatus, ID_STATUS_OFFLINE);
-			int oldStatus = m_iStatus;
-			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-			return true;
+			return false;
 		}
 
 		ptrA szValue(getStringA("LoginServer"));
@@ -299,7 +332,7 @@ LBL_FatalError:
 		else {
 			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			debugLogA("Thread ended, login server is not configured");
-			goto LBL_FatalError;
+			return false;
 		}
 
 		if (m_bHostNameAsResource) {
@@ -338,7 +371,7 @@ LBL_FatalError:
 				if (param.dlgResult == IDCANCEL) {
 					JLoginFailed(LOGINERR_BADUSERID);
 					debugLogA("Thread ended, password request dialog was canceled");
-					goto LBL_FatalError;
+					return false;
 				}
 
 				m_savedPassword = (param.saveOnlinePassword) ? mir_wstrdup(param.onlinePassword) : nullptr;
@@ -350,7 +383,7 @@ LBL_FatalError:
 			if (tszPassw == nullptr) {
 				JLoginFailed(LOGINERR_BADUSERID);
 				debugLogA("Thread ended, password is not configured");
-				goto LBL_FatalError;
+				return false;
 			}
 			strncpy_s(info.conn.password, tszPassw, _TRUNCATE);
 		}
@@ -374,7 +407,7 @@ LBL_FatalError:
 			ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 
 		debugLogA("Thread ended, network buffer cannot be allocated");
-		goto LBL_FatalError;
+		return false;
 	}
 
 	if (info.conn.manualHost[0] == 0) {
@@ -396,14 +429,14 @@ LBL_FatalError:
 		else info.conn.SetProgress(100, TranslateT("Error: Cannot connect to the server"));
 
 		debugLogA("Thread ended, connection failed");
-		goto LBL_FatalError;
+		return false;
 	}
 
 	// Determine local IP
 	if (info.conn.useSSL) {
 		debugLogA("Intializing SSL connection");
 		if (!Netlib_StartSsl(info.s, nullptr)) {
-			debugLogA("SSL intialization failed");
+			MsgPopup(0, TranslateT("Error"), TranslateT("SSL intialization failed"));
 			if (!info.bIsReg)
 				ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, LOGINERR_NONETWORK);
 			else
@@ -411,155 +444,121 @@ LBL_FatalError:
 
 			info.close();
 			debugLogA("Thread ended, SSL connection failed");
-			goto LBL_FatalError;
+			return false;
 		}
 	}
 
-	// User may change status to OFFLINE while we are connecting above
-	if (m_iDesiredStatus != ID_STATUS_OFFLINE || info.bIsReg) {
-		if (!info.bIsReg) {
-			m_szJabberJID = CMStringA(FORMAT, "%s@%s", info.conn.username, info.conn.server).Detach();
-			setUString("jid", m_szJabberJID); // store jid in database
+	if (!info.bIsReg) {
+		// User may change status to OFFLINE while we are connecting above
+		if (m_iDesiredStatus == ID_STATUS_OFFLINE)
+			return false;
 
-			ListInit();
-			m_impl.m_keepAlive.Start(1000);
-		}
+		m_szJabberJID = CMStringA(FORMAT, "%s@%s", info.conn.username, info.conn.server).Detach();
+		setUString("jid", m_szJabberJID); // store jid in database
 
-		xmlStreamInitializeNow(&info);
+		ListInit();
+		m_impl.m_keepAlive.Start(1000);
+	}
 
-		debugLogA("Entering main recv loop");
-		int datalen = 0;
+	xmlStreamInitializeNow(&info);
 
-		// main socket reading cycle
-		for (;;) {
-			int recvResult = info.recv(info.buffer + datalen, jabberNetworkBufferSize - datalen);
-			debugLogA("recvResult = %d", recvResult);
-			if (recvResult <= 0)
-				break;
-			datalen += recvResult;
+	debugLogA("Entering main recv loop");
+	int datalen = 0;
+
+	// main socket reading cycle
+	for (;;) {
+		int recvResult = info.recv(info.buffer + datalen, jabberNetworkBufferSize - datalen);
+		debugLogA("recvResult = %d", recvResult);
+		if (recvResult <= 0)
+			break;
+		datalen += recvResult;
 
 recvRest:
-			info.buffer[datalen] = '\0';
+		info.buffer[datalen] = '\0';
 
-			int bytesParsed = 0;
-			TiXmlDocument root;
-			if (m_bStreamSent) {
-				m_bStreamSent = false;
-				char *p = strstr(info.buffer, "<stream:stream");
-				if (p) {
-					char *q = strchr(p + 15, '>');
-					if (q) {
-						CMStringA tmp(info.buffer, int(q - info.buffer) + 1);
-						tmp.Append("</stream:stream>");
+		int bytesParsed = 0;
+		TiXmlDocument root;
+		if (m_bStreamSent) {
+			m_bStreamSent = false;
+			char *p = strstr(info.buffer, "<stream:stream");
+			if (p) {
+				char *q = strchr(p + 15, '>');
+				if (q) {
+					CMStringA tmp(info.buffer, int(q - info.buffer) + 1);
+					tmp.Append("</stream:stream>");
 
-						if (0 == root.Parse(tmp)) {
-							for (auto *n : TiXmlEnum(&root))
-								OnProcessProtocol(n, &info);
-							bytesParsed = root.BytesParsed() - 16;
-							debugLogA("bytesParsed = %d", bytesParsed);
-						}
+					if (0 == root.Parse(tmp)) {
+						for (auto *n : TiXmlEnum(&root))
+							OnProcessProtocol(n, &info);
+						bytesParsed = root.BytesParsed() - 16;
+						debugLogA("bytesParsed = %d", bytesParsed);
 					}
 				}
 			}
-
-			if (bytesParsed == 0) {
-				if (0 == root.Parse(info.buffer)) {
-					for (auto *n : TiXmlEnum(&root))
-						OnProcessProtocol(n, &info);
-					bytesParsed = root.BytesParsed();
-					debugLogA("bytesParsed = %d", bytesParsed);
-				}
-				else debugLogA("parsing error %d: %s", root.ErrorID(), root.ErrorStr());
-			}
-
-			if (bytesParsed > 0) {
-				if (bytesParsed < datalen)
-					memmove(info.buffer, info.buffer + bytesParsed, datalen - bytesParsed);
-				datalen -= bytesParsed;
-			}
-			else if (datalen >= jabberNetworkBufferSize) {
-				//jabberNetworkBufferSize += 65536;
-				jabberNetworkBufferSize *= 2;
-				debugLogA("Increasing network buffer size to %d", jabberNetworkBufferSize);
-				if ((info.buffer = (char *)mir_realloc(info.buffer, jabberNetworkBufferSize + 1)) == nullptr) {
-					debugLogA("Cannot reallocate more network buffer, go offline now");
-					break;
-				}
-			}
-			else debugLogA("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
-
-			if (m_szXmlStreamToBeInitialized)
-				xmlStreamInitializeNow(&info);
-
-			if (root.FirstChild() && datalen)
-				goto recvRest;
 		}
 
-		if (!info.bIsReg) {
-			m_impl.m_keepAlive.Stop();
-			m_bJabberOnline = false;
-			info.zlibUninit();
-			EnableMenuItems(false);
-			if (m_hwndJabberChangePassword)
-				// Since this is a different thread, simulate the click on the cancel button instead
-				SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
-
-			if (m_StrmMgmt.IsResumeIdPresent()) {
-				m_StrmMgmt.HandleConnectionLost();
-				int oldStatus = m_iStatus;
-				m_iStatus = ID_STATUS_CONNECTING;
-				ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-				return false;
+		if (bytesParsed == 0) {
+			if (0 == root.Parse(info.buffer)) {
+				for (auto *n : TiXmlEnum(&root))
+					OnProcessProtocol(n, &info);
+				bytesParsed = root.BytesParsed();
+				debugLogA("bytesParsed = %d", bytesParsed);
 			}
+			else debugLogA("parsing error %d: %s", root.ErrorID(), root.ErrorStr());
+		}
 
-			m_iqManager.ExpireAll();
-			m_StrmMgmt.ResetState(); // fully reset strm_mgmt state
+		if (bytesParsed > 0) {
+			if (bytesParsed < datalen)
+				memmove(info.buffer, info.buffer + bytesParsed, datalen - bytesParsed);
+			datalen -= bytesParsed;
+		}
+		else if (datalen >= jabberNetworkBufferSize) {
+			jabberNetworkBufferSize *= 2;
+			debugLogA("Increasing network buffer size to %d", jabberNetworkBufferSize);
+			if ((info.buffer = (char *)mir_realloc(info.buffer, jabberNetworkBufferSize + 1)) == nullptr) {
+				debugLogA("Cannot reallocate more network buffer, go offline now");
+				break;
+			}
+		}
+		else debugLogA("Unknown state: bytesParsed=%d, datalen=%d, jabberNetworkBufferSize=%d", bytesParsed, datalen, jabberNetworkBufferSize);
 
-			// Quit all chatrooms (will send quit message)
-			LISTFOREACH(i, this, LIST_CHATROOM)
-				if (JABBER_LIST_ITEM *item = ListGetItemPtrFromIndex(i))
-					GcQuit(item, 0, nullptr);
+		if (m_szXmlStreamToBeInitialized)
+			xmlStreamInitializeNow(&info);
 
-			ListRemoveList(LIST_CHATROOM);
-			ListRemoveList(LIST_BOOKMARK);
-			UI_SAFE_NOTIFY_HWND(m_hwndJabberAddBookmark, WM_PROTO_CHECK_ONLINE);
-			WindowList_Broadcast(m_hWindowList, WM_PROTO_CHECK_ONLINE, 0, 0);
+		if (root.FirstChild() && datalen)
+			goto recvRest;
+	}
 
-			// Set status to offline
-			debugLogA("m_iDesiredStatus reset to (%d,%d) => %d", m_iStatus, m_iDesiredStatus, ID_STATUS_OFFLINE);
+	if (!info.bIsReg) {
+		m_impl.m_keepAlive.Stop();
+		m_bJabberOnline = false;
+		info.zlibUninit();
+		EnableMenuItems(false);
+		m_iqManager.ExpireAll();
+		if (m_hwndJabberChangePassword)
+			// Since this is a different thread, simulate the click on the cancel button instead
+			SendMessage(m_hwndJabberChangePassword, WM_COMMAND, MAKEWORD(IDCANCEL, 0), 0);
+
+		if (m_StrmMgmt.IsResumeIdPresent()) {
+			m_StrmMgmt.HandleConnectionLost();
 			int oldStatus = m_iStatus;
-			m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
+			m_iStatus = ID_STATUS_CONNECTING;
 			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-
-			// Set all contacts to offline
-			debugLogA("leaving worker thread");
-			for (auto &hContact : AccContacts())
-				SetContactOfflineStatus(hContact);
-
-			mir_free(m_szJabberJID);
-			m_szJabberJID = nullptr;
-			m_tmJabberLoggedInTime = 0;
-			ListWipe();
-
-			WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
-		}
-		else {
-			if (!info.reg_done)
-				info.conn.SetProgress(100, TranslateT("Error: Connection lost"));
-			g_pRegInfo = nullptr;
+			info.close();
+			return true;
 		}
 	}
-	else if (!info.bIsReg) {
-		int oldStatus = m_iStatus;
-		m_iDesiredStatus = m_iStatus = ID_STATUS_OFFLINE;
-		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
+	else {
+		if (!info.reg_done)
+			info.conn.SetProgress(100, TranslateT("Error: Connection lost"));
+		g_pRegInfo = nullptr;
 	}
 
 	debugLogA("Thread ended: type=%d server='%s'", info.bIsReg, info.conn.server);
 
 	info.close();
 	debugLogA("Exiting ServerThread");
-	return true;
+	return false;
 }
 
 void CJabberProto::PerformRegistration(ThreadData *info)
