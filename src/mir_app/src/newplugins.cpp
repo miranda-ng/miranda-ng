@@ -513,15 +513,18 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 			MUUID *piface = p->m_pInterfaces;
 			for (int i = 0; piface[i] != miid_last; i++) {
 				int idx = getDefaultPluginIdx(piface[i]);
-				if (idx != -1 && pluginDefault[idx].pImpl) {
+				auto *pOldPlugin = pluginDefault[idx].pImpl;
+				if (idx != -1 && pOldPlugin) {
 					if (!bDynamic) { // this place is already occupied, skip & disable
 						SetPluginOnWhiteList(p->pluginname, false);
 						return false;
 					}
 
 					// we're loading new implementation dynamically, let the old one die
-					if (!p->bIsCore)
-						Plugin_UnloadDyn(pluginDefault[idx].pImpl);
+					if (!p->bIsCore) {
+						SetPluginOnWhiteList(pOldPlugin->pluginname, false);
+						Plugin_UnloadDyn(pOldPlugin);
+					}
 				}
 			}
 		}
