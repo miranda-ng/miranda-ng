@@ -273,7 +273,7 @@ void VoiceCall::Notify(bool popup, bool sound, bool clist)
 		return;
 
 	if (popup)
-		ShowPopup(NULL, displayName, TranslateW(popupTexts[state]));
+		ShowPopup(hContact, displayName, TranslateW(popupTexts[state]));
 
 	if (clist && state == VOICE_STATE_RINGING) {
 		CLISTEVENT ce = {};
