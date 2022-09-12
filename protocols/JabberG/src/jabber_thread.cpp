@@ -51,9 +51,7 @@ struct JabberPasswordDlgParam
 	CJabberProto *pro;
 
 	BOOL     saveOnlinePassword;
-	uint16_t dlgResult;
 	wchar_t  onlinePassword[128];
-	HANDLE   hEventPasswdDlg;
 	char*    pszJid;
 };
 
@@ -96,8 +94,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			__fallthrough;
 
 		case IDCANCEL:
-			param->dlgResult = LOWORD(wParam);
-			SetEvent(param->hEventPasswdDlg);
+			EndDialog(hwndDlg, LOWORD(wParam));
 			DestroyWindow(hwndDlg);
 			return TRUE;
 		}
@@ -107,9 +104,9 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	return FALSE;
 }
 
-static VOID CALLBACK JabberPasswordCreateDialogApcProc(void *param)
+static INT_PTR CALLBACK JabberPasswordCreateDialogApcProc(void *param)
 {
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSWORD), nullptr, JabberPasswordDlgProc, (LPARAM)param);
+	return DialogBoxParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_PASSWORD), nullptr, JabberPasswordDlgProc, (LPARAM)param);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -250,9 +247,10 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 		return;
 	}
 
+	int iRetryCount = 0;
 	do {
 		ThreadData info(this, pParam);
-		if (!ServerThreadStub(info))
+		if (!ServerThreadStub(info, iRetryCount++))
 			break;
 	} while (m_StrmMgmt.IsResumeIdPresent());
 
@@ -288,7 +286,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 	WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 }
 
-bool CJabberProto::ServerThreadStub(ThreadData &info)
+bool CJabberProto::ServerThreadStub(ThreadData &info, int iRetryCount)
 {
 	debugLogA("Thread started: type=%d", info.bIsReg);
 
@@ -363,12 +361,8 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 				JabberPasswordDlgParam param;
 				param.pro = this;
 				param.pszJid = jidStr;
-				param.hEventPasswdDlg = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-				CallFunctionAsync(JabberPasswordCreateDialogApcProc, &param);
-				WaitForSingleObject(param.hEventPasswdDlg, INFINITE);
-				CloseHandle(param.hEventPasswdDlg);
 
-				if (param.dlgResult == IDCANCEL) {
+				if (CallFunctionSync(JabberPasswordCreateDialogApcProc, &param) == IDCANCEL) {
 					JLoginFailed(LOGINERR_BADUSERID);
 					debugLogA("Thread ended, password request dialog was canceled");
 					return false;
@@ -429,7 +423,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info)
 		else info.conn.SetProgress(100, TranslateT("Error: Cannot connect to the server"));
 
 		debugLogA("Thread ended, connection failed");
-		return false;
+		return (m_bEnableStreamMgmt && iRetryCount < 3);
 	}
 
 	// Determine local IP
