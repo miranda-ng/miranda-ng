@@ -247,10 +247,9 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 		return;
 	}
 
-	int iRetryCount = 0;
 	do {
 		ThreadData info(this, pParam);
-		if (!ServerThreadStub(info, iRetryCount++))
+		if (!ServerThreadStub(info))
 			break;
 	} while (m_StrmMgmt.IsResumeIdPresent());
 
@@ -286,7 +285,7 @@ void CJabberProto::ServerThread(JABBER_CONN_DATA *pParam)
 	WindowList_Broadcast(m_hWindowList, WM_JABBER_REFRESH_VCARD, 0, 0);
 }
 
-bool CJabberProto::ServerThreadStub(ThreadData &info, int iRetryCount)
+bool CJabberProto::ServerThreadStub(ThreadData &info)
 {
 	debugLogA("Thread started: type=%d", info.bIsReg);
 
@@ -423,7 +422,7 @@ bool CJabberProto::ServerThreadStub(ThreadData &info, int iRetryCount)
 		else info.conn.SetProgress(100, TranslateT("Error: Cannot connect to the server"));
 
 		debugLogA("Thread ended, connection failed");
-		return (m_bEnableStreamMgmt && iRetryCount < 3);
+		return true;
 	}
 
 	// Determine local IP
