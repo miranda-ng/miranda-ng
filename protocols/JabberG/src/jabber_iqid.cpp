@@ -260,8 +260,8 @@ void CJabberProto::OnLoggedIn()
 	m_ThreadInfo->dwLoginRqs = 0;
 
 	// XEP-0083 support
-	if (!(m_StrmMgmt.IsSessionResumed()))
-	{
+//	if (!(m_StrmMgmt.IsSessionResumed()))
+//	{
 		// ugly hack to prevent hangup during login process
 		CJabberIqInfo *pIqInfo = AddIQ(&CJabberProto::OnIqResultNestedRosterGroups, JABBER_IQ_TYPE_GET);
 		pIqInfo->SetTimeout(30000);
@@ -276,7 +276,7 @@ void CJabberProto::OnLoggedIn()
 		m_ThreadInfo->send(
 			XmlNodeIq(AddIQ(&CJabberProto::OnIqResultDiscoBookmarks, JABBER_IQ_TYPE_GET))
 			<< XQUERY(JABBER_FEAT_PRIVATE_STORAGE) << XCHILDNS("storage", "storage:bookmarks"));
-	}
+//	}
 
 	m_bPepSupported = false;
 
