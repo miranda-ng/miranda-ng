@@ -54,7 +54,6 @@
 #define IDC_ANNIVERSARY                 1040
 #define IDC_EDIT1                       1042
 #define IDC_DLG_TIMEOUT                 1042
-#define IDC_UPCOMING_LIST               1043
 #define IDC_DIALOG_STATIC               1044
 #define IDC_NOTIFYFOR                   1045
 #define IDC_DAYS_AFTER                  1046

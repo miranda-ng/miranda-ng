@@ -263,7 +263,7 @@ public:
 int DialogNotifyBirthday(MCONTACT hContact, int dtb, int age)
 {
 	wchar_t text[1024];
-	BuildDABText(dtb, Clist_GetContactDisplayName(hContact), text, _countof(text));
+	BuildDTBText(dtb, Clist_GetContactDisplayName(hContact), text, _countof(text));
 
 	if (!g_pUpcomingDlg) {
 		g_pUpcomingDlg = new CUpcomingDlg();
