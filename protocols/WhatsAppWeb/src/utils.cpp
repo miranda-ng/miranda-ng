@@ -26,7 +26,7 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 	setString(hContact, DBKEY_ID, szId);
 	pUser = new WAUser(hContact, mir_strdup(szId));
 	if (bTemporary)
-		Contact_RemoveFromList(hContact);
+		Contact::RemoveFromList(hContact);
 	if (m_wszDefaultGroup)
 		Clist_SetGroup(hContact, m_wszDefaultGroup);
 

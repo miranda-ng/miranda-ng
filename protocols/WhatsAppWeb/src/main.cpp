@@ -8,6 +8,8 @@ Copyright © 2019-22 George Hazan
 #include "stdafx.h"
 #include "version.h"
 
+#pragma comment(lib, "libprotobuf.lib")
+
 CMPlugin g_plugin;
 
 PLUGININFOEX pluginInfo = {

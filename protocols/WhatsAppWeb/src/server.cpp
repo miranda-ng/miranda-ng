@@ -688,7 +688,7 @@ void WhatsAppProto::ProcessBlocked(const JSONNode &node)
 	for (auto &it : node["blocklist"]) {
 		auto *pUser = AddUser(it.as_string().c_str(), false);
 		Ignore_Ignore(pUser->hContact, IGNOREEVENT_ALL);
-		Contact_Hide(pUser->hContact);
+		Contact::Hide(pUser->hContact);
 	}
 }
 
