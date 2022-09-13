@@ -699,24 +699,13 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return Menu_DrawItem(lParam);
 
 			if (dis->CtlID == IDC_AVATAR && m_avatarPic && g_plugin.bShowAvatar) {
-				HPEN hPen = CreatePen(PS_SOLID, 1, RGB(0, 0, 0));
-				HPEN hOldPen = (HPEN)SelectObject(dis->hDC, hPen);
-				Rectangle(dis->hDC, 0, 0, m_avatarWidth, m_avatarHeight);
-				SelectObject(dis->hDC, hOldPen);
-				DeleteObject(hPen);
-
-				BITMAP bminfo;
-				GetObject(m_avatarPic, sizeof(bminfo), &bminfo);
-
-				HDC hdcMem = CreateCompatibleDC(dis->hDC);
-				HBITMAP hbmMem = (HBITMAP)SelectObject(hdcMem, m_avatarPic);
-
-				SetStretchBltMode(dis->hDC, HALFTONE);
-				StretchBlt(dis->hDC, 1, 1, m_avatarWidth - 2, m_avatarHeight - 2, hdcMem, 0, 0,
-					bminfo.bmWidth, bminfo.bmHeight, SRCCOPY);
-
-				SelectObject(hdcMem, hbmMem);
-				DeleteDC(hdcMem);
+				AVATARDRAWREQUEST adr = { sizeof(adr) };
+				adr.hContact = m_hContact;
+				adr.hTargetDC = dis->hDC;
+				adr.rcDraw.right = m_avatarWidth;
+				adr.rcDraw.bottom = m_avatarHeight;
+				adr.dwFlags = AVDRQ_DRAWBORDER | AVDRQ_HIDEBORDERONTRANSPARENCY;
+				CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 				return TRUE;
 			}
 
