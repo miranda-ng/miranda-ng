@@ -255,37 +255,25 @@ public:
 		if (hHandCursor == nullptr)
 			hHandCursor = LoadCursor(nullptr, IDC_HAND);
 
-		LVCOLUMN lvc;
-		lvc.mask = LVCF_WIDTH;
 		m_emails.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
 		m_phones.SetExtendedListViewStyleEx(LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP, LVS_EX_FULLROWSELECT | LVS_EX_INFOTIP);
-		lvc.cx = 50;
-		m_emails.InsertColumn(0, &lvc);
-		m_phones.InsertColumn(0, &lvc);
-		m_emails.InsertColumn(1, &lvc);
-		m_phones.InsertColumn(1, &lvc);
-		m_phones.InsertColumn(2, &lvc);
-		lvc.cx = 20;
-		m_emails.InsertColumn(2, &lvc);
-		m_emails.InsertColumn(3, &lvc);
-		m_phones.InsertColumn(3, &lvc);
-		m_phones.InsertColumn(4, &lvc);
-		return true;
-	}
-
-	void OnResize() override
-	{
-		CSuper::OnResize();
 
 		RECT rc;
 		GetClientRect(m_emails.GetHwnd(), &rc);
 		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
 
-		m_emails.SetColumnWidth(0, rc.right / 4);
-		m_emails.SetColumnWidth(1, rc.right - rc.right / 4 - 40);
+		LVCOLUMN lvc;
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = 50;
+		m_emails.InsertColumn(0, &lvc);
+		m_phones.InsertColumn(0, &lvc);
+		
+		lvc.cx = rc.right - m_emails.GetColumnWidth(0);
+		m_emails.InsertColumn(1, &lvc);
 
-		m_phones.SetColumnWidth(0, rc.right / 4);
-		m_phones.SetColumnWidth(1, rc.right - rc.right / 4 - 90);
+		lvc.cx = rc.right - m_phones.GetColumnWidth(0);
+		m_phones.InsertColumn(1, &lvc);
+		return true;
 	}
 
 	int Resizer(UTILRESIZECONTROL *urc) override
