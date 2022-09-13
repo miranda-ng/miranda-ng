@@ -269,7 +269,7 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 {
-	signal_context *pCtx;
+	signal_context *pCtx = nullptr;
 	
 	HNETLIBUSER hAvatarUser = nullptr;
 	HNETLIBCONN hAvatarConn = nullptr;
