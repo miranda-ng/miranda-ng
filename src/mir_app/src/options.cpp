@@ -198,8 +198,8 @@ struct OptionsPageData : public MZeroedObject
 			CMPluginBase *p = (CMPluginBase*)src.pPlugin;
 			pDialog = new COptionPageDialog(*p, (INT_PTR)src.pszTemplate, src.pfnDlgProc, src.dwInitParam);
 		}
-		else
-			pDialog = src.pDialog;
+		else pDialog = src.pDialog;
+
 		assert(pDialog != nullptr);
 
 		flags = src.flags;
@@ -1170,8 +1170,12 @@ void OpenAccountOptions(PROTOACCOUNT *pa)
 static void OpenOptionsNow(HPLUGIN pPlugin, const wchar_t *pszGroup, const wchar_t *pszPage, const wchar_t *pszTab, bool bSinglePage)
 {
 	// Hidden setting
-	if (!db_get_b(0, "Options", "Enable", true))
+	if (!db_get_b(0, "Options", "Enable", true)) {
+		MessageBoxW(0,
+			TranslateT("Options dialog is disabled by the system administrator. Contact him if you need to edit options"),
+			L"Miranda NG", MB_ICONEXCLAMATION);
 		return;
+	}
 
 	if (pOptionsDlg == nullptr) {
 		OptionsPageList arPages(1);
