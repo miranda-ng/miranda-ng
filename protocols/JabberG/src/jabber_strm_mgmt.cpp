@@ -301,10 +301,6 @@ void strm_mgmt::FinishLoginProcess(ThreadData *info)
 			XmlNodeIq(proto->AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 			<< XCHILDNS("bind", JABBER_FEAT_BIND)
 			<< XCHILD("resource", info->resource));
-
-		if (proto->m_isSessionAvailable)
-			info->bIsSessionAvailable = true;
-
 		return;
 	}
 

@@ -389,6 +389,7 @@ void CJabberProto::OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pIn
 {
 	if (!m_ThreadInfo || !iqNode)
 		return;
+
 	if (pInfo->GetIqType() == JABBER_IQ_TYPE_RESULT) {
 		const char *szJid = XmlGetChildText(XmlGetChildByTag(iqNode, "bind", "xmlns", JABBER_FEAT_BIND), "jid");
 		if (szJid) {
@@ -399,12 +400,13 @@ void CJabberProto::OnIqResultBind(const TiXmlElement *iqNode, CJabberIqInfo *pIn
 				strncpy_s(m_ThreadInfo->fullJID, szJid, _TRUNCATE);
 			}
 		}
-		if (m_ThreadInfo->bIsSessionAvailable)
+
+		if (m_isSessionAvailable) {
 			m_ThreadInfo->send(
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultSession, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("session", "urn:ietf:params:xml:ns:xmpp-session"));
-		else
-			OnLoggedIn();
+		}
+		else OnLoggedIn();
 	}
 	else {
 		//rfc3920 page 39

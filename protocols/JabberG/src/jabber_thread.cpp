@@ -737,9 +737,6 @@ void CJabberProto::OnProcessFeatures(const TiXmlElement *node, ThreadData *info)
 				XmlNodeIq(AddIQ(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
 				<< XCHILDNS("bind", JABBER_FEAT_BIND)
 				<< XCHILD("resource", info->resource));
-
-			if (m_isSessionAvailable)
-				info->bIsSessionAvailable = true;
 		}
 		else // mechanisms are not available and we are not logged in
 			PerformIqAuth(info);
