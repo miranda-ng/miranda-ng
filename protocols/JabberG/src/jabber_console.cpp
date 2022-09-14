@@ -469,12 +469,11 @@ public:
 				cmbFilter.AddStringA(g_JabberFeatCapPairs[i].szFeature);
 			for (int i = 0; i < g_cJabberFeatCapPairsExt; i++)
 				cmbFilter.AddStringA(g_JabberFeatCapPairsExt[i].szFeature);
+		}
 
-			if (m_proto->m_filterInfo.type == TFilterInfo::T_XMLNS)
-				break;
-			__fallthrough;
-
+		switch (m_proto->m_filterInfo.type) {
 		case TFilterInfo::T_JID:
+		case TFilterInfo::T_ANY:
 			LISTFOREACH(i, m_proto, LIST_ROSTER)
 				if (auto *item = m_proto->ListGetItemPtrFromIndex(i))
 					cmbFilter.AddString(Utf2T(item->jid));
