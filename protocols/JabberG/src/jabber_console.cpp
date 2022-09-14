@@ -293,8 +293,8 @@ public:
 		btnFilter(this, IDC_BTN_FILTER, g_plugin.getIcon(IDI_FILTER_APPLY), LPGEN("Filter mode")),
 		btnQueries(this, IDC_BTN_IQ, g_plugin.getIcon(IDI_PL_QUERY_ALLOW), LPGEN("Queries")),
 		btnMessage(this, IDC_BTN_MSG, g_plugin.getIcon(IDI_PL_MSG_ALLOW), LPGEN("Messages")),
-		btnRefresh(this, IDC_BTN_FILTER_REFRESH, g_plugin.getIcon(IDI_FILTER_APPLY), LPGEN("Refresh list")),
-		btnPresence(this, IDC_BTN_PRESENCE, g_plugin.getIcon(IDI_NAV_REFRESH), LPGEN("Presences")),
+		btnRefresh(this, IDC_BTN_FILTER_REFRESH, g_plugin.getIcon(IDI_NAV_REFRESH), LPGEN("Refresh list")),
+		btnPresence(this, IDC_BTN_PRESENCE, g_plugin.getIcon(IDI_PL_PRIN_ALLOW), LPGEN("Presences")),
 		edtInput(this, IDC_CONSOLEIN),
 		cmbFilter(this, IDC_CB_FILTER)
 	{
