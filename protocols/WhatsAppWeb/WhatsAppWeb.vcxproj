@@ -33,14 +33,6 @@
     <ProjectGuid>{13E796AD-BEA4-4213-A1B8-E18E2397E544}</ProjectGuid>
     <ProjectName>WhatsAppWeb</ProjectName>
   </PropertyGroup>
-  <PropertyGroup Label="Vcpkg" Condition="'$(Platform)'=='x64'">
-    <VcpkgUseStatic>true</VcpkgUseStatic>
-    <VcpkgTriplet>x64-windows-static-md</VcpkgTriplet>
-  </PropertyGroup>
-  <PropertyGroup Label="Vcpkg" Condition="'$(Platform)'=='Win32'">
-    <VcpkgUseStatic>true</VcpkgUseStatic>
-    <VcpkgTriplet>x86-windows-static-md</VcpkgTriplet>
-  </PropertyGroup>
   <ImportGroup Label="PropertySheets">
     <Import Project="$(ProjectDir)..\..\build\vc.common\plugin.props" />
   </ImportGroup>
