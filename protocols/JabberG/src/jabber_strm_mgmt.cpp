@@ -23,14 +23,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_strm_mgmt.h"
 
+#define CACHE_SIZE 10
+
 strm_mgmt::strm_mgmt(CJabberProto *_proto) :
 	proto(_proto)
 {
+	ResetState();
 }
 
 void strm_mgmt::OnProcessEnabled(const TiXmlElement *node, ThreadData * /*info*/)
 {
 	m_bEnabled = true;
+	m_tConnLostTime = 0;
+
 	auto *val = XmlGetAttr(node, "resume");
 	if (val) {
 		if (mir_strcmp(val, "true") || mir_strcmp(val, "1")) {
@@ -61,9 +66,10 @@ void strm_mgmt::OnProcessResumed(const TiXmlElement *node, ThreadData * /*info*/
 	var = XmlGetAttr(node, "h");
 	if (!var)
 		return;
-	m_bSessionResumed = true;
-	m_bEnabled = true;
+	
+	m_bSessionResumed = m_bEnabled = true;
 	m_bPendingEnable = false;
+	m_tConnLostTime = 0;
 	m_nSrvHCount = atoi(var);
 	int size = m_nLocalSCount - m_nSrvHCount;
 
@@ -180,11 +186,8 @@ void strm_mgmt::CheckStreamFeatures(const TiXmlElement *node)
 
 void strm_mgmt::CheckState()
 {
-	if (m_bEnabled)
-		return;
-	if (!m_bPendingEnable)
-		return;
-	EnableStrmMgmt();
+	if (!m_bEnabled && m_bPendingEnable)
+		EnableStrmMgmt();
 }
 
 void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
@@ -198,21 +201,21 @@ void strm_mgmt::HandleOutgoingNode(TiXmlElement *node)
 
 	m_nLocalSCount++;
 	NodeCache.push_back(pNodeCopy);
-	if ((m_nLocalSCount - m_nSrvHCount) >= m_nCacheSize
-		|| m_nLocalSCount % 3 == 0)
+	if ((m_nLocalSCount - m_nSrvHCount) >= CACHE_SIZE || m_nLocalSCount % 3 == 0)
 		RequestAck();
 }
 
 void strm_mgmt::ResetState()
 {
-	//reset state of stream management
-	m_bEnabled = false;
-	m_bPendingEnable = false;
+	// reset state of stream management
+	m_bEnabled = m_bPendingEnable = false;
 	m_nResumeMaxSeconds = 0;
 	m_tConnLostTime = 0;
-	//reset stream management h counters
+
+	// reset stream management h counters
 	m_nLocalHCount = m_nLocalSCount = m_nSrvHCount = 0;
-	//clear resume id
+
+	// clear resume id
 	m_sResumeId.clear();
 }
 
@@ -242,15 +245,15 @@ void strm_mgmt::EnableStrmMgmt()
 {
 	if (m_bEnabled)
 		return;
+
 	if (m_sResumeId.empty()) {
 		XmlNode enable_sm("enable");
 		XmlAddAttr(enable_sm, "xmlns", "urn:xmpp:sm:3");
-		XmlAddAttr(enable_sm, "resume", "true"); //enable resumption (most useful part of this xep)
+		XmlAddAttr(enable_sm, "resume", "true"); // enable resumption (most useful part of this xep)
 		proto->m_ThreadInfo->send(enable_sm);
-		m_nLocalSCount = 1; //TODO: this MUST be 0, i have bug somewhere, feel free to fix it.
+		m_nLocalSCount = 1; // TODO: this MUST be 0, i have bug somewhere, feel free to fix it.
 	}
-	else //resume session
-	{
+	else { // resume session
 		XmlNode enable_sm("resume");
 		enable_sm << XATTR("xmlns", "urn:xmpp:sm:3") << XATTRI("h", m_nLocalHCount) << XATTR("previd", m_sResumeId.c_str());
 		proto->m_ThreadInfo->send(enable_sm);

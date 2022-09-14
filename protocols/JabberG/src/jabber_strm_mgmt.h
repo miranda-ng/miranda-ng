@@ -38,13 +38,14 @@ class strm_mgmt
 
 	CJabberProto *proto;
 	TiXmlDocument xmlStorage;
-	uint32_t m_nSrvHCount, m_nLocalHCount, m_nLocalSCount, m_nResumeMaxSeconds = 0;
-	const uint32_t m_nCacheSize = 10;
-	bool m_bEnabled = false;
-	bool m_bPendingEnable = false;
+
+	bool m_bEnabled;
+	bool m_bPendingEnable;
 	bool m_bResumeSupported = false;
 	bool m_bSessionResumed = false;
-	time_t m_tConnLostTime = 0;
+
+	int m_nSrvHCount, m_nLocalHCount, m_nLocalSCount, m_nResumeMaxSeconds;
+	time_t m_tConnLostTime;
 	std::string m_sResumeId;
 	std::list<TiXmlElement*> NodeCache;
 
