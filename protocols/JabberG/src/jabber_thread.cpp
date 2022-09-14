@@ -158,7 +158,7 @@ void CJabberProto::CheckKeepAlive()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int CompareDNS(const DNS_SRV_DATAA* dns1, const DNS_SRV_DATAA* dns2)
+static int CompareDNS(const DNS_SRV_DATAA *dns1, const DNS_SRV_DATAA *dns2)
 {
 	return (int)dns1->wPriority - (int)dns2->wPriority;
 }
@@ -182,7 +182,7 @@ void ThreadData::xmpp_client_query(void)
 
 		for (auto &it : dnsList) {
 			uint16_t dnsPort = (conn.port == 0 || conn.port == 5222) ? it->wPort : conn.port;
-			char* dnsHost = it->pNameTarget;
+			char *dnsHost = it->pNameTarget;
 
 			proto->debugLogA("%s%s resolved to %s:%d", "_xmpp-client._tcp.", conn.server, dnsHost, dnsPort);
 			s = Netlib_OpenConnection(proto->m_hNetlibUser, dnsHost, dnsPort);
@@ -210,7 +210,7 @@ void CJabberProto::xmlStreamInitializeNow(ThreadData *info)
 	replaceStr(m_szXmlStreamToBeInitialized, 0);
 
 	m_bStreamSent = true;
-	XmlNode n("stream:stream"); 
+	XmlNode n("stream:stream");
 	n << XATTR("xmlns", "jabber:client") << XATTR("to", info->conn.server) << XATTR("xmlns:stream", "http://etherx.jabber.org/streams");
 	n.InsertFirstChild(n.NewDeclaration("xml version=\"1.0\" encoding=\"UTF-8\""));
 
@@ -602,7 +602,7 @@ void CJabberProto::PerformAuthentication(ThreadData *info)
 		char text[1024];
 		mir_snprintf(text, TranslateU("Authentication failed for %s@%s."), info->conn.username, info->conn.server);
 		MsgPopup(0, Utf2T(text), TranslateT("Authentication"));
-	
+
 		JLoginFailed(LOGINERR_WRONGPASSWORD);
 		info->send("</stream:stream>");
 		m_ThreadInfo = nullptr;
@@ -758,7 +758,7 @@ void CJabberProto::OnProcessFailed(const TiXmlElement *node, ThreadData *info) /
 	m_StrmMgmt.OnProcessFailed(node, info);
 }
 
-void CJabberProto::OnProcessEnabled(const TiXmlElement *node, ThreadData * info)
+void CJabberProto::OnProcessEnabled(const TiXmlElement *node, ThreadData *info)
 {
 	if (m_bEnableStreamMgmt && !mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:xmpp:sm:3"))
 		m_StrmMgmt.OnProcessEnabled(node, info);
@@ -829,7 +829,7 @@ void CJabberProto::OnProcessChallenge(const TiXmlElement *node, ThreadData *info
 	if (mir_strcmp(XmlGetAttr(node, "xmlns"), "urn:ietf:params:xml:ns:xmpp-sasl"))
 		return;
 
-	char* challenge = m_arAuthMechs[0].getChallenge(node->GetText());
+	char *challenge = m_arAuthMechs[0].getChallenge(node->GetText());
 	info->send(XmlNode("response", challenge) << XATTR("xmlns", "urn:ietf:params:xml:ns:xmpp-sasl"));
 	mir_free(challenge);
 }
@@ -839,7 +839,7 @@ void CJabberProto::OnProcessProtocol(const TiXmlElement *node, ThreadData *info)
 	OnConsoleProcessXml(node, JCPF_IN);
 
 	if (m_bEnableStreamMgmt)
-		if(m_StrmMgmt.HandleIncommingNode(node))
+		if (m_StrmMgmt.HandleIncommingNode(node))
 			return;
 
 	if (!mir_strcmp(node->Name(), "proceed"))
@@ -891,7 +891,7 @@ void CJabberProto::OnProcessProceed(const TiXmlElement *node, ThreadData *info)
 	if (!mir_strcmp(type, "urn:ietf:params:xml:ns:xmpp-tls")) {
 		debugLogA("Starting TLS...");
 
-		char* gtlk = strstr(info->conn.manualHost, "google.com");
+		char *gtlk = strstr(info->conn.manualHost, "google.com");
 		bool isHosted = gtlk && !gtlk[10] && mir_strcmpi(info->conn.server, "gmail.com") &&
 			mir_strcmpi(info->conn.server, "googlemail.com");
 
@@ -918,7 +918,7 @@ void CJabberProto::OnProcessCompressed(const TiXmlElement *node, ThreadData *inf
 	debugLogA("Starting Zlib stream compression...");
 
 	info->useZlib = true;
-	info->zRecvData = (char*)mir_alloc(ZLIB_CHUNK_SIZE);
+	info->zRecvData = (char *)mir_alloc(ZLIB_CHUNK_SIZE);
 
 	xmlStreamInitialize("after successful Zlib init");
 }
@@ -948,29 +948,29 @@ void CJabberProto::OnProcessPubsubEvent(const TiXmlElement *node)
 	}
 
 	if (m_bEnableUserTune)
-	if (auto *itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_USER_TUNE)) {
-		// node retract?
-		if (XmlFirstChild(itemsNode, "retract")) {
-			SetContactTune(hContact, nullptr, nullptr, nullptr, nullptr, nullptr);
-			return;
+		if (auto *itemsNode = XmlGetChildByTag(eventNode, "items", "node", JABBER_FEAT_USER_TUNE)) {
+			// node retract?
+			if (XmlFirstChild(itemsNode, "retract")) {
+				SetContactTune(hContact, nullptr, nullptr, nullptr, nullptr, nullptr);
+				return;
+			}
+
+			auto *tuneNode = XmlGetChildByTag(XmlFirstChild(itemsNode, "item"), "tune", "xmlns", JABBER_FEAT_USER_TUNE);
+			if (!tuneNode)
+				return;
+
+			const char *szArtist = XmlGetChildText(tuneNode, "artist");
+			const char *szSource = XmlGetChildText(tuneNode, "source");
+			const char *szTitle = XmlGetChildText(tuneNode, "title");
+			const char *szTrack = XmlGetChildText(tuneNode, "track");
+
+			wchar_t szLengthInTime[20];
+			int nLength = XmlGetChildInt(tuneNode, "length");
+			if (nLength > 0)
+				mir_snwprintf(szLengthInTime, L"%02d:%02d:%02d", nLength / 3600, (nLength / 60) % 60, nLength % 60);
+
+			SetContactTune(hContact, Utf2T(szArtist), nLength ? szLengthInTime : nullptr, Utf2T(szSource), Utf2T(szTitle), Utf2T(szTrack));
 		}
-
-		auto *tuneNode = XmlGetChildByTag(XmlFirstChild(itemsNode, "item"), "tune", "xmlns", JABBER_FEAT_USER_TUNE);
-		if (!tuneNode)
-			return;
-
-		const char *szArtist = XmlGetChildText(tuneNode, "artist");
-		const char *szSource = XmlGetChildText(tuneNode, "source");
-		const char *szTitle = XmlGetChildText(tuneNode, "title");
-		const char *szTrack = XmlGetChildText(tuneNode, "track");
-
-		wchar_t szLengthInTime[20];
-		int nLength = XmlGetChildInt(tuneNode, "length");
-		if (nLength > 0)
-			mir_snwprintf(szLengthInTime, L"%02d:%02d:%02d", nLength / 3600, (nLength / 60) % 60, nLength % 60);
-
-		SetContactTune(hContact, Utf2T(szArtist), nLength ? szLengthInTime : nullptr, Utf2T(szSource), Utf2T(szTitle), Utf2T(szTrack));
-	}
 }
 
 // returns 0, if error or no events
@@ -988,7 +988,7 @@ uint32_t JabberGetLastContactMessageTime(MCONTACT hContact)
 	return 0;
 }
 
-MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM* chatItem)
+MCONTACT CJabberProto::CreateTemporaryContact(const char *szJid, JABBER_LIST_ITEM *chatItem)
 {
 	if (chatItem == nullptr)
 		return DBCreateContact(szJid, nullptr, true, true);
@@ -1573,7 +1573,7 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 			}
 			hContact = DBCreateContact(from, nick, true, true);
 		}
-		
+
 		if (hContact && m_bUseOMEMO) {
 			XmlNodeIq iq(AddIQ(&CJabberProto::OnIqResultGetOmemodevicelist, JABBER_IQ_TYPE_GET));
 			iq << XATTR("from", szBareOurJid);
@@ -1771,130 +1771,132 @@ void CJabberProto::OnProcessPresence(const TiXmlElement *node, ThreadData *info)
 
 bool CJabberProto::OnProcessJingle(const TiXmlElement *node)
 {
-	const char *type;
 	auto *child = XmlGetChildByTag(node, "jingle", "xmlns", JABBER_FEAT_JINGLE);
+	if (!child)
+		return false;
+	
+	const char *type = XmlGetAttr(node, "type");
+	if (type == nullptr)
+		return false;
 
-	if (child) {
-		if ((type = XmlGetAttr(node, "type")) == nullptr)
-			return false;
-		const char *szAction = XmlGetAttr(child, "action");
-		const char *szSid = XmlGetAttr(child, "sid");
+	const char *szAction = XmlGetAttr(child, "action");
+	const char *szSid = XmlGetAttr(child, "sid");
 
-		if ((!mir_strcmp(type, "get") || !mir_strcmp(type, "set"))) {
-			const char *idStr = XmlGetAttr(node, "id");
-			const char *from = XmlGetAttr(node, "from");
-			const char *szInitiator = XmlGetAttr(child, "initiator");
-			auto *content = XmlGetChildByTag(child, "content", "creator", "initiator");
+	if (!mir_strcmp(type, "get") || !mir_strcmp(type, "set")) {
+		const char *idStr = XmlGetAttr(node, "id");
+		const char *from = XmlGetAttr(node, "from");
+		const char *szInitiator = XmlGetAttr(child, "initiator");
+		auto *content = XmlGetChildByTag(child, "content", "creator", "initiator");
 
-			if (szAction && szSid) {
-				if (!mir_strcmp(szAction, "session-initiate")) {
-					// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
-					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+		if (szAction && szSid) {
+			if (!mir_strcmp(szAction, "session-initiate")) {
+				// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
+				m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
-					const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
-					const char *reason = NULL;
-					if (m_bEnableVOIP && descr) {
-						if (m_voipSession.IsEmpty()) {
-							m_voipSession = szSid;
-							m_voipPeerJid = from;
-							m_isOutgoing = false;
-							m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
+				const TiXmlElement *descr = XmlGetChildByTag(content, "description", "xmlns", JABBER_FEAT_JINGLE_RTP);
+				const char *reason = NULL;
+				if (m_bEnableVOIP && descr) {
+					if (m_voipSession.IsEmpty()) {
+						m_voipSession = szSid;
+						m_voipPeerJid = from;
+						m_isOutgoing = false;
+						m_offerNode = child->DeepClone(&m_offerDoc)->ToElement();
 
-							//Make call GUI
-							VOICE_CALL vc = {};
-							vc.cbSize = sizeof(VOICE_CALL);
-							vc.moduleName = m_szModuleName;
-							vc.id = szSid;                         // Protocol specific ID for this call
-							vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
-							vc.state = VOICE_STATE_RINGING;
-							vc.szNumber.a = m_voipPeerJid;
-							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+						//Make call GUI
+						VOICE_CALL vc = {};
+						vc.cbSize = sizeof(VOICE_CALL);
+						vc.moduleName = m_szModuleName;
+						vc.id = szSid;                         // Protocol specific ID for this call
+						vc.hContact = HContactFromJID(from);   // Contact associated with the call (can be NULL)
+						vc.state = VOICE_STATE_RINGING;
+						vc.szNumber.a = m_voipPeerJid;
+						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
 
-							// ringing message
-							XmlNodeIq iq("set", SerialNext(), from);
-							TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
-							rjNode << XATTR("action", "session-info") << XATTR("sid", szSid);
-							if (szInitiator)
-								rjNode << XATTR("initiator", szInitiator);
-							rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
+						// ringing message
+						XmlNodeIq iq("set", SerialNext(), from);
+						TiXmlElement *rjNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+						rjNode << XATTR("action", "session-info") << XATTR("sid", szSid);
+						if (szInitiator)
+							rjNode << XATTR("initiator", szInitiator);
+						rjNode << XCHILDNS("ringing", "urn:xmpp:jingle:apps:rtp:info:1");
 
-							m_ThreadInfo->send(iq);
-							return true;
-						}
-
-						// Save this event to history
-						PROTORECVEVENT recv = {};
-						recv.timestamp = (uint32_t)time(0);
-						recv.szMessage = "** A call while we were busy **";
-						ProtoChainRecvMsg(HContactFromJID(from), &recv);
-						reason = "busy";
-					}
-
-					XmlNodeIq iq("set", SerialNext(), from);
-					TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
-					jingleNode << XATTR("action", "session-terminate") << XATTR("sid", szSid);
-					if (szInitiator)
-						jingleNode << XATTR("initiator", szInitiator);
-					jingleNode << XCHILD("reason") << XCHILD(reason ? reason : "unsupported-applications");
-
-					m_ThreadInfo->send(iq);
-					return true;
-				}
-				else if (!mir_strcmp(szAction, "session-accept")) {
-					if (m_bEnableVOIP && m_voipSession == szSid) {
-						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
-						if (OnRTPDescription(child)) {
-							//Make call GUI
-							VOICE_CALL vc = {};
-							vc.cbSize = sizeof(VOICE_CALL);
-							vc.moduleName = m_szModuleName;
-							vc.id = szSid;
-							vc.hContact = HContactFromJID(from);
-							vc.state = VOICE_STATE_TALKING;
-							NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
-						}
+						m_ThreadInfo->send(iq);
 						return true;
 					}
-				}
-				else if (!mir_strcmp(szAction, "session-terminate")) {
-					if (m_bEnableVOIP && m_voipSession == szSid) {
-						// EndCall()
-						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
+					// Save this event to history
+					PROTORECVEVENT recv = {};
+					recv.timestamp = (uint32_t)time(0);
+					recv.szMessage = "** A call while we were busy **";
+					ProtoChainRecvMsg(HContactFromJID(from), &recv);
+					reason = "busy";
+				}
+
+				XmlNodeIq iq("set", SerialNext(), from);
+				TiXmlElement *jingleNode = iq << XCHILDNS("jingle", JABBER_FEAT_JINGLE);
+				jingleNode << XATTR("action", "session-terminate") << XATTR("sid", szSid);
+				if (szInitiator)
+					jingleNode << XATTR("initiator", szInitiator);
+				jingleNode << XCHILD("reason") << XCHILD(reason ? reason : "unsupported-applications");
+
+				m_ThreadInfo->send(iq);
+				return true;
+			}
+			else if (!mir_strcmp(szAction, "session-accept")) {
+				if (m_bEnableVOIP && m_voipSession == szSid) {
+					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+					if (OnRTPDescription(child)) {
+						//Make call GUI
 						VOICE_CALL vc = {};
 						vc.cbSize = sizeof(VOICE_CALL);
 						vc.moduleName = m_szModuleName;
 						vc.id = szSid;
 						vc.hContact = HContactFromJID(from);
-						vc.state = VOICE_STATE_ENDED;
+						vc.state = VOICE_STATE_TALKING;
 						NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+					}
+					return true;
+				}
+			}
+			else if (!mir_strcmp(szAction, "session-terminate")) {
+				if (m_bEnableVOIP && m_voipSession == szSid) {
+					// EndCall()
+					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
 
-						VOIPTerminateSession(nullptr);
+					VOICE_CALL vc = {};
+					vc.cbSize = sizeof(VOICE_CALL);
+					vc.moduleName = m_szModuleName;
+					vc.id = szSid;
+					vc.hContact = HContactFromJID(from);
+					vc.state = VOICE_STATE_ENDED;
+					NotifyEventHooks(m_hVoiceEvent, WPARAM(&vc), 0);
+
+					VOIPTerminateSession(nullptr);
+					return true;
+				}
+			}
+			else if (!mir_strcmp(szAction, "transport-info")) {
+				auto *transport = XmlGetChildByTag(content, "transport", "xmlns", JABBER_FEAT_JINGLE_ICEUDP);
+				if (m_bEnableVOIP && m_voipSession == szSid && transport) {
+					m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
+					if (const TiXmlElement *candidate = XmlFirstChild(transport, "candidate")) {
+						OnICECandidate(candidate);
 						return true;
 					}
 				}
-				else if (!mir_strcmp(szAction, "transport-info")) {
-					auto *transport = XmlGetChildByTag(content, "transport", "xmlns", JABBER_FEAT_JINGLE_ICEUDP);
-					if (m_bEnableVOIP && m_voipSession == szSid && transport) {
-						m_ThreadInfo->send(XmlNodeIq("result", idStr, from));
-						if (const TiXmlElement *candidate = XmlFirstChild(transport, "candidate")) {
-							OnICECandidate(candidate);
-							return true;
-						}
-					}
-				}
 			}
-
-			// if it's something else than 'session-initiate' and noone processed it yet, reply with "unknown-session"
-			XmlNodeIq iq("error", idStr, from);
-			TiXmlElement *errNode = iq << XCHILD("error");
-			errNode << XATTR("type", "cancel");
-			errNode << XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas");
-			errNode << XCHILDNS("unknown-session", "urn:xmpp:jingle:errors:1");
-			m_ThreadInfo->send(iq);
-			return true;
 		}
+
+		// if it's something else than 'session-initiate' and noone processed it yet, reply with "unknown-session"
+		XmlNodeIq iq("error", idStr, from);
+		TiXmlElement *errNode = iq << XCHILD("error");
+		errNode << XATTR("type", "cancel");
+		errNode << XCHILDNS("item-not-found", "urn:ietf:params:xml:ns:xmpp-stanzas");
+		errNode << XCHILDNS("unknown-session", "urn:xmpp:jingle:errors:1");
+		m_ThreadInfo->send(iq);
+		return true;
 	}
+
 	return false;
 }
 
@@ -2002,7 +2004,7 @@ void CJabberProto::OnProcessRegIq(const TiXmlElement *node, ThreadData *info)
 				}
 			}
 		}
-		
+
 		// RECVED: result of the request for registration mechanism
 		// ACTION: send account registration information
 		if (id == iqIdRegGetReg) {
@@ -2074,7 +2076,7 @@ void ThreadData::shutdown(void)
 		Netlib_Shutdown(s);
 }
 
-int ThreadData::recv(char* buf, size_t len)
+int ThreadData::recv(char *buf, size_t len)
 {
 	if (this == nullptr)
 		return 0;
@@ -2098,7 +2100,7 @@ int ThreadData::recv(char* buf, size_t len)
 	return Netlib_Recv(s, buf, (long)len, MSG_DUMPASTEXT);
 }
 
-int ThreadData::send(char* buf, int bufsize)
+int ThreadData::send(char *buf, int bufsize)
 {
 	if (this == nullptr)
 		return 0;
@@ -2167,5 +2169,5 @@ int ThreadData::send_no_strm_mgmt(TiXmlElement *node)
 	}
 	*q = 0;
 
-	return send(buf.GetBuffer(), int(q-buf.GetBuffer()));
+	return send(buf.GetBuffer(), int(q - buf.GetBuffer()));
 }
