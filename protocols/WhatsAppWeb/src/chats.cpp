@@ -7,10 +7,10 @@ Copyright © 2019 George Hazan
 
 #include "stdafx.h"
 
-void WhatsAppProto::InitChat(WAUser *pUser, const WANode *pRoot)
+void WhatsAppProto::InitChat(WAUser *pUser)
 {
-	CMStringA jid = pRoot->getAttr("jid");
-	CMStringW wszId(Utf2T(jid.c_str())), wszNick(Utf2T(pRoot->getAttr("name")));
+	CMStringA jid = "";
+	CMStringW wszId(Utf2T(jid.c_str())), wszNick(Utf2T(""));
 
 	setWString(pUser->hContact, "Nick", wszNick);
 
@@ -25,8 +25,8 @@ void WhatsAppProto::InitChat(WAUser *pUser, const WANode *pRoot)
 	Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
 
 	if (!pUser->bInited) {
-		CMStringA query(FORMAT, "[\"query\",\"GroupMetadata\",\"%s\"]", jid.c_str());
-		WSSend(query, &WhatsAppProto::OnGetChatInfo, pUser);
+		// CMStringA query(FORMAT, "[\"query\",\"GroupMetadata\",\"%s\"]", jid.c_str());
+		// WSSend(query, &WhatsAppProto::OnGetChatInfo, pUser);
 	}
 }
 

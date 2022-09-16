@@ -55,7 +55,7 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	DWORD dwTag = getDword(pai->hContact, DBKEY_AVATAR_TAG, -1);
 	if (dwTag == -1 || (wParam & GAIF_FORCE) != 0)
 		if (pai->hContact != NULL && isOnline()) {
-			WSSend(CMStringA(FORMAT, "[\"query\",\"ProfilePicThumb\",\"%s\"]", id.get()), &WhatsAppProto::OnGetAvatarInfo, (void*)pai->hContact);
+			// WSSend(CMStringA(FORMAT, "[\"query\",\"ProfilePicThumb\",\"%s\"]", id.get()), &WhatsAppProto::OnGetAvatarInfo, (void*)pai->hContact);
 			return GAIR_WAITFOR;
 		}
 

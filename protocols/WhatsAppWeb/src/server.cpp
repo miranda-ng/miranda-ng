@@ -8,117 +8,6 @@ Copyright © 2019-22 George Hazan
 #include "stdafx.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// sends a piece of JSON to a server via a websocket, masked
-
-int WhatsAppProto::WSSend(const CMStringA &str, WA_PKT_HANDLER pHandler, void *pUserInfo)
-{
-	if (m_hServerConn == nullptr)
-		return -1;
-
-	int pktId = ++m_iPktNumber;
-
-	CMStringA buf;
-	buf.Format("%d.--%d", (int)m_iLoginTime, pktId);
-
-	if (pHandler != nullptr) {
-		auto *pReq = new WARequest;
-		pReq->pHandler = pHandler;
-		pReq->szPrefix = buf;
-		pReq->pUserInfo = pUserInfo;
-
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(pReq);
-	}
-
-	buf.AppendChar(',');
-	if (!str.IsEmpty()) {
-		buf.AppendChar(',');
-		buf += str;
-	}
-
-
-	debugLogA("Sending packet #%d: %s", pktId, buf.c_str());
-	WebSocket_SendText(m_hServerConn, buf.c_str());
-	return pktId;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-static char zeroData[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-int WhatsAppProto::WSSendNode(const char *pszPrefix, WAMetric metric, int flags, WANode &node, WA_PKT_HANDLER pHandler)
-{
-	if (m_hServerConn == nullptr)
-		return 0;
-
-	{
-		char str[100];
-		_i64toa(_time64(0), str, 10);
-		node.addAttr("epoch", str);
-
-		CMStringA szText;
-		node.print(szText);
-		debugLogA("Sending binary node: %s", szText.c_str());
-	}
-
-	WAWriter writer;
-	writer.writeNode(&node);
-
-	// AES block size = 16 bytes, let's expand data to block size boundary
-	size_t rest = writer.body.length() % 16;
-	if (rest != 0)
-		writer.body.append(zeroData, 16 - rest);
-
-	BYTE iv[16];
-	Utils_GetRandom(iv, sizeof(iv));
-
-	// allocate the buffer of the same size + 32 bytes for temporary operations
-	MBinBuffer enc;
-	enc.assign(writer.body.data(), writer.body.length()); 
-	enc.append(mac_key.data(), mac_key.length()); 
-
-	int enc_len = 0, final_len = 0;
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, (BYTE*)enc_key.data(), iv);
-	EVP_EncryptUpdate(ctx, (BYTE*)enc.data(), &enc_len, (BYTE*)writer.body.data(), (int)writer.body.length());
-	EVP_EncryptFinal_ex(ctx, (BYTE*)enc.data() + enc_len, &final_len);
-	EVP_CIPHER_CTX_free(ctx);
-
-	// build the resulting buffer of the following structure:
-	// - packet prefix
-	// - 32 bytes of HMAC
-	// - 16 bytes of iv
-	// - rest of encoded data
-	
-	BYTE hmac[32];
-	unsigned int hmac_len = 32;
-	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)enc.data(), enc_len, hmac, &hmac_len);
-
-	int pktId = ++m_iPktNumber;
-
-	if (pHandler != nullptr) {
-		auto *pReq = new WARequest;
-		pReq->pHandler = pHandler;
-		pReq->szPrefix = pszPrefix;
-
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(pReq);
-	}
-
-	char postPrefix[3] = { ',', (char)metric, (char)flags };
-
-	MBinBuffer ret;
-	ret.append(pszPrefix, strlen(pszPrefix));
-	ret.append(postPrefix, sizeof(postPrefix));
-	ret.append(hmac, sizeof(hmac));
-	ret.append(iv, sizeof(iv));
-	ret.append(enc.data(), enc_len);
-	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
-
-	return pktId;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::OnLoggedIn()
 {
@@ -135,7 +24,6 @@ void WhatsAppProto::OnLoggedOut(void)
 {
 	debugLogA("WhatsAppProto::OnLoggedOut");
 	m_bTerminated = true;
-	m_iPktNumber = 0;
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
@@ -177,9 +65,9 @@ bool WhatsAppProto::ProcessChallenge(const CMStringA &szChallenge)
 	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)pChallenge, (int)cbLen, digest, &cbResult);
 
 	ptrA szServer(getStringA(DBKEY_SERVER_TOKEN));
-	CMStringA payload(FORMAT, "[\"admin\",\"challenge\",\"%s\",\"%s\",\"%s\"]",
-		ptrA(mir_base64_encode(digest, cbResult)).get(), szServer.get(), m_szClientId.c_str());
-	WSSend(payload);
+	//CMStringA payload(FORMAT, "[\"admin\",\"challenge\",\"%s\",\"%s\",\"%s\"]",
+//		ptrA(mir_base64_encode(digest, cbResult)).get(), szServer.get(), m_szClientId.c_str());
+	//WSSend(payload);
 	return true;
 }
 
@@ -270,8 +158,8 @@ void WhatsAppProto::OnRestoreSession1(const JSONNode&, void*)
 		return;
 	}
 
-	CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
-	WSSend(payload, &WhatsAppProto::OnRestoreSession2);
+	// CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
+	// WSSend(payload, &WhatsAppProto::OnRestoreSession2);
 }
 
 void WhatsAppProto::OnRestoreSession2(const JSONNode &root, void*)
@@ -361,13 +249,14 @@ void WhatsAppProto::ServerThread(void *)
 
 bool WhatsAppProto::ServerThreadWorker()
 {
+	// connect websocket
 	NETLIBHTTPHEADER hdrs[] =
 	{
 		{ "Origin", "https://web.whatsapp.com" },
 		{ 0, 0 }
 	};
 
-	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, "web.whatsapp.com/ws", hdrs));
+	NLHR_PTR pReply(WebSocket_Connect(m_hNetlibUser, "web.whatsapp.com/ws/chat", hdrs));
 	if (pReply == nullptr) {
 		debugLogA("Server connection failed, exiting");
 		return false;
@@ -376,21 +265,23 @@ bool WhatsAppProto::ServerThreadWorker()
 	if (pReply->resultCode != 101)
 		return false;
 
+	delete m_noise;
+	m_noise = new WANoise();
+
 	debugLogA("Server connection succeeded");
 	m_hServerConn = pReply->nlc;
 	m_iLoginTime = time(0);
+	m_iPktNumber = 0;
 	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
-	getBlob(DBKEY_ENC_KEY, enc_key);
-	getBlob(DBKEY_MAC_KEY, mac_key);
 
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 
-	CMStringA payload(FORMAT, "[\"admin\",\"init\",[0,3,4940],[\"Windows\",\"Chrome\",\"10\"],\"%s\",true]", m_szClientId.c_str());
-	if (m_szClientToken.IsEmpty() || mac_key.isEmpty() || enc_key.isEmpty())
-		WSSend(payload, &WhatsAppProto::OnStartSession);
-	else
-		WSSend(payload, &WhatsAppProto::OnRestoreSession1);
+	auto &pubKey = m_noise->getPub();
+	ptrA szPubKey(mir_base64_encode(pubKey.data(), pubKey.length()));
+	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
+	proto::HandshakeMessage msg; msg.set_allocated_clienthello(client);
+	WSSend(msg, &WhatsAppProto::OnStartSession);
 
 	bool bExit = false;
 	MBinBuffer netbuf;
@@ -444,7 +335,7 @@ bool WhatsAppProto::ServerThreadWorker()
 
 					// try to decode
 					if (hdr.opCode == 2 && hdr.payloadSize > 32)
-						ProcessBinaryPacket(pos, dataSize);
+						ProcessBinaryPacket((const uint8_t*)pos, dataSize);
 					else {
 						CMStringA szJson(pos, (int)dataSize);
 
@@ -504,164 +395,31 @@ bool WhatsAppProto::ServerThreadWorker()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Binary data processing
 
-void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
+void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 {
-	MBinBuffer dest;
-	if (!decryptBinaryMessage(cbDataLen, pData, dest)) {
-		debugLogA("cannot decrypt incoming message");
-		Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
-		return;
-	}
+	Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
 
-	WAReader reader(dest.data(), dest.length());
-	WANode *pRoot = reader.readNode();
-	if (pRoot == nullptr) { // smth went wrong
-		debugLogA("cannot read binary message");
-		Netlib_Dump(m_hServerConn, dest.data(), dest.length(), false, 0);
-		return;
-	}
-
-	CMStringA szText;
-	pRoot->print(szText);
-	debugLogA("packed content: %s", szText.c_str());
-	
-	CMStringA szType = pRoot->getAttr("type");
-	if (szType == "contacts")
-		ProcessContacts(pRoot);
-	else if (szType == "chat")
-		ProcessChats(pRoot);
-	else {
-		CMStringA szAdd = pRoot->getAttr("add");
-		if (!szAdd.IsEmpty())
-			ProcessAdd(szAdd, pRoot);
-	}
-
-	delete pRoot;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::ProcessAdd(const CMStringA &type, const WANode *root)
-{
-	for (auto &p: root->children) {
-		proto::WebMessageInfo payLoad;
-		if (!payLoad.ParseFromArray(p->content.data(), (int)p->content.length())) {
-			debugLogA("Error: message failed to decode by protobuf!");
-			Netlib_Dump(m_hServerConn, p->content.data(), p->content.length(), false, 0);
-			continue;
+	while (cbDataLen > 3) {
+		size_t payloadLen = 0;
+		for (int i = 0; i < 3; i++) {
+			payloadLen <<= 8;
+			payloadLen += pData[i];
 		}
 
-		// this part is common for all types of messages
-		auto &key= payLoad.key();
+		pData += 3;
+		cbDataLen -= 3;
+		debugLogA("got payload of size %d", payloadLen);
 
-		// if this event already exists in the database - skip it
-		if (db_event_getById(m_szModuleName, key.id().c_str()))
-			continue;
-
-		CMStringA jid(key.remotejid().c_str());
-		if (!jid.Replace("@s.whatsapp.net", "@c.us"))
-			jid.Replace("@g.whatsapp.net", "@g.us");
-
-		auto *pUser = AddUser(jid, false);
-		DWORD dwTimestamp = DWORD(payLoad.messagetimestamp());
-		CMStringA szMsgText;
-
-		// regular messages
-		if (payLoad.has_message()) {
-			auto &msg = payLoad.message();
-			szMsgText = msg.conversation().c_str();
+		if (payloadLen > cbDataLen) {
+			debugLogA("payload length exceeds capacity %d", cbDataLen);
+			return;
 		}
 
-		if (!szMsgText.IsEmpty()) {
-			if (pUser->si) {
-				CMStringA szText(szMsgText);
-				szText.Replace("%", "%%");
+		if (!m_noise->decodeFrame(pData, payloadLen))
+			debugLogA("cannot decrypt incoming message");
 
-				CMStringA szUserJid(payLoad.participant().c_str());
-				if (!szUserJid.Replace("@s.whatsapp.net", "@c.us"))
-					szUserJid.Replace("@g.whatsapp.net", "@g.us");
-
-				if (pUser->bInited) {
-					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-					gce.pszID.a = jid;
-					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
-					gce.pszUID.a = szUserJid;
-					gce.pszText.a = szText;
-					gce.time = dwTimestamp;
-					gce.bIsMe = (jid == m_szJid);
-					Chat_Event(&gce);
-				}
-				else {
-					auto *pMsg = new WAHistoryMessage;
-					pMsg->jid = jid;
-					pMsg->text = szText;
-					pMsg->timestamp = dwTimestamp;
-					pUser->arHistory.insert(pMsg);
-				}
-			}
-			else {
-				PROTORECVEVENT pre = { 0 };
-				pre.timestamp = dwTimestamp;
-				pre.szMessage = szMsgText.GetBuffer();
-				pre.flags = (type == "relay" ? 0 : PREF_CREATEREAD);
-				pre.szMsgId = key.id().c_str();
-				if (key.fromme())
-					pre.flags |= PREF_SENT;
-				ProtoChainRecvMsg(pUser->hContact, &pre);
-			}
-		}
-	}
-}
-
-void WhatsAppProto::ProcessChats(const WANode *root)
-{
-	for (auto &p: root->children) {
-		CMStringA jid = p->getAttr("jid");
-		auto *pUser = AddUser(jid, false);
-
-		DWORD dwLastId = atoi(p->getAttr("t"));
-		setDword(pUser->hContact, "LastWriteTime", dwLastId);
-
-		pUser->dwModifyTag = atoi(p->getAttr("modify_tag"));
-
-		if (pUser->si) {
-			DWORD dwMute = atoi(p->getAttr("mute"));
-			Chat_Mute(pUser->si, dwMute ? CHATMODE_MUTE : CHATMODE_NORMAL);
-		}
-	}
-}
-
-void WhatsAppProto::ProcessContacts(const WANode *root)
-{
-	for (auto &p: root->children) {
-		CMStringA jid(p->getAttr("jid"));
-		auto *pUser = AddUser(jid, false);
-
-		if (strstr(pUser->szId, "@g.us")) {
-			InitChat(pUser, p);
-			continue;
-		}
-		
-		CMStringA wszNick(p->getAttr("notify"));
-		if (wszNick.IsEmpty()) {
-			int idx = jid.Find('@');
-			wszNick = (idx == -1) ? jid : jid.Left(idx);
-		}
-		setUString(pUser->hContact, "Nick", wszNick);
-
-		CMStringA wszFullName(p->getAttr("name"));
-		wszFullName.TrimRight();
-		if (!wszFullName.IsEmpty()) {
-			setUString(pUser->hContact, "FullName", wszFullName);
-
-			CMStringA wszShort(p->getAttr("short"));
-			wszShort.TrimRight();
-			if (!wszShort.IsEmpty()) {
-				setUString(pUser->hContact, "FirstName", wszShort);
-				if (wszShort.GetLength()+1 < wszFullName.GetLength())
-					setUString(pUser->hContact, "LastName", wszFullName.c_str() + 1 + wszShort.GetLength());
-			}
-		}
+		pData += payloadLen;
+		cbDataLen -= payloadLen;
 	}
 }
 

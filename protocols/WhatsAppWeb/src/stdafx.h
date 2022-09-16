@@ -47,6 +47,8 @@ Copyright © 2019-22 George Hazan
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
+#include <openssl/sha.h>
+#include <openssl/kdf.h>
 
 #include "../../libs/libqrencode/src/qrencode.h"
 
@@ -62,6 +64,9 @@ Copyright © 2019-22 George Hazan
 // >vcpkg.exe install protobuf:x64-windows-static-md
 
 #include "google/protobuf/message.h"
+#include "pmsg.pb.h"
+
+using namespace google::protobuf;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

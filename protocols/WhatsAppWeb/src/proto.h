@@ -11,59 +11,6 @@ Copyright © 2019-22 George Hazan
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node, void*);
 
-enum class WAMetric
-{
-	debugLog = 1,
-	queryResume,
-	queryReceipt,
-	queryMedia,
-	queryChat,
-	queryContacts,
-	queryMessages,
-	presence,
-	presenceSubscribe,
-	group,
-	read,
-	chat,
-	received,
-	pic,
-	status,
-	message,
-	queryActions,
-	block,
-	queryGroup,
-	queryPreview,
-	queryEmoji,
-	queryMessageInfo,
-	spam,
-	querySearch,
-	queryIdentity,
-	queryUrl,
-	profile,
-	contact,
-	queryVcard,
-	queryStatus,
-	queryStatusUpdate,
-	privacyStatus,
-	queryLiveLocations,
-	liveLocation,
-	queryVname,
-	queryLabels,
-	call,
-	queryCall,
-	queryQuickReplies,
-};
-
-enum class WAFlag
-{
-	skipOffline = 1 << 2,
-	expires = 1 << 3,
-	notAvailable = 1 << 4,
-	available = 1 << 5,
-	ackRequest = 1 << 6,
-	ignore = 1 << 7,
-};
-
 struct WARequest
 {
 	CMStringA szPrefix;
@@ -92,7 +39,7 @@ struct WAUser
 	}
 
 	MCONTACT hContact;
-	DWORD dwModifyTag;
+	DWORD dwModifyTag = 0;
 	char *szId;
 	bool bInited = false;
 	SESSION_INFO *si = 0;
@@ -111,6 +58,28 @@ struct WAOwnMessage
 	int pktId;
 	MCONTACT hContact;
 	CMStringA szPrefix;
+};
+
+class WANoise
+{
+	int readCounter = 0, writeCounter = 0;
+	bool bInitFinished = false, bSendIntro = false;
+	MBinBuffer pubKey, privKey, salt, encKey, decKey;
+	uint8_t hash[32];
+
+	void deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read);
+	void mixIntoKey(const void *pData, size_t cbLen);
+	void updateHash(const void *pData, size_t cbLen);
+
+public:
+	WANoise();
+
+	void finish() { bInitFinished = true; }
+
+	const MBinBuffer& getPub() const { return pubKey; }
+
+	bool decodeFrame(const void *pData, size_t cbLen);
+	void encodeFrame(const void *pData, size_t cbLen, MBinBuffer &dest);
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -142,6 +111,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	EVP_PKEY *m_pKeys; // private & public keys
 	MBinBuffer mac_key, enc_key;
+	
+	WANoise *m_noise;
+
 	bool getBlob(const char *pSetting, MBinBuffer &buf);
 
 	// Contacts management /////////////////////////////////////////////////////////////////
@@ -157,7 +129,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
-	void InitChat(WAUser *pUser, const WANode *pNode);
+	void InitChat(WAUser *pUser);
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
@@ -174,8 +146,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	OBJLIST<WARequest> m_arPacketQueue;
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
-	int  WSSend(const CMStringA &str, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
-	int  WSSendNode(const char *pszPrefix, WAMetric, int flags, WANode &node, WA_PKT_HANDLER = nullptr);
+	int  WSSend(const MessageLite &msg, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
+	int  WSSendNode(const char *pszPrefix, int flags, WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
@@ -199,10 +171,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnStartSession(const JSONNode &node, void*);
 
 	// binary packets
-	void ProcessBinaryPacket(const void *pData, size_t cbLen);
-	void ProcessAdd(const CMStringA &type, const WANode *node);
-	void ProcessChats(const WANode *node);
-	void ProcessContacts(const WANode *node);
+	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);
 
 	// text packets
 	void ProcessPacket(const JSONNode &node);

@@ -49,6 +49,102 @@ bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// sends a piece of JSON to a server via a websocket, masked
+
+int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER /*pHandler*/, void * /*pUserInfo*/)
+{
+	if (m_hServerConn == nullptr)
+		return -1;
+
+	// debugLogA("Sending packet: %s", msg..DebugString().c_str());
+
+	int cbLen = msg.ByteSize();
+	ptrA protoBuf((char *)mir_alloc(cbLen));
+	msg.SerializeToArray(protoBuf, cbLen);
+
+	MBinBuffer payload;
+	m_noise->encodeFrame(protoBuf, cbLen, payload);
+	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
+	return 0;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static char zeroData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+int WhatsAppProto::WSSendNode(const char *pszPrefix, int flags, WANode &node, WA_PKT_HANDLER pHandler)
+{
+	if (m_hServerConn == nullptr)
+		return 0;
+
+	{
+		char str[100];
+		_i64toa(_time64(0), str, 10);
+		node.addAttr("epoch", str);
+
+		CMStringA szText;
+		node.print(szText);
+		debugLogA("Sending binary node: %s", szText.c_str());
+	}
+
+	WAWriter writer;
+	writer.writeNode(&node);
+
+	// AES block size = 16 bytes, let's expand data to block size boundary
+	size_t rest = writer.body.length() % 16;
+	if (rest != 0)
+		writer.body.append(zeroData, 16 - rest);
+
+	BYTE iv[16];
+	Utils_GetRandom(iv, sizeof(iv));
+
+	// allocate the buffer of the same size + 32 bytes for temporary operations
+	MBinBuffer enc;
+	enc.assign(writer.body.data(), writer.body.length());
+	enc.append(mac_key.data(), mac_key.length());
+
+	int enc_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_EncryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, (BYTE *)enc_key.data(), iv);
+	EVP_EncryptUpdate(ctx, (BYTE *)enc.data(), &enc_len, (BYTE *)writer.body.data(), (int)writer.body.length());
+	EVP_EncryptFinal_ex(ctx, (BYTE *)enc.data() + enc_len, &final_len);
+	EVP_CIPHER_CTX_free(ctx);
+
+	// build the resulting buffer of the following structure:
+	// - packet prefix
+	// - 32 bytes of HMAC
+	// - 16 bytes of iv
+	// - rest of encoded data
+
+	BYTE hmac[32];
+	unsigned int hmac_len = 32;
+	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE *)enc.data(), enc_len, hmac, &hmac_len);
+
+	int pktId = ++m_iPktNumber;
+
+	if (pHandler != nullptr) {
+		auto *pReq = new WARequest;
+		pReq->pHandler = pHandler;
+		pReq->szPrefix = pszPrefix;
+
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(pReq);
+	}
+
+	char postPrefix[3] = {',', 0, (char)flags};
+
+	MBinBuffer ret;
+	ret.append(pszPrefix, strlen(pszPrefix));
+	ret.append(postPrefix, sizeof(postPrefix));
+	ret.append(hmac, sizeof(hmac));
+	ret.append(iv, sizeof(iv));
+	ret.append(enc.data(), enc_len);
+	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
+
+	return pktId;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 bool WhatsAppProto::decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuffer &res)
 {
@@ -82,6 +178,109 @@ bool WhatsAppProto::decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuf
 		EVP_CIPHER_CTX_free(ctx);
 	}
 	return true;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// WANoise members
+
+static uint8_t intro_header[] = { 87, 65, 6, DICT_VERSION };
+static uint8_t noise_init[] = "Noise_XX_25519_AESGCM_SHA256\0\0\0\0";
+
+WANoise::WANoise()
+{
+	salt.assign(noise_init, 32);
+	encKey.assign(noise_init, 32);
+	decKey.assign(noise_init, 32);
+
+	// generate ephemeral keys: public & private
+	ec_key_pair *pKeys;
+	curve_generate_key_pair(g_plugin.pCtx, &pKeys);
+
+	auto *pPubKey = ec_key_pair_get_public(pKeys);
+	pubKey.assign(pPubKey->data, sizeof(pPubKey->data));
+
+	auto *pPrivKey = ec_key_pair_get_private(pKeys);
+	privKey.assign(pPrivKey->data, sizeof(pPrivKey->data));
+	ec_key_pair_destroy(pKeys);
+
+	// prepare hash
+	memcpy(hash, noise_init, 32);
+	updateHash(intro_header, 4);
+	updateHash(pubKey.data(), pubKey.length());
+}
+
+void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read)
+{
+	auto *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);
+	EVP_PKEY_derive_init(pctx);
+	EVP_PKEY_CTX_set_hkdf_md(pctx, EVP_sha256());
+	EVP_PKEY_CTX_set1_hkdf_salt(pctx, salt.data(), (int)salt.length());
+	EVP_PKEY_CTX_set1_hkdf_key(pctx, pData, (int)cbLen);
+	
+	size_t outlen = 64;
+	uint8_t out[64];
+	EVP_PKEY_derive(pctx, out, &outlen);
+
+	EVP_PKEY_CTX_free(pctx);
+
+	write.assign(out, 32);
+	read.assign(out + 32, 32);
+}
+
+void WANoise::mixIntoKey(const void *pData, size_t cbLen)
+{
+	deriveKey(pData, cbLen, salt, encKey);
+	decKey.assign(encKey.data(), encKey.length());
+	readCounter = writeCounter = 0;
+}
+
+bool WANoise::decodeFrame(const void *pData, size_t cbLen)
+{
+	if (!bInitFinished) {
+		proto::HandshakeMessage msg;
+		if (msg.ParseFromArray(pData, (int)cbLen)) {
+			auto &ephemeral = msg.serverhello().ephemeral();
+			auto &static_ = msg.serverhello().static_();
+			auto &payload = msg.serverhello().payload();
+
+			updateHash(ephemeral.c_str(), ephemeral.size());
+			mixIntoKey(ephemeral.c_str(), ephemeral.size());
+
+
+		}
+		return true;
+	}
+
+	return false;
+}
+
+void WANoise::encodeFrame(const void *pData, size_t cbLen, MBinBuffer &res)
+{
+	if (!bSendIntro) {
+		bSendIntro = true;
+		res.append(intro_header, 4);
+	}
+
+	uint8_t buf[3];
+	size_t foo = cbLen;
+	for (int i = 0; i < 3; i++) {
+		buf[2 - i] = foo & 0xFF;
+		foo >>= 8;
+	}
+	res.append(buf, 3);
+	res.append(pData, cbLen);
+}
+
+void WANoise::updateHash(const void *pData, size_t cbLen)
+{
+	if (bInitFinished)
+		return;
+
+	SHA256_CTX ctx;
+	SHA256_Init(&ctx);
+	SHA256_Update(&ctx, hash, sizeof(hash));
+	SHA256_Update(&ctx, pData, cbLen);
+	SHA256_Final(hash, &ctx);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

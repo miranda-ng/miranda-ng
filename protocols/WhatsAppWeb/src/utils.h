@@ -5,6 +5,8 @@ Copyright © 2019-22 George Hazan
 
 */
 
+#define DICT_VERSION 2
+
 #define LIST_EMPTY   0
 #define STREAM_END   2
 #define DICTIONARY_0 236
