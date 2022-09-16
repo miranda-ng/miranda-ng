@@ -56,6 +56,8 @@ Copyright © 2019-22 George Hazan
 #include "../../libs/libsignal/src/hkdf.h"
 #include "../../libs/libsignal/src/signal_protocol.h"
 
+#include "../../libs/libsodium/src/include/sodium.h"
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // to obtain protobuf library do the following
 // - install vcpkg (https://github.com/microsoft/vcpkg);

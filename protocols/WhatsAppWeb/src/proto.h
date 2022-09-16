@@ -67,6 +67,8 @@ class WANoise
 	MBinBuffer pubKey, privKey, salt, encKey, decKey;
 	uint8_t hash[32];
 
+	void decrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
+	void encrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
 	void deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read);
 	void mixIntoKey(const void *pData, size_t cbLen);
 	void updateHash(const void *pData, size_t cbLen);

@@ -7,6 +7,8 @@ Copyright © 2019 George Hazan
 
 #include "stdafx.h"
 
+#define sharedKey(A, B, C) crypto_scalarmult((unsigned char*)A, (const unsigned char*)B, (const unsigned char*)C)
+
 WAUser* WhatsAppProto::FindUser(const char *szId)
 {
 	mir_cslock lck(m_csUsers);
@@ -234,6 +236,31 @@ void WANoise::mixIntoKey(const void *pData, size_t cbLen)
 	readCounter = writeCounter = 0;
 }
 
+void WANoise::decrypt(const void *pData, size_t cbLen, MBinBuffer &dest)
+{
+	uint8_t iv[12];
+	memset(iv, 0, 8);
+	memcpy(iv + 8, (bInitFinished) ? &readCounter : &writeCounter, sizeof(int));
+
+	uint8_t outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
+
+	int dec_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)decKey.data(), iv);
+	for (size_t len = 0; len < cbLen; len += 1024) {
+		size_t portionSize = cbLen - len;
+		EVP_DecryptUpdate(ctx, outbuf, &dec_len, (BYTE*)pData + len, min(portionSize, 1024));
+		if (len == 0)
+			dest.assign(outbuf, dec_len);
+		else
+			dest.append(outbuf, dec_len);
+	}
+	EVP_DecryptFinal_ex(ctx, outbuf, &final_len);
+	if (final_len)
+		dest.append(outbuf, final_len);
+	EVP_CIPHER_CTX_free(ctx);
+}
+
 bool WANoise::decodeFrame(const void *pData, size_t cbLen)
 {
 	if (!bInitFinished) {
@@ -243,10 +270,25 @@ bool WANoise::decodeFrame(const void *pData, size_t cbLen)
 			auto &static_ = msg.serverhello().static_();
 			auto &payload = msg.serverhello().payload();
 
+			uint8_t tmp[32];
+
 			updateHash(ephemeral.c_str(), ephemeral.size());
-			mixIntoKey(ephemeral.c_str(), ephemeral.size());
 
+			sharedKey(tmp, privKey.data(), ephemeral.c_str());
+			mixIntoKey(tmp, sizeof(tmp));
 
+			MBinBuffer decryptedStatic, decryptedCert;
+			decrypt(static_.c_str(), static_.size(), decryptedStatic);
+
+			sharedKey(tmp, privKey.data(), decryptedStatic.data());
+			mixIntoKey(tmp, sizeof(tmp));
+
+			decrypt(payload.c_str(), payload.size(), decryptedCert);
+			
+			proto::CertChain cert; cert.ParseFromArray(decryptedCert.data(), (int)decryptedCert.length());
+			proto::CertChain::NoiseCertificate::Details details; details.ParseFromString(cert.intermediate().details());
+			if (details.issuerserial() != 0)
+				return false;
 		}
 		return true;
 	}
@@ -269,6 +311,11 @@ void WANoise::encodeFrame(const void *pData, size_t cbLen, MBinBuffer &res)
 	}
 	res.append(buf, 3);
 	res.append(pData, cbLen);
+}
+
+void WANoise::encrypt(const void *pData, size_t cbLen, MBinBuffer &dest)
+{
+
 }
 
 void WANoise::updateHash(const void *pData, size_t cbLen)
