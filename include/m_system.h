@@ -470,16 +470,17 @@ public:
 
 class MIR_CORE_EXPORT MBinBuffer
 {
-	char *m_buf;
-	size_t m_len;
+	char *m_buf = nullptr;
 
 public:
 	MBinBuffer();
+	MBinBuffer(size_t preAlloc);
+	MBinBuffer(const MBinBuffer &orig);
 	~MBinBuffer();
 
-	__forceinline char *data() const { return m_buf; }
-	__forceinline bool   isEmpty() const { return m_len == 0; }
-	__forceinline size_t length() const { return m_len; }
+	__forceinline char* data() const { return m_buf; }
+	__forceinline bool isEmpty() const { return m_buf == nullptr; }
+	size_t length() const;
 
 	// adds a buffer to the end
 	void append(const void *pBuf, size_t bufLen);
