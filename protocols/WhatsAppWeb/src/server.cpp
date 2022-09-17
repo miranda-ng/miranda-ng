@@ -52,99 +52,71 @@ void WhatsAppProto::SendKeepAlive()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool WhatsAppProto::ProcessChallenge(const CMStringA &szChallenge)
+bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 {
-	if (szChallenge.IsEmpty() || mac_key.isEmpty())
-		return false;
+	proto::ClientPayload node;
 
-	size_t cbLen;
-	void *pChallenge = mir_base64_decode(szChallenge, &cbLen);
+	MFileVersion v;
+	Miranda_GetFileVersion(&v);
 
-	BYTE digest[32];
-	unsigned cbResult = sizeof(digest);
-	HMAC(EVP_sha256(), mac_key.data(), (int)mac_key.length(), (BYTE*)pChallenge, (int)cbLen, digest, &cbResult);
+	// generate registration packet
+	if (m_szClientToken.IsEmpty()) {
+		uint8_t appVersion[16];
+		mir_md5_hash((BYTE*)APP_VERSION, sizeof(APP_VERSION) - 1, appVersion);
 
-	ptrA szServer(getStringA(DBKEY_SERVER_TOKEN));
-	//CMStringA payload(FORMAT, "[\"admin\",\"challenge\",\"%s\",\"%s\",\"%s\"]",
-//		ptrA(mir_base64_encode(digest, cbResult)).get(), szServer.get(), m_szClientId.c_str());
-	//WSSend(payload);
-	return true;
-}
+		auto *pAppVersion = new proto::DeviceProps_AppVersion();
+		pAppVersion->set_primary(v[0]);
+		pAppVersion->set_secondary(v[1]);
+		pAppVersion->set_tertiary(v[2]);
+		pAppVersion->set_quaternary(v[3]);
 
-/////////////////////////////////////////////////////////////////////////////////////////
+		proto::DeviceProps pCompanion;
+		pCompanion.set_os("Miranda");
+		pCompanion.set_allocated_version(pAppVersion);
+		pCompanion.set_platformtype(proto::DeviceProps_PlatformType_DESKTOP);
+		pCompanion.set_requirefullsync(true);
 
-bool WhatsAppProto::ProcessSecret(const CMStringA &szSecret)
-{
-	if (szSecret.IsEmpty())
-		return false;
+		//MBinBuffer buf(pCompanion.ByteSize());
+		//pCompanion.SerializeToArray(buf.data(), (int)buf.length());
 
-	size_t secretLen = 0;
-	mir_ptr<BYTE> pSecret((BYTE *)mir_base64_decode(szSecret, &secretLen));
-	if (pSecret == nullptr || secretLen != 144) {
-		debugLogA("Invalid secret key, dropping session (secret len = %u", (unsigned)secretLen);
-		return false;
+		auto *pPairingData = new proto::ClientPayload_DevicePairingRegistrationData();
+		//pPairingData->set_deviceprops(buf.data(), buf.length());
+		pPairingData->set_buildhash(appVersion, sizeof(appVersion));
+		pPairingData->set_eregid("");
+
+		node.set_allocated_devicepairingdata(pPairingData);
+	}
+	// generate login packet
+	else {
+		node.set_passive(true);
 	}
 
-	ec_public_key pPeerPublic;
-	memcpy(pPeerPublic.data, pSecret, 32);
+	auto *pUserVersion = new proto::ClientPayload_UserAgent_AppVersion();
+	pUserVersion->set_primary(v[0]);
+	pUserVersion->set_secondary(v[1]);
+	pUserVersion->set_tertiary(v[2]);
+	pUserVersion->set_quaternary(v[3]);
 
-	MBinBuffer privKey;
-	if (!getBlob(DBKEY_PRIVATE_KEY, privKey))
-		return false;
+	auto *pUserAgent = new proto::ClientPayload_UserAgent();
+	pUserAgent->set_allocated_appversion(pUserVersion);
+	pUserAgent->set_platform(proto::ClientPayload_UserAgent_Platform_WINDOWS);
+	pUserAgent->set_releasechannel(proto::ClientPayload_UserAgent_ReleaseChannel_RELEASE);
+	pUserAgent->set_mcc("000");
+	pUserAgent->set_mnc("000");
+	pUserAgent->set_osversion("10.0");
+	pUserAgent->set_osbuildnumber("10.0");
+	pUserAgent->set_manufacturer("");
+	pUserAgent->set_device("Desktop");
+	pUserAgent->set_localelanguageiso6391("en");
+	pUserAgent->set_localecountryiso31661alpha2("US");
 
-	ec_private_key pMyPrivate;
-	memcpy(pMyPrivate.data, privKey.data(), 32);
+	auto *pWebInfo = new proto::ClientPayload_WebInfo();
+	pWebInfo->set_websubplatform(proto::ClientPayload_WebInfo_WebSubPlatform_WINDA);
 
-	uint8_t *pSharedKey, *pSharedExpanded;
-	int sharedLen = curve_calculate_agreement(&pSharedKey, &pPeerPublic, &pMyPrivate);
-	{
-		BYTE salt[32], md[32];
-		unsigned int md_len = 32;
-		memset(salt, 0, sizeof(salt));
-		HMAC(EVP_sha256(), salt, sizeof(salt), pSharedKey, sharedLen, md, &md_len);
-
-		hkdf_context *pHKDF;
-		hkdf_create(&pHKDF, 3, g_plugin.pCtx);
-		hkdf_expand(pHKDF, &pSharedExpanded, md, sizeof(md), 0, 0, 80);
-		hkdf_destroy(pHKDF);
-	}
-
-	// validation
-	{
-		unsigned int md_len = 32;
-		BYTE sum[32], md[32], enc[112], *key = pSharedExpanded + 32;
-		memcpy(enc, pSecret, 32);
-		memcpy(enc + 32, (BYTE *)pSecret + 64, 80);
-		memcpy(sum, (BYTE *)pSecret + 32, 32);
-		HMAC(EVP_sha256(), key, 32, enc, sizeof(enc), md, &md_len);
-		if (memcmp(md, sum, 32)) {
-			debugLogA("Secret key validation failed, exiting");
-			return false;
-		}
-	}
-
-	// woohoo, everything is ok, decrypt keys
-	{
-		BYTE enc[80], dec[112], key[32], iv[16];
-		memcpy(key, pSharedExpanded, sizeof(key));
-		memcpy(iv, pSharedExpanded+64, sizeof(iv));
-		memcpy(enc, pSecret.get() + 64, sizeof(enc));
-
-		int dec_len = 0, final_len = 0;
-		EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-		EVP_DecryptInit_ex(ctx, EVP_aes_256_cbc(), NULL, key, iv);
-		EVP_DecryptUpdate(ctx, dec, &dec_len, enc, sizeof(enc));
-		EVP_DecryptFinal_ex(ctx, dec + dec_len, &final_len);
-		dec_len += final_len;
-		EVP_CIPHER_CTX_free(ctx);
-
-		enc_key.assign(dec, 32);
-		mac_key.assign(dec + 32, 32);
-
-		db_set_blob(0, m_szModuleName, DBKEY_ENC_KEY, enc_key.data(), (int)enc_key.length());
-		db_set_blob(0, m_szModuleName, DBKEY_MAC_KEY, mac_key.data(), (int)mac_key.length());
-	}
-
+	node.set_connecttype(proto::ClientPayload_ConnectType_WIFI_UNKNOWN);
+	node.set_connectreason(proto::ClientPayload_ConnectReason_USER_ACTIVATED);
+	node.set_allocated_useragent(pUserAgent);
+	node.set_allocated_webinfo(pWebInfo);
 	return true;
 }
 
@@ -160,26 +132,6 @@ void WhatsAppProto::OnRestoreSession1(const JSONNode&, void*)
 
 	// CMStringA payload(FORMAT, "[\"admin\",\"login\",\"%s\",\"%s\",\"%s\",\"takeover\"]", szClient.get(), szServer.get(), m_szClientId.c_str());
 	// WSSend(payload, &WhatsAppProto::OnRestoreSession2);
-}
-
-void WhatsAppProto::OnRestoreSession2(const JSONNode &root, void*)
-{
-	int status = root["status"].as_int();
-	if (status != 200) {
-		debugLogA("Attempt to restore session failed with error %d", status);
-
-		if (status == 401 || status == 419) {
-			POPUPDATAW Popup = {};
-			Popup.lchIcon = IcoLib_GetIconByHandle(Skin_GetIconHandle(SKINICON_ERROR));
-			wcsncpy_s(Popup.lpwzText, TranslateT("You need to launch WhatsApp on your phone"), _TRUNCATE);
-			wcsncpy_s(Popup.lpwzContactName, m_tszUserName, _TRUNCATE);
-			Popup.iSeconds = 10;
-			PUAddPopupW(&Popup);
-		}
-
-		ShutdownSession();
-		return;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -266,16 +218,13 @@ bool WhatsAppProto::ServerThreadWorker()
 		return false;
 
 	delete m_noise;
-	m_noise = new WANoise();
+	m_noise = new WANoise(this);
 
 	debugLogA("Server connection succeeded");
 	m_hServerConn = pReply->nlc;
 	m_iLoginTime = time(0);
 	m_iPktNumber = 0;
 	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
-
-	MFileVersion v;
-	Miranda_GetFileVersion(&v);
 
 	auto &pubKey = m_noise->getPub();
 	ptrA szPubKey(mir_base64_encode(pubKey.data(), pubKey.length()));
@@ -454,11 +403,6 @@ void WhatsAppProto::ProcessCmd(const JSONNode &root)
 {
 	CMStringW wszType(root["type"].as_mstring());
 	if (wszType == L"challenge") {
-		CMStringA szChallenge(root["challenge"].as_mstring());
-		if (!ProcessChallenge(szChallenge)) {
-			ShutdownSession();
-			return;
-		}
 	}
 }
 
@@ -468,13 +412,6 @@ void WhatsAppProto::ProcessConn(const JSONNode &root)
 
 	writeStr(DBKEY_ID, root["wid"]);
 	m_szJid = getMStringA(DBKEY_ID);
-
-	CMStringA szSecret(root["secret"].as_mstring());
-	if (!szSecret.IsEmpty())
-		if (!ProcessSecret(szSecret)) {
-			ShutdownSession();
-			return;
-		}
 
 	writeStr(DBKEY_NICK, root["pushname"]);
 	writeStr(DBKEY_CLIENT_TOKEN, root["clientToken"]);

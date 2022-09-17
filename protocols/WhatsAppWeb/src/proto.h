@@ -8,6 +8,8 @@ Copyright © 2019-22 George Hazan
 #if !defined(PROTO_H)
 #define PROTO_H
 
+#define APP_VERSION "2.2230.15"
+
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node, void*);
 
@@ -62,23 +64,25 @@ struct WAOwnMessage
 
 class WANoise
 {
+	WhatsAppProto *ppro;
 	int readCounter = 0, writeCounter = 0;
 	bool bInitFinished = false, bSendIntro = false;
 	MBinBuffer pubKey, privKey, salt, encKey, decKey;
 	uint8_t hash[32];
 
-	void decrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
-	void encrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
 	void deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read);
-	void mixIntoKey(const void *pData, size_t cbLen);
+	void mixIntoKey(const void *n, const void *p);
 	void updateHash(const void *pData, size_t cbLen);
 
 public:
-	WANoise();
+	WANoise(WhatsAppProto *_ppro);
 
 	void finish() { bInitFinished = true; }
 
 	const MBinBuffer& getPub() const { return pubKey; }
+
+	void decrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
+	void encrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
 
 	bool decodeFrame(const void *pData, size_t cbLen);
 	void encodeFrame(const void *pData, size_t cbLen, MBinBuffer &dest);
@@ -86,6 +90,8 @@ public:
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
+	friend class WANoise;
+
 	class CWhatsAppProtoImpl
 	{
 		friend class WhatsAppProto;
@@ -112,8 +118,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringW m_tszAvatarFolder;
 
 	EVP_PKEY *m_pKeys; // private & public keys
-	MBinBuffer mac_key, enc_key;
-	
 	WANoise *m_noise;
 
 	bool getBlob(const char *pSetting, MBinBuffer &buf);
@@ -156,10 +160,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	bool ServerThreadWorker(void);
 	void ShutdownSession(void);
 
-	bool ProcessChallenge(const CMStringA &szChallenge);
-	bool ProcessSecret(const CMStringA &szSecret);
-
-	bool decryptBinaryMessage(size_t cbSize, const void *buf, MBinBuffer &res);
+	bool ProcessHandshake(const MBinBuffer &szkeyEnc);
 
 	void SendKeepAlive();
 

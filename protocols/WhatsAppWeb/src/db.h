@@ -20,9 +20,6 @@ Copyright © 2019-22 George Hazan
 #define DBKEY_PUB_KEY                 "PublicKey"
 #define DBKEY_PRIVATE_KEY             "PrivateKey"
 
-#define DBKEY_MAC_KEY                 "MacKey"
-#define DBKEY_ENC_KEY                 "EncKey"
-
 #define DBKEY_NICK                    "Nick"
 #define DBKEY_DEF_GROUP               "DefaultGroup"
 #define DBKEY_AUTORUNCHATS            "AutoRunChats"
