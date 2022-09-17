@@ -215,6 +215,7 @@ bool WANoise::decodeFrame(const void *pData, size_t cbLen)
 
 			MBinBuffer encryptedPub = encrypt(noiseKeys.pub.data(), noiseKeys.pub.length());
 			mixIntoKey(noiseKeys.priv.data(), ephemeral_.c_str());
+			ppro->ProcessHandshake(encryptedPub);
 		}
 		return true;
 	}

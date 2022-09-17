@@ -629,12 +629,12 @@ void WAWriter::writePacked(const CMStringA &str)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MBinBuffer encodeBigEndian(uint32_t num, size_t len)
+std::string encodeBigEndian(uint32_t num, size_t len)
 {
-	MBinBuffer res;
+	std::string res;
 	for (int i = 0; i < len; i++) {
-		uint8_t c = num & 0xFF;
-		res.append(&c, 1);
+		char c = num & 0xFF;
+		res = c + res;
 		num >>= 8;
 	}
 	return res;

@@ -71,7 +71,7 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 		pAppVersion->set_quaternary(v[3]);
 
 		proto::DeviceProps pCompanion;
-		pCompanion.set_os("Miranda");
+		pCompanion.set_os("Chrome");
 		pCompanion.set_allocated_version(pAppVersion);
 		pCompanion.set_platformtype(proto::DeviceProps_PlatformType_DESKTOP);
 		pCompanion.set_requirefullsync(true);
@@ -82,11 +82,15 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 		auto *pPairingData = new proto::ClientPayload_DevicePairingRegistrationData();
 		pPairingData->set_deviceprops(buf.data(), buf.length());
 		pPairingData->set_buildhash(appVersion, sizeof(appVersion));
-
-		MBinBuffer tmp = encodeBigEndian(getDword(DBKEY_REG_ID));
-		pPairingData->set_eregid(tmp.data(), tmp.length());
-
+		pPairingData->set_eregid(encodeBigEndian(getDword(DBKEY_REG_ID)));
+		pPairingData->set_ekeytype(KEY_BUNDLE_TYPE);
+		pPairingData->set_eident(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+		pPairingData->set_eskeyid(encodeBigEndian(m_noise->preKey.keyid));
+		pPairingData->set_eskeyval(m_noise->preKey.pub.data(), m_noise->preKey.pub.length());
+		pPairingData->set_eskeysig(m_noise->preKey.signature.data(), m_noise->preKey.signature.length());
 		node.set_allocated_devicepairingdata(pPairingData);
+		
+		node.set_passive(false);
 	}
 	// generate login packet
 	else {
@@ -94,31 +98,45 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 	}
 
 	auto *pUserVersion = new proto::ClientPayload_UserAgent_AppVersion();
-	pUserVersion->set_primary(v[0]);
-	pUserVersion->set_secondary(v[1]);
-	pUserVersion->set_tertiary(v[2]);
-	pUserVersion->set_quaternary(v[3]);
+	pUserVersion->set_primary(2);
+	pUserVersion->set_secondary(2230);
+	pUserVersion->set_tertiary(15);
 
 	auto *pUserAgent = new proto::ClientPayload_UserAgent();
 	pUserAgent->set_allocated_appversion(pUserVersion);
-	pUserAgent->set_platform(proto::ClientPayload_UserAgent_Platform_WINDOWS);
+	pUserAgent->set_platform(proto::ClientPayload_UserAgent_Platform_WEB);
 	pUserAgent->set_releasechannel(proto::ClientPayload_UserAgent_ReleaseChannel_RELEASE);
 	pUserAgent->set_mcc("000");
 	pUserAgent->set_mnc("000");
-	pUserAgent->set_osversion("10.0");
-	pUserAgent->set_osbuildnumber("10.0");
+	pUserAgent->set_osversion("0.1");
+	pUserAgent->set_osbuildnumber("0.1");
 	pUserAgent->set_manufacturer("");
 	pUserAgent->set_device("Desktop");
 	pUserAgent->set_localelanguageiso6391("en");
 	pUserAgent->set_localecountryiso31661alpha2("US");
 
 	auto *pWebInfo = new proto::ClientPayload_WebInfo();
-	pWebInfo->set_websubplatform(proto::ClientPayload_WebInfo_WebSubPlatform_WINDA);
+	pWebInfo->set_websubplatform(proto::ClientPayload_WebInfo_WebSubPlatform_WEB_BROWSER);
 
 	node.set_connecttype(proto::ClientPayload_ConnectType_WIFI_UNKNOWN);
 	node.set_connectreason(proto::ClientPayload_ConnectReason_USER_ACTIVATED);
 	node.set_allocated_useragent(pUserAgent);
 	node.set_allocated_webinfo(pWebInfo);
+
+	MBinBuffer payload(node.ByteSize());
+	node.SerializeToArray(payload.data(), (int)payload.length());
+	
+	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
+	
+	auto *pFinish = new proto::HandshakeMessage_ClientFinish();
+	pFinish->set_payload(payloadEnc.data(), payloadEnc.length());
+	pFinish->set_static_(keyEnc.data(), keyEnc.length());
+
+	proto::HandshakeMessage handshake;
+	handshake.set_allocated_clientfinish(pFinish);
+	WSSend(handshake);
+	
+	m_noise->finish();
 	return true;
 }
 

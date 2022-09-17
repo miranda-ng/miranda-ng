@@ -9,6 +9,7 @@ Copyright © 2019-22 George Hazan
 #define PROTO_H
 
 #define APP_VERSION "2.2230.15"
+#define KEY_BUNDLE_TYPE "\x05"
 
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node, void*);
