@@ -6,7 +6,7 @@ Copyright © 2019-22 George Hazan
 */
 
 #pragma once
-#pragma warning(disable:4996 4290 4200)
+#pragma warning(disable:4996 4290 4200 4324)
 
 #include <malloc.h>
 #include <time.h>
@@ -54,6 +54,7 @@ Copyright © 2019-22 George Hazan
 
 #include "../../libs/libsignal/src/curve.h"
 #include "../../libs/libsignal/src/hkdf.h"
+#include "../../libs/libsignal/src/key_helper.h"
 #include "../../libs/libsignal/src/signal_protocol.h"
 
 #include "../../libs/libsodium/src/include/sodium.h"

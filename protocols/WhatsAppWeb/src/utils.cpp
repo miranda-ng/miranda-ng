@@ -62,8 +62,7 @@ int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER /*pHandler*/, v
 	ptrA protoBuf((char *)mir_alloc(cbLen));
 	msg.SerializeToArray(protoBuf, cbLen);
 
-	MBinBuffer payload;
-	m_noise->encodeFrame(protoBuf, cbLen, payload);
+	MBinBuffer payload = m_noise->encodeFrame(protoBuf, cbLen);
 	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
 	return 0;
 }
@@ -117,190 +116,6 @@ int WhatsAppProto::WSSendNode(const char *pszPrefix, int flags, WANode &node, WA
 	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
 
 	return pktId;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// WANoise members
-
-static uint8_t intro_header[] = { 87, 65, 6, DICT_VERSION };
-static uint8_t noise_init[] = "Noise_XX_25519_AESGCM_SHA256\0\0\0\0";
-
-WANoise::WANoise(WhatsAppProto *_ppro) :
-	ppro(_ppro)
-{
-	salt.assign(noise_init, 32);
-	encKey.assign(noise_init, 32);
-	decKey.assign(noise_init, 32);
-
-	// generate ephemeral keys: public & private
-	ec_key_pair *pKeys;
-	curve_generate_key_pair(g_plugin.pCtx, &pKeys);
-
-	auto *pPubKey = ec_key_pair_get_public(pKeys);
-	pubKey.assign(pPubKey->data, sizeof(pPubKey->data));
-
-	auto *pPrivKey = ec_key_pair_get_private(pKeys);
-	privKey.assign(pPrivKey->data, sizeof(pPrivKey->data));
-	ec_key_pair_destroy(pKeys);
-
-	// prepare hash
-	memcpy(hash, noise_init, 32);
-	updateHash(intro_header, 4);
-	updateHash(pubKey.data(), pubKey.length());
-}
-
-void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read)
-{
-	auto *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);
-	EVP_PKEY_derive_init(pctx);
-	EVP_PKEY_CTX_set_hkdf_md(pctx, EVP_sha256());
-	EVP_PKEY_CTX_set1_hkdf_salt(pctx, salt.data(), (int)salt.length());
-	EVP_PKEY_CTX_set1_hkdf_key(pctx, pData, (int)cbLen);
-	
-	size_t outlen = 64;
-	uint8_t out[64];
-	EVP_PKEY_derive(pctx, out, &outlen);
-
-	EVP_PKEY_CTX_free(pctx);
-
-	write.assign(out, 32);
-	read.assign(out + 32, 32);
-}
-
-void WANoise::mixIntoKey(const void *n, const void *p)
-{
-	uint8_t tmp[32];
-	crypto_scalarmult((unsigned char *)tmp, (const unsigned char *)n, (const unsigned char *)p);
-
-	deriveKey(tmp, sizeof(tmp), salt, encKey);
-	decKey.assign(encKey.data(), encKey.length());
-	readCounter = writeCounter = 0;
-}
-
-void WANoise::decrypt(const void *pData, size_t cbLen, MBinBuffer &dest)
-{
-	auto &pVar = (bInitFinished) ? readCounter : writeCounter;
-
-	uint8_t iv[12];
-	memset(iv, 0, 8);
-	memcpy(iv + 8, &pVar, sizeof(int));
-	pVar++;
-
-	uint8_t outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
-
-	int dec_len = 0, final_len = 0;
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)decKey.data(), iv);
-	for (size_t len = 0; len < cbLen; len += 1024) {
-		size_t portionSize = cbLen - len;
-		EVP_DecryptUpdate(ctx, outbuf, &dec_len, (BYTE*)pData + len, (int)min(portionSize, 1024));
-		if (len == 0)
-			dest.assign(outbuf, dec_len);
-		else
-			dest.append(outbuf, dec_len);
-	}
-	EVP_DecryptFinal_ex(ctx, outbuf, &final_len);
-	if (final_len)
-		dest.append(outbuf, final_len);
-	EVP_CIPHER_CTX_free(ctx);
-
-	updateHash(pData, cbLen);
-}
-
-bool WANoise::decodeFrame(const void *pData, size_t cbLen)
-{
-	if (!bInitFinished) {
-		proto::HandshakeMessage msg;
-		if (msg.ParseFromArray(pData, (int)cbLen)) {
-			auto &ephemeral = msg.serverhello().ephemeral();
-			auto &static_ = msg.serverhello().static_();
-			auto &payload = msg.serverhello().payload();
-
-			updateHash(ephemeral.c_str(), ephemeral.size());
-			mixIntoKey(privKey.data(), ephemeral.c_str());
-
-			MBinBuffer decryptedStatic, decryptedCert;
-			decrypt(static_.c_str(), static_.size(), decryptedStatic);
-			mixIntoKey(privKey.data(), decryptedStatic.data());
-
-			decrypt(payload.c_str(), payload.size(), decryptedCert);
-			
-			proto::CertChain cert; cert.ParseFromArray(decryptedCert.data(), (int)decryptedCert.length());
-			proto::CertChain::NoiseCertificate::Details details; details.ParseFromString(cert.intermediate().details());
-			if (details.issuerserial() != 0) {
-				ppro->ShutdownSession();
-				return false;
-			}
-
-			MBinBuffer mainPub, mainPriv;
-			ppro->getBlob(DBKEY_PUB_KEY, mainPub);
-			ppro->getBlob(DBKEY_PRIVATE_KEY, mainPriv);
-	
-			MBinBuffer encryptedPub;
-			encrypt(mainPub.data(), mainPub.length(), encryptedPub);
-			mixIntoKey(mainPriv.data(), ephemeral.c_str());
-		}
-		return true;
-	}
-
-	return false;
-}
-
-void WANoise::encodeFrame(const void *pData, size_t cbLen, MBinBuffer &res)
-{
-	if (!bSendIntro) {
-		bSendIntro = true;
-		res.append(intro_header, 4);
-	}
-
-	uint8_t buf[3];
-	size_t foo = cbLen;
-	for (int i = 0; i < 3; i++) {
-		buf[2 - i] = foo & 0xFF;
-		foo >>= 8;
-	}
-	res.append(buf, 3);
-	res.append(pData, cbLen);
-}
-
-void WANoise::encrypt(const void *pData, size_t cbLen, MBinBuffer &dest)
-{
-	uint8_t iv[12];
-	memset(iv, 0, 8);
-	memcpy(iv + 8, &writeCounter, sizeof(int));
-	writeCounter++;
-
-	uint8_t outbuf[1024 + 64];
-
-	int enc_len = 0, final_len = 0;
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)encKey.data(), iv);
-	for (size_t len = 0; len < cbLen; len += 1024) {
-		size_t portionSize = cbLen - len;
-		EVP_EncryptUpdate(ctx, outbuf, &enc_len, (BYTE *)pData + len, (int)min(portionSize, 1024));
-		if (len == 0)
-			dest.assign(outbuf, enc_len);
-		else
-			dest.append(outbuf, enc_len);
-	}
-	EVP_EncryptFinal_ex(ctx, outbuf, &final_len);
-	if (final_len)
-		dest.append(outbuf, final_len);
-	EVP_CIPHER_CTX_free(ctx);
-
-	updateHash(dest.data(), dest.length());
-}
-
-void WANoise::updateHash(const void *pData, size_t cbLen)
-{
-	if (bInitFinished)
-		return;
-
-	SHA256_CTX ctx;
-	SHA256_Init(&ctx);
-	SHA256_Update(&ctx, hash, sizeof(hash));
-	SHA256_Update(&ctx, pData, cbLen);
-	SHA256_Final(hash, &ctx);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -810,4 +625,17 @@ void WAWriter::writePacked(const CMStringA &str)
 
 	if (firstByte != 0)
 		writeByte(packPair(type, p[0], 0));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MBinBuffer encodeBigEndian(uint32_t num, size_t len)
+{
+	MBinBuffer res;
+	for (int i = 0; i < len; i++) {
+		uint8_t c = num & 0xFF;
+		res.append(&c, 1);
+		num >>= 8;
+	}
+	return res;
 }

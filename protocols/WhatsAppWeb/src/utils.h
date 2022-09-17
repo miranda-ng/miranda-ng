@@ -99,3 +99,7 @@ public:
 
 	MBinBuffer body;
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MBinBuffer encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));

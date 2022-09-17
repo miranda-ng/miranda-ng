@@ -111,25 +111,9 @@ void WhatsAppProto::CloseQrDialog()
 
 bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 {
-	MBinBuffer pubKey;
-	if (!getBlob(DBKEY_PUB_KEY, pubKey)) {
-		// generate new pair of private & public keys for this account
-
-		ec_key_pair *pKeys;
-		if (curve_generate_key_pair(g_plugin.pCtx, &pKeys))
-			return false;
-
-		auto *pPubKey = ec_key_pair_get_public(pKeys);
-		pubKey.append(pPubKey->data, sizeof(pPubKey->data));
-		db_set_blob(0, m_szModuleName, DBKEY_PUB_KEY, pPubKey->data, sizeof(pPubKey->data));
-
-		auto *pPrivKey = ec_key_pair_get_private(pKeys);
-		db_set_blob(0, m_szModuleName, DBKEY_PRIVATE_KEY, pPrivKey->data, sizeof(pPrivKey->data));
-		ec_key_pair_destroy(pKeys);
-	}
-
 	CallFunctionSync(sttShowDialog, this);
 
+	auto &pubKey = m_noise->noiseKeys.pub;
 	CMStringA szQrData(FORMAT, "%s,%s,%s", ref.c_str(), ptrA(mir_base64_encode(pubKey.data(), pubKey.length())).get(), m_szClientId.c_str());
 	m_pQRDlg->SetData(szQrData);
 	return true;

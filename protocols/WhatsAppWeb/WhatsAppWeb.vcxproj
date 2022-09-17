@@ -58,6 +58,7 @@
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\chats.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\noise.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\pmsg.pb.cc">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

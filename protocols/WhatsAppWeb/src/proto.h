@@ -64,11 +64,22 @@ struct WAOwnMessage
 
 class WANoise
 {
+	friend class WhatsAppProto;
+
 	WhatsAppProto *ppro;
 	int readCounter = 0, writeCounter = 0;
 	bool bInitFinished = false, bSendIntro = false;
-	MBinBuffer pubKey, privKey, salt, encKey, decKey;
+	MBinBuffer salt, encKey, decKey;
 	uint8_t hash[32];
+
+	struct {
+		MBinBuffer priv, pub;
+	} noiseKeys, signedIdentity, ephemeral;
+
+	struct {
+		MBinBuffer priv, pub, signature;
+		uint32_t keyid;
+	} preKey;
 
 	void deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read);
 	void mixIntoKey(const void *n, const void *p);
@@ -78,14 +89,13 @@ public:
 	WANoise(WhatsAppProto *_ppro);
 
 	void finish() { bInitFinished = true; }
+	void init();
 
-	const MBinBuffer& getPub() const { return pubKey; }
-
-	void decrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
-	void encrypt(const void *pData, size_t cbLen, MBinBuffer &dest);
+	MBinBuffer decrypt(const void *pData, size_t cbLen);
+	MBinBuffer encrypt(const void *pData, size_t cbLen);
 
 	bool decodeFrame(const void *pData, size_t cbLen);
-	void encodeFrame(const void *pData, size_t cbLen, MBinBuffer &dest);
+	MBinBuffer encodeFrame(const void *pData, size_t cbLen);
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -168,8 +178,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnGetAvatarInfo(const JSONNode &node, void*);
 	void OnGetChatInfo(const JSONNode &node, void*);
-	void OnRestoreSession1(const JSONNode &node, void*);
-	void OnRestoreSession2(const JSONNode &node, void*);
 	void OnSendMessage(const JSONNode &node, void*);
 	void OnStartSession(const JSONNode &node, void*);
 
