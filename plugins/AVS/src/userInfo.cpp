@@ -242,109 +242,68 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Protocol avatar dialog
 
-static char* GetSelectedProtocol(HWND hwndDlg)
-{
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
-
-	// Get selection
-	int iItem = ListView_GetSelectionMark(hwndList);
-	if (iItem < 0)
-		return nullptr;
-
-	// Get protocol name
-	LVITEM item = { 0 };
-	item.mask = LVIF_PARAM;
-	item.iItem = iItem;
-	SendMessage(hwndList, LVM_GETITEMA, 0, (LPARAM)&item);
-	return (char*)item.lParam;
-}
-
-static void EnableDisableControls(HWND hwndDlg, char *proto)
-{
-	if (IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO)) {
-		if (proto == nullptr) {
-			EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-		}
-		else {
-			if (!ProtoServiceExists(proto, PS_SETMYAVATAR)) {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), FALSE);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), FALSE);
-			}
-			else {
-				EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
-
-				int width, height;
-				SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_GETUSEDSPACE, (WPARAM)&width, (LPARAM)&height);
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), (LPARAM)width != 0 || height != 0);
-			}
-		}
-	}
-	else {
-		EnableWindow(GetDlgItem(hwndDlg, IDC_CHANGE), TRUE);
-
-		if (g_plugin.getByte("GlobalUserAvatarNotConsistent", 1))
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), TRUE);
-		else {
-			int width, height;
-			SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_GETUSEDSPACE, (WPARAM)&width, (LPARAM)&height);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETE), (LPARAM)width != 0 || height != 0);
-		}
-	}
-}
-
-static void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy)
-{
-	RECT rc;
-	GetWindowRect(hwnd, &rc);
-	ScreenToClient(parent, &rc);
-	OffsetRect(&rc, dx, dy);
-	MoveWindow(hwnd, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
-}
-
-static void EnableDisableProtocols(HWND hwndDlg, BOOL init)
-{
-	int diff = 147; // Pre-calc
-	BOOL perProto = IsDlgButtonChecked(hwndDlg, IDC_PER_PROTO);
-	HWND hwndList = GetDlgItem(hwndDlg, IDC_PROTOCOLS);
-
-	if (perProto) {
-		if (!init && !IsWindowVisible(hwndList)) {
-			// Show list of protocols
-			ShowWindow(hwndList, SW_SHOW);
-
-			// Move controls
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_PROTOPIC), diff, 0);
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_CHANGE), diff, 0);
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_DELETE), diff, 0);
-		}
-
-		char * proto = GetSelectedProtocol(hwndDlg);
-		if (proto == nullptr) {
-			ListView_SetItemState(hwndList, 0, LVIS_FOCUSED | LVIS_SELECTED, 0x0F);
-		}
-		else {
-			SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, (LPARAM)proto);
-			EnableDisableControls(hwndDlg, proto);
-		}
-	}
-	else {
-		if (init || IsWindowVisible(hwndList)) {
-			// Show list of protocols
-			ShowWindow(hwndList, SW_HIDE);
-
-			// Move controls
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_PROTOPIC), -diff, 0);
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_CHANGE), -diff, 0);
-			OffsetWindow(hwndDlg, GetDlgItem(hwndDlg, IDC_DELETE), -diff, 0);
-		}
-
-		SendDlgItemMessage(hwndDlg, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, NULL);
-	}
-}
-
 class AvatarProtoInfoDlg : public CUserInfoPageDlg
 {
+	char* GetSelectedProtocol()
+	{
+		// Get selection
+		int iItem = protocols.GetSelectionMark();
+		if (iItem < 0)
+			return nullptr;
+
+		// Get protocol name
+		LVITEM item = {0};
+		item.mask = LVIF_PARAM;
+		item.iItem = iItem;
+		SendMessage(protocols.GetHwnd(), LVM_GETITEMA, 0, (LPARAM)&item);
+		return (char *)item.lParam;
+	}
+
+	void OffsetWindow(int iCtrlId, int dx)
+	{
+		HWND hwnd = GetDlgItem(m_hwnd, iCtrlId);
+		
+		RECT rc;
+		GetWindowRect(hwnd, &rc);
+		ScreenToClient(m_hwnd, &rc);
+		OffsetRect(&rc, dx, 0);
+		MoveWindow(hwnd, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, TRUE);
+	}
+
+	void EnableDisableControls(char *proto)
+	{
+		if (chkPerProto.IsChecked()) {
+			if (proto == nullptr) {
+				EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), FALSE);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), FALSE);
+			}
+			else {
+				if (!ProtoServiceExists(proto, PS_SETMYAVATAR)) {
+					EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), FALSE);
+					EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), FALSE);
+				}
+				else {
+					EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), TRUE);
+
+					int width, height;
+					SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_GETUSEDSPACE, (WPARAM)&width, (LPARAM)&height);
+					EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), (LPARAM)width != 0 || height != 0);
+				}
+			}
+		}
+		else {
+			EnableWindow(GetDlgItem(m_hwnd, IDC_CHANGE), TRUE);
+
+			if (g_plugin.getByte("GlobalUserAvatarNotConsistent", 1))
+				EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), TRUE);
+			else {
+				int width, height;
+				SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_GETUSEDSPACE, (WPARAM)&width, (LPARAM)&height);
+				EnableWindow(GetDlgItem(m_hwnd, IDC_DELETE), (LPARAM)width != 0 || height != 0);
+			}
+		}
+	}
+
 	CCtrlCheck chkPerProto;
 	CCtrlButton btnChange, btnDelete;
 	CCtrlListView protocols;
@@ -360,6 +319,7 @@ public:
 		btnChange.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Change);
 		btnDelete.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Delete);
 
+		CreateLink(chkPerProto, g_plugin.bPerProto);
 		chkPerProto.OnChange = Callback(this, &AvatarProtoInfoDlg::onChange_PerProto);
 	}
 
@@ -403,10 +363,6 @@ public:
 
 		protocols.SetColumnWidth(0, LVSCW_AUTOSIZE);
 		protocols.Arrange(LVA_ALIGNLEFT | LVA_ALIGNTOP);
-
-		// Check if should show per protocol avatars
-		CheckDlgButton(m_hwnd, IDC_PER_PROTO, g_plugin.getByte("PerProtocolUserAvatars", 1) ? BST_CHECKED : BST_UNCHECKED);
-		EnableDisableProtocols(m_hwnd, TRUE);
 		return true;
 	}
 
@@ -415,7 +371,7 @@ public:
 		LPNMLISTVIEW li = ev->nmlv;
 		if (li->uNewState & LVIS_SELECTED) {
 			SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, li->lParam);
-			EnableDisableControls(m_hwnd, (char*)li->lParam);
+			EnableDisableControls((char*)li->lParam);
 		}
 	}
 
@@ -424,17 +380,17 @@ public:
 		if (msg == WM_NOTIFY) {
 			LPNMHDR hdr = (LPNMHDR)lParam;
 			if (hdr->idFrom == IDC_PROTOPIC && hdr->code == NM_AVATAR_CHANGED)
-				EnableDisableControls(m_hwnd, GetSelectedProtocol(m_hwnd));
+				EnableDisableControls(GetSelectedProtocol());
 		}
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
 	void onClick_Change(CCtrlButton *)
 	{
-		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO))
+		if (!chkPerProto.IsChecked())
 			SetMyAvatar(NULL, NULL);
 		else {
-			char *proto = GetSelectedProtocol(m_hwnd);
+			char *proto = GetSelectedProtocol();
 			if (proto != nullptr)
 				SetMyAvatar((WPARAM)proto, NULL);
 		}
@@ -442,12 +398,12 @@ public:
 
 	void onClick_Delete(CCtrlButton *)
 	{
-		if (BST_UNCHECKED == IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO)) {
+		if (!chkPerProto.IsChecked()) {
 			if (MessageBox(m_hwnd, TranslateT("Are you sure you want to remove your avatar?"), TranslateT("Global avatar"), MB_YESNO) == IDYES)
 				SetMyAvatar(NULL, (LPARAM)L"");
 		}
 		else {
-			if (char *proto = GetSelectedProtocol(m_hwnd)) {
+			if (char *proto = GetSelectedProtocol()) {
 				char description[256];
 				CallProtoService(proto, PS_GETNAME, _countof(description), (LPARAM)description);
 				wchar_t *descr = mir_a2u(description);
@@ -458,10 +414,46 @@ public:
 		}
 	}
 
-	void onChange_PerProto(CCtrlCheck*)
+	void onChange_PerProto(CCtrlCheck *pCheck)
 	{
-		g_plugin.setByte("PerProtocolUserAvatars", IsDlgButtonChecked(m_hwnd, IDC_PER_PROTO) ? 1 : 0);
-		EnableDisableProtocols(m_hwnd, FALSE);
+		int diff = 147; // Pre-calc
+
+		if (chkPerProto.IsChecked()) {
+			if (!IsWindowVisible(protocols.GetHwnd())) {
+				// Show list of protocols
+				protocols.Show();
+
+				// Move controls
+				OffsetWindow(IDC_PROTOPIC, diff);
+				OffsetWindow(IDC_CHANGE, diff);
+				OffsetWindow(IDC_DELETE, diff);
+			}
+
+			char *proto = GetSelectedProtocol();
+			if (proto == nullptr) {
+				protocols.SetItemState(0, LVIS_FOCUSED | LVIS_SELECTED, 0x0F);
+			}
+			else {
+				SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, (LPARAM)proto);
+				EnableDisableControls(proto);
+			}
+		}
+		else {
+			if (!m_bInitialized) {
+				PostMessage(m_hwnd, WM_COMMAND, IDC_PER_PROTO, 0);
+			}
+			else if (!pCheck || IsWindowVisible(protocols.GetHwnd())) {
+				// Hide list of protocols
+				protocols.Hide();
+
+				// Move controls
+				OffsetWindow(IDC_PROTOPIC, -diff);
+				OffsetWindow(IDC_CHANGE, -diff);
+				OffsetWindow(IDC_DELETE, -diff);
+			}
+
+			SendDlgItemMessage(m_hwnd, IDC_PROTOPIC, AVATAR_SETPROTOCOL, 0, NULL);
+		}
 	}
 };
 

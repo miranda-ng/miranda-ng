@@ -56,7 +56,8 @@ static PLUGININFOEX pluginInfoEx =
 };
 
 CMPlugin::CMPlugin() :
-	PLUGIN<CMPlugin>("AVS_Settings", pluginInfoEx)
+	PLUGIN<CMPlugin>(MODULENAME, pluginInfoEx),
+	bPerProto(MODULENAME, "PerProtocolUserAvatars", 1)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -52,6 +52,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "poll.h"
 #include "acc.h"
 
+#define MODULENAME "AVS_Settings"
+
 #ifndef SHVIEW_THUMBNAIL
 #define SHVIEW_THUMBNAIL 0x702D
 #endif
@@ -61,6 +63,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	CMPlugin();
+
+	CMOption<bool> bPerProto;
 
 	int Load() override;
 	int Unload() override;
