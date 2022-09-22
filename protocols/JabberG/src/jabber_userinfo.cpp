@@ -524,7 +524,7 @@ class JabberUserPhotoDlg : public JabberBaseUserInfoDlg
 {
 	HBITMAP hBitmap = nullptr;
 
-	CCtrlButton btnSave;
+	CCtrlMButton btnSave;
 
 	UI_MESSAGE_MAP(JabberUserInfoDlg, JabberBaseUserInfoDlg);
 		UI_MESSAGE(WM_PAINT, OnPaint);
@@ -547,14 +547,13 @@ class JabberUserPhotoDlg : public JabberBaseUserInfoDlg
 public:
 	JabberUserPhotoDlg(CJabberProto *_ppro) :
 		JabberBaseUserInfoDlg(_ppro, IDD_VCARD_PHOTO),
-		btnSave(this, IDC_SAVE)
+		btnSave(this, IDC_SAVE, g_plugin.getIcon(IDI_SAVE), LPGEN("Save"))
 	{
 		btnSave.OnClick = Callback(this, &JabberUserPhotoDlg::onClick_Save);
 	}
 
 	bool OnInitDialog() override
 	{
-		Button_SetIcon_IcoLib(m_hwnd, IDC_SAVE, g_plugin.getIconHandle(IDI_SAVE));
 		ShowWindow(GetDlgItem(m_hwnd, IDC_LOAD), SW_HIDE);
 		ShowWindow(GetDlgItem(m_hwnd, IDC_DELETE), SW_HIDE);
 		return true;
@@ -562,8 +561,6 @@ public:
 
 	void OnDestroy() override
 	{
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_SAVE);
-
 		if (hBitmap) {
 			ppro->debugLogA("Delete bitmap");
 			DeleteObject(hBitmap);
@@ -581,14 +578,14 @@ public:
 			DeleteObject(hBitmap);
 			hBitmap = nullptr;
 		}
-		ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_HIDE);
+		btnSave.Hide();
 		
 		char *pszFileName = GetFileName();
 		if (mir_strlen(pszFileName)) {
 			ppro->debugLogA("Showing picture from %s", pszFileName);
 			hBitmap = Bitmap_Load(Utf2T(pszFileName));
 			FreeImage_Premultiply(hBitmap);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_SHOW);
+			btnSave.Show();
 		}
 
 		InvalidateRect(m_hwnd, nullptr, TRUE);

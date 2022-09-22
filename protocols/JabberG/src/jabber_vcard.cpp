@@ -214,6 +214,7 @@ struct JabberVcardWorkDlg : public JabberVcardBaseDlg
 class JabberVcardPhotoDlg : public JabberVcardBaseDlg
 {
 	HBITMAP hBitmap;
+	CCtrlMButton btnLoad, btnDelete;
 
 	UI_MESSAGE_MAP(JabberVcardPhotoDlg, JabberVcardBaseDlg);
 		UI_MESSAGE(WM_PAINT, OnPaint);
@@ -221,16 +222,18 @@ class JabberVcardPhotoDlg : public JabberVcardBaseDlg
 
 public:
 	JabberVcardPhotoDlg(CJabberProto *_ppro) :
-		JabberVcardBaseDlg(_ppro, IDD_VCARD_PHOTO, 3)
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_PHOTO, 3),
+		btnLoad(this, IDC_LOAD, g_plugin.getIcon(IDI_OPEN), LPGEN("Load")),
+		btnDelete(this, IDC_DELETE, g_plugin.getIcon(IDI_DELETE), LPGEN("Delete"))
 	{
+		btnLoad.OnClick = Callback(this, &JabberVcardPhotoDlg::onClick_Load);
+		btnDelete.OnClick = Callback(this, &JabberVcardPhotoDlg::onClick_Delete);
 	}
 
 	bool OnInitDialog() override
 	{
 		JabberVcardBaseDlg::OnInitDialog();
 
-		Button_SetIcon_IcoLib(m_hwnd, IDC_LOAD, g_plugin.getIconHandle(IDI_OPEN));
-		Button_SetIcon_IcoLib(m_hwnd, IDC_DELETE, g_plugin.getIconHandle(IDI_DELETE));
 		ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_HIDE);
 
 		ppro->m_bPhotoChanged = false;
@@ -241,8 +244,6 @@ public:
 	{
 		JabberVcardBaseDlg::OnDestroy();
 
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_LOAD);
-		Button_FreeIcon_IcoLib(m_hwnd, IDC_DELETE);
 		if (hBitmap) {
 			ppro->debugLogA("Delete bitmap");
 			DeleteObject(hBitmap);
@@ -358,7 +359,6 @@ public:
 		if (hBitmap == nullptr)
 			return FALSE;
 
-		BITMAP bm;
 		POINT ptSize, ptOrg, pt, ptFitSize;
 		RECT rect;
 
@@ -367,6 +367,8 @@ public:
 		HDC hdcMem = CreateCompatibleDC(hdcCanvas);
 		SelectObject(hdcMem, hBitmap);
 		SetMapMode(hdcMem, GetMapMode(hdcCanvas));
+
+		BITMAP bm;
 		GetObject(hBitmap, sizeof(BITMAP), (LPVOID)&bm);
 		ptSize.x = bm.bmWidth;
 		ptSize.y = bm.bmHeight;
