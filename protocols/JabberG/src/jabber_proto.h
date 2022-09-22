@@ -892,7 +892,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       AppendVcardFromDB(TiXmlElement *n, char* tag, char* key);
 	void       AppendPhotoToVcard(TiXmlElement *n, bool bPhotoChanged, const wchar_t *szPhotoFileName, MCONTACT hContact = 0);
 	void       SetServerVcard(bool bPhotoChanged, wchar_t* szPhotoFileName);
-	void       SaveVcardToDB(HWND hwndPage, int iPage);
 
 	//---- jabber_voip.c -----------------------------------------------------------------
 

@@ -58,21 +58,28 @@ int CJabberProto::SendGetVcard(MCONTACT hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void SetDialogField(CJabberProto *ppro, HWND hwndDlg, int nDlgItem, char *key, bool bTranslate = false)
-{
-	ptrW tszValue(ppro->getWStringA(key));
-	if (tszValue != nullptr)
-		SetDlgItemText(hwndDlg, nDlgItem, (bTranslate) ? TranslateW(tszValue) : tszValue);
-	else
-		SetDlgItemTextA(hwndDlg, nDlgItem, "");
-}
-
 class JabberVcardBaseDlg : public CUserInfoPageDlg
 {
 	int iPageId;
 
 protected:
 	CJabberProto *ppro;
+
+	void SetDialogField(int nDlgItem, char *key)
+	{
+		ptrW tszValue(ppro->getWStringA(key));
+		if (tszValue != nullptr)
+			SetDlgItemText(m_hwnd, nDlgItem, tszValue);
+		else
+			SetDlgItemTextA(m_hwnd, nDlgItem, "");
+	}
+
+	void SaveDialogField(int nDlgItem, char *key)
+	{
+		wchar_t text[2048];
+		GetDlgItemText(m_hwnd, nDlgItem, text, _countof(text));
+		ppro->setWString(key, text);
+	}
 
 public:
 	JabberVcardBaseDlg(CJabberProto *_ppro, int dlgId, int pageId) :
@@ -83,14 +90,13 @@ public:
 
 	bool OnInitDialog() override
 	{
+		ppro->m_vCardUpdates |= (1UL << iPageId);
 		ppro->WindowSubscribe(m_hwnd);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		ppro->SaveVcardToDB(m_hwnd, iPageId);
-
 		ppro->m_vCardUpdates &= ~(1UL << iPageId);
 		if (!ppro->m_vCardUpdates)
 			ppro->SetServerVcard(ppro->m_bPhotoChanged, ppro->m_szPhotoFileName);
@@ -113,24 +119,46 @@ struct JabberVcardPersonalDlg : public JabberVcardBaseDlg
 
 	bool OnInitDialog() override
 	{
-		JabberVcardBaseDlg::OnInitDialog();
 		SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Male"));
 		SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_ADDSTRING, 0, (LPARAM)TranslateT("Female"));
-		return true;
+		
+		return JabberVcardBaseDlg::OnInitDialog();
 	}
 
 	bool OnRefresh() override
 	{
-		SetDialogField(ppro, m_hwnd, IDC_FULLNAME, "FullName");
-		SetDialogField(ppro, m_hwnd, IDC_NICKNAME, "Nick");
-		SetDialogField(ppro, m_hwnd, IDC_FIRSTNAME, "FirstName");
-		SetDialogField(ppro, m_hwnd, IDC_MIDDLE, "MiddleName");
-		SetDialogField(ppro, m_hwnd, IDC_LASTNAME, "LastName");
-		SetDialogField(ppro, m_hwnd, IDC_BIRTH, "BirthDate");
-		SetDialogField(ppro, m_hwnd, IDC_GENDER, "GenderString", true);
-		SetDialogField(ppro, m_hwnd, IDC_OCCUPATION, "Role");
-		SetDialogField(ppro, m_hwnd, IDC_HOMEPAGE, "Homepage");
+		SetDialogField(IDC_FULLNAME,   "FullName");
+		SetDialogField(IDC_NICKNAME,   "Nick");
+		SetDialogField(IDC_FIRSTNAME,  "FirstName");
+		SetDialogField(IDC_MIDDLE,     "MiddleName");
+		SetDialogField(IDC_LASTNAME,   "LastName");
+		SetDialogField(IDC_BIRTH,      "BirthDate");
+		SetDialogField(IDC_OCCUPATION, "Role");
+		SetDialogField(IDC_HOMEPAGE,   "Homepage");
+
+		CMStringW wszGender(ppro->getMStringW("GenderString"));
+		SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_SELECTSTRING, -1, LPARAM(TranslateW(wszGender.c_str())));
 		return false;
+	}
+
+	bool OnApply() override
+	{
+		SaveDialogField(IDC_FULLNAME, "FullName");
+		SaveDialogField(IDC_NICKNAME, "Nick");
+		SaveDialogField(IDC_FIRSTNAME, "FirstName");
+		SaveDialogField(IDC_MIDDLE, "MiddleName");
+		SaveDialogField(IDC_LASTNAME, "LastName");
+		SaveDialogField(IDC_BIRTH, "BirthDate");
+		SaveDialogField(IDC_OCCUPATION, "Role");
+		SaveDialogField(IDC_HOMEPAGE, "Homepage");
+
+		switch (SendDlgItemMessage(m_hwnd, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
+		case 0:	ppro->setString("GenderString", "Male");   break;
+		case 1:	ppro->setString("GenderString", "Female"); break;
+		default: ppro->setString("GenderString", "");       break;
+		}
+
+		return JabberVcardBaseDlg::OnApply();
 	}
 };
 
@@ -146,7 +174,6 @@ struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 
 	bool OnInitDialog() override
 	{
-		JabberVcardBaseDlg::OnInitDialog();
 		for (int i = 0; i < g_cbCountries; i++) {
 			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 				wchar_t *country = mir_a2u(g_countries[i].szName);
@@ -154,18 +181,37 @@ struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 				mir_free(country);
 			}
 		}
-		return true;
+
+		return JabberVcardBaseDlg::OnInitDialog();
 	}
 
 	bool OnRefresh() override
 	{
-		SetDialogField(ppro, m_hwnd, IDC_ADDRESS1, "Street");
-		SetDialogField(ppro, m_hwnd, IDC_ADDRESS2, "Street2");
-		SetDialogField(ppro, m_hwnd, IDC_CITY, "City");
-		SetDialogField(ppro, m_hwnd, IDC_STATE, "State");
-		SetDialogField(ppro, m_hwnd, IDC_ZIP, "ZIP");
-		SetDialogField(ppro, m_hwnd, IDC_COUNTRY, "Country", true);
+		SetDialogField(IDC_ADDRESS1, "Street");
+		SetDialogField(IDC_ADDRESS2, "Street2");
+		SetDialogField(IDC_CITY,     "City");
+		SetDialogField(IDC_STATE,    "State");
+		SetDialogField(IDC_ZIP,      "ZIP");
+
+		CMStringW buf(ppro->getMStringW("Country"));
+		SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_SELECTSTRING, -1, LPARAM(TranslateW(buf.c_str())));
 		return false;
+	}
+
+	bool OnApply() override
+	{
+		SaveDialogField(IDC_ADDRESS1, "Street");
+		SaveDialogField(IDC_ADDRESS2, "Street2");
+		SaveDialogField(IDC_CITY, "City");
+		SaveDialogField(IDC_STATE, "State");
+		SaveDialogField(IDC_ZIP, "ZIP");
+
+		int i = SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
+		wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+		ppro->setWString("Country", country);
+		mir_free(country);
+
+		return JabberVcardBaseDlg::OnApply();
 	}
 };
 
@@ -181,8 +227,6 @@ struct JabberVcardWorkDlg : public JabberVcardBaseDlg
 
 	bool OnInitDialog() override
 	{
-		JabberVcardBaseDlg::OnInitDialog();
-
 		for (int i = 0; i < g_cbCountries; i++) {
 			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
 				wchar_t *country = mir_a2u(g_countries[i].szName);
@@ -190,21 +234,43 @@ struct JabberVcardWorkDlg : public JabberVcardBaseDlg
 				mir_free(country);
 			}
 		}
-		return true;
+
+		return JabberVcardBaseDlg::OnInitDialog();
 	}
 
 	bool OnRefresh() override
 	{
-		SetDialogField(ppro, m_hwnd, IDC_COMPANY, "Company");
-		SetDialogField(ppro, m_hwnd, IDC_DEPARTMENT, "CompanyDepartment");
-		SetDialogField(ppro, m_hwnd, IDC_TITLE, "CompanyPosition");
-		SetDialogField(ppro, m_hwnd, IDC_ADDRESS1, "CompanyStreet");
-		SetDialogField(ppro, m_hwnd, IDC_ADDRESS2, "CompanyStreet2");
-		SetDialogField(ppro, m_hwnd, IDC_CITY, "CompanyCity");
-		SetDialogField(ppro, m_hwnd, IDC_STATE, "CompanyState");
-		SetDialogField(ppro, m_hwnd, IDC_ZIP, "CompanyZIP");
-		SetDialogField(ppro, m_hwnd, IDC_COUNTRY, "CompanyCountry", true);
+		SetDialogField(IDC_COMPANY, "Company");
+		SetDialogField(IDC_DEPARTMENT, "CompanyDepartment");
+		SetDialogField(IDC_TITLE, "CompanyPosition");
+		SetDialogField(IDC_ADDRESS1, "CompanyStreet");
+		SetDialogField(IDC_ADDRESS2, "CompanyStreet2");
+		SetDialogField(IDC_CITY, "CompanyCity");
+		SetDialogField(IDC_STATE, "CompanyState");
+		SetDialogField(IDC_ZIP, "CompanyZIP");
+
+		CMStringW buf(ppro->getMStringW("CompanyCountry"));
+		SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_SELECTSTRING, -1, LPARAM(TranslateW(buf.c_str())));
 		return false;
+	}
+
+	bool OnApply() override
+	{
+		SaveDialogField(IDC_COMPANY, "Company");
+		SaveDialogField(IDC_DEPARTMENT, "CompanyDepartment");
+		SaveDialogField(IDC_TITLE, "CompanyPosition");
+		SaveDialogField(IDC_ADDRESS1, "CompanyStreet");
+		SaveDialogField(IDC_ADDRESS2, "CompanyStreet2");
+		SaveDialogField(IDC_CITY, "CompanyCity");
+		SaveDialogField(IDC_STATE, "CompanyState");
+		SaveDialogField(IDC_ZIP, "CompanyZIP");
+
+		int i = SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
+		wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
+		ppro->setWString("CompanyCountry", country);
+		mir_free(country);
+
+		return JabberVcardBaseDlg::OnApply();
 	}
 };
 
@@ -232,12 +298,10 @@ public:
 
 	bool OnInitDialog() override
 	{
-		JabberVcardBaseDlg::OnInitDialog();
-
 		ShowWindow(GetDlgItem(m_hwnd, IDC_SAVE), SW_HIDE);
-
 		ppro->m_bPhotoChanged = false;
-		return true;
+
+		return JabberVcardBaseDlg::OnInitDialog();
 	}
 
 	void OnDestroy() override
@@ -433,8 +497,15 @@ struct JabberVcardNoteDlg : public JabberVcardBaseDlg
 
 	bool OnRefresh() override
 	{
-		SetDialogField(ppro, m_hwnd, IDC_DESC, "About");
+		SetDialogField(IDC_DESC, "About");
 		return false;
+	}
+
+	bool OnApply() override
+	{
+		SaveDialogField(IDC_DESC, "About");
+
+		return JabberVcardBaseDlg::OnApply();
 	}
 };
 
@@ -606,8 +677,6 @@ public:
 
 	bool OnInitDialog() override
 	{
-		JabberVcardBaseDlg::OnInitDialog();
-
 		RECT rc;
 		GetClientRect(emails.GetHwnd(), &rc);
 		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
@@ -625,7 +694,8 @@ public:
 		emails.InsertColumn(3, &lvc);
 		phones.InsertColumn(2, &lvc);
 		phones.InsertColumn(3, &lvc);
-		return true;
+
+		return JabberVcardBaseDlg::OnInitDialog();
 	}
 
 	bool OnRefresh() override
@@ -786,90 +856,6 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-void CJabberProto::SaveVcardToDB(HWND hwndPage, int iPage)
-{
-	wchar_t text[2048];
-
-	// Page 0: Personal
-	switch (iPage) {
-	case 0:
-		GetDlgItemText(hwndPage, IDC_FULLNAME, text, _countof(text));
-		setWString("FullName", text);
-		GetDlgItemText(hwndPage, IDC_NICKNAME, text, _countof(text));
-		setWString("Nick", text);
-		GetDlgItemText(hwndPage, IDC_FIRSTNAME, text, _countof(text));
-		setWString("FirstName", text);
-		GetDlgItemText(hwndPage, IDC_MIDDLE, text, _countof(text));
-		setWString("MiddleName", text);
-		GetDlgItemText(hwndPage, IDC_LASTNAME, text, _countof(text));
-		setWString("LastName", text);
-		GetDlgItemText(hwndPage, IDC_BIRTH, text, _countof(text));
-		setWString("BirthDate", text);
-		switch (SendDlgItemMessage(hwndPage, IDC_GENDER, CB_GETCURSEL, 0, 0)) {
-		case 0:	setString("GenderString", "Male");   break;
-		case 1:	setString("GenderString", "Female"); break;
-		default: setString("GenderString", "");       break;
-		}
-		GetDlgItemText(hwndPage, IDC_OCCUPATION, text, _countof(text));
-		setWString("Role", text);
-		GetDlgItemText(hwndPage, IDC_HOMEPAGE, text, _countof(text));
-		setWString("Homepage", text);
-		break;
-		
-	case 1: // Page 1: Home
-		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, _countof(text));
-		setWString("Street", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, _countof(text));
-		setWString("Street2", text);
-		GetDlgItemText(hwndPage, IDC_CITY, text, _countof(text));
-		setWString("City", text);
-		GetDlgItemText(hwndPage, IDC_STATE, text, _countof(text));
-		setWString("State", text);
-		GetDlgItemText(hwndPage, IDC_ZIP, text, _countof(text));
-		setWString("ZIP", text);
-		{
-			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
-			setWString("Country", country);
-			mir_free(country);
-		}
-		break;
-		
-	case 2: // Page 2: Work
-		GetDlgItemText(hwndPage, IDC_COMPANY, text, _countof(text));
-		setWString("Company", text);
-		GetDlgItemText(hwndPage, IDC_DEPARTMENT, text, _countof(text));
-		setWString("CompanyDepartment", text);
-		GetDlgItemText(hwndPage, IDC_TITLE, text, _countof(text));
-		setWString("CompanyPosition", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS1, text, _countof(text));
-		setWString("CompanyStreet", text);
-		GetDlgItemText(hwndPage, IDC_ADDRESS2, text, _countof(text));
-		setWString("CompanyStreet2", text);
-		GetDlgItemText(hwndPage, IDC_CITY, text, _countof(text));
-		setWString("CompanyCity", text);
-		GetDlgItemText(hwndPage, IDC_STATE, text, _countof(text));
-		setWString("CompanyState", text);
-		GetDlgItemText(hwndPage, IDC_ZIP, text, _countof(text));
-		setWString("CompanyZIP", text);
-		{
-			int i = SendDlgItemMessage(hwndPage, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-			wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
-			setWString("CompanyCountry", country);
-			mir_free(country);
-		}
-		break;
-
-		// Page 3: Photo
-		// not needed to be saved into db
-
-	case 4: // Page 4: Note
-		GetDlgItemText(hwndPage, IDC_DESC, text, _countof(text));
-		setWString("About", text);
-		break;
-	}
-}
 
 void CJabberProto::AppendVcardFromDB(TiXmlElement *n, char *tag, char *key)
 {
