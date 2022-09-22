@@ -363,6 +363,7 @@ public:
 			num++;
 		}
 
+		protocols.SetCurSel(0);
 		protocols.SetColumnWidth(0, LVSCW_AUTOSIZE);
 		protocols.Arrange(LVA_ALIGNLEFT | LVA_ALIGNTOP);
 		return true;
