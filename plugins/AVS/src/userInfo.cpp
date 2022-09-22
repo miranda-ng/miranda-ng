@@ -316,6 +316,8 @@ public:
 		btnDelete(this, IDC_DELETE),
 		chkPerProto(this, IDC_PER_PROTO)
 	{
+		protocols.OnItemChanged = Callback(this, &AvatarProtoInfoDlg::onItemChanged_List);
+
 		btnChange.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Change);
 		btnDelete.OnClick = Callback(this, &AvatarProtoInfoDlg::onClick_Delete);
 
