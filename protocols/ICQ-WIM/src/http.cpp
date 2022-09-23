@@ -246,11 +246,12 @@ bool CIcqProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	else {
 		debugLogA("Request %s failed", pReq->m_reqId);
 
-		if (pReq->m_conn != CONN_NONE) {
-			if (IsStatusConnecting(m_iStatus))
-				ConnectionFailed(LOGINERR_NONETWORK);
+		if (IsStatusConnecting(m_iStatus))
+			ConnectionFailed(LOGINERR_NONETWORK);
+
+		if (pReq->m_conn != CONN_NONE)
 			m_ConnPool[pReq->m_conn].s = nullptr;
-		}
+
 		bRet = false;
 	}
 
