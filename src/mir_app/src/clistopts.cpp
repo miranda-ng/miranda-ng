@@ -61,7 +61,7 @@ static const offlineValues[] =
 
 class ClistCommonOptsDlg : public CDlgBase
 {
-	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkDisableIconBlink, chkFilterSearch;
+	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkEnableIconBlink, chkFilterSearch;
 	CCtrlCheck chkAlwaysStatus, chkOneClick;
 	CCtrlTreeView hideStatuses;
 
@@ -76,7 +76,7 @@ public:
 		chkAlwaysStatus(this, IDC_ALWAYSSTATUS),
 		chkConfirmDelete(this, IDC_CONFIRMDELETE), 
 		chkHideEmptyGroups(this, IDC_HIDEEMPTYGROUPS), 
-		chkDisableIconBlink(this, IDC_DISABLEICONBLINK),
+		chkEnableIconBlink(this, IDC_ENABLE_ICON_BLINK),
 		chkRemoveTempContacts(this, IDC_REMOVETEMP)
 	{
 		CreateLink(chkOneClick, Clist::Tray1Click);
@@ -86,7 +86,6 @@ public:
 		CreateLink(chkAlwaysStatus, Clist::TrayAlwaysStatus);
 		CreateLink(chkConfirmDelete, Clist::ConfirmDelete);
 		CreateLink(chkHideEmptyGroups, Clist::HideEmptyGroups);
-		CreateLink(chkDisableIconBlink, Clist::DisableIconBlink);
 		CreateLink(chkRemoveTempContacts, Clist::RemoveTempContacts);
 	}
 
@@ -94,6 +93,8 @@ public:
 	{
 		SetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE,
 			GetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
+
+		chkEnableIconBlink.SetState(!Clist::DisableIconBlink);
 
 		int style = Clist::OfflineModes;
 
@@ -125,6 +126,8 @@ public:
 			tvi.hItem = hideStatuses.GetNextSibling(tvi.hItem);
 		}
 		Clist::OfflineModes = flags;
+
+		Clist::DisableIconBlink = !chkEnableIconBlink.IsChecked();
 
 		Clist_ClcOptionsChanged();
 		Clist_LoadContactTree();
