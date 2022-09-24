@@ -530,7 +530,7 @@ public:
 
 	bool OnInitDialog() override
 	{
-		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
+		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL);
 
 		if (mir_wstrlen(g_Settings.pwszAutoText))
 			edtAutocomplete.SetText(g_Settings.pwszAutoText);
