@@ -48,7 +48,7 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 	si->pDlg->FixTabIcons();
 	si->pDlg->UpdateTitle();
 
-	if (g_Settings.bFlashWindowHighlight)
+	if (Chat::bFlashWindowHighlight)
 		si->pDlg->StartFlashing();
 }
 
@@ -60,7 +60,7 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 	si->pDlg->FixTabIcons();
 	si->pDlg->UpdateTitle();
 
-	if (g_Settings.bFlashWindow)
+	if (Chat::bFlashWindow)
 		si->pDlg->StartFlashing();
 }
 

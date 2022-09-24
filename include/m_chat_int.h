@@ -204,7 +204,6 @@ struct GlobalLogSettingsBase
 	bool     bShowTime;
 	bool     bShowTimeIfChanged;
 	bool     bLoggingEnabled;
-	bool     bFlashWindow, bFlashWindowHighlight;
 	bool     bHighlightEnabled;
 	bool     bLogIndentEnabled;
 	bool     bStripFormat;
@@ -215,7 +214,6 @@ struct GlobalLogSettingsBase
 	bool     bTimeStampEventColour;
 	bool		bShowContactStatus;
 	bool		bContactStatusFirst;
-	bool     bDoubleClick4Privat;    // send a private message on dblclick in a nick list
 	uint32_t dwIconFlags;
 	uint32_t dwTrayIconFlags;
 	uint32_t dwPopupFlags;
@@ -394,5 +392,29 @@ EXTERN_C MIR_APP_DLL(bool) Chat_GetDefaultEventDescr(const SESSION_INFO *si, con
 
 // sets mute mode for a group chat
 EXTERN_C MIR_APP_DLL(void) Chat_Mute(SESSION_INFO *si, int mode);
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// common settings
+
+namespace Chat
+{
+	extern MIR_APP_EXPORT CMOption<bool>
+		bShowNicklist,
+		bFilterEnabled,
+		bTopicOnClist,
+		bPopupOnJoin,
+		bDoubleClick4Privat,
+		bShowContactStatus,
+		bContactStatusFirst,
+		bShowTime,
+		bShowTimeIfChanged,
+		bTimeStampEventColour,
+		bFlashWindow,
+		bFlashWindowHighlight,
+		bDoubleClick4Privat,
+		bLogIndentEnabled,
+		bLogLimitNames,
+		bStripFormat;
+};
 
 #endif // M_CHAT_INT_H__

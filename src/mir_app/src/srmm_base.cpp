@@ -733,7 +733,7 @@ void CSrmmBaseDialog::onDblClick_List(CCtrlListBox *pList)
 		return;
 
 	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-	if (g_Settings->bDoubleClick4Privat ? bShift : !bShift) {
+	if (Chat::bDoubleClick4Privat ? bShift : !bShift) {
 		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
 		CMStringW tszName(ui->pszNick);
 		if (selStart == 0)

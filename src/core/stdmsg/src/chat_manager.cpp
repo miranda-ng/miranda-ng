@@ -79,7 +79,7 @@ static void OnFlashHighlight(SESSION_INFO *si, int bInactive)
 
 	if (g_Settings.bTabsEnable)
 		g_pTabDialog->SetMessageHighlight(si->pDlg);
-	else if (g_Settings.bFlashWindowHighlight)
+	else if (Chat::bFlashWindowHighlight)
 		si->pDlg->StartFlash();
 }
 
@@ -90,7 +90,7 @@ static void OnFlashWindow(SESSION_INFO *si, int bInactive)
 
 	if (g_Settings.bTabsEnable)
 		g_pTabDialog->SetTabHighlight(si->pDlg);
-	else if (g_Settings.bFlashWindow)
+	else if (Chat::bFlashWindow)
 		si->pDlg->StartFlash();
 }
 

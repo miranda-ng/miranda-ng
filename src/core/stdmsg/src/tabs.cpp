@@ -371,7 +371,7 @@ void CTabbedWindow::SetMessageHighlight(CMsgDialog *pDlg)
 
 	pDlg->m_si->wState |= GC_EVENT_HIGHLIGHT;
 	FixTabIcons(pDlg);
-	if (g_Settings.bFlashWindowHighlight && pDlg != m_tab.GetActivePage())
+	if (Chat::bFlashWindowHighlight && pDlg != m_tab.GetActivePage())
 		pDlg->StartFlash();
 }
 
@@ -381,7 +381,7 @@ void CTabbedWindow::SetTabHighlight(CMsgDialog *pDlg)
 		return;
 
 	FixTabIcons(pDlg);
-	if (g_Settings.bFlashWindow && pDlg != m_tab.GetActivePage())
+	if (Chat::bFlashWindow && pDlg != m_tab.GetActivePage())
 		pDlg->StartFlash();
 }
 

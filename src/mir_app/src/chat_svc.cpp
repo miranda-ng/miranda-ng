@@ -22,6 +22,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+CMOption<bool> Chat::bShowNicklist(CHAT_MODULE, "ShowNicklist", true);
+CMOption<bool> Chat::bFilterEnabled(CHAT_MODULE, "FilterEnabled", false);
+CMOption<bool> Chat::bTopicOnClist(CHAT_MODULE, "TopicOnClist", false);
+CMOption<bool> Chat::bPopupOnJoin(CHAT_MODULE, "PopupOnJoin", false);
+CMOption<bool> Chat::bDoubleClick4Privat(CHAT_MODULE, "DoubleClick4Privat", false);
+CMOption<bool> Chat::bShowContactStatus(CHAT_MODULE, "ShowContactStatus", true);
+CMOption<bool> Chat::bContactStatusFirst(CHAT_MODULE, "ContactStatusFirst", false);
+
+CMOption<bool> Chat::bFlashWindow(CHAT_MODULE, "FlashWindow", false);
+CMOption<bool> Chat::bFlashWindowHighlight(CHAT_MODULE, "FlashWindowHighlight", false);
+
+CMOption<bool> Chat::bShowTime(CHAT_MODULE, "ShowTimeStamp", true);
+CMOption<bool> Chat::bStripFormat(CHAT_MODULE, "StripFormatting", false);
+CMOption<bool> Chat::bLogLimitNames(CHAT_MODULE, "LogLimitNames", true);
+CMOption<bool> Chat::bLogIndentEnabled(CHAT_MODULE, "LogIndentEnabled", true);
+CMOption<bool> Chat::bShowTimeIfChanged(CHAT_MODULE, "ShowTimeStampIfChanged", false);
+CMOption<bool> Chat::bTimeStampEventColour(CHAT_MODULE, "TimeStampEventColour", false);
+
+
 INT_PTR SvcGetChatManager(WPARAM, LPARAM);
 
 #include "chat.h"
@@ -288,7 +307,7 @@ static INT_PTR __stdcall stubRoomControl(void *param)
 			return GC_EVENT_ERROR;
 
 		SetInitDone(si);
-		if (p->command != SESSION_INITDONE || db_get_b(0, CHAT_MODULE, "PopupOnJoin", 0) == 0)
+		if (p->command != SESSION_INITDONE || !Chat::bPopupOnJoin)
 			g_chatApi.ShowRoom(si);
 		break;
 
@@ -461,7 +480,7 @@ static INT_PTR CALLBACK sttEventStub(void *_param)
 			if (g_chatApi.OnSetTopic)
 				g_chatApi.OnSetTopic(si);
 
-			if (db_get_b(0, CHAT_MODULE, "TopicOnClist", 0)) {
+			if (Chat::bTopicOnClist) {
 				if (pwszNew != nullptr)
 					db_set_ws(si->hContact, "CList", "StatusMsg", si->ptszTopic);
 				else

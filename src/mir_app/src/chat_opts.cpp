@@ -205,32 +205,33 @@ static void InitSetting(wchar_t** ppPointer, char* pszSetting, wchar_t* pszDefau
 void LoadGlobalSettings(void)
 {
 	g_Settings->LogIconSize = 10;
-	g_Settings->bLogLimitNames = db_get_b(0, CHAT_MODULE, "LogLimitNames", 1) != 0;
-	g_Settings->bShowTime = db_get_b(0, CHAT_MODULE, "ShowTimeStamp", 1) != 0;
 	g_Settings->bSoundsFocus = db_get_b(0, CHAT_MODULE, "SoundsFocus", 0) != 0;
-	g_Settings->bShowTimeIfChanged = db_get_b(0, CHAT_MODULE, "ShowTimeStampIfChanged", 0) != 0;
-	g_Settings->bTimeStampEventColour = db_get_b(0, CHAT_MODULE, "TimeStampEventColour", 0) != 0;
 	g_Settings->iEventLimit = db_get_w(0, CHAT_MODULE, "LogLimit", 100);
 	g_Settings->dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
 	g_Settings->dwTrayIconFlags = db_get_dw(0, CHAT_MODULE, "TrayIconFlags", 0x1000);
 	g_Settings->dwPopupFlags = db_get_dw(0, CHAT_MODULE, "PopupFlags", 0x0000);
 	g_Settings->LoggingLimit = db_get_w(0, CHAT_MODULE, "LoggingLimit", 100);
 	g_Settings->bLoggingEnabled = db_get_b(0, CHAT_MODULE, "LoggingEnabled", 0) != 0;
-	g_Settings->bFlashWindow = db_get_b(0, CHAT_MODULE, "FlashWindow", 0) != 0;
-	g_Settings->bFlashWindowHighlight = db_get_b(0, CHAT_MODULE, "FlashWindowHighlight", false) != 0;
 	g_Settings->bHighlightEnabled = db_get_b(0, CHAT_MODULE, "HighlightEnabled", 1) != 0;
 	g_Settings->crLogBackground = db_get_dw(0, CHAT_MODULE, "ColorLogBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crUserListColor = db_get_dw(0, CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
 	g_Settings->crUserListHeadingsColor = db_get_dw(0, CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
-	g_Settings->bStripFormat = db_get_b(0, CHAT_MODULE, "StripFormatting", 0) != 0;
-	g_Settings->bTrayIconInactiveOnly = g_bChatTrayInactive;
-	g_Settings->bPopupInactiveOnly = g_bChatPopupInactive;
 	g_Settings->iPopupStyle = db_get_b(0, CHAT_MODULE, "PopupStyle", 1);
 	g_Settings->iPopupTimeout = db_get_w(0, CHAT_MODULE, "PopupTimeout", 3);
 	g_Settings->crPUBkgColour = db_get_dw(0, CHAT_MODULE, "PopupColorBG", GetSysColor(COLOR_WINDOW));
 	g_Settings->crPUTextColour = db_get_dw(0, CHAT_MODULE, "PopupColorText", 0);
-	g_Settings->bShowContactStatus = db_get_b(0, CHAT_MODULE, "ShowContactStatus", 0) != 0;
-	g_Settings->bContactStatusFirst = db_get_b(0, CHAT_MODULE, "ContactStatusFirst", 0) != 0;
+
+	g_Settings->bTrayIconInactiveOnly = g_bChatTrayInactive;
+	g_Settings->bPopupInactiveOnly = g_bChatPopupInactive;
+
+	g_Settings->bShowTime = Chat::bShowTime;
+	g_Settings->bStripFormat = Chat::bStripFormat;
+	g_Settings->bLogLimitNames = Chat::bLogLimitNames;
+	g_Settings->bLogIndentEnabled = Chat::bLogIndentEnabled;
+	g_Settings->bShowTimeIfChanged = Chat::bShowTimeIfChanged;
+	g_Settings->bShowContactStatus = Chat::bShowContactStatus;
+	g_Settings->bContactStatusFirst = Chat::bContactStatusFirst;
+	g_Settings->bTimeStampEventColour = Chat::bTimeStampEventColour;
 
 	LoadColors();
 
@@ -244,7 +245,6 @@ void LoadGlobalSettings(void)
 	InitSetting(&g_Settings->pszHighlightWords, "HighlightWords", L"%m");
 
 	InitSetting(&g_Settings->pszLogDir, "LogDirectory", L"%miranda_logpath%\\%proto%\\%userid%.log");
-	g_Settings->bLogIndentEnabled = db_get_b(0, CHAT_MODULE, "LogIndentEnabled", 1) != 0;
 
 	LOGFONT lf;
 	if (g_Settings->UserListFont)
