@@ -1544,10 +1544,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 
 void CMsgDialog::NotifyDeliveryFailure() const
 {
-	if (M.GetByte("adv_noErrorPopups", 0))
-		return;
-
-	if (!Popup_Enabled())
+	if (!M.GetByte("adv_ErrorPopups", 1) || !Popup_Enabled())
 		return;
 
 	POPUPDATAW ppd = {};

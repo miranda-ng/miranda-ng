@@ -1346,7 +1346,7 @@ TOptionListItem lvItemsModPlus[] =
 	{ 0, LPGENW("Show client description in info panel"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowClientDescription", 0 },
 	{ 0, LPGENW("On tab control"), 1, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconTab", 1 },
 	{ 0, LPGENW("On the button bar"), 0, LOI_TYPE_SETTING, (UINT_PTR)"MetaiconBar", 1 },
-	{ 0, LPGENW("Disable error popups on sending failures"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_noErrorPopups", 2 },
+	{ 0, LPGENW("Enable error popups on sending failures"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_ErrorPopups", 2 },
 	{ 0, nullptr, 0, 0, 0, 0 }
 };
 
