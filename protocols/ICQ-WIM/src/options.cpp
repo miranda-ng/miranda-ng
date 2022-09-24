@@ -248,6 +248,8 @@ public:
 	{
 		if (m_proto->m_isMra)
 			btnCreate.Hide();
+		else
+			SetDlgItemText(m_hwnd, IDC_UIN_LABEL, TranslateT("UIN:"));
 
 		wszOldPass = m_proto->getMStringW("Password");
 		edtPassword.SetText(wszOldPass);

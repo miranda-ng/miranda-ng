@@ -41,6 +41,7 @@
 #define IDC_LIST1                       1024
 #define IDC_STATUS2                     1025
 #define IDC_GROUPS                      1025
+#define IDC_UIN_LABEL                   1026
 
 // Next default values for new objects
 // 
