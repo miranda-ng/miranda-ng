@@ -1101,14 +1101,14 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 void Draw(HWND hwnd, HDC hdc_orig)
 {
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	Protocol &proto = protocols[data->protocol_number];
+	Protocol *proto = (data) ? &protocols[data->protocol_number] : nullptr;
 
-	if (&proto == nullptr) {
+	if (proto == nullptr) {
 		EraseBackground(hwnd, hdc_orig);
 		return;
 	}
 
-	if (data->recalc_rectangles || proto.data_changed)
+	if (data->recalc_rectangles || proto->data_changed)
 		CalcRectangles(hwnd);
 
 	RECT r_full;
@@ -1166,7 +1166,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		adr.clrBorder = opts.draw_avatar_border_color;
 		adr.radius = round_radius;
 		adr.alpha = 255;
-		adr.szProto = proto.name;
+		adr.szProto = proto->name;
 		CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 
 		// Clipping rgn
@@ -1183,7 +1183,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_NICK]);
 		SetTextColor(hdc, font_colour[FONT_NICK]);
 
-		DrawTextWithRect(hdc, proto.nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick && proto.CanSetNick(), proto);
+		DrawTextWithRect(hdc, proto->nickname, DEFAULT_NICKNAME, rc, uFormat, data->mouse_over_nick && proto->CanSetNick(), *proto);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1234,7 +1234,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_PROTO]);
 		SetTextColor(hdc, font_colour[FONT_PROTO]);
 
-		DrawText(hdc, proto.description, -1, &rr, uFormat);
+		DrawText(hdc, proto->description, -1, &rr, uFormat);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1258,10 +1258,10 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectClipRgn(hdc, rgn);
 
 		HICON status_icon;
-		if (proto.custom_status != 0 && ProtoServiceExists(proto.name, PS_GETCUSTOMSTATUSICON))
-			status_icon = (HICON)CallProtoService(proto.name, PS_GETCUSTOMSTATUSICON, proto.custom_status, LR_SHARED);
+		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_GETCUSTOMSTATUSICON))
+			status_icon = (HICON)CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, LR_SHARED);
 		else
-			status_icon = Skin_LoadProtoIcon(proto.name, proto.status);
+			status_icon = Skin_LoadProtoIcon(proto->name, proto->status);
 
 		if (status_icon != nullptr) {
 			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, nullptr, DI_NORMAL);
@@ -1278,7 +1278,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_STATUS]);
 		SetTextColor(hdc, font_colour[FONT_STATUS]);
 
-		DRAW_TEXT(hdc, proto.status_name, (int)mir_wstrlen(proto.status_name), &rc, uFormat, proto.name);
+		DRAW_TEXT(hdc, proto->status_name, (int)mir_wstrlen(proto->status_name), &rc, uFormat, proto->name);
 
 		SelectClipRgn(hdc, nullptr);
 		DeleteObject(rgn);
@@ -1296,8 +1296,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectObject(hdc, hFont[FONT_AWAY_MSG]);
 		SetTextColor(hdc, font_colour[FONT_AWAY_MSG]);
 
-		DrawTextWithRect(hdc, proto.status_message, DEFAULT_STATUS_MESSAGE, rc, uFormat,
-			data->mouse_over_away_msg && proto.CanSetStatusMsg(), proto);
+		DrawTextWithRect(hdc, proto->status_message, DEFAULT_STATUS_MESSAGE, rc, uFormat,
+			data->mouse_over_away_msg && proto->CanSetStatusMsg(), *proto);
 
 		// Clipping rgn
 		SelectClipRgn(hdc, nullptr);
@@ -1314,8 +1314,8 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawTextWithRect(hdc, proto.listening_to, DEFAULT_LISTENING_TO, rc, uFormat,
-				data->mouse_over_listening_to && protocols.CanSetListeningTo(), proto);
+			DrawTextWithRect(hdc, proto->listening_to, DEFAULT_LISTENING_TO, rc, uFormat,
+				data->mouse_over_listening_to && protocols.CanSetListeningTo(), *proto);
 
 			// Clipping rgn
 			SelectClipRgn(hdc, nullptr);
@@ -1349,7 +1349,7 @@ void Draw(HWND hwnd, HDC hdc_orig)
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 			SetTextColor(hdc, font_colour[FONT_LISTENING_TO]);
 
-			DrawText(hdc, proto.listening_to, -1, &rc, uFormat);
+			DrawText(hdc, proto->listening_to, -1, &rc, uFormat);
 
 			SelectClipRgn(hdc, nullptr);
 			DeleteObject(rgn);
