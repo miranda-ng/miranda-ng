@@ -78,24 +78,13 @@ public:
 
 	// dynamic options, need reload when options change
 	int         m_iTabNameLimit;
-	bool        m_bAllowTab;
-	bool        m_bAutoSwitchTabs;
 	bool        m_bCutContactNameOnTabs;
-	bool        m_bHideOnClose;
-	bool        m_bStatusOnTabs;
-	bool        m_bLogStatusChanges;
-	bool        m_bUseSameSplitSize;
-	bool        m_bUseDividers;
-	bool        m_bDividersUsePopupConfig;
-	bool        m_bAllowOfflineMultisend;
-	bool        m_bFlashOnClist;
 	bool        m_bAlwaysFullToolbarWidth;
 	bool        m_bIdleDetect;
 
 	int         m_MsgTimeout;
 	int         m_EscapeCloses;
 	int         m_LimitStaticAvatarHeight;
-	int         m_SendFormat;
 	int         m_UnreadInTray;
 	int         m_TrayFlashes;
 	int         m_TrayFlashState;
@@ -107,7 +96,6 @@ public:
 	myTabCtrl   tabConfig;
 	int         m_panelHeight, m_MUCpanelHeight;
 	int         m_smcxicon, m_smcyicon;
-	int         m_PasteAndSend;
 	COLORREF    crIncoming, crOutgoing, crOldIncoming, crOldOutgoing, crStatus;
 	BOOL        bUnicodeBuild;
 	HFONT       hFontCaption;
@@ -115,7 +103,6 @@ public:
 	uint8_t     m_SmileyButtonOverride;
 	HICON       m_AnimTrayIcons[4];
 	BOOL        m_visualMessageSizeIndicator;
-	BOOL        m_autoSplit;
 	BOOL        m_FlashOnMTN;
 	uint32_t    dwThreadID;
 	MWindowList m_hMessageWindowList, hUserPrefsWindowList;

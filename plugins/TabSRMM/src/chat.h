@@ -71,11 +71,9 @@ struct TMUCSettings : public GlobalLogSettingsBase
 
 	COLORREF nickColors[8];
 	HBRUSH   SelectionBGBrush;
-	bool     bOpenInDefault, bBBCodeInPopups;
 
-	bool     bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight, bCreateWindowOnHighlight;
-	bool     bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
-	bool     bScaleIcons, bNewLineAfterNames;
+	bool     bLogSymbols, bScaleIcons, bClickableNicks, bLogClassicIndicators, bColorizeNicksInLog;
+	bool     bNewLineAfterNames, bAlternativeSorting, bColorizeNicks, bClassicIndicators;
 
 	CMUCHighlight *Highlight;
 

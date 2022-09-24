@@ -279,7 +279,7 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 
 	wchar_t *szStatus = Clist_GetStatusModeDescription(szProto == nullptr ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), 0);
 
-	if (PluginConfig.m_bStatusOnTabs)
+	if (g_plugin.bStatusOnTabs)
 		mir_snwprintf(tabtitle, L"%s (%s)", newcontactname, szStatus);
 	else
 		mir_snwprintf(tabtitle, L"%s", newcontactname);
@@ -362,7 +362,7 @@ void TSAPI CreateNewTabForContact(TContainerData *pContainer, MCONTACT hContact,
 		RedrawWindow(pContainer->m_hwndActive, nullptr, nullptr, RDW_ERASENOW | RDW_UPDATENOW);
 	}
 
-	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
+	if (g_plugin.bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->m_hwnd, &wp);

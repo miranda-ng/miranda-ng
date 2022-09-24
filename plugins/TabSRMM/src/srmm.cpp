@@ -53,9 +53,60 @@ PLUGININFOEX pluginInfoEx = {
 
 CMPlugin::CMPlugin() :
 	PLUGIN<CMPlugin>("SRMsg", pluginInfoEx),
+
+	// main settings
+	bAutoMin(SRMSGMOD_T, "AutoMin", false),
+	bAutoCopy(SRMSGMOD_T, "autocopy", true),
+	bAutoTabs(SRMSGMOD_T, "autotabs", true),
+	bAllowTab(SRMSGMOD_T, "tabmode", false),
+	bAutoClose(SRMSGMOD_T, "AutoClose", false),
+	bAutoPopup(SRMSGMOD_T, "AutoPopup", false),
+	bAutoSplit(SRMSGMOD_T, "autosplit", false),
+	bDeleteTemp(SRMSGMOD_T, "deletetemp", false),
+	bUseXStatus(SRMSGMOD_T, "use_xicons", true),
+	bSendFormat(SRMSGMOD_T, "sendformat", false),
+	bHideOnClose(SRMSGMOD_T, "hideonclose", false),
+	bStatusOnTabs(SRMSGMOD_T, "tabstatus", true),
+	bFlashOnClist(SRMSGMOD_T, "flashcl", false),
+	bPasteAndSend(SRMSGMOD_T, "pasteandsend", true),
+	bAutoContainer(SRMSGMOD_T, "autocontainer", true),
+	bAutoSwitchTabs(SRMSGMOD_T, "autoswitchtabs", true),
+	bPopupContainer(SRMSGMOD_T, "cpopup", true),
+	bDetailedTooltips(SRMSGMOD_T, "d_tooltips", false),
+	bUseSameSplitSize(SRMSGMOD_T, "usesamesplitsize", true),
+	bAllowOfflineMultisend(SRMSGMOD_T, "AllowOfflineMultisend", true),
+
+	// advanced options
+	bMetaBar(SRMSGMOD_T, "MetaiconBar", true),
+	bMetaTab(SRMSGMOD_T, "MetaiconTab", true),
+	bShowDesc(SRMSGMOD_T, "ShowClientDescription", false),
+	bCloseSend(SRMSGMOD_T, "adv_AutoClose_2", false),
+	bErrorPopup(SRMSGMOD_T, "adv_ErrorPopups", true),
+	
+	// chat settings
+	bOpenInDefault(CHAT_MODULE, "DefaultContainer", true),
+	bCreateWindowOnHighlight(CHAT_MODULE, "CreateWindowOnHighlight", false),
+	bBBCodeInPopups(CHAT_MODULE, "BBCodeInPopups", false),
+	bClassicIndicators(CHAT_MODULE, "ClassicIndicators", false),
+	bLogClassicIndicators(CHAT_MODULE, "LogClassicIndicators", false),
+	bAlternativeSorting(CHAT_MODULE, "AlternativeSorting", true),
+	bAnnoyingHighlight(CHAT_MODULE, "AnnoyingHighlight", false),
+	bLogSymbols(CHAT_MODULE, "LogSymbols", true),
+	bClickableNicks(CHAT_MODULE, "ClickableNicks", true),
+	bColorizeNicks(CHAT_MODULE, "ColorizeNicks", true),
+	bColorizeNicksInLog(CHAT_MODULE, "ColorizeNicksInLog", true),
+	bScaleIcons(CHAT_MODULE, "ScaleIcons", true),
+	bNewLineAfterNames(CHAT_MODULE, "NewlineAfterNames", false),
+
+	// typing settings
 	bPopups(TypingModule, "TypingPopup", true),
 	bTypingNew(TypingModule, "DefaultTyping", true),
-	bTypingUnknown(TypingModule, "UnknownTyping", false)
+	bTypingUnknown(TypingModule, "UnknownTyping", false),
+
+	// log options
+	bUseDividers(SRMSGMOD_T, "usedividers", false),
+	bLogStatusChanges(SRMSGMOD_T, "logstatuschanges", false),
+	bDividersUsePopupConfig(SRMSGMOD_T, "div_popupconfig", false)
 {}
 
 /////////////////////////////////////////////////////////////////////////////////////////

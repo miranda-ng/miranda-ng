@@ -243,10 +243,6 @@ INT_PTR SendMessageCommand(WPARAM, LPARAM);
 INT_PTR SendMessageCommand_W(WPARAM, LPARAM);
 INT_PTR SetUserPrefs(WPARAM, LPARAM);
 
-void TreeViewInit(CCtrlTreeView&, TOptionListGroup *lvGroups, TOptionListItem *lvItems, const char *DBPath, uint32_t dwFlags = 0, bool bFromMem = false);
-void TreeViewSetFromDB(CCtrlTreeView&, TOptionListItem *lvItems, uint32_t dwFlags);
-void TreeViewToDB(CCtrlTreeView&, TOptionListItem *lvItems, const char *DBPath, uint32_t *dwFlags);
-
 INT_PTR CALLBACK DlgProcSetupStatusModes(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 
 CSrmmLogWindow *logBuilder(CMsgDialog &pDlg);

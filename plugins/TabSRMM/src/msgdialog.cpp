@@ -248,7 +248,7 @@ LRESULT CALLBACK SplitterSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			GetClientRect(hwnd, &rc);
 
 			int selection;
-			if (PluginConfig.m_bUseSameSplitSize)
+			if (g_plugin.bUseSameSplitSize)
 				selection = ID_SPLITTERCONTEXT_SAVEGLOBALFORALLSESSIONS;
 			else if (dat->m_bIsAutosizingInput)
 				selection = ID_SPLITTERCONTEXT_SETPOSITIONFORTHISSESSION;
@@ -676,7 +676,7 @@ void CMsgDialog::OnDestroy()
 	if (m_pContainer->cfg.flags.m_bSideBar)
 		m_pContainer->m_pSideBar->removeSession(this);
 
-	if (M.GetByte("deletetemp", 0))
+	if (g_plugin.bDeleteTemp)
 		if (!Contact::OnList(m_hContact))
 			db_delete_contact(m_hContact);
 
@@ -1027,7 +1027,7 @@ void CMsgDialog::onDblClick_List(CCtrlListBox *pList)
 		return;
 
 	bool bShift = (GetKeyState(VK_SHIFT) & 0x8000) != 0;
-	if (g_Settings.bDoubleClick4Privat ? bShift : !bShift) {
+	if (Chat::bDoubleClick4Privat ? bShift : !bShift) {
 		int selStart = LOWORD(m_message.SendMsg(EM_GETSEL, 0, 0));
 		CMStringW tszName(ui->pszNick);
 		if (selStart == 0 && mir_wstrlen(g_Settings.pwszAutoText))
@@ -1593,7 +1593,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 
 	// tabulation mod
 	if (msg == WM_KEYDOWN && wp == VK_TAB) {
-		if (PluginConfig.m_bAllowTab) {
+		if (g_plugin.bAllowTab) {
 			if (pFilter->nmhdr.idFrom == IDC_SRMM_MESSAGE)
 				m_message.SendMsg(EM_REPLACESEL, FALSE, (LPARAM)"\t");
 			_clrMsgFilter(pFilter);
@@ -1701,7 +1701,7 @@ int CMsgDialog::OnFilter(MSGFILTER *pFilter)
 		// to the clipboard.
 		// holding ctrl while releasing the button pastes the selection to the input area, using plain text
 		// holding ctrl-alt does the same, but pastes formatted text
-		if (pFilter->nmhdr.idFrom == IDC_SRMM_LOG && M.GetByte("autocopy", 1)) {
+		if (pFilter->nmhdr.idFrom == IDC_SRMM_LOG && g_plugin.bAutoCopy) {
 			CHARRANGE cr;
 			LOG()->WndProc(EM_EXGETSEL, 0, (LPARAM)&cr);
 			if (cr.cpMax == cr.cpMin)
@@ -1773,7 +1773,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 	case WM_CHAR:
 		KbdState(isShift, isCtrl, isAlt);
 
-		if (!isAlt && !isCtrl && !m_pContainer->cfg.flags.m_bNoSound && wParam != VK_ESCAPE && !(wParam == VK_TAB && PluginConfig.m_bAllowTab))
+		if (!isAlt && !isCtrl && !m_pContainer->cfg.flags.m_bNoSound && wParam != VK_ESCAPE && !(wParam == VK_TAB && g_plugin.bAllowTab))
 			Skin_PlaySound("SoundOnTyping");
 		break;
 
@@ -1823,7 +1823,7 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 			// tab-autocomplete
 			if (wParam == VK_TAB && !isCtrl && !isShift) {
 				// if tab acts as a key pressing, simply do nothing
-				if (PluginConfig.m_bAllowTab)
+				if (g_plugin.bAllowTab)
 					break;
 
 				m_message.SetDraw(false);
@@ -2925,7 +2925,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 				return TRUE;
 
 			case 2: // close or hide, optionally
-				if (PluginConfig.m_bHideOnClose) {
+				if (g_plugin.bHideOnClose) {
 					ShowWindow(m_pContainer->m_hwnd, SW_HIDE);
 					return TRUE;
 				}

@@ -482,53 +482,12 @@ protected:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Group chat - Settings
 
-TOptionListGroup lvGroupsChat[] =
-{
-	{ 0, LPGENW("Appearance and functionality of chat room windows") },
-	{ 0, LPGENW("Appearance of the message log") },
-	{ 0 }
-};
-
-static TOptionListItem lvItemsChat[] =
-{
-	{ 0, LPGENW("Open new chat rooms in the default container"), 1, LOI_TYPE_SETTING, (UINT_PTR)"DefaultContainer", 0 },
-	{ 0, LPGENW("Flash window when someone speaks"), 0, LOI_TYPE_SETTING, (UINT_PTR)"FlashWindow", 0 },
-	{ 0, LPGENW("Flash window when a word is highlighted"), 1, LOI_TYPE_SETTING, (UINT_PTR)"FlashWindowHighlight", 0 },
-	{ 0, LPGENW("Create tabs or windows for highlight events"), 0, LOI_TYPE_SETTING, (UINT_PTR)"CreateWindowOnHighlight", 0 },
-	{ 0, LPGENW("Activate chat window on highlight"), 0, LOI_TYPE_SETTING, (UINT_PTR)"AnnoyingHighlight", 0 },
-	{ 0, LPGENW("Show list of users in the chat room"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowNicklist", 0 },
-	{ 0, LPGENW("Colorize nicknames in member list (you need to adjust colors)"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicks", 0 },
-	{ 0, LPGENW("Show topic as status message on the contact list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"TopicOnClist", 0 },
-	{ 0, LPGENW("Do not pop up the window when joining a chat room"), 0, LOI_TYPE_SETTING, (UINT_PTR)"PopupOnJoin", 0 },
-	{ 0, LPGENW("Sync splitter position with standard IM sessions"), 0, LOI_TYPE_SETTING, (UINT_PTR)"SyncSplitter", 0 },
-	{ 0, LPGENW("Show contact's status modes if supported by the protocol"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowContactStatus", 0 },
-	{ 0, LPGENW("Display contact's status icon before user role icon"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ContactStatusFirst", 0 },
-	{ 0, LPGENW("Use IRC style status indicators in the nick list"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ClassicIndicators", 0 },
-	{ 0, LPGENW("Use alternative sorting method in member list"), 1, LOI_TYPE_SETTING, (UINT_PTR)"AlternativeSorting", 0 },
-
-	{ 0, LPGENW("Prefix all events with a timestamp"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStamp", 1 },
-	{ 0, LPGENW("Only prefix with timestamp if it has changed"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ShowTimeStampIfChanged", 1 },
-	{ 0, LPGENW("Timestamp has same color as the event"), 0, LOI_TYPE_SETTING, (UINT_PTR)"TimeStampEventColour", 1 },
-	{ 0, LPGENW("Indent the second line of a message"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogIndentEnabled", 1 },
-	{ 0, LPGENW("Limit user names in the message log to 20 characters"), 1, LOI_TYPE_SETTING, (UINT_PTR)"LogLimitNames", 1 },
-	{ 0, LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"DoubleClick4Privat", 1 },
-	{ 0, LPGENW("Strip colors from messages in the log"), 0, LOI_TYPE_SETTING, (UINT_PTR)"StripFormatting", 1 },
-	{ 0, LPGENW("Enable the 'event filter' for new rooms"), 0, LOI_TYPE_SETTING, (UINT_PTR)"FilterEnabled", 1 },
-	{ 0, LPGENW("Use IRC style status indicators in the log"), 0, LOI_TYPE_SETTING, (UINT_PTR)"LogClassicIndicators", 1 },
-	{ 0, LPGENW("Allow clickable user names in the message log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ClickableNicks", 1 },
-	{ 0, LPGENW("Add new line after names"), 0, LOI_TYPE_SETTING, (UINT_PTR)"NewlineAfterNames", 1 },
-	{ 0, LPGENW("Colorize user names in message log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ColorizeNicksInLog", 1 },
-	{ 0, LPGENW("Scale down icons to 10x10 pixels in the chat log"), 1, LOI_TYPE_SETTING, (UINT_PTR)"ScaleIcons", 1 },
-
-	{ 0, 0, 0, 0, 0, 0 }
-};
-
 class CChatSettingsDlg : public CChatBaseOptionDlg
 {
 	HTREEITEM hListHeading1 = nullptr;
 	HTREEITEM hListHeading2 = nullptr;
 
-	CCtrlTreeView treeCheck;
+	CCtrlTreeOpts treeCheck;
 	CCtrlEdit edtGroup, edtAutocomplete;
 
 public:
@@ -537,13 +496,41 @@ public:
 		edtGroup(this, IDC_GROUP),
 		edtAutocomplete(this, IDC_AUTOCOMPLETE),
 		treeCheck(this, IDC_CHECKBOXES)
-	{}
+	{
+		auto *pwszSection = LPGENW("Appearance and functionality of chat room windows");
+		treeCheck.AddOption(pwszSection, LPGENW("Open new chat rooms in the default container"), g_plugin.bOpenInDefault);
+		treeCheck.AddOption(pwszSection, LPGENW("Flash window when someone speaks"), Chat::bFlashWindow);
+		treeCheck.AddOption(pwszSection, LPGENW("Flash window when a word is highlighted"), Chat::bFlashWindowHighlight);
+		treeCheck.AddOption(pwszSection, LPGENW("Create tabs or windows for highlight events"), g_plugin.bCreateWindowOnHighlight);
+		treeCheck.AddOption(pwszSection, LPGENW("Activate chat window on highlight"), g_plugin.bAnnoyingHighlight);
+		treeCheck.AddOption(pwszSection, LPGENW("Show list of users in the chat room"), Chat::bShowNicklist);
+		treeCheck.AddOption(pwszSection, LPGENW("Colorize nicknames in member list (you need to adjust colors)"), g_plugin.bColorizeNicks);
+		treeCheck.AddOption(pwszSection, LPGENW("Show topic as status message on the contact list"), Chat::bTopicOnClist);
+		treeCheck.AddOption(pwszSection, LPGENW("Do not pop up the window when joining a chat room"), Chat::bPopupOnJoin);
+		treeCheck.AddOption(pwszSection, LPGENW("Show contact's status modes if supported by the protocol"), Chat::bShowContactStatus);
+		treeCheck.AddOption(pwszSection, LPGENW("Display contact's status icon before user role icon"), Chat::bContactStatusFirst);
+		treeCheck.AddOption(pwszSection, LPGENW("Use IRC style status indicators in the nick list"), g_plugin.bClassicIndicators);
+		treeCheck.AddOption(pwszSection, LPGENW("Use alternative sorting method in member list"), g_plugin.bAlternativeSorting);
+
+		pwszSection = LPGENW("Appearance of the message log");
+		treeCheck.AddOption(pwszSection, LPGENW("Prefix all events with a timestamp"), Chat::bShowTime);
+		treeCheck.AddOption(pwszSection, LPGENW("Only prefix with timestamp if it has changed"), Chat::bShowTimeIfChanged);
+		treeCheck.AddOption(pwszSection, LPGENW("Timestamp has same color as the event"), Chat::bTimeStampEventColour);
+		treeCheck.AddOption(pwszSection, LPGENW("Indent the second line of a message"), Chat::bLogIndentEnabled);
+		treeCheck.AddOption(pwszSection, LPGENW("Limit user names in the message log to 20 characters"), Chat::bLogLimitNames);
+		treeCheck.AddOption(pwszSection, LPGENW("Start private conversation on double click in nick list (insert nick if unchecked)"), Chat::bDoubleClick4Privat);
+		treeCheck.AddOption(pwszSection, LPGENW("Strip colors from messages in the log"), Chat::bStripFormat);
+		treeCheck.AddOption(pwszSection, LPGENW("Enable the 'event filter' for new rooms"), Chat::bFilterEnabled);
+		treeCheck.AddOption(pwszSection, LPGENW("Use IRC style status indicators in the log"), g_plugin.bLogClassicIndicators);
+		treeCheck.AddOption(pwszSection, LPGENW("Allow clickable user names in the message log"), g_plugin.bClickableNicks);
+		treeCheck.AddOption(pwszSection, LPGENW("Add new line after names"), g_plugin.bNewLineAfterNames);
+		treeCheck.AddOption(pwszSection, LPGENW("Colorize user names in message log"), g_plugin.bColorizeNicksInLog);
+		treeCheck.AddOption(pwszSection, LPGENW("Scale down icons to 10x10 pixels in the chat log"), g_plugin.bScaleIcons);
+	}
 
 	bool OnInitDialog() override
 	{
 		SetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE, GetWindowLongPtr(treeCheck.GetHwnd(), GWL_STYLE) | (TVS_HASBUTTONS | TVS_CHECKBOXES | TVS_NOHSCROLL));
-
-		TreeViewInit(treeCheck, lvGroupsChat, lvItemsChat, CHAT_MODULE);
 
 		if (mir_wstrlen(g_Settings.pwszAutoText))
 			edtAutocomplete.SetText(g_Settings.pwszAutoText);
@@ -558,8 +545,6 @@ public:
 
 		replaceStrW(g_Settings.pwszAutoText, edtAutocomplete.GetText());
 		db_set_ws(0, CHAT_MODULE, "TextAutocomplete", g_Settings.pwszAutoText);
-
-		TreeViewToDB(treeCheck, lvItemsChat, CHAT_MODULE, nullptr);
 		return true;
 	}
 

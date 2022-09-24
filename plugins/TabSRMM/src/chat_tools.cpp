@@ -139,7 +139,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 	TContainerData *pContainer = dat ? dat->m_pContainer : nullptr;
 
 	wchar_t *bbStart, *bbEnd;
-	if (g_Settings.bBBCodeInPopups) {
+	if (g_plugin.bBBCodeInPopups) {
 		bbStart = L"[b]";
 		bbEnd = L"[/b]";
 	}
@@ -158,7 +158,7 @@ BOOL DoPopup(SESSION_INFO *si, GCEVENT *gce)
 
 	if (dat && pContainer != nullptr) {                // message window is open, need to check the container config if we want to see a popup nonetheless
 		if (NEN::bWindowCheck) {                  // no popups at all for open windows... no exceptions
-			if (!PluginConfig.m_bHideOnClose)
+			if (!g_plugin.bHideOnClose)
 				return 0;
 			if (pContainer->m_bHidden)
 				goto passed;
@@ -228,17 +228,17 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 			if (iMuteMode != CHATMODE_MUTE)
 				DoPopup(si, gce);
 
-		if (g_Settings.bFlashWindowHighlight && bInactive)
+		if (Chat::bFlashWindowHighlight && bInactive)
 			bMustFlash = true;
 
 		bMustAutoswitch = true;
-		if (g_Settings.bCreateWindowOnHighlight && dat == nullptr) {
+		if (g_plugin.bCreateWindowOnHighlight && dat == nullptr) {
 			Clist_ContactDoubleClicked(si->hContact);
 			bActiveTab = true;
 			bInactive = bMustAutoswitch = bMustFlash = false;
 		}
 
-		if (dat && g_Settings.bAnnoyingHighlight && bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
+		if (dat && g_plugin.bAnnoyingHighlight && bInactive && dat->m_pContainer->m_hwnd != GetForegroundWindow()) {
 			bActiveTab = true;
 			bInactive = bMustAutoswitch = bMustFlash = false;
 			dat->ActivateTab();
@@ -269,7 +269,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		if (iEvent == GC_EVENT_MESSAGE) {
 			bMustAutoswitch = true;
-			if (g_Settings.bFlashWindow)
+			if (Chat::bFlashWindow)
 				bMustFlash = true;
 		}
 	}
@@ -317,7 +317,7 @@ BOOL DoSoundsFlashPopupTrayStuff(SESSION_INFO *si, GCEVENT *gce, BOOL bHighlight
 
 		// autoswitch tab..
 		if (bMustAutoswitch) {
-			if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && PluginConfig.m_bAutoSwitchTabs && dat->m_pContainer->m_hwndActive != dat->GetHwnd()) {
+			if ((IsIconic(dat->m_pContainer->m_hwnd)) && !IsZoomed(dat->m_pContainer->m_hwnd) && g_plugin.bAutoSwitchTabs && dat->m_pContainer->m_hwndActive != dat->GetHwnd()) {
 				int iItem = GetTabIndexFromHWND(dat->m_pContainer->m_hwndTabs, dat->GetHwnd());
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(dat->m_pContainer->m_hwndTabs, iItem);

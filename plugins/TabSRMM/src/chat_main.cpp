@@ -82,28 +82,19 @@ static void OnCreateModule(MODULEINFO *mi)
 static void OnLoadSettings()
 {
 	g_Settings.dwIconFlags = db_get_dw(0, CHAT_MODULE, "IconFlags", 0x0000);
-	g_Settings.bOpenInDefault = M.GetBool(CHAT_MODULE, "DefaultContainer", true);
 	g_Settings.UserListColors[CHAT_STATUS_NORMAL] = db_get_dw(0, CHATFONT_MODULE, "Font18Col", RGB(0, 0, 0));
 	g_Settings.UserListColors[CHAT_STATUS_AWAY] = db_get_dw(0, CHATFONT_MODULE, "Font19Col", RGB(170, 170, 170));
 	g_Settings.UserListColors[CHAT_STATUS_OFFLINE] = db_get_dw(0, CHATFONT_MODULE, "Font5Col", RGB(160, 90, 90));
-	g_Settings.bBBCodeInPopups = M.GetBool(CHAT_MODULE, "BBCodeInPopups", false);
-	g_Settings.bClassicIndicators = M.GetBool(CHAT_MODULE, "ClassicIndicators", false);
-	g_Settings.bLogClassicIndicators = M.GetBool(CHAT_MODULE, "LogClassicIndicators", false);
-	g_Settings.bAlternativeSorting = M.GetBool(CHAT_MODULE, "AlternativeSorting", true);
-	g_Settings.bAnnoyingHighlight = M.GetBool(CHAT_MODULE, "AnnoyingHighlight", false);
-	g_Settings.bCreateWindowOnHighlight = M.GetBool(CHAT_MODULE, "CreateWindowOnHighlight", false);
 
-	g_Settings.bLogSymbols = M.GetBool(CHAT_MODULE, "LogSymbols", true);
-	g_Settings.bClickableNicks = M.GetBool(CHAT_MODULE, "ClickableNicks", true);
-	g_Settings.bColorizeNicks = M.GetBool(CHAT_MODULE, "ColorizeNicks", true);
-	g_Settings.bColorizeNicksInLog = M.GetBool(CHAT_MODULE, "ColorizeNicksInLog", true);
-	g_Settings.bScaleIcons = M.GetBool(CHAT_MODULE, "ScaleIcons", true);
-
-	g_Settings.bDoubleClick4Privat = M.GetBool(CHAT_MODULE, "DoubleClick4Privat", false);
-	g_Settings.bShowContactStatus = M.GetBool(CHAT_MODULE, "ShowContactStatus", true);
-	g_Settings.bContactStatusFirst = M.GetBool(CHAT_MODULE, "ContactStatusFirst", false);
-
-	g_Settings.bNewLineAfterNames = M.GetBool(CHAT_MODULE, "NewlineAfterNames", false);
+	g_Settings.bLogSymbols = g_plugin.bLogSymbols;
+	g_Settings.bScaleIcons = g_plugin.bScaleIcons;
+	g_Settings.bColorizeNicks = g_plugin.bColorizeNicks;
+	g_Settings.bClickableNicks = g_plugin.bClickableNicks;
+	g_Settings.bNewLineAfterNames = g_plugin.bNewLineAfterNames;
+	g_Settings.bClassicIndicators = g_plugin.bClassicIndicators;
+	g_Settings.bAlternativeSorting = g_plugin.bAlternativeSorting;
+	g_Settings.bColorizeNicksInLog = g_plugin.bColorizeNicksInLog;
+	g_Settings.bLogClassicIndicators = g_plugin.bLogClassicIndicators;
 
 	replaceStrW(g_Settings.pszLogDir, M.getChatLogPath());
 	replaceStrW(g_Settings.pwszAutoText, db_get_wsa(0, CHAT_MODULE, "TextAutocomplete", L":"));
@@ -225,7 +216,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 
 	if (pContainer == nullptr) {
 		GetContainerNameForContact(si->hContact, szName, CONTAINER_NAMELEN);
-		if (!g_Settings.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
+		if (!g_plugin.bOpenInDefault && !mir_wstrcmp(szName, L"default"))
 			wcsncpy_s(szName, L"Chat Rooms", _TRUNCATE);
 		szName[CONTAINER_NAMELEN] = 0;
 		pContainer = FindContainerByName(szName);
@@ -306,7 +297,7 @@ void ShowRoom(TContainerData *pContainer, SESSION_INFO *si)
 		SetFocus(pContainer->m_hwndActive);
 	}
 
-	if (PluginConfig.m_bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
+	if (g_plugin.bHideOnClose && !IsWindowVisible(pContainer->m_hwnd)) {
 		WINDOWPLACEMENT wp = { 0 };
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pContainer->m_hwnd, &wp);

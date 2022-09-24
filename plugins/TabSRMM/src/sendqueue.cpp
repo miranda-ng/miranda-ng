@@ -296,7 +296,7 @@ int SendQueue::sendQueued(CMsgDialog *dat, const int iEntry)
 	if (!(dat->m_sendMode & SMODE_NOACK))
 		::HandleIconFeedback(dat, PluginConfig.g_IconSend);
 
-	if (M.GetByte(SRMSGSET_AUTOMIN, SRMSGDEFSET_AUTOMIN))
+	if (g_plugin.bAutoMin)
 		::SendMessage(dat->m_pContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 	return 0;
 }
@@ -500,8 +500,8 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 		if (iNextFailed >= 0 && !dat->m_bErrorState)
 			handleError(dat, iNextFailed);
 		else {
-			if (M.GetByte("AutoClose", 0)) {
-				if (M.GetByte("adv_AutoClose_2", 0))
+			if (g_plugin.bAutoClose) {
+				if (g_plugin.bCloseSend)
 					SendMessage(dat->GetHwnd(), WM_CLOSE, 0, 1);
 				else
 					SendMessage(dat->m_pContainer->m_hwnd, WM_CLOSE, 0, 0);

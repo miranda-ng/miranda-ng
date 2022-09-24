@@ -120,14 +120,8 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 	m_ncm.cbSize = sizeof(NONCLIENTMETRICS);
 	SystemParametersInfo(SPI_GETNONCLIENTMETRICS, sizeof(NONCLIENTMETRICS), &m_ncm, 0);
 
-	m_bAutoSwitchTabs = M.GetBool("autoswitchtabs", true);
 	m_iTabNameLimit = db_get_w(0, SRMSGMOD_T, "cut_at", 15);
 	m_bCutContactNameOnTabs = M.GetBool("cuttitle", false);
-	m_bStatusOnTabs = M.GetBool("tabstatus", true);
-	m_bLogStatusChanges = M.GetBool("logstatuschanges", false);
-	m_bUseSameSplitSize = M.GetBool("usesamesplitsize", true);
-	m_bUseDividers = M.GetBool("usedividers", false);
-	m_bDividersUsePopupConfig = M.GetBool("div_popupconfig", false);
 	m_MsgTimeout = g_plugin.getDword(SRMSGSET_MSGTIMEOUT, SRMSGDEFSET_MSGTIMEOUT);
 
 	if (m_MsgTimeout < SRMSGSET_MSGTIMEOUT_MIN)
@@ -135,21 +129,14 @@ void CGlobals::reloadSettings(bool fReloadSkins)
 
 	m_EscapeCloses = M.GetByte("escmode", 0);
 
-	m_bHideOnClose = M.GetBool("hideonclose", false);
-	m_bAllowTab = M.GetBool("tabmode", false);
-
-	m_bFlashOnClist = M.GetBool("flashcl", false);
 	m_bAlwaysFullToolbarWidth = M.GetBool("alwaysfulltoolbar", true);
 	m_LimitStaticAvatarHeight = M.GetDword("avatarheight", 96);
-	m_SendFormat = M.GetByte("sendformat", 0);
 	m_panelHeight = (uint32_t)M.GetDword("panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_MUCpanelHeight = db_get_dw(0, CHAT_MODULE, "panelheight", CInfoPanel::DEGRADE_THRESHOLD);
 	m_bIdleDetect = M.GetBool("dimIconsForIdleContacts", true);
 	m_smcxicon = m_smcyicon = 16;
-	m_PasteAndSend = M.GetByte("pasteandsend", 1);
 	m_LangPackCP = Langpack_GetDefaultCodePage();
 	m_visualMessageSizeIndicator = M.GetByte("msgsizebar", 0);
-	m_autoSplit = M.GetByte("autosplit", 0);
 	m_FlashOnMTN = g_plugin.getByte(SRMSGSET_SHOWTYPINGWINFLASH, SRMSGDEFSET_SHOWTYPINGWINFLASH);
 	if (m_MenuBar == nullptr) {
 		m_MenuBar = ::LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_MENUBAR));
@@ -194,7 +181,6 @@ void CGlobals::reloadAdv()
 		g_plugin.addSound("SoundOnTyping", LPGENW("Other"), LPGENW("TabSRMM: typing"));
 		m_TypingSoundAdded = true;
 	}
-	m_bAllowOfflineMultisend = M.GetBool("AllowOfflineMultisend", true);
 }
 
 const HMENU CGlobals::getMenuBar()
@@ -498,7 +484,7 @@ void CGlobals::logStatusChange(WPARAM wParam, const CContactCache *c)
 		return;
 
 	MCONTACT hContact = c->getContact();
-	if (!PluginConfig.m_bLogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
+	if (!g_plugin.bLogStatusChanges && !M.GetByte(hContact, "logstatuschanges", 0))
 		return;
 
 	// don't log them if WE are logging off

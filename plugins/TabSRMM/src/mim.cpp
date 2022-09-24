@@ -271,7 +271,7 @@ int CMimAPI::TypingMessage(WPARAM hContact, LPARAM nSecs)
 			if (pDlg == nullptr)
 				fShow = true;
 			else {
-				if (PluginConfig.m_bHideOnClose) {
+				if (g_plugin.bHideOnClose) {
 					TContainerData *pCont = pDlg->m_pContainer;
 					if (pCont && pCont->m_bHidden)
 						fShow = true;
@@ -407,13 +407,13 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 
 	g_clistApi.pfnRemoveEvent(hContact, 1);
 
-	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-	bool bAutoCreate = M.GetBool("autotabs", true);
-	bool bAutoContainer = M.GetBool("autocontainer", true);
+	bool bAutoPopup = g_plugin.bAutoPopup;
+	bool bAutoCreate = g_plugin.bAutoTabs;
+	bool bAutoContainer = g_plugin.bAutoContainer;
 
 	if (pDlg) {
 		TContainerData *pTargetContainer = pDlg->m_pContainer;
-		if (pTargetContainer == nullptr || !PluginConfig.m_bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
+		if (pTargetContainer == nullptr || !g_plugin.bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
 			return 0;
 
 		WINDOWPLACEMENT wp = { 0 };

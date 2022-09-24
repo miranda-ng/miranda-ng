@@ -119,7 +119,7 @@ static INT_PTR HotkeyProcessor(WPARAM, LPARAM lParam)
 				SetFocus(GetDlgItem(pLastActiveContainer->m_hwndActive, IDC_SRMM_MESSAGE));
 			}
 			else {
-				if (PluginConfig.m_bHideOnClose)
+				if (g_plugin.bHideOnClose)
 					ShowWindow(pLastActiveContainer->m_hwnd, SW_HIDE);
 				else
 					SendMessage(pLastActiveContainer->m_hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);

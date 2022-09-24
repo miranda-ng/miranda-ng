@@ -405,7 +405,7 @@ void TContainerData::InitDialog(HWND hwndDlg)
 		Configure();
 
 		// tab tooltips...
-		if (!::ServiceExists(MS_TIPPER_SHOWTIPW) || M.GetByte("d_tooltips", 0) == 0) {
+		if (!::ServiceExists(MS_TIPPER_SHOWTIPW) || !g_plugin.bDetailedTooltips) {
 			m_hwndTip = ::CreateWindowEx(0, TOOLTIPS_CLASS, nullptr, WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP, CW_USEDEFAULT, CW_USEDEFAULT,
 				CW_USEDEFAULT, CW_USEDEFAULT, hwndDlg, nullptr, g_plugin.getInst(), (LPVOID)nullptr);
 
@@ -2109,7 +2109,7 @@ panel_found:
 		break;
 
 	case WM_CLOSE:
-		if (PluginConfig.m_bHideOnClose && !lParam) {
+		if (g_plugin.bHideOnClose && !lParam) {
 			ShowWindow(hwndDlg, SW_HIDE);
 			pContainer->m_bHidden = true;
 		}
@@ -2297,9 +2297,9 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 	GetContainerNameForContact(hContact, szName, CONTAINER_NAMELEN);
 
 	bool bAllowAutoCreate = false;
-	bool bAutoCreate = M.GetBool("autotabs", true);
-	bool bAutoPopup = M.GetBool(SRMSGSET_AUTOPOPUP, SRMSGDEFSET_AUTOPOPUP);
-	bool bAutoContainer = M.GetBool("autocontainer", true);
+	bool bAutoCreate = g_plugin.bAutoTabs;
+	bool bAutoPopup = g_plugin.bAutoPopup;
+	bool bAutoContainer = g_plugin.bAutoContainer;
 
 	uint32_t dwStatusMask = M.GetDword("autopopupmask", -1);
 	if (dwStatusMask == -1)
@@ -2326,7 +2326,6 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 			return;
 		}
 
-		bool bPopup = M.GetByte("cpopup", 0) != 0;
 		TContainerData *pContainer = FindContainerByName(szName);
 		if (pContainer != nullptr)
 			if (M.GetByte("limittabs", 0) && !wcsncmp(pContainer->m_wszName, L"default", 6))
@@ -2336,7 +2335,7 @@ void TSAPI AutoCreateWindow(MCONTACT hContact, MEVENT hDbEvent)
 			pContainer = CreateContainer(szName, CNT_CREATEFLAG_MINIMIZED, hContact);
 
 		if (pContainer != nullptr) {
-			CreateNewTabForContact(pContainer, hContact, false, bPopup, true, hDbEvent);
+			CreateNewTabForContact(pContainer, hContact, false, g_plugin.bPopupContainer, true, hDbEvent);
 			return;
 		}
 	}
@@ -2400,18 +2399,18 @@ HMENU TSAPI BuildContainerMenu()
 
 void TSAPI CloseAllContainers()
 {
-	bool fOldHideSetting = PluginConfig.m_bHideOnClose;
+	bool fOldHideSetting = g_plugin.bHideOnClose;
 
 	while (pFirstContainer != nullptr) {
 		if (!IsWindow(pFirstContainer->m_hwnd))
 			pFirstContainer = pFirstContainer->pNext;
 		else {
-			PluginConfig.m_bHideOnClose = false;
+			g_plugin.bHideOnClose = false;
 			::SendMessage(pFirstContainer->m_hwnd, WM_CLOSE, 0, 1);
 		}
 	}
 
-	PluginConfig.m_bHideOnClose = fOldHideSetting;
+	g_plugin.bHideOnClose = fOldHideSetting;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

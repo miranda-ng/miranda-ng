@@ -43,8 +43,8 @@ void CMsgDialog::ActivateTooltip(int iCtrlId, const wchar_t *pwszMessage)
 
 void CMsgDialog::AddLog()
 {
-	if (PluginConfig.m_bUseDividers) {
-		if (PluginConfig.m_bDividersUsePopupConfig) {
+	if (g_plugin.bUseDividers) {
+		if (g_plugin.bDividersUsePopupConfig) {
 			if (!MessageWindowOpened(0, this))
 				DM_AddDivider();
 		}
@@ -548,7 +548,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 	if (hEvent == 0)
 		return;
 
-	if (!PluginConfig.m_bFlashOnClist)
+	if (!g_plugin.bFlashOnClist)
 		return;
 
 	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
@@ -957,9 +957,9 @@ void CMsgDialog::GetClientIcon()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-HICON CMsgDialog::GetMyContactIcon(LPCSTR szSetting)
+HICON CMsgDialog::GetMyContactIcon(const CMOption<bool> *opt)
 {
-	int bUseMeta = (szSetting == nullptr) ? false : M.GetByte(szSetting, mir_strcmp(szSetting, "MetaiconTab") == 0);
+	int bUseMeta = (opt == nullptr) ? false : M.GetByte(opt->GetDBSettingName(), mir_strcmp(opt->GetDBSettingName(), "MetaiconTab") == 0);
 	if (bUseMeta)
 		return Skin_LoadProtoIcon(m_cache->getProto(), m_cache->getStatus());
 	return Skin_LoadProtoIcon(m_cache->getActiveProto(), m_cache->getActiveStatus());
@@ -1008,11 +1008,11 @@ LRESULT CMsgDialog::GetSendButtonState()
 
 void CMsgDialog::GetSendFormat()
 {
-	m_SendFormat = M.GetDword(m_hContact, "sendformat", PluginConfig.m_SendFormat);
+	m_SendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat);
 	if (m_SendFormat == -1)          // per contact override to disable it..
 		m_SendFormat = 0;
 	else if (m_SendFormat == 0)
-		m_SendFormat = PluginConfig.m_SendFormat ? 1 : 0;
+		m_SendFormat = g_plugin.bSendFormat;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1035,7 +1035,7 @@ HICON CMsgDialog::GetXStatusIcon() const
 void CMsgDialog::HandlePasteAndSend()
 {
 	// is feature disabled?
-	if (!PluginConfig.m_PasteAndSend) {
+	if (!g_plugin.bPasteAndSend) {
 		ActivateTooltip(IDC_SRMM_MESSAGE, TranslateT("The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending messages' section"));
 		return;
 	}
@@ -1544,7 +1544,7 @@ int CMsgDialog::MsgWindowMenuHandler(int selection, int menuId)
 
 void CMsgDialog::NotifyDeliveryFailure() const
 {
-	if (!M.GetByte("adv_ErrorPopups", 1) || !Popup_Enabled())
+	if (!g_plugin.bErrorPopup || !Popup_Enabled())
 		return;
 
 	POPUPDATAW ppd = {};
@@ -1992,7 +1992,7 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	else {
 		hSubMenu = GetSubMenu(hMenu, 2);
 		EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_SendFormat != 0 ? MF_ENABLED : MF_GRAYED);
-		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, PluginConfig.m_PasteAndSend ? MF_ENABLED : MF_GRAYED);
+		EnableMenuItem(hSubMenu, ID_EDITOR_PASTEANDSENDIMMEDIATELY, g_plugin.bPasteAndSend ? MF_ENABLED : MF_GRAYED);
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
 	}
@@ -2612,7 +2612,7 @@ void CMsgDialog::UpdateTitle()
 			Utils::DoubleAmpersands(newcontactname, _countof(newcontactname));
 
 			if (newcontactname[0] != 0) {
-				if (PluginConfig.m_bStatusOnTabs)
+				if (g_plugin.bStatusOnTabs)
 					mir_snwprintf(newtitle, L"%s (%s)", newcontactname, m_wszStatus);
 				else
 					wcsncpy_s(newtitle, newcontactname, _TRUNCATE);
@@ -2681,12 +2681,12 @@ void CMsgDialog::UpdateWindowIcon()
 	}
 
 	if (LPCSTR szProto = m_cache->getProto()) {
-		m_hTabIcon = m_hTabStatusIcon = GetMyContactIcon("MetaiconTab");
-		if (M.GetByte("use_xicons", 1))
+		m_hTabIcon = m_hTabStatusIcon = GetMyContactIcon(&g_plugin.bMetaTab);
+		if (g_plugin.bUseXStatus)
 			m_hXStatusIcon = GetXStatusIcon();
 
 		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BUTTONSETASDIMMED, m_bIsIdle, 0);
-		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon("MetaiconBar")));
+		SendDlgItemMessage(m_hwnd, IDC_PROTOCOL, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(m_hXStatusIcon ? m_hXStatusIcon : GetMyContactIcon(&g_plugin.bMetaBar)));
 
 		if (m_pContainer->m_hwndActive == m_hwnd)
 			m_pContainer->SetIcon(this, m_hXStatusIcon ? m_hXStatusIcon : m_hTabIcon);

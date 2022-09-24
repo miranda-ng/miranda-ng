@@ -243,7 +243,7 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 	case IDC_PROTOMENU:
 		submenu = GetSubMenu(PluginConfig.g_hMenuContext, 4);
 		{
-			int iOldGlobalSendFormat = PluginConfig.m_SendFormat;
+			bool iOldGlobalSendFormat = g_plugin.bSendFormat;
 			int iLocalFormat = M.GetDword(m_hContact, "sendformat", 0);
 			int iNewLocalFormat = iLocalFormat;
 
@@ -253,8 +253,8 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			CheckMenuItem(submenu, ID_MODE_PRIVATE, m_bSplitterOverride ? MF_CHECKED : MF_UNCHECKED);
 
 			// formatting menu..
-			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, (PluginConfig.m_SendFormat) ? MF_CHECKED : MF_UNCHECKED);
-			CheckMenuItem(submenu, ID_GLOBAL_OFF, (PluginConfig.m_SendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_GLOBAL_BBCODE, (g_plugin.bSendFormat) ? MF_CHECKED : MF_UNCHECKED);
+			CheckMenuItem(submenu, ID_GLOBAL_OFF, (g_plugin.bSendFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
 
 			CheckMenuItem(submenu, ID_THISCONTACT_GLOBALSETTING, (iLocalFormat == SENDFORMAT_NONE) ? MF_CHECKED : MF_UNCHECKED);
 			CheckMenuItem(submenu, ID_THISCONTACT_BBCODE, (iLocalFormat > 0) ? MF_CHECKED : MF_UNCHECKED);
@@ -281,11 +281,11 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 				break;
 
 			case ID_GLOBAL_BBCODE:
-				PluginConfig.m_SendFormat = SENDFORMAT_BBCODE;
+				g_plugin.bSendFormat = SENDFORMAT_BBCODE;
 				break;
 
 			case ID_GLOBAL_OFF:
-				PluginConfig.m_SendFormat = SENDFORMAT_NONE;
+				g_plugin.bSendFormat = SENDFORMAT_NONE;
 				break;
 
 			case ID_THISCONTACT_GLOBALSETTING:
@@ -306,10 +306,8 @@ LRESULT CMsgDialog::DM_MsgWindowCmdHandler(UINT cmd, WPARAM wParam, LPARAM lPara
 			else if (iNewLocalFormat != iLocalFormat)
 				db_set_dw(m_hContact, SRMSGMOD_T, "sendformat", iNewLocalFormat);
 
-			if (PluginConfig.m_SendFormat != iOldGlobalSendFormat)
-				db_set_b(0, SRMSGMOD_T, "sendformat", (uint8_t)PluginConfig.m_SendFormat);
-			if (iNewLocalFormat != iLocalFormat || PluginConfig.m_SendFormat != iOldGlobalSendFormat) {
-				m_SendFormat = M.GetDword(m_hContact, "sendformat", PluginConfig.m_SendFormat);
+			if (iNewLocalFormat != iLocalFormat || g_plugin.bSendFormat != iOldGlobalSendFormat) {
+				m_SendFormat = M.GetDword(m_hContact, "sendformat", g_plugin.bSendFormat);
 				if (m_SendFormat == -1)          // per contact override to disable it..
 					m_SendFormat = 0;
 				Srmm_Broadcast(DM_CONFIGURETOOLBAR, 0, 1);
@@ -695,7 +693,7 @@ HWND CMsgDialog::DM_CreateClist()
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) & ~CLS_EX_TRACKSELECT);
 	SetWindowLongPtr(hwndClist, GWL_EXSTYLE, GetWindowLongPtr(hwndClist, GWL_EXSTYLE) | (CLS_EX_NOSMOOTHSCROLLING | CLS_EX_NOTRANSLUCENTSEL));
 
-	if (!PluginConfig.m_bAllowOfflineMultisend)
+	if (!g_plugin.bAllowOfflineMultisend)
 		SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) | CLS_HIDEOFFLINE);
 
 	if (hItem)
@@ -1028,10 +1026,9 @@ int CMsgDialog::DM_SplitterGlobalEvent(WPARAM wParam, LPARAM lParam)
 
 void CMsgDialog::DM_AddDivider()
 {
-	if (!m_bDividerSet && PluginConfig.m_bUseDividers) {
+	if (!m_bDividerSet && g_plugin.bUseDividers)
 		if (GetWindowTextLength(m_pLog->GetHwnd()) > 0)
 			m_bDividerSet = m_bDividerWanted = true;
-	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1068,11 +1065,11 @@ void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 	// set the message log divider to mark new (maybe unseen) messages, if the container has
 	// been minimized or in the background.
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
-		if (PluginConfig.m_bDividersUsePopupConfig && PluginConfig.m_bUseDividers) {
+		if (g_plugin.bDividersUsePopupConfig && g_plugin.bUseDividers) {
 			if (!MessageWindowOpened(m_hContact, nullptr))
 				DM_AddDivider();
 		}
-		else if (PluginConfig.m_bUseDividers) {
+		else if (g_plugin.bUseDividers) {
 			if (!m_pContainer->IsActive())
 				DM_AddDivider();
 			else if (m_pContainer->m_hwndActive != m_hwnd)
@@ -1114,8 +1111,8 @@ void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 	// autoswitch tab if option is set AND container is minimized (otherwise, we never autoswitch)
 	// never switch for status changes...
 	if (!(dbei.flags & DBEF_SENT) && !bIsStatusChangeEvent) {
-		if (PluginConfig.m_bAutoSwitchTabs && m_pContainer->m_hwndActive != m_hwnd) {
-			if ((IsIconic(m_pContainer->m_hwnd) && !IsZoomed(m_pContainer->m_hwnd)) || (PluginConfig.m_bHideOnClose && !IsWindowVisible(m_pContainer->m_hwnd))) {
+		if (g_plugin.bAutoSwitchTabs && m_pContainer->m_hwndActive != m_hwnd) {
+			if ((IsIconic(m_pContainer->m_hwnd) && !IsZoomed(m_pContainer->m_hwnd)) || (g_plugin.bHideOnClose && !IsWindowVisible(m_pContainer->m_hwnd))) {
 				int iItem = GetTabIndexFromHWND(GetParent(m_hwnd), m_hwnd);
 				if (iItem >= 0) {
 					TabCtrl_SetCurSel(m_hwndParent, iItem);

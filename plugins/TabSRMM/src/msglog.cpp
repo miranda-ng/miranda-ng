@@ -1090,7 +1090,8 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
 			CheckCustomLink(m_rtf.GetHwnd(), &pt, msg, wParam, lParam, TRUE);
 		}
-		if (M.GetByte("autocopy", 1)) {
+		
+		if (g_plugin.bAutoCopy) {
 			CHARRANGE sel;
 			SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
 			if (sel.cpMin != sel.cpMax) {

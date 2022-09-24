@@ -1253,7 +1253,7 @@ static LRESULT CALLBACK TabControlSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 	case WM_TIMER:
 		InvalidateRect(hwnd, nullptr, FALSE); /* wine: fix for erase/paint tab on mouse enter/leave tab. */
-		if (wParam == TIMERID_HOVER_T &&  M.GetByte("d_tooltips", 0)) {
+		if (wParam == TIMERID_HOVER_T && g_plugin.bDetailedTooltips) {
 			KillTimer(hwnd, TIMERID_HOVER_T);
 
 			GetCursorPos(&pt);

@@ -682,7 +682,7 @@ public:
 	bool    FormatTitleBar(const wchar_t *szFormat, CMStringW &dest);
 	bool    GetAvatarVisibility(void);
 	void    GetClientIcon(void);
-	HICON   GetMyContactIcon(LPCSTR szSetting);
+	HICON   GetMyContactIcon(const CMOption<bool> *opt);
 	void    GetMyNick(void);
 	HICON   IconFromAvatar(void) const;
 	void    KbdState(bool &isShift, bool &isControl, bool &isAlt);
@@ -814,10 +814,6 @@ struct TIconDescW
 #define LOADHISTORY_COUNT          1
 #define LOADHISTORY_TIME           2
 
-#define SRMSGSET_AUTOPOPUP         "AutoPopup"
-#define SRMSGDEFSET_AUTOPOPUP      false
-#define SRMSGSET_AUTOMIN           "AutoMin"
-#define SRMSGDEFSET_AUTOMIN        0
 #define SRMSGSET_MSGTIMEOUT        "MessageTimeout"
 #define SRMSGDEFSET_MSGTIMEOUT     30000
 #define SRMSGSET_MSGTIMEOUT_MIN    5000 // minimum value (5 seconds)
@@ -890,25 +886,6 @@ struct TIconDescW
 struct TCpTable {
 	UINT cpId;
 	wchar_t *cpName;
-};
-
-#define LOI_TYPE_FLAG 1
-#define LOI_TYPE_SETTING 2
-
-struct TOptionListGroup
-{
-	HTREEITEM handle;
-	wchar_t *szName;
-};
-
-struct TOptionListItem
-{
-	HTREEITEM handle;
-	wchar_t *szName;
-	UINT id;
-	UINT uType;
-	UINT_PTR lParam;
-	UINT uGroup;
 };
 
 // sidebar button flags
@@ -1070,8 +1047,27 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 {
 	HANDLE hLogger;
 
+	// window settings
+	CMOption<bool> bAutoMin, bAutoClose, bFlashOnClist, bDeleteTemp;
+	CMOption<bool> bPasteAndSend, bSendFormat, bAutoSplit, bUseSameSplitSize, bAutoCopy;
+	CMOption<bool> bStatusOnTabs, bUseXStatus, bDetailedTooltips, bAllowOfflineMultisend;
+	CMOption<bool> bAutoPopup, bAutoTabs, bAutoSwitchTabs, bAutoContainer, bPopupContainer, bHideOnClose, bAllowTab;
+
+	// advanced options
+	CMOption<bool> bCloseSend, bShowDesc, bMetaTab, bMetaBar, bErrorPopup;
+
+	// chat settings
+	CMOption<bool> bOpenInDefault, bCreateWindowOnHighlight, bBBCodeInPopups;
+	CMOption<bool> bLogClassicIndicators, bAlternativeSorting, bAnnoyingHighlight;
+	CMOption<bool> bLogSymbols, bClassicIndicators, bClickableNicks, bColorizeNicks, bColorizeNicksInLog;
+	CMOption<bool> bScaleIcons, bNewLineAfterNames;
+
+	// typing settings
 	CMOption<bool> bPopups;
 	CMOption<bool> bTypingNew, bTypingUnknown;
+
+	// log settings
+	CMOption<bool> bLogStatusChanges, bUseDividers, bDividersUsePopupConfig;
 
 	CMPlugin();
 

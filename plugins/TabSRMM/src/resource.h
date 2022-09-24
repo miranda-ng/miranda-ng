@@ -445,7 +445,6 @@
 #define IDC_LABEL_PRIVATETHEME          1405
 #define IDC_BOTTOMTOOLBAR               1414
 #define IDC_BUTTON1                     1415
-#define IDC_PLUS_REVERT                 1415
 #define IDC_SIZECOMPACT                 1415
 #define IDC_RESCANSKIN                  1415
 #define IDC_RESETWARNINGS               1415

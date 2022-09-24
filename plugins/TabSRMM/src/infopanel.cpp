@@ -488,7 +488,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 		}
 		else str = tszUin;
 
-		if (M.GetByte("ShowClientDescription", 1)) {
+		if (g_plugin.bShowDesc) {
 			ptrW szVersion(db_get_wsa(m_dat->m_cache->getActiveContact(), m_dat->m_cache->getActiveProto(), "MirVer"));
 			if (szVersion)
 				str.AppendFormat(TranslateT("  Client: %s"), szVersion.get());
