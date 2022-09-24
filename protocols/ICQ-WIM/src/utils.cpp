@@ -275,6 +275,12 @@ bool IsChat(const CMStringW &aimid)
 	return aimid.Right(11) == "@chat.agent";
 }
 
+bool IsValidType(const JSONNode &n)
+{
+	auto type = n["userType"].as_string();
+	return type == "icq" || type == "aim" || type == "interop";
+}
+
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 {
 	CMStringW wszStatus = presence["state"].as_mstring();

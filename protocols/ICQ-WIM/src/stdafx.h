@@ -101,6 +101,7 @@
 #include "proto.h"
 
 bool IsChat(const CMStringW &aimid);
+bool IsValidType(const JSONNode &aimid);
 
 void RefreshGroups(void);
 wchar_t* time2text(time_t time);

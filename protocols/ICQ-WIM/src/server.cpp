@@ -305,7 +305,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		return si->hContact;
 	}
 
-	bool bIgnored = !m_isMra && buddy["userType"].as_string() != "icq";
+	bool bIgnored = !IsValidType(buddy);
 	if (hContact == INVALID_CONTACT_ID) {
 		if (bIgnored)
 			return INVALID_CONTACT_ID;
