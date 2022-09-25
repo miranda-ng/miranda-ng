@@ -167,7 +167,7 @@ public:
 		CDlgBase(g_plugin, IDD_OPT_SKIN),
 		m_timer(this, 1000),
 		m_link1(this, IDC_GETSKINS, "https://miranda-ng.org/tags/tabsrmm/"),
-		m_link2(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Using_skins"),
+		m_link2(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Using_skins"),
 		cmbSkins(this, IDC_SKINNAME),
 		btnClose(this, IDC_SKIN_CLOSENOW),
 		btnReload(this, IDC_RELOADSKIN),
@@ -386,7 +386,7 @@ class COptMainDlg : public CDlgBase
 public:
 	COptMainDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGDLG),
-		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/General_settings"),
+		urlHelp(this, IDC_HELP_GENERAL, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/General_settings"),
 		btnReset(this, IDC_RESETWARNINGS),
 		treeOpts(this, IDC_WINDOWOPTIONS),
 		spnAvaSize(this, IDC_AVATARSPIN, 150),
@@ -466,7 +466,7 @@ public:
 		clr4(this, IDC_COLOR4),
 		clr5(this, IDC_COLOR5),
 		edtText(this, IDC_EDITTEMPLATE),
-		urlHelp(this, IDC_VARIABLESHELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Templates"),
+		urlHelp(this, IDC_VARIABLESHELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Templates"),
 		btnSave(this, IDC_SAVETEMPLATE),
 		btnForget(this, IDC_FORGET),
 		btnRevert(this, IDC_REVERT),
@@ -933,7 +933,7 @@ class COptTypingDlg : public CDlgBase
 public:
 	COptTypingDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGTYPE),
-		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Advanced_tweaks"),
+		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Advanced_tweaks"),
 		m_clist(this, IDC_CLIST),
 		chkWin(this, IDC_TYPEWIN),
 		chkNoWin(this, IDC_TYPENOWIN),
@@ -1138,7 +1138,7 @@ class COptContainersDlg : public CDlgBase
 public:
 	COptContainersDlg()
 		: CDlgBase(g_plugin, IDD_OPT_CONTAINERS),
-		urlHelp(this, IDC_HELP_CONTAINERS, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Containers"),
+		urlHelp(this, IDC_HELP_CONTAINERS, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Containers"),
 		spnNumFlash(this, IDC_NRFLASHSPIN, 255),
 		spnTabLimit(this, IDC_TABLIMITSPIN, 1000, 1),
 		spnFlashDelay(this, IDC_FLASHINTERVALSPIN, 10000, 500),
@@ -1218,7 +1218,7 @@ class COptAdvancedDlg : public CDlgBase
 public:
 	COptAdvancedDlg() :
 		CDlgBase(g_plugin, IDD_OPTIONS_PLUS),
-		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/en/Typing_notifications"),
+		urlHelp(this, IDC_PLUS_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Typing_notifications"),
 		spnTimeout(this, IDC_TIMEOUTSPIN, 300, SRMSGSET_MSGTIMEOUT_MIN / 1000),
 		spnHistSize(this, IDC_HISTORYSIZESPIN, 255, 15),
 		plusOptions(this, IDC_PLUS_CHECKTREE)
