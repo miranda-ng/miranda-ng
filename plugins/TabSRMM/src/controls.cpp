@@ -448,7 +448,6 @@ void CMenuBar::updateState(const HMENU hMenu) const
 		auto f = m_pContainer->cfg.flags;
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWMENUBAR, !f.m_bNoMenuBar && !m_mustAutoHide);
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWSTATUSBAR, !f.m_bNoStatusBar);
-		MY_CheckMenu(hMenu, ID_VIEW_SHOWAVATAR, dat->m_bShowAvatar);
 		
 		MY_CheckMenu(hMenu, ID_VIEW_SHOWTITLEBAR, !f.m_bNoTitle);
 		::EnableMenuItem(hMenu, ID_VIEW_SHOWTITLEBAR, CSkin::m_skinEnabled && CSkin::m_frameSkins ? MF_GRAYED : MF_ENABLED);

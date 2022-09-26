@@ -933,7 +933,7 @@ class COptTypingDlg : public CDlgBase
 public:
 	COptTypingDlg() :
 		CDlgBase(g_plugin, IDD_OPT_MSGTYPE),
-		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Advanced_tweaks"),
+		urlHelp(this, IDC_MTN_HELP, "https://wiki.miranda-ng.org/index.php?title=Plugin:TabSRMM/Typing_notifications"),
 		m_clist(this, IDC_CLIST),
 		chkWin(this, IDC_TYPEWIN),
 		chkNoWin(this, IDC_TYPENOWIN),
