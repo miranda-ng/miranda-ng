@@ -33,18 +33,22 @@ BOOL CCtrlClc::OnNotify(int, NMHDR *pnmh)
 {
 	TEventInfo evt = { this, (NMCLISTCONTROL *)pnmh };
 	switch (pnmh->code) {
-		case CLN_EXPANDED:       OnExpanded(&evt); break;
-		case CLN_LISTREBUILT:    OnListRebuilt(&evt); break;
-		case CLN_ITEMCHECKED:    OnItemChecked(&evt); break;
-		case CLN_DRAGGING:       OnDragging(&evt); break;
-		case CLN_DROPPED:        OnDropped(&evt); break;
-		case CLN_LISTSIZECHANGE: OnListSizeChange(&evt); break;
-		case CLN_OPTIONSCHANGED: OnOptionsChanged(&evt); break;
-		case CLN_DRAGSTOP:       OnDragStop(&evt); break;
-		case CLN_NEWCONTACT:     OnNewContact(&evt); break;
-		case CLN_CONTACTMOVED:   OnContactMoved(&evt); break;
-		case CLN_CHECKCHANGED:   OnCheckChanged(&evt); break;
-		case NM_CLICK:           OnClick(&evt); break;
+	case CLN_EXPANDED:       OnExpanded(&evt); break;
+	case CLN_LISTREBUILT:    OnListRebuilt(&evt); break;
+	case CLN_ITEMCHECKED:    OnItemChecked(&evt); break;
+	case CLN_DRAGGING:       OnDragging(&evt); break;
+	case CLN_DROPPED:        OnDropped(&evt); break;
+	case CLN_LISTSIZECHANGE: OnListSizeChange(&evt); break;
+	case CLN_OPTIONSCHANGED: OnOptionsChanged(&evt); break;
+	case CLN_DRAGSTOP:       OnDragStop(&evt); break;
+	case CLN_NEWCONTACT:     OnNewContact(&evt); break;
+	case CLN_CONTACTMOVED:   OnContactMoved(&evt); break;
+	case NM_CLICK:           OnClick(&evt); break;
+
+	case CLN_CHECKCHANGED:
+		OnCheckChanged(&evt);
+		NotifyChange();
+		break;
 	}
 	return FALSE;
 }

@@ -475,7 +475,6 @@ public:
 		ResetCList();
 
 		clist.OnListRebuilt = Callback(this, &COptionTypingDlg::RebuildList);
-		clist.OnCheckChanged = Callback(this, &COptionTypingDlg::onChange_Clist);
 		clist.OnOptionsChanged = Callback(this, &COptionTypingDlg::ResetCList);
 		return true;
 	}
@@ -485,11 +484,6 @@ public:
 		SaveList();
 		Srmm_Broadcast(DM_OPTIONSAPPLIED, TRUE, 0);
 		return true;
-	}
-
-	void onChange_Clist(CCtrlClc::TEventInfo*)
-	{
-		NotifyChange();
 	}
 
 	void onChange_Tray(CCtrlCheck*)
