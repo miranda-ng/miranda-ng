@@ -64,17 +64,7 @@ wchar_t* Utils::getFileNameFromPath(wchar_t *stzPath)
 
 void Utils::copyToClipboard(char *szText)
 {
-	if (szText) {
-		if (OpenClipboard(nullptr)) {
-			EmptyClipboard();
-			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, mir_strlen(szText) + 1);
-			char *pchData = (char *)GlobalLock(hClipboardData);
-			mir_strcpy(pchData, szText);
-			GlobalUnlock(hClipboardData);
-			SetClipboardData(CF_TEXT, hClipboardData);
-			CloseClipboard();
-		}
-	}
+	Utils_ClipboardCopy(_A2T(szText));
 }
 
 void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl_slist *headerList, char *errorBuff)

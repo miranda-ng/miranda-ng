@@ -897,24 +897,10 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 					if (sLink.size() <= 0)
 						return TRUE;
 
-					if (LOWORD(wParam) == ID_SHARELIST_COPYLINK) {
-						if (!OpenClipboard(hwndDlg))
-							return TRUE;
-
-						if (!EmptyClipboard())
-							return TRUE;
-
-						HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, sLink.size() + 1);
-						// Lock the handle and copy the text to the buffer.
-						char * lptstrCopy = (char *)GlobalLock(hglbCopy);
-						mir_strcpy(lptstrCopy, sLink.c_str());
-						GlobalUnlock(hglbCopy);
-
-						// Place the handle on the clipboard.
-						SetClipboardData(CF_TEXT, hglbCopy);
-						CloseClipboard();
-					}
-					else Utils_OpenUrl(sLink.c_str());
+					if (LOWORD(wParam) == ID_SHARELIST_COPYLINK)
+						Utils_ClipboardCopy(_A2T(sLink.c_str()));
+					else
+						Utils_OpenUrl(sLink.c_str());
 				}
 			}
 

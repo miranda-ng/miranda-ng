@@ -211,15 +211,7 @@ void QSMainDlg::CopyMultiLines()
 		buf.Append(L"\r\n");
 	}
 
-	if (OpenClipboard(m_hwnd)) {
-		EmptyClipboard();
-		if (HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (buf.GetLength() + 1) * sizeof(wchar_t))) {
-			mir_wstrcpy((wchar_t *)GlobalLock(hData), buf);
-			GlobalUnlock(hData);
-			SetClipboardData(CF_UNICODETEXT, hData);
-		}
-		CloseClipboard();
-	}
+	Utils_ClipboardCopy(buf);
 }
 
 void QSMainDlg::DeleteByList()

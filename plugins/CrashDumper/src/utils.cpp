@@ -396,22 +396,3 @@ void GetVersionInfo(HMODULE hLib, CMStringW& buffer)
 		}
 	}
 }
-
-void StoreStringToClip(CMStringW& buffer)
-{
-	int bufLen = (buffer.GetLength() + 1) * sizeof(wchar_t);
-	HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, bufLen);
-	LPSTR buf = (LPSTR)GlobalLock(hData);
-
-	memcpy(buf, buffer.c_str(), bufLen);
-
-	GlobalUnlock(hData);
-
-	if(OpenClipboard(nullptr)) {
-		EmptyClipboard();
-
-
-		SetClipboardData(CF_UNICODETEXT, hData);
-		CloseClipboard();
-	}
-}

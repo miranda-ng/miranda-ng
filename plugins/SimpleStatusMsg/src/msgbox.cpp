@@ -461,30 +461,9 @@ VOID APIENTRY HandlePopupMenu(HWND hwnd, POINT pt, HWND edit_control)
 		break;
 
 	default:
-		if (!OpenClipboard(GetParent(hwnd)))
-			break;
-
-		if (EmptyClipboard()) {
-			wchar_t item_string[128];
-			GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
-
-			int len = (int)mir_wstrlen(item_string);
-			if (len) {
-				LPTSTR lptstrCopy;
-				HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-				if (hglbCopy == nullptr) {
-					CloseClipboard();
-					break;
-				}
-				lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-				memcpy(lptstrCopy, item_string, len * sizeof(wchar_t));
-				lptstrCopy[len] = (wchar_t)0;
-				GlobalUnlock(hglbCopy);
-
-				SetClipboardData(CF_UNICODETEXT, hglbCopy);
-			}
-		}
-		CloseClipboard();
+		wchar_t item_string[128];
+		GetMenuString(hmenu, m_selection, (LPTSTR)&item_string, 128, MF_BYCOMMAND);
+		Utils_ClipboardCopy(item_string);
 		SendMessage(edit_control, WM_PASTE, 0, 0);
 		break;
 	}

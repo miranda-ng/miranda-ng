@@ -162,23 +162,9 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					memcpy(tmp + len, L"[/img][/url]", 13 * sizeof(wchar_t)); len += 12;
 				}
 			}
-			else
-				len = GetDlgItemText(hwndDlg, edtID, tmp, _countof(tmp));
-			int retries = 3;
-			do {
-				if (!OpenClipboard(hwndDlg)) {
-					Sleep(100);
-					continue;
-				}
-				EmptyClipboard();
-				HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE, len*sizeof(wchar_t) + sizeof(wchar_t));
-				wchar_t* tmp2 = (wchar_t*)GlobalLock(clipbuffer);
-				mir_wstrncpy(tmp2, tmp, len + 1); tmp2[len] = '\0';
-				GlobalUnlock(clipbuffer);
-				SetClipboardData(CF_UNICODETEXT, clipbuffer);
-				CloseClipboard();
-				break;
-			} while (--retries);
+			else len = GetDlgItemText(hwndDlg, edtID, tmp, _countof(tmp));
+
+			Utils_ClipboardCopy(CMStringW(tmp, len + 1));
 			
 			if (LOWORD(wParam) == IDOK)
 				DestroyWindow(hwndDlg);

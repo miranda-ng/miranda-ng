@@ -206,24 +206,7 @@ namespace External
 		if (pDispParams == nullptr || pDispParams->cArgs < 1)
 			return E_INVALIDARG;
 
-		BSTR data = pDispParams->rgvarg[0].bstrVal;
-		if (OpenClipboard(nullptr)) 
-		{
-			EmptyClipboard();
-			size_t size = sizeof(wchar_t)* (mir_wstrlen(data) + 1);
-			HGLOBAL hClipboardData = GlobalAlloc(0, size);
-			if (hClipboardData) 
-			{
-				wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
-				if (pchData) 
-				{
-					memcpy(pchData, (wchar_t*)data, size);
-					GlobalUnlock(hClipboardData);
-					SetClipboardData(CF_UNICODETEXT, hClipboardData);
-				}
-			}
-			CloseClipboard();
-		}
+		Utils_ClipboardCopy(pDispParams->rgvarg[0].bstrVal);
 		return S_OK;
 	}
 }

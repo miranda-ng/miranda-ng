@@ -162,18 +162,7 @@ INT_PTR CALLBACK MainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case IDM_LINK_COPY:
-					if (!OpenClipboard(hDlg))
-						break;
-
-					EmptyClipboard();
-					{
-						size_t dataLen = ((mir_wstrlen(link) + 1) * sizeof(wchar_t));
-						HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, dataLen);
-						memcpy((LPTSTR)GlobalLock(hData), link, dataLen);
-						GlobalUnlock(hData);
-						SetClipboardData(CF_UNICODETEXT, hData);
-					}
-					CloseClipboard();
+					Utils_ClipboardCopy(link);
 					break;
 
 				case IDM_SHOWMESSAGE:

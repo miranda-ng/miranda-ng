@@ -952,19 +952,8 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 		case ACT_DEF_COPY:
 			if (m_lptzText || m_lptzTitle) {
-				CMStringW tszText(FORMAT, L"%s\n\n%s",
-					(m_lptzTitle) ? m_lptzTitle : L"",
-					(m_lptzText) ? m_lptzText : L"");
-
-				if (OpenClipboard(m_hwnd)) {
-					EmptyClipboard();
-					HGLOBAL clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (tszText.GetLength() + 1) * sizeof(wchar_t));
-					wchar_t *buffer = (wchar_t *)GlobalLock(clipbuffer);
-					mir_wstrcpy(buffer, tszText);
-					GlobalUnlock(clipbuffer);
-					SetClipboardData(CF_UNICODETEXT, clipbuffer);
-					CloseClipboard();
-				}
+				CMStringW tszText(FORMAT, L"%s\n\n%s", (m_lptzTitle) ? m_lptzTitle : L"", (m_lptzText) ? m_lptzText : L"");
+				Utils_ClipboardCopy(tszText);
 			}
 			PUDeletePopup(m_hwnd);
 			break;

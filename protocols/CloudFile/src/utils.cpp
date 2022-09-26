@@ -82,23 +82,6 @@ void PasteToInputArea(MCONTACT hContact, const wchar_t *data)
 	CallService(MS_MSG_SENDMESSAGEW, hContact, (LPARAM)data);
 }
 
-void PasteToClipboard(const wchar_t *data)
-{
-	if (OpenClipboard(nullptr)) {
-		EmptyClipboard();
-
-		size_t size = sizeof(wchar_t) * (mir_wstrlen(data) + 1);
-		HGLOBAL hClipboardData = GlobalAlloc(NULL, size);
-		if (hClipboardData) {
-			wchar_t *pchData = (wchar_t*)GlobalLock(hClipboardData);
-			mir_wstrcpy(pchData, data);
-			GlobalUnlock(hClipboardData);
-			SetClipboardData(CF_UNICODETEXT, hClipboardData);
-		}
-		CloseClipboard();
-	}
-}
-
 void Report(MCONTACT hContact, const wchar_t *data)
 {
 	if (g_plugin.getByte("UrlAutoSend", 1))
@@ -108,5 +91,5 @@ void Report(MCONTACT hContact, const wchar_t *data)
 		PasteToInputArea(hContact, data);
 
 	if (g_plugin.getByte("UrlCopyToClipboard", 0))
-		PasteToClipboard(data);
+		Utils_ClipboardCopy(data);
 }

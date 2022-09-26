@@ -47,20 +47,6 @@ wchar_t* GeTStringFromStreamData(EditStreamData *esd)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-BOOL CopyTextToClipboard(wchar_t *ptszText)
-{
-	if (!OpenClipboard(nullptr))
-		return FALSE;
-
-	EmptyClipboard();
-	HGLOBAL hCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(ptszText) + 1) * sizeof(wchar_t));
-	mir_wstrcpy((wchar_t *)GlobalLock(hCopy), ptszText);
-	GlobalUnlock(hCopy);
-	SetClipboardData(CF_UNICODETEXT, hCopy);
-	CloseClipboard();
-	return TRUE;
-}
-
 LPSTR GetNameOfLayout(HKL hklLayout)
 {
 	LPSTR ptszLayName = (LPSTR)mir_alloc(KL_NAMELENGTH + 1);
@@ -438,7 +424,7 @@ int ChangeLayout(HWND hTextWnd, uint8_t TextOperation, BOOL CurrentWord)
 				Skin_PlaySound(SND_ChangeCase);
 
 			if (moOptions.CopyToClipboard)
-				CopyTextToClipboard(ptszMBox);
+				Utils_ClipboardCopy(ptszMBox);
 
 			//-------------------------------Покажем попапы------------------------------------------ 			
 			if (moOptions.ShowPopup) {

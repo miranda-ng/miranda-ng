@@ -103,7 +103,6 @@ void GetFlags();
 void SetFlags();
 
 int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
-void CopyToClipboard(HWND hwnd,LPSTR msg);
 
 #endif
 

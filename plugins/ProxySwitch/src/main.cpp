@@ -104,15 +104,8 @@ static INT_PTR ProxyDisable(WPARAM, LPARAM)
 static INT_PTR CopyIP2Clipboard(WPARAM, LPARAM, LPARAM idx)
 {
 	mir_cslock lck(csNIF_List);
-	if (g_arNIF[idx].IPcount == 0)
-		return 0;
-
-	if (!OpenClipboard(NULL))
-		return 0;
-
-	EmptyClipboard();
-	SetClipboardData(CF_UNICODETEXT, (HANDLE)g_arNIF[idx].IPstr);
-	CloseClipboard();
+	if (g_arNIF[idx].IPcount != 0)
+		Utils_ClipboardCopy(_A2T(g_arNIF[idx].IPstr));
 	return 0;
 }
 

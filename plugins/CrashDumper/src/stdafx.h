@@ -128,7 +128,6 @@ void ReadableExceptionInfo(PEXCEPTION_RECORD excrec, CMStringW& buffer);
 
 void GetLastWriteTime(LPCTSTR fileName, LPTSTR lpszString, uint32_t dwSize);
 void GetLastWriteTime(FILETIME* ftime, LPTSTR lpszString, uint32_t dwSize);
-void StoreStringToClip(CMStringW& buffer);
 void ShowMessage(int type, const wchar_t* format, ...);
 
 const PLUGININFOEX* GetMirInfo(HMODULE hModule);

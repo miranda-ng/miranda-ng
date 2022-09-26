@@ -212,26 +212,6 @@ BOOL DirectoryExists(MCONTACT hContact)
 	return (attr != -1) && (attr&FILE_ATTRIBUTE_DIRECTORY);
 }
 
-void CopyToClipboard(const wchar_t *pwszMsg)
-{
-	if (pwszMsg == nullptr)
-		return;
-
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(pwszMsg) + 1) * sizeof(wchar_t));
-	LPWSTR lptstrCopy = (LPWSTR)GlobalLock(hglbCopy);
-	mir_wstrcpy(lptstrCopy, pwszMsg);
-	GlobalUnlock(hglbCopy);
-
-	if (OpenClipboard(nullptr) == NULL)
-		return;
-
-	EmptyClipboard();
-
-	SetClipboardData(CF_UNICODETEXT, hglbCopy);
-
-	CloseClipboard();
-}
-
 BOOL isMetaContact(MCONTACT hContact)
 {
 	char *proto = Proto_GetBaseAccountName(hContact);
@@ -479,7 +459,7 @@ static INT_PTR onCopyID(WPARAM hContact, LPARAM)
 	}
 	else buf = wszId;
 
-	CopyToClipboard(buf);
+	Utils_ClipboardCopy(buf);
 	if (CTRL_IS_PRESSED)
 		ShowPopup(buf, hContact);
 
@@ -515,7 +495,7 @@ static INT_PTR onCopyStatusMsg(WPARAM hContact, LPARAM)
 		}
 	}
 
-	CopyToClipboard(wszBuffer);
+	Utils_ClipboardCopy(wszBuffer);
 	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
@@ -535,7 +515,7 @@ static INT_PTR onCopyIP(WPARAM hContact, LPARAM)
 	if (rIP)
 		wszBuffer.AppendFormat(L"Internal IP: %d.%d.%d.%d\r\n", rIP >> 24, (rIP >> 16) & 0xFF, (rIP >> 8) & 0xFF, rIP & 0xFF);
 
-	CopyToClipboard(wszBuffer);
+	Utils_ClipboardCopy(wszBuffer);
 	if (CTRL_IS_PRESSED)
 		ShowPopup(wszBuffer, hContact);
 
@@ -546,7 +526,7 @@ static INT_PTR onCopyMirVer(WPARAM hContact, LPARAM)
 {
 	LPWSTR msg = getMirVer(hContact);
 	if (msg) {
-		CopyToClipboard(msg);
+		Utils_ClipboardCopy(msg);
 		if (CTRL_IS_PRESSED)
 			ShowPopup(msg, hContact);
 

@@ -498,17 +498,9 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LP
 				*dst = 0;
 			}
 
-			if (dst - buf > 0 && OpenClipboard(hwndDlg)) {
-				EmptyClipboard();
-				HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst - buf + 1) * sizeof(wchar_t));
-				if (hClipboardData) {
-					wchar_t *pchData = (wchar_t *)GlobalLock(hClipboardData);
-					mir_wstrcpy(pchData, buf);
-					GlobalUnlock(hClipboardData);
-					SetClipboardData(CF_UNICODETEXT, hClipboardData);
-				}
-				CloseClipboard();
-			}
+			if (dst - buf > 0)
+				Utils_ClipboardCopy(buf);
+
 			free(buf);
 			break;
 		}

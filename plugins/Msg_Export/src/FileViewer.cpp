@@ -548,41 +548,33 @@ bool bAdvancedCopy(HWND hwnd)
 	CHARRANGE sSelectRange;
 	SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&sSelectRange);
 	int nSelLenght = sSelectRange.cpMax - sSelectRange.cpMin + 1; // +1 for null termination
-	if (nSelLenght > 1) {
-		if (OpenClipboard(nullptr)) {
-			EmptyClipboard();
+	if (nSelLenght <= 1)
+		return false;
 
-			wchar_t *pszSrcBuf = new wchar_t[nSelLenght];
-			pszSrcBuf[0] = 0;
-			SendMessage(hwnd, EM_GETSELTEXT, 0, (LPARAM)pszSrcBuf);
+	wchar_t *pszSrcBuf = new wchar_t[nSelLenght];
+	pszSrcBuf[0] = 0;
+	SendMessage(hwnd, EM_GETSELTEXT, 0, (LPARAM)pszSrcBuf);
 
-			HANDLE hDecMem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, nSelLenght * sizeof(wchar_t));
-			wchar_t *pszCurDec = (wchar_t*)GlobalLock(hDecMem);
+	wchar_t *pszCurDec = pszSrcBuf;
 
-			bool bInSpaces = false;
-			for (wchar_t *pszCur = pszSrcBuf; pszCur[0]; pszCur++) {
-				if (bInSpaces) {
-					if (pszCur[0] == ' ')
-						continue;
-					bInSpaces = false;
-				}
-
-				if (pszCur[0] == '\n')
-					bInSpaces = true;
-
-				pszCurDec[0] = pszCur[0];
-				pszCurDec++;
-			}
-			pszCurDec[0] = 0;
-			GlobalUnlock(hDecMem);
-
-			SetClipboardData(CF_UNICODETEXT, hDecMem);
-			delete[] pszSrcBuf;
-			CloseClipboard();
-			return true;
+	bool bInSpaces = false;
+	for (wchar_t *pszCur = pszSrcBuf; pszCur[0]; pszCur++) {
+		if (bInSpaces) {
+			if (pszCur[0] == ' ')
+				continue;
+			bInSpaces = false;
 		}
+
+		if (pszCur[0] == '\n')
+			bInSpaces = true;
+
+		*pszCurDec = *pszCur;
+		pszCurDec++;
 	}
-	return false;
+	pszCurDec[0] = 0;
+	Utils_ClipboardCopy(pszSrcBuf);
+	delete[] pszSrcBuf;
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

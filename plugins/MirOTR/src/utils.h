@@ -24,8 +24,6 @@ extern __inline const wchar_t* contact_get_nameT(MCONTACT hContact);
 
 wchar_t* ProtoGetNickname(const char* proto);
 
-void CopyToClipboard(const wchar_t *pwszMsg);
-
 char* GetDlgItemTextUtf(HWND hwndDlg, int ctrlId);
 
 void ShowPopup(const wchar_t* line1, const wchar_t* line2, int timeout, const MCONTACT hContact = NULL);

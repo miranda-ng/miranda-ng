@@ -92,8 +92,7 @@ INT_PTR StoreVersionInfoToClipboard(WPARAM, LPARAM lParam)
 	PrintVersionInfo(buffer, (unsigned int)lParam | VI_FLAG_PRNVAR | VI_FLAG_FORMAT);
 	WriteBBFile(buffer, false);
 
-	StoreStringToClip(buffer);
-
+	Utils_ClipboardCopy(buffer);
 	return 0;
 }
 

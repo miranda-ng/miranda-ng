@@ -1041,9 +1041,9 @@ static INT_PTR CALLBACK DlgProcOptionsProto(HWND hDlg, UINT wMsg, WPARAM wParam,
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDC_RSA_COPY:
-			char txt[128];
-			GetDlgItemText(hDlg, IDC_RSA_SHA, txt, _countof(txt));
-			CopyToClipboard(hDlg, txt);
+			wchar_t txt[128];
+			GetDlgItemTextW(hDlg, IDC_RSA_SHA, txt, _countof(txt));
+			Utils_ClipboardCopy(txt);
 			return TRUE;
 
 		case IDC_RSA_EXP:

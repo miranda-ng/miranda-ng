@@ -80,20 +80,6 @@ int msgbox(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
 	return r;
 }
 
-void CopyToClipboard(HWND hwnd, LPSTR msg)
-{
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, mir_strlen(msg) + 1);
-	LPSTR lpstrCopy = (LPSTR)GlobalLock(hglbCopy);
-	mir_strcpy(lpstrCopy, msg);
-	GlobalUnlock(hglbCopy);
-
-	if(OpenClipboard(nullptr)) {
-		EmptyClipboard();
-		SetClipboardData(CF_TEXT, hglbCopy);
-		CloseClipboard();
-	}
-}
-
 HNETLIBUSER hNetlibUser;
 
 void InitNetlib()

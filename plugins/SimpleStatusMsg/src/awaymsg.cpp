@@ -115,28 +115,9 @@ public:
 
 	void onClick_Copy(CCtrlButton*)
 	{
-		if (!OpenClipboard(m_hwnd))
-			return;
-
-		if (EmptyClipboard()) {
-			wchar_t msg[1024];
-			int len = GetDlgItemText(m_hwnd, IDC_MSG, msg, _countof(msg));
-			if (len) {
-				LPTSTR lptstrCopy;
-				HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (len + 1) * sizeof(wchar_t));
-				if (hglbCopy == nullptr) {
-					CloseClipboard();
-					return;
-				}
-				lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-				memcpy(lptstrCopy, msg, len * sizeof(wchar_t));
-				lptstrCopy[len] = (wchar_t)0;
-				GlobalUnlock(hglbCopy);
-
-				SetClipboardData(CF_UNICODETEXT, hglbCopy);
-			}
-		}
-		CloseClipboard();
+		wchar_t msg[1024];
+		GetDlgItemText(m_hwnd, IDC_MSG, msg, _countof(msg));
+		Utils_ClipboardCopy(msg);
 	}
 };
 
@@ -203,25 +184,10 @@ public:
 				m_hAwayMsgEvent = nullptr;
 			}
 
-			if (OpenClipboard(m_hwnd)) {
-				if (EmptyClipboard()) {
-					CMStringW wszMsg((wchar_t *)ack->lParam);
-					wszMsg.Replace(L"\n", L"\r\n");
-					if (wszMsg.GetLength()) {
-						LPTSTR lptstrCopy;
-						HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (wszMsg.GetLength() + 1) * sizeof(wchar_t));
-						if (hglbCopy != nullptr) {
-							lptstrCopy = (LPTSTR)GlobalLock(hglbCopy);
-							memcpy(lptstrCopy, wszMsg, wszMsg.GetLength() * sizeof(wchar_t));
-							lptstrCopy[wszMsg.GetLength()] = 0;
-							GlobalUnlock(hglbCopy);
+			CMStringW wszMsg((wchar_t *)ack->lParam);
+			wszMsg.Replace(L"\n", L"\r\n");
+			Utils_ClipboardCopy(wszMsg);
 
-							SetClipboardData(CF_UNICODETEXT, hglbCopy);
-						}
-					}
-				}
-				CloseClipboard();
-			}
 			Close();
 		}
 

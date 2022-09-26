@@ -187,23 +187,6 @@ void ShowError(wchar_t *msg)
 	}
 }
 
-void CopyToClipboard(const wchar_t *pwszMsg)
-{
-	if (pwszMsg == nullptr)
-		return;
-
-	HGLOBAL hglbCopy = GlobalAlloc(GMEM_MOVEABLE, (mir_wstrlen(pwszMsg) + 1) * sizeof(wchar_t));
-	LPWSTR lptstrCopy = (LPWSTR)GlobalLock(hglbCopy);
-	mir_wstrcpy(lptstrCopy, pwszMsg);
-	GlobalUnlock(hglbCopy);
-
-	if (OpenClipboard(nullptr)) {
-		EmptyClipboard();
-		SetClipboardData(CF_UNICODETEXT, hglbCopy);
-		CloseClipboard();
-	}
-}
-
 void ShowPopupUtf(const char* line1, const char* line2, int timeout, const MCONTACT hContact)
 {
 	wchar_t* l1 = (line1) ? mir_utf8decodeW(line1) : nullptr;

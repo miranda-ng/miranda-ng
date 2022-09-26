@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 
-BOOL CopyTextToClipboard(wchar_t *ptszText);
 LPSTR GetNameOfLayout(HKL hklLayout);
 wchar_t *GetShortNameOfLayout(HKL hklLayout);
 wchar_t *GenerateLayoutString(HKL hklLayout);

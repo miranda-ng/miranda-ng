@@ -538,9 +538,6 @@ public:
 		if (i == -1)
 			return;
 
-		if (!OpenClipboard(m_hwnd))
-			return;
-
 		list_KEY_LIST.GetItemText(i, 0, fp, _countof(fp));
 
 		gpg_execution_params params;
@@ -554,32 +551,7 @@ public:
 			return;
 
 		params.out.Remove('\r');
-		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, params.out.GetLength() + 1);
-		if (!hMem) {
-			MessageBox(nullptr, TranslateT("Failed to allocate memory"), TranslateT("Error"), MB_OK);
-			return;
-		}
-
-		char *szKey = (char *)GlobalLock(hMem);
-		if (!szKey) {
-			wchar_t msg[64];
-			mir_snwprintf(msg, TranslateT("Failed to lock memory with error %d"), GetLastError());
-			MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-			GlobalFree(hMem);
-		}
-
-		memcpy(szKey, params.out.c_str(), params.out.GetLength());
-		szKey[params.out.GetLength()] = '\0';
-
-		EmptyClipboard();
-		GlobalUnlock(hMem);
-		if (!SetClipboardData(CF_OEMTEXT, hMem)) {
-			GlobalFree(hMem);
-			wchar_t msg[64];
-			mir_snwprintf(msg, TranslateT("Failed write to clipboard with error %d"), GetLastError());
-			MessageBox(nullptr, msg, TranslateT("Error"), MB_OK);
-		}
-		CloseClipboard();
+		Utils_ClipboardCopy(_A2T(params.out));
 	}
 
 	void onClick_EXPORT_PRIVATE(CCtrlButton *)

@@ -189,7 +189,7 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 	case WM_COMMAND:
 		if (HIWORD(wParam) == STN_CLICKED) {
 			if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
-				CopyTextToClipboard(ptszPopupText);
+				Utils_ClipboardCopy(ptszPopupText);
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -200,7 +200,7 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 
 	case UM_POPUPACTION:
 		if ((lParam == 0) && (!IsBadStringPtr(ptszPopupText, MaxTextSize)))
-			CopyTextToClipboard(ptszPopupText);
+			Utils_ClipboardCopy(ptszPopupText);
 		break;
 
 	case UM_FREEPLUGINDATA:
