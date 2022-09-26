@@ -40,6 +40,8 @@ void InitProtocolData()
 
 void DeInitProtocolData()
 {
+	for (auto &it : protocols)
+		delete it;
 	protocols.destroy();
 }
 
@@ -335,7 +337,7 @@ wchar_t *Protocol::GetListeningTo()
 // ProtocolDataArray Class /////////////////////////////////////////////////////////////////////////////
 
 ProtocolArray::ProtocolArray() :
-	OBJLIST<Protocol>(10)
+	LIST<Protocol>(10)
 {
 	GetDefaultNick();
 	GetDefaultAvatar();

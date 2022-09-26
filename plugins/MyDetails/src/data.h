@@ -93,7 +93,7 @@ public:
 	void SetStatusMsg(int aStatus, const wchar_t *message);
 };
 
-struct ProtocolArray : public OBJLIST<Protocol>
+struct ProtocolArray : public LIST<Protocol>
 {
 	wchar_t default_nick[256];
 	wchar_t default_avatar_file[256];

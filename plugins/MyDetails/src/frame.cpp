@@ -602,14 +602,14 @@ void CalcRectangles(HWND hwnd)
 		return;
 	}
 
-	Protocol &proto = protocols[data->protocol_number];
-	if (&proto == nullptr) {
+	auto *proto = protocols[data->protocol_number];
+	if (proto == nullptr) {
 		ReleaseDC(hwnd, hdc);
 		return;
 	}
 
 	data->recalc_rectangles = false;
-	proto.data_changed = false;
+	proto->data_changed = false;
 
 	data->draw_proto = false;
 	data->draw_proto_cycle = false;
@@ -673,12 +673,12 @@ void CalcRectangles(HWND hwnd)
 	text_left = r.left;
 
 	// Draw image?
-	if (proto.CanGetAvatar()) {
-		if (proto.avatar_bmp != nullptr) {
+	if (proto->CanGetAvatar()) {
+		if (proto->avatar_bmp != nullptr) {
 			data->draw_img = true;
 
 			BITMAP bmp;
-			if (GetObject(proto.avatar_bmp, sizeof(bmp), &bmp)) {
+			if (GetObject(proto->avatar_bmp, sizeof(bmp), &bmp)) {
 				// make bounds
 				RECT rc = r;
 
@@ -733,9 +733,9 @@ void CalcRectangles(HWND hwnd)
 	data->draw_nick = true;
 	SelectObject(hdc, hFont[FONT_NICK]);
 
-	data->nick_rect = GetRect(hdc, r, proto.nickname, DEFAULT_NICKNAME, proto, uFormat, next_top, text_left);
+	data->nick_rect = GetRect(hdc, r, proto->nickname, DEFAULT_NICKNAME, *proto, uFormat, next_top, text_left);
 
-	if (proto.nickname[0] != '\0')
+	if (proto->nickname[0] != '\0')
 		data->nick_tt_hwnd = CreateTooltip(hwnd, data->nick_rect);
 
 	next_top = data->nick_rect.bottom + SPACE_TEXT_TEXT;
@@ -758,7 +758,7 @@ void CalcRectangles(HWND hwnd)
 		if (opts.show_protocol_cycle_button)
 			tmp_r.right -= 2 * ICON_SIZE;
 
-		data->proto_rect = GetRect(hdc, tmp_r, proto.description, L"", proto, uFormat, next_top, tmp_text_left, false, true, false);
+		data->proto_rect = GetRect(hdc, tmp_r, proto->description, L"", *proto, uFormat, next_top, tmp_text_left, false, true, false);
 
 		if (opts.show_protocol_cycle_button) {
 			data->draw_proto_cycle = true;
@@ -800,8 +800,7 @@ void CalcRectangles(HWND hwnd)
 
 			next_top = max(data->next_proto_rect.bottom, data->proto_rect.bottom) + SPACE_TEXT_TEXT;
 		}
-		else
-			next_top = data->proto_rect.bottom + SPACE_TEXT_TEXT;
+		else next_top = data->proto_rect.bottom + SPACE_TEXT_TEXT;
 	}
 
 	// Fits more?
@@ -819,7 +818,7 @@ void CalcRectangles(HWND hwnd)
 
 		// Text size
 		RECT r_tmp = r;
-		DrawText(hdc, proto.status_name, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+		DrawText(hdc, proto->status_name, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 		SIZE s;
 		s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -828,7 +827,7 @@ void CalcRectangles(HWND hwnd)
 		// Status global rect
 		data->status_rect = GetRect(hdc, r, s, uFormat, next_top, text_left, true, false);
 
-		if (proto.status_name[0] != '\0')
+		if (proto->status_name[0] != '\0')
 			data->status_tt_hwnd = CreateTooltip(hwnd, data->status_rect);
 
 		next_top = data->status_rect.bottom + SPACE_TEXT_TEXT;
@@ -874,14 +873,14 @@ void CalcRectangles(HWND hwnd)
 		text_left = r.left;
 
 	// Away msg?
-	if (proto.CanGetStatusMsg()) {
+	if (proto->CanGetStatusMsg()) {
 		data->draw_away_msg = true;
 
 		SelectObject(hdc, hFont[FONT_AWAY_MSG]);
 
-		data->away_msg_rect = GetRect(hdc, r, proto.status_message, DEFAULT_STATUS_MESSAGE, proto, uFormat, next_top, text_left);
+		data->away_msg_rect = GetRect(hdc, r, proto->status_message, DEFAULT_STATUS_MESSAGE, *proto, uFormat, next_top, text_left);
 
-		if (proto.status_message[0] != '\0')
+		if (proto->status_message[0] != '\0')
 			data->away_msg_tt_hwnd = CreateTooltip(hwnd, data->away_msg_rect);
 
 		next_top = data->away_msg_rect.bottom + SPACE_TEXT_TEXT;
@@ -895,13 +894,13 @@ void CalcRectangles(HWND hwnd)
 		text_left = r.left;
 
 	// Listening to
-	if (proto.ListeningToEnabled() && proto.GetStatus() > ID_STATUS_OFFLINE) {
+	if (proto->ListeningToEnabled() && proto->GetStatus() > ID_STATUS_OFFLINE) {
 		data->draw_listening_to = true;
 
-		if (proto.listening_to[0] == '\0') {
+		if (proto->listening_to[0] == '\0') {
 			SelectObject(hdc, hFont[FONT_LISTENING_TO]);
 
-			data->listening_to_rect = GetRect(hdc, r, proto.listening_to, DEFAULT_LISTENING_TO, proto, uFormat, next_top, text_left);
+			data->listening_to_rect = GetRect(hdc, r, proto->listening_to, DEFAULT_LISTENING_TO, *proto, uFormat, next_top, text_left);
 
 			data->listening_to_text_rect = data->listening_to_rect;
 			memset(&data->listening_to_icon_rect, 0, sizeof(data->listening_to_icon_rect));
@@ -913,7 +912,7 @@ void CalcRectangles(HWND hwnd)
 
 			// Text size
 			RECT r_tmp = r;
-			DrawText(hdc, proto.listening_to, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
+			DrawText(hdc, proto->listening_to, -1, &r_tmp, DT_CALCRECT | (uFormat & ~DT_END_ELLIPSIS));
 
 			SIZE s;
 			s.cy = max(r_tmp.bottom - r_tmp.top, ICON_SIZE);
@@ -1101,7 +1100,7 @@ void DrawTextWithRect(HDC hdc, const wchar_t *text, const wchar_t *def_text, REC
 void Draw(HWND hwnd, HDC hdc_orig)
 {
 	MyDetailsFrameData *data = (MyDetailsFrameData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	Protocol *proto = (data) ? &protocols[data->protocol_number] : nullptr;
+	auto *proto = (data) ? protocols[data->protocol_number] : nullptr;
 
 	if (proto == nullptr) {
 		EraseBackground(hwnd, hdc_orig);
@@ -1615,7 +1614,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return TRUE;
 
 	case WM_LBUTTONUP:
-		proto = &protocols[data->protocol_number];
+		proto = protocols[data->protocol_number];
 		if (proto != nullptr) {
 			POINT p;
 			p.x = LOWORD(lParam);
@@ -1674,7 +1673,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 					mii.cbSize = sizeof(mii);
 					mii.fMask = MIIM_ID | MIIM_TYPE;
 					mii.fType = MFT_STRING;
-					mii.dwTypeData = protocols[i].description;
+					mii.dwTypeData = protocols[i]->description;
 					mii.cch = (int)mir_wstrlen(mii.dwTypeData);
 					mii.wID = i + 1;
 
@@ -1697,7 +1696,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				DestroyMenu(menu);
 
 				if (ret != 0)
-					PluginCommand_ShowProtocol(NULL, (WPARAM)protocols[ret - 1].name);
+					PluginCommand_ShowProtocol(NULL, (WPARAM)protocols[ret-1]->name);
 
 				data->showing_menu = false;
 			}
@@ -1711,7 +1710,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		return Menu_DrawItem(lParam);
 
 	case WM_CONTEXTMENU:
-		proto = &protocols[data->protocol_number];
+		proto = protocols[data->protocol_number];
 		if (proto != nullptr) {
 			POINT p = { GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam) };
 			ScreenToClient(hwnd, &p);
@@ -2102,7 +2101,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
 			switch (lpnmhdr->code) {
 			case TTN_GETDISPINFO:
-				proto = &protocols[data->protocol_number];
+				proto = protocols[data->protocol_number];
 
 				LPNMTTDISPINFO lpttd = (LPNMTTDISPINFO)lpnmhdr;
 				SendMessage(lpnmhdr->hwndFrom, TTM_SETMAXTIPWIDTH, 0, 300);
