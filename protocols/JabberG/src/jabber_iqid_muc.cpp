@@ -171,6 +171,7 @@ public:
 		edtFilter(this, IDC_FILTER)
 	{
 		m_list.OnClick = Callback(this, &CJabberMucJidListDlg::list_OnClick);
+		m_list.OnBuildMenu = Callback(this, &CJabberMucJidListDlg::list_OnMenu);
 
 		btnApply.OnClick = Callback(this, &CJabberMucJidListDlg::onClick_Apply);
 		btnReset.OnClick = Callback(this, &CJabberMucJidListDlg::onClick_Reset);
@@ -324,6 +325,20 @@ public:
 				m_list.DeleteItem(hti.iItem);
 			}
 		}
+	}
+
+	void list_OnMenu(CContextMenuPos *pos)
+	{
+		HMENU hMenu = CreatePopupMenu();
+		AppendMenuW(hMenu, MF_STRING, 1, TranslateT("Copy jid"));
+
+		if (TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
+			wchar_t buf[JABBER_MAX_JID_LEN];
+			m_list.GetItemText(pos->iCurr, 0, buf, _countof(buf));
+			Utils_ClipboardCopy(buf);
+		}
+
+		DestroyMenu(hMenu);
 	}
 
 	void onClick_Apply(CCtrlButton*)
