@@ -8,6 +8,7 @@
 #define TIMEOUT_CUSTOM       2
 #define TIMEOUT_PROTO        3
 #define TIMEOUT_PERMANENT    4
+
 #define COLOR_OWN            1
 #define COLOR_WINDOWS        2
 #define COLOR_POPUP          3

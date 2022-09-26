@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-static HGENMENU hDisableMenu = nullptr;
-
 static MWindowList hPopupsList = nullptr;
 
 static uint8_t OnePopup;
@@ -151,9 +149,6 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 
 class CTypingOpts : public CDlgBase
 {
-	int newTimeout, newTimeout2;
-	uint8_t newTimeoutMode, newTimeoutMode2, newColorMode;
-
 	CCtrlEdit value1, value2;
 	CCtrlCheck chkWinColors, chkPopupColors;
 	CCtrlCheck chkPopup, chkCustom, chkPermanent, chkProto;
@@ -178,17 +173,6 @@ public:
 	{
 		btnPreview.OnClick = Callback(this, &CTypingOpts::onClick_Preview);
 
-		value1.OnChange = value2.OnChange = Callback(this, &CTypingOpts::onChange_Value);
-
-		chkPopup.OnChange = Callback(this, &CTypingOpts::onChange_Popup);
-		chkProto.OnChange = Callback(this, &CTypingOpts::onChange_Proto);
-		chkCustom.OnChange = Callback(this, &CTypingOpts::onChange_Custom);
-		chkPermanent.OnChange = Callback(this, &CTypingOpts::onChange_Permanent);
-
-		chkPopup2.OnChange = Callback(this, &CTypingOpts::onChange_Popup2);
-		chkCustom2.OnChange = Callback(this, &CTypingOpts::onChange_Custom2);
-		chkPermanent2.OnChange = Callback(this, &CTypingOpts::onChange_Permanent2);
-
 		chkWinColors.OnChange = Callback(this, &CTypingOpts::onChange_UseWinColors);
 		chkPopupColors.OnChange = Callback(this, &CTypingOpts::onChange_UsePopupColors);
 	}
@@ -206,30 +190,31 @@ public:
 			Utils::enableDlgControl(m_hwnd, it.res, (ColorMode == COLOR_OWN));
 		}
 
-		chkPopup.SetState(TimeoutMode == TIMEOUT_POPUP);
-		chkProto.SetState(TimeoutMode == TIMEOUT_PROTO);
-		chkCustom.SetState(TimeoutMode == TIMEOUT_CUSTOM);
-		chkPermanent.SetState(TimeoutMode == TIMEOUT_PERMANENT);
+		switch (TimeoutMode) {
+		case TIMEOUT_POPUP: chkPopup.SetState(true); break;
+		case TIMEOUT_PROTO: chkProto.SetState(true); break;
+		case TIMEOUT_CUSTOM: chkCustom.SetState(true); break;
+		case TIMEOUT_PERMANENT: chkPermanent.SetState(true); break;
+		}
 		value1.SetInt(Timeout);
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE, TimeoutMode == TIMEOUT_CUSTOM);
 
-		chkPopup2.SetState(TimeoutMode2 == TIMEOUT_POPUP);
-		chkCustom2.SetState(TimeoutMode2 == TIMEOUT_CUSTOM);
-		chkPermanent2.SetState(TimeoutMode2 == TIMEOUT_PERMANENT);
+		switch (TimeoutMode2) {
+		case TIMEOUT_POPUP: chkPopup2.SetState(true); break;
+		case TIMEOUT_CUSTOM: chkCustom2.SetState(true); break;
+		case TIMEOUT_PERMANENT: chkPermanent2.SetState(true); break;
+		}
 		value2.SetInt(Timeout2);
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE2, TimeoutMode2 == TIMEOUT_CUSTOM);
 
 		CheckDlgButton(m_hwnd, IDC_START, (StartDisabled) ? BST_UNCHECKED : BST_CHECKED);
 		CheckDlgButton(m_hwnd, IDC_STOP, (StopDisabled) ? BST_UNCHECKED : BST_CHECKED);
-
 		CheckDlgButton(m_hwnd, IDC_ONEPOPUP, (OnePopup) ? BST_CHECKED : BST_UNCHECKED);
-
-		newTimeout = Timeout;
-		newTimeoutMode = TimeoutMode;
-		newTimeout2 = Timeout2;
-		newTimeoutMode2 = TimeoutMode2;
-		newColorMode = ColorMode;
 		return true;
+	}
+
+	void OnChange() override
+	{
+		value1.Enable(chkCustom.IsChecked());
+		value2.Enable(chkCustom2.IsChecked());
 	}
 
 	bool OnApply() override
@@ -239,9 +224,30 @@ public:
 			db_set_dw(0, TypingModule, colorPicker[i].desc, colorPicker[i].color);
 		}
 
-		Timeout = newTimeout;   TimeoutMode = newTimeoutMode;
-		Timeout2 = newTimeout2; TimeoutMode2 = newTimeoutMode2;
-		ColorMode = newColorMode;
+		if (chkCustom.IsChecked())
+			TimeoutMode = TIMEOUT_CUSTOM;
+		else if (chkPermanent.IsChecked())
+			TimeoutMode = TIMEOUT_PERMANENT;
+		else if (chkProto.IsChecked())
+			TimeoutMode = TIMEOUT_PROTO;
+		else
+			TimeoutMode = TIMEOUT_POPUP;
+		Timeout = value1.GetInt();
+
+		if (chkCustom2.IsChecked())
+			TimeoutMode2 = TIMEOUT_CUSTOM;
+		else if (chkPermanent2.IsChecked())
+			TimeoutMode2 = TIMEOUT_PERMANENT;
+		else
+			TimeoutMode2 = TIMEOUT_POPUP;
+		Timeout2 = value2.GetInt(); 
+
+		if (chkWinColors.IsChecked())
+			ColorMode = COLOR_WINDOWS;
+		else if (chkPopupColors.IsChecked())
+			ColorMode = COLOR_POPUP;
+		else
+			ColorMode = COLOR_OWN;
 
 		StartDisabled = IsDlgButtonChecked(m_hwnd, IDC_START) ? 0 : 2;
 		StopDisabled = IsDlgButtonChecked(m_hwnd, IDC_STOP) ? 0 : 4;
@@ -259,16 +265,7 @@ public:
 
 	void onChange_UseWinColors(CCtrlCheck *pCheck)
 	{
-		bool bEnableOthers;
-
-		if (pCheck->IsChecked()) {
-			newColorMode = COLOR_WINDOWS;
-			bEnableOthers = false;
-		}
-		else {
-			newColorMode = COLOR_OWN;
-			bEnableOthers = true;
-		}
+		bool bEnableOthers = !pCheck->IsChecked();
 
 		for (auto &it : colorPicker)
 			Utils::enableDlgControl(m_hwnd, it.res, bEnableOthers);
@@ -278,16 +275,7 @@ public:
 
 	void onChange_UsePopupColors(CCtrlCheck *pCheck)
 	{
-		bool bEnableOthers;
-
-		if (pCheck->IsChecked()) {
-			newColorMode = COLOR_POPUP;
-			bEnableOthers = false;
-		}
-		else {
-			newColorMode = COLOR_OWN;
-			bEnableOthers = true;
-		}
+		bool bEnableOthers = !pCheck->IsChecked();
 
 		for (int i = 0; i < sizeof(colorPicker) / sizeof(colorPicker[0]); i++)
 			Utils::enableDlgControl(m_hwnd, colorPicker[i].res, bEnableOthers);
@@ -311,114 +299,42 @@ public:
 				notyping = 0;
 			}
 
-			switch (newColorMode) {
-			case COLOR_OWN:
-				ppd.colorText = SendDlgItemMessage(m_hwnd, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
-				ppd.colorBack = SendDlgItemMessage(m_hwnd, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
-				break;
-			case COLOR_WINDOWS:
+			if (chkWinColors.IsChecked()) {
 				ppd.colorBack = GetSysColor(COLOR_BTNFACE);
 				ppd.colorText = GetSysColor(COLOR_WINDOWTEXT);
-				break;
-			case COLOR_POPUP:
-			default:
+			}
+			else if (chkPopupColors.IsChecked()) {
 				ppd.colorBack = ppd.colorText = 0;
-				break;
+			}
+			else {
+				ppd.colorText = SendDlgItemMessage(m_hwnd, colorPicker[2 * notyping + 1].res, CPM_GETCOLOUR, 0, 0);
+				ppd.colorBack = SendDlgItemMessage(m_hwnd, colorPicker[2 * notyping].res, CPM_GETCOLOUR, 0, 0);
 			}
 
-			if (notyping)
-				switch (newTimeoutMode2) {
-				case TIMEOUT_CUSTOM:
-					ppd.iSeconds = newTimeout2;
-					break;
-				case TIMEOUT_PERMANENT:
+			if (notyping) {
+				if (chkCustom2.IsChecked())
+					ppd.iSeconds = value2.GetInt();
+				else if (chkPermanent2.IsChecked())
 					ppd.iSeconds = -1;
-					break;
-				case TIMEOUT_POPUP:
-				default:
+				else
 					ppd.iSeconds = 0;
-					break;
-				}
-			else
-				switch (newTimeoutMode) {
-				case TIMEOUT_CUSTOM:
-					ppd.iSeconds = newTimeout;
-					break;
-				case TIMEOUT_PROTO:
+			}
+			else {
+				if (chkCustom.IsChecked())
+					ppd.iSeconds = value1.GetInt();
+				else if (chkPermanent.IsChecked())
+					ppd.iSeconds = -1;
+				else if (chkProto.IsChecked())
 					ppd.iSeconds = 10;
-					break;
-				case TIMEOUT_PERMANENT:
-					ppd.iSeconds = -1;
-					break;
-				case TIMEOUT_POPUP:
-				default:
+				else
 					ppd.iSeconds = 0;
-					break;
-				}
-
+			}
 			ppd.lchIcon = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 			ppd.lchContact = 0;
 			ppd.PluginWindowProc = nullptr;
 			ppd.PluginData = nullptr;
 			PUAddPopupW(&ppd);
 		}
-	}
-
-	void onChange_Popup2(CCtrlCheck *)
-	{
-		newTimeoutMode2 = TIMEOUT_POPUP;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE2, 0);
-	}
-
-	void onChange_Custom2(CCtrlCheck *)
-	{
-		newTimeoutMode2 = TIMEOUT_CUSTOM;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE2, 1);
-	}
-
-	void onChange_Popup(CCtrlCheck *)
-	{
-		newTimeoutMode = TIMEOUT_POPUP;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE, 0);
-	}
-
-	void onChange_Permanent(CCtrlCheck *)
-	{
-		newTimeoutMode = TIMEOUT_PERMANENT;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE, 0);
-	}
-
-	void onChange_Permanent2(CCtrlCheck *)
-	{
-		newTimeoutMode2 = TIMEOUT_PERMANENT;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE2, 0);
-	}
-
-	void onChange_Custom(CCtrlCheck *)
-	{
-		newTimeoutMode = TIMEOUT_CUSTOM;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE, 1);
-	}
-
-	void onChange_Proto(CCtrlCheck *)
-	{
-		newTimeoutMode = TIMEOUT_PROTO;
-		Utils::enableDlgControl(m_hwnd, IDC_TIMEOUT_VALUE, 0);
-	}
-
-	void onChange_Value(CCtrlEdit *pEdit)
-	{
-		int newValue = pEdit->GetInt();
-
-		if (newValue > TIMEOUT_MAXVALUE)
-			newValue = TIMEOUT_MAXVALUE;
-		else if (newValue < TIMEOUT_MINVALUE)
-			newValue = TIMEOUT_MINVALUE;
-
-		if (pEdit->GetCtrlId() == IDC_TIMEOUT_VALUE)
-			newTimeout = newValue;
-		else
-			newTimeout2 = newValue;
 	}
 };
 
