@@ -410,7 +410,7 @@ public:
 			if (proto) {
 				char fprint[45];
 				if (otrl_privkey_fingerprint(otr_user_state, fprint, proto, proto))
-					Utils_ClipboardCopy(_A2T(fprint));
+					Utils_ClipboardCopy(fprint);
 			}
 			break;
 

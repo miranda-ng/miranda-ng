@@ -1543,4 +1543,5 @@ Utils_CorrectFontSize @1762 NONAME
 ?OnResize@CDlgBase@@MEAAXXZ @1763 NONAME
 ??0MBinBuffer@@QEAA@AEBV0@@Z @1764 NONAME
 ??0MBinBuffer@@QEAA@_K@Z @1765 NONAME
-Utils_ClipboardCopy @1766 NONAME
+?Utils_ClipboardCopy@@YAXPEBD@Z @1766 NONAME
+?Utils_ClipboardCopy@@YAXPEB_W@Z @1767 NONAME

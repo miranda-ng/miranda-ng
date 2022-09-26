@@ -898,7 +898,7 @@ static INT_PTR CALLBACK DlgProcStatsticView(HWND hwndDlg, UINT msg, WPARAM wPara
 						return TRUE;
 
 					if (LOWORD(wParam) == ID_SHARELIST_COPYLINK)
-						Utils_ClipboardCopy(_A2T(sLink.c_str()));
+						Utils_ClipboardCopy(sLink.c_str());
 					else
 						Utils_OpenUrl(sLink.c_str());
 				}

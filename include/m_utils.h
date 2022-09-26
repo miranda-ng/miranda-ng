@@ -53,7 +53,12 @@ EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNe
 /////////////////////////////////////////////////////////////////////////////////////////
 // copies a string into clipboard
 
-EXTERN_C MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pszText);
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const char *pszText);
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pszText);
+
+__forceinline void Utils_ClipboardCopyU(const char *p)
+{	Utils_ClipboardCopy(Utf2T(p));
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual

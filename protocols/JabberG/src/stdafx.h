@@ -697,10 +697,6 @@ CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr
 const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr);
 CJabberProto*  JabberChooseInstance(bool bIsLink=false);
 
-__forceinline void Utils_ClipboardCopy(const char *p)
-{	Utils_ClipboardCopy(Utf2T(p));
-}
-
 bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime);
 
 void SetWindowTextUtf(HWND hwndDlg, const char *szValue);

@@ -105,7 +105,7 @@ static INT_PTR CopyIP2Clipboard(WPARAM, LPARAM, LPARAM idx)
 {
 	mir_cslock lck(csNIF_List);
 	if (g_arNIF[idx].IPcount != 0)
-		Utils_ClipboardCopy(_A2T(g_arNIF[idx].IPstr));
+		Utils_ClipboardCopy(g_arNIF[idx].IPstr);
 	return 0;
 }
 

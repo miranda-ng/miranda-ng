@@ -136,9 +136,9 @@ MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pwszText)
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const char *pszText)
 {
-	size_t cbLen = mir_wstrlen(pwszText);
+	size_t cbLen = mir_strlen(pszText);
 	if (!cbLen)
 		return;
 	
@@ -147,7 +147,27 @@ MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pwszText)
 
 	EmptyClipboard();
 
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (cbLen+1) * sizeof(wchar_t));
+	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, cbLen);
+	if (hData) {
+		mir_strcpy((char *)GlobalLock(hData), pszText);
+		GlobalUnlock(hData);
+		SetClipboardData(CF_TEXT, hData);
+	}
+	CloseClipboard();
+}
+
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pwszText)
+{
+	size_t cbLen = mir_wstrlen(pwszText);
+	if (!cbLen)
+		return;
+
+	if (!OpenClipboard(nullptr))
+		return;
+
+	EmptyClipboard();
+
+	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (cbLen + 1) * sizeof(wchar_t));
 	if (hData) {
 		mir_wstrcpy((wchar_t *)GlobalLock(hData), pwszText);
 		GlobalUnlock(hData);
