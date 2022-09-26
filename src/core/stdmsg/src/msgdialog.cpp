@@ -756,16 +756,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		case IDC_USERMENU:
 			if (GetKeyState(VK_SHIFT) & 0x8000) {    // copy user name
 				ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-				if (id != nullptr && OpenClipboard(m_hwnd)) {
-					HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(id) * sizeof(wchar_t) + 1);
-					if (hData) {
-						EmptyClipboard();
-						mir_wstrcpy((wchar_t *)GlobalLock(hData), id);
-						GlobalUnlock(hData);
-						SetClipboardData(CF_UNICODETEXT, hData);
-						CloseClipboard();
-					}
-				}
+				Utils_ClipboardCopy(id);
 			}
 			else {
 				HMENU hMenu = Menu_BuildContactMenu(m_hContact);

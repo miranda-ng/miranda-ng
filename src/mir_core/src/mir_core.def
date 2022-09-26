@@ -1543,3 +1543,4 @@ _Utils_CorrectFontSize@4 @1762 NONAME
 ?OnResize@CDlgBase@@MAEXXZ @1763 NONAME
 ??0MBinBuffer@@QAE@ABV0@@Z @1764 NONAME
 ??0MBinBuffer@@QAE@I@Z @1765 NONAME
+_Utils_ClipboardCopy@4 @1766 NONAME

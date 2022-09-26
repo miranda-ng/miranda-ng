@@ -102,17 +102,7 @@ void CToxOptionsMain::EnableUdp_OnClick(CCtrlBase*)
 
 void CToxOptionsMain::ToxAddressCopy_OnClick(CCtrlButton*)
 {
-	char *toxAddress = m_toxAddress.GetTextA();
-	size_t toxAddressLength = mir_strlen(toxAddress) + 1;
-	if (OpenClipboard(m_toxAddress.GetHwnd())) {
-		EmptyClipboard();
-		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, toxAddressLength);
-		memcpy(GlobalLock(hMemory), toxAddress, toxAddressLength);
-		GlobalUnlock(hMemory);
-		SetClipboardData(CF_TEXT, hMemory);
-		CloseClipboard();
-	}
-	mir_free(toxAddress);
+	Utils_ClipboardCopy(ptrW(m_toxAddress.GetText()));
 }
 
 void CToxOptionsMain::ProfileCreate_OnClick(CCtrlButton*)

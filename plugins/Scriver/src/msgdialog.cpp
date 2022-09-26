@@ -458,15 +458,7 @@ void CMsgDialog::onClick_UserMenu(CCtrlButton *pButton)
 {
 	if (GetKeyState(VK_SHIFT) & 0x8000) { // copy user name
 		ptrW id(Contact::GetInfo(CNF_UNIQUEID, m_hContact, m_szProto));
-		if (!OpenClipboard(m_hwnd) || !mir_wstrlen(id))
-			return;
-
-		EmptyClipboard();
-		HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, 2*mir_wstrlen(id) + 1);
-		mir_wstrcpy((LPWSTR)GlobalLock(hData), id);
-		GlobalUnlock(hData);
-		SetClipboardData(CF_UNICODETEXT, hData);
-		CloseClipboard();
+		Utils_ClipboardCopy(id);
 	}
 	else {
 		RECT rc;

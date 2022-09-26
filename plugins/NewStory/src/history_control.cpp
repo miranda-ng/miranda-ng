@@ -648,7 +648,7 @@ LRESULT CALLBACK NewstoryListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 					res.Append(ptrW(TplFormatString(p->getCopyTemplate(), p->hContact, p)));
 			}
 
-			CopyText(hwnd, res);
+			Utils_ClipboardCopy(res);
 		}
 		__fallthrough;
 		// End of history list control messages

@@ -159,20 +159,9 @@ public:
 
 	void onClick_Copy(CCtrlButton*)
 	{
-		if (OpenClipboard(m_hwnd)) {
-			EmptyClipboard();
-
-			char cmdl[2048];
-			GetDlgItemTextA(m_hwnd, IDC_CMDL, cmdl, _countof(cmdl));
-			HGLOBAL cmdlGlob = GlobalAlloc(GMEM_MOVEABLE, sizeof(cmdl));
-			if (cmdlGlob != nullptr) {
-				LPTSTR cmdlStr = (LPTSTR)GlobalLock(cmdlGlob);
-				memcpy(cmdlStr, &cmdl, sizeof(cmdl));
-				GlobalUnlock(cmdlGlob);
-				SetClipboardData(CF_TEXT, cmdlGlob);
-			}
-			CloseClipboard();
-		}
+		wchar_t cmdl[2048];
+		GetDlgItemText(m_hwnd, IDC_CMDL, cmdl, _countof(cmdl));
+		Utils_ClipboardCopy(cmdl);
 	}
 
 	void onClick_Link(CCtrlButton*)

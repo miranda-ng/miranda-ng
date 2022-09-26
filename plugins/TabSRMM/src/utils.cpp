@@ -467,26 +467,6 @@ void Utils::setAvatarContact(HWND hWnd, MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// stub for copying data to clipboard
-
-size_t Utils::CopyToClipBoard(const wchar_t *str, const HWND hwndOwner)
-{
-	if (!OpenClipboard(hwndOwner) || str == nullptr)
-		return 0;
-
-	size_t i = sizeof(wchar_t) * (mir_wstrlen(str) + 1);
-
-	EmptyClipboard();
-	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
-
-	memcpy((void*)GlobalLock(hData), str, i);
-	GlobalUnlock(hData);
-	SetClipboardData(CF_UNICODETEXT, hData);
-	CloseClipboard();
-	return i;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 HWND TSAPI GetTabWindow(HWND hwndTab, int i)
 {

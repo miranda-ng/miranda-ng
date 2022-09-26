@@ -2850,7 +2850,7 @@ LRESULT CMsgDialog::WMCopyHandler(UINT msg, WPARAM wParam, LPARAM lParam)
 		ptrW converted(mir_utf8decodeW(szFromStream));
 		if (converted != nullptr) {
 			Utils::FilterEventMarkers(converted);
-			Utils::CopyToClipBoard(converted, m_pLog->GetHwnd());
+			Utils_ClipboardCopy(converted);
 		}
 	}
 

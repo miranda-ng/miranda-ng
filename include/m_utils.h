@@ -51,6 +51,11 @@ EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrl(const char *pszUrl, bool bOpenInNewWin
 EXTERN_C MIR_CORE_DLL(void) Utils_OpenUrlW(const wchar_t *pszUrl, bool bOpenInNewWindow = true);
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// copies a string into clipboard
+
+EXTERN_C MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pszText);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // Resizes a dialog by calling a custom routine to move the individual
 // Returns 0 on success, or nonzero on failure
 // Does not support dialogtemplateex dialog boxes, and will return failure if you try to resize one

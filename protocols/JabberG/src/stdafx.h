@@ -682,7 +682,7 @@ char*  JabberStripJid(const char *jid, char *dest, size_t destLen);
 int    JabberGetPacketID(const char*);
 char*  JabberId2string(int id);
 
-__inline int JabberGetPacketID(const TiXmlElement *n)
+__forceinline int JabberGetPacketID(const TiXmlElement *n)
 {	return JabberGetPacketID(XmlGetAttr(n, "id"));
 }
 
@@ -694,11 +694,12 @@ wchar_t* JabberStrFixLines(const wchar_t *str);
 wchar_t* JabberErrorStr(int errorCode);
 CMStringW JabberErrorMsg(const TiXmlElement *errorNode, int *errorCode = nullptr);
 
-void JabberCopyText(HWND hwnd, const char *text);
-void JabberCopyText(HWND hwnd, const wchar_t *text);
-
 const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr);
 CJabberProto*  JabberChooseInstance(bool bIsLink=false);
+
+__forceinline void Utils_ClipboardCopy(const char *p)
+{	Utils_ClipboardCopy(Utf2T(p));
+}
 
 bool JabberReadXep203delay(const TiXmlElement *node, time_t &msgTime);
 

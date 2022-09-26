@@ -740,39 +740,6 @@ const wchar_t *JabberStrIStr(const wchar_t *str, const wchar_t *substr)
 }
 
 ////////////////////////////////////////////////////////////////////////
-// clipboard processing
-
-void JabberCopyText(HWND hwnd, const char *pszText)
-{
-	if (!hwnd || !pszText) return;
-
-	if (OpenClipboard(hwnd)) {
-		Utf2T text(pszText);
-
-		EmptyClipboard();
-		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(text) + 1));
-		wchar_t *s = (wchar_t *)GlobalLock(hMem);
-		mir_wstrcpy(s, text);
-		GlobalUnlock(hMem);
-		SetClipboardData(CF_UNICODETEXT, hMem);
-		CloseClipboard();
-	}
-}
-
-void JabberCopyText(HWND hwnd, const wchar_t *text)
-{
-	if (!hwnd || !text) return;
-
-	if (OpenClipboard(hwnd)) {
-		EmptyClipboard();
-		HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t)*(mir_wstrlen(text) + 1));
-		wchar_t *s = (wchar_t *)GlobalLock(hMem);
-		mir_wstrcpy(s, text);
-		GlobalUnlock(hMem);
-		SetClipboardData(CF_UNICODETEXT, hMem);
-		CloseClipboard();
-	}
-}
 
 BOOL CJabberProto::EnterString(CMStringW &result, const wchar_t *caption, int type, char *windowName, int recentCount, int timeout)
 {

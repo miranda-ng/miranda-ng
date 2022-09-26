@@ -87,20 +87,8 @@ void CProgressPageDlg::OnContextMenu(CCtrlBase*)
 				wszText.Append(L"\r\n");
 			}
 		}
-		if (wszText.IsEmpty())
-			break;
 
-		if (::OpenClipboard(m_hwnd)) {
-			size_t i = sizeof(wchar_t) * (wszText.GetLength() + 1);
-
-			::EmptyClipboard();
-			HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, i);
-
-			memcpy((void*)::GlobalLock(hData), wszText, i);
-			::GlobalUnlock(hData);
-			::SetClipboardData(CF_UNICODETEXT, hData);
-			::CloseClipboard();
-		}
+		Utils_ClipboardCopy(wszText);
 		break;
 	}
 

@@ -17,15 +17,3 @@ bool CheckFilter(wchar_t *buf, wchar_t *filter)
 			return true;
 	return false;
 }
-
-void CopyText(HWND hwnd, const wchar_t *text)
-{
-	OpenClipboard(hwnd);
-	EmptyClipboard();
-	HGLOBAL hMem = GlobalAlloc(GMEM_MOVEABLE, sizeof(wchar_t) * (mir_wstrlen(text) + 1));
-	wchar_t *s = (wchar_t *)GlobalLock(hMem);
-	mir_wstrcpy(s, text);
-	GlobalUnlock(hMem);
-	SetClipboardData(CF_UNICODETEXT, hMem);
-	CloseClipboard();
-}

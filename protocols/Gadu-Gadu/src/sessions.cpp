@@ -317,37 +317,26 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 			int iSelection = TrackPopupMenu(hMenu, TPM_RIGHTBUTTON | TPM_RETURNCMD, pt.x, pt.y, 0, hwndDlg, nullptr);
 			switch (iSelection) {
 			case 10001:
-			{
-				wchar_t szText[512], szClientName[256], szIP[64], szLoginTime[64];
-				HGLOBAL hData;
-				if (!OpenClipboard(hwndDlg))
-					break;
-
-				EmptyClipboard();
-				szClientName[0] = szIP[0] = szLoginTime[0] = 0;
-				ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, _countof(szClientName));
-				ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
-				ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
-				mir_snwprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
-				if ((hData = GlobalAlloc(GMEM_MOVEABLE, mir_wstrlen(szText) + 1)) != nullptr)
 				{
-					mir_wstrcpy((wchar_t*)GlobalLock(hData), szText);
-					GlobalUnlock(hData);
-					SetClipboardData(CF_TEXT, hData);
+					wchar_t szText[512], szClientName[256], szIP[64], szLoginTime[64];
+					szClientName[0] = szIP[0] = szLoginTime[0] = 0;
+					ListView_GetItemText(hList, lvhti.iItem, 0, szClientName, _countof(szClientName));
+					ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
+					ListView_GetItemText(hList, lvhti.iItem, 2, szLoginTime, _countof(szLoginTime));
+					mir_snwprintf(szText, L"%s\t%s\t%s", szClientName, szIP, szLoginTime);
+					Utils_ClipboardCopy(szText);
 				}
-				CloseClipboard();
 				break;
-			}
 
 			case 10002:
-			{
-				wchar_t szUrl[256], szIP[64];
-				szIP[0] = 0;
-				ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
-				mir_snwprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
-				Utils_OpenUrlW(szUrl);
+				{
+					wchar_t szUrl[256], szIP[64];
+					szIP[0] = 0;
+					ListView_GetItemText(hList, lvhti.iItem, 1, szIP, _countof(szIP));
+					mir_snwprintf(szUrl, L"http://whois.domaintools.com/%s", szIP);
+					Utils_OpenUrlW(szUrl);
+				}
 				break;
-			}
 			}
 			DestroyMenu(hMenu);
 		}

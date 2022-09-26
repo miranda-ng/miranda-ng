@@ -168,14 +168,7 @@ INT_PTR CRtfLogWindow::Notify(WPARAM, LPARAM lParam)
 				break;
 
 			case IDM_COPYLINK:
-				if (OpenClipboard(m_pDlg.m_hwnd)) {
-					EmptyClipboard();
-					HGLOBAL hData = GlobalAlloc(GMEM_MOVEABLE, (wszText.GetLength() + 1) * sizeof(wchar_t));
-					mir_wstrcpy((wchar_t *)GlobalLock(hData), wszText);
-					GlobalUnlock(hData);
-					SetClipboardData(CF_UNICODETEXT, hData);
-					CloseClipboard();
-				}
+				Utils_ClipboardCopy(wszText);
 				break;
 			}
 

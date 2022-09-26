@@ -414,51 +414,17 @@ void RefreshPopupHistory(HWND hWnd, int renderer)
 
 void CopyPopupDataToClipboard(HWND hList, int selection)
 {
-	if (!selection) {
+	if (!selection)
 		return;
-	}
 
-	if (!GetOpenClipboardWindow()) {
-		if (OpenClipboard(hList)) {
-			wchar_t buffer[2048];
-			buffer[0] = '\0';
-			wchar_t *clipboard;
-			int i;
-			int found = 0;
-			int count = ListView_GetItemCount(hList);
-			int textType;
-
-			textType = CF_UNICODETEXT;
-
-
-			for (i = 0; i < count; i++) {
-				if (ListView_GetItemState(hList, i, LVIS_SELECTED)) {
-					ListView_GetItemText(hList, i, selection - 100, buffer, _countof(buffer));
-					found = 1;
-					break;
-				}
-			}
-			if (found) {
-				EmptyClipboard();
-				int len = (int)mir_wstrlen(buffer);
-
-				HANDLE hData = GlobalAlloc(GMEM_MOVEABLE, (len + 2) * sizeof(wchar_t));
-				clipboard = (wchar_t *)GlobalLock(hData);
-				wcsncpy(clipboard, buffer, len);
-				clipboard[len] = '\0';
-				GlobalUnlock(hData);
-				if (!SetClipboardData(textType, hData)) {
-					PUShowMessage("Could not set clipboard data", SM_WARNING);
-				}
-			}
-			CloseClipboard();
+	int count = ListView_GetItemCount(hList);
+	for (int i = 0; i < count; i++) {
+		if (ListView_GetItemState(hList, i, LVIS_SELECTED)) {
+			wchar_t buffer[2048]; buffer[0] = '\0';
+			ListView_GetItemText(hList, i, selection - 100, buffer, _countof(buffer));
+			Utils_ClipboardCopy(buffer);
+			break;
 		}
-		else {
-			PUShowMessage("Could not open clipboard", SM_WARNING);
-		}
-	}
-	else {
-		PUShowMessage("The clipboard is not available", SM_WARNING);
 	}
 }
 

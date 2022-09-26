@@ -186,16 +186,7 @@ void CToxProto::OnErase()
 
 INT_PTR CToxProto::OnCopyToxID(WPARAM, LPARAM)
 {
-	ptrA address(getStringA(TOX_SETTINGS_ID));
-	size_t length = mir_strlen(address) + 1;
-	if (OpenClipboard(nullptr)) {
-		EmptyClipboard();
-		HGLOBAL hMemory = GlobalAlloc(GMEM_FIXED, length);
-		memcpy(GlobalLock(hMemory), address, length);
-		GlobalUnlock(hMemory);
-		SetClipboardData(CF_TEXT, hMemory);
-		CloseClipboard();
-	}
+	Utils_ClipboardCopy(ptrW(getWStringA(TOX_SETTINGS_ID)));
 	return 0;
 }
 

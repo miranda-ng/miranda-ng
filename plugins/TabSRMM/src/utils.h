@@ -82,8 +82,6 @@ namespace Utils
 	LRESULT  CALLBACK PopupDlgProcError(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	LPTSTR   extractURLFromRichEdit(const ENLINK* _e, const HWND hwndRich);
 
-	size_t   CopyToClipBoard(const wchar_t *str, const HWND hwndOwner);
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// safe mir_strlen function - do not overflow the given buffer length
 	// if the buffer does not contain a valid (zero-terminated) string, it

@@ -133,3 +133,22 @@ MIR_CORE_DLL(int) Utils_CorrectFontSize(int size)
 
 	return size * ncm.lfMessageFont.lfHeight / -12;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+MIR_CORE_DLL(void) Utils_ClipboardCopy(const wchar_t *pwszText)
+{
+	size_t cbLen = mir_wstrlen(pwszText);
+	if (!::OpenClipboard(nullptr) || !cbLen)
+		return;
+
+	::EmptyClipboard();
+
+	HGLOBAL hData = ::GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (cbLen+1) * sizeof(wchar_t));
+	if (hData) {
+		mir_wstrcpy((wchar_t *)::GlobalLock(hData), pwszText);
+		::GlobalUnlock(hData);
+		::SetClipboardData(CF_UNICODETEXT, hData);
+	}
+	::CloseClipboard();
+}
