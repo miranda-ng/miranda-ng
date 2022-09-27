@@ -71,10 +71,10 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 		pAppVersion->set_quaternary(v[3]);
 
 		proto::DeviceProps pCompanion;
-		pCompanion.set_os("Chrome");
+		pCompanion.set_os("Miranda");
 		pCompanion.set_allocated_version(pAppVersion);
 		pCompanion.set_platformtype(proto::DeviceProps_PlatformType_DESKTOP);
-		pCompanion.set_requirefullsync(true);
+		pCompanion.set_requirefullsync(false);
 
 		MBinBuffer buf(pCompanion.ByteSize());
 		pCompanion.SerializeToArray(buf.data(), (int)buf.length());
@@ -233,8 +233,7 @@ bool WhatsAppProto::ServerThreadWorker()
 	m_iPktNumber = 0;
 	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
 
-	auto &pubKey = m_noise->noiseKeys.pub;
-	ptrA szPubKey(mir_base64_encode(pubKey.data(), pubKey.length()));
+	auto &pubKey = m_noise->ephemeral.pub;
 	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
 	proto::HandshakeMessage msg; msg.set_allocated_clienthello(client);
 	WSSend(msg, &WhatsAppProto::OnStartSession);

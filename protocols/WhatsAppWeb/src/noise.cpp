@@ -244,9 +244,10 @@ MBinBuffer WANoise::encodeFrame(const void *pData, size_t cbLen)
 
 MBinBuffer WANoise::encrypt(const void *pData, size_t cbLen)
 {
+	auto counter = encodeBigEndian(writeCounter);
 	uint8_t iv[12];
-	memset(iv, 0, 8);
-	memcpy(iv + 8, &writeCounter, sizeof(int));
+	memset(iv, 0, sizeof(iv));
+	memcpy(iv + 8, counter.c_str(), sizeof(int));
 	writeCounter++;
 
 	MBinBuffer res;
@@ -255,6 +256,7 @@ MBinBuffer WANoise::encrypt(const void *pData, size_t cbLen)
 	int enc_len = 0, final_len = 0;
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)encKey.data(), iv);
+	EVP_EncryptUpdate(ctx, NULL, &enc_len, hash, sizeof(hash));
 	for (size_t len = 0; len < cbLen; len += 1024) {
 		size_t portionSize = cbLen - len;
 		EVP_EncryptUpdate(ctx, outbuf, &enc_len, (BYTE *)pData + len, (int)min(portionSize, 1024));
@@ -263,6 +265,11 @@ MBinBuffer WANoise::encrypt(const void *pData, size_t cbLen)
 	EVP_EncryptFinal_ex(ctx, outbuf, &final_len);
 	if (final_len)
 		res.append(outbuf, final_len);
+
+	uint8_t tag[16];
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, sizeof(tag), tag);
+	res.append(tag, sizeof(tag));
+
 	EVP_CIPHER_CTX_free(ctx);
 
 	updateHash(res.data(), res.length());
