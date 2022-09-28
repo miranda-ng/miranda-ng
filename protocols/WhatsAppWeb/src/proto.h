@@ -12,11 +12,15 @@ Copyright © 2019-22 George Hazan
 #define KEY_BUNDLE_TYPE "\x05"
 
 class WhatsAppProto;
-typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const JSONNode &node, void*);
+typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const void *pData, int cbLen);
 
 struct WARequest
 {
-	CMStringA szPrefix;
+	WARequest(WA_PKT_HANDLER _1, void *_2 = nullptr) :
+		pHandler(_1),
+		pUserInfo(_2)
+	{}
+
 	WA_PKT_HANDLER pHandler;
 	void *pUserInfo;
 };
@@ -89,13 +93,13 @@ class WANoise
 public:
 	WANoise(WhatsAppProto *_ppro);
 
-	void finish() { bInitFinished = true; }
+	void finish();
 	void init();
 
 	MBinBuffer decrypt(const void *pData, size_t cbLen);
 	MBinBuffer encrypt(const void *pData, size_t cbLen);
 
-	bool decodeFrame(const void *pData, size_t cbLen);
+	MBinBuffer decodeFrame(const void *pData, size_t cbLen);
 	MBinBuffer encodeFrame(const void *pData, size_t cbLen);
 };
 
@@ -164,14 +168,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const MessageLite &msg, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
-	int  WSSendNode(const char *pszPrefix, int flags, WANode &node, WA_PKT_HANDLER = nullptr);
+	int  WSSendNode(int flags, WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
 	bool ServerThreadWorker(void);
 	void ShutdownSession(void);
-
-	bool ProcessHandshake(const MBinBuffer &szkeyEnc);
 
 	void SendKeepAlive();
 
@@ -180,7 +182,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnGetAvatarInfo(const JSONNode &node, void*);
 	void OnGetChatInfo(const JSONNode &node, void*);
 	void OnSendMessage(const JSONNode &node, void*);
-	void OnStartSession(const JSONNode &node, void*);
+
+	void OnProcessHandshake(const void *pData, int cbLen);
+	void OnStartSession(const void *pData, int cbLen);
 
 	// binary packets
 	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);

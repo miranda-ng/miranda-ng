@@ -52,8 +52,73 @@ void WhatsAppProto::SendKeepAlive()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
+void WhatsAppProto::ShutdownSession()
 {
+	if (m_bTerminated)
+		return;
+
+	debugLogA("WhatsAppProto::ShutdownSession");
+
+	// shutdown all resources
+	if (m_hServerConn)
+		Netlib_Shutdown(m_hServerConn);
+
+	OnLoggedOut();
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnStartSession(const void *pData, int cbLen)
+{
+	proto::HandshakeMessage msg;
+	if (!msg.ParseFromArray(pData, cbLen)) {
+		debugLogA("Error parsing data, exiting");
+		ShutdownSession();
+		return;
+	}
+
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnProcessHandshake(const void *pData, int cbLen)
+{
+	proto::HandshakeMessage msg;
+	if (!msg.ParseFromArray(pData, cbLen)) {
+		debugLogA("Error parsing data, exiting");
+
+LBL_Error:
+		ShutdownSession();
+		return;
+	}
+
+	auto &static_ = msg.serverhello().static_();
+	auto &payload_ = msg.serverhello().payload();
+	auto &ephemeral_ = msg.serverhello().ephemeral();
+
+	// std::string ephemeral_("\xe5\x3d\xff\xc6\x59\xef\xa7\x64\xf6\x48\xf3\x46\x15\xb4\x4f\x13\xfa\xc6\x29\x18\x34\xd4\xa4\xa9\xad\xa0\xa3\x05\xaa\x4d\xda\x36", 32);
+	// std::string static_("\xa9\x70\xc0\xfe\xe0\x72\x3b\x0a\x6e\x0a\xd4\xe1\xb4\x5f\xcd\xb8\x06\x68\xdd\x6b\x45\x36\xe0\x7d\x0d\xe9\x00\x4d\xb6\xaf\xfa\xa3\xb7\x54\x82\x24\xa9\xe4\x2c\xd4\xe5\xd0\x2f\xd6\x31\x2b\xca\xec", 48);
+	// std::string payload_("\x11\xcc\xb8\x74\xe6\x27\x29\x37\x65\xb2\x9e\x47\x53\x89\xf7\xce\x23\x03\x9c\xd4\x9e\x4b\x12\xdc\x3f\x10\xe4\x68\xfe\xfd\x31\x80\x1d\x48\x01\x9c\x31\xef\x54\xdb\xa1\x8f\xdb\x6b\x53\x84\xbb\x6d\xb4\x0c\x61\x1f\xcd\xe7\x3c\x0e\xe2\x18\xe4\x95\xf7\xbc\x5b\xbf\x80\x93\x21\x98\x80\x20\x9b\x71\x27\x47\x39\xe9\x04\x08\x5d\xd2\x62\x48\xf6\x23\xba\xa0\x31\xfc\x7c\xeb\xa0\xaa\x56\x04\x71\x71\x84\x9b\x08\xa4\xc9\x33\xd5\x07\x04\x5f\x1c\xd2\x6f\x7d\x5d\x83\x29\x5f\x80\x4a\xbf\x7c\xd9\x7c\xd0\x2b\x9a\x1e\xe0\x28\x33\x89\xb5\x3b\xd2\xe7\x7f\xfc\xd6\xa8\x55\xe2\x9c\x6e\x5f\x6f\x08\xa1\xf3\xfd\x5e\xff\x56\xee\x6f\x31\x47\xeb\xd4\x07\x92\x81\x72\x68\x91\x9d\xe9\xb3\x5f\x1d\x61\x8e\xce\x55\x4b\xbe\x74\x5d\xef\xea\xe4\x23\x63\x0d\x7c\xd4\xa3\xf8\xa1\x29\x60\xd7\x2c\xe8\xfc\xb5\x89\x99\x32\x95\xfc\xec\x6f\x7b\x2a\x23\xf4\x75\xbe\xe3\x21\x6a\x71\x3f\xc4\x1b\x99\x9f\x42\xd5\x19\xd8\xcc\xe7\xab\x90\xdd\xe5\xd8\xa5\xe3\xb5\x5c\xa2\x54\xf3\x4b\x0c\xa1\xe2\xa2\x91\xa3\xd0\x92\x6d\xfa\xab\x5a\xf6\x80\xee\x84\xbe\xaa\x75\x5e\xee\x6b\x91\x49", 257);
+
+	m_noise->updateHash(ephemeral_.c_str(), ephemeral_.size());
+	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), ephemeral_.c_str());
+
+	MBinBuffer decryptedStatic = m_noise->decrypt(static_.c_str(), static_.size());
+	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), decryptedStatic.data());
+
+	MBinBuffer decryptedCert = m_noise->decrypt(payload_.c_str(), payload_.size());
+
+	proto::CertChain cert; cert.ParseFromArray(decryptedCert.data(), (int)decryptedCert.length());
+	proto::CertChain::NoiseCertificate::Details details; details.ParseFromString(cert.intermediate().details());
+	if (details.issuerserial() != 0) {
+		debugLogA("Invalid certificate serial number, exiting");
+		goto LBL_Error;
+	}
+
+	MBinBuffer encryptedPub = m_noise->encrypt(m_noise->noiseKeys.pub.data(), m_noise->noiseKeys.pub.length());
+	m_noise->mixIntoKey(m_noise->noiseKeys.priv.data(), ephemeral_.c_str());
+
+	// create reply
 	proto::ClientPayload node;
 
 	MFileVersion v;
@@ -89,7 +154,7 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 		pPairingData->set_eskeyval(m_noise->preKey.pub.data(), m_noise->preKey.pub.length());
 		pPairingData->set_eskeysig(m_noise->preKey.signature.data(), m_noise->preKey.signature.length());
 		node.set_allocated_devicepairingdata(pPairingData);
-		
+
 		node.set_passive(false);
 	}
 	// generate login packet
@@ -125,50 +190,18 @@ bool WhatsAppProto::ProcessHandshake(const MBinBuffer &keyEnc)
 
 	MBinBuffer payload(node.ByteSize());
 	node.SerializeToArray(payload.data(), (int)payload.length());
-	
+
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
-	
+
 	auto *pFinish = new proto::HandshakeMessage_ClientFinish();
 	pFinish->set_payload(payloadEnc.data(), payloadEnc.length());
-	pFinish->set_static_(keyEnc.data(), keyEnc.length());
+	pFinish->set_static_(encryptedPub.data(), encryptedPub.length());
 
 	proto::HandshakeMessage handshake;
 	handshake.set_allocated_clientfinish(pFinish);
-	WSSend(handshake);
-	
+	WSSend(handshake, &WhatsAppProto::OnStartSession);
+
 	m_noise->finish();
-	return true;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::ShutdownSession()
-{
-	if (m_bTerminated)
-		return;
-
-	debugLogA("WhatsAppProto::ShutdownSession");
-
-	// shutdown all resources
-	if (m_hServerConn)
-		Netlib_Shutdown(m_hServerConn);
-
-	OnLoggedOut();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnStartSession(const JSONNode &root, void*)
-{
-	int status = root["status"].as_int();
-	if (status != 200) {
-		debugLogA("Session start failed with error %d", status);
-		ShutdownSession();
-		return;
-	}
-
-	CMStringA ref = root["ref"].as_mstring();
-	ShowQrCode(ref);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -236,7 +269,8 @@ bool WhatsAppProto::ServerThreadWorker()
 	auto &pubKey = m_noise->ephemeral.pub;
 	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
 	proto::HandshakeMessage msg; msg.set_allocated_clienthello(client);
-	WSSend(msg, &WhatsAppProto::OnStartSession);
+	WSSend(msg, &WhatsAppProto::OnProcessHandshake);
+	// OnProcessHandshake(0, 0);
 
 	bool bExit = false;
 	MBinBuffer netbuf;
@@ -302,7 +336,6 @@ bool WhatsAppProto::ServerThreadWorker()
 							auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
 							if (pReq != nullptr) {
 								root << CHAR_PARAM("$id$", szPrefix);
-								(this->*pReq->pHandler)(root, pReq->pUserInfo);
 							}
 							else ProcessPacket(root);
 						}
@@ -370,8 +403,15 @@ void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 			return;
 		}
 
-		if (!m_noise->decodeFrame(pData, payloadLen))
-			debugLogA("cannot decrypt incoming message");
+		MBinBuffer pkt = m_noise->decodeFrame(pData, payloadLen);
+
+		if (m_arPacketQueue.getCount()) {
+			WARequest req = m_arPacketQueue[0];
+			m_arPacketQueue.remove(0);
+
+			(this->*req.pHandler)(pkt.data(), (int)pkt.length());
+		}
+		else debugLogA("cannot handle incoming message");
 
 		pData += payloadLen;
 		cbDataLen -= payloadLen;

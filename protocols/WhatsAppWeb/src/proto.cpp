@@ -22,11 +22,6 @@ static int CompareOwnMsgs(const WAOwnMessage *p1, const WAOwnMessage *p2)
 	return strcmp(p1->szPrefix, p2->szPrefix);
 }
 
-static int CompareRequests(const WARequest *p1, const WARequest *p2)
-{
-	return strcmp(p1->szPrefix, p2->szPrefix);
-}
-
 static int CompareUsers(const WAUser *p1, const WAUser *p2)
 {
 	return strcmp(p1->szId, p2->szId);
@@ -38,7 +33,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
 	m_arOwnMsgs(1, CompareOwnMsgs),
-	m_arPacketQueue(10, CompareRequests),
+	m_arPacketQueue(10),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bHideGroupchats(this, "HideChats", true)
 {
@@ -258,7 +253,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 	payLoad.addAttr("type", "relay");
 	payLoad.content.assign(pBuf, cbBinaryLen);
 	
-	int pktId = WSSendNode(szMsgId, 0, payLoad, &WhatsAppProto::OnSendMessage);
+	int pktId = WSSendNode(0, payLoad);
 
 	mir_cslock lck(m_csOwnMessages);
 	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact, szMsgId));

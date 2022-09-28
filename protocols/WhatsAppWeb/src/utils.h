@@ -103,3 +103,4 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
+void generateIV(uint8_t *iv, int &pVar);

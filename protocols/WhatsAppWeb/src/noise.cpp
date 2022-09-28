@@ -30,6 +30,9 @@ WANoise::WANoise(WhatsAppProto *_ppro) :
 	ephemeral.priv.assign(pPrivKey->data, sizeof(pPrivKey->data));
 	ec_key_pair_destroy(pKeys);
 
+	// ephemeral.pub.assign("\xd7\x58\xeb\xcc\x79\xb8\x58\xde\xc7\x60\x5c\x12\x22\xc1\x3b\x7c\xf6\x73\x38\x0b\x89\x56\xf1\xe2\xa1\xb0\xaa\x3a\xba\xbc\x08\x3f", 32);
+	// ephemeral.priv.assign("\xa0\xef\xd2\xbd\x2d\x4a\x6f\x9c\xd0\x9e\xc5\x75\x3c\x78\x78\xed\xe5\xec\x99\xd7\x4b\xeb\xf8\xb0\xdd\x1e\xe2\xc1\x85\xc4\xd8\x72", 32);
+
 	// prepare hash
 	memcpy(hash, noise_init, 32);
 	updateHash(intro_header, 4);
@@ -132,6 +135,15 @@ void WANoise::init()
 	preKey.keyid = ppro->getDword(DBKEY_PREKEY_KEYID);
 }
 
+void WANoise::finish()
+{
+	deriveKey("", 0, salt, encKey);
+	decKey.assign(encKey.data(), encKey.length());
+	readCounter = writeCounter = 0;
+	memset(hash, 0, sizeof(hash));
+	bInitFinished = true;
+}
+
 void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read)
 {
 	auto *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);
@@ -162,65 +174,46 @@ void WANoise::mixIntoKey(const void *n, const void *p)
 
 MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 {
-	auto &pVar = (bInitFinished) ? readCounter : writeCounter;
-
 	uint8_t iv[12];
-	memset(iv, 0, 8);
-	memcpy(iv + 8, &pVar, sizeof(int));
-	pVar++;
+	generateIV(iv, (bInitFinished) ? readCounter : writeCounter);
 
 	MBinBuffer res;
 	uint8_t outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
 
-	int dec_len = 0, final_len = 0;
+	int tag_len = 0, dec_len = 0, final_len = 0;
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)decKey.data(), iv);
+
+	EVP_DecryptUpdate(ctx, nullptr, &tag_len, hash, sizeof(hash));
+	cbLen -= 16;
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (BYTE *)pData + cbLen);
+
 	for (size_t len = 0; len < cbLen; len += 1024) {
 		size_t portionSize = cbLen - len;
 		EVP_DecryptUpdate(ctx, outbuf, &dec_len, (BYTE *)pData + len, (int)min(portionSize, 1024));
 		res.append(outbuf, dec_len);
 	}
-	EVP_DecryptFinal_ex(ctx, outbuf, &final_len);
+
+	if (!EVP_DecryptFinal_ex(ctx, outbuf, &final_len))
+		ppro->debugLogA("Decryption failed");
+
 	if (final_len)
 		res.append(outbuf, final_len);
 	EVP_CIPHER_CTX_free(ctx);
 
-	updateHash(pData, cbLen);
+	updateHash(pData, cbLen + 16);
 	return res;
 }
 
-bool WANoise::decodeFrame(const void *pData, size_t cbLen)
+MBinBuffer WANoise::decodeFrame(const void *pData, size_t cbLen)
 {
 	if (!bInitFinished) {
-		proto::HandshakeMessage msg;
-		if (msg.ParseFromArray(pData, (int)cbLen)) {
-			auto &static_ = msg.serverhello().static_();
-			auto &payload_ = msg.serverhello().payload();
-			auto &ephemeral_ = msg.serverhello().ephemeral();
-
-			updateHash(ephemeral_.c_str(), ephemeral_.size());
-			mixIntoKey(ephemeral.priv.data(), ephemeral_.c_str());
-
-			MBinBuffer decryptedStatic = decrypt(static_.c_str(), static_.size());
-			mixIntoKey(ephemeral.priv.data(), decryptedStatic.data());
-
-			MBinBuffer decryptedCert = decrypt(payload_.c_str(), payload_.size());
-
-			proto::CertChain cert; cert.ParseFromArray(decryptedCert.data(), (int)decryptedCert.length());
-			proto::CertChain::NoiseCertificate::Details details; details.ParseFromString(cert.intermediate().details());
-			if (details.issuerserial() != 0) {
-				ppro->ShutdownSession();
-				return false;
-			}
-
-			MBinBuffer encryptedPub = encrypt(noiseKeys.pub.data(), noiseKeys.pub.length());
-			mixIntoKey(noiseKeys.priv.data(), ephemeral_.c_str());
-			ppro->ProcessHandshake(encryptedPub);
-		}
-		return true;
+		MBinBuffer res;
+		res.assign(pData, cbLen);
+		return res;
 	}
 
-	return false;
+	return decrypt(pData, cbLen);
 }
 
 MBinBuffer WANoise::encodeFrame(const void *pData, size_t cbLen)
@@ -244,11 +237,8 @@ MBinBuffer WANoise::encodeFrame(const void *pData, size_t cbLen)
 
 MBinBuffer WANoise::encrypt(const void *pData, size_t cbLen)
 {
-	auto counter = encodeBigEndian(writeCounter);
 	uint8_t iv[12];
-	memset(iv, 0, sizeof(iv));
-	memcpy(iv + 8, counter.c_str(), sizeof(int));
-	writeCounter++;
+	generateIV(iv, writeCounter);
 
 	MBinBuffer res;
 	uint8_t outbuf[1024 + 64];

@@ -51,12 +51,17 @@ bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER /*pHandler*/, void * /*pUserInfo*/)
+int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER pHandler, void *pUserInfo)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
 
 	// debugLogA("Sending packet: %s", msg..DebugString().c_str());
+
+	if (pHandler != nullptr) {
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(new WARequest(pHandler, pUserInfo));
+	}
 
 	int cbLen = msg.ByteSize();
 	ptrA protoBuf((char *)mir_alloc(cbLen));
@@ -71,7 +76,7 @@ int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER /*pHandler*/, v
 
 static char zeroData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-int WhatsAppProto::WSSendNode(const char *pszPrefix, int flags, WANode &node, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSendNode(int flags, WANode &node, WA_PKT_HANDLER pHandler)
 {
 	if (m_hServerConn == nullptr)
 		return 0;
@@ -100,18 +105,13 @@ int WhatsAppProto::WSSendNode(const char *pszPrefix, int flags, WANode &node, WA
 	int pktId = ++m_iPktNumber;
 
 	if (pHandler != nullptr) {
-		auto *pReq = new WARequest;
-		pReq->pHandler = pHandler;
-		pReq->szPrefix = pszPrefix;
-
 		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(pReq);
+		m_arPacketQueue.insert(new WARequest(pHandler));
 	}
 
 	char postPrefix[3] = {',', 0, (char)flags};
 
 	MBinBuffer ret;
-	ret.append(pszPrefix, strlen(pszPrefix));
 	ret.append(postPrefix, sizeof(postPrefix));
 	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
 
@@ -638,4 +638,13 @@ std::string encodeBigEndian(uint32_t num, size_t len)
 		num >>= 8;
 	}
 	return res;
+}
+
+void generateIV(uint8_t *iv, int &pVar)
+{
+	auto counter = encodeBigEndian(pVar);
+	memset(iv, 0, sizeof(iv));
+	memcpy(iv + 8, counter.c_str(), sizeof(int));
+	
+	pVar++;
 }
