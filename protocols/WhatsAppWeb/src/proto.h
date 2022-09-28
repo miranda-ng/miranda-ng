@@ -12,7 +12,7 @@ Copyright © 2019-22 George Hazan
 #define KEY_BUNDLE_TYPE "\x05"
 
 class WhatsAppProto;
-typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const void *pData, int cbLen);
+typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
 
 struct WARequest
 {
@@ -99,7 +99,7 @@ public:
 	MBinBuffer decrypt(const void *pData, size_t cbLen);
 	MBinBuffer encrypt(const void *pData, size_t cbLen);
 
-	MBinBuffer decodeFrame(const void *pData, size_t cbLen);
+	size_t     decodeFrame(const void *&pData, size_t &cbLen);
 	MBinBuffer encodeFrame(const void *pData, size_t cbLen);
 };
 
@@ -184,10 +184,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnSendMessage(const JSONNode &node, void*);
 
 	void OnProcessHandshake(const void *pData, int cbLen);
-	void OnStartSession(const void *pData, int cbLen);
+	
+	void OnStartSession(const WANode &node);
 
 	// binary packets
-	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);
+	void ProcessBinaryPacket(const void *pData, size_t cbLen);
 
 	// text packets
 	void ProcessPacket(const JSONNode &node);

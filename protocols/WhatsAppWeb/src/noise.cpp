@@ -198,15 +198,29 @@ MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 	return res;
 }
 
-MBinBuffer WANoise::decodeFrame(const void *pData, size_t cbLen)
+size_t WANoise::decodeFrame(const void *&pData, size_t &cbLen)
 {
-	if (!bInitFinished) {
-		MBinBuffer res;
-		res.assign(pData, cbLen);
-		return res;
+	auto *p = (const uint8_t *)pData;
+
+	if (cbLen < 3)
+		return 0;
+
+	size_t payloadLen = 0;
+	for (int i = 0; i < 3; i++) {
+		payloadLen <<= 8;
+		payloadLen += p[i];
 	}
 
-	return decrypt(pData, cbLen);
+	ppro->debugLogA("got payload of size %d", payloadLen);
+
+	cbLen -= 3;
+	if (payloadLen > cbLen) {
+		ppro->debugLogA("payload length %d exceeds capacity %d", payloadLen, cbLen);
+		return 0;
+	}
+
+	pData = p + 3;
+	return payloadLen;
 }
 
 MBinBuffer WANoise::encodeFrame(const void *pData, size_t cbLen)

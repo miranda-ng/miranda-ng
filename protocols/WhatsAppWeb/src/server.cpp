@@ -68,15 +68,8 @@ void WhatsAppProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnStartSession(const void *pData, int cbLen)
+void WhatsAppProto::OnStartSession(const WANode &node)
 {
-	proto::HandshakeMessage msg;
-	if (!msg.ParseFromArray(pData, cbLen)) {
-		debugLogA("Error parsing data, exiting");
-		ShutdownSession();
-		return;
-	}
-
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -269,8 +262,7 @@ bool WhatsAppProto::ServerThreadWorker()
 	auto &pubKey = m_noise->ephemeral.pub;
 	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
 	proto::HandshakeMessage msg; msg.set_allocated_clienthello(client);
-	WSSend(msg, &WhatsAppProto::OnProcessHandshake);
-	// OnProcessHandshake(0, 0);
+	WSSend(msg);
 
 	bool bExit = false;
 	MBinBuffer netbuf;
@@ -324,7 +316,7 @@ bool WhatsAppProto::ServerThreadWorker()
 
 					// try to decode
 					if (hdr.opCode == 2 && hdr.payloadSize > 32)
-						ProcessBinaryPacket((const uint8_t*)pos, dataSize);
+						ProcessBinaryPacket(pos, dataSize);
 					else {
 						CMStringA szJson(pos, (int)dataSize);
 
@@ -383,37 +375,41 @@ bool WhatsAppProto::ServerThreadWorker()
 /////////////////////////////////////////////////////////////////////////////////////////
 // Binary data processing
 
-void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
+void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 {
-	Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
+	while (size_t payloadLen = m_noise->decodeFrame(pData, cbDataLen)) {
+		if (m_noise->bInitFinished) {
+			MBinBuffer buf = m_noise->decrypt(pData, payloadLen);
 
-	while (cbDataLen > 3) {
-		size_t payloadLen = 0;
-		for (int i = 0; i < 3; i++) {
-			payloadLen <<= 8;
-			payloadLen += pData[i];
+			WAReader rdr(buf.data(), buf.length());
+			auto b = rdr.readInt8();
+			if (b & 2) {
+				debugLogA("zipped nodes are not supported");
+				return;
+			}
+
+			if (WANode *pNode = rdr.readNode()) {
+				CMStringA szText;
+				pNode->print(szText);
+				debugLogA("Got binary node:\n%s", szText.c_str());
+
+				if (m_arPacketQueue.getCount()) {
+					WARequest req = m_arPacketQueue[0];
+					m_arPacketQueue.remove(0);
+
+					(this->*req.pHandler)(*pNode);
+					delete pNode;
+				}
+				else debugLogA("cannot handle incoming message");
+			}
+			else {
+				debugLogA("wrong or broken payload");
+				Netlib_Dump(m_hServerConn, pData, cbDataLen, false, 0);
+			}
 		}
+		else OnProcessHandshake(pData, (int)payloadLen);
 
-		pData += 3;
-		cbDataLen -= 3;
-		debugLogA("got payload of size %d", payloadLen);
-
-		if (payloadLen > cbDataLen) {
-			debugLogA("payload length exceeds capacity %d", cbDataLen);
-			return;
-		}
-
-		MBinBuffer pkt = m_noise->decodeFrame(pData, payloadLen);
-
-		if (m_arPacketQueue.getCount()) {
-			WARequest req = m_arPacketQueue[0];
-			m_arPacketQueue.remove(0);
-
-			(this->*req.pHandler)(pkt.data(), (int)pkt.length());
-		}
-		else debugLogA("cannot handle incoming message");
-
-		pData += payloadLen;
+		pData = (BYTE*)pData + payloadLen;
 		cbDataLen -= payloadLen;
 	}
 }

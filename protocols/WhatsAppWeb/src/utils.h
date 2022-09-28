@@ -13,6 +13,7 @@ Copyright © 2019-22 George Hazan
 #define DICTIONARY_1 237
 #define DICTIONARY_2 238
 #define DICTIONARY_3 239
+#define AD_JID       247
 #define LIST_8       248
 #define LIST_16      249
 #define JID_PAIR     250
@@ -59,10 +60,6 @@ class WAReader
 	uint32_t readIntN(int i);
 	CMStringA readStringFromChars(int size);
 
-	__forceinline uint32_t readInt8() { return readIntN(1); }
-	__forceinline uint32_t readInt16() { return readIntN(2); }
-	__forceinline uint32_t readInt32() { return readIntN(4); }
-
 	bool      readAttributes(WANode *node, int count);
 	uint32_t  readInt20();
 	bool      readList(WANode *pParent, int tag);
@@ -77,6 +74,10 @@ public:
 	{}
 
 	WANode* readNode();
+
+	__forceinline uint32_t readInt8() { return readIntN(1); }
+	__forceinline uint32_t readInt16() { return readIntN(2); }
+	__forceinline uint32_t readInt32() { return readIntN(4); }
 };
 
 class WAWriter
