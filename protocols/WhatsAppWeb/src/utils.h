@@ -41,6 +41,7 @@ class WANode // kinda XML
 
 public:
 	WANode();
+	WANode(const char *pszTitle);
 	~WANode();
 
 	void addAttr(const char *pszName, const char *pszValue);
@@ -52,6 +53,12 @@ public:
 	MBinBuffer content;
 	std::list<WANode*> children;
 };
+
+__forceinline WANode& operator<<(WANode &node, const CHAR_PARAM &param)
+{
+	node.addAttr(param.szName, param.szValue);
+	return node;
+}
 
 class WAReader
 {
@@ -91,8 +98,8 @@ class WAWriter
 	void writeInt20(int value);
 	void writeLength(int value);
 	void writeListSize(int tag);
-	void writePacked(const CMStringA &str);
-	void writeString(const char *str, bool bRaw = false);
+	void writePacked(const CMStringA &str, int tag);
+	void writeString(const char *str);
 	bool writeToken(const char *str);
 
 public:

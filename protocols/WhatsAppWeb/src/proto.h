@@ -8,6 +8,7 @@ Copyright © 2019-22 George Hazan
 #if !defined(PROTO_H)
 #define PROTO_H
 
+#define S_WHATSAPP_NET "@s.whatsapp.net"
 #define APP_VERSION "2.2230.15"
 #define KEY_BUNDLE_TYPE "\x05"
 
@@ -159,7 +160,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Network ////////////////////////////////////////////////////////////////////////////
 
-	int m_iPktNumber;
 	time_t m_iLoginTime;
 	HNETLIBCONN m_hServerConn;
 
@@ -168,7 +168,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const MessageLite &msg, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
-	int  WSSendNode(int flags, WANode &node, WA_PKT_HANDLER = nullptr);
+	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);

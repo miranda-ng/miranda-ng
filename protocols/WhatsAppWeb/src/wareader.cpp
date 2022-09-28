@@ -190,18 +190,27 @@ CMStringA WAReader::readPacked(int tag)
 
 CMStringA WAReader::readString(int tag)
 {
-	if (tag >= 1 && tag < _countof(SingleByteTokens)) {
-		CMStringA ret = SingleByteTokens[tag];
-		if (ret == "s.whatsapp.net")
-			return "c.us";
-		return ret;
-	}
+	if (tag >= 1 && tag < _countof(SingleByteTokens))
+		return SingleByteTokens[tag];
 
+	int idx;
 	switch (tag) {
-	case DICTIONARY_0: return dict0[readInt8()];
-	case DICTIONARY_1: return dict1[readInt8()];
-	case DICTIONARY_2: return dict2[readInt8()];
-	case DICTIONARY_3: return dict3[readInt8()];
+	case DICTIONARY_0:
+		idx = readInt8();
+		return (idx < _countof(dict0)) ? dict0[idx] : "";
+
+	case DICTIONARY_1:
+		idx = readInt8();
+		return (idx < _countof(dict1)) ? dict1[idx] : "";
+
+	case DICTIONARY_2:
+		idx = readInt8();
+		return (idx < _countof(dict2)) ? dict2[idx] : "";
+
+	case DICTIONARY_3:
+		idx = readInt8();
+		return (idx < _countof(dict3)) ? dict3[idx] : "";
+
 	case LIST_EMPTY:
 		return "";
 
@@ -302,6 +311,9 @@ void WAWriter::writeListSize(int length)
 
 void WAWriter::writeNode(const WANode *pNode)
 {
+	// we never send zipped content
+	writeByte(0);
+
 	int numAttrs = (int)pNode->attrs.size();
 	int hasContent = pNode->content.length() != 0;
 	writeListSize(2 * numAttrs + 1 + hasContent);
@@ -328,32 +340,6 @@ void WAWriter::writeNode(const WANode *pNode)
 		writeListSize((int)pNode->children.size());
 		for (auto &it : pNode->children)
 			writeNode(it);
-	}
-}
-
-void WAWriter::writeString(const char *str, bool bRaw)
-{
-	if (!bRaw && !mir_strcmp(str, "c.us")) {
-		writeToken("s.whatsapp.net");
-		return;
-	}
-
-	if (writeToken(str))
-		return;
-
-	auto *pszDelimiter = strchr(str, '@');
-	if (pszDelimiter) {
-		writeByte(JID_PAIR);
-
-		if (pszDelimiter == str) // empty jid
-			writeByte(LIST_EMPTY);
-		else
-			writePacked(CMStringA(str, int(pszDelimiter - str)));
-	}
-	else {
-		int len = (int)strlen(str);
-		writeLength(len);
-		body.append(str, len);
 	}
 }
 
@@ -408,13 +394,20 @@ static BYTE packPair(int type, char c1, char c2)
 	return (b1 << 4) + b2;
 }
 
-void WAWriter::writePacked(const CMStringA &str)
+static bool isNibble(const CMStringA &str)
+{
+	return strspn(str, "0123456789-.") == str.GetLength();
+}
+
+static bool isHex(const CMStringA &str)
+{
+	return strspn(str, "0123456789abcdefABCDEF-.") == str.GetLength();
+}
+
+void WAWriter::writePacked(const CMStringA &str, int tag)
 {
 	if (str.GetLength() > 254)
 		return;
-
-	// all symbols of str can be a nibble?
-	int type = (strspn(str, "0123456789-.") == str.GetLength()) ? NIBBLE_8 : HEX_8;
 
 	int len = str.GetLength() / 2;
 	BYTE firstByte = (len % 2) == 0 ? 0 : 0x80;
@@ -422,8 +415,35 @@ void WAWriter::writePacked(const CMStringA &str)
 
 	const char *p = str;
 	for (int i = 0; i < len; i++, p += 2)
-		writeByte(packPair(type, p[0], p[1]));
+		writeByte(packPair(tag, p[0], p[1]));
 
 	if (firstByte != 0)
-		writeByte(packPair(type, p[0], 0));
+		writeByte(packPair(tag, p[0], 0));
+}
+
+void WAWriter::writeString(const char *str)
+{
+	if (writeToken(str))
+		return;
+
+	auto *pszDelimiter = strchr(str, '@');
+	if (pszDelimiter) {
+		writeByte(JID_PAIR);
+
+		if (pszDelimiter == str) // empty jid
+			writeByte(LIST_EMPTY);
+		else
+			writeString(CMStringA(str, int(pszDelimiter - str)));
+	}
+	else {
+		CMStringA buf(str);
+		if (isNibble(buf))
+			writePacked(buf, NIBBLE_8);
+		else if (isHex(buf))
+			writePacked(buf, HEX_8);
+		else {
+			writeLength(buf.GetLength());
+			body.append(buf, buf.GetLength());
+		}
+	}
 }

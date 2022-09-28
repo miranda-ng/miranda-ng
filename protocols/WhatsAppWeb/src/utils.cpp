@@ -76,52 +76,37 @@ int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER pHandler, void 
 
 static char zeroData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-int WhatsAppProto::WSSendNode(int flags, WANode &node, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 {
 	if (m_hServerConn == nullptr)
 		return 0;
 
-	{
-		char str[100];
-		_i64toa(_time64(0), str, 10);
-		node.addAttr("epoch", str);
-
-		CMStringA szText;
-		node.print(szText);
-		debugLogA("Sending binary node: %s", szText.c_str());
-	}
+	CMStringA szText;
+	node.print(szText);
+	debugLogA("Sending binary node: %s", szText.c_str());
 
 	WAWriter writer;
 	writer.writeNode(&node);
-
-	// AES block size = 16 bytes, let's expand data to block size boundary
-	size_t rest = writer.body.length() % 16;
-	if (rest != 0)
-		writer.body.append(zeroData, 16 - rest);
-
-	BYTE iv[16];
-	Utils_GetRandom(iv, sizeof(iv));
-
-	int pktId = ++m_iPktNumber;
 
 	if (pHandler != nullptr) {
 		mir_cslock lck(m_csPacketQueue);
 		m_arPacketQueue.insert(new WARequest(pHandler));
 	}
 
-	char postPrefix[3] = {',', 0, (char)flags};
-
-	MBinBuffer ret;
-	ret.append(postPrefix, sizeof(postPrefix));
-	WebSocket_SendBinary(m_hServerConn, ret.data(), ret.length());
-
-	return pktId;
+	MBinBuffer encData = m_noise->encrypt(writer.body.data(), writer.body.length());
+	MBinBuffer payload = m_noise->encodeFrame(encData.data(), encData.length());
+	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
+	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // WANode members
 
 WANode::WANode()
+{}
+
+WANode::WANode(const char *pszTitle) :
+	title(pszTitle)
 {}
 
 WANode::~WANode()

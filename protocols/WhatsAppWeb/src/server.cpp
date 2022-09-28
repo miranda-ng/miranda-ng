@@ -70,6 +70,9 @@ void WhatsAppProto::ShutdownSession()
 
 void WhatsAppProto::OnStartSession(const WANode &node)
 {
+	WANode reply("iq");
+	reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
+	WSSendNode(reply);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +259,6 @@ bool WhatsAppProto::ServerThreadWorker()
 	debugLogA("Server connection succeeded");
 	m_hServerConn = pReply->nlc;
 	m_iLoginTime = time(0);
-	m_iPktNumber = 0;
 	m_szClientToken = getMStringA(DBKEY_CLIENT_TOKEN);
 
 	auto &pubKey = m_noise->ephemeral.pub;

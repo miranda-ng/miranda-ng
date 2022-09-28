@@ -253,7 +253,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 	payLoad.addAttr("type", "relay");
 	payLoad.content.assign(pBuf, cbBinaryLen);
 	
-	int pktId = WSSendNode(0, payLoad);
+	int pktId = WSSendNode(payLoad);
 
 	mir_cslock lck(m_csOwnMessages);
 	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact, szMsgId));
