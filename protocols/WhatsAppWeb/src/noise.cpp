@@ -137,8 +137,7 @@ void WANoise::init()
 
 void WANoise::finish()
 {
-	deriveKey("", 0, salt, encKey);
-	decKey.assign(encKey.data(), encKey.length());
+	deriveKey("", 0, encKey, decKey);
 	readCounter = writeCounter = 0;
 	memset(hash, 0, sizeof(hash));
 	bInitFinished = true;
@@ -184,7 +183,9 @@ MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)decKey.data(), iv);
 
-	EVP_DecryptUpdate(ctx, nullptr, &tag_len, hash, sizeof(hash));
+	if (!bInitFinished)
+		EVP_DecryptUpdate(ctx, nullptr, &tag_len, hash, sizeof(hash));
+
 	cbLen -= 16;
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (BYTE *)pData + cbLen);
 
