@@ -145,17 +145,9 @@ void WANoise::finish()
 
 void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read)
 {
-	auto *pctx = EVP_PKEY_CTX_new_id(EVP_PKEY_HKDF, NULL);
-	EVP_PKEY_derive_init(pctx);
-	EVP_PKEY_CTX_set_hkdf_md(pctx, EVP_sha256());
-	EVP_PKEY_CTX_set1_hkdf_salt(pctx, salt.data(), (int)salt.length());
-	EVP_PKEY_CTX_set1_hkdf_key(pctx, pData, (int)cbLen);
-
 	size_t outlen = 64;
 	uint8_t out[64];
-	EVP_PKEY_derive(pctx, out, &outlen);
-
-	EVP_PKEY_CTX_free(pctx);
+	HKDF(EVP_sha256(), (BYTE *)salt.data(), (int)salt.length(), (BYTE *)pData, (int)cbLen, (BYTE *)"", 0, out, outlen);
 
 	write.assign(out, 32);
 	read.assign(out + 32, 32);
