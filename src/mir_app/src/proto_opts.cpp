@@ -237,7 +237,7 @@ public:
 		CDlgBase(g_plugin, IDD_ACCMGR),
 		m_accList(this, IDC_ACCLIST),
 		m_name(this, IDC_NAME),
-		m_link(this, IDC_LNK_ADDONS, "https://miranda-ng.org/"),
+		m_link(this, IDC_LNK_ADDONS, "https://wiki.miranda-ng.org/index.php?title=Category:Protocols"),
 		m_btnOk(this, IDOK),
 		m_btnAdd(this, IDC_ADD),
 		m_btnEdit(this, IDC_EDIT),
