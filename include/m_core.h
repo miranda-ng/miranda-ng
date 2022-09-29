@@ -621,6 +621,8 @@ inline int mir_vsnwprintf(_Pre_notnull_ _Always_(_Post_z_) wchar_t(&buffer)[_Siz
 	return mir_vsnwprintf(buffer, _Size, fmt, va);
 }
 
+MIR_CORE_DLL(char *) mir_base64_encode(const class MBinBuffer &buf);
+
 #endif
 
 #ifdef _MSC_VER

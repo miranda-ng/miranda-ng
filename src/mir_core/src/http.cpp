@@ -105,6 +105,16 @@ MIR_CORE_DLL(char*) mir_base64_encode(const void *input, size_t inputLen)
 	return mir_base64_encodebuf(input, inputLen, output, outputLen);
 }
 
+MIR_CORE_DLL(char *) mir_base64_encode(const MBinBuffer &buf)
+{
+	size_t outputLen = mir_base64_encode_bufsize(buf.length());
+	char *output = (char *)mir_alloc(outputLen);
+	if (output == nullptr)
+		return nullptr;
+
+	return mir_base64_encodebuf(buf.data(), buf.length(), output, outputLen);
+}
+
 MIR_CORE_DLL(char*) mir_base64_encodebuf(const void *input, size_t inputLen, char *output, size_t outputLen)
 {
 	if (input == nullptr)
