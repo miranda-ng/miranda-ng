@@ -33,6 +33,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
 	m_arOwnMsgs(1, CompareOwnMsgs),
+	m_arPersistent(1),
 	m_arPacketQueue(10),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bHideGroupchats(this, "HideChats", true)
@@ -47,6 +48,9 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_SETMYAVATAR, &WhatsAppProto::SetMyAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
+
+	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
+	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
 
 	// Client id generation
 	m_szClientId = getMStringA(DBKEY_CLIENT_ID);

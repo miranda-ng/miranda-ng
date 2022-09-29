@@ -26,6 +26,18 @@ struct WARequest
 	void *pUserInfo;
 };
 
+struct WAPersistentHandler
+{
+	WAPersistentHandler(const char *_1, const char *_2, const char *_3, WA_PKT_HANDLER _4) :
+		pszType(_1), pszXmlns(_2), pszNode(_3), pHandler(_4)
+	{}
+
+	const char *pszType;
+	const char *pszXmlns;
+	const char *pszNode;
+	WA_PKT_HANDLER pHandler;
+};
+
 struct WAHistoryMessage
 {
 	CMStringA jid, text;
@@ -166,8 +178,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csPacketQueue;
 	OBJLIST<WARequest> m_arPacketQueue;
 
+	LIST<WAPersistentHandler> m_arPersistent;
+	WA_PKT_HANDLER FindPersistentHandler(const WANode &node);
+
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
-	int  WSSend(const MessageLite &msg, WA_PKT_HANDLER = nullptr, void *pUserIndo = nullptr);
+	int  WSSend(const MessageLite &msg);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
 	void OnLoggedIn(void);
@@ -185,10 +200,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnProcessHandshake(const void *pData, int cbLen);
 	
-	void OnStartSession(const WANode &node);
+	void OnIqPairDevice(const WANode &node);
+	void OnIqPairSuccess(const WANode &node);
 
 	// binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);
+	void ProcessBinaryNode(const WANode &node);
 
 	// text packets
 	void ProcessPacket(const JSONNode &node);

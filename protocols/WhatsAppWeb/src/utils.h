@@ -45,7 +45,11 @@ public:
 	~WANode();
 
 	void addAttr(const char *pszName, const char *pszValue);
-	CMStringA getAttr(const char *pszFieldValue) const;
+	const char* getAttr(const char *pszName) const;
+
+	CMStringA getBody() const;
+
+	WANode* getChild(const char *pszName) const;
 
 	void print(CMStringA &dest, int level = 0) const;
 

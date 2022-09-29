@@ -68,11 +68,83 @@ void WhatsAppProto::ShutdownSession()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnStartSession(const WANode &node)
+void WhatsAppProto::OnIqPairDevice(const WANode &node)
 {
 	WANode reply("iq");
 	reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
 	WSSendNode(reply);
+
+	if (auto *pRef = node.children.front()->getChild("ref")) {
+		ShowQrCode(pRef->getBody());
+	}
+	else {
+		debugLogA("OnIqPairDevice: got reply without ref, exiting");
+		ShutdownSession();
+	}
+}
+
+void WhatsAppProto::OnIqPairSuccess(const WANode &node)
+{
+	CloseQrDialog();
+
+	auto *pRoot = node.children.front();
+
+	try {
+		if (auto *pPlatform = pRoot->getChild("platform"))
+			debugLogA("Got response from platform: %s", pPlatform->getBody().c_str());
+
+		if (auto *pBiz = pRoot->getChild("biz"))
+			if (auto *pszName = pBiz->getAttr("name"))
+				setUString("Nick", pszName);
+
+		if (auto *pDevice = pRoot->getChild("device")) {
+			if (auto *pszJid = pDevice->getAttr("jid"))
+				setUString("jid", pszJid);
+		}
+		else throw "OnIqPairSuccess: got reply without device info, exiting";
+
+		if (auto *pIdentity = pRoot->getChild("device-identity")) {
+			proto::ADVSignedDeviceIdentityHMAC payload;
+			if (!payload.ParseFromArray(pIdentity->content.data(), pIdentity->content.length()))
+				throw "OnIqPairSuccess: got reply with invalid identity, exiting";
+
+			auto &hmac = payload.hmac();
+			debugLogA("Received HMAC signature: %s", hmac.c_str());
+
+			auto &details = payload.details();
+			Netlib_Dump(nullptr, details.c_str(), details.size(), false, 0);
+
+			proto::ADVSignedDeviceIdentity account;
+			if (!account.ParseFromString(details))
+				throw "OnIqPairSuccess: got reply with invalid account, exiting";
+
+			auto &deviceDetails = account.details();
+			auto &accountSignature = account.accountsignature();
+			auto &accountSignatureKey = account.accountsignaturekey();
+
+			MBinBuffer accountMsg;
+			accountMsg.append("\x06\x00", 2);
+			accountMsg.append(deviceDetails.c_str(), deviceDetails.size());
+			accountMsg.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+
+			// Curve.verify(accountSignatureKey, accountMsg, accountSignature)
+			debugLogA("Received account signature");
+			Netlib_Dump(nullptr, accountSignatureKey.c_str(), accountSignatureKey.size(), false, 0);
+			Netlib_Dump(nullptr, accountMsg.data(), accountMsg.length(), false, 0);
+			Netlib_Dump(nullptr, accountSignature.c_str(), accountSignature.size(), false, 0);
+
+			MBinBuffer deviceMsg;
+			deviceMsg.append("\x06\x01", 2);
+			deviceMsg.append(deviceDetails.c_str(), deviceDetails.size());
+			deviceMsg.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+			deviceMsg.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+		}
+		else throw "OnIqPairSuccess: got reply without identity, exiting";
+	}
+	catch (const char *pErrMsg) {
+		debugLogA(pErrMsg);
+		ShutdownSession();
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +267,7 @@ LBL_Error:
 
 	proto::HandshakeMessage handshake;
 	handshake.set_allocated_clientfinish(pFinish);
-	WSSend(handshake, &WhatsAppProto::OnStartSession);
+	WSSend(handshake);
 
 	m_noise->finish();
 }
@@ -395,14 +467,8 @@ void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 				pNode->print(szText);
 				debugLogA("Got binary node:\n%s", szText.c_str());
 
-				if (m_arPacketQueue.getCount()) {
-					WARequest req = m_arPacketQueue[0];
-					m_arPacketQueue.remove(0);
-
-					(this->*req.pHandler)(*pNode);
-					delete pNode;
-				}
-				else debugLogA("cannot handle incoming message");
+				ProcessBinaryNode(*pNode);
+				delete pNode;
 			}
 			else {
 				debugLogA("wrong or broken payload");
@@ -414,6 +480,23 @@ void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 		pData = (BYTE*)pData + payloadLen;
 		cbDataLen -= payloadLen;
 	}
+}
+
+void WhatsAppProto::ProcessBinaryNode(const WANode &node)
+{
+	if (m_arPacketQueue.getCount()) {
+		WARequest req = m_arPacketQueue[0];
+		m_arPacketQueue.remove(0);
+
+		(this->*req.pHandler)(node);
+		return;
+	}
+
+	auto pHandler = FindPersistentHandler(node);
+	if (pHandler)
+		(this->*pHandler)(node);
+	else
+		debugLogA("cannot handle incoming message");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

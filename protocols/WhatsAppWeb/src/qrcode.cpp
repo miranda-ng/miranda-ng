@@ -113,8 +113,13 @@ bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 {
 	CallFunctionSync(sttShowDialog, this);
 
-	auto &pubKey = m_noise->noiseKeys.pub;
-	CMStringA szQrData(FORMAT, "%s,%s,%s", ref.c_str(), ptrA(mir_base64_encode(pubKey.data(), pubKey.length())).get(), m_szClientId.c_str());
+	MBinBuffer secret;
+	getBlob(DBKEY_SECRET_KEY, secret);
+
+	ptrA s1(mir_base64_encode(m_noise->noiseKeys.pub));
+	ptrA s2(mir_base64_encode(m_noise->signedIdentity.pub));
+	ptrA s3(mir_base64_encode(secret));
+	CMStringA szQrData(FORMAT, "%s,%s,%s,%s", ref.c_str(), s1.get(), s2.get(), s3.get());
 	m_pQRDlg->SetData(szQrData);
 	return true;
 }

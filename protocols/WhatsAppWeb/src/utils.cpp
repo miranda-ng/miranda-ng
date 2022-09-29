@@ -37,6 +37,27 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
+{
+	CMStringA szTitle = (pNode.children.size() > 0) ? pNode.children.front()->title : "";
+	CMStringA szType = pNode.title;
+	CMStringA szXmlns = pNode.getAttr("xmlns");
+
+	for (auto &it : m_arPersistent) {
+		if (it->pszType && szType != it->pszType)
+			continue;
+		if (it->pszXmlns && szXmlns != it->pszXmlns)
+			continue;
+		if (it->pszNode && szTitle != it->pszNode)
+			continue;
+		return it->pHandler;
+	}
+
+	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
 {
 	DBVARIANT dbv = { DBVT_BLOB };
@@ -51,17 +72,12 @@ bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const MessageLite &msg, WA_PKT_HANDLER pHandler, void *pUserInfo)
+int WhatsAppProto::WSSend(const MessageLite &msg)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
 
 	// debugLogA("Sending packet: %s", msg..DebugString().c_str());
-
-	if (pHandler != nullptr) {
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(pHandler, pUserInfo));
-	}
 
 	int cbLen = msg.ByteSize();
 	ptrA protoBuf((char *)mir_alloc(cbLen));
@@ -118,18 +134,32 @@ WANode::~WANode()
 		delete p;
 }
 
-CMStringA WANode::getAttr(const char *pszFieldName) const
+const char* WANode::getAttr(const char *pszName) const
 {
 	for (auto &p: attrs)
-		if (p->name == pszFieldName)
-			return p->value;
+		if (p->name == pszName)
+			return p->value.c_str();
 
-	return "";
+	return nullptr;
 }
 
 void WANode::addAttr(const char *pszName, const char *pszValue)
 {
 	attrs.push_back(new Attr(pszName, pszValue));
+}
+
+CMStringA WANode::getBody() const
+{
+	return CMStringA((char *)content.data(), (int)content.length());
+}
+
+WANode* WANode::getChild(const char *pszName) const
+{
+	for (auto &it : children)
+		if (it->title == pszName)
+			return it;
+
+	return nullptr;
 }
 
 void WANode::print(CMStringA &dest, int level) const
