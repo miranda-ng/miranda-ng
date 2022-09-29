@@ -409,8 +409,10 @@ void WAWriter::writePacked(const CMStringA &str, int tag)
 	if (str.GetLength() > 254)
 		return;
 
+	writeByte(tag);
+
 	int len = str.GetLength() / 2;
-	BYTE firstByte = (len % 2) == 0 ? 0 : 0x80;
+	BYTE firstByte = (str.GetLength() % 2) == 0 ? 0 : 0x80;
 	writeByte(firstByte | len);
 
 	const char *p = str;
@@ -434,6 +436,11 @@ void WAWriter::writeString(const char *str)
 			writeByte(LIST_EMPTY);
 		else
 			writeString(CMStringA(str, int(pszDelimiter - str)));
+
+		if (pszDelimiter[1] == 0) // empty jid
+			writeByte(LIST_EMPTY);
+		else
+			writeString(pszDelimiter + 1);
 	}
 	else {
 		CMStringA buf(str);
