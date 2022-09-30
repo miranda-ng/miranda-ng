@@ -89,6 +89,13 @@ MBinBuffer::MBinBuffer(size_t preAlloc)
 	m_buf = (char*)(p + 1);
 }
 
+MBinBuffer& MBinBuffer::operator=(MBinBuffer &&from) noexcept
+{
+	m_buf = from.m_buf;
+	from.m_buf = nullptr;
+	return *this;
+}
+
 MBinBuffer::~MBinBuffer()
 {
 	ptr2buf(m_buf)->free();

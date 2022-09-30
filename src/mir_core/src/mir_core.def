@@ -991,7 +991,7 @@ CallFunctionSync @1170
 ?RemovePage@CCtrlPages@@QAEXH@Z @1205 NONAME
 ??0MBinBuffer@@QAE@XZ @1206 NONAME
 ??1MBinBuffer@@QAE@XZ @1207 NONAME
-??4MBinBuffer@@QAEAAV0@ABV0@@Z @1208 NONAME
+??4MBinBuffer@@QAEAAV0@$$QAV0@@Z @1208 NONAME
 ?append@MBinBuffer@@QAEXPBXI@Z @1209 NONAME
 ?appendBefore@MBinBuffer@@QAEXPBXI@Z @1210 NONAME
 ?data@MBinBuffer@@QBEPADXZ @1211 NONAME

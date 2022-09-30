@@ -477,6 +477,7 @@ public:
 	MBinBuffer(size_t preAlloc);
 	MBinBuffer(const MBinBuffer &orig);
 	~MBinBuffer();
+	MBinBuffer& operator=(MBinBuffer &&) noexcept;
 
 	__forceinline char* data() const { return m_buf; }
 	__forceinline bool isEmpty() const { return m_buf == nullptr; }
