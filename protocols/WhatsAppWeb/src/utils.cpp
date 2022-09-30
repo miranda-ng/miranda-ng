@@ -39,7 +39,8 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 
 WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
 {
-	CMStringA szTitle = (pNode.children.size() > 0) ? pNode.children.front()->title : "";
+	auto *pChild = pNode.getFirstChild();
+	CMStringA szTitle = (pChild) ? pChild->title : "";
 	CMStringA szType = pNode.title;
 	CMStringA szXmlns = pNode.getAttr("xmlns");
 
@@ -58,15 +59,15 @@ WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-bool WhatsAppProto::getBlob(const char *szSetting, MBinBuffer &buf)
+MBinBuffer WhatsAppProto::getBlob(const char *szSetting)
 {
+	MBinBuffer buf;
 	DBVARIANT dbv = { DBVT_BLOB };
-	if (db_get(0, m_szModuleName, szSetting, &dbv))
-		return false;
-
-	buf.assign(dbv.pbVal, dbv.cpbVal);
-	db_free(&dbv);
-	return true;
+	if (!db_get(0, m_szModuleName, szSetting, &dbv)) {
+		buf.assign(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+	}
+	return buf;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -113,88 +114,6 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	MBinBuffer payload = m_noise->encodeFrame(encData.data(), encData.length());
 	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
 	return 1;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-// WANode members
-
-WANode::WANode()
-{}
-
-WANode::WANode(const char *pszTitle) :
-	title(pszTitle)
-{}
-
-WANode::~WANode()
-{
-	for (auto &p: attrs)
-		delete p;
-
-	for (auto &p: children)
-		delete p;
-}
-
-const char* WANode::getAttr(const char *pszName) const
-{
-	for (auto &p: attrs)
-		if (p->name == pszName)
-			return p->value.c_str();
-
-	return nullptr;
-}
-
-void WANode::addAttr(const char *pszName, const char *pszValue)
-{
-	attrs.push_back(new Attr(pszName, pszValue));
-}
-
-CMStringA WANode::getBody() const
-{
-	return CMStringA((char *)content.data(), (int)content.length());
-}
-
-WANode* WANode::getChild(const char *pszName) const
-{
-	for (auto &it : children)
-		if (it->title == pszName)
-			return it;
-
-	return nullptr;
-}
-
-void WANode::print(CMStringA &dest, int level) const
-{
-	for (int i = 0; i < level; i++)
-		dest.Append("  ");
-
-	dest.AppendFormat("<%s ", title.c_str());
-	for (auto &p: attrs)
-		dest.AppendFormat("%s=\"%s\" ", p->name.c_str(), p->value.c_str());
-	dest.Truncate(dest.GetLength() - 1);
-
-	if (content.isEmpty() && children.empty()) {
-		dest.Append("/>\n");
-		return;
-	}
-
-	dest.Append(">");
-	if (!content.isEmpty()) {
-		ptrA tmp((char *)mir_alloc(content.length() * 2 + 1));
-		bin2hex(content.data(), content.length(), tmp);
-		dest.AppendFormat("%s", tmp.get());
-	}
-
-	if (!children.empty()) {
-		dest.Append("\n");
-
-		for (auto &p : children)
-			p->print(dest, level + 1);
-
-		for (int i = 0; i < level; i++)
-			dest.Append("  ");
-	}
-
-	dest.AppendFormat("</%s>\n", title.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

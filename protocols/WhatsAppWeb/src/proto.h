@@ -148,7 +148,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	EVP_PKEY *m_pKeys; // private & public keys
 	WANoise *m_noise;
 
-	bool getBlob(const char *pSetting, MBinBuffer &buf);
+	MBinBuffer getBlob(const char *pSetting);
 
 	// Contacts management /////////////////////////////////////////////////////////////////
 

@@ -74,7 +74,7 @@ void WhatsAppProto::OnIqPairDevice(const WANode &node)
 	reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
 	WSSendNode(reply);
 
-	if (auto *pRef = node.children.front()->getChild("ref")) {
+	if (auto *pRef = node.getChild("pair-device")->getChild("ref")) {
 		ShowQrCode(pRef->getBody());
 	}
 	else {
@@ -87,7 +87,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 {
 	CloseQrDialog();
 
-	auto *pRoot = node.children.front();
+	auto *pRoot = node.getChild("pair-success");
 
 	try {
 		if (auto *pPlatform = pRoot->getChild("platform"))
@@ -105,7 +105,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 		if (auto *pIdentity = pRoot->getChild("device-identity")) {
 			proto::ADVSignedDeviceIdentityHMAC payload;
-			if (!payload.ParseFromArray(pIdentity->content.data(), pIdentity->content.length()))
+			if (!payload.ParseFromArray(pIdentity->content.data(), (int)pIdentity->content.length()))
 				throw "OnIqPairSuccess: got reply with invalid identity, exiting";
 
 			auto &hmac = payload.hmac();
@@ -114,6 +114,16 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			auto &details = payload.details();
 			Netlib_Dump(nullptr, details.c_str(), details.size(), false, 0);
 
+			// check details signature using HMAC
+			{
+				uint8_t signature[32];
+				unsigned int out_len = sizeof(signature);
+				MBinBuffer secret(getBlob(DBKEY_SECRET_KEY));
+				HMAC(EVP_sha256(), secret.data(), (int)secret.length(), (BYTE *)details.c_str(), (int)details.size(), signature, &out_len);
+				if (memcmp(hmac.c_str(), signature, sizeof(signature)))
+					throw "OnIqPairSuccess: got reply with invalid details signature, exiting";
+			}
+
 			proto::ADVSignedDeviceIdentity account;
 			if (!account.ParseFromString(details))
 				throw "OnIqPairSuccess: got reply with invalid account, exiting";
@@ -121,23 +131,62 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			auto &deviceDetails = account.details();
 			auto &accountSignature = account.accountsignature();
 			auto &accountSignatureKey = account.accountsignaturekey();
+			{
+				MBinBuffer buf;
+				buf.append("\x06\x00", 2);
+				buf.append(deviceDetails.c_str(), deviceDetails.size());
+				buf.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
 
-			MBinBuffer accountMsg;
-			accountMsg.append("\x06\x00", 2);
-			accountMsg.append(deviceDetails.c_str(), deviceDetails.size());
-			accountMsg.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+				ec_public_key key = {};
+				memcpy(key.data, accountSignatureKey.c_str(), sizeof(key.data));
+				if (1 != curve_verify_signature(&key, (BYTE *)buf.data(), buf.length(), (BYTE *)accountSignature.c_str(), accountSignature.size()))
+					throw "OnIqPairSuccess: got reply with invalid account signature, exiting";
+			}
+			debugLogA("Received valid account signature");
+			{
+				MBinBuffer buf;
+				buf.append("\x06\x01", 2);
+				buf.append(deviceDetails.c_str(), deviceDetails.size());
+				buf.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+				buf.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+				
+				signal_buffer *result;
+				ec_private_key key = {};
+				memcpy(key.data, m_noise->signedIdentity.priv.data(), m_noise->signedIdentity.priv.length());
+				if (curve_calculate_signature(g_plugin.pCtx, &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
+					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
-			// Curve.verify(accountSignatureKey, accountMsg, accountSignature)
-			debugLogA("Received account signature");
-			Netlib_Dump(nullptr, accountSignatureKey.c_str(), accountSignatureKey.size(), false, 0);
-			Netlib_Dump(nullptr, accountMsg.data(), accountMsg.length(), false, 0);
-			Netlib_Dump(nullptr, accountSignature.c_str(), accountSignature.size(), false, 0);
+				account.set_devicesignature(result->data, result->len);
+				signal_buffer_free(result);
+			}
 
-			MBinBuffer deviceMsg;
-			deviceMsg.append("\x06\x01", 2);
-			deviceMsg.append(deviceDetails.c_str(), deviceDetails.size());
-			deviceMsg.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
-			deviceMsg.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+			setDword("SignalDeviceId", 0);
+			{
+				MBinBuffer key;
+				if (accountSignatureKey.size() == 32)
+					key.append(KEY_BUNDLE_TYPE, 1);
+				key.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+				db_set_blob(0, m_szModuleName, "SignalIdentifierKey", key.data(), (int)key.length());
+			}
+
+			account.clear_accountsignaturekey();
+
+			MBinBuffer accountEnc(account.ByteSize());
+			account.SerializeToArray(accountEnc.data(), (int)accountEnc.length());
+			db_set_blob(0, m_szModuleName, "WAAccount", accountEnc.data(), (int)accountEnc.length());
+
+			proto::ADVDeviceIdentity deviceIdentity;
+			deviceIdentity.ParseFromString(deviceDetails);
+
+			WANode reply("iq");
+			reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
+
+			WANode *nodePair = reply.addChild("pair-device-sign");
+
+			WANode *nodeDeviceIdentity = nodePair->addChild("device-identity");
+			nodeDeviceIdentity->addAttr("key-index", deviceIdentity.keyindex());
+			nodeDeviceIdentity->content.append(accountEnc.data(), accountEnc.length());
+			WSSendNode(reply);
 		}
 		else throw "OnIqPairSuccess: got reply without identity, exiting";
 	}

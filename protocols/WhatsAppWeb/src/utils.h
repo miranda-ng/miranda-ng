@@ -25,19 +25,12 @@ Copyright © 2019-22 George Hazan
 
 class WANode // kinda XML
 {
+	friend class WAReader;
 	friend class WAWriter;
 
-	struct Attr
-	{
-		Attr(const char *pszName, const char *pszValue) :
-			name(pszName),
-			value(pszValue)
-		{}
-
-		CMStringA name, value;
-	};
-
-	std::list<Attr*> attrs;
+	WANode *pParent = nullptr;
+	OBJLIST<struct Attr> attrs;
+	OBJLIST<WANode> children;
 
 public:
 	WANode();
@@ -45,17 +38,19 @@ public:
 	~WANode();
 
 	void addAttr(const char *pszName, const char *pszValue);
+	void addAttr(const char *pszName, int iValue);
 	const char* getAttr(const char *pszName) const;
 
 	CMStringA getBody() const;
 
+	WANode* addChild(const char *pszName);
 	WANode* getChild(const char *pszName) const;
+	WANode* getFirstChild(void) const;
 
 	void print(CMStringA &dest, int level = 0) const;
 
 	CMStringA title;
 	MBinBuffer content;
-	std::list<WANode*> children;
 };
 
 __forceinline WANode& operator<<(WANode &node, const CHAR_PARAM &param)

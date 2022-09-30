@@ -8,6 +8,120 @@ Copyright © 2019-22 George Hazan
 #include "stdafx.h"
 #include "dicts.h"
 
+struct Attr
+{
+	Attr(const char *pszName, const char *pszValue) :
+		name(pszName),
+		value(pszValue)
+	{}
+
+	Attr(const char *pszName, int iValue) :
+		name(pszName),
+		value(FORMAT, "%d", iValue)
+	{}
+
+	CMStringA name, value;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// WANode members
+
+WANode::WANode() :
+	attrs(1),
+	children(1)
+{}
+
+WANode::WANode(const char *pszTitle) :
+	attrs(1),
+	children(1),
+	title(pszTitle)
+{}
+
+WANode::~WANode()
+{
+}
+
+const char *WANode::getAttr(const char *pszName) const
+{
+	for (auto &p : attrs)
+		if (p->name == pszName)
+			return p->value.c_str();
+
+	return nullptr;
+}
+
+void WANode::addAttr(const char *pszName, const char *pszValue)
+{
+	attrs.insert(new Attr(pszName, pszValue));
+}
+
+void WANode::addAttr(const char *pszName, int iValue)
+{
+	attrs.insert(new Attr(pszName, iValue));
+}
+
+CMStringA WANode::getBody() const
+{
+	return CMStringA((char *)content.data(), (int)content.length());
+}
+
+WANode *WANode::addChild(const char *pszName)
+{
+	auto *pNew = new WANode(pszName);
+	pNew->pParent = this;
+	children.insert(pNew);
+	return pNew;
+}
+
+WANode* WANode::getChild(const char *pszName) const
+{
+	for (auto &it : children)
+		if (it->title == pszName)
+			return it;
+
+	return nullptr;
+}
+
+WANode *WANode::getFirstChild(void) const
+{
+	return (children.getCount()) ? &children[0] : nullptr;
+}
+
+void WANode::print(CMStringA &dest, int level) const
+{
+	for (int i = 0; i < level; i++)
+		dest.Append("  ");
+
+	dest.AppendFormat("<%s ", title.c_str());
+	for (auto &p : attrs)
+		dest.AppendFormat("%s=\"%s\" ", p->name.c_str(), p->value.c_str());
+	dest.Truncate(dest.GetLength() - 1);
+
+	if (content.isEmpty() && !children.getCount()) {
+		dest.Append("/>\n");
+		return;
+	}
+
+	dest.Append(">");
+	if (!content.isEmpty()) {
+		ptrA tmp((char *)mir_alloc(content.length() * 2 + 1));
+		bin2hex(content.data(), content.length(), tmp);
+		dest.AppendFormat("%s", tmp.get());
+	}
+
+	if (children.getCount()) {
+		dest.Append("\n");
+
+		for (auto &p : children)
+			p->print(dest, level + 1);
+
+		for (int i = 0; i < level; i++)
+			dest.Append("  ");
+	}
+
+	dest.AppendFormat("</%s>\n", title.c_str());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // WAReader class members
 
@@ -61,7 +175,7 @@ bool WAReader::readList(WANode *pParent, int tag)
 		WANode *pNew = readNode();
 		if (pNew == nullptr)
 			return false;
-		pParent->children.push_back(pNew);
+		pParent->children.insert(pNew);
 	}
 
 	return true;
@@ -312,10 +426,11 @@ void WAWriter::writeListSize(int length)
 void WAWriter::writeNode(const WANode *pNode)
 {
 	// we never send zipped content
-	writeByte(0);
+	if (pNode->pParent == nullptr)
+		writeByte(0);
 
-	int numAttrs = (int)pNode->attrs.size();
-	int hasContent = pNode->content.length() != 0;
+	int numAttrs = (int)pNode->attrs.getCount();
+	int hasContent = pNode->content.length() != 0 || pNode->children.getCount() != 0;
 	writeListSize(2 * numAttrs + 1 + hasContent);
 
 	writeString(pNode->title.c_str());
@@ -334,10 +449,9 @@ void WAWriter::writeNode(const WANode *pNode)
 		writeLength((int)pNode->content.length());
 		body.append(pNode->content.data(), pNode->content.length());
 	}
-
 	// write children
-	if (pNode->children.size()) {
-		writeListSize((int)pNode->children.size());
+	else if (pNode->children.getCount()) {
+		writeListSize(pNode->children.getCount());
 		for (auto &it : pNode->children)
 			writeNode(it);
 	}

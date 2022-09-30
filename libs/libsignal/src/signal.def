@@ -70,34 +70,36 @@ EXPORTS
    signal_protocol_key_helper_key_list_element
    signal_protocol_key_helper_key_list_next
    signal_protocol_key_helper_key_list_free
-	session_builder_create
-	session_cipher_create
-	session_builder_free
-	session_cipher_free
-	curve_decode_point
-	session_pre_key_bundle_create
-	session_builder_process_pre_key_bundle
-	session_cipher_encrypt
-	ciphertext_message_get_serialized
-	session_cipher_decrypt_signal_message
-	signal_message_deserialize
-	session_cipher_decrypt_pre_key_signal_message
-	pre_key_signal_message_deserialize
-	pre_key_signal_message_get_pre_key_id
-	session_signed_pre_key_serialize
-	session_pre_key_serialize
-	session_pre_key_get_id
-	session_pre_key_deserialize
-	fingerprint_generator_create
-	fingerprint_generator_free
-	fingerprint_generator_create_for
-	fingerprint_get_displayable
-	displayable_fingerprint_text
-	displayable_fingerprint_local
-	displayable_fingerprint_remote
-	ciphertext_message_get_type
+   session_builder_create
+   session_cipher_create
+   session_builder_free
+   session_cipher_free
+   curve_decode_point
+   session_pre_key_bundle_create
+   session_builder_process_pre_key_bundle
+   session_cipher_encrypt
+   ciphertext_message_get_serialized
+   session_cipher_decrypt_signal_message
+   signal_message_deserialize
+   session_cipher_decrypt_pre_key_signal_message
+   pre_key_signal_message_deserialize
+   pre_key_signal_message_get_pre_key_id
+   session_signed_pre_key_serialize
+   session_pre_key_serialize
+   session_pre_key_get_id
+   session_pre_key_deserialize
+   fingerprint_generator_create
+   fingerprint_generator_free
+   fingerprint_generator_create_for
+   fingerprint_get_displayable
+   displayable_fingerprint_text
+   displayable_fingerprint_local
+   displayable_fingerprint_remote
+   ciphertext_message_get_type
    curve_calculate_agreement
    curve_decode_private_point
+   curve_calculate_signature
+   curve_verify_signature
    hkdf_create
    hkdf_expand
    hkdf_destroy

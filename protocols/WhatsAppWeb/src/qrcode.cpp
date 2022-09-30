@@ -113,8 +113,7 @@ bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 {
 	CallFunctionSync(sttShowDialog, this);
 
-	MBinBuffer secret;
-	getBlob(DBKEY_SECRET_KEY, secret);
+	MBinBuffer secret(getBlob(DBKEY_SECRET_KEY));
 
 	ptrA s1(mir_base64_encode(m_noise->noiseKeys.pub));
 	ptrA s2(mir_base64_encode(m_noise->signedIdentity.pub));

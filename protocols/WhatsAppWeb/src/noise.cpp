@@ -123,16 +123,16 @@ void WANoise::init()
 		signal_protocol_key_helper_key_list_free(keys_root);
 	}
 
-	ppro->getBlob(DBKEY_NOISE_PUB, noiseKeys.pub);
-	ppro->getBlob(DBKEY_NOISE_PRIV, noiseKeys.priv);
+	noiseKeys.pub = ppro->getBlob(DBKEY_NOISE_PUB);
+	noiseKeys.priv = ppro->getBlob(DBKEY_NOISE_PRIV);
 
-	ppro->getBlob(DBKEY_SIGNED_IDENTITY_PUB, signedIdentity.pub);
-	ppro->getBlob(DBKEY_SIGNED_IDENTITY_PRIV, signedIdentity.priv);
+	signedIdentity.pub = ppro->getBlob(DBKEY_SIGNED_IDENTITY_PUB);
+	signedIdentity.priv = ppro->getBlob(DBKEY_SIGNED_IDENTITY_PRIV);
 
-	ppro->getBlob(DBKEY_PREKEY_PUB, preKey.pub);
-	ppro->getBlob(DBKEY_PREKEY_PRIV, preKey.priv);
-	ppro->getBlob(DBKEY_PREKEY_SIGN, preKey.signature);
+	preKey.pub = ppro->getBlob(DBKEY_PREKEY_PUB);
+	preKey.priv = ppro->getBlob(DBKEY_PREKEY_PRIV);
 	preKey.keyid = ppro->getDword(DBKEY_PREKEY_KEYID);
+	preKey.signature = ppro->getBlob(DBKEY_PREKEY_SIGN);
 }
 
 void WANoise::finish()
