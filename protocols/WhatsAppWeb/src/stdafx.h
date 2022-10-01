@@ -62,6 +62,8 @@ Copyright © 2019-22 George Hazan
 /////////////////////////////////////////////////////////////////////////////////////////
 // to obtain protobuf library do the following
 // - install vcpkg (https://github.com/microsoft/vcpkg);
+// - integrage vcpkg into Visual Studio:
+// >vcpkg.exe integrate install
 // - install static libraries of protobuf:
 // >vcpkg.exe install protobuf:x86-windows-static-md
 // >vcpkg.exe install protobuf:x64-windows-static-md
