@@ -213,7 +213,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);
-	void ProcessBinaryNode(const WANode &node);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);

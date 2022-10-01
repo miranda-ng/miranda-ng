@@ -205,7 +205,12 @@ void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 				pNode->print(szText);
 				debugLogA("Got binary node:\n%s", szText.c_str());
 
-				ProcessBinaryNode(*pNode);
+				auto pHandler = FindPersistentHandler(*pNode);
+				if (pHandler)
+					(this->*pHandler)(*pNode);
+				else
+					debugLogA("cannot handle incoming message");
+
 				delete pNode;
 			}
 			else {
@@ -218,23 +223,6 @@ void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 		pData = (BYTE*)pData + payloadLen;
 		cbDataLen -= payloadLen;
 	}
-}
-
-void WhatsAppProto::ProcessBinaryNode(const WANode &node)
-{
-	if (m_arPacketQueue.getCount()) {
-		WARequest req = m_arPacketQueue[0];
-		m_arPacketQueue.remove(0);
-
-		(this->*req.pHandler)(node);
-		return;
-	}
-
-	auto pHandler = FindPersistentHandler(node);
-	if (pHandler)
-		(this->*pHandler)(node);
-	else
-		debugLogA("cannot handle incoming message");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
