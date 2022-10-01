@@ -82,7 +82,7 @@ WANode* WANode::getChild(const char *pszName) const
 	return nullptr;
 }
 
-WANode *WANode::getFirstChild(void) const
+WANode* WANode::getFirstChild(void) const
 {
 	return (children.getCount()) ? &children[0] : nullptr;
 }
@@ -345,8 +345,8 @@ CMStringA WAReader::readString(int tag)
 		{
 			int agent = readInt8();
 			int device = readInt8();
-			CMStringA user = readString(readInt8());
-			return user + "@c.us";
+			WAJid jid(readString(readInt8()), "s.whatsapp.net", device, agent);
+			return jid.toString();
 		}
 
 	case JID_PAIR:

@@ -57,6 +57,7 @@
   <ItemGroup>
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\chats.cpp" />
+    <ClCompile Include="src\iq.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\noise.cpp" />
     <ClCompile Include="src\options.cpp" />
@@ -70,7 +71,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\wareader.cpp" />
+    <ClCompile Include="src\wanode.cpp" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\dicts.h" />
     <ClInclude Include="src\proto.h" />

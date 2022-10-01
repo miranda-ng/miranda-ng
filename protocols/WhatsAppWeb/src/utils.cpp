@@ -1,11 +1,58 @@
 /*
 
 WhatsAppWeb plugin for Miranda NG
-Copyright © 2019 George Hazan
+Copyright © 2019-22 George Hazan
 
 */
 
 #include "stdafx.h"
+
+WAJid::WAJid(const char *pszUser, const char *pszServer, int iDevice, int iAgent) :
+	user(pszUser ? pszUser : ""),
+	server(pszServer ? pszServer : ""),
+	device(iDevice),
+	agent(iAgent)
+{}
+
+WAJid::WAJid(const char *pszJid)
+{
+	if (pszJid == nullptr)
+		pszJid = "";
+
+	auto *tmp = NEWSTR_ALLOCA(pszJid);
+	auto *p = strrchr(tmp, '@');
+	if (p) {
+		*p = 0;
+		server = p + 1;
+	}
+
+	if (p = strrchr(tmp, ':')) {
+		*p = 0;
+		device = atoi(p + 1);
+	}
+	else device = 0;
+
+	if (p = strrchr(tmp, '_')) {
+		*p = 0;
+		agent = atoi(p + 1);
+	}
+	else agent = 0;
+
+	user = tmp;
+}
+
+CMStringA WAJid::toString() const
+{
+	CMStringA ret(user);
+	if (agent > 0)
+		ret.AppendFormat("_%d", agent);
+	if (device > 0)
+		ret.AppendFormat(":%d", device);
+	ret.AppendFormat("@%s", server.c_str());
+	return ret;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 WAUser* WhatsAppProto::FindUser(const char *szId)
 {
@@ -23,7 +70,7 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
-	setString(hContact, DBKEY_ID, szId);
+	setString(hContact, DBKEY_JID, szId);
 	pUser = new WAUser(hContact, mir_strdup(szId));
 	if (bTemporary)
 		Contact::RemoveFromList(hContact);

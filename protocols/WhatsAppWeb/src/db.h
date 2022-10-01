@@ -8,14 +8,8 @@ Copyright © 2019-22 George Hazan
 #define MODULENAME  "WhatsApp"
 
 // DB keys
-#define DBKEY_ID                      "ID"
-#define DBKEY_LOGIN                   "Login"
-#define DBKEY_CC                      "CountryCode"
-
-#define DBKEY_CLIENT_ID               "ClientId"
-#define DBKEY_CLIENT_TOKEN            "ClientToken"
-#define DBKEY_SERVER_TOKEN            "ServerToken"
-#define DBKEY_BROWSER_TOKEN           "BrowserToken"
+#define DBKEY_JID                     "jid"
+#define DBKEY_DEVICE_ID               "DeviceId"
 
 #define DBKEY_NOISE_PUB               "NoisePublicKey"
 #define DBKEY_NOISE_PRIV              "NoisePrivateKey"

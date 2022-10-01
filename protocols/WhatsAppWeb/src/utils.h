@@ -109,6 +109,19 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct WAJid
+{
+	int device, agent;
+	CMStringA user, server;
+
+	WAJid(const char *pszJid);
+	WAJid(const char *pszUser, const char *pszServer, int device = 0, int agent = 0);
+
+	CMStringA toString() const;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 void generateIV(uint8_t *iv, int &pVar);
 

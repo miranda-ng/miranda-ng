@@ -1,3 +1,10 @@
+/*
+
+WhatsAppWeb plugin for Miranda NG
+Copyright © 2019-22 George Hazan
+
+*/
+
 static char *SingleByteTokens[] = {
 	"", "xmlstreamstart", "xmlstreamend", "s.whatsapp.net", "type", "participant", "from", "receipt", "id", "broadcast", "status", "message", "notification", "notify", "to", "jid", "user", 
 	"class", "offline", "g.us", "result", "mediatype", "enc", "skmsg", "off_cnt", "xmlns", "presence", "participants", "ack", "t", "iq", "device_hash", "read", "value", "media", "picture",

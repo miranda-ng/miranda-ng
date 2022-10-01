@@ -30,6 +30,7 @@ static int CompareUsers(const WAUser *p1, const WAUser *p2)
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
+	m_szJid(getMStringA(DBKEY_JID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
 	m_arOwnMsgs(1, CompareOwnMsgs),
@@ -49,18 +50,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
-	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
-	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
-
-	// Client id generation
-	m_szClientId = getMStringA(DBKEY_CLIENT_ID);
-	if (m_szClientId.IsEmpty()) {
-		int8_t randBytes[16];
-		Utils_GetRandom(randBytes, sizeof(randBytes));
-
-		m_szClientId = ptrA(mir_base64_encode(randBytes, sizeof(randBytes)));
-		setString(DBKEY_CLIENT_ID, m_szClientId);
-	}
+	InitPersistentHandlers();
 
 	// Create standard network connection
 	wchar_t descr[512];
@@ -72,6 +62,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
 
+	// Avatars folder
 	m_tszAvatarFolder = CMStringW(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
@@ -101,7 +92,7 @@ void WhatsAppProto::OnModulesLoaded()
 {
 	// initialize contacts cache
 	for (auto &cc : AccContacts()) {
-		CMStringA szId(getMStringA(cc, isChatRoom(cc) ? "ChatRoomID" : DBKEY_ID));
+		CMStringA szId(getMStringA(cc, isChatRoom(cc) ? "ChatRoomID" : DBKEY_JID));
 		if (!szId.IsEmpty())
 			m_arUsers.insert(new WAUser(cc, szId));
 	}
@@ -225,7 +216,7 @@ void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
-	ptrA jid(getStringA(hContact, DBKEY_ID));
+	ptrA jid(getStringA(hContact, DBKEY_JID));
 	if (jid == nullptr || pszMsg == nullptr)
 		return 0;
 
@@ -267,7 +258,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)
 {
 	if (hContact && isOnline()) {
-		ptrA jid(getStringA(hContact, DBKEY_ID));
+		ptrA jid(getStringA(hContact, DBKEY_JID));
 		if (jid && isOnline()) {
 		}
 	}

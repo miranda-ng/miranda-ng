@@ -35,7 +35,10 @@
     <ClCompile Include="src\noise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\wareader.cpp">
+    <ClCompile Include="src\wanode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\iq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

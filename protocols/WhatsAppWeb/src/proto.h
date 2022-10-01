@@ -139,10 +139,10 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	} m_impl;
 
 
-	bool m_bTerminated;
+	bool m_bTerminated, m_bRespawn;
 	ptrW m_tszDefaultGroup;
 
-	CMStringA m_szJid, m_szClientId, m_szClientToken;
+	CMStringA m_szJid;
 	CMStringW m_tszAvatarFolder;
 
 	EVP_PKEY *m_pKeys; // private & public keys
@@ -187,7 +187,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
-	bool ServerThreadWorker(void);
+	void ServerThreadWorker(void);
 	void ShutdownSession(void);
 
 	void SendKeepAlive();
@@ -200,19 +200,14 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnProcessHandshake(const void *pData, int cbLen);
 	
+	void InitPersistentHandlers();
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
+	void OnStreamError(const WANode &node);
 
 	// binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);
 	void ProcessBinaryNode(const WANode &node);
-
-	// text packets
-	void ProcessPacket(const JSONNode &node);
-	void ProcessBlocked(const JSONNode &node);
-	void ProcessCmd(const JSONNode &node);
-	void ProcessConn(const JSONNode &node);
-	void ProcessPresence(const JSONNode &node);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
