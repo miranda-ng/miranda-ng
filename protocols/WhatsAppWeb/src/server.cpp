@@ -18,7 +18,7 @@ void WhatsAppProto::ServerThread(void *)
 	}
 	while (m_bRespawn);
 
-	ShutdownSession();
+	OnLoggedOut();
 }
 
 void WhatsAppProto::ServerThreadWorker()
@@ -80,8 +80,8 @@ void WhatsAppProto::ServerThreadWorker()
 			if (!WSReadPacket(hdr, netbuf))
 				break;
 
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
-			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		// debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+			// netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
 
 		m_lastRecvTime = time(0);
@@ -136,7 +136,7 @@ void WhatsAppProto::ServerThreadWorker()
 			}
 
 			netbuf.remove(hdr.headerSize + hdr.payloadSize);
-			debugLogA("%d bytes removed from network buffer, %d bytes remain", hdr.headerSize + hdr.payloadSize, netbuf.length());
+			// debugLogA("%d bytes removed from network buffer, %d bytes remain", hdr.headerSize + hdr.payloadSize, netbuf.length());
 			if (netbuf.length() == 0)
 				break;
 

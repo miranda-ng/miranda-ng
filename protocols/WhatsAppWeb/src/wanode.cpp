@@ -526,8 +526,8 @@ void WAWriter::writePacked(const CMStringA &str, int tag)
 	writeByte(tag);
 
 	int len = str.GetLength() / 2;
-	BYTE firstByte = (str.GetLength() % 2) == 0 ? 0 : 0x80;
-	writeByte(firstByte | len);
+	BYTE firstByte = (str.GetLength() % 2) == 0 ? 0 : 0x81;
+	writeByte(firstByte + len);
 
 	const char *p = str;
 	for (int i = 0; i < len; i++, p += 2)

@@ -157,7 +157,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 
 	CMStringA szText;
 	node.print(szText);
-	debugLogA("Sending binary node: %s", szText.c_str());
+	debugLogA("Sending binary node:\n%s", szText.c_str());
 
 	WAWriter writer;
 	writer.writeNode(&node);

@@ -208,7 +208,7 @@ size_t WANoise::decodeFrame(const void *&pData, size_t &cbLen)
 		payloadLen += p[i];
 	}
 
-	ppro->debugLogA("got payload of size %d", payloadLen);
+	// ppro->debugLogA("got payload of size %d", payloadLen);
 
 	cbLen -= 3;
 	if (payloadLen > cbLen) {
