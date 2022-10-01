@@ -64,9 +64,9 @@ Copyright © 2019-22 George Hazan
 // - install vcpkg (https://github.com/microsoft/vcpkg);
 // - integrage vcpkg into Visual Studio:
 // >vcpkg.exe integrate install
-// - install static libraries of protobuf:
-// >vcpkg.exe install protobuf:x86-windows-static-md
-// >vcpkg.exe install protobuf:x64-windows-static-md
+// - install dynamic libraries of protobuf:
+// >vcpkg.exe install protobuf:x86-windows
+// >vcpkg.exe install protobuf:x64-windows
 
 #include "google/protobuf/message.h"
 #include "pmsg.pb.h"
