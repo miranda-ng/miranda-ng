@@ -17,24 +17,24 @@ typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
 
 struct WARequest
 {
-	WARequest(WA_PKT_HANDLER _1, void *_2 = nullptr) :
-		pHandler(_1),
-		pUserInfo(_2)
+	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2, void *_3 = nullptr) :
+		szPacketId(_1),
+		pHandler(_2),
+		pUserInfo(_3)
 	{}
 
+	CMStringA szPacketId;
 	WA_PKT_HANDLER pHandler;
 	void *pUserInfo;
 };
 
 struct WAPersistentHandler
 {
-	WAPersistentHandler(const char *_1, const char *_2, const char *_3, WA_PKT_HANDLER _4) :
-		pszType(_1), pszXmlns(_2), pszNode(_3), pHandler(_4)
+	WAPersistentHandler(const char *_1, const char *_2, const char *_3, const char *_4, WA_PKT_HANDLER _5) :
+		pszTitle(_1), pszType(_2), pszXmlns(_3), pszChild(_4), pHandler(_5)
 	{}
 
-	const char *pszType;
-	const char *pszXmlns;
-	const char *pszNode;
+	const char *pszTitle, *pszType, *pszXmlns, *pszChild;
 	WA_PKT_HANDLER pHandler;
 };
 
@@ -172,7 +172,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Network ////////////////////////////////////////////////////////////////////////////
 
-	time_t m_iLoginTime;
+	time_t m_lastRecvTime;
 	HNETLIBCONN m_hServerConn;
 
 	mir_cs m_csPacketQueue;
@@ -180,6 +180,10 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	LIST<WAPersistentHandler> m_arPersistent;
 	WA_PKT_HANDLER FindPersistentHandler(const WANode &node);
+
+	int m_iPacketId;
+	uint16_t m_wMsgPrefix[2];
+	CMStringA generateMessageId();
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const MessageLite &msg);
@@ -203,7 +207,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void InitPersistentHandlers();
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
+	void OnIqResult(const WANode &node);
 	void OnStreamError(const WANode &node);
+	void OnSuccess(const WANode &node);
 
 	// binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);

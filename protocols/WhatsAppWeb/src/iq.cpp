@@ -45,6 +45,28 @@ void WhatsAppProto::OnStreamError(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnSuccess(const WANode &)
+{
+	OnLoggedIn();
+
+	WANode iq("iq");
+	iq << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("xmlns", "passive") << CHAR_PARAM("type", "set");
+	iq.addChild("active");
+	WSSendNode(iq);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnIqResult(const WANode &node)
+{
+	if (auto *pszId = node.getAttr("id"))
+		for (auto &it: m_arPacketQueue) 
+			if (it->szPacketId == pszId)
+				(this->*it->pHandler)(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnIqPairDevice(const WANode &node)
 {
 	WANode reply("iq");
@@ -301,8 +323,10 @@ LBL_Error:
 
 void WhatsAppProto::InitPersistentHandlers()
 {
-	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
-	m_arPersistent.insert(new WAPersistentHandler("iq", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
-	
-	m_arPersistent.insert(new WAPersistentHandler("stream:error", nullptr, nullptr, &WhatsAppProto::OnStreamError));
+	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
+	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
+	m_arPersistent.insert(new WAPersistentHandler(0, "result", 0, 0, &WhatsAppProto::OnIqResult));
+
+	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
+	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
 }

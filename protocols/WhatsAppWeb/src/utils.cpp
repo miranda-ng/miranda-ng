@@ -87,21 +87,31 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
 {
 	auto *pChild = pNode.getFirstChild();
-	CMStringA szTitle = (pChild) ? pChild->title : "";
-	CMStringA szType = pNode.title;
+	CMStringA szChild = (pChild) ? pChild->title : "";
+	CMStringA szTitle = pNode.title;
+	CMStringA szType = pNode.getAttr("type");
 	CMStringA szXmlns = pNode.getAttr("xmlns");
 
 	for (auto &it : m_arPersistent) {
+		if (it->pszTitle && szTitle != it->pszTitle)
+			continue;
 		if (it->pszType && szType != it->pszType)
 			continue;
 		if (it->pszXmlns && szXmlns != it->pszXmlns)
 			continue;
-		if (it->pszNode && szTitle != it->pszNode)
+		if (it->pszChild && szChild != it->pszChild)
 			continue;
 		return it->pHandler;
 	}
 
 	return nullptr;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA WhatsAppProto::generateMessageId()
+{
+	return CMStringA(FORMAT, "%d.%d-%d", m_wMsgPrefix[0], m_wMsgPrefix[1], m_iPacketId++);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -125,11 +135,11 @@ int WhatsAppProto::WSSend(const MessageLite &msg)
 	if (m_hServerConn == nullptr)
 		return -1;
 
-	// debugLogA("Sending packet: %s", msg..DebugString().c_str());
-
 	int cbLen = msg.ByteSize();
 	ptrA protoBuf((char *)mir_alloc(cbLen));
 	msg.SerializeToArray(protoBuf, cbLen);
+
+	Netlib_Dump(m_hServerConn, protoBuf, cbLen, true, 0);
 
 	MBinBuffer payload = m_noise->encodeFrame(protoBuf, cbLen);
 	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
@@ -154,7 +164,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 
 	if (pHandler != nullptr) {
 		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(pHandler));
+		m_arPacketQueue.insert(new WARequest(node.getAttr("id"), pHandler));
 	}
 
 	MBinBuffer encData = m_noise->encrypt(writer.body.data(), writer.body.length());

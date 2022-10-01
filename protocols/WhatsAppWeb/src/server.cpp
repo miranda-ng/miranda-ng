@@ -45,7 +45,10 @@ void WhatsAppProto::ServerThreadWorker()
 
 	debugLogA("Server connection succeeded");
 	m_hServerConn = pReply->nlc;
-	m_iLoginTime = time(0);
+	m_lastRecvTime = time(0);
+	m_iPacketId = 1;
+
+	Utils_GetRandom(m_wMsgPrefix, sizeof(m_wMsgPrefix));
 
 	auto &pubKey = m_noise->ephemeral.pub;
 	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
@@ -80,6 +83,8 @@ void WhatsAppProto::ServerThreadWorker()
 		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
 			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
 		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
+
+		m_lastRecvTime = time(0);
 
 		// read all payloads from the current buffer, one by one
 		while (true) {
@@ -241,12 +246,13 @@ void WhatsAppProto::OnLoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
-	SendKeepAlive();
-	m_impl.m_keepAlive.Start(60000);
+	m_impl.m_keepAlive.Start(1000);
 }
 
 void WhatsAppProto::OnLoggedOut(void)
 {
+	m_impl.m_keepAlive.Stop();
+
 	debugLogA("WhatsAppProto::OnLoggedOut");
 	m_bTerminated = true;
 
@@ -258,20 +264,14 @@ void WhatsAppProto::OnLoggedOut(void)
 
 void WhatsAppProto::SendKeepAlive()
 {
-	WebSocket_SendText(m_hServerConn, "?,,");
-
 	time_t now = time(0);
+	if (now - m_lastRecvTime > 20) {
+		WANode iq("iq");
+		iq << CHAR_PARAM("id", generateMessageId()) << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "get") << CHAR_PARAM("xmlns", "w:p");
+		iq.addChild("ping");
+		WSSendNode(iq);
 
-	for (auto &it : m_arUsers) {
-		if (it->m_time1 && now - it->m_time1 >= 1200) { // 20 minutes
-			setWord(it->hContact, "Status", ID_STATUS_NA);
-			it->m_time1 = 0;
-			it->m_time2 = now;
-		}
-		else if (it->m_time2 && now - it->m_time2 >= 1200) { // 20 minutes
-			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
-			it->m_time2 = 0;
-		}
+		m_lastRecvTime = now;
 	}
 }
 
