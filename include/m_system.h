@@ -485,9 +485,17 @@ public:
 
 	// adds a buffer to the end
 	void append(const void *pBuf, size_t bufLen);
+	
+	__forceinline void append(const MBinBuffer &buf)
+	{	append(buf.data(), buf.length());
+	}
 
 	// adds a buffer to the beginning
 	void appendBefore(const void *pBuf, size_t bufLen);
+
+	__forceinline void appendBefore(const MBinBuffer &buf)
+	{	appendBefore(buf.data(), buf.length());
+	}
 
 	// replaces buffer contents
 	void assign(const void *pBuf, size_t bufLen);

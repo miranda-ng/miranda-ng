@@ -43,9 +43,6 @@ void WANoise::init()
 {
 	// no data? generate them
 	if (ppro->getDword(DBKEY_REG_ID, 0xFFFF) == 0xFFFF) {
-		ppro->setDword(DBKEY_PREKEY_NEXT_ID, 1);
-		ppro->setDword(DBKEY_PREKEY_UPLOAD_ID, 1);
-
 		// generate registration id
 		uint32_t regId;
 		Utils_GetRandom(&regId, sizeof(regId));
@@ -66,20 +63,24 @@ void WANoise::init()
 		auto *pPrivKey = ec_key_pair_get_private(pKeys);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_NOISE_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
 		ec_key_pair_destroy(pKeys);
+	}
+
+	if (ppro->getDword(DBKEY_PREKEY_KEYID, 0xFFFF) == 0xFFFF) {
+		// generate pre keys
+		const unsigned int signed_pre_key_id = 1;
+		ppro->setDword(DBKEY_PREKEY_KEYID, 1);
+		ppro->setDword(DBKEY_PREKEY_NEXT_ID, 1);
+		ppro->setDword(DBKEY_PREKEY_UPLOAD_ID, 1);
 
 		// generate signed identity keys (private & public)
 		ratchet_identity_key_pair *keyPair;
 		signal_protocol_key_helper_generate_identity_key_pair(&keyPair, g_plugin.pCtx);
 
-		pPubKey = ratchet_identity_key_pair_get_public(keyPair);
+		auto *pPubKey = ratchet_identity_key_pair_get_public(keyPair);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_SIGNED_IDENTITY_PUB, pPubKey->data, sizeof(pPubKey->data));
 
-		pPrivKey = ratchet_identity_key_pair_get_private(keyPair);
+		auto *pPrivKey = ratchet_identity_key_pair_get_private(keyPair);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_SIGNED_IDENTITY_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
-
-		// generate pre keys
-		const unsigned int signed_pre_key_id = 1;
-		ppro->setDword(DBKEY_PREKEY_KEYID, 1);
 
 		session_signed_pre_key *signed_pre_key;
 		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, keyPair, signed_pre_key_id, time(0), g_plugin.pCtx);
@@ -88,7 +89,7 @@ void WANoise::init()
 		signal_buffer *serialized_signed_pre_key;
 		session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
 
-		pKeys = session_signed_pre_key_get_key_pair(signed_pre_key);
+		ec_key_pair *pKeys = session_signed_pre_key_get_key_pair(signed_pre_key);
 		pPubKey = ec_key_pair_get_public(pKeys);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_PREKEY_PUB, pPubKey->data, sizeof(pPubKey->data));
 
@@ -100,7 +101,7 @@ void WANoise::init()
 		// generate and save pre keys set
 		CMStringA szSetting;
 		signal_protocol_key_helper_pre_key_list_node *keys_root;
-		signal_protocol_key_helper_generate_pre_keys(&keys_root, 0, 20, g_plugin.pCtx);
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, 1, 20, g_plugin.pCtx);
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
@@ -115,7 +116,7 @@ void WANoise::init()
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
 			pPubKey = ec_key_pair_get_public(pre_key_pair);
 			szSetting.Format("PreKey%dPublic", pre_key_id);
-			db_set_blob(0, ppro->m_szModuleName, szSetting, pPrivKey->data, sizeof(pPrivKey->data));
+			db_set_blob(0, ppro->m_szModuleName, szSetting, pPubKey->data, sizeof(pPubKey->data));
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 	}

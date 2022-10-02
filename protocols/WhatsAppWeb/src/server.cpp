@@ -80,9 +80,9 @@ void WhatsAppProto::ServerThreadWorker()
 			if (!WSReadPacket(hdr, netbuf))
 				break;
 
-		// debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
-			// netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
+		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
 
 		m_lastRecvTime = time(0);
 
@@ -235,6 +235,12 @@ void WhatsAppProto::OnLoggedIn()
 	m_iStatus = m_iDesiredStatus;
 
 	m_impl.m_keepAlive.Start(1000);
+
+	// retrieve loaded prekeys
+	WANode iq("iq");
+	iq << CHAR_PARAM("id", generateMessageId()) << CHAR_PARAM("xmlns", "encrypt") << CHAR_PARAM("type", "get") << CHAR_PARAM("to", S_WHATSAPP_NET);
+	iq.addChild("count");
+	WSSendNode(iq, &WhatsAppProto::OnIqCountPrekeys);
 }
 
 void WhatsAppProto::OnLoggedOut(void)

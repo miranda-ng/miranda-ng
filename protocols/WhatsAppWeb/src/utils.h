@@ -39,7 +39,8 @@ public:
 
 	void addAttr(const char *pszName, const char *pszValue);
 	void addAttr(const char *pszName, int iValue);
-	const char* getAttr(const char *pszName) const;
+	int getAttrInt(const char *pszName) const;
+	const char *getAttr(const char *pszName) const;
 
 	CMStringA getBody() const;
 

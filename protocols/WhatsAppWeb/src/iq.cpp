@@ -7,6 +7,53 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
+static int sttEnumPrekeys(const char *szSetting, void *param)
+{
+	std::vector<int> *list = (std::vector<int> *)param;
+	if (!memcmp(szSetting, "PreKey", 6) && !strstr(szSetting, "Public"))
+		list->push_back(atoi(szSetting + 6));
+	return 0;
+}
+
+void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
+{
+	std::vector<int> ids;
+	db_enum_settings(0, sttEnumPrekeys, m_szModuleName, &ids);
+
+	int iCount = node.getChild("count")->getAttrInt("value");
+	if (iCount >= ids.size()) {
+		debugLogA("Prekeys are already uploaded");
+		return;
+	}
+
+	WANode iq("iq");
+	iq << CHAR_PARAM("xmlns", "encrypt") << CHAR_PARAM("type", "set") << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("id", generateMessageId());
+
+	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
+	iq.addChild("registration")->content.append(regId.c_str(), regId.size());
+
+	iq.addChild("type")->content.append(KEY_BUNDLE_TYPE, 1);
+	iq.addChild("identity")->content.append(m_noise->signedIdentity.pub);
+
+	auto *n = iq.addChild("list");
+	for (auto &keyId : ids) {
+		auto *nKey = n->addChild("key");
+			
+		auto encId = encodeBigEndian(keyId, 3);
+		nKey->addChild("id")->content.append(encId.c_str(), encId.size());
+		nKey->addChild("value")->content.append(getBlob(CMStringA(FORMAT, "PreKey%dPublic", keyId)));
+	}
+
+	auto *skey = n->addChild("skey");
+
+	auto encId = encodeBigEndian(m_noise->preKey.keyid, 3);
+	skey->addChild("id")->content.append(encId.c_str(), encId.size());
+	skey->addChild("value")->content.append(m_noise->preKey.pub);
+	skey->addChild("signature")->content.append(m_noise->preKey.signature);
+
+	WSSendNode(iq);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::OnStreamError(const WANode &node)

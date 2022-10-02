@@ -43,11 +43,22 @@ WANode::~WANode()
 
 const char *WANode::getAttr(const char *pszName) const
 {
-	for (auto &p : attrs)
-		if (p->name == pszName)
-			return p->value.c_str();
+	if (this != nullptr)
+		for (auto &p : attrs)
+			if (p->name == pszName)
+				return p->value.c_str();
 
 	return nullptr;
+}
+
+int WANode::getAttrInt(const char *pszName) const
+{
+	if (this != nullptr)
+		for (auto &p : attrs)
+			if (p->name == pszName)
+				return atoi(p->value.c_str());
+
+	return 0;
 }
 
 void WANode::addAttr(const char *pszName, const char *pszValue)
