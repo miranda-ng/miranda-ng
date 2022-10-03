@@ -44,7 +44,7 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 		nKey->addChild("value")->content.append(getBlob(CMStringA(FORMAT, "PreKey%dPublic", keyId)));
 	}
 
-	auto *skey = n->addChild("skey");
+	auto *skey = iq.addChild("skey");
 
 	auto encId = encodeBigEndian(m_noise->preKey.keyid, 3);
 	skey->addChild("id")->content.append(encId.c_str(), encId.size());
