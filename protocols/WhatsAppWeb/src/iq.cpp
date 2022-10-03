@@ -26,8 +26,7 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 		return;
 	}
 
-	WANode iq("iq");
-	iq << CHAR_PARAM("xmlns", "encrypt") << CHAR_PARAM("type", "set") << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("id", generateMessageId());
+	WANodeIq iq(IQ::SET, "encrypt"); iq << CHAR_PARAM("id", generateMessageId());
 
 	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
 	iq.addChild("registration")->content.append(regId.c_str(), regId.size());
@@ -96,10 +95,7 @@ void WhatsAppProto::OnSuccess(const WANode &)
 {
 	OnLoggedIn();
 
-	WANode iq("iq");
-	iq << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("xmlns", "passive") << CHAR_PARAM("type", "set");
-	iq.addChild("active");
-	WSSendNode(iq);
+	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -116,9 +112,7 @@ void WhatsAppProto::OnIqResult(const WANode &node)
 
 void WhatsAppProto::OnIqPairDevice(const WANode &node)
 {
-	WANode reply("iq");
-	reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
-	WSSendNode(reply);
+	WSSendNode(WANodeIq(IQ::RESULT) << CHAR_PARAM("id", node.getAttr("id")));
 
 	if (auto *pRef = node.getChild("pair-device")->getChild("ref")) {
 		ShowQrCode(pRef->getBody());
@@ -224,8 +218,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			proto::ADVDeviceIdentity deviceIdentity;
 			deviceIdentity.ParseFromString(deviceDetails);
 
-			WANode reply("iq");
-			reply << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "result") << CHAR_PARAM("id", node.getAttr("id"));
+			WANodeIq reply(IQ::RESULT); reply << CHAR_PARAM("id", node.getAttr("id"));
 
 			WANode *nodePair = reply.addChild("pair-device-sign");
 

@@ -24,6 +24,24 @@ struct Attr
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WANodeIq members
+
+WANodeIq::WANodeIq(IQ::Type type, const char *pszXmlns, const char *pszTo) :
+	WANode("iq")
+{
+	switch (type) {
+	case IQ::GET: addAttr("type", "get"); break;
+	case IQ::SET: addAttr("type", "set"); break;
+	case IQ::RESULT: addAttr("type", "result"); break;
+	}
+
+	if (pszXmlns)
+		addAttr("xmlns", pszXmlns);
+
+	addAttr("to", pszTo ? pszTo : S_WHATSAPP_NET);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // WANode members
 
 WANode::WANode() :

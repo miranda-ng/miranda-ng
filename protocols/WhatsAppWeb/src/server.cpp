@@ -239,10 +239,9 @@ void WhatsAppProto::OnLoggedIn()
 	m_impl.m_keepAlive.Start(1000);
 
 	// retrieve loaded prekeys
-	WANode iq("iq");
-	iq << CHAR_PARAM("id", generateMessageId()) << CHAR_PARAM("xmlns", "encrypt") << CHAR_PARAM("type", "get") << CHAR_PARAM("to", S_WHATSAPP_NET);
-	iq.addChild("count");
-	WSSendNode(iq, &WhatsAppProto::OnIqCountPrekeys);
+	WSSendNode(
+		WANodeIq(IQ::GET, "encrypt") << XCHILD("count"),
+		&WhatsAppProto::OnIqCountPrekeys);
 }
 
 void WhatsAppProto::OnLoggedOut(void)
@@ -262,10 +261,7 @@ void WhatsAppProto::SendKeepAlive()
 {
 	time_t now = time(0);
 	if (now - m_lastRecvTime > 20) {
-		WANode iq("iq");
-		iq << CHAR_PARAM("id", generateMessageId()) << CHAR_PARAM("to", S_WHATSAPP_NET) << CHAR_PARAM("type", "get") << CHAR_PARAM("xmlns", "w:p");
-		iq.addChild("ping");
-		WSSendNode(iq);
+		WSSendNode(WANodeIq(IQ::GET, "w:p") << CHAR_PARAM("id", generateMessageId()) << XCHILD("ping"));
 
 		m_lastRecvTime = now;
 	}
@@ -273,11 +269,8 @@ void WhatsAppProto::SendKeepAlive()
 
 void WhatsAppProto::SetServerStatus(int iStatus)
 {
-	if (mir_wstrlen(m_wszNick)) {
-		WANode iq("presence");
-		iq << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable");
-		WSSendNode(iq);
-	}
+	if (mir_wstrlen(m_wszNick))
+		WSSendNode(WANode("presence") << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable"));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

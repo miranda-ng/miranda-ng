@@ -155,17 +155,20 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	if (m_hServerConn == nullptr)
 		return 0;
 
+	if (pHandler != nullptr) {
+		CMStringA id(generateMessageId());
+		node.addAttr("id", id);
+
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(new WARequest(id, pHandler));
+	}
+
 	CMStringA szText;
 	node.print(szText);
 	debugLogA("Sending binary node:\n%s", szText.c_str());
 
 	WAWriter writer;
 	writer.writeNode(&node);
-
-	if (pHandler != nullptr) {
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(node.getAttr("id"), pHandler));
-	}
 
 	MBinBuffer encData = m_noise->encrypt(writer.body.data(), writer.body.length());
 	MBinBuffer payload = m_noise->encodeFrame(encData.data(), encData.length());

@@ -60,6 +60,38 @@ __forceinline WANode& operator<<(WANode &node, const CHAR_PARAM &param)
 	return node;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+namespace IQ
+{
+	enum Type { GET, SET, RESULT };
+};
+
+struct WANodeIq : public WANode
+{
+	WANodeIq(IQ::Type type, const char *pszXmlns = nullptr, const char *pszTo = nullptr);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+struct XCHILD
+{
+	const char *name, *value;
+
+	__forceinline XCHILD(const char *_name) :
+		name(_name)
+	{}
+};
+
+__forceinline WANode& operator<<(WANode &node, const XCHILD &child)
+{
+	node.addChild(child.name);
+	return node;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// WAReader
+
 class WAReader
 {
 	const BYTE *m_buf, *m_limit;
@@ -86,6 +118,9 @@ public:
 	__forceinline uint32_t readInt16() { return readIntN(2); }
 	__forceinline uint32_t readInt32() { return readIntN(4); }
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// WAWriter
 
 class WAWriter
 {
