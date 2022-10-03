@@ -80,9 +80,9 @@ void WhatsAppProto::ServerThreadWorker()
 			if (!WSReadPacket(hdr, netbuf))
 				break;
 
-		debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
-			netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
-		Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
+		// debugLogA("Got packet: buffer = %d, opcode = %d, headerSize = %d, payloadSize = %d, final = %d, masked = %d", 
+		//		netbuf.length(), hdr.opCode, hdr.headerSize, hdr.payloadSize, hdr.bIsFinal, hdr.bIsMasked);
+		// Netlib_Dump(m_hServerConn, netbuf.data(), netbuf.length(), false, 0);
 
 		m_lastRecvTime = time(0);
 
@@ -238,10 +238,19 @@ void WhatsAppProto::OnLoggedIn()
 
 	m_impl.m_keepAlive.Start(1000);
 
-	// retrieve loaded prekeys
+	// retrieve loaded prekeys count
 	WSSendNode(
 		WANodeIq(IQ::GET, "encrypt") << XCHILD("count"),
 		&WhatsAppProto::OnIqCountPrekeys);
+
+	// retrieve initial info
+	WSSendNode(
+		WANodeIq(IQ::GET, "blocklist"),
+		&WhatsAppProto::OnIqBlockList);
+	
+	WSSendNode(
+		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
+		&WhatsAppProto::OnIqDoNothing);
 }
 
 void WhatsAppProto::OnLoggedOut(void)
@@ -261,7 +270,7 @@ void WhatsAppProto::SendKeepAlive()
 {
 	time_t now = time(0);
 	if (now - m_lastRecvTime > 20) {
-		WSSendNode(WANodeIq(IQ::GET, "w:p") << CHAR_PARAM("id", generateMessageId()) << XCHILD("ping"));
+		WSSendNode(WANodeIq(IQ::GET, "w:p") << XCHILD("ping"), &WhatsAppProto::OnIqDoNothing);
 
 		m_lastRecvTime = now;
 	}
@@ -270,7 +279,9 @@ void WhatsAppProto::SendKeepAlive()
 void WhatsAppProto::SetServerStatus(int iStatus)
 {
 	if (mir_wstrlen(m_wszNick))
-		WSSendNode(WANode("presence") << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable"));
+		WSSendNode(
+			WANode("presence") << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable"),
+			&WhatsAppProto::OnIqDoNothing);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

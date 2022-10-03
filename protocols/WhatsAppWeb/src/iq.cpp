@@ -7,6 +7,16 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
+void WhatsAppProto::OnIqBlockList(const WANode &node)
+{
+	for (auto &it : node.getChild("list")->getChildren()) {
+		auto *pUser = AddUser(it->getAttr("jid"), false);
+		Contact::Hide(pUser->hContact);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static int sttEnumPrekeys(const char *szSetting, void *param)
 {
 	std::vector<int> *list = (std::vector<int> *)param;
@@ -26,7 +36,7 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 		return;
 	}
 
-	WANodeIq iq(IQ::SET, "encrypt"); iq << CHAR_PARAM("id", generateMessageId());
+	WANodeIq iq(IQ::SET, "encrypt");
 
 	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
 	iq.addChild("registration")->content.append(regId.c_str(), regId.size());
@@ -50,7 +60,13 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 	skey->addChild("value")->content.append(m_noise->preKey.pub);
 	skey->addChild("signature")->content.append(m_noise->preKey.signature);
 
-	WSSendNode(iq);
+	WSSendNode(iq, &WhatsAppProto::OnIqDoNothing);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnIqDoNothing(const WANode &)
+{
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

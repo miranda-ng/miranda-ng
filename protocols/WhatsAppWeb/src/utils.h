@@ -44,9 +44,12 @@ public:
 
 	CMStringA getBody() const;
 
-	WANode* addChild(const char *pszName);
-	WANode* getChild(const char *pszName) const;
-	WANode* getFirstChild(void) const;
+	WANode *addChild(const char *pszName);
+	WANode *getChild(const char *pszName) const;
+	WANode *getFirstChild(void) const;
+	const OBJLIST<WANode> &getChildren(void) const
+	{	return children;
+	}
 
 	void print(CMStringA &dest, int level = 0) const;
 

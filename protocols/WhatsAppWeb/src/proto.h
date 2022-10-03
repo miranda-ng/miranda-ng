@@ -214,7 +214,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnProcessHandshake(const void *pData, int cbLen);
 	
 	void InitPersistentHandlers();
+	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
+	void OnIqDoNothing(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);
