@@ -231,6 +231,8 @@ void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("WhatsAppProto::OnLoggedIn");
 
+	SetServerStatus(m_iDesiredStatus);
+
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
@@ -268,6 +270,14 @@ void WhatsAppProto::SendKeepAlive()
 		m_lastRecvTime = now;
 	}
 }
+
+void WhatsAppProto::SetServerStatus(int iStatus)
+{
+	WANode iq("presence");
+	iq << CHAR_PARAM("name", getMStringA("Nick")) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable");
+	WSSendNode(iq);
+}
+
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

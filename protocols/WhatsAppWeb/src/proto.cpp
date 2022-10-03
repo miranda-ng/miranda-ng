@@ -118,7 +118,7 @@ INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
-		return PF2_ONLINE | PF2_INVISIBLE;
+		return PF2_ONLINE;
 	case PFLAGNUM_3:
 		return 0;
 	case PFLAGNUM_4:
@@ -141,22 +141,20 @@ int WhatsAppProto::SetStatus(int new_status)
 
 	// Routing statuses not supported by WhatsApp
 	switch (new_status) {
-	case ID_STATUS_INVISIBLE:
 	case ID_STATUS_OFFLINE:
 		m_iDesiredStatus = new_status;
 		break;
 
 	case ID_STATUS_ONLINE:
 	case ID_STATUS_FREECHAT:
-		m_iDesiredStatus = ID_STATUS_ONLINE;
-		break;
-
 	default:
-		m_iDesiredStatus = ID_STATUS_INVISIBLE;
+		m_iDesiredStatus = ID_STATUS_ONLINE;
 		break;
 	}
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
+		SetServerStatus(m_iDesiredStatus);
+
 		if (m_hServerConn != nullptr)
 			Netlib_Shutdown(m_hServerConn);
 
@@ -170,17 +168,10 @@ int WhatsAppProto::SetStatus(int new_status)
 		ForkThread(&WhatsAppProto::ServerThread);
 	}
 	else if (m_hServerConn != nullptr) {
-		if (m_iDesiredStatus == ID_STATUS_ONLINE) {
-			// m_pConn->sendAvailableForChat();
-			m_iStatus = ID_STATUS_ONLINE;
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		}
-		else if (m_iStatus == ID_STATUS_ONLINE && m_iDesiredStatus == ID_STATUS_INVISIBLE) {
-			// m_pConn->sendClose();
-			m_iStatus = ID_STATUS_INVISIBLE;
-			setAllContactStatuses(ID_STATUS_OFFLINE);
-			ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
-		}
+		SetServerStatus(m_iDesiredStatus);
+
+		m_iStatus = m_iDesiredStatus;
+		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
 	else ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 

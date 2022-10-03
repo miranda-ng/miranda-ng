@@ -195,6 +195,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ShutdownSession(void);
 
 	void SendKeepAlive();
+	void SetServerStatus(int iStatus);
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
