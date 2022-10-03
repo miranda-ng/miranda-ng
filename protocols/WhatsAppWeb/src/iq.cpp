@@ -111,7 +111,7 @@ void WhatsAppProto::OnSuccess(const WANode &)
 {
 	OnLoggedIn();
 
-	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"));
+	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

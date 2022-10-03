@@ -244,10 +244,18 @@ void WhatsAppProto::OnLoggedIn()
 		&WhatsAppProto::OnIqCountPrekeys);
 
 	// retrieve initial info
+	WANodeIq abt(IQ::GET, "abt");
+	abt.addChild("props")->addAttr("protocol", "1");
+	WSSendNode(abt, &WhatsAppProto::OnIqDoNothing);
+
+	WSSendNode(
+		WANodeIq(IQ::GET, "w") << XCHILD("props"),
+		&WhatsAppProto::OnIqDoNothing);
+
 	WSSendNode(
 		WANodeIq(IQ::GET, "blocklist"),
 		&WhatsAppProto::OnIqBlockList);
-	
+
 	WSSendNode(
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
