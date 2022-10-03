@@ -36,7 +36,9 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_arOwnMsgs(1, CompareOwnMsgs),
 	m_arPersistent(1),
 	m_arPacketQueue(10),
+	m_wszNick(this, "Nick"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
+	m_bUsePopups(this, "UsePopups", true),
 	m_bHideGroupchats(this, "HideChats", true)
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
@@ -50,6 +52,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
+	InitPopups();
 	InitPersistentHandlers();
 
 	// Create standard network connection
@@ -136,8 +139,12 @@ int WhatsAppProto::SetStatus(int new_status)
 	if (m_iDesiredStatus == new_status)
 		return 0;
 
+	if (!mir_wstrlen(m_wszNick)) {
+		Popup(0, LPGENW("You need to specify nick name in the Options dialog"), LPGENW("Error"));
+		return 0;
+	}
+
 	int oldStatus = m_iStatus;
-	debugLogA("===== Beginning SetStatus process");
 
 	// Routing statuses not supported by WhatsApp
 	switch (new_status) {

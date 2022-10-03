@@ -12,16 +12,18 @@ Copyright © 2019-22 George Hazan
 class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
 	CCtrlCheck chkHideChats;
-	CCtrlEdit edtGroup;
+	CCtrlEdit edtGroup, edtNick;
 	ptrW m_wszOldGroup;
 
 public:
 	COptionsDlg(WhatsAppProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<WhatsAppProto>(ppro, iDlgID),
 		chkHideChats(this, IDC_HIDECHATS),
+		edtNick(this, IDC_NICK),
 		edtGroup(this, IDC_DEFGROUP),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
+		CreateLink(edtNick, ppro->m_wszNick);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
 
 		if (bFullDlg)
@@ -30,6 +32,11 @@ public:
 
 	bool OnApply() override
 	{
+		if (mir_wstrlen(m_proto->m_wszNick)) {
+			SetFocus(edtNick.GetHwnd());
+			return false;
+		}
+
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 		return true;

@@ -273,11 +273,12 @@ void WhatsAppProto::SendKeepAlive()
 
 void WhatsAppProto::SetServerStatus(int iStatus)
 {
-	WANode iq("presence");
-	iq << CHAR_PARAM("name", getMStringA("Nick")) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable");
-	WSSendNode(iq);
+	if (mir_wstrlen(m_wszNick)) {
+		WANode iq("presence");
+		iq << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable");
+		WSSendNode(iq);
+	}
 }
-
 
 /////////////////////////////////////////////////////////////////////////////////////////
 

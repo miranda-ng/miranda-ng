@@ -197,6 +197,14 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendKeepAlive();
 	void SetServerStatus(int iStatus);
 
+	/// Popups /////////////////////////////////////////////////////////////////////////////
+
+	HANDLE m_hPopupClass;
+	CMOption<bool> m_bUsePopups;
+
+	void InitPopups(void);
+	void Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle);
+
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
 	void OnGetAvatarInfo(const JSONNode &node, void*);
@@ -213,7 +221,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnStreamError(const WANode &node);
 	void OnSuccess(const WANode &node);
 
-	// binary packets
+	// Binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
@@ -263,6 +271,7 @@ public:
 
 	// Options /////////////////////////////////////////////////////////////////////////////
 
+	CMOption<wchar_t*> m_wszNick;				// your nick name in presence
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 

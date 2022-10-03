@@ -293,3 +293,51 @@ unsigned char* HKDF(const EVP_MD *evp_md,
 
 	return ret;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Popups
+
+void WhatsAppProto::InitPopups(void)
+{
+	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
+
+	char name[256];
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
+
+	wchar_t desc[256];
+	mir_snwprintf(desc, L"%s/%s", m_tszUserName, TranslateT("Errors"));
+
+	POPUPCLASS ppc = {};
+	ppc.flags = PCF_UNICODE;
+	ppc.pszName = name;
+	ppc.pszDescription.w = desc;
+	ppc.hIcon = IcoLib_GetIconByHandle(m_hProtoIcon);
+	ppc.colorBack = RGB(191, 0, 0); //Red
+	ppc.colorText = RGB(255, 245, 225); //Yellow
+	ppc.iSeconds = 60;
+	m_hPopupClass = Popup_RegisterClass(&ppc);
+
+	IcoLib_ReleaseIcon(ppc.hIcon);
+}
+
+void WhatsAppProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
+{
+	if (!m_bUsePopups)
+		return;
+
+	char name[256];
+	mir_snprintf(name, "%s_%s", m_szModuleName, "Error");
+
+	CMStringW wszTitle(szTitle);
+	if (hContact == 0) {
+		wszTitle.Insert(0, L": ");
+		wszTitle.Insert(0, m_tszUserName);
+	}
+
+	POPUPDATACLASS ppd = {};
+	ppd.szTitle.w = wszTitle;
+	ppd.szText.w = szMsg;
+	ppd.pszClassName = name;
+	ppd.hContact = hContact;
+	Popup_AddClass(&ppd);
+}
