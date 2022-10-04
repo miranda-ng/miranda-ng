@@ -196,8 +196,9 @@ void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
 			WAReader rdr(buf.data(), buf.length());
 			auto b = rdr.readInt8();
 			if (b & 2) {
-				debugLogA("zipped nodes are not supported");
-				return;
+				buf.remove(1);
+				buf = unzip(buf);
+				rdr = WAReader(buf.data(), buf.length());
 			}
 
 			if (WANode *pNode = rdr.readNode()) {

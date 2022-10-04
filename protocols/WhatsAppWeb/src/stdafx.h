@@ -59,6 +59,8 @@ Copyright © 2019-22 George Hazan
 
 #include "../../libs/libsodium/src/include/sodium.h"
 
+#include "../../libs/zlib/src/zlib.h"
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // to obtain protobuf library do the following
 // - install vcpkg (https://github.com/microsoft/vcpkg);

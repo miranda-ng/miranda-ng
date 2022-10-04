@@ -28,6 +28,9 @@
     <ProjectReference Include="..\..\libs\libsodium\libsodium.vcxproj">
       <Project>{a185b162-6cb6-4502-b03f-b56f7699a8d9}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\..\libs\zlib\zlib.vcxproj">
+      <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\whatsapp.ico" />
