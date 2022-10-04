@@ -41,6 +41,24 @@ WAJid::WAJid(const char *pszJid)
 	user = tmp;
 }
 
+bool WAJid::isUser() const
+{	return server == S_WHATSAPP_NET;
+}
+
+bool WAJid::isGroup() const
+{	return server == "g.us";
+}
+
+bool WAJid::isBroadcast() const
+{
+	return server == "broadcast";
+}
+
+bool WAJid::isStatusBroadcast() const
+{
+	return isBroadcast() && user == "status";
+}
+
 CMStringA WAJid::toString() const
 {
 	CMStringA ret(user);
@@ -352,7 +370,7 @@ MBinBuffer WhatsAppProto::unzip(const MBinBuffer &src)
 	z_stream strm = {};
 	inflateInit(&strm);
 
-	strm.avail_in = src.length();
+	strm.avail_in = (uInt)src.length();
 	strm.next_in = (Bytef *)src.data();
 
 	MBinBuffer res;
@@ -365,11 +383,13 @@ MBinBuffer WhatsAppProto::unzip(const MBinBuffer &src)
 		int ret = inflate(&strm, Z_NO_FLUSH);
 		switch (ret) {
 		case Z_NEED_DICT:
-			ret = Z_DATA_ERROR;     /* and fall through */
+			ret = Z_DATA_ERROR;
+			__fallthrough;
+
 		case Z_DATA_ERROR:
 		case Z_MEM_ERROR:
 			inflateEnd(&strm);
-			return ret;
+			return res;
 		}
 
 		res.append(buf, sizeof(buf) - strm.avail_out);

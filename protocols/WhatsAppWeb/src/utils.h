@@ -157,6 +157,11 @@ struct WAJid
 	WAJid(const char *pszUser, const char *pszServer, int device = 0, int agent = 0);
 
 	CMStringA toString() const;
+
+	bool isUser() const;
+	bool isGroup() const;
+	bool isBroadcast() const;
+	bool isStatusBroadcast() const;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

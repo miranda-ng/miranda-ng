@@ -7,6 +7,17 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
+void WhatsAppProto::OnAccountSync(const WANode &node)
+{
+	m_arDevices.destroy();
+
+	for (auto &it : node.getChild("devices")->getChildren())
+		if (it->title == "device")
+			m_arDevices.insert(new WADevice(it->getAttr("jid"), it->getAttrInt("key-index")));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnIqBlockList(const WANode &node)
 {
 	for (auto &it : node.getChild("list")->getChildren()) {
@@ -67,6 +78,98 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 
 void WhatsAppProto::OnIqDoNothing(const WANode &)
 {
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnReceiveMessage(const WANode &node)
+{
+	auto *msgId = node.getAttr("id");
+	auto *msgType = node.getAttr("type");
+	auto *msgFrom = node.getAttr("from");
+	auto *recepient = node.getAttr("recepient");
+	auto *participant = node.getAttr("participant");
+
+	if (msgType == nullptr || msgFrom == nullptr || msgId == nullptr) {
+		debugLogA("bad message received: <%s> <%s> <%s>", msgType, msgFrom, msgId);
+		return;
+	}
+
+	WAMSG type;
+	WAJid jid(msgFrom);
+	CMStringA szAuthor, szChatId;
+
+	// message from one user to another
+	if (jid.isUser()) {
+		if (recepient) {
+			if (m_szJid != msgFrom) {
+				debugLogA("strange message: with recepient, but not from me");
+				return;
+			}
+			szChatId = recepient;
+		}
+		else szChatId = msgFrom;
+
+		type = WAMSG::Chat;
+		szAuthor = msgFrom;
+	}
+	else if (jid.isGroup()) {
+		if (!participant) {
+			debugLogA("strange message: from group, but without participant");
+			return;
+		}
+
+		type = WAMSG::GroupChat;
+		szAuthor = participant;
+		szChatId = msgFrom;
+	}
+	else if (jid.isBroadcast()) {
+		if (!participant) {
+			debugLogA("strange message: from group, but without participant");
+			return;
+		}
+
+		bool bIsMe = m_szJid == participant;
+		if (jid.isStatusBroadcast())
+			type = (bIsMe) ? WAMSG::DirectStatus : WAMSG::OtherStatus;
+		else
+			type = (bIsMe) ? WAMSG::PeerBroadcast : WAMSG::OtherBroadcast;
+		szChatId = msgFrom;
+		szAuthor = participant;
+	}
+	else {
+		debugLogA("invalid message type");
+		return;
+	}
+
+	CMStringA szSender = (type == WAMSG::Chat) ? szAuthor : szChatId;
+	bool bFromMe = (m_szJid == msgFrom);
+	if (!bFromMe && participant)
+		bFromMe = m_szJid == participant;
+
+	auto *pKey = new proto::MessageKey();
+	pKey->set_participant(participant);
+	pKey->set_remotejid(szChatId);
+	pKey->set_id(msgId);
+	pKey->set_fromme(bFromMe);
+
+	proto::WebMessageInfo msg;
+	msg.set_allocated_key(pKey);
+	msg.set_messagetimestamp(_atoi64(node.getAttr("t")));
+	msg.set_pushname(node.getAttr("notify"));
+	if (bFromMe)
+		msg.set_status(proto::WebMessageInfo_Status_SERVER_ACK);
+
+	if (auto *pEnc = node.getChild("enc")) {
+		int iVer = pEnc->getAttrInt("v");
+		auto *pszType = pEnc->getAttr("type");
+		if (iVer == 2 && !mir_strcmp(pszType, "pkmsg")) {
+			proto::Message msg;
+			if (msg.ParseFromArray(pEnc->content.data(), (int)pEnc->content.length())) {
+				int i = 0;
+			}
+		}
+	}	
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -381,8 +484,11 @@ void WhatsAppProto::InitPersistentHandlers()
 {
 	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
 	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
-	m_arPersistent.insert(new WAPersistentHandler(0, "result", 0, 0, &WhatsAppProto::OnIqResult));
 
+	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
+	m_arPersistent.insert(new WAPersistentHandler("notification", "account_sync", 0, 0, &WhatsAppProto::OnAccountSync));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
 	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
+
+	m_arPersistent.insert(new WAPersistentHandler(0, "result", 0, 0, &WhatsAppProto::OnIqResult));
 }

@@ -15,6 +15,16 @@ Copyright © 2019-22 George Hazan
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
 
+enum WAMSG
+{
+	Chat,
+	GroupChat,
+	DirectStatus,
+	OtherStatus,
+	PeerBroadcast,
+	OtherBroadcast
+};
+
 struct WARequest
 {
 	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2, void *_3 = nullptr) :
@@ -26,6 +36,17 @@ struct WARequest
 	CMStringA szPacketId;
 	WA_PKT_HANDLER pHandler;
 	void *pUserInfo;
+};
+
+struct WADevice
+{
+	WADevice(const char *_1, int _2) :
+		jid(_1),
+		key_index(_2)
+	{}
+
+	WAJid jid;
+	int key_index;
 };
 
 struct WAPersistentHandler
@@ -158,6 +179,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<WAOwnMessage> m_arOwnMsgs;
 
+	OBJLIST<WADevice> m_arDevices;
+
 	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);
 
@@ -214,12 +237,14 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnProcessHandshake(const void *pData, int cbLen);
 	
 	void InitPersistentHandlers();
+	void OnAccountSync(const WANode &node);
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);
+	void OnReceiveMessage(const WANode &node);
 	void OnStreamError(const WANode &node);
 	void OnSuccess(const WANode &node);
 
