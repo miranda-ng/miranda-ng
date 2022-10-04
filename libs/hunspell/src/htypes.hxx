@@ -55,11 +55,7 @@
 // approx. number  of user defined words
 #define USERWORD 1000
 
-#if __cplusplus >= 201103L || (defined(_MSC_VER) && _MSC_VER >= 1900)
-#  define HUNSPELL_THREAD_LOCAL thread_local
-#else
-#  define HUNSPELL_THREAD_LOCAL static
-#endif
+#define HUNSPELL_THREAD_LOCAL static
 
 struct hentry {
   unsigned char blen;    // word length in bytes
