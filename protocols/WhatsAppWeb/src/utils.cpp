@@ -133,19 +133,6 @@ CMStringA WhatsAppProto::generateMessageId()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-MBinBuffer WhatsAppProto::getBlob(const char *szSetting)
-{
-	MBinBuffer buf;
-	DBVARIANT dbv = { DBVT_BLOB };
-	if (!db_get(0, m_szModuleName, szSetting, &dbv)) {
-		buf.assign(dbv.pbVal, dbv.cpbVal);
-		db_free(&dbv);
-	}
-	return buf;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
 int WhatsAppProto::WSSend(const MessageLite &msg)

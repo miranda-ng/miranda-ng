@@ -30,6 +30,7 @@ static int CompareUsers(const WAUser *p1, const WAUser *p2)
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
+	m_signalStore(this, ""),
 	m_szJid(getMStringA(DBKEY_JID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),

@@ -17,7 +17,7 @@ typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
 
 enum WAMSG
 {
-	Chat,
+	PrivateChat,
 	GroupChat,
 	DirectStatus,
 	OtherStatus,
@@ -113,12 +113,7 @@ class WANoise
 
 	struct {
 		MBinBuffer priv, pub;
-	} noiseKeys, signedIdentity, ephemeral;
-
-	struct {
-		MBinBuffer priv, pub, signature;
-		uint32_t keyid;
-	} preKey;
+	} noiseKeys, ephemeral;
 
 	void deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBinBuffer &read);
 	void mixIntoKey(const void *n, const void *p);
@@ -135,6 +130,59 @@ public:
 
 	size_t     decodeFrame(const void *&pData, size_t &cbLen);
 	MBinBuffer encodeFrame(const void *pData, size_t cbLen);
+};
+
+class MSignalSession : public MZeroedObject
+{
+	friend class MSignalStore;
+	signal_protocol_address address;
+	session_cipher *cipher = nullptr;
+
+public:
+	CMStringA szName;
+
+	MSignalSession(const CMStringA &_1, int _2);
+	~MSignalSession();
+
+	CMStringA getSetting(const MSignalStore*) const;
+	
+	__forceinline session_cipher* getCipher(void) const { return cipher; }
+	__forceinline int getDeviceId() const { return address.device_id; }
+};
+
+class MSignalStore
+{
+	void init();
+
+	signal_protocol_store_context *m_pContext;
+
+public:
+	PROTO_INTERFACE *pProto;
+	const char *prefix;
+
+	OBJLIST<MSignalSession> arSessions;
+
+	struct
+	{
+		MBinBuffer priv, pub;
+	}
+	signedIdentity;
+
+	struct
+	{
+		MBinBuffer priv, pub, signature;
+		uint32_t keyid;
+	} preKey;
+
+	MSignalStore(PROTO_INTERFACE *_1, const char *_2);
+	~MSignalStore();
+
+	MSignalSession *createSession(const CMStringA &szName, int deviceId);
+
+	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
+	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
+
+	void processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg);
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -168,8 +216,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	EVP_PKEY *m_pKeys; // private & public keys
 	WANoise *m_noise;
-
-	MBinBuffer getBlob(const char *pSetting);
 
 	// Contacts management /////////////////////////////////////////////////////////////////
 
@@ -247,6 +293,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnReceiveMessage(const WANode &node);
 	void OnStreamError(const WANode &node);
 	void OnSuccess(const WANode &node);
+
+	// Signal
+	MSignalStore m_signalStore;
 
 	// Binary packets
 	void ProcessBinaryPacket(const void *pData, size_t cbLen);

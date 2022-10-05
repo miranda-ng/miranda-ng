@@ -70,6 +70,7 @@
     <ClCompile Include="src\proto.cpp" />
     <ClCompile Include="src\qrcode.cpp" />
     <ClCompile Include="src\server.cpp" />
+    <ClCompile Include="src\signal.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

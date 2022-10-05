@@ -169,6 +169,10 @@ struct WAJid
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 void generateIV(uint8_t *iv, int &pVar);
 
+__forceinline bool operator<<(MessageLite &msg, const MBinBuffer &buf)
+{	return msg.ParseFromArray(buf.data(), (int)buf.length());
+}
+
 unsigned char* HKDF(const EVP_MD *evp_md,
 	const unsigned char *salt, size_t salt_len,
 	const unsigned char *key, size_t key_len,

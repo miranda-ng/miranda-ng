@@ -84,6 +84,7 @@ EXPORTS
    session_cipher_decrypt_pre_key_signal_message
    pre_key_signal_message_deserialize
    pre_key_signal_message_get_pre_key_id
+   pre_key_signal_message_destroy
    session_signed_pre_key_serialize
    session_pre_key_serialize
    session_pre_key_get_id

@@ -41,6 +41,9 @@
     <ClCompile Include="src\iq.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\signal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\db.h">

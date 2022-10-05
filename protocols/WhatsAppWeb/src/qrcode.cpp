@@ -116,7 +116,7 @@ bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
 	MBinBuffer secret(getBlob(DBKEY_SECRET_KEY));
 
 	ptrA s1(mir_base64_encode(m_noise->noiseKeys.pub));
-	ptrA s2(mir_base64_encode(m_noise->signedIdentity.pub));
+	ptrA s2(mir_base64_encode(m_signalStore.signedIdentity.pub));
 	ptrA s3(mir_base64_encode(secret));
 	CMStringA szQrData(FORMAT, "%s,%s,%s,%s", ref.c_str(), s1.get(), s2.get(), s3.get());
 	m_pQRDlg->SetData(szQrData);

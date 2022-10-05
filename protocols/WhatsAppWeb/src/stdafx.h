@@ -55,6 +55,8 @@ Copyright © 2019-22 George Hazan
 #include "../../libs/libsignal/src/curve.h"
 #include "../../libs/libsignal/src/hkdf.h"
 #include "../../libs/libsignal/src/key_helper.h"
+#include "../../libs/libsignal/src/protocol.h"
+#include "../../libs/libsignal/src/session_cipher.h"
 #include "../../libs/libsignal/src/signal_protocol.h"
 
 #include "../../libs/libsodium/src/include/sodium.h"

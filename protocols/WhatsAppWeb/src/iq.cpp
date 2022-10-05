@@ -53,7 +53,7 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 	iq.addChild("registration")->content.append(regId.c_str(), regId.size());
 
 	iq.addChild("type")->content.append(KEY_BUNDLE_TYPE, 1);
-	iq.addChild("identity")->content.append(m_noise->signedIdentity.pub);
+	iq.addChild("identity")->content.append(m_signalStore.signedIdentity.pub);
 
 	auto *n = iq.addChild("list");
 	for (auto &keyId : ids) {
@@ -66,10 +66,10 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 
 	auto *skey = iq.addChild("skey");
 
-	auto encId = encodeBigEndian(m_noise->preKey.keyid, 3);
+	auto encId = encodeBigEndian(m_signalStore.preKey.keyid, 3);
 	skey->addChild("id")->content.append(encId.c_str(), encId.size());
-	skey->addChild("value")->content.append(m_noise->preKey.pub);
-	skey->addChild("signature")->content.append(m_noise->preKey.signature);
+	skey->addChild("value")->content.append(m_signalStore.preKey.pub);
+	skey->addChild("signature")->content.append(m_signalStore.preKey.signature);
 
 	WSSendNode(iq, &WhatsAppProto::OnIqDoNothing);
 }
@@ -110,7 +110,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		}
 		else szChatId = msgFrom;
 
-		type = WAMSG::Chat;
+		type = WAMSG::PrivateChat;
 		szAuthor = msgFrom;
 	}
 	else if (jid.isGroup()) {
@@ -142,7 +142,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		return;
 	}
 
-	CMStringA szSender = (type == WAMSG::Chat) ? szAuthor : szChatId;
+	CMStringA szSender = (type == WAMSG::PrivateChat) ? szAuthor : szChatId;
 	bool bFromMe = (m_szJid == msgFrom);
 	if (!bFromMe && participant)
 		bFromMe = m_szJid == participant;
@@ -160,16 +160,57 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	if (bFromMe)
 		msg.set_status(proto::WebMessageInfo_Status_SERVER_ACK);
 
-	if (auto *pEnc = node.getChild("enc")) {
-		int iVer = pEnc->getAttrInt("v");
-		auto *pszType = pEnc->getAttr("type");
-		if (iVer == 2 && !mir_strcmp(pszType, "pkmsg")) {
-			proto::Message msg;
-			if (msg.ParseFromArray(pEnc->content.data(), (int)pEnc->content.length())) {
-				int i = 0;
-			}
+	int iDecryptable = 0;
+
+	for (auto &it: node.getChildren()) {
+		if (it->title == "verified_name") {
+			proto::VerifiedNameCertificate cert;
+			cert << it->content;
+			
+			proto::VerifiedNameCertificate::Details details;
+			details.ParseFromString(cert.details());
+
+			msg.set_verifiedbizname(details.verifiedname());
+			continue;
 		}
-	}	
+		
+		if (it->title != "enc" || it->content.length() == 0)
+			continue;
+
+		MBinBuffer msgBody;
+		auto *pszType = it->getAttr("type");
+		try {
+			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg")) {
+				CMStringA szUser = (WAJid(szSender).isUser()) ? szSender : szAuthor;
+				msgBody = m_signalStore.decryptSignalProto(szUser, pszType, it->content);
+			}
+			else if (!mir_strcmp(pszType, "skmsg")) {
+				msgBody = m_signalStore.decryptGroupSignalProto(szSender, szAuthor, it->content);
+			}
+			else throw "Invalid e2e type";
+
+			iDecryptable++;
+
+			proto::Message encMsg;
+			encMsg << msgBody;
+			if (encMsg.devicesentmessage().has_message())
+				encMsg = encMsg.devicesentmessage().message();
+
+			if (encMsg.has_senderkeydistributionmessage())
+				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage());
+
+			msg.set_allocated_message(new proto::Message(encMsg));
+		}
+		catch (const char *pszError) {
+			debugLogA("Message cannot be parsed: %s", pszError);
+			msg.set_messagestubtype(proto::WebMessageInfo_StubType::WebMessageInfo_StubType_CIPHERTEXT);
+		}
+
+		if (!iDecryptable) {
+			debugLogA("Nothing to decrypt");
+			msg.set_messagestubtype(proto::WebMessageInfo_StubType::WebMessageInfo_StubType_CIPHERTEXT);
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -294,7 +335,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				MBinBuffer buf;
 				buf.append("\x06\x00", 2);
 				buf.append(deviceDetails.c_str(), deviceDetails.size());
-				buf.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+				buf.append(m_signalStore.signedIdentity.pub);
 
 				ec_public_key key = {};
 				memcpy(key.data, accountSignatureKey.c_str(), sizeof(key.data));
@@ -306,12 +347,12 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				MBinBuffer buf;
 				buf.append("\x06\x01", 2);
 				buf.append(deviceDetails.c_str(), deviceDetails.size());
-				buf.append(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
+				buf.append(m_signalStore.signedIdentity.pub);
 				buf.append(accountSignatureKey.c_str(), accountSignatureKey.size());
 
 				signal_buffer *result;
 				ec_private_key key = {};
-				memcpy(key.data, m_noise->signedIdentity.priv.data(), m_noise->signedIdentity.priv.length());
+				memcpy(key.data, m_signalStore.signedIdentity.priv.data(), m_signalStore.signedIdentity.priv.length());
 				if (curve_calculate_signature(g_plugin.pCtx, &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
@@ -420,10 +461,10 @@ LBL_Error:
 		pPairingData->set_buildhash(appVersion, sizeof(appVersion));
 		pPairingData->set_eregid(encodeBigEndian(getDword(DBKEY_REG_ID)));
 		pPairingData->set_ekeytype(KEY_BUNDLE_TYPE);
-		pPairingData->set_eident(m_noise->signedIdentity.pub.data(), m_noise->signedIdentity.pub.length());
-		pPairingData->set_eskeyid(encodeBigEndian(m_noise->preKey.keyid));
-		pPairingData->set_eskeyval(m_noise->preKey.pub.data(), m_noise->preKey.pub.length());
-		pPairingData->set_eskeysig(m_noise->preKey.signature.data(), m_noise->preKey.signature.length());
+		pPairingData->set_eident(m_signalStore.signedIdentity.pub.data(), m_signalStore.signedIdentity.pub.length());
+		pPairingData->set_eskeyid(encodeBigEndian(m_signalStore.preKey.keyid));
+		pPairingData->set_eskeyval(m_signalStore.preKey.pub.data(), m_signalStore.preKey.pub.length());
+		pPairingData->set_eskeysig(m_signalStore.preKey.signature.data(), m_signalStore.preKey.signature.length());
 		node.set_allocated_devicepairingdata(pPairingData);
 
 		node.set_passive(false);
