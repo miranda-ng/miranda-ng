@@ -187,7 +187,7 @@ static int contains_pre_key(uint32_t pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalPreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
 	return (blob.data() != 0);
 }
@@ -196,7 +196,7 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalPreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
 	if (blob.data() == 0)
 		return SG_ERR_INVALID_KEY_ID;
@@ -209,7 +209,7 @@ static int remove_pre_key(uint32_t pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalPreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
 	pStore->pProto->delSetting(szSetting);
 
 	szSetting.Format("PreKey%uPublic", pre_key_id);
@@ -224,7 +224,7 @@ static int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalPreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned int)record_len);
 
 	session_pre_key *prekey = nullptr;
@@ -248,7 +248,7 @@ static int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s%d", "SignalSignedPreKey_", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
 	DBVARIANT dbv = {};
 	dbv.type = DBVT_BLOB;
 	if (db_get(0, pStore->pProto->m_szModuleName, szSetting, &dbv))
@@ -262,7 +262,7 @@ static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_i
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s%d", "SignalSignedPreKey_", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
 	DBVARIANT dbv = {};
 	dbv.type = DBVT_BLOB;
 	if (db_get(0, pStore->pProto->m_szModuleName, szSetting, &dbv))
@@ -278,7 +278,7 @@ static int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, siz
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s%d", "SignalSignedPreKey_", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned int)record_len);
 	return 0;
 }
@@ -287,7 +287,7 @@ static int remove_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s%d", "SignalSignedPreKey_", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
 	pStore->pProto->delSetting(szSetting);
 	return 0;
 }
@@ -439,7 +439,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 		if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, 0, &result) < 0)
 			throw "unable to decrypt signal message";
 
-		pre_key_signal_message_destroy((signal_type_base *)pMsg);
+		signal_message_destroy((signal_type_base *)pMsg);
 	}
 
 	MBinBuffer ret;
