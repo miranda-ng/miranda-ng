@@ -1546,3 +1546,5 @@ _Utils_CorrectFontSize@4 @1762 NONAME
 ?Utils_ClipboardCopy@@YGXPBD@Z @1766 NONAME
 ?Utils_ClipboardCopy@@YGXPB_W@Z @1767 NONAME
 ?mir_base64_encode@@YGPADABVMBinBuffer@@@Z @1768 NONAME
+?append@MBinBuffer@@QAEXABV1@@Z @1769 NONAME
+?appendBefore@MBinBuffer@@QAEXABV1@@Z @1770 NONAME
