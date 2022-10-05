@@ -120,6 +120,30 @@ void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+MBinBuffer PROTO_INTERFACE::getBlob(const char *pszSetting)
+{
+	MBinBuffer buf;
+	DBVARIANT dbv = {DBVT_BLOB};
+	if (!db_get(0, m_szModuleName, pszSetting, &dbv)) {
+		buf.assign(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+	}
+	return buf;
+}
+
+MBinBuffer PROTO_INTERFACE::getBlob(MCONTACT hContact, const char *pszSetting)
+{
+	MBinBuffer buf;
+	DBVARIANT dbv = {DBVT_BLOB};
+	if (!db_get(hContact, m_szModuleName, pszSetting, &dbv)) {
+		buf.assign(dbv.pbVal, dbv.cpbVal);
+		db_free(&dbv);
+	}
+	return buf;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // protocol services
 
 MIR_APP_DLL(void) ProtoCreateService(PROTO_INTERFACE *pThis, const char* szService, ProtoServiceFunc serviceProc)

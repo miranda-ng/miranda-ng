@@ -807,3 +807,5 @@ Srmm_CreateHotkey @886 NONAME
 ?bStripFormat@Chat@@3V?$CMOption@_N@@A @908 NONAME
 ?bTimeStampEventColour@Chat@@3V?$CMOption@_N@@A @909 NONAME
 ?bTopicOnClist@Chat@@3V?$CMOption@_N@@A @910 NONAME
+?getBlob@PROTO_INTERFACE@@QEAA?AVMBinBuffer@@IPEBD@Z @911 NONAME
+?getBlob@PROTO_INTERFACE@@QEAA?AVMBinBuffer@@PEBD@Z @912 NONAME

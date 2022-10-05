@@ -107,6 +107,9 @@ public:
 	__forceinline bool getBool(MCONTACT hContact, const char *name, bool defaultValue = false) {
 		return db_get_b(hContact, m_szModuleName, name, defaultValue) != 0; }
 
+	MBinBuffer getBlob(const char *pSetting);
+	MBinBuffer getBlob(MCONTACT hContact, const char *pSetting);
+
 	__forceinline bool isChatRoom(MCONTACT hContact) { return getBool(hContact, "ChatRoom", false); }
 
 	__forceinline int getByte(const char *name, uint8_t defaultValue = 0) {
