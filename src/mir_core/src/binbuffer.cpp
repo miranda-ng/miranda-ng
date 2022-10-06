@@ -62,7 +62,7 @@ struct BufImpl
 	}
 };
 
-__forceinline BufImpl* ptr2buf(char *p)
+__forceinline BufImpl* ptr2buf(uint8_t *p)
 {
 	return (p == nullptr) ? nullptr : (BufImpl*)p-1;
 }
@@ -86,7 +86,7 @@ MBinBuffer::MBinBuffer(size_t preAlloc)
 	BufImpl *p = (BufImpl *)mir_alloc(sizeof(BufImpl) + preAlloc);
 	p->lockCount = 1;
 	p->size = (unsigned)preAlloc;
-	m_buf = (char*)(p + 1);
+	m_buf = (uint8_t *)(p + 1);
 }
 
 MBinBuffer& MBinBuffer::operator=(MBinBuffer &&from) noexcept
@@ -108,7 +108,7 @@ void MBinBuffer::append(const void *pBuf, size_t bufLen)
 
 	BufImpl *p = ptr2buf(m_buf)->realloc(bufLen);
 	if (p) {
-		m_buf = (char*)(p + 1);
+		m_buf = (uint8_t *)(p + 1);
 		memcpy(m_buf + p->size, pBuf, bufLen);
 		p->size += (unsigned)bufLen;
 	}
@@ -122,7 +122,7 @@ void MBinBuffer::appendBefore(const void *pBuf, size_t bufLen)
 
 	BufImpl *p = ptr2buf(m_buf)->realloc(bufLen);
 	if (p) {
-		m_buf = (char *)(p + 1);
+		m_buf = (uint8_t *)(p + 1);
 		memmove(m_buf + bufLen, m_buf, p->size);
 		memcpy(m_buf, pBuf, bufLen);
 		p->size += (unsigned)bufLen;
@@ -138,7 +138,7 @@ void MBinBuffer::assign(const void *pBuf, size_t bufLen)
 	BufImpl *p = ptr2buf(m_buf)->alloc(bufLen);
 	if (p) {
 		p->size = (unsigned)bufLen;
-		m_buf = (char *)(p + 1);
+		m_buf = (uint8_t *)(p + 1);
 		memcpy(m_buf, pBuf, bufLen);
 	}
 	else m_buf = nullptr;

@@ -470,7 +470,7 @@ public:
 
 class MIR_CORE_EXPORT MBinBuffer
 {
-	char *m_buf = nullptr;
+	uint8_t *m_buf = nullptr;
 
 public:
 	MBinBuffer();
@@ -479,7 +479,7 @@ public:
 	~MBinBuffer();
 	MBinBuffer& operator=(MBinBuffer &&) noexcept;
 
-	__forceinline char* data() const { return m_buf; }
+	__forceinline uint8_t* data() const { return m_buf; }
 	__forceinline bool isEmpty() const { return m_buf == nullptr; }
 	size_t length() const;
 

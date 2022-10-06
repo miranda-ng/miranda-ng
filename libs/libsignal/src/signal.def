@@ -62,9 +62,11 @@ EXPORTS
    ratchet_identity_key_pair_get_private
    signal_protocol_key_helper_generate_identity_key_pair
    signal_protocol_key_helper_generate_signed_pre_key
+   session_signed_pre_key_get_id
    session_signed_pre_key_get_key_pair
    session_signed_pre_key_get_signature
    session_signed_pre_key_get_signature_len
+   session_signed_pre_key_deserialize
    session_pre_key_get_key_pair
    signal_protocol_key_helper_generate_pre_keys
    signal_protocol_key_helper_key_list_element

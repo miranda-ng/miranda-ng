@@ -994,7 +994,7 @@ CallFunctionSync @1170
 ??4MBinBuffer@@QAEAAV0@$$QAV0@@Z @1208 NONAME
 ?append@MBinBuffer@@QAEXPBXI@Z @1209 NONAME
 ?appendBefore@MBinBuffer@@QAEXPBXI@Z @1210 NONAME
-?data@MBinBuffer@@QBEPADXZ @1211 NONAME
+?data@MBinBuffer@@QBEPAEXZ @1211 NONAME
 ?isEmpty@MBinBuffer@@QBE_NXZ @1212 NONAME
 ?length@MBinBuffer@@QBEIXZ @1213 NONAME
 ?remove@MBinBuffer@@QAEXI@Z @1214 NONAME

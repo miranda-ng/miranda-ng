@@ -777,7 +777,7 @@ MIR_APP_DLL(NETLIBHTTPREQUEST*) Netlib_RecvHttpHeaders(HNETLIBCONN hConnection, 
 	nlhr->headers = (NETLIBHTTPHEADER*)mir_calloc(sizeof(NETLIBHTTPHEADER) * headersCount);
 
 	headersCount = 0;
-	for (char *pbuffer = buf.data();; headersCount++) {
+	for (char *pbuffer = (char*)buf.data();; headersCount++) {
 		char *peol = strchr(pbuffer, '\n');
 		if (peol == nullptr || peol == pbuffer || (peol == (pbuffer+1) && *pbuffer == '\r'))
 			break;
@@ -970,22 +970,23 @@ static int NetlibHttpRecvChunkHeader(NetlibConnection *nlc, bool first, uint32_t
 
 		buf.append(data, recvResult); // add chunk
 
-		const char *peol1 = (const char*)memchr(buf.data(), '\n', buf.length());
+		auto *peol1 = (const char*)memchr(buf.data(), '\n', buf.length());
 		if (peol1 == nullptr)
 			continue;
 
-		int cbRest = int(peol1 - buf.data()) + 1;
+		auto *pStart = (const char *)buf.data();
+		int cbRest = int(peol1 - pStart) + 1;
 		const char *peol2 = first ? peol1 : (const char*)memchr(peol1 + 1, '\n', buf.length() - cbRest);
 		if (peol2 == nullptr)
 			continue;
 
-		int sz = peol2 - buf.data() + 1;
-		int r = strtol(first ? buf.data() : peol1 + 1, nullptr, 16);
+		int sz = peol2 - pStart + 1;
+		int r = strtol(first ? pStart : peol1 + 1, nullptr, 16);
 		if (r == 0) {
 			const char *peol3 = strchr(peol2 + 1, '\n');
 			if (peol3 == nullptr)
 				continue;
-			sz = peol3 - buf.data() + 1;
+			sz = peol3 - pStart + 1;
 		}
 		buf.remove(sz); // remove all our data from buffer
 		nlc->foreBuf.appendBefore(buf.data(), buf.length());
