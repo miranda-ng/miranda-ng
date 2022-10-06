@@ -29,13 +29,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "jabber_omemo.h"
 
-#include "..\..\libs\libsignal\src\signal_protocol.h"
-#include "..\..\libs\libsignal\src\signal_protocol_types.h"
-#include "..\..\libs\libsignal\src\key_helper.h"
-#include "..\..\libs\libsignal\src\session_builder.h"
-#include "..\..\libs\libsignal\src\session_cipher.h"
-#include "..\..\libs\libsignal\src\protocol.h"
-
 namespace omemo
 {
 	int random_func(uint8_t *data, size_t len, void * /*user_data*/)
@@ -500,21 +493,17 @@ complete:
 
 		// generate and save device key
 		ec_public_key *public_key = ratchet_identity_key_pair_get_public(new_dev->device_key);
-		signal_buffer *key_buf;
-		ec_public_key_serialize(&key_buf, public_key);
 		{
-			ptrA key(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf)));
-			ptrA fingerprint((char*)mir_alloc((signal_buffer_len(key_buf) * 2) + 1));
-			bin2hex(signal_buffer_data(key_buf), signal_buffer_len(key_buf), fingerprint);
+			SignalBuffer buf(public_key);
+			ptrA key(mir_base64_encode(buf.data(), buf.len()));
+			ptrA fingerprint((char*)mir_alloc((buf.len() * 2) + 1));
+			bin2hex(buf.data(), buf.len(), fingerprint);
 			proto->setString("OmemoFingerprintOwn", fingerprint);
 			proto->setString("OmemoDevicePublicKey", key);
 		}
-		signal_buffer_free(key_buf);
 
-		ec_private_key *private_key = ratchet_identity_key_pair_get_private(new_dev->device_key);
-		ec_private_key_serialize(&key_buf, private_key);
-		proto->setString("OmemoDevicePrivateKey", ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
-		signal_buffer_free(key_buf);
+		proto->setString("OmemoDevicePrivateKey", 
+			SignalBuffer(ratchet_identity_key_pair_get_private(new_dev->device_key)).toBase64());
 
 		// generate and save signed pre key
 		session_signed_pre_key *signed_pre_key;
@@ -523,19 +512,15 @@ complete:
 			signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, new_dev->device_key, signed_pre_key_id, time(0), global_context);
 			SIGNAL_UNREF(new_dev->device_key);
 
-			signal_buffer *serialized_signed_pre_key;
-			session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
+			SignalBuffer buf(signed_pre_key);
 			CMStringA szSetting(FORMAT, "%s%u%d", "OmemoSignalSignedPreKey_", proto->m_omemo.GetOwnDeviceId(), signed_pre_key_id);
-			db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_signed_pre_key), (unsigned int)signal_buffer_len(serialized_signed_pre_key));
+			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
 		}
 
 		// TODO: store signed_pre_key for libsignal data backend too
 		// TODO: dynamic signed pre_key id and setting name ?
 		ec_key_pair *signed_pre_key_pair = session_signed_pre_key_get_key_pair(signed_pre_key);
-		public_key = ec_key_pair_get_public(signed_pre_key_pair);
-		ec_public_key_serialize(&key_buf, public_key);
-		proto->setString("OmemoSignedPreKeyPublic", ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
-		signal_buffer_free(key_buf);
+		proto->setString("OmemoSignedPreKeyPublic", SignalBuffer(ec_key_pair_get_public(signed_pre_key_pair)).toBase64());
 
 		ptrA signature(mir_base64_encode(session_signed_pre_key_get_signature(signed_pre_key), session_signed_pre_key_get_signature_len(signed_pre_key)));
 		proto->setString("OmemoSignedPreKeySignature", signature);
@@ -547,21 +532,14 @@ complete:
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
-			{
-				signal_buffer *serialized_pre_key;
-				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				szSetting.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
-				db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
-				SIGNAL_UNREF(serialized_pre_key);
-			}
+
+			SignalBuffer buf(pre_key);
+			szSetting.Format("%s%u%d", "OmemoSignalPreKey_", GetOwnDeviceId(), pre_key_id);
+			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
 
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			public_key = ec_key_pair_get_public(pre_key_pair);
-			ec_public_key_serialize(&key_buf, public_key);
-
 			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(szSetting, ptrA(mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf))));
-			signal_buffer_free(key_buf);
+			proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 	}
@@ -848,16 +826,8 @@ complete:
 			session_pre_key_deserialize(&prekey, record, record_len, global_context); //TODO: handle error
 			if (prekey) {
 				ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
-				signal_buffer *key_buf = nullptr;
-				ec_public_key *public_key = ec_key_pair_get_public(pre_key_pair);
-				ec_public_key_serialize(&key_buf, public_key);
-				SIGNAL_UNREF(public_key);
-				
-				char *key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 				szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-				data->proto->setString(szSetting, key);
-				mir_free(key);
-				signal_buffer_free(key_buf);
+				data->proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
 			}
 		}
 
@@ -1252,10 +1222,9 @@ complete:
 		bool fp_trusted = false;
 		{
 			// check fingerprint
-			signal_buffer *key_buf2;
-			ec_public_key_serialize(&key_buf2, identity_key_p);
-			char *fingerprint = (char*)mir_alloc((signal_buffer_len(key_buf2) * 2) + 1);
-			bin2hex(signal_buffer_data(key_buf2), signal_buffer_len(key_buf2), fingerprint);
+			SignalBuffer buf(identity_key_p);
+			ptrA fingerprint((char *)mir_alloc((buf.len() * 2) + 1));
+			bin2hex(buf.data(), buf.len(), fingerprint);
 
 			CMStringA szSetting(FORMAT, "%s%s", "OmemoFingerprintTrusted_", fingerprint);
 			char val = proto->getByte(hContact, szSetting, -1);
@@ -1271,7 +1240,6 @@ complete:
 				else if (ret == IDNO)
 					proto->setByte(hContact, szSetting, 0);
 			}
-			mir_free(fingerprint);
 		}
 
 		if (!fp_trusted) {
@@ -1327,26 +1295,14 @@ complete:
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
-			{
-				signal_buffer *serialized_pre_key;
-				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				szSetting.Format("%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
-				db_set_blob(0, proto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
-				SIGNAL_UNREF(serialized_pre_key);
-			}
 
-			signal_buffer *key_buf;
+			SignalBuffer buf(pre_key);
+			szSetting.Format("%s%u%d", "OmemoSignalPreKey_", proto->m_omemo.GetOwnDeviceId(), pre_key_id);
+			db_set_blob(0, proto->m_szModuleName, szSetting, buf.data(), buf.len());
+
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			ec_public_key *public_key = ec_key_pair_get_public(pre_key_pair);
-			ec_public_key_serialize(&key_buf, public_key);
-			SIGNAL_UNREF(public_key);
-			
-			char *key = mir_base64_encode(signal_buffer_data(key_buf), signal_buffer_len(key_buf));
 			szSetting.Format("OmemoPreKey%uPublic", pre_key_id);
-			proto->setString(szSetting, key);
-
-			mir_free(key);
-			signal_buffer_free(key_buf);
+			proto->setString(szSetting, SignalBuffer(ec_key_pair_get_public(pre_key_pair)).toBase64());
 		}
 		signal_protocol_key_helper_key_list_free(keys_root);
 

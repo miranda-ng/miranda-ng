@@ -44,6 +44,9 @@
     <ClCompile Include="src\signal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\utils\mir_signal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\db.h">
@@ -65,6 +68,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\dicts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\mir_signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

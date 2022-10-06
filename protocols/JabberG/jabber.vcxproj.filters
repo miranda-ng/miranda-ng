@@ -164,6 +164,9 @@
     <ClCompile Include="src\jabber_voip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\utils\mir_signal.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\jabber_byte.h">
@@ -233,6 +236,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\utils\mir_signal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

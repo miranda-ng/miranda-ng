@@ -207,14 +207,10 @@ static int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len
 	session_pre_key_deserialize(&prekey, record, record_len, pStore->CTX()); //TODO: handle error
 	if (prekey) {
 		ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
-		signal_buffer *key_buf = nullptr;
-		ec_public_key *public_key = ec_key_pair_get_public(pre_key_pair);
-		ec_public_key_serialize(&key_buf, public_key);
-		SIGNAL_UNREF(public_key);
 
+		SignalBuffer key_buf(ec_key_pair_get_public(pre_key_pair));
 		szSetting.Format("PreKey%uPublic", pre_key_id);
-		db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, signal_buffer_data(key_buf), (int)signal_buffer_len(key_buf));
-		signal_buffer_free(key_buf);
+		db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, key_buf.data(), key_buf.len());
 	}
 
 	return 0;
@@ -330,10 +326,8 @@ void MSignalStore::init()
 		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, keyPair, 1, time(0), m_pContext);
 		SIGNAL_UNREF(keyPair);
 
-		signal_buffer *my_prekey;
-		session_signed_pre_key_serialize(&my_prekey, signed_pre_key);
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY, my_prekey->data, (int)my_prekey->len);
-		SIGNAL_UNREF(my_prekey);
+		SignalBuffer prekeyBuf(signed_pre_key);
+		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY, prekeyBuf.data(), prekeyBuf.len());
 
 		// generate and save pre keys set
 		CMStringA szSetting;
@@ -342,13 +336,10 @@ void MSignalStore::init()
 		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
 			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
 			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
-			{
-				signal_buffer *serialized_pre_key;
-				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				szSetting.Format("PreKey%d", pre_key_id);
-				db_set_blob(0, pProto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
-				SIGNAL_UNREF(serialized_pre_key);
-			}
+
+			SignalBuffer buf(pre_key);
+			szSetting.Format("PreKey%d", pre_key_id);
+			db_set_blob(0, pProto->m_szModuleName, szSetting, buf.data(), buf.len());
 
 			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
 			pPubKey = ec_key_pair_get_public(pre_key_pair);

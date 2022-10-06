@@ -31,6 +31,9 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\utils\mir_signal.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\jabber.cpp" />
     <ClCompile Include="src\jabber_adhoc.cpp" />
     <ClCompile Include="src\jabber_agent.cpp" />
@@ -87,6 +90,7 @@
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClInclude Include="..\..\utils\mir_signal.h" />
     <ClInclude Include="src\jabber_byte.h" />
     <ClInclude Include="src\jabber_caps.h" />
     <ClInclude Include="src\jabber_disco.h" />
