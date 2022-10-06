@@ -313,6 +313,12 @@ public:
 	{
 		CSuper::OnInitDialog();
 
+		CMStringW title;
+		title.Truncate(GetWindowTextLength(m_hwnd));
+		GetWindowText(m_hwnd, title.GetBuffer(), title.GetLength() + 1);
+		title.AppendFormat(L" [%s/%s]", m_proto->getMStringW("jid").c_str(), m_proto->getMStringW("Resource").c_str());
+		SetWindowText(m_hwnd, title.c_str());
+
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_CONSOLE));
 		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 		SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
