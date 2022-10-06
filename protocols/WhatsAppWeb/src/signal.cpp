@@ -75,6 +75,37 @@ static int random_func(uint8_t *pData, size_t size, void *)
 	return 0;
 }
 
+static int decrypt_func(signal_buffer **output,
+	int /*cipher*/,
+	const uint8_t *key, size_t /*key_len*/,
+	const uint8_t *iv, size_t /*iv_len*/,
+	const uint8_t *ciphertext, size_t ciphertext_len,
+	void * /*user_data*/)
+{
+	int dec_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, key, iv);
+
+	ciphertext_len -= 16;
+	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (BYTE*)ciphertext + ciphertext_len);
+
+	MBinBuffer res;
+	uint8_t outbuf[1024];
+	for (size_t len = 0; len < ciphertext_len; len += 1024) {
+		size_t portionSize = ciphertext_len - len;
+		EVP_DecryptUpdate(ctx, outbuf, &dec_len, ciphertext + len, (int)min(portionSize, 1024));
+		res.append(outbuf, dec_len);
+	}
+
+	EVP_DecryptFinal_ex(ctx, outbuf, &final_len);
+	if (final_len)
+		res.append(outbuf, final_len);
+
+	EVP_CIPHER_CTX_free(ctx);
+	*output = signal_buffer_create(res.data(), res.length());
+	return SG_SUCCESS;
+}
+
 static int contains_session_func(const signal_protocol_address *address, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
@@ -305,6 +336,7 @@ void MSignalStore::init()
 	prov.hmac_sha256_update_func = hmac_sha256_update;
 	prov.hmac_sha256_cleanup_func = hmac_sha256_cleanup;
 	prov.random_func = random_func;
+	prov.decrypt_func = decrypt_func;
 	signal_context_set_crypto_provider(m_pContext, &prov);
 
 	// default values calculation
@@ -460,10 +492,6 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 
 	signal_buffer *result = nullptr;
 	if (!mir_strcmp(pszType, "pkmsg")) {
-		ec_public_key pBaseKey, pIdentityKey;
-		memcpy(&pBaseKey.data, preKey.pub.data(), 32);
-		memcpy(&pIdentityKey.data, signedIdentity.pub.data(), 32);
-
 		pre_key_signal_message *pMsg; 
 		if (pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
 			throw "unable to deserialize prekey message";
