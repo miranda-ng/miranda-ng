@@ -13,12 +13,11 @@ Copyright © 2019-22 George Hazan
 
 #define DBKEY_NOISE_PUB               "NoisePublicKey"
 #define DBKEY_NOISE_PRIV              "NoisePrivateKey"
+
 #define DBKEY_SIGNED_IDENTITY_PUB     "SignedIdentityPublicKey"
 #define DBKEY_SIGNED_IDENTITY_PRIV    "SignedIdentityPrivateKey"
-#define DBKEY_PREKEY_PUB              "PrekeyPublicKey"
-#define DBKEY_PREKEY_PRIV             "PrekeyPrivateKey"
-#define DBKEY_PREKEY_SIGN             "PrekeySignature"
-#define DBKEY_PREKEY_KEYID            "PrekeyKeyId"
+
+#define DBKEY_PREKEY                  "SignedPreKey0"
 #define DBKEY_PREKEY_NEXT_ID          "PrekeyNextId"
 #define DBKEY_PREKEY_UPLOAD_ID        "PrekeyUploadId"
 

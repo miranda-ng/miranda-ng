@@ -23,81 +23,57 @@ MSignalStore::MSignalStore(PROTO_INTERFACE *_1, const char *_2) :
 	prefix(_2),
 	arSessions(1, &CompareSessions)
 {
-	if (pProto->getDword(DBKEY_PREKEY_KEYID, 0xFFFF) == 0xFFFF) {
-		// generate pre keys
-		const unsigned int signed_pre_key_id = 1;
-		pProto->setDword(DBKEY_PREKEY_KEYID, 1);
-		pProto->setDword(DBKEY_PREKEY_NEXT_ID, 1);
-		pProto->setDword(DBKEY_PREKEY_UPLOAD_ID, 1);
-
-		// generate signed identity keys (private & public)
-		ratchet_identity_key_pair *keyPair;
-		signal_protocol_key_helper_generate_identity_key_pair(&keyPair, g_plugin.pCtx);
-
-		auto *pPubKey = ratchet_identity_key_pair_get_public(keyPair);
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_SIGNED_IDENTITY_PUB, pPubKey->data, sizeof(pPubKey->data));
-
-		auto *pPrivKey = ratchet_identity_key_pair_get_private(keyPair);
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_SIGNED_IDENTITY_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
-
-		session_signed_pre_key *signed_pre_key;
-		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, keyPair, signed_pre_key_id, time(0), g_plugin.pCtx);
-		SIGNAL_UNREF(keyPair);
-
-		signal_buffer *serialized_signed_pre_key;
-		session_signed_pre_key_serialize(&serialized_signed_pre_key, signed_pre_key);
-
-		ec_key_pair *pKeys = session_signed_pre_key_get_key_pair(signed_pre_key);
-		pPubKey = ec_key_pair_get_public(pKeys);
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY_PUB, pPubKey->data, sizeof(pPubKey->data));
-
-		pPrivKey = ec_key_pair_get_private(pKeys);
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
-
-		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY_SIGN, (void *)session_signed_pre_key_get_signature(signed_pre_key), (int)session_signed_pre_key_get_signature_len(signed_pre_key));
-
-		// generate and save pre keys set
-		CMStringA szSetting;
-		signal_protocol_key_helper_pre_key_list_node *keys_root;
-		signal_protocol_key_helper_generate_pre_keys(&keys_root, 1, 20, g_plugin.pCtx);
-		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
-			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
-			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
-			{
-				signal_buffer *serialized_pre_key;
-				session_pre_key_serialize(&serialized_pre_key, pre_key);
-				szSetting.Format("PreKey%d", pre_key_id);
-				db_set_blob(0, pProto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
-				SIGNAL_UNREF(serialized_pre_key);
-			}
-
-			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			pPubKey = ec_key_pair_get_public(pre_key_pair);
-			szSetting.Format("PreKey%dPublic", pre_key_id);
-			db_set_blob(0, pProto->m_szModuleName, szSetting, pPubKey->data, sizeof(pPubKey->data));
-		}
-		signal_protocol_key_helper_key_list_free(keys_root);
-	}
-
-	// read resident data from database
-	signedIdentity.pub = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PUB);
-	signedIdentity.priv = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PRIV);
-
-	preKey.pub = pProto->getBlob(DBKEY_PREKEY_PUB);
-	preKey.priv = pProto->getBlob(DBKEY_PREKEY_PRIV);
-	preKey.keyid = pProto->getDword(DBKEY_PREKEY_KEYID);
-	preKey.signature = pProto->getBlob(DBKEY_PREKEY_SIGN);
-
-	// context cretion
 	init();
 }
 
 MSignalStore::~MSignalStore()
 {
-	signal_protocol_store_context_destroy(m_pContext);
+	signal_protocol_store_context_destroy(m_pStore);
+	signal_context_destroy(m_pContext);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static void log_func(int level, const char *pmsg, size_t /*msgLen*/, void *pUserData)
+{
+	auto *pStore = (MSignalStore *)pUserData;
+	pStore->pProto->debugLogA("libsignal {%d}: %s", level, pmsg);
+}
+
+static int hmac_sha256_init(void **hmac_context, const uint8_t *key, size_t key_len, void *)
+{
+	HMAC_CTX *ctx = HMAC_CTX_new();
+	*hmac_context = ctx;
+	HMAC_Init(ctx, key, (int)key_len, EVP_sha256());
+	return 0;
+}
+
+static int hmac_sha256_update(void *hmac_context, const uint8_t *data, size_t data_len, void *)
+{
+	return HMAC_Update((HMAC_CTX *)hmac_context, data, data_len);
+}
+
+static int hmac_sha256_final(void *hmac_context, signal_buffer **output, void *)
+{
+	BYTE data[200];
+	unsigned len = 0;
+	if (!HMAC_Final((HMAC_CTX *)hmac_context, data, &len))
+		return 1;
+
+	*output = signal_buffer_create(data, len);
+	return 0;
+}
+
+static void hmac_sha256_cleanup(void *hmac_context, void *)
+{
+	HMAC_CTX_free((HMAC_CTX *)hmac_context);
+}
+
+static int random_func(uint8_t *pData, size_t size, void *)
+{
+	Utils_GetRandom(pData, size);
+	return 0;
+}
 
 static int contains_session_func(const signal_protocol_address *address, void *user_data)
 {
@@ -228,7 +204,7 @@ static int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned int)record_len);
 
 	session_pre_key *prekey = nullptr;
-	session_pre_key_deserialize(&prekey, record, record_len, g_plugin.pCtx); //TODO: handle error
+	session_pre_key_deserialize(&prekey, record, record_len, pStore->CTX()); //TODO: handle error
 	if (prekey) {
 		ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(prekey);
 		signal_buffer *key_buf = nullptr;
@@ -248,37 +224,29 @@ static int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
-	DBVARIANT dbv = {};
-	dbv.type = DBVT_BLOB;
-	if (db_get(0, pStore->pProto->m_szModuleName, szSetting, &dbv))
-		return 0;
-
-	db_free(&dbv);
-	return 1;
+	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
+	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
+	return blob.data() != 0;
 }
 
 static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
-	DBVARIANT dbv = {};
-	dbv.type = DBVT_BLOB;
-	if (db_get(0, pStore->pProto->m_szModuleName, szSetting, &dbv))
+	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
+	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
+	if (blob.data() == 0)
 		return SG_ERR_INVALID_KEY_ID;
 
-	*record = signal_buffer_create(dbv.pbVal, dbv.cpbVal);
-	db_free(&dbv);
+	*record = signal_buffer_create(blob.data(), blob.length());
 	return SG_SUCCESS; //key exist and succesfully loaded
-
 }
 
 static int store_signed_pre_key(uint32_t signed_pre_key_id, uint8_t *record, size_t record_len, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned int)record_len);
 	return 0;
 }
@@ -287,33 +255,36 @@ static int remove_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "SignalSignedPreKey", signed_pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
 	pStore->pProto->delSetting(szSetting);
 	return 0;
 }
 
-int get_identity_key_pair(signal_buffer **public_data, signal_buffer **private_data, void *user_data)
+static int get_identity_key_pair(signal_buffer **public_data, signal_buffer **private_data, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	*public_data = signal_buffer_create((uint8_t *)pStore->preKey.pub.data(), (int)pStore->preKey.pub.length());
+	MBinBuffer buf;
+	buf.append(KEY_BUNDLE_TYPE, 1);
+	buf.append(pStore->preKey.pub);
+	*public_data = signal_buffer_create(buf.data(), (int)buf.length());
+
 	*private_data = signal_buffer_create((uint8_t *)pStore->preKey.priv.data(), (int)pStore->preKey.priv.length());
 	return 0;
 }
 
-int get_local_registration_id(void *user_data, uint32_t *registration_id)
+static int get_local_registration_id(void *user_data, uint32_t *registration_id)
 {
 	auto *pStore = (MSignalStore *)user_data;
 	*registration_id = pStore->pProto->getDword(DBKEY_REG_ID);
 	return 0;
 }
 
-int save_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
+static int save_identity(const signal_protocol_address *address, uint8_t *key_data, size_t key_len, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
 	CMStringA szSetting(FORMAT, "%s_%s_%d", "SignalIdentity", CMStringA(address->name, (int)address->name_len).c_str(), address->device_id);
-
 	if (key_data != nullptr)
 		db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, key_data, (unsigned int)key_len); //TODO: check return value
 	else
@@ -321,14 +292,94 @@ int save_identity(const signal_protocol_address *address, uint8_t *key_data, siz
 	return 0;
 }
 
-int is_trusted_identity(const signal_protocol_address * /*address*/, uint8_t * /*key_data*/, size_t /*key_len*/, void * /*user_data*/)
+static int is_trusted_identity(const signal_protocol_address * /*address*/, uint8_t * /*key_data*/, size_t /*key_len*/, void * /*user_data*/)
 {
 	return 1;
 }
 
 void MSignalStore::init()
 {
-	signal_protocol_store_context_create(&m_pContext, g_plugin.pCtx);
+	signal_context_create(&m_pContext, this);
+	signal_context_set_log_function(m_pContext, log_func);
+
+	signal_crypto_provider prov;
+	memset(&prov, 0xFF, sizeof(prov));
+	prov.hmac_sha256_init_func = hmac_sha256_init;
+	prov.hmac_sha256_final_func = hmac_sha256_final;
+	prov.hmac_sha256_update_func = hmac_sha256_update;
+	prov.hmac_sha256_cleanup_func = hmac_sha256_cleanup;
+	prov.random_func = random_func;
+	signal_context_set_crypto_provider(m_pContext, &prov);
+
+	// default values calculation
+	if (pProto->getDword(DBKEY_PREKEY_NEXT_ID, 0xFFFF) == 0xFFFF) {
+		pProto->setDword(DBKEY_PREKEY_NEXT_ID, 1);
+		pProto->setDword(DBKEY_PREKEY_UPLOAD_ID, 1);
+
+		// generate signed identity keys (private & public)
+		ratchet_identity_key_pair *keyPair;
+		signal_protocol_key_helper_generate_identity_key_pair(&keyPair, m_pContext);
+
+		auto *pPubKey = ratchet_identity_key_pair_get_public(keyPair);
+		db_set_blob(0, pProto->m_szModuleName, DBKEY_SIGNED_IDENTITY_PUB, pPubKey->data, sizeof(pPubKey->data));
+
+		auto *pPrivKey = ratchet_identity_key_pair_get_private(keyPair);
+		db_set_blob(0, pProto->m_szModuleName, DBKEY_SIGNED_IDENTITY_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
+
+		session_signed_pre_key *signed_pre_key;
+		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, keyPair, 1, time(0), m_pContext);
+		SIGNAL_UNREF(keyPair);
+
+		signal_buffer *my_prekey;
+		session_signed_pre_key_serialize(&my_prekey, signed_pre_key);
+		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY, my_prekey->data, (int)my_prekey->len);
+		SIGNAL_UNREF(my_prekey);
+
+		// generate and save pre keys set
+		CMStringA szSetting;
+		signal_protocol_key_helper_pre_key_list_node *keys_root;
+		signal_protocol_key_helper_generate_pre_keys(&keys_root, 1, 20, m_pContext);
+		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
+			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
+			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
+			{
+				signal_buffer *serialized_pre_key;
+				session_pre_key_serialize(&serialized_pre_key, pre_key);
+				szSetting.Format("PreKey%d", pre_key_id);
+				db_set_blob(0, pProto->m_szModuleName, szSetting, signal_buffer_data(serialized_pre_key), (unsigned int)signal_buffer_len(serialized_pre_key));
+				SIGNAL_UNREF(serialized_pre_key);
+			}
+
+			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
+			pPubKey = ec_key_pair_get_public(pre_key_pair);
+			szSetting.Format("PreKey%dPublic", pre_key_id);
+			db_set_blob(0, pProto->m_szModuleName, szSetting, pPubKey->data, sizeof(pPubKey->data));
+		}
+		signal_protocol_key_helper_key_list_free(keys_root);
+		SIGNAL_UNREF(signed_pre_key);
+	}
+
+	// read resident data from database
+	signedIdentity.pub = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PUB);
+	signedIdentity.priv = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PRIV);
+
+	MBinBuffer blob(pProto->getBlob(DBKEY_PREKEY));
+	session_signed_pre_key *signed_pre_key;
+	session_signed_pre_key_deserialize(&signed_pre_key, blob.data(), blob.length(), m_pContext);
+
+	ec_key_pair *pKeys = session_signed_pre_key_get_key_pair(signed_pre_key);
+	auto *pPubKey = ec_key_pair_get_public(pKeys);
+	preKey.pub.assign(pPubKey->data, sizeof(pPubKey->data));
+
+	auto *pPrivKey = ec_key_pair_get_private(pKeys);
+	preKey.priv.assign(pPrivKey->data, sizeof(pPrivKey->data));
+
+	preKey.signature.assign(session_signed_pre_key_get_signature(signed_pre_key), session_signed_pre_key_get_signature_len(signed_pre_key));
+	preKey.keyid = session_signed_pre_key_get_id(signed_pre_key);
+	SIGNAL_UNREF(signed_pre_key);
+
+	// create store with callbacks
+	signal_protocol_store_context_create(&m_pStore, m_pContext);
 
 	signal_protocol_session_store ss;
 	ss.contains_session_func = &contains_session_func;
@@ -339,7 +390,7 @@ void MSignalStore::init()
 	ss.load_session_func = &load_session_func;
 	ss.store_session_func = &store_session_func;
 	ss.user_data = this;
-	signal_protocol_store_context_set_session_store(m_pContext, &ss);
+	signal_protocol_store_context_set_session_store(m_pStore, &ss);
 
 	signal_protocol_pre_key_store sp;
 	sp.contains_pre_key = &contains_pre_key;
@@ -348,7 +399,7 @@ void MSignalStore::init()
 	sp.remove_pre_key = &remove_pre_key;
 	sp.store_pre_key = &store_pre_key;
 	sp.user_data = this;
-	signal_protocol_store_context_set_pre_key_store(m_pContext, &sp);
+	signal_protocol_store_context_set_pre_key_store(m_pStore, &sp);
 
 	signal_protocol_signed_pre_key_store ssp;
 	ssp.contains_signed_pre_key = &contains_signed_pre_key;
@@ -357,7 +408,7 @@ void MSignalStore::init()
 	ssp.remove_signed_pre_key = &remove_signed_pre_key;
 	ssp.store_signed_pre_key = &store_signed_pre_key;
 	ssp.user_data = this;
-	signal_protocol_store_context_set_signed_pre_key_store(m_pContext, &ssp);
+	signal_protocol_store_context_set_signed_pre_key_store(m_pStore, &ssp);
 
 	signal_protocol_identity_key_store sip;
 	sip.destroy_func = &destroy_func;
@@ -366,7 +417,7 @@ void MSignalStore::init()
 	sip.is_trusted_identity = &is_trusted_identity;
 	sip.save_identity = &save_identity;
 	sip.user_data = this;
-	signal_protocol_store_context_set_identity_key_store(m_pContext, &sip);
+	signal_protocol_store_context_set_identity_key_store(m_pStore, &sip);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -403,7 +454,7 @@ MSignalSession *MSignalStore::createSession(const CMStringA &szName, int deviceI
 	}
 
 	if (pSession->cipher == nullptr)
-		if (session_cipher_create(&pSession->cipher, m_pContext, &pSession->address, g_plugin.pCtx) < 0)
+		if (session_cipher_create(&pSession->cipher, m_pStore, &pSession->address, m_pContext) < 0)
 			throw "session_cipher_create failure";
 
 	return pSession;
@@ -423,7 +474,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 		memcpy(&pIdentityKey.data, signedIdentity.pub.data(), 32);
 
 		pre_key_signal_message *pMsg; 
-		if (pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), g_plugin.pCtx) < 0)
+		if (pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
 			throw "unable to deserialize prekey message";
 
 		if (session_cipher_decrypt_pre_key_signal_message(pSession->getCipher(), pMsg, 0, &result) < 0)
@@ -433,7 +484,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 	}
 	else {
 		signal_message *pMsg;
-		if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), g_plugin.pCtx) < 0)
+		if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
 			throw "unable to deserialize signal message";
 
 		if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, 0, &result) < 0)

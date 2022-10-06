@@ -42,7 +42,7 @@ WAJid::WAJid(const char *pszJid)
 }
 
 bool WAJid::isUser() const
-{	return server == S_WHATSAPP_NET;
+{	return server == "s.whatsapp.net";
 }
 
 bool WAJid::isGroup() const

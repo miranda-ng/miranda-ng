@@ -90,40 +90,31 @@ void WhatsAppProto::ServerThreadWorker()
 		while (true) {
 			MBinBuffer currPacket;
 			currPacket.assign(netbuf.data() + hdr.headerSize, hdr.payloadSize);
-			currPacket.append("", 1); // add 0 to use strchr safely
 			
-			const char *start = currPacket.data();
-
 			switch (hdr.opCode) {
 			case 1: // json packet
-			case 2: // binary packet
-				// process a packet here
-				{
-					const char *pos = strchr(start, ',');
-					if (pos != nullptr)
-						pos++;
-					else
-						pos = start;
-					size_t dataSize = hdr.payloadSize - size_t(pos - start);
+				debugLogA("Text packet, skipping");
+				/*
+					currPacket.append("", 1); // add 0 to use strchr safely
+					CMStringA szJson(pos, (int)dataSize);
 
-					// try to decode
-					if (hdr.opCode == 2 && hdr.payloadSize > 32)
-						ProcessBinaryPacket(pos, dataSize);
-					else {
-						CMStringA szJson(pos, (int)dataSize);
+					JSONNode root = JSONNode::parse(szJson);
+					if (root) {
+						debugLogA("JSON received:\n%s", start);
 
-						JSONNode root = JSONNode::parse(szJson);
-						if (root) {
-							debugLogA("JSON received:\n%s", start);
-
-							CMStringA szPrefix(start, int(pos - start - 1));
-							auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
-							if (pReq != nullptr) {
-								root << CHAR_PARAM("$id$", szPrefix);
-							}
+						CMStringA szPrefix(start, int(pos - start - 1));
+						auto *pReq = m_arPacketQueue.find((WARequest *)&szPrefix);
+						if (pReq != nullptr) {
+							root << CHAR_PARAM("$id$", szPrefix);
 						}
 					}
 				}
+				*/
+				break;
+
+			case 2: // binary packet
+				if (hdr.payloadSize > 32)
+					ProcessBinaryPacket(currPacket.data(), hdr.payloadSize);
 				break;
 
 			case 8: // close
@@ -132,7 +123,7 @@ void WhatsAppProto::ServerThreadWorker()
 				break;
 
 			default:
-				Netlib_Dump(m_hServerConn, start, hdr.payloadSize, false, 0);
+				Netlib_Dump(m_hServerConn, currPacket.data(), hdr.payloadSize, false, 0);
 			}
 
 			netbuf.remove(hdr.headerSize + hdr.payloadSize);

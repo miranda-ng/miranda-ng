@@ -21,7 +21,7 @@ WANoise::WANoise(WhatsAppProto *_ppro) :
 
 	// generate ephemeral keys: public & private
 	ec_key_pair *pKeys;
-	curve_generate_key_pair(g_plugin.pCtx, &pKeys);
+	curve_generate_key_pair(ppro->m_signalStore.CTX(), &pKeys);
 
 	auto *pPubKey = ec_key_pair_get_public(pKeys);
 	ephemeral.pub.assign(pPubKey->data, sizeof(pPubKey->data));
@@ -55,7 +55,7 @@ void WANoise::init()
 
 		// generate noise keys (private & public)
 		ec_key_pair *pKeys;
-		curve_generate_key_pair(g_plugin.pCtx, &pKeys);
+		curve_generate_key_pair(ppro->m_signalStore.CTX(), &pKeys);
 
 		auto *pPubKey = ec_key_pair_get_public(pKeys);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_NOISE_PUB, pPubKey->data, sizeof(pPubKey->data));

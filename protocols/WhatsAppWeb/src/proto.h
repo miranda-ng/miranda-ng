@@ -154,7 +154,8 @@ class MSignalStore
 {
 	void init();
 
-	signal_protocol_store_context *m_pContext;
+	signal_context *m_pContext;
+	signal_protocol_store_context *m_pStore;
 
 public:
 	PROTO_INTERFACE *pProto;
@@ -176,6 +177,8 @@ public:
 
 	MSignalStore(PROTO_INTERFACE *_1, const char *_2);
 	~MSignalStore();
+
+	__forceinline signal_context *CTX() const { return m_pContext; }
 
 	MSignalSession *createSession(const CMStringA &szName, int deviceId);
 
@@ -362,8 +365,6 @@ public:
 
 struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 {
-	signal_context *pCtx = nullptr;
-	
 	HNETLIBUSER hAvatarUser = nullptr;
 	HNETLIBCONN hAvatarConn = nullptr;
 	bool SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai);

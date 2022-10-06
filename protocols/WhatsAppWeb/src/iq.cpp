@@ -148,10 +148,11 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		bFromMe = m_szJid == participant;
 
 	auto *pKey = new proto::MessageKey();
-	pKey->set_participant(participant);
 	pKey->set_remotejid(szChatId);
 	pKey->set_id(msgId);
 	pKey->set_fromme(bFromMe);
+	if (participant)
+		pKey->set_participant(participant);
 
 	proto::WebMessageInfo msg;
 	msg.set_allocated_key(pKey);
@@ -353,7 +354,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				signal_buffer *result;
 				ec_private_key key = {};
 				memcpy(key.data, m_signalStore.signedIdentity.priv.data(), m_signalStore.signedIdentity.priv.length());
-				if (curve_calculate_signature(g_plugin.pCtx, &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
+				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
 				account.set_devicesignature(result->data, result->len);

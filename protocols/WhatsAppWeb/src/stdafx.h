@@ -105,6 +105,5 @@ struct ec_private_key : public signal_type_base
 #include "utils.h"
 #include "proto.h"
 #include "resource.h"
-#include "pmsg.pb.h"
 
 #pragma comment(lib, "libcrypto.lib")
