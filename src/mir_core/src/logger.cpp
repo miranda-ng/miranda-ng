@@ -101,6 +101,7 @@ MIR_CORE_DLL(HANDLE) mir_createLog(const char* pszName, const wchar_t *ptszDescr
 	}
 
 	CreatePathToFileW(ptszFile);
+	_wremove(ptszFile);
 	arLoggers.insert(result);
 	return result;
 }
