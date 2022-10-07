@@ -27,6 +27,11 @@ static int CompareUsers(const WAUser *p1, const WAUser *p2)
 	return strcmp(p1->szId, p2->szId);
 }
 
+static int CompareCollections(const WACollection *p1, const WACollection *p2)
+{
+	return strcmp(p1->szName, p2->szName);
+}
+
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
@@ -38,6 +43,8 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_arOwnMsgs(1, CompareOwnMsgs),
 	m_arPersistent(1),
 	m_arPacketQueue(10),
+	m_arCollections(10, CompareCollections),
+
 	m_wszNick(this, "Nick"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bUsePopups(this, "UsePopups", true),
@@ -54,6 +61,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
+	InitCollections();
 	InitPopups();
 	InitPersistentHandlers();
 
@@ -66,6 +74,9 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	nlu.szSettingsModule = m_szModuleName;
 	nlu.szDescriptiveName.w = descr;
 	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	// Temporary folder
+	CreateDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName));
 
 	// Avatars folder
 	m_tszAvatarFolder = CMStringW(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
@@ -298,25 +309,22 @@ HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 }
 
 //////////////////////////////////////////////////////////////////////////////
-// EVENTS
 
-LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+static int enumCollections(const char *szSetting, void *param)
 {
-	switch (message) {
-	case WM_COMMAND:
-		// After a click, destroy popup
-		PUDeletePopup(hwnd);
-		break;
+	auto *pList = (LIST<char> *)param;
+	if (!memcmp(szSetting, "Collection_", 11))
+		pList->insert(mir_strdup(szSetting));
+	return 0;
+}
 
-	case WM_CONTEXTMENU:
-		PUDeletePopup(hwnd);
-		break;
+void WhatsAppProto::InitCollections()
+{
+	LIST<char> settings(10);
+	db_enum_settings(0, enumCollections, m_szModuleName, &settings);
 
-	case UM_FREEPLUGINDATA:
-		// After close, free
-		mir_free(PUGetPluginData(hwnd));
-		return FALSE;
+	for (auto &it : settings) {
+		m_arCollections.insert(new WACollection(it + 11, getDword(it)));
+		mir_free(it);
 	}
-
-	return DefWindowProc(hwnd, message, wParam, lParam);
 }

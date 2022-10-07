@@ -82,26 +82,7 @@ static int decrypt_func(signal_buffer **output,
 	const uint8_t *ciphertext, size_t ciphertext_len,
 	void * /*user_data*/)
 {
-	int dec_len = 0, final_len = 0;
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, key, iv);
-
-	ciphertext_len -= 16;
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (BYTE*)ciphertext + ciphertext_len);
-
-	MBinBuffer res;
-	uint8_t outbuf[1024];
-	for (size_t len = 0; len < ciphertext_len; len += 1024) {
-		size_t portionSize = ciphertext_len - len;
-		EVP_DecryptUpdate(ctx, outbuf, &dec_len, ciphertext + len, (int)min(portionSize, 1024));
-		res.append(outbuf, dec_len);
-	}
-
-	EVP_DecryptFinal_ex(ctx, outbuf, &final_len);
-	if (final_len)
-		res.append(outbuf, final_len);
-
-	EVP_CIPHER_CTX_free(ctx);
+	MBinBuffer res = aesDecrypt(EVP_aes_256_gcm(), key, iv, ciphertext, ciphertext_len);
 	*output = signal_buffer_create(res.data(), res.length());
 	return SG_SUCCESS;
 }
@@ -341,9 +322,6 @@ void MSignalStore::init()
 
 	// default values calculation
 	if (pProto->getDword(DBKEY_PREKEY_NEXT_ID, 0xFFFF) == 0xFFFF) {
-		pProto->setDword(DBKEY_PREKEY_NEXT_ID, 1);
-		pProto->setDword(DBKEY_PREKEY_UPLOAD_ID, 1);
-
 		// generate signed identity keys (private & public)
 		ratchet_identity_key_pair *keyPair;
 		signal_protocol_key_helper_generate_identity_key_pair(&keyPair, m_pContext);
@@ -356,30 +334,11 @@ void MSignalStore::init()
 
 		session_signed_pre_key *signed_pre_key;
 		signal_protocol_key_helper_generate_signed_pre_key(&signed_pre_key, keyPair, 1, time(0), m_pContext);
-		SIGNAL_UNREF(keyPair);
 
 		SignalBuffer prekeyBuf(signed_pre_key);
 		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY, prekeyBuf.data(), prekeyBuf.len());
-
-		// generate and save pre keys set
-		CMStringA szSetting;
-		signal_protocol_key_helper_pre_key_list_node *keys_root;
-		signal_protocol_key_helper_generate_pre_keys(&keys_root, 1, 20, m_pContext);
-		for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
-			session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
-			uint32_t pre_key_id = session_pre_key_get_id(pre_key);
-
-			SignalBuffer buf(pre_key);
-			szSetting.Format("PreKey%d", pre_key_id);
-			db_set_blob(0, pProto->m_szModuleName, szSetting, buf.data(), buf.len());
-
-			ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
-			pPubKey = ec_key_pair_get_public(pre_key_pair);
-			szSetting.Format("PreKey%dPublic", pre_key_id);
-			db_set_blob(0, pProto->m_szModuleName, szSetting, pPubKey->data, sizeof(pPubKey->data));
-		}
-		signal_protocol_key_helper_key_list_free(keys_root);
 		SIGNAL_UNREF(signed_pre_key);
+		SIGNAL_UNREF(keyPair);
 	}
 
 	// read resident data from database
@@ -525,6 +484,36 @@ MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &from, const CM
 	MBinBuffer ret;
 	return ret;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// generate and save pre keys set
+
+void MSignalStore::generatePrekeys(int count)
+{
+	int iNextKeyId = pProto->getDword(DBKEY_PREKEY_NEXT_ID, 1);
+
+	CMStringA szSetting;
+	signal_protocol_key_helper_pre_key_list_node *keys_root;
+	signal_protocol_key_helper_generate_pre_keys(&keys_root, iNextKeyId, count, m_pContext);
+	for (auto *it = keys_root; it; it = signal_protocol_key_helper_key_list_next(it)) {
+		session_pre_key *pre_key = signal_protocol_key_helper_key_list_element(it);
+		uint32_t pre_key_id = session_pre_key_get_id(pre_key);
+
+		SignalBuffer buf(pre_key);
+		szSetting.Format("PreKey%d", pre_key_id);
+		db_set_blob(0, pProto->m_szModuleName, szSetting, buf.data(), buf.len());
+
+		ec_key_pair *pre_key_pair = session_pre_key_get_key_pair(pre_key);
+		auto *pPubKey = ec_key_pair_get_public(pre_key_pair);
+		szSetting.Format("PreKey%dPublic", pre_key_id);
+		db_set_blob(0, pProto->m_szModuleName, szSetting, pPubKey->data, sizeof(pPubKey->data));
+	}
+	signal_protocol_key_helper_key_list_free(keys_root);
+
+	pProto->setDword(DBKEY_PREKEY_NEXT_ID, iNextKeyId + count);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void MSignalStore::processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg)
 {

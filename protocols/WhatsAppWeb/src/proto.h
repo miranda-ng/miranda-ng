@@ -101,6 +101,22 @@ struct WAOwnMessage
 	CMStringA szPrefix;
 };
 
+struct WACollection
+{
+	WACollection(const char *_1, int _2) :
+		szName(mir_strdup(_1)),
+		version(_2)
+	{}
+
+	ptrA szName;
+	int  version;
+
+	MBinBuffer hash;
+	std::map<std::string, std::string> indexValueMap;
+
+	void parseRecord(const proto::SyncdRecord &rec, bool bSet);
+};
+
 class WANoise
 {
 	friend class WhatsAppProto;
@@ -185,6 +201,8 @@ public:
 	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
 
+	void generatePrekeys(int count);
+
 	void processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg);
 };
 
@@ -219,6 +237,18 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	EVP_PKEY *m_pKeys; // private & public keys
 	WANoise *m_noise;
+
+	void UploadMorePrekeys();
+
+	// App state management
+	OBJLIST<WACollection> m_arCollections;
+
+	void InitCollections();
+	void ResyncServer(const OBJLIST<WACollection> &task);
+
+	__forceinline WACollection *FindCollection(const char *pszName)
+	{	return m_arCollections.find((WACollection *)&pszName);
+	}
 
 	// Contacts management /////////////////////////////////////////////////////////////////
 
@@ -261,6 +291,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	int  WSSend(const MessageLite &msg);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
+	MBinBuffer DownloadEncryptedFile(const char *url, const std::string &mediaKeys, const char *pszType);
+	CMStringW  GetTmpFileName(const char *pszClass, const char *addition);
+
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
 	void ServerThreadWorker(void);
@@ -293,7 +326,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);
+	void OnIqServerSync(const WANode &node);
+	void OnNotifyEncrypt(const WANode &node);
+	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
+	void OnServerSync(const WANode &node);
 	void OnStreamError(const WANode &node);
 	void OnSuccess(const WANode &node);
 

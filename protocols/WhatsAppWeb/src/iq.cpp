@@ -28,25 +28,15 @@ void WhatsAppProto::OnIqBlockList(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int sttEnumPrekeys(const char *szSetting, void *param)
-{
-	std::vector<int> *list = (std::vector<int> *)param;
-	if (!memcmp(szSetting, "PreKey", 6) && !strstr(szSetting, "Public"))
-		list->push_back(atoi(szSetting + 6));
-	return 0;
-}
-
 void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 {
-	std::vector<int> ids;
-	db_enum_settings(0, sttEnumPrekeys, m_szModuleName, &ids);
-
 	int iCount = node.getChild("count")->getAttrInt("value");
-	if (iCount >= ids.size()) {
-		debugLogA("Prekeys are already uploaded");
-		return;
-	}
+	if (iCount < 5)
+		UploadMorePrekeys();
+}
 
+void WhatsAppProto::UploadMorePrekeys()
+{
 	WANodeIq iq(IQ::SET, "encrypt");
 
 	auto regId = encodeBigEndian(getDword(DBKEY_REG_ID));
@@ -55,14 +45,20 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 	iq.addChild("type")->content.append(KEY_BUNDLE_TYPE, 1);
 	iq.addChild("identity")->content.append(m_signalStore.signedIdentity.pub);
 
+	const int PORTION = 10;
+	m_signalStore.generatePrekeys(PORTION);
+
+	int iStart = getDword(DBKEY_PREKEY_UPLOAD_ID, 1);
 	auto *n = iq.addChild("list");
-	for (auto &keyId : ids) {
+	for (int i = 0; i < PORTION; i++) {
 		auto *nKey = n->addChild("key");
-			
+
+		int keyId = iStart + i;
 		auto encId = encodeBigEndian(keyId, 3);
 		nKey->addChild("id")->content.append(encId.c_str(), encId.size());
 		nKey->addChild("value")->content.append(getBlob(CMStringA(FORMAT, "PreKey%dPublic", keyId)));
 	}
+	setDword(DBKEY_PREKEY_UPLOAD_ID, iStart + PORTION);
 
 	auto *skey = iq.addChild("skey");
 
@@ -78,6 +74,26 @@ void WhatsAppProto::OnIqCountPrekeys(const WANode &node)
 
 void WhatsAppProto::OnIqDoNothing(const WANode &)
 {
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
+{
+	auto *pszFrom = node.getAttr("from");
+	if (!mir_strcmp(pszFrom, S_WHATSAPP_NET)) {
+
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnReceiveInfo(const WANode &node)
+{
+	if (auto *pChild = node.getFirstChild()) {
+		if (pChild->title == "offline")
+			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -248,15 +264,6 @@ void WhatsAppProto::OnStreamError(const WANode &node)
 			break;
 		}
 	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnSuccess(const WANode &)
-{
-	OnLoggedIn();
-
-	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -522,13 +529,140 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnServerSync(const WANode &node)
+{
+	OBJLIST<WACollection> task(1);
+
+	for (auto &it : node.getChildren())
+		if (it->title == "collection")
+			task.insert(new WACollection(it->getAttr("name"), it->getAttrInt("version")));
+
+	ResyncServer(task);
+}
+
+void WhatsAppProto::ResyncServer(const OBJLIST<WACollection> &task)
+{
+	WANodeIq iq(IQ::SET, "w:sync:app:state");
+	
+	auto *pList = iq.addChild("sync");
+	for (auto &it : task) {
+		auto *pCollection = m_arCollections.find(it);
+		if (pCollection == nullptr)
+			m_arCollections.insert(pCollection = new WACollection(it->szName, 0));
+
+		if (pCollection->version < it->version) {
+			auto *pNode = pList->addChild("collection");
+			*pNode << CHAR_PARAM("name", it->szName) << INT_PARAM("version", pCollection->version) 
+				<< CHAR_PARAM("return_snapshot", (!pCollection->version) ? "true" : "false");
+		}
+	}
+
+	if (pList->getFirstChild() != nullptr)
+		WSSendNode(iq, &WhatsAppProto::OnIqServerSync);
+}
+
+void WhatsAppProto::OnIqServerSync(const WANode &node)
+{
+	for (auto &coll : node.getChild("sync")->getChildren()) {
+		if (coll->title != "collection")
+			continue;
+
+		auto *pszName = coll->getAttr("name");
+		
+		auto *pCollection = FindCollection(pszName);
+		if (pCollection == nullptr) {
+			pCollection = new WACollection(pszName, 0);
+			m_arCollections.insert(pCollection);
+		}
+
+		int dwVersion = 0;
+
+		CMStringW wszSnapshotPath(GetTmpFileName("collection", pszName));
+		if (auto *pSnapshot = coll->getChild("snapshot")) {
+			proto::ExternalBlobReference body;
+			body << pSnapshot->content;
+			if (!body.has_directpath() || !body.has_mediakey()) {
+				debugLogA("Invalid snapshot data, skipping");
+				continue;
+			}
+			
+			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body.directpath().c_str()), body.mediakey(), "App State");
+			if (!buf.data()) {
+				debugLogA("Invalid downloaded snapshot data, skipping");
+				continue;
+			}
+
+			proto::SyncdSnapshot snapshot;
+			snapshot << buf;
+
+			dwVersion = snapshot.version().version();
+			if (dwVersion > pCollection->version) {
+				auto &hash = snapshot.mac();
+				pCollection->hash.assign(hash.c_str(), hash.size());
+				
+				for (auto &it : snapshot.records())
+					pCollection->parseRecord(it, true);
+			}
+		}
+
+		if (auto *pPatchList = coll->getChild("patches")) {
+			for (auto &it : pPatchList->getChildren()) {
+				proto::SyncdPatch patch;
+				patch << it->content;
+
+				dwVersion = patch.version().version();
+				if (dwVersion > pCollection->version)
+					for (auto &jt : patch.mutations())
+						pCollection->parseRecord(jt.record(), jt.operation() == proto::SyncdMutation_SyncdOperation::SyncdMutation_SyncdOperation_SET);
+			}
+		}
+
+		CMStringA szSetting(FORMAT, "Collection_%s", pszName);
+		// setDword(szSetting, dwVersion);
+
+		JSONNode jsonRoot, jsonMap; 
+		for (auto &it : pCollection->indexValueMap)
+			jsonMap << CHAR_PARAM(ptrA(mir_base64_encode(it.first.c_str(), it.first.size())), ptrA(mir_base64_encode(it.second.c_str(), it.second.size())));
+		jsonRoot << INT_PARAM("version", dwVersion) << JSON_PARAM("indexValueMap", jsonMap);
+		
+		// string2file(jsonRoot.write(), GetTmpFileName("collection", CMStringA(pszName) + ".json"));
+	}
+}
+
+void WACollection::parseRecord(const ::proto::SyncdRecord &rec, bool bSet)
+{
+	// auto &id = rec.keyid().id();
+	auto &index = rec.index().blob();
+	auto &value = rec.value().blob();
+
+	if (bSet) {
+		indexValueMap[index] = value.substr(0, value.size() - 32);
+	}
+	else indexValueMap.erase(index);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnSuccess(const WANode &)
+{
+	OnLoggedIn();
+
+	WSSendNode(WANodeIq(IQ::SET, "passive") << XCHILD("active"), &WhatsAppProto::OnIqDoNothing);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::InitPersistentHandlers()
 {
 	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-device", &WhatsAppProto::OnIqPairDevice));
 	m_arPersistent.insert(new WAPersistentHandler("iq", "set", "md", "pair-success", &WhatsAppProto::OnIqPairSuccess));
 
-	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
+	m_arPersistent.insert(new WAPersistentHandler("notification", "encrypt", 0, 0, &WhatsAppProto::OnNotifyEncrypt));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "account_sync", 0, 0, &WhatsAppProto::OnAccountSync));
+	m_arPersistent.insert(new WAPersistentHandler("notification", "server_sync", 0, 0, &WhatsAppProto::OnServerSync));
+
+	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
+	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
 	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
 

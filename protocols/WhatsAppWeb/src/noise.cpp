@@ -103,32 +103,12 @@ MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 	generateIV(iv, (bInitFinished) ? readCounter : writeCounter);
 
 	MBinBuffer res;
-	uint8_t outbuf[1024 + EVP_MAX_BLOCK_LENGTH];
-
-	int tag_len = 0, dec_len = 0, final_len = 0;
-	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_DecryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)decKey.data(), iv);
-
 	if (!bInitFinished)
-		EVP_DecryptUpdate(ctx, nullptr, &tag_len, hash, sizeof(hash));
+		res = aesDecrypt(EVP_aes_256_gcm(), (BYTE *)decKey.data(), iv, pData, cbLen, hash, sizeof(hash));
+	else
+		res = aesDecrypt(EVP_aes_256_gcm(), (BYTE *)decKey.data(), iv, pData, cbLen);
 
-	cbLen -= 16;
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (BYTE *)pData + cbLen);
-
-	for (size_t len = 0; len < cbLen; len += 1024) {
-		size_t portionSize = cbLen - len;
-		EVP_DecryptUpdate(ctx, outbuf, &dec_len, (BYTE *)pData + len, (int)min(portionSize, 1024));
-		res.append(outbuf, dec_len);
-	}
-
-	if (!EVP_DecryptFinal_ex(ctx, outbuf, &final_len))
-		ppro->debugLogA("Decryption failed");
-
-	if (final_len)
-		res.append(outbuf, final_len);
-	EVP_CIPHER_CTX_free(ctx);
-
-	updateHash(pData, cbLen + 16);
+	updateHash(pData, cbLen);
 	return res;
 }
 

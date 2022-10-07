@@ -204,105 +204,6 @@ void generateIV(uint8_t *iv, int &pVar)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static unsigned char *HKDF_Extract(const EVP_MD *evp_md,
-	const unsigned char *salt, size_t salt_len,
-	const unsigned char *key, size_t key_len,
-	unsigned char *prk, size_t *prk_len)
-{
-	unsigned int tmp_len;
-
-	if (!HMAC(evp_md, salt, (int)salt_len, key, (int)key_len, prk, &tmp_len))
-		return NULL;
-
-	*prk_len = tmp_len;
-	return prk;
-}
-
-static unsigned char *HKDF_Expand(const EVP_MD *evp_md,
-	const unsigned char *prk, size_t prk_len,
-	const unsigned char *info, size_t info_len,
-	unsigned char *okm, size_t okm_len)
-{
-	HMAC_CTX *hmac;
-	unsigned char *ret = NULL;
-
-	unsigned int i;
-
-	unsigned char prev[EVP_MAX_MD_SIZE];
-
-	size_t done_len = 0, dig_len = EVP_MD_size(evp_md);
-
-	size_t n = okm_len / dig_len;
-	if (okm_len % dig_len)
-		n++;
-
-	if (n > 255 || okm == NULL)
-		return NULL;
-
-	if ((hmac = HMAC_CTX_new()) == NULL)
-		return NULL;
-
-	if (!HMAC_Init_ex(hmac, prk, (int)prk_len, evp_md, NULL))
-		goto err;
-
-	for (i = 1; i <= n; i++) {
-		size_t copy_len;
-		const unsigned char ctr = i;
-
-		if (i > 1) {
-			if (!HMAC_Init_ex(hmac, NULL, 0, NULL, NULL))
-				goto err;
-
-			if (!HMAC_Update(hmac, prev, dig_len))
-				goto err;
-		}
-
-		if (!HMAC_Update(hmac, info, info_len))
-			goto err;
-
-		if (!HMAC_Update(hmac, &ctr, 1))
-			goto err;
-
-		if (!HMAC_Final(hmac, prev, NULL))
-			goto err;
-
-		copy_len = (done_len + dig_len > okm_len) ?
-			okm_len - done_len :
-			dig_len;
-
-		memcpy(okm + done_len, prev, copy_len);
-
-		done_len += copy_len;
-	}
-	ret = okm;
-
-err:
-	OPENSSL_cleanse(prev, sizeof(prev));
-	HMAC_CTX_free(hmac);
-	return ret;
-}
-
-unsigned char* HKDF(const EVP_MD *evp_md,
-	const unsigned char *salt, size_t salt_len,
-	const unsigned char *key, size_t key_len,
-	const unsigned char *info, size_t info_len,
-	unsigned char *okm, size_t okm_len)
-{
-	unsigned char prk[EVP_MAX_MD_SIZE];
-	unsigned char *ret;
-	size_t prk_len;
-
-	if (!HKDF_Extract(evp_md, salt, salt_len, key, key_len, prk, &prk_len))
-		return NULL;
-
-	ret = HKDF_Expand(evp_md, prk, prk_len, info, info_len, okm, okm_len);
-	OPENSSL_cleanse(prk, sizeof(prk));
-
-	return ret;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 
 void WhatsAppProto::InitPopups(void)
@@ -384,4 +285,68 @@ MBinBuffer WhatsAppProto::unzip(const MBinBuffer &src)
 
 	inflateEnd(&strm);
 	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void bin2file(const MBinBuffer &buf, const wchar_t *pwszFileName)
+{
+	int fileId = _wopen(pwszFileName, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
+	if (fileId != -1) {
+		write(fileId, buf.data(), (unsigned)buf.length());
+		close(fileId);
+	}
+}
+
+void string2file(const std::string &str, const wchar_t *pwszFileName)
+{
+	int fileId = _wopen(pwszFileName, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
+	if (fileId != -1) {
+		write(fileId, str.c_str(), (unsigned)str.size());
+		close(fileId);
+	}
+}
+
+CMStringA directPath2url(const char *pszDirectPath)
+{
+	return CMStringA("https://mmg.whatsapp.net") + pszDirectPath;
+}
+
+MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const std::string &mediaKeys, const char *pszMediaType)
+{
+	NETLIBHTTPHEADER headers[1] = {{"Origin", "https://web.whatsapp.com"}};
+
+	NETLIBHTTPREQUEST req = {};
+	req.cbSize = sizeof(req);
+	req.requestType = REQUEST_GET;
+	req.szUrl = (char*)url;
+	req.headersCount = _countof(headers);
+	req.headers = headers;
+
+	MBinBuffer ret;
+	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, &req);
+	if (pResp) {
+		if (pResp->resultCode == 200) {
+			CMStringA pszHkdfString = pszMediaType;
+			pszHkdfString.SetAt(_toupper(pszHkdfString[0]), 0);
+			pszHkdfString = "WhatsApp " + pszHkdfString + " Keys";
+
+			// 0 - 15: iv
+			// 16 - 47: cipherKey
+			// 48 - 111: macKey
+			uint8_t out[112];
+			HKDF(EVP_sha256(), (BYTE *)"", 0, (BYTE *)mediaKeys.c_str(), (int)mediaKeys.size(), (BYTE *)pszHkdfString.c_str(), pszHkdfString.GetLength(), out, sizeof(out));
+
+			ret = aesDecrypt(EVP_aes_256_cbc(), out + 16, out, pResp->pData, pResp->dataLength);
+		}
+	}
+
+	return ret;
+}
+
+CMStringW WhatsAppProto::GetTmpFileName(const char *pszClass, const char *pszAddition)
+{
+	CMStringW ret(VARSW(L"%miranda_userdata%"));
+	ret.AppendFormat(L"/%S/%S_%S", m_szModuleName, pszClass, pszAddition);
+	return ret;
 }

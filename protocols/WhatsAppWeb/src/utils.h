@@ -57,9 +57,15 @@ public:
 	MBinBuffer content;
 };
 
-__forceinline WANode& operator<<(WANode &node, const CHAR_PARAM &param)
+__forceinline WANode &operator<<(WANode &node, const CHAR_PARAM &param)
 {
 	node.addAttr(param.szName, param.szValue);
+	return node;
+}
+
+__forceinline WANode &operator<<(WANode &node, const INT_PARAM &param)
+{
+	node.addAttr(param.szName, param.iValue);
 	return node;
 }
 
@@ -165,6 +171,17 @@ struct WAJid
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+void bin2file(const MBinBuffer &buf, const wchar_t *pwszFileName);
+void string2file(const std::string &str, const wchar_t *pwszFileName);
+CMStringA directPath2url(const char *pszDirectPath);
+
+MBinBuffer aesDecrypt(
+	const EVP_CIPHER *cipher,
+	const uint8_t *key,
+	const uint8_t *iv,
+	const void *data, size_t dataLen,
+	const void *additionalData = 0, size_t additionalLen = 0);
 
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 void generateIV(uint8_t *iv, int &pVar);

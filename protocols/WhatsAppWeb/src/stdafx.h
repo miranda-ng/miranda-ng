@@ -8,7 +8,9 @@ Copyright © 2019-22 George Hazan
 #pragma once
 #pragma warning(disable:4996 4290 4200 4239 4324)
 
+#include <fcntl.h>
 #include <malloc.h>
+#include <io.h>
 #include <time.h>
 #include <windows.h>
 
