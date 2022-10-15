@@ -18,15 +18,9 @@ ssize_t hkdf_derive_secrets(hkdf_context *context,
         const uint8_t *info, size_t info_len,
         size_t output_len);
 
-ssize_t hkdf_expand(hkdf_context *context,
-        uint8_t **output,
-        const uint8_t *prk, size_t prk_len,
-        const uint8_t *info, size_t info_len,
-        size_t output_len);
-
 int hkdf_compare(const hkdf_context *context1, const hkdf_context *context2);
 
-void hkdf_destroy(hkdf_context *type);
+void hkdf_destroy(signal_type_base *type);
 
 #ifdef __cplusplus
 }
