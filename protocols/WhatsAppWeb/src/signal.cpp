@@ -175,7 +175,7 @@ static int contains_pre_key(uint32_t pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
 	return (blob.data() != 0);
 }
@@ -184,7 +184,7 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
 	if (blob.data() == 0)
 		return SG_ERR_INVALID_KEY_ID;
@@ -197,7 +197,7 @@ static int remove_pre_key(uint32_t pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	pStore->pProto->delSetting(szSetting);
 
 	szSetting.Format("PreKey%uPublic", pre_key_id);
@@ -212,7 +212,7 @@ static int store_pre_key(uint32_t pre_key_id, uint8_t *record, size_t record_len
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "%s_%d", "PreKey", pre_key_id);
+	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned int)record_len);
 
 	session_pre_key *prekey = nullptr;

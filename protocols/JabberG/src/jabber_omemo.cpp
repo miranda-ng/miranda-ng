@@ -2001,7 +2001,7 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	int tmp_len = 0, outl;
 	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
 	unsigned char *out = (unsigned char*)mir_alloc(inl + _countof(key) - 1);
-	EVP_EncryptUpdate(ctx, out, &outl, (unsigned char*)msg_text, inl);
+	EVP_EncryptUpdate(ctx, out, &outl, (unsigned char*)msg_text, (int)inl);
 	tmp_len += outl;
 
 	EVP_EncryptFinal(ctx, (unsigned char*)(out + tmp_len), &outl);
