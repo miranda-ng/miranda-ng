@@ -1991,24 +1991,20 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	unsigned char key[16], iv[12], tag[16] /*, aad[48]*/;
 	Utils_GetRandom(key, _countof(key));
 	Utils_GetRandom(iv, _countof(iv));
-	Utils_GetRandom(tag, _countof(tag));
+
 	//Utils_GetRandom(aad, _countof(aad));
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof(iv), nullptr);
 	EVP_EncryptInit(ctx, cipher, key, iv);
-	char *out;
+
 	const size_t inl = strlen(msg_text);
 	int tmp_len = 0, outl;
 	//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
-	out = (char*)mir_alloc(inl + _countof(key) - 1);
-	for (;;) {
-		EVP_EncryptUpdate(ctx, (unsigned char*)(out + tmp_len), &outl, (unsigned char*)(msg_text + tmp_len), (int)(inl - tmp_len));
-		tmp_len += outl;
-		if (tmp_len >= (int)inl - 16 + 1) //cast to int is required here
-			break;
-	}
-	
-	EVP_EncryptFinal(ctx, (unsigned char*)(msg_text + tmp_len), &outl);
+	unsigned char *out = (unsigned char*)mir_alloc(inl + _countof(key) - 1);
+	EVP_EncryptUpdate(ctx, out, &outl, (unsigned char*)msg_text, inl);
+	tmp_len += outl;
+
+	EVP_EncryptFinal(ctx, (unsigned char*)(out + tmp_len), &outl);
 	tmp_len += outl;
 	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof(tag), tag);
 	EVP_CIPHER_CTX_free(ctx);
@@ -2016,6 +2012,7 @@ int CJabberProto::OmemoEncryptMessage(XmlNode &msg, const char *msg_text, MCONTA
 	TiXmlElement *encrypted = msg << XCHILDNS("encrypted", JABBER_FEAT_OMEMO);
 	TiXmlElement *payload = encrypted << XCHILD("payload");
 	payload->SetText(ptrA(mir_base64_encode(out, tmp_len)).get());
+	mir_free(out);
 
 	TiXmlElement *header = encrypted << XCHILD("header");
 	header << XATTRI64("sid", m_omemo.GetOwnDeviceId());

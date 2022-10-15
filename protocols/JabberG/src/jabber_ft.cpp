@@ -139,7 +139,10 @@ void CJabberProto::FtInitiate(filetransfer *ft)
 				pwszContentType = "application/octet-stream";
 
 			char szSize[100];
-			_i64toa(st.st_size, szSize, 10);
+			int tsize = st.st_size;
+			if (m_bUseOMEMO && OmemoIsEnabled(ft->std.hContact) && !isChatRoom(ft->std.hContact))
+				tsize += 16;
+			_i64toa(tsize, szSize, 10);
 
 			XmlNodeIq iq(AddIQ(&CJabberProto::OnHttpSlotAllocated, JABBER_IQ_TYPE_GET, szUploadService, ft));
 			if (getByte("HttpUploadVer")) {
@@ -692,9 +695,42 @@ LBL_Fail:
 					goto LBL_Fail;
 				}
 
-				nlhr.dataLength = _filelength(fileId);
-				nlhr.pData = new char[nlhr.dataLength];
-				_read(fileId, nlhr.pData, nlhr.dataLength);
+				unsigned char key[32], iv[12], tag[16];
+				bool enOmemo = m_bUseOMEMO && OmemoIsEnabled(ft->std.hContact) && !isChatRoom(ft->std.hContact);
+				if (enOmemo) {
+					Utils_GetRandom(key, _countof(key));
+					Utils_GetRandom(iv, _countof(iv));
+
+					EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+					EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_IVLEN, _countof(iv), nullptr);
+					EVP_EncryptInit(ctx, EVP_aes_256_gcm(), key, iv);
+
+					int tmp_len = 0, outl;
+					//EVP_EncryptUpdate(ctx, nullptr, &outl, aad, _countof(aad));
+					unsigned char *out = (unsigned char*)mir_alloc(_filelength(fileId) + _countof(key) - 1 + _countof(tag));
+					unsigned char *in = (unsigned char*)mir_alloc(1024 * 1024);
+					for (;;) {
+						int inl = _read(fileId, in, 1024 * 1024);
+						if(inl == 0)
+							break;
+						EVP_EncryptUpdate(ctx, out + tmp_len, &outl, in, inl);
+						tmp_len += outl;
+					}
+					mir_free(in);
+
+					EVP_EncryptFinal(ctx, out + tmp_len, &outl);
+					tmp_len += outl;
+					EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_GET_TAG, _countof(tag), tag);
+					EVP_CIPHER_CTX_free(ctx);
+
+					memcpy(out + tmp_len, tag, _countof(tag));
+					nlhr.dataLength = tmp_len + _countof(tag);
+					nlhr.pData = (char*)out;
+				} else {
+					nlhr.dataLength = _filelength(fileId);
+					nlhr.pData = new char[nlhr.dataLength];
+					_read(fileId, nlhr.pData, nlhr.dataLength);
+				}
 				_close(fileId);
 
 				NETLIBHTTPREQUEST *res = Netlib_HttpTransaction(m_hNetlibUser, &nlhr);
@@ -722,6 +758,14 @@ LBL_Fail:
 					szMessage = szGetUrl;
 				else
 					szMessage = szUrl;
+
+				if (enOmemo) {
+					int i = szMessage.Find("://");
+					char szIv[2*_countof(iv) + 1], szKey[2*_countof(key) + 1];
+					bin2hex(iv, _countof(iv), szIv);
+					bin2hex(key, _countof(key), szKey);
+					szMessage.Format("aesgcm%s#%s%s", szMessage.Mid(i).c_str(), szIv, szKey);
+				}
 
 				if (m_bEmbraceUrls && ProtoGetAvatarFormat(_A2T(szMessage)) != PA_FORMAT_UNKNOWN) {
 					szMessage.Insert(0, "[img]");
