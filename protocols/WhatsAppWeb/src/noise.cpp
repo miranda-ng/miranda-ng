@@ -28,7 +28,7 @@ WANoise::WANoise(WhatsAppProto *_ppro) :
 
 	auto *pPrivKey = ec_key_pair_get_private(pKeys);
 	ephemeral.priv.assign(pPrivKey->data, sizeof(pPrivKey->data));
-	ec_key_pair_destroy(pKeys);
+	ec_key_pair_destroy((signal_type_base*)pKeys);
 
 	// prepare hash
 	memcpy(hash, noise_init, 32);
@@ -62,7 +62,7 @@ void WANoise::init()
 
 		auto *pPrivKey = ec_key_pair_get_private(pKeys);
 		db_set_blob(0, ppro->m_szModuleName, DBKEY_NOISE_PRIV, pPrivKey->data, sizeof(pPrivKey->data));
-		ec_key_pair_destroy(pKeys);
+		ec_key_pair_destroy((signal_type_base *)pKeys);
 	}
 
 	noiseKeys.pub = ppro->getBlob(DBKEY_NOISE_PUB);
