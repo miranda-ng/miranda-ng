@@ -1177,17 +1177,3 @@ void CJabberProto::AcceptGroupchatInvite(const char *roomJid, const char *reason
 	char *server = strtok(nullptr, "@");
 	GroupchatJoinRoom(server, p, reason, password);
 }
-
-void CJabberProto::GroupchatSendMsg(JABBER_LIST_ITEM *pItem, const char *msg)
-{
-	if (!m_bJabberOnline)
-		return;
-
-	char szId[100];
-	int64_t id = (_time64(nullptr) << 16) + (GetTickCount() & 0xFFFF);
-	_i64toa(id, szId, 36);
-
-	m_ThreadInfo->send(
-		XmlNode("message") << XATTR("id", szId) << XATTR("to", pItem->jid) << XATTR("type", "groupchat")
-		<< XCHILD("body", msg));
-}

@@ -138,6 +138,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	int      SendContacts(MCONTACT hContact, int flags, int nContacts, MCONTACT *hContactsList) override;
 	HANDLE   SendFile(MCONTACT hContact, const wchar_t *szDescription, wchar_t **ppszFiles) override;
 	int      SendMsg(MCONTACT hContact, int flags, const char *msg) override;
+	int      SendMsgEx(MCONTACT hContact, const char *msg, XmlNode &m);
 
 	int      SetApparentMode(MCONTACT hContact, int mode) override;
 	int      SetStatus(int iNewStatus) override;
@@ -525,7 +526,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	void       GroupchatProcessPresence(const TiXmlElement *node);
 	void       GroupchatProcessMessage(const TiXmlElement *node);
 	void       GroupchatProcessInvite(const char *roomJid, const char *from, const char *reason, const char *password);
-	void       GroupchatSendMsg(JABBER_LIST_ITEM *pItem, const char *msg);
 	void       OnIqResultDiscovery(const TiXmlElement *iqNode, CJabberIqInfo *pInfo);
 
 	//---- jabber_icolib.cpp -------------------------------------------------------------
@@ -716,7 +716,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	//---- jabber_omemo.cpp --------------------------------------------------------------
 
 	bool       OmemoHandleMessage(const TiXmlElement *node, const char *jid, time_t msgTime);
-	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int, const char *pszSrc);
+	void       OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char *pszSrc);
 	void       OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime);
 	void       OmemoHandleMessageQueue();
 	bool       OmemoHandleDeviceList(const char *from, const TiXmlElement *node);

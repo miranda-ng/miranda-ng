@@ -354,14 +354,13 @@ complete:
 
 	struct outgoing_message
 	{
-		outgoing_message(MCONTACT h, int u, char* p)
+		outgoing_message(MCONTACT h, char* p)
 		{
 			hContact = h;
-			unused_unknown = u;
 			pszSrc = p;
 		}
+
 		MCONTACT hContact;
-		int unused_unknown;
 		char* pszSrc;
 	};
 
@@ -1338,10 +1337,10 @@ void CJabberProto::OmemoInitDevice()
 		m_omemo.RefreshDevice();
 }
 
-void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, int unused_unknown, const char* pszSrc)
+void CJabberProto::OmemoPutMessageToOutgoingQueue(MCONTACT hContact, const char* pszSrc)
 {
 	char *msg = mir_strdup(pszSrc);
-	m_omemo.outgoing_messages.push_back(omemo::outgoing_message(hContact, unused_unknown, msg));
+	m_omemo.outgoing_messages.push_back(omemo::outgoing_message(hContact, msg));
 }
 
 void CJabberProto::OmemoPutMessageToIncommingQueue(const TiXmlElement *node, const char *jid, time_t msgTime)
@@ -1353,7 +1352,7 @@ void CJabberProto::OmemoPutMessageToIncommingQueue(const TiXmlElement *node, con
 void CJabberProto::OmemoHandleMessageQueue()
 {
 	for (auto &i : m_omemo.outgoing_messages) {
-		SendMsg(i.hContact, i.unused_unknown, i.pszSrc);
+		SendMsg(i.hContact, 0, i.pszSrc);
 		mir_free(i.pszSrc);
 	}
 	m_omemo.outgoing_messages.clear();
