@@ -274,10 +274,10 @@ static int get_identity_key_pair(signal_buffer **public_data, signal_buffer **pr
 
 	MBinBuffer buf;
 	buf.append(KEY_BUNDLE_TYPE, 1);
-	buf.append(pStore->preKey.pub);
+	buf.append(pStore->signedIdentity.pub);
 	*public_data = signal_buffer_create(buf.data(), (int)buf.length());
 
-	*private_data = signal_buffer_create((uint8_t *)pStore->preKey.priv.data(), (int)pStore->preKey.priv.length());
+	*private_data = signal_buffer_create((uint8_t *)pStore->signedIdentity.priv.data(), (int)pStore->signedIdentity.priv.length());
 	return 0;
 }
 
@@ -426,7 +426,7 @@ CMStringA MSignalSession::getSetting(const MSignalStore *pStore) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MSignalSession *MSignalStore::createSession(const CMStringA &szName, int deviceId)
+MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceId)
 {
 	MSignalSession tmp(szName, deviceId);
 	auto *pSession = arSessions.find(&tmp);
@@ -455,7 +455,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 		if (pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
 			throw "unable to deserialize prekey message";
 
-		if (session_cipher_decrypt_pre_key_signal_message(pSession->getCipher(), pMsg, 0, &result) < 0)
+		if (session_cipher_decrypt_pre_key_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
 			throw "unable to decrypt prekey message";
 
 		pre_key_signal_message_destroy((signal_type_base*)pMsg);
@@ -465,7 +465,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 		if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
 			throw "unable to deserialize signal message";
 
-		if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, 0, &result) < 0)
+		if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
 			throw "unable to decrypt signal message";
 
 		signal_message_destroy((signal_type_base *)pMsg);
@@ -479,7 +479,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 	return ret;
 }
 
-MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted)
+MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
 {
 	MBinBuffer ret;
 	return ret;
