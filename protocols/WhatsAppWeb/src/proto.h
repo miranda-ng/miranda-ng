@@ -198,8 +198,8 @@ public:
 
 	MSignalSession *createSession(const CMStringA &szName, int deviceId);
 
-	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
-	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
+	signal_buffer* decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
+	signal_buffer* decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
 
 	void generatePrekeys(int count);
 

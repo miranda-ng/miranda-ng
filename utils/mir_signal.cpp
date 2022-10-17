@@ -38,3 +38,11 @@ CMStringA SignalBuffer::toBase64() const
 {
 	return ptrA(mir_base64_encode(m_buf->data, m_buf->len)).get();
 }
+
+void SignalBuffer::operator=(signal_buffer *buf)
+{
+	if (m_buf)
+		signal_buffer_free(m_buf);
+
+	m_buf = buf;
+}

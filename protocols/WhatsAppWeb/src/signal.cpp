@@ -444,7 +444,7 @@ MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceI
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
+signal_buffer* MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
 {
 	WAJid jid(from);
 	auto *pSession = createSession(jid.user, 0);
@@ -471,18 +471,12 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 		signal_message_destroy((signal_type_base *)pMsg);
 	}
 
-	MBinBuffer ret;
-	if (result != nullptr) {
-		ret.append(result->data, result->len);
-		signal_buffer_free(result);
-	}
-	return ret;
+	return result;
 }
 
-MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
+signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
 {
-	MBinBuffer ret;
-	return ret;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

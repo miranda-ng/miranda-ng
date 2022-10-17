@@ -40,6 +40,7 @@ class SignalBuffer
 	signal_buffer *m_buf;
 
 public:
+	SignalBuffer() : m_buf(nullptr) {}
 	SignalBuffer(const class MBinBuffer &buf);
 	SignalBuffer(const ec_public_key *key);
 	SignalBuffer(const ec_private_key *key);
@@ -47,6 +48,9 @@ public:
 	SignalBuffer(const session_signed_pre_key *pre_key);
 	~SignalBuffer();
 
+	void operator=(signal_buffer *buf);
+
+	__forceinline operator bool() const { return m_buf != nullptr; }
 	__forceinline uint8_t* data() const { return m_buf->data; }
 	__forceinline unsigned len() const { return unsigned(m_buf->len); }
 
