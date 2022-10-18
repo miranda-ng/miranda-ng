@@ -1215,7 +1215,19 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		if (g_plugin.bMessageState)
 			CallService(MS_MESSAGESTATE_UPDATE, hContact, MRD_TYPE_READ);
 
-	JabberReadXep203delay(node, msgTime);
+	// Timestamp
+	time_t now = time(0);
+	if (!msgTime) {
+		if (!JabberReadXep203delay(node, msgTime)) {
+			msgTime = now;
+			if (auto *xNode = XmlGetChildByTag(node, "x", "xmlns", JABBER_FEAT_DELAY))
+				if (const char *ptszTimeStamp = XmlGetAttr(xNode, "stamp"))
+					if (time_t t = JabberIsoToUnixTime(ptszTimeStamp))
+						msgTime = t;
+		}
+	}
+	if (m_bFixIncorrectTimestamps && (msgTime > now || (hContact && (msgTime < (time_t)JabberGetLastContactMessageTime(hContact)))))
+		msgTime = now;
 
 	// XEP-0224 support (Attention/Nudge)
 	if (XmlGetChildByTag(node, "attention", "xmlns", JABBER_FEAT_ATTENTION)) {
@@ -1260,18 +1272,18 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 		debugLogA("http auth event added, returning");
 		return;
 	}
+	
+	if (m_bUseOMEMO && OmemoIsEnabled(hContact)) {
+		if (auto *encNode = XmlGetChildByTag(node, "encrypted", "xmlns", JABBER_FEAT_OMEMO)) {
+			if (!OmemoHandleMessage(encNode, from, msgTime))
+				OmemoPutMessageToIncommingQueue(encNode, from, msgTime);
+			debugLogA("OMEMO processing finished, returning");
+			return; //we do not want any additional processing
+		}
+	}
 
 	// parsing extensions
 	for (auto *xNode : TiXmlEnum(node)) {
-		if (m_bUseOMEMO && OmemoIsEnabled(hContact)) {
-			if (!mir_strcmp(xNode->Name(), "encrypted") && xNode->Attribute("xmlns", JABBER_FEAT_OMEMO)) {
-				if (!OmemoHandleMessage(xNode, from, msgTime))
-					OmemoPutMessageToIncommingQueue(xNode, from, msgTime);
-				debugLogA("OMEMO processing finished, returning");
-				return; //we do not want any additional processing
-			}
-		}
-
 		if (0 != mir_strcmp(xNode->Name(), "x"))
 			continue;
 
@@ -1307,22 +1319,31 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				szMessage += tempstring;
 			}
 		}
-		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_DELAY) && msgTime == 0) {
-			const char *ptszTimeStamp = XmlGetAttr(xNode, "stamp");
-			if (ptszTimeStamp != nullptr)
-				msgTime = JabberIsoToUnixTime(ptszTimeStamp);
-		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
 			if (auto *url = XmlGetChildText(xNode, "url")) {
-				if (!szMessage.IsEmpty())
-					szMessage.Append("\r\n");
-				szMessage.Append(url);
-			}
+				DBEVENTINFO dbei = {};
+				dbei.szModule = Proto_GetBaseAccountName(hContact);
+				dbei.timestamp = msgTime;
+				dbei.eventType = EVENTTYPE_FILE;
+				dbei.flags = DBEF_UTF;
+				//if (pre->dwFlags & PREF_CREATEREAD)
+				dbei.flags |= DBEF_READ;
 
-			if (auto *descr = XmlGetChildText(xNode, "desc")) {
-				if (!szMessage.IsEmpty())
-					szMessage.Append("\r\n");
-				szMessage.AppendFormat("%s: %s", TranslateU("Description"), descr);
+				CMStringA szName;
+				const char *b = strrchr(url, '/') + 1;
+				while (*b != 0 && *b != '#' && *b != '?')
+					szName.AppendChar(*b++);
+
+				auto *szDescr = XmlGetChildText(xNode, "desc");
+
+				CMStringA szBlob(FORMAT, "%c%c%c%c", 0, 0, 0, 0);
+				szBlob.AppendFormat("%s%c", szBlob.c_str(), 0);
+				szBlob.AppendFormat("%s%c", szDescr ? szDescr : "", 0);
+				szBlob.AppendFormat("%s%c", url, 0);
+
+				dbei.cbBlob = szBlob.GetLength();
+				dbei.pBlob = (uint8_t*)szBlob.GetBuffer();
+				db_event_add(hContact, &dbei);
 			}
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
@@ -1397,13 +1418,6 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 	if (hContact == 0)
 		hContact = CreateTemporaryContact(from, chatItem);
 	CallService(MS_PROTO_CONTACTISTYPING, hContact, PROTOTYPE_CONTACTTYPING_OFF);
-
-	time_t now = time(0);
-	if (!msgTime)
-		msgTime = now;
-
-	if (m_bFixIncorrectTimestamps && (msgTime > now || (msgTime < (time_t)JabberGetLastContactMessageTime(hContact))))
-		msgTime = now;
 
 	PROTORECVEVENT recv = {};
 	if (bCreateRead)
