@@ -1337,7 +1337,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				auto *szDescr = XmlGetChildText(xNode, "desc");
 
 				CMStringA szBlob(FORMAT, "%c%c%c%c", 0, 0, 0, 0);
-				szBlob.AppendFormat("%s%c", szBlob.c_str(), 0);
+				szBlob.AppendFormat("%s%c", szName.c_str(), 0);
 				szBlob.AppendFormat("%s%c", szDescr ? szDescr : "", 0);
 				szBlob.AppendFormat("%s%c", url, 0);
 
