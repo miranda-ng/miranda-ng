@@ -446,7 +446,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VoiceService", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqrencode", "..\libs\libqrencode\libqrencode.vcxproj", "{4D3554DE-6E14-4F94-A909-A4B19151A47E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsAppWeb", "..\protocols\WhatsAppWeb\WhatsAppWeb.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\WhatsApp\WhatsApp.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

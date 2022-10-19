@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by W:\miranda-ng\protocols\WhatsAppWeb\res\whatsapp.rc
+// Used by W:\miranda-ng\protocols\WhatsApp\res\whatsapp.rc
 //
 #define IDI_WHATSAPP                    100
 #define IDD_ACCMGRUI                    101

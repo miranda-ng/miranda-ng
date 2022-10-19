@@ -1,6 +1,6 @@
 /*
 
-WhatsAppWeb plugin for Miranda NG
+WhatsApp plugin for Miranda NG
 Copyright © 2019-22 George Hazan
 
 */
