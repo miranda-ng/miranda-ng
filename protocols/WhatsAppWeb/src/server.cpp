@@ -252,11 +252,12 @@ void WhatsAppProto::OnLoggedIn()
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
 
-	///////////////////////////
+	/*
 	OBJLIST<WACollection> task(1);
 	task.insert(new WACollection("regular_high", 9));
 	task.insert(new WACollection("regular_low", 11));
 	ResyncServer(task);
+	*/
 }
 
 void WhatsAppProto::OnLoggedOut(void)

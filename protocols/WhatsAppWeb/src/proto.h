@@ -156,12 +156,13 @@ class MSignalSession : public MZeroedObject
 
 public:
 	CMStringA szName;
+	MBinBuffer sessionData, userData;
 
 	MSignalSession(const CMStringA &_1, int _2);
 	~MSignalSession();
 
-	CMStringA getSetting(const MSignalStore*) const;
-	
+	bool hasAddress(const char *name, size_t name_len) const;
+
 	__forceinline session_cipher* getCipher(void) const { return cipher; }
 	__forceinline int getDeviceId() const { return address.device_id; }
 };

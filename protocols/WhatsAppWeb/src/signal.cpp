@@ -98,17 +98,15 @@ static int contains_session_func(const signal_protocol_address *address, void *u
 static int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
+	auto &pList = pStore->arSessions;
 
 	int count = 0;
-	auto &pList = pStore->arSessions;
-	CMStringA szName(name, (int)name_len);
-	for (auto &it : pList.rev_iter())
-		if (it->szName == szName) {
-			pStore->pProto->delSetting(it->getSetting(pStore));
+	for (auto &it : pList.rev_iter()) {
+		if (it->hasAddress(name, name_len)) {
 			pList.remove(pList.indexOf(&it));
 			count++;
 		}
-
+	}
 	return count;
 }
 
@@ -119,11 +117,8 @@ int delete_session_func(const signal_protocol_address *address, void *user_data)
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
 	int idx = pList.getIndex(&tmp);
-	if (idx == -1)
-		return 0;
-
-	pStore->pProto->delSetting(tmp.getSetting(pStore));
-	pList.remove(idx);
+	if (idx != -1)
+		pList.remove(idx);
 	return 0;
 }
 
@@ -148,26 +143,33 @@ static int get_sub_device_sessions_func(signal_int_list **sessions, const char *
 static void destroy_func(void *)
 {}
 
-int load_session_func(signal_buffer **record, signal_buffer ** /*user_data_storage*/, const signal_protocol_address *address, void *user_data)
+int load_session_func(signal_buffer **record, signal_buffer **user_data_storage, const signal_protocol_address *address, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
+	if (auto *pSession = pStore->arSessions.find(&tmp)) {
+		*record = signal_buffer_create((uint8_t *)pSession->sessionData.data(), pSession->sessionData.length());
+		*user_data_storage = signal_buffer_create((uint8_t *)pSession->userData.data(), pSession->userData.length());
+		return 1;
+	}
 
-	MBinBuffer blob(pStore->pProto->getBlob(tmp.getSetting(pStore)));
-	if (blob.data() == 0)
-		return 0;
-
-	*record = signal_buffer_create((uint8_t *)blob.data(), blob.length());
-	return 1;
+	return 0;
 }
 
-static int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t * /*user_record*/, size_t /*user_record_len*/, void *user_data)
+static int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t *user_record, size_t user_record_len, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
-	db_set_blob(0, pStore->pProto->m_szModuleName, tmp.getSetting(pStore), record, (unsigned int)record_len); //TODO: check return value
+	auto *pSession = pStore->arSessions.find(&tmp);
+	if (pSession == nullptr) {
+		pSession = new MSignalSession(tmp);
+		pStore->arSessions.insert(pSession);
+	}
+
+	pSession->sessionData.assign(record, record_len);
+	pSession->userData.assign(user_record, user_record_len);
 	return 0;
 }
 
@@ -418,10 +420,11 @@ MSignalSession::~MSignalSession()
 	session_cipher_free(cipher);
 }
 
-CMStringA MSignalSession::getSetting(const MSignalStore *pStore) const
+bool MSignalSession::hasAddress(const char *name, size_t name_len) const
 {
-	return CMStringA(FORMAT, "%s%s_%s_%d", 
-		(pStore) ? pStore->prefix : "", "SignalSession", szName.c_str(), getDeviceId());
+	if (address.name_len != name_len)
+		return false;
+	return memcmp(address.name, name, name_len) == 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
