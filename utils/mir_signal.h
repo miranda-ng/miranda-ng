@@ -53,6 +53,7 @@ public:
 	__forceinline operator bool() const { return m_buf != nullptr; }
 	__forceinline uint8_t* data() const { return m_buf->data; }
 	__forceinline unsigned len() const { return unsigned(m_buf->len); }
+	__forceinline void reset(size_t len) { m_buf->len = len; }
 
 	CMStringA toBase64() const;
 };

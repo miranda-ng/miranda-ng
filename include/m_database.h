@@ -396,7 +396,7 @@ EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_dw(MCONTACT hContact, const char *szModul
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_ws(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *val);
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_utf(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val);
-EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
+EXTERN_C MIR_CORE_DLL(INT_PTR)  db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, const void *val, unsigned len);
 
 EXTERN_C MIR_CORE_DLL(INT_PTR)  db_unset(MCONTACT hContact, const char *szModule, const char *szSetting);
 

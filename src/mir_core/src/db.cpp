@@ -388,7 +388,7 @@ MIR_CORE_DLL(INT_PTR) db_set_utf(MCONTACT hContact, const char *szModule, const 
 	return g_pCurrDb->WriteContactSetting(hContact, &cws);
 }
 
-MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, void *val, unsigned len)
+MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, const void *val, unsigned len)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
