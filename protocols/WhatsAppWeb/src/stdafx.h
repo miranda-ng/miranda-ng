@@ -53,7 +53,6 @@ Copyright © 2019-22 George Hazan
 #include <openssl/kdf.h>
 
 #include "../../libs/libqrencode/src/qrencode.h"
-#include "../../libs/libsodium/src/include/sodium.h"
 #include "../../libs/zlib/src/zlib.h"
 
 #include "../../utils/mir_signal.h"

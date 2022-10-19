@@ -3,6 +3,7 @@ LIBRARY libsignal.mir
 EXPORTS
    ciphertext_message_get_serialized
    ciphertext_message_get_type
+   curve25519_donna
    curve_calculate_agreement
    curve_calculate_signature
    curve_decode_point

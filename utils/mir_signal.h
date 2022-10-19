@@ -4,14 +4,18 @@
 #include <m_system.h>
 #include <m_utils.h>
 
-#include "../libs/libsignal/src/curve.h"
-#include "../libs/libsignal/src/hkdf.h"
-#include "../libs/libsignal/src/key_helper.h"
-#include "../libs/libsignal/src/protocol.h"
-#include "../libs/libsignal/src/session_builder.h"
-#include "../libs/libsignal/src/session_cipher.h"
-#include "../libs/libsignal/src/signal_protocol.h"
-#include "../libs/libsignal/src/signal_protocol_types.h"
+extern "C"
+{
+	#include "../libs/libsignal/src/curve.h"
+	#include "../libs/libsignal/src/hkdf.h"
+	#include "../libs/libsignal/src/key_helper.h"
+	#include "../libs/libsignal/src/protocol.h"
+	#include "../libs/libsignal/src/session_builder.h"
+	#include "../libs/libsignal/src/session_cipher.h"
+	#include "../libs/libsignal/src/signal_protocol.h"
+	#include "../libs/libsignal/src/signal_protocol_types.h"
+	#include "../libs/libsignal/src/curve25519/curve25519-donna.h"
+}
 
 struct signal_buffer
 {

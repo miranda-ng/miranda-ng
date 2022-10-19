@@ -90,7 +90,7 @@ void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBin
 void WANoise::mixIntoKey(const void *n, const void *p)
 {
 	uint8_t tmp[32];
-	crypto_scalarmult((unsigned char *)tmp, (const unsigned char *)n, (const unsigned char *)p);
+	curve25519_donna((unsigned char *)tmp, (const unsigned char *)n, (const unsigned char *)p);
 
 	deriveKey(tmp, sizeof(tmp), salt, encKey);
 	decKey.assign(encKey.data(), encKey.length());
