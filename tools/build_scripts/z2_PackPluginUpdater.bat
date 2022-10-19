@@ -81,6 +81,7 @@ for /f %%a in ('dir plugins\*.dll /B /L') do (
 	if /I "%%a"=="VKontakte.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_VKontakte.dll")
 	if /I "%%a"=="Watrack.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Watrack_buttons.dll" "Icons\Watrack_icons.dll" "Plugins\player.ini")
 	if /I "%%a"=="Weather.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_Weather.dll" "Plugins\Weather\*.ini")
+	if /I "%%a"=="WhatsAppWeb.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "libs\libprotobuf-lite.dll" "libs\libprotobuf.dll")
 	if /I "%%a"=="YAMN.dll" (%ZipIt% "%Arch%\Plugins\%%~na.zip" "Icons\Proto_YAMN.dll")
 	rem now adding plugin itself into archive
 	%ZipIt% "%Arch%\Plugins\%%~na.zip" %%a
