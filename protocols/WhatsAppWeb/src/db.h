@@ -10,6 +10,8 @@ Copyright © 2019-22 George Hazan
 // DB keys
 #define DBKEY_JID                     "jid"
 #define DBKEY_DEVICE_ID               "DeviceId"
+#define DBKEY_EPHEMERAL_TS            "EphemeralTS"
+#define DBKEY_EPHEMERAL_EXPIRE        "EphemeralExpire"
 
 #define DBKEY_NOISE_PUB               "NoisePublicKey"
 #define DBKEY_NOISE_PRIV              "NoisePrivateKey"

@@ -80,7 +80,7 @@ WAUser* WhatsAppProto::FindUser(const char *szId)
 	return m_arUsers.find(tmp);
 }
 
-WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
+WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary, bool isChat)
 {
 	auto *pUser = FindUser(szId);
 	if (pUser != nullptr)
@@ -88,12 +88,22 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
-	setString(hContact, DBKEY_JID, szId);
-	pUser = new WAUser(hContact, mir_strdup(szId));
+
+	if (isChat) {
+		setByte(hContact, "ChatRoom", 1);
+		setString(hContact, "ChatRoomID", szId);
+	}
+	else {
+		setString(hContact, DBKEY_JID, szId);
+		if (m_wszDefaultGroup)
+			Clist_SetGroup(hContact, m_wszDefaultGroup);
+	}
+
 	if (bTemporary)
 		Contact::RemoveFromList(hContact);
-	if (m_wszDefaultGroup)
-		Clist_SetGroup(hContact, m_wszDefaultGroup);
+
+	pUser = new WAUser(hContact, mir_strdup(szId));
+	pUser->bIsGroupChat = isChat;
 
 	mir_cslock lck(m_csUsers);
 	m_arUsers.insert(pUser);
@@ -127,7 +137,7 @@ WA_PKT_HANDLER WhatsAppProto::FindPersistentHandler(const WANode &pNode)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA WhatsAppProto::generateMessageId()
+CMStringA WhatsAppProto::GenerateMessageId()
 {
 	return CMStringA(FORMAT, "%d.%d-%d", m_wMsgPrefix[0], m_wMsgPrefix[1], m_iPacketId++);
 }
@@ -161,7 +171,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 		return 0;
 
 	if (pHandler != nullptr) {
-		CMStringA id(generateMessageId());
+		CMStringA id(GenerateMessageId());
 		node.addAttr("id", id);
 
 		mir_cslock lck(m_csPacketQueue);
@@ -182,6 +192,17 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+uint32_t decodeBigEndian(const std::string &buf)
+{
+	uint32_t ret = 0;
+	for (auto &cc : buf) {
+		ret <<= 8;
+		ret += (uint8_t)cc;
+	}
+
+	return ret;
+}
 
 std::string encodeBigEndian(uint32_t num, size_t len)
 {

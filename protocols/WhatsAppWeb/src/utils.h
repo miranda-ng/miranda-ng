@@ -183,7 +183,9 @@ MBinBuffer aesDecrypt(
 	const void *data, size_t dataLen,
 	const void *additionalData = 0, size_t additionalLen = 0);
 
+uint32_t    decodeBigEndian(const std::string &buf);
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
+
 void generateIV(uint8_t *iv, int &pVar);
 
 __forceinline bool operator<<(MessageLite &msg, const MBinBuffer &buf)

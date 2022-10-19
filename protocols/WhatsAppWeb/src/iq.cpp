@@ -103,7 +103,8 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	auto *msgId = node.getAttr("id");
 	auto *msgType = node.getAttr("type");
 	auto *msgFrom = node.getAttr("from");
-	auto *recepient = node.getAttr("recepient");
+	auto *category = node.getAttr("category");
+	auto *recipient = node.getAttr("recipient");
 	auto *participant = node.getAttr("participant");
 
 	if (msgType == nullptr || msgFrom == nullptr || msgId == nullptr) {
@@ -115,18 +116,21 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	WAJid jid(msgFrom);
 	CMStringA szAuthor, szChatId;
 
+	if (node.getAttr("offline"))
+		type.bOffline = true;
+
 	// message from one user to another
 	if (jid.isUser()) {
-		if (recepient) {
+		if (recipient) {
 			if (m_szJid != msgFrom) {
-				debugLogA("strange message: with recepient, but not from me");
+				debugLogA("strange message: with recipient, but not from me");
 				return;
 			}
-			szChatId = recepient;
+			szChatId = recipient;
 		}
 		else szChatId = msgFrom;
 
-		type = WAMSG::PrivateChat;
+		type.bPrivateChat = true;
 		szAuthor = msgFrom;
 	}
 	else if (jid.isGroup()) {
@@ -135,7 +139,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			return;
 		}
 
-		type = WAMSG::GroupChat;
+		type.bGroupChat = true;
 		szAuthor = participant;
 		szChatId = msgFrom;
 	}
@@ -146,10 +150,18 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		}
 
 		bool bIsMe = m_szJid == participant;
-		if (jid.isStatusBroadcast())
-			type = (bIsMe) ? WAMSG::DirectStatus : WAMSG::OtherStatus;
-		else
-			type = (bIsMe) ? WAMSG::PeerBroadcast : WAMSG::OtherBroadcast;
+		if (jid.isStatusBroadcast()) {
+			if (bIsMe)
+				type.bDirectStatus = true;
+			else
+				type.bOtherStatus = true;
+		}
+		else {
+			if (bIsMe)
+				type.bPeerBroadcast = true;
+			else 
+				type.bOtherBroadcast = true;
+		}
 		szChatId = msgFrom;
 		szAuthor = participant;
 	}
@@ -158,7 +170,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		return;
 	}
 
-	CMStringA szSender = (type == WAMSG::PrivateChat) ? szAuthor : szChatId;
+	CMStringA szSender = (type.bPrivateChat) ? szAuthor : szChatId;
 	bool bFromMe = (m_szJid == msgFrom);
 	if (!bFromMe && participant)
 		bFromMe = m_szJid == participant;
@@ -211,24 +223,48 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			iDecryptable++;
 
+			// remove message padding
+			if (size_t len = msgBody.len()) {
+				size_t c = msgBody.data()[len - 1];
+				if (c < len)
+					msgBody.reset(len - c);
+			}
+
 			proto::Message encMsg;
 			encMsg.ParseFromArray(msgBody.data(), msgBody.len());
 			if (encMsg.devicesentmessage().has_message())
-				encMsg = encMsg.devicesentmessage().message();
+				msg.set_allocated_message(new proto::Message(encMsg.devicesentmessage().message()));
+			else
+				msg.set_allocated_message(new proto::Message(encMsg));
 
 			if (encMsg.has_senderkeydistributionmessage())
 				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage());
 
-			msg.set_allocated_message(new proto::Message(encMsg));
+			ProcessMessage(type, msg);
+			msg.clear_message();
+
+			// send receipt
+			const char *pszReceiptType = nullptr, *pszReceiptTo = participant;
+			if (!mir_strcmp(category, "peer"))
+				pszReceiptType = "peer_msg";
+			else if (bFromMe) {
+				// message was sent by me from a different device
+				pszReceiptType = "sender";
+				if (WAJid(szChatId).isUser())
+					pszReceiptTo = szAuthor;
+			}
+			else if (!m_hServerConn)
+				pszReceiptType = "inactive";
+
+			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
 		}
 		catch (const char *pszError) {
 			debugLogA("Message cannot be parsed: %s", pszError);
-			msg.set_messagestubtype(proto::WebMessageInfo_StubType::WebMessageInfo_StubType_CIPHERTEXT);
 		}
 
 		if (!iDecryptable) {
 			debugLogA("Nothing to decrypt");
-			msg.set_messagestubtype(proto::WebMessageInfo_StubType::WebMessageInfo_StubType_CIPHERTEXT);
+			return;
 		}
 	}
 }

@@ -15,14 +15,20 @@ Copyright © 2019-22 George Hazan
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
 
-enum WAMSG
+struct WAMSG
 {
-	PrivateChat,
-	GroupChat,
-	DirectStatus,
-	OtherStatus,
-	PeerBroadcast,
-	OtherBroadcast
+	union {
+		uint32_t dwFlags = 0;
+		struct {
+			bool bPrivateChat : 1;
+			bool bGroupChat : 1;
+			bool bDirectStatus : 1;
+			bool bOtherStatus : 1;
+			bool bPeerBroadcast : 1;
+			bool bOtherBroadcast : 1;
+			bool bOffline : 1;
+		};
+	};
 };
 
 struct WARequest
@@ -67,9 +73,10 @@ struct WAHistoryMessage
 
 struct WAUser
 {
-	WAUser(MCONTACT _1, const char *_2) :
+	WAUser(MCONTACT _1, const char *_2, bool _3 = false) :
 		hContact(_1),
 		szId(mir_strdup(_2)),
+		bIsGroupChat(_3),
 		arHistory(1)
 	{
 	}
@@ -82,7 +89,7 @@ struct WAUser
 	MCONTACT hContact;
 	DWORD dwModifyTag = 0;
 	char *szId;
-	bool bInited = false;
+	bool bInited = false, bIsGroupChat;
 	SESSION_INFO *si = 0;
 	DWORD m_time1 = 0, m_time2 = 0;
 	OBJLIST<WAHistoryMessage> arHistory;
@@ -262,7 +269,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	OBJLIST<WADevice> m_arDevices;
 
 	WAUser* FindUser(const char *szId);
-	WAUser* AddUser(const char *szId, bool bTemporary);
+	WAUser* AddUser(const char *szId, bool bTemporary, bool isChat = false);
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
@@ -286,7 +293,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	int m_iPacketId;
 	uint16_t m_wMsgPrefix[2];
-	CMStringA generateMessageId();
+	CMStringA GenerateMessageId();
+	void ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg);
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const MessageLite &msg);
@@ -300,6 +308,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ServerThreadWorker(void);
 	void ShutdownSession(void);
 
+	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
 	void SetServerStatus(int iStatus);
 

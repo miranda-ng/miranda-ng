@@ -66,6 +66,7 @@
     <ClCompile Include="src\crypt.cpp" />
     <ClCompile Include="src\iq.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\message.cpp" />
     <ClCompile Include="src\noise.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\pmsg.pb.cc">

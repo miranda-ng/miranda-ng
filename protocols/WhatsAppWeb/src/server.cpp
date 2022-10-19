@@ -283,6 +283,27 @@ void WhatsAppProto::SendKeepAlive()
 	}
 }
 
+void WhatsAppProto::SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType)
+{
+	WANode receipt("receipt");
+	receipt << CHAR_PARAM("id", pszId);
+
+	if (!mir_strcmp(pszType, "read") || !mir_strcmp(pszType, "read-self"))
+		receipt << INT_PARAM("t", time(0));
+
+	if (!mir_strcmp(pszType, "sender") && WAJid(pszTo).isUser())
+		receipt << CHAR_PARAM("to", pszParticipant) << CHAR_PARAM("recipient", pszTo);
+	else {
+		receipt << CHAR_PARAM("to", pszTo);
+		if (pszParticipant)
+			receipt << CHAR_PARAM("participant", pszParticipant);
+	}
+
+	if (pszType)
+		receipt << CHAR_PARAM("type", pszType);
+	WSSendNode(receipt, &WhatsAppProto::OnIqDoNothing);
+}
+
 void WhatsAppProto::SetServerStatus(int iStatus)
 {
 	if (mir_wstrlen(m_wszNick))

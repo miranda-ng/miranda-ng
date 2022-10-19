@@ -82,7 +82,7 @@ static int decrypt_func(signal_buffer **output,
 	const uint8_t *ciphertext, size_t ciphertext_len,
 	void * /*user_data*/)
 {
-	MBinBuffer res = aesDecrypt(EVP_aes_256_gcm(), key, iv, ciphertext, ciphertext_len);
+	MBinBuffer res = aesDecrypt(EVP_aes_256_cbc(), key, iv, ciphertext, ciphertext_len);
 	*output = signal_buffer_create(res.data(), res.length());
 	return SG_SUCCESS;
 }
@@ -479,7 +479,19 @@ signal_buffer* MSignalStore::decryptSignalProto(const CMStringA &from, const cha
 
 signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
 {
-	return nullptr;
+	WAJid jid(sender);
+	auto *pSession = createSession(group + CMStringA(FORMAT, "::%s::%d", jid.user.c_str(), jid.device), 0);
+
+	signal_message *pMsg;
+	if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
+		throw "unable to deserialize signal message";
+
+	signal_buffer *result = nullptr;
+	if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
+		throw "unable to decrypt signal message";
+
+	signal_message_destroy((signal_type_base *)pMsg);
+	return result;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -512,6 +524,6 @@ void MSignalStore::generatePrekeys(int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void MSignalStore::processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg)
+void MSignalStore::processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &)
 {
 }
