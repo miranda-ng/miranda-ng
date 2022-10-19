@@ -553,7 +553,6 @@ static renameTable[] =
 	{ L"openssl.dll",                    nullptr },
 	{ L"sms.dll",                        nullptr },
 	{ L"tlen.dll",                       nullptr },
-	{ L"whatsapp.dll",                   nullptr },
 	{ L"xfire.dll",                      nullptr },
 	{ L"yahoo.dll",                      nullptr },
 	{ L"yahoogroups.dll",                nullptr },
