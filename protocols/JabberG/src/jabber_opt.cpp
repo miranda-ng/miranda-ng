@@ -916,7 +916,7 @@ public:
 	}
 
 protected:
-	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_SMS };
+	enum { ACC_PUBLIC, ACC_TLS, ACC_SSL, ACC_HIPCHAT, ACC_LJTALK, ACC_LOL_EN, ACC_LOL_EW, ACC_LOL_OC, ACC_LOL_US, ACC_OK, ACC_SMS };
 
 	bool OnInitDialog() override
 	{
@@ -956,6 +956,7 @@ protected:
 		m_cbType.AddString(TranslateT("League Of Legends (EU West)"), ACC_LOL_EW);
 		m_cbType.AddString(TranslateT("League Of Legends (Oceania)"), ACC_LOL_OC);
 		m_cbType.AddString(TranslateT("League Of Legends (US)"), ACC_LOL_US);
+		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
 		char server[256], manualServer[256] = { 0 };
@@ -987,6 +988,10 @@ protected:
 		}
 		else if (!mir_strcmp(server, "chat.na2.lol.riotgames.com")) {
 			m_cbType.SetCurSel(ACC_LOL_US);
+			m_canregister = false;
+		}
+		else if (!mir_strcmp(server, "xmpp.odnoklassniki.ru")) {
+			m_cbType.SetCurSel(ACC_OK);
 			m_canregister = false;
 		}
 		else if (!mir_strcmp(server, "S.ms")) {
@@ -1066,6 +1071,11 @@ protected:
 		case ACC_PUBLIC:
 			m_proto->m_bUseSSL = m_proto->m_bUseTLS = false;
 			break;
+
+		case ACC_OK:
+			m_proto->m_bIgnoreRoster = true;
+			m_proto->m_bUseSSL = false;
+			m_proto->m_bUseTLS = true;
 
 		case ACC_TLS:
 		case ACC_HIPCHAT:
@@ -1230,6 +1240,7 @@ private:
 		case ACC_LOL_EW: setupLOLEW(); break;
 		case ACC_LOL_OC: setupLOLOC(); break;
 		case ACC_LOL_US: setupLOLUS(); break;
+		case ACC_OK: setupOK(); break;
 		case ACC_SMS: setupSMS(); break;
 		}
 	}
@@ -1358,6 +1369,21 @@ private:
 		m_chkManualHost.SetState(BST_UNCHECKED);
 		m_txtManualHost.SetTextA("chat.na2.lol.riotgames.com");
 		m_txtPort.SetInt(5223);
+
+		m_txtServer.Disable();
+		m_chkManualHost.Disable();
+		m_txtManualHost.Disable();
+		m_txtPort.Disable();
+		m_btnRegister.Disable();
+	}
+
+	void setupOK()
+	{
+		m_canregister = false;
+		m_txtServer.SetTextA("xmpp.odnoklassniki.ru");
+		m_chkManualHost.SetState(BST_UNCHECKED);
+		m_txtManualHost.SetTextA("");
+		m_txtPort.SetInt(5222);
 
 		m_txtServer.Disable();
 		m_chkManualHost.Disable();
