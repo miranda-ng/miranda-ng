@@ -495,7 +495,7 @@ LBL_Error:
 		pAppVersion->set_quaternary(v[3]);
 
 		proto::DeviceProps pCompanion;
-		pCompanion.set_os("Miranda");
+		pCompanion.set_os("Miranda NG");
 		pCompanion.set_allocated_version(pAppVersion);
 		pCompanion.set_platformtype(proto::DeviceProps_PlatformType_DESKTOP);
 		pCompanion.set_requirefullsync(false);
