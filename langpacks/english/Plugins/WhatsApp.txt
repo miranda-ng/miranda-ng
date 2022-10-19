@@ -1,0 +1,37 @@
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Sign in using QR code]
+[Open WhatsApp application on your mobile phone and use it to read this QR code\nA window will disappear automatically after it]
+[Nick:]
+[Default group:]
+[Do not open chat windows on creation]
+[Invite users]
+[Choose a user]
+[Other user:]
+[&Invite]
+[Cancel]
+;file \protocols\WhatsApp\src\chats.cpp
+[Owner]
+[SuperAdmin]
+[Admin]
+[Participant]
+;file \protocols\WhatsApp\src\main.cpp
+[WhatsApp (HTTP)]
+;file \protocols\WhatsApp\src\options.cpp
+[Network]
+[Account]
+;file \protocols\WhatsApp\src\proto.cpp
+[%s (server)]
+[You need to specify nick name in the Options dialog]
+[Error]
+[Operation failed with server error status %d]
+;file \protocols\WhatsApp\src\utils.cpp
+[%s error notifications]
+[Errors]

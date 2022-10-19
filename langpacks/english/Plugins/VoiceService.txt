@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Provide services for protocols that support voice calls.]
@@ -21,6 +21,8 @@
 [On right click:]
 [On left click:]
 [Preview]
+[Show incoming call dialog immediately ]
+[Catch focus on this dialog]
 [New Voice Call]
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
 [Answer]
@@ -45,10 +47,6 @@
 [Answer call]
 [Drop call]
 [Hold call]
-;file \plugins\VoiceService\src\frame.cpp
-[Show dialpad]
-[Call with %s]
-[Voice Calls]
 ;file \plugins\VoiceService\src\hooks.cpp
 [Main]
 [Dialpad]
@@ -59,6 +57,7 @@
 [On Hold]
 [Ended]
 [Busy]
+[Ready]
 [Make Voice Call]
 [Answer Voice Call]
 [Hold Voice Call]
@@ -69,10 +68,11 @@
 [End of call]
 [Busy signal]
 [Call %s with %s]
+[Call with %s]
 [Call]
 [%s with %s]
 [with %s]
-[Background]
+[Voice Calls]
 [Dialpad press]
 ;file \plugins\VoiceService\src\options.cpp
 [Do nothing]
@@ -80,11 +80,7 @@
 [Test Contact]
 [Test description]
 [Popups]
-[General]
 [Auto actions]
-;file \plugins\VoiceService\src\services.cpp
-[%s wants to start a voice call with you. What you want to do?]
-[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
 ;file \plugins\VoiceService\src\VoiceCall.cpp
 [Voice call started]
 [Voice call ringing]
@@ -92,10 +88,6 @@
 [Voice call on hold]
 [Voice call ended]
 [Voice call busy]
-[Call from %s has started]
-[Call from %s is ringing]
-[Calling %s]
-[Call from %s is on hold]
-[Call from %s has ended]
-[%s is busy]
+[Voice call ready]
 [Unknown number]
+[Call is over %s]

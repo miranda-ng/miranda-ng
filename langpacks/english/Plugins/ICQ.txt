@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.9
+;  Version: 0.96.2.2
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -31,6 +31,7 @@
 [Nick:]
 [Member since:]
 [Last seen:]
+[Phone number:]
 [Enter ICQ Password]
 [Enter a password:]
 [Remember this session password]
@@ -49,6 +50,7 @@
 [You have %d unread emails]
 ;file \protocols\ICQ-WIM\src\proto.cpp
 [Synchronize server groups]
+[Edit my web profile]
 [Name]
 [Rename]
 [Delete]

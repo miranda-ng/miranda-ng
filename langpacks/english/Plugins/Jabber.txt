@@ -352,6 +352,9 @@
 [Change nickname in %s]
 [Reason to destroy %s]
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+[Refresh list]
+[Presences]
 [Can't send data while you are offline.]
 [Jabber Error]
 [Outgoing XML parsing error]
@@ -912,12 +915,12 @@
 [Enter password for %s]
 [Error: Not enough memory]
 [Error: Cannot connect to the server]
+[SSL intialization failed]
 [Error: Connection lost]
 [Requesting registration instruction...]
 [Authentication failed for %s@%s.]
 [Message redirected from: %s\r\n]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
-[Description]
 [Registration canceled]
 [Sending registration information...]
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
@@ -984,9 +987,6 @@
 [Jabber vCard: Edit Phone Number]
 [Contacts]
 [Note]
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-[Incoming call]
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 [Afraid]

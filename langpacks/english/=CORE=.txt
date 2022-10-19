@@ -494,7 +494,6 @@
 [Enable icons]
 [Show accounts in the following order,\ndrag to choose another order:]
 [Account order and visibility]
-[Note: Miranda NG will have to be restarted for changes to take effect.]
 [Key bindings]
 [Shortcut:]
 [Add]
@@ -573,6 +572,7 @@
 [Enable groups]
 [Ask before deleting contacts]
 [Remove temporary contacts on exit]
+[Enable icon blinking]
 [Search works as filter]
 ['Hide offline' means to hide:]
 [Tray]
@@ -1343,6 +1343,7 @@
 [<core modules>]
 [Loading... %d%%]
 [%s options]
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
 [Miranda NG options]
 ;file \src\mir_app\src\path.cpp
 [Avatars]
