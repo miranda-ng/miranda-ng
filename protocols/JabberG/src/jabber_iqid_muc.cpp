@@ -330,7 +330,7 @@ public:
 	void list_OnMenu(CContextMenuPos *pos)
 	{
 		HMENU hMenu = CreatePopupMenu();
-		AppendMenuW(hMenu, MF_STRING, 1, TranslateT("Copy jid"));
+		AppendMenuW(hMenu, MF_STRING, 1, TranslateT("Copy JID"));
 
 		if (TrackPopupMenu(hMenu, TPM_RETURNCMD | TPM_BOTTOMALIGN, pos->pt.x, pos->pt.y, 0, m_hwnd, nullptr)) {
 			wchar_t buf[JABBER_MAX_JID_LEN];
