@@ -19,7 +19,7 @@ Copyright © 2019-22 George Hazan
 #define DBKEY_SIGNED_IDENTITY_PUB     "SignedIdentityPublicKey"
 #define DBKEY_SIGNED_IDENTITY_PRIV    "SignedIdentityPrivateKey"
 
-#define DBKEY_PREKEY                  "SignedPreKey0"
+#define DBKEY_PREKEY                  "SignedPreKey1"
 #define DBKEY_PREKEY_NEXT_ID          "PrekeyNextId"
 #define DBKEY_PREKEY_UPLOAD_ID        "PrekeyUploadId"
 

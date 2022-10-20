@@ -32,6 +32,14 @@ MSignalStore::~MSignalStore()
 	signal_context_destroy(m_pContext);
 }
 
+void MSignalStore::logError(int err, const char *pszMessage)
+{
+	if (err < 0) {
+		pProto->debugLogA("libsignal error %d: %s", err, pszMessage);
+		throw pszMessage;
+	}
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static void log_func(int level, const char *pmsg, size_t /*msgLen*/, void *pUserData)
@@ -439,8 +447,9 @@ MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceI
 	}
 
 	if (pSession->cipher == nullptr)
-		if (session_cipher_create(&pSession->cipher, m_pStore, &pSession->address, m_pContext) < 0)
-			throw "session_cipher_create failure";
+		logError(
+			session_cipher_create(&pSession->cipher, m_pStore, &pSession->address, m_pContext),
+			"session_cipher_create failure");
 
 	return pSession;
 }
@@ -455,21 +464,25 @@ signal_buffer* MSignalStore::decryptSignalProto(const CMStringA &from, const cha
 	signal_buffer *result = nullptr;
 	if (!mir_strcmp(pszType, "pkmsg")) {
 		pre_key_signal_message *pMsg; 
-		if (pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
-			throw "unable to deserialize prekey message";
+		logError(
+			pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
+			"unable to deserialize prekey message");
 
-		if (session_cipher_decrypt_pre_key_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
-			throw "unable to decrypt prekey message";
+		logError(
+			session_cipher_decrypt_pre_key_signal_message(pSession->getCipher(), pMsg, this, &result),
+			"unable to decrypt prekey message");
 
 		pre_key_signal_message_destroy((signal_type_base*)pMsg);
 	}
 	else {
 		signal_message *pMsg;
-		if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
-			throw "unable to deserialize signal message";
+		logError(
+			signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
+			"unable to deserialize signal message");
 
-		if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
-			throw "unable to decrypt signal message";
+		logError(
+			session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result),
+			"unable to decrypt signal message");
 
 		signal_message_destroy((signal_type_base *)pMsg);
 	}
@@ -483,12 +496,14 @@ signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, con
 	auto *pSession = createSession(group + CMStringA(FORMAT, "::%s::%d", jid.user.c_str(), jid.device), 0);
 
 	signal_message *pMsg;
-	if (signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext) < 0)
-		throw "unable to deserialize signal message";
+	logError(
+		signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
+		"unable to deserialize signal message");
 
 	signal_buffer *result = nullptr;
-	if (session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result) < 0)
-		throw "unable to decrypt signal message";
+	logError(
+		session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result),
+		"unable to decrypt signal message");
 
 	signal_message_destroy((signal_type_base *)pMsg);
 	return result;

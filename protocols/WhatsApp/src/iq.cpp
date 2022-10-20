@@ -252,7 +252,6 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
 		}
 		catch (const char *pszError) {
-			debugLogA("Message cannot be parsed: %s", pszError);
 		}
 
 		if (!iDecryptable) {

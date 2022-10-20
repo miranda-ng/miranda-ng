@@ -211,6 +211,8 @@ public:
 
 	void generatePrekeys(int count);
 
+	void logError(int code, const char *szMessage);
+
 	void processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg);
 };
 
