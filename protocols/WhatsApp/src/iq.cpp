@@ -223,13 +223,6 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			iDecryptable++;
 
-			// remove message padding
-			if (size_t len = msgBody.len()) {
-				size_t c = msgBody.data()[len - 1];
-				if (c < len)
-					msgBody.reset(len - c);
-			}
-
 			proto::Message encMsg;
 			encMsg.ParseFromArray(msgBody.data(), msgBody.len());
 			if (encMsg.devicesentmessage().has_message())
