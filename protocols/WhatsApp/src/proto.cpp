@@ -145,7 +145,7 @@ INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_5:
 		return 0;
 	case PFLAG_UNIQUEIDTEXT:
-		return (DWORD_PTR)"WhatsApp ID";
+		return (DWORD_PTR)L"WhatsApp ID";
 	}
 	return 0;
 }

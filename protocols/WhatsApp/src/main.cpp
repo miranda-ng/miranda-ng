@@ -23,6 +23,7 @@ PLUGININFOEX pluginInfo = {
 	__DESCRIPTION,
 	__AUTHOR,
 	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE, //not transient
 	// {008B9CE1-154B-44E4-9823-97C1AAB00C3C}
 	{ 0x8b9ce1, 0x154b, 0x44e4, { 0x98, 0x23, 0x97, 0xc1, 0xaa, 0xb0, 0xc, 0x3c }}

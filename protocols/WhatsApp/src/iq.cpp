@@ -251,7 +251,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
 		}
-		catch (const char *pszError) {
+		catch (const char *) {
 		}
 
 		if (!iDecryptable) {
