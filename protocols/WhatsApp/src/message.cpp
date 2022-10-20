@@ -77,6 +77,8 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg)
 
 		case proto::Message_ProtocolMessage_Type_HISTORY_SYNC_NOTIFICATION:
 			debugLogA("History sync notification");
+			m_impl.m_resyncApp.Stop();
+			m_impl.m_resyncApp.Start(10000);
 			break;
 
 		case proto::Message_ProtocolMessage_Type_REVOKE:

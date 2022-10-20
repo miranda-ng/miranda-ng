@@ -91,8 +91,13 @@ void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
 void WhatsAppProto::OnReceiveInfo(const WANode &node)
 {
 	if (auto *pChild = node.getFirstChild()) {
-		if (pChild->title == "offline")
+		if (pChild->title == "offline") {
 			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
+			if (m_arCollections.getCount() == 0) {
+				m_impl.m_resyncApp.Stop();
+				m_impl.m_resyncApp.Start(1000);
+			}
+		}
 	}
 }
 
@@ -571,6 +576,17 @@ void WhatsAppProto::OnServerSync(const WANode &node)
 	ResyncServer(task);
 }
 
+void WhatsAppProto::ResyncAll()
+{
+	OBJLIST<WACollection> task(1);
+	task.insert(new WACollection("regular", 11));
+	task.insert(new WACollection("regular_high", 9));
+	task.insert(new WACollection("regular_low", 11));
+	task.insert(new WACollection("critical_block", 11));
+	task.insert(new WACollection("critical_unblock_low", 11));
+	ResyncServer(task);
+}
+
 void WhatsAppProto::ResyncServer(const OBJLIST<WACollection> &task)
 {
 	WANodeIq iq(IQ::SET, "w:sync:app:state");
@@ -632,7 +648,7 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 				pCollection->hash.assign(hash.c_str(), hash.size());
 				
 				for (auto &it : snapshot.records())
-					pCollection->parseRecord(it, true);
+					ParsePatch(pCollection, it, true);
 			}
 		}
 
@@ -644,7 +660,7 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 				dwVersion = patch.version().version();
 				if (dwVersion > pCollection->version)
 					for (auto &jt : patch.mutations())
-						pCollection->parseRecord(jt.record(), jt.operation() == proto::SyncdMutation_SyncdOperation::SyncdMutation_SyncdOperation_SET);
+						ParsePatch(pCollection, jt.record(), jt.operation() == proto::SyncdMutation_SyncdOperation::SyncdMutation_SyncdOperation_SET);
 			}
 		}
 
@@ -656,20 +672,56 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 			jsonMap << CHAR_PARAM(ptrA(mir_base64_encode(it.first.c_str(), it.first.size())), ptrA(mir_base64_encode(it.second.c_str(), it.second.size())));
 		jsonRoot << INT_PARAM("version", dwVersion) << JSON_PARAM("indexValueMap", jsonMap);
 		
-		// string2file(jsonRoot.write(), GetTmpFileName("collection", CMStringA(pszName) + ".json"));
+		string2file(jsonRoot.write(), GetTmpFileName("collection", CMStringA(pszName) + ".json"));
 	}
 }
 
-void WACollection::parseRecord(const ::proto::SyncdRecord &rec, bool bSet)
+static char sttMutationInfo[] = "WhatsApp Mutation Keys";
+
+void WhatsAppProto::ParsePatch(WACollection *pColl, const ::proto::SyncdRecord &rec, bool bSet)
 {
-	// auto &id = rec.keyid().id();
+	int id = decodeBigEndian(rec.keyid().id());
 	auto &index = rec.index().blob();
 	auto &value = rec.value().blob();
 
-	if (bSet) {
-		indexValueMap[index] = value.substr(0, value.size() - 32);
+	MBinBuffer key(getBlob(CMStringA(FORMAT, "AppSyncKey%d", id)));
+	if (!key.data()) {
+		debugLogA("No key with id=%d to decode a patch");
+		return;
 	}
-	else indexValueMap.erase(index);
+	
+	struct
+	{
+		uint8_t indexKey[32];
+		uint8_t encKey[32];
+		uint8_t macKey[32];
+		uint8_t snapshotMacKey[32];
+		uint8_t patchMacKey[32];
+
+	} mutationKeys;
+
+	HKDF(EVP_sha256(), (BYTE *)"", 0, key.data(), key.length(), (BYTE *)sttMutationInfo, sizeof(sttMutationInfo) - 1, (BYTE*)&mutationKeys, sizeof(mutationKeys));
+
+	MBinBuffer decoded = aesDecrypt(EVP_aes_256_cbc(), mutationKeys.encKey, (uint8_t *)value.c_str(), value.c_str() + 16, value.size() - 32);
+	if (!decoded.data()) {
+		debugLogA("Unable to decode patch with key id=%d", id);
+		return;
+	}
+
+	proto::SyncActionData data;
+	data << decoded;
+	
+	debugLogA("Applying patch for %s: %d -> %d", pColl->szName.get(), pColl->version, data.version());
+
+	if (bSet) {
+		auto &patchIndex = data.index();
+		auto &patchVal = data.value();
+		debugLogA("Got patch: %s", patchVal.Utf8DebugString().c_str());
+		pColl->indexValueMap[index] = value.substr(0, value.size() - 32);
+	}
+	else pColl->indexValueMap.erase(index);
+
+	pColl->version = data.version();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
