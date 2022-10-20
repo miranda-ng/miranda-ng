@@ -94,7 +94,7 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary, bool isChat)
 		setString(hContact, "ChatRoomID", szId);
 	}
 	else {
-		setString(hContact, DBKEY_JID, szId);
+		setString(hContact, DBKEY_ID, szId);
 		if (m_wszDefaultGroup)
 			Clist_SetGroup(hContact, m_wszDefaultGroup);
 	}

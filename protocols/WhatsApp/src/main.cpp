@@ -38,7 +38,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<WhatsAppProto>(MODULENAME, pluginInfo)
 {
-	SetUniqueId(DBKEY_JID);
+	SetUniqueId(DBKEY_ID);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

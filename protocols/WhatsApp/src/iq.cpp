@@ -340,7 +340,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			if (auto *pszJid = pDevice->getAttr("jid")) {
 				WAJid jid(pszJid);
 				m_szJid = jid.user + "@" + jid.server;
-				setUString(DBKEY_JID, m_szJid);
+				setUString(DBKEY_ID, m_szJid);
 				setDword(DBKEY_DEVICE_ID, jid.device);
 			}
 		}

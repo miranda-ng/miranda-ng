@@ -36,7 +36,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
 	m_signalStore(this, ""),
-	m_szJid(getMStringA(DBKEY_JID)),
+	m_szJid(getMStringA(DBKEY_ID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
 	m_arDevices(1),
@@ -111,7 +111,7 @@ void WhatsAppProto::OnModulesLoaded()
 
 	for (auto &cc : AccContacts()) {
 		bool bIsChat = isChatRoom(cc);
-		CMStringA szId(getMStringA(cc, bIsChat ? "ChatRoomID" : DBKEY_JID));
+		CMStringA szId(getMStringA(cc, bIsChat ? "ChatRoomID" : DBKEY_ID));
 		if (!szId.IsEmpty())
 			m_arUsers.insert(new WAUser(cc, szId, bIsChat));
 	}
@@ -230,7 +230,7 @@ void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
-	ptrA jid(getStringA(hContact, DBKEY_JID));
+	ptrA jid(getStringA(hContact, DBKEY_ID));
 	if (jid == nullptr || pszMsg == nullptr)
 		return 0;
 
@@ -272,7 +272,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)
 {
 	if (hContact && isOnline()) {
-		ptrA jid(getStringA(hContact, DBKEY_JID));
+		ptrA jid(getStringA(hContact, DBKEY_ID));
 		if (jid && isOnline()) {
 		}
 	}

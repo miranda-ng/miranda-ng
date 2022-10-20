@@ -8,7 +8,7 @@ Copyright © 2019-22 George Hazan
 #define MODULENAME  "WhatsApp"
 
 // DB keys
-#define DBKEY_JID                     "jid"
+#define DBKEY_ID                      "ID"
 #define DBKEY_DEVICE_ID               "DeviceId"
 #define DBKEY_EPHEMERAL_TS            "EphemeralTS"
 #define DBKEY_EPHEMERAL_EXPIRE        "EphemeralExpire"
