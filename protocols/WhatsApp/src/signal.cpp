@@ -196,8 +196,10 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 
 	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
-	if (blob.data() == 0)
+	if (blob.data() == 0) {
+		pStore->pProto->debugLogA("Prekey #%d not found", pre_key_id);
 		return SG_ERR_INVALID_KEY_ID;
+	}
 
 	*record = signal_buffer_create((uint8_t *)blob.data(), blob.length());
 	return SG_SUCCESS; //key exists and succesfully loaded
@@ -206,7 +208,9 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 static int remove_pre_key(uint32_t pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
+	pStore->pProto->debugLogA("Request to remove prekey #%d", pre_key_id);
 
+	/*
 	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	pStore->pProto->delSetting(szSetting);
 
@@ -215,6 +219,7 @@ static int remove_pre_key(uint32_t pre_key_id, void *user_data)
 
 	szSetting.Format("PreKey%uPrivate", pre_key_id);
 	pStore->pProto->delSetting(szSetting);
+	*/
 	return 0;
 }
 
@@ -253,8 +258,10 @@ static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_i
 
 	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
-	if (blob.data() == 0)
+	if (blob.data() == 0) {
+		pStore->pProto->debugLogA("Signed prekey #%d not found", signed_pre_key_id);
 		return SG_ERR_INVALID_KEY_ID;
+	}
 
 	*record = signal_buffer_create(blob.data(), blob.length());
 	return SG_SUCCESS; //key exist and succesfully loaded
