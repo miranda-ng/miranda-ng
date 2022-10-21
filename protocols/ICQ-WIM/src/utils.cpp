@@ -287,7 +287,7 @@ int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
 	int iStatus;
 	if (wszStatus == L"online")
 		iStatus = ID_STATUS_ONLINE;
-	if (wszStatus == L"offline")
+	else if (wszStatus == L"offline")
 		iStatus = ID_STATUS_OFFLINE;
 	else if (wszStatus == L"n/a")
 		iStatus = ID_STATUS_NA;
