@@ -243,7 +243,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 		}
 	} m_impl;
 
-	bool m_bTerminated, m_bRespawn;
+	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys;
 	ptrW m_tszDefaultGroup;
 
 	CMStringA m_szJid;
@@ -346,6 +346,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);
 	void OnIqServerSync(const WANode &node);
+	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);

@@ -50,7 +50,6 @@ void WhatsAppProto::OnServerSync(const WANode &node)
 
 void WhatsAppProto::ResyncAll()
 {
-	setDword("lastResyncTime", time(0));
 	ResyncServer(m_arCollections);
 }
 

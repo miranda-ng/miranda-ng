@@ -7,6 +7,171 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
+void WhatsAppProto::OnReceiveMessage(const WANode &node)
+{
+	auto *msgId = node.getAttr("id");
+	auto *msgType = node.getAttr("type");
+	auto *msgFrom = node.getAttr("from");
+	auto *category = node.getAttr("category");
+	auto *recipient = node.getAttr("recipient");
+	auto *participant = node.getAttr("participant");
+
+	if (msgType == nullptr || msgFrom == nullptr || msgId == nullptr) {
+		debugLogA("bad message received: <%s> <%s> <%s>", msgType, msgFrom, msgId);
+		return;
+	}
+
+	WAMSG type;
+	WAJid jid(msgFrom);
+	CMStringA szAuthor, szChatId;
+
+	if (node.getAttr("offline"))
+		type.bOffline = true;
+
+	// message from one user to another
+	if (jid.isUser()) {
+		if (recipient) {
+			if (m_szJid != msgFrom) {
+				debugLogA("strange message: with recipient, but not from me");
+				return;
+			}
+			szChatId = recipient;
+		}
+		else szChatId = msgFrom;
+
+		type.bPrivateChat = true;
+		szAuthor = msgFrom;
+	}
+	else if (jid.isGroup()) {
+		if (!participant) {
+			debugLogA("strange message: from group, but without participant");
+			return;
+		}
+
+		type.bGroupChat = true;
+		szAuthor = participant;
+		szChatId = msgFrom;
+	}
+	else if (jid.isBroadcast()) {
+		if (!participant) {
+			debugLogA("strange message: from group, but without participant");
+			return;
+		}
+
+		bool bIsMe = m_szJid == participant;
+		if (jid.isStatusBroadcast()) {
+			if (bIsMe)
+				type.bDirectStatus = true;
+			else
+				type.bOtherStatus = true;
+		}
+		else {
+			if (bIsMe)
+				type.bPeerBroadcast = true;
+			else
+				type.bOtherBroadcast = true;
+		}
+		szChatId = msgFrom;
+		szAuthor = participant;
+	}
+	else {
+		debugLogA("invalid message type");
+		return;
+	}
+
+	CMStringA szSender = (type.bPrivateChat) ? szAuthor : szChatId;
+	bool bFromMe = (m_szJid == msgFrom);
+	if (!bFromMe && participant)
+		bFromMe = m_szJid == participant;
+
+	auto *pKey = new proto::MessageKey();
+	pKey->set_remotejid(szChatId);
+	pKey->set_id(msgId);
+	pKey->set_fromme(bFromMe);
+	if (participant)
+		pKey->set_participant(participant);
+
+	proto::WebMessageInfo msg;
+	msg.set_allocated_key(pKey);
+	msg.set_messagetimestamp(_atoi64(node.getAttr("t")));
+	msg.set_pushname(node.getAttr("notify"));
+	if (bFromMe)
+		msg.set_status(proto::WebMessageInfo_Status_SERVER_ACK);
+
+	int iDecryptable = 0;
+
+	for (auto &it : node.getChildren()) {
+		if (it->title == "verified_name") {
+			proto::VerifiedNameCertificate cert;
+			cert << it->content;
+
+			proto::VerifiedNameCertificate::Details details;
+			details.ParseFromString(cert.details());
+
+			msg.set_verifiedbizname(details.verifiedname());
+			continue;
+		}
+
+		if (it->title != "enc" || it->content.length() == 0)
+			continue;
+
+		SignalBuffer msgBody;
+		auto *pszType = it->getAttr("type");
+		try {
+			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg")) {
+				CMStringA szUser = (WAJid(szSender).isUser()) ? szSender : szAuthor;
+				msgBody = m_signalStore.decryptSignalProto(szUser, pszType, it->content);
+			}
+			else if (!mir_strcmp(pszType, "skmsg")) {
+				msgBody = m_signalStore.decryptGroupSignalProto(szSender, szAuthor, it->content);
+			}
+			else throw "Invalid e2e type";
+
+			if (!msgBody)
+				throw "Invalid e2e message";
+
+			iDecryptable++;
+
+			proto::Message encMsg;
+			encMsg.ParseFromArray(msgBody.data(), msgBody.len());
+			if (encMsg.devicesentmessage().has_message())
+				msg.set_allocated_message(new proto::Message(encMsg.devicesentmessage().message()));
+			else
+				msg.set_allocated_message(new proto::Message(encMsg));
+
+			if (encMsg.has_senderkeydistributionmessage())
+				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage());
+
+			ProcessMessage(type, msg);
+			msg.clear_message();
+
+			// send receipt
+			const char *pszReceiptType = nullptr, *pszReceiptTo = participant;
+			if (!mir_strcmp(category, "peer"))
+				pszReceiptType = "peer_msg";
+			else if (bFromMe) {
+				// message was sent by me from a different device
+				pszReceiptType = "sender";
+				if (WAJid(szChatId).isUser())
+					pszReceiptTo = szAuthor;
+			}
+			else if (!m_hServerConn)
+				pszReceiptType = "inactive";
+
+			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
+		}
+		catch (const char *) {
+		}
+
+		if (!iDecryptable) {
+			debugLogA("Nothing to decrypt");
+			return;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static const proto::Message& getBody(const proto::Message &message)
 {
 	if (message.has_ephemeralmessage()) {

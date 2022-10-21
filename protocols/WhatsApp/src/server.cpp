@@ -227,13 +227,9 @@ void WhatsAppProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+	m_bUpdatedPrekeys = false;
 
 	m_impl.m_keepAlive.Start(1000);
-
-	// retrieve loaded prekeys count
-	WSSendNode(
-		WANodeIq(IQ::GET, "encrypt") << XCHILD("count"),
-		&WhatsAppProto::OnIqCountPrekeys);
 
 	// retrieve initial info
 	WANodeIq abt(IQ::GET, "abt");
@@ -294,7 +290,7 @@ void WhatsAppProto::SendReceipt(const char *pszTo, const char *pszParticipant, c
 
 	if (pszType)
 		receipt << CHAR_PARAM("type", pszType);
-	WSSendNode(receipt, &WhatsAppProto::OnIqDoNothing);
+	WSSendNode(receipt);
 }
 
 void WhatsAppProto::SetServerStatus(int iStatus)
