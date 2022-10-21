@@ -110,7 +110,7 @@ struct WAOwnMessage
 
 struct WACollection
 {
-	WACollection(const char *_1, int _2) :
+	WACollection(const char *_1, int _2 = 0) :
 		szName(mir_strdup(_1)),
 		version(_2)
 	{}
@@ -118,7 +118,7 @@ struct WACollection
 	ptrA szName;
 	int  version;
 
-	MBinBuffer hash;
+	LT_HASH hash;
 	std::map<std::string, std::string> indexValueMap;
 };
 
@@ -257,7 +257,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	// App state management
 	OBJLIST<WACollection> m_arCollections;
 
-	void InitCollections(void);
+	void InitSync(void);
+	void ApplyPatch(const JSONNode &index, const proto::SyncActionValue &data);
 	void ParsePatch(WACollection *pColl, const proto::SyncdRecord &rec, bool bSet);
 	void ResyncServer(const OBJLIST<WACollection> &task);
 	void ResyncAll(void);

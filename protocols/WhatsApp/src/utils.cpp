@@ -72,6 +72,28 @@ CMStringA WAJid::toString() const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static uint8_t sttLtHashInfo[] = "WhatsApp Patch Integrity";
+
+void LT_HASH::add(const void *pData, size_t len)
+{
+	uint16_t tmp[_countof(hash)];
+	HKDF(EVP_sha256(), (BYTE *)"", 0, (BYTE*)pData, len, sttLtHashInfo, sizeof(sttLtHashInfo) - 1, (BYTE *)tmp, sizeof(tmp));
+
+	for (int i = 0; i < _countof(hash); i++)
+		hash[i] += tmp[i];
+}
+
+void LT_HASH::sub(const void *pData, size_t len)
+{
+	uint16_t tmp[_countof(hash)];
+	HKDF(EVP_sha256(), (BYTE *)"", 0, (BYTE *)pData, len, sttLtHashInfo, sizeof(sttLtHashInfo) - 1, (BYTE *)tmp, sizeof(tmp));
+
+	for (int i = 0; i < _countof(hash); i++)
+		hash[i] -= tmp[i];
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 WAUser* WhatsAppProto::FindUser(const char *szId)
 {
 	mir_cslock lck(m_csUsers);
@@ -192,6 +214,18 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+std::string decodeBinStr(const std::string &buf)
+{
+	size_t cbLen;
+	void *pData = mir_base64_decode(buf.c_str(), &cbLen);
+	if (pData == nullptr)
+		return "";
+
+	std::string res((char *)pData, cbLen);
+	mir_free(pData);
+	return res;
+}
 
 uint32_t decodeBigEndian(const std::string &buf)
 {
@@ -327,6 +361,21 @@ void string2file(const std::string &str, const wchar_t *pwszFileName)
 		close(fileId);
 	}
 }
+
+CMStringA file2string(const wchar_t *pwszFileName)
+{
+	CMStringA res;
+		
+	int fileId = _wopen(pwszFileName, _O_RDONLY | _O_BINARY, _S_IREAD | _S_IWRITE);
+	if (fileId != -1) {
+		res.Truncate(filelength(fileId));
+		read(fileId, res.GetBuffer(), res.GetLength());
+		close(fileId);
+	}
+	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 CMStringA directPath2url(const char *pszDirectPath)
 {

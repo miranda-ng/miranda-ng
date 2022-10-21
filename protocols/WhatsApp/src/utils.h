@@ -153,6 +153,7 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WAJid
 
 struct WAJid
 {
@@ -171,10 +172,37 @@ struct WAJid
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// LT_HASH
+
+struct LT_HASH
+{
+	LT_HASH()
+	{
+		init();
+	};
+
+	uint16_t hash[64];
+
+	void add(const void *pData, size_t len);
+	void sub(const void *pData, size_t len);
+
+	void init()
+	{
+		SecureZeroMemory(hash, sizeof(hash));
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// functions
 
 void bin2file(const MBinBuffer &buf, const wchar_t *pwszFileName);
+
 void string2file(const std::string &str, const wchar_t *pwszFileName);
+CMStringA file2string(const wchar_t *pwszFileName);
+
 CMStringA directPath2url(const char *pszDirectPath);
+
+std::string decodeBinStr(const std::string &buf);
 
 MBinBuffer aesDecrypt(
 	const EVP_CIPHER *cipher,
@@ -185,6 +213,8 @@ MBinBuffer aesDecrypt(
 
 uint32_t    decodeBigEndian(const std::string &buf);
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
+
+void rtrim(std::string &str);
 
 void generateIV(uint8_t *iv, int &pVar);
 

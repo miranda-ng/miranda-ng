@@ -61,7 +61,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &WhatsAppProto::OnOptionsInit);
 
-	InitCollections();
+	InitSync();
 	InitPopups();
 	InitPersistentHandlers();
 
@@ -309,25 +309,4 @@ HANDLE WhatsAppProto::SearchBasic(const wchar_t* id)
 	SearchParam *param = new SearchParam(id, -1);
 	ForkThread(&WhatsAppProto::SearchAckThread, param);
 	return (HANDLE)param->id;
-}
-
-//////////////////////////////////////////////////////////////////////////////
-
-static int enumCollections(const char *szSetting, void *param)
-{
-	auto *pList = (LIST<char> *)param;
-	if (!memcmp(szSetting, "Collection_", 11))
-		pList->insert(mir_strdup(szSetting));
-	return 0;
-}
-
-void WhatsAppProto::InitCollections()
-{
-	LIST<char> settings(10);
-	db_enum_settings(0, enumCollections, m_szModuleName, &settings);
-
-	for (auto &it : settings) {
-		m_arCollections.insert(new WACollection(it + 11, getDword(it)));
-		mir_free(it);
-	}
 }

@@ -19,6 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\libs\libjson\libjson.vcxproj">
+      <Project>{f6a9340e-b8d9-4c75-be30-47dc66d0abc7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\libs\libqrencode\libqrencode.vcxproj">
       <Project>{4d3554de-6e14-4f94-a909-a4b19151a47e}</Project>
     </ProjectReference>
@@ -58,6 +61,7 @@
     <ClCompile Include="..\..\utils\mir_signal.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\appsync.cpp" />
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\chats.cpp" />
     <ClCompile Include="src\crypt.cpp" />

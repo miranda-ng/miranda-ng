@@ -93,7 +93,8 @@ void WhatsAppProto::OnReceiveInfo(const WANode &node)
 	if (auto *pChild = node.getFirstChild()) {
 		if (pChild->title == "offline") {
 			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
-			if (m_arCollections.getCount() == 0) {
+			
+			if (getDword("lastResyncTime") == 0) {
 				m_impl.m_resyncApp.Stop();
 				m_impl.m_resyncApp.Start(1000);
 			}
@@ -417,7 +418,6 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 			MBinBuffer accountEnc(account.ByteSize());
 			account.SerializeToArray(accountEnc.data(), (int)accountEnc.length());
-			db_set_blob(0, m_szModuleName, "WAAccount", accountEnc.data(), (int)accountEnc.length());
 
 			proto::ADVDeviceIdentity deviceIdentity;
 			deviceIdentity.ParseFromString(deviceDetails);
@@ -561,167 +561,6 @@ LBL_Error:
 	WSSend(handshake);
 
 	m_noise->finish();
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnServerSync(const WANode &node)
-{
-	OBJLIST<WACollection> task(1);
-
-	for (auto &it : node.getChildren())
-		if (it->title == "collection")
-			task.insert(new WACollection(it->getAttr("name"), it->getAttrInt("version")));
-
-	ResyncServer(task);
-}
-
-void WhatsAppProto::ResyncAll()
-{
-	OBJLIST<WACollection> task(1);
-	task.insert(new WACollection("regular", 11));
-	task.insert(new WACollection("regular_high", 9));
-	task.insert(new WACollection("regular_low", 11));
-	task.insert(new WACollection("critical_block", 11));
-	task.insert(new WACollection("critical_unblock_low", 11));
-	ResyncServer(task);
-}
-
-void WhatsAppProto::ResyncServer(const OBJLIST<WACollection> &task)
-{
-	WANodeIq iq(IQ::SET, "w:sync:app:state");
-	
-	auto *pList = iq.addChild("sync");
-	for (auto &it : task) {
-		auto *pCollection = m_arCollections.find(it);
-		if (pCollection == nullptr)
-			m_arCollections.insert(pCollection = new WACollection(it->szName, 0));
-
-		if (pCollection->version < it->version) {
-			auto *pNode = pList->addChild("collection");
-			*pNode << CHAR_PARAM("name", it->szName) << INT_PARAM("version", pCollection->version) 
-				<< CHAR_PARAM("return_snapshot", (!pCollection->version) ? "true" : "false");
-		}
-	}
-
-	if (pList->getFirstChild() != nullptr)
-		WSSendNode(iq, &WhatsAppProto::OnIqServerSync);
-}
-
-void WhatsAppProto::OnIqServerSync(const WANode &node)
-{
-	for (auto &coll : node.getChild("sync")->getChildren()) {
-		if (coll->title != "collection")
-			continue;
-
-		auto *pszName = coll->getAttr("name");
-		
-		auto *pCollection = FindCollection(pszName);
-		if (pCollection == nullptr) {
-			pCollection = new WACollection(pszName, 0);
-			m_arCollections.insert(pCollection);
-		}
-
-		int dwVersion = 0;
-
-		CMStringW wszSnapshotPath(GetTmpFileName("collection", pszName));
-		if (auto *pSnapshot = coll->getChild("snapshot")) {
-			proto::ExternalBlobReference body;
-			body << pSnapshot->content;
-			if (!body.has_directpath() || !body.has_mediakey()) {
-				debugLogA("Invalid snapshot data, skipping");
-				continue;
-			}
-			
-			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body.directpath().c_str()), body.mediakey(), "App State");
-			if (!buf.data()) {
-				debugLogA("Invalid downloaded snapshot data, skipping");
-				continue;
-			}
-
-			proto::SyncdSnapshot snapshot;
-			snapshot << buf;
-
-			dwVersion = snapshot.version().version();
-			if (dwVersion > pCollection->version) {
-				auto &hash = snapshot.mac();
-				pCollection->hash.assign(hash.c_str(), hash.size());
-				
-				for (auto &it : snapshot.records())
-					ParsePatch(pCollection, it, true);
-			}
-		}
-
-		if (auto *pPatchList = coll->getChild("patches")) {
-			for (auto &it : pPatchList->getChildren()) {
-				proto::SyncdPatch patch;
-				patch << it->content;
-
-				dwVersion = patch.version().version();
-				if (dwVersion > pCollection->version)
-					for (auto &jt : patch.mutations())
-						ParsePatch(pCollection, jt.record(), jt.operation() == proto::SyncdMutation_SyncdOperation::SyncdMutation_SyncdOperation_SET);
-			}
-		}
-
-		CMStringA szSetting(FORMAT, "Collection_%s", pszName);
-		// setDword(szSetting, dwVersion);
-
-		JSONNode jsonRoot, jsonMap; 
-		for (auto &it : pCollection->indexValueMap)
-			jsonMap << CHAR_PARAM(ptrA(mir_base64_encode(it.first.c_str(), it.first.size())), ptrA(mir_base64_encode(it.second.c_str(), it.second.size())));
-		jsonRoot << INT_PARAM("version", dwVersion) << JSON_PARAM("indexValueMap", jsonMap);
-		
-		string2file(jsonRoot.write(), GetTmpFileName("collection", CMStringA(pszName) + ".json"));
-	}
-}
-
-static char sttMutationInfo[] = "WhatsApp Mutation Keys";
-
-void WhatsAppProto::ParsePatch(WACollection *pColl, const ::proto::SyncdRecord &rec, bool bSet)
-{
-	int id = decodeBigEndian(rec.keyid().id());
-	auto &index = rec.index().blob();
-	auto &value = rec.value().blob();
-
-	MBinBuffer key(getBlob(CMStringA(FORMAT, "AppSyncKey%d", id)));
-	if (!key.data()) {
-		debugLogA("No key with id=%d to decode a patch");
-		return;
-	}
-	
-	struct
-	{
-		uint8_t indexKey[32];
-		uint8_t encKey[32];
-		uint8_t macKey[32];
-		uint8_t snapshotMacKey[32];
-		uint8_t patchMacKey[32];
-
-	} mutationKeys;
-
-	HKDF(EVP_sha256(), (BYTE *)"", 0, key.data(), key.length(), (BYTE *)sttMutationInfo, sizeof(sttMutationInfo) - 1, (BYTE*)&mutationKeys, sizeof(mutationKeys));
-
-	MBinBuffer decoded = aesDecrypt(EVP_aes_256_cbc(), mutationKeys.encKey, (uint8_t *)value.c_str(), value.c_str() + 16, value.size() - 32);
-	if (!decoded.data()) {
-		debugLogA("Unable to decode patch with key id=%d", id);
-		return;
-	}
-
-	proto::SyncActionData data;
-	data << decoded;
-	
-	debugLogA("Applying patch for %s: %d -> %d", pColl->szName.get(), pColl->version, data.version());
-
-	if (bSet) {
-		auto &patchIndex = data.index();
-		auto &patchVal = data.value();
-		debugLogA("Got patch: %s", patchVal.Utf8DebugString().c_str());
-		pColl->indexValueMap[index] = value.substr(0, value.size() - 32);
-	}
-	else pColl->indexValueMap.erase(index);
-
-	pColl->version = data.version();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
