@@ -305,6 +305,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	CMStringA GenerateMessageId();
 	void ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg);
 
+	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);
+
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const MessageLite &msg);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
@@ -317,6 +319,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ServerThreadWorker(void);
 	void ShutdownSession(void);
 
+	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
 	void SetServerStatus(int iStatus);
@@ -350,6 +353,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyEncrypt(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
+	void OnReceiveReceipt(const WANode &node);
 	void OnServerSync(const WANode &node);
 	void OnStreamError(const WANode &node);
 	void OnSuccess(const WANode &node);
@@ -425,6 +429,8 @@ struct CMPlugin : public ACCPROTOPLUGIN<WhatsAppProto>
 	HNETLIBUSER hAvatarUser = nullptr;
 	HNETLIBCONN hAvatarConn = nullptr;
 	bool SaveFile(const char *pszUrl, PROTO_AVATAR_INFORMATION &ai);
+
+	bool bHasMessageState = false;
 
 	CMPlugin();
 

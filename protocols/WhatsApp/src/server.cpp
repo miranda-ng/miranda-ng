@@ -262,6 +262,23 @@ void WhatsAppProto::OnLoggedOut(void)
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// Service packets sending
+
+void WhatsAppProto::SendAck(const WANode &node)
+{
+	WANode ack("ack");
+	ack << CHAR_PARAM("to", node.getAttr("from")) << CHAR_PARAM("id", node.getAttr("id")) << CHAR_PARAM("class", node.title);
+	if (node.title != "message")
+		if (auto *param = node.getAttr("type"))
+			ack << CHAR_PARAM("type", param);
+	if (auto *param = node.getAttr("participant"))
+		ack << CHAR_PARAM("participant", param);
+	if (auto *param = node.getAttr("recipient"))
+		ack << CHAR_PARAM("recipient", param);
+	WSSendNode(ack);
+}
+
 void WhatsAppProto::SendKeepAlive()
 {
 	time_t now = time(0);

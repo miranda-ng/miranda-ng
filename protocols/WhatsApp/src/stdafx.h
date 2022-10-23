@@ -46,6 +46,7 @@ Copyright © 2019-22 George Hazan
 #include <m_folders.h>
 #include <m_json.h>
 #include <m_gui.h>
+#include <m_messagestate.h>
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>

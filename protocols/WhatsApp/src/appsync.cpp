@@ -46,6 +46,7 @@ void WhatsAppProto::OnServerSync(const WANode &node)
 			task.insert(new WACollection(it->getAttr("name"), it->getAttrInt("version")));
 
 	ResyncServer(task);
+	SendAck(node);
 }
 
 void WhatsAppProto::ResyncAll()

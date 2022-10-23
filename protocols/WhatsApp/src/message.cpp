@@ -21,6 +21,14 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		return;
 	}
 
+	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
+	if (hEvent) {
+		debugLogA("this message is already processed: %s", msgId);
+		return;
+	}
+
+	SendAck(node);
+
 	WAMSG type;
 	WAJid jid(msgFrom);
 	CMStringA szAuthor, szChatId;

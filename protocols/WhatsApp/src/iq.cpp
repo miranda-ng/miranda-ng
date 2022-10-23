@@ -14,6 +14,8 @@ void WhatsAppProto::OnAccountSync(const WANode &node)
 	for (auto &it : node.getChild("devices")->getChildren())
 		if (it->title == "device")
 			m_arDevices.insert(new WADevice(it->getAttr("jid"), it->getAttrInt("key-index")));
+
+	SendAck(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -84,6 +86,7 @@ void WhatsAppProto::OnNotifyDevices(const WANode &node)
 {
 	if (!mir_strcmp(node.getAttr("jid"), m_szJid))
 		debugLogA("received list of my own devices");
+	SendAck(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -92,6 +95,7 @@ void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
 {
 	if (!mir_strcmp(node.getAttr("from"), S_WHATSAPP_NET))
 		OnIqCountPrekeys(node);
+	SendAck(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -115,6 +119,36 @@ void WhatsAppProto::OnReceiveInfo(const WANode &node)
 			}
 		}
 	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead)
+{
+	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
+	if (hEvent == 0)
+		return;
+
+	if (g_plugin.bHasMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, bRead ? MRD_TYPE_READ : MRD_TYPE_DELIVERED);
+
+	if (bRead)
+		db_event_markRead(hContact, hEvent);
+}
+
+void WhatsAppProto::OnReceiveReceipt(const WANode &node)
+{
+	if (auto *pUser = FindUser(node.getAttr("from"))) {
+		bool bRead = mir_strcmp(node.getAttr("type"), "read") == 0;
+		ProcessReceipt(pUser->hContact, node.getAttr("id"), bRead);
+
+		if (auto *pList = node.getChild("list"))
+			for (auto &it : pList->getChildren())
+				if (it->title == "item")
+					ProcessReceipt(pUser->hContact, it->getAttr("id"), bRead);
+	}
+
+	SendAck(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -436,6 +470,7 @@ void WhatsAppProto::InitPersistentHandlers()
 
 	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
+	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
 	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
 
