@@ -264,7 +264,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool         RetrievePassword();
 	void         RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
-	void         RetrieveUserInfo(MCONTACT = INVALID_CONTACT_ID);
+	void         RetrieveUserInfo(MCONTACT hContact);
 	void         SendMrimLogin(NETLIBHTTPREQUEST *pReply);
 	void         SetServerStatus(int iNewStatus);
 	void         ShutdownSession(void);
@@ -285,8 +285,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	mir_cs       m_csMarkReadQueue;
 	LIST<IcqCacheItem> m_arMarkReadQueue;
 	void         SendMarkRead();
-
-	AsyncHttpRequest* UserInfoRequest(MCONTACT);
 
 	__int64   getId(MCONTACT hContact, const char *szSetting);
 	void      setId(MCONTACT hContact, const char *szSetting, __int64 iValue);

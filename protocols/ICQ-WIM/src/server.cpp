@@ -605,35 +605,10 @@ LBL_Error:
 
 void CIcqProto::RetrieveUserInfo(MCONTACT hContact)
 {
-	auto *pReq = UserInfoRequest(hContact);
-
-	if (hContact == INVALID_CONTACT_ID) {
-		int i = 0;
-		for (auto &it : m_arCache) {
-			if (i == 0)
-				pReq = UserInfoRequest(hContact);
-
-			pReq << WCHAR_PARAM("t", GetUserId(it->m_hContact));
-			if (i == 100) {
-				i = 0;
-				Push(pReq);
-
-				pReq = UserInfoRequest(hContact);
-			}
-			else i++;
-		}
-	}
-	else pReq << WCHAR_PARAM("t", GetUserId(hContact));
-
-	Push(pReq);
-}
-
-AsyncHttpRequest* CIcqProto::UserInfoRequest(MCONTACT hContact)
-{
-	auto *pReq = new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/presence/get", &CIcqProto::OnGetUserInfo);
+	auto *pReq = new AsyncRapiRequest(this, "getUserInfo", &CIcqProto::OnGetUserInfo);
+	pReq->params << WCHAR_PARAM("sn", GetUserId(hContact));
 	pReq->hContact = hContact;
-	pReq << AIMSID(this) << INT_PARAM("mdir", 1) << INT_PARAM("capabilities", 1);
-	return pReq;
+	Push(pReq);
 }
 
 void CIcqProto::RetrieveUserHistory(MCONTACT hContact, __int64 startMsgId, bool bCreateRead)
@@ -1077,15 +1052,13 @@ void CIcqProto::OnGetUserHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pR
 
 void CIcqProto::OnGetUserInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 {
-	JsonReply root(pReply);
-	if (root.error() != 200) {
+	RobustReply root(pReply);
+	if (root.error() != 20000) {
 		ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, nullptr);
 		return;
 	}
 
-	auto &data = root.data();
-	for (auto &it : data["users"])
-		ParseBuddyInfo(it, pReq->hContact);
+	ParseBuddyInfo(root.results(), pReq->hContact, true);
 
 	ProtoBroadcastAck(pReq->hContact, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, nullptr);
 }

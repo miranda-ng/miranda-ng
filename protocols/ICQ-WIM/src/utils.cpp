@@ -278,7 +278,7 @@ bool IsChat(const CMStringW &aimid)
 bool IsValidType(const JSONNode &n)
 {
 	auto type = n["userType"].as_string();
-	return type == "icq" || type == "aim" || type == "interop";
+	return type == "icq" || type == "aim" || type == "interop" || type == "";
 }
 
 int CIcqProto::StatusFromPresence(const JSONNode &presence, MCONTACT hContact)
