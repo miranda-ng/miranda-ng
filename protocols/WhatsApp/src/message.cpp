@@ -303,3 +303,67 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg)
 		}
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig)
+{
+	int type = 0;
+
+	try {
+		SignalBuffer pBuffer(m_signalStore.encryptSignalProto(jid, orig, type));
+
+		auto *pNode = pParticipants->addChild("to");
+		pNode->addAttr("jid", jid.toString());
+
+		auto *pEnc = pNode->addChild("enc");
+		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", (type == 3) ? "pkmsg" : "msg");
+		pEnc->content.assign(pBuffer.data(), pBuffer.len());
+	}
+	catch (const char *) {
+	}
+	
+	return type == 3;
+}
+
+int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
+{
+	char msgId[16], szMsgId[33];
+	Utils_GetRandom(msgId, sizeof(msgId));
+	bin2hex(msgId, sizeof(msgId), szMsgId);
+	strupr(szMsgId);
+
+	auto *pBody = new proto::Message();
+	pBody->set_conversation(pszMsg);
+
+	auto *pSentBody = new proto::Message_DeviceSentMessage();
+	pSentBody->set_allocated_message(pBody);
+	pSentBody->set_destinationjid(jid);
+
+	proto::Message msg;
+	msg.set_allocated_devicesentmessage(pSentBody);
+
+	MBinBuffer encMsg(msg.ByteSizeLong());
+	msg.SerializeToArray(encMsg.data(), (int)encMsg.length());
+
+	WANode payLoad("message");
+	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
+	
+	auto *pParticipants = payLoad.addChild("participants");
+	bool shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(jid), false);
+	for (auto &it : m_arDevices)
+		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, true);
+
+	if (shouldIncludeIdentity) {
+		MBinBuffer encIdentity(m_signalStore.encodeSignedIdentity(true));
+		auto *pNode = payLoad.addChild("device-identity");
+		pNode->content.assign(encIdentity.data(), encIdentity.length());
+	}
+
+	WSSendNode(payLoad);
+	
+	mir_cslock lck(m_csOwnMessages);
+	int pktId = m_iPacketId++;
+	m_arOwnMsgs.insert(new WAOwnMessage(pktId, jid, szMsgId));
+	return pktId;
+}

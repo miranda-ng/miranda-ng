@@ -76,125 +76,23 @@ void WhatsAppProto::UploadMorePrekeys()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnIqDoNothing(const WANode &)
+void WhatsAppProto::OnIqDoNothing(const WANode&)
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnNotifyDevices(const WANode &node)
+void WhatsAppProto::OnIqGetUsync(const WANode &node)
 {
-	if (!mir_strcmp(node.getAttr("jid"), m_szJid))
-		debugLogA("received list of my own devices");
-	SendAck(node);
-}
+	m_arDevices.destroy();
 
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
-{
-	if (!mir_strcmp(node.getAttr("from"), S_WHATSAPP_NET))
-		OnIqCountPrekeys(node);
-	SendAck(node);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnReceiveInfo(const WANode &node)
-{
-	if (auto *pChild = node.getFirstChild()) {
-		if (pChild->title == "offline") {
-			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
-			
-			// retrieve loaded prekeys count
-			if (!m_bUpdatedPrekeys)
-				WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
-
-			for (auto &it: m_arCollections) {
-				if (it->version == 0) {
-					m_impl.m_resyncApp.Stop();
-					m_impl.m_resyncApp.Start(1000);
-					break;
-				}
-			}
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead)
-{
-	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
-	if (hEvent == 0)
-		return;
-
-	if (g_plugin.bHasMessageState)
-		CallService(MS_MESSAGESTATE_UPDATE, hContact, bRead ? MRD_TYPE_READ : MRD_TYPE_DELIVERED);
-
-	if (bRead)
-		db_event_markRead(hContact, hEvent);
-}
-
-void WhatsAppProto::OnReceiveReceipt(const WANode &node)
-{
-	if (auto *pUser = FindUser(node.getAttr("from"))) {
-		bool bRead = mir_strcmp(node.getAttr("type"), "read") == 0;
-		ProcessReceipt(pUser->hContact, node.getAttr("id"), bRead);
-
-		if (auto *pList = node.getChild("list"))
+	if (auto *nUser = node.getChild("usync")->getChild("list")->getChild("user")) {
+		auto *pszJid = nUser->getAttr("jid");
+		if (auto *pList = nUser->getChild("devices")->getChild("device-list"))
 			for (auto &it : pList->getChildren())
-				if (it->title == "item")
-					ProcessReceipt(pUser->hContact, it->getAttr("id"), bRead);
+				if (it->title == "device")
+					m_arDevices.insert(new WADevice(pszJid, it->getAttrInt("id")));
 	}
-
-	SendAck(node);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnStreamError(const WANode &node)
-{
-	m_bTerminated = true;
-
-	if (auto *pszCode = node.getAttr("code")) {
-		switch (atoi(pszCode)) {
-		case 401:
-			debugLogA("Connection logged out from another device, exiting");
-			break;
-
-		case 408:
-			debugLogA("Connection lost, exiting");
-			break;
-
-		case 411:
-			debugLogA("Conflict between two devices, exiting");
-			break;
-
-		case 428:
-			debugLogA("Connection forcibly closed by the server, exiting");
-			break;
-
-		case 440:
-			debugLogA("Connection replaced from another device, exiting");
-			break;
-
-		case 515:
-			debugLogA("Server required to restart immediately, leaving thread");
-			m_bRespawn = true;
-			break;
-		}
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void WhatsAppProto::OnIqResult(const WANode &node)
-{
-	if (auto *pszId = node.getAttr("id"))
-		for (auto &it: m_arPacketQueue) 
-			if (it->szPacketId == pszId)
-				(this->*it->pHandler)(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -325,6 +223,41 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnIqResult(const WANode &node)
+{
+	if (auto *pszId = node.getAttr("id"))
+		for (auto &it : m_arPacketQueue)
+			if (it->szPacketId == pszId)
+				(this->*it->pHandler)(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnNotifyAny(const WANode &node)
+{
+	SendAck(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnNotifyDevices(const WANode &node)
+{
+	if (!mir_strcmp(node.getAttr("jid"), m_szJid))
+		debugLogA("received list of my own devices");
+	SendAck(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
+{
+	if (!mir_strcmp(node.getAttr("from"), S_WHATSAPP_NET))
+		OnIqCountPrekeys(node);
+	SendAck(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnProcessHandshake(const void *pData, int cbLen)
 {
 	proto::HandshakeMessage msg;
@@ -449,6 +382,108 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnReceiveInfo(const WANode &node)
+{
+	if (auto *pChild = node.getFirstChild()) {
+		if (pChild->title == "offline") {
+			debugLogA("Processed %d offline events", pChild->getAttrInt("count"));
+
+			// retrieve loaded prekeys count
+			if (!m_bUpdatedPrekeys)
+				WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
+
+			if (m_arDevices.getCount() == 0) {
+				WANodeIq iq(IQ::GET, "usync");
+
+				auto *pNode1 = iq.addChild("usync");
+				*pNode1 << CHAR_PARAM("sid", GenerateMessageId()) << CHAR_PARAM("mode", "query") << CHAR_PARAM("last", "true")
+					<< CHAR_PARAM("index", "0") << CHAR_PARAM("context", "message");
+
+				pNode1->addChild("query")->addChild("devices")->addAttr("version", "2");
+				pNode1->addChild("list")->addChild("user")->addAttr("jid", m_szJid);
+
+				WSSendNode(iq, &WhatsAppProto::OnIqGetUsync);
+			}
+
+			for (auto &it : m_arCollections) {
+				if (it->version == 0) {
+					m_impl.m_resyncApp.Stop();
+					m_impl.m_resyncApp.Start(1000);
+					break;
+				}
+			}
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead)
+{
+	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
+	if (hEvent == 0)
+		return;
+
+	if (g_plugin.bHasMessageState)
+		CallService(MS_MESSAGESTATE_UPDATE, hContact, bRead ? MRD_TYPE_READ : MRD_TYPE_DELIVERED);
+
+	if (bRead)
+		db_event_markRead(hContact, hEvent);
+}
+
+void WhatsAppProto::OnReceiveReceipt(const WANode &node)
+{
+	if (auto *pUser = FindUser(node.getAttr("from"))) {
+		bool bRead = mir_strcmp(node.getAttr("type"), "read") == 0;
+		ProcessReceipt(pUser->hContact, node.getAttr("id"), bRead);
+
+		if (auto *pList = node.getChild("list"))
+			for (auto &it : pList->getChildren())
+				if (it->title == "item")
+					ProcessReceipt(pUser->hContact, it->getAttr("id"), bRead);
+	}
+
+	SendAck(node);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::OnStreamError(const WANode &node)
+{
+	m_bTerminated = true;
+
+	if (auto *pszCode = node.getAttr("code")) {
+		switch (atoi(pszCode)) {
+		case 401:
+			debugLogA("Connection logged out from another device, exiting");
+			break;
+
+		case 408:
+			debugLogA("Connection lost, exiting");
+			break;
+
+		case 411:
+			debugLogA("Conflict between two devices, exiting");
+			break;
+
+		case 428:
+			debugLogA("Connection forcibly closed by the server, exiting");
+			break;
+
+		case 440:
+			debugLogA("Connection replaced from another device, exiting");
+			break;
+
+		case 515:
+			debugLogA("Server required to restart immediately, leaving thread");
+			m_bRespawn = true;
+			break;
+		}
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnSuccess(const WANode &)
 {
 	OnLoggedIn();
@@ -467,6 +502,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("notification", "encrypt", 0, 0, &WhatsAppProto::OnNotifyEncrypt));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "account_sync", 0, 0, &WhatsAppProto::OnAccountSync));
 	m_arPersistent.insert(new WAPersistentHandler("notification", "server_sync", 0, 0, &WhatsAppProto::OnServerSync));
+	m_arPersistent.insert(new WAPersistentHandler("notification", 0, 0, 0, &WhatsAppProto::OnNotifyAny));
 
 	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));

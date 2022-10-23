@@ -45,6 +45,7 @@ class SignalBuffer
 
 public:
 	SignalBuffer() : m_buf(nullptr) {}
+	SignalBuffer(signal_buffer *buf) : m_buf(buf) {}
 	SignalBuffer(const class MBinBuffer &buf);
 	SignalBuffer(const ec_public_key *key);
 	SignalBuffer(const ec_private_key *key);

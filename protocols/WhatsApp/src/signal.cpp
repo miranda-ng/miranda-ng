@@ -517,6 +517,38 @@ signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, con
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// encryption
+
+signal_buffer* MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type)
+{
+	auto *pSession = createSession(to.user, to.device);
+
+	ciphertext_message *pEncrypted;
+	logError(
+		session_cipher_encrypt(pSession->getCipher(), buf.data(), buf.length(), &pEncrypted),
+		"unable to encrypt signal message");
+
+	type = ciphertext_message_get_type(pEncrypted);
+
+	auto *res = ciphertext_message_get_serialized(pEncrypted);
+	signal_message_destroy((signal_type_base *)pEncrypted);
+	return res;
+}
+
+MBinBuffer MSignalStore::encodeSignedIdentity(bool bIncludeSignatureKey)
+{
+	proto::ADVSignedDeviceIdentity identity;
+	identity << pProto->getBlob("WAAccount");
+	
+	if (!bIncludeSignatureKey)
+		identity.clear_accountsignaturekey();
+	
+	MBinBuffer res(identity.ByteSize());
+	identity.SerializeToArray(res.data(), (int)res.length());
+	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // generate and save pre keys set
 
 void MSignalStore::generatePrekeys(int count)

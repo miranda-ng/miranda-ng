@@ -97,15 +97,14 @@ struct WAUser
 
 struct WAOwnMessage
 {
-	WAOwnMessage(int _1, MCONTACT _2, const char *_3) :
+	WAOwnMessage(int _1, const char *_2, const char *_3) :
 		pktId(_1),
-		hContact(_2),
+		szJid(_2),
 		szPrefix(_3)
 	{}
 
 	int pktId;
-	MCONTACT hContact;
-	CMStringA szPrefix;
+	CMStringA szPrefix, szJid;
 };
 
 struct WACollection
@@ -207,6 +206,9 @@ public:
 	signal_buffer* decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	signal_buffer* decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
 
+	signal_buffer* encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type);
+
+	MBinBuffer encodeSignedIdentity(bool);
 	void generatePrekeys(int count);
 
 	void logError(int code, const char *szMessage);
@@ -304,6 +306,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	uint16_t m_wMsgPrefix[2];
 	CMStringA GenerateMessageId();
 	void ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg);
+	bool CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig);
 
 	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);
 
@@ -322,6 +325,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
+	int  SendTextMessage(const char *jid, const char *pszMsg);
 	void SetServerStatus(int iStatus);
 
 	/// Popups /////////////////////////////////////////////////////////////////////////////
@@ -336,7 +340,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnGetAvatarInfo(const JSONNode &node, void*);
 	void OnGetChatInfo(const JSONNode &node, void*);
-	void OnSendMessage(const JSONNode &node, void*);
 
 	void OnProcessHandshake(const void *pData, int cbLen);
 	
@@ -345,10 +348,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
+	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);
 	void OnIqServerSync(const WANode &node);
+	void OnNotifyAny(const WANode &node);
 	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
 	void OnReceiveInfo(const WANode &node);

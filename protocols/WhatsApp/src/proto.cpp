@@ -203,6 +203,7 @@ int WhatsAppProto::SetStatus(int new_status)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+/*
 void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
 {
 	CMStringA szPrefix= node["$id$"].as_mstring();
@@ -227,6 +228,7 @@ void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
 		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tmp.pktId, LPARAM(wszError.c_str()));
 	}
 }
+*/
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {
@@ -239,34 +241,7 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 		return 0;
 	}
 
-	char msgId[16], szMsgId[33];
-	Utils_GetRandom(msgId, sizeof(msgId));
-	bin2hex(msgId, sizeof(msgId), szMsgId);
-
-	auto *key = new proto::MessageKey();
-	key->set_remotejid(jid);
-	key->set_fromme(true);
-	key->set_id(szMsgId);
-
-	proto::WebMessageInfo msg;
-	msg.set_allocated_key(key);
-	msg.mutable_message()->set_conversation(pszMsg);
-	msg.set_messagetimestamp(_time64(0));
-
-	size_t cbBinaryLen = msg.ByteSizeLong();
-	mir_ptr<BYTE> pBuf((BYTE *)mir_alloc(cbBinaryLen));
-	msg.SerializeToArray(pBuf, (int)cbBinaryLen);
-
-	WANode payLoad;
-	payLoad.title = "action";
-	payLoad.addAttr("type", "relay");
-	payLoad.content.assign(pBuf, cbBinaryLen);
-	
-	int pktId = WSSendNode(payLoad);
-
-	mir_cslock lck(m_csOwnMessages);
-	m_arOwnMsgs.insert(new WAOwnMessage(pktId, hContact, szMsgId));
-	return pktId;
+	return SendTextMessage(jid, pszMsg);
 }
 
 int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)

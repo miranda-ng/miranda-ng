@@ -104,6 +104,9 @@ WANode *WANode::addChild(const char *pszName)
 
 WANode* WANode::getChild(const char *pszName) const
 {
+	if (this == nullptr)
+		return nullptr;
+
 	for (auto &it : children)
 		if (it->title == pszName)
 			return it;
