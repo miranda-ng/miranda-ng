@@ -137,8 +137,8 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 		if (auto *pIdentity = pRoot->getChild("device-identity")) {
 			proto::ADVSignedDeviceIdentityHMAC payload(pIdentity->content);
 
-			auto &hmac = payload.hmac;
-			auto &details = payload.details;
+			auto &hmac = payload->hmac;
+			auto &details = payload->details;
 			{
 				// check details signature using HMAC
 				uint8_t signature[32];
@@ -151,9 +151,9 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 			proto::ADVSignedDeviceIdentity account(details);
 
-			auto &deviceDetails = account.details;
-			auto &accountSignature = account.accountsignature;
-			auto &accountSignatureKey = account.accountsignaturekey;
+			auto &deviceDetails = account->details;
+			auto &accountSignature = account->accountsignature;
+			auto &accountSignatureKey = account->accountsignaturekey;
 			{
 				MBinBuffer buf;
 				buf.append("\x06\x00", 2);
@@ -179,8 +179,8 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
-				account.devicesignature = proto::SetBinary(result->data, result->len);
-				account.has_devicesignature = true;
+				account->devicesignature = proto::SetBinary(result->data, result->len);
+				account->has_devicesignature = true;
 				signal_buffer_free(result);
 			}
 
@@ -193,7 +193,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				db_set_blob(0, m_szModuleName, "SignalIdentifierKey", key.data(), (int)key.length());
 			}
 
-			proto::CleanBinary(account.accountsignaturekey); account.has_accountsignaturekey = false;
+			proto::CleanBinary(account->accountsignaturekey); account->has_accountsignaturekey = false;
 			MBinBuffer accountEnc(proto::Serialize(account));
 
 			proto::ADVDeviceIdentity deviceIdentity(deviceDetails);
@@ -203,7 +203,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			WANode *nodePair = reply.addChild("pair-device-sign");
 
 			WANode *nodeDeviceIdentity = nodePair->addChild("device-identity");
-			nodeDeviceIdentity->addAttr("key-index", deviceIdentity.keyindex);
+			nodeDeviceIdentity->addAttr("key-index", deviceIdentity->keyindex);
 			nodeDeviceIdentity->content.append(accountEnc.data(), accountEnc.length());
 			WSSendNode(reply);
 		}
@@ -263,9 +263,9 @@ LBL_Error:
 		return;
 	}
 
-	auto &static_ = msg.serverhello->static_;
-	auto &payload_ = msg.serverhello->payload;
-	auto &ephemeral_ = msg.serverhello->ephemeral;
+	auto &static_ = msg->serverhello->static_;
+	auto &payload_ = msg->serverhello->payload;
+	auto &ephemeral_ = msg->serverhello->ephemeral;
 
 	m_noise->updateHash(ephemeral_.data, ephemeral_.len);
 	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), ephemeral_.data);
@@ -274,8 +274,8 @@ LBL_Error:
 	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), decryptedStatic.data());
 
 	proto::CertChain cert(m_noise->decrypt(payload_.data, payload_.len));
-	proto::CertChain__NoiseCertificate__Details details(cert.intermediate->details);
-	if (details.issuerserial != 0) {
+	proto::CertChain__NoiseCertificate__Details details(cert->intermediate->details);
+	if (details->issuerserial != 0) {
 		debugLogA("Invalid certificate serial number, exiting");
 		goto LBL_Error;
 	}
@@ -309,7 +309,7 @@ LBL_Error:
 		companion.platformtype = WA__DEVICE_PROPS__PLATFORM_TYPE__DESKTOP; companion.has_platformtype = true;
 		companion.requirefullsync = false; companion.has_requirefullsync = true;
 
-		MBinBuffer buf(proto::Serialize((ProtobufCMessage*)&companion));
+		MBinBuffer buf(proto::Serialize(&companion));
 		auto szRegId(encodeBigEndian(getDword(DBKEY_REG_ID)));
 		auto szKeyId(encodeBigEndian(m_signalStore.preKey.keyid));
 
@@ -360,7 +360,7 @@ LBL_Error:
 	node.useragent = &userAgent;
 	node.webinfo = &webInfo;
 
-	MBinBuffer payload(proto::Serialize((ProtobufCMessage*)&node));
+	MBinBuffer payload(proto::Serialize(&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
 
 	Wa__HandshakeMessage__ClientFinish finish = WA__HANDSHAKE_MESSAGE__CLIENT_FINISH__INIT;
@@ -369,7 +369,7 @@ LBL_Error:
 
 	Wa__HandshakeMessage handshake = WA__HANDSHAKE_MESSAGE__INIT;
 	handshake.clientfinish = &finish;
-	WSSend((ProtobufCMessage *)&handshake);
+	WSSend(handshake);
 
 	m_noise->finish();
 }

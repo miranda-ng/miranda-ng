@@ -54,8 +54,9 @@ void WhatsAppProto::ServerThreadWorker()
 	client.ephemeral = {m_noise->ephemeral.pub.length(), m_noise->ephemeral.pub.data()};
 	client.has_ephemeral = true;
 
-	Wa__HandshakeMessage msg; msg.clienthello = &client;
-	WSSend((ProtobufCMessage*)&msg);
+	Wa__HandshakeMessage msg = WA__HANDSHAKE_MESSAGE__INIT;
+	msg.clienthello = &client;
+	WSSend(msg);
 
 	MBinBuffer netbuf;
 

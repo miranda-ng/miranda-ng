@@ -3,27 +3,27 @@
 namespace proto
 {
 	#define PROTOBUF_PTR(T,D) \
-	class T : public _Wa__##T { \
-	T* p; \
+	class T { \
+	Wa__##T* p; \
 	public: \
-	T(const MBinBuffer &buf) : p((T*)protobuf_c_message_unpack(&D, 0, buf.length(), buf.data())) {} \
-	T(const ProtobufCBinaryData &data) : p((T*)protobuf_c_message_unpack(&D, 0, data.len, data.data)) {} \
-	T(const uint8_t *pData, size_t len) : p((T*)protobuf_c_message_unpack(&D, 0, len, pData)) {} \
-	~T() { protobuf_c_message_free_unpacked((ProtobufCMessage*)p,0); } \
-	operator T& () const { return *p; } \
-	operator const ProtobufCMessage*() const { return (const ProtobufCMessage*)p; } \
+	T(const MBinBuffer &buf) : p((Wa__##T*)protobuf_c_message_unpack(&D, 0, buf.length(), buf.data())) {} \
+	T(const ProtobufCBinaryData &data) : p((Wa__##T*)protobuf_c_message_unpack(&D, 0, data.len, data.data)) {} \
+	T(const uint8_t *pData, size_t len) : p((Wa__##T*)protobuf_c_message_unpack(&D, 0, len, pData)) {} \
+	~T() { protobuf_c_message_free_unpacked(p,0); } \
+	Wa__##T* operator->() const { return p; } \
+	operator Wa__##T*() const { return p; } \
 	};
 
-	struct SyncActionValue : public _Wa__SyncActionValue
+	struct SyncActionValue : public Wa__SyncActionValue
 	{ };
 
-	struct SyncdRecord : public _Wa__SyncdRecord
+	struct SyncdRecord : public Wa__SyncdRecord
 	{ };
 
-	struct SenderKeyDistributionMessage : public _Wa__Message__SenderKeyDistributionMessage
+	struct SenderKeyDistributionMessage : public Wa__Message__SenderKeyDistributionMessage
 	{ };
 
-	struct WebMessageInfo : public _Wa__WebMessageInfo
+	struct WebMessageInfo : public Wa__WebMessageInfo
 	{ };
 
 	PROTOBUF_PTR(ADVDeviceIdentity, wa__advdevice_identity__descriptor);

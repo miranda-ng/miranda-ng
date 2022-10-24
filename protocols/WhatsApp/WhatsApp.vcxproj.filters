@@ -53,7 +53,7 @@
     <ClCompile Include="src\appsync.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\pmsg.pb-c.c">
+    <ClCompile Include="src\pmsg.pb-c.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\protobuf-c\protobuf-c.c">

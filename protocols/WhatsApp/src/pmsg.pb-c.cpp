@@ -16,21 +16,21 @@ void   wa__advdevice_identity__init
 size_t wa__advdevice_identity__get_packed_size
                      (const Wa__ADVDeviceIdentity *message)
 {
-  assert(message->base.descriptor == &wa__advdevice_identity__descriptor);
+  assert(message->descriptor == &wa__advdevice_identity__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__advdevice_identity__pack
                      (const Wa__ADVDeviceIdentity *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__advdevice_identity__descriptor);
+  assert(message->descriptor == &wa__advdevice_identity__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__advdevice_identity__pack_to_buffer
                      (const Wa__ADVDeviceIdentity *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__advdevice_identity__descriptor);
+  assert(message->descriptor == &wa__advdevice_identity__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ADVDeviceIdentity *
@@ -49,7 +49,7 @@ void   wa__advdevice_identity__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__advdevice_identity__descriptor);
+  assert(message->descriptor == &wa__advdevice_identity__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__advkey_index_list__init
@@ -61,21 +61,21 @@ void   wa__advkey_index_list__init
 size_t wa__advkey_index_list__get_packed_size
                      (const Wa__ADVKeyIndexList *message)
 {
-  assert(message->base.descriptor == &wa__advkey_index_list__descriptor);
+  assert(message->descriptor == &wa__advkey_index_list__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__advkey_index_list__pack
                      (const Wa__ADVKeyIndexList *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__advkey_index_list__descriptor);
+  assert(message->descriptor == &wa__advkey_index_list__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__advkey_index_list__pack_to_buffer
                      (const Wa__ADVKeyIndexList *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__advkey_index_list__descriptor);
+  assert(message->descriptor == &wa__advkey_index_list__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ADVKeyIndexList *
@@ -94,7 +94,7 @@ void   wa__advkey_index_list__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__advkey_index_list__descriptor);
+  assert(message->descriptor == &wa__advkey_index_list__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__advsigned_device_identity__init
@@ -106,21 +106,21 @@ void   wa__advsigned_device_identity__init
 size_t wa__advsigned_device_identity__get_packed_size
                      (const Wa__ADVSignedDeviceIdentity *message)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__advsigned_device_identity__pack
                      (const Wa__ADVSignedDeviceIdentity *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__advsigned_device_identity__pack_to_buffer
                      (const Wa__ADVSignedDeviceIdentity *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ADVSignedDeviceIdentity *
@@ -139,7 +139,7 @@ void   wa__advsigned_device_identity__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__advsigned_device_identity__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__advsigned_device_identity_hmac__init
@@ -151,21 +151,21 @@ void   wa__advsigned_device_identity_hmac__init
 size_t wa__advsigned_device_identity_hmac__get_packed_size
                      (const Wa__ADVSignedDeviceIdentityHMAC *message)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity_hmac__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity_hmac__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__advsigned_device_identity_hmac__pack
                      (const Wa__ADVSignedDeviceIdentityHMAC *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity_hmac__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity_hmac__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__advsigned_device_identity_hmac__pack_to_buffer
                      (const Wa__ADVSignedDeviceIdentityHMAC *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__advsigned_device_identity_hmac__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity_hmac__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ADVSignedDeviceIdentityHMAC *
@@ -184,7 +184,7 @@ void   wa__advsigned_device_identity_hmac__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__advsigned_device_identity_hmac__descriptor);
+  assert(message->descriptor == &wa__advsigned_device_identity_hmac__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__advsigned_key_index_list__init
@@ -196,21 +196,21 @@ void   wa__advsigned_key_index_list__init
 size_t wa__advsigned_key_index_list__get_packed_size
                      (const Wa__ADVSignedKeyIndexList *message)
 {
-  assert(message->base.descriptor == &wa__advsigned_key_index_list__descriptor);
+  assert(message->descriptor == &wa__advsigned_key_index_list__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__advsigned_key_index_list__pack
                      (const Wa__ADVSignedKeyIndexList *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__advsigned_key_index_list__descriptor);
+  assert(message->descriptor == &wa__advsigned_key_index_list__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__advsigned_key_index_list__pack_to_buffer
                      (const Wa__ADVSignedKeyIndexList *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__advsigned_key_index_list__descriptor);
+  assert(message->descriptor == &wa__advsigned_key_index_list__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ADVSignedKeyIndexList *
@@ -229,7 +229,7 @@ void   wa__advsigned_key_index_list__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__advsigned_key_index_list__descriptor);
+  assert(message->descriptor == &wa__advsigned_key_index_list__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__action_link__init
@@ -241,21 +241,21 @@ void   wa__action_link__init
 size_t wa__action_link__get_packed_size
                      (const Wa__ActionLink *message)
 {
-  assert(message->base.descriptor == &wa__action_link__descriptor);
+  assert(message->descriptor == &wa__action_link__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__action_link__pack
                      (const Wa__ActionLink *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__action_link__descriptor);
+  assert(message->descriptor == &wa__action_link__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__action_link__pack_to_buffer
                      (const Wa__ActionLink *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__action_link__descriptor);
+  assert(message->descriptor == &wa__action_link__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ActionLink *
@@ -274,7 +274,7 @@ void   wa__action_link__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__action_link__descriptor);
+  assert(message->descriptor == &wa__action_link__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__auto_download_settings__init
@@ -286,21 +286,21 @@ void   wa__auto_download_settings__init
 size_t wa__auto_download_settings__get_packed_size
                      (const Wa__AutoDownloadSettings *message)
 {
-  assert(message->base.descriptor == &wa__auto_download_settings__descriptor);
+  assert(message->descriptor == &wa__auto_download_settings__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__auto_download_settings__pack
                      (const Wa__AutoDownloadSettings *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__auto_download_settings__descriptor);
+  assert(message->descriptor == &wa__auto_download_settings__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__auto_download_settings__pack_to_buffer
                      (const Wa__AutoDownloadSettings *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__auto_download_settings__descriptor);
+  assert(message->descriptor == &wa__auto_download_settings__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__AutoDownloadSettings *
@@ -319,7 +319,7 @@ void   wa__auto_download_settings__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__auto_download_settings__descriptor);
+  assert(message->descriptor == &wa__auto_download_settings__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__biz_account_link_info__init
@@ -331,21 +331,21 @@ void   wa__biz_account_link_info__init
 size_t wa__biz_account_link_info__get_packed_size
                      (const Wa__BizAccountLinkInfo *message)
 {
-  assert(message->base.descriptor == &wa__biz_account_link_info__descriptor);
+  assert(message->descriptor == &wa__biz_account_link_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__biz_account_link_info__pack
                      (const Wa__BizAccountLinkInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__biz_account_link_info__descriptor);
+  assert(message->descriptor == &wa__biz_account_link_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__biz_account_link_info__pack_to_buffer
                      (const Wa__BizAccountLinkInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__biz_account_link_info__descriptor);
+  assert(message->descriptor == &wa__biz_account_link_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__BizAccountLinkInfo *
@@ -364,7 +364,7 @@ void   wa__biz_account_link_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__biz_account_link_info__descriptor);
+  assert(message->descriptor == &wa__biz_account_link_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__biz_account_payload__init
@@ -376,21 +376,21 @@ void   wa__biz_account_payload__init
 size_t wa__biz_account_payload__get_packed_size
                      (const Wa__BizAccountPayload *message)
 {
-  assert(message->base.descriptor == &wa__biz_account_payload__descriptor);
+  assert(message->descriptor == &wa__biz_account_payload__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__biz_account_payload__pack
                      (const Wa__BizAccountPayload *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__biz_account_payload__descriptor);
+  assert(message->descriptor == &wa__biz_account_payload__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__biz_account_payload__pack_to_buffer
                      (const Wa__BizAccountPayload *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__biz_account_payload__descriptor);
+  assert(message->descriptor == &wa__biz_account_payload__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__BizAccountPayload *
@@ -409,7 +409,7 @@ void   wa__biz_account_payload__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__biz_account_payload__descriptor);
+  assert(message->descriptor == &wa__biz_account_payload__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__biz_identity_info__init
@@ -421,21 +421,21 @@ void   wa__biz_identity_info__init
 size_t wa__biz_identity_info__get_packed_size
                      (const Wa__BizIdentityInfo *message)
 {
-  assert(message->base.descriptor == &wa__biz_identity_info__descriptor);
+  assert(message->descriptor == &wa__biz_identity_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__biz_identity_info__pack
                      (const Wa__BizIdentityInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__biz_identity_info__descriptor);
+  assert(message->descriptor == &wa__biz_identity_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__biz_identity_info__pack_to_buffer
                      (const Wa__BizIdentityInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__biz_identity_info__descriptor);
+  assert(message->descriptor == &wa__biz_identity_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__BizIdentityInfo *
@@ -454,7 +454,7 @@ void   wa__biz_identity_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__biz_identity_info__descriptor);
+  assert(message->descriptor == &wa__biz_identity_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__cert_chain__noise_certificate__details__init
@@ -478,21 +478,21 @@ void   wa__cert_chain__init
 size_t wa__cert_chain__get_packed_size
                      (const Wa__CertChain *message)
 {
-  assert(message->base.descriptor == &wa__cert_chain__descriptor);
+  assert(message->descriptor == &wa__cert_chain__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__cert_chain__pack
                      (const Wa__CertChain *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__cert_chain__descriptor);
+  assert(message->descriptor == &wa__cert_chain__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__cert_chain__pack_to_buffer
                      (const Wa__CertChain *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__cert_chain__descriptor);
+  assert(message->descriptor == &wa__cert_chain__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__CertChain *
@@ -511,7 +511,7 @@ void   wa__cert_chain__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__cert_chain__descriptor);
+  assert(message->descriptor == &wa__cert_chain__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__chain__init
@@ -523,21 +523,21 @@ void   wa__chain__init
 size_t wa__chain__get_packed_size
                      (const Wa__Chain *message)
 {
-  assert(message->base.descriptor == &wa__chain__descriptor);
+  assert(message->descriptor == &wa__chain__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__chain__pack
                      (const Wa__Chain *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__chain__descriptor);
+  assert(message->descriptor == &wa__chain__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__chain__pack_to_buffer
                      (const Wa__Chain *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__chain__descriptor);
+  assert(message->descriptor == &wa__chain__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Chain *
@@ -556,7 +556,7 @@ void   wa__chain__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__chain__descriptor);
+  assert(message->descriptor == &wa__chain__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__chain_key__init
@@ -568,21 +568,21 @@ void   wa__chain_key__init
 size_t wa__chain_key__get_packed_size
                      (const Wa__ChainKey *message)
 {
-  assert(message->base.descriptor == &wa__chain_key__descriptor);
+  assert(message->descriptor == &wa__chain_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__chain_key__pack
                      (const Wa__ChainKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__chain_key__descriptor);
+  assert(message->descriptor == &wa__chain_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__chain_key__pack_to_buffer
                      (const Wa__ChainKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__chain_key__descriptor);
+  assert(message->descriptor == &wa__chain_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ChainKey *
@@ -601,7 +601,7 @@ void   wa__chain_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__chain_key__descriptor);
+  assert(message->descriptor == &wa__chain_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__client_payload__dnssource__init
@@ -649,21 +649,21 @@ void   wa__client_payload__init
 size_t wa__client_payload__get_packed_size
                      (const Wa__ClientPayload *message)
 {
-  assert(message->base.descriptor == &wa__client_payload__descriptor);
+  assert(message->descriptor == &wa__client_payload__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__client_payload__pack
                      (const Wa__ClientPayload *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__client_payload__descriptor);
+  assert(message->descriptor == &wa__client_payload__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__client_payload__pack_to_buffer
                      (const Wa__ClientPayload *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__client_payload__descriptor);
+  assert(message->descriptor == &wa__client_payload__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ClientPayload *
@@ -682,7 +682,7 @@ void   wa__client_payload__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__client_payload__descriptor);
+  assert(message->descriptor == &wa__client_payload__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__context_info__ad_reply_info__init
@@ -706,21 +706,21 @@ void   wa__context_info__init
 size_t wa__context_info__get_packed_size
                      (const Wa__ContextInfo *message)
 {
-  assert(message->base.descriptor == &wa__context_info__descriptor);
+  assert(message->descriptor == &wa__context_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__context_info__pack
                      (const Wa__ContextInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__context_info__descriptor);
+  assert(message->descriptor == &wa__context_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__context_info__pack_to_buffer
                      (const Wa__ContextInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__context_info__descriptor);
+  assert(message->descriptor == &wa__context_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ContextInfo *
@@ -739,7 +739,7 @@ void   wa__context_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__context_info__descriptor);
+  assert(message->descriptor == &wa__context_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__conversation__init
@@ -751,21 +751,21 @@ void   wa__conversation__init
 size_t wa__conversation__get_packed_size
                      (const Wa__Conversation *message)
 {
-  assert(message->base.descriptor == &wa__conversation__descriptor);
+  assert(message->descriptor == &wa__conversation__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__conversation__pack
                      (const Wa__Conversation *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__conversation__descriptor);
+  assert(message->descriptor == &wa__conversation__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__conversation__pack_to_buffer
                      (const Wa__Conversation *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__conversation__descriptor);
+  assert(message->descriptor == &wa__conversation__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Conversation *
@@ -784,7 +784,7 @@ void   wa__conversation__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__conversation__descriptor);
+  assert(message->descriptor == &wa__conversation__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__device_list_metadata__init
@@ -796,21 +796,21 @@ void   wa__device_list_metadata__init
 size_t wa__device_list_metadata__get_packed_size
                      (const Wa__DeviceListMetadata *message)
 {
-  assert(message->base.descriptor == &wa__device_list_metadata__descriptor);
+  assert(message->descriptor == &wa__device_list_metadata__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__device_list_metadata__pack
                      (const Wa__DeviceListMetadata *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__device_list_metadata__descriptor);
+  assert(message->descriptor == &wa__device_list_metadata__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__device_list_metadata__pack_to_buffer
                      (const Wa__DeviceListMetadata *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__device_list_metadata__descriptor);
+  assert(message->descriptor == &wa__device_list_metadata__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__DeviceListMetadata *
@@ -829,7 +829,7 @@ void   wa__device_list_metadata__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__device_list_metadata__descriptor);
+  assert(message->descriptor == &wa__device_list_metadata__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__device_props__app_version__init
@@ -847,21 +847,21 @@ void   wa__device_props__init
 size_t wa__device_props__get_packed_size
                      (const Wa__DeviceProps *message)
 {
-  assert(message->base.descriptor == &wa__device_props__descriptor);
+  assert(message->descriptor == &wa__device_props__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__device_props__pack
                      (const Wa__DeviceProps *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__device_props__descriptor);
+  assert(message->descriptor == &wa__device_props__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__device_props__pack_to_buffer
                      (const Wa__DeviceProps *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__device_props__descriptor);
+  assert(message->descriptor == &wa__device_props__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__DeviceProps *
@@ -880,7 +880,7 @@ void   wa__device_props__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__device_props__descriptor);
+  assert(message->descriptor == &wa__device_props__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__disappearing_mode__init
@@ -892,21 +892,21 @@ void   wa__disappearing_mode__init
 size_t wa__disappearing_mode__get_packed_size
                      (const Wa__DisappearingMode *message)
 {
-  assert(message->base.descriptor == &wa__disappearing_mode__descriptor);
+  assert(message->descriptor == &wa__disappearing_mode__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__disappearing_mode__pack
                      (const Wa__DisappearingMode *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__disappearing_mode__descriptor);
+  assert(message->descriptor == &wa__disappearing_mode__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__disappearing_mode__pack_to_buffer
                      (const Wa__DisappearingMode *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__disappearing_mode__descriptor);
+  assert(message->descriptor == &wa__disappearing_mode__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__DisappearingMode *
@@ -925,7 +925,7 @@ void   wa__disappearing_mode__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__disappearing_mode__descriptor);
+  assert(message->descriptor == &wa__disappearing_mode__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__ephemeral_setting__init
@@ -937,21 +937,21 @@ void   wa__ephemeral_setting__init
 size_t wa__ephemeral_setting__get_packed_size
                      (const Wa__EphemeralSetting *message)
 {
-  assert(message->base.descriptor == &wa__ephemeral_setting__descriptor);
+  assert(message->descriptor == &wa__ephemeral_setting__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__ephemeral_setting__pack
                      (const Wa__EphemeralSetting *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__ephemeral_setting__descriptor);
+  assert(message->descriptor == &wa__ephemeral_setting__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__ephemeral_setting__pack_to_buffer
                      (const Wa__EphemeralSetting *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__ephemeral_setting__descriptor);
+  assert(message->descriptor == &wa__ephemeral_setting__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__EphemeralSetting *
@@ -970,7 +970,7 @@ void   wa__ephemeral_setting__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__ephemeral_setting__descriptor);
+  assert(message->descriptor == &wa__ephemeral_setting__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__exit_code__init
@@ -982,21 +982,21 @@ void   wa__exit_code__init
 size_t wa__exit_code__get_packed_size
                      (const Wa__ExitCode *message)
 {
-  assert(message->base.descriptor == &wa__exit_code__descriptor);
+  assert(message->descriptor == &wa__exit_code__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__exit_code__pack
                      (const Wa__ExitCode *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__exit_code__descriptor);
+  assert(message->descriptor == &wa__exit_code__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__exit_code__pack_to_buffer
                      (const Wa__ExitCode *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__exit_code__descriptor);
+  assert(message->descriptor == &wa__exit_code__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ExitCode *
@@ -1015,7 +1015,7 @@ void   wa__exit_code__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__exit_code__descriptor);
+  assert(message->descriptor == &wa__exit_code__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__external_blob_reference__init
@@ -1027,21 +1027,21 @@ void   wa__external_blob_reference__init
 size_t wa__external_blob_reference__get_packed_size
                      (const Wa__ExternalBlobReference *message)
 {
-  assert(message->base.descriptor == &wa__external_blob_reference__descriptor);
+  assert(message->descriptor == &wa__external_blob_reference__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__external_blob_reference__pack
                      (const Wa__ExternalBlobReference *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__external_blob_reference__descriptor);
+  assert(message->descriptor == &wa__external_blob_reference__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__external_blob_reference__pack_to_buffer
                      (const Wa__ExternalBlobReference *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__external_blob_reference__descriptor);
+  assert(message->descriptor == &wa__external_blob_reference__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ExternalBlobReference *
@@ -1060,7 +1060,7 @@ void   wa__external_blob_reference__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__external_blob_reference__descriptor);
+  assert(message->descriptor == &wa__external_blob_reference__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__global_settings__init
@@ -1072,21 +1072,21 @@ void   wa__global_settings__init
 size_t wa__global_settings__get_packed_size
                      (const Wa__GlobalSettings *message)
 {
-  assert(message->base.descriptor == &wa__global_settings__descriptor);
+  assert(message->descriptor == &wa__global_settings__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__global_settings__pack
                      (const Wa__GlobalSettings *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__global_settings__descriptor);
+  assert(message->descriptor == &wa__global_settings__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__global_settings__pack_to_buffer
                      (const Wa__GlobalSettings *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__global_settings__descriptor);
+  assert(message->descriptor == &wa__global_settings__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__GlobalSettings *
@@ -1105,7 +1105,7 @@ void   wa__global_settings__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__global_settings__descriptor);
+  assert(message->descriptor == &wa__global_settings__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__group_participant__init
@@ -1117,21 +1117,21 @@ void   wa__group_participant__init
 size_t wa__group_participant__get_packed_size
                      (const Wa__GroupParticipant *message)
 {
-  assert(message->base.descriptor == &wa__group_participant__descriptor);
+  assert(message->descriptor == &wa__group_participant__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__group_participant__pack
                      (const Wa__GroupParticipant *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__group_participant__descriptor);
+  assert(message->descriptor == &wa__group_participant__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__group_participant__pack_to_buffer
                      (const Wa__GroupParticipant *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__group_participant__descriptor);
+  assert(message->descriptor == &wa__group_participant__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__GroupParticipant *
@@ -1150,7 +1150,7 @@ void   wa__group_participant__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__group_participant__descriptor);
+  assert(message->descriptor == &wa__group_participant__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__handshake_message__client_finish__init
@@ -1180,21 +1180,21 @@ void   wa__handshake_message__init
 size_t wa__handshake_message__get_packed_size
                      (const Wa__HandshakeMessage *message)
 {
-  assert(message->base.descriptor == &wa__handshake_message__descriptor);
+  assert(message->descriptor == &wa__handshake_message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__handshake_message__pack
                      (const Wa__HandshakeMessage *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__handshake_message__descriptor);
+  assert(message->descriptor == &wa__handshake_message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__handshake_message__pack_to_buffer
                      (const Wa__HandshakeMessage *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__handshake_message__descriptor);
+  assert(message->descriptor == &wa__handshake_message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__HandshakeMessage *
@@ -1213,7 +1213,7 @@ void   wa__handshake_message__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__handshake_message__descriptor);
+  assert(message->descriptor == &wa__handshake_message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__history_sync__init
@@ -1225,21 +1225,21 @@ void   wa__history_sync__init
 size_t wa__history_sync__get_packed_size
                      (const Wa__HistorySync *message)
 {
-  assert(message->base.descriptor == &wa__history_sync__descriptor);
+  assert(message->descriptor == &wa__history_sync__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__history_sync__pack
                      (const Wa__HistorySync *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__history_sync__descriptor);
+  assert(message->descriptor == &wa__history_sync__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__history_sync__pack_to_buffer
                      (const Wa__HistorySync *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__history_sync__descriptor);
+  assert(message->descriptor == &wa__history_sync__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__HistorySync *
@@ -1258,7 +1258,7 @@ void   wa__history_sync__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__history_sync__descriptor);
+  assert(message->descriptor == &wa__history_sync__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__history_sync_msg__init
@@ -1270,21 +1270,21 @@ void   wa__history_sync_msg__init
 size_t wa__history_sync_msg__get_packed_size
                      (const Wa__HistorySyncMsg *message)
 {
-  assert(message->base.descriptor == &wa__history_sync_msg__descriptor);
+  assert(message->descriptor == &wa__history_sync_msg__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__history_sync_msg__pack
                      (const Wa__HistorySyncMsg *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__history_sync_msg__descriptor);
+  assert(message->descriptor == &wa__history_sync_msg__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__history_sync_msg__pack_to_buffer
                      (const Wa__HistorySyncMsg *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__history_sync_msg__descriptor);
+  assert(message->descriptor == &wa__history_sync_msg__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__HistorySyncMsg *
@@ -1303,7 +1303,7 @@ void   wa__history_sync_msg__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__history_sync_msg__descriptor);
+  assert(message->descriptor == &wa__history_sync_msg__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__hydrated_template_button__hydrated_call_button__init
@@ -1333,21 +1333,21 @@ void   wa__hydrated_template_button__init
 size_t wa__hydrated_template_button__get_packed_size
                      (const Wa__HydratedTemplateButton *message)
 {
-  assert(message->base.descriptor == &wa__hydrated_template_button__descriptor);
+  assert(message->descriptor == &wa__hydrated_template_button__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__hydrated_template_button__pack
                      (const Wa__HydratedTemplateButton *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__hydrated_template_button__descriptor);
+  assert(message->descriptor == &wa__hydrated_template_button__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__hydrated_template_button__pack_to_buffer
                      (const Wa__HydratedTemplateButton *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__hydrated_template_button__descriptor);
+  assert(message->descriptor == &wa__hydrated_template_button__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__HydratedTemplateButton *
@@ -1366,7 +1366,7 @@ void   wa__hydrated_template_button__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__hydrated_template_button__descriptor);
+  assert(message->descriptor == &wa__hydrated_template_button__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__identity_key_pair_structure__init
@@ -1378,21 +1378,21 @@ void   wa__identity_key_pair_structure__init
 size_t wa__identity_key_pair_structure__get_packed_size
                      (const Wa__IdentityKeyPairStructure *message)
 {
-  assert(message->base.descriptor == &wa__identity_key_pair_structure__descriptor);
+  assert(message->descriptor == &wa__identity_key_pair_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__identity_key_pair_structure__pack
                      (const Wa__IdentityKeyPairStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__identity_key_pair_structure__descriptor);
+  assert(message->descriptor == &wa__identity_key_pair_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__identity_key_pair_structure__pack_to_buffer
                      (const Wa__IdentityKeyPairStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__identity_key_pair_structure__descriptor);
+  assert(message->descriptor == &wa__identity_key_pair_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__IdentityKeyPairStructure *
@@ -1411,7 +1411,7 @@ void   wa__identity_key_pair_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__identity_key_pair_structure__descriptor);
+  assert(message->descriptor == &wa__identity_key_pair_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__interactive_annotation__init
@@ -1423,21 +1423,21 @@ void   wa__interactive_annotation__init
 size_t wa__interactive_annotation__get_packed_size
                      (const Wa__InteractiveAnnotation *message)
 {
-  assert(message->base.descriptor == &wa__interactive_annotation__descriptor);
+  assert(message->descriptor == &wa__interactive_annotation__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__interactive_annotation__pack
                      (const Wa__InteractiveAnnotation *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__interactive_annotation__descriptor);
+  assert(message->descriptor == &wa__interactive_annotation__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__interactive_annotation__pack_to_buffer
                      (const Wa__InteractiveAnnotation *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__interactive_annotation__descriptor);
+  assert(message->descriptor == &wa__interactive_annotation__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__InteractiveAnnotation *
@@ -1456,7 +1456,7 @@ void   wa__interactive_annotation__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__interactive_annotation__descriptor);
+  assert(message->descriptor == &wa__interactive_annotation__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__keep_in_chat__init
@@ -1468,21 +1468,21 @@ void   wa__keep_in_chat__init
 size_t wa__keep_in_chat__get_packed_size
                      (const Wa__KeepInChat *message)
 {
-  assert(message->base.descriptor == &wa__keep_in_chat__descriptor);
+  assert(message->descriptor == &wa__keep_in_chat__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__keep_in_chat__pack
                      (const Wa__KeepInChat *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__keep_in_chat__descriptor);
+  assert(message->descriptor == &wa__keep_in_chat__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__keep_in_chat__pack_to_buffer
                      (const Wa__KeepInChat *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__keep_in_chat__descriptor);
+  assert(message->descriptor == &wa__keep_in_chat__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__KeepInChat *
@@ -1501,7 +1501,7 @@ void   wa__keep_in_chat__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__keep_in_chat__descriptor);
+  assert(message->descriptor == &wa__keep_in_chat__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__key_id__init
@@ -1513,21 +1513,21 @@ void   wa__key_id__init
 size_t wa__key_id__get_packed_size
                      (const Wa__KeyId *message)
 {
-  assert(message->base.descriptor == &wa__key_id__descriptor);
+  assert(message->descriptor == &wa__key_id__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__key_id__pack
                      (const Wa__KeyId *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__key_id__descriptor);
+  assert(message->descriptor == &wa__key_id__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__key_id__pack_to_buffer
                      (const Wa__KeyId *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__key_id__descriptor);
+  assert(message->descriptor == &wa__key_id__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__KeyId *
@@ -1546,7 +1546,7 @@ void   wa__key_id__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__key_id__descriptor);
+  assert(message->descriptor == &wa__key_id__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__localized_name__init
@@ -1558,21 +1558,21 @@ void   wa__localized_name__init
 size_t wa__localized_name__get_packed_size
                      (const Wa__LocalizedName *message)
 {
-  assert(message->base.descriptor == &wa__localized_name__descriptor);
+  assert(message->descriptor == &wa__localized_name__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__localized_name__pack
                      (const Wa__LocalizedName *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__localized_name__descriptor);
+  assert(message->descriptor == &wa__localized_name__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__localized_name__pack_to_buffer
                      (const Wa__LocalizedName *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__localized_name__descriptor);
+  assert(message->descriptor == &wa__localized_name__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__LocalizedName *
@@ -1591,7 +1591,7 @@ void   wa__localized_name__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__localized_name__descriptor);
+  assert(message->descriptor == &wa__localized_name__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__location__init
@@ -1603,21 +1603,21 @@ void   wa__location__init
 size_t wa__location__get_packed_size
                      (const Wa__Location *message)
 {
-  assert(message->base.descriptor == &wa__location__descriptor);
+  assert(message->descriptor == &wa__location__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__location__pack
                      (const Wa__Location *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__location__descriptor);
+  assert(message->descriptor == &wa__location__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__location__pack_to_buffer
                      (const Wa__Location *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__location__descriptor);
+  assert(message->descriptor == &wa__location__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Location *
@@ -1636,7 +1636,7 @@ void   wa__location__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__location__descriptor);
+  assert(message->descriptor == &wa__location__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__media_data__init
@@ -1648,21 +1648,21 @@ void   wa__media_data__init
 size_t wa__media_data__get_packed_size
                      (const Wa__MediaData *message)
 {
-  assert(message->base.descriptor == &wa__media_data__descriptor);
+  assert(message->descriptor == &wa__media_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__media_data__pack
                      (const Wa__MediaData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__media_data__descriptor);
+  assert(message->descriptor == &wa__media_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__media_data__pack_to_buffer
                      (const Wa__MediaData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__media_data__descriptor);
+  assert(message->descriptor == &wa__media_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MediaData *
@@ -1681,7 +1681,7 @@ void   wa__media_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__media_data__descriptor);
+  assert(message->descriptor == &wa__media_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__media_retry_notification__init
@@ -1693,21 +1693,21 @@ void   wa__media_retry_notification__init
 size_t wa__media_retry_notification__get_packed_size
                      (const Wa__MediaRetryNotification *message)
 {
-  assert(message->base.descriptor == &wa__media_retry_notification__descriptor);
+  assert(message->descriptor == &wa__media_retry_notification__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__media_retry_notification__pack
                      (const Wa__MediaRetryNotification *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__media_retry_notification__descriptor);
+  assert(message->descriptor == &wa__media_retry_notification__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__media_retry_notification__pack_to_buffer
                      (const Wa__MediaRetryNotification *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__media_retry_notification__descriptor);
+  assert(message->descriptor == &wa__media_retry_notification__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MediaRetryNotification *
@@ -1726,7 +1726,7 @@ void   wa__media_retry_notification__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__media_retry_notification__descriptor);
+  assert(message->descriptor == &wa__media_retry_notification__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__message__app_state_fatal_exception_notification__init
@@ -2242,21 +2242,21 @@ void   wa__message__init
 size_t wa__message__get_packed_size
                      (const Wa__Message *message)
 {
-  assert(message->base.descriptor == &wa__message__descriptor);
+  assert(message->descriptor == &wa__message__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__message__pack
                      (const Wa__Message *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__message__descriptor);
+  assert(message->descriptor == &wa__message__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__message__pack_to_buffer
                      (const Wa__Message *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__message__descriptor);
+  assert(message->descriptor == &wa__message__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Message *
@@ -2275,7 +2275,7 @@ void   wa__message__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__message__descriptor);
+  assert(message->descriptor == &wa__message__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__message_context_info__init
@@ -2287,21 +2287,21 @@ void   wa__message_context_info__init
 size_t wa__message_context_info__get_packed_size
                      (const Wa__MessageContextInfo *message)
 {
-  assert(message->base.descriptor == &wa__message_context_info__descriptor);
+  assert(message->descriptor == &wa__message_context_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__message_context_info__pack
                      (const Wa__MessageContextInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__message_context_info__descriptor);
+  assert(message->descriptor == &wa__message_context_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__message_context_info__pack_to_buffer
                      (const Wa__MessageContextInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__message_context_info__descriptor);
+  assert(message->descriptor == &wa__message_context_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MessageContextInfo *
@@ -2320,7 +2320,7 @@ void   wa__message_context_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__message_context_info__descriptor);
+  assert(message->descriptor == &wa__message_context_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__message_key__init
@@ -2332,21 +2332,21 @@ void   wa__message_key__init
 size_t wa__message_key__get_packed_size
                      (const Wa__MessageKey *message)
 {
-  assert(message->base.descriptor == &wa__message_key__descriptor);
+  assert(message->descriptor == &wa__message_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__message_key__pack
                      (const Wa__MessageKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__message_key__descriptor);
+  assert(message->descriptor == &wa__message_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__message_key__pack_to_buffer
                      (const Wa__MessageKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__message_key__descriptor);
+  assert(message->descriptor == &wa__message_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MessageKey *
@@ -2365,7 +2365,7 @@ void   wa__message_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__message_key__descriptor);
+  assert(message->descriptor == &wa__message_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__money__init
@@ -2377,21 +2377,21 @@ void   wa__money__init
 size_t wa__money__get_packed_size
                      (const Wa__Money *message)
 {
-  assert(message->base.descriptor == &wa__money__descriptor);
+  assert(message->descriptor == &wa__money__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__money__pack
                      (const Wa__Money *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__money__descriptor);
+  assert(message->descriptor == &wa__money__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__money__pack_to_buffer
                      (const Wa__Money *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__money__descriptor);
+  assert(message->descriptor == &wa__money__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Money *
@@ -2410,7 +2410,7 @@ void   wa__money__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__money__descriptor);
+  assert(message->descriptor == &wa__money__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__msg_opaque_data__poll_option__init
@@ -2428,21 +2428,21 @@ void   wa__msg_opaque_data__init
 size_t wa__msg_opaque_data__get_packed_size
                      (const Wa__MsgOpaqueData *message)
 {
-  assert(message->base.descriptor == &wa__msg_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_opaque_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__msg_opaque_data__pack
                      (const Wa__MsgOpaqueData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__msg_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_opaque_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__msg_opaque_data__pack_to_buffer
                      (const Wa__MsgOpaqueData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__msg_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_opaque_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MsgOpaqueData *
@@ -2461,7 +2461,7 @@ void   wa__msg_opaque_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__msg_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_opaque_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__msg_row_opaque_data__init
@@ -2473,21 +2473,21 @@ void   wa__msg_row_opaque_data__init
 size_t wa__msg_row_opaque_data__get_packed_size
                      (const Wa__MsgRowOpaqueData *message)
 {
-  assert(message->base.descriptor == &wa__msg_row_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_row_opaque_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__msg_row_opaque_data__pack
                      (const Wa__MsgRowOpaqueData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__msg_row_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_row_opaque_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__msg_row_opaque_data__pack_to_buffer
                      (const Wa__MsgRowOpaqueData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__msg_row_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_row_opaque_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__MsgRowOpaqueData *
@@ -2506,7 +2506,7 @@ void   wa__msg_row_opaque_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__msg_row_opaque_data__descriptor);
+  assert(message->descriptor == &wa__msg_row_opaque_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__noise_certificate__details__init
@@ -2524,21 +2524,21 @@ void   wa__noise_certificate__init
 size_t wa__noise_certificate__get_packed_size
                      (const Wa__NoiseCertificate *message)
 {
-  assert(message->base.descriptor == &wa__noise_certificate__descriptor);
+  assert(message->descriptor == &wa__noise_certificate__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__noise_certificate__pack
                      (const Wa__NoiseCertificate *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__noise_certificate__descriptor);
+  assert(message->descriptor == &wa__noise_certificate__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__noise_certificate__pack_to_buffer
                      (const Wa__NoiseCertificate *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__noise_certificate__descriptor);
+  assert(message->descriptor == &wa__noise_certificate__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__NoiseCertificate *
@@ -2557,7 +2557,7 @@ void   wa__noise_certificate__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__noise_certificate__descriptor);
+  assert(message->descriptor == &wa__noise_certificate__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__notification_message_info__init
@@ -2569,21 +2569,21 @@ void   wa__notification_message_info__init
 size_t wa__notification_message_info__get_packed_size
                      (const Wa__NotificationMessageInfo *message)
 {
-  assert(message->base.descriptor == &wa__notification_message_info__descriptor);
+  assert(message->descriptor == &wa__notification_message_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__notification_message_info__pack
                      (const Wa__NotificationMessageInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__notification_message_info__descriptor);
+  assert(message->descriptor == &wa__notification_message_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__notification_message_info__pack_to_buffer
                      (const Wa__NotificationMessageInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__notification_message_info__descriptor);
+  assert(message->descriptor == &wa__notification_message_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__NotificationMessageInfo *
@@ -2602,7 +2602,7 @@ void   wa__notification_message_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__notification_message_info__descriptor);
+  assert(message->descriptor == &wa__notification_message_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__past_participant__init
@@ -2614,21 +2614,21 @@ void   wa__past_participant__init
 size_t wa__past_participant__get_packed_size
                      (const Wa__PastParticipant *message)
 {
-  assert(message->base.descriptor == &wa__past_participant__descriptor);
+  assert(message->descriptor == &wa__past_participant__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__past_participant__pack
                      (const Wa__PastParticipant *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__past_participant__descriptor);
+  assert(message->descriptor == &wa__past_participant__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__past_participant__pack_to_buffer
                      (const Wa__PastParticipant *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__past_participant__descriptor);
+  assert(message->descriptor == &wa__past_participant__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PastParticipant *
@@ -2647,7 +2647,7 @@ void   wa__past_participant__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__past_participant__descriptor);
+  assert(message->descriptor == &wa__past_participant__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__past_participants__init
@@ -2659,21 +2659,21 @@ void   wa__past_participants__init
 size_t wa__past_participants__get_packed_size
                      (const Wa__PastParticipants *message)
 {
-  assert(message->base.descriptor == &wa__past_participants__descriptor);
+  assert(message->descriptor == &wa__past_participants__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__past_participants__pack
                      (const Wa__PastParticipants *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__past_participants__descriptor);
+  assert(message->descriptor == &wa__past_participants__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__past_participants__pack_to_buffer
                      (const Wa__PastParticipants *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__past_participants__descriptor);
+  assert(message->descriptor == &wa__past_participants__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PastParticipants *
@@ -2692,7 +2692,7 @@ void   wa__past_participants__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__past_participants__descriptor);
+  assert(message->descriptor == &wa__past_participants__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__payment_background__media_data__init
@@ -2710,21 +2710,21 @@ void   wa__payment_background__init
 size_t wa__payment_background__get_packed_size
                      (const Wa__PaymentBackground *message)
 {
-  assert(message->base.descriptor == &wa__payment_background__descriptor);
+  assert(message->descriptor == &wa__payment_background__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__payment_background__pack
                      (const Wa__PaymentBackground *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__payment_background__descriptor);
+  assert(message->descriptor == &wa__payment_background__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__payment_background__pack_to_buffer
                      (const Wa__PaymentBackground *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__payment_background__descriptor);
+  assert(message->descriptor == &wa__payment_background__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PaymentBackground *
@@ -2743,7 +2743,7 @@ void   wa__payment_background__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__payment_background__descriptor);
+  assert(message->descriptor == &wa__payment_background__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__payment_info__init
@@ -2755,21 +2755,21 @@ void   wa__payment_info__init
 size_t wa__payment_info__get_packed_size
                      (const Wa__PaymentInfo *message)
 {
-  assert(message->base.descriptor == &wa__payment_info__descriptor);
+  assert(message->descriptor == &wa__payment_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__payment_info__pack
                      (const Wa__PaymentInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__payment_info__descriptor);
+  assert(message->descriptor == &wa__payment_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__payment_info__pack_to_buffer
                      (const Wa__PaymentInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__payment_info__descriptor);
+  assert(message->descriptor == &wa__payment_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PaymentInfo *
@@ -2788,7 +2788,7 @@ void   wa__payment_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__payment_info__descriptor);
+  assert(message->descriptor == &wa__payment_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__pending_key_exchange__init
@@ -2800,21 +2800,21 @@ void   wa__pending_key_exchange__init
 size_t wa__pending_key_exchange__get_packed_size
                      (const Wa__PendingKeyExchange *message)
 {
-  assert(message->base.descriptor == &wa__pending_key_exchange__descriptor);
+  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__pending_key_exchange__pack
                      (const Wa__PendingKeyExchange *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__pending_key_exchange__descriptor);
+  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__pending_key_exchange__pack_to_buffer
                      (const Wa__PendingKeyExchange *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__pending_key_exchange__descriptor);
+  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PendingKeyExchange *
@@ -2833,7 +2833,7 @@ void   wa__pending_key_exchange__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__pending_key_exchange__descriptor);
+  assert(message->descriptor == &wa__pending_key_exchange__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__pending_pre_key__init
@@ -2845,21 +2845,21 @@ void   wa__pending_pre_key__init
 size_t wa__pending_pre_key__get_packed_size
                      (const Wa__PendingPreKey *message)
 {
-  assert(message->base.descriptor == &wa__pending_pre_key__descriptor);
+  assert(message->descriptor == &wa__pending_pre_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__pending_pre_key__pack
                      (const Wa__PendingPreKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__pending_pre_key__descriptor);
+  assert(message->descriptor == &wa__pending_pre_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__pending_pre_key__pack_to_buffer
                      (const Wa__PendingPreKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__pending_pre_key__descriptor);
+  assert(message->descriptor == &wa__pending_pre_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PendingPreKey *
@@ -2878,7 +2878,7 @@ void   wa__pending_pre_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__pending_pre_key__descriptor);
+  assert(message->descriptor == &wa__pending_pre_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__photo_change__init
@@ -2890,21 +2890,21 @@ void   wa__photo_change__init
 size_t wa__photo_change__get_packed_size
                      (const Wa__PhotoChange *message)
 {
-  assert(message->base.descriptor == &wa__photo_change__descriptor);
+  assert(message->descriptor == &wa__photo_change__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__photo_change__pack
                      (const Wa__PhotoChange *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__photo_change__descriptor);
+  assert(message->descriptor == &wa__photo_change__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__photo_change__pack_to_buffer
                      (const Wa__PhotoChange *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__photo_change__descriptor);
+  assert(message->descriptor == &wa__photo_change__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PhotoChange *
@@ -2923,7 +2923,7 @@ void   wa__photo_change__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__photo_change__descriptor);
+  assert(message->descriptor == &wa__photo_change__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__point__init
@@ -2935,21 +2935,21 @@ void   wa__point__init
 size_t wa__point__get_packed_size
                      (const Wa__Point *message)
 {
-  assert(message->base.descriptor == &wa__point__descriptor);
+  assert(message->descriptor == &wa__point__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__point__pack
                      (const Wa__Point *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__point__descriptor);
+  assert(message->descriptor == &wa__point__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__point__pack_to_buffer
                      (const Wa__Point *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__point__descriptor);
+  assert(message->descriptor == &wa__point__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Point *
@@ -2968,7 +2968,7 @@ void   wa__point__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__point__descriptor);
+  assert(message->descriptor == &wa__point__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__poll_additional_metadata__init
@@ -2980,21 +2980,21 @@ void   wa__poll_additional_metadata__init
 size_t wa__poll_additional_metadata__get_packed_size
                      (const Wa__PollAdditionalMetadata *message)
 {
-  assert(message->base.descriptor == &wa__poll_additional_metadata__descriptor);
+  assert(message->descriptor == &wa__poll_additional_metadata__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__poll_additional_metadata__pack
                      (const Wa__PollAdditionalMetadata *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__poll_additional_metadata__descriptor);
+  assert(message->descriptor == &wa__poll_additional_metadata__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__poll_additional_metadata__pack_to_buffer
                      (const Wa__PollAdditionalMetadata *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__poll_additional_metadata__descriptor);
+  assert(message->descriptor == &wa__poll_additional_metadata__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PollAdditionalMetadata *
@@ -3013,7 +3013,7 @@ void   wa__poll_additional_metadata__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__poll_additional_metadata__descriptor);
+  assert(message->descriptor == &wa__poll_additional_metadata__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__poll_enc_value__init
@@ -3025,21 +3025,21 @@ void   wa__poll_enc_value__init
 size_t wa__poll_enc_value__get_packed_size
                      (const Wa__PollEncValue *message)
 {
-  assert(message->base.descriptor == &wa__poll_enc_value__descriptor);
+  assert(message->descriptor == &wa__poll_enc_value__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__poll_enc_value__pack
                      (const Wa__PollEncValue *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__poll_enc_value__descriptor);
+  assert(message->descriptor == &wa__poll_enc_value__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__poll_enc_value__pack_to_buffer
                      (const Wa__PollEncValue *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__poll_enc_value__descriptor);
+  assert(message->descriptor == &wa__poll_enc_value__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PollEncValue *
@@ -3058,7 +3058,7 @@ void   wa__poll_enc_value__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__poll_enc_value__descriptor);
+  assert(message->descriptor == &wa__poll_enc_value__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__poll_update__init
@@ -3070,21 +3070,21 @@ void   wa__poll_update__init
 size_t wa__poll_update__get_packed_size
                      (const Wa__PollUpdate *message)
 {
-  assert(message->base.descriptor == &wa__poll_update__descriptor);
+  assert(message->descriptor == &wa__poll_update__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__poll_update__pack
                      (const Wa__PollUpdate *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__poll_update__descriptor);
+  assert(message->descriptor == &wa__poll_update__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__poll_update__pack_to_buffer
                      (const Wa__PollUpdate *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__poll_update__descriptor);
+  assert(message->descriptor == &wa__poll_update__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PollUpdate *
@@ -3103,7 +3103,7 @@ void   wa__poll_update__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__poll_update__descriptor);
+  assert(message->descriptor == &wa__poll_update__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__pre_key_record_structure__init
@@ -3115,21 +3115,21 @@ void   wa__pre_key_record_structure__init
 size_t wa__pre_key_record_structure__get_packed_size
                      (const Wa__PreKeyRecordStructure *message)
 {
-  assert(message->base.descriptor == &wa__pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__pre_key_record_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__pre_key_record_structure__pack
                      (const Wa__PreKeyRecordStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__pre_key_record_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__pre_key_record_structure__pack_to_buffer
                      (const Wa__PreKeyRecordStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__pre_key_record_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__PreKeyRecordStructure *
@@ -3148,7 +3148,7 @@ void   wa__pre_key_record_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__pre_key_record_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__pushname__init
@@ -3160,21 +3160,21 @@ void   wa__pushname__init
 size_t wa__pushname__get_packed_size
                      (const Wa__Pushname *message)
 {
-  assert(message->base.descriptor == &wa__pushname__descriptor);
+  assert(message->descriptor == &wa__pushname__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__pushname__pack
                      (const Wa__Pushname *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__pushname__descriptor);
+  assert(message->descriptor == &wa__pushname__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__pushname__pack_to_buffer
                      (const Wa__Pushname *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__pushname__descriptor);
+  assert(message->descriptor == &wa__pushname__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Pushname *
@@ -3193,7 +3193,7 @@ void   wa__pushname__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__pushname__descriptor);
+  assert(message->descriptor == &wa__pushname__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__reaction__init
@@ -3205,21 +3205,21 @@ void   wa__reaction__init
 size_t wa__reaction__get_packed_size
                      (const Wa__Reaction *message)
 {
-  assert(message->base.descriptor == &wa__reaction__descriptor);
+  assert(message->descriptor == &wa__reaction__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__reaction__pack
                      (const Wa__Reaction *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__reaction__descriptor);
+  assert(message->descriptor == &wa__reaction__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__reaction__pack_to_buffer
                      (const Wa__Reaction *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__reaction__descriptor);
+  assert(message->descriptor == &wa__reaction__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__Reaction *
@@ -3238,7 +3238,7 @@ void   wa__reaction__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__reaction__descriptor);
+  assert(message->descriptor == &wa__reaction__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__recent_emoji_weight__init
@@ -3250,21 +3250,21 @@ void   wa__recent_emoji_weight__init
 size_t wa__recent_emoji_weight__get_packed_size
                      (const Wa__RecentEmojiWeight *message)
 {
-  assert(message->base.descriptor == &wa__recent_emoji_weight__descriptor);
+  assert(message->descriptor == &wa__recent_emoji_weight__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__recent_emoji_weight__pack
                      (const Wa__RecentEmojiWeight *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__recent_emoji_weight__descriptor);
+  assert(message->descriptor == &wa__recent_emoji_weight__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__recent_emoji_weight__pack_to_buffer
                      (const Wa__RecentEmojiWeight *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__recent_emoji_weight__descriptor);
+  assert(message->descriptor == &wa__recent_emoji_weight__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__RecentEmojiWeight *
@@ -3283,7 +3283,7 @@ void   wa__recent_emoji_weight__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__recent_emoji_weight__descriptor);
+  assert(message->descriptor == &wa__recent_emoji_weight__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__record_structure__init
@@ -3295,21 +3295,21 @@ void   wa__record_structure__init
 size_t wa__record_structure__get_packed_size
                      (const Wa__RecordStructure *message)
 {
-  assert(message->base.descriptor == &wa__record_structure__descriptor);
+  assert(message->descriptor == &wa__record_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__record_structure__pack
                      (const Wa__RecordStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__record_structure__descriptor);
+  assert(message->descriptor == &wa__record_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__record_structure__pack_to_buffer
                      (const Wa__RecordStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__record_structure__descriptor);
+  assert(message->descriptor == &wa__record_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__RecordStructure *
@@ -3328,7 +3328,7 @@ void   wa__record_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__record_structure__descriptor);
+  assert(message->descriptor == &wa__record_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sender_chain_key__init
@@ -3340,21 +3340,21 @@ void   wa__sender_chain_key__init
 size_t wa__sender_chain_key__get_packed_size
                      (const Wa__SenderChainKey *message)
 {
-  assert(message->base.descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_chain_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sender_chain_key__pack
                      (const Wa__SenderChainKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_chain_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sender_chain_key__pack_to_buffer
                      (const Wa__SenderChainKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_chain_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SenderChainKey *
@@ -3373,7 +3373,7 @@ void   wa__sender_chain_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sender_chain_key__descriptor);
+  assert(message->descriptor == &wa__sender_chain_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sender_key_record_structure__init
@@ -3385,21 +3385,21 @@ void   wa__sender_key_record_structure__init
 size_t wa__sender_key_record_structure__get_packed_size
                      (const Wa__SenderKeyRecordStructure *message)
 {
-  assert(message->base.descriptor == &wa__sender_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_record_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sender_key_record_structure__pack
                      (const Wa__SenderKeyRecordStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sender_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_record_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sender_key_record_structure__pack_to_buffer
                      (const Wa__SenderKeyRecordStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sender_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_record_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SenderKeyRecordStructure *
@@ -3418,7 +3418,7 @@ void   wa__sender_key_record_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sender_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_record_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sender_key_state_structure__init
@@ -3430,21 +3430,21 @@ void   wa__sender_key_state_structure__init
 size_t wa__sender_key_state_structure__get_packed_size
                      (const Wa__SenderKeyStateStructure *message)
 {
-  assert(message->base.descriptor == &wa__sender_key_state_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_state_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sender_key_state_structure__pack
                      (const Wa__SenderKeyStateStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sender_key_state_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_state_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sender_key_state_structure__pack_to_buffer
                      (const Wa__SenderKeyStateStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sender_key_state_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_state_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SenderKeyStateStructure *
@@ -3463,7 +3463,7 @@ void   wa__sender_key_state_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sender_key_state_structure__descriptor);
+  assert(message->descriptor == &wa__sender_key_state_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sender_message_key__init
@@ -3475,21 +3475,21 @@ void   wa__sender_message_key__init
 size_t wa__sender_message_key__get_packed_size
                      (const Wa__SenderMessageKey *message)
 {
-  assert(message->base.descriptor == &wa__sender_message_key__descriptor);
+  assert(message->descriptor == &wa__sender_message_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sender_message_key__pack
                      (const Wa__SenderMessageKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sender_message_key__descriptor);
+  assert(message->descriptor == &wa__sender_message_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sender_message_key__pack_to_buffer
                      (const Wa__SenderMessageKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sender_message_key__descriptor);
+  assert(message->descriptor == &wa__sender_message_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SenderMessageKey *
@@ -3508,7 +3508,7 @@ void   wa__sender_message_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sender_message_key__descriptor);
+  assert(message->descriptor == &wa__sender_message_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sender_signing_key__init
@@ -3520,21 +3520,21 @@ void   wa__sender_signing_key__init
 size_t wa__sender_signing_key__get_packed_size
                      (const Wa__SenderSigningKey *message)
 {
-  assert(message->base.descriptor == &wa__sender_signing_key__descriptor);
+  assert(message->descriptor == &wa__sender_signing_key__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sender_signing_key__pack
                      (const Wa__SenderSigningKey *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sender_signing_key__descriptor);
+  assert(message->descriptor == &wa__sender_signing_key__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sender_signing_key__pack_to_buffer
                      (const Wa__SenderSigningKey *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sender_signing_key__descriptor);
+  assert(message->descriptor == &wa__sender_signing_key__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SenderSigningKey *
@@ -3553,7 +3553,7 @@ void   wa__sender_signing_key__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sender_signing_key__descriptor);
+  assert(message->descriptor == &wa__sender_signing_key__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__server_error_receipt__init
@@ -3565,21 +3565,21 @@ void   wa__server_error_receipt__init
 size_t wa__server_error_receipt__get_packed_size
                      (const Wa__ServerErrorReceipt *message)
 {
-  assert(message->base.descriptor == &wa__server_error_receipt__descriptor);
+  assert(message->descriptor == &wa__server_error_receipt__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__server_error_receipt__pack
                      (const Wa__ServerErrorReceipt *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__server_error_receipt__descriptor);
+  assert(message->descriptor == &wa__server_error_receipt__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__server_error_receipt__pack_to_buffer
                      (const Wa__ServerErrorReceipt *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__server_error_receipt__descriptor);
+  assert(message->descriptor == &wa__server_error_receipt__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__ServerErrorReceipt *
@@ -3598,7 +3598,7 @@ void   wa__server_error_receipt__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__server_error_receipt__descriptor);
+  assert(message->descriptor == &wa__server_error_receipt__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__session_structure__init
@@ -3610,21 +3610,21 @@ void   wa__session_structure__init
 size_t wa__session_structure__get_packed_size
                      (const Wa__SessionStructure *message)
 {
-  assert(message->base.descriptor == &wa__session_structure__descriptor);
+  assert(message->descriptor == &wa__session_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__session_structure__pack
                      (const Wa__SessionStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__session_structure__descriptor);
+  assert(message->descriptor == &wa__session_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__session_structure__pack_to_buffer
                      (const Wa__SessionStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__session_structure__descriptor);
+  assert(message->descriptor == &wa__session_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SessionStructure *
@@ -3643,7 +3643,7 @@ void   wa__session_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__session_structure__descriptor);
+  assert(message->descriptor == &wa__session_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__signed_pre_key_record_structure__init
@@ -3655,21 +3655,21 @@ void   wa__signed_pre_key_record_structure__init
 size_t wa__signed_pre_key_record_structure__get_packed_size
                      (const Wa__SignedPreKeyRecordStructure *message)
 {
-  assert(message->base.descriptor == &wa__signed_pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__signed_pre_key_record_structure__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__signed_pre_key_record_structure__pack
                      (const Wa__SignedPreKeyRecordStructure *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__signed_pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__signed_pre_key_record_structure__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__signed_pre_key_record_structure__pack_to_buffer
                      (const Wa__SignedPreKeyRecordStructure *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__signed_pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__signed_pre_key_record_structure__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SignedPreKeyRecordStructure *
@@ -3688,7 +3688,7 @@ void   wa__signed_pre_key_record_structure__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__signed_pre_key_record_structure__descriptor);
+  assert(message->descriptor == &wa__signed_pre_key_record_structure__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__status_psa__init
@@ -3700,21 +3700,21 @@ void   wa__status_psa__init
 size_t wa__status_psa__get_packed_size
                      (const Wa__StatusPSA *message)
 {
-  assert(message->base.descriptor == &wa__status_psa__descriptor);
+  assert(message->descriptor == &wa__status_psa__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__status_psa__pack
                      (const Wa__StatusPSA *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__status_psa__descriptor);
+  assert(message->descriptor == &wa__status_psa__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__status_psa__pack_to_buffer
                      (const Wa__StatusPSA *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__status_psa__descriptor);
+  assert(message->descriptor == &wa__status_psa__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__StatusPSA *
@@ -3733,7 +3733,7 @@ void   wa__status_psa__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__status_psa__descriptor);
+  assert(message->descriptor == &wa__status_psa__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sticker_metadata__init
@@ -3745,21 +3745,21 @@ void   wa__sticker_metadata__init
 size_t wa__sticker_metadata__get_packed_size
                      (const Wa__StickerMetadata *message)
 {
-  assert(message->base.descriptor == &wa__sticker_metadata__descriptor);
+  assert(message->descriptor == &wa__sticker_metadata__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sticker_metadata__pack
                      (const Wa__StickerMetadata *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sticker_metadata__descriptor);
+  assert(message->descriptor == &wa__sticker_metadata__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sticker_metadata__pack_to_buffer
                      (const Wa__StickerMetadata *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sticker_metadata__descriptor);
+  assert(message->descriptor == &wa__sticker_metadata__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__StickerMetadata *
@@ -3778,7 +3778,7 @@ void   wa__sticker_metadata__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sticker_metadata__descriptor);
+  assert(message->descriptor == &wa__sticker_metadata__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sync_action_data__init
@@ -3790,21 +3790,21 @@ void   wa__sync_action_data__init
 size_t wa__sync_action_data__get_packed_size
                      (const Wa__SyncActionData *message)
 {
-  assert(message->base.descriptor == &wa__sync_action_data__descriptor);
+  assert(message->descriptor == &wa__sync_action_data__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sync_action_data__pack
                      (const Wa__SyncActionData *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sync_action_data__descriptor);
+  assert(message->descriptor == &wa__sync_action_data__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sync_action_data__pack_to_buffer
                      (const Wa__SyncActionData *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sync_action_data__descriptor);
+  assert(message->descriptor == &wa__sync_action_data__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncActionData *
@@ -3823,7 +3823,7 @@ void   wa__sync_action_data__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sync_action_data__descriptor);
+  assert(message->descriptor == &wa__sync_action_data__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__sync_action_value__agent_action__init
@@ -4009,21 +4009,21 @@ void   wa__sync_action_value__init
 size_t wa__sync_action_value__get_packed_size
                      (const Wa__SyncActionValue *message)
 {
-  assert(message->base.descriptor == &wa__sync_action_value__descriptor);
+  assert(message->descriptor == &wa__sync_action_value__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__sync_action_value__pack
                      (const Wa__SyncActionValue *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__sync_action_value__descriptor);
+  assert(message->descriptor == &wa__sync_action_value__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__sync_action_value__pack_to_buffer
                      (const Wa__SyncActionValue *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__sync_action_value__descriptor);
+  assert(message->descriptor == &wa__sync_action_value__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncActionValue *
@@ -4042,7 +4042,7 @@ void   wa__sync_action_value__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__sync_action_value__descriptor);
+  assert(message->descriptor == &wa__sync_action_value__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_index__init
@@ -4054,21 +4054,21 @@ void   wa__syncd_index__init
 size_t wa__syncd_index__get_packed_size
                      (const Wa__SyncdIndex *message)
 {
-  assert(message->base.descriptor == &wa__syncd_index__descriptor);
+  assert(message->descriptor == &wa__syncd_index__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_index__pack
                      (const Wa__SyncdIndex *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_index__descriptor);
+  assert(message->descriptor == &wa__syncd_index__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_index__pack_to_buffer
                      (const Wa__SyncdIndex *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_index__descriptor);
+  assert(message->descriptor == &wa__syncd_index__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdIndex *
@@ -4087,7 +4087,7 @@ void   wa__syncd_index__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_index__descriptor);
+  assert(message->descriptor == &wa__syncd_index__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_mutation__init
@@ -4099,21 +4099,21 @@ void   wa__syncd_mutation__init
 size_t wa__syncd_mutation__get_packed_size
                      (const Wa__SyncdMutation *message)
 {
-  assert(message->base.descriptor == &wa__syncd_mutation__descriptor);
+  assert(message->descriptor == &wa__syncd_mutation__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_mutation__pack
                      (const Wa__SyncdMutation *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_mutation__descriptor);
+  assert(message->descriptor == &wa__syncd_mutation__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_mutation__pack_to_buffer
                      (const Wa__SyncdMutation *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_mutation__descriptor);
+  assert(message->descriptor == &wa__syncd_mutation__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdMutation *
@@ -4132,7 +4132,7 @@ void   wa__syncd_mutation__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_mutation__descriptor);
+  assert(message->descriptor == &wa__syncd_mutation__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_mutations__init
@@ -4144,21 +4144,21 @@ void   wa__syncd_mutations__init
 size_t wa__syncd_mutations__get_packed_size
                      (const Wa__SyncdMutations *message)
 {
-  assert(message->base.descriptor == &wa__syncd_mutations__descriptor);
+  assert(message->descriptor == &wa__syncd_mutations__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_mutations__pack
                      (const Wa__SyncdMutations *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_mutations__descriptor);
+  assert(message->descriptor == &wa__syncd_mutations__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_mutations__pack_to_buffer
                      (const Wa__SyncdMutations *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_mutations__descriptor);
+  assert(message->descriptor == &wa__syncd_mutations__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdMutations *
@@ -4177,7 +4177,7 @@ void   wa__syncd_mutations__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_mutations__descriptor);
+  assert(message->descriptor == &wa__syncd_mutations__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_patch__init
@@ -4189,21 +4189,21 @@ void   wa__syncd_patch__init
 size_t wa__syncd_patch__get_packed_size
                      (const Wa__SyncdPatch *message)
 {
-  assert(message->base.descriptor == &wa__syncd_patch__descriptor);
+  assert(message->descriptor == &wa__syncd_patch__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_patch__pack
                      (const Wa__SyncdPatch *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_patch__descriptor);
+  assert(message->descriptor == &wa__syncd_patch__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_patch__pack_to_buffer
                      (const Wa__SyncdPatch *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_patch__descriptor);
+  assert(message->descriptor == &wa__syncd_patch__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdPatch *
@@ -4222,7 +4222,7 @@ void   wa__syncd_patch__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_patch__descriptor);
+  assert(message->descriptor == &wa__syncd_patch__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_record__init
@@ -4234,21 +4234,21 @@ void   wa__syncd_record__init
 size_t wa__syncd_record__get_packed_size
                      (const Wa__SyncdRecord *message)
 {
-  assert(message->base.descriptor == &wa__syncd_record__descriptor);
+  assert(message->descriptor == &wa__syncd_record__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_record__pack
                      (const Wa__SyncdRecord *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_record__descriptor);
+  assert(message->descriptor == &wa__syncd_record__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_record__pack_to_buffer
                      (const Wa__SyncdRecord *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_record__descriptor);
+  assert(message->descriptor == &wa__syncd_record__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdRecord *
@@ -4267,7 +4267,7 @@ void   wa__syncd_record__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_record__descriptor);
+  assert(message->descriptor == &wa__syncd_record__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_snapshot__init
@@ -4279,21 +4279,21 @@ void   wa__syncd_snapshot__init
 size_t wa__syncd_snapshot__get_packed_size
                      (const Wa__SyncdSnapshot *message)
 {
-  assert(message->base.descriptor == &wa__syncd_snapshot__descriptor);
+  assert(message->descriptor == &wa__syncd_snapshot__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_snapshot__pack
                      (const Wa__SyncdSnapshot *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_snapshot__descriptor);
+  assert(message->descriptor == &wa__syncd_snapshot__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_snapshot__pack_to_buffer
                      (const Wa__SyncdSnapshot *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_snapshot__descriptor);
+  assert(message->descriptor == &wa__syncd_snapshot__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdSnapshot *
@@ -4312,7 +4312,7 @@ void   wa__syncd_snapshot__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_snapshot__descriptor);
+  assert(message->descriptor == &wa__syncd_snapshot__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_value__init
@@ -4324,21 +4324,21 @@ void   wa__syncd_value__init
 size_t wa__syncd_value__get_packed_size
                      (const Wa__SyncdValue *message)
 {
-  assert(message->base.descriptor == &wa__syncd_value__descriptor);
+  assert(message->descriptor == &wa__syncd_value__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_value__pack
                      (const Wa__SyncdValue *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_value__descriptor);
+  assert(message->descriptor == &wa__syncd_value__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_value__pack_to_buffer
                      (const Wa__SyncdValue *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_value__descriptor);
+  assert(message->descriptor == &wa__syncd_value__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdValue *
@@ -4357,7 +4357,7 @@ void   wa__syncd_value__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_value__descriptor);
+  assert(message->descriptor == &wa__syncd_value__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__syncd_version__init
@@ -4369,21 +4369,21 @@ void   wa__syncd_version__init
 size_t wa__syncd_version__get_packed_size
                      (const Wa__SyncdVersion *message)
 {
-  assert(message->base.descriptor == &wa__syncd_version__descriptor);
+  assert(message->descriptor == &wa__syncd_version__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__syncd_version__pack
                      (const Wa__SyncdVersion *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__syncd_version__descriptor);
+  assert(message->descriptor == &wa__syncd_version__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__syncd_version__pack_to_buffer
                      (const Wa__SyncdVersion *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__syncd_version__descriptor);
+  assert(message->descriptor == &wa__syncd_version__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__SyncdVersion *
@@ -4402,7 +4402,7 @@ void   wa__syncd_version__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__syncd_version__descriptor);
+  assert(message->descriptor == &wa__syncd_version__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__template_button__call_button__init
@@ -4432,21 +4432,21 @@ void   wa__template_button__init
 size_t wa__template_button__get_packed_size
                      (const Wa__TemplateButton *message)
 {
-  assert(message->base.descriptor == &wa__template_button__descriptor);
+  assert(message->descriptor == &wa__template_button__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__template_button__pack
                      (const Wa__TemplateButton *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__template_button__descriptor);
+  assert(message->descriptor == &wa__template_button__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__template_button__pack_to_buffer
                      (const Wa__TemplateButton *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__template_button__descriptor);
+  assert(message->descriptor == &wa__template_button__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__TemplateButton *
@@ -4465,7 +4465,7 @@ void   wa__template_button__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__template_button__descriptor);
+  assert(message->descriptor == &wa__template_button__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__user_receipt__init
@@ -4477,21 +4477,21 @@ void   wa__user_receipt__init
 size_t wa__user_receipt__get_packed_size
                      (const Wa__UserReceipt *message)
 {
-  assert(message->base.descriptor == &wa__user_receipt__descriptor);
+  assert(message->descriptor == &wa__user_receipt__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__user_receipt__pack
                      (const Wa__UserReceipt *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__user_receipt__descriptor);
+  assert(message->descriptor == &wa__user_receipt__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__user_receipt__pack_to_buffer
                      (const Wa__UserReceipt *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__user_receipt__descriptor);
+  assert(message->descriptor == &wa__user_receipt__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__UserReceipt *
@@ -4510,7 +4510,7 @@ void   wa__user_receipt__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__user_receipt__descriptor);
+  assert(message->descriptor == &wa__user_receipt__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__verified_name_certificate__details__init
@@ -4528,21 +4528,21 @@ void   wa__verified_name_certificate__init
 size_t wa__verified_name_certificate__get_packed_size
                      (const Wa__VerifiedNameCertificate *message)
 {
-  assert(message->base.descriptor == &wa__verified_name_certificate__descriptor);
+  assert(message->descriptor == &wa__verified_name_certificate__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__verified_name_certificate__pack
                      (const Wa__VerifiedNameCertificate *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__verified_name_certificate__descriptor);
+  assert(message->descriptor == &wa__verified_name_certificate__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__verified_name_certificate__pack_to_buffer
                      (const Wa__VerifiedNameCertificate *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__verified_name_certificate__descriptor);
+  assert(message->descriptor == &wa__verified_name_certificate__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__VerifiedNameCertificate *
@@ -4561,7 +4561,7 @@ void   wa__verified_name_certificate__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__verified_name_certificate__descriptor);
+  assert(message->descriptor == &wa__verified_name_certificate__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__wallpaper_settings__init
@@ -4573,21 +4573,21 @@ void   wa__wallpaper_settings__init
 size_t wa__wallpaper_settings__get_packed_size
                      (const Wa__WallpaperSettings *message)
 {
-  assert(message->base.descriptor == &wa__wallpaper_settings__descriptor);
+  assert(message->descriptor == &wa__wallpaper_settings__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__wallpaper_settings__pack
                      (const Wa__WallpaperSettings *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__wallpaper_settings__descriptor);
+  assert(message->descriptor == &wa__wallpaper_settings__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__wallpaper_settings__pack_to_buffer
                      (const Wa__WallpaperSettings *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__wallpaper_settings__descriptor);
+  assert(message->descriptor == &wa__wallpaper_settings__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__WallpaperSettings *
@@ -4606,7 +4606,7 @@ void   wa__wallpaper_settings__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__wallpaper_settings__descriptor);
+  assert(message->descriptor == &wa__wallpaper_settings__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__web_features__init
@@ -4618,21 +4618,21 @@ void   wa__web_features__init
 size_t wa__web_features__get_packed_size
                      (const Wa__WebFeatures *message)
 {
-  assert(message->base.descriptor == &wa__web_features__descriptor);
+  assert(message->descriptor == &wa__web_features__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__web_features__pack
                      (const Wa__WebFeatures *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__web_features__descriptor);
+  assert(message->descriptor == &wa__web_features__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__web_features__pack_to_buffer
                      (const Wa__WebFeatures *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__web_features__descriptor);
+  assert(message->descriptor == &wa__web_features__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__WebFeatures *
@@ -4651,7 +4651,7 @@ void   wa__web_features__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__web_features__descriptor);
+  assert(message->descriptor == &wa__web_features__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__web_message_info__init
@@ -4663,21 +4663,21 @@ void   wa__web_message_info__init
 size_t wa__web_message_info__get_packed_size
                      (const Wa__WebMessageInfo *message)
 {
-  assert(message->base.descriptor == &wa__web_message_info__descriptor);
+  assert(message->descriptor == &wa__web_message_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__web_message_info__pack
                      (const Wa__WebMessageInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__web_message_info__descriptor);
+  assert(message->descriptor == &wa__web_message_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__web_message_info__pack_to_buffer
                      (const Wa__WebMessageInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__web_message_info__descriptor);
+  assert(message->descriptor == &wa__web_message_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__WebMessageInfo *
@@ -4696,7 +4696,7 @@ void   wa__web_message_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__web_message_info__descriptor);
+  assert(message->descriptor == &wa__web_message_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 void   wa__web_notifications_info__init
@@ -4708,21 +4708,21 @@ void   wa__web_notifications_info__init
 size_t wa__web_notifications_info__get_packed_size
                      (const Wa__WebNotificationsInfo *message)
 {
-  assert(message->base.descriptor == &wa__web_notifications_info__descriptor);
+  assert(message->descriptor == &wa__web_notifications_info__descriptor);
   return protobuf_c_message_get_packed_size ((const ProtobufCMessage*)(message));
 }
 size_t wa__web_notifications_info__pack
                      (const Wa__WebNotificationsInfo *message,
                       uint8_t       *out)
 {
-  assert(message->base.descriptor == &wa__web_notifications_info__descriptor);
+  assert(message->descriptor == &wa__web_notifications_info__descriptor);
   return protobuf_c_message_pack ((const ProtobufCMessage*)message, out);
 }
 size_t wa__web_notifications_info__pack_to_buffer
                      (const Wa__WebNotificationsInfo *message,
                       ProtobufCBuffer *buffer)
 {
-  assert(message->base.descriptor == &wa__web_notifications_info__descriptor);
+  assert(message->descriptor == &wa__web_notifications_info__descriptor);
   return protobuf_c_message_pack_to_buffer ((const ProtobufCMessage*)message, buffer);
 }
 Wa__WebNotificationsInfo *
@@ -4741,7 +4741,7 @@ void   wa__web_notifications_info__free_unpacked
 {
   if(!message)
     return;
-  assert(message->base.descriptor == &wa__web_notifications_info__descriptor);
+  assert(message->descriptor == &wa__web_notifications_info__descriptor);
   protobuf_c_message_free_unpacked ((ProtobufCMessage*)message, allocator);
 }
 static const ProtobufCFieldDescriptor wa__advdevice_identity__field_descriptors[3] =

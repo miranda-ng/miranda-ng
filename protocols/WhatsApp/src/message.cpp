@@ -130,13 +130,13 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			iDecryptable++;
 
 			proto::Message encMsg(msgBody.data(), msgBody.len());
-			if (encMsg.devicesentmessage)
-				msg.message = encMsg.devicesentmessage->message;
+			if (encMsg->devicesentmessage)
+				msg.message = encMsg->devicesentmessage->message;
 			else
-				msg.message = &encMsg;
+				msg.message = encMsg;
 
-			if (encMsg.senderkeydistributionmessage)
-				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage);
+			if (encMsg->senderkeydistributionmessage)
+				m_signalStore.processSenderKeyMessage(encMsg->senderkeydistributionmessage);
 
 			ProcessMessage(type, msg);
 
@@ -326,7 +326,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	Wa__Message msg = WA__MESSAGE__INIT;
 	msg.devicesentmessage = &sentBody;
 
-	MBinBuffer encMsg(proto::Serialize((ProtobufCMessage*)&msg));
+	MBinBuffer encMsg(proto::Serialize(&msg));
 
 	WANode payLoad("message");
 	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);

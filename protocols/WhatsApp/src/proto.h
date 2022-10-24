@@ -311,7 +311,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
-	int  WSSend(const ProtobufCMessage *msg);
+	int  WSSend(const ProtobufCMessage &msg);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
 	MBinBuffer DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszType);

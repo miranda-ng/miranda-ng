@@ -540,7 +540,7 @@ MBinBuffer MSignalStore::encodeSignedIdentity(bool bIncludeSignatureKey)
 	proto::ADVSignedDeviceIdentity identity(pProto->getBlob("WAAccount"));
 	
 	if (!bIncludeSignatureKey)
-		proto::CleanBinary(identity.accountsignaturekey), identity.has_accountsignaturekey = false;
+		proto::CleanBinary(identity->accountsignaturekey), identity->has_accountsignaturekey = false;
 	
 	return proto::Serialize(identity);
 }

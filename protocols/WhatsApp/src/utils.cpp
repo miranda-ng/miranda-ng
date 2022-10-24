@@ -167,12 +167,12 @@ CMStringA WhatsAppProto::GenerateMessageId()
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const ProtobufCMessage *msg)
+int WhatsAppProto::WSSend(const ProtobufCMessage &msg)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
 
-	MBinBuffer buf(proto::Serialize(msg));
+	MBinBuffer buf(proto::Serialize(&msg));
 	Netlib_Dump(m_hServerConn, buf.data(), buf.length(), true, 0);
 
 	MBinBuffer payload = m_noise->encodeFrame(buf.data(), buf.length());

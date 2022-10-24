@@ -94,12 +94,12 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 		CMStringW wszSnapshotPath(GetTmpFileName("collection", pszName));
 		if (auto *pSnapshot = coll->getChild("snapshot")) {
 			proto::ExternalBlobReference body(pSnapshot->content);
-			if (!body.directpath || !body.has_mediakey) {
+			if (!body->directpath || !body->has_mediakey) {
 				debugLogA("Invalid snapshot data, skipping");
 				continue;
 			}
 
-			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body.directpath), body.mediakey, "App State");
+			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body->directpath), body->mediakey, "App State");
 			if (!buf.data()) {
 				debugLogA("Invalid downloaded snapshot data, skipping");
 				continue;
@@ -107,12 +107,12 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 
 			proto::SyncdSnapshot snapshot(buf);
 
-			dwVersion = snapshot.version->version;
+			dwVersion = snapshot->version->version;
 			if (dwVersion > pCollection->version) {
 				pCollection->hash.init();
 				debugLogA("%s: applying snapshot of version %d", pCollection->szName.get(), dwVersion);
-				for (int i=0; i < snapshot.n_records; i++)
-					ParsePatch(pCollection, snapshot.records[i], true);
+				for (int i=0; i < snapshot->n_records; i++)
+					ParsePatch(pCollection, snapshot->records[i], true);
 			}
 			else debugLogA("%s: skipping snapshot of version %d", pCollection->szName.get(), dwVersion);
 		}
@@ -121,11 +121,11 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 			for (auto &it : pPatchList->getChildren()) {
 				proto::SyncdPatch patch(it->content);
 
-				dwVersion = patch.version->version;
+				dwVersion = patch->version->version;
 				if (dwVersion > pCollection->version) {
 					debugLogA("%s: applying patch of version %d", pCollection->szName.get(), dwVersion);
-					for (int i = 0; i < patch.n_mutations; i++) {
-						auto &jt = *patch.mutations[i];
+					for (int i = 0; i < patch->n_mutations; i++) {
+						auto &jt = *patch->mutations[i];
 						ParsePatch(pCollection, jt.record, jt.operation == WA__SYNCD_MUTATION__SYNCD_OPERATION__SET);
 					}
 				}
@@ -186,8 +186,8 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 	// debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data.version, data.Utf8DebugString().c_str());
 
 	if (bSet) {
-		JSONNode jsonRoot = JSONNode::parse((char*)data.index.data);
-		ApplyPatch(jsonRoot, data.value);
+		JSONNode jsonRoot = JSONNode::parse((char*)data->index.data);
+		ApplyPatch(jsonRoot, data->value);
 
 		pColl->hash.add(macValue, 32);
 		pColl->indexValueMap[index] = std::string((char*)macValue, 32);
