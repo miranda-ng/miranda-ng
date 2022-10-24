@@ -350,9 +350,9 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
 	
 	auto *pParticipants = payLoad.addChild("participants");
-	bool shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(jid), false);
+	bool shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(jid), encMsg);
 	for (auto &it : m_arDevices)
-		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, true);
+		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encMsg);
 
 	if (shouldIncludeIdentity) {
 		MBinBuffer encIdentity(m_signalStore.encodeSignedIdentity(true));
