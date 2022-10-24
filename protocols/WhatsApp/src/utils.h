@@ -211,16 +211,10 @@ MBinBuffer aesDecrypt(
 	const void *data, size_t dataLen,
 	const void *additionalData = 0, size_t additionalLen = 0);
 
-uint32_t    decodeBigEndian(const std::string &buf);
+uint32_t    decodeBigEndian(const ProtobufCBinaryData &buf);
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 
-void rtrim(std::string &str);
-
 void generateIV(uint8_t *iv, int &pVar);
-
-__forceinline bool operator<<(MessageLite &msg, const MBinBuffer &buf)
-{	return msg.ParseFromArray(buf.data(), (int)buf.length());
-}
 
 unsigned char* HKDF(const EVP_MD *evp_md,
 	const unsigned char *salt, size_t salt_len,

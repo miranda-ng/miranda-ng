@@ -167,18 +167,15 @@ CMStringA WhatsAppProto::GenerateMessageId()
 /////////////////////////////////////////////////////////////////////////////////////////
 // sends a piece of JSON to a server via a websocket, masked
 
-int WhatsAppProto::WSSend(const MessageLite &msg)
+int WhatsAppProto::WSSend(const ProtobufCMessage *msg)
 {
 	if (m_hServerConn == nullptr)
 		return -1;
 
-	int cbLen = msg.ByteSize();
-	ptrA protoBuf((char *)mir_alloc(cbLen));
-	msg.SerializeToArray(protoBuf, cbLen);
+	MBinBuffer buf(proto::Serialize(msg));
+	Netlib_Dump(m_hServerConn, buf.data(), buf.length(), true, 0);
 
-	Netlib_Dump(m_hServerConn, protoBuf, cbLen, true, 0);
-
-	MBinBuffer payload = m_noise->encodeFrame(protoBuf, cbLen);
+	MBinBuffer payload = m_noise->encodeFrame(buf.data(), buf.length());
 	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
 	return 0;
 }
@@ -227,12 +224,12 @@ std::string decodeBinStr(const std::string &buf)
 	return res;
 }
 
-uint32_t decodeBigEndian(const std::string &buf)
+uint32_t decodeBigEndian(const ProtobufCBinaryData &buf)
 {
 	uint32_t ret = 0;
-	for (auto &cc : buf) {
+	for (int i = 0; i < buf.len; i++) {
 		ret <<= 8;
-		ret += (uint8_t)cc;
+		ret += buf.data[i];
 	}
 
 	return ret;
@@ -377,12 +374,38 @@ CMStringA file2string(const wchar_t *pwszFileName)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void proto::CleanBinary(ProtobufCBinaryData &field)
+{
+	if (field.data) {
+		free(field.data);
+		field.data = nullptr;
+	}
+	field.len = 0;
+}
+
+ProtobufCBinaryData proto::SetBinary(const void *pData, size_t len)
+{
+	ProtobufCBinaryData res;
+	res.data = (uint8_t*)malloc(res.len = len);
+	memcpy(res.data, pData, len);
+	return res;
+}
+
+MBinBuffer proto::Serialize(const ProtobufCMessage *msg)
+{
+	MBinBuffer res(protobuf_c_message_get_packed_size(msg));
+	protobuf_c_message_pack(msg, res.data());
+	return res;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 CMStringA directPath2url(const char *pszDirectPath)
 {
 	return CMStringA("https://mmg.whatsapp.net") + pszDirectPath;
 }
 
-MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const std::string &mediaKeys, const char *pszMediaType)
+MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszMediaType)
 {
 	NETLIBHTTPHEADER headers[1] = {{"Origin", "https://web.whatsapp.com"}};
 
@@ -405,7 +428,7 @@ MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const std::stri
 			// 16 - 47: cipherKey
 			// 48 - 111: macKey
 			uint8_t out[112];
-			HKDF(EVP_sha256(), (BYTE *)"", 0, (BYTE *)mediaKeys.c_str(), (int)mediaKeys.size(), (BYTE *)pszHkdfString.c_str(), pszHkdfString.GetLength(), out, sizeof(out));
+			HKDF(EVP_sha256(), (BYTE *)"", 0, mediaKeys.data, (int)mediaKeys.len, (BYTE *)pszHkdfString.c_str(), pszHkdfString.GetLength(), out, sizeof(out));
 
 			ret = aesDecrypt(EVP_aes_256_cbc(), out + 16, out, pResp->pData, pResp->dataLength);
 		}

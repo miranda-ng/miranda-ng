@@ -135,47 +135,43 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 		else throw "OnIqPairSuccess: got reply without device info, exiting";
 
 		if (auto *pIdentity = pRoot->getChild("device-identity")) {
-			proto::ADVSignedDeviceIdentityHMAC payload;
-			if (!payload.ParseFromArray(pIdentity->content.data(), (int)pIdentity->content.length()))
-				throw "OnIqPairSuccess: got reply with invalid identity, exiting";
+			proto::ADVSignedDeviceIdentityHMAC payload(pIdentity->content);
 
-			auto &hmac = payload.hmac();
-			auto &details = payload.details();
+			auto &hmac = payload.hmac;
+			auto &details = payload.details;
 			{
 				// check details signature using HMAC
 				uint8_t signature[32];
 				unsigned int out_len = sizeof(signature);
 				MBinBuffer secret(getBlob(DBKEY_SECRET_KEY));
-				HMAC(EVP_sha256(), secret.data(), (int)secret.length(), (BYTE *)details.c_str(), (int)details.size(), signature, &out_len);
-				if (memcmp(hmac.c_str(), signature, sizeof(signature)))
+				HMAC(EVP_sha256(), secret.data(), (int)secret.length(), details.data, (int)details.len, signature, &out_len);
+				if (memcmp(hmac.data, signature, sizeof(signature)))
 					throw "OnIqPairSuccess: got reply with invalid details signature, exiting";
 			}
 
-			proto::ADVSignedDeviceIdentity account;
-			if (!account.ParseFromString(details))
-				throw "OnIqPairSuccess: got reply with invalid account, exiting";
+			proto::ADVSignedDeviceIdentity account(details);
 
-			auto &deviceDetails = account.details();
-			auto &accountSignature = account.accountsignature();
-			auto &accountSignatureKey = account.accountsignaturekey();
+			auto &deviceDetails = account.details;
+			auto &accountSignature = account.accountsignature;
+			auto &accountSignatureKey = account.accountsignaturekey;
 			{
 				MBinBuffer buf;
 				buf.append("\x06\x00", 2);
-				buf.append(deviceDetails.c_str(), deviceDetails.size());
+				buf.append(deviceDetails.data, deviceDetails.len);
 				buf.append(m_signalStore.signedIdentity.pub);
 
 				ec_public_key key = {};
-				memcpy(key.data, accountSignatureKey.c_str(), sizeof(key.data));
-				if (1 != curve_verify_signature(&key, (BYTE *)buf.data(), buf.length(), (BYTE *)accountSignature.c_str(), accountSignature.size()))
+				memcpy(key.data, accountSignatureKey.data, sizeof(key.data));
+				if (1 != curve_verify_signature(&key, buf.data(), buf.length(), accountSignature.data, accountSignature.len))
 					throw "OnIqPairSuccess: got reply with invalid account signature, exiting";
 			}
 			debugLogA("Received valid account signature");
 			{
 				MBinBuffer buf;
 				buf.append("\x06\x01", 2);
-				buf.append(deviceDetails.c_str(), deviceDetails.size());
+				buf.append(deviceDetails.data, deviceDetails.len);
 				buf.append(m_signalStore.signedIdentity.pub);
-				buf.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+				buf.append(accountSignatureKey.data, accountSignatureKey.len);
 
 				signal_buffer *result;
 				ec_private_key key = {};
@@ -183,33 +179,31 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
-				account.set_devicesignature(result->data, result->len);
+				account.devicesignature = proto::SetBinary(result->data, result->len);
+				account.has_devicesignature = true;
 				signal_buffer_free(result);
 			}
 
 			setDword("SignalDeviceId", 0);
 			{
 				MBinBuffer key;
-				if (accountSignatureKey.size() == 32)
+				if (accountSignatureKey.len == 32)
 					key.append(KEY_BUNDLE_TYPE, 1);
-				key.append(accountSignatureKey.c_str(), accountSignatureKey.size());
+				key.append(accountSignatureKey.data, accountSignatureKey.len);
 				db_set_blob(0, m_szModuleName, "SignalIdentifierKey", key.data(), (int)key.length());
 			}
 
-			account.clear_accountsignaturekey();
+			proto::CleanBinary(account.accountsignaturekey); account.has_accountsignaturekey = false;
+			MBinBuffer accountEnc(proto::Serialize(account));
 
-			MBinBuffer accountEnc(account.ByteSize());
-			account.SerializeToArray(accountEnc.data(), (int)accountEnc.length());
-
-			proto::ADVDeviceIdentity deviceIdentity;
-			deviceIdentity.ParseFromString(deviceDetails);
+			proto::ADVDeviceIdentity deviceIdentity(deviceDetails);
 
 			WANodeIq reply(IQ::RESULT); reply << CHAR_PARAM("id", node.getAttr("id"));
 
 			WANode *nodePair = reply.addChild("pair-device-sign");
 
 			WANode *nodeDeviceIdentity = nodePair->addChild("device-identity");
-			nodeDeviceIdentity->addAttr("key-index", deviceIdentity.keyindex());
+			nodeDeviceIdentity->addAttr("key-index", deviceIdentity.keyindex);
 			nodeDeviceIdentity->content.append(accountEnc.data(), accountEnc.length());
 			WSSendNode(reply);
 		}
@@ -258,10 +252,10 @@ void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnProcessHandshake(const void *pData, int cbLen)
+void WhatsAppProto::OnProcessHandshake(const uint8_t *pData, int cbLen)
 {
-	proto::HandshakeMessage msg;
-	if (!msg.ParseFromArray(pData, cbLen)) {
+	proto::HandshakeMessage msg(pData, cbLen);
+	if (!msg) {
 		debugLogA("Error parsing data, exiting");
 
 LBL_Error:
@@ -269,113 +263,113 @@ LBL_Error:
 		return;
 	}
 
-	auto &static_ = msg.serverhello().static_();
-	auto &payload_ = msg.serverhello().payload();
-	auto &ephemeral_ = msg.serverhello().ephemeral();
+	auto &static_ = msg.serverhello->static_;
+	auto &payload_ = msg.serverhello->payload;
+	auto &ephemeral_ = msg.serverhello->ephemeral;
 
-	m_noise->updateHash(ephemeral_.c_str(), ephemeral_.size());
-	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), ephemeral_.c_str());
+	m_noise->updateHash(ephemeral_.data, ephemeral_.len);
+	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), ephemeral_.data);
 
-	MBinBuffer decryptedStatic = m_noise->decrypt(static_.c_str(), static_.size());
+	MBinBuffer decryptedStatic = m_noise->decrypt(static_.data, static_.len);
 	m_noise->mixIntoKey(m_noise->ephemeral.priv.data(), decryptedStatic.data());
 
-	MBinBuffer decryptedCert = m_noise->decrypt(payload_.c_str(), payload_.size());
-
-	proto::CertChain cert; cert.ParseFromArray(decryptedCert.data(), (int)decryptedCert.length());
-	proto::CertChain::NoiseCertificate::Details details; details.ParseFromString(cert.intermediate().details());
-	if (details.issuerserial() != 0) {
+	proto::CertChain cert(m_noise->decrypt(payload_.data, payload_.len));
+	proto::CertChain__NoiseCertificate__Details details(cert.intermediate->details);
+	if (details.issuerserial != 0) {
 		debugLogA("Invalid certificate serial number, exiting");
 		goto LBL_Error;
 	}
 
 	MBinBuffer encryptedPub = m_noise->encrypt(m_noise->noiseKeys.pub.data(), m_noise->noiseKeys.pub.length());
-	m_noise->mixIntoKey(m_noise->noiseKeys.priv.data(), ephemeral_.c_str());
+	m_noise->mixIntoKey(m_noise->noiseKeys.priv.data(), ephemeral_.data);
 
 	// create reply
-	proto::ClientPayload node;
+	Wa__ClientPayload node = WA__CLIENT_PAYLOAD__INIT;
+	Wa__ClientPayload__DevicePairingRegistrationData pairingData;
+	Wa__DeviceProps companion;
+	Wa__DeviceProps__AppVersion appVersion;
 
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
 
 	// not received our jid from server? generate registration packet then
 	if (m_szJid.IsEmpty()) {
-		uint8_t appVersion[16];
-		mir_md5_hash((BYTE *)APP_VERSION, sizeof(APP_VERSION) - 1, appVersion);
+		uint8_t buildHash[16];
+		mir_md5_hash((BYTE *)APP_VERSION, sizeof(APP_VERSION) - 1, buildHash);
 
-		auto *pAppVersion = new proto::DeviceProps_AppVersion();
-		pAppVersion->set_primary(v[0]);
-		pAppVersion->set_secondary(v[1]);
-		pAppVersion->set_tertiary(v[2]);
-		pAppVersion->set_quaternary(v[3]);
+		appVersion = WA__DEVICE_PROPS__APP_VERSION__INIT;
+		appVersion.primary = v[0];    appVersion.has_primary = true;
+		appVersion.secondary = v[1];  appVersion.has_secondary = true;
+		appVersion.tertiary = v[2];   appVersion.has_tertiary = true;
+		appVersion.quaternary = v[3]; appVersion.has_quaternary = true;
 
-		proto::DeviceProps pCompanion;
-		pCompanion.set_os("Miranda NG");
-		pCompanion.set_allocated_version(pAppVersion);
-		pCompanion.set_platformtype(proto::DeviceProps_PlatformType_DESKTOP);
-		pCompanion.set_requirefullsync(false);
+		companion = WA__DEVICE_PROPS__INIT;
+		companion.os = "Miranda NG"; 
+		companion.version = &appVersion;
+		companion.platformtype = WA__DEVICE_PROPS__PLATFORM_TYPE__DESKTOP; companion.has_platformtype = true;
+		companion.requirefullsync = false; companion.has_requirefullsync = true;
 
-		MBinBuffer buf(pCompanion.ByteSize());
-		pCompanion.SerializeToArray(buf.data(), (int)buf.length());
+		MBinBuffer buf(proto::Serialize((ProtobufCMessage*)&companion));
+		auto szRegId(encodeBigEndian(getDword(DBKEY_REG_ID)));
+		auto szKeyId(encodeBigEndian(m_signalStore.preKey.keyid));
 
-		auto *pPairingData = new proto::ClientPayload_DevicePairingRegistrationData();
-		pPairingData->set_deviceprops(buf.data(), buf.length());
-		pPairingData->set_buildhash(appVersion, sizeof(appVersion));
-		pPairingData->set_eregid(encodeBigEndian(getDword(DBKEY_REG_ID)));
-		pPairingData->set_ekeytype(KEY_BUNDLE_TYPE);
-		pPairingData->set_eident(m_signalStore.signedIdentity.pub.data(), m_signalStore.signedIdentity.pub.length());
-		pPairingData->set_eskeyid(encodeBigEndian(m_signalStore.preKey.keyid));
-		pPairingData->set_eskeyval(m_signalStore.preKey.pub.data(), m_signalStore.preKey.pub.length());
-		pPairingData->set_eskeysig(m_signalStore.preKey.signature.data(), m_signalStore.preKey.signature.length());
-		node.set_allocated_devicepairingdata(pPairingData);
+		pairingData = WA__CLIENT_PAYLOAD__DEVICE_PAIRING_REGISTRATION_DATA__INIT;
+		pairingData.deviceprops = proto::SetBinary(buf.data(), buf.length()); pairingData.has_deviceprops = true;
+		pairingData.buildhash = proto::SetBinary(buildHash, sizeof(buildHash)); pairingData.has_buildhash = true;
+		pairingData.eregid = proto::SetBinary(szRegId.c_str(), szRegId.size()); pairingData.has_eregid = true;
+		pairingData.ekeytype = proto::SetBinary(KEY_BUNDLE_TYPE, 1); pairingData.has_ekeytype = true;
+		pairingData.eident = proto::SetBinary(m_signalStore.signedIdentity.pub.data(), m_signalStore.signedIdentity.pub.length()); pairingData.has_eident = true;
+		pairingData.eskeyid = proto::SetBinary(szKeyId.c_str(), szKeyId.size()); pairingData.has_eskeyid = true;
+		pairingData.eskeyval = proto::SetBinary(m_signalStore.preKey.pub.data(), m_signalStore.preKey.pub.length()); pairingData.has_eskeyval = true;
+		pairingData.eskeysig = proto::SetBinary(m_signalStore.preKey.signature.data(), m_signalStore.preKey.signature.length()); pairingData.has_eskeysig = true;
+		node.devicepairingdata = &pairingData;
 
-		node.set_passive(false);
+		node.passive = false; node.has_passive = true;
 	}
 	// generate login packet
 	else {
 		WAJid jid(m_szJid);
-		node.set_username(_atoi64(jid.user));
-		node.set_device(getDword(DBKEY_DEVICE_ID));
-		node.set_passive(true);
+		node.username = _atoi64(jid.user);       node.has_username = true;
+		node.device = getDword(DBKEY_DEVICE_ID); node.has_device = true;
+		node.passive = true;                     node.has_passive = true;
 	}
 
-	auto *pUserVersion = new proto::ClientPayload_UserAgent_AppVersion();
-	pUserVersion->set_primary(2);
-	pUserVersion->set_secondary(2230);
-	pUserVersion->set_tertiary(15);
+	Wa__ClientPayload__UserAgent__AppVersion userVersion = WA__CLIENT_PAYLOAD__USER_AGENT__APP_VERSION__INIT;
+	userVersion.primary = 2; userVersion.has_primary = true;
+	userVersion.secondary = 2230; userVersion.has_secondary = true;
+	userVersion.tertiary = 15; userVersion.has_tertiary = true;
 
-	auto *pUserAgent = new proto::ClientPayload_UserAgent();
-	pUserAgent->set_allocated_appversion(pUserVersion);
-	pUserAgent->set_platform(proto::ClientPayload_UserAgent_Platform_WEB);
-	pUserAgent->set_releasechannel(proto::ClientPayload_UserAgent_ReleaseChannel_RELEASE);
-	pUserAgent->set_mcc("000");
-	pUserAgent->set_mnc("000");
-	pUserAgent->set_osversion("0.1");
-	pUserAgent->set_osbuildnumber("0.1");
-	pUserAgent->set_manufacturer("");
-	pUserAgent->set_device("Desktop");
-	pUserAgent->set_localelanguageiso6391("en");
-	pUserAgent->set_localecountryiso31661alpha2("US");
+	Wa__ClientPayload__UserAgent userAgent = WA__CLIENT_PAYLOAD__USER_AGENT__INIT;
+	userAgent.appversion = &userVersion;
+	userAgent.platform = WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__WEB; userAgent.has_platform = true;
+	userAgent.releasechannel = WA__CLIENT_PAYLOAD__USER_AGENT__RELEASE_CHANNEL__RELEASE; userAgent.has_releasechannel = true;
+	userAgent.mcc = "000";
+	userAgent.mnc = "000";
+	userAgent.osversion = "0.1";
+	userAgent.osbuildnumber = "0.1";
+	userAgent.manufacturer = "";
+	userAgent.device = "Desktop";
+	userAgent.localelanguageiso6391 = "en";
+	userAgent.localecountryiso31661alpha2 = "US";
 
-	auto *pWebInfo = new proto::ClientPayload_WebInfo();
-	pWebInfo->set_websubplatform(proto::ClientPayload_WebInfo_WebSubPlatform_WEB_BROWSER);
+	Wa__ClientPayload__WebInfo webInfo = WA__CLIENT_PAYLOAD__WEB_INFO__INIT;
+	webInfo.websubplatform = WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WEB_BROWSER; webInfo.has_websubplatform = true;
 
-	node.set_connecttype(proto::ClientPayload_ConnectType_WIFI_UNKNOWN);
-	node.set_connectreason(proto::ClientPayload_ConnectReason_USER_ACTIVATED);
-	node.set_allocated_useragent(pUserAgent);
-	node.set_allocated_webinfo(pWebInfo);
+	node.connecttype = WA__CLIENT_PAYLOAD__CONNECT_TYPE__WIFI_UNKNOWN; node.has_connecttype = true;
+	node.connectreason = WA__CLIENT_PAYLOAD__CONNECT_REASON__USER_ACTIVATED; node.has_connectreason = true;
+	node.useragent = &userAgent;
+	node.webinfo = &webInfo;
 
-	MBinBuffer payload(node.ByteSize());
-	node.SerializeToArray(payload.data(), (int)payload.length());
-
+	MBinBuffer payload(proto::Serialize((ProtobufCMessage*)&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
 
-	auto *pFinish = new proto::HandshakeMessage_ClientFinish();
-	pFinish->set_payload(payloadEnc.data(), payloadEnc.length());
-	pFinish->set_static_(encryptedPub.data(), encryptedPub.length());
+	Wa__HandshakeMessage__ClientFinish finish = WA__HANDSHAKE_MESSAGE__CLIENT_FINISH__INIT;
+	finish.payload = {payloadEnc.length(), payloadEnc.data()}; finish.has_payload = true;
+	finish.static_ = {encryptedPub.length(), encryptedPub.data()}; finish.has_static_ = true;
 
-	proto::HandshakeMessage handshake;
-	handshake.set_allocated_clientfinish(pFinish);
-	WSSend(handshake);
+	Wa__HandshakeMessage handshake = WA__HANDSHAKE_MESSAGE__INIT;
+	handshake.clientfinish = &finish;
+	WSSend((ProtobufCMessage *)&handshake);
 
 	m_noise->finish();
 }

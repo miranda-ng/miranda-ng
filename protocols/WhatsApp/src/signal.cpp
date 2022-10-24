@@ -537,15 +537,12 @@ signal_buffer* MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffe
 
 MBinBuffer MSignalStore::encodeSignedIdentity(bool bIncludeSignatureKey)
 {
-	proto::ADVSignedDeviceIdentity identity;
-	identity << pProto->getBlob("WAAccount");
+	proto::ADVSignedDeviceIdentity identity(pProto->getBlob("WAAccount"));
 	
 	if (!bIncludeSignatureKey)
-		identity.clear_accountsignaturekey();
+		proto::CleanBinary(identity.accountsignaturekey), identity.has_accountsignaturekey = false;
 	
-	MBinBuffer res(identity.ByteSize());
-	identity.SerializeToArray(res.data(), (int)res.length());
-	return res;
+	return proto::Serialize(identity);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -578,6 +575,6 @@ void MSignalStore::generatePrekeys(int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void MSignalStore::processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &)
+void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *)
 {
 }

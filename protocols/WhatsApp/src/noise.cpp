@@ -112,10 +112,8 @@ MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 	return res;
 }
 
-size_t WANoise::decodeFrame(const void *&pData, size_t &cbLen)
+size_t WANoise::decodeFrame(const uint8_t *&p, size_t &cbLen)
 {
-	auto *p = (const uint8_t *)pData;
-
 	if (cbLen < 3)
 		return 0;
 
@@ -133,7 +131,7 @@ size_t WANoise::decodeFrame(const void *&pData, size_t &cbLen)
 		return 0;
 	}
 
-	pData = p + 3;
+	p += 3;
 	return payloadLen;
 }
 

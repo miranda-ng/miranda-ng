@@ -93,42 +93,41 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 
 		CMStringW wszSnapshotPath(GetTmpFileName("collection", pszName));
 		if (auto *pSnapshot = coll->getChild("snapshot")) {
-			proto::ExternalBlobReference body;
-			body << pSnapshot->content;
-			if (!body.has_directpath() || !body.has_mediakey()) {
+			proto::ExternalBlobReference body(pSnapshot->content);
+			if (!body.directpath || !body.has_mediakey) {
 				debugLogA("Invalid snapshot data, skipping");
 				continue;
 			}
 
-			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body.directpath().c_str()), body.mediakey(), "App State");
+			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body.directpath), body.mediakey, "App State");
 			if (!buf.data()) {
 				debugLogA("Invalid downloaded snapshot data, skipping");
 				continue;
 			}
 
-			proto::SyncdSnapshot snapshot;
-			snapshot << buf;
+			proto::SyncdSnapshot snapshot(buf);
 
-			dwVersion = snapshot.version().version();
+			dwVersion = snapshot.version->version;
 			if (dwVersion > pCollection->version) {
 				pCollection->hash.init();
 				debugLogA("%s: applying snapshot of version %d", pCollection->szName.get(), dwVersion);
-				for (auto &it : snapshot.records())
-					ParsePatch(pCollection, it, true);
+				for (int i=0; i < snapshot.n_records; i++)
+					ParsePatch(pCollection, snapshot.records[i], true);
 			}
 			else debugLogA("%s: skipping snapshot of version %d", pCollection->szName.get(), dwVersion);
 		}
 
 		if (auto *pPatchList = coll->getChild("patches")) {
 			for (auto &it : pPatchList->getChildren()) {
-				proto::SyncdPatch patch;
-				patch << it->content;
+				proto::SyncdPatch patch(it->content);
 
-				dwVersion = patch.version().version();
+				dwVersion = patch.version->version;
 				if (dwVersion > pCollection->version) {
 					debugLogA("%s: applying patch of version %d", pCollection->szName.get(), dwVersion);
-					for (auto &jt : patch.mutations())
-						ParsePatch(pCollection, jt.record(), jt.operation() == proto::SyncdMutation_SyncdOperation::SyncdMutation_SyncdOperation_SET);
+					for (int i = 0; i < patch.n_mutations; i++) {
+						auto &jt = *patch.mutations[i];
+						ParsePatch(pCollection, jt.record, jt.operation == WA__SYNCD_MUTATION__SYNCD_OPERATION__SET);
+					}
 				}
 				else debugLogA("%s: skipping patch of version %d", pCollection->szName.get(), dwVersion);
 			}
@@ -149,12 +148,14 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 
 static uint8_t sttMutationInfo[] = "WhatsApp Mutation Keys";
 
-void WhatsAppProto::ParsePatch(WACollection *pColl, const ::proto::SyncdRecord &rec, bool bSet)
+void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, bool bSet)
 {
-	int id = decodeBigEndian(rec.keyid().id());
-	auto &index = rec.index().blob();
-	auto &value = rec.value().blob();
-	auto &macValue = value.substr(value.size() - 32, value.size());
+	int id = decodeBigEndian(rec->keyid->id);
+	auto &indexBlob = rec->index->blob;
+	auto &value = rec->value->blob;
+	
+	auto *macValue = value.data + value.len - 32;
+	std::string index((char *)indexBlob.data, indexBlob.len);
 
 	MBinBuffer key(getBlob(CMStringA(FORMAT, "AppSyncKey%d", id)));
 	if (!key.data()) {
@@ -174,23 +175,22 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const ::proto::SyncdRecord &
 
 	HKDF(EVP_sha256(), (BYTE *)"", 0, key.data(), key.length(), sttMutationInfo, sizeof(sttMutationInfo) - 1, (BYTE *)&mutationKeys, sizeof(mutationKeys));
 
-	MBinBuffer decoded = aesDecrypt(EVP_aes_256_cbc(), mutationKeys.encKey, (uint8_t *)value.c_str(), value.c_str() + 16, value.size() - 32);
+	MBinBuffer decoded = aesDecrypt(EVP_aes_256_cbc(), mutationKeys.encKey, value.data, value.data + 16, value.len - 32);
 	if (!decoded.data()) {
 		debugLogA("Unable to decode patch with key id=%d", id);
 		return;
 	}
 
-	proto::SyncActionData data;
-	data << decoded;
+	proto::SyncActionData data(decoded);
 
-	debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data.version(), data.Utf8DebugString().c_str());
+	// debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data.version, data.Utf8DebugString().c_str());
 
 	if (bSet) {
-		JSONNode jsonRoot = JSONNode::parse(data.index().c_str());
-		ApplyPatch(jsonRoot, data.value());
+		JSONNode jsonRoot = JSONNode::parse((char*)data.index.data);
+		ApplyPatch(jsonRoot, data.value);
 
-		pColl->hash.add(macValue.c_str(), macValue.size());
-		pColl->indexValueMap[index] = macValue;
+		pColl->hash.add(macValue, 32);
+		pColl->indexValueMap[index] = std::string((char*)macValue, 32);
 	}
 	else {
 		auto &prevVal = pColl->indexValueMap.find(index);
@@ -201,34 +201,35 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const ::proto::SyncdRecord &
 	}
 }
 
-void WhatsAppProto::ApplyPatch(const JSONNode &index, const proto::SyncActionValue &data)
+void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data)
 {
 	auto title = index.at((json_index_t)0).as_string();
 
-	if (title == "contact" && data.has_contactaction()) {
+	if (title == "contact" && data->contactaction) {
 		WAJid jid(index.at(1).as_string().c_str());
 		auto *pUser = AddUser(jid.toString(), false, jid.isGroup());
 
-		auto &pAction = data.contactaction();
-		auto &fullName = pAction.fullname();
-		if (!fullName.empty())
-			setUString(pUser->hContact, "Nick", fullName.c_str());
+		auto *pAction = data->contactaction;
+		auto &fullName = pAction->fullname;
+		if (fullName)
+			setUString(pUser->hContact, "Nick", fullName);
 
-		if (pAction.has_firstname()) {
-			CMStringA str(pAction.firstname().c_str());
+		if (pAction->firstname) {
+			CMStringA str(pAction->firstname);
 			str.TrimRight();
 			setUString(pUser->hContact, "FirstName", str.c_str());
-			setUString(pUser->hContact, "LastName", fullName.c_str() + str.GetLength() + 1);
+			setUString(pUser->hContact, "LastName", fullName + str.GetLength() + 1);
 		}
 		else {
-			size_t idx = fullName.rfind(' ');
-			if (idx != fullName.npos) {
-				setUString(pUser->hContact, "FirstName", fullName.substr(0, idx).c_str());
-				setUString(pUser->hContact, "LastName", fullName.substr(idx+1, fullName.size()).c_str());
+			auto *p = strrchr(fullName, ' ');
+			if (p != 0) {
+				*p = 0;
+				setUString(pUser->hContact, "FirstName", fullName);
+				setUString(pUser->hContact, "LastName", p+1);
 			}
 			else {
 				setUString(pUser->hContact, "FirstName", "");
-				setUString(pUser->hContact, "LastName", fullName.c_str());
+				setUString(pUser->hContact, "LastName", fullName);
 			}
 		}
 	}

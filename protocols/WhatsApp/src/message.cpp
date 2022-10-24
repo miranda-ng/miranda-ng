@@ -92,34 +92,23 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	if (!bFromMe && participant)
 		bFromMe = m_szJid == participant;
 
-	auto *pKey = new proto::MessageKey();
-	pKey->set_remotejid(szChatId);
-	pKey->set_id(msgId);
-	pKey->set_fromme(bFromMe);
+	Wa__MessageKey key = WA__MESSAGE_KEY__INIT;
+	key.remotejid = szChatId.GetBuffer();
+	key.id = (char*)msgId;
+	key.fromme = bFromMe; key.has_fromme = true;
 	if (participant)
-		pKey->set_participant(participant);
+		key.participant = (char*)participant;
 
-	proto::WebMessageInfo msg;
-	msg.set_allocated_key(pKey);
-	msg.set_messagetimestamp(_atoi64(node.getAttr("t")));
-	msg.set_pushname(node.getAttr("notify"));
+	Wa__WebMessageInfo msg = WA__WEB_MESSAGE_INFO__INIT;
+	msg.key = &key;
+	msg.messagetimestamp = _atoi64(node.getAttr("t")); msg.has_messagetimestamp = true;
+	msg.pushname = (char*)node.getAttr("notify");
 	if (bFromMe)
-		msg.set_status(proto::WebMessageInfo_Status_SERVER_ACK);
+		msg.status = WA__WEB_MESSAGE_INFO__STATUS__SERVER_ACK, msg.has_status = true;
 
 	int iDecryptable = 0;
 
 	for (auto &it : node.getChildren()) {
-		if (it->title == "verified_name") {
-			proto::VerifiedNameCertificate cert;
-			cert << it->content;
-
-			proto::VerifiedNameCertificate::Details details;
-			details.ParseFromString(cert.details());
-
-			msg.set_verifiedbizname(details.verifiedname());
-			continue;
-		}
-
 		if (it->title != "enc" || it->content.length() == 0)
 			continue;
 
@@ -140,18 +129,16 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			iDecryptable++;
 
-			proto::Message encMsg;
-			encMsg.ParseFromArray(msgBody.data(), msgBody.len());
-			if (encMsg.devicesentmessage().has_message())
-				msg.set_allocated_message(new proto::Message(encMsg.devicesentmessage().message()));
+			proto::Message encMsg(msgBody.data(), msgBody.len());
+			if (encMsg.devicesentmessage)
+				msg.message = encMsg.devicesentmessage->message;
 			else
-				msg.set_allocated_message(new proto::Message(encMsg));
+				msg.message = &encMsg;
 
-			if (encMsg.has_senderkeydistributionmessage())
-				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage());
+			if (encMsg.senderkeydistributionmessage)
+				m_signalStore.processSenderKeyMessage(encMsg.senderkeydistributionmessage);
 
 			ProcessMessage(type, msg);
-			msg.clear_message();
 
 			// send receipt
 			const char *pszReceiptType = nullptr, *pszReceiptTo = participant;
@@ -180,125 +167,121 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static const proto::Message& getBody(const proto::Message &message)
+static const Wa__Message* getBody(const Wa__Message *message)
 {
-	if (message.has_ephemeralmessage()) {
-		auto &pMsg = message.ephemeralmessage().message();
-		return (pMsg.has_viewoncemessage()) ? pMsg.viewoncemessage().message() : pMsg;
+	if (message->ephemeralmessage) {
+		auto *pMsg = message->ephemeralmessage->message;
+		return (pMsg->viewoncemessage) ? pMsg->viewoncemessage->message : pMsg;
 	}
 
-	if (message.has_viewoncemessage())
-		return message.viewoncemessage().message();
+	if (message->viewoncemessage)
+		return message->viewoncemessage->message;
 
 	return message;
 }
 
-void WhatsAppProto::ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg)
+void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 {
-	auto &key = msg.key();
-	auto &body = getBody(msg.message());
-	bool bFromMe = key.fromme();
+	auto *key = msg.key;
+	auto *body = getBody(msg.message);
+	bool bFromMe = key->fromme;
 
-	debugLogA("Got a message: %s", msg.Utf8DebugString().c_str());
+	// debugLogA("Got a message: %s", msg.Utf8DebugString().c_str());
 
-	uint32_t timestamp = msg.messagetimestamp();
-	auto &participant = key.participant();
-	auto &chatId = key.remotejid();
-	auto &msgId = key.id();
+	uint32_t timestamp = msg.messagetimestamp;
+	auto *participant = key->participant;
+	auto *chatId = key->remotejid;
+	auto *msgId = key->id;
 	
-	WAUser *pUser = FindUser(chatId.c_str());
+	WAUser *pUser = FindUser(chatId);
 	if (pUser == nullptr) {
 		if (type.bPrivateChat)
-			pUser = AddUser(chatId.c_str(), false, false);
+			pUser = AddUser(chatId, false, false);
 		else if (type.bGroupChat)
-			pUser = AddUser(chatId.c_str(), false, true);
+			pUser = AddUser(chatId, false, true);
 	}
 
-	if (!bFromMe && msg.has_pushname() && pUser && !pUser->bIsGroupChat)
-		setUString(pUser->hContact, "Nick", msg.pushname().c_str());
+	if (!bFromMe && msg.pushname && pUser && !pUser->bIsGroupChat)
+		setUString(pUser->hContact, "Nick", msg.pushname);
 
 	// try to extract some text 
-	if (body.has_conversation()) {
-		auto &conversation = body.conversation();
-		if (!conversation.empty()) {
-			PROTORECVEVENT pre = {};
-			pre.timestamp = timestamp;
-			pre.szMessage = (char*)conversation.c_str();
-			pre.szMsgId = msgId.c_str();
-			if (type.bOffline)
-				pre.flags |= PREF_CREATEREAD;
-			if (bFromMe)
-				pre.flags |= PREF_SENT;
-			ProtoChainRecvMsg(pUser->hContact, &pre);
-		}
+	if (mir_strlen(body->conversation)) {
+		PROTORECVEVENT pre = {};
+		pre.timestamp = timestamp;
+		pre.szMessage = body->conversation;
+		pre.szMsgId = msgId;
+		if (type.bOffline)
+			pre.flags |= PREF_CREATEREAD;
+		if (bFromMe)
+			pre.flags |= PREF_SENT;
+		ProtoChainRecvMsg(pUser->hContact, &pre);
 	}
 
-	if (body.has_protocolmessage()) {
-		auto &protoMsg = body.protocolmessage();
-		switch (protoMsg.type()) {
-		case proto::Message_ProtocolMessage_Type_APP_STATE_SYNC_KEY_SHARE:
-			if (protoMsg.appstatesynckeyshare().keys_size()) {
-				for (auto &it : protoMsg.appstatesynckeyshare().keys()) {
-					auto &keyid = it.keyid().keyid();
-					auto &keydata = it.keydata().keydata();
+	if (body->protocolmessage) {
+		auto *protoMsg = body->protocolmessage;
+		switch (protoMsg->type) {
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_SYNC_KEY_SHARE:
+			for (int i = 0; i < protoMsg->appstatesynckeyshare->n_keys; i++) {
+				auto *it = protoMsg->appstatesynckeyshare->keys[i];
+				auto &keyid = it->keyid->keyid;
+				auto &keydata = it->keydata->keydata;
 
-					CMStringA szSetting(FORMAT, "AppSyncKey%d", decodeBigEndian(keyid));
-					db_set_blob(0, m_szModuleName, szSetting, keydata.c_str(), (unsigned)keydata.size());
-				}
+				CMStringA szSetting(FORMAT, "AppSyncKey%d", decodeBigEndian(keyid));
+				db_set_blob(0, m_szModuleName, szSetting, keydata.data, (unsigned)keydata.len);
 			}
 			break;
 
-		case proto::Message_ProtocolMessage_Type_HISTORY_SYNC_NOTIFICATION:
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_FATAL_EXCEPTION_NOTIFICATION:
 			debugLogA("History sync notification");
 			m_impl.m_resyncApp.Stop();
 			m_impl.m_resyncApp.Start(10000);
 			break;
 
-		case proto::Message_ProtocolMessage_Type_REVOKE:
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REVOKE:
 			break;
 
-		case proto::Message_ProtocolMessage_Type_EPHEMERAL_SETTING:
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__EPHEMERAL_SETTING:
 			if (pUser) {
 				setDword(pUser->hContact, DBKEY_EPHEMERAL_TS, timestamp);
-				setDword(pUser->hContact, DBKEY_EPHEMERAL_EXPIRE, protoMsg.ephemeralexpiration());
+				setDword(pUser->hContact, DBKEY_EPHEMERAL_EXPIRE, protoMsg->ephemeralexpiration);
 			}
 			break;
 		}
 	}
-	else if (body.has_reactionmessage()) {
+	else if (body->reactionmessage) {
 		debugLogA("Got a reaction to a message");
 	}
-	else if (msg.has_messagestubtype()) {
-		switch (msg.messagestubtype()) {
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_LEAVE:
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_REMOVE:
-			debugLogA("Participant %s removed from chat", participant.c_str());
+	else if (msg.has_messagestubtype) {
+		switch (msg.messagestubtype) {
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_LEAVE:
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_REMOVE:
+			debugLogA("Participant %s removed from chat", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_ADD:
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_INVITE:
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_ADD_REQUEST_JOIN:
-			debugLogA("Participant %s added to chat", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_ADD:
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_INVITE:
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_ADD_REQUEST_JOIN:
+			debugLogA("Participant %s added to chat", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_DEMOTE:
-			debugLogA("Participant %s demoted", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_DEMOTE:
+			debugLogA("Participant %s demoted", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_PARTICIPANT_PROMOTE:
-			debugLogA("Participant %s promoted", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_PARTICIPANT_PROMOTE:
+			debugLogA("Participant %s promoted", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_CHANGE_ANNOUNCE:
-			debugLogA("Groupchat announce", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_ANNOUNCE:
+			debugLogA("Groupchat announce", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_CHANGE_RESTRICT:
-			debugLogA("Groupchat restriction", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_RESTRICT:
+			debugLogA("Groupchat restriction", participant);
 			break;
 
-		case proto::WebMessageInfo::GROUP_CHANGE_SUBJECT:
-			debugLogA("Groupchat subject was changed", participant.c_str());
+		case WA__WEB_MESSAGE_INFO__STUB_TYPE__GROUP_CHANGE_SUBJECT:
+			debugLogA("Groupchat subject was changed", participant);
 			break;
 		}
 	}
@@ -333,18 +316,17 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	bin2hex(msgId, sizeof(msgId), szMsgId);
 	strupr(szMsgId);
 
-	auto *pBody = new proto::Message();
-	pBody->set_conversation(pszMsg);
+	Wa__Message body = WA__MESSAGE__INIT;
+	body.conversation = (char*)pszMsg;
 
-	auto *pSentBody = new proto::Message_DeviceSentMessage();
-	pSentBody->set_allocated_message(pBody);
-	pSentBody->set_destinationjid(jid);
+	Wa__Message__DeviceSentMessage sentBody = WA__MESSAGE__DEVICE_SENT_MESSAGE__INIT;
+	sentBody.message = &body;
+	sentBody.destinationjid = (char*)jid;
 
-	proto::Message msg;
-	msg.set_allocated_devicesentmessage(pSentBody);
+	Wa__Message msg = WA__MESSAGE__INIT;
+	msg.devicesentmessage = &sentBody;
 
-	MBinBuffer encMsg(msg.ByteSizeLong());
-	msg.SerializeToArray(encMsg.data(), (int)encMsg.length());
+	MBinBuffer encMsg(proto::Serialize((ProtobufCMessage*)&msg));
 
 	WANode payLoad("message");
 	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);

@@ -70,10 +70,19 @@
     <ClCompile Include="src\message.cpp" />
     <ClCompile Include="src\noise.cpp" />
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\pmsg.pb.cc">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    <ClCompile Include="src\pmsg.pb-c.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\proto.cpp" />
+    <ClCompile Include="src\protobuf-c\protobuf-c.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\qrcode.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\signal.cpp" />
@@ -85,6 +94,7 @@
     <ClInclude Include="..\..\utils\mir_signal.h" />
     <ClInclude Include="src\db.h" />
     <ClInclude Include="src\dicts.h" />
+    <ClInclude Include="src\pmsg.proto.h" />
     <ClInclude Include="src\proto.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\stdafx.h" />

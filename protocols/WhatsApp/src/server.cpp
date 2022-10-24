@@ -50,10 +50,12 @@ void WhatsAppProto::ServerThreadWorker()
 
 	Utils_GetRandom(m_wMsgPrefix, sizeof(m_wMsgPrefix));
 
-	auto &pubKey = m_noise->ephemeral.pub;
-	auto *client = new proto::HandshakeMessage::ClientHello(); client->set_ephemeral(pubKey.data(), pubKey.length());
-	proto::HandshakeMessage msg; msg.set_allocated_clienthello(client);
-	WSSend(msg);
+	Wa__HandshakeMessage__ClientHello client = WA__HANDSHAKE_MESSAGE__CLIENT_HELLO__INIT;
+	client.ephemeral = {m_noise->ephemeral.pub.length(), m_noise->ephemeral.pub.data()};
+	client.has_ephemeral = true;
+
+	Wa__HandshakeMessage msg; msg.clienthello = &client;
+	WSSend((ProtobufCMessage*)&msg);
 
 	MBinBuffer netbuf;
 
@@ -178,7 +180,7 @@ bool WhatsAppProto::WSReadPacket(const WSHeader &hdr, MBinBuffer &res)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Binary data processing
 
-void WhatsAppProto::ProcessBinaryPacket(const void *pData, size_t cbDataLen)
+void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 {
 	while (size_t payloadLen = m_noise->decodeFrame(pData, cbDataLen)) {
 		if (m_noise->bInitFinished) {

@@ -148,7 +148,7 @@ public:
 	MBinBuffer decrypt(const void *pData, size_t cbLen);
 	MBinBuffer encrypt(const void *pData, size_t cbLen);
 
-	size_t     decodeFrame(const void *&pData, size_t &cbLen);
+	size_t     decodeFrame(const uint8_t *&pData, size_t &cbLen);
 	MBinBuffer encodeFrame(const void *pData, size_t cbLen);
 };
 
@@ -213,7 +213,7 @@ public:
 
 	void logError(int code, const char *szMessage);
 
-	void processSenderKeyMessage(const proto::Message_SenderKeyDistributionMessage &msg);
+	void processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *msg);
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>
@@ -260,8 +260,8 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	OBJLIST<WACollection> m_arCollections;
 
 	void InitSync(void);
-	void ApplyPatch(const JSONNode &index, const proto::SyncActionValue &data);
-	void ParsePatch(WACollection *pColl, const proto::SyncdRecord &rec, bool bSet);
+	void ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data);
+	void ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, bool bSet);
 	void ResyncServer(const OBJLIST<WACollection> &task);
 	void ResyncAll(void);
 
@@ -305,16 +305,16 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	int m_iPacketId;
 	uint16_t m_wMsgPrefix[2];
 	CMStringA GenerateMessageId();
-	void ProcessMessage(WAMSG type, const proto::WebMessageInfo &msg);
+	void ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
 	bool CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig);
 
 	void ProcessReceipt(MCONTACT hContact, const char *msgId, bool bRead);
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
-	int  WSSend(const MessageLite &msg);
+	int  WSSend(const ProtobufCMessage *msg);
 	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
 
-	MBinBuffer DownloadEncryptedFile(const char *url, const std::string &mediaKeys, const char *pszType);
+	MBinBuffer DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszType);
 	CMStringW  GetTmpFileName(const char *pszClass, const char *addition);
 
 	void OnLoggedIn(void);
@@ -341,7 +341,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnGetAvatarInfo(const JSONNode &node, void*);
 	void OnGetChatInfo(const JSONNode &node, void*);
 
-	void OnProcessHandshake(const void *pData, int cbLen);
+	void OnProcessHandshake(const uint8_t *pData, int cbLen);
 	
 	void InitPersistentHandlers();
 	void OnAccountSync(const WANode &node);
@@ -367,7 +367,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	MSignalStore m_signalStore;
 
 	// Binary packets
-	void ProcessBinaryPacket(const void *pData, size_t cbLen);
+	void ProcessBinaryPacket(const uint8_t *pData, size_t cbLen);
 
 	// unzip operations
 	MBinBuffer unzip(const MBinBuffer &src);

@@ -15,6 +15,8 @@ Copyright © 2019-22 George Hazan
 #include <windows.h>
 
 #include <list>
+#include <map>
+#include <memory>
 #include <string>
 
 #include <newpluginapi.h>
@@ -58,19 +60,7 @@ Copyright © 2019-22 George Hazan
 
 #include "../../utils/mir_signal.h"
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// to obtain protobuf library do the following
-// - install vcpkg (https://github.com/microsoft/vcpkg);
-// - integrage vcpkg into Visual Studio:
-// >vcpkg.exe integrate install
-// - install dynamic libraries of protobuf:
-// >vcpkg.exe install protobuf:x86-windows
-// >vcpkg.exe install protobuf:x64-windows
-
-#include "google/protobuf/message.h"
-#include "pmsg.pb.h"
-
-using namespace google::protobuf;
+#include "pmsg.proto.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
