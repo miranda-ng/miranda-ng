@@ -105,7 +105,11 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 				continue;
 			}
 
-			proto::SyncdSnapshot snapshot(buf);
+			proto::SyncdSnapshot snapshot(unpad16buf(buf));
+			if (!snapshot) {
+				debugLogA("%s: unable to decode snapshot, skipping");
+				continue;
+			}
 
 			dwVersion = snapshot->version->version;
 			if (dwVersion > pCollection->version) {
@@ -120,6 +124,10 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 		if (auto *pPatchList = coll->getChild("patches")) {
 			for (auto &it : pPatchList->getChildren()) {
 				proto::SyncdPatch patch(it->content);
+				if (!patch) {
+					debugLogA("%s: unable to decode patch, skipping");
+					continue;
+				}
 
 				dwVersion = patch->version->version;
 				if (dwVersion > pCollection->version) {
@@ -181,7 +189,7 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 		return;
 	}
 
-	proto::SyncActionData data(decoded);
+	proto::SyncActionData data(unpad16buf(decoded));
 
 	// debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data.version, data.Utf8DebugString().c_str());
 

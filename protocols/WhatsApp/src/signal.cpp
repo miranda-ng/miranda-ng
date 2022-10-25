@@ -487,7 +487,7 @@ MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceI
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-signal_buffer* MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
+MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
 {
 	WAJid jid(from);
 	auto *pSession = createSession(jid.user, 0);
@@ -518,10 +518,13 @@ signal_buffer* MSignalStore::decryptSignalProto(const CMStringA &from, const cha
 		signal_message_destroy((signal_type_base *)pMsg);
 	}
 
-	return result;
+	MBinBuffer res;
+	res.assign(result->data, result->len);
+	signal_buffer_free(result);
+	return res;
 }
 
-signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
+MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
 {
 	WAJid jid(sender);
 	auto *pSession = createSession(group + CMStringA(FORMAT, "::%s::%d", jid.user.c_str(), jid.device), 0);
@@ -537,7 +540,11 @@ signal_buffer* MSignalStore::decryptGroupSignalProto(const CMStringA &group, con
 		"unable to decrypt signal message");
 
 	signal_message_destroy((signal_type_base *)pMsg);
-	return result;
+
+	MBinBuffer res;
+	res.assign(result->data, result->len);
+	signal_buffer_free(result);
+	return res;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -599,6 +606,6 @@ void MSignalStore::generatePrekeys(int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *msg)
+void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *)
 {
 }

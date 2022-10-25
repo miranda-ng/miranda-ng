@@ -112,7 +112,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		if (it->title != "enc" || it->content.length() == 0)
 			continue;
 
-		SignalBuffer msgBody;
+		MBinBuffer msgBody;
 		auto *pszType = it->getAttr("type");
 		try {
 			if (!mir_strcmp(pszType, "pkmsg") || !mir_strcmp(pszType, "msg")) {
@@ -124,16 +124,12 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			}
 			else throw "Invalid e2e type";
 
-			if (!msgBody)
+			if (!msgBody.data())
 				throw "Invalid e2e message";
 
 			iDecryptable++;
 
-			auto c = msgBody.data() + msgBody.len() - 1;
-			if (*c <= 0x10)
-				msgBody.reset(msgBody.len() - *c);
-
-			proto::Message encMsg(msgBody.data(), msgBody.len());
+			proto::Message encMsg(unpad16buf(msgBody));
 			if (!encMsg)
 				throw "Invalid decoded message";
 

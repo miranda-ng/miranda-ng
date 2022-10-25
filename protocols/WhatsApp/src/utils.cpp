@@ -268,6 +268,19 @@ void generateIV(uint8_t *iv, int &pVar)
 	pVar++;
 }
 
+MBinBuffer unpad16buf(const MBinBuffer &buf)
+{
+	size_t len = buf.length();
+	auto p = buf.data() + len - 1;
+	if (*p <= 0x10) {
+		MBinBuffer res;
+		res.assign(buf.data(), len - *p);
+		return res;
+	}
+
+	return buf;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 
