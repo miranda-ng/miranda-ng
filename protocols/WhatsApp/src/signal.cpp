@@ -35,7 +35,7 @@ MSignalStore::~MSignalStore()
 void MSignalStore::logError(int err, const char *pszMessage)
 {
 	if (err < 0) {
-		pProto->debugLogA("libsignal error %d: %s", err, pszMessage);
+		pProto->debugLogA("libsignal error %d", err);
 		throw pszMessage;
 	}
 }
@@ -100,7 +100,8 @@ static int contains_session_func(const signal_protocol_address *address, void *u
 	auto *pStore = (MSignalStore *)user_data;
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
-	return pStore->arSessions.find(&tmp) == nullptr;
+	ptrA data(pStore->pProto->getStringA(tmp.getSetting()));
+	return data == nullptr;
 }
 
 static int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
@@ -111,6 +112,7 @@ static int delete_all_sessions_func(const char *name, size_t name_len, void *use
 	int count = 0;
 	for (auto &it : pList.rev_iter()) {
 		if (it->hasAddress(name, name_len)) {
+			pStore->pProto->delSetting(it->getSetting());
 			pList.remove(pList.indexOf(&it));
 			count++;
 		}
@@ -125,8 +127,10 @@ int delete_session_func(const signal_protocol_address *address, void *user_data)
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
 	int idx = pList.getIndex(&tmp);
-	if (idx != -1)
+	if (idx != -1) {
+		pStore->pProto->delSetting(tmp.getSetting());
 		pList.remove(idx);
+	}
 	return 0;
 }
 
@@ -156,13 +160,21 @@ int load_session_func(signal_buffer **record, signal_buffer **user_data_storage,
 	auto *pStore = (MSignalStore *)user_data;
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
-	if (auto *pSession = pStore->arSessions.find(&tmp)) {
-		*record = signal_buffer_create((uint8_t *)pSession->sessionData.data(), pSession->sessionData.length());
-		*user_data_storage = signal_buffer_create((uint8_t *)pSession->userData.data(), pSession->userData.length());
-		return 1;
-	}
+	auto *pSession = pStore->arSessions.find(&tmp);
+	if (pSession == nullptr) {
+		ptrA szSession(pStore->pProto->getStringA(tmp.getSetting()));
+		if (szSession == nullptr)
+			return 0;
 
-	return 0;
+		JSONNode root = JSONNode::parse(szSession);
+		pSession = new MSignalSession(tmp);
+		pSession->sessionData = decodeBufStr(root["data"].as_string());
+		pSession->userData = decodeBufStr(root["user"].as_string());
+	}
+		
+	*record = signal_buffer_create((uint8_t *)pSession->sessionData.data(), pSession->sessionData.length());
+	*user_data_storage = signal_buffer_create((uint8_t *)pSession->userData.data(), pSession->userData.length());
+	return 1;
 }
 
 static int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t *user_record, size_t user_record_len, void *user_data)
@@ -178,6 +190,10 @@ static int store_session_func(const signal_protocol_address *address, uint8_t *r
 
 	pSession->sessionData.assign(record, record_len);
 	pSession->userData.assign(user_record, user_record_len);
+
+	JSONNode root;
+	root << CHAR_PARAM("data", ptrA(mir_base64_encode(record, record_len))) << CHAR_PARAM("user", ptrA(mir_base64_encode(user_record, user_record_len)));
+	pStore->pProto->setString(pSession->getSetting(), root.write().c_str());	
 	return 0;
 }
 
@@ -255,6 +271,9 @@ static int contains_signed_pre_key(uint32_t signed_pre_key_id, void *user_data)
 static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_id, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
+
+	if (signed_pre_key_id == 0)
+		signed_pre_key_id = 1;
 
 	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
@@ -442,6 +461,11 @@ bool MSignalSession::hasAddress(const char *name, size_t name_len) const
 	return memcmp(address.name, name, name_len) == 0;
 }
 
+CMStringA MSignalSession::getSetting() const
+{
+	return CMStringA(FORMAT, "%s_%s_%d", "SignalSession", szName.c_str(), getDeviceId());
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceId)
@@ -575,6 +599,6 @@ void MSignalStore::generatePrekeys(int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *)
+void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *msg)
 {
 }

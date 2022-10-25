@@ -224,6 +224,19 @@ std::string decodeBinStr(const std::string &buf)
 	return res;
 }
 
+MBinBuffer decodeBufStr(const std::string &buf)
+{
+	MBinBuffer res;
+	size_t cbLen;
+	void *pData = mir_base64_decode(buf.c_str(), &cbLen);
+	if (pData == nullptr)
+		return res;
+
+	res.assign(pData, cbLen);
+	mir_free(pData);
+	return res;
+}
+
 uint32_t decodeBigEndian(const ProtobufCBinaryData &buf)
 {
 	uint32_t ret = 0;

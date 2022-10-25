@@ -209,6 +209,8 @@ size_t foo__bar__baz_bah__pack_to_buffer
 # define PROTOBUF_C__END_DECLS
 #endif
 
+#define PROTOBUF_C_UNPACK_ERROR OutputDebugStringA
+
 PROTOBUF_C__BEGIN_DECLS
 
 #if defined(_WIN32) && defined(PROTOBUF_C_USE_SHARED_LIB)

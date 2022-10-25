@@ -129,7 +129,14 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			iDecryptable++;
 
+			auto c = msgBody.data() + msgBody.len() - 1;
+			if (*c <= 0x10)
+				msgBody.reset(msgBody.len() - *c);
+
 			proto::Message encMsg(msgBody.data(), msgBody.len());
+			if (!encMsg)
+				throw "Invalid decoded message";
+
 			if (encMsg->devicesentmessage)
 				msg.message = encMsg->devicesentmessage->message;
 			else
@@ -155,7 +162,8 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			SendReceipt(szChatId, pszReceiptTo, msgId, pszReceiptType);
 		}
-		catch (const char *) {
+		catch (const char *pszError) {
+			debugLogA("Message decryption failed with error: %s", pszError);
 		}
 
 		if (!iDecryptable) {

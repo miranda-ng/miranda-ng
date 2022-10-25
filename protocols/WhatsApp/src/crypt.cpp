@@ -21,8 +21,10 @@ MBinBuffer aesDecrypt(
 	if (additionalLen)
 		EVP_DecryptUpdate(ctx, nullptr, &tag_len, (uint8_t *)additionalData, (int)additionalLen);
 
-	dataLen -= 16;
-	EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (uint8_t *)data + dataLen);
+	if (cipher == EVP_aes_256_gcm()) {
+		dataLen -= 16;
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (uint8_t *)data + dataLen);
+	}
 
 	MBinBuffer ret;
 	uint8_t outbuf[2000];

@@ -169,6 +169,7 @@ public:
 
 	__forceinline session_cipher* getCipher(void) const { return cipher; }
 	__forceinline int getDeviceId() const { return address.device_id; }
+	CMStringA getSetting() const;
 };
 
 class MSignalStore
