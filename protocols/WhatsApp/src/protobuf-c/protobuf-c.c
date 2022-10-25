@@ -2941,9 +2941,7 @@ parse_member(ScannedMember *scanned_member,
  * for old code, and which would be useful to support allocating
  * descriptors dynamically).
  */
-static void
-message_init_generic(const ProtobufCMessageDescriptor *desc,
-		     ProtobufCMessage *message)
+void message_init_generic(const ProtobufCMessageDescriptor *desc, ProtobufCMessage *message)
 {
 	unsigned i;
 

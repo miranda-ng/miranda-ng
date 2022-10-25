@@ -92,14 +92,14 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 	if (!bFromMe && participant)
 		bFromMe = m_szJid == participant;
 
-	Wa__MessageKey key = WA__MESSAGE_KEY__INIT;
+	Wa__MessageKey key;
 	key.remotejid = szChatId.GetBuffer();
 	key.id = (char*)msgId;
 	key.fromme = bFromMe; key.has_fromme = true;
 	if (participant)
 		key.participant = (char*)participant;
 
-	Wa__WebMessageInfo msg = WA__WEB_MESSAGE_INFO__INIT;
+	Wa__WebMessageInfo msg;
 	msg.key = &key;
 	msg.messagetimestamp = _atoi64(node.getAttr("t")); msg.has_messagetimestamp = true;
 	msg.pushname = (char*)node.getAttr("notify");
@@ -320,14 +320,14 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	bin2hex(msgId, sizeof(msgId), szMsgId);
 	strupr(szMsgId);
 
-	Wa__Message body = WA__MESSAGE__INIT;
+	Wa__Message body;
 	body.conversation = (char*)pszMsg;
 
-	Wa__Message__DeviceSentMessage sentBody = WA__MESSAGE__DEVICE_SENT_MESSAGE__INIT;
+	Wa__Message__DeviceSentMessage sentBody;
 	sentBody.message = &body;
 	sentBody.destinationjid = (char*)jid;
 
-	Wa__Message msg = WA__MESSAGE__INIT;
+	Wa__Message msg;
 	msg.devicesentmessage = &sentBody;
 
 	MBinBuffer encMsg(proto::Serialize(&msg));

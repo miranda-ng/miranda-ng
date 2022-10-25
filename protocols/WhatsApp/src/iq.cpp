@@ -284,7 +284,7 @@ LBL_Error:
 	m_noise->mixIntoKey(m_noise->noiseKeys.priv.data(), ephemeral_.data);
 
 	// create reply
-	Wa__ClientPayload node = WA__CLIENT_PAYLOAD__INIT;
+	Wa__ClientPayload node;
 	Wa__ClientPayload__DevicePairingRegistrationData pairingData;
 	Wa__DeviceProps companion;
 	Wa__DeviceProps__AppVersion appVersion;
@@ -297,13 +297,11 @@ LBL_Error:
 		uint8_t buildHash[16];
 		mir_md5_hash((BYTE *)APP_VERSION, sizeof(APP_VERSION) - 1, buildHash);
 
-		appVersion = WA__DEVICE_PROPS__APP_VERSION__INIT;
 		appVersion.primary = v[0];    appVersion.has_primary = true;
 		appVersion.secondary = v[1];  appVersion.has_secondary = true;
 		appVersion.tertiary = v[2];   appVersion.has_tertiary = true;
 		appVersion.quaternary = v[3]; appVersion.has_quaternary = true;
 
-		companion = WA__DEVICE_PROPS__INIT;
 		companion.os = "Miranda NG"; 
 		companion.version = &appVersion;
 		companion.platformtype = WA__DEVICE_PROPS__PLATFORM_TYPE__DESKTOP; companion.has_platformtype = true;
@@ -313,7 +311,6 @@ LBL_Error:
 		auto szRegId(encodeBigEndian(getDword(DBKEY_REG_ID)));
 		auto szKeyId(encodeBigEndian(m_signalStore.preKey.keyid));
 
-		pairingData = WA__CLIENT_PAYLOAD__DEVICE_PAIRING_REGISTRATION_DATA__INIT;
 		pairingData.deviceprops = proto::SetBinary(buf.data(), buf.length()); pairingData.has_deviceprops = true;
 		pairingData.buildhash = proto::SetBinary(buildHash, sizeof(buildHash)); pairingData.has_buildhash = true;
 		pairingData.eregid = proto::SetBinary(szRegId.c_str(), szRegId.size()); pairingData.has_eregid = true;
@@ -334,12 +331,12 @@ LBL_Error:
 		node.passive = true;                     node.has_passive = true;
 	}
 
-	Wa__ClientPayload__UserAgent__AppVersion userVersion = WA__CLIENT_PAYLOAD__USER_AGENT__APP_VERSION__INIT;
+	Wa__ClientPayload__UserAgent__AppVersion userVersion;
 	userVersion.primary = 2; userVersion.has_primary = true;
 	userVersion.secondary = 2230; userVersion.has_secondary = true;
 	userVersion.tertiary = 15; userVersion.has_tertiary = true;
 
-	Wa__ClientPayload__UserAgent userAgent = WA__CLIENT_PAYLOAD__USER_AGENT__INIT;
+	Wa__ClientPayload__UserAgent userAgent;
 	userAgent.appversion = &userVersion;
 	userAgent.platform = WA__CLIENT_PAYLOAD__USER_AGENT__PLATFORM__WEB; userAgent.has_platform = true;
 	userAgent.releasechannel = WA__CLIENT_PAYLOAD__USER_AGENT__RELEASE_CHANNEL__RELEASE; userAgent.has_releasechannel = true;
@@ -352,7 +349,7 @@ LBL_Error:
 	userAgent.localelanguageiso6391 = "en";
 	userAgent.localecountryiso31661alpha2 = "US";
 
-	Wa__ClientPayload__WebInfo webInfo = WA__CLIENT_PAYLOAD__WEB_INFO__INIT;
+	Wa__ClientPayload__WebInfo webInfo;
 	webInfo.websubplatform = WA__CLIENT_PAYLOAD__WEB_INFO__WEB_SUB_PLATFORM__WEB_BROWSER; webInfo.has_websubplatform = true;
 
 	node.connecttype = WA__CLIENT_PAYLOAD__CONNECT_TYPE__WIFI_UNKNOWN; node.has_connecttype = true;
@@ -363,11 +360,11 @@ LBL_Error:
 	MBinBuffer payload(proto::Serialize(&node));
 	MBinBuffer payloadEnc = m_noise->encrypt(payload.data(), payload.length());
 
-	Wa__HandshakeMessage__ClientFinish finish = WA__HANDSHAKE_MESSAGE__CLIENT_FINISH__INIT;
+	Wa__HandshakeMessage__ClientFinish finish;
 	finish.payload = {payloadEnc.length(), payloadEnc.data()}; finish.has_payload = true;
 	finish.static_ = {encryptedPub.length(), encryptedPub.data()}; finish.has_static_ = true;
 
-	Wa__HandshakeMessage handshake = WA__HANDSHAKE_MESSAGE__INIT;
+	Wa__HandshakeMessage handshake;
 	handshake.clientfinish = &finish;
 	WSSend(handshake);
 

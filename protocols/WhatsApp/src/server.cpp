@@ -50,11 +50,11 @@ void WhatsAppProto::ServerThreadWorker()
 
 	Utils_GetRandom(m_wMsgPrefix, sizeof(m_wMsgPrefix));
 
-	Wa__HandshakeMessage__ClientHello client = WA__HANDSHAKE_MESSAGE__CLIENT_HELLO__INIT;
+	Wa__HandshakeMessage__ClientHello client;
 	client.ephemeral = {m_noise->ephemeral.pub.length(), m_noise->ephemeral.pub.data()};
 	client.has_ephemeral = true;
 
-	Wa__HandshakeMessage msg = WA__HANDSHAKE_MESSAGE__INIT;
+	Wa__HandshakeMessage msg;
 	msg.clienthello = &client;
 	WSSend(msg);
 
