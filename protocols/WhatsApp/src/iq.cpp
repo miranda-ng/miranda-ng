@@ -234,6 +234,23 @@ void WhatsAppProto::OnNotifyAny(const WANode &node)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnReceiveChatState(const WANode &node)
+{
+	if (auto *pUser = FindUser(node.getAttr("from"))) {
+		if (node.getChild("composing")) {
+			pUser->m_timer1 = time(0);
+			pUser->m_timer2 = 0;
+			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
+
+			CallService(MS_PROTO_CONTACTISTYPING, pUser->hContact, 60);
+		}
+		else if (node.getChild("paused"))
+			CallService(MS_PROTO_CONTACTISTYPING, pUser->hContact, PROTOTYPE_CONTACTTYPING_OFF);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnNotifyDevices(const WANode &node)
 {
 	if (!mir_strcmp(node.getAttr("jid"), m_szJid))
@@ -499,6 +516,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
+	m_arPersistent.insert(new WAPersistentHandler("chatstates", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));
 	m_arPersistent.insert(new WAPersistentHandler("stream:error", 0, 0, 0, &WhatsAppProto::OnStreamError));
 	m_arPersistent.insert(new WAPersistentHandler("success", 0, 0, 0, &WhatsAppProto::OnSuccess));
 

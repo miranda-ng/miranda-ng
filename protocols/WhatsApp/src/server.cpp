@@ -290,6 +290,18 @@ void WhatsAppProto::SendKeepAlive()
 
 		m_lastRecvTime = now;
 	}
+
+	for (auto &it : m_arUsers) {
+		if (it->m_timer1 && now - it->m_timer1 > 600) {
+			it->m_timer1 = 0;
+			it->m_timer2 = now;
+			setWord(it->hContact, "Status", ID_STATUS_AWAY);
+		}
+		else if (it->m_timer2 && now - it->m_timer2 > 600) {
+			it->m_timer2 = 0;
+			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
+		}
+	}
 }
 
 void WhatsAppProto::SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType)

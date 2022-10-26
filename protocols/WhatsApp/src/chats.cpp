@@ -68,22 +68,6 @@ void WhatsAppProto::OnGetChatInfo(const JSONNode &root, void *param)
 		Chat_Event(&gce);
 	}
 
-	if (pChatUser->arHistory.getCount()) {
-		for (auto &it : pChatUser->arHistory) {
-			CMStringW jid(it->jid), text(Utf2T(it->text));
-
-			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-			gce.pszID.w = pChatUser->si->ptszID;
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.pszUID.w = jid;
-			gce.pszText.w = text;
-			gce.time = it->timestamp;
-			gce.bIsMe = (it->jid == m_szJid);
-			Chat_Event(&gce);
-		}
-		pChatUser->arHistory.destroy();
-	}
-
 	CMStringW wszSubject(root["subject"].as_mstring());
 	if (!wszSubject.IsEmpty()) {
 		time_t iSubjectTime(root["subjectTime"].as_int());

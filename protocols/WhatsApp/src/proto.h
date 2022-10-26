@@ -65,19 +65,12 @@ struct WAPersistentHandler
 	WA_PKT_HANDLER pHandler;
 };
 
-struct WAHistoryMessage
-{
-	CMStringA jid, text;
-	DWORD timestamp;
-};
-
 struct WAUser
 {
 	WAUser(MCONTACT _1, const char *_2, bool _3 = false) :
 		hContact(_1),
 		szId(mir_strdup(_2)),
-		bIsGroupChat(_3),
-		arHistory(1)
+		bIsGroupChat(_3)
 	{
 	}
 
@@ -91,8 +84,7 @@ struct WAUser
 	char *szId;
 	bool bInited = false, bIsGroupChat;
 	SESSION_INFO *si = 0;
-	DWORD m_time1 = 0, m_time2 = 0;
-	OBJLIST<WAHistoryMessage> arHistory;
+	time_t m_timer1 = 0, m_timer2 = 0;
 };
 
 struct WAOwnMessage
@@ -358,6 +350,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
 	void OnReceiveAck(const WANode &node);
+	void OnReceiveChatState(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
 	void OnReceiveReceipt(const WANode &node);

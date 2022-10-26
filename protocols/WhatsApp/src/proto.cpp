@@ -217,11 +217,13 @@ int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 	return SendTextMessage(jid, pszMsg);
 }
 
-int WhatsAppProto::UserIsTyping(MCONTACT hContact, int)
+int WhatsAppProto::UserIsTyping(MCONTACT hContact, int type)
 {
 	if (hContact && isOnline()) {
 		ptrA jid(getStringA(hContact, DBKEY_ID));
 		if (jid && isOnline()) {
+			WSSendNode(
+				WANode("chatstates") << CHAR_PARAM("to", jid) << XCHILD((type == PROTOTYPE_SELFTYPING_ON) ? "composing" : "paused"));
 		}
 	}
 
