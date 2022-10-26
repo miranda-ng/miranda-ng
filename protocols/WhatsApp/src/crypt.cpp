@@ -42,6 +42,41 @@ MBinBuffer aesDecrypt(
 	return ret;
 }
 
+MBinBuffer aesEncrypt(
+	const EVP_CIPHER *cipher,
+	const uint8_t *key,
+	const uint8_t *iv,
+	const void *data, size_t dataLen,
+	const void *additionalData, size_t additionalLen)
+{
+	int tag_len = 0, dec_len = 0, final_len = 0;
+	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
+	EVP_EncryptInit_ex(ctx, cipher, NULL, key, iv);
+
+	if (additionalLen)
+		EVP_EncryptUpdate(ctx, nullptr, &tag_len, (uint8_t *)additionalData, (int)additionalLen);
+
+	if (cipher == EVP_aes_256_gcm()) {
+		dataLen -= 16;
+		EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GCM_SET_TAG, 16, (uint8_t *)data + dataLen);
+	}
+
+	MBinBuffer ret;
+	uint8_t outbuf[2000];
+	for (size_t len = 0; len < dataLen; len += 1024) {
+		size_t portionSize = dataLen - len;
+		EVP_EncryptUpdate(ctx, outbuf, &dec_len, (uint8_t *)data + len, (int)min(portionSize, 1024));
+		ret.append(outbuf, dec_len);
+	}
+
+	EVP_EncryptFinal_ex(ctx, outbuf, &final_len);
+	if (final_len)
+		ret.append(outbuf, final_len);
+
+	EVP_CIPHER_CTX_free(ctx);
+	return ret;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static unsigned char *HKDF_Extract(const EVP_MD *evp_md,

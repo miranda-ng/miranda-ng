@@ -100,11 +100,11 @@ struct WAOwnMessage
 	WAOwnMessage(int _1, const char *_2, const char *_3) :
 		pktId(_1),
 		szJid(_2),
-		szPrefix(_3)
+		szMessageId(_3)
 	{}
 
 	int pktId;
-	CMStringA szPrefix, szJid;
+	CMStringA szJid, szMessageId;
 };
 
 struct WACollection
@@ -207,7 +207,7 @@ public:
 	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
 
-	signal_buffer* encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type);
+	MBinBuffer encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type);
 
 	MBinBuffer encodeSignedIdentity(bool);
 	void generatePrekeys(int count);
@@ -357,6 +357,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyAny(const WANode &node);
 	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
+	void OnReceiveAck(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
 	void OnReceiveReceipt(const WANode &node);

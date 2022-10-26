@@ -268,7 +268,20 @@ void generateIV(uint8_t *iv, int &pVar)
 	pVar++;
 }
 
-MBinBuffer unpad16buf(const MBinBuffer &buf)
+/////////////////////////////////////////////////////////////////////////////////////////
+// Padding
+
+void padBuffer16(MBinBuffer &buf)
+{
+	uint8_t c = buf.length() % 16;
+	if (c == 0)
+		c = 16;
+
+	for (uint8_t i = 0; i < c; i++)
+		buf.append(&c, 1);
+}
+
+MBinBuffer unpadBuffer16(const MBinBuffer &buf)
 {
 	size_t len = buf.length();
 	auto p = buf.data() + len - 1;

@@ -495,6 +495,7 @@ void WhatsAppProto::InitPersistentHandlers()
 	m_arPersistent.insert(new WAPersistentHandler("notification", "server_sync", 0, 0, &WhatsAppProto::OnServerSync));
 	m_arPersistent.insert(new WAPersistentHandler("notification", 0, 0, 0, &WhatsAppProto::OnNotifyAny));
 
+	m_arPersistent.insert(new WAPersistentHandler("ack", 0, 0, 0, &WhatsAppProto::OnReceiveAck));
 	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));

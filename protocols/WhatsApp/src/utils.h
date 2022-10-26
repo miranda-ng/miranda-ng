@@ -205,9 +205,17 @@ CMStringA directPath2url(const char *pszDirectPath);
 std::string decodeBinStr(const std::string &buf);
 MBinBuffer decodeBufStr(const std::string &buf);
 
-MBinBuffer unpad16buf(const MBinBuffer &buf);
+void padBuffer16(MBinBuffer &buf);
+MBinBuffer unpadBuffer16(const MBinBuffer &buf);
 
 MBinBuffer aesDecrypt(
+	const EVP_CIPHER *cipher,
+	const uint8_t *key,
+	const uint8_t *iv,
+	const void *data, size_t dataLen,
+	const void *additionalData = 0, size_t additionalLen = 0);
+
+MBinBuffer aesEncrypt(
 	const EVP_CIPHER *cipher,
 	const uint8_t *key,
 	const uint8_t *iv,

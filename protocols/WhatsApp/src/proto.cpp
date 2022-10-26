@@ -19,7 +19,7 @@ struct SearchParam
 
 static int CompareOwnMsgs(const WAOwnMessage *p1, const WAOwnMessage *p2)
 {
-	return strcmp(p1->szPrefix, p2->szPrefix);
+	return strcmp(p1->szMessageId, p2->szMessageId);
 }
 
 static int CompareUsers(const WAUser *p1, const WAUser *p2)
@@ -202,33 +202,6 @@ int WhatsAppProto::SetStatus(int new_status)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-/*
-void WhatsAppProto::OnSendMessage(const JSONNode &node, void*)
-{
-	CMStringA szPrefix= node["$id$"].as_mstring();
-
-	WAOwnMessage tmp(0, 0, szPrefix);
-	{
-		mir_cslock lck(m_csOwnMessages);
-		auto *pOwn = m_arOwnMsgs.find(&tmp);
-		if (pOwn == nullptr)
-			return;
-		
-		tmp.pktId = pOwn->pktId;
-		tmp.hContact = pOwn->hContact;
-		m_arOwnMsgs.remove(pOwn);
-	}
-
-	int status = node["status"].as_int();
-	if (status == 200)
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.pktId);
-	else {
-		CMStringW wszError(FORMAT, TranslateT("Operation failed with server error status %d"), status);
-		ProtoBroadcastAck(tmp.hContact, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE)tmp.pktId, LPARAM(wszError.c_str()));
-	}
-}
-*/
 
 int WhatsAppProto::SendMsg(MCONTACT hContact, int, const char *pszMsg)
 {

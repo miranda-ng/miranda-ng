@@ -129,7 +129,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 
 			iDecryptable++;
 
-			proto::Message encMsg(unpad16buf(msgBody));
+			proto::Message encMsg(unpadBuffer16(msgBody));
 			if (!encMsg)
 				throw "Invalid decoded message";
 
@@ -293,19 +293,41 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnReceiveAck(const WANode &node)
+{
+	auto *pUser = FindUser(node.getAttr("from"));
+	if (pUser == nullptr)
+		return;
+
+	if (!mir_strcmp(node.getAttr("class"), "message")) {
+		WAOwnMessage tmp(0, 0, node.getAttr("id"));
+		{
+			mir_cslock lck(m_csOwnMessages);
+			if (auto *pOwn = m_arOwnMsgs.find(&tmp)) {
+				tmp.pktId = pOwn->pktId;
+				m_arOwnMsgs.remove(pOwn);
+			}
+			else return;
+		}
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)tmp.pktId, (LPARAM)tmp.szMessageId.c_str());
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig)
 {
 	int type = 0;
 
 	try {
-		SignalBuffer pBuffer(m_signalStore.encryptSignalProto(jid, orig, type));
+		MBinBuffer pBuffer(m_signalStore.encryptSignalProto(jid, orig, type));
 
 		auto *pNode = pParticipants->addChild("to");
 		pNode->addAttr("jid", jid.toString());
 
 		auto *pEnc = pNode->addChild("enc");
 		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", (type == 3) ? "pkmsg" : "msg");
-		pEnc->content.assign(pBuffer.data(), pBuffer.len());
+		pEnc->content.assign(pBuffer.data(), pBuffer.length());
 	}
 	catch (const char *) {
 	}
@@ -315,10 +337,10 @@ bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid
 
 int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 {
-	char msgId[16], szMsgId[33];
-	Utils_GetRandom(msgId, sizeof(msgId));
-	bin2hex(msgId, sizeof(msgId), szMsgId);
-	strupr(szMsgId);
+	char szMsgId[40];
+	__int64 msgId;
+	Utils_GetRandom(&msgId, sizeof(msgId));
+	_i64toa(msgId, szMsgId, 10);
 
 	Wa__Message body;
 	body.conversation = (char*)pszMsg;
@@ -331,6 +353,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	msg.devicesentmessage = &sentBody;
 
 	MBinBuffer encMsg(proto::Serialize(&msg));
+	padBuffer16(encMsg);	
 
 	WANode payLoad("message");
 	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);

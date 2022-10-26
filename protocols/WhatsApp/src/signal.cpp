@@ -95,6 +95,18 @@ static int decrypt_func(signal_buffer **output,
 	return SG_SUCCESS;
 }
 
+static int encrypt_func(signal_buffer **output,
+	int /*cipher*/,
+	const uint8_t *key, size_t /*key_len*/,
+	const uint8_t *iv, size_t /*iv_len*/,
+	const uint8_t *ciphertext, size_t ciphertext_len,
+	void * /*user_data*/)
+{
+	MBinBuffer res = aesEncrypt(EVP_aes_256_cbc(), key, iv, ciphertext, ciphertext_len);
+	*output = signal_buffer_create(res.data(), res.length());
+	return SG_SUCCESS;
+}
+
 static int contains_session_func(const signal_protocol_address *address, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
@@ -354,6 +366,7 @@ void MSignalStore::init()
 	prov.hmac_sha256_cleanup_func = hmac_sha256_cleanup;
 	prov.random_func = random_func;
 	prov.decrypt_func = decrypt_func;
+	prov.encrypt_func = encrypt_func;
 	signal_context_set_crypto_provider(m_pContext, &prov);
 
 	// default values calculation
@@ -550,7 +563,7 @@ MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &group, const C
 /////////////////////////////////////////////////////////////////////////////////////////
 // encryption
 
-signal_buffer* MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type)
+MBinBuffer MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type)
 {
 	auto *pSession = createSession(to.user, to.device);
 
@@ -561,7 +574,9 @@ signal_buffer* MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffe
 
 	type = ciphertext_message_get_type(pEncrypted);
 
-	auto *res = ciphertext_message_get_serialized(pEncrypted);
+	MBinBuffer res;
+	auto *encBuf = ciphertext_message_get_serialized(pEncrypted);
+	res.assign(encBuf->data, encBuf->len);
 	signal_message_destroy((signal_type_base *)pEncrypted);
 	return res;
 }
