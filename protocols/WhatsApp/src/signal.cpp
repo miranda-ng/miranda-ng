@@ -113,7 +113,7 @@ static int contains_session_func(const signal_protocol_address *address, void *u
 
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
 	ptrA data(pStore->pProto->getStringA(tmp.getSetting()));
-	return data == nullptr;
+	return data != nullptr;
 }
 
 static int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
