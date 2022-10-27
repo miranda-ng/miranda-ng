@@ -331,7 +331,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
-	void OnGetAvatarInfo(const JSONNode &node, void*);
 	void OnGetChatInfo(const JSONNode &node, void*);
 
 	void OnProcessHandshake(const uint8_t *pData, int cbLen);
@@ -341,6 +340,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
+	void OnIqGetAvatar(const WANode &node);
 	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
@@ -349,6 +349,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyAny(const WANode &node);
 	void OnNotifyDevices(const WANode &node);
 	void OnNotifyEncrypt(const WANode &node);
+	void OnNotifyPicture(const WANode &node);
 	void OnReceiveAck(const WANode &node);
 	void OnReceiveChatState(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
@@ -369,6 +370,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Avatars ////////////////////////////////////////////////////////////////////////////
 	CMStringW GetAvatarFileName(MCONTACT hContact);
+	void      ServerFetchAvatar(const char *jid);
 
 	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
