@@ -79,7 +79,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	CreateDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName));
 
 	// Avatars folder
-	m_tszAvatarFolder = CMStringW(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
+	m_tszAvatarFolder = CMStringW(VARSW(L"%miranda_avatarcache%")) + L"\\" + _A2T(m_szModuleName);
 	DWORD dwAttributes = GetFileAttributes(m_tszAvatarFolder.c_str());
 	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
 		CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
