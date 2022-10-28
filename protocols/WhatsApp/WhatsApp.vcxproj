@@ -65,6 +65,7 @@
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\chats.cpp" />
     <ClCompile Include="src\crypt.cpp" />
+    <ClCompile Include="src\generate.cpp" />
     <ClCompile Include="src\iq.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\message.cpp" />

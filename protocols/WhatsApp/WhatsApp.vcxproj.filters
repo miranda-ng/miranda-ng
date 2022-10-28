@@ -59,6 +59,9 @@
     <ClCompile Include="src\protobuf-c\protobuf-c.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\generate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\db.h">

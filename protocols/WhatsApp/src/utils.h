@@ -208,6 +208,8 @@ MBinBuffer decodeBufStr(const std::string &buf);
 void padBuffer16(MBinBuffer &buf);
 MBinBuffer unpadBuffer16(const MBinBuffer &buf);
 
+CMStringA protobuf_c_text_to_string(const ProtobufCMessage *m);
+
 MBinBuffer aesDecrypt(
 	const EVP_CIPHER *cipher,
 	const uint8_t *key,

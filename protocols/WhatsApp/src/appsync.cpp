@@ -191,7 +191,7 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 
 	proto::SyncActionData data(unpadBuffer16(decoded));
 
-	// debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data.version, data.Utf8DebugString().c_str());
+	debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data->version, protobuf_c_text_to_string(data).c_str());
 
 	if (bSet) {
 		JSONNode jsonRoot = JSONNode::parse((char*)data->index.data);

@@ -190,7 +190,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	auto *body = getBody(msg.message);
 	bool bFromMe = key->fromme;
 
-	// debugLogA("Got a message: %s", msg.Utf8DebugString().c_str());
+	debugLogA("Got a message: %s", protobuf_c_text_to_string(&msg).c_str());
 
 	uint32_t timestamp = msg.messagetimestamp;
 	auto *participant = key->participant;

@@ -271,6 +271,11 @@ void WhatsAppProto::OnNotifyEncrypt(const WANode &node)
 
 void WhatsAppProto::OnNotifyPicture(const WANode &node)
 {
+	if (auto *pszFrom = node.getAttr("from"))
+		if (m_szJid != pszFrom)
+			if (auto *pszUser = FindUser(pszFrom))
+				ServerFetchAvatar(pszFrom);
+
 	SendAck(node);
 }
 
