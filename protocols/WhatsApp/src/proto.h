@@ -152,7 +152,7 @@ class MSignalSession : public MZeroedObject
 
 public:
 	CMStringA szName;
-	MBinBuffer sessionData, userData;
+	MBinBuffer sessionData;
 
 	MSignalSession(const CMStringA &_1, int _2);
 	~MSignalSession();
@@ -206,7 +206,7 @@ public:
 
 	void logError(int code, const char *szMessage);
 
-	void processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *msg);
+	void processSenderKeyMessage(const CMStringA &author, const Wa__Message__SenderKeyDistributionMessage *msg);
 };
 
 class WhatsAppProto : public PROTO<WhatsAppProto>

@@ -139,7 +139,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 				msg.message = encMsg;
 
 			if (encMsg->senderkeydistributionmessage)
-				m_signalStore.processSenderKeyMessage(encMsg->senderkeydistributionmessage);
+				m_signalStore.processSenderKeyMessage(szAuthor, encMsg->senderkeydistributionmessage);
 
 			ProcessMessage(type, msg);
 

@@ -174,22 +174,20 @@ int load_session_func(signal_buffer **record, signal_buffer **user_data_storage,
 	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
 	auto *pSession = pStore->arSessions.find(&tmp);
 	if (pSession == nullptr) {
-		ptrA szSession(pStore->pProto->getStringA(tmp.getSetting()));
-		if (szSession == nullptr)
+		MBinBuffer blob(pStore->pProto->getBlob(tmp.getSetting()));
+		if (blob.data() == nullptr)
 			return 0;
 
-		JSONNode root = JSONNode::parse(szSession);
 		pSession = new MSignalSession(tmp);
-		pSession->sessionData = decodeBufStr(root["data"].as_string());
-		pSession->userData = decodeBufStr(root["user"].as_string());
+		pSession->sessionData.assign(blob.data(), blob.length());
 	}
 		
 	*record = signal_buffer_create((uint8_t *)pSession->sessionData.data(), pSession->sessionData.length());
-	*user_data_storage = signal_buffer_create((uint8_t *)pSession->userData.data(), pSession->userData.length());
+	*user_data_storage = 0;
 	return 1;
 }
 
-static int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t *user_record, size_t user_record_len, void *user_data)
+static int store_session_func(const signal_protocol_address *address, uint8_t *record, size_t record_len, uint8_t *, size_t, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
@@ -201,11 +199,7 @@ static int store_session_func(const signal_protocol_address *address, uint8_t *r
 	}
 
 	pSession->sessionData.assign(record, record_len);
-	pSession->userData.assign(user_record, user_record_len);
-
-	JSONNode root;
-	root << CHAR_PARAM("data", ptrA(mir_base64_encode(record, record_len))) << CHAR_PARAM("user", ptrA(mir_base64_encode(user_record, user_record_len)));
-	pStore->pProto->setString(pSession->getSetting(), root.write().c_str());	
+	db_set_blob(0, pStore->pProto->m_szModuleName, pSession->getSetting(), record, (unsigned)record_len);
 	return 0;
 }
 
@@ -353,6 +347,28 @@ static int is_trusted_identity(const signal_protocol_address * /*address*/, uint
 	return 1;
 }
 
+static int load_sender_key(signal_buffer **record, signal_buffer **, const signal_protocol_sender_key_name *skn, void *user_data)
+{
+	auto *pStore = (MSignalStore *)user_data;
+
+	CMStringA szSetting(FORMAT, "SenderKey_%*s_%*s_%d", (unsigned)skn->group_id_len, skn->group_id, (unsigned)skn->sender.name_len, skn->sender.name, skn->sender.device_id);
+	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
+	if (blob.data() == 0)
+		return 0;
+
+	*record = signal_buffer_create(blob.data(), blob.length());
+	return 1;
+}
+
+static int store_sender_key(const signal_protocol_sender_key_name *skn, uint8_t *record, size_t record_len, uint8_t*, size_t, void *user_data)
+{
+	auto *pStore = (MSignalStore *)user_data;
+
+	CMStringA szSetting(FORMAT, "SenderKey_%*s_%*s_%d", (unsigned)skn->group_id_len, skn->group_id, (unsigned)skn->sender.name_len, skn->sender.name, skn->sender.device_id);
+	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned)record_len);
+	return 0;
+}
+
 void MSignalStore::init()
 {
 	signal_context_create(&m_pContext, this);
@@ -432,6 +448,13 @@ void MSignalStore::init()
 	sp.user_data = this;
 	signal_protocol_store_context_set_pre_key_store(m_pStore, &sp);
 
+	signal_protocol_sender_key_store sk;
+	sk.destroy_func = destroy_func;
+	sk.load_sender_key = load_sender_key;
+	sk.store_sender_key = store_sender_key;
+	sk.user_data = this;
+	signal_protocol_store_context_set_sender_key_store(m_pStore, &sk);
+
 	signal_protocol_signed_pre_key_store ssp;
 	ssp.contains_signed_pre_key = &contains_signed_pre_key;
 	ssp.destroy_func = &destroy_func;
@@ -476,7 +499,7 @@ bool MSignalSession::hasAddress(const char *name, size_t name_len) const
 
 CMStringA MSignalSession::getSetting() const
 {
-	return CMStringA(FORMAT, "%s_%s_%d", "SignalSession", szName.c_str(), getDeviceId());
+	return CMStringA(FORMAT, "SignalSession_%s_%d", szName.c_str(), getDeviceId());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -621,6 +644,30 @@ void MSignalStore::generatePrekeys(int count)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void MSignalStore::processSenderKeyMessage(const Wa__Message__SenderKeyDistributionMessage *)
+void MSignalStore::processSenderKeyMessage(const CMStringA &author, const Wa__Message__SenderKeyDistributionMessage *msg)
 {
+	WAJid jid(author);
+	signal_protocol_sender_key_name senderKeyName;
+	senderKeyName.group_id = msg->groupid;
+	senderKeyName.group_id_len = mir_strlen(msg->groupid);
+	senderKeyName.sender.device_id = 0;
+	senderKeyName.sender.name = jid.user.c_str();
+	senderKeyName.sender.name_len = jid.user.GetLength();
+
+	group_session_builder *builder;
+	logError(
+		group_session_builder_create(&builder, m_pStore, m_pContext),
+		"unable to create session builder");
+
+	sender_key_distribution_message *skmsg;
+	logError(
+		sender_key_distribution_message_deserialize(&skmsg, msg->axolotlsenderkeydistributionmessage.data, msg->axolotlsenderkeydistributionmessage.len, m_pContext),
+		"unable to decode skdm builder");
+
+	logError(
+		group_session_builder_process_session(builder, &senderKeyName, skmsg),
+		"unable to process skdm");
+
+	sender_key_distribution_message_destroy((signal_type_base *)skmsg);
+	group_session_builder_free(builder);
 }

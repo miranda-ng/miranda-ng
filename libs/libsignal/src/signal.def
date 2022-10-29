@@ -22,6 +22,9 @@ EXPORTS
    fingerprint_generator_create_for
    fingerprint_generator_free
    fingerprint_get_displayable
+   group_session_builder_create
+   group_session_builder_free
+   group_session_builder_process_session
    hkdf_create
    hkdf_destroy
    hkdf_expand
@@ -30,6 +33,11 @@ EXPORTS
    pre_key_signal_message_get_pre_key_id
    ratchet_identity_key_pair_get_private
    ratchet_identity_key_pair_get_public
+   sender_key_distribution_message_deserialize
+   sender_key_distribution_message_destroy
+   sender_key_record_create
+   sender_key_record_destroy
+   sender_key_record_serialize
    session_builder_create
    session_builder_free
    session_builder_process_pre_key_bundle

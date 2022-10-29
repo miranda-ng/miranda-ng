@@ -8,6 +8,8 @@ extern "C"
 {
 	#include "../libs/libsignal/src/curve.h"
 	#include "../libs/libsignal/src/hkdf.h"
+	#include "../libs/libsignal/src/group_cipher.h"
+	#include "../libs/libsignal/src/group_session_builder.h"
 	#include "../libs/libsignal/src/key_helper.h"
 	#include "../libs/libsignal/src/protocol.h"
 	#include "../libs/libsignal/src/session_builder.h"
