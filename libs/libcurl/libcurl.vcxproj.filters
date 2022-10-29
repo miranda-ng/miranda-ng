@@ -38,9 +38,6 @@
     <ClCompile Include="src\curl_addrinfo.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\curl_ctype.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\curl_des.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,7 +92,7 @@
     <ClCompile Include="src\doh.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dotdot.c">
+    <ClCompile Include="src\dynbuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\easy.c">
@@ -240,6 +237,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\nonblock.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\noproxy.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\openldap.c">
@@ -449,7 +449,7 @@
     <ClCompile Include="src\version.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\dynbuf.c">
+    <ClCompile Include="src\ws.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -607,6 +607,9 @@
     <ClInclude Include="src\dotdot.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\dynbuf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\easyif.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -635,6 +638,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ftplistparser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\functypes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\getinfo.h">
@@ -716,6 +722,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\nonblock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\noproxy.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\parsedate.h">
@@ -844,7 +853,7 @@
     <ClInclude Include="src\wildcard.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\dynbuf.h">
+    <ClInclude Include="src\ws.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

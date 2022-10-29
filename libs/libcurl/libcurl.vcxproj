@@ -62,9 +62,6 @@
     <ClCompile Include="src\curl_addrinfo.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\curl_ctype.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\curl_des.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -117,9 +114,6 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\doh.c">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="src\dotdot.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\dynbuf.c">
@@ -267,6 +261,9 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\nonblock.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\noproxy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\openldap.c">
@@ -443,6 +440,9 @@
     <ClCompile Include="src\wildcard.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\ws.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClInclude Include="src\altsvc.h" />
     <ClInclude Include="src\amigaos.h" />
     <ClInclude Include="src\arpa_telnet.h" />
@@ -505,6 +505,7 @@
     <ClInclude Include="src\formdata.h" />
     <ClInclude Include="src\ftp.h" />
     <ClInclude Include="src\ftplistparser.h" />
+    <ClInclude Include="src\functypes.h" />
     <ClInclude Include="src\getinfo.h" />
     <ClInclude Include="src\gopher.h" />
     <ClInclude Include="src\h2h3.h" />
@@ -532,6 +533,7 @@
     <ClInclude Include="src\multiif.h" />
     <ClInclude Include="src\netrc.h" />
     <ClInclude Include="src\nonblock.h" />
+    <ClInclude Include="src\noproxy.h" />
     <ClInclude Include="src\parsedate.h" />
     <ClInclude Include="src\pingpong.h" />
     <ClInclude Include="src\pop3.h" />
@@ -574,6 +576,7 @@
     <ClInclude Include="src\version_win32.h" />
     <ClInclude Include="src\warnless.h" />
     <ClInclude Include="src\wildcard.h" />
+    <ClInclude Include="src\ws.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\strcase.c">
