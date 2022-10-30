@@ -196,7 +196,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	auto *participant = key->participant;
 	auto *chatId = key->remotejid;
 	auto *msgId = key->id;
-	
+
 	WAUser *pUser = FindUser(chatId);
 	if (pUser == nullptr) {
 		if (type.bPrivateChat)
@@ -208,17 +208,30 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	if (!bFromMe && msg.pushname && pUser && !pUser->bIsGroupChat)
 		setUString(pUser->hContact, "Nick", msg.pushname);
 
-	// try to extract some text 
-	if (mir_strlen(body->conversation)) {
-		PROTORECVEVENT pre = {};
-		pre.timestamp = timestamp;
-		pre.szMessage = body->conversation;
-		pre.szMsgId = msgId;
-		if (type.bOffline)
-			pre.flags |= PREF_CREATEREAD;
-		if (bFromMe)
-			pre.flags |= PREF_SENT;
-		ProtoChainRecvMsg(pUser->hContact, &pre);
+	// try to extract some text
+	if (pUser) {
+		CMStringA szMessageText;
+		if (auto *pExt = body->extendedtextmessage) {
+			if (pExt->contextinfo && pExt->contextinfo->quotedmessage)
+				szMessageText.AppendFormat("> %s\n\n", pExt->contextinfo->quotedmessage->conversation);
+
+			if (pExt->text)
+				szMessageText.Append(pExt->text);
+		}
+		else if (mir_strlen(body->conversation))
+			szMessageText = body->conversation;
+
+		if (!szMessageText.IsEmpty()) {
+			PROTORECVEVENT pre = {};
+			pre.timestamp = timestamp;
+			pre.szMessage = szMessageText.GetBuffer();
+			pre.szMsgId = msgId;
+			if (type.bOffline)
+				pre.flags |= PREF_CREATEREAD;
+			if (bFromMe)
+				pre.flags |= PREF_SENT;
+			ProtoChainRecvMsg(pUser->hContact, &pre);
+		}
 	}
 
 	if (body->protocolmessage) {

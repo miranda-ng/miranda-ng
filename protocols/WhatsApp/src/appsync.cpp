@@ -190,17 +190,22 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 	}
 
 	proto::SyncActionData data(unpadBuffer16(decoded));
-
-	debugLogA("Applying patch for %s{%d}: %s", pColl->szName.get(), data->version, protobuf_c_text_to_string(data).c_str());
+	if (!data) {
+		debugLogA("Unable to decode action data with id=%d", id);
+		return;
+	}
+	
+	JSONNode jsonRoot = JSONNode::parse((char *)data->index.data);
 
 	if (bSet) {
-		JSONNode jsonRoot = JSONNode::parse((char*)data->index.data);
 		ApplyPatch(jsonRoot, data->value);
 
 		pColl->hash.add(macValue, 32);
 		pColl->indexValueMap[index] = std::string((char*)macValue, 32);
 	}
 	else {
+		debugLogA("Removing data with index: %s", jsonRoot.write().c_str());
+
 		auto &prevVal = pColl->indexValueMap.find(index);
 		if (prevVal != pColl->indexValueMap.end()) {
 			pColl->hash.sub(prevVal->second.c_str(), prevVal->second.size());
@@ -211,6 +216,8 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 
 void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data)
 {
+	debugLogA("Applying patch for %s: %s", index.write().c_str(), protobuf_c_text_to_string(data).c_str());
+
 	auto title = index.at((json_index_t)0).as_string();
 
 	if (title == "contact" && data->contactaction) {
