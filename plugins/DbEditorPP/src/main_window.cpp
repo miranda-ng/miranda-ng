@@ -356,22 +356,18 @@ int CMainDlg::Resizer(UTILRESIZECONTROL *urc)
 
 void CMainDlg::onChange_Splitter(CSplitter *)
 {
-	RECT rc2;
-	GetWindowRect(m_hwnd, &rc2);
-
 	RECT rc;
-	GetClientRect(m_hwnd, &rc);
-	POINT pt = { m_splitter.GetPos(), 0 };
-	ScreenToClient(m_hwnd, &pt);
+	GetWindowRect(m_hwnd, &rc);
 
-	m_splitterPos = rc.left + pt.x + 1;
+	m_splitterPos = m_splitter.GetPos() + 1;
 	if (m_splitterPos < 150)
 		m_splitterPos = 150;
-	if (m_splitterPos > rc2.right - rc2.left - 150)
-		m_splitterPos = rc2.right - rc2.left - 150;
-	SetWindowLongPtr(GetDlgItem(m_hwnd, IDC_SPLITTER), GWLP_USERDATA, m_splitterPos);
-	g_plugin.setWord("Splitter", (uint16_t)m_splitterPos);
 
+	int iMaxPanelWidth = rc.right - rc.left - 150;
+	if (m_splitterPos > iMaxPanelWidth)
+		m_splitterPos = iMaxPanelWidth;
+	
+	g_plugin.setWord("Splitter", (uint16_t)m_splitterPos);
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
