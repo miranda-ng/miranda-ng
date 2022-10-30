@@ -212,6 +212,7 @@ public:
 class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	friend class WANoise;
+	friend class CWhatsAppQRDlg;
 
 	class CWhatsAppProtoImpl
 	{

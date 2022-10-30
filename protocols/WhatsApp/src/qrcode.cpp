@@ -14,6 +14,17 @@ public:
 		CProtoDlgBase<WhatsAppProto>(ppro, IDD_SHOWQR)
 	{}
 
+	void OnDestroy() override
+	{
+		if (!m_bSucceeded)
+			m_proto->ShutdownSession();
+	}
+
+	void SetSuccess()
+	{
+		m_bSucceeded = true;
+	}
+
 	void SetData(const CMStringA &str)
 	{
 		auto *pQR = QRcode_encodeString(str, 0, QR_ECLEVEL_L, QR_MODE_8, 1);
