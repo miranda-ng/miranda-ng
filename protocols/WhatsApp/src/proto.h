@@ -118,7 +118,7 @@ class WANoise
 	friend class WhatsAppProto;
 
 	WhatsAppProto *ppro;
-	int readCounter = 0, writeCounter = 0;
+	uint32_t readCounter = 0, writeCounter = 0;
 	bool bInitFinished = false, bSendIntro = false;
 	MBinBuffer salt, encKey, decKey;
 	uint8_t hash[32];

@@ -227,7 +227,7 @@ MBinBuffer aesEncrypt(
 uint32_t    decodeBigEndian(const ProtobufCBinaryData &buf);
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 
-void generateIV(uint8_t *iv, int &pVar);
+void generateIV(uint8_t *iv, uint32_t &pVar);
 
 unsigned char* HKDF(const EVP_MD *evp_md,
 	const unsigned char *salt, size_t salt_len,

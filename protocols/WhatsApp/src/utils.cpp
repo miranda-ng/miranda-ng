@@ -259,11 +259,11 @@ std::string encodeBigEndian(uint32_t num, size_t len)
 	return res;
 }
 
-void generateIV(uint8_t *iv, int &pVar)
+void generateIV(uint8_t *iv, uint32_t &pVar)
 {
 	auto counter = encodeBigEndian(pVar);
-	memset(iv, 0, sizeof(iv));
-	memcpy(iv + 8, counter.c_str(), sizeof(int));
+	memset(iv, 0, 8);
+	memcpy(iv + 8, counter.c_str(), sizeof(uint32_t));
 	
 	pVar++;
 }

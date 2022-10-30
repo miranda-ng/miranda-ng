@@ -1,3 +1,7 @@
+#ifdef _DEBUG
+#define PROTOBUF_C_UNPACK_ERROR OutputDebugStringA
+#endif
+
 #include "pmsg.pb-c.h"
 
 namespace proto
