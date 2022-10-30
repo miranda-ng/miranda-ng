@@ -209,7 +209,9 @@ size_t foo__bar__baz_bah__pack_to_buffer
 # define PROTOBUF_C__END_DECLS
 #endif
 
+#ifdef _DEBUG
 #define PROTOBUF_C_UNPACK_ERROR OutputDebugStringA
+#endif
 
 PROTOBUF_C__BEGIN_DECLS
 

@@ -154,6 +154,7 @@ Plugins\watrack_mpd.dll
 Plugins\wbosd.dll
 Plugins\weather.dll
 Plugins\webview.dll
+Plugins\whatsapp.dll 
 Plugins\whenwasit.dll
 Plugins\whousesmyfiles.dll
 Plugins\winterspeak.dll

@@ -4,7 +4,6 @@ pu_stub.exe
 sendlog.exe
 sendlogwin.exe
 
-
 Plugins\actman.dll
 Plugins\addcontactplus.dll
 Plugins\alarms.dll
@@ -39,8 +38,8 @@ Plugins\currencyrates.dll
 Plugins\cyrtranslit.dll
 Plugins\dbchecker.dll
 Plugins\dbeditorpp.dll
-Plugins\dbx_mmap.dll
 Plugins\dbx_mdbx.dll
+Plugins\dbx_mmap.dll
 Plugins\dbx_sqlite.dll
 Plugins\db_autobackups.dll
 Plugins\dummy.dll
@@ -154,6 +153,7 @@ Plugins\watrack_mpd.dll
 Plugins\wbosd.dll
 Plugins\weather.dll
 Plugins\webview.dll
+Plugins\whatsapp.dll 
 Plugins\whenwasit.dll
 Plugins\whousesmyfiles.dll
 Plugins\winterspeak.dll
