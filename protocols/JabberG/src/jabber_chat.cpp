@@ -154,7 +154,6 @@ int CJabberProto::GcInit(JABBER_LIST_ITEM *item)
 		Chat_AddGroup(si, TranslateW(Utf2T(sttStatuses[i])));
 
 	Chat_Control(m_szModuleName, wszJid, (item->bAutoJoin && m_bAutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, wszJid, SESSION_ONLINE);
 
 	time_t lastDate = getDword(si->hContact, "LastGetVcard"), now = time(0);
 	if (now - lastDate > 24 * 60 * 60) {

@@ -149,6 +149,20 @@ void CJabberProto::CheckKeepAlive()
 		}
 	}
 
+	// ugly hack to cut out group chat history: 2 seconds delay to skip all old messages
+	// unfortunately there's no other way to detect if that message came online or from history
+	time_t now = time(0);
+	LISTFOREACH(i, this, LIST_CHATROOM)
+	{
+		if (auto *item = ListGetItemPtrFromIndex(i)) {
+			if (!item->bChatLogging && now - item->iChatInitTime > 2) {
+				item->bChatLogging = true;
+				Chat_Control(m_szModuleName, Utf2T(item->jid), SESSION_ONLINE);
+			}
+		}
+	}
+
+
 	// check expired iq requests
 	m_iqManager.CheckExpired();
 
