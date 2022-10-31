@@ -16,6 +16,8 @@ public:
 
 	void OnDestroy() override
 	{
+		m_proto->m_pQRDlg = nullptr;
+		
 		if (!m_bSucceeded)
 			m_proto->ShutdownSession();
 	}
@@ -114,10 +116,8 @@ static INT_PTR __stdcall sttShowDialog(void *param)
 
 void WhatsAppProto::CloseQrDialog()
 {
-	if (m_pQRDlg) {
+	if (m_pQRDlg)
 		m_pQRDlg->Close();
-		m_pQRDlg = nullptr;
-	}
 }
 
 bool WhatsAppProto::ShowQrCode(const CMStringA &ref)
