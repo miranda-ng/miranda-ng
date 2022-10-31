@@ -286,9 +286,10 @@ void CMainDlg::OnDestroy()
 		}
 	}
 
-	g_plugin.setByte("HexMode", (byte)g_Hex);
-	g_plugin.setByte("SortMode", (byte)g_Order);
-	g_plugin.setByte("DontAllowInLineEdit", (byte)!g_Inline);
+	g_plugin.setByte("HexMode", (uint8_t)g_Hex);
+	g_plugin.setByte("SortMode", (uint8_t)g_Order);
+	g_plugin.setByte("DontAllowInLineEdit", (uint8_t)!g_Inline);
+	g_plugin.setWord("Splitter", (uint16_t)m_splitterPos);
 
 	WINDOWPLACEMENT wp;
 	wp.length = sizeof(WINDOWPLACEMENT);
@@ -367,7 +368,6 @@ void CMainDlg::onChange_Splitter(CSplitter *)
 	if (m_splitterPos > iMaxPanelWidth)
 		m_splitterPos = iMaxPanelWidth;
 	
-	g_plugin.setWord("Splitter", (uint16_t)m_splitterPos);
 	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
