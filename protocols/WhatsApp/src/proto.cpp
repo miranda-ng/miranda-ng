@@ -46,6 +46,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_arCollections(10, CompareCollections),
 
 	m_wszNick(this, "Nick"),
+	m_wszDeviceName(this, "DeviceName", L"Miranda NG"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bUsePopups(this, "UsePopups", true),
 	m_bHideGroupchats(this, "HideChats", true)

@@ -56,8 +56,10 @@ BEGIN
     EDITTEXT        IDC_NICK,87,5,211,12,ES_AUTOHSCROLL
     LTEXT           "Default group:",IDC_STATIC,5,24,79,10
     EDITTEXT        IDC_DEFGROUP,87,23,211,12,ES_AUTOHSCROLL
+    LTEXT           "Device name:",IDC_STATIC,5,43,79,10
+    EDITTEXT        IDC_DEVICE_NAME,87,41,211,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,43,294,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170

@@ -317,6 +317,7 @@ LBL_Error:
 	Wa__ClientPayload__DevicePairingRegistrationData pairingData;
 	Wa__DeviceProps companion;
 	Wa__DeviceProps__AppVersion appVersion;
+	T2Utf devName(m_wszDeviceName);
 
 	MFileVersion v;
 	Miranda_GetFileVersion(&v);
@@ -331,7 +332,7 @@ LBL_Error:
 		appVersion.tertiary = v[2];   appVersion.has_tertiary = true;
 		appVersion.quaternary = v[3]; appVersion.has_quaternary = true;
 
-		companion.os = "Miranda NG"; 
+		companion.os = devName.get();
 		companion.version = &appVersion;
 		companion.platformtype = WA__DEVICE_PROPS__PLATFORM_TYPE__DESKTOP; companion.has_platformtype = true;
 		companion.requirefullsync = false; companion.has_requirefullsync = true;

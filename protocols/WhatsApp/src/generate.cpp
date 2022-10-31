@@ -35,7 +35,6 @@ protobuf_c_text_to_string_internal(CMStringA &str,
 	const ProtobufCMessage *m,
 	const ProtobufCMessageDescriptor *d)
 {
-	int i;
 	size_t j, quantifier_offset;
 	double float_var;
 	const ProtobufCFieldDescriptor *f;
@@ -43,7 +42,7 @@ protobuf_c_text_to_string_internal(CMStringA &str,
 	const ProtobufCEnumValue *enumv;
 
 	f = d->fields;
-	for (i = 0; i < d->n_fields; i++) {
+	for (unsigned i = 0; i < d->n_fields; i++) {
 		/* Decide if something needs to be done for this field. */
 		switch (f[i].label) {
 		case PROTOBUF_C_LABEL_OPTIONAL:

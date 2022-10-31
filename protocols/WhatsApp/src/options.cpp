@@ -12,7 +12,7 @@ Copyright © 2019-22 George Hazan
 class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
 	CCtrlCheck chkHideChats;
-	CCtrlEdit edtGroup, edtNick;
+	CCtrlEdit edtGroup, edtNick, edtDevName;
 	ptrW m_wszOldGroup;
 
 public:
@@ -21,10 +21,12 @@ public:
 		chkHideChats(this, IDC_HIDECHATS),
 		edtNick(this, IDC_NICK),
 		edtGroup(this, IDC_DEFGROUP),
+		edtDevName(this, IDC_DEVICE_NAME),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(edtNick, ppro->m_wszNick);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
+		CreateLink(edtDevName, ppro->m_wszDeviceName);
 
 		if (bFullDlg)
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
