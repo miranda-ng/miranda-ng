@@ -32,6 +32,13 @@ public:
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 	}
 
+	bool OnInitDialog() override
+	{
+		if (!m_proto->getMStringA(DBKEY_ID).IsEmpty())
+			edtDevName.Disable();
+		return true;
+	}
+
 	bool OnApply() override
 	{
 		if (mir_wstrlen(m_proto->m_wszNick)) {

@@ -9,6 +9,7 @@
 #define IDC_HIDECHATS                   1000
 #define IDC_DEFGROUP                    1001
 #define IDC_QRPIC                       1002
+#define IDC_DEFGROUP2                   1002
 #define IDC_CLIST                       1003
 #define IDC_NEWJID                      1004
 #define IDC_NICK                        1005

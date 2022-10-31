@@ -44,7 +44,9 @@ BEGIN
     LTEXT           "Default group:",IDC_STATIC,4,23,55,10
     EDITTEXT        IDC_DEFGROUP,62,21,119,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,37,182,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,57,182,10
+    LTEXT           "Device name:",IDC_STATIC,4,39,55,10
+    EDITTEXT        IDC_DEVICE_NAME,62,38,119,12,ES_AUTOHSCROLL
 END
 
 IDD_OPTIONS DIALOGEX 0, 0, 305, 188
