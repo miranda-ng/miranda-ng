@@ -12,9 +12,6 @@ CMainDlg *g_pMainWindow = nullptr;
 extern volatile BOOL populating, skipEnter;
 extern volatile int Select;
 
-void EditFinish(int selected);
-void EditLabel(int item, int subitem);
-
 static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
@@ -26,7 +23,7 @@ static LRESULT CALLBACK ModuleTreeSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 			ScreenToClient(hwnd, &hti.pt);
 
 			if (TreeView_HitTest(hwnd, &hti)) {
-				if (hti.flags&TVHT_ONITEM)
+				if (hti.flags & TVHT_ONITEM)
 					TreeView_SelectItem(hwnd, hti.hItem);
 			}
 		}
@@ -183,7 +180,7 @@ static ColumnsSettings csSettingList[] =
 	{ nullptr }
 };
 
-bool CMainDlg::OnInitDialog() 
+bool CMainDlg::OnInitDialog()
 {
 	g_pMainWindow = this;
 
@@ -367,8 +364,6 @@ void CMainDlg::onChange_Splitter(CSplitter *)
 	int iMaxPanelWidth = rc.right - rc.left - 150;
 	if (m_splitterPos > iMaxPanelWidth)
 		m_splitterPos = iMaxPanelWidth;
-	
-	PostMessage(m_hwnd, WM_SIZE, 0, 0);
 }
 
 void CMainDlg::FindItem(int type, MCONTACT hContact, const char *szModule, const char *szSetting)
@@ -540,7 +535,7 @@ void CMainDlg::onItemExpand_Modules(CCtrlTreeView::TEventInfo *ev)
 void CMainDlg::onSelChanged_Modules(CCtrlTreeView::TEventInfo *ev)
 {
 	wchar_t text[FLD_SIZE];
-		
+
 	TVITEMEX tvi = {};
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 	tvi.hItem = ev->nmtv->itemNew.hItem;
