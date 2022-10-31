@@ -105,7 +105,7 @@ class WAReader
 {
 	const BYTE *m_buf, *m_limit;
 
-	uint32_t readIntN(int i);
+	uint32_t  readIntN(int i);
 	CMStringA readStringFromChars(int size);
 
 	bool      readAttributes(WANode *node, int count);
@@ -207,6 +207,8 @@ MBinBuffer decodeBufStr(const std::string &buf);
 
 void padBuffer16(MBinBuffer &buf);
 MBinBuffer unpadBuffer16(const MBinBuffer &buf);
+
+CMStringA getMessageText(const Wa__Message *pMessage);
 
 CMStringA protobuf_c_text_to_string(const ProtobufCMessage *m);
 

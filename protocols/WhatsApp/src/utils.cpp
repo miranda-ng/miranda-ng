@@ -372,6 +372,8 @@ MBinBuffer WhatsAppProto::unzip(const MBinBuffer &src)
 		}
 
 		res.append(buf, sizeof(buf) - strm.avail_out);
+		if (ret == Z_STREAM_END)
+			break;
 	}
 
 	inflateEnd(&strm);
@@ -411,6 +413,25 @@ CMStringA file2string(const wchar_t *pwszFileName)
 	return res;
 }
 
+CMStringA getMessageText(const Wa__Message *pMessage)
+{
+	CMStringA szMessageText;
+
+	if (pMessage) {
+		if (auto *pExt = pMessage->extendedtextmessage) {
+			if (pExt->contextinfo && pExt->contextinfo->quotedmessage)
+				szMessageText.AppendFormat("> %s\n\n", pExt->contextinfo->quotedmessage->conversation);
+
+			if (pExt->text)
+				szMessageText.Append(pExt->text);
+		}
+		else if (mir_strlen(pMessage->conversation))
+			szMessageText = pMessage->conversation;
+	}
+
+	return szMessageText;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void proto::CleanBinary(ProtobufCBinaryData &field)
@@ -444,6 +465,13 @@ CMStringA directPath2url(const char *pszDirectPath)
 	return CMStringA("https://mmg.whatsapp.net") + pszDirectPath;
 }
 
+WAMediaKeys::WAMediaKeys(const uint8_t *pKey, size_t keyLen, const char *pszMediaType)
+{
+	CMStringA pszHkdfString(FORMAT, "WhatsApp %s Keys", pszMediaType);
+
+	HKDF(EVP_sha256(), (BYTE *)"", 0, pKey, (int)keyLen, (BYTE *)pszHkdfString.c_str(), pszHkdfString.GetLength(), (BYTE *)this, sizeof(*this));
+}
+
 MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszMediaType)
 {
 	NETLIBHTTPHEADER headers[1] = {{"Origin", "https://web.whatsapp.com"}};
@@ -459,17 +487,8 @@ MBinBuffer WhatsAppProto::DownloadEncryptedFile(const char *url, const ProtobufC
 	auto *pResp = Netlib_HttpTransaction(m_hNetlibUser, &req);
 	if (pResp) {
 		if (pResp->resultCode == 200) {
-			CMStringA pszHkdfString = pszMediaType;
-			pszHkdfString.SetAt(_toupper(pszHkdfString[0]), 0);
-			pszHkdfString = "WhatsApp " + pszHkdfString + " Keys";
-
-			// 0 - 15: iv
-			// 16 - 47: cipherKey
-			// 48 - 111: macKey
-			uint8_t out[112];
-			HKDF(EVP_sha256(), (BYTE *)"", 0, mediaKeys.data, (int)mediaKeys.len, (BYTE *)pszHkdfString.c_str(), pszHkdfString.GetLength(), out, sizeof(out));
-
-			ret = aesDecrypt(EVP_aes_256_cbc(), out + 16, out, pResp->pData, pResp->dataLength);
+			WAMediaKeys out(mediaKeys.data, mediaKeys.len, pszMediaType);
+			ret = aesDecrypt(EVP_aes_256_cbc(), out.cipherKey, out.iv, pResp->pData, pResp->dataLength);
 		}
 	}
 

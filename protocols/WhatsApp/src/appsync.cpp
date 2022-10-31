@@ -249,3 +249,59 @@ void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue 
 		}
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
+{
+	debugLogA("Got history sync: %s", protobuf_c_text_to_string(pSync).c_str());
+
+	switch (pSync->synctype) {
+	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP:
+	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__RECENT:
+		for (int i = 0; i < pSync->n_conversations; i++) {
+			auto *pChat = pSync->conversations[i];
+
+			auto *pUser = AddUser(pChat->id, false);
+			for (int j = 0; j < pChat->n_messages; j++) {
+				auto *pMessage = pChat->messages[j];
+				if (!pMessage->message)
+					continue;
+
+				MEVENT hEvent = db_event_getById(m_szModuleName, pMessage->message->key->id);
+				if (hEvent) {
+					debugLogA("Event %s is already processed", pMessage->message->key->id);
+					continue;
+				}
+
+				CMStringA szMessageText(getMessageText(pMessage->message->message));
+				if (!szMessageText.IsEmpty()) {
+					PROTORECVEVENT pre = {};
+					pre.timestamp = pMessage->message->messagetimestamp;
+					pre.szMessage = szMessageText.GetBuffer();
+					pre.szMsgId = pMessage->message->key->id;
+					pre.flags = PREF_CREATEREAD;
+					if (pMessage->message->key->fromme)
+						pre.flags |= PREF_SENT;
+					ProtoChainRecvMsg(pUser->hContact, &pre);
+				}
+			}
+		}
+		break;
+
+	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME:
+		for (int i = 0; i < pSync->n_pushnames; i++) {
+			auto *pName = pSync->pushnames[i];
+			if (auto *pUser = FindUser(pName->id))
+				setUString(pUser->hContact, "Nick", pName->pushname);
+		}
+		break;
+
+	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3:
+		for (int i = 0; i < pSync->n_statusv3messages;  i++) {
+			auto *pStatus = pSync->statusv3messages[i];
+			// TODO
+		}
+		break;
+	}
+}

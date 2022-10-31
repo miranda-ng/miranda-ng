@@ -31,6 +31,15 @@ struct WAMSG
 	};
 };
 
+struct WAMediaKeys
+{
+	WAMediaKeys(const uint8_t *pKey, size_t keyLen, const char *pszMediaType);
+
+	uint8_t iv[16];
+	uint8_t cipherKey[32];
+	uint8_t macKey[64];
+};
+
 struct WARequest
 {
 	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2, void *_3 = nullptr) :
@@ -256,6 +265,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void InitSync(void);
 	void ApplyPatch(const JSONNode &index, const Wa__SyncActionValue *data);
 	void ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, bool bSet);
+	void ProcessHistorySync(const Wa__HistorySync *pSync);
 	void ResyncServer(const OBJLIST<WACollection> &task);
 	void ResyncAll(void);
 
@@ -418,6 +428,7 @@ public:
 	// Options /////////////////////////////////////////////////////////////////////////////
 
 	CMOption<wchar_t*> m_wszNick;				// your nick name in presence
+	CMOption<wchar_t*> m_wszDeviceName;    // how do you see Miranda in mobile phone
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 

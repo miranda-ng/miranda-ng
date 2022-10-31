@@ -210,17 +210,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 
 	// try to extract some text
 	if (pUser) {
-		CMStringA szMessageText;
-		if (auto *pExt = body->extendedtextmessage) {
-			if (pExt->contextinfo && pExt->contextinfo->quotedmessage)
-				szMessageText.AppendFormat("> %s\n\n", pExt->contextinfo->quotedmessage->conversation);
-
-			if (pExt->text)
-				szMessageText.Append(pExt->text);
-		}
-		else if (mir_strlen(body->conversation))
-			szMessageText = body->conversation;
-
+		CMStringA szMessageText(getMessageText(body));
 		if (!szMessageText.IsEmpty()) {
 			PROTORECVEVENT pre = {};
 			pre.timestamp = timestamp;
@@ -249,9 +239,22 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			break;
 
 		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__APP_STATE_FATAL_EXCEPTION_NOTIFICATION:
-			debugLogA("History sync notification");
 			m_impl.m_resyncApp.Stop();
 			m_impl.m_resyncApp.Start(10000);
+			break;
+
+		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__HISTORY_SYNC_NOTIFICATION:
+			debugLogA("History sync notification");
+			if (auto *pHist = protoMsg->historysyncnotification) {
+				MBinBuffer buf(DownloadEncryptedFile(directPath2url(pHist->directpath), pHist->mediakey, "History"));
+				if (buf.data()) {
+					MBinBuffer inflate(unzip(unpadBuffer16(buf)));
+
+					proto::HistorySync sync(inflate);
+					if (sync)
+						ProcessHistorySync(sync);
+				}
+			}
 			break;
 
 		case WA__MESSAGE__PROTOCOL_MESSAGE__TYPE__REVOKE:

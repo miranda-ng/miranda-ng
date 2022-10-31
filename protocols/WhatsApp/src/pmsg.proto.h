@@ -38,6 +38,7 @@ namespace proto
 	PROTOBUF_PTR(ClientPayload, wa__client_payload__descriptor);
 	PROTOBUF_PTR(ExternalBlobReference, wa__external_blob_reference__descriptor);
 	PROTOBUF_PTR(HandshakeMessage, wa__handshake_message__descriptor);
+	PROTOBUF_PTR(HistorySync, wa__history_sync__descriptor);
 	PROTOBUF_PTR(Message, wa__message__descriptor);
 	PROTOBUF_PTR(SyncActionData, wa__sync_action_data__descriptor);
 	PROTOBUF_PTR(SyncdSnapshot, wa__syncd_snapshot__descriptor);
