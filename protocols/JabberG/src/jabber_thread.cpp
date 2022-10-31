@@ -157,7 +157,9 @@ void CJabberProto::CheckKeepAlive()
 		if (auto *item = ListGetItemPtrFromIndex(i)) {
 			if (!item->bChatLogging && now - item->iChatInitTime > 2) {
 				item->bChatLogging = true;
-				Chat_Control(m_szModuleName, Utf2T(item->jid), SESSION_ONLINE);
+				Utf2T wszJid(item->jid);
+				Chat_Control(m_szModuleName, wszJid, (item->bAutoJoin && m_bAutoJoinHidden) ? WINDOW_HIDDEN : SESSION_INITDONE);
+				Chat_Control(m_szModuleName, wszJid, SESSION_ONLINE);
 			}
 		}
 	}
