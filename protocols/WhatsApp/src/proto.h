@@ -414,6 +414,7 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnErase() override;
 	void     OnModulesLoaded() override;
 
 	// Services ////////////////////////////////////////////////////////////////////////////

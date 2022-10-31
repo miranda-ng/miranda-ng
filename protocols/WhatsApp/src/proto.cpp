@@ -103,6 +103,14 @@ WhatsAppProto::~WhatsAppProto()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// OnErase - remove temporary folder for account
+
+void WhatsAppProto::OnErase()
+{
+	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // OnModulesLoaded emulator for an account
 
 void WhatsAppProto::OnModulesLoaded()
