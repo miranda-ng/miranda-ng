@@ -563,24 +563,63 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 MBinBuffer MSignalStore::decryptGroupSignalProto(const CMStringA &group, const CMStringA &sender, const MBinBuffer &encrypted)
 {
 	WAJid jid(sender);
-	auto *pSession = createSession(group + CMStringA(FORMAT, "::%s::%d", jid.user.c_str(), jid.device), 0);
+	signal_protocol_sender_key_name senderKeyName;
+	senderKeyName.group_id = group.c_str();
+	senderKeyName.group_id_len = group.GetLength();
+	senderKeyName.sender.device_id = 0;
+	senderKeyName.sender.name = jid.user.c_str();
+	senderKeyName.sender.name_len = jid.user.GetLength();
 
-	signal_message *pMsg;
+	group_cipher *cipher;
 	logError(
-		signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
-		"unable to deserialize signal message");
+		group_cipher_create(&cipher, m_pStore, &senderKeyName, m_pContext),
+		"unable to create group cipher");
+
+	sender_key_message *skmsg;
+	logError(
+		sender_key_message_deserialize(&skmsg, encrypted.data(), encrypted.length(), m_pContext),
+		"unable to deserialize skmsg");
 
 	signal_buffer *result = nullptr;
 	logError(
-		session_cipher_decrypt_signal_message(pSession->getCipher(), pMsg, this, &result),
-		"unable to decrypt signal message");
+		group_cipher_decrypt(cipher, skmsg, this, &result),
+		"unable to decrypt skmsg");
 
-	signal_message_destroy((signal_type_base *)pMsg);
+	sender_key_message_destroy((signal_type_base *)skmsg);
+	group_cipher_free(cipher);
 
 	MBinBuffer res;
 	res.assign(result->data, result->len);
 	signal_buffer_free(result);
 	return res;
+}
+
+void MSignalStore::processSenderKeyMessage(const CMStringA &author, const Wa__Message__SenderKeyDistributionMessage *msg)
+{
+	WAJid jid(author);
+	signal_protocol_sender_key_name senderKeyName;
+	senderKeyName.group_id = msg->groupid;
+	senderKeyName.group_id_len = mir_strlen(msg->groupid);
+	senderKeyName.sender.device_id = 0;
+	senderKeyName.sender.name = jid.user.c_str();
+	senderKeyName.sender.name_len = jid.user.GetLength();
+
+	group_session_builder *builder;
+	logError(
+		group_session_builder_create(&builder, m_pStore, m_pContext),
+		"unable to create session builder");
+
+	sender_key_distribution_message *skmsg;
+	logError(
+		sender_key_distribution_message_deserialize(&skmsg, msg->axolotlsenderkeydistributionmessage.data, msg->axolotlsenderkeydistributionmessage.len, m_pContext),
+		"unable to decode skd message");
+
+	logError(
+		group_session_builder_process_session(builder, &senderKeyName, skmsg),
+		"unable to process skd message");
+
+	sender_key_distribution_message_destroy((signal_type_base *)skmsg);
+	group_session_builder_free(builder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -640,34 +679,4 @@ void MSignalStore::generatePrekeys(int count)
 	signal_protocol_key_helper_key_list_free(keys_root);
 
 	pProto->setDword(DBKEY_PREKEY_NEXT_ID, iNextKeyId + count);
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-void MSignalStore::processSenderKeyMessage(const CMStringA &author, const Wa__Message__SenderKeyDistributionMessage *msg)
-{
-	WAJid jid(author);
-	signal_protocol_sender_key_name senderKeyName;
-	senderKeyName.group_id = msg->groupid;
-	senderKeyName.group_id_len = mir_strlen(msg->groupid);
-	senderKeyName.sender.device_id = 0;
-	senderKeyName.sender.name = jid.user.c_str();
-	senderKeyName.sender.name_len = jid.user.GetLength();
-
-	group_session_builder *builder;
-	logError(
-		group_session_builder_create(&builder, m_pStore, m_pContext),
-		"unable to create session builder");
-
-	sender_key_distribution_message *skmsg;
-	logError(
-		sender_key_distribution_message_deserialize(&skmsg, msg->axolotlsenderkeydistributionmessage.data, msg->axolotlsenderkeydistributionmessage.len, m_pContext),
-		"unable to decode skdm builder");
-
-	logError(
-		group_session_builder_process_session(builder, &senderKeyName, skmsg),
-		"unable to process skdm");
-
-	sender_key_distribution_message_destroy((signal_type_base *)skmsg);
-	group_session_builder_free(builder);
 }
