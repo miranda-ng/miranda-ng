@@ -302,7 +302,7 @@ class CJabberDlgPrivacyRule : public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
 
-	CCtrlCombo cmbType, cmbAction, cmbValue;
+	CCtrlCombo cmbType, cmbAction, cmbValue, cmbValues;
 
 public:
 	CPrivacyListRule *m_pRule;
@@ -311,6 +311,7 @@ public:
 		CJabberDlgBase(proto, IDD_PRIVACY_RULE),
 		cmbType(this, IDC_COMBO_TYPE),
 		cmbValue(this, IDC_COMBO_VALUE),
+		cmbValues(this, IDC_COMBO_VALUES),
 		cmbAction(this, IDC_COMBO_ACTION)
 	{
 		SetParent(hwndParent);
@@ -374,9 +375,7 @@ public:
 		switch (nItemData) {
 		case Jid:
 		case Group:
-			wchar_t szText[512];
-			cmbValue.GetText(szText, _countof(szText));
-			m_pRule->SetValue(T2Utf(szText));
+			m_pRule->SetValue(T2Utf(ptrW(cmbValues.GetText())));
 			break;
 
 		case Subscription:
@@ -426,15 +425,15 @@ public:
 
 		switch (cmbType.GetCurData()) {
 		case Jid:
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
+			cmbValues.Show();
+			cmbValue.Hide();
 
-			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
+			cmbValues.ResetContent();
 			{
 				for (auto &hContact : m_proto->AccContacts()) {
 					ptrW jid(m_proto->getWStringA(hContact, "jid"));
 					if (jid != nullptr)
-						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, jid);
+						cmbValues.AddString(jid);
 				}
 
 				// append known chatroom jids from bookmarks
@@ -442,54 +441,56 @@ public:
 				{
 					JABBER_LIST_ITEM *item = nullptr;
 					if (item = m_proto->ListGetItemPtrFromIndex(i))
-						SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)item->jid);
+						cmbValues.AddString(Utf2T(item->jid));
 				}
 			}
 
 			// FIXME: ugly code :)
 			if (m_pRule->GetValue()) {
-				SetDlgItemTextUtf(m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue());
-				LRESULT nSelPos = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT, -1, (LPARAM)m_pRule->GetValue());
+				Utf2T pwszValue(m_pRule->GetValue());
+				cmbValues.SetText(pwszValue);
+				LRESULT nSelPos = cmbValues.FindString(pwszValue, -1, true);
 				if (nSelPos != CB_ERR)
-					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_SETCURSEL, nSelPos, 0);
+					cmbValues.SetCurSel(nSelPos);
 			}
 			break;
 
 		case Group:
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_SHOW);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
+			cmbValues.Show();
+			cmbValue.Hide();
 
-			SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_RESETCONTENT, 0, 0);
+			cmbValues.ResetContent();
 			{
 				wchar_t *grpName;
 				for (int i = 1; (grpName = Clist_GroupGetName(i, nullptr)) != nullptr; i++)
-					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_ADDSTRING, 0, (LPARAM)grpName);
+					cmbValues.AddString(grpName);
 			}
 
 			// FIXME: ugly code :)
 			if (m_pRule->GetValue()) {
-				SetDlgItemTextUtf(m_hwnd, IDC_COMBO_VALUES, m_pRule->GetValue());
-				LRESULT nSelPos = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_FINDSTRINGEXACT, -1, (LPARAM)m_pRule->GetValue());
+				Utf2T pwszValue(m_pRule->GetValue());
+				cmbValues.SetText(pwszValue);
+				LRESULT nSelPos = cmbValues.FindString(pwszValue, -1, true);
 				if (nSelPos != CB_ERR)
-					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUES, CB_SETCURSEL, nSelPos, 0);
+					cmbValues.SetCurSel(nSelPos);
 			}
 			break;
 
 		case Subscription:
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_HIDE);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_SHOW);
+			cmbValues.Hide();
+			cmbValue.Show();
 
 			if (m_pRule->GetValue()) {
-				LRESULT nSelected = SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SELECTSTRING, -1, (LPARAM)TranslateW(Utf2T(m_pRule->GetValue())));
+				LRESULT nSelected = cmbValue.SelectString(TranslateW(Utf2T(m_pRule->GetValue())));
 				if (nSelected == CB_ERR)
-					SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETCURSEL, 0, 0);
+					cmbValue.SetCurSel(0);
 			}
-			else SendDlgItemMessage(m_hwnd, IDC_COMBO_VALUE, CB_SETCURSEL, 0, 0);
+			else cmbValue.SetCurSel(0);
 			break;
 
 		case Else:
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUES), SW_HIDE);
-			ShowWindow(GetDlgItem(m_hwnd, IDC_COMBO_VALUE), SW_HIDE);
+			cmbValues.Hide();
+			cmbValue.Hide(); 
 			break;
 		}
 	}
@@ -1683,10 +1684,12 @@ public:
 		CPrivacyListRule* pRule = GetSelectedRule();
 
 		if (pList && pRule) {
-			pList->RemoveRule(pRule);
 			int nCurSel = m_lbRules.GetCurSel();
 			int nItemCount = m_lbRules.GetCount();
+			m_lbRules.DeleteString(nCurSel);
 			m_lbRules.SetCurSel(nCurSel != nItemCount - 1 ? nCurSel : nCurSel - 1);
+
+			pList->RemoveRule(pRule);
 			pList->Reorder();
 			pList->SetModified();
 			PostMessage(m_hwnd, WM_PROTO_REFRESH, 0, 0);
