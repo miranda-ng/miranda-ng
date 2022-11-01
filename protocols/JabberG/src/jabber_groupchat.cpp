@@ -1079,6 +1079,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	szText.Replace("%", "%%");
 	szText += imgLink;
 
+	gce.dwFlags = GCEF_UTF8;
 	gce.pszUID.a = resource;
 	gce.pszNick.a = nick;
 	gce.time = msgTime;
