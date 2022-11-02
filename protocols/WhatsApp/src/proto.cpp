@@ -116,7 +116,8 @@ void WhatsAppProto::OnErase()
 void WhatsAppProto::OnModulesLoaded()
 {
 	// initialize contacts cache
-	m_arUsers.insert(new WAUser(0, m_szJid, false));
+	if (!m_szJid.IsEmpty())
+		m_arUsers.insert(new WAUser(0, m_szJid, false));
 
 	for (auto &cc : AccContacts()) {
 		bool bIsChat = isChatRoom(cc);

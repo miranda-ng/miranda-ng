@@ -128,6 +128,8 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 			if (auto *pszJid = pDevice->getAttr("jid")) {
 				WAJid jid(pszJid);
 				m_szJid = jid.user + "@" + jid.server;
+				m_arUsers.insert(new WAUser(0, m_szJid, false));
+
 				setUString(DBKEY_ID, m_szJid);
 				setDword(DBKEY_DEVICE_ID, jid.device);
 			}
@@ -403,6 +405,15 @@ LBL_Error:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnReceiveFailure(const WANode &node)
+{
+	m_bTerminated = true;
+
+	ProcessFailure(node.getAttrInt("reason"));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnReceiveInfo(const WANode &node)
 {
 	if (auto *pChild = node.getFirstChild()) {
@@ -473,34 +484,8 @@ void WhatsAppProto::OnStreamError(const WANode &node)
 {
 	m_bTerminated = true;
 
-	if (auto *pszCode = node.getAttr("code")) {
-		switch (atoi(pszCode)) {
-		case 401:
-			debugLogA("Connection logged out from another device, exiting");
-			break;
-
-		case 408:
-			debugLogA("Connection lost, exiting");
-			break;
-
-		case 411:
-			debugLogA("Conflict between two devices, exiting");
-			break;
-
-		case 428:
-			debugLogA("Connection forcibly closed by the server, exiting");
-			break;
-
-		case 440:
-			debugLogA("Connection replaced from another device, exiting");
-			break;
-
-		case 515:
-			debugLogA("Server required to restart immediately, leaving thread");
-			m_bRespawn = true;
-			break;
-		}
-	}
+	if (auto *pszCode = node.getAttr("code"))
+		ProcessFailure(atoi(pszCode));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -528,6 +513,7 @@ void WhatsAppProto::InitPersistentHandlers()
 
 	m_arPersistent.insert(new WAPersistentHandler("ack", 0, 0, 0, &WhatsAppProto::OnReceiveAck));
 	m_arPersistent.insert(new WAPersistentHandler("ib", 0, 0, 0, &WhatsAppProto::OnReceiveInfo));
+	m_arPersistent.insert(new WAPersistentHandler("failure", 0, 0, 0, &WhatsAppProto::OnReceiveFailure));
 	m_arPersistent.insert(new WAPersistentHandler("message", 0, 0, 0, &WhatsAppProto::OnReceiveMessage));
 	m_arPersistent.insert(new WAPersistentHandler("receipt", 0, 0, 0, &WhatsAppProto::OnReceiveReceipt));
 	m_arPersistent.insert(new WAPersistentHandler("chatstates", 0, 0, 0, &WhatsAppProto::OnReceiveChatState));

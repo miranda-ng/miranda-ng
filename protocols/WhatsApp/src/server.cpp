@@ -222,6 +222,66 @@ void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+const char *pszNeededItems[] = {
+	"AM_BaseProto", "DefaultGroup", "DeviceName", "HideChats", "NLlog", "Nick"
+};
+
+static int sttEnumFunc(const char *szSetting, void *param)
+{
+	for (auto &it : pszNeededItems)
+		if (!mir_strcmp(it, szSetting))
+			return 0;
+
+	auto *pList = (LIST<char>*)param;
+	pList->insert(mir_strdup(szSetting));
+	return 0;
+}
+
+void WhatsAppProto::ProcessFailure(int code)
+{
+	switch (code) {
+	case 401:
+		debugLogA("Connection logged out from another device, exiting");
+		Popup(0, TranslateT("This account was logged out from another device, you need to register it again"), m_tszUserName);
+
+		// remove all temporary data from database & disk folder
+		{
+			LIST<char> arSettings(50);
+			db_enum_settings(0, sttEnumFunc, m_szModuleName, &arSettings);
+			for (auto &it : arSettings) {
+				delSetting(it);
+				mir_free(it);
+			}
+		}
+		m_szJid.Empty();
+		OnErase();
+		break;
+
+	case 408:
+		debugLogA("Connection lost, exiting");
+		break;
+
+	case 411:
+		debugLogA("Conflict between two devices, exiting");
+		break;
+
+	case 428:
+		debugLogA("Connection forcibly closed by the server, exiting");
+		break;
+
+	case 440:
+		debugLogA("Connection replaced from another device, exiting");
+		break;
+
+	case 515:
+		debugLogA("Server required to restart immediately, leaving thread");
+		m_bRespawn = true;
+		break;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("WhatsAppProto::OnLoggedIn");

@@ -323,6 +323,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void OnLoggedIn(void);
 	void OnLoggedOut(void);
+	void ProcessFailure(int code);
 	void ServerThreadWorker(void);
 	void ShutdownSession(void);
 
@@ -363,6 +364,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnNotifyPicture(const WANode &node);
 	void OnReceiveAck(const WANode &node);
 	void OnReceiveChatState(const WANode &node);
+	void OnReceiveFailure(const WANode &node);
 	void OnReceiveInfo(const WANode &node);
 	void OnReceiveMessage(const WANode &node);
 	void OnReceiveReceipt(const WANode &node);
