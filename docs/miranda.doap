@@ -5,9 +5,9 @@
     <name>Miranda NG</name>
     <short-name>miranda-ng</short-name>
 
-    <created>2022-11-03</created>
+    <created>2012-05-15</created>
 
-    <shortdesc xml:lang="en">Miltiprotocol client for Windows with extended XMPP support</shortdesc>
+    <shortdesc xml:lang="en">Multiprotocol client for Windows with extended XMPP support</shortdesc>
 
     <homepage rdf:resource="https://miranda-ng.org"/>
     <wiki rdf:resource="https://wiki.miranda-ng.org"/>
