@@ -96,6 +96,9 @@ void LT_HASH::sub(const void *pData, size_t len)
 
 WAUser* WhatsAppProto::FindUser(const char *szId)
 {
+	if (szId == nullptr)
+		return nullptr;
+
 	mir_cslock lck(m_csUsers);
 	auto *tmp = (WAUser *)_alloca(sizeof(WAUser));
 	tmp->szId = (char*)szId;
@@ -413,12 +416,21 @@ CMStringA file2string(const wchar_t *pwszFileName)
 	return res;
 }
 
-CMStringA getMessageText(const Wa__Message *pMessage)
+CMStringA WhatsAppProto::GetMessageText(const Wa__Message *pMessage)
 {
 	CMStringA szMessageText;
 
 	if (pMessage) {
 		if (auto *pExt = pMessage->extendedtextmessage) {
+			if (pExt->title) {
+				if (m_bUseBbcodes)
+					szMessageText.Append("<b>");
+				szMessageText.Append(pExt->title);
+				if (m_bUseBbcodes)
+					szMessageText.Append("</b>");
+				szMessageText.Append("\n");
+			}
+
 			if (pExt->contextinfo && pExt->contextinfo->quotedmessage)
 				szMessageText.AppendFormat("> %s\n\n", pExt->contextinfo->quotedmessage->conversation);
 
@@ -446,8 +458,14 @@ void proto::CleanBinary(ProtobufCBinaryData &field)
 ProtobufCBinaryData proto::SetBinary(const void *pData, size_t len)
 {
 	ProtobufCBinaryData res;
-	res.data = (uint8_t*)malloc(res.len = len);
-	memcpy(res.data, pData, len);
+	if (pData == nullptr) {
+		res.data = nullptr;
+		res.len = 0;
+	}
+	else {
+		res.data = (uint8_t *)malloc(res.len = len);
+		memcpy(res.data, pData, len);
+	}
 	return res;
 }
 

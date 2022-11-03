@@ -11,13 +11,14 @@ Copyright © 2019-22 George Hazan
 
 class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
-	CCtrlCheck chkHideChats;
+	CCtrlCheck chkHideChats, chkBbcodes;
 	CCtrlEdit edtGroup, edtNick, edtDevName;
 	ptrW m_wszOldGroup;
 
 public:
 	COptionsDlg(WhatsAppProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<WhatsAppProto>(ppro, iDlgID),
+		chkBbcodes(this, IDC_USEBBCODES),
 		chkHideChats(this, IDC_HIDECHATS),
 		edtNick(this, IDC_NICK),
 		edtGroup(this, IDC_DEFGROUP),
@@ -28,8 +29,10 @@ public:
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
 		CreateLink(edtDevName, ppro->m_wszDeviceName);
 
-		if (bFullDlg)
+		if (bFullDlg) {
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+			CreateLink(chkBbcodes, ppro->m_bUseBbcodes);
+		}
 	}
 
 	bool OnInitDialog() override

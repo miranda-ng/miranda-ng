@@ -14,6 +14,7 @@
 #define IDC_NEWJID                      1004
 #define IDC_NICK                        1005
 #define IDC_DEVICE_NAME                 1006
+#define IDC_USEBBCODES                  1007
 
 // Next default values for new objects
 // 

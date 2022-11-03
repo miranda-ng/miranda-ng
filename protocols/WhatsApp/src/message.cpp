@@ -210,7 +210,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 
 	// try to extract some text
 	if (pUser) {
-		CMStringA szMessageText(getMessageText(body));
+		CMStringA szMessageText(GetMessageText(body));
 		if (!szMessageText.IsEmpty()) {
 			PROTORECVEVENT pre = {};
 			pre.timestamp = timestamp;

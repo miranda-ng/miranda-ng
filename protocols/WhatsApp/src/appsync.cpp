@@ -274,7 +274,7 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 					continue;
 				}
 
-				CMStringA szMessageText(getMessageText(pMessage->message->message));
+				CMStringA szMessageText(GetMessageText(pMessage->message->message));
 				if (!szMessageText.IsEmpty()) {
 					PROTORECVEVENT pre = {};
 					pre.timestamp = pMessage->message->messagetimestamp;

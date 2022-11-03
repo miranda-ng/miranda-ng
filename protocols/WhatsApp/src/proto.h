@@ -309,6 +309,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	int m_iPacketId;
 	uint16_t m_wMsgPrefix[2];
 	CMStringA GenerateMessageId();
+	CMStringA GetMessageText(const Wa__Message *pMessage);
 	void ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
 	bool CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig);
 
@@ -434,6 +435,7 @@ public:
 	CMOption<wchar_t*> m_wszDeviceName;    // how do you see Miranda in mobile phone
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
+	CMOption<bool>     m_bUseBbcodes;      // use extended markup for messages
 
 	// Processing Threads //////////////////////////////////////////////////////////////////
 

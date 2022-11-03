@@ -49,6 +49,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_wszDeviceName(this, "DeviceName", L"Miranda NG"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"WhatsApp"),
 	m_bUsePopups(this, "UsePopups", true),
+	m_bUseBbcodes(this, "UseBbcodes", true),
 	m_bHideGroupchats(this, "HideChats", true)
 {
 	db_set_resident(m_szModuleName, "StatusMsg");
