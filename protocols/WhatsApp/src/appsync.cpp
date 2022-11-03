@@ -272,14 +272,27 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 
 				CMStringA szMessageText(GetMessageText(pMessage->message->message));
 				if (!szMessageText.IsEmpty()) {
-					PROTORECVEVENT pre = {};
-					pre.timestamp = pMessage->message->messagetimestamp;
-					pre.szMessage = szMessageText.GetBuffer();
-					pre.szMsgId = pMessage->message->key->id;
-					pre.flags = PREF_CREATEREAD;
-					if (pMessage->message->key->fromme)
-						pre.flags |= PREF_SENT;
-					ProtoChainRecvMsg(pUser->hContact, &pre);
+					auto *key = pMessage->message->key;
+					if (pUser->bIsGroupChat) {
+						GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
+						gce.dwFlags = GCEF_UTF8;
+						gce.pszID.a = pUser->szId;
+						gce.pszUID.a = key->participant;
+						gce.bIsMe = key->fromme;
+						gce.pszText.a = szMessageText.GetBuffer();
+						gce.time = pMessage->message->messagetimestamp;
+						Chat_Event(&gce);
+					}
+					else {
+						PROTORECVEVENT pre = {};
+						pre.timestamp = pMessage->message->messagetimestamp;
+						pre.szMessage = szMessageText.GetBuffer();
+						pre.szMsgId = key->id;
+						pre.flags = PREF_CREATEREAD;
+						if (key->fromme)
+							pre.flags |= PREF_SENT;
+						ProtoChainRecvMsg(pUser->hContact, &pre);
+					}
 				}
 			}
 		}
