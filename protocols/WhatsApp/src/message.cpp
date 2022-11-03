@@ -188,7 +188,6 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 {
 	auto *key = msg.key;
 	auto *body = getBody(msg.message);
-	bool bFromMe = key->fromme;
 
 	debugLogA("Got a message: %s", protobuf_c_text_to_string(&msg).c_str());
 
@@ -197,15 +196,9 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	auto *chatId = key->remotejid;
 	auto *msgId = key->id;
 
-	WAUser *pUser = FindUser(chatId);
-	if (pUser == nullptr) {
-		if (type.bPrivateChat)
-			pUser = AddUser(chatId, false, false);
-		else if (type.bGroupChat)
-			pUser = AddUser(chatId, false, true);
-	}
+	WAUser *pUser = AddUser(chatId, false);
 
-	if (!bFromMe && msg.pushname && pUser && !pUser->bIsGroupChat)
+	if (!key->fromme && msg.pushname && pUser && !pUser->bIsGroupChat)
 		setUString(pUser->hContact, "Nick", msg.pushname);
 
 	// try to extract some text
@@ -218,7 +211,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			pre.szMsgId = msgId;
 			if (type.bOffline)
 				pre.flags |= PREF_CREATEREAD;
-			if (bFromMe)
+			if (key->fromme)
 				pre.flags |= PREF_SENT;
 			ProtoChainRecvMsg(pUser->hContact, &pre);
 		}

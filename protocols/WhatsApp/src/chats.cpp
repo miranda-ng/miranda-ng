@@ -7,77 +7,112 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
-void WhatsAppProto::InitChat(WAUser *pUser)
+void WhatsAppProto::GC_Init(WAUser *pUser)
 {
-	CMStringA jid = "";
-	CMStringW wszId(Utf2T(jid.c_str())), wszNick(Utf2T(""));
+	CMStringW wszId(Utf2T(pUser->szId));
 
-	setWString(pUser->hContact, "Nick", wszNick);
-
-	pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, wszNick);
+	pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, getMStringW(pUser->hContact, "Nick"));
 
 	Chat_AddGroup(pUser->si, TranslateT("Owner"));
 	Chat_AddGroup(pUser->si, TranslateT("SuperAdmin"));
 	Chat_AddGroup(pUser->si, TranslateT("Admin"));
 	Chat_AddGroup(pUser->si, TranslateT("Participant"));
 
-	Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
-
-	if (!pUser->bInited) {
-		// CMStringA query(FORMAT, "[\"query\",\"GroupMetadata\",\"%s\"]", jid.c_str());
-		// WSSend(query, &WhatsAppProto::OnGetChatInfo, pUser);
+	if (pUser->bInited) {
+		Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+		Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
 	}
+	else GC_GetMetadata(pUser->szId);
 }
 
-void WhatsAppProto::OnGetChatInfo(const JSONNode &root, void *param)
+void WhatsAppProto::GC_GetMetadata(const char *szId)
 {
-	auto *pChatUser = (WAUser *)param;
-	pChatUser->bInited = true;
+	WANodeIq iq(IQ::GET, "w:g2", szId);
+	iq.addChild("query")->addAttr("request", "interactive");
+	WSSendNode(iq, &WhatsAppProto::OnIqGcMetadata);
+}
 
-	CMStringW wszOwner(root["owner"].as_mstring()), wszNick;
+void WhatsAppProto::OnIqGcMetadata(const WANode &node)
+{
+	auto *pGroup = node.getChild("group");
+	auto *pChatUser = FindUser(node.getAttr("from"));
+	if (pChatUser == nullptr || pGroup == nullptr)
+		return;
 
-	for (auto &it : root["participants"]) {
-		CMStringW jid(it["id"].as_mstring());
-		CMStringA szJid(jid);
+	CMStringA szOwner(pGroup->getAttr("creator")), szNick, szRole;
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-		gce.pszID.w = pChatUser->si->ptszID;
-		gce.pszUID.w = jid;
-		gce.bIsMe = (szJid == m_szJid);
-
-		if (jid == wszOwner)
-			gce.pszStatus.w = L"Owner";
-		else if (it["isSuperAdmin"].as_bool())
-			gce.pszStatus.w = L"SuperAdmin";
-		else if (it["isAdmin"].as_bool())
-			gce.pszStatus.w = L"Admin";
-		else
-			gce.pszStatus.w = L"Participant";
-
-		if (gce.bIsMe)
-			wszNick = getMStringW(DBKEY_NICK);
-		else if (auto *pUser = FindUser(szJid))
-			wszNick = Clist_GetContactDisplayName(pUser->hContact);
-		else {
-			int iPos = jid.Find('@');
-			wszNick = (iPos != -1) ? jid.Left(iPos - 1) : jid;
+	for (auto &it : pGroup->getChildren()) {
+		if (it->title == "description") {
+			CMStringA szDescr = it->getBody();
+			if (!szDescr.IsEmpty()) {
+				GCEVENT gce = {m_szModuleName, 0, GC_EVENT_INFORMATION};
+				gce.dwFlags = GCEF_UTF8;
+				gce.pszID.a = pChatUser->szId;
+				gce.pszText.a = szDescr.c_str();
+				Chat_Event(&gce);
+			}
 		}
+		else if (it->title == "member_add_mode") {
+			szRole = it->getBody();
+		}
+		else if (it->title == "participant") {
+			auto *jid = it->getAttr("jid");
+			
+			// if role isn't specified, use the default one
+			auto *role = it->getAttr("type");
+			if (role == nullptr)
+				role = szRole;
 
-		gce.pszNick.w = wszNick;
-		Chat_Event(&gce);
+			GCEVENT gce = {m_szModuleName, 0, GC_EVENT_JOIN};
+			gce.dwFlags = GCEF_UTF8;
+			gce.pszID.a = pChatUser->szId;
+			gce.pszUID.a = jid;
+			gce.bIsMe = (jid == m_szJid);
+
+			if (jid == szOwner)
+				gce.pszStatus.a = "Owner";
+			else if (!mir_strcmp(role, "superadmin"))
+				gce.pszStatus.a = "SuperAdmin";
+			else if (!mir_strcmp(role, "adminadd"))
+				gce.pszStatus.a = "Admin";
+			else
+				gce.pszStatus.a = "Participant";
+
+			if (gce.bIsMe)
+				szNick = ptrA(getUStringA(DBKEY_NICK));
+			else if (auto *pUser = FindUser(jid))
+				szNick = T2Utf(Clist_GetContactDisplayName(pUser->hContact)).get();
+			else
+				szNick = WAJid(jid).user;
+
+			gce.pszNick.a = szNick;
+			Chat_Event(&gce);
+		}
 	}
 
-	CMStringW wszSubject(root["subject"].as_mstring());
-	if (!wszSubject.IsEmpty()) {
-		time_t iSubjectTime(root["subjectTime"].as_int());
-		CMStringW wszSubjectSet(root["subjectOwner"].as_mstring());
+	if (auto *pszSubject = pGroup->getAttr("subject")) {
+		time_t iSubjectTime = pGroup->getAttrInt("s_t");
+		auto *pszUser = pGroup->getAttr("s_o");
+		if (m_szJid == pszUser)
+			szNick = ptrA(getUStringA(DBKEY_NICK));
+		else if (auto *pUser = FindUser(pszUser))
+			szNick = T2Utf(Clist_GetContactDisplayName(pUser->hContact)).get();
+		else
+			szNick = WAJid(pszUser).user;
 
 		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
-		gce.pszID.w	 = pChatUser->si->ptszID;
-		gce.pszUID.w = wszSubjectSet;
-		gce.pszText.w = wszSubject;
+		gce.dwFlags = GCEF_UTF8;
+		gce.pszID.a	 = pChatUser->szId;
+		gce.pszUID.a = pszUser;
+		gce.pszText.a = pszSubject;
 		gce.time = iSubjectTime;
 		Chat_Event(&gce);
+
+		setUString(pChatUser->hContact, "Nick", pszSubject);
 	}
+
+	pChatUser->bInited = true;
+	CMStringW wszId(Utf2T(pChatUser->szId));
+	Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
 }

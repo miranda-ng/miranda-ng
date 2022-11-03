@@ -310,6 +310,10 @@ void WhatsAppProto::OnLoggedIn()
 	WSSendNode(
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
+
+	for (auto &it : m_arUsers)
+		if (it->bIsGroupChat)
+			GC_Init(it);
 }
 
 void WhatsAppProto::OnLoggedOut(void)

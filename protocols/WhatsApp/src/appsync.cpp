@@ -141,9 +141,6 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 			}
 		}
 
-		CMStringA szSetting(FORMAT, "Collection_%s", pszName);
-		// setDword(szSetting, dwVersion);
-
 		JSONNode jsonRoot, jsonMap;
 		for (auto &it : pCollection->indexValueMap)
 			jsonMap << CHAR_PARAM(ptrA(mir_base64_encode(it.first.c_str(), it.first.size())), ptrA(mir_base64_encode(it.second.c_str(), it.second.size())));
@@ -221,8 +218,7 @@ void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue 
 	auto title = index.at((json_index_t)0).as_string();
 
 	if (title == "contact" && data->contactaction) {
-		WAJid jid(index.at(1).as_string().c_str());
-		auto *pUser = AddUser(jid.toString(), false, jid.isGroup());
+		auto *pUser = AddUser(index.at(1).as_string().c_str(), false);
 
 		auto *pAction = data->contactaction;
 		auto &fullName = pAction->fullname;

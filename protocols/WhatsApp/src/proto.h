@@ -284,11 +284,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	OBJLIST<WADevice> m_arDevices;
 
 	WAUser* FindUser(const char *szId);
-	WAUser* AddUser(const char *szId, bool bTemporary, bool isChat = false);
+	WAUser* AddUser(const char *szId, bool bTemporary);
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
-	void InitChat(WAUser *pUser);
+	void GC_Init(WAUser *pUser);
+	void GC_GetMetadata(const char *szJid);
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
@@ -353,6 +354,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
+	void OnIqGcMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node);
 	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);

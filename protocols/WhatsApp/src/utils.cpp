@@ -105,7 +105,7 @@ WAUser* WhatsAppProto::FindUser(const char *szId)
 	return m_arUsers.find(tmp);
 }
 
-WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary, bool isChat)
+WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 {
 	auto *pUser = FindUser(szId);
 	if (pUser != nullptr)
@@ -114,9 +114,14 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary, bool isChat)
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
 
-	if (isChat) {
+	pUser = new WAUser(hContact, mir_strdup(szId));
+	pUser->bIsGroupChat = WAJid(szId).isGroup();
+
+	if (pUser->bIsGroupChat) {
 		setByte(hContact, "ChatRoom", 1);
 		setString(hContact, "ChatRoomID", szId);
+
+		GC_Init(pUser);
 	}
 	else {
 		setString(hContact, DBKEY_ID, szId);
@@ -126,9 +131,6 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary, bool isChat)
 
 	if (bTemporary)
 		Contact::RemoveFromList(hContact);
-
-	pUser = new WAUser(hContact, mir_strdup(szId));
-	pUser->bIsGroupChat = isChat;
 
 	mir_cslock lck(m_csUsers);
 	m_arUsers.insert(pUser);
