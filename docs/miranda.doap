@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
+         xmlns='http://usefulinc.com/ns/doap#'>
+  <Project xml:lang='en'>
+    <name>Miranda NG</name>
+    <short-name>miranda-ng</short-name>
+
+    <created>2022-11-03</created>
+
+    <shortdesc xml:lang="en">Miltiprotocol client for Windows with extended XMPP support</shortdesc>
+
+    <homepage rdf:resource="https://miranda-ng.org"/>
+    <wiki rdf:resource="https://wiki.miranda-ng.org"/>
+    <developer-forum xml:lang="en" rdf:resource="xmpp:miranda-ng-int@conference.jabber.ru?join"/>
+    <developer-forum xml:lang="ru" rdf:resource="xmpp:miranda-ng@conference.jabber.ru?join"/>
+    <support-forum rdf:resource="https://forum.miranda-ng.org"/>
+    <category rdf:resource="https://linkmauve.fr/ns/xmpp-doap#category-client"/>
+    <category rdf:resource="http://api.gnome.org/doap-extensions#apps"/>
+    <license rdf:resource="http://usefulinc.com/doap/licenses/gplv2"/>
+
+    <schema:logo rdf:resource="https://miranda-ng.org/logo.png"/>
+    <schema:screenshot rdf:resource="https://miranda-ng.org/about/miranda_ng.png"/>
+
+    <programming-language>C++</programming-language>
+    <programming-language>Pascal</programming-language>
+    <os>Windows</os>
+
+    <repository>
+      <GitRepository>
+        <location rdf:resource="https://github.com/miranda-ng/miranda-ng.git"/>
+        <browse rdf:resource="https://github.com/miranda-ng/miranda-ng/"/>
+      </GitRepository>
+    </repository>
+  </Project>
+</rdf:RDF>
