@@ -167,7 +167,7 @@ int WhatsAppProto::SetStatus(int new_status)
 		return 0;
 
 	if (!mir_wstrlen(m_wszNick)) {
-		Popup(0, LPGENW("You need to specify nick name in the Options dialog"), LPGENW("Error"));
+		Popup(0, LPGENW("Connection cannot be established! You have not completed all necessary fields (Nick)."), LPGENW("Error"));
 		return 0;
 	}
 
