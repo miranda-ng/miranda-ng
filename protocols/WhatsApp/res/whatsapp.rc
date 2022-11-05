@@ -31,7 +31,7 @@ CAPTION "Sign in using QR code"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_QRPIC,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,7,7,304,304
-    CTEXT           "Open WhatsApp application on your mobile phone and use it to read this QR code\nA window will disappear automatically after it",IDC_STATIC,8,314,302,17
+    CTEXT           "Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it",IDC_STATIC,8,314,302,17
 END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 188, 144
@@ -62,7 +62,7 @@ BEGIN
     EDITTEXT        IDC_DEVICE_NAME,87,41,211,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
-    CONTROL         "Use BBCodes",IDC_USEBBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,78,294,10
+    CONTROL         "Use BBCode",IDC_USEBBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,78,294,10
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170
