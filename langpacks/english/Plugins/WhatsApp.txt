@@ -8,10 +8,12 @@
 [WhatsApp protocol support for Miranda NG.]
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Sign in using QR code]
-[Open WhatsApp application on your mobile phone and use it to read this QR code\nA window will disappear automatically after it]
+[Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it]
 [Nick:]
 [Default group:]
 [Do not open chat windows on creation]
+[Device name:]
+[Use BBCode]
 [Invite users]
 [Choose a user]
 [Other user:]
@@ -31,7 +33,8 @@
 [%s (server)]
 [You need to specify nick name in the Options dialog]
 [Error]
-[Operation failed with server error status %d]
+;file \protocols\WhatsApp\src\server.cpp
+[This account was logged out from another device, you need to register it again]
 ;file \protocols\WhatsApp\src\utils.cpp
 [%s error notifications]
 [Errors]
