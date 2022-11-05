@@ -2,26 +2,12 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
 Поддержка смайлов в Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley categories]
-Категории смайлов
-[Specify smiley pack for each category]
-Категории с разными наборами смайлов
-[Name:]
-Название:
-[Author:]
-Автор:
-[Version:]
-Версия:
-[Preview]
-Тест
-[Use per protocol global smiley packs]
-Глобальный набор для протоколов
 [Display]
 Показывать
 [Replace only smileys surrounded by spaces]
@@ -52,6 +38,20 @@
 Окно в стиле IEView
 [Horizontal sorting]
 Горизонтальная сортировка
+[Download more smileys]
+Скачать смайлы
+[Specify smiley pack for each category]
+Категории с разными наборами смайлов
+[Name:]
+Название:
+[Author:]
+Автор:
+[Version:]
+Версия:
+[Preview]
+Тест
+[Use per protocol global smiley packs]
+Глобальный набор для протоколов
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Показать окно для выбора смайла
@@ -80,6 +80,10 @@
 Смайлы
 [Customize]
 Тонкая настройка
+[General]
+Общее
+[Categories]
+Категории
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 В соответствии с протоколом

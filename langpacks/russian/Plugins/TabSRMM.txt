@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,8 +132,6 @@
 записей
 [More about advanced tweaks]
 Подробнее о дополнительных настройках
-[Revert to (safe) defaults]
-Настройки по умолчанию
 [Dialog]
 Диалог
 [Cancel]
@@ -913,8 +911,6 @@ BBCode ([b][i][u])
 Фон журнала чата
 [Appearance and functionality of chat room windows]
 Интерфейс и функциональность окон чата
-[Appearance of the message log]
-Внешний вид журнала сообщений
 [Open new chat rooms in the default container]
 Открывать новые чаты и беседы в контейнере по умолчанию
 [Flash window when someone speaks]
@@ -933,8 +929,6 @@ BBCode ([b][i][u])
 Показать тему комнаты чата в списке контактов как сообщение статуса
 [Do not pop up the window when joining a chat room]
 Не открывать окно чата при входе в комнату чата
-[Sync splitter position with standard IM sessions]
-Синхронизировать положение разделителя со стандартом
 [Show contact's status modes if supported by the protocol]
 Показывать значки статусов, если поддерживается протоколом
 [Display contact's status icon before user role icon]
@@ -943,6 +937,8 @@ BBCode ([b][i][u])
 IRC-стиль (текстовый) индикаторов ролей участников в списке
 [Use alternative sorting method in member list]
 Альтернативная сортировка ников в списке
+[Appearance of the message log]
+Внешний вид журнала сообщений
 [Prefix all events with a timestamp]
 Указывать время всех событий
 [Only prefix with timestamp if it has changed]
@@ -1433,16 +1429,16 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Загрузить тему
 [Message window behavior]
 Поведение окна сообщений
+[Always flash contact list and tray icon for new messages]
+Мигать значком в трее и списке контактов при новом сообщении
+[Delete temporary contacts on close]
+Удалять временные контакты при закрытии
 [Sending messages]
 Отправка сообщений
 [Minimize the message window on send]
 Сворачивать окно после отправки
 [Close the message window on send]
 Закрывать окно после отправки
-[Always flash contact list and tray icon for new messages]
-Мигать значком в трее и списке контактов при новом сообщении
-[Delete temporary contacts on close]
-Удалять временные контакты при закрытии
 [Enable "Paste and send" feature]
 Включить функцию "вставить и отправить"
 [Allow BBCode formatting in outgoing messages]
@@ -1471,24 +1467,10 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Шаблоны сброшены. Пожалуйста, закройте и откройте снова все окна сообщений. Это окно сейчас будет закрыто.
 [Message log appearance]
 Внешний вид журнала
-[Support for external plugins]
-Поддержка внешних плагинов
-[Timestamp settings (note: timestamps also depend on your templates)]
-Отображение времени (также зависит от ваших шаблонов)
-[Message log icons]
-Значки журнала сообщений
-[Show dates in timestamps]
-Показывать дату
-[Show seconds in timestamps]
-Показывать секунды
-[Use contacts local time (if timezone info available)]
-Местное время контакта (если доступен часовой пояс)
 [Draw grid lines]
 Рисовать линии сетки
 [Log status changes]
 Записывать изменения статусов в журнал
-[Use incoming/outgoing icons]
-Использовать значки входящего/исходящего сообщения
 [Use message grouping]
 Группировать сообщения
 [Simple text formatting (*bold*, etc.)]
@@ -1499,14 +1481,28 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Ставить разделитель в журнале после того, как окно теряет фокус
 [Only place a separator when an incoming event is announced with a popup]
 Ставить разделитель только при событии, сопровождаемом вспл. окном
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Обычные шаблоны (отключите для упрощённых шаблонов)
+[Support for external plugins]
+Поддержка внешних плагинов
 [Show events at the new line (IEView Compatibility Mode)]
 Показывать события с новой строки (режим совместимости с IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Подчёркивать время/ник (режим совместимости с IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Показывать время после ника (режим совместимости с IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Обычные шаблоны (отключите для упрощённых шаблонов)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Отображение времени (также зависит от ваших шаблонов)
+[Show dates in timestamps]
+Показывать дату
+[Show seconds in timestamps]
+Показывать секунды
+[Use contacts local time (if timezone info available)]
+Местное время контакта (если доступен часовой пояс)
+[Message log icons]
+Значки журнала сообщений
+[Use incoming/outgoing icons]
+Использовать значки входящего/исходящего сообщения
 [** New contacts **]
 ** Новые контакты **
 [** Unknown contacts **]
@@ -1517,14 +1513,14 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Всегда, но не показывать когда окно в фокусе
 [Only when no message window is open]
 Только когда не открыто окно сообщений
-[How to create tabs and windows for incoming messages]
-Настройки создания вкладок и окон для входящих сообщений
 [Show status text on tabs]
 Показывать текст статуса на вкладке
 [Prefer xStatus icons when available]
 Предпочитать значок xСтатуса, когда он доступен
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Показывать подсказку на вкладках (требуется плагин Tipper)
+[How to create tabs and windows for incoming messages]
+Настройки создания вкладок и окон для входящих сообщений
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 Создавать вкладку при новом сообщении (игнорируя настройки ниже)
 [Automatically create new message sessions without activating them]
@@ -1551,22 +1547,22 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 Ничего не делать (игнорировать нажатие клавиши)
 [Message window tweaks]
 Настройки окна сообщений
-[Display metacontact icons]
-Использовать значки метаконтактов
-[Error feedback]
-Ошибки доставки сообщений
 [Close current tab on send]
 Закрывать вкладку при отправке
 [Enable unattended send (experimental feature, required for multisend and send later)]
 Включить автоотправку (нужно для мультиотправки и отправки с задержкой)
 [Show client description in info panel]
 Показать описание клиента в инфо-панели
+[Display metacontact icons]
+Использовать значки метаконтактов
 [On tab control]
 На вкладках
 [On the button bar]
 На панели кнопок
-[Disable error popups on sending failures]
-Отключить всплывающие сообщения о неудачной отправке
+[Error feedback]
+Ошибки доставки сообщений
+[Enable error popups on sending failures]
+Включить всплывающие сообщения о неудачной отправке
 [Choose status modes]
 Выбор режимов статуса
 [General]
@@ -1795,6 +1791,9 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM: %s
+;file \plugins\TabSRMM\src\warning.cpp
+[TabSRMM warning message]
+Предупреждение TabSRMM
 [Save file|Unable to save temporary file]
 Сохранение файла|Не удалось сохранить временный файл
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
@@ -1815,5 +1814,3 @@ TabSRMM: %s
 Закрытие настроек|Чтобы показать изменения, связанные с импортом схемы, в окне настроек, оно должно быть закрыто после загрузки схемы \\b1 и несохранённые изменения могут быть потеряны\\b0 .\n\nВы хотите продолжить?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка цветов и шрифтов может изменить настройки, установленные вашим скином.\n\nВы хотите продолжить?
-[TabSRMM warning message]
-Предупреждение TabSRMM

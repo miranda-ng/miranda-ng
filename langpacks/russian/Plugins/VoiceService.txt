@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Provide services for protocols that support voice calls.]
@@ -36,6 +36,10 @@
 Левый щелчок:
 [Preview]
 Тест
+[Show incoming call dialog immediately ]
+
+[Catch focus on this dialog]
+
 [New Voice Call]
 Новый вызов
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
@@ -73,9 +77,9 @@
 [Established]
 
 [M]
-
+м
 [V]
-
+Пер.
 [Frame Popup]
 
 [Answer call]
@@ -84,13 +88,6 @@
 Сбросить вызов
 [Hold call]
 Удерживать вызов
-;file \plugins\VoiceService\src\frame.cpp
-[Show dialpad]
-Показать панель набора номера
-[Call with %s]
-Разговор с %s
-[Voice Calls]
-Вызовы
 ;file \plugins\VoiceService\src\hooks.cpp
 [Main]
 Основной
@@ -110,6 +107,8 @@
 Завершён
 [Busy]
 Занят
+[Ready]
+Готово
 [Make Voice Call]
 Позвонить
 [Answer Voice Call]
@@ -130,14 +129,16 @@
 
 [Call %s with %s]
 
+[Call with %s]
+Разговор с %s
 [Call]
 Вызов
 [%s with %s]
 %s с %s
 [with %s]
 с %s
-[Background]
-Фон
+[Voice Calls]
+Вызовы
 [Dialpad press]
 
 ;file \plugins\VoiceService\src\options.cpp
@@ -151,15 +152,8 @@
 Тестовое описание
 [Popups]
 Всплывающие окна
-[General]
-Общее
 [Auto actions]
 Автоматическое действие
-;file \plugins\VoiceService\src\services.cpp
-[%s wants to start a voice call with you. What you want to do?]
-Вам звонит %s. Что вы хотите сделать?
-[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
-Вам звонит %s. Что вы хотите сделать?\n\nЕсли примете вызов, текущий вызов будет сброшен.
 ;file \plugins\VoiceService\src\VoiceCall.cpp
 [Voice call started]
 Вызов принят
@@ -173,17 +167,9 @@
 Вызов завершён
 [Voice call busy]
 Абонент занят
-[Call from %s has started]
-Вызов от %s принят
-[Call from %s is ringing]
-Входящий вызов от %s
-[Calling %s]
-Вызов от %s
-[Call from %s is on hold]
-Вызов от %s на удержании
-[Call from %s has ended]
-Вызов от %s завершён
-[%s is busy]
-%s занят
+[Voice call ready]
+
 [Unknown number]
 Неизвестный номер
+[Call is over %s]
+

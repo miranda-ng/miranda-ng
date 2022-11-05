@@ -689,6 +689,12 @@ Jingle DTLS
 [Reason to destroy %s]
 Причина уничтожения %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+Обновить список
+[Presences]
+
 [Can't send data while you are offline.]
 Невозможно отправить - не в сети.
 [Jabber Error]
@@ -1786,6 +1792,8 @@ XML (кодировка UTF-8)
 Ошибка: Не хватает памяти
 [Error: Cannot connect to the server]
 Ошибка: Невозможно подключиться к серверу
+[SSL intialization failed]
+
 [Error: Connection lost]
 Ошибка: Соединение потеряно
 [Requesting registration instruction...]
@@ -1796,8 +1804,6 @@ XML (кодировка UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Не удалось расшифровать копию зашифрованного входящего сообщения
-[Description]
-Описание
 [Registration canceled]
 Регистрация отменена
 [Sending registration information...]
@@ -1927,11 +1933,6 @@ Jabber vCard: редактирование телефона
 Контакты
 [Note]
 Заметка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-Принять звонок от %S?\r\nВаш IP-адрес станет известен собеседнику и его серверу
-[Incoming call]
-Входящий звонок
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <слот расширенного статуса>

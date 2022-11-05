@@ -286,14 +286,6 @@ GPG не удалось расшифровать входящее сообщен
 Экспорт открытого ключа
 [.asc pubkey file]
 Файл публичного ключа (.asc )
-[Failed to allocate memory]
-Не удалось выделить память
-[Failed to lock memory with error %d]
-Ошибка блокировки памяти с ошибкой %d
-[Failed write to clipboard with error %d]
-Ошибка записи в буфер обмена с ошибкой %d
-[Failed to open clipboard with error %d]
-Не удалось открыть буфер обмена с ошибкой %d
 [Set log file]
 Выбор файла журнала
 [LOG files]

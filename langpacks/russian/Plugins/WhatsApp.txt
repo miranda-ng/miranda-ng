@@ -1,0 +1,66 @@
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Поддержка протокола WhatsApp в Miranda NG.
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Sign in using QR code]
+Войти с помощью QR-кода
+[Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it]
+
+[Nick:]
+Ник:
+[Default group:]
+Группа:
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[Device name:]
+Имя устройства:
+[Use BBCode]
+Использовать BBCode
+[Invite users]
+Пригласить пользователей
+[Choose a user]
+
+[Other user:]
+
+[&Invite]
+&Пригласить
+[Cancel]
+Отмена
+;file \protocols\WhatsApp\src\chats.cpp
+[Owner]
+Владелец
+[SuperAdmin]
+
+[Admin]
+Админ
+[Participant]
+Участник
+;file \protocols\WhatsApp\src\main.cpp
+[WhatsApp (HTTP)]
+WhatsApp (HTTP)
+;file \protocols\WhatsApp\src\options.cpp
+[Network]
+Сеть
+[Account]
+Учётная запись
+;file \protocols\WhatsApp\src\proto.cpp
+[%s (server)]
+%s (сервер)	
+[Connection cannot be established! You have not completed all necessary fields (Nick).]
+Невозможно установить подключение. Вы не ввели все необходимые данные (ник).
+[Error]
+Ошибка
+;file \protocols\WhatsApp\src\server.cpp
+[This account was logged out from another device, you need to register it again]
+
+;file \protocols\WhatsApp\src\utils.cpp
+[%s error notifications]
+Уведомления об ошибках %s
+[Errors]
+Ошибки

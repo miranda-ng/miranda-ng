@@ -976,8 +976,6 @@
 Порядок отображения учётных записей.\nПеретаскивайте для изменения:
 [Account order and visibility]
 Порядок учётных записей
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Важно: изменения вступят в силу после перезапуска программы.
 [Key bindings]
 Горячие клавиши
 [Shortcut:]
@@ -1134,6 +1132,8 @@ UIN, E-mail и т.д.
 Подтверждение удаления
 [Remove temporary contacts on exit]
 Удалять временные контакты при выходе
+[Enable icon blinking]
+Включить мигание
 [Search works as filter]
 Поиск по списку контактов с фильтрацией результатов
 ['Hide offline' means to hide:]
@@ -2586,6 +2586,8 @@ xСтатус
 Загрузка... %d%%
 [%s options]
 Настройки %s
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+Для изменения настроек обратитесь к своему системному администратору.
 [Miranda NG options]
 Настройки Miranda NG
 ;file \src\mir_app\src\path.cpp
