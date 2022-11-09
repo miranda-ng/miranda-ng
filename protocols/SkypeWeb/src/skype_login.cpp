@@ -143,7 +143,7 @@ void CSkypeProto::OnEndpointCreated(NETLIBHTTPREQUEST *response, AsyncHttpReques
 
 	case 401: // unauthorized
 		if (auto *szStatus = Netlib_GetHeader(response, "StatusText"))
-			if (!strstr(szStatus, "SkypeTokenExpired"))
+			if (strstr(szStatus, "SkypeTokenExpired"))
 				delSetting("TokenSecret");
 		delSetting("TokenExpiresIn");
 		PushRequest(new LoginOAuthRequest(m_szSkypename, pass_ptrA(getStringA(SKYPE_SETTINGS_PASSWORD))));
