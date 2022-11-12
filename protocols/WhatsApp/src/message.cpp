@@ -192,9 +192,13 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	debugLogA("Got a message: %s", protobuf_c_text_to_string(&msg).c_str());
 
 	uint32_t timestamp = msg.messagetimestamp;
-	auto *participant = key->participant;
-	auto *chatId = key->remotejid;
+	char *participant = key->participant, *chatId;
 	auto *msgId = key->id;
+
+	if (type.bPrivateChat || type.bGroupChat)
+		chatId = key->remotejid;
+	else
+		chatId = (participant) ? participant : key->remotejid;
 
 	WAUser *pUser = AddUser(chatId, false);
 
