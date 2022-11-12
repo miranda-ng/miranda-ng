@@ -427,10 +427,10 @@ void WhatsAppProto::GetMessageContent(
 {
 	if (szCaption) {
 		if (m_bUseBbcodes)
-			txt.Append("<b>");
+			txt.Append("[b]");
 		txt.Append(szCaption);
 		if (m_bUseBbcodes)
-			txt.Append("</b>");
+			txt.Append("[/b]");
 		txt.Append("\n");
 	}
 
@@ -465,10 +465,10 @@ CMStringA WhatsAppProto::GetMessageText(const Wa__Message *pMessage)
 		if (auto *pExt = pMessage->extendedtextmessage) {
 			if (pExt->title) {
 				if (m_bUseBbcodes)
-					szMessageText.Append("<b>");
+					szMessageText.Append("[b]");
 				szMessageText.Append(pExt->title);
 				if (m_bUseBbcodes)
-					szMessageText.Append("</b>");
+					szMessageText.Append("[/b]");
 				szMessageText.Append("\n");
 			}
 
