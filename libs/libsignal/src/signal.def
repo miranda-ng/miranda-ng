@@ -24,8 +24,10 @@ EXPORTS
    fingerprint_get_displayable
    group_cipher_create
    group_cipher_decrypt
+   group_cipher_encrypt
    group_cipher_free
    group_session_builder_create
+   group_session_builder_create_session
    group_session_builder_free
    group_session_builder_process_session
    hkdf_create
@@ -38,6 +40,7 @@ EXPORTS
    ratchet_identity_key_pair_get_public
    sender_key_distribution_message_deserialize
    sender_key_distribution_message_destroy
+   sender_key_distribution_message_get_signature_key
    sender_key_message_deserialize
    sender_key_message_destroy
    sender_key_record_create

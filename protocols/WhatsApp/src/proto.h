@@ -190,24 +190,27 @@ public:
 	{
 		MBinBuffer priv, pub;
 	}
-	signedIdentity;
+		signedIdentity;
 
 	struct
 	{
 		MBinBuffer priv, pub, signature;
 		uint32_t keyid;
-	} preKey;
+	}
+		preKey;
 
 	MSignalStore(PROTO_INTERFACE *_1, const char *_2);
 	~MSignalStore();
 
 	__forceinline signal_context *CTX() const { return m_pContext; }
 
-	MSignalSession *createSession(const CMStringA &szName, int deviceId);
+	MSignalSession* createSession(const CMStringA &szName, int deviceId);
+	MSignalSession* getSession(const signal_protocol_address *address);
 
 	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
 
+	MBinBuffer encryptSenderKey(const WAJid &to, const CMStringA &from, const MBinBuffer &buf, MBinBuffer &skmsgKey);
 	MBinBuffer encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type);
 
 	MBinBuffer encodeSignedIdentity(bool);
@@ -288,8 +291,11 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
-	void GC_Init(WAUser *pUser);
-	void GC_GetMetadata(const char *szJid);
+	void GC_GetAllMetadata();
+	void GC_ParseMetadata(const WANode *pGroup);
+
+	int  __cdecl GcEventHook(WPARAM, LPARAM);
+	int  __cdecl GcMenuHook(WPARAM, LPARAM);
 
 	// UI //////////////////////////////////////////////////////////////////////////////////
 
@@ -311,6 +317,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	uint16_t m_wMsgPrefix[2];
 	CMStringA GenerateMessageId();
 	CMStringA GetMessageText(const Wa__Message *pMessage);
+	void GetMessageContent(CMStringA &txt, const char *szType, const char *szUrl, const char *szMimetype, const char *szDirectPath, const ProtobufCBinaryData &szMediaKey, const char *szCaption = nullptr);
 	void ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg);
 	bool CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig);
 
@@ -345,8 +352,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	/// Request handlers ///////////////////////////////////////////////////////////////////
 
-	void OnGetChatInfo(const JSONNode &node, void*);
-
 	void OnProcessHandshake(const uint8_t *pData, int cbLen);
 	
 	void InitPersistentHandlers();
@@ -354,7 +359,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqBlockList(const WANode &node);
 	void OnIqCountPrekeys(const WANode &node);
 	void OnIqDoNothing(const WANode &node);
-	void OnIqGcMetadata(const WANode &node);
+	void OnIqGcGetAllMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node);
 	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);

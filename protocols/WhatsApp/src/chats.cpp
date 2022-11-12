@@ -7,37 +7,39 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
-void WhatsAppProto::GC_Init(WAUser *pUser)
+void WhatsAppProto::GC_GetAllMetadata()
 {
-	CMStringW wszId(Utf2T(pUser->szId));
-
-	pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, getMStringW(pUser->hContact, "Nick"));
-
-	Chat_AddGroup(pUser->si, TranslateT("Owner"));
-	Chat_AddGroup(pUser->si, TranslateT("SuperAdmin"));
-	Chat_AddGroup(pUser->si, TranslateT("Admin"));
-	Chat_AddGroup(pUser->si, TranslateT("Participant"));
-
-	if (pUser->bInited) {
-		Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-		Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
-	}
-	else GC_GetMetadata(pUser->szId);
+	WANodeIq iq(IQ::GET, "w:g2", "@g.us");
+	auto *pRoot = iq.addChild("participating");
+	*pRoot << XCHILD("participants") << XCHILD("description");
+	WSSendNode(iq, &WhatsAppProto::OnIqGcGetAllMetadata);
 }
 
-void WhatsAppProto::GC_GetMetadata(const char *szId)
+void WhatsAppProto::OnIqGcGetAllMetadata(const WANode &node)
 {
-	WANodeIq iq(IQ::GET, "w:g2", szId);
-	iq.addChild("query")->addAttr("request", "interactive");
-	WSSendNode(iq, &WhatsAppProto::OnIqGcMetadata);
+	if (auto *pGroup = node.getChild("groups"))
+		for (auto &it : pGroup->getChildren())
+			GC_ParseMetadata(it);	
 }
 
-void WhatsAppProto::OnIqGcMetadata(const WANode &node)
+void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 {
-	auto *pGroup = node.getChild("group");
-	auto *pChatUser = FindUser(node.getAttr("from"));
-	if (pChatUser == nullptr || pGroup == nullptr)
+	auto *pszId = pGroup->getAttr("id");
+	if (pszId == nullptr)
 		return;
+
+	auto *pChatUser = AddUser(CMStringA(pszId) + "@g.us", false);
+	if (pChatUser == nullptr)
+		return;
+
+	CMStringW wszId(Utf2T(pChatUser->szId));
+
+	pChatUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, getMStringW(pChatUser->hContact, "Nick"));
+
+	Chat_AddGroup(pChatUser->si, TranslateT("Owner"));
+	Chat_AddGroup(pChatUser->si, TranslateT("SuperAdmin"));
+	Chat_AddGroup(pChatUser->si, TranslateT("Admin"));
+	Chat_AddGroup(pChatUser->si, TranslateT("Participant"));
 
 	CMStringA szOwner(pGroup->getAttr("creator")), szNick, szRole;
 
@@ -57,7 +59,7 @@ void WhatsAppProto::OnIqGcMetadata(const WANode &node)
 		}
 		else if (it->title == "participant") {
 			auto *jid = it->getAttr("jid");
-			
+
 			// if role isn't specified, use the default one
 			auto *role = it->getAttr("type");
 			if (role == nullptr)
@@ -112,7 +114,65 @@ void WhatsAppProto::OnIqGcMetadata(const WANode &node)
 	}
 
 	pChatUser->bInited = true;
-	CMStringW wszId(Utf2T(pChatUser->szId));
 	Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int WhatsAppProto::GcEventHook(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gch = (GCHOOK*)lParam;
+	if (gch == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
+		return 0;
+
+	auto *pUser = FindUser(T2Utf(gch->si->ptszID));
+	if (pUser == nullptr)
+		return 0;
+
+	switch (gch->iType) {
+	case GC_USER_MESSAGE:
+		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
+			rtrimw(gch->ptszText);
+			Chat_UnescapeTags(gch->ptszText);
+			SendTextMessage(pUser->szId, T2Utf(gch->ptszText));
+		}
+		break;
+
+	case GC_USER_PRIVMESS:
+		break;
+
+	case GC_USER_LOGMENU:
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		break;
+	}
+
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int WhatsAppProto::GcMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS* gcmi = (GCMENUITEMS*)lParam;
+	if (gcmi == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
+		return 0;
+
+	auto *pUser = FindUser(T2Utf(gcmi->pszID));
+	if (pUser == nullptr)
+		return 0;
+
+	if (gcmi->Type == MENU_ON_LOG) {
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
+	}
+	return 0;
 }

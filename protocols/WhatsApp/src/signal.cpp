@@ -110,10 +110,8 @@ static int encrypt_func(signal_buffer **output,
 static int contains_session_func(const signal_protocol_address *address, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
-
-	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
-	ptrA data(pStore->pProto->getStringA(tmp.getSetting()));
-	return data != nullptr;
+	auto *pSession = pStore->getSession(address);
+	return pSession != nullptr;
 }
 
 static int delete_all_sessions_func(const char *name, size_t name_len, void *user_data)
@@ -171,18 +169,11 @@ int load_session_func(signal_buffer **record, signal_buffer **user_data_storage,
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
-	auto *pSession = pStore->arSessions.find(&tmp);
-	if (pSession == nullptr) {
-		MBinBuffer blob(pStore->pProto->getBlob(tmp.getSetting()));
-		if (blob.data() == nullptr)
-			return 0;
-
-		pSession = new MSignalSession(tmp);
-		pSession->sessionData.assign(blob.data(), blob.length());
-	}
+	auto *pSession = pStore->getSession(address);
+	if (pSession == nullptr)
+		return 0;
 		
-	*record = signal_buffer_create((uint8_t *)pSession->sessionData.data(), pSession->sessionData.length());
+	*record = signal_buffer_create(pSession->sessionData.data(), pSession->sessionData.length());
 	*user_data_storage = 0;
 	return 1;
 }
@@ -521,6 +512,23 @@ MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceI
 	return pSession;
 }
 
+MSignalSession* MSignalStore::getSession(const signal_protocol_address *address)
+{
+	MSignalSession tmp(CMStringA(address->name, (int)address->name_len), address->device_id);
+	auto *pSession = arSessions.find(&tmp);
+	if (pSession == nullptr) {
+		MBinBuffer blob(pProto->getBlob(tmp.getSetting()));
+		if (blob.data() == nullptr)
+			return nullptr;
+
+		pSession = new MSignalSession(tmp);
+		pSession->sessionData.assign(blob.data(), blob.length());
+		arSessions.insert(pSession);
+	}
+
+	return pSession;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
@@ -624,6 +632,48 @@ void MSignalStore::processSenderKeyMessage(const CMStringA &author, const Wa__Me
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // encryption
+
+MBinBuffer MSignalStore::encryptSenderKey(const WAJid &to, const CMStringA &from, const MBinBuffer &buf, MBinBuffer &skmsgKey)
+{
+	signal_protocol_sender_key_name senderKeyName;
+	senderKeyName.group_id = to.user.c_str();
+	senderKeyName.group_id_len = to.user.GetLength();
+	senderKeyName.sender.device_id = 0;
+	senderKeyName.sender.name = from.c_str();
+	senderKeyName.sender.name_len = from.GetLength();
+
+	group_session_builder *builder;
+	logError(
+		group_session_builder_create(&builder, m_pStore, m_pContext),
+		"unable to create session builder");
+
+	sender_key_distribution_message *skmsg;
+	logError(
+		group_session_builder_create_session(builder, &skmsg, &senderKeyName),
+		"unable to create session");
+
+	group_cipher *cipher;
+	logError(
+		group_cipher_create(&cipher, m_pStore, &senderKeyName, m_pContext),
+		"unable to create group cipher");
+
+	ciphertext_message *encMessage;
+	logError(
+		group_cipher_encrypt(cipher, buf.data(), buf.length(), &encMessage),
+		"unable to encrypt group message");
+
+	MBinBuffer res;
+	auto *cipherText = ciphertext_message_get_serialized(encMessage);
+	res.assign(cipherText->data, cipherText->len);
+
+	auto *pKey = sender_key_distribution_message_get_signature_key(skmsg);
+	skmsgKey.assign(pKey->data, sizeof(pKey->data));
+
+	sender_key_distribution_message_destroy((signal_type_base*)skmsg);
+	group_cipher_free(cipher);
+	group_session_builder_free(builder);
+	return res;
+}
 
 MBinBuffer MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffer &buf, int &type)
 {

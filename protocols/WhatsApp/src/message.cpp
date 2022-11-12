@@ -358,31 +358,71 @@ bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid
 
 int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 {
+	WAJid toJid(jid);
+
 	char szMsgId[40];
 	__int64 msgId;
 	Utils_GetRandom(&msgId, sizeof(msgId));
 	_i64toa(msgId, szMsgId, 10);
 
+	// mother node for all participants
+	WANode payLoad("message");
+	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
+
+	auto *pParticipants = payLoad.addChild("participants");
+
+	// basic message 
 	Wa__Message body;
 	body.conversation = (char*)pszMsg;
 
-	Wa__Message__DeviceSentMessage sentBody;
-	sentBody.message = &body;
-	sentBody.destinationjid = (char*)jid;
+	bool shouldIncludeIdentity = false;
 
-	Wa__Message msg;
-	msg.devicesentmessage = &sentBody;
+	if (toJid.isGroup()) {
+		MBinBuffer encodedMsg(proto::Serialize(&body));
+		padBuffer16(encodedMsg);
 
-	MBinBuffer encMsg(proto::Serialize(&msg));
-	padBuffer16(encMsg);	
+		MBinBuffer skmsgKey;
+		MBinBuffer cipherText(m_signalStore.encryptSenderKey(toJid, m_szJid, encodedMsg, skmsgKey));
 
-	WANode payLoad("message");
-	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
-	
-	auto *pParticipants = payLoad.addChild("participants");
-	bool shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(jid), encMsg);
-	for (auto &it : m_arDevices)
-		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encMsg);
+		auto *pEnc = payLoad.addChild("enc");
+		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", "skmsg");
+		pEnc->content.append(cipherText.data(), cipherText.length());
+
+		Wa__Message__SenderKeyDistributionMessage sentBody;
+		sentBody.axolotlsenderkeydistributionmessage.data = skmsgKey.data();
+		sentBody.axolotlsenderkeydistributionmessage.len = skmsgKey.length();
+		sentBody.has_axolotlsenderkeydistributionmessage = true;
+		sentBody.groupid = (char*)jid;
+
+		Wa__Message msg;
+		msg.senderkeydistributionmessage = &sentBody;
+
+		MBinBuffer encodedMeMsg(proto::Serialize(&msg));
+		padBuffer16(encodedMeMsg);
+
+		if (auto *pUser = FindUser(jid))
+			if (pUser->si)
+				for (auto &it : pUser->si->arUsers)
+					shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(T2Utf(it->pszUID)), encodedMeMsg);
+
+		for (auto &it : m_arDevices)
+			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encodedMeMsg);
+	}
+	else {
+		Wa__Message__DeviceSentMessage sentBody;
+		sentBody.message = &body;
+		sentBody.destinationjid = (char*)jid;
+
+		Wa__Message msg;
+		msg.devicesentmessage = &sentBody;
+
+		MBinBuffer encodedMeMsg(proto::Serialize(&msg));
+		padBuffer16(encodedMeMsg);
+
+		shouldIncludeIdentity = CreateMsgParticipant(pParticipants, toJid, encodedMeMsg);
+		for (auto &it : m_arDevices)
+			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encodedMeMsg);
+	}
 
 	if (shouldIncludeIdentity) {
 		MBinBuffer encIdentity(m_signalStore.encodeSignedIdentity(true));

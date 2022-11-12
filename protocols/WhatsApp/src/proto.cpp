@@ -97,6 +97,9 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
+
+	HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::GcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::GcMenuHook);
 }
 
 WhatsAppProto::~WhatsAppProto()

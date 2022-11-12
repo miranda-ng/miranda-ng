@@ -120,8 +120,6 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 	if (pUser->bIsGroupChat) {
 		setByte(hContact, "ChatRoom", 1);
 		setString(hContact, "ChatRoomID", szId);
-
-		GC_Init(pUser);
 	}
 	else {
 		setString(hContact, DBKEY_ID, szId);
@@ -418,6 +416,47 @@ CMStringA file2string(const wchar_t *pwszFileName)
 	return res;
 }
 
+void WhatsAppProto::GetMessageContent(
+	CMStringA &txt, 
+	const char *szType,
+	const char *szMimeType,
+	const char *szUrl,
+	const char *szDirectPath,
+	const ProtobufCBinaryData &pMediaKey,
+	const char *szCaption)
+{
+	if (szCaption) {
+		if (m_bUseBbcodes)
+			txt.Append("<b>");
+		txt.Append(szCaption);
+		if (m_bUseBbcodes)
+			txt.Append("</b>");
+		txt.Append("\n");
+	}
+
+	CMStringA url = szUrl;
+	int idx = url.ReverseFind('/');
+	if (idx != -1)
+		url.Delete(0, idx+1);
+	idx = url.ReverseFind('.');
+	if (idx != -1)
+		url.Truncate(idx);
+	if (szMimeType)
+		url.Append(_T2A(ProtoGetAvatarExtension(ProtoGetAvatarFormatByMimeType(szMimeType))));
+
+	char *szMediaType = NEWSTR_ALLOCA(szType);
+	szMediaType[0] = toupper(szMediaType[0]);
+
+	MBinBuffer buf = DownloadEncryptedFile(directPath2url(szDirectPath), pMediaKey, szMediaType);
+	if (buf.data()) {
+		CMStringW pwszFileName(GetTmpFileName(szType, url));
+		bin2file(buf, pwszFileName);
+
+		pwszFileName.Replace(L"\\", L"/");
+		txt.AppendFormat("file://%s", T2Utf(pwszFileName).get());
+	}
+}
+
 CMStringA WhatsAppProto::GetMessageText(const Wa__Message *pMessage)
 {
 	CMStringA szMessageText;
@@ -438,6 +477,15 @@ CMStringA WhatsAppProto::GetMessageText(const Wa__Message *pMessage)
 
 			if (pExt->text)
 				szMessageText.Append(pExt->text);
+		}
+		else if (auto *pAudio = pMessage->audiomessage) {
+			GetMessageContent(szMessageText, "audio", pAudio->url, pAudio->directpath, pAudio->mimetype, pAudio->mediakey);
+		}
+		else if (auto *pVideo = pMessage->videomessage) {
+			GetMessageContent(szMessageText, "video", pVideo->url, pVideo->directpath, pVideo->mimetype, pVideo->mediakey, pVideo->caption);
+		}
+		else if (auto *pImage = pMessage->imagemessage) {
+			GetMessageContent(szMessageText, "image", pImage->url, pImage->directpath, pImage->mimetype, pImage->mediakey, pImage->caption);
 		}
 		else if (mir_strlen(pMessage->conversation))
 			szMessageText = pMessage->conversation;

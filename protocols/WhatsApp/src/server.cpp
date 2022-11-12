@@ -312,8 +312,10 @@ void WhatsAppProto::OnLoggedIn()
 		&WhatsAppProto::OnIqDoNothing);
 
 	for (auto &it : m_arUsers)
-		if (it->bIsGroupChat)
-			GC_Init(it);
+		if (it->bIsGroupChat) {
+			GC_GetAllMetadata();
+			return;
+		}
 }
 
 void WhatsAppProto::OnLoggedOut(void)
