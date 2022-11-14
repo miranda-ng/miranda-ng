@@ -1,6 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <rdf:RDF xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#'
          xmlns='http://usefulinc.com/ns/doap#'
+         xmlns:xmpp='https://linkmauve.fr/ns/xmpp-doap#'
          xmlns:schema='https://schema.org/'>
   <Project xml:lang='en'>
     <name>Miranda NG</name>
