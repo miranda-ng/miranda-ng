@@ -55,6 +55,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend class CTabbedWindow;
 	typedef CSrmmBaseDialog CSuper;
 
+	void FindFirstEvent();
 	void Init(void);
 	void NotifyTyping(int mode);
 	void SetButtonsPos(void);

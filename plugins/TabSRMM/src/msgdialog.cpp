@@ -571,6 +571,11 @@ bool CMsgDialog::OnInitDialog()
 		m_hTabIcon = m_hTabStatusIcon;
 
 		UpdateNickList();
+
+		if (m_si->pMI->bDatabase) {
+			FindFirstEvent();
+			RemakeLog();
+		}
 	}
 	else {
 		FindFirstEvent();

@@ -209,6 +209,16 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	if (pUser) {
 		CMStringA szMessageText(GetMessageText(body));
 		if (!szMessageText.IsEmpty()) {
+			PROTORECVEVENT pre = {};
+			pre.timestamp = timestamp;
+			pre.szMessage = szMessageText.GetBuffer();
+			pre.szMsgId = msgId;
+			if (type.bOffline)
+				pre.flags |= PREF_CREATEREAD;
+			if (key->fromme)
+				pre.flags |= PREF_SENT;
+			ProtoChainRecvMsg(pUser->hContact, &pre);
+
 			if (pUser->bIsGroupChat) {
 				GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
 				gce.dwFlags = GCEF_UTF8;
@@ -218,17 +228,6 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 				gce.pszText.a = szMessageText.GetBuffer();
 				gce.time = timestamp;
 				Chat_Event(&gce);
-			}
-			else {
-				PROTORECVEVENT pre = {};
-				pre.timestamp = timestamp;
-				pre.szMessage = szMessageText.GetBuffer();
-				pre.szMsgId = msgId;
-				if (type.bOffline)
-					pre.flags |= PREF_CREATEREAD;
-				if (key->fromme)
-					pre.flags |= PREF_SENT;
-				ProtoChainRecvMsg(pUser->hContact, &pre);
 			}
 		}
 	}

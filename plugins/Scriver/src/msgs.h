@@ -88,6 +88,7 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void   ClearLog(void);
+	bool   FindFirstEvent(void);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
 	void   Init(void);

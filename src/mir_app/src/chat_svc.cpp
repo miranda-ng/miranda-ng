@@ -190,6 +190,7 @@ MIR_APP_DLL(int) Chat_Register(const GCREGISTER *gcr)
 	mi->bBkgColor = (gcr->dwFlags & GC_BKGCOLOR) != 0;
 	mi->bAckMsg = (gcr->dwFlags & GC_ACKMSG) != 0;
 	mi->bChanMgr = (gcr->dwFlags & GC_CHANMGR) != 0;
+	mi->bDatabase = (gcr->dwFlags & GC_DATABASE) != 0;
 	mi->iMaxText = gcr->iMaxText;
 	mi->pszHeader = g_chatApi.Log_CreateRtfHeader();
 

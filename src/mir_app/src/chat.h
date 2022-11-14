@@ -81,7 +81,7 @@ SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule);
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);
 
 STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);
-uint16_t          TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
+uint16_t      TM_StringToWord(STATUSINFO *pStatusList, const wchar_t *pszStatus);
 
 BOOL          UM_RemoveAll(SESSION_INFO *si);
 BOOL          UM_SetStatusEx(SESSION_INFO *si, const wchar_t* pszText, int flags);

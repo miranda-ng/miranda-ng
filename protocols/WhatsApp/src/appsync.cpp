@@ -273,6 +273,16 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 				CMStringA szMessageText(GetMessageText(pMessage->message->message));
 				if (!szMessageText.IsEmpty()) {
 					auto *key = pMessage->message->key;
+
+					PROTORECVEVENT pre = {};
+					pre.timestamp = pMessage->message->messagetimestamp;
+					pre.szMessage = szMessageText.GetBuffer();
+					pre.szMsgId = key->id;
+					pre.flags = PREF_CREATEREAD;
+					if (key->fromme)
+						pre.flags |= PREF_SENT;
+					ProtoChainRecvMsg(pUser->hContact, &pre);
+
 					if (pUser->bIsGroupChat) {
 						GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
 						gce.dwFlags = GCEF_UTF8;
@@ -282,16 +292,6 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 						gce.pszText.a = szMessageText.GetBuffer();
 						gce.time = pMessage->message->messagetimestamp;
 						Chat_Event(&gce);
-					}
-					else {
-						PROTORECVEVENT pre = {};
-						pre.timestamp = pMessage->message->messagetimestamp;
-						pre.szMessage = szMessageText.GetBuffer();
-						pre.szMsgId = key->id;
-						pre.flags = PREF_CREATEREAD;
-						if (key->fromme)
-							pre.flags |= PREF_SENT;
-						ProtoChainRecvMsg(pUser->hContact, &pre);
 					}
 				}
 			}

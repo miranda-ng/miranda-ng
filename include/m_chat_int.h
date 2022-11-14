@@ -98,7 +98,7 @@ struct MIR_APP_EXPORT GCModuleInfoBase : public MZeroedObject, public MNonCopyab
 	
 	bool     bBold, bItalics, bUnderline;
 	bool     bColor, bBkgColor;
-	bool     bChanMgr, bAckMsg;
+	bool     bChanMgr, bAckMsg, bDatabase;
 	
 	int      iMaxText;
 };

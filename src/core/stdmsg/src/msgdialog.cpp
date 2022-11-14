@@ -140,50 +140,16 @@ bool CMsgDialog::OnInitDialog()
 		UpdateStatusBar();
 		UpdateTitle();
 
-		NotifyEvent(MSG_WINDOW_EVT_OPEN);
+		if (m_si->pMI->bDatabase) {
+			FindFirstEvent();
+			RemakeLog();
+		}
 	}
 	else {
 		m_nickList.Hide();
 		m_splitterX.Hide();
 
-		// This finds the first message to display, it works like shit
-		m_hDbEventFirst = db_event_firstUnread(m_hContact);
-		{
-			DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
-
-			switch (g_plugin.iLoadHistory) {
-			case LOADHISTORY_COUNT:
-				for (int i = g_plugin.nLoadCount; i--;) {
-					MEVENT hPrevEvent = pCursor.FetchNext();
-					if (hPrevEvent == 0)
-						break;
-
-					DBEVENTINFO dbei = {};
-					m_hDbEventFirst = hPrevEvent;
-					db_event_get(hPrevEvent, &dbei);
-					if (!DbEventIsShown(&dbei))
-						i++;
-				}
-				break;
-
-			case LOADHISTORY_TIME:
-				DBEVENTINFO dbei = {};
-				if (m_hDbEventFirst == 0)
-					dbei.timestamp = (uint32_t)time(0);
-				else
-					db_event_get(m_hDbEventFirst, &dbei);
-
-				uint32_t firstTime = dbei.timestamp - 60 * g_plugin.nLoadTime;
-				while (MEVENT hPrevEvent = pCursor.FetchNext()) {
-					dbei.cbBlob = 0;
-					db_event_get(hPrevEvent, &dbei);
-					if (dbei.timestamp < firstTime)
-						break;
-					m_hDbEventFirst = hPrevEvent;
-				}
-				break;
-			}
-		}
+		FindFirstEvent();
 
 		bool bUpdate = false;
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
@@ -1333,6 +1299,47 @@ void CMsgDialog::CloseTab()
 		Close();
 	}
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
+}
+
+void CMsgDialog::FindFirstEvent()
+{
+	// This finds the first message to display, it works like shit
+	m_hDbEventFirst = db_event_firstUnread(m_hContact);
+
+	DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
+
+	switch (g_plugin.iLoadHistory) {
+	case LOADHISTORY_COUNT:
+		for (int i = g_plugin.nLoadCount; i--;) {
+			MEVENT hPrevEvent = pCursor.FetchNext();
+			if (hPrevEvent == 0)
+				break;
+
+			DBEVENTINFO dbei = {};
+			m_hDbEventFirst = hPrevEvent;
+			db_event_get(hPrevEvent, &dbei);
+			if (!DbEventIsShown(&dbei))
+				i++;
+		}
+		break;
+
+	case LOADHISTORY_TIME:
+		DBEVENTINFO dbei = {};
+		if (m_hDbEventFirst == 0)
+			dbei.timestamp = (uint32_t)time(0);
+		else
+			db_event_get(m_hDbEventFirst, &dbei);
+
+		uint32_t firstTime = dbei.timestamp - 60 * g_plugin.nLoadTime;
+		while (MEVENT hPrevEvent = pCursor.FetchNext()) {
+			dbei.cbBlob = 0;
+			db_event_get(hPrevEvent, &dbei);
+			if (dbei.timestamp < firstTime)
+				break;
+			m_hDbEventFirst = hPrevEvent;
+		}
+		break;
+	}
 }
 
 void CMsgDialog::NotifyTyping(int mode)

@@ -36,6 +36,65 @@ void CMsgDialog::CloseTab()
 	Close();
 }
 
+bool CMsgDialog::FindFirstEvent()
+{
+	bool notifyUnread = false;
+
+	if (m_hContact) {
+		int historyMode = g_plugin.iHistoryMode;
+		// This finds the first message to display, it works like shit
+		m_hDbEventFirst = db_event_firstUnread(m_hContact);
+		if (m_hDbEventFirst != 0) {
+			DBEVENTINFO dbei = {};
+			db_event_get(m_hDbEventFirst, &dbei);
+			if (DbEventIsMessageOrCustom(&dbei) && !(dbei.flags & DBEF_READ) && !(dbei.flags & DBEF_SENT))
+				notifyUnread = true;
+		}
+
+		DB::ECPTR pCursor(DB::EventsRev(m_hContact, m_hDbEventFirst));
+
+		DBEVENTINFO dbei = {};
+		MEVENT hPrevEvent;
+		switch (historyMode) {
+		case LOADHISTORY_COUNT:
+			for (int i = g_plugin.iLoadCount; i > 0; i--) {
+				hPrevEvent = pCursor.FetchNext();
+				if (hPrevEvent == 0)
+					break;
+
+				dbei.cbBlob = 0;
+				m_hDbEventFirst = hPrevEvent;
+				db_event_get(m_hDbEventFirst, &dbei);
+				if (!DbEventIsShown(dbei))
+					i++;
+			}
+			break;
+
+		case LOADHISTORY_TIME:
+			if (m_hDbEventFirst == 0)
+				dbei.timestamp = time(0);
+			else
+				db_event_get(m_hDbEventFirst, &dbei);
+
+			uint32_t firstTime = dbei.timestamp - 60 * g_plugin.iLoadTime;
+			for (;;) {
+				hPrevEvent = pCursor.FetchNext();
+				if (hPrevEvent == 0)
+					break;
+
+				dbei.cbBlob = 0;
+				db_event_get(hPrevEvent, &dbei);
+				if (dbei.timestamp < firstTime)
+					break;
+				if (DbEventIsShown(dbei))
+					m_hDbEventFirst = hPrevEvent;
+			}
+			break;
+		}
+	}
+	return notifyUnread;
+}
+
 void CMsgDialog::FixTabIcons()
 {
 	HICON hIcon;
