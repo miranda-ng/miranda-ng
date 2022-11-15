@@ -231,7 +231,7 @@ void WhatsAppProto::ApplyPatch(const JSONNode &index, const Wa__SyncActionValue 
 			setUString(pUser->hContact, "FirstName", str.c_str());
 			setUString(pUser->hContact, "LastName", fullName + str.GetLength() + 1);
 		}
-		else {
+		else if (fullName != nullptr) {
 			auto *p = strrchr(fullName, ' ');
 			if (p != 0) {
 				*p = 0;
