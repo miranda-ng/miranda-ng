@@ -366,6 +366,8 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	char szMsgId[40];
 	__int64 msgId;
 	Utils_GetRandom(&msgId, sizeof(msgId));
+	if (msgId < 0)
+		msgId = -msgId;
 	_i64toa(msgId, szMsgId, 10);
 
 	// mother node for all participants
