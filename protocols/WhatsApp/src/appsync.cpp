@@ -301,7 +301,7 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME:
 		for (int i = 0; i < pSync->n_pushnames; i++) {
 			auto *pName = pSync->pushnames[i];
-			if (auto *pUser = FindUser(pName->id))
+			if (auto *pUser = AddUser(pName->id, false))
 				setUString(pUser->hContact, "Nick", pName->pushname);
 		}
 		break;
