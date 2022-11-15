@@ -131,11 +131,13 @@ HICON SmileyType::GetIcon(void)
 
 HICON SmileyType::GetIconDup(void)
 {
-	ImageBase *img = CreateCachedImage();
-	img->SelectFrame(m_index);
-	HICON hIcon = img->GetIcon();
-	img->Release();
-	return hIcon;
+	if (ImageBase *img = CreateCachedImage()) {
+		img->SelectFrame(m_index);
+		HICON hIcon = img->GetIcon();
+		img->Release();
+		return hIcon;
+	}
+	return nullptr;
 }
 
 bool SmileyType::LoadFromImage(IStream *pStream)
