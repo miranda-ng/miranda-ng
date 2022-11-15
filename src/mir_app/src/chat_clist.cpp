@@ -38,7 +38,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	if (hContact) { // contact exist, make sure it is in the right group
 		if (mir_wstrlen(wszGroup)) {
 			ptrW grpName(Clist_GetGroup(hContact));
-			if (!mir_wstrcmp(wszGroup, grpName))
+			if (mir_wstrcmp(wszGroup, grpName))
 				Clist_SetGroup(hContact, wszGroup);
 		}
 
