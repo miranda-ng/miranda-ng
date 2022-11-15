@@ -242,7 +242,7 @@ void WhatsAppProto::ProcessFailure(int code)
 	switch (code) {
 	case 401:
 		debugLogA("Connection logged out from another device, exiting");
-		Popup(0, TranslateT("This account was logged out from another device, you need to register it again"), m_tszUserName);
+		Popup(0, TranslateT("This account was logged out from mobile phone, you need to link it again"), m_tszUserName);
 
 		// remove all temporary data from database & disk folder
 		{
