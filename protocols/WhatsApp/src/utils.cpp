@@ -448,7 +448,7 @@ void WhatsAppProto::GetMessageContent(
 	szMediaType[0] = toupper(szMediaType[0]);
 
 	MBinBuffer buf = DownloadEncryptedFile(directPath2url(szDirectPath), pMediaKey, szMediaType);
-	if (buf.data()) {
+	if (!buf.isEmpty()) {
 		CMStringW pwszFileName(GetTmpFileName(szType, url));
 		bin2file(buf, pwszFileName);
 

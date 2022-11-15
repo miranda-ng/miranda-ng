@@ -81,7 +81,7 @@ void WANoise::deriveKey(const void *pData, size_t cbLen, MBinBuffer &write, MBin
 {
 	size_t outlen = 64;
 	uint8_t out[64];
-	HKDF(EVP_sha256(), (BYTE *)salt.data(), (int)salt.length(), (BYTE *)pData, (int)cbLen, (BYTE *)"", 0, out, outlen);
+	HKDF(EVP_sha256(), salt.data(), (int)salt.length(), (BYTE *)pData, (int)cbLen, (BYTE *)"", 0, out, outlen);
 
 	write.assign(out, 32);
 	read.assign(out + 32, 32);
@@ -104,9 +104,9 @@ MBinBuffer WANoise::decrypt(const void *pData, size_t cbLen)
 
 	MBinBuffer res;
 	if (!bInitFinished)
-		res = aesDecrypt(EVP_aes_256_gcm(), (BYTE *)decKey.data(), iv, pData, cbLen, hash, sizeof(hash));
+		res = aesDecrypt(EVP_aes_256_gcm(), decKey.data(), iv, pData, cbLen, hash, sizeof(hash));
 	else
-		res = aesDecrypt(EVP_aes_256_gcm(), (BYTE *)decKey.data(), iv, pData, cbLen);
+		res = aesDecrypt(EVP_aes_256_gcm(), decKey.data(), iv, pData, cbLen);
 
 	updateHash(pData, cbLen);
 	return res;
@@ -164,7 +164,7 @@ MBinBuffer WANoise::encrypt(const void *pData, size_t cbLen)
 
 	int enc_len = 0, final_len = 0;
 	EVP_CIPHER_CTX *ctx = EVP_CIPHER_CTX_new();
-	EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, (BYTE *)encKey.data(), iv);
+	EVP_EncryptInit_ex(ctx, EVP_aes_256_gcm(), NULL, encKey.data(), iv);
 
 	if (!bInitFinished)
 		EVP_EncryptUpdate(ctx, NULL, &enc_len, hash, sizeof(hash));

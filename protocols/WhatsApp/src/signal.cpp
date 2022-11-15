@@ -209,12 +209,12 @@ static int load_pre_key(signal_buffer **record, uint32_t pre_key_id, void *user_
 
 	CMStringA szSetting(FORMAT, "%s%d", "PreKey", pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
-	if (blob.data() == 0) {
+	if (blob.isEmpty()) {
 		pStore->pProto->debugLogA("Prekey #%d not found", pre_key_id);
 		return SG_ERR_INVALID_KEY_ID;
 	}
 
-	*record = signal_buffer_create((uint8_t *)blob.data(), blob.length());
+	*record = signal_buffer_create(blob.data(), blob.length());
 	return SG_SUCCESS; //key exists and succesfully loaded
 }
 
@@ -274,7 +274,7 @@ static int load_signed_pre_key(signal_buffer **record, uint32_t signed_pre_key_i
 
 	CMStringA szSetting(FORMAT, "%s%d", "SignedPreKey", signed_pre_key_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
-	if (blob.data() == 0) {
+	if (blob.isEmpty()) {
 		pStore->pProto->debugLogA("Signed prekey #%d not found", signed_pre_key_id);
 		return SG_ERR_INVALID_KEY_ID;
 	}
@@ -310,7 +310,7 @@ static int get_identity_key_pair(signal_buffer **public_data, signal_buffer **pr
 	buf.append(pStore->signedIdentity.pub);
 	*public_data = signal_buffer_create(buf.data(), (int)buf.length());
 
-	*private_data = signal_buffer_create((uint8_t *)pStore->signedIdentity.priv.data(), (int)pStore->signedIdentity.priv.length());
+	*private_data = signal_buffer_create(pStore->signedIdentity.priv.data(), (int)pStore->signedIdentity.priv.length());
 	return 0;
 }
 
@@ -344,7 +344,7 @@ static int load_sender_key(signal_buffer **record, signal_buffer **, const signa
 
 	CMStringA szSetting(FORMAT, "SenderKey_%*s_%*s_%d", (unsigned)skn->group_id_len, skn->group_id, (unsigned)skn->sender.name_len, skn->sender.name, skn->sender.device_id);
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
-	if (blob.data() == 0)
+	if (blob.isEmpty())
 		return 0;
 
 	*record = signal_buffer_create(blob.data(), blob.length());
@@ -376,9 +376,10 @@ void MSignalStore::init()
 	prov.encrypt_func = encrypt_func;
 	signal_context_set_crypto_provider(m_pContext, &prov);
 
-	// default values calculation
-	if (pProto->getDword(DBKEY_PREKEY_NEXT_ID, 0xFFFF) == 0xFFFF) {
-		// generate signed identity keys (private & public)
+	// read resident data from database
+	MBinBuffer blob(pProto->getBlob(DBKEY_PREKEY));
+	if (blob.isEmpty()) {
+		// nothing? generate signed identity keys (private & public)
 		ratchet_identity_key_pair *keyPair;
 		signal_protocol_key_helper_generate_identity_key_pair(&keyPair, m_pContext);
 
@@ -393,15 +394,12 @@ void MSignalStore::init()
 
 		SignalBuffer prekeyBuf(signed_pre_key);
 		db_set_blob(0, pProto->m_szModuleName, DBKEY_PREKEY, prekeyBuf.data(), prekeyBuf.len());
+		blob.assign(prekeyBuf.data(), prekeyBuf.len());
+
 		SIGNAL_UNREF(signed_pre_key);
 		SIGNAL_UNREF(keyPair);
 	}
 
-	// read resident data from database
-	signedIdentity.pub = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PUB);
-	signedIdentity.priv = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PRIV);
-
-	MBinBuffer blob(pProto->getBlob(DBKEY_PREKEY));
 	session_signed_pre_key *signed_pre_key;
 	session_signed_pre_key_deserialize(&signed_pre_key, blob.data(), blob.length(), m_pContext);
 
@@ -415,6 +413,9 @@ void MSignalStore::init()
 	preKey.signature.assign(session_signed_pre_key_get_signature(signed_pre_key), session_signed_pre_key_get_signature_len(signed_pre_key));
 	preKey.keyid = session_signed_pre_key_get_id(signed_pre_key);
 	SIGNAL_UNREF(signed_pre_key);
+
+	signedIdentity.pub = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PUB);
+	signedIdentity.priv = pProto->getBlob(DBKEY_SIGNED_IDENTITY_PRIV);
 
 	// create store with callbacks
 	signal_protocol_store_context_create(&m_pStore, m_pContext);
@@ -518,7 +519,7 @@ MSignalSession* MSignalStore::getSession(const signal_protocol_address *address)
 	auto *pSession = arSessions.find(&tmp);
 	if (pSession == nullptr) {
 		MBinBuffer blob(pProto->getBlob(tmp.getSetting()));
-		if (blob.data() == nullptr)
+		if (blob.isEmpty())
 			return nullptr;
 
 		pSession = new MSignalSession(tmp);
@@ -540,7 +541,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 	if (!mir_strcmp(pszType, "pkmsg")) {
 		pre_key_signal_message *pMsg; 
 		logError(
-			pre_key_signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
+			pre_key_signal_message_deserialize(&pMsg, encrypted.data(), encrypted.length(), m_pContext),
 			"unable to deserialize prekey message");
 
 		logError(
@@ -552,7 +553,7 @@ MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *p
 	else {
 		signal_message *pMsg;
 		logError(
-			signal_message_deserialize(&pMsg, (BYTE *)encrypted.data(), encrypted.length(), m_pContext),
+			signal_message_deserialize(&pMsg, encrypted.data(), encrypted.length(), m_pContext),
 			"unable to deserialize signal message");
 
 		logError(

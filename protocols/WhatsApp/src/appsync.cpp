@@ -100,7 +100,7 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 			}
 
 			MBinBuffer buf = DownloadEncryptedFile(directPath2url(body->directpath), body->mediakey, "App State");
-			if (!buf.data()) {
+			if (buf.isEmpty()) {
 				debugLogA("Invalid downloaded snapshot data, skipping");
 				continue;
 			}
@@ -163,7 +163,7 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 	std::string index((char *)indexBlob.data, indexBlob.len);
 
 	MBinBuffer key(getBlob(CMStringA(FORMAT, "AppSyncKey%d", id)));
-	if (!key.data()) {
+	if (key.isEmpty()) {
 		debugLogA("No key with id=%d to decode a patch");
 		return;
 	}
@@ -181,7 +181,7 @@ void WhatsAppProto::ParsePatch(WACollection *pColl, const Wa__SyncdRecord *rec, 
 	HKDF(EVP_sha256(), (BYTE *)"", 0, key.data(), key.length(), sttMutationInfo, sizeof(sttMutationInfo) - 1, (BYTE *)&mutationKeys, sizeof(mutationKeys));
 
 	MBinBuffer decoded = aesDecrypt(EVP_aes_256_cbc(), mutationKeys.encKey, value.data, value.data + 16, value.len - 32);
-	if (!decoded.data()) {
+	if (decoded.isEmpty()) {
 		debugLogA("Unable to decode patch with key id=%d", id);
 		return;
 	}

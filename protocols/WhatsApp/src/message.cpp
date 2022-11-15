@@ -124,7 +124,7 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 			}
 			else throw "Invalid e2e type";
 
-			if (!msgBody.data())
+			if (msgBody.isEmpty())
 				throw "Invalid e2e message";
 
 			iDecryptable++;
@@ -255,7 +255,7 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 			debugLogA("History sync notification");
 			if (auto *pHist = protoMsg->historysyncnotification) {
 				MBinBuffer buf(DownloadEncryptedFile(directPath2url(pHist->directpath), pHist->mediakey, "History"));
-				if (buf.data()) {
+				if (!buf.isEmpty()) {
 					MBinBuffer inflate(unzip(unpadBuffer16(buf)));
 
 					proto::HistorySync sync(inflate);

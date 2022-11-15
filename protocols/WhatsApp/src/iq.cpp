@@ -178,7 +178,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				signal_buffer *result;
 				ec_private_key key = {};
 				memcpy(key.data, m_signalStore.signedIdentity.priv.data(), m_signalStore.signedIdentity.priv.length());
-				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, (BYTE *)buf.data(), buf.length()) != 0)
+				if (curve_calculate_signature(m_signalStore.CTX(), &result, &key, buf.data(), buf.length()) != 0)
 					throw "OnIqPairSuccess: cannot calculate account signature, exiting";
 
 				account->devicesignature = proto::SetBinary(result->data, result->len);
