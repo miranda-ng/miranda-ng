@@ -31,7 +31,7 @@ CAPTION "Sign in using QR code"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     CONTROL         "",IDC_QRPIC,"Static",SS_BITMAP | SS_NOTIFY | SS_CENTERIMAGE | SS_REALSIZEIMAGE | SS_SUNKEN,7,7,304,304
-    CTEXT           "Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it",IDC_STATIC,8,314,302,17
+    CTEXT           "Open WhatsApp application on your mobile phone, choose ""Linked devices"" and use it to read this QR code.\nA window will disappear automatically after it.",IDC_STATIC,8,314,302,17
 END
 
 IDD_ACCMGRUI DIALOGEX 0, 0, 188, 144
