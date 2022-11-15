@@ -14,7 +14,7 @@ WAJid::WAJid(const char *pszUser, const char *pszServer, int iDevice, int iAgent
 	agent(iAgent)
 {}
 
-WAJid::WAJid(const char *pszJid)
+WAJid::WAJid(const char *pszJid, int _id)
 {
 	if (pszJid == nullptr)
 		pszJid = "";
@@ -30,7 +30,7 @@ WAJid::WAJid(const char *pszJid)
 		*p = 0;
 		device = atoi(p + 1);
 	}
-	else device = 0;
+	else device = _id;
 
 	if (p = strrchr(tmp, '_')) {
 		*p = 0;

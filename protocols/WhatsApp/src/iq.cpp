@@ -13,7 +13,7 @@ void WhatsAppProto::OnAccountSync(const WANode &node)
 
 	for (auto &it : node.getChild("devices")->getChildren())
 		if (it->title == "device")
-			m_arDevices.insert(new WADevice(it->getAttr("jid"), it->getAttrInt("key-index")));
+			m_arDevices.insert(new WAJid(it->getAttr("jid"), it->getAttrInt("key-index")));
 
 	SendAck(node);
 }
@@ -91,7 +91,7 @@ void WhatsAppProto::OnIqGetUsync(const WANode &node)
 		if (auto *pList = nUser->getChild("devices")->getChild("device-list"))
 			for (auto &it : pList->getChildren())
 				if (it->title == "device")
-					m_arDevices.insert(new WADevice(pszJid, it->getAttrInt("id")));
+					m_arDevices.insert(new WAJid(pszJid, it->getAttrInt("id")));
 	}
 }
 

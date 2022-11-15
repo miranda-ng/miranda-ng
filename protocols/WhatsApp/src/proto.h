@@ -53,17 +53,6 @@ struct WARequest
 	void *pUserInfo;
 };
 
-struct WADevice
-{
-	WADevice(const char *_1, int _2) :
-		jid(_1),
-		key_index(_2)
-	{}
-
-	WAJid jid;
-	int key_index;
-};
-
 struct WAPersistentHandler
 {
 	WAPersistentHandler(const char *_1, const char *_2, const char *_3, const char *_4, WA_PKT_HANDLER _5) :
@@ -284,7 +273,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<WAOwnMessage> m_arOwnMsgs;
 
-	OBJLIST<WADevice> m_arDevices;
+	OBJLIST<WAJid> m_arDevices;
 
 	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);

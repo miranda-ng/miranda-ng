@@ -411,7 +411,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 					shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(T2Utf(it->pszUID)), encodedMeMsg);
 
 		for (auto &it : m_arDevices)
-			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encodedMeMsg);
+			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, encodedMeMsg);
 	}
 	else {
 		Wa__Message__DeviceSentMessage sentBody;
@@ -426,7 +426,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 
 		shouldIncludeIdentity = CreateMsgParticipant(pParticipants, toJid, encodedMeMsg);
 		for (auto &it : m_arDevices)
-			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, it->jid, encodedMeMsg);
+			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, encodedMeMsg);
 	}
 
 	if (shouldIncludeIdentity) {

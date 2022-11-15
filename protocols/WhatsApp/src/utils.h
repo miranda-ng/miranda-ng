@@ -160,7 +160,7 @@ struct WAJid
 	int device, agent;
 	CMStringA user, server;
 
-	WAJid(const char *pszJid);
+	WAJid(const char *pszJid, int device = 0);
 	WAJid(const char *pszUser, const char *pszServer, int device = 0, int agent = 0);
 
 	CMStringA toString() const;
