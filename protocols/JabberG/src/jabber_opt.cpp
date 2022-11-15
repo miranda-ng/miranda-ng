@@ -936,7 +936,7 @@ protected:
 		// append computer name to the resource list
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
-		if (GetComputerName(szCompName, &dwCompNameLength))
+		if (GetComputerNameW(szCompName, &dwCompNameLength))
 			m_cbResource.AddString(szCompName);
 
 		ptrW tszResource(m_proto->getWStringA("Resource"));
@@ -959,11 +959,9 @@ protected:
 		m_cbType.AddString(TranslateT("Odnoklassniki"), ACC_OK);
 		m_cbType.AddString(TranslateT("S.ms"), ACC_SMS);
 
-		char server[256], manualServer[256] = { 0 };
+		char server[256];
 		m_txtServer.GetTextA(server, _countof(server));
-		ptrA dbManualServer(db_get_sa(0, m_proto->m_szModuleName, "ManualHost"));
-		if (dbManualServer != nullptr)
-			mir_strncpy(manualServer, dbManualServer, _countof(manualServer));
+		m_txtManualHost.SetTextA(server);
 
 		m_canregister = true;
 		if (!mir_strcmp(server, "chat.hipchat.com")) {
@@ -1008,7 +1006,7 @@ protected:
 
 		if (m_chkManualHost.Enabled()) {
 			if (m_proto->m_bManualConnect) {
-				m_chkManualHost.SetState(BST_CHECKED);
+				m_chkManualHost.SetState(true);
 				m_txtManualHost.Enable();
 				m_txtPort.Enable();
 
@@ -1023,7 +1021,7 @@ protected:
 				int port = m_proto->getWord("Port", defPort);
 
 				if (port != defPort) {
-					m_chkManualHost.SetState(BST_CHECKED);
+					m_chkManualHost.SetState(true);
 					m_txtManualHost.Enable();
 					m_txtPort.Enable();
 
@@ -1031,7 +1029,7 @@ protected:
 					m_txtPort.SetInt(port);
 				}
 				else {
-					m_chkManualHost.SetState(BST_UNCHECKED);
+					m_chkManualHost.SetState(false);
 					m_txtManualHost.Disable();
 					m_txtPort.Disable();
 				}
@@ -1053,7 +1051,7 @@ protected:
 		bool bUseHostnameAsResource = false;
 		wchar_t szCompName[MAX_COMPUTERNAME_LENGTH + 1], szResource[MAX_COMPUTERNAME_LENGTH + 1];
 		DWORD dwCompNameLength = MAX_COMPUTERNAME_LENGTH;
-		if (GetComputerName(szCompName, &dwCompNameLength)) {
+		if (GetComputerNameW(szCompName, &dwCompNameLength)) {
 			m_cbResource.GetText(szResource, _countof(szResource));
 			if (!mir_wstrcmp(szCompName, szResource))
 				bUseHostnameAsResource = true;
@@ -1100,15 +1098,10 @@ protected:
 			break;
 		}
 
-		char server[256];
-		char manualServer[256];
-
-		m_txtServer.GetTextA(server, _countof(server));
-		m_txtManualHost.GetTextA(manualServer, _countof(manualServer));
-
-		if ((m_chkManualHost.GetState()) && mir_strcmp(server, manualServer)) {
+		ptrA szManualServer(m_txtManualHost.GetTextA());
+		if (m_chkManualHost.IsChecked() && mir_strcmp(ptrA(m_txtServer.GetTextA()), szManualServer)) {
 			m_proto->m_bManualConnect = true;
-			m_proto->setString("ManualHost", manualServer);
+			m_proto->setString("ManualHost", szManualServer);
 			m_proto->setWord("ManualPort", m_txtPort.GetInt());
 			m_proto->setWord("Port", m_txtPort.GetInt());
 		}
@@ -1191,9 +1184,7 @@ private:
 		CCtrlCheck *chk = (CCtrlCheck *)sender;
 
 		if (chk->GetState()) {
-			char buf[256];
-			m_txtServer.GetTextA(buf, _countof(buf));
-			m_txtManualHost.SetTextA(buf);
+			m_txtManualHost.SetTextA(ptrA(m_txtServer.GetTextA()));
 			m_txtPort.SetInt(5222);
 
 			m_txtManualHost.Enable();
