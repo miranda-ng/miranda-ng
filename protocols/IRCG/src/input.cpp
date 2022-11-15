@@ -475,17 +475,10 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			}
 		}
 		SetActiveWindow(m_listDlg->GetHwnd());
-		int minutes = (int)m_noOfChannels / 4000;
-		int minutes2 = (int)m_noOfChannels / 9000;
 
-		CMStringW szMsg(FORMAT, TranslateT("This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?"), minutes2, minutes);
-		if (m_noOfChannels < 4000 || (m_noOfChannels >= 4000 && MessageBox(nullptr, szMsg, TranslateT("IRC warning"), MB_YESNO | MB_ICONWARNING | MB_DEFBUTTON2) == IDYES)) {
-			ListView_DeleteAllItems(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW));
-			PostIrcMessage(L"/lusers");
-			return false;
-		}
-		m_listDlg->m_status.SetText(TranslateT("Aborted"));
-		return true;
+		ListView_DeleteAllItems(GetDlgItem(m_listDlg->GetHwnd(), IDC_INFO_LISTVIEW));
+		PostIrcMessage(L"/lusers");
+		return false;
 	}
 
 	if (command == L"/me") {
