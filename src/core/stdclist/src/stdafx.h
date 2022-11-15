@@ -64,6 +64,6 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 
 // shared vars
 extern CLIST_INTERFACE coreCli;
-extern bool g_bSortByStatus, g_bSortByProto, g_bNoOfflineBottom;
+extern bool g_bSortByStatus, g_bSortByProto, g_bOfflineToBottom;
 
 void LoadClcOptions(HWND hwnd, struct ClcData *dat, BOOL bFirst);

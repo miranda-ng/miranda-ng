@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
-bool g_bSortByStatus, g_bSortByProto, g_bNoOfflineBottom;
+bool g_bSortByStatus, g_bSortByProto, g_bOfflineToBottom;
 
 const struct
 {
@@ -80,8 +80,8 @@ int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 			return ordera - orderb;
 	}
 	else {
-		//one is offline: offline goes below online
-		if (!g_bNoOfflineBottom)
+		// one is offline: offline goes below online
+		if (g_bOfflineToBottom)
 			if ((statusa == ID_STATUS_OFFLINE) != (statusb == ID_STATUS_OFFLINE))
 				return 2 * (statusa == ID_STATUS_OFFLINE) - 1;
 	}

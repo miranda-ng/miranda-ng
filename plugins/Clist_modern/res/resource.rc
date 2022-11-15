@@ -413,15 +413,11 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,19,156,9
-    EDITTEXT        IDC_BLINKTIME,12,33,35,12,ES_NUMBER
-    CONTROL         "",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,42,34,11,12
-    LTEXT           "ms, delay between icon blinking",IDC_STATIC,51,35,104,8
     GROUPBOX        "System tray icon",IDC_STATIC,2,6,292,54
-    CONTROL         "Use xStatus icon",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,19,117,10
-    CONTROL         "Show normal status as overlay",IDC_SHOWNORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,32,117,10
+    CONTROL         "Use xStatus icon",IDC_SHOWXSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,19,277,10
+    CONTROL         "Show normal status as overlay",IDC_SHOWNORMAL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,32,277,10
     CONTROL         "Status overlay opacity is 75%",IDC_TRANSPARENTOVERLAY,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,171,45,117,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,45,277,10
     GROUPBOX        "Icon mode",IDC_STATIC,2,61,292,110
     GROUPBOX        "For similar statuses",IDC_STATIC,8,71,138,74
     CONTROL         "Global status",IDC_ICON_GLOBAL_S,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,14,81,124,10

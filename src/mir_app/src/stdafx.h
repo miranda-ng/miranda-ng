@@ -104,6 +104,7 @@ typedef struct SslHandle *HSSL;
 typedef struct GlobalLogSettingsBase GlobalLogSettings;
 #include <m_chat_int.h>
 
+#include "copyright.h"
 #include "resource.h"
 
 struct CMPlugin : public PLUGIN<CMPlugin>

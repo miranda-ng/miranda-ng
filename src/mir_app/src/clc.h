@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #pragma once
 
+#define MODULENAME "CList"
+
 struct ClcContact : public ClcContactBase
 {
 };
@@ -95,7 +97,7 @@ int ClcOptInit(WPARAM, LPARAM);
 
 namespace Clist
 {
-	extern CMOption<bool> RemoveTempContacts, DisableIconBlink;
+	extern CMOption<bool> RemoveTempContacts, EnableIconBlink, EnableTrayFlash;
 };
 
 /* clistmenus.c */

@@ -109,9 +109,6 @@
 #define IDC_TOPLINE                     1535
 #define IDC_HOTKEYURLSTR                1567
 #define IDC_BRINGTOFRONT                1579
-#define IDC_BLINKTIME                   1607
-#define IDC_BLINKSPIN                   1608
-#define IDC_DISABLEBLINK                1609
 #define IDC_IDLE                        1610
 #define IDC_SBPANELBEVEL                1611
 #define IDC_DROPSHADOW                  1612
@@ -120,9 +117,7 @@
 #define IDC_ONDESKTOP                   1657
 #define IDC_DISABLEDOCKING              1658
 #define IDC_WINCOLOUR                   1659
-#define IDC_STMSDELAY                   1661
-#define IDC_CHECK1                      1662
-#define IDC_NOOFFLINEMOVE               1662
+#define IDC_MOVE_OFFLINE_BOTTOM         1662
 
 // Next default values for new objects
 // 

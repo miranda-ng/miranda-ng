@@ -49,8 +49,8 @@ static OBJLIST<CListImlIcon> arImlIcons(10, CompareImlIcons);
 
 static UINT_PTR flashTimerId;
 static int iconsOn;
-static int disableTrayFlash;
-static int disableIconFlash;
+static bool g_bEnableTrayFlash;
+static bool g_bEnableIconFlash;
 static volatile long iEventOrder = 0;
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +89,7 @@ int fnGetImlIconIndex(HICON hIcon)
 
 static void ShowOneEventInTray(const CListEvent &ev)
 {
-	TrayIconUpdateWithImageList((iconsOn || disableTrayFlash) ? ev.imlIconIndex : 0, ev.szTooltip.w, GetEventProtocol(ev));
+	TrayIconUpdateWithImageList((iconsOn || !g_bEnableTrayFlash) ? ev.imlIconIndex : 0, ev.szTooltip.w, GetEventProtocol(ev));
 }
 
 static void ShowEventsInTray()
@@ -138,7 +138,7 @@ static VOID CALLBACK IconFlashTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 			if (g_cliEvents[j].hContact == e.hContact)
 				break;
 		if (j >= i)
-			Clist_ChangeContactIcon(e.hContact, iconsOn || disableIconFlash ? e.imlIconIndex : 0);
+			Clist_ChangeContactIcon(e.hContact, iconsOn || !g_bEnableTrayFlash ? e.imlIconIndex : 0);
 
 		// decrease eflashes in any case - no need to collect all events
 		if (e.flags & CLEF_ONLYAFEW)
@@ -335,10 +335,10 @@ static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
 	if (hContact == 0 && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
-		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)
-			disableTrayFlash = (int)cws->value.bVal;
-		else if (strcmp(cws->szSetting, "NoIconBlink") == 0)
-			disableIconFlash = (int)cws->value.bVal;
+		if (strcmp(cws->szSetting, "EnableTrayFlash") == 0)
+			g_bEnableTrayFlash = (int)cws->value.bVal;
+		else if (strcmp(cws->szSetting, "EnableIconBlink") == 0)
+			g_bEnableIconFlash = (int)cws->value.bVal;
 	}
 	return 0;
 }
@@ -349,8 +349,18 @@ int InitCListEvents(void)
 {
 	g_clistApi.events = &g_cliEvents;
 
-	disableTrayFlash = db_get_b(0, "CList", "DisableTrayFlash", 0);
-	disableIconFlash = Clist::DisableIconBlink;
+	if (db_get_b(0, MODULENAME, "DisableTrayFlash")) {
+		Clist::EnableTrayFlash = false;
+		db_unset(0, MODULENAME, "DisableTrayFlash");
+	}
+
+	if (db_get_b(0, MODULENAME, "DisableIconBlink")) {
+		Clist::EnableIconBlink = false;
+		db_unset(0, MODULENAME, "DisableIconBlink");
+	}
+
+	g_bEnableTrayFlash = Clist::EnableTrayFlash;
+	g_bEnableIconFlash = Clist::EnableIconBlink;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
 	return 0;

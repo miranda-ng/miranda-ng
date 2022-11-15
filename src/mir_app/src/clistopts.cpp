@@ -25,13 +25,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "stdafx.h"
 #include "clc.h"
 
-#define MODULENAME "CList"
-
 CMOption<bool> Clist::UseGroups(MODULENAME, "UseGroups", true);
 CMOption<bool> Clist::HideOffline(MODULENAME, "HideOffline", false);
 CMOption<bool> Clist::ConfirmDelete(MODULENAME, "ConfirmDelete", true);
+CMOption<bool> Clist::EnableIconBlink(MODULENAME, "EnableIconBlink", true);
+CMOption<bool> Clist::EnableTrayFlash(MODULENAME, "EnableTrayFlash", true);
 CMOption<bool> Clist::HideEmptyGroups(MODULENAME, "HideEmptyGroups", false);
-CMOption<bool> Clist::DisableIconBlink(MODULENAME, "NoIconBlink", false);
 CMOption<bool> Clist::RemoveTempContacts(MODULENAME, "RemoveTempContacts", true);
 
 CMOption<bool> Clist::Tray1Click(MODULENAME, "Tray1Click", IsWinVer7Plus());
@@ -61,13 +60,15 @@ static const offlineValues[] =
 
 class ClistCommonOptsDlg : public CDlgBase
 {
+	CCtrlSpin blink;
 	CCtrlCheck chkUseGroups, chkHideOffline, chkConfirmDelete, chkHideEmptyGroups, chkRemoveTempContacts, chkEnableIconBlink, chkFilterSearch;
-	CCtrlCheck chkAlwaysStatus, chkOneClick;
+	CCtrlCheck chkAlwaysStatus, chkOneClick, chkEnableTrayBlink;
 	CCtrlTreeView hideStatuses;
 
 public:
 	ClistCommonOptsDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CLIST),
+		blink(this, IDC_BLINKSPIN, 0x3FFF, 250),
 		hideStatuses(this, IDC_HIDEOFFLINEOPTS),
 		chkOneClick(this, IDC_ONECLK),
 		chkUseGroups(this, IDC_USEGROUPS),
@@ -77,8 +78,11 @@ public:
 		chkConfirmDelete(this, IDC_CONFIRMDELETE), 
 		chkHideEmptyGroups(this, IDC_HIDEEMPTYGROUPS), 
 		chkEnableIconBlink(this, IDC_ENABLE_ICON_BLINK),
+		chkEnableTrayBlink(this, IDC_ENABLE_TRAY_BLINK),
 		chkRemoveTempContacts(this, IDC_REMOVETEMP)
 	{
+		chkEnableTrayBlink.OnChange = Callback(this, &ClistCommonOptsDlg::onChange_TrayBlink);
+
 		CreateLink(chkOneClick, Clist::Tray1Click);
 		CreateLink(chkUseGroups, Clist::UseGroups);
 		CreateLink(chkHideOffline, Clist::HideOffline);
@@ -86,15 +90,17 @@ public:
 		CreateLink(chkAlwaysStatus, Clist::TrayAlwaysStatus);
 		CreateLink(chkConfirmDelete, Clist::ConfirmDelete);
 		CreateLink(chkHideEmptyGroups, Clist::HideEmptyGroups);
+		CreateLink(chkEnableIconBlink, Clist::EnableIconBlink);
+		CreateLink(chkEnableTrayBlink, Clist::EnableTrayFlash);
 		CreateLink(chkRemoveTempContacts, Clist::RemoveTempContacts);
 	}
 
 	bool OnInitDialog() override
 	{
+		blink.SetPosition(db_get_w(0, MODULENAME, "IconFlashTime", 550));
+
 		SetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE,
 			GetWindowLongPtr(hideStatuses.GetHwnd(), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
-
-		chkEnableIconBlink.SetState(!Clist::DisableIconBlink);
 
 		int style = Clist::OfflineModes;
 
@@ -114,6 +120,8 @@ public:
 
 	bool OnApply() override
 	{
+		db_set_w(0, MODULENAME, "IconFlashTime", blink.GetPosition());
+
 		uint32_t flags = 0;
 
 		TVITEMEX tvi;
@@ -127,12 +135,17 @@ public:
 		}
 		Clist::OfflineModes = flags;
 
-		Clist::DisableIconBlink = !chkEnableIconBlink.IsChecked();
-
 		Clist_ClcOptionsChanged();
 		Clist_LoadContactTree();
 		Clist_InitAutoRebuild(g_clistApi.hwndContactTree);
 		return true;
+	}
+
+	void onChange_TrayBlink(CCtrlCheck*)
+	{
+		bool bEnabled = chkEnableTrayBlink.IsChecked();
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKTIME), bEnabled);
+		EnableWindow(GetDlgItem(m_hwnd, IDC_BLINKSPIN), bEnabled);
 	}
 };
 

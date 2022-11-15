@@ -18,7 +18,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -64,23 +64,18 @@ BEGIN
     CONTROL         "Show menu and status buttons",IDC_SHOWBOTTOMBUTTONS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,12,121,10
     CONTROL         "Draw sunken edge",IDC_CLISTSUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,25,121,10
-    GROUPBOX        "System tray icon",IDC_STATIC,1,54,163,63
-    CONTROL         "Disable icon blinking",IDC_DISABLEBLINK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,10,67,147,10
-    EDITTEXT        IDC_BLINKTIME,69,78,57,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin5",IDC_BLINKSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,120,77,11,16
-    LTEXT           "ms",IDC_STATIC,131,80,24,8
-    GROUPBOX        "Event area",IDC_STATIC,169,54,133,63
-    LTEXT           "Set base visibility on the frames menu",IDC_STATIC,176,65,121,20
-    CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,88,121,10
-    CONTROL         "Draw sunken edge",IDC_EVENTAREASUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,176,101,121,10
-    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,1,118,302,71
-    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,130,92,10
-    COMBOBOX        IDC_PRIMARYSTATUS,107,129,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "icon when statuses differ",IDC_STATIC,189,131,113,8,NOT WS_GROUP
-    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,144,92,10
-    EDITTEXT        IDC_CYCLETIME,107,144,30,12,ES_RIGHT | ES_NUMBER
-    CONTROL         "Spin1",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,128,162,11,14
-    LTEXT           "seconds, when statuses differ",IDC_STATIC,140,146,155,8,NOT WS_GROUP
+    GROUPBOX        "Event area",IDC_STATIC,1,54,301,50
+    LTEXT           "Set base visibility on the frames menu",IDC_STATIC,11,65,289,11
+    CONTROL         "Auto mode",IDC_EVENTAREAAUTOHIDE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,77,285,10
+    CONTROL         "Draw sunken edge",IDC_EVENTAREASUNKEN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,90,288,10
+    GROUPBOX        "System tray icon when using multiple protocols",IDC_STATIC,1,106,302,81
+    CONTROL         "Show",IDC_DONTCYCLE,"Button",BS_AUTORADIOBUTTON | WS_GROUP,10,121,92,10
+    COMBOBOX        IDC_PRIMARYSTATUS,107,120,78,70,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "icon when statuses differ",IDC_STATIC,189,122,113,8,NOT WS_GROUP
+    CONTROL         "Cycle icons every",IDC_CYCLE,"Button",BS_AUTORADIOBUTTON,10,139,92,10
+    EDITTEXT        IDC_CYCLETIME,107,139,30,12,ES_RIGHT | ES_NUMBER
+    CONTROL         "Spin1",IDC_CYCLETIMESPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,130,138,11,14
+    LTEXT           "seconds, when statuses differ",IDC_STATIC,140,141,155,8,NOT WS_GROUP
     CONTROL         "Show multiple icons",IDC_MULTITRAY,"Button",BS_AUTORADIOBUTTON,10,158,92,10
     CONTROL         "Only when statuses differ",IDC_ALWAYSMULTI,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,107,158,186,10
     CONTROL         "Do not show system tray icon tooltips on mouse over",IDC_NOTRAYINFOTIPS,
@@ -527,6 +522,36 @@ IDC_HYPERLINKHAND       CURSOR                  "..\\..\\..\\src\\mir_app\\res\\
 IDC_DROP                CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drag_copy.cur"
 
 IDC_DROPUSER            CURSOR                  "..\\..\\..\\src\\mir_app\\res\\cursor_drop_user.cur"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_OPT_CLIST, DIALOG
+    BEGIN
+    END
+
+    IDD_OPT_CLUI, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_OPT_CLIST AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
 
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////

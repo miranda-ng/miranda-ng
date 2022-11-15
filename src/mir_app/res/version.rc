@@ -6,6 +6,7 @@
 #include <winres.h>
 
 #include "../include/m_version.h"
+#include "../src/copyright.h"
 #include "../src/resource.h"
 
 /////////////////////////////////////////////////////////////////////////////

@@ -107,9 +107,14 @@ static INT_PTR GetStatusMode(WPARAM, LPARAM)
 
 int CMPlugin::Load()
 {
+	if (g_plugin.getBool("NoOfflineBottom")) {
+		g_plugin.setByte("OfflineBottom", false);
+		g_plugin.delSetting("NoOfflineBottom");
+	}
+
 	g_bSortByStatus = g_plugin.getBool("SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
 	g_bSortByProto = g_plugin.getBool("SortByProto", SETTING_SORTBYPROTO_DEFAULT);
-	g_bNoOfflineBottom = g_plugin.getBool("NoOfflineBottom");
+	g_bOfflineToBottom = g_plugin.getBool("OfflineBottom", true);
 
 	Clist_GetInterface();
 	coreCli = g_clistApi;

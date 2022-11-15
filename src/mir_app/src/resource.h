@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\src\mir_app\res\resource.rc
+// Used by W:\miranda-ng\src\mir_app\res\resource.rc
 //
 #define IDC_AUTHICON                    1
 #define IDC_NOTOALL                     3
@@ -322,6 +322,9 @@
 #define IDC_SELECTCRYPT_COMBO           1110
 #define IDC_CRYPTOPROVIDER_DESCR        1111
 #define IDC_NUMBER                      1113
+#define IDC_BLINKTIME                   1114
+#define IDC_BLINKSPIN                   1115
+#define IDC_ENABLE_TRAY_BLINK           1116
 #define IDC_FINDWHAT                    1131
 #define IDC_FIND                        1132
 #define IDC_FILE                        1133
@@ -697,8 +700,6 @@
 #define IDM_SEARCH_FOODNETWORK          40087
 #define IDI_POPUP                       40088
 #define IDI_NOPOPUP                     40089
-
-#define LEGAL_COPYRIGHT "Copyright © 2000-11 Miranda IM, 2012-22 Miranda NG team. This software is released under the terms of the GNU General Public License.\0"
 
 // Next default values for new objects
 // 

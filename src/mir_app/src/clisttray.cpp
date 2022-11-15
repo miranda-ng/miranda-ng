@@ -232,11 +232,11 @@ int fnTrayIconInit(HWND hwnd)
 	if (netProtoCount) {
 		g_clistApi.trayIcon = (trayIconInfo_t*)mir_calloc(sizeof(trayIconInfo_t) * g_arAccounts.getCount());
 
-		int trayIconSetting = db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
+		int trayIconSetting = db_get_b(0, MODULENAME, "TrayIcon", SETTING_TRAYICON_DEFAULT);
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
 			DBVARIANT dbv = { DBVT_DELETED };
 			char *szProto;
-			if (!db_get_s(0, "CList", "PrimaryStatus", &dbv) && (averageMode < 0 || db_get_b(0, "CList", "AlwaysPrimary", 0)))
+			if (!db_get_s(0, MODULENAME, "PrimaryStatus", &dbv) && (averageMode < 0 || db_get_b(0, MODULENAME, "AlwaysPrimary", 0)))
 				szProto = dbv.pszVal;
 			else
 				szProto = nullptr;
@@ -244,7 +244,7 @@ int fnTrayIconInit(HWND hwnd)
 			Clist_TrayIconAdd(hwnd, nullptr, szProto, szProto ? Proto_GetStatus(szProto) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 			db_free(&dbv);
 		}
-		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))) {
+		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(0, MODULENAME, "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))) {
 			g_clistApi.trayIconCount = netProtoCount;
 			for (int i = 0; i < g_arAccounts.getCount(); i++) {
 				int j = Clist_GetAccountIndex(i);
@@ -365,9 +365,9 @@ int TrayIconUpdate(HICON hNewIcon, const wchar_t *szNewTip, const char *szPrefer
 			SetTaskBarIcon(nullptr, nullptr);
 
 		g_clistApi.trayIcon[i].isBase = isBase;
-		if (db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
-			uint32_t time1 = db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
-			uint32_t time2 = db_get_w(0, "CList", "IconFlashTime", 550) + 1000;
+		if (db_get_b(0, MODULENAME, "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
+			uint32_t time1 = db_get_w(0, MODULENAME, "CycleTime", SETTING_CYCLETIME_DEFAULT) * 200;
+			uint32_t time2 = db_get_w(0, MODULENAME, "IconFlashTime", 550) + 1000;
 			uint32_t time = max(max(uint32_t(2000), time1), time2);
 			if (RefreshTimerId)
 				KillTimer(nullptr, RefreshTimerId);
@@ -405,8 +405,8 @@ MIR_APP_DLL(int) Clist_TrayIconSetBaseInfo(HICON hIcon, const char *szPreferredP
 		}
 		if ((Clist_GetProtocolVisibility(szPreferredProto)) &&
 			(Proto_GetAverageStatus(nullptr) == -1) &&
-			(db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
-			!(db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+			(db_get_b(0, MODULENAME, "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
+			!(db_get_b(0, MODULENAME, "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
 	}
 
@@ -454,7 +454,7 @@ static VOID CALLBACK TrayCycleTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 MIR_APP_DLL(void) Clist_TraySetTimer()
 {
-	CycleTimerId = SetTimer(nullptr, CycleTimerId, db_get_w(0, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, TrayCycleTimerProc);
+	CycleTimerId = SetTimer(nullptr, CycleTimerId, db_get_w(0, MODULENAME, "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, TrayCycleTimerProc);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -488,13 +488,13 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 	if (netProtoCount == 0)
 		return Clist_TrayIconSetBaseInfo(ImageList_GetIcon(hCListImages, g_clistApi.pfnIconFromStatusMode(nullptr, averageMode, 0), ILD_NORMAL), nullptr);
 
-	int trayIconSetting = db_get_b(0, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
+	int trayIconSetting = db_get_b(0, MODULENAME, "TrayIcon", SETTING_TRAYICON_DEFAULT);
 
 	if (averageMode > 0) {
 		if (trayIconSetting != SETTING_TRAYICON_MULTI)
 			return Clist_TrayIconSetBaseInfo(g_clistApi.pfnGetIconFromStatusMode(0, nullptr, averageMode), nullptr);
 
-		if (db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+		if (db_get_b(0, MODULENAME, "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 			return Clist_TrayIconSetBaseInfo(g_clistApi.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto)), (char*)szChangedProto);
 
 		if (g_clistApi.trayIcon == nullptr || g_clistApi.trayIcon[0].szProto == nullptr)
@@ -512,7 +512,7 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 		case SETTING_TRAYICON_MULTI:
 			if (!g_clistApi.trayIcon)
 				Clist_TrayIconRemove(nullptr, nullptr);
-			else if ((g_clistApi.trayIconCount > 1 || netProtoCount == 1) || db_get_b(0, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
+			else if ((g_clistApi.trayIconCount > 1 || netProtoCount == 1) || db_get_b(0, MODULENAME, "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 				return Clist_TrayIconSetBaseInfo(g_clistApi.pfnGetIconFromStatusMode(0, szChangedProto, Proto_GetStatus(szChangedProto)), (char*)szChangedProto);
 			else {
 				Clist_TrayIconDestroy(g_clistApi.hwndContactList);
@@ -521,7 +521,7 @@ int fnTrayCalcChanged(const char *szChangedProto, int averageMode, int netProtoC
 			break;
 
 		case SETTING_TRAYICON_SINGLE:
-			ptrA szProto(db_get_sa(0, "CList", "PrimaryStatus"));
+			ptrA szProto(db_get_sa(0, MODULENAME, "PrimaryStatus"));
 			return Clist_TrayIconSetBaseInfo(g_clistApi.pfnGetIconFromStatusMode(0, szProto, szProto ? Proto_GetStatus(szProto) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
 		}
 	}
@@ -582,10 +582,10 @@ int fnTrayIconPauseAutoHide(WPARAM, LPARAM)
 	initcheck 0;
 	mir_cslock lck(trayLockCS);
 
-	if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+	if (db_get_b(0, MODULENAME, "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != g_clistApi.hwndContactList) {
 			KillTimer(nullptr, autoHideTimerId);
-			autoHideTimerId = SetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+			autoHideTimerId = SetTimer(nullptr, 0, 1000 * db_get_w(0, MODULENAME, "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 		}
 	}
 	return 0;
@@ -656,9 +656,9 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_ACTIVATE:
-		if (db_get_b(0, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
+		if (db_get_b(0, MODULENAME, "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 			if (LOWORD(msg->wParam) == WA_INACTIVE)
-				autoHideTimerId = SetTimer(nullptr, 0, 1000 * db_get_w(0, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+				autoHideTimerId = SetTimer(nullptr, 0, 1000 * db_get_w(0, MODULENAME, "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 			else
 				KillTimer(nullptr, autoHideTimerId);
 		}
