@@ -299,8 +299,8 @@ void __cdecl GaduProto::mainthread(void *)
 	int hostcount = 0;
 	GGHOST hosts[64];
 
-	if (m_gaduOptions.useManualHosts) {
-		CMStringW serverHosts = m_gaduOptions.serverHosts;
+	if (m_useManualHosts) {
+		CMStringW serverHosts = m_serverHosts;
 		if (!serverHosts.IsEmpty()) {
 			ptrA pHostsList(mir_u2a(serverHosts.c_str()));
 			hostcount = gg_decodehosts(pHostsList, hosts, 64);
@@ -333,7 +333,7 @@ void __cdecl GaduProto::mainthread(void *)
 	}
 
 	// Readup SSL/TLS setting
-	if (p.tls = m_gaduOptions.useSslConnection)
+	if (p.tls = m_useSslConnection)
 		debugLogA("mainthread() (%x): Using TLS/SSL for connections.", this);
 
 	// Gadu-Gadu accepts image sizes upto 255
@@ -354,8 +354,8 @@ void __cdecl GaduProto::mainthread(void *)
 	}
 
 	// Check if dcc is running and setup forwarding port
-	if (m_dcc && m_gaduOptions.useForwarding) {
-		CMStringW forwardHost = m_gaduOptions.forwardHost;
+	if (m_dcc && m_useForwarding) {
+		CMStringW forwardHost = m_forwardHost;
 		ptrA pHost(mir_u2a(forwardHost.c_str()));
 		if (!forwardHost.IsEmpty()) {
 			if (!(p.external_addr = gg_dnslookup(this, pHost))) {
@@ -366,7 +366,7 @@ void __cdecl GaduProto::mainthread(void *)
 				debugLogA("mainthread() (%x): Loading forwarding host %s and port %d.", pHost.get(), p.external_port, this);
 
 			if (p.external_addr)
-				p.external_port = m_gaduOptions.forwardPort;
+				p.external_port = m_forwardPort;
 		}
 	}
 	// Setup client port
@@ -428,13 +428,13 @@ retry:
 				perror = error;
 			}
 			debugLogW(L"mainthread() (%x): %s", this, perror);
-			if (m_gaduOptions.showConnectionErrors)
+			if (m_showConnectionErrors)
 				showpopup(m_tszUserName, perror, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
 
 			// Check if we should reconnect
 			if ((gg_failno >= GG_FAILURE_RESOLVING && gg_failno != GG_FAILURE_PASSWORD && gg_failno != GG_FAILURE_INTRUDER && gg_failno != GG_FAILURE_UNAVAILABLE)
 				&& errno == EACCES
-				&& (m_gaduOptions.autoRecconect || (hostnum < hostcount - 1)))
+				&& (m_autoRecconect || (hostnum < hostcount - 1)))
 			{
 				uint32_t dwInterval = getDword(GG_KEY_RECONNINTERVAL, GG_KEYDEF_RECONNINTERVAL);
 				BOOL bRetry = TRUE;
@@ -1145,7 +1145,7 @@ retry:
 
 	// If it was unwanted disconnection reconnect
 	if (m_iDesiredStatus != ID_STATUS_OFFLINE
-		&& m_gaduOptions.autoRecconect)
+		&& m_autoRecconect)
 	{
 		debugLogA("mainthread() (%x): Unintentional disconnection detected. Going to reconnect...", this);
 		hostnum = 0;

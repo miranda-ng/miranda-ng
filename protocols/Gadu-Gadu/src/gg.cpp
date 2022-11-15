@@ -191,9 +191,9 @@ void GaduProto::cleanuplastplugin(uint32_t version)
 	//2. force SSL and keepalive; overwrite old server list; 
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 4)) {
 		setWString("ServerHosts", GG_KEYDEF_SERVERHOSTS);
-		m_gaduOptions.useManualHosts = 1;
-		m_gaduOptions.useSslConnection = 1;
-		m_gaduOptions.keepConnectionAlive = 1;
+		m_useManualHosts = 1;
+		m_useSslConnection = 1;
+		m_keepConnectionAlive = 1;
 	}
 }
 

@@ -25,7 +25,20 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 	PROTO<GaduProto>(pszProtoName, tszUserName),
 	avatar_requests(1, NumericKeySortT),
 	avatar_transfers(1, NumericKeySortT),
-	m_gaduOptions(this)
+
+	// options
+	m_forwardPort(this, "ForwardPort", 1550),
+	m_forwardHost(this, "ForwardHost", L""),
+	m_serverHosts(this, "ServerHosts", GG_KEYDEF_SERVERHOSTS),
+	m_autoRecconect(this, "AReconnect", 0),
+	m_useForwarding(this, "Forwarding", 0),
+	m_useManualHosts(this, "ManualHost", 1),
+	m_useSslConnection(this, "SSLConnection", 1),
+	m_keepConnectionAlive(this, "KeepAlive", 1),
+	m_showConnectionErrors(this, "ShowCErrors", 0),
+	m_useDirectConnections(this, "DirectConns", 1),
+	m_directConnectionPort(this, "DirectPort", 1550),
+	m_useMsgDeliveryAcknowledge(this, "MessageAck", 1)
 {
 #ifdef DEBUGMODE
 	extendedLogging = 0;
@@ -507,7 +520,7 @@ int GaduProto::SendMsg(MCONTACT hContact, int, const char *msg)
 	gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 
 	// Auto-ack message without waiting for server ack
-	if (!m_gaduOptions.useMsgDeliveryAcknowledge)
+	if (!m_useMsgDeliveryAcknowledge)
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)seq, 0);
 
 	return seq;

@@ -45,7 +45,7 @@ void GaduProto::dccstart()
 	}
 
 	// Check if we wan't direct connections
-	if (!m_gaduOptions.useDirectConnections)
+	if (!m_useDirectConnections)
 	{
 		debugLogA("dccstart(): No direct connections setup.");
 		if (hEvent)
@@ -123,7 +123,7 @@ void __cdecl GaduProto::dccmainthread(void*)
 	}
 
 	// Create listen socket on config direct port
-	if (!(m_dcc = gg_dcc_socket_create(uin, static_cast<uint16_t>(m_gaduOptions.directConnectionPort))))
+	if (!(m_dcc = gg_dcc_socket_create(uin, static_cast<uint16_t>(m_directConnectionPort))))
 	{
 		debugLogA("dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start

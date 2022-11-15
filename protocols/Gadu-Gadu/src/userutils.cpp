@@ -204,7 +204,7 @@ void *gg_dochemail(GaduProto *gg, uin_t uin, char *password, char *email, char *
 
 ////////////////////////////////////////////////////////////////////////////////
 // User Util Dlg Page : Data
-//
+
 INT_PTR CALLBACK gg_userutildlgproc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	GGUSERUTILDLGDATA *dat = (GGUSERUTILDLGDATA *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);

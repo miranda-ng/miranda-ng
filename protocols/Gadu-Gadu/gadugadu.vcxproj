@@ -117,7 +117,6 @@
     <ClInclude Include="src\libgadu\resolver.h" />
     <ClInclude Include="src\libgadu\session.h" />
     <ClInclude Include="src\libgadu\win32.h" />
-    <ClInclude Include="src\options.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\version.h" />
   </ItemGroup>

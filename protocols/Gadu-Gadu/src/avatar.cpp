@@ -427,21 +427,23 @@ void __cdecl GaduProto::setavatarthread(void *param)
 	// send request
 	int resultSuccess = 0;
 	int needRepeat = 0;
-	NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
-	if (resp) {
-		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
-			debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
-			resultSuccess = 1;
-		}
-		else {
-			debugLogA("setavatarthread() Invalid response code from HTTP request [%d]", resp->resultCode);
-			if (resp->resultCode == 399 || resp->resultCode == 403 || resp->resultCode == 401) {
-				needRepeat = 1;
+	{
+		NLHR_PTR resp(Netlib_HttpTransaction(m_hNetlibUser, &req));
+		if (resp) {
+			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
+				debugLogA("setavatarthread(): 1 resp.data= %s", resp->pData);
+				resultSuccess = 1;
+			}
+			else {
+				debugLogA("setavatarthread() Invalid response code from HTTP request [%d]", resp->resultCode);
+				if (resp->resultCode == 399 || resp->resultCode == 403 || resp->resultCode == 401) {
+					needRepeat = 1;
+				}
 			}
 		}
-	}
-	else {
-		debugLogA("setavatarthread(): No response from HTTP request");
+		else {
+			debugLogA("setavatarthread(): No response from HTTP request");
+		}
 	}
 
 	// check if we should repeat request

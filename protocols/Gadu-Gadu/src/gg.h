@@ -276,6 +276,10 @@ extern IconItem iconList[];
 /////////////////////////////////////////////////
 // Methods
 
+void gg_optsdlgcheck(HWND m_hwnd);
+
+INT_PTR CALLBACK gg_userutildlgproc(HWND m_hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 /* Helper functions */
 const wchar_t *http_error_string(int h);
 unsigned long crc_get(char *mem);
@@ -303,7 +307,6 @@ void gg_links_init();
 const char *ggdebug_eventtype(gg_event *e);
 
 // Plugin headers
-#include "options.h" //include before protocol declaration
 #include "gg_proto.h"
 #include "resource.h"
 
