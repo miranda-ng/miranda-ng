@@ -338,11 +338,17 @@ static int is_trusted_identity(const signal_protocol_address * /*address*/, uint
 	return 1;
 }
 
+static CMStringA get_sender_setting(const signal_protocol_sender_key_name *skn)
+{
+	WAJid jid(CMStringA(skn->sender.name, (int)skn->sender.name_len));
+	return CMStringA(FORMAT, "SenderKey_%*s_%s_%d", (unsigned)skn->group_id_len, skn->group_id, jid.user.c_str(), skn->sender.device_id);
+}
+
 static int load_sender_key(signal_buffer **record, signal_buffer **, const signal_protocol_sender_key_name *skn, void *user_data)
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "SenderKey_%*s_%*s_%d", (unsigned)skn->group_id_len, skn->group_id, (unsigned)skn->sender.name_len, skn->sender.name, skn->sender.device_id);
+	CMStringA szSetting(get_sender_setting(skn));
 	MBinBuffer blob(pStore->pProto->getBlob(szSetting));
 	if (blob.isEmpty())
 		return 0;
@@ -355,7 +361,7 @@ static int store_sender_key(const signal_protocol_sender_key_name *skn, uint8_t 
 {
 	auto *pStore = (MSignalStore *)user_data;
 
-	CMStringA szSetting(FORMAT, "SenderKey_%*s_%*s_%d", (unsigned)skn->group_id_len, skn->group_id, (unsigned)skn->sender.name_len, skn->sender.name, skn->sender.device_id);
+	CMStringA szSetting(get_sender_setting(skn));
 	db_set_blob(0, pStore->pProto->m_szModuleName, szSetting, record, (unsigned)record_len);
 	return 0;
 }
