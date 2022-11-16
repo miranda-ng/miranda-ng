@@ -504,8 +504,8 @@ CMStringA MSignalSession::getSetting() const
 
 MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceId)
 {
-	MSignalSession tmp(szName, deviceId);
-	auto *pSession = arSessions.find(&tmp);
+	signal_protocol_address tmp = {szName.c_str(), szName.GetLength(), deviceId};
+	auto *pSession = getSession(&tmp);
 	if (pSession == nullptr) {
 		pSession = new MSignalSession(szName, deviceId);
 		arSessions.insert(pSession);
@@ -541,7 +541,7 @@ MSignalSession* MSignalStore::getSession(const signal_protocol_address *address)
 MBinBuffer MSignalStore::decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted)
 {
 	WAJid jid(from);
-	auto *pSession = createSession(jid.user, 0);
+	auto *pSession = createSession(jid.user, jid.device);
 
 	signal_buffer *result = nullptr;
 	if (!mir_strcmp(pszType, "pkmsg")) {
