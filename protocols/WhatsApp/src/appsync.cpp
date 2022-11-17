@@ -308,8 +308,8 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3:
 		for (int i = 0; i < pSync->n_statusv3messages;  i++) {
-			auto *pStatus = pSync->statusv3messages[i];
 			// TODO
+			// auto *pStatus = pSync->statusv3messages[i];
 		}
 		break;
 	}

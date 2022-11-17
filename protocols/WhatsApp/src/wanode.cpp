@@ -576,17 +576,23 @@ void WAWriter::writeString(const char *str)
 
 	auto *pszDelimiter = strchr(str, '@');
 	if (pszDelimiter) {
-		writeByte(JID_PAIR);
+		WAJid jid(str);
+		if (jid.device || jid.agent) {
+			writeByte(AD_JID);
+			writeByte(jid.agent);
+			writeByte(jid.device);
+			writeString(jid.user);
+		}
+		else {
+			writeByte(JID_PAIR);
 
-		if (pszDelimiter == str) // empty jid
-			writeByte(LIST_EMPTY);
-		else
-			writeString(CMStringA(str, int(pszDelimiter - str)));
+			if (jid.user.IsEmpty()) // empty user
+				writeByte(LIST_EMPTY);
+			else
+				writeString(jid.user);
 
-		if (pszDelimiter[1] == 0) // empty jid
-			writeByte(LIST_EMPTY);
-		else
-			writeString(pszDelimiter + 1);
+			writeString(jid.server);
+		}
 	}
 	else {
 		CMStringA buf(str);

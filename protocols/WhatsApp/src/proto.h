@@ -169,6 +169,8 @@ class MSignalStore
 	signal_context *m_pContext;
 	signal_protocol_store_context *m_pStore;
 
+	void importPublicKey(ec_public_key **result, MBinBuffer &buf);
+
 public:
 	PROTO_INTERFACE *pProto;
 	const char *prefix;
@@ -195,6 +197,7 @@ public:
 
 	MSignalSession* createSession(const CMStringA &szName, int deviceId);
 	MSignalSession* getSession(const signal_protocol_address *address);
+	void injectSession(const WANode *pNode);
 
 	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
@@ -350,6 +353,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqDoNothing(const WANode &node);
 	void OnIqGcGetAllMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node);
+	void OnIqGetKeys(const WANode &node);
 	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);

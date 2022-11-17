@@ -240,12 +240,12 @@ MBinBuffer decodeBufStr(const std::string &buf)
 	return res;
 }
 
-uint32_t decodeBigEndian(const ProtobufCBinaryData &buf)
+uint32_t decodeBigEndian(const uint8_t *buf, size_t len)
 {
 	uint32_t ret = 0;
-	for (int i = 0; i < buf.len; i++) {
+	for (int i = 0; i < len; i++) {
 		ret <<= 8;
-		ret += buf.data[i];
+		ret += buf[i];
 	}
 
 	return ret;

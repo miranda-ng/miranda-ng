@@ -224,7 +224,15 @@ MBinBuffer aesEncrypt(
 	const void *data, size_t dataLen,
 	const void *additionalData = 0, size_t additionalLen = 0);
 
-uint32_t    decodeBigEndian(const ProtobufCBinaryData &buf);
+uint32_t decodeBigEndian(const uint8_t *pData, size_t len);
+
+__forceinline uint32_t decodeBigEndian(const ProtobufCBinaryData &buf) { 
+	return decodeBigEndian(buf.data, buf.len);
+}
+__forceinline uint32_t decodeBigEndian(const MBinBuffer &buf) {
+	return decodeBigEndian(buf.data(), buf.length());
+}
+
 std::string encodeBigEndian(uint32_t num, size_t len = sizeof(uint32_t));
 
 void generateIV(uint8_t *iv, uint32_t &pVar);

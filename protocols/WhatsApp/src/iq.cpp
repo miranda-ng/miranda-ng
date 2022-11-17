@@ -82,6 +82,16 @@ void WhatsAppProto::OnIqDoNothing(const WANode&)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void WhatsAppProto::OnIqGetKeys(const WANode &node)
+{
+	if (auto *pList = node.getChild("list"))
+		for (auto &it : pList->getChildren())
+			if (it->title == "user")
+				m_signalStore.injectSession(it);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void WhatsAppProto::OnIqGetUsync(const WANode &node)
 {
 	m_arDevices.destroy();
@@ -92,6 +102,16 @@ void WhatsAppProto::OnIqGetUsync(const WANode &node)
 			for (auto &it : pList->getChildren())
 				if (it->title == "device")
 					m_arDevices.insert(new WAJid(pszJid, it->getAttrInt("id")));
+
+		WANodeIq iq(IQ::GET, "encrypt");
+		auto *pKey = iq.addChild("key");
+		for (auto &it : m_arDevices) {
+			auto blob = getBlob(MSignalSession(it->user, it->device).getSetting());
+			if (blob.isEmpty())
+				pKey->addChild("user")->addAttr("jid", it->toString());
+		}
+		if (pKey->getChildren().getCount() > 0)
+			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys);
 	}
 }
 

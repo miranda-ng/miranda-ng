@@ -57,6 +57,7 @@ EXPORTS
    session_cipher_set_decryption_callback
    session_cipher_set_user_data
    session_pre_key_bundle_create
+   session_pre_key_bundle_destroy
    session_pre_key_deserialize
    session_pre_key_get_id
    session_pre_key_get_key_pair

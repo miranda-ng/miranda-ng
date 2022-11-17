@@ -504,7 +504,7 @@ CMStringA MSignalSession::getSetting() const
 
 MSignalSession* MSignalStore::createSession(const CMStringA &szName, int deviceId)
 {
-	signal_protocol_address tmp = {szName.c_str(), szName.GetLength(), deviceId};
+	signal_protocol_address tmp = {szName.c_str(), (unsigned)szName.GetLength(), deviceId};
 	auto *pSession = getSession(&tmp);
 	if (pSession == nullptr) {
 		pSession = new MSignalSession(szName, deviceId);
@@ -534,6 +534,55 @@ MSignalSession* MSignalStore::getSession(const signal_protocol_address *address)
 	}
 
 	return pSession;
+}
+
+void MSignalStore::importPublicKey(ec_public_key **result, MBinBuffer &buf)
+{
+	buf.appendBefore("\x05", 1);
+	curve_decode_point(result, buf.data(), buf.length(), m_pContext);
+}
+
+void MSignalStore::injectSession(const WANode *pNode)
+{
+	WAJid jid(pNode->getAttr("jid"));
+	auto *signedKey = pNode->getChild("skey");
+	auto *key = pNode->getChild("key");
+	auto *identity = pNode->getChild("identity");
+	auto *registration = pNode->getChild("registration");
+	if (!signedKey || !key || !identity || !registration) {
+		pProto->debugLogA("Bad key data for %s", jid.toString().c_str());
+		return;
+	}
+
+	signal_protocol_address address = {jid.user.c_str(), (unsigned)jid.user.GetLength(), jid.device};
+
+	session_builder *builder;
+	logError(
+		session_builder_create(&builder, m_pStore, &address, m_pContext),
+		"unable to create session cipher");
+
+	int regId = decodeBigEndian(registration->content);
+	int preKeyId = decodeBigEndian(key->getChild("id")->content);
+	int signedPreKeyId = decodeBigEndian(signedKey->getChild("id")->content);
+
+	ec_public_key *preKeyPub, *signedPreKeyPub, *identityKey;
+	importPublicKey(&preKeyPub, key->getChild("value")->content);
+	importPublicKey(&identityKey, identity->content);
+	importPublicKey(&signedPreKeyPub, signedKey->getChild("value")->content);
+
+	auto &sign = signedKey->getChild("signature")->content;
+
+	session_pre_key_bundle *bundle;
+	logError(
+		session_pre_key_bundle_create(&bundle, regId, jid.device, preKeyId, preKeyPub, signedPreKeyId, signedPreKeyPub, sign.data(), sign.length(), identityKey),
+		"unable to create pre key bundle");
+
+	logError(
+		session_builder_process_pre_key_bundle(builder, bundle),
+		"unable to process pre key bundle");
+
+	session_pre_key_bundle_destroy((signal_type_base*)bundle);
+	session_builder_free(builder);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -696,7 +745,7 @@ MBinBuffer MSignalStore::encryptSignalProto(const WAJid &to, const MBinBuffer &b
 	MBinBuffer res;
 	auto *encBuf = ciphertext_message_get_serialized(pEncrypted);
 	res.assign(encBuf->data, encBuf->len);
-	signal_message_destroy((signal_type_base *)pEncrypted);
+	SIGNAL_UNREF(pEncrypted);
 	return res;
 }
 

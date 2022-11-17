@@ -341,6 +341,9 @@ void WhatsAppProto::OnReceiveAck(const WANode &node)
 
 bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig)
 {
+	if (jid.device == (int)getDword(DBKEY_DEVICE_ID))
+		return false;
+
 	int type = 0;
 
 	try {
