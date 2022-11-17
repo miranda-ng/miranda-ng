@@ -82,12 +82,15 @@ void WhatsAppProto::OnIqDoNothing(const WANode&)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnIqGetKeys(const WANode &node)
+void WhatsAppProto::OnIqGetKeys(const WANode &node, void *pUserInfo)
 {
-	if (auto *pList = node.getChild("list"))
-		for (auto &it : pList->getChildren())
-			if (it->title == "user")
-				m_signalStore.injectSession(it);
+	for (auto &it : node.getChild("list")->getChildren())
+		if (it->title == "user")
+			m_signalStore.injectSession(it);
+
+	// don't forget to send delayed message when all keys are retrieved
+	if (auto *pTask = (WASendTask *)pUserInfo)
+		SendTask(pTask);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -111,7 +114,7 @@ void WhatsAppProto::OnIqGetUsync(const WANode &node)
 				pKey->addChild("user")->addAttr("jid", it->toString());
 		}
 		if (pKey->getChildren().getCount() > 0)
-			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys);
+			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, nullptr);
 	}
 }
 
@@ -206,7 +209,6 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 				signal_buffer_free(result);
 			}
 
-			setDword("SignalDeviceId", 0);
 			{
 				MBinBuffer key;
 				if (accountSignatureKey.len == 32)
@@ -217,6 +219,7 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 			proto::CleanBinary(account->accountsignaturekey); account->has_accountsignaturekey = false;
 			MBinBuffer accountEnc(proto::Serialize(account));
+			db_set_blob(0, m_szModuleName, "WAAccount", accountEnc.data(), (int)accountEnc.length());
 
 			proto::ADVDeviceIdentity deviceIdentity(deviceDetails);
 
@@ -244,7 +247,10 @@ void WhatsAppProto::OnIqResult(const WANode &node)
 	if (auto *pszId = node.getAttr("id"))
 		for (auto &it : m_arPacketQueue)
 			if (it->szPacketId == pszId)
-				(this->*it->pHandler)(node);
+				if (it->pUserInfo)
+					(this->*it->pHandlerFull)(node, it->pUserInfo);
+				else
+					(this->*it->pHandler)(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -444,18 +450,8 @@ void WhatsAppProto::OnReceiveInfo(const WANode &node)
 			if (!m_bUpdatedPrekeys)
 				WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
 
-			if (m_arDevices.getCount() == 0) {
-				WANodeIq iq(IQ::GET, "usync");
-
-				auto *pNode1 = iq.addChild("usync");
-				*pNode1 << CHAR_PARAM("sid", GenerateMessageId()) << CHAR_PARAM("mode", "query") << CHAR_PARAM("last", "true")
-					<< CHAR_PARAM("index", "0") << CHAR_PARAM("context", "message");
-
-				pNode1->addChild("query")->addChild("devices")->addAttr("version", "2");
-				pNode1->addChild("list")->addChild("user")->addAttr("jid", m_szJid);
-
-				WSSendNode(iq, &WhatsAppProto::OnIqGetUsync);
-			}
+			if (m_arDevices.getCount() == 0)
+				SendUsync(m_szJid);
 
 			for (auto &it : m_arCollections) {
 				if (it->version == 0) {

@@ -399,6 +399,20 @@ void WhatsAppProto::SetServerStatus(int iStatus)
 			&WhatsAppProto::OnIqDoNothing);
 }
 
+void WhatsAppProto::SendUsync(const char *jid)
+{
+	WANodeIq iq(IQ::GET, "usync");
+
+	auto *pNode1 = iq.addChild("usync");
+	*pNode1 << CHAR_PARAM("sid", GenerateMessageId()) << CHAR_PARAM("mode", "query") << CHAR_PARAM("last", "true")
+		<< CHAR_PARAM("index", "0") << CHAR_PARAM("context", "message");
+
+	pNode1->addChild("query")->addChild("devices")->addAttr("version", "2");
+	pNode1->addChild("list")->addChild("user")->addAttr("jid", jid);
+
+	WSSendNode(iq, &WhatsAppProto::OnIqGetUsync);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void WhatsAppProto::ShutdownSession()

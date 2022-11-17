@@ -185,20 +185,10 @@ int WhatsAppProto::WSSend(const ProtobufCMessage &msg)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static char zeroData[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
-int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
+int WhatsAppProto::WSSendNode(WANode &node)
 {
 	if (m_hServerConn == nullptr)
 		return 0;
-
-	if (pHandler != nullptr) {
-		CMStringA id(GenerateMessageId());
-		node.addAttr("id", id);
-
-		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(id, pHandler));
-	}
 
 	CMStringA szText;
 	node.print(szText);
@@ -211,6 +201,36 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	MBinBuffer payload = m_noise->encodeFrame(encData.data(), encData.length());
 	WebSocket_SendBinary(m_hServerConn, payload.data(), payload.length());
 	return 1;
+}
+
+int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
+{
+	if (m_hServerConn == nullptr)
+		return 0;
+
+	CMStringA id(GenerateMessageId());
+	node.addAttr("id", id);
+	{
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(new WARequest(id, pHandler));
+	}
+
+	return WSSendNode(node);
+}
+
+int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER_FULL pHandler, void *pUserInfo)
+{
+	if (m_hServerConn == nullptr)
+		return 0;
+
+	CMStringA id(GenerateMessageId());
+	node.addAttr("id", id);
+	{
+		mir_cslock lck(m_csPacketQueue);
+		m_arPacketQueue.insert(new WARequest(id, pHandler, pUserInfo));
+	}
+
+	return WSSendNode(node);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

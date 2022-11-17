@@ -341,9 +341,6 @@ void WhatsAppProto::OnReceiveAck(const WANode &node)
 
 bool WhatsAppProto::CreateMsgParticipant(WANode *pParticipants, const WAJid &jid, const MBinBuffer &orig)
 {
-	if (jid.device == (int)getDword(DBKEY_DEVICE_ID))
-		return false;
-
 	int type = 0;
 
 	try {
@@ -366,24 +363,12 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 {
 	WAJid toJid(jid);
 
-	char szMsgId[40];
-	__int64 msgId;
-	Utils_GetRandom(&msgId, sizeof(msgId));
-	if (msgId < 0)
-		msgId = -msgId;
-	_i64toa(msgId, szMsgId, 10);
-
-	// mother node for all participants
-	WANode payLoad("message");
-	payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
-
-	auto *pParticipants = payLoad.addChild("participants");
+	// send task creation
+	auto *pTask = new WASendTask(jid);
 
 	// basic message 
 	Wa__Message body;
 	body.conversation = (char*)pszMsg;
-
-	bool shouldIncludeIdentity = false;
 
 	if (toJid.isGroup()) {
 		MBinBuffer encodedMsg(proto::Serialize(&body));
@@ -392,7 +377,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		MBinBuffer skmsgKey;
 		MBinBuffer cipherText(m_signalStore.encryptSenderKey(toJid, m_szJid, encodedMsg, skmsgKey));
 
-		auto *pEnc = payLoad.addChild("enc");
+		auto *pEnc = pTask->payLoad.addChild("enc");
 		*pEnc << CHAR_PARAM("v", "2") << CHAR_PARAM("type", "skmsg");
 		pEnc->content.append(cipherText.data(), cipherText.length());
 
@@ -405,16 +390,12 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		Wa__Message msg;
 		msg.senderkeydistributionmessage = &sentBody;
 
-		MBinBuffer encodedMeMsg(proto::Serialize(&msg));
-		padBuffer16(encodedMeMsg);
+		pTask->content.append(proto::Serialize(&msg));
 
 		if (auto *pUser = FindUser(jid))
 			if (pUser->si)
 				for (auto &it : pUser->si->arUsers)
-					shouldIncludeIdentity = CreateMsgParticipant(pParticipants, WAJid(T2Utf(it->pszUID)), encodedMeMsg);
-
-		for (auto &it : m_arDevices)
-			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, encodedMeMsg);
+					pTask->arDest.insert(new WAJid(T2Utf(it->pszUID)));
 	}
 	else {
 		Wa__Message__DeviceSentMessage sentBody;
@@ -424,24 +405,63 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 		Wa__Message msg;
 		msg.devicesentmessage = &sentBody;
 
-		MBinBuffer encodedMeMsg(proto::Serialize(&msg));
-		padBuffer16(encodedMeMsg);
+		pTask->content.append(proto::Serialize(&msg));
 
-		shouldIncludeIdentity = CreateMsgParticipant(pParticipants, toJid, encodedMeMsg);
-		for (auto &it : m_arDevices)
-			shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, encodedMeMsg);
+		pTask->arDest.insert(new WAJid(toJid));
 	}
+
+	padBuffer16(pTask->content);
+
+	for (auto &it : m_arDevices)
+		if (it->device != (int)getDword(DBKEY_DEVICE_ID))
+			pTask->arDest.insert(new WAJid(*it));
+
+	// check session presence first
+	LIST<WAJid> missingKeys(1);
+	for (auto &it : pTask->arDest) {
+		MSignalSession tmp(it->user, it->device);
+		auto blob = getBlob(tmp.getSetting());
+		if (blob.isEmpty())
+			missingKeys.insert(it);
+	}
+
+	// generate & reserve packet id
+	int pktId;
+	{
+		mir_cslock lck(m_csOwnMessages);
+		pktId = m_iPacketId++;
+		m_arOwnMsgs.insert(new WAOwnMessage(pktId, jid, pTask->szMsgId));
+	}
+
+	// if some keys are missing, schedule task for execution & retrieve keys
+	if (missingKeys.getCount()) {
+		WANodeIq iq(IQ::GET, "encrypt");
+		auto *pKey = iq.addChild("key");
+		for (auto &it: missingKeys)
+			pKey->addChild("user")->addAttr("jid", it->toString());
+		WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, pTask);
+	}
+	// otherwise simply execute the task
+	else SendTask(pTask);
+
+	return pktId;
+}
+
+void WhatsAppProto::SendTask(WASendTask *pTask)
+{
+	// pack all data and send the whole payload
+	bool shouldIncludeIdentity = false;
+	auto *pParticipants = pTask->payLoad.addChild("participants");
+
+	for (auto &it : pTask->arDest)
+		shouldIncludeIdentity |= CreateMsgParticipant(pParticipants, *it, pTask->content);
 
 	if (shouldIncludeIdentity) {
 		MBinBuffer encIdentity(m_signalStore.encodeSignedIdentity(true));
-		auto *pNode = payLoad.addChild("device-identity");
+		auto *pNode = pTask->payLoad.addChild("device-identity");
 		pNode->content.assign(encIdentity.data(), encIdentity.length());
 	}
 
-	WSSendNode(payLoad);
-	
-	mir_cslock lck(m_csOwnMessages);
-	int pktId = m_iPacketId++;
-	m_arOwnMsgs.insert(new WAOwnMessage(pktId, jid, szMsgId));
-	return pktId;
+	WSSendNode(pTask->payLoad);
+	delete pTask;
 }

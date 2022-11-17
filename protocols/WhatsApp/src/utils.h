@@ -172,6 +172,30 @@ struct WAJid
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// WASendTask
+
+struct WASendTask
+{
+	WASendTask(const char *jid) :
+		payLoad("message"),
+		arDest(1)
+	{
+		__int64 msgId;
+		Utils_GetRandom(&msgId, sizeof(msgId));
+		if (msgId < 0)
+			msgId = -msgId;
+		_i64toa(msgId, szMsgId, 10);
+
+		payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
+	}
+
+	char szMsgId[40];
+	WANode payLoad;
+	OBJLIST<WAJid> arDest;
+	MBinBuffer content;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // LT_HASH
 
 struct LT_HASH

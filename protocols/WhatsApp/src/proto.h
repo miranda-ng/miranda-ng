@@ -14,6 +14,7 @@ Copyright © 2019-22 George Hazan
 
 class WhatsAppProto;
 typedef void (WhatsAppProto:: *WA_PKT_HANDLER)(const WANode &node);
+typedef void (WhatsAppProto:: *WA_PKT_HANDLER_FULL)(const WANode &node, void *pUserInfo);
 
 struct WAMSG
 {
@@ -42,14 +43,23 @@ struct WAMediaKeys
 
 struct WARequest
 {
-	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2, void *_3 = nullptr) :
+	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2) :
 		szPacketId(_1),
 		pHandler(_2),
+		pUserInfo(nullptr)
+	{}
+
+	WARequest(const CMStringA &_1, WA_PKT_HANDLER_FULL _2, void *_3) :
+		szPacketId(_1),
+		pHandlerFull(_2),
 		pUserInfo(_3)
 	{}
 
 	CMStringA szPacketId;
-	WA_PKT_HANDLER pHandler;
+	union {
+		WA_PKT_HANDLER pHandler;
+		WA_PKT_HANDLER_FULL pHandlerFull;
+	};
 	void *pUserInfo;
 };
 
@@ -317,7 +327,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	bool WSReadPacket(const WSHeader &hdr, MBinBuffer &buf);
 	int  WSSend(const ProtobufCMessage &msg);
-	int  WSSendNode(WANode &node, WA_PKT_HANDLER = nullptr);
+	int  WSSendNode(WANode &node);
+	int  WSSendNode(WANode &node, WA_PKT_HANDLER);
+	int  WSSendNode(WANode &node, WA_PKT_HANDLER_FULL, void *pUserInfo);
 
 	MBinBuffer DownloadEncryptedFile(const char *url, const ProtobufCBinaryData &mediaKeys, const char *pszType);
 	CMStringW  GetTmpFileName(const char *pszClass, const char *addition);
@@ -331,7 +343,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
+	void SendTask(WASendTask *pTask);
 	int  SendTextMessage(const char *jid, const char *pszMsg);
+	void SendUsync(const char *jid);
 	void SetServerStatus(int iStatus);
 
 	/// Popups /////////////////////////////////////////////////////////////////////////////
@@ -353,7 +367,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqDoNothing(const WANode &node);
 	void OnIqGcGetAllMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node);
-	void OnIqGetKeys(const WANode &node);
+	void OnIqGetKeys(const WANode &node, void *pUserInfo);
 	void OnIqGetUsync(const WANode &node);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
