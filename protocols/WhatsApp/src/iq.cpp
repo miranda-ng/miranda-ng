@@ -97,7 +97,7 @@ void WhatsAppProto::OnIqGetKeys(const WANode &node, void *pUserInfo)
 			m_signalStore.injectSession(it);
 
 	// don't forget to send delayed message when all keys are retrieved
-	if (pUserInfo != INVALID_HANDLE_VALUE)
+	if (pUserInfo)
 		SendTask((WASendTask *)pUserInfo);
 }
 
@@ -122,7 +122,7 @@ void WhatsAppProto::OnIqGetUsync(const WANode &node)
 				pKey->addChild("user")->addAttr("jid", it->toString());
 		}
 		if (pKey->getChildren().getCount() > 0)
-			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, INVALID_HANDLE_VALUE);
+			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, nullptr);
 	}
 }
 
@@ -252,13 +252,15 @@ void WhatsAppProto::OnIqPairSuccess(const WANode &node)
 
 void WhatsAppProto::OnIqResult(const WANode &node)
 {
-	if (auto *pszId = node.getAttr("id"))
-		for (auto &it : m_arPacketQueue)
-			if (it->szPacketId == pszId)
-				if (it->pUserInfo)
-					(this->*it->pHandlerFull)(node, it->pUserInfo);
-				else
-					(this->*it->pHandler)(node);
+	if (auto *pszId = node.getAttr("id")) {
+		for (auto &it : m_arPacketQueue) {
+			if (it->szPacketId == pszId) {
+				it->Execute(this, node);
+				m_arPacketQueue.remove(it);
+				break;
+			}
+		}
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

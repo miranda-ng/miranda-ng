@@ -32,6 +32,11 @@ static int CompareCollections(const WACollection *p1, const WACollection *p2)
 	return strcmp(p1->szName, p2->szName);
 }
 
+static int CompareRequests(const WARequestBase *p1, const WARequestBase *p2)
+{
+	return strcmp(p1->szPacketId, p2->szPacketId);
+}
+
 WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	PROTO<WhatsAppProto>(proto_name, username),
 	m_impl(*this),
@@ -42,7 +47,7 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_arDevices(1),
 	m_arOwnMsgs(1, CompareOwnMsgs),
 	m_arPersistent(1),
-	m_arPacketQueue(10),
+	m_arPacketQueue(10, CompareRequests),
 	m_arCollections(10, CompareCollections),
 
 	m_wszNick(this, "Nick"),

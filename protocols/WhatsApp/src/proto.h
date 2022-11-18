@@ -41,27 +41,56 @@ struct WAMediaKeys
 	uint8_t macKey[64];
 };
 
-struct WARequest
+/////////////////////////////////////////////////////////////////////////////////////////
+// own requests
+
+struct WARequestBase
 {
-	WARequest(const CMStringA &_1, WA_PKT_HANDLER _2) :
-		szPacketId(_1),
-		pHandler(_2),
-		pUserInfo(nullptr)
+	WARequestBase(const CMStringA &_1) :
+		szPacketId(_1)
+	{}
+	virtual ~WARequestBase() {}
+
+	CMStringA szPacketId;
+
+	virtual void Execute(WhatsAppProto *ppro, const WANode &node) = 0;
+};
+
+class WARequestSimple : public WARequestBase
+{
+	WA_PKT_HANDLER pHandler;
+
+public:
+	WARequestSimple(const CMStringA &_1, WA_PKT_HANDLER _2) :
+		WARequestBase(_1),
+		pHandler(_2)
 	{}
 
-	WARequest(const CMStringA &_1, WA_PKT_HANDLER_FULL _2, void *_3) :
-		szPacketId(_1),
-		pHandlerFull(_2),
+	void Execute(WhatsAppProto *ppro, const WANode &node) override
+	{
+		(ppro->*pHandler)(node);
+	}
+};
+
+class WARequestParam : public WARequestBase
+{
+	WA_PKT_HANDLER_FULL pHandler;
+	void *pUserInfo;
+
+public:
+	WARequestParam(const CMStringA &_1, WA_PKT_HANDLER_FULL _2, void *_3) :
+		WARequestBase(_1),
+		pHandler(_2),
 		pUserInfo(_3)
 	{}
 
-	CMStringA szPacketId;
-	union {
-		WA_PKT_HANDLER pHandler;
-		WA_PKT_HANDLER_FULL pHandlerFull;
-	};
-	void *pUserInfo;
+	void Execute(WhatsAppProto *ppro, const WANode &node) override
+	{
+		(ppro->*pHandler)(node, pUserInfo);
+	}
 };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct WAPersistentHandler
 {
@@ -310,7 +339,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	HNETLIBCONN m_hServerConn;
 
 	mir_cs m_csPacketQueue;
-	OBJLIST<WARequest> m_arPacketQueue;
+	OBJLIST<WARequestBase> m_arPacketQueue;
 
 	LIST<WAPersistentHandler> m_arPersistent;
 	WA_PKT_HANDLER FindPersistentHandler(const WANode &node);

@@ -212,7 +212,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER pHandler)
 	node.addAttr("id", id);
 	{
 		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(id, pHandler));
+		m_arPacketQueue.insert(new WARequestSimple(id, pHandler));
 	}
 
 	return WSSendNode(node);
@@ -227,7 +227,7 @@ int WhatsAppProto::WSSendNode(WANode &node, WA_PKT_HANDLER_FULL pHandler, void *
 	node.addAttr("id", id);
 	{
 		mir_cslock lck(m_csPacketQueue);
-		m_arPacketQueue.insert(new WARequest(id, pHandler, pUserInfo));
+		m_arPacketQueue.insert(new WARequestParam(id, pHandler, pUserInfo));
 	}
 
 	return WSSendNode(node);
