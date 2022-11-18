@@ -97,8 +97,8 @@ void WhatsAppProto::OnIqGetKeys(const WANode &node, void *pUserInfo)
 			m_signalStore.injectSession(it);
 
 	// don't forget to send delayed message when all keys are retrieved
-	if (auto *pTask = (WASendTask *)pUserInfo)
-		SendTask(pTask);
+	if (pUserInfo != INVALID_HANDLE_VALUE)
+		SendTask((WASendTask *)pUserInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ void WhatsAppProto::OnIqGetUsync(const WANode &node)
 				pKey->addChild("user")->addAttr("jid", it->toString());
 		}
 		if (pKey->getChildren().getCount() > 0)
-			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, nullptr);
+			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, INVALID_HANDLE_VALUE);
 	}
 }
 
