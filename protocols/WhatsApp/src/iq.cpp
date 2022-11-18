@@ -11,9 +11,17 @@ void WhatsAppProto::OnAccountSync(const WANode &node)
 {
 	m_arDevices.destroy();
 
-	for (auto &it : node.getChild("devices")->getChildren())
-		if (it->title == "device")
-			m_arDevices.insert(new WAJid(it->getAttr("jid"), it->getAttrInt("key-index")));
+	if (auto *pList = node.getChild("devices"))
+		for (auto &it : pList->getChildren())
+			if (it->title == "device")
+				m_arDevices.insert(new WAJid(it->getAttr("jid"), it->getAttrInt("key-index")));
+
+	if (auto *pList = node.getChild("blocklist"))
+		for (auto &it : pList->getChildren())
+			if (it->title == "item") {
+				auto *pUser = AddUser(it->getAttr("jid"), false);
+				Contact::Hide(pUser->hContact, 0 == mir_strcmp(it->getAttr("action"), "block"));
+			}
 
 	SendAck(node);
 }
