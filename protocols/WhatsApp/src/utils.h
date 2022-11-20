@@ -180,11 +180,10 @@ struct WASendTask
 		payLoad("message"),
 		arDest(1)
 	{
-		__int64 msgId;
+		uint8_t msgId[8];
 		Utils_GetRandom(&msgId, sizeof(msgId));
-		if (msgId < 0)
-			msgId = -msgId;
-		_i64toa(msgId, szMsgId, 10);
+		bin2hex(msgId, sizeof(msgId), szMsgId);
+		strupr(szMsgId);
 
 		payLoad << CHAR_PARAM("id", szMsgId) << CHAR_PARAM("type", "text") << CHAR_PARAM("to", jid);
 	}

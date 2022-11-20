@@ -518,17 +518,17 @@ static BYTE packNibble(char c)
 
 static BYTE packHex(char c)
 {
-	if (c == 0)
-		return 15;
-
 	if (c >= '0' && c <= '9')
 		return c - '0';
 
 	if (c >= 'A' && c <= 'F')
-		return c - 'A';
+		return 10 + c - 'A';
 
 	if (c >= 'a' && c <= 'f')
-		return c - 'a';
+		return 10 + c - 'a';
+
+	if (c == 0)
+		return 15;
 
 	return -1;
 }
@@ -547,7 +547,7 @@ static bool isNibble(const CMStringA &str)
 
 static bool isHex(const CMStringA &str)
 {
-	return strspn(str, "0123456789abcdefABCDEF-.") == str.GetLength();
+	return strspn(str, "0123456789abcdefABCDEF") == str.GetLength();
 }
 
 void WAWriter::writePacked(const CMStringA &str, int tag)
