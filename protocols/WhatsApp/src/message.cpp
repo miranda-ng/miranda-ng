@@ -21,13 +21,13 @@ void WhatsAppProto::OnReceiveMessage(const WANode &node)
 		return;
 	}
 
+	SendAck(node);
+
 	MEVENT hEvent = db_event_getById(m_szModuleName, msgId);
 	if (hEvent) {
 		debugLogA("this message is already processed: %s", msgId);
 		return;
 	}
-
-	SendAck(node);
 
 	WAMSG type;
 	WAJid jid(msgFrom);
@@ -367,8 +367,11 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	auto *pTask = new WASendTask(jid);
 
 	// basic message 
+	Wa__Message__ExtendedTextMessage extMessage;
+	extMessage.text = (char *)pszMsg;
+
 	Wa__Message body;
-	body.conversation = (char*)pszMsg;
+	body.extendedtextmessage = &extMessage;
 
 	if (toJid.isGroup()) {
 		MBinBuffer encodedMsg(proto::Serialize(&body));
