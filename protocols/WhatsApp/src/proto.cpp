@@ -44,7 +44,6 @@ WhatsAppProto::WhatsAppProto(const char *proto_name, const wchar_t *username) :
 	m_szJid(getMStringA(DBKEY_ID)),
 	m_tszDefaultGroup(getWStringA(DBKEY_DEF_GROUP)),
 	m_arUsers(10, CompareUsers),
-	m_arDevices(1),
 	m_arOwnMsgs(1, CompareOwnMsgs),
 	m_arPersistent(1),
 	m_arPacketQueue(10, CompareRequests),

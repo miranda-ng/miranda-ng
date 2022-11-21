@@ -542,12 +542,12 @@ void MSignalStore::importPublicKey(ec_public_key **result, MBinBuffer &buf)
 	curve_decode_point(result, buf.data(), buf.length(), m_pContext);
 }
 
-void MSignalStore::injectSession(const WANode *pNode)
+void MSignalStore::injectSession(const char *szJid, const WANode *pNode, const WANode *pKey)
 {
-	WAJid jid(pNode->getAttr("jid"));
-	auto *signedKey = pNode->getChild("skey");
-	auto *key = pNode->getChild("key");
-	auto *identity = pNode->getChild("identity");
+	WAJid jid(szJid);
+	auto *signedKey = pKey->getChild("skey");
+	auto *key = pKey->getChild("key");
+	auto *identity = pKey->getChild("identity");
 	auto *registration = pNode->getChild("registration");
 	if (!signedKey || !key || !identity || !registration) {
 		pProto->debugLogA("Bad key data for %s", jid.toString().c_str());

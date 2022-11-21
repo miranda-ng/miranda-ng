@@ -9,12 +9,14 @@ Copyright © 2019-22 George Hazan
 
 void WhatsAppProto::OnAccountSync(const WANode &node)
 {
-	m_arDevices.destroy();
+	if (auto *pList = node.getChild("devices")) {
+		auto *pUser = FindUser(m_szJid);
+		pUser->arDevices.destroy();
 
-	if (auto *pList = node.getChild("devices"))
 		for (auto &it : pList->getChildren())
 			if (it->title == "device")
-				m_arDevices.insert(new WAJid(it->getAttr("jid"), it->getAttrInt("key-index")));
+				pUser->arDevices.insert(new WAJid(it->getAttr("jid"), it->getAttrInt("key-index")));
+	}
 
 	if (auto *pList = node.getChild("blocklist"))
 		for (auto &it : pList->getChildren())
@@ -94,35 +96,42 @@ void WhatsAppProto::OnIqGetKeys(const WANode &node, void *pUserInfo)
 {
 	for (auto &it : node.getChild("list")->getChildren())
 		if (it->title == "user")
-			m_signalStore.injectSession(it);
+			m_signalStore.injectSession(it->getAttr("jid"), it, it);
 
 	// don't forget to send delayed message when all keys are retrieved
 	if (pUserInfo)
-		SendTask((WASendTask *)pUserInfo);
+		FinishTask((WASendTask *)pUserInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void WhatsAppProto::OnIqGetUsync(const WANode &node)
+void WhatsAppProto::OnIqGetUsync(const WANode &node, void *pUserInfo)
 {
-	m_arDevices.destroy();
-
 	if (auto *nUser = node.getChild("usync")->getChild("list")->getChild("user")) {
 		auto *pszJid = nUser->getAttr("jid");
+
+		auto *pUser = AddUser(pszJid, false);
+		pUser->bDeviceInit = true;
+		pUser->arDevices.destroy();
+
 		if (auto *pList = nUser->getChild("devices")->getChild("device-list"))
 			for (auto &it : pList->getChildren())
 				if (it->title == "device")
-					m_arDevices.insert(new WAJid(pszJid, it->getAttrInt("id")));
+					pUser->arDevices.insert(new WAJid(pszJid, it->getAttrInt("id")));
 
 		WANodeIq iq(IQ::GET, "encrypt");
 		auto *pKey = iq.addChild("key");
-		for (auto &it : m_arDevices) {
+		for (auto &it : pUser->arDevices) {
 			auto blob = getBlob(MSignalSession(it->user, it->device).getSetting());
 			if (blob.isEmpty())
 				pKey->addChild("user")->addAttr("jid", it->toString());
 		}
+		
 		if (pKey->getChildren().getCount() > 0)
-			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, nullptr);
+			WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, pUserInfo);
+		else if (pUserInfo)
+			FinishTask((WASendTask *)pUserInfo);
+		
 	}
 }
 
@@ -460,8 +469,9 @@ void WhatsAppProto::OnReceiveInfo(const WANode &node)
 			if (!m_bUpdatedPrekeys)
 				WSSendNode(WANodeIq(IQ::GET, "encrypt") << XCHILD("count"), &WhatsAppProto::OnIqCountPrekeys);
 
-			if (m_arDevices.getCount() == 0)
-				SendUsync(m_szJid);
+			auto *pUser = FindUser(m_szJid);
+			if (pUser->arDevices.getCount() == 0)
+				SendUsync(m_szJid, nullptr);
 
 			for (auto &it : m_arCollections) {
 				if (it->version == 0) {
@@ -491,6 +501,13 @@ void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bR
 
 void WhatsAppProto::OnReceiveReceipt(const WANode &node)
 {
+	if (!mir_strcmp(node.getAttr("type"), "retry")) {
+		for (auto &it : node.getChildren())
+			if (it->title == "keys")
+				m_signalStore.injectSession(node.getAttr("from"), &node, it);
+		return;
+	}
+
 	if (auto *pUser = FindUser(node.getAttr("from"))) {
 		bool bRead = mir_strcmp(node.getAttr("type"), "read") == 0;
 		ProcessReceipt(pUser->hContact, node.getAttr("id"), bRead);

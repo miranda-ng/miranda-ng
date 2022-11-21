@@ -399,7 +399,7 @@ void WhatsAppProto::SetServerStatus(int iStatus)
 			&WhatsAppProto::OnIqDoNothing);
 }
 
-void WhatsAppProto::SendUsync(const char *jid)
+void WhatsAppProto::SendUsync(const char *jid, void *pUserInfo)
 {
 	WANodeIq iq(IQ::GET, "usync");
 
@@ -410,7 +410,7 @@ void WhatsAppProto::SendUsync(const char *jid)
 	pNode1->addChild("query")->addChild("devices")->addAttr("version", "2");
 	pNode1->addChild("list")->addChild("user")->addAttr("jid", jid);
 
-	WSSendNode(iq, &WhatsAppProto::OnIqGetUsync);
+	WSSendNode(iq, &WhatsAppProto::OnIqGetUsync, pUserInfo);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

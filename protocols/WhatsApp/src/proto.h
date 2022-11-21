@@ -107,7 +107,8 @@ struct WAUser
 	WAUser(MCONTACT _1, const char *_2, bool _3 = false) :
 		hContact(_1),
 		szId(mir_strdup(_2)),
-		bIsGroupChat(_3)
+		bIsGroupChat(_3),
+		arDevices(1)
 	{
 	}
 
@@ -119,8 +120,9 @@ struct WAUser
 	MCONTACT hContact;
 	DWORD dwModifyTag = 0;
 	char *szId;
-	bool bInited = false, bIsGroupChat;
+	bool bInited = false, bIsGroupChat, bDeviceInit = false;
 	SESSION_INFO *si = 0;
+	OBJLIST<WAJid> arDevices;
 	time_t m_timer1 = 0, m_timer2 = 0;
 };
 
@@ -236,7 +238,7 @@ public:
 
 	MSignalSession* createSession(const CMStringA &szName, int deviceId);
 	MSignalSession* getSession(const signal_protocol_address *address);
-	void injectSession(const WANode *pNode);
+	void injectSession(const char *szJid, const WANode *pNode, const WANode *pKey);
 
 	MBinBuffer decryptSignalProto(const CMStringA &from, const char *pszType, const MBinBuffer &encrypted);
 	MBinBuffer decryptGroupSignalProto(const CMStringA &from, const CMStringA &author, const MBinBuffer &encrypted);
@@ -315,8 +317,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	mir_cs m_csOwnMessages;
 	OBJLIST<WAOwnMessage> m_arOwnMsgs;
 
-	OBJLIST<WAJid> m_arDevices;
-
 	WAUser* FindUser(const char *szId);
 	WAUser* AddUser(const char *szId, bool bTemporary);
 
@@ -372,10 +372,12 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
-	void SendTask(WASendTask *pTask);
 	int  SendTextMessage(const char *jid, const char *pszMsg);
-	void SendUsync(const char *jid);
+	void SendUsync(const char *jid, void *pUserInfo);
 	void SetServerStatus(int iStatus);
+
+	void FinishTask(WASendTask *pTask);
+	void SendTask(WASendTask *pTask);
 
 	/// Popups /////////////////////////////////////////////////////////////////////////////
 
@@ -397,7 +399,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void OnIqGcGetAllMetadata(const WANode &node);
 	void OnIqGetAvatar(const WANode &node);
 	void OnIqGetKeys(const WANode &node, void *pUserInfo);
-	void OnIqGetUsync(const WANode &node);
+	void OnIqGetUsync(const WANode &node, void *pUserInfo);
 	void OnIqPairDevice(const WANode &node);
 	void OnIqPairSuccess(const WANode &node);
 	void OnIqResult(const WANode &node);

@@ -200,7 +200,8 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	else
 		chatId = (participant) ? participant : key->remotejid;
 
-	WAUser *pUser = AddUser(chatId, false);
+	WAJid jidFrom(chatId); jidFrom.device = 0;
+	WAUser *pUser = AddUser(jidFrom.toString(), false);
 
 	if (!key->fromme && msg.pushname && pUser && !pUser->bIsGroupChat)
 		setUString(pUser->hContact, "Nick", msg.pushname);
@@ -373,6 +374,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	Wa__Message body;
 	body.extendedtextmessage = &extMessage;
 
+	bool bNeedsCheck = false;
 	if (toJid.isGroup()) {
 		MBinBuffer encodedMsg(proto::Serialize(&body));
 		padBuffer16(encodedMsg);
@@ -410,23 +412,21 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 
 		pTask->content.append(proto::Serialize(&msg));
 
-		pTask->arDest.insert(new WAJid(toJid));
+		if (auto *pUser = FindUser(jid)) {
+			if (pUser->bDeviceInit) {
+				for (auto &it : pUser->arDevices)
+					pTask->arDest.insert(new WAJid(*it));
+			}
+			else bNeedsCheck = true;
+		}
 	}
 
 	padBuffer16(pTask->content);
 
-	for (auto &it : m_arDevices)
+	auto *pOwnUser = FindUser(m_szJid);
+	for (auto &it : pOwnUser->arDevices)
 		if (it->device != (int)getDword(DBKEY_DEVICE_ID))
 			pTask->arDest.insert(new WAJid(*it));
-
-	// check session presence first
-	LIST<WAJid> missingKeys(1);
-	for (auto &it : pTask->arDest) {
-		MSignalSession tmp(it->user, it->device);
-		auto blob = getBlob(tmp.getSetting());
-		if (blob.isEmpty())
-			missingKeys.insert(it);
-	}
 
 	// generate & reserve packet id
 	int pktId;
@@ -437,17 +437,21 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	}
 
 	// if some keys are missing, schedule task for execution & retrieve keys
-	if (missingKeys.getCount()) {
-		WANodeIq iq(IQ::GET, "encrypt");
-		auto *pKey = iq.addChild("key");
-		for (auto &it: missingKeys)
-			pKey->addChild("user")->addAttr("jid", it->toString());
-		WSSendNode(iq, &WhatsAppProto::OnIqGetKeys, pTask);
-	}
-	// otherwise simply execute the task
-	else SendTask(pTask);
+	if (bNeedsCheck)
+		SendUsync(jid, pTask);
+	else // otherwise simply execute the task
+		SendTask(pTask);
 
 	return pktId;
+}
+
+void WhatsAppProto::FinishTask(WASendTask *pTask)
+{
+	if (auto *pUser = FindUser(pTask->payLoad.getAttr("to")))
+		for (auto &it : pUser->arDevices)
+			pTask->arDest.insert(new WAJid(*it));
+
+	SendTask(pTask);
 }
 
 void WhatsAppProto::SendTask(WASendTask *pTask)
