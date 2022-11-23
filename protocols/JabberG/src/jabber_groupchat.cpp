@@ -1015,8 +1015,8 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 
 	if ((n = XmlFirstChild(node, "subject")) != nullptr) {
 		msgText = n->GetText();
-		if (msgText == nullptr || msgText[0] == '\0')
-			return;
+		if (msgText == nullptr)
+			msgText = "";
 
 		gce.iType = GC_EVENT_TOPIC;
 
