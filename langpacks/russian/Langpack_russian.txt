@@ -78,16 +78,14 @@ Last-Modified-Using: Miranda NG 0.96.1
 Удалить %s из списка?
 [This will erase all history and settings for this contact!]
 Будет удалена вся история и все настройки для данного контакта!
+[Contact list sorting]
+Сортировка списка контактов
 [Sort contacts by name]
 Сортировка по имени
 [Sort contacts by status]
 Сортировка по статусу
 [Sort contacts by protocol]
 Сортировка по протоколу
-[Disable icon blinking]
-Выключить мигание
-[ms delay]
-Задержка (мс)
 [Show]
 Показать
 [icon when statuses differ]
@@ -100,14 +98,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 Несколько значков
 [Only when statuses differ]
 При разных статусах
-[System tray icon]
-Значок в трее
 [System tray icon when using multiple protocols]
 Значки протоколов в системном трее
-[Contact list sorting]
-Сортировка списка контактов
-[Don't move offline user to bottom]
-Не перемещать отключённых вниз
 [Window]
 Окно
 [Always on top]
@@ -1138,12 +1130,16 @@ UIN, E-mail и т.д.
 Подтверждение удаления
 [Remove temporary contacts on exit]
 Удалять временные контакты при выходе
+[Enable icon blinking]
+Включить мигание
 [Search works as filter]
 Поиск по списку контактов с фильтрацией результатов
 ['Hide offline' means to hide:]
 'Скрыть отключённых' - скрыть:
 [Tray]
 Трей
+[ms delay]
+Задержка (мс)
 [Single click interface]
 Один щелчок
 [Always show status in tooltip]
@@ -2502,6 +2498,8 @@ xСтатус
 Загрузка... %d%%
 [%s options]
 Настройки %s
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+Для изменения настроек обратитесь к своему системному администратору.
 [Miranda NG options]
 Настройки Miranda NG
 [Avatars]
@@ -6448,10 +6446,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть полосу прокрутки
 [Fade out entire list when:]
 Затемнить весь список когда:
-[Disable icon blinking]
-Выключить мигание
-[ms, delay between icon blinking]
-мс, между миганиями значка
 [System tray icon]
 Значок в трее
 [Use xStatus icon]
@@ -7151,12 +7145,6 @@ Angeli-Ka (графика), FYR (шаблон)
 Показ. кнопки меню и статуса
 [Draw sunken edge]
 Утопленный край
-[System tray icon]
-Значок в трее
-[Disable icon blinking]
-Выключить мигание
-[ms]
-мс
 [Event area]
 Область событий
 [Set base visibility on the frames menu]
@@ -10580,28 +10568,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Вы подключены из другого места
 [Incoming image]
 Входящее изображение
-[<Last Status>]
-<Последний статус>
-[System tray icon]
-Значок в трее
-[Popup window]
-Всплывающее окно
-[Message with [img] BBCode]
-Сообщение с тегом [img]
-[You need to specify your registration e-mail first.]
-Необходимо указать свой e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
-[Network]
-Сеть
-[General]
-Общее
-[Conference]
-Комната чата
-[Advanced]
-Дополнительно
 [HTTP failed memory]
 HTTP ошибка памяти
 [HTTP failed connecting]
@@ -10618,6 +10584,8 @@ HTTP неизвестная ошибка
 &Разблокировать
 [&Block]
 &Блокировать
+[Conference]
+Комната чата
 [Contact list]
 Список контактов
 [Images]
@@ -10734,12 +10702,32 @@ HTTP неизвестная ошибка
 Выбор учётной записи Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
+[<Last Status>]
+<Последний статус>
+[System tray icon]
+Значок в трее
+[Popup window]
+Всплывающее окно
+[Message with [img] BBCode]
+Сообщение с тегом [img]
+[You need to specify your registration e-mail first.]
+Необходимо указать свой e-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
 [Allow]
 Разрешить
 [Ask]
 Спросить
 [Ignore]
 Игнорировать
+[Network]
+Сеть
+[General]
+Общее
+[Advanced]
+Дополнительно
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Не удалось напомнить пароль из-за ошибки:\n\t%s (Ошибка: %d)
 [Password was sent to your e-mail.]
@@ -13691,12 +13679,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Интервал проверки приятелей установлен по умолчанию
 [The time interval for the buddy check function is now %u seconds]
 Интервал проверки приятелей равен %u секунд(ам)
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Эта команда не рекомендована для сети такого размера!\r\nЭто может занять ресурсы системы примерно от %u до %u минут.\r\nХотите продолжить?
-[IRC warning]
-Предупреждение IRC
-[Aborted]
-Отменено
 [CTCP %s request sent to %s]
 СТСР %s запрос послан для %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -14059,6 +14041,8 @@ Nickserv убить фантома
 Установить тему для комнаты чата
 [You have not applied all changes!\n\nApply before exiting?]
 Вы не применили изменения!\n\nПрименить перед выходом?
+[IRC warning]
+Предупреждение IRC
 [Add ban]
 Добавить бан
 [Add invite]
@@ -24981,6 +24965,8 @@ URI объект
 Окно в стиле IEView
 [Horizontal sorting]
 Горизонтальная сортировка
+[Download more smileys]
+Скачать смайлы
 [Specify smiley pack for each category]
 Категории с разными наборами смайлов
 [Name:]
@@ -27700,6 +27686,8 @@ UID: %s (Shift+клик -> копировать в буфер)\nКлик - ин�
 На панели кнопок
 [Error feedback]
 Ошибки доставки сообщений
+[Enable error popups on sending failures]
+Включить всплывающие сообщения о неудачной отправке
 [Choose status modes]
 Выбор режимов статуса
 [General]
@@ -35052,12 +35040,18 @@ URL:
 Использовать BBCode
 [Invite users]
 Пригласить пользователей
+[Choose a user]
+Выбрать пользователя
+[Other user:]
+Другой пользователь:
 [&Invite]
 &Пригласить
 [Cancel]
 Отмена
 [Owner]
 Владелец
+[SuperAdmin]
+СуперАдмин
 [Admin]
 Админ
 [Participant]

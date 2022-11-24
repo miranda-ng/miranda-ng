@@ -206,29 +206,6 @@ Miranda не может распознать имя сервера Gadu-Gadu п�
 Вы подключены из другого места
 [Incoming image]
 Входящее изображение
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Последний статус>
-[System tray icon]
-Значок в трее
-[Popup window]
-Всплывающее окно
-[Message with [img] BBCode]
-Сообщение с тегом [img]
-[You need to specify your registration e-mail first.]
-Необходимо указать свой e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
-[Network]
-Сеть
-[General]
-Общее
-[Conference]
-Комната чата
-[Advanced]
-Дополнительно
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -251,6 +228,8 @@ HTTP неизвестная ошибка
 &Разблокировать
 [&Block]
 &Блокировать
+[Conference]
+Комната чата
 [Contact list]
 Список контактов
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ HTTP неизвестная ошибка
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Последний статус>
+[System tray icon]
+Значок в трее
+[Popup window]
+Всплывающее окно
+[Message with [img] BBCode]
+Сообщение с тегом [img]
+[You need to specify your registration e-mail first.]
+Необходимо указать свой e-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будет выслан на регистрационный e-mail.\nПродолжить?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Вы должны отключиться перед изменением параметров пользователя.\nПроизвести отключение?
 [Allow]
 Разрешить
 [Ask]
 Спросить
 [Ignore]
 Игнорировать
+[Network]
+Сеть
+[General]
+Общее
+[Advanced]
+Дополнительно
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Не удалось напомнить пароль из-за ошибки:\n\t%s (Ошибка: %d)

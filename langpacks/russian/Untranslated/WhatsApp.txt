@@ -1,5 +1,0 @@
-[Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it]
-[Choose a user]
-[Other user:]
-[SuperAdmin]
-[This account was logged out from another device, you need to register it again]

@@ -10,8 +10,8 @@
 ;file \protocols\WhatsApp\res\whatsapp.rc
 [Sign in using QR code]
 Войти с помощью QR-кода
-[Open WhatsApp application on your mobile phone and use it to read this QR code.\nA window will disappear automatically after it]
-
+[Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
+Откройте приложение WhatsApp на мобильном телефоне, выберите "Связанные устройства" и отсканируйте этот QR-кол.\nПосле этого окно автоматически закроется.
 [Nick:]
 Ник:
 [Default group:]
@@ -25,9 +25,9 @@
 [Invite users]
 Пригласить пользователей
 [Choose a user]
-
+Выбрать пользователя
 [Other user:]
-
+Другой пользователь:
 [&Invite]
 &Пригласить
 [Cancel]
@@ -36,7 +36,7 @@
 [Owner]
 Владелец
 [SuperAdmin]
-
+СуперАдмин
 [Admin]
 Админ
 [Participant]
@@ -57,8 +57,8 @@ WhatsApp (HTTP)
 [Error]
 Ошибка
 ;file \protocols\WhatsApp\src\server.cpp
-[This account was logged out from another device, you need to register it again]
-
+[This account was logged out from mobile phone, you need to link it again]
+Учётная запись была отвязана от мобильного устройства, необходимо связать устройства снова
 ;file \protocols\WhatsApp\src\utils.cpp
 [%s error notifications]
 Уведомления об ошибках %s

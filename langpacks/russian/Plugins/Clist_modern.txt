@@ -272,10 +272,6 @@ Ctrl+Левый клик вкл. фильтр по протоколу, клик 
 Скрыть полосу прокрутки
 [Fade out entire list when:]
 Затемнить весь список когда:
-[Disable icon blinking]
-Выключить мигание
-[ms, delay between icon blinking]
-мс, между миганиями значка
 [System tray icon]
 Значок в трее
 [Use xStatus icon]

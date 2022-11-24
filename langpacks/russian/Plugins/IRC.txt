@@ -359,12 +359,6 @@ DCC: Запрос на продолжение закачки файла от %s 
 Интервал проверки приятелей установлен по умолчанию
 [The time interval for the buddy check function is now %u seconds]
 Интервал проверки приятелей равен %u секунд(ам)
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Эта команда не рекомендована для сети такого размера!\r\nЭто может занять ресурсы системы примерно от %u до %u минут.\r\nХотите продолжить?
-[IRC warning]
-Предупреждение IRC
-[Aborted]
-Отменено
 [CTCP %s request sent to %s]
 СТСР %s запрос послан для %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Nickserv убить фантома
 Установить тему для комнаты чата
 [You have not applied all changes!\n\nApply before exiting?]
 Вы не применили изменения!\n\nПрименить перед выходом?
+[IRC warning]
+Предупреждение IRC
 [Add ban]
 Добавить бан
 [Add invite]
