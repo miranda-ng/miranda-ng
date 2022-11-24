@@ -296,9 +296,7 @@ void generateIV(uint8_t *iv, uint32_t &pVar)
 
 void padBuffer16(MBinBuffer &buf)
 {
-	uint8_t c = buf.length() % 16;
-	if (c == 0)
-		c = 16;
+	uint8_t c = 16 - buf.length() % 16;
 
 	for (uint8_t i = 0; i < c; i++)
 		buf.append(&c, 1);
