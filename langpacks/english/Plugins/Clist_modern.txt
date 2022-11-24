@@ -139,8 +139,6 @@
 [milliseconds]
 [Hide vertical scrollbar]
 [Fade out entire list when:]
-[Disable icon blinking]
-[ms, delay between icon blinking]
 [System tray icon]
 [Use xStatus icon]
 [Icon mode]
