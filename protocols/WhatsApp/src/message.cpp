@@ -374,7 +374,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	Wa__Message body;
 	body.extendedtextmessage = &extMessage;
 
-	bool bNeedsCheck = false;
+	LIST<char> arCheckList(1);
 	if (toJid.isGroup()) {
 		MBinBuffer encodedMsg(proto::Serialize(&body));
 		padBuffer16(encodedMsg);
@@ -397,10 +397,21 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 
 		pTask->content.append(proto::Serialize(&msg));
 
-		if (auto *pUser = FindUser(jid))
-			if (pUser->si)
-				for (auto &it : pUser->si->arUsers)
-					pTask->arDest.insert(new WAJid(T2Utf(it->pszUID)));
+		if (auto *pChatUser = FindUser(jid)) {
+			if (pChatUser->si) {
+				for (auto &it : pChatUser->si->arUsers) {
+					T2Utf userJid(it->pszUID);
+					auto *pUser = FindUser(jid);
+					if (pUser == nullptr)
+						m_arUsers.insert(pUser = new WAUser(INVALID_CONTACT_ID, userJid, false));
+					if (pUser->bDeviceInit) {
+						for (auto &jt : pUser->arDevices)
+							pTask->arDest.insert(new WAJid(*jt));
+					}
+					else arCheckList.insert(mir_strdup(userJid));
+				}
+			}
+		}
 	}
 	else {
 		Wa__Message__DeviceSentMessage sentBody;
@@ -417,7 +428,7 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 				for (auto &it : pUser->arDevices)
 					pTask->arDest.insert(new WAJid(*it));
 			}
-			else bNeedsCheck = true;
+			else arCheckList.insert(mir_strdup(jid));;
 		}
 	}
 
@@ -437,8 +448,11 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 	}
 
 	// if some keys are missing, schedule task for execution & retrieve keys
-	if (bNeedsCheck)
-		SendUsync(jid, pTask);
+	if (arCheckList.getCount()) {
+		SendUsync(arCheckList, pTask);
+		for (auto &it : arCheckList)
+			mir_free(it);
+	}
 	else // otherwise simply execute the task
 		SendTask(pTask);
 

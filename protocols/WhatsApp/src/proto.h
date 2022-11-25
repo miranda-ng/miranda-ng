@@ -373,7 +373,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
 	void SendKeepAlive();
 	int  SendTextMessage(const char *jid, const char *pszMsg);
-	void SendUsync(const char *jid, void *pUserInfo);
+	void SendUsync(const LIST<char> &jids, void *pUserInfo);
 	void SetServerStatus(int iStatus);
 
 	void FinishTask(WASendTask *pTask);
