@@ -461,9 +461,16 @@ int WhatsAppProto::SendTextMessage(const char *jid, const char *pszMsg)
 
 void WhatsAppProto::FinishTask(WASendTask *pTask)
 {
-	if (auto *pUser = FindUser(pTask->payLoad.getAttr("to")))
-		for (auto &it : pUser->arDevices)
+	if (auto *pUser = FindUser(pTask->payLoad.getAttr("to"))) {
+		if (pUser->bIsGroupChat) {
+			for (auto &it : pUser->si->getUserList())
+				if (auto *pChatUser = FindUser(T2Utf(it->pszUID)))
+					for (auto &cc: pChatUser->arDevices)
+						pTask->arDest.insert(new WAJid(*cc));
+		}
+		else for (auto &it : pUser->arDevices)
 			pTask->arDest.insert(new WAJid(*it));
+	}
 
 	SendTask(pTask);
 }
