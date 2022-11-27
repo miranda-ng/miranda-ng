@@ -13,6 +13,7 @@ class COptionsDlg : public CProtoDlgBase<WhatsAppProto>
 {
 	CCtrlCheck chkHideChats, chkBbcodes;
 	CCtrlEdit edtGroup, edtNick, edtDevName;
+	CCtrlButton btnUnregister;
 	ptrW m_wszOldGroup;
 
 public:
@@ -23,6 +24,7 @@ public:
 		edtNick(this, IDC_NICK),
 		edtGroup(this, IDC_DEFGROUP),
 		edtDevName(this, IDC_DEVICE_NAME),
+		btnUnregister(this, IDC_UNREGISTER),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(edtNick, ppro->m_wszNick);
@@ -33,6 +35,8 @@ public:
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 			CreateLink(chkBbcodes, ppro->m_bUseBbcodes);
 		}
+
+		btnUnregister.OnClick = Callback(this, &COptionsDlg::onClick_Unregister);
 	}
 
 	bool OnInitDialog() override
@@ -52,6 +56,17 @@ public:
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 		return true;
+	}
+
+	void onClick_Unregister(CCtrlButton *)
+	{
+		if (IDYES != MessageBoxW(0, TranslateT("Do you really want to unregister Miranda?"), m_proto->m_tszUserName, MB_ICONQUESTION | MB_YESNO))
+			return;
+
+		if (m_proto->isOnline())
+			m_proto->SendUnregister();
+		else
+			m_proto->OnErase();
 	}
 };
 

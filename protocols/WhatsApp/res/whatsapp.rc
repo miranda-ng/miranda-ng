@@ -63,6 +63,7 @@ BEGIN
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
     CONTROL         "Use BBCode",IDC_USEBBCODES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,78,294,10
+    PUSHBUTTON      "Unregister",IDC_UNREGISTER,222,170,77,14
 END
 
 IDD_GROUPCHAT_INVITE DIALOGEX 0, 0, 215, 170

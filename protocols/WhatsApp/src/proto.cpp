@@ -113,9 +113,37 @@ WhatsAppProto::~WhatsAppProto()
 /////////////////////////////////////////////////////////////////////////////////////////
 // OnErase - remove temporary folder for account
 
+const char *pszNeededItems[] = {
+	"AM_BaseProto", "DefaultGroup", "DeviceName", "HideChats", "NLlog", "Nick"
+};
+
+static int sttEnumFunc(const char *szSetting, void *param)
+{
+	for (auto &it : pszNeededItems)
+		if (!mir_strcmp(it, szSetting))
+			return 0;
+
+	auto *pList = (LIST<char>*)param;
+	pList->insert(mir_strdup(szSetting));
+	return 0;
+}
+
 void WhatsAppProto::OnErase()
 {
+	m_bUnregister = true;
+	ServerThreadWorker();
+
+	// remove all temporary data from database & disk folder
+	LIST<char> arSettings(50);
+	db_enum_settings(0, sttEnumFunc, m_szModuleName, &arSettings);
+	for (auto &it : arSettings) {
+		delSetting(it);
+		mir_free(it);
+	}
+
 	DeleteDirectoryTreeW(CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName), false);
+
+	m_szJid.Empty();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

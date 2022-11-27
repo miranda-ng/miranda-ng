@@ -13,7 +13,7 @@ Copyright © 2019-22 George Hazan
 void WhatsAppProto::ServerThread(void *)
 {
 	do {
-		m_bRespawn = false;
+		m_bRespawn = m_bUnregister = false;
 		ServerThreadWorker();
 	}
 	while (m_bRespawn);
@@ -222,21 +222,6 @@ void WhatsAppProto::ProcessBinaryPacket(const uint8_t *pData, size_t cbDataLen)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-const char *pszNeededItems[] = {
-	"AM_BaseProto", "DefaultGroup", "DeviceName", "HideChats", "NLlog", "Nick"
-};
-
-static int sttEnumFunc(const char *szSetting, void *param)
-{
-	for (auto &it : pszNeededItems)
-		if (!mir_strcmp(it, szSetting))
-			return 0;
-
-	auto *pList = (LIST<char>*)param;
-	pList->insert(mir_strdup(szSetting));
-	return 0;
-}
-
 void WhatsAppProto::ProcessFailure(int code)
 {
 	switch (code) {
@@ -244,16 +229,6 @@ void WhatsAppProto::ProcessFailure(int code)
 		debugLogA("Connection logged out from another device, exiting");
 		Popup(0, TranslateT("This account was logged out from mobile phone, you need to link it again"), m_tszUserName);
 
-		// remove all temporary data from database & disk folder
-		{
-			LIST<char> arSettings(50);
-			db_enum_settings(0, sttEnumFunc, m_szModuleName, &arSettings);
-			for (auto &it : arSettings) {
-				delSetting(it);
-				mir_free(it);
-			}
-		}
-		m_szJid.Empty();
 		OnErase();
 		break;
 
@@ -285,6 +260,12 @@ void WhatsAppProto::ProcessFailure(int code)
 void WhatsAppProto::OnLoggedIn()
 {
 	debugLogA("WhatsAppProto::OnLoggedIn");
+
+	if (m_bUnregister) {
+		SendUnregister();
+		m_bTerminated = true;
+		return;
+	}
 
 	SetServerStatus(m_iDesiredStatus);
 
@@ -397,6 +378,15 @@ void WhatsAppProto::SetServerStatus(int iStatus)
 		WSSendNode(
 			WANode("presence") << CHAR_PARAM("name", T2Utf(m_wszNick)) << CHAR_PARAM("type", (iStatus == ID_STATUS_ONLINE) ? "available" : "unavailable"),
 			&WhatsAppProto::OnIqDoNothing);
+}
+
+void WhatsAppProto::SendUnregister()
+{
+	WANodeIq iq(IQ::SET, "md");
+	*iq.addChild("remove-companion-device") << CHAR_PARAM("jid", WAJid(m_szJid, getDword(DBKEY_DEVICE_ID)).toString()) << CHAR_PARAM("reason", "user's decision");
+	WSSendNode(iq, &WhatsAppProto::OnIqDoNothing);
+
+	m_bTerminated = true;
 }
 
 void WhatsAppProto::SendUsync(const LIST<char> &jids, void *pUserInfo)

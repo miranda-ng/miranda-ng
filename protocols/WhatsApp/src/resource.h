@@ -15,6 +15,8 @@
 #define IDC_NICK                        1005
 #define IDC_DEVICE_NAME                 1006
 #define IDC_USEBBCODES                  1007
+#define IDC_BUTTON1                     1008
+#define IDC_UNREGISTER                  1008
 
 // Next default values for new objects
 // 
@@ -22,7 +24,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        104
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1007
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -258,6 +258,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 {
 	friend class WANoise;
 	friend class CWhatsAppQRDlg;
+	friend class COptionsDlg;
 
 	class CWhatsAppProtoImpl
 	{
@@ -284,7 +285,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 		}
 	} m_impl;
 
-	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys;
+	bool m_bTerminated, m_bRespawn, m_bUpdatedPrekeys, m_bUnregister;
 	ptrW m_tszDefaultGroup;
 
 	CMStringA m_szJid;
@@ -371,8 +372,9 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	void SendAck(const WANode &node);
 	void SendReceipt(const char *pszTo, const char *pszParticipant, const char *pszId, const char *pszType);
-	void SendKeepAlive();
+	void SendKeepAlive(void);
 	int  SendTextMessage(const char *jid, const char *pszMsg);
+	void SendUnregister(void);
 	void SendUsync(const LIST<char> &jids, void *pUserInfo);
 	void SetServerStatus(int iStatus);
 
