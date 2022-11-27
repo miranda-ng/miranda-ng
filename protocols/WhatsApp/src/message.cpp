@@ -210,25 +210,32 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 	if (pUser) {
 		CMStringA szMessageText(GetMessageText(body));
 		if (!szMessageText.IsEmpty()) {
-			PROTORECVEVENT pre = {};
-			pre.timestamp = timestamp;
-			pre.szMessage = szMessageText.GetBuffer();
-			pre.szMsgId = msgId;
-			if (type.bOffline)
-				pre.flags |= PREF_CREATEREAD;
-			if (key->fromme)
-				pre.flags |= PREF_SENT;
-			ProtoChainRecvMsg(pUser->hContact, &pre);
+			// for chats & group chats store message in profile
+			if (type.bPrivateChat || type.bGroupChat) {
+				PROTORECVEVENT pre = {};
+				pre.timestamp = timestamp;
+				pre.szMessage = szMessageText.GetBuffer();
+				pre.szMsgId = msgId;
+				if (type.bOffline)
+					pre.flags |= PREF_CREATEREAD;
+				if (key->fromme)
+					pre.flags |= PREF_SENT;
+				ProtoChainRecvMsg(pUser->hContact, &pre);
 
-			if (pUser->bIsGroupChat) {
-				GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
-				gce.dwFlags = GCEF_UTF8;
-				gce.pszID.a = pUser->szId;
-				gce.pszUID.a = participant;
-				gce.bIsMe = key->fromme;
-				gce.pszText.a = szMessageText.GetBuffer();
-				gce.time = timestamp;
-				Chat_Event(&gce);
+				if (pUser->bIsGroupChat) {
+					GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
+					gce.dwFlags = GCEF_UTF8;
+					gce.pszID.a = pUser->szId;
+					gce.pszUID.a = participant;
+					gce.bIsMe = key->fromme;
+					gce.pszText.a = szMessageText.GetBuffer();
+					gce.time = timestamp;
+					Chat_Event(&gce);
+				}
+			}
+			// translate statuses into status messages
+			else if (type.bOtherStatus || type.bDirectStatus || type.bPeerBroadcast || type.bOtherBroadcast) {
+				setUString(pUser->hContact, "StatusMsg", szMessageText);
 			}
 		}
 	}
