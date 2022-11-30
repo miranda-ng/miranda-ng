@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,7 +11,6 @@
 #if (TD_DARWIN || TD_LINUX) && defined(USE_MEMPROF)
 #include <algorithm>
 #include <atomic>
-#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -27,6 +26,11 @@
 bool is_memprof_on() {
   return true;
 }
+
+#define my_assert(f) \
+  if (!(f)) {        \
+    std::abort();    \
+  }
 
 #if USE_MEMPROF_SAFE
 double get_fast_backtrace_success_rate() {
@@ -54,7 +58,7 @@ static int fast_backtrace(void **buffer, int size) {
     void *ip;
   };
 
-  stack_frame *bp = reinterpret_cast<stack_frame *>(get_bp());
+  auto *bp = reinterpret_cast<stack_frame *>(get_bp());
   int i = 0;
   while (i < size &&
 #if TD_LINUX
@@ -72,7 +76,8 @@ static int fast_backtrace(void **buffer, int size) {
   return i;
 }
 
-static std::atomic<std::size_t> fast_backtrace_failed_cnt, backtrace_total_cnt;
+static std::atomic<std::size_t> fast_backtrace_failed_cnt;
+static std::atomic<std::size_t> backtrace_total_cnt;
 double get_fast_backtrace_success_rate() {
   return 1 - static_cast<double>(fast_backtrace_failed_cnt.load(std::memory_order_relaxed)) /
                  static_cast<double>(std::max(std::size_t(1), backtrace_total_cnt.load(std::memory_order_relaxed)));
@@ -116,8 +121,8 @@ static Backtrace get_backtrace() {
   return res;
 }
 
-static constexpr std::size_t reserved = 16;
-static constexpr std::int32_t malloc_info_magic = 0x27138373;
+static constexpr std::size_t RESERVED_SIZE = 16;
+static constexpr std::int32_t MALLOC_INFO_MAGIC = 0x27138373;
 struct malloc_info {
   std::int32_t magic;
   std::int32_t size;
@@ -138,9 +143,9 @@ struct HashtableNode {
   std::atomic<std::size_t> size;
 };
 
-static constexpr std::size_t ht_max_size = 1000000;
+static constexpr std::size_t HT_MAX_SIZE = 1000000;
 static std::atomic<std::size_t> ht_size{0};
-static std::array<HashtableNode, ht_max_size> ht;
+static std::array<HashtableNode, HT_MAX_SIZE> ht;
 
 std::size_t get_ht_size() {
   return ht_size.load();
@@ -148,14 +153,14 @@ std::size_t get_ht_size() {
 
 std::int32_t get_ht_pos(const Backtrace &bt, bool force = false) {
   auto hash = get_hash(bt);
-  std::int32_t pos = static_cast<std::int32_t>(hash % ht.size());
+  auto pos = static_cast<std::int32_t>(hash % ht.size());
   bool was_overflow = false;
   while (true) {
     auto pos_hash = ht[pos].hash.load();
     if (pos_hash == 0) {
-      if (ht_size > ht_max_size / 2) {
+      if (ht_size > HT_MAX_SIZE / 2) {
         if (force) {
-          assert(ht_size * 10 < ht_max_size * 7);
+          my_assert(ht_size * 10 < HT_MAX_SIZE * 7);
         } else {
           Backtrace unknown_bt{{nullptr}};
           unknown_bt[0] = reinterpret_cast<void *>(1);
@@ -187,26 +192,29 @@ std::int32_t get_ht_pos(const Backtrace &bt, bool force = false) {
 
 void dump_alloc(const std::function<void(const AllocInfo &)> &func) {
   for (auto &node : ht) {
-    if (node.size == 0) {
+    auto size = node.size.load(std::memory_order_relaxed);
+    if (size == 0) {
       continue;
     }
-    func(AllocInfo{node.backtrace, node.size.load()});
+    func(AllocInfo{node.backtrace, size});
   }
 }
 
 void register_xalloc(malloc_info *info, std::int32_t diff) {
+  my_assert(info->size >= 0);
   if (diff > 0) {
-    ht[info->ht_pos].size += info->size;
+    ht[info->ht_pos].size.fetch_add(info->size, std::memory_order_relaxed);
   } else {
-    ht[info->ht_pos].size -= info->size;
+    auto old_value = ht[info->ht_pos].size.fetch_sub(info->size, std::memory_order_relaxed);
+    my_assert(old_value >= static_cast<std::size_t>(info->size));
   }
 }
 
 extern "C" {
 
 static void *malloc_with_frame(std::size_t size, const Backtrace &frame) {
-  static_assert(reserved % alignof(std::max_align_t) == 0, "fail");
-  static_assert(reserved >= sizeof(malloc_info), "fail");
+  static_assert(RESERVED_SIZE % alignof(std::max_align_t) == 0, "fail");
+  static_assert(RESERVED_SIZE >= sizeof(malloc_info), "fail");
 #if TD_DARWIN
   static void *malloc_void = dlsym(RTLD_NEXT, "malloc");
   static auto malloc_old = *reinterpret_cast<decltype(malloc) **>(&malloc_void);
@@ -214,26 +222,26 @@ static void *malloc_with_frame(std::size_t size, const Backtrace &frame) {
   extern decltype(malloc) __libc_malloc;
   static auto malloc_old = __libc_malloc;
 #endif
-  auto *info = static_cast<malloc_info *>(malloc_old(size + reserved));
+  auto *info = static_cast<malloc_info *>(malloc_old(size + RESERVED_SIZE));
   auto *buf = reinterpret_cast<char *>(info);
 
-  info->magic = malloc_info_magic;
+  info->magic = MALLOC_INFO_MAGIC;
   info->size = static_cast<std::int32_t>(size);
   info->ht_pos = get_ht_pos(frame);
 
   register_xalloc(info, +1);
 
-  void *data = buf + reserved;
+  void *data = buf + RESERVED_SIZE;
 
   return data;
 }
 
 static malloc_info *get_info(void *data_void) {
-  char *data = static_cast<char *>(data_void);
-  auto *buf = data - reserved;
+  auto *data = static_cast<char *>(data_void);
+  auto *buf = data - RESERVED_SIZE;
 
   auto *info = reinterpret_cast<malloc_info *>(buf);
-  assert(info->magic == malloc_info_magic);
+  my_assert(info->magic == MALLOC_INFO_MAGIC);
   return info;
 }
 
@@ -257,12 +265,14 @@ void free(void *data_void) {
 #endif
   return free_old(info);
 }
+
 void *calloc(std::size_t size_a, std::size_t size_b) {
   auto size = size_a * size_b;
   void *res = malloc_with_frame(size, get_backtrace());
   std::memset(res, 0, size);
   return res;
 }
+
 void *realloc(void *ptr, std::size_t size) {
   if (ptr == nullptr) {
     return malloc_with_frame(size, get_backtrace());
@@ -274,13 +284,14 @@ void *realloc(void *ptr, std::size_t size) {
   free(ptr);
   return new_ptr;
 }
+
 void *memalign(std::size_t aligment, std::size_t size) {
-  assert(false && "Memalign is unsupported");
+  my_assert(false && "Memalign is unsupported");
   return nullptr;
 }
 }
 
-// c++14 guarantees than it is enough to override this two operators.
+// c++14 guarantees that it is enough to override these two operators.
 void *operator new(std::size_t count) {
   return malloc_with_frame(count, get_backtrace());
 }

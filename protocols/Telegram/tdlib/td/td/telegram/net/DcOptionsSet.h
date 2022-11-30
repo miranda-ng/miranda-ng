@@ -1,11 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/net/DcId.h"
 #include "td/telegram/net/DcOptions.h"
 
 #include "td/utils/Container.h"
@@ -16,6 +17,7 @@
 #include <map>
 
 namespace td {
+
 class DcOptionsSet {
  public:
   void add_dc_options(DcOptions dc_options);
@@ -26,7 +28,7 @@ class DcOptionsSet {
     double ok_at{-1000};
     double error_at{-1001};
     double check_at{-1002};
-    enum State { Ok, Error, Checking };
+    enum class State : int32 { Ok, Error, Checking };
 
     void on_ok() {
       ok_at = Time::now_cached();
@@ -38,16 +40,16 @@ class DcOptionsSet {
       check_at = Time::now_cached();
     }
     bool is_ok() const {
-      return state() == Ok;
+      return state() == State::Ok;
     }
     State state() const {
       if (ok_at > error_at && ok_at > check_at) {
-        return Ok;
+        return State::Ok;
       }
       if (check_at > ok_at && check_at > error_at) {
-        return Checking;
+        return State::Checking;
       }
-      return Error;
+      return State::Error;
     }
   };
 
@@ -59,11 +61,15 @@ class DcOptionsSet {
     Stat *stat{nullptr};
   };
 
-  Result<ConnectionInfo> find_connection(DcId dc_id, bool allow_media_only, bool use_static);
+  vector<ConnectionInfo> find_all_connections(DcId dc_id, bool allow_media_only, bool use_static, bool prefer_ipv6,
+                                              bool only_http);
+
+  Result<ConnectionInfo> find_connection(DcId dc_id, bool allow_media_only, bool use_static, bool prefer_ipv6,
+                                         bool only_http);
   void reset();
 
  private:
-  enum class State { Error, Ok, Checking };
+  enum class State : int32 { Error, Ok, Checking };
 
   struct OptionStat {
     Stat tcp_stat;
@@ -72,7 +78,7 @@ class DcOptionsSet {
 
   struct DcOptionInfo {
     DcOption option;
-    int64 stat_id;
+    int64 stat_id = -1;
     size_t pos;
     size_t order = 0;
 
@@ -93,13 +99,14 @@ class DcOptionsSet {
     }
   };
 
-  std::vector<std::unique_ptr<DcOptionInfo>> options_;
+  std::vector<unique_ptr<DcOptionInfo>> options_;
   std::vector<DcOptionId> ordered_options_;
   std::map<IPAddress, int64> option_to_stat_id_;
-  Container<std::unique_ptr<OptionStat>> option_stats_;
+  Container<unique_ptr<OptionStat>> option_stats_;
 
   DcOptionInfo *register_dc_option(DcOption &&option);
   void init_option_stat(DcOptionInfo *option_info);
   OptionStat *get_option_stat(const DcOptionInfo *option_info);
 };
+
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,6 +20,8 @@ class TD_TL_writer_h : public TD_TL_writer {
 
   static std::string forward_declaration(std::string type);
 
+  bool need_arg_mask(const tl::arg &a, bool can_be_stored) const;
+
  public:
   TD_TL_writer_h(const std::string &tl_name, const std::string &string_type, const std::string &bytes_type,
                  const std::vector<std::string> &ext_include)
@@ -31,8 +33,8 @@ class TD_TL_writer_h : public TD_TL_writer {
 
   std::string gen_forward_class_declaration(const std::string &class_name, bool is_proxy) const override;
 
-  std::string gen_class_begin(const std::string &class_name, const std::string &base_class_name,
-                              bool is_proxy) const override;
+  std::string gen_class_begin(const std::string &class_name, const std::string &base_class_name, bool is_proxy,
+                              const tl::tl_tree *result) const override;
   std::string gen_class_end() const override;
 
   std::string gen_class_alias(const std::string &class_name, const std::string &alias_name) const override;
@@ -40,7 +42,7 @@ class TD_TL_writer_h : public TD_TL_writer {
   std::string gen_field_definition(const std::string &class_name, const std::string &type_name,
                                    const std::string &field_name) const override;
 
-  std::string gen_flags_definitions(const tl::tl_combinator *t) const override;
+  std::string gen_flags_definitions(const tl::tl_combinator *t, bool can_be_stored) const override;
   std::string gen_vars(const tl::tl_combinator *t, const tl::tl_tree_type *result_type,
                        std::vector<tl::var_description> &vars) const override;
   std::string gen_function_vars(const tl::tl_combinator *t, std::vector<tl::var_description> &vars) const override;
@@ -62,9 +64,10 @@ class TD_TL_writer_h : public TD_TL_writer {
 
   std::string gen_function_result_type(const tl::tl_tree *result) const override;
 
-  std::string gen_fetch_function_begin(const std::string &parser_name, const std::string &class_name, int arity,
+  std::string gen_fetch_function_begin(const std::string &parser_name, const std::string &class_name,
+                                       const std::string &parent_class_name, int arity, int field_count,
                                        std::vector<tl::var_description> &vars, int parser_type) const override;
-  std::string gen_fetch_function_end(int field_num, const std::vector<tl::var_description> &vars,
+  std::string gen_fetch_function_end(bool has_parent, int field_count, const std::vector<tl::var_description> &vars,
                                      int parser_type) const override;
 
   std::string gen_fetch_function_result_begin(const std::string &parser_name, const std::string &class_name,
@@ -82,10 +85,10 @@ class TD_TL_writer_h : public TD_TL_writer {
   std::string gen_fetch_switch_case(const tl::tl_combinator *t, int arity) const override;
   std::string gen_fetch_switch_end() const override;
 
-  std::string gen_constructor_begin(int fields_num, const std::string &class_name, bool is_default) const override;
+  std::string gen_constructor_begin(int field_count, const std::string &class_name, bool is_default) const override;
   std::string gen_constructor_field_init(int field_num, const std::string &class_name, const tl::arg &a,
                                          bool is_default) const override;
-  std::string gen_constructor_end(const tl::tl_combinator *t, int fields_num, bool is_default) const override;
+  std::string gen_constructor_end(const tl::tl_combinator *t, int field_count, bool is_default) const override;
 };
 
 }  // namespace td

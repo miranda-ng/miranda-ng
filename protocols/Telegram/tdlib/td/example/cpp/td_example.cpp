@@ -1,19 +1,18 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include <td/telegram/Client.h>
-#include <td/telegram/Log.h>
 #include <td/telegram/td_api.h>
 #include <td/telegram/td_api.hpp>
 
 #include <cstdint>
 #include <functional>
 #include <iostream>
-#include <limits>
 #include <map>
+#include <memory>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -35,7 +34,7 @@ struct overload<F> : public F {
 template <class F, class... Fs>
 struct overload<F, Fs...>
     : public overload<F>
-    , overload<Fs...> {
+    , public overload<Fs...> {
   overload(F f, Fs... fs) : overload<F>(f), overload<Fs...>(fs...) {
   }
   using overload<F>::operator();
@@ -53,8 +52,10 @@ namespace td_api = td::td_api;
 class TdExample {
  public:
   TdExample() {
-    td::Log::set_verbosity_level(1);
-    client_ = std::make_unique<td::Client>();
+    td::ClientManager::execute(td_api::make_object<td_api::setLogVerbosityLevel>(1));
+    client_manager_ = std::make_unique<td::ClientManager>();
+    client_id_ = client_manager_->create_client_id();
+    send_query(td_api::make_object<td_api::getOption>("version"), {});
   }
 
   void loop() {
@@ -62,10 +63,10 @@ class TdExample {
       if (need_restart_) {
         restart();
       } else if (!are_authorized_) {
-        process_response(client_->receive(10));
+        process_response(client_manager_->receive(10));
       } else {
-        std::cerr << "Enter action [q] quit [u] check for updates and request results [c] show chats [m <id> <text>] "
-                     "send message [l] logout: "
+        std::cout << "Enter action [q] quit [u] check for updates and request results [c] show chats [m <chat_id> "
+                     "<text>] send message [me] show self [l] logout: "
                   << std::endl;
         std::string line;
         std::getline(std::cin, line);
@@ -78,17 +79,23 @@ class TdExample {
           return;
         }
         if (action == "u") {
-          std::cerr << "Checking for updates..." << std::endl;
+          std::cout << "Checking for updates..." << std::endl;
           while (true) {
-            auto response = client_->receive(0);
+            auto response = client_manager_->receive(0);
             if (response.object) {
               process_response(std::move(response));
             } else {
               break;
             }
           }
+        } else if (action == "close") {
+          std::cout << "Closing..." << std::endl;
+          send_query(td_api::make_object<td_api::close>(), {});
+        } else if (action == "me") {
+          send_query(td_api::make_object<td_api::getMe>(),
+                     [this](Object object) { std::cout << to_string(object) << std::endl; });
         } else if (action == "l") {
-          std::cerr << "Logging out..." << std::endl;
+          std::cout << "Logging out..." << std::endl;
           send_query(td_api::make_object<td_api::logOut>(), {});
         } else if (action == "m") {
           std::int64_t chat_id;
@@ -97,7 +104,7 @@ class TdExample {
           std::string text;
           std::getline(ss, text);
 
-          std::cerr << "Sending message to chat " << chat_id << "..." << std::endl;
+          std::cout << "Sending message to chat " << chat_id << "..." << std::endl;
           auto send_message = td_api::make_object<td_api::sendMessage>();
           send_message->chat_id_ = chat_id;
           auto message_content = td_api::make_object<td_api::inputMessageText>();
@@ -107,17 +114,16 @@ class TdExample {
 
           send_query(std::move(send_message), {});
         } else if (action == "c") {
-          std::cerr << "Loading chat list..." << std::endl;
-          send_query(td_api::make_object<td_api::getChats>(std::numeric_limits<std::int64_t>::max(), 0, 20),
-                     [this](Object object) {
-                       if (object->get_id() == td_api::error::ID) {
-                         return;
-                       }
-                       auto chats = td::move_tl_object_as<td_api::chats>(object);
-                       for (auto chat_id : chats->chat_ids_) {
-                         std::cerr << "[id:" << chat_id << "] [title:" << chat_title_[chat_id] << "]" << std::endl;
-                       }
-                     });
+          std::cout << "Loading chat list..." << std::endl;
+          send_query(td_api::make_object<td_api::getChats>(nullptr, 20), [this](Object object) {
+            if (object->get_id() == td_api::error::ID) {
+              return;
+            }
+            auto chats = td::move_tl_object_as<td_api::chats>(object);
+            for (auto chat_id : chats->chat_ids_) {
+              std::cout << "[chat_id:" << chat_id << "] [title:" << chat_title_[chat_id] << "]" << std::endl;
+            }
+          });
         }
       }
     }
@@ -125,7 +131,8 @@ class TdExample {
 
  private:
   using Object = td_api::object_ptr<td_api::Object>;
-  std::unique_ptr<td::Client> client_;
+  std::unique_ptr<td::ClientManager> client_manager_;
+  std::int32_t client_id_{0};
 
   td_api::object_ptr<td_api::AuthorizationState> authorization_state_;
   bool are_authorized_{false};
@@ -135,12 +142,12 @@ class TdExample {
 
   std::map<std::uint64_t, std::function<void(Object)>> handlers_;
 
-  std::map<std::int32_t, td_api::object_ptr<td_api::user>> users_;
+  std::map<std::int64_t, td_api::object_ptr<td_api::user>> users_;
 
   std::map<std::int64_t, std::string> chat_title_;
 
   void restart() {
-    client_.reset();
+    client_manager_.reset();
     *this = TdExample();
   }
 
@@ -149,29 +156,38 @@ class TdExample {
     if (handler) {
       handlers_.emplace(query_id, std::move(handler));
     }
-    client_->send({query_id, std::move(f)});
+    client_manager_->send(client_id_, query_id, std::move(f));
   }
 
-  void process_response(td::Client::Response response) {
+  void process_response(td::ClientManager::Response response) {
     if (!response.object) {
       return;
     }
-    //std::cerr << response.id << " " << to_string(response.object) << std::endl;
-    if (response.id == 0) {
+    //std::cout << response.request_id << " " << to_string(response.object) << std::endl;
+    if (response.request_id == 0) {
       return process_update(std::move(response.object));
     }
-    auto it = handlers_.find(response.id);
+    auto it = handlers_.find(response.request_id);
     if (it != handlers_.end()) {
       it->second(std::move(response.object));
+      handlers_.erase(it);
     }
   }
 
-  std::string get_user_name(std::int32_t user_id) {
+  std::string get_user_name(std::int64_t user_id) const {
     auto it = users_.find(user_id);
     if (it == users_.end()) {
       return "unknown user";
     }
     return it->second->first_name_ + " " + it->second->last_name_;
+  }
+
+  std::string get_chat_title(std::int64_t chat_id) const {
+    auto it = chat_title_.find(chat_id);
+    if (it == chat_title_.end()) {
+      return "unknown chat";
+    }
+    return it->second;
   }
 
   void process_update(td_api::object_ptr<td_api::Object> update) {
@@ -193,13 +209,21 @@ class TdExample {
                      },
                      [this](td_api::updateNewMessage &update_new_message) {
                        auto chat_id = update_new_message.message_->chat_id_;
-                       auto sender_user_name = get_user_name(update_new_message.message_->sender_user_id_);
+                       std::string sender_name;
+                       td_api::downcast_call(*update_new_message.message_->sender_id_,
+                                             overloaded(
+                                                 [this, &sender_name](td_api::messageSenderUser &user) {
+                                                   sender_name = get_user_name(user.user_id_);
+                                                 },
+                                                 [this, &sender_name](td_api::messageSenderChat &chat) {
+                                                   sender_name = get_chat_title(chat.chat_id_);
+                                                 }));
                        std::string text;
                        if (update_new_message.message_->content_->get_id() == td_api::messageText::ID) {
                          text = static_cast<td_api::messageText &>(*update_new_message.message_->content_).text_->text_;
                        }
-                       std::cerr << "Got message: [chat_id:" << chat_id << "] [from:" << sender_user_name << "] ["
-                                 << text << "]" << std::endl;
+                       std::cout << "Got message: [chat_id:" << chat_id << "] [from:" << sender_name << "] [" << text
+                                 << "]" << std::endl;
                      },
                      [](auto &update) {}));
   }
@@ -214,85 +238,91 @@ class TdExample {
 
   void on_authorization_state_update() {
     authentication_query_id_++;
-    td_api::downcast_call(
-        *authorization_state_,
-        overloaded(
-            [this](td_api::authorizationStateReady &) {
-              are_authorized_ = true;
-              std::cerr << "Got authorization" << std::endl;
-            },
-            [this](td_api::authorizationStateLoggingOut &) {
-              are_authorized_ = false;
-              std::cerr << "Logging out" << std::endl;
-            },
-            [this](td_api::authorizationStateClosing &) { std::cerr << "Closing" << std::endl; },
-            [this](td_api::authorizationStateClosed &) {
-              are_authorized_ = false;
-              need_restart_ = true;
-              std::cerr << "Terminated" << std::endl;
-            },
-            [this](td_api::authorizationStateWaitCode &wait_code) {
-              std::string first_name;
-              std::string last_name;
-              if (!wait_code.is_registered_) {
-                std::cerr << "Enter your first name: ";
-                std::cin >> first_name;
-                std::cerr << "Enter your last name: ";
-                std::cin >> last_name;
-              }
-              std::cerr << "Enter authentication code: ";
-              std::string code;
-              std::cin >> code;
-              send_query(td_api::make_object<td_api::checkAuthenticationCode>(code, first_name, last_name),
-                         create_authentication_query_handler());
-            },
-            [this](td_api::authorizationStateWaitPassword &) {
-              std::cerr << "Enter authentication password: ";
-              std::string password;
-              std::cin >> password;
-              send_query(td_api::make_object<td_api::checkAuthenticationPassword>(password),
-                         create_authentication_query_handler());
-            },
-            [this](td_api::authorizationStateWaitPhoneNumber &) {
-              std::cerr << "Enter phone number: ";
-              std::string phone_number;
-              std::cin >> phone_number;
-              send_query(td_api::make_object<td_api::setAuthenticationPhoneNumber>(
-                             phone_number, false /*allow_flash_calls*/, false /*is_current_phone_number*/),
-                         create_authentication_query_handler());
-            },
-            [this](td_api::authorizationStateWaitEncryptionKey &) {
-              std::cerr << "Enter encryption key or DESTROY: ";
-              std::string key;
-              std::getline(std::cin, key);
-              if (key == "DESTROY") {
-                send_query(td_api::make_object<td_api::destroy>(), create_authentication_query_handler());
-              } else {
-                send_query(td_api::make_object<td_api::checkDatabaseEncryptionKey>(std::move(key)),
-                           create_authentication_query_handler());
-              }
-            },
-            [this](td_api::authorizationStateWaitTdlibParameters &) {
-              auto parameters = td_api::make_object<td_api::tdlibParameters>();
-              parameters->database_directory_ = "tdlib";
-              parameters->use_message_database_ = true;
-              parameters->use_secret_chats_ = true;
-              parameters->api_id_ = 94575;
-              parameters->api_hash_ = "a3406de8d171bb422bb6ddf3bbd800e2";
-              parameters->system_language_code_ = "en";
-              parameters->device_model_ = "Desktop";
-              parameters->system_version_ = "Unknown";
-              parameters->application_version_ = "1.0";
-              parameters->enable_storage_optimizer_ = true;
-              send_query(td_api::make_object<td_api::setTdlibParameters>(std::move(parameters)),
-                         create_authentication_query_handler());
-            }));
+    td_api::downcast_call(*authorization_state_,
+                          overloaded(
+                              [this](td_api::authorizationStateReady &) {
+                                are_authorized_ = true;
+                                std::cout << "Got authorization" << std::endl;
+                              },
+                              [this](td_api::authorizationStateLoggingOut &) {
+                                are_authorized_ = false;
+                                std::cout << "Logging out" << std::endl;
+                              },
+                              [this](td_api::authorizationStateClosing &) { std::cout << "Closing" << std::endl; },
+                              [this](td_api::authorizationStateClosed &) {
+                                are_authorized_ = false;
+                                need_restart_ = true;
+                                std::cout << "Terminated" << std::endl;
+                              },
+                              [this](td_api::authorizationStateWaitPhoneNumber &) {
+                                std::cout << "Enter phone number: " << std::flush;
+                                std::string phone_number;
+                                std::cin >> phone_number;
+                                send_query(
+                                    td_api::make_object<td_api::setAuthenticationPhoneNumber>(phone_number, nullptr),
+                                    create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitEmailAddress &) {
+                                std::cout << "Enter email address: " << std::flush;
+                                std::string email_address;
+                                std::cin >> email_address;
+                                send_query(td_api::make_object<td_api::setAuthenticationEmailAddress>(email_address),
+                                           create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitEmailCode &) {
+                                std::cout << "Enter email authentication code: " << std::flush;
+                                std::string code;
+                                std::cin >> code;
+                                send_query(td_api::make_object<td_api::checkAuthenticationEmailCode>(
+                                               td_api::make_object<td_api::emailAddressAuthenticationCode>(code)),
+                                           create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitCode &) {
+                                std::cout << "Enter authentication code: " << std::flush;
+                                std::string code;
+                                std::cin >> code;
+                                send_query(td_api::make_object<td_api::checkAuthenticationCode>(code),
+                                           create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitRegistration &) {
+                                std::string first_name;
+                                std::string last_name;
+                                std::cout << "Enter your first name: " << std::flush;
+                                std::cin >> first_name;
+                                std::cout << "Enter your last name: " << std::flush;
+                                std::cin >> last_name;
+                                send_query(td_api::make_object<td_api::registerUser>(first_name, last_name),
+                                           create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitPassword &) {
+                                std::cout << "Enter authentication password: " << std::flush;
+                                std::string password;
+                                std::getline(std::cin, password);
+                                send_query(td_api::make_object<td_api::checkAuthenticationPassword>(password),
+                                           create_authentication_query_handler());
+                              },
+                              [this](td_api::authorizationStateWaitOtherDeviceConfirmation &state) {
+                                std::cout << "Confirm this login link on another device: " << state.link_ << std::endl;
+                              },
+                              [this](td_api::authorizationStateWaitTdlibParameters &) {
+                                auto request = td_api::make_object<td_api::setTdlibParameters>();
+                                request->database_directory_ = "tdlib";
+                                request->use_message_database_ = true;
+                                request->use_secret_chats_ = true;
+                                request->api_id_ = 94575;
+                                request->api_hash_ = "a3406de8d171bb422bb6ddf3bbd800e2";
+                                request->system_language_code_ = "en";
+                                request->device_model_ = "Desktop";
+                                request->application_version_ = "1.0";
+                                request->enable_storage_optimizer_ = true;
+                                send_query(std::move(request), create_authentication_query_handler());
+                              }));
   }
 
   void check_authentication_error(Object object) {
     if (object->get_id() == td_api::error::ID) {
       auto error = td::move_tl_object_as<td_api::error>(object);
-      std::cerr << "Error: " << to_string(error);
+      std::cout << "Error: " << to_string(error) << std::flush;
       on_authorization_state_update();
     }
   }

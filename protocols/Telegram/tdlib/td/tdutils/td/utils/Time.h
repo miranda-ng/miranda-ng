@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,25 +7,30 @@
 #pragma once
 
 #include "td/utils/common.h"
-#include "td/utils/port/Clocks.h"
-
-#include <atomic>
 
 namespace td {
 
 class Time {
  public:
-  static double now() {
-    double now = Clocks::monotonic();
-    now_.store(now, std::memory_order_relaxed);
-    return now;
-  }
+  static double now();
   static double now_cached() {
-    return now_.load(std::memory_order_relaxed);
+    // Temporary(?) use now in now_cached
+    // Problem:
+    //   thread A: check that now() > timestamp and notifies thread B
+    //   thread B: must see that now() > timestamp()
+    //
+    //   now() and now_cached() must be monotonic
+    //
+    //   if a=now[_cached]() happens before b=now[_cached] than
+    //     a <= b
+    //
+    // As an alternative we may say that now_cached is a thread local copy of now
+    return now();
   }
+  static double now_unadjusted();
 
- private:
-  static std::atomic<double> now_;
+  // Used for testing. After jump_in_future(at) is called, now() >= at.
+  static void jump_in_future(double at);
 };
 
 inline void relax_timeout_at(double *timeout, double new_timeout) {
@@ -53,15 +58,18 @@ class Timestamp {
     return Timestamp{timeout};
   }
 
-  static Timestamp in(double timeout) {
-    return Timestamp{Time::now_cached() + timeout};
+  static Timestamp in(double timeout, Timestamp now = now_cached()) {
+    return Timestamp{now.at() + timeout};
   }
 
+  bool is_in_past(Timestamp now) const {
+    return at_ <= now.at();
+  }
   bool is_in_past() const {
-    return at_ <= Time::now_cached();
+    return is_in_past(now_cached());
   }
 
-  explicit operator bool() const {
+  explicit operator bool() const noexcept {
     return at_ > 0;
   }
 
@@ -91,14 +99,8 @@ class Timestamp {
   }
 };
 
-template <class T>
-void parse(Timestamp &timestamp, T &parser) {
-  timestamp = Timestamp::in(parser.fetch_double() - Clocks::system());
-}
-
-template <class T>
-void store(const Timestamp &timestamp, T &storer) {
-  storer.store_binary(timestamp.at() - Time::now() + Clocks::system());
+inline bool operator<(const Timestamp &a, const Timestamp &b) {
+  return a.at() < b.at();
 }
 
 }  // namespace td

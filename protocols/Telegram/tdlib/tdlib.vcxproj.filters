@@ -4,9 +4,6 @@
     <ClCompile Include="td\td\mtproto\AuthData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="td\td\mtproto\crypto.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="td\td\mtproto\Handshake.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -59,9 +56,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\ConfigManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="td\td\telegram\ConfigShared.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\Contact.cpp">
@@ -157,9 +151,6 @@
     <ClCompile Include="td\td\telegram\MessageEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="td\td\telegram\MessagesDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="td\td\telegram\MessagesManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -185,9 +176,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\net\NetQuery.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="td\td\telegram\net\NetQueryCounter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="td\td\telegram\net\NetQueryCreator.cpp">
@@ -297,9 +285,6 @@
     <ClInclude Include="td\td\mtproto\AuthKey.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="td\td\mtproto\crypto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="td\td\mtproto\CryptoStorer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -379,9 +364,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\ConfigManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="td\td\telegram\ConfigShared.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\Contact.h">
@@ -499,9 +481,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\MessageId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="td\td\telegram\MessagesDb.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\MessagesManager.h">
@@ -679,9 +658,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="td\td\telegram\Payments.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="td\td\telegram\Photo.hpp">

@@ -1,10 +1,10 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#include "tl_config.h"
+#include "td/tl/tl_config.h"
 
 #include <cassert>
 #include <cstdio>
@@ -40,7 +40,7 @@ void tl_config::add_type(tl_type *type) {
 }
 
 tl_type *tl_config::get_type(std::int32_t type_id) const {
-  auto it = id_to_type.find(type_id);
+  std::map<std::int32_t, tl_type *>::const_iterator it = id_to_type.find(type_id);
   assert(it != id_to_type.end());
   return it->second;
 }
@@ -327,7 +327,7 @@ tl_type *tl_config_parser::read_type() {
 tl_config tl_config_parser::parse_config() {
   schema_version = get_schema_version(try_parse_int());
   if (schema_version < 2) {
-    std::fprintf(stderr, "Unsupported tl-schema verdion %d\n", static_cast<int>(schema_version));
+    std::fprintf(stderr, "Unsupported tl-schema version %d\n", static_cast<int>(schema_version));
     std::abort();
   }
 
@@ -344,6 +344,7 @@ tl_config tl_config_parser::parse_config() {
 
   std::int32_t constructors_n = try_parse_int();
   assert(static_cast<std::size_t>(constructors_n) == constructors_total);
+  (void)constructors_total;
   for (std::int32_t i = 0; i < constructors_n; i++) {
     tl_combinator *constructor = read_combinator();
     config.get_type(constructor->type_id)->add_constructor(constructor);

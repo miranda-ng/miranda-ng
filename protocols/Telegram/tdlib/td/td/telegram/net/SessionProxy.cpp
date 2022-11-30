@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,22 +8,29 @@
 
 #include "td/telegram/Global.h"
 #include "td/telegram/net/ConnectionCreator.h"
+#include "td/telegram/net/DcId.h"
 #include "td/telegram/net/NetQueryDispatcher.h"
 #include "td/telegram/net/Session.h"
+#include "td/telegram/Td.h"
+#include "td/telegram/UniqueId.h"
 
+#include "td/utils/buffer.h"
+#include "td/utils/common.h"
+#include "td/utils/HashTableUtils.h"
 #include "td/utils/logging.h"
+#include "td/utils/Promise.h"
 #include "td/utils/Slice.h"
-
-#include <functional>
+#include "td/utils/SliceBuilder.h"
 
 namespace td {
+
 namespace mtproto {
 class RawConnection;
 }  // namespace mtproto
 
-class SessionCallback : public Session::Callback {
+class SessionCallback final : public Session::Callback {
  public:
-  SessionCallback(ActorShared<SessionProxy> parent, DcId dc_id, bool allow_media_only, bool is_media, size_t hash)
+  SessionCallback(ActorShared<SessionProxy> parent, DcId dc_id, bool allow_media_only, bool is_media, uint32 hash)
       : parent_(std::move(parent))
       , dc_id_(dc_id)
       , allow_media_only_(allow_media_only)
@@ -31,19 +38,35 @@ class SessionCallback : public Session::Callback {
       , hash_(hash) {
   }
 
-  void on_failed() override {
+  void on_failed() final {
     send_closure(parent_, &SessionProxy::on_failed);
   }
-  void on_closed() override {
+  void on_closed() final {
     send_closure(parent_, &SessionProxy::on_closed);
   }
-  void request_raw_connection(Promise<std::unique_ptr<mtproto::RawConnection>> promise) override {
+  void request_raw_connection(unique_ptr<mtproto::AuthData> auth_data,
+                              Promise<unique_ptr<mtproto::RawConnection>> promise) final {
     send_closure(G()->connection_creator(), &ConnectionCreator::request_raw_connection, dc_id_, allow_media_only_,
-                 is_media_, std::move(promise), hash_);
+                 is_media_, std::move(promise), hash_, std::move(auth_data));
   }
 
-  void on_tmp_auth_key_updated(mtproto::AuthKey auth_key) override {
+  void on_tmp_auth_key_updated(mtproto::AuthKey auth_key) final {
     send_closure(parent_, &SessionProxy::on_tmp_auth_key_updated, std::move(auth_key));
+  }
+
+  void on_server_salt_updated(std::vector<mtproto::ServerSalt> server_salts) final {
+    send_closure(parent_, &SessionProxy::on_server_salt_updated, std::move(server_salts));
+  }
+
+  void on_update(BufferSlice &&update) final {
+    send_closure_later(G()->td(), &Td::on_update, std::move(update));
+  }
+
+  void on_result(NetQueryPtr query) final {
+    if (UniqueId::extract_type(query->id()) != UniqueId::BindKey) {
+      send_closure(parent_, &SessionProxy::on_query_finished);
+    }
+    G()->net_query_dispatcher().dispatch(std::move(query));
   }
 
  private:
@@ -51,60 +74,59 @@ class SessionCallback : public Session::Callback {
   DcId dc_id_;
   bool allow_media_only_ = false;
   bool is_media_ = false;
-  size_t hash_ = 0;
+  uint32 hash_ = 0;
 };
 
-SessionProxy::SessionProxy(std::shared_ptr<AuthDataShared> shared_auth_data, bool is_main, bool allow_media_only,
-                           bool is_media, bool use_pfs, bool need_wait_for_key, bool is_cdn)
-    : auth_data_(std::move(shared_auth_data))
+SessionProxy::SessionProxy(unique_ptr<Callback> callback, std::shared_ptr<AuthDataShared> shared_auth_data,
+                           bool is_main, bool allow_media_only, bool is_media, bool use_pfs, bool is_cdn,
+                           bool need_destroy)
+    : callback_(std::move(callback))
+    , auth_data_(std::move(shared_auth_data))
     , is_main_(is_main)
     , allow_media_only_(allow_media_only)
     , is_media_(is_media)
     , use_pfs_(use_pfs)
-    , need_wait_for_key_(need_wait_for_key)
-    , is_cdn_(is_cdn) {
+    , is_cdn_(is_cdn)
+    , need_destroy_(need_destroy) {
 }
 
 void SessionProxy::start_up() {
-  class Listener : public AuthDataShared::Listener {
+  class Listener final : public AuthDataShared::Listener {
    public:
     explicit Listener(ActorShared<SessionProxy> session_proxy) : session_proxy_(std::move(session_proxy)) {
     }
-    bool notify() override {
+    bool notify() final {
       if (!session_proxy_.is_alive()) {
         return false;
       }
-      send_closure(session_proxy_, &SessionProxy::update_auth_state);
+      send_closure(session_proxy_, &SessionProxy::update_auth_key_state);
       return true;
     }
 
    private:
     ActorShared<SessionProxy> session_proxy_;
   };
-  auth_state_ = auth_data_->get_auth_state().first;
-  auth_data_->add_auth_key_listener(std::make_unique<Listener>(actor_shared(this)));
-  if (is_main_ && !need_wait_for_key_) {
-    open_session();
-  }
+  auth_key_state_ = auth_data_->get_auth_key_state();
+  auth_data_->add_auth_key_listener(make_unique<Listener>(actor_shared(this)));
+  open_session();
 }
 
 void SessionProxy::tear_down() {
   for (auto &query : pending_queries_) {
     query->resend();
+    callback_->on_query_finished();
     G()->net_query_dispatcher().dispatch(std::move(query));
   }
   pending_queries_.clear();
 }
 
 void SessionProxy::send(NetQueryPtr query) {
-  if (query->auth_flag() == NetQuery::AuthFlag::On && auth_state_ != AuthState::OK) {
+  if (query->auth_flag() == NetQuery::AuthFlag::On && auth_key_state_ != AuthKeyState::OK) {
     query->debug(PSTRING() << get_name() << ": wait for auth");
     pending_queries_.emplace_back(std::move(query));
     return;
   }
-  if (session_.empty()) {
-    open_session(true);
-  }
+  open_session(true);
   query->debug(PSTRING() << get_name() << ": sent to session");
   send_closure(session_, &Session::send, std::move(query));
 }
@@ -119,10 +141,25 @@ void SessionProxy::update_main_flag(bool is_main) {
   open_session();
 }
 
+void SessionProxy::update_destroy(bool need_destroy) {
+  if (need_destroy_ == need_destroy) {
+    LOG(INFO) << "Ignore reduntant update_destroy(" << need_destroy << ")";
+    return;
+  }
+  need_destroy_ = need_destroy;
+  close_session();
+  open_session();
+}
+
 void SessionProxy::on_failed() {
   if (session_generation_ != get_link_token()) {
     return;
   }
+  close_session();
+  open_session();
+}
+
+void SessionProxy::update_mtproto_header() {
   close_session();
   open_session();
 }
@@ -134,31 +171,59 @@ void SessionProxy::close_session() {
   send_closure(std::move(session_), &Session::close);
   session_generation_++;
 }
+
 void SessionProxy::open_session(bool force) {
-  if (!force && !is_main_) {
+  if (!session_.empty()) {
     return;
   }
+  // There are several assumption that make this code OK
+  // 1. All unauthorized query will be sent into the same SessionProxy
+  // 2. All authorized query are delayed before we have authorization
+  // So only one SessionProxy will be active before we have authorization key
+  auto should_open = [&] {
+    if (force) {
+      return true;
+    }
+    if (need_destroy_) {
+      return auth_key_state_ != AuthKeyState::Empty;
+    }
+    if (auth_key_state_ != AuthKeyState::OK) {
+      return false;
+    }
+    return is_main_ || !pending_queries_.empty();
+  }();
+  if (!should_open) {
+    return;
+  }
+
   CHECK(session_.empty());
+  auto dc_id = auth_data_->dc_id();
   string name = PSTRING() << "Session" << get_name().substr(Slice("SessionProxy").size());
-  string hash_string = PSTRING() << name << " " << auth_data_->dc_id().get_raw_id() << " " << allow_media_only_;
-  auto hash = std::hash<std::string>()(hash_string);
-  session_ =
-      create_actor<Session>(name,
-                            make_unique<SessionCallback>(actor_shared(this, session_generation_), auth_data_->dc_id(),
-                                                         allow_media_only_, is_media_, hash),
-                            auth_data_, is_main_, use_pfs_, is_cdn_, tmp_auth_key_);
+  string hash_string = PSTRING() << name << " " << dc_id.get_raw_id() << " " << allow_media_only_;
+  auto hash = Hash<string>()(hash_string);
+  int32 raw_dc_id = dc_id.get_raw_id();
+  int32 int_dc_id = raw_dc_id;
+  if (G()->is_test_dc()) {
+    int_dc_id += 10000;
+  }
+  if (allow_media_only_ && !is_cdn_) {
+    int_dc_id = -int_dc_id;
+  }
+  session_ = create_actor<Session>(
+      name,
+      make_unique<SessionCallback>(actor_shared(this, session_generation_), dc_id, allow_media_only_, is_media_, hash),
+      auth_data_, raw_dc_id, int_dc_id, is_main_, use_pfs_, is_cdn_, need_destroy_, tmp_auth_key_, server_salts_);
 }
 
-void SessionProxy::update_auth_state() {
-  auth_state_ = auth_data_->get_auth_state().first;
-  if (pending_queries_.empty() && !need_wait_for_key_) {
-    return;
+void SessionProxy::update_auth_key_state() {
+  auto old_auth_key_state = auth_key_state_;
+  auth_key_state_ = auth_data_->get_auth_key_state();
+  if (auth_key_state_ != old_auth_key_state && old_auth_key_state == AuthKeyState::OK) {
+    close_session();
   }
-  if (auth_state_ != AuthState::OK) {
+  open_session();
+  if (session_.empty() || auth_key_state_ != AuthKeyState::OK) {
     return;
-  }
-  if (session_.empty()) {
-    open_session(true);
   }
   for (auto &query : pending_queries_) {
     query->debug(PSTRING() << get_name() << ": sent to session");
@@ -168,15 +233,24 @@ void SessionProxy::update_auth_state() {
 }
 
 void SessionProxy::on_tmp_auth_key_updated(mtproto::AuthKey auth_key) {
-  string state;
+  Slice state;
   if (auth_key.empty()) {
-    state = "Empty";
+    state = Slice("Empty");
   } else if (auth_key.auth_flag()) {
-    state = "OK";
+    state = Slice("OK");
   } else {
-    state = "NoAuth";
+    state = Slice("NoAuth");
   }
-  LOG(WARNING) << "tmp_auth_key " << auth_key.id() << ": " << state;
+  LOG(WARNING) << "Have tmp_auth_key " << auth_key.id() << ": " << state;
   tmp_auth_key_ = std::move(auth_key);
 }
+
+void SessionProxy::on_server_salt_updated(std::vector<mtproto::ServerSalt> server_salts) {
+  server_salts_ = std::move(server_salts);
+}
+
+void SessionProxy::on_query_finished() {
+  callback_->on_query_finished();
+}
+
 }  // namespace td

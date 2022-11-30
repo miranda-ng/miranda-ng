@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -15,16 +15,23 @@
 #include "td/utils/ByteFlow.h"
 #include "td/utils/common.h"
 #include "td/utils/crypto.h"
+#include "td/utils/logging.h"
 #include "td/utils/port/FileFd.h"
+#include "td/utils/Promise.h"
 #include "td/utils/Slice.h"
 #include "td/utils/Status.h"
+#include "td/utils/StorerBase.h"
+#include "td/utils/UInt.h"
 
 #include <functional>
 
 namespace td {
+
+extern int32 VERBOSITY_NAME(binlog);
+
 struct BinlogInfo {
-  bool was_created;
-  uint64 last_id;
+  bool was_created{false};
+  uint64 last_id{0};
   bool is_encrypted{false};
   bool wrong_password{false};
   bool is_opened{false};
@@ -34,12 +41,11 @@ namespace detail {
 class BinlogReader;
 class BinlogEventsProcessor;
 class BinlogEventsBuffer;
-};  // namespace detail
+}  // namespace detail
 
 class Binlog {
  public:
   enum Error : int { WrongPassword = -1 };
-  static bool IGNORE_ERASE_HACK;
   Binlog();
   Binlog(const Binlog &other) = delete;
   Binlog &operator=(const Binlog &other) = delete;
@@ -67,8 +73,28 @@ class Binlog {
     return fd_.empty();
   }
 
-  void add_raw_event(BufferSlice &&raw_event) {
-    add_event(BinlogEvent(std::move(raw_event)));
+  uint64 add(int32 type, const Storer &storer) {
+    auto log_event_id = next_id();
+    add_raw_event(BinlogEvent::create_raw(log_event_id, type, 0, storer), {});
+    return log_event_id;
+  }
+
+  uint64 rewrite(uint64 log_event_id, int32 type, const Storer &storer) {
+    auto seq_no = next_id();
+    add_raw_event(BinlogEvent::create_raw(log_event_id, type, BinlogEvent::Flags::Rewrite, storer), {});
+    return seq_no;
+  }
+
+  uint64 erase(uint64 log_event_id) {
+    auto seq_no = next_id();
+    add_raw_event(BinlogEvent::create_raw(log_event_id, BinlogEvent::ServiceTypes::Empty, BinlogEvent::Flags::Rewrite,
+                                          EmptyStorer()),
+                  {});
+    return seq_no;
+  }
+
+  void add_raw_event(BufferSlice &&raw_event, BinlogDebugInfo info) {
+    add_event(BinlogEvent(std::move(raw_event), info));
   }
 
   void add_event(BinlogEvent &&event);
@@ -81,6 +107,7 @@ class Binlog {
   void change_key(DbKey new_db_key);
 
   Status close(bool need_sync = true) TD_WARN_UNUSED_RESULT;
+  void close(Promise<> promise);
   Status close_and_destroy() TD_WARN_UNUSED_RESULT;
   static Status destroy(Slice path) TD_WARN_UNUSED_RESULT;
 
@@ -96,7 +123,7 @@ class Binlog {
   BufferedFdBase<FileFd> fd_;
   ChainBufferWriter buffer_writer_;
   ChainBufferReader buffer_reader_;
-  detail::BinlogReader *binlog_reader_ptr_;
+  detail::BinlogReader *binlog_reader_ptr_ = nullptr;
 
   BinlogInfo info_;
   DbKey db_key_;
@@ -118,17 +145,15 @@ class Binlog {
   uint64 fd_events_{0};
   string path_;
   std::vector<BinlogEvent> pending_events_;
-  std::unique_ptr<detail::BinlogEventsProcessor> processor_;
-  std::unique_ptr<detail::BinlogEventsBuffer> events_buffer_;
+  unique_ptr<detail::BinlogEventsProcessor> processor_;
+  unique_ptr<detail::BinlogEventsBuffer> events_buffer_;
   bool in_flush_events_buffer_{false};
   uint64 last_id_{0};
   double need_flush_since_ = 0;
   bool need_sync_{false};
   enum class State { Empty, Load, Reindex, Run } state_{State::Empty};
 
-  static constexpr uint32 MAX_EVENT_SIZE = 65536;
-
-  Result<FileFd> open_binlog(CSlice path, int32 flags);
+  static Result<FileFd> open_binlog(const string &path, int32 flags);
   size_t flush_events_buffer(bool force);
   void do_add_event(BinlogEvent &&event);
   void do_event(BinlogEvent &&event);
@@ -139,5 +164,8 @@ class Binlog {
   void reset_encryption();
   void update_read_encryption();
   void update_write_encryption();
+
+  string debug_get_binlog_data(int64 begin_offset, int64 end_offset);
 };
+
 }  // namespace td

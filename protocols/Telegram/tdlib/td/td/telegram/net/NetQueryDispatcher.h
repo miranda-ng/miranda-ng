@@ -1,16 +1,18 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
-#include "td/telegram/net/AuthDataShared.h"
+
+#include "td/telegram/net/DcId.h"
 #include "td/telegram/net/NetQuery.h"
 
 #include "td/actor/actor.h"
 
 #include "td/utils/common.h"
+#include "td/utils/Promise.h"
 #include "td/utils/ScopeGuard.h"
 #include "td/utils/Status.h"
 
@@ -21,19 +23,18 @@
 #include <mutex>
 
 namespace td {
-class NetQueryDelayer;
-class DataCenter;
+
 class DcAuthManager;
-class SessionMultiProxy;
+class MultiSequenceDispatcher;
+class NetQueryDelayer;
 class PublicRsaKeyShared;
 class PublicRsaKeyWatchdog;
-}  // namespace td
+class SessionMultiProxy;
 
-namespace td {
 // Not just dispatcher.
 class NetQueryDispatcher {
  public:
-  explicit NetQueryDispatcher(std::function<ActorShared<>()> create_reference);
+  explicit NetQueryDispatcher(const std::function<ActorShared<>()> &create_reference);
   NetQueryDispatcher();
   NetQueryDispatcher(const NetQueryDispatcher &) = delete;
   NetQueryDispatcher &operator=(const NetQueryDispatcher &) = delete;
@@ -46,17 +47,25 @@ class NetQueryDispatcher {
   void stop();
 
   void update_session_count();
+  void destroy_auth_keys(Promise<> promise);
   void update_use_pfs();
-  void update_valid_dc(DcId dc_id);
-  DcId main_dc_id() {
-    return DcId::internal(main_dc_id_.load());
+  void update_mtproto_header();
+
+  DcId get_main_dc_id() const {
+    return DcId::internal(main_dc_id_.load(std::memory_order_relaxed));
   }
+
+  void set_main_dc_id(int32 new_main_dc_id);
+  void check_authorization_is_ok();
 
  private:
   std::atomic<bool> stop_flag_{false};
+  bool need_destroy_auth_key_{false};
   ActorOwn<NetQueryDelayer> delayer_;
   ActorOwn<DcAuthManager> dc_auth_manager_;
+  ActorOwn<MultiSequenceDispatcher> sequence_dispatcher_;
   struct Dc {
+    DcId id_;
     std::atomic<bool> is_valid_{false};
     std::atomic<bool> is_inited_{false};  // TODO: cache in scheduler local storage :D
 
@@ -83,6 +92,9 @@ class NetQueryDispatcher {
   static int32 get_session_count();
   static bool get_use_pfs();
 
+  static void complete_net_query(NetQueryPtr net_query);
+
   void try_fix_migrate(NetQueryPtr &net_query);
 };
+
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,9 +8,7 @@
 
 #include "td/utils/common.h"
 #include "td/utils/invoke.h"
-#include "td/utils/logging.h"
 
-#include <cstdlib>
 #include <tuple>
 #include <type_traits>
 #include <utility>
@@ -54,8 +52,7 @@
 // If delay is needed, just std::forward data to temporary storage, and std::move them when call is executed.
 //
 //
-// create_immediate_closure(&Actor::func, arg1, arg2, ..., argn).run(actor)
-// to_delayed_closure(std::move(immediate)).run(actor)
+// create_immediate_closure(&ActorT::func, arg1, arg2, ..., argn).run(actor)
 
 namespace td {
 template <class ActorT, class FunctionT, class... ArgsT>
@@ -68,22 +65,22 @@ class ImmediateClosure {
   friend Delayed;
   using ActorType = ActorT;
 
-  void run(ActorT *actor) {
-    mem_call_tuple(actor, func, std::move(args));
-  }
-
   // no &&. just save references as references.
-  explicit ImmediateClosure(FunctionT func, ArgsT... args) : func(func), args(std::forward<ArgsT>(args)...) {
+  explicit ImmediateClosure(FunctionT func, ArgsT... args) : args(func, std::forward<ArgsT>(args)...) {
   }
 
  private:
-  FunctionT func;
-  std::tuple<ArgsT...> args;
+  std::tuple<FunctionT, ArgsT...> args;
+
+ public:
+  auto run(ActorT *actor) -> decltype(mem_call_tuple(actor, std::move(args))) {
+    return mem_call_tuple(actor, std::move(args));
+  }
 };
 
 template <class ActorT, class ResultT, class... DestArgsT, class... SrcArgsT>
 ImmediateClosure<ActorT, ResultT (ActorT::*)(DestArgsT...), SrcArgsT &&...> create_immediate_closure(
-    ResultT (ActorT::*func)(DestArgsT...), SrcArgsT &&... args) {
+    ResultT (ActorT::*func)(DestArgsT...), SrcArgsT &&...args) {
   return ImmediateClosure<ActorT, ResultT (ActorT::*)(DestArgsT...), SrcArgsT &&...>(func,
                                                                                      std::forward<SrcArgsT>(args)...);
 }
@@ -92,21 +89,11 @@ template <class ActorT, class FunctionT, class... ArgsT>
 class DelayedClosure {
  public:
   using ActorType = ActorT;
-  using Delayed = DelayedClosure<ActorT, FunctionT, ArgsT...>;
 
-  void run(ActorT *actor) {
-    mem_call_tuple(actor, func, std::move(args));
+  explicit DelayedClosure(ImmediateClosure<ActorT, FunctionT, ArgsT...> &&other) : args(std::move(other.args)) {
   }
 
-  DelayedClosure clone() const {
-    return do_clone(*this);
-  }
-
-  explicit DelayedClosure(ImmediateClosure<ActorT, FunctionT, ArgsT...> &&other)
-      : func(std::move(other.func)), args(std::move(other.args)) {
-  }
-
-  explicit DelayedClosure(FunctionT func, ArgsT... args) : func(func), args(std::forward<ArgsT>(args)...) {
+  explicit DelayedClosure(FunctionT func, ArgsT... args) : args(func, std::forward<ArgsT>(args)...) {
   }
 
   template <class F>
@@ -115,53 +102,16 @@ class DelayedClosure {
   }
 
  private:
-  using ArgsStorageT = std::tuple<typename std::decay<ArgsT>::type...>;
+  std::tuple<FunctionT, typename std::decay<ArgsT>::type...> args;
 
-  FunctionT func;
-  ArgsStorageT args;
-
-  template <class FromActorT, class FromFunctionT, class... FromArgsT>
-  explicit DelayedClosure(const DelayedClosure<FromActorT, FromFunctionT, FromArgsT...> &other,
-                          std::enable_if_t<LogicAnd<std::is_copy_constructible<FromArgsT>::value...>::value, int> = 0)
-      : func(other.func), args(other.args) {
-  }
-
-  template <class FromActorT, class FromFunctionT, class... FromArgsT>
-  explicit DelayedClosure(
-      const DelayedClosure<FromActorT, FromFunctionT, FromArgsT...> &other,
-      std::enable_if_t<!LogicAnd<std::is_copy_constructible<FromArgsT>::value...>::value, int> = 0) {
-    LOG(FATAL) << "Deleted constructor";
-    std::abort();
-  }
-
-  template <class FromActorT, class FromFunctionT, class... FromArgsT>
-  std::enable_if_t<!LogicAnd<std::is_copy_constructible<FromArgsT>::value...>::value,
-                   DelayedClosure<FromActorT, FromFunctionT, FromArgsT...>>
-  do_clone(const DelayedClosure<FromActorT, FromFunctionT, FromArgsT...> &value) const {
-    LOG(FATAL) << "Trying to clone DelayedClosure that contains noncopyable elements";
-    std::abort();
-  }
-
-  template <class FromActorT, class FromFunctionT, class... FromArgsT>
-  std::enable_if_t<LogicAnd<std::is_copy_constructible<FromArgsT>::value...>::value,
-                   DelayedClosure<FromActorT, FromFunctionT, FromArgsT...>>
-  do_clone(const DelayedClosure<FromActorT, FromFunctionT, FromArgsT...> &value) const {
-    return DelayedClosure<FromActorT, FromFunctionT, FromArgsT...>(value);
+ public:
+  auto run(ActorT *actor) -> decltype(mem_call_tuple(actor, std::move(args))) {
+    return mem_call_tuple(actor, std::move(args));
   }
 };
 
-template <class... ArgsT>
-typename ImmediateClosure<ArgsT...>::Delayed to_delayed_closure(ImmediateClosure<ArgsT...> &&other) {
-  return typename ImmediateClosure<ArgsT...>::Delayed(std::move(other));
-}
-
-template <class... ArgsT>
-DelayedClosure<ArgsT...> to_delayed_closure(DelayedClosure<ArgsT...> &&other) {
-  return std::move(other);
-}
-
 template <class ActorT, class ResultT, class... DestArgsT, class... SrcArgsT>
-auto create_delayed_closure(ResultT (ActorT::*func)(DestArgsT...), SrcArgsT &&... args) {
+auto create_delayed_closure(ResultT (ActorT::*func)(DestArgsT...), SrcArgsT &&...args) {
   return DelayedClosure<ActorT, ResultT (ActorT::*)(DestArgsT...), SrcArgsT &&...>(func,
                                                                                    std::forward<SrcArgsT>(args)...);
 }

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,6 +7,7 @@
 #pragma once
 
 #include "td/utils/common.h"
+#include "td/utils/Slice.h"
 
 namespace td {
 
@@ -16,19 +17,31 @@ string clean_name(string str, size_t max_length) TD_WARN_UNUSED_RESULT;
 // prepares username/stickername for search
 string clean_username(string str) TD_WARN_UNUSED_RESULT;
 
+// prepares phone number for search
+void clean_phone_number(string &phone_number);
+
+// replaces some offending characters without changing string length
+void replace_offending_characters(string &str);
+
 // removes control characters from the string, will fail if input string is not in UTF-8
 bool clean_input_string(string &str) TD_WARN_UNUSED_RESULT;
 
 // strips empty characters and ensures that string length is no more than max_length
-string strip_empty_characters(string str, size_t max_length) TD_WARN_UNUSED_RESULT;
+string strip_empty_characters(string str, size_t max_length, bool strip_rtlo = false) TD_WARN_UNUSED_RESULT;
 
 // checks if string is empty after strip_empty_characters
 bool is_empty_string(const string &str) TD_WARN_UNUSED_RESULT;
 
-// calculates hash of list of uint32
-int32 get_vector_hash(const vector<uint32> &numbers) TD_WARN_UNUSED_RESULT;
+// checks whether a string could be a valid username
+bool is_valid_username(Slice username);
+
+// calculates hash of list of uint64
+int64 get_vector_hash(const vector<uint64> &numbers) TD_WARN_UNUSED_RESULT;
 
 // returns emoji corresponding to the specified number
 string get_emoji_fingerprint(uint64 num);
+
+// checks whether currency amount is valid
+bool check_currency_amount(int64 amount);
 
 }  // namespace td

@@ -1,13 +1,13 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "tl_core.h"
-#include "tl_simple_parser.h"
+#include "td/tl/tl_core.h"
+#include "td/tl/tl_simple_parser.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -77,7 +77,7 @@ class tl_config_parser {
   std::string try_parse_string();
 
  public:
-  tl_config_parser(const char *s, std::size_t len) : p(s, len) {
+  tl_config_parser(const char *s, std::size_t len) : p(s, len), schema_version(-1) {
   }
 
   tl_config parse_config();

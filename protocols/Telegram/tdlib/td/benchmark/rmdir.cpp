@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,15 +14,16 @@ int main(int argc, char *argv[]) {
   }
   td::CSlice dir(argv[1]);
   int cnt = 0;
-  auto status = td::walk_path(dir, [&](td::CSlice path, bool is_dir) {
-    cnt++;
-    LOG(INFO) << path << " " << is_dir;
-    // if (is_dir) {
+  auto status = td::walk_path(dir, [&](td::CSlice path, auto type) {
+    if (type != td::WalkPath::Type::EnterDir) {
+      cnt++;
+      LOG(INFO) << path << " " << (type == td::WalkPath::Type::ExitDir);
+    }
+    //if (is_dir) {
     // td::rmdir(path);
     //} else {
     // td::unlink(path);
     //}
   });
   LOG(INFO) << status << ": " << cnt;
-  return 0;
 }

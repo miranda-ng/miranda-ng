@@ -1,38 +1,57 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/telegram/Dimensions.h"
+#include "td/telegram/files/FileId.h"
+#include "td/telegram/FullMessageId.h"
+#include "td/telegram/PhotoSize.h"
+#include "td/telegram/SecretInputMedia.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/telegram_api.h"
+#include "td/telegram/TranscriptionInfo.h"
 
-#include "td/telegram/files/FileId.h"
-#include "td/telegram/Photo.h"
-#include "td/telegram/SecretInputMedia.h"
+#include "td/actor/actor.h"
 
 #include "td/utils/buffer.h"
 #include "td/utils/common.h"
-
-#include <unordered_map>
+#include "td/utils/FlatHashMap.h"
+#include "td/utils/FlatHashSet.h"
+#include "td/utils/Promise.h"
+#include "td/utils/Status.h"
+#include "td/utils/WaitFreeHashMap.h"
 
 namespace td {
+
 class Td;
-}  // namespace td
 
-namespace td {
-
-class VideoNotesManager {
+class VideoNotesManager final : public Actor {
  public:
-  explicit VideoNotesManager(Td *td);
+  VideoNotesManager(Td *td, ActorShared<> parent);
+  VideoNotesManager(const VideoNotesManager &) = delete;
+  VideoNotesManager &operator=(const VideoNotesManager &) = delete;
+  VideoNotesManager(VideoNotesManager &&) = delete;
+  VideoNotesManager &operator=(VideoNotesManager &&) = delete;
+  ~VideoNotesManager() final;
 
-  int32 get_video_note_duration(FileId file_id);
+  int32 get_video_note_duration(FileId file_id) const;
 
-  tl_object_ptr<td_api::videoNote> get_video_note_object(FileId file_id);
+  tl_object_ptr<td_api::videoNote> get_video_note_object(FileId file_id) const;
 
-  void create_video_note(FileId file_id, PhotoSize thumbnail, int32 duration, Dimensions dimensions, bool replace);
+  void create_video_note(FileId file_id, string minithumbnail, PhotoSize thumbnail, int32 duration,
+                         Dimensions dimensions, string waveform, bool replace);
+
+  void register_video_note(FileId video_note_file_id, FullMessageId full_message_id, const char *source);
+
+  void unregister_video_note(FileId video_note_file_id, FullMessageId full_message_id, const char *source);
+
+  void recognize_speech(FullMessageId full_message_id, Promise<Unit> &&promise);
+
+  void rate_speech_recognition(FullMessageId full_message_id, bool is_good, Promise<Unit> &&promise);
 
   tl_object_ptr<telegram_api::InputMedia> get_input_media(FileId file_id,
                                                           tl_object_ptr<telegram_api::InputFile> input_file,
@@ -48,32 +67,49 @@ class VideoNotesManager {
 
   FileId dup_video_note(FileId new_id, FileId old_id);
 
-  bool merge_video_notes(FileId new_id, FileId old_id, bool can_delete_old);
+  void merge_video_notes(FileId new_id, FileId old_id);
 
-  template <class T>
-  void store_video_note(FileId file_id, T &storer) const;
+  template <class StorerT>
+  void store_video_note(FileId file_id, StorerT &storer) const;
 
-  template <class T>
-  FileId parse_video_note(T &parser);
+  template <class ParserT>
+  FileId parse_video_note(ParserT &parser);
 
  private:
   class VideoNote {
    public:
     int32 duration = 0;
     Dimensions dimensions;
+    string waveform;
+    string minithumbnail;
     PhotoSize thumbnail;
+    unique_ptr<TranscriptionInfo> transcription_info;
 
     FileId file_id;
-
-    bool is_changed = true;
   };
+
+  VideoNote *get_video_note(FileId file_id);
 
   const VideoNote *get_video_note(FileId file_id) const;
 
-  FileId on_get_video_note(std::unique_ptr<VideoNote> new_video_note, bool replace);
+  FileId on_get_video_note(unique_ptr<VideoNote> new_video_note, bool replace);
+
+  void on_video_note_transcription_updated(FileId file_id);
+
+  void on_video_note_transcription_completed(FileId file_id);
+
+  void on_transcribed_audio_update(FileId file_id, bool is_initial,
+                                   Result<telegram_api::object_ptr<telegram_api::updateTranscribedAudio>> r_update);
+
+  void tear_down() final;
 
   Td *td_;
-  std::unordered_map<FileId, unique_ptr<VideoNote>, FileIdHash> video_notes_;
+  ActorShared<> parent_;
+
+  WaitFreeHashMap<FileId, unique_ptr<VideoNote>, FileIdHash> video_notes_;
+
+  FlatHashMap<FileId, FlatHashSet<FullMessageId, FullMessageIdHash>, FileIdHash> video_note_messages_;
+  FlatHashMap<FullMessageId, FileId, FullMessageIdHash> message_video_notes_;
 };
 
 }  // namespace td

@@ -1,25 +1,26 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/db/binlog/detail/BinlogEventsProcessor.h"
 
-#include "td/utils/logging.h"
+#include "td/utils/SliceBuilder.h"
+#include "td/utils/Status.h"
 
 #include <algorithm>
 
 namespace td {
 namespace detail {
-void BinlogEventsProcessor::do_event(BinlogEvent &&event) {
+
+Status BinlogEventsProcessor::do_event(BinlogEvent &&event) {
   offset_ = event.offset_;
   auto fixed_id = event.id_ * 2;
   if ((event.flags_ & BinlogEvent::Flags::Rewrite) && !ids_.empty() && ids_.back() >= fixed_id) {
     auto it = std::lower_bound(ids_.begin(), ids_.end(), fixed_id);
     if (it == ids_.end() || *it != fixed_id) {
-      LOG(FATAL) << "Ignore rewrite logevent";
-      return;
+      return Status::Error(PSLICE() << "Ignore rewrite log event " << event.public_to_string());
     }
     auto pos = it - ids_.begin();
     total_raw_events_size_ -= static_cast<int64>(events_[pos].raw_event_.size());
@@ -32,10 +33,14 @@ void BinlogEventsProcessor::do_event(BinlogEvent &&event) {
       total_raw_events_size_ += static_cast<int64>(event.raw_event_.size());
       events_[pos] = std::move(event);
     }
-  } else if (event.type_ == BinlogEvent::ServiceTypes::Empty) {
-    // just skip this event
+  } else if (event.type_ < 0) {
+    // just skip service events
   } else {
-    CHECK(ids_.empty() || ids_.back() < fixed_id);
+    if (!(ids_.empty() || ids_.back() < fixed_id)) {
+      return Status::Error(PSLICE() << offset_ << " " << ids_.size() << " " << ids_.back() << " " << fixed_id << " "
+                                    << event.public_to_string() << " " << total_events_ << " "
+                                    << total_raw_events_size_);
+    }
     last_id_ = event.id_;
     total_raw_events_size_ += static_cast<int64>(event.raw_event_.size());
     total_events_++;
@@ -46,6 +51,7 @@ void BinlogEventsProcessor::do_event(BinlogEvent &&event) {
   if (total_events_ > 10 && empty_events_ * 4 > total_events_ * 3) {
     compactify();
   }
+  return Status::OK();
 }
 
 void BinlogEventsProcessor::compactify() {
@@ -66,5 +72,6 @@ void BinlogEventsProcessor::compactify() {
   empty_events_ = 0;
   CHECK(ids_.size() == events_.size());
 }
+
 }  // namespace detail
 }  // namespace td

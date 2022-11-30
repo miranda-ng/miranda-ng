@@ -1,10 +1,11 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
+
 #include "td/utils/StorerBase.h"
 
 #include "td/utils/common.h"
@@ -15,16 +16,17 @@
 #include <limits>
 
 namespace td {
-class SliceStorer : public Storer {
+
+class SliceStorer final : public Storer {
   Slice slice;
 
  public:
   explicit SliceStorer(Slice slice) : slice(slice) {
   }
-  size_t size() const override {
+  size_t size() const final {
     return slice.size();
   }
-  size_t store(uint8 *ptr) const override {
+  size_t store(uint8 *ptr) const final {
     std::memcpy(ptr, slice.ubegin(), slice.size());
     return slice.size();
   }
@@ -34,7 +36,7 @@ inline SliceStorer create_storer(Slice slice) {
   return SliceStorer(slice);
 }
 
-class ConcatStorer : public Storer {
+class ConcatStorer final : public Storer {
   const Storer &a_;
   const Storer &b_;
 
@@ -42,11 +44,11 @@ class ConcatStorer : public Storer {
   ConcatStorer(const Storer &a, const Storer &b) : a_(a), b_(b) {
   }
 
-  size_t size() const override {
+  size_t size() const final {
     return a_.size() + b_.size();
   }
 
-  size_t store(uint8 *ptr) const override {
+  size_t store(uint8 *ptr) const final {
     uint8 *ptr_save = ptr;
     ptr += a_.store(ptr);
     ptr += b_.store(ptr);
@@ -59,17 +61,17 @@ inline ConcatStorer create_storer(const Storer &a, const Storer &b) {
 }
 
 template <class T>
-class DefaultStorer : public Storer {
+class DefaultStorer final : public Storer {
  public:
   explicit DefaultStorer(const T &object) : object_(object) {
   }
-  size_t size() const override {
+  size_t size() const final {
     if (size_ == std::numeric_limits<size_t>::max()) {
       size_ = tl_calc_length(object_);
     }
     return size_;
   }
-  size_t store(uint8 *ptr) const override {
+  size_t store(uint8 *ptr) const final {
     return tl_store_unsafe(object_, ptr);
   }
 

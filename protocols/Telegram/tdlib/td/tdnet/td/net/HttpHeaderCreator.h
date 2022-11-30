@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,6 +8,7 @@
 
 #include "td/utils/logging.h"
 #include "td/utils/Slice.h"
+#include "td/utils/SliceBuilder.h"
 #include "td/utils/Status.h"
 #include "td/utils/StringBuilder.h"
 
@@ -16,27 +17,26 @@ namespace td {
 class HttpHeaderCreator {
  public:
   static constexpr size_t MAX_HEADER = 4096;
-  HttpHeaderCreator() : sb_({header_, MAX_HEADER}) {
+  HttpHeaderCreator() : sb_(MutableSlice{header_, MAX_HEADER}) {
   }
   void init_ok() {
-    sb_ = StringBuilder({header_, MAX_HEADER});
+    sb_ = StringBuilder(MutableSlice{header_, MAX_HEADER});
     sb_ << "HTTP/1.1 200 OK\r\n";
   }
   void init_get(Slice url) {
-    sb_ = StringBuilder({header_, MAX_HEADER});
+    sb_ = StringBuilder(MutableSlice{header_, MAX_HEADER});
     sb_ << "GET " << url << " HTTP/1.1\r\n";
   }
   void init_post(Slice url) {
-    sb_ = StringBuilder({header_, MAX_HEADER});
+    sb_ = StringBuilder(MutableSlice{header_, MAX_HEADER});
     sb_ << "POST " << url << " HTTP/1.1\r\n";
   }
   void init_error(int code, Slice reason) {
-    sb_ = StringBuilder({header_, MAX_HEADER});
+    sb_ = StringBuilder(MutableSlice{header_, MAX_HEADER});
     sb_ << "HTTP/1.1 " << code << " " << reason << "\r\n";
   }
   void init_status_line(int http_status_code) {
-    sb_ = StringBuilder({header_, MAX_HEADER});
-    sb_ << "HTTP/1.1 " << http_status_code << " " << get_status_line(http_status_code) << "\r\n";
+    init_error(http_status_code, get_status_line(http_status_code));
   }
   void add_header(Slice key, Slice value) {
     sb_ << key << ": " << value << "\r\n";
@@ -45,7 +45,7 @@ class HttpHeaderCreator {
     add_header("Content-Type", type);
   }
   void set_content_size(size_t size) {
-    add_header("Content-Length", to_string(size));
+    add_header("Content-Length", PSLICE() << size);
   }
   void set_keep_alive() {
     add_header("Connection", "keep-alive");
@@ -57,7 +57,7 @@ class HttpHeaderCreator {
       sb_ << content;
     }
     if (sb_.is_error()) {
-      return Status::Error("Too much headers");
+      return Status::Error("Too many headers");
     }
     return sb_.as_cslice();
   }
@@ -86,6 +86,8 @@ class HttpHeaderCreator {
         return CSlice("Not Modified");
       case 307:
         return CSlice("Temporary Redirect");
+      case 308:
+        return CSlice("Permanent Redirect");
       case 400:
         return CSlice("Bad Request");
       case 401:
@@ -102,16 +104,28 @@ class HttpHeaderCreator {
         return CSlice("Request Timeout");
       case 409:
         return CSlice("Conflict");
+      case 410:
+        return CSlice("Gone");
       case 411:
         return CSlice("Length Required");
+      case 412:
+        return CSlice("Precondition Failed");
       case 413:
         return CSlice("Request Entity Too Large");
       case 414:
         return CSlice("Request-URI Too Long");
       case 415:
         return CSlice("Unsupported Media Type");
+      case 416:
+        return CSlice("Range Not Satisfiable");
+      case 417:
+        return CSlice("Expectation Failed");
       case 418:
         return CSlice("I'm a teapot");
+      case 421:
+        return CSlice("Misdirected Request");
+      case 426:
+        return CSlice("Upgrade Required");
       case 429:
         return CSlice("Too Many Requests");
       case 431:

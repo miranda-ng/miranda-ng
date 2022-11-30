@@ -1,18 +1,21 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/HashtagHints.h"
 
-#include "td/db/Pmc.h"
 #include "td/telegram/Global.h"
+#include "td/telegram/TdDb.h"
+#include "td/telegram/TdParameters.h"
 
+#include "td/db/SqliteKeyValueAsync.h"
+
+#include "td/utils/HashTableUtils.h"
 #include "td/utils/logging.h"
 #include "td/utils/tl_helpers.h"
-
-#include <functional>
+#include "td/utils/utf8.h"
 
 namespace td {
 
@@ -45,7 +48,7 @@ void HashtagHints::remove_hashtag(string hashtag, Promise<> promise) {
   if (hashtag[0] == '#') {
     hashtag = hashtag.substr(1);
   }
-  auto key = std::hash<std::string>()(hashtag);
+  auto key = Hash<string>()(hashtag);
   if (hints_.has_key(key)) {
     hints_.remove(key);
     G()->td_db()->get_sqlite_pmc()->set(get_key(), serialize(keys_to_strings(hints_.search_empty(101).second)),
@@ -71,13 +74,21 @@ string HashtagHints::get_key() const {
 }
 
 void HashtagHints::hashtag_used_impl(const string &hashtag) {
-  // TODO: may be it should be optimized a little
-  auto key = std::hash<std::string>()(hashtag);
+  if (!check_utf8(hashtag)) {
+    LOG(ERROR) << "Trying to add invalid UTF-8 hashtag \"" << hashtag << '"';
+    return;
+  }
+
+  auto key = Hash<string>()(hashtag);
   hints_.add(key, hashtag);
   hints_.set_rating(key, -++counter_);
 }
 
 void HashtagHints::from_db(Result<string> data, bool dummy) {
+  if (G()->close_flag()) {
+    return;
+  }
+
   sync_with_db_ = true;
   if (data.is_error() || data.ok().empty()) {
     return;
@@ -85,7 +96,7 @@ void HashtagHints::from_db(Result<string> data, bool dummy) {
   std::vector<string> hashtags;
   auto status = unserialize(hashtags, data.ok());
   if (status.is_error()) {
-    LOG(ERROR) << status;
+    LOG(ERROR) << "Failed to unserialize hashtag hints: " << status;
     return;
   }
 

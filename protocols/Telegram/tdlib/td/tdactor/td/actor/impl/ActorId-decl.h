@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,8 +12,10 @@
 #include <type_traits>
 
 namespace td {
-class ActorInfo;
+
 class Actor;
+class ActorInfo;
+
 template <class ActorType = Actor>
 class ActorId {
  public:
@@ -21,12 +23,12 @@ class ActorId {
   explicit ActorId(ObjectPool<ActorInfo>::WeakPtr ptr) : ptr_(ptr) {
   }
   ActorId() = default;
-  ActorId(const ActorId &) = default;
-  ActorId &operator=(const ActorId &) = default;
-  ActorId(ActorId &&other) : ptr_(other.ptr_) {
-    other.ptr_.clear();
+  ActorId(const ActorId &other) = default;
+  ActorId &operator=(const ActorId &other) = default;
+  ActorId(ActorId &&other) noexcept : ptr_(other.ptr_) {
+    other.clear();
   }
-  ActorId &operator=(ActorId &&other) {
+  ActorId &operator=(ActorId &&other) noexcept {
     if (&other == this) {
       return *this;
     }
@@ -48,10 +50,8 @@ class ActorId {
   }
 
   ActorInfo *get_actor_info() const;
-  ActorType *get_actor_unsafe() const;
 
-  // returns pointer to actor if it is on current thread. nullptr otherwise
-  ActorType *try_get_actor() const;
+  ActorType *get_actor_unsafe() const;
 
   Slice get_name() const;
 
@@ -60,33 +60,27 @@ class ActorId {
     return ActorId<ToActorType>(ptr_);
   }
 
-  template <class AsActorType>
-  ActorId<AsActorType> as() const {
-    return ActorId<AsActorType>(ptr_);
-  }
-
  private:
   ObjectPool<ActorInfo>::WeakPtr ptr_;
 };
 
-// threat ActorId as pointer and ActorOwn as
-// unique_ptr<ActorId>
+// treat ActorId as pointer and ActorOwn as unique_ptr<ActorId>
 template <class ActorType = Actor>
 class ActorOwn {
  public:
   using ActorT = ActorType;
   ActorOwn() = default;
-  explicit ActorOwn(ActorId<ActorType>);
+  explicit ActorOwn(ActorId<ActorType> id);
   template <class OtherActorType>
   explicit ActorOwn(ActorId<OtherActorType> id);
   template <class OtherActorType>
-  explicit ActorOwn(ActorOwn<OtherActorType> &&);
+  explicit ActorOwn(ActorOwn<OtherActorType> &&other);
   template <class OtherActorType>
-  ActorOwn &operator=(ActorOwn<OtherActorType> &&);
-  ActorOwn(ActorOwn &&);
-  ActorOwn &operator=(ActorOwn &&);
-  ActorOwn(const ActorOwn &) = delete;
-  ActorOwn &operator=(const ActorOwn &) = delete;
+  ActorOwn &operator=(ActorOwn<OtherActorType> &&other);
+  ActorOwn(ActorOwn &&other) noexcept;
+  ActorOwn &operator=(ActorOwn &&other) noexcept;
+  ActorOwn(const ActorOwn &other) = delete;
+  ActorOwn &operator=(const ActorOwn &other) = delete;
   ~ActorOwn();
 
   bool empty() const;
@@ -96,11 +90,7 @@ class ActorOwn {
   ActorId<ActorType> get() const;
   ActorId<ActorType> release();
   void reset(ActorId<ActorType> other = ActorId<ActorType>());
-  void hangup() const;
-  const ActorId<ActorType> *operator->() const;
-
-  using ActorIdConstRef = const ActorId<ActorType> &;
-  // operator ActorIdConstRef();
+  ActorType *get_actor_unsafe() const;
 
  private:
   ActorId<ActorType> id_;
@@ -112,17 +102,17 @@ class ActorShared {
   using ActorT = ActorType;
   ActorShared() = default;
   template <class OtherActorType>
-  ActorShared(ActorId<OtherActorType>, uint64 token);
+  ActorShared(ActorId<OtherActorType> id, uint64 token);
   template <class OtherActorType>
-  ActorShared(ActorShared<OtherActorType> &&);
+  ActorShared(ActorShared<OtherActorType> &&other);
   template <class OtherActorType>
-  ActorShared(ActorOwn<OtherActorType> &&);
+  ActorShared(ActorOwn<OtherActorType> &&other);
   template <class OtherActorType>
-  ActorShared &operator=(ActorShared<OtherActorType> &&);
-  ActorShared(ActorShared &&);
-  ActorShared &operator=(ActorShared &&);
-  ActorShared(const ActorShared &) = delete;
-  ActorShared &operator=(const ActorShared &) = delete;
+  ActorShared &operator=(ActorShared<OtherActorType> &&other);
+  ActorShared(ActorShared &&other) noexcept;
+  ActorShared &operator=(ActorShared &&other) noexcept;
+  ActorShared(const ActorShared &other) = delete;
+  ActorShared &operator=(const ActorShared &other) = delete;
   ~ActorShared();
 
   uint64 token() const;
@@ -133,13 +123,10 @@ class ActorShared {
   ActorId<ActorType> get() const;
   ActorId<ActorType> release();
   void reset(ActorId<ActorType> other = ActorId<ActorType>());
-  template <class OtherActorType>
-  void reset(ActorId<OtherActorType> other);
-  const ActorId<ActorType> *operator->() const;
 
  private:
   ActorId<ActorType> id_;
-  uint64 token_;
+  uint64 token_ = 0;
 };
 
 class ActorRef {
@@ -147,6 +134,8 @@ class ActorRef {
   ActorRef() = default;
   template <class T>
   ActorRef(const ActorId<T> &actor_id);
+  template <class T>
+  ActorRef(ActorId<T> &&actor_id);
   template <class T>
   ActorRef(const ActorShared<T> &actor_id);
   template <class T>
@@ -166,4 +155,5 @@ class ActorRef {
   ActorId<> actor_id_;
   uint64 token_ = 0;
 };
+
 }  // namespace td

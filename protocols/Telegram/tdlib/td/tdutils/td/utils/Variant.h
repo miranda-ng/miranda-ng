@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -55,7 +55,7 @@ class IthTypeImpl<pos, Skip, Args...> : public IthTypeImpl<pos - 1, Args...> {};
 class Dummy {};
 
 template <size_t pos, class... Args>
-class IthType : public IthTypeImpl<pos, Args..., Dummy> {};
+class IthType final : public IthTypeImpl<pos, Args..., Dummy> {};
 
 template <bool ok, int offset, class... Types>
 class FindTypeOffsetImpl {};
@@ -69,7 +69,7 @@ template <int offset, class T, class S, class... Types>
 class FindTypeOffsetImpl<false, offset, T, S, Types...>
     : public FindTypeOffsetImpl<std::is_same<T, S>::value, offset + 1, T, Types...> {};
 template <class T, class... Types>
-class FindTypeOffset : public FindTypeOffsetImpl<false, -1, T, Types...> {};
+class FindTypeOffset final : public FindTypeOffsetImpl<false, -1, T, Types...> {};
 
 template <int offset, class... Types>
 class ForEachTypeImpl {};
@@ -109,18 +109,21 @@ class Variant {
   static constexpr int npos = -1;
   Variant() {
   }
-  Variant(Variant &&other) {
+  Variant(Variant &&other) noexcept {
     other.visit([&](auto &&value) { this->init_empty(std::forward<decltype(value)>(value)); });
   }
   Variant(const Variant &other) {
     other.visit([&](auto &&value) { this->init_empty(std::forward<decltype(value)>(value)); });
   }
-  Variant &operator=(Variant &&other) {
+  Variant &operator=(Variant &&other) noexcept {
     clear();
     other.visit([&](auto &&value) { this->init_empty(std::forward<decltype(value)>(value)); });
     return *this;
   }
   Variant &operator=(const Variant &other) {
+    if (this == &other) {
+      return *this;
+    }
     clear();
     other.visit([&](auto &&value) { this->init_empty(std::forward<decltype(value)>(value)); });
     return *this;
@@ -153,11 +156,11 @@ class Variant {
     return res;
   }
 
-  template <class T>
+  template <class T, std::enable_if_t<!std::is_same<std::decay_t<T>, Variant>::value, int> = 0>
   Variant(T &&t) {
     init_empty(std::forward<T>(t));
   }
-  template <class T>
+  template <class T, std::enable_if_t<!std::is_same<std::decay_t<T>, Variant>::value, int> = 0>
   Variant &operator=(T &&t) {
     clear();
     init_empty(std::forward<T>(t));
@@ -170,7 +173,11 @@ class Variant {
 
   template <class T>
   void init_empty(T &&t) {
-    CHECK(offset_ == npos);
+    LOG_CHECK(offset_ == npos) << offset_
+#if TD_CLANG || TD_GCC
+                               << ' ' << __PRETTY_FUNCTION__
+#endif
+        ;
     offset_ = offset<T>();
     new (&get<T>()) std::decay_t<T>(std::forward<T>(t));
   }
@@ -237,6 +244,10 @@ class Variant {
     return offset_;
   }
 
+  bool empty() const {
+    return offset_ == npos;
+  }
+
  private:
   union {
     int64 align_;
@@ -283,4 +294,5 @@ template <int T, class... Types>
 auto &get(const Variant<Types...> &v) {
   return v.template get<T>();
 }
+
 }  // namespace td

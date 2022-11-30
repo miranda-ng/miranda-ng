@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,31 +11,38 @@
 #ifdef TD_EVENTFD_LINUX
 
 #include "td/utils/common.h"
+#include "td/utils/port/detail/PollableFd.h"
 #include "td/utils/port/EventFdBase.h"
-#include "td/utils/port/Fd.h"
 #include "td/utils/Status.h"
 
 namespace td {
 namespace detail {
+class EventFdLinuxImpl;
 
 class EventFdLinux final : public EventFdBase {
-  Fd fd_;
+  unique_ptr<EventFdLinuxImpl> impl_;
 
  public:
-  void init() override;
+  EventFdLinux();
+  EventFdLinux(EventFdLinux &&) noexcept;
+  EventFdLinux &operator=(EventFdLinux &&) noexcept;
+  ~EventFdLinux() final;
 
-  bool empty() override;
+  void init() final;
 
-  void close() override;
+  bool empty() final;
 
-  Status get_pending_error() override TD_WARN_UNUSED_RESULT;
+  void close() final;
 
-  const Fd &get_fd() const override;
-  Fd &get_fd() override;
+  Status get_pending_error() final TD_WARN_UNUSED_RESULT;
 
-  void release() override;
+  PollableFdInfo &get_poll_info() final;
 
-  void acquire() override;
+  void release() final;
+
+  void acquire() final;
+
+  void wait(int timeout_ms) final;
 };
 
 }  // namespace detail

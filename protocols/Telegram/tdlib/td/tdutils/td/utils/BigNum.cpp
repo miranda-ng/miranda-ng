@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -12,9 +12,12 @@ char disable_linker_warning_about_empty_file_bignum_cpp TD_UNUSED;
 
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
+#include "td/utils/SliceBuilder.h"
 
 #include <openssl/bn.h>
 #include <openssl/crypto.h>
+
+#include <algorithm>
 
 namespace td {
 
@@ -37,9 +40,8 @@ class BigNumContext::Impl {
 BigNumContext::BigNumContext() : impl_(make_unique<Impl>()) {
 }
 
-BigNumContext::BigNumContext(BigNumContext &&other) = default;
-BigNumContext &BigNumContext::operator=(BigNumContext &&other) = default;
-
+BigNumContext::BigNumContext(BigNumContext &&other) noexcept = default;
+BigNumContext &BigNumContext::operator=(BigNumContext &&other) noexcept = default;
 BigNumContext::~BigNumContext() = default;
 
 class BigNum::Impl {
@@ -68,6 +70,9 @@ BigNum::BigNum(const BigNum &other) : BigNum() {
 }
 
 BigNum &BigNum::operator=(const BigNum &other) {
+  if (this == &other) {
+    return *this;
+  }
   CHECK(impl_ != nullptr);
   CHECK(other.impl_ != nullptr);
   BIGNUM *result = BN_copy(impl_->big_num, other.impl_->big_num);
@@ -75,20 +80,41 @@ BigNum &BigNum::operator=(const BigNum &other) {
   return *this;
 }
 
-BigNum::BigNum(BigNum &&other) = default;
-
-BigNum &BigNum::operator=(BigNum &&other) = default;
-
+BigNum::BigNum(BigNum &&other) noexcept = default;
+BigNum &BigNum::operator=(BigNum &&other) noexcept = default;
 BigNum::~BigNum() = default;
 
 BigNum BigNum::from_binary(Slice str) {
   return BigNum(make_unique<Impl>(BN_bin2bn(str.ubegin(), narrow_cast<int>(str.size()), nullptr)));
 }
 
-BigNum BigNum::from_decimal(CSlice str) {
+BigNum BigNum::from_le_binary(Slice str) {
+#if defined(OPENSSL_IS_BORINGSSL)
+  return BigNum(make_unique<Impl>(BN_le2bn(str.ubegin(), narrow_cast<int>(str.size()), nullptr)));
+#elif OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER)
+  return BigNum(make_unique<Impl>(BN_lebin2bn(str.ubegin(), narrow_cast<int>(str.size()), nullptr)));
+#else
+  string str_copy = str.str();
+  std::reverse(str_copy.begin(), str_copy.end());
+  return from_binary(str_copy);
+#endif
+}
+
+Result<BigNum> BigNum::from_decimal(CSlice str) {
   BigNum result;
-  int err = BN_dec2bn(&result.impl_->big_num, str.c_str());
-  LOG_IF(FATAL, err == 0);
+  int res = BN_dec2bn(&result.impl_->big_num, str.c_str());
+  if (res == 0 || static_cast<size_t>(res) != str.size()) {
+    return Status::Error(PSLICE() << "Failed to parse \"" << str << "\" as BigNum");
+  }
+  return result;
+}
+
+Result<BigNum> BigNum::from_hex(CSlice str) {
+  BigNum result;
+  int res = BN_hex2bn(&result.impl_->big_num, str.c_str());
+  if (res == 0 || static_cast<size_t>(res) != str.size()) {
+    return Status::Error(PSLICE() << "Failed to parse \"" << str << "\" as hexadecimal BigNum");
+  }
   return result;
 }
 
@@ -97,10 +123,6 @@ BigNum BigNum::from_raw(void *openssl_big_num) {
 }
 
 BigNum::BigNum(unique_ptr<Impl> &&impl) : impl_(std::move(impl)) {
-}
-
-void BigNum::ensure_const_time() {
-  BN_set_flags(impl_->big_num, BN_FLG_CONSTTIME);
 }
 
 int BigNum::get_num_bits() const {
@@ -126,7 +148,12 @@ bool BigNum::is_bit_set(int num) const {
 }
 
 bool BigNum::is_prime(BigNumContext &context) const {
-  int result = BN_is_prime_ex(impl_->big_num, BN_prime_checks, context.impl_->big_num_context, nullptr);
+#if OPENSSL_VERSION_NUMBER >= 0x30000000L && !defined(LIBRESSL_VERSION_NUMBER)
+  int result = BN_check_prime(impl_->big_num, context.impl_->big_num_context, nullptr);
+#else
+  int result =
+      BN_is_prime_ex(impl_->big_num, get_num_bits() > 2048 ? 128 : 64, context.impl_->big_num_context, nullptr);
+#endif
   LOG_IF(FATAL, result == -1);
   return result == 1;
 }
@@ -180,8 +207,30 @@ string BigNum::to_binary(int exact_size) const {
     CHECK(exact_size >= num_size);
   }
   string res(exact_size, '\0');
-  BN_bn2bin(impl_->big_num, reinterpret_cast<unsigned char *>(&res[exact_size - num_size]));
+  BN_bn2bin(impl_->big_num, MutableSlice(res).ubegin() + (exact_size - num_size));
   return res;
+}
+
+string BigNum::to_le_binary(int exact_size) const {
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L && !defined(LIBRESSL_VERSION_NUMBER) || defined(OPENSSL_IS_BORINGSSL)
+  int num_size = get_num_bytes();
+  if (exact_size == -1) {
+    exact_size = num_size;
+  } else {
+    CHECK(exact_size >= num_size);
+  }
+  string result(exact_size, '\0');
+#if defined(OPENSSL_IS_BORINGSSL)
+  BN_bn2le_padded(MutableSlice(result).ubegin(), exact_size, impl_->big_num);
+#else
+  BN_bn2lebinpad(impl_->big_num, MutableSlice(result).ubegin(), exact_size);
+#endif
+  return result;
+#else
+  string result = to_binary(exact_size);
+  std::reverse(result.begin(), result.end());
+  return result;
+#endif
 }
 
 string BigNum::to_decimal() const {
@@ -214,10 +263,27 @@ void BigNum::mul(BigNum &r, BigNum &a, BigNum &b, BigNumContext &context) {
   LOG_IF(FATAL, result != 1);
 }
 
+void BigNum::mod_add(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context) {
+  int result = BN_mod_add(r.impl_->big_num, a.impl_->big_num, b.impl_->big_num, m.impl_->big_num,
+                          context.impl_->big_num_context);
+  LOG_IF(FATAL, result != 1);
+}
+
+void BigNum::mod_sub(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context) {
+  int result = BN_mod_sub(r.impl_->big_num, a.impl_->big_num, b.impl_->big_num, m.impl_->big_num,
+                          context.impl_->big_num_context);
+  LOG_IF(FATAL, result != 1);
+}
+
 void BigNum::mod_mul(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context) {
   int result = BN_mod_mul(r.impl_->big_num, a.impl_->big_num, b.impl_->big_num, m.impl_->big_num,
                           context.impl_->big_num_context);
   LOG_IF(FATAL, result != 1);
+}
+
+void BigNum::mod_inverse(BigNum &r, BigNum &a, const BigNum &m, BigNumContext &context) {
+  auto result = BN_mod_inverse(r.impl_->big_num, a.impl_->big_num, m.impl_->big_num, context.impl_->big_num_context);
+  LOG_IF(FATAL, result != r.impl_->big_num);
 }
 
 void BigNum::div(BigNum *quotient, BigNum *remainder, const BigNum &dividend, const BigNum &divisor,
@@ -245,6 +311,10 @@ void BigNum::gcd(BigNum &r, BigNum &a, BigNum &b, BigNumContext &context) {
 
 int BigNum::compare(const BigNum &a, const BigNum &b) {
   return BN_cmp(a.impl_->big_num, b.impl_->big_num);
+}
+
+StringBuilder &operator<<(StringBuilder &sb, const BigNum &bn) {
+  return sb << bn.to_decimal();
 }
 
 }  // namespace td

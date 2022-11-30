@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -54,7 +54,7 @@ struct is_reference_wrapper<std::reference_wrapper<U>> : std::true_type {};
 
 template <class Base, class T, class Derived, class... Args>
 auto invoke_impl(T Base::*pmf, Derived &&ref,
-                 Args &&... args) noexcept(noexcept((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...)))
+                 Args &&...args) noexcept(noexcept((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...)))
     -> std::enable_if_t<std::is_function<T>::value && std::is_base_of<Base, std::decay<Derived>>::value,
                         decltype((std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...))> {
   return (std::forward<Derived>(ref).*pmf)(std::forward<Args>(args)...);
@@ -62,7 +62,7 @@ auto invoke_impl(T Base::*pmf, Derived &&ref,
 
 template <class Base, class T, class RefWrap, class... Args>
 auto invoke_impl(T Base::*pmf, RefWrap &&ref,
-                 Args &&... args) noexcept(noexcept((ref.get().*pmf)(std::forward<Args>(args)...)))
+                 Args &&...args) noexcept(noexcept((ref.get().*pmf)(std::forward<Args>(args)...)))
     -> std::enable_if_t<std::is_function<T>::value && is_reference_wrapper<std::decay_t<RefWrap>>::value,
                         decltype((ref.get().*pmf)(std::forward<Args>(args)...))>
 
@@ -72,7 +72,7 @@ auto invoke_impl(T Base::*pmf, RefWrap &&ref,
 
 template <class Base, class T, class Pointer, class... Args>
 auto invoke_impl(T Base::*pmf, Pointer &&ptr,
-                 Args &&... args) noexcept(noexcept(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...)))
+                 Args &&...args) noexcept(noexcept(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...)))
     -> std::enable_if_t<std::is_function<T>::value && !is_reference_wrapper<std::decay_t<Pointer>>::value &&
                             !std::is_base_of<Base, std::decay_t<Pointer>>::value,
                         decltype(((*std::forward<Pointer>(ptr)).*pmf)(std::forward<Args>(args)...))> {
@@ -102,7 +102,7 @@ auto invoke_impl(T Base::*pmd, Pointer &&ptr) noexcept(noexcept((*std::forward<P
 }
 
 template <class F, class... Args>
-auto invoke_impl(F &&f, Args &&... args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
+auto invoke_impl(F &&f, Args &&...args) noexcept(noexcept(std::forward<F>(f)(std::forward<Args>(args)...)))
     -> std::enable_if_t<!std::is_member_pointer<std::decay_t<F>>::value,
                         decltype(std::forward<F>(f)(std::forward<Args>(args)...))> {
   return std::forward<F>(f)(std::forward<Args>(args)...);
@@ -110,24 +110,24 @@ auto invoke_impl(F &&f, Args &&... args) noexcept(noexcept(std::forward<F>(f)(st
 
 template <class F, class... ArgTypes>
 auto invoke(F &&f,
-            ArgTypes &&... args) noexcept(noexcept(invoke_impl(std::forward<F>(f), std::forward<ArgTypes>(args)...)))
+            ArgTypes &&...args) noexcept(noexcept(invoke_impl(std::forward<F>(f), std::forward<ArgTypes>(args)...)))
     -> decltype(invoke_impl(std::forward<F>(f), std::forward<ArgTypes>(args)...)) {
   return invoke_impl(std::forward<F>(f), std::forward<ArgTypes>(args)...);
 }
 
 template <class F, class... Args, std::size_t... S>
-void call_tuple_impl(F &func, std::tuple<Args...> &&tuple, IntSeq<S...>) {
-  func(std::forward<Args>(std::get<S>(tuple))...);
+auto call_tuple_impl(F &&func, std::tuple<Args...> &&tuple, IntSeq<S...>) {
+  return func(std::forward<Args>(std::get<S>(tuple))...);
 }
 
 template <class... Args, std::size_t... S>
-void invoke_tuple_impl(std::tuple<Args...> &&tuple, IntSeq<S...>) {
-  invoke(std::forward<Args>(std::get<S>(tuple))...);
+auto invoke_tuple_impl(std::tuple<Args...> &&tuple, IntSeq<S...>) {
+  return invoke(std::forward<Args>(std::get<S>(tuple))...);
 }
 
-template <class Actor, class F, class... Args, std::size_t... S>
-void mem_call_tuple_impl(Actor *actor, F &func, std::tuple<Args...> &&tuple, IntSeq<S...>) {
-  (actor->*func)(std::forward<Args>(std::get<S>(tuple))...);
+template <class ActorT, class F, class... Args, std::size_t... S>
+auto mem_call_tuple_impl(ActorT *actor, std::tuple<F, Args...> &&tuple, IntSeq<0, S...>) {
+  return (actor->*std::get<0>(tuple))(std::forward<Args>(std::get<S>(tuple))...);
 }
 
 template <class F, class... Args, std::size_t... S>
@@ -151,18 +151,18 @@ class LogicAnd {
 };
 
 template <class F, class... Args>
-void call_tuple(F &func, std::tuple<Args...> &&tuple) {
-  detail::call_tuple_impl(func, std::move(tuple), detail::IntRange<sizeof...(Args)>());
+auto call_tuple(F &&func, std::tuple<Args...> &&tuple) {
+  return detail::call_tuple_impl(func, std::move(tuple), detail::IntRange<sizeof...(Args)>());
 }
 
 template <class... Args>
-void invoke_tuple(std::tuple<Args...> &&tuple) {
-  detail::invoke_tuple_impl(std::move(tuple), detail::IntRange<sizeof...(Args)>());
+auto invoke_tuple(std::tuple<Args...> &&tuple) {
+  return detail::invoke_tuple_impl(std::move(tuple), detail::IntRange<sizeof...(Args)>());
 }
 
-template <class Actor, class F, class... Args>
-void mem_call_tuple(Actor *actor, F &func, std::tuple<Args...> &&tuple) {
-  detail::mem_call_tuple_impl(actor, func, std::move(tuple), detail::IntRange<sizeof...(Args)>());
+template <class ActorT, class... Args>
+auto mem_call_tuple(ActorT *actor, std::tuple<Args...> &&tuple) {
+  return detail::mem_call_tuple_impl(actor, std::move(tuple), detail::IntRange<sizeof...(Args)>());
 }
 
 template <class F, class... Args>
@@ -174,5 +174,37 @@ template <class F, class... Args>
 void tuple_for_each(const std::tuple<Args...> &tuple, const F &func) {
   detail::tuple_for_each_impl(tuple, func, detail::IntRange<sizeof...(Args)>());
 }
+
+template <size_t N, class Arg, class... Args, std::enable_if_t<N == 0, int> = 0>
+auto &&get_nth_argument(Arg &&arg, Args &&...args) {
+  return std::forward<Arg>(arg);
+}
+
+template <size_t N, class Arg, class... Args, std::enable_if_t<N != 0, int> = 0>
+auto &&get_nth_argument(Arg &&arg, Args &&...args) {
+  return get_nth_argument<N - 1>(std::forward<Args &&>(args)...);
+}
+
+template <class... Args>
+auto &&get_last_argument(Args &&...args) {
+  return get_nth_argument<sizeof...(Args) - 1>(std::forward<Args &&>(args)...);
+}
+
+namespace detail {
+template <class F, class... Args, std::size_t... S>
+auto call_n_arguments_impl(IntSeq<S...>, F &&f, Args &&...args) {
+  return f(get_nth_argument<S>(std::forward<Args>(args)...)...);
+}
+}  // namespace detail
+
+template <size_t N, class F, class... Args>
+auto call_n_arguments(F &&f, Args &&...args) {
+  return detail::call_n_arguments_impl(detail::IntRange<N>(), f, std::forward<Args>(args)...);
+}
+
+template <class F, class X, class = void>
+struct is_callable final : public std::false_type {};
+template <class F, class X>
+struct is_callable<F, X, decltype(std::declval<F>()(std::declval<X>()))> final : public std::true_type {};
 
 }  // namespace td

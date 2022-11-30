@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,16 +10,19 @@
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/Parser.h"
+#include "td/utils/port/IPAddress.h"
+
+#include <algorithm>
 
 namespace td {
 
 string HttpUrl::get_url() const {
   string result;
   switch (protocol_) {
-    case Protocol::HTTP:
+    case Protocol::Http:
       result += "http://";
       break;
-    case Protocol::HTTPS:
+    case Protocol::Https:
       result += "https://";
       break;
     default:
@@ -29,39 +32,32 @@ string HttpUrl::get_url() const {
     result += userinfo_;
     result += '@';
   }
-  if (is_ipv6) {
-    result += '[';
-  }
   result += host_;
-  if (is_ipv6) {
-    result += ']';
-  }
   if (specified_port_ > 0) {
     result += ':';
     result += to_string(specified_port_);
   }
-  CHECK(!query_.empty() && query_[0] == '/');
+  LOG_CHECK(!query_.empty() && query_[0] == '/') << query_;
   result += query_;
   return result;
 }
 
-Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) {
+Result<HttpUrl> parse_url(Slice url, HttpUrl::Protocol default_protocol) {
   // url == [https?://][userinfo@]host[:port]
-  Parser parser(url);
-  string protocol_str = to_lower(parser.read_till_nofail(':'));
+  ConstParser parser(url);
+  string protocol_str = to_lower(parser.read_till_nofail(":/?#@[]"));
 
   HttpUrl::Protocol protocol;
-  if (parser.start_with("://")) {
-    parser.advance(3);
+  if (parser.try_skip("://")) {
     if (protocol_str == "http") {
-      protocol = HttpUrl::Protocol::HTTP;
+      protocol = HttpUrl::Protocol::Http;
     } else if (protocol_str == "https") {
-      protocol = HttpUrl::Protocol::HTTPS;
+      protocol = HttpUrl::Protocol::Https;
     } else {
       return Status::Error("Unsupported URL protocol");
     }
   } else {
-    parser = Parser(url);
+    parser = ConstParser(url);
     protocol = default_protocol;
   }
   Slice userinfo_host_port = parser.read_till_nofail("/?#");
@@ -73,7 +69,16 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
   }
   Slice userinfo_host;
   if (colon > userinfo_host_port.begin() && *colon == ':') {
-    port = to_integer<int>(Slice(colon + 1, userinfo_host_port.end()));
+    Slice port_slice(colon + 1, userinfo_host_port.end());
+    while (port_slice.size() > 1 && port_slice[0] == '0') {
+      port_slice.remove_prefix(1);
+    }
+    auto r_port = to_integer_safe<int>(port_slice);
+    if (r_port.is_error() || r_port.ok() == 0) {
+      port = -1;
+    } else {
+      port = r_port.ok();
+    }
     userinfo_host = Slice(userinfo_host_port.begin(), colon);
   } else {
     userinfo_host = userinfo_host_port;
@@ -88,20 +93,26 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
 
   bool is_ipv6 = false;
   if (!host.empty() && host[0] == '[' && host.back() == ']') {
-    host.remove_prefix(1);
-    host.remove_suffix(1);
+    IPAddress ip_address;
+    if (ip_address.init_ipv6_port(host.str(), 1).is_error()) {
+      return Status::Error("Wrong IPv6 address specified in the URL");
+    }
+    CHECK(ip_address.is_ipv6());
     is_ipv6 = true;
   }
   if (host.empty()) {
     return Status::Error("URL host is empty");
   }
+  if (host == ".") {
+    return Status::Error("Host is invalid");
+  }
 
   int specified_port = port;
   if (port == 0) {
-    if (protocol == HttpUrl::Protocol::HTTP) {
+    if (protocol == HttpUrl::Protocol::Http) {
       port = 80;
     } else {
-      CHECK(protocol == HttpUrl::Protocol::HTTPS);
+      CHECK(protocol == HttpUrl::Protocol::Https);
       port = 443;
     }
   }
@@ -111,7 +122,7 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
     query.remove_suffix(1);
   }
   if (query.empty()) {
-    query = "/";
+    query = Slice("/");
   }
   string query_str;
   if (query[0] != '/') {
@@ -130,6 +141,14 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
   string host_str = to_lower(host);
   for (size_t i = 0; i < host_str.size(); i++) {
     char c = host_str[i];
+    if (is_ipv6) {
+      if (i == 0 || i + 1 == host_str.size() || c == ':' || ('0' <= c && c <= '9') || ('a' <= c && c <= 'f') ||
+          c == '.') {
+        continue;
+      }
+      return Status::Error("Wrong IPv6 URL host");
+    }
+
     if (('a' <= c && c <= 'z') || c == '.' || ('0' <= c && c <= '9') || c == '-' || c == '_' || c == '!' || c == '$' ||
         c == ',' || c == '~' || c == '*' || c == '\'' || c == '(' || c == ')' || c == ';' || c == '&' || c == '+' ||
         c == '=') {
@@ -145,9 +164,11 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
           continue;
         }
       }
+      return Status::Error("Wrong percent-encoded symbol in URL host");
     }
+
     // all other symbols aren't allowed
-    unsigned char uc = static_cast<unsigned char>(c);
+    auto uc = static_cast<unsigned char>(c);
     if (uc >= 128) {
       // but we allow plain UTF-8 symbols
       continue;
@@ -159,9 +180,64 @@ Result<HttpUrl> parse_url(MutableSlice url, HttpUrl::Protocol default_protocol) 
 }
 
 StringBuilder &operator<<(StringBuilder &sb, const HttpUrl &url) {
-  sb << tag("protocol", url.protocol_ == HttpUrl::Protocol::HTTP ? "HTTP" : "HTTPS") << tag("userinfo", url.userinfo_)
+  sb << tag("protocol", url.protocol_ == HttpUrl::Protocol::Http ? "HTTP" : "HTTPS") << tag("userinfo", url.userinfo_)
      << tag("host", url.host_) << tag("port", url.port_) << tag("query", url.query_);
   return sb;
+}
+
+HttpUrlQuery parse_url_query(Slice query) {
+  if (!query.empty() && query[0] == '/') {
+    query.remove_prefix(1);
+  }
+
+  size_t path_size = 0;
+  while (path_size < query.size() && query[path_size] != '?' && query[path_size] != '#') {
+    path_size++;
+  }
+
+  HttpUrlQuery result;
+  result.path_ = full_split(url_decode(query.substr(0, path_size), false), '/');
+  while (!result.path_.empty() && result.path_.back().empty()) {
+    result.path_.pop_back();
+  }
+
+  if (path_size < query.size() && query[path_size] == '?') {
+    query = query.substr(path_size + 1);
+    query.truncate(query.find('#'));
+
+    ConstParser parser(query);
+    while (!parser.data().empty()) {
+      auto key_value = split(parser.read_till_nofail('&'), '=');
+      parser.skip_nofail('&');
+      auto key = url_decode(key_value.first, true);
+      if (!key.empty()) {
+        result.args_.emplace_back(std::move(key), url_decode(key_value.second, true));
+      }
+    }
+    CHECK(parser.status().is_ok());
+  }
+
+  return result;
+}
+
+bool HttpUrlQuery::has_arg(Slice key) const {
+  auto it =
+      std::find_if(args_.begin(), args_.end(), [&key](const std::pair<string, string> &s) { return s.first == key; });
+  return it != args_.end();
+}
+
+Slice HttpUrlQuery::get_arg(Slice key) const {
+  auto it =
+      std::find_if(args_.begin(), args_.end(), [&key](const std::pair<string, string> &s) { return s.first == key; });
+  return it == args_.end() ? Slice() : it->second;
+}
+
+string get_url_host(Slice url) {
+  auto r_http_url = parse_url(url);
+  if (r_http_url.is_error()) {
+    return string();
+  }
+  return r_http_url.ok().host_;
 }
 
 string get_url_query_file_name(const string &query) {
@@ -175,10 +251,8 @@ string get_url_query_file_name(const string &query) {
   return query_slice.str();
 }
 
-string get_url_file_name(const string &url) {
-  // TODO remove copy
-  string url_copy = url;
-  auto r_http_url = parse_url(url_copy);
+string get_url_file_name(Slice url) {
+  auto r_http_url = parse_url(url);
   if (r_http_url.is_error()) {
     LOG(WARNING) << "Receive wrong URL \"" << url << '"';
     return string();

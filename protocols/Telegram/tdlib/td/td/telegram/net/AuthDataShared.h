@@ -1,16 +1,16 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/mtproto/AuthData.h"
-#include "td/mtproto/AuthKey.h"
-
 #include "td/telegram/net/DcId.h"
 #include "td/telegram/net/PublicRsaKeyShared.h"
+
+#include "td/mtproto/AuthData.h"
+#include "td/mtproto/AuthKey.h"
 
 #include "td/utils/common.h"
 #include "td/utils/ScopeGuard.h"
@@ -20,18 +20,19 @@
 #include <utility>
 
 namespace td {
-enum class AuthState : int32 { Empty, KeyNoAuth, OK };
 
-inline StringBuilder &operator<<(StringBuilder &sb, AuthState state) {
+enum class AuthKeyState : int32 { Empty, NoAuth, OK };
+
+inline StringBuilder &operator<<(StringBuilder &sb, AuthKeyState state) {
   switch (state) {
-    case AuthState::Empty:
+    case AuthKeyState::Empty:
       return sb << "Empty";
-    case AuthState::KeyNoAuth:
-      return sb << "KeyNoAuth";
-    case AuthState::OK:
+    case AuthKeyState::NoAuth:
+      return sb << "NoAuth";
+    case AuthKeyState::OK:
       return sb << "OK";
     default:
-      return sb << "Unknown AuthState";
+      return sb << "Unknown AuthKeyState";
   }
 }
 
@@ -50,7 +51,7 @@ class AuthDataShared {
   virtual DcId dc_id() const = 0;
   virtual const std::shared_ptr<PublicRsaKeyShared> &public_rsa_key() = 0;
   virtual mtproto::AuthKey get_auth_key() = 0;
-  virtual std::pair<AuthState, bool> get_auth_state() = 0;
+  virtual AuthKeyState get_auth_key_state() = 0;
   virtual void set_auth_key(const mtproto::AuthKey &auth_key) = 0;
   virtual void update_server_time_difference(double diff) = 0;
   virtual double get_server_time_difference() = 0;
@@ -59,20 +60,18 @@ class AuthDataShared {
   virtual void set_future_salts(const std::vector<mtproto::ServerSalt> &future_salts) = 0;
   virtual std::vector<mtproto::ServerSalt> get_future_salts() = 0;
 
-  static AuthState get_auth_state(const mtproto::AuthKey &auth_key) {
-    AuthState state;
+  static AuthKeyState get_auth_key_state(const mtproto::AuthKey &auth_key) {
     if (auth_key.empty()) {
-      state = AuthState::Empty;
+      return AuthKeyState::Empty;
     } else if (auth_key.auth_flag()) {
-      state = AuthState::OK;
+      return AuthKeyState::OK;
     } else {
-      state = AuthState::KeyNoAuth;
+      return AuthKeyState::NoAuth;
     }
-    return state;
   }
 
   static std::shared_ptr<AuthDataShared> create(DcId dc_id, std::shared_ptr<PublicRsaKeyShared> public_rsa_key,
                                                 std::shared_ptr<Guard> guard);
 };
 
-};  // namespace td
+}  // namespace td

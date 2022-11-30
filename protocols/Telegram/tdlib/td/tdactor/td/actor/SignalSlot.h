@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,17 +9,20 @@
 #include "td/actor/actor.h"
 
 namespace td {
+
 class Slot;
+
 class Signal {
  public:
   void emit();
 
-  explicit Signal(ActorId<Slot> slot_id) : slot_id_(slot_id) {
+  explicit Signal(ActorId<Slot> slot_id) : slot_id_(std::move(slot_id)) {
   }
 
  private:
   ActorId<Slot> slot_id_;
 };
+
 class Slot final : public Actor {
  public:
   Slot() = default;
@@ -27,7 +30,7 @@ class Slot final : public Actor {
   Slot &operator=(const Slot &other) = delete;
   Slot(Slot &&) = default;
   Slot &operator=(Slot &&) = default;
-  ~Slot() override {
+  ~Slot() final {
     close();
   }
   void set_event(EventFull &&event) {
@@ -69,18 +72,18 @@ class Slot final : public Actor {
   }
   ActorShared<> get_signal_new() {
     register_if_empty();
-    return actor_shared();
+    return actor_shared(this);
   }
 
  private:
   bool was_signal_ = false;
   EventFull event_;
 
-  void timeout_expired() override {
+  void timeout_expired() final {
     signal();
   }
 
-  void start_up() override {
+  void start_up() final {
     empty();
   }
 
@@ -97,10 +100,11 @@ class Slot final : public Actor {
       event_.try_emit_later();
     }
   }
-  void hangup_shared() override {
+  void hangup_shared() final {
     signal();
   }
 };
+
 inline void Signal::emit() {
   send_closure(slot_id_, &Slot::signal);
 }

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,7 +9,7 @@
 // clang-format off
 
 /*** Platform macros ***/
-#if defined(_WIN32)
+#if defined(_WIN32) || defined(_WINDOWS) // _WINDOWS is defined by CMake
   #if defined(__cplusplus_winrt)
     #define TD_WINRT 1
   #endif
@@ -20,7 +20,7 @@
 #elif defined(__APPLE__)
   #include "TargetConditionals.h"
   #if TARGET_OS_IPHONE
-    // iOS/Apple Watch OS/Apple TV OS
+    // iOS/iPadOS/watchOS/tvOS
     #if TARGET_OS_IOS
       #define TD_DARWIN_IOS 1
     #elif TARGET_OS_TV
@@ -28,13 +28,13 @@
     #elif TARGET_OS_WATCH
       #define TD_DARWIN_WATCH_OS 1
     #else
-      #warning "Probably unsupported Apple iPhone platform. Feel free to try to compile"
+      #define TD_DARWIN_UNKNOWN 1
     #endif
   #elif TARGET_OS_MAC
-    // Other kinds of Mac OS
+    // Other kinds of macOS
     #define TD_DARWIN_MAC 1
   #else
-    #warning "Probably unsupported Apple platform. Feel free to try to compile"
+    #define TD_DARWIN_UNKNOWN 1
   #endif
   #define TD_DARWIN 1
 #elif defined(ANDROID) || defined(__ANDROID__)
@@ -43,12 +43,21 @@
   #define TD_TIZEN 1
 #elif defined(__linux__)
   #define TD_LINUX 1
+#elif defined(__FreeBSD__)
+  #define TD_FREEBSD 1
+#elif defined(__OpenBSD__)
+  #define TD_OPENBSD 1
+#elif defined(__NetBSD__)
+  #define TD_NETBSD 1
 #elif defined(__CYGWIN__)
   #define TD_CYGWIN 1
 #elif defined(__EMSCRIPTEN__)
   #define TD_EMSCRIPTEN 1
+#elif defined(__sun)
+  #define TD_SOLARIS 1
+  // TD_ILLUMOS can be already defined by CMake
 #elif defined(__unix__)  // all unices not caught above
-  #warning "Probably unsupported Unix platform. Feel free to try to compile"
+  #define TD_UNIX_UNKNOWN 1
   #define TD_CYGWIN 1
 #else
   #error "Probably unsupported platform. Feel free to remove the error and try to recompile"
@@ -63,7 +72,7 @@
 #elif defined(_MSC_VER)
   #define TD_MSVC 1
 #else
-  #warning "Probably unsupported compiler. Feel free to try to compile"
+  #define TD_COMPILER_UNKNOWN 1
 #endif
 
 #if TD_GCC || TD_CLANG || TD_INTEL
@@ -102,5 +111,9 @@
 #endif
 
 #define TD_CONCURRENCY_PAD 128
+
+#if !TD_WINDOWS && defined(__SIZEOF_INT128__)
+#define TD_HAVE_INT128 1
+#endif
 
 // clang-format on

@@ -10,9 +10,13 @@ class JavadocTlDocumentationGenerator extends TlDocumentationGenerator
 
     protected function escapeDocumentation($doc)
     {
+        $doc = preg_replace_callback('/(?<!["A-Za-z_\/])[A-Za-z]*_[A-Za-z_]*/',
+            function ($word_matches)
+            {
+                return preg_replace_callback('/_([A-Za-z])/', function ($matches) {return strtoupper($matches[1]);}, $word_matches[0]);
+            }, $doc);
         $doc = htmlspecialchars($doc);
         $doc = str_replace('*/', '*&#47;', $doc);
-        $doc = preg_replace_callback('/_([A-Za-z])/', function ($matches) {return strtoupper($matches[1]);}, $doc);
         return $doc;
     }
 
@@ -88,19 +92,19 @@ class JavadocTlDocumentationGenerator extends TlDocumentationGenerator
 
     protected function needSkipLine($line)
     {
-        $line = trim($line);
-        return strpos($line, 'public') !== 0 && !$this->isHeaderLine($line);
+        $line = $this->fixLine(trim($line));
+        return (strpos($line, 'public') !== 0 && !$this->isHeaderLine($line)) || $line === 'public @interface Constructors {}';
     }
 
     protected function isHeaderLine($line)
     {
-        return trim($line) === '@Override';
+        return trim($line) === '@Override' || trim($line) === '@Constructors';
     }
 
     protected function extractClassName($line)
     {
         if (strpos($line, 'public static class ') > 0) {
-            return explode(' ', trim($line))[3];
+            return preg_split('/( |<|>)/', trim($line))[3];
         }
         return '';
     }
@@ -139,24 +143,42 @@ EOT
 EOT
 );
 
+        $this->addDocumentation("        public Object() {", <<<EOT
+        /**
+         * Default Object constructor.
+         */
+EOT
+);
+
         $this->addDocumentation('        public abstract int getConstructor();', <<<EOT
         /**
-         * @return identifier uniquely determining type of the object.
+         * Returns an identifier uniquely determining type of the object.
+         *
+         * @return a unique identifier of the object type.
          */
 EOT
 );
 
         $this->addDocumentation('        public native String toString();', <<<EOT
         /**
-         * @return string representation of the object.
+         * Returns a string representation of the object.
+         *
+         * @return a string representation of the object.
          */
 EOT
 );
 
-        $this->addDocumentation('    public abstract static class Function extends Object {', <<<EOT
+        $this->addDocumentation('    public abstract static class Function<R extends Object> extends Object {', <<<EOT
     /**
      * This class is a base class for all TDLib interface function-classes.
      */
+EOT
+);
+
+        $this->addDocumentation("        public Function() {", <<<EOT
+        /**
+         * Default Function constructor.
+         */
 EOT
 );
 
@@ -184,15 +206,25 @@ EOT
      */
 EOT
 );
+        $this->addDocumentation("        public $class_name() {", <<<EOT
+        /**
+         * Default class constructor.
+         */
+EOT
+);
     }
 
-    protected function addClassDocumentation($class_name, $base_class_name, $description, $return_type)
+    protected function getFunctionReturnTypeDescription($return_type, $for_constructor)
     {
-        $return_type_description = $return_type ? PHP_EOL.'     *'.PHP_EOL."     * <p> Returns {@link $return_type $return_type} </p>" : '';
+        $shift = $for_constructor ? '         ' : '     ';
+        return PHP_EOL.$shift.'*'.PHP_EOL.$shift."* <p> Returns {@link $return_type $return_type} </p>";
+    }
 
-        $this->addDocumentation("    public static class $class_name extends $base_class_name {", <<<EOT
+    protected function addClassDocumentation($class_name, $base_class_name, $return_type, $description)
+    {
+        $this->addDocumentation("    public static class $class_name extends ".$base_class_name.(empty($return_type) ? "" : "<".$return_type.">")." {", <<<EOT
     /**
-     * $description$return_type_description
+     * $description
      */
 EOT
 );
@@ -208,21 +240,21 @@ EOT
 EOT
 );
         if ($may_be_null && $this->nullable_annotation && ($this->java_version >= 8 || substr($type_name, -1) != ']')) {
-            $this->addLineReplacement($full_line, "        public $this->nullable_annotation $type_name $field_name;".PHP_EOL);
+            $this->addLineReplacement($full_line, "        $this->nullable_annotation public $type_name $field_name;".PHP_EOL);
         }
     }
 
-    protected function addDefaultConstructorDocumentation($class_name)
+    protected function addDefaultConstructorDocumentation($class_name, $class_description)
     {
         $this->addDocumentation("        public $class_name() {", <<<EOT
         /**
-         * Default constructor.
+         * $class_description
          */
 EOT
 );
     }
 
-    protected function addFullConstructorDocumentation($class_name, $known_fields, $info)
+    protected function addFullConstructorDocumentation($class_name, $class_description, $known_fields, $info)
     {
         $full_constructor = "        public $class_name(";
         $colon = '';
@@ -234,7 +266,7 @@ EOT
 
         $full_doc = <<<EOT
         /**
-         * Constructor for initialization of all fields.
+         * $class_description
          *
 
 EOT;

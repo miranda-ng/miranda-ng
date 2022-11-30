@@ -1,14 +1,13 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#include "tl_file_utils.h"
+#include "td/tl/tl_file_utils.h"
 
 #include <cstdio>
 #include <cstdlib>
-#include <cstring>
 
 namespace td {
 namespace tl {
@@ -32,11 +31,13 @@ std::string get_file_contents(const std::string &file_name, const std::string &m
   std::size_t size = static_cast<std::size_t>(size_long);
 
   std::string result(size, ' ');
-  std::rewind(f);
-  std::size_t fread_res = std::fread(&result[0], size, 1, f);
-  if (size != 0 && fread_res != 1) {
-    std::fprintf(stderr, "Can't read file \"%s\"", file_name.c_str());
-    std::abort();
+  if (size != 0) {
+    std::rewind(f);
+    std::size_t fread_res = std::fread(&result[0], size, 1, f);
+    if (fread_res != 1) {
+      std::fprintf(stderr, "Can't read file \"%s\"", file_name.c_str());
+      std::abort();
+    }
   }
   std::fclose(f);
 

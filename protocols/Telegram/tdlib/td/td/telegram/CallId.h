@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,12 +9,13 @@
 #include "td/telegram/td_api.h"
 
 #include "td/utils/common.h"
+#include "td/utils/HashTableUtils.h"
 #include "td/utils/StringBuilder.h"
 
-#include <functional>
 #include <type_traits>
 
 namespace td {
+
 class CallId {
  public:
   CallId() = default;
@@ -33,8 +34,8 @@ class CallId {
     return id;
   }
 
-  auto as_td_api() const {
-    return make_tl_object<td_api::callId>(id);
+  auto get_call_id_object() const {
+    return td_api::make_object<td_api::callId>(id);
   }
 
   bool operator==(const CallId &other) const {
@@ -46,12 +47,13 @@ class CallId {
 };
 
 struct CallIdHash {
-  std::size_t operator()(CallId call_id) const {
-    return std::hash<int32>()(call_id.get());
+  uint32 operator()(CallId call_id) const {
+    return Hash<int32>()(call_id.get());
   }
 };
 
 inline StringBuilder &operator<<(StringBuilder &sb, const CallId call_id) {
-  return sb << "CallId(" << call_id.get() << ")";
+  return sb << "call " << call_id.get();
 }
+
 }  // namespace td

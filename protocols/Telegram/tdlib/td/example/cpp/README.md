@@ -1,4 +1,4 @@
-# TDLib cpp basic usage examples
+# TDLib C++ basic usage examples
 
 TDLib should be prebuilt and installed to local subdirectory `td/`:
 ```
@@ -21,4 +21,4 @@ cmake --build .
 
 Documentation for all available classes and methods can be found at https://core.telegram.org/tdlib/docs.
 
-To run `tdjson_example` you may need to manually copy a `tdjson` shared library from `td/bin` to a directory containing built binaries.
+To run the examples you may need to manually copy needed shared libraries from `td/bin` to a directory containing built binaries.

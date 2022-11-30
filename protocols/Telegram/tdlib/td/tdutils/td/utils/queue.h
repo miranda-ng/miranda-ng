@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,14 +7,9 @@
 #pragma once
 
 #include "td/utils/port/EventFd.h"
-#include "td/utils/port/thread.h"
+#include "td/utils/port/sleep.h"
 
 #if !TD_THREAD_UNSUPPORTED && !TD_EVENTFD_UNSUPPORTED
-
-#if !TD_WINDOWS
-#include <poll.h>
-#include <sched.h>
-#endif
 
 #include <atomic>
 #include <type_traits>
@@ -37,7 +32,7 @@ class Backoff {
     if (cnt < 1) {  // 50
       return true;
     } else {
-      td::this_thread::yield();
+      usleep_for(1);
       return cnt < 3;  // 500
     }
   }
@@ -52,7 +47,7 @@ class InfBackoff {
     if (cnt < 50) {
       return true;
     } else {
-      td::this_thread::yield();
+      usleep_for(1);
       return true;
     }
   }
@@ -72,7 +67,7 @@ class SPSCBlockQueue {
   }
 
   struct Position {
-    std::atomic<uint32> i;
+    std::atomic<uint32> i{0};
     char pad[64 - sizeof(std::atomic<uint32>)];
     uint32 local_writer_i;
     char pad2[64 - sizeof(uint32)];
@@ -155,7 +150,7 @@ class SPSCBlockQueue {
   }
 };
 
-template <class T, class BlockQueueT = SPSCBlockQueue<T> >
+template <class T, class BlockQueueT = SPSCBlockQueue<T>>
 class SPSCChainQueue {
  public:
   using ValueType = T;
@@ -257,7 +252,7 @@ class SPSCChainQueue {
  private:
   struct Node {
     BlockQueueT q_;
-    std::atomic<bool> is_closed_;
+    std::atomic<bool> is_closed_{false};
     Node *next_;
 
     void init() {
@@ -313,11 +308,11 @@ class BackoffQueue : public QueueT {
   }
 };
 
-template <class T, class QueueT = SPSCChainQueue<T> >
+template <class T, class QueueT = SPSCChainQueue<T>>
 using InfBackoffQueue = BackoffQueue<T, QueueT, detail::InfBackoff>;
 
-template <class T, class QueueT = BackoffQueue<T> >
-class PollQueue : public QueueT {
+template <class T, class QueueT = BackoffQueue<T>>
+class PollQueue final : public QueueT {
  public:
   using ValueType = T;
   using QueueType = QueueT;
@@ -393,25 +388,18 @@ class PollQueue : public QueueT {
     return res;
   }
 
-// Just example of usage
-#if !TD_WINDOWS
+  // Just an example of usage
   int reader_wait() {
     int res;
-
     while ((res = reader_wait_nonblock()) == 0) {
-      // TODO: reader_flush?
-      pollfd fd;
-      fd.fd = reader_get_event_fd().get_fd().get_native_fd();
-      fd.events = POLLIN;
-      poll(&fd, 1, -1);
+      reader_get_event_fd().wait(1000);
     }
     return res;
   }
-#endif
 
  private:
   EventFd event_fd_;
-  std::atomic<int> wait_state_;
+  std::atomic<int> wait_state_{0};
   int writer_wait_state_;
 
   int get_wait_state() {
@@ -433,7 +421,7 @@ class PollQueue : public QueueT {
 
 #else
 
-#include "td/utils/logging.h"
+#include "td/utils/common.h"
 
 namespace td {
 

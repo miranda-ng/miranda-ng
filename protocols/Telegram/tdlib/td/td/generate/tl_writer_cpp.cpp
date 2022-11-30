@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -23,8 +23,10 @@ std::string TD_TL_writer_cpp::gen_output_begin() const {
          "#include \"td/utils/common.h\"\n"
          "#include \"td/utils/format.h\"\n"
          "#include \"td/utils/logging.h\"\n"
+         "#include \"td/utils/SliceBuilder.h\"\n"
          "#include \"td/utils/tl_parsers.h\"\n"
-         "#include \"td/utils/tl_storers.h\"\n\n"
+         "#include \"td/utils/tl_storers.h\"\n"
+         "#include \"td/utils/TlStorerToString.h\"\n\n"
          "namespace td {\n"
          "namespace " +
          tl_name +
@@ -32,7 +34,7 @@ std::string TD_TL_writer_cpp::gen_output_begin() const {
          "std::string to_string(const BaseObject &value) {\n"
          "  TlStorerToString storer;\n"
          "  value.store(storer, \"\");\n"
-         "  return storer.str();\n"
+         "  return storer.move_as_string();\n"
          "}\n";
 }
 
@@ -147,10 +149,10 @@ std::string TD_TL_writer_cpp::gen_fetch_class_name(const tl::tl_tree_type *tree_
     return "TlFetch" + name;
   }
   if (name == "String") {
-    return "TlFetchString<" + string_type + ">";
+    return "TlFetchString<string>";
   }
   if (name == "Bytes") {
-    return "TlFetchBytes<" + bytes_type + ">";
+    return "TlFetchBytes<bytes>";
   }
 
   if (name == "Vector") {
@@ -282,7 +284,7 @@ std::string TD_TL_writer_cpp::gen_var_type_fetch(const tl::arg &a) const {
 }
 
 std::string TD_TL_writer_cpp::get_pretty_field_name(std::string field_name) const {
-  if (!field_name.empty() && field_name.back() == ']') {
+  if (!field_name.empty() && field_name[0] == '_') {
     return "";
   }
   auto equals_pos = field_name.find('=');
@@ -299,21 +301,22 @@ std::string TD_TL_writer_cpp::get_pretty_field_name(std::string field_name) cons
 }
 
 std::string TD_TL_writer_cpp::get_pretty_class_name(std::string class_name) const {
+  if (tl_name != "mtproto_api") {
+    for (std::size_t i = 0; i < class_name.size(); i++) {
+      if (class_name[i] == '_') {
+        class_name[i] = '.';
+      }
+    }
+  }
   return class_name;
 }
 
 std::string TD_TL_writer_cpp::gen_vector_store(const std::string &field_name, const tl::tl_tree_type *t,
                                                const std::vector<tl::var_description> &vars, int storer_type) const {
-  std::string num = field_name.back() == ']' ? "2" : "";
-  return "{ const std::vector<" + gen_type_name(t) + "> &v" + num + " = " + field_name +
-         "; const std::uint32_t multiplicity" + num + " = static_cast<std::uint32_t>(v" + num +
-         ".size()); const auto vector_name" + num + " = \"" + get_pretty_class_name("vector") +
-         "[\" + td::to_string(multiplicity" + num + ")+ \"]\"; s.store_class_begin(\"" +
-         get_pretty_field_name(field_name) + "\", vector_name" + num +
-         ".c_str()); "
-         "for (std::uint32_t i" +
-         num + " = 0; i" + num + " < multiplicity" + num + "; i" + num + "++) { " +
-         gen_type_store("v" + num + "[i" + num + "]", t, vars, storer_type) + " } s.store_class_end(); }";
+  std::string num = !field_name.empty() && field_name[0] == '_' ? "2" : "";
+  return "{ s.store_vector_begin(\"" + get_pretty_field_name(field_name) + "\", " + field_name +
+         ".size()); for (const auto &_value" + num + " : " + field_name + ") { " +
+         gen_type_store("_value" + num, t, vars, storer_type) + " } s.store_class_end(); }";
 }
 
 std::string TD_TL_writer_cpp::gen_store_class_name(const tl::tl_tree_type *tree_type) const {
@@ -328,7 +331,8 @@ std::string TD_TL_writer_cpp::gen_store_class_name(const tl::tl_tree_type *tree_
     return "TlStoreBool";
   }
   if (name == "True") {
-    return "TlStoreTrue";
+    assert(false);
+    return "";
   }
   if (name == "String" || name == "Bytes") {
     return "TlStoreString";
@@ -403,8 +407,8 @@ std::string TD_TL_writer_cpp::gen_type_store(const std::string &field_name, cons
     return gen_vector_store(field_name, child, vars, storer_type);
   } else {
     assert(tree_type->children.empty());
-    return "if (" + field_name + " == nullptr) { s.store_field(\"" + get_pretty_field_name(field_name) +
-           "\", \"null\"); } else { " + field_name + "->store(s, \"" + get_pretty_field_name(field_name) + "\"); }";
+    return "s.store_object_field(\"" + get_pretty_field_name(field_name) + "\", static_cast<const BaseObject *>(" +
+           field_name + ".get()));";
   }
 }
 
@@ -440,6 +444,13 @@ std::string TD_TL_writer_cpp::gen_field_store(const tl::arg &a, std::vector<tl::
     assert(vars[a.var_num].is_stored);
     assert(!vars[a.var_num].is_type);
     return "";
+  }
+
+  if (a.exist_var_num >= 0 && a.var_num < 0 && a.type->get_type() == tl::NODE_TYPE_TYPE) {
+    const tl::tl_tree_type *tree_type = static_cast<tl::tl_tree_type *>(a.type);
+    if (tree_type->type->name == "True") {
+      return "";
+    }
   }
 
   if (a.exist_var_num >= 0) {
@@ -482,7 +493,7 @@ std::string TD_TL_writer_cpp::gen_forward_class_declaration(const std::string &c
 }
 
 std::string TD_TL_writer_cpp::gen_class_begin(const std::string &class_name, const std::string &base_class_name,
-                                              bool is_proxy) const {
+                                              bool is_proxy, const tl::tl_tree *result) const {
   return "";
 }
 
@@ -506,37 +517,53 @@ std::string TD_TL_writer_cpp::gen_function_result_type(const tl::tl_tree *result
 }
 
 std::string TD_TL_writer_cpp::gen_fetch_function_begin(const std::string &parser_name, const std::string &class_name,
-                                                       int arity, std::vector<tl::var_description> &vars,
-                                                       int parser_type) const {
+                                                       const std::string &parent_class_name, int arity, int field_count,
+                                                       std::vector<tl::var_description> &vars, int parser_type) const {
   for (std::size_t i = 0; i < vars.size(); i++) {
     assert(vars[i].is_stored == false);
   }
 
   std::string fetched_type = "object_ptr<" + class_name + "> ";
+  std::string returned_type = "object_ptr<" + parent_class_name + "> ";
   assert(arity == 0);
 
   if (parser_type == 0) {
-    return "\n" + class_name + "::" + class_name + "(" + parser_name +
-           " &p)\n"
-           "#define FAIL(error) p.set_error(error)\n";
+    std::string result = "\n" + returned_type + class_name + "::fetch(" + parser_name +
+                         " &p) {\n"
+                         "  return make_tl_object<" +
+                         class_name + ">(";
+    if (field_count == 0) {
+      result += ");\n";
+    } else {
+      result +=
+          "p);\n"
+          "}\n\n" +
+          class_name + "::" + class_name + "(" + parser_name +
+          " &p)\n"
+          "#define FAIL(error) p.set_error(error)\n";
+    }
+    return result;
   }
 
-  return "\n" + fetched_type + class_name + "::fetch(" + parser_name +
+  return "\n" + returned_type + class_name + "::fetch(" + parser_name +
          " &p) {\n"
          "#define FAIL(error) p.set_error(error); return nullptr;\n" +
          (parser_type == -1 ? "" : "  " + fetched_type + "res = make_tl_object<" + class_name + ">();\n");
 }
 
-std::string TD_TL_writer_cpp::gen_fetch_function_end(int field_num, const std::vector<tl::var_description> &vars,
+std::string TD_TL_writer_cpp::gen_fetch_function_end(bool has_parent, int field_count,
+                                                     const std::vector<tl::var_description> &vars,
                                                      int parser_type) const {
   for (std::size_t i = 0; i < vars.size(); i++) {
     assert(vars[i].is_stored);
   }
 
   if (parser_type == 0) {
+    if (field_count == 0) {
+      return "}\n";
+    }
     return "#undef FAIL\n"
-           "{" +
-           (field_num == 0 ? "\n  (void)p;\n" : std::string()) + "}\n";
+           "{}\n";
   }
 
   if (parser_type == -1) {
@@ -545,7 +572,9 @@ std::string TD_TL_writer_cpp::gen_fetch_function_end(int field_num, const std::v
   }
 
   return "  if (p.get_error()) { FAIL(\"\"); }\n"
-         "  return res;\n"
+         "  return " +
+         std::string(has_parent ? "std::move(res)" : "res") +
+         ";\n"
          "#undef FAIL\n"
          "}\n";
 }
@@ -631,7 +660,7 @@ std::string TD_TL_writer_cpp::gen_fetch_switch_end() const {
          "  }\n";
 }
 
-std::string TD_TL_writer_cpp::gen_constructor_begin(int fields_num, const std::string &class_name,
+std::string TD_TL_writer_cpp::gen_constructor_begin(int field_count, const std::string &class_name,
                                                     bool is_default) const {
   return "\n" + class_name + "::" + class_name + "(";
 }
@@ -644,7 +673,7 @@ std::string TD_TL_writer_cpp::gen_constructor_field_init(int field_num, const st
   }
   std::string move_begin;
   std::string move_end;
-  if ((field_type == bytes_type || field_type.compare(0, 11, "std::vector") == 0 ||
+  if ((field_type == "bytes" || field_type.compare(0, 5, "array") == 0 ||
        field_type.compare(0, 10, "object_ptr") == 0) &&
       !is_default) {
     move_begin = "std::move(";
@@ -655,8 +684,8 @@ std::string TD_TL_writer_cpp::gen_constructor_field_init(int field_num, const st
          (is_default ? "" : gen_field_name(a.name)) + move_end + ")\n";
 }
 
-std::string TD_TL_writer_cpp::gen_constructor_end(const tl::tl_combinator *t, int fields_num, bool is_default) const {
-  if (fields_num == 0) {
+std::string TD_TL_writer_cpp::gen_constructor_end(const tl::tl_combinator *t, int field_count, bool is_default) const {
+  if (field_count == 0) {
     return ") {\n"
            "}\n";
   }

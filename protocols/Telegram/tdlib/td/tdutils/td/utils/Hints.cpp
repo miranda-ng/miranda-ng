@@ -1,49 +1,23 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/utils/Hints.h"
 
+#include "td/utils/algorithm.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/Slice.h"
-#include "td/utils/unicode.h"
+#include "td/utils/translit.h"
 #include "td/utils/utf8.h"
 
 #include <algorithm>
 
 namespace td {
 
-vector<string> Hints::get_words(Slice name) {
-  bool in_word = false;
-  string word;
-  vector<string> words;
-  auto pos = name.ubegin();
-  auto end = name.uend();
-  while (pos != end) {
-    uint32 code;
-    pos = next_utf8_unsafe(pos, &code);
-
-    code = prepare_search_character(code);
-    if (code == 0) {
-      continue;
-    }
-    if (code == ' ') {
-      if (in_word) {
-        words.push_back(std::move(word));
-        word.clear();
-        in_word = false;
-      }
-    } else {
-      in_word = true;
-      append_utf8_character(word, code);
-    }
-  }
-  if (in_word) {
-    words.push_back(std::move(word));
-  }
+vector<string> Hints::fix_words(vector<string> words) {
   std::sort(words.begin(), words.end());
 
   size_t new_words_size = 0;
@@ -52,12 +26,37 @@ vector<string> Hints::get_words(Slice name) {
       if (i != new_words_size) {
         words[new_words_size] = std::move(words[i]);
       }
-      // LOG(ERROR) << "Get word " << words[new_words_size];
       new_words_size++;
     }
   }
+  if (new_words_size == 1 && words[0].empty()) {
+    new_words_size = 0;
+  }
   words.resize(new_words_size);
   return words;
+}
+
+vector<string> Hints::get_words(Slice name) {
+  return fix_words(utf8_get_search_words(name));
+}
+
+void Hints::add_word(const string &word, KeyT key, std::map<string, vector<KeyT>> &word_to_keys) {
+  vector<KeyT> &keys = word_to_keys[word];
+  CHECK(!td::contains(keys, key));
+  keys.push_back(key);
+}
+
+void Hints::delete_word(const string &word, KeyT key, std::map<string, vector<KeyT>> &word_to_keys) {
+  vector<KeyT> &keys = word_to_keys[word];
+  auto key_it = std::find(keys.begin(), keys.end(), key);
+  CHECK(key_it != keys.end());
+  if (keys.size() == 1) {
+    word_to_keys.erase(word);
+  } else {
+    CHECK(keys.size() > 1);
+    *key_it = keys.back();
+    keys.pop_back();
+  }
 }
 
 void Hints::add(KeyT key, Slice name) {
@@ -67,18 +66,18 @@ void Hints::add(KeyT key, Slice name) {
     if (it->second == name) {
       return;
     }
-    auto old_words = get_words(it->second);
-    for (auto &old_word : old_words) {
-      vector<KeyT> &keys = word_to_keys_[old_word];
-      auto key_it = std::find(keys.begin(), keys.end(), key);
-      CHECK(key_it != keys.end());
-      if (keys.size() == 1) {
-        word_to_keys_.erase(old_word);
-      } else {
-        CHECK(keys.size() > 1);
-        *key_it = keys.back();
-        keys.pop_back();
+    vector<string> old_transliterations;
+    for (auto &old_word : get_words(it->second)) {
+      delete_word(old_word, key, word_to_keys_);
+
+      for (auto &w : get_word_transliterations(old_word, false)) {
+        if (w != old_word) {
+          old_transliterations.push_back(std::move(w));
+        }
       }
+    }
+    for (auto &word : fix_words(old_transliterations)) {
+      delete_word(word, key, translit_word_to_keys_);
     }
   }
   if (name.empty()) {
@@ -88,12 +87,21 @@ void Hints::add(KeyT key, Slice name) {
     key_to_rating_.erase(key);
     return;
   }
-  auto words = get_words(name);
-  for (auto &word : words) {
-    vector<KeyT> &keys = word_to_keys_[word];
-    CHECK(std::find(keys.begin(), keys.end(), key) == keys.end());
-    keys.push_back(key);
+
+  vector<string> transliterations;
+  for (auto &word : get_words(name)) {
+    add_word(word, key, word_to_keys_);
+
+    for (auto &w : get_word_transliterations(word, false)) {
+      if (w != word) {
+        transliterations.push_back(std::move(w));
+      }
+    }
   }
+  for (auto &word : fix_words(transliterations)) {
+    add_word(word, key, translit_word_to_keys_);
+  }
+
   key_to_name_[key] = name.str();
 }
 
@@ -102,17 +110,24 @@ void Hints::set_rating(KeyT key, RatingT rating) {
   key_to_rating_[key] = rating;
 }
 
-vector<Hints::KeyT> Hints::search_word(const string &word) const {
-  // LOG(ERROR) << "Search word " << word;
-  vector<KeyT> results;
-  auto it = word_to_keys_.lower_bound(word);
-  while (it != word_to_keys_.end() && begins_with(it->first, word)) {
+void Hints::add_search_results(vector<KeyT> &results, const string &word,
+                               const std::map<string, vector<KeyT>> &word_to_keys) {
+  LOG(DEBUG) << "Search for word " << word;
+  auto it = word_to_keys.lower_bound(word);
+  while (it != word_to_keys.end() && begins_with(it->first, word)) {
     results.insert(results.end(), it->second.begin(), it->second.end());
     ++it;
   }
+}
 
-  std::sort(results.begin(), results.end());
-  results.erase(std::unique(results.begin(), results.end()), results.end());
+vector<Hints::KeyT> Hints::search_word(const string &word) const {
+  vector<KeyT> results;
+  add_search_results(results, word, translit_word_to_keys_);
+  for (const auto &w : get_word_transliterations(word, true)) {
+    add_search_results(results, w, word_to_keys_);
+  }
+
+  td::unique(results);
   return results;
 }
 
@@ -169,7 +184,7 @@ std::pair<size_t, vector<Hints::KeyT>> Hints::search(Slice query, int32 limit, b
 }
 
 bool Hints::has_key(KeyT key) const {
-  return key_to_name_.find(key) != key_to_name_.end();
+  return key_to_name_.count(key) > 0;
 }
 
 string Hints::key_to_string(KeyT key) const {

@@ -1,14 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/actor/actor.h"
-#include "td/actor/PromiseFuture.h"
-
+#include "td/telegram/DelayDispatcher.h"
 #include "td/telegram/files/FileLoaderActor.h"
 #include "td/telegram/files/FileLocation.h"
 #include "td/telegram/files/PartsManager.h"
@@ -16,7 +14,7 @@
 #include "td/telegram/files/ResourceState.h"
 #include "td/telegram/net/NetQuery.h"
 
-#include "td/telegram/DelayDispatcher.h"
+#include "td/actor/actor.h"
 
 #include "td/utils/OrderedEventsProcessor.h"
 #include "td/utils/Status.h"
@@ -25,6 +23,7 @@
 #include <utility>
 
 namespace td {
+
 class FileLoader : public FileLoaderActor {
  public:
   class Callback {
@@ -34,11 +33,12 @@ class FileLoader : public FileLoaderActor {
     Callback &operator=(const Callback &) = delete;
     virtual ~Callback() = default;
   };
-  void set_resource_manager(ActorShared<ResourceManager> resource_manager) override;
-  void update_priority(int8 priority) override;
-  void update_resources(const ResourceState &other) override;
+  void set_resource_manager(ActorShared<ResourceManager> resource_manager) final;
+  void update_priority(int8 priority) final;
+  void update_resources(const ResourceState &other) final;
 
-  void update_local_file_location(const LocalFileLocation &local) override;
+  void update_local_file_location(const LocalFileLocation &local) final;
+  void update_downloaded_part(int64 offset, int64 limit, int64 max_resource_limit) final;
 
  protected:
   void set_ordered_flag(bool flag);
@@ -49,14 +49,17 @@ class FileLoader : public FileLoaderActor {
     bool is_ready = false;
   };
   struct FileInfo {
-    int64 size;
-    int64 expected_size = 0;
-    bool is_size_final;
-    int32 part_size;
+    int64 size{0};
+    int64 expected_size{0};
+    bool is_size_final{false};
+    int32 part_size{0};
     std::vector<int> ready_parts;
-    bool use_part_count_limit = true;
-    bool only_check = false;
-    bool need_delay = false;
+    bool use_part_count_limit{true};
+    bool only_check{false};
+    bool need_delay{false};
+    int64 offset{0};
+    int64 limit{0};
+    bool is_upload{false};
   };
   virtual Result<FileInfo> init() TD_WARN_UNUSED_RESULT = 0;
   virtual Status on_ok(int64 size) TD_WARN_UNUSED_RESULT = 0;
@@ -64,22 +67,32 @@ class FileLoader : public FileLoaderActor {
   virtual Status before_start_parts() {
     return Status::OK();
   }
-  virtual Result<std::pair<NetQueryPtr, bool>> start_part(Part part, int part_count) TD_WARN_UNUSED_RESULT = 0;
+  virtual Result<std::pair<NetQueryPtr, bool>> start_part(Part part, int part_count,
+                                                          int64 streaming_offset) TD_WARN_UNUSED_RESULT = 0;
   virtual void after_start_parts() {
   }
   virtual Result<size_t> process_part(Part part, NetQueryPtr net_query) TD_WARN_UNUSED_RESULT = 0;
-  virtual void on_progress(int32 part_count, int32 part_size, int32 ready_part_count, bool is_ready,
-                           int64 ready_size) = 0;
+  struct Progress {
+    int32 part_count{0};
+    int32 part_size{0};
+    int32 ready_part_count{0};
+    string ready_bitmask;
+    bool is_ready{false};
+    int64 ready_size{0};
+    int64 size{0};
+  };
+  virtual void on_progress(Progress progress) = 0;
   virtual Callback *get_callback() = 0;
-  virtual Result<PrefixInfo> on_update_local_location(const LocalFileLocation &location) TD_WARN_UNUSED_RESULT {
-    return Status::Error("unsupported");
+  virtual Result<PrefixInfo> on_update_local_location(const LocalFileLocation &location,
+                                                      int64 file_size) TD_WARN_UNUSED_RESULT {
+    return Status::Error("Unsupported");
   }
   virtual Result<bool> should_restart_part(Part part, NetQueryPtr &net_query) TD_WARN_UNUSED_RESULT {
     return false;
   }
 
   virtual Status process_check_query(NetQueryPtr net_query) {
-    return Status::Error("unsupported");
+    return Status::Error("Unsupported");
   }
   struct CheckInfo {
     bool need_check{false};
@@ -95,14 +108,13 @@ class FileLoader : public FileLoaderActor {
   }
 
  private:
-  enum { CommonQueryKey = 2 };
+  static constexpr uint8 COMMON_QUERY_KEY = 2;
   bool stop_flag_ = false;
   ActorShared<ResourceManager> resource_manager_;
   ResourceState resource_state_;
   PartsManager parts_manager_;
   uint64 blocking_id_{0};
   std::map<uint64, std::pair<Part, ActorShared<>>> part_map_;
-  // std::map<uint64, std::pair<Part, NetQueryRef>> part_map_;
   bool ordered_flag_ = false;
   OrderedEventsProcessor<std::pair<Part, NetQueryPtr>> ordered_parts_;
   ActorOwn<DelayDispatcher> delay_dispatcher_;
@@ -112,18 +124,20 @@ class FileLoader : public FileLoaderActor {
   uint32 debug_bad_part_order_ = 0;
   std::vector<int32> debug_bad_parts_;
 
-  void start_up() override;
-  void loop() override;
+  void start_up() final;
+  void loop() final;
   Status do_loop();
-  void hangup() override;
-  void tear_down() override;
+  void hangup() final;
+  void hangup_shared() final;
+  void tear_down() final;
 
   void update_estimated_limit();
-  void on_progress_impl(size_t size);
+  void on_progress_impl();
 
-  void on_result(NetQueryPtr query) override;
+  void on_result(NetQueryPtr query) final;
   void on_part_query(Part part, NetQueryPtr query);
   void on_common_query(NetQueryPtr query);
   Status try_on_part_query(Part part, NetQueryPtr query);
 };
+
 }  // namespace td

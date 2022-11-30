@@ -1,16 +1,18 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/utils/HashTableUtils.h"
 #include "td/utils/Slice.h"
 
 #include <unordered_map>
 
 namespace td {
+
 class SeqKeyValue {
  public:
   using SeqNo = uint64;
@@ -22,7 +24,7 @@ class SeqKeyValue {
   ~SeqKeyValue() = default;
 
   SeqNo set(Slice key, Slice value) {
-    auto it_ok = map_.insert({key.str(), value.str()});
+    auto it_ok = map_.emplace(key.str(), value.str());
     if (!it_ok.second) {
       if (it_ok.first->second == value) {
         return 0;
@@ -31,6 +33,7 @@ class SeqKeyValue {
     }
     return next_seq_no();
   }
+
   SeqNo erase(const string &key) {
     auto it = map_.find(key);
     if (it == map_.end()) {
@@ -39,9 +42,11 @@ class SeqKeyValue {
     map_.erase(it);
     return next_seq_no();
   }
+
   SeqNo seq_no() const {
     return current_id_ + 1;
   }
+
   string get(const string &key) const {
     auto it = map_.find(key);
     if (it == map_.end()) {
@@ -50,29 +55,28 @@ class SeqKeyValue {
     return it->second;
   }
 
-  template <class F>
-  void foreach (const F &f) {
-    for (auto &it : map_) {
-      f(it.first, it.second);
+  bool isset(const string &key) const {
+    auto it = map_.find(key);
+    if (it == map_.end()) {
+      return false;
     }
+    return true;
   }
 
   size_t size() const {
     return map_.size();
   }
 
-  void reset_seq_no() {
-    current_id_ = 0;
-  }
-  std::unordered_map<string, string> get_all() const {
+  std::unordered_map<string, string, Hash<string>> get_all() const {
     return map_;
   }
 
  private:
-  std::unordered_map<string, string> map_;
+  std::unordered_map<string, string, Hash<string>> map_;
   SeqNo current_id_ = 0;
   SeqNo next_seq_no() {
     return ++current_id_;
   }
 };
+
 }  // namespace td

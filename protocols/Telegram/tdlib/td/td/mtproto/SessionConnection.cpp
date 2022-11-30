@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,30 +9,34 @@
 #include "td/mtproto/AuthData.h"
 #include "td/mtproto/AuthKey.h"
 #include "td/mtproto/CryptoStorer.h"
-#include "td/mtproto/Handshake.h"
-#include "td/mtproto/NoCryptoStorer.h"
-
-#include "td/mtproto/HttpTransport.h"
-#include "td/mtproto/TcpTransport.h"
+#include "td/mtproto/mtproto_api.h"
+#include "td/mtproto/mtproto_api.hpp"
+#include "td/mtproto/PacketStorer.h"
 #include "td/mtproto/Transport.h"
+#include "td/mtproto/utils.h"
 
+#include "td/utils/algorithm.h"
+#include "td/utils/as.h"
+#include "td/utils/common.h"
 #include "td/utils/format.h"
 #include "td/utils/Gzip.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
 #include "td/utils/Random.h"
 #include "td/utils/ScopeGuard.h"
+#include "td/utils/SliceBuilder.h"
 #include "td/utils/Time.h"
 #include "td/utils/tl_parsers.h"
-
-#include "td/mtproto/mtproto_api.h"
-#include "td/mtproto/mtproto_api.hpp"
+#include "td/utils/TlDowncastHelper.h"
 
 #include <algorithm>
 #include <iterator>
 #include <type_traits>
 
 namespace td {
+
+int VERBOSITY_NAME(mtproto) = VERBOSITY_NAME(DEBUG) + 7;
+
 namespace mtproto_api {
 
 const int32 msg_container::ID;
@@ -84,7 +88,7 @@ namespace mtproto {
  *   - ping_delay_disconnect#f3427b8c ping_id:long disconnect_delay:int = Pong;
  *
  * 6. New session creation
- *  Notification about new session.
+ *  A notification about new session.
  *  It is reasonable to store unique_id with current session, in order to process duplicated notifications once.
  *
  *  Causes all older than first_msg_id to be re-sent.
@@ -168,25 +172,13 @@ namespace mtproto {
  *
  */
 
-class OnPacket {
-  const MsgInfo &info_;
-  SessionConnection *connection_;
-  Status *status_;
+unique_ptr<RawConnection> SessionConnection::move_as_raw_connection() {
+  was_moved_ = true;
+  return std::move(raw_connection_);
+}
 
- public:
-  OnPacket(const MsgInfo &info, SessionConnection *connection, Status *status)
-      : info_(info), connection_(connection), status_(status) {
-  }
-
-  template <class T>
-  void operator()(const T &func) const {
-    *status_ = connection_->on_packet(info_, func);
-  }
-};
-
-/*** SessionConnection ***/
 BufferSlice SessionConnection::as_buffer_slice(Slice packet) {
-  return current_buffer_slice->from_slice(packet);
+  return current_buffer_slice_->from_slice(packet);
 }
 
 Status SessionConnection::parse_message(TlParser &parser, MsgInfo *info, Slice *packet, bool crypto_flag) {
@@ -224,7 +216,6 @@ Status SessionConnection::on_packet_container(const MsgInfo &info, Slice packet)
   };
 
   TlParser parser(packet);
-  parser.fetch_int();
   int32 size = parser.fetch_int();
   if (parser.get_error()) {
     return Status::Error(PSLICE() << "Failed to parse mtproto_api::rpc_container: " << parser.get_error());
@@ -237,32 +228,40 @@ Status SessionConnection::on_packet_container(const MsgInfo &info, Slice packet)
 
 Status SessionConnection::on_packet_rpc_result(const MsgInfo &info, Slice packet) {
   TlParser parser(packet);
-  parser.fetch_int();
   uint64 req_msg_id = parser.fetch_long();
   if (parser.get_error()) {
     return Status::Error(PSLICE() << "Failed to parse mtproto_api::rpc_result: " << parser.get_error());
   }
-
-  auto object_begin_pos = packet.size() - parser.get_left_len();
-  int32 id = parser.fetch_int();
-  if (id == mtproto_api::rpc_error::ID) {
-    mtproto_api::rpc_error rpc_error(parser);
-    if (parser.get_error()) {
-      return Status::Error(PSLICE() << "Failed to parse mtproto_api::rpc_error: " << parser.get_error());
-    }
-    return on_packet(info, req_msg_id, rpc_error);
-  } else if (id == mtproto_api::gzip_packed::ID) {
-    mtproto_api::gzip_packed gzip(parser);
-    if (parser.get_error()) {
-      return Status::Error(PSLICE() << "Failed to parse mtproto_api::gzip_packed: " << parser.get_error());
-    }
-    // yep, gzip in rpc_result
-    BufferSlice object = gzdecode(gzip.packed_data_);
-    // send header no more optimization
-    return callback_->on_message_result_ok(req_msg_id, std::move(object), info.size);
+  if (req_msg_id == 0) {
+    LOG(ERROR) << "Receive an update in rpc_result: message_id = " << info.message_id << ", seq_no = " << info.seq_no;
+    return Status::Error("Receive an update in rpc_result");
   }
 
-  return callback_->on_message_result_ok(req_msg_id, as_buffer_slice(packet.substr(object_begin_pos)), info.size);
+  switch (parser.fetch_int()) {
+    case mtproto_api::rpc_error::ID: {
+      mtproto_api::rpc_error rpc_error(parser);
+      if (parser.get_error()) {
+        return Status::Error(PSLICE() << "Failed to parse mtproto_api::rpc_error: " << parser.get_error());
+      }
+      VLOG(mtproto) << "ERROR " << tag("code", rpc_error.error_code_) << tag("message", rpc_error.error_message_)
+                    << tag("req_msg_id", req_msg_id);
+      callback_->on_message_result_error(req_msg_id, rpc_error.error_code_, rpc_error.error_message_.str());
+      return Status::OK();
+    }
+    case mtproto_api::gzip_packed::ID: {
+      mtproto_api::gzip_packed gzip(parser);
+      if (parser.get_error()) {
+        return Status::Error(PSLICE() << "Failed to parse mtproto_api::gzip_packed: " << parser.get_error());
+      }
+      // yep, gzip in rpc_result
+      BufferSlice object = gzdecode(gzip.packed_data_);
+      // send header no more optimization
+      return callback_->on_message_result_ok(req_msg_id, std::move(object), info.size);
+    }
+    default:
+      packet.remove_prefix(sizeof(req_msg_id));
+      return callback_->on_message_result_ok(req_msg_id, as_buffer_slice(packet), info.size);
+  }
 }
 
 template <class T>
@@ -271,18 +270,26 @@ Status SessionConnection::on_packet(const MsgInfo &info, const T &packet) {
   return Status::OK();
 }
 
-Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::rpc_error &rpc_error) {
-  return on_packet(info, 0, rpc_error);
+Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::destroy_auth_key_ok &destroy_auth_key) {
+  return on_destroy_auth_key(destroy_auth_key);
 }
 
-Status SessionConnection::on_packet(const MsgInfo &info, uint64 req_msg_id, const mtproto_api::rpc_error &rpc_error) {
-  VLOG(mtproto) << "ERROR [code:" << rpc_error.error_code_ << "] [msg:" << rpc_error.error_message_.str().c_str()
-                << "]";
-  if (req_msg_id != 0) {
-    callback_->on_message_result_error(req_msg_id, rpc_error.error_code_, as_buffer_slice(rpc_error.error_message_));
-  } else {
-    LOG(WARNING) << "rpc_error as update: [" << rpc_error.error_code_ << "][" << rpc_error.error_message_ << "]";
-  }
+Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::destroy_auth_key_none &destroy_auth_key) {
+  return on_destroy_auth_key(destroy_auth_key);
+}
+
+Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::destroy_auth_key_fail &destroy_auth_key) {
+  return on_destroy_auth_key(destroy_auth_key);
+}
+
+Status SessionConnection::on_destroy_auth_key(const mtproto_api::DestroyAuthKeyRes &destroy_auth_key) {
+  LOG_CHECK(need_destroy_auth_key_) << static_cast<int32>(mode_);
+  LOG(INFO) << to_string(destroy_auth_key);
+  return callback_->on_destroy_auth_key();
+}
+
+Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::rpc_error &rpc_error) {
+  LOG(ERROR) << "Receive rpc_error as update: [" << rpc_error.error_code_ << "][" << rpc_error.error_message_ << "]";
   return Status::OK();
 }
 
@@ -312,7 +319,7 @@ Status SessionConnection::on_packet(const MsgInfo &info,
 
     InvalidContainer = 64
   };
-  Slice common = " BUG! CALL FOR A DEVELOPER! Session will be closed";
+  Slice common = ". BUG! CALL FOR A DEVELOPER! Session will be closed";
   switch (bad_msg_notification.error_code_) {
     case MsgIdTooLow: {
       LOG(WARNING) << bad_info << ": MessageId is too low. Message will be re-sent";
@@ -321,18 +328,18 @@ Status SessionConnection::on_packet(const MsgInfo &info,
       break;
     }
     case MsgIdTooHigh: {
-      LOG(ERROR) << bad_info << ": MessageId is too high. Session will be closed";
+      LOG(WARNING) << bad_info << ": MessageId is too high. Session will be closed";
       // All this queries will be re-sent by parent
       to_send_.clear();
       callback_->on_session_failed(Status::Error("MessageId is too high"));
       return Status::Error("MessageId is too high");
     }
     case MsgIdMod4: {
-      LOG(ERROR) << bad_info << ": MessageId is not divisible by 4." << common;
+      LOG(ERROR) << bad_info << ": MessageId is not divisible by 4" << common;
       return Status::Error("MessageId is not divisible by 4");
     }
     case MsgIdCollision: {
-      LOG(ERROR) << bad_info << ": Container and older message MessageId collision." << common;
+      LOG(ERROR) << bad_info << ": Container and older message MessageId collision" << common;
       return Status::Error("Container and older message MessageId collision");
     }
 
@@ -343,29 +350,29 @@ Status SessionConnection::on_packet(const MsgInfo &info,
     }
 
     case SeqNoTooLow: {
-      LOG(ERROR) << bad_info << ": SeqNo is too low." << common;
+      LOG(ERROR) << bad_info << ": SeqNo is too low" << common;
       return Status::Error("SeqNo is too low");
     }
     case SeqNoTooHigh: {
-      LOG(ERROR) << bad_info << ": SeqNo is too high." << common;
+      LOG(ERROR) << bad_info << ": SeqNo is too high" << common;
       return Status::Error("SeqNo is too high");
     }
     case SeqNoNotEven: {
-      LOG(ERROR) << bad_info << ": SeqNo is not even for an irrelevant message." << common;
+      LOG(ERROR) << bad_info << ": SeqNo is not even for an irrelevant message" << common;
       return Status::Error("SeqNo is not even for an irrelevant message");
     }
     case SeqNoNotOdd: {
-      LOG(ERROR) << bad_info << ": SeqNo is not odd for an irrelevant message." << common;
+      LOG(ERROR) << bad_info << ": SeqNo is not odd for an irrelevant message" << common;
       return Status::Error("SeqNo is not odd for an irrelevant message");
     }
 
     case InvalidContainer: {
-      LOG(ERROR) << bad_info << ": Invalid Contailer." << common;
+      LOG(ERROR) << bad_info << ": Invalid Contailer" << common;
       return Status::Error("Invalid Contailer");
     }
 
     default: {
-      LOG(ERROR) << bad_info << ": Unknown error [code:" << bad_msg_notification.error_code_ << "]." << common;
+      LOG(ERROR) << bad_info << ": Unknown error [code:" << bad_msg_notification.error_code_ << "]" << common;
       return Status::Error("Unknown error code");
     }
   }
@@ -402,7 +409,7 @@ Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::pong
 }
 Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::future_salts &salts) {
   VLOG(mtproto) << "FUTURE_SALTS";
-  std::vector<ServerSalt> new_salts;
+  vector<ServerSalt> new_salts;
   for (auto &it : salts.salts_) {
     new_salts.push_back(
         ServerSalt{it->salt_, static_cast<double>(it->valid_since_), static_cast<double>(it->valid_until_)});
@@ -413,9 +420,9 @@ Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::futu
   return Status::OK();
 }
 
-Status SessionConnection::on_msgs_state_info(const std::vector<int64> &ids, Slice info) {
+Status SessionConnection::on_msgs_state_info(const vector<int64> &ids, Slice info) {
   if (ids.size() != info.size()) {
-    return Status::Error(PSLICE() << tag("ids.size()", ids.size()) << "!=" << tag("info.size()", info.size()));
+    return Status::Error(PSLICE() << tag("ids.size()", ids.size()) << " != " << tag("info.size()", info.size()));
   }
   size_t i = 0;
   for (auto id : ids) {
@@ -430,13 +437,13 @@ Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::msgs
   if (it == service_queries_.end()) {
     return Status::Error("Unknown msgs_state_info");
   }
-  SCOPE_EXIT {
-    service_queries_.erase(it);
-  };
-  if (it->second.type != ServiceQuery::GetStateInfo) {
-    return Status::Error("Got msg_state_info in response not to GetStateInfo");
+  auto query = std::move(it->second);
+  service_queries_.erase(it);
+
+  if (query.type != ServiceQuery::GetStateInfo) {
+    return Status::Error("Receive msg_state_info in response not to GetStateInfo");
   }
-  return on_msgs_state_info(it->second.message_ids, msgs_state_info.info_);
+  return on_msgs_state_info(query.message_ids, msgs_state_info.info_);
 }
 
 Status SessionConnection::on_packet(const MsgInfo &info, const mtproto_api::msgs_all_info &msgs_all_info) {
@@ -459,35 +466,66 @@ Status SessionConnection::on_slice_packet(const MsgInfo &info, Slice packet) {
   if (info.seq_no & 1) {
     send_ack(info.message_id);
   }
-  TlParser parser(packet);
-  tl_object_ptr<mtproto_api::Object> object = mtproto_api::Object::fetch(parser);
-  if (parser.get_error()) {
-    // msg_container is not real tl object
-    if (packet.size() >= 4 && as<int32>(packet.begin()) == mtproto_api::msg_container::ID) {
-      return on_packet_container(info, packet);
-    }
-    if (packet.size() >= 4 && as<int32>(packet.begin()) == mtproto_api::rpc_result::ID) {
-      return on_packet_rpc_result(info, packet);
-    }
-
-    // It is an update... I hope.
-    auto status = auth_data_->check_update(info.message_id);
-    if (status.is_error()) {
-      VLOG(mtproto) << "Skip update " << info.message_id << " from " << get_name() << " created in "
-                    << (Time::now() - created_at_) << ": " << status;
-      return Status::OK();
-    } else {
-      VLOG(mtproto) << "Got update from " << get_name() << " created in " << (Time::now() - created_at_)
-                    << " in container " << container_id_ << " from session " << auth_data_->session_id_
-                    << " with message_id " << info.message_id << ", main_message_id = " << main_message_id_
-                    << ", seq_no = " << info.seq_no << " and original size " << info.size;
-      return callback_->on_message_result_ok(0, as_buffer_slice(packet), info.size);
-    }
+  if (packet.size() < 4) {
+    callback_->on_session_failed(Status::Error("Receive too small packet"));
+    return Status::Error(PSLICE() << "Receive packet of size " << packet.size());
   }
 
+  int32 constructor_id = as<int32>(packet.begin());
+  if (constructor_id == mtproto_api::msg_container::ID) {
+    return on_packet_container(info, packet.substr(4));
+  }
+  if (constructor_id == mtproto_api::rpc_result::ID) {
+    return on_packet_rpc_result(info, packet.substr(4));
+  }
+
+  TlDowncastHelper<mtproto_api::Object> helper(constructor_id);
   Status status;
-  downcast_call(*object, OnPacket(info, this, &status));
-  return status;
+  bool is_mtproto_api = downcast_call(static_cast<mtproto_api::Object &>(helper), [&](auto &dummy) {
+    // a constructor from mtproto_api
+    using Type = std::decay_t<decltype(dummy)>;
+    TlParser parser(packet.substr(4));
+    auto object = Type::fetch(parser);
+    parser.fetch_end();
+    if (parser.get_error()) {
+      status = parser.get_status();
+    } else {
+      status = this->on_packet(info, static_cast<const Type &>(*object));
+    }
+  });
+  if (is_mtproto_api) {
+    return status;
+  }
+
+  // It is an update... I hope.
+  status = auth_data_->check_update(info.message_id);
+  auto recheck_status = auth_data_->recheck_update(info.message_id);
+  if (recheck_status.is_error() && recheck_status.code() == 2) {
+    LOG(WARNING) << "Receive very old update from " << get_name() << " created in " << (Time::now() - created_at_)
+                 << " in container " << container_id_ << " from session " << auth_data_->get_session_id()
+                 << " with message_id " << info.message_id << ", main_message_id = " << main_message_id_
+                 << ", seq_no = " << info.seq_no << " and original size " << info.size << ": " << status << ' '
+                 << recheck_status;
+  }
+  if (status.is_error()) {
+    if (status.code() == 2) {
+      LOG(WARNING) << "Receive too old update from " << get_name() << " created in " << (Time::now() - created_at_)
+                   << " in container " << container_id_ << " from session " << auth_data_->get_session_id()
+                   << " with message_id " << info.message_id << ", main_message_id = " << main_message_id_
+                   << ", seq_no = " << info.seq_no << " and original size " << info.size << ": " << status;
+      callback_->on_session_failed(Status::Error("Receive too old update"));
+      return status;
+    }
+    VLOG(mtproto) << "Skip update " << info.message_id << " of size " << info.size << " with seq_no " << info.seq_no
+                  << " from " << get_name() << " created in " << (Time::now() - created_at_) << ": " << status;
+    return Status::OK();
+  } else {
+    VLOG(mtproto) << "Got update from " << get_name() << " created in " << (Time::now() - created_at_)
+                  << " in container " << container_id_ << " from session " << auth_data_->get_session_id()
+                  << " with message_id " << info.message_id << ", main_message_id = " << main_message_id_
+                  << ", seq_no = " << info.seq_no << " and original size " << info.size;
+    return callback_->on_update(as_buffer_slice(packet));
+  }
 }
 
 Status SessionConnection::parse_packet(TlParser &parser) {
@@ -506,8 +544,8 @@ Status SessionConnection::on_main_packet(const PacketInfo &info, Slice packet) {
     callback_->on_connected();
   }
 
-  VLOG(raw_mtproto) << "Got packet: [session_id:" << format::as_hex(info.session_id) << "] "
-                    << format::as_hex_dump<4>(packet);
+  VLOG(raw_mtproto) << "Got packet of size " << packet.size() << " from session " << format::as_hex(info.session_id)
+                    << ":" << format::as_hex_dump<4>(packet);
   if (info.no_crypto_flag) {
     return Status::Error("Unencrypted packet");
   }
@@ -524,6 +562,8 @@ Status SessionConnection::on_main_packet(const PacketInfo &info, Slice packet) {
 void SessionConnection::on_message_failed(uint64 id, Status status) {
   callback_->on_message_failed(id, std::move(status));
 
+  sent_destroy_auth_key_ = false;
+
   if (id == last_ping_message_id_ || id == last_ping_container_id_) {
     // restart ping immediately
     last_ping_at_ = 0;
@@ -533,33 +573,39 @@ void SessionConnection::on_message_failed(uint64 id, Status status) {
 
   auto cit = container_to_service_msg_.find(id);
   if (cit != container_to_service_msg_.end()) {
-    for (auto nid : cit->second) {
-      on_message_failed_inner(nid);
+    auto message_ids = cit->second;
+    for (auto message_id : message_ids) {
+      on_message_failed_inner(message_id);
     }
   } else {
     on_message_failed_inner(id);
   }
 }
+
 void SessionConnection::on_message_failed_inner(uint64 id) {
   auto it = service_queries_.find(id);
   if (it == service_queries_.end()) {
     return;
   }
-  switch (it->second.type) {
+  auto query = std::move(it->second);
+  service_queries_.erase(it);
+
+  switch (query.type) {
     case ServiceQuery::ResendAnswer: {
-      for (auto message_id : it->second.message_ids) {
+      for (auto message_id : query.message_ids) {
         resend_answer(message_id);
       }
       break;
     }
     case ServiceQuery::GetStateInfo: {
-      for (auto message_id : it->second.message_ids) {
+      for (auto message_id : query.message_ids) {
         get_state_info(message_id);
       }
       break;
     }
+    default:
+      UNREACHABLE();
   }
-  service_queries_.erase(id);
 }
 
 bool SessionConnection::must_flush_packet() {
@@ -603,6 +649,9 @@ bool SessionConnection::must_flush_packet() {
   }
   // get_future_salt
   if (!has_salt) {
+    if (last_get_future_salt_at_ == 0) {
+      return true;
+    }
     auto get_future_salts_at = last_get_future_salt_at_ + 60;
     if (get_future_salts_at < Time::now_cached()) {
       return true;
@@ -610,17 +659,22 @@ bool SessionConnection::must_flush_packet() {
     relax_timeout_at(&flush_packet_at_, get_future_salts_at);
   }
 
+  if (has_salt && need_destroy_auth_key_ && !sent_destroy_auth_key_) {
+    return true;
+  }
+
   return false;
 }
 
 Status SessionConnection::before_write() {
+  CHECK(raw_connection_);
   while (must_flush_packet()) {
     flush_packet();
   }
   return Status::OK();
 }
 
-Status SessionConnection::on_raw_packet(const td::mtproto::PacketInfo &info, BufferSlice packet) {
+Status SessionConnection::on_raw_packet(const PacketInfo &info, BufferSlice packet) {
   auto old_main_message_id = main_message_id_;
   main_message_id_ = info.message_id;
   SCOPE_EXIT {
@@ -639,9 +693,13 @@ Status SessionConnection::on_raw_packet(const td::mtproto::PacketInfo &info, Buf
   }
   if (status.is_error()) {
     if (status.code() == 1) {
-      LOG(WARNING) << "Packet ignored " << status;
+      LOG(INFO) << "Packet ignored: " << status;
       send_ack(info.message_id);
       return Status::OK();
+    } else if (status.code() == 2) {
+      LOG(WARNING) << "Receive too old packet: " << status;
+      callback_->on_session_failed(Status::Error("Receive too old packet"));
+      return status;
     } else {
       return status;
     }
@@ -656,31 +714,46 @@ Status SessionConnection::on_quick_ack(uint64 quick_ack_token) {
   callback_->on_message_ack(quick_ack_token);
   return Status::OK();
 }
-SessionConnection::SessionConnection(Mode mode, std::unique_ptr<RawConnection> raw_connection, AuthData *auth_data,
-                                     DhCallback *dh_callback)
-    : raw_connection_(std::move(raw_connection)), auth_data_(auth_data), dh_callback_(dh_callback) {
-  state_ = Init;
-  mode_ = mode;
-  created_at_ = Time::now();
+
+void SessionConnection::on_read(size_t size) {
+  last_read_at_ = Time::now_cached();
+  last_read_size_ += size;
 }
 
-Fd &SessionConnection::get_pollable() {
-  return raw_connection_->get_pollable();
+SessionConnection::SessionConnection(Mode mode, unique_ptr<RawConnection> raw_connection, AuthData *auth_data)
+    : random_delay_(Random::fast(0, 5000000) * 1e-6)
+    , state_(Init)
+    , mode_(mode)
+    , created_at_(Time::now())
+    , raw_connection_(std::move(raw_connection))
+    , auth_data_(auth_data) {
+  CHECK(raw_connection_);
+}
+
+PollableFdInfo &SessionConnection::get_poll_info() {
+  CHECK(raw_connection_);
+  return raw_connection_->get_poll_info();
 }
 
 Status SessionConnection::init() {
   CHECK(state_ == Init);
   last_pong_at_ = Time::now_cached();
+  last_read_at_ = Time::now_cached();
   state_ = Run;
   return Status::OK();
 }
 
-void SessionConnection::set_online(bool online_flag) {
+void SessionConnection::set_online(bool online_flag, bool is_main) {
+  bool need_ping = online_flag || !online_flag_;
   online_flag_ = online_flag;
-  if (online_flag_) {
-    last_pong_at_ = Time::now_cached() - ping_disconnect_delay() + rtt();  // disconnect if no ping in 1 second
+  is_main_ = is_main;
+  auto now = Time::now();
+  if (need_ping) {
+    last_pong_at_ = now - ping_disconnect_delay() + rtt();
+    last_read_at_ = now - read_disconnect_delay() + rtt();
   } else {
-    last_pong_at_ = Time::now_cached();
+    last_pong_at_ = now;
+    last_read_at_ = now;
   }
   last_ping_at_ = 0;
   last_ping_message_id_ = 0;
@@ -689,21 +762,20 @@ void SessionConnection::set_online(bool online_flag) {
 
 void SessionConnection::do_close(Status status) {
   state_ = Closed;
-  callback_->on_before_close();
-  raw_connection_->close();
   // NB: this could be destroyed after on_closed
   callback_->on_closed(std::move(status));
 }
 
 void SessionConnection::send_crypto(const Storer &storer, uint64 quick_ack_token) {
   CHECK(state_ != Closed);
-  raw_connection_->send_crypto(storer, auth_data_->get_session_id(), auth_data_->get_server_salt(Time::now_cached()),
-                               auth_data_->get_auth_key(), quick_ack_token);
+  last_write_size_ += raw_connection_->send_crypto(storer, auth_data_->get_session_id(),
+                                                   auth_data_->get_server_salt(Time::now_cached()),
+                                                   auth_data_->get_auth_key(), quick_ack_token);
 }
 
 Result<uint64> SessionConnection::send_query(BufferSlice buffer, bool gzip_flag, int64 message_id,
-                                             uint64 invoke_after_id, bool use_quick_ack) {
-  CHECK(mode_ != Mode::HttpLongPoll) << "LongPoll connection is only for http_wait";
+                                             vector<uint64> invoke_after_ids, bool use_quick_ack) {
+  CHECK(mode_ != Mode::HttpLongPoll);  // "LongPoll connection is only for http_wait"
   if (message_id == 0) {
     message_id = auth_data_->next_message_id(Time::now_cached());
   }
@@ -711,7 +783,10 @@ Result<uint64> SessionConnection::send_query(BufferSlice buffer, bool gzip_flag,
   if (to_send_.empty()) {
     send_before(Time::now_cached() + QUERY_DELAY);
   }
-  to_send_.push_back(Query{message_id, seq_no, std::move(buffer), gzip_flag, invoke_after_id, use_quick_ack});
+  to_send_.push_back(
+      MtprotoQuery{message_id, seq_no, std::move(buffer), gzip_flag, std::move(invoke_after_ids), use_quick_ack});
+  VLOG(mtproto) << "Invoke query " << message_id << " of size " << to_send_.back().packet.size() << " with seq_no "
+                << seq_no << " after " << invoke_after_ids << (use_quick_ack ? " with quick ack" : "");
 
   return message_id;
 }
@@ -736,26 +811,41 @@ void SessionConnection::cancel_answer(int64 message_id) {
   to_cancel_answer_.push_back(message_id);
 }
 
-std::pair<uint64, BufferSlice> SessionConnection::encrypted_bind(int64 perm_key, int64 nonce, int32 expire_at) {
+void SessionConnection::destroy_key() {
+  LOG(INFO) << "Set need_destroy_auth_key to true";
+  need_destroy_auth_key_ = true;
+}
+
+std::pair<uint64, BufferSlice> SessionConnection::encrypted_bind(int64 perm_key, int64 nonce, int32 expires_at) {
   int64 temp_key = auth_data_->get_tmp_auth_key().id();
 
-  mtproto_api::bind_auth_key_inner object(nonce, temp_key, perm_key, auth_data_->session_id_, expire_at);
+  mtproto_api::bind_auth_key_inner object(nonce, temp_key, perm_key, auth_data_->get_session_id(), expires_at);
   auto object_storer = create_storer(object);
-  auto object_packet = BufferWriter{object_storer.size(), 0, 0};
-  object_storer.store(object_packet.as_slice().ubegin());
+  auto size = object_storer.size();
+  auto object_packet = BufferWriter{size, 0, 0};
+  auto real_size = object_storer.store(object_packet.as_slice().ubegin());
+  CHECK(size == real_size);
 
-  Query query{auth_data_->next_message_id(Time::now_cached()), 0, object_packet.as_buffer_slice(), false, 0, false};
+  MtprotoQuery query{
+      auth_data_->next_message_id(Time::now_cached()), 0, object_packet.as_buffer_slice(), false, {}, false};
   PacketStorer<QueryImpl> query_storer(query, Slice());
 
-  mtproto::PacketInfo info;
+  PacketInfo info;
   info.version = 1;
   info.no_crypto_flag = false;
   info.salt = Random::secure_int64();
   info.session_id = Random::secure_int64();
 
-  auto packet = BufferWriter{mtproto::Transport::write(query_storer, auth_data_->get_main_auth_key(), &info), 0, 0};
-  mtproto::Transport::write(query_storer, auth_data_->get_main_auth_key(), &info, packet.as_slice());
+  const AuthKey &main_auth_key = auth_data_->get_main_auth_key();
+  auto packet = BufferWriter{Transport::write(query_storer, main_auth_key, &info), 0, 0};
+  Transport::write(query_storer, main_auth_key, &info, packet.as_slice());
   return std::make_pair(query.message_id, packet.as_buffer_slice());
+}
+
+void SessionConnection::force_ack() {
+  if (!to_ack_.empty()) {
+    send_before(Time::now_cached());
+  }
 }
 
 void SessionConnection::send_ack(uint64 message_id) {
@@ -767,6 +857,11 @@ void SessionConnection::send_ack(uint64 message_id) {
   // an easiest way to eliminate duplicated acks for gzipped packets
   if (to_ack_.empty() || to_ack_.back() != ack) {
     to_ack_.push_back(ack);
+
+    constexpr size_t MAX_UNACKED_PACKETS = 100;
+    if (to_ack_.size() >= MAX_UNACKED_PACKETS) {
+      send_before(Time::now_cached());
+    }
   }
 }
 
@@ -796,8 +891,9 @@ void SessionConnection::flush_packet() {
   if (mode_ == Mode::HttpLongPoll) {
     max_delay = HTTP_MAX_DELAY;
     max_after = HTTP_MAX_AFTER;
-    max_wait = min(http_max_wait(),
-                   static_cast<int>(1000 * max(0.1, ping_disconnect_delay() + last_pong_at_ - Time::now_cached() - 1)));
+    auto time_to_disconnect =
+        min(ping_disconnect_delay() + last_pong_at_, read_disconnect_delay() + last_read_at_) - Time::now_cached();
+    max_wait = static_cast<int>(1000 * clamp(time_to_disconnect - rtt(), 0.1, http_max_wait()));
   } else if (mode_ == Mode::Http) {
     max_delay = HTTP_MAX_DELAY;
     max_after = HTTP_MAX_AFTER;
@@ -807,13 +903,15 @@ void SessionConnection::flush_packet() {
   // future salts
   int future_salt_n = 0;
   if (mode_ != Mode::HttpLongPoll) {
-    if (auth_data_->need_future_salts(Time::now_cached()) && last_get_future_salt_at_ + 60 < Time::now_cached()) {
+    if (auth_data_->need_future_salts(Time::now_cached()) &&
+        (last_get_future_salt_at_ == 0 || last_get_future_salt_at_ + 60 < Time::now_cached())) {
       last_get_future_salt_at_ = Time::now_cached();
       future_salt_n = 64;
     }
   }
 
-  size_t send_till = 0, send_size = 0;
+  size_t send_till = 0;
+  size_t send_size = 0;
   // send at most 1020 queries, of total size 2^15
   // don't send anything if have no salt
   if (has_salt) {
@@ -822,7 +920,7 @@ void SessionConnection::flush_packet() {
       send_till++;
     }
   }
-  std::vector<Query> queries;
+  vector<MtprotoQuery> queries;
   if (send_till == to_send_.size()) {
     queries = std::move(to_send_);
   } else if (send_till != 0) {
@@ -831,26 +929,32 @@ void SessionConnection::flush_packet() {
     to_send_.erase(to_send_.begin(), to_send_.begin() + send_till);
   }
 
+  bool destroy_auth_key = need_destroy_auth_key_ && !sent_destroy_auth_key_;
+
   if (queries.empty() && to_ack_.empty() && ping_id == 0 && max_delay < 0 && future_salt_n == 0 &&
-      to_resend_answer_.empty() && to_cancel_answer_.empty() && to_get_state_info_.empty()) {
+      to_resend_answer_.empty() && to_cancel_answer_.empty() && to_get_state_info_.empty() && !destroy_auth_key) {
     force_send_at_ = 0;
     return;
   }
+
+  sent_destroy_auth_key_ |= destroy_auth_key;
 
   VLOG(mtproto) << "Sent packet: " << tag("query_count", queries.size()) << tag("ack_cnt", to_ack_.size())
                 << tag("ping", ping_id != 0) << tag("http_wait", max_delay >= 0)
                 << tag("future_salt", future_salt_n > 0) << tag("get_info", to_get_state_info_.size())
                 << tag("resend", to_resend_answer_.size()) << tag("cancel", to_cancel_answer_.size())
-                << tag("auth_id", auth_data_->get_auth_key().id());
+                << tag("destroy_key", destroy_auth_key) << tag("auth_id", auth_data_->get_auth_key().id());
 
-  auto cut_tail = [](auto &v, size_t size, Slice name) {
+  auto cut_tail = [](vector<int64> &v, size_t size, Slice name) {
     if (size >= v.size()) {
-      return std::move(v);
+      auto result = std::move(v);
+      v.clear();
+      return result;
     }
-    LOG(WARNING) << "Too much ids in container: " << v.size() << " " << name;
-    std::decay_t<decltype(v)> res(std::make_move_iterator(v.end() - size), std::make_move_iterator(v.end()));
+    LOG(WARNING) << "Too many message identifiers in container " << name << ": " << v.size() << " instead of " << size;
+    vector<int64> result(v.end() - size, v.end());
     v.resize(v.size() - size);
-    return res;
+    return result;
   };
 
   // no more than 8192 ids per container..
@@ -867,22 +971,23 @@ void SessionConnection::flush_packet() {
       std::any_of(queries.begin(), queries.end(), [](const auto &query) { return query.use_quick_ack; });
 
   {
+    // LOG(ERROR) << (auth_data_->get_header().empty() ? '-' : '+');
     uint64 parent_message_id = 0;
-    auto storer = PacketStorer<CryptoImpl>(
-        queries, auth_data_->header(), std::move(to_ack), ping_id, ping_disconnect_delay() + 2, max_delay, max_after,
-        max_wait, future_salt_n, to_get_state_info, to_resend_answer, to_cancel_answer, auth_data_, &container_id,
-        &get_state_info_id, &resend_answer_id, &ping_message_id, &parent_message_id);
+    auto storer = PacketStorer<CryptoImpl>(queries, auth_data_->get_header(), std::move(to_ack), ping_id,
+                                           static_cast<int>(ping_disconnect_delay() + 2.0), max_delay, max_after,
+                                           max_wait, future_salt_n, to_get_state_info, to_resend_answer,
+                                           to_cancel_answer, destroy_auth_key, auth_data_, &container_id,
+                                           &get_state_info_id, &resend_answer_id, &ping_message_id, &parent_message_id);
 
     auto quick_ack_token = use_quick_ack ? parent_message_id : 0;
     send_crypto(storer, quick_ack_token);
   }
 
   if (resend_answer_id) {
-    service_queries_.insert({resend_answer_id, ServiceQuery{ServiceQuery::ResendAnswer, std::move(to_resend_answer)}});
+    service_queries_.emplace(resend_answer_id, ServiceQuery{ServiceQuery::ResendAnswer, std::move(to_resend_answer)});
   }
   if (get_state_info_id) {
-    service_queries_.insert(
-        {get_state_info_id, ServiceQuery{ServiceQuery::GetStateInfo, std::move(to_get_state_info)}});
+    service_queries_.emplace(get_state_info_id, ServiceQuery{ServiceQuery::GetStateInfo, std::move(to_get_state_info)});
   }
   if (ping_id != 0) {
     last_ping_container_id_ = container_id;
@@ -890,7 +995,7 @@ void SessionConnection::flush_packet() {
   }
 
   if (container_id != 0) {
-    vector<uint64> ids = transform(queries, [](const Query &x) { return static_cast<uint64>(x.message_id); });
+    vector<uint64> ids = transform(queries, [](const MtprotoQuery &x) { return static_cast<uint64>(x.message_id); });
 
     // some acks may be lost here. Nobody will resend them if something goes wrong with query.
     // It is mostly problem for server. We will just drop this answers in next connection
@@ -907,8 +1012,8 @@ void SessionConnection::flush_packet() {
     }
   }
 
-  to_ack_.clear();
-  if (to_send_.empty()) {
+  if (to_send_.empty() && to_ack_.empty() && to_get_state_info_.empty() && to_resend_answer_.empty() &&
+      to_cancel_answer_.empty()) {
     force_send_at_ = 0;
   }
 }
@@ -920,6 +1025,10 @@ void SessionConnection::send_before(double tm) {
 }
 
 Status SessionConnection::do_flush() {
+  LOG_CHECK(raw_connection_) << was_moved_ << ' ' << state_ << ' ' << static_cast<int32>(mode_) << ' '
+                             << connected_flag_ << ' ' << is_main_ << ' ' << need_destroy_auth_key_ << ' '
+                             << sent_destroy_auth_key_ << ' ' << callback_ << ' ' << (Time::now() - created_at_) << ' '
+                             << (Time::now() - last_read_at_);
   CHECK(state_ != Closed);
   if (state_ == Init) {
     TRY_STATUS(init());
@@ -928,12 +1037,33 @@ Status SessionConnection::do_flush() {
     return Status::Error("No auth key");
   }
 
-  TRY_STATUS(raw_connection_->flush(auth_data_->get_auth_key(), *this));
+  last_read_size_ = 0;
+  last_write_size_ = 0;
+  auto start_time = Time::now();
+  auto result = raw_connection_->flush(auth_data_->get_auth_key(), *this);
+  auto elapsed_time = Time::now() - start_time;
+  if (elapsed_time >= 0.1) {
+    LOG(ERROR) << "RawConnection::flush took " << elapsed_time << " seconds, written " << last_write_size_
+               << " bytes, read " << last_read_size_ << " bytes and returned " << result;
+  }
+  if (result.is_error()) {
+    return result;
+  }
 
-  // check last pong
-  if (last_pong_at_ != 0 && last_pong_at_ + ping_disconnect_delay() < Time::now_cached()) {
-    raw_connection_->stats_callback()->on_error();
-    return Status::Error("No pong :(");
+  if (last_pong_at_ + ping_disconnect_delay() < Time::now_cached()) {
+    auto stats_callback = raw_connection_->stats_callback();
+    if (stats_callback != nullptr) {
+      stats_callback->on_error();
+    }
+    return Status::Error(PSLICE() << "Ping timeout of " << ping_disconnect_delay() << " seconds expired");
+  }
+
+  if (last_read_at_ + read_disconnect_delay() < Time::now_cached()) {
+    auto stats_callback = raw_connection_->stats_callback();
+    if (stats_callback != nullptr) {
+      stats_callback->on_error();
+    }
+    return Status::Error(PSLICE() << "Read timeout of " << read_disconnect_delay() << " seconds expired");
   }
 
   return Status::OK();
@@ -954,6 +1084,7 @@ double SessionConnection::flush(SessionConnection::Callback *callback) {
   // 1. close connection after PING_DISCONNECT_DELAY after last_pong.
   // 2. the one returned by must_flush_packet
   relax_timeout_at(&wakeup_at_, last_pong_at_ + ping_disconnect_delay() + 0.002);
+  relax_timeout_at(&wakeup_at_, last_read_at_ + read_disconnect_delay() + 0.002);
   // CHECK(wakeup_at > Time::now_cached());
 
   relax_timeout_at(&wakeup_at_, flush_packet_at_);
@@ -965,5 +1096,6 @@ void SessionConnection::force_close(SessionConnection::Callback *callback) {
   callback_ = callback;
   do_close(Status::OK());
 }
+
 }  // namespace mtproto
 }  // namespace td

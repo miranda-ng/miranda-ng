@@ -9,12 +9,16 @@
 #   OS - the default, used to build for iPhone and iPad physical devices, which have an arm arch.
 #   SIMULATOR - used to build for the Simulator platforms, which have an x86 arch.
 #
+# IOS_ARCH = automatic(default) or "arch1;arch2" (e.q. "x86_64;arm64")
+#   By default this value will be automatically chosen based on the IOS_PLATFORM value above.
+#   If set manually, it will override the default and force to build those architectures only.
+#
 # CMAKE_IOS_DEVELOPER_ROOT = automatic(default) or /path/to/platform/Developer folder
-#   By default this location is automatcially chosen based on the IOS_PLATFORM value above.
+#   By default this location is automatically chosen based on the IOS_PLATFORM value above.
 #   If set manually, it will override the default location and force the user of a particular Developer Platform
 #
 # CMAKE_IOS_SDK_ROOT = automatic(default) or /path/to/platform/Developer/SDKs/SDK folder
-#   By default this location is automatcially chosen based on the CMAKE_IOS_DEVELOPER_ROOT value.
+#   By default this location is automatically chosen based on the CMAKE_IOS_DEVELOPER_ROOT value.
 #   In this case it will always be the most up-to-date SDK found in the CMAKE_IOS_DEVELOPER_ROOT path.
 #   If set manually, this will force the use of a specific SDK version
 
@@ -48,9 +52,9 @@ endif (CMAKE_UNAME)
 # Force the compilers to gcc for iOS
 set (CMAKE_C_COMPILER /usr/bin/gcc)
 set (CMAKE_CXX_COMPILER /usr/bin/g++)
-set(CMAKE_AR ar CACHE FILEPATH "" FORCE)
-set(CMAKE_RANLIB ranlib CACHE FILEPATH "" FORCE)
-set(PKG_CONFIG_EXECUTABLE pkg-config CACHE FILEPATH "" FORCE)
+set (CMAKE_AR ar CACHE FILEPATH "" FORCE)
+set (CMAKE_RANLIB ranlib CACHE FILEPATH "" FORCE)
+set (PKG_CONFIG_EXECUTABLE pkg-config CACHE FILEPATH "" FORCE)
 
 # Setup iOS platform unless specified manually with IOS_PLATFORM
 if (NOT DEFINED IOS_PLATFORM)
@@ -59,7 +63,7 @@ endif (NOT DEFINED IOS_PLATFORM)
 set (IOS_PLATFORM ${IOS_PLATFORM} CACHE STRING "Type of iOS Platform")
 
 # Check the platform selection and setup for developer root
-if (${IOS_PLATFORM} STREQUAL "OS")
+if (IOS_PLATFORM STREQUAL "OS")
     set (IOS_PLATFORM_LOCATION "iPhoneOS.platform")
     set (XCODE_IOS_PLATFORM iphoneos)
 
@@ -67,7 +71,7 @@ if (${IOS_PLATFORM} STREQUAL "OS")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphoneos")
 
     set (APPLE_IOS True)
-elseif (${IOS_PLATFORM} STREQUAL "SIMULATOR")
+elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
     set (SIMULATOR_FLAG true)
     set (IOS_PLATFORM_LOCATION "iPhoneSimulator.platform")
     set (XCODE_IOS_PLATFORM iphonesimulator)
@@ -76,7 +80,7 @@ elseif (${IOS_PLATFORM} STREQUAL "SIMULATOR")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-iphonesimulator")
 
     set (APPLE_IOS True)
-elseif (${IOS_PLATFORM} STREQUAL "WATCHOS")
+elseif (IOS_PLATFORM STREQUAL "WATCHOS")
     set (IOS_PLATFORM_LOCATION "WatchOS.platform")
     set (XCODE_IOS_PLATFORM watchos)
 
@@ -84,7 +88,7 @@ elseif (${IOS_PLATFORM} STREQUAL "WATCHOS")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-watchos")
 
     set (APPLE_WATCH True)
-elseif (${IOS_PLATFORM} STREQUAL "WATCHSIMULATOR")
+elseif (IOS_PLATFORM STREQUAL "WATCHSIMULATOR")
     set (SIMULATOR_FLAG true)
     set (IOS_PLATFORM_LOCATION "WatchSimulator.platform")
     set (XCODE_IOS_PLATFORM watchsimulator)
@@ -93,7 +97,7 @@ elseif (${IOS_PLATFORM} STREQUAL "WATCHSIMULATOR")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-watchsimulator")
 
     set (APPLE_WATCH True)
-elseif (${IOS_PLATFORM} STREQUAL "TVOS")
+elseif (IOS_PLATFORM STREQUAL "TVOS")
     set (IOS_PLATFORM_LOCATION "AppleTvOS.platform")
     set (XCODE_IOS_PLATFORM tvos)
 
@@ -101,7 +105,7 @@ elseif (${IOS_PLATFORM} STREQUAL "TVOS")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-appletvos")
 
     set (APPLE_TV True)
-elseif (${IOS_PLATFORM} STREQUAL "TVSIMULATOR")
+elseif (IOS_PLATFORM STREQUAL "TVSIMULATOR")
     set (SIMULATOR_FLAG true)
     set (IOS_PLATFORM_LOCATION "AppleTvSimulator.platform")
     set (XCODE_IOS_PLATFORM tvsimulator)
@@ -110,7 +114,7 @@ elseif (${IOS_PLATFORM} STREQUAL "TVSIMULATOR")
     set (CMAKE_XCODE_EFFECTIVE_PLATFORMS "-tvsimulator")
 
     set (APPLE_TV True)
-else (${IOS_PLATFORM} STREQUAL "OS")
+else (IOS_PLATFORM STREQUAL "OS")
     message (FATAL_ERROR "Unsupported IOS_PLATFORM value selected. Please choose OS, SIMULATOR, or WATCHOS.")
 endif ()
 
@@ -132,12 +136,9 @@ if (IOS_DEPLOYMENT_TARGET)
 endif()
 
 set (CMAKE_SHARED_LINKER_FLAGS_INIT "-fapplication-extension")
-if (NOT SIMULATOR_FLAG)
-    set (BITCODE "-fembed-bitcode")
-endif()
-set (CMAKE_C_FLAGS_INIT "${XCODE_IOS_PLATFORM_VERSION_FLAGS} ${BITCODE}")
+set (CMAKE_C_FLAGS_INIT "${XCODE_IOS_PLATFORM_VERSION_FLAGS}")
 # Hidden visibilty is required for cxx on iOS
-set (CMAKE_CXX_FLAGS_INIT "${XCODE_IOS_PLATFORM_VERSION_FLAGS} ${BITCODE} -fvisibility-inlines-hidden")
+set (CMAKE_CXX_FLAGS_INIT "${XCODE_IOS_PLATFORM_VERSION_FLAGS} -fvisibility-inlines-hidden")
 
 set (CMAKE_C_LINK_FLAGS   "${XCODE_IOS_PLATFORM_VERSION_FLAGS} -fapplication-extension -Wl,-search_paths_first ${CMAKE_C_LINK_FLAGS}")
 set (CMAKE_CXX_LINK_FLAGS "${XCODE_IOS_PLATFORM_VERSION_FLAGS} -fapplication-extension -Wl,-search_paths_first ${CMAKE_CXX_LINK_FLAGS}")
@@ -168,7 +169,7 @@ set (XCODE_PRE_43_ROOT "/Developer/Platforms/${IOS_PLATFORM_LOCATION}/Developer"
 if (NOT DEFINED CMAKE_IOS_DEVELOPER_ROOT)
     if (EXISTS ${XCODE_POST_43_ROOT})
         set (CMAKE_IOS_DEVELOPER_ROOT ${XCODE_POST_43_ROOT})
-    elseif(EXISTS ${XCODE_PRE_43_ROOT})
+    elseif (EXISTS ${XCODE_PRE_43_ROOT})
         set (CMAKE_IOS_DEVELOPER_ROOT ${XCODE_PRE_43_ROOT})
     endif (EXISTS ${XCODE_POST_43_ROOT})
 endif (NOT DEFINED CMAKE_IOS_DEVELOPER_ROOT)
@@ -191,23 +192,23 @@ set (CMAKE_IOS_SDK_ROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Location of the select
 # Set the sysroot default to the most recent SDK
 set (CMAKE_OSX_SYSROOT ${CMAKE_IOS_SDK_ROOT} CACHE PATH "Sysroot used for iOS support")
 
-# set the architecture for iOS
-if (IOS_PLATFORM STREQUAL "OS")
-    set (IOS_ARCH "armv7;armv7s;arm64")
-elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
-    set (IOS_ARCH "i386;x86_64")
-elseif (IOS_PLATFORM STREQUAL "WATCHOS")
-    set (IOS_ARCH "armv7k")
-elseif (IOS_PLATFORM STREQUAL "WATCHSIMULATOR")
-    set (IOS_ARCH "i386")
-elseif (IOS_PLATFORM STREQUAL "TVOS")
-    set (IOS_ARCH "arm64")
-elseif (IOS_PLATFORM STREQUAL "TVSIMULATOR")
-    set (IOS_ARCH "x86_64")
-else()
-    message (WARNING "Unknown IOS_PLATFORM=<${IOS_PLATFORM}>")
+# Set the architectures unless specified manually with IOS_ARCH
+if (NOT DEFINED IOS_ARCH)
+    if (IOS_PLATFORM STREQUAL "OS")
+        set (IOS_ARCH "armv7;armv7s;arm64")
+    elseif (IOS_PLATFORM STREQUAL "SIMULATOR")
+        set (IOS_ARCH "i386;x86_64;arm64")
+    elseif (IOS_PLATFORM STREQUAL "WATCHOS")
+        set (IOS_ARCH "armv7k;arm64_32")
+    elseif (IOS_PLATFORM STREQUAL "WATCHSIMULATOR")
+        set (IOS_ARCH "i386;x86_64;arm64")
+    elseif (IOS_PLATFORM STREQUAL "TVOS")
+        set (IOS_ARCH "arm64")
+    elseif (IOS_PLATFORM STREQUAL "TVSIMULATOR")
+        set (IOS_ARCH "x86_64;arm64")
+    endif()
 endif()
-message (STATUS ${IOS_ARCH})
+message (STATUS "The iOS architectures: ${IOS_ARCH}")
 
 set (CMAKE_OSX_ARCHITECTURES ${IOS_ARCH} CACHE STRING "Build architecture for iOS")
 

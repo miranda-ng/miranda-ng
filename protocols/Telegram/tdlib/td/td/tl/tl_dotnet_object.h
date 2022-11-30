@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,8 +8,10 @@
 
 #include "td/utils/port/CxCli.h"
 
+#pragma managed(push, off)
 #include "td/telegram/td_api.h"
 #include "td/telegram/td_api.hpp"
+#pragma managed(pop)
 
 namespace Telegram {
 namespace Td {
@@ -63,7 +65,7 @@ inline String^ FromUnmanaged(const std::string &from) {
 }
 
 inline auto CLRCALL BytesFromUnmanaged(const std::string &from) {
-  Array<byte>^ res = REF_NEW Vector<byte>(static_cast<ArrayIndexType>(from.size()));
+  Array<BYTE>^ res = REF_NEW Vector<BYTE>(static_cast<ArrayIndexType>(from.size()));
   ArrayIndexType i = 0;
   for (auto b : from) {
     ArraySet(res, i++, b);
@@ -82,6 +84,16 @@ auto CLRCALL FromUnmanaged(std::vector<FromT> &vec) {
   return res;
 }
 
+inline auto CLRCALL BytesFromUnmanaged(const std::vector<std::string> &vec) {
+  using ToT = decltype(BytesFromUnmanaged(vec[0]));
+  Array<ToT>^ res = REF_NEW Vector<ToT>(static_cast<ArrayIndexType>(vec.size()));
+  ArrayIndexType i = 0;
+  for (auto &from : vec) {
+    ArraySet(res, i++, BytesFromUnmanaged(from));
+  }
+  return res;
+}
+
 template <class T>
 auto CLRCALL FromUnmanaged(td::td_api::object_ptr<T> &from) -> decltype(FromUnmanaged(*from.get())) {
   if (!from) {
@@ -90,9 +102,11 @@ auto CLRCALL FromUnmanaged(td::td_api::object_ptr<T> &from) -> decltype(FromUnma
   return FromUnmanaged(*from.get());
 }
 
+#if TD_CLI
 template <class ResT>
 ref class CallFromUnmanagedRes {
 public:
+  [System::ThreadStaticAttribute]
   static property ResT res;
 };
 
@@ -103,17 +117,29 @@ struct CallFromUnmanaged {
     CallFromUnmanagedRes<ResT>::res = FromUnmanaged(val);
   }
 };
+#endif
+
+template <class ResT, class T>
+ResT DoFromUnmanaged(T &from) {
+#if TD_WINRT
+  ResT res;
+  downcast_call(from, [&](auto &from_downcasted) {
+    res = FromUnmanaged(from_downcasted);
+  });
+  return res;
+#elif TD_CLI
+  CallFromUnmanaged<ResT> res;
+  downcast_call(from, res);
+  return CallFromUnmanagedRes<ResT>::res;
+#endif
+}
 
 inline BaseObject^ FromUnmanaged(td::td_api::Function &from) {
-  CallFromUnmanaged<BaseObject^> res;
-  downcast_call(from, res);
-  return CallFromUnmanagedRes<BaseObject^>::res;
+  return DoFromUnmanaged<BaseObject^>(from);
 }
 
 inline BaseObject^ FromUnmanaged(td::td_api::Object &from) {
-  CallFromUnmanaged<BaseObject^> res;
-  downcast_call(from, res);
-  return CallFromUnmanagedRes<BaseObject^>::res;
+  return DoFromUnmanaged<BaseObject^>(from);
 }
 
 // to unmanaged
@@ -136,7 +162,7 @@ inline std::string ToUnmanaged(String ^from) {
   return string_to_unmanaged(from);
 }
 
-inline std::string ToUnmanaged(Array<byte>^ from) {
+inline std::string ToUnmanaged(Array<BYTE>^ from) {
   if (!from) {
     return std::string();
   }

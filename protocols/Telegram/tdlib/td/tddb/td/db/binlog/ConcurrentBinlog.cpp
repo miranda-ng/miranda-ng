@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,37 +8,41 @@
 
 #include "td/utils/logging.h"
 #include "td/utils/OrderedEventsProcessor.h"
+#include "td/utils/SliceBuilder.h"
 #include "td/utils/Time.h"
 
 #include <map>
 
 namespace td {
 namespace detail {
-class BinlogActor : public Actor {
+class BinlogActor final : public Actor {
  public:
-  BinlogActor(std::unique_ptr<Binlog> binlog, uint64 seq_no) : binlog_(std::move(binlog)), processor_(seq_no) {
+  BinlogActor(unique_ptr<Binlog> binlog, uint64 seq_no) : binlog_(std::move(binlog)), processor_(seq_no) {
   }
   void close(Promise<> promise) {
     binlog_->close().ensure();
-    promise.set_value(Unit());
-    LOG(INFO) << "close: done";
+    LOG(INFO) << "Finished to close binlog";
     stop();
+
+    promise.set_value(Unit());  // setting promise can complete closing and destroy the current actor context
   }
   void close_and_destroy(Promise<> promise) {
     binlog_->close_and_destroy().ensure();
-    promise.set_value(Unit());
-    LOG(INFO) << "close_and_destroy: done";
+    LOG(INFO) << "Finished to destroy binlog";
     stop();
+
+    promise.set_value(Unit());  // setting promise can complete closing and destroy the current actor context
   }
 
   struct Event {
     BufferSlice raw_event;
     Promise<> sync_promise;
+    BinlogDebugInfo debug_info;
   };
-  void add_raw_event(uint64 seq_no, BufferSlice &&raw_event, Promise<> &&promise) {
-    processor_.add(seq_no, Event{std::move(raw_event), std::move(promise)}, [&](uint64 id, Event &&event) {
+  void add_raw_event(uint64 seq_no, BufferSlice &&raw_event, Promise<> &&promise, BinlogDebugInfo info) {
+    processor_.add(seq_no, Event{std::move(raw_event), std::move(promise), info}, [&](uint64 id, Event &&event) {
       if (!event.raw_event.empty()) {
-        do_add_raw_event(std::move(event.raw_event));
+        do_add_raw_event(std::move(event.raw_event), event.debug_info);
       }
       do_lazy_sync(std::move(event.sync_promise));
     });
@@ -67,7 +71,7 @@ class BinlogActor : public Actor {
   }
 
  private:
-  std::unique_ptr<Binlog> binlog_;
+  unique_ptr<Binlog> binlog_;
 
   OrderedEventsProcessor<Event> processor_;
 
@@ -78,7 +82,7 @@ class BinlogActor : public Actor {
   bool flush_flag_ = false;
   double wakeup_at_ = 0;
 
-  static constexpr int32 FLUSH_TIMEOUT = 1;  // 1s
+  static constexpr double FLUSH_TIMEOUT = 0.001;  // 1ms
 
   void wakeup_after(double after) {
     auto now = Time::now_cached();
@@ -92,8 +96,8 @@ class BinlogActor : public Actor {
     }
   }
 
-  void do_add_raw_event(BufferSlice &&raw_event) {
-    binlog_->add_raw_event(std::move(raw_event));
+  void do_add_raw_event(BufferSlice &&raw_event, BinlogDebugInfo info) {
+    binlog_->add_raw_event(std::move(raw_event), info);
   }
 
   void try_flush() {
@@ -138,7 +142,7 @@ class BinlogActor : public Actor {
     }
   }
 
-  void timeout_expired() override {
+  void timeout_expired() final {
     bool need_sync = lazy_sync_flag_ || force_sync_flag_;
     lazy_sync_flag_ = false;
     force_sync_flag_ = false;
@@ -148,10 +152,7 @@ class BinlogActor : public Actor {
     if (need_sync) {
       binlog_->sync();
       // LOG(ERROR) << "BINLOG SYNC";
-      for (auto &promise : sync_promises_) {
-        promise.set_value(Unit());
-      }
-      sync_promises_.clear();
+      set_promises(sync_promises_);
     } else if (need_flush) {
       try_flush();
       // LOG(ERROR) << "BINLOG FLUSH";
@@ -162,24 +163,24 @@ class BinlogActor : public Actor {
 
 ConcurrentBinlog::ConcurrentBinlog() = default;
 ConcurrentBinlog::~ConcurrentBinlog() = default;
-ConcurrentBinlog::ConcurrentBinlog(std::unique_ptr<Binlog> binlog, int scheduler_id) {
+ConcurrentBinlog::ConcurrentBinlog(unique_ptr<Binlog> binlog, int scheduler_id) {
   init_impl(std::move(binlog), scheduler_id);
 }
 
 Result<BinlogInfo> ConcurrentBinlog::init(string path, const Callback &callback, DbKey db_key, DbKey old_db_key,
                                           int scheduler_id) {
-  auto binlog = std::make_unique<Binlog>();
+  auto binlog = make_unique<Binlog>();
   TRY_STATUS(binlog->init(std::move(path), callback, std::move(db_key), std::move(old_db_key)));
   auto info = binlog->get_info();
   init_impl(std::move(binlog), scheduler_id);
   return info;
 }
 
-void ConcurrentBinlog::init_impl(std::unique_ptr<Binlog> binlog, int32 scheduler_id) {
+void ConcurrentBinlog::init_impl(unique_ptr<Binlog> binlog, int32 scheduler_id) {
   path_ = binlog->get_path().str();
   last_id_ = binlog->peek_next_id();
-  binlog_actor_ =
-      create_actor_on_scheduler<detail::BinlogActor>("Binlog " + path_, scheduler_id, std::move(binlog), last_id_);
+  binlog_actor_ = create_actor_on_scheduler<detail::BinlogActor>(PSLICE() << "Binlog " << path_, scheduler_id,
+                                                                 std::move(binlog), last_id_);
 }
 
 void ConcurrentBinlog::close_impl(Promise<> promise) {
@@ -188,8 +189,8 @@ void ConcurrentBinlog::close_impl(Promise<> promise) {
 void ConcurrentBinlog::close_and_destroy_impl(Promise<> promise) {
   send_closure(std::move(binlog_actor_), &detail::BinlogActor::close_and_destroy, std::move(promise));
 }
-void ConcurrentBinlog::add_raw_event_impl(uint64 id, BufferSlice &&raw_event, Promise<> promise) {
-  send_closure(binlog_actor_, &detail::BinlogActor::add_raw_event, id, std::move(raw_event), std::move(promise));
+void ConcurrentBinlog::add_raw_event_impl(uint64 id, BufferSlice &&raw_event, Promise<> promise, BinlogDebugInfo info) {
+  send_closure(binlog_actor_, &detail::BinlogActor::add_raw_event, id, std::move(raw_event), std::move(promise), info);
 }
 void ConcurrentBinlog::force_sync(Promise<> promise) {
   send_closure(binlog_actor_, &detail::BinlogActor::force_sync, std::move(promise));

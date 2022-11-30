@@ -1,20 +1,33 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/utils/buffer.h"
 
+#include "td/utils/logging.h"
 #include "td/utils/port/thread_local.h"
 
+#include <cstddef>
 #include <new>
+
+// fixes https://bugs.llvm.org/show_bug.cgi?id=33723 for clang >= 3.6 + c++11 + libc++
+#if TD_CLANG && _LIBCPP_VERSION
+#define TD_OFFSETOF __builtin_offsetof
+#else
+#define TD_OFFSETOF offsetof
+#endif
 
 namespace td {
 
 TD_THREAD_LOCAL BufferAllocator::BufferRawTls *BufferAllocator::buffer_raw_tls;  // static zero-initialized
 
 std::atomic<size_t> BufferAllocator::buffer_mem;
+
+int64 BufferAllocator::get_buffer_slice_size() {
+  return 0;
+}
 
 size_t BufferAllocator::get_buffer_mem() {
   return buffer_mem;
@@ -76,30 +89,113 @@ BufferAllocator::ReaderPtr BufferAllocator::create_reader(const ReaderPtr &raw) 
 void BufferAllocator::dec_ref_cnt(BufferRaw *ptr) {
   int left = ptr->ref_cnt_.fetch_sub(1, std::memory_order_acq_rel);
   if (left == 1) {
-    auto buf_size = max(sizeof(BufferRaw), offsetof(BufferRaw, data_) + ptr->data_size_);
+    auto buf_size = max(sizeof(BufferRaw), TD_OFFSETOF(BufferRaw, data_) + ptr->data_size_);
     buffer_mem -= buf_size;
     ptr->~BufferRaw();
     delete[] ptr;
   }
 }
 
+size_t ChainBufferReader::advance(size_t offset, MutableSlice dest) {
+  LOG_CHECK(offset <= size()) << offset << " " << size() << " " << end_.offset() << " " << begin_.offset() << " "
+                              << sync_flag_ << " " << dest.size();
+  return begin_.advance(offset, dest);
+}
+
 BufferRaw *BufferAllocator::create_buffer_raw(size_t size) {
   size = (size + 7) & -8;
 
-  auto buf_size = offsetof(BufferRaw, data_) + size;
+  auto buf_size = TD_OFFSETOF(BufferRaw, data_) + size;
   if (buf_size < sizeof(BufferRaw)) {
     buf_size = sizeof(BufferRaw);
   }
   buffer_mem += buf_size;
   auto *buffer_raw = reinterpret_cast<BufferRaw *>(new char[buf_size]);
-  new (buffer_raw) BufferRaw();
-  buffer_raw->data_size_ = size;
-  buffer_raw->begin_ = 0;
-  buffer_raw->end_ = 0;
-
-  buffer_raw->ref_cnt_.store(1, std::memory_order_relaxed);
-  buffer_raw->has_writer_.store(true, std::memory_order_relaxed);
-  buffer_raw->was_reader_ = false;
-  return buffer_raw;
+  return new (buffer_raw) BufferRaw(size);
 }
+
+void BufferBuilder::append(BufferSlice slice) {
+  if (append_inplace(slice.as_slice())) {
+    return;
+  }
+  append_slow(std::move(slice));
+}
+
+void BufferBuilder::append(Slice slice) {
+  if (append_inplace(slice)) {
+    return;
+  }
+  append_slow(BufferSlice(slice));
+}
+
+void BufferBuilder::prepend(BufferSlice slice) {
+  if (prepend_inplace(slice.as_slice())) {
+    return;
+  }
+  prepend_slow(std::move(slice));
+}
+
+void BufferBuilder::prepend(Slice slice) {
+  if (prepend_inplace(slice)) {
+    return;
+  }
+  prepend_slow(BufferSlice(slice));
+}
+
+BufferSlice BufferBuilder::extract() {
+  if (to_append_.empty() && to_prepend_.empty()) {
+    return buffer_writer_.as_buffer_slice();
+  }
+  size_t total_size = size();
+  BufferWriter writer(0, 0, total_size);
+  std::move(*this).for_each([&](auto &&slice) {
+    writer.prepare_append().truncate(slice.size()).copy_from(slice.as_slice());
+    writer.confirm_append(slice.size());
+  });
+  *this = {};
+  return writer.as_buffer_slice();
+}
+
+size_t BufferBuilder::size() const {
+  size_t total_size = 0;
+  for_each([&](auto &&slice) { total_size += slice.size(); });
+  return total_size;
+}
+
+bool BufferBuilder::append_inplace(Slice slice) {
+  if (!to_append_.empty()) {
+    return false;
+  }
+  auto dest = buffer_writer_.prepare_append();
+  if (dest.size() < slice.size()) {
+    return false;
+  }
+  dest.remove_suffix(dest.size() - slice.size());
+  dest.copy_from(slice);
+  buffer_writer_.confirm_append(slice.size());
+  return true;
+}
+
+void BufferBuilder::append_slow(BufferSlice slice) {
+  to_append_.push_back(std::move(slice));
+}
+
+bool BufferBuilder::prepend_inplace(Slice slice) {
+  if (!to_prepend_.empty()) {
+    return false;
+  }
+  auto dest = buffer_writer_.prepare_prepend();
+  if (dest.size() < slice.size()) {
+    return false;
+  }
+  dest.remove_prefix(dest.size() - slice.size());
+  dest.copy_from(slice);
+  buffer_writer_.confirm_prepend(slice.size());
+  return true;
+}
+
+void BufferBuilder::prepend_slow(BufferSlice slice) {
+  to_prepend_.push_back(std::move(slice));
+}
+
 }  // namespace td

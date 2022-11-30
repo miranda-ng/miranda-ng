@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,6 +10,8 @@
 #include "td/telegram/files/FileLocation.h"
 #include "td/telegram/files/ResourceManager.h"
 
+#include "td/actor/actor.h"
+
 #include "td/utils/BufferedFd.h"
 #include "td/utils/crypto.h"
 #include "td/utils/port/FileFd.h"
@@ -17,7 +19,7 @@
 
 namespace td {
 
-class FileHashUploader : public FileLoaderActor {
+class FileHashUploader final : public FileLoaderActor {
  public:
   class Callback {
    public:
@@ -25,23 +27,24 @@ class FileHashUploader : public FileLoaderActor {
     Callback(const Callback &) = delete;
     Callback &operator=(const Callback &) = delete;
     virtual ~Callback() = default;
-    virtual void on_ok(const FullRemoteFileLocation &locatioin) = 0;
+
+    virtual void on_ok(FullRemoteFileLocation location) = 0;
     virtual void on_error(Status status) = 0;
   };
 
-  FileHashUploader(const FullLocalFileLocation &local, int64 size, std::unique_ptr<Callback> callback)
+  FileHashUploader(const FullLocalFileLocation &local, int64 size, unique_ptr<Callback> callback)
       : local_(local), size_(size), size_left_(size), callback_(std::move(callback)) {
   }
 
-  void set_resource_manager(ActorShared<ResourceManager> resource_manager) override {
+  void set_resource_manager(ActorShared<ResourceManager> resource_manager) final {
     resource_manager_ = std::move(resource_manager);
     send_closure(resource_manager_, &ResourceManager::update_resources, resource_state_);
   }
 
-  void update_priority(int8 priority) override {
+  void update_priority(int8 priority) final {
     send_closure(resource_manager_, &ResourceManager::update_priority, priority);
   }
-  void update_resources(const ResourceState &other) override {
+  void update_resources(const ResourceState &other) final {
     if (stop_flag_) {
       return;
     }
@@ -60,21 +63,22 @@ class FileHashUploader : public FileLoaderActor {
 
   ActorShared<ResourceManager> resource_manager_;
 
-  enum { CalcSha, NetRequest, WaitNetResult } state_ = CalcSha;
+  enum class State : int32 { CalcSha, NetRequest, WaitNetResult } state_ = State::CalcSha;
   bool stop_flag_ = false;
   Sha256State sha256_state_;
 
-  void start_up() override;
+  void start_up() final;
   Status init();
 
-  void loop() override;
+  void loop() final;
 
   Status loop_impl();
 
   Status loop_sha();
 
-  void on_result(NetQueryPtr net_query) override;
+  void on_result(NetQueryPtr net_query) final;
 
   Status on_result_impl(NetQueryPtr net_query);
 };
+
 }  // namespace td

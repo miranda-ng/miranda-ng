@@ -1,11 +1,14 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/telegram/files/ResourceManager.h"
 
+#include "td/telegram/files/FileLoaderUtils.h"
+
+#include "td/utils/common.h"
 #include "td/utils/format.h"
 #include "td/utils/logging.h"
 #include "td/utils/misc.h"
@@ -18,7 +21,7 @@ namespace td {
 void ResourceManager::register_worker(ActorShared<FileLoaderActor> callback, int8 priority) {
   auto node_id = nodes_container_.create();
   auto *node_ptr = nodes_container_.get(node_id);
-  *node_ptr = std::make_unique<Node>();
+  *node_ptr = make_unique<Node>();
   auto *node = (*node_ptr).get();
   CHECK(node);
   node->node_id = node_id;
@@ -50,13 +53,11 @@ void ResourceManager::update_resources(const ResourceState &resource_state) {
   }
   auto node = (*node_ptr).get();
   CHECK(node);
-  VLOG(files) << "before total: " << resource_state_;
-  VLOG(files) << "before " << tag("node_id", node_id) << ": " << node->resource_state_;
+  VLOG(file_loader) << "Before total: " << resource_state_ << "; node " << node_id << ": " << node->resource_state_;
   resource_state_ -= node->resource_state_;
   node->resource_state_.update_master(resource_state);
   resource_state_ += node->resource_state_;
-  VLOG(files) << "after total: " << resource_state_;
-  VLOG(files) << "after " << tag("node_id", node_id) << ": " << node->resource_state_;
+  VLOG(file_loader) << "After total: " << resource_state_ << "; node " << node_id << ": " << node->resource_state_;
 
   if (mode_ == Mode::Greedy) {
     add_to_heap(node);
@@ -104,16 +105,16 @@ bool ResourceManager::satisfy_node(NodeId file_node_id) {
   CHECK(file_node);
   auto part_size = narrow_cast<int64>(file_node->resource_state_.unit_size());
   auto need = file_node->resource_state_.estimated_extra();
-  VLOG(files) << tag("need", need) << tag("part_size", part_size);
+  VLOG(file_loader) << tag("need", need) << tag("part_size", part_size);
   need = (need + part_size - 1) / part_size * part_size;
-  VLOG(files) << tag("need", need);
+  VLOG(file_loader) << tag("need", need);
   if (need == 0) {
     return true;
   }
   auto give = resource_state_.unused();
   give = min(need, give);
   give -= give % part_size;
-  VLOG(files) << tag("give", give);
+  VLOG(file_loader) << tag("give", give);
   if (give == 0) {
     return false;
   }
@@ -131,7 +132,7 @@ void ResourceManager::loop() {
     return;
   }
   auto active_limit = resource_state_.active_limit();
-  resource_state_.update_limit(2 * 1024 * (1 << 10) - active_limit);
+  resource_state_.update_limit(max_resource_limit_ - active_limit);
   LOG(INFO) << tag("unused", resource_state_.unused());
 
   if (mode_ == Mode::Greedy) {
@@ -158,15 +159,17 @@ void ResourceManager::loop() {
     }
   }
 }
+
 void ResourceManager::add_node(NodeId node_id, int8 priority) {
   if (priority >= 0) {
     auto it = std::find_if(to_xload_.begin(), to_xload_.end(), [&](auto &x) { return x.first <= priority; });
     to_xload_.insert(it, std::make_pair(priority, node_id));
   } else {
     auto it = std::find_if(to_xload_.begin(), to_xload_.end(), [&](auto &x) { return x.first < -priority; });
-    to_xload_.insert(it, std::make_pair(-priority, node_id));
+    to_xload_.insert(it, std::make_pair(narrow_cast<int8>(-priority), node_id));
   }
 }
+
 bool ResourceManager::remove_node(NodeId node_id) {
   auto it = std::find_if(to_xload_.begin(), to_xload_.end(), [&](auto &x) { return x.second == node_id; });
   if (it != to_xload_.end()) {

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,8 +11,9 @@
 #ifdef TD_POLL_SELECT
 
 #include "td/utils/common.h"
-#include "td/utils/port/Fd.h"
+#include "td/utils/port/detail/PollableFd.h"
 #include "td/utils/port/PollBase.h"
+#include "td/utils/port/PollFlags.h"
 
 #include <sys/select.h>
 
@@ -26,24 +27,28 @@ class Select final : public PollBase {
   Select &operator=(const Select &) = delete;
   Select(Select &&) = delete;
   Select &operator=(Select &&) = delete;
-  ~Select() override = default;
+  ~Select() final = default;
 
-  void init() override;
+  void init() final;
 
-  void clear() override;
+  void clear() final;
 
-  void subscribe(const Fd &fd, Fd::Flags flags) override;
+  void subscribe(PollableFd fd, PollFlags flags) final;
 
-  void unsubscribe(const Fd &fd) override;
+  void unsubscribe(PollableFdRef fd) final;
 
-  void unsubscribe_before_close(const Fd &fd) override;
+  void unsubscribe_before_close(PollableFdRef fd) final;
 
-  void run(int timeout_ms) override;
+  void run(int timeout_ms) final;
+
+  static bool is_edge_triggered() {
+    return false;
+  }
 
  private:
   struct FdInfo {
-    Fd fd_ref;
-    Fd::Flags flags;
+    PollableFd fd;
+    PollFlags flags;
   };
   vector<FdInfo> fds_;
   fd_set all_fd_;

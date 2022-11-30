@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -14,6 +14,7 @@
 #include <utility>
 
 namespace td {
+
 class Guard {
  public:
   Guard() = default;
@@ -28,7 +29,7 @@ class Guard {
 };
 
 template <class FunctionT>
-class LambdaGuard : public Guard {
+class LambdaGuard final : public Guard {
  public:
   explicit LambdaGuard(const FunctionT &func) : func_(func) {
   }
@@ -41,11 +42,11 @@ class LambdaGuard : public Guard {
   }
   LambdaGuard &operator=(LambdaGuard &&other) = delete;
 
-  void dismiss() {
+  void dismiss() final {
     dismissed_ = true;
   }
 
-  ~LambdaGuard() {
+  ~LambdaGuard() final {
     if (!dismissed_) {
       func_();
     }
@@ -57,8 +58,8 @@ class LambdaGuard : public Guard {
 };
 
 template <class F>
-std::unique_ptr<Guard> create_lambda_guard(F &&f) {
-  return std::make_unique<LambdaGuard<F>>(std::forward<F>(f));
+unique_ptr<Guard> create_lambda_guard(F &&f) {
+  return make_unique<LambdaGuard<F>>(std::forward<F>(f));
 }
 template <class F>
 std::shared_ptr<Guard> create_shared_lambda_guard(F &&f) {
@@ -73,4 +74,4 @@ auto operator+(ScopeExit, FunctionT &&func) {
 
 }  // namespace td
 
-#define SCOPE_EXIT auto TD_CONCAT(SCOPE_EXIT_VAR_, __LINE__) = ::td::ScopeExit() + [&]()
+#define SCOPE_EXIT auto TD_CONCAT(SCOPE_EXIT_VAR_, __LINE__) = ::td::ScopeExit() + [&]

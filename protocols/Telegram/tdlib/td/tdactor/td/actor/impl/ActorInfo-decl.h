@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -32,13 +32,24 @@ class ActorContext {
   ActorContext(ActorContext &&) = delete;
   ActorContext &operator=(ActorContext &&) = delete;
   virtual ~ActorContext() = default;
+
+  virtual int32 get_id() const {
+    return 0;
+  }
+
+  void set_tag(string tag) {
+    tag_storage_ = std::move(tag);
+    tag_ = tag_storage_.c_str();
+  }
+
   const char *tag_ = nullptr;
+  string tag_storage_;  // sometimes tag_ == tag_storage_.c_str()
   std::weak_ptr<ActorContext> this_ptr_;
 };
 
-class ActorInfo
+class ActorInfo final
     : private ListNode
-    , HeapNode {
+    , private HeapNode {
  public:
   enum class Deleter : uint8 { Destroy, None };
 
@@ -52,11 +63,11 @@ class ActorInfo
   ActorInfo &operator=(const ActorInfo &) = delete;
 
   void init(int32 sched_id, Slice name, ObjectPool<ActorInfo>::OwnerPtr &&this_ptr, Actor *actor_ptr, Deleter deleter,
-            bool is_lite);
+            bool need_context, bool need_start_up);
   void on_actor_moved(Actor *actor_new_ptr);
 
   template <class ActorT>
-  ActorOwn<ActorT> transfer_ownership_to_scheduler(std::unique_ptr<ActorT> actor);
+  ActorOwn<ActorT> transfer_ownership_to_scheduler(unique_ptr<ActorT> actor);
   void clear();
   void destroy_actor();
 
@@ -74,7 +85,8 @@ class ActorInfo
   Actor *get_actor_unsafe();
   const Actor *get_actor_unsafe() const;
 
-  void set_context(std::shared_ptr<ActorContext> context);
+  std::shared_ptr<ActorContext> set_context(std::shared_ptr<ActorContext> context);
+  std::weak_ptr<ActorContext> get_context_weak_ptr() const;
   ActorContext *get_context();
   const ActorContext *get_context() const;
   CSlice get_name() const;
@@ -93,16 +105,18 @@ class ActorInfo
 
   vector<Event> mailbox_;
 
-  bool is_lite() const;
+  bool need_context() const;
+  bool need_start_up() const;
 
   void set_wait_generation(uint32 wait_generation);
   bool must_wait(uint32 wait_generation) const;
   void always_wait_for_mailbox();
 
  private:
-  Deleter deleter_;
-  bool is_lite_;
-  bool is_running_;
+  Deleter deleter_ = Deleter::None;
+  bool need_context_ = true;
+  bool need_start_up_ = true;
+  bool is_running_ = false;
   bool always_wait_for_mailbox_{false};
   uint32 wait_generation_{0};
 
@@ -116,4 +130,5 @@ class ActorInfo
 };
 
 StringBuilder &operator<<(StringBuilder &sb, const ActorInfo &info);
+
 }  // namespace td

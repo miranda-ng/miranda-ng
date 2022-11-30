@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -66,7 +66,6 @@ std::string TD_TL_writer_jni_h::gen_output_begin() const {
   return "#pragma once\n\n"
          "#include \"td/tl/TlObject.h\"\n\n"
          "#include <cstdint>\n"
-         "#include <memory>\n"
          "#include <utility>\n"
          "#include <vector>\n\n"
          "#include <jni.h>\n\n" +
@@ -79,6 +78,21 @@ std::string TD_TL_writer_jni_h::gen_output_begin() const {
          "namespace " +
          tl_name +
          " {\n\n"
+
+         "using int32 = std::int32_t;\n"
+         "using int53 = std::int64_t;\n"
+         "using int64 = std::int64_t;\n\n"
+
+         "using string = " +
+         string_type +
+         ";\n\n"
+
+         "using bytes = " +
+         bytes_type +
+         ";\n\n"
+
+         "template <class Type>\n"
+         "using array = std::vector<Type>;\n\n"
 
          "class " +
          gen_base_tl_class_name() +
@@ -112,7 +126,7 @@ std::string TD_TL_writer_jni_h::gen_output_begin() const {
 }
 
 std::string TD_TL_writer_jni_h::gen_class_begin(const std::string &class_name, const std::string &base_class_name,
-                                                bool is_proxy) const {
+                                                bool is_proxy, const tl::tl_tree *result) const {
   if (class_name == gen_base_tl_class_name()) {
     return "class " + class_name +
            " {\n"

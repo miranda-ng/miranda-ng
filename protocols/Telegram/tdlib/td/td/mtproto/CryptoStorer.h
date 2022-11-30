@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,17 +7,29 @@
 #pragma once
 
 #include "td/mtproto/AuthData.h"
+#include "td/mtproto/MtprotoQuery.h"
 #include "td/mtproto/PacketStorer.h"
 #include "td/mtproto/utils.h"
 
 #include "td/mtproto/mtproto_api.h"
 
-#include "td/utils/logging.h"
+#include "td/utils/common.h"
+#include "td/utils/misc.h"
 #include "td/utils/Slice.h"
+#include "td/utils/Span.h"
+#include "td/utils/StorerBase.h"
 #include "td/utils/Time.h"
 
 namespace td {
+namespace mtproto_api {
+class msg_container {
+ public:
+  static const int32 ID = 0x73f1f8dc;
+};
+}  // namespace mtproto_api
+
 namespace mtproto {
+
 template <class Object, class ObjectStorer>
 class ObjectImpl {
  public:
@@ -29,8 +41,8 @@ class ObjectImpl {
     message_id_ = auth_data->next_message_id(Time::now_cached());
     seq_no_ = auth_data->next_seq_no(need_ack);
   }
-  template <class T>
-  void do_store(T &storer) const {
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     if (empty()) {
       return;
     }
@@ -64,6 +76,7 @@ using GetFutureSaltsImpl = ObjectImpl<mtproto_api::get_future_salts, TLStorer<mt
 using ResendImpl = ObjectImpl<mtproto_api::msg_resend_req, TLObjectStorer<mtproto_api::msg_resend_req>>;
 using CancelImpl = ObjectImpl<mtproto_api::rpc_drop_answer, TLStorer<mtproto_api::rpc_drop_answer>>;
 using GetInfoImpl = ObjectImpl<mtproto_api::msgs_state_req, TLObjectStorer<mtproto_api::msgs_state_req>>;
+using DestroyAuthKeyImpl = ObjectImpl<mtproto_api::destroy_auth_key, TLStorer<mtproto_api::destroy_auth_key>>;
 
 class CancelVectorImpl {
  public:
@@ -74,8 +87,8 @@ class CancelVectorImpl {
     }
   }
 
-  template <class T>
-  void do_store(T &storer) const {
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     for (auto &s : storers_) {
       storer.store_storer(s);
     }
@@ -92,33 +105,45 @@ class CancelVectorImpl {
   vector<PacketStorer<CancelImpl>> storers_;
 };
 
-class QueryImpl {
+class InvokeAfter {
  public:
-  QueryImpl(const Query &query, Slice header) : query_(query), header_(header) {
+  explicit InvokeAfter(Span<uint64> ids) : ids_(ids) {
+  }
+  template <class StorerT>
+  void store(StorerT &storer) const {
+    if (ids_.empty()) {
+      return;
+    }
+    if (ids_.size() == 1) {
+      storer.store_int(static_cast<int32>(0xcb9f372d));
+      storer.store_long(static_cast<int64>(ids_[0]));
+      return;
+    }
+    //  invokeAfterMsgs#3dc4b4f0 {X:Type} msg_ids:Vector<long> query:!X = X;
+    storer.store_int(static_cast<int32>(0x3dc4b4f0));
+    storer.store_int(static_cast<int32>(0x1cb5c415));
+    storer.store_int(narrow_cast<int32>(ids_.size()));
+    for (auto id : ids_) {
+      storer.store_long(static_cast<int64>(id));
+    }
   }
 
-  template <class T>
-  void do_store(T &storer) const {
+ private:
+  Span<uint64> ids_;
+};
+
+class QueryImpl {
+ public:
+  QueryImpl(const MtprotoQuery &query, Slice header) : query_(query), header_(header) {
+  }
+
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     storer.store_binary(query_.message_id);
     storer.store_binary(query_.seq_no);
-    Slice header = this->header_;
-    Slice invoke_header = Slice();
 
-// TODO(refactor):
-// invokeAfterMsg#cb9f372d {X:Type} msg_id:long query:!X = X;
-// This code makes me very sad.
-// InvokeAfterMsg is not even in mtproto_api. It is in telegram_api.
-#pragma pack(push, 4)
-    struct {
-      uint32 constructor_id;
-      uint64 invoke_after_id;
-    } invoke_data;
-#pragma pack(pop)
-    if (query_.invoke_after_id != 0) {
-      invoke_data.constructor_id = 0xcb9f372d;
-      invoke_data.invoke_after_id = query_.invoke_after_id;
-      invoke_header = Slice(reinterpret_cast<const uint8 *>(&invoke_data), sizeof(invoke_data));
-    }
+    InvokeAfter invoke_after(query_.invoke_after_ids);
+    auto invoke_after_storer = create_default_storer(invoke_after);
 
     Slice data = query_.packet.as_slice();
     mtproto_api::gzip_packed packed(data);
@@ -126,9 +151,8 @@ class QueryImpl {
     auto gzip_storer = create_storer(packed);
     const Storer &data_storer =
         query_.gzip_flag ? static_cast<const Storer &>(gzip_storer) : static_cast<const Storer &>(plain_storer);
-    auto invoke_header_storer = create_storer(invoke_header);
-    auto header_storer = create_storer(header);
-    auto suff_storer = create_storer(invoke_header_storer, data_storer);
+    auto header_storer = create_storer(header_);
+    auto suff_storer = create_storer(invoke_after_storer, data_storer);
     auto all_storer = create_storer(header_storer, suff_storer);
 
     storer.store_binary(static_cast<uint32>(all_storer.size()));
@@ -136,17 +160,17 @@ class QueryImpl {
   }
 
  private:
-  const Query &query_;
+  const MtprotoQuery &query_;
   Slice header_;
 };
 
 class QueryVectorImpl {
  public:
-  QueryVectorImpl(const vector<Query> &to_send, Slice header) : to_send_(to_send), header_(header) {
+  QueryVectorImpl(const vector<MtprotoQuery> &to_send, Slice header) : to_send_(to_send), header_(header) {
   }
 
-  template <class T>
-  void do_store(T &storer) const {
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     if (to_send_.empty()) {
       return;
     }
@@ -156,7 +180,7 @@ class QueryVectorImpl {
   }
 
  private:
-  const vector<Query> &to_send_;
+  const vector<MtprotoQuery> &to_send_;
   Slice header_;
 };
 
@@ -165,8 +189,8 @@ class ContainerImpl {
   ContainerImpl(int32 cnt, Storer &storer) : cnt_(cnt), storer_(storer) {
   }
 
-  template <class T>
-  void do_store(T &storer) const {
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     storer.store_binary(mtproto_api::msg_container::ID);
     storer.store_binary(cnt_);
     storer.store_storer(storer_);
@@ -179,10 +203,11 @@ class ContainerImpl {
 
 class CryptoImpl {
  public:
-  CryptoImpl(const vector<Query> &to_send, Slice header, vector<int64> &&to_ack, int64 ping_id, int ping_timeout,
+  CryptoImpl(const vector<MtprotoQuery> &to_send, Slice header, vector<int64> &&to_ack, int64 ping_id, int ping_timeout,
              int max_delay, int max_after, int max_wait, int future_salt_n, vector<int64> get_info,
-             vector<int64> resend, vector<int64> cancel, AuthData *auth_data, uint64 *container_id, uint64 *get_info_id,
-             uint64 *resend_id, uint64 *ping_message_id, uint64 *parent_message_id)
+             vector<int64> resend, const vector<int64> &cancel, bool destroy_key, AuthData *auth_data,
+             uint64 *container_id, uint64 *get_info_id, uint64 *resend_id, uint64 *ping_message_id,
+             uint64 *parent_message_id)
       : query_storer_(to_send, header)
       , ack_empty_(to_ack.empty())
       , ack_storer_(!ack_empty_, mtproto_api::msgs_ack(std::move(to_ack)), auth_data)
@@ -195,17 +220,19 @@ class CryptoImpl {
       , resend_storer_(resend_not_empty_, mtproto_api::msg_resend_req(std::move(resend)), auth_data, true)
       , cancel_not_empty_(!cancel.empty())
       , cancel_cnt_(static_cast<int32>(cancel.size()))
-      , cancel_storer_(cancel_not_empty_, std::move(cancel), auth_data, true)
+      , cancel_storer_(cancel_not_empty_, cancel, auth_data, true)
+      , destroy_key_storer_(destroy_key, mtproto_api::destroy_auth_key(), auth_data, true)
       , tmp_storer_(query_storer_, ack_storer_)
       , tmp2_storer_(tmp_storer_, http_wait_storer_)
       , tmp3_storer_(tmp2_storer_, get_future_salts_storer_)
       , tmp4_storer_(tmp3_storer_, get_info_storer_)
       , tmp5_storer_(tmp4_storer_, resend_storer_)
       , tmp6_storer_(tmp5_storer_, cancel_storer_)
-      , concat_storer_(tmp6_storer_, ping_storer_)
+      , tmp7_storer_(tmp6_storer_, destroy_key_storer_)
+      , concat_storer_(tmp7_storer_, ping_storer_)
       , cnt_(static_cast<int32>(to_send.size()) + ack_storer_.not_empty() + ping_storer_.not_empty() +
              http_wait_storer_.not_empty() + get_future_salts_storer_.not_empty() + get_info_storer_.not_empty() +
-             resend_storer_.not_empty() + cancel_cnt_)
+             resend_storer_.not_empty() + cancel_cnt_ + destroy_key_storer_.not_empty())
       , container_storer_(cnt_, concat_storer_) {
     CHECK(cnt_ != 0);
     if (get_info_storer_.not_empty() && get_info_id) {
@@ -251,13 +278,16 @@ class CryptoImpl {
     } else if (cancel_storer_.not_empty()) {
       type_ = OnlyCancel;
       *parent_message_id = cancel_storer_.get_message_id();
+    } else if (destroy_key_storer_.not_empty()) {
+      type_ = OnlyDestroyKey;
+      *parent_message_id = destroy_key_storer_.get_message_id();
     } else {
       UNREACHABLE();
     }
   }
 
-  template <class T>
-  void do_store(T &storer) const {
+  template <class StorerT>
+  void do_store(StorerT &storer) const {
     switch (type_) {
       case OnlyAck:
         return storer.store_storer(ack_storer_);
@@ -283,6 +313,9 @@ class CryptoImpl {
       case OnlyGetInfo:
         return storer.store_storer(get_info_storer_);
 
+      case OnlyDestroyKey:
+        return storer.store_storer(destroy_key_storer_);
+
       default:
         storer.store_binary(message_id_);
         storer.store_binary(seq_no_);
@@ -305,12 +338,14 @@ class CryptoImpl {
   bool cancel_not_empty_;
   int32 cancel_cnt_;
   PacketStorer<CancelVectorImpl> cancel_storer_;
+  PacketStorer<DestroyAuthKeyImpl> destroy_key_storer_;
   ConcatStorer tmp_storer_;
   ConcatStorer tmp2_storer_;
   ConcatStorer tmp3_storer_;
   ConcatStorer tmp4_storer_;
   ConcatStorer tmp5_storer_;
   ConcatStorer tmp6_storer_;
+  ConcatStorer tmp7_storer_;
   ConcatStorer concat_storer_;
   int32 cnt_;
   PacketStorer<ContainerImpl> container_storer_;
@@ -323,11 +358,13 @@ class CryptoImpl {
     OnlyResend,
     OnlyCancel,
     OnlyGetInfo,
+    OnlyDestroyKey,
     Mixed
   };
   Type type_;
   uint64 message_id_;
   int32 seq_no_;
 };
+
 }  // namespace mtproto
 }  // namespace td

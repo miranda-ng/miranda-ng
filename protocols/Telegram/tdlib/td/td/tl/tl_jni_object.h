@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -17,6 +17,7 @@ namespace td {
 namespace td_api {
 class keyboardButton;
 class inlineKeyboardButton;
+class pageBlockTableCell;
 }  // namespace td_api
 
 namespace jni {
@@ -25,6 +26,7 @@ extern thread_local bool parse_error;
 
 extern jclass ArrayKeyboardButtonClass;
 extern jclass ArrayInlineKeyboardButtonClass;
+extern jclass ArrayPageBlockTableCellClass;
 extern jmethodID GetConstructorID;
 extern jmethodID BooleanGetValueMethodID;
 extern jmethodID IntegerGetValueMethodID;
@@ -105,7 +107,7 @@ jobjectArray store_vector(JNIEnv *env, const std::vector<std::string> &v);
 
 template <class T>
 jobjectArray store_vector(JNIEnv *env, const std::vector<T> &v) {
-  jint length = static_cast<jint>(v.size());
+  auto length = static_cast<jint>(v.size());
   jobjectArray arr = env->NewObjectArray(length, T::element_type::Class, jobject());
   if (arr != nullptr) {
     for (jint i = 0; i < length; i++) {
@@ -143,9 +145,17 @@ class get_array_class<td_api::inlineKeyboardButton> {
   }
 };
 
+template <>
+class get_array_class<td_api::pageBlockTableCell> {
+ public:
+  static jclass get() {
+    return ArrayPageBlockTableCellClass;
+  }
+};
+
 template <class T>
 jobjectArray store_vector(JNIEnv *env, const std::vector<std::vector<T>> &v) {
-  jint length = static_cast<jint>(v.size());
+  auto length = static_cast<jint>(v.size());
   jobjectArray arr = env->NewObjectArray(length, get_array_class<typename T::element_type>::get(), 0);
   if (arr != nullptr) {
     for (jint i = 0; i < length; i++) {
@@ -200,9 +210,29 @@ struct FetchVector<std::string> {
       result.reserve(length);
       for (jsize i = 0; i < length; i++) {
         jstring str = (jstring)env->GetObjectArrayElement(arr, i);
-        result.push_back(jni::from_jstring(env, str));
+        result.push_back(from_jstring(env, str));
         if (str) {
           env->DeleteLocalRef(str);
+        }
+      }
+      env->DeleteLocalRef(arr);
+    }
+    return result;
+  }
+};
+
+template <>
+struct FetchVector<jbyteArray> {
+  static std::vector<std::string> fetch(JNIEnv *env, jobjectArray arr) {
+    std::vector<std::string> result;
+    if (arr != nullptr) {
+      jsize length = env->GetArrayLength(arr);
+      result.reserve(length);
+      for (jsize i = 0; i < length; i++) {
+        jbyteArray bytes = (jbyteArray)env->GetObjectArrayElement(arr, i);
+        result.push_back(from_bytes(env, bytes));
+        if (bytes) {
+          env->DeleteLocalRef(bytes);
         }
       }
       env->DeleteLocalRef(arr);

@@ -1,12 +1,12 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/utils/int_types.h"
+#include "td/utils/common.h"
 #include "td/utils/Slice.h"
 
 namespace td {
@@ -27,6 +27,9 @@ inline size_t utf8_length(Slice str) {
   }
   return result;
 }
+
+/// returns length of UTF-8 string in UTF-16 code units
+size_t utf8_utf16_length(Slice str);
 
 /// appends a Unicode character using UTF-8 encoding
 void append_utf8_character(string &str, uint32 ch);
@@ -60,26 +63,13 @@ T utf8_truncate(T str, size_t length) {
 }
 
 /// truncates UTF-8 string to the given length given in UTF-16 code units
-template <class T>
-T utf8_utf16_truncate(T str, size_t length) {
-  for (size_t i = 0; i < str.size(); i++) {
-    auto c = static_cast<unsigned char>(str[i]);
-    if (is_utf8_character_first_code_unit(c)) {
-      if (length <= 0) {
-        return str.substr(0, i);
-      } else {
-        length--;
-        if (c >= 0xf0) {  // >= 4 bytes in symbol => surrogaite pair
-          length--;
-        }
-      }
-    }
-  }
-  return str;
-}
+Slice utf8_utf16_truncate(Slice str, size_t length);
 
 template <class T>
 T utf8_substr(T str, size_t offset) {
+  if (offset == 0) {
+    return str;
+  }
   auto offset_pos = utf8_truncate(str, offset).size();
   return str.substr(offset_pos);
 }
@@ -89,18 +79,20 @@ T utf8_substr(T str, size_t offset, size_t length) {
   return utf8_truncate(utf8_substr(str, offset), length);
 }
 
-template <class T>
-T utf8_utf16_substr(T str, size_t offset) {
-  auto offset_pos = utf8_utf16_truncate(str, offset).size();
-  return str.substr(offset_pos);
-}
+Slice utf8_utf16_substr(Slice str, size_t offset);
 
-template <class T>
-T utf8_utf16_substr(T str, size_t offset, size_t length) {
-  return utf8_utf16_truncate(utf8_utf16_substr(str, offset), length);
-}
+Slice utf8_utf16_substr(Slice str, size_t offset, size_t length);
 
 /// Returns UTF-8 string converted to lower case.
 string utf8_to_lower(Slice str);
+
+/// Returns UTF-8 string split by words for search.
+vector<string> utf8_get_search_words(Slice str);
+
+/// Returns UTF-8 string prepared for search, leaving only digits and lowercased letters.
+string utf8_prepare_search_string(Slice str);
+
+/// Returns valid UTF-8 representation of the string.
+string utf8_encode(CSlice data);
 
 }  // namespace td

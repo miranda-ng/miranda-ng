@@ -1,45 +1,32 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/actor/PromiseFuture.h"
-
 #include "td/db/binlog/BinlogEvent.h"
+#include "td/db/binlog/BinlogInterface.h"
 
 #include "td/utils/common.h"
-#include "td/utils/Storer.h"
+#include "td/utils/Promise.h"
+#include "td/utils/StorerBase.h"
 
 namespace td {
-class BinlogHelper {
- public:
-  template <class BinlogT, class StorerT>
-  static uint64 add(const BinlogT &binlog_ptr, int32 type, const StorerT &storer, Promise<> promise = Promise<>()) {
-    auto logevent_id = binlog_ptr->next_id();
-    binlog_ptr->add_raw_event(logevent_id, BinlogEvent::create_raw(logevent_id, type, 0, storer), std::move(promise));
-    return logevent_id;
-  }
 
-  template <class BinlogT, class StorerT>
-  static uint64 rewrite(const BinlogT &binlog_ptr, uint64 logevent_id, int32 type, const StorerT &storer,
-                        Promise<> promise = Promise<>()) {
-    auto seq_no = binlog_ptr->next_id();
-    binlog_ptr->add_raw_event(seq_no, BinlogEvent::create_raw(logevent_id, type, BinlogEvent::Flags::Rewrite, storer),
-                              std::move(promise));
-    return seq_no;
-  }
+inline uint64 binlog_add(BinlogInterface *binlog_ptr, int32 type, const Storer &storer,
+                         Promise<> promise = Promise<>()) {
+  return binlog_ptr->add(type, storer, std::move(promise));
+}
 
-  template <class BinlogT>
-  static uint64 erase(const BinlogT &binlog_ptr, uint64 logevent_id, Promise<> promise = Promise<>()) {
-    auto seq_no = binlog_ptr->next_id();
-    binlog_ptr->add_raw_event(seq_no,
-                              BinlogEvent::create_raw(logevent_id, BinlogEvent::ServiceTypes::Empty,
-                                                      BinlogEvent::Flags::Rewrite, EmptyStorer()),
-                              std::move(promise));
-    return seq_no;
-  }
-};
+inline uint64 binlog_rewrite(BinlogInterface *binlog_ptr, uint64 log_event_id, int32 type, const Storer &storer,
+                             Promise<> promise = Promise<>()) {
+  return binlog_ptr->rewrite(log_event_id, type, storer, std::move(promise));
+}
+
+inline uint64 binlog_erase(BinlogInterface *binlog_ptr, uint64 log_event_id, Promise<> promise = Promise<>()) {
+  return binlog_ptr->erase(log_event_id, std::move(promise));
+}
+
 }  // namespace td

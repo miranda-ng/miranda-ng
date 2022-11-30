@@ -1,20 +1,20 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
+#include "td/utils/common.h"
 #include "td/utils/Slice-decl.h"
 
-#include "td/utils/logging.h"
-
 #include <cstring>
+#include <type_traits>
 
 namespace td {
-/*** MutableSlice ***/
-inline MutableSlice::MutableSlice() : MutableSlice(const_cast<char *>(""), static_cast<size_t>(0)) {
+
+inline MutableSlice::MutableSlice() : s_(const_cast<char *>("")), len_(0) {
 }
 
 inline MutableSlice::MutableSlice(char *s, size_t len) : s_(s), len_(len) {
@@ -25,7 +25,13 @@ inline MutableSlice::MutableSlice(unsigned char *s, size_t len) : s_(reinterpret
   CHECK(s_ != nullptr);
 }
 
-inline MutableSlice::MutableSlice(string &s) : MutableSlice(&s[0], s.size()) {
+inline MutableSlice::MutableSlice(string &s) : s_(&s[0]), len_(s.size()) {
+}
+
+template <class T>
+MutableSlice::MutableSlice(T s, std::enable_if_t<std::is_same<char *, T>::value, private_tag>) : s_(s) {
+  CHECK(s_ != nullptr);
+  len_ = std::strlen(s_);
 }
 
 inline MutableSlice::MutableSlice(char *s, char *t) : MutableSlice(s, t - s) {
@@ -104,7 +110,7 @@ inline size_t MutableSlice::find(char c) const {
       return pos;
     }
   }
-  return static_cast<size_t>(-1);
+  return npos;
 }
 
 inline size_t MutableSlice::rfind(char c) const {
@@ -113,7 +119,7 @@ inline size_t MutableSlice::rfind(char c) const {
       return pos;
     }
   }
-  return static_cast<size_t>(-1);
+  return npos;
 }
 
 inline void MutableSlice::copy_from(Slice from) {
@@ -130,11 +136,10 @@ inline char &MutableSlice::operator[](size_t i) {
   return s_[i];
 }
 
-/*** Slice ***/
-inline Slice::Slice() : Slice("", static_cast<size_t>(0)) {
+inline Slice::Slice() : s_(""), len_(0) {
 }
 
-inline Slice::Slice(const MutableSlice &other) : Slice(other.begin(), other.size()) {
+inline Slice::Slice(const MutableSlice &other) : s_(other.begin()), len_(other.size()) {
 }
 
 inline Slice::Slice(const char *s, size_t len) : s_(s), len_(len) {
@@ -145,13 +150,28 @@ inline Slice::Slice(const unsigned char *s, size_t len) : s_(reinterpret_cast<co
   CHECK(s_ != nullptr);
 }
 
-inline Slice::Slice(const string &s) : Slice(s.c_str(), s.size()) {
+inline Slice::Slice(const string &s) : s_(s.c_str()), len_(s.size()) {
 }
 
-inline Slice::Slice(const char *s, const char *t) : Slice(s, t - s) {
+template <class T>
+Slice::Slice(T s, std::enable_if_t<std::is_same<char *, std::remove_const_t<T>>::value, private_tag>) : s_(s) {
+  CHECK(s_ != nullptr);
+  len_ = std::strlen(s_);
 }
 
-inline Slice::Slice(const unsigned char *s, const unsigned char *t) : Slice(s, t - s) {
+template <class T>
+Slice::Slice(T s, std::enable_if_t<std::is_same<const char *, std::remove_const_t<T>>::value, private_tag>) : s_(s) {
+  CHECK(s_ != nullptr);
+  len_ = std::strlen(s_);
+}
+
+inline Slice::Slice(const char *s, const char *t) : s_(s), len_(t - s) {
+  CHECK(s_ != nullptr);
+}
+
+inline Slice::Slice(const unsigned char *s, const unsigned char *t)
+    : s_(reinterpret_cast<const char *>(s)), len_(t - s) {
+  CHECK(s_ != nullptr);
 }
 
 inline size_t Slice::size() const {
@@ -225,7 +245,7 @@ inline size_t Slice::find(char c) const {
       return pos;
     }
   }
-  return static_cast<size_t>(-1);
+  return npos;
 }
 
 inline size_t Slice::rfind(char c) const {
@@ -234,7 +254,7 @@ inline size_t Slice::rfind(char c) const {
       return pos;
     }
   }
-  return static_cast<size_t>(-1);
+  return npos;
 }
 
 inline char Slice::back() const {
@@ -254,6 +274,14 @@ inline bool operator!=(const Slice &a, const Slice &b) {
   return !(a == b);
 }
 
+inline bool operator<(const Slice &a, const Slice &b) {
+  auto x = std::memcmp(a.data(), b.data(), td::min(a.size(), b.size()));
+  if (x == 0) {
+    return a.size() < b.size();
+  }
+  return x < 0;
+}
+
 inline MutableCSlice::MutableCSlice(char *s, char *t) : MutableSlice(s, t) {
   CHECK(*t == '\0');
 }
@@ -262,14 +290,38 @@ inline CSlice::CSlice(const char *s, const char *t) : Slice(s, t) {
   CHECK(*t == '\0');
 }
 
-inline std::size_t SliceHash::operator()(Slice slice) const {
+inline uint32 SliceHash::operator()(Slice slice) const {
   // simple string hash
-  std::size_t result = 0;
-  constexpr std::size_t MUL = 123456789;
+  uint32 result = 0;
+  constexpr uint32 MUL = 123456789;
   for (auto c : slice) {
     result = result * MUL + c;
   }
   return result;
+}
+
+inline Slice as_slice(Slice slice) {
+  return slice;
+}
+
+inline MutableSlice as_slice(MutableSlice slice) {
+  return slice;
+}
+
+inline Slice as_slice(const string &str) {
+  return str;
+}
+
+inline MutableSlice as_slice(string &str) {
+  return str;
+}
+
+inline MutableSlice as_mutable_slice(MutableSlice slice) {
+  return slice;
+}
+
+inline MutableSlice as_mutable_slice(string &str) {
+  return str;
 }
 
 }  // namespace td

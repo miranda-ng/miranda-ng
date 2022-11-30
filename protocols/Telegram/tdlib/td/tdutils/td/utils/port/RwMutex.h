@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,14 +9,16 @@
 #include "td/utils/port/config.h"
 
 #include "td/utils/common.h"
-#include "td/utils/logging.h"
 #include "td/utils/Status.h"
 
 #if TD_PORT_POSIX
 #include <pthread.h>
 #endif
 
+#include <memory>
+
 namespace td {
+
 class RwMutex {
  public:
   RwMutex() {
@@ -24,11 +26,11 @@ class RwMutex {
   }
   RwMutex(const RwMutex &) = delete;
   RwMutex &operator=(const RwMutex &) = delete;
-  RwMutex(RwMutex &&other) {
+  RwMutex(RwMutex &&other) noexcept {
     init();
     other.clear();
   }
-  RwMutex &operator=(RwMutex &&other) {
+  RwMutex &operator=(RwMutex &&other) noexcept {
     other.clear();
     return *this;
   }

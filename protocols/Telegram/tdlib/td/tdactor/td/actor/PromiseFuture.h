@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,174 +10,23 @@
 
 #include "td/utils/Closure.h"
 #include "td/utils/common.h"
-#include "td/utils/invoke.h"  // for tuple_for_each
-#include "td/utils/logging.h"
+#include "td/utils/invoke.h"
+#include "td/utils/Promise.h"
 #include "td/utils/ScopeGuard.h"
 #include "td/utils/Status.h"
 
 #include <tuple>
-#include <type_traits>
 #include <utility>
 
 namespace td {
-template <class T = Unit>
-class PromiseInterface {
- public:
-  PromiseInterface() = default;
-  PromiseInterface(const PromiseInterface &) = delete;
-  PromiseInterface &operator=(const PromiseInterface &) = delete;
-  PromiseInterface(PromiseInterface &&) = default;
-  PromiseInterface &operator=(PromiseInterface &&) = default;
-  virtual ~PromiseInterface() = default;
-  virtual void set_value(T &&value) {
-    set_result(std::move(value));
-  }
-  virtual void set_error(Status &&error) {
-    set_result(std::move(error));
-  }
-  virtual void set_result(Result<T> &&result) {
-    if (result.is_ok()) {
-      set_value(result.move_as_ok());
-    } else {
-      set_error(result.move_as_error());
-    }
-  }
-  virtual void start_migrate(int32 sched_id) {
-  }
-  virtual void finish_migrate() {
-  }
-};
-
-template <class T = Unit>
-class FutureInterface {
- public:
-  FutureInterface() = default;
-  FutureInterface(const FutureInterface &) = delete;
-  FutureInterface &operator=(const FutureInterface &) = delete;
-  FutureInterface(FutureInterface &&) = default;
-  FutureInterface &operator=(FutureInterface &&) = default;
-  virtual ~FutureInterface() = default;
-  virtual bool is_ready() = 0;
-  virtual bool is_ok() = 0;
-  virtual bool is_error() = 0;
-  virtual const T &ok() = 0;
-  virtual T move_as_ok() = 0;
-  virtual const Status &error() = 0;
-  virtual Status move_as_error() TD_WARN_UNUSED_RESULT = 0;
-  virtual const Result<T> &result() = 0;
-  virtual Result<T> move_as_result() TD_WARN_UNUSED_RESULT = 0;
-};
-
-template <class T>
-class SafePromise;
-
-template <class T = Unit>
-class Promise {
- public:
-  void set_value(T &&value) {
-    if (!promise_) {
-      return;
-    }
-    promise_->set_value(std::move(value));
-    promise_.reset();
-  }
-  void set_error(Status &&error) {
-    if (!promise_) {
-      return;
-    }
-    promise_->set_error(std::move(error));
-    promise_.reset();
-  }
-  void set_result(Result<T> &&result) {
-    if (!promise_) {
-      return;
-    }
-    promise_->set_result(std::move(result));
-    promise_.reset();
-  }
-  void reset() {
-    promise_.reset();
-  }
-  void start_migrate(int32 sched_id) {
-    if (!promise_) {
-      return;
-    }
-    promise_->start_migrate(sched_id);
-  }
-  void finish_migrate() {
-    if (!promise_) {
-      return;
-    }
-    promise_->finish_migrate();
-  }
-  std::unique_ptr<PromiseInterface<T>> release() {
-    return std::move(promise_);
-  }
-
-  Promise() = default;
-  explicit Promise(std::unique_ptr<PromiseInterface<T>> promise) : promise_(std::move(promise)) {
-  }
-  Promise(SafePromise<T> &&other);
-  Promise &operator=(SafePromise<T> &&other);
-
-  explicit operator bool() {
-    return static_cast<bool>(promise_);
-  }
-
- private:
-  std::unique_ptr<PromiseInterface<T>> promise_;
-};
-
-template <class T>
-void start_migrate(Promise<T> &promise, int32 sched_id) {
-  // promise.start_migrate(sched_id);
-}
-template <class T>
-void finish_migrate(Promise<T> &promise) {
-  // promise.finish_migrate();
-}
-
-template <class T = Unit>
-class SafePromise {
- public:
-  SafePromise(Promise<T> promise, Result<T> result) : promise_(std::move(promise)), result_(std::move(result)) {
-  }
-  SafePromise(const SafePromise &other) = delete;
-  SafePromise &operator=(const SafePromise &other) = delete;
-  SafePromise(SafePromise &&other) = default;
-  SafePromise &operator=(SafePromise &&other) = default;
-  ~SafePromise() {
-    if (promise_) {
-      promise_.set_result(std::move(result_));
-    }
-  }
-  Promise<T> release() {
-    return std::move(promise_);
-  }
-
- private:
-  Promise<T> promise_;
-  Result<T> result_;
-};
-
-template <class T>
-Promise<T>::Promise(SafePromise<T> &&other) : Promise(other.release()) {
-}
-template <class T>
-Promise<T> &Promise<T>::operator=(SafePromise<T> &&other) {
-  *this = other.release();
-  return *this;
-}
-
 namespace detail {
-
-class EventPromise : public PromiseInterface<Unit> {
+class EventPromise final : public PromiseInterface<Unit> {
  public:
-  void set_value(Unit &&) override {
+  void set_value(Unit &&) final {
     ok_.try_emit();
     fail_.clear();
   }
-  void set_error(Status &&) override {
+  void set_error(Status &&) final {
     do_set_error();
   }
 
@@ -185,7 +34,7 @@ class EventPromise : public PromiseInterface<Unit> {
   EventPromise &operator=(const EventPromise &other) = delete;
   EventPromise(EventPromise &&other) = delete;
   EventPromise &operator=(EventPromise &&other) = delete;
-  ~EventPromise() override {
+  ~EventPromise() final {
     do_set_error();
   }
 
@@ -209,109 +58,23 @@ class EventPromise : public PromiseInterface<Unit> {
   }
 };
 
-template <typename T>
-struct GetArg : public GetArg<decltype(&T::operator())> {};
-
-template <class C, class R, class Arg>
-class GetArg<R (C::*)(Arg)> {
+class SendClosure {
  public:
-  using type = Arg;
-};
-template <class C, class R, class Arg>
-class GetArg<R (C::*)(Arg) const> {
- public:
-  using type = Arg;
-};
-
-template <class T>
-using get_arg_t = std::decay_t<typename GetArg<T>::type>;
-
-template <class T>
-struct DropResult {
-  using type = T;
-};
-
-template <class T>
-struct DropResult<Result<T>> {
-  using type = T;
-};
-
-template <class T>
-using drop_result_t = typename DropResult<T>::type;
-
-template <class ValueT, class FunctionOkT, class FunctionFailT>
-class LambdaPromise : public PromiseInterface<ValueT> {
-  enum OnFail { None, Ok, Fail };
-
- public:
-  void set_value(ValueT &&value) override {
-    ok_(std::move(value));
-    on_fail_ = None;
+  template <class... ArgsT>
+  void operator()(ArgsT &&...args) const {
+    send_closure(std::forward<ArgsT>(args)...);
   }
-  void set_error(Status &&error) override {
-    do_error(std::move(error));
-  }
-  LambdaPromise(const LambdaPromise &other) = delete;
-  LambdaPromise &operator=(const LambdaPromise &other) = delete;
-  LambdaPromise(LambdaPromise &&other) = delete;
-  LambdaPromise &operator=(LambdaPromise &&other) = delete;
-  ~LambdaPromise() override {
-    do_error(Status::Error("Lost promise"));
-  }
-
-  template <class FromOkT, class FromFailT>
-  LambdaPromise(FromOkT &&ok, FromFailT &&fail, bool use_ok_as_fail)
-      : ok_(std::forward<FromOkT>(ok)), fail_(std::forward<FromFailT>(fail)), on_fail_(use_ok_as_fail ? Ok : Fail) {
-  }
-
- private:
-  FunctionOkT ok_;
-  FunctionFailT fail_;
-  OnFail on_fail_ = None;
-
-  template <class FuncT, class ArgT = detail::get_arg_t<FuncT>>
-  std::enable_if_t<std::is_assignable<ArgT, Status>::value> do_error_impl(FuncT &func, Status &&status) {
-    func(std::move(status));
-  }
-
-  template <class FuncT, class ArgT = detail::get_arg_t<FuncT>>
-  std::enable_if_t<!std::is_assignable<ArgT, Status>::value> do_error_impl(FuncT &func, Status &&status) {
-    func(Auto());
-  }
-
-  void do_error(Status &&error) {
-    switch (on_fail_) {
-      case None:
-        break;
-      case Ok:
-        do_error_impl(ok_, std::move(error));
-        break;
-      case Fail:
-        fail_(std::move(error));
-        break;
-    }
-    on_fail_ = None;
-  }
-};
-
-template <class... ArgsT>
-class JoinPromise : public PromiseInterface<Unit> {
- public:
-  explicit JoinPromise(ArgsT &&... arg) : promises_(std::forward<ArgsT>(arg)...) {
-  }
-  void set_value(Unit &&) override {
-    tuple_for_each(promises_, [](auto &promise) { promise.set_value(Unit()); });
-  }
-  void set_error(Status &&error) override {
-    tuple_for_each(promises_, [&error](auto &promise) { promise.set_error(error.clone()); });
-  }
-
- private:
-  std::tuple<std::decay_t<ArgsT>...> promises_;
 };
 }  // namespace detail
 
-/*** FutureActor and PromiseActor ***/
+inline Promise<Unit> create_event_promise(EventFull &&ok) {
+  return Promise<Unit>(td::make_unique<detail::EventPromise>(std::move(ok)));
+}
+
+inline Promise<Unit> create_event_promise(EventFull ok, EventFull fail) {
+  return Promise<Unit>(td::make_unique<detail::EventPromise>(std::move(ok), std::move(fail)));
+}
+
 template <class T>
 class FutureActor;
 
@@ -321,7 +84,8 @@ class PromiseActor;
 template <class T>
 class ActorTraits<FutureActor<T>> {
  public:
-  static constexpr bool is_lite = true;
+  static constexpr bool need_context = false;
+  static constexpr bool need_start_up = false;
 };
 
 template <class T>
@@ -335,12 +99,12 @@ class PromiseActor final : public PromiseInterface<T> {
   PromiseActor &operator=(const PromiseActor &other) = delete;
   PromiseActor(PromiseActor &&) = default;
   PromiseActor &operator=(PromiseActor &&) = default;
-  ~PromiseActor() override {
+  ~PromiseActor() final {
     close();
   }
 
-  void set_value(T &&value) override;
-  void set_error(Status &&error) override;
+  void set_value(T &&value) final;
+  void set_error(Status &&error) final;
 
   void close() {
     future_id_.reset();
@@ -373,7 +137,7 @@ class PromiseActor final : public PromiseInterface<T> {
  private:
   ActorOwn<FutureActor<T>> future_id_;
   EventFull event_;
-  State state_;
+  State state_ = State::Hangup;
 
   void init() {
     state_ = State::Waiting;
@@ -384,9 +148,12 @@ class PromiseActor final : public PromiseInterface<T> {
 template <class T>
 class FutureActor final : public Actor {
   friend class PromiseActor<T>;
-  enum State { Waiting, Ready };
 
  public:
+  enum State { Waiting, Ready };
+
+  static constexpr int HANGUP_ERROR_CODE = 426487;
+
   FutureActor() = default;
 
   FutureActor(const FutureActor &other) = delete;
@@ -395,7 +162,7 @@ class FutureActor final : public Actor {
   FutureActor(FutureActor &&other) = default;
   FutureActor &operator=(FutureActor &&other) = default;
 
-  ~FutureActor() override = default;
+  ~FutureActor() final = default;
 
   bool is_ok() const {
     return is_ready() && result_.is_ok();
@@ -435,13 +202,17 @@ class FutureActor final : public Actor {
     }
   }
 
+  State get_state() const {
+    return state_;
+  }
+
   template <class S>
   friend void init_promise_future(PromiseActor<S> *promise, FutureActor<S> *future);
 
  private:
   EventFull event_;
-  Result<T> result_;
-  State state_;
+  Result<T> result_ = Status::Error(500, "Empty FutureActor");
+  State state_ = State::Waiting;
 
   void set_value(T &&value) {
     set_result(std::move(value));
@@ -459,11 +230,11 @@ class FutureActor final : public Actor {
     event_.try_emit_later();
   }
 
-  void hangup() override {
-    set_error(Status::Hangup());
+  void hangup() final {
+    set_error(Status::Error<HANGUP_ERROR_CODE>());
   }
 
-  void start_up() override {
+  void start_up() final {
     // empty
   }
 
@@ -520,51 +291,26 @@ class PromiseFuture {
   FutureActor<T> future_;
 };
 
-template <class T, class ActorAT, class ActorBT, class ResultT, class... DestArgsT, class... ArgsT>
-FutureActor<T> send_promise(ActorId<ActorAT> actor_id, Send::Flags flags,
-                            ResultT (ActorBT::*func)(PromiseActor<T> &&, DestArgsT...), ArgsT &&... args) {
+template <ActorSendType send_type, class T, class ActorAT, class ActorBT, class ResultT, class... DestArgsT,
+          class... ArgsT>
+FutureActor<T> send_promise(ActorId<ActorAT> actor_id, ResultT (ActorBT::*func)(PromiseActor<T> &&, DestArgsT...),
+                            ArgsT &&...args) {
   PromiseFuture<T> pf;
-  ::td::Scheduler::instance()->send_closure(
-      std::move(actor_id), create_immediate_closure(func, pf.move_promise(), std::forward<ArgsT>(args)...), flags);
+  Scheduler::instance()->send_closure<send_type>(
+      std::move(actor_id), create_immediate_closure(func, pf.move_promise(), std::forward<ArgsT>(args)...));
   return pf.move_future();
 }
 
-class PromiseCreator {
- public:
-  struct Ignore {
-    void operator()(Status &&error) {
-      error.ignore();
-    }
+template <class... ArgsT>
+auto promise_send_closure(ArgsT &&...args) {
+  return [t = std::make_tuple(std::forward<ArgsT>(args)...)](auto &&res) mutable {
+    call_tuple(detail::SendClosure(), std::tuple_cat(std::move(t), std::make_tuple(std::forward<decltype(res)>(res))));
   };
+}
 
-  template <class OkT, class ArgT = detail::drop_result_t<detail::get_arg_t<OkT>>>
-  static Promise<ArgT> lambda(OkT &&ok) {
-    return Promise<ArgT>(std::make_unique<detail::LambdaPromise<ArgT, std::decay_t<OkT>, Ignore>>(std::forward<OkT>(ok),
-                                                                                                  Ignore(), true));
-  }
+template <class T>
+Promise<T> create_promise_from_promise_actor(PromiseActor<T> &&from) {
+  return Promise<T>(td::make_unique<PromiseActor<T>>(std::move(from)));
+}
 
-  template <class OkT, class FailT, class ArgT = detail::get_arg_t<OkT>>
-  static Promise<ArgT> lambda(OkT &&ok, FailT &&fail) {
-    return Promise<ArgT>(std::make_unique<detail::LambdaPromise<ArgT, std::decay_t<OkT>, std::decay_t<FailT>>>(
-        std::forward<OkT>(ok), std::forward<FailT>(fail), false));
-  }
-
-  static Promise<> event(EventFull &&ok) {
-    return Promise<>(std::make_unique<detail::EventPromise>(std::move(ok)));
-  }
-
-  static Promise<> event(EventFull ok, EventFull fail) {
-    return Promise<>(std::make_unique<detail::EventPromise>(std::move(ok), std::move(fail)));
-  }
-
-  template <class... ArgsT>
-  static Promise<> join(ArgsT &&... args) {
-    return Promise<>(std::make_unique<detail::JoinPromise<ArgsT...>>(std::forward<ArgsT>(args)...));
-  }
-
-  template <class T>
-  static Promise<T> from_promise_actor(PromiseActor<T> &&from) {
-    return Promise<T>(std::make_unique<PromiseActor<T>>(std::move(from)));
-  }
-};
 }  // namespace td

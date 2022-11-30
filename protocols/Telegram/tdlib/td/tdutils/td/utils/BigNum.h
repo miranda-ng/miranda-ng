@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,6 +11,8 @@
 #if TD_HAVE_OPENSSL
 
 #include "td/utils/Slice.h"
+#include "td/utils/Status.h"
+#include "td/utils/StringBuilder.h"
 
 namespace td {
 
@@ -19,8 +21,8 @@ class BigNumContext {
   BigNumContext();
   BigNumContext(const BigNumContext &other) = delete;
   BigNumContext &operator=(const BigNumContext &other) = delete;
-  BigNumContext(BigNumContext &&other);
-  BigNumContext &operator=(BigNumContext &&other);
+  BigNumContext(BigNumContext &&other) noexcept;
+  BigNumContext &operator=(BigNumContext &&other) noexcept;
   ~BigNumContext();
 
  private:
@@ -35,19 +37,21 @@ class BigNum {
   BigNum();
   BigNum(const BigNum &other);
   BigNum &operator=(const BigNum &other);
-  BigNum(BigNum &&other);
-  BigNum &operator=(BigNum &&other);
+  BigNum(BigNum &&other) noexcept;
+  BigNum &operator=(BigNum &&other) noexcept;
   ~BigNum();
 
   static BigNum from_binary(Slice str);
 
-  static BigNum from_decimal(CSlice str);
+  static BigNum from_le_binary(Slice str);
+
+  static Result<BigNum> from_decimal(CSlice str);
+
+  static Result<BigNum> from_hex(CSlice str);
 
   static BigNum from_raw(void *openssl_big_num);
 
   void set_value(uint32 new_value);
-
-  void ensure_const_time();
 
   int get_num_bits() const;
 
@@ -64,6 +68,8 @@ class BigNum {
   BigNum clone() const;
 
   string to_binary(int exact_size = -1) const;
+
+  string to_le_binary(int exact_size = -1) const;
 
   string to_decimal() const;
 
@@ -85,7 +91,13 @@ class BigNum {
 
   static void mul(BigNum &r, BigNum &a, BigNum &b, BigNumContext &context);
 
+  static void mod_add(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context);
+
+  static void mod_sub(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context);
+
   static void mod_mul(BigNum &r, BigNum &a, BigNum &b, const BigNum &m, BigNumContext &context);
+
+  static void mod_inverse(BigNum &r, BigNum &a, const BigNum &m, BigNumContext &context);
 
   static void div(BigNum *quotient, BigNum *remainder, const BigNum &dividend, const BigNum &divisor,
                   BigNumContext &context);
@@ -102,6 +114,8 @@ class BigNum {
 
   explicit BigNum(unique_ptr<Impl> &&impl);
 };
+
+StringBuilder &operator<<(StringBuilder &sb, const BigNum &bn);
 
 }  // namespace td
 

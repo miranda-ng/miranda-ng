@@ -1,16 +1,15 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/actor/actor.h"
-#include "td/actor/PromiseFuture.h"
-
 #include "td/telegram/files/FileLoaderActor.h"
 #include "td/telegram/files/ResourceState.h"
+
+#include "td/actor/actor.h"
 
 #include "td/utils/Container.h"
 #include "td/utils/Heap.h"
@@ -18,10 +17,11 @@
 #include <utility>
 
 namespace td {
-class ResourceManager : public Actor {
+
+class ResourceManager final : public Actor {
  public:
-  enum class Mode { Baseline, Greedy };
-  explicit ResourceManager(Mode mode) : mode_(mode) {
+  enum class Mode : int32 { Baseline, Greedy };
+  ResourceManager(int64 max_resource_limit, Mode mode) : max_resource_limit_(max_resource_limit), mode_(mode) {
   }
   // use through ActorShared
   void update_priority(int8 priority);
@@ -30,10 +30,12 @@ class ResourceManager : public Actor {
   void register_worker(ActorShared<FileLoaderActor> callback, int8 priority);
 
  private:
+  int64 max_resource_limit_ = 0;
   Mode mode_;
+
   using NodeId = uint64;
-  struct Node : public HeapNode {
-    NodeId node_id;
+  struct Node final : public HeapNode {
+    NodeId node_id = 0;
 
     ResourceState resource_state_;
     ActorShared<FileLoaderActor> callback_;
@@ -46,7 +48,7 @@ class ResourceManager : public Actor {
     }
   };
 
-  Container<std::unique_ptr<Node>> nodes_container_;
+  Container<unique_ptr<Node>> nodes_container_;
   vector<std::pair<int8, NodeId>> to_xload_;
   KHeap<int64> by_estimated_extra_;
   ResourceState resource_state_;
@@ -54,13 +56,14 @@ class ResourceManager : public Actor {
   ActorShared<> parent_;
   bool stop_flag_ = false;
 
-  void hangup_shared() override;
+  void hangup_shared() final;
 
-  void loop() override;
+  void loop() final;
 
   void add_to_heap(Node *node);
   bool satisfy_node(NodeId file_node_id);
   void add_node(NodeId node_id, int8 priority);
   bool remove_node(NodeId node_id);
 };
+
 }  // namespace td

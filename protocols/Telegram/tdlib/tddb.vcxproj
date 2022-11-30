@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F525EE11-8820-3D8A-87A5-465D50A98A64}</ProjectGuid>
+    <ProjectName>tddb</ProjectName>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="..\..\..\build\vc.common\common.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\td\tddb;.\td\tdactor;.\td\tdutils;.\td\build\tdutils;.\td\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="td\tddb\td\db\binlog\Binlog.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\BinlogEvent.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\ConcurrentBinlog.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsBuffer.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsProcessor.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteStatement.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteKeyValueAsync.cpp" />
+    <ClCompile Include="td\tddb\td\db\detail\RawSqliteDb.cpp" />
+    <ClInclude Include="td\tddb\td\db\binlog\Binlog.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogInterface.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogEvent.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogHelper.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\ConcurrentBinlog.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\detail\BinlogEventsBuffer.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\detail\BinlogEventsProcessor.h" />
+    <ClInclude Include="td\tddb\td\db\BinlogKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\DbKey.h" />
+    <ClInclude Include="td\tddb\td\db\KeyValueSyncInterface.h" />
+    <ClInclude Include="td\tddb\td\db\SeqKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteConnectionSafe.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteDb.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValueAsync.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValueSafe.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteStatement.h" />
+    <ClInclude Include="td\tddb\td\db\TsSeqKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\detail\RawSqliteDb.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="tdactor.vcxproj">
+      <Project>{85F63934-02FE-332A-8703-059040B65512}</Project>
+      <Name>tdactor</Name>
+    </ProjectReference>
+    <ProjectReference Include="tdutils.vcxproj">
+      <Project>{D21C6A0F-BED1-3377-9659-7FC7D82EFC4F}</Project>
+      <Name>tdutils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

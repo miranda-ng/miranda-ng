@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,7 +7,6 @@
 #pragma once
 
 #include "td/utils/common.h"
-
 #include "td/utils/logging.h"
 #include "td/utils/MpscLinkQueue.h"
 
@@ -34,7 +33,7 @@ class AtomicRefCnt {
   }
 
  private:
-  std::atomic<uint64> cnt_;
+  std::atomic<uint64> cnt_{0};
 };
 
 template <class DataT, class DeleterT>
@@ -50,7 +49,7 @@ class SharedPtrRaw
     CHECK(option_magic_ == Magic);
   }
   template <class... ArgsT>
-  void init_data(ArgsT &&... args) {
+  void init_data(ArgsT &&...args) {
     new (&option_data_) DataT(std::forward<ArgsT>(args)...);
   }
   void destroy_data() {
@@ -89,6 +88,7 @@ template <class T, class DeleterT = std::default_delete<T>>
 class SharedPtr {
  public:
   using Raw = detail::SharedPtrRaw<T, DeleterT>;
+  struct acquire_t {};
   SharedPtr() = default;
   ~SharedPtr() {
     if (!raw_) {
@@ -97,27 +97,36 @@ class SharedPtr {
     reset();
   }
   explicit SharedPtr(Raw *raw) : raw_(raw) {
-    raw_->inc();
+    if (raw_) {
+      raw_->inc();
+    }
+  }
+  SharedPtr(acquire_t, Raw *raw) : raw_(raw) {
   }
   SharedPtr(const SharedPtr &other) : SharedPtr(other.raw_) {
   }
   SharedPtr &operator=(const SharedPtr &other) {
-    other.raw_->inc();
+    if (this == &other) {
+      return *this;
+    }
+    if (other.raw_) {
+      other.raw_->inc();
+    }
     reset(other.raw_);
     return *this;
   }
-  SharedPtr(SharedPtr &&other) : raw_(other.raw_) {
+  SharedPtr(SharedPtr &&other) noexcept : raw_(other.raw_) {
     other.raw_ = nullptr;
   }
-  SharedPtr &operator=(SharedPtr &&other) {
+  SharedPtr &operator=(SharedPtr &&other) noexcept {
     reset(other.raw_);
     other.raw_ = nullptr;
     return *this;
   }
-  bool empty() const {
+  bool empty() const noexcept {
     return raw_ == nullptr;
   }
-  explicit operator bool() const {
+  explicit operator bool() const noexcept {
     return !empty();
   }
   uint64 use_cnt() const {
@@ -149,16 +158,19 @@ class SharedPtr {
   }
 
   template <class... ArgsT>
-  static SharedPtr<T, DeleterT> create(ArgsT &&... args) {
-    auto raw = std::make_unique<Raw>(DeleterT());
+  static SharedPtr<T, DeleterT> create(ArgsT &&...args) {
+    auto raw = make_unique<Raw>(DeleterT());
     raw->init_data(std::forward<ArgsT>(args)...);
     return SharedPtr<T, DeleterT>(raw.release());
   }
   template <class D, class... ArgsT>
-  static SharedPtr<T, DeleterT> create_with_deleter(D &&d, ArgsT &&... args) {
-    auto raw = std::make_unique<Raw>(std::forward<D>(d));
+  static SharedPtr<T, DeleterT> create_with_deleter(D &&d, ArgsT &&...args) {
+    auto raw = make_unique<Raw>(std::forward<D>(d));
     raw->init_data(std::forward<ArgsT>(args)...);
     return SharedPtr<T, DeleterT>(raw.release());
+  }
+  bool operator==(const SharedPtr<T, DeleterT> &other) const {
+    return raw_ == other.raw_;
   }
 
  private:
@@ -185,11 +197,11 @@ class SharedObjectPool {
     while (free_queue_reader_.read()) {
       free_cnt++;
     }
-    CHECK(free_cnt == allocated_.size()) << free_cnt << " " << allocated_.size();
+    LOG_CHECK(free_cnt == allocated_.size()) << free_cnt << " " << allocated_.size();
   }
 
   template <class... ArgsT>
-  Ptr alloc(ArgsT &&... args) {
+  Ptr alloc(ArgsT &&...args) {
     auto *raw = alloc_raw();
     raw->init_data(std::forward<ArgsT>(args)...);
     return Ptr(raw);
@@ -202,7 +214,7 @@ class SharedObjectPool {
     return free_queue_reader_.calc_size();
   }
 
-  //non thread safe
+  // non-thread-safe
   template <class F>
   void for_each(F &&f) {
     for (auto &raw : allocated_) {
@@ -220,7 +232,7 @@ class SharedObjectPool {
     if (raw) {
       return raw;
     }
-    allocated_.push_back(std::make_unique<Raw>(deleter()));
+    allocated_.push_back(make_unique<Raw>(deleter()));
     return allocated_.back().get();
   }
 
@@ -243,7 +255,7 @@ class SharedObjectPool {
     Raw *get() const {
       return raw_;
     }
-    explicit operator bool() const {
+    explicit operator bool() const noexcept {
       return raw_ != nullptr;
     }
 
@@ -268,7 +280,7 @@ class SharedObjectPool {
     return Deleter(this);
   }
 
-  std::vector<std::unique_ptr<Raw>> allocated_;
+  std::vector<unique_ptr<Raw>> allocated_;
   MpscLinkQueue<Node> free_queue_;
   typename MpscLinkQueue<Node>::Reader free_queue_reader_;
 };

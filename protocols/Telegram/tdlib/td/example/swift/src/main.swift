@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -9,8 +9,7 @@ import Foundation
 
 // TDLib Client Swift binding
 class TdClient {
-    typealias Client = UnsafeMutableRawPointer
-    var client = td_json_client_create()!
+    var client_id = td_create_client_id()
     let tdlibMainLoop = DispatchQueue(label: "TDLib")
     let tdlibQueryQueue = DispatchQueue(label: "TDLibQuery")
     var queryF = Dictionary<Int64, (Dictionary<String,Any>)->()>()
@@ -27,7 +26,7 @@ class TdClient {
                 self.queryF[nextQueryId] = f
                 self.queryId = nextQueryId
             }
-            td_json_client_send(self.client, to_json(newQuery))
+            td_send(self.client_id, to_json(newQuery))
         }
     }
 
@@ -46,7 +45,6 @@ class TdClient {
     }
 
     deinit {
-        td_json_client_destroy(client)
     }
 
     func run(updateHandler: @escaping (Dictionary<String,Any>)->()) {
@@ -54,7 +52,7 @@ class TdClient {
         tdlibMainLoop.async { [weak self] in
             while (true) {
                 if let s = self {
-                    if let res = td_json_client_receive(s.client, 10) {
+                    if let res = td_receive(10) {
                         let event = String(cString: res)
                         s.queryResultAsync(event)
                     }
@@ -91,10 +89,10 @@ func to_json(_ obj: Any) -> String {
 }
 
 
-// An example of usage
-td_set_log_verbosity_level(1);
-
 var client = TdClient()
+
+// start the client by sending request to it
+client.queryAsync(query: ["@type":"getOption", "name":"version"])
 
 func myReadLine() -> String {
     while (true) {
@@ -109,42 +107,47 @@ func updateAuthorizationState(authorizationState: Dictionary<String, Any>) {
         case "authorizationStateWaitTdlibParameters":
             client.queryAsync(query:[
                 "@type":"setTdlibParameters",
-                "parameters":[
-                    "database_directory":"tdlib",
-                    "use_message_database":true,
-                    "use_secret_chats":true,
-                    "api_id":94575,
-                    "api_hash":"a3406de8d171bb422bb6ddf3bbd800e2",
-                    "system_language_code":"en",
-                    "device_model":"Desktop",
-                    "system_version":"Unknown",
-                    "application_version":"1.0",
-                    "enable_storage_optimizer":true
-                ]
+                "database_directory":"tdlib",
+                "use_message_database":true,
+                "use_secret_chats":true,
+                "api_id":94575,
+                "api_hash":"a3406de8d171bb422bb6ddf3bbd800e2",
+                "system_language_code":"en",
+                "device_model":"Desktop",
+                "application_version":"1.0",
+                "enable_storage_optimizer":true
             ]);
 
-        case "authorizationStateWaitEncryptionKey":
-            client.queryAsync(query: ["@type":"checkDatabaseEncryptionKey", "key":"cucumber"])
-
         case "authorizationStateWaitPhoneNumber":
-            print("Enter your phone: ")
-            let phone = myReadLine()
-            client.queryAsync(query:["@type":"setAuthenticationPhoneNumber", "phone_number":phone], f:checkAuthenticationError)
+            print("Enter your phone number: ")
+            let phone_number = myReadLine()
+            client.queryAsync(query:["@type":"setAuthenticationPhoneNumber", "phone_number":phone_number], f:checkAuthenticationError)
+
+        case "authorizationStateWaitEmailAddress":
+            print("Enter your email address: ")
+            let email_address = myReadLine()
+            client.queryAsync(query:["@type":"setAuthenticationEmailAddress", "email_address":email_address], f:checkAuthenticationError)
+
+        case "authorizationStateWaitEmailCode":
+            var code: String = ""
+            print("Enter email code: ")
+            code = myReadLine()
+            client.queryAsync(query:["@type":"checkAuthenticationEmailCode", "code":["@type":"emailAddressAuthenticationCode", "code":code]], f:checkAuthenticationError)
 
         case "authorizationStateWaitCode":
-            var first_name: String = ""
-            var last_name: String = ""
             var code: String = ""
-            if let is_registered = authorizationState["is_registered"] as? Bool, is_registered {
-            } else {
-                print("Enter your first name: ")
-                first_name = myReadLine()
-                print("Enter your last name: ")
-                last_name = myReadLine()
-            }
             print("Enter (SMS) code: ")
             code = myReadLine()
-            client.queryAsync(query:["@type":"checkAuthenticationCode", "code":code, "first_name":first_name, "last_name":last_name], f:checkAuthenticationError)
+            client.queryAsync(query:["@type":"checkAuthenticationCode", "code":code], f:checkAuthenticationError)
+
+        case "authorizationStateWaitRegistration":
+            var first_name: String = ""
+            var last_name: String = ""
+            print("Enter your first name: ")
+            first_name = myReadLine()
+            print("Enter your last name: ")
+            last_name = myReadLine()
+            client.queryAsync(query:["@type":"registerUser", "first_name":first_name, "last_name":last_name], f:checkAuthenticationError)
 
         case "authorizationStateWaitPassword":
             print("Enter password: ")
@@ -154,8 +157,17 @@ func updateAuthorizationState(authorizationState: Dictionary<String, Any>) {
         case "authorizationStateReady":
             ()
 
+        case "authorizationStateLoggingOut":
+            print("Logging out...")
+
+        case "authorizationStateClosing":
+            print("Closing...")
+
+        case "authorizationStateClosed":
+            print("Closed.")
+
         default:
-            assert(false, "TODO: Unknown authorization state");
+            assert(false, "TODO: Unexpected authorization state");
     }
 }
 

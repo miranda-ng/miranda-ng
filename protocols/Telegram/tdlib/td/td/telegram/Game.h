@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -10,16 +10,17 @@
 #include "td/telegram/files/FileId.h"
 #include "td/telegram/MessageEntity.h"
 #include "td/telegram/Photo.h"
+#include "td/telegram/td_api.h"
+#include "td/telegram/telegram_api.h"
 #include "td/telegram/UserId.h"
 
 #include "td/utils/common.h"
+#include "td/utils/Status.h"
 #include "td/utils/StringBuilder.h"
-
-#include "td/telegram/td_api.h"
-#include "td/telegram/telegram_api.h"
 
 namespace td {
 
+class ContactsManager;
 class Td;
 
 class Game {
@@ -42,22 +43,27 @@ class Game {
  public:
   Game() = default;
 
-  Game(Td *td, tl_object_ptr<telegram_api::game> &&game, DialogId owner_dialog_id);
+  Game(Td *td, UserId bot_user_id, tl_object_ptr<telegram_api::game> &&game, FormattedText text,
+       DialogId owner_dialog_id);
 
+  // for inline results
   Game(Td *td, string title, string description, tl_object_ptr<telegram_api::Photo> &&photo,
        tl_object_ptr<telegram_api::Document> &&document, DialogId owner_dialog_id);
 
+  // for outgoing messages
   Game(UserId bot_user_id, string short_name);
 
-  bool empty() const;
-
-  void set_bot_user_id(UserId bot_user_id);
+  bool is_empty() const;
 
   UserId get_bot_user_id() const;
 
-  void set_message_text(FormattedText &&text);
+  vector<FileId> get_file_ids(const Td *td) const;
 
-  tl_object_ptr<td_api::game> get_game_object(const Td *td) const;
+  const FormattedText &get_text() const;
+
+  tl_object_ptr<td_api::game> get_game_object(Td *td, bool skip_bot_commands) const;
+
+  bool has_input_media() const;
 
   tl_object_ptr<telegram_api::inputMediaGame> get_input_media_game(const Td *td) const;
 
@@ -72,5 +78,9 @@ bool operator==(const Game &lhs, const Game &rhs);
 bool operator!=(const Game &lhs, const Game &rhs);
 
 StringBuilder &operator<<(StringBuilder &string_builder, const Game &game);
+
+Result<Game> process_input_message_game(const ContactsManager *contacts_manager,
+                                        tl_object_ptr<td_api::InputMessageContent> &&input_message_content)
+    TD_WARN_UNUSED_RESULT;
 
 }  // namespace td

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,15 +20,15 @@ class Gzip {
   Gzip();
   Gzip(const Gzip &) = delete;
   Gzip &operator=(const Gzip &) = delete;
-  Gzip(Gzip &&other);
-  Gzip &operator=(Gzip &&other);
+  Gzip(Gzip &&other) noexcept;
+  Gzip &operator=(Gzip &&other) noexcept;
   ~Gzip();
 
-  enum Mode { Empty, Encode, Decode };
+  enum class Mode { Empty, Encode, Decode };
   Status init(Mode mode) TD_WARN_UNUSED_RESULT {
-    if (mode == Encode) {
+    if (mode == Mode::Encode) {
       return init_encode();
-    } else if (mode == Decode) {
+    } else if (mode == Mode::Decode) {
       return init_decode();
     }
     clear();
@@ -79,7 +79,7 @@ class Gzip {
     return res;
   }
 
-  enum State { Running, Done };
+  enum class State { Running, Done };
   Result<State> run() TD_WARN_UNUSED_RESULT;
 
  private:
@@ -89,15 +89,17 @@ class Gzip {
   size_t input_size_ = 0;
   size_t output_size_ = 0;
   bool close_input_flag_ = false;
-  Mode mode_ = Empty;
+  Mode mode_ = Mode::Empty;
 
   void init_common();
   void clear();
+
+  void swap(Gzip &other);
 };
 
 BufferSlice gzdecode(Slice s);
 
-BufferSlice gzencode(Slice s, double k = 0.9);
+BufferSlice gzencode(Slice s, double max_compression_ratio);
 
 }  // namespace td
 

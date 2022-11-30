@@ -1,18 +1,21 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
-#include "td/utils/logging.h"
+
+#include "td/utils/common.h"
 #include "td/utils/StringBuilder.h"
 
+#include <tuple>
+
 namespace td {
+
 class DcId {
  public:
   DcId() = default;
-  DcId(const DcId &other) = default;
 
   static bool is_valid(int32 dc_id) {
     return 1 <= dc_id && dc_id <= 1000;
@@ -36,6 +39,13 @@ class DcId {
   }
   static DcId from_value(int32 value) {
     return DcId{value, false};
+  }
+  static DcId create(int32 dc_id_value) {
+    if (DcId::is_valid(dc_id_value)) {
+      return DcId(dc_id_value, false);
+    } else {
+      return DcId::invalid();
+    }
   }
 
   bool is_empty() const {
@@ -64,14 +74,14 @@ class DcId {
     return dc_id_ == other.dc_id_ && is_external_ == other.is_external_;
   }
   bool operator<(DcId other) const {
-    return dc_id_ < other.dc_id_;
+    return std::tie(dc_id_, is_external_) < std::tie(other.dc_id_, other.is_external_);
   }
   bool operator!=(DcId other) const {
     return !(*this == other);
   }
 
  private:
-  enum { Empty = 0, MainDc = -1, Invalid = -2 };
+  enum : int32 { Empty = 0, MainDc = -1, Invalid = -2 };
   int32 dc_id_{Empty};
   bool is_external_{false};
 
@@ -85,8 +95,12 @@ class DcId {
 
 inline StringBuilder &operator<<(StringBuilder &sb, const DcId &dc_id) {
   sb << "DcId{";
-  if (dc_id.is_empty()) {
+  if (dc_id == DcId::invalid()) {
+    sb << "invalid";
+  } else if (dc_id == DcId()) {
     sb << "empty";
+  } else if (dc_id.is_empty()) {
+    sb << "is_empty";
   } else if (dc_id.is_main()) {
     sb << "main";
   } else {
@@ -99,4 +113,4 @@ inline StringBuilder &operator<<(StringBuilder &sb, const DcId &dc_id) {
   return sb;
 }
 
-};  // namespace td
+}  // namespace td

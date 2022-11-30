@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -7,18 +7,23 @@
 #pragma once
 
 #include "td/mtproto/IStreamTransport.h"
+#include "td/mtproto/ProxySecret.h"
+#include "td/mtproto/TlsReaderByteFlow.h"
+#include "td/mtproto/TransportType.h"
 
 #include "td/utils/AesCtrByteFlow.h"
 #include "td/utils/buffer.h"
 #include "td/utils/ByteFlow.h"
 #include "td/utils/common.h"
 #include "td/utils/crypto.h"
-#include "td/utils/port/Fd.h"
+#include "td/utils/port/detail/PollableFd.h"
 #include "td/utils/Status.h"
+#include "td/utils/UInt.h"
 
 namespace td {
 namespace mtproto {
 namespace tcp {
+
 class ITransport {
   // Writes packet into message.
   // Returns 0 if everything is ok, and [expected_size] otherwise.
@@ -44,115 +49,158 @@ class ITransport {
   virtual ~ITransport() = default;
 };
 
-class AbridgedTransport : public ITransport {
+class AbridgedTransport final : public ITransport {
  public:
-  size_t read_from_stream(ChainBufferReader *stream, BufferSlice *message, uint32 *quick_ack) override;
-  void write_prepare_inplace(BufferWriter *message, bool quick_ack) override;
-  void init_output_stream(ChainBufferWriter *stream) override;
-  bool support_quick_ack() const override {
+  size_t read_from_stream(ChainBufferReader *stream, BufferSlice *message, uint32 *quick_ack) final;
+  void write_prepare_inplace(BufferWriter *message, bool quick_ack) final;
+  void init_output_stream(ChainBufferWriter *stream) final;
+  bool support_quick_ack() const final {
     return false;
   }
 };
 
-class IntermediateTransport : ITransport {
+class IntermediateTransport final : public ITransport {
  public:
-  size_t read_from_stream(ChainBufferReader *stream, BufferSlice *message, uint32 *quick_ack) override;
-  void write_prepare_inplace(BufferWriter *message, bool quick_ack) override;
-  void init_output_stream(ChainBufferWriter *stream) override;
-  bool support_quick_ack() const override {
+  explicit IntermediateTransport(bool with_padding) : with_padding_(with_padding) {
+  }
+  size_t read_from_stream(ChainBufferReader *stream, BufferSlice *message, uint32 *quick_ack) final;
+  void write_prepare_inplace(BufferWriter *message, bool quick_ack) final;
+  void init_output_stream(ChainBufferWriter *stream) final;
+  bool support_quick_ack() const final {
     return true;
   }
+  bool with_padding() const {
+    return with_padding_;
+  }
+
+ private:
+  bool with_padding_;
 };
 
 using TransportImpl = IntermediateTransport;
 
-class OldTransport : public IStreamTransport {
+class OldTransport final : public IStreamTransport {
  public:
   OldTransport() = default;
-  Result<size_t> read_next(BufferSlice *message, uint32 *quick_ack) override TD_WARN_UNUSED_RESULT {
+  Result<size_t> read_next(BufferSlice *message, uint32 *quick_ack) final TD_WARN_UNUSED_RESULT {
     return impl_.read_from_stream(input_, message, quick_ack);
   }
-  bool support_quick_ack() const override {
+  bool support_quick_ack() const final {
     return impl_.support_quick_ack();
   }
-  void write(BufferWriter &&message, bool quick_ack) override {
+  void write(BufferWriter &&message, bool quick_ack) final {
     impl_.write_prepare_inplace(&message, quick_ack);
     output_->append(message.as_buffer_slice());
   }
-  void init(ChainBufferReader *input, ChainBufferWriter *output) override {
+  void init(ChainBufferReader *input, ChainBufferWriter *output) final {
     input_ = input;
     output_ = output;
     impl_.init_output_stream(output_);
   }
-  bool can_read() const override {
+  bool can_read() const final {
     return true;
   }
-  bool can_write() const override {
+  bool can_write() const final {
     return true;
   }
 
-  size_t max_prepend_size() const override {
+  size_t max_prepend_size() const final {
     return 4;
   }
-  TransportType get_type() const override {
-    return TransportType::Tcp;
+
+  size_t max_append_size() const final {
+    return 15;
+  }
+
+  TransportType get_type() const final {
+    return TransportType{TransportType::Tcp, 0, ProxySecret()};
+  }
+
+  bool use_random_padding() const final {
+    return false;
   }
 
  private:
-  TransportImpl impl_;
-  ChainBufferReader *input_;
-  ChainBufferWriter *output_;
+  TransportImpl impl_{false};
+  ChainBufferReader *input_{nullptr};
+  ChainBufferWriter *output_{nullptr};
 };
 
-class ObfuscatedTransport : public IStreamTransport {
+class ObfuscatedTransport final : public IStreamTransport {
  public:
-  ObfuscatedTransport() = default;
-  Result<size_t> read_next(BufferSlice *message, uint32 *quick_ack) override TD_WARN_UNUSED_RESULT {
-    aes_ctr_byte_flow_.wakeup();
-    return impl_.read_from_stream(byte_flow_sink_.get_output(), message, quick_ack);
+  ObfuscatedTransport(int16 dc_id, ProxySecret secret)
+      : dc_id_(dc_id), secret_(std::move(secret)), impl_(secret_.use_random_padding()) {
   }
 
-  bool support_quick_ack() const override {
+  Result<size_t> read_next(BufferSlice *message, uint32 *quick_ack) final TD_WARN_UNUSED_RESULT;
+
+  bool support_quick_ack() const final {
     return impl_.support_quick_ack();
   }
 
-  void write(BufferWriter &&message, bool quick_ack) override {
-    impl_.write_prepare_inplace(&message, quick_ack);
-    auto slice = message.as_buffer_slice();
-    output_state_.encrypt(slice.as_slice(), slice.as_slice());
-    output_->append(std::move(slice));
-  }
+  void write(BufferWriter &&message, bool quick_ack) final;
 
-  void init(ChainBufferReader *input, ChainBufferWriter *output) override;
+  void init(ChainBufferReader *input, ChainBufferWriter *output) final;
 
-  bool can_read() const override {
+  bool can_read() const final {
     return true;
   }
 
-  bool can_write() const override {
+  bool can_write() const final {
     return true;
   }
 
-  size_t max_prepend_size() const override {
-    return 4;
+  size_t max_prepend_size() const final {
+    size_t res = 4;
+    if (secret_.emulate_tls()) {
+      res += 5;
+      if (is_first_tls_packet_) {
+        res += 6;
+      }
+    }
+    res += header_.size();
+    if (res & 3) {
+      res += 4 - (res & 3);
+    }
+    return res;
   }
 
-  TransportType get_type() const override {
-    return TransportType::ObfuscatedTcp;
+  size_t max_append_size() const final {
+    return 15;
+  }
+
+  TransportType get_type() const final {
+    return TransportType{TransportType::ObfuscatedTcp, dc_id_, secret_};
+  }
+
+  bool use_random_padding() const final {
+    return secret_.use_random_padding();
   }
 
  private:
+  int16 dc_id_;
+  bool is_first_tls_packet_{true};
+  ProxySecret secret_;
+  std::string header_;
   TransportImpl impl_;
+  TlsReaderByteFlow tls_reader_byte_flow_;
   AesCtrByteFlow aes_ctr_byte_flow_;
   ByteFlowSink byte_flow_sink_;
-  ChainBufferReader *input_;
+  ChainBufferReader *input_ = nullptr;
+
+  static constexpr int32 MAX_TLS_PACKET_LENGTH = 2878;
 
   // TODO: use ByteFlow?
   // One problem is that BufferedFd owns output_buffer_
   // The other problem is that first 56 bytes must be sent unencrypted.
   UInt256 output_key_;
   AesCtrState output_state_;
-  ChainBufferWriter *output_;
+  ChainBufferWriter *output_ = nullptr;
+
+  void do_write_tls(BufferWriter &&message);
+  void do_write_tls(BufferBuilder &&builder);
+  void do_write_main(BufferWriter &&message);
+  void do_write(BufferSlice &&message);
 };
 
 using Transport = ObfuscatedTransport;

@@ -21,11 +21,7 @@ struct CMTProto;
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMTProto>
 {
-	CMPlugin() :
-		ACCPROTOPLUGIN<CMTProto>("TELEGRAM")
-	{
-		SetUniqueId("Phone");
-	}
+	CMPlugin();
 };
 
 #endif //_COMMON_H_

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,11 +8,11 @@
 
 #include "td/mtproto/AuthKey.h"
 
-#include "td/utils/logging.h"
+#include "td/utils/common.h"
 #include "td/utils/Slice.h"
 #include "td/utils/Status.h"
 
-#include <set>
+#include <array>
 
 namespace td {
 namespace mtproto {
@@ -37,19 +37,24 @@ void parse(ServerSalt &salt, ParserT &parser) {
   salt.valid_until = parser.fetch_double();
 }
 
+Status check_message_id_duplicates(int64 *saved_message_ids, size_t max_size, size_t &end_pos, int64 message_id);
+
+template <size_t max_size>
 class MessageIdDuplicateChecker {
  public:
-  Status check(int64 message_id);
+  Status check(int64 message_id) {
+    return check_message_id_duplicates(&saved_message_ids_[0], max_size, end_pos_, message_id);
+  }
 
  private:
-  static constexpr size_t MAX_SAVED_MESSAGE_IDS = 1000;
-  std::set<int64> saved_message_ids_;
+  std::array<int64, 2 * max_size> saved_message_ids_;
+  size_t end_pos_ = 0;
 };
 
 class AuthData {
  public:
   AuthData();
-  AuthData(const AuthData &) = delete;
+  AuthData(const AuthData &) = default;
   AuthData &operator=(const AuthData &) = delete;
   AuthData(AuthData &&) = delete;
   AuthData &operator=(AuthData &&) = delete;
@@ -57,9 +62,11 @@ class AuthData {
 
   bool is_ready(double now);
 
-  uint64 session_id_;
   void set_main_auth_key(AuthKey auth_key) {
     main_auth_key_ = std::move(auth_key);
+  }
+  void break_main_auth_key() {
+    main_auth_key_.break_key();
   }
   const AuthKey &get_main_auth_key() const {
     // CHECK(has_main_auth_key());
@@ -90,7 +97,7 @@ class AuthData {
     if (tmp_auth_key_.empty()) {
       return true;
     }
-    if (now > tmp_auth_key_.expire_at() - 60 * 60 * 2 /*2 hours*/) {
+    if (now > tmp_auth_key_.expires_at() - 60 * 60 * 2 /*2 hours*/) {
       return true;
     }
     if (!has_tmp_auth_key(now)) {
@@ -111,7 +118,7 @@ class AuthData {
     if (tmp_auth_key_.empty()) {
       return false;
     }
-    if (now > tmp_auth_key_.expire_at() - 60 * 60 /*1 hour*/) {
+    if (now > tmp_auth_key_.expires_at() - 60 * 60 /*1 hour*/) {
       return false;
     }
     return true;
@@ -136,7 +143,7 @@ class AuthData {
   void set_auth_flag(bool auth_flag) {
     main_auth_key_.set_auth_flag(auth_flag);
     if (!auth_flag) {
-      tmp_auth_key_.set_auth_flag(auth_flag);
+      drop_tmp_auth_key();
     }
   }
 
@@ -148,29 +155,39 @@ class AuthData {
     tmp_auth_key_.set_auth_flag(true);
   }
 
-  Slice header() {
+  Slice get_header() const {
     if (use_pfs()) {
       return tmp_auth_key_.need_header() ? Slice(header_) : Slice();
     } else {
       return main_auth_key_.need_header() ? Slice(header_) : Slice();
     }
   }
+
   void set_header(std::string header) {
     header_ = std::move(header);
   }
+
   void on_api_response() {
     if (use_pfs()) {
-      if (tmp_auth_key_.auth_flag()) {
-        tmp_auth_key_.set_need_header(false);
-      }
+      tmp_auth_key_.remove_header();
     } else {
-      if (main_auth_key_.auth_flag()) {
-        main_auth_key_.set_need_header(false);
-      }
+      main_auth_key_.remove_header();
     }
   }
 
+  void on_connection_not_inited() {
+    if (use_pfs()) {
+      tmp_auth_key_.restore_header();
+    } else {
+      main_auth_key_.restore_header();
+    }
+  }
+
+  void set_session_id(uint64 session_id) {
+    session_id_ = session_id;
+  }
   uint64 get_session_id() const {
+    CHECK(session_id_ != 0);
     return session_id_;
   }
 
@@ -204,7 +221,7 @@ class AuthData {
     future_salts_.clear();
   }
 
-  bool is_server_salt_valid(double now) {
+  bool is_server_salt_valid(double now) const {
     return server_salt_.valid_until > get_server_time(now) + 60;
   }
 
@@ -224,14 +241,18 @@ class AuthData {
 
   int64 next_message_id(double now);
 
-  bool is_valid_outbound_msg_id(int64 id, double now);
+  bool is_valid_outbound_msg_id(int64 id, double now) const;
 
-  bool is_valid_inbound_msg_id(int64 id, double now);
+  bool is_valid_inbound_msg_id(int64 id, double now) const;
 
   Status check_packet(int64 session_id, int64 message_id, double now, bool &time_difference_was_updated);
 
   Status check_update(int64 message_id) {
     return updates_duplicate_checker_.check(message_id);
+  }
+
+  Status recheck_update(int64 message_id) {
+    return updates_duplicate_rechecker_.check(message_id);
   }
 
   int32 next_seq_no(bool is_content_related) {
@@ -264,11 +285,13 @@ class AuthData {
   int64 last_message_id_ = 0;
   int32 seq_no_ = 0;
   std::string header_;
+  uint64 session_id_ = 0;
 
   std::vector<ServerSalt> future_salts_;
 
-  MessageIdDuplicateChecker duplicate_checker_;
-  MessageIdDuplicateChecker updates_duplicate_checker_;
+  MessageIdDuplicateChecker<1000> duplicate_checker_;
+  MessageIdDuplicateChecker<1000> updates_duplicate_checker_;
+  MessageIdDuplicateChecker<100> updates_duplicate_rechecker_;
 
   void update_salt(double now);
 };

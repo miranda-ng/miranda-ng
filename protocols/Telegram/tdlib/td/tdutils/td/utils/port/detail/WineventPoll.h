@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -11,8 +11,9 @@
 #ifdef TD_POLL_WINEVENT
 
 #include "td/utils/common.h"
-#include "td/utils/port/Fd.h"
+#include "td/utils/port/detail/PollableFd.h"
 #include "td/utils/port/PollBase.h"
+#include "td/utils/port/PollFlags.h"
 
 namespace td {
 namespace detail {
@@ -24,26 +25,23 @@ class WineventPoll final : public PollBase {
   WineventPoll &operator=(const WineventPoll &) = delete;
   WineventPoll(WineventPoll &&) = delete;
   WineventPoll &operator=(WineventPoll &&) = delete;
-  ~WineventPoll() override = default;
+  ~WineventPoll() final = default;
 
-  void init() override;
+  void init() final;
 
-  void clear() override;
+  void clear() final;
 
-  void subscribe(const Fd &fd, Fd::Flags flags) override;
+  void subscribe(PollableFd fd, PollFlags flags) final;
 
-  void unsubscribe(const Fd &fd) override;
+  void unsubscribe(PollableFdRef fd) final;
 
-  void unsubscribe_before_close(const Fd &fd) override;
+  void unsubscribe_before_close(PollableFdRef fd) final;
 
-  void run(int timeout_ms) override;
+  void run(int timeout_ms) final;
 
- private:
-  struct FdInfo {
-    Fd fd_ref;
-    Fd::Flags flags;
-  };
-  vector<FdInfo> fds_;
+  static bool is_edge_triggered() {
+    return true;
+  }
 };
 
 }  // namespace detail

@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -20,7 +20,7 @@ Status set_signal_handler(SignalType type, void (*func)(int sig)) TD_WARN_UNUSED
 
 Status set_extended_signal_handler(SignalType type, void (*func)(int sig, void *addr)) TD_WARN_UNUSED_RESULT;
 
-Status set_runtime_signal_handler(int runtime_signal_number, void (*func)(int sig)) TD_WARN_UNUSED_RESULT;
+Status set_real_time_signal_handler(int real_time_signal_number, void (*func)(int sig)) TD_WARN_UNUSED_RESULT;
 
 Status ignore_signal(SignalType type) TD_WARN_UNUSED_RESULT;
 
@@ -30,5 +30,7 @@ void signal_safe_write(Slice data, bool add_header = true);
 void signal_safe_write_signal_number(int sig, bool add_header = true);
 
 void signal_safe_write_pointer(void *p, bool add_header = true);
+
+Status set_default_failure_signal_handler();
 
 }  // namespace td

@@ -1,13 +1,15 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #pragma once
 
-#include "td/utils/logging.h"
+#include "td/utils/common.h"
+#include "td/utils/optional.h"
 
+#include <functional>
 #include <utility>
 
 namespace td {
@@ -16,7 +18,7 @@ template <class StatT>
 class TimedStat {
  public:
   TimedStat(double duration, double now)
-      : duration_(duration), current_(), current_timestamp_(now), next_(), next_timestamp_(now) {
+      : duration_(duration), current_(), current_timestamp_(now - 1), next_(), next_timestamp_(now) {
   }
   TimedStat() : TimedStat(0, 0) {
   }
@@ -48,7 +50,7 @@ class TimedStat {
 
   void update(double &now) {
     if (now < next_timestamp_) {
-      CHECK(now >= next_timestamp_ * (1 - 1e-14)) << now << " " << next_timestamp_;
+      // LOG_CHECK(now >= next_timestamp_ * (1 - 1e-14)) << now << " " << next_timestamp_;
       now = next_timestamp_;
     }
     if (duration_ == 0) {
@@ -56,7 +58,7 @@ class TimedStat {
     }
     if (next_timestamp_ + 2 * duration_ < now) {
       current_ = StatT();
-      current_timestamp_ = now;
+      current_timestamp_ = now - duration_;
       next_ = StatT();
       next_timestamp_ = now;
     } else if (next_timestamp_ + duration_ < now) {
@@ -67,5 +69,29 @@ class TimedStat {
     }
   }
 };
+
+namespace detail {
+template <class T, class Cmp>
+struct MinMaxStat {
+  using Event = T;
+  void on_event(Event event) {
+    if (!best_ || Cmp()(event, best_.value())) {
+      best_ = event;
+    }
+  }
+  optional<T> get_stat() const {
+    return best_.copy();
+  }
+
+ private:
+  optional<T> best_;
+};
+}  // namespace detail
+
+template <class T>
+using MinStat = detail::MinMaxStat<T, std::less<void>>;
+
+template <class T>
+using MaxStat = detail::MinMaxStat<T, std::greater<void>>;
 
 }  // namespace td

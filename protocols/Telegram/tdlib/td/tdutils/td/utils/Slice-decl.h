@@ -1,5 +1,5 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
@@ -8,10 +8,10 @@
 
 #include "td/utils/common.h"
 
-#include <cstring>
 #include <type_traits>
 
 namespace td {
+
 class Slice;
 
 class MutableSlice {
@@ -26,9 +26,7 @@ class MutableSlice {
   MutableSlice(unsigned char *s, size_t len);
   MutableSlice(string &s);
   template <class T>
-  explicit MutableSlice(T s, std::enable_if_t<std::is_same<char *, T>::value, private_tag> = {})
-      : MutableSlice(s, std::strlen(s)) {
-  }
+  explicit MutableSlice(T s, std::enable_if_t<std::is_same<char *, T>::value, private_tag> = {});
   MutableSlice(char *s, char *t);
   MutableSlice(unsigned char *s, unsigned char *t);
   template <size_t N>
@@ -54,11 +52,16 @@ class MutableSlice {
   MutableSlice substr(size_t from, size_t size) const;
   size_t find(char c) const;
   size_t rfind(char c) const;
+  void fill(char c);
+  void fill_zero();
+  void fill_zero_secure();
 
   void copy_from(Slice from);
 
   char &back();
   char &operator[](size_t i);
+
+  static const size_t npos = static_cast<size_t>(-1);
 };
 
 class Slice {
@@ -74,13 +77,9 @@ class Slice {
   Slice(const unsigned char *s, size_t len);
   Slice(const string &s);
   template <class T>
-  explicit Slice(T s, std::enable_if_t<std::is_same<char *, std::remove_const_t<T>>::value, private_tag> = {})
-      : Slice(s, std::strlen(s)) {
-  }
+  explicit Slice(T s, std::enable_if_t<std::is_same<char *, std::remove_const_t<T>>::value, private_tag> = {});
   template <class T>
-  explicit Slice(T s, std::enable_if_t<std::is_same<const char *, std::remove_const_t<T>>::value, private_tag> = {})
-      : Slice(s, std::strlen(s)) {
-  }
+  explicit Slice(T s, std::enable_if_t<std::is_same<const char *, std::remove_const_t<T>>::value, private_tag> = {});
   Slice(const char *s, const char *t);
   Slice(const unsigned char *s, const unsigned char *t);
 
@@ -89,6 +88,18 @@ class Slice {
 
   template <size_t N>
   constexpr Slice(const char (&a)[N]) : s_(a), len_(N - 1) {
+  }
+
+  Slice &operator=(string &&s) = delete;
+
+  template <size_t N>
+  constexpr Slice &operator=(char (&a)[N]) = delete;
+
+  template <size_t N>
+  constexpr Slice &operator=(const char (&a)[N]) {
+    s_ = a;
+    len_ = N - 1;
+    return *this;
   }
 
   bool empty() const;
@@ -114,10 +125,13 @@ class Slice {
 
   char back() const;
   char operator[](size_t i) const;
+
+  static const size_t npos = static_cast<size_t>(-1);
 };
 
 bool operator==(const Slice &a, const Slice &b);
 bool operator!=(const Slice &a, const Slice &b);
+bool operator<(const Slice &a, const Slice &b);
 
 class MutableCSlice : public MutableSlice {
   struct private_tag {};
@@ -175,13 +189,24 @@ class CSlice : public Slice {
   CSlice() : CSlice("") {
   }
 
+  CSlice &operator=(string &&s) = delete;
+
+  template <size_t N>
+  constexpr CSlice &operator=(char (&a)[N]) = delete;
+
+  template <size_t N>
+  constexpr CSlice &operator=(const char (&a)[N]) {
+    this->Slice::operator=(a);
+    return *this;
+  }
+
   const char *c_str() const {
     return begin();
   }
 };
 
 struct SliceHash {
-  std::size_t operator()(Slice slice) const;
+  uint32 operator()(Slice slice) const;
 };
 
 }  // namespace td

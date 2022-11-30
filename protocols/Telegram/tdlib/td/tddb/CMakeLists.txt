@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.0.2 FATAL_ERROR)
+if ((CMAKE_MAJOR_VERSION LESS 3) OR (CMAKE_VERSION VERSION_LESS "3.0.2"))
+  message(FATAL_ERROR "CMake >= 3.0.2 is required")
+endif()
+
+if (NOT DEFINED CMAKE_INSTALL_LIBDIR)
+  set(CMAKE_INSTALL_LIBDIR "lib")
+endif()
 
 #SOURCE SETS
 set(TDDB_SOURCE
@@ -8,16 +14,19 @@ set(TDDB_SOURCE
   td/db/binlog/detail/BinlogEventsBuffer.cpp
   td/db/binlog/detail/BinlogEventsProcessor.cpp
 
+  td/db/SqliteConnectionSafe.cpp
   td/db/SqliteDb.cpp
-  td/db/SqliteStatement.cpp
+  td/db/SqliteKeyValue.cpp
   td/db/SqliteKeyValueAsync.cpp
+  td/db/SqliteStatement.cpp
+  td/db/TQueue.cpp
 
   td/db/detail/RawSqliteDb.cpp
 
   td/db/binlog/Binlog.h
-  td/db/binlog/BinlogInterface.h
   td/db/binlog/BinlogEvent.h
   td/db/binlog/BinlogHelper.h
+  td/db/binlog/BinlogInterface.h
   td/db/binlog/ConcurrentBinlog.h
   td/db/binlog/detail/BinlogEventsBuffer.h
   td/db/binlog/detail/BinlogEventsProcessor.h
@@ -25,7 +34,6 @@ set(TDDB_SOURCE
   td/db/BinlogKeyValue.h
   td/db/DbKey.h
   td/db/KeyValueSyncInterface.h
-  td/db/Pmc.h
   td/db/SeqKeyValue.h
   td/db/SqliteConnectionSafe.h
   td/db/SqliteDb.h
@@ -33,6 +41,7 @@ set(TDDB_SOURCE
   td/db/SqliteKeyValueAsync.h
   td/db/SqliteKeyValueSafe.h
   td/db/SqliteStatement.h
+  td/db/TQueue.h
   td/db/TsSeqKeyValue.h
 
   td/db/detail/RawSqliteDb.h
@@ -48,8 +57,6 @@ if (NOT CMAKE_CROSSCOMPILING)
 endif()
 
 install(TARGETS tddb EXPORT TdTargets
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  RUNTIME DESTINATION bin
-  INCLUDES DESTINATION include
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )

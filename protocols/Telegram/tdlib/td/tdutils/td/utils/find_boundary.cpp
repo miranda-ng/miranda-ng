@@ -1,12 +1,10 @@
 //
-// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2018
+// Copyright Aliaksei Levin (levlam@telegram.org), Arseny Smirnov (arseny30@gmail.com) 2014-2022
 //
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
 #include "td/utils/find_boundary.h"
-
-#include "td/utils/logging.h"
 
 #include <cstring>
 
@@ -26,7 +24,7 @@ bool find_boundary(ChainBufferReader range, Slice boundary, size_t &already_read
       auto save_range = range.clone();
       char x[MAX_BOUNDARY_LENGTH + 4];
       range.advance(boundary.size(), {x, sizeof(x)});
-      if (std::memcmp(x, boundary.data(), boundary.size()) == 0) {
+      if (Slice(x, boundary.size()) == boundary) {
         return true;
       }
 
@@ -35,7 +33,7 @@ bool find_boundary(ChainBufferReader range, Slice boundary, size_t &already_read
       range.advance(1);
       already_read++;
     } else {
-      const char *ptr = static_cast<const char *>(std::memchr(ready.data(), boundary[0], ready.size()));
+      const auto *ptr = static_cast<const char *>(std::memchr(ready.data(), boundary[0], ready.size()));
       size_t shift;
       if (ptr == nullptr) {
         shift = ready.size();

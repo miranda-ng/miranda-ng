@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{85F63934-02FE-332A-8703-059040B65512}</ProjectGuid>
+    <ProjectName>tdactor</ProjectName>
+    <GenerateManifest>false</GenerateManifest>
+    <EmbedManifest>false</EmbedManifest>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="..\..\..\build\vc.common\common.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>.\td\tdactor;.\td\tdutils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /bigobj</AdditionalOptions>
+      <DisableSpecificWarnings>4100;4127;4324;4505;4702</DisableSpecificWarnings>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="td\tdactor\td\actor\impl\Scheduler.cpp" />
+    <ClCompile Include="td\tdactor\td\actor\MultiPromise.cpp" />
+    <ClInclude Include="td\tdactor\td\actor\impl\Actor-decl.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\Actor.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\ActorId-decl.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\ActorId.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\ActorInfo-decl.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\ActorInfo.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\EventFull-decl.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\EventFull.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\Event.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\Scheduler-decl.h" />
+    <ClInclude Include="td\tdactor\td\actor\impl\Scheduler.h" />
+    <ClInclude Include="td\tdactor\td\actor\MultiPromise.h" />
+    <ClInclude Include="td\tdactor\td\actor\PromiseFuture.h" />
+    <ClInclude Include="td\tdactor\td\actor\SchedulerLocalStorage.h" />
+    <ClInclude Include="td\tdactor\td\actor\SignalSlot.h" />
+    <ClInclude Include="td\tdactor\td\actor\SleepActor.h" />
+    <ClInclude Include="td\tdactor\td\actor\Timeout.h" />
+    <ClInclude Include="td\tdactor\td\actor\actor.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="tdutils.vcxproj">
+      <Project>{D21C6A0F-BED1-3377-9659-7FC7D82EFC4F}</Project>
+      <Name>tdutils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
