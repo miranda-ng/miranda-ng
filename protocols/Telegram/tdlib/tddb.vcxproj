@@ -21,11 +21,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F525EE11-8820-3D8A-87A5-465D50A98A64}</ProjectGuid>
     <ProjectName>tddb</ProjectName>
-    <GenerateManifest>false</GenerateManifest>
-    <EmbedManifest>false</EmbedManifest>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
-  <Import Project="..\..\..\build\vc.common\common.props" />
+  <Import Project="..\..\..\build\vc.common\slib.props" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(ProjectDir)lib\$(Configuration)32\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(ProjectDir)lib\$(Configuration)64\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>.\td\tddb;.\td\tdactor;.\td\tdutils;.\td\build\tdutils;.\td\sqlite;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>

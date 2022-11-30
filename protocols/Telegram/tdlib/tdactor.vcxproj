@@ -21,11 +21,12 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85F63934-02FE-332A-8703-059040B65512}</ProjectGuid>
     <ProjectName>tdactor</ProjectName>
-    <GenerateManifest>false</GenerateManifest>
-    <EmbedManifest>false</EmbedManifest>
-    <ConfigurationType>StaticLibrary</ConfigurationType>
   </PropertyGroup>
-  <Import Project="..\..\..\build\vc.common\common.props" />
+  <Import Project="..\..\..\build\vc.common\slib.props" />
+  <PropertyGroup>
+    <OutDir Condition="'$(Platform)'=='Win32'">$(ProjectDir)lib\$(Configuration)32\</OutDir>
+    <OutDir Condition="'$(Platform)'=='x64'">$(ProjectDir)lib\$(Configuration)64\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
       <AdditionalIncludeDirectories>.\td\tdactor;.\td\tdutils;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
