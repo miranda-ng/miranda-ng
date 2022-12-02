@@ -1,465 +1,253 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\td\tdutils\td\utils\port\Clocks.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\Fd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\FileFd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\IPAddress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\path.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\ServerSocketFd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\signals.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\sleep.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\SocketFd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\Stat.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\thread_local.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\wstring_convert.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\Epoll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\EventFdBsd.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\EventFdLinux.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\EventFdWindows.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\KQueue.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\Poll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\Select.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\ThreadIdGuard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\port\detail\WineventPoll.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\generate\auto\mime_type_to_extension.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\generate\auto\extension_to_mime_type.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\base64.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\BigNum.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\buffer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\crypto.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\FileLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\filesystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\find_boundary.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Gzip.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\GzipByteFlow.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Hints.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\HttpUrl.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\JsonBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\logging.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\misc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\MimeType.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Random.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\StackAllocator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Status.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\StringBuilder.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Time.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\tl_parsers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\unicode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\tdutils\td\utils\utf8.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="td\tdutils\td\utils\port\Clocks.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\FileFd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\IPAddress.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\path.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\ServerSocketFd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\signals.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\sleep.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\SocketFd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\Stat.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\thread_local.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\wstring_convert.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\Epoll.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\EventFdBsd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\EventFdLinux.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\EventFdWindows.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\KQueue.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\Poll.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\Select.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\ThreadIdGuard.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\WineventPoll.cpp" />
+    <ClCompile Include="td\tdutils\generate\auto\mime_type_to_extension.cpp" />
+    <ClCompile Include="td\tdutils\generate\auto\extension_to_mime_type.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\base64.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\BigNum.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\buffer.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\crypto.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\FileLog.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\filesystem.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\find_boundary.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Gzip.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\GzipByteFlow.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Hints.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\HttpUrl.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\JsonBuilder.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\logging.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\misc.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\MimeType.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Random.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\StackAllocator.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Status.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\StringBuilder.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Time.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Timer.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\tl_parsers.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\unicode.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\utf8.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\check.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\AsyncFileLog.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\BufferedUdp.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\emoji.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\ExitGuard.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\FlatHashTable.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\FloodControlGlobal.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\MpmcQueue.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\OptionParser.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\PathView.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\SharedSlice.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\Slice.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\tests.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\translit.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\TsCerr.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\TsFileLog.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\TsLog.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\MemoryMapping.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\platform.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\PollFlags.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\rlimit.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\stacktrace.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\StdStreams.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\UdpSocketFd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\uname.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\user.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\Iocp.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\detail\NativeFd.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\td\tdutils\td\utils\port\Clocks.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\CxCli.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\EventFd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\EventFdBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\Fd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\FileFd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\IPAddress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\path.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\platform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\Poll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\PollBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\RwMutex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\ServerSocketFd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\signals.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\sleep.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\SocketFd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\Stat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\thread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\thread_local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\wstring_convert.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\Epoll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\EventFdBsd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\EventFdLinux.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\EventFdWindows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\KQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\Poll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\Select.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\ThreadIdGuard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\ThreadPthread.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\ThreadStl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\port\detail\WineventPoll.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\AesCtrByteFlow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\base64.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\benchmark.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\BigNum.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\buffer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\BufferedFd.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\BufferedReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\ByteFlow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\ChangesProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Closure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Container.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\crypto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Enumerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\FileLog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\filesystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\find_boundary.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\FloodControlFast.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\FloodControlStrict.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\format.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Gzip.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\GzipByteFlow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\HazardPointers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Heap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Hints.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\HttpUrl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\int_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\invoke.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\JsonBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\List.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\logging.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MemoryLog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MimeType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MovableValue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MpmcQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MpmcWaiter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MpscPollableQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\MpscLinkQueue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Named.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\ObjectPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Observer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\optional.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\OptionsParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\OrderedEventsProcessor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\overloaded.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Parser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\PathView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\queue.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Random.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\ScopeGuard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\SharedObjectPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Slice-decl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Slice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\SpinLock.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\StackAllocator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Status.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Storer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\StorerBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\StringBuilder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\tests.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\TimedStat.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Timer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\tl_helpers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\tl_parsers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\tl_storers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\type_traits.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\unicode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\utf8.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\tdutils\td\utils\Variant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="td\tdutils\td\utils\port\Clocks.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\config.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\CxCli.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\EventFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\EventFdBase.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\FileFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\IPAddress.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\path.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\platform.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\Poll.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\PollBase.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\RwMutex.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\ServerSocketFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\signals.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\sleep.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\SocketFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\Stat.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\thread.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\thread_local.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\wstring_convert.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\Epoll.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\EventFdBsd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\EventFdLinux.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\EventFdWindows.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\KQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\Poll.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\Select.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\ThreadIdGuard.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\ThreadStl.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\WineventPoll.h" />
+    <ClInclude Include="td\tdutils\td\utils\AesCtrByteFlow.h" />
+    <ClInclude Include="td\tdutils\td\utils\base64.h" />
+    <ClInclude Include="td\tdutils\td\utils\benchmark.h" />
+    <ClInclude Include="td\tdutils\td\utils\BigNum.h" />
+    <ClInclude Include="td\tdutils\td\utils\buffer.h" />
+    <ClInclude Include="td\tdutils\td\utils\BufferedFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\BufferedReader.h" />
+    <ClInclude Include="td\tdutils\td\utils\ByteFlow.h" />
+    <ClInclude Include="td\tdutils\td\utils\ChangesProcessor.h" />
+    <ClInclude Include="td\tdutils\td\utils\Closure.h" />
+    <ClInclude Include="td\tdutils\td\utils\common.h" />
+    <ClInclude Include="td\tdutils\td\utils\Container.h" />
+    <ClInclude Include="td\tdutils\td\utils\crypto.h" />
+    <ClInclude Include="td\tdutils\td\utils\Enumerator.h" />
+    <ClInclude Include="td\tdutils\td\utils\FileLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\filesystem.h" />
+    <ClInclude Include="td\tdutils\td\utils\find_boundary.h" />
+    <ClInclude Include="td\tdutils\td\utils\FloodControlFast.h" />
+    <ClInclude Include="td\tdutils\td\utils\FloodControlStrict.h" />
+    <ClInclude Include="td\tdutils\td\utils\format.h" />
+    <ClInclude Include="td\tdutils\td\utils\Gzip.h" />
+    <ClInclude Include="td\tdutils\td\utils\GzipByteFlow.h" />
+    <ClInclude Include="td\tdutils\td\utils\HazardPointers.h" />
+    <ClInclude Include="td\tdutils\td\utils\Heap.h" />
+    <ClInclude Include="td\tdutils\td\utils\Hints.h" />
+    <ClInclude Include="td\tdutils\td\utils\HttpUrl.h" />
+    <ClInclude Include="td\tdutils\td\utils\int_types.h" />
+    <ClInclude Include="td\tdutils\td\utils\invoke.h" />
+    <ClInclude Include="td\tdutils\td\utils\JsonBuilder.h" />
+    <ClInclude Include="td\tdutils\td\utils\List.h" />
+    <ClInclude Include="td\tdutils\td\utils\logging.h" />
+    <ClInclude Include="td\tdutils\td\utils\MemoryLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\MimeType.h" />
+    <ClInclude Include="td\tdutils\td\utils\misc.h" />
+    <ClInclude Include="td\tdutils\td\utils\MovableValue.h" />
+    <ClInclude Include="td\tdutils\td\utils\MpmcQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\MpmcWaiter.h" />
+    <ClInclude Include="td\tdutils\td\utils\MpscPollableQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\MpscLinkQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\Named.h" />
+    <ClInclude Include="td\tdutils\td\utils\ObjectPool.h" />
+    <ClInclude Include="td\tdutils\td\utils\Observer.h" />
+    <ClInclude Include="td\tdutils\td\utils\optional.h" />
+    <ClInclude Include="td\tdutils\td\utils\OptionsParser.h" />
+    <ClInclude Include="td\tdutils\td\utils\OrderedEventsProcessor.h" />
+    <ClInclude Include="td\tdutils\td\utils\overloaded.h" />
+    <ClInclude Include="td\tdutils\td\utils\Parser.h" />
+    <ClInclude Include="td\tdutils\td\utils\PathView.h" />
+    <ClInclude Include="td\tdutils\td\utils\queue.h" />
+    <ClInclude Include="td\tdutils\td\utils\Random.h" />
+    <ClInclude Include="td\tdutils\td\utils\ScopeGuard.h" />
+    <ClInclude Include="td\tdutils\td\utils\SharedObjectPool.h" />
+    <ClInclude Include="td\tdutils\td\utils\Slice-decl.h" />
+    <ClInclude Include="td\tdutils\td\utils\Slice.h" />
+    <ClInclude Include="td\tdutils\td\utils\SpinLock.h" />
+    <ClInclude Include="td\tdutils\td\utils\StackAllocator.h" />
+    <ClInclude Include="td\tdutils\td\utils\Status.h" />
+    <ClInclude Include="td\tdutils\td\utils\Storer.h" />
+    <ClInclude Include="td\tdutils\td\utils\StorerBase.h" />
+    <ClInclude Include="td\tdutils\td\utils\StringBuilder.h" />
+    <ClInclude Include="td\tdutils\td\utils\tests.h" />
+    <ClInclude Include="td\tdutils\td\utils\Time.h" />
+    <ClInclude Include="td\tdutils\td\utils\TimedStat.h" />
+    <ClInclude Include="td\tdutils\td\utils\Timer.h" />
+    <ClInclude Include="td\tdutils\td\utils\tl_helpers.h" />
+    <ClInclude Include="td\tdutils\td\utils\tl_parsers.h" />
+    <ClInclude Include="td\tdutils\td\utils\tl_storers.h" />
+    <ClInclude Include="td\tdutils\td\utils\type_traits.h" />
+    <ClInclude Include="td\tdutils\td\utils\unicode.h" />
+    <ClInclude Include="td\tdutils\td\utils\utf8.h" />
+    <ClInclude Include="td\tdutils\td\utils\Variant.h" />
+    <ClInclude Include="td\tdutils\td\utils\check.h" />
+    <ClInclude Include="td\tdutils\td\utils\algorithm.h" />
+    <ClInclude Include="td\tdutils\td\utils\as.h" />
+    <ClInclude Include="td\tdutils\td\utils\AsyncFileLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\AtomicRead.h" />
+    <ClInclude Include="td\tdutils\td\utils\bits.h" />
+    <ClInclude Include="td\tdutils\td\utils\BufferedUdp.h" />
+    <ClInclude Include="td\tdutils\td\utils\CancellationToken.h" />
+    <ClInclude Include="td\tdutils\td\utils\ChainScheduler.h" />
+    <ClInclude Include="td\tdutils\td\utils\CombinedLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\ConcurrentHashTable.h" />
+    <ClInclude Include="td\tdutils\td\utils\config.h" />
+    <ClInclude Include="td\tdutils\td\utils\Context.h" />
+    <ClInclude Include="td\tdutils\td\utils\DecTree.h" />
+    <ClInclude Include="td\tdutils\td\utils\Destructor.h" />
+    <ClInclude Include="td\tdutils\td\utils\emoji.h" />
+    <ClInclude Include="td\tdutils\td\utils\EpochBasedMemoryReclamation.h" />
+    <ClInclude Include="td\tdutils\td\utils\ExitGuard.h" />
+    <ClInclude Include="td\tdutils\td\utils\fixed_vector.h" />
+    <ClInclude Include="td\tdutils\td\utils\FlatHashMap.h" />
+    <ClInclude Include="td\tdutils\td\utils\FlatHashMapChunks.h" />
+    <ClInclude Include="td\tdutils\td\utils\FlatHashSet.h" />
+    <ClInclude Include="td\tdutils\td\utils\FlatHashTable.h" />
+    <ClInclude Include="td\tdutils\td\utils\FloodControlGlobal.h" />
+    <ClInclude Include="td\tdutils\td\utils\Hash.h" />
+    <ClInclude Include="td\tdutils\td\utils\HashMap.h" />
+    <ClInclude Include="td\tdutils\td\utils\HashSet.h" />
+    <ClInclude Include="td\tdutils\td\utils\HashTableUtils.h" />
+    <ClInclude Include="td\tdutils\td\utils\MapNode.h" />
+    <ClInclude Include="td\tdutils\td\utils\NullLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\OptionParser.h" />
+    <ClInclude Include="td\tdutils\td\utils\Promise.h" />
+    <ClInclude Include="td\tdutils\td\utils\SetNode.h" />
+    <ClInclude Include="td\tdutils\td\utils\SharedSlice.h" />
+    <ClInclude Include="td\tdutils\td\utils\SliceBuilder.h" />
+    <ClInclude Include="td\tdutils\td\utils\Span.h" />
+    <ClInclude Include="td\tdutils\td\utils\StealingQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\ThreadLocalStorage.h" />
+    <ClInclude Include="td\tdutils\td\utils\ThreadSafeCounter.h" />
+    <ClInclude Include="td\tdutils\td\utils\TlDowncastHelper.h" />
+    <ClInclude Include="td\tdutils\td\utils\TlStorerToString.h" />
+    <ClInclude Include="td\tdutils\td\utils\translit.h" />
+    <ClInclude Include="td\tdutils\td\utils\TsCerr.h" />
+    <ClInclude Include="td\tdutils\td\utils\TsFileLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\TsList.h" />
+    <ClInclude Include="td\tdutils\td\utils\TsLog.h" />
+    <ClInclude Include="td\tdutils\td\utils\UInt.h" />
+    <ClInclude Include="td\tdutils\td\utils\uint128.h" />
+    <ClInclude Include="td\tdutils\td\utils\unique_ptr.h" />
+    <ClInclude Include="td\tdutils\td\utils\VectorQueue.h" />
+    <ClInclude Include="td\tdutils\td\utils\WaitFreeHashMap.h" />
+    <ClInclude Include="td\tdutils\td\utils\WaitFreeHashSet.h" />
+    <ClInclude Include="td\tdutils\td\utils\WaitFreeVector.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\FromApp.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\IoSlice.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\MemoryMapping.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\Mutex.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\PollFlags.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\rlimit.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\stacktrace.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\StdStreams.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\UdpSocketFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\uname.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\user.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\Iocp.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\NativeFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\PollableFd.h" />
+    <ClInclude Include="td\tdutils\td\utils\port\detail\skip_eintr.h" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{0FD26E20-5E51-396B-B4E5-98068F96B37E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{CC4593AA-1CC3-37C8-BDF9-C5986B1808BD}</UniqueIdentifier>
-    </Filter>
+    <None Include="td\tdutils\td\utils\config.h.in" />
   </ItemGroup>
 </Project>

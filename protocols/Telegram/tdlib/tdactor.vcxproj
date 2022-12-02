@@ -36,8 +36,11 @@
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="td\tdactor\td\actor\ConcurrentScheduler.cpp" />
     <ClCompile Include="td\tdactor\td\actor\impl\Scheduler.cpp" />
     <ClCompile Include="td\tdactor\td\actor\MultiPromise.cpp" />
+    <ClCompile Include="td\tdactor\td\actor\MultiTimeout.cpp" />
+    <ClInclude Include="td\tdactor\td\actor\ConcurrentScheduler.h" />
     <ClInclude Include="td\tdactor\td\actor\impl\Actor-decl.h" />
     <ClInclude Include="td\tdactor\td\actor\impl\Actor.h" />
     <ClInclude Include="td\tdactor\td\actor\impl\ActorId-decl.h" />
@@ -50,6 +53,7 @@
     <ClInclude Include="td\tdactor\td\actor\impl\Scheduler-decl.h" />
     <ClInclude Include="td\tdactor\td\actor\impl\Scheduler.h" />
     <ClInclude Include="td\tdactor\td\actor\MultiPromise.h" />
+    <ClInclude Include="td\tdactor\td\actor\MultiTimeout.h" />
     <ClInclude Include="td\tdactor\td\actor\PromiseFuture.h" />
     <ClInclude Include="td\tdactor\td\actor\SchedulerLocalStorage.h" />
     <ClInclude Include="td\tdactor\td\actor\SignalSlot.h" />

@@ -38,13 +38,17 @@
   <ItemGroup>
     <ClCompile Include="td\tddb\td\db\binlog\Binlog.cpp" />
     <ClCompile Include="td\tddb\td\db\binlog\BinlogEvent.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\binlog_dump.cpp" />
     <ClCompile Include="td\tddb\td\db\binlog\ConcurrentBinlog.cpp" />
     <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsBuffer.cpp" />
     <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsProcessor.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteConnectionSafe.cpp" />
     <ClCompile Include="td\tddb\td\db\SqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteKeyValue.cpp" />
     <ClCompile Include="td\tddb\td\db\SqliteStatement.cpp" />
     <ClCompile Include="td\tddb\td\db\SqliteKeyValueAsync.cpp" />
     <ClCompile Include="td\tddb\td\db\detail\RawSqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\TQueue.cpp" />
     <ClInclude Include="td\tddb\td\db\binlog\Binlog.h" />
     <ClInclude Include="td\tddb\td\db\binlog\BinlogInterface.h" />
     <ClInclude Include="td\tddb\td\db\binlog\BinlogEvent.h" />
@@ -62,6 +66,7 @@
     <ClInclude Include="td\tddb\td\db\SqliteKeyValueAsync.h" />
     <ClInclude Include="td\tddb\td\db\SqliteKeyValueSafe.h" />
     <ClInclude Include="td\tddb\td\db\SqliteStatement.h" />
+    <ClInclude Include="td\tddb\td\db\TQueue.h" />
     <ClInclude Include="td\tddb\td\db\TsSeqKeyValue.h" />
     <ClInclude Include="td\tddb\td\db\detail\RawSqliteDb.h" />
   </ItemGroup>

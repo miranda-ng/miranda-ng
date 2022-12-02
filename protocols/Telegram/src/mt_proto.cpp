@@ -1,7 +1,8 @@
 #include "stdafx.h"
 
-CMTProto::CMTProto(const char* protoName, const wchar_t* userName)
-	: PROTO<CMTProto>(protoName, userName)
+CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
+	PROTO<CMTProto>(protoName, userName),
+	client_manager_(std::make_unique<td::ClientManager>())
 {
 }
 

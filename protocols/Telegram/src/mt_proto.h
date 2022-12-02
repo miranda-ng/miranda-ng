@@ -2,6 +2,8 @@
 
 struct CMTProto : public PROTO<CMTProto>
 {
+	std::unique_ptr<td::ClientManager> client_manager_;
+
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Ctors

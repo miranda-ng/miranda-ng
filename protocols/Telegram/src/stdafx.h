@@ -3,6 +3,8 @@
 
 #include <windows.h>
 
+#include <memory>
+
 #include <newpluginapi.h>
 
 #include <m_protoint.h>
@@ -10,6 +12,10 @@
 
 #include <m_database.h>
 #include <m_langpack.h>
+
+#include "td/telegram/Client.h"
+#include "td/telegram/td_api.h"
+#include "td/telegram/td_api.hpp"
 
 struct CMTProto;
 

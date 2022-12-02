@@ -43,10 +43,14 @@
     <ClCompile Include="td\tdnet\td\net\HttpFile.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpInboundConnection.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpOutboundConnection.cpp" />
+    <ClCompile Include="td\tdnet\td\net\HttpProxy.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpQuery.cpp" />
     <ClCompile Include="td\tdnet\td\net\HttpReader.cpp" />
     <ClCompile Include="td\tdnet\td\net\Socks5.cpp" />
+    <ClCompile Include="td\tdnet\td\net\SslCtx.cpp" />
+    <ClCompile Include="td\tdnet\td\net\SslStream.cpp" />
     <ClCompile Include="td\tdnet\td\net\TcpListener.cpp" />
+    <ClCompile Include="td\tdnet\td\net\TransparentProxy.cpp" />
     <ClCompile Include="td\tdnet\td\net\Wget.cpp" />
     <ClInclude Include="td\tdnet\td\net\GetHostByNameActor.h" />
     <ClInclude Include="td\tdnet\td\net\HttpChunkedByteFlow.h" />
@@ -56,11 +60,15 @@
     <ClInclude Include="td\tdnet\td\net\HttpHeaderCreator.h" />
     <ClInclude Include="td\tdnet\td\net\HttpInboundConnection.h" />
     <ClInclude Include="td\tdnet\td\net\HttpOutboundConnection.h" />
+    <ClInclude Include="td\tdnet\td\net\HttpProxy.h" />
     <ClInclude Include="td\tdnet\td\net\HttpQuery.h" />
     <ClInclude Include="td\tdnet\td\net\HttpReader.h" />
     <ClInclude Include="td\tdnet\td\net\NetStats.h" />
     <ClInclude Include="td\tdnet\td\net\Socks5.h" />
+    <ClInclude Include="td\tdnet\td\net\SslCtx.h" />
+    <ClInclude Include="td\tdnet\td\net\SslStream.h" />
     <ClInclude Include="td\tdnet\td\net\TcpListener.h" />
+    <ClInclude Include="td\tdnet\td\net\TransparentProxy.h" />
     <ClInclude Include="td\tdnet\td\net\Wget.h" />
   </ItemGroup>
   <ItemGroup>

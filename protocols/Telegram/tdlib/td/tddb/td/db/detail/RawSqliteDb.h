@@ -11,14 +11,14 @@
 #include "td/utils/SliceBuilder.h"
 #include "td/utils/Status.h"
 
-struct tdsqlite3;
+struct sqlite3;
 
 namespace td {
 namespace detail {
 
 class RawSqliteDb {
  public:
-  RawSqliteDb(tdsqlite3 *db, std::string path) : db_(db), path_(std::move(path)) {
+  RawSqliteDb(sqlite3 *db, std::string path) : db_(db), path_(std::move(path)) {
   }
   RawSqliteDb(const RawSqliteDb &) = delete;
   RawSqliteDb(RawSqliteDb &&) = delete;
@@ -35,7 +35,7 @@ class RawSqliteDb {
   }
   static Status destroy(Slice path) TD_WARN_UNUSED_RESULT;
 
-  tdsqlite3 *db() {
+  sqlite3 *db() {
     return db_;
   }
   CSlice path() const {
@@ -43,7 +43,7 @@ class RawSqliteDb {
   }
 
   Status last_error();
-  static Status last_error(tdsqlite3 *db, CSlice path);
+  static Status last_error(sqlite3 *db, CSlice path);
 
   static bool was_any_database_destroyed();
 
@@ -68,7 +68,7 @@ class RawSqliteDb {
   }
 
  private:
-  tdsqlite3 *db_;
+  sqlite3 *db_;
   std::string path_;
   size_t begin_cnt_{0};
   optional<int32> cipher_version_;

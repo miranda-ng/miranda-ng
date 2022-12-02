@@ -1,44 +1,40 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\td\tddb\td\db\binlog\Binlog.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\binlog\BinlogEvent.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\binlog\ConcurrentBinlog.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\binlog\detail\BinlogEventsBuffer.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\binlog\detail\BinlogEventsProcessor.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\SqliteDb.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\SqliteStatement.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\SqliteKeyValueAsync.cpp" />
-    <ClCompile Include="..\td\tddb\td\db\detail\RawSqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\Binlog.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\BinlogEvent.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\ConcurrentBinlog.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsBuffer.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\detail\BinlogEventsProcessor.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteStatement.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteKeyValueAsync.cpp" />
+    <ClCompile Include="td\tddb\td\db\detail\RawSqliteDb.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteConnectionSafe.cpp" />
+    <ClCompile Include="td\tddb\td\db\SqliteKeyValue.cpp" />
+    <ClCompile Include="td\tddb\td\db\TQueue.cpp" />
+    <ClCompile Include="td\tddb\td\db\binlog\binlog_dump.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\td\tddb\td\db\binlog\Binlog.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\BinlogInterface.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\BinlogEvent.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\BinlogHelper.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\ConcurrentBinlog.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\detail\BinlogEventsBuffer.h" />
-    <ClInclude Include="..\td\tddb\td\db\binlog\detail\BinlogEventsProcessor.h" />
-    <ClInclude Include="..\td\tddb\td\db\BinlogKeyValue.h" />
-    <ClInclude Include="..\td\tddb\td\db\DbKey.h" />
-    <ClInclude Include="..\td\tddb\td\db\KeyValueSyncInterface.h" />
-    <ClInclude Include="..\td\tddb\td\db\Pmc.h" />
-    <ClInclude Include="..\td\tddb\td\db\SeqKeyValue.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteConnectionSafe.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteDb.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteKeyValue.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteKeyValueAsync.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteKeyValueSafe.h" />
-    <ClInclude Include="..\td\tddb\td\db\SqliteStatement.h" />
-    <ClInclude Include="..\td\tddb\td\db\TsSeqKeyValue.h" />
-    <ClInclude Include="..\td\tddb\td\db\detail\RawSqliteDb.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{0FD26E20-5E51-396B-B4E5-98068F96B37E}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{CC4593AA-1CC3-37C8-BDF9-C5986B1808BD}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="td\tddb\td\db\binlog\Binlog.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogInterface.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogEvent.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\BinlogHelper.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\ConcurrentBinlog.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\detail\BinlogEventsBuffer.h" />
+    <ClInclude Include="td\tddb\td\db\binlog\detail\BinlogEventsProcessor.h" />
+    <ClInclude Include="td\tddb\td\db\BinlogKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\DbKey.h" />
+    <ClInclude Include="td\tddb\td\db\KeyValueSyncInterface.h" />
+    <ClInclude Include="td\tddb\td\db\SeqKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteConnectionSafe.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteDb.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValueAsync.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteKeyValueSafe.h" />
+    <ClInclude Include="td\tddb\td\db\SqliteStatement.h" />
+    <ClInclude Include="td\tddb\td\db\TsSeqKeyValue.h" />
+    <ClInclude Include="td\tddb\td\db\detail\RawSqliteDb.h" />
+    <ClInclude Include="td\tddb\td\db\TQueue.h" />
   </ItemGroup>
 </Project>
