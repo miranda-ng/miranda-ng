@@ -1,8 +1,6 @@
 **/*build*/
 **/.*.swp
 **/.DS_Store
-**/auto/
-auto/
 db_backup
 *.pyc
 docs/
