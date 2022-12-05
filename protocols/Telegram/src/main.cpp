@@ -12,7 +12,7 @@ CMPlugin g_plugin;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static PLUGININFOEX pluginInfo =
+PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,

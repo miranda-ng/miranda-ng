@@ -59,4 +59,8 @@
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc" />
+    <ResourceCompile Include="res\version.rc" />
+  </ItemGroup>
 </Project>
