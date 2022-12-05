@@ -17,8 +17,6 @@
 #include "td/telegram/td_api.h"
 #include "td/telegram/td_api.hpp"
 
-struct CMTProto;
-
 #define MODULE "Telegram"
 
 #include "version.h"

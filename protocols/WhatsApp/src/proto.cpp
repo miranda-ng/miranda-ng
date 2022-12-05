@@ -196,9 +196,9 @@ INT_PTR WhatsAppProto::GetCaps(int type, MCONTACT)
 	return 0;
 }
 
-int WhatsAppProto::SetStatus(int new_status)
+int WhatsAppProto::SetStatus(int iNewStatus)
 {
-	if (m_iDesiredStatus == new_status)
+	if (m_iDesiredStatus == iNewStatus)
 		return 0;
 
 	if (!mir_wstrlen(m_wszNick)) {
@@ -209,9 +209,9 @@ int WhatsAppProto::SetStatus(int new_status)
 	int oldStatus = m_iStatus;
 
 	// Routing statuses not supported by WhatsApp
-	switch (new_status) {
+	switch (iNewStatus) {
 	case ID_STATUS_OFFLINE:
-		m_iDesiredStatus = new_status;
+		m_iDesiredStatus = iNewStatus;
 		break;
 
 	case ID_STATUS_ONLINE:
