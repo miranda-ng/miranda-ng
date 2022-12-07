@@ -241,6 +241,27 @@ static void __cdecl compactHeapsThread(void*)
 	}
 }
 
+static void EnableDpiAware()
+{
+	if (HMODULE hInst = GetModuleHandleW(L"user32")) {
+		typedef void (WINAPI *pfnSetProcessDpiAwarenessContext)(HANDLE);
+		if (auto *pFunc = (pfnSetProcessDpiAwarenessContext)GetProcAddress(hInst, "SetProcessDpiAwarenessContext")) {
+			pFunc(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+			return;
+		}
+
+		typedef void (WINAPI *pfnSetProcessDpiAwareness)(DWORD);
+		if (auto *pFunc = (pfnSetProcessDpiAwareness)GetProcAddress(hInst, "SetProcessDpiAwareness")) {
+			pFunc(2);
+			return;
+		}
+
+		typedef void (WINAPI *pfnSetProcessDPIAware_t)(void);
+		if (auto *pFunc = (pfnSetProcessDPIAware_t)GetProcAddress(hInst, "SetProcessDPIAware"))
+			pFunc();
+	}
+}
+
 MIR_CORE_DLL(void) BeginMessageLoop()
 {
 	_set_invalid_parameter_handler(&crtErrorHandler);
@@ -260,12 +281,8 @@ MIR_CORE_DLL(void) BeginMessageLoop()
 		bufferedPaintUninit = (pfnBufferedPaintUninit)GetProcAddress(hThemeAPI, "BufferedPaintUninit");
 	}
 
-	if (g_bEnableDpiAware) {
-		typedef BOOL (WINAPI *pfnSetProcessDPIAware_t)(void);
-		auto *pFunc = (pfnSetProcessDPIAware_t)GetProcAddress(GetModuleHandleW(L"user32"), "SetProcessDPIAware");
-		if (pFunc != nullptr)
-			pFunc();
-	}
+	if (g_bEnableDpiAware)
+		EnableDpiAware();
 
 	if (bufferedPaintInit)
 		bufferedPaintInit();
