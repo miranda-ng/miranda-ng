@@ -246,7 +246,7 @@ static void EnableDpiAware()
 	if (HMODULE hInst = GetModuleHandleW(L"user32")) {
 		typedef void (WINAPI *pfnSetProcessDpiAwarenessContext)(HANDLE);
 		if (auto *pFunc = (pfnSetProcessDpiAwarenessContext)GetProcAddress(hInst, "SetProcessDpiAwarenessContext")) {
-			pFunc(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+			pFunc(HANDLE(-4));
 			return;
 		}
 
