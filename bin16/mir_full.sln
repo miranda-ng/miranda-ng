@@ -448,6 +448,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libqrencode", "..\libs\libq
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WhatsApp", "..\protocols\WhatsApp\WhatsApp.vcxproj", "{13E796AD-BEA4-4213-A1B8-E18E2397E544}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Telegram", "..\protocols\Telegram\Telegram.vcxproj", "{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -2030,6 +2032,14 @@ Global
 		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|Win32.Build.0 = Release|Win32
 		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.ActiveCfg = Release|x64
 		{13E796AD-BEA4-4213-A1B8-E18E2397E544}.Release|x64.Build.0 = Release|x64
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Debug|Win32.Build.0 = Debug|Win32
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Debug|x64.ActiveCfg = Debug|x64
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Debug|x64.Build.0 = Debug|x64
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Release|Win32.ActiveCfg = Release|Win32
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Release|Win32.Build.0 = Release|Win32
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Release|x64.ActiveCfg = Release|x64
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2160,6 +2170,7 @@ Global
 		{48A76FF0-9506-4D70-81D7-E3A2B2B2A65A} = {F9C41695-3353-4564-A154-58106829B19C}
 		{4D3554DE-6E14-4F94-A909-A4B19151A47E} = {37EDFBEA-8446-4BF3-9F2E-655908CDFB62}
 		{13E796AD-BEA4-4213-A1B8-E18E2397E544} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
+		{AE708252-0DF8-42BA-9EF9-9ACC038EEDA7} = {A035B524-0F2D-45D0-BCF2-3C20279C77E2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {29A0C2A8-07A4-4A8B-8BED-8F7D024013D6}

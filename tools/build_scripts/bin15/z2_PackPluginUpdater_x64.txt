@@ -135,6 +135,7 @@ Plugins\steam.dll
 Plugins\stopspam.dll
 Plugins\stopspammod.dll
 Plugins\tabsrmm.dll
+Plugins\telegram.dll
 Plugins\tipper.dll
 Plugins\toaster.dll
 Plugins\tooltipnotify.dll
