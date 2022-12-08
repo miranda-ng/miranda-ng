@@ -28,10 +28,12 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mt_proto.cpp" />
+    <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\stdafx.cxx">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <ClCompile>

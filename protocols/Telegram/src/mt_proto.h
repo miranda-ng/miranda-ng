@@ -5,12 +5,12 @@ typedef void (CMTProto::*TG_QUERY_HANDLER)(td::ClientManager::Response &response
 
 struct TG_REQUEST
 {
-	TG_REQUEST(int32_t _1, TG_QUERY_HANDLER _2) :
-		queryId(_1),
+	TG_REQUEST(td::ClientManager::RequestId _1, TG_QUERY_HANDLER _2) :
+		requestId(_1),
 		pHandler(_2)
 	{}
 
-	int32_t queryId;
+	td::ClientManager::RequestId requestId;
 	TG_QUERY_HANDLER pHandler;
 };
 
@@ -24,8 +24,27 @@ class CMTProto : public PROTO<CMTProto>
 	uint64_t m_iQueryId;
 
 	OBJLIST<TG_REQUEST> m_arRequests;
+
+	static INT_PTR CALLBACK EnterPhoneCode(void *param);
+	static INT_PTR CALLBACK EnterPassword(void *param);
+
+	CMStringW GetProtoFolder() const
+	{	return CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName);
+	}
+
+	void OnUpdateAuth(td::ClientManager::Response &response);
+
+	void LogOut(void);
+	void OnLoggedIn(void);
+	void ProcessAuth(td::td_api::updateAuthorizationState *pObj);
 	void ProcessResponse(td::ClientManager::Response);
 	void SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
+
+	// Popups
+	HANDLE m_hPopupClass;
+
+	void InitPopups(void);
+	void Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle);
 
 public:
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -41,7 +60,24 @@ public:
 	
 	int SetStatus(int iNewStatus) override;
 
-	// Processing Threads //////////////////////////////////////////////////////////////////
+	void OnErase() override;
+
+	// Services //////////////////////////////////////////////////////////////////////////
+
+	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	
+	// Events ////////////////////////////////////////////////////////////////////////////
+	
+	int __cdecl OnOptionsInit(WPARAM, LPARAM);
+
+	// Options ///////////////////////////////////////////////////////////////////////////
+	
+	CMOption<wchar_t*> m_szOwnPhone;       // our own phone number
+	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
+	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
+	CMOption<bool>     m_bUsePopups;
+
+	// Processing Threads ////////////////////////////////////////////////////////////////
 
 	void __cdecl ServerThread(void *);
 };

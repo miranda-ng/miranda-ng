@@ -60,45 +60,31 @@ LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 // Dialog
 //
 
-IDD_ACCOUNT_MANAGER DIALOGEX 0, 0, 186, 119
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+IDD_ACCMGRUI DIALOGEX 0, 0, 188, 144
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg", 400, 0, 0x1
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
+    LTEXT           "Phone number:",IDC_STATIC,0,6,89,10
+    EDITTEXT        IDC_PHONE,96,4,86,12,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,0,23,89,10
+    EDITTEXT        IDC_DEFGROUP,96,21,86,12,ES_AUTOHSCROLL
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,57,182,10
 END
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+IDD_OPTIONS DIALOGEX 0, 0, 305, 188
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    IDD_ACCOUNT_MANAGER, DIALOG
-    BEGIN
-        BOTTOMMARGIN, 112
-    END
+    LTEXT           "Phone number:",IDC_STATIC,5,6,79,10
+    EDITTEXT        IDC_PHONE,87,5,211,12,ES_AUTOHSCROLL
+    LTEXT           "Default group:",IDC_STATIC,5,24,79,10
+    EDITTEXT        IDC_DEFGROUP,87,23,211,12,ES_AUTOHSCROLL
+    CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
 END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// AFX_DIALOG_LAYOUT
-//
-
-IDD_PASSWORD_CHANGE2 AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
-IDD_ACCOUNT_MANAGER AFX_DIALOG_LAYOUT
-BEGIN
-    0
-END
-
 
 /////////////////////////////////////////////////////////////////////////////
 //

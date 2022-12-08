@@ -3,7 +3,13 @@
 // Used by D:\Projects\miranda-ng\miranda-ng\protocols\Telegram\res\resource.rc
 //
 #define IDI_TELEGRAM                    100
-#define IDD_ACCOUNT_MANAGER             110
+#define IDD_ACCMGRUI                    101
+#define IDD_OPTIONS                     102
+
+#define IDC_PHONE                       1001
+#define IDC_DEFGROUP                    1002
+#define IDC_HIDECHATS                   1003
+#define IDC_POPUPS                      1004
 
 // Next default values for new objects
 // 

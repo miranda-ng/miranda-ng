@@ -3,13 +3,26 @@
 CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CMTProto>(protoName, userName),
 	m_pClientMmanager(std::make_unique<td::ClientManager>()),
-	m_arRequests(10, NumericKeySortT)
+	m_arRequests(10, NumericKeySortT),
+	m_szOwnPhone(this, "Phone"), 
+	m_wszDefaultGroup(this, "DefaultGroup", L"Telegram"),
+	m_bUsePopups(this, "UsePopups", true),
+	m_bHideGroupchats(this, "HideChats", true)
 {
 	m_iClientId = m_pClientMmanager->create_client_id();
+
+	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
+
+	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
 }
 
 CMTProto::~CMTProto()
 {
+}
+
+void CMTProto::OnErase()
+{
+	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
 INT_PTR CMTProto::GetCaps(int type, MCONTACT)
