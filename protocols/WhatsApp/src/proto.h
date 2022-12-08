@@ -323,6 +323,7 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 
 	// Group chats /////////////////////////////////////////////////////////////////////////
 
+	void GC_RefreshMetadata();
 	void GC_GetAllMetadata();
 	void GC_ParseMetadata(const WANode *pGroup);
 

@@ -7,6 +7,16 @@ Copyright © 2019-22 George Hazan
 
 #include "stdafx.h"
 
+void WhatsAppProto::GC_RefreshMetadata()
+{
+	for (auto &it : m_arUsers) {
+		if (it->bIsGroupChat) {
+			GC_GetAllMetadata();
+			break;
+		}
+	}
+}
+
 void WhatsAppProto::GC_GetAllMetadata()
 {
 	WANodeIq iq(IQ::GET, "w:g2", "@g.us");

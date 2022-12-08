@@ -292,11 +292,7 @@ void WhatsAppProto::OnLoggedIn()
 		WANodeIq(IQ::GET, "privacy") << XCHILD("privacy"),
 		&WhatsAppProto::OnIqDoNothing);
 
-	for (auto &it : m_arUsers)
-		if (it->bIsGroupChat) {
-			GC_GetAllMetadata();
-			return;
-		}
+	GC_RefreshMetadata();
 }
 
 void WhatsAppProto::OnLoggedOut(void)

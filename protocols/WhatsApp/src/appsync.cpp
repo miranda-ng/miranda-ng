@@ -284,6 +284,9 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 					ProtoChainRecvMsg(pUser->hContact, &pre);
 
 					if (pUser->bIsGroupChat) {
+						if (pChat->name)
+							setUString(pUser->hContact, "Nick", pChat->name);
+
 						GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
 						gce.dwFlags = GCEF_UTF8;
 						gce.pszID.a = pUser->szId;
@@ -296,6 +299,9 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 				}
 			}
 		}
+
+		if (pSync->synctype == WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP)
+			GC_RefreshMetadata();
 		break;
 
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME:
