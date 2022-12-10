@@ -352,6 +352,12 @@ void CMsgDialog::Init()
 	m_forceResizable = true;
 	m_bFilterEnabled = db_get_b(m_hContact, CHAT_MODULE, "FilterEnabled", m_bFilterEnabled) != 0;
 
+	// refresh cache data for this contact
+	m_cache = CContactCache::getContactCache(m_hContact);
+	m_cache->updateNick();
+	m_cache->updateUIN();
+
+	// events
 	m_btnOk.OnClick = Callback(this, &CMsgDialog::onClick_Ok);
 
 	m_message.OnChange = Callback(this, &CMsgDialog::onChange_Message);
@@ -376,6 +382,8 @@ bool CMsgDialog::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
+	m_cache->setWindowData(this);
+
 	// m_hwnd is valid, pass it to the tab control
 	TCITEM tci;
 	tci.mask = TCIF_PARAM;
@@ -395,12 +403,6 @@ bool CMsgDialog::OnInitDialog()
 
 	// set up Windows themes
 	DM_ThemeChanged();
-
-	// refresh cache data for this contact
-	m_cache = CContactCache::getContactCache(m_hContact);
-	m_cache->updateNick();
-	m_cache->updateUIN();
-	m_cache->setWindowData(this);
 
 	m_bIsAutosizingInput = m_pContainer->cfg.flags.m_bAutoSplitter && !m_bSplitterOverride;
 	m_szProto = const_cast<char *>(m_cache->getProto());
