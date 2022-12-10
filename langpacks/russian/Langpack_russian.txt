@@ -86,6 +86,8 @@ Last-Modified-Using: Miranda NG 0.96.1
 Сортировка по статусу
 [Sort contacts by protocol]
 Сортировка по протоколу
+[Move offline users to bottom]
+Перемещать отключённых вниз
 [Show]
 Показать
 [icon when statuses differ]
@@ -27924,6 +27926,31 @@ TabSRMM: %s
 Закрытие настроек|Чтобы показать изменения, связанные с импортом схемы, в окне настроек, оно должно быть закрыто после загрузки схемы \\b1 и несохранённые изменения могут быть потеряны\\b0 .\n\nВы хотите продолжить?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Загрузка схемы|Загрузка цветов и шрифтов может изменить настройки, установленные вашим скином.\n\nВы хотите продолжить?
+#muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
+;============================================================
+;  File: Telegram.dll
+;  Plugin: Telegram protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Phone number:]
+Телефон:
+[Default group:]
+Группа:
+[Do not open chat windows on creation]
+Не открывать окна комнат чата при создании
+[Network]
+Сеть
+[Account]
+Учётная запись
+[Enter password]
+Введите пароль
+[Error]
+Ошибка
+[%s error notifications]
+Уведомления об ошибках %s
+[Errors]
+Ошибки
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -35028,6 +35055,8 @@ URL:
 Поддержка протокола WhatsApp в Miranda NG.
 [Sign in using QR code]
 Войти с помощью QR-кода
+[Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
+Откройте приложение WhatsApp на мобильном телефоне, выберите "Связанные устройства" и отсканируйте этот QR-кол.\nПосле этого окно автоматически закроется.
 [Nick:]
 Ник:
 [Default group:]
@@ -35038,6 +35067,8 @@ URL:
 Имя устройства:
 [Use BBCode]
 Использовать BBCode
+[Unregister]
+Удалить
 [Invite users]
 Пригласить пользователей
 [Choose a user]
@@ -35064,8 +35095,12 @@ WhatsApp (HTTP)
 Учётная запись
 [%s (server)]
 %s (сервер)	
+[Connection cannot be established! You have not completed all necessary fields (Nick).]
+Невозможно установить подключение. Вы не ввели все необходимые данные (ник).
 [Error]
 Ошибка
+[This account was logged out from mobile phone, you need to link it again]
+Учётная запись была отвязана от мобильного устройства, необходимо связать устройства снова
 [%s error notifications]
 Уведомления об ошибках %s
 [Errors]
@@ -35562,7 +35597,7 @@ WUMF: Показать подключения
 [Check this account]
 Проверять эту учётную запись
 [Startup check]
-При запуске IM
+При запуске программы
 [Check interval [min]:]
 Интервал проверки (мин):
 [Only check when...]

@@ -22,6 +22,8 @@
 Имя устройства:
 [Use BBCode]
 Использовать BBCode
+[Unregister]
+
 [Invite users]
 Пригласить пользователей
 [Choose a user]
@@ -45,6 +47,8 @@
 [WhatsApp (HTTP)]
 WhatsApp (HTTP)
 ;file \protocols\WhatsApp\src\options.cpp
+[Do you really want to unregister Miranda?]
+
 [Network]
 Сеть
 [Account]

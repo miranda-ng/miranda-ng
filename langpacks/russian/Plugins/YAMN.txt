@@ -33,7 +33,7 @@
 [Check this account]
 Проверять эту учётную запись
 [Startup check]
-При запуске IM
+При запуске программы
 [Check interval [min]:]
 Интервал проверки (мин):
 [Only check when...]

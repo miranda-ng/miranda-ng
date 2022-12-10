@@ -1,0 +1,2 @@
+[Unregister]
+[Do you really want to unregister Miranda?]

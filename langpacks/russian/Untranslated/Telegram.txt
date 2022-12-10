@@ -1,0 +1,3 @@
+[Enter secret code sent to your phone]
+[Phone code expired]
+[Invalid phone code]
