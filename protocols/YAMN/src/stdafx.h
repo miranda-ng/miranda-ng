@@ -40,7 +40,6 @@
 #include "proto/netlib.h"
 #include "proto/pop3/pop3.h"
 #include "proto/pop3/pop3comm.h"
-#include "proto/pop3/pop3opt.h"
 
 struct CMPlugin : public PLUGIN<CMPlugin>
 {
