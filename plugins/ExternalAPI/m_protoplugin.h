@@ -15,7 +15,7 @@ struct CheckParam
 	//Your plugin should use this definition
 #define YAMN_CHECKVERSION	2
 	//Version of this structure. Please verify your version in your plugin
-	DWORD Ver;
+	int Ver;
 	//Event that new Check thread must set to signal calling thread that "I've copied all parameters from stack"
 	//IMPORTANT!!!: Although version #defined in your plugin is not the same, your plugin MUST signal this event
 	//in any way. YAMN is waiting for this event. If you do not signal it, YAMN is blocked.
@@ -26,7 +26,7 @@ struct CheckParam
 	//I thought it, but this is needed, too
 #define YAMN_NORMALCHECK	0
 #define YAMN_FORCECHECK		1
-	DWORD Flags;
+	int Flags;
 
 	//YAMN writes here some informations that are needed to pass to mail browser function (or bad connection)
 	void *BrowserParam;

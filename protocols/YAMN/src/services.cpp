@@ -146,7 +146,7 @@ static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
 			DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
 #endif
 			if ((ActualAccount->Flags & YAMN_ACC_ENA) && ActualAccount->Plugin->Fcn->SynchroFcnPtr) {
-				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr };
+				CheckParam ParamToPlugin = { YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, lParam != 0 ? YAMN_FORCECHECK : YAMN_NORMALCHECK, nullptr, nullptr };
 
 				ActualAccount->TimeLeft = ActualAccount->Interval;
 				DWORD tid;

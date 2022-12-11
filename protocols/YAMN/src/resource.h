@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
-// Used by YAMN.rc
+// Microsoft Visual C++ generated include file.
+// Used by W:\miranda-ng\protocols\YAMN\res\YAMN.rc
 //
 #define IDI_CHECKMAIL                   104
 #define IDI_LAUNCHAPP                   105
@@ -93,7 +93,6 @@
 #define IDC_BTNSTATUS                   1123
 #define IDC_OPTIONSTAB                  1124
 #define IDC_BTNCHECKALL                 1125
-#define IDC_MAINMENU                    1126
 #define IDC_CLOSEONDELETE               1127
 #define IDC_LONGDATE                    1128
 #define IDC_SMARTDATE                   1129
@@ -111,7 +110,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        143
+#define _APS_NEXT_RESOURCE_VALUE        144
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1407
 #define _APS_NEXT_SYMED_VALUE           101

@@ -103,4 +103,18 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\checkmail.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\launchapp.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\badconnect.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\newmail.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
 </Project>

@@ -244,15 +244,12 @@ extern int YAMN_STATUS;
 extern struct WndHandles *MessageWnd;
 
 extern int GetCharsetFromString(char *input, size_t size);
-extern void SendMsgToRecepients(struct WndHandles *FirstWin, UINT msg, WPARAM wParam, LPARAM lParam);
 extern void ConvertCodedStringToUnicode(char *stream, wchar_t **storeto, uint32_t cp, int mode);
 extern void __cdecl MailBrowser(void *Param);
-extern uint32_t WINAPI NoNewMailProc(LPVOID Param);
 extern void __cdecl BadConnection(void *Param);
 extern PVOID TLSCtx;
 extern PVOID SSLCtx;
 
-extern HGENMENU hMenuItemMain, hMenuItemCont, hMenuItemContApp;
 extern PYAMN_VARIABLES pYAMNVar;
 
 #endif

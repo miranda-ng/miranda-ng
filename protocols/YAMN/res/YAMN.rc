@@ -17,7 +17,7 @@
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -212,17 +212,16 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,65
+    GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,45
     CONTROL         "TopToolBar button ""Check mail""",IDC_CHECKTTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,15,294,11
-    CONTROL         "Enable YAMN Main Menu",IDC_MAINMENU,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,33,293,9
     CONTROL         "Show YAMN as a Protocol (Require Restart)",IDC_YAMNASPROTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,50,293,9
-    GROUPBOX        "MailBrowser Options",IDC_STATIC,3,68,151,47
-    CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,80,143,11
-    CONTROL         "Show long localized date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,77,130,10
-    CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,89,131,10
-    GROUPBOX        "Date/Time Representation",IDC_STATIC,166,68,141,47
-    CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,101,129,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,293,9
+    GROUPBOX        "MailBrowser Options",IDC_STATIC,3,48,151,68
+    CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,60,143,11
+    CONTROL         "Show long localized date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,65,129,8
+    CONTROL         "Don't show today's date",IDC_SMARTDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,80,129,8
+    GROUPBOX        "Date/Time Representation",IDC_STATIC,159,48,148,68
+    CONTROL         "Don't show seconds",IDC_NOSECONDS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,94,129,8
 END
 
 IDD_POP3ACCOUNTPOPUP DIALOGEX 0, 0, 315, 230
@@ -273,9 +272,24 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDI_CHECKMAIL           ICON                    "checkmail.ico"
+
 IDI_LAUNCHAPP           ICON                    "launchapp.ico"
+
 IDI_BADCONNECT          ICON                    "badconnect.ico"
+
 IDI_NEWMAIL             ICON                    "newmail.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_YAMNOPT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
 #endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 

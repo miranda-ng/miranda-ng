@@ -88,4 +88,10 @@
     <ResourceCompile Include="res\Version.rc" />
     <ResourceCompile Include="res\YAMN.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\badconnect.ico" />
+    <Image Include="res\checkmail.ico" />
+    <Image Include="res\launchapp.ico" />
+    <Image Include="res\newmail.ico" />
+  </ItemGroup>
 </Project>

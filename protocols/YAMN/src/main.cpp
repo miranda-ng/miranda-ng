@@ -37,10 +37,6 @@ HANDLE hTTButton;
 
 UINT SecTimer;
 
-HGENMENU hMenuItemMain = nullptr;
-HGENMENU hMenuItemCont = nullptr;
-HGENMENU hMenuItemContApp = nullptr;
-
 #define FIXED_TAB_SIZE 100                  // default value for fixed width tabs
 
 static void GetProfileDirectory(wchar_t *szPath, int cbPath)
@@ -114,11 +110,6 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 	return TRUE;
 }
 
-void CheckMenuItems()
-{
-	Menu_ShowItem(hMenuItemMain, g_plugin.getByte(YAMN_SHOWMAINMENU, 1) != 0);
-}
-
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
@@ -129,20 +120,18 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_CHECKMAIL);
 	mi.name.a = LPGEN("Check &mail (All Account)");
 	mi.pszService = MS_YAMN_FORCECHECK;
-	hMenuItemMain = Menu_AddMainMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	SET_UID(mi, 0xfe22191f, 0x40c8, 0x479f, 0x93, 0x5d, 0xa5, 0x17, 0x1f, 0x57, 0x2f, 0xcb);
 	mi.name.a = LPGEN("Check &mail (This Account)");
 	mi.pszService = MS_YAMN_CLISTCONTEXT;
-	hMenuItemCont = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
+	Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
 	SET_UID(mi, 0x147c7800, 0x12d0, 0x4209, 0xab, 0xcc, 0xfa, 0x64, 0xc6, 0xb0, 0xa6, 0xeb);
 	mi.hIcolibItem = g_plugin.getIconHandle(IDI_LAUNCHAPP);
 	mi.name.a = LPGEN("Launch application");
 	mi.pszService = MS_YAMN_CLISTCONTEXTAPP;
-	hMenuItemContApp = Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
-
-	CheckMenuItems();
+	Menu_AddContactMenuItem(&mi, YAMN_DBMODULE);
 
 	if (hAccountFolder = FoldersRegisterCustomPathW(LPGEN("YAMN"), LPGEN("YAMN Account Folder"), UserDirectory))
 		FoldersGetCustomPathW(hAccountFolder, UserDirectory, MAX_PATH, UserDirectory);
