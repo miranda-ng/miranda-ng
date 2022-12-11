@@ -8,7 +8,6 @@
 
 //--------------------------------------------------------------------------------------------------
 
-static BOOL Check0, Check1, Check2, Check3, Check4, Check5, Check6, Check7;
 static char DlgInput[MAX_PATH];
 
 static BOOL DlgSetItemText(HWND hDlg, WPARAM wParam, const char *str)
@@ -85,16 +84,6 @@ struct CBaseOptionsDlg : public CDlgBase
 			CheckDlgButton(m_hwnd, IDC_CHECKNOTLS, pAccount->Flags & YAMN_ACC_NOTLS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKAPOP, pAccount->Flags & YAMN_ACC_APOP ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_AUTOBODY, pAccount->Flags & YAMN_ACC_BODY ? BST_CHECKED : BST_UNCHECKED);
-
-			Check0 = pAccount->StatusFlags & YAMN_ACC_ST0;
-			Check1 = pAccount->StatusFlags & YAMN_ACC_ST1;
-			Check2 = pAccount->StatusFlags & YAMN_ACC_ST2;
-			Check3 = pAccount->StatusFlags & YAMN_ACC_ST3;
-			Check4 = pAccount->StatusFlags & YAMN_ACC_ST4;
-			Check5 = pAccount->StatusFlags & YAMN_ACC_ST5;
-			Check6 = pAccount->StatusFlags & YAMN_ACC_ST6;
-			Check7 = pAccount->StatusFlags & YAMN_ACC_ST7;
-
 			CheckDlgButton(m_hwnd, IDC_CHECKSTART, pAccount->StatusFlags & YAMN_ACC_STARTS ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKFORCE, pAccount->StatusFlags & YAMN_ACC_FORCE ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(m_hwnd, IDC_CHECKCONTACT, pAccount->NewMailN.Flags & YAMN_ACC_CONT ? BST_CHECKED : BST_UNCHECKED);
@@ -187,29 +176,13 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 
 //--------------------------------------------------------------------------------------------------
 
-static BOOL DlgEnableAccountStatus(HWND hDlg, WPARAM wParam, LPARAM)
-{
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST0), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST1), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST2), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST3), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST4), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST5), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST6), (BOOL)wParam);
-	EnableWindow(GetDlgItem(hDlg, IDC_CHECKST7), (BOOL)wParam);
-	return TRUE;
-}
+static int g_iStatusControls[] = {IDC_CHECKST0, IDC_CHECKST1, IDC_CHECKST2, IDC_CHECKST3, IDC_CHECKST4, IDC_CHECKST5, IDC_CHECKST6, IDC_CHECKST7};
 
 static BOOL DlgShowAccountStatus(HWND hDlg, HPOP3ACCOUNT ActualAccount)
 {
 	if (ActualAccount) {
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read wait\n");
-		#endif
 		WaitToRead(ActualAccount);		//we do not need to check if account is deleted. It is not deleted, because only thread that can delete account is this thread
-		#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "Options:SHOWACCOUNT:ActualAccountSO-read enter\n");
-		#endif
+
 		CheckDlgButton(hDlg, IDC_CHECKST0, ActualAccount->StatusFlags & YAMN_ACC_ST0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST1, ActualAccount->StatusFlags & YAMN_ACC_ST1 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST2, ActualAccount->StatusFlags & YAMN_ACC_ST2 ? BST_CHECKED : BST_UNCHECKED);
@@ -218,6 +191,7 @@ static BOOL DlgShowAccountStatus(HWND hDlg, HPOP3ACCOUNT ActualAccount)
 		CheckDlgButton(hDlg, IDC_CHECKST5, ActualAccount->StatusFlags & YAMN_ACC_ST5 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST6, ActualAccount->StatusFlags & YAMN_ACC_ST6 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hDlg, IDC_CHECKST7, ActualAccount->StatusFlags & YAMN_ACC_ST7 ? BST_CHECKED : BST_UNCHECKED);
+
 		ReadDone(ActualAccount);
 	}
 	else {
@@ -241,17 +215,12 @@ static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wPar
 		ActualAccount = (HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput);
 		if (ActualAccount != nullptr) {
 			DlgShowAccountStatus(hDlg, ActualAccount);
-			DlgEnableAccountStatus(hDlg, TRUE, TRUE);
+			for (auto &it: g_iStatusControls)
+				EnableWindow(GetDlgItem(hDlg, it), true);
 		}
 		else {
-			CheckDlgButton(hDlg, IDC_CHECKST0, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST1, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST2, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST3, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST4, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST5, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST6, BST_CHECKED);
-			CheckDlgButton(hDlg, IDC_CHECKST7, BST_CHECKED);
+			for (auto &it : g_iStatusControls)
+				CheckDlgButton(hDlg, it, BST_CHECKED);
 		}
 		TranslateDialogDefault(hDlg);
 		SendMessage(GetParent(hDlg), PSM_UNCHANGED, (WPARAM)hDlg, 0);
@@ -259,21 +228,21 @@ static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wPar
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDOK:
-			Check0 = (IsDlgButtonChecked(hDlg, IDC_CHECKST0) == BST_CHECKED);
-			Check1 = (IsDlgButtonChecked(hDlg, IDC_CHECKST1) == BST_CHECKED);
-			Check2 = (IsDlgButtonChecked(hDlg, IDC_CHECKST2) == BST_CHECKED);
-			Check3 = (IsDlgButtonChecked(hDlg, IDC_CHECKST3) == BST_CHECKED);
-			Check4 = (IsDlgButtonChecked(hDlg, IDC_CHECKST4) == BST_CHECKED);
-			Check5 = (IsDlgButtonChecked(hDlg, IDC_CHECKST5) == BST_CHECKED);
-			Check6 = (IsDlgButtonChecked(hDlg, IDC_CHECKST6) == BST_CHECKED);
-			Check7 = (IsDlgButtonChecked(hDlg, IDC_CHECKST7) == BST_CHECKED);
-			WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUSOPTION, 0, 0);
+		case IDCANCEL:
 			EndDialog(hDlg, 0);
 			DestroyWindow(hDlg);
 			break;
 
-		case IDCANCEL:
+		case IDOK:
+			int iShift = 1;
+			ActualAccount->StatusFlags = 0;
+			for (auto &it : g_iStatusControls) {
+				if (IsDlgButtonChecked(hDlg, it))
+					ActualAccount->StatusFlags |= iShift;
+				iShift <<= 1;
+			}
+
+			WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGESTATUSOPTION, 0, 0);
 			EndDialog(hDlg, 0);
 			DestroyWindow(hDlg);
 			break;
@@ -585,7 +554,6 @@ public:
 		BOOL CheckNMsgP, CheckFMsg, CheckFSnd, CheckFIco;
 		BOOL CheckKBN, CheckContact, CheckContactNick, CheckContactNoEvent;
 		BOOL CheckSSL, CheckABody, CheckNoTLS;
-		//BOOL Check0,Check1,Check2,Check3,Check4,Check5,Check6,Check7,Check8,Check9,
 		BOOL CheckStart, CheckForce;
 		size_t Length, index;
 		UINT Port, Interval;
@@ -747,15 +715,8 @@ public:
 			(CheckABody ? YAMN_ACC_BODY : 0) |
 			(ActualAccount->Flags & YAMN_ACC_POPN);
 
-		ActualAccount->StatusFlags =
-			(Check0 ? YAMN_ACC_ST0 : 0) |
-			(Check1 ? YAMN_ACC_ST1 : 0) |
-			(Check2 ? YAMN_ACC_ST2 : 0) |
-			(Check3 ? YAMN_ACC_ST3 : 0) |
-			(Check4 ? YAMN_ACC_ST4 : 0) |
-			(Check5 ? YAMN_ACC_ST5 : 0) |
-			(Check6 ? YAMN_ACC_ST6 : 0) |
-			(Check7 ? YAMN_ACC_ST7 : 0) |
+		ActualAccount->StatusFlags &= 0xFFFF;
+		ActualAccount->StatusFlags |=
 			(CheckStart ? YAMN_ACC_STARTS : 0) |
 			(CheckForce ? YAMN_ACC_FORCE : 0);
 

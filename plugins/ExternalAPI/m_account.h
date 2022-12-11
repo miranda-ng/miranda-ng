@@ -121,19 +121,19 @@ typedef struct CAccount
 	DWORD AbilityFlags;
 
 	//	YAMN account status flags
-	#define YAMN_ACC_ST0	0x00000001		//Check (countdown) when Offline
-	#define YAMN_ACC_ST1	0x00000002		//Check (countdown) when Online
-	#define YAMN_ACC_ST2	0x00000004		//Check (countdown) when Away
-	#define YAMN_ACC_ST3	0x00000008		//Check (countdown) when Not available
-	#define YAMN_ACC_ST4	0x00000010		//Check (countdown) when Occupied
-	#define YAMN_ACC_ST5	0x00000020		//Check (countdown) when DND
-	#define YAMN_ACC_ST6	0x00000040		//Check (countdown) when Free for chat
-	#define YAMN_ACC_ST7    0x00000080		//Check (countdown) when Invisible
+	#define YAMN_ACC_ST0    0x00000001		// Check (countdown) when Offline
+	#define YAMN_ACC_ST1    0x00000002		// Check (countdown) when Online
+	#define YAMN_ACC_ST2    0x00000004		// Check (countdown) when Away
+	#define YAMN_ACC_ST3    0x00000008		// Check (countdown) when Not available
+	#define YAMN_ACC_ST4    0x00000010		// Check (countdown) when Occupied
+	#define YAMN_ACC_ST5    0x00000020		// Check (countdown) when DND
+	#define YAMN_ACC_ST6    0x00000040		// Check (countdown) when Free for chat
+	#define YAMN_ACC_ST7    0x00000080		// Check (countdown) when Invisible
 
-	#define YAMN_ACC_STARTA	0x00010000		//Check on start anyway
-	#define YAMN_ACC_STARTS	0x00020000		//Check on start regarding to status setting 
-	#define YAMN_ACC_FORCE	0x00040000		//Check when "check new mail" item pressed (it is called forced checking)
-	DWORD StatusFlags;			//access only through AccountAccessSO
+	#define YAMN_ACC_STARTA 0x00010000		// Check on start anyway
+	#define YAMN_ACC_STARTS 0x00020000		// Check on start regarding to status setting 
+	#define YAMN_ACC_FORCE  0x00040000		// Check when "check new mail" item pressed (it is called forced checking)
+	DWORD StatusFlags; // access only through AccountAccessSO
 
 	//	Plugin flags. Use this DWORD if you want YAMN to store it to YAMN book file. You can set here any value
 	DWORD PluginFlags;
