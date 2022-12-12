@@ -18,8 +18,6 @@ wchar_t UserDirectory[MAX_PATH];
 wchar_t	szMirandaDir[MAX_PATH];
 wchar_t	szProfileDir[MAX_PATH];
 
-int YAMN_STATUS;
-
 BOOL UninstallPlugins;
 
 HANDLE hAccountFolder;
@@ -209,8 +207,6 @@ static void LoadPlugins()
 
 int CMPlugin::Load()
 {
-	YAMN_STATUS = ID_STATUS_OFFLINE;
-
 	//	we get the Miranda Root Path
 	PathToAbsoluteW(L".", szMirandaDir);
 

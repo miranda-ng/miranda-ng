@@ -237,9 +237,7 @@ extern char *iconDescs[];
 extern char *iconNames[];
 extern HIMAGELIST CSImages;
 
-extern void __stdcall	SSL_DebugLog(const char *fmt, ...);
-
-extern int YAMN_STATUS;
+extern void __stdcall SSL_DebugLog(const char *fmt, ...);
 
 extern struct WndHandles *MessageWnd;
 

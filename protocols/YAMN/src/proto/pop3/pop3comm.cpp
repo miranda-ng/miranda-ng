@@ -269,12 +269,10 @@ LBL_Error:
 		break;
 	}
 
-	CAccount *Finder;
-	DBVARIANT dbv;
-
-	for (Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
+	for (CAccount *Finder = POP3Plugin->FirstAccount; Finder != nullptr; Finder = Finder->Next) {
 		Finder->hContact = NULL;
 		for (auto &hContact : Contacts(YAMN_DBMODULE)) {
+			DBVARIANT dbv;
 			if (!g_plugin.getString(hContact, "Id", &dbv)) {
 				if (mir_strcmp(dbv.pszVal, Finder->Name) == 0) {
 					Finder->hContact = hContact;
@@ -296,7 +294,7 @@ LBL_Error:
 			Proto_AddToContact(Finder->hContact, YAMN_DBMODULE);
 			g_plugin.setString(Finder->hContact, "Id", Finder->Name);
 			g_plugin.setString(Finder->hContact, "Nick", Finder->Name);
-			g_plugin.setWord(Finder->hContact, "Status", YAMN_STATUS);
+			g_plugin.setWord(Finder->hContact, "Status", ID_STATUS_OFFLINE);
 		}
 	}
 

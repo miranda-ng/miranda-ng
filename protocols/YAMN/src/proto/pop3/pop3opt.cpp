@@ -267,6 +267,8 @@ class CAccOptDlg : public CBaseOptionsDlg
 
 	void DlgEnableAccount(bool bEnable)
 	{
+		cmbAccount.Enable(POP3Plugin->FirstAccount != nullptr);
+
 		EnableWindow(GetDlgItem(m_hwnd, IDC_CHECK), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITSERVER), bEnable);
 		EnableWindow(GetDlgItem(m_hwnd, IDC_EDITNAME), bEnable);
@@ -345,11 +347,12 @@ public:
 
 		// Fill accounts
 		WaitToReadSO(POP3Plugin->AccountBrowserSO);
-
+		
 		for (ActualAccount = (HPOP3ACCOUNT)POP3Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = (HPOP3ACCOUNT)ActualAccount->Next)
 			if (ActualAccount->Name != nullptr)
 				cmbAccount.AddStringA(ActualAccount->Name);
-		cmbAccount.Enable(POP3Plugin->FirstAccount != nullptr);
+		cmbAccount.SetCurSel(0);
+
 		ReadDoneSO(POP3Plugin->AccountBrowserSO);
 
 		// Fill code pages
@@ -425,7 +428,7 @@ public:
 
 	void onSelChange_Account(CCtrlCombo *)
 	{
-		if (CB_ERR != (Result = SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_GETCURSEL, 0, 0)))
+		if (CB_ERR != (Result = cmbAccount.GetCurSel()))
 			SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_GETLBTEXT, (WPARAM)Result, (LPARAM)DlgInput);
 
 		if ((Result == CB_ERR) || (nullptr == (ActualAccount = (HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput)))) {
@@ -550,46 +553,42 @@ public:
 	{
 		char  Text[MAX_PATH];
 		wchar_t TextW[MAX_PATH];
-		BOOL Translated, NewAcc = FALSE, Check, CheckMsg, CheckSnd, CheckIco, CheckApp, CheckAPOP;
-		BOOL CheckNMsgP, CheckFMsg, CheckFSnd, CheckFIco;
-		BOOL CheckKBN, CheckContact, CheckContactNick, CheckContactNoEvent;
-		BOOL CheckSSL, CheckABody, CheckNoTLS;
-		BOOL CheckStart, CheckForce;
+		BOOL Translated, NewAcc = FALSE;
 		size_t Length, index;
-		UINT Port, Interval;
 
 		if (!GetDlgItemTextA(m_hwnd, IDC_COMBOACCOUNT, Text, _countof(Text)))
 			return false;
 
-		Check = (IsDlgButtonChecked(m_hwnd, IDC_CHECK) == BST_CHECKED);
-		CheckSSL = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSSL) == BST_CHECKED);
-		CheckNoTLS = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNOTLS) == BST_CHECKED);
-		CheckAPOP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPOP) == BST_CHECKED);
+		BOOL Check = (IsDlgButtonChecked(m_hwnd, IDC_CHECK) == BST_CHECKED);
+		BOOL CheckSSL = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSSL) == BST_CHECKED);
+		BOOL CheckNoTLS = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNOTLS) == BST_CHECKED);
+		BOOL CheckAPOP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPOP) == BST_CHECKED);
 
-		CheckABody = (IsDlgButtonChecked(m_hwnd, IDC_AUTOBODY) == BST_CHECKED);
-		CheckMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKMSG) == BST_CHECKED);
-		CheckSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSND) == BST_CHECKED);
-		CheckIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKICO) == BST_CHECKED);
+		BOOL CheckABody = (IsDlgButtonChecked(m_hwnd, IDC_AUTOBODY) == BST_CHECKED);
+		BOOL CheckMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKMSG) == BST_CHECKED);
+		BOOL CheckSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSND) == BST_CHECKED);
+		BOOL CheckIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKICO) == BST_CHECKED);
 
-		CheckApp = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPP) == BST_CHECKED);
-		CheckKBN = (IsDlgButtonChecked(m_hwnd, IDC_CHECKKBN) == BST_CHECKED);
-		CheckContact = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACT) == BST_CHECKED);
-		CheckContactNick = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNICK) == BST_CHECKED);
-		CheckContactNoEvent = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNOEVENT) == BST_CHECKED);
+		BOOL CheckApp = (IsDlgButtonChecked(m_hwnd, IDC_CHECKAPP) == BST_CHECKED);
+		BOOL CheckKBN = (IsDlgButtonChecked(m_hwnd, IDC_CHECKKBN) == BST_CHECKED);
+		BOOL CheckContact = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACT) == BST_CHECKED);
+		BOOL CheckContactNick = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNICK) == BST_CHECKED);
+		BOOL CheckContactNoEvent = (IsDlgButtonChecked(m_hwnd, IDC_CHECKCONTACTNOEVENT) == BST_CHECKED);
 
-		CheckFSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFSND) == BST_CHECKED);
-		CheckFMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFMSG) == BST_CHECKED);
-		CheckFIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFICO) == BST_CHECKED);
+		BOOL CheckFSnd = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFSND) == BST_CHECKED);
+		BOOL CheckFMsg = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFMSG) == BST_CHECKED);
+		BOOL CheckFIco = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFICO) == BST_CHECKED);
 
-		CheckNMsgP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNMSGP) == BST_CHECKED);
+		BOOL CheckNMsgP = (IsDlgButtonChecked(m_hwnd, IDC_CHECKNMSGP) == BST_CHECKED);
 
-		Port = GetDlgItemInt(m_hwnd, IDC_EDITPORT, &Translated, FALSE);
+		UINT Port = GetDlgItemInt(m_hwnd, IDC_EDITPORT, &Translated, FALSE);
 		if (!Translated) {
 			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
 			SetFocus(GetDlgItem(m_hwnd, IDC_EDITPORT));
 			return false;
 		}
-		Interval = GetDlgItemInt(m_hwnd, IDC_EDITINTERVAL, &Translated, FALSE);
+		
+		UINT Interval = GetDlgItemInt(m_hwnd, IDC_EDITINTERVAL, &Translated, FALSE);
 		if (!Translated) {
 			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);
 			SetFocus(GetDlgItem(m_hwnd, IDC_EDITINTERVAL));
@@ -613,48 +612,20 @@ public:
 
 		if (nullptr == (ActualAccount = (HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)Text))) {
 			NewAcc = TRUE;
-			#ifdef DEBUG_SYNCHRO                    
-			DebugLog(SynchroFile, "Options:APPLY:AccountBrowserSO-write wait\n");
-			#endif                                  
 			WaitToWriteSO(POP3Plugin->AccountBrowserSO);
-			#ifdef DEBUG_SYNCHRO                    
-			DebugLog(SynchroFile, "Options:APPLY:AccountBrowserSO-write enter\n");
-			#endif                                  
 			if (nullptr == (ActualAccount = (HPOP3ACCOUNT)CallService(MS_YAMN_GETNEXTFREEACCOUNT, (WPARAM)POP3Plugin, (LPARAM)YAMN_ACCOUNTVERSION))) {
-				#ifdef DEBUG_SYNCHRO                    
-				DebugLog(SynchroFile, "Options:APPLY:AccountBrowserSO-write done\n");
-				#endif                                  
 				WriteDoneSO(POP3Plugin->AccountBrowserSO);
 				MessageBox(m_hwnd, TranslateT("Cannot allocate memory space for new account"), TranslateT("Memory error"), MB_OK);
 				return false;
-	}
+			}
+			DlgEnableAccount(true);
 		}
-		else {
-			#ifdef DEBUG_SYNCHRO                    
-			DebugLog(SynchroFile, "Options:APPLY:AccountBrowserSO-write wait\n");
-			#endif                                  
-			//We have to get full access to AccountBrowser, so other iterating thrads cannot get new account until new account is right set
+		else { // We have to get full access to AccountBrowser, so other iterating thrads cannot get new account until new account is right set
 			WaitToWriteSO(POP3Plugin->AccountBrowserSO);
-			#ifdef DEBUG_SYNCHRO                    
-			DebugLog(SynchroFile, "Options:APPLY:AccountBrowserSO-write enter\n");
-			#endif                                  
 		}
-		#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "Options:APPLY:ActualAccountSO-write wait\n");
-		#endif
-		if (WAIT_OBJECT_0 != WaitToWrite(ActualAccount)) {
-			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "Options:APPLY:ActualAccountSO-write wait failed\n");
-			#endif
-			#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "Options:APPLY:ActualBrowserSO-write done\n");
-			#endif
-			WriteDoneSO(POP3Plugin->AccountBrowserSO);
 
-		}
-		#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "Options:APPLY:ActualAccountSO-write enter\n");
-		#endif
+		if (WAIT_OBJECT_0 != WaitToWrite(ActualAccount))
+			WriteDoneSO(POP3Plugin->AccountBrowserSO);
 
 		GetDlgItemTextA(m_hwnd, IDC_EDITNAME, Text, _countof(Text));
 		if (!(Length = mir_strlen(Text)))
@@ -704,8 +675,8 @@ public:
 		if (NewAcc)
 			ActualAccount->TimeLeft = Interval * 60;
 
-		CheckStart = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSTART) == BST_CHECKED);
-		CheckForce = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFORCE) == BST_CHECKED);
+		BOOL CheckStart = (IsDlgButtonChecked(m_hwnd, IDC_CHECKSTART) == BST_CHECKED);
+		BOOL CheckForce = (IsDlgButtonChecked(m_hwnd, IDC_CHECKFORCE) == BST_CHECKED);
 
 		ActualAccount->Flags =
 			(Check ? YAMN_ACC_ENA : 0) |

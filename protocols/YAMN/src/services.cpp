@@ -18,23 +18,6 @@ static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-static INT_PTR Service_GetStatus(WPARAM, LPARAM)
-{
-	return YAMN_STATUS;
-}
-
-static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM)
-{
-	int newstatus = (wParam != ID_STATUS_OFFLINE) ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
-	if (newstatus != YAMN_STATUS) {
-		int oldstatus = YAMN_STATUS;
-		YAMN_STATUS = newstatus;
-		ProtoBroadcastAck(YAMN_DBMODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldstatus, newstatus);
-	}
-	return 0;
-
-}
-
 static INT_PTR Service_GetName(WPARAM wParam, LPARAM lParam)
 {
 	mir_strncpy((char *)lParam, YAMN_DBMODULE, wParam);
@@ -346,8 +329,6 @@ void CreateServiceFunctions(void)
 {
 	// Standard 'protocol' services
 	CreateServiceFunction(YAMN_DBMODULE PS_GETCAPS, Service_GetCaps);
-	CreateServiceFunction(YAMN_DBMODULE PS_GETSTATUS, Service_GetStatus);
-	CreateServiceFunction(YAMN_DBMODULE PS_SETSTATUS, Service_SetStatus);
 	CreateServiceFunction(YAMN_DBMODULE PS_GETNAME, Service_GetName);
 	CreateServiceFunction(YAMN_DBMODULE PS_LOADICON, Service_LoadIcon);
 
