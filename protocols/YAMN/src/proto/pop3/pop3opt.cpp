@@ -212,7 +212,7 @@ static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wPar
 		ActualAccount = (HPOP3ACCOUNT)CallService(MS_YAMN_FINDACCOUNTBYNAME, (WPARAM)POP3Plugin, (LPARAM)DlgInput);
 		if (ActualAccount != nullptr) {
 			DlgShowAccountStatus(hDlg, ActualAccount);
-			for (auto &it: g_iStatusControls)
+			for (auto &it : g_iStatusControls)
 				EnableWindow(GetDlgItem(hDlg, it), true);
 		}
 		else {
@@ -344,7 +344,7 @@ public:
 
 		// Fill accounts
 		WaitToReadSO(POP3Plugin->AccountBrowserSO);
-		
+
 		for (ActualAccount = (HPOP3ACCOUNT)POP3Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = (HPOP3ACCOUNT)ActualAccount->Next)
 			if (ActualAccount->Name != nullptr)
 				cmbAccount.AddStringA(ActualAccount->Name);
@@ -439,7 +439,7 @@ public:
 		}
 	}
 
-	void onSelChange_CP(CCtrlCombo*)
+	void onSelChange_CP(CCtrlCombo *)
 	{
 		int sel = cmbCP.GetCurSel();
 		CPINFOEX info; GetCPInfoEx(CodePageNamesSupp[sel].CP, 0, &info);
@@ -540,7 +540,7 @@ public:
 		DlgShowAccount(0);
 	}
 
-	void onClick_Reset(CCtrlButton*)
+	void onClick_Reset(CCtrlButton *)
 	{
 		if (ActualAccount != nullptr)
 			ActualAccount->TimeLeft = ActualAccount->Interval;
@@ -584,7 +584,7 @@ public:
 			SetFocus(GetDlgItem(m_hwnd, IDC_EDITPORT));
 			return false;
 		}
-		
+
 		UINT Interval = GetDlgItemInt(m_hwnd, IDC_EDITINTERVAL, &Translated, FALSE);
 		if (!Translated) {
 			MessageBox(m_hwnd, TranslateT("This is not a valid number value"), TranslateT("Input error"), MB_OK);

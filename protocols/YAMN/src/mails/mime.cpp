@@ -114,8 +114,7 @@ void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick)
 			if (ENDLINEWS(finderend))						//after endline information continues
 				finderend += 2;
 			while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;		//seek to the end of line or to the end of string
-		}
-		while (ENDLINEWS(finderend));
+		} while (ENDLINEWS(finderend));
 		finderend--;
 		while (WS(finderend) || ENDLINE(finderend)) finderend--;				//find the end of text, no whitespace
 		if (*finderend != '>')						//not '>' at the end of line
@@ -139,8 +138,7 @@ void ExtractAddressFromLine(char *finder, char **storeto, char **storetonick)
 			if (ENDLINEWS(finderend))							//after endline information continues
 				finderend += 2;
 			while (!ENDLINE(finderend) && (*finderend != '>') && !EOS(finderend)) finderend++;		//seek to the matching < or to the end of line or to the end of string
-		}
-		while (ENDLINEWS(finderend));
+		} while (ENDLINEWS(finderend));
 		CopyToHeader(finder, finderend + 1, storeto, MIME_MAIL);				//go to first '>' or to the end and copy
 		finder = finderend + 1;
 		while (WS(finder)) finder++;								//parse whitespace
@@ -167,8 +165,7 @@ void ExtractStringFromLine(char *finder, char **storeto)
 	do {
 		if (ENDLINEWS(finderend)) finderend++;						//after endline information continues
 		while (!ENDLINE(finderend) && !EOS(finderend)) finderend++;
-	}
-	while (ENDLINEWS(finderend));
+	} while (ENDLINEWS(finderend));
 	finderend--;
 	while (WS(finderend)) finderend--;				//find the end of line, no whitespace
 	CopyToHeader(finder, finderend + 1, storeto, MIME_PLAIN);
@@ -220,70 +217,70 @@ void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head)
 		if (0 == _strnicmp(items->name, "From", 4)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting from>");
-		#endif
+			#endif
 			ExtractAddressFromLine(items->value, &head->From, &head->FromNick);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Return-Path", 11)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting return-path>");
-		#endif
+			#endif
 			ExtractAddressFromLine(items->value, &head->ReturnPath, &head->ReturnPathNick);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Subject", 7)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting subject>");
-		#endif
+			#endif
 			ExtractStringFromLine(items->value, &head->Subject);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Body", 4)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting body>");
-		#endif
+			#endif
 			ExtractStringFromLine(items->value, &head->Body);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Date", 4)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting date>");
-		#endif
+			#endif
 			ExtractStringFromLine(items->value, &head->Date);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "Content-Type", 12)) {
 			if (items->value == nullptr)
 				continue;
 
 			char *ContentType = nullptr, *CharSetStr;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting Content-Type>");
-		#endif
+			#endif
 			ExtractStringFromLine(items->value, &ContentType);
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 			ToLower(ContentType);
 			if (nullptr != (CharSetStr = ExtractFromContentType(ContentType, "charset="))) {
 				head->CP = GetCharsetFromString(CharSetStr, mir_strlen(CharSetStr));
@@ -294,9 +291,9 @@ void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head)
 		else if (0 == _strnicmp(items->name, "Importance", 10)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<Extracting importance>");
-		#endif
+			#endif
 			if (head->Priority != -1) {
 				if (0 == strncmp(items->value, "low", 3))
 					head->Priority = 5;
@@ -305,21 +302,21 @@ void ExtractShortHeader(struct CMimeItem *items, struct CShortHeader *head)
 				else if (0 == strncmp(items->value, "high", 4))
 					head->Priority = 1;
 			}
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 		else if (0 == _strnicmp(items->name, "X-Priority", 10)) {
 			if (items->value == nullptr)
 				continue;
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "<X-Priority>");
-		#endif
+			#endif
 			if ((*items->value >= '1') && (*items->value <= '5'))
 				head->Priority = *items->value - '0';
-		#ifdef DEBUG_DECODE
+			#ifdef DEBUG_DECODE
 			DebugLog(DecodeFile, "</Extracting>\n");
-		#endif
+			#endif
 		}
 
 	}
@@ -331,14 +328,14 @@ void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head)
 
 	memset(&ShortHeader, 0, sizeof(struct CShortHeader));
 	ShortHeader.Priority = ShortHeader.CP = -1;
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	DebugLog(DecodeFile, "<Extracting header>\n");
-#endif
+	#endif
 	ExtractShortHeader(items, &ShortHeader);
 
 	head->Priority = ShortHeader.Priority == -1 ? 3 : ShortHeader.Priority;
 	CP = ShortHeader.CP == -1 ? CP : ShortHeader.CP;
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != ShortHeader.From)
 		DebugLog(DecodeFile, "<Decoded from>%s</Decoded)\n", ShortHeader.From);
 	if (NULL != ShortHeader.FromNick)
@@ -353,49 +350,49 @@ void ExtractHeader(struct CMimeItem *items, int &CP, struct CHeader *head)
 		DebugLog(DecodeFile, "<Decoded date>%s</Decoded)\n", ShortHeader.Date);
 	DebugLog(DecodeFile, "</Extracting header>\n");
 	DebugLog(DecodeFile, "<Convert>\n");
-#endif
+	#endif
 
 	ConvertCodedStringToUnicode(ShortHeader.From, &head->From, CP, MIME_PLAIN);
 
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->From)
 		DebugLogW(DecodeFile, L"<Converted from>%s</Converted>\n", head->From);
-#endif
+	#endif
 	ConvertCodedStringToUnicode(ShortHeader.FromNick, &head->FromNick, CP, MIME_MAIL);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->FromNick)
 		DebugLogW(DecodeFile, L"<Converted from-nick>%s</Converted>\n", head->FromNick);
-#endif
+	#endif
 	ConvertCodedStringToUnicode(ShortHeader.ReturnPath, &head->ReturnPath, CP, MIME_PLAIN);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPath)
 		DebugLogW(DecodeFile, L"<Converted return-path>%s</Converted>\n", head->ReturnPath);
-#endif
+	#endif
 	ConvertCodedStringToUnicode(ShortHeader.ReturnPathNick, &head->ReturnPathNick, CP, MIME_MAIL);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->ReturnPathNick)
 		DebugLogW(DecodeFile, L"<Converted return-path nick>%s</Converted>\n", head->ReturnPathNick);
-#endif
+	#endif
 	ConvertCodedStringToUnicode(ShortHeader.Subject, &head->Subject, CP, MIME_PLAIN);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->Subject)
 		DebugLogW(DecodeFile, L"<Converted subject>%s</Converted>\n", head->Subject);
-#endif
+	#endif
 	ConvertCodedStringToUnicode(ShortHeader.Date, &head->Date, CP, MIME_PLAIN);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->Date)
 		DebugLogW(DecodeFile, L"<Converted date>%s</Converted>\n", head->Date);
-#endif
+	#endif
 
 	ConvertCodedStringToUnicode(ShortHeader.Body, &head->Body, CP, MIME_PLAIN);
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	if (NULL != head->Body)
 		DebugLogW(DecodeFile, L"<Converted Body>%s</Converted>\n", head->Body);
-#endif
+	#endif
 
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	DebugLog(DecodeFile, "</Convert>\n");
-#endif
+	#endif
 
 	DeleteShortHeaderContent(&ShortHeader);
 
@@ -440,7 +437,7 @@ void DeleteNames(CMimeNames *Names)
 			delete[] Parser->Value;
 		if (Parser->ValueNick != nullptr)
 			delete[] Parser->ValueNick;
-		
+
 		CMimeNames *Old = Parser;
 		Parser = Parser->Next;
 		delete Old;
@@ -455,7 +452,7 @@ void DeleteShortNames(CShortNames *Names)
 			delete[] Parser->Value;
 		if (Parser->ValueNick != nullptr)
 			delete[] Parser->ValueNick;
-		
+
 		CShortNames *Old = Parser;
 		Parser = Parser->Next;
 		delete Old;
@@ -521,8 +518,7 @@ void ParseAPart(APartDataType *data)
 			do {
 				if (ENDLINEWS(finder)) finder += 2;						//after endline information continues
 				while (!ENDLINE(finder) && !EOS(finder)) finder++;
-			}
-			while (ENDLINEWS(finder));
+			} while (ENDLINEWS(finder));
 
 			if (!_strnicmp(prev1, "Content-type", prev2 - prev1)) {
 				data->ContType = prev3;
@@ -579,7 +575,7 @@ wchar_t *ParseMultipartBody(char *src, char *bond)
 	wchar_t *dest;
 	for (; (courbond = strstr(courbond, bond)); numparts++, courbond += sizebond);
 	APartDataType *partData = new APartDataType[numparts];
-	memset(partData, 0, sizeof(APartDataType)*numparts);
+	memset(partData, 0, sizeof(APartDataType) * numparts);
 	partData[0].Src = courbond = srcback;
 	for (i = 1; (courbond = strstr(courbond, bond)); i++, courbond += sizebond) {
 		*(courbond - 2) = 0;

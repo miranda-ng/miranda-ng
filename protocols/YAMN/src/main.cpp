@@ -54,7 +54,7 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 		FOF_NOERRORUI | FOF_NOCONFIRMATION | FOF_SILENT,
 		false,
 		nullptr,
-		L"" };
+		L""};
 	SHFileOperation(&file_op);
 
 	wcsncpy(szPath, ptszNewPath, cbPath);
@@ -62,7 +62,7 @@ static void GetProfileDirectory(wchar_t *szPath, int cbPath)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_LAST };
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -142,10 +142,10 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Check mail"),         "YAMN_Check",       IDI_CHECKMAIL  },
-	{ LPGEN("Launch application"), "YAMN_Launch",      IDI_LAUNCHAPP  },
-	{ LPGEN("New Mail"),           "YAMN_NewMail",     IDI_NEWMAIL    },
-	{ LPGEN("Connect Fail"),       "YAMN_ConnectFail", IDI_BADCONNECT },
+	{LPGEN("Check mail"), "YAMN_Check", IDI_CHECKMAIL},
+	{LPGEN("Launch application"), "YAMN_Launch", IDI_LAUNCHAPP},
+	{LPGEN("New Mail"), "YAMN_NewMail", IDI_NEWMAIL},
+	{LPGEN("Connect Fail"), "YAMN_ConnectFail", IDI_BADCONNECT},
 };
 
 void LoadIcons()
@@ -171,7 +171,7 @@ static void LoadPlugins()
 
 			// we have a dot
 			int len = (int)mir_wstrlen(fd.cFileName); // find the length of the string
-			wchar_t* end = fd.cFileName + len; // get a pointer to the NULL
+			wchar_t *end = fd.cFileName + len; // get a pointer to the NULL
 			int safe = (end - dot) - 1;	// figure out how many chars after the dot are "safe", not including NULL
 
 			if ((safe != 3) || (mir_wstrcmpi(dot + 1, L"dll") != 0)) //not bound, however the "dll" string should mean only 3 chars are compared
@@ -255,9 +255,9 @@ int CMPlugin::Load()
 	hCurSplitNS = LoadCursor(nullptr, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(nullptr, IDC_SIZEWE);
 
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	InitDebug();
-#endif
+	#endif
 
 	CreateServiceFunctions();
 
@@ -290,6 +290,7 @@ static void UnloadPlugins()
 {
 	if (hDllPlugins == nullptr)
 		return;
+
 	for (int i = iDllPlugins - 1; i >= 0; i--) {
 		if (FreeLibrary(hDllPlugins[i])) {
 			hDllPlugins[i] = nullptr;				//for safety
@@ -302,9 +303,9 @@ static void UnloadPlugins()
 
 int CMPlugin::Unload()
 {
-#ifdef _DEBUG
+	#ifdef _DEBUG
 	UnInitDebug();
-#endif
+	#endif
 
 	WindowList_Destroy(YAMNVar.MessageWnds);
 	WindowList_Destroy(YAMNVar.NewMailAccountWnd);

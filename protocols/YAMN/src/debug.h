@@ -3,7 +3,6 @@
 
 #ifdef _DEBUG
 
-//#define DEBUG_SYNCHRO			//debug synchro to a file
 //#define DEBUG_COMM			//debug communiation to a file
 //#define DEBUG_DECODE			//debug header decoding to a file
 //#define DEBUG_DECODECODEPAGE		//add info about codepage used in conversion

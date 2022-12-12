@@ -7,7 +7,6 @@
 #include "../stdafx.h"
 
  //--------------------------------------------------------------------------------------------------
- //--------------------------------------------------------------------------------------------------
 
 BOOL SSLLoaded = FALSE;
 HNETLIBUSER hNetlibUser = nullptr;
@@ -79,7 +78,7 @@ void CNLClient::SSLify() throw(DWORD)
 
 //Connects to the server through the sock
 //if not success, exception is throwed
-void CNLClient::Connect(const char* servername, const int port) throw(DWORD)
+void CNLClient::Connect(const char *servername, const int port) throw(DWORD)
 {
 	NetworkError = SystemError = 0;
 	isTLSed = false;
@@ -159,14 +158,14 @@ int CNLClient::LocalNetlib_Recv(HNETLIBCONN hConn, char *buf, int len, int flags
 	return iReturn;
 }
 
-char* CNLClient::Recv(char *buf, int buflen) throw(DWORD)
+char *CNLClient::Recv(char *buf, int buflen) throw(DWORD)
 {
 	#ifdef DEBUG_COMM
 	DebugLog(CommFile, "<reading>");
 	#endif
 	try {
 		if (buf == nullptr)
-			buf = (char *)malloc(sizeof(char)*(buflen + 1));
+			buf = (char *)malloc(sizeof(char) * (buflen + 1));
 		if (buf == nullptr)
 			throw NetworkError = (uint32_t)ENL_RECVALLOC;
 

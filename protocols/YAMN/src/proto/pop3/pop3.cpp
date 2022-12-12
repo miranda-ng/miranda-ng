@@ -25,14 +25,13 @@
 
 #include "../../stdafx.h"
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
+ //--------------------------------------------------------------------------------------------------
 
-//Connects to the server through the netlib
-//if not success, exception is throwed
-//returns welcome string returned by server
-//sets AckFlag
-char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BOOL NoTLS)
+ //Connects to the server through the netlib
+ //if not success, exception is throwed
+ //returns welcome string returned by server
+ //sets AckFlag
+char *CPop3Client::Connect(const char *servername, const int port, BOOL UseSSL, BOOL NoTLS)
 {
 	if (Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -41,15 +40,15 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 	SSL = UseSSL;
 	NetClient = new CNLClient;
 
-#ifdef DEBUG_DECODE
+	#ifdef DEBUG_DECODE
 	DebugLog(DecodeFile, "Connect:servername: %s port:%d\n", servername, port);
-#endif
+	#endif
 	POP3Error = EPOP3_CONNECT;
 	NetClient->Connect(servername, port);
 	POP3Error = 0;
 
 	if (SSL) {
-		try { 
+		try {
 			NetClient->SSLify();
 		}
 		catch (...) {
@@ -89,48 +88,48 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 //       This value can be selectable: if you think it is better to reallocate by 1kB size, select size to 1024,
 //       default is 128. You do not need to use this parameter
 
-char* CPop3Client::RecvRest(char* prev,int mode,int size)
+char *CPop3Client::RecvRest(char *prev, int mode, int size)
 {
-	int SizeRead=0;
-	int SizeLeft=size-NetClient->Rcv;
-	int RcvAll=NetClient->Rcv;
-	char *LastString,*PrevString=prev;
+	int SizeRead = 0;
+	int SizeLeft = size - NetClient->Rcv;
+	int RcvAll = NetClient->Rcv;
+	char *LastString, *PrevString = prev;
 
-	AckFlag=0;
+	AckFlag = 0;
 
-	while(((mode==POP3_SEARCHDOT) && !SearchFromEnd(PrevString+RcvAll-1,RcvAll-3,POP3_SEARCHDOT) && !SearchFromStart(PrevString,2,POP3_SEARCHERR)) ||		//we are looking for dot or -err phrase
-		((mode==POP3_SEARCHACK) && (!SearchFromStart(PrevString,RcvAll-3,mode) || !((RcvAll>3) && SearchFromEnd(PrevString+RcvAll-1,1,POP3_SEARCHNL)))))			//we are looking for +ok or -err phrase ended with newline
+	while (((mode == POP3_SEARCHDOT) && !SearchFromEnd(PrevString + RcvAll - 1, RcvAll - 3, POP3_SEARCHDOT) && !SearchFromStart(PrevString, 2, POP3_SEARCHERR)) ||		//we are looking for dot or -err phrase
+		((mode == POP3_SEARCHACK) && (!SearchFromStart(PrevString, RcvAll - 3, mode) || !((RcvAll > 3) && SearchFromEnd(PrevString + RcvAll - 1, 1, POP3_SEARCHNL)))))			//we are looking for +ok or -err phrase ended with newline
 	{		//if not found
 		if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		{
 			if (PrevString != nullptr)
 				free(PrevString);
-			throw POP3Error=(uint32_t)EPOP3_STOPPED;
+			throw POP3Error = (uint32_t)EPOP3_STOPPED;
 		}
-		if (SizeLeft==0)						//if block is full
+		if (SizeLeft == 0)						//if block is full
 		{
-			SizeRead+=size;
-			SizeLeft=size;
-			LastString=NetClient->Recv(nullptr,SizeLeft);
-			PrevString=(char *)realloc(PrevString,sizeof(char)*(SizeRead+size));
-			if (PrevString==nullptr)
-				throw POP3Error=(uint32_t)EPOP3_RESTALLOC;
-			memcpy(PrevString+SizeRead,LastString,size);
+			SizeRead += size;
+			SizeLeft = size;
+			LastString = NetClient->Recv(nullptr, SizeLeft);
+			PrevString = (char *)realloc(PrevString, sizeof(char) * (SizeRead + size));
+			if (PrevString == nullptr)
+				throw POP3Error = (uint32_t)EPOP3_RESTALLOC;
+			memcpy(PrevString + SizeRead, LastString, size);
 			free(LastString);
 		}
 		else
-			NetClient->Recv(PrevString+RcvAll,SizeLeft);			//to Rcv stores received bytes
-		SizeLeft=SizeLeft-NetClient->Rcv;
-		RcvAll+=NetClient->Rcv;
+			NetClient->Recv(PrevString + RcvAll, SizeLeft);			//to Rcv stores received bytes
+		SizeLeft = SizeLeft - NetClient->Rcv;
+		RcvAll += NetClient->Rcv;
 	}
-	NetClient->Rcv=RcvAll;			//at the end, store the number of all bytes, no the number of last received bytes
+	NetClient->Rcv = RcvAll;			//at the end, store the number of all bytes, no the number of last received bytes
 	return PrevString;
 }
 
 // CPop3Client::SearchFromEnd
 // returns 1 if substring DOTLINE or ENDLINE found from end in bs bytes
 // if you need to add condition for mode, insert it into switch statement
-BOOL CPop3Client::SearchFromEnd(char *end,int bs,int mode)
+BOOL CPop3Client::SearchFromEnd(char *end, int bs, int mode)
 {
 	while (bs >= 0) {
 		switch (mode) {
@@ -154,7 +153,7 @@ BOOL CPop3Client::SearchFromEnd(char *end,int bs,int mode)
 // returns 1 if substring OKLINE, ERRLINE or any of them found from start in bs bytes
 //call only this function to retrieve ack status (+OK or -ERR), because it sets flag AckFlag
 //if you need to add condition for mode, insert it into switch statement
-BOOL CPop3Client::SearchFromStart(char *start,int bs,int mode)
+BOOL CPop3Client::SearchFromStart(char *start, int bs, int mode)
 {
 	while (bs >= 0) {
 		switch (mode) {
@@ -185,7 +184,7 @@ BOOL CPop3Client::SearchFromStart(char *start,int bs,int mode)
 
 //Performs "USER" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::User(char* name)
+char *CPop3Client::User(char *name)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -204,7 +203,7 @@ char* CPop3Client::User(char* name)
 
 //Performs "PASS" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Pass(char* pw)
+char *CPop3Client::Pass(char *pw)
 {
 	if (NetClient->Stopped)			//check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -212,7 +211,7 @@ char* CPop3Client::Pass(char* pw)
 	char query[128];
 	mir_snprintf(query, "PASS %s\r\n", pw);
 	NetClient->Send(query);
-	
+
 	char *Result = RecvRest(NetClient->Recv(), POP3_SEARCHACK);
 	if (AckFlag == POP3_FERR)
 		throw POP3Error = (uint32_t)EPOP3_BADPASS;
@@ -221,7 +220,7 @@ char* CPop3Client::Pass(char* pw)
 
 //Performs "APOP" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
+char *CPop3Client::APOP(char *name, char *pw, char *timestamp)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -250,17 +249,17 @@ char* CPop3Client::APOP(char* name, char* pw, char* timestamp)
 
 //Performs "QUIT" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Quit()
+char *CPop3Client::Quit()
 {
-	char query[]="QUIT\r\n";
+	char query[] = "QUIT\r\n";
 
 	NetClient->Send(query);
-	return RecvRest(NetClient->Recv(),POP3_SEARCHACK);
+	return RecvRest(NetClient->Recv(), POP3_SEARCHACK);
 }
 
 //Performs "STAT" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Stat()
+char *CPop3Client::Stat()
 {
 	if (NetClient->Stopped) //check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -272,7 +271,7 @@ char* CPop3Client::Stat()
 
 //Performs "LIST" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::List()
+char *CPop3Client::List()
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -285,21 +284,21 @@ char* CPop3Client::List()
 
 //Performs "TOP" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Top(int nr, int lines)
+char *CPop3Client::Top(int nr, int lines)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
-		throw POP3Error=(uint32_t)EPOP3_STOPPED;
+		throw POP3Error = (uint32_t)EPOP3_STOPPED;
 
 	char query[128];
 
 	mir_snprintf(query, "TOP %d %d\r\n", nr, lines);
 	NetClient->Send(query);
-	return RecvRest(NetClient->Recv(),POP3_SEARCHDOT);
+	return RecvRest(NetClient->Recv(), POP3_SEARCHDOT);
 }
 
 //Performs "UIDL" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Uidl(int nr)
+char *CPop3Client::Uidl(int nr)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -317,7 +316,7 @@ char* CPop3Client::Uidl(int nr)
 
 //Performs "DELE" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Dele(int nr)
+char *CPop3Client::Dele(int nr)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;
@@ -331,7 +330,7 @@ char* CPop3Client::Dele(int nr)
 
 //Performs "RETR" pop query and returns server response
 //sets AckFlag
-char* CPop3Client::Retr(int nr)
+char *CPop3Client::Retr(int nr)
 {
 	if (NetClient->Stopped) // check if we can work with this POP3 client session
 		throw POP3Error = (uint32_t)EPOP3_STOPPED;

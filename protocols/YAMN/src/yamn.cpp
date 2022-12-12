@@ -99,144 +99,80 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	CAccount *ActualAccount;
 	DWORD Status, tid;
 
-//	we use event to signal, that running thread has all needed stack parameters copied
+	//	we use event to signal, that running thread has all needed stack parameters copied
 	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if (ThreadRunningEV == nullptr)
 		return;
-//	if we want to close miranda, we get event and do not run checking anymore
-	if (WAIT_OBJECT_0==WaitForSingleObject(ExitEV, 0))
+
+	//	if we want to close miranda, we get event and do not run checking anymore
+	if (WAIT_OBJECT_0 == WaitForSingleObject(ExitEV, 0))
 		return;
-//	Get actual status of current user in Miranda
-		Status=CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
+
+	//	Get actual status of current user in Miranda
+	Status = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
 	mir_cslock lck(PluginRegCS);
 	for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read wait\n");
-#endif
-		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, 0))			//we want to access accounts immiadtelly
-		{
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read enter failed\n");
-#endif
+		if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, 0))  // we want to access accounts immiadtelly
 			return;
-		}
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read enter\n");
-#endif
-		for (ActualAccount=ActualPlugin->Plugin->FirstAccount;ActualAccount != nullptr;ActualAccount=ActualAccount->Next)
-		{
-			if (ActualAccount->Plugin==nullptr || ActualAccount->Plugin->Fcn==nullptr)		//account not inited
+
+		for (ActualAccount = ActualPlugin->Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = ActualAccount->Next) {
+			if (ActualAccount->Plugin == nullptr || ActualAccount->Plugin->Fcn == nullptr)		//account not inited
 				continue;
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read wait\n");
-#endif
+
 			if (WAIT_OBJECT_0 != SWMRGWaitToRead(ActualAccount->AccountAccessSO, 0))
-			{
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read wait failed\n");
-#endif
 				continue;
-			}
-#ifdef DEBUG_SYNCHRO
 
-			switch(Status)
-			{
-			case ID_STATUS_OFFLINE:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status offline\n");
-				break;
-			case ID_STATUS_ONLINE:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status online\n");
-				break;
-			case ID_STATUS_AWAY:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status away\n");
-				break;
-			case ID_STATUS_DND:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status dnd\n");
-				break;
-			case ID_STATUS_NA:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status na\n");
-				break;
-			case ID_STATUS_OCCUPIED:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status occupied\n");
-				break;
-			case ID_STATUS_FREECHAT:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status freechat\n");
-				break;
-			case ID_STATUS_INVISIBLE:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status invisible\n");
-				break;
-			default:
-				DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read enter status unknown\n");
-				break;
-			}
-#endif
 			BOOL isAccountCounting = 0;
-			if (
-				(ActualAccount->Flags & YAMN_ACC_ENA) &&
-				(((ActualAccount->StatusFlags & YAMN_ACC_ST0) && (Status<=ID_STATUS_OFFLINE)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST1) && (Status==ID_STATUS_ONLINE)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST2) && (Status==ID_STATUS_AWAY)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST3) && (Status==ID_STATUS_DND)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST4) && (Status==ID_STATUS_NA)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST5) && (Status==ID_STATUS_OCCUPIED)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST6) && (Status==ID_STATUS_FREECHAT)) ||
-				((ActualAccount->StatusFlags & YAMN_ACC_ST7) && (Status==ID_STATUS_INVISIBLE))))
+			if ((ActualAccount->Flags & YAMN_ACC_ENA) &&
+				(((ActualAccount->StatusFlags & YAMN_ACC_ST0) && (Status <= ID_STATUS_OFFLINE)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST1) && (Status == ID_STATUS_ONLINE)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST2) && (Status == ID_STATUS_AWAY)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST3) && (Status == ID_STATUS_DND)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST4) && (Status == ID_STATUS_NA)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST5) && (Status == ID_STATUS_OCCUPIED)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST6) && (Status == ID_STATUS_FREECHAT)) ||
+					((ActualAccount->StatusFlags & YAMN_ACC_ST7) && (Status == ID_STATUS_INVISIBLE))))
 			{
-
-				if ((!ActualAccount->Interval && !ActualAccount->TimeLeft) || ActualAccount->Plugin->Fcn->TimeoutFcnPtr==nullptr)
-				{
+				if ((!ActualAccount->Interval && !ActualAccount->TimeLeft) || ActualAccount->Plugin->Fcn->TimeoutFcnPtr == nullptr)
 					goto ChangeIsCountingStatusLabel;
-				}
+
 				if (ActualAccount->TimeLeft) {
 					ActualAccount->TimeLeft--;
 					isAccountCounting = TRUE;
 				}
-#ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile, "TimerProc:time left : %i\n", ActualAccount->TimeLeft);
-#endif
-				WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGETIME, (WPARAM)ActualAccount, (LPARAM)ActualAccount->TimeLeft);
-				if (!ActualAccount->TimeLeft)
-				{
-					struct CheckParam ParamToPlugin={YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_NORMALCHECK, (void *)nullptr, nullptr};
 
-					ActualAccount->TimeLeft=ActualAccount->Interval;
+				WindowList_BroadcastAsync(YAMNVar.MessageWnds, WM_YAMN_CHANGETIME, (WPARAM)ActualAccount, (LPARAM)ActualAccount->TimeLeft);
+				if (!ActualAccount->TimeLeft) {
+					struct CheckParam ParamToPlugin = {YAMN_CHECKVERSION, ThreadRunningEV, ActualAccount, YAMN_NORMALCHECK, (void *)nullptr, nullptr};
+
+					ActualAccount->TimeLeft = ActualAccount->Interval;
 					HANDLE NewThread = CreateThread(nullptr, 0, (YAMN_STANDARDFCN)ActualAccount->Plugin->Fcn->TimeoutFcnPtr, &ParamToPlugin, 0, &tid);
-					if (NewThread == nullptr)
-					{
-#ifdef DEBUG_SYNCHRO
-						DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read done\n");
-#endif
+					if (NewThread == nullptr) {
 						ReadDoneFcn(ActualAccount->AccountAccessSO);
 						continue;
 					}
-					else
-					{
+					else {
 						WaitForSingleObject(ThreadRunningEV, INFINITE);
 						CloseHandle(NewThread);
 					}
 				}
-
 			}
+
 ChangeIsCountingStatusLabel:
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read done\n");
-#endif
 			if (((ActualAccount->isCounting) != 0) != isAccountCounting) {
-				ActualAccount->isCounting=isAccountCounting;
+				ActualAccount->isCounting = isAccountCounting;
 				uint16_t cStatus = g_plugin.getWord(ActualAccount->hContact, "Status");
 				switch (cStatus) {
-					case ID_STATUS_ONLINE:
-					case ID_STATUS_OFFLINE:
-						g_plugin.setWord(ActualAccount->hContact, "Status", isAccountCounting ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
-					default: break;
+				case ID_STATUS_ONLINE:
+				case ID_STATUS_OFFLINE:
+					g_plugin.setWord(ActualAccount->hContact, "Status", isAccountCounting ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE);
+				default:
+					break;
 				}
 			}
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 		}
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "TimerProc:AccountBrowserSO-read done\n");
-#endif
 		SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
 	}
 	CloseHandle(ThreadRunningEV);
@@ -258,30 +194,15 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 	{
 		mir_cslock lck(PluginRegCS);
 		for (PYAMN_PROTOPLUGINQUEUE ActualPlugin = FirstProtoPlugin; ActualPlugin != nullptr; ActualPlugin = ActualPlugin->Next) {
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read wait\n");
-#endif
 			SWMRGWaitToRead(ActualPlugin->Plugin->AccountBrowserSO, INFINITE);
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read enter\n");
-#endif
 			for (ActualAccount = ActualPlugin->Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = ActualAccount->Next) {
 				if (ActualAccount->Plugin->Fcn == nullptr)		//account not inited
 					continue;
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait\n");
-#endif
-				if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-#ifdef DEBUG_SYNCHRO
-					DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read wait failed\n");
-#endif
+
+				if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 					continue;
-				}
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "ForceCheck:ActualAccountSO-read enter\n");
-#endif
-				if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE))			//account cannot be forced to check
-				{
+
+				if ((ActualAccount->Flags & YAMN_ACC_ENA) && (ActualAccount->StatusFlags & YAMN_ACC_FORCE)) { //account cannot be forced to check
 					if (ActualAccount->Plugin->Fcn->ForceCheckFcnPtr == nullptr) {
 						ReadDoneFcn(ActualAccount->AccountAccessSO);
 						continue;
@@ -297,9 +218,6 @@ INT_PTR ForceCheckSvc(WPARAM, LPARAM)
 				}
 				ReadDoneFcn(ActualAccount->AccountAccessSO);
 			}
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "ForceCheck:AccountBrowserSO-read done\n");
-#endif
 			SWMRGDoneReading(ActualPlugin->Plugin->AccountBrowserSO);
 		}
 	}

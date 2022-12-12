@@ -31,7 +31,6 @@
 #define IDC_CHECKICO                    1012
 #define IDC_CHECK                       1013
 #define IDC_BTNDEL                      1014
-#define IDC_STSERVER                    1015
 #define IDC_CHECKFSND                   1016
 #define IDC_CHECKFMSG                   1017
 #define IDC_CHECKFICO                   1018
@@ -53,12 +52,7 @@
 #define IDC_EDITAPPPARAM                1044
 #define IDC_BTNOK                       1047
 #define IDC_COMBOCP                     1050
-#define IDC_STCP                        1055
 #define IDC_STATICMSG                   1055
-#define IDC_STPORT                      1056
-#define IDC_STLOGIN                     1057
-#define IDC_STPASS                      1058
-#define IDC_STINTERVAL                  1059
 #define IDC_AUTOBODY                    1062
 #define IDC_BTNRESET                    1063
 #define IDC_CHECKSTART                  1064

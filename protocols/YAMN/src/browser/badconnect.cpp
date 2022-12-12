@@ -9,7 +9,7 @@
 #define BADCONNECTTITLE LPGEN("%s - connection error")
 #define BADCONNECTMSG LPGEN("An error occurred. Error code: %d")//is in use?
 
- //--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -22,13 +22,8 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			memset(&si, 0, sizeof(si));
 			si.cb = sizeof(si);
 			CAccount *ActualAccount = (CAccount *)PUGetPluginData(hWnd);
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read wait\n");
-#endif
+
 			if (WAIT_OBJECT_0 == WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter\n");
-#endif
 				if (ActualAccount->BadConnectN.App != nullptr) {
 					wchar_t *Command;
 					if (ActualAccount->BadConnectN.AppParam != nullptr)
@@ -46,15 +41,10 @@ LRESULT CALLBACK BadConnectPopupProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 						delete[] Command;
 					}
 				}
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read done\n");
-#endif
+
 				ReadDoneFcn(ActualAccount->AccountAccessSO);
 			}
-#ifdef DEBUG_SYNCHRO
-			else
-				DebugLog(SynchroFile, "PopupProc:LEFTCLICK:ActualAccountSO-read enter failed\n");
-#endif
+
 			PUDeletePopup(hWnd);
 		}
 		break;
@@ -81,25 +71,17 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 			BOOL ShowPopup, ShowMsg, ShowIco;
 			CAccount *ActualAccount;
 			uint32_t  ErrorCode;
-			char* TitleStrA;
+			char *TitleStrA;
 			char *Message1A = nullptr;
 			wchar_t *Message1W = nullptr;
 			POPUPDATAW BadConnectPopup = {};
 
 			ActualAccount = ((struct BadConnectionParam *)lParam)->account;
 			ErrorCode = ((struct BadConnectionParam *)lParam)->errcode;
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait\n");
-#endif
-			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-#ifdef DEBUG_SYNCHRO
-				DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait failed\n");
-#endif
+
+			if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 				return FALSE;
-			}
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read enter\n");
-#endif
+
 			int size = (int)(mir_strlen(ActualAccount->Name) + mir_strlen(Translate(BADCONNECTTITLE)));
 			TitleStrA = new char[size];
 			mir_snprintf(TitleStrA, size, Translate(BADCONNECTTITLE), ActualAccount->Name);
@@ -143,9 +125,7 @@ INT_PTR CALLBACK DlgProcYAMNBadConnection(HWND hDlg, UINT msg, WPARAM wParam, LP
 
 			if (!ShowMsg && !ShowIco)
 				DestroyWindow(hDlg);
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read done\n");
-#endif
+
 			ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 			SetWindowTextA(hDlg, TitleStrA);
@@ -210,9 +190,7 @@ void __cdecl BadConnection(void *Param)
 
 	struct BadConnectionParam MyParam = *(struct BadConnectionParam *)Param;
 	ActualAccount = MyParam.account;
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile, "BadConnect:Incrementing \"using threads\" %x (account %x)\n", ActualAccount->UsingThreads, ActualAccount);
-#endif
+
 	SCIncFcn(ActualAccount->UsingThreads);
 
 	//	we will not use params in stack anymore
@@ -222,18 +200,9 @@ void __cdecl BadConnection(void *Param)
 		hBadConnect = CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_DLGBADCONNECT), nullptr, DlgProcYAMNBadConnection, (LPARAM)&MyParam);
 		Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
 
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait\n");
-#endif
-		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO)) {
-#ifdef DEBUG_SYNCHRO
-			DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read wait failed\n");
-#endif
+		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
 			return;
-		}
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read enter\n");
-#endif
+
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
 			Skin_PlaySound(YAMN_CONNECTFAILSOUND);
 
@@ -251,9 +220,6 @@ void __cdecl BadConnection(void *Param)
 			Shell_NotifyIcon(NIM_ADD, &nid);
 		}
 
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "BadConnect:ActualAccountSO-read done\n");
-#endif
 		ReadDoneFcn(ActualAccount->AccountAccessSO);
 
 		UpdateWindow(hBadConnect);
@@ -267,13 +233,9 @@ void __cdecl BadConnection(void *Param)
 			ActualAccount->Plugin->Fcn->WriteAccountsFcnPtr();
 	}
 	__finally {
-#ifdef DEBUG_SYNCHRO
-		DebugLog(SynchroFile, "BadConnect:Decrementing \"using threads\" %x (account %x)\n", ActualAccount->UsingThreads, ActualAccount);
-#endif
 		SCDecFcn(ActualAccount->UsingThreads);
 	}
 }
-
 
 INT_PTR RunBadConnectionSvc(WPARAM wParam, LPARAM lParam)
 {

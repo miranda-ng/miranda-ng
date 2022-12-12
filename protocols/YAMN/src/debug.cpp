@@ -17,11 +17,6 @@
 wchar_t DebugUserDirectory[MAX_PATH] = L".";
 CRITICAL_SECTION FileAccessCS;
 
-#ifdef DEBUG_SYNCHRO
-wchar_t DebugSynchroFileName2[]=L"%s\\yamn-debug.synchro.log";
-HANDLE SynchroFile;
-#endif
-
 #ifdef DEBUG_COMM
 wchar_t DebugCommFileName2[]=L"%s\\yamn-debug.comm.log";
 HANDLE CommFile;
@@ -37,17 +32,10 @@ HANDLE DecodeFile;
 
 void InitDebug()
 {
-#if defined (DEBUG_SYNCHRO) || defined (DEBUG_COMM) || defined (DEBUG_DECODE)
+#if defined (DEBUG_COMM) || defined (DEBUG_DECODE)
 	wchar_t DebugFileName[MAX_PATH];
 #endif
 	InitializeCriticalSection(&FileAccessCS);
-
-#ifdef DEBUG_SYNCHRO
-	mir_snwprintf(DebugFileName, DebugSynchroFileName2, DebugUserDirectory);
-	
-	SynchroFile=CreateFile(DebugFileName,GENERIC_WRITE,FILE_SHARE_WRITE|FILE_SHARE_READ,NULL,CREATE_ALWAYS,0,NULL);
-	DebugLog(SynchroFile,"Synchro debug file created by %s\n",YAMN_VER);
-#endif
 
 #ifdef DEBUG_COMM
 	mir_snwprintf(DebugFileName, DebugCommFileName2, DebugUserDirectory);
@@ -67,10 +55,6 @@ void InitDebug()
 void UnInitDebug()
 {
 	DeleteCriticalSection(&FileAccessCS);
-#ifdef DEBUG_SYNCHRO
-	DebugLog(SynchroFile,"File is being closed normally.");
-	CloseHandle(SynchroFile);
-#endif
 #ifdef DEBUG_COMM
 	DebugLog(CommFile,"File is being closed normally.");
 	CloseHandle(CommFile);
