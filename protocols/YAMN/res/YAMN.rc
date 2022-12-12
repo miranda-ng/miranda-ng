@@ -214,8 +214,6 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "YAMN General Options",IDC_STATIC,3,2,303,45
     CONTROL         "TopToolBar button ""Check mail""",IDC_CHECKTTB,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,15,294,11
-    CONTROL         "Show YAMN as a Protocol (Require Restart)",IDC_YAMNASPROTO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,30,293,9
     GROUPBOX        "MailBrowser Options",IDC_STATIC,3,48,151,68
     CONTROL         "Enable Close on Delete Button",IDC_CLOSEONDELETE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,60,143,11
     CONTROL         "Show long localized date",IDC_LONGDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,170,65,129,8

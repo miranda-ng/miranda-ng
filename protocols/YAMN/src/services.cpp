@@ -2,19 +2,18 @@
 
 static INT_PTR Service_GetCaps(WPARAM wParam, LPARAM)
 {
-	if (wParam == PFLAGNUM_4)
+	switch(wParam) {
+	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH;
-	if (wParam == PFLAG_UNIQUEIDTEXT)
+	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)TranslateT("Nick");
-	if (wParam == PFLAG_MAXLENOFMESSAGE)
+	case PFLAG_MAXLENOFMESSAGE:
 		return 400;
-	if (wParam == PFLAGNUM_2)
-		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
-	if (wParam == PFLAGNUM_5) {
-		if (g_plugin.getByte(YAMN_SHOWASPROTO, 1))
-			return PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
+	case PFLAGNUM_2:
+	case PFLAGNUM_5:
 		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND;
 	}
+	
 	return 0;
 }
 

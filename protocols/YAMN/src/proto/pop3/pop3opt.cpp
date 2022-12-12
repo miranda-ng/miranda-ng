@@ -151,15 +151,12 @@ struct CGeneralOptDlg : public CBaseOptionsDlg
 		CheckDlgButton(m_hwnd, IDC_LONGDATE, (optDateTime & SHOWDATELONG) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SMARTDATE, (optDateTime & SHOWDATENOTODAY) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_NOSECONDS, (optDateTime & SHOWDATENOSECONDS) ? BST_CHECKED : BST_UNCHECKED);
-
-		CheckDlgButton(m_hwnd, IDC_YAMNASPROTO, g_plugin.getByte(YAMN_SHOWASPROTO, 1) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_CLOSEONDELETE, g_plugin.getByte(YAMN_CLOSEDELETE, 0) ? BST_CHECKED : BST_UNCHECKED);
 		return true;
 	}
 
 	bool OnApply() override
 	{
-		g_plugin.setByte(YAMN_SHOWASPROTO, IsDlgButtonChecked(m_hwnd, IDC_YAMNASPROTO));
 		g_plugin.setByte(YAMN_CLOSEDELETE, IsDlgButtonChecked(m_hwnd, IDC_CLOSEONDELETE));
 		g_plugin.setByte(YAMN_TTBFCHECK, IsDlgButtonChecked(m_hwnd, IDC_CHECKTTB));
 
