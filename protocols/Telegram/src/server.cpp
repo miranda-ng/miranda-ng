@@ -165,6 +165,32 @@ void CMTProto::OnUpdateAuth(td::ClientManager::Response &response)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void CMTProto::ProcessGroups(td::td_api::updateChatFilters *pObj)
+{
+	for (auto &grp : pObj->chat_filters_) {
+		if (grp->icon_name_ != "Custom")
+			continue;
+
+		CMStringA szSetting("ChatFilter%d", grp->id_);
+		CMStringW wszOldValue(getMStringW(szSetting));
+		Utf2T wszNewValue(grp->title_.c_str());
+		if (wszOldValue.IsEmpty()) {
+			Clist_GroupCreate(0, wszNewValue);
+			setWString(szSetting, wszNewValue);
+		}
+		else if (wszOldValue != wszNewValue) {
+			MGROUP oldGroup = Clist_GroupExists(wszNewValue);
+			if (!oldGroup)
+				Clist_GroupCreate(0, wszNewValue);
+			else
+				Clist_GroupRename(oldGroup, wszNewValue);
+			setWString(szSetting, wszNewValue);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void CMTProto::ProcessResponse(td::ClientManager::Response response)
 {
 	if (!response.object)
@@ -184,6 +210,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 	switch (response.object->get_id()) {
 	case td::td_api::updateAuthorizationState::ID:
 		ProcessAuth((td::td_api::updateAuthorizationState *)response.object.get());
+		break;
+
+	case td::td_api::updateChatFilters::ID:
+		ProcessGroups((td::td_api::updateChatFilters *)response.object.get());
 		break;
 	}
 }

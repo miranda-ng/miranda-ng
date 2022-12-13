@@ -37,6 +37,7 @@ class CMTProto : public PROTO<CMTProto>
 	void LogOut(void);
 	void OnLoggedIn(void);
 	void ProcessAuth(td::td_api::updateAuthorizationState *pObj);
+	void ProcessGroups(td::td_api::updateChatFilters *pObj);
 	void ProcessResponse(td::ClientManager::Response);
 	void SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 
