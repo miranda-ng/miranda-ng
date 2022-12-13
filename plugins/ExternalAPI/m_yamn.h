@@ -138,11 +138,4 @@ struct CExportedServices
 //returns zero if failed, nonzero if succeed
 #define MS_YAMN_NONEWMAILPROC		"YAMN/Service/NoNewMailProc"
 
-//BadConnection Service
-//runs bad connection window
-//WPARAM- pointer to YAMN_BADCONNECTIONPARAM structure, data to mailbrowser. You do not need to fill ThreadRunningEV event member.
-//LPARAM- YAMN_BADCONNECTIONPARAM structure version param. Use YAMN_BADCONNECTIONVERSION definition.
-//returns zero if failed, nonzero if succeed
-#define MS_YAMN_BADCONNECTION		"YAMN/Service/BadConnection"
-
 #endif

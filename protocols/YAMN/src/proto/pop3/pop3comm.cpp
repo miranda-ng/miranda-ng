@@ -439,15 +439,13 @@ static void PostErrorProc(HPOP3ACCOUNT ActualAccount, void *ParamToBadConnection
 			return;
 		}
 	}
-	else						//else it was called from POP3 plugin, probably error when deleting old mail (POP3 synchro calls POP3 delete)
+	else // else it was called from POP3 plugin, probably error when deleting old mail (POP3 synchro calls POP3 delete)
 		if (ErrorCode == nullptr)
 			return;
 
-	if ((ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_POP)) {
-		YAMN_BADCONNECTIONPARAM cp = {(HANDLE)nullptr, ActualAccount, (UINT_PTR)ErrorCode, ParamToBadConnection};
+	if ((ActualAccount->BadConnectN.Flags & YAMN_ACC_MSG) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_ICO) || (ActualAccount->BadConnectN.Flags & YAMN_ACC_POP))
+		RunBadConnection(ActualAccount, (UINT_PTR)ErrorCode, ParamToBadConnection);
 
-		CallService(MS_YAMN_BADCONNECTION, (WPARAM)&cp, (LPARAM)YAMN_BADCONNECTIONVERSION);
-	}
 	if (POP3PluginParam == (uint32_t)NULL)		//if it was normal YAMN call
 		SetEvent(ActualAccount->UseInternetFree);
 }

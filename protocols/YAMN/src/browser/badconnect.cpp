@@ -201,7 +201,7 @@ void __cdecl BadConnection(void *Param)
 		Window_SetIcon_IcoLib(hBadConnect, g_plugin.getIconHandle(IDI_BADCONNECT));
 
 		if (WAIT_OBJECT_0 != WaitToReadFcn(ActualAccount->AccountAccessSO))
-			return;
+			__leave;
 
 		if (ActualAccount->BadConnectN.Flags & YAMN_ACC_SND)
 			Skin_PlaySound(YAMN_CONNECTFAILSOUND);
@@ -237,21 +237,15 @@ void __cdecl BadConnection(void *Param)
 	}
 }
 
-INT_PTR RunBadConnectionSvc(WPARAM wParam, LPARAM lParam)
+int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo)
 {
-	// an event for successfull copy parameters to which point a pointer in stack for new thread
-	PYAMN_BADCONNECTIONPARAM Param = (PYAMN_BADCONNECTIONPARAM)wParam;
-	if ((uint32_t)lParam != YAMN_BADCONNECTIONVERSION)
-		return 0;
+	BadConnectionParam param = {CreateEvent(nullptr, FALSE, FALSE, nullptr), acc, iErrorCode, pUserInfo};
 
-	HANDLE ThreadRunningEV = CreateEvent(nullptr, FALSE, FALSE, nullptr);
-	Param->ThreadRunningEV = ThreadRunningEV;
-
-	HANDLE NewThread = mir_forkthread(BadConnection, Param);
+	HANDLE NewThread = mir_forkthread(BadConnection, &param);
 	if (nullptr == NewThread)
 		return 0;
 
-	WaitForSingleObject(ThreadRunningEV, INFINITE);
-	CloseHandle(ThreadRunningEV);
+	WaitForSingleObject(param.ThreadRunningEV, INFINITE);
+	CloseHandle(param.ThreadRunningEV);
 	return 1;
 }

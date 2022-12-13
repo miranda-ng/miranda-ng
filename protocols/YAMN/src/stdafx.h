@@ -158,7 +158,7 @@ int RegisterPOP3Plugin(WPARAM, LPARAM);
 INT_PTR RunMailBrowserSvc(WPARAM, LPARAM);
 
 //From badconnect.cpp
-INT_PTR RunBadConnectionSvc(WPARAM, LPARAM);
+int RunBadConnection(CAccount *acc, UINT_PTR iErrorCode, void *pUserInfo);
 
 //From YAMNopts.cpp
 int YAMNOptInitSvc(WPARAM, LPARAM);

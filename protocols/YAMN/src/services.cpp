@@ -330,9 +330,6 @@ void CreateServiceFunctions(void)
 	// Runs YAMN's mail browser
 	CreateServiceFunction(MS_YAMN_MAILBROWSER, RunMailBrowserSvc);
 
-	// Runs YAMN's bad conenction window
-	CreateServiceFunction(MS_YAMN_BADCONNECTION, RunBadConnectionSvc);
-
 	// Function creates new mail for plugin
 	CreateServiceFunction(MS_YAMN_CREATEACCOUNTMAIL, CreateAccountMailSvc);
 

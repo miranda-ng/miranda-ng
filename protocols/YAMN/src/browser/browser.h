@@ -27,13 +27,12 @@ typedef struct NoNewMailParam
 	void *Param;
 } YAMN_NONEWMAILPARAM,*PYAMN_NONEWMAILPARAM;
 
-typedef struct BadConnectionParam
+struct BadConnectionParam
 {
-#define YAMN_BADCONNECTIONVERSION	1
 	HANDLE ThreadRunningEV;
 	CAccount *account;
 	UINT_PTR errcode;
 	void *Param;
-} YAMN_BADCONNECTIONPARAM,*PYAMN_BADCONNECTIONPARAM;
+};
 
 #endif
