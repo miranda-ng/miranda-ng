@@ -254,9 +254,8 @@ static INT_PTR CALLBACK DlgProcPOP3AccStatusOpt(HWND hDlg, UINT msg, WPARAM wPar
 class CAccOptDlg : public CBaseOptionsDlg
 {
 	INT_PTR Result;
-	bool InList = false;
 	UCHAR ActualStatus;
-	HPOP3ACCOUNT ActualAccount;
+	HPOP3ACCOUNT ActualAccount = nullptr;
 
 	CCtrlCheck chkContact, chkSsl, chkApp;
 	CCtrlCombo cmbAccount, cmbCP;
@@ -744,8 +743,7 @@ public:
 
 class CPopupOptsDlg : public CBaseOptionsDlg
 {
-	BOOL InList = FALSE;
-	HPOP3ACCOUNT ActualAccount;
+	HPOP3ACCOUNT ActualAccount = nullptr;
 	UCHAR ActualStatus;
 
 	CCtrlCombo cmbAccount, cmbCP;
@@ -869,6 +867,8 @@ public:
 
 	bool OnInitDialog() override
 	{
+		WindowList_Add(pYAMNVar->MessageWnds, m_hwnd);
+
 		DlgEnableAccountPopup(false);
 		DlgShowAccountPopup();
 
@@ -877,34 +877,11 @@ public:
 		if (POP3Plugin->FirstAccount != nullptr)
 			for (ActualAccount = (HPOP3ACCOUNT)POP3Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = (HPOP3ACCOUNT)ActualAccount->Next)
 				if (ActualAccount->Name != nullptr)
-					SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_ADDSTRING, 0, (LPARAM)ActualAccount->Name);
+					cmbAccount.AddStringA(ActualAccount->Name);
 
 		ReadDoneSO(POP3Plugin->AccountBrowserSO);
 		ActualAccount = nullptr;
-
-		WindowList_Add(pYAMNVar->MessageWnds, m_hwnd);
-
-		int index = SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_GETCURSEL, 0, 0);
-		HPOP3ACCOUNT temp = ActualAccount;
-		SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_RESETCONTENT, 0, 0);
-
-		if (POP3Plugin->FirstAccount != nullptr)
-			for (ActualAccount = (HPOP3ACCOUNT)POP3Plugin->FirstAccount; ActualAccount != nullptr; ActualAccount = (HPOP3ACCOUNT)ActualAccount->Next)
-				if (ActualAccount->Name != nullptr)
-					SendDlgItemMessageA(m_hwnd, IDC_COMBOACCOUNT, CB_ADDSTRING, 0, (LPARAM)ActualAccount->Name);
-
-		ActualAccount = temp;
-
-		if (ActualAccount != nullptr) {
-			SendDlgItemMessage(m_hwnd, IDC_COMBOACCOUNT, CB_SETCURSEL, (WPARAM)index, (LPARAM)ActualAccount->Name);
-			DlgShowAccount(ActualAccount);
-			DlgShowAccountColors();
-			DlgEnableAccountPopup(true);
-		}
-		else {
-			DlgShowAccountPopup();
-			DlgEnableAccountPopup(false);
-		}
+		cmbAccount.SetCurSel(0);
 		return true;
 	}
 
