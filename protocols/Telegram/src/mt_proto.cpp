@@ -1,8 +1,17 @@
 #include "stdafx.h"
 
+static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
+{
+	if (p1->id == p2->id)
+		return 0;
+
+	return (p1->id < p2->id) ? -1 : 1;
+}
+
 CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CMTProto>(protoName, userName),
 	m_pClientMmanager(std::make_unique<td::ClientManager>()),
+	m_arUsers(10, CompareUsers),
 	m_arRequests(10, NumericKeySortT),
 	m_szOwnPhone(this, "Phone"), 
 	m_wszDefaultGroup(this, "DefaultGroup", L"Telegram"),
@@ -18,6 +27,20 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 
 CMTProto::~CMTProto()
 {
+}
+
+void CMTProto::OnModulesLoaded()
+{
+	CMStringA szId(getMStringA(DBKEY_ID));
+	if (!szId.IsEmpty())
+		m_arUsers.insert(new TG_USER(_atoi64(szId.c_str()), 0));
+
+	for (auto &cc : AccContacts()) {
+		bool isGroupChat = isChatRoom(cc);
+		szId = getMStringA(cc, isGroupChat ? "ChatRoomID" : DBKEY_ID);
+		if (!szId.IsEmpty())
+			m_arUsers.insert(new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat));
+	}
 }
 
 void CMTProto::OnErase()

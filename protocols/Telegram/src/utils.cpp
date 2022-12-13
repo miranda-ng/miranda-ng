@@ -17,6 +17,52 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CMTProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
+{
+	if (str.empty())
+		delSetting(hContact, pszSetting);
+	else
+		setUString(hContact, pszSetting, str.c_str());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// Users
+
+MCONTACT CMTProto::FindUser(uint64_t id)
+{
+	if (auto *pCache = m_arUsers.find((TG_USER *)&id))
+		return pCache->hContact;
+
+	return INVALID_CONTACT_ID;
+}
+
+MCONTACT CMTProto::AddUser(uint64_t id, bool bIsChat)
+{
+	MCONTACT hContact = FindUser(id);
+	if (hContact == INVALID_CONTACT_ID) {
+		hContact = db_add_contact();
+		Proto_AddToContact(hContact, m_szModuleName);
+
+		char szId[100];
+		_i64toa(id, szId, 10);
+
+		if (bIsChat) {
+			Clist_SetGroup(hContact, TranslateT("Chat rooms"));
+			setByte(hContact, "ChatRoom", 1);
+			setString(hContact, "ChatRoomID", szId);
+		}
+		else {
+			setString(hContact, DBKEY_ID, szId);
+			if (mir_wstrlen(m_wszDefaultGroup))
+				Clist_SetGroup(hContact, m_wszDefaultGroup);
+		}
+
+		m_arUsers.insert(new TG_USER(id, hContact, bIsChat));
+	}
+	
+	return hContact;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 

@@ -3,6 +3,7 @@
 
 #include <windows.h>
 
+#include <map>
 #include <memory>
 
 #include <newpluginapi.h>
@@ -11,6 +12,7 @@
 #include <m_protosvc.h>
 
 #include <m_clist.h>
+#include <m_contacts.h>
 #include <m_database.h>
 #include <m_icolib.h>
 #include <m_langpack.h>

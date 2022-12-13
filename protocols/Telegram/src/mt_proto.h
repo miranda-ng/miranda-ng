@@ -1,5 +1,7 @@
 #pragma once
 
+#define DBKEY_ID "id"
+
 class CMTProto;
 typedef void (CMTProto::*TG_QUERY_HANDLER)(td::ClientManager::Response &response);
 
@@ -12,6 +14,19 @@ struct TG_REQUEST
 
 	td::ClientManager::RequestId requestId;
 	TG_QUERY_HANDLER pHandler;
+};
+
+struct TG_USER
+{
+	TG_USER(uint64_t _1, MCONTACT _2, bool _3 = false) :
+		id(_1),
+		hContact(_2),
+		isGroupChat(_3)
+	{}
+
+	uint64_t id;
+	MCONTACT hContact;
+	bool isGroupChat;
 };
 
 class CMTProto : public PROTO<CMTProto>
@@ -36,10 +51,20 @@ class CMTProto : public PROTO<CMTProto>
 
 	void LogOut(void);
 	void OnLoggedIn(void);
-	void ProcessAuth(td::td_api::updateAuthorizationState *pObj);
-	void ProcessGroups(td::td_api::updateChatFilters *pObj);
 	void ProcessResponse(td::ClientManager::Response);
 	void SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
+
+	void ProcessAuth(td::td_api::updateAuthorizationState *pObj);
+	void ProcessGroups(td::td_api::updateChatFilters *pObj);
+	void ProcessUser(td::td_api::updateUser *pObj);
+
+	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
+
+	// Users
+	OBJLIST<TG_USER> m_arUsers;
+
+	MCONTACT FindUser(uint64_t id);
+	MCONTACT AddUser(uint64_t id, bool bIsChat);
 
 	// Popups
 	HANDLE m_hPopupClass;
@@ -61,6 +86,7 @@ public:
 	
 	int SetStatus(int iNewStatus) override;
 
+	void OnModulesLoaded() override;
 	void OnErase() override;
 
 	// Services //////////////////////////////////////////////////////////////////////////
