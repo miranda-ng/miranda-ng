@@ -36,11 +36,10 @@ public:
 	{
 		CreateLink(edtPhone, ppro->m_szOwnPhone);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
+		CreateLink(chkUsePopups, ppro->m_bUsePopups);
 
-		if (bFullDlg) {
-			CreateLink(chkUsePopups, ppro->m_bUsePopups);
+		if (bFullDlg)
 			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
-		}
 	}
 
 	bool OnApply() override
