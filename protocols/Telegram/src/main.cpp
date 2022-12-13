@@ -38,8 +38,14 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Premium user"), "premuim", IDI_PREMIUM },
+};
+
 extern "C" int __declspec(dllexport) Load(void)
 {
+	g_plugin.registerIcon("Protocols/Telegram", iconList, "tg");
 	return 0;
 }
 
