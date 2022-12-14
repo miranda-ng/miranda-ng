@@ -87,6 +87,7 @@ public:
 	int SetStatus(int iNewStatus) override;
 
 	void OnModulesLoaded() override;
+	void OnShutdown() override;
 	void OnErase() override;
 
 	// Services //////////////////////////////////////////////////////////////////////////

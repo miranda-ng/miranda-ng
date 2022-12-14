@@ -25,7 +25,7 @@ void __cdecl CMTProto::ServerThread(void *)
 	SendQuery(new td::td_api::getOption("version"));
 
 	while (!m_bTerminated) {
-		ProcessResponse(m_pClientMmanager->receive(10));
+		ProcessResponse(m_pClientMmanager->receive(1));
 	}
 
 	m_bRunning = false;

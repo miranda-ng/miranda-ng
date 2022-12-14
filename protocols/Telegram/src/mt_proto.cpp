@@ -60,6 +60,11 @@ void CMTProto::OnModulesLoaded()
 	}
 }
 
+void CMTProto::OnShutdown()
+{
+	m_bTerminated = true;
+}
+
 void CMTProto::OnErase()
 {
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
