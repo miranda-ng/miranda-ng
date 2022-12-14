@@ -23,6 +23,23 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
+
+	// Create standard network connection
+	NETLIBUSER nlu = {};
+	nlu.flags = NUF_UNICODE;
+	nlu.szSettingsModule = m_szModuleName;
+	nlu.szDescriptiveName.w = m_tszUserName;
+	m_hNetlibUser = Netlib_RegisterUser(&nlu);
+
+	// groupchat initialization
+	GCREGISTER gcr = {};
+	gcr.dwFlags = GC_TYPNOTIF | GC_DATABASE;
+	gcr.ptszDispName = m_tszUserName;
+	gcr.pszModule = m_szModuleName;
+	Chat_Register(&gcr);
+
+	// HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::GcEventHook);
+	// HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::GcMenuHook);
 }
 
 CMTProto::~CMTProto()
