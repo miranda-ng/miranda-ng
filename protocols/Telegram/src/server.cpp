@@ -138,6 +138,11 @@ void CMTProto::ProcessUser(td::td_api::updateUser *pObj)
 	if (pUser->usernames_)
 		UpdateString(hContact, "Nick", pUser->usernames_->editable_username_);
 
+	if (pUser->is_premium_)
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, "tg_premium");
+	else
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, nullptr);
+
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == td::td_api::userStatusOffline::ID) {
 			auto *pOffline = (td::td_api::userStatusOffline *)pUser->status_.get();

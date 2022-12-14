@@ -43,15 +43,10 @@ static IconItem iconList[] =
 	{ LPGEN("Premium user"), "premuim", IDI_PREMIUM },
 };
 
-extern "C" int __declspec(dllexport) Load(void)
+int CMPlugin::Load()
 {
-	g_plugin.registerIcon("Protocols/Telegram", iconList, "tg");
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
-extern "C" int __declspec(dllexport) Unload(void)
-{
+	registerIcon("Protocols/Telegram", iconList, "tg");
+	
+	m_hIcon = ExtraIcon_RegisterIcolib("tg_premium", "Telegram Premium User", getIconHandle(IDI_PREMIUM));
 	return 0;
 }

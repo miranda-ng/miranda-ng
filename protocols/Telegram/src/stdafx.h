@@ -14,6 +14,7 @@
 #include <m_clist.h>
 #include <m_contacts.h>
 #include <m_database.h>
+#include <m_extraicons.h>
 #include <m_icolib.h>
 #include <m_langpack.h>
 #include <m_options.h>
@@ -32,6 +33,10 @@
 struct CMPlugin : public ACCPROTOPLUGIN<CMTProto>
 {
 	CMPlugin();
+
+	HANDLE m_hIcon;
+
+	int Load() override;
 };
 
 #endif //_COMMON_H_
