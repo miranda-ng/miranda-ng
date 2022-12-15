@@ -60,20 +60,8 @@ void CCtrlTreeView::OnInit()
 
 	Subclass();
 
-	if (m_bCheckBox) {
-		HIMAGELIST himlCheckBoxes = ::ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 2, 2);
-		::ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_NOTICK);
-		::ImageList_AddIcon_IconLibLoaded(himlCheckBoxes, SKINICON_OTHER_TICK);
-		SetImageList(himlCheckBoxes, TVSIL_NORMAL);
-	}
-}
-
-void CCtrlTreeView::OnDestroy()
-{
 	if (m_bCheckBox)
-		::ImageList_Destroy(GetImageList(TVSIL_NORMAL));
-
-	CSuper::OnDestroy();
+		SetWindowLongW(m_hwnd, GWL_STYLE, TVS_CHECKBOXES | GetWindowLongW(m_hwnd, GWL_STYLE));
 }
 
 HTREEITEM CCtrlTreeView::MoveItemAbove(HTREEITEM hItem, HTREEITEM hInsertAfter, HTREEITEM hParent)
@@ -314,8 +302,6 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 	case TVN_KEYDOWN:
 		if (evt.nmtvkey->wVKey == VK_SPACE) {
 			evt.hItem = GetSelection();
-			if (m_bCheckBox)
-				InvertCheck(evt.hItem);
 			OnItemChanged(&evt);
 			NotifyChange();
 		}
@@ -330,11 +316,8 @@ BOOL CCtrlTreeView::OnNotify(int, NMHDR *pnmh)
 		hti.pt.y = (short)HIWORD(GetMessagePos());
 		ScreenToClient(pnmh->hwndFrom, &hti.pt);
 		if (HitTest(&hti)) {
-			if (m_bCheckBox && (hti.flags & TVHT_ONITEMICON) || !m_bCheckBox && (hti.flags & TVHT_ONITEMSTATEICON)) {
-				if (m_bCheckBox)
-					InvertCheck(hti.hItem);
-				else
-					SelectItem(hti.hItem);
+			if (hti.flags & TVHT_ONITEMSTATEICON) {
+				SelectItem(hti.hItem);
 
 				evt.hItem = hti.hItem;
 				OnItemChanged(&evt);

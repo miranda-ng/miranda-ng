@@ -22,12 +22,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../stdafx.h"
 
-enum { IMG_GROUP, IMG_CHECK, IMG_NOCHECK, IMG_GRPOPEN, IMG_GRPCLOSED };
+enum { IMG_SHIT, IMG_GRPOPEN, IMG_GRPCLOSED };
 
 CCtrlTreeOpts::CCtrlTreeOpts(CDlgBase* dlg, int ctrlId):
 	CCtrlTreeView(dlg, ctrlId),
 	m_options(5)
 {
+	m_bCheckBox = true;
 }
 
 CCtrlTreeOpts::~CCtrlTreeOpts()
@@ -99,9 +100,7 @@ void CCtrlTreeOpts::OnInit()
 	DeleteAllItems();
 
 	HIMAGELIST hImgLst = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR | ILC_COLOR32 | ILC_MASK, 5, 1);
-	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_MIRANDA);
-	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_TICK);
-	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_NOTICK);
+	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_BLANK);
 	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_GROUPOPEN);
 	ImageList_AddSkinIcon(hImgLst, SKINICON_OTHER_GROUPSHUT);
 	SetImageList(hImgLst, TVSIL_NORMAL);
@@ -116,7 +115,8 @@ void CCtrlTreeOpts::OnInit()
 				tvis.hInsertAfter = TVI_LAST;
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
 				tvis.item.pszText = (LPWSTR)it->m_pwszSection;
-				tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD;
+				tvis.item.state = TVIS_EXPANDED | TVIS_BOLD | INDEXTOSTATEIMAGEMASK(3);
+				tvis.item.stateMask = TVIS_EXPANDED | TVIS_BOLD | TVIS_STATEIMAGEMASK;
 				tvis.item.iImage = tvis.item.iSelectedImage = IMG_GRPOPEN;
 				hSection = InsertItem(&tvis);
 			}
@@ -139,11 +139,11 @@ void CCtrlTreeOpts::OnInit()
 			TVINSERTSTRUCT tvis = {};
 			tvis.hParent = hSection;
 			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
 			tvis.item.pszText = (LPWSTR)it->m_pwszName;
-			tvis.item.state = tvis.item.stateMask = TVIS_EXPANDED;
 			tvis.item.lParam = m_options.indexOf(&it);
-			tvis.item.iImage = tvis.item.iSelectedImage = (bValue) ? IMG_CHECK : IMG_NOCHECK;
+			tvis.item.state = INDEXTOSTATEIMAGEMASK(bValue ? 2 : 1);
+			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
 			it->m_hItem = InsertItem(&tvis);
 		}
@@ -165,9 +165,10 @@ bool CCtrlTreeOpts::OnApply()
 
 	for (auto &it : m_options) {
 		TVITEMEX tvi;
+		tvi.mask = TVIF_STATE;
 		GetItem(it->m_hItem, &tvi);
 		
-		bool bValue = (tvi.iImage == IMG_CHECK);
+		bool bValue = (tvi.state >> 12) == 2;
 		switch (it->m_type) {
 		case COptionsItem::CMOPTION:
 			*it->m_option = bValue;
@@ -189,6 +190,7 @@ bool CCtrlTreeOpts::OnApply()
 void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 {
 	TVITEMEX tvi;
+	tvi.mask = TVIF_IMAGE;
 	GetItem(hti, &tvi);
 	switch (tvi.iImage) {
 	case IMG_GRPOPEN:
@@ -201,15 +203,6 @@ void CCtrlTreeOpts::ProcessItemClick(HTREEITEM hti)
 		Expand(tvi.hItem, TVE_EXPAND);
 		break;
 
-	case IMG_CHECK:
-		tvi.iImage = tvi.iSelectedImage = IMG_NOCHECK;
-		NotifyChange();
-		break;
-
-	case IMG_NOCHECK:
-		tvi.iImage = tvi.iSelectedImage = IMG_CHECK;
-		NotifyChange();
-		break;
 	}
 
 	SetItem(&tvi);

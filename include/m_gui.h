@@ -1329,7 +1329,6 @@ public:
 
 protected:
 	void OnInit() override;
-	void OnDestroy() override;
 	BOOL OnNotify(int idCtrl, NMHDR *pnmh) override;
 
 	void GetCaretPos(CContextMenuPos&) const override;

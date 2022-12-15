@@ -91,7 +91,8 @@
 #define SKINICON_OTHER_NOPOPUP       249
 #define SKINICON_OTHER_KEYS          250
 #define SKINICON_OTHER_SOUND         251
-#define SKINICON_OTHER_EDIT          252        
+#define SKINICON_OTHER_EDIT          252
+#define SKINICON_OTHER_BLANK         253
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Miranda skin
