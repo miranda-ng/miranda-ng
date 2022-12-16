@@ -139,12 +139,12 @@ void CCtrlTreeOpts::OnInit()
 			TVINSERTSTRUCT tvis = {};
 			tvis.hParent = hSection;
 			tvis.hInsertAfter = TVI_LAST;
-			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE;
+			tvis.item.mask = TVIF_TEXT | TVIF_PARAM | TVIF_STATE | TVIF_IMAGE;
 			tvis.item.pszText = (LPWSTR)it->m_pwszName;
 			tvis.item.lParam = m_options.indexOf(&it);
+			tvis.item.iImage = -1;
 			tvis.item.state = INDEXTOSTATEIMAGEMASK(bValue ? 2 : 1);
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
-
 			it->m_hItem = InsertItem(&tvis);
 		}
 	}
