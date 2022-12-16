@@ -49,11 +49,6 @@ del /F /S /Q "Release%tp%\*.pdb" >> nul
 
 md "Release%tp%\Languages"
 
-pushd "..\langpacks\tool"
-LangpackSuite.exe \q \prussian \n..\..\%comp%\Release%tp%\Languages\langpack_russian.txt
-LangpackSuite.exe \q \pukrainian \n..\..\%comp%\Release%tp%\Languages\langpack_ukrainian.txt
-popd
-
 pushd "..\tools\lpgen"
 cscript /nologo translate.js /sourcelang:"belarusian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_belarusian.txt"
 cscript /nologo translate.js /sourcelang:"bulgarian" /release:"..\..\%comp%\Release%tp%\langpack_bulgarian.txt"
@@ -62,7 +57,9 @@ cscript /nologo translate.js /sourcelang:"english_gb" /release:"..\..\%comp%\Rel
 cscript /nologo translate.js /sourcelang:"french" /release:"..\..\%comp%\Release%tp%\Languages\langpack_french.txt"
 cscript /nologo translate.js /sourcelang:"german" /release:"..\..\%comp%\Release%tp%\Languages\langpack_german.txt"
 cscript /nologo translate.js /sourcelang:"polish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_polish.txt"
+cscript /nologo translate.js /sourcelang:"russian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_russian.txt"
 cscript /nologo translate.js /sourcelang:"spanish" /release:"..\..\%comp%\Release%tp%\Languages\langpack_spanish.txt"
+cscript /nologo translate.js /sourcelang:"ukrainian" /release:"..\..\%comp%\Release%tp%\Languages\langpack_ukrainian.txt"
 popd
 
 md "Release%tp%\Docs"
