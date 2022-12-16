@@ -245,10 +245,11 @@ void CVkProto::OnReceiveChatInfo(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pRe
 					break;
 
 				AppendChatConversationMessage(cc->m_iChatId, jnMsg, jnFUsers, true);
-			}
-			cc->m_bHistoryRead = true;
+			}		
 		}
 	}
+
+	cc->m_bHistoryRead = true;
 
 	for (auto &p : cc->m_msgs)
 		AppendChatMessage(cc, p->m_uid, p->m_date, p->m_wszBody, p->m_bHistory, p->m_bIsAction);
@@ -275,7 +276,7 @@ void CVkProto::SetChatTitle(CVkChatInfo *cc, LPCWSTR wszTopic)
 
 void CVkProto::AppendChatConversationMessage(int id, const JSONNode& jnMsg, const JSONNode& jnFUsers, bool bIsHistory)
 {
-	debugLogA("CVkProto::AppendChatMessage");
+	debugLogA("CVkProto::AppendChatConversationMessage");
 	CVkChatInfo* cc = AppendConversationChat(id, nullNode);
 	if (cc == nullptr)
 		return;

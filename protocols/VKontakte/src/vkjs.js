@@ -337,13 +337,14 @@ return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers,
 
 // ver 3
 var Info = API.messages.getChat({ "chat_id": Args.chatid });
-var ChatUsers = API.messages.getConversationMembers({ "peer_id": 2000000000 + parseInt(Args.chatid), "fields": "id,first_name,last_name" });
-var ChatMsg = API.messages.getHistory({ "chat_id": Args.chatid, "count": 20, "rev": 0 });
+var PeerId = 2000000000 + parseInt(Args.chatid);
+var ChatUsers = API.messages.getConversationMembers({ "peer_id": PeerId, "fields": "id,first_name,last_name" });
+var ChatMsg = API.messages.getHistory({ "peer_id": PeerId, "count": 20, "rev": 0 });
 var UR = parseInt(ChatMsg.unread);
 if (UR > 20) {
     if (UR > 200)
         UR = 200;
-    ChatMsg = API.messages.getHistory({ "chat_id": Args.chatid, "count": UR, "rev": 0 });
+    ChatMsg = API.messages.getHistory({ "peer_id": PeerId, "count": UR, "rev": 0 });
 };
 var FMsgs = ChatMsg.items@.fwd_messages;
 var Idx = 0;
@@ -365,11 +366,16 @@ while (Idx < FMsgs.length) {
 var FUsers = API.users.get({ "user_ids": Uids, "name_case": "gen" });
 var GUsers = [];
 if(GUids.length>0){
-	GUsers = API.groups.getById({ "group_ids": GUids });
+ GUsers = API.groups.getById({ "group_ids": GUids });
 };
 var MsgUsers = API.users.get({ "user_ids": ChatMsg.items@.from_id, "fields":"id,first_name,last_name"});
 
 return { "info": Info, "users": ChatUsers, "msgs": ChatMsg, "fwd_users": FUsers + GUsers, "msgs_users": MsgUsers};
+
+
+var Info=API.messages.getChat({"chat_id": Args.chatid});
+var ChatUsers=API.messages.getChatUsers({"chat_id":Args.chatid,"fields":"id,first_name,last_name"});
+return {"info":Info,"users":ChatUsers};
 // Stored procedure name: RetrieveChatInfo = End
 
 // Stored procedure name: DestroyKickChat = Begin
