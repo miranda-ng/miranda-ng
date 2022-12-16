@@ -170,7 +170,7 @@ public:
 		m_list.EnableGroupView(true);
 
 		//////////////////////////////////////////////////////////////////////////////////////
-		m_list.SendMsg(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES | LVS_EX_CHECKBOXES | LVS_EX_LABELTIP);
 
 		FillList();
 

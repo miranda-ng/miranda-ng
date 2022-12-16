@@ -173,7 +173,7 @@ public:
 	bool OnInitDialog() override
 	{
 		hwndDialog = m_hwnd;
-		m_list.SendMsg(LVM_SETEXTENDEDLISTVIEWSTYLE, 0, LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
+		m_list.SetExtendedListViewStyle(LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
 		Window_SetIcon_IcoLib(m_hwnd, g_plugin.getIconHandle(IDI_MENU));
 
