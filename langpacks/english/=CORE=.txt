@@ -1444,6 +1444,7 @@
 [Frames]
 [Add group]
 [Warning]
+[Blank]
 [Always visible]
 [Always invisible]
 [Locked status]
