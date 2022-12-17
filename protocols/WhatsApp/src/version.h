@@ -9,5 +9,5 @@
 #define __FILENAME               "WhatsApp.dll"
 #define __DESCRIPTION            "WhatsApp protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"
-#define __AUTHORWEB              "https://miranda-ng.org/p/WhatsApp/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/WhatsApp"
 #define __COPYRIGHT              "© 2019-22 Miranda NG team"

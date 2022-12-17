@@ -9,5 +9,5 @@
 #define __FILENAME               "QuickContacts.dll"
 #define __DESCRIPTION             "Open contact-specific windows by hotkey."
 #define __AUTHOR               "Ricardo Pescuma Domenecci, Heiko Schillinger"
-#define __AUTHORWEB               "https://miranda-ng.org/p/QuickContacts/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/QuickContacts"
 #define __COPYRIGHT               "© 2007-2009 Ricardo Pescuma Domenecci"

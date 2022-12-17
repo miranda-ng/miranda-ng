@@ -9,5 +9,5 @@
 #define __FILENAME                "Weather.dll"
 #define __DESCRIPTION             "Retrieves weather information and displays it in your contact list."
 #define __AUTHOR                  "Miranda NG team"
-#define __AUTHORWEB               "https://miranda-ng.org/p/Weather/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/Weather"
 #define __COPYRIGHT               "© 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012-22 Miranda NG team"

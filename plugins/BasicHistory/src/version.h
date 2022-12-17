@@ -9,5 +9,5 @@
 #define __FILENAME              "BasicHistory.dll"
 #define __DESCRIPTION           "History viewer for Miranda NG."
 #define __AUTHOR                "Krzysztof Kral"
-#define __AUTHORWEB             "https://miranda-ng.org/p/BasicHistory/"
+#define __AUTHORWEB             "https://miranda-ng.org/p/BasicHistory"
 #define __COPYRIGHT             "© 2011-2012 Krzysztof Kral"

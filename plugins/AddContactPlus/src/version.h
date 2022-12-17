@@ -9,5 +9,5 @@
 #define __FILENAME               "AddContactPlus.dll"
 #define __DESCRIPTION            "Provides the ability to quickly add new contacts."
 #define __AUTHOR                 "Bartosz 'Dezeath' Białek"
-#define __AUTHORWEB              "https://miranda-ng.org/p/AddContactPlus/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/AddContactPlus"
 #define __COPYRIGHT              "© 2007-22 Bartosz 'Dezeath' Białek, Miranda NG team"

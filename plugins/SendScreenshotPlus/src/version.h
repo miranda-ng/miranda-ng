@@ -9,6 +9,6 @@
 #define __FILENAME                "SendSS.dll"
 #define __DESCRIPTION             "Take a screenshot and send it to a contact."
 #define __AUTHOR                  "Merlin"
-#define __AUTHORWEB               "https://miranda-ng.org/p/SendSS/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/SendSS"
 #define __COPYRIGHT               "© 2010 Merlin, 2004-2006 Sergio Vieira Rolanski"
 #define __USER_AGENT_STRING       "SendSS/" __VERSION_STRING_DOTS

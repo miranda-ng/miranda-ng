@@ -9,5 +9,5 @@
 #define __FILENAME               "NewEventNotify.dll"
 #define __DESCRIPTION            "Notifies you when you receive a message, URL, file or any other event by displaying a popup."
 #define __AUTHOR                 "icebreaker, Prezes, vj, vlko, Joe @ Whale"
-#define __AUTHORWEB              "https://miranda-ng.org/p/NewEventNotify/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/NewEventNotify"
 #define __COPYRIGHT              ""

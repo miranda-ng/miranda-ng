@@ -7,5 +7,5 @@
 #define __FILENAME               "stdcrypt.dll"
 #define __DESCRIPTION            "Core module for encryption."
 #define __AUTHOR                 "Miranda NG team"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StdCrypt/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdCrypt"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

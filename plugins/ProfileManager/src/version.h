@@ -9,5 +9,5 @@
 #define __FILENAME               "PManagerEx.dll"
 #define __DESCRIPTION             "Adds a menu item to change or load a different profile of Miranda NG or restart."
 #define __AUTHOR               "Roman Gemini"
-#define __AUTHORWEB               "https://miranda-ng.org/p/PManagerEx/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/PManagerEx"
 #define __COPYRIGHT               "© 2008-10 Roman Gemini"

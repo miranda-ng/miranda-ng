@@ -9,5 +9,5 @@
 #define __FILENAME           "SkypeStatusChange.dll"
 #define __DESCRIPTION        "Skype status change according to Miranda status."
 #define __AUTHOR             "Dioksin"
-#define __AUTHORWEB          "https://miranda-ng.org/p/SkypeStatusChange/"
+#define __AUTHORWEB          "https://miranda-ng.org/p/SkypeStatusChange"
 #define __COPYRIGHT          "© 2009-2010 Dioksin"

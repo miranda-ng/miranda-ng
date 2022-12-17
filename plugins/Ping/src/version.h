@@ -9,5 +9,5 @@
 #define __FILENAME               "Ping.dll"
 #define __DESCRIPTION            "Ping labelled IP addresses or domain names."
 #define __AUTHOR                 "Scott Ellis"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Ping/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Ping"
 #define __COPYRIGHT              "© 2005 Scott Ellis"

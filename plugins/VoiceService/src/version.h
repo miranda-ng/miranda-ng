@@ -9,5 +9,5 @@
 #define __FILENAME               "VoiceService.dll"
 #define __DESCRIPTION            "Provide services for protocols that support voice calls."
 #define __AUTHOR                 "Ricardo Pescuma Domenecci"
-#define __AUTHORWEB              "https://miranda-ng.org/p/VoiceService/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/VoiceService"
 #define __COPYRIGHT              "© 2007-2009 Ricardo Pescuma Domenecci, 2020-22 Miranda NG team"

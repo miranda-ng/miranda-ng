@@ -9,5 +9,5 @@
 #define __FILENAME               "ICQ.dll"
 #define __DESCRIPTION            "ICQ protocol support for Miranda NG."
 #define __AUTHOR                 "George Hazan"
-#define __AUTHORWEB              "https://miranda-ng.org/p/ICQ/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/ICQ"
 #define __COPYRIGHT              "© 2018-22 George Hazan"

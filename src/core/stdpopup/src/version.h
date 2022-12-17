@@ -7,5 +7,5 @@
 #define __FILENAME               "stdpopup.dll"
 #define __DESCRIPTION            "Core module for popups."
 #define __AUTHOR                 "Scott Ellis, Miranda NG team"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StdPopup/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdPopup"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

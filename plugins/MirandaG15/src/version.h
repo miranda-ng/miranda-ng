@@ -9,5 +9,5 @@
 #define __FILENAME               "MirandaG15.dll"
 #define __DESCRIPTION            "Provides an interface to use Miranda from the LCD of various Logitech devices."
 #define __AUTHOR                 "Martin Kleinhans"
-#define __AUTHORWEB              "https://miranda-ng.org/p/MirandaG15/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/MirandaG15"
 #define __COPYRIGHT              "© 2009 Martin Kleinhans"

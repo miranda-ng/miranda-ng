@@ -9,5 +9,5 @@
 #define __FILENAME               "StopSpam.dll"
 #define __DESCRIPTION            "Anti-spam plugin for Miranda NG."
 #define __AUTHOR                 "Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StopSpam/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StopSpam"
 #define __COPYRIGHT              "© 2004-2010 Roman Miklashevsky, A. Petkevich, Kosh&chka, persei"

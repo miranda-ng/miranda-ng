@@ -9,5 +9,5 @@
 #define __FILENAME               "HistorySweeperLight.dll"
 #define __DESCRIPTION            "This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown."
 #define __AUTHOR                 "Sergey V. Gershovich a.k.a. Jazzy$, Boris Krasnovskiy, tico-tico"
-#define __AUTHORWEB              "https://miranda-ng.org/p/HistorySweeperLight/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/HistorySweeperLight"
 #define __COPYRIGHT              "© 2002-2003 Sergey V. Gershovich a.k.a. Jazzy$, 2006-2009 Boris Krasnovskiy, 2010-2011 tico-tico"

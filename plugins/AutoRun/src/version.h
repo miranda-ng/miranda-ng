@@ -9,5 +9,5 @@
 #define __FILENAME           "AutoRun.dll"
 #define __DESCRIPTION        "This plugin is a simple way to enable/disable to launch Miranda NG with system startup."
 #define __AUTHOR             "Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)"
-#define __AUTHORWEB          "https://miranda-ng.org/p/AutoRun/"
+#define __AUTHORWEB          "https://miranda-ng.org/p/AutoRun"
 #define __COPYRIGHT          "© 2002-2007 Sergey V. Gershovich a.k.a. Jazzy$"

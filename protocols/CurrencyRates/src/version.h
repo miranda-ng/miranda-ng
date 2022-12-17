@@ -9,5 +9,5 @@
 #define __FILENAME               "CurrencyRates.dll"
 #define __DESCRIPTION            "Shows currency rates."
 #define __AUTHOR                 "Dioksin"
-#define __AUTHORWEB              "https://miranda-ng.org/p/CurrencyRates/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/CurrencyRates"
 #define __COPYRIGHT              ""

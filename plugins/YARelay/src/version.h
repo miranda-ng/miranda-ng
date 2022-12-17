@@ -9,5 +9,5 @@
 #define __FILENAME               "YARelay.dll"
 #define __DESCRIPTION            "Forwards messages to some contact when you are not available."
 #define __AUTHOR               "Anar Ibragimoff"
-#define __AUTHORWEB               "https://miranda-ng.org/p/YARelay/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/YARelay"
 #define __COPYRIGHT               "© 2005 Anar Ibragimoff"

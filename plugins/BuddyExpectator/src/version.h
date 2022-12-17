@@ -9,5 +9,5 @@
 #define __FILENAME               "BuddyExpectator.dll"
 #define __DESCRIPTION             "Reacts to the return of contacts, or to the extended absence of contacts, with notifications and other actions."
 #define __AUTHOR               "Anar Ibragimoff, sje, Thief"
-#define __AUTHORWEB               "https://miranda-ng.org/p/BuddyExpectator/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/BuddyExpectator"
 #define __COPYRIGHT               "© 2005 Anar Ibragimoff, 2006 Scott Ellis, 2007-2009 Alexander Turyak"

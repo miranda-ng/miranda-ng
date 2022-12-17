@@ -9,5 +9,5 @@
 #define __FILENAME               "MimCmd.exe"
 #define __DESCRIPTION            "This will tell Miranda to run the specified command."
 #define __AUTHOR                 "Cristian Libotean"
-#define __AUTHORWEB              "https://miranda-ng.org/p/CmdLine/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/CmdLine"
 #define __COPYRIGHT              "© 2007-2011 Cristian Libotean"

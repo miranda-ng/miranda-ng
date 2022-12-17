@@ -9,5 +9,5 @@
 #define __FILENAME               "SimpleAR.dll"
 #define __DESCRIPTION             "Simple Auto Replier."
 #define __AUTHOR               "Stark Wong, Mataes, Mikel-Ard-Ri"
-#define __AUTHORWEB               "https://miranda-ng.org/p/SimpleAR/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/SimpleAR"
 #define __COPYRIGHT               "© 2012"

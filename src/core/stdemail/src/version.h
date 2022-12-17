@@ -7,5 +7,5 @@
 #define __FILENAME               "stdemail.dll"
 #define __DESCRIPTION            "Core module for e-mail urls handling."
 #define __AUTHOR                 "Miranda NG team"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StdEmail/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdEmail"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

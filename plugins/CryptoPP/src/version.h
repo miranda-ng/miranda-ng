@@ -9,5 +9,5 @@
 #define __FILENAME               "CryptoPP.dll"
 #define __DESCRIPTION            "Crypto++ library for SecureIM plugin."
 #define __AUTHOR                 "Baloo"
-#define __AUTHORWEB              "https://miranda-ng.org/p/CryptoPP/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/CryptoPP"
 #define __COPYRIGHT              "© 2006-09 Baloo"

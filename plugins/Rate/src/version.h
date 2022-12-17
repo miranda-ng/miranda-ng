@@ -9,5 +9,5 @@
 #define __FILENAME               "Rate.dll"
 #define __DESCRIPTION             "Shows rating of contact in contact list (if present)."
 #define __AUTHOR               "Kildor, Thief"
-#define __AUTHORWEB               "https://miranda-ng.org/p/Rate/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/Rate"
 #define __COPYRIGHT               "© 2006-2009 Kostia Romanov, based on AuthState by Alexander Turyak"

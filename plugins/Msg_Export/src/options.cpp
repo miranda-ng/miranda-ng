@@ -405,7 +405,7 @@ class CContactsOptDlg : public CDlgBase
 public:
 	CContactsOptDlg() :
 		CDlgBase(g_plugin, IDD_OPT_CONTACTS),
-		urlHelp(this, IDC_OPEN_HELP, "https://miranda-ng.org/p/Msg_Export/"),
+		urlHelp(this, IDC_OPEN_HELP, "https://miranda-ng.org/p/Msg_Export"),
 		listUsers(this, IDC_MAP_USER_LIST)
 	{
 		listUsers.OnKeyDown = Callback(this, &CContactsOptDlg::list_KeyDown);

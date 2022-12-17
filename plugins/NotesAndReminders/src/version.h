@@ -9,5 +9,5 @@
 #define __FILENAME                "NotesReminders.dll"
 #define __DESCRIPTION             "Sticky Notes & Reminders Implementation for Miranda NG."
 #define __AUTHOR                  "Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer"
-#define __AUTHORWEB               "https://miranda-ng.org/p/NotesAndReminders/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/NotesAndReminders"
 #define __COPYRIGHT               "© 2003-2005 Joe Kucera, Lubomir Ivanov"

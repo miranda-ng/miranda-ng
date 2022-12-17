@@ -10,5 +10,5 @@
 #define __FILENAME               "EmLanProto.dll"
 #define __DESCRIPTION            "E-mage LAN protocol support for Miranda NG."
 #define __AUTHOR                 "kva"
-#define __AUTHORWEB              "https://miranda-ng.org/p/EmLanProto/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/EmLanProto"
 #define __COPYRIGHT              "© Viktor Kuzmin"

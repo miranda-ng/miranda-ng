@@ -9,5 +9,5 @@
 #define __FILENAME               "Nudge.dll"
 #define __DESCRIPTION            "Plugin to shake the contact list and chat window."
 #define __AUTHOR                 "Tweety/GouZ, FREAK_THEMIGHTY"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Nudge/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Nudge"
 #define __COPYRIGHT              "© the miranda community"

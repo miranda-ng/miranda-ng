@@ -7,5 +7,5 @@
 #define __FILENAME               "stduserinfo.dll"
 #define __DESCRIPTION            "Core module for providing user information."
 #define __AUTHOR                 "Miranda NG team"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StdUserInfo/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdUserInfo"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

@@ -28,5 +28,5 @@
 #define __FILENAME               "CyrTranslit.dll"
 #define __DESCRIPTION            "Replaces (for the selected contacts only) the Cyrillic letters in the outgoing messages with the phonetically equivalent Latin letter combinations."
 #define __AUTHOR                 "ValeraVi, Ivan Krechetov"
-#define __AUTHORWEB              "https://miranda-ng.org/p/CyrTranslit/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/CyrTranslit"
 #define __COPYRIGHT              "© 2005-2009 ValeraVi, Ivan Krechetov"

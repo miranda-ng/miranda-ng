@@ -7,5 +7,5 @@
 #define __FILENAME               "stduihist.dll"
 #define __DESCRIPTION            "Core module for built-in history viewer."
 #define __AUTHOR                 "Miranda NG team"
-#define __AUTHORWEB              "https://miranda-ng.org/p/StdUIHist/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/StdUIHist"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

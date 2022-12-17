@@ -9,5 +9,5 @@
 #define __FILENAME                 "Tipper.dll"
 #define __DESCRIPTION              "Tooltip notification windows."
 #define __AUTHOR                   "Scott Ellis, yaho"
-#define __AUTHORWEB                "https://miranda-ng.org/p/Tipper/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Tipper"
 #define __COPYRIGHT                "© 2005-2007 Scott Ellis, 2007-2011 Jan Holub"

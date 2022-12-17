@@ -9,5 +9,5 @@
 #define __FILENAME              "SmileyAdd.dll"
 #define __DESCRIPTION           "Smiley support for Miranda NG."
 #define __AUTHOR                "Peacow, nightwish, bid, borkra"
-#define __AUTHORWEB             "https://miranda-ng.org/p/SmileyAdd/"
+#define __AUTHORWEB             "https://miranda-ng.org/p/SmileyAdd"
 #define __COPYRIGHT             "© 2012-22 Miranda NG team, 2004-12 Boris Krasnovskiy, portions by Rein-Peter de Boer"

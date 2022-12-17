@@ -9,5 +9,5 @@
 #define __FILENAME                 "Telegram.dll"
 #define __DESCRIPTION              "Telegram protocol support for Miranda NG."
 #define __AUTHOR                   "Miranda NG team"
-#define __AUTHORWEB                "https://miranda-ng.org/p/Telegram/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/Telegram"
 #define __COPYRIGHT                "© 2018-22 Miranda NG team"

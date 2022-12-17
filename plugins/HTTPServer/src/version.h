@@ -9,5 +9,5 @@
 #define __FILENAME               "HTTPServer.dll"
 #define __DESCRIPTION            "HTTP Web Server plugin for Miranda."
 #define __AUTHOR                 "Kennet Nielsen, modified by Vampik, Houdini"
-#define __AUTHORWEB              "https://miranda-ng.org/p/HTTPServer/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/HTTPServer"
 #define __COPYRIGHT              "© 2003-2009 Kennet Nielsen, Vampik, Houdini"

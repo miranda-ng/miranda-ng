@@ -9,5 +9,5 @@
 #define __FILENAME               "LinkList.dll"
 #define __DESCRIPTION             "Generates a list of extracted URIs from the history."
 #define __AUTHOR               "Thomas Wendel, gureedo"
-#define __AUTHORWEB               "https://miranda-ng.org/p/LinkList/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/LinkList"
 #define __COPYRIGHT               "© 2010-2011 gureedo"

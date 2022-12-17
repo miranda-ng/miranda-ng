@@ -9,5 +9,5 @@
 #define __FILENAME               "RemovePersonalSettings.dll"
 #define __DESCRIPTION             "Remove personal settings to allow you to send a profile to other user(s) without sending personal data."
 #define __AUTHOR               "Ricardo Pescuma Domenecci"
-#define __AUTHORWEB               "https://miranda-ng.org/p/RemovePersonalSettings/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/RemovePersonalSettings"
 #define __COPYRIGHT               "© 2007-2009 Ricardo Pescuma Domenecci"

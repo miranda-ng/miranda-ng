@@ -9,5 +9,5 @@
 #define __FILENAME              "MenuEx.dll"
 #define __DESCRIPTION           "Adds some useful options to a contacts menu."
 #define __AUTHOR                "Heiko Schillinger, Baloo, Billy_Bons, Robert Pösel"
-#define __AUTHORWEB             "https://miranda-ng.org/p/MenuEx/"
+#define __AUTHORWEB             "https://miranda-ng.org/p/MenuEx"
 #define __COPYRIGHT             "© 2001-03 Heiko Schillinger, © 2006-08 Baloo, © 2009-10 Billy_Bons, © 2011-13 Robert Pösel"

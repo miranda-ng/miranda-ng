@@ -9,5 +9,5 @@
 #define __FILENAME                "Console.dll"
 #define __DESCRIPTION             "Console log window for Miranda."
 #define __AUTHOR                  "Bio"
-#define __AUTHORWEB               "https://miranda-ng.org/p/Console/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/Console"
 #define __COPYRIGHT               "© 2005-2012 Bio"

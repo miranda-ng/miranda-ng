@@ -9,5 +9,5 @@
 #define __FILENAME               "Clist_modern.dll"
 #define __DESCRIPTION            "Displays contacts, event notifications, protocol status with advanced visual modifications. Supported multi-window modifications, enhanced metacontact cooperation."
 #define __AUTHOR                 "Artem Shpynov, Ricardo Pescuma Domenecci and Anton Senko based on clist_mw by Bethoven"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_modern/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_modern"
 #define __COPYRIGHT              "© 2000-2010 Miranda-IM project"

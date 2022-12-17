@@ -9,5 +9,5 @@
 #define __FILENAME                "MirFox.dll"
 #define __DESCRIPTION             "MirFox (Miranda NG) - part of Miranda-Firefox integration - http://wsx22.3.xpdev-hosted.com"
 #define __AUTHOR                  "Szymon Tokarz"
-#define __AUTHORWEB               "https://miranda-ng.org/p/MirFox/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/MirFox"
 #define __COPYRIGHT               "© 2013-22 Szymon Tokarz"

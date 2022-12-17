@@ -33,6 +33,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __DESCRIPTION           "Notifies you if you have unread email on an exchange server."
 #define __AUTHOR                "Cristian Libotean, Attila Vajda, MaKaR (NG)"
 #define __COPYRIGHT             "© 2006-13 Cristian Libotean and Attila Vajda"
-#define __AUTHORWEB             "https://miranda-ng.org/p/Exchange/"
+#define __AUTHORWEB             "https://miranda-ng.org/p/Exchange"
 
 #endif //M_EXCHANGE_VERSION_H

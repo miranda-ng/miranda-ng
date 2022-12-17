@@ -173,7 +173,7 @@ const
   hppAuthor      = 'theMIROn, Art Fedorov';
   hppCopyright   = '© 2006-2009 theMIROn, 2003-2006 Art Fedorov. History+ parts © 2001 Christian Kastner';
 
-  hppHomePageURL  = 'https://miranda-ng.org/p/HistoryPP/';
+  hppHomePageURL  = 'https://miranda-ng.org/p/HistoryPP';
 
   hppIPName     = 'historypp_icons.dll';
 

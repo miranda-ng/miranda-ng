@@ -9,5 +9,5 @@
 #define __FILENAME               "Alarms.dll"
 #define __DESCRIPTION             "Sets once-off, daily, weekly and weekday alarms."
 #define __AUTHOR               "Scott Ellis"
-#define __AUTHORWEB               "https://miranda-ng.org/p/Alarms/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/Alarms"
 #define __COPYRIGHT               "© 2005 Scott Ellis"

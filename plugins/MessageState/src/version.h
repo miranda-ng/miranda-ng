@@ -9,5 +9,5 @@
 #define __FILENAME                 "MessageState.dll"
 #define __DESCRIPTION              "Displays icons in message window showing whether your last outgoing message was read / is still unread."
 #define __AUTHOR                   "MikalaiR"
-#define __AUTHORWEB                "https://miranda-ng.org/p/MessageState/"
+#define __AUTHORWEB                "https://miranda-ng.org/p/MessageState"
 #define __COPYRIGHT                "© 2015-22 Miranda NG team"

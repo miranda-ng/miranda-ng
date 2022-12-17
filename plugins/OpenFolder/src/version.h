@@ -9,5 +9,5 @@
 #define __FILENAME               "OpenFolder.dll"
 #define __DESCRIPTION             "Adds a menu/toolbar item which opens the main Miranda NG folder."
 #define __AUTHOR               "jarvis, Kreisquadratur"
-#define __AUTHORWEB               "https://miranda-ng.org/p/OpenFolder/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/OpenFolder"
 #define __COPYRIGHT               "© 2008 jarvis, © 2004 Kreisquadratur"

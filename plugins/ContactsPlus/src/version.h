@@ -9,5 +9,5 @@
 #define __FILENAME               "Contacts.dll"
 #define __DESCRIPTION            "Allows you to send and receive contacts."
 #define __AUTHOR                 "Joe Kucera, Todor Totev"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Contacts/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Contacts"
 #define __COPYRIGHT              "© 2004-2008 Joe Kucera, Original code © 2002 Dominus Procellarum"

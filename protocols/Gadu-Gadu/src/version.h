@@ -30,4 +30,4 @@
 #define __DESCRIPTION             "Gadu-Gadu protocol support for Miranda NG."
 #define __AUTHOR                  "Bartosz Bialek, Adam Strzelecki"
 #define __COPYRIGHT               "© 2009-2012 Bartosz Bialek, 2003-2009 Adam Strzelecki"
-#define __AUTHORWEB               "https://miranda-ng.org/p/GG/"
+#define __AUTHORWEB               "https://miranda-ng.org/p/GG"

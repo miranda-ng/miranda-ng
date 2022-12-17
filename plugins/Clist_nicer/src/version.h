@@ -9,5 +9,5 @@
 #define __FILENAME               "Clist_nicer.dll"
 #define __DESCRIPTION            "Displays contacts, event notifications, protocol status."
 #define __AUTHOR                 "Pixel, egoDust, cyreve, Nightwish"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_nicer/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Clist_nicer"
 #define __COPYRIGHT              "© 2000-2010 Miranda-IM project"

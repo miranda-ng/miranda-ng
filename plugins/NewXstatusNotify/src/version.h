@@ -9,5 +9,5 @@
 #define __FILENAME               "NewXstatusNotify.dll"
 #define __DESCRIPTION            "Notifies you when a contact changes his/her (X)status or status message."
 #define __AUTHOR                 "Luca Santarelli, Vasilich, yaho"
-#define __AUTHORWEB              "https://miranda-ng.org/p/NewXstatusNotify/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/NewXstatusNotify"
 #define __COPYRIGHT              "© 2001-2004 Luca Santarelli, 2005-2007 Vasilich, 2007-2011 yaho"

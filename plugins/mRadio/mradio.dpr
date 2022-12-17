@@ -190,7 +190,7 @@ begin
                           ' Also local media files can be played.';
   PluginInfo.author     :='Awkward';
   PluginInfo.copyright  :='(c) 2007-14 Awkward';
-  PluginInfo.homepage   :='https://miranda-ng.org/p/MRadio/';
+  PluginInfo.homepage   :='https://miranda-ng.org/p/MRadio';
   PluginInfo.flags      :=UNICODE_AWARE;
   PluginInfo.uuid       :=MIID_MRADIO;
 end.

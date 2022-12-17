@@ -9,5 +9,5 @@
 #define __FILENAME               "Dbx_mmap.dll"
 #define __DESCRIPTION            "Provides Miranda database support: global settings, contacts, history, settings per contact."
 #define __AUTHOR                 "Miranda-NG project"
-#define __AUTHORWEB              "https://miranda-ng.org/p/Dbx_mmap/"
+#define __AUTHORWEB              "https://miranda-ng.org/p/Dbx_mmap"
 #define __COPYRIGHT              "© 2012-22 Miranda NG team"

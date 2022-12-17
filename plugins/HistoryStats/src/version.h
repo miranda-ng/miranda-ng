@@ -9,5 +9,5 @@
 #define __FILENAME           "HistoryStats.dll"
 #define __DESCRIPTION        "Creates detailed, colorful and highly customizable statistics using your message history."
 #define __AUTHOR             "Martin Afanasjew"
-#define __AUTHORWEB          "https://miranda-ng.org/p/HistoryStats/"
+#define __AUTHORWEB          "https://miranda-ng.org/p/HistoryStats"
 #define __COPYRIGHT          "© 2005-2007 Martin Afanasjew (see README for further credits)"
