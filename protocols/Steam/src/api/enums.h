@@ -19,6 +19,7 @@ enum PersonaState
 	Snooze = 4,
 	LookingToTrade = 5,
 	LookingToPlay = 6,
+	Invisible = 7,
 };
 
 enum class PersonaStateFlag : int

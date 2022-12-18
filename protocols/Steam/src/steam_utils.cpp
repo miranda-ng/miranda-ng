@@ -14,8 +14,10 @@ uint16_t CSteamProto::SteamToMirandaStatus(PersonaState state)
 	case PersonaState::Snooze:
 		return ID_STATUS_NA;
 	case PersonaState::LookingToPlay:
-		return ID_STATUS_FREECHAT;
 	case PersonaState::LookingToTrade:
+		return ID_STATUS_FREECHAT;
+	case PersonaState::Invisible:
+		return ID_STATUS_INVISIBLE;
 	default:
 		return ID_STATUS_ONLINE;
 	}
@@ -36,6 +38,8 @@ PersonaState CSteamProto::MirandaToSteamState(int status)
 		return PersonaState::Snooze;
 	case ID_STATUS_FREECHAT:
 		return PersonaState::LookingToPlay;
+	case ID_STATUS_INVISIBLE:
+		return PersonaState::Invisible;
 	default:
 		return PersonaState::Online;
 	}
