@@ -89,6 +89,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
 
+	case TD::updateNewMessage::ID:
+		ProcessMessage((TD::updateNewMessage *)response.object.get());
+		break;
+
 	case TD::updateUser::ID:
 		ProcessUser((TD::updateUser *)response.object.get());
 		break;
@@ -143,6 +147,40 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 	}
 }
 
+void CMTProto::ProcessMessage(TD::updateNewMessage *pObj)
+{
+	auto &pMessage = pObj->message_;
+
+	auto *pUser = FindUser(pMessage->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("message from unknown chat/user, ignored");
+		return;
+	}
+
+	if (pUser->isGroupChat) {
+		debugLogA("message from group chat, ignored");
+		return;
+	}
+
+	CMStringA szText(getMessageText(pMessage->content_.get()));
+	if (szText.IsEmpty()) {
+		debugLogA("this message was not processed, ignored");
+		return;
+	}
+
+	char szId[100];
+	_i64toa(pMessage->id_, szId, _countof(szId));
+
+	PROTORECVEVENT pre = {};
+	pre.szMessage = szText.GetBuffer();
+	pre.szMsgId = szId;
+	pre.timestamp = pMessage->date_;
+	if (pMessage->sender_id_->get_id() == TD::messageSenderUser::ID)
+		if (((TD::messageSenderUser *)pMessage->sender_id_.get())->user_id_ == m_iOwnId)
+			pre.flags |= PREF_SENT;
+	ProtoChainRecvMsg(pUser->hContact, &pre);
+}
+
 void CMTProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
@@ -153,6 +191,9 @@ void CMTProto::ProcessUser(TD::updateUser *pObj)
 	UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 	if (pUser->usernames_)
 		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
+
+	if (pUser->phone_number_ == _T2A(m_szOwnPhone).get())
+		m_iOwnId = pUser->id_;
 
 	if (pUser->is_premium_)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");

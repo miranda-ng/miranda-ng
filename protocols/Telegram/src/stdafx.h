@@ -32,6 +32,7 @@ namespace TD = td::td_api;
 #include "version.h"
 #include "resource.h"
 #include "mt_proto.h"
+#include "utils.h"
 
 struct CMPlugin : public ACCPROTOPLUGIN<CMTProto>
 {

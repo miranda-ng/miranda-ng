@@ -57,11 +57,13 @@ class CMTProto : public PROTO<CMTProto>
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
+	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
 	// Users
+	int64_t m_iOwnId;
 	OBJLIST<TG_USER> m_arUsers;
 
 	TG_USER* FindUser(uint64_t id);

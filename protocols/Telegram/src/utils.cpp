@@ -111,3 +111,16 @@ void CMTProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szT
 	ppd.hContact = hContact;
 	Popup_AddClass(&ppd);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+CMStringA getMessageText(TD::MessageContent *pBody)
+{
+	if (pBody->get_id() == TD::messageText::ID) {
+		auto pText = ((TD::messageText *)pBody)->text_.get();
+		if (pText->get_id() == TD::formattedText::ID)
+			return CMStringA(((TD::formattedText *)pText)->text_.c_str());
+	}
+
+	return CMStringA();
+}

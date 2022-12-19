@@ -19,6 +19,7 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	m_bHideGroupchats(this, "HideChats", true)
 {
 	m_iClientId = m_pClientMmanager->create_client_id();
+	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
 
