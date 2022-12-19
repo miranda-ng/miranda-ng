@@ -111,7 +111,7 @@ int CMTProto::SetStatus(int iNewStatus)
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
 		if (m_bRunning)
-			SendQuery(new td::td_api::close());
+			SendQuery(new TD::close());
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);

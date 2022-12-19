@@ -32,7 +32,7 @@ struct TG_USER
 class CMTProto : public PROTO<CMTProto>
 {
 	std::unique_ptr<td::ClientManager> m_pClientMmanager;
-	td::td_api::object_ptr<td::td_api::AuthorizationState> pAuthState;
+	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
 	bool m_bAuthorized, m_bRunning = false, m_bTerminated;
 	int32_t m_iClientId;
@@ -52,19 +52,20 @@ class CMTProto : public PROTO<CMTProto>
 	void LogOut(void);
 	void OnLoggedIn(void);
 	void ProcessResponse(td::ClientManager::Response);
-	void SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
+	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 
-	void ProcessAuth(td::td_api::updateAuthorizationState *pObj);
-	void ProcessGroups(td::td_api::updateChatFilters *pObj);
-	void ProcessUser(td::td_api::updateUser *pObj);
+	void ProcessAuth(TD::updateAuthorizationState *pObj);
+	void ProcessChat(TD::updateNewChat *pObj);
+	void ProcessGroups(TD::updateChatFilters *pObj);
+	void ProcessUser(TD::updateUser *pObj);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
 	// Users
 	OBJLIST<TG_USER> m_arUsers;
 
-	MCONTACT FindUser(uint64_t id);
-	MCONTACT AddUser(uint64_t id, bool bIsChat);
+	TG_USER* FindUser(uint64_t id);
+	TG_USER* AddUser(uint64_t id, bool bIsChat);
 
 	// Popups
 	HANDLE m_hPopupClass;

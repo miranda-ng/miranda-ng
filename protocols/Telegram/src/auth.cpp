@@ -27,7 +27,7 @@ INT_PTR CALLBACK CMTProto::EnterPhoneCode(void *param)
 	es.szModuleName = ppro->m_szModuleName;
 	es.caption = TranslateT("Enter secret code sent to your phone");
 	if (EnterString(&es)) {
-		ppro->SendQuery(new td::td_api::checkAuthenticationCode(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationCode(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
@@ -39,7 +39,7 @@ INT_PTR CALLBACK CMTProto::EnterPassword(void *param)
 	auto *ppro = (CMTProto *)param;
 	CMStringW wszTitle(TranslateT("Enter password"));
 
-	auto *pAuth = (td::td_api::authorizationStateWaitPassword *)ppro->pAuthState.get();
+	auto *pAuth = (TD::authorizationStateWaitPassword *)ppro->pAuthState.get();
 	if (!pAuth->password_hint_.empty())
 		wszTitle.AppendFormat(TranslateT(" (hint: %s)"), Utf2T(pAuth->password_hint_.c_str()).get());
 
@@ -48,25 +48,25 @@ INT_PTR CALLBACK CMTProto::EnterPassword(void *param)
 	es.caption = wszTitle;
 	es.type = ESF_PASSWORD;
 	if (EnterString(&es)) {
-		ppro->SendQuery(new td::td_api::checkAuthenticationPassword(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationPassword(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
 	return 0;
 }
 
-void CMTProto::ProcessAuth(td::td_api::updateAuthorizationState *pObj)
+void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 {
 	pAuthState = std::move(pObj->authorization_state_);
 	switch (pAuthState->get_id()) {
-	case td::td_api::authorizationStateWaitTdlibParameters::ID:
+	case TD::authorizationStateWaitTdlibParameters::ID:
 		{
 			char text[100];
 			Miranda_GetVersionText(text, sizeof(text));
 
 			CMStringW wszPath(GetProtoFolder());
 
-			auto *request = new td::td_api::setTdlibParameters();
+			auto *request = new TD::setTdlibParameters();
 			request->database_directory_ = T2Utf(wszPath).get();
 			request->use_message_database_ = false;
 			request->use_secret_chats_ = true;
@@ -80,28 +80,28 @@ void CMTProto::ProcessAuth(td::td_api::updateAuthorizationState *pObj)
 		}
 		break;
 
-	case td::td_api::authorizationStateWaitPhoneNumber::ID:
-		SendQuery(new td::td_api::setAuthenticationPhoneNumber(_T2A(m_szOwnPhone).get(), nullptr), &CMTProto::OnUpdateAuth);
+	case TD::authorizationStateWaitPhoneNumber::ID:
+		SendQuery(new TD::setAuthenticationPhoneNumber(_T2A(m_szOwnPhone).get(), nullptr), &CMTProto::OnUpdateAuth);
 		break;
 
-	case td::td_api::authorizationStateWaitCode::ID:
+	case TD::authorizationStateWaitCode::ID:
 		CallFunctionSync(EnterPhoneCode, this);
 		break;
 
-	case td::td_api::authorizationStateWaitPassword::ID:
+	case TD::authorizationStateWaitPassword::ID:
 		CallFunctionSync(EnterPassword, this);
 		break;
 
-	case td::td_api::authorizationStateReady::ID:
+	case TD::authorizationStateReady::ID:
 		OnLoggedIn();
 		break;
 
-	case td::td_api::authorizationStateLoggingOut::ID:
+	case TD::authorizationStateLoggingOut::ID:
 		debugLogA("Server required us to log out, exiting");
 		LogOut();
 		break;
 
-	case td::td_api::authorizationStateClosing::ID:
+	case TD::authorizationStateClosing::ID:
 		debugLogA("Connection terminated, exiting");
 		LogOut();
 		break;
@@ -110,8 +110,8 @@ void CMTProto::ProcessAuth(td::td_api::updateAuthorizationState *pObj)
 
 void CMTProto::OnUpdateAuth(td::ClientManager::Response &response)
 {
-	if (response.object->get_id() == td::td_api::error::ID) {
-		auto *pError = (td::td_api::error *)response.object.get();
+	if (response.object->get_id() == TD::error::ID) {
+		auto *pError = (TD::error *)response.object.get();
 		debugLogA("error happened: %s", to_string(*pError).c_str());
 
 		if (pError->message_ == "PHONE_CODE_EXPIRED")

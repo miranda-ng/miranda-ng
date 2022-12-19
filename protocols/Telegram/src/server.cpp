@@ -22,7 +22,7 @@ void __cdecl CMTProto::ServerThread(void *)
 	m_bRunning = true;
 	m_bTerminated = m_bAuthorized = false;
 
-	SendQuery(new td::td_api::getOption("version"));
+	SendQuery(new TD::getOption("version"));
 
 	while (!m_bTerminated) {
 		ProcessResponse(m_pClientMmanager->receive(1));
@@ -55,7 +55,7 @@ void CMTProto::OnLoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
-	SendQuery(new td::td_api::getChats(td::tl::unique_ptr<td::td_api::chatListMain>(), 1000));
+	SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -77,25 +77,28 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 	}
 
 	switch (response.object->get_id()) {
-	case td::td_api::updateAuthorizationState::ID:
-		ProcessAuth((td::td_api::updateAuthorizationState *)response.object.get());
+	case TD::updateAuthorizationState::ID:
+		ProcessAuth((TD::updateAuthorizationState *)response.object.get());
 		break;
 
-	case td::td_api::updateChatFilters::ID:
-		ProcessGroups((td::td_api::updateChatFilters *)response.object.get());
+	case TD::updateChatFilters::ID:
+		ProcessGroups((TD::updateChatFilters *)response.object.get());
 		break;
 
-	case td::td_api::updateUser::ID:
-		ProcessUser((td::td_api::updateUser *)response.object.get());
+	case TD::updateNewChat::ID:
+		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
 
+	case TD::updateUser::ID:
+		ProcessUser((TD::updateUser *)response.object.get());
+		break;
 	}
 }
 
-void CMTProto::SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler)
+void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
 	int queryId = ++m_iQueryId;
-	m_pClientMmanager->send(m_iClientId, queryId, td::td_api::object_ptr<td::td_api::Function>(pFunc));
+	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
@@ -103,7 +106,20 @@ void CMTProto::SendQuery(td::td_api::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::ProcessGroups(td::td_api::updateChatFilters *pObj)
+void CMTProto::ProcessChat(TD::updateNewChat *pObj)
+{
+	auto &pChat = pObj->chat_;
+	if (pChat->type_->get_id() != TD::chatTypePrivate::ID) {
+		debugLogA("Only private chats are currently supported");
+		return;
+	}
+
+	auto *pUser = AddUser(pChat->id_, false);
+	if (!pChat->title_.empty())
+		setUString(pUser->hContact, "Nick", pChat->title_.c_str());
+}
+
+void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 {
 	for (auto &grp : pObj->chat_filters_) {
 		if (grp->icon_name_ != "Custom")
@@ -127,26 +143,26 @@ void CMTProto::ProcessGroups(td::td_api::updateChatFilters *pObj)
 	}
 }
 
-void CMTProto::ProcessUser(td::td_api::updateUser *pObj)
+void CMTProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
 	
-	MCONTACT hContact = AddUser(pUser->id_, false);
-	UpdateString(hContact, "FirstName", pUser->first_name_);
-	UpdateString(hContact, "LastName", pUser->last_name_);
-	UpdateString(hContact, "Phone", pUser->phone_number_);
+	auto *pu = AddUser(pUser->id_, false);
+	UpdateString(pu->hContact, "FirstName", pUser->first_name_);
+	UpdateString(pu->hContact, "LastName", pUser->last_name_);
+	UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 	if (pUser->usernames_)
-		UpdateString(hContact, "Nick", pUser->usernames_->editable_username_);
+		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
 
 	if (pUser->is_premium_)
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, "tg_premium");
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
 	else
-		ExtraIcon_SetIconByName(g_plugin.m_hIcon, hContact, nullptr);
+		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
 
 	if (pUser->status_) {
-		if (pUser->status_->get_id() == td::td_api::userStatusOffline::ID) {
-			auto *pOffline = (td::td_api::userStatusOffline *)pUser->status_.get();
-			setDword(hContact, "LastSeen", pOffline->was_online_);
+		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {
+			auto *pOffline = (TD::userStatusOffline *)pUser->status_.get();
+			setDword(pu->hContact, "LastSeen", pOffline->was_online_);
 		}
 	}
 }
