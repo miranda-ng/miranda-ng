@@ -47,6 +47,9 @@
     <ClCompile Include="src\c-hyper.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\cfilters.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\conncache.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -212,7 +215,7 @@
     <ClCompile Include="src\http_proxy.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\idn_win32.c">
+    <ClCompile Include="src\idn.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\if2ip.c">
@@ -449,6 +452,7 @@
     <ClInclude Include="src\asyn.h" />
 	<ClInclude Include="src\bufref.h" />
     <ClInclude Include="src\c-hyper.h" />
+    <ClInclude Include="src\cfilters.h" />
     <ClInclude Include="src\config-amigaos.h" />
     <ClInclude Include="src\config-dos.h" />
     <ClInclude Include="src\config-mac.h" />
@@ -521,6 +525,7 @@
     <ClInclude Include="src\http_negotiate.h" />
     <ClInclude Include="src\http_ntlm.h" />
     <ClInclude Include="src\http_proxy.h" />
+    <ClInclude Include="src\idn.h" />
     <ClInclude Include="src\if2ip.h" />
     <ClInclude Include="src\imap.h" />
     <ClInclude Include="src\inet_ntop.h" />

@@ -29,6 +29,7 @@
 /*       lib/config-dos.h - Hand crafted config file for DOS        */
 /* ================================================================ */
 
+#ifndef OS
 #if defined(DJGPP)
   #define OS  "MSDOS/djgpp"
 #elif defined(__HIGHC__)
@@ -36,12 +37,13 @@
 #else
   #define OS  "MSDOS/?"
 #endif
+#endif
 
 #define PACKAGE  "curl"
 
+#define USE_MANUAL 1
+
 #define HAVE_ARPA_INET_H       1
-#define HAVE_ASSERT_H          1
-#define HAVE_ERRNO_H           1
 #define HAVE_FCNTL_H           1
 #define HAVE_FREEADDRINFO      1
 #define HAVE_GETADDRINFO       1
@@ -56,7 +58,6 @@
 #define HAVE_NETINET_IN_H      1
 #define HAVE_NETINET_TCP_H     1
 #define HAVE_NET_IF_H          1
-#define HAVE_PROCESS_H         1
 #define HAVE_RECV              1
 #define HAVE_SELECT            1
 #define HAVE_SEND              1
@@ -104,10 +105,6 @@
 
 /* CURLDEBUG definition enables memory tracking */
 /* #define CURLDEBUG */
-
-#ifdef USE_ZLIB  /* Deprecated. Use HAVE_LIBZ instead. */
-  #define HAVE_LIBZ              1
-#endif
 
 /* to disable LDAP */
 #define CURL_DISABLE_LDAP        1

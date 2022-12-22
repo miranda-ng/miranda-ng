@@ -36,7 +36,9 @@
 #undef VERSION
 
 /* Define cpu-machine-OS */
+#ifndef OS
 #define OS "OS/400"
+#endif
 
 /* OS400 supports a 3-argument ASCII version of gethostbyaddr_r(), but its
  *  prototype is incompatible with the "standard" one (1st argument is not
@@ -77,9 +79,6 @@
 
 /* Define if you have the `closesocket' function. */
 #undef HAVE_CLOSESOCKET
-
-/* Define if you have the <errno.h> header file. */
-#define HAVE_ERRNO_H
 
 /* Define if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H

@@ -147,9 +147,6 @@
 /* Define to 1 if you have the <arpa/tftp.h> header file. */
 #undef HAVE_ARPA_TFTP_H
 
-/* Define to 1 if you have the <assert.h> header file. */
-#undef HAVE_ASSERT_H
-
 /* Define to 1 if you have _Atomic support. */
 #undef HAVE_ATOMIC
 
@@ -196,9 +193,6 @@
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #undef HAVE_DLFCN_H
 
-/* Define to 1 if you have the <errno.h> header file. */
-#undef HAVE_ERRNO_H
-
 /* Define to 1 if you have the <err.h> header file. */
 #undef HAVE_ERR_H
 
@@ -216,6 +210,9 @@
 
 /* Define to 1 if you have the `fnmatch' function. */
 #undef HAVE_FNMATCH
+
+/* Define to 1 if you have the `fork' function. */
+#undef HAVE_FORK
 
 /* Define to 1 if you have the freeaddrinfo function. */
 #undef HAVE_FREEADDRINFO
@@ -727,6 +724,9 @@
 /* if you have wolfSSL_DES_ecb_encrypt */
 #undef HAVE_WOLFSSL_DES_ECB_ENCRYPT
 
+/* if you have wolfSSL_BIO_set_shutdown */
+#undef HAVE_WOLFSSL_FULL_BIO
+
 /* Define to 1 if you have the `wolfSSL_get_peer_certificate' function. */
 #undef HAVE_WOLFSSL_GET_PEER_CERTIFICATE
 
@@ -944,9 +944,6 @@
 
 /* Version number of package */
 #undef VERSION
-
-/* Define to 1 to provide own prototypes. */
-#undef WANT_IDN_PROTOTYPES
 
 /* Define to 1 if OS is AIX. */
 #ifndef _ALL_SOURCE

@@ -35,12 +35,6 @@
 /* Define if you have the <arpa/inet.h> header file. */
 /* #define HAVE_ARPA_INET_H 1 */
 
-/* Define if you have the <assert.h> header file. */
-#define HAVE_ASSERT_H 1
-
-/* Define if you have the <errno.h> header file. */
-#define HAVE_ERRNO_H 1
-
 /* Define if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
 
@@ -65,11 +59,6 @@
 
 /* Define if you have the <netinet/in.h> header file. */
 /* #define HAVE_NETINET_IN_H 1 */
-
-/* Define if you have the <process.h> header file. */
-#ifndef __SALFORDC__
-#define HAVE_PROCESS_H 1
-#endif
 
 /* Define if you have the <signal.h> header file. */
 #define HAVE_SIGNAL_H 1
@@ -208,10 +197,6 @@
 /* Define if you have the socket function. */
 #define HAVE_SOCKET 1
 
-/* Define if libSSH2 is in use */
-#define USE_LIBSSH2 1
-#define HAVE_LIBSSH2_H 1
-
 /* Define if you have the strcasecmp function. */
 #ifdef __MINGW32__
 #define HAVE_STRCASECMP 1
@@ -340,11 +325,6 @@
 /* Define to the size of `curl_off_t', as computed by sizeof. */
 #define SIZEOF_CURL_OFF_T 8
 
-/* Define to the size of `off_t', as computed by sizeof. */
-#ifndef SIZEOF_OFF_T
-#define SIZEOF_OFF_T 8
-#endif
-
 /* ---------------------------------------------------------------- */
 /*               BSD-style lwIP TCP/IP stack SPECIFIC               */
 /* ---------------------------------------------------------------- */
@@ -356,7 +336,6 @@
 #  undef USE_WINSOCK
 #  undef HAVE_WINSOCK2_H
 #  undef HAVE_WS2TCPIP_H
-#  undef HAVE_ERRNO_H
 #  undef HAVE_GETHOSTNAME
 #  undef LWIP_POSIX_SOCKETS_IO_NAMES
 #  undef RECV_TYPE_ARG1
@@ -586,6 +565,14 @@ Vista
 #  endif
 #endif
 
+/* Define to the size of `off_t', as computed by sizeof. */
+#if defined(__MINGW64_VERSION_MAJOR) && \
+  defined(_FILE_OFFSET_BITS) && (_FILE_OFFSET_BITS == 64)
+#  define SIZEOF_OFF_T 8
+#else
+#  define SIZEOF_OFF_T 4
+#endif
+
 /* ---------------------------------------------------------------- */
 /*                       DNS RESOLVER SPECIALTY                     */
 /* ---------------------------------------------------------------- */
@@ -628,9 +615,6 @@ Vista
 #  define CURL_DISABLE_LDAP 1
 #endif
 
-/* if SSL is enabled */
-#define USE_OPENSSL 1
-
 /* Define to use the Windows crypto library. */
 #if !defined(CURL_WINDOWS_APP)
 #define USE_WIN32_CRYPTO
@@ -644,7 +628,7 @@ Vista
 /* ---------------------------------------------------------------- */
 
 /* Define cpu-machine-OS */
-#if !defined(OS)
+#ifndef OS
 #if defined(_M_IX86) || defined(__i386__) /* x86 (MSVC or gcc) */
 #define OS "i386-pc-win32"
 #elif defined(_M_X64) || defined(__x86_64__) /* x86_64 (MSVC >=2005 or gcc) */

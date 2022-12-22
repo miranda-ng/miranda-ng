@@ -32,7 +32,6 @@
 
 #define HAVE_ARPA_INET_H 1
 #define HAVE_CLOSESOCKET_CAMEL 1
-#define HAVE_ERRNO_H 1
 #define HAVE_INTTYPES_H 1
 #define HAVE_IOCTLSOCKET_CAMEL 1
 #define HAVE_IOCTLSOCKET_CAMEL_FIONBIO 1
@@ -78,7 +77,9 @@
 #define USE_MANUAL 1
 #define CURL_DISABLE_LDAP 1
 
+#ifndef OS
 #define OS "AmigaOS"
+#endif
 
 #define PACKAGE "curl"
 #define PACKAGE_BUGREPORT "a suitable mailing list: https://curl.se/mail/"
