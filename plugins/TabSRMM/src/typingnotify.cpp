@@ -72,6 +72,7 @@ void TN_TypingMessage(MCONTACT hContact, int iMode)
 		HWND hPopupWnd = WindowList_Find(hPopupsList, hContact);
 		while (hPopupWnd) {
 			PUDeletePopup(hPopupWnd);
+			WindowList_Remove(hPopupsList, hPopupWnd);
 			hPopupWnd = WindowList_Find(hPopupsList, hContact);
 		}
 	}
