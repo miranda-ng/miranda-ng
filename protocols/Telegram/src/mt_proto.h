@@ -3,18 +3,56 @@
 #define DBKEY_ID "id"
 
 class CMTProto;
-typedef void (CMTProto::*TG_QUERY_HANDLER)(td::ClientManager::Response &response);
+typedef void (CMTProto:: *TG_QUERY_HANDLER)(td::ClientManager::Response &response);
+typedef void (CMTProto:: *TG_QUERY_HANDLER_FULL)(td::ClientManager::Response &response, void *pUserInfo);
 
-struct TG_REQUEST
+struct TG_REQUEST_BASE
 {
-	TG_REQUEST(td::ClientManager::RequestId _1, TG_QUERY_HANDLER _2) :
-		requestId(_1),
-		pHandler(_2)
+	TG_REQUEST_BASE(td::ClientManager::RequestId _1) :
+		requestId(_1)
+	{}
+
+	virtual ~TG_REQUEST_BASE()
 	{}
 
 	td::ClientManager::RequestId requestId;
-	TG_QUERY_HANDLER pHandler;
+
+	virtual void Execute(CMTProto *ppro, td::ClientManager::Response &response) = 0;
 };
+
+struct TG_REQUEST : public TG_REQUEST_BASE
+{
+	TG_REQUEST(td::ClientManager::RequestId _1, TG_QUERY_HANDLER _2) :
+		TG_REQUEST_BASE(_1),
+		pHandler(_2)
+	{}
+
+	TG_QUERY_HANDLER pHandler;
+
+	void Execute(CMTProto *ppro, td::ClientManager::Response &response) override
+	{
+		(ppro->*pHandler)(response);
+	}
+};
+
+struct TG_REQUEST_FULL : public TG_REQUEST_BASE
+{
+	TG_REQUEST_FULL(td::ClientManager::RequestId _1, TG_QUERY_HANDLER_FULL _2, void *_3) :
+		TG_REQUEST_BASE(_1),
+		pHandler(_2),
+		pUserInfo(_3)
+	{}
+
+	TG_QUERY_HANDLER_FULL pHandler;
+	void *pUserInfo;
+
+	void Execute(CMTProto *ppro, td::ClientManager::Response &response) override
+	{
+		(ppro->*pHandler)(response, pUserInfo);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 struct TG_USER
 {
@@ -35,10 +73,10 @@ class CMTProto : public PROTO<CMTProto>
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
 	bool m_bAuthorized, m_bRunning = false, m_bTerminated;
-	int32_t m_iClientId;
+	int32_t m_iClientId, m_iMsgId;
 	uint64_t m_iQueryId;
 
-	OBJLIST<TG_REQUEST> m_arRequests;
+	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 
 	static INT_PTR CALLBACK EnterPhoneCode(void *param);
 	static INT_PTR CALLBACK EnterPassword(void *param);
@@ -53,12 +91,16 @@ class CMTProto : public PROTO<CMTProto>
 	void OnLoggedIn(void);
 	void ProcessResponse(td::ClientManager::Response);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
+	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessUser(TD::updateUser *pObj);
+
+	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
+	int  SendTextMessage(uint64_t chatId, const char *pszMessage);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -87,6 +129,7 @@ public:
 
 	INT_PTR GetCaps(int type, MCONTACT hContact = NULL) override;
 	
+	int SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
 	int SetStatus(int iNewStatus) override;
 
 	void OnModulesLoaded() override;

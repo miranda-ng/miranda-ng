@@ -68,9 +68,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 	debugLogA("ProcessResponse: id=%d (%s)", int(response.request_id), to_string(response.object).c_str());
 
 	if (response.request_id) {
-		auto *p = m_arRequests.find((TG_REQUEST *)&response.request_id);
+		TG_REQUEST tmp(response.request_id, 0);
+		auto *p = m_arRequests.find(&tmp);
 		if (p) {
-			(this->*p->pHandler)(response);
+			p->Execute(this, response);
 			m_arRequests.remove(p);
 		}
 		return;
@@ -99,6 +100,41 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 	}
 }
 
+void CMTProto::OnSendMessage(td::ClientManager::Response &response, void *pUserInfo)
+{
+	if (!response.object)
+		return;
+
+	if (response.object->get_id() != TD::message::ID) {
+		debugLogA("Gotten class ID %d instead of %d, exiting", response.object->get_id(), TD::message::ID);
+		return;
+	}
+
+	auto *pMessage = ((TD::message *)response.object.get());
+	auto *pUser = FindUser(pMessage->chat_id_);
+	if (pUser) {
+		char szMsgId[100];
+		_i64toa(pMessage->id_, szMsgId, 10);
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, pUserInfo, (LPARAM)szMsgId);
+	}
+}
+
+int CMTProto::SendTextMessage(uint64_t chatId, const char *pszMessage)
+{
+	int ret = m_iMsgId++;
+
+	auto pContent = TD::make_object<TD::inputMessageText>();
+	pContent->text_ = TD::make_object<TD::formattedText>();
+	pContent->text_->text_ = std::move(pszMessage);
+
+	auto *pMessage = new TD::sendMessage();
+	pMessage->chat_id_ = chatId;
+	pMessage->input_message_content_ = std::move(pContent);
+	SendQuery(pMessage, &CMTProto::OnSendMessage, (void*)ret);
+
+	return ret;
+}
+
 void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
 	int queryId = ++m_iQueryId;
@@ -106,6 +142,15 @@ void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 	if (pHandler)
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
+}
+
+void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
+{
+	int queryId = ++m_iQueryId;
+	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
+
+	if (pHandler)
+		m_arRequests.insert(new TG_REQUEST_FULL(queryId, pHandler, pUserInfo));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -169,7 +214,7 @@ void CMTProto::ProcessMessage(TD::updateNewMessage *pObj)
 	}
 
 	char szId[100];
-	_i64toa(pMessage->id_, szId, _countof(szId));
+	_i64toa(pMessage->id_, szId, 10);
 
 	PROTORECVEVENT pre = {};
 	pre.szMessage = szText.GetBuffer();

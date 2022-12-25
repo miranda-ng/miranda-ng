@@ -1,5 +1,13 @@
 #include "stdafx.h"
 
+static int CompareRequests(const TG_REQUEST_BASE *p1, const TG_REQUEST_BASE *p2)
+{
+	if (p1->requestId == p2->requestId)
+		return 0;
+
+	return (p1->requestId < p2->requestId) ? -1 : 1;
+}
+
 static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 {
 	if (p1->id == p2->id)
@@ -12,7 +20,7 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CMTProto>(protoName, userName),
 	m_pClientMmanager(std::make_unique<td::ClientManager>()),
 	m_arUsers(10, CompareUsers),
-	m_arRequests(10, NumericKeySortT),
+	m_arRequests(10, CompareRequests),
 	m_szOwnPhone(this, "Phone"), 
 	m_wszDefaultGroup(this, "DefaultGroup", L"Telegram"),
 	m_bUsePopups(this, "UsePopups", true),
@@ -88,6 +96,15 @@ INT_PTR CMTProto::GetCaps(int type, MCONTACT)
 		return (INT_PTR)L"Phone";
 	}
 	return 0;
+}
+
+int CMTProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
+{
+	ptrA szId(getStringA(hContact, DBKEY_ID));
+	if (szId == nullptr)
+		return 0;
+
+	return SendTextMessage(_atoi64(szId), pszMessage);
 }
 
 int CMTProto::SetStatus(int iNewStatus)
