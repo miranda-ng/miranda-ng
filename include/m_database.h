@@ -295,6 +295,11 @@ EXTERN_C MIR_CORE_DLL(int) db_event_delete(MEVENT hDbEvent);
 
 EXTERN_C MIR_CORE_DLL(int) db_event_edit(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO *dbei);
 
+// Tries to find an event by its id if present
+// if an event is found, it's edited, otherwise a new event is added
+
+EXTERN_C MIR_CORE_DLL(MEVENT) db_event_replace(MCONTACT hContact, const DBEVENTINFO *dbei);
+
 // Retrieves a handle to the first event in the chain for hContact
 // Returns the handle, or NULL if hContact is invalid or has no events
 // Events in a chain are sorted chronologically automatically

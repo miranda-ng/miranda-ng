@@ -1547,3 +1547,4 @@ _Utils_CorrectFontSize@4 @1762 NONAME
 ?mir_base64_encode@@YGPADABVMBinBuffer@@@Z @1768 NONAME
 ?append@MBinBuffer@@QAEXABV1@@Z @1769 NONAME
 ?appendBefore@MBinBuffer@@QAEXABV1@@Z @1770 NONAME
+db_event_replace @1771

@@ -474,7 +474,7 @@ int SendQueue::ackMessage(CMsgDialog *dat, WPARAM wParam, LPARAM lParam)
 	NotifyEventHooks(g_chatApi.hevPreCreate, 0, (LPARAM)&evt);
 
 	job.szSendBuffer = (char*)dbei.pBlob;
-	MEVENT hNewEvent = db_event_add(job.hContact, &dbei);
+	MEVENT hNewEvent = db_event_replace(job.hContact, &dbei);
 
 	if (dat)
 		if (!NEN::bNoSounds && !dat->m_pContainer->cfg.flags.m_bNoSound)

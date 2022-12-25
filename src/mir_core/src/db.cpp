@@ -469,6 +469,16 @@ MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent)
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->FindPrevEvent(hContact, hDbEvent);
 }
 
+MIR_CORE_DLL(MEVENT) db_event_replace(MCONTACT hContact, const DBEVENTINFO *dbei)
+{
+	MEVENT ret = 0;
+	if (dbei->szId)
+		ret = db_event_getById(dbei->szModule, dbei->szId);
+	if (!ret)
+		ret = db_event_add(hContact, dbei);
+	return ret;
+}
+
 MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 {
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventById(szModule, szId);

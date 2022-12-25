@@ -102,7 +102,7 @@ void msgQueue_processack(MCONTACT hContact, int id, BOOL success, LPARAM lParam)
 
 	p->szMsg = (char*)dbei.pBlob;
 
-	db_event_add(hContact, &dbei);
+	db_event_replace(hContact, &dbei);
 
 	mir_free(p->szMsg);
 	mir_free(p);
