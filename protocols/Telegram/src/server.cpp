@@ -105,6 +105,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessGroups((TD::updateChatFilters *)response.object.get());
 		break;
 
+	case TD::updateChatPosition::ID:
+		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
+		break;
+
 	case TD::updateNewChat::ID:
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
@@ -189,6 +193,35 @@ void CMTProto::ProcessChat(TD::updateNewChat *pObj)
 	auto *pUser = AddUser(pChat->id_, false);
 	if (!pChat->title_.empty())
 		setUString(pUser->hContact, "Nick", pChat->title_.c_str());
+}
+
+void CMTProto::ProcessChatPosition(TD::updateChatPosition *pObj)
+{
+	if (pObj->position_->get_id() != TD::chatPosition::ID) {
+		debugLogA("Unsupport position");
+		return;
+	}
+
+	auto *pUser = FindUser(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("Unknown chat, skipping");
+		return;
+	}
+
+	auto *pPos = (TD::chatPosition *)pObj->position_.get();
+	if (pPos->list_) {
+		auto *pList = (TD::chatListFilter*)pPos->list_.get();
+		
+		CMStringA szSetting(FORMAT, "ChatFilter%d", pList->chat_filter_id_);
+		CMStringW wszGroup(getMStringW(szSetting));
+		if (!wszGroup.IsEmpty()) {
+			ptrW pwszExistingGroup(Clist_GetGroup(pUser->hContact));
+			if (!pwszExistingGroup || !mir_wstrcmp(pwszExistingGroup, m_wszDefaultGroup)) {
+				CMStringW wszNewGroup(FORMAT, L"%s\\%s", (wchar_t *)m_wszDefaultGroup, wszGroup.c_str());
+				Clist_SetGroup(pUser->hContact, wszNewGroup);
+			}
+		}		
+	}
 }
 
 void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)

@@ -116,6 +116,7 @@ class CMTProto : public PROTO<CMTProto>
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
+	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
