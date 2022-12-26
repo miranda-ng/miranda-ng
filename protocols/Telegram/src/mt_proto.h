@@ -128,6 +128,7 @@ class CMTProto : public PROTO<CMTProto>
 
 	// Users
 	int64_t m_iOwnId;
+	MGROUP m_iBaseGroup;
 	OBJLIST<TG_USER> m_arUsers;
 
 	TG_USER* FindUser(uint64_t id);

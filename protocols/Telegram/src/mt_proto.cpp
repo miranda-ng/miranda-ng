@@ -34,6 +34,11 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
 
+	// default contacts group
+	if (m_wszDefaultGroup == NULL)
+		m_wszDefaultGroup = mir_wstrdup(L"WhatsApp");
+	m_iBaseGroup = Clist_GroupCreate(0, m_wszDefaultGroup);
+
 	// Create standard network connection
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE;

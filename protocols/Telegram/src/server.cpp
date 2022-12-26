@@ -201,15 +201,16 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 		CMStringW wszOldValue(getMStringW(szSetting));
 		Utf2T wszNewValue(grp->title_.c_str());
 		if (wszOldValue.IsEmpty()) {
-			Clist_GroupCreate(0, wszNewValue);
+			Clist_GroupCreate(m_iBaseGroup, wszNewValue);
 			setWString(szSetting, wszNewValue);
 		}
 		else if (wszOldValue != wszNewValue) {
-			MGROUP oldGroup = Clist_GroupExists(wszNewValue);
+			CMStringW wszFullGroup(FORMAT, L"%s\\%s", (wchar_t*)m_wszDefaultGroup, wszNewValue);
+			MGROUP oldGroup = Clist_GroupExists(wszFullGroup);
 			if (!oldGroup)
-				Clist_GroupCreate(0, wszNewValue);
+				Clist_GroupCreate(m_iBaseGroup, wszFullGroup);
 			else
-				Clist_GroupRename(oldGroup, wszNewValue);
+				Clist_GroupRename(oldGroup, wszFullGroup);
 			setWString(szSetting, wszNewValue);
 		}
 	}
