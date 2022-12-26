@@ -65,10 +65,30 @@ struct TG_USER
 	uint64_t id;
 	MCONTACT hContact;
 	bool isGroupChat;
+	time_t m_timer1 = 0, m_timer2 = 0;
 };
 
 class CMTProto : public PROTO<CMTProto>
 {
+	class CProtoImpl
+	{
+		friend class CMTProto;
+		CMTProto &m_proto;
+
+		CTimer m_keepAlive;
+		void OnKeepAlive(CTimer *)
+		{
+			m_proto.SendKeepAlive();
+		}
+
+		CProtoImpl(CMTProto &pro) :
+			m_proto(pro),
+			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this))
+		{
+			m_keepAlive.OnEvent = Callback(this, &CProtoImpl::OnKeepAlive);
+		}
+	} m_impl;
+
 	std::unique_ptr<td::ClientManager> m_pClientMmanager;
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
@@ -90,6 +110,7 @@ class CMTProto : public PROTO<CMTProto>
 	void LogOut(void);
 	void OnLoggedIn(void);
 	void ProcessResponse(td::ClientManager::Response);
+	void SendKeepAlive(void);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
 
@@ -97,6 +118,7 @@ class CMTProto : public PROTO<CMTProto>
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
+	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
 	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);

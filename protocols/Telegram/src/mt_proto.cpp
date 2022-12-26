@@ -18,6 +18,7 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 
 CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CMTProto>(protoName, userName),
+	m_impl(*this),
 	m_pClientMmanager(std::make_unique<td::ClientManager>()),
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),

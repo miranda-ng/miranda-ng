@@ -60,6 +60,25 @@ void CMTProto::OnLoggedIn()
 
 ///////////////////////////////////////////////////////////////////////////////
 
+void CMTProto::SendKeepAlive()
+{
+	time_t now = time(0);
+
+	for (auto &it : m_arUsers) {
+		if (it->m_timer1 && now - it->m_timer1 > 600) {
+			it->m_timer1 = 0;
+			it->m_timer2 = now;
+			setWord(it->hContact, "Status", ID_STATUS_AWAY);
+		}
+		else if (it->m_timer2 && now - it->m_timer2 > 600) {
+			it->m_timer2 = 0;
+			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
+		}
+	}
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 void CMTProto::ProcessResponse(td::ClientManager::Response response)
 {
 	if (!response.object)
@@ -92,6 +111,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 
 	case TD::updateNewMessage::ID:
 		ProcessMessage((TD::updateNewMessage *)response.object.get());
+		break;
+
+	case TD::updateUserStatus::ID:
+		ProcessStatus((TD::updateUserStatus *)response.object.get());
 		break;
 
 	case TD::updateUser::ID:
@@ -224,6 +247,19 @@ void CMTProto::ProcessMessage(TD::updateNewMessage *pObj)
 		if (((TD::messageSenderUser *)pMessage->sender_id_.get())->user_id_ == m_iOwnId)
 			pre.flags |= PREF_SENT;
 	ProtoChainRecvMsg(pUser->hContact, &pre);
+}
+
+void CMTProto::ProcessStatus(TD::updateUserStatus *pObj)
+{
+	if (auto *pUser = FindUser(pObj->user_id_)) {
+		if (pObj->status_->get_id() == TD::userStatusOnline::ID)
+			setWord(pUser->hContact, "Status", ID_STATUS_ONLINE);
+		else if (pObj->status_->get_id() == TD::userStatusOffline::ID) {
+			setWord(pUser->hContact, "Status", ID_STATUS_AWAY);
+			pUser->m_timer1 = time(0);
+		}
+		else debugLogA("!!!!! Unknown status packet, report it to the developers");
+	}
 }
 
 void CMTProto::ProcessUser(TD::updateUser *pObj)
