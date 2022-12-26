@@ -15,6 +15,17 @@
 #include <pthread.h>
 #endif
 
+#if TD_PORT_WINDOWS
+union winlock_t {
+	struct {
+		long volatile readerCount;
+		long volatile writerCount;
+	};
+
+	SRWLOCK rwlock;
+};
+#endif
+
 #include <memory>
 
 namespace td {
@@ -83,9 +94,15 @@ class RwMutex {
 #if TD_PORT_POSIX
   pthread_rwlock_t mutex_;
 #elif TD_PORT_WINDOWS
-  unique_ptr<SRWLOCK> mutex_;
+  winlock_t mutex_;
 #endif
 };
+
+void InitializeLock(winlock_t&);
+void AcquireLockShared(winlock_t&);
+void AcquireLockExclusive(winlock_t&);
+void ReleaseLockShared(winlock_t&);
+void ReleaseLockExclusive(winlock_t&);
 
 inline void RwMutex::init() {
   CHECK(empty());
@@ -93,8 +110,7 @@ inline void RwMutex::init() {
 #if TD_PORT_POSIX
   pthread_rwlock_init(&mutex_, nullptr);
 #elif TD_PORT_WINDOWS
-  mutex_ = make_unique<SRWLOCK>();
-  InitializeSRWLock(mutex_.get());
+  InitializeLock(mutex_);
 #endif
 }
 
@@ -102,8 +118,6 @@ inline void RwMutex::clear() {
   if (is_valid_) {
 #if TD_PORT_POSIX
     pthread_rwlock_destroy(&mutex_);
-#elif TD_PORT_WINDOWS
-    mutex_.release();
 #endif
     is_valid_ = false;
   }
@@ -115,7 +129,7 @@ inline void RwMutex::lock_read_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_rdlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  AcquireSRWLockShared(mutex_.get());
+  AcquireLockShared(mutex_);
 #endif
 }
 
@@ -124,7 +138,7 @@ inline void RwMutex::lock_write_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_wrlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  AcquireSRWLockExclusive(mutex_.get());
+  AcquireLockExclusive(mutex_);
 #endif
 }
 
@@ -133,7 +147,7 @@ inline void RwMutex::unlock_read_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_unlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  ReleaseSRWLockShared(mutex_.get());
+  ReleaseLockShared(mutex_);
 #endif
 }
 
@@ -142,7 +156,7 @@ inline void RwMutex::unlock_write_unsafe() {
 #if TD_PORT_POSIX
   pthread_rwlock_unlock(&mutex_);
 #elif TD_PORT_WINDOWS
-  ReleaseSRWLockExclusive(mutex_.get());
+  ReleaseLockExclusive(mutex_);
 #endif
 }
 

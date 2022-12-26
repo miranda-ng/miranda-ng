@@ -56,6 +56,7 @@
     <ClCompile Include="td\tdutils\td\utils\port\platform.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\PollFlags.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\rlimit.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\RwMutex.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\ServerSocketFd.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\signals.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\sleep.cpp" />

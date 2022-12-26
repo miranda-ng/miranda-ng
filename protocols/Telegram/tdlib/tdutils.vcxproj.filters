@@ -75,6 +75,7 @@
     <ClCompile Include="td\tdutils\td\utils\port\user.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\detail\Iocp.cpp" />
     <ClCompile Include="td\tdutils\td\utils\port\detail\NativeFd.cpp" />
+    <ClCompile Include="td\tdutils\td\utils\port\RwMutex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="td\tdutils\td\utils\port\Clocks.h" />
