@@ -21,6 +21,10 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2246C3CF-7888-3102-984A-80214ADF418C}</ProjectGuid>
     <ProjectName>tdnet</ProjectName>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="..\..\..\build\vc.common\slib.props" />
   <PropertyGroup>

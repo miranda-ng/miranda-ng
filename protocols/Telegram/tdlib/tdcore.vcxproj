@@ -21,6 +21,10 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC88FB5A-AAED-3F3E-9959-236444D8F644}</ProjectGuid>
     <ProjectName>tdcore</ProjectName>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="..\..\..\build\vc.common\slib.props" />
   <PropertyGroup>

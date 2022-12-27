@@ -21,6 +21,10 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{800E305A-3704-4617-ADA0-DEE8EAFDB804}</ProjectGuid>
     <ProjectName>tdlib</ProjectName>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="..\..\..\build\vc.common\slib.props" />
   <PropertyGroup>

@@ -1,740 +1,244 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\td\td\mtproto\AuthData.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\crypto.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\Handshake.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\HandshakeActor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\HttpTransport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\IStreamTransport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\RawConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\SessionConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\TcpTransport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\Transport.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\mtproto\utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\AnimationsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\AudiosManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\AuthManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\CallActor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\CallDiscardReason.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\CallManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\CallbackQueriesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\ClientActor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\ConfigManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\ConfigShared.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Contact.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\ContactsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DelayDispatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DeviceTokenManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DhCache.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DialogDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DialogId.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DialogParticipant.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\DocumentsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileDownloader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileFromBytes.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileGcParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileGcWorker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileGenerateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileHashUploader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileLoaderUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileLoadManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileStats.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileStatsWorker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\FileUploader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\PartsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\files\ResourceManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Global.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\HashtagHints.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\InlineQueriesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Location.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\MessageEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\MessagesDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\MessagesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\misc.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\AuthDataShared.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\ConnectionCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\DcAuthManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\DcOptionsSet.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\MtprotoHeader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetActor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetQuery.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetQueryCounter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetQueryCreator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetQueryDelayer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetQueryDispatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\NetStatsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\PublicRsaKeyShared.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\PublicRsaKeyWatchdog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\Session.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\SessionProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\net\SessionMultiProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Payments.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\PasswordManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\PrivacyManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Photo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\ReplyMarkup.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\SecretChatActor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\SecretChatDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\SecretChatsManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\SequenceDispatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\StateManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\StickersManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\StorageManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\Td.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\TdDb.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\TopDialogManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\UpdatesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\VideoNotesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\VideosManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\VoiceNotesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\telegram\WebPagesManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\generate\auto\td\mtproto\mtproto_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\generate\auto\td\telegram\td_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\generate\auto\td\telegram\telegram_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\td\td\generate\auto\td\telegram\secret_api.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="td\td\mtproto\AuthData.cpp" />
+    <ClCompile Include="td\td\mtproto\Handshake.cpp" />
+    <ClCompile Include="td\td\mtproto\HandshakeActor.cpp" />
+    <ClCompile Include="td\td\mtproto\HttpTransport.cpp" />
+    <ClCompile Include="td\td\mtproto\IStreamTransport.cpp" />
+    <ClCompile Include="td\td\mtproto\RawConnection.cpp" />
+    <ClCompile Include="td\td\mtproto\SessionConnection.cpp" />
+    <ClCompile Include="td\td\mtproto\TcpTransport.cpp" />
+    <ClCompile Include="td\td\mtproto\Transport.cpp" />
+    <ClCompile Include="td\td\mtproto\utils.cpp" />
+    <ClCompile Include="td\td\telegram\AnimationsManager.cpp" />
+    <ClCompile Include="td\td\telegram\AudiosManager.cpp" />
+    <ClCompile Include="td\td\telegram\AuthManager.cpp" />
+    <ClCompile Include="td\td\telegram\CallActor.cpp" />
+    <ClCompile Include="td\td\telegram\CallDiscardReason.cpp" />
+    <ClCompile Include="td\td\telegram\CallManager.cpp" />
+    <ClCompile Include="td\td\telegram\CallbackQueriesManager.cpp" />
+    <ClCompile Include="td\td\telegram\ClientActor.cpp" />
+    <ClCompile Include="td\td\telegram\ConfigManager.cpp" />
+    <ClCompile Include="td\td\telegram\Contact.cpp" />
+    <ClCompile Include="td\td\telegram\ContactsManager.cpp" />
+    <ClCompile Include="td\td\telegram\DelayDispatcher.cpp" />
+    <ClCompile Include="td\td\telegram\DeviceTokenManager.cpp" />
+    <ClCompile Include="td\td\telegram\DhCache.cpp" />
+    <ClCompile Include="td\td\telegram\DialogDb.cpp" />
+    <ClCompile Include="td\td\telegram\DialogId.cpp" />
+    <ClCompile Include="td\td\telegram\DialogParticipant.cpp" />
+    <ClCompile Include="td\td\telegram\DocumentsManager.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileDb.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileDownloader.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileFromBytes.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileGcParameters.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileGcWorker.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileGenerateManager.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileHashUploader.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileLoader.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileLoaderUtils.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileLoadManager.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileManager.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileStats.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileStatsWorker.cpp" />
+    <ClCompile Include="td\td\telegram\files\FileUploader.cpp" />
+    <ClCompile Include="td\td\telegram\files\PartsManager.cpp" />
+    <ClCompile Include="td\td\telegram\files\ResourceManager.cpp" />
+    <ClCompile Include="td\td\telegram\Game.cpp" />
+    <ClCompile Include="td\td\telegram\Global.cpp" />
+    <ClCompile Include="td\td\telegram\HashtagHints.cpp" />
+    <ClCompile Include="td\td\telegram\InlineQueriesManager.cpp" />
+    <ClCompile Include="td\td\telegram\Location.cpp" />
+    <ClCompile Include="td\td\telegram\MessageEntity.cpp" />
+    <ClCompile Include="td\td\telegram\MessagesManager.cpp" />
+    <ClCompile Include="td\td\telegram\misc.cpp" />
+    <ClCompile Include="td\td\telegram\net\AuthDataShared.cpp" />
+    <ClCompile Include="td\td\telegram\net\ConnectionCreator.cpp" />
+    <ClCompile Include="td\td\telegram\net\DcAuthManager.cpp" />
+    <ClCompile Include="td\td\telegram\net\DcOptionsSet.cpp" />
+    <ClCompile Include="td\td\telegram\net\MtprotoHeader.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetActor.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetQuery.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetQueryCreator.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetQueryDelayer.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetQueryDispatcher.cpp" />
+    <ClCompile Include="td\td\telegram\net\NetStatsManager.cpp" />
+    <ClCompile Include="td\td\telegram\net\PublicRsaKeyShared.cpp" />
+    <ClCompile Include="td\td\telegram\net\PublicRsaKeyWatchdog.cpp" />
+    <ClCompile Include="td\td\telegram\net\Session.cpp" />
+    <ClCompile Include="td\td\telegram\net\SessionProxy.cpp" />
+    <ClCompile Include="td\td\telegram\net\SessionMultiProxy.cpp" />
+    <ClCompile Include="td\td\telegram\Payments.cpp" />
+    <ClCompile Include="td\td\telegram\PasswordManager.cpp" />
+    <ClCompile Include="td\td\telegram\PrivacyManager.cpp" />
+    <ClCompile Include="td\td\telegram\Photo.cpp" />
+    <ClCompile Include="td\td\telegram\ReplyMarkup.cpp" />
+    <ClCompile Include="td\td\telegram\SecretChatActor.cpp" />
+    <ClCompile Include="td\td\telegram\SecretChatDb.cpp" />
+    <ClCompile Include="td\td\telegram\SecretChatsManager.cpp" />
+    <ClCompile Include="td\td\telegram\SequenceDispatcher.cpp" />
+    <ClCompile Include="td\td\telegram\StateManager.cpp" />
+    <ClCompile Include="td\td\telegram\StickersManager.cpp" />
+    <ClCompile Include="td\td\telegram\StorageManager.cpp" />
+    <ClCompile Include="td\td\telegram\Td.cpp" />
+    <ClCompile Include="td\td\telegram\TdDb.cpp" />
+    <ClCompile Include="td\td\telegram\TopDialogManager.cpp" />
+    <ClCompile Include="td\td\telegram\UpdatesManager.cpp" />
+    <ClCompile Include="td\td\telegram\VideoNotesManager.cpp" />
+    <ClCompile Include="td\td\telegram\VideosManager.cpp" />
+    <ClCompile Include="td\td\telegram\VoiceNotesManager.cpp" />
+    <ClCompile Include="td\td\telegram\WebPagesManager.cpp" />
+    <ClCompile Include="td\td\generate\auto\td\mtproto\mtproto_api.cpp" />
+    <ClCompile Include="td\td\generate\auto\td\telegram\td_api.cpp" />
+    <ClCompile Include="td\td\generate\auto\td\telegram\telegram_api.cpp" />
+    <ClCompile Include="td\td\generate\auto\td\telegram\secret_api.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\td\td\mtproto\AuthData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\AuthKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\crypto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\CryptoStorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\Handshake.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\HandshakeActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\HandshakeConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\HttpTransport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\IStreamTransport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\NoCryptoStorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\PacketStorer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\PingConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\RawConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\SessionConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\TcpTransport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\Transport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\mtproto\utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AccessRights.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AnimationsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AudiosManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AuthManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\CallActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\CallDiscardReason.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\CallId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\CallManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\CallbackQueriesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ChannelId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ChatId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ClientActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ConfigManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ConfigShared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Contact.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ContactsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DelayDispatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DeviceTokenManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DhCache.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DhConfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DialogDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DialogId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DialogParticipant.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DocumentsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileDownloader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileFromBytes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileGcParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileGcWorker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileGenerateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileHashUploader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileLoaderActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileLoaderUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileLoadManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileLocation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileStats.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileStatsWorker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileUploader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\PartsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\ResourceManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\ResourceState.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\HashtagHints.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\InlineQueriesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Location.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\logevent\LogEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\logevent\SecretChatEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\MessageEntity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\MessageId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\MessagesDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\MessagesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\AuthDataShared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\ConnectionCreator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\DcAuthManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\DcId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\DcOptions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\DcOptionsSet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\MtprotoHeader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetQuery.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetQueryCounter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetQueryCreator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetQueryDelayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetQueryDispatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetStatsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\NetType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\PublicRsaKeyShared.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\PublicRsaKeyWatchdog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\Session.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\SessionProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\SessionMultiProxy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\net\TempAuthKeyWatchdog.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\PasswordManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Payments.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Photo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\PrivacyManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\PtsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ReplyMarkup.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SecretChatActor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SecretChatId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SecretChatDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SecretChatsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SecretInputMedia.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\SequenceDispatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\StateManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\StickersManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\StorageManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Td.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\TdCallback.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\TdDb.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\TdParameters.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\TopDialogManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\UniqueId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\UpdatesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\UserId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Version.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VideoNotesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VideosManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VoiceNotesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\WebPageId.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\WebPagesManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AnimationsManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AudiosManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\AuthManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\DocumentsManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileId.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\files\FileManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Game.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Payments.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\Photo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\ReplyMarkup.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\StickersManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VideoNotesManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VideosManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\telegram\VoiceNotesManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\mtproto\mtproto_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\mtproto\mtproto_api.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\td_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\td_api.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\telegram_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\telegram_api.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\secret_api.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\generate\auto\td\telegram\secret_api.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\tl\TlObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\tl\tl_object_parse.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\td\td\tl\tl_object_store.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <ClInclude Include="td\td\mtproto\AuthData.h" />
+    <ClInclude Include="td\td\mtproto\AuthKey.h" />
+    <ClInclude Include="td\td\mtproto\CryptoStorer.h" />
+    <ClInclude Include="td\td\mtproto\Handshake.h" />
+    <ClInclude Include="td\td\mtproto\HandshakeActor.h" />
+    <ClInclude Include="td\td\mtproto\HandshakeConnection.h" />
+    <ClInclude Include="td\td\mtproto\HttpTransport.h" />
+    <ClInclude Include="td\td\mtproto\IStreamTransport.h" />
+    <ClInclude Include="td\td\mtproto\NoCryptoStorer.h" />
+    <ClInclude Include="td\td\mtproto\PacketStorer.h" />
+    <ClInclude Include="td\td\mtproto\PingConnection.h" />
+    <ClInclude Include="td\td\mtproto\RawConnection.h" />
+    <ClInclude Include="td\td\mtproto\SessionConnection.h" />
+    <ClInclude Include="td\td\mtproto\TcpTransport.h" />
+    <ClInclude Include="td\td\mtproto\Transport.h" />
+    <ClInclude Include="td\td\mtproto\utils.h" />
+    <ClInclude Include="td\td\telegram\AccessRights.h" />
+    <ClInclude Include="td\td\telegram\AnimationsManager.h" />
+    <ClInclude Include="td\td\telegram\AudiosManager.h" />
+    <ClInclude Include="td\td\telegram\AuthManager.h" />
+    <ClInclude Include="td\td\telegram\CallActor.h" />
+    <ClInclude Include="td\td\telegram\CallDiscardReason.h" />
+    <ClInclude Include="td\td\telegram\CallId.h" />
+    <ClInclude Include="td\td\telegram\CallManager.h" />
+    <ClInclude Include="td\td\telegram\CallbackQueriesManager.h" />
+    <ClInclude Include="td\td\telegram\ChannelId.h" />
+    <ClInclude Include="td\td\telegram\ChatId.h" />
+    <ClInclude Include="td\td\telegram\ClientActor.h" />
+    <ClInclude Include="td\td\telegram\ConfigManager.h" />
+    <ClInclude Include="td\td\telegram\Contact.h" />
+    <ClInclude Include="td\td\telegram\ContactsManager.h" />
+    <ClInclude Include="td\td\telegram\DelayDispatcher.h" />
+    <ClInclude Include="td\td\telegram\DeviceTokenManager.h" />
+    <ClInclude Include="td\td\telegram\DhCache.h" />
+    <ClInclude Include="td\td\telegram\DhConfig.h" />
+    <ClInclude Include="td\td\telegram\DialogDb.h" />
+    <ClInclude Include="td\td\telegram\DialogId.h" />
+    <ClInclude Include="td\td\telegram\DialogParticipant.h" />
+    <ClInclude Include="td\td\telegram\DocumentsManager.h" />
+    <ClInclude Include="td\td\telegram\files\FileDb.h" />
+    <ClInclude Include="td\td\telegram\files\FileDownloader.h" />
+    <ClInclude Include="td\td\telegram\files\FileFromBytes.h" />
+    <ClInclude Include="td\td\telegram\files\FileGcParameters.h" />
+    <ClInclude Include="td\td\telegram\files\FileGcWorker.h" />
+    <ClInclude Include="td\td\telegram\files\FileGenerateManager.h" />
+    <ClInclude Include="td\td\telegram\files\FileHashUploader.h" />
+    <ClInclude Include="td\td\telegram\files\FileId.h" />
+    <ClInclude Include="td\td\telegram\files\FileLoaderActor.h" />
+    <ClInclude Include="td\td\telegram\files\FileLoader.h" />
+    <ClInclude Include="td\td\telegram\files\FileLoaderUtils.h" />
+    <ClInclude Include="td\td\telegram\files\FileLoadManager.h" />
+    <ClInclude Include="td\td\telegram\files\FileLocation.h" />
+    <ClInclude Include="td\td\telegram\files\FileManager.h" />
+    <ClInclude Include="td\td\telegram\files\FileStats.h" />
+    <ClInclude Include="td\td\telegram\files\FileStatsWorker.h" />
+    <ClInclude Include="td\td\telegram\files\FileUploader.h" />
+    <ClInclude Include="td\td\telegram\files\PartsManager.h" />
+    <ClInclude Include="td\td\telegram\files\ResourceManager.h" />
+    <ClInclude Include="td\td\telegram\files\ResourceState.h" />
+    <ClInclude Include="td\td\telegram\Game.h" />
+    <ClInclude Include="td\td\telegram\Global.h" />
+    <ClInclude Include="td\td\telegram\HashtagHints.h" />
+    <ClInclude Include="td\td\telegram\InlineQueriesManager.h" />
+    <ClInclude Include="td\td\telegram\Location.h" />
+    <ClInclude Include="td\td\telegram\logevent\LogEvent.h" />
+    <ClInclude Include="td\td\telegram\logevent\SecretChatEvent.h" />
+    <ClInclude Include="td\td\telegram\MessageEntity.h" />
+    <ClInclude Include="td\td\telegram\MessageId.h" />
+    <ClInclude Include="td\td\telegram\MessagesManager.h" />
+    <ClInclude Include="td\td\telegram\misc.h" />
+    <ClInclude Include="td\td\telegram\net\AuthDataShared.h" />
+    <ClInclude Include="td\td\telegram\net\ConnectionCreator.h" />
+    <ClInclude Include="td\td\telegram\net\DcAuthManager.h" />
+    <ClInclude Include="td\td\telegram\net\DcId.h" />
+    <ClInclude Include="td\td\telegram\net\DcOptions.h" />
+    <ClInclude Include="td\td\telegram\net\DcOptionsSet.h" />
+    <ClInclude Include="td\td\telegram\net\MtprotoHeader.h" />
+    <ClInclude Include="td\td\telegram\net\NetActor.h" />
+    <ClInclude Include="td\td\telegram\net\NetQuery.h" />
+    <ClInclude Include="td\td\telegram\net\NetQueryCounter.h" />
+    <ClInclude Include="td\td\telegram\net\NetQueryCreator.h" />
+    <ClInclude Include="td\td\telegram\net\NetQueryDelayer.h" />
+    <ClInclude Include="td\td\telegram\net\NetQueryDispatcher.h" />
+    <ClInclude Include="td\td\telegram\net\NetStatsManager.h" />
+    <ClInclude Include="td\td\telegram\net\NetType.h" />
+    <ClInclude Include="td\td\telegram\net\PublicRsaKeyShared.h" />
+    <ClInclude Include="td\td\telegram\net\PublicRsaKeyWatchdog.h" />
+    <ClInclude Include="td\td\telegram\net\Session.h" />
+    <ClInclude Include="td\td\telegram\net\SessionProxy.h" />
+    <ClInclude Include="td\td\telegram\net\SessionMultiProxy.h" />
+    <ClInclude Include="td\td\telegram\net\TempAuthKeyWatchdog.h" />
+    <ClInclude Include="td\td\telegram\PasswordManager.h" />
+    <ClInclude Include="td\td\telegram\Payments.h" />
+    <ClInclude Include="td\td\telegram\Photo.h" />
+    <ClInclude Include="td\td\telegram\PrivacyManager.h" />
+    <ClInclude Include="td\td\telegram\PtsManager.h" />
+    <ClInclude Include="td\td\telegram\ReplyMarkup.h" />
+    <ClInclude Include="td\td\telegram\SecretChatActor.h" />
+    <ClInclude Include="td\td\telegram\SecretChatId.h" />
+    <ClInclude Include="td\td\telegram\SecretChatDb.h" />
+    <ClInclude Include="td\td\telegram\SecretChatsManager.h" />
+    <ClInclude Include="td\td\telegram\SecretInputMedia.h" />
+    <ClInclude Include="td\td\telegram\SequenceDispatcher.h" />
+    <ClInclude Include="td\td\telegram\StateManager.h" />
+    <ClInclude Include="td\td\telegram\StickersManager.h" />
+    <ClInclude Include="td\td\telegram\StorageManager.h" />
+    <ClInclude Include="td\td\telegram\Td.h" />
+    <ClInclude Include="td\td\telegram\TdCallback.h" />
+    <ClInclude Include="td\td\telegram\TdDb.h" />
+    <ClInclude Include="td\td\telegram\TdParameters.h" />
+    <ClInclude Include="td\td\telegram\TopDialogManager.h" />
+    <ClInclude Include="td\td\telegram\UniqueId.h" />
+    <ClInclude Include="td\td\telegram\UpdatesManager.h" />
+    <ClInclude Include="td\td\telegram\UserId.h" />
+    <ClInclude Include="td\td\telegram\Version.h" />
+    <ClInclude Include="td\td\telegram\VideoNotesManager.h" />
+    <ClInclude Include="td\td\telegram\VideosManager.h" />
+    <ClInclude Include="td\td\telegram\VoiceNotesManager.h" />
+    <ClInclude Include="td\td\telegram\WebPageId.h" />
+    <ClInclude Include="td\td\telegram\WebPagesManager.h" />
+    <ClInclude Include="td\td\telegram\AnimationsManager.hpp" />
+    <ClInclude Include="td\td\telegram\AudiosManager.hpp" />
+    <ClInclude Include="td\td\telegram\AuthManager.hpp" />
+    <ClInclude Include="td\td\telegram\DocumentsManager.hpp" />
+    <ClInclude Include="td\td\telegram\files\FileId.hpp" />
+    <ClInclude Include="td\td\telegram\files\FileManager.hpp" />
+    <ClInclude Include="td\td\telegram\Game.hpp" />
+    <ClInclude Include="td\td\telegram\Photo.hpp" />
+    <ClInclude Include="td\td\telegram\ReplyMarkup.hpp" />
+    <ClInclude Include="td\td\telegram\StickersManager.hpp" />
+    <ClInclude Include="td\td\telegram\VideoNotesManager.hpp" />
+    <ClInclude Include="td\td\telegram\VideosManager.hpp" />
+    <ClInclude Include="td\td\telegram\VoiceNotesManager.hpp" />
+    <ClInclude Include="td\td\generate\auto\td\mtproto\mtproto_api.h" />
+    <ClInclude Include="td\td\generate\auto\td\mtproto\mtproto_api.hpp" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\td_api.h" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\td_api.hpp" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\telegram_api.h" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\telegram_api.hpp" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\secret_api.h" />
+    <ClInclude Include="td\td\generate\auto\td\telegram\secret_api.hpp" />
+    <ClInclude Include="td\td\tl\TlObject.h" />
+    <ClInclude Include="td\td\tl\tl_object_parse.h" />
+    <ClInclude Include="td\td\tl\tl_object_store.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

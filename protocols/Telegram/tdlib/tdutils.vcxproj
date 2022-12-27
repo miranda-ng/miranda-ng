@@ -21,6 +21,10 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D21C6A0F-BED1-3377-9659-7FC7D82EFC4F}</ProjectGuid>
     <ProjectName>tdutils</ProjectName>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <PlatformToolset>v141_xp</PlatformToolset>
   </PropertyGroup>
   <Import Project="..\..\..\build\vc.common\slib.props" />
   <PropertyGroup>
