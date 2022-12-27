@@ -531,14 +531,13 @@ struct FileSize {
 };
 
 Result<FileSize> get_file_size(const FileFd &file_fd) {
-  FILE_STANDARD_INFO standard_info;
-  if (!GetFileInformationByHandleEx(file_fd.get_native_fd().fd(), FileStandardInfo, &standard_info,
-                                    sizeof(standard_info))) {
+  BY_HANDLE_FILE_INFORMATION standard_info;
+  if (!GetFileInformationByHandle(file_fd.get_native_fd().fd(), &standard_info)) {
     return OS_ERROR("Get FileStandardInfo failed");
   }
+  LARGE_INTEGER size = { standard_info.nFileIndexLow, standard_info.nFileSizeHigh };
   FileSize res;
-  res.size_ = standard_info.EndOfFile.QuadPart;
-  res.real_size_ = standard_info.AllocationSize.QuadPart;
+  res.size_ = res.real_size_ = size.QuadPart;
 
   if (res.size_ > 0 && res.real_size_ <= 0) {  // just in case
     LOG(ERROR) << "Fix real file size from " << res.real_size_ << " to " << res.size_;
@@ -576,14 +575,18 @@ Result<Stat> FileFd::stat() const {
 #elif TD_PORT_WINDOWS
   Stat res;
 
-  FILE_BASIC_INFO basic_info;
-  auto status = GetFileInformationByHandleEx(get_native_fd().fd(), FileBasicInfo, &basic_info, sizeof(basic_info));
+  BY_HANDLE_FILE_INFORMATION basic_info;
+  auto status = GetFileInformationByHandle(get_native_fd().fd(), &basic_info);
   if (!status) {
     return OS_ERROR("Get FileBasicInfo failed");
   }
-  res.atime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastAccessTime.QuadPart);
-  res.mtime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastWriteTime.QuadPart);
-  res.is_dir_ = (basic_info.FileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+
+  LARGE_INTEGER accessTime = { basic_info.ftLastAccessTime.dwLowDateTime, basic_info.ftLastAccessTime.dwHighDateTime };
+  LARGE_INTEGER writeTime = { basic_info.ftLastWriteTime.dwLowDateTime, basic_info.ftLastWriteTime.dwHighDateTime };
+
+  res.atime_nsec_ = filetime_to_unix_time_nsec(accessTime.QuadPart);
+  res.mtime_nsec_ = filetime_to_unix_time_nsec(writeTime.QuadPart);
+  res.is_dir_ = (basic_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
   res.is_reg_ = !res.is_dir_;  // TODO this is still wrong
 
   TRY_RESULT(file_size, get_file_size(*this));
