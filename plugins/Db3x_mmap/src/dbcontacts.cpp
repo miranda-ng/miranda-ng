@@ -396,8 +396,8 @@ void CDb3Mmap::FillContacts()
 		if (GetContactSetting(hh, META_PROTO, "ContactNumber", &dbv))
 			continue;
 
-		DBCONTACTWRITESETTING dbws = { META_PROTO };
-		dbws.value.type = DBVT_DWORD;
+		DBVARIANT dbw;
+		dbw.type = DBVT_DWORD;
 
 		DBCachedContact *ccMeta = p->cc;
 		if (int(dbv.dVal) < ccMeta->nSubs) {
@@ -405,15 +405,13 @@ void CDb3Mmap::FillContacts()
 
 			char setting[100];
 			mir_snprintf(setting, "Handle%d", dbv.dVal);
-			dbws.szSetting = setting;
-			dbws.value.dVal = hh;
-			WriteContactSetting(ccMeta->contactID, &dbws);
+			dbw.dVal = hh;
+			WriteContactSetting(ccMeta->contactID, META_PROTO, setting, &dbw);
 		}
 
 		// store contact id instead of the old mc number
-		dbws.szSetting = "ParentMeta";
-		dbws.value.dVal = ccMeta->contactID;
-		WriteContactSetting(hh, &dbws);
+		dbw.dVal = ccMeta->contactID;
+		WriteContactSetting(hh, META_PROTO, "ParentMeta", &dbw);
 
 		// wipe out old data from subcontacts
 		DeleteContactSetting(hh, META_PROTO, "ContactNumber");

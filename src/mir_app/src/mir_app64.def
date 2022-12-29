@@ -740,7 +740,7 @@ Netlib_GetTlsUnique @831 NONAME
 ?FilterSearch@Clist@@3V?$CMOption@_N@@A @841 NONAME
 ?FillContactSettings@MDatabaseCommon@@IEAAXXZ @842 NONAME
 ?GetContactSettingWorker@MDatabaseCommon@@MEAAHIPEBD0PEAUDBVARIANT@@H@Z @843 NONAME
-?WriteContactSetting@MDatabaseCommon@@UEAAHIPEAUDBCONTACTWRITESETTING@@@Z @844 NONAME
+?WriteContactSetting@MDatabaseCommon@@UEAAHIPEBD0PEAUDBVARIANT@@@Z @844 NONAME
 ?getCrypt@MDatabaseCommon@@QEBAPEAUMICryptoEngine@@XZ @845 NONAME
 ?isEncrypted@MDatabaseCommon@@QEBA_NXZ @846 NONAME
 ?SelectProvider@MDatabaseCommon@@QEAAPEAUCRYPTO_PROVIDER@@XZ @847 NONAME

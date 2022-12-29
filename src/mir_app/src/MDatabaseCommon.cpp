@@ -197,12 +197,10 @@ BOOL MDatabaseCommon::MetaDetouchSub(DBCachedContact *cc, int nSub)
 
 BOOL MDatabaseCommon::MetaSetDefault(DBCachedContact *cc)
 {
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = META_PROTO;
-	cws.szSetting = "Default";
-	cws.value.type = DBVT_DWORD;
-	cws.value.dVal = cc->nDefault;
-	return WriteContactSetting(cc->contactID, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_DWORD;
+	dbv.dVal = cc->nDefault;
+	return WriteContactSetting(cc->contactID, META_PROTO, "Default", &dbv);
 }
 
 BOOL MDatabaseCommon::MetaRemoveSubHistory(DBCachedContact*)
@@ -451,17 +449,17 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::FreeVariant(DBVARIANT *dbv)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBCONTACTWRITESETTING *dbcws)
+STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
-	if (dbcws == nullptr || dbcws->szSetting == nullptr || dbcws->szModule == nullptr)
+	if (dbv == nullptr || szSetting == nullptr || szModule == nullptr)
 		return 1;
 
 	// the db format can't tolerate more than 255 bytes of space (incl. null) for settings+module name
-	size_t settingNameLen = strlen(dbcws->szSetting);
-	size_t moduleNameLen = strlen(dbcws->szModule);
+	size_t settingNameLen = strlen(szSetting);
+	size_t moduleNameLen = strlen(szModule);
 
 	// used for notifications
-	DBCONTACTWRITESETTING dbcwNotif = *dbcws;
+	DBCONTACTWRITESETTING dbcwNotif = {szModule, szSetting, *dbv};
 	if (dbcwNotif.value.type == DBVT_WCHAR) {
 		if (dbcwNotif.value.pszVal != nullptr) {
 			T2Utf val(dbcwNotif.value.pwszVal);
@@ -487,7 +485,7 @@ STDMETHODIMP_(BOOL) MDatabaseCommon::WriteContactSetting(MCONTACT contactID, DBC
 
 	case DBVT_ASCIIZ:
 	case DBVT_UTF8:
-		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(dbcws->szModule, dbcws->szSetting);
+		bIsEncrypted = m_bEncrypted || IsSettingEncrypted(szModule, szSetting);
 		if (dbcwWork.value.pszVal == nullptr)
 			return 1;
 

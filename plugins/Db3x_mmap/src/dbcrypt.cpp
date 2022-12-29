@@ -77,11 +77,11 @@ STDMETHODIMP_(BOOL) CDb3Mmap::StoreCryptoKey()
 	uint8_t *pKey = (uint8_t*)_alloca(iKeyLength);
 	m_crypto->getKey(pKey, iKeyLength);
 
-	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "StoredKey" };
-	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.cpbVal = (uint16_t)iKeyLength;
-	dbcws.value.pbVal = pKey;
-	WriteContactSetting(0, &dbcws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	dbv.cpbVal = (uint16_t)iKeyLength;
+	dbv.pbVal = pKey;
+	WriteContactSetting(0, "CryptoEngine", "StoredKey", &dbv);
 
 	SecureZeroMemory(pKey, iKeyLength);
 	return TRUE;
@@ -117,11 +117,11 @@ STDMETHODIMP_(CRYPTO_PROVIDER *) CDb3Mmap::ReadProvider()
 
 STDMETHODIMP_(BOOL) CDb3Mmap::StoreProvider(CRYPTO_PROVIDER *pProvider)
 {
-	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "Provider" };
-	dbcws.value.type = DBVT_BLOB;
-	dbcws.value.pbVal = (uint8_t*)pProvider->pszName;
-	dbcws.value.cpbVal = (uint16_t)mir_strlen(pProvider->pszName) + 1;
-	WriteContactSetting(0, &dbcws);
+	DBVARIANT dbv = {};
+	dbv.type = DBVT_BLOB;
+	dbv.pbVal = (uint8_t*)pProvider->pszName;
+	dbv.cpbVal = (uint16_t)mir_strlen(pProvider->pszName) + 1;
+	WriteContactSetting(0, "CryptoEngine", "Provider", &dbv);
 	return TRUE;
 }
 
@@ -148,10 +148,10 @@ STDMETHODIMP_(BOOL) CDb3Mmap::EnableEncryption(BOOL bEnable)
 
 	m_bEncrypted = !m_bEncrypted;
 
-	DBCONTACTWRITESETTING dbcws = { "CryptoEngine", "DatabaseEncryption" };
-	dbcws.value.type = DBVT_BYTE;
-	dbcws.value.bVal = m_bEncrypted;
-	WriteContactSetting(0, &dbcws);
+	DBVARIANT dbv = {};
+	dbv.type = DBVT_BYTE;
+	dbv.bVal = m_bEncrypted;
+	WriteContactSetting(0, "CryptoEngine", "DatabaseEncryption", &dbv);
 
 	g_hevSettingChanged = hSave1;
 	g_hevEventAdded = hSave2;
@@ -236,11 +236,11 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 				size_t encodedLen;
 				uint8_t *pResult = m_crypto->encodeString(p->szValue, &encodedLen);
 				if (pResult != nullptr) {
-					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
-					dbcws.value.type = DBVT_ENCRYPTED;
-					dbcws.value.pbVal = pResult;
-					dbcws.value.cpbVal = (uint16_t)encodedLen;
-					WriteContactSetting(contactID, &dbcws);
+					DBVARIANT dbv = {};
+					dbv.type = DBVT_ENCRYPTED;
+					dbv.pbVal = pResult;
+					dbv.cpbVal = (uint16_t)encodedLen;
+					WriteContactSetting(contactID, szModule, p->szVar, &dbv);
 
 					mir_free(pResult);
 				}
@@ -249,11 +249,11 @@ void CDb3Mmap::ToggleSettingsEncryption(MCONTACT contactID)
 				size_t realLen;
 				ptrA decoded(m_crypto->decodeString((uint8_t*)(char*)p->szValue, p->iLen, &realLen));
 				if (decoded != nullptr) {
-					DBCONTACTWRITESETTING dbcws = { szModule, p->szVar };
-					dbcws.value.type = DBVT_UNENCRYPTED;
-					dbcws.value.pszVal = decoded;
-					dbcws.value.cchVal = (uint16_t)realLen;
-					WriteContactSetting(contactID, &dbcws);
+					DBVARIANT dbv = {};
+					dbv.type = DBVT_UNENCRYPTED;
+					dbv.pszVal = decoded;
+					dbv.cchVal = (uint16_t)realLen;
+					WriteContactSetting(contactID, szModule, p->szVar, &dbv);
 				}
 			}
 		}

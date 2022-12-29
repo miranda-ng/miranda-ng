@@ -309,96 +309,78 @@ MIR_CORE_DLL(INT_PTR) db_set(MCONTACT hContact, const char *szModule, const char
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value = *dbv;
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_b(MCONTACT hContact, const char *szModule, const char *szSetting, uint8_t val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_BYTE;
-	cws.value.bVal = val;
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_BYTE;
+	dbv.bVal = val;
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_w(MCONTACT hContact, const char *szModule, const char *szSetting, uint16_t val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_WORD;
-	cws.value.wVal = val;
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_WORD;
+	dbv.wVal = val;
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_dw(MCONTACT hContact, const char *szModule, const char *szSetting, uint32_t val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_DWORD;
-	cws.value.dVal = val;
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_DWORD;
+	dbv.dVal = val;
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_s(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_ASCIIZ;
-	cws.value.pszVal = (char*)(val == nullptr ? "" : val);
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_ASCIIZ;
+	dbv.pszVal = (char*)(val == nullptr ? "" : val);
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_ws(MCONTACT hContact, const char *szModule, const char *szSetting, const wchar_t *val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_WCHAR;
-	cws.value.pwszVal = (wchar_t*)(val == nullptr ? L"" : val);
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_WCHAR;
+	dbv.pwszVal = (wchar_t*)(val == nullptr ? L"" : val);
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_utf(MCONTACT hContact, const char *szModule, const char *szSetting, const char *val)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_UTF8;
-	cws.value.pszVal = (char*)(val == nullptr ? "" : val);
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_UTF8;
+	dbv.pszVal = (char*)(val == nullptr ? "" : val);
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 MIR_CORE_DLL(INT_PTR) db_set_blob(MCONTACT hContact, const char *szModule, const char *szSetting, const void *val, unsigned len)
 {
 	if (g_pCurrDb == nullptr) return 1;
 
-	DBCONTACTWRITESETTING cws;
-	cws.szModule = szModule;
-	cws.szSetting = szSetting;
-	cws.value.type = DBVT_BLOB;
-	cws.value.cpbVal = (uint16_t)len;
-	cws.value.pbVal = (unsigned char*)val;
-	return g_pCurrDb->WriteContactSetting(hContact, &cws);
+	DBVARIANT dbv;
+	dbv.type = DBVT_BLOB;
+	dbv.cpbVal = (uint16_t)len;
+	dbv.pbVal = (unsigned char*)val;
+	return g_pCurrDb->WriteContactSetting(hContact, szModule, szSetting, &dbv);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
