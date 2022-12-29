@@ -4,7 +4,6 @@
 // Distributed under the Boost Software License, Version 1.0. (See accompanying
 // file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 //
-#define _WINSOCK_DEPRECATED_NO_WARNINGS  // we need to use inet_addr instead of inet_pton
 
 #include "td/utils/port/IPAddress.h"
 
@@ -17,6 +16,7 @@
 #include "td/utils/Slice.h"
 #include "td/utils/SliceBuilder.h"
 #include "td/utils/utf8.h"
+#include "td/utils/port/inet_ntop.h"
 
 #if TD_WINDOWS
 #include "td/utils/port/wstring_convert.h"
@@ -179,7 +179,7 @@ static CSlice get_ip_str(int family, const void *addr) {
   static TD_THREAD_LOCAL char *buf;
   init_thread_local<char[]>(buf, buf_size);
 
-  const char *res = inet_ntop(family,
+  const char *res = inet_ntop_(family,
 #if TD_WINDOWS
                               const_cast<PVOID>(addr),
 #else
@@ -320,11 +320,11 @@ Status IPAddress::init_ipv6_port(CSlice ipv6, int port) {
   std::memset(&ipv6_addr_, 0, sizeof(ipv6_addr_));
   ipv6_addr_.sin6_family = AF_INET6;
   ipv6_addr_.sin6_port = htons(static_cast<uint16>(port));
-  int err = inet_pton(AF_INET6, ipv6.c_str(), &ipv6_addr_.sin6_addr);
+  int err = inet_pton_(AF_INET6, ipv6.c_str(), &ipv6_addr_.sin6_addr);
   if (err == 0) {
-    return Status::Error(PSLICE() << "Failed inet_pton(AF_INET6, " << ipv6 << ")");
+    return Status::Error(PSLICE() << "Failed inet_pton_(AF_INET6, " << ipv6 << ")");
   } else if (err == -1) {
-    return OS_SOCKET_ERROR(PSLICE() << "Failed inet_pton(AF_INET6, " << ipv6 << ")");
+    return OS_SOCKET_ERROR(PSLICE() << "Failed inet_pton_(AF_INET6, " << ipv6 << ")");
   }
   is_valid_ = true;
   return Status::OK();
@@ -342,11 +342,11 @@ Status IPAddress::init_ipv4_port(CSlice ipv4, int port) {
   std::memset(&ipv4_addr_, 0, sizeof(ipv4_addr_));
   ipv4_addr_.sin_family = AF_INET;
   ipv4_addr_.sin_port = htons(static_cast<uint16>(port));
-  int err = inet_pton(AF_INET, ipv4.c_str(), &ipv4_addr_.sin_addr);
+  int err = inet_pton_(AF_INET, ipv4.c_str(), &ipv4_addr_.sin_addr);
   if (err == 0) {
-    return Status::Error(PSLICE() << "Failed inet_pton(AF_INET, " << ipv4 << ")");
+    return Status::Error(PSLICE() << "Failed inet_pton_(AF_INET, " << ipv4 << ")");
   } else if (err == -1) {
-    return OS_SOCKET_ERROR(PSLICE() << "Failed inet_pton(AF_INET, " << ipv4 << ")");
+    return OS_SOCKET_ERROR(PSLICE() << "Failed inet_pton_(AF_INET, " << ipv4 << ")");
   }
   is_valid_ = true;
   return Status::OK();
@@ -365,7 +365,7 @@ Result<IPAddress> IPAddress::get_ip_address(CSlice host) {
 }
 
 Result<IPAddress> IPAddress::get_ipv4_address(CSlice host) {
-  // sometimes inet_addr allows much more valid IPv4 hosts than inet_pton,
+  // sometimes inet_addr allows much more valid IPv4 hosts than inet_pton_,
   // like 0x12.0x34.0x56.0x78, or 0x12345678, or 0x7f.001
   auto ipv4_numeric_addr = inet_addr(host.c_str());
   if (ipv4_numeric_addr == INADDR_NONE) {
@@ -416,7 +416,7 @@ Status IPAddress::init_host_port(CSlice host, CSlice port, bool prefer_ipv6) {
     return init_ipv6_port(host, port_int == 0 ? 1 : port_int);
   }
 
-  // some getaddrinfo implementations use inet_pton instead of inet_aton and support only decimal-dotted IPv4 form,
+  // some getaddrinfo implementations use inet_pton_ instead of inet_aton and support only decimal-dotted IPv4 form,
   // and so doesn't recognize 0x12.0x34.0x56.0x78, or 0x12345678, or 0x7f.001 as valid IPv4 addresses
   auto ipv4_numeric_addr = inet_addr(host.c_str());
   if (ipv4_numeric_addr != INADDR_NONE) {
