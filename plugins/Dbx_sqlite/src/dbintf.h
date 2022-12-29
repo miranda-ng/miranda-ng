@@ -14,21 +14,14 @@ struct CQuery
 struct DBCachedContact : public DBCachedContactBase
 {
 	int32_t  m_count;
-	MEVENT   m_unread;
-	uint32_t m_unreadTimestamp;
 
-	DBCachedContact()
-		: m_count(-1), m_unread(0) { }
+	DBCachedContact() :
+		m_count(-1)
+	{}
 
 	__forceinline bool HasCount() const {
 		return m_count > -1;
 	}
-
-	void AddEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread);
-	void EditEvent(MEVENT hDbEvent, uint32_t timestamp, bool unread);
-	void DeleteEvent(MEVENT hDbEvent);
-
-	void MarkRead(MEVENT hDbEvent);
 };
 
 struct CDbxSQLiteEventCursor : public DB::EventCursor

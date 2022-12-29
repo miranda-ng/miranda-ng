@@ -58,8 +58,29 @@ void CDbxSQLite::InitSettings()
 	sqlite3_finalize(stmt);
 
 	FillContactSettings();
-}
 
+	DBVARIANT dbv; dbv.type = DBVT_DWORD;
+	if (GetContactSetting(0, "Compatibility", "Sqlite", &dbv))
+		dbv.dVal = 0;
+
+	if (dbv.dVal < 1) {
+		int rc = sqlite3_exec(m_db, "ALTER TABLE events ADD COLUMN is_read INTEGER NOT NULL DEFAULT 0;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "CREATE INDEX idx_events_isread ON events(contact_id, is_read, timestamp);", nullptr, nullptr, nullptr);
+		logError(rc, __FILE__, __LINE__);
+
+		rc = sqlite3_exec(m_db, "UPDATE events SET is_read=1 WHERE (flags & 6) <> 0;", nullptr, nullptr, nullptr);
+		logError(rc, __FILE__, __LINE__);
+
+		DBCONTACTWRITESETTING dbcws = {};
+		dbcws.szModule = "Compatibility";
+		dbcws.szSetting = "Sqlite";
+		dbcws.value.type = DBVT_BYTE;
+		dbcws.value.dVal = 1;
+		WriteContactSetting(0, &dbcws);
+	}
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
