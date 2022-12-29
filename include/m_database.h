@@ -457,13 +457,6 @@ bool Profile_GetSetting(const wchar_t *pwszSetting, wchar_t(&pwszBuf)[_Size], co
 /////////////////////////////////////////////////////////////////////////////////////////
 // Contact services
 
-struct DBCONTACTGETSETTING
-{
-	const char *szModule;   // pointer to name of the module that wrote the setting to get
-	const char *szSetting;  // pointer to name of the setting to get
-	DBVARIANT *pValue;      // pointer to variant to receive the value
-};
-
 struct DBCONTACTWRITESETTING
 {
 	const char *szModule;   // pointer to name of the module that wrote the setting to get
