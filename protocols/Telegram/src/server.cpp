@@ -54,8 +54,6 @@ void CMTProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
-
-	SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -246,6 +244,8 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 				Clist_GroupRename(oldGroup, wszFullGroup);
 			setWString(szSetting, wszNewValue);
 		}
+
+		SendQuery(new TD::getChats(TD::make_object<TD::chatListFilter>(grp->id_), 1000));
 	}
 }
 
@@ -299,16 +299,20 @@ void CMTProto::ProcessStatus(TD::updateUserStatus *pObj)
 void CMTProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
-	
+
+	if (pUser->phone_number_ == _T2A(m_szOwnPhone).get()) {
+		m_iOwnId = pUser->id_;
+
+		if (!FindUser(pUser->id_))
+			m_arUsers.insert(new TG_USER(pUser->id_, 0));
+	}
+
 	auto *pu = AddUser(pUser->id_, false);
 	UpdateString(pu->hContact, "FirstName", pUser->first_name_);
 	UpdateString(pu->hContact, "LastName", pUser->last_name_);
 	UpdateString(pu->hContact, "Phone", pUser->phone_number_);
 	if (pUser->usernames_)
 		UpdateString(pu->hContact, "Nick", pUser->usernames_->editable_username_);
-
-	if (pUser->phone_number_ == _T2A(m_szOwnPhone).get())
-		m_iOwnId = pUser->id_;
 
 	if (pUser->is_premium_)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
