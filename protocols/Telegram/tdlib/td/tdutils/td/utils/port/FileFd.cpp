@@ -41,8 +41,25 @@
 #include <limits>
 #endif
 
-#if TD_PORT_WINDOWS && defined(WIN32_LEAN_AND_MEAN)
+#if TD_PORT_WINDOWS
+#ifdef WIN32_LEAN_AND_MEAN
 #include <winioctl.h>
+#endif // WIN32_LEAN_AND_MEAN
+
+typedef struct _IO_STATUS_BLOCK
+{
+   union
+   {
+      NTSTATUS Status;
+      PVOID Pointer;
+   } DUMMYUNIONNAME;
+
+   ULONG_PTR Information;
+} IO_STATUS_BLOCK, *PIO_STATUS_BLOCK;
+
+typedef NTSTATUS (WINAPI *pfnNtQueryInformationFile)(HANDLE handle, IO_STATUS_BLOCK *io, void *ptr, ULONG len, int class_);
+static pfnNtQueryInformationFile fnNtQueryInformationFile = 0;
+
 #endif
 
 namespace td {
@@ -531,13 +548,17 @@ struct FileSize {
 };
 
 Result<FileSize> get_file_size(const FileFd &file_fd) {
-  BY_HANDLE_FILE_INFORMATION standard_info;
-  if (!GetFileInformationByHandle(file_fd.get_native_fd().fd(), &standard_info)) {
+  FILE_STANDARD_INFO standard_info;
+  IO_STATUS_BLOCK io = {};
+  if (fnNtQueryInformationFile == nullptr)
+     fnNtQueryInformationFile = (pfnNtQueryInformationFile)GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtQueryInformationFile");
+  if (fnNtQueryInformationFile(file_fd.get_native_fd().fd(), &io, &standard_info, sizeof(standard_info), 5)) {
     return OS_ERROR("Get FileStandardInfo failed");
   }
-  LARGE_INTEGER size = { standard_info.nFileIndexLow, standard_info.nFileSizeHigh };
+
   FileSize res;
-  res.size_ = res.real_size_ = size.QuadPart;
+  res.size_ = standard_info.EndOfFile.QuadPart;
+  res.real_size_ = standard_info.AllocationSize.QuadPart;
 
   if (res.size_ > 0 && res.real_size_ <= 0) {  // just in case
     LOG(ERROR) << "Fix real file size from " << res.real_size_ << " to " << res.size_;
@@ -575,18 +596,17 @@ Result<Stat> FileFd::stat() const {
 #elif TD_PORT_WINDOWS
   Stat res;
 
-  BY_HANDLE_FILE_INFORMATION basic_info;
-  auto status = GetFileInformationByHandle(get_native_fd().fd(), &basic_info);
-  if (!status) {
-    return OS_ERROR("Get FileBasicInfo failed");
+  FILE_BASIC_INFO basic_info;
+  IO_STATUS_BLOCK io = {};
+  if (fnNtQueryInformationFile == nullptr)
+     fnNtQueryInformationFile = (pfnNtQueryInformationFile)GetProcAddress(GetModuleHandleA("ntdll.dll"), "NtQueryInformationFile");
+  if (fnNtQueryInformationFile(get_native_fd().fd(), &io, &basic_info, sizeof(basic_info), 4)) {
+     return OS_ERROR("Get FileStandardInfo failed");
   }
 
-  LARGE_INTEGER accessTime = { basic_info.ftLastAccessTime.dwLowDateTime, basic_info.ftLastAccessTime.dwHighDateTime };
-  LARGE_INTEGER writeTime = { basic_info.ftLastWriteTime.dwLowDateTime, basic_info.ftLastWriteTime.dwHighDateTime };
-
-  res.atime_nsec_ = filetime_to_unix_time_nsec(accessTime.QuadPart);
-  res.mtime_nsec_ = filetime_to_unix_time_nsec(writeTime.QuadPart);
-  res.is_dir_ = (basic_info.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+  res.atime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastAccessTime.QuadPart);
+  res.mtime_nsec_ = filetime_to_unix_time_nsec(basic_info.LastWriteTime.QuadPart);
+  res.is_dir_ = (basic_info.FileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
   res.is_reg_ = !res.is_dir_;  // TODO this is still wrong
 
   TRY_RESULT(file_size, get_file_size(*this));
