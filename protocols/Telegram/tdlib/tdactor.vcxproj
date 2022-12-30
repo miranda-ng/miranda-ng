@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85F63934-02FE-332A-8703-059040B65512}</ProjectGuid>
     <ProjectName>tdactor</ProjectName>
-    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <PlatformToolset>v141_xp</PlatformToolset>

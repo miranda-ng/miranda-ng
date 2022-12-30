@@ -21,7 +21,6 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F525EE11-8820-3D8A-87A5-465D50A98A64}</ProjectGuid>
     <ProjectName>tddb</ProjectName>
-    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <PlatformToolset>v141_xp</PlatformToolset>
