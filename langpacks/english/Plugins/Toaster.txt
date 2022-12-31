@@ -9,7 +9,7 @@
 ;file \plugins\Toaster\res\resource.rc
 [Preview]
 [Add shortcut]
-[Enabled]
+[Enable popups]
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 [Failed to create temporary directory]
