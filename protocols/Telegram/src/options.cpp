@@ -22,7 +22,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class COptionsDlg : public CProtoDlgBase<CMTProto>
 {
 	CCtrlCheck chkHideChats, chkUsePopups;
-	CCtrlEdit edtGroup, edtPhone;
+	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
 
 public:
@@ -32,10 +32,12 @@ public:
 		chkHideChats(this, IDC_HIDECHATS),
 		edtPhone(this, IDC_PHONE),
 		edtGroup(this, IDC_DEFGROUP),
+		edtDeviceName(this, IDC_DEVICE_NAME),
 		m_wszOldGroup(mir_wstrdup(ppro->m_wszDefaultGroup))
 	{
 		CreateLink(edtPhone, ppro->m_szOwnPhone);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
+		CreateLink(edtDeviceName, ppro->m_wszDeviceName);
 		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 
 		if (bFullDlg)

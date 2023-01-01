@@ -17,6 +17,8 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+#include "../../../../miranda-private-keys/Telegram/api.h"
+
 ///////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CALLBACK CMTProto::EnterPhoneCode(void *param)
@@ -61,8 +63,10 @@ void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 	switch (pAuthState->get_id()) {
 	case TD::authorizationStateWaitTdlibParameters::ID:
 		{
+			MFileVersion v;
 			char text[100];
-			Miranda_GetVersionText(text, sizeof(text));
+			Miranda_GetFileVersion(&v);
+			mir_snprintf(text, "%d.%d.%d.%d", v[0], v[1], v[2], v[3]);
 
 			CMStringW wszPath(GetProtoFolder());
 
@@ -70,10 +74,10 @@ void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->database_directory_ = T2Utf(wszPath).get();
 			request->use_message_database_ = false;
 			request->use_secret_chats_ = true;
-			request->api_id_ = 94575;
-			request->api_hash_ = "a3406de8d171bb422bb6ddf3bbd800e2";
+			request->api_id_ = MIRANDA_API_ID;
+			request->api_hash_ = MIRANDA_API_HASH;
 			request->system_language_code_ = "en";
-			request->device_model_ = "Miranda NG";
+			request->device_model_ = T2Utf(m_wszDeviceName).get();
 			request->application_version_ = text;
 			request->enable_storage_optimizer_ = true;
 			SendQuery(request, &CMTProto::OnUpdateAuth);

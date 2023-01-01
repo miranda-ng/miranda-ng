@@ -49,7 +49,7 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English resources
+// English (Neutral) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
@@ -69,6 +69,8 @@ BEGIN
     EDITTEXT        IDC_PHONE,96,4,86,12,ES_AUTOHSCROLL
     LTEXT           "Default group:",IDC_STATIC,0,23,89,10
     EDITTEXT        IDC_DEFGROUP,96,21,86,12,ES_AUTOHSCROLL
+    LTEXT           "Device name:",IDC_STATIC,0,39,89,10
+    EDITTEXT        IDC_DEVICE_NAME,96,38,86,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,0,57,182,10
 END
@@ -82,9 +84,12 @@ BEGIN
     EDITTEXT        IDC_PHONE,87,5,211,12,ES_AUTOHSCROLL
     LTEXT           "Default group:",IDC_STATIC,5,24,79,10
     EDITTEXT        IDC_DEFGROUP,87,23,211,12,ES_AUTOHSCROLL
+    LTEXT           "Device name:",IDC_STATIC,5,43,79,10
+    EDITTEXT        IDC_DEVICE_NAME,87,41,211,12,ES_AUTOHSCROLL
     CONTROL         "Do not open chat windows on creation",IDC_HIDECHATS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -97,7 +102,42 @@ IDI_TELEGRAM            ICON                    "telegram.ico"
 
 IDI_PREMIUM             ICON                    "premium.ico"
 
-#endif    // English resources
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ACCMGRUI, DIALOG
+    BEGIN
+    END
+
+    IDD_OPTIONS, DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ACCMGRUI AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_OPTIONS AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+#endif    // English (Neutral) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -33,11 +33,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="telegram.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="src\mt_proto.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,6 +40,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

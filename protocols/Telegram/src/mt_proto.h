@@ -172,6 +172,7 @@ public:
 	
 	CMOption<wchar_t*> m_szOwnPhone;       // our own phone number
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
+	CMOption<wchar_t*> m_wszDeviceName;    // how do you see this session in Device List
 	CMOption<bool>     m_bHideGroupchats;  // do not open chat windows on creation
 	CMOption<bool>     m_bUsePopups;
 

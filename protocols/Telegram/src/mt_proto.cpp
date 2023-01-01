@@ -23,6 +23,7 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),
 	m_szOwnPhone(this, "Phone"), 
+	m_wszDeviceName(this, "DeviceName", L"Miranda"),
 	m_wszDefaultGroup(this, "DefaultGroup", L"Telegram"),
 	m_bUsePopups(this, "UsePopups", true),
 	m_bHideGroupchats(this, "HideChats", true)
