@@ -137,9 +137,11 @@ LPCSTR WSAAPI inet_ntop_(INT af, PVOID src, LPSTR dst, size_t size)
     switch (af) {
     case AF_INET :
         pdst = inet_ntop_v4 (src, dst, size);
+        break;
 
     case AF_INET6 :
         pdst = inet_ntop_v6 (src, dst, size);
+        break;
 
     default:
         WSASetLastError( WSAEAFNOSUPPORT );
