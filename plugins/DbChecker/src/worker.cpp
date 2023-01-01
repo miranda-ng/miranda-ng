@@ -26,6 +26,11 @@ static bool ConvertOldEvent(DBEVENTINFO &dbei)
 	if (dbei.flags & DBEF_UTF)
 		return false;
 
+	if (dbei.flags == 1) {
+		dbei.flags = DBEF_UTF;
+		return true;
+	}
+
 	int msglen = (int)mir_strlen((char *)dbei.pBlob) + 1, msglenW = 0;
 	if (msglen != (int)dbei.cbBlob) {
 		int count = ((dbei.cbBlob - msglen) / sizeof(wchar_t));

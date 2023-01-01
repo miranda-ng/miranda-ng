@@ -231,8 +231,8 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	sqlite3_bind_int(stmt, 3, tmp.eventType);
 	sqlite3_bind_int64(stmt, 4, tmp.flags);
 	sqlite3_bind_blob(stmt, 5, tmp.pBlob, tmp.cbBlob, nullptr);
-	sqlite3_bind_int64(stmt, 6, hDbEvent);
-	sqlite3_bind_int(stmt, 7, tmp.markedRead());
+	sqlite3_bind_int(stmt, 6, tmp.markedRead());
+	sqlite3_bind_int64(stmt, 7, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
@@ -342,7 +342,7 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	int rows;
 	{
 		mir_cslock lock(m_csDbAccess);
-		sqlite3_stmt *stmt = InitQuery("UPDATE events SET flags = flags OR 4, is_read = 1 WHERE id = ? AND is_read = 0;", qEvSetFlags);
+		sqlite3_stmt *stmt = InitQuery("UPDATE events SET flags = flags | 4, is_read = 1 WHERE id = ? AND is_read = 0;", qEvSetFlags);
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
 		int rc = sqlite3_step(stmt);
 		rows = sqlite3_changes(m_db);
