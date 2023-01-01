@@ -109,7 +109,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	sqlite3_bind_text(stmt, 2, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
 	sqlite3_bind_int64(stmt, 3, tmp.timestamp);
 	sqlite3_bind_int(stmt, 4, tmp.eventType);
-	sqlite3_bind_int(stmt, 5, tmp.flags);
+	sqlite3_bind_int64(stmt, 5, tmp.flags);
 	sqlite3_bind_blob(stmt, 6, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_text(stmt, 7, szEventId, (int)mir_strlen(szEventId), nullptr);
 	sqlite3_bind_int(stmt, 8, tmp.markedRead());
@@ -229,7 +229,7 @@ BOOL CDbxSQLite::EditEvent(MCONTACT hContact, MEVENT hDbEvent, const DBEVENTINFO
 	sqlite3_bind_text(stmt, 1, tmp.szModule, (int)mir_strlen(tmp.szModule), nullptr);
 	sqlite3_bind_int64(stmt, 2, tmp.timestamp);
 	sqlite3_bind_int(stmt, 3, tmp.eventType);
-	sqlite3_bind_int(stmt, 4, tmp.flags);
+	sqlite3_bind_int64(stmt, 4, tmp.flags);
 	sqlite3_bind_blob(stmt, 5, tmp.pBlob, tmp.cbBlob, nullptr);
 	sqlite3_bind_int64(stmt, 6, hDbEvent);
 	sqlite3_bind_int(stmt, 7, tmp.markedRead());
