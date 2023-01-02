@@ -26,13 +26,18 @@ ToastNotification::ToastNotification(
 	void *pData)
 	: _text(text), _caption(caption), _imagePath(imagePath), _hContact(hContact), _pfnPopupProc(pWndProc), _pvPopupData(pData)
 {
-	{
-		mir_cslock lck(csNotifications);
+	{	mir_cslock lck(csNotifications);
 		lstNotifications.insert(this);
 	}
-	Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager);
-	notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier);
-	Create(&notification);
+
+	if (FAILED(Windows::Foundation::GetActivationFactory(StringReferenceWrapper(RuntimeClass_Windows_UI_Notifications_ToastNotificationManager).Get(), &notificationManager)))
+		return;
+
+	if (FAILED(notificationManager->CreateToastNotifierWithId(StringReferenceWrapper(::AppUserModelID).Get(), &notifier)))
+		return;
+
+	if (FAILED(Create(&notification)))
+		return;
 
 	notification->add_Activated(Callback<ToastActivationHandler>(this, &ToastNotification::OnActivate).Get(), &_ertActivated);
 	notification->add_Dismissed(Callback<ToastDismissHandler>(this, &ToastNotification::OnDismiss).Get(), &_ertDismissed);
