@@ -31,14 +31,6 @@ struct ProtocolData
 	int enabled;
 };
 
-int isProtoSuitable(PROTO_INTERFACE* ppi)
-{
-	if (ppi == nullptr)
-		return TRUE;
-
-	return ppi->GetCaps(PFLAGNUM_2, 0) & ~ppi->GetCaps(PFLAGNUM_5, 0);
-}
-
 bool CheckProtocolOrder(void)
 {
 	bool changed = false;
@@ -96,6 +88,16 @@ bool CheckProtocolOrder(void)
 	return changed;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static bool isProtoSuitable(PROTO_INTERFACE *ppi)
+{
+	if (ppi == nullptr)
+		return true;
+
+	return (ppi->GetCaps(PFLAGNUM_2, 0) & ~ppi->GetCaps(PFLAGNUM_5, 0)) != 0;
+}
+
 static bool ProtoToInclude(PROTOACCOUNT *pa)
 {
 	if (!pa->IsEnabled())
@@ -104,8 +106,6 @@ static bool ProtoToInclude(PROTOACCOUNT *pa)
 	PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
 	return (pd != nullptr && pd->type == PROTOTYPE_PROTOWITHACCS);
 }
-
-/////////////////////////////////////////////////////////////////////////////////////////
 
 class CProtocolOrderOpts : public CDlgBase
 {
@@ -116,7 +116,7 @@ class CProtocolOrderOpts : public CDlgBase
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = nullptr;
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 
 		for (int i = 0; i < g_arAccounts.getCount(); i++) {
 			int idx = Clist_GetAccountIndex(i);
@@ -133,13 +133,11 @@ class CProtocolOrderOpts : public CDlgBase
 
 			tvis.item.lParam = (LPARAM)PD;
 			tvis.item.pszText = pa->tszAccountName;
-			tvis.item.iImage = tvis.item.iSelectedImage = PD->enabled ? pa->bIsVisible : 100;
+			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+			tvis.item.state = INDEXTOSTATEIMAGEMASK((PD->enabled) ? (pa->bIsVisible ? 2 : 1) : 3);
 			m_order.InsertItem(&tvis);
 		}
 	}
-
-	bool      m_bDragging;
-	HTREEITEM m_hDragItem;
 
 	CCtrlTreeView m_order;
 	CCtrlButton m_btnReset;
@@ -148,9 +146,7 @@ public:
 	CProtocolOrderOpts() :
 		CDlgBase(g_plugin, IDD_OPT_PROTOCOLORDER),
 		m_order(this, IDC_PROTOCOLORDER),
-		m_btnReset(this, IDC_RESETPROTOCOLDATA),
-		m_bDragging(false),
-		m_hDragItem(nullptr)
+		m_btnReset(this, IDC_RESETPROTOCOLDATA)
 	{
 		m_btnReset.OnClick = Callback(this, &CProtocolOrderOpts::onReset_Click);
 
@@ -175,7 +171,7 @@ public:
 		// scan chosen g_arAccounts and apply the order
 		TVITEMEX tvi;
 		tvi.hItem = m_order.GetRoot();
-		tvi.mask = TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
+		tvi.mask = TVIF_PARAM | TVIF_HANDLE;
 		while (tvi.hItem != nullptr) {
 			m_order.GetItem(&tvi);
 
@@ -185,7 +181,7 @@ public:
 				if (pa != nullptr) {
 					pa->iOrder = idx++;
 					if (ppd->enabled)
-						pa->bIsVisible = tvi.iImage != 0;
+						pa->bIsVisible = m_order.GetCheckState(tvi.hItem) != 0;
 				}
 			}
 
