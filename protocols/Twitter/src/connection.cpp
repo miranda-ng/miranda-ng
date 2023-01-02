@@ -291,7 +291,7 @@ void CTwitterProto::UpdateAvatarWorker(void *p)
 	if (username.IsEmpty())
 		return;
 
-	CMStringA ext = data->url.Right(data->url.ReverseFind('.')); // finds the filetype of the avatar
+	CMStringA ext = data->url.Mid(data->url.ReverseFind('.')); // finds the filetype of the avatar
 	CMStringW filename(FORMAT, L"%s\\%S%S", GetAvatarFolder().c_str(), username.c_str(), ext.c_str()); // local filename and path
 
 	PROTO_AVATAR_INFORMATION ai = { 0 };
