@@ -143,63 +143,16 @@ public:
 
 class COptionsMainDlg : public COptionsBaseDlg
 {
-	CCtrlSpin spinLimit, spinMessage, spinFile, spinErr, spinOther;
-	CCtrlCheck chkLimit, chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
-	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
-	CCtrlButton btnPreview;
+	CCtrlSpin spinLimit;
+	CCtrlCheck chkLimit;
 	CCtrlTreeOpts m_opts;
-
-	void GrabData()
-	{
-		m_opts.OnApply();
-
-		g_plugin.iLimitPreview = (chkLimit.GetState()) ? spinLimit.GetPosition() : 0;
-
-		// update options
-		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
-		g_plugin.msg.backColor = clrBackMessage.GetColor();
-		g_plugin.msg.textColor = clrTextMessage.GetColor();
-		g_plugin.msg.iDelay = spinMessage.GetPosition();
-
-		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
-		g_plugin.file.backColor = clrBackFile.GetColor();
-		g_plugin.file.textColor = clrTextFile.GetColor();
-		g_plugin.file.iDelay = spinFile.GetPosition();
-
-		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
-		g_plugin.err.backColor = clrBackErr.GetColor();
-		g_plugin.err.textColor = clrTextErr.GetColor();
-		g_plugin.err.iDelay = spinErr.GetPosition();
-
-		g_plugin.other.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
-		g_plugin.other.backColor = clrBackOther.GetColor();
-		g_plugin.other.textColor = clrTextOther.GetColor();
-		g_plugin.other.iDelay = spinOther.GetPosition();
-	}
 
 public:
 	COptionsMainDlg() :
 		COptionsBaseDlg(IDD_OPT_MAIN),
 		m_opts(this, IDC_OPT_TREE),
-		btnPreview(this, IDC_PREVIEW),
-		clrBackMessage(this, IDC_COLBACK_MESSAGE),
-		clrTextMessage(this, IDC_COLTEXT_MESSAGE),
-		clrBackFile(this, IDC_COLBACK_FILE),
-		clrTextFile(this, IDC_COLTEXT_FILE),
-		clrBackErr(this, IDC_COLBACK_ERR),
-		clrTextErr(this, IDC_COLTEXT_ERR),
-		clrBackOther(this, IDC_COLBACK_OTHERS),
-		clrTextOther(this, IDC_COLTEXT_OTHERS),
-		chkDefaultColorMsg(this, IDC_CHKDEFAULTCOL_MESSAGE),
-		chkDefaultColorFile(this, IDC_CHKDEFAULTCOL_FILE),
-		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
-		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
 		chkLimit(this, IDC_LIMITPREVIEW),
-		spinErr(this, IDC_SPIN_ERR, 1000, -1),
-		spinFile(this, IDC_SPIN_FILE, 1000, -1),
-		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 1000),
-		spinOther(this, IDC_SPIN_OTHERS, 1000, -1),
-		spinMessage(this, IDC_SPIN_MESSAGE, 1000, -1)
+		spinLimit(this, IDC_MESSAGEPREVIEWLIMITSPIN, 1000)
 	{
 		auto *pwszSection = TranslateT("General options");
 		m_opts.AddOption(pwszSection, TranslateT("Show preview of event in popup"), g_plugin.bPreview);
@@ -231,29 +184,105 @@ public:
 		m_opts.AddOption(pwszSection, TranslateT("No popups for RSS contacts"), g_plugin.bNoRSS);
 		m_opts.AddOption(pwszSection, TranslateT("No popups for read messages"), g_plugin.bReadCheck);
 
-		btnPreview.OnClick = Callback(this, &COptionsMainDlg::onClick_Preview);
-
 		chkLimit.OnChange = Callback(this, &COptionsMainDlg::onChange_Limit);
-		chkDefaultColorMsg.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultMsg);
-		chkDefaultColorFile.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultFile);
-		chkDefaultColorErr.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultErr);
-		chkDefaultColorOthers.OnChange = Callback(this, &COptionsMainDlg::onChange_DefaultOther);
+	}
+
+	bool OnInitDialog() override
+	{
+		chkLimit.SetState(g_plugin.iLimitPreview > 0);
+		spinLimit.SetPosition(g_plugin.iLimitPreview);
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		g_plugin.iLimitPreview = (chkLimit.GetState()) ? spinLimit.GetPosition() : 0;
+		m_opts.OnApply();
+		return true;
+	}
+
+	void onChange_Limit(CCtrlCheck *)
+	{
+		bool bEnabled = chkLimit.GetState();
+		spinLimit.Enable(bEnabled);
+		EnableDlgItem(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, bEnabled);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+class COptionsEventsDlg : public COptionsBaseDlg
+{
+	CCtrlSpin spinMessage, spinFile, spinErr, spinOther;
+	CCtrlCheck chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
+	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
+	CCtrlButton btnPreview;
+
+	void GrabData()
+	{
+		// update options
+		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
+		g_plugin.msg.backColor = clrBackMessage.GetColor();
+		g_plugin.msg.textColor = clrTextMessage.GetColor();
+		g_plugin.msg.iDelay = spinMessage.GetPosition();
+
+		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
+		g_plugin.file.backColor = clrBackFile.GetColor();
+		g_plugin.file.textColor = clrTextFile.GetColor();
+		g_plugin.file.iDelay = spinFile.GetPosition();
+
+		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
+		g_plugin.err.backColor = clrBackErr.GetColor();
+		g_plugin.err.textColor = clrTextErr.GetColor();
+		g_plugin.err.iDelay = spinErr.GetPosition();
+
+		g_plugin.other.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
+		g_plugin.other.backColor = clrBackOther.GetColor();
+		g_plugin.other.textColor = clrTextOther.GetColor();
+		g_plugin.other.iDelay = spinOther.GetPosition();
+	}
+
+public:
+	COptionsEventsDlg() :
+		COptionsBaseDlg(IDD_OPT_EVENT_TYPES),
+		btnPreview(this, IDC_PREVIEW),
+		clrBackMessage(this, IDC_COLBACK_MESSAGE),
+		clrTextMessage(this, IDC_COLTEXT_MESSAGE),
+		clrBackFile(this, IDC_COLBACK_FILE),
+		clrTextFile(this, IDC_COLTEXT_FILE),
+		clrBackErr(this, IDC_COLBACK_ERR),
+		clrTextErr(this, IDC_COLTEXT_ERR),
+		clrBackOther(this, IDC_COLBACK_OTHERS),
+		clrTextOther(this, IDC_COLTEXT_OTHERS),
+		chkDefaultColorMsg(this, IDC_CHKDEFAULTCOL_MESSAGE),
+		chkDefaultColorFile(this, IDC_CHKDEFAULTCOL_FILE),
+		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
+		chkDefaultColorOthers(this, IDC_CHKDEFAULTCOL_OTHERS),
+		spinErr(this, IDC_SPIN_ERR, 1000, -1),
+		spinFile(this, IDC_SPIN_FILE, 1000, -1),
+		spinOther(this, IDC_SPIN_OTHERS, 1000, -1),
+		spinMessage(this, IDC_SPIN_MESSAGE, 1000, -1)
+	{
+		btnPreview.OnClick = Callback(this, &COptionsEventsDlg::onClick_Preview);
+	
+		chkDefaultColorMsg.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultMsg);
+		chkDefaultColorFile.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultFile);
+		chkDefaultColorErr.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultErr);
+		chkDefaultColorOthers.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultOther);
 	}
 
 	bool OnInitDialog() override
 	{
 		// make dialog represent the current options
 		clrBackMessage.SetColor(g_plugin.msg.backColor);
-		clrTextMessage.SetColor(g_plugin.msg.textColor);
 		clrBackFile.SetColor(g_plugin.file.backColor);
-		clrTextFile.SetColor(g_plugin.file.textColor);
 		clrBackErr.SetColor(g_plugin.err.backColor);
-		clrTextErr.SetColor(g_plugin.err.textColor);
 		clrBackOther.SetColor(g_plugin.other.backColor);
-		clrTextOther.SetColor(g_plugin.other.textColor);
 
-		chkLimit.SetState(g_plugin.iLimitPreview > 0);
-		spinLimit.SetPosition(g_plugin.iLimitPreview);
+		clrTextMessage.SetColor(g_plugin.msg.textColor);
+		clrTextFile.SetColor(g_plugin.file.textColor);
+		clrTextErr.SetColor(g_plugin.err.textColor);
+		clrTextOther.SetColor(g_plugin.other.textColor);
 
 		chkDefaultColorMsg.SetState(g_plugin.msg.bDefault);
 		chkDefaultColorFile.SetState(g_plugin.file.bDefault);
@@ -282,13 +311,6 @@ public:
 		PopupShow(0, 0, EVENTTYPE_ERRMSG);
 		PopupShow(0, 0, EVENTTYPE_FILE);
 		PopupShow(0, 0, -1);
-	}
-
-	void onChange_Limit(CCtrlCheck *)
-	{
-		bool bEnabled = chkLimit.GetState();
-		spinLimit.Enable(bEnabled);
-		EnableDlgItem(m_hwnd, IDC_MESSAGEPREVIEWLIMIT, bEnabled);
 	}
 
 	void onChange_DefaultMsg(CCtrlCheck *)
@@ -402,6 +424,10 @@ int OptionsAdd(WPARAM addInfo, LPARAM)
 
 	odp.szTab.a = LPGEN("Message events");
 	odp.pDialog = new COptionsMessageDlg();
+	g_plugin.addOptions(addInfo, &odp);
+
+	odp.szTab.a = LPGEN("Event types");
+	odp.pDialog = new COptionsEventsDlg();
 	g_plugin.addOptions(addInfo, &odp);
 	return 0;
 }

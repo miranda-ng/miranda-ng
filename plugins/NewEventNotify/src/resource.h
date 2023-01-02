@@ -1,9 +1,10 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by C:\Users\georg\DiskW\miranda-ng\plugins\NewEventNotify\res\resource.rc
+// Used by W:\miranda-ng\plugins\NewEventNotify\res\resource.rc
 //
 #define IDD_OPT_MAIN                    101
 #define IDD_OPT_MESSAGE                 102
+#define IDD_OPT_EVENT_TYPES             103
 #define IDC_PREVIEW                     1000
 #define IDC_LIMITPREVIEW                1001
 #define IDC_MESSAGEPREVIEWLIMIT         1002
@@ -28,7 +29,6 @@
 #define IDC_MERGEPOPUP                  1021
 #define IDC_SPIN_MESSAGE                1022
 #define IDC_CHKMERGEPOPUP               1023
-#define IDC_COLTEXT_MESSAGE2            1024
 #define IDC_DELAY_MESSAGE               1025
 #define IDC_SPIN_ERR                    1026
 #define IDC_DELAY_FILE                  1027
@@ -50,7 +50,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        111
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1043
 #define _APS_NEXT_SYMED_VALUE           101
