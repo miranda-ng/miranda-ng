@@ -54,6 +54,8 @@ void CMTProto::OnLoggedIn()
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
+
+	SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -163,6 +165,10 @@ int CMTProto::SendTextMessage(uint64_t chatId, const char *pszMessage)
 void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
 	int queryId = ++m_iQueryId;
+
+	auto szDescr = to_string(*pFunc);
+	debugLogA("Sending query %d:\n%s", queryId, szDescr.c_str());
+	
 	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
 	if (pHandler)
@@ -172,6 +178,10 @@ void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
 {
 	int queryId = ++m_iQueryId;
+
+	auto szDescr = to_string(*pFunc);
+	debugLogA("Sending full query %d:\n%s", queryId, szDescr.c_str());
+
 	m_pClientMmanager->send(m_iClientId, queryId, TD::object_ptr<TD::Function>(pFunc));
 
 	if (pHandler)
@@ -188,9 +198,9 @@ void CMTProto::ProcessChat(TD::updateNewChat *pObj)
 		return;
 	}
 
-	auto *pUser = AddUser(pChat->id_, false);
-	if (!pChat->title_.empty())
-		setUString(pUser->hContact, "Nick", pChat->title_.c_str());
+	if (auto *pUser = FindUser(pChat->id_))
+		if (!pChat->title_.empty())
+			setUString(pUser->hContact, "Nick", pChat->title_.c_str());
 }
 
 void CMTProto::ProcessChatPosition(TD::updateChatPosition *pObj)
@@ -245,7 +255,6 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 			setWString(szSetting, wszNewValue);
 		}
 
-		SendQuery(new TD::getChats(TD::make_object<TD::chatListFilter>(grp->id_), 1000));
 	}
 }
 
@@ -305,6 +314,11 @@ void CMTProto::ProcessUser(TD::updateUser *pObj)
 
 		if (!FindUser(pUser->id_))
 			m_arUsers.insert(new TG_USER(pUser->id_, 0));
+	}
+
+	if (!pUser->is_contact_) {
+		debugLogA("User doesn't belong to your contacts, skipping");
+		return;
 	}
 
 	auto *pu = AddUser(pUser->id_, false);
