@@ -355,7 +355,7 @@ static PopupActions[] =
 
 class CPopupOptDlg : public CDlgBase
 {
-	CCtrlCheck chOwnColors, chkWinColors, chkPopupColors, chkErrors, chkInfo;
+	CCtrlCheck chkOwnColors, chkWinColors, chkPopupColors, chkErrors, chkInfo;
 	CCtrlButton btnPreview;
 
 public:
@@ -364,7 +364,7 @@ public:
 		btnPreview(this, IDC_PREVIEW),
 		chkInfo(this, IDC_INFO_MESSAGES),
 		chkErrors(this, IDC_ERRORS),
-		chOwnColors(this, IDC_USEOWNCOLORS),
+		chkOwnColors(this, IDC_USEOWNCOLORS),
 		chkWinColors(this, IDC_USEWINCOLORS),
 		chkPopupColors(this, IDC_USEPOPUPCOLORS)
 	{
@@ -373,18 +373,16 @@ public:
 		chkInfo.OnChange = Callback(this, &CPopupOptDlg::onChange_Info);
 		chkErrors.OnChange = Callback(this, &CPopupOptDlg::onChange_Errors);
 
-		chOwnColors.OnChange = Callback(this, &CPopupOptDlg::onChange_OwnColors);
-		chkWinColors.OnChange = Callback(this, &CPopupOptDlg::onChange_WinColors);
-		chkPopupColors.OnChange = Callback(this, &CPopupOptDlg::onChange_PopupColors);
+		chkOwnColors.OnChange = chkWinColors.OnChange = chkPopupColors.OnChange = Callback(this, &CPopupOptDlg::onChange_Colors);
 	}
 
 	bool OnInitDialog() override
 	{
 		//Colors
 		if (g_plugin.PopupDefColors == byCOLOR_OWN)
-			chkWinColors.SetState(true);
+			chkOwnColors.SetState(true);
 		else if (g_plugin.PopupDefColors == byCOLOR_WINDOWS)
-			chOwnColors.SetState(true);
+			chkWinColors.SetState(true);
 		else if (g_plugin.PopupDefColors == byCOLOR_POPUP)
 			chkPopupColors.SetState(true);
 
@@ -438,7 +436,7 @@ public:
 
 		if (chkWinColors.GetState())
 			g_plugin.PopupDefColors = byCOLOR_WINDOWS;
-		else if (chOwnColors.GetState())
+		else if (chkOwnColors.GetState())
 			g_plugin.PopupDefColors = byCOLOR_OWN;
 		else
 			g_plugin.PopupDefColors = byCOLOR_POPUP;
@@ -474,32 +472,17 @@ public:
 		return CDlgBase::DlgProc(msg, wParam, lParam);
 	}
 
-	void onChange_OwnColors(CCtrlCheck *)
+	void onChange_Colors(CCtrlCheck *pCheck)
 	{
+		if (!m_bInitialized) return;
+
+		bool bEnable = (pCheck == &chkOwnColors);
 		for (auto &it : PopupsList) {
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl2), TRUE); //Text
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl3), TRUE); //Background
+			EnableWindow(GetDlgItem(m_hwnd, it.ctrl2), bEnable); //Text
+			EnableWindow(GetDlgItem(m_hwnd, it.ctrl3), bEnable); //Background
 		}
 	}
-
-	void onChange_WinColors(CCtrlCheck *)
-	{
-		// Use Windows colors
-		for (auto &it : PopupsList) {
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl2), FALSE); //Text
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl3), FALSE); //Background
-		}
-	}
-
-	void onChange_PopupColors(CCtrlCheck *)
-	{
-		// Use Popup colors
-		for (auto &it : PopupsList) {
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl2), FALSE); //Text
-			EnableWindow(GetDlgItem(m_hwnd, it.ctrl3), FALSE); //Background
-		}
-	}
-
+	
 	void onClick_Preview(CCtrlButton *)
 	{
 		LPCTSTR Title = TranslateT("Plugin Updater");
