@@ -89,10 +89,14 @@ class CMTProto : public PROTO<CMTProto>
 		}
 	} m_impl;
 
+	bool __forceinline isRunning() const 
+	{	return m_pClientMmanager != nullptr; 
+	}
+
 	std::unique_ptr<td::ClientManager> m_pClientMmanager;
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
 
-	bool m_bAuthorized, m_bRunning = false, m_bTerminated;
+	bool m_bAuthorized, m_bTerminated, m_bUnregister = false;
 	int32_t m_iClientId, m_iMsgId;
 	uint64_t m_iQueryId;
 
@@ -108,6 +112,7 @@ class CMTProto : public PROTO<CMTProto>
 	void OnUpdateAuth(td::ClientManager::Response &response);
 
 	void LogOut(void);
+	void OnEndSession(td::ClientManager::Response &response);
 	void OnLoggedIn(void);
 	void ProcessResponse(td::ClientManager::Response);
 	void SendKeepAlive(void);

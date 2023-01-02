@@ -19,7 +19,6 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CMTProto>(protoName, userName),
 	m_impl(*this),
-	m_pClientMmanager(std::make_unique<td::ClientManager>()),
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),
 	m_szOwnPhone(this, "Phone"), 
@@ -28,7 +27,6 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	m_bUsePopups(this, "UsePopups", true),
 	m_bHideGroupchats(this, "HideChats", true)
 {
-	m_iClientId = m_pClientMmanager->create_client_id();
 	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
@@ -83,6 +81,9 @@ void CMTProto::OnShutdown()
 
 void CMTProto::OnErase()
 {
+	m_bUnregister = true;
+	ServerThread(0);
+
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
@@ -135,19 +136,19 @@ int CMTProto::SetStatus(int iNewStatus)
 	}
 
 	if (m_iDesiredStatus == ID_STATUS_OFFLINE) {
-		if (m_bRunning)
+		if (isRunning())
 			SendQuery(new TD::close());
 
 		m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}
-	else if (!m_bRunning && !IsStatusConnecting(m_iStatus)) {
+	else if (!isRunning() && !IsStatusConnecting(m_iStatus)) {
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
 		ForkThread(&CMTProto::ServerThread);
 	}
-	else if (m_bRunning) {
+	else if (isRunning()) {
 		m_iStatus = m_iDesiredStatus;
 		ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 	}

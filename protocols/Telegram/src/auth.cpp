@@ -100,12 +100,7 @@ void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 		OnLoggedIn();
 		break;
 
-	case TD::authorizationStateLoggingOut::ID:
-		debugLogA("Server required us to log out, exiting");
-		LogOut();
-		break;
-
-	case TD::authorizationStateClosing::ID:
+	case TD::authorizationStateClosed::ID:
 		debugLogA("Connection terminated, exiting");
 		LogOut();
 		break;

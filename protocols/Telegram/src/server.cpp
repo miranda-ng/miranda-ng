@@ -17,10 +17,17 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+void CMTProto::OnEndSession(td::ClientManager::Response&)
+{
+	m_bTerminated = true;
+}
+
 void __cdecl CMTProto::ServerThread(void *)
 {
-	m_bRunning = true;
 	m_bTerminated = m_bAuthorized = false;
+
+	m_pClientMmanager = std::make_unique<td::ClientManager>();
+	m_iClientId = m_pClientMmanager->create_client_id();
 
 	SendQuery(new TD::getOption("version"));
 
@@ -28,7 +35,7 @@ void __cdecl CMTProto::ServerThread(void *)
 		ProcessResponse(m_pClientMmanager->receive(1));
 	}
 
-	m_bRunning = false;
+	m_pClientMmanager = std::move(nullptr);
 }
 
 void CMTProto::LogOut()
@@ -55,7 +62,11 @@ void CMTProto::OnLoggedIn()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
-	SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
+	if (m_bUnregister) {
+		SendQuery(new TD::terminateSession());
+		SendQuery(new TD::logOut(), &CMTProto::OnEndSession);
+	}
+	else SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -254,7 +265,6 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 				Clist_GroupRename(oldGroup, wszFullGroup);
 			setWString(szSetting, wszNewValue);
 		}
-
 	}
 }
 
