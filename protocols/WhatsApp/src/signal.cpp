@@ -1,7 +1,7 @@
 /*
 
 WhatsApp plugin for Miranda NG
-Copyright © 2019-22 George Hazan
+Copyright © 2019-23 George Hazan
 
 */
 
