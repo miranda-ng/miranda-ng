@@ -29,6 +29,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 extern HANDLE hevLoadModule;
 
+static pluginEntry* FindPlugin(const wchar_t *pszPlugin)
+{
+	pluginEntry tmp;
+	strncpy_s(tmp.pluginname, _T2A(pszPlugin), _TRUNCATE);
+	return pluginList.find(&tmp);
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Plugins options page dialog
 
@@ -111,7 +118,13 @@ static BOOL dialogListPlugins(WIN32_FIND_DATA *fd, wchar_t *path, WPARAM, LPARAM
 
 		bNeedsFree = true;
 	}
-	else ppb = &GetPluginByInstance(hInst);
+	else {
+		if (auto *pPlug = FindPlugin(fd->cFileName))
+			if (pPlug->bFailed)
+				return true;
+		
+		ppb = &GetPluginByInstance(hInst);
+	}
 
 	PluginListItemData *dat = (PluginListItemData*)mir_calloc(sizeof(PluginListItemData));
 	dat->hInst = hInst;
@@ -250,17 +263,14 @@ static bool LoadPluginDynamically(PluginListItemData *dat)
 
 static bool UnloadPluginDynamically(PluginListItemData *dat)
 {
-	pluginEntry tmp;
-	strncpy_s(tmp.pluginname, _T2A(dat->fileName), _TRUNCATE);
-
-	pluginEntry *p = pluginList.find(&tmp);
-	if (p) {
+	if (auto *p = FindPlugin(dat->fileName)) {
 		if (!Plugin_UnloadDyn(p))
 			return false;
 
 		dat->bWasLoaded = false;
 		dat->hInst = nullptr;
 	}
+	
 	return true;
 }
 

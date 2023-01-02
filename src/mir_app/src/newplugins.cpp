@@ -532,9 +532,11 @@ bool TryLoadPlugin(pluginEntry *p, bool bDynamic)
 
 	// contact list is loaded via clistlink, db - via DATABASELINK
 	// so we should call Load() only for usual plugins
-	if (!p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
-		if (p->load() != 0)
+	if (!p->bFailed && !p->bLoaded && !p->bIsClist && !p->bIsDatabase) {
+		if (p->load() != 0) {
+			p->bFailed = true;
 			return false;
+		}
 
 		p->bLoaded = true;
 		if (p->m_pInterfaces) {
@@ -733,13 +735,8 @@ int LoadNewPluginsModule(void)
 		SetPluginOnWhiteList(p->pluginname, plugin_clist == p);
 
 	// now loop thru and load all the other plugins, do this in one pass
-	for (int i = 0; i < pluginList.getCount(); i++) {
-		pluginEntry *p = pluginList[i];
-		if (!TryLoadPlugin(p, false)) {
-			Plugin_Uninit(p);
-			i--;
-		}
-	}
+	for (int i = 0; i < pluginList.getCount(); i++)
+		TryLoadPlugin(pluginList[i], false);
 
 	for (auto &it : servicePlugins.rev_iter())
 		if (!IsPluginOnWhiteList(it->pluginname))
