@@ -50,7 +50,7 @@
 #define ftello64 ftell
 #define fseeko64 fseek
 #else
-#ifdef __FreeBSD__
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__NetBSD__)
 #define fopen64 fopen
 #define ftello64 ftello
 #define fseeko64 fseeko
@@ -134,7 +134,7 @@ extern "C" {
 
 
 
-typedef voidpf   (ZCALLBACK *open_file_func)      OF((voidpf opaque, const wchar_t* filename, int mode));
+typedef voidpf   (ZCALLBACK *open_file_func)      OF((voidpf opaque, const char* filename, int mode));
 typedef uLong    (ZCALLBACK *read_file_func)      OF((voidpf opaque, voidpf stream, void* buf, uLong size));
 typedef uLong    (ZCALLBACK *write_file_func)     OF((voidpf opaque, voidpf stream, const void* buf, uLong size));
 typedef int      (ZCALLBACK *close_file_func)     OF((voidpf opaque, voidpf stream));
