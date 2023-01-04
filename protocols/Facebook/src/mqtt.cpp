@@ -203,6 +203,9 @@ void FacebookProto::MqttSend(const MqttMessage &payload)
 
 void FacebookProto::MqttLogin()
 {
+	// Hidden setting!! Agent = how Miranda would be visible in the session list
+	ptrA pszAgent(getStringA("Agent", FB_API_MQTT_AGENT));
+
 	uint8_t zeroByte = 0;
 	Utils_GetRandom(&m_iMqttId, sizeof(m_iMqttId) / 2);
 
@@ -216,7 +219,7 @@ void FacebookProto::MqttLogin()
 	thrift.writeInt64(m_uid);
 
 	thrift.writeField(FB_THRIFT_TYPE_STRING); // User agent
-	thrift << FB_API_MQTT_AGENT;
+	thrift << pszAgent;
 
 	thrift.writeField(FB_THRIFT_TYPE_I64);
 	thrift.writeInt64(23);
