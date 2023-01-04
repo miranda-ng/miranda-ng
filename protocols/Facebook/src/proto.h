@@ -412,6 +412,7 @@ class FacebookProto : public PROTO<FacebookProto>
 	AsyncHttpRequest *CreateRequest(const char *szUrl, const char *szName, const char *szMethod);
 	AsyncHttpRequest *CreateRequestGQL(int64_t id);
 	NETLIBHTTPREQUEST *ExecuteRequest(AsyncHttpRequest *pReq);
+	CMStringA GetAgentString();
 
 	// Avatars
 	void __cdecl AvatarsUpdate(void *);

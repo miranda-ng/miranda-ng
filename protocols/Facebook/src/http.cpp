@@ -117,7 +117,7 @@ AsyncHttpRequest* FacebookProto::CreateRequest(const char *szUrl, const char *sz
 		pReq->AddHeader("Authorization", "OAuth " + m_szAuthToken);
 	}
 
-	pReq->AddHeader("User-Agent", FB_API_AGENT);
+	pReq->AddHeader("User-Agent", GetAgentString());
 	pReq->AddHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
 	return pReq;
 }
@@ -182,4 +182,10 @@ NETLIBHTTPREQUEST* FacebookProto::ExecuteRequest(AsyncHttpRequest *pReq)
 	NETLIBHTTPREQUEST *reply = Netlib_HttpTransaction(m_hNetlibUser, pReq);
 	delete pReq;
 	return reply;
+}
+
+CMStringA FacebookProto::GetAgentString()
+{
+	// Hidden setting!! Agent = how Miranda would be visible in the session list
+	return getMStringA("Agent", FB_API_MQTT_AGENT);
 }
