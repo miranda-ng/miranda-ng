@@ -30,11 +30,10 @@ public:
 		CreateLink(edtNick, ppro->m_wszNick);
 		CreateLink(edtGroup, ppro->m_wszDefaultGroup);
 		CreateLink(edtDevName, ppro->m_wszDeviceName);
+		CreateLink(chkHideChats, ppro->m_bHideGroupchats);
 
-		if (bFullDlg) {
-			CreateLink(chkHideChats, ppro->m_bHideGroupchats);
+		if (bFullDlg)
 			CreateLink(chkBbcodes, ppro->m_bUseBbcodes);
-		}
 
 		btnUnregister.OnClick = Callback(this, &COptionsDlg::onClick_Unregister);
 	}
