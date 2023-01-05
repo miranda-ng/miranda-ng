@@ -308,12 +308,6 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_first(MCONTACT hContact);
 
 // Retrieves a handle to the first unread event in the chain for hContact
 // Returns the handle, or NULL if hContact is invalid or all its events have been read
-//
-// Events in a chain are sorted chronologically automatically, but this does not
-// necessarily mean that all events after the first unread are unread too. They
-// should be checked individually with db_event_next() and db_event_get()
-// This service is designed for startup, reloading all the events that remained
-// unread from last time
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_firstUnread(MCONTACT hContact);
 
@@ -373,6 +367,11 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_prev(MCONTACT hContact, MEVENT hDbEvent);
 // Retrieves a handle to the event identified by its module and unique identifier
 
 EXTERN_C MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId);
+
+// Updates the server ID associated with an event
+// Returns 0 on success or a failure otherwise
+
+EXTERN_C MIR_CORE_DLL(int) db_event_updateId(MEVENT hDbEvent, const char *szId);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Database settings

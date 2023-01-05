@@ -458,12 +458,19 @@ MIR_CORE_DLL(MEVENT) db_event_replace(MCONTACT hContact, const DBEVENTINFO *dbei
 		ret = db_event_getById(dbei->szModule, dbei->szId);
 	if (!ret)
 		ret = db_event_add(hContact, dbei);
+	else
+		db_event_edit(hContact, ret, dbei);
 	return ret;
 }
 
 MIR_CORE_DLL(MEVENT) db_event_getById(const char *szModule, const char *szId)
 {
 	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->GetEventById(szModule, szId);
+}
+
+MIR_CORE_DLL(int) db_event_updateId(MEVENT hDbEvent, const char *szId)
+{
+	return (g_pCurrDb == nullptr) ? 0 : g_pCurrDb->UpdateEventId(hDbEvent, szId);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

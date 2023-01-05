@@ -88,7 +88,8 @@ class CDbxSQLite : public MDatabaseCommon, public MIDatabaseChecker, public MZer
 	void InitEvents();
 	void UninitEvents();
 	CQuery qEvCount, qEvAdd, qEvDel, qEvEdit, qEvBlobSize, qEvGet, qEvGetFlags, qEvSetFlags, qEvGetContact;
-	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvGetById, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
+	CQuery qEvFindFirst, qEvFindNext, qEvFindLast, qEvFindPrev, qEvFindUnread, qEvAddSrt, qEvDelSrt, qEvMetaSplit, qEvMetaMerge;
+	CQuery qEvGetById, qEvUpdateId;
 	int DeleteEventMain(MEVENT);
 	int DeleteEventSrt(MEVENT);
 
@@ -132,6 +133,7 @@ public:
 	STDMETHODIMP_(MEVENT)   FindPrevEvent(MCONTACT contactID, MEVENT hDbEvent) override;
 
 	STDMETHODIMP_(MEVENT)   GetEventById(LPCSTR szModule, LPCSTR szId) override;
+	STDMETHODIMP_(int)      UpdateEventId(MEVENT hDbEvent, LPCSTR szId) override;
 
 	STDMETHODIMP_(BOOL)     EnumModuleNames(DBMODULEENUMPROC pFunc, void *pParam) override;
 

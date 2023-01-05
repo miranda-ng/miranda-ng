@@ -1548,3 +1548,4 @@ _Utils_CorrectFontSize@4 @1762 NONAME
 ?append@MBinBuffer@@QAEXABV1@@Z @1769 NONAME
 ?appendBefore@MBinBuffer@@QAEXABV1@@Z @1770 NONAME
 db_event_replace @1771
+db_event_updateId @1772

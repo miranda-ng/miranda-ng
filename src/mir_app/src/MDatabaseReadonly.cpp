@@ -178,3 +178,8 @@ MEVENT MDatabaseReadonly::GetEventById(LPCSTR, LPCSTR)
 {
 	return 0;
 }
+
+int MDatabaseReadonly::UpdateEventId(MEVENT, LPCSTR)
+{
+	return 1;
+}

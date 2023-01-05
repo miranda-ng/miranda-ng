@@ -410,7 +410,6 @@ MEVENT CDbxSQLite::FindFirstUnreadEvent(MCONTACT hContact)
 
 	sqlite3_stmt *stmt = InitQuery("SELECT id FROM events WHERE contact_id = ? AND is_read = 0 ORDER BY timestamp LIMIT 1;", qEvFindUnread);
 	sqlite3_bind_int64(stmt, 1, hContact);
-	sqlite3_bind_int(stmt, 2, DBEF_READ | DBEF_SENT);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	if (rc != SQLITE_ROW) {
@@ -599,6 +598,22 @@ MEVENT CDbxSQLite::GetEventById(LPCSTR szModule, LPCSTR szId)
 	MEVENT hDbEvent = sqlite3_column_int64(stmt, 0);
 	sqlite3_reset(stmt);
 	return hDbEvent;
+}
+
+int CDbxSQLite::UpdateEventId(MEVENT hDbEvent, LPCSTR szId)
+{
+	if (hDbEvent == 0 || mir_strlen(szId) == 0)
+		return 1;
+
+	mir_cslock lock(m_csDbAccess);
+	sqlite3_stmt *stmt = InitQuery("UPDATE events SET server_id = ? WHERE id = ?;", qEvUpdateId);
+	sqlite3_bind_text(stmt, 1, szId, (int)mir_strlen(szId), nullptr);
+	sqlite3_bind_int64(stmt, 2, hDbEvent);
+	int rc = sqlite3_step(stmt);
+	logError(rc, __FILE__, __LINE__);
+	int rows = sqlite3_changes(m_db);
+	sqlite3_reset(stmt);
+	return (rows == 0) ? 2 : 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
