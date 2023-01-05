@@ -262,7 +262,6 @@ public:
 		m_port(this, IDC_PORT), m_pkey(this, IDC_PKEY),
 		m_iItem(iItem)
 	{
-		m_autoClose = CLOSE_ON_CANCEL;
 		m_list = m_nodes;
 	}
 
