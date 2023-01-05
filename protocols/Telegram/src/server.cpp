@@ -120,6 +120,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessChatPosition((TD::updateChatPosition *)response.object.get());
 		break;
 
+	case TD::updateChatReadInbox::ID:
+		ProcessMarkRead((TD::updateChatReadInbox *)response.object.get());
+		break;
+
 	case TD::updateNewChat::ID:
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
@@ -265,6 +269,38 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 				Clist_GroupRename(oldGroup, wszFullGroup);
 			setWString(szSetting, wszNewValue);
 		}
+	}
+}
+
+void CMTProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
+{
+	auto *pUser = FindUser(pObj->chat_id_);
+	if (pUser == nullptr) {
+		debugLogA("message from unknown chat/user, ignored");
+		return;
+	}
+
+	char szId[100];
+	_i64toa(pObj->last_read_inbox_message_id_, szId, 10);
+	MEVENT hLastRead = db_event_getById(m_szModuleName, szId);
+	if (hLastRead == 0) {
+		debugLogA("unknown event, ignored");
+		return;
+	}
+
+	bool bExit = false;
+	for (MEVENT hEvent = db_event_firstUnread(pUser->hContact); hEvent; hEvent = db_event_next(pUser->hContact, hEvent)) {
+		if (bExit)
+			break;
+
+		bExit = (hEvent == hLastRead);
+
+		DBEVENTINFO dbei = {};
+		if (db_event_get(hEvent, &dbei))
+			continue;
+
+		if (!dbei.markedRead())
+			db_event_markRead(pUser->hContact, hEvent);
 	}
 }
 

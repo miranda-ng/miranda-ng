@@ -123,6 +123,7 @@ class CMTProto : public PROTO<CMTProto>
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
+	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessUser(TD::updateUser *pObj);
