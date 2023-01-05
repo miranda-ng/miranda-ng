@@ -549,3 +549,8 @@ MEVENT CDb3Mmap::GetEventById(LPCSTR, LPCSTR)
 {
 	return 0;
 }
+
+int CDb3Mmap::UpdateEventId(MEVENT, LPCSTR)
+{
+	return 1;
+}

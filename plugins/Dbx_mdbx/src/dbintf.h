@@ -284,6 +284,7 @@ public:
 	STDMETHODIMP_(BOOL)     Flush() override;
 
 	STDMETHODIMP_(MEVENT)   GetEventById(const char *szModule, const char *szId) override;
+	STDMETHODIMP_(int)      UpdateEventId(MEVENT hDbEvent, const char *szId) override;
 
 	STDMETHODIMP_(DATABASELINK*) GetDriver() override;
 

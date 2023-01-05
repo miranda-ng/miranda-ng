@@ -467,6 +467,11 @@ MEVENT CDbxMDBX::GetEventById(const char *szModule, const char *szId)
 	return hDbEvent;
 }
 
+int CDbxMDBX::UpdateEventId(MEVENT, LPCSTR)
+{
+	return 1;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 MCONTACT CDbxMDBX::GetEventContact(MEVENT hDbEvent)
