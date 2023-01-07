@@ -144,11 +144,14 @@ protected:
 
 class CGeneralOptions : public COptionsBaseDialog
 {
+	CCtrlSpin spinMax, spinMin;
 	CCtrlHyperlink linkGetMore;
 
 public:
 	CGeneralOptions() :
 		COptionsBaseDialog(IDD_OPT_GENERAL),
+		spinMin(this, IDC_MINSPIN, 99),
+		spinMax(this, IDC_MAXCUSTSPIN, 99),
 		linkGetMore(this, IDC_GETMORE, "https://miranda-ng.org/tags/smileyadd/")
 	{}
 
@@ -166,13 +169,8 @@ public:
 		CheckDlgButton(m_hwnd, IDC_HQSCALING, opt.HQScaling ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(m_hwnd, IDC_SORTING_HORIZONTAL, opt.HorizontalSorting ? BST_CHECKED : BST_UNCHECKED);
 
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETRANGE32, 0, 99);
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSPIN, UDM_SETPOS, 0, opt.MaxCustomSmileySize);
-		SendDlgItemMessage(m_hwnd, IDC_MAXCUSTSMSZ, EM_LIMITTEXT, 2, 0);
-
-		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETRANGE32, 0, 99);
-		SendDlgItemMessage(m_hwnd, IDC_MINSPIN, UDM_SETPOS, 0, opt.MinSmileySize);
-		SendDlgItemMessage(m_hwnd, IDC_MINSMSZ, EM_LIMITTEXT, 2, 0);
+		spinMin.SetPosition(opt.MinSmileySize);
+		spinMax.SetPosition(opt.MaxCustomSmileySize);
 		return true;
 	}
 
@@ -190,8 +188,8 @@ public:
 		opt.HQScaling = IsDlgButtonChecked(m_hwnd, IDC_HQSCALING) == BST_CHECKED;
 		opt.HorizontalSorting = IsDlgButtonChecked(m_hwnd, IDC_SORTING_HORIZONTAL) == BST_CHECKED;
 
-		opt.MaxCustomSmileySize = GetDlgItemInt(m_hwnd, IDC_MAXCUSTSMSZ, nullptr, FALSE);
-		opt.MinSmileySize = GetDlgItemInt(m_hwnd, IDC_MINSMSZ, nullptr, FALSE);
+		opt.MinSmileySize = spinMin.GetPosition();
+		opt.MaxCustomSmileySize = spinMax.GetPosition();
 		return true;
 	}
 };
@@ -355,24 +353,20 @@ class CGategoriesOptions : public COptionsBaseDialog
 
 	CCtrlEdit edtFilename;
 	CCtrlCheck chkStdPack, chkUsePhys;
-	CCtrlButton btnAdd, btnBrowse, btnDelete, btnPreview;
+	CCtrlButton btnBrowse, btnPreview;
 	CCtrlTreeView categories;
 
 public:
 	CGategoriesOptions() :
 		COptionsBaseDialog(IDD_OPT_CATEGORIES), 
-		btnAdd(this, IDC_ADDCATEGORY),
 		btnBrowse(this, IDC_BROWSE),
-		btnDelete(this, IDC_DELETECATEGORY),
 		btnPreview(this, IDC_SMLOPTBUTTON),
 		chkStdPack(this, IDC_USESTDPACK),
 		chkUsePhys(this, IDC_USEPHYSPROTO),
 		categories(this, IDC_CATEGORYLIST),
 		edtFilename(this, IDC_FILENAME)
 	{
-		btnAdd.OnClick = Callback(this, &CGategoriesOptions::onClick_Add);
 		btnBrowse.OnClick = Callback(this, &CGategoriesOptions::onClick_Browse);
-		btnDelete.OnClick = Callback(this, &CGategoriesOptions::onClick_Delete);
 		btnPreview.OnClick = Callback(this, &CGategoriesOptions::onClick_Preview);
 
 		chkStdPack.OnChange = Callback(this, &CGategoriesOptions::onChange_StdPack);
@@ -449,32 +443,10 @@ public:
 		return COptionsBaseDialog::DlgProc(uMsg, wParam, lParam);
 	}
 
-	void onClick_Add(CCtrlButton*)
-	{
-		wchar_t cat[30];
-		GetDlgItemText(m_hwnd, IDC_NEWCATEGORY, cat, _countof(cat));
-		CMStringW catd = cat;
-
-		if (!catd.IsEmpty()) {
-			tmpsmcat.AddCategory(cat, catd, smcCustom);
-
-			PopulateSmPackList();
-			NotifyChange();
-		}
-	}
-
 	void onClick_Browse(CCtrlButton*)
 	{
 		if (BrowseForSmileyPacks(GetSelProto())) {
 			UpdateControls(true);
-			NotifyChange();
-		}
-	}
-
-	void onClick_Delete(CCtrlButton*)
-	{
-		if (tmpsmcat.DeleteCustomCategory(GetSelProto())) {
-			PopulateSmPackList();
 			NotifyChange();
 		}
 	}
