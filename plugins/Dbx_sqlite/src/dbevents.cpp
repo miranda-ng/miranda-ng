@@ -268,6 +268,8 @@ int CDbxSQLite::GetBlobSize(MEVENT hDbEvent)
 	return res;
 }
 
+static char g_szId[100];
+
 BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 {
 	if (hDbEvent == 0)
@@ -282,7 +284,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	}
 
 	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, length(data), data FROM events WHERE id = ? LIMIT 1;", qEvGet);
+	sqlite3_stmt *stmt = InitQuery("SELECT module, timestamp, type, flags, server_id, length(data), data FROM events WHERE id = ? LIMIT 1;", qEvGet);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
@@ -299,8 +301,15 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 	dbei->timestamp = sqlite3_column_int64(stmt, 1);
 	dbei->eventType = sqlite3_column_int(stmt, 2);
 	dbei->flags = sqlite3_column_int64(stmt, 3);
+	
+	char *pszId = (char *)sqlite3_column_text(stmt, 4);
+	if (mir_strlen(pszId)) {
+		mir_strncpy(g_szId, pszId, sizeof(g_szId));
+		dbei->szId = g_szId;
+	}
+	else dbei->szId = nullptr;
 
-	int32_t cbBlob = sqlite3_column_int64(stmt, 4);
+	int32_t cbBlob = sqlite3_column_int64(stmt, 5);
 	size_t bytesToCopy = cbBlob;
 	if (dbei->cbBlob == -1)
 		dbei->pBlob = (uint8_t*)mir_calloc(cbBlob + 2);
@@ -309,7 +318,7 @@ BOOL CDbxSQLite::GetEvent(MEVENT hDbEvent, DBEVENTINFO *dbei)
 
 	dbei->cbBlob = cbBlob;
 	if (bytesToCopy && dbei->pBlob) {
-		uint8_t *data = (uint8_t *)sqlite3_column_blob(stmt, 5);
+		uint8_t *data = (uint8_t *)sqlite3_column_blob(stmt, 6);
 
 		if (dbei->flags & DBEF_ENCRYPTED) {
 			dbei->flags &= ~DBEF_ENCRYPTED;

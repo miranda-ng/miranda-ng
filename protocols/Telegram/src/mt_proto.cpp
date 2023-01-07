@@ -32,6 +32,7 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CMTProto::OnDbMarkedRead);
 
 	// default contacts group
 	if (m_wszDefaultGroup == NULL)
@@ -85,6 +86,30 @@ void CMTProto::OnErase()
 	ServerThread(0);
 
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
+}
+
+int CMTProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
+{
+	if (!hContact)
+		return 0;
+
+	// filter out only events of my protocol
+	const char *szProto = Proto_GetBaseAccountName(hContact);
+	if (mir_strcmp(szProto, m_szModuleName))
+		return 0;
+
+	ptrA userId(getStringA(hContact, DBKEY_ID));
+	if (userId) {
+		DBEVENTINFO dbei = {};
+		db_event_get(hDbEvent, &dbei);
+		if (dbei.szId) {
+			TD::array<TD::int53> ids;
+			ids.push_back(_atoi64(dbei.szId));
+			SendQuery(new TD::viewMessages(_atoi64(userId), 0, std::move(ids), true));
+		}
+	}
+
+	return 0;
 }
 
 INT_PTR CMTProto::GetCaps(int type, MCONTACT)
