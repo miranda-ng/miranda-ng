@@ -766,6 +766,9 @@ static wchar_t* Trunc500(wchar_t *str)
 
 bool CMsgDialog::FormatTitleBar(const wchar_t *szFormat, CMStringW &dest)
 {
+	if (m_cache == nullptr)
+		return false;
+
 	for (const wchar_t *src = szFormat; *src; src++) {
 		if (*src != '%') {
 			dest.AppendChar(*src);
