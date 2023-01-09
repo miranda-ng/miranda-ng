@@ -1987,7 +1987,7 @@ void CMsgDialog::ShowPicture(bool showNewPic)
 
 void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 {
-	CHARRANGE sel, all = { 0, -1 };
+	bool bCopyAll = g_plugin.bAutoCopy;
 
 	HMENU hSubMenu, hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
 	if (pCtrl.GetCtrlId() == IDC_SRMM_LOG)
@@ -1999,10 +1999,14 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		CheckMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, PluginConfig.m_visualMessageSizeIndicator ? MF_CHECKED : MF_UNCHECKED);
 		EnableMenuItem(hSubMenu, ID_EDITOR_SHOWMESSAGELENGTHINDICATOR, m_pContainer->m_hwndStatus ? MF_ENABLED : MF_GRAYED);
 	}
+
 	TranslateMenu(hSubMenu);
-	pCtrl.SendMsg(EM_EXGETSEL, 0, (LPARAM)& sel);
+
+	CHARRANGE sel, all = {0, -1};
+	pCtrl.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
 	if (sel.cpMin == sel.cpMax) {
-		EnableMenuItem(hSubMenu, IDM_COPY, MF_GRAYED);
+		bCopyAll = true;
+		ModifyMenuW(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_STRING, IDM_COPY, TranslateT("Copy all"));
 		EnableMenuItem(hSubMenu, IDM_QUOTE, MF_GRAYED);
 		if (pCtrl.GetCtrlId() == IDC_SRMM_MESSAGE)
 			EnableMenuItem(hSubMenu, IDM_CUT, MF_GRAYED);
@@ -2013,8 +2017,8 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 		CheckMenuItem(hSubMenu, ID_LOG_FREEZELOG, m_bScrollingDisabled ? MF_CHECKED : MF_UNCHECKED);
 	}
 
-	MessageWindowPopupData mwpd;
 	// First notification
+	MessageWindowPopupData mwpd;
 	mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
 	mwpd.uFlags = (pCtrl.GetCtrlId() == IDC_SRMM_LOG ? MSG_WINDOWPOPUP_LOG : MSG_WINDOWPOPUP_INPUT);
 	mwpd.hContact = m_hContact;
@@ -2033,7 +2037,12 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 
 	switch (iSelection) {
 	case IDM_COPY:
-		pCtrl.SendMsg(WM_COPY, 0, 0);
+		if (bCopyAll) {
+			pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
+			pCtrl.SendMsg(WM_COPY, 0, 0);
+			pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
+		}
+		else pCtrl.SendMsg(WM_COPY, 0, 0);
 		break;
 	case IDM_CUT:
 		pCtrl.SendMsg(WM_CUT, 0, 0);
@@ -2042,11 +2051,6 @@ void CMsgDialog::ShowPopupMenu(const CCtrlBase &pCtrl, POINT pt)
 	case IDM_PASTEFORMATTED:
 		if (pCtrl.GetCtrlId() == IDC_SRMM_MESSAGE)
 			pCtrl.SendMsg(EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
-		break;
-	case IDM_COPYALL:
-		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)& all);
-		pCtrl.SendMsg(WM_COPY, 0, 0);
-		pCtrl.SendMsg(EM_EXSETSEL, 0, (LPARAM)& sel);
 		break;
 	case IDM_QUOTE:
 		SendMessage(m_hwnd, WM_COMMAND, IDC_QUOTE, 0);

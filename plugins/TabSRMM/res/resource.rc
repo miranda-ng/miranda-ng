@@ -565,7 +565,6 @@ BEGIN
     BEGIN
         MENUITEM "&Copy",                       IDM_COPY
         MENUITEM "&Quote",                      IDM_QUOTE
-        MENUITEM "Co&py all",                   IDM_COPYALL
         MENUITEM "Select &all",                 IDM_SELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Clear log",                   IDM_CLEAR
@@ -585,7 +584,6 @@ BEGIN
         MENUITEM "Paste formatted text",        IDM_PASTEFORMATTED
         MENUITEM "Paste and send immediately",  ID_EDITOR_PASTEANDSENDIMMEDIATELY
         MENUITEM SEPARATOR
-        MENUITEM "Copy all",                    IDM_COPYALL
         MENUITEM "Select all",                  IDM_SELECTALL
         MENUITEM SEPARATOR
         MENUITEM "Show message length indicator", ID_EDITOR_SHOWMESSAGELENGTHINDICATOR

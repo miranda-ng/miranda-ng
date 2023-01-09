@@ -1941,76 +1941,18 @@ LRESULT CMsgDialog::WndProc_Message(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_CONTEXTMENU:
 		POINT pt;
-		if (isChat()) {
-			GetCursorPos(&pt);
-
-			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_CONTEXT));
-			HMENU hSubMenu = GetSubMenu(hMenu, 2);
-			RemoveMenu(hSubMenu, 9, MF_BYPOSITION);
-			RemoveMenu(hSubMenu, 8, MF_BYPOSITION);
-			RemoveMenu(hSubMenu, 4, MF_BYPOSITION);
-
-			EnableMenuItem(hSubMenu, IDM_PASTEFORMATTED, m_si->pMI->bBold ? MF_ENABLED : MF_GRAYED);
-			TranslateMenu(hSubMenu);
-
-			CHARRANGE sel, all = { 0, -1 };
+		if (lParam == 0xFFFFFFFF) {
+			CHARRANGE sel;
 			m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin == sel.cpMax) {
-				EnableMenuItem(hSubMenu, IDM_COPY, MF_GRAYED);
-				EnableMenuItem(hSubMenu, IDM_CUT, MF_GRAYED);
-			}
-
-			MessageWindowPopupData mwpd = { sizeof(mwpd) };
-			mwpd.uType = MSG_WINDOWPOPUP_SHOWING;
-			mwpd.uFlags = MSG_WINDOWPOPUP_INPUT;
-			mwpd.hContact = m_hContact;
-			mwpd.hwnd = m_message.GetHwnd();
-			mwpd.hMenu = hSubMenu;
-			mwpd.pt = pt;
-			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
-
-			int iSelection = TrackPopupMenu(hSubMenu, TPM_RETURNCMD, pt.x, pt.y, 0, m_hwnd, nullptr);
-
-			mwpd.selection = iSelection;
-			mwpd.uType = MSG_WINDOWPOPUP_SELECTED;
-			NotifyEventHooks(g_chatApi.hevWinPopup, 0, (LPARAM)&mwpd);
-
-			switch (iSelection) {
-			case IDM_COPY:
-				m_message.SendMsg(WM_COPY, 0, 0);
-				break;
-			case IDM_CUT:
-				m_message.SendMsg(WM_CUT, 0, 0);
-				break;
-			case IDM_PASTE:
-			case IDM_PASTEFORMATTED:
-				m_message.SendMsg(EM_PASTESPECIAL, (iSelection == IDM_PASTE) ? CF_UNICODETEXT : 0, 0);
-				break;
-			case IDM_COPYALL:
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				m_message.SendMsg(WM_COPY, 0, 0);
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-				break;
-			case IDM_SELECTALL:
-				m_message.SendMsg(EM_EXSETSEL, 0, (LPARAM)&all);
-				break;
-			}
-			DestroyMenu(hMenu);
+			m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
+			ClientToScreen(m_message.GetHwnd(), &pt);
 		}
 		else {
-			if (lParam == 0xFFFFFFFF) {
-				CHARRANGE sel;
-				m_message.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-				m_message.SendMsg(EM_POSFROMCHAR, (WPARAM)&pt, (LPARAM)sel.cpMax);
-				ClientToScreen(m_message.GetHwnd(), &pt);
-			}
-			else {
-				pt.x = GET_X_LPARAM(lParam);
-				pt.y = GET_Y_LPARAM(lParam);
-			}
-
-			ShowPopupMenu(m_message, pt);
+			pt.x = GET_X_LPARAM(lParam);
+			pt.y = GET_Y_LPARAM(lParam);
 		}
+
+		ShowPopupMenu(m_message, pt);
 		return TRUE;
 	}
 

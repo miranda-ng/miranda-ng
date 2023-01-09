@@ -31,7 +31,6 @@
 #define IDD_MSGSPLITNEW                 184
 #define IDM_QUOTE                       185
 #define IDM_COPY                        186
-#define IDM_COPYALL                     187
 #define IDM_SELECTALL                   188
 #define IDM_CLEAR                       189
 #define IDM_OPENNEW                     190
