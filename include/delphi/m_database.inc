@@ -45,6 +45,7 @@ type
     eventType: word;      // event type, such as message, can be module defined
     cbBlob   : dword;     // size in bytes of pBlob^
     pBlob    : PByte;     // pointer to buffer containing the module defined event data
+    szId     : PAnsiChar; // server id of event
   end;
 
 (******************************************************************************
