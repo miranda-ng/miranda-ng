@@ -1392,10 +1392,10 @@ void CJabberProto::OnIqResultGotAvatar(MCONTACT hContact, const char *pszText, c
 
 		char buffer[41];
 		setString(hContact, "AvatarHash", bin2hex(digest, sizeof(digest), buffer));
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai));
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
-	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai));
+	else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

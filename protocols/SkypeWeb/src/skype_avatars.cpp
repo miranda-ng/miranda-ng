@@ -142,7 +142,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl)
 
 	if (tszUrl.IsEmpty()) {
 		delSetting(hContact, "AvatarUrl");
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 	}
 	else {
 		setWString(hContact, "AvatarUrl", tszUrl.GetBuffer());
@@ -151,7 +151,7 @@ void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl)
 		ai.hContact = hContact;
 		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
 		ai.format = ProtoGetAvatarFormat(ai.filename);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	}
 }
 

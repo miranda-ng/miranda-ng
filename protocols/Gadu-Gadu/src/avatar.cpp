@@ -194,14 +194,14 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			char *AvatarURL, *AvatarTs;
 			if (!getAvatarFileInfo(uin, &AvatarURL, &AvatarTs)) {
 				if (iWaitFor)
-					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, nullptr, 0);
+					ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, nullptr);
 			}
 			else {
 				if (AvatarURL == nullptr && AvatarTs == nullptr) {
 					delSetting(hContact, GG_KEY_AVATARURL);
 					delSetting(hContact, GG_KEY_AVATARTS);
 					if (iWaitFor)
-						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
+						ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 				}
 				else {
 					setString(hContact, GG_KEY_AVATARURL, AvatarURL);
@@ -213,11 +213,11 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 						ai.hContact = hContact;
 						INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&ai);
 						if (res == GAIR_NOAVATAR)
-							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 						else if (res == GAIR_SUCCESS)
-							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
+							ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 					}
-					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr, 0);
+					else ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, nullptr);
 					delSetting(hContact, GG_KEY_AVATARREQUESTED);
 				}
 			}
@@ -272,7 +272,7 @@ void __cdecl GaduProto::avatarrequestthread(void*)
 			}
 			else debugLogA("avatarrequestthread(): No response from HTTP request");
 
-			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai, 0);
+			ProtoBroadcastAck(ai.hContact, ACKTYPE_AVATAR, result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
 
 			if (!ai.hContact)
 				ReportSelfAvatarChanged();

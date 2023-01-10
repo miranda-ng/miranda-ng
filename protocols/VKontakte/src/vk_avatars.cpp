@@ -168,6 +168,6 @@ void CVkProto::SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl)
 		ai.hContact = hContact;
 		GetAvatarFileName(ai.hContact, ai.filename, _countof(ai.filename));
 		ai.format = ProtoGetAvatarFormat(ai.filename);
-		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai);
+		ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	}
 }

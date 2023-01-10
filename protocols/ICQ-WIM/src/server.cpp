@@ -1125,7 +1125,7 @@ void CIcqProto::OnReceiveAvatar(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 	if (pReply->resultCode != 200 || pReply->pData == nullptr) {
 LBL_Error:
-		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai), 0);
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
@@ -1145,7 +1145,7 @@ LBL_Error:
 	fclose(out);
 
 	if (pReq->hContact != 0) {
-		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai), 0);
+		ProtoBroadcastAck(pReq->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 		debugLogW(L"Broadcast new avatar: %s", ai.filename);
 	}
 	else ReportSelfAvatarChanged();

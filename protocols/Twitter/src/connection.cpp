@@ -336,7 +336,7 @@ void CTwitterProto::UpdateAvatar(MCONTACT hContact, const CMStringA &url, bool f
 			ai.hContact = hContact;
 
 			setString(hContact, TWITTER_KEY_AV_URL, url.c_str());
-			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai, 0);
+			ProtoBroadcastAck(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 		}
 		else {
 			ForkThread(&CTwitterProto::UpdateAvatarWorker, new update_avatar(hContact, url));

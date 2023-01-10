@@ -196,7 +196,7 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, AvatarTransferParam *transfer)
 
 		transfers.Remove(transfer);
 		delSetting(hConact, TOX_SETTINGS_AVATAR_HASH);
-		ProtoBroadcastAck(hConact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr, 0);
+		ProtoBroadcastAck(hConact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, nullptr);
 		return;
 	}
 
@@ -227,6 +227,6 @@ void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)
 	fclose(transfer->hFile);
 	transfer->hFile = nullptr;
 
-	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&ai, 0);
+	ProtoBroadcastAck(transfer->pfts.hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 	transfers.Remove(transfer);
 }

@@ -85,7 +85,7 @@ void __cdecl FacebookProto::AvatarsUpdate(void *)
 		}
 		else debugLogA("Error %d reading avatar from url: %s", pReply->resultCode, szUrl.c_str());
 
-		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&ai);
+		ProtoBroadcastAck(cc, ACKTYPE_AVATAR, bSuccess ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, &ai);
 
 		Netlib_FreeHttpRequest(pReply);
 	}

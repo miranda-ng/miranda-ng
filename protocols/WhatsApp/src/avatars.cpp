@@ -27,7 +27,7 @@ void WhatsAppProto::OnIqGetAvatar(const WANode &node)
 		setDword(pUser->hContact, DBKEY_AVATAR_TAG, 0); // avatar doesn't exist, don't check it later
 
 LBL_Error:
-		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, HANDLE(&ai));
+		ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, &ai);
 		return;
 	}
 
@@ -39,7 +39,7 @@ LBL_Error:
 		// set timestamp of avatar being saved
 		setDword(pUser->hContact, DBKEY_AVATAR_TAG, dwLastChangeTime);
 	}
-	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, HANDLE(&ai));
+	ProtoBroadcastAck(pUser->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &ai);
 }
 
 INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
