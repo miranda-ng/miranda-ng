@@ -451,6 +451,7 @@ void CLogWindow::Attach()
 	// get around a lame bug in the Windows template resource code where richedits are limited to 0x7FFF
 	m_rtf.SendMsg(EM_LIMITTEXT, sizeof(wchar_t) * 0x7FFFFFFF, 0);
 	m_rtf.SendMsg(EM_SETEVENTMASK, 0, ENM_MOUSEEVENTS | ENM_LINK | ENM_SCROLL);
+	m_rtf.SendMsg(EM_HIDESELECTION, TRUE, 0);
 	m_rtf.SendMsg(EM_AUTOURLDETECT, TRUE, 0);
 }
 
@@ -614,18 +615,6 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			DestroyMenu(hSubMenu);
 			DestroyMenu(hMenu);
 			return TRUE;
-		}
-		break;
-
-	case WM_LBUTTONUP:
-		if (m_pDlg.isChat()) {
-			m_rtf.SendMsg(EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				m_rtf.SendMsg(WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				m_rtf.SendMsg(EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-			SetFocus(m_pDlg.m_message.GetHwnd());
 		}
 		break;
 

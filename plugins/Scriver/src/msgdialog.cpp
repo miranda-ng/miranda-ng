@@ -772,19 +772,6 @@ INT_PTR CLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 	case WM_DRAWITEM:
 		return DrawMenuItem(wParam, lParam);
-
-	case WM_LBUTTONUP:
-		if (m_pDlg.isChat()) {
-			CHARRANGE sel;
-			SendMessage(m_rtf.GetHwnd(), EM_EXGETSEL, 0, (LPARAM)&sel);
-			if (sel.cpMin != sel.cpMax) {
-				SendMessage(m_rtf.GetHwnd(), WM_COPY, 0, 0);
-				sel.cpMin = sel.cpMax;
-				SendMessage(m_rtf.GetHwnd(), EM_EXSETSEL, 0, (LPARAM)&sel);
-			}
-			SetFocus(m_pDlg.m_message.GetHwnd());
-		}
-		break;
 	}
 
 	return CSuper::WndProc(msg, wParam, lParam);
