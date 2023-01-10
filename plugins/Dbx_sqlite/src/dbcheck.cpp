@@ -28,7 +28,7 @@ int CDbxSQLite::CheckPhase1()
 int CDbxSQLite::CheckPhase2()
 {
 	sqlite3_stmt *pQuery;
-	int rc = sqlite3_prepare_v2(m_db, "SELECT id, contact_id FROM events_srt WHERE id NOT IN (SELECT id FROM events)", -1, &pQuery, nullptr);
+	int rc = sqlite3_prepare_v2(m_db, "SELECT id, contact_id, timestamp FROM events_srt WHERE id NOT IN (SELECT id FROM events)", -1, &pQuery, nullptr);
 	logError(rc, __FILE__, __LINE__);
 	if (rc)
 		return rc;
@@ -36,8 +36,9 @@ int CDbxSQLite::CheckPhase2()
 	while (sqlite3_step(pQuery) == SQLITE_ROW) {
 		MEVENT hDbEvent = sqlite3_column_int(pQuery, 0);
 		MCONTACT hContact = sqlite3_column_int(pQuery, 1);
+		uint32_t ts = sqlite3_column_int(pQuery, 2);
 
-		DeleteEventSrt(hDbEvent);
+		DeleteEventSrt(hDbEvent, hContact, ts);
 		cb->pfnAddLogMessage(STATUS_ERROR, CMStringW(FORMAT, TranslateT("Orphaned sorting event with wrong event ID %d:%08X, deleting"), hContact, hDbEvent));
 	}
 

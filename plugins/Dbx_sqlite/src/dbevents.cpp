@@ -162,10 +162,12 @@ int CDbxSQLite::DeleteEventMain(MEVENT hDbEvent)
 	return rc;
 }
 
-int CDbxSQLite::DeleteEventSrt(MEVENT hDbEvent)
+int CDbxSQLite::DeleteEventSrt(MEVENT hDbEvent, MCONTACT hContact, uint32_t ts)
 {
-	auto *stmt = InitQuery("DELETE FROM events_srt WHERE id = ?;", qEvDelSrt);
+	auto *stmt = InitQuery("DELETE FROM events_srt WHERE id = ? AND contact_id = ? AND timestamp = ?;", qEvDelSrt);
 	sqlite3_bind_int64(stmt, 1, hDbEvent);
+	sqlite3_bind_int64(stmt, 2, hContact);
+	sqlite3_bind_int64(stmt, 3, ts);
 	int rc = sqlite3_step(stmt);
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
@@ -177,7 +179,22 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (hDbEvent == 0)
 		return 1;
 
-	MEVENT hContact = GetEventContact(hDbEvent);
+	MEVENT hContact;
+	uint32_t ts;
+	{
+		sqlite3_stmt *stmt = InitQuery("SELECT contact_id, timestamp FROM events WHERE id = ? LIMIT 1;", qEvGetContact2);
+		sqlite3_bind_int64(stmt, 1, hDbEvent);
+		int rc = sqlite3_step(stmt);
+		logError(rc, __FILE__, __LINE__);
+		if (rc != SQLITE_ROW) {
+			sqlite3_reset(stmt);
+			return 2;
+		}
+		hContact = sqlite3_column_int64(stmt, 0);
+		ts = sqlite3_column_int64(stmt, 1);
+		sqlite3_reset(stmt);
+	}
+
 	DBCachedContact *cc = (hContact) ? m_cache->GetCachedContact(hContact) : &m_system;
 	if (cc == nullptr)
 		return 1;
@@ -187,7 +204,7 @@ BOOL CDbxSQLite::DeleteEvent(MEVENT hDbEvent)
 	if (rc != SQLITE_DONE)
 		return 1;
 
-	rc = DeleteEventSrt(hDbEvent);
+	rc = DeleteEventSrt(hDbEvent, hContact, ts);
 	if (rc != SQLITE_DONE)
 		return 1;
 
