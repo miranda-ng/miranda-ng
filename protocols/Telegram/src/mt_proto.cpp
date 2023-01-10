@@ -30,6 +30,10 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETAVATARCAPS, &CMTProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETAVATARINFO, &CMTProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &CMTProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CMTProto::SvcSetMyAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CMTProto::OnDbMarkedRead);
@@ -70,8 +74,11 @@ void CMTProto::OnModulesLoaded()
 	for (auto &cc : AccContacts()) {
 		bool isGroupChat = isChatRoom(cc);
 		szId = getMStringA(cc, isGroupChat ? "ChatRoomID" : DBKEY_ID);
-		if (!szId.IsEmpty())
-			m_arUsers.insert(new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat));
+		if (!szId.IsEmpty()) {
+			auto *pUser = new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat);
+			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
+			m_arUsers.insert(pUser);
+		}
 	}
 }
 

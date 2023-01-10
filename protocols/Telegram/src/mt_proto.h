@@ -2,6 +2,10 @@
 
 #define DBKEY_ID "id"
 
+#define DBKEY_AVATAR_HASH "AvatarHash"
+#define DBKEY_AVATAR_PATH "AvatarPath"
+#define DBKEY_AVATAR_TYPE "AvatarType"
+
 class CMTProto;
 typedef void (CMTProto:: *TG_QUERY_HANDLER)(td::ClientManager::Response &response);
 typedef void (CMTProto:: *TG_QUERY_HANDLER_FULL)(td::ClientManager::Response &response, void *pUserInfo);
@@ -62,10 +66,11 @@ struct TG_USER
 		isGroupChat(_3)
 	{}
 
-	uint64_t id;
-	MCONTACT hContact;
-	bool isGroupChat;
-	time_t m_timer1 = 0, m_timer2 = 0;
+	uint64_t  id;
+	MCONTACT  hContact;
+	bool      isGroupChat;
+	CMStringA szAvatarHash;
+	time_t    m_timer1 = 0, m_timer2 = 0;
 };
 
 class CMTProto : public PROTO<CMTProto>
@@ -109,27 +114,28 @@ class CMTProto : public PROTO<CMTProto>
 	{	return CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName);
 	}
 
+	void OnEndSession(td::ClientManager::Response &response);
+	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
 	void OnUpdateAuth(td::ClientManager::Response &response);
 
 	void LogOut(void);
-	void OnEndSession(td::ClientManager::Response &response);
 	void OnLoggedIn(void);
 	void ProcessResponse(td::ClientManager::Response);
+
 	void SendKeepAlive(void);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
+	int  SendTextMessage(uint64_t chatId, const char *pszMessage);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
+	void ProcessFile(TD::updateFile *pObj);
 	void ProcessGroups(TD::updateChatFilters *pObj);
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessUser(TD::updateUser *pObj);
-
-	void OnSendMessage(td::ClientManager::Response &response, void *pUserInfo);
-	int  SendTextMessage(uint64_t chatId, const char *pszMessage);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
@@ -169,6 +175,10 @@ public:
 	// Services //////////////////////////////////////////////////////////////////////////
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 	
 	// Events ////////////////////////////////////////////////////////////////////////////
 	

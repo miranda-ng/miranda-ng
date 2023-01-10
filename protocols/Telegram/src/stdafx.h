@@ -12,6 +12,7 @@
 #include <m_protoint.h>
 #include <m_protosvc.h>
 
+#include <m_avatars.h>
 #include <m_clist.h>
 #include <m_chat.h>
 #include <m_contacts.h>

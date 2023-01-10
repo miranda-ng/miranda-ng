@@ -124,6 +124,10 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 		ProcessMarkRead((TD::updateChatReadInbox *)response.object.get());
 		break;
 
+	case TD::updateFile::ID:
+		ProcessFile((TD::updateFile*)response.object.get());
+		break;
+
 	case TD::updateNewChat::ID:
 		ProcessChat((TD::updateNewChat *)response.object.get());
 		break;
@@ -378,6 +382,21 @@ void CMTProto::ProcessUser(TD::updateUser *pObj)
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, "tg_premium");
 	else
 		ExtraIcon_SetIconByName(g_plugin.m_hIcon, pu->hContact, nullptr);
+
+	if (auto *pPhoto = pUser->profile_photo_.get()) {
+		if (auto *pSmall = pPhoto->small_.get()) {
+			auto remoteId = pSmall->remote_->unique_id_;
+			auto storedId = getMStringA(pu->hContact, DBKEY_AVATAR_HASH);
+			if (remoteId != storedId.c_str()) {
+				if (!remoteId.empty()) {
+					pu->szAvatarHash = remoteId.c_str();
+					setString(pu->hContact, DBKEY_AVATAR_HASH, remoteId.c_str());
+					SendQuery(new TD::downloadFile(pSmall->id_, 5, 0, 0, false));
+				}
+				else delSetting(pu->hContact, DBKEY_AVATAR_HASH);
+			}
+		}
+	}	
 
 	if (pUser->status_) {
 		if (pUser->status_->get_id() == TD::userStatusOffline::ID) {
