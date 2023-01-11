@@ -165,22 +165,22 @@ struct JabberVcardPersonalDlg : public JabberVcardBaseDlg
 /////////////////////////////////////////////////////////////////////////////////////////
 // Home vcard dialog
 
-struct JabberVcardHomeDlg : public JabberVcardBaseDlg
+class JabberVcardHomeDlg : public JabberVcardBaseDlg
 {
+	CCtrlCombo countries;
+
+public:
 	JabberVcardHomeDlg(CJabberProto *_ppro) :
-		JabberVcardBaseDlg(_ppro, IDD_VCARD_HOME, 1)
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_HOME, 1),
+		countries(this, IDC_COUNTRY)
 	{
 	}
 
 	bool OnInitDialog() override
 	{
-		for (int i = 0; i < g_cbCountries; i++) {
-			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-				wchar_t *country = mir_a2u(g_countries[i].szName);
-				SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
-				mir_free(country);
-			}
-		}
+		for (int i = 0; i < g_cbCountries; i++)
+			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0)
+				countries.AddString(TranslateW(_A2T(g_countries[i].szName)), i);
 
 		return JabberVcardBaseDlg::OnInitDialog();
 	}
@@ -194,7 +194,7 @@ struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 		SetDialogField(IDC_ZIP,      "ZIP");
 
 		CMStringW buf(ppro->getMStringW("Country"));
-		SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_SELECTSTRING, -1, LPARAM(TranslateW(buf.c_str())));
+		countries.SelectString(TranslateW(buf.c_str()));
 		return false;
 	}
 
@@ -206,10 +206,7 @@ struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 		SaveDialogField(IDC_STATE, "State");
 		SaveDialogField(IDC_ZIP, "ZIP");
 
-		int i = SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-		wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
-		ppro->setWString("Country", country);
-		mir_free(country);
+		ppro->setWString("Country", _A2T(g_countries[countries.GetCurData()].szName));
 
 		return JabberVcardBaseDlg::OnApply();
 	}
@@ -218,22 +215,22 @@ struct JabberVcardHomeDlg : public JabberVcardBaseDlg
 /////////////////////////////////////////////////////////////////////////////////////////
 // Work vcard dialog
 
-struct JabberVcardWorkDlg : public JabberVcardBaseDlg
+class JabberVcardWorkDlg : public JabberVcardBaseDlg
 {
+	CCtrlCombo countries;
+
+public:
 	JabberVcardWorkDlg(CJabberProto *_ppro) :
-		JabberVcardBaseDlg(_ppro, IDD_VCARD_WORK, 2)
+		JabberVcardBaseDlg(_ppro, IDD_VCARD_WORK, 2),
+		countries(this, IDC_COUNTRY)
 	{
 	}
 
 	bool OnInitDialog() override
 	{
-		for (int i = 0; i < g_cbCountries; i++) {
-			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0) {
-				wchar_t *country = mir_a2u(g_countries[i].szName);
-				SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_ADDSTRING, 0, (LPARAM)TranslateW(country));
-				mir_free(country);
-			}
-		}
+		for (int i = 0; i < g_cbCountries; i++)
+			if (g_countries[i].id != 0xFFFF && g_countries[i].id != 0)
+				countries.AddString(TranslateW(_A2T(g_countries[i].szName)), i);
 
 		return JabberVcardBaseDlg::OnInitDialog();
 	}
@@ -250,7 +247,7 @@ struct JabberVcardWorkDlg : public JabberVcardBaseDlg
 		SetDialogField(IDC_ZIP, "CompanyZIP");
 
 		CMStringW buf(ppro->getMStringW("CompanyCountry"));
-		SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_SELECTSTRING, -1, LPARAM(TranslateW(buf.c_str())));
+		countries.SelectString(TranslateW(buf.c_str()));
 		return false;
 	}
 
@@ -265,10 +262,7 @@ struct JabberVcardWorkDlg : public JabberVcardBaseDlg
 		SaveDialogField(IDC_STATE, "CompanyState");
 		SaveDialogField(IDC_ZIP, "CompanyZIP");
 
-		int i = SendDlgItemMessage(m_hwnd, IDC_COUNTRY, CB_GETCURSEL, 0, 0);
-		wchar_t *country = mir_a2u((i) ? g_countries[i + 2].szName : g_countries[1].szName);
-		ppro->setWString("CompanyCountry", country);
-		mir_free(country);
+		ppro->setWString("CompanyCountry", _A2T(g_countries[countries.GetCurData()].szName));
 
 		return JabberVcardBaseDlg::OnApply();
 	}
