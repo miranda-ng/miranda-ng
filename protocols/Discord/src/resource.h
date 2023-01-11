@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by w:\miranda-ng\protocols\Discord\res\discord.rc
+// Used by C:\Users\Vulpix\source\Repos\miranda-ng\protocols\Discord\res\discord.rc
 //
 #define IDI_MAIN                        101
 #define IDI_GROUPCHAT                   102

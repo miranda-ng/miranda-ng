@@ -139,7 +139,7 @@ void CDiscordProto::ServerThread(void*)
 				break;
 			ExecuteRequest(pReq);
 			if (need_sleep) {
-				Sleep(330);
+				Sleep(1230);
 				debugLogA("CDiscordProto::WorkerThread: %s", "need to sleep");
 			}
 		}

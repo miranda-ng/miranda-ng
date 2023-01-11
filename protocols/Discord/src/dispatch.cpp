@@ -97,6 +97,9 @@ void CDiscordProto::OnCommandChannelCreated(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandChannelDeleted(const JSONNode &pRoot)
 {
+	if (!m_bSyncDeleteMsgs)
+		return;
+
 	CDiscordUser *pUser = FindUserByChannel(::getId(pRoot["id"]));
 	if (pUser == nullptr)
 		return;
@@ -178,6 +181,9 @@ void CDiscordProto::OnCommandGuildCreated(const JSONNode &pRoot)
 
 void CDiscordProto::OnCommandGuildDeleted(const JSONNode &pRoot)
 {
+	if (!m_bSyncDeleteMsgs)
+		return;
+
 	CDiscordGuild *pGuild = FindGuild(::getId(pRoot["id"]));
 	if (pGuild == nullptr)
 		return;
