@@ -88,6 +88,16 @@ void CMTProto::SendKeepAlive()
 	}
 }
 
+void CMTProto::SendMarkRead()
+{
+	m_impl.m_markRead.Stop();
+
+	mir_cslock lck(m_csMarkRead);
+	uint64_t userId = _atoi64(getMStringA(m_markContact, DBKEY_ID));
+	SendQuery(new TD::viewMessages(userId, 0, std::move(m_markIds), true));
+	m_markContact = 0;
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 void CMTProto::ProcessResponse(td::ClientManager::Response response)
@@ -145,6 +155,8 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 		break;
 	}
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 void CMTProto::OnSendMessage(td::ClientManager::Response &response, void *pUserInfo)
 {

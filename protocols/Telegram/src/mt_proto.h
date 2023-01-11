@@ -80,16 +80,21 @@ class CMTProto : public PROTO<CMTProto>
 		friend class CMTProto;
 		CMTProto &m_proto;
 
-		CTimer m_keepAlive;
+		CTimer m_keepAlive, m_markRead;
 		void OnKeepAlive(CTimer *)
-		{
-			m_proto.SendKeepAlive();
+		{	m_proto.SendKeepAlive();
+		}
+
+		void OnMarkRead(CTimer *)
+		{	m_proto.SendMarkRead();
 		}
 
 		CProtoImpl(CMTProto &pro) :
 			m_proto(pro),
-			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this))
+			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
+			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
 		{
+			m_markRead.OnEvent = Callback(this, &CProtoImpl::OnMarkRead);
 			m_keepAlive.OnEvent = Callback(this, &CProtoImpl::OnKeepAlive);
 		}
 	} m_impl;
@@ -100,6 +105,10 @@ class CMTProto : public PROTO<CMTProto>
 
 	std::unique_ptr<td::ClientManager> m_pClientMmanager;
 	TD::object_ptr<TD::AuthorizationState> pAuthState;
+
+	mir_cs m_csMarkRead;
+	MCONTACT m_markContact = 0;
+	TD::array<TD::int53> m_markIds;
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false;
 	int32_t m_iClientId, m_iMsgId;
@@ -123,6 +132,7 @@ class CMTProto : public PROTO<CMTProto>
 	void ProcessResponse(td::ClientManager::Response);
 
 	void SendKeepAlive(void);
+	void SendMarkRead(void);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
 	int  SendTextMessage(uint64_t chatId, const char *pszMessage);

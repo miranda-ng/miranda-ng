@@ -110,9 +110,17 @@ int CMTProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 		DBEVENTINFO dbei = {};
 		db_event_get(hDbEvent, &dbei);
 		if (dbei.szId) {
-			TD::array<TD::int53> ids;
-			ids.push_back(_atoi64(dbei.szId));
-			SendQuery(new TD::viewMessages(_atoi64(userId), 0, std::move(ids), true));
+			mir_cslock lck(m_csMarkRead);
+			if (m_markContact) {
+				if (m_markContact != hContact)
+					SendMarkRead();
+
+				m_impl.m_markRead.Stop();
+			}
+
+			m_markContact = hContact;
+			m_markIds.push_back(_atoi64(dbei.szId));
+			m_impl.m_markRead.Start(500);
 		}
 	}
 
