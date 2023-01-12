@@ -1559,20 +1559,20 @@ BEGIN
     BEGIN
         MENUITEM "Clear lo&g",                  IDM_CLEAR
         MENUITEM SEPARATOR
-        MENUITEM "Co&py all",                   IDM_COPYALL
+        MENUITEM "Copy",                        IDM_COPY
         MENUITEM SEPARATOR
         POPUP "Word lookup", GRAYED
         BEGIN
-            MENUITEM "Google",                      IDM_SEARCH_GOOGLE
-            MENUITEM "Bing",                        IDM_SEARCH_BING
-            MENUITEM "Yandex",                      IDM_SEARCH_YANDEX
-            MENUITEM "Wikipedia (en)",              IDM_SEARCH_WIKIPEDIA
+            MENUITEM "Google",                  IDM_SEARCH_GOOGLE
+            MENUITEM "Bing",                    IDM_SEARCH_BING
+            MENUITEM "Yandex",                  IDM_SEARCH_YANDEX
+            MENUITEM "Wikipedia (en)",          IDM_SEARCH_WIKIPEDIA
             MENUITEM SEPARATOR
-            MENUITEM "Google Maps",                 IDM_SEARCH_GOOGLE_MAPS
-            MENUITEM "Google Translate",            IDM_SEARCH_GOOGLE_TRANSLATE
+            MENUITEM "Google Maps",             IDM_SEARCH_GOOGLE_MAPS
+            MENUITEM "Google Translate",        IDM_SEARCH_GOOGLE_TRANSLATE
             MENUITEM SEPARATOR
-            MENUITEM "Yahoo",                       IDM_SEARCH_YAHOO
-            MENUITEM "Foodnetwork",                 IDM_SEARCH_FOODNETWORK
+            MENUITEM "Yahoo",                   IDM_SEARCH_YAHOO
+            MENUITEM "Foodnetwork",             IDM_SEARCH_FOODNETWORK
         END
     END
 END

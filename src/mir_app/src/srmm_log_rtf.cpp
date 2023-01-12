@@ -276,8 +276,14 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			wchar_t *pszWord = (wchar_t *)_alloca(8192);
 			pszWord[0] = '\0';
 
+			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LOGMENU));
+			HMENU hSubMenu = GetSubMenu(hMenu, 0);
+			TranslateMenu(hSubMenu);
+
 			// get a word under cursor
 			if (sel.cpMin == sel.cpMax) {
+				ModifyMenuW(hSubMenu, IDM_COPY, MF_BYCOMMAND | MF_STRING, IDM_COPYALL, TranslateT("Copy all"));
+
 				int iCharIndex = m_rtf.SendMsg(EM_CHARFROMPOS, 0, (LPARAM)&ptl);
 				if (iCharIndex < 0)
 					break;
@@ -305,9 +311,6 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			CHARRANGE all = { 0, -1 };
-			HMENU hMenu = LoadMenu(g_plugin.getInst(), MAKEINTRESOURCE(IDR_LOGMENU));
-			HMENU hSubMenu = GetSubMenu(hMenu, 0);
-			TranslateMenu(hSubMenu);
 			m_pDlg.m_bInMenu = true;
 
 			int flags = MF_BYPOSITION | (GetRichTextLength(m_rtf.GetHwnd()) == 0 ? MF_GRAYED : MF_ENABLED);
@@ -330,6 +333,11 @@ INT_PTR CRtfLogWindow::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			switch (uID) {
 			case 0:
+				PostMessage(m_pDlg.m_hwnd, WM_MOUSEACTIVATE, 0, 0);
+				break;
+
+			case IDM_COPY:
+				m_rtf.SendMsg(WM_COPY, 0, 0);
 				PostMessage(m_pDlg.m_hwnd, WM_MOUSEACTIVATE, 0, 0);
 				break;
 
