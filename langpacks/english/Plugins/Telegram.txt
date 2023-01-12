@@ -9,6 +9,7 @@
 ;file \protocols\Telegram\res\resource.rc
 [Phone number:]
 [Default group:]
+[Device name:]
 [Do not open chat windows on creation]
 ;file \protocols\Telegram\src\auth.cpp
 [Enter secret code sent to your phone]

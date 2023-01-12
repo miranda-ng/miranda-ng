@@ -1462,6 +1462,7 @@
 ;file \src\mir_app\src\srmm_log.cpp
 [Log viewer]
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
 [Look up '%s':]
 [No word to look up]
 ;file \src\mir_app\src\srmm_statusicon.cpp
