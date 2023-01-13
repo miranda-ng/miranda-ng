@@ -456,7 +456,7 @@ void CJabberProto::FtHandleSiRequest(const TiXmlElement *iqNode)
 				ft->std.szCurrentFile.w = mir_utf8decodeW(filename);
 				ft->std.totalBytes = ft->std.currentFileSize = filesize;
 
-				PROTORECVFILE pre = { 0 };
+				PROTORECVFILE pre = {};
 				pre.fileCount = 1;
 				pre.timestamp = time(0);
 				pre.files.a = &filename;
@@ -603,7 +603,7 @@ bool CJabberProto::FtHandleIbbRequest(const TiXmlElement *iqNode, bool bOpen)
 	return false;
 }
 
-int CJabberProto::FtReceive(HNETLIBCONN, filetransfer *ft, char* buffer, int datalen)
+int CJabberProto::FtReceive(filetransfer *ft, char* buffer, int datalen)
 {
 	if (ft->create() == -1)
 		return -1;

@@ -86,6 +86,7 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	m_bAutoJoinBookmarks(this, "AutoJoinBookmarks", true),
 	m_bAutoJoinConferences(this, "AutoJoinConferences", false),
 	m_bAutoJoinHidden(this, "AutoJoinHidden", true),
+	m_bAutoLoadOOB(this, "AutoLoadOOB", true),
 	m_bAutosaveNotes(this, "AutosaveNotes", false),
 	m_bBsDirect(this, "BsDirect", true),
 	m_bBsDirectManual(this, "BsDirectManual", false),
@@ -525,6 +526,9 @@ HANDLE CJabberProto::FileAllow(MCONTACT /*hContact*/, HANDLE hTransfer, const wc
 	switch (ft->type) {
 	case FT_OOB:
 		ForkThread((MyThreadFunc)&CJabberProto::FileReceiveThread, ft);
+		break;
+	case FT_HTTP:
+		ForkThread((MyThreadFunc)&CJabberProto::FileReceiveHttpThread, ft);
 		break;
 	case FT_BYTESTREAM:
 		FtAcceptSiRequest(ft);

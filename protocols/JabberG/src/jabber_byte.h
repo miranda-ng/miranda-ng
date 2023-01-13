@@ -46,7 +46,7 @@ struct JABBER_BYTE_TRANSFER : public MZeroedObject
 	TiXmlDocument doc;
 	TiXmlElement *iqNode;
 	bool (CJabberProto::*pfnSend)(HNETLIBCONN hConn, filetransfer *ft);
-	int  (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
+	int  (CJabberProto::*pfnRecv)(filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(bool success, filetransfer *ft);
 	filetransfer *ft;
 

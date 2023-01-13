@@ -193,6 +193,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	CMOption<bool> m_bAutoJoinBookmarks;
 	CMOption<bool> m_bAutoJoinConferences;
 	CMOption<bool> m_bAutoJoinHidden;
+	CMOption<bool> m_bAutoLoadOOB;
 	CMOption<bool> m_bAutosaveNotes;
 	CMOption<bool> m_bBsDirect;
 	CMOption<bool> m_bBsDirectManual;
@@ -503,6 +504,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void       __cdecl FileReceiveThread(filetransfer *ft);
 	void       __cdecl FileServerThread(filetransfer *ft);
+	void       __cdecl FileReceiveHttpThread(filetransfer *ft);
 			     
 	void       FtCancel(filetransfer *ft);
 	void       FtInitiate(filetransfer *ft);
@@ -607,7 +609,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 	bool       FtIbbSend(int blocksize, filetransfer *ft);
 	bool       FtSend(HNETLIBCONN hConn, filetransfer *ft);
 	void       FtSendFinal(bool success, filetransfer *ft);
-	int        FtReceive(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
+	int        FtReceive(filetransfer *ft, char* buffer, int datalen);
 	void       FtReceiveFinal(bool success, filetransfer *ft);
 
 	//---- jabber_iqid.cpp ---------------------------------------------------------------
@@ -755,7 +757,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void       __cdecl BasicSearchThread(struct JABBER_SEARCH_BASIC *jsb);
 	void       __cdecl GetAwayMsgThread(void* hContact);
-	void       __cdecl SendMessageAckThread(void* hContact);
 			   
 	MCONTACT   AddToListByJID(const char *newJid, uint32_t flags);
 

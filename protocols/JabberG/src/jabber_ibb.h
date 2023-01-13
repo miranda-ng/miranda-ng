@@ -40,7 +40,7 @@ struct JABBER_IBB_TRANSFER
 	bool bStreamClosed;
 	uint16_t wPacketId;
 	bool (CJabberProto::*pfnSend)(int blocksize, filetransfer *ft);
-	int  (CJabberProto::*pfnRecv)(HNETLIBCONN hConn, filetransfer *ft, char* buffer, int datalen);
+	int  (CJabberProto::*pfnRecv)(filetransfer *ft, char* buffer, int datalen);
 	void (CJabberProto::*pfnFinal)(bool success, filetransfer *ft);
 	filetransfer *ft;
 };

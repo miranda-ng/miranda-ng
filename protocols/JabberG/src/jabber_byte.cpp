@@ -718,7 +718,7 @@ int CJabberProto::ByteReceiveParse(HNETLIBCONN hConn, JABBER_BYTE_TRANSFER *jbt,
 		break;
 
 	case JBT_RECVING:
-		bytesReceived = (this->*jbt->pfnRecv)(hConn, jbt->ft, buffer, datalen);
+		bytesReceived = (this->*jbt->pfnRecv)(jbt->ft, buffer, datalen);
 		if (bytesReceived < 0)
 			jbt->state = JBT_ERROR;
 		else if (bytesReceived == 0)

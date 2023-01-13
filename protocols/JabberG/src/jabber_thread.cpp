@@ -1330,32 +1330,33 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 				szMessage += tempstring;
 			}
 		}
-		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2)) {
+		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_OOB2) && m_bAutoLoadOOB) {
 			if (auto *url = XmlGetChildText(xNode, "url")) {
-				DBEVENTINFO dbei = {};
-				dbei.szModule = Proto_GetBaseAccountName(hContact);
-				dbei.timestamp = msgTime;
-				dbei.eventType = EVENTTYPE_FILE;
-				dbei.flags = DBEF_UTF;
-				//if (pre->dwFlags & PREF_CREATEREAD)
-				dbei.flags |= DBEF_READ;
-
+				// create incoming file transfer instead of writing message
 				CMStringA szName;
 				const char *b = strrchr(url, '/') + 1;
 				while (*b != 0 && *b != '#' && *b != '?')
 					szName.AppendChar(*b++);
+				auto *pszName = szName.c_str();
 
-				auto *szDescr = XmlGetChildText(xNode, "desc");
+				filetransfer *ft = new filetransfer(this, 0);
+				ft->jid = mir_strdup(from);
+				ft->std.hContact = hContact;
+				ft->type = FT_HTTP;
+				ft->httpPath = mir_strdup(url);
+				ft->std.totalFiles = 1;
+				ft->std.szCurrentFile.w = mir_utf8decodeW(szName);
 
-				CMStringA szBlob(FORMAT, "%c%c%c%c", 0, 0, 0, 0);
-				szBlob.AppendFormat("%s%c", szName.c_str(), 0);
-				szBlob.AppendFormat("%s%c", szDescr ? szDescr : "", 0);
-				szBlob.AppendFormat("%s%c", url, 0);
-
-				dbei.cbBlob = szBlob.GetLength();
-				dbei.pBlob = (uint8_t*)szBlob.GetBuffer();
-				db_event_add(hContact, &dbei);
+				PROTORECVFILE pre = {};
+				pre.fileCount = 1;
+				pre.timestamp = time(0);
+				pre.files.a = &pszName;
+				pre.lParam = (LPARAM)ft;
+				pre.descr.a = XmlGetChildText(xNode, "desc");
+				ProtoChainRecvFile(ft->std.hContact, &pre);
+				return;
 			}
+			else debugLogA("No URL in OOB file transfer, ignoring");
 		}
 		else if (!mir_strcmp(pszXmlns, JABBER_FEAT_MUC_USER)) {
 			auto *inviteNode = XmlFirstChild(xNode, "invite");
