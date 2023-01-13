@@ -256,7 +256,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,38,124,8
     CONTROL         "Hide account completely",IDC_SBAR_HIDE_ACCOUNT_COMPLETELY,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,48,134,8
-    CONTROL         "Show protocol names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,58,124,8
+    CONTROL         "Show account names",IDC_SHOWPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,58,124,8
     CONTROL         "Show status name",IDC_SHOWSTATUS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,68,124,8
     CONTROL         "Show xStatus name",IDC_SHOWXSTATUSNAME,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,78,124,8
     CONTROL         "Show protocol icon",IDC_SHOWICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,160,88,124,8
