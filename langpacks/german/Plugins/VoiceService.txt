@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Provide services for protocols that support voice calls.]
@@ -36,6 +36,10 @@ Bei Rechtsklick:
 Bei Linksklick:
 [Preview]
 Vorschau
+[Show incoming call dialog immediately ]
+
+[Catch focus on this dialog]
+
 [New Voice Call]
 Neuer Anruf
 [%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be put on hold.]
@@ -73,9 +77,9 @@ Mikrofon Boost
 [Established]
 
 [M]
-
+m
 [V]
-
+V
 [Frame Popup]
 
 [Answer call]
@@ -84,13 +88,6 @@ Anruf annehmen
 Auflegen
 [Hold call]
 Anruf halten
-;file \plugins\VoiceService\src\frame.cpp
-[Show dialpad]
-
-[Call with %s]
-
-[Voice Calls]
-Anrufe
 ;file \plugins\VoiceService\src\hooks.cpp
 [Main]
 Allgemein
@@ -110,6 +107,8 @@ Angehalten
 Beendet
 [Busy]
 
+[Ready]
+Bereit
 [Make Voice Call]
 
 [Answer Voice Call]
@@ -130,14 +129,16 @@ Hat ein Anruf angehalten
 
 [Call %s with %s]
 
+[Call with %s]
+
 [Call]
 Anrufen
 [%s with %s]
 
 [with %s]
 
-[Background]
-Hintergrund
+[Voice Calls]
+Anrufe
 [Dialpad press]
 
 ;file \plugins\VoiceService\src\options.cpp
@@ -151,15 +152,8 @@ Test-Kontakt
 Test-Beschreibung
 [Popups]
 Popups
-[General]
-Allgemein
 [Auto actions]
 Voreinstellungen
-;file \plugins\VoiceService\src\services.cpp
-[%s wants to start a voice call with you. What you want to do?]
-%s möchte dich anrufen. Möchtest du das zulassen?
-[%s wants to start a voice call with you. What you want to do?\n\nIf you answer the call, the current call will be dropped.]
-
 ;file \plugins\VoiceService\src\VoiceCall.cpp
 [Voice call started]
 Anruf gestartet
@@ -173,17 +167,9 @@ Anruf ist angehalten worden
 Anruf beendet
 [Voice call busy]
 
-[Call from %s has started]
-
-[Call from %s is ringing]
-
-[Calling %s]
-%s wird angerufen
-[Call from %s is on hold]
-Anruf von %s wurde angehalten
-[Call from %s has ended]
-Anruf von %s wurde beendet
-[%s is busy]
+[Voice call ready]
 
 [Unknown number]
+
+[Call is over %s]
 

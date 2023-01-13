@@ -12,8 +12,8 @@
 Образец
 [Add shortcut]
 
-[Enabled]
-Включено
+[Enable popups]
+Включване на popups
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 

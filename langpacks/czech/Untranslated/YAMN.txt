@@ -1,5 +1,4 @@
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
-[Enable YAMN Main Menu]
 [Mail Notifications]
 [..s Popup duration]
 [YAMN Account Folder]

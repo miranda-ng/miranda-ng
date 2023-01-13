@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,8 +132,6 @@ Nombre d'entrées dans l'historique
 entrées
 [More about advanced tweaks]
 En savoir plus sur les réglages avancés
-[Revert to (safe) defaults]
-Paramètres par défaut
 [Dialog]
 Dialogue
 [Cancel]
@@ -530,8 +528,6 @@ Journal
 &Copier
 [&Quote]
 &Citer
-[Co&py all]
-&Tout copier
 [Select &all]
 Tout &sélectionner
 [Clear log]
@@ -556,8 +552,6 @@ Coller
 Coller texte formaté
 [Paste and send immediately]
 Coller et envoyer immédiatement
-[Copy all]
-Tout copier
 [Select all]
 Tout sélectionner
 [Show message length indicator]
@@ -913,8 +907,6 @@ Fond de la liste
 
 [Appearance and functionality of chat room windows]
 Apparence et fonctionnalités des fenêtres de salon
-[Appearance of the message log]
-Apparence du journal des messages
 [Open new chat rooms in the default container]
 Ouvrir les salons de chat dans le container par défaut
 [Flash window when someone speaks]
@@ -933,8 +925,6 @@ Voir la liste des présents d'un salon
 
 [Do not pop up the window when joining a chat room]
 Ne pas afficher automatiquement la fenêtre en joignant un salon
-[Sync splitter position with standard IM sessions]
-Synchroniser la position du séparateur avec les fenêtres standards
 [Show contact's status modes if supported by the protocol]
 
 [Display contact's status icon before user role icon]
@@ -943,6 +933,8 @@ Synchroniser la position du séparateur avec les fenêtres standards
 
 [Use alternative sorting method in member list]
 
+[Appearance of the message log]
+Apparence du journal des messages
 [Prefix all events with a timestamp]
 Afficher date/heure pour tous les évènements
 [Only prefix with timestamp if it has changed]
@@ -1317,6 +1309,8 @@ Sauver l'image du contact
 Le fichier existe déjà, Voulez-vous l'écraser ?
 [JPEG-compressed images]
 
+[Copy all]
+Tout copier
 [Save and close session]
 Sauvegarde puis ferme la session
 [, %d %s, %d %s idle]
@@ -1433,16 +1427,16 @@ Voulez-vous également lire les modèles de message du thème ?\nAttention : Cec
 Charger un thème
 [Message window behavior]
 Comportement de la fenêtre des messages
+[Always flash contact list and tray icon for new messages]
+Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
+[Delete temporary contacts on close]
+Effacer les contacts provisoires en fermant
 [Sending messages]
 Envoi de messages
 [Minimize the message window on send]
 Réduire la fenêtre à l'envoi
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
-[Always flash contact list and tray icon for new messages]
-Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
-[Delete temporary contacts on close]
-Effacer les contacts provisoires en fermant
 [Enable "Paste and send" feature]
 
 [Allow BBCode formatting in outgoing messages]
@@ -1471,24 +1465,10 @@ Ceci remettra tous vos modèles à l'état d'origine. Êtes-vous sûr de vouloir
 Le modèle a été remis à zéro avec succès, veuillez fermer puis réouvrir toutes les fenêtres de message. Cet éditeur de modèle va se fermer.
 [Message log appearance]
 Apparence de l'historique récent
-[Support for external plugins]
-Support des plugins externes
-[Timestamp settings (note: timestamps also depend on your templates)]
-Configuration de l'horodatage (dépend également de vos modèles)
-[Message log icons]
-
-[Show dates in timestamps]
-Afficher les dates dans l'horodatage
-[Show seconds in timestamps]
-
-[Use contacts local time (if timezone info available)]
-Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
 [Draw grid lines]
 Afficher les lignes horizontales
 [Log status changes]
 
-[Use incoming/outgoing icons]
-Utiliser icônes entrantes/sortantes
 [Use message grouping]
 Grouper les messages
 [Simple text formatting (*bold*, etc.)]
@@ -1499,14 +1479,28 @@ Support du formatage BBCode
 
 [Only place a separator when an incoming event is announced with a popup]
 
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
+[Support for external plugins]
+Support des plugins externes
 [Show events at the new line (IEView Compatibility Mode)]
 Afficher les évènements sur une ligne (IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Surligner les pseudo et horodatage (IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Afficher l'horodatage après le pseudo (IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Configuration de l'horodatage (dépend également de vos modèles)
+[Show dates in timestamps]
+Afficher les dates dans l'horodatage
+[Show seconds in timestamps]
+
+[Use contacts local time (if timezone info available)]
+Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
+[Message log icons]
+
+[Use incoming/outgoing icons]
+Utiliser icônes entrantes/sortantes
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]
@@ -1517,14 +1511,14 @@ Toujours
 Toujours, mais sans popup si fenêtre au 1ier plan
 [Only when no message window is open]
 Seulement si la fenêtre de message est fermée
-[How to create tabs and windows for incoming messages]
-
 [Show status text on tabs]
 Afficher le texte d'état dans l'onglet
 [Prefer xStatus icons when available]
 Préférer les icônes xStatus si disponibles
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Bulle détaillée sur les onglets (requière Tipper)
+[How to create tabs and windows for incoming messages]
+
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 
 [Automatically create new message sessions without activating them]
@@ -1551,22 +1545,22 @@ Ajouter les contacts hors ligne à la liste de l'envoi groupé
 
 [Message window tweaks]
 
-[Display metacontact icons]
-
-[Error feedback]
-
 [Close current tab on send]
 Fermer l'onglet en cours dés l'envoi
 [Enable unattended send (experimental feature, required for multisend and send later)]
 
 [Show client description in info panel]
 
+[Display metacontact icons]
+
 [On tab control]
 
 [On the button bar]
 
-[Disable error popups on sending failures]
-Désactiver les popups en cas d'échec d'envoi
+[Error feedback]
+
+[Enable error popups on sending failures]
+Activer les popups en cas d'échec d'envoi
 [Choose status modes]
 Choisir les modes d'état...
 [General]
@@ -1795,6 +1789,9 @@ Notification de frappe
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 Message TabSRMM (%s)
+;file \plugins\TabSRMM\src\warning.cpp
+[TabSRMM warning message]
+
 [Save file|Unable to save temporary file]
 
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
@@ -1814,6 +1811,4 @@ Message TabSRMM (%s)
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
-
-[TabSRMM warning message]
 

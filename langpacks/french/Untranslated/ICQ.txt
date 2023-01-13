@@ -18,6 +18,7 @@
 [You received e-mail from %s: %s]
 [You have %d unread emails]
 [Synchronize server groups]
+[Edit my web profile]
 [Enter new group name]
 [UIN/e-mail/phone]
 [SmileyAdd plugin required to support stickers]

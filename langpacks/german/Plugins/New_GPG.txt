@@ -286,14 +286,6 @@ Wollen Sie den Schlüssel für den gesamten Metakontakt (und Unterkontakte) lös
 Öffentlichen Schlüssel exportieren
 [.asc pubkey file]
 .asc-Pubkey-Datei
-[Failed to allocate memory]
-Konnte Speicher nicht zuweisen
-[Failed to lock memory with error %d]
-Sperren des Speichers mit Fehler %d fehlgeschlagen.
-[Failed write to clipboard with error %d]
-Schreiben in Zwischenablage mit Fehler %d fehlgeschlagen.
-[Failed to open clipboard with error %d]
-Öffnen der Zwischenablage mit Fehler %d fehlgeschlagen.
 [Set log file]
 Logdatei setzen
 [LOG files]

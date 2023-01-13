@@ -79,16 +79,14 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
 ¡Esto borrará toda el historial y los valores de este contacto!
+[Contact list sorting]
+Orden de la lista de contacto
 [Sort contacts by name]
 Ordenar contactos por nombre
 [Sort contacts by status]
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms delay]
-ms de retardo
 [Show]
 Mostrar
 [icon when statuses differ]
@@ -101,14 +99,8 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[System tray icon]
-Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
-[Contact list sorting]
-Orden de la lista de contacto
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
 [Window]
 Ventana
 [Always on top]
@@ -925,8 +917,6 @@ Establecer
 Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
 [Account order and visibility]
 Orden de cuenta y visibilidad
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
 [Key bindings]
 Atajos de teclado
 [Shortcut:]
@@ -1029,6 +1019,8 @@ Preguntar antes de eliminar
 'Ocultar fuera de línea' es:
 [Tray]
 Bandeja
+[ms delay]
+ms de retardo
 [Single click interface]
 Interfaz simple clic
 [Always show status in tooltip]
@@ -3312,7 +3304,7 @@ Protocolo desconocido
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.4
+;  Version: 0.98.1.6
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Dialog]
@@ -4103,10 +4095,6 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Fade out entire list when:]
 Desaparecer lista entera cuando:
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms, delay between icon blinking]
-ms, retardo entre parpadeo del icono
 [System tray icon]
 Icono de la bandeja de sistema
 [Appearance]
@@ -4368,12 +4356,6 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¡Esto borrará toda el historial y los valores de este contacto!
 [Contact list]
 Lista de contactos
-[System tray icon]
-Icono de la bandeja de sistema
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms]
-ms
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
 [Show]
@@ -5036,7 +5018,7 @@ Error
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.2
+;  Version: 4.1.0.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [&Search]
@@ -5111,7 +5093,7 @@ Error
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.1.2
+;  Version: 0.96.2.2
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -5535,6 +5517,8 @@ Avanzado
 ;  Version: 0.95.11.1
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
+[Gadu-Gadu protocol support for Miranda NG.]
+Compatibilidad con el protocolo Gadu-Gadu para Miranda NG.
 [Password:]
 Contraseña:
 [E-mail:]
@@ -5583,14 +5567,6 @@ a:
 Desconocido
 [Age:]
 Edad:
-[System tray icon]
-Icono de la bandeja de sistema
-[Network]
-Red
-[General]
-General
-[Advanced]
-Avanzado
 [Contact list]
 Lista de contactos
 [Female]
@@ -5603,8 +5579,16 @@ Archivos de texto
 Todos los archivos
 [contacts]
 contactos
+[System tray icon]
+Icono de la bandeja de sistema
 [Ignore]
 Ignorar
+[Network]
+Red
+[General]
+General
+[Advanced]
+Avanzado
 [Notifications]
 Notificaciones
 [Errors]
@@ -5801,9 +5785,11 @@ Personalizar
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.9
+;  Version: 0.96.2.3
 ;  Authors: George Hazan
 ;============================================================
+[ICQ protocol support for Miranda NG.]
+Compatibilidad con el protocolo ICQ para Miranda NG.
 [Password:]
 Contraseña:
 [Notifications]
@@ -5814,6 +5800,8 @@ Cancelar
 Registro de cuenta
 [Nick:]
 Nick:
+[Phone number:]
+Número de teléfono:
 [E-mail]
 E-mail
 [Network]
@@ -5990,6 +5978,8 @@ Todos los archivos
 ;  Version: 0.96.1.4
 ;  Authors: Miranda team
 ;============================================================
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Compatibilidad con el protocolo Internet Relay Chat (IRC) para Miranda NG.
 [Password]
 Contraseña
 [Nick]
@@ -6612,6 +6602,8 @@ Enviando...
 ;  Version: 0.1.0.1
 ;  Authors: Robert Pösel
 ;============================================================
+[Minecraft Dynmap support for Miranda NG.]
+Compatibilidad con el protocolo Minecraft Dynmap para Miranda NG.
 [Server:]
 Servidor:
 [Normal]
@@ -6866,7 +6858,7 @@ E-mail     :
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Nickname:]
@@ -7014,19 +7006,21 @@ Ventanas emergentes
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.5
+;  Version: 0.2.2.6
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
-[Text]
-Texto
-[Background]
-Fondo
 [Message]
 Mensaje
 [File]
 Archivo
 [Errors]
 Errores
+[Text]
+Texto
+[Background]
+Fondo
+[Use default colors]
+Usar colores predeterminados
 [Preview]
 Previsualizar
 [Error]
@@ -7479,6 +7473,8 @@ Eventos
 ;  Version: 0.1.3.4
 ;  Authors: Robert Pösel
 ;============================================================
+[Omegle protocol support for Miranda NG.]
+Compatibilidad con el protocolo Omegle para Miranda NG.
 [Server:]
 Servidor:
 [Normal]
@@ -7680,7 +7676,7 @@ Desconocido
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.3
+;  Version: 0.2.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -8911,7 +8907,7 @@ Errores
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Name:]
@@ -8926,6 +8922,8 @@ Color de fondo
 Todos los archivos
 [Customize]
 Personalizar
+[General]
+General
 #muuid {14331048-5a73-4fdb-b909-2d7e1825a012}
 ;============================================================
 ;  File: Spamotron.dll
@@ -9428,6 +9426,8 @@ Barra de herramientas
 ;  Version: 0.96.1.1
 ;  Authors: Miranda NG team, Robert Pösel
 ;============================================================
+[Steam protocol support for Miranda NG.]
+Compatibilidad con el protocolo Steam para Miranda NG.
 [Username:]
 Usuario:
 [Password:]
@@ -9500,7 +9500,7 @@ Avanzado
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Actions]
@@ -9613,8 +9613,6 @@ No
 Registro
 [&Copy]
 &Copiar
-[Co&py all]
-Co&piar todo
 [Select &all]
 Elegir &todo
 [Open in &new window]
@@ -9707,8 +9705,6 @@ Sesiones de mensaje
 Fondo de lista de usuarios
 [Appearance and functionality of chat room windows]
 Apariencia y funcionalidad de ventanas de chat
-[Appearance of the message log]
-Apariencia del registro de mensajes
 [Flash window when someone speaks]
 Parpadear ventana cuando alguien habla
 [Flash window when a word is highlighted]
@@ -9717,6 +9713,8 @@ Parpadear ventana cuando se resalta una palabra
 Mostrar lista de usuarios en la sala de chat
 [Do not pop up the window when joining a chat room]
 No abrir la ventana al unirse a una sala de chat
+[Appearance of the message log]
+Apariencia del registro de mensajes
 [Prefix all events with a timestamp]
 Prefijo de todos los eventos con una fecha y hora
 [Only prefix with timestamp if it has changed]
@@ -9825,6 +9823,27 @@ Ventanas emergentes
 El contacto ha comenzado a escribir
 [Contact stopped typing]
 El contacto dejó de escribir
+#muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
+;============================================================
+;  File: Telegram.dll
+;  Plugin: Telegram protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Telegram protocol support for Miranda NG.]
+Compatibilidad con el protocolo Telegram para Miranda NG.
+[Phone number:]
+Número de teléfono:
+[Default group:]
+Grupo predeterminado:
+[Error]
+Error
+[Network]
+Red
+[Account]
+Cuenta
+[Errors]
+Errores
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -10154,9 +10173,11 @@ Invertir Caso de Último / Seleccionado
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.6
+;  Version: 1.3.1.7
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
+[Twitter protocol support for Miranda NG.]
+Compatibilidad con el protocolo Twitter para Miranda NG.
 [Default group:]
 Grupo predeterminado:
 [Username:]
@@ -10428,11 +10449,11 @@ Alias
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.0
+;  Version: 0.1.14.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
-Soporte del protocolo Vkontakte para Miranda NG.
+Compatibilidad con el protocolo VKontakte para Miranda NG.
 [Visit profile]
 Visitar perfil
 [off]
@@ -10507,7 +10528,7 @@ Notificaciones
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Colors]
@@ -10534,16 +10555,12 @@ Acciones
 Previsualizar
 [Main]
 Principal
-[Background]
-Fondo
 [Do nothing]
 No hacer nada
 [Close popup]
 Cerrar popup
 [Popups]
 Ventanas emergentes
-[General]
-General
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -11152,6 +11169,35 @@ En línea
 Red
 [Popups]
 Ventanas emergentes
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Compatibilidad con el protocolo WhatsApp para Miranda NG.
+[Nick:]
+Nick:
+[Default group:]
+Grupo predeterminado:
+[Unregister]
+Anular registro
+[Cancel]
+Cancelar
+[Owner]
+Propietario
+[Network]
+Red
+[Account]
+Cuenta
+[%s (server)]
+%s (servidor)
+[Error]
+Error
+[Errors]
+Errores
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll

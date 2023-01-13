@@ -689,6 +689,12 @@ Nicknamen in %s ändern
 [Reason to destroy %s]
 Grund der Zerstörung von %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+Filtermodus
+[Refresh list]
+Liste neu laden
+[Presences]
+Status
 [Can't send data while you are offline.]
 Kann keine Daten senden, so lange Sie offline sind.
 [Jabber Error]
@@ -1786,6 +1792,8 @@ Passwort für %s eingeben
 Fehler: Nicht genug Speicher
 [Error: Cannot connect to the server]
 Fehler: Verbindung zum Server fehlgeschlagen
+[SSL intialization failed]
+
 [Error: Connection lost]
 Fehler: Verbindung unterbrochen
 [Requesting registration instruction...]
@@ -1796,8 +1804,6 @@ Autorisierung fehlgeschlagen für %s@%s.
 Nachricht weitergeleitet von: %s\r\n
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 Konnte eine Durchschlagskopie der verschlüsselten ausgehenden Nachricht nicht entschlüsseln
-[Description]
-Übersicht
 [Registration canceled]
 Registrierung abgebrochen
 [Sending registration information...]
@@ -1927,11 +1933,6 @@ Jabber-vCard: Telefonnummer bearbeiten
 Kontakte
 [Note]
 Hinweis
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
-Eingehender Anruf
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <erweiterter Statusslot>

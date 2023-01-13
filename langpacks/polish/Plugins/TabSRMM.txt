@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,8 +132,6 @@ Ilość wpisów z historii
 wpisów
 [More about advanced tweaks]
 Więcej o zaawansowanych ustawieniach
-[Revert to (safe) defaults]
-Przywróć domyślne (bezpieczne)
 [Dialog]
 Okno
 [Cancel]
@@ -530,8 +528,6 @@ Dziennik
 &Kopiuj
 [&Quote]
 &Cytuj
-[Co&py all]
-Ko&piuj wszystko
 [Select &all]
 Zaznacz &wszystko
 [Clear log]
@@ -556,8 +552,6 @@ Wklej
 Wklej sformatowany tekst
 [Paste and send immediately]
 Wklej i natychmiast wyślij
-[Copy all]
-Kopiuj wszystko
 [Select all]
 Zaznacz wszystko
 [Show message length indicator]
@@ -913,8 +907,6 @@ Tło listy użytkowników
 Tło dziennika czatu
 [Appearance and functionality of chat room windows]
 Wygląd i funkcjonalność okna czatu
-[Appearance of the message log]
-Wygląd dziennika wiadomości
 [Open new chat rooms in the default container]
 Otwórz nowe okno czatu w domyślnym kontenerze
 [Flash window when someone speaks]
@@ -933,8 +925,6 @@ Pokaż listę użytkowników w pokoju
 Pokaż temat pokoju na liście kontaktów
 [Do not pop up the window when joining a chat room]
 Nie pokazuj okna po dołączeniu do pokoju czatu
-[Sync splitter position with standard IM sessions]
-Synchronizuj pozycję separatorów ze standardowymi sesjami rozmowy
 [Show contact's status modes if supported by the protocol]
 Pokaż statusy kontaktu, jeśli są wspierane przez protokół
 [Display contact's status icon before user role icon]
@@ -943,6 +933,8 @@ Wyświetl ikonę statusu kontaktu przed ikoną roli użytkownika
 Używaj ircowych wskaźników na liście nicków
 [Use alternative sorting method in member list]
 Używaj alternatywnej metody sortowania listy nicków
+[Appearance of the message log]
+Wygląd dziennika wiadomości
 [Prefix all events with a timestamp]
 Poprzedź wszystkie zdarzenia czasem
 [Only prefix with timestamp if it has changed]
@@ -1317,6 +1309,8 @@ Pliki obrazów
 Plik istnieje. Chcesz nadpisać?
 [JPEG-compressed images]
 Skompresowane obrazy JPEG
+[Copy all]
+Kopiuj wszystko
 [Save and close session]
 Zapisz i zamknij sesje
 [, %d %s, %d %s idle]
@@ -1433,16 +1427,16 @@ Czy chcesz także, aby szablony wiadomości zostały odczytane z motywu?\nUwaga:
 Załaduj skórkę
 [Message window behavior]
 Zachowanie okna rozmowy
+[Always flash contact list and tray icon for new messages]
+Zawsze migaj na liście kontaktów i ikoną w zasobniku przy nowej wiadomości
+[Delete temporary contacts on close]
+Usuń tymczasowe kontakty przy zamknięciu
 [Sending messages]
 Wysyłanie wiadomości
 [Minimize the message window on send]
 Minimalizuj okno rozmowy po wysłaniu
 [Close the message window on send]
 Zamknij okno rozmowy po wysłaniu
-[Always flash contact list and tray icon for new messages]
-Zawsze migaj na liście kontaktów i ikoną w zasobniku przy nowej wiadomości
-[Delete temporary contacts on close]
-Usuń tymczasowe kontakty przy zamknięciu
 [Enable "Paste and send" feature]
 Włącz "Wklej i wyślij" za pomocą Ctrl+D
 [Allow BBCode formatting in outgoing messages]
@@ -1471,24 +1465,10 @@ To zresetuje zbiór szablonów do domyślnych, wbudowanych ustawień. Na pewno c
 Zbiór szablonów został zresetowany, zamknij i otwórz wszystkie okna rozmowy. Okno edytora szablonów zostanie teraz zamknięte.
 [Message log appearance]
 Wygląd dziennika wiadomości
-[Support for external plugins]
-Wsparcie dla zewnętrznych wtyczek
-[Timestamp settings (note: timestamps also depend on your templates)]
-Ustawienia znaczników czasu (uwaga: znaczniki czasu zależą także od twojego szablonu)
-[Message log icons]
-Ikony okna rozmowy
-[Show dates in timestamps]
-Pokaż datę przy czasie
-[Show seconds in timestamps]
-Pokaż sekundy w czasie
-[Use contacts local time (if timezone info available)]
-Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
 [Draw grid lines]
 Rysuj linie dzielące zdarzenia w dzienniku
 [Log status changes]
 Pokazuj zmiany statusu
-[Use incoming/outgoing icons]
-Użyj ikon dla przychodzących/wychodzących
 [Use message grouping]
 Grupuj wiadomości
 [Simple text formatting (*bold*, etc.)]
@@ -1499,14 +1479,28 @@ Wspieraj formatowanie BBCode
 Wstawiaj separatory w nieaktywnych sesjach
 [Only place a separator when an incoming event is announced with a popup]
 Umieść separator tylko wtedy, gdy nadchodzące zdarzenie jest ogłaszane za pomocą powiadomień
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
+[Support for external plugins]
+Wsparcie dla zewnętrznych wtyczek
 [Show events at the new line (IEView Compatibility Mode)]
 Pokaż zdarzenia w nowej linii (Tryb zgodności z IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Podkreśl czas/nick (Tryb zgodności z IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Pokaż czas po nazwie (tryb zgodności z IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Użyj normalnych szablonów (odznacz, by użyć prostych szablonów, jeśli twój zbiór szablonów je obsługuje)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Ustawienia znaczników czasu (uwaga: znaczniki czasu zależą także od twojego szablonu)
+[Show dates in timestamps]
+Pokaż datę przy czasie
+[Show seconds in timestamps]
+Pokaż sekundy w czasie
+[Use contacts local time (if timezone info available)]
+Użyj czasu lokalnego kontaktów (jeśli strefa czasowa jest dostępna)
+[Message log icons]
+Ikony okna rozmowy
+[Use incoming/outgoing icons]
+Użyj ikon dla przychodzących/wychodzących
 [** New contacts **]
 ** Nowe kontakty **
 [** Unknown contacts **]
@@ -1517,14 +1511,14 @@ Zawsze
 Zawsze, ale nie pokazuj, jeśli okno jest aktywne
 [Only when no message window is open]
 Tylko, gdy żadne okno rozmowy nie jest otwarte
-[How to create tabs and windows for incoming messages]
-Opcje tworzenia kart i okna rozmowy dla przychodzących wiadomości
 [Show status text on tabs]
 Pokaż status na kartach
 [Prefer xStatus icons when available]
 Używaj ikon xStatus, jeśli dostępne
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Szczegółowe podpowiedzi na kartach (wymaga Tippera)
+[How to create tabs and windows for incoming messages]
+Opcje tworzenia kart i okna rozmowy dla przychodzących wiadomości
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 Zawsze aktywuj nowe okna rozmowy (ma PRIORYTET!)
 [Automatically create new message sessions without activating them]
@@ -1551,22 +1545,22 @@ Zamknij lub ukryj okno, zamykanie kart ma pierwszeństwo
 Nic nie rób (ignoruj przycisk Esc)
 [Message window tweaks]
 Poprawki okna rozmowy
-[Display metacontact icons]
-Wyświetlaj ikony metakontaktów
-[Error feedback]
-Błędy
 [Close current tab on send]
 Zamknij kartę po wysłaniu wiadomości
 [Enable unattended send (experimental feature, required for multisend and send later)]
 Włącz wysyłanie bez nadzoru (eksperymentalnie, wymagane przez wyślij później i do wielu naraz, możliwe błędy)
 [Show client description in info panel]
 Pokaż opis klienta w panelu informacji
+[Display metacontact icons]
+Wyświetlaj ikony metakontaktów
 [On tab control]
 Na kontrolce karty
 [On the button bar]
 Na pasku przycisków
-[Disable error popups on sending failures]
-Wyłącz powiadomienia błędów wysyłania wiadomości
+[Error feedback]
+Błędy
+[Enable error popups on sending failures]
+Włącz powiadomienia błędów wysyłania wiadomości
 [Choose status modes]
 Wybierz tryby statusu
 [General]
@@ -1795,6 +1789,9 @@ Ustawienia opcji rozmowy dla %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 Wiadomość TabSRMM (%s)
+;file \plugins\TabSRMM\src\warning.cpp
+[TabSRMM warning message]
+Ostrzeżenie TabSRMM
 [Save file|Unable to save temporary file]
 Zapisz plik|Nie można zapisać pliku tymczasowego
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
@@ -1815,5 +1812,3 @@ Zamykanie okna|Czy na pewno chcesz zamknąć okno rozmowy z otwartymi kilkoma ka
 Zamykanie okna opcji|Aby uwzględnić zmiany spowodowane zaimportowaniem skórki w oknie opcji, okno musi zostać zamknięte po załadowaniu skórki, |\\b1 a niezapisane zmiany mogą zostać utracone\\b0 .\n\nCzy chcesz kontynuować?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Ładowanie skórki| Załadowanie skórki kolorów i czcionek może nadpisać twoje ustawienia.\n\nCzy chcesz kontynuować?
-[TabSRMM warning message]
-Ostrzeżenie TabSRMM

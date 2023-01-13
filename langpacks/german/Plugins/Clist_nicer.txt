@@ -40,12 +40,6 @@ Zuletzt aktiven Kontaktfilter wiederherstellen
 Menü- und Statusbutton anzeigen
 [Draw sunken edge]
 Versenkte Darstellung benutzen
-[System tray icon]
-Systemtray-Icon
-[Disable icon blinking]
-Iconblinken deaktivieren
-[ms]
-ms
 [Event area]
 Ereignisbereich
 [Set base visibility on the frames menu]

@@ -98,10 +98,6 @@ Niewidoczny
 Ogólne opcje YAMN
 [TopToolBar button "Check mail"]
 Przycisk paska narzędzi "Sprawdź pocztę"
-[Enable YAMN Main Menu]
-Włącz YAMN w menu głównym
-[Show YAMN as a Protocol (Require Restart)]
-Pokaż YAMN jako protokół (wymagany restart)
 [MailBrowser Options]
 Opcje przeglądania wiadomości
 [Enable Close on Delete Button]

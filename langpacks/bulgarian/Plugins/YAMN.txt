@@ -98,10 +98,6 @@
 
 [TopToolBar button "Check mail"]
 
-[Enable YAMN Main Menu]
-
-[Show YAMN as a Protocol (Require Restart)]
-
 [MailBrowser Options]
 
 [Enable Close on Delete Button]

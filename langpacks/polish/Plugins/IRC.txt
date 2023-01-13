@@ -359,12 +359,6 @@ Wychodzące komendy nie są pokazane
 Odstęp czasu przy sprawdzaniu obecności znajomych ma obecnie wartość domyślną
 [The time interval for the buddy check function is now %u seconds]
 Odstęp czasu przy sprawdzaniu obecności znajomych wynosi obecnie %s sekund
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-To polecenie nie jest zalecane w sieciach o tej wielkości!\r\nPrawdopodobnie spowoduje ono wysokie obciążenie procesora i/lub wysokie użycie łącza na około %u do %u minut(y).\r\n\r\nChcesz kontynuować?
-[IRC warning]
-Ostrzeżenie IRC
-[Aborted]
-Przerwane
 [CTCP %s request sent to %s]
 Żądanie CTCP %s wysłano do %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Ustaw te tryby dla kanału
 Ustaw ten temat dla kanału
 [You have not applied all changes!\n\nApply before exiting?]
 Nie zapisałeś wszystkich zmian!\n\nChcesz je zapisać przed wyjściem?
+[IRC warning]
+Ostrzeżenie IRC
 [Add ban]
 Dodaj ban
 [Add invite]

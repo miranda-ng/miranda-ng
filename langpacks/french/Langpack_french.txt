@@ -71,16 +71,14 @@ Utiliser Paramètres -> Contacts -> Ignorer pour ré-afficher les contacts.
 Voulez-vous vraiment supprimer %s ?
 [This will erase all history and settings for this contact!]
 Ceci effacera tout l'historique et réglages de ce contact !
+[Contact list sorting]
+Tri des contacts dans la liste
 [Sort contacts by name]
 Classer par nom
 [Sort contacts by status]
 Classer par état
 [Sort contacts by protocol]
 Classer par protocole
-[Disable icon blinking]
-Sans clignotement
-[ms delay]
-fréquence (ms)
 [Show]
 Afficher
 [icon when statuses differ]
@@ -93,14 +91,8 @@ secondes si les états diffèrent
 Afficher plusieurs icônes
 [Only when statuses differ]
 seulement si les états diffèrent
-[System tray icon]
-Icône de la barre des tâches
 [System tray icon when using multiple protocols]
 Icône de la barre des tâches quand plusieurs protocoles sont utilisés
-[Contact list sorting]
-Tri des contacts dans la liste
-[Don't move offline user to bottom]
-Ne pas déplacez les utilisateur déconnecté en bas
 [Window]
 Fenêtre
 [Always on top]
@@ -939,8 +931,6 @@ Activer les icônes
 Afficher les comptes dans cet ordre,\ncliquer/glisser pour choisir un autre ordre
 [Account order and visibility]
 Organisation et visibilité des Comptes
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Note : Miranda devra être relancé pour prendre en compte les changements.
 [Key bindings]
 Raccourcis clavier
 [Shortcut:]
@@ -1075,6 +1065,8 @@ Demander avant de supprimer
 "Cacher les Hors ligne" masque :
 [Tray]
 Tray
+[ms delay]
+fréquence (ms)
 [Single click interface]
 Clic simple
 [Always show status in tooltip]
@@ -2265,6 +2257,8 @@ Fichiers WAV
 Pseudo
 [Unique ID]
 ID unique
+[Copy all]
+Tout copier
 [No word to look up]
 Aucun mot à chercher
 [Empty history]
@@ -3556,7 +3550,7 @@ UIN inconnu
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.4
+;  Version: 0.98.1.6
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Set default picture]
@@ -3619,6 +3613,14 @@ OK
 Un avatar par protocole
 [Protocols have different avatars]
 Les protocoles ont différents avatars
+[Contact has no avatar]
+Contact sans avatar
+[Set avatar options for %s]
+Définir les options d'avatar pour %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Effacer l'avatar du disque (peut-être nécessaire afin de recharger l'avatar, mais peut également effacer son véritable avatar) ?
+[Reset contact picture]
+Effacement de l'image du contact
 [Avatars]
 Avatars
 [My Avatars]
@@ -3629,14 +3631,6 @@ Cache de l'avatar général
 Avatar
 [Global avatar]
 Avatar général
-[Set avatar options for %s]
-Définir les options d'avatar pour %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Effacer l'avatar du disque (peut-être nécessaire afin de recharger l'avatar, mais peut également effacer son véritable avatar) ?
-[Reset contact picture]
-Effacement de l'image du contact
-[Contact has no avatar]
-Contact sans avatar
 [Contacts]
 Contacts
 [Protocols]
@@ -4513,10 +4507,6 @@ millisecondes
 Masquer la barre de défilement vertical
 [Fade out entire list when:]
 Assombrir complètement la liste si :
-[Disable icon blinking]
-Sans clignotement
-[ms, delay between icon blinking]
-ms, délai entre les clignotement des icônes
 [System tray icon]
 Icône de la barre des tâches
 [Use xStatus icon]
@@ -5076,12 +5066,6 @@ Appliquer le dernier mode d'affichage actif
 Afficher le menu et la barre d'état
 [Draw sunken edge]
 Activer l'effet 3D
-[System tray icon]
-Icône de la barre des tâches
-[Disable icon blinking]
-Sans clignotement
-[ms]
-ms
 [Event area]
 Zone d'évènements
 [Set base visibility on the frames menu]
@@ -6004,7 +5988,7 @@ Erreur
 ;============================================================
 ;  File: DbEditorPP.dll
 ;  Plugin: Database editor++
-;  Version: 4.1.0.2
+;  Version: 4.1.0.3
 ;  Authors: Bio, Jonathan Gordon
 ;============================================================
 [Search and replace]
@@ -6245,7 +6229,7 @@ Panique dans la Base de données !
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.1.2
+;  Version: 0.96.2.2
 ;  Authors: Miranda-NG project
 ;============================================================
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
@@ -7059,24 +7043,6 @@ Liste importée avec succès.
 Liste effacée avec succès.
 [List export successful.]
 Liste exportée avec succès.
-[<Last Status>]
-<Dernier État>
-[System tray icon]
-Icône de la barre des tâches
-[You need to specify your registration e-mail first.]
-Vous devez spécifier votre e-mail primaire d'enregistrement
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
-[Network]
-Réseau
-[General]
-Général
-[Conference]
-Chat
-[Advanced]
-Avancé
 [HTTP failed memory]
 Erreur HTTP : mémoire
 [HTTP failed connecting]
@@ -7087,6 +7053,8 @@ Erreur HTTP : lecture
 Erreur HTTP : écriture
 [Unknown HTTP error]
 Erreur HTTP inconnue
+[Conference]
+Chat
 [Contact list]
 Liste de contacts
 [Gadu-Gadu Number]
@@ -7163,12 +7131,28 @@ Exporter la liste vers le &server
 Exporter la liste vers un fichier &Texte
 [Gadu-Gadu Link Protocol]
 Raccourci du protocole Gadu-Gadu
+[<Last Status>]
+<Dernier État>
+[System tray icon]
+Icône de la barre des tâches
+[You need to specify your registration e-mail first.]
+Vous devez spécifier votre e-mail primaire d'enregistrement
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
 [Allow]
 Autoriser
 [Ask]
 Demander
 [Ignore]
 Ignorer
+[Network]
+Réseau
+[General]
+Général
+[Advanced]
+Avancé
 [Password was sent to your e-mail.]
 Votre mot de passe a été envoyé par e-mail.
 [Notifications]
@@ -7767,7 +7751,7 @@ Apparence
 ;============================================================
 ;  File: ICQ.dll
 ;  Plugin: ICQ-WIM protocol
-;  Version: 0.96.1.9
+;  Version: 0.96.2.3
 ;  Authors: George Hazan
 ;============================================================
 [ICQ protocol support for Miranda NG.]
@@ -7794,6 +7778,8 @@ Inactif depuis :
 Pseudo :
 [Member since:]
 Inscrit depuis :
+[Phone number:]
+Téléphone :
 [Enter ICQ Password]
 Entrer le passe ICQ
 [Enter a password:]
@@ -8384,12 +8370,6 @@ Les commandes sortantes sont invisibles
 La fréquence de vérification des amis est au réglage par défaut
 [The time interval for the buddy check function is now %u seconds]
 La fréquence de vérification des amis est de %u secondes
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Cette commande n'est pas recommandée sur un réseau de cette taille !\r\nL'utiliser causera sûrement une hausse de l'utilisation du CPU et/ou de la bande passante pendant environ %u à %u minute(s).\r\n\r\nVoulez-vous continuer ?
-[IRC warning]
-Alerte IRC
-[Aborted]
-Abandon
 [CTCP %s request sent to %s]
 Requête CTCP %s envoyée à %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -8648,6 +8628,8 @@ Choisir ces modes pour le canal
 Choisir ce sujet pour le canal
 [You have not applied all changes!\n\nApply before exiting?]
 Vous n'avez pas appliqué tous les changements !\n\nAppliquer avant de sortir ?
+[IRC warning]
+Alerte IRC
 [Add ban]
 Ajouter un ban
 [Add invite]
@@ -9029,6 +9011,8 @@ OK pour un chat
 &Détails du contact
 [&Copy to clipboard]
 Copier
+[Refresh list]
+Rafraîchir
 [Jabber Error]
 Erreur Jabber
 [Contact Menu...]
@@ -10476,7 +10460,7 @@ Le contact suivant vous a ajouté à sa liste :
 ;============================================================
 ;  File: MyDetails.dll
 ;  Plugin: My details
-;  Version: 0.1.0.1
+;  Version: 0.1.0.2
 ;  Authors: Ricardo Pescuma Domenecci, Drugwash
 ;============================================================
 [Set my nickname]
@@ -10694,17 +10678,13 @@ Popups
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.5
+;  Version: 0.2.2.6
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Limit message preview to]
 Aperçu des messages limité à
 [characters]
 caractères
-[Text]
-Texte
-[Background]
-Arrière-plan
 [Message]
 Message
 [File]
@@ -10713,6 +10693,12 @@ Fichier
 Erreurs
 [Others]
 Autres
+[Text]
+Texte
+[Background]
+Arrière-plan
+[Use default colors]
+Couleurs par défaut
 [Preview]
 Aperçu
 [Don't show popup when message dialog is already open]
@@ -11900,7 +11886,7 @@ Inconnu
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.3
+;  Version: 0.2.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Updates found!]
@@ -13591,17 +13577,9 @@ Erreurs
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
-[Smiley categories]
-Catégories de smileys
-[Specify smiley pack for each category]
-Spécifier un pack de smileys par catégorie
-[Name:]
-Nom :
-[Preview]
-Aperçu
 [Replace only smileys surrounded by spaces]
 Ne remplacer que les smileys entouré d'espace
 [Scale smiley to text height]
@@ -13618,6 +13596,12 @@ Espace de chaque côté des smileys
 Se référer au 1ier smiley afin de définir la taille de sélection
 [IEView style window]
 Fenêtre style IEView
+[Specify smiley pack for each category]
+Spécifier un pack de smileys par catégorie
+[Name:]
+Nom :
+[Preview]
+Aperçu
 [Show smiley selection window]
 Voir la fenêtre de sélection des smileys
 [Button smiley]
@@ -13634,6 +13618,8 @@ Pack de Smiley
 Tous les fichiers
 [Customize]
 Apparence
+[General]
+Général
 [There were problems loading smiley pack (it should be corrected).\nSee network log for details.]
 Il s'est produit une erreur lors du chargement du pack de smileys (il doit être corrigé).\nLisez l'enregistrement réseau pour plus de détails.
 [Smiley #%u in file %s for smiley pack %s not found.]
@@ -14022,7 +14008,7 @@ Avancé
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [Show these events]
@@ -14091,8 +14077,6 @@ Nombre d'entrées dans l'historique
 entrées
 [More about advanced tweaks]
 En savoir plus sur les réglages avancés
-[Revert to (safe) defaults]
-Paramètres par défaut
 [Dialog]
 Dialogue
 [Cancel]
@@ -14335,8 +14319,6 @@ Journal
 &Copier
 [&Quote]
 &Citer
-[Co&py all]
-&Tout copier
 [Select &all]
 Tout &sélectionner
 [Freeze log]
@@ -14359,8 +14341,6 @@ Coller
 Coller texte formaté
 [Paste and send immediately]
 Coller et envoyer immédiatement
-[Copy all]
-Tout copier
 [Select all]
 Tout sélectionner
 [Show message length indicator]
@@ -14587,8 +14567,6 @@ Mode étendu 1
 Fond de la liste
 [Appearance and functionality of chat room windows]
 Apparence et fonctionnalités des fenêtres de salon
-[Appearance of the message log]
-Apparence du journal des messages
 [Open new chat rooms in the default container]
 Ouvrir les salons de chat dans le container par défaut
 [Flash window when someone speaks]
@@ -14599,8 +14577,8 @@ Fenêtre clignotante quand un mot est surligné
 Voir la liste des présents d'un salon
 [Do not pop up the window when joining a chat room]
 Ne pas afficher automatiquement la fenêtre en joignant un salon
-[Sync splitter position with standard IM sessions]
-Synchroniser la position du séparateur avec les fenêtres standards
+[Appearance of the message log]
+Apparence du journal des messages
 [Prefix all events with a timestamp]
 Afficher date/heure pour tous les évènements
 [Only prefix with timestamp if it has changed]
@@ -14741,6 +14719,8 @@ Erreur lors de la création du répertoire de destination
 Sauver l'image du contact
 [The file exists. Do you want to overwrite it?]
 Le fichier existe déjà, Voulez-vous l'écraser ?
+[Copy all]
+Tout copier
 [Save and close session]
 Sauvegarde puis ferme la session
 [hours]
@@ -14795,16 +14775,16 @@ Voulez-vous également lire les modèles de message du thème ?\nAttention : Cec
 Charger un thème
 [Message window behavior]
 Comportement de la fenêtre des messages
+[Always flash contact list and tray icon for new messages]
+Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
+[Delete temporary contacts on close]
+Effacer les contacts provisoires en fermant
 [Sending messages]
 Envoi de messages
 [Minimize the message window on send]
 Réduire la fenêtre à l'envoi
 [Close the message window on send]
 Fermer la fenêtre à l'envoi
-[Always flash contact list and tray icon for new messages]
-Toujours clignoter la liste de contacts et le Systray pour les nouveaux messages
-[Delete temporary contacts on close]
-Effacer les contacts provisoires en fermant
 [Automatically split long messages (experimental, use with care)]
 Couper automatiquement les longs messages (expérimental, utiliser avec précaution)
 [Automatically copy selected text]
@@ -14821,32 +14801,32 @@ Ceci remettra tous vos modèles à l'état d'origine. Êtes-vous sûr de vouloir
 Le modèle a été remis à zéro avec succès, veuillez fermer puis réouvrir toutes les fenêtres de message. Cet éditeur de modèle va se fermer.
 [Message log appearance]
 Apparence de l'historique récent
-[Support for external plugins]
-Support des plugins externes
-[Timestamp settings (note: timestamps also depend on your templates)]
-Configuration de l'horodatage (dépend également de vos modèles)
-[Show dates in timestamps]
-Afficher les dates dans l'horodatage
-[Use contacts local time (if timezone info available)]
-Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
 [Draw grid lines]
 Afficher les lignes horizontales
-[Use incoming/outgoing icons]
-Utiliser icônes entrantes/sortantes
 [Use message grouping]
 Grouper les messages
 [Simple text formatting (*bold*, etc.)]
 Formatage simple des textes (*bold* etc.)
 [Support BBCode formatting]
 Support du formatage BBCode
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
+[Support for external plugins]
+Support des plugins externes
 [Show events at the new line (IEView Compatibility Mode)]
 Afficher les évènements sur une ligne (IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Surligner les pseudo et horodatage (IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Afficher l'horodatage après le pseudo (IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Utiliser des modèles clssiques (décochez afin d'utiliser des modèles simples si votre modèle le supporte)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Configuration de l'horodatage (dépend également de vos modèles)
+[Show dates in timestamps]
+Afficher les dates dans l'horodatage
+[Use contacts local time (if timezone info available)]
+Utiliser l'heure locale du contact (si le fuseaux horaire est renseigné)
+[Use incoming/outgoing icons]
+Utiliser icônes entrantes/sortantes
 [** New contacts **]
 ** Nouveaux contacts **
 [** Unknown contacts **]
@@ -14867,8 +14847,6 @@ Bulle détaillée sur les onglets (requière Tipper)
 Ajouter les contacts hors ligne à la liste de l'envoi groupé
 [Close current tab on send]
 Fermer l'onglet en cours dés l'envoi
-[Disable error popups on sending failures]
-Désactiver les popups en cas d'échec d'envoi
 [Choose status modes]
 Choisir les modes d'état...
 [General]
@@ -14971,6 +14949,27 @@ Popups
 Notification de frappe
 [TabSRMM message (%s)]
 Message TabSRMM (%s)
+#muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
+;============================================================
+;  File: Telegram.dll
+;  Plugin: Telegram protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Phone number:]
+Téléphone :
+[Default group:]
+Groupes :
+[Enter password]
+Entrez le passe
+[Error]
+Erreur
+[Network]
+Réseau
+[Account]
+Compte
+[Errors]
+Erreurs
 #muuid {8392df1d-9090-4f8e-9df6-2fe058edd800}
 ;============================================================
 ;  File: Tipper.dll
@@ -15510,7 +15509,7 @@ Effacer la valeur courante (maintenant)
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.6
+;  Version: 1.3.1.7
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -16204,7 +16203,7 @@ Utilisateur
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.0
+;  Version: 0.1.14.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -16307,7 +16306,7 @@ Jeux
 ;============================================================
 ;  File: VoiceService.dll
 ;  Plugin: Voice Service
-;  Version: 0.1.3.0
+;  Version: 0.1.3.1
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
 [Colors]
@@ -16338,22 +16337,20 @@ Aperçu
 Images
 [Audio]
 Audio
-[Voice Calls]
-Appels vocaux
 [Main]
 Principales
 [Talking]
 discute
-[Background]
-Arrière-plan
+[Ready]
+Prêt
+[Voice Calls]
+Appels vocaux
 [Test Contact]
 Test : Contact
 [Test description]
 Test : Description
 [Popups]
 Popups
-[General]
-Général
 #muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: Watrack.dll
@@ -17194,6 +17191,39 @@ En ligne
 Réseau
 [Popups]
 Popups
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Support du protocole WhatsApp pour Miranda NG.
+[Nick:]
+Pseudo :
+[Default group:]
+Groupes :
+[Unregister]
+Désenregistrer
+[Invite users]
+Inviter des utilisateurs
+[&Invite]
+&Inviter
+[Cancel]
+Annuler
+[Owner]
+Propriétaire
+[Network]
+Réseau
+[Account]
+Compte
+[%s (server)]
+%s (serveur)
+[Error]
+Erreur
+[Errors]
+Erreurs
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;============================================================
 ;  File: WhenWasIt.dll
@@ -17485,8 +17515,6 @@ Invisible
 Options de YAMN
 [TopToolBar button "Check mail"]
 Afficher un bouton dans la barre d'outils
-[Show YAMN as a Protocol (Require Restart)]
-Afficher YAMN comme un protocole (redémarrage nécessaire)
 [Enable Close on Delete Button]
 Fermer la fenêtre si clic sur effacer
 [Show long localized date]

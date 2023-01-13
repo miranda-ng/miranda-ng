@@ -689,6 +689,12 @@ xHTML фармат чат-паведамленняў
 [Reason to destroy %s]
 Чыннік знішчэння %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+Абнавіць спіс
+[Presences]
+
 [Can't send data while you are offline.]
 Немагчыма адаслаць - не ў сеціве.
 [Jabber Error]
@@ -1786,6 +1792,8 @@ XML (кадзіроўка UTF-8)
 Памылка: Не хапае памяці
 [Error: Cannot connect to the server]
 Памылка: Немагчыма далучыцца ды сервера
+[SSL intialization failed]
+
 [Error: Connection lost]
 Памылка: Злучэнне страчана
 [Requesting registration instruction...]
@@ -1796,8 +1804,6 @@ XML (кадзіроўка UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
-[Description]
-Апісанне
 [Registration canceled]
 
 [Sending registration information...]
@@ -1927,11 +1933,6 @@ Jabber vCard: рэдагаванне тэлефона
 Кантакты
 [Note]
 Нататка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
-
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

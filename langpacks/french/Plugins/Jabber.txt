@@ -689,6 +689,12 @@ Copier
 [Reason to destroy %s]
 
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+Rafraîchir
+[Presences]
+
 [Can't send data while you are offline.]
 
 [Jabber Error]
@@ -1786,6 +1792,8 @@ Entrez le mot de passe pour %s
 Erreur : Mémoire insuffisante
 [Error: Cannot connect to the server]
 Erreur : Connexion impossible au Serveur
+[SSL intialization failed]
+
 [Error: Connection lost]
 Erreur : Connexion perdue
 [Requesting registration instruction...]
@@ -1795,8 +1803,6 @@ Erreur : Connexion perdue
 [Message redirected from: %s\r\n]
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
-
-[Description]
 
 [Registration canceled]
 
@@ -1926,11 +1932,6 @@ Détails Jabber : Éditer le numéro de téléphone
 [Contacts]
 Contacts
 [Note]
-
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

@@ -12,8 +12,8 @@
 Тест
 [Add shortcut]
 Добавить ярлык
-[Enabled]
-Включён
+[Enable popups]
+Включить всплывающие окна
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Для этого плагина требуется Windows 8 или новее.

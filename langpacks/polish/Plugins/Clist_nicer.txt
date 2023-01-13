@@ -40,12 +40,6 @@ Zastosuj ostatni aktywny tryb widoku
 Pokaż przyciski menu i statusu
 [Draw sunken edge]
 Rysuj wtopione krawędzie
-[System tray icon]
-Ikona w zasobniku
-[Disable icon blinking]
-Wyłącz miganie ikony
-[ms]
-ms
 [Event area]
 Obszar zdarzeń
 [Set base visibility on the frames menu]

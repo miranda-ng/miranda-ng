@@ -12,8 +12,8 @@
 Прагляд
 [Add shortcut]
 
-[Enabled]
-Уключаны
+[Enable popups]
+Уключыць усплывальныя вокны
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 

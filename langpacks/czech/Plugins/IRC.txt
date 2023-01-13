@@ -359,12 +359,6 @@ Zadané příkazy nebudou zobrazovány
 Časový interval sledování uživatelů online je nastaven na výchozí hodnotu
 [The time interval for the buddy check function is now %u seconds]
 Časový interval sledování uživatelů online je nyní %u sek.
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Tento příkaz nelze doporučit na velké síti IRC serverů!\r\nVýsledkem bude velmi velké vytížení jak procesoru, tak\r\ni síťového připojení po dobu zhruba %u až %u minut.\r\n\r\nOpravdu chcete pokračovat?
-[IRC warning]
-Upozornění sítě IRC
-[Aborted]
-Přerušeno
 [CTCP %s request sent to %s]
 Odeslána žádost CTCP %s -> %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Nastaví vybrané módy kanálu
 Nastaví téma kanálu
 [You have not applied all changes!\n\nApply before exiting?]
 Nejsou uloženy všechny provedené změny!\n\nNechcete je před zavřením okna uložit?
+[IRC warning]
+Upozornění sítě IRC
 [Add ban]
 Přidání zákazu
 [Add invite]

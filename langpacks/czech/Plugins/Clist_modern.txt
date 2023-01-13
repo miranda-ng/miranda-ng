@@ -272,10 +272,6 @@ ms
 Skrýt svislý posuvník
 [Fade out entire list when:]
 Zprůhlednit celý seznam při:
-[Disable icon blinking]
-Vypnout blikání ikon
-[ms, delay between icon blinking]
-ms (definuje rychlost blikání)
 [System tray icon]
 Ikona v oznamovací oblasti
 [Use xStatus icon]

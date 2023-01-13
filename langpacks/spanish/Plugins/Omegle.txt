@@ -6,7 +6,7 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Omegle protocol support for Miranda NG.]
-
+Compatibilidad con el protocolo Omegle para Miranda NG.
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 Servidor:

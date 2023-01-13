@@ -359,12 +359,6 @@ IRC грешка
 
 [The time interval for the buddy check function is now %u seconds]
 
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Ползването на командата в мрежа с подобен размер не е препоръчително!\r\nВероятно ще предизвика голямо натоварване на процесора и/или интензивен трафик за %u до %u минути.\r\n\r\nНаистина ли желаете това?
-[IRC warning]
-IRC предупреждение
-[Aborted]
-Прекратен
 [CTCP %s request sent to %s]
 
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Voice (имащ право да говори)
 Задаване като нова тема
 [You have not applied all changes!\n\nApply before exiting?]
 Промените не са приложени!\n\nЖелаете ли да бъдат приложени?
+[IRC warning]
+IRC предупреждение
 [Add ban]
 Добавяне на бан
 [Add invite]

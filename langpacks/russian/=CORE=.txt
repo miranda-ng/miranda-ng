@@ -2778,6 +2778,8 @@ ANSI плагин
 Добавить группу
 [Warning]
 Предупреждение
+[Blank]
+Пустой
 [Always visible]
 Всегда видимый
 [Always invisible]
@@ -2808,6 +2810,8 @@ ANSI плагин
 [Log viewer]
 Просмотрщик журнала сообщений
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
+Копировать всё
 [Look up '%s':]
 Искать '%s':
 [No word to look up]

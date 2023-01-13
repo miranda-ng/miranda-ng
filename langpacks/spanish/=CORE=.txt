@@ -66,16 +66,16 @@ Usar Opciones -> Contactos -> Ignorar Para mostrar los contactos.
 ¿Está seguro de que desea eliminar a %s?
 [This will erase all history and settings for this contact!]
 ¡Esto borrará toda el historial y los valores de este contacto!
+[Contact list sorting]
+Orden de la lista de contacto
 [Sort contacts by name]
 Ordenar contactos por nombre
 [Sort contacts by status]
 Ordenar contactos por estado
 [Sort contacts by protocol]
 Ordenar contactos por protocolo
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms delay]
-ms de retardo
+[Move offline users to bottom]
+Mover usuario fuera de línea al final
 [Show]
 Mostrar
 [icon when statuses differ]
@@ -88,14 +88,8 @@ segundos, cuando el estado cambia
 Mostrar varios iconos
 [Only when statuses differ]
 Sólo cuando el estado cambia
-[System tray icon]
-Icono de la bandeja de sistema
 [System tray icon when using multiple protocols]
 Icono de la bandeja del sistema cuando se usan múltiples protocolos
-[Contact list sorting]
-Orden de la lista de contacto
-[Don't move offline user to bottom]
-No mover usuario fuera de línea al final
 [Window]
 Ventana
 [Always on top]
@@ -976,8 +970,6 @@ Establecer
 Mostrar cuentas en el siguiente orden,\narrastre para seleccionar otro orden:
 [Account order and visibility]
 Orden de cuenta y visibilidad
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Nota: Miranda NG tendrá que ser reiniciado para que los cambios surtan efecto
 [Key bindings]
 Atajos de teclado
 [Shortcut:]
@@ -1134,12 +1126,16 @@ Ocultar grupos vacíos
 Preguntar antes de eliminar
 [Remove temporary contacts on exit]
 
+[Enable icon blinking]
+Activar parpadeo de icono
 [Search works as filter]
 
 ['Hide offline' means to hide:]
 'Ocultar fuera de línea' es:
 [Tray]
 Bandeja
+[ms delay]
+ms de retardo
 [Single click interface]
 Interfaz simple clic
 [Always show status in tooltip]
@@ -2586,6 +2582,8 @@ Error fatal
 Cargando... %d%%
 [%s options]
 %s opciones
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+
 [Miranda NG options]
 Miranda NG opciones
 ;file \src\mir_app\src\path.cpp
@@ -2780,6 +2778,8 @@ Marcos
 
 [Warning]
 Advertencia
+[Blank]
+
 [Always visible]
 Siempre visible
 [Always invisible]
@@ -2810,6 +2810,8 @@ ID único
 [Log viewer]
 
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
+
 [Look up '%s':]
 Buscar '%s':
 [No word to look up]

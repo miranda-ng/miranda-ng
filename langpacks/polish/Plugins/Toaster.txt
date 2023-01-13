@@ -12,8 +12,8 @@ Dostarcza usługi popupów dla różnych wtyczek, opartej na powiadomieniach apl
 Podgląd
 [Add shortcut]
 Dodaj skrót
-[Enabled]
-Włączony
+[Enable popups]
+Włącz powiadomienia
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Wtyczka wymaga Windows w wersji 8 lub wyższej.

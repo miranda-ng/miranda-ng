@@ -286,14 +286,6 @@ Czy chcesz usunąć klucz z metakontaktu (wszystkie subkontakty)?
 Eksportuj klucz publiczny
 [.asc pubkey file]
 plik klucza publicznego .asc
-[Failed to allocate memory]
-Nie udało się przydzielić pamięci
-[Failed to lock memory with error %d]
-Nie udało się zablokować pamięci z błędem %d
-[Failed write to clipboard with error %d]
-Nie udało się zapisać w schowku z błędem %d
-[Failed to open clipboard with error %d]
-Nie udało się otworzyć schowka z błędem %d
 [Set log file]
 Ustaw plik dziennika
 [LOG files]

@@ -40,12 +40,6 @@ Použít poslední aktivní režim zobrazení
 Zobrazit tlačítka menu a stavu
 [Draw sunken edge]
 Použít zanořený rámeček
-[System tray icon]
-Ikona v oznamovací oblasti
-[Disable icon blinking]
-Vypnout blikání ikon
-[ms]
-ms
 [Event area]
 Místo pro události
 [Set base visibility on the frames menu]

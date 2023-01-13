@@ -12,7 +12,7 @@
 Aperçu
 [Add shortcut]
 
-[Enabled]
+[Enable popups]
 
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]

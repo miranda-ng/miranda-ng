@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.4
+;  Version: 0.98.1.6
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -79,6 +79,15 @@ Pro každý protokol jiný avatar
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Jednotlivé protokoly mají definované různé avatary.
+;file \plugins\AVS\src\contact_ava.cpp
+[Contact has no avatar]
+<avatar není definovaný>
+[Set avatar options for %s]
+%s: avatar
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Chcete odstranit i obrázek z disku (nutno provést při vynucené aktualizaci avataru)?
+[Reset contact picture]
+Resetovat obrázek kontaktu
 ;file \plugins\AVS\src\main.cpp
 [Avatars]
 Avatary
@@ -93,14 +102,6 @@ Avatar
 Globální avatar pro účty na %s
 [Global avatar]
 Globální avatar
-[Set avatar options for %s]
-%s: avatar
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Chcete odstranit i obrázek z disku (nutno provést při vynucené aktualizaci avataru)?
-[Reset contact picture]
-Resetovat obrázek kontaktu
-[Contact has no avatar]
-<avatar není definovaný>
 [Contacts]
 Kontakty
 [Protocols]

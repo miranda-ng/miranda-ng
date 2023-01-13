@@ -2712,6 +2712,8 @@ ANSI плагин
 Уник. ID
 [Log viewer]
 Просмотрщик журнала сообщений
+[Copy all]
+Копировать всё
 [Look up '%s':]
 Искать '%s':
 [No word to look up]
@@ -9194,7 +9196,7 @@ Miranda нашла повреждения в вашей базе. Miranda буд
 ;============================================================
 ;  File: Dbx_sqlite.dll
 ;  Plugin: Miranda NG SQLite database driver
-;  Version: 0.96.1.2
+;  Version: 0.96.2.2
 ;  Authors: Miranda-NG project
 ;============================================================
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
@@ -18585,7 +18587,7 @@ NewAwaySys: входящий запрос статусного сообщени�
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.5
+;  Version: 0.2.2.6
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
@@ -18594,14 +18596,6 @@ NewAwaySys: входящий запрос статусного сообщени�
 Ограничить предпросмотр
 [characters]
 символами
-[Popup options]
-Всплывающие окна
-[Text]
-Текст
-[Background]
-Фон
-[Timeout, secs]
-Длительность, сек.
 [Message]
 Сообщение
 [File]
@@ -18610,6 +18604,14 @@ NewAwaySys: входящий запрос статусного сообщени�
 Ошибка
 [Others]
 Другое
+[Text]
+Текст
+[Background]
+Фон
+[Use default colors]
+Цвета по умолчанию
+[Timeout, secs]
+Длительность, сек.
 [Preview]
 Тест
 [(timeout -1 means forever, 0 - default)]
@@ -21181,7 +21183,7 @@ TCP соединение
 ;============================================================
 ;  File: PluginUpdater.dll
 ;  Plugin: Plugin updater
-;  Version: 0.2.1.3
+;  Version: 0.2.1.4
 ;  Authors: Mataes, George Hazan
 ;============================================================
 [Installs and updates plugins and other Miranda NG components.]
@@ -26672,8 +26674,6 @@ RTL по умолчанию
 &Копировать
 [&Quote]
 &Цитировать
-[Co&py all]
-Ко&пировать всё
 [Select &all]
 Выделить &всё
 [Clear log]
@@ -26698,8 +26698,6 @@ RTL по умолчанию
 Вставить форматированный текст
 [Paste and send immediately]
 Вставить и отправить
-[Copy all]
-Копировать всё
 [Select all]
 Выделить всё
 [Show message length indicator]
@@ -27442,6 +27440,8 @@ TabSRMM: набор текста
 Файл уже существует. Перезаписать?
 [JPEG-compressed images]
 Изображения в формате JPEG
+[Copy all]
+Копировать всё
 [Save and close session]
 Сохранить набранное и закрыть вкладку
 [, %d %s, %d %s idle]
@@ -27933,20 +27933,28 @@ TabSRMM: %s
 ;  Version: 0.11.0.1
 ;  Authors: Miranda NG team
 ;============================================================
+[Telegram protocol support for Miranda NG.]
+Поддержка протокола Telegram в Miranda NG.
 [Phone number:]
 Телефон:
 [Default group:]
 Группа:
+[Device name:]
+Имя устройства:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
+[Enter password]
+Введите пароль
+[ (hint: %s)]
+ (подсказка: %s)
+[Error]
+Ошибка
 [Network]
 Сеть
 [Account]
 Учётная запись
-[Enter password]
-Введите пароль
-[Error]
-Ошибка
+[Chat rooms]
+Чаты
 [%s error notifications]
 Уведомления об ошибках %s
 [Errors]
@@ -28675,8 +28683,8 @@ xСтатус: пустое имя в имя по умолчанию
 Тест
 [Add shortcut]
 Добавить ярлык
-[Enabled]
-Включён
+[Enable popups]
+Включить всплывающие окна
 [This plugin requires Windows 8 or higher]
 Для этого плагина требуется Windows 8 или новее.
 [Failed to create temporary directory]
@@ -29236,7 +29244,7 @@ ID контакта не соответствует ни одному конта
 ;============================================================
 ;  File: Twitter.dll
 ;  Plugin: Twitter protocol
-;  Version: 1.3.1.6
+;  Version: 1.3.1.7
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
 [Twitter protocol support for Miranda NG.]
@@ -30878,7 +30886,7 @@ x, и сохраняет y, как переменную с именем x
 ;============================================================
 ;  File: VKontakte.dll
 ;  Plugin: VKontakte protocol
-;  Version: 0.1.14.0
+;  Version: 0.1.14.1
 ;  Authors: Miranda NG team
 ;============================================================
 [VKontakte protocol support for Miranda NG.]
@@ -35662,10 +35670,6 @@ WUMF: Показать подключения
 Основные настройки
 [TopToolBar button "Check mail"]
 Кнопка "Проверить почту" в Панели кнопок
-[Enable YAMN Main Menu]
-Пункт YAMN в главном меню
-[Show YAMN as a Protocol (Require Restart)]
-Показывать YAMN как протокол (нужен перезапуск)
 [MailBrowser Options]
 Настройки просмотра писем
 [Enable Close on Delete Button]

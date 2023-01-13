@@ -206,29 +206,6 @@
 Ви підключені з іншого місця
 [Incoming image]
 Вхідне зображення
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Останній статус>
-[System tray icon]
-Значок у треї
-[Popup window]
-Спливаюче вікно
-[Message with [img] BBCode]
-Повідомлення з тегом [img]
-[You need to specify your registration e-mail first.]
-Необхідно вказати свій E-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль буде надіслано на реєстраційний E-mail.\nПродовжити?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Для зміни налаштувань облікового запису необхідно відключитися.\nВідключитися зараз?
-[Network]
-Мережа
-[General]
-Загальне
-[Conference]
-Конференція
-[Advanced]
-Додатково
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -251,6 +228,8 @@ HTTP невідома помилка
 &Розблокувати
 [&Block]
 &Заблокувати
+[Conference]
+Конференція
 [Contact list]
 Список контактів
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ HTTP невідома помилка
 [Gadu-Gadu Link Protocol]
 Протокол Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Останній статус>
+[System tray icon]
+Значок у треї
+[Popup window]
+Спливаюче вікно
+[Message with [img] BBCode]
+Повідомлення з тегом [img]
+[You need to specify your registration e-mail first.]
+Необхідно вказати свій E-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль буде надіслано на реєстраційний E-mail.\nПродовжити?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Для зміни налаштувань облікового запису необхідно відключитися.\nВідключитися зараз?
 [Allow]
 Дозволити
 [Ask]
 Запитати
 [Ignore]
 Ігнорувати
+[Network]
+Мережа
+[General]
+Загальне
+[Advanced]
+Додатково
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Неможливо нагадати пароль через помилку:\n\t%s (Помилка: %d)

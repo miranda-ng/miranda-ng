@@ -1,0 +1,8 @@
+[Device name:]
+[Enter secret code sent to your phone]
+[ (hint: %s)]
+[Phone code expired]
+[Invalid phone code]
+[Invalid password]
+[Premium user]
+[%s error notifications]

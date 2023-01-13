@@ -359,12 +359,6 @@ Les commandes sortantes sont invisibles
 La fréquence de vérification des amis est au réglage par défaut
 [The time interval for the buddy check function is now %u seconds]
 La fréquence de vérification des amis est de %u secondes
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Cette commande n'est pas recommandée sur un réseau de cette taille !\r\nL'utiliser causera sûrement une hausse de l'utilisation du CPU et/ou de la bande passante pendant environ %u à %u minute(s).\r\n\r\nVoulez-vous continuer ?
-[IRC warning]
-Alerte IRC
-[Aborted]
-Abandon
 [CTCP %s request sent to %s]
 Requête CTCP %s envoyée à %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Choisir ces modes pour le canal
 Choisir ce sujet pour le canal
 [You have not applied all changes!\n\nApply before exiting?]
 Vous n'avez pas appliqué tous les changements !\n\nAppliquer avant de sortir ?
+[IRC warning]
+Alerte IRC
 [Add ban]
 Ajouter un ban
 [Add invite]

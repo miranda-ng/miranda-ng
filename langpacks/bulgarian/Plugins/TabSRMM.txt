@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,8 +132,6 @@
 записа
 [More about advanced tweaks]
 Повече за допълнителните настройки
-[Revert to (safe) defaults]
-Стандартни настройки
 [Dialog]
 Прозорец
 [Cancel]
@@ -530,8 +528,6 @@ Log status changes (само в отворените прозорци)
 Копиране
 [&Quote]
 Цитиране
-[Co&py all]
-Копиране на всичко
 [Select &all]
 Маркиране на всичко
 [Clear log]
@@ -556,8 +552,6 @@ Log status changes (само в отворените прозорци)
 Поставяне на форматиран текст
 [Paste and send immediately]
 Поставяне и изпращане веднага
-[Copy all]
-Копиране на всичко
 [Select all]
 Избор - всичко
 [Show message length indicator]
@@ -913,8 +907,6 @@ UIN
 Фон на дневника за групов чат
 [Appearance and functionality of chat room windows]
 Външен вид и функционалност на чат стаите
-[Appearance of the message log]
-Външен вид на дневника за съобщения
 [Open new chat rooms in the default container]
 Отваряне на новите чат стаи в стандартния контейнер
 [Flash window when someone speaks]
@@ -933,8 +925,6 @@ UIN
 Показване на темата на стаята като текст за състояние в списъка с контакти
 [Do not pop up the window when joining a chat room]
 Без изскачане на прозореца при влизане в чат стая
-[Sync splitter position with standard IM sessions]
-
 [Show contact's status modes if supported by the protocol]
 Показване състоянието на потребителите (ако се поддържа от протокола)
 [Display contact's status icon before user role icon]
@@ -943,6 +933,8 @@ UIN
 Ползване на индикатори в стил IRC в списъка с прякори (@, %, + и т.н.)
 [Use alternative sorting method in member list]
 Алтернативно сортиране на списъка с прякори
+[Appearance of the message log]
+Външен вид на дневника за съобщения
 [Prefix all events with a timestamp]
 Времева марка като представка за всички събития
 [Only prefix with timestamp if it has changed]
@@ -1317,6 +1309,8 @@ TabSRMM
 Файлът съществува. Желаете ли да бъде презаписан?
 [JPEG-compressed images]
 JPEG компресирани изображения
+[Copy all]
+Копиране на всичко
 [Save and close session]
 Запис и затваряне
 [, %d %s, %d %s idle]
@@ -1433,16 +1427,16 @@ Latin I
 Зареждане на тема
 [Message window behavior]
 Поведение на прозореца за съобщения
+[Always flash contact list and tray icon for new messages]
+Мигане на списъка с контакти и трей иконата при ново съобщение
+[Delete temporary contacts on close]
+Изтриване на временните контакти след затваряне на прозореца
 [Sending messages]
 Изпращане на съобщения
 [Minimize the message window on send]
 Минимизиране на прозореца след изпращане
 [Close the message window on send]
 Затваряне на прозореца след изпращане
-[Always flash contact list and tray icon for new messages]
-Мигане на списъка с контакти и трей иконата при ново съобщение
-[Delete temporary contacts on close]
-Изтриване на временните контакти след затваряне на прозореца
 [Enable "Paste and send" feature]
 Включване на функцията "Поставяне и изпращане"
 [Allow BBCode formatting in outgoing messages]
@@ -1471,24 +1465,10 @@ Latin I
 Наборът шаблони беше успешно възстановен, моля затворете всички разговори. Настоящият прозорец ще бъде затворен сега.
 [Message log appearance]
 Външен вид на дневника за съобщения
-[Support for external plugins]
-Поддръжка на външни приставки
-[Timestamp settings (note: timestamps also depend on your templates)]
-Настройки на времевата марка (бележка: те зависят и от шаблона)
-[Message log icons]
-Икони в дневника за съобщения
-[Show dates in timestamps]
-Показване на дата във времевата марка
-[Show seconds in timestamps]
-Показване на секунди във времевата марка
-[Use contacts local time (if timezone info available)]
-Ползване на часовия пояс на потребителя (ако е наличен)
 [Draw grid lines]
 Добавяне на решетка
 [Log status changes]
 Запис на промените на състоянията
-[Use incoming/outgoing icons]
-Ползване на входящи/изходящи икони
 [Use message grouping]
 Групиране на съобщенията
 [Simple text formatting (*bold*, etc.)]
@@ -1499,14 +1479,28 @@ Latin I
 Поставяне на разделите в дневника след дефокусиран на прозореца
 [Only place a separator when an incoming event is announced with a popup]
 Поставяне на разделител само след уведомяване за входящо събитие с popup
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+
+[Support for external plugins]
+Поддръжка на външни приставки
 [Show events at the new line (IEView Compatibility Mode)]
 Събитията на нов ред (режим на съвместимост с IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Подчертаване на времевата марка/прякор (режим на съвместимост с IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Времева марка след прякора (режим на съвместимост с IEView)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-
+[Timestamp settings (note: timestamps also depend on your templates)]
+Настройки на времевата марка (бележка: те зависят и от шаблона)
+[Show dates in timestamps]
+Показване на дата във времевата марка
+[Show seconds in timestamps]
+Показване на секунди във времевата марка
+[Use contacts local time (if timezone info available)]
+Ползване на часовия пояс на потребителя (ако е наличен)
+[Message log icons]
+Икони в дневника за съобщения
+[Use incoming/outgoing icons]
+Ползване на входящи/изходящи икони
 [** New contacts **]
 ** Нови контакти **
 [** Unknown contacts **]
@@ -1517,14 +1511,14 @@ Latin I
 Винаги, но не и когато прозореца е фокусиран
 [Only when no message window is open]
 Само когато прозорецът за съобщенията е отворен
-[How to create tabs and windows for incoming messages]
-Създаване на табове и прозорци при получаване на съобщение
 [Show status text on tabs]
 Показване на състоянието в табовете
 [Prefer xStatus icons when available]
 Ползване на икона за xСъстояние, ако е налично
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Подробни подсказки (изисква приставка Tipper)
+[How to create tabs and windows for incoming messages]
+Създаване на табове и прозорци при получаване на съобщение
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 АКТИВИРАНЕ на новия разговор при получаване на ново съобщение (има предимство!)
 [Automatically create new message sessions without activating them]
@@ -1551,22 +1545,22 @@ Latin I
 
 [Message window tweaks]
 Допълнителни настройки на прозореца за съобщения
-[Display metacontact icons]
-Показване на икони за метаконтакти
-[Error feedback]
-При грешка
 [Close current tab on send]
 Затваряне на таба след изпращане
 [Enable unattended send (experimental feature, required for multisend and send later)]
 Автоматично изпращане (експериментално, изисква се за изпращане след време и многократно изпращане на съобщения)
 [Show client description in info panel]
 Описание на клиента  в информационния панел
+[Display metacontact icons]
+Показване на икони за метаконтакти
 [On tab control]
 В таба
 [On the button bar]
 В лентата с бутони
-[Disable error popups on sending failures]
-Без popups при неуспешно изпращане на съобщение
+[Error feedback]
+При грешка
+[Enable error popups on sending failures]
+С popups при неуспешно изпращане на съобщение
 [Choose status modes]
 Избор на състояния
 [General]
@@ -1795,6 +1789,9 @@ Latin I
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM съобщение (%s)
+;file \plugins\TabSRMM\src\warning.cpp
+[TabSRMM warning message]
+TabSRMM предупреждение
 [Save file|Unable to save temporary file]
 
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
@@ -1815,5 +1812,3 @@ TabSRMM съобщение (%s)
 
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 
-[TabSRMM warning message]
-TabSRMM предупреждение

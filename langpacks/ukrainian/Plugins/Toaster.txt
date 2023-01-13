@@ -12,8 +12,8 @@
 Тест
 [Add shortcut]
 Додати ярлик
-[Enabled]
-Увімкнено
+[Enable popups]
+Увімкнути спливаючі вікна
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Для цього плагіна потрібна Windows 8 або новіша.

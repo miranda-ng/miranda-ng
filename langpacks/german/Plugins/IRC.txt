@@ -359,12 +359,6 @@ Ausgehende Befehle werden nicht angezeigt
 Zeitintervall zum Prüfen der IRC-Kontakte hat nun den Standardwert
 [The time interval for the buddy check function is now %u seconds]
 Zeitintervall zum Prüfen der IRC-Kontakte steht jetzt auf %u Sekunden
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Dieser Befehl sollte auf Netzwerken dieser Größe nicht verwendet werden!\r\nEr verursacht eine hohe CPU- und/oder Bandbreitenauslastung\r\nfür ca. %u bis %u Minuten.\r\n\r\nWollen Sie den Befehl wirklich ausführen?
-[IRC warning]
-IRC-Warnung
-[Aborted]
-Abgebrochen
 [CTCP %s request sent to %s]
 CTCP-%s-Anfrage gesendet an %s
 [DCC ERROR: Unable to automatically resolve external IP]
@@ -737,6 +731,8 @@ Modi für den Channel setzen
 Thema für den Channel setzen
 [You have not applied all changes!\n\nApply before exiting?]
 Nicht alle Werte wurden übernommen!\n\nÜbernehmen vorm Beenden?
+[IRC warning]
+IRC-Warnung
 [Add ban]
 Bann hinzufügen
 [Add invite]

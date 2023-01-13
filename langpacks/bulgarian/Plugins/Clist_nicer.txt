@@ -40,12 +40,6 @@ CList nicer изключение
 Бутони "Меню" и "Състояние"
 [Draw sunken edge]
 Изобразяване на вграден ръб
-[System tray icon]
-Икона в трея
-[Disable icon blinking]
-Без мигане на икони
-[ms]
-ms
 [Event area]
 Зона за събития
 [Set base visibility on the frames menu]

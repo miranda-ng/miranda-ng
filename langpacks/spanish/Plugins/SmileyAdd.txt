@@ -2,26 +2,12 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
 
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley categories]
-
-[Specify smiley pack for each category]
-
-[Name:]
-Nombre:
-[Author:]
-
-[Version:]
-Versión
-[Preview]
-Previsualizar
-[Use per protocol global smiley packs]
-
 [Display]
 
 [Replace only smileys surrounded by spaces]
@@ -52,6 +38,20 @@ Previsualizar
 
 [Horizontal sorting]
 
+[Download more smileys]
+
+[Specify smiley pack for each category]
+
+[Name:]
+Nombre:
+[Author:]
+
+[Version:]
+Versión
+[Preview]
+Previsualizar
+[Use per protocol global smiley packs]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 
@@ -80,6 +80,10 @@ Todos los archivos
 
 [Customize]
 Personalizar
+[General]
+General
+[Categories]
+
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 

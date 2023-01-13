@@ -6,7 +6,7 @@
 ;  Authors: Miranda team
 ;============================================================
 [Internet Relay Chat (IRC) protocol support for Miranda NG.]
-
+Compatibilidad con el protocolo Internet Relay Chat (IRC) para Miranda NG.
 ;file \protocols\IRCG\res\IRC.rc
 [Server]
 
@@ -358,12 +358,6 @@ Ignorar
 [The time interval for the buddy check function is now at default setting]
 
 [The time interval for the buddy check function is now %u seconds]
-
-[This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-
-[IRC warning]
-
-[Aborted]
 
 [CTCP %s request sent to %s]
 
@@ -736,6 +730,8 @@ Avanzado
 [Set this topic for the channel]
 
 [You have not applied all changes!\n\nApply before exiting?]
+
+[IRC warning]
 
 [Add ban]
 

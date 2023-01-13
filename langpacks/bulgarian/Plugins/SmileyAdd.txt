@@ -2,26 +2,12 @@
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
-;  Version: 0.3.2.1
+;  Version: 0.3.2.2
 ;  Authors: Peacow, nightwish, bid, borkra
 ;============================================================
 [Smiley support for Miranda NG.]
 Осигурява поддръжка на емотикони в Miranda NG.
 ;file \plugins\SmileyAdd\res\resource.rc
-[Smiley categories]
-Категории усмивки
-[Specify smiley pack for each category]
-Различен пакет усмивки за всяка категория
-[Name:]
-Име:
-[Author:]
-Автор:
-[Version:]
-Версия:
-[Preview]
-Образец
-[Use per protocol global smiley packs]
-
 [Display]
 Изобразяване
 [Replace only smileys surrounded by spaces]
@@ -52,6 +38,20 @@
 
 [Horizontal sorting]
 
+[Download more smileys]
+
+[Specify smiley pack for each category]
+Различен пакет усмивки за всяка категория
+[Name:]
+Име:
+[Author:]
+Автор:
+[Version:]
+Версия:
+[Preview]
+Образец
+[Use per protocol global smiley packs]
+
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
 [Show smiley selection window]
 Показване на прозореца за избор на усмивка
@@ -80,6 +80,10 @@ Smiley кеш
 Усмивки
 [Customize]
 Персонализиране
+[General]
+Основни
+[Categories]
+Категории
 ;file \plugins\SmileyAdd\src\services.cpp
 [Protocol specific]
 

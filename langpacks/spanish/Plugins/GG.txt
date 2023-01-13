@@ -6,7 +6,7 @@
 ;  Authors: Bartosz Bialek, Adam Strzelecki
 ;============================================================
 [Gadu-Gadu protocol support for Miranda NG.]
-
+Compatibilidad con el protocolo Gadu-Gadu para Miranda NG.
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 
@@ -206,29 +206,6 @@ Edad:
 
 [Incoming image]
 
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-
-[System tray icon]
-Icono de la bandeja de sistema
-[Popup window]
-
-[Message with [img] BBCode]
-
-[You need to specify your registration e-mail first.]
-
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-
-[Network]
-Red
-[General]
-General
-[Conference]
-
-[Advanced]
-Avanzado
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -250,6 +227,8 @@ Avanzado
 [&Unblock]
 
 [&Block]
+
+[Conference]
 
 [Contact list]
 Lista de contactos
@@ -374,12 +353,32 @@ contactos
 [Gadu-Gadu Link Protocol]
 
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+
+[System tray icon]
+Icono de la bandeja de sistema
+[Popup window]
+
+[Message with [img] BBCode]
+
+[You need to specify your registration e-mail first.]
+
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+
 [Allow]
 
 [Ask]
 
 [Ignore]
 Ignorar
+[Network]
+Red
+[General]
+General
+[Advanced]
+Avanzado
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

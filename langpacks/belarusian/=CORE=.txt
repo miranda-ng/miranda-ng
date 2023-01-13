@@ -66,16 +66,16 @@
 Выдаліць %s са спісу?
 [This will erase all history and settings for this contact!]
 Гэта выдаліць усю гісторыю і налады для дадзенага кантакту!
+[Contact list sorting]
+Сартаванне спісу кантактаў
 [Sort contacts by name]
 Сартаванне па імені
 [Sort contacts by status]
 Сартаванне па статусе
 [Sort contacts by protocol]
 Сартаванне па конту
-[Disable icon blinking]
-Выключыць мігценне
-[ms delay]
-Затрымка (мс)
+[Move offline users to bottom]
+Перасоўваць адключаных уніз
 [Show]
 Паказаць
 [icon when statuses differ]
@@ -88,14 +88,8 @@
 Некалькі абразкоў
 [Only when statuses differ]
 Пры розных статусах
-[System tray icon]
-Абразок у трэі
 [System tray icon when using multiple protocols]
 Абразкі пратаколаў у сістэмным лапку
-[Contact list sorting]
-Сартаванне спісу кантактаў
-[Don't move offline user to bottom]
-Не перасоўваць адключаных уніз
 [Window]
 Вакно
 [Always on top]
@@ -976,8 +970,6 @@ Cлужба:
 Паслядоўнасць адлюстравання контаў.\nПерацягвайце для змены:
 [Account order and visibility]
 Паслядоўнасць контаў
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Нататка: Змены запрацуюць пасля перазапуску праграмы.
 [Key bindings]
 Гарачыя клавішы
 [Shortcut:]
@@ -1134,12 +1126,16 @@ UIN, E-mail і г.д.
 Пацверджанне выдалення
 [Remove temporary contacts on exit]
 
+[Enable icon blinking]
+Уключыць мігценне
 [Search works as filter]
 
 ['Hide offline' means to hide:]
 'Схаваць адключаных' - схаваць:
 [Tray]
 Трэй
+[ms delay]
+Затрымка (мс)
 [Single click interface]
 Адна пстрычка
 [Always show status in tooltip]
@@ -2586,6 +2582,8 @@ xСтатус
 Загрузка... %d%%
 [%s options]
 %s налады
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+
 [Miranda NG options]
 Налады Miranda
 ;file \src\mir_app\src\path.cpp
@@ -2780,6 +2778,8 @@ ANSI плагін
 Дадаць групу
 [Warning]
 Увага
+[Blank]
+
 [Always visible]
 Заўсёды бачны
 [Always invisible]
@@ -2810,6 +2810,8 @@ ANSI плагін
 [Log viewer]
 
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
+Капіяваць усё
 [Look up '%s':]
 Шукаць '%s':
 [No word to look up]

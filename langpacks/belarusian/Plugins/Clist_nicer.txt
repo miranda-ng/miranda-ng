@@ -40,12 +40,6 @@
 Паказваць кнопкі меню і статусу
 [Draw sunken edge]
 Патоплены край
-[System tray icon]
-Абразок у трэі
-[Disable icon blinking]
-Выключыць мігценне
-[ms]
-мс
 [Event area]
 Вобласць падзей
 [Set base visibility on the frames menu]

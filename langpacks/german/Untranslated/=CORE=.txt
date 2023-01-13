@@ -1,1 +1,4 @@
+[Move offline users to bottom]
 [Page]
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+[Blank]

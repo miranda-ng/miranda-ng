@@ -272,10 +272,6 @@ Ctrl + Левы клік укл. фільтр па пратаколу, клік 
 Схаваць паласу прагорткі
 [Fade out entire list when:]
 Прыцьміць увесь ліст калі:
-[Disable icon blinking]
-Выключыць мігценне
-[ms, delay between icon blinking]
-мс, паміж мігценнямі значка
 [System tray icon]
 Абразок у трэі
 [Use xStatus icon]

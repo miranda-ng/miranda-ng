@@ -272,10 +272,6 @@ x100 ms
 Без вертикална лента за придвижване
 [Fade out entire list when:]
 Избледняване на списъка, когато:
-[Disable icon blinking]
-Без мигане на икони
-[ms, delay between icon blinking]
-ms между две мигания
 [System tray icon]
 Икона в трея
 [Use xStatus icon]

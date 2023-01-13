@@ -66,16 +66,16 @@ Pouze skrýt; zůstane tak zachována historie a ostatní nastavení.
 Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
 Tímto odstraníte celou historii a nastavení kontaktu!
+[Contact list sorting]
+Řazení seznamu kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
 Řadit kontakty dle stavu
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
-[Disable icon blinking]
-Vypnout blikání ikon
-[ms delay]
-ms (prodleva)
+[Move offline users to bottom]
+Kontakty offline přesunout na konec
 [Show]
 Zobrazit
 [icon when statuses differ]
@@ -88,14 +88,8 @@ sek. (v případě, že se stavy liší)
 Zobrazit více ikon
 [Only when statuses differ]
 Pouze v případě, že se stavy liší
-[System tray icon]
-Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
 Ikona v oznamovací oblasti při použití více protokolů
-[Contact list sorting]
-Řazení seznamu kontaktů
-[Don't move offline user to bottom]
-Kontakty offline nepřesouvat na konec
 [Window]
 Okno
 [Always on top]
@@ -976,8 +970,6 @@ Zobrazovat ikony
 Zobrazit účty v tomto pořadí,\npřetáhnutím zvolíte jiné pořadí:
 [Account order and visibility]
 Pořadí účtů a jejich viditelnost
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
 [Key bindings]
 Klávesové zkratky
 [Shortcut:]
@@ -1134,12 +1126,16 @@ Povolit skupiny
 Potvrdit smazání kontaktů
 [Remove temporary contacts on exit]
 
+[Enable icon blinking]
+Zapnout blikání ikon
 [Search works as filter]
 
 ['Hide offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Tray]
 Oznamovací oblast
+[ms delay]
+ms (prodleva)
 [Single click interface]
 Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
@@ -2586,6 +2582,8 @@ Závažná chyba
 Načítání... %d%%
 [%s options]
 %s nastavení
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+
 [Miranda NG options]
 Miranda - možnosti nastavení
 ;file \src\mir_app\src\path.cpp
@@ -2780,6 +2778,8 @@ Rámečky
 Přidat skupinu
 [Warning]
 Upozornění
+[Blank]
+
 [Always visible]
 Tento člověk mě vždy uvidí
 [Always invisible]
@@ -2810,6 +2810,8 @@ Identifikátor
 [Log viewer]
 
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
+Zkopírovat vše
 [Look up '%s':]
 Vyhledat '%s':
 [No word to look up]

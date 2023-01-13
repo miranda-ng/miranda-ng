@@ -689,6 +689,12 @@ Jabber настроение
 [Reason to destroy %s]
 Причина за унищожаването на %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+Обновяване на списъка
+[Presences]
+
 [Can't send data while you are offline.]
 Изпращането на данни е невъзможно извън линия.
 [Jabber Error]
@@ -1786,6 +1792,8 @@ XML (кодиран с UTF-8)
 Грешка: Недостатъчна памет
 [Error: Cannot connect to the server]
 Грешка: Свързването със сървъра е невъзможно
+[SSL intialization failed]
+
 [Error: Connection lost]
 Грешка: Връзката е изгубена
 [Requesting registration instruction...]
@@ -1796,8 +1804,6 @@ XML (кодиран с UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
-[Description]
-Описание
 [Registration canceled]
 
 [Sending registration information...]
@@ -1927,11 +1933,6 @@ Jabber vCard: Редактиране на телефонен номер
 Контакти
 [Note]
 Бележка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
-Входящо обаждане
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 

@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
-;  Version: 3.6.2.5
+;  Version: 3.6.2.6
 ;  Authors: The Miranda developers team and contributors
 ;============================================================
 [IM and group chat module for Miranda NG.]
@@ -132,8 +132,6 @@ letzte Nachrichten Eingabefeld
 Einträge
 [More about advanced tweaks]
 Hilfe zu den erweiterten Einstellungen
-[Revert to (safe) defaults]
-Zurücksetzen auf sichere Werte
 [Dialog]
 Dialog
 [Cancel]
@@ -530,8 +528,6 @@ Verlauf
 Kopieren
 [&Quote]
 Zitieren
-[Co&py all]
-Alles ko&pieren
 [Select &all]
 &Alles auswählen
 [Clear log]
@@ -556,8 +552,6 @@ Einfügen
 Formatierten Text einfügen
 [Paste and send immediately]
 Einfügen und sofort senden
-[Copy all]
-Alles kopieren
 [Select all]
 Alles markieren
 [Show message length indicator]
@@ -913,8 +907,6 @@ Hintergrund Benutzerliste
 Gruppenchat-Verlaufshintergrund
 [Appearance and functionality of chat room windows]
 Aussehen und Funktionen des Chatfensters
-[Appearance of the message log]
-Aussehen des Verlaufsfensters
 [Open new chat rooms in the default container]
 Neue Chaträume im Standardcontainer öffnen
 [Flash window when someone speaks]
@@ -933,8 +925,6 @@ Benutzerliste im Chatfenster anzeigen
 Thema als Statusnachricht in der Kontaktliste anzeigen
 [Do not pop up the window when joining a chat room]
 Fenster beim Betreten eines Chatraumes nicht automatisch erzeugen
-[Sync splitter position with standard IM sessions]
-Splitterposition mit Direktnachrichten-Sitzungen synchronisieren
 [Show contact's status modes if supported by the protocol]
 Kontaktstatus anzeigen, falls das Protokoll dies unterstützt
 [Display contact's status icon before user role icon]
@@ -943,6 +933,8 @@ Statusicon vor dem Rollen-/Rangicon des Kontakts anzeigen
 IRC-ähnliche Statusanzeigen in der Nickliste verwenden
 [Use alternative sorting method in member list]
 Alternative Sortierung in der Nickliste verwenden
+[Appearance of the message log]
+Aussehen des Verlaufsfensters
 [Prefix all events with a timestamp]
 Zeitstempel bei allen Ereignissen als Präfix
 [Only prefix with timestamp if it has changed]
@@ -1317,6 +1309,8 @@ Bilddateien
 Diese Datei existiert bereits. Wollen Sie diese überschreiben?
 [JPEG-compressed images]
 JPEG-komprimierte Bilder
+[Copy all]
+Alles kopieren
 [Save and close session]
 Sitzung speichern und schließen
 [, %d %s, %d %s idle]
@@ -1433,16 +1427,16 @@ Wollen Sie bereits gelesene Nachrichten-Vorlagen aus dem Theme laden?\nAchtung: 
 Theme laden
 [Message window behavior]
 Verhalten des Nachrichtenfensters
+[Always flash contact list and tray icon for new messages]
+Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
+[Delete temporary contacts on close]
+Temporäre Kontakte beim Schließen löschen
 [Sending messages]
 Nachrichten senden
 [Minimize the message window on send]
 Nachrichtenfenster beim Senden minimieren
 [Close the message window on send]
 Nachrichtenfenster beim Senden schließen
-[Always flash contact list and tray icon for new messages]
-Neue Nachrichten immer auf der Kontaktliste und im Tray blinken lassen
-[Delete temporary contacts on close]
-Temporäre Kontakte beim Schließen löschen
 [Enable "Paste and send" feature]
 "Einfügen und Senden" Funktion aktivieren
 [Allow BBCode formatting in outgoing messages]
@@ -1471,24 +1465,10 @@ Dies wird alle Vorlagen auf die standardmäßig enthaltenen Vorlagen zurücksetz
 Alle Vorlagen wurden erfolgreich zurückgesetzt, bitte schließen Sie alle offenen Nachrichtenfenster und öffnen Sie sie erneut. Dieser Dialog wird nun geschlossen.
 [Message log appearance]
 Verlaufseinstellungen
-[Support for external plugins]
-Unterstützung für externe Plugins
-[Timestamp settings (note: timestamps also depend on your templates)]
-Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
-[Message log icons]
-Icons im Nachrichtenverlauf
-[Show dates in timestamps]
-Datum im Zeitstempel anzeigen
-[Show seconds in timestamps]
-Sekunden im Zeitstempel anzeigen
-[Use contacts local time (if timezone info available)]
-Lokale Kontaktzeit verwenden (falls Zeitzone bekannt)
 [Draw grid lines]
 Gitterlinien zeigen
 [Log status changes]
 Statuswechsel aufzeichnen
-[Use incoming/outgoing icons]
-Verschiedene Icons für ein- und ausgehende Nachrichten
 [Use message grouping]
 Nachrichten gruppieren
 [Simple text formatting (*bold*, etc.)]
@@ -1499,14 +1479,28 @@ BBCode-Formatierung verwenden
 Einen Abstandshalter im Verlauf platzieren, wenn ein Fenster den Fokus verliert
 [Only place a separator when an incoming event is announced with a popup]
 Abstandshalter nur dann platzieren wenn eingehendes Ereignis mit einem Popup angekündigt wird
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
+[Support for external plugins]
+Unterstützung für externe Plugins
 [Show events at the new line (IEView Compatibility Mode)]
 Ereignisse in einer neuen Zeile anzeigen (IEView-Kompatibilitätsmodus)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
 Zeitstempel/Nicknamen unterstreichen (IEView-Kompatibilitätsmodus)
 [Show timestamp after nickname (IEView Compatibility Mode)]
 Zeitstempel nach Nicknamen anzeigen (IEView-Kompatibilitätsmodus)
-[Use normal templates (uncheck to use simple templates if your template set supports them)]
-Verwende normale Vorlagen (deaktivieren für einfache Vorlagen, falls unterstützt)
+[Timestamp settings (note: timestamps also depend on your templates)]
+Zeitstempel-Einstellungen (Hinweis: ist auch von der verwendeten Vorlage abhängig)
+[Show dates in timestamps]
+Datum im Zeitstempel anzeigen
+[Show seconds in timestamps]
+Sekunden im Zeitstempel anzeigen
+[Use contacts local time (if timezone info available)]
+Lokale Kontaktzeit verwenden (falls Zeitzone bekannt)
+[Message log icons]
+Icons im Nachrichtenverlauf
+[Use incoming/outgoing icons]
+Verschiedene Icons für ein- und ausgehende Nachrichten
 [** New contacts **]
 ** Neue Kontakte **
 [** Unknown contacts **]
@@ -1517,14 +1511,14 @@ Immer
 Immer, außer wenn Nachrichtenfenster fokussiert ist
 [Only when no message window is open]
 Nur, wenn kein Nachrichtenfenster geöffnet ist
-[How to create tabs and windows for incoming messages]
-Erzeugen von Tabs und Fenstern für eintreffende Nachrichten
 [Show status text on tabs]
 Statustext auf den Tabs
 [Prefer xStatus icons when available]
 xStatus-Icon bevorzugen, wenn vorhanden
 [Detailed tooltip on tabs (requires Tipper plugin)]
 Detaillierte Tooltips auf Tabs (erfordert Tipper-Plugin)
+[How to create tabs and windows for incoming messages]
+Erzeugen von Tabs und Fenstern für eintreffende Nachrichten
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
 Fenster IMMER automatisch öffnen und auf den Desktop bringen (hat HÖCHSTE Priorität!)
 [Automatically create new message sessions without activating them]
@@ -1551,22 +1545,22 @@ Schließe oder verstecke Fenster abhängig vom obigen Schließverhalten
 Nichts machen (Esc-Taske ignorieren)
 [Message window tweaks]
 Nachrichtenfenster-Tweaks
-[Display metacontact icons]
-Metakontact-Icon anzeigen
-[Error feedback]
-Fehlermeldung
 [Close current tab on send]
 Aktuellen Tab nach dem Senden schließen
 [Enable unattended send (experimental feature, required for multisend and send later)]
 Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden')
 [Show client description in info panel]
 Client-Beschreibung im Infobereich anzeigen
+[Display metacontact icons]
+Metakontact-Icon anzeigen
 [On tab control]
 Auf der Tableiste
 [On the button bar]
 Auf der Werkzeugleiste
-[Disable error popups on sending failures]
-Fehler-Popups bei Sendefehlern deaktivieren
+[Error feedback]
+Fehlermeldung
+[Enable error popups on sending failures]
+Fehler-Popups bei Sendefehlern aktivieren
 [Choose status modes]
 Wähle Statusmodi
 [General]
@@ -1795,6 +1789,9 @@ Nachrichteneinstellungen für %s
 ;file \plugins\TabSRMM\src\utils.cpp
 [TabSRMM message (%s)]
 TabSRMM-Nachricht (%s)
+;file \plugins\TabSRMM\src\warning.cpp
+[TabSRMM warning message]
+TabSRMM-Warnmeldung
 [Save file|Unable to save temporary file]
 Datei speichern|Konnte temporäre Datei nicht speichern
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt+N) to save the notes and return to normal messaging mode]
@@ -1815,5 +1812,3 @@ Fenster schließen|Sie sind dabei ein Fenster mit mehreren Tabs zu schließen.\n
 Optionsdialog schließen|Um die Änderungen, die durch den Import eines Themes im Optionsdialog vorgenommen werden, zu übernehmen, muss der Dialog nach dem Laden eines Themes geschlossen werden \\b1und ungespeicherte Änderungen könnten verloren gehen\\b0.\n\nMöchten Sie den Vorgang fortsetzen?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 Skin laden|Das Laden von Farben und Schriftarten kann Einstellungen Ihres Skins überschreiben.\n\nWollen Sie fortfahren?
-[TabSRMM warning message]
-TabSRMM-Warnmeldung

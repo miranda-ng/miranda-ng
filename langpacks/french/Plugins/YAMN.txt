@@ -98,10 +98,6 @@ Invisible
 Options de YAMN
 [TopToolBar button "Check mail"]
 Afficher un bouton dans la barre d'outils
-[Enable YAMN Main Menu]
-
-[Show YAMN as a Protocol (Require Restart)]
-Afficher YAMN comme un protocole (redémarrage nécessaire)
 [MailBrowser Options]
 
 [Enable Close on Delete Button]

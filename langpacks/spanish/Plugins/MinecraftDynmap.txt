@@ -6,7 +6,7 @@
 ;  Authors: Robert Pösel
 ;============================================================
 [Minecraft Dynmap support for Miranda NG.]
-
+Compatibilidad con el protocolo Minecraft Dynmap para Miranda NG.
 ;file \protocols\MinecraftDynmap\res\resource.rc
 [Server:]
 Servidor:

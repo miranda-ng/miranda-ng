@@ -206,29 +206,6 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 Вы ўвайшлі з іншага месца
 [Incoming image]
 Уваходнае паведамленне
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Апошні статус>
-[System tray icon]
-Абразок у трэі
-[Popup window]
-Усплывальнае вакно
-[Message with [img] BBCode]
-Паведамленне з [img] BB-кодам
-[You need to specify your registration e-mail first.]
-Неабходна азначыць ваш e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
-[Network]
-Сеціва
-[General]
-Агульнае
-[Conference]
-Чат
-[Advanced]
-Дадаткова
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Немагчыма стварыць файл для перадачы. ПАМЫЛКА: %d: %s (dcc)\n%s
@@ -251,6 +228,8 @@ HTTP невядомая памылка
 Разблакаваць
 [&Block]
 Блакаваць
+[Conference]
+Чат
 [Contact list]
 Спіс кантактаў
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ HTTP невядомая памылка
 [Gadu-Gadu Link Protocol]
 Спасылка Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Апошні статус>
+[System tray icon]
+Абразок у трэі
+[Popup window]
+Усплывальнае вакно
+[Message with [img] BBCode]
+Паведамленне з [img] BB-кодам
+[You need to specify your registration e-mail first.]
+Неабходна азначыць ваш e-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Ваш пароль будзе высланы на рэгістрацыйны e-mail.\nПрацягнуць?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
 [Allow]
 Дазволіць
 [Ask]
 Спытаць
 [Ignore]
 Ігнараваць
+[Network]
+Сеціва
+[General]
+Агульнае
+[Advanced]
+Дадаткова
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Пароль немагчыма нагадаць з-за памылкі:\n\t%s (Памылка: %d)

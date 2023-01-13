@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: NewEventNotify.dll
 ;  Plugin: NewEventNotify
-;  Version: 0.2.2.5
+;  Version: 0.2.2.6
 ;  Authors: icebreaker, Prezes, vj, vlko, Joe @ Whale
 ;============================================================
 [Notifies you when you receive a message, URL, file or any other event by displaying a popup.]
@@ -12,14 +12,6 @@
 Ограничить предпросмотр
 [characters]
 символами
-[Popup options]
-Всплывающие окна
-[Text]
-Текст
-[Background]
-Фон
-[Timeout, secs]
-Длительность, сек.
 [Message]
 Сообщение
 [File]
@@ -28,6 +20,14 @@
 Ошибка
 [Others]
 Другое
+[Text]
+Текст
+[Background]
+Фон
+[Use default colors]
+Цвета по умолчанию
+[Timeout, secs]
+Длительность, сек.
 [Preview]
 Тест
 [(timeout -1 means forever, 0 - default)]
@@ -94,6 +94,8 @@
 Основные настройки
 [Message events]
 Сообщения
+[Event types]
+Типы событий
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 Получено %d контактов.

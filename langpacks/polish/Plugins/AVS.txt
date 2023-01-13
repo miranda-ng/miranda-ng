@@ -2,7 +2,7 @@
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
-;  Version: 0.98.1.4
+;  Version: 0.98.1.6
 ;  Authors: Nightwish, Pescuma
 ;============================================================
 [Loads and manages contact pictures for other plugins.]
@@ -79,6 +79,15 @@ Ustaw awatary dla protokołów
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
 Protokoły mają różne awatary
+;file \plugins\AVS\src\contact_ava.cpp
+[Contact has no avatar]
+Kontakt nie ma awataru
+[Set avatar options for %s]
+Ustaw opcje awataru dla %s
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Usunąć obrazek z dysku (może być konieczne do przeładowania, ale usunie lokalne obrazki)?
+[Reset contact picture]
+Domyślny obrazek kontaktu
 ;file \plugins\AVS\src\main.cpp
 [Avatars]
 Awatary
@@ -93,14 +102,6 @@ Awatar
 Awatar globalny dla konta %s
 [Global avatar]
 Awatar globalny
-[Set avatar options for %s]
-Ustaw opcje awataru dla %s
-[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Usunąć obrazek z dysku (może być konieczne do przeładowania, ale usunie lokalne obrazki)?
-[Reset contact picture]
-Domyślny obrazek kontaktu
-[Contact has no avatar]
-Kontakt nie ma awataru
 [Contacts]
 Kontakty
 [Protocols]

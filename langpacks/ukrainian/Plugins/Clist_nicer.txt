@@ -40,12 +40,6 @@
 Показ. кнопки меню і статусу
 [Draw sunken edge]
 Утоплений край
-[System tray icon]
-Значок у треї
-[Disable icon blinking]
-Вимкнути блимання
-[ms]
-мс
 [Event area]
 Область подій
 [Set base visibility on the frames menu]

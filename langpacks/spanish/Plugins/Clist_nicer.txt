@@ -40,12 +40,6 @@ Lista de contactos
 
 [Draw sunken edge]
 
-[System tray icon]
-Icono de la bandeja de sistema
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms]
-ms
 [Event area]
 
 [Set base visibility on the frames menu]

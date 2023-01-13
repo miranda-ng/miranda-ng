@@ -216,6 +216,7 @@
 [declined subscription]
 [sent error presence]
 [sent unknown presence type]
+[SSL intialization failed]
 [Authentication failed for %s@%s.]
 [Message redirected from: %s\r\n]
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
@@ -243,5 +244,4 @@
 [Remote server error]
 [Service unavailable]
 [Remote server timeout]
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
 [/me slaps %s around a bit with a large trout]

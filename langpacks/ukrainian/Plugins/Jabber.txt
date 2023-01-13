@@ -689,6 +689,12 @@ xHTML-формат повідомлень чату
 [Reason to destroy %s]
 Причина знищення %s
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+Оновити список
+[Presences]
+
 [Can't send data while you are offline.]
 Неможливо надіслати - не в мережі.
 [Jabber Error]
@@ -1786,6 +1792,8 @@ XML (кодування UTF-8)
 Помилка: Не вистачає пам'яті
 [Error: Cannot connect to the server]
 Помилка: Неможливо підключитися до серверу
+[SSL intialization failed]
+
 [Error: Connection lost]
 Помилка: З'єднання втрачено
 [Requesting registration instruction...]
@@ -1796,8 +1804,6 @@ XML (кодування UTF-8)
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
 
-[Description]
-Опис
 [Registration canceled]
 
 [Sending registration information...]
@@ -1927,11 +1933,6 @@ Jabber vCard: редагування телефону
 Контакти
 [Note]
 Нотатка
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
-Вхідний дзвінок
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]
 <розширений статус>

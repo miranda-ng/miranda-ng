@@ -272,10 +272,6 @@ Millisekunden
 Vertikale Bildlaufleiste ausblenden
 [Fade out entire list when:]
 Liste aus- bzw. abblenden, wenn:
-[Disable icon blinking]
-Iconblinken deaktivieren
-[ms, delay between icon blinking]
-Blinkintervalle der Icons (in ms)
 [System tray icon]
 Systemtray-Icon
 [Use xStatus icon]

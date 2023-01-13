@@ -689,6 +689,12 @@ Libre para el chat
 [Reason to destroy %s]
 
 ;file \protocols\JabberG\src\jabber_console.cpp
+[Filter mode]
+
+[Refresh list]
+
+[Presences]
+
 [Can't send data while you are offline.]
 
 [Jabber Error]
@@ -1786,6 +1792,8 @@ Nick:
 
 [Error: Cannot connect to the server]
 
+[SSL intialization failed]
+
 [Error: Connection lost]
 
 [Requesting registration instruction...]
@@ -1795,8 +1803,6 @@ Nick:
 [Message redirected from: %s\r\n]
 
 [Unable to decrypt a carbon copy of the encrypted outgoing message]
-
-[Description]
 
 [Registration canceled]
 
@@ -1926,11 +1932,6 @@ Femenino
 [Contacts]
 Contactos
 [Note]
-
-;file \protocols\JabberG\src\jabber_voip.cpp
-[Accept call from %S?\r\nIt will disclose IP address to the peer and his server]
-
-[Incoming call]
 
 ;file \protocols\JabberG\src\jabber_xstatus.cpp
 [<advanced status slot>]

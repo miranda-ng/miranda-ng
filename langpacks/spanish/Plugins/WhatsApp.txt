@@ -1,0 +1,70 @@
+#muuid {008b9ce1-154b-44e4-9823-97c1aab00c3c}
+;============================================================
+;  File: WhatsApp.dll
+;  Plugin: WhatsApp protocol
+;  Version: 0.0.1.1
+;  Authors: George Hazan
+;============================================================
+[WhatsApp protocol support for Miranda NG.]
+Compatibilidad con el protocolo WhatsApp para Miranda NG.
+;file \protocols\WhatsApp\res\whatsapp.rc
+[Sign in using QR code]
+
+[Open WhatsApp application on your mobile phone, choose "Linked devices" and use it to read this QR code.\nA window will disappear automatically after it.]
+
+[Nick:]
+Nick:
+[Default group:]
+Grupo predeterminado:
+[Do not open chat windows on creation]
+
+[Device name:]
+
+[Use BBCode]
+
+[Unregister]
+Anular registro
+[Invite users]
+
+[Choose a user]
+
+[Other user:]
+
+[&Invite]
+
+[Cancel]
+Cancelar
+;file \protocols\WhatsApp\src\chats.cpp
+[Owner]
+Propietario
+[SuperAdmin]
+
+[Admin]
+
+[Participant]
+
+;file \protocols\WhatsApp\src\main.cpp
+[WhatsApp (HTTP)]
+
+;file \protocols\WhatsApp\src\options.cpp
+[Do you really want to unregister Miranda?]
+
+[Network]
+Red
+[Account]
+Cuenta
+;file \protocols\WhatsApp\src\proto.cpp
+[%s (server)]
+%s (servidor)
+[Connection cannot be established! You have not completed all necessary fields (Nick).]
+
+[Error]
+Error
+;file \protocols\WhatsApp\src\server.cpp
+[This account was logged out from mobile phone, you need to link it again]
+
+;file \protocols\WhatsApp\src\utils.cpp
+[%s error notifications]
+
+[Errors]
+Errores

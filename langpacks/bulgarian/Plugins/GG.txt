@@ -206,29 +206,6 @@ Gadu-Gadu номер:
 
 [Incoming image]
 Входящо изображение
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Последно състояние>
-[System tray icon]
-Икона в трея
-[Popup window]
-Рopup прозорец
-[Message with [img] BBCode]
-Съобщение съдържащо "[img]" BBCode
-[You need to specify your registration e-mail first.]
-Необходимо е първо да зададете имейл за регистрацията.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
-[Network]
-Мрежа
-[General]
-Основни
-[Conference]
-Конференция
-[Advanced]
-Разширени
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -251,6 +228,8 @@ Gadu-Gadu номер:
 Деблокиране
 [&Block]
 Блокиране
+[Conference]
+Конференция
 [Contact list]
 Списък с контакти
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ Gadu-Gadu номер
 [Gadu-Gadu Link Protocol]
 Протокол за Gadu-Gadu връзки
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Последно състояние>
+[System tray icon]
+Икона в трея
+[Popup window]
+Рopup прозорец
+[Message with [img] BBCode]
+Съобщение съдържащо "[img]" BBCode
+[You need to specify your registration e-mail first.]
+Необходимо е първо да зададете имейл за регистрацията.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Паролата ще бъде изпратена на имейла посочен в регистрацията.\nНаистина ли желаете това?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Необходимо е да излезете от мрежата преди да промените акаунта за постоянно.\nЖелаете ли да излезете сега?
 [Allow]
 Позволи
 [Ask]
 
 [Ignore]
 Игнориране
+[Network]
+Мрежа
+[General]
+Основни
+[Advanced]
+Разширени
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

@@ -40,12 +40,6 @@ Appliquer le dernier mode d'affichage actif
 Afficher le menu et la barre d'état
 [Draw sunken edge]
 Activer l'effet 3D
-[System tray icon]
-Icône de la barre des tâches
-[Disable icon blinking]
-Sans clignotement
-[ms]
-ms
 [Event area]
 Zone d'évènements
 [Set base visibility on the frames menu]

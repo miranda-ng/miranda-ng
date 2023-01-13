@@ -528,8 +528,6 @@ RTL по умолчанию
 &Копировать
 [&Quote]
 &Цитировать
-[Co&py all]
-Ко&пировать всё
 [Select &all]
 Выделить &всё
 [Clear log]
@@ -554,8 +552,6 @@ RTL по умолчанию
 Вставить форматированный текст
 [Paste and send immediately]
 Вставить и отправить
-[Copy all]
-Копировать всё
 [Select all]
 Выделить всё
 [Show message length indicator]
@@ -1313,6 +1309,8 @@ TabSRMM: набор текста
 Файл уже существует. Перезаписать?
 [JPEG-compressed images]
 Изображения в формате JPEG
+[Copy all]
+Копировать всё
 [Save and close session]
 Сохранить набранное и закрыть вкладку
 [, %d %s, %d %s idle]

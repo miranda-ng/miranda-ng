@@ -272,10 +272,6 @@ millisecondes
 Masquer la barre de défilement vertical
 [Fade out entire list when:]
 Assombrir complètement la liste si :
-[Disable icon blinking]
-Sans clignotement
-[ms, delay between icon blinking]
-ms, délai entre les clignotement des icônes
 [System tray icon]
 Icône de la barre des tâches
 [Use xStatus icon]

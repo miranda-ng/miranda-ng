@@ -206,29 +206,6 @@ Liste exportée avec succès.
 
 [Incoming image]
 
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Dernier État>
-[System tray icon]
-Icône de la barre des tâches
-[Popup window]
-
-[Message with [img] BBCode]
-
-[You need to specify your registration e-mail first.]
-Vous devez spécifier votre e-mail primaire d'enregistrement
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
-[Network]
-Réseau
-[General]
-Général
-[Conference]
-Chat
-[Advanced]
-Avancé
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 
@@ -251,6 +228,8 @@ Erreur HTTP inconnue
 
 [&Block]
 
+[Conference]
+Chat
 [Contact list]
 Liste de contacts
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ Exporter la liste vers un fichier &Texte
 [Gadu-Gadu Link Protocol]
 Raccourci du protocole Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Dernier État>
+[System tray icon]
+Icône de la barre des tâches
+[Popup window]
+
+[Message with [img] BBCode]
+
+[You need to specify your registration e-mail first.]
+Vous devez spécifier votre e-mail primaire d'enregistrement
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Votre mot de passe sera envoyé dans votre e-mail d'enregistrement.\nVoulez-vous continuer?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Vous devez vous déconnecter avant de perdre définitivement les modifications de votre compte.\nVoulez-vous vous déconnecter maintenant?
 [Allow]
 Autoriser
 [Ask]
 Demander
 [Ignore]
 Ignorer
+[Network]
+Réseau
+[General]
+Général
+[Advanced]
+Avancé
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 

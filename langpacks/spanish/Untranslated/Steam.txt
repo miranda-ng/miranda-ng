@@ -1,4 +1,3 @@
-[Steam protocol support for Miranda NG.]
 [Show chat state events (i.e., user closed chat session)]
 [Error limit before logout:]
 [Captcha]

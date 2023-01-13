@@ -286,14 +286,6 @@ info
 
 [.asc pubkey file]
 
-[Failed to allocate memory]
-
-[Failed to lock memory with error %d]
-
-[Failed write to clipboard with error %d]
-
-[Failed to open clipboard with error %d]
-
 [Set log file]
 
 [LOG files]

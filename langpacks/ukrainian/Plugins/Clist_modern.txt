@@ -272,10 +272,6 @@ x100 мс
 Сховати смугу прокручування
 [Fade out entire list when:]
 Зробити сірим, якщо:
-[Disable icon blinking]
-Вимкнути блимання
-[ms, delay between icon blinking]
-мс між блиманням значка
 [System tray icon]
 Значок у треї
 [Use xStatus icon]

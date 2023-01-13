@@ -6,7 +6,6 @@
 [Tray Icon]
 [Execute Application]
 [Choose modes]
-[Enable YAMN Main Menu]
 [MailBrowser Options]
 [Mail Notifications]
 [Popup]

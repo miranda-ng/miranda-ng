@@ -21,6 +21,7 @@
 [No popups for read messages]
 [Event Notify]
 [Main options]
+[Event types]
 [Received %d contacts.]
 [ added you to the contact list]
 [This is a sample error event :-D]

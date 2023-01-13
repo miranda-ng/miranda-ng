@@ -98,10 +98,6 @@ Neviditelný
 Obecné možnosti
 [TopToolBar button "Check mail"]
 Do horní lišty tlačítko 'Vybrat poštu'
-[Enable YAMN Main Menu]
-
-[Show YAMN as a Protocol (Require Restart)]
-Zobrazit YAMN jako protokol (vyžaduje restart)
 [MailBrowser Options]
 Prohlížeč pošty
 [Enable Close on Delete Button]

@@ -272,10 +272,6 @@ milisegundos
 Ocultar barra de desplazamiento vertical
 [Fade out entire list when:]
 Desaparecer lista entera cuando:
-[Disable icon blinking]
-Desactivar parpadeo de icono
-[ms, delay between icon blinking]
-ms, retardo entre parpadeo del icono
 [System tray icon]
 Icono de la bandeja de sistema
 [Use xStatus icon]

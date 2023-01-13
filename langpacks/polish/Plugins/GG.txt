@@ -206,29 +206,6 @@ Właśnie zalogowałeś się w innym miejscu
 Jesteś zalogowany w innym miejscu
 [Incoming image]
 Przychodzący obrazek
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<Ostatni status>
-[System tray icon]
-Ikona w zasobniku
-[Popup window]
-Wyskakujące okno
-[Message with [img] BBCode]
-Wiadomość z tagiem [img]
-[You need to specify your registration e-mail first.]
-Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami twojego konta.\nCzy chcesz się rozłączyć ?
-[Network]
-Protokoły
-[General]
-Ogólne
-[Conference]
-Konferencja
-[Advanced]
-Zaawansowane
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nie można utworzyć transferu plików. BŁĄD: %d: %s (dcc)\n%s
@@ -251,6 +228,8 @@ Nieznany błąd HTTP
 &Odblokuj
 [&Block]
 &Zablokuj
+[Conference]
+Konferencja
 [Contact list]
 Lista kontaktów
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ Wybór konta Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Powiązanie protokołu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<Ostatni status>
+[System tray icon]
+Ikona w zasobniku
+[Popup window]
+Wyskakujące okno
+[Message with [img] BBCode]
+Wiadomość z tagiem [img]
+[You need to specify your registration e-mail first.]
+Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami twojego konta.\nCzy chcesz się rozłączyć ?
 [Allow]
 Zezwól
 [Ask]
 Pytaj
 [Ignore]
 Ignorowanie
+[Network]
+Protokoły
+[General]
+Ogólne
+[Advanced]
+Zaawansowane
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Hasło nie mogło zostać przypomniane z powodu błędu:\n\t%s (błąd: %d)

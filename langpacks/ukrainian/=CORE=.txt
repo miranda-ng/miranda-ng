@@ -66,16 +66,16 @@
 Справді видалити %s зі списку?
 [This will erase all history and settings for this contact!]
 Ця дія видалить усю історію і налаштування цього контакту!
+[Contact list sorting]
+Впорядкування списку
 [Sort contacts by name]
 за ім'ям
 [Sort contacts by status]
 за статусом
 [Sort contacts by protocol]
 за протоколом
-[Disable icon blinking]
-Вимкнути блимання
-[ms delay]
-Затримка (мс)
+[Move offline users to bottom]
+Переміщати відключених униз
 [Show]
 Показати
 [icon when statuses differ]
@@ -88,14 +88,8 @@
 Декілька значків
 [Only when statuses differ]
 при різних статусах
-[System tray icon]
-Значок у треї
 [System tray icon when using multiple protocols]
 Значки протоколів у треї
-[Contact list sorting]
-Впорядкування списку
-[Don't move offline user to bottom]
-Не переміщати відключених униз
 [Window]
 Вікно
 [Always on top]
@@ -976,8 +970,6 @@
 Облікові записи буде показано в наступному порядку.\nПеретягуйте щоб змінити:
 [Account order and visibility]
 Впорядкування облікових записів
-[Note: Miranda NG will have to be restarted for changes to take effect.]
-Зміни наберуть чинності після перезапуску Miranda NG.
 [Key bindings]
 Гарячі клавіші
 [Shortcut:]
@@ -1134,12 +1126,16 @@ UIN, E-mail тощо
 Запит перед видаленням
 [Remove temporary contacts on exit]
 
+[Enable icon blinking]
+Увімкнути блимання
 [Search works as filter]
 
 ['Hide offline' means to hide:]
 Сховати відключених - сховати:
 [Tray]
 Трей
+[ms delay]
+Затримка (мс)
 [Single click interface]
 Одне клацання
 [Always show status in tooltip]
@@ -2586,6 +2582,8 @@ xСтатус
 Завантаження... %d%%
 [%s options]
 Параметри %s
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+
 [Miranda NG options]
 Налаштування Miranda NG
 ;file \src\mir_app\src\path.cpp
@@ -2780,6 +2778,8 @@ ANSI-плагін
 Додати групу
 [Warning]
 Попередження
+[Blank]
+
 [Always visible]
 Завжди видимий
 [Always invisible]
@@ -2810,6 +2810,8 @@ ANSI-плагін
 [Log viewer]
 
 ;file \src\mir_app\src\srmm_log_rtf.cpp
+[Copy all]
+Копіювати все
 [Look up '%s':]
 Шукати "%s" у
 [No word to look up]

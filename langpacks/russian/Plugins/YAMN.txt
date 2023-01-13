@@ -98,10 +98,6 @@
 Основные настройки
 [TopToolBar button "Check mail"]
 Кнопка "Проверить почту" в Панели кнопок
-[Enable YAMN Main Menu]
-Пункт YAMN в главном меню
-[Show YAMN as a Protocol (Require Restart)]
-Показывать YAMN как протокол (нужен перезапуск)
 [MailBrowser Options]
 Настройки просмотра писем
 [Enable Close on Delete Button]

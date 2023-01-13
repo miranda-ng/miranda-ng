@@ -1,0 +1,48 @@
+#muuid {ae708252-0df8-42ba-9ef9-9acc038eeda7}
+;============================================================
+;  File: Telegram.dll
+;  Plugin: Telegram protocol
+;  Version: 0.11.0.1
+;  Authors: Miranda NG team
+;============================================================
+[Telegram protocol support for Miranda NG.]
+Telegram protokol pro Mirandu NG.
+;file \protocols\Telegram\res\resource.rc
+[Phone number:]
+Telefon:
+[Default group:]
+Výchozí skupina:
+[Device name:]
+
+[Do not open chat windows on creation]
+Neotevírat okno se skupinovým rozhovorem po jeho vytvoření
+;file \protocols\Telegram\src\auth.cpp
+[Enter secret code sent to your phone]
+
+[Enter password]
+Zadejte heslo
+[ (hint: %s)]
+
+[Phone code expired]
+
+[Error]
+Chyba
+[Invalid phone code]
+
+[Invalid password]
+
+;file \protocols\Telegram\src\main.cpp
+[Premium user]
+
+;file \protocols\Telegram\src\options.cpp
+[Network]
+Sítě
+[Account]
+Účet
+;file \protocols\Telegram\src\utils.cpp
+[Chat rooms]
+Místnosti chatu
+[%s error notifications]
+
+[Errors]
+Chyby

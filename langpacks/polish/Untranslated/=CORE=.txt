@@ -3,4 +3,6 @@
 [Compact database]
 [File names must be different]
 [Plugin %S cannot be unloaded because the core plugin is missing]
+[Options dialog is disabled by the system administrator. Contact him if you need to edit options]
+[Blank]
 [Empty system history]

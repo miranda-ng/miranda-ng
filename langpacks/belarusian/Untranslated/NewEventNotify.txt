@@ -1,3 +1,4 @@
 [(timeout -1 means forever, 0 - default)]
 [Misc options]
+[Event types]
 [This is a sample error event :-D]

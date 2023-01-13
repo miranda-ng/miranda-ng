@@ -12,14 +12,11 @@
 Телефон:
 [Default group:]
 Группа:
+[Device name:]
+Имя устройства:
 [Do not open chat windows on creation]
 Не открывать окна комнат чата при создании
-;file \protocols\Telegram\src\options.cpp
-[Network]
-Сеть
-[Account]
-Учётная запись
-;file \protocols\Telegram\src\server.cpp
+;file \protocols\Telegram\src\auth.cpp
 [Enter secret code sent to your phone]
 
 [Enter password]
@@ -32,7 +29,19 @@
 Ошибка
 [Invalid phone code]
 
+[Invalid password]
+Неверный пароль
+;file \protocols\Telegram\src\main.cpp
+[Premium user]
+Premium-подписчик
+;file \protocols\Telegram\src\options.cpp
+[Network]
+Сеть
+[Account]
+Учётная запись
 ;file \protocols\Telegram\src\utils.cpp
+[Chat rooms]
+Чаты
 [%s error notifications]
 Уведомления об ошибках %s
 [Errors]

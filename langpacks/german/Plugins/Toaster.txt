@@ -12,8 +12,8 @@ Stellt Popup-Benachrichtigungen als Windows-Toast-Benachrichtigungen dar.
 Vorschau
 [Add shortcut]
 Verknüpfung hinzufügen
-[Enabled]
-Aktiviert
+[Enable popups]
+Popups aktivieren
 ;file \plugins\Toaster\src\main.cpp
 [This plugin requires Windows 8 or higher]
 Dieses Plugin benötigt Windows 8 oder neuer.

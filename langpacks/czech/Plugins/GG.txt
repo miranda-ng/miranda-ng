@@ -206,29 +206,6 @@ Přihlásili jste se z jiného místa
 Jste přihlášeni z jiného místa
 [Incoming image]
 Příchozí obrázek
-;file \protocols\Gadu-Gadu\src\dialogs.cpp
-[<Last Status>]
-<poslední stav>
-[System tray icon]
-Ikona v oznamovací oblasti
-[Popup window]
-Zobrazit text
-[Message with [img] BBCode]
-Zpráva s obrázkem (pomocí BBCode)
-[You need to specify your registration e-mail first.]
-Nejdříve je nutné zadat registrační e-mail.
-[Your password will be sent to your registration e-mail.\nDo you want to continue?]
-Heslo bude odesláno na Váš e-mail.\nChcete pokračovat?
-[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
-Před změnou nastavení účtu doporučujeme odpojení od sítě.\nChcete se odpojit od sítě Gadu-Gadu?
-[Network]
-Sítě
-[General]
-Obecné
-[Conference]
-Konference
-[Advanced]
-Extra
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
 [Cannot create transfer file. ERROR: %d: %s (dcc)\n%s]
 Nelze vytvořit soubor pro přenos. CHYBA: %d: %s (dcc)\n%s
@@ -251,6 +228,8 @@ HTTP - Neznámá chyba
 Od&blokovat
 [&Block]
 Za&blokovat
+[Conference]
+Konference
 [Contact list]
 Seznam kontaktů
 ;file \protocols\Gadu-Gadu\src\gg_proto.cpp
@@ -374,12 +353,32 @@ Volba účtu protokolu Gadu-Gadu
 [Gadu-Gadu Link Protocol]
 Odkaz protokolu Gadu-Gadu
 ;file \protocols\Gadu-Gadu\src\options.cpp
+[<Last Status>]
+<poslední stav>
+[System tray icon]
+Ikona v oznamovací oblasti
+[Popup window]
+Zobrazit text
+[Message with [img] BBCode]
+Zpráva s obrázkem (pomocí BBCode)
+[You need to specify your registration e-mail first.]
+Nejdříve je nutné zadat registrační e-mail.
+[Your password will be sent to your registration e-mail.\nDo you want to continue?]
+Heslo bude odesláno na Váš e-mail.\nChcete pokračovat?
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now?]
+Před změnou nastavení účtu doporučujeme odpojení od sítě.\nChcete se odpojit od sítě Gadu-Gadu?
 [Allow]
 Povolit
 [Ask]
 Zeptat se
 [Ignore]
 Filtrování
+[Network]
+Sítě
+[General]
+Obecné
+[Advanced]
+Extra
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
 [Password could not be reminded because of error:\n\t%s (Error: %d)]
 Heslo vám nemůže být připomenuto z důvodu chyby:\n\t%s (Chyba: %d)
