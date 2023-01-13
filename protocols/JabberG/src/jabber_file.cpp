@@ -36,10 +36,10 @@ void __cdecl CJabberProto::FileReceiveHttpThread(filetransfer *ft)
 
 	NLHR_PTR pResp(Netlib_HttpTransaction(m_hNetlibUser, &req));
 	if (pResp && pResp->resultCode == 200) {
-		ft->std.currentFileSize = pResp->cbSize;
+		ft->std.currentFileSize = pResp->dataLength;
 		ProtoBroadcastAck(ft->std.hContact, ACKTYPE_FILE, ACKRESULT_INITIALISING, ft);
 
-		FtReceive(ft, pResp->pData, pResp->cbSize);
+		FtReceive(ft, pResp->pData, pResp->dataLength);
 
 		ft->complete();
 	}
