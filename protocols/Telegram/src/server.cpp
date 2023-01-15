@@ -50,6 +50,7 @@ void CMTProto::LogOut()
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, ID_STATUS_OFFLINE);
 	m_iStatus = m_iDesiredStatus = ID_STATUS_OFFLINE;
 
+	m_impl.m_keepAlive.Stop();
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
@@ -66,7 +67,11 @@ void CMTProto::OnLoggedIn()
 		SendQuery(new TD::terminateSession());
 		SendQuery(new TD::logOut(), &CMTProto::OnEndSession);
 	}
-	else SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
+	else {
+		m_impl.m_keepAlive.Start(1000);
+
+		SendQuery(new TD::getChats(td::tl::unique_ptr<TD::chatListMain>(), 1000));
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -76,12 +81,12 @@ void CMTProto::SendKeepAlive()
 	time_t now = time(0);
 
 	for (auto &it : m_arUsers) {
-		if (it->m_timer1 && now - it->m_timer1 > 600) {
+		if (it->m_timer1 && now - it->m_timer1 > STATUS_SWITCH_TIMEOUT) {
 			it->m_timer1 = 0;
 			it->m_timer2 = now;
 			setWord(it->hContact, "Status", ID_STATUS_AWAY);
 		}
-		else if (it->m_timer2 && now - it->m_timer2 > 600) {
+		else if (it->m_timer2 && now - it->m_timer2 > STATUS_SWITCH_TIMEOUT) {
 			it->m_timer2 = 0;
 			setWord(it->hContact, "Status", ID_STATUS_OFFLINE);
 		}

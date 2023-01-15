@@ -1,5 +1,7 @@
 #pragma once
 
+#define STATUS_SWITCH_TIMEOUT 600
+
 #define DBKEY_ID "id"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
