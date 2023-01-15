@@ -84,7 +84,7 @@ void CMTProto::SendKeepAlive()
 		if (it->m_timer1 && now - it->m_timer1 > STATUS_SWITCH_TIMEOUT) {
 			it->m_timer1 = 0;
 			it->m_timer2 = now;
-			setWord(it->hContact, "Status", ID_STATUS_AWAY);
+			setWord(it->hContact, "Status", ID_STATUS_NA);
 		}
 		else if (it->m_timer2 && now - it->m_timer2 > STATUS_SWITCH_TIMEOUT) {
 			it->m_timer2 = 0;
