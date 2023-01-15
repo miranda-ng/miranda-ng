@@ -565,39 +565,37 @@ MEVENT CDbxSQLite::FindPrevEvent(MCONTACT hContact, MEVENT hDbEvent)
 
 BOOL CDbxSQLite::MetaMergeHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	//TODO: test this
-	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("SELECT id, timestamp FROM events WHERE contact_id = ?;", qEvMetaMerge);
-	sqlite3_bind_int64(stmt, 1, ccSub->contactID);
-	int rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	while (rc == SQLITE_ROW) {
-		sqlite3_stmt *stmt2 = InitQuery(add_event_sort_query, qEvAddSrt);
-		sqlite3_bind_int64(stmt2, 1, sqlite3_column_int64(stmt, 0));
-		sqlite3_bind_int64(stmt2, 2, ccMeta->contactID);
-		sqlite3_bind_int64(stmt2, 3, sqlite3_column_int64(stmt, 1));
-		int rc2 = sqlite3_step(stmt2);
-		logError(rc2, __FILE__, __LINE__);
-		sqlite3_reset(stmt2);
-		rc = sqlite3_step(stmt);
+	{	mir_cslock lock(m_csDbAccess);
+		sqlite3_stmt *stmt = InitQuery(
+			"INSERT INTO events_srt(id, contact_id, timestamp) "
+				"SELECT id, ?, timestamp from events_srt where contact_id = ?;", qEvMetaMerge);
+		sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
+		sqlite3_bind_int64(stmt, 2, ccSub->contactID);
+		int rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(stmt);
+		if (rc != SQLITE_DONE)
+			return FALSE;
 	}
 
-	sqlite3_reset(stmt);
 	DBFlush();
 	return TRUE;
 }
 
-BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *)
+BOOL CDbxSQLite::MetaSplitHistory(DBCachedContact *ccMeta, DBCachedContact *ccSub)
 {
-	mir_cslock lock(m_csDbAccess);
-	sqlite3_stmt *stmt = InitQuery("DELETE FROM events_srt WHERE contact_id = ?;", qEvMetaSplit);
-	sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
-	int rc = sqlite3_step(stmt);
-	logError(rc, __FILE__, __LINE__);
-	sqlite3_reset(stmt);
-	if (rc != SQLITE_DONE)
-		return 1;
+	{	mir_cslock lock(m_csDbAccess);
+		sqlite3_stmt *stmt = InitQuery(
+			"DELETE FROM events_srt WHERE contact_id = ? "
+				"AND id IN (SELECT id from events_srt WHERE contact_id = ?);", qEvMetaSplit);
+		sqlite3_bind_int64(stmt, 1, ccMeta->contactID);
+		sqlite3_bind_int64(stmt, 2, ccSub->contactID);
+		int rc = sqlite3_step(stmt);
+		logError(rc, __FILE__, __LINE__);
+		sqlite3_reset(stmt);
+		if (rc != SQLITE_DONE)
+			return FALSE;
+	}
 
 	DBFlush();
 	return TRUE;
