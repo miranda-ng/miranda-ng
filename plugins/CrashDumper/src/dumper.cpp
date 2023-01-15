@@ -142,6 +142,9 @@ static void GetPluginsString(CMStringW &buffer, unsigned &flags)
 {
 	buffer.AppendFormat(L"Service Mode: %s\r\n", g_plugin.bServiceMode ? L"Yes" : L"No");
 
+	CMStringW szViewerName(db_get_wsm(0, "SRMM", "Logger", L"built-in"));
+	buffer.AppendFormat(L"SRMM Log Viewer: %s\r\n", szViewerName.c_str());
+
 	wchar_t path[MAX_PATH];
 	GetModuleFileName(nullptr, path, MAX_PATH);
 
