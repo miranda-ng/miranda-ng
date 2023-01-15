@@ -133,17 +133,16 @@ INT_PTR CMTProto::GetCaps(int type, MCONTACT)
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_FILE | PF1_CHAT | PF1_BASICSEARCH | PF1_ADDSEARCHRES | PF1_MODEMSGRECV;
 	case PFLAGNUM_2:
-		return PF2_ONLINE;
-	case PFLAGNUM_3:
-		return 0;
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY;
 	case PFLAGNUM_4:
 		return PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_IMSENDOFFLINE | PF4_OFFLINEFILES | PF4_SUPPORTTYPING | PF4_AVATARS | PF4_SERVERMSGID;
 	case PFLAGNUM_5:
-		return 0;
+		return PF2_SHORTAWAY | PF2_LONGAWAY;
 	case PFLAG_UNIQUEIDTEXT:
 		return (INT_PTR)L"Phone";
+	default:
+		return 0;
 	}
-	return 0;
 }
 
 int CMTProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
