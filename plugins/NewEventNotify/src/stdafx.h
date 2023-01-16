@@ -82,47 +82,52 @@
 #define TIMER_TO_ACTION 50685
 
 //Entries in the database, don't translate
-#define OPT_DISABLE "Disabled"
-#define OPT_MUCDISABLE "MUCDisabled"
-#define OPT_PREVIEW "Preview"
-#define OPT_MENUITEM "MenuItem"
-#define OPT_LIMITPREVIEW "LimitPreview"
+#define OPT_DISABLE            "Disabled"
+#define OPT_MUCDISABLE         "MUCDisabled"
+#define OPT_PREVIEW            "Preview"
+#define OPT_MENUITEM           "MenuItem"
+#define OPT_LIMITPREVIEW       "LimitPreview"
 
+#define OPT_COLWIN_MESSAGE     "WinColorMsg"
 #define OPT_COLDEFAULT_MESSAGE "DefaultColorMsg"
-#define OPT_COLBACK_MESSAGE "ColorBackMsg"
-#define OPT_COLTEXT_MESSAGE "ColorTextMsg"
-#define OPT_DELAY_MESSAGE "DelayMessage"
+#define OPT_COLBACK_MESSAGE    "ColorBackMsg"
+#define OPT_COLTEXT_MESSAGE    "ColorTextMsg"
+#define OPT_DELAY_MESSAGE      "DelayMessage"
 
-#define OPT_COLDEFAULT_FILE "DefaultColorFile"
-#define OPT_COLBACK_FILE "ColorBackFile"
-#define OPT_COLTEXT_FILE "ColorTextFile"
-#define OPT_DELAY_FILE "DelayFile"
+#define OPT_COLWIN_FILE        "WinColorFile"
+#define OPT_COLDEFAULT_FILE    "DefaultColorFile"
+#define OPT_COLBACK_FILE       "ColorBackFile"
+#define OPT_COLTEXT_FILE       "ColorTextFile"
+#define OPT_DELAY_FILE         "DelayFile"
 
-#define OPT_COLDEFAULT_ERR "DefaultColorErr"
-#define OPT_COLBACK_ERR "ColorBackErr"
-#define OPT_COLTEXT_ERR "ColorTextErr"
-#define OPT_DELAY_ERR "DelayErr"
+#define OPT_COLWIN_ERR         "WinColorErr"
+#define OPT_COLDEFAULT_ERR     "DefaultColorErr"
+#define OPT_COLBACK_ERR        "ColorBackErr"
+#define OPT_COLTEXT_ERR        "ColorTextErr"
+#define OPT_DELAY_ERR          "DelayErr"
 
-#define OPT_COLDEFAULT_OTHERS "DefaultColorOthers"
-#define OPT_COLBACK_OTHERS "ColorBackOthers"
-#define OPT_COLTEXT_OTHERS "ColorTextOthers"
-#define OPT_DELAY_OTHERS "DelayOthers"
+#define OPT_COLWIN_OTHERS      "WinColorOthers"
+#define OPT_COLDEFAULT_OTHERS  "DefaultColorOthers"
+#define OPT_COLBACK_OTHERS     "ColorBackOthers"
+#define OPT_COLTEXT_OTHERS     "ColorTextOthers"
+#define OPT_DELAY_OTHERS       "DelayOthers"
 
-#define OPT_MASKNOTIFY "Notify"
-#define OPT_MASKACTL "ActionLeft"
-#define OPT_MASKACTR "ActionRight"
-#define OPT_MASKACTTE "ActionTimeExpires"
-#define OPT_MSGWINDOWCHECK "WindowCheck"
-#define OPT_MSGREPLYWINDOW "ReplyWindow"
-#define OPT_MERGEPOPUP "MergePopup"
-#define OPT_SHOW_DATE "ShowDate"
-#define OPT_SHOW_TIME "ShowTime"
-#define OPT_SHOW_HEADERS "ShowHeaders"
-#define OPT_NUMBER_MSG "NumberMsg"
-#define OPT_SHOW_ON "ShowOldOrNew"
-#define OPT_HIDESEND "HideSend"
-#define OPT_NORSS "NoRSSAnnounces"
-#define OPT_READCHECK "ReadCheck"
+#define OPT_MASKNOTIFY         "Notify"
+#define OPT_MASKACTL           "ActionLeft"
+#define OPT_MASKACTR           "ActionRight"
+#define OPT_MASKACTTE          "ActionTimeExpires"
+#define OPT_MSGWINDOWCHECK     "WindowCheck"
+#define OPT_MSGREPLYWINDOW     "ReplyWindow"
+#define OPT_MERGEPOPUP         "MergePopup"
+#define OPT_SHOW_DATE          "ShowDate"
+#define OPT_SHOW_TIME          "ShowTime"
+#define OPT_SHOW_HEADERS       "ShowHeaders"
+#define OPT_NUMBER_MSG         "NumberMsg"
+#define OPT_SHOW_ON            "ShowOldOrNew"
+#define OPT_HIDESEND           "HideSend"
+#define OPT_NORSS              "NoRSSAnnounces"
+#define OPT_READCHECK          "ReadCheck"
+
 //---------------------------
 //---Translateable Strings
 
@@ -169,7 +174,21 @@ struct CMPlugin : public PLUGIN<CMPlugin>
 	{
 		COLORREF backColor, textColor;
 		int iDelay;
-		bool bDefault;
+		bool bDefault, bWindows;
+
+		COLORREF getBackColor() const
+		{
+			if (bDefault) return 0;
+			if (bWindows) return GetSysColor(COLOR_BTNFACE);
+			return backColor;
+		}
+
+		COLORREF getTextColor() const
+		{
+			if (bDefault) return 0;
+			if (bWindows) return GetSysColor(COLOR_WINDOWTEXT);
+			return textColor;
+		}
 
 	} msg, file, err, other;
 

@@ -45,6 +45,10 @@
 #define IDC_TESTFORREAD                 1038
 #define IDC_OPT_TREE                    1040
 #define IDC_SPIN_MSGNUMBER              1041
+#define IDC_CHKWINCOL_MESSAGE           1042
+#define IDC_CHKWINCOL_FILE              1043
+#define IDC_CHKWINCOL_ERR               1044
+#define IDC_CHKWINCOL_OTHERS            1045
 
 // Next default values for new objects
 // 

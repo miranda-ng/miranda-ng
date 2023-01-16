@@ -323,8 +323,8 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	case EVENTTYPE_MESSAGE:
 		if (!(g_plugin.maskNotify & MASK_MESSAGE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_MESSAGE);
-		pudw.colorBack = g_plugin.msg.bDefault ? 0 : g_plugin.msg.backColor;
-		pudw.colorText = g_plugin.msg.bDefault ? 0 : g_plugin.msg.textColor;
+		pudw.colorBack = g_plugin.msg.getBackColor();
+		pudw.colorText = g_plugin.msg.getTextColor();
 		iSeconds = g_plugin.msg.iDelay;
 		sampleEvent = TranslateT("This is a sample message event :-)");
 		break;
@@ -332,8 +332,8 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	case EVENTTYPE_FILE:
 		if (!(g_plugin.maskNotify & MASK_FILE)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_EVENT_FILE);
-		pudw.colorBack = g_plugin.file.bDefault ? 0 : g_plugin.file.backColor;
-		pudw.colorText = g_plugin.file.bDefault ? 0 : g_plugin.file.textColor;
+		pudw.colorBack = g_plugin.file.getBackColor();
+		pudw.colorText = g_plugin.file.getTextColor();
 		iSeconds = g_plugin.file.iDelay;
 		sampleEvent = TranslateT("This is a sample file event :-D");
 		break;
@@ -341,8 +341,8 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	case EVENTTYPE_ERRMSG:
 		if (!(g_plugin.maskNotify & MASK_ERROR)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_DELETE);
-		pudw.colorBack = g_plugin.err.bDefault ? 0 : g_plugin.err.backColor;
-		pudw.colorText = g_plugin.err.bDefault ? 0 : g_plugin.err.textColor;
+		pudw.colorBack = g_plugin.err.getBackColor();
+		pudw.colorText = g_plugin.err.getTextColor();
 		iSeconds = g_plugin.err.iDelay;
 		sampleEvent = TranslateT("This is a sample error event :-D");
 		break;
@@ -350,8 +350,8 @@ int PopupShow(MCONTACT hContact, MEVENT hEvent, UINT eventType)
 	default:
 		if (!(g_plugin.maskNotify & MASK_OTHER)) return 1;
 		pudw.lchIcon = Skin_LoadIcon(SKINICON_OTHER_MIRANDA);
-		pudw.colorBack = g_plugin.other.bDefault ? 0 : g_plugin.other.backColor;
-		pudw.colorText = g_plugin.other.bDefault ? 0 : g_plugin.other.textColor;
+		pudw.colorBack = g_plugin.other.getBackColor();
+		pudw.colorText = g_plugin.other.getTextColor();
 		iSeconds = g_plugin.other.iDelay;
 		sampleEvent = TranslateT("This is a sample other event ;-D");
 		break;

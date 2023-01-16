@@ -32,21 +32,25 @@ void CMPlugin::OptionsRead(void)
 	bMsgReplyWindow = getBool(OPT_MSGREPLYWINDOW, false);
 
 	msg.bDefault = getBool(OPT_COLDEFAULT_MESSAGE, false);
+	msg.bWindows = getBool(OPT_COLWIN_MESSAGE, false);
 	msg.backColor = getDword(OPT_COLBACK_MESSAGE, DEFAULT_COLBACK);
 	msg.textColor = getDword(OPT_COLTEXT_MESSAGE, DEFAULT_COLTEXT);
 	msg.iDelay = getDword(OPT_DELAY_MESSAGE, DEFAULT_DELAY);
 
 	file.bDefault = getBool(OPT_COLDEFAULT_FILE, false);
+	file.bWindows = getBool(OPT_COLWIN_FILE, false);
 	file.backColor = getDword(OPT_COLBACK_FILE, DEFAULT_COLBACK);
 	file.textColor = getDword(OPT_COLTEXT_FILE, DEFAULT_COLTEXT);
 	file.iDelay = getDword(OPT_DELAY_FILE, DEFAULT_DELAY);
 
 	err.bDefault = getBool(OPT_COLDEFAULT_ERR, false);
+	err.bWindows = getBool(OPT_COLWIN_ERR, false);
 	err.backColor = getDword(OPT_COLBACK_ERR, DEFAULT_COLBACK);
 	err.textColor = getDword(OPT_COLTEXT_ERR, DEFAULT_COLTEXT);
 	err.iDelay = getDword(OPT_DELAY_ERR, DEFAULT_DELAY);
 
 	other.bDefault = getBool(OPT_COLDEFAULT_OTHERS, false);
+	other.bWindows = getBool(OPT_COLWIN_OTHERS, false);
 	other.backColor = getDword(OPT_COLBACK_OTHERS, DEFAULT_COLBACK);
 	other.textColor = getDword(OPT_COLTEXT_OTHERS, DEFAULT_COLTEXT);
 	other.iDelay = getDword(OPT_DELAY_OTHERS, DEFAULT_DELAY);
@@ -75,21 +79,25 @@ void CMPlugin::OptionsWrite(void)
 	setByte(OPT_MSGWINDOWCHECK, bMsgWindowCheck);
 	setByte(OPT_MSGREPLYWINDOW, bMsgReplyWindow);
 
+	setByte(OPT_COLWIN_MESSAGE, msg.bWindows);
 	setByte(OPT_COLDEFAULT_MESSAGE, msg.bDefault);
 	setDword(OPT_COLBACK_MESSAGE, msg.backColor);
 	setDword(OPT_COLTEXT_MESSAGE, msg.textColor);
 	setDword(OPT_DELAY_MESSAGE, msg.iDelay);
 
+	setByte(OPT_COLWIN_FILE, file.bWindows);
 	setByte(OPT_COLDEFAULT_FILE, file.bDefault);
 	setDword(OPT_COLBACK_FILE, file.backColor);
 	setDword(OPT_COLTEXT_FILE, file.textColor);
 	setDword(OPT_DELAY_FILE, file.iDelay);
 
+	setByte(OPT_COLWIN_ERR, err.bWindows);
 	setByte(OPT_COLDEFAULT_ERR, err.bDefault);
 	setDword(OPT_COLBACK_ERR, err.backColor);
 	setDword(OPT_COLTEXT_ERR, err.textColor);
 	setDword(OPT_DELAY_ERR, err.iDelay);
 
+	setByte(OPT_COLWIN_OTHERS, other.bWindows);
 	setByte(OPT_COLDEFAULT_OTHERS, other.bDefault);
 	setDword(OPT_COLBACK_OTHERS, other.backColor);
 	setDword(OPT_COLTEXT_OTHERS, other.textColor);
@@ -214,6 +222,7 @@ public:
 class COptionsEventsDlg : public COptionsBaseDlg
 {
 	CCtrlSpin spinMessage, spinFile, spinErr, spinOther;
+	CCtrlCheck chkWinColorMsg, chkWinColorFile, chkWinColorErr, chkWinColorOthers;
 	CCtrlCheck chkDefaultColorMsg, chkDefaultColorFile, chkDefaultColorErr, chkDefaultColorOthers;
 	CCtrlColor clrBackMessage, clrTextMessage, clrBackFile, clrTextFile, clrBackErr, clrTextErr, clrBackOther, clrTextOther;
 	CCtrlButton btnPreview;
@@ -221,22 +230,26 @@ class COptionsEventsDlg : public COptionsBaseDlg
 	void GrabData()
 	{
 		// update options
-		g_plugin.msg.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_MESSAGE);
+		g_plugin.msg.bWindows = chkWinColorMsg.IsChecked();
+		g_plugin.msg.bDefault = chkDefaultColorMsg.IsChecked();
 		g_plugin.msg.backColor = clrBackMessage.GetColor();
 		g_plugin.msg.textColor = clrTextMessage.GetColor();
 		g_plugin.msg.iDelay = spinMessage.GetPosition();
 
-		g_plugin.file.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_FILE);
+		g_plugin.file.bWindows = chkWinColorFile.IsChecked();
+		g_plugin.file.bDefault = chkDefaultColorFile.IsChecked();
 		g_plugin.file.backColor = clrBackFile.GetColor();
 		g_plugin.file.textColor = clrTextFile.GetColor();
 		g_plugin.file.iDelay = spinFile.GetPosition();
 
-		g_plugin.err.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_ERR);
+		g_plugin.err.bWindows = chkWinColorErr.IsChecked();
+		g_plugin.err.bDefault = chkDefaultColorErr.IsChecked();
 		g_plugin.err.backColor = clrBackErr.GetColor();
 		g_plugin.err.textColor = clrTextErr.GetColor();
 		g_plugin.err.iDelay = spinErr.GetPosition();
 
-		g_plugin.other.bDefault = IsDlgButtonChecked(m_hwnd, IDC_CHKDEFAULTCOL_OTHERS);
+		g_plugin.other.bWindows = chkWinColorOthers.IsChecked();
+		g_plugin.other.bDefault = chkDefaultColorOthers.IsChecked();
 		g_plugin.other.backColor = clrBackOther.GetColor();
 		g_plugin.other.textColor = clrTextOther.GetColor();
 		g_plugin.other.iDelay = spinOther.GetPosition();
@@ -254,6 +267,10 @@ public:
 		clrTextErr(this, IDC_COLTEXT_ERR),
 		clrBackOther(this, IDC_COLBACK_OTHERS),
 		clrTextOther(this, IDC_COLTEXT_OTHERS),
+		chkWinColorMsg(this, IDC_CHKWINCOL_MESSAGE),
+		chkWinColorFile(this, IDC_CHKWINCOL_FILE),
+		chkWinColorErr(this, IDC_CHKWINCOL_ERR),
+		chkWinColorOthers(this, IDC_CHKWINCOL_OTHERS),
 		chkDefaultColorMsg(this, IDC_CHKDEFAULTCOL_MESSAGE),
 		chkDefaultColorFile(this, IDC_CHKDEFAULTCOL_FILE),
 		chkDefaultColorErr(this, IDC_CHKDEFAULTCOL_ERR),
@@ -264,11 +281,11 @@ public:
 		spinMessage(this, IDC_SPIN_MESSAGE, 1000, -1)
 	{
 		btnPreview.OnClick = Callback(this, &COptionsEventsDlg::onClick_Preview);
-	
-		chkDefaultColorMsg.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultMsg);
-		chkDefaultColorFile.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultFile);
-		chkDefaultColorErr.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultErr);
-		chkDefaultColorOthers.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultOther);
+
+		chkDefaultColorMsg.OnChange = chkWinColorMsg.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultMsg);
+		chkDefaultColorFile.OnChange = chkWinColorFile.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultFile);
+		chkDefaultColorErr.OnChange = chkWinColorErr.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultErr);
+		chkDefaultColorOthers.OnChange = chkWinColorOthers.OnChange = Callback(this, &COptionsEventsDlg::onChange_DefaultOther);
 	}
 
 	bool OnInitDialog() override
@@ -288,6 +305,11 @@ public:
 		chkDefaultColorFile.SetState(g_plugin.file.bDefault);
 		chkDefaultColorErr.SetState(g_plugin.err.bDefault);
 		chkDefaultColorOthers.SetState(g_plugin.other.bDefault);
+
+		chkWinColorMsg.SetState(g_plugin.msg.bWindows);
+		chkWinColorFile.SetState(g_plugin.file.bWindows);
+		chkWinColorErr.SetState(g_plugin.err.bWindows);
+		chkWinColorOthers.SetState(g_plugin.other.bWindows);
 
 		spinMessage.SetPosition(g_plugin.msg.iDelay);
 		spinFile.SetPosition(g_plugin.file.iDelay);
@@ -315,30 +337,38 @@ public:
 
 	void onChange_DefaultMsg(CCtrlCheck *)
 	{
-		bool bEnabled = chkDefaultColorMsg.GetState();
-		clrBackMessage.Enable(!bEnabled);
-		clrTextMessage.Enable(!bEnabled);
+		bool b1 = !chkDefaultColorMsg.IsChecked(), b2 = !chkWinColorMsg.IsChecked();
+		chkWinColorMsg.Enable(b1);
+		chkDefaultColorMsg.Enable(b2);
+		clrBackMessage.Enable(b1 && b2);
+		clrTextMessage.Enable(b1 && b2);
 	}
 
 	void onChange_DefaultFile(CCtrlCheck *)
 	{
-		bool bEnabled = chkDefaultColorFile.GetState();
-		clrBackFile.Enable(!bEnabled);
-		clrTextFile.Enable(!bEnabled);
+		bool b1 = !chkDefaultColorFile.IsChecked(), b2 = !chkWinColorFile.IsChecked();
+		chkWinColorFile.Enable(b1);
+		chkDefaultColorFile.Enable(b2);
+		clrBackFile.Enable(b1 && b2);
+		clrTextFile.Enable(b1 && b2);
 	}
 
 	void onChange_DefaultErr(CCtrlCheck *)
 	{
-		bool bEnabled = chkDefaultColorErr.GetState();
-		clrBackErr.Enable(!bEnabled);
-		clrTextErr.Enable(!bEnabled);
+		bool b1 = !chkDefaultColorErr.IsChecked(), b2 = !chkWinColorErr.IsChecked();
+		chkWinColorErr.Enable(b1);
+		chkDefaultColorErr.Enable(b2);
+		clrBackErr.Enable(b1 && b2);
+		clrTextErr.Enable(b1 && b2);
 	}
 
 	void onChange_DefaultOther(CCtrlCheck *)
 	{
-		bool bEnabled = chkDefaultColorOthers.GetState();
-		clrBackOther.Enable(!bEnabled);
-		clrTextOther.Enable(!bEnabled);
+		bool b1 = !chkDefaultColorOthers.IsChecked(), b2 = !chkWinColorOthers.IsChecked();
+		chkWinColorOthers.Enable(b1);
+		chkDefaultColorOthers.Enable(b2);
+		clrBackOther.Enable(b1 && b2);
+		clrTextOther.Enable(b1 && b2);
 	}
 };
 
