@@ -523,10 +523,10 @@ public:
 		Utils::enableDlgControl(m_hwndParent, IDC_RTLMODIFY, false);
 
 		clr1.SetColor(M.GetDword("cc1", SRMSGDEFSET_BKGCOLOUR));
-		clr1.SetColor(M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
-		clr1.SetColor(M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
-		clr1.SetColor(M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
-		clr1.SetColor(M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
+		clr2.SetColor(M.GetDword("cc2", SRMSGDEFSET_BKGCOLOUR));
+		clr3.SetColor(M.GetDword("cc3", SRMSGDEFSET_BKGCOLOUR));
+		clr4.SetColor(M.GetDword("cc4", SRMSGDEFSET_BKGCOLOUR));
+		clr5.SetColor(M.GetDword("cc5", SRMSGDEFSET_BKGCOLOUR));
 		edtText.SendMsg(EM_SETREADONLY, true, 0);
 		return true;
 	}
