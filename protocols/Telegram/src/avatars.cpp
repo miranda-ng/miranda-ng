@@ -85,15 +85,17 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 		for (auto &it : m_arUsers) {
 			if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
-				CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
+				Utf2T wszExistingFile(pFile->local_->path_.c_str());
 				
 				PROTO_AVATAR_INFORMATION pai;
 				pai.hContact = it->hContact;
-				pai.format = ProtoGetAvatarFileFormat(pai.filename);
+				pai.format = ProtoGetAvatarFileFormat(wszExistingFile);
+				setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
+
+				CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
 				wcsncpy_s(pai.filename, wszAvatarPath, _TRUNCATE);
 
-				setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
-				MoveFileW(Utf2T(pFile->local_->path_.c_str()), wszAvatarPath);
+				MoveFileW(wszExistingFile, wszAvatarPath);
 
 				ProtoBroadcastAck(it->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &pai);
 				break;
