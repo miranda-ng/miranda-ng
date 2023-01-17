@@ -344,6 +344,9 @@ INT_PTR LoadContactSmileys(WPARAM, LPARAM lParam)
 				wszPath.Truncate(idx+1);
 
 			do {
+				if (!mir_wstrcmp(findData.cFileName, L".") || !mir_wstrcmp(findData.cFileName, L"."))
+					continue;
+
 				CMStringW wszFileName = wszPath + findData.cFileName;
 				g_SmileyPackCStore.AddSmiley(cont->pszModule, wszFileName);
 			} while (FindNextFileW(hFind, &findData));
