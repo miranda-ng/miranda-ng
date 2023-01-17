@@ -75,6 +75,12 @@ void CTelegramProto::OnModulesLoaded()
 		m_arUsers.insert(new TG_USER(_atoi64(szId.c_str()), 0));
 
 	for (auto &cc : AccContacts()) {
+		ptrA szPath(getStringA(cc, "AvatarPath"));
+		if (szPath) {
+			delSetting(cc, "AvatarPath");
+			delSetting(cc, DBKEY_AVATAR_HASH);
+		}
+
 		bool isGroupChat = isChatRoom(cc);
 		szId = getMStringA(cc, isGroupChat ? "ChatRoomID" : DBKEY_ID);
 		if (!szId.IsEmpty()) {

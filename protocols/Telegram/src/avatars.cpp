@@ -20,10 +20,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 CMStringW CTelegramProto::GetAvatarFilename(MCONTACT hContact)
 {
 	CMStringW wszResult(GetAvatarPath());
-	wszResult.AppendChar('\\');
 
 	const wchar_t *szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
-	wszResult.AppendFormat(L"%s%s", getMStringW(hContact, DBKEY_ID).c_str(), szFileType);
+	wszResult.AppendFormat(L"\\%s%s", getMStringW(hContact, DBKEY_ID).c_str(), szFileType);
 	return wszResult;
 }
 
@@ -55,10 +54,7 @@ INT_PTR CTelegramProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	auto *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
-	ptrW wszPath(getWStringA(pai->hContact, DBKEY_AVATAR_PATH));
-	if (wszPath == nullptr)
-		return GAIR_NOAVATAR;
-
+	CMStringW wszPath(GetAvatarFilename(pai->hContact));
 	pai->format = getByte(pai->hContact, DBKEY_AVATAR_TYPE, PA_FORMAT_JPEG);
 	wcsncpy_s(pai->filename, wszPath, _TRUNCATE);
 
@@ -89,13 +85,15 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 		for (auto &it : m_arUsers) {
 			if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
+				CMStringW wszAvatarPath(GetAvatarFilename(it->hContact));
+				
 				PROTO_AVATAR_INFORMATION pai;
-				wcsncpy_s(pai.filename, Utf2T(pFile->local_->path_.c_str()), _TRUNCATE);
 				pai.hContact = it->hContact;
 				pai.format = ProtoGetAvatarFileFormat(pai.filename);
+				wcsncpy_s(pai.filename, wszAvatarPath, _TRUNCATE);
 
 				setByte(pai.hContact, DBKEY_AVATAR_TYPE, pai.format);
-				setWString(pai.hContact, DBKEY_AVATAR_PATH, pai.filename);
+				MoveFileW(Utf2T(pFile->local_->path_.c_str()), wszAvatarPath);
 
 				ProtoBroadcastAck(it->hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, &pai);
 				break;

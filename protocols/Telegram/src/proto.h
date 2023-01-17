@@ -5,7 +5,6 @@
 #define DBKEY_ID "id"
 
 #define DBKEY_AVATAR_HASH "AvatarHash"
-#define DBKEY_AVATAR_PATH "AvatarPath"
 #define DBKEY_AVATAR_TYPE "AvatarType"
 
 class CTelegramProto;
