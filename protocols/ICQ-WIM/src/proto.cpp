@@ -135,7 +135,7 @@ void CIcqProto::OnModulesLoaded()
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 
 	// load custom smilies
-	CMStringW wszPath(GetAvatarPath());
+	CMStringW wszPath(GetAvatarPath() + L"\\Stickers\\*.png");
 	SMADD_CONT cont = { 2, m_szModuleName, wszPath };
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 }
