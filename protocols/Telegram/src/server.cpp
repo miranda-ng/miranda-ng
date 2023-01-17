@@ -340,7 +340,7 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 		return;
 	}
 
-	CMStringA szText(getMessageText(pMessage->content_.get()));
+	CMStringA szText(GetMessageText(pMessage->content_.get()));
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
 		return;

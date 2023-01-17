@@ -59,6 +59,21 @@ struct TG_REQUEST_FULL : public TG_REQUEST_BASE
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+struct TG_FILE_REQUEST
+{
+	enum Type { AVATAR = 1 };
+
+	TG_FILE_REQUEST(Type _1, const char *_2, const wchar_t *_3) :
+		m_type(_1),
+		m_uniqueId(_2),
+		m_destPath(_3)
+	{}
+
+	Type m_type;
+	CMStringA m_uniqueId;
+	CMStringW m_destPath;
+};
+
 struct TG_USER
 {
 	TG_USER(uint64_t _1, MCONTACT _2, bool _3 = false) :
@@ -111,11 +126,12 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	MCONTACT m_markContact = 0;
 	TD::array<TD::int53> m_markIds;
 
-	bool m_bAuthorized, m_bTerminated, m_bUnregister = false;
+	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
 	uint64_t m_iQueryId;
 
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
+	OBJLIST<TG_FILE_REQUEST> m_arFiles;
 
 	static INT_PTR CALLBACK EnterPhoneCode(void *param);
 	static INT_PTR CALLBACK EnterPassword(void *param);
@@ -147,6 +163,8 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
 	void ProcessUser(TD::updateUser *pObj);
+
+	CMStringA GetMessageText(TD::MessageContent *pBody);
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 

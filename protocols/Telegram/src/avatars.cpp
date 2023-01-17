@@ -83,10 +83,23 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 		if (!pFile->local_->is_downloading_completed_)
 			return;
 
+		Utf2T wszExistingFile(pFile->local_->path_.c_str());
+
+		for (auto &it : m_arFiles) {
+			if (it->m_uniqueId == pFile->remote_->unique_id_.c_str()) {
+				MoveFileW(wszExistingFile, it->m_destPath);
+				if (it->m_type == it->AVATAR) {
+					SMADD_CONT cont = {1, m_szModuleName, it->m_destPath};
+					CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
+				}
+				m_arFiles.remove(m_arFiles.indexOf(&it));
+				return;
+			}
+		}
+
 		for (auto &it : m_arUsers) {
 			if (it->szAvatarHash == pFile->remote_->unique_id_.c_str()) {
-				Utf2T wszExistingFile(pFile->local_->path_.c_str());
-				
+	
 				PROTO_AVATAR_INFORMATION pai;
 				pai.hContact = it->hContact;
 				pai.format = ProtoGetAvatarFileFormat(wszExistingFile);

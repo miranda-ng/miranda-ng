@@ -114,12 +114,43 @@ void CTelegramProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-CMStringA getMessageText(TD::MessageContent *pBody)
+CMStringA CTelegramProto::GetMessageText(TD::MessageContent *pBody)
 {
-	if (pBody->get_id() == TD::messageText::ID) {
+	switch (pBody->get_id()) {
+	case TD::messageSticker::ID:
+		if (m_bSmileyAdd) {
+			auto pSticker = ((TD::messageSticker *)pBody)->sticker_.get();
+			if (pSticker->type_->get_id() != TD::stickerTypeRegular::ID)
+				break;
+
+			auto *pFile = pSticker->thumbnail_->file_.get();
+			auto *pFileId = pFile->remote_->unique_id_.c_str();
+
+			const char *pwszFileExt;
+			switch (pSticker->format_->get_id()) {
+			case TD::stickerFormatTgs::ID: pwszFileExt = "tga"; break;
+			case TD::stickerFormatWebm::ID: pwszFileExt = "webm"; break;
+			case TD::stickerFormatWebp::ID: pwszFileExt = "webp"; break;
+			default:pwszFileExt = "jpeg"; break;
+			}
+
+			CMStringW wszDest(GetAvatarPath() + L"\\Stickers");
+			CreateDirectoryW(wszDest, 0);
+			wszDest.AppendFormat(L"\\STK{%S}.%S", pFileId, pwszFileExt);
+
+			m_arFiles.insert(new TG_FILE_REQUEST(TG_FILE_REQUEST::AVATAR, pFileId, wszDest));
+
+			SendQuery(new TD::downloadFile(pFile->id_, 10, 0, 0, true));
+			return CMStringA(FORMAT, "STK{%s}", pFileId);
+		}
+		else debugLogA("SmileyAdd plugin isn't installed, skipping sticker");
+		break;
+
+	case TD::messageText::ID:
 		auto pText = ((TD::messageText *)pBody)->text_.get();
 		if (pText->get_id() == TD::formattedText::ID)
 			return CMStringA(((TD::formattedText *)pText)->text_.c_str());
+		break;
 	}
 
 	return CMStringA();

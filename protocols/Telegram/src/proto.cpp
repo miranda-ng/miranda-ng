@@ -19,6 +19,7 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	PROTO<CTelegramProto>(protoName, userName),
 	m_impl(*this),
+	m_arFiles(1),
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),
 	m_szOwnPhone(this, "Phone"), 
@@ -88,6 +89,13 @@ void CTelegramProto::OnModulesLoaded()
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);
 			m_arUsers.insert(pUser);
 		}
+	}
+
+	m_bSmileyAdd = ServiceExists(MS_SMILEYADD_LOADCONTACTSMILEYS);
+	if (m_bSmileyAdd) {
+		CMStringW wszStickersPath(GetAvatarPath() + L"\\Stickers\\*.*");
+		SMADD_CONT cont = {2, m_szModuleName, wszStickersPath};
+		CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 	}
 }
 
