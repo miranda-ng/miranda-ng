@@ -88,6 +88,9 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
+	// avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// netlib handle
 	NETLIBUSER nlu = {};
 	nlu.szSettingsModule = m_szModuleName;
@@ -132,7 +135,7 @@ void CIcqProto::OnModulesLoaded()
 	HookProtoEvent(ME_USERINFO_INITIALISE, &CIcqProto::OnUserInfoInit);
 
 	// load custom smilies
-	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers\\*.png", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+	CMStringW wszPath(GetAvatarPath());
 	SMADD_CONT cont = { 2, m_szModuleName, wszPath };
 	CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 }

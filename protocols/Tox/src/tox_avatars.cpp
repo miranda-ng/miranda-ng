@@ -2,21 +2,16 @@
 
 wchar_t* CToxProto::GetAvatarFilePath(MCONTACT hContact)
 {
-	wchar_t *path = (wchar_t*)mir_calloc(MAX_PATH * sizeof(wchar_t) + 1);
-	mir_snwprintf(path, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-	CreateDirectoryTreeW(path);
-
 	ptrW address(getWStringA(hContact, TOX_SETTINGS_ID));
-	if (address == NULL) {
-		mir_free(path);
+	if (address == NULL)
 		return mir_wstrdup(L"");
-	}
 
 	if (hContact && mir_wstrlen(address) > TOX_PUBLIC_KEY_SIZE * 2)
 		address[TOX_PUBLIC_KEY_SIZE * 2] = 0;
 
-	mir_snwprintf(path, MAX_PATH, L"%s\\%s.png", path, address.get());
-	return path;
+	CMStringW wszPath(GetAvatarPath());
+	wszPath.AppendFormat(L"\\%s.png", address.get());
+	return wszPath.Detach();
 }
 
 void CToxProto::SetToxAvatar(const wchar_t* path)
@@ -210,9 +205,7 @@ void CToxProto::OnGotFriendAvatarInfo(Tox *tox, AvatarTransferParam *transfer)
 		db_free(&dbv);
 	}
 
-	wchar_t path[MAX_PATH];
-	mir_snwprintf(path, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-	OnFileAllow(tox, transfer->pfts.hContact, transfer, path);
+	OnFileAllow(tox, transfer->pfts.hContact, transfer, GetAvatarPath());
 }
 
 void CToxProto::OnGotFriendAvatarData(AvatarTransferParam *transfer)

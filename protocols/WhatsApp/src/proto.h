@@ -289,7 +289,6 @@ class WhatsAppProto : public PROTO<WhatsAppProto>
 	ptrW m_tszDefaultGroup;
 
 	CMStringA m_szJid;
-	CMStringW m_tszAvatarFolder;
 
 	EVP_PKEY *m_pKeys; // private & public keys
 	WANoise *m_noise;

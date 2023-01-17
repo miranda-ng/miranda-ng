@@ -218,6 +218,9 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 		OmemoInitDevice();
 	}
 
+	// avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// network initialization
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_UNICODE;

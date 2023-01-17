@@ -135,13 +135,10 @@ bool CJabberProto::AddDbPresenceEvent(MCONTACT hContact, uint8_t btEventType)
 ///////////////////////////////////////////////////////////////////////////////
 // JabberGetAvatarFileName() - gets a file name for the avatar image
 
-void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
+void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pszDest, size_t cbLen)
 {
-	size_t tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-
-	CreateDirectoryTreeW(pszDest);
-
-	pszDest[tPathLen++] = '\\';
+	CMStringW wszPath(GetAvatarPath());
+	wszPath += '\\';
 
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
 
@@ -153,17 +150,17 @@ void CJabberProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t
 			strncpy_s(str, szJid, _TRUNCATE);
 		else
 			_i64toa((LONG_PTR)hContact, str, 10);
-		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", JabberSha1(str, buf), szFileType);
+		wszPath.AppendFormat(L"%S%s", JabberSha1(str, buf), szFileType);
 	}
 	else if (m_ThreadInfo != nullptr) {
-		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s@%s avatar%s",
-			Utf2T(m_ThreadInfo->conn.username).get(), Utf2T(m_ThreadInfo->conn.server).get(), szFileType);
+		wszPath.AppendFormat(L"%s@%s avatar%s", Utf2T(m_ThreadInfo->conn.username).get(), Utf2T(m_ThreadInfo->conn.server).get(), szFileType);
 	}
 	else {
 		ptrA res1(getStringA("LoginName")), res2(getStringA("LoginServer"));
-		mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S@%S avatar%s",
-			(res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
+		wszPath.AppendFormat(L"%S@%S avatar%s", (res1) ? (LPSTR)res1 : "noname", (res2) ? (LPSTR)res2 : m_szModuleName, szFileType);
 	}
+
+	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
 }
 
 ///////////////////////////////////////////////////////////////////////////////

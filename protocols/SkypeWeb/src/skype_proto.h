@@ -189,8 +189,6 @@ private:
 
 	INT_PTR __cdecl OnAccountManagerInit(WPARAM, LPARAM);
 
-	std::wstring m_tszAvatarFolder;
-
 	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);

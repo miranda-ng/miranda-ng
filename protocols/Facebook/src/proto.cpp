@@ -87,6 +87,9 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	m_sid = _atoi64(getMStringA(DBKEY_SID));
 	m_szSyncToken = getMStringA(DBKEY_SYNC_TOKEN);
 
+	// Avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// Create standard network connection
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_INCOMING | NUF_OUTGOING | NUF_HTTPCONNS | NUF_UNICODE;

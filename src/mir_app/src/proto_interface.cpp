@@ -60,6 +60,11 @@ HGENMENU PROTO_INTERFACE::GetMenuItem(ProtoMenuItemType aType)
 	return nullptr;
 }
 
+CMStringW PROTO_INTERFACE::GetAvatarPath() const
+{
+	return CMStringW(FORMAT, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
+}
+
 void PROTO_INTERFACE::OnBuildProtoMenu()
 {}
 

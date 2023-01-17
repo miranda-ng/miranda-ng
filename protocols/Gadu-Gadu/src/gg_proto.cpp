@@ -90,6 +90,9 @@ GaduProto::GaduProto(const char *pszProtoName, const wchar_t *tszUserName) :
 
 	gc_init();
 	links_instance_init();
+
+	// Avatars
+	CreateDirectoryTreeW(GetAvatarPath());
 	initavatarrequestthread();
 }
 

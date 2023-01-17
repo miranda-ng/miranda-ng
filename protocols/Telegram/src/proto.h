@@ -151,6 +151,14 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	void UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str);
 
+	// Avatars
+	CMStringW GetAvatarFilename(MCONTACT hContact);
+
+	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
+
 	// Users
 	int64_t m_iOwnId;
 	MGROUP m_iBaseGroup;
@@ -187,10 +195,6 @@ public:
 	// Services //////////////////////////////////////////////////////////////////////////
 
 	INT_PTR __cdecl SvcCreateAccMgrUI(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetAvatarCaps(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetAvatarInfo(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
-	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 	
 	// Events ////////////////////////////////////////////////////////////////////////////
 	

@@ -49,6 +49,8 @@ CSteamProto::CSteamProto(const char *protoName, const wchar_t *userName) :
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// avatar API
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	CreateProtoService(PS_GETAVATARINFO, &CSteamProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &CSteamProto::GetAvatarCaps);
 	CreateProtoService(PS_GETMYAVATAR, &CSteamProto::GetMyAvatar);

@@ -51,10 +51,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const wchar_t* userName) :
 	HookProtoEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CSkypeProto::OnDbEventRead);
 
-	m_tszAvatarFolder = std::wstring(VARSW(L"%miranda_avatarcache%")) + L"\\" + m_tszUserName;
-	CreateDirectoryTreeW(m_tszAvatarFolder.c_str());
+	CreateDirectoryTreeW(GetAvatarPath());
 
-	//sounds
+	// sounds
 	g_plugin.addSound("skype_inc_call", L"SkypeWeb", LPGENW("Incoming call"));
 	g_plugin.addSound("skype_call_canceled", L"SkypeWeb", LPGENW("Incoming call canceled"));
 

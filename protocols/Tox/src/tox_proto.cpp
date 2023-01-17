@@ -20,6 +20,8 @@ CToxProto::CToxProto(const char* protoName, const wchar_t* userName)
 	setAllContactStatuses(ID_STATUS_OFFLINE);
 
 	// avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	CreateProtoService(PS_GETAVATARCAPS, &CToxProto::GetAvatarCaps);
 	CreateProtoService(PS_GETAVATARINFO, &CToxProto::GetAvatarInfo);
 	CreateProtoService(PS_GETMYAVATAR, &CToxProto::GetMyAvatar);

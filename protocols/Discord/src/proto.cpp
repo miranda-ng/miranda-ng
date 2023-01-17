@@ -75,6 +75,9 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 	
 	HookProtoEvent(PE_VOICE_CALL_STATE, &CDiscordProto::OnVoiceState);
 
+	// avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// database
 	db_set_resident(m_szModuleName, "XStatusMsg");
 

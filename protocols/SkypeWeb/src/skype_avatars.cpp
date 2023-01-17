@@ -122,15 +122,16 @@ INT_PTR CSkypeProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
-	CreateDirectoryTreeW(pszDest);
-	pszDest[tPathLen++] = '\\';
+	CMStringW wszPath(GetAvatarPath());
+	wszPath += '\\';
 
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
 	CMStringA username(getId(hContact));
 	username.Replace("live:", "__live_");
 	username.Replace("facebook:", "__facebook_");
-	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%S%s", username.c_str(), szFileType);
+	wszPath.AppendFormat(L"%S%s", username.c_str(), szFileType);
+
+	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
 }
 
 void CSkypeProto::SetAvatarUrl(MCONTACT hContact, CMStringW &tszUrl)

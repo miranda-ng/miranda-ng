@@ -19,9 +19,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 CMStringW CDiscordProto::GetAvatarFilename(MCONTACT hContact)
 {
-	CMStringW wszResult(FORMAT, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
-	CreateDirectoryTreeW(wszResult);
-
+	auto wszResult(GetAvatarPath());
 	wszResult.AppendChar('\\');
 
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));

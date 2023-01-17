@@ -28,32 +28,20 @@
 //
 void GaduProto::getAvatarFilename(MCONTACT hContact, wchar_t *pszDest, int cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-
-	if (_waccess(pszDest, 0)) {
-		int ret = CreateDirectoryTreeW(pszDest);
-		if (ret == 0)
-			debugLogW(L"getAvatarFilename(): Created new directory for avatar cache: %s.", pszDest);
-		else {
-			debugLogW(L"getAvatarFilename(): Can not create directory for avatar cache: %s. errno=%d: %s", pszDest, errno, ws_strerror(errno));
-			wchar_t error[512];
-			mir_snwprintf(error, TranslateT("Cannot create avatars cache directory. ERROR: %d: %s\n%s"), errno, ws_strerror(errno), pszDest);
-			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
-		}
-	}
+	CMStringW wszPath(GetAvatarPath());
 
 	const wchar_t *avatartype = ProtoGetAvatarExtension(getByte(hContact, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE));
 
 	if (hContact != NULL) {
 		DBVARIANT dbv;
 		if (!getString(hContact, GG_KEY_AVATARHASH, &dbv)) {
-			wchar_t* avatarHashT = mir_a2u(dbv.pszVal);
-			mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%s%s", avatarHashT, avatartype);
-			mir_free(avatarHashT);
+			wszPath.AppendFormat(L"\\%S%s", dbv.pszVal, avatartype);
 			db_free(&dbv);
 		}
 	}
-	else mir_snwprintf(pszDest + tPathLen, cbLen - tPathLen, L"\\%S avatar%s", m_szModuleName, avatartype);
+	else wszPath.AppendFormat(L"\\%S avatar%s", m_szModuleName, avatartype);
+
+	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
 }
 
 bool GaduProto::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)

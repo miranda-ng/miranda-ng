@@ -150,13 +150,14 @@ void CIcqProto::Json2string(MCONTACT hContact, const JSONNode &node, const char 
 
 void CIcqProto::GetAvatarFileName(MCONTACT hContact, wchar_t* pszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-	CreateDirectoryTreeW(pszDest);
-	pszDest[tPathLen++] = '\\';
+	CMStringW wszPath(GetAvatarPath());
+	wszPath += '\\';
 
 	CMStringW wszFileName(getMStringW(hContact, "IconId"));
 	const wchar_t* szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_PNG));
-	mir_snwprintf(pszDest + tPathLen, MAX_PATH - tPathLen, L"%s%s", wszFileName.c_str(), szFileType);
+	wszPath.AppendFormat(L"%s%s", wszFileName.c_str(), szFileType);
+
+	wcsncpy_s(pszDest, cbLen, wszPath, _TRUNCATE);
 }
 
 INT_PTR __cdecl CIcqProto::GetAvatar(WPARAM wParam, LPARAM lParam)

@@ -810,3 +810,4 @@ Srmm_CreateHotkey @886 NONAME
 ?getBlob@PROTO_INTERFACE@@QAE?AVMBinBuffer@@IPBD@Z @911 NONAME
 ?getBlob@PROTO_INTERFACE@@QAE?AVMBinBuffer@@PBD@Z @912 NONAME
 ?UpdateEventId@MDatabaseReadonly@@UAGHIPBD@Z @913 NONAME
+?GetAvatarPath@PROTO_INTERFACE@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @914 NONAME

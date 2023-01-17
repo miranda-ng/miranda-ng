@@ -24,12 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 void FacebookProto::GetAvatarFilename(MCONTACT hContact, wchar_t *pwszFileName)
 {
-	wchar_t wszPath[MAX_PATH];
-	mir_snwprintf(wszPath, MAX_PATH, L"%s\\%S", VARSW(L"%miranda_avatarcache%"), m_szModuleName);
-	CreateDirectoryTreeW(wszPath);
-
+	CMStringW wszPath(GetAvatarPath());
 	CMStringW id(getMStringW(hContact, DBKEY_ID));
-	mir_snwprintf(pwszFileName, MAX_PATH, L"%s\\%s.jpg", wszPath, id.c_str());
+	mir_snwprintf(pwszFileName, MAX_PATH, L"%s\\%s.jpg", wszPath.c_str(), id.c_str());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

@@ -130,9 +130,8 @@ INT_PTR CVkProto::SvcGetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cbLen)
 {
-	int tPathLen = mir_snwprintf(pwszDest, cbLen, L"%s\\%S", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
-	CreateDirectoryTreeW(pwszDest);
-	pwszDest[tPathLen++] = '\\';
+	CMStringW wszPath(GetAvatarPath());
+	wszPath += '\\';
 
 	const wchar_t *szFileType = L".jpg";
 	ptrW wszUrl(getWStringA(hContact, "AvatarUrl"));
@@ -144,11 +143,12 @@ void CVkProto::GetAvatarFileName(MCONTACT hContact, wchar_t *pwszDest, size_t cb
 		p = wcsrchr(wszUrl, '.');
 		if (p != nullptr)
 			szFileType = p;
-
 	}
 
 	LONG id = getDword(hContact, "ID", VK_INVALID_USER);
-	mir_snwprintf(pwszDest + tPathLen, MAX_PATH - tPathLen, L"%d%s", id, szFileType);
+	wszPath.AppendFormat(L"%d%s", id, szFileType);
+
+	wcsncpy_s(pwszDest, cbLen, wszPath, _TRUNCATE);
 }
 
 void CVkProto::SetAvatarUrl(MCONTACT hContact, CMStringW &wszUrl)

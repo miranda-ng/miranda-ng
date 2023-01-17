@@ -17,6 +17,16 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+CMStringW CTelegramProto::GetAvatarFilename(MCONTACT hContact)
+{
+	CMStringW wszResult(GetAvatarPath());
+	wszResult.AppendChar('\\');
+
+	const wchar_t *szFileType = ProtoGetAvatarExtension(getByte(hContact, "AvatarType", PA_FORMAT_JPEG));
+	wszResult.AppendFormat(L"%s%s", getMStringW(hContact, DBKEY_ID).c_str(), szFileType);
+	return wszResult;
+}
+
 INT_PTR CTelegramProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {

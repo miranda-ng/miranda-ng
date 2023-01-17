@@ -70,6 +70,9 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	// Set all contacts offline -- in case we crashed
 	SetAllContactStatuses(ID_STATUS_OFFLINE);
 
+	// Avatars
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// Group chats
 	GCREGISTER gcr = {};
 	gcr.ptszDispName = m_tszUserName;

@@ -162,33 +162,7 @@ void GaduProto::cleanuplastplugin(uint32_t version)
 	// Store current plugin version
 	setDword(GG_PLUGINVERSION, pluginInfoEx.version);
 
-	//1. clean files: %miranda_avatarcache%\GG\*.(null)
-	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)) {
-		debugLogA("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
-
-		wchar_t avatarsPath[MAX_PATH];
-		mir_snwprintf(avatarsPath, L"%s\\%s", VARSW(L"%miranda_avatarcache%").get(), m_tszUserName);
-
-		debugLogW(L"cleanuplastplugin() 1: miranda_avatarcache = %s", avatarsPath);
-
-		wchar_t spec[MAX_PATH + 10];
-		mir_snwprintf(spec, L"%s\\*.(null)", avatarsPath);
-		WIN32_FIND_DATA ffd;
-		HANDLE hFind = FindFirstFile(spec, &ffd);
-		if (hFind != INVALID_HANDLE_VALUE) {
-			do {
-				wchar_t filePathT[2 * MAX_PATH + 10];
-				mir_snwprintf(filePathT, L"%s\\%s", avatarsPath, ffd.cFileName);
-				if (!_waccess(filePathT, 0)) {
-					debugLogW(L"cleanuplastplugin() 1: remove file = %s", filePathT);
-					_wremove(filePathT);
-				}
-			} while (FindNextFile(hFind, &ffd) != 0);
-			FindClose(hFind);
-		}
-	}
-
-	//2. force SSL and keepalive; overwrite old server list; 
+	// force SSL and keepalive; overwrite old server list; 
 	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 4)) {
 		setWString("ServerHosts", GG_KEYDEF_SERVERHOSTS);
 		m_useManualHosts = 1;

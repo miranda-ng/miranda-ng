@@ -934,7 +934,7 @@ void CIcqProto::OnGetSticker(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	CMStringW wszPath(FORMAT, L"%s\\%S\\Stickers", VARSW(L"%miranda_avatarcache%").get(), m_szModuleName);
 	CreateDirectoryTreeW(wszPath);
 
-	CMStringW wszFileName(FORMAT, L"%s\\STK{%s}.png", wszPath.c_str(), pReq->pUserInfo);
+	CMStringW wszFileName(FORMAT, L"%s\\STK{%s}.png", wszPath.c_str(), (wchar_t*)pReq->pUserInfo);
 	FILE *out = _wfopen(wszFileName, L"wb");
 	fwrite(pReply->pData, 1, pReply->dataLength, out);
 	fclose(out);

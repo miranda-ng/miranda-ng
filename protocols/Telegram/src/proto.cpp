@@ -38,12 +38,15 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTelegramProto::OnDbMarkedRead);
 
+	// avatar
+	CreateDirectoryTreeW(GetAvatarPath());
+
 	// default contacts group
 	if (m_wszDefaultGroup == NULL)
 		m_wszDefaultGroup = mir_wstrdup(L"WhatsApp");
 	m_iBaseGroup = Clist_GroupCreate(0, m_wszDefaultGroup);
 
-	// Create standard network connection
+	// create standard network connection
 	NETLIBUSER nlu = {};
 	nlu.flags = NUF_UNICODE;
 	nlu.szSettingsModule = m_szModuleName;
