@@ -16,8 +16,8 @@ static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
 	return (p1->id < p2->id) ? -1 : 1;
 }
 
-CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
-	PROTO<CMTProto>(protoName, userName),
+CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
+	PROTO<CTelegramProto>(protoName, userName),
 	m_impl(*this),
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),
@@ -29,14 +29,14 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 {
 	m_iOwnId = _atoi64(getMStringA(DBKEY_ID));
 
-	CreateProtoService(PS_CREATEACCMGRUI, &CMTProto::SvcCreateAccMgrUI);
-	CreateProtoService(PS_GETAVATARCAPS, &CMTProto::SvcGetAvatarCaps);
-	CreateProtoService(PS_GETAVATARINFO, &CMTProto::SvcGetAvatarInfo);
-	CreateProtoService(PS_GETMYAVATAR, &CMTProto::SvcGetMyAvatar);
-	CreateProtoService(PS_SETMYAVATAR, &CMTProto::SvcSetMyAvatar);
+	CreateProtoService(PS_CREATEACCMGRUI, &CTelegramProto::SvcCreateAccMgrUI);
+	CreateProtoService(PS_GETAVATARCAPS, &CTelegramProto::SvcGetAvatarCaps);
+	CreateProtoService(PS_GETAVATARINFO, &CTelegramProto::SvcGetAvatarInfo);
+	CreateProtoService(PS_GETMYAVATAR, &CTelegramProto::SvcGetMyAvatar);
+	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
 
-	HookProtoEvent(ME_OPT_INITIALISE, &CMTProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CMTProto::OnDbMarkedRead);
+	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
+	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTelegramProto::OnDbMarkedRead);
 
 	// default contacts group
 	if (m_wszDefaultGroup == NULL)
@@ -61,11 +61,11 @@ CMTProto::CMTProto(const char* protoName, const wchar_t* userName) :
 	// HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::GcMenuHook);
 }
 
-CMTProto::~CMTProto()
+CTelegramProto::~CTelegramProto()
 {
 }
 
-void CMTProto::OnModulesLoaded()
+void CTelegramProto::OnModulesLoaded()
 {
 	CMStringA szId(getMStringA(DBKEY_ID));
 	if (!szId.IsEmpty())
@@ -82,12 +82,12 @@ void CMTProto::OnModulesLoaded()
 	}
 }
 
-void CMTProto::OnShutdown()
+void CTelegramProto::OnShutdown()
 {
 	m_bTerminated = true;
 }
 
-void CMTProto::OnErase()
+void CTelegramProto::OnErase()
 {
 	m_bUnregister = true;
 	ServerThread(0);
@@ -95,7 +95,7 @@ void CMTProto::OnErase()
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
-int CMTProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
+int CTelegramProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (!hContact)
 		return 0;
@@ -127,7 +127,7 @@ int CMTProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 	return 0;
 }
 
-INT_PTR CMTProto::GetCaps(int type, MCONTACT)
+INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)
 {
 	switch (type) {
 	case PFLAGNUM_1:
@@ -145,7 +145,7 @@ INT_PTR CMTProto::GetCaps(int type, MCONTACT)
 	}
 }
 
-int CMTProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
+int CTelegramProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
 {
 	ptrA szId(getStringA(hContact, DBKEY_ID));
 	if (szId == nullptr)
@@ -154,7 +154,7 @@ int CMTProto::SendMsg(MCONTACT hContact, int, const char *pszMessage)
 	return SendTextMessage(_atoi64(szId), pszMessage);
 }
 
-int CMTProto::SetStatus(int iNewStatus)
+int CTelegramProto::SetStatus(int iNewStatus)
 {
 	if (m_iDesiredStatus == iNewStatus)
 		return 0;
@@ -185,7 +185,7 @@ int CMTProto::SetStatus(int iNewStatus)
 		m_iStatus = ID_STATUS_CONNECTING;
 		ProtoBroadcastAck(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldStatus, m_iStatus);
 
-		ForkThread(&CMTProto::ServerThread);
+		ForkThread(&CTelegramProto::ServerThread);
 	}
 	else if (isRunning()) {
 		m_iStatus = m_iDesiredStatus;

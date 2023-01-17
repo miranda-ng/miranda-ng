@@ -17,12 +17,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CMTProto::OnEndSession(td::ClientManager::Response&)
+void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 {
 	m_bTerminated = true;
 }
 
-void __cdecl CMTProto::ServerThread(void *)
+void __cdecl CTelegramProto::ServerThread(void *)
 {
 	m_bTerminated = m_bAuthorized = false;
 
@@ -38,12 +38,12 @@ void __cdecl CMTProto::ServerThread(void *)
 	m_pClientMmanager = std::move(nullptr);
 }
 
-void CMTProto::LogOut()
+void CTelegramProto::LogOut()
 {
 	if (m_bTerminated)
 		return;
 
-	debugLogA("CMTProto::OnLoggedOut");
+	debugLogA("CTelegramProto::OnLoggedOut");
 	m_bTerminated = true;
 	m_bAuthorized = false;
 
@@ -54,18 +54,18 @@ void CMTProto::LogOut()
 	setAllContactStatuses(ID_STATUS_OFFLINE, false);
 }
 
-void CMTProto::OnLoggedIn()
+void CTelegramProto::OnLoggedIn()
 {
 	m_bAuthorized = true;
 
-	debugLogA("CMTProto::OnLoggedIn");
+	debugLogA("CTelegramProto::OnLoggedIn");
 
 	ProtoBroadcastAck(0, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)m_iStatus, m_iDesiredStatus);
 	m_iStatus = m_iDesiredStatus;
 
 	if (m_bUnregister) {
 		SendQuery(new TD::terminateSession());
-		SendQuery(new TD::logOut(), &CMTProto::OnEndSession);
+		SendQuery(new TD::logOut(), &CTelegramProto::OnEndSession);
 	}
 	else {
 		m_impl.m_keepAlive.Start(1000);
@@ -76,7 +76,7 @@ void CMTProto::OnLoggedIn()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::SendKeepAlive()
+void CTelegramProto::SendKeepAlive()
 {
 	time_t now = time(0);
 
@@ -93,7 +93,7 @@ void CMTProto::SendKeepAlive()
 	}
 }
 
-void CMTProto::SendMarkRead()
+void CTelegramProto::SendMarkRead()
 {
 	m_impl.m_markRead.Stop();
 
@@ -105,7 +105,7 @@ void CMTProto::SendMarkRead()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::ProcessResponse(td::ClientManager::Response response)
+void CTelegramProto::ProcessResponse(td::ClientManager::Response response)
 {
 	if (!response.object)
 		return;
@@ -163,7 +163,7 @@ void CMTProto::ProcessResponse(td::ClientManager::Response response)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::OnSendMessage(td::ClientManager::Response &response, void *pUserInfo)
+void CTelegramProto::OnSendMessage(td::ClientManager::Response &response, void *pUserInfo)
 {
 	if (!response.object)
 		return;
@@ -182,7 +182,7 @@ void CMTProto::OnSendMessage(td::ClientManager::Response &response, void *pUserI
 	}
 }
 
-int CMTProto::SendTextMessage(uint64_t chatId, const char *pszMessage)
+int CTelegramProto::SendTextMessage(uint64_t chatId, const char *pszMessage)
 {
 	int ret = m_iMsgId++;
 
@@ -193,12 +193,12 @@ int CMTProto::SendTextMessage(uint64_t chatId, const char *pszMessage)
 	auto *pMessage = new TD::sendMessage();
 	pMessage->chat_id_ = chatId;
 	pMessage->input_message_content_ = std::move(pContent);
-	SendQuery(pMessage, &CMTProto::OnSendMessage, (void*)ret);
+	SendQuery(pMessage, &CTelegramProto::OnSendMessage, (void*)ret);
 
 	return ret;
 }
 
-void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
+void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
 	int queryId = ++m_iQueryId;
 
@@ -211,7 +211,7 @@ void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 		m_arRequests.insert(new TG_REQUEST(queryId, pHandler));
 }
 
-void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
+void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
 {
 	int queryId = ++m_iQueryId;
 
@@ -226,7 +226,7 @@ void CMTProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, vo
 
 ///////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::ProcessChat(TD::updateNewChat *pObj)
+void CTelegramProto::ProcessChat(TD::updateNewChat *pObj)
 {
 	auto &pChat = pObj->chat_;
 	if (pChat->type_->get_id() != TD::chatTypePrivate::ID) {
@@ -239,7 +239,7 @@ void CMTProto::ProcessChat(TD::updateNewChat *pObj)
 			setUString(pUser->hContact, "Nick", pChat->title_.c_str());
 }
 
-void CMTProto::ProcessChatPosition(TD::updateChatPosition *pObj)
+void CTelegramProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 {
 	if (pObj->position_->get_id() != TD::chatPosition::ID) {
 		debugLogA("Unsupport position");
@@ -268,7 +268,7 @@ void CMTProto::ProcessChatPosition(TD::updateChatPosition *pObj)
 	}
 }
 
-void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
+void CTelegramProto::ProcessGroups(TD::updateChatFilters *pObj)
 {
 	for (auto &grp : pObj->chat_filters_) {
 		if (grp->icon_name_ != "Custom")
@@ -293,7 +293,7 @@ void CMTProto::ProcessGroups(TD::updateChatFilters *pObj)
 	}
 }
 
-void CMTProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
+void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 {
 	auto *pUser = FindUser(pObj->chat_id_);
 	if (pUser == nullptr) {
@@ -325,7 +325,7 @@ void CMTProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 	}
 }
 
-void CMTProto::ProcessMessage(TD::updateNewMessage *pObj)
+void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 {
 	auto &pMessage = pObj->message_;
 
@@ -359,7 +359,7 @@ void CMTProto::ProcessMessage(TD::updateNewMessage *pObj)
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
-void CMTProto::ProcessStatus(TD::updateUserStatus *pObj)
+void CTelegramProto::ProcessStatus(TD::updateUserStatus *pObj)
 {
 	if (auto *pUser = FindUser(pObj->user_id_)) {
 		if (pObj->status_->get_id() == TD::userStatusOnline::ID)
@@ -372,7 +372,7 @@ void CMTProto::ProcessStatus(TD::updateUserStatus *pObj)
 	}
 }
 
-void CMTProto::ProcessUser(TD::updateUser *pObj)
+void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
 

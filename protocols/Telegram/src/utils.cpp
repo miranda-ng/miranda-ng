@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-void CMTProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
+void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
 {
 	if (str.empty())
 		delSetting(hContact, pszSetting);
@@ -28,7 +28,7 @@ void CMTProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
 
-TG_USER* CMTProto::FindUser(uint64_t id)
+TG_USER* CTelegramProto::FindUser(uint64_t id)
 {
 	if (auto *pCache = m_arUsers.find((TG_USER *)&id))
 		return pCache;
@@ -36,7 +36,7 @@ TG_USER* CMTProto::FindUser(uint64_t id)
 	return nullptr;
 }
 
-TG_USER* CMTProto::AddUser(uint64_t id, bool bIsChat)
+TG_USER* CTelegramProto::AddUser(uint64_t id, bool bIsChat)
 {
 	auto *pUser = FindUser(id);
 	if (pUser != nullptr)
@@ -67,7 +67,7 @@ TG_USER* CMTProto::AddUser(uint64_t id, bool bIsChat)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 
-void CMTProto::InitPopups(void)
+void CTelegramProto::InitPopups(void)
 {
 	g_plugin.addPopupOption(CMStringW(FORMAT, TranslateT("%s error notifications"), m_tszUserName), m_bUsePopups);
 
@@ -90,7 +90,7 @@ void CMTProto::InitPopups(void)
 	IcoLib_ReleaseIcon(ppc.hIcon);
 }
 
-void CMTProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
+void CTelegramProto::Popup(MCONTACT hContact, const wchar_t *szMsg, const wchar_t *szTitle)
 {
 	if (!m_bUsePopups)
 		return;

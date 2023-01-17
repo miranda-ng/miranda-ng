@@ -21,24 +21,24 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ///////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CALLBACK CMTProto::EnterPhoneCode(void *param)
+INT_PTR CALLBACK CTelegramProto::EnterPhoneCode(void *param)
 {
-	auto *ppro = (CMTProto *)param;
+	auto *ppro = (CTelegramProto *)param;
 
 	ENTER_STRING es = {};
 	es.szModuleName = ppro->m_szModuleName;
 	es.caption = TranslateT("Enter secret code sent to your phone");
 	if (EnterString(&es)) {
-		ppro->SendQuery(new TD::checkAuthenticationCode(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationCode(_T2A(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
 	return 0;
 }
 
-INT_PTR CALLBACK CMTProto::EnterPassword(void *param)
+INT_PTR CALLBACK CTelegramProto::EnterPassword(void *param)
 {
-	auto *ppro = (CMTProto *)param;
+	auto *ppro = (CTelegramProto *)param;
 	CMStringW wszTitle(TranslateT("Enter password"));
 
 	auto *pAuth = (TD::authorizationStateWaitPassword *)ppro->pAuthState.get();
@@ -50,14 +50,14 @@ INT_PTR CALLBACK CMTProto::EnterPassword(void *param)
 	es.caption = wszTitle;
 	es.type = ESF_PASSWORD;
 	if (EnterString(&es)) {
-		ppro->SendQuery(new TD::checkAuthenticationPassword(_T2A(es.ptszResult).get()), &CMTProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationPassword(_T2A(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
 	return 0;
 }
 
-void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
+void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 {
 	pAuthState = std::move(pObj->authorization_state_);
 	switch (pAuthState->get_id()) {
@@ -80,12 +80,12 @@ void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 			request->device_model_ = T2Utf(m_wszDeviceName).get();
 			request->application_version_ = text;
 			request->enable_storage_optimizer_ = true;
-			SendQuery(request, &CMTProto::OnUpdateAuth);
+			SendQuery(request, &CTelegramProto::OnUpdateAuth);
 		}
 		break;
 
 	case TD::authorizationStateWaitPhoneNumber::ID:
-		SendQuery(new TD::setAuthenticationPhoneNumber(_T2A(m_szOwnPhone).get(), nullptr), &CMTProto::OnUpdateAuth);
+		SendQuery(new TD::setAuthenticationPhoneNumber(_T2A(m_szOwnPhone).get(), nullptr), &CTelegramProto::OnUpdateAuth);
 		break;
 
 	case TD::authorizationStateWaitCode::ID:
@@ -107,7 +107,7 @@ void CMTProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 	}
 }
 
-void CMTProto::OnUpdateAuth(td::ClientManager::Response &response)
+void CTelegramProto::OnUpdateAuth(td::ClientManager::Response &response)
 {
 	if (response.object->get_id() == TD::error::ID) {
 		auto *pError = (TD::error *)response.object.get();

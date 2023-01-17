@@ -17,7 +17,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
-INT_PTR CMTProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR CTelegramProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam) {
 	case AF_MAXSIZE:
@@ -41,7 +41,7 @@ INT_PTR CMTProto::SvcGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMTProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
+INT_PTR CTelegramProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	auto *pai = (PROTO_AVATAR_INFORMATION *)lParam;
 
@@ -59,19 +59,19 @@ INT_PTR CMTProto::SvcGetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-INT_PTR CMTProto::SvcGetMyAvatar(WPARAM, LPARAM)
+INT_PTR CTelegramProto::SvcGetMyAvatar(WPARAM, LPARAM)
 {
 	return 1;
 }
 
-INT_PTR CMTProto::SvcSetMyAvatar(WPARAM, LPARAM)
+INT_PTR CTelegramProto::SvcSetMyAvatar(WPARAM, LPARAM)
 {
 	return 1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMTProto::ProcessFile(TD::updateFile *pObj)
+void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 {
 	if (auto *pFile = pObj->file_.get()) {
 		if (!pFile->local_->is_downloading_completed_)

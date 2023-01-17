@@ -8,9 +8,9 @@
 #define DBKEY_AVATAR_PATH "AvatarPath"
 #define DBKEY_AVATAR_TYPE "AvatarType"
 
-class CMTProto;
-typedef void (CMTProto:: *TG_QUERY_HANDLER)(td::ClientManager::Response &response);
-typedef void (CMTProto:: *TG_QUERY_HANDLER_FULL)(td::ClientManager::Response &response, void *pUserInfo);
+class CTelegramProto;
+typedef void (CTelegramProto:: *TG_QUERY_HANDLER)(td::ClientManager::Response &response);
+typedef void (CTelegramProto:: *TG_QUERY_HANDLER_FULL)(td::ClientManager::Response &response, void *pUserInfo);
 
 struct TG_REQUEST_BASE
 {
@@ -23,7 +23,7 @@ struct TG_REQUEST_BASE
 
 	td::ClientManager::RequestId requestId;
 
-	virtual void Execute(CMTProto *ppro, td::ClientManager::Response &response) = 0;
+	virtual void Execute(CTelegramProto *ppro, td::ClientManager::Response &response) = 0;
 };
 
 struct TG_REQUEST : public TG_REQUEST_BASE
@@ -35,7 +35,7 @@ struct TG_REQUEST : public TG_REQUEST_BASE
 
 	TG_QUERY_HANDLER pHandler;
 
-	void Execute(CMTProto *ppro, td::ClientManager::Response &response) override
+	void Execute(CTelegramProto *ppro, td::ClientManager::Response &response) override
 	{
 		(ppro->*pHandler)(response);
 	}
@@ -52,7 +52,7 @@ struct TG_REQUEST_FULL : public TG_REQUEST_BASE
 	TG_QUERY_HANDLER_FULL pHandler;
 	void *pUserInfo;
 
-	void Execute(CMTProto *ppro, td::ClientManager::Response &response) override
+	void Execute(CTelegramProto *ppro, td::ClientManager::Response &response) override
 	{
 		(ppro->*pHandler)(response, pUserInfo);
 	}
@@ -75,12 +75,12 @@ struct TG_USER
 	time_t    m_timer1 = 0, m_timer2 = 0;
 };
 
-class CMTProto : public PROTO<CMTProto>
+class CTelegramProto : public PROTO<CTelegramProto>
 {
 	class CProtoImpl
 	{
-		friend class CMTProto;
-		CMTProto &m_proto;
+		friend class CTelegramProto;
+		CTelegramProto &m_proto;
 
 		CTimer m_keepAlive, m_markRead;
 		void OnKeepAlive(CTimer *)
@@ -91,7 +91,7 @@ class CMTProto : public PROTO<CMTProto>
 		{	m_proto.SendMarkRead();
 		}
 
-		CProtoImpl(CMTProto &pro) :
+		CProtoImpl(CTelegramProto &pro) :
 			m_proto(pro),
 			m_markRead(Miranda_GetSystemWindow(), UINT_PTR(this)),
 			m_keepAlive(Miranda_GetSystemWindow(), UINT_PTR(this)+1)
@@ -169,8 +169,8 @@ public:
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Ctors
 
-	CMTProto(const char *protoName, const wchar_t *userName);
-	~CMTProto();
+	CTelegramProto(const char *protoName, const wchar_t *userName);
+	~CTelegramProto();
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// Virtual functions

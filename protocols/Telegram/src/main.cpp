@@ -27,7 +27,7 @@ PLUGININFOEX pluginInfo =
 };
 
 CMPlugin::CMPlugin() :
-	ACCPROTOPLUGIN<CMTProto>("Telegram", pluginInfo)
+	ACCPROTOPLUGIN<CTelegramProto>("Telegram", pluginInfo)
 {
 	SetUniqueId(DBKEY_ID);
 }

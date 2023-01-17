@@ -36,7 +36,7 @@ namespace TD = td::td_api;
 #include "proto.h"
 #include "utils.h"
 
-struct CMPlugin : public ACCPROTOPLUGIN<CMTProto>
+struct CMPlugin : public ACCPROTOPLUGIN<CTelegramProto>
 {
 	CMPlugin();
 

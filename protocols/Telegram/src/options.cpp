@@ -19,15 +19,15 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class COptionsDlg : public CProtoDlgBase<CMTProto>
+class COptionsDlg : public CProtoDlgBase<CTelegramProto>
 {
 	CCtrlCheck chkHideChats, chkUsePopups;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
 
 public:
-	COptionsDlg(CMTProto *ppro, int iDlgID, bool bFullDlg) :
-		CProtoDlgBase<CMTProto>(ppro, iDlgID),
+	COptionsDlg(CTelegramProto *ppro, int iDlgID, bool bFullDlg) :
+		CProtoDlgBase<CTelegramProto>(ppro, iDlgID),
 		chkUsePopups(this, IDC_POPUPS),
 		chkHideChats(this, IDC_HIDECHATS),
 		edtPhone(this, IDC_PHONE),
@@ -59,7 +59,7 @@ public:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-INT_PTR CMTProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
+INT_PTR CTelegramProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
 {
 	auto *pDlg = new COptionsDlg(this, IDD_ACCMGRUI, false);
 	pDlg->SetParent((HWND)hwndParent);
@@ -67,7 +67,7 @@ INT_PTR CMTProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
 	return (INT_PTR)pDlg->GetHwnd();
 }
 
-int CMTProto::OnOptionsInit(WPARAM wParam, LPARAM)
+int CTelegramProto::OnOptionsInit(WPARAM wParam, LPARAM)
 {
 	OPTIONSDIALOGPAGE odp = {};
 	odp.szTitle.w = m_tszUserName;
