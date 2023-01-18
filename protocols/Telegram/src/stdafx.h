@@ -25,6 +25,8 @@
 #include <m_popup.h>
 #include <m_smileyadd.h>
 
+#include "../../libs/freeimage/src/FreeImage.h"
+
 #include "td/telegram/Client.h"
 #include "td/telegram/td_api.h"
 #include "td/telegram/td_api.hpp"

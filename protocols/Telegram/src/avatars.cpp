@@ -87,8 +87,17 @@ void CTelegramProto::ProcessFile(TD::updateFile *pObj)
 
 		for (auto &it : m_arFiles) {
 			if (it->m_uniqueId == pFile->remote_->unique_id_.c_str()) {
-				MoveFileW(wszExistingFile, it->m_destPath);
 				if (it->m_type == it->AVATAR) {
+					if (it->m_destPath.Right(5).MakeLower() == L".webp") {
+						if (auto *pImage = FreeImage_LoadU(FIF_WEBP, wszExistingFile)) {
+							it->m_destPath.Truncate(it->m_destPath.GetLength() - 5);
+							it->m_destPath += L".png";
+							FreeImage_SaveU(FIF_PNG, pImage, it->m_destPath);
+							FreeImage_Unload(pImage);
+						}
+					}
+					else MoveFileW(wszExistingFile, it->m_destPath);
+					
 					SMADD_CONT cont = {1, m_szModuleName, it->m_destPath};
 					CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, LPARAM(&cont));
 				}
