@@ -845,6 +845,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 {
 	SrmmModulesLoaded();
 	LoadChatIcons();
+	CheckChatCompatibility();
 
 	HookEvent(ME_SMILEYADD_OPTIONSCHANGED, SmileyOptionsChanged);
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);

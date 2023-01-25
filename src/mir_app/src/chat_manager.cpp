@@ -957,7 +957,7 @@ static void ResetApi()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static void CheckUpdate()
+void 	CheckChatCompatibility()
 {
 	if (db_get_b(0, "Compatibility", "GroupChats") < 1) {
 		for (auto &cc : Contacts()) {
@@ -978,7 +978,7 @@ static void CheckUpdate()
 
 					db_unset(cc, pa->szModuleName, "ChatRoomID");
 				}
-				else Netlib_Logf(0, "Protocol %s {%s} not found", pa->szModuleName, pd->szUniqueId);
+				else Netlib_Logf(0, "Protocol %s not found", pa->szModuleName);
 			}
 		}
 		db_set_b(0, "Compatibility", "GroupChats", 1);
@@ -1038,7 +1038,6 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();
-	CheckUpdate();
 	return &g_chatApi;
 }
 

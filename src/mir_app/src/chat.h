@@ -28,6 +28,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 void Srmm_CreateToolbarIcons(HWND hwndDlg, int flags);
 void Srmm_ProcessToolbarHotkey(MCONTACT hContact, INT_PTR iButtonFrom, HWND hwndDlg);
 
+void CheckChatCompatibility();
+
 class CLogWindow : public CSrmmLogWindow {};
 
 extern HPLUGIN  g_pChatPlugin;
