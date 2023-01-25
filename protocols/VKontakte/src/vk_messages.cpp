@@ -164,7 +164,7 @@ void CVkProto::MarkMessagesRead(const MCONTACT hContact)
 		return;
 
 	LONG userID = getDword(hContact, "ID", VK_INVALID_USER);
-	if (userID == VK_INVALID_USER || userID == VK_FEED_USER)
+	if (userID == VK_INVALID_USER || userID == VK_FEED_USER || isChatRoom(hContact))
 		return;
 
 	Push(new AsyncHttpRequest(this, REQUEST_GET, "/method/messages.markAsRead.json", true, &CVkProto::OnReceiveSmth, AsyncHttpRequest::rpLow)

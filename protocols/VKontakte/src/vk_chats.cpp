@@ -67,7 +67,7 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 	}
 
 	CMStringW sid;
-	sid.Format(L"%S_%d", m_szModuleName, iChatId);
+	sid.Format(L"%d", iChatId);
 	vkChatInfo->m_wszId = mir_wstrdup(sid);
 
 
