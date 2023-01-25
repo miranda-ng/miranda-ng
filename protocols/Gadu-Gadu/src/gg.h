@@ -199,7 +199,7 @@ struct GGGETAVATARDATA
 #define GG_KEYDEF_IMGMETHOD		1
 
 // newline separated list of hosts for server connection
-#define GG_KEYDEF_SERVERHOSTS	L"91.214.237.7\r\n91.214.237.8\r\n91.214.237.9\r\n91.214.237.10\r\n91.214.237.11\r\n91.214.237.12\r\n91.214.237.13\r\n91.214.237.14\r\n91.214.237.15\r\n91.214.237.16\r\n91.214.237.17"
+#define GG_KEYDEF_SERVERHOSTS	L"31.186.82.43\r\n31.186.82.226\r\n31.186.83.1\r\n31.186.83.9\r\n31.186.83.70\r\n77.79.250.102\r\n85.194.241.23\r\n91.185.185.102"
 
 #define GG_KEY_CLIENTIP 		"IP"			// Contact IP (by notify)
 #define GG_KEY_CLIENTPORT		"ClientPort"	// Contact port
