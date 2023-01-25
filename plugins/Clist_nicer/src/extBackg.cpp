@@ -1315,7 +1315,7 @@ void LoadPerContactSkins(wchar_t *tszFileName)
 				continue;
 
 			const char *uid = Proto_GetUniqueId(szProto);
-			if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid != nullptr) {
+			if (uid != nullptr) {
 				DBVARIANT dbv = { 0 };
 				if (db_get(hContact, szProto, uid, &dbv))
 					break;

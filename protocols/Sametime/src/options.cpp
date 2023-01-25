@@ -350,15 +350,15 @@ void CSametimeProto::LoadOptions()
 {
 	DBVARIANT dbv;
 
-	if (!db_get_utf(0, m_szModuleName, "ServerName", &dbv)) {
+	if (!getUString(0, "ServerName", &dbv)) {
 		strncpy(options.server_name, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
-	if (!db_get_utf(0, m_szModuleName, "stid", &dbv)) {
+	if (!getUString(0, "stid", &dbv)) {
 		strncpy(options.id, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
-	if (!db_get_utf(0, m_szModuleName, "Password", &dbv)) {
+	if (!getUString(0, "Password", &dbv)) {
 		strncpy(options.pword, dbv.pszVal, LSTRINGLEN);
 		db_free(&dbv);
 	}
@@ -398,20 +398,19 @@ void CSametimeProto::LoadOptions()
 
 void CSametimeProto::SaveOptions()
 {
-	db_set_utf(0, m_szModuleName, "ServerName", options.server_name);
+	setUString("ServerName", options.server_name);
 
-	db_set_utf(0, m_szModuleName, "stid", options.id);
-	//db_set_s(0, m_szModuleName, "Nick", options.id);
-	db_set_utf(0, m_szModuleName, "Password", options.pword);
+	setUString("stid", options.id);
+	setUString("Password", options.pword);
 
-	db_set_dw(0, m_szModuleName, "ServerPort", options.port);
-	db_set_b(0, m_szModuleName, "GetServerContacts", options.get_server_contacts ? 1 : 0);
-	db_set_dw(0, m_szModuleName, "ClientID", options.client_id);
-	db_set_dw(0, m_szModuleName, "ClientVersionMajor", options.client_versionMajor);
-	db_set_dw(0, m_szModuleName, "ClientVersionMinor", options.client_versionMinor);
-	db_set_b(0, m_szModuleName, "ErrorDisplay", options.err_method);
-
-	db_set_b(0, m_szModuleName, "AutoAddContacts", options.add_contacts ? 1 : 0);
-	db_set_b(0, m_szModuleName, "EncryptSession", options.encrypt_session ? 1 : 0);
-	db_set_b(0, m_szModuleName, "IdleAsAway", options.idle_as_away ? 1 : 0);
+	setDword("ServerPort", options.port);
+	setByte("GetServerContacts", options.get_server_contacts ? 1 : 0);
+	setDword("ClientID", options.client_id);
+	setDword("ClientVersionMajor", options.client_versionMajor);
+	setDword("ClientVersionMinor", options.client_versionMinor);
+	
+	setByte("ErrorDisplay", options.err_method);
+	setByte("AutoAddContacts", options.add_contacts ? 1 : 0);
+	setByte("EncryptSession", options.encrypt_session ? 1 : 0);
+	setByte("IdleAsAway", options.idle_as_away ? 1 : 0);
 }

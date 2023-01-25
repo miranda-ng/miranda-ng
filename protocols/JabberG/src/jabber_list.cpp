@@ -89,16 +89,9 @@ void JABBER_RESOURCE_STATUS::Release()
 void CJabberProto::ListInit(void)
 {
 	for (auto &hContact : AccContacts()) {
-		if (isChatRoom(hContact)) {
-			ptrA jid(getUStringA(hContact, "ChatRoomID"));
-			if (jid != nullptr)
-				ListAdd(LIST_CHATROOM, jid, hContact);
-		}
-		else {
-			ptrA jid(getUStringA(hContact, "jid"));
-			if (jid != nullptr)
-				ListAdd(LIST_ROSTER, jid, hContact);
-		}
+		ptrA jid(ContactToJID(hContact));
+		if (jid != nullptr)
+			ListAdd(isChatRoom(hContact) ? LIST_CHATROOM : LIST_ROSTER, jid, hContact);
 	}
 }
 

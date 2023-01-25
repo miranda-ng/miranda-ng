@@ -78,7 +78,6 @@ uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 	uint8_t		ret = FALSE;
 	uint8_t		isChatRoom = FALSE;
 	LPSTR		pszProto;
-	LPCSTR		uidSetting;
 	DBVARIANT	dbv;
 
 	_hContact = hContact;
@@ -106,29 +105,16 @@ uint8_t CExImContactBase::fromDB(MCONTACT hContact)
 		db_free(&dbv);
 	}
 
-	// unique id (for ChatRoom)
-	if (isChatRoom = Contact::IsGroupChat(_hContact, pszProto)) {
-		uidSetting = "ChatRoomID";
+	LPCSTR uidSetting = Proto_GetUniqueId(pszProto);
+	if (uidSetting != nullptr) { // valid
 		_pszUIDKey = mir_strdup(uidSetting);
 		if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {
 			ret = TRUE;
 		}
 	}
-	// unique id (normal)
+	// fails because the protocol is no longer installed
 	else {
-		uidSetting = Proto_GetUniqueId(pszProto);
-		// valid
-		if (uidSetting != nullptr && (INT_PTR)uidSetting != CALLSERVICE_NOTFOUND) {
-			_pszUIDKey = mir_strdup(uidSetting);
-			if (!DB::Setting::GetAsIs(_hContact, pszProto, uidSetting, &_dbvUID)) {
-				ret = TRUE;
-			}
-		}
-		// fails because the protocol is no longer installed
-		else {
-			// assert(ret == TRUE);
-			ret = TRUE;
-		}
+		ret = TRUE;
 	}
 
 	// nickname

@@ -83,7 +83,7 @@ void CTelegramProto::OnModulesLoaded()
 		}
 
 		bool isGroupChat = isChatRoom(cc);
-		szId = getMStringA(cc, isGroupChat ? "ChatRoomID" : DBKEY_ID);
+		szId = getMStringA(cc, DBKEY_ID);
 		if (!szId.IsEmpty()) {
 			auto *pUser = new TG_USER(_atoi64(szId.c_str()), cc, isGroupChat);
 			pUser->szAvatarHash = getMStringA(cc, DBKEY_AVATAR_HASH);

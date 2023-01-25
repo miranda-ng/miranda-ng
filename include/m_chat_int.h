@@ -307,7 +307,6 @@ struct CHAT_MANAGER
 
 	BOOL          (*SetOffline)(MCONTACT hContact, BOOL bHide);
 	BOOL          (*SetAllOffline)(BOOL bHide, const char *pszModule);
-	MCONTACT      (*FindRoom)(const char *pszModule, const wchar_t *pszRoom);
 
 	char*         (*Log_CreateRTF)(LOGSTREAMDATA *streamData);
 	char*         (*Log_CreateRtfHeader)(void);

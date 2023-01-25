@@ -120,6 +120,4 @@ HWND FtMgr_Show(bool bForceActivate, bool bFromMenu);
 void FtMgr_Destroy();
 void FtMgr_AddTransfer(FileDlgData *dat);
 
-wchar_t *GetContactID(MCONTACT hContact);
-
 extern HANDLE hDlgSucceeded, hDlgCanceled;

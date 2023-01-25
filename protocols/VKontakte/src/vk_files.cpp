@@ -363,14 +363,7 @@ void CVkProto::OnReciveUploadFile(NETLIBHTTPREQUEST *reply, AsyncHttpRequest *pR
 	AsyncHttpRequest *pMsgReq;
 
 	if (isChatRoom(fup->hContact)) {
-
-		ptrW wszChatID(getWStringA(fup->hContact, "ChatRoomID"));
-		if (!wszChatID) {
-			SendFileFiled(fup, VKERR_INVALID_USER);
-			return;
-		}
-
-		CVkChatInfo *cc = GetChatById(wszChatID);
+		CVkChatInfo *cc = GetChatByContact(fup->hContact);
 		if (cc == nullptr) {
 			SendFileFiled(fup, VKERR_INVALID_USER);
 			return;

@@ -357,6 +357,7 @@ private:
 	int IsHystoryMessageExist(MCONTACT hContact);
 	void SetSrmmReadStatus(MCONTACT hContact);
 	void MarkDialogAsRead(MCONTACT hContact);
+	void CheckUpdate();
 	char* GetStickerId(const char *Msg, int& stickerid);
 	CMStringA GetAttachmentsFromMessage(const char * Msg);
 	CMStringW SpanVKNotificationType(CMStringW& wszType, VKObjType& vkFeedback, VKObjType& vkParent);
@@ -413,6 +414,7 @@ private:
 	LPTSTR ChangeChatTopic(CVkChatInfo*);
 	void SetChatStatus(MCONTACT hContact, int iStatus);
 	CVkChatInfo* GetChatById(LPCWSTR pwszId);
+	CVkChatInfo* GetChatByContact(MCONTACT hContact);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	void __cdecl GetAwayMsgThread(void* p);
 };

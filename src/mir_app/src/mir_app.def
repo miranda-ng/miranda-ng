@@ -456,7 +456,7 @@ Proto_SetUniqueId @549
 ?IsEnabled@PROTOACCOUNT@@QBE_NXZ @552 NONAME
 ?IsLocked@PROTOACCOUNT@@QBE_NXZ @553 NONAME
 ?IsVisible@PROTOACCOUNT@@QBE_NXZ @554 NONAME
-?SetUniqueId@CMPluginBase@@IAEXPBD@Z @555 NONAME
+?SetUniqueId@CMPluginBase@@IAEXPBDH@Z @555 NONAME
 Clist_GetProtocolVisibility @556
 ?Accounts@@YGAAU?$LIST@UPROTOACCOUNT@@@@XZ @557 NONAME
 Clist_InitAutoRebuild @558

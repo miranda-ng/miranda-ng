@@ -156,7 +156,7 @@ protected:
 
 	// pass one of PROTOTYPE_* constants as type
 	void RegisterProtocol(int type, pfnInitProto = nullptr, pfnUninitProto = nullptr);
-	void SetUniqueId(const char *pszUniqueId);
+	void SetUniqueId(const char *pszUniqueId, int type = 0);
 
 public:
 	void debugLogA(LPCSTR szFormat, ...);

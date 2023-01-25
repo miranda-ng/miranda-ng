@@ -48,7 +48,7 @@ CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<GaduProto>(GGDEF_PROTO, pluginInfoEx)
 {
 	crc_gentable();
-	SetUniqueId(GG_KEY_UIN);
+	SetUniqueId(GG_KEY_UIN, DBVT_DWORD);
 }
 
 //////////////////////////////////////////////////////////

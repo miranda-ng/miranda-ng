@@ -90,7 +90,6 @@ void          UM_SortUser(SESSION_INFO *si);
 
 // clist.c
 MCONTACT      AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType);
-MCONTACT      FindRoom(const char *pszModule, const wchar_t *pszRoom);
 BOOL          SetAllOffline(BOOL bHide, const char *pszModule);
 BOOL          SetOffline(MCONTACT hContact, BOOL bHide);
 		        

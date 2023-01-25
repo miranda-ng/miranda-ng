@@ -423,7 +423,7 @@ void CJabberProto::OnIqResultSession(const TiXmlElement*, CJabberIqInfo *pInfo)
 
 void CJabberProto::GroupchatJoinByHContact(MCONTACT hContact, bool autojoin)
 {
-	ptrA roomjid(getUStringA(hContact, "ChatRoomID"));
+	ptrA roomjid(ContactToJID(hContact));
 	if (roomjid == nullptr)
 		return;
 

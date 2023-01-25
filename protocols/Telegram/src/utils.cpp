@@ -47,17 +47,14 @@ TG_USER* CTelegramProto::AddUser(uint64_t id, bool bIsChat)
 
 	char szId[100];
 	_i64toa(id, szId, 10);
+	setString(hContact, DBKEY_ID, szId);
 
 	if (bIsChat) {
 		Clist_SetGroup(hContact, TranslateT("Chat rooms"));
 		setByte(hContact, "ChatRoom", 1);
-		setString(hContact, "ChatRoomID", szId);
 	}
-	else {
-		setString(hContact, DBKEY_ID, szId);
-		if (mir_wstrlen(m_wszDefaultGroup))
-			Clist_SetGroup(hContact, m_wszDefaultGroup);
-	}
+	else if (mir_wstrlen(m_wszDefaultGroup))
+		Clist_SetGroup(hContact, m_wszDefaultGroup);
 
 	pUser = new TG_USER(id, hContact, bIsChat);
 	m_arUsers.insert(pUser);

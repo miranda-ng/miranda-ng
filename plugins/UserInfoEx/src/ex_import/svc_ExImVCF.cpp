@@ -1111,7 +1111,7 @@ uint8_t CVCardFileVCF::Export(uint8_t bExportUtf)
 	// contacts protocol, uin setting, uin value
 	//
 	LPCSTR uid = Proto_GetUniqueId(_pszBaseProto);
-	if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
+	if (uid) {
 		CHAR szUID[MAXUID];
 		if (!db_get_static(_hContact, _pszBaseProto, uid, szUID, sizeof(szUID)))
 			fprintf(_pFile, "IM;%s;%s:%s\n", _pszBaseProto, uid, szUID);

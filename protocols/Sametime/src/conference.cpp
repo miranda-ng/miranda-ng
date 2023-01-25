@@ -323,7 +323,7 @@ int CSametimeProto::ChatDeleted(MCONTACT hContact) {
 
 	debugLogW(L"CSametimeProto::ChatDeleted() hContact=[%x]", hContact);
 	DBVARIANT dbv;
-	if (!db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv)) {
+	if (!getUString(hContact, "stid", &dbv)) {
 		TerminateConference(dbv.pszVal);
 		db_free(&dbv);
 	}
@@ -384,7 +384,7 @@ int CSametimeProto::PrebuildContactMenu(WPARAM wParam, LPARAM)
 	// if user is already in our meeting, 
 	bool not_present = true;
 	DBVARIANT dbv;
-	if (my_conference && !db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
+	if (my_conference && !getUString(hContact, "stid", &dbv)) {
 		char* user_id = dbv.pszVal;
 
 		GList *members, *mem;

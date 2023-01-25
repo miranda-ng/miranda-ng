@@ -114,7 +114,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 	// Check if we got our protocol, and fields are set
 	if (!gch || !gch->si->ptszID || !gch->si->pszModule
 		|| mir_strcmpi(gch->si->pszModule, m_szModuleName)
-		|| !(uin = getDword(GG_KEY_UIN, 0))
+		|| !(uin = getDword(gch->si->hContact, GG_KEY_UIN))
 		|| !(chat = gc_lookup(gch->si->ptszID)))
 		return 0;
 
@@ -126,16 +126,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		list_remove(&chats, chat, 1);
 
 		// Remove contact from contact list (duh!) should be done by chat.dll !!
-		for (MCONTACT hContact = db_find_first(); hContact; ) {
-			MCONTACT hNext = db_find_next(hContact);
-			DBVARIANT dbv;
-			if (!getWString(hContact, "ChatRoomID", &dbv)) {
-				if (dbv.pwszVal && !mir_wstrcmp(gch->si->ptszID, dbv.pwszVal))
-					db_delete_contact(hContact);
-				db_free(&dbv);
-			}
-			hContact = hNext;
-		}
+		db_delete_contact(gch->si->hContact);
 		return 1;
 	}
 

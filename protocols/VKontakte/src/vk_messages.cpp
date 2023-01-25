@@ -26,8 +26,8 @@ int CVkProto::SendMsg(MCONTACT hContact, int, const char *szMsg)
 		return 0;
 
 	bool bIsChat = isChatRoom(hContact);
-	LONG iUserID = getDword(hContact, bIsChat ? "vk_chat_id" : "ID", VK_INVALID_USER);
 
+	LONG iUserID = getDword(hContact, "ID", VK_INVALID_USER);
 	if (iUserID == VK_INVALID_USER || iUserID == VK_FEED_USER) {
 		ProtoBroadcastAsync(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, 0);
 		return 0;

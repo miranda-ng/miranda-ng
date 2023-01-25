@@ -88,41 +88,31 @@ begin
   proto:=Proto_GetBaseAccountName(hContact);
   if proto<>nil then
   begin
-    is_chat:=IsChat(hContact);
-    if is_chat then
+    uid:=Proto_GetUniqueId(proto);
+    if DBReadSetting(hContact,proto,uid,@cws)=0 then
     begin
-      p:=DBReadUnicode(hContact,proto,'ChatRoomID');
-      node.AddTextW('id',p);
-      mFreeMem(p);
       result:=1;
-    end
-    else
-    begin
-      uid:=Proto_GetUniqueId(proto);
-      if DBReadSetting(hContact,proto,uid,@cws)=0 then
-      begin
-        result:=1;
-        node.AddDWord('ctype',cws._type);
-        case cws._type of
-          DBVT_BYTE  : node.AddDWord('id',cws.bVal);
-          DBVT_WORD  : node.AddDWord('id',cws.wVal);
-          DBVT_DWORD : node.AddDWord('id',cws.dVal);
-          DBVT_ASCIIZ: begin
-            node.AddText('id',cws.szVal.A); // ansi to utf
-          end;
-          DBVT_UTF8  : begin
-            node.AddText('id',cws.szVal.A);
-          end;
-          DBVT_WCHAR : node.AddTextW('id',cws.szVal.W);
-          DBVT_BLOB  : begin
-            p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
-            node.AddText('id',p1);
-            mir_free(p1);
-          end;
+      node.AddDWord('ctype',cws._type);
+      case cws._type of
+        DBVT_BYTE  : node.AddDWord('id',cws.bVal);
+        DBVT_WORD  : node.AddDWord('id',cws.wVal);
+        DBVT_DWORD : node.AddDWord('id',cws.dVal);
+        DBVT_ASCIIZ: begin
+          node.AddText('id',cws.szVal.A); // ansi to utf
+        end;
+        DBVT_UTF8  : begin
+          node.AddText('id',cws.szVal.A);
+        end;
+        DBVT_WCHAR : node.AddTextW('id',cws.szVal.W);
+        DBVT_BLOB  : begin
+          p1:=mir_base64_encode(cws.pbVal,cws.cpbVal);
+          node.AddText('id',p1);
+          mir_free(p1);
         end;
       end;
-      db_free(@cws);
     end;
+    db_free(@cws);
+    
     if result<>0 then
     begin
       node.AddText('protocol',proto);

@@ -1210,14 +1210,14 @@ void GaduProto::broadcastnewstatus(int newStatus)
 
 void GaduProto::OnContactDeleted(MCONTACT hContact)
 {
-	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN, 0);
+	uin_t uin = (uin_t)getDword(hContact, GG_KEY_UIN);
 
 	// Terminate conference if contact is deleted
-	ptrW wszRoomId(getWStringA(hContact, "ChatRoomID"));
-	if (isChatRoom(hContact) && wszRoomId != NULL && gc_enabled)
+	if (isChatRoom(hContact) && uin && gc_enabled)
 	{
+		CMStringW wszRoomId(FORMAT, L"%d", uin);
 		GGGC *chat = gc_lookup(wszRoomId);
-		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId.get());
+		debugLogA("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, wszRoomId.c_str());
 		if (chat)
 		{
 			// Destroy chat entry
@@ -1279,20 +1279,20 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 			return 0;
 
 		// Groupchat window contact is being renamed
-		DBVARIANT dbv;
-		if (isChatRoom(hContact) && !getWString(hContact, "ChatRoomID", &dbv))
+		if (isChatRoom(hContact))
 		{
+			CMStringW wszId(FORMAT, L"%d", getDword(hContact, GG_KEY_UIN));
+
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
-			if (!cascade && dbv.pwszVal)
+			if (!cascade)
 			{
-				debugLogA("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
+				debugLogA("dbsettingchanged(): Conference %s was renamed.", wszId.c_str());
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				Chat_ChangeSessionName(m_szModuleName, dbv.pwszVal, ptszVal);
+				Chat_ChangeSessionName(m_szModuleName, wszId, ptszVal);
 				/* FIXME */ cascade = 0;
 			}
-			db_free(&dbv);
 		}
 		else {
 			// Change contact name on all chats

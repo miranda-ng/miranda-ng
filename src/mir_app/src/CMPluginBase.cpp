@@ -332,12 +332,14 @@ void CMPluginBase::RegisterProtocol(int type, pfnInitProto fnInit, pfnUninitProt
 	}
 }
 
-void CMPluginBase::SetUniqueId(const char *pszUniqueId)
+void CMPluginBase::SetUniqueId(const char *pszUniqueId, int type)
 {
 	if (pszUniqueId == nullptr)
 		return;
 
 	MBaseProto *pd = g_arProtos.find((MBaseProto*)&m_szModuleName);
-	if (pd != nullptr)
+	if (pd != nullptr) {
 		pd->szUniqueId = mir_strdup(pszUniqueId);
+		pd->iUniqueIdType = (type == 0) ? DBVT_WCHAR : type;
+	}
 }

@@ -162,19 +162,6 @@ void MinecraftDynmapProto::ClearChat()
 // TODO: Could this be done better?
 MCONTACT MinecraftDynmapProto::GetChatHandle()
 {
-	/*if (chatHandle_ != NULL)
-		return chatHandle_;
-
-	for (auto &hContact : AccContacts()) {
-		if (db_get_b(hContact, m_szModuleName, "ChatRoom", 0) > 0) {
-			ptrA id = db_get_sa(hContact, m_szModuleName, "ChatRoomId");
-			if (id != NULL && !strcmp(id, m_szModuleName))
-				return hContact;
-		}
-	}
-
-	return NULL;*/
-
 	GC_INFO gci = {0};
 	gci.Flags = GCF_HCONTACT;
 	gci.pszModule = m_szModuleName;

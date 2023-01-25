@@ -32,15 +32,6 @@ extern wchar_t g_profileDir[MAX_PATH], g_shortProfileName[MAX_PATH];
 static HANDLE hAvatarFolder;
 static wchar_t tszAvatarRoot[MAX_PATH];
 
-wchar_t* GetContactID(MCONTACT hContact)
-{
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (Contact::IsGroupChat(hContact, szProto))
-		return db_get_wsa(hContact, szProto, "ChatRoomID");
-
-	return Contact::GetInfo(CNF_UNIQUEID, hContact, szProto);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Variables parser
 
@@ -63,7 +54,7 @@ static __forceinline char *GetContactNickX(const char*, MCONTACT hContact)
 
 static __forceinline char* GetContactIDX(const char*, MCONTACT hContact)
 {
-	wchar_t *id = GetContactID(hContact);
+	wchar_t *id = Contact::GetInfo(CNF_UNIQUEID, hContact);
 	char* res = mir_u2a(id);
 	mir_free(id);
 	return res;
@@ -151,7 +142,7 @@ static __forceinline wchar_t* GetContactNickX(const wchar_t*, MCONTACT hContact)
 
 static __forceinline wchar_t* GetContactIDX(const wchar_t*, MCONTACT hContact)
 {
-	return GetContactID(hContact);
+	return Contact::GetInfo(CNF_UNIQUEID, hContact);
 }
 
 static __forceinline wchar_t* GetEnvironmentVariableX(const wchar_t *variable)

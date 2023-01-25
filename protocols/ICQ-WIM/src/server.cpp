@@ -491,7 +491,7 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		CheckOwnMessage(reqId, szMsgId, true);
 
 		CMStringW wszSender(it["chat"]["sender"].as_mstring());
-		CMStringW wszChatId(getMStringW(hContact, "ChatRoomID"));
+		CMStringW wszChatId(GetUserId(hContact));
 
 		if (bIsFileTransfer) {
 			wszText = pFileInfo->szUrl;

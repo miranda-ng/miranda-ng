@@ -46,6 +46,7 @@ CVkProto::CVkProto(const char *szModuleName, const wchar_t *pwszUserName) :
 	m_tWorkThreadTimer = m_tPoolThreadTimer = time(0);
 
 	InitQueue();
+	CheckUpdate();
 
 	CreateProtoService(PS_CREATEACCMGRUI, &CVkProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFO, &CVkProto::SvcGetAvatarInfo);

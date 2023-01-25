@@ -154,6 +154,7 @@ struct MBaseProto : public PROTOCOLDESCRIPTOR, public MZeroedObject
 
 	HINSTANCE hInst;
 	char *szUniqueId;  // name of the unique setting that identifies a contact
+	int iUniqueIdType; // DBVT_* 
 };
 
 extern OBJLIST<MBaseProto> g_arProtos;

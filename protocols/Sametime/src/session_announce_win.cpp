@@ -102,7 +102,7 @@ INT_PTR CALLBACK SessionAnnounceDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wPara
 							lvI.mask = LVIF_PARAM;
 							ListView_GetItem(GetDlgItem(hwndDlg, IDC_LST_ANTO), &lvI);
 
-							if (!db_get_utf((MCONTACT)lvI.lParam, proto->m_szModuleName, "stid", &dbv)) {
+							if (!proto->getUString((MCONTACT)lvI.lParam, "stid", &dbv)) {
 								safArg->recipients = g_list_prepend(safArg->recipients, _strdup(dbv.pszVal));
 								mir_strcpy(p, dbv.pszVal);
 								safArg->recipients = g_list_prepend(safArg->recipients, _strdup(id));

@@ -570,8 +570,7 @@ char* CJabberProto::GetClientJID(MCONTACT hContact, char *dest, size_t destLen)
 	if (hContact == 0)
 		return nullptr;
 
-	ptrA jid(getUStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid"));
-	return GetClientJID(jid, dest, destLen);
+	return GetClientJID(ptrA(ContactToJID(hContact)), dest, destLen);
 }
 
 char* CJabberProto::GetClientJID(const char *jid, char *dest, size_t destLen)

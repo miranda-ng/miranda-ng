@@ -285,7 +285,6 @@ class CImportBatch : public MZeroedObject
 	PROTOACCOUNT* FindMyAccount(const char *szProto, const char *szBaseProto, const wchar_t *ptszName, bool bStrict);
 
 	MCONTACT HContactFromID(const char *pszProtoName, const char *pszSetting, wchar_t *pwszID);
-	MCONTACT HContactFromChatID(const char *pszProtoName, const wchar_t *pszChatID);
 	MCONTACT HContactFromNumericID(const char *pszProtoName, const char *pszSetting, uint32_t dwID);
 
 public:

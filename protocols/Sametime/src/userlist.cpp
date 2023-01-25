@@ -5,7 +5,7 @@ MCONTACT CSametimeProto::FindContactByUserId(const char* id)
 {
 	DBVARIANT dbv;
 	for (auto &hContact : AccContacts()) {
-		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
+		if (!getUString(hContact, "stid", &dbv)) {
 			if (dbv.pszVal && mir_strcmp(id, dbv.pszVal) == 0) {
 				db_free(&dbv);
 				return hContact;
@@ -21,7 +21,7 @@ bool CSametimeProto::GetAwareIdFromContact(MCONTACT hContact, mwAwareIdBlock* id
 	char *proto = Proto_GetBaseAccountName(hContact);
 	DBVARIANT dbv;
 	if (proto && !mir_strcmp(m_szModuleName, proto)) {
-		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
+		if (!getUString(hContact, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				id_block->type = mwAware_USER;
 				id_block->user = _strdup(dbv.pszVal);
@@ -73,21 +73,21 @@ MCONTACT CSametimeProto::AddContact(mwSametimeUser* user, bool temporary)
 		Contact::Hide(hContact, false);
 	}
 
-
 	// add to miranda
-	if (new_contact) db_set_utf(hContact, m_szModuleName, "stid", id);
+	if (new_contact)
+		setUString(hContact, "stid", id);
 
 	if (name && mir_strlen(name))
-		db_set_utf(hContact, m_szModuleName, "Name", name);
+		setUString(hContact, "Name", name);
 
-	if (nick && mir_strlen(nick)) {
-		db_set_utf(hContact, m_szModuleName, "Nick", nick);
+	if (mir_strlen(nick)) {
+		setUString(hContact, "Nick", nick);
 	}
-	else if (name && mir_strlen(name)) {
-		db_set_utf(hContact, m_szModuleName, "Nick", name);
+	else if (mir_strlen(name)) {
+		setUString(hContact, "Nick", name);
 	}
 	else {
-		db_set_utf(hContact, m_szModuleName, "Nick", id);
+		setUString(hContact, "Nick", id);
 	}
 
 	db_set_b(hContact, m_szModuleName, "type", (uint8_t)type);
@@ -196,7 +196,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 	mwIdBlock uid;
 
 	for (auto &hContact : AccContacts()) {
-		if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
+		if (!getUString(hContact, "stid", &dbv)) {
 			if (dbv.pszVal) {
 				if (GetAwareIdFromContact(hContact, &id_block)) {
 					if (!db_get_utf(hContact, "CList", "Group", &dbv2)) {
@@ -250,7 +250,7 @@ void CSametimeProto::ExportContactsToList(mwSametimeList* user_list)
 						free(group_name);
 						free(group_alias);
 
-						if (!db_get_utf(hContact, m_szModuleName, "Name", &dbv2)) {
+						if (!getUString(hContact, "Name", &dbv2)) {
 							user_shortName = _strdup(dbv2.pszVal);
 							db_free(&dbv2);
 						}
@@ -451,7 +451,7 @@ void mwAwareList_on_aware(mwAwareList* list, mwAwareSnapshot* aware)
 	DBVARIANT dbv;
 
 	// update self - necessary for some servers
-	if (aware->online && !db_get_utf(0, proto->m_szModuleName, "stid", &dbv) && mir_strcmp(aware->id.user, dbv.pszVal) == 0) {
+	if (aware->online && !proto->getUString("stid", &dbv) && mir_strcmp(aware->id.user, dbv.pszVal) == 0) {
 		int new_status = ID_STATUS_OFFLINE;
 
 		switch (aware->status.status) {
@@ -587,7 +587,7 @@ void CSametimeProto::UserListCreate()
 
 	for (auto &hContact : AccContacts()) {
 		if (!Contact::IsGroupChat(hContact, m_szModuleName) /*&&  proto && !mir_strcmp( PROTO, proto)*/) {
-			if (!db_get_utf(hContact, m_szModuleName, "stid", &dbv)) {
+			if (!getUString(hContact, "stid", &dbv)) {
 				if (dbv.pszVal) {
 					if (GetAwareIdFromContact(hContact, &id_block)) {
 						// add user to aware list
@@ -603,7 +603,7 @@ void CSametimeProto::UserListCreate()
 	}
 
 	// add self - might be necessary for some servers
-	if (!db_get_utf(0, m_szModuleName, "stid", &dbv)) {
+	if (!getUString("stid", &dbv)) {
 		id_block.type = mwAware_USER;
 		id_block.user = dbv.pszVal;
 		id_block.community = nullptr;
@@ -710,8 +710,8 @@ void mwResolve_handler_details_callback(mwServiceResolve* srvc, guint32, guint32
 				if (hContact) {
 					char* name = ((mwResolveMatch*)mri->data)->name;
 					if (name && mir_strlen(name)) {
-						db_set_utf(hContact, proto->m_szModuleName, "Name", name);
-						db_set_utf(hContact, proto->m_szModuleName, "Nick", name);
+						proto->setUString(hContact, "Name", name);
+						proto->setUString(hContact, "Nick", name);
 						db_set_utf(hContact, "CList", "MyHandle", name);
 					}
 				}

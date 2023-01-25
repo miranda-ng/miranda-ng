@@ -32,16 +32,6 @@ int PFTS_CompareWithTchar(PROTOFILETRANSFERSTATUS* ft, const wchar_t* s, wchar_t
 
 static HGENMENU hSRFileMenuItem;
 
-wchar_t* GetContactID(MCONTACT hContact)
-{
-	char *szProto = Proto_GetBaseAccountName(hContact);
-	if (Contact::IsGroupChat(hContact, szProto))
-		if (wchar_t *theValue = db_get_wsa(hContact, szProto, "ChatRoomID"))
-			return theValue;
-
-	return Contact::GetInfo(CNF_UNIQUEID, hContact, szProto);
-}
-
 static INT_PTR SendFileCommand(WPARAM hContact, LPARAM)
 {
 	FileSendData fsd;

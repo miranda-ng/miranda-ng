@@ -117,6 +117,20 @@ char* ExpUrlEncode(const char *szUrl, bool strict)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+void CVkProto::CheckUpdate()
+{
+	if (getByte("Compatibility") < 1) {
+		for (auto &cc : AccContacts()) {
+			LONG userId = getDword(cc, "vk_chat_id", VK_INVALID_USER);
+			if (userId != VK_INVALID_USER) {
+				setDword(cc, "ID", userId);
+				delSetting(cc, "vk_chat_id");
+			}
+		}
+		setByte("Compatibility", 1);
+	}
+}
+
 void CVkProto::ClearAccessToken()
 {
 	debugLogA("CVkProto::ClearAccessToken");
@@ -183,7 +197,7 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 		return 0;
 
 	for (auto &hContact : AccContacts()) {
-		LONG dbUserid = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
+		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
 

@@ -82,7 +82,6 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 	if (szProto == nullptr)
 		return nullptr;
 
-	const char *uid;
 	wchar_t *res;
 	DBVARIANT dbv;
 	switch (type) {
@@ -164,8 +163,7 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 			return mir_wstrdup(buf);
 		}
 	
-		uid = Proto_GetUniqueId(szProto);
-		if (uid)
+		if (auto *uid = Proto_GetUniqueId(szProto))
 			return ProcessDatabaseValueDefault(hContact, szProto, uid);
 		break;
 
@@ -173,8 +171,7 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 		if (res = ProcessDatabaseValueDefault(hContact, szProto, "display_uid"))
 			return res;
 			
-		uid = Proto_GetUniqueId(szProto);
-		if (uid)
+		if (auto *uid = Proto_GetUniqueId(szProto))
 			return ProcessDatabaseValueDefault(hContact, szProto, uid);
 		break;
 
@@ -209,8 +206,7 @@ MIR_APP_DLL(wchar_t*) Contact::GetInfo(int type, MCONTACT hContact, const char *
 
 			case 5: // Unique id
 				// protocol must define a PFLAG_UNIQUEIDSETTING
-				uid = Proto_GetUniqueId(szProto);
-				if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid) {
+				if (auto *uid = Proto_GetUniqueId(szProto)) {
 					if (!db_get_ws(hContact, szProto, uid, &dbv)) {
 						if (dbv.type == DBVT_BYTE || dbv.type == DBVT_WORD || dbv.type == DBVT_DWORD) {
 							long value = (dbv.type == DBVT_BYTE) ? dbv.bVal : (dbv.type == DBVT_WORD ? dbv.wVal : dbv.dVal);

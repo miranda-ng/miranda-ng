@@ -113,19 +113,16 @@ WAUser* WhatsAppProto::AddUser(const char *szId, bool bTemporary)
 
 	MCONTACT hContact = db_add_contact();
 	Proto_AddToContact(hContact, m_szModuleName);
+	setString(hContact, DBKEY_ID, szId);
 
 	pUser = new WAUser(hContact, mir_strdup(szId));
 	pUser->bIsGroupChat = WAJid(szId).isGroup();
 
 	if (pUser->bIsGroupChat) {
 		setByte(hContact, "ChatRoom", 1);
-		setString(hContact, "ChatRoomID", szId);
 	}
-	else {
-		setString(hContact, DBKEY_ID, szId);
-		if (m_wszDefaultGroup)
-			Clist_SetGroup(hContact, m_wszDefaultGroup);
-	}
+	else if (m_wszDefaultGroup)
+		Clist_SetGroup(hContact, m_wszDefaultGroup);
 
 	if (bTemporary)
 		Contact::RemoveFromList(hContact);

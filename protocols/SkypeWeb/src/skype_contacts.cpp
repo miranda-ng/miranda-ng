@@ -34,7 +34,7 @@ void CSkypeProto::SetContactStatus(MCONTACT hContact, uint16_t status)
 
 void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrW tszChatID(getWStringA(hContact, "ChatRoomID"));
+	ptrW tszChatID(getWStringA(hContact, SKYPE_SETTINGS_ID));
 	if (tszChatID != NULL)
 		Chat_Control(m_szModuleName, tszChatID, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
 }
@@ -239,7 +239,7 @@ void CSkypeProto::OnContactDeleted(MCONTACT hContact)
 {
 	if (IsOnline() && hContact) {
 		if (isChatRoom(hContact))
-			PushRequest(new DestroyChatroomRequest(getMStringA(hContact, "ChatRoomID")));
+			PushRequest(new DestroyChatroomRequest(getMStringA(hContact, SKYPE_SETTINGS_ID)));
 		else
 			PushRequest(new DeleteContactRequest(getId(hContact)));
 	}

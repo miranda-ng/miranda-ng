@@ -279,7 +279,6 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 	if (si == nullptr)
 		return nullptr;
 
-	setWString(si->hContact, DBKEY_ID, chatId);
 	Chat_AddGroup(si, TranslateT("Participant"));
 
 	for (auto &u : n["all_participants"]["nodes"]) {

@@ -138,7 +138,7 @@ void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, B
 		rvaVarsToReplace[0].key.w = L"nick";
 		rvaVarsToReplace[0].value.w = mir_wstrdup(Clist_GetContactDisplayName(hContact));
 		rvaVarsToReplace[1].key.w = L"userid";
-		rvaVarsToReplace[1].value.w = GetContactID(hContact);
+		rvaVarsToReplace[1].value.w = Contact::GetInfo(CNF_UNIQUEID, hContact);
 		rvaVarsToReplace[2].key.w = L"proto";
 		rvaVarsToReplace[2].value.w = mir_a2u(Proto_GetBaseAccountName(hContact));
 		rvaVarsToReplace[3].key.w = nullptr;

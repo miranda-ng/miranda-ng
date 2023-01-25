@@ -46,7 +46,7 @@ INT_PTR WhatsAppProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATION *pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
-	ptrA jid(getStringA(pai->hContact, isChatRoom(pai->hContact) ? "ChatRoomID" : DBKEY_ID));
+	ptrA jid(getStringA(pai->hContact, DBKEY_ID));
 	if (jid == NULL)
 		return GAIR_NOAVATAR;
 
@@ -94,7 +94,7 @@ CMStringW WhatsAppProto::GetAvatarFileName(MCONTACT hContact)
 
 	CMStringA jid;
 	if (hContact != NULL) {
-		ptrA szId(getStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : DBKEY_ID));
+		ptrA szId(getStringA(hContact, DBKEY_ID));
 		if (szId == NULL)
 			return L"";
 

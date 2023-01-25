@@ -265,9 +265,6 @@ INT_PTR __cdecl CIcqProto::SetAvatar(WPARAM, LPARAM lParam)
 
 CMStringW CIcqProto::GetUserId(MCONTACT hContact)
 {
-	if (isChatRoom(hContact))
-		return getMStringW(hContact, "ChatRoomID");
-
 	return getMStringW(hContact, DB_KEY_ID);
 }
 

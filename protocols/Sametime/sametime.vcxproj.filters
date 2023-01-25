@@ -8,63 +8,6 @@
     <ClCompile Include="src\files.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\meanwhile\src\channel.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\cipher.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\common.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\error.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\message.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\mpi\mpi.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\mw_debug.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\mw_util.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\service.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\session.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_aware.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_conf.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_dir.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_ft.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_im.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_place.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_resolve.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\srvc_store.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\meanwhile\src\st_list.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\messaging.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -95,6 +38,63 @@
     <ClCompile Include="src\utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\meanwhile\src\channel.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\cipher.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\common.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\error.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\message.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mpi\mpi.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mw_debug.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\mw_util.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\service.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\session.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_aware.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_conf.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_dir.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_ft.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_im.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_resolve.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_place.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\srvc_store.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
+    <ClCompile Include="src\meanwhile\src\st_list.c">
+      <Filter>Source Files\meanwhile</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h">
@@ -120,5 +120,10 @@
     <ResourceCompile Include="res\version.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files\meanwhile">
+      <UniqueIdentifier>{425f78cf-1344-45bb-89f5-cfe3510ea8ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

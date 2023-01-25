@@ -282,7 +282,7 @@ int CJabberProto::OnPrebuildContactMenu(WPARAM hContact, LPARAM)
 		Menu_ShowItem(GetMenuItem(PROTO_MENU_LOAD_HISTORY), true);
 
 	if (bIsChatRoom) {
-		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
+		ptrA roomid(ContactToJID(hContact));
 		if (ListGetItemPtr(LIST_BOOKMARK, roomid) == nullptr)
 			if (m_ThreadInfo && m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PRIVATE_STORAGE)
 				Menu_ShowItem(g_hMenuAddBookmark, true);
@@ -425,7 +425,7 @@ INT_PTR __cdecl CJabberProto::OnMenuBookmarkAdd(WPARAM hContact, LPARAM)
 	if (!hContact)
 		return 0; // we do not add ourself to the roster. (buggy situation - should not happen)
 
-	ptrA roomID(getUStringA(hContact, "ChatRoomID"));
+	ptrA roomID(ContactToJID(hContact));
 	if (roomID == nullptr)
 		return 0;
 
@@ -922,7 +922,7 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleDirectPresence(WPARAM hContact, LPARAM
 	CMStringA jid;
 	ptrA szJid(getUStringA(hContact, "jid"));
 	if (szJid == nullptr) {
-		ptrA roomid(getUStringA(hContact, "ChatRoomID"));
+		ptrA roomid(ContactToJID(hContact));
 		if (roomid == nullptr)
 			return 0;
 

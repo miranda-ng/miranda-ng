@@ -28,7 +28,7 @@ static int message_Send(lua_State *L)
 
 	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (Contact::IsGroupChat(hContact, szProto)) {
-		ptrW wszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
+		ptrW wszChatRoom(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 		ptrW wszMessage(mir_utf8decodeW(message));
 		res = Chat_SendUserMessage(szProto, wszChatRoom, wszMessage);
 		lua_pushinteger(L, res);

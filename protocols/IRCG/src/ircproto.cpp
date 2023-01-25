@@ -195,7 +195,7 @@ void CIrcProto::OnModulesLoaded()
 
 	ptrA szNetwork(getStringA("Network"));
 	if (szNetwork) {
-		CMStringA szSetting(FORMAT, "PERFORM:%s", szNetwork);
+		CMStringA szSetting(FORMAT, "PERFORM:%s", szNetwork.get());
 		szSetting.MakeUpper();
 
 		CMStringW wszValue(getMStringW(szSetting));
@@ -204,18 +204,6 @@ void CIrcProto::OnModulesLoaded()
 			delSetting(szSetting);
 		}
 		delSetting("Network");
-	}
-
-	if (getByte("CompatibilityLevel") < 1) {
-		for (auto &cc : AccContacts()) {
-			CMStringW chatId(getMStringW(cc, "ChatRoomID"));
-			int idx = chatId.Find(L" - ");
-			if (idx != -1) {
-				chatId.Truncate(idx);
-				setWString(cc, "ChatRoomID", chatId);
-			}
-		}
-		setByte("CompatibilityLevel", 1);
 	}
 
 	InitIgnore();

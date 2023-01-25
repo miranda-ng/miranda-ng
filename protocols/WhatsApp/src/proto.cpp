@@ -153,10 +153,9 @@ void WhatsAppProto::OnModulesLoaded()
 		m_arUsers.insert(new WAUser(0, m_szJid, false));
 
 	for (auto &cc : AccContacts()) {
-		bool bIsChat = isChatRoom(cc);
-		CMStringA szId(getMStringA(cc, bIsChat ? "ChatRoomID" : DBKEY_ID));
+		CMStringA szId(getMStringA(cc, DBKEY_ID));
 		if (!szId.IsEmpty())
-			m_arUsers.insert(new WAUser(cc, szId, bIsChat));
+			m_arUsers.insert(new WAUser(cc, szId, isChatRoom(cc)));
 	}
 }
 

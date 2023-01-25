@@ -95,20 +95,6 @@ MCONTACT CImportBatch::HContactFromID(const char *pszProtoName, const char *pszS
 	return INVALID_CONTACT_ID;
 }
 
-MCONTACT CImportBatch::HContactFromChatID(const char *pszProtoName, const wchar_t *pszChatID)
-{
-	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName)) {
-		if (!Contact::IsGroupChat(hContact, pszProtoName))
-			continue;
-
-		ptrW wszChatId(db_get_wsa(hContact, pszProtoName, "ChatRoomID"));
-		if (!mir_wstrcmp(pszChatID, wszChatId))
-			return hContact;
-	}
-
-	return INVALID_CONTACT_ID;
-}
-
 MCONTACT CImportBatch::HContactFromNumericID(const char *pszProtoName, const char *pszSetting, uint32_t dwID)
 {
 	for (MCONTACT hContact = dstDb->FindFirstContact(pszProtoName); hContact; hContact = dstDb->FindNextContact(hContact, pszProtoName))
@@ -725,18 +711,11 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 		return 0;
 	}
 
-	// group chat?
-	const char *pszUniqueSetting;
-	bool bIsChat = myGetD(hSrc, cc->szProto, "ChatRoom", 0) != 0;
-	if (bIsChat)
-		pszUniqueSetting = "ChatRoomID";
-	else {
-		// Skip protocols with no unique id setting (some non IM protocols return 0)
-		pszUniqueSetting = Proto_GetUniqueId(szDstModuleName);
-		if (!pszUniqueSetting) {
-			AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
-			return 0;
-		}
+	// Skip protocols with no unique id setting (some non IM protocols return 0)
+	const char *pszUniqueSetting = Proto_GetUniqueId(szDstModuleName);
+	if (!pszUniqueSetting) {
+		AddMessage(LPGENW("Skipping non-IM contact (%S)"), cc->szProto);
+		return 0;
 	}
 
 	wchar_t *pszUniqueID = L"<Unknown>";
@@ -754,18 +733,12 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 		case DBVT_ASCIIZ:
 		case DBVT_UTF8:
 			pszUniqueID = NEWWSTR_ALLOCA(_A2T(dbv.pszVal));
-			if (bIsChat)
-				hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
-			else
-				hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
+			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
 			break;
 
 		case DBVT_WCHAR:
 			pszUniqueID = NEWWSTR_ALLOCA(dbv.pwszVal);
-			if (bIsChat)
-				hDst = HContactFromChatID(szDstModuleName, pszUniqueID);
-			else
-				hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
+			hDst = HContactFromID(szDstModuleName, pszUniqueSetting, pszUniqueID);
 			break;
 
 		default:
@@ -814,7 +787,7 @@ MCONTACT CImportBatch::ImportContact(MCONTACT hSrc)
 
 	srcDb->FreeVariant(&dbv);
 
-	if (bIsChat)
+	if (myGetD(hSrc, cc->szProto, "ChatRoom", 0) != 0)
 		db_set_b(hDst, szDstModuleName, "ChatRoom", 1);
 
 	m_contacts.insert(new ContactMap(hSrc, hDst));
@@ -879,7 +852,7 @@ void CImportBatch::ImportHistory(MCONTACT hContact, PROTOACCOUNT **protocol, int
 	else hDst = NULL;
 
 	bool bSkipAll = false;
-	uint32_t cbAlloc = 4096;
+	int cbAlloc = 4096;
 	uint8_t *eventBuf = (uint8_t*)mir_alloc(cbAlloc);
 
 	// Get the start of the event chain

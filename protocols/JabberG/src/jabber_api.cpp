@@ -57,7 +57,7 @@ MCONTACT CJabberProto::ContactFromJID(const char *jid)
 
 char* CJabberProto::ContactToJID(MCONTACT hContact)
 {
-	return getUStringA(hContact, isChatRoom(hContact) ? "ChatRoomID" : "jid");
+	return getUStringA(hContact, "jid");
 }
 
 char* CJabberProto::GetBestResourceName(const char *jid)

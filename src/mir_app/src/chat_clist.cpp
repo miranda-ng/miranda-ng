@@ -22,6 +22,20 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "chat.h"
 
+static MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
+{
+	for (auto &hContact : Contacts(pszModule)) {
+		if (!Contact::IsGroupChat(hContact, pszModule))
+			continue;
+
+		ptrW roomid(Contact::GetInfo(CNF_UNIQUEID, hContact, pszModule));
+		if (roomid != nullptr && !mir_wstrcmpi(roomid, pszRoom))
+			return hContact;
+	}
+
+	return 0;
+}
+
 MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *pszDisplayName, int iType)
 {
 	ptrW pwszGroup(Chat_GetGroup());
@@ -34,7 +48,7 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 		}
 	}
 
-	MCONTACT hContact = g_chatApi.FindRoom(pszModule, pszRoom);
+	MCONTACT hContact = FindRoom(pszModule, pszRoom);
 	if (hContact) {
 		// contact exists, let's assign the standard group name if it's missing
 		if (mir_wstrlen(pwszGroup)) {
@@ -55,8 +69,16 @@ MCONTACT AddRoom(const char *pszModule, const wchar_t *pszRoom, const wchar_t *p
 	Proto_AddToContact(hContact, pszModule);
 	Clist_SetGroup(hContact, pwszGroup);
 
+	if (auto *pa = Proto_GetAccount(pszModule)) {
+		if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {
+			if (pd->iUniqueIdType == DBVT_DWORD)
+				db_set_w(hContact, pszModule, pd->szUniqueId, _wtoi(pszRoom));
+			else
+				db_set_ws(hContact, pszModule, pd->szUniqueId, pszRoom);
+		}
+	}
+
 	db_set_ws(hContact, pszModule, "Nick", pszDisplayName);
-	db_set_ws(hContact, pszModule, "ChatRoomID", pszRoom);
 	db_set_b(hContact, pszModule, "ChatRoom", (uint8_t)iType);
 	db_set_w(hContact, pszModule, "Status", ID_STATUS_OFFLINE);
 	return hContact;
@@ -101,7 +123,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (!Contact::IsGroupChat(hContact, szProto))
 		return 0;
 
-	ptrW roomid(db_get_wsa(hContact, szProto, "ChatRoomID"));
+	ptrW roomid(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 	if (roomid == nullptr)
 		return 0;
 
@@ -114,18 +136,4 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 		g_chatApi.ShowRoom(si);
 	}
 	return 1;
-}
-
-MCONTACT FindRoom(const char *pszModule, const wchar_t *pszRoom)
-{
-	for (auto &hContact : Contacts(pszModule)) {
-		if (!Contact::IsGroupChat(hContact, pszModule))
-			continue;
-
-		ptrW roomid(db_get_wsa(hContact, pszModule, "ChatRoomID"));
-		if (roomid != nullptr && !mir_wstrcmpi(roomid, pszRoom))
-			return hContact;
-	}
-
-	return 0;
 }

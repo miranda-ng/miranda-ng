@@ -935,7 +935,6 @@ static void ResetApi()
 
 	g_chatApi.SetOffline = ::SetOffline;
 	g_chatApi.SetAllOffline = ::SetAllOffline;
-	g_chatApi.FindRoom = ::FindRoom;
 	g_chatApi.DoRtfToTags = ::DoRtfToTags;
 
 	g_chatApi.Log_CreateRTF = ::Log_CreateRTF;
@@ -957,6 +956,32 @@ static void ResetApi()
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+
+static void CheckUpdate()
+{
+	if (db_get_b(0, "Compatibility", "GroupChats") < 1) {
+		for (auto &cc : Contacts()) {
+			if (auto *pa = Proto_GetContactAccount(cc)) {
+				if (!db_get_b(cc, pa->szModuleName, "ChatRoom"))
+					continue;
+
+				ptrW wszId(db_get_wsa(cc, pa->szModuleName, "ChatRoomID"));
+				if (wszId == nullptr)
+					continue;
+
+				if (MBaseProto *pd = g_arProtos.find((MBaseProto *)&pa->szProtoName)) {
+					if (pd->iUniqueIdType == DBVT_DWORD)
+						db_set_dw(cc, pa->szModuleName, pd->szUniqueId, _wtoi(wszId));
+					else
+						db_set_ws(cc, pa->szModuleName, pd->szUniqueId, wszId);
+
+					db_unset(cc, pa->szModuleName, "ChatRoomID");
+				}
+			}
+		}
+		db_set_b(0, "Compatibility", "GroupChats", 1);
+	}
+}
 
 MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 {
@@ -1011,6 +1036,7 @@ MIR_APP_DLL(CHAT_MANAGER*) Chat_CustomizeApi(const CHAT_MANAGER_INITDATA *pInit)
 	LoadChatIcons();
 	RegisterFonts();
 	OptionsInit();
+	CheckUpdate();
 	return &g_chatApi;
 }
 

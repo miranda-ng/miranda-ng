@@ -84,7 +84,7 @@ CVkChatInfo* CVkProto::AppendConversationChat(int iChatId, const JSONNode& jnIte
 	for (int i = _countof(sttStatuses) - 1; i >= 0; i--)
 		Chat_AddGroup(si, TranslateW(sttStatuses[i]));
 
-	setDword(si->hContact, "vk_chat_id", iChatId);
+	setDword(si->hContact, "ID", iChatId);
 
 	CMStringW wszHomepage(FORMAT, L"https://vk.com/im?sel=c%d", iChatId);
 	setWString(si->hContact, "Homepage", wszHomepage);
@@ -445,6 +445,17 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
+CVkChatInfo* CVkProto::GetChatByContact(MCONTACT hContact)
+{
+	LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
+	if (dbUserid == VK_INVALID_USER)
+		return nullptr;
+
+	wchar_t wszChatID[40];
+	_itow(dbUserid, wszChatID, 10);
+	return GetChatById(wszChatID);
+}
+
 CVkChatInfo* CVkProto::GetChatById(LPCWSTR pwszId)
 {
 	for (auto &it : m_chats)
@@ -458,13 +469,9 @@ CVkChatInfo* CVkProto::GetChatById(LPCWSTR pwszId)
 
 void CVkProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
-	ptrW wszChatID(getWStringA(hContact, "ChatRoomID"));
-	if (wszChatID == nullptr)
-		return;
-
-	CVkChatInfo *cc = GetChatById(wszChatID);
+	CVkChatInfo *cc = GetChatByContact(hContact);
 	if (cc != nullptr)
-		Chat_Control(m_szModuleName, wszChatID, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
+		Chat_Control(m_szModuleName, cc->m_wszId, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -601,7 +608,7 @@ INT_PTR __cdecl CVkProto::OnJoinChat(WPARAM hContact, LPARAM)
 	if (!IsOnline() || getBool(hContact, "kicked") || !getBool(hContact, "off"))
 		return 1;
 
-	int chat_id = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
+	int chat_id = getDword(hContact, "ID", VK_INVALID_USER);
 	if (chat_id == VK_INVALID_USER)
 		return 1;
 
@@ -619,11 +626,7 @@ INT_PTR __cdecl CVkProto::OnLeaveChat(WPARAM hContact, LPARAM)
 	if (!IsOnline())
 		return 1;
 
-	ptrW wszChatID(getWStringA(hContact, "ChatRoomID"));
-	if (wszChatID == nullptr)
-		return 1;
-
-	CVkChatInfo *cc = GetChatById(wszChatID);
+	CVkChatInfo *cc = GetChatByContact(hContact);
 	if (cc == nullptr)
 		return 1;
 
@@ -705,7 +708,7 @@ INT_PTR __cdecl CVkProto::SvcDestroyKickChat(WPARAM hContact, LPARAM)
 	if (!getBool(hContact, "off"))
 		return 1;
 
-	int chat_id = getDword(hContact, "vk_chat_id", VK_INVALID_USER);
+	int chat_id = getDword(hContact, "ID", VK_INVALID_USER);
 	if (chat_id == VK_INVALID_USER)
 		return 1;
 

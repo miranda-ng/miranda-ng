@@ -138,40 +138,28 @@ begin
   hContact:=db_find_first();
   while hContact<>0 do
   begin
-    if is_chat then
+    if DBReadSetting(hContact,Proto,uid,@ldbv)=0 then
     begin
-      if IsChat(hContact) then
+      if dbv._type=ldbv._type then
       begin
-        pw:=DBReadUnicode(hContact,Proto,'ChatRoomID');
-        if StrCmpW(pw,dbv.szVal.W)=0 then result:=hContact;
-        mFreeMem(pw);
-      end
-    end
-    else
-    begin
-      if DBReadSetting(hContact,Proto,uid,@ldbv)=0 then
-      begin
-        if dbv._type=ldbv._type then
-        begin
-          case dbv._type of
-//            DBVT_DELETED: ;
-            DBVT_BYTE   : if dbv.bVal=ldbv.bVal then result:=hContact;
-            DBVT_WORD   : if dbv.wVal=ldbv.wVal then result:=hContact;
-            DBVT_DWORD  : if dbv.dVal=ldbv.dVal then result:=hContact;
-            DBVT_UTF8,
-            DBVT_ASCIIZ : if StrCmp (dbv.szVal.A,ldbv.szVal.A)=0 then result:=hContact;
-            DBVT_WCHAR  : if StrCmpW(dbv.szVal.W,ldbv.szVal.W)=0 then result:=hContact;
-            DBVT_BLOB   : begin
-              if dbv.cpbVal = ldbv.cpbVal then
-              begin
-                if CompareMem(dbv.pbVal,ldbv.pbVal,dbv.cpbVal) then
-                  result:=hContact;
-              end;
+        case dbv._type of
+//          DBVT_DELETED: ;
+          DBVT_BYTE   : if dbv.bVal=ldbv.bVal then result:=hContact;
+          DBVT_WORD   : if dbv.wVal=ldbv.wVal then result:=hContact;
+          DBVT_DWORD  : if dbv.dVal=ldbv.dVal then result:=hContact;
+          DBVT_UTF8,
+          DBVT_ASCIIZ : if StrCmp (dbv.szVal.A,ldbv.szVal.A)=0 then result:=hContact;
+          DBVT_WCHAR  : if StrCmpW(dbv.szVal.W,ldbv.szVal.W)=0 then result:=hContact;
+          DBVT_BLOB   : begin
+            if dbv.cpbVal = ldbv.cpbVal then
+            begin
+              if CompareMem(dbv.pbVal,ldbv.pbVal,dbv.cpbVal) then
+                result:=hContact;
             end;
           end;
         end;
-        db_free(@ldbv);
       end;
+      db_free(@ldbv);
     end;
     // added 2011.04.20
     if result<>0 then break;
@@ -217,25 +205,14 @@ begin
   if Proto<>nil then
   begin
     p:=StrCopyE(section,setting);
-    is_chat:=IsChat(hContact);
-    if is_chat then
+    uid:=Proto_GetUniqueId(Proto);
+    if uid<>nil then
     begin
-      pw:=DBReadUnicode(hContact,Proto,'ChatRoomID');
-      StrCopy(p,opt_cuid); DBWriteUnicode(0,group,section,pw);
-      mFreeMem(pw);
-      result:=1;
-    end
-    else
-    begin
-      uid:=Proto_GetUniqueId(Proto);
-      if uid<>nil then
+      if DBReadSetting(hContact,Proto,uid,@cws)=0 then
       begin
-        if DBReadSetting(hContact,Proto,uid,@cws)=0 then
-        begin
-          StrCopy(p,opt_cuid); DBWriteSetting(0,group,section,@cws);
-          db_free(@cws);
-          result:=1;
-        end;
+        StrCopy(p,opt_cuid); DBWriteSetting(0,group,section,@cws);
+        db_free(@cws);
+        result:=1;
       end;
     end;
     if result<>0 then
@@ -373,37 +350,28 @@ begin
       begin
         if acc=nil then
           acc:=Proto_GetBaseAccountName(hContact);
-        if IsChat(hContact) then
+        uid:=Proto_GetUniqueId(acc);
+        if uid<>nil then
         begin
-          p:=DBReadUnicode(hContact,acc,'ChatRoomID');
-          StrReplaceW(buf,'%uid%',p);
-          mFreeMem(p);
-        end
-        else
-        begin
-          uid:=Proto_GetUniqueId(acc);
-          if uid<>nil then
+          if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
           begin
-            if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
-            begin
-              case ldbv._type of
-                DBVT_DELETED: p:='[deleted]';
-                DBVT_BYTE   : p:=IntToStr(buf1,ldbv.bVal);
-                DBVT_WORD   : p:=IntToStr(buf1,ldbv.wVal);
-                DBVT_DWORD  : p:=IntToStr(buf1,ldbv.dVal);
-                DBVT_UTF8   : UTF8ToWide(ldbv.szVal.A,p);
-                DBVT_ASCIIZ : AnsiToWide(ldbv.szVal.A,p,Langpack_GetDefaultCodePage);
-                DBVT_WCHAR  : p:=ldbv.szVal.W;
-                DBVT_BLOB   : p:='blob';
-              end;
-              StrReplaceW(buf,'%uid%',p);
-              if ldbv._type in [DBVT_UTF8,DBVT_ASCIIZ] then
-                mFreeMem(p);
-              db_free(@ldbv);
+            case ldbv._type of
+              DBVT_DELETED: p:='[deleted]';
+              DBVT_BYTE   : p:=IntToStr(buf1,ldbv.bVal);
+              DBVT_WORD   : p:=IntToStr(buf1,ldbv.wVal);
+              DBVT_DWORD  : p:=IntToStr(buf1,ldbv.dVal);
+              DBVT_UTF8   : UTF8ToWide(ldbv.szVal.A,p);
+              DBVT_ASCIIZ : AnsiToWide(ldbv.szVal.A,p,Langpack_GetDefaultCodePage);
+              DBVT_WCHAR  : p:=ldbv.szVal.W;
+              DBVT_BLOB   : p:='blob';
             end;
+            StrReplaceW(buf,'%uid%',p);
+            if ldbv._type in [DBVT_UTF8,DBVT_ASCIIZ] then
+              mFreeMem(p);
+            db_free(@ldbv);
           end;
-          StrReplaceW(buf,'%uid%',nil);
         end;
+        StrReplaceW(buf,'%uid%',nil);
       end;
 
       SendMessage(list,CB_SETITEMDATA,

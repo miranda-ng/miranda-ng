@@ -67,7 +67,7 @@ void SendToContact(MCONTACT hContact, const wchar_t *data)
 {
 	const char *szProto = Proto_GetBaseAccountName(hContact);
 	if (Contact::IsGroupChat(hContact, szProto)) {
-		ptrW tszChatRoom(db_get_wsa(hContact, szProto, "ChatRoomID"));
+		ptrW tszChatRoom(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 		Chat_SendUserMessage(szProto, tszChatRoom, data);
 		return;
 	}

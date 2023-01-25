@@ -110,7 +110,7 @@ void PROTO_INTERFACE::setAllContactStatuses(int iStatus, bool bSkipChats)
 	for (auto &hContact : AccContacts()) {
 		if (isChatRoom(hContact)) {
 			if (!bSkipChats && iStatus == ID_STATUS_OFFLINE) {
-				ptrW wszRoom(getWStringA(hContact, "ChatRoomID"));
+				ptrW wszRoom(Contact::GetInfo(CNF_UNIQUEID, hContact));
 				if (wszRoom != nullptr)
 					Chat_Control(m_szModuleName, wszRoom, SESSION_OFFLINE);
 			}
