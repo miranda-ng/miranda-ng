@@ -447,6 +447,9 @@ void CVkProto::AppendChatMessage(CVkChatInfo *cc, LONG uid, int msgTime, LPCWSTR
 
 CVkChatInfo* CVkProto::GetChatByContact(MCONTACT hContact)
 {
+	if (!isChatRoom(hContact))
+		return nullptr;
+	
 	LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
 	if (dbUserid == VK_INVALID_USER)
 		return nullptr;

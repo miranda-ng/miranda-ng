@@ -171,6 +171,9 @@ MCONTACT CVkProto::FindUser(LONG dwUserid, bool bCreate)
 		return 0;
 
 	for (auto &hContact : AccContacts()) {
+		if (isChatRoom(hContact))
+			continue;
+
 		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
@@ -197,6 +200,9 @@ MCONTACT CVkProto::FindChat(LONG dwUserid)
 		return 0;
 
 	for (auto &hContact : AccContacts()) {
+		if (!isChatRoom(hContact))
+			continue;
+
 		LONG dbUserid = getDword(hContact, "ID", VK_INVALID_USER);
 		if (dbUserid == VK_INVALID_USER)
 			continue;
