@@ -75,7 +75,7 @@ int Info(char *title, char *format, ...)
 
 void CheckConvert(void)
 {
-	if (db_get_b(0, "Compatiblilty", MODULENAME) < 1) {
+	if (db_get_b(0, "Compatibility", MODULENAME) < 1) {
 		for (auto &hContact : Contacts()) {
 			int bday = db_get_dw(hContact, "UserInfo", "DOBd", -1);
 			if (bday == -1)
@@ -93,7 +93,7 @@ void CheckConvert(void)
 			db_set_dw(hContact, "UserInfo", "BirthYear", byear);
 		}
 		
-		db_set_b(0, "Compatiblilty", MODULENAME, 1);
+		db_set_b(0, "Compatibility", MODULENAME, 1);
 	}
 }
 
