@@ -966,6 +966,7 @@ static void CheckUpdate()
 					continue;
 
 				ptrW wszId(db_get_wsa(cc, pa->szModuleName, "ChatRoomID"));
+				Netlib_Logf(0, "Found contact %d with chat %S", cc, wszId.get());
 				if (wszId == nullptr)
 					continue;
 
@@ -977,6 +978,7 @@ static void CheckUpdate()
 
 					db_unset(cc, pa->szModuleName, "ChatRoomID");
 				}
+				else Netlib_Logf(0, "Protocol %s {%s} not found", pa->szModuleName, pd->szUniqueId);
 			}
 		}
 		db_set_b(0, "Compatibility", "GroupChats", 1);
