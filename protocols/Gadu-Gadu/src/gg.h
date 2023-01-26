@@ -199,7 +199,16 @@ struct GGGETAVATARDATA
 #define GG_KEYDEF_IMGMETHOD		1
 
 // newline separated list of hosts for server connection
-#define GG_KEYDEF_SERVERHOSTS	L"31.186.82.43\r\n31.186.82.226\r\n31.186.83.1\r\n31.186.83.9\r\n31.186.83.70\r\n77.79.250.102\r\n85.194.241.23\r\n91.185.185.102"
+#define GG_KEYDEF_SERVERHOSTS	\
+	L"ggproxy-secure-10.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-11.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-12.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-13.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-14.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-15.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-16.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-17.gadu-gadu.pl\r\n" \
+	L"ggproxy-secure-18.gadu-gadu.pl" 
 
 #define GG_KEY_CLIENTIP 		"IP"			// Contact IP (by notify)
 #define GG_KEY_CLIENTPORT		"ClientPort"	// Contact port
