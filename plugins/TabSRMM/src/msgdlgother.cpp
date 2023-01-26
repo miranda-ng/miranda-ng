@@ -548,7 +548,7 @@ void CMsgDialog::FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei)
 	if (hEvent == 0)
 		return;
 
-	if (!g_plugin.bFlashOnClist)
+	if (!g_plugin.bFlashOnClist || isChat())
 		return;
 
 	if ((GetForegroundWindow() != m_pContainer->m_hwnd || m_pContainer->m_hwndActive != m_hwnd) && !(dbei->flags & DBEF_SENT) && dbei->eventType == EVENTTYPE_MESSAGE && !m_bFlashClist) {
