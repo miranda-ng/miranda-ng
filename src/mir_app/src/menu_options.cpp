@@ -86,7 +86,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		TVITEMEX tvi;
 		tvi.hItem = hRootItem;
 		tvi.cchTextMax = _countof(idstr);
-		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_IMAGE;
+		tvi.mask = TVIF_TEXT | TVIF_PARAM | TVIF_HANDLE | TVIF_STATE;
 		tvi.pszText = idstr;
 
 		int count = 0, customOrder = 0;
@@ -106,7 +106,7 @@ class CGenMenuOptionsPage : public CDlgBase
 					char menuItemName[256];
 					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
-					int visible = tvi.iImage != 0;
+					int visible = (tvi.state >> 12) == 2;
 					wchar_t *ptszCustomName;
 					if (iod->name != nullptr && iod->defname != nullptr && mir_wstrcmp(iod->name, iod->defname) != 0)
 						ptszCustomName = iod->name;
@@ -201,7 +201,7 @@ class CGenMenuOptionsPage : public CDlgBase
 		TVINSERTSTRUCT tvis;
 		tvis.hParent = hRoot;
 		tvis.hInsertAfter = TVI_LAST;
-		tvis.item.mask = TVIF_PARAM | TVIF_CHILDREN | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvis.item.mask = TVIF_PARAM | TVIF_CHILDREN | TVIF_TEXT | TVIF_STATE;
 
 		for (auto &it : arItems) {
 			if (it != arItems[0] && it->pos - lastpos >= SEPARATORPOSITIONINTERVAL) {
@@ -212,14 +212,17 @@ class CGenMenuOptionsPage : public CDlgBase
 
 				tvis.item.lParam = (LPARAM)sep;
 				tvis.item.pszText = sep->name;
-				tvis.item.iImage = tvis.item.iSelectedImage = 1;
 				tvis.item.cChildren = 0;
+				tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
+				tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 				m_menuItems.InsertItem(&tvis);
 			}
 
 			tvis.item.lParam = (LPARAM)it;
 			tvis.item.pszText = it->name;
-			tvis.item.iImage = tvis.item.iSelectedImage = it->bShow;
+			tvis.item.state = INDEXTOSTATEIMAGEMASK(it->bShow ? 2 : 1);
+			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
+
 			tvis.item.cChildren = it->pimi->submenu.first != nullptr;
 
 			HTREEITEM hti = m_menuItems.InsertItem(&tvis);
@@ -375,7 +378,7 @@ public:
 			return;
 
 		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		tvi.hItem = hti;
 		if (!m_menuItems.GetItem(&tvi))
 			return;
@@ -388,9 +391,9 @@ public:
 		TVINSERTSTRUCT tvis = {};
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
-		tvis.item.iImage = tvis.item.iSelectedImage = 1;
 		tvis.hInsertAfter = hti;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
+		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		m_menuItems.InsertItem(&tvis);
 
 		NotifyChange();
@@ -403,7 +406,7 @@ public:
 			return;
 
 		TVITEMEX tvi = { 0 };
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM | TVIF_TEXT;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT;
 		tvi.hItem = hti;
 		if (!m_menuItems.GetItem(&tvi))
 			return;
@@ -424,11 +427,12 @@ public:
 		PD->pimi = pimi;
 
 		TVINSERTSTRUCT tvis = {};
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
-		tvis.item.iImage = tvis.item.iSelectedImage = 1;
 		tvis.hInsertAfter = hti;
-		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
+		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		m_menuItems.InsertItem(&tvis);
 
 		NotifyChange();
@@ -450,7 +454,7 @@ public:
 			return;
 
 		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hti;
 		m_menuItems.GetItem(&tvi);
 
@@ -474,7 +478,7 @@ public:
 			return;
 
 		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hti;
 		m_menuItems.GetItem(&tvi);
 
@@ -537,7 +541,7 @@ public:
 			return;
 
 		TVITEMEX tvi;
-		tvi.mask = TVIF_HANDLE | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_PARAM;
+		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hti;
 		m_menuItems.GetItem(&tvi);
 		if (tvi.lParam == 0)
