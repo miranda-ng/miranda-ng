@@ -21,6 +21,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "stdafx.h"
 
+void CIrcProto::CheckUpdate()
+{
+	if (getByte("Compatibility") < 1) {
+		for (auto &cc : AccContacts()) {
+			if (getByte(cc, "ChatRoom") == GCW_SERVER)
+				db_delete_contact(cc);
+			else {
+				ptrA szNick(getUStringA(cc, "Nick"));
+				if (szNick)
+					setUString(cc, "ID", szNick);
+			}
+		}
+
+		setByte("Compatibility", 1);
+	}
+}
+
 CHANNELINFO *CIrcProto::GetChannelInfo(const wchar_t *pwszChatName)
 {
 	return (CHANNELINFO *)Chat_GetUserInfo(Chat_Find(pwszChatName, m_szModuleName));

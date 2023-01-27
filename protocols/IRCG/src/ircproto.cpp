@@ -62,6 +62,7 @@ CIrcProto::CIrcProto(const char* szModuleName, const wchar_t* tszUserName) :
 	codepage = CP_ACP;
 
 	InitPrefs();
+	CheckUpdate();
 
 	CList_SetAllOffline(true);
 
