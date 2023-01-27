@@ -286,8 +286,7 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 		CMStringW userId(ur["id"].as_mstring());
 		CMStringW userName(ur["name"].as_mstring());
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-		gce.pszID.w = chatId;
+		GCEVENT gce = { si, GC_EVENT_JOIN };
 		gce.pszUID.w = userId;
 		gce.pszNick.w = userName;
 		gce.bIsMe = _wtoi64(userId) == m_uid;
@@ -295,8 +294,8 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 		Chat_Event(&gce);
 	}
 
-	Chat_Control(m_szModuleName, chatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, chatId, SESSION_ONLINE);
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 
 	__int64 userId = _wtoi64(chatId);
 	auto *pUser = FindUser(userId);
@@ -307,6 +306,7 @@ FacebookUser* FacebookProto::RefreshThread(JSONNode &n)
 		m_users.insert(pUser);
 	}
 	else {
+		pUser->si = si;
 		pUser->hContact = si->hContact;
 		pUser->bIsChatInitialized = true;
 	}
@@ -872,8 +872,7 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 
 		// TODO: GC_EVENT_JOIN for chat participants which are missing (for example added later during group chat)
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = wszUserId;
+		GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.pszUID.w = wszActorFbId;
 		gce.pszText.w = wszText;
@@ -939,8 +938,7 @@ void FacebookProto::OnPublishChatJoin(const JSONNode &root)
 	for (auto &it : root["addedParticipants"]) {
 		CMStringW wszNick(it["fullName"].as_mstring()), wszId(it["userFbId"].as_mstring());
 		
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-		gce.pszID.w = wszUserId;
+		GCEVENT gce = { pUser->si, GC_EVENT_JOIN };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.pszNick.w = wszNick;
 		gce.pszUID.w = wszId;
@@ -968,8 +966,7 @@ void FacebookProto::OnPublishChatLeave(const JSONNode &root)
 		return;
 
 	CMStringW wszText(metadata["adminText"].as_mstring()), wszId(root["leftParticipantFbId"].as_mstring());
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_PART };
-	gce.pszID.w = wszUserId;
+	GCEVENT gce = { pUser->si, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszUID.w = wszId;
 	gce.pszText.w = wszText;
@@ -1017,8 +1014,7 @@ bool FacebookProto::CheckOwnMessage(FacebookUser *pUser, __int64 offlineId, cons
 		wchar_t userId[100];
 		_i64tow_s(pUser->id, userId, _countof(userId), 10);
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = userId;
+		GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
 		gce.dwFlags = GCEF_ADDTOLOG;
 		gce.pszUID.w = wszId;
 		gce.pszText.w = tmp.wszText;

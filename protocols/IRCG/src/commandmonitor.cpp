@@ -371,7 +371,7 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage *pmsg)
 		CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 		CList_SetOffline(&user);
 		if (pmsg->prefix.sNick == m_info.sNick)
-			Chat_Control(m_szModuleName, nullptr, SESSION_OFFLINE);
+			setAllContactStatuses(SESSION_OFFLINE, false);
 	}
 	else ShowMessage(pmsg);
 
@@ -384,7 +384,7 @@ bool CIrcProto::OnIrc_PART(const CIrcMessage *pmsg)
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_PART, pmsg->parameters[0], pmsg->prefix.sNick, pmsg->parameters.getCount() > 1 ? pmsg->parameters[1].c_str() : nullptr, nullptr, host, NULL, true, false);
 		if (pmsg->prefix.sNick == m_info.sNick)
-			Chat_Control(m_szModuleName, pmsg->parameters[0], SESSION_OFFLINE);
+			Chat_Control(pmsg->parameters[0], SESSION_OFFLINE);
 	}
 	else ShowMessage(pmsg);
 
@@ -399,10 +399,10 @@ bool CIrcProto::OnIrc_KICK(const CIrcMessage *pmsg)
 		ShowMessage(pmsg);
 
 	if (pmsg->parameters[1] == m_info.sNick) {
-		Chat_Control(m_szModuleName, pmsg->parameters[0], SESSION_OFFLINE);
+		Chat_Control(pmsg->parameters[0], SESSION_OFFLINE);
 
 		if (m_rejoinIfKicked) {
-			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
+			auto *wi = GetChannelInfo(pmsg->parameters[0]);
 			if (wi && wi->pszPassword)
 				PostIrcMessage(L"/JOIN %s %s", pmsg->parameters[0].c_str(), wi->pszPassword);
 			else
@@ -486,7 +486,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 					if ((int)pmsg->parameters.getCount() > iParametercount) {
 						if (!mir_wstrcmp(pmsg->parameters[2], m_info.sNick)) {
 							char cModeBit = -1;
-							CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_szModuleName, pmsg->parameters[0]);
+							auto *wi = GetChannelInfo(pmsg->parameters[0]);
 							switch (*p1) {
 							case 'v':      cModeBit = 0;       break;
 							case 'h':      cModeBit = 1;       break;
@@ -503,7 +503,7 @@ bool CIrcProto::OnIrc_MODE(const CIrcMessage *pmsg)
 									wi->OwnMode &= ~(1 << cModeBit);
 							}
 
-							Chat_SetUserInfo(m_szModuleName, pmsg->parameters[0], wi);
+							SetChannelInfo(pmsg->parameters[0], wi);
 						}
 						DoEvent(bAdd ? GC_EVENT_ADDSTATUS : GC_EVENT_REMOVESTATUS, pmsg->parameters[0], pmsg->parameters[iParametercount], pmsg->prefix.sNick, sStatus, nullptr, NULL, m_oldStyleModes ? false : true, false);
 						iParametercount++;
@@ -569,7 +569,7 @@ bool CIrcProto::OnIrc_NICK(const CIrcMessage *pmsg)
 
 		CMStringW host = pmsg->prefix.sUser + L"@" + pmsg->prefix.sHost;
 		DoEvent(GC_EVENT_NICK, nullptr, pmsg->prefix.sNick, pmsg->parameters[0], nullptr, host, NULL, true, bIsMe);
-		Chat_ChangeUserId(m_szModuleName, nullptr, pmsg->prefix.sNick, pmsg->parameters[0]);
+		Chat_ChangeUserId(m_szModuleName, pmsg->prefix.sNick, pmsg->parameters[0]);
 
 		CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 		MCONTACT hContact = CList_FindContact(&user);
@@ -1243,7 +1243,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 		}
 
 		if (bFlag) {
-			const wchar_t* sChanName = pmsg->parameters[1];
+			const wchar_t *sChanName = pmsg->parameters[1];
 			if (sChanName[0] == '@' || sChanName[0] == '*' || sChanName[0] == '=')
 				sChanName++;
 
@@ -1276,8 +1276,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						while (PrefixToStatus(sTemp[0]) != pwszNormal)
 							sTemp.Delete(0, 1);
 
-						GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-						gce.pszID.w = sChanName;
+						GCEVENT gce = { si, GC_EVENT_JOIN };
 						gce.pszUID.w = sTemp;
 						gce.pszNick.w = sTemp;
 						gce.pszStatus.w = sStat;
@@ -1319,7 +1318,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 
 				//Set the item data for the window
 				{
-					CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, sChanName);
+					auto *wi = GetChannelInfo(sChanName);
 					if (!wi)
 						wi = new CHANNELINFO;
 					wi->OwnMode = btOwnMode;
@@ -1328,7 +1327,7 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 					wi->pszPassword = nullptr;
 					wi->pszTopic = nullptr;
 					wi->codepage = getCodepage();
-					Chat_SetUserInfo(m_szModuleName, sChanName, wi);
+					SetChannelInfo(sChanName, wi);
 
 					if (!sTopic.IsEmpty() && !mir_wstrcmpi(GetWord(sTopic, 0), sChanName)) {
 						DoEvent(GC_EVENT_TOPIC, sChanName, sTopicName.IsEmpty() ? nullptr : sTopicName.c_str(), GetWordAddress(sTopic, 1), nullptr, sTopicTime.IsEmpty() ? nullptr : sTopicTime.c_str(), NULL, true, false);
@@ -1361,17 +1360,17 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						save += GetWordAddress(dbv.pwszVal, k);
 						switch (command[0]) {
 						case 'M':
-							Chat_Control(m_szModuleName, sChanName, WINDOW_HIDDEN);
+							::Chat_Control(si, WINDOW_HIDDEN);
 							break;
 						case 'X':
-							Chat_Control(m_szModuleName, sChanName, WINDOW_VISIBLE);
+							::Chat_Control(si, WINDOW_VISIBLE);
 							break;
 						default:
-							Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
+							::Chat_Control(si, SESSION_INITDONE);
 							break;
 						}
 					}
-					else Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
+					else ::Chat_Control(si, SESSION_INITDONE);
 
 					if (save.IsEmpty())
 						db_unset(0, m_szModuleName, "JTemp");
@@ -1379,9 +1378,9 @@ bool CIrcProto::OnIrc_ENDNAMES(const CIrcMessage *pmsg)
 						setWString("JTemp", save);
 					db_free(&dbv);
 				}
-				else Chat_Control(m_szModuleName, sChanName, SESSION_INITDONE);
+				else ::Chat_Control(si, SESSION_INITDONE);
 
-				Chat_Control(m_szModuleName, sChanName, SESSION_ONLINE);
+				::Chat_Control(si, SESSION_ONLINE);
 			}
 		}
 	}
@@ -1888,7 +1887,7 @@ bool CIrcProto::OnIrc_WHO_END(const CIrcMessage *pmsg)
 					User = GetWord(m_whoReply, 0);
 				}
 
-				Chat_SetStatusEx(m_szModuleName, pmsg->parameters[1], GC_SSE_TABDELIMITED, S.IsEmpty() ? nullptr : S.c_str());
+				Chat_SetStatusEx(Chat_Find(pmsg->parameters[1], m_szModuleName), GC_SSE_TABDELIMITED, S.IsEmpty() ? nullptr : S.c_str());
 				return true;
 			}
 
@@ -2278,7 +2277,7 @@ void CIrcProto::OnIrcDisconnected()
 	sDisconn += TranslateT("*Disconnected*");
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, sDisconn, nullptr, nullptr, NULL, true, false);
 
-	Chat_Control(m_szModuleName, nullptr, SESSION_OFFLINE);
+	setAllContactStatuses(SESSION_OFFLINE, false);
 
 	if (!Miranda_IsTerminated())
 		CList_SetAllOffline(m_disconnectDCCChats);
@@ -2355,7 +2354,7 @@ bool CIrcProto::DoOnConnect(const CIrcMessage*)
 	}
 
 	Chat_AddGroup(m_pServer, TranslateT("Normal"));
-	Chat_Control(m_szModuleName, SERVERWINDOW, SESSION_ONLINE);
+	Chat_Control(SERVERWINDOW, SESSION_ONLINE);
 
 	CallFunctionAsync(sttMainThrdOnConnect, this);
 	nickflag = false;

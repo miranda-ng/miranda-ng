@@ -927,7 +927,7 @@ void CManagerDlg::OnApplyModes(CCtrlButton*)
 {
 	wchar_t window[256];
 	GetDlgItemText(m_hwnd, IDC_CAPTION, window, _countof(window));
-	CHANNELINFO *wi = (CHANNELINFO*)Chat_GetUserInfo(m_proto->m_szModuleName, window);
+	auto *wi = m_proto->GetChannelInfo(window);
 	if (wi) {
 		wchar_t toadd[10]; *toadd = 0;
 		wchar_t toremove[10]; *toremove = 0;
@@ -1122,7 +1122,7 @@ void CManagerDlg::InitManager(int mode, const wchar_t* window)
 {
 	SetDlgItemText(m_hwnd, IDC_CAPTION, window);
 
-	CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_proto->m_szModuleName, window);
+	auto *wi = m_proto->GetChannelInfo(window);
 	if (wi) {
 		if (m_proto->IsConnected()) {
 			wchar_t temp[1000];

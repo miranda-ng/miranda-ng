@@ -413,7 +413,7 @@ static int OnGcEvent(WPARAM, LPARAM lParam)
 {
 	auto *gce = (GCEVENT *)lParam;
 	if (gce->iType == GC_EVENT_MESSAGE && bFlashOnGC)
-		if (SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule))
+		if (SESSION_INFO *si = gce->si)
 			if (contactCheckProtocol(si->pszModule, si->hContact, EVENTTYPE_MESSAGE) && checkNotifyOptions() && checkStatus(si->pszModule))
 				SetEvent(hFlashEvent);
 

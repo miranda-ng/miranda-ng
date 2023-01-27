@@ -44,12 +44,12 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 
 	CMStringW wszId(Utf2T(pChatUser->szId));
 
-	pChatUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, getMStringW(pChatUser->hContact, "Nick"));
+	auto *si = pChatUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, wszId, getMStringW(pChatUser->hContact, "Nick"));
 
-	Chat_AddGroup(pChatUser->si, TranslateT("Owner"));
-	Chat_AddGroup(pChatUser->si, TranslateT("SuperAdmin"));
-	Chat_AddGroup(pChatUser->si, TranslateT("Admin"));
-	Chat_AddGroup(pChatUser->si, TranslateT("Participant"));
+	Chat_AddGroup(si, TranslateT("Owner"));
+	Chat_AddGroup(si, TranslateT("SuperAdmin"));
+	Chat_AddGroup(si, TranslateT("Admin"));
+	Chat_AddGroup(si, TranslateT("Participant"));
 
 	CMStringA szOwner(pGroup->getAttr("creator")), szNick, szRole;
 
@@ -57,9 +57,8 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 		if (it->title == "description") {
 			CMStringA szDescr = it->getBody();
 			if (!szDescr.IsEmpty()) {
-				GCEVENT gce = {m_szModuleName, 0, GC_EVENT_INFORMATION};
+				GCEVENT gce = { si, GC_EVENT_INFORMATION };
 				gce.dwFlags = GCEF_UTF8;
-				gce.pszID.a = pChatUser->szId;
 				gce.pszText.a = szDescr.c_str();
 				Chat_Event(&gce);
 			}
@@ -75,9 +74,8 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 			if (role == nullptr)
 				role = szRole;
 
-			GCEVENT gce = {m_szModuleName, 0, GC_EVENT_JOIN};
+			GCEVENT gce = { si, GC_EVENT_JOIN };
 			gce.dwFlags = GCEF_UTF8;
-			gce.pszID.a = pChatUser->szId;
 			gce.pszUID.a = jid;
 			gce.bIsMe = (jid == m_szJid);
 
@@ -112,9 +110,8 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 		else
 			szNick = WAJid(pszUser).user;
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
+		GCEVENT gce = { si, GC_EVENT_TOPIC };
 		gce.dwFlags = GCEF_UTF8;
-		gce.pszID.a	 = pChatUser->szId;
 		gce.pszUID.a = pszUser;
 		gce.pszText.a = pszSubject;
 		gce.time = iSubjectTime;
@@ -124,8 +121,8 @@ void WhatsAppProto::GC_ParseMetadata(const WANode *pGroup)
 	}
 
 	pChatUser->bInited = true;
-	Chat_Control(m_szModuleName, wszId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, wszId, SESSION_ONLINE);
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

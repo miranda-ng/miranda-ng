@@ -25,7 +25,6 @@ static volatile LONG g_msgid = 1;
 
 CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	PROTO<CTwitterProto>(proto_name, username),
-	m_szChatId(mir_utf8encodeW(username)),
 	m_arChatMarks(10, NumericKeySortT)
 {
 	CreateProtoService(PS_CREATEACCMGRUI, &CTwitterProto::SvcCreateAccMgrUI);
@@ -346,11 +345,11 @@ void CTwitterProto::SendTweetWorker(void *p)
 void CTwitterProto::UpdateSettings()
 {
 	if (getByte(TWITTER_KEY_CHATFEED)) {
-		if (!in_chat_)
+		if (!m_si)
 			OnJoinChat(0, 0);
 	}
 	else {
-		if (in_chat_)
+		if (m_si)
 			OnLeaveChat(0, 0);
 
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact;) {

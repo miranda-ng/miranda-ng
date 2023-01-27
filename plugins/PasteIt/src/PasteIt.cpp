@@ -122,28 +122,7 @@ static void PasteIt(MCONTACT hContact, int mode)
 					db_event_add(hContact, &dbei);
 					ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)pasteToWeb->szFileLink);
 				}
-				else {
-					// PSS_MESSAGE is not compatible with chat rooms
-					// there are no simple method to send text to all users
-					// in chat room. 
-					// Next step is to get all protocol sessions and find
-					// one with correct hContact 
-					int cnt = g_chatApi.SM_GetCount(szProto);
-					for (int i = 0; i < cnt; i++) {
-						GC_INFO gci = {};
-						gci.iItem = i;
-						gci.pszModule = szProto;
-						gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
-						Chat_GetInfo(&gci);
-						if (gci.hContact == hContact) {
-							// In this place session was finded, gci.pszID contains
-							// session ID, but it is in unicode or ascii format,
-							// depends on protocol wersion
-							Chat_SendUserMessage(szProto, gci.pszID, _A2T(pasteToWeb->szFileLink));
-							break;
-						}
-					}
-				}
+				else Chat_SendUserMessage(szProto, _A2T(pasteToWeb->szFileLink));
 
 				// Send message to focus window
 				CallServiceSync(MS_MSG_SENDMESSAGE, hContact, 0);

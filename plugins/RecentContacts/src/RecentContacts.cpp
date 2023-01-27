@@ -455,7 +455,7 @@ static int OnGCInEvent(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce->iType == GC_EVENT_MESSAGE) {
-		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
+		SESSION_INFO *si = gce->si;
 		if (si && si->hContact) {
 			// skip old events
 			if (gce->time && gce->time <= GetLastUsedTimeStamp(si->hContact))
@@ -470,7 +470,7 @@ static int OnGCOutEvent(WPARAM, LPARAM lParam)
 {
 	GCEVENT *gce = (GCEVENT*)lParam;
 	if (gce->iType == GC_USER_MESSAGE) {
-		SESSION_INFO *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
+		SESSION_INFO *si = gce->si;
 		if (si && si->hContact)
 			SaveLastUsedTimeStamp(si->hContact);
 	}

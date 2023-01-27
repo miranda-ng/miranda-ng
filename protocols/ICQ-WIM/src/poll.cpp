@@ -167,7 +167,7 @@ void CIcqProto::ProcessHistData(const JSONNode &ev)
 	auto *pCache = FindContactByUIN(wszId); // might be NULL for groupchats
 
 	if (IsChat(wszId)) {
-		SESSION_INFO *si = g_chatApi.SM_FindSession(wszId, m_szModuleName);
+		SESSION_INFO *si = Chat_Find(wszId, m_szModuleName);
 		if (si == nullptr)
 			return;
 

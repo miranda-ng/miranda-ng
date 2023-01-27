@@ -35,9 +35,8 @@ void CIcqProto::LoadChatInfo(SESSION_INFO *si)
 		CMStringW role((*node)["role"].as_mstring());
 		CMStringW sn((*node)["sn"].as_mstring());
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
+		GCEVENT gce = { si, GC_EVENT_JOIN };
 		gce.dwFlags = GCEF_SILENT;
-		gce.pszID.w = si->ptszID;
 		gce.pszNick.w = nick;
 		gce.pszUID.w = sn;
 		gce.time = ::time(0);
@@ -161,7 +160,7 @@ void CIcqProto::LeaveDestroyChat(SESSION_INFO *si)
 	Push(new AsyncHttpRequest(CONN_MAIN, REQUEST_GET, ICQ_API_SERVER "/buddylist/hideChat")
 		<< AIMSID(this) << WCHAR_PARAM("buddy", si->ptszID) << INT64_PARAM("lastMsgId", getId(si->hContact, DB_KEY_LASTMSGID)));
 
-	Chat_Terminate(si->pszModule, si->ptszID, true);
+	Chat_Terminate(si, true);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -183,7 +182,7 @@ int CIcqProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	SESSION_INFO *si = g_chatApi.SM_FindSession(gcmi->pszID, gcmi->pszModule);
+	SESSION_INFO *si = Chat_Find(gcmi->pszID, gcmi->pszModule);
 	if (si == nullptr)
 		return 0;
 
@@ -202,7 +201,7 @@ int CIcqProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	SESSION_INFO *si = g_chatApi.SM_FindSession(gch->si->ptszID, gch->si->pszModule);
+	SESSION_INFO *si = Chat_Find(gch->si->ptszID, gch->si->pszModule);
 	if (si == nullptr)
 		return 1;
 
@@ -263,13 +262,12 @@ void CIcqProto::ProcessGroupChat(const JSONNode &ev)
 {
 	for (auto &it : ev["mchats"]) {
 		CMStringW wszId(it["sender"].as_mstring());
-		SESSION_INFO *si = g_chatApi.SM_FindSession(wszId, m_szModuleName);
+		auto *si = Chat_Find(wszId, m_szModuleName);
 		if (si == nullptr)
 			continue;
 
 		CMStringW method(it["method"].as_mstring());
-		GCEVENT gce = { m_szModuleName, 0, (method == "add_members") ? GC_EVENT_JOIN : GC_EVENT_PART };
-		gce.pszID.w = si->ptszID;
+		GCEVENT gce = { si, (method == "add_members") ? GC_EVENT_JOIN : GC_EVENT_PART };
 
 		int iStart = 0;
 		CMStringW members(it["members"].as_mstring());

@@ -104,7 +104,7 @@ struct GGGC
 {
 	uin_t *recipients;
 	int recipients_count;
-	wchar_t id[32];
+	SESSION_INFO *si;
 	BOOL ignore;
 };
 

@@ -64,7 +64,7 @@ void CTwitterProto::SignOn(void*)
 	}
 	if (NegotiateConnection()) // Could this be? The legendary Go Time??
 	{
-		if (!in_chat_ && getByte(TWITTER_KEY_CHATFEED))
+		if (!m_si && getByte(TWITTER_KEY_CHATFEED))
 			OnJoinChat(0, true);
 
 		setAllContactStatuses(ID_STATUS_ONLINE);
@@ -508,7 +508,7 @@ void CTwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 	}
 
 	for (auto &u : messages.rev_iter()) {
-		if (!pre_read && in_chat_)
+		if (!pre_read && m_si)
 			UpdateChat(*u);
 
 		if (u->username == m_szUserName.c_str())

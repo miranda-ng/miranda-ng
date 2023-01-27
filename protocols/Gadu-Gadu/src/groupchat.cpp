@@ -98,7 +98,7 @@ GGGC* GaduProto::gc_lookup(const wchar_t *id)
 
 	for (l = chats; l; l = l->next) {
 		chat = (GGGC *)l->data;
-		if (chat && !mir_wstrcmp(chat->id, id))
+		if (chat && !mir_wstrcmp(chat->si->ptszID, id))
 			return chat;
 	}
 
@@ -136,8 +136,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		UIN2IDT(uin, id);
 		DBVARIANT dbv;
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = gch->si->ptszID;
+		GCEVENT gce = { gch->si, GC_EVENT_MESSAGE };
 		gce.pszUID.w = id;
 		gce.pszText.w = gch->ptszText;
 		wchar_t* nickT;
@@ -190,8 +189,8 @@ typedef struct _gg_gc_echat
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is main groupchat initialization routine
-//
-wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
+
+SESSION_INFO* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 {
 	list_t l;
 	GGGC *chat;
@@ -226,17 +225,19 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 			// Found all recipients
 			if (found == recipients_count) {
 				if (chat->ignore)
-					debugLogW(L"gc_getchat(): Ignoring existing id %s, size %d.", chat->id, chat->recipients_count);
+					debugLogW(L"gc_getchat(): Ignoring existing id %s, size %d.", chat->si->ptszID, chat->recipients_count);
 				else
-					debugLogW(L"gc_getchat(): Returning existing id %s, size %d.", chat->id, chat->recipients_count);
-				return !(chat->ignore) ? chat->id : nullptr;
+					debugLogW(L"gc_getchat(): Returning existing id %s, size %d.", chat->si->ptszID, chat->recipients_count);
+				return !(chat->ignore) ? chat->si : nullptr;
 			}
 		}
 	}
 
+	wchar_t chatId[32];
+	UIN2IDT(gc_id++, chatId);
+
 	// Make new uin list to chat mapping
 	chat = (GGGC *)malloc(sizeof(GGGC));
-	UIN2IDT(gc_id++, chat->id);
 	chat->ignore = FALSE;
 
 	// Check groupchat policy (new) / only for incoming
@@ -276,7 +277,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 			for (; i < recipients_count; i++)
 				chat->recipients[i] = recipients[i];
 			if (sender) chat->recipients[i] = sender;
-			debugLogW(L"gc_getchat(): Ignoring new chat %s, count %d.", chat->id, chat->recipients_count);
+			debugLogW(L"gc_getchat(): Ignoring new chat %s, count %d.", chatId, chat->recipients_count);
 			list_add(&chats, chat, 0);
 			return nullptr;
 		}
@@ -296,19 +297,19 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 
 	// Create new room
 	CMStringW wszTitle(L"#"); wszTitle.Append(sender ? senderName : TranslateT("Conference"));
-	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chat->id, wszTitle, chat);
+	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, chatId, wszTitle, chat);
 	if (!si)
 		return nullptr;
+	chat->si = si;
 
-	Chat_SetStatusbarText(m_szModuleName, chat->id, status);
+	Chat_SetStatusbarText(si, status);
 
 	// Add normal group
 	Chat_AddGroup(si, TranslateT("Participants"));
 
 	wchar_t id[32];
 
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-	gce.pszID.w = chat->id;
+	GCEVENT gce = { si, GC_EVENT_JOIN };
 	gce.pszUID.w = id;
 	gce.dwFlags = GCEF_ADDTOLOG;
 
@@ -327,8 +328,7 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 		mir_free(nickT);
 		debugLogW(L"gc_getchat(): Myself %s: %s (%s) to the list...", gce.pszUID.w, gce.pszNick.w, gce.pszStatus.w);
 	}
-	else
-		debugLogA("gc_getchat(): Myself adding failed with uin %d !!!", uin);
+	else debugLogA("gc_getchat(): Myself adding failed with uin %d !!!", uin);
 
 	// Copy recipient list
 	chat->recipients_count = recipients_count + (sender ? 1 : 0);
@@ -353,13 +353,13 @@ wchar_t* GaduProto::gc_getchat(uin_t sender, uin_t *recipients, int recipients_c
 		Chat_Event(&gce);
 	}
 
-	Chat_Control(m_szModuleName, chat->id, SESSION_INITDONE);
-	Chat_Control(m_szModuleName, chat->id, SESSION_ONLINE);
+	Chat_Control(si, SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 
-	debugLogW(L"gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
+	debugLogW(L"gc_getchat(): Returning new chat window %s, count %d.", chatId, chat->recipients_count);
 	list_add(&chats, chat, 0);
 
-	return chat->id;
+	return si;
 }
 
 static MCONTACT gg_getsubcontact(GaduProto* gg, MCONTACT hContact)
@@ -441,9 +441,9 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						if (count > i)
 							i = count;
 
-						wchar_t *chat = gg->gc_getchat(0, participants, count);
-						if (chat)
-							Chat_Control(gg->m_szModuleName, chat, WINDOW_VISIBLE);
+						auto *si = gg->gc_getchat(0, participants, count);
+						if (si)
+							Chat_Control(si, WINDOW_VISIBLE);
 
 						free(participants);
 					}
@@ -573,23 +573,23 @@ int GaduProto::gc_changenick(MCONTACT hContact, wchar_t *ptszNick)
 	// Lookup for chats having this nick
 	for (l = chats; l; l = l->next) {
 		GGGC *chat = (GGGC *)l->data;
-		if (chat->recipients && chat->recipients_count)
-			for (int i = 0; i < chat->recipients_count; i++)
+		if (chat->recipients && chat->recipients_count) {
+			for (int i = 0; i < chat->recipients_count; i++) {
 				// Rename this window if it's exising in the chat
 				if (chat->recipients[i] == uin) {
 					wchar_t id[32];
 					UIN2IDT(uin, id);
 
-					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_NICK };
-					gce.pszID.w = chat->id;
+					GCEVENT gce = { chat->si, GC_EVENT_NICK };
 					gce.pszUID.w = id;
 					gce.pszText.w = ptszNick;
 
-					debugLogW(L"gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->id, uin, id);
+					debugLogW(L"gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->si->ptszID, uin, id);
 					Chat_Event(&gce);
-
 					break;
 				}
+			}
+		}
 	}
 
 	return 1;

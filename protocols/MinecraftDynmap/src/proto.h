@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class MinecraftDynmapProto : public PROTO<MinecraftDynmapProto>
 {
-	ptrA szRoomName;
+	SESSION_INFO *m_si;
 
 public:
 	MinecraftDynmapProto(const char *proto_name, const wchar_t *username);

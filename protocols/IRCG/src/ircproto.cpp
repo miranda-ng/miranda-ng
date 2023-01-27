@@ -189,9 +189,9 @@ void CIrcProto::OnModulesLoaded()
 	m_pServer = Chat_NewSession(GCW_SERVER, m_szModuleName, SERVERWINDOW, m_tszUserName);
 
 	if (m_useServer && !m_hideServerWindow)
-		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
+		Chat_Control(SERVERWINDOW, WINDOW_VISIBLE);
 	else
-		Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_HIDDEN);
+		Chat_Control(SERVERWINDOW, WINDOW_HIDDEN);
 
 	ptrA szNetwork(getStringA("Network"));
 	if (szNetwork) {

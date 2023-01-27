@@ -25,7 +25,7 @@ using namespace std;
 #include <m_clistint.h>
 #include <m_protocols.h>
 #include <m_skin.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_idle.h>
 #include <m_metacontacts.h>
 #include <m_langpack.h>

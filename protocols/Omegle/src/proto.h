@@ -22,8 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
 
-class OmegleProto : public PROTO < OmegleProto >
+class OmegleProto : public PROTO<OmegleProto>
 {
+	SESSION_INFO *m_si;
+
 public:
 	OmegleProto(const char *proto_name, const wchar_t *username);
 	~OmegleProto();

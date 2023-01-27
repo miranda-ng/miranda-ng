@@ -74,9 +74,8 @@ public :
 	bool m_bNotify;
 	int  m_codePage;
 
-	//CIrcMessage( CIrcProto* ); // default constructor
-	CIrcMessage( CIrcProto*, const wchar_t* lpszCmdLine, int codepage, bool bIncoming=false, bool bNotify = true); // parser constructor
-	CIrcMessage( const CIrcMessage& m ); // copy constructor
+	CIrcMessage(CIrcProto *ppro, const wchar_t *lpszCmdLine, int codepage, bool bIncoming = false, bool bNotify = true); // parser constructor
+	CIrcMessage(const CIrcMessage &m); // copy constructor
 	~CIrcMessage();
 
 	void Reset();

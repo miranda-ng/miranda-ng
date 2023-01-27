@@ -165,7 +165,7 @@ int CTwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
 
 	DBVARIANT dbv;
 	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
-		if (in_chat_)
+		if (m_si)
 			DeleteChatContact(dbv.pszVal);
 
 		mir_cslock s(twitter_lock_);
@@ -242,7 +242,7 @@ MCONTACT CTwitterProto::AddToClientList(const char *name, const char *status)
 	if (hContact)
 		return hContact;
 
-	if (in_chat_)
+	if (m_si)
 		AddChatContact(name);
 
 	// If not, make a new contact!

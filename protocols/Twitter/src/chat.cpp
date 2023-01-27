@@ -26,7 +26,7 @@ void CTwitterProto::UpdateChat(const twitter_user &update)
 	CMStringA chatText = update.status.text.c_str();
 	chatText.Replace("%", "%%");
 
-	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_MESSAGE };
+	GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.bIsMe = (update.username.c_str() == m_szUserName);
 	gce.pszUID.a = update.username.c_str();
@@ -75,7 +75,7 @@ int CTwitterProto::OnChatOutgoing(WPARAM, LPARAM lParam)
 // TODO: remove nick?
 void CTwitterProto::AddChatContact(const char *name, const char *nick)
 {
-	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_JOIN };
+	GCEVENT gce = { m_si, GC_EVENT_JOIN };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = uint32_t(time(0));
 	gce.pszNick.a = nick ? nick : name;
@@ -86,7 +86,7 @@ void CTwitterProto::AddChatContact(const char *name, const char *nick)
 
 void CTwitterProto::DeleteChatContact(const char *name)
 {
-	GCEVENT gce = { m_szModuleName, m_szChatId, GC_EVENT_PART };
+	GCEVENT gce = { m_si, GC_EVENT_PART };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = uint32_t(time(0));
 	gce.pszUID.a = gce.pszNick.a = name;
@@ -96,12 +96,12 @@ void CTwitterProto::DeleteChatContact(const char *name)
 INT_PTR CTwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// ***** Create the group chat session
-	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
-	if (!si || m_iStatus != ID_STATUS_ONLINE)
+	m_si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, m_tszUserName, m_tszUserName);
+	if (!m_si || m_iStatus != ID_STATUS_ONLINE)
 		return 0;
 
 	// ***** Create a group
-	Chat_AddGroup(si, TranslateT("Normal"));
+	Chat_AddGroup(m_si, TranslateT("Normal"));
 
 	// ***** Hook events
 	HookProtoEvent(ME_GC_EVENT, &CTwitterProto::OnChatOutgoing);
@@ -110,16 +110,14 @@ INT_PTR CTwitterProto::OnJoinChat(WPARAM, LPARAM suppress)
 	if (!suppress)
 		SetChatStatus(m_iStatus);
 
-	in_chat_ = true;
 	return 0;
 }
 
 INT_PTR CTwitterProto::OnLeaveChat(WPARAM, LPARAM)
 {
-	in_chat_ = false;
-
-	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
-	Chat_Terminate(m_szModuleName, m_tszUserName);
+	Chat_Control(m_si, SESSION_OFFLINE);
+	Chat_Terminate(m_si);
+	m_si = nullptr;
 	return 0;
 }
 
@@ -138,8 +136,8 @@ void CTwitterProto::SetChatStatus(int status)
 
 		// For some reason, I have to send an INITDONE message, even if I'm not actually
 		// initializing the room...
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
+		Chat_Control(m_si, SESSION_INITDONE);
+		Chat_Control(m_si, SESSION_ONLINE);
 	}
-	else Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	else Chat_Control(m_si, SESSION_OFFLINE);
 }

@@ -10,8 +10,6 @@ LUAMOD_API int luaopen_m_chat(lua_State *L)
 	luaL_newlib(L, chatApi);
 
 	MT<GCEVENT>(L, "GCEVENT")
-		.Field(&GCEVENT::pszModule, "Module", LUA_TSTRINGA)
-		.Field(&GCEVENT::pszID, "Id", LUA_TSTRINGW)
 		.Field(&GCEVENT::iType, "Type", LUA_TINTEGER)
 		.Field(&GCEVENT::time, "Timestamp", LUA_TINTEGER)
 		.Field(&GCEVENT::time, "IsMe", LUA_TINTEGER)

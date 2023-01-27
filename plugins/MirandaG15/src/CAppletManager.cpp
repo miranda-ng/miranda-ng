@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "CConfig.h"
 #include "CAppletManager.h"
-#include "m_system.h"
 
 // specifies how long contact status notifications are ignored after signon
 #define PROTOCOL_NOTIFY_DELAY 1500
@@ -744,7 +743,7 @@ MEVENT CAppletManager::SendMessageToContact(MCONTACT hContact, tstring strMessag
 			return NULL;
 
 		tstring strID = tstring(wszNick) + L" - " + tstring(_A2T(toNarrowString(pIRCCon->strNetwork).c_str()));
-		Chat_SendUserMessage(szProto, strID.c_str(), strAscii.c_str());
+		Chat_SendUserMessage(Chat_Find(strID.c_str(), szProto), strAscii.c_str());
 		return 0;
 	}
 
@@ -1051,12 +1050,12 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		return 0;
 	}
 
-	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gce->pszModule).c_str(), gce->pszID.w, gce->iType);
+	TRACE(L"<< [%s:%s] event %04X\n", toTstring(gce->si->pszModule).c_str(), gce->si->ptszID, gce->iType);
 
 	// get the matching irc connection entry
-	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gce->pszModule));
+	CIRCConnection *pIRCCon = CAppletManager::GetInstance()->GetIRCConnection(toTstring(gce->si->pszModule));
 	if (!pIRCCon) {
-		TRACE(L"<< [%s] connection not found, skipping event\n", toTstring(gce->pszModule).c_str());
+		TRACE(L"<< [%s] connection not found, skipping event\n", toTstring(gce->si->pszModule).c_str());
 		return 0;
 	}
 
@@ -1078,13 +1077,13 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 	Event.hValue = lParam;
 
 	CIRCHistory *pHistory = nullptr;
-	if (gce->pszID.w) {
-		tstring strChannel = toTstring(gce->pszID.w);
+	if (gce->si->ptszID) {
+		tstring strChannel = toTstring(gce->si->ptszID);
 		tstring::size_type pos = strChannel.find('-');
 		if (pos != tstring::npos)
 			strChannel = strChannel.substr(0, pos - 1);
 		else {
-			if (mir_wstrcmpi(gce->pszID.w, L"Network log"))
+			if (mir_wstrcmpi(gce->si->ptszID, L"Network log"))
 				TRACE(L"\t WARNING: ignoring unknown event!\n");
 			return 0;
 		}
@@ -1107,7 +1106,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		Event.hContact = NULL;
 
 	// Ignore events from hidden chatrooms, except for join events
-	if (gce->pszID.w != nullptr && Contact::IsHidden(Event.hContact)) {
+	if (gce->si->ptszID != nullptr && Contact::IsHidden(Event.hContact)) {
 		if (gce->iType == GC_EVENT_JOIN && pHistory)
 			pHistory->LUsers.push_back(toTstring(gce->pszNick.w));
 
@@ -1243,7 +1242,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	if (gce->bIsMe || gce->pszID.w == nullptr)
+	if (gce->bIsMe || gce->si->ptszID == nullptr)
 		Event.bNotification = false;
 
 	// set the event's timestamp
@@ -1284,7 +1283,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 						Event.hContact = (*iter)->hContact;
 						tstring strName = CAppletManager::GetContactDisplayname((*iter)->hContact, true);
 						Event.strDescription = strName + L" - " + Event.strValue;
-						Event.strSummary = L"(" + toTstring(gce->pszModule) + L") " + strName;
+						Event.strSummary = L"(" + toTstring(gce->si->pszModule) + L") " + strName;
 						CAppletManager::GetInstance()->HandleEvent(&Event);
 						break;
 					}
@@ -1296,7 +1295,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 		TRACE(L"OK!\n");
 		return 0;
 	}
-	else if (gce->pszID.w != nullptr) {
+	else if (gce->si->ptszID != nullptr) {
 		TRACE(L"OK!\n");
 		return 0;
 	}
@@ -1307,7 +1306,7 @@ int CAppletManager::HookChatInbound(WPARAM, LPARAM lParam)
 			strChannel = strChannel.erase(CConfig::GetIntSetting(NOTIFY_CHANNELCUTOFF_OFFSET)) + L"...";
 		}
 		Event.strDescription = strChannel + L" - " + Event.strValue;
-		Event.strSummary = L"(" + toTstring(gce->pszModule) + L") " + pHistory->strChannel;
+		Event.strSummary = L"(" + toTstring(gce->si->pszModule) + L") " + pHistory->strChannel;
 	}
 	else Event.strDescription = Event.strValue;
 

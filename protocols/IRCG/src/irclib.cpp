@@ -36,23 +36,23 @@ OBJLIST<CIrcHandler> CIrcProto::m_handlers( 30, CompareHandlers );
 
 ////////////////////////////////////////////////////////////////////
 
-CIrcMessage::CIrcMessage( CIrcProto* _pro, const wchar_t* lpszCmdLine, int codepage, bool bIncoming, bool bNotify ) :
-	m_proto( _pro ),
-	m_bIncoming( bIncoming ),
-	m_bNotify( bNotify ),
-	m_codePage( codepage ),
-	parameters( 10 )
+CIrcMessage::CIrcMessage(CIrcProto *_pro, const wchar_t *lpszCmdLine, int codepage, bool bIncoming, bool bNotify) :
+	m_proto(_pro),
+	m_bIncoming(bIncoming),
+	m_bNotify(bNotify),
+	m_codePage(codepage),
+	parameters(10)
 {
 	ParseIrcCommand(lpszCmdLine);
 }
 
-CIrcMessage::CIrcMessage(const CIrcMessage& m) :
-	sCommand( m.sCommand ),
-	m_bIncoming( m.m_bIncoming ), 
-	m_bNotify( m.m_bNotify ),
-	m_codePage( m.m_codePage ),
-	m_proto( m.m_proto ),
-	parameters( m.parameters.getCount())
+CIrcMessage::CIrcMessage(const CIrcMessage &m) :
+	sCommand(m.sCommand),
+	m_bIncoming(m.m_bIncoming),
+	m_bNotify(m.m_bNotify),
+	m_codePage(m.m_codePage),
+	m_proto(m.m_proto),
+	parameters(m.parameters.getCount())
 {
 	prefix.sNick = m.prefix.sNick;
 	prefix.sUser = m.prefix.sUser;
@@ -63,8 +63,7 @@ CIrcMessage::CIrcMessage(const CIrcMessage& m) :
 }
 
 CIrcMessage::~CIrcMessage()
-{
-}
+{}
 
 void CIrcMessage::Reset()
 {
@@ -96,10 +95,10 @@ CIrcMessage& CIrcMessage::operator=(const wchar_t* lpszCmdLine)
 	return *this;
 }
 
-void CIrcMessage::ParseIrcCommand(const wchar_t* lpszCmdLine)
+void CIrcMessage::ParseIrcCommand(const wchar_t *lpszCmdLine)
 {
-	const wchar_t* p1 = lpszCmdLine;
-	const wchar_t* p2 = lpszCmdLine;
+	const wchar_t *p1 = lpszCmdLine;
+	const wchar_t *p2 = lpszCmdLine;
 
 	// prefix exists ?
 	if (*p1 == ':') {
@@ -168,18 +167,18 @@ int CIrcProto::getCodepage() const
 	return (con != nullptr) ? codepage : CP_ACP;
 }
 
-void CIrcProto::SendIrcMessage(const wchar_t* msg, bool bNotify, int cp)
+void CIrcProto::SendIrcMessage(const wchar_t *msg, bool bNotify, int cp)
 {
 	if (cp == -1)
 		cp = getCodepage();
 
 	if (this) {
-		char* str = mir_u2a_cp(msg, cp);
+		char *str = mir_u2a_cp(msg, cp);
 		rtrim(str);
 		int cbLen = (int)mir_strlen(str);
-		str = (char*)mir_realloc(str, cbLen + 3);
+		str = (char *)mir_realloc(str, cbLen + 3);
 		mir_strcat(str, "\r\n");
-		NLSend((const uint8_t*)str, cbLen + 2);
+		NLSend((const uint8_t *)str, cbLen + 2);
 		mir_free(str);
 
 		if (bNotify) {
@@ -190,7 +189,7 @@ void CIrcProto::SendIrcMessage(const wchar_t* msg, bool bNotify, int cp)
 	}
 }
 
-bool CIrcProto::Connect(const CIrcSessionInfo& info)
+bool CIrcProto::Connect(const CIrcSessionInfo &info)
 {
 	codepage = m_codepage;
 
@@ -268,23 +267,23 @@ void CIrcProto::Disconnect(void)
 	m_info.Reset();
 }
 
-void CIrcProto::Notify(const CIrcMessage* pmsg)
+void CIrcProto::Notify(const CIrcMessage *pmsg)
 {
 	OnIrcMessage(pmsg);
 }
 
-int CIrcProto::NLSend(const unsigned char* buf, int cbBuf)
+int CIrcProto::NLSend(const unsigned char *buf, int cbBuf)
 {
 	if (!con || !buf)
 		return 0;
-	
+
 	if (cbBuf == 0)
 		cbBuf = (int)mir_strlen((const char *)buf);
-	
-	return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
+
+	return Netlib_Send(con, (const char *)buf, cbBuf, MSG_DUMPASTEXT);
 }
 
-int CIrcProto::NLSend(const wchar_t* fmt, ...)
+int CIrcProto::NLSend(const wchar_t *fmt, ...)
 {
 	va_list marker;
 	va_start(marker, fmt);
@@ -293,13 +292,13 @@ int CIrcProto::NLSend(const wchar_t* fmt, ...)
 	mir_vsnwprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
-	char* buf = mir_u2a_cp(szBuf, getCodepage());
-	int result = NLSend((unsigned char*)buf, (int)mir_strlen(buf));
+	char *buf = mir_u2a_cp(szBuf, getCodepage());
+	int result = NLSend((unsigned char *)buf, (int)mir_strlen(buf));
 	mir_free(buf);
 	return result;
 }
 
-int CIrcProto::NLSend(const char* fmt, ...)
+int CIrcProto::NLSend(const char *fmt, ...)
 {
 	va_list marker;
 	va_start(marker, fmt);
@@ -308,20 +307,20 @@ int CIrcProto::NLSend(const char* fmt, ...)
 	int cbLen = mir_vsnprintf(szBuf, _countof(szBuf), fmt, marker);
 	va_end(marker);
 
-	return NLSend((unsigned char*)szBuf, cbLen);
+	return NLSend((unsigned char *)szBuf, cbLen);
 }
 
-int CIrcProto::NLSendNoScript(const unsigned char* buf, int cbBuf)
+int CIrcProto::NLSendNoScript(const unsigned char *buf, int cbBuf)
 {
 	if (con)
-		return Netlib_Send(con, (const char*)buf, cbBuf, MSG_DUMPASTEXT);
+		return Netlib_Send(con, (const char *)buf, cbBuf, MSG_DUMPASTEXT);
 
 	return 0;
 }
 
-int CIrcProto::NLReceive(unsigned char* buf, int cbBuf)
+int CIrcProto::NLReceive(unsigned char *buf, int cbBuf)
 {
-	return Netlib_Recv(con, (char*)buf, cbBuf, MSG_DUMPASTEXT);
+	return Netlib_Recv(con, (char *)buf, cbBuf, MSG_DUMPASTEXT);
 }
 
 void CIrcProto::KillIdent()
@@ -333,7 +332,7 @@ void CIrcProto::KillIdent()
 	}
 }
 
-void CIrcProto::InsertIncomingEvent(wchar_t* pszRaw)
+void CIrcProto::InsertIncomingEvent(wchar_t *pszRaw)
 {
 	CIrcMessage msg(this, pszRaw, true);
 	Notify(&msg);
@@ -349,7 +348,7 @@ void CIrcProto::DoReceive()
 		nb.pfnNewConnection = DoIdent;
 		nb.pExtra = this;
 		nb.wPort = m_info.iIdentServerPort;
-		
+
 		hBindPort = Netlib_BindPort(m_hNetlibUser, &nb);
 		if (!hBindPort || nb.wPort != m_info.iIdentServerPort) {
 			debugLogA("Error: unable to bind local port %u", m_info.iIdentServerPort);
@@ -360,16 +359,16 @@ void CIrcProto::DoReceive()
 	while (con) {
 		int nLinesProcessed = 0;
 
-		int cbRead = NLReceive((unsigned char*)chBuf + cbInBuf, sizeof(chBuf)-cbInBuf - 1);
+		int cbRead = NLReceive((unsigned char *)chBuf + cbInBuf, sizeof(chBuf) - cbInBuf - 1);
 		if (cbRead <= 0)
 			break;
 
 		cbInBuf += cbRead;
 		chBuf[cbInBuf] = 0;
 
-		char* pStart = chBuf;
+		char *pStart = chBuf;
 		while (*pStart) {
-			char* pEnd;
+			char *pEnd;
 
 			// seek end-of-line
 			for (pEnd = pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
@@ -388,7 +387,7 @@ void CIrcProto::DoReceive()
 				ptrW ptszMsg;
 				if (codepage != CP_UTF8 && m_utfAutodetect && Utf8CheckString(pStart))
 					ptszMsg = mir_utf8decodeW(pStart);
-				
+
 				if (ptszMsg == nullptr)
 					ptszMsg = mir_a2u_cp(pStart, codepage);
 
@@ -414,7 +413,7 @@ void CIrcProto::DoReceive()
 	Notify(nullptr);
 }
 
-void __cdecl CIrcProto::ThreadProc(void*)
+void __cdecl CIrcProto::ThreadProc(void *)
 {
 	Thread_SetName("IRC: CIrcProto");
 	DoReceive();
@@ -425,14 +424,14 @@ void CIrcProto::AddDCCSession(MCONTACT, CDccSession *dcc)
 {
 	mir_cslock lck(m_dcc);
 
-	CDccSession* p = m_dcc_chats.find(dcc);
+	CDccSession *p = m_dcc_chats.find(dcc);
 	if (p)
 		m_dcc_chats.remove(p);
 
 	m_dcc_chats.insert(dcc);
 }
 
-void CIrcProto::AddDCCSession(DCCINFO*, CDccSession *dcc)
+void CIrcProto::AddDCCSession(DCCINFO *, CDccSession *dcc)
 {
 	mir_cslock lck(m_dcc);
 	m_dcc_xfers.insert(dcc);
@@ -461,7 +460,7 @@ void CIrcProto::RemoveDCCSession(DCCINFO *pdci)
 	}
 }
 
-CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
+CDccSession *CIrcProto::FindDCCSession(MCONTACT hContact)
 {
 	mir_cslock lck(m_dcc);
 
@@ -472,7 +471,7 @@ CDccSession* CIrcProto::FindDCCSession(MCONTACT hContact)
 	return nullptr;
 }
 
-CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
+CDccSession *CIrcProto::FindDCCSession(DCCINFO *pdci)
 {
 	mir_cslock lck(m_dcc);
 
@@ -483,7 +482,7 @@ CDccSession* CIrcProto::FindDCCSession(DCCINFO *pdci)
 	return nullptr;
 }
 
-CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
+CDccSession *CIrcProto::FindDCCSendByPort(int iPort)
 {
 	mir_cslock lck(m_dcc);
 
@@ -494,7 +493,7 @@ CDccSession* CIrcProto::FindDCCSendByPort(int iPort)
 	return nullptr;
 }
 
-CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szName)
+CDccSession *CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t *szName)
 {
 	mir_cslock lck(m_dcc);
 
@@ -512,7 +511,7 @@ CDccSession* CIrcProto::FindDCCRecvByPortAndName(int iPort, const wchar_t* szNam
 	return nullptr;
 }
 
-CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
+CDccSession *CIrcProto::FindPassiveDCCSend(int iToken)
 {
 	mir_cslock lck(m_dcc);
 
@@ -523,7 +522,7 @@ CDccSession* CIrcProto::FindPassiveDCCSend(int iToken)
 	return nullptr;
 }
 
-CDccSession* CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
+CDccSession *CIrcProto::FindPassiveDCCRecv(CMStringW sName, CMStringW sToken)
 {
 	mir_cslock lck(m_dcc);
 
@@ -558,21 +557,18 @@ void CIrcProto::CheckDCCTimeout(void)
 
 ////////////////////////////////////////////////////////////////////
 
-CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t* _mask, const wchar_t* _flags) :
+CIrcIgnoreItem::CIrcIgnoreItem(const wchar_t *_mask, const wchar_t *_flags) :
 	mask(_mask),
 	flags(_flags)
-{
-}
+{}
 
-CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char* _mask, const char* _flags) :
-	mask((wchar_t*)_A2T(_mask, codepage)),
-	flags((wchar_t*)_A2T(_flags, codepage))
-{
-}
+CIrcIgnoreItem::CIrcIgnoreItem(int codepage, const char *_mask, const char *_flags) :
+	mask((wchar_t *)_A2T(_mask, codepage)),
+	flags((wchar_t *)_A2T(_flags, codepage))
+{}
 
 CIrcIgnoreItem::~CIrcIgnoreItem()
-{
-}
+{}
 
 ////////////////////////////////////////////////////////////////////
 
@@ -580,10 +576,9 @@ CIrcSessionInfo::CIrcSessionInfo() :
 	iPort(0),
 	bIdentServer(false),
 	iIdentServerPort(0)
-{
-}
+{}
 
-CIrcSessionInfo::CIrcSessionInfo(const CIrcSessionInfo& si) :
+CIrcSessionInfo::CIrcSessionInfo(const CIrcSessionInfo &si) :
 	sServer(si.sServer),
 	sServerName(si.sServerName),
 	iPort(si.iPort),
@@ -595,8 +590,7 @@ CIrcSessionInfo::CIrcSessionInfo(const CIrcSessionInfo& si) :
 	m_iSSL(si.m_iSSL),
 	sIdentServerType(si.sIdentServerType),
 	iIdentServerPort(si.iIdentServerPort)
-{
-}
+{}
 
 void CIrcSessionInfo::Reset()
 {
@@ -616,7 +610,7 @@ void CIrcSessionInfo::Reset()
 
 ////////////////////////////////////////////////////////////////////
 
-void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
+void CIrcProto::OnIrcMessage(const CIrcMessage *pmsg)
 {
 	if (pmsg != nullptr) {
 		PfnIrcMessageHandler pfn = FindMethod(pmsg->sCommand.c_str());
@@ -632,10 +626,10 @@ void CIrcProto::OnIrcMessage(const CIrcMessage* pmsg)
 	else OnIrcDisconnected();
 }
 
-PfnIrcMessageHandler CIrcProto::FindMethod(const wchar_t* lpszName)
+PfnIrcMessageHandler CIrcProto::FindMethod(const wchar_t *lpszName)
 {
 	CIrcHandler temp(lpszName, nullptr);
-	CIrcHandler* p = m_handlers.find(&temp);
+	CIrcHandler *p = m_handlers.find(&temp);
 	return (p == nullptr) ? nullptr : p->m_handler;
 }
 
@@ -643,7 +637,7 @@ PfnIrcMessageHandler CIrcProto::FindMethod(const wchar_t* lpszName)
 
 #define IPC_ADDR_SIZE				4		/* Size of IP address, change for IPv6. */
 
-char* ConvertIntegerToIP(unsigned long int_ip_addr)
+char *ConvertIntegerToIP(unsigned long int_ip_addr)
 {
 	IN_ADDR intemp;
 	IN_ADDR in;
@@ -657,7 +651,7 @@ char* ConvertIntegerToIP(unsigned long int_ip_addr)
 	return inet_ntoa(in);
 }
 
-unsigned long ConvertIPToInteger(char* IP)
+unsigned long ConvertIPToInteger(char *IP)
 {
 	IN_ADDR in;
 	IN_ADDR intemp;
@@ -677,7 +671,7 @@ unsigned long ConvertIPToInteger(char* IP)
 ////////////////////////////////////////////////////////////////////
 
 // initialize basic stuff needed for the dcc objects, also start a timer for checking the status of connections (timeouts)
-CDccSession::CDccSession(CIrcProto* _pro, DCCINFO *pdci) :
+CDccSession::CDccSession(CIrcProto *_pro, DCCINFO *pdci) :
 	m_proto(_pro),
 	NewFileName(nullptr),
 	dwWhatNeedsDoing(0),
@@ -751,31 +745,31 @@ CDccSession::~CDccSession() // destroy all that needs destroying
 		m_proto->KillChatTimer(m_proto->DCCTimer); // destroy the timer when no dcc objects remain
 }
 
-int CDccSession::NLSend(const unsigned char* buf, int cbBuf)
+int CDccSession::NLSend(const unsigned char *buf, int cbBuf)
 {
 	tLastActivity = time(0);
 
 	if (con)
-		return Netlib_Send(con, (const char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
+		return Netlib_Send(con, (const char *)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
 
 	return 0;
 }
 
-int CDccSession::NLReceive(const unsigned char* buf, int cbBuf)
+int CDccSession::NLReceive(const unsigned char *buf, int cbBuf)
 {
 	int n = 0;
 
 	if (con)
-		n = Netlib_Recv(con, (char*)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
+		n = Netlib_Recv(con, (char *)buf, cbBuf, di->iType == DCC_CHAT ? MSG_DUMPASTEXT : MSG_NODUMP);
 
 	tLastActivity = time(0);
 	return n;
 }
 
-int CDccSession::SendStuff(const wchar_t* fmt)
+int CDccSession::SendStuff(const wchar_t *fmt)
 {
 	CMStringA buf = _T2A(fmt, m_proto->getCodepage());
-	return NLSend((const unsigned char*)buf.c_str(), buf.GetLength());
+	return NLSend((const unsigned char *)buf.c_str(), buf.GetLength());
 }
 
 // called when the user wants to connect/create a new connection given the parameters in the constructor.
@@ -797,7 +791,7 @@ void __cdecl CDccSession::ConnectProc(void *pparam)
 {
 	Thread_SetName("IRC: ConnectProc");
 
-	CDccSession* pThis = (CDccSession*)pparam;
+	CDccSession *pThis = (CDccSession *)pparam;
 	if (!pThis->con)
 		pThis->SetupConnection();
 }
@@ -819,11 +813,11 @@ int CDccSession::SetupConnection()
 
 	// Set up stuff needed for the filetransfer dialog (if it is a filetransfer)
 	if (di->iType == DCC_SEND) {
-		file[0] = (wchar_t*)di->sFileAndPath.c_str();
+		file[0] = (wchar_t *)di->sFileAndPath.c_str();
 		file[1] = nullptr;
 
-		pfts.szCurrentFile.w = (wchar_t*)di->sFileAndPath.c_str();
-		pfts.szWorkingDir.w = (wchar_t*)di->sPath.c_str();
+		pfts.szCurrentFile.w = (wchar_t *)di->sFileAndPath.c_str();
+		pfts.szWorkingDir.w = (wchar_t *)di->sPath.c_str();
 		pfts.hContact = di->hContact;
 		pfts.flags = PFTS_UNICODE + ((di->bSender) ? PFTS_SENDING : PFTS_RECEIVING);
 		pfts.totalFiles = 1;
@@ -841,7 +835,7 @@ int CDccSession::SetupConnection()
 		NETLIBBIND nb = {};
 		nb.pfnNewConnection = DoIncomingDcc; // this is the (helper) function to be called once an incoming connection is made. The 'real' function that is called is IncomingConnection()
 		nb.pExtra = this;
-		
+
 		hBindPort = Netlib_BindPort(m_proto->hNetlibDCC, &nb);
 		if (hBindPort == nullptr) {
 			delete this; // dcc objects destroy themselves when the connection has been closed or failed for some reasson.
@@ -988,7 +982,7 @@ void __cdecl CDccSession::ThreadProc(void *pparam)
 {
 	Thread_SetName("IRC: CDccSession::ThreadProc");
 
-	CDccSession* pThis = (CDccSession*)pparam;
+	CDccSession *pThis = (CDccSession *)pparam;
 
 	// if it is an incoming connection on a listening port, then we should close the listenting port so only one can connect (the one you offered
 	// the connection to) can connect and not evil IRCopers with haxxored IRCDs
@@ -1022,7 +1016,7 @@ void CDccSession::DoSendFile()
 	if (wPacketSize > 32 * 1024)
 		wPacketSize = 32 * 1024;
 
-	uint8_t* chBuf = new uint8_t[wPacketSize + 1];
+	uint8_t *chBuf = new uint8_t[wPacketSize + 1];
 
 	// is there a connection?
 	if (con) {
@@ -1061,7 +1055,7 @@ void CDccSession::DoSendFile()
 					break; // break out if everything has already been read
 
 				// send the package
-				int cbSent = NLSend((unsigned char*)chBuf, iRead);
+				int cbSent = NLSend((unsigned char *)chBuf, iRead);
 				if (cbSent <= 0)
 					break; // break out if connection is lost or a transmission error has occured
 
@@ -1082,11 +1076,10 @@ void CDccSession::DoSendFile()
 						if (dwRead <= 0)
 							break; // connection closed, or a timeout occurred.
 
-						dwPacket = *(uint32_t*)npr.buffer;
+						dwPacket = *(uint32_t *)npr.buffer;
 						dwLastAck = ntohl(dwPacket);
 
-					}
-					while (con && dwTotal != dwLastAck);
+					} while (con && dwTotal != dwLastAck);
 
 					if (!con || dwRead <= 0)
 						goto DCC_STOP;
@@ -1102,13 +1095,12 @@ void CDccSession::DoSendFile()
 						if (dwRead <= 0)
 							break; // connection closed, or a timeout occurred.
 
-						dwPacket = *(uint32_t*)npr.buffer;
+						dwPacket = *(uint32_t *)npr.buffer;
 						dwLastAck = ntohl(dwPacket);
-					}
-					while (con && (di->dwSize != dwTotal
-					&& dwTotal - dwLastAck >= 100 * 1024
-					|| di->dwSize == dwTotal // get the last packets when the whole file has been sent
-					&& dwTotal != dwLastAck));
+					} while (con && (di->dwSize != dwTotal
+						&& dwTotal - dwLastAck >= 100 * 1024
+						|| di->dwSize == dwTotal // get the last packets when the whole file has been sent
+						&& dwTotal != dwLastAck));
 
 					if (!con || dwRead <= 0)
 						goto DCC_STOP;
@@ -1129,7 +1121,7 @@ void CDccSession::DoSendFile()
 				}
 			}
 
-		DCC_STOP:
+DCC_STOP:
 			// need to close the connection if it isn't allready
 			if (con) {
 				Netlib_CloseHandle(con);
@@ -1191,7 +1183,7 @@ void CDccSession::DoReceiveFile()
 		// the while loop will spin around till the connection is dropped, locally or by the remote computer.
 		while (con) {
 			// read
-			int cbRead = NLReceive((unsigned char*)chBuf, sizeof(chBuf));
+			int cbRead = NLReceive((unsigned char *)chBuf, sizeof(chBuf));
 			if (cbRead <= 0)
 				break;
 
@@ -1257,16 +1249,16 @@ void CDccSession::DoChatReceive()
 		int cbRead;
 		int nLinesProcessed = 0;
 
-		cbRead = NLReceive((unsigned char*)chBuf + cbInBuf, sizeof(chBuf)-cbInBuf - 1);
+		cbRead = NLReceive((unsigned char *)chBuf + cbInBuf, sizeof(chBuf) - cbInBuf - 1);
 		if (cbRead <= 0)
 			break;
 
 		cbInBuf += cbRead;
 		chBuf[cbInBuf] = 0;
 
-		char* pStart = chBuf;
+		char *pStart = chBuf;
 		while (*pStart) {
-			char* pEnd;
+			char *pEnd;
 
 			// seek end-of-line
 			for (pEnd = pStart; *pEnd && *pEnd != '\r' && *pEnd != '\n'; ++pEnd)
@@ -1330,23 +1322,23 @@ VOID CALLBACK DCCTimerProc(HWND, UINT, UINT_PTR idEvent, DWORD)
 }
 
 // helper function for incoming dcc connections.
-void DoIncomingDcc(HNETLIBCONN hConnection, uint32_t dwRemoteIP, void * p1)
+void DoIncomingDcc(HNETLIBCONN hConnection, uint32_t dwRemoteIP, void *p1)
 {
-	CDccSession *dcc = (CDccSession*)p1;
+	CDccSession *dcc = (CDccSession *)p1;
 	dcc->IncomingConnection(hConnection, dwRemoteIP);
 }
 
 // ident server
 
-void DoIdent(HNETLIBCONN hConnection, uint32_t, void* extra)
+void DoIdent(HNETLIBCONN hConnection, uint32_t, void *extra)
 {
-	CIrcProto *ppro = (CIrcProto*)extra;
+	CIrcProto *ppro = (CIrcProto *)extra;
 
 	char szBuf[1024];
 	int cbTotal = 0;
 
 	while (true) {
-		int cbRead = Netlib_Recv(hConnection, szBuf + cbTotal, sizeof(szBuf)-1 - cbTotal, 0);
+		int cbRead = Netlib_Recv(hConnection, szBuf + cbTotal, sizeof(szBuf) - 1 - cbTotal, 0);
 		if (cbRead == SOCKET_ERROR || cbRead == 0)
 			break;
 
@@ -1354,7 +1346,7 @@ void DoIdent(HNETLIBCONN hConnection, uint32_t, void* extra)
 		szBuf[cbTotal] = 0;
 
 LBL_Parse:
-		char* EOLPos = strstr(szBuf, "\r\n");
+		char *EOLPos = strstr(szBuf, "\r\n");
 		if (EOLPos == nullptr)
 			continue;
 
@@ -1382,7 +1374,7 @@ LBL_Parse:
 				cbLen = mir_snprintf(buf, "%s : ERROR : INVALID-PORT\r\n", szBuf);
 		}
 
-		if (Netlib_Send(hConnection, (const char*)buf, cbLen, 0) > 0)
+		if (Netlib_Send(hConnection, (const char *)buf, cbLen, 0) > 0)
 			ppro->debugLogA("Sent Ident answer: %s", buf);
 		else
 			ppro->debugLogA("Sending Ident answer failed.");

@@ -67,7 +67,7 @@ static void SetActiveSession(SESSION_INFO *si)
 
 static SESSION_INFO* GetActiveSession(void)
 {
-	SESSION_INFO *si = SM_FindSession(g_chatApi.szActiveWndID, g_chatApi.szActiveWndModule);
+	SESSION_INFO *si = Chat_Find(g_chatApi.szActiveWndID, g_chatApi.szActiveWndModule);
 	if (si)
 		return si;
 
@@ -220,20 +220,10 @@ static void SM_FreeSession(SESSION_INFO *si, bool bRemoveContact = false)
 	delete si;
 }
 
-int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeContact)
+int SM_RemoveModule(const char *pszModule, bool removeContact)
 {
 	if (pszModule == nullptr)
 		return FALSE;
-
-	if (pszID != nullptr) {
-		SESSION_INFO *si = SM_FindSession(pszID, pszModule);
-		if (si == nullptr)
-			return FALSE;
-
-		g_arSessions.remove(si);
-		SM_FreeSession(si, removeContact);
-		return TRUE;
-	}
 
 	auto T = g_arSessions.rev_iter();
 	for (auto &si : T) {
@@ -242,10 +232,21 @@ int SM_RemoveSession(const wchar_t *pszID, const char *pszModule, bool removeCon
 			g_arSessions.removeItem(&si);
 		}
 	}
+
 	return TRUE;
 }
 
-SESSION_INFO* SM_FindSession(const wchar_t *pszID, const char *pszModule)
+int SM_RemoveSession(SESSION_INFO *si, bool removeContact)
+{
+	if (si == nullptr)
+		return FALSE;
+
+	g_arSessions.remove(si);
+	SM_FreeSession(si, removeContact);
+	return TRUE;
+}
+
+MIR_APP_DLL(SESSION_INFO*) Chat_Find(const wchar_t *pszID, const char *pszModule)
 {
 	if (!pszID || !pszModule)
 		return nullptr;
@@ -293,9 +294,8 @@ static HICON SM_GetStatusIcon(SESSION_INFO *si, USERINFO *ui)
 	return g_chatApi.hStatusIcons[0];
 }
 
-BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool bIsHighlighted)
+BOOL SM_AddEvent(SESSION_INFO *si, GCEVENT *gce, bool bIsHighlighted)
 {
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == nullptr)
 		return TRUE;
 
@@ -321,13 +321,13 @@ BOOL SM_AddEvent(const wchar_t *pszID, const char *pszModule, GCEVENT *gce, bool
 	return TRUE;
 }
 
-BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID)
+BOOL SM_RemoveUser(SESSION_INFO *pSI, const wchar_t *pszUID)
 {
-	if (!pszModule || !pszUID)
+	if (!pSI || !pszUID)
 		return FALSE;
 
 	for (auto &si : g_arSessions) {
-		if ((pszID && mir_wstrcmpi(si->ptszID, pszID)) || mir_strcmpi(si->pszModule, pszModule))
+		if (si != pSI || mir_strcmpi(si->pszModule, pSI->pszModule))
 			continue;
 
 		USERINFO *ui = UM_FindUser(si, pszUID);
@@ -342,7 +342,7 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 			if (si->pDlg)
 				si->pDlg->UpdateNickList();
 
-			if (pszID)
+			// !!!!!!!!!! if (pszID)
 				return TRUE;
 		}
 	}
@@ -352,13 +352,12 @@ BOOL SM_RemoveUser(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 
 static USERINFO* SM_GetUserFromIndex(const wchar_t *pszID, const char *pszModule, int index)
 {
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
+	SESSION_INFO *si = Chat_Find(pszID, pszModule);
 	return (si == nullptr) ? nullptr : g_chatApi.UM_FindUserFromIndex(si, index);
 }
 
-BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
+BOOL SM_GiveStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == nullptr)
 		return FALSE;
 	
@@ -371,9 +370,8 @@ BOOL SM_GiveStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *p
 	return TRUE;
 }
 
-BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, uint16_t wStatus)
+BOOL SM_SetContactStatus(SESSION_INFO *si, const wchar_t *pszUID, uint16_t wStatus)
 {
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == nullptr)
 		return FALSE;
 
@@ -386,9 +384,8 @@ BOOL SM_SetContactStatus(const wchar_t *pszID, const char *pszModule, const wcha
 	return TRUE;
 }
 
-BOOL SM_TakeStatus(const wchar_t *pszID, const char *pszModule, const wchar_t *pszUID, const wchar_t *pszStatus)
+BOOL SM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus)
 {
-	SESSION_INFO *si = SM_FindSession(pszID, pszModule);
 	if (si == nullptr)
 		return FALSE;
 
@@ -426,7 +423,7 @@ BOOL SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 
 BOOL SM_UserTyping(GCEVENT *gce)
 {
-	SESSION_INFO *si = SM_FindSession(gce->pszID.w, gce->pszModule);
+	SESSION_INFO *si = gce->si;
 	if (si == nullptr || si->pDlg == nullptr)
 		return FALSE;
 
@@ -438,27 +435,21 @@ BOOL SM_UserTyping(GCEVENT *gce)
 	return TRUE;
 }
 
-BOOL SM_ChangeNick(const wchar_t *pszID, const char *pszModule, GCEVENT *gce)
+BOOL SM_ChangeNick(SESSION_INFO *si, GCEVENT *gce)
 {
-	if (!pszModule)
+	if (!si)
 		return FALSE;
 
-	for (auto &si : g_arSessions) {
-		if ((!pszID || !mir_wstrcmpi(si->ptszID, pszID)) && !mir_strcmpi(si->pszModule, pszModule)) {
-			USERINFO *ui = UM_FindUser(si, gce->pszUID.w);
-			if (ui) {
-				replaceStrW(ui->pszNick, gce->pszText.w);
-				UM_SortUser(si);
-				if (si->pDlg)
-					si->pDlg->UpdateNickList();
-				if (g_chatApi.OnChangeNick)
-					g_chatApi.OnChangeNick(si);
-			}
-
-			if (pszID)
-				return TRUE;
-		}
+	USERINFO *ui = UM_FindUser(si, gce->pszUID.w);
+	if (ui) {
+		replaceStrW(ui->pszNick, gce->pszText.w);
+		UM_SortUser(si);
+		if (si->pDlg)
+			si->pDlg->UpdateNickList();
+		if (g_chatApi.OnChangeNick)
+			g_chatApi.OnChangeNick(si);
 	}
+
 	return TRUE;
 }
 
@@ -905,7 +896,6 @@ static void ResetApi()
 	g_chatApi.SetActiveSession = ::SetActiveSession;
 	g_chatApi.GetActiveSession = ::GetActiveSession;
 	g_chatApi.SM_CreateSession = ::SM_CreateSession;
-	g_chatApi.SM_FindSession = ::SM_FindSession;
 	g_chatApi.SM_GetStatusIcon = ::SM_GetStatusIcon;
 	g_chatApi.SM_GetCount = ::SM_GetCount;
 	g_chatApi.SM_FindSessionByIndex = ::SM_FindSessionByIndex;

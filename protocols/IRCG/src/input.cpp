@@ -219,7 +219,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 	if (command == L"/servershow" || command == L"/serverhide") {
 		if (m_useServer)
-			Chat_Control(m_szModuleName, SERVERWINDOW, command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN);
+			Chat_Control(SERVERWINDOW, command == L"/servershow" ? WINDOW_VISIBLE : WINDOW_HIDDEN);
 
 		return true;
 	}
@@ -245,7 +245,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		}
 		else S = window;
 
-		Chat_Control(m_szModuleName, S, WINDOW_CLEARLOG);
+		Chat_Control(S, WINDOW_CLEARLOG);
 		return true;
 	}
 
@@ -452,7 +452,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 		PostIrcMessage(L"/PART %s", window);
 
 		if ((one.IsEmpty() || !IsChannel(one))) {
-			CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, window);
+			auto *wi = GetChannelInfo(window);
 			if (wi && wi->pszPassword)
 				PostIrcMessage(L"/JOIN %s %s", window, wi->pszPassword);
 			else
@@ -460,7 +460,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 			return true;
 		}
 
-		Chat_Terminate(m_szModuleName, window);
+		Chat_Terminate(Chat_Find(window, m_szModuleName));
 
 		PostIrcMessage(L"/JOIN %s", GetWordAddress(text, 1));
 		return true;
@@ -497,7 +497,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = L"/ME " + DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		Chat_SendUserMessage(m_szModuleName, nullptr, S);
+		Chat_SendUserMessage(m_szModuleName, S);
 		return true;
 	}
 
@@ -507,7 +507,7 @@ BOOL CIrcProto::DoHardcodedCommand(CMStringW text, wchar_t *window, MCONTACT hCo
 
 		CMStringW S = DoIdentifiers(GetWordAddress(text.c_str(), 1), window);
 		S.Replace(L"%", L"%%");
-		Chat_SendUserMessage(m_szModuleName, nullptr, S);
+		Chat_SendUserMessage(m_szModuleName, S);
 		return true;
 	}
 
@@ -823,7 +823,7 @@ bool CIrcProto::PostIrcMessageWnd(wchar_t *window, MCONTACT hContact, const wcha
 	if (Message.IsEmpty())
 		return 0;
 
-	CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, windowname);
+	auto *wi = GetChannelInfo(windowname);
 	int cp = (wi) ? wi->codepage : getCodepage();
 
 	// process the message

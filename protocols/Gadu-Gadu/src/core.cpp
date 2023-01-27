@@ -809,21 +809,20 @@ retry:
 			else if (!e->event.msg.recipients_count || gc_enabled) {
 				// Check if groupchat
 				if (e->event.msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF)) {
-					wchar_t *chat = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
-					if (chat) {
+					auto *si = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
+					if (si) {
 						wchar_t id[32];
 						UIN2IDT(e->event.msg.sender, id);
 
-						GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
+						GCEVENT gce = { si, GC_EVENT_MESSAGE };
 						time_t t = time(0);
-						gce.pszID.w = chat;
 						gce.pszUID.w = id;
 						wchar_t* messageT = mir_utf8decodeW(e->event.msg.message);
 						gce.pszText.w = messageT;
 						gce.pszNick.w = (wchar_t*)Clist_GetContactDisplayName(getcontact(e->event.msg.sender, 1, 0, nullptr));
 						gce.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						gce.dwFlags = GCEF_ADDTOLOG;
-						debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
+						debugLogW(L"mainthread() (%x): Conference message to room %s & id %s.", this, si->ptszID, id);
 						Chat_Event(&gce);
 						mir_free(messageT);
 					}
@@ -870,14 +869,12 @@ retry:
 		case GG_EVENT_MULTILOGON_MSG:
 			if (e->event.multilogon_msg.recipients_count && gc_enabled && !getByte(GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
 			{
-				wchar_t *chat = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
-				if (chat)
-				{
+				auto *si = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
+				if (si) {
 					wchar_t id[32];
 					UIN2IDT(getDword(GG_KEY_UIN, 0), id);
 
-					GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-					gce.pszID.w = chat;
+					GCEVENT gce = { si, GC_EVENT_MESSAGE };
 					gce.pszUID.w = id;
 					wchar_t* messageT = mir_utf8decodeW(e->event.multilogon_msg.message);
 					gce.pszText.w = messageT;
@@ -886,14 +883,13 @@ retry:
 						nickT = mir_wstrdup(dbv.pwszVal);
 						db_free(&dbv);
 					}
-					else
-						nickT = mir_wstrdup(TranslateT("Me"));
+					else nickT = mir_wstrdup(TranslateT("Me"));
 
 					gce.pszNick.w = nickT;
 					gce.time = e->event.multilogon_msg.time;
 					gce.bIsMe = 1;
 					gce.dwFlags = GCEF_ADDTOLOG;
-					debugLogW(L"mainthread() (%x): Sent conference message to room %s.", this, chat);
+					debugLogW(L"mainthread() (%x): Sent conference message to room %s.", this, si->ptszID);
 					Chat_Event(&gce);
 					mir_free(messageT);
 					mir_free(nickT);
@@ -1224,8 +1220,9 @@ void GaduProto::OnContactDeleted(MCONTACT hContact)
 			free(chat->recipients);
 			list_remove(&chats, chat, 1);
 			// Terminate chat window / shouldn't cascade entry is deleted
-			Chat_Control(m_szModuleName, wszRoomId, SESSION_OFFLINE);
-			Chat_Terminate(m_szModuleName, wszRoomId);
+			Chat_Control(chat->si, SESSION_OFFLINE);
+			Chat_Terminate(chat->si, wszRoomId);
+			chat->si = nullptr;
 		}
 		return;
 	}
@@ -1290,7 +1287,7 @@ int GaduProto::dbsettingchanged(WPARAM hContact, LPARAM lParam)
 				debugLogA("dbsettingchanged(): Conference %s was renamed.", wszId.c_str());
 				// Mark cascading
 				/* FIXME */ cascade = 1;
-				Chat_ChangeSessionName(m_szModuleName, wszId, ptszVal);
+				Chat_ChangeSessionName(Chat_Find(wszId, m_szModuleName), ptszVal);
 				/* FIXME */ cascade = 0;
 			}
 		}

@@ -300,8 +300,8 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 
 		Chat_AddGroup(si, TranslateT("admin"));
 		Chat_AddGroup(si, TranslateT("member"));
-		Chat_Control(m_szModuleName, wszChatId, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-		Chat_Control(m_szModuleName, wszChatId, SESSION_ONLINE);
+		Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+		Chat_Control(si, SESSION_ONLINE);
 		return si->hContact;
 	}
 
@@ -500,14 +500,15 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 			delete pFileInfo;
 		}
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-		gce.pszID.w = wszChatId;
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.pszUID.w = wszSender;
-		gce.pszText.w = wszText;
-		gce.time = iMsgTime;
-		gce.bIsMe = wszSender == m_szOwnId;
-		Chat_Event(&gce);
+		if (auto *si = Chat_Find(wszChatId, m_szModuleName)) {
+			GCEVENT gce = { si, GC_EVENT_MESSAGE};
+			gce.dwFlags = GCEF_ADDTOLOG;
+			gce.pszUID.w = wszSender;
+			gce.pszText.w = wszText;
+			gce.time = iMsgTime;
+			gce.bIsMe = wszSender == m_szOwnId;
+			Chat_Event(&gce);
+		}
 		return;
 	}
 

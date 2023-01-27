@@ -58,7 +58,7 @@ struct CChatMark
 
 class CTwitterProto : public PROTO<CTwitterProto>
 {
-	ptrA m_szChatId;
+	SESSION_INFO *m_si;
 
 	http::response request_token();
 	http::response request_access_tokens();
@@ -98,8 +98,6 @@ class CTwitterProto : public PROTO<CTwitterProto>
 
 	twitter_id since_id_;
 	twitter_id dm_since_id_;
-
-	bool in_chat_;
 
 	int disconnectionCount;
 

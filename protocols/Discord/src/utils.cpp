@@ -185,8 +185,7 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 
 			SnowFlake ownerId = _wtoi64(root["owner_id"].as_mstring());
 
-			GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-			gce.pszID.w = pUser->wszUsername;
+			GCEVENT gce = { pUser->si, GC_EVENT_JOIN };
 			for (auto &it : root["recipients"]) {
 				CMStringW wszId = it["id"].as_mstring();
 				CMStringW wszNick = it["nick"].as_mstring();
@@ -207,8 +206,8 @@ void CDiscordProto::PreparePrivateChannel(const JSONNode &root)
 			gce.pszStatus.w = (_wtoi64(wszId) == ownerId) ? L"Owners" : L"Participants";
 			Chat_Event(&gce);
 
-			Chat_Control(m_szModuleName, pUser->wszUsername, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-			Chat_Control(m_szModuleName, pUser->wszUsername, SESSION_ONLINE);
+			Chat_Control(pUser->si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+			Chat_Control(pUser->si, SESSION_ONLINE);
 		}
 		break;
 

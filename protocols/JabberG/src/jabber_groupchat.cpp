@@ -768,11 +768,10 @@ void CJabberProto::RenameParticipantNick(JABBER_LIST_ITEM *item, const char *old
 			setUString(hContact, "MyNick", newNick);
 	}
 
-	Chat_ChangeUserId(m_szModuleName, Utf2T(item->jid), Utf2T(oldNick), Utf2T(newNick));
+	Chat_ChangeUserId(item->si, Utf2T(oldNick), Utf2T(newNick));
 
-	GCEVENT gce = { m_szModuleName, item->jid, GC_EVENT_NICK };
+	GCEVENT gce = { item->si, GC_EVENT_NICK };
 	gce.dwFlags = GCEF_UTF8;
-	gce.pszID.a = item->jid;
 	gce.pszUserInfo.a = jid;
 	gce.time = time(0);
 	gce.pszNick.a = oldNick;
@@ -1001,7 +1000,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	if (!mir_strcmp(type, "error"))
 		return;
 
-	GCEVENT gce = { m_szModuleName, item->jid, 0 };
+	GCEVENT gce = {};
 	gce.dwFlags = GCEF_UTF8;
 
 	const char *resource = strchr(from, '/'), *msgText;
@@ -1056,7 +1055,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 		else gce.iType = GC_EVENT_MESSAGE;
 	}
 
-	GcInit(item);
+	gce.si = GcInit(item);
 
 	time_t msgTime = 0;
 	if (!JabberReadXep203delay(node, msgTime)) {
@@ -1095,7 +1094,7 @@ void CJabberProto::GroupchatProcessMessage(const TiXmlElement *node)
 	Chat_Event(&gce);
 
 	if (gce.iType == GC_EVENT_TOPIC)
-		Chat_SetStatusbarText(m_szModuleName, Utf2T(item->jid), Utf2T(szText));
+		Chat_SetStatusbarText(item->si, Utf2T(szText));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

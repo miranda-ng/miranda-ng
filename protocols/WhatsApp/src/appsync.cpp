@@ -115,7 +115,7 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 			if (dwVersion > pCollection->version) {
 				pCollection->hash.init();
 				debugLogA("%s: applying snapshot of version %d", pCollection->szName.get(), dwVersion);
-				for (int i=0; i < snapshot->n_records; i++)
+				for (unsigned i = 0; i < snapshot->n_records; i++)
 					ParsePatch(pCollection, snapshot->records[i], true);
 			}
 			else debugLogA("%s: skipping snapshot of version %d", pCollection->szName.get(), dwVersion);
@@ -132,7 +132,7 @@ void WhatsAppProto::OnIqServerSync(const WANode &node)
 				dwVersion = patch->version->version;
 				if (dwVersion > pCollection->version) {
 					debugLogA("%s: applying patch of version %d", pCollection->szName.get(), dwVersion);
-					for (int i = 0; i < patch->n_mutations; i++) {
+					for (unsigned i = 0; i < patch->n_mutations; i++) {
 						auto &jt = *patch->mutations[i];
 						ParsePatch(pCollection, jt.record, jt.operation == WA__SYNCD_MUTATION__SYNCD_OPERATION__SET);
 					}
@@ -255,11 +255,11 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 	switch (pSync->synctype) {
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_BOOTSTRAP:
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__RECENT:
-		for (int i = 0; i < pSync->n_conversations; i++) {
+		for (unsigned i = 0; i < pSync->n_conversations; i++) {
 			auto *pChat = pSync->conversations[i];
 
 			auto *pUser = AddUser(pChat->id, false);
-			for (int j = 0; j < pChat->n_messages; j++) {
+			for (unsigned j = 0; j < pChat->n_messages; j++) {
 				auto *pMessage = pChat->messages[j];
 				if (!pMessage->message)
 					continue;
@@ -287,9 +287,8 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 						if (pChat->name)
 							setUString(pUser->hContact, "Nick", pChat->name);
 
-						GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
+						GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
 						gce.dwFlags = GCEF_UTF8;
-						gce.pszID.a = pUser->szId;
 						gce.pszUID.a = key->participant;
 						gce.bIsMe = key->fromme;
 						gce.pszText.a = szMessageText.GetBuffer();
@@ -305,7 +304,7 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 		break;
 
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__PUSH_NAME:
-		for (int i = 0; i < pSync->n_pushnames; i++) {
+		for (unsigned i = 0; i < pSync->n_pushnames; i++) {
 			auto *pName = pSync->pushnames[i];
 			if (auto *pUser = AddUser(pName->id, false))
 				setUString(pUser->hContact, "Nick", pName->pushname);
@@ -313,7 +312,7 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 		break;
 
 	case WA__HISTORY_SYNC__HISTORY_SYNC_TYPE__INITIAL_STATUS_V3:
-		for (int i = 0; i < pSync->n_statusv3messages;  i++) {
+		for (unsigned i = 0; i < pSync->n_statusv3messages; i++) {
 			// TODO
 			// auto *pStatus = pSync->statusv3messages[i];
 		}

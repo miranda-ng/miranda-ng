@@ -119,16 +119,13 @@ struct CVkChatInfo : public MZeroedObject
 	CVkChatInfo(int _id) :
 		m_users(10, NumericKeySortT),
 		m_msgs(10, NumericKeySortT),
-		m_iChatId(_id),
-		m_iAdminId(0),
-		m_bHistoryRead(0),
-		m_hContact(INVALID_CONTACT_ID)
+		m_iChatId(_id)
 	{}
 
-	int m_iChatId, m_iAdminId;
-	bool m_bHistoryRead;
-	ptrW m_wszTopic, m_wszId;
-	MCONTACT m_hContact;
+	int m_iChatId, m_iAdminId = 0;
+	bool m_bHistoryRead = false;
+	ptrW m_wszTopic;
+	SESSION_INFO *m_si = nullptr;
 	OBJLIST<CVkChatUser> m_users;
 	OBJLIST<CVkChatMessage> m_msgs;
 

@@ -127,7 +127,7 @@ int RoomDoubleclicked(WPARAM hContact, LPARAM)
 	if (roomid == nullptr)
 		return 0;
 
-	SESSION_INFO *si = SM_FindSession(roomid, szProto);
+	SESSION_INFO *si = Chat_Find(roomid, szProto);
 	if (si) {
 		if (si->pDlg != nullptr && !g_clistApi.pfnGetEvent(hContact, 0) && IsWindowVisible(si->pDlg->GetHwnd()) && !IsIconic(si->pDlg->GetHwnd())) {
 			si->pDlg->CloseTab();

@@ -189,7 +189,7 @@ struct GaduProto : public PROTO<GaduProto>
 	int gc_init();
 	void gc_menus_init(HGENMENU hRoot);
 	int gc_destroy();
-	wchar_t * gc_getchat(uin_t sender, uin_t *recipients, int recipients_count);
+	SESSION_INFO* gc_getchat(uin_t sender, uin_t *recipients, int recipients_count);
 	GGGC *gc_lookup(const wchar_t *id);
 	int gc_changenick(MCONTACT hContact, wchar_t *ptszNick);
 

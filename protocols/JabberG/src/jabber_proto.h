@@ -445,17 +445,18 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//---- jabber_chat.cpp ---------------------------------------------------------------
 
-	int        GcInit(JABBER_LIST_ITEM *item);
-	void       GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *resource, const char *nick, const char *jid, int action, const TiXmlElement *reason, int nStatusCode = -1);
-	void       GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type);
-	void       GcQuit(JABBER_LIST_ITEM* jid, int code, const TiXmlElement *reason);
-			     
-	void       AdminSet(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal);
-	void       AdminGet(const char *to, const char *ns, const char *var, const char *varVal, JABBER_IQ_HANDLER foo, void *pInfo = nullptr);
-	void       AdminSetReason(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal, const char *rsn);
-	void       AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str);
-	void       AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str, const char *reason);
-	void       DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char* jid);
+	SESSION_INFO* GcInit(JABBER_LIST_ITEM *item);
+	
+	void GcLogUpdateMemberStatus(JABBER_LIST_ITEM *item, const char *resource, const char *nick, const char *jid, int action, const TiXmlElement *reason, int nStatusCode = -1);
+	void GcLogShowInformation(JABBER_LIST_ITEM *item, pResourceStatus &user, TJabberGcLogInfoType type);
+	void GcQuit(JABBER_LIST_ITEM* jid, int code, const TiXmlElement *reason);
+		
+	void AdminSet(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal);
+	void AdminGet(const char *to, const char *ns, const char *var, const char *varVal, JABBER_IQ_HANDLER foo, void *pInfo = nullptr);
+	void AdminSetReason(const char *to, const char *ns, const char *szItem, const char *itemVal, const char *var, const char *varVal, const char *rsn);
+	void AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str);
+	void AddMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char *str, const char *reason);
+	void DeleteMucListItem(JABBER_MUC_JIDLIST_INFO* jidListInfo, const char* jid);
 
 	//---- jabber_console.cpp ------------------------------------------------------------
 

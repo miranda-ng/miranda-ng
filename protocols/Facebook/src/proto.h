@@ -354,6 +354,7 @@ struct FacebookUser
 	MCONTACT hContact;
 	bool bIsChat;
 	bool bIsChatInitialized;
+	SESSION_INFO *si;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////

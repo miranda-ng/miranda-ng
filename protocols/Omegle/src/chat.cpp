@@ -48,8 +48,7 @@ void OmegleProto::UpdateChat(const wchar_t *name, const wchar_t *message, bool a
 	CMStringW smessage(message);
 	smessage.Replace(L"%", L"%%");
 
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_MESSAGE };
-	gce.pszID.w = m_tszUserName;
+	GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
 	gce.time = ::time(0);
 	gce.pszText.w = smessage.c_str();
 
@@ -204,8 +203,7 @@ void OmegleProto::SendChatMessage(std::string text)
 
 void OmegleProto::AddChatContact(const wchar_t *name)
 {
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_JOIN };
-	gce.pszID.w = m_tszUserName;
+	GCEVENT gce = { m_si, GC_EVENT_JOIN };
 	gce.time = uint32_t(time(0));
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = name;
@@ -226,8 +224,7 @@ void OmegleProto::AddChatContact(const wchar_t *name)
 
 void OmegleProto::DeleteChatContact(const wchar_t *name)
 {
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_PART };
-	gce.pszID.w = m_tszUserName;
+	GCEVENT gce = { m_si, GC_EVENT_PART };
 	gce.dwFlags = GCEF_ADDTOLOG;
 	gce.pszNick.w = name;
 	gce.pszUID.w = gce.pszNick.w;
@@ -243,13 +240,13 @@ void OmegleProto::DeleteChatContact(const wchar_t *name)
 INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 {
 	// Create the group chat session
-	SESSION_INFO *si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, m_tszUserName);
-	if (!si || m_iStatus == ID_STATUS_OFFLINE)
+	m_si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, m_tszUserName);
+	if (!m_si || m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(si, TranslateT("Admin"));
-	Chat_AddGroup(si, TranslateT("Normal"));
+	Chat_AddGroup(m_si, TranslateT("Admin"));
+	Chat_AddGroup(m_si, TranslateT("Normal"));
 
 	SetTopic();
 
@@ -262,8 +259,7 @@ INT_PTR OmegleProto::OnJoinChat(WPARAM, LPARAM suppress)
 
 void OmegleProto::SetTopic(const wchar_t *topic)
 {
-	GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
-	gce.pszID.w = m_tszUserName;
+	GCEVENT gce = { m_si, GC_EVENT_TOPIC };
 	gce.time = ::time(0);
 
 	if (topic == nullptr)
@@ -276,8 +272,9 @@ void OmegleProto::SetTopic(const wchar_t *topic)
 
 INT_PTR OmegleProto::OnLeaveChat(WPARAM, LPARAM)
 {
-	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
-	Chat_Terminate(m_szModuleName, m_tszUserName);
+	Chat_Control(m_si, SESSION_OFFLINE);
+	Chat_Terminate(m_si);
+	m_si = nullptr;
 	return 0;
 }
 
@@ -294,16 +291,16 @@ void OmegleProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(facy.nick_);
 
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
+		Chat_Control(m_si, SESSION_INITDONE);
+		Chat_Control(m_si, SESSION_ONLINE);
 	}
-	else Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	else Chat_Control(m_si, SESSION_OFFLINE);
 }
 
 void OmegleProto::ClearChat()
 {
 	if (!getByte(OMEGLE_KEY_NO_CLEAR, 0))
-		Chat_Control(m_szModuleName, m_tszUserName, WINDOW_CLEARLOG);
+		Chat_Control(m_si, WINDOW_CLEARLOG);
 }
 
 // TODO: Could this be done better?

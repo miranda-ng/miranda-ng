@@ -131,7 +131,7 @@ int FacebookProto::GroupchatMenuHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
 		return 0;
 
-	if (SESSION_INFO *si = g_chatApi.SM_FindSession(gcmi->pszID, gcmi->pszModule)) {
+	if (SESSION_INFO *si = Chat_Find(gcmi->pszID, gcmi->pszModule)) {
 		if (gcmi->Type == MENU_ON_LOG)
 			Chat_AddMenuItems(gcmi->hMenu, _countof(sttLogListItems), sttLogListItems, &g_plugin);
 		if (gcmi->Type == MENU_ON_NICKLIST)
@@ -150,7 +150,7 @@ int FacebookProto::GroupchatEventHook(WPARAM, LPARAM lParam)
 	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
 		return 0;
 
-	SESSION_INFO *si = g_chatApi.SM_FindSession(gch->si->ptszID, gch->si->pszModule);
+	SESSION_INFO *si = Chat_Find(gch->si->ptszID, gch->si->pszModule);
 	if (si == nullptr)
 		return 1;
 
@@ -245,7 +245,7 @@ int FacebookProto::Chat_KickUser(SESSION_INFO *si, const wchar_t *pwszUid)
 static void __cdecl DestroyRoomThread(SESSION_INFO *si)
 {
 	::Sleep(100);
-	Chat_Terminate(si->pszModule, si->ptszID, true);
+	Chat_Terminate(si, true);
 }
 
 void FacebookProto::Chat_Leave(SESSION_INFO *si)

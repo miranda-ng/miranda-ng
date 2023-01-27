@@ -114,7 +114,7 @@ void CDiscordProto::BatchChatCreate(void *param)
 
 void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 {
-	SESSION_INFO *si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
+	auto *si = pUser->si = Chat_NewSession(GCW_CHATROOM, m_szModuleName, pUser->wszUsername, pUser->wszChannelName);
 	si->pParent = pGuild->pParentSi;
 	pUser->hContact = si->hContact;
 	setId(pUser->hContact, DB_KEY_ID, pUser->channelId);
@@ -139,14 +139,13 @@ void CDiscordProto::CreateChat(CDiscordGuild *pGuild, CDiscordUser *pUser)
 
 	BuildStatusList(pGuild, si);
 
-	Chat_Control(m_szModuleName, pUser->wszUsername, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
-	Chat_Control(m_szModuleName, pUser->wszUsername, SESSION_ONLINE);
+	Chat_Control(si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
+	Chat_Control(si, SESSION_ONLINE);
 
 	if (!pUser->wszTopic.IsEmpty()) {
-		Chat_SetStatusbarText(m_szModuleName, pUser->wszUsername, pUser->wszTopic);
+		Chat_SetStatusbarText(si, pUser->wszTopic);
 
-		GCEVENT gce = { m_szModuleName, 0, GC_EVENT_TOPIC };
-		gce.pszID.w = pUser->wszUsername;
+		GCEVENT gce = { si, GC_EVENT_TOPIC };
 		gce.time = time(0);
 		gce.pszText.w = pUser->wszTopic;
 		Chat_Event(&gce);
@@ -177,8 +176,8 @@ void CDiscordProto::ProcessGuild(const JSONNode &pRoot)
 	pGuild->hContact = si->hContact;
 	setId(pGuild->hContact, DB_KEY_CHANNELID, guildId);
 
-	Chat_Control(m_szModuleName, pGuild->wszName, WINDOW_HIDDEN);
-	Chat_Control(m_szModuleName, pGuild->wszName, SESSION_ONLINE);
+	Chat_Control(si, WINDOW_HIDDEN);
+	Chat_Control(si, SESSION_ONLINE);
 
 	for (auto &it : pRoot["roles"])
 		ProcessRole(pGuild, it);

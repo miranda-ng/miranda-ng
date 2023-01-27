@@ -171,7 +171,7 @@ static int ProcessChatEvent(WPARAM, LPARAM lParam)
 	if (gce->iType != GC_EVENT_MESSAGE)
 		return 0;
 
-	auto *si = g_chatApi.SM_FindSession(gce->pszID.w, gce->pszModule);
+	auto *si = gce->si;
 	if (si && g_chatApi.IsHighlighted(si, gce))
 		PlayWorker(si->hContact);
 

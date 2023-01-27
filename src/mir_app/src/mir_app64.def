@@ -219,20 +219,6 @@ Chat_GetDefaultEventDescr @295
 FindDatabasePlugin @296
 RegisterDatabasePlugin @298
 Chat_CustomizeApi @299
-Chat_Event @300 
-Chat_GetInfo @301 
-Chat_NewSession @302 
-Chat_Register @303 
-Chat_GetUserInfo @304
-Chat_SetUserInfo @305
-Chat_ChangeUserId @306
-Chat_ChangeSessionName @307
-Chat_SetStatusbarText @308
-Chat_SendUserMessage @309
-Chat_SetStatusEx @310
-Chat_Terminate @311
-Chat_AddGroup @312
-Chat_Control @313
 Clist_FindItem @314
 Colour_Get @315
 Colour_GetW @316
@@ -811,3 +797,22 @@ Srmm_CreateHotkey @886 NONAME
 ?getBlob@PROTO_INTERFACE@@QEAA?AVMBinBuffer@@PEBD@Z @912 NONAME
 ?UpdateEventId@MDatabaseReadonly@@UEAAHIPEBD@Z @913 NONAME
 ?GetAvatarPath@PROTO_INTERFACE@@QEBA?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @914 NONAME
+?Chat_AddGroup@@YAHPEAUSESSION_INFO@@PEB_W@Z @915 NONAME
+?Chat_ChangeSessionName@@YAHPEAUSESSION_INFO@@PEB_W@Z @916 NONAME
+?Chat_ChangeUserId@@YAHPEAUSESSION_INFO@@PEB_W1@Z @917 NONAME
+?Chat_ChangeUserId@@YAHPEBDPEB_W1@Z @918 NONAME
+?Chat_Control@@YAHPEAUSESSION_INFO@@H@Z @919 NONAME
+?Chat_Event@@YAHPEAUGCEVENT@@@Z @920 NONAME
+?Chat_Find@@YAPEAUSESSION_INFO@@PEB_WPEBD@Z @921 NONAME
+?Chat_GetInfo@@YAHPEAUGC_INFO@@@Z @922 NONAME
+?Chat_GetUserInfo@@YAPEAXPEAUSESSION_INFO@@@Z @923 NONAME
+?Chat_NewSession@@YAPEAUSESSION_INFO@@HPEBDPEB_W1PEAX@Z @924 NONAME
+?Chat_Register@@YAHPEBUGCREGISTER@@@Z @925 NONAME
+?Chat_SendUserMessage@@YAHPEAUSESSION_INFO@@PEB_W@Z @926 NONAME
+?Chat_SendUserMessage@@YAHPEBDPEB_W@Z @927 NONAME
+?Chat_SetStatusEx@@YAHPEAUSESSION_INFO@@HPEB_W@Z @928 NONAME
+?Chat_SetStatusEx@@YAHPEBDHPEB_W@Z @929 NONAME
+?Chat_SetStatusbarText@@YAHPEAUSESSION_INFO@@PEB_W@Z @930 NONAME
+?Chat_SetUserInfo@@YAHPEAUSESSION_INFO@@PEAX@Z @931 NONAME
+?Chat_Terminate@@YAHPEAUSESSION_INFO@@_N@Z @932 NONAME
+?Chat_Terminate@@YAHPEBD_N@Z @933 NONAME

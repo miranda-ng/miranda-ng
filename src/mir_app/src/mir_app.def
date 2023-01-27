@@ -219,20 +219,6 @@ Chat_GetDefaultEventDescr @295
 FindDatabasePlugin @296
 RegisterDatabasePlugin @298
 Chat_CustomizeApi @299
-Chat_Event @300 
-Chat_GetInfo @301 
-Chat_NewSession @302 
-Chat_Register @303 
-Chat_GetUserInfo @304
-Chat_SetUserInfo @305
-Chat_ChangeUserId @306
-Chat_ChangeSessionName @307
-Chat_SetStatusbarText @308
-Chat_SendUserMessage @309
-Chat_SetStatusEx @310
-Chat_Terminate @311
-Chat_AddGroup @312
-Chat_Control @313
 Clist_FindItem @314
 Colour_Get @315
 Colour_GetW @316
@@ -811,3 +797,22 @@ Srmm_CreateHotkey @886 NONAME
 ?getBlob@PROTO_INTERFACE@@QAE?AVMBinBuffer@@PBD@Z @912 NONAME
 ?UpdateEventId@MDatabaseReadonly@@UAGHIPBD@Z @913 NONAME
 ?GetAvatarPath@PROTO_INTERFACE@@QBE?AV?$CMStringT@_WV?$ChTraitsCRT@_W@@@@XZ @914 NONAME
+?Chat_AddGroup@@YGHPAUSESSION_INFO@@PB_W@Z @915 NONAME
+?Chat_ChangeSessionName@@YGHPAUSESSION_INFO@@PB_W@Z @916 NONAME
+?Chat_ChangeUserId@@YGHPAUSESSION_INFO@@PB_W1@Z @917 NONAME
+?Chat_ChangeUserId@@YGHPBDPB_W1@Z @918 NONAME
+?Chat_Control@@YGHPAUSESSION_INFO@@H@Z @919 NONAME
+?Chat_Event@@YGHPAUGCEVENT@@@Z @920 NONAME
+?Chat_Find@@YGPAUSESSION_INFO@@PB_WPBD@Z @921 NONAME
+?Chat_GetInfo@@YGHPAUGC_INFO@@@Z @922 NONAME
+?Chat_GetUserInfo@@YGPAXPAUSESSION_INFO@@@Z @923 NONAME
+?Chat_NewSession@@YGPAUSESSION_INFO@@HPBDPB_W1PAX@Z @924 NONAME
+?Chat_Register@@YGHPBUGCREGISTER@@@Z @925 NONAME
+?Chat_SendUserMessage@@YGHPAUSESSION_INFO@@PB_W@Z @926 NONAME
+?Chat_SendUserMessage@@YGHPBDPB_W@Z @927 NONAME
+?Chat_SetStatusEx@@YGHPAUSESSION_INFO@@HPB_W@Z @928 NONAME
+?Chat_SetStatusEx@@YGHPBDHPB_W@Z @929 NONAME
+?Chat_SetStatusbarText@@YGHPAUSESSION_INFO@@PB_W@Z @930 NONAME
+?Chat_SetUserInfo@@YGHPAUSESSION_INFO@@PAX@Z @931 NONAME
+?Chat_Terminate@@YGHPAUSESSION_INFO@@_N@Z @932 NONAME
+?Chat_Terminate@@YGHPBD_N@Z @933 NONAME

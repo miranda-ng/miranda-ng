@@ -27,7 +27,7 @@ void MinecraftDynmapProto::UpdateChat(const char *name, const char *message, con
 	CMStringA szMessage(message);
 	szMessage.Replace("%", "%%");
 
-	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_MESSAGE };
+	GCEVENT gce = {m_si, GC_EVENT_MESSAGE };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = timestamp;
 	gce.pszText.a = szMessage.c_str();
@@ -77,7 +77,7 @@ int MinecraftDynmapProto::OnChatEvent(WPARAM, LPARAM lParam)
 
 void MinecraftDynmapProto::AddChatContact(const char *name)
 {	
-	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_JOIN };
+	GCEVENT gce = {m_si, GC_EVENT_JOIN };
 	gce.time = uint32_t(time(0));
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.pszUID.a = gce.pszNick.a = name;
@@ -93,7 +93,7 @@ void MinecraftDynmapProto::AddChatContact(const char *name)
 
 void MinecraftDynmapProto::DeleteChatContact(const char *name)
 {
-	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_PART };
+	GCEVENT gce = {m_si, GC_EVENT_PART };
 	gce.dwFlags = GCEF_UTF8 + GCEF_ADDTOLOG;
 	gce.pszUID.a = gce.pszNick.a = name;
 	gce.time = uint32_t(time(0));
@@ -106,13 +106,13 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 	ptrW tszTitle(mir_a2u_cp(m_title.c_str(), CP_UTF8));
 
 	// Create the group chat session
-	SESSION_INFO *si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, tszTitle);
-	if (!si || m_iStatus == ID_STATUS_OFFLINE)
+	m_si = Chat_NewSession(GCW_PRIVMESS, m_szModuleName, m_tszUserName, tszTitle);
+	if (!m_si || m_iStatus == ID_STATUS_OFFLINE)
 		return 0;
 
 	// Create a group
-	Chat_AddGroup(si, TranslateT("Admin"));
-	Chat_AddGroup(si, TranslateT("Normal"));
+	Chat_AddGroup(m_si, TranslateT("Admin"));
+	Chat_AddGroup(m_si, TranslateT("Normal"));
 		
 	// Note: Initialization will finish up in SetChatStatus, called separately
 	if (!suppress)
@@ -123,7 +123,7 @@ INT_PTR MinecraftDynmapProto::OnJoinChat(WPARAM,LPARAM suppress)
 
 void MinecraftDynmapProto::SetTopic(const char *topic)
 {		
-	GCEVENT gce = { m_szModuleName, szRoomName, GC_EVENT_TOPIC };
+	GCEVENT gce = {m_si, GC_EVENT_TOPIC };
 	gce.dwFlags = GCEF_UTF8;
 	gce.time = ::time(0);
 	gce.pszText.a = topic;
@@ -132,8 +132,9 @@ void MinecraftDynmapProto::SetTopic(const char *topic)
 
 INT_PTR MinecraftDynmapProto::OnLeaveChat(WPARAM,LPARAM)
 {
-	Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
-	Chat_Terminate(m_szModuleName, m_tszUserName);
+	Chat_Control(m_si, SESSION_OFFLINE);
+	Chat_Terminate(m_si);
+	m_si = nullptr;
 	return 0;
 }
 
@@ -148,15 +149,15 @@ void MinecraftDynmapProto::SetChatStatus(int status)
 		// Add self contact
 		AddChatContact(m_nick.c_str());
 
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_INITDONE);
-		Chat_Control(m_szModuleName, m_tszUserName, SESSION_ONLINE);
+		Chat_Control(m_si, SESSION_INITDONE);
+		Chat_Control(m_si, SESSION_ONLINE);
 	}
-	else Chat_Control(m_szModuleName, m_tszUserName, SESSION_OFFLINE);
+	else Chat_Control(m_si, SESSION_OFFLINE);
 }
 
 void MinecraftDynmapProto::ClearChat()
 {
-	Chat_Control(m_szModuleName, m_tszUserName, WINDOW_CLEARLOG);
+	Chat_Control(m_si, WINDOW_CLEARLOG);
 }
 
 // TODO: Could this be done better?

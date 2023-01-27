@@ -86,6 +86,7 @@ struct CDiscordUser : public MZeroedObject
 	bool      bSynced;
 
 	struct CDiscordGuild *pGuild;
+	SESSION_INFO *si;
 
 	CMStringW wszUsername, wszChannelName, wszTopic;
 	int       iDiscriminator;

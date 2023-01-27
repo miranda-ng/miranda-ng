@@ -262,23 +262,31 @@ struct CIrcProto : public PROTO<CIrcProto>
 	void __cdecl DisconnectServerThread(void*);
 
 	// tools.cpp
-	void      AddToJTemp(wchar_t op, CMStringW& sCommand);
-	bool      AddWindowItemData(CMStringW window, const wchar_t *pszLimit, const wchar_t *pszMode, const wchar_t *pszPassword, const wchar_t *pszTopic);
-	INT_PTR   DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *pszNick, const wchar_t *pszText, const wchar_t *pszStatus, const wchar_t *pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp = 1);
-	void      FindLocalIP(HNETLIBCONN con);
-	bool      FreeWindowItemData(CMStringW window, CHANNELINFO* wis);
-	bool      IsChannel(const char* sName);
-	bool      IsChannel(const wchar_t* sName);
-	void      KillChatTimer(UINT_PTR &nIDEvent);
-	CMStringW ModeToStatus(int sMode);
-	CMStringW PrefixToStatus(int cPrefix);
-	int       SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi);
-	void      SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
+	void         AddToJTemp(wchar_t op, CMStringW& sCommand);
+	bool         AddWindowItemData(CMStringW window, const wchar_t *pszLimit, const wchar_t *pszMode, const wchar_t *pszPassword, const wchar_t *pszTopic);
+	INT_PTR      DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *pszNick, const wchar_t *pszText, const wchar_t *pszStatus, const wchar_t *pszUserInfo, DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp = 1);
+	void         FindLocalIP(HNETLIBCONN con);
+	bool         FreeWindowItemData(CMStringW window, CHANNELINFO* wis);
+	bool         IsChannel(const char* sName);
+	bool         IsChannel(const wchar_t* sName);
+	void         KillChatTimer(UINT_PTR &nIDEvent);
+	CMStringW    ModeToStatus(int sMode);
+	CMStringW    PrefixToStatus(int cPrefix);
+	int          SetChannelSBText(CMStringW sWindow, CHANNELINFO *wi);
+	void         SetChatTimer(UINT_PTR &nIDEvent, UINT uElapse, TIMERPROC lpTimerFunc);
 
-	void      ClearUserhostReasons(int type);
-	void      DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, const wchar_t *userhostparams, ...);
-	CMStringW GetNextUserhostReason(int type);
-	CMStringW PeekAtReasons(int type);
+	CHANNELINFO *GetChannelInfo(const wchar_t *pwszChatName);
+	void         SetChannelInfo(const wchar_t *pwszChatName, CHANNELINFO *pInfo);
+
+	void         ClearUserhostReasons(int type);
+	void         DoUserhostWithReason(int type, CMStringW reason, bool bSendCommand, const wchar_t *userhostparams, ...);
+	CMStringW    GetNextUserhostReason(int type);
+	CMStringW    PeekAtReasons(int type);
+
+	void __forceinline Chat_Control(const wchar_t *pwszChat, int state)
+	{
+		::Chat_Control(Chat_Find(pwszChat, m_szModuleName), state);
+	}
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	// former CIrcSession class

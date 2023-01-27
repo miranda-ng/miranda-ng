@@ -177,12 +177,15 @@ INT_PTR CALLBACK CSend::ResultDialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 void CSend::svcSendMsgExit(const char* szMessage)
 {
 	if (m_bSilent) {
-		Exit(ACKRESULT_SUCCESS); return;
+		Exit(ACKRESULT_SUCCESS);
+		return;
 	}
+	
 	if (!m_hContact) {
 		if (!m_pszFileDesc)
 			m_pszFileDesc = mir_a2u(szMessage);
-		Exit(CSEND_DIALOG); return;
+		Exit(CSEND_DIALOG);
+		return;
 	}
 
 	if (m_ChatRoom) {
@@ -191,46 +194,31 @@ void CSend::svcSendMsgExit(const char* szMessage)
 			tmp.Append(L"\r\n");
 			tmp.Append(m_pszFileDesc);
 		}
-		
-		int res = GC_RESULT_NOSESSION;
-		int cnt = g_chatApi.SM_GetCount(m_pszProto);
+		Chat_SendUserMessage(m_pszProto, tmp);
 
-		// loop on all gc session to get the right (save) ptszID for the chatroom from m_hContact
-		GC_INFO gci = { 0 };
-		gci.pszModule = m_pszProto;
-		for (int i = 0; i < cnt; i++) {
-			gci.iItem = i;
-			gci.Flags = GCF_BYINDEX | GCF_HCONTACT | GCF_ID;
-			Chat_GetInfo(&gci);
-			if (gci.hContact == m_hContact) {
-				Chat_SendUserMessage(m_pszProto, gci.pszID, tmp);
-				res = 200;
-				break;
-			}
-		}
-		Exit(res); return;
+		Exit(200);
+		return;
 	}
-	else {
-		m_szEventMsg = szMessage;
-		if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
-			m_szEventMsg.Append("\r\n");
-			m_szEventMsg.Append(_T2A(m_pszFileDesc));
-			m_cbEventMsg = m_szEventMsg.GetLength() + 1;
-		}
 
-		// create a HookEventObj on ME_PROTO_ACK
-		if (!m_hOnSend)
-			m_hOnSend = HookEventObj(ME_PROTO_ACK, OnSend, this);
+	m_szEventMsg = szMessage;
+	if (m_pszFileDesc && m_pszFileDesc[0] != NULL) {
+		m_szEventMsg.Append("\r\n");
+		m_szEventMsg.Append(_T2A(m_pszFileDesc));
+		m_cbEventMsg = m_szEventMsg.GetLength() + 1;
+	}
 
-		// start PSS_MESSAGE service
-		m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
+	// create a HookEventObj on ME_PROTO_ACK
+	if (!m_hOnSend)
+		m_hOnSend = HookEventObj(ME_PROTO_ACK, OnSend, this);
+
+	// start PSS_MESSAGE service
+	m_hSend = (HANDLE)ProtoChainSend(m_hContact, PSS_MESSAGE, NULL, ptrA(mir_utf8encode(m_szEventMsg)));
 		
-		// check we actually got an ft handle back from the protocol
-		if (!m_hSend) {
-			Unhook();
-			Error(SS_ERR_INIT, m_pszSendTyp);
-			Exit(ACKRESULT_FAILED); return;
-		}
+	// check we actually got an ft handle back from the protocol
+	if (!m_hSend) {
+		Unhook();
+		Error(SS_ERR_INIT, m_pszSendTyp);
+		Exit(ACKRESULT_FAILED);
 	}
 }
 

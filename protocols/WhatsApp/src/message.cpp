@@ -223,9 +223,8 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 				ProtoChainRecvMsg(pUser->hContact, &pre);
 
 				if (pUser->bIsGroupChat) {
-					GCEVENT gce = {m_szModuleName, 0, GC_EVENT_MESSAGE};
+					GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
 					gce.dwFlags = GCEF_UTF8;
-					gce.pszID.a = pUser->szId;
 					gce.pszUID.a = participant;
 					gce.bIsMe = key->fromme;
 					gce.pszText.a = szMessageText.GetBuffer();

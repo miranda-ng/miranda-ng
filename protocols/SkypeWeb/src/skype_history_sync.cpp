@@ -101,7 +101,7 @@ void CSkypeProto::OnGetServerHistory(NETLIBHTTPREQUEST *response, AsyncHttpReque
 			}
 		}
 		else if (userType == 19) {
-			auto *si = g_chatApi.SM_FindSession(wszChatId, m_szModuleName);
+			auto *si = Chat_Find(wszChatId, m_szModuleName);
 			if (si == nullptr)
 				return;
 

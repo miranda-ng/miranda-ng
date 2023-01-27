@@ -180,7 +180,7 @@ void CIrcProto::OnContactDeleted(MCONTACT hContact)
 				S = dbv.pwszVal;
 			if (type == GCW_SERVER)
 				S = SERVERWINDOW;
-			int i = Chat_Terminate(m_szModuleName, S);
+			int i = Chat_Terminate(Chat_Find(S, m_szModuleName));
 			if (i && type == GCW_CHATROOM)
 				PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
 		}
@@ -220,7 +220,7 @@ INT_PTR __cdecl CIrcProto::OnLeaveChat(WPARAM wp, LPARAM)
 	if (!getWString((MCONTACT)wp, "Nick", &dbv)) {
 		if (getByte((MCONTACT)wp, "ChatRoom", 0) == GCW_CHATROOM) {
 			PostIrcMessage(L"/PART %s %s", dbv.pwszVal, m_userInfo);
-			Chat_Terminate(m_szModuleName, dbv.pwszVal);
+			Chat_Terminate(Chat_Find(dbv.pwszVal, m_szModuleName));
 		}
 		db_free(&dbv);
 	}
@@ -317,7 +317,7 @@ INT_PTR __cdecl CIrcProto::OnShowListMenuCommand(WPARAM, LPARAM)
 
 INT_PTR __cdecl CIrcProto::OnShowServerMenuCommand(WPARAM, LPARAM)
 {
-	Chat_Control(m_szModuleName, SERVERWINDOW, WINDOW_VISIBLE);
+	Chat_Control(SERVERWINDOW, WINDOW_VISIBLE);
 	return 0;
 }
 
@@ -477,7 +477,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM, LPARAM lParam)
 
 		case 3:
 			PostIrcMessage(L"/PART %s %s", p1, m_userInfo);
-			Chat_Terminate(m_szModuleName, p1);
+			Chat_Terminate(Chat_Find(p1, m_szModuleName));
 			break;
 
 		case 4:		// show server window
@@ -788,7 +788,7 @@ int __cdecl CIrcProto::GCMenuHook(WPARAM, LPARAM lParam)
 					ulAdr = ConvertIPToInteger(m_IPFromServer ? m_myHost : m_myLocalHost);
 				nickItems[23].bDisabled = ulAdr == 0 ? TRUE : FALSE;	// DCC submenu
 
-				CHANNELINFO *wi = (CHANNELINFO *)Chat_GetUserInfo(m_szModuleName, gcmi->pszID);
+				auto *wi = GetChannelInfo(gcmi->pszID);
 				BOOL bServOwner = strchr(sUserModes.c_str(), 'q') == nullptr ? FALSE : TRUE;
 				BOOL bServAdmin = strchr(sUserModes.c_str(), 'a') == nullptr ? FALSE : TRUE;
 				BOOL bOwner = bServOwner ? ((wi->OwnMode >> 4) & 01) : FALSE;
@@ -985,7 +985,7 @@ void CIrcProto::DisconnectFromServer(void)
 	if (m_perform && IsConnected())
 		DoPerform("Event: Disconnect");
 
-	Chat_Terminate(m_szModuleName, nullptr);
+	Chat_Terminate(m_szModuleName);
 	ForkThread(&CIrcProto::DisconnectServerThread, nullptr);
 }
 

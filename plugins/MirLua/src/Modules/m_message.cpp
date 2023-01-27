@@ -30,7 +30,7 @@ static int message_Send(lua_State *L)
 	if (Contact::IsGroupChat(hContact, szProto)) {
 		ptrW wszChatRoom(Contact::GetInfo(CNF_UNIQUEID, hContact, szProto));
 		ptrW wszMessage(mir_utf8decodeW(message));
-		res = Chat_SendUserMessage(szProto, wszChatRoom, wszMessage);
+		res = Chat_SendUserMessage(Chat_Find(wszChatRoom, szProto), wszMessage);
 		lua_pushinteger(L, res);
 	}
 	else if ((res = ProtoChainSend(hContact, PSS_MESSAGE, 0, (LPARAM)message)) != ACKRESULT_FAILED) {

@@ -36,7 +36,7 @@ void CSkypeProto::SetChatStatus(MCONTACT hContact, int iStatus)
 {
 	ptrW tszChatID(getWStringA(hContact, SKYPE_SETTINGS_ID));
 	if (tszChatID != NULL)
-		Chat_Control(m_szModuleName, tszChatID, (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
+		Chat_Control(Chat_Find(tszChatID, m_szModuleName), (iStatus == ID_STATUS_OFFLINE) ? SESSION_OFFLINE : SESSION_ONLINE);
 }
 
 MCONTACT CSkypeProto::GetContactFromAuthEvent(MEVENT hEvent)
