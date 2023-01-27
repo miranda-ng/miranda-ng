@@ -46,7 +46,7 @@ static PLUGININFOEX pluginInfoEx =
 CMPlugin::CMPlugin() :
 	ACCPROTOPLUGIN<CIrcProto>("IRC", pluginInfoEx)
 {
-	SetUniqueId("Nick");
+	SetUniqueId("ID");
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
