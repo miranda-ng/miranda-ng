@@ -100,20 +100,21 @@ class CGenMenuOptionsPage : public CDlgBase
 
 		while (tvi.hItem != nullptr) {
 			m_menuItems.GetItem(&tvi);
+
+			bool bChecked = (tvi.state >> 12) == 2;
 			auto *iod = (MenuItemOptData*)tvi.lParam;
 			if (TMO_IntMenuItem *pimi = iod->pimi) {
 				if (pimi->mi.uid != miid_last) {
 					char menuItemName[256];
 					bin2hex(&pimi->mi.uid, sizeof(pimi->mi.uid), menuItemName);
 
-					int visible = (tvi.state >> 12) == 2;
 					wchar_t *ptszCustomName;
 					if (iod->name != nullptr && iod->defname != nullptr && mir_wstrcmp(iod->name, iod->defname) != 0)
 						ptszCustomName = iod->name;
 					else
 						ptszCustomName = L"";
 
-					CMStringW tszValue(FORMAT, L"%d;%d;%S;%s", visible, runtimepos, pszParent, ptszCustomName);
+					CMStringW tszValue(FORMAT, L"%d;%d;%S;%s", bChecked, runtimepos, pszParent, ptszCustomName);
 					db_set_ws(0, szModule, menuItemName, tszValue);
 
 					if (pimi->mi.flags & CMIF_CUSTOM)
@@ -127,7 +128,7 @@ class CGenMenuOptionsPage : public CDlgBase
 				runtimepos += 100;
 			}
 
-			if (iod->name && !mir_wstrcmp(iod->name, STR_SEPARATOR) && tvi.iImage)
+			if (iod->name && !mir_wstrcmp(iod->name, STR_SEPARATOR) && bChecked)
 				runtimepos += SEPARATORPOSITIONINTERVAL;
 
 			tvi.hItem = m_menuItems.GetNextSibling(tvi.hItem);
@@ -389,6 +390,7 @@ public:
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = {};
+		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
 		tvis.hInsertAfter = hti;
