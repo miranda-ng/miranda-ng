@@ -183,7 +183,7 @@ using namespace irc;
 // map actual member functions to their associated IRC command.
 // put any number of this macro in the class's constructor.
 #define	IRC_MAP_ENTRY(name, member)	\
-	m_handlers.insert( new CIrcHandler( L##name, &CIrcProto::OnIrc_##member ));
+	m_handlers.insert( new CIrcHandler( L##name, &CIrcProto::##member ));
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Functions

@@ -371,7 +371,7 @@ bool CIrcProto::OnIrc_QUIT(const CIrcMessage *pmsg)
 		CONTACT user = { pmsg->prefix.sNick, pmsg->prefix.sUser, pmsg->prefix.sHost, false, false, false };
 		CList_SetOffline(&user);
 		if (pmsg->prefix.sNick == m_info.sNick)
-			setAllContactStatuses(SESSION_OFFLINE, false);
+			::Chat_Control(m_szModuleName, SESSION_OFFLINE);
 	}
 	else ShowMessage(pmsg);
 
@@ -2277,7 +2277,7 @@ void CIrcProto::OnIrcDisconnected()
 	sDisconn += TranslateT("*Disconnected*");
 	DoEvent(GC_EVENT_INFORMATION, SERVERWINDOW, nullptr, sDisconn, nullptr, nullptr, NULL, true, false);
 
-	setAllContactStatuses(SESSION_OFFLINE, false);
+	::Chat_Control(m_szModuleName, SESSION_OFFLINE);
 
 	if (!Miranda_IsTerminated())
 		CList_SetAllOffline(m_disconnectDCCChats);

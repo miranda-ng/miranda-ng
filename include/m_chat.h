@@ -354,12 +354,17 @@ MIR_APP_DLL(struct SESSION_INFO*) Chat_NewSession(
 #define GCEF_SILENT         0x0002   // never add to log
 #define GCEF_NOTNOTIFY      0x0004
 #define GCEF_UTF8           0x0008
+#define GCEF_BROADCAST      0x0010   // means that pszModule is used
 
 struct SESSION_INFO;
 
 struct GCEVENT
 {
-	SESSION_INFO *si;              // session to deal with
+	union {
+		SESSION_INFO *si;           // session to deal with
+		const char *pszModule;      // module name to broadcast
+	};
+	
 	int          iType;            // Use GC_EVENT_* as defined above. Only one event per service call.
 			   
 	MAllCStrings pszText;          //
@@ -414,11 +419,12 @@ MIR_APP_DLL(int) Chat_SetStatusEx(SESSION_INFO *si, int flags, const wchar_t *ws
 #define WINDOW_HIDDEN			3   // close the room window. Session is not terminated.
 #define WINDOW_CLEARLOG			6   // clear the log of the room window
 
-// if wszId == NULL, this message is broadcasted to all windows of specified szModule
 MIR_APP_DLL(int) Chat_Control(SESSION_INFO *si, int command);
-
-MIR_APP_DLL(int) Chat_Terminate(const char *szModule, bool bRemoveContact = false);
 MIR_APP_DLL(int) Chat_Terminate(SESSION_INFO *si, bool bRemoveContact = false);
+
+// these functions broadcast a command to all windows of specified szModule
+MIR_APP_DLL(int) Chat_Control(const char *szModule, int command);
+MIR_APP_DLL(int) Chat_Terminate(const char *szModule, bool bRemoveContact = false);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Use this function to get information on different aspects of the sessions that are registered with Chat.

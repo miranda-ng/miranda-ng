@@ -378,26 +378,31 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *
 	const wchar_t *pszText, const wchar_t *pszStatus, const wchar_t *pszUserInfo,
 	DWORD_PTR dwItemData, bool bAddToLog, bool bIsMe, time_t timestamp)
 {
-	CMStringW sID;
-	CMStringW sText;
-
 	if (iEvent == GC_EVENT_INFORMATION && bIsMe && !bEcho)
 		return false;
 
+	CMStringW sText;
 	if (pszText)
 		sText = DoColorCodes(pszText, FALSE, TRUE);
 
-	GCEVENT gce = { 0, iEvent };
-	if (pszWindow) {
-		sID = pszWindow;
-		gce.si = Chat_Find(sID.c_str(), m_szModuleName);
+	GCEVENT gce = {};
+	if (pszWindow)
+		gce.si = Chat_Find(pszWindow, m_szModuleName);
+	else {
+		gce.pszModule = m_szModuleName;
+		gce.dwFlags |= GCEF_BROADCAST;
 	}
-	else gce.si = nullptr;
 
+	if (bAddToLog)
+		gce.dwFlags |= GCEF_ADDTOLOG;
+
+	gce.iType = iEvent;
 	gce.pszStatus.w = pszStatus;
-	gce.dwFlags = (bAddToLog) ? GCEF_ADDTOLOG : 0;
 	gce.pszNick.w = pszNick;
 	gce.pszUID.w = pszNick;
+	gce.dwItemData = dwItemData;
+	gce.bIsMe = bIsMe;
+
 	if (iEvent == GC_EVENT_TOPIC)
 		gce.pszUserInfo.w = pszUserInfo;
 	else
@@ -406,12 +411,10 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *
 	if (!sText.IsEmpty())
 		gce.pszText.w = sText.c_str();
 
-	gce.dwItemData = dwItemData;
 	if (timestamp == 1)
 		gce.time = time(0);
 	else
 		gce.time = timestamp;
-	gce.bIsMe = bIsMe;
 	return Chat_Event(&gce);
 }
 

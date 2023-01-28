@@ -267,7 +267,6 @@ void CMsgDialog::OnActivate()
 	StopFlash();
 
 	if (isChat()) {
-		g_chatApi.SetActiveSession(m_si);
 		UpdateStatusBar();
 
 		if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)

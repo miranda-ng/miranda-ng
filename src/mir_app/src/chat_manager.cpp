@@ -56,25 +56,6 @@ static int compareModules(const MODULEINFO *p1, const MODULEINFO *p2)
 static LIST<MODULEINFO> g_arModules(5, compareModules);
 
 /////////////////////////////////////////////////////////////////////////////////////////
-
-static void SetActiveSession(SESSION_INFO *si)
-{
-	if (si) {
-		replaceStrW(g_chatApi.szActiveWndID, si->ptszID);
-		replaceStr(g_chatApi.szActiveWndModule, si->pszModule);
-	}
-}
-
-static SESSION_INFO* GetActiveSession(void)
-{
-	SESSION_INFO *si = Chat_Find(g_chatApi.szActiveWndID, g_chatApi.szActiveWndModule);
-	if (si)
-		return si;
-
-	return g_arSessions[0];
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // Log manager functions
 //	Necessary to keep track of events in a window log
 
@@ -893,8 +874,6 @@ static void CreateNick(const SESSION_INFO *, const LOGINFO *lin, CMStringW &wszN
 
 static void ResetApi()
 {
-	g_chatApi.SetActiveSession = ::SetActiveSession;
-	g_chatApi.GetActiveSession = ::GetActiveSession;
 	g_chatApi.SM_CreateSession = ::SM_CreateSession;
 	g_chatApi.SM_GetStatusIcon = ::SM_GetStatusIcon;
 	g_chatApi.SM_GetCount = ::SM_GetCount;

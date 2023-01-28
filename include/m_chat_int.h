@@ -273,9 +273,6 @@ struct CHAT_MANAGER
 {
 	CHAT_MANAGER();
 
-	void          (*SetActiveSession)(SESSION_INFO *si);
-	SESSION_INFO* (*GetActiveSession)(void);
-
 	SESSION_INFO* (*SM_CreateSession)(void);
 	SESSION_INFO* (*SM_FindSession)(const wchar_t *pszID, const char *pszModule);
 	HICON         (*SM_GetStatusIcon)(SESSION_INFO *si, USERINFO * ui);
@@ -328,8 +325,6 @@ struct CHAT_MANAGER
 	void          (*CreateNick)(const SESSION_INFO *si, const LOGINFO *lin, CMStringW &dest);
 
 	int logPixelSY, logPixelSX;
-	char *szActiveWndModule;
-	wchar_t *szActiveWndID;
 	HICON  hStatusIcons[STATUSICONCOUNT];
 	HBRUSH hListBkgBrush, hListSelectedBkgBrush;
 	HANDLE hevWinPopup, hevPreCreate;

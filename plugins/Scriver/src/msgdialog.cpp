@@ -1087,8 +1087,6 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		if (isChat()) {
 			SetFocus(m_message.GetHwnd());
 
-			g_chatApi.SetActiveSession(m_si);
-
 			if (db_get_w(m_hContact, m_si->pszModule, "ApparentMode", 0) != 0)
 				db_set_w(m_hContact, m_si->pszModule, "ApparentMode", 0);
 			if (g_clistApi.pfnGetEvent(m_hContact, 0))

@@ -2756,7 +2756,6 @@ void CMsgDialog::UpdateWindowState(UINT msg)
 	}
 
 	if (m_si) {
-		g_chatApi.SetActiveSession(m_si);
 		m_hTabIcon = m_hTabStatusIcon;
 
 		if (db_get_w(m_si->hContact, m_si->pszModule, "ApparentMode", 0) != 0)
