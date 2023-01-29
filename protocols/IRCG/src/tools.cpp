@@ -388,6 +388,8 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const wchar_t *pszWindow, const wchar_t *
 	GCEVENT gce = {};
 	if (pszWindow)
 		gce.si = Chat_Find(pszWindow, m_szModuleName);
+	else if (iEvent == GC_EVENT_INFORMATION || iEvent == GC_EVENT_NOTICE)
+		gce.si = Chat_Find(SERVERWINDOW, m_szModuleName);
 	else {
 		gce.pszModule = m_szModuleName;
 		gce.dwFlags |= GCEF_BROADCAST;
