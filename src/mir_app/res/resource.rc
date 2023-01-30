@@ -461,11 +461,11 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Menu objects",IDC_STATIC,5,2,140,81
-    LISTBOX         IDC_MENUOBJECTS,11,13,128,79,WS_VSCROLL | WS_TABSTOP
+    GROUPBOX        "Menu objects",IDC_STATIC,5,2,140,77
+    LISTBOX         IDC_MENUOBJECTS,11,14,128,66,WS_VSCROLL | WS_TABSTOP
     GROUPBOX        "Menu items",IDC_STATIC,149,2,161,248
     CONTROL         "Tree1",IDC_MENUITEMS,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_NOHSCROLL | WS_DISABLED | WS_BORDER | WS_TABSTOP,156,13,148,212
-    GROUPBOX        "Protocol menus",IDC_STATIC,5,84,140,37
+    GROUPBOX        "Protocol menus",IDC_STATIC,5,81,140,41
     CONTROL         "Move to the main menu",IDC_RADIO1,"Button",BS_AUTORADIOBUTTON,11,95,128,8
     CONTROL         "Move to the status bar",IDC_RADIO2,"Button",BS_AUTORADIOBUTTON,11,107,130,8
     LTEXT           "Warning!\r\nThis menu object not support user defined options.",IDC_NOTSUPPORTWARNING,10,124,136,32,NOT WS_VISIBLE
@@ -1563,16 +1563,16 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Word lookup", GRAYED
         BEGIN
-            MENUITEM "Google",                  IDM_SEARCH_GOOGLE
-            MENUITEM "Bing",                    IDM_SEARCH_BING
-            MENUITEM "Yandex",                  IDM_SEARCH_YANDEX
-            MENUITEM "Wikipedia (en)",          IDM_SEARCH_WIKIPEDIA
+            MENUITEM "Google",                      IDM_SEARCH_GOOGLE
+            MENUITEM "Bing",                        IDM_SEARCH_BING
+            MENUITEM "Yandex",                      IDM_SEARCH_YANDEX
+            MENUITEM "Wikipedia (en)",              IDM_SEARCH_WIKIPEDIA
             MENUITEM SEPARATOR
-            MENUITEM "Google Maps",             IDM_SEARCH_GOOGLE_MAPS
-            MENUITEM "Google Translate",        IDM_SEARCH_GOOGLE_TRANSLATE
+            MENUITEM "Google Maps",                 IDM_SEARCH_GOOGLE_MAPS
+            MENUITEM "Google Translate",            IDM_SEARCH_GOOGLE_TRANSLATE
             MENUITEM SEPARATOR
-            MENUITEM "Yahoo",                   IDM_SEARCH_YAHOO
-            MENUITEM "Foodnetwork",             IDM_SEARCH_FOODNETWORK
+            MENUITEM "Yahoo",                       IDM_SEARCH_YAHOO
+            MENUITEM "Foodnetwork",                 IDM_SEARCH_FOODNETWORK
         END
     END
 END

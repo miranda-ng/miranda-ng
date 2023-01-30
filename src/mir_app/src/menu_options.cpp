@@ -390,10 +390,11 @@ public:
 		PD->pos = ((MenuItemOptData *)tvi.lParam)->pos - 1;
 
 		TVINSERTSTRUCT tvis = {};
+		tvis.hParent = m_menuItems.GetParent(hti);
+		tvis.hInsertAfter = hti;
 		tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
 		tvis.item.lParam = (LPARAM)PD;
 		tvis.item.pszText = PD->name;
-		tvis.hInsertAfter = hti;
 		tvis.item.state = INDEXTOSTATEIMAGEMASK(2);
 		tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 		m_menuItems.InsertItem(&tvis);
