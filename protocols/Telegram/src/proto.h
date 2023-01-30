@@ -133,8 +133,9 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 	OBJLIST<TG_FILE_REQUEST> m_arFiles;
 
-	static INT_PTR CALLBACK EnterPhoneCode(void *param);
+	static INT_PTR CALLBACK EnterEmail(void *param);
 	static INT_PTR CALLBACK EnterPassword(void *param);
+	static INT_PTR CALLBACK EnterPhoneCode(void *param);
 
 	CMStringW GetProtoFolder() const
 	{	return CMStringW(VARSW(L"%miranda_userdata%")) + L"\\" + _A2T(m_szModuleName);

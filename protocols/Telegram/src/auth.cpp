@@ -21,6 +21,21 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 ///////////////////////////////////////////////////////////////////////////////
 
+INT_PTR CALLBACK CTelegramProto::EnterEmail(void *param)
+{
+	auto *ppro = (CTelegramProto *)param;
+
+	ENTER_STRING es = {};
+	es.szModuleName = ppro->m_szModuleName;
+	es.caption = TranslateT("Enter email address for account verification");
+	if (EnterString(&es)) {
+		ppro->SendQuery(new TD::checkEmailAddressVerificationCode(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
+		mir_free(es.ptszResult);
+	}
+	else ppro->LogOut();
+	return 0;
+}
+
 INT_PTR CALLBACK CTelegramProto::EnterPhoneCode(void *param)
 {
 	auto *ppro = (CTelegramProto *)param;
@@ -29,7 +44,7 @@ INT_PTR CALLBACK CTelegramProto::EnterPhoneCode(void *param)
 	es.szModuleName = ppro->m_szModuleName;
 	es.caption = TranslateT("Enter secret code sent to your phone");
 	if (EnterString(&es)) {
-		ppro->SendQuery(new TD::checkAuthenticationCode(_T2A(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationCode(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
@@ -50,7 +65,7 @@ INT_PTR CALLBACK CTelegramProto::EnterPassword(void *param)
 	es.caption = wszTitle;
 	es.type = ESF_PASSWORD;
 	if (EnterString(&es)) {
-		ppro->SendQuery(new TD::checkAuthenticationPassword(_T2A(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationPassword(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
@@ -94,6 +109,10 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 
 	case TD::authorizationStateWaitPassword::ID:
 		CallFunctionSync(EnterPassword, this);
+		break;
+
+	case TD::authorizationStateWaitEmailAddress::ID:
+		CallFunctionSync(EnterEmail, this);
 		break;
 
 	case TD::authorizationStateReady::ID:
