@@ -6,12 +6,19 @@
 #define IDD_ACCMGRUI                    101
 #define IDD_OPTIONS                     102
 #define IDI_PREMIUM                     103
+#define IDD_OPTIONS_ADV                 104
 #define IDC_PHONE                       1001
 #define IDC_DEFGROUP                    1002
 #define IDC_HIDECHATS                   1003
 #define IDC_POPUPS                      1004
 #define IDC_DEFGROUP2                   1004
 #define IDC_DEVICE_NAME                 1005
+#define IDC_DIFF1                       1006
+#define IDC_DIFF2                       1007
+#define IDC_SPIN1                       1008
+#define IDC_SPIN2                       1009
+#define IDC_STATUS1                     1010
+#define IDC_STATUS2                     1011
 
 // Next default values for new objects
 // 

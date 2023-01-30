@@ -58,6 +58,77 @@ public:
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// Advanced options
+
+class CIcqOptionsAdv : public CProtoDlgBase<CTelegramProto>
+{
+	CCtrlEdit edtDiff1, edtDiff2;
+	CCtrlSpin spin1, spin2;
+	CCtrlCombo cmbStatus1, cmbStatus2;
+
+public:
+	CIcqOptionsAdv(CTelegramProto *ppro) :
+		CProtoDlgBase<CTelegramProto>(ppro, IDD_OPTIONS_ADV),
+		spin1(this, IDC_SPIN1, 32000),
+		spin2(this, IDC_SPIN2, 32000),
+		edtDiff1(this, IDC_DIFF1),
+		edtDiff2(this, IDC_DIFF2),
+		cmbStatus1(this, IDC_STATUS1),
+		cmbStatus2(this, IDC_STATUS2)
+	{
+		edtDiff1.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout1);
+		edtDiff2.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout2);
+
+		CreateLink(spin1, ppro->m_iTimeDiff1);
+		CreateLink(spin2, ppro->m_iTimeDiff2);
+	}
+
+	bool OnInitDialog() override
+	{
+		if (cmbStatus1.GetHwnd()) {
+			for (uint32_t iStatus = ID_STATUS_OFFLINE; iStatus <= ID_STATUS_MAX; iStatus++) {
+				int idx = cmbStatus1.AddString(Clist_GetStatusModeDescription(iStatus, 0));
+				cmbStatus1.SetItemData(idx, iStatus);
+				if (iStatus == m_proto->m_iStatus1)
+					cmbStatus1.SetCurSel(idx);
+
+				idx = cmbStatus2.AddString(Clist_GetStatusModeDescription(iStatus, 0));
+				cmbStatus2.SetItemData(idx, iStatus);
+				if (iStatus == m_proto->m_iStatus2)
+					cmbStatus2.SetCurSel(idx);
+			}
+		}
+
+		return true;
+	}
+
+	bool OnApply() override
+	{
+		if (cmbStatus1.GetHwnd()) {
+			m_proto->m_iStatus1 = cmbStatus1.GetCurData();
+			m_proto->m_iStatus2 = cmbStatus2.GetCurData();
+		}
+
+		return true;
+	}
+
+	void onChange_Timeout1(CCtrlEdit *)
+	{
+		bool bEnabled = edtDiff1.GetInt() != 0;
+		spin2.Enable(bEnabled);
+		edtDiff2.Enable(bEnabled);
+		cmbStatus1.Enable(bEnabled);
+		cmbStatus2.Enable(bEnabled && edtDiff2.GetInt() != 0);
+	}
+
+	void onChange_Timeout2(CCtrlEdit *)
+	{
+		bool bEnabled = edtDiff2.GetInt() != 0;
+		cmbStatus2.Enable(bEnabled);
+	}
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 INT_PTR CTelegramProto::SvcCreateAccMgrUI(WPARAM, LPARAM hwndParent)
 {
@@ -77,6 +148,11 @@ int CTelegramProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 1;
 	odp.szTab.w = LPGENW("Account");
 	odp.pDialog = new COptionsDlg(this, IDD_OPTIONS, true);
+	g_plugin.addOptions(wParam, &odp);
+
+	odp.position = 2;
+	odp.szTab.w = LPGENW("Advanced");
+	odp.pDialog = new CIcqOptionsAdv(this);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

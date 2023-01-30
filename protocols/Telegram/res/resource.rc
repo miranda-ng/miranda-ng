@@ -90,6 +90,20 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,294,10
 END
 
+IDD_OPTIONS_ADV DIALOGEX 0, 0, 310, 86
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    LTEXT           "If a contact goes Offline, set this status instead and cache it for given timeout in seconds (0 - disabled)",IDC_STATIC,12,16,204,23
+    EDITTEXT        IDC_DIFF1,221,13,54,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN1,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,12,11,14
+    COMBOBOX        IDC_STATUS1,221,28,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "After that, set this status to a contact and move it offline after specified timeout in seconds (0 - disabled)",IDC_STATIC,12,49,204,23
+    EDITTEXT        IDC_DIFF2,221,46,54,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_AUTOBUDDY | UDS_ARROWKEYS,275,45,11,14
+    COMBOBOX        IDC_STATUS2,221,61,81,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+END
 
 /////////////////////////////////////////////////////////////////////////////
 //
