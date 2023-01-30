@@ -425,7 +425,7 @@ public:
 
 		MenuItemOptData *PD = new MenuItemOptData();
 		PD->id = -1;
-		PD->name = mir_wstrdup(pimi->mi.name.w);
+		PD->name = mir_wstrdup(TranslateW(pimi->mi.name.w));
 		PD->pos = pimi->mi.position;
 		PD->pimi = pimi;
 

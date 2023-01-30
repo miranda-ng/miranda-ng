@@ -917,7 +917,7 @@ static int sttReadOldItem(TMO_IntMenuItem *pmi, void *szModule)
 	else if (pmi->mi.flags & CMIF_UNICODE)
 		mir_snprintf(menuItemName, "{%s}", (char*)_T2A(pmi->mi.name.w));
 	else
-		mir_snprintf(menuItemName, "{%s}", pmi->mi.name.w);
+		mir_snprintf(menuItemName, "{%s}", pmi->mi.name.a);
 
 	// check if it visible
 	mir_snprintf(szSetting, "%s_visible", menuItemName);
