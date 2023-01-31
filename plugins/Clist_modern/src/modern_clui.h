@@ -46,17 +46,18 @@ public:
 	static CLUI *  GetClui()          { return m_pCLUI; }
 	static BOOL    IsMainMenuInited() { return CLUI::m_fMainMenuInited; }
 
-	CLINTERFACE void cliOnCreateClc();
+	static void cliOnCreateClc();
 
-	EVENTHOOK(OnEvent_ModulesLoaded);
-	EVENTHOOK(OnEvent_ContactMenuPreBuild);
-	EVENTHOOK(OnEvent_FontReload);
+	static int OnEvent_ModulesLoaded(WPARAM wParam, LPARAM lParam);
+	static int OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam);
+	static int OnEvent_FontReload(WPARAM wParam, LPARAM lParam);
 
-	SERVICE(Service_ShowMainMenu);
-	SERVICE(Service_ShowStatusMenu);
-	SERVICE(Service_Menu_ShowContactAvatar);
-	SERVICE(Service_Menu_HideContactAvatar);
-
+	static INT_PTR Service_ShowMainMenu(WPARAM wParam, LPARAM lParam);
+	static INT_PTR Service_ShowStatusMenu(WPARAM wParam, LPARAM lParam);
+	static INT_PTR Service_Menu_ExpandMeta(WPARAM wParam, LPARAM lParam);
+	static INT_PTR Service_Menu_ShowContactAvatar(WPARAM wParam, LPARAM lParam);
+	static INT_PTR Service_Menu_HideContactAvatar(WPARAM wParam, LPARAM lParam);
+	
 	static LRESULT CALLBACK cli_ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
 		CLUI * This = m_pCLUI;

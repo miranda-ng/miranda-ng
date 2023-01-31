@@ -9,8 +9,8 @@ public:
 	CLCPaint();
 	~CLCPaint() {};
 
-	CLINTERFACE void   cliPaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
-	CLINTERFACE tPaintCallbackProc PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, uint32_t dFlags, void * CallBackData);
+	static void cliPaintClc(HWND hwnd, ClcData *dat, HDC hdc, RECT *rcPaint);
+	static tPaintCallbackProc PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, uint32_t dFlags, void * CallBackData);
 
 	BOOL   IsForegroundWindow(HWND hWnd);
 	HFONT  ChangeToFont(HDC hdc, ClcData *dat, int id, int *fontHeight);

@@ -91,7 +91,7 @@ static BOOL bTransparentFocus = TRUE,
 bNeedFixSizingRect = FALSE,
 bShowEventStarted = FALSE;
 
-static HGENMENU hRenameMenuItem, hShowAvatarMenuItem, hHideAvatarMenuItem;
+static HGENMENU hmiRename, hmiShowAvatar, hmiHideAvatar, hmiExpandMeta;
 
 static UINT uMsgGetProfile = 0;
 
@@ -167,29 +167,58 @@ int CLUI::OnEvent_FontReload(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CLUI::OnEvent_ContactMenuPreBuild(WPARAM, LPARAM)
+static HWND GetClistWindow()
 {
-	if (MirandaExiting())
-		return 0;
-
 	HWND hwndClist = GetFocus();
 	wchar_t cls[128];
 	GetClassName(hwndClist, cls, _countof(cls));
 	if (mir_wstrcmp(CLISTCONTROL_CLASSW, cls))
-		hwndClist = g_clistApi.hwndContactList;
+		hwndClist = g_clistApi.hwndContactTree;
 
-	MCONTACT hItem = (MCONTACT)SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	Menu_ShowItem(hRenameMenuItem, hItem != 0);
+	return hwndClist;
+}
 
-	if (!hItem || !IsHContactContact(hItem) || !g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)) {
-		Menu_ShowItem(hShowAvatarMenuItem, false);
-		Menu_ShowItem(hHideAvatarMenuItem, false);
+static ClcContact* FindMetaContact(HWND hwndClist, MCONTACT hContact)
+{
+	auto *dat = (ClcData *)GetWindowLongPtr(hwndClist, 0);
+	if (dat == nullptr || !dat->bMetaExpanding)
+		return nullptr;
+
+	ClcContact *ret = nullptr;
+	if (!Clist_FindItem(hwndClist, dat, hContact, &ret))
+		return nullptr;
+
+	return ret;
+}
+
+int CLUI::OnEvent_ContactMenuPreBuild(WPARAM hContact, LPARAM)
+{
+	if (MirandaExiting())
+		return 0;
+
+	HWND hwndClist = GetClistWindow();
+
+	if (!g_plugin.getByte("AvatarsShow", SETTINGS_SHOWAVATARS_DEFAULT)) {
+		Menu_ShowItem(hmiShowAvatar, false);
+		Menu_ShowItem(hmiHideAvatar, false);
 	}
 	else {
-		bool bHideAvatar = g_plugin.getByte(hItem, "HideContactAvatar") != 0;
-		Menu_ShowItem(hShowAvatarMenuItem, bHideAvatar);
-		Menu_ShowItem(hHideAvatarMenuItem, !bHideAvatar);
+		bool bHideAvatar = g_plugin.getByte(hContact, "HideContactAvatar") != 0;
+		Menu_ShowItem(hmiShowAvatar, bHideAvatar);
+		Menu_ShowItem(hmiHideAvatar, !bHideAvatar);
 	}
+
+	if (db_mc_isMeta(hContact)) {
+		if (ClcContact *pContact = FindMetaContact(hwndClist, hContact)) {
+			Menu_ShowItem(hmiExpandMeta, true);
+			if (pContact->bSubExpanded)
+				Menu_ModifyItem(hmiExpandMeta, TranslateT("Contract meta"), Skin_GetIconHandle(SKINICON_OTHER_GROUPOPEN));
+			else
+				Menu_ModifyItem(hmiExpandMeta, TranslateT("Expand meta"), Skin_GetIconHandle(SKINICON_OTHER_GROUPSHUT));
+		}
+		else Menu_ShowItem(hmiExpandMeta, false);
+	}
+	else Menu_ShowItem(hmiExpandMeta, false);
 
 	return 0;
 }
@@ -223,6 +252,15 @@ INT_PTR CLUI::Service_Menu_HideContactAvatar(WPARAM hContact, LPARAM)
 	g_plugin.setByte(hContact, "HideContactAvatar", 1);
 
 	Clist_Broadcast(INTM_AVATARCHANGED, hContact, 0);
+	return 0;
+}
+
+INT_PTR CLUI::Service_Menu_ExpandMeta(WPARAM hContact, LPARAM)
+{
+	HWND hwndClist = GetClistWindow();
+	if (auto *pContact = FindMetaContact(hwndClist, hContact))
+		PostMessage(hwndClist, WM_KEYDOWN, (pContact->bSubExpanded) ? VK_LEFT : VK_RIGHT, 0);
+
 	return 0;
 }
 
@@ -304,20 +342,25 @@ HRESULT CLUI::RegisterAvatarMenu()
 
 	CMenuItem mi(&g_plugin);
 	SET_UID(mi, 0x1cc99858, 0x40ca, 0x4558, 0xae, 0x10, 0xba, 0x81, 0xaf, 0x4c, 0x67, 0xb5);
-	CreateServiceFunction("CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
 	mi.position = 2000150000;
 	mi.hIcolibItem = iconItem[0].hIcolib;
 	mi.name.a = LPGEN("Show contact &avatar");
-	mi.pszService = "CList/ShowContactAvatar";
-	hShowAvatarMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService = "CList/ShowContactAvatar", CLUI::Service_Menu_ShowContactAvatar);
+	hmiShowAvatar = Menu_AddContactMenuItem(&mi);
 
 	SET_UID(mi, 0x13f93d1b, 0xd470, 0x45de, 0x86, 0x8f, 0x22, 0x3b, 0x89, 0x4f, 0x4f, 0xa3);
-	CreateServiceFunction("CList/HideContactAvatar", CLUI::Service_Menu_HideContactAvatar);
-	mi.position = 2000150001;
+	mi.position++;
 	mi.hIcolibItem = iconItem[1].hIcolib;
 	mi.name.a = LPGEN("Hide contact &avatar");
-	mi.pszService = "CList/HideContactAvatar";
-	hHideAvatarMenuItem = Menu_AddContactMenuItem(&mi);
+	CreateServiceFunction(mi.pszService = "CList/HideContactAvatar", CLUI::Service_Menu_HideContactAvatar);
+	hmiHideAvatar = Menu_AddContactMenuItem(&mi);
+
+	SET_UID(mi, 0xad6cedb0, 0x4243, 0x4f59, 0xbd, 0x37, 0xba, 0x49, 0x5a, 0x5b, 0x53, 0xa8);
+	mi.position++;
+	mi.hIcolibItem = Skin_GetIconHandle(SKINICON_OTHER_GROUPOPEN);
+	mi.name.a = LPGEN("Expand meta");
+	CreateServiceFunction(mi.pszService = "CList/ExpandMeta", CLUI::Service_Menu_ExpandMeta);
+	hmiExpandMeta = Menu_AddContactMenuItem(&mi);
 
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, CLUI::OnEvent_ContactMenuPreBuild);
 	return S_OK;

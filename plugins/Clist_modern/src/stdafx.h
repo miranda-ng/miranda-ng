@@ -57,10 +57,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define TRACET(str)
 #endif
 
-#define SERVICE(serviceproc)         static INT_PTR serviceproc(WPARAM wParam, LPARAM lParam)
-#define EVENTHOOK(eventhookproc)     static int eventhookproc(WPARAM wParam, LPARAM lParam)
-#define CLINTERFACE                  static
-
 #include <windows.h>
 #include <Shlwapi.h>
 #include <vssym32.h>
