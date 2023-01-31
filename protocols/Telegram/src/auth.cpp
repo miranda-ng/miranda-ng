@@ -29,6 +29,21 @@ INT_PTR CALLBACK CTelegramProto::EnterEmail(void *param)
 	es.szModuleName = ppro->m_szModuleName;
 	es.caption = TranslateT("Enter email address for account verification");
 	if (EnterString(&es)) {
+		ppro->SendQuery(new TD::setAuthenticationEmailAddress(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
+		mir_free(es.ptszResult);
+	}
+	else ppro->LogOut();
+	return 0;
+}
+
+INT_PTR CALLBACK CTelegramProto::EnterEmailCode(void *param)
+{
+	auto *ppro = (CTelegramProto *)param;
+
+	ENTER_STRING es = {};
+	es.szModuleName = ppro->m_szModuleName;
+	es.caption = TranslateT("Enter verification code received by email");
+	if (EnterString(&es)) {
 		ppro->SendQuery(new TD::checkEmailAddressVerificationCode(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
@@ -113,6 +128,10 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 
 	case TD::authorizationStateWaitEmailAddress::ID:
 		CallFunctionSync(EnterEmail, this);
+		break;
+
+	case TD::authorizationStateWaitEmailCode::ID:
+		CallFunctionSync(EnterEmailCode, this);
 		break;
 
 	case TD::authorizationStateReady::ID:

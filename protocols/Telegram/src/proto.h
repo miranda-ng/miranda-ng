@@ -134,6 +134,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	OBJLIST<TG_FILE_REQUEST> m_arFiles;
 
 	static INT_PTR CALLBACK EnterEmail(void *param);
+	static INT_PTR CALLBACK EnterEmailCode(void *param);
 	static INT_PTR CALLBACK EnterPassword(void *param);
 	static INT_PTR CALLBACK EnterPhoneCode(void *param);
 
