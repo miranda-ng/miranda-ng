@@ -60,14 +60,14 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options
 
-class CIcqOptionsAdv : public CProtoDlgBase<CTelegramProto>
+class CAdvOptionsDlg : public CProtoDlgBase<CTelegramProto>
 {
 	CCtrlEdit edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
 
 public:
-	CIcqOptionsAdv(CTelegramProto *ppro) :
+	CAdvOptionsDlg(CTelegramProto *ppro) :
 		CProtoDlgBase<CTelegramProto>(ppro, IDD_OPTIONS_ADV),
 		spin1(this, IDC_SPIN1, 32000),
 		spin2(this, IDC_SPIN2, 32000),
@@ -76,8 +76,8 @@ public:
 		cmbStatus1(this, IDC_STATUS1),
 		cmbStatus2(this, IDC_STATUS2)
 	{
-		edtDiff1.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout1);
-		edtDiff2.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout2);
+		edtDiff1.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout1);
+		edtDiff2.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout2);
 
 		CreateLink(spin1, ppro->m_iTimeDiff1);
 		CreateLink(spin2, ppro->m_iTimeDiff2);
@@ -123,8 +123,7 @@ public:
 
 	void onChange_Timeout2(CCtrlEdit *)
 	{
-		bool bEnabled = edtDiff2.GetInt() != 0;
-		cmbStatus2.Enable(bEnabled);
+		cmbStatus2.Enable(edtDiff1.GetInt() != 0 && edtDiff2.GetInt() != 0);
 	}
 };
 
@@ -152,7 +151,7 @@ int CTelegramProto::OnOptionsInit(WPARAM wParam, LPARAM)
 
 	odp.position = 2;
 	odp.szTab.w = LPGENW("Advanced");
-	odp.pDialog = new CIcqOptionsAdv(this);
+	odp.pDialog = new CAdvOptionsDlg(this);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

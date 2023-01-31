@@ -213,7 +213,7 @@ void CIcqProto::OnLoginViaPhone(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pRe
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-class CIcqOptionsDlg : public CIcqDlgBase
+class COptionsDlg : public CIcqDlgBase
 {
 	CCtrlEdit edtUin, edtPassword;
 	CCtrlCheck chkHideChats, chkTrayIcon, chkLaunchMailbox, chkShowErrorPopups;
@@ -221,7 +221,7 @@ class CIcqOptionsDlg : public CIcqDlgBase
 	CMStringW wszOldPass;
 
 public:
-	CIcqOptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
+	COptionsDlg(CIcqProto *ppro, int iDlgID, bool bFullDlg) :
 		CIcqDlgBase(ppro, iDlgID),
 		edtUin(this, IDC_UIN),
 		btnCreate(this, IDC_REGISTER),
@@ -231,7 +231,7 @@ public:
 		chkLaunchMailbox(this, IDC_LAUNCH_MAILBOX),
 		chkShowErrorPopups(this, IDC_SHOWERRORPOPUPS)
 	{
-		btnCreate.OnClick = Callback(this, &CIcqOptionsDlg::onClick_Register);
+		btnCreate.OnClick = Callback(this, &COptionsDlg::onClick_Register);
 
 		CreateLink(edtUin, ppro->m_szOwnId);
 		if (bFullDlg) {
@@ -240,7 +240,7 @@ public:
 			CreateLink(chkLaunchMailbox, ppro->m_bLaunchMailbox);
 			CreateLink(chkShowErrorPopups, ppro->m_bErrorPopups);
 
-			chkTrayIcon.OnChange = Callback(this, &CIcqOptionsDlg::onChange_Tray);
+			chkTrayIcon.OnChange = Callback(this, &COptionsDlg::onChange_Tray);
 		}
 	}
 
@@ -296,14 +296,14 @@ public:
 /////////////////////////////////////////////////////////////////////////////////////////
 // Advanced options
 
-class CIcqOptionsAdv : public CIcqDlgBase
+class CAdvOptionsDlg : public CIcqDlgBase
 {
 	CCtrlEdit edtDiff1, edtDiff2;
 	CCtrlSpin spin1, spin2;
 	CCtrlCombo cmbStatus1, cmbStatus2;
 
 public:
-	CIcqOptionsAdv(CIcqProto *ppro) :
+	CAdvOptionsDlg(CIcqProto *ppro) :
 		CIcqDlgBase(ppro, IDD_OPTIONS_ADV),
 		spin1(this, IDC_SPIN1, 32000),
 		spin2(this, IDC_SPIN2, 32000),
@@ -312,8 +312,8 @@ public:
 		cmbStatus1(this, IDC_STATUS1),
 		cmbStatus2(this, IDC_STATUS2)
 	{
-		edtDiff1.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout1);
-		edtDiff2.OnChange = Callback(this, &CIcqOptionsAdv::onChange_Timeout2);
+		edtDiff1.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout1);
+		edtDiff2.OnChange = Callback(this, &CAdvOptionsDlg::onChange_Timeout2);
 
 		CreateLink(spin1, ppro->m_iTimeDiff1);
 		CreateLink(spin2, ppro->m_iTimeDiff2);
@@ -359,8 +359,7 @@ public:
 
 	void onChange_Timeout2(CCtrlEdit*)
 	{
-		bool bEnabled = edtDiff2.GetInt() != 0;
-		cmbStatus2.Enable(bEnabled);
+		cmbStatus2.Enable(edtDiff1.GetInt() != 0 && edtDiff2.GetInt() != 0);
 	}
 };
 
@@ -369,7 +368,7 @@ public:
 
 INT_PTR CIcqProto::CreateAccMgrUI(WPARAM, LPARAM hwndParent)
 {
-	CIcqOptionsDlg *pDlg = new CIcqOptionsDlg(this, IDD_OPTIONS_ACCMGR, false);
+	COptionsDlg *pDlg = new COptionsDlg(this, IDD_OPTIONS_ACCMGR, false);
 	pDlg->SetParent((HWND)hwndParent);
 	pDlg->Create();
 	return (INT_PTR)pDlg->GetHwnd();
@@ -384,11 +383,11 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM)
 	odp.position = 1;
 
 	odp.szTab.w = LPGENW("General");
-	odp.pDialog = new CIcqOptionsDlg(this, IDD_OPTIONS_FULL, true);
+	odp.pDialog = new COptionsDlg(this, IDD_OPTIONS_FULL, true);
 	g_plugin.addOptions(wParam, &odp);
 
 	odp.szTab.w = LPGENW("Advanced");
-	odp.pDialog = new CIcqOptionsAdv(this);
+	odp.pDialog = new CAdvOptionsDlg(this);
 	g_plugin.addOptions(wParam, &odp);
 	return 0;
 }

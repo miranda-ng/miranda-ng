@@ -245,8 +245,8 @@ class CIcqProto : public PROTO<CIcqProto>
 	friend struct CIcqRegistrationDlg;
 	friend class CGroupchatInviteDlg;
 	friend class CEditIgnoreListDlg;
+	friend class COptionsDlg;
 	friend class CIcqEnterLoginDlg;
-	friend class CIcqOptionsDlg;
 	friend class CGroupEditDlg;
 
 	friend AsyncHttpRequest* operator <<(AsyncHttpRequest*, const AIMSID&);
