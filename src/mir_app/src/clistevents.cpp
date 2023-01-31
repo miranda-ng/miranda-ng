@@ -331,6 +331,12 @@ MIR_APP_DLL(int) Clist_EventsProcessTrayDoubleClick(int index)
 	return 0;
 }
 
+static int CListEventMarkedRead(WPARAM hContact, LPARAM hDbEvent)
+{
+	g_clistApi.pfnRemoveEvent(hContact, hDbEvent);
+	return 0;
+}
+
 static int CListEventSettingsChanged(WPARAM hContact, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
@@ -363,6 +369,7 @@ int InitCListEvents(void)
 	g_bEnableIconFlash = Clist::EnableIconBlink;
 
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, CListEventSettingsChanged);
+	HookEvent(ME_DB_EVENT_MARKED_READ, CListEventMarkedRead);
 	return 0;
 }
 
