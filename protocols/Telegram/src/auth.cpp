@@ -44,7 +44,9 @@ INT_PTR CALLBACK CTelegramProto::EnterEmailCode(void *param)
 	es.szModuleName = ppro->m_szModuleName;
 	es.caption = TranslateT("Enter verification code received by email");
 	if (EnterString(&es)) {
-		ppro->SendQuery(new TD::checkEmailAddressVerificationCode(T2Utf(es.ptszResult).get()), &CTelegramProto::OnUpdateAuth);
+		ppro->SendQuery(new TD::checkAuthenticationEmailCode(
+			TD::object_ptr<TD::EmailAddressAuthentication>(new TD::emailAddressAuthenticationCode(T2Utf(es.ptszResult).get()))),
+			&CTelegramProto::OnUpdateAuth);
 		mir_free(es.ptszResult);
 	}
 	else ppro->LogOut();
