@@ -76,17 +76,41 @@ struct TG_FILE_REQUEST
 
 struct TG_USER
 {
-	TG_USER(uint64_t _1, MCONTACT _2, bool _3 = false) :
+	TG_USER(int64_t _1, MCONTACT _2, bool _3 = false) :
 		id(_1),
 		hContact(_2),
 		isGroupChat(_3)
 	{}
 
-	uint64_t  id;
+	int64_t  id;
 	MCONTACT  hContact;
 	bool      isGroupChat;
 	CMStringA szAvatarHash;
+	CMStringW wszNick;
 	time_t    m_timer1 = 0, m_timer2 = 0;
+	SESSION_INFO *m_si = nullptr;
+};
+
+struct TG_SUPER_GROUP
+{
+	TG_SUPER_GROUP(int64_t _1, TD::object_ptr<TD::supergroup> _2) :
+		id(_1),
+		group(std::move(_2))
+	{}
+
+	int64_t id;
+	TD::object_ptr<TD::supergroup> group;
+};
+
+struct TG_BASIC_GROUP
+{
+	TG_BASIC_GROUP(int64_t _1, TD::object_ptr<TD::basicGroup> _2) :
+		id(_1),
+		group(std::move(_2))
+	{}
+
+	int64_t id;
+	TD::object_ptr<TD::basicGroup> group;
 };
 
 class CTelegramProto : public PROTO<CTelegramProto>
@@ -128,7 +152,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
-	uint64_t m_iQueryId;
+	int64_t m_iQueryId;
 
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 	OBJLIST<TG_FILE_REQUEST> m_arFiles;
@@ -154,9 +178,10 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void SendMarkRead(void);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler = nullptr);
 	void SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo);
-	int  SendTextMessage(uint64_t chatId, const char *pszMessage);
+	int  SendTextMessage(int64_t chatId, const char *pszMessage);
 
 	void ProcessAuth(TD::updateAuthorizationState *pObj);
+	void ProcessBasicGroup(TD::updateBasicGroup *pObj);
 	void ProcessChat(TD::updateNewChat *pObj);
 	void ProcessChatPosition(TD::updateChatPosition *pObj);
 	void ProcessFile(TD::updateFile *pObj);
@@ -164,6 +189,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	void ProcessMarkRead(TD::updateChatReadInbox *pObj);
 	void ProcessMessage(TD::updateNewMessage *pObj);
 	void ProcessStatus(TD::updateUserStatus *pObj);
+	void ProcessSuperGroup(TD::updateSupergroup *pObj);
 	void ProcessUser(TD::updateUser *pObj);
 
 	CMStringA GetMessageText(TD::MessageContent *pBody);
@@ -178,13 +204,20 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	INT_PTR __cdecl SvcGetMyAvatar(WPARAM, LPARAM);
 	INT_PTR __cdecl SvcSetMyAvatar(WPARAM, LPARAM);
 
+	// Group chats
+	OBJLIST<TG_BASIC_GROUP>  m_arBasicGroups;
+	OBJLIST<TG_SUPER_GROUP>  m_arSuperGroups;
+
+	void InitGroupChat(TG_USER *pUser, const TD::chat *pChat, bool bUpdateMembers);
+	void StartGroupChat(td::ClientManager::Response &response, void *pUserData);
+
 	// Users
 	int64_t m_iOwnId;
 	MGROUP m_iBaseGroup;
 	OBJLIST<TG_USER> m_arUsers;
 
-	TG_USER* FindUser(uint64_t id);
-	TG_USER* AddUser(uint64_t id, bool bIsChat);
+	TG_USER* FindUser(int64_t id);
+	TG_USER* AddUser(int64_t id, bool bIsChat);
 
 	// Popups
 	HANDLE m_hPopupClass;

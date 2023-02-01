@@ -1,5 +1,13 @@
 #include "stdafx.h"
 
+int __forceinline CompareId(int64_t id1, int64_t id2)
+{
+	if (id1 == id2)
+		return 0;
+
+	return (id1 < id2) ? -1 : 1;
+}
+
 static int CompareRequests(const TG_REQUEST_BASE *p1, const TG_REQUEST_BASE *p2)
 {
 	if (p1->requestId == p2->requestId)
@@ -9,11 +17,15 @@ static int CompareRequests(const TG_REQUEST_BASE *p1, const TG_REQUEST_BASE *p2)
 }
 
 static int CompareUsers(const TG_USER *p1, const TG_USER *p2)
-{
-	if (p1->id == p2->id)
-		return 0;
+{	return CompareId(p1->id, p2->id);
+}
 
-	return (p1->id < p2->id) ? -1 : 1;
+static int CompareBasicGroups(const TG_BASIC_GROUP *p1, const TG_BASIC_GROUP *p2)
+{	return CompareId(p1->id, p2->id);
+}
+
+static int CompareSuperGroups(const TG_SUPER_GROUP *p1, const TG_SUPER_GROUP *p2)
+{	return CompareId(p1->id, p2->id);
 }
 
 CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
@@ -22,6 +34,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_arFiles(1),
 	m_arUsers(10, CompareUsers),
 	m_arRequests(10, CompareRequests),
+	m_arBasicGroups(10, CompareBasicGroups),
+	m_arSuperGroups(10, CompareSuperGroups),
 	m_szOwnPhone(this, "Phone"), 
 	m_iStatus1(this, "Status1", ID_STATUS_AWAY),
 	m_iStatus2(this, "Status2", ID_STATUS_NA),

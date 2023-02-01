@@ -28,15 +28,21 @@ void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, con
 /////////////////////////////////////////////////////////////////////////////////////////
 // Users
 
-TG_USER* CTelegramProto::FindUser(uint64_t id)
+TG_USER* CTelegramProto::FindUser(int64_t id)
 {
 	if (auto *pCache = m_arUsers.find((TG_USER *)&id))
 		return pCache;
 
+	if (id < 0) {
+		id = -id;
+		if (auto *pCache = m_arUsers.find((TG_USER *)&id))
+			return pCache;
+	}
+
 	return nullptr;
 }
 
-TG_USER* CTelegramProto::AddUser(uint64_t id, bool bIsChat)
+TG_USER* CTelegramProto::AddUser(int64_t id, bool bIsChat)
 {
 	auto *pUser = FindUser(id);
 	if (pUser != nullptr)
