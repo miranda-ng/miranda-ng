@@ -83,11 +83,14 @@ public:
 	void onChange_Country(CCtrlCombo *)
 	{
 		CMStringA buf;
-		int iCode = cmbCountry.GetCurData();
-		if (iCode == 9999)
+		switch (int iCode = cmbCountry.GetCurData()) {
+		case 9999:
+		case -1:
 			buf = "---";
-		else
+			break;
+		default:
 			buf.Format("+%d", iCode);
+		}
 		SetDlgItemTextA(m_hwnd, IDC_CODE, buf);
 	}
 };
