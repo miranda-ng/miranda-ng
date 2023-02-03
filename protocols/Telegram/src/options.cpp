@@ -44,6 +44,8 @@ public:
 
 		if (bFullDlg)
 			CreateLink(chkUsePopups, ppro->m_bUsePopups);
+
+		cmbCountry.OnChange = Callback(this, &COptionsDlg::onChange_Country);
 	}
 
 	bool OnInitDialog() override
@@ -58,14 +60,15 @@ public:
 			if (countryCode == m_proto->m_iCountry)
 				cmbCountry.SetCurSel(idx);
 		}
-
+		
+		onChange_Country(0);
 		return true;
 	}
 
 	bool OnApply() override
 	{
 		int iCountry = cmbCountry.GetCurData();
-		if (iCountry == 9999 || mir_wstrlen(m_proto->m_szOwnPhone)) {
+		if (iCountry == 9999 || !mir_wstrlen(m_proto->m_szOwnPhone)) {
 			SetFocus(edtPhone.GetHwnd());
 			return false;
 		}
@@ -75,6 +78,17 @@ public:
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);
 		return true;
+	}
+
+	void onChange_Country(CCtrlCombo *)
+	{
+		CMStringA buf;
+		int iCode = cmbCountry.GetCurData();
+		if (iCode == 9999)
+			buf = "---";
+		else
+			buf.Format("+%d", iCode);
+		SetDlgItemTextA(m_hwnd, IDC_CODE, buf);
 	}
 };
 
