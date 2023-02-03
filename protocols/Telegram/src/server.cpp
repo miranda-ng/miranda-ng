@@ -25,6 +25,7 @@ void CTelegramProto::OnEndSession(td::ClientManager::Response&)
 void __cdecl CTelegramProto::ServerThread(void *)
 {
 	m_bTerminated = m_bAuthorized = false;
+	m_szFullPhone.Format("%d%S", (int)m_iCountry, (wchar_t *)m_szOwnPhone);
 
 	m_pClientMmanager = std::make_unique<td::ClientManager>();
 	m_iClientId = m_pClientMmanager->create_client_id();
@@ -457,7 +458,7 @@ void CTelegramProto::ProcessUser(TD::updateUser *pObj)
 {
 	auto *pUser = pObj->user_.get();
 
-	if (pUser->phone_number_ == _T2A(m_szOwnPhone).get()) {
+	if (pUser->phone_number_ == m_szFullPhone.c_str()) {
 		m_iOwnId = pUser->id_;
 
 		if (!FindUser(pUser->id_))

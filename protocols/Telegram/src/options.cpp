@@ -22,12 +22,14 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 class COptionsDlg : public CProtoDlgBase<CTelegramProto>
 {
 	CCtrlCheck chkHideChats, chkUsePopups;
+	CCtrlCombo cmbCountry;
 	CCtrlEdit edtGroup, edtPhone, edtDeviceName;
 	ptrW m_wszOldGroup;
 
 public:
 	COptionsDlg(CTelegramProto *ppro, int iDlgID, bool bFullDlg) :
 		CProtoDlgBase<CTelegramProto>(ppro, iDlgID),
+		cmbCountry(this, IDC_COUNTRY),
 		chkUsePopups(this, IDC_POPUPS),
 		chkHideChats(this, IDC_HIDECHATS),
 		edtPhone(this, IDC_PHONE),
@@ -44,12 +46,31 @@ public:
 			CreateLink(chkUsePopups, ppro->m_bUsePopups);
 	}
 
+	bool OnInitDialog() override
+	{
+		int iCount;
+		CountryListEntry *pList;
+		CallService(MS_UTILS_GETCOUNTRYLIST, (WPARAM)&iCount, (LPARAM)&pList);
+
+		for (int i = 0; i < iCount; i++) {
+			int countryCode = pList[i].id;
+			int idx = cmbCountry.AddString(TranslateW(_A2T(pList[i].szName).get()), countryCode);
+			if (countryCode == m_proto->m_iCountry)
+				cmbCountry.SetCurSel(idx);
+		}
+
+		return true;
+	}
+
 	bool OnApply() override
 	{
-		if (!mir_wstrlen(m_proto->m_szOwnPhone)) {
+		int iCountry = cmbCountry.GetCurData();
+		if (iCountry == 9999 || mir_wstrlen(m_proto->m_szOwnPhone)) {
 			SetFocus(edtPhone.GetHwnd());
 			return false;
 		}
+
+		m_proto->m_iCountry = iCountry;
 
 		if (mir_wstrcmp(m_proto->m_wszDefaultGroup, m_wszOldGroup))
 			Clist_GroupCreate(0, m_proto->m_wszDefaultGroup);

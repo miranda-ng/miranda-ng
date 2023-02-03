@@ -117,7 +117,7 @@ void CTelegramProto::ProcessAuth(TD::updateAuthorizationState *pObj)
 		break;
 
 	case TD::authorizationStateWaitPhoneNumber::ID:
-		SendQuery(new TD::setAuthenticationPhoneNumber(_T2A(m_szOwnPhone).get(), nullptr), &CTelegramProto::OnUpdateAuth);
+		SendQuery(new TD::setAuthenticationPhoneNumber(m_szFullPhone.c_str(), nullptr), &CTelegramProto::OnUpdateAuth);
 		break;
 
 	case TD::authorizationStateWaitCode::ID:

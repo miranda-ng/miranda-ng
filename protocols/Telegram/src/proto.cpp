@@ -37,6 +37,7 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	m_arBasicGroups(10, CompareBasicGroups),
 	m_arSuperGroups(10, CompareSuperGroups),
 	m_szOwnPhone(this, "Phone"), 
+	m_iCountry(this, "Country", 9999),
 	m_iStatus1(this, "Status1", ID_STATUS_AWAY),
 	m_iStatus2(this, "Status2", ID_STATUS_NA),
 	m_iTimeDiff1(this, "TimeDiff1", 600),

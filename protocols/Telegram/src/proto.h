@@ -153,6 +153,7 @@ class CTelegramProto : public PROTO<CTelegramProto>
 	bool m_bAuthorized, m_bTerminated, m_bUnregister = false, m_bSmileyAdd = false;
 	int32_t m_iClientId, m_iMsgId;
 	int64_t m_iQueryId;
+	CMStringA m_szFullPhone;
 
 	OBJLIST<TG_REQUEST_BASE> m_arRequests;
 	OBJLIST<TG_FILE_REQUEST> m_arFiles;
@@ -255,6 +256,7 @@ public:
 
 	// Options ///////////////////////////////////////////////////////////////////////////
 	
+	CMOption<uint32_t> m_iCountry;		   // set this status to m_iStatus1 after this interval of secs
 	CMOption<wchar_t*> m_szOwnPhone;       // our own phone number
 	CMOption<wchar_t*> m_wszDefaultGroup;  // clist group to store contacts
 	CMOption<wchar_t*> m_wszDeviceName;    // how do you see this session in Device List
