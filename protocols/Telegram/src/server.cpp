@@ -411,9 +411,8 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 	pre.szMessage = szText.GetBuffer();
 	pre.szMsgId = szId;
 	pre.timestamp = pMessage->date_;
-	if (pMessage->sender_id_->get_id() == TD::messageSenderUser::ID)
-		if (((TD::messageSenderUser *)pMessage->sender_id_.get())->user_id_ == m_iOwnId)
-			pre.flags |= PREF_SENT;
+	if (pMessage->is_outgoing_)
+		pre.flags |= PREF_SENT;
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
