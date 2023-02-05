@@ -190,7 +190,7 @@ public:
 
 		pwszSection = TranslateT("Misc options");
 		m_opts.AddOption(pwszSection, TranslateT("No popups for RSS contacts"), g_plugin.bNoRSS);
-		m_opts.AddOption(pwszSection, TranslateT("No popups for read messages (conflicts with AntiSpam plugin)"), g_plugin.bReadCheck);
+		m_opts.AddOption(pwszSection, TranslateT("No popups for read messages (conflicts with anti-spam plugin)"), g_plugin.bReadCheck);
 
 		chkLimit.OnChange = Callback(this, &COptionsMainDlg::onChange_Limit);
 	}
