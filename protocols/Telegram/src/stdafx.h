@@ -14,7 +14,7 @@
 
 #include <m_avatars.h>
 #include <m_clist.h>
-#include <m_chat.h>
+#include <m_chat_int.h>
 #include <m_contacts.h>
 #include <m_database.h>
 #include <m_extraicons.h>

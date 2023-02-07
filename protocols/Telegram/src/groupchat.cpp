@@ -123,3 +123,60 @@ void CTelegramProto::StartGroupChat(td::ClientManager::Response &response, void 
 	Chat_Control(pUser->m_si, m_bHideGroupchats ? WINDOW_HIDDEN : SESSION_INITDONE);
 	Chat_Control(pUser->m_si, SESSION_ONLINE);
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CTelegramProto::GcEventHook(WPARAM, LPARAM lParam)
+{
+	GCHOOK *gch = (GCHOOK *)lParam;
+	if (gch == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gch->si->pszModule, m_szModuleName))
+		return 0;
+
+	auto userId = _wtoi64(gch->si->ptszID);
+
+	switch (gch->iType) {
+	case GC_USER_MESSAGE:
+		if (gch->ptszText && mir_wstrlen(gch->ptszText) > 0) {
+			rtrimw(gch->ptszText);
+			Chat_UnescapeTags(gch->ptszText);
+			SendTextMessage(-userId, T2Utf(gch->ptszText));
+		}
+		break;
+
+	case GC_USER_PRIVMESS:
+		break;
+
+	case GC_USER_LOGMENU:
+		break;
+
+	case GC_USER_NICKLISTMENU:
+		break;
+	}
+
+	return 1;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+int CTelegramProto::GcMenuHook(WPARAM, LPARAM lParam)
+{
+	GCMENUITEMS *gcmi = (GCMENUITEMS *)lParam;
+	if (gcmi == nullptr)
+		return 0;
+
+	if (mir_strcmpi(gcmi->pszModule, m_szModuleName))
+		return 0;
+
+	auto *pUser = FindUser(T2Utf(gcmi->pszID));
+	if (pUser == nullptr)
+		return 0;
+
+	if (gcmi->Type == MENU_ON_LOG) {
+	}
+	else if (gcmi->Type == MENU_ON_NICKLIST) {
+	}
+	return 0;
+}

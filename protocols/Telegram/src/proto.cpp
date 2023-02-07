@@ -80,8 +80,8 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);
 
-	// HookProtoEvent(ME_GC_EVENT, &WhatsAppProto::GcEventHook);
-	// HookProtoEvent(ME_GC_BUILDMENU, &WhatsAppProto::GcMenuHook);
+	HookProtoEvent(ME_GC_EVENT, &CTelegramProto::GcEventHook);
+	HookProtoEvent(ME_GC_BUILDMENU, &CTelegramProto::GcMenuHook);
 }
 
 CTelegramProto::~CTelegramProto()
