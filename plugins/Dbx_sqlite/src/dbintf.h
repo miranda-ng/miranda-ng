@@ -19,6 +19,11 @@ struct DBCachedContact : public DBCachedContactBase
 		m_count(-1)
 	{}
 
+	__forceinline void AddEvent()
+	{
+		m_count = HasCount() ? m_count + 1 : 1;
+	}
+
 	__forceinline bool HasCount() const {
 		return m_count > -1;
 	}

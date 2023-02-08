@@ -127,6 +127,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 	logError(rc, __FILE__, __LINE__);
 	sqlite3_reset(stmt);
 
+	cc->AddEvent();
 	if (ccSub != nullptr) {
 		stmt = InitQuery(add_event_sort_query, qEvAddSrt);
 		sqlite3_bind_int64(stmt, 1, hDbEvent);
@@ -135,6 +136,7 @@ MEVENT CDbxSQLite::AddEvent(MCONTACT hContact, const DBEVENTINFO *dbei)
 		rc = sqlite3_step(stmt);
 		logError(rc, __FILE__, __LINE__);
 		sqlite3_reset(stmt); //is this necessary ?
+		ccSub->AddEvent();
 	}
 
 	char *module = m_modules.find((char *)tmp.szModule);
