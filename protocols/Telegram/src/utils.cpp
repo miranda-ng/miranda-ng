@@ -17,6 +17,23 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "stdafx.h"
 
+char* getSender(const TD::MessageSender *pSender, char *pDest, size_t cbSize)
+{
+	switch (pSender->get_id()) {
+	case TD::messageSenderChat::ID:
+		_i64toa_s(((TD::messageSenderChat *)pSender)->chat_id_, pDest, cbSize, 10);
+		break;
+	case TD::messageSenderUser::ID:
+		_i64toa_s(((TD::messageSenderUser *)pSender)->user_id_, pDest, cbSize, 10);
+		break;
+	default:
+		*pDest = 0;
+	}
+	return pDest;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 void CTelegramProto::UpdateString(MCONTACT hContact, const char *pszSetting, const std::string &str)
 {
 	if (str.empty())

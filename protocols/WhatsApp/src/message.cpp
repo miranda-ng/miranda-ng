@@ -220,17 +220,9 @@ void WhatsAppProto::ProcessMessage(WAMSG type, const Wa__WebMessageInfo &msg)
 					pre.flags |= PREF_CREATEREAD;
 				if (key->fromme)
 					pre.flags |= PREF_SENT;
+				if (pUser->bIsGroupChat)
+					pre.szUserId = participant;
 				ProtoChainRecvMsg(pUser->hContact, &pre);
-
-				if (pUser->bIsGroupChat) {
-					GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
-					gce.dwFlags = GCEF_UTF8;
-					gce.pszUID.a = participant;
-					gce.bIsMe = key->fromme;
-					gce.pszText.a = szMessageText.GetBuffer();
-					gce.time = timestamp;
-					Chat_Event(&gce);
-				}
 			}
 			// translate statuses into status messages
 			else if (type.bOtherStatus || type.bDirectStatus || type.bPeerBroadcast || type.bOtherBroadcast) {

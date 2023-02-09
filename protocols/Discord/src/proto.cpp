@@ -98,7 +98,7 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Groupchat initialization
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR;
+	gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_DATABASE;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

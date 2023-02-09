@@ -86,56 +86,49 @@ void CDiscordProto::OnReceiveHistory(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest
 	for (auto &it : arNodes) {
 		auto &pNode = *it;
 		CMStringW wszText = PrepareMessageText(pNode);
-		CMStringW wszUserId = pNode["author"]["id"].as_mstring();
+		CMStringA szUserId = pNode["author"]["id"].as_mstring();
 		SnowFlake msgid = ::getId(pNode["id"]);
-		SnowFlake authorid = _wtoi64(wszUserId);
+		SnowFlake authorid = _atoi64(szUserId);
 		uint32_t dwTimeStamp = StringToDate(pNode["timestamp"].as_mstring());
 
-		if (pUser->bIsPrivate) {
-			DBEVENTINFO dbei = {};
-			dbei.szModule = m_szModuleName;
-			dbei.flags = DBEF_UTF;
-			dbei.eventType = EVENTTYPE_MESSAGE;
+		DBEVENTINFO dbei = {};
+		dbei.szModule = m_szModuleName;
+		dbei.flags = DBEF_UTF;
+		dbei.eventType = EVENTTYPE_MESSAGE;
+		dbei.timestamp = dwTimeStamp;
 
-			if (authorid == m_ownId)
-				dbei.flags |= DBEF_SENT;
-			else
-				dbei.flags &= ~DBEF_SENT;
+		if (authorid == m_ownId)
+			dbei.flags |= DBEF_SENT;
+		else
+			dbei.flags &= ~DBEF_SENT;
 
-			if (msgid <= pUser->lastReadId)
-				dbei.flags |= DBEF_READ;
-			else
-				dbei.flags &= ~DBEF_READ;
+		if (msgid <= pUser->lastReadId)
+			dbei.flags |= DBEF_READ;
+		else
+			dbei.flags &= ~DBEF_READ;
 
-			ptrA szBody(mir_utf8encodeW(wszText));
-			dbei.timestamp = dwTimeStamp;
-			dbei.pBlob = (uint8_t*)szBody.get();
-			dbei.cbBlob = (uint32_t)mir_strlen(szBody);
+		MBinBuffer buf;
+		ptrA szBody(mir_utf8encodeW(wszText));
+		buf.append(szBody, mir_strlen(szBody) + 1);
 
-			bool bSucceeded = false;
-			char szMsgId[100];
-			_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
-			MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
-			if (hDbEvent != 0)
-				bSucceeded = 0 == db_event_edit(pUser->hContact, hDbEvent, &dbei);
-			
-			if (!bSucceeded) {
-				dbei.szId = szMsgId;
-				db_event_add(pUser->hContact, &dbei);
-			}
+		if (!pUser->bIsPrivate) {
+			buf.append(szUserId, szUserId.GetLength() + 1);
+			ProcessChatUser(pUser, _atoi64(szUserId), pNode);
 		}
-		else {
-			ProcessChatUser(pUser, wszUserId, pNode);
 
-			ParseSpecialChars(si, wszText);
+		dbei.pBlob = buf.data();
+		dbei.cbBlob = (uint32_t)buf.length();
 
-			GCEVENT gce = { si, GC_EVENT_MESSAGE };
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.pszUID.w = wszUserId;
-			gce.pszText.w = wszText;
-			gce.time = dwTimeStamp;
-			gce.bIsMe = authorid == m_ownId;
-			Chat_Event(&gce);
+		bool bSucceeded = false;
+		char szMsgId[100];
+		_i64toa_s(msgid, szMsgId, _countof(szMsgId), 10);
+		MEVENT hDbEvent = db_event_getById(m_szModuleName, szMsgId);
+		if (hDbEvent != 0)
+			bSucceeded = 0 == db_event_edit(pUser->hContact, hDbEvent, &dbei);
+			
+		if (!bSucceeded) {
+			dbei.szId = szMsgId;
+			db_event_add(pUser->hContact, &dbei);
 		}
 
 		if (lastId < msgid)

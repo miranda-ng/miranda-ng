@@ -318,10 +318,9 @@ CDiscordGuildMember* CDiscordProto::ProcessGuildUser(CDiscordGuild *pGuild, cons
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CDiscordProto::ProcessChatUser(CDiscordUser *pChat, const CMStringW &wszUserId, const JSONNode &pRoot)
+void CDiscordProto::ProcessChatUser(CDiscordUser *pChat, SnowFlake userId, const JSONNode &pRoot)
 {
 	// input data control
-	SnowFlake userId = _wtoi64(wszUserId);
 	CDiscordGuild *pGuild = pChat->pGuild;
 	if (pGuild == nullptr || userId == 0)
 		return;

@@ -281,20 +281,9 @@ void WhatsAppProto::ProcessHistorySync(const Wa__HistorySync *pSync)
 					pre.flags = PREF_CREATEREAD;
 					if (key->fromme)
 						pre.flags |= PREF_SENT;
+					if (pUser->bIsGroupChat)
+						pre.szUserId = key->participant;
 					ProtoChainRecvMsg(pUser->hContact, &pre);
-
-					if (pUser->bIsGroupChat) {
-						if (pChat->name)
-							setUString(pUser->hContact, "Nick", pChat->name);
-
-						GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
-						gce.dwFlags = GCEF_UTF8;
-						gce.pszUID.a = key->participant;
-						gce.bIsMe = key->fromme;
-						gce.pszText.a = szMessageText.GetBuffer();
-						gce.time = pMessage->message->messagetimestamp;
-						Chat_Event(&gce);
-					}
 				}
 			}
 		}

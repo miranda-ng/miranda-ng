@@ -361,8 +361,8 @@ void CDiscordProto::OnCommandMessageUpdate(const JSONNode &pRoot)
 void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 {
 	CMStringW wszMessageId = pRoot["id"].as_mstring();
-	CMStringW wszUserId = pRoot["author"]["id"].as_mstring();
-	SnowFlake userId = _wtoi64(wszUserId);
+	CMStringA szUserId = pRoot["author"]["id"].as_mstring();
+	SnowFlake userId = _atoi64(szUserId);
 	SnowFlake msgId = _wtoi64(wszMessageId);
 
 	// try to find a sender by his channel
@@ -408,44 +408,24 @@ void CDiscordProto::OnCommandMessage(const JSONNode &pRoot, bool bIsNew)
 		if (!edited.isnull())
 			wszText.AppendFormat(L" (%s %s)", TranslateT("edited at"), edited.as_mstring().c_str());
 
-		if (pUser->bIsPrivate && !pUser->bIsGroup) {
-			// if a message has myself as an author, add some flags
-			PROTORECVEVENT recv = {};
-			if (bOurMessage)
-				recv.flags = PREF_CREATEREAD | PREF_SENT;
+		// if a message has myself as an author, add some flags
+		PROTORECVEVENT recv = {};
+		if (bOurMessage)
+			recv.flags = PREF_CREATEREAD | PREF_SENT;
 
-			debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
-			ptrA buf(mir_utf8encodeW(wszText));
+		debugLogA("store a message from private user %lld, channel id %lld", pUser->id, pUser->channelId);
+		ptrA buf(mir_utf8encodeW(wszText));
 
-			recv.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-			recv.szMessage = buf;
-			recv.szMsgId = szMsgId;
-			ProtoChainRecvMsg(pUser->hContact, &recv);
+		recv.timestamp = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
+		recv.szMessage = buf;
+		recv.szMsgId = szMsgId;
+
+		if (!pUser->bIsPrivate || pUser->bIsGroup) {
+			recv.szUserId = szUserId;
+			ProcessChatUser(pUser, userId, pRoot);
 		}
-		else {
-			debugLogA("store a message into the group channel id %lld", channelId);
 
-			SESSION_INFO *si = g_chatApi.SM_FindSession(pUser->wszUsername, m_szModuleName);
-			if (si == nullptr) {
-				debugLogA("message to unknown channel %lld ignored", channelId);
-				return;
-			}
-
-			ProcessChatUser(pUser, wszUserId, pRoot);
-
-			ParseSpecialChars(si, wszText);
-			wszText.Replace(L"%", L"%%");
-
-			GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.pszUID.w = wszUserId;
-			gce.pszText.w = wszText;
-			gce.time = (uint32_t)StringToDate(pRoot["timestamp"].as_mstring());
-			gce.bIsMe = bOurMessage;
-			Chat_Event(&gce);
-
-			debugLogW(L"New channel %s message from %s: %s", si->ptszID, gce.pszUID.w, gce.pszText.w);
-		}
+		ProtoChainRecvMsg(pUser->hContact, &recv);
 	}
 
 	pUser->lastMsgId = msgId;

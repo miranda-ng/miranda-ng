@@ -334,7 +334,7 @@ void CDiscordProto::ProcessType(CDiscordUser *pUser, const JSONNode &pRoot)
 			CMStringA szId(FORMAT, "%lld", pUser->id);
 			DB::AUTH_BLOB blob(pUser->hContact, T2Utf(pUser->wszUsername), nullptr, nullptr, szId, nullptr);
 
-			PROTORECVEVENT pre = { 0 };
+			PROTORECVEVENT pre = {};
 			pre.timestamp = (uint32_t)time(0);
 			pre.lParam = blob.size();
 			pre.szMessage = blob;

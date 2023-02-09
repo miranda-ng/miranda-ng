@@ -393,18 +393,13 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 		return;
 	}
 
-	if (pUser->isGroupChat) {
-		debugLogA("message from group chat, ignored");
-		return;
-	}
-
 	CMStringA szText(GetMessageText(pMessage->content_.get()));
 	if (szText.IsEmpty()) {
 		debugLogA("this message was not processed, ignored");
 		return;
 	}
 
-	char szId[100];
+	char szId[100], szUserId[100];
 	_i64toa(pMessage->id_, szId, 10);
 
 	PROTORECVEVENT pre = {};
@@ -413,6 +408,8 @@ void CTelegramProto::ProcessMessage(TD::updateNewMessage *pObj)
 	pre.timestamp = pMessage->date_;
 	if (pMessage->is_outgoing_)
 		pre.flags |= PREF_SENT;
+	if (pUser->isGroupChat)
+		pre.szUserId = getSender(pMessage->sender_id_.get(), szUserId, sizeof(szUserId));
 	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
