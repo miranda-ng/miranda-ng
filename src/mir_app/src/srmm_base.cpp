@@ -638,12 +638,10 @@ void CSrmmBaseDialog::RedrawLog()
 
 void CSrmmBaseDialog::UpdateChatLog()
 {
-	if (!m_si->pMI->bDatabase)
+	if (!m_si->pMI->bDatabase || m_si->bHistoryInit)
 		return;
 
 	GetFirstEvent();
-
-	SESSION_INFO *tmp = g_chatApi.SM_CreateSession();
 
 	auto *szProto = Proto_GetBaseAccountName(m_hContact);
 	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
@@ -666,14 +664,13 @@ void CSrmmBaseDialog::UpdateChatLog()
 				gce.time = dbei.timestamp;
 				if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
 					gce.pszNick.w = ui->pszNick;
-				SM_AddEvent(tmp, &gce, false);
+				SM_AddEvent(m_si, &gce, false);
 			}
 		}
 	}
 
-	m_pLog->LogEvents(tmp->pLogEnd, false);
-	g_chatApi.LM_RemoveAll(&tmp->pLog, &tmp->pLogEnd);
-	delete tmp;
+	m_si->bHistoryInit = true;
+	m_pLog->LogEvents(m_si->pLogEnd, false);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
