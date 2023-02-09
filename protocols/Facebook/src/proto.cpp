@@ -112,7 +112,7 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 
 	// Group chats
 	GCREGISTER gcr = {};
-	gcr.dwFlags = GC_TYPNOTIF;
+	gcr.dwFlags = GC_TYPNOTIF | GC_DATABASE;
 	gcr.ptszDispName = m_tszUserName;
 	gcr.pszModule = m_szModuleName;
 	Chat_Register(&gcr);

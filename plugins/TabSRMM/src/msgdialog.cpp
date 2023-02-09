@@ -573,14 +573,10 @@ bool CMsgDialog::OnInitDialog()
 		m_hTabIcon = m_hTabStatusIcon;
 
 		UpdateNickList();
-
-		if (m_si->pMI->bDatabase) {
-			FindFirstEvent();
-			RemakeLog();
-		}
+		UpdateChatLog();
 	}
 	else {
-		FindFirstEvent();
+		GetFirstEvent();
 
 		DM_OptionsApplied();
 
@@ -2494,7 +2490,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 	case HM_DBEVENTADDED:
 		// this is called whenever a new event has been added to the database.
 		// this CAN be posted (some sanity checks required).
-		if (this)
+		if (this && !isChat())
 			DM_EventAdded(m_hContact, lParam);
 		return 0;
 

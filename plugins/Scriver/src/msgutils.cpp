@@ -36,7 +36,7 @@ void CMsgDialog::CloseTab()
 	Close();
 }
 
-bool CMsgDialog::FindFirstEvent()
+bool CMsgDialog::GetFirstEvent()
 {
 	bool notifyUnread = false;
 

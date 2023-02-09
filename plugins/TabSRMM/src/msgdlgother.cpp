@@ -452,7 +452,7 @@ void CMsgDialog::EnableSending(bool bMode) const
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CMsgDialog::FindFirstEvent()
+bool CMsgDialog::GetFirstEvent()
 {
 	int historyMode = g_plugin.getByte(m_hContact, SRMSGSET_LOADHISTORY, -1);
 	if (historyMode == -1)
@@ -506,6 +506,7 @@ void CMsgDialog::FindFirstEvent()
 		}
 		break;
 	}
+	return true;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

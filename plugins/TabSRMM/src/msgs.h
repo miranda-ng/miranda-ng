@@ -456,7 +456,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	void     CalcDynamicAvatarSize(BITMAP *bminfo);
 	void     DetermineMinHeight(void);
 	BOOL     DoRtfToTags(CMStringW &pszText) const;
-	void     FindFirstEvent(void);
 	int      FindRTLLocale(void);
 	void     FlashOnClist(MEVENT hEvent, DBEVENTINFO *dbei);
 	void     FlashTab(bool bInvertMode);
@@ -558,7 +557,6 @@ public:
 	uint32_t m_dwUnread;
 	HANDLE   m_hTheme, m_hThemeIP, m_hThemeToolbar;
 	HICON    m_hXStatusIcon, m_hTabStatusIcon, m_hTabIcon, m_iFlashIcon, m_hTaskbarIcon, m_hClientIcon;
-	MEVENT   m_hDbEventFirst, m_hDbEventLast;
 	HANDLE   m_hTimeZone;
 	MEVENT*  m_hHistoryEvents;
 	time_t   m_lastEventTime;
@@ -635,6 +633,7 @@ public:
 
 	void AddLog() override;
 	void CloseTab() override;
+	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;

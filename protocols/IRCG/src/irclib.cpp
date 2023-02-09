@@ -1274,7 +1274,7 @@ void CDccSession::DoChatReceive()
 
 			if (*pStart) {
 				// send it off to some messaging module
-				PROTORECVEVENT pre = { 0 };
+				PROTORECVEVENT pre = {};
 				pre.timestamp = (uint32_t)time(0);
 				pre.szMessage = pStart;
 				ProtoChainRecvMsg(di->hContact, &pre);

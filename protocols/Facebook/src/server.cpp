@@ -863,36 +863,17 @@ void FacebookProto::OnPublishPrivateMessage(const JSONNode &root)
 	}
 
 	// if that's a group chat, send it to the room
-	CMStringW wszActorFbId(metadata["actorFbId"].as_mstring());
-	__int64 actorFbId = _wtoi64(wszActorFbId);
+	auto szActorFbId(metadata["actorFbId"].as_string());
 
-	if (pUser->bIsChat) {
-		szBody.Replace("%", "%%");
-		ptrW wszText(mir_utf8decodeW(szBody));
-
-		// TODO: GC_EVENT_JOIN for chat participants which are missing (for example added later during group chat)
-
-		GCEVENT gce = { pUser->si, GC_EVENT_MESSAGE };
-		gce.dwFlags = GCEF_ADDTOLOG;
-		gce.pszUID.w = wszActorFbId;
-		gce.pszText.w = wszText;
-		gce.time = time(0);
-		gce.bIsMe = actorFbId == m_uid;
-		Chat_Event(&gce);
-
-		debugLogA("New channel %lld message from %S: %s", pUser->id, gce.pszUID.w, gce.pszText.w);
-	}
-	else { // otherwise store a private message
-		PROTORECVEVENT pre = {};
-		pre.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
-		pre.szMessage = (char *)szBody.c_str();
-		pre.szMsgId = (char *)szId.c_str();
-
-		if (m_uid == actorFbId)
-			pre.flags |= PREF_SENT;
-
-		ProtoChainRecvMsg(pUser->hContact, &pre);
-	}
+	PROTORECVEVENT pre = {};
+	pre.timestamp = uint32_t(_wtoi64(metadata["timestamp"].as_mstring()) / 1000);
+	pre.szMessage = (char *)szBody.c_str();
+	pre.szMsgId = (char *)szId.c_str();
+	if (m_uid == _atoi64(szActorFbId.c_str()))
+		pre.flags |= PREF_SENT;
+	if (pUser->bIsChat)
+		pre.szUserId = szActorFbId.c_str();
+	ProtoChainRecvMsg(pUser->hContact, &pre);
 }
 
 // changing thread name

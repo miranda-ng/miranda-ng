@@ -188,7 +188,8 @@ struct DBEVENTINFO
 	uint16_t    eventType;      // module-defined event type field
 	int         cbBlob;         // size of pBlob in bytes
 	uint8_t    *pBlob;          // pointer to buffer containing module-defined event data
-	const char *szId;           // server id
+	const char *szId;           // server message id
+	const char *szUserId;       // user id (for group chats only)
 
 	bool __forceinline markedRead() const {
 		return (flags & (DBEF_SENT | DBEF_READ)) != 0;

@@ -81,7 +81,7 @@ void mwIm_conversation_recv(mwConversation* conv, mwImSendType type, gconstpoint
 	if (type != mwImSend_PLAIN)
 		return;
 
-	PROTORECVEVENT pre = { 0 };
+	PROTORECVEVENT pre = {};
 	time_t t = time(0);
 	pre.timestamp = t;
 	pre.szMessage = (char*)msg;

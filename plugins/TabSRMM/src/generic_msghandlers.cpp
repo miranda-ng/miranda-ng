@@ -1081,7 +1081,7 @@ void CMsgDialog::DM_EventAdded(WPARAM, LPARAM lParam)
 	}
 	m_cache->updateStats(TSessionStats::UPDATE_WITH_LAST_RCV, 0);
 
-	if (hDbEvent != m_hDbEventFirst || isChat())
+	if (hDbEvent != m_hDbEventFirst)
 		StreamEvents(hDbEvent, 1, 1);
 	else
 		RemakeLog();

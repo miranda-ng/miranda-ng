@@ -28,7 +28,7 @@ const char *g_pszHotkeySection;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)
+MIR_APP_DLL(DWORD) CALLBACK Srmm_LogStreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG *pcb)
 {
 	LOGSTREAMDATA *lstrdat = (LOGSTREAMDATA*)dwCookie;
 	if (lstrdat) {

@@ -46,6 +46,7 @@ type
     cbBlob   : dword;     // size in bytes of pBlob^
     pBlob    : PByte;     // pointer to buffer containing the module defined event data
     szId     : PAnsiChar; // server id of event
+    szUserId : PAnsiChar; // user id of event
   end;
 
 (******************************************************************************

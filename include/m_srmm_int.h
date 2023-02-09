@@ -204,6 +204,7 @@ protected:
 	bool ProcessHotkeys(int key, bool bShift, bool bCtrl, bool bAlt);
 	void RefreshButtonStatus(void);
 	void RunUserMenu(HWND hwndOwner, struct USERINFO *ui, const POINT &pt);
+	void UpdateChatLog(void);
 
 protected:
 	CSrmmLogWindow *m_pLog = nullptr;
@@ -233,6 +234,7 @@ protected:
 
 public:
 	MCONTACT m_hContact;
+	MEVENT m_hDbEventFirst, m_hDbEventLast;
 	int m_iLogFilterFlags;
 	bool m_bFilterEnabled, m_bNicklistEnabled;
 	bool m_bFGSet, m_bBGSet;
@@ -246,6 +248,7 @@ public:
 
 	virtual void AddLog();
 	virtual void CloseTab() {}
+	virtual bool GetFirstEvent() PURE;
 	virtual bool IsActive() const PURE;
 	virtual void LoadSettings() PURE;
 	virtual void SetStatusText(const wchar_t *, HICON) {}

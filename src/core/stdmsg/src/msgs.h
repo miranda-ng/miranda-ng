@@ -55,7 +55,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend class CTabbedWindow;
 	typedef CSrmmBaseDialog CSuper;
 
-	void FindFirstEvent();
 	void Init(void);
 	void NotifyTyping(int mode);
 	void SetButtonsPos(void);
@@ -141,8 +140,6 @@ public:
 		return ((CLogWindow *)m_pLog);
 	}
 
-	MEVENT m_hDbEventFirst, m_hDbEventLast;
-
 	int m_avatarWidth = 0, m_avatarHeight = 0;
 
 	bool m_bIsAutoRTL = false;
@@ -156,6 +153,7 @@ public:
 	}
 
 	void CloseTab() override;
+	bool GetFirstEvent() override;
 	bool IsActive() const override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;

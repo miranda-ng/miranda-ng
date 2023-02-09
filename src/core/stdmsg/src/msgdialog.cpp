@@ -139,17 +139,13 @@ bool CMsgDialog::OnInitDialog()
 		UpdateOptions();
 		UpdateStatusBar();
 		UpdateTitle();
-
-		if (m_si->pMI->bDatabase) {
-			FindFirstEvent();
-			RemakeLog();
-		}
+		UpdateChatLog();
 	}
 	else {
 		m_nickList.Hide();
 		m_splitterX.Hide();
 
-		FindFirstEvent();
+		GetFirstEvent();
 
 		bool bUpdate = false;
 		DB::ECPTR pCursor(DB::EventsRev(m_hContact));
@@ -594,7 +590,7 @@ INT_PTR CMsgDialog::DlgProc(UINT uMsg, WPARAM wParam, LPARAM lParam)
 		return TRUE;
 
 	case HM_DBEVENTADDED:
-		if (wParam == m_hContact) {
+		if (wParam == m_hContact && !isChat()) {
 			MEVENT hDbEvent = lParam;
 			if (m_hDbEventFirst == 0)
 				m_hDbEventFirst = hDbEvent;
@@ -1300,7 +1296,7 @@ void CMsgDialog::CloseTab()
 	else SendMessage(m_hwndParent, WM_CLOSE, 0, 0);
 }
 
-void CMsgDialog::FindFirstEvent()
+bool CMsgDialog::GetFirstEvent()
 {
 	// This finds the first message to display, it works like shit
 	m_hDbEventFirst = db_event_firstUnread(m_hContact);
@@ -1339,6 +1335,7 @@ void CMsgDialog::FindFirstEvent()
 		}
 		break;
 	}
+	return true;
 }
 
 void CMsgDialog::NotifyTyping(int mode)

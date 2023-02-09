@@ -416,7 +416,7 @@ int CMimAPI::MessageEventAdded(WPARAM hContact, LPARAM hDbEvent)
 		if (pTargetContainer == nullptr || !g_plugin.bHideOnClose || IsWindowVisible(pTargetContainer->m_hwnd))
 			return 0;
 
-		WINDOWPLACEMENT wp = { 0 };
+		WINDOWPLACEMENT wp = {};
 		wp.length = sizeof(wp);
 		GetWindowPlacement(pTargetContainer->m_hwnd, &wp);
 

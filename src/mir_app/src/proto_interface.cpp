@@ -195,9 +195,6 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	if (pre->szMessage == nullptr)
 		return 0;
 
-	ptrA pszTemp;
-	mir_ptr<uint8_t> pszBlob;
-
 	DBEVENTINFO dbei = {};
 	dbei.flags = DBEF_UTF;
 	dbei.szModule = Proto_GetBaseAccountName(hContact);
@@ -205,6 +202,7 @@ MEVENT PROTO_INTERFACE::RecvMsg(MCONTACT hContact, PROTORECVEVENT *pre)
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.cbBlob = (uint32_t)mir_strlen(pre->szMessage) + 1;
 	dbei.pBlob = (uint8_t*)pre->szMessage;
+	dbei.szUserId = pre->szUserId;
 
 	if (pre->flags & PREF_CREATEREAD)
 		dbei.flags |= DBEF_READ;

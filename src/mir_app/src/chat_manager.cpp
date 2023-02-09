@@ -453,6 +453,16 @@ static int SM_GetCount(const char *pszModule)
 	return count;
 }
 
+SESSION_INFO* SM_FindSessionByContact(MCONTACT hContact)
+{
+	mir_cslock lck(csChat);
+	for (auto &si : g_arSessions)
+		if (si->hContact == hContact)
+			return si;
+
+	return nullptr;
+}
+
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem)
 {
 	int count = 0;

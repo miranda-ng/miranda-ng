@@ -508,7 +508,4 @@
       <UniqueIdentifier>{2f5b2fe9-25c8-4029-8a52-f34a11f984a7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\docs\contributors.txt" />
-  </ItemGroup>
 </Project>

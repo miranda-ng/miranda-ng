@@ -486,32 +486,6 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 		}
 	}
 
-	if (isChatRoom(hContact)) {
-		CMStringA reqId(it["reqId"].as_mstring());
-		CheckOwnMessage(reqId, szMsgId, true);
-
-		CMStringW wszSender(it["chat"]["sender"].as_mstring());
-		CMStringW wszChatId(GetUserId(hContact));
-
-		if (bIsFileTransfer) {
-			wszText = pFileInfo->szUrl;
-			if (!pFileInfo->wszDescr)
-				wszText.AppendFormat(L"\r\n%s", pFileInfo->wszDescr.c_str());
-			delete pFileInfo;
-		}
-
-		if (auto *si = Chat_Find(wszChatId, m_szModuleName)) {
-			GCEVENT gce = { si, GC_EVENT_MESSAGE};
-			gce.dwFlags = GCEF_ADDTOLOG;
-			gce.pszUID.w = wszSender;
-			gce.pszText.w = wszText;
-			gce.time = iMsgTime;
-			gce.bIsMe = wszSender == m_szOwnId;
-			Chat_Event(&gce);
-		}
-		return;
-	}
-
 	// skip own messages, just set the server msgid
 	CMStringA reqId(it["reqId"].as_mstring());
 	if (CheckOwnMessage(reqId, szMsgId, true)) {
@@ -555,13 +529,18 @@ void CIcqProto::ParseMessage(MCONTACT hContact, __int64 &lastMsgId, const JSONNo
 	debugLogA("Adding message %d:%lld (CR=%d)", hContact, msgId, bCreateRead);
 
 	ptrA szUtf(mir_utf8encodeW(wszText));
+	CMStringA szSender(it["chat"]["sender"].as_mstring());
 
 	PROTORECVEVENT pre = {};
-	if (bIsOutgoing) pre.flags |= PREF_SENT;
-	if (bCreateRead) pre.flags |= PREF_CREATEREAD;
 	pre.szMsgId = szMsgId;
 	pre.timestamp = iMsgTime;
 	pre.szMessage = szUtf;
+	if (bIsOutgoing)
+		pre.flags |= PREF_SENT;
+	if (bCreateRead)
+		pre.flags |= PREF_CREATEREAD;
+	if (isChatRoom(hContact))
+		pre.szUserId = szSender;
 	ProtoChainRecvMsg(hContact, &pre);
 }
 

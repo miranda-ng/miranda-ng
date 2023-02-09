@@ -88,7 +88,6 @@ class CMsgDialog : public CSrmmBaseDialog
 	friend INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	void   ClearLog(void);
-	bool   FindFirstEvent(void);
 	HICON  GetTabIcon(void);
 	void   GetTitlebarIcon(struct TitleBarData *tbd);
 	void   Init(void);
@@ -110,7 +109,7 @@ class CMsgDialog : public CSrmmBaseDialog
 
 	bool   m_bIncoming, m_bWindowCascaded;
 
-	MEVENT m_hDbEventFirst, m_hDbEventLast, m_hDbUnreadEventFirst;
+	MEVENT m_hDbUnreadEventFirst;
 	int    m_minLogBoxHeight, m_minEditBoxHeight;
 	int    m_iShowUnread;
 	uint16_t   m_wStatus;
@@ -173,6 +172,7 @@ public:
 	void onType(CTimer *);
 
 	void CloseTab() override;
+	bool GetFirstEvent() override;
 	void LoadSettings() override;
 	void SetStatusText(const wchar_t *, HICON) override;
 	void ShowFilterMenu() override;

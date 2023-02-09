@@ -215,7 +215,4 @@
     <None Include="src\mir_app.def" />
     <None Include="src\mir_app64.def" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\docs\contributors.txt" />
-  </ItemGroup>
 </Project>

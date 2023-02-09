@@ -59,7 +59,7 @@ void CDbxSQLite::InitSettings()
 
 	FillContactSettings();
 
-	DBVARIANT dbv; dbv.type = DBVT_BYTE;
+	DBVARIANT dbv = { DBVT_BYTE };
 	if (GetContactSetting(0, "Compatibility", "Sqlite", &dbv))
 		dbv.bVal = 0;
 
@@ -73,8 +73,14 @@ void CDbxSQLite::InitSettings()
 		rc = sqlite3_exec(m_db, "UPDATE events SET is_read=1 WHERE (flags & 6) <> 0;", nullptr, nullptr, nullptr);
 		logError(rc, __FILE__, __LINE__);
 
-		dbv.type = DBVT_BYTE;
-		dbv.dVal = 1;
+		dbv.bVal = 1;
+	}
+	
+	if (dbv.bVal < 2) {
+		int rc = sqlite3_exec(m_db, "ALTER TABLE events ADD COLUMN user_id TEXT NULL;", 0, 0, 0);
+		logError(rc, __FILE__, __LINE__);
+
+		dbv.bVal = 2;
 		WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 	}
 }

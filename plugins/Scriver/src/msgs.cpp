@@ -109,6 +109,7 @@ static int MessageEventAdded(WPARAM hContact, LPARAM lParam)
 			return 0;
 		}
 	}
+
 	if (hwnd == nullptr || !IsWindowVisible(GetParent(hwnd))) {
 		wchar_t toolTip[256];
 		mir_snwprintf(toolTip, TranslateT("Message from %s"), Clist_GetContactDisplayName(hContact));

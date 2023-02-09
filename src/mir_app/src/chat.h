@@ -80,6 +80,7 @@ BOOL          SM_SetStatus(const char *pszModule, SESSION_INFO *si, int wStatus)
 BOOL          SM_TakeStatus(SESSION_INFO *si, const wchar_t *pszUID, const wchar_t *pszStatus);
 BOOL          SM_UserTyping(GCEVENT* gce);
 
+SESSION_INFO* SM_FindSessionByContact(MCONTACT hContact);
 SESSION_INFO* SM_FindSessionByIndex(const char *pszModule, int iItem);
 
 STATUSINFO*   TM_AddStatus(STATUSINFO **ppStatusList, const wchar_t *pszStatus, int *iCount);

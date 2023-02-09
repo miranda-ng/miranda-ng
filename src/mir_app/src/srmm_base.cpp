@@ -636,6 +636,46 @@ void CSrmmBaseDialog::RedrawLog()
 	else ClearLog();
 }
 
+void CSrmmBaseDialog::UpdateChatLog()
+{
+	if (!m_si->pMI->bDatabase)
+		return;
+
+	GetFirstEvent();
+
+	SESSION_INFO *tmp = g_chatApi.SM_CreateSession();
+
+	auto *szProto = Proto_GetBaseAccountName(m_hContact);
+	for (MEVENT hDbEvent = m_hDbEventFirst; hDbEvent; hDbEvent = db_event_next(m_hContact, hDbEvent)) {
+		DB::EventInfo dbei;
+		dbei.cbBlob = -1;
+		if (!db_event_get(hDbEvent, &dbei)) {
+			if (!mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
+				auto *pUser = g_chatApi.UM_FindUser(m_si, Utf2T(dbei.szUserId));
+				if (pUser == nullptr)
+					continue;
+
+				Utf2T wszUserId(dbei.szUserId);
+				CMStringW wszText(Utf2T((char*)dbei.pBlob));
+				wszText.Replace(L"%", L"%%");
+
+				GCEVENT gce = { m_si, GC_EVENT_MESSAGE };
+				gce.dwFlags = GCEF_ADDTOLOG;
+				gce.pszUserInfo.w = wszUserId;
+				gce.pszText.w = wszText;
+				gce.time = dbei.timestamp;
+				if (USERINFO *ui = g_chatApi.UM_FindUser(m_si, wszUserId))
+					gce.pszNick.w = ui->pszNick;
+				SM_AddEvent(tmp, &gce, false);
+			}
+		}
+	}
+
+	m_pLog->LogEvents(tmp->pLogEnd, false);
+	g_chatApi.LM_RemoveAll(&tmp->pLog, &tmp->pLogEnd);
+	delete tmp;
+}
+
 /////////////////////////////////////////////////////////////////////////////////////////
 
 void CSrmmBaseDialog::onClick_Color(CCtrlButton *pButton)

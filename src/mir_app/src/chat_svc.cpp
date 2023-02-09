@@ -517,11 +517,9 @@ static BOOL HandleChatEvent(GCEVENT &gce, int bManyFix)
 		return 0;
 
 	if (si && (si->bInitDone || gce.iType == GC_EVENT_TOPIC || (gce.iType == GC_EVENT_JOIN && gce.bIsMe))) {
-		if (gce.pszNick.w == nullptr && gce.pszUID.w != nullptr) {
-			USERINFO *ui = g_chatApi.UM_FindUser(si, gce.pszUID.w);
-			if (ui != nullptr)
+		if (gce.pszNick.w == nullptr && gce.pszUID.w != nullptr)
+			if (USERINFO *ui = g_chatApi.UM_FindUser(si, gce.pszUID.w))
 				gce.pszNick.w = ui->pszNick;
-		}
 
 		int isOk = SM_AddEvent(si, &gce, bIsHighlighted);
 		if (si->pDlg) {
@@ -776,6 +774,32 @@ static INT_PTR LeaveChat(WPARAM hContact, LPARAM)
 	return 0;
 }
 
+static int OnEventAdded(WPARAM hContact, LPARAM hDbEvent)
+{
+	if (Contact::IsGroupChat(hContact)) {
+		if (auto *si = SM_FindSessionByContact(hContact)) {
+			DB::EventInfo dbei;
+			dbei.cbBlob = -1;
+			if (!db_event_get(hDbEvent, &dbei)) {
+				auto *szProto = Proto_GetBaseAccountName(si->hContact);
+				if (si && !mir_strcmp(szProto, dbei.szModule) && dbei.eventType == EVENTTYPE_MESSAGE && dbei.szUserId) {
+					CMStringA szText((char *)dbei.pBlob);
+					szText.Replace("%", "%%");
+
+					GCEVENT gce = { si, GC_EVENT_MESSAGE };
+					gce.dwFlags = GCEF_ADDTOLOG | GCEF_UTF8;
+					gce.pszUID.a = dbei.szUserId;
+					gce.pszText.a = szText;
+					gce.time = dbei.timestamp;
+					Chat_Event(&gce);
+				}
+			}
+		}
+	}
+
+	return 0;
+}
+
 static int OnContactDeleted(WPARAM hContact, LPARAM)
 {
 	char *szProto = Proto_GetBaseAccountName(hContact);
@@ -914,6 +938,7 @@ int LoadChatModule(void)
 {
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_DB_EVENT_ADDED, OnEventAdded);
 	HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	HookEvent(ME_SKIN_ICONSCHANGED, IconsChanged);
 	HookEvent(ME_FONT_RELOAD, FontsChanged);

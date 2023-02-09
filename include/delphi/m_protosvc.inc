@@ -182,6 +182,7 @@ type
     timestamp       : dword;
     szMessage       : TChar;
     lParam          : LPARAM;
+    szUserId        : PAnsiChar; // user id of event
   end;
 
 const

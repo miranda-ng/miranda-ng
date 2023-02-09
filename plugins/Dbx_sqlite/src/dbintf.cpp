@@ -46,7 +46,7 @@ int CDbxSQLite::Create()
 	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(m_db, "CREATE TABLE events (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, contact_id INTEGER NOT NULL, module TEXT NOT NULL,"
-		"timestamp INTEGER NOT NULL, type INTEGER NOT NULL, flags INTEGER NOT NULL, data BLOB, server_id TEXT, is_read INTEGER NOT NULL DEFAULT 0);", nullptr, nullptr, nullptr);
+		"timestamp INTEGER NOT NULL, type INTEGER NOT NULL, flags INTEGER NOT NULL, data BLOB, server_id TEXT NULL, user_id TEXT NULL, is_read INTEGER NOT NULL DEFAULT 0);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
 
 	rc = sqlite3_exec(m_db, "CREATE INDEX idx_events_contactid_timestamp ON events(contact_id, timestamp);", nullptr, nullptr, nullptr);
@@ -67,6 +67,9 @@ int CDbxSQLite::Create()
 
 	rc = sqlite3_exec(m_db, "CREATE INDEX idx_settings_module ON settings(module);", nullptr, nullptr, nullptr);
 	logError(rc, __FILE__, __LINE__);
+
+	DBVARIANT dbv = { DBVT_BYTE, 2 };
+	WriteContactSetting(0, "Compatibility", "Sqlite", &dbv);
 	return 0;
 }
 

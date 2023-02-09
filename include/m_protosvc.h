@@ -735,12 +735,13 @@ struct PROTOFILERESUME
 
 struct PROTORECVEVENT
 {
-	uint32_t flags;      // combination of PREF_*
-	uint32_t timestamp;  // unix time
-	char* szMessage;     // message body in utf8
-	LPARAM lParam;       // extra space for the network level protocol module
-	const char* szMsgId; // server message id, optional, should be NULL otherwise
-	                     // ignored for protocols without PF4_SERVERMSGID in GetCaps()
+	uint32_t flags;       // combination of PREF_*
+	uint32_t timestamp;   // unix time
+	char* szMessage;      // message body in utf8
+	LPARAM lParam;        // extra space for the network level protocol module
+	const char* szMsgId;  // server message id, optional, should be NULL otherwise
+	                      // ignored for protocols without PF4_SERVERMSGID in GetCaps()
+	const char *szUserId; // user id, for group chats stored in the database
 };
 
 ///////////////////////////////////////////////////////////////////////////////

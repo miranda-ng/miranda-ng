@@ -236,20 +236,16 @@ bool CMsgDialog::OnInitDialog()
 		UpdateStatusBar();
 		UpdateTitle();
 		UpdateNickList();
+		UpdateChatLog();
 
 		m_pParent->AddChild(this);
 		PopupWindow(false);
-
-		if (m_si->pMI->bDatabase) {
-			FindFirstEvent();
-			SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
-		}
 	}
 	else {
 		m_nickList.Hide();
 		m_splitterX.Hide();
 
-		bool notifyUnread = FindFirstEvent();
+		bool notifyUnread = GetFirstEvent();
 
 		m_pParent->AddChild(this);
 
@@ -1170,7 +1166,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case HM_DBEVENTADDED:
-		if (wParam == m_hContact) {
+		if (wParam == m_hContact && !isChat()) {
 			MEVENT hDbEvent = lParam;
 			DBEVENTINFO dbei = {};
 			db_event_get(hDbEvent, &dbei);
@@ -1194,7 +1190,7 @@ INT_PTR CMsgDialog::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						PopupWindow(true);
 				}
 
-				if (isChat() || (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0))
+				if (hDbEvent != m_hDbEventFirst && db_event_next(m_hContact, hDbEvent) == 0)
 					m_pLog->LogEvents(hDbEvent, 1, 1);
 				else
 					SendMessage(m_hwnd, DM_REMAKELOG, 0, 0);
