@@ -76,7 +76,9 @@ void CVkProto::ShutdownSession()
 
 void CVkProto::ConnectionFailed(int iReason)
 {
-	delSetting("AccessToken");
+	if (iReason == LOGINERR_WRONGPASSWORD) 
+		delSetting("AccessToken");
+
 	m_bErr404Return = false;
 
 	ProtoBroadcastAck(0, ACKTYPE_LOGIN, ACKRESULT_FAILED, nullptr, iReason);
