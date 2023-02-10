@@ -209,6 +209,9 @@ int CTelegramProto::SendTextMessage(int64_t chatId, const char *pszMessage)
 
 void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 {
+	if (!m_pClientMmanager)
+		return;
+
 	int queryId = ++m_iQueryId;
 
 	auto szDescr = to_string(*pFunc);
@@ -222,6 +225,9 @@ void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER pHandler)
 
 void CTelegramProto::SendQuery(TD::Function *pFunc, TG_QUERY_HANDLER_FULL pHandler, void *pUserInfo)
 {
+	if (!m_pClientMmanager)
+		return;
+
 	int queryId = ++m_iQueryId;
 
 	auto szDescr = to_string(*pFunc);
