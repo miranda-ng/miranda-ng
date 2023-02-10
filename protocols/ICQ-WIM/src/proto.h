@@ -260,7 +260,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	void         EmailNotification(const wchar_t *pwszText);
 	void         GetPermitDeny();
 	wchar_t*     GetUIN(MCONTACT hContact);
-	void         MarkAsRead(MCONTACT hContact);
 	void         MoveContactToGroup(MCONTACT hContact, const wchar_t *pwszGroup, const wchar_t *pwszNewGroup);
 	bool         RetrievePassword();
 	void         RetrieveUserHistory(MCONTACT, __int64 startMsgId, bool bCreateRead);
@@ -420,7 +419,6 @@ class CIcqProto : public PROTO<CIcqProto>
 	// events
 
 	int       __cdecl OnGroupChange(WPARAM, LPARAM);
-	int       __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int       __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int       __cdecl OnUserInfoInit(WPARAM, LPARAM);
 
@@ -453,6 +451,7 @@ class CIcqProto : public PROTO<CIcqProto>
 	void      OnContactAdded(MCONTACT) override;
 	void      OnContactDeleted(MCONTACT) override;
 	void      OnEventEdited(MCONTACT, MEVENT) override;
+	void      OnMarkRead(MCONTACT, MEVENT) override;
 	void      OnModulesLoaded() override;
 	void      OnShutdown() override;
 

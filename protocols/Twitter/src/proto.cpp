@@ -36,7 +36,6 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_SETMYAVATAR, &CTwitterProto::SetAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CTwitterProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTwitterProto::OnMarkedRead);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CTwitterProto::OnBuildStatusMenu);
 
 	// Initialize hotkeys

@@ -532,10 +532,11 @@ public:
 	int      SetStatus(int iNewStatus) override;
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
+	void     OnMarkRead(MCONTACT, MEVENT) override;
+
 	////////////////////////////////////////////////////////////////////////////////////////
 	// Events
 
-	int __cdecl OnMarkedRead(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 
 	int __cdecl GroupchatMenuHook(WPARAM, LPARAM);

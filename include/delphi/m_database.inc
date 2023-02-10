@@ -141,7 +141,7 @@ is invalid.
 This is the one database write operation that does not trigger an event.
 Modules should not save flags states for any length of time.
 }
-function db_event_markRead(hContact:TMCONTACT; hDbEvent:TMEVENT):int; stdcall; external CoreDLL;
+function db_event_markRead(hContact:TMCONTACT; hDbEvent:TMEVENT; flags:integer = 0):int; stdcall; external CoreDLL;
 
 {
 Retrieves a handle to the next event in a chain after hDbEvent

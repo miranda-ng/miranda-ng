@@ -167,6 +167,7 @@ public:
 	HANDLE   GetAwayMsg(MCONTACT) override;
 
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 
 	void UpdateSettings();
@@ -190,7 +191,6 @@ public:
 
 	int  __cdecl OnBuildStatusMenu(WPARAM, LPARAM);
 	int  __cdecl OnChatOutgoing(WPARAM, LPARAM);
-	int  __cdecl OnMarkedRead(WPARAM, LPARAM);
 	int  __cdecl OnOptionsInit(WPARAM,LPARAM);
 	int  __cdecl OnPrebuildContactMenu(WPARAM,LPARAM);
 

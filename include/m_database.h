@@ -351,7 +351,7 @@ EXTERN_C MIR_CORE_DLL(MEVENT) db_event_last(MCONTACT hContact);
 // This is the one database write operation that does not trigger an event.
 // Modules should not save flags states for any length of time.
 
-EXTERN_C MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent);
+EXTERN_C MIR_CORE_DLL(int) db_event_markRead(MCONTACT hContact, MEVENT hDbEvent, bool bFromServer = false);
 
 // Retrieves a handle to the next event in a chain after hDbEvent
 // Returns the handle, or NULL if hDbEvent is invalid or is the last event

@@ -199,7 +199,6 @@ CJabberProto::CJabberProto(const char *aProtoName, const wchar_t *aUserName) :
 	HookProtoEvent(ME_LANGPACK_CHANGED, &CJabberProto::OnLangChanged);
 	HookProtoEvent(ME_OPT_INITIALISE, &CJabberProto::OnOptionsInit);
 	HookProtoEvent(ME_SKIN_ICONSCHANGED, &CJabberProto::OnReloadIcons);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CJabberProto::OnDbMarkedRead);
 	HookProtoEvent(ME_DB_CONTACT_SETTINGCHANGED, &CJabberProto::OnDbSettingChanged);
 
 	m_iqManager.FillPermanentHandlers();

@@ -80,6 +80,9 @@ void PROTO_INTERFACE::OnEventEdited(MCONTACT, MEVENT)
 void PROTO_INTERFACE::OnErase()
 {}
 
+void PROTO_INTERFACE::OnMarkRead(MCONTACT, MEVENT)
+{}
+
 void PROTO_INTERFACE::OnModulesLoaded()
 {}
 

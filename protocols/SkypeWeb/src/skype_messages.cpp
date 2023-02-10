@@ -172,11 +172,10 @@ void CSkypeProto::OnPrivateMessageEvent(const JSONNode &node)
 	}
 }
 
-int CSkypeProto::OnDbEventRead(WPARAM hContact, LPARAM hDbEvent)
+void CSkypeProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
-	if (IsOnline() && !isChatRoom(hContact) && !mir_strcmp(Proto_GetBaseAccountName(hContact), m_szModuleName))
+	if (IsOnline() && !isChatRoom(hContact))
 		MarkMessagesRead(hContact, hDbEvent);
-	return 0;
 }
 
 void CSkypeProto::MarkMessagesRead(MCONTACT hContact, MEVENT hDbEvent)

@@ -56,7 +56,6 @@ CTelegramProto::CTelegramProto(const char* protoName, const wchar_t* userName) :
 	CreateProtoService(PS_SETMYAVATAR, &CTelegramProto::SvcSetMyAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CTelegramProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTelegramProto::OnDbMarkedRead);
 
 	// avatar
 	CreateDirectoryTreeW(GetAvatarPath());
@@ -141,15 +140,10 @@ void CTelegramProto::OnErase()
 	DeleteDirectoryTreeW(GetProtoFolder(), false);
 }
 
-int CTelegramProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
+void CTelegramProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
 	if (!hContact)
-		return 0;
-
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
+		return;
 
 	ptrA userId(getStringA(hContact, DBKEY_ID));
 	if (userId) {
@@ -169,8 +163,6 @@ int CTelegramProto::OnDbMarkedRead(WPARAM hContact, LPARAM hDbEvent)
 			m_impl.m_markRead.Start(500);
 		}
 	}
-
-	return 0;
 }
 
 INT_PTR CTelegramProto::GetCaps(int type, MCONTACT)

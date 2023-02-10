@@ -264,6 +264,9 @@ public:
 	// called when an account gets physically removed from the database
 	virtual void OnErase();
 
+	// called when an event is marked read from Miranda (not from the server)
+	virtual void OnMarkRead(MCONTACT, MEVENT);
+
 	// the analog of ME_SYSTEM_MODULESLOADED for an account
 	virtual void OnModulesLoaded(void);
 

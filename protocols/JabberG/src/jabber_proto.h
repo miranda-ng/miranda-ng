@@ -150,6 +150,7 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -163,7 +164,6 @@ struct CJabberProto : public PROTO<CJabberProto>, public IJabberInterface
 
 	//====| Events |======================================================================
 	void __cdecl OnAddContactForever(MCONTACT hContact);
-	int  __cdecl OnDbMarkedRead(WPARAM, LPARAM);
 	int  __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 	int  __cdecl OnIdleChanged(WPARAM, LPARAM);
 	int  __cdecl OnLangChanged(WPARAM, LPARAM);

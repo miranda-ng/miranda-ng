@@ -108,7 +108,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	HookProtoEvent(ME_GC_EVENT, &FacebookProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &FacebookProto::GroupchatMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &FacebookProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &FacebookProto::OnMarkedRead);
 
 	// Group chats
 	GCREGISTER gcr = {};

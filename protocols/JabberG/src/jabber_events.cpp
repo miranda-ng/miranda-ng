@@ -61,6 +61,23 @@ void CJabberProto::OnContactDeleted(MCONTACT hContact)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// OnMarkRead - mark an event read
+
+void CJabberProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
+{
+	auto *pMark = m_arChatMarks.find((CChatMark *)&hDbEvent);
+	if (pMark) {
+		if (IsSendAck(hContact)) {
+			XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId)
+				<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
+			m_ThreadInfo->send(reply);
+		}
+
+		m_arChatMarks.remove(pMark);
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // JabberDbSettingChanged - process database changes
 
 static char* sttSettingToTchar(DBCONTACTWRITESETTING *cws)
@@ -155,30 +172,6 @@ void __cdecl CJabberProto::OnAddContactForever(MCONTACT hContact)
 	SendGetVcard(hContact);
 
 	Contact::Hide(hContact, false);
-}
-
-int __cdecl CJabberProto::OnDbMarkedRead(WPARAM, LPARAM hDbEvent)
-{
-	MCONTACT hContact = db_event_getContact(hDbEvent);
-	if (!hContact)
-		return 0;
-
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
-
-	auto *pMark = m_arChatMarks.find((CChatMark *)&hDbEvent);
-	if (pMark) {
-		if (IsSendAck(hContact)) {
-			XmlNode reply("message"); reply << XATTR("to", pMark->szFrom) << XATTR("id", pMark->szId) 
-				<< XCHILDNS("displayed", JABBER_FEAT_CHAT_MARKERS) << XATTR("id", pMark->szId);
-			m_ThreadInfo->send(reply);
-		}
-		
-		m_arChatMarks.remove(pMark);
-	}
-	return 0;
 }
 
 int __cdecl CJabberProto::OnDbSettingChanged(WPARAM hContact, LPARAM lParam)

@@ -391,8 +391,12 @@ BOOL CDbxSQLite::MarkEventRead(MCONTACT hContact, MEVENT hDbEvent)
 	}
 
 	DBFlush();
+
+	if (rows == 0)
+		return 0;
+
 	NotifyEventHooks(g_hevMarkedRead, hContact, (LPARAM)hDbEvent);
-	return (rows == 0 ? 0 : DBEF_READ);
+	return 1;
 }
 
 MCONTACT CDbxSQLite::GetEventContact(MEVENT hDbEvent)

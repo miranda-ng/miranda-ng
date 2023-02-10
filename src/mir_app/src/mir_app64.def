@@ -818,3 +818,4 @@ Srmm_CreateHotkey @886 NONAME
 ?Chat_Terminate@@YAHPEBD_N@Z @933 NONAME
 ?Chat_Control@@YAHPEBDH@Z @934 NONAME
 ?UpdateChatLog@CSrmmBaseDialog@@IEAAXXZ @935 NONAME
+?OnMarkRead@PROTO_INTERFACE@@UEAAXII@Z @936 NONAME

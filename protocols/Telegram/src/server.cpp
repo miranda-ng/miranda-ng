@@ -385,7 +385,7 @@ void CTelegramProto::ProcessMarkRead(TD::updateChatReadInbox *pObj)
 			continue;
 
 		if (!dbei.markedRead())
-			db_event_markRead(pUser->hContact, hEvent);
+			db_event_markRead(pUser->hContact, hEvent, true);
 	}
 }
 

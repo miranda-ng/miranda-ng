@@ -242,6 +242,7 @@ public:
 	int SetStatus(int iNewStatus) override;
 
 	void OnContactDeleted(MCONTACT hContact) override;
+	void OnMarkRead(MCONTACT, MEVENT) override;
 	void OnModulesLoaded() override;
 	void OnShutdown() override;
 	void OnErase() override;
@@ -253,7 +254,6 @@ public:
 	// Events ////////////////////////////////////////////////////////////////////////////
 	
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
-	int __cdecl OnDbMarkedRead(WPARAM, LPARAM);
 
 	int __cdecl GcMenuHook(WPARAM, LPARAM);
 	int __cdecl GcEventHook(WPARAM, LPARAM);

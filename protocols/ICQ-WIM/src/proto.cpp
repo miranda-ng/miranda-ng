@@ -76,7 +76,6 @@ CIcqProto::CIcqProto(const char *aProtoName, const wchar_t *aUserName) :
 
 	// events
 	HookProtoEvent(ME_CLIST_GROUPCHANGE, &CIcqProto::OnGroupChange);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CIcqProto::OnDbEventRead);
 	HookProtoEvent(ME_GC_EVENT, &CIcqProto::GroupchatEventHook);
 	HookProtoEvent(ME_GC_BUILDMENU, &CIcqProto::GroupchatMenuHook);
 	HookProtoEvent(ME_OPT_INITIALISE, &CIcqProto::OnOptionsInit);
@@ -353,19 +352,19 @@ void CIcqProto::SendMarkRead()
 	}
 }
 
-int CIcqProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
+void CIcqProto::OnMarkRead(MCONTACT hContact, MEVENT)
 {
-	MCONTACT hContact = db_event_getContact(hDbEvent);
-	if (!hContact)
-		return 0;
+	if (!m_bOnline)
+		return;
 
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
+	m_impl.m_markRead.Start(200);
 
-	MarkAsRead(hContact);
-	return 0;
+	auto *pCache = FindContactByUIN(GetUserId(hContact));
+	if (pCache) {
+		mir_cslock lck(m_csMarkReadQueue);
+		if (m_arMarkReadQueue.indexOf(pCache) == -1)
+			m_arMarkReadQueue.insert(pCache);
+	}
 }
 
 int CIcqProto::OnGroupChange(WPARAM hContact, LPARAM lParam)

@@ -447,19 +447,10 @@ LBL_Begin:
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int FacebookProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
+void FacebookProto::OnMarkRead(MCONTACT hContact, MEVENT)
 {
-	MCONTACT hContact = db_event_getContact(hDbEvent);
-	if (!hContact)
-		return 0;
-
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
-
 	if (m_bKeepUnread)
-		return 0;
+		return;
 
 	JSONNode root; root << BOOL_PARAM("state", true) << INT_PARAM("syncSeqId", m_sid) << CHAR_PARAM("mark", "read");
 	if (isChatRoom(hContact))
@@ -467,7 +458,6 @@ int FacebookProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
 	else
 		root << CHAR_PARAM("otherUserFbId", getMStringA(hContact, DBKEY_ID));
 	MqttPublish("/mark_thread", root);
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -977,7 +967,7 @@ void FacebookProto::OnPublishReadReceipt(const JSONNode &root)
 			break;
 
 		if (!dbei.markedRead())
-			db_event_markRead(pUser->hContact, ev);
+			db_event_markRead(pUser->hContact, ev, true);
 	}
 }
 

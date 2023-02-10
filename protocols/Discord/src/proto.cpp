@@ -70,7 +70,6 @@ CDiscordProto::CDiscordProto(const char *proto_name, const wchar_t *username) :
 
 	// Events
 	HookProtoEvent(ME_OPT_INITIALISE, &CDiscordProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CDiscordProto::OnDbEventRead);
 	HookProtoEvent(ME_PROTO_ACCLISTCHANGED, &CDiscordProto::OnAccountChanged);
 	
 	HookProtoEvent(PE_VOICE_CALL_STATE, &CDiscordProto::OnVoiceState);
@@ -598,17 +597,8 @@ void CDiscordProto::SendMarkRead()
 	}
 }
 
-int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
+void CDiscordProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
-	MCONTACT hContact = db_event_getContact(hDbEvent);
-	if (!hContact)
-		return 0;
-
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
-
 	if (m_bOnline) {
 		m_impl.m_markRead.Start(200);
 
@@ -619,7 +609,6 @@ int CDiscordProto::OnDbEventRead(WPARAM, LPARAM hDbEvent)
 				arMarkReadQueue.insert(pUser);
 		}
 	}
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

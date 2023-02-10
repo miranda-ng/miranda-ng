@@ -265,23 +265,6 @@ void CIcqProto::OnLoggedOut()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-void CIcqProto::MarkAsRead(MCONTACT hContact)
-{
-	if (!m_bOnline)
-		return;
-
-	m_impl.m_markRead.Start(200);
-
-	auto *pCache = FindContactByUIN(GetUserId(hContact));
-	if (pCache) {
-		mir_cslock lck(m_csMarkReadQueue);
-		if (m_arMarkReadQueue.indexOf(pCache) == -1)
-			m_arMarkReadQueue.insert(pCache);
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
-
 MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, bool bIsPartial)
 {
 	// user chat?
@@ -941,7 +924,7 @@ void CIcqProto::OnFileInfo(NETLIBHTTPREQUEST *pReply, AsyncHttpRequest *pReq)
 	if (szUrl.empty())
 		return;
 
-	MarkAsRead(pReq->hContact);
+	OnMarkRead(pReq->hContact, 0);
 
 	bool bIsSticker;
 	CMStringW wszDescr(pInfo["file_name"].as_mstring());

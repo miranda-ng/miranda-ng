@@ -51,10 +51,10 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOC
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
+static int OnModulesLoaded(WPARAM, LPARAM)
 {
 	if (ServiceExists(MS_ASSOCMGR_ADDNEWURLTYPE)) {
-		CreateServiceFunction(MODULE "/ParseUri", CSkypeProto::GlobalParseSkypeUriService);
+		CreateServiceFunction(MODULE "/ParseUri", &CSkypeProto::GlobalParseSkypeUriService);
 		AssocMgr_AddNewUrlTypeW("skype:", TranslateT("Skype Link Protocol"), g_plugin.getInst(), IDI_SKYPE, MODULE "/ParseUri", 0);
 	}
 	return 0;
@@ -73,7 +73,7 @@ int CMPlugin::Load()
 
 	g_hCallEvent = CreateHookableEvent(MODULE "/IncomingCall");
 
-	HookEvent(ME_SYSTEM_MODULESLOADED, &CSkypeProto::OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	return 0;
 }

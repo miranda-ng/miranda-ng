@@ -69,6 +69,7 @@ struct CVkProto : public PROTO<CVkProto>
 
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -252,7 +253,6 @@ private:
 	//==== Hooks =========================================================================
 
 	int __cdecl OnProcessSrmmEvent(WPARAM, LPARAM);
-	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 	int __cdecl OnDbSettingChanged(WPARAM, LPARAM);
 
 	//==== Search ========================================================================

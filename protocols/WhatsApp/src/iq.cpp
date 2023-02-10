@@ -499,7 +499,7 @@ void WhatsAppProto::ProcessReceipt(MCONTACT hContact, const char *msgId, bool bR
 		CallService(MS_MESSAGESTATE_UPDATE, hContact, bRead ? MRD_TYPE_READ : MRD_TYPE_DELIVERED);
 
 	if (bRead)
-		db_event_markRead(hContact, hEvent);
+		db_event_markRead(hContact, hEvent, true);
 }
 
 void WhatsAppProto::OnReceiveReceipt(const WANode &node)

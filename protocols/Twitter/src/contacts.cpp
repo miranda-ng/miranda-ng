@@ -169,24 +169,13 @@ void CTwitterProto::OnContactDeleted(MCONTACT hContact)
 	}
 }
 
-int CTwitterProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)
+void CTwitterProto::OnMarkRead(MCONTACT hContact, MEVENT hDbEvent)
 {
-	MCONTACT hContact = db_event_getContact(hDbEvent);
-	if (!hContact)
-		return 0;
-
-	// filter out only events of my protocol
-	const char *szProto = Proto_GetBaseAccountName(hContact);
-	if (mir_strcmp(szProto, m_szModuleName))
-		return 0;
-
 	auto *pMark = (m_arChatMarks.find((CChatMark *)&hDbEvent));
 	if (pMark) {
 		mark_read(hContact, pMark->szId);
 		m_arChatMarks.remove(pMark);
 	}
-	
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

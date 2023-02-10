@@ -377,6 +377,7 @@ public:
 
 	void     OnBuildProtoMenu() override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -398,7 +399,6 @@ public:
 
 	int  __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int  __cdecl OnAccountChanged(WPARAM, LPARAM);
-	int  __cdecl OnDbEventRead(WPARAM, LPARAM);
 	
 	int  __cdecl OnVoiceState(WPARAM, LPARAM);
 

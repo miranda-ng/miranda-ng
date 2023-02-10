@@ -69,6 +69,7 @@ public:
 
 	void     OnBuildProtoMenu(void) override;
 	void     OnContactDeleted(MCONTACT) override;
+	void     OnMarkRead(MCONTACT, MEVENT) override;
 	void     OnModulesLoaded() override;
 	void     OnShutdown() override;
 
@@ -84,10 +85,6 @@ public:
 
 	// languages
 	static void InitLanguages();
-
-	// events
-	static int	OnModulesLoaded(WPARAM, LPARAM);
-	int __cdecl OnDbEventRead(WPARAM, LPARAM);
 
 	// search
 	void __cdecl SearchBasicThread(void* id);
@@ -162,6 +159,8 @@ public:
 
 	bool CheckOauth(const char *szResponse);
 	void LoadProfile(NETLIBHTTPREQUEST *response, AsyncHttpRequest *pRequest);
+
+	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 
 private:
 	bool m_bHistorySynced;
@@ -357,7 +356,6 @@ private:
 	INT_PTR __cdecl GetContactHistory(WPARAM hContact, LPARAM lParam);
 	INT_PTR __cdecl SvcCreateChat(WPARAM, LPARAM);
 	INT_PTR __cdecl ParseSkypeUriService(WPARAM, LPARAM lParam);
-	static INT_PTR __cdecl GlobalParseSkypeUriService(WPARAM, LPARAM lParam);
 
 	template<INT_PTR(__cdecl CSkypeProto::*Service)(WPARAM, LPARAM)>
 	static INT_PTR __cdecl GlobalService(WPARAM wParam, LPARAM lParam)
