@@ -241,6 +241,7 @@ public:
 	int SendMsg(MCONTACT hContact, int flags, const char *pszMessage) override;
 	int SetStatus(int iNewStatus) override;
 
+	void OnContactDeleted(MCONTACT hContact) override;
 	void OnModulesLoaded() override;
 	void OnShutdown() override;
 	void OnErase() override;

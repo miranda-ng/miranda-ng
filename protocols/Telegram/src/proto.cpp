@@ -88,6 +88,16 @@ CTelegramProto::~CTelegramProto()
 {
 }
 
+void CTelegramProto::OnContactDeleted(MCONTACT hContact)
+{
+	CMStringA szId(getMStringA(hContact, DBKEY_ID));
+	if (!szId.IsEmpty()) {
+		TD::array<TD::int53> ids;
+		ids.push_back(_atoi64(szId));
+		SendQuery(new TD::removeContacts(std::move(ids)));
+	}
+}
+
 void CTelegramProto::OnModulesLoaded()
 {
 	CMStringA szId(getMStringA(DBKEY_ID));
