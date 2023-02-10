@@ -953,7 +953,7 @@ void COptionsMain::OnDeleteButtonClick(CCtrlBase*)
 			if (mir_wstrcmp(dbURL, url))
 				continue;
 
-			db_delete_contact(hContact);
+			db_delete_contact(hContact, true);
 			m_feeds.DeleteItem(isel);
 			break;
 		}

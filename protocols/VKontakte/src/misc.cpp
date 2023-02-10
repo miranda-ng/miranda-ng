@@ -1782,7 +1782,7 @@ MEVENT CVkProto::GetMessageFromDb(const char *messageId, UINT &timestamp, CMStri
 int CVkProto::DeleteContact(MCONTACT hContact)
 {
 	setByte(hContact, "SilentDelete", 1);
-	return db_delete_contact(hContact);
+	return db_delete_contact(hContact, true);
 }
 
 bool CVkProto::IsMessageExist(UINT iMsgId, VKMesType vkType)

@@ -36,7 +36,6 @@ CTwitterProto::CTwitterProto(const char *proto_name, const wchar_t *username) :
 	CreateProtoService(PS_SETMYAVATAR, &CTwitterProto::SetAvatar);
 
 	HookProtoEvent(ME_OPT_INITIALISE, &CTwitterProto::OnOptionsInit);
-	HookProtoEvent(ME_DB_CONTACT_DELETED, &CTwitterProto::OnContactDeleted);
 	HookProtoEvent(ME_DB_EVENT_MARKED_READ, &CTwitterProto::OnMarkedRead);
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CTwitterProto::OnBuildStatusMenu);
 
@@ -355,7 +354,7 @@ void CTwitterProto::UpdateSettings()
 		for (MCONTACT hContact = db_find_first(m_szModuleName); hContact;) {
 			MCONTACT hNext = db_find_next(hContact, m_szModuleName);
 			if (isChatRoom(hContact))
-				db_delete_contact(hContact);
+				db_delete_contact(hContact, true);
 			hContact = hNext;
 		}
 	}

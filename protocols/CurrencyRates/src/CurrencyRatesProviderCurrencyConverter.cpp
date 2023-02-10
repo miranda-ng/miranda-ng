@@ -341,7 +341,7 @@ bool CCurrencyRatesProviderCurrencyConverter::WatchForRate(const TRateInfo &ri, 
 			m_aContacts.erase(i);
 		}
 
-		db_delete_contact(hContact);
+		db_delete_contact(hContact, true);
 		return true;
 	}
 

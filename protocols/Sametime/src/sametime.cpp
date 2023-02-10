@@ -128,11 +128,10 @@ void CSametimeProto::OnShutdown()
 		LogOut();
 }
 
-int CSametimeProto::OnSametimeContactDeleted(WPARAM hContact, LPARAM)
+void CSametimeProto::OnContactDeleted(MCONTACT hContact)
 {
 	ContactDeleted(hContact);
 	ChatDeleted(hContact);
-	return 0;
 }
 
 void CSametimeProto::SetAllOffline()
@@ -141,7 +140,7 @@ void CSametimeProto::SetAllOffline()
 
 	for (auto &hContact : AccContacts()) {
 		if (Contact::IsGroupChat(hContact, m_szModuleName)) {
-			db_delete_contact(hContact);
+			db_delete_contact(hContact, true);
 			continue;
 		}
 

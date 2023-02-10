@@ -30,7 +30,6 @@ CSametimeProto::CSametimeProto(const char* pszProtoName, const wchar_t* tszUserN
 
 	HookProtoEvent(ME_MSG_WINDOWEVENT, &CSametimeProto::OnWindowEvent);
 	HookProtoEvent(ME_IDLE_CHANGED, &CSametimeProto::OnIdleChanged);
-	HookProtoEvent(ME_DB_CONTACT_DELETED, &CSametimeProto::OnSametimeContactDeleted);
 	HookProtoEvent(ME_OPT_INITIALISE, &CSametimeProto::OptInit);
 
 	// Initialize temporary DB settings

@@ -1386,7 +1386,7 @@ void CJabberProto::OnProcessMessage(const TiXmlElement *node, ThreadData *info)
 					else if (!mir_strcmp(action, "delete")) {
 						MCONTACT cc = HContactFromJID(jid);
 						if (cc)
-							db_delete_contact(cc);
+							db_delete_contact(cc, true);
 					}
 				}
 			}

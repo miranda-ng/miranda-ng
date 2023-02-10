@@ -89,7 +89,7 @@ EXTERN_C MIR_CORE_DLL(MCONTACT) db_add_contact(void);
 // Because all events are deleted, lots of people may end up with invalid event
 // handles from this operation, which they should be prepared for.
 
-EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact);
+EXTERN_C MIR_CORE_DLL(int) db_delete_contact(MCONTACT hContact, bool bFromProto = false);
 
 // Checks if a given value is a valid contact handle, note that due
 // to the nature of multiple threading, a valid contact can still become

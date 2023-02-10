@@ -150,13 +150,6 @@ void WriteDbAccounts()
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static int OnContactDeleted(WPARAM hContact, LPARAM)
-{
-	if (auto *ppro = Proto_GetInstance(hContact))
-		ppro->OnContactDeleted(hContact);
-	return 0;
-}
-
 static int OnEventEdited(WPARAM hContact, LPARAM hDbEvent)
 {
 	if (auto *ppro = Proto_GetInstance(hContact))
@@ -225,7 +218,6 @@ int LoadAccountsModule(void)
 	}
 
 	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, UninitializeStaticAccounts);
-	hHooks[2] = HookEvent(ME_DB_CONTACT_DELETED, OnContactDeleted);
 	hHooks[3] = HookEvent(ME_DB_EVENT_EDITED, OnEventEdited);
 	return 0;
 }

@@ -528,7 +528,7 @@ public:
 		DlgSetItemTextW(m_hwnd, IDC_STTIMELEFT, TranslateT("Please wait while no account is in use."));
 
 		if (ActualAccount->hContact != NULL)
-			db_delete_contact(ActualAccount->hContact);
+			db_delete_contact(ActualAccount->hContact, true);
 
 		CallService(MS_YAMN_DELETEACCOUNT, (WPARAM)POP3Plugin, (LPARAM)ActualAccount);
 

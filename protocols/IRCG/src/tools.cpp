@@ -26,7 +26,7 @@ void CIrcProto::CheckUpdate()
 	if (getByte("Compatibility") < 1) {
 		for (auto &cc : AccContacts()) {
 			if (getByte(cc, "ChatRoom") == GCW_SERVER)
-				db_delete_contact(cc);
+				db_delete_contact(cc, true);
 			else {
 				ptrA szNick(getUStringA(cc, "Nick"));
 				if (szNick)

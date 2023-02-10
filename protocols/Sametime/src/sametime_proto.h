@@ -39,9 +39,9 @@ struct CSametimeProto : public PROTO<CSametimeProto>
 	int      UserIsTyping(MCONTACT hContact, int type) override;
 
 	void     OnShutdown() override;
+	void     OnContactDeleted(MCONTACT hContact) override;
 
 	// sametime.cpp
-	int __cdecl OnSametimeContactDeleted(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl GetName(WPARAM wParam, LPARAM lParam);
 	INT_PTR __cdecl SametimeLoadIcon(WPARAM wParam, LPARAM lParam);
 	int __cdecl OnWindowEvent(WPARAM wParam, LPARAM lParam);

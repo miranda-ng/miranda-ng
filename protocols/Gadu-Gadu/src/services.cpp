@@ -387,7 +387,7 @@ INT_PTR GaduProto::get_acc_mgr_gui(WPARAM, LPARAM lParam)
 INT_PTR GaduProto::leavechat(WPARAM hContact, LPARAM)
 {
 	if (hContact)
-		db_delete_contact(hContact);
+		db_delete_contact(hContact, true);
 
 	return 0;
 }

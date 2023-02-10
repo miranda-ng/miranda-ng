@@ -126,7 +126,7 @@ int GaduProto::gc_event(WPARAM, LPARAM lParam)
 		list_remove(&chats, chat, 1);
 
 		// Remove contact from contact list (duh!) should be done by chat.dll !!
-		db_delete_contact(gch->si->hContact);
+		db_delete_contact(gch->si->hContact, true);
 		return 1;
 	}
 

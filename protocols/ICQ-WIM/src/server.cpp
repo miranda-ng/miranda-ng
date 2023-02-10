@@ -314,7 +314,7 @@ MCONTACT CIcqProto::ParseBuddyInfo(const JSONNode &buddy, MCONTACT hContact, boo
 		FindContactByUIN(wszId)->m_bInList = true;
 	}
 	else if (bIgnored) {
-		db_delete_contact(hContact);
+		db_delete_contact(hContact, true);
 		return INVALID_CONTACT_ID;
 	}
 

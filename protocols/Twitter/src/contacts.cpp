@@ -154,25 +154,19 @@ HANDLE CTwitterProto::GetAwayMsg(MCONTACT hContact)
 	return (HANDLE)1;
 }
 
-int CTwitterProto::OnContactDeleted(WPARAM wParam, LPARAM)
+void CTwitterProto::OnContactDeleted(MCONTACT hContact)
 {
-	MCONTACT hContact = (MCONTACT)wParam;
 	if (m_iStatus != ID_STATUS_ONLINE)
-		return 0;
+		return;
 
-	if (!IsMyContact(hContact))
-		return 0;
-
-	DBVARIANT dbv;
-	if (!getString(hContact, TWITTER_KEY_UN, &dbv)) {
+	ptrA szId(getStringA(hContact, TWITTER_KEY_UN));
+	if (szId) {
 		if (m_si)
-			DeleteChatContact(dbv.pszVal);
+			DeleteChatContact(szId);
 
 		mir_cslock s(twitter_lock_);
-		remove_friend(dbv.pszVal); // Be careful about this until Miranda is fixed
-		db_free(&dbv);
+		remove_friend(szId.get()); // Be careful about this until Miranda is fixed
 	}
-	return 0;
 }
 
 int CTwitterProto::OnMarkedRead(WPARAM, LPARAM hDbEvent)

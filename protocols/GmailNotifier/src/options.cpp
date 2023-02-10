@@ -197,7 +197,7 @@ public:
 
 		Account &acc = g_accs[curIndex];
 		DeleteResults(acc.results.next);
-		db_delete_contact(acc.hContact);
+		db_delete_contact(acc.hContact, true);
 		g_accs.remove(curIndex);
 
 		m_combo.SetCurSel(curIndex = 0);

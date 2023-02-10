@@ -224,9 +224,9 @@ static int MessageSettingChanged(WPARAM hContact, LPARAM lParam)
 }
 
 // If a contact gets deleted, close its message window if there is any
-static int ContactDeleted(WPARAM wParam, LPARAM)
+static int ContactDeleted(WPARAM hContact, LPARAM)
 {
-	auto *pDlg = Srmm_FindDialog(wParam);
+	auto *pDlg = Srmm_FindDialog(hContact);
 	if (pDlg)
 		pDlg->CloseTab();
 
