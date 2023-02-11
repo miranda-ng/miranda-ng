@@ -100,7 +100,6 @@ FacebookProto::FacebookProto(const char *proto_name, const wchar_t *username) :
 	db_set_resident(m_szModuleName, "UpdateNeeded");
 
 	// Services
-	CreateProtoService(PS_CREATEACCMGRUI, &FacebookProto::SvcCreateAccMgrUI);
 	CreateProtoService(PS_GETAVATARINFO, &FacebookProto::GetAvatarInfo);
 	CreateProtoService(PS_GETAVATARCAPS, &FacebookProto::GetAvatarCaps);
 
