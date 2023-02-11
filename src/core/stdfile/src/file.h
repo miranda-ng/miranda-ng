@@ -86,27 +86,33 @@ void FreeProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *fts);
 void CopyProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 void UpdateProtoFileTransferStatus(PROTOFILETRANSFERSTATUS *dest, PROTOFILETRANSFERSTATUS *src);
 int SRFile_GetRegValue(HKEY hKeyBase, const wchar_t *szSubKey, const wchar_t *szValue, wchar_t *szOutput, int cbOutput);
-//filesenddlg.c
+
+// filesenddlg.c
 INT_PTR CALLBACK DlgProcSendFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-//filerecv.c
-INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
+// filerecv.c
+void LaunchRecvDialog(CLISTEVENT *cle);
 void RemoveInvalidFilenameChars(wchar_t *tszString);
 void RemoveInvalidPathChars(wchar_t *tszString);
 void GetContactReceivedFilesDir(MCONTACT hContact, wchar_t *szDir, int cchDir, BOOL substVars);
 void GetReceivedFilesDir(wchar_t *szDir, int cchDir);
 int BrowseForFolder(HWND hwnd, wchar_t *szPath);
-//fileexistsdlg.c
+
+// fileexistsdlg.c
 struct TDlgProcFileExistsParam
 {
 	HWND hwndParent;
 	PROTOFILETRANSFERSTATUS *fts;
 };
 INT_PTR CALLBACK DlgProcFileExists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-//filexferdlg.c
+
+// filexferdlg.c
 INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-//fileopts.c
+
+// fileopts.c
 int FileOptInitialise(WPARAM wParam, LPARAM lParam);
-//ftmanager.c
+
+// ftmanager.c
 #define WM_FT_ADD			(WM_USER+701)
 #define WM_FT_RESIZE		(WM_USER+702)
 #define WM_FT_REMOVE		(WM_USER+703)

@@ -81,18 +81,18 @@ static INT_PTR GetReceivedFilesFolder(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR RecvFileCommand(WPARAM, LPARAM lParam)
 {
-	CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, lParam);
+	LaunchRecvDialog((CLISTEVENT *)lParam);
 	return 0;
 }
 
-void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
+static void PushFileEvent(MCONTACT hContact, MEVENT hdbe, LPARAM lParam)
 {
 	CLISTEVENT cle = {};
 	cle.hContact = hContact;
 	cle.hDbEvent = hdbe;
 	cle.lParam = lParam;
 	if (g_plugin.bAutoAccept && Contact::OnList(hContact)) {
-		CreateDialogParam(g_plugin.getInst(), MAKEINTRESOURCE(IDD_FILERECV), NULL, DlgProcRecvFile, (LPARAM)&cle);
+		LaunchRecvDialog(&cle);
 	}
 	else {
 		Skin_PlaySound("RecvFile");
